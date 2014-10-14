@@ -1,0 +1,335 @@
+# translation of kcmkwindecoration.po to Thai
+# Copyright (C) 2003, 2005, 2007, 2008 Free Software Foundation, Inc.
+#
+# Thanomsub Noppaburana <donga_n@yahoo.com>, 2003, 2005.
+# Sahachart Anukulkitch <drrider@gmail.com>, 2007.
+# Thanomsub Noppaburana <donga.nb@gmail.com>, 2008, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: kcmkwindecoration\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-06-11 07:50+0000\n"
+"PO-Revision-Date: 2010-07-07 14:59+0700\n"
+"Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
+"Language-Team: Thai <thai-l10n@googlegroups.com>\n"
+"Language: th\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "ถนอมทรัพย์ นพบูรณ์"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "donga.nb@gmail.com"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: auroraeconfig.ui:23
+msgid "Border size:"
+msgstr "ขนาดของกรอบ:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:34 configdialog.cpp:36
+msgctxt "@item:inlistbox Border size:"
+msgid "Tiny"
+msgstr "กะทัดรัด"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:39 configdialog.cpp:37
+msgctxt "@item:inlistbox Border size:"
+msgid "Normal"
+msgstr "ปกติ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:44 configdialog.cpp:38
+msgctxt "@item:inlistbox Border size:"
+msgid "Large"
+msgstr "ใหญ่"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:49 configdialog.cpp:39
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Large"
+msgstr "ใหญ่มาก"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:54 configdialog.cpp:40
+msgctxt "@item:inlistbox Border size:"
+msgid "Huge"
+msgstr "ใหญ่มหึมา"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:59 configdialog.cpp:41
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Huge"
+msgstr "ใหญ่มหึมามาก"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:64 configdialog.cpp:42
+msgctxt "@item:inlistbox Border size:"
+msgid "Oversized"
+msgstr "ใหญ่โตสุดสุด"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: auroraeconfig.ui:72
+msgid "Button size:"
+msgstr "ขนาดของปุ่ม:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:83
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "กะทัดรัด"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:88
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "ปกติ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:93
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "ใหญ่"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:98
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "ใหญ่มาก"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:103
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "ใหญ่มหึมา"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:108
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "ใหญ่มหึมามาก"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:113
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "ใหญ่โตสุดสุด"
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
+#: auroraeconfig.ui:126
+msgid "Close windows by double clicking the menu button"
+msgstr ""
+
+#: buttons.cpp:620
+msgid "KDE"
+msgstr "KDE"
+
+#: buttons.cpp:649
+#, kde-format
+msgid "%1 (unavailable)"
+msgstr "%1 (ไม่มีอยู่)"
+
+#: buttons.cpp:672
+msgid ""
+"To add or remove titlebar buttons, simply <i>drag</i> items between the "
+"available item list and the titlebar preview. Similarly, drag items within "
+"the titlebar preview to re-position them."
+msgstr ""
+"เพื่อเพิ่ม หรือลบ ปุ่มบนหัวเรื่องหน้าต่าง ทำได้ง่าย ๆ โดยใช้การ <i>ลาก</i> จากที่มีในรายการ "
+"และที่อยู่บนหัวเรื่องหน้าต่างตัวอย่าง"
+
+#: buttons.cpp:728
+msgid "Resize"
+msgstr "ปรับขนาด"
+
+#: buttons.cpp:733
+msgid "Shade"
+msgstr "พับเก็บ"
+
+#: buttons.cpp:738
+msgid "Keep Below Others"
+msgstr "อยู่ใต้หน้าต่างอื่น"
+
+#: buttons.cpp:743
+msgid "Keep Above Others"
+msgstr "อยู่เหนือหน้าต่างอื่น"
+
+#: buttons.cpp:748
+msgid "Close"
+msgstr "ปิด"
+
+#: buttons.cpp:753
+msgid "Maximize"
+msgstr "ขยายใหญ่สุด"
+
+#: buttons.cpp:758
+msgid "Minimize"
+msgstr "ย่อหาย"
+
+#: buttons.cpp:763
+msgid "Help"
+msgstr "ช่วยเหลือ"
+
+#: buttons.cpp:768
+msgid "On All Desktops"
+msgstr "บนพื้นที่ทำงานทั้งหมด"
+
+#: buttons.cpp:773
+msgctxt "Button showing window actions menu"
+msgid "Window Menu"
+msgstr ""
+
+#: buttons.cpp:779
+msgctxt "Button showing application menu imported from dbusmenu"
+msgid "Application Menu"
+msgstr ""
+
+#: buttons.cpp:785
+msgid "--- spacer ---"
+msgstr "--- พื้นที่ว่าง ---"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:20
+msgid ""
+"Enabling this checkbox will show window button tooltips. If this checkbox is "
+"off, no window button tooltips will be shown."
+msgstr ""
+"เปิดใช้ตัวเลือกนี้ เพื่อให้แสดงทูลทิปของปุ่มบนหน้าต่าง หากไม่เปิดใช้ จะไม่แสดงทูลทิปของปุ่มบนหน้าต่าง"
+
+#. i18n: ectx: property (text), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:23
+msgid "&Show window button tooltips"
+msgstr "แ&สดงทูลทิปของปุ่มบนหน้าต่าง"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:30
+msgid "Please note that this option is not available on all styles yet."
+msgstr "โปรดจำไว้ว่า ตัวเลือกนี้ยังไม่สามารถใช้กับรูปแบบทั้งหมดได้"
+
+#. i18n: ectx: property (text), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:33
+msgid "Use custom titlebar button &positions"
+msgstr "ใช้ตำแหน่งปุ่มหัวเรื่องหน้าต่างที่กำหนดเอง"
+
+#: buttonsconfigdialog.cpp:44
+msgid "Buttons"
+msgstr "ปุ่มต่าง ๆ"
+
+#. i18n: ectx: property (text), widget (QLabel, borderLabel)
+#: config.ui:19
+msgid "B&order size:"
+msgstr "ขนาด&กรอบ:"
+
+#. i18n: ectx: property (whatsThis), widget (KComboBox, bordersCombo)
+#: config.ui:29
+msgid "Use this combobox to change the border size of the decoration."
+msgstr "ใช้กล่องคอมโบเพื่อเปลี่ยนขนาดกรอบหน้าต่างสำหรับการตกแต่งหน้าต่าง"
+
+#: configdialog.cpp:43
+msgctxt "@item:inlistbox Border size:"
+msgid "No Side Border"
+msgstr ""
+
+#: configdialog.cpp:44
+msgctxt "@item:inlistbox Border size:"
+msgid "No Border"
+msgstr ""
+
+#: configdialog.cpp:81 kwindecoration.cpp:375
+msgid "Decoration Options"
+msgstr "ตัวเลือกการตกแต่งหน้าต่าง"
+
+#. i18n: ectx: property (clickMessage), widget (KLineEdit, searchEdit)
+#: decoration.ui:17
+msgid "Search"
+msgstr "ค้นหา"
+
+#. i18n: ectx: property (whatsThis), widget (QScrollArea, decorationList)
+#: decoration.ui:27
+msgid ""
+"Select the window decoration. This is the look and feel of both the window "
+"borders and the window handle."
+msgstr "เลือกรูปแบบตกแต่งหน้าต่าง เพื่อให้แสดงกับทั้งกรอบหน้าต่าง และส่วนที่เป็นหน้าต่าง"
+
+#. i18n: ectx: property (text), widget (QPushButton, configureDecorationButton)
+#: decoration.ui:58
+msgid "Configure Decoration..."
+msgstr "ปรับแต่งการตกแต่งหน้าต่าง..."
+
+#. i18n: ectx: property (text), widget (QPushButton, configureButtonsButton)
+#: decoration.ui:65
+msgid "Configure Buttons..."
+msgstr "ปรับแต่งปุ่มต่าง ๆ ..."
+
+#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
+#: decoration.ui:72
+msgid "Get New Decorations..."
+msgstr "หาชุดตกแต่งใหม่ ๆ ..."
+
+#: kwindecoration.cpp:99
+msgid "Window Decoration Control Module"
+msgstr "มอดูลตกแต่งหน้าต่าง"
+
+#: kwindecoration.cpp:101
+msgid "(c) 2001 Karol Szwed"
+msgstr "สงวนลิขสิทธิ์ (c) 2001 Karol Szwed"
+
+#: kwindecoration.cpp:102
+msgid "Karol Szwed"
+msgstr "Karol Szwed"
+
+#: kwindecoration.cpp:127
+msgid ""
+"<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main.qml</"
+"h2>could not be located in any application data path.<h2>Please contact your "
+"distribution</h2>The application will now abort"
+msgstr ""
+
+#: kwindecoration.cpp:130
+msgid "Installation Error"
+msgstr ""
+
+#: kwindecoration.cpp:301
+msgid "Oxygen"
+msgstr "รูปแบบ Oxygen"
+
+#: kwindecoration.cpp:314
+msgid ""
+"<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+"window border decorations, as well as titlebar button positions and custom "
+"decoration options.</p>To choose a theme for your window decoration click on "
+"its name and apply your choice by clicking the \"Apply\" button below. If "
+"you do not want to apply your choice you can click the \"Reset\" button to "
+"discard your changes.<p>You can configure each theme. There are different "
+"options specific for each theme.</p><p>On the \"Buttons\" tab check the "
+"\"Use custom titlebar button positions\" box and you can change the "
+"positions of the buttons to your liking.</p>"
+msgstr ""
+"<h1>ตกแต่งตัวจัดการหน้าต่าง</h1><p>มอดูลนี้อนุญาตให้คุณได้เลือกการตกแต่งกรอบหน้าต่าง, "
+"การจัดตำแหน่งปุ่มบนหัวหน้าต่าง และตัวเลือกการตกแต่งที่กำหนดเองต่าง ๆ ได้</"
+"p>หากต้องการเลือกชุดตกแต่งหน้าต่าง ให้คลิกที่ชื่อของมันและปรับใช้ชุดตกแต่ง โดยคลิกที่ปุ่ม \"ปรับใช้"
+"\" ทางด้านล่างนี้ แต่ถ้าหากคุณไม่อยากจะปรับใช้มัน ให้คลิกที่ปุ่ม \"ตั้งค่าใหม่\" "
+"เพื่อยกเลิกการเปลี่ยนแปลงทั้งหมดที่ทำไป<p>คุณสามารถปรับแต่งชุดตกแต่งแต่ละตัวได้</"
+"p><p>หากคุณต้องการจะปรับเปลี่ยนปุ่มบนหัวหน้าต่าง ให้คุณเปิดแท็บ \"ปุ่มต่าง ๆ\" และเปิดใช้ตัวเลือก "
+"\"ใช้ตำแหน่งปุ่มหัวเรื่องหน้าต่างที่กำหนดเอง\" จากนั้นใช้เมาส์ปรับเปลี่ยนตำแหน่งปุ่มได้ตามต้องการ</"
+"p>"
+
+#: kwindecoration.cpp:389
+msgid ""
+"Close by double clicking:\n"
+" To open the menu, keep the button pressed until it appears."
+msgstr ""
+
+#: preview.cpp:373
+msgid "Active Window"
+msgstr "หน้าต่างที่ทำงานอยู่"
+
+#: preview.cpp:373
+msgid "Inactive Window"
+msgstr "หน้าต่างที่ไม่ได้ทำงาน"

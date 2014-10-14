@@ -1,0 +1,394 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kcmkwindecoration\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-06-11 07:50+0000\n"
+"PO-Revision-Date: 2005-02-14 04:24-0800\n"
+"Last-Translator: Tamil PC <tamilpc@ambalam.com>\n"
+"Language-Team: TAMIL <tamilinix@yahoogroups.com>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "துரையப்பா வசீகரன், பிரபு"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "t_vasee@yahoo.com, prabu_anand2000@yahoo.com"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: auroraeconfig.ui:23
+#, fuzzy
+#| msgid "B&order size:"
+msgid "Border size:"
+msgstr "விளிம்பு அளவு:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:34 configdialog.cpp:36
+#, fuzzy
+#| msgid "Tiny"
+msgctxt "@item:inlistbox Border size:"
+msgid "Tiny"
+msgstr "மிகச்சிறிய"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:39 configdialog.cpp:37
+#, fuzzy
+#| msgid "Normal"
+msgctxt "@item:inlistbox Border size:"
+msgid "Normal"
+msgstr "சாதாரண"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:44 configdialog.cpp:38
+#, fuzzy
+#| msgid "Large"
+msgctxt "@item:inlistbox Border size:"
+msgid "Large"
+msgstr "பெரிய"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:49 configdialog.cpp:39
+#, fuzzy
+#| msgid "Very Large"
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Large"
+msgstr "மிகப் பெரியது"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:54 configdialog.cpp:40
+#, fuzzy
+#| msgid "Huge"
+msgctxt "@item:inlistbox Border size:"
+msgid "Huge"
+msgstr "மிகப் பெரியது"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:59 configdialog.cpp:41
+#, fuzzy
+#| msgid "Very Huge"
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Huge"
+msgstr "மிகப்பெரியது"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:64 configdialog.cpp:42
+#, fuzzy
+#| msgid "Oversized"
+msgctxt "@item:inlistbox Border size:"
+msgid "Oversized"
+msgstr "அதிகமாக அளவிடப்பட்டது"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: auroraeconfig.ui:72
+#, fuzzy
+#| msgid "Buttons"
+msgid "Button size:"
+msgstr "பட்டன்கள்"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:83
+#, fuzzy
+#| msgid "Tiny"
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "மிகச்சிறிய"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:88
+#, fuzzy
+#| msgid "Normal"
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "சாதாரண"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:93
+#, fuzzy
+#| msgid "Large"
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "பெரிய"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:98
+#, fuzzy
+#| msgid "Very Large"
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "மிகப் பெரியது"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:103
+#, fuzzy
+#| msgid "Huge"
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "மிகப் பெரியது"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:108
+#, fuzzy
+#| msgid "Very Huge"
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "மிகப்பெரியது"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:113
+#, fuzzy
+#| msgid "Oversized"
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "அதிகமாக அளவிடப்பட்டது"
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
+#: auroraeconfig.ui:126
+msgid "Close windows by double clicking the menu button"
+msgstr ""
+
+#: buttons.cpp:620
+msgid "KDE"
+msgstr "கேடியி"
+
+#: buttons.cpp:649
+#, kde-format
+msgid "%1 (unavailable)"
+msgstr "%1 (கிடைக்காத)"
+
+#: buttons.cpp:672
+msgid ""
+"To add or remove titlebar buttons, simply <i>drag</i> items between the "
+"available item list and the titlebar preview. Similarly, drag items within "
+"the titlebar preview to re-position them."
+msgstr ""
+"சேர் அல்லது நீக்கு தலைப்பு பட்டன்களுக்கு, உருப்படி பட்டியல் மற்றும் தலைப்புப்பட்டி "
+"முன்காட்சிக்கு இடையில் உருப்படிகளை இழுத்தால் போதும். அதுபோல, திரும்ப பொருத்துவதற்கு "
+"தலைப்புப்பட்டியில் உள்ள உருப்படிகளை இழுக்கவும்."
+
+#: buttons.cpp:728
+msgid "Resize"
+msgstr "மறுஅளவிடுதல்"
+
+#: buttons.cpp:733
+msgid "Shade"
+msgstr "நிழல்"
+
+#: buttons.cpp:738
+msgid "Keep Below Others"
+msgstr "எல்லொரையும் கீழே வைக்கவும்"
+
+#: buttons.cpp:743
+msgid "Keep Above Others"
+msgstr "எல்லொரையும் மேலே வைக்கவும்"
+
+#: buttons.cpp:748
+msgid "Close"
+msgstr ""
+
+#: buttons.cpp:753
+msgid "Maximize"
+msgstr "பெரிதாக்கு"
+
+#: buttons.cpp:758
+msgid "Minimize"
+msgstr "சிறிதாக்கு"
+
+#: buttons.cpp:763
+msgid "Help"
+msgstr ""
+
+#: buttons.cpp:768
+msgid "On All Desktops"
+msgstr "எல்லா மேல்மேசைகளிலும்"
+
+#: buttons.cpp:773
+msgctxt "Button showing window actions menu"
+msgid "Window Menu"
+msgstr ""
+
+#: buttons.cpp:779
+msgctxt "Button showing application menu imported from dbusmenu"
+msgid "Application Menu"
+msgstr ""
+
+#: buttons.cpp:785
+msgid "--- spacer ---"
+msgstr "--- spacer ---"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:20
+msgid ""
+"Enabling this checkbox will show window button tooltips. If this checkbox is "
+"off, no window button tooltips will be shown."
+msgstr ""
+"இதை தேர்ந்தெடுப்பதால் சாளர பட்டன் கருவிக்குறிப்புகளை காட்டுகிறது. இது செயல் "
+"நீக்கப்பட்டிருந்தால் சாளர பட்டன் கருவுக்குறிப்புகள் தெரியாது."
+
+#. i18n: ectx: property (text), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:23
+msgid "&Show window button tooltips"
+msgstr "&சாளரப் பட்டன் கருவிக்குறிப்புகளைக் காட்டு"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:30
+#, fuzzy
+#| msgid ""
+#| "The appropriate settings can be found in the \"Buttons\" Tab; please note "
+#| "that this option is not available on all styles yet."
+msgid "Please note that this option is not available on all styles yet."
+msgstr ""
+"\"பட்டன்கள்\" என்ற தத்தலில் காணப்படும் அமைப்புகள். இந்த விருப்பத் தேர்வு எல்லா பாணிகளிலும் "
+"இல்லையா என்பதை கவனிக்கவும்."
+
+#. i18n: ectx: property (text), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:33
+msgid "Use custom titlebar button &positions"
+msgstr "தனிப்பயன் தலைப்புப்பட்டி பட்டன் இடங்களைப் பயன்படுத்து"
+
+#: buttonsconfigdialog.cpp:44
+msgid "Buttons"
+msgstr "பட்டன்கள்"
+
+#. i18n: ectx: property (text), widget (QLabel, borderLabel)
+#: config.ui:19
+msgid "B&order size:"
+msgstr "விளிம்பு அளவு:"
+
+#. i18n: ectx: property (whatsThis), widget (KComboBox, bordersCombo)
+#: config.ui:29
+msgid "Use this combobox to change the border size of the decoration."
+msgstr "அலங்கரிப்பின் விளிம்பு அளவை மாற்ற இந்த இணைப்பு பெட்டியை பயன்படுத்தவும்."
+
+#: configdialog.cpp:43
+msgctxt "@item:inlistbox Border size:"
+msgid "No Side Border"
+msgstr ""
+
+#: configdialog.cpp:44
+msgctxt "@item:inlistbox Border size:"
+msgid "No Border"
+msgstr ""
+
+#: configdialog.cpp:81 kwindecoration.cpp:375
+msgid "Decoration Options"
+msgstr "அலங்கார விருப்பத்தேர்வுகள்"
+
+#. i18n: ectx: property (clickMessage), widget (KLineEdit, searchEdit)
+#: decoration.ui:17
+msgid "Search"
+msgstr ""
+
+#. i18n: ectx: property (whatsThis), widget (QScrollArea, decorationList)
+#: decoration.ui:27
+msgid ""
+"Select the window decoration. This is the look and feel of both the window "
+"borders and the window handle."
+msgstr ""
+"சாளர அலங்காரத்தை தேர்ந்தெடு. இது சாளர விளிம்புகள் மற்றும் சாளர கைப்பிடிக்கான தோற்றம்"
+
+#. i18n: ectx: property (text), widget (QPushButton, configureDecorationButton)
+#: decoration.ui:58
+#, fuzzy
+#| msgid "&Window Decoration"
+msgid "Configure Decoration..."
+msgstr "&சாளரத்தின் அலங்காரம்"
+
+#. i18n: ectx: property (text), widget (QPushButton, configureButtonsButton)
+#: decoration.ui:65
+msgid "Configure Buttons..."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
+#: decoration.ui:72
+#, fuzzy
+#| msgid "&Window Decoration"
+msgid "Get New Decorations..."
+msgstr "&சாளரத்தின் அலங்காரம்"
+
+#: kwindecoration.cpp:99
+msgid "Window Decoration Control Module"
+msgstr "சாளர அலங்காரக் கட்டுப்பாட்டுக் கூறு"
+
+#: kwindecoration.cpp:101
+msgid "(c) 2001 Karol Szwed"
+msgstr "(c) 2001 கரோல் ஸ்வெட்"
+
+#: kwindecoration.cpp:102
+#, fuzzy
+#| msgid "(c) 2001 Karol Szwed"
+msgid "Karol Szwed"
+msgstr "(c) 2001 கரோல் ஸ்வெட்"
+
+#: kwindecoration.cpp:127
+msgid ""
+"<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main.qml</"
+"h2>could not be located in any application data path.<h2>Please contact your "
+"distribution</h2>The application will now abort"
+msgstr ""
+
+#: kwindecoration.cpp:130
+msgid "Installation Error"
+msgstr ""
+
+#: kwindecoration.cpp:301
+msgid "Oxygen"
+msgstr ""
+
+#: kwindecoration.cpp:314
+#, fuzzy
+#| msgid ""
+#| "<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+#| "window border decorations, as well as titlebar button positions and "
+#| "custom decoration options.</p>To choose a theme for your window "
+#| "decoration click on its name and apply your choice by clicking the \"Apply"
+#| "\" button below. If you do not want to apply your choice you can click "
+#| "the \"Reset\" button to discard your changes.<p>You can configure each "
+#| "theme in the \"Configure [...]\" tab. There are different options "
+#| "specific for each theme.</p><p>In \"General Options (if available)\" you "
+#| "can activate the \"Buttons\" tab by checking the \"Use custom titlebar "
+#| "button positions\" box. In the \"Buttons\" tab you can change the "
+#| "positions of the buttons to your liking.</p>"
+msgid ""
+"<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+"window border decorations, as well as titlebar button positions and custom "
+"decoration options.</p>To choose a theme for your window decoration click on "
+"its name and apply your choice by clicking the \"Apply\" button below. If "
+"you do not want to apply your choice you can click the \"Reset\" button to "
+"discard your changes.<p>You can configure each theme. There are different "
+"options specific for each theme.</p><p>On the \"Buttons\" tab check the "
+"\"Use custom titlebar button positions\" box and you can change the "
+"positions of the buttons to your liking.</p>"
+msgstr ""
+"<h1>சாளர மேலாளர் அலங்கரிப்பு</h1><p>இந்தக் கூறு சாளர விளிம்பு அலங்காரங்கள், "
+"தலைப்புப்பட்டி பட்டன் நிலைகள் மற்ரும் தனிப்பயன் அலங்கார விருப்பத்தேர்வுகள் ஆகியவற்றாஇ "
+"தேர்ந்தெடுக்க அனுமதிக்கிறது.</p>சாளர அலங்காரத்திற்கான உருக்கருவை தேர்ந்தெடுக்க அதன் "
+"பெயரில் க்ளிக் செய்து கீழே உள்ள \"பயன்படுத்து\" பட்டனைத் தேர்ந்தெடுக்கவும். உங்கள் விருப்பத் "
+"தேர்வை பயன்படுத்த வேண்டாமென்றால் \"திரும்ப அமை\" பட்டனை அழுத்தி மாற்றங்களை கைவிடலாம்."
+"<p>ஒவ்வொரு தலைப்பையும் \" வடிவமை[...]\" தத்தலைப் பயன்படுத்தி வடிவமைக்கலாம். ஒவ்வொரு "
+"தலைப்புக்கும் குறிப்பிட்ட விருப்பத் தேர்வுகள் உள்ளன.</p><p>\"தனிப்பயன் தலைப்புப் பட்டி பட்டன் "
+"நிலைகள்\" பெட்டியை தேர்வு செய்து \"பொது விருப்பத் தேர்வுகளில் (இருந்தால்)\" உள்ள "
+"\"பட்டன்கள்\"  தத்தலை செயல்படுத்தலாம். \"பட்டன்கள்\" தத்தலில் அவற்றின் நிலைகளை உங்கள் "
+"விருப்பத்திற்கேற்ப மாற்றிக் கொள்ளலாம்.</p>"
+
+#: kwindecoration.cpp:389
+msgid ""
+"Close by double clicking:\n"
+" To open the menu, keep the button pressed until it appears."
+msgstr ""
+
+#: preview.cpp:373
+msgid "Active Window"
+msgstr "செயலில் உள்ள சாளரம்"
+
+#: preview.cpp:373
+msgid "Inactive Window"
+msgstr "செயல்படாத சாளரம்"

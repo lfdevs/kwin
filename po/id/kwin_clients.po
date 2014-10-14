@@ -1,0 +1,85 @@
+# Indonesian translations for kwin_clients package.
+# Copyright (C) 2010 This_file_is_part_of_KDE
+# This file is distributed under the same license as the kwin_clients package.
+# Andhika Padmawan <andhika.padmawan@gmail.com>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin_clients\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-04-27 20:56+0000\n"
+"PO-Revision-Date: 2010-05-28 05:24-0400\n"
+"Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
+"Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, PlastikConfigDialog)
+#: aurorae/themes/plastik/package/contents/ui/config.ui:14
+msgid "Config Dialog"
+msgstr "Dialog Konfigurasi"
+
+#. i18n: ectx: property (title), widget (KButtonGroup, titleAlign)
+#: aurorae/themes/plastik/package/contents/ui/config.ui:23
+msgid "Title &Alignment"
+msgstr "Perataan &Judul"
+
+#. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignLeft)
+#: aurorae/themes/plastik/package/contents/ui/config.ui:29
+msgid "Left"
+msgstr "Kiri"
+
+#. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignCenter)
+#: aurorae/themes/plastik/package/contents/ui/config.ui:36
+msgid "Center"
+msgstr "Tengah"
+
+#. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignRight)
+#: aurorae/themes/plastik/package/contents/ui/config.ui:43
+msgid "Right"
+msgstr "Kanan"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_coloredBorder)
+#: aurorae/themes/plastik/package/contents/ui/config.ui:53
+msgid ""
+"Check this option if the window border should be painted in the titlebar "
+"color. Otherwise it will be painted in the background color."
+msgstr ""
+"Centang opsi ini jika batas jendela harus digambar dengan warna batang "
+"judul. Sebaliknya batas jendela akan digambar dengan warna latar belakang."
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_coloredBorder)
+#: aurorae/themes/plastik/package/contents/ui/config.ui:56
+msgid "Colored window border"
+msgstr "Batas jendela berwarna"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_titleShadow)
+#: aurorae/themes/plastik/package/contents/ui/config.ui:66
+msgid ""
+"Check this option if you want the titlebar text to have a 3D look with a "
+"shadow behind it."
+msgstr ""
+"Centang opsi ini jika anda ingin teks batang judul untuk mempunyai tampilan "
+"3D dengan bayangan di belakangnya."
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_titleShadow)
+#: aurorae/themes/plastik/package/contents/ui/config.ui:69
+msgid "Use shadowed &text"
+msgstr "Gunakan &teks berbayang"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_animateButtons)
+#: aurorae/themes/plastik/package/contents/ui/config.ui:76
+msgid ""
+"Check this option if you want the buttons to fade in when the mouse pointer "
+"hovers over them and fade out again when it moves away."
+msgstr ""
+"Centang opsi ini jika anda ingin agar tombol memudar ketika penunjuk tetikus "
+"melayang di atas tombol dan muncul lagi ketika penunjuk tetikus pindah."
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)
+#: aurorae/themes/plastik/package/contents/ui/config.ui:79
+msgid "Animate buttons"
+msgstr "Animasi tombol"

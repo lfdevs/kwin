@@ -1,0 +1,892 @@
+# translation of kwin.po to Ukrainian
+# Translation of kwin.po to Ukrainian
+# Ukrainian translation of kwin.po
+# Copyright (C) 2000,2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+#
+# Dmytro Kovalov <kov@tokyo.email.ne.jp>, 2002.
+# Eugene Onischenko <oneugene@ukr.net>, 2002, 2004, 2005.
+# Andriy Rysin <rysin@kde.org>, 2002, 2003, 2004.
+# Ivan Petrouchtchak <fr.ivan@ukrainian-orthodox.org>, 2004, 2005, 2006, 2007, 2008.
+# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"PO-Revision-Date: 2014-09-27 15:56+0300\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Andriy Rysin,Dmytro Kovalov,Іван Петрущак"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "rysin@kde.org,kov@tokyo.email.ne.jp,iip@telus.net"
+
+#: composite.cpp:500
+#, kde-format
+msgid ""
+"Desktop effects have been suspended by another application.<br/>You can "
+"resume using the '%1' shortcut."
+msgstr ""
+"Дію ефектів стільниці було призупинено сторонньою програмою.<br/>Ви можете "
+"поновити роботу за допомогою клавіатурного скорочення «%1»."
+
+#: compositingprefs.cpp:98
+msgid ""
+"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
+"b><br>This was most likely due to a driver bug.<p>If you think that you have "
+"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
+"<b>be aware that this might result in an immediate crash!</b></"
+"p><p>Alternatively, you might want to use the XRender backend instead.</p>"
+msgstr ""
+"<b>Композитний показ за допомогою OpenGL (типовий режим) призводив до аварій "
+"KWin.</b><br>Найімовірнішою причиною аварій є вада у драйвері.<p>Якщо ви "
+"вважаєте, що у вашому драйвері немає цієї вади,<br>ви можете скасувати цей "
+"захист, але <b>зважайте на те, що це може призвести до негайного аварійного "
+"завершення роботи!</b></p><p>Іншим варіантом вирішення проблеми є "
+"використання сервера обробки XRender.</p>"
+
+#: compositingprefs.cpp:105
+msgid "Required X extensions (XComposite and XDamage) are not available."
+msgstr "Немає потрібних розширень X (XComposite і XDamage)."
+
+#: compositingprefs.cpp:109
+msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
+msgstr "GLX/OpenGL є недоступним, зібрано з підтримкою лише OpenGL."
+
+#: compositingprefs.cpp:113
+msgid "GLX/OpenGL and XRender/XFixes are not available."
+msgstr "GLX/OpenGL і XRender/XFixes є недоступними."
+
+#: decorations.cpp:59
+msgid "KWin: "
+msgstr "KWin: "
+
+#: killer/killer.cpp:44
+msgid "Window Manager"
+msgstr "Керування вікнами"
+
+#: killer/killer.cpp:49
+msgid "PID of the application to terminate"
+msgstr "PID програми, яку слід завершити"
+
+#: killer/killer.cpp:49
+msgid "pid"
+msgstr "pid"
+
+#: killer/killer.cpp:51
+msgid "Hostname on which the application is running"
+msgstr "Назва вузла, на якому виконується програма"
+
+#: killer/killer.cpp:51
+msgid "hostname"
+msgstr "назва вузла"
+
+#: killer/killer.cpp:53
+msgid "Caption of the window to be terminated"
+msgstr "Підпис вікна, яке слід завершити"
+
+#: killer/killer.cpp:53
+msgid "caption"
+msgstr "підпис"
+
+#: killer/killer.cpp:55
+msgid "Name of the application to be terminated"
+msgstr "Назва програми, яку слід завершити"
+
+#: killer/killer.cpp:55
+msgid "name"
+msgstr "назва"
+
+#: killer/killer.cpp:57
+msgid "ID of resource belonging to the application"
+msgstr "ІД ресурсу, який належить цій програмі"
+
+#: killer/killer.cpp:57
+msgid "id"
+msgstr "ідентифікатор"
+
+#: killer/killer.cpp:59
+msgid "Time of user action causing termination"
+msgstr "Час, за який дія призводить до завершення"
+
+#: killer/killer.cpp:59
+msgid "time"
+msgstr "час"
+
+#: killer/killer.cpp:61
+msgid "KWin helper utility"
+msgstr "Допоміжна утиліта KWin"
+
+#: killer/killer.cpp:85
+msgid "This helper utility is not supposed to be called directly."
+msgstr "Цю допоміжну утиліту не можна викликати напряму."
+
+#: killer/killer.cpp:95
+#, kde-format
+msgctxt "@info"
+msgid "<b>Application \"%1\" is not responding</b>"
+msgstr "<b>Програма «%1» не відповідає на запити</b>"
+
+#: killer/killer.cpp:106
+#, kde-format
+msgid "&Terminate Application %1"
+msgstr "&Завершити роботу програми %1"
+
+#: killer/killer.cpp:107
+msgid "Wait Longer"
+msgstr "Почекати ще"
+
+#: kwinbindings.cpp:40
+msgid "Walk Through Window Tabs"
+msgstr "Пройтися вкладками вікон"
+
+#: kwinbindings.cpp:41
+msgid "Walk Through Window Tabs (Reverse)"
+msgstr "Пройтись вкладками вікон (назад)"
+
+#: kwinbindings.cpp:42
+msgid "Remove Window From Group"
+msgstr "Вилучити вікно з групи"
+
+#: kwinbindings.cpp:44
+msgid "Window Operations Menu"
+msgstr "Меню дій над вікнами"
+
+#: kwinbindings.cpp:46
+msgid "Close Window"
+msgstr "Закрити вікно"
+
+#: kwinbindings.cpp:48
+msgid "Maximize Window"
+msgstr "Максимізувати вікно"
+
+#: kwinbindings.cpp:50
+msgid "Maximize Window Vertically"
+msgstr "Максимізувати вікно вертикально"
+
+#: kwinbindings.cpp:52
+msgid "Maximize Window Horizontally"
+msgstr "Максимізувати вікно горизонтально"
+
+#: kwinbindings.cpp:54
+msgid "Minimize Window"
+msgstr "Мінімізувати вікно"
+
+#: kwinbindings.cpp:56
+msgid "Shade Window"
+msgstr "Згорнути вікно"
+
+#: kwinbindings.cpp:58
+msgid "Move Window"
+msgstr "Пересунути вікно"
+
+#: kwinbindings.cpp:60
+msgid "Resize Window"
+msgstr "Змінити розмір вікна"
+
+#: kwinbindings.cpp:62
+msgid "Raise Window"
+msgstr "Підняти вікно"
+
+#: kwinbindings.cpp:64
+msgid "Lower Window"
+msgstr "Опустити вікно"
+
+#: kwinbindings.cpp:66
+msgid "Toggle Window Raise/Lower"
+msgstr "Перемикач підняти/опустити вікно"
+
+#: kwinbindings.cpp:68
+msgid "Make Window Fullscreen"
+msgstr "Помістити вікно на весь екран"
+
+#: kwinbindings.cpp:70
+msgid "Hide Window Border"
+msgstr "Сховати границю вікна"
+
+#: kwinbindings.cpp:72
+msgid "Keep Window Above Others"
+msgstr "Утримувати вікно понад іншими"
+
+#: kwinbindings.cpp:74
+msgid "Keep Window Below Others"
+msgstr "Утримувати вікно під іншими"
+
+#: kwinbindings.cpp:76
+msgid "Activate Window Demanding Attention"
+msgstr "Активізувати вікно, що потребує уваги"
+
+#: kwinbindings.cpp:78
+msgid "Setup Window Shortcut"
+msgstr "Скорочення до вікна налаштування"
+
+#: kwinbindings.cpp:80
+msgid "Pack Window to the Right"
+msgstr "Пакувати вікно праворуч"
+
+#: kwinbindings.cpp:82
+msgid "Pack Window to the Left"
+msgstr "Пакувати вікно ліворуч"
+
+#: kwinbindings.cpp:84
+msgid "Pack Window Up"
+msgstr "Пакувати вікно вгору"
+
+#: kwinbindings.cpp:86
+msgid "Pack Window Down"
+msgstr "Пакувати вікно вниз"
+
+#: kwinbindings.cpp:88
+msgid "Pack Grow Window Horizontally"
+msgstr "Пакувати вікно зі збільшенням горизонтально"
+
+#: kwinbindings.cpp:90
+msgid "Pack Grow Window Vertically"
+msgstr "Пакувати вікно зі збільшенням вертикально"
+
+#: kwinbindings.cpp:92
+msgid "Pack Shrink Window Horizontally"
+msgstr "Пакувати вікно зі зменшенням горизонтально"
+
+#: kwinbindings.cpp:94
+msgid "Pack Shrink Window Vertically"
+msgstr "Пакувати вікно зі зменшенням вертикально"
+
+#: kwinbindings.cpp:96
+msgid "Quick Tile Window to the Left"
+msgstr "Вкласти вікно ліворуч"
+
+#: kwinbindings.cpp:98
+msgid "Quick Tile Window to the Right"
+msgstr "Вкласти вікно праворуч"
+
+#: kwinbindings.cpp:100
+msgid "Quick Tile Window to the Top Left"
+msgstr "Вкласти вікно ліворуч вгору"
+
+#: kwinbindings.cpp:102
+msgid "Quick Tile Window to the Bottom Left"
+msgstr "Вкласти вікно ліворуч вниз"
+
+#: kwinbindings.cpp:104
+msgid "Quick Tile Window to the Top Right"
+msgstr "Вкласти вікно праворуч вгору"
+
+#: kwinbindings.cpp:106
+msgid "Quick Tile Window to the Bottom Right"
+msgstr "Вкласти вікно праворуч вниз"
+
+#: kwinbindings.cpp:108
+msgid "Switch to Window Above"
+msgstr "Перемкнутися на верхнє вікно"
+
+#: kwinbindings.cpp:110
+msgid "Switch to Window Below"
+msgstr "Перемкнутися на вікно внизу"
+
+#: kwinbindings.cpp:112
+msgid "Switch to Window to the Right"
+msgstr "Перемкнутися на вікно праворуч"
+
+#: kwinbindings.cpp:114
+msgid "Switch to Window to the Left"
+msgstr "Перемкнутися на вікно ліворуч"
+
+#: kwinbindings.cpp:116
+msgid "Increase Opacity of Active Window by 5 %"
+msgstr "Зменшити прозорість активного вікна на 5%"
+
+#: kwinbindings.cpp:118
+msgid "Decrease Opacity of Active Window by 5 %"
+msgstr "Збільшити прозорість активного вікна на 5%"
+
+#: kwinbindings.cpp:121
+msgid "Keep Window on All Desktops"
+msgstr "Утримувати вікно на всіх стільницях"
+
+#: kwinbindings.cpp:125
+#, kde-format
+msgid "Window to Desktop %1"
+msgstr "Вікно на стільницю %1"
+
+#: kwinbindings.cpp:127
+msgid "Window to Next Desktop"
+msgstr "Вікно на наступну стільницю"
+
+#: kwinbindings.cpp:128
+msgid "Window to Previous Desktop"
+msgstr "Вікно на попередню стільницю"
+
+#: kwinbindings.cpp:129
+msgid "Window One Desktop to the Right"
+msgstr "Вікно на одну стільницю праворуч"
+
+#: kwinbindings.cpp:130
+msgid "Window One Desktop to the Left"
+msgstr "Вікно на одну стільницю ліворуч"
+
+#: kwinbindings.cpp:131
+msgid "Window One Desktop Up"
+msgstr "Вікно на одну стільницю вгору"
+
+#: kwinbindings.cpp:132
+msgid "Window One Desktop Down"
+msgstr "Вікно на одну стільницю вниз"
+
+#: kwinbindings.cpp:135
+#, kde-format
+msgid "Window to Screen %1"
+msgstr "Вікно на екран %1"
+
+#: kwinbindings.cpp:137
+msgid "Window to Next Screen"
+msgstr "Вікно на наступний екран"
+
+#: kwinbindings.cpp:138
+msgid "Window to Previous Screen"
+msgstr "Вікно на попередній екран"
+
+#: kwinbindings.cpp:139
+msgid "Show Desktop"
+msgstr "Показати стільницю"
+
+#: kwinbindings.cpp:142
+#, kde-format
+msgid "Switch to Screen %1"
+msgstr "Перемкнути на екран %1"
+
+#: kwinbindings.cpp:145
+msgid "Switch to Next Screen"
+msgstr "Перемкнути на наступний екран"
+
+#: kwinbindings.cpp:146
+msgid "Switch to Previous Screen"
+msgstr "Перемкнутися до попереднього екрана"
+
+#: kwinbindings.cpp:148
+msgid "Kill Window"
+msgstr "Вбити вікно"
+
+#: kwinbindings.cpp:149
+msgid "Suspend Compositing"
+msgstr "Призупинити композитний режим"
+
+#: kwinbindings.cpp:150
+msgid "Invert Screen Colors"
+msgstr "Інвертувати кольори екрана"
+
+#: main.cpp:78
+msgid ""
+"KWin is unstable.\n"
+"It seems to have crashed several times in a row.\n"
+"You can select another window manager to run:"
+msgstr ""
+"KWin працює нестабільно.\n"
+"Його роботу було аварійно завершено декілька раз поспіль.\n"
+"Ви можете вибрати іншу програму керування вікнами:"
+
+#: main.cpp:259 main.cpp:286
+msgid "KDE window manager"
+msgstr "Менеджер вікон KDE"
+
+#: main.cpp:264
+msgid "KWin"
+msgstr "KWin"
+
+#: main.cpp:268
+msgid "(c) 1999-2013, The KDE Developers"
+msgstr "© Розробники KDE, 1999–2013"
+
+#: main.cpp:270
+msgid "Matthias Ettrich"
+msgstr "Matthias Ettrich"
+
+#: main.cpp:271
+msgid "Cristian Tibirna"
+msgstr "Cristian Tibirna"
+
+#: main.cpp:272
+msgid "Daniel M. Duley"
+msgstr "Daniel M. Duley"
+
+#: main.cpp:273
+msgid "Luboš Luňák"
+msgstr "Luboš Luňák"
+
+#: main.cpp:274
+msgid "Martin Gräßlin"
+msgstr "Martin Gräßlin"
+
+#: main.cpp:274
+msgid "Maintainer"
+msgstr "Супровід"
+
+#: main.cpp:283
+msgid "Disable configuration options"
+msgstr "Вимкнути параметри налаштування"
+
+#: main.cpp:284
+msgid "Indicate that KWin has recently crashed n times"
+msgstr "Повідомляє, що KWin нещодавно аварійно завершився n разів"
+
+#: main_wayland.cpp:88
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+msgstr "kwin_wayland: на дисплеї X11 працює засіб керування вікнами X11.\n"
+
+#: main_wayland.cpp:96
+msgid ""
+"kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
+"set.\n"
+msgstr ""
+"kwin_wayland: не вдалося встановити зв’язок із сервером Wayland, "
+"переконайтеся, що змінну WAYLAND_DISPLAY встановлено належним чином.\n"
+
+#: main_wayland.cpp:231
+msgid "Start a nested X Server."
+msgstr "Запустити вкладений X-сервер."
+
+#: main_wayland.cpp:234
+msgid "The X11 Display to connect to, required if option x-server is used."
+msgstr ""
+"Дисплей X11, з яким слід встановити з’єдання, слід вказати, якщо використано "
+"параметр x-server."
+
+#: main_x11.cpp:149
+msgid ""
+"kwin: unable to claim manager selection, another wm running? (try using --"
+"replace)\n"
+msgstr ""
+"kwin: неможливо отримати вибір менеджера, можливо запущено інший менеджер "
+"вікон? (спробуйте параметр --replace)\n"
+
+#: main_x11.cpp:166
+msgid "kwin: another window manager is running (try using --replace)\n"
+msgstr ""
+"kwin: працює інша програма для керування вікнами (спробуйте параметр --"
+"replace)\n"
+
+#: main_x11.cpp:261
+msgid "Replace already-running ICCCM2.0-compliant window manager"
+msgstr "Замістити вже завантажений менеджер вікон, сумісний з ICCCM2.0"
+
+#: scene_opengl.cpp:558
+msgid "Desktop effects were restarted due to a graphics reset"
+msgstr ""
+"Ефекти стільниці було перезапущено через відновлення початкового стану "
+"графіки"
+
+#: scene_opengl.cpp:729
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
+"OpenGL Desktop Effects at the current resolution<br><br>You can try to "
+"select the XRender backend, but it might be very slow for this resolution as "
+"well.<br>Alternatively, lower the combined resolution of all screens to %1x"
+"%2 "
+msgstr ""
+"<h1>Використання стільничних ефектів OpenGL неможливе</h1>Використання "
+"стільничних ефектів OpenGL за поточної роздільної здатності екрана неможливе."
+"<br><br>Ви можете вибрати модуль обробки XRender, але за цієї роздільної "
+"здатності його робота також може бути дуже повільною.<br>Ви також можете "
+"знизити роздільну здатність на всіх екранах до %1⨯%2 "
+
+#: scene_opengl.cpp:736
+msgid ""
+"The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+"GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+"does not know such limitation, but the performance will usually be impacted "
+"by the hardware limitations that restrict the OpenGL viewport size."
+msgstr ""
+"Вказана вами роздільна здатність перевищує обмеження GL_MAX_VIEWPORT_DIMS "
+"графічного процесора вашої системи і несумісна з системою композитного "
+"відтворення OpenGL.<br>У XRender такого обмеження немає, але швидкодія цього "
+"модуля зазвичай обмежена можливостями обладнання зокрема можливими розмірами "
+"області пам’яті OpenGL."
+
+#: scene_opengl.cpp:761
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+"the current resolution are supported but might be exceptionally slow."
+"<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
+"compositing, switch to the XRender backend or lower the resolution to %1x%1."
+msgstr ""
+"<h1>Використання стільничних ефектів OpenGL може обмежити працездатність "
+"системи</h1>За поточної роздільної здатності екрана використання стільничних "
+"ефектів OpenGL можливе, але може призвести до надзвичайно повільної роботи "
+"системи.<br>Великі вікна можуть стати повністю чорними.<br><br>Вам варто "
+"вимкнути композитне відтворення, перемкнутися на використання модуля XRender "
+"або зменшити роздільну здатність екрана до %1⨯%1."
+
+#: scene_opengl.cpp:767
+msgid ""
+"The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+"GPU, thus windows of that size cannot be assigned to textures and will be "
+"entirely black.<br>Also this limit will often be a performance level barrier "
+"despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+"software rendering in this case."
+msgstr ""
+"Вказане вами значення роздільної здатності екрана перевищує обмеження "
+"GL_MAX_TEXTURE_SIZE вашого графічного процесора, тому вікна відповідного "
+"розміру не зможуть отримувати пам’ять під текстури, їх буде показано "
+"повністю чорними.<br>Крім того, використання цієї роздільної здатності може "
+"бути обмежено швидкодією системи навіть за прийнятних значень "
+"GL_MAX_VIEWPORT_DIMS, оскільки драйвер може перейти до резервного "
+"використання програмного режиму обробки зображення."
+
+#: scripting/genericscriptedconfig.cpp:81
+msgctxt "Error message"
+msgid "Plugin does not provide configuration file in expected location"
+msgstr "Додатком не надано файла налаштувань у очікуваному місці"
+
+#: scripting/scripting.cpp:127
+#, kde-format
+msgctxt "Assertion failed in KWin script with given value"
+msgid "Assertion failed: %1 is not null"
+msgstr "Помилка під час перевірки: %1 не є нульовим"
+
+#: scripting/scripting.cpp:145
+msgctxt "Assertion failed in KWin script"
+msgid "Assertion failed: argument is null"
+msgstr "Помилка під час перевірки: аргумент є нульовим"
+
+#: scripting/scripting.cpp:172
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid number of arguments. At least service, path, interface and method "
+"need to be provided"
+msgstr ""
+"Некоректна кількість аргументів. Мало бути вказано службу, шлях, інтерфейс "
+"та метод."
+
+#: scripting/scripting.cpp:178
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid type. Service, path, interface and method need to be string values"
+msgstr ""
+"Некоректний тип. Значення аргументів служби, шляху, інтерфейсу та методу "
+"мають бути рядками."
+
+#: scripting/scriptingutils.cpp:28
+msgctxt "syntax error in KWin script"
+msgid "Invalid number of arguments"
+msgstr "Некоректна кількість аргументів"
+
+#: scripting/scriptingutils.cpp:41
+#, kde-format
+msgctxt "KWin Scripting function received incorrect value for an expected type"
+msgid "%1 is not a variant type"
+msgstr "%1 не є типом варіанта"
+
+#: tabbox/tabbox.cpp:348
+msgctxt "Special entry in alt+tab list for minimizing all windows"
+msgid "Show Desktop"
+msgstr "Показати стільницю"
+
+#: tabbox/tabbox.cpp:499
+msgid "Walk Through Windows"
+msgstr "Пройтись по вікнах"
+
+#: tabbox/tabbox.cpp:500
+msgid "Walk Through Windows (Reverse)"
+msgstr "Пройтись по вікнах (назад)"
+
+#: tabbox/tabbox.cpp:501
+msgid "Walk Through Windows Alternative"
+msgstr "Альтернативна прогулянка вікнами"
+
+#: tabbox/tabbox.cpp:502
+msgid "Walk Through Windows Alternative (Reverse)"
+msgstr "Альтернативна прогулянка вікнами (зв. порядок)"
+
+#: tabbox/tabbox.cpp:503
+msgid "Walk Through Windows of Current Application"
+msgstr "Прогулянка вікнами поточної програми"
+
+#: tabbox/tabbox.cpp:504
+msgid "Walk Through Windows of Current Application (Reverse)"
+msgstr "Прогулянка вікнами поточної програми (зв. порядок)"
+
+#: tabbox/tabbox.cpp:505
+msgid "Walk Through Windows of Current Application Alternative"
+msgstr "Альтернативна прогулянка вікнами поточної програми"
+
+#: tabbox/tabbox.cpp:506
+msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+msgstr "Альтернативна прогулянка вікнами поточної програми (зв. порядок)"
+
+#: tabbox/tabbox.cpp:507
+msgid "Walk Through Desktops"
+msgstr "Пройтись стільницями"
+
+#: tabbox/tabbox.cpp:508
+msgid "Walk Through Desktops (Reverse)"
+msgstr "Пройтись стільницями (назад)"
+
+#: tabbox/tabbox.cpp:509
+msgid "Walk Through Desktop List"
+msgstr "Пройтись списком стільниць"
+
+#: tabbox/tabbox.cpp:510
+msgid "Walk Through Desktop List (Reverse)"
+msgstr "Пройтись списком стільниць (назад)"
+
+#: tabbox/tabboxhandler.cpp:272
+msgid ""
+"The Window Switcher installation is broken, resources are missing.\n"
+"Contact your distribution about this."
+msgstr ""
+"Засіб перемикання вікон встановлено з помилками, якісь частини не було "
+"встановлено.\n"
+"Повідомте про це авторів вашого дистрибутива."
+
+#: useractions.cpp:186
+#, kde-format
+msgid ""
+"You have selected to show a window without its border.\n"
+"Without the border, you will not be able to enable the border again using "
+"the mouse: use the window operations menu instead, activated using the %1 "
+"keyboard shortcut."
+msgstr ""
+"Ви вибрали відображення вікна без рамки.\n"
+"Коли рамка не відображається, неможливо ввімкнути її за допомогою мишки. "
+"Натомість використовуйте меню дій над вікнами, яке активується скороченням "
+"клавіатури %1."
+
+#: useractions.cpp:194
+#, kde-format
+msgid ""
+"You have selected to show a window in fullscreen mode.\n"
+"If the application itself does not have an option to turn the fullscreen "
+"mode off you will not be able to disable it again using the mouse: use the "
+"window operations menu instead, activated using the %1 keyboard shortcut."
+msgstr ""
+"Ви вибрали повноекранний режим для вікна.\n"
+"Якщо програма не має можливості вимкнути повноекранний режим, буде неможливо "
+"перейти в звичайний режим за допомогою мишки. Натомість використовуйте меню "
+"дій над вікнами, яке активується скороченням клавіатури %1."
+
+#: useractions.cpp:259
+msgid "&Move"
+msgstr "&Пересунути"
+
+#: useractions.cpp:264
+msgid "Re&size"
+msgstr "Змінити &розмір"
+
+#: useractions.cpp:268
+msgid "Keep &Above Others"
+msgstr "Утримувати &понад іншими"
+
+#: useractions.cpp:274
+msgid "Keep &Below Others"
+msgstr "Утримувати п&ід іншими"
+
+#: useractions.cpp:280
+msgid "&Fullscreen"
+msgstr "&На весь екран"
+
+#: useractions.cpp:286
+msgid "Sh&ade"
+msgstr "З&горнути"
+
+#: useractions.cpp:291
+msgid "&No Border"
+msgstr "&Без рамок"
+
+#: useractions.cpp:298
+msgid "Window &Shortcut..."
+msgstr "&Скорочення до вікна..."
+
+#: useractions.cpp:303
+msgid "&Special Window Settings..."
+msgstr "&Спеціальні параметри вікна..."
+
+#: useractions.cpp:307
+msgid "S&pecial Application Settings..."
+msgstr "&Спеціальні параметри програми..."
+
+#: useractions.cpp:314
+msgctxt ""
+"Entry in context menu of window decoration to open the configuration module "
+"of KWin"
+msgid "Window &Manager Settings..."
+msgstr "Параметри &керування вікнами…"
+
+#: useractions.cpp:329
+msgid "Mi&nimize"
+msgstr "Мін&імізувати"
+
+#: useractions.cpp:333
+msgid "Ma&ximize"
+msgstr "&Максимізувати"
+
+#: useractions.cpp:342
+msgid "&Untab"
+msgstr "Від’&єднати"
+
+#: useractions.cpp:346
+msgid "Close Entire &Group"
+msgstr "Закрити всю &групу"
+
+#: useractions.cpp:357
+msgid "&More Actions"
+msgstr "&Додаткові дії"
+
+#: useractions.cpp:361
+msgid "&Close"
+msgstr "&Закрити"
+
+#: useractions.cpp:434
+msgid "&Extensions"
+msgstr "&Розширення"
+
+#: useractions.cpp:489
+msgctxt "Switch to tab -> Previous"
+msgid "Previous"
+msgstr "Попередня"
+
+#: useractions.cpp:490
+msgctxt "Switch to tab -> Next"
+msgid "Next"
+msgstr "Наступна"
+
+#: useractions.cpp:528
+msgctxt "There's no window available to be attached as tab to this one"
+msgid "None available"
+msgstr "Немає доступних"
+
+#: useractions.cpp:537
+msgid "Switch to Tab"
+msgstr "Перемкнутися на вкладку"
+
+#: useractions.cpp:548
+msgid "&Attach as tab to"
+msgstr "До&лучити як вкладку до"
+
+#: useractions.cpp:571
+msgid "Move To &Desktop"
+msgstr "Пересунути на с&тільницю"
+
+#: useractions.cpp:587
+msgid "Move To &Screen"
+msgstr "Пересунути на &екран"
+
+#: useractions.cpp:602
+msgid "Ac&tivities"
+msgstr "П&ростори дій"
+
+#: useractions.cpp:614
+msgid "&All Desktops"
+msgstr "&Всі стільниці"
+
+#: useractions.cpp:640
+msgctxt "Create a new desktop and move there the window"
+msgid "&New Desktop"
+msgstr "С&творити стільницю"
+
+#: useractions.cpp:661
+#, kde-format
+msgctxt "@item:inmenu List of all Screens to send a window to"
+msgid "Screen &%1"
+msgstr "Екран &%1"
+
+#: useractions.cpp:679
+msgid "&All Activities"
+msgstr "&Всі простори дій"
+
+#: useractions.cpp:884
+#, kde-format
+msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
+msgid "<b>%1</b> is already in use"
+msgstr "<b>%1</b> вже використовується"
+
+#: useractions.cpp:886
+#, kde-format
+msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
+msgid "<b>%1</b> is used by %2 in %3"
+msgstr "<b>%1</b> використовується для дії %2 у %3"
+
+#: useractions.cpp:1009
+#, kde-format
+msgid "Activate Window (%1)"
+msgstr "Активувати вікно (%1)"
+
+#: useractions.cpp:1382
+msgid ""
+"The window manager is configured to consider the screen with the mouse on it "
+"as active one.\n"
+"Therefore it is not possible to switch to a screen explicitly."
+msgstr ""
+"Засіб керування вікнами не налаштовано так, щоб він використовував екран, на "
+"якому показано вказівник миші як активний.\n"
+"Тому перемикання на певний екран явним чином неможливе."
+
+#: virtualdesktops.cpp:334 virtualdesktops.cpp:396
+#, kde-format
+msgid "Desktop %1"
+msgstr "Стільниця %1"
+
+#: virtualdesktops.cpp:427
+msgid "Switch to Next Desktop"
+msgstr "До наступної стільниці"
+
+#: virtualdesktops.cpp:428
+msgid "Switch to Previous Desktop"
+msgstr "До попередньої стільниці"
+
+#: virtualdesktops.cpp:429
+msgid "Switch One Desktop to the Right"
+msgstr "Однією стільницею праворуч"
+
+#: virtualdesktops.cpp:430
+msgid "Switch One Desktop to the Left"
+msgstr "Однією стільницею ліворуч"
+
+#: virtualdesktops.cpp:431
+msgid "Switch One Desktop Up"
+msgstr "Однією стільницею вгору"
+
+#: virtualdesktops.cpp:432
+msgid "Switch One Desktop Down"
+msgstr "Однією стільницею вниз"
+
+#: virtualdesktops.cpp:444
+#, kde-format
+msgid "Switch to Desktop %1"
+msgstr "Перемкнутися до стільниці %1"
+
+#: workspace.cpp:1340
+msgctxt "Introductory text shown in the support information."
+msgid ""
+"KWin Support Information:\n"
+"The following information should be used when requesting support on e.g. "
+"http://forum.kde.org.\n"
+"It provides information about the currently running instance, which options "
+"are used,\n"
+"what OpenGL driver and which effects are running.\n"
+"Please post the information provided underneath this introductory text to a "
+"paste bin service\n"
+"like http://paste.kde.org instead of pasting into support threads.\n"
+msgstr ""
+"Дані щодо KWin:\n"
+"Наведеними нижче даними слід скористатися, якщо ви просите про допомогу, "
+"наприклад, на http://forum.kde.org.\n"
+"Серед цих даних характеристики запущеного екземпляра програми, список "
+"використаних параметрів,\n"
+"назва драйвера OpenGL та список задіяних ефектів.\n"
+"Будь ласка, додайте до вашого запиту наведені під цим вступним текстом з "
+"використанням служби зберігання\n"
+"текстових фрагментів, подібної до http://paste.kde.org, замість додавання "
+"безпосередньо до тексту повідомлення.\n"

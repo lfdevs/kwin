@@ -1,0 +1,342 @@
+# translation of kcmkwindecoration.po to Arabic
+# translation of kcmkwindecoration.po to
+# Copyright (C) 2001,2002, 2004, 2006, 2007, 2008 Free Software Foundation, Inc.
+# Mohammed Gamal <f2c2001@yahoo.com>, 2001.
+# Isam Bayazidi <bayazidi@arabeyes.org>, 2002.
+# Ossama Khayat <okhayat@yahoo.com>, 2004.
+# محمد سعد  Mohamed SAAD <metehyi@free.fr>, 2006.
+# AbdulAziz AlSharif <a.a-a.s@hotmail.com>, 2007.
+# Youssef Chahibi <chahibi@gmail.com>, 2007.
+# zayed <zayed.alsaidi@gmail.com>, 2008.
+# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: kcmkwindecoration\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-06-11 07:50+0000\n"
+"PO-Revision-Date: 2010-07-18 20:10+0400\n"
+"Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
+"Language-Team: Arabic <linuxac-kde-arabic-team@googlegroups.com>\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"X-Generator: Lokalize 1.0\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Mohamed SAAD محمد سعد,زايد السعيدي"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "metehyi@free.fr ,zayed.alsaidi@gmail.com"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: auroraeconfig.ui:23
+msgid "Border size:"
+msgstr "حجم الحافة:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:34 configdialog.cpp:36
+msgctxt "@item:inlistbox Border size:"
+msgid "Tiny"
+msgstr "ضئيل"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:39 configdialog.cpp:37
+msgctxt "@item:inlistbox Border size:"
+msgid "Normal"
+msgstr "عادي"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:44 configdialog.cpp:38
+msgctxt "@item:inlistbox Border size:"
+msgid "Large"
+msgstr "كبير"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:49 configdialog.cpp:39
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Large"
+msgstr "كبير جداً"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:54 configdialog.cpp:40
+msgctxt "@item:inlistbox Border size:"
+msgid "Huge"
+msgstr "ضخم"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:59 configdialog.cpp:41
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Huge"
+msgstr "ضخم جداً"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:64 configdialog.cpp:42
+msgctxt "@item:inlistbox Border size:"
+msgid "Oversized"
+msgstr "مضخم الحجم"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: auroraeconfig.ui:72
+msgid "Button size:"
+msgstr "حجم الزر:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:83
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "ضئيل"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:88
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "عادي"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:93
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "كبير"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:98
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "كبير جداً"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:103
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "ضخم"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:108
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "ضخم جداً"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:113
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "مضخم الحجم"
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
+#: auroraeconfig.ui:126
+msgid "Close windows by double clicking the menu button"
+msgstr ""
+
+#: buttons.cpp:620
+msgid "KDE"
+msgstr "كدي"
+
+#: buttons.cpp:649
+#, kde-format
+msgid "%1 (unavailable)"
+msgstr "%1 ( غير متوفر )"
+
+#: buttons.cpp:672
+msgid ""
+"To add or remove titlebar buttons, simply <i>drag</i> items between the "
+"available item list and the titlebar preview. Similarly, drag items within "
+"the titlebar preview to re-position them."
+msgstr ""
+"لإضافة أو إزالة  أزرار شريط العنوان ، ببساطة قم <i>بسحب</i> العناصر بين "
+"قائمة العناصر المتوفرة و معاينة شريط العنوان. بنفس الطريقة قم بسحب العناصر "
+"في معاينة شريط العنوان و قم بتغيير أماكنها."
+
+#: buttons.cpp:728
+msgid "Resize"
+msgstr "غيّر الحجم"
+
+#: buttons.cpp:733
+msgid "Shade"
+msgstr "ظلّل"
+
+#: buttons.cpp:738
+msgid "Keep Below Others"
+msgstr "ضعه تحت الآخرين"
+
+#: buttons.cpp:743
+msgid "Keep Above Others"
+msgstr "ضعه فوق الآخرين"
+
+#: buttons.cpp:748
+msgid "Close"
+msgstr "أغلق"
+
+#: buttons.cpp:753
+msgid "Maximize"
+msgstr "كبّر"
+
+#: buttons.cpp:758
+msgid "Minimize"
+msgstr "صغّر"
+
+#: buttons.cpp:763
+msgid "Help"
+msgstr "مساعدة"
+
+#: buttons.cpp:768
+msgid "On All Desktops"
+msgstr "على كلّ أسطح المكتب"
+
+#: buttons.cpp:773
+msgctxt "Button showing window actions menu"
+msgid "Window Menu"
+msgstr ""
+
+#: buttons.cpp:779
+msgctxt "Button showing application menu imported from dbusmenu"
+msgid "Application Menu"
+msgstr ""
+
+#: buttons.cpp:785
+msgid "--- spacer ---"
+msgstr "--- فراغ ---"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:20
+msgid ""
+"Enabling this checkbox will show window button tooltips. If this checkbox is "
+"off, no window button tooltips will be shown."
+msgstr ""
+"تمكين خانة التأشير سيظهر تلميحات زر النافذة. إذا كانت خانة التأشير غير محددة "
+"فلن يتم إظهار تلميحات زر النافذة."
+
+#. i18n: ectx: property (text), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:23
+msgid "&Show window button tooltips"
+msgstr "أ&ظهر تلميحات زر النافذة"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:30
+msgid "Please note that this option is not available on all styles yet."
+msgstr "من فضلك لاحظ أن هذا الخيار غير متوفر لكلّ المظاهر حتى الآن."
+
+#. i18n: ectx: property (text), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:33
+msgid "Use custom titlebar button &positions"
+msgstr "استخدم أو&ضاع مخصصة لزر شريط العنوان"
+
+#: buttonsconfigdialog.cpp:44
+msgid "Buttons"
+msgstr "الأ&زرار"
+
+#. i18n: ectx: property (text), widget (QLabel, borderLabel)
+#: config.ui:19
+msgid "B&order size:"
+msgstr "حجم ال&حافة:"
+
+#. i18n: ectx: property (whatsThis), widget (KComboBox, bordersCombo)
+#: config.ui:29
+msgid "Use this combobox to change the border size of the decoration."
+msgstr "استخدم هذا المربع المركب لتغيير حجم الحافة للزخرفة."
+
+#: configdialog.cpp:43
+msgctxt "@item:inlistbox Border size:"
+msgid "No Side Border"
+msgstr ""
+
+#: configdialog.cpp:44
+msgctxt "@item:inlistbox Border size:"
+msgid "No Border"
+msgstr ""
+
+#: configdialog.cpp:81 kwindecoration.cpp:375
+msgid "Decoration Options"
+msgstr "خيارات الزخرفة"
+
+#. i18n: ectx: property (clickMessage), widget (KLineEdit, searchEdit)
+#: decoration.ui:17
+msgid "Search"
+msgstr "ابحث"
+
+#. i18n: ectx: property (whatsThis), widget (QScrollArea, decorationList)
+#: decoration.ui:27
+msgid ""
+"Select the window decoration. This is the look and feel of both the window "
+"borders and the window handle."
+msgstr "انتقي زخرفة النافذة. أي المظهر والسِمة لكل من مقابض و حواف النافذة."
+
+#. i18n: ectx: property (text), widget (QPushButton, configureDecorationButton)
+#: decoration.ui:58
+msgid "Configure Decoration..."
+msgstr "اضبط الزخرفة..."
+
+#. i18n: ectx: property (text), widget (QPushButton, configureButtonsButton)
+#: decoration.ui:65
+msgid "Configure Buttons..."
+msgstr "اضبط الأزرار..."
+
+#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
+#: decoration.ui:72
+msgid "Get New Decorations..."
+msgstr "احصل على زخرفة جديدة..."
+
+#: kwindecoration.cpp:99
+msgid "Window Decoration Control Module"
+msgstr "وحدة التحكم بزخرفة النوافذ"
+
+#: kwindecoration.cpp:101
+msgid "(c) 2001 Karol Szwed"
+msgstr "(c) 2001 Karol Szwed"
+
+#: kwindecoration.cpp:102
+msgid "Karol Szwed"
+msgstr "Karol Szwed"
+
+#: kwindecoration.cpp:127
+msgid ""
+"<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main.qml</"
+"h2>could not be located in any application data path.<h2>Please contact your "
+"distribution</h2>The application will now abort"
+msgstr ""
+
+#: kwindecoration.cpp:130
+msgid "Installation Error"
+msgstr ""
+
+#: kwindecoration.cpp:301
+msgid "Oxygen"
+msgstr "أكسجين"
+
+#: kwindecoration.cpp:314
+msgid ""
+"<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+"window border decorations, as well as titlebar button positions and custom "
+"decoration options.</p>To choose a theme for your window decoration click on "
+"its name and apply your choice by clicking the \"Apply\" button below. If "
+"you do not want to apply your choice you can click the \"Reset\" button to "
+"discard your changes.<p>You can configure each theme. There are different "
+"options specific for each theme.</p><p>On the \"Buttons\" tab check the "
+"\"Use custom titlebar button positions\" box and you can change the "
+"positions of the buttons to your liking.</p>"
+msgstr ""
+"<h1>مدير زخرفة النوافذ</h1><p>تمكنك هذه الوحدة من اختيار زخرفات حواف "
+"النافذة، بالإضافة إلى مواقع أزرار شريط العنوان وخيارات الزخرفة المخصصة.</p> "
+"كي تختار سِمة لزخرفة نافذتك إنقر على اسمها وطبّق خيارك بالنقر على زر \"طبّق\" "
+"أدناه. إن لم تكن تريد أن تطبّق خيارك يمكنك النقر على زر \"استبداء\" كي تتجاهل "
+"تغييراتك.<p> يمكنك ضبط كل سِمة . هناك خيارات مختلفة خاصّة لكل سِمة.</p><p>في "
+"لسان \"الأزرار\" اختر\"استخدم مواقع أزرار شريط العنوان المخصصة\" و يمكنك "
+"تغيير مواقع الأزرار كما تحب</p>"
+
+#: kwindecoration.cpp:389
+msgid ""
+"Close by double clicking:\n"
+" To open the menu, keep the button pressed until it appears."
+msgstr ""
+
+#: preview.cpp:373
+msgid "Active Window"
+msgstr "النافذة النشطة"
+
+#: preview.cpp:373
+msgid "Inactive Window"
+msgstr "النافذة الخاملة"

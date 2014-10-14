@@ -1,0 +1,890 @@
+# Translation of kwin into Japanese.
+# This file is distributed under the same license as the kdebase package.
+# Noboru Sinohara <shinobo@leo.bekkoame.ne.jp>, 2002.
+# Ryuichi Kakuda <ryuk@user.script.nu>, 2004.
+# Shinichi Tsunoda <tsuno@ngy.1st.ne.jp>, 2005.
+# Yukiko Bando <ybando@k6.dion.ne.jp>, 2006, 2007, 2008, 2009, 2010.
+# Fumiaki Okushi <okushi@kde.gr.jp>, 2004, 2005, 2006, 2007, 2008, 2010.
+# Taiki Komoda <kom@kde.gr.jp>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"PO-Revision-Date: 2010-09-25 16:48-0700\n"
+"Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
+"Language-Team: Japanese <kde-jp@kde.org>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Accelerator-Marker: &\n"
+"X-Text-Markup: kde4\n"
+"X-Generator: Lokalize 1.0\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr ""
+"Taiki Komoda,Noboru Sinohara,Ryuichi Kakuda, Fumiaki Okushi,Shinichi Tsunoda"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr ""
+"kom@kde.gr.jp,shinobo@leo.bekkoame.ne.jp,ryuk@user.script.nu,okushi@kde.gr."
+"jp,tsuno@ngy.1st.ne.jp"
+
+#: composite.cpp:500
+#, kde-format
+msgid ""
+"Desktop effects have been suspended by another application.<br/>You can "
+"resume using the '%1' shortcut."
+msgstr ""
+"デスクトップ効果は他のアプリケーションによって一時停止されました。<br/>ショー"
+"トカット %1 を使って再開できます。"
+
+#: compositingprefs.cpp:98
+msgid ""
+"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
+"b><br>This was most likely due to a driver bug.<p>If you think that you have "
+"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
+"<b>be aware that this might result in an immediate crash!</b></"
+"p><p>Alternatively, you might want to use the XRender backend instead.</p>"
+msgstr ""
+
+#: compositingprefs.cpp:105
+msgid "Required X extensions (XComposite and XDamage) are not available."
+msgstr "必要な X 拡張 (XComposite と XDamage) がありません"
+
+#: compositingprefs.cpp:109
+msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
+msgstr "GLX/OpenGL がありません。OpenGL のサポートのみあります。"
+
+#: compositingprefs.cpp:113
+msgid "GLX/OpenGL and XRender/XFixes are not available."
+msgstr "GLX/OpenGL と XRender/XFixes がありません。"
+
+#: decorations.cpp:59
+msgid "KWin: "
+msgstr "KWin: "
+
+#: killer/killer.cpp:44
+#, fuzzy
+#| msgid "KDE window manager"
+msgid "Window Manager"
+msgstr "KDE ウィンドウマネージャ"
+
+#: killer/killer.cpp:49
+msgid "PID of the application to terminate"
+msgstr "強制終了させるアプリケーションの PID"
+
+#: killer/killer.cpp:49
+msgid "pid"
+msgstr ""
+
+#: killer/killer.cpp:51
+msgid "Hostname on which the application is running"
+msgstr "アプリケーションが実行されているホストの名前"
+
+#: killer/killer.cpp:51
+msgid "hostname"
+msgstr ""
+
+#: killer/killer.cpp:53
+msgid "Caption of the window to be terminated"
+msgstr "強制終了させるウィンドウのキャプション"
+
+#: killer/killer.cpp:53
+msgid "caption"
+msgstr ""
+
+#: killer/killer.cpp:55
+msgid "Name of the application to be terminated"
+msgstr "強制終了させるアプリケーションの名前"
+
+#: killer/killer.cpp:55
+msgid "name"
+msgstr ""
+
+#: killer/killer.cpp:57
+msgid "ID of resource belonging to the application"
+msgstr "このアプリケーションに属するリソースの ID"
+
+#: killer/killer.cpp:57
+msgid "id"
+msgstr ""
+
+#: killer/killer.cpp:59
+msgid "Time of user action causing termination"
+msgstr "ユーザが強制終了させた時間"
+
+#: killer/killer.cpp:59
+msgid "time"
+msgstr ""
+
+#: killer/killer.cpp:61
+msgid "KWin helper utility"
+msgstr "KWin ヘルパーユーティリティ"
+
+#: killer/killer.cpp:85
+msgid "This helper utility is not supposed to be called directly."
+msgstr "このヘルパーユーティリティは、直接実行されるものではありません。"
+
+#: killer/killer.cpp:95
+#, kde-format
+msgctxt "@info"
+msgid "<b>Application \"%1\" is not responding</b>"
+msgstr ""
+
+#: killer/killer.cpp:106
+#, kde-format
+msgid "&Terminate Application %1"
+msgstr "アプリケーション %1 を強制終了(&T)"
+
+#: killer/killer.cpp:107
+msgid "Wait Longer"
+msgstr ""
+
+#: kwinbindings.cpp:40
+msgid "Walk Through Window Tabs"
+msgstr "ウィンドウのタブを巡回"
+
+#: kwinbindings.cpp:41
+msgid "Walk Through Window Tabs (Reverse)"
+msgstr "ウィンドウのタブを巡回 (反対回り)"
+
+#: kwinbindings.cpp:42
+msgid "Remove Window From Group"
+msgstr "ウィンドウをグループから削除"
+
+#: kwinbindings.cpp:44
+msgid "Window Operations Menu"
+msgstr "ウィンドウ操作メニュー"
+
+#: kwinbindings.cpp:46
+msgid "Close Window"
+msgstr "ウィンドウを閉じる"
+
+#: kwinbindings.cpp:48
+msgid "Maximize Window"
+msgstr "ウィンドウを最大化"
+
+#: kwinbindings.cpp:50
+msgid "Maximize Window Vertically"
+msgstr "ウィンドウを縦に最大化"
+
+#: kwinbindings.cpp:52
+msgid "Maximize Window Horizontally"
+msgstr "ウィンドウを横に最大化"
+
+#: kwinbindings.cpp:54
+msgid "Minimize Window"
+msgstr "ウィンドウを最小化"
+
+#: kwinbindings.cpp:56
+msgid "Shade Window"
+msgstr "ウィンドウをシェード"
+
+#: kwinbindings.cpp:58
+msgid "Move Window"
+msgstr "ウィンドウを移動"
+
+#: kwinbindings.cpp:60
+msgid "Resize Window"
+msgstr "ウィンドウをリサイズ"
+
+#: kwinbindings.cpp:62
+msgid "Raise Window"
+msgstr "ウィンドウを前面に"
+
+#: kwinbindings.cpp:64
+msgid "Lower Window"
+msgstr "ウィンドウを背面に"
+
+#: kwinbindings.cpp:66
+msgid "Toggle Window Raise/Lower"
+msgstr "ウィンドウを前面/背面に"
+
+#: kwinbindings.cpp:68
+msgid "Make Window Fullscreen"
+msgstr "ウィンドウをフルスクリーンに"
+
+#: kwinbindings.cpp:70
+msgid "Hide Window Border"
+msgstr "ウィンドウの枠を隠す"
+
+#: kwinbindings.cpp:72
+msgid "Keep Window Above Others"
+msgstr "ウィンドウを常に最前面に表示"
+
+#: kwinbindings.cpp:74
+msgid "Keep Window Below Others"
+msgstr "ウィンドウを常に最背面に表示"
+
+#: kwinbindings.cpp:76
+msgid "Activate Window Demanding Attention"
+msgstr "操作を要求しているウィンドウをアクティブに"
+
+#: kwinbindings.cpp:78
+msgid "Setup Window Shortcut"
+msgstr "ウィンドウショートカットの設定"
+
+#: kwinbindings.cpp:80
+msgid "Pack Window to the Right"
+msgstr "ウィンドウを右へ寄せる"
+
+#: kwinbindings.cpp:82
+msgid "Pack Window to the Left"
+msgstr "ウィンドウを左へ寄せる"
+
+#: kwinbindings.cpp:84
+msgid "Pack Window Up"
+msgstr "ウィンドウを上へ寄せる"
+
+#: kwinbindings.cpp:86
+msgid "Pack Window Down"
+msgstr "ウィンドウを下へ寄せる"
+
+#: kwinbindings.cpp:88
+msgid "Pack Grow Window Horizontally"
+msgstr "ウィンドウを右へ伸ばす"
+
+#: kwinbindings.cpp:90
+msgid "Pack Grow Window Vertically"
+msgstr "ウィンドウを下へ伸ばす"
+
+#: kwinbindings.cpp:92
+msgid "Pack Shrink Window Horizontally"
+msgstr "ウィンドウを左へ縮める"
+
+#: kwinbindings.cpp:94
+msgid "Pack Shrink Window Vertically"
+msgstr "ウィンドウを上へ縮める"
+
+#: kwinbindings.cpp:96
+msgid "Quick Tile Window to the Left"
+msgstr "ウィンドウを左にタイル化"
+
+#: kwinbindings.cpp:98
+msgid "Quick Tile Window to the Right"
+msgstr "ウィンドウを右にタイル化"
+
+#: kwinbindings.cpp:100
+#, fuzzy
+#| msgid "Quick Tile Window to the Left"
+msgid "Quick Tile Window to the Top Left"
+msgstr "ウィンドウを左にタイル化"
+
+#: kwinbindings.cpp:102
+#, fuzzy
+#| msgid "Quick Tile Window to the Left"
+msgid "Quick Tile Window to the Bottom Left"
+msgstr "ウィンドウを左にタイル化"
+
+#: kwinbindings.cpp:104
+#, fuzzy
+#| msgid "Quick Tile Window to the Right"
+msgid "Quick Tile Window to the Top Right"
+msgstr "ウィンドウを右にタイル化"
+
+#: kwinbindings.cpp:106
+#, fuzzy
+#| msgid "Quick Tile Window to the Right"
+msgid "Quick Tile Window to the Bottom Right"
+msgstr "ウィンドウを右にタイル化"
+
+#: kwinbindings.cpp:108
+msgid "Switch to Window Above"
+msgstr "上のウィンドウに切り替え"
+
+#: kwinbindings.cpp:110
+msgid "Switch to Window Below"
+msgstr "下のウィンドウに切り替え"
+
+#: kwinbindings.cpp:112
+msgid "Switch to Window to the Right"
+msgstr "右のウィンドウに切り替え"
+
+#: kwinbindings.cpp:114
+msgid "Switch to Window to the Left"
+msgstr "左のウィンドウに切り替え"
+
+#: kwinbindings.cpp:116
+msgid "Increase Opacity of Active Window by 5 %"
+msgstr ""
+
+#: kwinbindings.cpp:118
+msgid "Decrease Opacity of Active Window by 5 %"
+msgstr ""
+
+#: kwinbindings.cpp:121
+msgid "Keep Window on All Desktops"
+msgstr "ウィンドウをすべてのデスクトップに表示"
+
+#: kwinbindings.cpp:125
+#, fuzzy, kde-format
+#| msgid "Window to Desktop 1"
+msgid "Window to Desktop %1"
+msgstr "ウィンドウをデスクトップ 1 へ"
+
+#: kwinbindings.cpp:127
+msgid "Window to Next Desktop"
+msgstr "ウィンドウを次のデスクトップへ"
+
+#: kwinbindings.cpp:128
+msgid "Window to Previous Desktop"
+msgstr "ウィンドウを前のデスクトップへ"
+
+#: kwinbindings.cpp:129
+msgid "Window One Desktop to the Right"
+msgstr "ウィンドウを一つ右のデスクトップへ"
+
+#: kwinbindings.cpp:130
+msgid "Window One Desktop to the Left"
+msgstr "ウィンドウを一つ左のデスクトップへ"
+
+#: kwinbindings.cpp:131
+msgid "Window One Desktop Up"
+msgstr "ウィンドウを一つ上のデスクトップへ"
+
+#: kwinbindings.cpp:132
+msgid "Window One Desktop Down"
+msgstr "ウィンドウを一つ下のデスクトップへ"
+
+#: kwinbindings.cpp:135
+#, fuzzy, kde-format
+#| msgid "Window to Screen 1"
+msgid "Window to Screen %1"
+msgstr "ウィンドウをスクリーン 1 へ"
+
+#: kwinbindings.cpp:137
+msgid "Window to Next Screen"
+msgstr "ウィンドウを次のスクリーンへ"
+
+#: kwinbindings.cpp:138
+#, fuzzy
+#| msgid "Window to Previous Desktop"
+msgid "Window to Previous Screen"
+msgstr "ウィンドウを前のデスクトップへ"
+
+#: kwinbindings.cpp:139
+msgid "Show Desktop"
+msgstr "デスクトップを表示"
+
+#: kwinbindings.cpp:142
+#, fuzzy, kde-format
+#| msgid "Switch to Screen 1"
+msgid "Switch to Screen %1"
+msgstr "スクリーン 1 に切り替え"
+
+#: kwinbindings.cpp:145
+msgid "Switch to Next Screen"
+msgstr "次のスクリーンに切り替え"
+
+#: kwinbindings.cpp:146
+#, fuzzy
+#| msgid "Switch to Previous Desktop"
+msgid "Switch to Previous Screen"
+msgstr "前のデスクトップに切り替え"
+
+#: kwinbindings.cpp:148
+msgid "Kill Window"
+msgstr "ウィンドウを強制終了"
+
+#: kwinbindings.cpp:149
+msgid "Suspend Compositing"
+msgstr "コンポジティングを一時停止"
+
+#: kwinbindings.cpp:150
+msgid "Invert Screen Colors"
+msgstr ""
+
+#: main.cpp:78
+msgid ""
+"KWin is unstable.\n"
+"It seems to have crashed several times in a row.\n"
+"You can select another window manager to run:"
+msgstr ""
+"KWin が不安定です。\n"
+"何度も連続してクラッシュしたようです。\n"
+"他のウィンドウマネージャを選択できます:"
+
+#: main.cpp:259 main.cpp:286
+msgid "KDE window manager"
+msgstr "KDE ウィンドウマネージャ"
+
+#: main.cpp:264
+msgid "KWin"
+msgstr "KWin"
+
+#: main.cpp:268
+#, fuzzy
+#| msgid "(c) 1999-2008, The KDE Developers"
+msgid "(c) 1999-2013, The KDE Developers"
+msgstr "(c) 1999-2008, KDE 開発チーム"
+
+#: main.cpp:270
+msgid "Matthias Ettrich"
+msgstr "Matthias Ettrich"
+
+#: main.cpp:271
+msgid "Cristian Tibirna"
+msgstr "Cristian Tibirna"
+
+#: main.cpp:272
+msgid "Daniel M. Duley"
+msgstr "Daniel M. Duley"
+
+#: main.cpp:273
+msgid "Luboš Luňák"
+msgstr "Luboš Luňák"
+
+#: main.cpp:274
+msgid "Martin Gräßlin"
+msgstr ""
+
+#: main.cpp:274
+msgid "Maintainer"
+msgstr "メンテナ"
+
+#: main.cpp:283
+msgid "Disable configuration options"
+msgstr "設定オプションを無効にする"
+
+#: main.cpp:284
+msgid "Indicate that KWin has recently crashed n times"
+msgstr "KWin が最近 n 回クラッシュしたことを示す"
+
+#: main_wayland.cpp:88
+#, fuzzy
+#| msgid ""
+#| "kwin: unable to claim manager selection, another wm running? (try using --"
+#| "replace)\n"
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+msgstr ""
+"kwin: ウィンドウマネージャになれませんでした。他のマネージャが実行中ですか？ "
+"(<icode>--replace</icode> オプションを試してみてください)\n"
+
+#: main_wayland.cpp:96
+msgid ""
+"kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
+"set.\n"
+msgstr ""
+
+#: main_wayland.cpp:231
+msgid "Start a nested X Server."
+msgstr ""
+
+#: main_wayland.cpp:234
+msgid "The X11 Display to connect to, required if option x-server is used."
+msgstr ""
+
+#: main_x11.cpp:149
+msgid ""
+"kwin: unable to claim manager selection, another wm running? (try using --"
+"replace)\n"
+msgstr ""
+"kwin: ウィンドウマネージャになれませんでした。他のマネージャが実行中ですか？ "
+"(<icode>--replace</icode> オプションを試してみてください)\n"
+
+#: main_x11.cpp:166
+#, fuzzy
+#| msgid ""
+#| "kwin: unable to claim manager selection, another wm running? (try using --"
+#| "replace)\n"
+msgid "kwin: another window manager is running (try using --replace)\n"
+msgstr ""
+"kwin: ウィンドウマネージャになれませんでした。他のマネージャが実行中ですか？ "
+"(<icode>--replace</icode> オプションを試してみてください)\n"
+
+#: main_x11.cpp:261
+msgid "Replace already-running ICCCM2.0-compliant window manager"
+msgstr "既に動作している ICCCM2.0 準拠のウィンドウマネージャを置き換える"
+
+#: scene_opengl.cpp:558
+msgid "Desktop effects were restarted due to a graphics reset"
+msgstr ""
+
+#: scene_opengl.cpp:729
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
+"OpenGL Desktop Effects at the current resolution<br><br>You can try to "
+"select the XRender backend, but it might be very slow for this resolution as "
+"well.<br>Alternatively, lower the combined resolution of all screens to %1x"
+"%2 "
+msgstr ""
+
+#: scene_opengl.cpp:736
+msgid ""
+"The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+"GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+"does not know such limitation, but the performance will usually be impacted "
+"by the hardware limitations that restrict the OpenGL viewport size."
+msgstr ""
+
+#: scene_opengl.cpp:761
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+"the current resolution are supported but might be exceptionally slow."
+"<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
+"compositing, switch to the XRender backend or lower the resolution to %1x%1."
+msgstr ""
+
+#: scene_opengl.cpp:767
+msgid ""
+"The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+"GPU, thus windows of that size cannot be assigned to textures and will be "
+"entirely black.<br>Also this limit will often be a performance level barrier "
+"despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+"software rendering in this case."
+msgstr ""
+
+#: scripting/genericscriptedconfig.cpp:81
+msgctxt "Error message"
+msgid "Plugin does not provide configuration file in expected location"
+msgstr ""
+
+#: scripting/scripting.cpp:127
+#, kde-format
+msgctxt "Assertion failed in KWin script with given value"
+msgid "Assertion failed: %1 is not null"
+msgstr ""
+
+#: scripting/scripting.cpp:145
+msgctxt "Assertion failed in KWin script"
+msgid "Assertion failed: argument is null"
+msgstr ""
+
+#: scripting/scripting.cpp:172
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid number of arguments. At least service, path, interface and method "
+"need to be provided"
+msgstr ""
+
+#: scripting/scripting.cpp:178
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid type. Service, path, interface and method need to be string values"
+msgstr ""
+
+#: scripting/scriptingutils.cpp:28
+msgctxt "syntax error in KWin script"
+msgid "Invalid number of arguments"
+msgstr ""
+
+#: scripting/scriptingutils.cpp:41
+#, kde-format
+msgctxt "KWin Scripting function received incorrect value for an expected type"
+msgid "%1 is not a variant type"
+msgstr ""
+
+#: tabbox/tabbox.cpp:348
+msgctxt "Special entry in alt+tab list for minimizing all windows"
+msgid "Show Desktop"
+msgstr "デスクトップを表示"
+
+#: tabbox/tabbox.cpp:499
+msgid "Walk Through Windows"
+msgstr "ウィンドウを巡回"
+
+#: tabbox/tabbox.cpp:500
+msgid "Walk Through Windows (Reverse)"
+msgstr "ウィンドウを巡回 (反対回り)"
+
+#: tabbox/tabbox.cpp:501
+msgid "Walk Through Windows Alternative"
+msgstr "ウィンドウを巡回の代替"
+
+#: tabbox/tabbox.cpp:502
+msgid "Walk Through Windows Alternative (Reverse)"
+msgstr "ウィンドウを巡回 (反対回り) の代替"
+
+#: tabbox/tabbox.cpp:503
+#, fuzzy
+#| msgid "Walk Through Windows Alternative"
+msgid "Walk Through Windows of Current Application"
+msgstr "ウィンドウを巡回の代替"
+
+#: tabbox/tabbox.cpp:504
+#, fuzzy
+#| msgid "Walk Through Windows Alternative (Reverse)"
+msgid "Walk Through Windows of Current Application (Reverse)"
+msgstr "ウィンドウを巡回 (反対回り) の代替"
+
+#: tabbox/tabbox.cpp:505
+#, fuzzy
+#| msgid "Walk Through Windows Alternative"
+msgid "Walk Through Windows of Current Application Alternative"
+msgstr "ウィンドウを巡回の代替"
+
+#: tabbox/tabbox.cpp:506
+#, fuzzy
+#| msgid "Walk Through Windows Alternative (Reverse)"
+msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+msgstr "ウィンドウを巡回 (反対回り) の代替"
+
+#: tabbox/tabbox.cpp:507
+msgid "Walk Through Desktops"
+msgstr "デスクトップを巡回"
+
+#: tabbox/tabbox.cpp:508
+msgid "Walk Through Desktops (Reverse)"
+msgstr "デスクトップを巡回 (反対回り)"
+
+#: tabbox/tabbox.cpp:509
+msgid "Walk Through Desktop List"
+msgstr "デスクトップリストを巡回"
+
+#: tabbox/tabbox.cpp:510
+msgid "Walk Through Desktop List (Reverse)"
+msgstr "デスクトップリストを巡回 (反対回り)"
+
+#: tabbox/tabboxhandler.cpp:272
+msgid ""
+"The Window Switcher installation is broken, resources are missing.\n"
+"Contact your distribution about this."
+msgstr ""
+
+#: useractions.cpp:186
+#, kde-format
+msgid ""
+"You have selected to show a window without its border.\n"
+"Without the border, you will not be able to enable the border again using "
+"the mouse: use the window operations menu instead, activated using the %1 "
+"keyboard shortcut."
+msgstr ""
+"ウィンドウの枠を消しました。\n"
+"枠なしでは、マウスを使って枠を再び表示させることはできません。キーボード"
+"ショートカットの %1 を使ってウィンドウ操作メニューを表示し、そこから設定して"
+"ください。"
+
+#: useractions.cpp:194
+#, kde-format
+msgid ""
+"You have selected to show a window in fullscreen mode.\n"
+"If the application itself does not have an option to turn the fullscreen "
+"mode off you will not be able to disable it again using the mouse: use the "
+"window operations menu instead, activated using the %1 keyboard shortcut."
+msgstr ""
+"ウィンドウをフルスクリーンにしました。\n"
+"アプリケーションにフルスクリーンモードを解除する機能がない場合、マウスを使っ"
+"てフルスクリーンモードを解除することはできません。その場合、キーボードショー"
+"トカットの %1 を使ってウィンドウ操作メニューを表示し、そこから解除してくださ"
+"い。"
+
+#: useractions.cpp:259
+msgid "&Move"
+msgstr "移動(&M)"
+
+#: useractions.cpp:264
+msgid "Re&size"
+msgstr "リサイズ(&S)"
+
+#: useractions.cpp:268
+msgid "Keep &Above Others"
+msgstr "常に最前面に表示(&A)"
+
+#: useractions.cpp:274
+msgid "Keep &Below Others"
+msgstr "常に最背面に表示(&B)"
+
+#: useractions.cpp:280
+msgid "&Fullscreen"
+msgstr "フルスクリーン(&F)"
+
+#: useractions.cpp:286
+msgid "Sh&ade"
+msgstr "シェード(&A)"
+
+#: useractions.cpp:291
+msgid "&No Border"
+msgstr "枠なし(&N)"
+
+#: useractions.cpp:298
+msgid "Window &Shortcut..."
+msgstr "ウィンドウのショートカット(&S)..."
+
+#: useractions.cpp:303
+msgid "&Special Window Settings..."
+msgstr "特殊なウィンドウ設定(&S)..."
+
+#: useractions.cpp:307
+msgid "S&pecial Application Settings..."
+msgstr "特殊なアプリケーション設定(&P)..."
+
+#: useractions.cpp:314
+#, fuzzy
+#| msgid "&Special Window Settings..."
+msgctxt ""
+"Entry in context menu of window decoration to open the configuration module "
+"of KWin"
+msgid "Window &Manager Settings..."
+msgstr "特殊なウィンドウ設定(&S)..."
+
+#: useractions.cpp:329
+msgid "Mi&nimize"
+msgstr "最小化(&N)"
+
+#: useractions.cpp:333
+msgid "Ma&ximize"
+msgstr "最大化(&X)"
+
+#: useractions.cpp:342
+msgid "&Untab"
+msgstr ""
+
+#: useractions.cpp:346
+msgid "Close Entire &Group"
+msgstr "グループ全体を閉じる(&G)"
+
+#: useractions.cpp:357
+msgid "&More Actions"
+msgstr ""
+
+#: useractions.cpp:361
+msgid "&Close"
+msgstr "閉じる(&C)"
+
+#: useractions.cpp:434
+msgid "&Extensions"
+msgstr ""
+
+#: useractions.cpp:489
+msgctxt "Switch to tab -> Previous"
+msgid "Previous"
+msgstr ""
+
+#: useractions.cpp:490
+msgctxt "Switch to tab -> Next"
+msgid "Next"
+msgstr ""
+
+#: useractions.cpp:528
+msgctxt "There's no window available to be attached as tab to this one"
+msgid "None available"
+msgstr ""
+
+#: useractions.cpp:537
+#, fuzzy
+#| msgid "Switch to Window Tab"
+msgid "Switch to Tab"
+msgstr "ウィンドウのタブを切り替え"
+
+#: useractions.cpp:548
+msgid "&Attach as tab to"
+msgstr ""
+
+#: useractions.cpp:571
+#, fuzzy
+#| msgid "To &Desktop"
+msgid "Move To &Desktop"
+msgstr "デスクトップへ移動(&D)"
+
+#: useractions.cpp:587
+#, fuzzy
+#| msgid "To &Desktop"
+msgid "Move To &Screen"
+msgstr "デスクトップへ移動(&D)"
+
+#: useractions.cpp:602
+msgid "Ac&tivities"
+msgstr "アクティビティ(&T)"
+
+#: useractions.cpp:614
+msgid "&All Desktops"
+msgstr "すべてのデスクトップ(&A)"
+
+#: useractions.cpp:640
+#, fuzzy
+#| msgid "Show Desktop"
+msgctxt "Create a new desktop and move there the window"
+msgid "&New Desktop"
+msgstr "デスクトップを表示"
+
+#: useractions.cpp:661
+#, fuzzy, kde-format
+#| msgid "Window to Screen 1"
+msgctxt "@item:inmenu List of all Screens to send a window to"
+msgid "Screen &%1"
+msgstr "ウィンドウをスクリーン 1 へ"
+
+#: useractions.cpp:679
+msgid "&All Activities"
+msgstr "すべてのアクティビティ(&A)"
+
+#: useractions.cpp:884
+#, kde-format
+msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
+msgid "<b>%1</b> is already in use"
+msgstr ""
+
+#: useractions.cpp:886
+#, kde-format
+msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
+msgid "<b>%1</b> is used by %2 in %3"
+msgstr ""
+
+#: useractions.cpp:1009
+#, kde-format
+msgid "Activate Window (%1)"
+msgstr "ウィンドウをアクティブに (%1)"
+
+#: useractions.cpp:1382
+msgid ""
+"The window manager is configured to consider the screen with the mouse on it "
+"as active one.\n"
+"Therefore it is not possible to switch to a screen explicitly."
+msgstr ""
+
+#: virtualdesktops.cpp:334 virtualdesktops.cpp:396
+#, kde-format
+msgid "Desktop %1"
+msgstr "デスクトップ %1"
+
+#: virtualdesktops.cpp:427
+msgid "Switch to Next Desktop"
+msgstr "次のデスクトップに切り替え"
+
+#: virtualdesktops.cpp:428
+msgid "Switch to Previous Desktop"
+msgstr "前のデスクトップに切り替え"
+
+#: virtualdesktops.cpp:429
+msgid "Switch One Desktop to the Right"
+msgstr "一つ右のデスクトップに切り替え"
+
+#: virtualdesktops.cpp:430
+msgid "Switch One Desktop to the Left"
+msgstr "一つ左のデスクトップに切り替え"
+
+#: virtualdesktops.cpp:431
+msgid "Switch One Desktop Up"
+msgstr "一つ上のデスクトップに切り替え"
+
+#: virtualdesktops.cpp:432
+msgid "Switch One Desktop Down"
+msgstr "一つ下のデスクトップに切り替え"
+
+#: virtualdesktops.cpp:444
+#, fuzzy, kde-format
+#| msgid "Switch to Desktop 1"
+msgid "Switch to Desktop %1"
+msgstr "デスクトップ 1 に切り替え"
+
+#: workspace.cpp:1340
+msgctxt "Introductory text shown in the support information."
+msgid ""
+"KWin Support Information:\n"
+"The following information should be used when requesting support on e.g. "
+"http://forum.kde.org.\n"
+"It provides information about the currently running instance, which options "
+"are used,\n"
+"what OpenGL driver and which effects are running.\n"
+"Please post the information provided underneath this introductory text to a "
+"paste bin service\n"
+"like http://paste.kde.org instead of pasting into support threads.\n"
+msgstr ""

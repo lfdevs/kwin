@@ -1,0 +1,881 @@
+# translation of kwin.po to Thai
+# Copyright (C) 2003, 2005, 2008 Free Software Foundation, Inc.
+#
+# Thanomsub Noppaburana <donga_n@yahoo.com>, 2003, 2005.
+# Thanomsub Noppaburana <donga.nb@gmail.com>, 2008, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"PO-Revision-Date: 2010-12-17 20:20+0700\n"
+"Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
+"Language-Team: Thai <thai-l10n@googlegroups.com>\n"
+"Language: th\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "ถนอมทรัพย์ นพบูรณ์"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "donga.nb@gmail.com"
+
+#: composite.cpp:500
+#, kde-format
+msgid ""
+"Desktop effects have been suspended by another application.<br/>You can "
+"resume using the '%1' shortcut."
+msgstr ""
+"ลูกเล่นต่าง ๆ ของพื้นที่ทำงานถูกพักการใช้งานชั่วคราวจากโปรแกรมอื่น<br/> "
+"คุณสามารถจะกลับมาใช้งานมันได้อีกโดยการใช้ปุ่มพิมพ์ลัด '%1'"
+
+#: compositingprefs.cpp:98
+msgid ""
+"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
+"b><br>This was most likely due to a driver bug.<p>If you think that you have "
+"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
+"<b>be aware that this might result in an immediate crash!</b></"
+"p><p>Alternatively, you might want to use the XRender backend instead.</p>"
+msgstr ""
+
+#: compositingprefs.cpp:105
+msgid "Required X extensions (XComposite and XDamage) are not available."
+msgstr "ส่วนขยายของ X (XComposite และ XDamage) ไม่มีอยู่"
+
+#: compositingprefs.cpp:109
+msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
+msgstr "ส่วนขยาย GLX/OpenGL ไม่มีอยู่ และรองรับเพียงส่วนขยาย OpenGL เท่านั้นเมื่อถูกคอมไพล์"
+
+#: compositingprefs.cpp:113
+msgid "GLX/OpenGL and XRender/XFixes are not available."
+msgstr "ไม่พบส่วนขยาย GLX/OpenGL และ XRender/XFixes"
+
+#: decorations.cpp:59
+msgid "KWin: "
+msgstr "KWin: "
+
+#: killer/killer.cpp:44
+#, fuzzy
+#| msgid "KDE window manager"
+msgid "Window Manager"
+msgstr "ตัวจัดการหน้าต่างของ KDE"
+
+#: killer/killer.cpp:49
+msgid "PID of the application to terminate"
+msgstr "เลขโพรเซส (PID) ของโปรแกรมที่จะสั่งให้จบการทำงาน"
+
+#: killer/killer.cpp:49
+msgid "pid"
+msgstr ""
+
+#: killer/killer.cpp:51
+msgid "Hostname on which the application is running"
+msgstr "ชื่อของเครื่องที่โปรแกรมกำลังทำงานอยู่"
+
+#: killer/killer.cpp:51
+msgid "hostname"
+msgstr ""
+
+#: killer/killer.cpp:53
+msgid "Caption of the window to be terminated"
+msgstr "หัวเรื่องหน้าต่างที่จะสั่งให้จบการทำงาน"
+
+#: killer/killer.cpp:53
+msgid "caption"
+msgstr ""
+
+#: killer/killer.cpp:55
+msgid "Name of the application to be terminated"
+msgstr "ชื่อของโปรแกรมที่จะสั่งให้จบการทำงาน"
+
+#: killer/killer.cpp:55
+msgid "name"
+msgstr ""
+
+#: killer/killer.cpp:57
+msgid "ID of resource belonging to the application"
+msgstr "หมายเลข (ID) ของทรัพยากรที่เป็นของโปรแกรม"
+
+#: killer/killer.cpp:57
+msgid "id"
+msgstr ""
+
+#: killer/killer.cpp:59
+msgid "Time of user action causing termination"
+msgstr "เวลาของการกระทำของผู้ใช้เนื่องจากการฆ่าโพรเซส"
+
+#: killer/killer.cpp:59
+msgid "time"
+msgstr ""
+
+#: killer/killer.cpp:61
+msgid "KWin helper utility"
+msgstr "เครื่องมือช่วยทำงานของ KWin"
+
+#: killer/killer.cpp:85
+msgid "This helper utility is not supposed to be called directly."
+msgstr "ไม่รองรับการเรียกใช้เครื่องมือช่วยทำงานนี้โดยตรงได้"
+
+#: killer/killer.cpp:95
+#, kde-format
+msgctxt "@info"
+msgid "<b>Application \"%1\" is not responding</b>"
+msgstr ""
+
+#: killer/killer.cpp:106
+#, kde-format
+msgid "&Terminate Application %1"
+msgstr "&บังคับให้โปรแกรม %1 จบการทำงาน"
+
+#: killer/killer.cpp:107
+msgid "Wait Longer"
+msgstr ""
+
+#: kwinbindings.cpp:40
+msgid "Walk Through Window Tabs"
+msgstr "ปุ่มแท็บเพื่อวนสลับหน้าต่าง"
+
+#: kwinbindings.cpp:41
+msgid "Walk Through Window Tabs (Reverse)"
+msgstr "ปุ่มแท็บเพื่อวนสลับหน้าต่าง (ย้อนกลับ)"
+
+#: kwinbindings.cpp:42
+msgid "Remove Window From Group"
+msgstr "เอาหน้าต่างออกจากกลุ่ม"
+
+#: kwinbindings.cpp:44
+msgid "Window Operations Menu"
+msgstr "เมนูปฎิบัติการของหน้าต่าง"
+
+#: kwinbindings.cpp:46
+msgid "Close Window"
+msgstr "ปิดหน้าต่าง"
+
+#: kwinbindings.cpp:48
+msgid "Maximize Window"
+msgstr "ขยายหน้าต่างใหญ่สุด"
+
+#: kwinbindings.cpp:50
+msgid "Maximize Window Vertically"
+msgstr "ขยายหน้าต่างใหญ่สุดทางแนวตั้ง"
+
+#: kwinbindings.cpp:52
+msgid "Maximize Window Horizontally"
+msgstr "ขยายหน้าต่างใหญ่สุดทางแนวนอน"
+
+#: kwinbindings.cpp:54
+msgid "Minimize Window"
+msgstr "ย่อหน้าต่างเล็กสุด"
+
+#: kwinbindings.cpp:56
+msgid "Shade Window"
+msgstr "พับเก็บหน้าต่าง"
+
+#: kwinbindings.cpp:58
+msgid "Move Window"
+msgstr "ย้ายหน้าต่าง"
+
+#: kwinbindings.cpp:60
+msgid "Resize Window"
+msgstr "ปรับขนาดหน้าต่าง"
+
+#: kwinbindings.cpp:62
+msgid "Raise Window"
+msgstr "ส่งหน้าต่างให้อยู่เหนือหน้าต่างอื่นหนึ่งชั้น"
+
+#: kwinbindings.cpp:64
+msgid "Lower Window"
+msgstr "ส่งหน้าต่างให้อยู่ใต้หน้าต่างอื่นหนึ่งชั้น"
+
+#: kwinbindings.cpp:66
+msgid "Toggle Window Raise/Lower"
+msgstr "สลับหน้าต่างไปอยู่เหนือ/ใต้หน้าต่างอื่น"
+
+#: kwinbindings.cpp:68
+msgid "Make Window Fullscreen"
+msgstr "ปรับหน้าต่างให้เต็มจอ"
+
+#: kwinbindings.cpp:70
+msgid "Hide Window Border"
+msgstr "ซ่อนกรอบของหน้าต่าง"
+
+#: kwinbindings.cpp:72
+msgid "Keep Window Above Others"
+msgstr "ให้หน้าต่างอยู่ด้านบนหน้าต่างอื่น"
+
+#: kwinbindings.cpp:74
+msgid "Keep Window Below Others"
+msgstr "ให้หน้าต่างอยู่ด้านล่างหน้าต่างอื่น"
+
+#: kwinbindings.cpp:76
+msgid "Activate Window Demanding Attention"
+msgstr "เรียกใช้หน้าต่างที่เรียกร้องความสนใจมา"
+
+#: kwinbindings.cpp:78
+msgid "Setup Window Shortcut"
+msgstr "ตั้งค่าปุ่มพิมพ์ลัดของหน้าต่าง"
+
+#: kwinbindings.cpp:80
+msgid "Pack Window to the Right"
+msgstr "ปรับขนาดหน้าต่างให้พอเหมาะไปทางขวา"
+
+#: kwinbindings.cpp:82
+msgid "Pack Window to the Left"
+msgstr "ปรับขนาดหน้าต่างให้พอเหมาะไปทางซ้าย"
+
+#: kwinbindings.cpp:84
+msgid "Pack Window Up"
+msgstr "ปรับขนาดหน้าต่างให้พอเหมาะขึ้นด้านบน"
+
+#: kwinbindings.cpp:86
+msgid "Pack Window Down"
+msgstr "ปรับขนาดหน้าต่างให้พอเหมาะลงด้านล่าง"
+
+#: kwinbindings.cpp:88
+msgid "Pack Grow Window Horizontally"
+msgstr "ปรับขนาดหน้าต่างให้ใหญ่พอเหมาะทางแนวนอน"
+
+#: kwinbindings.cpp:90
+msgid "Pack Grow Window Vertically"
+msgstr "ปรับขนาดหน้าต่างให้ใหญ่พอเหมาะทางแนวตั้ง"
+
+#: kwinbindings.cpp:92
+msgid "Pack Shrink Window Horizontally"
+msgstr "ปรับขนาดหน้าต่างให้เล็กพอเหมาะทางแนวนอน"
+
+#: kwinbindings.cpp:94
+msgid "Pack Shrink Window Vertically"
+msgstr "ปรับขนาดหน้าต่างให้เล็กพอเหมาะทางแนวตั้ง"
+
+#: kwinbindings.cpp:96
+msgid "Quick Tile Window to the Left"
+msgstr "ปูหน้าต่างด่วนจากทางซ้าย"
+
+#: kwinbindings.cpp:98
+msgid "Quick Tile Window to the Right"
+msgstr "ปูหน้าต่างด่วนจากทางขวา"
+
+#: kwinbindings.cpp:100
+#, fuzzy
+#| msgid "Quick Tile Window to the Left"
+msgid "Quick Tile Window to the Top Left"
+msgstr "ปูหน้าต่างด่วนจากทางซ้าย"
+
+#: kwinbindings.cpp:102
+#, fuzzy
+#| msgid "Quick Tile Window to the Left"
+msgid "Quick Tile Window to the Bottom Left"
+msgstr "ปูหน้าต่างด่วนจากทางซ้าย"
+
+#: kwinbindings.cpp:104
+#, fuzzy
+#| msgid "Quick Tile Window to the Right"
+msgid "Quick Tile Window to the Top Right"
+msgstr "ปูหน้าต่างด่วนจากทางขวา"
+
+#: kwinbindings.cpp:106
+#, fuzzy
+#| msgid "Quick Tile Window to the Right"
+msgid "Quick Tile Window to the Bottom Right"
+msgstr "ปูหน้าต่างด่วนจากทางขวา"
+
+#: kwinbindings.cpp:108
+msgid "Switch to Window Above"
+msgstr "สลับไปยังหน้าต่างที่อยู่ด้านบน"
+
+#: kwinbindings.cpp:110
+msgid "Switch to Window Below"
+msgstr "สลับไปยังหน้าต่างที่อยู่ด้านล่าง"
+
+#: kwinbindings.cpp:112
+msgid "Switch to Window to the Right"
+msgstr "สลับไปยังหน้าต่างที่อยู่ด้านขวา"
+
+#: kwinbindings.cpp:114
+msgid "Switch to Window to the Left"
+msgstr "สลับไปยังหน้าต่างที่อยู่ด้านซ้าย"
+
+#: kwinbindings.cpp:116
+msgid "Increase Opacity of Active Window by 5 %"
+msgstr ""
+
+#: kwinbindings.cpp:118
+msgid "Decrease Opacity of Active Window by 5 %"
+msgstr ""
+
+#: kwinbindings.cpp:121
+msgid "Keep Window on All Desktops"
+msgstr "ให้หน้าต่างอยู่บนพื้นที่ทำงานทั้งหมด"
+
+#: kwinbindings.cpp:125
+#, fuzzy, kde-format
+#| msgid "Window to Desktop 1"
+msgid "Window to Desktop %1"
+msgstr "ปรับหน้าต่างไปยังพื้นที่ทำงาน 1"
+
+#: kwinbindings.cpp:127
+msgid "Window to Next Desktop"
+msgstr "ปรับหน้าต่างไปยังพื้นที่ทำงานถัดไป"
+
+#: kwinbindings.cpp:128
+msgid "Window to Previous Desktop"
+msgstr "ปรับหน้าต่างไปยังพื้นที่ทำงานก่อนหน้า"
+
+#: kwinbindings.cpp:129
+msgid "Window One Desktop to the Right"
+msgstr "ปรับหน้าต่างไปยังพื้นที่ทำงานด้านขวาหนึ่งระดับ"
+
+#: kwinbindings.cpp:130
+msgid "Window One Desktop to the Left"
+msgstr "ปรับหน้าต่างไปยังพื้นที่ทำงานด้านซ้ายหนึ่งระดับ"
+
+#: kwinbindings.cpp:131
+msgid "Window One Desktop Up"
+msgstr "ปรับหน้าต่างไปยังพื้นที่ทำงานด้านบนหนึ่งระดับ"
+
+#: kwinbindings.cpp:132
+msgid "Window One Desktop Down"
+msgstr "ปรับหน้าต่างไปยังพื้นที่ทำงานด้านล่างหนึ่งระดับ"
+
+#: kwinbindings.cpp:135
+#, fuzzy, kde-format
+#| msgid "Window to Screen 1"
+msgid "Window to Screen %1"
+msgstr "ปรับหน้าต่างไปยังจอภาพ 1"
+
+#: kwinbindings.cpp:137
+msgid "Window to Next Screen"
+msgstr "ปรับหน้าต่างไปยังจอภาพถัดไป"
+
+#: kwinbindings.cpp:138
+#, fuzzy
+#| msgid "Window to Previous Desktop"
+msgid "Window to Previous Screen"
+msgstr "ปรับหน้าต่างไปยังพื้นที่ทำงานก่อนหน้า"
+
+#: kwinbindings.cpp:139
+msgid "Show Desktop"
+msgstr "แสดงพื้นที่ทำงาน"
+
+#: kwinbindings.cpp:142
+#, fuzzy, kde-format
+#| msgid "Switch to Screen 1"
+msgid "Switch to Screen %1"
+msgstr "สลับไปยังจอภาพ 1"
+
+#: kwinbindings.cpp:145
+msgid "Switch to Next Screen"
+msgstr "สลับไปยังจอภาพถัดไป"
+
+#: kwinbindings.cpp:146
+#, fuzzy
+#| msgid "Switch to Previous Desktop"
+msgid "Switch to Previous Screen"
+msgstr "สลับไปยังพื้นที่ทำงานก่อนหน้า"
+
+#: kwinbindings.cpp:148
+msgid "Kill Window"
+msgstr "บังคับปิดหน้าต่าง"
+
+#: kwinbindings.cpp:149
+msgid "Suspend Compositing"
+msgstr "ยกเลิกการใช้ Composite ชั่วคราว"
+
+#: kwinbindings.cpp:150
+msgid "Invert Screen Colors"
+msgstr ""
+
+#: main.cpp:78
+msgid ""
+"KWin is unstable.\n"
+"It seems to have crashed several times in a row.\n"
+"You can select another window manager to run:"
+msgstr ""
+"KWin ทำงานไม่เสถียร\n"
+"ดูเหมือนมันจะทำงานข้ดข้องมาหลายครั้งแล้ว\n"
+"คุณสามารถเลือกตัวจัดการหน้าต่างตัวอื่นเพื่อใช้งานแทน:"
+
+#: main.cpp:259 main.cpp:286
+msgid "KDE window manager"
+msgstr "ตัวจัดการหน้าต่างของ KDE"
+
+#: main.cpp:264
+msgid "KWin"
+msgstr "KWin"
+
+#: main.cpp:268
+#, fuzzy
+#| msgid "(c) 1999-2008, The KDE Developers"
+msgid "(c) 1999-2013, The KDE Developers"
+msgstr "สงวนลิขสิทธิ์ (c) 1999-2008, กลุ่มผู้พัฒนา KDE"
+
+#: main.cpp:270
+msgid "Matthias Ettrich"
+msgstr "Matthias Ettrich"
+
+#: main.cpp:271
+msgid "Cristian Tibirna"
+msgstr "Cristian Tibirna"
+
+#: main.cpp:272
+msgid "Daniel M. Duley"
+msgstr "Daniel M. Duley"
+
+#: main.cpp:273
+msgid "Luboš Luňák"
+msgstr "Luboš Luňák"
+
+#: main.cpp:274
+msgid "Martin Gräßlin"
+msgstr "Martin Gräßlin"
+
+#: main.cpp:274
+msgid "Maintainer"
+msgstr "ผู้ดูแล"
+
+#: main.cpp:283
+msgid "Disable configuration options"
+msgstr "ปิดการใช้ตัวเลือกการปรับแต่ง"
+
+#: main.cpp:284
+msgid "Indicate that KWin has recently crashed n times"
+msgstr "แสดงให้ทราบเมื่อ KWin ได้ทำงานขัดข้องไป n ครั้ง"
+
+#: main_wayland.cpp:88
+#, fuzzy
+#| msgid ""
+#| "kwin: unable to claim manager selection, another wm running? (try using --"
+#| "replace)\n"
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+msgstr ""
+"kwin: ไม่สามารถเรียกตัวจัดการการเลือกได้ มีโปรแกรมจัดการหน้าต่างอื่นทำงานอยู่หรือไม่ ? "
+"(ลองใช้ตัวเลือก --replace)\n"
+
+#: main_wayland.cpp:96
+msgid ""
+"kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
+"set.\n"
+msgstr ""
+
+#: main_wayland.cpp:231
+msgid "Start a nested X Server."
+msgstr ""
+
+#: main_wayland.cpp:234
+msgid "The X11 Display to connect to, required if option x-server is used."
+msgstr ""
+
+#: main_x11.cpp:149
+msgid ""
+"kwin: unable to claim manager selection, another wm running? (try using --"
+"replace)\n"
+msgstr ""
+"kwin: ไม่สามารถเรียกตัวจัดการการเลือกได้ มีโปรแกรมจัดการหน้าต่างอื่นทำงานอยู่หรือไม่ ? "
+"(ลองใช้ตัวเลือก --replace)\n"
+
+#: main_x11.cpp:166
+#, fuzzy
+#| msgid ""
+#| "kwin: unable to claim manager selection, another wm running? (try using --"
+#| "replace)\n"
+msgid "kwin: another window manager is running (try using --replace)\n"
+msgstr ""
+"kwin: ไม่สามารถเรียกตัวจัดการการเลือกได้ มีโปรแกรมจัดการหน้าต่างอื่นทำงานอยู่หรือไม่ ? "
+"(ลองใช้ตัวเลือก --replace)\n"
+
+#: main_x11.cpp:261
+msgid "Replace already-running ICCCM2.0-compliant window manager"
+msgstr "แทนที่ตัวจัดการหน้าต่างที่เข้ากันได้กับ ICCCM2.0 ที่กำลังทำงานอยู่"
+
+#: scene_opengl.cpp:558
+msgid "Desktop effects were restarted due to a graphics reset"
+msgstr ""
+
+#: scene_opengl.cpp:729
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
+"OpenGL Desktop Effects at the current resolution<br><br>You can try to "
+"select the XRender backend, but it might be very slow for this resolution as "
+"well.<br>Alternatively, lower the combined resolution of all screens to %1x"
+"%2 "
+msgstr ""
+
+#: scene_opengl.cpp:736
+msgid ""
+"The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+"GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+"does not know such limitation, but the performance will usually be impacted "
+"by the hardware limitations that restrict the OpenGL viewport size."
+msgstr ""
+
+#: scene_opengl.cpp:761
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+"the current resolution are supported but might be exceptionally slow."
+"<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
+"compositing, switch to the XRender backend or lower the resolution to %1x%1."
+msgstr ""
+
+#: scene_opengl.cpp:767
+msgid ""
+"The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+"GPU, thus windows of that size cannot be assigned to textures and will be "
+"entirely black.<br>Also this limit will often be a performance level barrier "
+"despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+"software rendering in this case."
+msgstr ""
+
+#: scripting/genericscriptedconfig.cpp:81
+msgctxt "Error message"
+msgid "Plugin does not provide configuration file in expected location"
+msgstr ""
+
+#: scripting/scripting.cpp:127
+#, kde-format
+msgctxt "Assertion failed in KWin script with given value"
+msgid "Assertion failed: %1 is not null"
+msgstr ""
+
+#: scripting/scripting.cpp:145
+msgctxt "Assertion failed in KWin script"
+msgid "Assertion failed: argument is null"
+msgstr ""
+
+#: scripting/scripting.cpp:172
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid number of arguments. At least service, path, interface and method "
+"need to be provided"
+msgstr ""
+
+#: scripting/scripting.cpp:178
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid type. Service, path, interface and method need to be string values"
+msgstr ""
+
+#: scripting/scriptingutils.cpp:28
+msgctxt "syntax error in KWin script"
+msgid "Invalid number of arguments"
+msgstr ""
+
+#: scripting/scriptingutils.cpp:41
+#, kde-format
+msgctxt "KWin Scripting function received incorrect value for an expected type"
+msgid "%1 is not a variant type"
+msgstr ""
+
+#: tabbox/tabbox.cpp:348
+msgctxt "Special entry in alt+tab list for minimizing all windows"
+msgid "Show Desktop"
+msgstr "แสดงพื้นที่ทำงาน"
+
+#: tabbox/tabbox.cpp:499
+msgid "Walk Through Windows"
+msgstr "วนสลับหน้าต่าง"
+
+#: tabbox/tabbox.cpp:500
+msgid "Walk Through Windows (Reverse)"
+msgstr "วนสลับหน้าต่าง (ย้อนกลับ)"
+
+#: tabbox/tabbox.cpp:501
+msgid "Walk Through Windows Alternative"
+msgstr "ทางเลือกอื่นของการวนสลับหน้าต่าง"
+
+#: tabbox/tabbox.cpp:502
+msgid "Walk Through Windows Alternative (Reverse)"
+msgstr "ทางเลือกอื่นของการวนสลับหน้าต่าง (ย้อนกลับ)"
+
+#: tabbox/tabbox.cpp:503
+#, fuzzy
+#| msgid "Walk Through Windows Alternative"
+msgid "Walk Through Windows of Current Application"
+msgstr "ทางเลือกอื่นของการวนสลับหน้าต่าง"
+
+#: tabbox/tabbox.cpp:504
+#, fuzzy
+#| msgid "Walk Through Windows Alternative (Reverse)"
+msgid "Walk Through Windows of Current Application (Reverse)"
+msgstr "ทางเลือกอื่นของการวนสลับหน้าต่าง (ย้อนกลับ)"
+
+#: tabbox/tabbox.cpp:505
+#, fuzzy
+#| msgid "Walk Through Windows Alternative"
+msgid "Walk Through Windows of Current Application Alternative"
+msgstr "ทางเลือกอื่นของการวนสลับหน้าต่าง"
+
+#: tabbox/tabbox.cpp:506
+#, fuzzy
+#| msgid "Walk Through Windows Alternative (Reverse)"
+msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+msgstr "ทางเลือกอื่นของการวนสลับหน้าต่าง (ย้อนกลับ)"
+
+#: tabbox/tabbox.cpp:507
+msgid "Walk Through Desktops"
+msgstr "วนสลับพื้นที่ทำงาน"
+
+#: tabbox/tabbox.cpp:508
+msgid "Walk Through Desktops (Reverse)"
+msgstr "วนสลับพื้นที่ทำงาน (ย้อนกลับ)"
+
+#: tabbox/tabbox.cpp:509
+msgid "Walk Through Desktop List"
+msgstr "วนสลับในรายการพื้นที่ทำงาน"
+
+#: tabbox/tabbox.cpp:510
+msgid "Walk Through Desktop List (Reverse)"
+msgstr "วนสลับในรายการพื้นที่ทำงาน (ย้อนกลับ)"
+
+#: tabbox/tabboxhandler.cpp:272
+msgid ""
+"The Window Switcher installation is broken, resources are missing.\n"
+"Contact your distribution about this."
+msgstr ""
+
+#: useractions.cpp:186
+#, kde-format
+msgid ""
+"You have selected to show a window without its border.\n"
+"Without the border, you will not be able to enable the border again using "
+"the mouse: use the window operations menu instead, activated using the %1 "
+"keyboard shortcut."
+msgstr ""
+"คุณได้เลือกให้แสดงหน้าต่างโดยไม่แสดงกรอบของหน้าต่าง\n"
+"หากหน้าต่างไม่มีกรอบ จะทำให้คุณไม่สามารถเปิดใช้กรอบของมันผ่านเมาส์ได้อีก "
+"ดังนั้นให้ใช้เมนูปฏิบัติการของหน้าต่างแทน โดยเรียกใช้เมนูผ่านทางปุ่มพิมพ์ลัด %1"
+
+#: useractions.cpp:194
+#, kde-format
+msgid ""
+"You have selected to show a window in fullscreen mode.\n"
+"If the application itself does not have an option to turn the fullscreen "
+"mode off you will not be able to disable it again using the mouse: use the "
+"window operations menu instead, activated using the %1 keyboard shortcut."
+msgstr ""
+"คุณได้เลือกให้แสดงหน้าต่างในโหมดแสดงเต็มจอภาพ\n"
+"และหากโปรแกรมที่เป็นเจ้าของหน้าต่างไม่มีตัวเลือกให้สลับโหมดการแสดงผลเต็มจอ "
+"จะทำให้คุณไม่สามารถปิดการแสดงผลเต็มจอผ่านเมาส์ได้ ดังนั้นให้ใช้เมนูปฏิบัติการของหน้าต่างแทน "
+"โดยเรียกใช้เมนูผ่านทางปุ่มพิมพ์ลัด %1"
+
+#: useractions.cpp:259
+msgid "&Move"
+msgstr "&ย้าย"
+
+#: useractions.cpp:264
+msgid "Re&size"
+msgstr "ปรับ&ขนาด"
+
+#: useractions.cpp:268
+msgid "Keep &Above Others"
+msgstr "ให้หน้าต่างอยู่เห&นือหน้าต่างอื่น"
+
+#: useractions.cpp:274
+msgid "Keep &Below Others"
+msgstr "ให้หน้าต่างอยู่ใ&ต้หน้าต่างอื่น"
+
+#: useractions.cpp:280
+msgid "&Fullscreen"
+msgstr "เต็ม&จอภาพ"
+
+#: useractions.cpp:286
+msgid "Sh&ade"
+msgstr "&พับเก็บ"
+
+#: useractions.cpp:291
+msgid "&No Border"
+msgstr "ไม่มี&กรอบ"
+
+#: useractions.cpp:298
+msgid "Window &Shortcut..."
+msgstr "ปุ่มพิมพ์ลั&ดของหน้าต่าง..."
+
+#: useractions.cpp:303
+msgid "&Special Window Settings..."
+msgstr "ตั้งค่าให้กับหน้าต่างเป็น&พิเศษ..."
+
+#: useractions.cpp:307
+msgid "S&pecial Application Settings..."
+msgstr "ตั้งค่า&พิเศษให้กับโปรแกรม..."
+
+#: useractions.cpp:314
+#, fuzzy
+#| msgid "&Special Window Settings..."
+msgctxt ""
+"Entry in context menu of window decoration to open the configuration module "
+"of KWin"
+msgid "Window &Manager Settings..."
+msgstr "ตั้งค่าให้กับหน้าต่างเป็น&พิเศษ..."
+
+#: useractions.cpp:329
+msgid "Mi&nimize"
+msgstr "ย่อเ&ล็กสุด"
+
+#: useractions.cpp:333
+msgid "Ma&ximize"
+msgstr "ขยายใหญ่&สุด"
+
+#: useractions.cpp:342
+msgid "&Untab"
+msgstr ""
+
+#: useractions.cpp:346
+msgid "Close Entire &Group"
+msgstr "ปิดหน้าต่างทั้งหมดในก&ลุ่ม"
+
+#: useractions.cpp:357
+msgid "&More Actions"
+msgstr ""
+
+#: useractions.cpp:361
+msgid "&Close"
+msgstr "&ปิด"
+
+#: useractions.cpp:434
+msgid "&Extensions"
+msgstr ""
+
+#: useractions.cpp:489
+#, fuzzy
+#| msgid "Previous Layout"
+msgctxt "Switch to tab -> Previous"
+msgid "Previous"
+msgstr "รูปแบบการจัดเรียงก่อนหน้า"
+
+#: useractions.cpp:490
+msgctxt "Switch to tab -> Next"
+msgid "Next"
+msgstr ""
+
+#: useractions.cpp:528
+msgctxt "There's no window available to be attached as tab to this one"
+msgid "None available"
+msgstr ""
+
+#: useractions.cpp:537
+#, fuzzy
+#| msgid "Switch to Window Tab"
+msgid "Switch to Tab"
+msgstr "สลับไปยังแท็บของหน้าต่าง"
+
+#: useractions.cpp:548
+msgid "&Attach as tab to"
+msgstr ""
+
+#: useractions.cpp:571
+#, fuzzy
+#| msgid "To &Desktop"
+msgid "Move To &Desktop"
+msgstr "ไปยังพื้&นที่ทำงาน"
+
+#: useractions.cpp:587
+#, fuzzy
+#| msgid "To &Desktop"
+msgid "Move To &Screen"
+msgstr "ไปยังพื้&นที่ทำงาน"
+
+#: useractions.cpp:602
+msgid "Ac&tivities"
+msgstr "&กิจกรรมต่าง ๆ"
+
+#: useractions.cpp:614
+msgid "&All Desktops"
+msgstr "ทุ&กพื้นที่ทำงาน"
+
+#: useractions.cpp:640
+#, fuzzy
+#| msgid "Show Desktop"
+msgctxt "Create a new desktop and move there the window"
+msgid "&New Desktop"
+msgstr "แสดงพื้นที่ทำงาน"
+
+#: useractions.cpp:661
+#, fuzzy, kde-format
+#| msgid "Window to Screen 1"
+msgctxt "@item:inmenu List of all Screens to send a window to"
+msgid "Screen &%1"
+msgstr "ปรับหน้าต่างไปยังจอภาพ 1"
+
+#: useractions.cpp:679
+msgid "&All Activities"
+msgstr "กิจกรรม&ทั้งหมด"
+
+#: useractions.cpp:884
+#, kde-format
+msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
+msgid "<b>%1</b> is already in use"
+msgstr "<b>%1</b> ถูกใช้งานอยู่แล้ว"
+
+#: useractions.cpp:886
+#, kde-format
+msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
+msgid "<b>%1</b> is used by %2 in %3"
+msgstr "<b>%1</b> ถูกใช้งานโดย %2 ใน %3"
+
+#: useractions.cpp:1009
+#, kde-format
+msgid "Activate Window (%1)"
+msgstr "เรียกใช้งานหน้าต่าง (%1)"
+
+#: useractions.cpp:1382
+msgid ""
+"The window manager is configured to consider the screen with the mouse on it "
+"as active one.\n"
+"Therefore it is not possible to switch to a screen explicitly."
+msgstr ""
+
+#: virtualdesktops.cpp:334 virtualdesktops.cpp:396
+#, kde-format
+msgid "Desktop %1"
+msgstr "พื้นที่ทำงาน %1"
+
+#: virtualdesktops.cpp:427
+msgid "Switch to Next Desktop"
+msgstr "สลับไปยังพื้นที่ทำงานถัดไป"
+
+#: virtualdesktops.cpp:428
+msgid "Switch to Previous Desktop"
+msgstr "สลับไปยังพื้นที่ทำงานก่อนหน้า"
+
+#: virtualdesktops.cpp:429
+msgid "Switch One Desktop to the Right"
+msgstr "สลับไปด้านขวาหนึ่งพื้นที่ทำงาน"
+
+#: virtualdesktops.cpp:430
+msgid "Switch One Desktop to the Left"
+msgstr "สลับไปด้านซ้ายหนึ่งพื้นที่ทำงาน"
+
+#: virtualdesktops.cpp:431
+msgid "Switch One Desktop Up"
+msgstr "สลับไปด้านบนหนึ่งพื้นที่ทำงาน"
+
+#: virtualdesktops.cpp:432
+msgid "Switch One Desktop Down"
+msgstr "สลับไปด้านล่างหนึ่งพื้นที่ทำงาน"
+
+#: virtualdesktops.cpp:444
+#, fuzzy, kde-format
+#| msgid "Switch to Desktop 1"
+msgid "Switch to Desktop %1"
+msgstr "สลับไปยังพื้นที่ทำงาน 1"
+
+#: workspace.cpp:1340
+msgctxt "Introductory text shown in the support information."
+msgid ""
+"KWin Support Information:\n"
+"The following information should be used when requesting support on e.g. "
+"http://forum.kde.org.\n"
+"It provides information about the currently running instance, which options "
+"are used,\n"
+"what OpenGL driver and which effects are running.\n"
+"Please post the information provided underneath this introductory text to a "
+"paste bin service\n"
+"like http://paste.kde.org instead of pasting into support threads.\n"
+msgstr ""

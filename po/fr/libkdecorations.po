@@ -1,0 +1,111 @@
+# translation of libkdecorations.po to Français
+# translation of kwin_lib.po to
+#
+# Nicolas Ternisien <nicolas.ternisien@gmail.com>, 2005, 2007.
+# Matthieu Robin <matthieu@macolu.org>, 2005.
+# Sébastien Renard <Sebastien.Renard@digitalfox.org>, 2008.
+# Joëlle Cornavin <jcorn@free.fr>, 2012, 2013.
+# xavier <ktranslator31@yahoo.fr>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: libkdecorations\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-04-27 20:56+0000\n"
+"PO-Revision-Date: 2013-04-26 10:37+0200\n"
+"Last-Translator: xavier <ktranslator31@yahoo.fr>\n"
+"Language-Team: French <kde-i18n-doc@kde.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Lokalize 1.5\n"
+"X-Environment: kde\n"
+"X-Accelerator-Marker: &\n"
+"X-Text-Markup: kde4\n"
+
+#: kcommondecoration.cpp:316
+#, kde-format
+msgid "<center><b>%1</b></center>"
+msgstr "<center><b>%1</b></center>"
+
+#: kcommondecoration.cpp:408
+msgctxt "Button showing window actions menu"
+msgid "Window Menu"
+msgstr "Menu des fenêtres"
+
+#: kcommondecoration.cpp:423
+msgctxt "Button showing application menu"
+msgid "Application Menu"
+msgstr "Menu des applications"
+
+#: kcommondecoration.cpp:445 kcommondecoration.cpp:668
+msgid "Not on all desktops"
+msgstr "Pas sur tous les bureaux"
+
+#: kcommondecoration.cpp:445 kcommondecoration.cpp:669
+msgid "On all desktops"
+msgstr "Sur tous les bureaux"
+
+#: kcommondecoration.cpp:460
+msgid "Help"
+msgstr "Aide"
+
+#: kcommondecoration.cpp:473
+msgid "Minimize"
+msgstr "Réduire"
+
+#: kcommondecoration.cpp:488 kcommondecoration.cpp:656
+msgid "Restore"
+msgstr "Restaurer"
+
+#: kcommondecoration.cpp:488 kcommondecoration.cpp:655
+msgid "Maximize"
+msgstr "Maximiser"
+
+#: kcommondecoration.cpp:503
+msgid "Close"
+msgstr "Fermer"
+
+#: kcommondecoration.cpp:517 kcommondecoration.cpp:709
+msgid "Do not keep above others"
+msgstr "Ne pas conserver au premier plan"
+
+#: kcommondecoration.cpp:517 kcommondecoration.cpp:709
+#: kcommondecoration.cpp:730
+msgid "Keep above others"
+msgstr "Conserver au premier plan"
+
+#: kcommondecoration.cpp:533 kcommondecoration.cpp:724
+msgid "Do not keep below others"
+msgstr "Ne pas conserver en arrière-plan"
+
+#: kcommondecoration.cpp:533 kcommondecoration.cpp:715
+#: kcommondecoration.cpp:724
+msgid "Keep below others"
+msgstr "Conserver en arrière-plan"
+
+#: kcommondecoration.cpp:549 kcommondecoration.cpp:680
+msgid "Unshade"
+msgstr "Pas d'ombre"
+
+#: kcommondecoration.cpp:549 kcommondecoration.cpp:681
+msgid "Shade"
+msgstr "Ombre"
+
+#: kdecoration_plugins_p.cpp:101
+msgid "Loading of window decoration plugin library disabled in configuration."
+msgstr ""
+"Le chargement de la bibliothèque de modules externes pour la décoration des "
+"fenêtres est désactivé dans la configuration."
+
+#: kdecoration_plugins_p.cpp:115
+#, kde-format
+msgid "The library %1 has wrong API version %2"
+msgstr "La bibliothèque %1 comporte une version d'API incorrecte %2"
+
+#: kdecoration_plugins_p.cpp:133
+msgid "The default decoration plugin is corrupt and could not be loaded."
+msgstr ""
+"Le module externe de décoration des fenêtres par défaut est corrompu et ne "
+"peut être chargée."

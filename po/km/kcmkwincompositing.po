@@ -1,0 +1,381 @@
+# translation of kcmkwincompositing.po to Khmer
+# Khoem Sokhem <khoemsokhem@khmeros.info>, 2008, 2009, 2010, 2012.
+# Auk Piseth <piseth_dv@khmeros.info>, 2008.
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+msgid ""
+msgstr ""
+"Project-Id-Version: kcmkwincompositing\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-07-23 08:09+0000\n"
+"PO-Revision-Date: 2012-06-13 15:30+0700\n"
+"Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
+"Language-Team: Khmer\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: KBabel 1.11.4\n"
+"X-Language: km-KH\n"
+
+#: compositing.cpp:387
+#, fuzzy
+#| msgid "OpenGL"
+msgid "OpenGL 3.1"
+msgstr "OpenGL"
+
+#: compositing.cpp:388
+#, fuzzy
+#| msgid "OpenGL"
+msgid "OpenGL 2.0"
+msgstr "OpenGL"
+
+#: compositing.cpp:389
+msgid "XRender"
+msgstr "XRender"
+
+#: compositing.cpp:488
+msgctxt "OpenGL Platform Interface"
+msgid "EGL"
+msgstr ""
+
+#: compositing.cpp:490
+msgctxt "OpenGL Platform Interface"
+msgid "GLX"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, CompositingForm)
+#: compositing.ui:14
+msgid "Form"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
+#: compositing.ui:23 qml/CompositingView.qml:55
+#, fuzzy
+#| msgctxt "@option:check"
+#| msgid "Enable desktop effects at startup"
+msgid "Enable compositor on startup"
+msgstr "អនុញ្ញាត​ឲ្យ​មាន​បែបផែន​ផ្ទៃតុ​នៅ​ពេល​ចាប់ផ្ដើម"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: compositing.ui:30
+#, fuzzy
+#| msgid "Animation speed:"
+msgid "Animation speed:"
+msgstr "ល្បឿន​ចលនា ៖"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: compositing.ui:57
+msgid "Instant"
+msgstr "បន្ទាន់"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: compositing.ui:77
+#, fuzzy
+#| msgid "Very Slow"
+msgid "Very slow"
+msgstr "យឺត​ណាស់"
+
+#. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
+#. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
+#: compositing.ui:88 compositing.ui:114
+#, fuzzy
+#| msgid "Scale method:"
+msgid "Scale method:"
+msgstr "Scale method:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
+#: compositing.ui:96 compositing.ui:122 qml/CompositingView.qml:113
+#: qml/CompositingView.qml:127
+msgid "Crisp"
+msgstr "Crisp"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#: compositing.ui:101 qml/CompositingView.qml:113
+msgid "Smooth"
+msgstr "Smooth"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#: compositing.ui:106 qml/CompositingView.qml:113
+msgid "Accurate"
+msgstr "Accurate"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
+#: compositing.ui:127 qml/CompositingView.qml:127
+msgid "Smooth (slower)"
+msgstr "រលូន (យឺត​ជាង)"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: compositing.ui:142 qml/CompositingView.qml:81
+msgid "Rendering backend:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
+#: compositing.ui:152
+msgid "OpenGL interface:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: compositing.ui:162
+msgid "Tearing prevention (\"vsync\"):"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:170 compositing.ui:216 qml/CompositingView.qml:141
+#: qml/CompositingView.qml:154
+#, fuzzy
+#| msgctxt ""
+#| "Windows are unmapped as they are requested. This can lead to not having "
+#| "updated thumbnials for windows on other desktops."
+#| msgid "Never"
+msgid "Never"
+msgstr "កុំ​"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:175 qml/CompositingView.qml:141
+msgid "Automatic"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:180 qml/CompositingView.qml:141
+msgid "Only when cheap"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:185 qml/CompositingView.qml:141
+msgid "Full screen repaints"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:190 qml/CompositingView.qml:141
+msgid "Re-use screen content"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: compositing.ui:198
+#, fuzzy
+#| msgid "Keep window thumbnails:"
+msgid "Keep window thumbnails:"
+msgstr "ទុក​បង្អួច​ជា​រូបភាព​តូចៗ​ជា​និច្ច ៖"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:206
+msgid "Always"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:211 qml/CompositingView.qml:154
+#, fuzzy
+#| msgctxt ""
+#| "Windows are not unmapped if the window is somewhere visible on any of the "
+#| "virtual desktops."
+#| msgid "Only for Shown Windows"
+msgid "Only for Shown Windows"
+msgstr "សម្រាប់​តែ​វីនដូ​ដែល​បាន​បង្ហាញ​តែ​ប៉ុណ្ណោះ​​"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: compositing.ui:224 qml/CompositingView.qml:175
+msgid "Expert:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
+#: compositing.ui:231 qml/CompositingView.qml:182
+#, fuzzy
+#| msgid "Suspend desktop effects for fullscreen windows"
+msgid "Suspend compositor for full screen windows"
+msgstr "ផ្អាក​បែបផែន​ផ្ទៃតុ​សម្រាប់​បង្អួច​ពេញអេក្រង់"
+
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#: compositing.ui:238 qml/CompositingView.qml:192
+msgid "Experimental:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
+#: compositing.ui:245 qml/CompositingView.qml:200
+msgid "Enable color correction"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
+#: compositing.ui:265
+msgid ""
+"OpenGL compositing (the default) has crashed KWin in the past.\n"
+"This was most likely due to a driver bug.\n"
+"If you think that you have meanwhile upgraded to a stable driver,\n"
+"you can reset this protection but be aware that this might result in an "
+"immediate crash!\n"
+"Alternatively, you might want to use the XRender backend instead."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (KMessageWidget, interfaceWarning)
+#: compositing.ui:281
+msgid ""
+"EGL is not supported by all OpenGL drivers. If not supported the Compositor "
+"will be disabled."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
+#: compositing.ui:297
+msgid ""
+"Scale method \"Accurate\" is not supported by all hardware and can cause "
+"performance regressions and rendering artifacts."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
+#: compositing.ui:326
+msgid ""
+"Keeping the window thumbnail always interferes with the minimized state of "
+"windows. This can result in windows not suspending their work when minimized."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (KMessageWidget, unredirectInformation)
+#: compositing.ui:342
+msgid ""
+"Having full screen windows bypass the compositor is not supported on every "
+"hardware."
+msgstr ""
+
+#: main.cpp:82
+msgid "Re-enable OpenGL detection"
+msgstr "បើក​ការ​ស្វែងរក OpenGL"
+
+#: main.cpp:139
+msgid ""
+"\"Only when cheap\" only prevents tearing for full screen changes like a "
+"video."
+msgstr ""
+
+#: main.cpp:143
+msgid "\"Full screen repaints\" can cause performance problems."
+msgstr ""
+
+#: main.cpp:147
+msgid ""
+"\"Re-use screen content\" causes performance severe problems on MESA drivers."
+msgstr ""
+
+#: model.cpp:67
+#, fuzzy
+#| msgid "Accessibility"
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Accessibility"
+msgstr "ភាព​អាច​ចូល​ដំណើរ​ការ"
+
+#: model.cpp:68
+#, fuzzy
+#| msgid "Appearance"
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Appearance"
+msgstr "រូបរាង"
+
+#: model.cpp:69
+#, fuzzy
+#| msgid "Candy"
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Candy"
+msgstr "ស្ករ​គ្រាប់"
+
+#: model.cpp:70
+#, fuzzy
+#| msgid "Focus"
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Focus"
+msgstr "ផ្ដោត​លើ"
+
+#: model.cpp:71
+#, fuzzy
+#| msgid "Tools"
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Tools"
+msgstr "ឧបករណ៍"
+
+#: model.cpp:72
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Virtual Desktop Switching Animation"
+msgstr ""
+
+#: model.cpp:73
+#, fuzzy
+#| msgid "Window Management"
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Window Management"
+msgstr "ការ​គ្រប់គ្រង​បង្អួច"
+
+#: model.cpp:235
+msgid "KWin development team"
+msgstr ""
+
+#: qml/CompositingView.qml:67
+#, fuzzy
+#| msgid "Animation speed:"
+msgid "Animation Speed:"
+msgstr "ល្បឿន​ចលនា ៖"
+
+#: qml/CompositingView.qml:106 qml/CompositingView.qml:120
+#, fuzzy
+#| msgid "Scale method:"
+msgid "Scale Method:"
+msgstr "Scale method:"
+
+#: qml/CompositingView.qml:135
+msgid "Tearing Prevention (VSync):"
+msgstr ""
+
+#: qml/CompositingView.qml:148
+#, fuzzy
+#| msgid "Keep window thumbnails:"
+msgid "Keep Window Thumbnails:"
+msgstr "ទុក​បង្អួច​ជា​រូបភាព​តូចៗ​ជា​និច្ច ៖"
+
+#: qml/CompositingView.qml:154
+#, fuzzy
+#| msgctxt ""
+#| "A window thumbnail requires to have the corresponding window mapped. To "
+#| "have thumbnails at all time, windows are not unmapped. This can break "
+#| "window minimization as it is modelled as unmapping of windows."
+#| msgid "Always (Breaks minimization)"
+msgid "Always (Breaks Animations)"
+msgstr "ជានិច្ច (បំបែក​ការ​បង្រួម​អប្បបរមា)​"
+
+#: qml/CompositingView.qml:160
+msgid "OpenGL Platform Interface:"
+msgstr ""
+
+#: qml/Effect.qml:118
+#, kde-format
+msgid ""
+"Author: %1\n"
+"License: %2"
+msgstr ""
+
+#: qml/EffectView.qml:64
+msgid ""
+"Hint: To find out or configure how to activate an effect, look at the "
+"effect's settings."
+msgstr ""
+"ព័ត៌មាន​ជំនួយ ៖ ដើម្បី​ស្វែងយល់ ឬ​កំណត់​រចនា​សម្ព័ន្ធ​អំពី​របៀប​ធ្វើ​ឲ្យ​បែបផែន​សកម្ម សូម​មើល​ការ​កំណត់​របស់​"
+"បែបផែន ។"
+
+#: qml/EffectView.qml:75
+msgid "Search"
+msgstr ""
+
+#: qml/EffectView.qml:82
+msgid "Configure filter"
+msgstr ""
+
+#: qml/EffectView.qml:85
+msgid "Exclude Desktop Effects not supported by the Compositor"
+msgstr ""
+
+#: qml/EffectView.qml:93
+msgid "Exclude internal Desktop Effects"
+msgstr ""
+
+#: qml/EffectView.qml:105
+#, fuzzy
+#| msgid "No effect"
+msgid "Get New Effects ..."
+msgstr "គ្មាន​បែបផែន"

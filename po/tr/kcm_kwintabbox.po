@@ -1,0 +1,193 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Serdar Soytetir <tulliana@gmail.com>, 2009, 2012.
+# H. İbrahim Güngör <ibrahim@pardus.org.tr>, 2010.
+# Ozan Çağlayan <ozan@pardus.org.tr>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: kcm_kwintabbox\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-05-23 07:47+0000\n"
+"PO-Revision-Date: 2012-06-07 00:19+0300\n"
+"Last-Translator: Serdar Soytetir <tulliana@gmail.com>\n"
+"Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.4\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: layoutpreview.cpp:158
+msgctxt "An example Desktop Name"
+msgid "Desktop 1"
+msgstr "Masaüstü 1"
+
+#: main.cpp:70
+msgid "Main"
+msgstr "Ana"
+
+#: main.cpp:71
+msgid "Alternative"
+msgstr "Alternatif"
+
+#: main.cpp:74
+msgid ""
+"Focus policy settings limit the functionality of navigating through windows."
+msgstr ""
+"Odaklama politika ayarları pencereler arasında dolaşma işlevselliğini "
+"kısıtlar."
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: main.ui:32
+msgid "Content"
+msgstr "İçerik"
+
+#. i18n: ectx: property (text), widget (QCheckBox, showDesktop)
+#: main.ui:41
+msgid "Include \"Show Desktop\" icon"
+msgstr "\"Masaüstünü Göster\" simgesini içer"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, switchingModeCombo)
+#: main.ui:55
+msgid "Recently used"
+msgstr "Son kullanılanlar"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, switchingModeCombo)
+#: main.ui:60
+msgid "Stacking order"
+msgstr "Yığın düzeni"
+
+#. i18n: ectx: property (text), widget (QCheckBox, oneAppWindow)
+#: main.ui:68
+msgid "Only one window per application"
+msgstr "Her uygulama için sadece bir pencere"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: main.ui:78
+msgid "Sort order:"
+msgstr "Sıralama düzeni:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: main.ui:104
+msgid "Filter windows by"
+msgstr "Pencereleri buna göre filtrele"
+
+#. i18n: ectx: property (text), widget (QCheckBox, filterDesktops)
+#: main.ui:113
+msgid "Virtual desktops"
+msgstr "Sanal masaüstleri"
+
+#. i18n: ectx: property (text), widget (QRadioButton, currentDesktop)
+#: main.ui:157
+msgid "Current desktop"
+msgstr "Geçerli masaüstü"
+
+#. i18n: ectx: property (text), widget (QRadioButton, otherDesktops)
+#: main.ui:164
+msgid "All other desktops"
+msgstr "Diğer tüm masaüstleri"
+
+#. i18n: ectx: property (text), widget (QCheckBox, filterActivities)
+#: main.ui:174
+msgid "Activities"
+msgstr "Etkinlikler"
+
+#. i18n: ectx: property (text), widget (QRadioButton, currentActivity)
+#: main.ui:218
+msgid "Current activity"
+msgstr "Geçerli etkinlik"
+
+#. i18n: ectx: property (text), widget (QRadioButton, otherActivities)
+#: main.ui:225
+msgid "All other activities"
+msgstr "Diğer tüm etkinlikler"
+
+#. i18n: ectx: property (text), widget (QCheckBox, filterScreens)
+#: main.ui:235
+msgid "Screens"
+msgstr "Ekranlar"
+
+#. i18n: ectx: property (text), widget (QRadioButton, currentScreen)
+#: main.ui:279
+msgid "Current screen"
+msgstr "Geçerli ekran"
+
+#. i18n: ectx: property (text), widget (QRadioButton, otherScreens)
+#: main.ui:286
+msgid "All other screens"
+msgstr "Diğer ekranlar"
+
+#. i18n: ectx: property (text), widget (QCheckBox, filterMinimization)
+#: main.ui:296
+msgid "Minimization"
+msgstr "Küçültme"
+
+#. i18n: ectx: property (text), widget (QRadioButton, visibleWindows)
+#: main.ui:340
+msgid "Visible windows"
+msgstr "Görünür pencereler"
+
+#. i18n: ectx: property (text), widget (QRadioButton, hiddenWindows)
+#: main.ui:347
+msgid "Hidden windows"
+msgstr "Gizli pencereler"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
+#: main.ui:386
+msgid "Shortcuts"
+msgstr "Kısayollar"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: main.ui:395 main.ui:438
+msgid "Forward"
+msgstr "İleri"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: main.ui:418
+msgid "All windows"
+msgstr "Tüm pencereler"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: main.ui:428 main.ui:448
+msgid "Reverse"
+msgstr "Tersine"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: main.ui:470
+msgid "Current application"
+msgstr "Geçerli uygulama"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: main.ui:489
+msgid "Visualization"
+msgstr "Görselleştirme"
+
+#. i18n: ectx: property (toolTip), widget (QComboBox, effectCombo)
+#: main.ui:519
+msgid "The effect to replace the list window when desktop effects are active."
+msgstr ""
+"Masaüstü efektleri açıkken pencereleri listele efektinin yerine kullanılacak "
+"efekt."
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, highlightWindowCheck)
+#: main.ui:549
+msgid ""
+"The currently selected window will be highlighted by fading out all other "
+"windows. This option requires desktop effects to be active."
+msgstr ""
+"Seçili pencere, diğer pencerelerin karartılarak ön plana çıkarılacak. Bu "
+"seçenek masaüstü efektlerinin etkin olması halinde kullanılabilir."
+
+#. i18n: ectx: property (text), widget (QCheckBox, highlightWindowCheck)
+#: main.ui:552
+msgid "Show selected window"
+msgstr "Seçilen pencereyi göster"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, ghns)
+#: main.ui:572
+msgid "Get New Window Switcher Layout"
+msgstr "Pencere Seçici için Yeni Düzen Al"

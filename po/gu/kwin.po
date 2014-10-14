@@ -1,0 +1,858 @@
+# Gujarati translation of kwin.po.
+# Copyright (C) 2008 This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# Kartik Mistry <kartik.mistry@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin-gu\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"PO-Revision-Date: 2009-01-04 13:06+0530\n"
+"Last-Translator: Kartik Mistry <kartik.mistry@gmail.com>\n"
+"Language-Team: Gujarati <kde-i18n-doc@kde.org>\n"
+"Language: gu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "કાર્તિક મિસ્ત્રી"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "kartik.mistry@gmail.com"
+
+#: composite.cpp:500
+#, kde-format
+msgid ""
+"Desktop effects have been suspended by another application.<br/>You can "
+"resume using the '%1' shortcut."
+msgstr ""
+
+#: compositingprefs.cpp:98
+msgid ""
+"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
+"b><br>This was most likely due to a driver bug.<p>If you think that you have "
+"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
+"<b>be aware that this might result in an immediate crash!</b></"
+"p><p>Alternatively, you might want to use the XRender backend instead.</p>"
+msgstr ""
+
+#: compositingprefs.cpp:105
+msgid "Required X extensions (XComposite and XDamage) are not available."
+msgstr "જરૂરી X વિસ્તારકો (XComposite અને XDamage) પ્રાપ્ત નથી."
+
+#: compositingprefs.cpp:109
+msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
+msgstr "GLX/OpenGL પ્રાપ્ત નથી અને માત્ર OpenGL આધાર કમ્પાઇલ કરેલ છે."
+
+#: compositingprefs.cpp:113
+msgid "GLX/OpenGL and XRender/XFixes are not available."
+msgstr "GLX/OpenGL અને XRender/XFixes પ્રાપ્ત નથી."
+
+#: decorations.cpp:59
+msgid "KWin: "
+msgstr "KWin: "
+
+#: killer/killer.cpp:44
+#, fuzzy
+#| msgid "KDE window manager"
+msgid "Window Manager"
+msgstr "KDE વિન્ડો વ્યવસ્થાપક"
+
+#: killer/killer.cpp:49
+msgid "PID of the application to terminate"
+msgstr "બંધ કરવાના કાર્યક્રમની PID"
+
+#: killer/killer.cpp:49
+msgid "pid"
+msgstr ""
+
+#: killer/killer.cpp:51
+msgid "Hostname on which the application is running"
+msgstr "કાર્યક્રમ જેના પર ચાલતો હોય તેનું યજમાનનામ"
+
+#: killer/killer.cpp:51
+msgid "hostname"
+msgstr ""
+
+#: killer/killer.cpp:53
+msgid "Caption of the window to be terminated"
+msgstr "બંધ કરવાની વિન્ડોનું કેપ્શન"
+
+#: killer/killer.cpp:53
+msgid "caption"
+msgstr ""
+
+#: killer/killer.cpp:55
+msgid "Name of the application to be terminated"
+msgstr "બંધ કરવાના કાર્યક્રમનું નામ"
+
+#: killer/killer.cpp:55
+msgid "name"
+msgstr ""
+
+#: killer/killer.cpp:57
+msgid "ID of resource belonging to the application"
+msgstr "આ કાર્યક્રમને લાગતાં સ્ત્રોતની ઓળખ"
+
+#: killer/killer.cpp:57
+msgid "id"
+msgstr ""
+
+#: killer/killer.cpp:59
+msgid "Time of user action causing termination"
+msgstr "વપરાશકર્તા ક્રિયાનો સમય બંધ કરવાનું કારણ બને છે"
+
+#: killer/killer.cpp:59
+msgid "time"
+msgstr ""
+
+#: killer/killer.cpp:61
+msgid "KWin helper utility"
+msgstr "KWin મદદ સાધન"
+
+#: killer/killer.cpp:85
+msgid "This helper utility is not supposed to be called directly."
+msgstr "આ મદદ સાધન સીધું જ બોલાવવાનું નહોતું."
+
+#: killer/killer.cpp:95
+#, kde-format
+msgctxt "@info"
+msgid "<b>Application \"%1\" is not responding</b>"
+msgstr ""
+
+#: killer/killer.cpp:106
+#, kde-format
+msgid "&Terminate Application %1"
+msgstr "કાર્યક્રમ %1 બંધ કરો (&T)"
+
+#: killer/killer.cpp:107
+msgid "Wait Longer"
+msgstr ""
+
+#: kwinbindings.cpp:40
+msgid "Walk Through Window Tabs"
+msgstr "વિન્ડોસ ટેબ્સમાંથી પસાર થાવ"
+
+#: kwinbindings.cpp:41
+msgid "Walk Through Window Tabs (Reverse)"
+msgstr "વિન્ડો ટેબ્સમાંથી પસાર થાવ (ઉલ્ટું)"
+
+#: kwinbindings.cpp:42
+msgid "Remove Window From Group"
+msgstr "વિન્ડોને સમૂહમાંથી દૂર કરો"
+
+#: kwinbindings.cpp:44
+msgid "Window Operations Menu"
+msgstr "વિન્ડો પ્રક્રિયાઓ મેનુ"
+
+#: kwinbindings.cpp:46
+msgid "Close Window"
+msgstr "વિન્ડો બંધ કરો"
+
+#: kwinbindings.cpp:48
+msgid "Maximize Window"
+msgstr "વિન્ડો મહત્તમ કરો"
+
+#: kwinbindings.cpp:50
+msgid "Maximize Window Vertically"
+msgstr "વિન્ડોને ઉભી મહત્તમ કરો"
+
+#: kwinbindings.cpp:52
+msgid "Maximize Window Horizontally"
+msgstr "વિન્ડોને આડી મહત્તમ કરો"
+
+#: kwinbindings.cpp:54
+msgid "Minimize Window"
+msgstr "વિન્ડો ન્યૂનત્તમ કરો"
+
+#: kwinbindings.cpp:56
+msgid "Shade Window"
+msgstr "વિન્ડો ઝાંખી કરો"
+
+#: kwinbindings.cpp:58
+msgid "Move Window"
+msgstr "વિન્ડો ખસડો"
+
+#: kwinbindings.cpp:60
+msgid "Resize Window"
+msgstr "વિન્ડોનું માપ બદલો"
+
+#: kwinbindings.cpp:62
+msgid "Raise Window"
+msgstr "વિન્ડો ઉઠાવો"
+
+#: kwinbindings.cpp:64
+msgid "Lower Window"
+msgstr "વિન્ડો નીચી કરો"
+
+#: kwinbindings.cpp:66
+msgid "Toggle Window Raise/Lower"
+msgstr "વિન્ડો ઉપર/નીચે કરવાનું ચાલુ/બંધ કરો"
+
+#: kwinbindings.cpp:68
+msgid "Make Window Fullscreen"
+msgstr "વિન્ડોને પૂર્ણસ્ક્રિન બનાવો"
+
+#: kwinbindings.cpp:70
+msgid "Hide Window Border"
+msgstr "વિન્ડો કિનારી છુપાવો"
+
+#: kwinbindings.cpp:72
+msgid "Keep Window Above Others"
+msgstr "વિન્ડોને બીજાઓની ઉપર રાખો"
+
+#: kwinbindings.cpp:74
+msgid "Keep Window Below Others"
+msgstr "વિન્ડોને બીજાઓની નીચે રાખો"
+
+#: kwinbindings.cpp:76
+msgid "Activate Window Demanding Attention"
+msgstr "ધ્યાન માંગતી વિન્ડો સક્રિય કરો"
+
+#: kwinbindings.cpp:78
+msgid "Setup Window Shortcut"
+msgstr "વિન્ડો ટૂંકાણ ગોઠવો"
+
+#: kwinbindings.cpp:80
+msgid "Pack Window to the Right"
+msgstr "વિન્ડોને જમણી બાજુ બાંધો"
+
+#: kwinbindings.cpp:82
+msgid "Pack Window to the Left"
+msgstr "વિન્ડોને ડાબી બાજુ બાંધો"
+
+#: kwinbindings.cpp:84
+msgid "Pack Window Up"
+msgstr "વિન્ડોને ઉપર બાંધો"
+
+#: kwinbindings.cpp:86
+msgid "Pack Window Down"
+msgstr "વિન્ડોને નીચે બાંધો"
+
+#: kwinbindings.cpp:88
+msgid "Pack Grow Window Horizontally"
+msgstr "વિન્ડોને આડી બાજુ વધતી બાંધો"
+
+#: kwinbindings.cpp:90
+msgid "Pack Grow Window Vertically"
+msgstr "વિન્ડોને ઉભી બાજુ વધતી બાંધો"
+
+#: kwinbindings.cpp:92
+msgid "Pack Shrink Window Horizontally"
+msgstr "વિન્ડોને આડી બાજુ ઘટતી બાંધો"
+
+#: kwinbindings.cpp:94
+msgid "Pack Shrink Window Vertically"
+msgstr "વિન્ડોને આડી બાજુ ઉભી બાંધો"
+
+#: kwinbindings.cpp:96
+msgid "Quick Tile Window to the Left"
+msgstr "વિન્ડોને ડાબી બાજુ ઝડપથી તકતી કરો"
+
+#: kwinbindings.cpp:98
+msgid "Quick Tile Window to the Right"
+msgstr "વિન્ડોને જમણી બાજુ ઝડપથી તકતી કરો"
+
+#: kwinbindings.cpp:100
+#, fuzzy
+#| msgid "Quick Tile Window to the Left"
+msgid "Quick Tile Window to the Top Left"
+msgstr "વિન્ડોને ડાબી બાજુ ઝડપથી તકતી કરો"
+
+#: kwinbindings.cpp:102
+#, fuzzy
+#| msgid "Quick Tile Window to the Left"
+msgid "Quick Tile Window to the Bottom Left"
+msgstr "વિન્ડોને ડાબી બાજુ ઝડપથી તકતી કરો"
+
+#: kwinbindings.cpp:104
+#, fuzzy
+#| msgid "Quick Tile Window to the Right"
+msgid "Quick Tile Window to the Top Right"
+msgstr "વિન્ડોને જમણી બાજુ ઝડપથી તકતી કરો"
+
+#: kwinbindings.cpp:106
+#, fuzzy
+#| msgid "Quick Tile Window to the Right"
+msgid "Quick Tile Window to the Bottom Right"
+msgstr "વિન્ડોને જમણી બાજુ ઝડપથી તકતી કરો"
+
+#: kwinbindings.cpp:108
+msgid "Switch to Window Above"
+msgstr "વિન્ડોને ઉપર ખસેડો"
+
+#: kwinbindings.cpp:110
+msgid "Switch to Window Below"
+msgstr "વિન્ડોને નીચે ખસેડો"
+
+#: kwinbindings.cpp:112
+msgid "Switch to Window to the Right"
+msgstr "વિન્ડોને જમણી બાજુ ખસેડો"
+
+#: kwinbindings.cpp:114
+msgid "Switch to Window to the Left"
+msgstr "વિન્ડોને ડાબી બાજુ ખસેડો"
+
+#: kwinbindings.cpp:116
+msgid "Increase Opacity of Active Window by 5 %"
+msgstr ""
+
+#: kwinbindings.cpp:118
+msgid "Decrease Opacity of Active Window by 5 %"
+msgstr ""
+
+#: kwinbindings.cpp:121
+msgid "Keep Window on All Desktops"
+msgstr "બધા ડેસ્કટોપ્સ પર વિન્ડો રાખો"
+
+#: kwinbindings.cpp:125
+#, fuzzy, kde-format
+#| msgid "Window to Desktop 1"
+msgid "Window to Desktop %1"
+msgstr "વિન્ડો ડેસ્કટોપ ૧ પર"
+
+#: kwinbindings.cpp:127
+msgid "Window to Next Desktop"
+msgstr "આગળનાં ડેસ્કટોપ પર વિન્ડો"
+
+#: kwinbindings.cpp:128
+msgid "Window to Previous Desktop"
+msgstr "પાછળના ડેસ્કટોપ પર વિન્ડો"
+
+#: kwinbindings.cpp:129
+msgid "Window One Desktop to the Right"
+msgstr "વિન્ડો એક ડેસ્કટોપ જમણે"
+
+#: kwinbindings.cpp:130
+msgid "Window One Desktop to the Left"
+msgstr "વિન્ડો એક ડેસ્કટોપ ડાબે"
+
+#: kwinbindings.cpp:131
+msgid "Window One Desktop Up"
+msgstr "વિન્ડો એક ડેસ્કટોપ ઉપર"
+
+#: kwinbindings.cpp:132
+msgid "Window One Desktop Down"
+msgstr "વિન્ડો એક ડેસ્કટોપ નીચે"
+
+#: kwinbindings.cpp:135
+#, fuzzy, kde-format
+#| msgid "Window to Screen 1"
+msgid "Window to Screen %1"
+msgstr "વિન્ડો સ્ક્રિન ૧ પર"
+
+#: kwinbindings.cpp:137
+msgid "Window to Next Screen"
+msgstr "વિન્ડો આગળનાં સ્ક્રિન પર"
+
+#: kwinbindings.cpp:138
+#, fuzzy
+#| msgid "Window to Previous Desktop"
+msgid "Window to Previous Screen"
+msgstr "પાછળના ડેસ્કટોપ પર વિન્ડો"
+
+#: kwinbindings.cpp:139
+msgid "Show Desktop"
+msgstr "ડેસ્કટોપ બતાવો"
+
+#: kwinbindings.cpp:142
+#, fuzzy, kde-format
+#| msgid "Switch to Screen 1"
+msgid "Switch to Screen %1"
+msgstr "સ્ક્રિન ૧ પર જાવ"
+
+#: kwinbindings.cpp:145
+msgid "Switch to Next Screen"
+msgstr "આગળનાં સ્ક્રિન પર જાવ"
+
+#: kwinbindings.cpp:146
+#, fuzzy
+#| msgid "Switch to Previous Desktop"
+msgid "Switch to Previous Screen"
+msgstr "પાછળનાં ડેસ્કટોપ પર જાવ"
+
+#: kwinbindings.cpp:148
+msgid "Kill Window"
+msgstr "વિન્ડો બંધ કરો"
+
+#: kwinbindings.cpp:149
+msgid "Suspend Compositing"
+msgstr "કોમ્પોઝિશન રદ કરો"
+
+#: kwinbindings.cpp:150
+msgid "Invert Screen Colors"
+msgstr ""
+
+#: main.cpp:78
+msgid ""
+"KWin is unstable.\n"
+"It seems to have crashed several times in a row.\n"
+"You can select another window manager to run:"
+msgstr ""
+
+#: main.cpp:259 main.cpp:286
+msgid "KDE window manager"
+msgstr "KDE વિન્ડો વ્યવસ્થાપક"
+
+#: main.cpp:264
+msgid "KWin"
+msgstr "KWin"
+
+#: main.cpp:268
+#, fuzzy
+#| msgid "(c) 1999-2008, The KDE Developers"
+msgid "(c) 1999-2013, The KDE Developers"
+msgstr "(c) ૧૯૯૯-૨૦૦૮ KDE વિકાસ કરનારાઓ"
+
+#: main.cpp:270
+msgid "Matthias Ettrich"
+msgstr "મેથ્થિઆસ ઇટ્રિચ"
+
+#: main.cpp:271
+msgid "Cristian Tibirna"
+msgstr "ક્રિસ્ટીન ટીબીર્ના"
+
+#: main.cpp:272
+msgid "Daniel M. Duley"
+msgstr "ડેનિઅલ એમ. ડુલેય"
+
+#: main.cpp:273
+msgid "Luboš Luňák"
+msgstr "લુડોસ લુનાક"
+
+#: main.cpp:274
+msgid "Martin Gräßlin"
+msgstr ""
+
+#: main.cpp:274
+msgid "Maintainer"
+msgstr "જાળવી રાખનાર"
+
+#: main.cpp:283
+msgid "Disable configuration options"
+msgstr "રૂપરેખાંકન વિકલ્પો અસક્રિય કરો"
+
+#: main.cpp:284
+msgid "Indicate that KWin has recently crashed n times"
+msgstr "બતાવે છે કે KWin હમણાં n વખત પડી ભાંગ્યું હતું"
+
+#: main_wayland.cpp:88
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+msgstr ""
+
+#: main_wayland.cpp:96
+msgid ""
+"kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
+"set.\n"
+msgstr ""
+
+#: main_wayland.cpp:231
+msgid "Start a nested X Server."
+msgstr ""
+
+#: main_wayland.cpp:234
+msgid "The X11 Display to connect to, required if option x-server is used."
+msgstr ""
+
+#: main_x11.cpp:149
+msgid ""
+"kwin: unable to claim manager selection, another wm running? (try using --"
+"replace)\n"
+msgstr ""
+
+#: main_x11.cpp:166
+msgid "kwin: another window manager is running (try using --replace)\n"
+msgstr ""
+
+#: main_x11.cpp:261
+msgid "Replace already-running ICCCM2.0-compliant window manager"
+msgstr "હાલમાં ચાલતાં ICCCM2.0-અનુરૂપ વિન્ડો વ્યવસ્થાપકને બદલો"
+
+#: scene_opengl.cpp:558
+msgid "Desktop effects were restarted due to a graphics reset"
+msgstr ""
+
+#: scene_opengl.cpp:729
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
+"OpenGL Desktop Effects at the current resolution<br><br>You can try to "
+"select the XRender backend, but it might be very slow for this resolution as "
+"well.<br>Alternatively, lower the combined resolution of all screens to %1x"
+"%2 "
+msgstr ""
+
+#: scene_opengl.cpp:736
+msgid ""
+"The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+"GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+"does not know such limitation, but the performance will usually be impacted "
+"by the hardware limitations that restrict the OpenGL viewport size."
+msgstr ""
+
+#: scene_opengl.cpp:761
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+"the current resolution are supported but might be exceptionally slow."
+"<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
+"compositing, switch to the XRender backend or lower the resolution to %1x%1."
+msgstr ""
+
+#: scene_opengl.cpp:767
+msgid ""
+"The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+"GPU, thus windows of that size cannot be assigned to textures and will be "
+"entirely black.<br>Also this limit will often be a performance level barrier "
+"despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+"software rendering in this case."
+msgstr ""
+
+#: scripting/genericscriptedconfig.cpp:81
+msgctxt "Error message"
+msgid "Plugin does not provide configuration file in expected location"
+msgstr ""
+
+#: scripting/scripting.cpp:127
+#, kde-format
+msgctxt "Assertion failed in KWin script with given value"
+msgid "Assertion failed: %1 is not null"
+msgstr ""
+
+#: scripting/scripting.cpp:145
+msgctxt "Assertion failed in KWin script"
+msgid "Assertion failed: argument is null"
+msgstr ""
+
+#: scripting/scripting.cpp:172
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid number of arguments. At least service, path, interface and method "
+"need to be provided"
+msgstr ""
+
+#: scripting/scripting.cpp:178
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid type. Service, path, interface and method need to be string values"
+msgstr ""
+
+#: scripting/scriptingutils.cpp:28
+msgctxt "syntax error in KWin script"
+msgid "Invalid number of arguments"
+msgstr ""
+
+#: scripting/scriptingutils.cpp:41
+#, kde-format
+msgctxt "KWin Scripting function received incorrect value for an expected type"
+msgid "%1 is not a variant type"
+msgstr ""
+
+#: tabbox/tabbox.cpp:348
+#, fuzzy
+#| msgid "Show Desktop"
+msgctxt "Special entry in alt+tab list for minimizing all windows"
+msgid "Show Desktop"
+msgstr "ડેસ્કટોપ બતાવો"
+
+#: tabbox/tabbox.cpp:499
+msgid "Walk Through Windows"
+msgstr "વિન્ડોસમાં મુલાકાત લો"
+
+#: tabbox/tabbox.cpp:500
+msgid "Walk Through Windows (Reverse)"
+msgstr "વિન્ડોસમાંથી પસાર થાવ (ઉલ્ટું)"
+
+#: tabbox/tabbox.cpp:501
+msgid "Walk Through Windows Alternative"
+msgstr "વિન્ડોસ વૈકલ્પિકમાંથી પસાર થાવ"
+
+#: tabbox/tabbox.cpp:502
+msgid "Walk Through Windows Alternative (Reverse)"
+msgstr "વિન્ડોસ વૈકલ્પિકમાંથી પસાર થાવ (ઉલ્ટું)"
+
+#: tabbox/tabbox.cpp:503
+#, fuzzy
+#| msgid "Walk Through Windows Alternative"
+msgid "Walk Through Windows of Current Application"
+msgstr "વિન્ડોસ વૈકલ્પિકમાંથી પસાર થાવ"
+
+#: tabbox/tabbox.cpp:504
+#, fuzzy
+#| msgid "Walk Through Windows Alternative (Reverse)"
+msgid "Walk Through Windows of Current Application (Reverse)"
+msgstr "વિન્ડોસ વૈકલ્પિકમાંથી પસાર થાવ (ઉલ્ટું)"
+
+#: tabbox/tabbox.cpp:505
+#, fuzzy
+#| msgid "Walk Through Windows Alternative"
+msgid "Walk Through Windows of Current Application Alternative"
+msgstr "વિન્ડોસ વૈકલ્પિકમાંથી પસાર થાવ"
+
+#: tabbox/tabbox.cpp:506
+#, fuzzy
+#| msgid "Walk Through Windows Alternative (Reverse)"
+msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+msgstr "વિન્ડોસ વૈકલ્પિકમાંથી પસાર થાવ (ઉલ્ટું)"
+
+#: tabbox/tabbox.cpp:507
+msgid "Walk Through Desktops"
+msgstr "ડેસ્કટોપમાં મુલાકાત લો"
+
+#: tabbox/tabbox.cpp:508
+msgid "Walk Through Desktops (Reverse)"
+msgstr "ડેસ્કટોપ્સમાંથી પસાર થાવ (ઉલ્ટું)"
+
+#: tabbox/tabbox.cpp:509
+msgid "Walk Through Desktop List"
+msgstr "ડેસ્કટોપ યાદીમાંથી પસાર થાવ"
+
+#: tabbox/tabbox.cpp:510
+msgid "Walk Through Desktop List (Reverse)"
+msgstr "ડેસ્કટોપ યાદીમાંથી પસાર થાવ (ઉલ્ટું)"
+
+#: tabbox/tabboxhandler.cpp:272
+msgid ""
+"The Window Switcher installation is broken, resources are missing.\n"
+"Contact your distribution about this."
+msgstr ""
+
+#: useractions.cpp:186
+#, kde-format
+msgid ""
+"You have selected to show a window without its border.\n"
+"Without the border, you will not be able to enable the border again using "
+"the mouse: use the window operations menu instead, activated using the %1 "
+"keyboard shortcut."
+msgstr ""
+
+#: useractions.cpp:194
+#, kde-format
+msgid ""
+"You have selected to show a window in fullscreen mode.\n"
+"If the application itself does not have an option to turn the fullscreen "
+"mode off you will not be able to disable it again using the mouse: use the "
+"window operations menu instead, activated using the %1 keyboard shortcut."
+msgstr ""
+
+#: useractions.cpp:259
+msgid "&Move"
+msgstr "ખસેડો (&M)"
+
+#: useractions.cpp:264
+msgid "Re&size"
+msgstr "માપ ફેરફાર (&s)"
+
+#: useractions.cpp:268
+msgid "Keep &Above Others"
+msgstr "બીજાઓની ઉપર રાખો (&A)"
+
+#: useractions.cpp:274
+msgid "Keep &Below Others"
+msgstr "બીજાઓની નીચે રાખો (&B)"
+
+#: useractions.cpp:280
+msgid "&Fullscreen"
+msgstr "પૂર્ણસ્ક્રિન (&F)"
+
+#: useractions.cpp:286
+msgid "Sh&ade"
+msgstr "છાંયો (&a)"
+
+#: useractions.cpp:291
+msgid "&No Border"
+msgstr "કિનારી નથી (&N)"
+
+#: useractions.cpp:298
+msgid "Window &Shortcut..."
+msgstr "વિન્ડો ટૂંકાણ (&S)..."
+
+#: useractions.cpp:303
+msgid "&Special Window Settings..."
+msgstr "ખાસ વિન્ડો ગોઠવણીઓ (&S)..."
+
+#: useractions.cpp:307
+#, fuzzy
+#| msgid "&Special Application Settings..."
+msgid "S&pecial Application Settings..."
+msgstr "ખાસ કાર્યક્રમ ગોઠવણીઓ (&S)..."
+
+#: useractions.cpp:314
+#, fuzzy
+#| msgid "&Special Window Settings..."
+msgctxt ""
+"Entry in context menu of window decoration to open the configuration module "
+"of KWin"
+msgid "Window &Manager Settings..."
+msgstr "ખાસ વિન્ડો ગોઠવણીઓ (&S)..."
+
+#: useractions.cpp:329
+msgid "Mi&nimize"
+msgstr "ન્યૂનતમ (&n)"
+
+#: useractions.cpp:333
+msgid "Ma&ximize"
+msgstr "મહત્તમ (&x)"
+
+#: useractions.cpp:342
+msgid "&Untab"
+msgstr ""
+
+#: useractions.cpp:346
+#, fuzzy
+#| msgid "Close entire &group"
+msgid "Close Entire &Group"
+msgstr "આખા સમૂહને બંધ કરો (&g)"
+
+#: useractions.cpp:357
+msgid "&More Actions"
+msgstr ""
+
+#: useractions.cpp:361
+msgid "&Close"
+msgstr "બંધ (&C)"
+
+#: useractions.cpp:434
+msgid "&Extensions"
+msgstr ""
+
+#: useractions.cpp:489
+msgctxt "Switch to tab -> Previous"
+msgid "Previous"
+msgstr ""
+
+#: useractions.cpp:490
+msgctxt "Switch to tab -> Next"
+msgid "Next"
+msgstr ""
+
+#: useractions.cpp:528
+msgctxt "There's no window available to be attached as tab to this one"
+msgid "None available"
+msgstr ""
+
+#: useractions.cpp:537
+#, fuzzy
+#| msgid "Switch to window tab"
+msgid "Switch to Tab"
+msgstr "વિન્ડો ટેબ પર જાવ"
+
+#: useractions.cpp:548
+msgid "&Attach as tab to"
+msgstr ""
+
+#: useractions.cpp:571
+#, fuzzy
+#| msgid "To &Desktop"
+msgid "Move To &Desktop"
+msgstr "ડેસ્કટોપ પર (&D)"
+
+#: useractions.cpp:587
+#, fuzzy
+#| msgid "To &Desktop"
+msgid "Move To &Screen"
+msgstr "ડેસ્કટોપ પર (&D)"
+
+#: useractions.cpp:602
+msgid "Ac&tivities"
+msgstr ""
+
+#: useractions.cpp:614
+msgid "&All Desktops"
+msgstr "બધા ડેસ્કટોપ્સ (&A)"
+
+#: useractions.cpp:640
+#, fuzzy
+#| msgid "Show Desktop"
+msgctxt "Create a new desktop and move there the window"
+msgid "&New Desktop"
+msgstr "ડેસ્કટોપ બતાવો"
+
+#: useractions.cpp:661
+#, fuzzy, kde-format
+#| msgid "Window to Screen 1"
+msgctxt "@item:inmenu List of all Screens to send a window to"
+msgid "Screen &%1"
+msgstr "વિન્ડો સ્ક્રિન ૧ પર"
+
+#: useractions.cpp:679
+msgid "&All Activities"
+msgstr ""
+
+#: useractions.cpp:884
+#, kde-format
+msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
+msgid "<b>%1</b> is already in use"
+msgstr ""
+
+#: useractions.cpp:886
+#, kde-format
+msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
+msgid "<b>%1</b> is used by %2 in %3"
+msgstr ""
+
+#: useractions.cpp:1009
+#, kde-format
+msgid "Activate Window (%1)"
+msgstr "વિન્ડો સક્રિય કરો (%1)"
+
+#: useractions.cpp:1382
+msgid ""
+"The window manager is configured to consider the screen with the mouse on it "
+"as active one.\n"
+"Therefore it is not possible to switch to a screen explicitly."
+msgstr ""
+
+#: virtualdesktops.cpp:334 virtualdesktops.cpp:396
+#, kde-format
+msgid "Desktop %1"
+msgstr "ડેસ્કટોપ %1"
+
+#: virtualdesktops.cpp:427
+msgid "Switch to Next Desktop"
+msgstr "આગળનાં ડેસ્કટોપ પર જાવ"
+
+#: virtualdesktops.cpp:428
+msgid "Switch to Previous Desktop"
+msgstr "પાછળનાં ડેસ્કટોપ પર જાવ"
+
+#: virtualdesktops.cpp:429
+msgid "Switch One Desktop to the Right"
+msgstr "એક જમણે ડેસ્કટોપ પર બદલો"
+
+#: virtualdesktops.cpp:430
+msgid "Switch One Desktop to the Left"
+msgstr "એક ડાબે ડેસ્કટોપ પર બદલો"
+
+#: virtualdesktops.cpp:431
+msgid "Switch One Desktop Up"
+msgstr "એક ડેસ્કટોપ ઉપર બદલો"
+
+#: virtualdesktops.cpp:432
+msgid "Switch One Desktop Down"
+msgstr "એક ડેસ્કટોપ નીચે બદલો"
+
+#: virtualdesktops.cpp:444
+#, fuzzy, kde-format
+#| msgid "Switch to Desktop 1"
+msgid "Switch to Desktop %1"
+msgstr "ડેસ્કટોપ ૧ માં જાવ"
+
+#: workspace.cpp:1340
+msgctxt "Introductory text shown in the support information."
+msgid ""
+"KWin Support Information:\n"
+"The following information should be used when requesting support on e.g. "
+"http://forum.kde.org.\n"
+"It provides information about the currently running instance, which options "
+"are used,\n"
+"what OpenGL driver and which effects are running.\n"
+"Please post the information provided underneath this introductory text to a "
+"paste bin service\n"
+"like http://paste.kde.org instead of pasting into support threads.\n"
+msgstr ""

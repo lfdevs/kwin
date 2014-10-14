@@ -1,0 +1,348 @@
+# Translation of kcmkwindecoration to Norwegian Bokmål
+#
+# Axel Bojer <axelb@skolelinux.no>, 2003.
+# Knut Yrvin <knuty@skolelinux.no>, 2003.
+# Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2005, 2007, 2008, 2009, 2010, 2012, 2013, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: kcmkwindecoration\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-06-11 07:50+0000\n"
+"PO-Revision-Date: 2014-03-21 22:11+0100\n"
+"Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
+"Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
+"Language: nb\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Environment: kde\n"
+"X-Accelerator-Marker: &\n"
+"X-Text-Markup: kde4\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Knut Yrvin"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "knuty@skolelinux.no"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: auroraeconfig.ui:23
+msgid "Border size:"
+msgstr "Kantlinjestørrelse:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:34 configdialog.cpp:36
+msgctxt "@item:inlistbox Border size:"
+msgid "Tiny"
+msgstr "Bitteliten"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:39 configdialog.cpp:37
+msgctxt "@item:inlistbox Border size:"
+msgid "Normal"
+msgstr "Normal"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:44 configdialog.cpp:38
+msgctxt "@item:inlistbox Border size:"
+msgid "Large"
+msgstr "Stor"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:49 configdialog.cpp:39
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Large"
+msgstr "Svært stor"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:54 configdialog.cpp:40
+msgctxt "@item:inlistbox Border size:"
+msgid "Huge"
+msgstr "Enorm"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:59 configdialog.cpp:41
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Huge"
+msgstr "Veldig enorm"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:64 configdialog.cpp:42
+msgctxt "@item:inlistbox Border size:"
+msgid "Oversized"
+msgstr "Forstørret"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: auroraeconfig.ui:72
+msgid "Button size:"
+msgstr "Knappestørrelse:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:83
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "Bitteliten"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:88
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "Normal"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:93
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "Stor"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:98
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "Svært stor"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:103
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "Enorm"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:108
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "Veldig enorm"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:113
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "Forstørret"
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
+#: auroraeconfig.ui:126
+msgid "Close windows by double clicking the menu button"
+msgstr "Velg vinduer ved å dobbelttrykke på menyknappen"
+
+#: buttons.cpp:620
+msgid "KDE"
+msgstr "KDE"
+
+#: buttons.cpp:649
+#, kde-format
+msgid "%1 (unavailable)"
+msgstr "%1 (ikke tilgjengelig)"
+
+#: buttons.cpp:672
+msgid ""
+"To add or remove titlebar buttons, simply <i>drag</i> items between the "
+"available item list and the titlebar preview. Similarly, drag items within "
+"the titlebar preview to re-position them."
+msgstr ""
+"For å legge til eller fjerne tittelknapper, kan du ganske enkelt <i>dra</i> "
+"elementer mellom lista over tilgjengelige elementer og forhåndsvisning av "
+"tittellinja. Du kan på samme måte dra elementer fram og tilbake på "
+"tittellinja for å endre plasseringa."
+
+#: buttons.cpp:728
+msgid "Resize"
+msgstr "Endre størrelse"
+
+#: buttons.cpp:733
+msgid "Shade"
+msgstr "Rull"
+
+#: buttons.cpp:738
+msgid "Keep Below Others"
+msgstr "Behold under andre"
+
+#: buttons.cpp:743
+msgid "Keep Above Others"
+msgstr "Behold over andre"
+
+#: buttons.cpp:748
+msgid "Close"
+msgstr "Lukk"
+
+#: buttons.cpp:753
+msgid "Maximize"
+msgstr "Maksimer"
+
+#: buttons.cpp:758
+msgid "Minimize"
+msgstr "Minimer"
+
+#: buttons.cpp:763
+msgid "Help"
+msgstr "Hjelp"
+
+#: buttons.cpp:768
+msgid "On All Desktops"
+msgstr "På alle arbeidsflater"
+
+#: buttons.cpp:773
+msgctxt "Button showing window actions menu"
+msgid "Window Menu"
+msgstr "Vindusmeny"
+
+#: buttons.cpp:779
+msgctxt "Button showing application menu imported from dbusmenu"
+msgid "Application Menu"
+msgstr "Programmeny"
+
+#: buttons.cpp:785
+msgid "--- spacer ---"
+msgstr "--- skiller ---"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:20
+msgid ""
+"Enabling this checkbox will show window button tooltips. If this checkbox is "
+"off, no window button tooltips will be shown."
+msgstr ""
+"Velg om du vil vise verktøytips på vindusknappene. Hvis du fjerner krysset "
+"vises ikke verktøytipsene."
+
+#. i18n: ectx: property (text), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:23
+msgid "&Show window button tooltips"
+msgstr "&Vis verktøytips for vindusknapper"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:30
+msgid "Please note that this option is not available on all styles yet."
+msgstr "Merk at denne funksjonen ikke virker med alle stilene ennå."
+
+#. i18n: ectx: property (text), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:33
+msgid "Use custom titlebar button &positions"
+msgstr "Selvvalgt &plassering av tittellinjeknapper"
+
+#: buttonsconfigdialog.cpp:44
+msgid "Buttons"
+msgstr "Knapper"
+
+#. i18n: ectx: property (text), widget (QLabel, borderLabel)
+#: config.ui:19
+msgid "B&order size:"
+msgstr "K&antlinjestørrelse:"
+
+#. i18n: ectx: property (whatsThis), widget (KComboBox, bordersCombo)
+#: config.ui:29
+msgid "Use this combobox to change the border size of the decoration."
+msgstr ""
+"Bruk denne kombinasjonsboksen til å endre kantstørrelse på dekorasjonen."
+
+#: configdialog.cpp:43
+msgctxt "@item:inlistbox Border size:"
+msgid "No Side Border"
+msgstr "Ingen sidekantlinjer"
+
+#: configdialog.cpp:44
+msgctxt "@item:inlistbox Border size:"
+msgid "No Border"
+msgstr "Ingen kantlinjer"
+
+#: configdialog.cpp:81 kwindecoration.cpp:375
+msgid "Decoration Options"
+msgstr "Pyntevalg"
+
+#. i18n: ectx: property (clickMessage), widget (KLineEdit, searchEdit)
+#: decoration.ui:17
+msgid "Search"
+msgstr "Søk"
+
+#. i18n: ectx: property (whatsThis), widget (QScrollArea, decorationList)
+#: decoration.ui:27
+msgid ""
+"Select the window decoration. This is the look and feel of both the window "
+"borders and the window handle."
+msgstr ""
+"Velg vindusdekorasjon, det vil si utseende og oppførsel for både "
+"vindusrammene og håndtakene."
+
+#. i18n: ectx: property (text), widget (QPushButton, configureDecorationButton)
+#: decoration.ui:58
+msgid "Configure Decoration..."
+msgstr "Tilpass dekorasjon …"
+
+#. i18n: ectx: property (text), widget (QPushButton, configureButtonsButton)
+#: decoration.ui:65
+msgid "Configure Buttons..."
+msgstr "Tilpass knapper …"
+
+#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
+#: decoration.ui:72
+msgid "Get New Decorations..."
+msgstr "Hent nye dekorasjoner …"
+
+#: kwindecoration.cpp:99
+msgid "Window Decoration Control Module"
+msgstr "Styremodul for vindusdekorasjoner"
+
+#: kwindecoration.cpp:101
+msgid "(c) 2001 Karol Szwed"
+msgstr "© 2001 Karol Szwed"
+
+#: kwindecoration.cpp:102
+msgid "Karol Szwed"
+msgstr "Karol Szwed"
+
+#: kwindecoration.cpp:127
+msgid ""
+"<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main.qml</"
+"h2>could not be located in any application data path.<h2>Please contact your "
+"distribution</h2>The application will now abort"
+msgstr ""
+"<h1>Feil ved installasjonen</h1> Fant ikke ressursen<h2>kwin/"
+"kcm_kwindecoration/main.qml</h2> i noen sti til programmer. <h2>Kontakt din "
+"distribusjon</h2> Programmet vil nå avbryte."
+
+#: kwindecoration.cpp:130
+msgid "Installation Error"
+msgstr "Installasjonsfeil"
+
+#: kwindecoration.cpp:301
+msgid "Oxygen"
+msgstr "Oxygen"
+
+#: kwindecoration.cpp:314
+msgid ""
+"<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+"window border decorations, as well as titlebar button positions and custom "
+"decoration options.</p>To choose a theme for your window decoration click on "
+"its name and apply your choice by clicking the \"Apply\" button below. If "
+"you do not want to apply your choice you can click the \"Reset\" button to "
+"discard your changes.<p>You can configure each theme. There are different "
+"options specific for each theme.</p><p>On the \"Buttons\" tab check the "
+"\"Use custom titlebar button positions\" box and you can change the "
+"positions of the buttons to your liking.</p>"
+msgstr ""
+"<h1>Dekorasjon for vindushåndtereren</h1><p>Med modulen kan det velges "
+"kantlinjepynt, posisjonen til tittellinjeknapper, og dekorasjonene kan "
+"endres.</p> For å velge et tema som vindusdekorasjon, trykk på navnet og "
+"skru det på ved å trykke «Bruk»-knappen under. Om valget ikke ønskes, trykk "
+"«Tilbakestill».<p>Hvert tema kan stilles inn. Det er forskjellige valg for "
+"hvert tema.</p><p>På fanen «Knapper»  krysser du av boksen «Bruk tilpassede "
+"knappeplasseringer på tittellinja» og så kan knappenes posisjon endres etter "
+"smak.</p>"
+
+#: kwindecoration.cpp:389
+msgid ""
+"Close by double clicking:\n"
+" To open the menu, keep the button pressed until it appears."
+msgstr ""
+"Lukk ved å dobbelttrykke.\n"
+" Hvis menyen skal vises igjen så hold knappen nede til den kommer til syne."
+
+#: preview.cpp:373
+msgid "Active Window"
+msgstr "Aktivt vindu"
+
+#: preview.cpp:373
+msgid "Inactive Window"
+msgstr "Inaktivt vindu"

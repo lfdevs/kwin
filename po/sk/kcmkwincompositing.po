@@ -1,0 +1,345 @@
+# translation of kcmkwincompositing.po to Slovak
+# Richard Fric <Richard.Fric@kdemail.net>, 2007, 2010.
+# Michal Sulek <misurel@gmail.com>, 2009, 2010, 2011.
+# Roman Paholík <wizzardsk@gmail.com>, 2012, 2013, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: kcmkwincompositing\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-07-23 08:09+0000\n"
+"PO-Revision-Date: 2014-07-27 22:47+0200\n"
+"Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
+"Language-Team: Slovak <kde-sk@linux.sk>\n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: compositing.cpp:387
+msgid "OpenGL 3.1"
+msgstr "OpenGL 3.1"
+
+#: compositing.cpp:388
+msgid "OpenGL 2.0"
+msgstr "OpenGL 2.0"
+
+#: compositing.cpp:389
+msgid "XRender"
+msgstr "XRender"
+
+#: compositing.cpp:488
+msgctxt "OpenGL Platform Interface"
+msgid "EGL"
+msgstr "EGL"
+
+#: compositing.cpp:490
+msgctxt "OpenGL Platform Interface"
+msgid "GLX"
+msgstr "GLX"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, CompositingForm)
+#: compositing.ui:14
+msgid "Form"
+msgstr "Formulár"
+
+#. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
+#: compositing.ui:23 qml/CompositingView.qml:55
+msgid "Enable compositor on startup"
+msgstr "Povoliť efekty plochy pri štarte"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: compositing.ui:30
+msgid "Animation speed:"
+msgstr "Rýchlosť animácie:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: compositing.ui:57
+msgid "Instant"
+msgstr "Okamžitá"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: compositing.ui:77
+msgid "Very slow"
+msgstr "Veľmi pomaly"
+
+#. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
+#. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
+#: compositing.ui:88 compositing.ui:114
+msgid "Scale method:"
+msgstr "Metóda škálovania:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
+#: compositing.ui:96 compositing.ui:122 qml/CompositingView.qml:113
+#: qml/CompositingView.qml:127
+msgid "Crisp"
+msgstr "Ostrá"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#: compositing.ui:101 qml/CompositingView.qml:113
+msgid "Smooth"
+msgstr "Jemná"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#: compositing.ui:106 qml/CompositingView.qml:113
+msgid "Accurate"
+msgstr "Presná"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
+#: compositing.ui:127 qml/CompositingView.qml:127
+msgid "Smooth (slower)"
+msgstr "Jemná (pomalšia)"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: compositing.ui:142 qml/CompositingView.qml:81
+msgid "Rendering backend:"
+msgstr "Renderovací backend:"
+
+#. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
+#: compositing.ui:152
+msgid "OpenGL interface:"
+msgstr "Rozhranie OpenGL:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: compositing.ui:162
+msgid "Tearing prevention (\"vsync\"):"
+msgstr "Zabránenie trhaniu (\"vsync\"):"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:170 compositing.ui:216 qml/CompositingView.qml:141
+#: qml/CompositingView.qml:154
+msgid "Never"
+msgstr "Nikdy"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:175 qml/CompositingView.qml:141
+msgid "Automatic"
+msgstr "Automatické"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:180 qml/CompositingView.qml:141
+msgid "Only when cheap"
+msgstr "Iba ak jednoduché"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:185 qml/CompositingView.qml:141
+msgid "Full screen repaints"
+msgstr "Premaľovania plnej scény"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:190 qml/CompositingView.qml:141
+msgid "Re-use screen content"
+msgstr "Znovu použiť obsah obrazovky"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: compositing.ui:198
+msgid "Keep window thumbnails:"
+msgstr "Ponechať náhľady okien:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:206
+msgid "Always"
+msgstr "Vždy"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:211 qml/CompositingView.qml:154
+msgid "Only for Shown Windows"
+msgstr "Len pre zobrazené okná"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: compositing.ui:224 qml/CompositingView.qml:175
+msgid "Expert:"
+msgstr "Expert:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
+#: compositing.ui:231 qml/CompositingView.qml:182
+msgid "Suspend compositor for full screen windows"
+msgstr "Pozastaviť efekty plochy pre okná na celú obrazovku"
+
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#: compositing.ui:238 qml/CompositingView.qml:192
+msgid "Experimental:"
+msgstr "Experimentálne:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
+#: compositing.ui:245 qml/CompositingView.qml:200
+msgid "Enable color correction"
+msgstr "Povoliť korekciu farieb"
+
+#. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
+#: compositing.ui:265
+msgid ""
+"OpenGL compositing (the default) has crashed KWin in the past.\n"
+"This was most likely due to a driver bug.\n"
+"If you think that you have meanwhile upgraded to a stable driver,\n"
+"you can reset this protection but be aware that this might result in an "
+"immediate crash!\n"
+"Alternatively, you might want to use the XRender backend instead."
+msgstr ""
+"OpenGL kompozícia (predvolená) zhodila KWin v minulosti.\n"
+"Bolo to pravdepodobne kvôli chybe ovládača.\n"
+"Ak si myslíte, že ste rozumne aktualizovali ovládač na stabilný,\n"
+"môžete vynulovať túto ochranu, ale majte na pamäti, že to môže\n"
+"mať za následok okamžitý pád!\n"
+"Alternatívne môžete použiť namiesto toho backend XRender."
+
+#. i18n: ectx: property (text), widget (KMessageWidget, interfaceWarning)
+#: compositing.ui:281
+msgid ""
+"EGL is not supported by all OpenGL drivers. If not supported the Compositor "
+"will be disabled."
+msgstr ""
+"EGL nie je podporované všetkými OpenGL ovládačmi. Ak nie je podporované, "
+"kompozítor bude zakázaný."
+
+#. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
+#: compositing.ui:297
+msgid ""
+"Scale method \"Accurate\" is not supported by all hardware and can cause "
+"performance regressions and rendering artifacts."
+msgstr ""
+"Metóda škálovania \"Presná\" nie je podporovaná na každom hardvéri a môže "
+"spôsobiť zníženie výkonu a chyby vykresľovania."
+
+#. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
+#: compositing.ui:326
+msgid ""
+"Keeping the window thumbnail always interferes with the minimized state of "
+"windows. This can result in windows not suspending their work when minimized."
+msgstr ""
+"Ponechanie miniatúry okna vždy interferuje s minimalizovaným stavom okna. "
+"Toto môže mať za následok, že okná nepozastavia svoju činnosť pri "
+"minimalizovaní."
+
+#. i18n: ectx: property (text), widget (KMessageWidget, unredirectInformation)
+#: compositing.ui:342
+msgid ""
+"Having full screen windows bypass the compositor is not supported on every "
+"hardware."
+msgstr ""
+"Funkcia, aby celoobrazovkové okná obišli kompozítor, nie je podporovaná na "
+"každom hardvéri."
+
+#: main.cpp:82
+msgid "Re-enable OpenGL detection"
+msgstr "Znovu povoliť detekciu OpenGl"
+
+#: main.cpp:139
+msgid ""
+"\"Only when cheap\" only prevents tearing for full screen changes like a "
+"video."
+msgstr ""
+"\"Iba ak to nie je náročné\" iba zabraňuje trhaniu pre zmeny celej obrazovky "
+"ako video."
+
+#: main.cpp:143
+msgid "\"Full screen repaints\" can cause performance problems."
+msgstr "\"Prekreslenie celej obrazovky\" môže spôsobiť problémy s výkonom."
+
+#: main.cpp:147
+msgid ""
+"\"Re-use screen content\" causes performance severe problems on MESA drivers."
+msgstr ""
+"\"Znovu použiť obsah obrazovky\" spôsobuje vážne problémy s výkonom na MESA "
+"ovládačoch."
+
+#: model.cpp:67
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Accessibility"
+msgstr "Prístupnosť"
+
+#: model.cpp:68
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Appearance"
+msgstr "Vzhľad"
+
+#: model.cpp:69
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Candy"
+msgstr "Candy"
+
+#: model.cpp:70
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Focus"
+msgstr "Zameranie"
+
+#: model.cpp:71
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Tools"
+msgstr "Nástroje"
+
+#: model.cpp:72
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Virtual Desktop Switching Animation"
+msgstr "Animácia prepínania virtuálnych plôch"
+
+#: model.cpp:73
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Window Management"
+msgstr "Správa okien"
+
+#: model.cpp:235
+msgid "KWin development team"
+msgstr "Vývojový tím KWin"
+
+#: qml/CompositingView.qml:67
+msgid "Animation Speed:"
+msgstr "Rýchlosť animácie:"
+
+#: qml/CompositingView.qml:106 qml/CompositingView.qml:120
+msgid "Scale Method:"
+msgstr "Metóda škálovania:"
+
+#: qml/CompositingView.qml:135
+msgid "Tearing Prevention (VSync):"
+msgstr "Zabránenie trhaniu (VSync):"
+
+#: qml/CompositingView.qml:148
+msgid "Keep Window Thumbnails:"
+msgstr "Ponechať náhľady okien:"
+
+#: qml/CompositingView.qml:154
+msgid "Always (Breaks Animations)"
+msgstr "Vždy (poruší animácie)"
+
+#: qml/CompositingView.qml:160
+msgid "OpenGL Platform Interface:"
+msgstr "Rozhranie platformy OpenGL:"
+
+#: qml/Effect.qml:118
+#, kde-format
+msgid ""
+"Author: %1\n"
+"License: %2"
+msgstr ""
+"Autor: %1\n"
+"Licencia: %2"
+
+#: qml/EffectView.qml:64
+msgid ""
+"Hint: To find out or configure how to activate an effect, look at the "
+"effect's settings."
+msgstr "Rada: viac informácií o efekte nájdete v jeho nastavení."
+
+#: qml/EffectView.qml:75
+msgid "Search"
+msgstr "Hľadať"
+
+#: qml/EffectView.qml:82
+msgid "Configure filter"
+msgstr "Nastaviť filter"
+
+#: qml/EffectView.qml:85
+msgid "Exclude Desktop Effects not supported by the Compositor"
+msgstr "Vylúčiť efekty plochy nepodporované kompozítorom"
+
+#: qml/EffectView.qml:93
+msgid "Exclude internal Desktop Effects"
+msgstr "Vylúčiť interné efekty plochy"
+
+#: qml/EffectView.qml:105
+msgid "Get New Effects ..."
+msgstr "Získať nové efekty..."

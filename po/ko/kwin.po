@@ -1,0 +1,870 @@
+# Translation of kwin to Korean.
+# Copyright (C) 2001-2004, 2007-2008 Free Software Foundation, Inc.
+#
+#
+# Sae-keun Kim <segni@susekorea.net>, 2001.
+# Yeo SunHwa <sunwt@mizi.com>, 2001.
+# Park Shinjo <peremen@gmail.com>, 2007, 2008, 2009, 2010.
+# Park Shinjo <peremen@gmail.com>, 2011, 2012, 2013, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"PO-Revision-Date: 2014-08-24 00:00+0900\n"
+"Last-Translator: Park Shinjo <kde@peremen.name>\n"
+"Language-Team: Korean <kde@peremen.name>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 1.5\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Park Shinjo"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "kde@peremen.name"
+
+#: composite.cpp:500
+#, kde-format
+msgid ""
+"Desktop effects have been suspended by another application.<br/>You can "
+"resume using the '%1' shortcut."
+msgstr ""
+"다른 프로그램이 데스크톱 효과를 중지하였습니다.<br/>'%1' 키를 눌러서 다시 시"
+"작할 수 있습니다."
+
+#: compositingprefs.cpp:98
+msgid ""
+"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
+"b><br>This was most likely due to a driver bug.<p>If you think that you have "
+"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
+"<b>be aware that this might result in an immediate crash!</b></"
+"p><p>Alternatively, you might want to use the XRender backend instead.</p>"
+msgstr ""
+"<b>예전에 KWin을 실행시켰을 때 OpenGL 컴포지팅(기본값)이 충돌하였습니다.</b> "
+"<br>드라이버 버그 때문에 문제가 발생했을 수도 있습니다.<p>만약 안정적인 드라"
+"이버로 업그레이드하였다면<br>이 보호 장치를 해제할 수도 있으나 <b>시스템이 언"
+"제든지 충돌할 수도 있습니다!</b></p><p>다른 방법으로는 XRender 백엔드를 사용"
+"할 수도 있습니다.</p>"
+
+#: compositingprefs.cpp:105
+msgid "Required X extensions (XComposite and XDamage) are not available."
+msgstr "필요한 X 확장 XComposite와 XDamage를 사용할 수 없습니다."
+
+#: compositingprefs.cpp:109
+msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
+msgstr "GLX/OpenGL을 사용할 수 없으며, OpenGL 지원만 컴파일되었습니다."
+
+#: compositingprefs.cpp:113
+msgid "GLX/OpenGL and XRender/XFixes are not available."
+msgstr "GLX/OpenGL 또는 XRender/XFixes 확장을 사용할 수 없습니다."
+
+#: decorations.cpp:59
+msgid "KWin: "
+msgstr "KWin: "
+
+#: killer/killer.cpp:44
+msgid "Window Manager"
+msgstr "창 관리자"
+
+#: killer/killer.cpp:49
+msgid "PID of the application to terminate"
+msgstr "종료할 프로그램의 프로세스 ID"
+
+#: killer/killer.cpp:49
+msgid "pid"
+msgstr "pid"
+
+#: killer/killer.cpp:51
+msgid "Hostname on which the application is running"
+msgstr "프로그램이 실행 중인 호스트 이름"
+
+#: killer/killer.cpp:51
+msgid "hostname"
+msgstr "호스트 이름"
+
+#: killer/killer.cpp:53
+msgid "Caption of the window to be terminated"
+msgstr "종료할 창의 제목"
+
+#: killer/killer.cpp:53
+msgid "caption"
+msgstr "캡션"
+
+#: killer/killer.cpp:55
+msgid "Name of the application to be terminated"
+msgstr "종료할 프로그램의 이름"
+
+#: killer/killer.cpp:55
+msgid "name"
+msgstr "이름"
+
+#: killer/killer.cpp:57
+msgid "ID of resource belonging to the application"
+msgstr "프로그램에 속한 자원의 ID"
+
+#: killer/killer.cpp:57
+msgid "id"
+msgstr "id"
+
+#: killer/killer.cpp:59
+msgid "Time of user action causing termination"
+msgstr "사용자가 종료 동작을 실행한 시간"
+
+#: killer/killer.cpp:59
+msgid "time"
+msgstr "시간"
+
+#: killer/killer.cpp:61
+msgid "KWin helper utility"
+msgstr "KWin 도우미"
+
+#: killer/killer.cpp:85
+msgid "This helper utility is not supposed to be called directly."
+msgstr "이 도우미 프로그램은 직접 호출되지 않습니다."
+
+#: killer/killer.cpp:95
+#, kde-format
+msgctxt "@info"
+msgid "<b>Application \"%1\" is not responding</b>"
+msgstr "<b>프로그램 \"%1\"이(가) 응답하지 않음</b>"
+
+#: killer/killer.cpp:106
+#, kde-format
+msgid "&Terminate Application %1"
+msgstr "프로그램 %1 끝내기(&T)"
+
+#: killer/killer.cpp:107
+msgid "Wait Longer"
+msgstr "더 기다리기"
+
+#: kwinbindings.cpp:40
+msgid "Walk Through Window Tabs"
+msgstr "창 탭 사이를 옮겨 다니기"
+
+#: kwinbindings.cpp:41
+msgid "Walk Through Window Tabs (Reverse)"
+msgstr "창 탭 사이를 거꾸로 옮겨 다니기"
+
+#: kwinbindings.cpp:42
+msgid "Remove Window From Group"
+msgstr "그룹에서 창 빼기"
+
+#: kwinbindings.cpp:44
+msgid "Window Operations Menu"
+msgstr "창 동작 메뉴"
+
+#: kwinbindings.cpp:46
+msgid "Close Window"
+msgstr "창 닫기"
+
+#: kwinbindings.cpp:48
+msgid "Maximize Window"
+msgstr "창 최대화"
+
+#: kwinbindings.cpp:50
+msgid "Maximize Window Vertically"
+msgstr "창 수직 최대화"
+
+#: kwinbindings.cpp:52
+msgid "Maximize Window Horizontally"
+msgstr "창 수평 최대화"
+
+#: kwinbindings.cpp:54
+msgid "Minimize Window"
+msgstr "창 최소화"
+
+#: kwinbindings.cpp:56
+msgid "Shade Window"
+msgstr "창 말아 올리기"
+
+#: kwinbindings.cpp:58
+msgid "Move Window"
+msgstr "창 이동"
+
+#: kwinbindings.cpp:60
+msgid "Resize Window"
+msgstr "창 크기 조정"
+
+#: kwinbindings.cpp:62
+msgid "Raise Window"
+msgstr "창 올리기"
+
+#: kwinbindings.cpp:64
+msgid "Lower Window"
+msgstr "창 내리기"
+
+#: kwinbindings.cpp:66
+msgid "Toggle Window Raise/Lower"
+msgstr "창 올리거나 내리기"
+
+#: kwinbindings.cpp:68
+msgid "Make Window Fullscreen"
+msgstr "창을 전체 화면으로"
+
+#: kwinbindings.cpp:70
+msgid "Hide Window Border"
+msgstr "창 테두리 숨기기"
+
+#: kwinbindings.cpp:72
+msgid "Keep Window Above Others"
+msgstr "창을 항상 위에 표시"
+
+#: kwinbindings.cpp:74
+msgid "Keep Window Below Others"
+msgstr "창을 항상 아래에 표시"
+
+#: kwinbindings.cpp:76
+msgid "Activate Window Demanding Attention"
+msgstr "활성 창이 주목을 기다림"
+
+#: kwinbindings.cpp:78
+msgid "Setup Window Shortcut"
+msgstr "창 단축키 설정"
+
+#: kwinbindings.cpp:80
+msgid "Pack Window to the Right"
+msgstr "창을 맨 오른쪽으로 보내기"
+
+#: kwinbindings.cpp:82
+msgid "Pack Window to the Left"
+msgstr "창을 맨 왼쪽으로 보내기"
+
+#: kwinbindings.cpp:84
+msgid "Pack Window Up"
+msgstr "창을 맨 위로 보내기"
+
+#: kwinbindings.cpp:86
+msgid "Pack Window Down"
+msgstr "창을 맨 아래로 보내기"
+
+#: kwinbindings.cpp:88
+msgid "Pack Grow Window Horizontally"
+msgstr "창을 수평으로 늘리기"
+
+#: kwinbindings.cpp:90
+msgid "Pack Grow Window Vertically"
+msgstr "창을 수직으로 늘리기"
+
+#: kwinbindings.cpp:92
+msgid "Pack Shrink Window Horizontally"
+msgstr "창을 수평으로 줄이기"
+
+#: kwinbindings.cpp:94
+msgid "Pack Shrink Window Vertically"
+msgstr "창을 수직으로 줄이기"
+
+#: kwinbindings.cpp:96
+msgid "Quick Tile Window to the Left"
+msgstr "창을 맨 왼쪽으로 보내기"
+
+#: kwinbindings.cpp:98
+msgid "Quick Tile Window to the Right"
+msgstr "창을 맨 오른쪽으로 보내기"
+
+#: kwinbindings.cpp:100
+msgid "Quick Tile Window to the Top Left"
+msgstr "창을 왼쪽 위로 보내기"
+
+#: kwinbindings.cpp:102
+msgid "Quick Tile Window to the Bottom Left"
+msgstr "창을 왼쪽 아래로 보내기"
+
+#: kwinbindings.cpp:104
+msgid "Quick Tile Window to the Top Right"
+msgstr "창을 오른쪽 위로 보내기"
+
+#: kwinbindings.cpp:106
+msgid "Quick Tile Window to the Bottom Right"
+msgstr "창을 오른쪽 아래로 보내기"
+
+#: kwinbindings.cpp:108
+msgid "Switch to Window Above"
+msgstr "위쪽 창으로 전환"
+
+#: kwinbindings.cpp:110
+msgid "Switch to Window Below"
+msgstr "아래쪽 창으로 전환"
+
+#: kwinbindings.cpp:112
+msgid "Switch to Window to the Right"
+msgstr "오른쪽 창으로 전환"
+
+#: kwinbindings.cpp:114
+msgid "Switch to Window to the Left"
+msgstr "왼쪽 창으로 전환"
+
+#: kwinbindings.cpp:116
+msgid "Increase Opacity of Active Window by 5 %"
+msgstr "활성 창 투명도 5% 증가"
+
+#: kwinbindings.cpp:118
+msgid "Decrease Opacity of Active Window by 5 %"
+msgstr "활성 창 투명도 5% 감소"
+
+#: kwinbindings.cpp:121
+msgid "Keep Window on All Desktops"
+msgstr "창을 모든 데스크톱에 표시하기"
+
+#: kwinbindings.cpp:125
+#, kde-format
+msgid "Window to Desktop %1"
+msgstr "창을 데스크톱 %1(으)로 보내기"
+
+#: kwinbindings.cpp:127
+msgid "Window to Next Desktop"
+msgstr "다음 데스크톱으로 창 이동"
+
+#: kwinbindings.cpp:128
+msgid "Window to Previous Desktop"
+msgstr "이전 데스크톱으로 창 이동"
+
+#: kwinbindings.cpp:129
+msgid "Window One Desktop to the Right"
+msgstr "오른쪽 데스크톱으로 창 이동"
+
+#: kwinbindings.cpp:130
+msgid "Window One Desktop to the Left"
+msgstr "왼쪽 데스크톱으로 창 이동"
+
+#: kwinbindings.cpp:131
+msgid "Window One Desktop Up"
+msgstr "위쪽 데스크톱으로 창 이동"
+
+#: kwinbindings.cpp:132
+msgid "Window One Desktop Down"
+msgstr "아래쪽 데스크톱으로 창 이동"
+
+#: kwinbindings.cpp:135
+#, kde-format
+msgid "Window to Screen %1"
+msgstr "창을 화면 %1(으)로 보내기"
+
+#: kwinbindings.cpp:137
+msgid "Window to Next Screen"
+msgstr "다음 데스크톱으로 창 이동"
+
+#: kwinbindings.cpp:138
+msgid "Window to Previous Screen"
+msgstr "이전 화면으로 창 이동"
+
+#: kwinbindings.cpp:139
+msgid "Show Desktop"
+msgstr "데스크톱 보이기"
+
+#: kwinbindings.cpp:142
+#, kde-format
+msgid "Switch to Screen %1"
+msgstr "화면 %1(으)로 전환"
+
+#: kwinbindings.cpp:145
+msgid "Switch to Next Screen"
+msgstr "다음 데스크톱으로 전환"
+
+#: kwinbindings.cpp:146
+msgid "Switch to Previous Screen"
+msgstr "이전 화면으로 전환"
+
+#: kwinbindings.cpp:148
+msgid "Kill Window"
+msgstr "창 강제 종료"
+
+#: kwinbindings.cpp:149
+msgid "Suspend Compositing"
+msgstr "컴포지팅 중단하기"
+
+#: kwinbindings.cpp:150
+msgid "Invert Screen Colors"
+msgstr "화면 색 반전"
+
+#: main.cpp:78
+msgid ""
+"KWin is unstable.\n"
+"It seems to have crashed several times in a row.\n"
+"You can select another window manager to run:"
+msgstr ""
+"KWin이 불안정합니다.\n"
+"연속으로 몇 번 충돌한 것 같습니다.\n"
+"실행할 또 다른 창 관리자를 선택하실 수 있습니다:"
+
+#: main.cpp:259 main.cpp:286
+msgid "KDE window manager"
+msgstr "KDE 창 관리자"
+
+#: main.cpp:264
+msgid "KWin"
+msgstr "KWin"
+
+#: main.cpp:268
+msgid "(c) 1999-2013, The KDE Developers"
+msgstr "(c) 1999-2013, The KDE Developers"
+
+#: main.cpp:270
+msgid "Matthias Ettrich"
+msgstr "Matthias Ettrich"
+
+#: main.cpp:271
+msgid "Cristian Tibirna"
+msgstr "Cristian Tibirna"
+
+#: main.cpp:272
+msgid "Daniel M. Duley"
+msgstr "Daniel M. Duley"
+
+#: main.cpp:273
+msgid "Luboš Luňák"
+msgstr "Luboš Luňák"
+
+#: main.cpp:274
+msgid "Martin Gräßlin"
+msgstr "Martin Gräßlin"
+
+#: main.cpp:274
+msgid "Maintainer"
+msgstr "관리자"
+
+#: main.cpp:283
+msgid "Disable configuration options"
+msgstr "설정 옵션 사용하지 않기"
+
+#: main.cpp:284
+msgid "Indicate that KWin has recently crashed n times"
+msgstr "KWin이 최근 n번 충돌했다는 것을 알리기"
+
+#: main_wayland.cpp:88
+#, fuzzy
+#| msgid "kwin: another window manager is running (try using --replace)\n"
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+msgstr ""
+"kwin: 또 다른 창 관리자가 실행 중입니다 (--replace 옵션을 사용해 보십시오)\n"
+
+#: main_wayland.cpp:96
+msgid ""
+"kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
+"set.\n"
+msgstr ""
+
+#: main_wayland.cpp:231
+msgid "Start a nested X Server."
+msgstr ""
+
+#: main_wayland.cpp:234
+msgid "The X11 Display to connect to, required if option x-server is used."
+msgstr ""
+
+#: main_x11.cpp:149
+msgid ""
+"kwin: unable to claim manager selection, another wm running? (try using --"
+"replace)\n"
+msgstr ""
+"kwin: 창 관리자 영역을 사용할 수 없습니다. 또 다른 창 관리자가 있습니까? (--"
+"replace 옵션을 사용해 보십시오)\n"
+
+#: main_x11.cpp:166
+msgid "kwin: another window manager is running (try using --replace)\n"
+msgstr ""
+"kwin: 또 다른 창 관리자가 실행 중입니다 (--replace 옵션을 사용해 보십시오)\n"
+
+#: main_x11.cpp:261
+msgid "Replace already-running ICCCM2.0-compliant window manager"
+msgstr "이미 실행 중인 ICCCM 2.0 호환 창 관리자를 대체하기"
+
+#: scene_opengl.cpp:558
+msgid "Desktop effects were restarted due to a graphics reset"
+msgstr "그래픽 초기화로 인하여 데스크톱 효과가 다시 시작됨"
+
+#: scene_opengl.cpp:729
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
+"OpenGL Desktop Effects at the current resolution<br><br>You can try to "
+"select the XRender backend, but it might be very slow for this resolution as "
+"well.<br>Alternatively, lower the combined resolution of all screens to %1x"
+"%2 "
+msgstr ""
+"<h1>OpenGL 데스크톱 효과를 사용할 수 없음</h1>이 시스템은 현재 해상도에서 "
+"OpenGL 데스크톱 효과를 처리할 수 없습니다.<br><br>XRender 백엔드를 사용할 수"
+"도 있으나 현재 해상도에서 매우 느릴 수도 있습니다.<br>또는 모든 화면의 해상"
+"도 합을 최소한 %1x%2까지 낮춰 보십시오."
+
+#: scene_opengl.cpp:736
+msgid ""
+"The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+"GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+"does not know such limitation, but the performance will usually be impacted "
+"by the hardware limitations that restrict the OpenGL viewport size."
+msgstr ""
+"요청하는 해상도가 GPU의 GL_MAX_VIEWPORT_DIMS 제한을 초과하므로 OpenGL 컴포지"
+"터에서 사용할 수 없습니다.<br>XRender는 이러한 제한의 영향을 받지 않으나 "
+"OpenGL 뷰포트 크기를 제한하는 것과 비슷한 하드웨어 사양 제한 때문에 속도가 느"
+"려질 수도 있습니다."
+
+#: scene_opengl.cpp:761
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+"the current resolution are supported but might be exceptionally slow."
+"<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
+"compositing, switch to the XRender backend or lower the resolution to %1x%1."
+msgstr ""
+"<h1>OpenGL 데스크톱 효과를 사용할 수 없음</h1>현재 해상도에서 OpenGL 데스크"
+"톱 효과를 사용할 수 있으나 매우 느릴 수도 있습니다.<br>큰 창은 완전히 검은색"
+"으로 나타날 수도 있습니다.<br><br>컴포지팅을 비활성화하거나, XRender 백엔드"
+"로 전환하거나 모든 화면의 해상도 합을 최소한 %1x%1까지 낮춰 보십시오."
+
+#: scene_opengl.cpp:767
+msgid ""
+"The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+"GPU, thus windows of that size cannot be assigned to textures and will be "
+"entirely black.<br>Also this limit will often be a performance level barrier "
+"despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+"software rendering in this case."
+msgstr ""
+"요청하는 해상도가 GPU의 GL_MAX_TEXTURE_SIZE 제한을 초과하므로 이 제한을 초과"
+"하는 크기의 창을 텍스처에 할당할 수 없어서 완전히 검은색으로 표시될 것입니다."
+"<br>이 상황에서는 그래픽 드라이버가 소프트웨어 렌더링으로 전환할 수도 있으므"
+"로 창 크기가 GL_MAX_VIEWPORT_DIMS 미만이라고 해도 성능에 영향을 줄 수 있습니"
+"다."
+
+#: scripting/genericscriptedconfig.cpp:81
+msgctxt "Error message"
+msgid "Plugin does not provide configuration file in expected location"
+msgstr "플러그인의 설정 파일이 예상한 위치에 없음"
+
+#: scripting/scripting.cpp:127
+#, kde-format
+msgctxt "Assertion failed in KWin script with given value"
+msgid "Assertion failed: %1 is not null"
+msgstr "가정 실패: %1이(가) null이 아님"
+
+#: scripting/scripting.cpp:145
+msgctxt "Assertion failed in KWin script"
+msgid "Assertion failed: argument is null"
+msgstr "가정 실패: 인자가 null임"
+
+#: scripting/scripting.cpp:172
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid number of arguments. At least service, path, interface and method "
+"need to be provided"
+msgstr ""
+"인자 개수가 잘못됨. 최소한 service, path, interface, method를 지정해야 함"
+
+#: scripting/scripting.cpp:178
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid type. Service, path, interface and method need to be string values"
+msgstr "형식이 잘못됨. service, path, interface, method는 문자열 값이어야 함"
+
+#: scripting/scriptingutils.cpp:28
+msgctxt "syntax error in KWin script"
+msgid "Invalid number of arguments"
+msgstr "인자 개수가 잘못됨"
+
+#: scripting/scriptingutils.cpp:41
+#, kde-format
+msgctxt "KWin Scripting function received incorrect value for an expected type"
+msgid "%1 is not a variant type"
+msgstr "%1은(는) variant 형식이 아님"
+
+#: tabbox/tabbox.cpp:348
+msgctxt "Special entry in alt+tab list for minimizing all windows"
+msgid "Show Desktop"
+msgstr "데스크톱 보이기"
+
+#: tabbox/tabbox.cpp:499
+msgid "Walk Through Windows"
+msgstr "창 사이를 옮겨 다니기"
+
+#: tabbox/tabbox.cpp:500
+msgid "Walk Through Windows (Reverse)"
+msgstr "창 사이를 거꾸로 옮겨 다니기"
+
+#: tabbox/tabbox.cpp:501
+msgid "Walk Through Windows Alternative"
+msgstr "창 사이를 다르게 옮겨 다니기"
+
+#: tabbox/tabbox.cpp:502
+msgid "Walk Through Windows Alternative (Reverse)"
+msgstr "창 사이를 거꾸로 다르게 옮겨 다니기"
+
+#: tabbox/tabbox.cpp:503
+msgid "Walk Through Windows of Current Application"
+msgstr "현재 프로그램의 창 사이를 옮겨 다니기"
+
+#: tabbox/tabbox.cpp:504
+msgid "Walk Through Windows of Current Application (Reverse)"
+msgstr "현재 프로그램의 창 사이를 거꾸로 옮겨 다니기"
+
+#: tabbox/tabbox.cpp:505
+msgid "Walk Through Windows of Current Application Alternative"
+msgstr "현재 프로그램의 창 사이를 다르게 옮겨 다니기"
+
+#: tabbox/tabbox.cpp:506
+msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+msgstr "현재 프로그램의 창 사이를 거꾸로 다르게 옮겨 다니기"
+
+#: tabbox/tabbox.cpp:507
+msgid "Walk Through Desktops"
+msgstr "데스크톱 사이를 옮겨 다니기"
+
+#: tabbox/tabbox.cpp:508
+msgid "Walk Through Desktops (Reverse)"
+msgstr "데스크톱 사이를 거꾸로 옮겨 다니기"
+
+#: tabbox/tabbox.cpp:509
+msgid "Walk Through Desktop List"
+msgstr "데스크톱 목록을 따라 옮겨 다니기"
+
+#: tabbox/tabbox.cpp:510
+msgid "Walk Through Desktop List (Reverse)"
+msgstr "데스크톱 목록을 거꾸로 옮겨 다니기"
+
+#: tabbox/tabboxhandler.cpp:272
+msgid ""
+"The Window Switcher installation is broken, resources are missing.\n"
+"Contact your distribution about this."
+msgstr ""
+"창 전환기 설치 상태가 올바르지 않습니다. 자원이 없습니다.\n"
+"배포판 관리자에게 문의하십시오."
+
+#: useractions.cpp:186
+#, kde-format
+msgid ""
+"You have selected to show a window without its border.\n"
+"Without the border, you will not be able to enable the border again using "
+"the mouse: use the window operations menu instead, activated using the %1 "
+"keyboard shortcut."
+msgstr ""
+"창의 경계선이 보이지 않게 하도록 설정했습니다.\n"
+"경계선이 없을 때는 마우스를 사용해서 경계선을 다시 보이게 할 수 없습니다: 키"
+"보드 단축키 %1을(를) 사용하셔서 창 동작 메뉴를 부르십시오."
+
+#: useractions.cpp:194
+#, kde-format
+msgid ""
+"You have selected to show a window in fullscreen mode.\n"
+"If the application itself does not have an option to turn the fullscreen "
+"mode off you will not be able to disable it again using the mouse: use the "
+"window operations menu instead, activated using the %1 keyboard shortcut."
+msgstr ""
+"창을 전체 화면 모드로 보이도록 설정했습니다.\n"
+"프로그램에서 전체 화면 모드를 제어할 수 없을 때에는 마우스를 사용해서 전체 화"
+"면 모드에서 벗어날 수 없습니다: 키보드 단축키 %1을(를) 사용하셔서 창 동작 메"
+"뉴를 부르십시오."
+
+#: useractions.cpp:259
+msgid "&Move"
+msgstr "이동(&M)"
+
+#: useractions.cpp:264
+msgid "Re&size"
+msgstr "크기 조정(&S)"
+
+#: useractions.cpp:268
+msgid "Keep &Above Others"
+msgstr "항상 위(&A)"
+
+#: useractions.cpp:274
+msgid "Keep &Below Others"
+msgstr "항상 아래(&B)"
+
+#: useractions.cpp:280
+msgid "&Fullscreen"
+msgstr "전체 화면(&F)"
+
+#: useractions.cpp:286
+msgid "Sh&ade"
+msgstr "말아 올리기(&A)"
+
+#: useractions.cpp:291
+msgid "&No Border"
+msgstr "테두리 없음(&N)"
+
+#: useractions.cpp:298
+msgid "Window &Shortcut..."
+msgstr "창 단축키(&S)..."
+
+#: useractions.cpp:303
+msgid "&Special Window Settings..."
+msgstr "창 특별 설정(&S)..."
+
+#: useractions.cpp:307
+msgid "S&pecial Application Settings..."
+msgstr "프로그램 특별 설정(&S)..."
+
+#: useractions.cpp:314
+msgctxt ""
+"Entry in context menu of window decoration to open the configuration module "
+"of KWin"
+msgid "Window &Manager Settings..."
+msgstr "창 관리자 설정(&M)..."
+
+#: useractions.cpp:329
+msgid "Mi&nimize"
+msgstr "최소화(&N)"
+
+#: useractions.cpp:333
+msgid "Ma&ximize"
+msgstr "최대화(&X)"
+
+#: useractions.cpp:342
+msgid "&Untab"
+msgstr "탭 취소(&U)"
+
+#: useractions.cpp:346
+msgid "Close Entire &Group"
+msgstr "그룹 닫기(&G)"
+
+#: useractions.cpp:357
+msgid "&More Actions"
+msgstr "더 많은 동작(&M)"
+
+#: useractions.cpp:361
+msgid "&Close"
+msgstr "닫기(&C)"
+
+#: useractions.cpp:434
+msgid "&Extensions"
+msgstr "확장(&E)"
+
+#: useractions.cpp:489
+msgctxt "Switch to tab -> Previous"
+msgid "Previous"
+msgstr "이전"
+
+#: useractions.cpp:490
+msgctxt "Switch to tab -> Next"
+msgid "Next"
+msgstr "다음"
+
+#: useractions.cpp:528
+msgctxt "There's no window available to be attached as tab to this one"
+msgid "None available"
+msgstr "없음"
+
+#: useractions.cpp:537
+msgid "Switch to Tab"
+msgstr "탭으로 전환"
+
+#: useractions.cpp:548
+msgid "&Attach as tab to"
+msgstr "다음에 탭으로 부착(&A)"
+
+#: useractions.cpp:571
+msgid "Move To &Desktop"
+msgstr "다음 데스크톱으로(&D)"
+
+#: useractions.cpp:587
+msgid "Move To &Screen"
+msgstr "다음 화면으로(&S)"
+
+#: useractions.cpp:602
+msgid "Ac&tivities"
+msgstr "활동(&T)"
+
+#: useractions.cpp:614
+msgid "&All Desktops"
+msgstr "모든 데스크톱(&A)"
+
+#: useractions.cpp:640
+msgctxt "Create a new desktop and move there the window"
+msgid "&New Desktop"
+msgstr "새 데스크톱(&N)"
+
+#: useractions.cpp:661
+#, kde-format
+msgctxt "@item:inmenu List of all Screens to send a window to"
+msgid "Screen &%1"
+msgstr "화면 %1(&%1)"
+
+#: useractions.cpp:679
+msgid "&All Activities"
+msgstr "모든 활동(&A)"
+
+#: useractions.cpp:884
+#, kde-format
+msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
+msgid "<b>%1</b> is already in use"
+msgstr "<b>%1</b>이(가) 이미 사용 중"
+
+#: useractions.cpp:886
+#, kde-format
+msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
+msgid "<b>%1</b> is used by %2 in %3"
+msgstr "<b>%1</b>이(가) %3의 %2에서 사용 중"
+
+#: useractions.cpp:1009
+#, kde-format
+msgid "Activate Window (%1)"
+msgstr "창 활성화 (%1)"
+
+#: useractions.cpp:1382
+msgid ""
+"The window manager is configured to consider the screen with the mouse on it "
+"as active one.\n"
+"Therefore it is not possible to switch to a screen explicitly."
+msgstr ""
+"창 관리자는 마우스가 있는 화면을 활성 화면으로 간주합니다.\n"
+"따라서 화면을 명시적으로 전환할 수 없습니다."
+
+#: virtualdesktops.cpp:334 virtualdesktops.cpp:396
+#, kde-format
+msgid "Desktop %1"
+msgstr "데스크톱 %1"
+
+#: virtualdesktops.cpp:427
+msgid "Switch to Next Desktop"
+msgstr "다음 데스크톱으로 전환"
+
+#: virtualdesktops.cpp:428
+msgid "Switch to Previous Desktop"
+msgstr "이전 데스크톱으로 전환"
+
+#: virtualdesktops.cpp:429
+msgid "Switch One Desktop to the Right"
+msgstr "오른쪽 데스크톱으로 전환"
+
+#: virtualdesktops.cpp:430
+msgid "Switch One Desktop to the Left"
+msgstr "왼쪽 데스크톱으로 전환"
+
+#: virtualdesktops.cpp:431
+msgid "Switch One Desktop Up"
+msgstr "위쪽 데스크톱으로 전환"
+
+#: virtualdesktops.cpp:432
+msgid "Switch One Desktop Down"
+msgstr "아래쪽 데스크톱으로 전환"
+
+#: virtualdesktops.cpp:444
+#, kde-format
+msgid "Switch to Desktop %1"
+msgstr "데스크톱 %1(으)로 전환"
+
+#: workspace.cpp:1340
+msgctxt "Introductory text shown in the support information."
+msgid ""
+"KWin Support Information:\n"
+"The following information should be used when requesting support on e.g. "
+"http://forum.kde.org.\n"
+"It provides information about the currently running instance, which options "
+"are used,\n"
+"what OpenGL driver and which effects are running.\n"
+"Please post the information provided underneath this introductory text to a "
+"paste bin service\n"
+"like http://paste.kde.org instead of pasting into support threads.\n"
+msgstr ""
+"KWin 지원 정보:\n"
+"포럼 (예: http://forum.kde.org) 등에 지원을 요청하려면 다음 정보를 사용하십시"
+"오.\n"
+"현재 실행 중인 창 관리자의 옵션, 사용 중인 OpenGL 드라이버, 실행 중인 효과와 "
+"같은\n"
+"창 관리자의 상태 정보를 제공합니다.\n"
+"이 메시지 아래에 있는 지원 정보를 글에 바로 붙여넣기보다는\n"
+"http://paste.kde.org 등 외부 사이트에 링크하는 것을 권장합니다.\n"

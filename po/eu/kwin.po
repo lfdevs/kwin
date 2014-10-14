@@ -1,0 +1,863 @@
+# Translation of kwin.po to Euskara/Basque (eu).
+# Copyright (C) 2002-2014 Free Software Foundation, Inc.
+# This file is distributed under the same license as the kde-workspace package.
+#
+# Iñaki Ibarrola Atxa <etxaurre@teleline.es>, 2002.
+# Marcos  <marcos@euskalgnu.org>, 2002, 2003, 2005, 2006, 2007.
+# Juan Irigoien <juanirigoien@yahoo.es>, 2004.
+# Ion Gaztañaga <igaztanaga@gmail.com>, 2005.
+# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2008, 2009, 2010, 2011, 2014.
+# Hizkuntza Politikarako Sailburuordetza <hizpol@ej-gv.es>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"PO-Revision-Date: 2014-02-04 11:21+0100\n"
+"Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
+"Language-Team: Basque <kde-i18n-doc@kde.org>\n"
+"Language: eu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr ""
+"Iñaki Ibarrola Atxa,Marcos Goyeneche,Juan Irigoien,Ion Gaztañaga,Iñigo "
+"Salvador Azurmendi,Hizkuntza Politikarako Sailburuordetza"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr ""
+"etxaurre@teleline.es,marcos@euskalgnu.org,juanirigoien@yahoo.es,"
+"igaztanaga@gmail.com,xalba@euskalnet.net,hizpol@ej-gv.es"
+
+#: composite.cpp:500
+#, kde-format
+msgid ""
+"Desktop effects have been suspended by another application.<br/>You can "
+"resume using the '%1' shortcut."
+msgstr ""
+"Mahaigaineko efektuak eseki egin ditu beste aplikazio batek.<br/> '%1' "
+"lasterbidea erabil dezakezu berrekiteko."
+
+#: compositingprefs.cpp:98
+msgid ""
+"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
+"b><br>This was most likely due to a driver bug.<p>If you think that you have "
+"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
+"<b>be aware that this might result in an immediate crash!</b></"
+"p><p>Alternatively, you might want to use the XRender backend instead.</p>"
+msgstr ""
+"<b>OpenGL konposizioak (lehenetsia) KWin-i huts eginarazi dio lehenago ere.</"
+"b><br>Ziur asko, kontrolatzaile baten errore batek eragingo zuen hori.<p> "
+"Orain duzun kontrolatzailea seguruagoa dela uste baduzu,<br> babesa berrezar "
+"dezakezu, baina <b>gogoan izan horrek berehala kraskatzea eragin dezakeela! "
+"</b></p><p>Horren ordez, XRender bizkarraldekoa erabil dezakezu.</p>"
+
+#: compositingprefs.cpp:105
+msgid "Required X extensions (XComposite and XDamage) are not available."
+msgstr "Beharrezko X luzapenak (XComposite eta XDamage) ez daude eskuragarri."
+
+#: compositingprefs.cpp:109
+msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
+msgstr ""
+"GLX/OpenGL ez daude eskuragarri eta soilik OpenGL euskarria dago konpilatuta."
+
+#: compositingprefs.cpp:113
+msgid "GLX/OpenGL and XRender/XFixes are not available."
+msgstr "GLX/OpenGL eta XRender/XFixes ez daude eskuragarri."
+
+#: decorations.cpp:59
+msgid "KWin: "
+msgstr "KWin: "
+
+#: killer/killer.cpp:44
+msgid "Window Manager"
+msgstr "Leiho-kudeatzailea"
+
+#: killer/killer.cpp:49
+msgid "PID of the application to terminate"
+msgstr "Amaitu beharreko aplikazioaren PID"
+
+#: killer/killer.cpp:49
+msgid "pid"
+msgstr "PID"
+
+#: killer/killer.cpp:51
+msgid "Hostname on which the application is running"
+msgstr "Aplikazioa martxan dagoen makinaren ostalari izena"
+
+#: killer/killer.cpp:51
+msgid "hostname"
+msgstr "Ostalari-izena"
+
+#: killer/killer.cpp:53
+msgid "Caption of the window to be terminated"
+msgstr "Amaitu beharreko leihoaren izenburua"
+
+#: killer/killer.cpp:53
+msgid "caption"
+msgstr "izenburua"
+
+#: killer/killer.cpp:55
+msgid "Name of the application to be terminated"
+msgstr "Amaitu beharreko aplikazioaren izena"
+
+#: killer/killer.cpp:55
+msgid "name"
+msgstr "izena"
+
+#: killer/killer.cpp:57
+msgid "ID of resource belonging to the application"
+msgstr "Aplikazioari dagokion baliabidearen IDa"
+
+#: killer/killer.cpp:57
+msgid "id"
+msgstr "IDa"
+
+#: killer/killer.cpp:59
+msgid "Time of user action causing termination"
+msgstr "Amaitzea eragin duen erabiltzaile-ekintzaren ordua"
+
+#: killer/killer.cpp:59
+msgid "time"
+msgstr "ordua"
+
+#: killer/killer.cpp:61
+msgid "KWin helper utility"
+msgstr "KWin-en laguntza-morroia"
+
+#: killer/killer.cpp:85
+msgid "This helper utility is not supposed to be called directly."
+msgstr "Laguntza-morroi honi ez zaio zuzenean deitu behar."
+
+#: killer/killer.cpp:95
+#, kde-format
+msgctxt "@info"
+msgid "<b>Application \"%1\" is not responding</b>"
+msgstr "<b>\"%1\" aplikazioak ez du erantzuten</b>"
+
+#: killer/killer.cpp:106
+#, kde-format
+msgid "&Terminate Application %1"
+msgstr "&Amaitu aplikazioa %1"
+
+#: killer/killer.cpp:107
+msgid "Wait Longer"
+msgstr "Itxaron gehiago"
+
+#: kwinbindings.cpp:40
+msgid "Walk Through Window Tabs"
+msgstr "Pasatu leihoetako fitxa batetik bestera"
+
+#: kwinbindings.cpp:41
+msgid "Walk Through Window Tabs (Reverse)"
+msgstr "Pasatu leihoetako fitxa batetik bestera (alderantziz)"
+
+#: kwinbindings.cpp:42
+msgid "Remove Window From Group"
+msgstr "Ezabatu leihoa taldetik"
+
+#: kwinbindings.cpp:44
+msgid "Window Operations Menu"
+msgstr "Leiho-eragiketen menua"
+
+#: kwinbindings.cpp:46
+msgid "Close Window"
+msgstr "Itxi leihoa"
+
+#: kwinbindings.cpp:48
+msgid "Maximize Window"
+msgstr "Maximizatu leihoa"
+
+#: kwinbindings.cpp:50
+msgid "Maximize Window Vertically"
+msgstr "Maximizatu leihoa bertikalki"
+
+#: kwinbindings.cpp:52
+msgid "Maximize Window Horizontally"
+msgstr "Maximizatu leihoa horizontalki"
+
+#: kwinbindings.cpp:54
+msgid "Minimize Window"
+msgstr "Ikonotu leihoa"
+
+#: kwinbindings.cpp:56
+msgid "Shade Window"
+msgstr "Bildu leihoa"
+
+#: kwinbindings.cpp:58
+msgid "Move Window"
+msgstr "Lekuz aldatu leihoa"
+
+#: kwinbindings.cpp:60
+msgid "Resize Window"
+msgstr "Tamainaz aldatu leihoa"
+
+#: kwinbindings.cpp:62
+msgid "Raise Window"
+msgstr "Goratu leihoa"
+
+#: kwinbindings.cpp:64
+msgid "Lower Window"
+msgstr "Beheratu leihoa"
+
+#: kwinbindings.cpp:66
+msgid "Toggle Window Raise/Lower"
+msgstr "Txandakatu leihoa goratu/beheratu"
+
+#: kwinbindings.cpp:68
+msgid "Make Window Fullscreen"
+msgstr "Erakutsi leihoa pantaila osoan"
+
+#: kwinbindings.cpp:70
+msgid "Hide Window Border"
+msgstr "Ezkutatu leihoaren ertza"
+
+#: kwinbindings.cpp:72
+msgid "Keep Window Above Others"
+msgstr "Mantendu leihoa besteen gainean"
+
+#: kwinbindings.cpp:74
+msgid "Keep Window Below Others"
+msgstr "Mantendu leihoa besteen azpian"
+
+#: kwinbindings.cpp:76
+msgid "Activate Window Demanding Attention"
+msgstr "Aktibatu arreta eskatzen duen leihoa"
+
+#: kwinbindings.cpp:78
+msgid "Setup Window Shortcut"
+msgstr "Konfiguratu leihoaren lasterbidea"
+
+#: kwinbindings.cpp:80
+msgid "Pack Window to the Right"
+msgstr "Bildu leihoa eskuinean"
+
+#: kwinbindings.cpp:82
+msgid "Pack Window to the Left"
+msgstr "Bildu leihoa ezkerrean"
+
+#: kwinbindings.cpp:84
+msgid "Pack Window Up"
+msgstr "Bildu leihoa gorantz"
+
+#: kwinbindings.cpp:86
+msgid "Pack Window Down"
+msgstr "Bildu leihoa beherantz"
+
+#: kwinbindings.cpp:88
+msgid "Pack Grow Window Horizontally"
+msgstr "Bildu eta zabaldu leihoa horizontalki"
+
+#: kwinbindings.cpp:90
+msgid "Pack Grow Window Vertically"
+msgstr "Bildu eta zabaldu leihoa bertikalki"
+
+#: kwinbindings.cpp:92
+msgid "Pack Shrink Window Horizontally"
+msgstr "Bildu eta txikiagotu leihoa horizontalki"
+
+#: kwinbindings.cpp:94
+msgid "Pack Shrink Window Vertically"
+msgstr "Bildu eta txikiagotu leihoa bertikalki"
+
+#: kwinbindings.cpp:96
+msgid "Quick Tile Window to the Left"
+msgstr "Jarri leihoa mosaikoan ezkerrean"
+
+#: kwinbindings.cpp:98
+msgid "Quick Tile Window to the Right"
+msgstr "Jarri leihoa mosaikoan eskuinean"
+
+#: kwinbindings.cpp:100
+msgid "Quick Tile Window to the Top Left"
+msgstr "Jarri leihoa mosaikoan goian, ezkerrean"
+
+#: kwinbindings.cpp:102
+msgid "Quick Tile Window to the Bottom Left"
+msgstr "Jarri leihoa mosaikoan behean, ezkerrean"
+
+#: kwinbindings.cpp:104
+msgid "Quick Tile Window to the Top Right"
+msgstr "Jarri leihoa mosaikoan goian, eskuinean"
+
+#: kwinbindings.cpp:106
+msgid "Quick Tile Window to the Bottom Right"
+msgstr "Jarri leihoa mosaikoan behean, eskuinean"
+
+#: kwinbindings.cpp:108
+msgid "Switch to Window Above"
+msgstr "Aldatu gaineko leihora"
+
+#: kwinbindings.cpp:110
+msgid "Switch to Window Below"
+msgstr "Aldatu azpiko leihora"
+
+#: kwinbindings.cpp:112
+msgid "Switch to Window to the Right"
+msgstr "Aldatu eskuineko leihora"
+
+#: kwinbindings.cpp:114
+msgid "Switch to Window to the Left"
+msgstr "Aldatu ezkerreko leihora"
+
+#: kwinbindings.cpp:116
+msgid "Increase Opacity of Active Window by 5 %"
+msgstr "% 5 handitu leiho aktiboaren opakutasuna"
+
+#: kwinbindings.cpp:118
+msgid "Decrease Opacity of Active Window by 5 %"
+msgstr "% 5 txikiagotu leiho aktiboaren opakutasuna"
+
+#: kwinbindings.cpp:121
+msgid "Keep Window on All Desktops"
+msgstr "Mantendu leihoa mahaigain guztietan"
+
+#: kwinbindings.cpp:125
+#, kde-format
+msgid "Window to Desktop %1"
+msgstr "Aldatu leihoa %1 mahaigainera"
+
+#: kwinbindings.cpp:127
+msgid "Window to Next Desktop"
+msgstr "Aldatu leihoa hurrengo mahaigainera"
+
+#: kwinbindings.cpp:128
+msgid "Window to Previous Desktop"
+msgstr "Aldatu leihoa aurreko mahaigainera"
+
+#: kwinbindings.cpp:129
+msgid "Window One Desktop to the Right"
+msgstr "Aldatu leihoa eskuineko mahaigainera"
+
+#: kwinbindings.cpp:130
+msgid "Window One Desktop to the Left"
+msgstr "Aldatu leihoa ezkerreko mahaigainera"
+
+#: kwinbindings.cpp:131
+msgid "Window One Desktop Up"
+msgstr "Aldatu leihoa goiko mahaigainera"
+
+#: kwinbindings.cpp:132
+msgid "Window One Desktop Down"
+msgstr "Aldatu leihoa beheko mahaigainera"
+
+#: kwinbindings.cpp:135
+#, kde-format
+msgid "Window to Screen %1"
+msgstr "Aldatu leihoa %1 pantailara"
+
+#: kwinbindings.cpp:137
+msgid "Window to Next Screen"
+msgstr "Aldatu leihoa hurrengo pantailara"
+
+#: kwinbindings.cpp:138
+msgid "Window to Previous Screen"
+msgstr "Aldatu leihoa aurreko pantailara"
+
+#: kwinbindings.cpp:139
+msgid "Show Desktop"
+msgstr "Erakutsi mahaigaina"
+
+#: kwinbindings.cpp:142
+#, kde-format
+msgid "Switch to Screen %1"
+msgstr "Aldatu %1 pantailara"
+
+#: kwinbindings.cpp:145
+msgid "Switch to Next Screen"
+msgstr "Aldatu hurrengo pantailara"
+
+#: kwinbindings.cpp:146
+msgid "Switch to Previous Screen"
+msgstr "Aldatu aurreko pantailara"
+
+#: kwinbindings.cpp:148
+msgid "Kill Window"
+msgstr "Akabatu leihoa"
+
+#: kwinbindings.cpp:149
+msgid "Suspend Compositing"
+msgstr "Eseki konposizioa"
+
+#: kwinbindings.cpp:150
+msgid "Invert Screen Colors"
+msgstr "Alderantzikatu pantailaren koloreak"
+
+#: main.cpp:78
+msgid ""
+"KWin is unstable.\n"
+"It seems to have crashed several times in a row.\n"
+"You can select another window manager to run:"
+msgstr ""
+"KWin ezegonkor dago.\n"
+"Zenbait alditan jarraian kraskatu dela dirudi.\n"
+"Beste leiho-kudeatzaile bat aukeratu dezakezu:"
+
+#: main.cpp:259 main.cpp:286
+msgid "KDE window manager"
+msgstr "KDEren leiho-kudeatzailea"
+
+#: main.cpp:264
+msgid "KWin"
+msgstr "KWin"
+
+#: main.cpp:268
+msgid "(c) 1999-2013, The KDE Developers"
+msgstr "(c) 1999-2013, KDEren garatzaileak"
+
+#: main.cpp:270
+msgid "Matthias Ettrich"
+msgstr "Matthias Ettrich"
+
+#: main.cpp:271
+msgid "Cristian Tibirna"
+msgstr "Cristian Tibirna"
+
+#: main.cpp:272
+msgid "Daniel M. Duley"
+msgstr "Daniel M. Duley"
+
+#: main.cpp:273
+msgid "Luboš Luňák"
+msgstr "Luboš Luňák"
+
+#: main.cpp:274
+msgid "Martin Gräßlin"
+msgstr "Martin Gräßlin"
+
+#: main.cpp:274
+msgid "Maintainer"
+msgstr "Arduraduna"
+
+#: main.cpp:283
+msgid "Disable configuration options"
+msgstr "Desgaitu konfigurazio-aukerak"
+
+#: main.cpp:284
+msgid "Indicate that KWin has recently crashed n times"
+msgstr "KWin oraintsu n aldiz kraskatu dela adierazten du"
+
+#: main_wayland.cpp:88
+#, fuzzy
+#| msgid "kwin: another window manager is running (try using --replace)\n"
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+msgstr ""
+"kwin: beste leiho-kudeatzaile bat martxan dago (saiatu --replace erabiliz)\n"
+
+#: main_wayland.cpp:96
+msgid ""
+"kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
+"set.\n"
+msgstr ""
+
+#: main_wayland.cpp:231
+msgid "Start a nested X Server."
+msgstr ""
+
+#: main_wayland.cpp:234
+msgid "The X11 Display to connect to, required if option x-server is used."
+msgstr ""
+
+#: main_x11.cpp:149
+msgid ""
+"kwin: unable to claim manager selection, another wm running? (try using --"
+"replace)\n"
+msgstr ""
+"kwin: ezin da abiatu hautatutako kudeatzailea; beste leiho-kudeatzaileren "
+"bat dago martxan? (saiatu --replace erabiliz)\n"
+
+#: main_x11.cpp:166
+msgid "kwin: another window manager is running (try using --replace)\n"
+msgstr ""
+"kwin: beste leiho-kudeatzaile bat martxan dago (saiatu --replace erabiliz)\n"
+
+#: main_x11.cpp:261
+msgid "Replace already-running ICCCM2.0-compliant window manager"
+msgstr ""
+"Ordeztu ICCCM2.0arekin bateragarri den eta martxan dagoen leiho-kudeatzailea."
+
+#: scene_opengl.cpp:558
+msgid "Desktop effects were restarted due to a graphics reset"
+msgstr ""
+"Mahaigaineko efektuak berrabiarazi dira berrezarpen grafiko baten ondorioz"
+
+#: scene_opengl.cpp:729
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
+"OpenGL Desktop Effects at the current resolution<br><br>You can try to "
+"select the XRender backend, but it might be very slow for this resolution as "
+"well.<br>Alternatively, lower the combined resolution of all screens to %1x"
+"%2 "
+msgstr ""
+
+#: scene_opengl.cpp:736
+msgid ""
+"The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+"GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+"does not know such limitation, but the performance will usually be impacted "
+"by the hardware limitations that restrict the OpenGL viewport size."
+msgstr ""
+
+#: scene_opengl.cpp:761
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+"the current resolution are supported but might be exceptionally slow."
+"<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
+"compositing, switch to the XRender backend or lower the resolution to %1x%1."
+msgstr ""
+
+#: scene_opengl.cpp:767
+msgid ""
+"The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+"GPU, thus windows of that size cannot be assigned to textures and will be "
+"entirely black.<br>Also this limit will often be a performance level barrier "
+"despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+"software rendering in this case."
+msgstr ""
+
+#: scripting/genericscriptedconfig.cpp:81
+msgctxt "Error message"
+msgid "Plugin does not provide configuration file in expected location"
+msgstr ""
+
+#: scripting/scripting.cpp:127
+#, kde-format
+msgctxt "Assertion failed in KWin script with given value"
+msgid "Assertion failed: %1 is not null"
+msgstr ""
+
+#: scripting/scripting.cpp:145
+msgctxt "Assertion failed in KWin script"
+msgid "Assertion failed: argument is null"
+msgstr ""
+
+#: scripting/scripting.cpp:172
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid number of arguments. At least service, path, interface and method "
+"need to be provided"
+msgstr ""
+
+#: scripting/scripting.cpp:178
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid type. Service, path, interface and method need to be string values"
+msgstr ""
+
+#: scripting/scriptingutils.cpp:28
+msgctxt "syntax error in KWin script"
+msgid "Invalid number of arguments"
+msgstr ""
+
+#: scripting/scriptingutils.cpp:41
+#, kde-format
+msgctxt "KWin Scripting function received incorrect value for an expected type"
+msgid "%1 is not a variant type"
+msgstr ""
+
+#: tabbox/tabbox.cpp:348
+msgctxt "Special entry in alt+tab list for minimizing all windows"
+msgid "Show Desktop"
+msgstr "Erakutsi mahaigaina"
+
+#: tabbox/tabbox.cpp:499
+msgid "Walk Through Windows"
+msgstr "Ibili leihoetan zehar"
+
+#: tabbox/tabbox.cpp:500
+msgid "Walk Through Windows (Reverse)"
+msgstr "Ibili leihoetan zehar (atzerantz)"
+
+#: tabbox/tabbox.cpp:501
+msgid "Walk Through Windows Alternative"
+msgstr "Ibili leihoetan zehar beste modu batean"
+
+#: tabbox/tabbox.cpp:502
+msgid "Walk Through Windows Alternative (Reverse)"
+msgstr "Ibili leihoetan zehar beste modu batean (alderantziz)"
+
+#: tabbox/tabbox.cpp:503
+msgid "Walk Through Windows of Current Application"
+msgstr "Pasatu une honetako aplikazioko leiho batetik bestera"
+
+#: tabbox/tabbox.cpp:504
+msgid "Walk Through Windows of Current Application (Reverse)"
+msgstr "Pasatu une honetako aplikazioko leiho batetik bestera (alderantziz)"
+
+#: tabbox/tabbox.cpp:505
+msgid "Walk Through Windows of Current Application Alternative"
+msgstr ""
+"Pasatu une honetako aplikazioko leiho batetik bestera beste modu batean"
+
+#: tabbox/tabbox.cpp:506
+msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+msgstr ""
+"Pasatu une honetako aplikazioko leiho batetik bestera beste modu batean "
+"(alderantziz)"
+
+#: tabbox/tabbox.cpp:507
+msgid "Walk Through Desktops"
+msgstr "Pasatu mahaigain batetik bestera"
+
+#: tabbox/tabbox.cpp:508
+msgid "Walk Through Desktops (Reverse)"
+msgstr "Pasatu mahaigain batetik bestera (alderantziz)"
+
+#: tabbox/tabbox.cpp:509
+msgid "Walk Through Desktop List"
+msgstr "Pasatu mahaigain-zerrenda batetik bestera"
+
+#: tabbox/tabbox.cpp:510
+msgid "Walk Through Desktop List (Reverse)"
+msgstr "Pasatu mahaigain-zerrenda batetik bestera (alderantziz)"
+
+#: tabbox/tabboxhandler.cpp:272
+msgid ""
+"The Window Switcher installation is broken, resources are missing.\n"
+"Contact your distribution about this."
+msgstr ""
+
+#: useractions.cpp:186
+#, kde-format
+msgid ""
+"You have selected to show a window without its border.\n"
+"Without the border, you will not be able to enable the border again using "
+"the mouse: use the window operations menu instead, activated using the %1 "
+"keyboard shortcut."
+msgstr ""
+"Leiho bat ertzik gabe erakustea hautatu duzu. \n"
+"Ertzik ez duenez, ezingo duzu ertza berriz gaitu sagua erabiliz: horren "
+"ordez, erabil ezazu leihoaren eragiketa-menua, %1 laster-teklaren bidez "
+"aktibatzen dena."
+
+#: useractions.cpp:194
+#, kde-format
+msgid ""
+"You have selected to show a window in fullscreen mode.\n"
+"If the application itself does not have an option to turn the fullscreen "
+"mode off you will not be able to disable it again using the mouse: use the "
+"window operations menu instead, activated using the %1 keyboard shortcut."
+msgstr ""
+"Leiho bat pantaila osoko ikuspegian erakustea hautatu duzu. \n"
+"Aplikazioak ez badu aukerarik pantaila osoko ikuspegia desaktibatzeko, "
+"ezingo duzu desgaitu sagua erabiliz. Horren ordez, erabil ezazu leihoaren "
+"eragiketa-menua, %1 laster-teklaren bidez aktibatzen dena."
+
+#: useractions.cpp:259
+msgid "&Move"
+msgstr "Le&kuz aldatu"
+
+#: useractions.cpp:264
+msgid "Re&size"
+msgstr "&Aldatu tamaina"
+
+#: useractions.cpp:268
+msgid "Keep &Above Others"
+msgstr "Mantendu &besteen gainean"
+
+#: useractions.cpp:274
+msgid "Keep &Below Others"
+msgstr "Mantendu &besteen azpian"
+
+#: useractions.cpp:280
+msgid "&Fullscreen"
+msgstr "&Pantaila osoa"
+
+#: useractions.cpp:286
+msgid "Sh&ade"
+msgstr "&Bildu"
+
+#: useractions.cpp:291
+msgid "&No Border"
+msgstr "Ertzik &ez"
+
+#: useractions.cpp:298
+msgid "Window &Shortcut..."
+msgstr "Leihoaren &lasterbidea..."
+
+#: useractions.cpp:303
+msgid "&Special Window Settings..."
+msgstr "&Leihoaren ezarpen bereziak..."
+
+#: useractions.cpp:307
+msgid "S&pecial Application Settings..."
+msgstr "Aplikazioaren ezarpen &bereziak..."
+
+#: useractions.cpp:314
+msgctxt ""
+"Entry in context menu of window decoration to open the configuration module "
+"of KWin"
+msgid "Window &Manager Settings..."
+msgstr "Leiho-&kudeatzailearen ezarpenak..."
+
+#: useractions.cpp:329
+msgid "Mi&nimize"
+msgstr "&Ikonotu"
+
+#: useractions.cpp:333
+msgid "Ma&ximize"
+msgstr "&Maximizatu"
+
+#: useractions.cpp:342
+msgid "&Untab"
+msgstr "&Fitxatik atera"
+
+#: useractions.cpp:346
+msgid "Close Entire &Group"
+msgstr "Itxi &talde osoa"
+
+#: useractions.cpp:357
+msgid "&More Actions"
+msgstr "E&kintza gehiago"
+
+#: useractions.cpp:361
+msgid "&Close"
+msgstr "It&xi"
+
+#: useractions.cpp:434
+msgid "&Extensions"
+msgstr "&Luzapenak"
+
+#: useractions.cpp:489
+msgctxt "Switch to tab -> Previous"
+msgid "Previous"
+msgstr "Aurrekoa"
+
+#: useractions.cpp:490
+msgctxt "Switch to tab -> Next"
+msgid "Next"
+msgstr "Hurrengoa"
+
+#: useractions.cpp:528
+msgctxt "There's no window available to be attached as tab to this one"
+msgid "None available"
+msgstr "Bat ere ez eskuragarri"
+
+#: useractions.cpp:537
+msgid "Switch to Tab"
+msgstr "Aldatu fitxara"
+
+#: useractions.cpp:548
+msgid "&Attach as tab to"
+msgstr "&Lotu fitxa gisa honetara"
+
+#: useractions.cpp:571
+msgid "Move To &Desktop"
+msgstr "Eraman &mahaigainera"
+
+#: useractions.cpp:587
+msgid "Move To &Screen"
+msgstr "Eraman &pantailara"
+
+#: useractions.cpp:602
+msgid "Ac&tivities"
+msgstr "Jar&duerak"
+
+#: useractions.cpp:614
+msgid "&All Desktops"
+msgstr "Mahaigain guzti&ak"
+
+#: useractions.cpp:640
+msgctxt "Create a new desktop and move there the window"
+msgid "&New Desktop"
+msgstr "&Mahaigain berria"
+
+#: useractions.cpp:661
+#, kde-format
+msgctxt "@item:inmenu List of all Screens to send a window to"
+msgid "Screen &%1"
+msgstr "%1 &pantaila"
+
+#: useractions.cpp:679
+msgid "&All Activities"
+msgstr "&Jarduera guztiak"
+
+#: useractions.cpp:884
+#, kde-format
+msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
+msgid "<b>%1</b> is already in use"
+msgstr "<b>%1</b> lehendik erabiltzen ari da"
+
+#: useractions.cpp:886
+#, kde-format
+msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
+msgid "<b>%1</b> is used by %2 in %3"
+msgstr "%2 <b>%1</b> erabiltzen ari da %3(e)n"
+
+#: useractions.cpp:1009
+#, kde-format
+msgid "Activate Window (%1)"
+msgstr "Aktibatu leihoa (%1)"
+
+#: useractions.cpp:1382
+msgid ""
+"The window manager is configured to consider the screen with the mouse on it "
+"as active one.\n"
+"Therefore it is not possible to switch to a screen explicitly."
+msgstr ""
+
+#: virtualdesktops.cpp:334 virtualdesktops.cpp:396
+#, kde-format
+msgid "Desktop %1"
+msgstr "%1 mahaigaina"
+
+#: virtualdesktops.cpp:427
+msgid "Switch to Next Desktop"
+msgstr "Aldatu hurrengo mahaigainera"
+
+#: virtualdesktops.cpp:428
+msgid "Switch to Previous Desktop"
+msgstr "Aldatu aurreko mahaigainera"
+
+#: virtualdesktops.cpp:429
+msgid "Switch One Desktop to the Right"
+msgstr "Aldatu eskuineko mahaigainera"
+
+#: virtualdesktops.cpp:430
+msgid "Switch One Desktop to the Left"
+msgstr "Aldatu ezkerreko mahaigainera"
+
+#: virtualdesktops.cpp:431
+msgid "Switch One Desktop Up"
+msgstr "Aldatu goiko mahaigainera"
+
+#: virtualdesktops.cpp:432
+msgid "Switch One Desktop Down"
+msgstr "Aldatu beheko mahaigainera"
+
+#: virtualdesktops.cpp:444
+#, kde-format
+msgid "Switch to Desktop %1"
+msgstr "Aldatu %1 mahaigainera"
+
+#: workspace.cpp:1340
+msgctxt "Introductory text shown in the support information."
+msgid ""
+"KWin Support Information:\n"
+"The following information should be used when requesting support on e.g. "
+"http://forum.kde.org.\n"
+"It provides information about the currently running instance, which options "
+"are used,\n"
+"what OpenGL driver and which effects are running.\n"
+"Please post the information provided underneath this introductory text to a "
+"paste bin service\n"
+"like http://paste.kde.org instead of pasting into support threads.\n"
+msgstr ""
+"KWin-en laguntza-informazioa:\n"
+"Ondorengo informazio hau erabili behar da laguntza eskatzean, adibidez, "
+"helbide honetan: http://forum.kde.org.\n"
+"Hauei buruzko informazioa ematen du: une horretan martxan dagoen instantzia, "
+"zer aukera ari diren erabiltzen,\n"
+"eta zer OpenKL kontrolatzaile eta zer efektu dauden aktibatuta. Mesedez, "
+"bidali sarrera-testu honen azpian dagoen informazioa kopiatu/itsatsi "
+"zerbitzu batera,\n"
+"(adibidez, helbide honetara: http://paste.kde.org) laguntza-harietan itsatsi "
+"ordez.\n"

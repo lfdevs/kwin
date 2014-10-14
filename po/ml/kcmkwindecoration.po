@@ -1,0 +1,349 @@
+# Malayalam translation of kcmkwindecoration.po.
+# Copyright (C) 2008 This_file_is_part_of_KDE
+# This file is distributed under the same license as the kdebase package.
+# ആഷിക് എസ് | Ashik S<aashiks@gmail.com>, 2008.
+# Ershad K <ershad92@gmail.com>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kcmkwindecoration trunk\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-06-11 07:50+0000\n"
+"PO-Revision-Date: 2010-06-25 13:41+0530\n"
+"Last-Translator: Ershad K <ershad92@gmail.com>\n"
+"Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
+"discuss@googlegroups.com>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "ആഷിക് എസ്, ഇര്‍ഷാദ് കെ"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "aashiks@gmail.com, ershad92@gmail.com"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: auroraeconfig.ui:23
+msgid "Border size:"
+msgstr "വക്കിന്റെ വലുപ്പം:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:34 configdialog.cpp:36
+msgctxt "@item:inlistbox Border size:"
+msgid "Tiny"
+msgstr "ചെറുത്"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:39 configdialog.cpp:37
+msgctxt "@item:inlistbox Border size:"
+msgid "Normal"
+msgstr "സാധാരണമായത്"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:44 configdialog.cpp:38
+msgctxt "@item:inlistbox Border size:"
+msgid "Large"
+msgstr "വലിയത്"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:49 configdialog.cpp:39
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Large"
+msgstr "വളരെ വലുത്"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:54 configdialog.cpp:40
+msgctxt "@item:inlistbox Border size:"
+msgid "Huge"
+msgstr "ഭീമമായത്"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:59 configdialog.cpp:41
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Huge"
+msgstr "അതിഭീമമായത് "
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:64 configdialog.cpp:42
+msgctxt "@item:inlistbox Border size:"
+msgid "Oversized"
+msgstr "ബൃഹത്തായ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: auroraeconfig.ui:72
+msgid "Button size:"
+msgstr "ബട്ടണിന്റെ വലുപ്പം"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:83
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "ചെറുത്"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:88
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "സാധാരണമായത്"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:93
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "വലിയത്"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:98
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "വളരെ വലുത്"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:103
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "ഭീമമായത്"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:108
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "അതിഭീമമായത്"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:113
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "ബൃഹത്തായ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
+#: auroraeconfig.ui:126
+msgid "Close windows by double clicking the menu button"
+msgstr ""
+
+#: buttons.cpp:620
+msgid "KDE"
+msgstr "കെഡിഇ"
+
+#: buttons.cpp:649
+#, kde-format
+msgid "%1 (unavailable)"
+msgstr "%1 (ലഭ്യമല്ല)"
+
+#: buttons.cpp:672
+msgid ""
+"To add or remove titlebar buttons, simply <i>drag</i> items between the "
+"available item list and the titlebar preview. Similarly, drag items within "
+"the titlebar preview to re-position them."
+msgstr ""
+
+#: buttons.cpp:728
+msgid "Resize"
+msgstr "വലിപ്പം മാറ്റുക"
+
+#: buttons.cpp:733
+msgid "Shade"
+msgstr "മറയ്ക്കുക"
+
+#: buttons.cpp:738
+msgid "Keep Below Others"
+msgstr "മറ്റുള്ളവയുടെ താഴെ വെക്കുക"
+
+#: buttons.cpp:743
+msgid "Keep Above Others"
+msgstr "മറ്റുള്ളവയ്ക്കു മുകളില്‍ വെക്കുക"
+
+#: buttons.cpp:748
+msgid "Close"
+msgstr "അടയ്ക്കുക"
+
+#: buttons.cpp:753
+msgid "Maximize"
+msgstr "വലുതാക്കുക"
+
+#: buttons.cpp:758
+msgid "Minimize"
+msgstr "ചെറുതാക്കുക"
+
+#: buttons.cpp:763
+msgid "Help"
+msgstr "സഹായം"
+
+#: buttons.cpp:768
+msgid "On All Desktops"
+msgstr "എല്ലാ പണിയിടങ്ങളിലും"
+
+#: buttons.cpp:773
+msgctxt "Button showing window actions menu"
+msgid "Window Menu"
+msgstr ""
+
+#: buttons.cpp:779
+msgctxt "Button showing application menu imported from dbusmenu"
+msgid "Application Menu"
+msgstr ""
+
+#: buttons.cpp:785
+msgid "--- spacer ---"
+msgstr "--- സ്പേസര്‍ ---"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:20
+msgid ""
+"Enabling this checkbox will show window button tooltips. If this checkbox is "
+"off, no window button tooltips will be shown."
+msgstr ""
+"ഈ ചെക്ക്ബോക്സ് പ്രവര്‍ത്തനസജ്ജമാക്കിയാല്‍ ജാലകത്തിന്റെ ബട്ടണുകളെക്കുറിച്ചുള്ള സൂചനകള്‍ കാണിക്കും. "
+"ഇതുപ്രവര്‍ത്തനരഹിതമാക്കിയാല്‍ ജാലകത്തിന്റെ ബട്ടണുകളെക്കുറിച്ചുള്ള സൂചനകള്‍ കാണിക്കുകയില്ല."
+
+#. i18n: ectx: property (text), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:23
+msgid "&Show window button tooltips"
+msgstr "ജാലകത്തിന്റെ ബട്ടണുകളെക്കുറിച്ചുള്ള സൂചനകള്‍ &കാണിയ്ക്കുക"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:30
+msgid "Please note that this option is not available on all styles yet."
+msgstr "ഈ ഐച്ഛികം എല്ലാ രീതികള്‍ക്കും ഇപ്പോള്‍ ലഭ്യമല്ല."
+
+#. i18n: ectx: property (text), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:33
+msgid "Use custom titlebar button &positions"
+msgstr "ടൈറ്റില്‍ബാര്‍ ബട്ടണുളുടെ സ്ഥാനങ്ങള്‍ ഇഷ്ടമുള്ള പോലെ ആക്കിത്തീര്‍ക്കുക‍ "
+
+#: buttonsconfigdialog.cpp:44
+msgid "Buttons"
+msgstr "ബട്ടണുകള്‍"
+
+#. i18n: ectx: property (text), widget (QLabel, borderLabel)
+#: config.ui:19
+msgid "B&order size:"
+msgstr "&വക്കിന്റെ വലുപ്പം"
+
+#. i18n: ectx: property (whatsThis), widget (KComboBox, bordersCombo)
+#: config.ui:29
+msgid "Use this combobox to change the border size of the decoration."
+msgstr "അലങ്കാരത്തിന്റെ വക്കുകളുടെ വലിപ്പം മാറ്റാന്‍ ഈ കോമ്പോബോക്സ് ഉപയോഗിക്കുക "
+
+#: configdialog.cpp:43
+msgctxt "@item:inlistbox Border size:"
+msgid "No Side Border"
+msgstr ""
+
+#: configdialog.cpp:44
+msgctxt "@item:inlistbox Border size:"
+msgid "No Border"
+msgstr ""
+
+#: configdialog.cpp:81 kwindecoration.cpp:375
+msgid "Decoration Options"
+msgstr "അലങ്കാരത്തിനുള്ള ഐച്ഛികങ്ങള്‍"
+
+#. i18n: ectx: property (clickMessage), widget (KLineEdit, searchEdit)
+#: decoration.ui:17
+msgid "Search"
+msgstr "തെരയുക"
+
+#. i18n: ectx: property (whatsThis), widget (QScrollArea, decorationList)
+#: decoration.ui:27
+msgid ""
+"Select the window decoration. This is the look and feel of both the window "
+"borders and the window handle."
+msgstr "ജാലക അലങ്കാരം തെരഞ്ഞെടുക്കുക. ജാലകത്തിന്റെ വക്കുകളുടെയും പിടിയുടെയും രൂപഭാവങ്ങളാണിവ"
+
+#. i18n: ectx: property (text), widget (QPushButton, configureDecorationButton)
+#: decoration.ui:58
+msgid "Configure Decoration..."
+msgstr "അലങ്കാരങ്ങള്‍ ക്രമീകരിക്കുക..."
+
+#. i18n: ectx: property (text), widget (QPushButton, configureButtonsButton)
+#: decoration.ui:65
+msgid "Configure Buttons..."
+msgstr "ബട്ടണുകള്‍ ക്രമീകരിക്കുക..."
+
+#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
+#: decoration.ui:72
+msgid "Get New Decorations..."
+msgstr "പുതിയ അലങ്കാരങ്ങള്‍ നേടുക"
+
+#: kwindecoration.cpp:99
+msgid "Window Decoration Control Module"
+msgstr "ജാലക അലങ്കാരങ്ങള്‍ നിയന്ത്രിക്കുന്ന ഘടകം"
+
+#: kwindecoration.cpp:101
+msgid "(c) 2001 Karol Szwed"
+msgstr "(c) 2001 കരോള്‍ സ്വെദ്"
+
+#: kwindecoration.cpp:102
+msgid "Karol Szwed"
+msgstr "കരോള്‍ സ്വെദ്"
+
+#: kwindecoration.cpp:127
+msgid ""
+"<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main.qml</"
+"h2>could not be located in any application data path.<h2>Please contact your "
+"distribution</h2>The application will now abort"
+msgstr ""
+
+#: kwindecoration.cpp:130
+msgid "Installation Error"
+msgstr ""
+
+#: kwindecoration.cpp:301
+msgid "Oxygen"
+msgstr "ഓക്സിജന്‍"
+
+#: kwindecoration.cpp:314
+#, fuzzy
+#| msgid ""
+#| "<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+#| "window border decorations, as well as titlebar button positions and "
+#| "custom decoration options.</p>To choose a theme for your window "
+#| "decoration click on its name and apply your choice by clicking the \"Apply"
+#| "\" button below. If you do not want to apply your choice you can click "
+#| "the \"Reset\" button to discard your changes.<p>You can configure each "
+#| "theme in the \"Configure [...]\" tab. There are different options "
+#| "specific for each theme.</p><p>In \"General Options (if available)\" you "
+#| "can activate the \"Buttons\" tab by checking the \"Use custom titlebar "
+#| "button positions\" box. In the \"Buttons\" tab you can change the "
+#| "positions of the buttons to your liking.</p>"
+msgid ""
+"<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+"window border decorations, as well as titlebar button positions and custom "
+"decoration options.</p>To choose a theme for your window decoration click on "
+"its name and apply your choice by clicking the \"Apply\" button below. If "
+"you do not want to apply your choice you can click the \"Reset\" button to "
+"discard your changes.<p>You can configure each theme. There are different "
+"options specific for each theme.</p><p>On the \"Buttons\" tab check the "
+"\"Use custom titlebar button positions\" box and you can change the "
+"positions of the buttons to your liking.</p>"
+msgstr ""
+"<h1>ജാലകപാലകനുള്ള അലങ്കാരങ്ങള്‍</h1><p>ജാലകത്തിനുള്ള അലങ്കാരങ്ങളും , ടൈറ്റില്‍ബാര്‍ ബട്ടണുളുടെ "
+"സ്ഥാനങ്ങളും ,മറ്റു ഐച്ഛികങ്ങളു‍ തിരഞ്ഞെടുക്കുവാനും ഈ ഘടകം നിങ്ങളെ സഹായിക്കുന്നു.</p> നിങ്ങളുടെ "
+"ജാലക അലങ്കാരത്തിന് ഒരു പ്രമേയം തിരഞ്ഞെടുക്കുന്നതിനായി അതിന്റെ പേരില്‍ ക്ളിക്ക് ചെയ്തതിനു ശേഷം "
+"\"പ്രയോഗിക്കുക\" എന്ന ബട്ടണില്‍ അമര്‍ത്തുക. നിങ്ങള്‍ക്ക് അതു വേണ്ടാ എന്നു തോന്നുകയാണെങ്കില്‍ "
+"\"പുനഃസ്ഥാപിക്കുക\" എന്നബട്ടണില്‍ അമര്‍ത്തുക.<p>\"ക്രമീകരിക്കുക [...]\"എന്ന റ്റാബില്‍ നിന്ന് ഓരോ "
+"പ്രമേയത്തേയും നിങ്ങള്‍ക്ക് ക്രമീകരികാവുന്നതാണ്ഓരോ പ്രമേയത്തിനും അതിന്റേതായ  വ്യത്യസ്ത "
+"ഐച്ഛികങ്ങളുണ്ട്.</p><p>\" പൊതുവായുള്ള ഐച്ഛികങ്ങള്‍( അതുണ്ടെങ്കില്‍)\" -ഇല്‍\"ടൈറ്റില്‍ബാര്‍ ബട്ടണുളുടെ "
+"സ്ഥാനങ്ങള്‍ ഇഷ്ടമുള്ള പോലെ ആക്കിത്തീര്‍ക്കുക‍ \" എന്ന ചെക്ക്ബോക്സ് പ്രവര്‍ത്തനസജ്ജമാക്കിയാല്‍ \"ബട്ടണുകള്‍"
+"\" എന്ന റ്റാബ് പ്രവര്‍ത്തനസജ്ജമാകും . അതില്‍ ടൈറ്റില്‍ബാര്‍ ബട്ടണുളുടെ സ്ഥാനങ്ങള്‍ ഇഷ്ടമുള്ള പോലെ "
+"ആക്കിത്തീര്‍ക്കുവാന്‍സാധിക്കുന്നതാണ്.</p>"
+
+#: kwindecoration.cpp:389
+msgid ""
+"Close by double clicking:\n"
+" To open the menu, keep the button pressed until it appears."
+msgstr ""
+
+#: preview.cpp:373
+msgid "Active Window"
+msgstr "സജീവജാലകം"
+
+#: preview.cpp:373
+msgid "Inactive Window"
+msgstr "നിര്‍ജ്ജീവജാലകം"

@@ -1,0 +1,69 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Stefan Asserhall <stefan.asserhall@bredband.net>, 2012, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-08-08 09:24+0000\n"
+"PO-Revision-Date: 2013-10-01 18:01+0200\n"
+"Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
+"Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.4\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Stefan Asserhäll"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "stefan.asserhall@bredband.net"
+
+#: module.cpp:50
+msgid "KWin Scripts"
+msgstr "Kwin-skript"
+
+#: module.cpp:52
+msgid "Configure KWin scripts"
+msgstr "Anpassa Kwin-skript"
+
+#: module.cpp:55
+msgid "Tamás Krutki"
+msgstr "Tamás Krutki"
+
+#: module.cpp:77
+msgid "Import KWin Script"
+msgstr "Importera Kwin-skript"
+
+#: module.cpp:78
+msgid "*.kwinscript|KWin scripts (*.kwinscript)"
+msgstr "*.kwinscript|Kwin-skript (*.kwinscript)"
+
+#: module.cpp:87
+msgid ""
+"Cannot import selected script: maybe a script already exists with the same "
+"name or there is a permission problem."
+msgstr ""
+"Kan inte importera valt skript. Kanske finns det redan ett skript med samma "
+"namn, eller har ett problem med rättigheter uppstått."
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, Module)
+#: module.ui:14
+msgid "KWin script configuration"
+msgstr "Inställning av Kwin-skript"
+
+#. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
+#: module.ui:41
+msgid "Import KWin script..."
+msgstr "Importera Kwin-skript..."
+
+#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
+#: module.ui:48
+msgid "Get New Script..."
+msgstr "Hämta nytt skript..."

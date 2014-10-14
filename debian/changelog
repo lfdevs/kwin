@@ -1,0 +1,71 @@
+kwin (4:5.1.0.1-0ubuntu1) vivid; urgency=medium
+
+  [ Jonathan Riddell ]
+  * New upstream beta release
+  * Add kubuntu_kf5-version.diff to build with KF5 5.2
+  * Build-dep on libkf5windowsystem-dev (>= 5.3.0~)
+  * Add build-dep on kwayland-dev
+
+  [ Harald Sitter ]
+  * Add/update lintian overrides
+    + All manpage warnings: we don't care
+    + All warnings to do with kdeinit: it's not a shared lib by design
+    + All warnings to do with internal/private libs having no versioned soname
+
+  [ Jonathan Riddell ]
+  * New upstream release
+  * New upstream release with fixed tar
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 14 Oct 2014 13:49:05 +0200
+
+kwin (4:5.0.2-0ubuntu1) utopic; urgency=medium
+
+  [ Harald Sitter ]
+  * switch to new pkg-kde-tools
+
+  [ Scarlett Clark ]
+  * New upstream release
+
+ -- Scarlett Clark <sgclark@kubuntu.org>  Wed, 17 Sep 2014 18:17:10 -0700
+
+kwin (4:5.0.1-0ubuntu1~ubuntu14.10~ppa2) utopic; urgency=medium
+
+  [ Jonathan Riddell ]
+  * New upstream release
+
+  [ Scarlett Clark ]
+  * Update watch to http://download.kde.org
+
+  [ Jonathan Riddell ]
+  * New upstream bugfix release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Sun, 10 Aug 2014 15:43:00 +0200
+
+kwin (4:4.98.0-0ubuntu1) utopic; urgency=medium
+
+  * New upstream RC release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 07 Jul 2014 13:20:34 +0200
+
+kwin (4:4.97.0-0ubuntu1) utopic; urgency=medium
+
+  [ Scarlett Clark ]
+  * Initial release.
+
+  [ Jonathan Riddell ]
+  * New upstream beta release
+
+  [ Scarlett Clark ]
+  * Fix install file
+
+  [ José Manuel Santamaría Lema ]
+  * Build depend on libegl1-mesa-dev.
+  * Make kwin depend on kwin-data (= ${source:Version}) instead of
+    ${binary:Version}
+  * Remove harcoded depends on libraries from kwin, rely on ${shlibs:Depends}
+    instead.
+
+  [ Scarlett Clark ]
+  * change kwin-data to arch all
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 09 Jun 2014 10:25:41 +0100

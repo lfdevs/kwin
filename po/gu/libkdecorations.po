@@ -1,0 +1,105 @@
+# translation of kwin_lib.po to Gujarati
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Sweta Kothari <swkothar@redhat.com>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin_lib\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-04-27 20:56+0000\n"
+"PO-Revision-Date: 2008-07-07 17:06+0530\n"
+"Last-Translator: Sweta Kothari <swkothar@redhat.com>\n"
+"Language-Team: Gujarati\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: kcommondecoration.cpp:316
+#, fuzzy, kde-format
+#| msgid "<center><b>%1 preview</b></center>"
+msgid "<center><b>%1</b></center>"
+msgstr "<center><b>%1 પૂર્વદર્શન</b></center>"
+
+#: kcommondecoration.cpp:408
+msgctxt "Button showing window actions menu"
+msgid "Window Menu"
+msgstr ""
+
+#: kcommondecoration.cpp:423
+msgctxt "Button showing application menu"
+msgid "Application Menu"
+msgstr ""
+
+#: kcommondecoration.cpp:445 kcommondecoration.cpp:668
+msgid "Not on all desktops"
+msgstr "બધા ડેસ્કટોપો પર નથી"
+
+#: kcommondecoration.cpp:445 kcommondecoration.cpp:669
+msgid "On all desktops"
+msgstr "બધા ડેસ્કટોપો પર"
+
+#: kcommondecoration.cpp:460
+msgid "Help"
+msgstr "મદદ"
+
+#: kcommondecoration.cpp:473
+msgid "Minimize"
+msgstr "ઓછુ કરવુ"
+
+#: kcommondecoration.cpp:488 kcommondecoration.cpp:656
+msgid "Restore"
+msgstr "પુન:સંગ્રહ"
+
+#: kcommondecoration.cpp:488 kcommondecoration.cpp:655
+msgid "Maximize"
+msgstr "વધારવુ"
+
+#: kcommondecoration.cpp:503
+msgid "Close"
+msgstr "બંધ કરો"
+
+#: kcommondecoration.cpp:517 kcommondecoration.cpp:709
+msgid "Do not keep above others"
+msgstr "ઉપર બીજાઓને ના રાખો"
+
+#: kcommondecoration.cpp:517 kcommondecoration.cpp:709
+#: kcommondecoration.cpp:730
+msgid "Keep above others"
+msgstr "ઉપર બીજાઓને રાખો"
+
+#: kcommondecoration.cpp:533 kcommondecoration.cpp:724
+msgid "Do not keep below others"
+msgstr "નીચે બીજાઓને ના રાખો"
+
+#: kcommondecoration.cpp:533 kcommondecoration.cpp:715
+#: kcommondecoration.cpp:724
+msgid "Keep below others"
+msgstr "નીચે બીજાઓને રાખો"
+
+#: kcommondecoration.cpp:549 kcommondecoration.cpp:680
+msgid "Unshade"
+msgstr "છાંયડો ન હોય"
+
+#: kcommondecoration.cpp:549 kcommondecoration.cpp:681
+msgid "Shade"
+msgstr "છાંયડો"
+
+#: kdecoration_plugins_p.cpp:101
+#, fuzzy
+#| msgid "No window decoration plugin library was found."
+msgid "Loading of window decoration plugin library disabled in configuration."
+msgstr "વિન્ડો ડેકોરેશન પ્લગઇન લાઇબ્રેરી શોધાઇ ન હતી."
+
+#: kdecoration_plugins_p.cpp:115
+#, fuzzy, kde-format
+#| msgid "The library %1 is not a KWin plugin."
+msgid "The library %1 has wrong API version %2"
+msgstr "લાયબ્રેરી %1 એ KWin પ્લગઇન નથી."
+
+#: kdecoration_plugins_p.cpp:133
+msgid "The default decoration plugin is corrupt and could not be loaded."
+msgstr "મૂળભૂત ડેકોરેશન પ્લગઇન બગડેલ છે અને લોડ કરી શકાયુ નથી."

@@ -1,0 +1,353 @@
+# translation of kcmkwincompositing.po to Polish
+# translation of kcmkwincompositing.po to
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Marta Rybczyńska <kde-i18n@rybczynska.net>, 2007, 2008, 2009.
+# Marta Rybczynska <kde-i18n@rybczynska.net>, 2009, 2010, 2013.
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: kcmkwincompositing\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-07-23 08:09+0000\n"
+"PO-Revision-Date: 2014-07-25 17:41+0200\n"
+"Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
+"Language-Team: Polish <kde-i18n-doc@kde.org>\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#: compositing.cpp:387
+msgid "OpenGL 3.1"
+msgstr "OpenGL 3.1"
+
+#: compositing.cpp:388
+msgid "OpenGL 2.0"
+msgstr "OpenGL 2.0"
+
+#: compositing.cpp:389
+msgid "XRender"
+msgstr "XRender"
+
+#: compositing.cpp:488
+msgctxt "OpenGL Platform Interface"
+msgid "EGL"
+msgstr "EGL"
+
+#: compositing.cpp:490
+msgctxt "OpenGL Platform Interface"
+msgid "GLX"
+msgstr "GLX"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, CompositingForm)
+#: compositing.ui:14
+msgid "Form"
+msgstr "Formularz"
+
+#. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
+#: compositing.ui:23 qml/CompositingView.qml:55
+msgid "Enable compositor on startup"
+msgstr "Włącz kompozytora przy uruchomieniu"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: compositing.ui:30
+msgid "Animation speed:"
+msgstr "Szybkość animacji:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: compositing.ui:57
+msgid "Instant"
+msgstr "Natychmiastowo"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: compositing.ui:77
+msgid "Very slow"
+msgstr "Bardzo wolna"
+
+#. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
+#. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
+#: compositing.ui:88 compositing.ui:114
+msgid "Scale method:"
+msgstr "Sposób skalowania:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
+#: compositing.ui:96 compositing.ui:122 qml/CompositingView.qml:113
+#: qml/CompositingView.qml:127
+msgid "Crisp"
+msgstr "Szybki"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#: compositing.ui:101 qml/CompositingView.qml:113
+msgid "Smooth"
+msgstr "Gładki"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#: compositing.ui:106 qml/CompositingView.qml:113
+msgid "Accurate"
+msgstr "Dokładny"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
+#: compositing.ui:127 qml/CompositingView.qml:127
+msgid "Smooth (slower)"
+msgstr "Płynny (wolniejszy)"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: compositing.ui:142 qml/CompositingView.qml:81
+msgid "Rendering backend:"
+msgstr "Silnik wyświetlania:"
+
+#. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
+#: compositing.ui:152
+msgid "OpenGL interface:"
+msgstr "Interfejs OpenGL:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: compositing.ui:162
+msgid "Tearing prevention (\"vsync\"):"
+msgstr "Zapobieganie smużeniu (synchronizacja pionowa):"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:170 compositing.ui:216 qml/CompositingView.qml:141
+#: qml/CompositingView.qml:154
+msgid "Never"
+msgstr "Nigdy"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:175 qml/CompositingView.qml:141
+msgid "Automatic"
+msgstr "Samoczynnie"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:180 qml/CompositingView.qml:141
+msgid "Only when cheap"
+msgstr "Tylko gdy niekosztowne"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:185 qml/CompositingView.qml:141
+msgid "Full screen repaints"
+msgstr "Przemalowania całego ekranu"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:190 qml/CompositingView.qml:141
+msgid "Re-use screen content"
+msgstr "Użyj ponownie zawartości ekranu"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: compositing.ui:198
+msgid "Keep window thumbnails:"
+msgstr "Przechowanie miniatur okien:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:206
+msgid "Always"
+msgstr "Zawsze"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:211 qml/CompositingView.qml:154
+msgid "Only for Shown Windows"
+msgstr "Tylko dla pokazywanych okien"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: compositing.ui:224 qml/CompositingView.qml:175
+msgid "Expert:"
+msgstr "Ekspert:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
+#: compositing.ui:231 qml/CompositingView.qml:182
+msgid "Suspend compositor for full screen windows"
+msgstr "Wstrzymaj kompozytora dla okien pełnoekranowych"
+
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#: compositing.ui:238 qml/CompositingView.qml:192
+msgid "Experimental:"
+msgstr "Eksperymentalne:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
+#: compositing.ui:245 qml/CompositingView.qml:200
+msgid "Enable color correction"
+msgstr "Włącz poprawianie kolorów"
+
+#. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
+#: compositing.ui:265
+msgid ""
+"OpenGL compositing (the default) has crashed KWin in the past.\n"
+"This was most likely due to a driver bug.\n"
+"If you think that you have meanwhile upgraded to a stable driver,\n"
+"you can reset this protection but be aware that this might result in an "
+"immediate crash!\n"
+"Alternatively, you might want to use the XRender backend instead."
+msgstr ""
+"Kompozycje OpenGL (domyślne) spowodowały awarię KWin w przeszłości.\n"
+"Z dużą pewnością stało się tak z powodu błędu w sterowniku.\n"
+"Jeśli od tamtego czasu nastąpiło uaktualnienie do stabilnego sterowniki,\n"
+"to można wyzerować to ostrzeżenie, lecz licz się z tym, że może oznaczać to "
+"natychmiastową awarię!\n"
+"Alternatywnie, można użyć silnika XRender."
+
+#. i18n: ectx: property (text), widget (KMessageWidget, interfaceWarning)
+#: compositing.ui:281
+msgid ""
+"EGL is not supported by all OpenGL drivers. If not supported the Compositor "
+"will be disabled."
+msgstr ""
+"EGL nie jest obsługiwany przez wszystkie sterowniki OpenGL. Jeśli na tym "
+"komputerze nie jest on obsługiwany to kompozycje zostaną wyłączone."
+
+#. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
+#: compositing.ui:297
+msgid ""
+"Scale method \"Accurate\" is not supported by all hardware and can cause "
+"performance regressions and rendering artifacts."
+msgstr ""
+"Sposób skalowania \"Dokładny\" nie jest obsługiwany przez wszystkie "
+"urządzenia i może powodować spadki wydajności wraz z zakłóceniami w "
+"wyświetlaniu."
+
+#. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
+#: compositing.ui:326
+msgid ""
+"Keeping the window thumbnail always interferes with the minimized state of "
+"windows. This can result in windows not suspending their work when minimized."
+msgstr ""
+"Przechowywanie miniatury dla każdego okna jest w sprzeczności ze stanem "
+"zminimalizowanym okien. Może to oznaczać, że okna nie wstrzymają swojej "
+"pracy, gdy będą zminimalizowane."
+
+#. i18n: ectx: property (text), widget (KMessageWidget, unredirectInformation)
+#: compositing.ui:342
+msgid ""
+"Having full screen windows bypass the compositor is not supported on every "
+"hardware."
+msgstr ""
+"Omijanie kompozytora przez okna pełnoekranowe nie jest obsługiwane na każdym "
+"urządzeniu."
+
+#: main.cpp:82
+msgid "Re-enable OpenGL detection"
+msgstr "Włącz ponownie wykrywanie OpenGL"
+
+#: main.cpp:139
+msgid ""
+"\"Only when cheap\" only prevents tearing for full screen changes like a "
+"video."
+msgstr ""
+"\"Tylko gdy niekosztowne\" zapobiega smużeniu dla pełnoekranowych zmian "
+"takich jak w filmach."
+
+#: main.cpp:143
+msgid "\"Full screen repaints\" can cause performance problems."
+msgstr "\"Przemalowania całego ekranu\" może powodować problemy z wydajnością."
+
+#: main.cpp:147
+msgid ""
+"\"Re-use screen content\" causes performance severe problems on MESA drivers."
+msgstr ""
+"\"Użyj ponownie zawartości ekranu\" powoduje poważne problemy na "
+"sterownikach MESA."
+
+#: model.cpp:67
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Accessibility"
+msgstr "Dostępność"
+
+#: model.cpp:68
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Appearance"
+msgstr "Wygląd"
+
+#: model.cpp:69
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Candy"
+msgstr "Cukierki"
+
+#: model.cpp:70
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Focus"
+msgstr "Uaktywnianie"
+
+#: model.cpp:71
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Tools"
+msgstr "Narzędzia"
+
+#: model.cpp:72
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Virtual Desktop Switching Animation"
+msgstr "Animacja przełączania pulpitów wyobrażalnych"
+
+#: model.cpp:73
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Window Management"
+msgstr "Zarządzanie oknami"
+
+#: model.cpp:235
+msgid "KWin development team"
+msgstr "Zespół programistów KWin"
+
+#: qml/CompositingView.qml:67
+msgid "Animation Speed:"
+msgstr "Szybkość animacji:"
+
+#: qml/CompositingView.qml:106 qml/CompositingView.qml:120
+msgid "Scale Method:"
+msgstr "Sposób skalowania:"
+
+#: qml/CompositingView.qml:135
+msgid "Tearing Prevention (VSync):"
+msgstr "Zapobieganie smużeniu (synchronizacja pionowa):"
+
+#: qml/CompositingView.qml:148
+msgid "Keep Window Thumbnails:"
+msgstr "Przechowanie miniatur okien:"
+
+#: qml/CompositingView.qml:154
+msgid "Always (Breaks Animations)"
+msgstr "Zawsze (psuje animacje)"
+
+#: qml/CompositingView.qml:160
+msgid "OpenGL Platform Interface:"
+msgstr "Interfejs platformy OpenGL:"
+
+#: qml/Effect.qml:118
+#, kde-format
+msgid ""
+"Author: %1\n"
+"License: %2"
+msgstr ""
+"Autor: %1\n"
+"Licencja: %2"
+
+#: qml/EffectView.qml:64
+msgid ""
+"Hint: To find out or configure how to activate an effect, look at the "
+"effect's settings."
+msgstr ""
+"Podpowiedź: Aby dowiedzieć się o efekcie lub sposobach jego wyzwolenia, "
+"zajrzyj do ustawień efektu"
+
+#: qml/EffectView.qml:75
+msgid "Search"
+msgstr "Znajdź"
+
+#: qml/EffectView.qml:82
+msgid "Configure filter"
+msgstr "Ustawienia filtra"
+
+#: qml/EffectView.qml:85
+msgid "Exclude Desktop Effects not supported by the Compositor"
+msgstr "Wyklucz efekty pulpitu nieobsługiwane przez kompozytora"
+
+#: qml/EffectView.qml:93
+msgid "Exclude internal Desktop Effects"
+msgstr "Wyklucz wewnętrzne efekty pulpitu"
+
+#: qml/EffectView.qml:105
+msgid "Get New Effects ..."
+msgstr "Pobierz nowe efekty ..."

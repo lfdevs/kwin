@@ -1,0 +1,895 @@
+# translation of kwin.po into Russian
+# translation of kwin.po to
+# translation of 1.po to Russian
+#
+# translation of kwin.po to Russian
+# KDE3 - kwin.pot Russian translationю
+# Copyright (C) 2000 KDE Team.
+#
+# Alex Miller <asm@som.kiev.ua>, 2000.
+# Leonid Kanter <leon@asplinux.ru>, 2004, 2005.
+# Gregory Mokhin <mok@kde.ru>, 2005.
+# Andrey Cherepanov <skull@kde.ru>, 2009.
+# Alexander Potashev <aspotashev@gmail.com>, 2009, 2010, 2011, 2014.
+# Yuri Efremov <yur.arh@gmail.com>, 2011, 2013.
+# Nick Shaforostoff <shafff@ukr.net>, 2011.
+# Julia Dronova <juliette.tux@gmail.com>, 2013.
+# Alexander Lakhin <exclusion@gmail.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"PO-Revision-Date: 2014-08-27 04:10+0400\n"
+"Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
+"Language-Team: Russian <kde-russian@lists.kde.ru>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Environment: kde\n"
+"X-Accelerator-Marker: &\n"
+"X-Text-Markup: kde4\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Алекс Миллер,Григорий Мохин"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "asm@som.kiev.ua,mokhin@bog.msu.ru"
+
+#: composite.cpp:500
+#, kde-format
+msgid ""
+"Desktop effects have been suspended by another application.<br/>You can "
+"resume using the '%1' shortcut."
+msgstr ""
+"Графические эффекты были отключены другим приложением.<br/>Можно их "
+"возобновить комбинацией клавиш «%1»."
+
+#: compositingprefs.cpp:98
+msgid ""
+"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
+"b><br>This was most likely due to a driver bug.<p>If you think that you have "
+"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
+"<b>be aware that this might result in an immediate crash!</b></"
+"p><p>Alternatively, you might want to use the XRender backend instead.</p>"
+msgstr ""
+"<b>Ранее графические эффекты OpenGL (по умолчанию) уже приводили к сбою KWin."
+"</b><br>Скорее всего, это было связано с ошибкой драйвера.<p>Если драйвер "
+"уже был обновлён до стабильной версии,<br>то можно сбросить эту за защиту, "
+"но <b>помните, что это может привести к немедленному сбою.</b></p><p>Как "
+"вариант, вместо него можно использовать XRender.</p>"
+
+#: compositingprefs.cpp:105
+msgid "Required X extensions (XComposite and XDamage) are not available."
+msgstr "Отсутствуют необходимые расширения X-сервера (XComposite и XDamage)."
+
+#: compositingprefs.cpp:109
+msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
+msgstr ""
+"Поддерживается только режим OpenGL, однако расширения GLX/OpenGL недоступны."
+
+#: compositingprefs.cpp:113
+msgid "GLX/OpenGL and XRender/XFixes are not available."
+msgstr "Расширения GLX/OpenGL и XRender/XFixes недоступны."
+
+#: decorations.cpp:59
+msgid "KWin: "
+msgstr "KWin: "
+
+#: killer/killer.cpp:44
+msgid "Window Manager"
+msgstr "Диспетчер окон"
+
+#: killer/killer.cpp:49
+msgid "PID of the application to terminate"
+msgstr "PID приложения, которое нужно завершить"
+
+#: killer/killer.cpp:49
+msgid "pid"
+msgstr "pid"
+
+#: killer/killer.cpp:51
+msgid "Hostname on which the application is running"
+msgstr "Имя хоста, на котором работает приложение"
+
+#: killer/killer.cpp:51
+msgid "hostname"
+msgstr "имя_хоста"
+
+#: killer/killer.cpp:53
+msgid "Caption of the window to be terminated"
+msgstr "Заголовок окна, которое нужно закрыть"
+
+#: killer/killer.cpp:53
+msgid "caption"
+msgstr "заголовок"
+
+#: killer/killer.cpp:55
+msgid "Name of the application to be terminated"
+msgstr "Имя приложения, которое нужно завершить"
+
+#: killer/killer.cpp:55
+msgid "name"
+msgstr "имя"
+
+#: killer/killer.cpp:57
+msgid "ID of resource belonging to the application"
+msgstr "ID ресурса, принадлежащего приложению"
+
+#: killer/killer.cpp:57
+msgid "id"
+msgstr "id"
+
+#: killer/killer.cpp:59
+msgid "Time of user action causing termination"
+msgstr "Время действия пользователя, вызвавшего завершение"
+
+#: killer/killer.cpp:59
+msgid "time"
+msgstr "время"
+
+#: killer/killer.cpp:61
+msgid "KWin helper utility"
+msgstr "Вспомогательная утилита KWin"
+
+#: killer/killer.cpp:85
+msgid "This helper utility is not supposed to be called directly."
+msgstr ""
+"Эта вспомогательная утилита на предназначена для непосредственного запуска."
+
+#: killer/killer.cpp:95
+#, kde-format
+msgctxt "@info"
+msgid "<b>Application \"%1\" is not responding</b>"
+msgstr "<b>Приложение «%1» не отвечает</b>"
+
+#: killer/killer.cpp:106
+#, kde-format
+msgid "&Terminate Application %1"
+msgstr "&Завершить приложение «%1»"
+
+#: killer/killer.cpp:107
+msgid "Wait Longer"
+msgstr "Подождать ещё"
+
+#: kwinbindings.cpp:40
+msgid "Walk Through Window Tabs"
+msgstr "На одно окно в группе вперёд"
+
+#: kwinbindings.cpp:41
+msgid "Walk Through Window Tabs (Reverse)"
+msgstr "На одно окно в группе назад"
+
+#: kwinbindings.cpp:42
+msgid "Remove Window From Group"
+msgstr "Убрать окно из группы"
+
+#: kwinbindings.cpp:44
+msgid "Window Operations Menu"
+msgstr "Меню действий с окном"
+
+#: kwinbindings.cpp:46
+msgid "Close Window"
+msgstr "Закрыть окно"
+
+#: kwinbindings.cpp:48
+msgid "Maximize Window"
+msgstr "Распахнуть окно"
+
+#: kwinbindings.cpp:50
+msgid "Maximize Window Vertically"
+msgstr "Распахнуть окно по вертикали"
+
+#: kwinbindings.cpp:52
+msgid "Maximize Window Horizontally"
+msgstr "Распахнуть окно по горизонтали"
+
+#: kwinbindings.cpp:54
+msgid "Minimize Window"
+msgstr "Свернуть окно"
+
+#: kwinbindings.cpp:56
+msgid "Shade Window"
+msgstr "Свернуть окно в заголовок"
+
+#: kwinbindings.cpp:58
+msgid "Move Window"
+msgstr "Переместить окно"
+
+#: kwinbindings.cpp:60
+msgid "Resize Window"
+msgstr "Изменить размер окна"
+
+#: kwinbindings.cpp:62
+msgid "Raise Window"
+msgstr "Поднять окно"
+
+#: kwinbindings.cpp:64
+msgid "Lower Window"
+msgstr "Опустить окно"
+
+#: kwinbindings.cpp:66
+msgid "Toggle Window Raise/Lower"
+msgstr "Переключить передний/задний план"
+
+#: kwinbindings.cpp:68
+msgid "Make Window Fullscreen"
+msgstr "Распахнуть окно на весь экран"
+
+#: kwinbindings.cpp:70
+msgid "Hide Window Border"
+msgstr "Скрыть границы окна"
+
+#: kwinbindings.cpp:72
+msgid "Keep Window Above Others"
+msgstr "Поместить окно на передний план"
+
+#: kwinbindings.cpp:74
+msgid "Keep Window Below Others"
+msgstr "Поместить окно на задний план"
+
+#: kwinbindings.cpp:76
+msgid "Activate Window Demanding Attention"
+msgstr "Активировать привлечение внимания к окну"
+
+#: kwinbindings.cpp:78
+msgid "Setup Window Shortcut"
+msgstr "Задать комбинацию клавиш для переключения в это окно"
+
+#: kwinbindings.cpp:80
+msgid "Pack Window to the Right"
+msgstr "Сгруппировать окна вправо"
+
+#: kwinbindings.cpp:82
+msgid "Pack Window to the Left"
+msgstr "Сгруппировать окна влево"
+
+#: kwinbindings.cpp:84
+msgid "Pack Window Up"
+msgstr "Сгруппировать окна вверх"
+
+#: kwinbindings.cpp:86
+msgid "Pack Window Down"
+msgstr "Сгруппировать окна вниз"
+
+#: kwinbindings.cpp:88
+msgid "Pack Grow Window Horizontally"
+msgstr "Растянуть окно по горизонтали"
+
+#: kwinbindings.cpp:90
+msgid "Pack Grow Window Vertically"
+msgstr "Растянуть окно по вертикали"
+
+#: kwinbindings.cpp:92
+msgid "Pack Shrink Window Horizontally"
+msgstr "Сжать окно по горизонтали"
+
+#: kwinbindings.cpp:94
+msgid "Pack Shrink Window Vertically"
+msgstr "Сжать окно по вертикали"
+
+#: kwinbindings.cpp:96
+msgid "Quick Tile Window to the Left"
+msgstr "Распахнуть окно на левую половину экрана"
+
+#: kwinbindings.cpp:98
+msgid "Quick Tile Window to the Right"
+msgstr "Распахнуть окно на правую половину экрана"
+
+#: kwinbindings.cpp:100
+msgid "Quick Tile Window to the Top Left"
+msgstr "Распахнуть окно на левую верхнюю четверть экрана"
+
+#: kwinbindings.cpp:102
+msgid "Quick Tile Window to the Bottom Left"
+msgstr "Распахнуть окно на левую нижнюю четверть экрана"
+
+#: kwinbindings.cpp:104
+msgid "Quick Tile Window to the Top Right"
+msgstr "Распахнуть окно на правую верхнюю четверть экрана"
+
+#: kwinbindings.cpp:106
+msgid "Quick Tile Window to the Bottom Right"
+msgstr "Распахнуть окно на правую нижнюю четверть экрана"
+
+#: kwinbindings.cpp:108
+msgid "Switch to Window Above"
+msgstr "Переключиться на окно сверху"
+
+#: kwinbindings.cpp:110
+msgid "Switch to Window Below"
+msgstr "Переключиться на окно снизу"
+
+#: kwinbindings.cpp:112
+msgid "Switch to Window to the Right"
+msgstr "Переключиться на окно справа"
+
+#: kwinbindings.cpp:114
+msgid "Switch to Window to the Left"
+msgstr "Переключиться на окно слева"
+
+#: kwinbindings.cpp:116
+msgid "Increase Opacity of Active Window by 5 %"
+msgstr "Увеличить непрозрачность окна на 5%"
+
+#: kwinbindings.cpp:118
+msgid "Decrease Opacity of Active Window by 5 %"
+msgstr "Уменьшить непрозрачность окна на 5%"
+
+#: kwinbindings.cpp:121
+msgid "Keep Window on All Desktops"
+msgstr "Поддерживать окно на всех рабочих столах"
+
+#: kwinbindings.cpp:125
+#, kde-format
+msgid "Window to Desktop %1"
+msgstr "Переместить окно на рабочий стол %1"
+
+#: kwinbindings.cpp:127
+msgid "Window to Next Desktop"
+msgstr "Переместить окно на следующий рабочий стол"
+
+#: kwinbindings.cpp:128
+msgid "Window to Previous Desktop"
+msgstr "Переместить окно на предыдущий рабочий стол"
+
+#: kwinbindings.cpp:129
+msgid "Window One Desktop to the Right"
+msgstr "Окно на один рабочий стол вправо"
+
+#: kwinbindings.cpp:130
+msgid "Window One Desktop to the Left"
+msgstr "Окно на один рабочий стол влево"
+
+#: kwinbindings.cpp:131
+msgid "Window One Desktop Up"
+msgstr "Окно на один рабочий стол вверх"
+
+#: kwinbindings.cpp:132
+msgid "Window One Desktop Down"
+msgstr "Окно на один рабочий стол вниз"
+
+#: kwinbindings.cpp:135
+#, kde-format
+msgid "Window to Screen %1"
+msgstr "Переместить окно на экран %1"
+
+#: kwinbindings.cpp:137
+msgid "Window to Next Screen"
+msgstr "Переместить окно на следующий экран"
+
+#: kwinbindings.cpp:138
+msgid "Window to Previous Screen"
+msgstr "Переместить окно на предыдущий экран"
+
+#: kwinbindings.cpp:139
+msgid "Show Desktop"
+msgstr "Показать рабочий стол"
+
+#: kwinbindings.cpp:142
+#, kde-format
+msgid "Switch to Screen %1"
+msgstr "Переключиться на рабочий стол %1"
+
+#: kwinbindings.cpp:145
+msgid "Switch to Next Screen"
+msgstr "Переключиться на следующий рабочий стол"
+
+#: kwinbindings.cpp:146
+msgid "Switch to Previous Screen"
+msgstr "Переключиться на предыдущий экран"
+
+#: kwinbindings.cpp:148
+msgid "Kill Window"
+msgstr "Удалить окно"
+
+#: kwinbindings.cpp:149
+msgid "Suspend Compositing"
+msgstr "Приостановить композитное расширение"
+
+#: kwinbindings.cpp:150
+msgid "Invert Screen Colors"
+msgstr "Инвертировать цвета экрана"
+
+#: main.cpp:78
+msgid ""
+"KWin is unstable.\n"
+"It seems to have crashed several times in a row.\n"
+"You can select another window manager to run:"
+msgstr ""
+"KWin нестабилен.\n"
+"Произошло несколько серьёзных ошибок подряд.\n"
+"Вы можете выбрать другой диспетчер окон:"
+
+#: main.cpp:259 main.cpp:286
+msgid "KDE window manager"
+msgstr "Диспетчер окон KDE"
+
+#: main.cpp:264
+msgid "KWin"
+msgstr "KWin"
+
+#: main.cpp:268
+msgid "(c) 1999-2013, The KDE Developers"
+msgstr "© Разработчики KDE, 1999-2013"
+
+#: main.cpp:270
+msgid "Matthias Ettrich"
+msgstr "Matthias Ettrich"
+
+#: main.cpp:271
+msgid "Cristian Tibirna"
+msgstr "Cristian Tibirna"
+
+#: main.cpp:272
+msgid "Daniel M. Duley"
+msgstr "Daniel M. Duley"
+
+#: main.cpp:273
+msgid "Luboš Luňák"
+msgstr "Luboš Luňák"
+
+#: main.cpp:274
+msgid "Martin Gräßlin"
+msgstr "Martin Gräßlin"
+
+#: main.cpp:274
+msgid "Maintainer"
+msgstr "Сопровождающий"
+
+#: main.cpp:283
+msgid "Disable configuration options"
+msgstr "Отключить параметры конфигурации"
+
+#: main.cpp:284
+msgid "Indicate that KWin has recently crashed n times"
+msgstr "Показывает, что сбои KWin происходили n раз"
+
+#: main_wayland.cpp:88
+#, fuzzy
+#| msgid "kwin: another window manager is running (try using --replace)\n"
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+msgstr "kwin: запущен другой диспетчер окон (попробуйте параметр --replace)\n"
+
+#: main_wayland.cpp:96
+msgid ""
+"kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
+"set.\n"
+msgstr ""
+
+#: main_wayland.cpp:231
+msgid "Start a nested X Server."
+msgstr ""
+
+#: main_wayland.cpp:234
+msgid "The X11 Display to connect to, required if option x-server is used."
+msgstr ""
+
+#: main_x11.cpp:149
+msgid ""
+"kwin: unable to claim manager selection, another wm running? (try using --"
+"replace)\n"
+msgstr ""
+"kwin: невозможно использовать как диспетчер окон, возможно, запущен другой "
+"диспетчер окон (попробуйте параметр --replace)\n"
+
+#: main_x11.cpp:166
+msgid "kwin: another window manager is running (try using --replace)\n"
+msgstr "kwin: запущен другой диспетчер окон (попробуйте параметр --replace)\n"
+
+#: main_x11.cpp:261
+msgid "Replace already-running ICCCM2.0-compliant window manager"
+msgstr "Заменить уже запущенный ICCCM2.0-совместимый диспетчер окон"
+
+#: scene_opengl.cpp:558
+msgid "Desktop effects were restarted due to a graphics reset"
+msgstr ""
+"Подсистема эффектов рабочего стола была перезапущена из-за сброса графики"
+
+#: scene_opengl.cpp:729
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
+"OpenGL Desktop Effects at the current resolution<br><br>You can try to "
+"select the XRender backend, but it might be very slow for this resolution as "
+"well.<br>Alternatively, lower the combined resolution of all screens to %1x"
+"%2 "
+msgstr ""
+"<h1>Невозможно включить эффекты OpenGL</h1>Ваша система не  может "
+"воспроизвести эффекты рабочего стола OpenGL с текущим разрешением."
+"<br><br>Попробуйте выбрать драйвер XRender , но с данным разрешением он "
+"также может работать очень медленно . <br>Как вариант, попробуйте снизить "
+"общее разрешение всех дисплеев до %1x%2"
+
+#: scene_opengl.cpp:736
+msgid ""
+"The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+"GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+"does not know such limitation, but the performance will usually be impacted "
+"by the hardware limitations that restrict the OpenGL viewport size."
+msgstr ""
+"Запрошенное разрешение превышает ограничение GL_MAX_VIEWPORT_DIMS для вашего "
+"GPU, и поэтому несовместимо с расширением прозрачности OpenGL. <br>У  "
+"драйвера XRender таких ограничений нет, но на производительность влияют "
+"аппаратные ограничения, блокирующие размер окна просмотра OpenGL"
+
+#: scene_opengl.cpp:761
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+"the current resolution are supported but might be exceptionally slow."
+"<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
+"compositing, switch to the XRender backend or lower the resolution to %1x%1."
+msgstr ""
+"<h1>Эффекты OpenGL могут перестать работать</h1>Текущее разрешение "
+"поддерживается эффектами OpenGL Desktop, но эффекты могут работать крайне "
+"медленно.<br>Кроме того, большие окна станут абсолютно чёрными.<br><br> "
+"Рассмотрите возможность отключения эффектов, переключения на драйвер "
+"XRender  или уменьшения разрешения до %1x%1."
+
+#: scene_opengl.cpp:767
+msgid ""
+"The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+"GPU, thus windows of that size cannot be assigned to textures and will be "
+"entirely black.<br>Also this limit will often be a performance level barrier "
+"despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+"software rendering in this case."
+msgstr ""
+"Запрошенное разрешение превышает ограничение GL_MAX_TEXTURE_SIZE для вашего "
+"GPU, поэтому окна этого размера невозможно привязать к текстурам, в "
+"результате они будут чёрного цвета.<br>Кроме того, это ограничение часто "
+"служит препятствием на производительном уровне, не смотря на значение ниже "
+"GL_MAX_VIEWPORT_DIMS, потому что в этом случае драйвер может откатиться на "
+"программный рендеринг. "
+
+#: scripting/genericscriptedconfig.cpp:81
+msgctxt "Error message"
+msgid "Plugin does not provide configuration file in expected location"
+msgstr "В составе модуля не обнаружен файл конфигурации."
+
+#: scripting/scripting.cpp:127
+#, kde-format
+msgctxt "Assertion failed in KWin script with given value"
+msgid "Assertion failed: %1 is not null"
+msgstr "Проверочное условие не выполнено: %1 не равен null."
+
+#: scripting/scripting.cpp:145
+msgctxt "Assertion failed in KWin script"
+msgid "Assertion failed: argument is null"
+msgstr "Проверочное условие не выполнено: %1 равен null."
+
+#: scripting/scripting.cpp:172
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid number of arguments. At least service, path, interface and method "
+"need to be provided"
+msgstr ""
+"Неправильное число аргументов. Как минимум, должны быть заданы следующие: "
+"служба (service), путь (path), интерфейс (interface) и метод (method)."
+
+#: scripting/scripting.cpp:178
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid type. Service, path, interface and method need to be string values"
+msgstr ""
+"Неправильный тип. Аргументы служба (service), путь (path), интерфейс "
+"(interface) и метод (method) должны быть строками."
+
+#: scripting/scriptingutils.cpp:28
+msgctxt "syntax error in KWin script"
+msgid "Invalid number of arguments"
+msgstr "Неправильное число аргументов."
+
+#: scripting/scriptingutils.cpp:41
+#, kde-format
+msgctxt "KWin Scripting function received incorrect value for an expected type"
+msgid "%1 is not a variant type"
+msgstr "Не удалось привести аргумент «%1» к типу QVariant."
+
+#: tabbox/tabbox.cpp:348
+msgctxt "Special entry in alt+tab list for minimizing all windows"
+msgid "Show Desktop"
+msgstr "Показать рабочий стол"
+
+#: tabbox/tabbox.cpp:499
+msgid "Walk Through Windows"
+msgstr "На одно окно вперёд"
+
+#: tabbox/tabbox.cpp:500
+msgid "Walk Through Windows (Reverse)"
+msgstr "На одно окно назад"
+
+#: tabbox/tabbox.cpp:501
+msgid "Walk Through Windows Alternative"
+msgstr "На одно окно вперёд (альтернативный режим)"
+
+#: tabbox/tabbox.cpp:502
+msgid "Walk Through Windows Alternative (Reverse)"
+msgstr "На одно окно назад (альтернативный режим)"
+
+#: tabbox/tabbox.cpp:503
+msgid "Walk Through Windows of Current Application"
+msgstr "На одно окно вперёд текущего приложения"
+
+#: tabbox/tabbox.cpp:504
+msgid "Walk Through Windows of Current Application (Reverse)"
+msgstr "На одно окно назад текущего приложения"
+
+#: tabbox/tabbox.cpp:505
+msgid "Walk Through Windows of Current Application Alternative"
+msgstr "На одно окно вперёд текущего приложения (альтернативный режим)"
+
+#: tabbox/tabbox.cpp:506
+msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+msgstr "На одно окно назад текущего приложения (альтернативный режим)"
+
+#: tabbox/tabbox.cpp:507
+msgid "Walk Through Desktops"
+msgstr "На один рабочий стол вперёд"
+
+#: tabbox/tabbox.cpp:508
+msgid "Walk Through Desktops (Reverse)"
+msgstr "На один рабочий стол назад"
+
+#: tabbox/tabbox.cpp:509
+msgid "Walk Through Desktop List"
+msgstr "По списку рабочих столов вперёд"
+
+#: tabbox/tabbox.cpp:510
+msgid "Walk Through Desktop List (Reverse)"
+msgstr "По списку рабочих столов назад"
+
+#: tabbox/tabboxhandler.cpp:272
+msgid ""
+"The Window Switcher installation is broken, resources are missing.\n"
+"Contact your distribution about this."
+msgstr ""
+"Переключатель окон установлен неправильно: некоторые компоненты "
+"отсутствуют.\n"
+"Обратитесь к производителю дистрибутива."
+
+#: useractions.cpp:186
+#, kde-format
+msgid ""
+"You have selected to show a window without its border.\n"
+"Without the border, you will not be able to enable the border again using "
+"the mouse: use the window operations menu instead, activated using the %1 "
+"keyboard shortcut."
+msgstr ""
+"Вы решили отображать окно без рамки.\n"
+"Без рамки, вы не сможете включить рамку снова при помощи мыши. Используйте "
+"вместо этого меню действий с окном, которое можно активировать комбинацией "
+"клавиш %1."
+
+#: useractions.cpp:194
+#, kde-format
+msgid ""
+"You have selected to show a window in fullscreen mode.\n"
+"If the application itself does not have an option to turn the fullscreen "
+"mode off you will not be able to disable it again using the mouse: use the "
+"window operations menu instead, activated using the %1 keyboard shortcut."
+msgstr ""
+"Вы решили отображать окно в полноэкранном режиме.\n"
+"Если само приложение не имеет параметра для отключения полноэкранного "
+"режима, вы не сможете отключить полноэкранный режим снова при помощи мыши. "
+"Используйте вместо этого меню действий с окном, которое можно активировать "
+"комбинацией клавиш %1."
+
+#: useractions.cpp:259
+msgid "&Move"
+msgstr "&Переместить"
+
+#: useractions.cpp:264
+msgid "Re&size"
+msgstr "&Изменить размер"
+
+#: useractions.cpp:268
+msgid "Keep &Above Others"
+msgstr "Поддержи&вать поверх других"
+
+#: useractions.cpp:274
+msgid "Keep &Below Others"
+msgstr "Поддерживать на &заднем плане"
+
+#: useractions.cpp:280
+msgid "&Fullscreen"
+msgstr "На весь &экран"
+
+#: useractions.cpp:286
+msgid "Sh&ade"
+msgstr "Свернуть в за&головок"
+
+#: useractions.cpp:291
+msgid "&No Border"
+msgstr "&Нет рамки"
+
+#: useractions.cpp:298
+msgid "Window &Shortcut..."
+msgstr "&Комбинация клавиш..."
+
+#: useractions.cpp:303
+msgid "&Special Window Settings..."
+msgstr "&Специальные параметры окна..."
+
+#: useractions.cpp:307
+msgid "S&pecial Application Settings..."
+msgstr "Специальные параметры при&ложения..."
+
+#: useractions.cpp:314
+msgctxt ""
+"Entry in context menu of window decoration to open the configuration module "
+"of KWin"
+msgid "Window &Manager Settings..."
+msgstr "Параметры &диспетчера окон..."
+
+#: useractions.cpp:329
+msgid "Mi&nimize"
+msgstr "&Свернуть"
+
+#: useractions.cpp:333
+msgid "Ma&ximize"
+msgstr "Р&аспахнуть"
+
+#: useractions.cpp:342
+msgid "&Untab"
+msgstr "&Открепить вкладку"
+
+#: useractions.cpp:346
+msgid "Close Entire &Group"
+msgstr "Закрыть &всю группу"
+
+#: useractions.cpp:357
+msgid "&More Actions"
+msgstr "&Дополнительно"
+
+#: useractions.cpp:361
+msgid "&Close"
+msgstr "&Закрыть"
+
+#: useractions.cpp:434
+msgid "&Extensions"
+msgstr "&Расширения"
+
+#: useractions.cpp:489
+msgctxt "Switch to tab -> Previous"
+msgid "Previous"
+msgstr "Предыдущую"
+
+#: useractions.cpp:490
+msgctxt "Switch to tab -> Next"
+msgid "Next"
+msgstr "Следующую"
+
+#: useractions.cpp:528
+msgctxt "There's no window available to be attached as tab to this one"
+msgid "None available"
+msgstr "Нет подходящего"
+
+#: useractions.cpp:537
+msgid "Switch to Tab"
+msgstr "Перейти на вкладку"
+
+#: useractions.cpp:548
+msgid "&Attach as tab to"
+msgstr "&Прикрепить как вкладку к"
+
+#: useractions.cpp:571
+msgid "Move To &Desktop"
+msgstr "Переместить &на рабочий стол"
+
+#: useractions.cpp:587
+msgid "Move To &Screen"
+msgstr "Переместить на &экран"
+
+#: useractions.cpp:602
+msgid "Ac&tivities"
+msgstr "В &комнатах"
+
+#: useractions.cpp:614
+msgid "&All Desktops"
+msgstr "На &всех рабочих столах"
+
+#: useractions.cpp:640
+msgctxt "Create a new desktop and move there the window"
+msgid "&New Desktop"
+msgstr "&Новый рабочий стол"
+
+#: useractions.cpp:661
+#, kde-format
+msgctxt "@item:inmenu List of all Screens to send a window to"
+msgid "Screen &%1"
+msgstr "Экран &%1"
+
+#: useractions.cpp:679
+msgid "&All Activities"
+msgstr "Во &всех комнатах"
+
+#: useractions.cpp:884
+#, kde-format
+msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
+msgid "<b>%1</b> is already in use"
+msgstr "<b>%1</b> уже используется"
+
+#: useractions.cpp:886
+#, kde-format
+msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
+msgid "<b>%1</b> is used by %2 in %3"
+msgstr "<b>%1</b> уже используется для действия «%2» в приложении %3"
+
+#: useractions.cpp:1009
+#, kde-format
+msgid "Activate Window (%1)"
+msgstr "Активировать окно (%1)"
+
+#: useractions.cpp:1382
+msgid ""
+"The window manager is configured to consider the screen with the mouse on it "
+"as active one.\n"
+"Therefore it is not possible to switch to a screen explicitly."
+msgstr ""
+"Оконный менеджер настроен так, что активным считается экран, на котором "
+"находится указатель мыши.\n"
+"Поэтому явно переключить экран нельзя."
+
+#: virtualdesktops.cpp:334 virtualdesktops.cpp:396
+#, kde-format
+msgid "Desktop %1"
+msgstr "Рабочий стол %1"
+
+#: virtualdesktops.cpp:427
+msgid "Switch to Next Desktop"
+msgstr "Переключиться на следующий рабочий стол"
+
+#: virtualdesktops.cpp:428
+msgid "Switch to Previous Desktop"
+msgstr "Переключиться на предыдущий рабочий стол"
+
+#: virtualdesktops.cpp:429
+msgid "Switch One Desktop to the Right"
+msgstr "Переключиться на один рабочий стол вправо"
+
+#: virtualdesktops.cpp:430
+msgid "Switch One Desktop to the Left"
+msgstr "Переключиться на один рабочий стол влево"
+
+#: virtualdesktops.cpp:431
+msgid "Switch One Desktop Up"
+msgstr "Переключиться на один рабочий стол вверх"
+
+#: virtualdesktops.cpp:432
+msgid "Switch One Desktop Down"
+msgstr "Переключиться на один рабочий стол вниз"
+
+#: virtualdesktops.cpp:444
+#, kde-format
+msgid "Switch to Desktop %1"
+msgstr "Переключиться на рабочий стол %1"
+
+#: workspace.cpp:1340
+msgctxt "Introductory text shown in the support information."
+msgid ""
+"KWin Support Information:\n"
+"The following information should be used when requesting support on e.g. "
+"http://forum.kde.org.\n"
+"It provides information about the currently running instance, which options "
+"are used,\n"
+"what OpenGL driver and which effects are running.\n"
+"Please post the information provided underneath this introductory text to a "
+"paste bin service\n"
+"like http://paste.kde.org instead of pasting into support threads.\n"
+msgstr ""
+"Информационная поддержка KWin:\n"
+"Следующая информация должна быть предоставлена при запросе поддержки,"
+"например, на http://forum.kde.org.\n"
+"Она предоставляет сведения о текущем запущенном экземпляре программы, о том, "
+"какие опции используются,\n"
+"какой OpenGL драйвер и эффекты запущены.\n"
+"Пожалуйста, размещайте информацию, приведенную ниже , в сервис Pastebin,\n"
+"например, на http://paste.kde.org вместо вставки напрямую в темы форума .\n"

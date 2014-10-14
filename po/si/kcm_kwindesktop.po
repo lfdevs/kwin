@@ -1,0 +1,228 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kcm_kwindesktop\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-07-04 08:25+0000\n"
+"PO-Revision-Date: 2009-10-31 14:32+0530\n"
+"Last-Translator: gayankalhara <gkgkalhara@gmail.com>\n"
+"Language-Team: Sinhala <kde-i18n-doc@kde.org>\n"
+"Language: si\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "ඩනිෂ්ක නවින්"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "danishka@gmail.com"
+
+#: desktopnameswidget.cpp:67
+#, kde-format
+msgid "Desktop %1:"
+msgstr "වැඩතලය %1"
+
+#: desktopnameswidget.cpp:69 desktopnameswidget.cpp:70
+#, kde-format
+msgid "Here you can enter the name for desktop %1"
+msgstr "මෙහිද් ඔබට %1 වැඩතලය සඳහා නාමයක් ඇතුළත් කල හැක"
+
+#: desktopnameswidget.cpp:108 main.cpp:226
+#, kde-format
+msgid "Desktop %1"
+msgstr "වැඩතලය %1"
+
+#: main.cpp:87
+msgid ""
+"<h1>Multiple Desktops</h1>In this module, you can configure how many virtual "
+"desktops you want and how these should be labeled."
+msgstr ""
+"<h1>බහු වැඩතල</h1>මෙම මොඩියුලයේ, ඔබට ඇවැසි අතත්‍ය වැඩතල ගණන හා ඒවායේ ලේබල විය යිතු "
+"ආකාරය සැකසිය හැක."
+
+#: main.cpp:99
+msgid "Switch to Next Desktop"
+msgstr "ඊලහ වැඩතලයට මාරුවෙන්න"
+
+#: main.cpp:100
+msgid "Switch to Previous Desktop"
+msgstr "පෙර වැඩතලයට මාරුවෙන්න"
+
+#: main.cpp:101
+msgid "Switch One Desktop to the Right"
+msgstr "දකුණට වැඩතල එකක් මාරුවෙන්න"
+
+#: main.cpp:102
+msgid "Switch One Desktop to the Left"
+msgstr "වමට වැඩතල එකක් මාරුවෙන්න"
+
+#: main.cpp:103
+msgid "Switch One Desktop Up"
+msgstr "ඉහළට වැඩතල එකක් මාරුවෙන්න"
+
+#: main.cpp:104
+msgid "Switch One Desktop Down"
+msgstr "පහළට වැඩතල එකක් මාරුවෙන්න"
+
+#: main.cpp:105
+msgid "Walk Through Desktops"
+msgstr ""
+
+#: main.cpp:106
+msgid "Walk Through Desktops (Reverse)"
+msgstr ""
+
+#: main.cpp:107
+msgid "Walk Through Desktop List"
+msgstr ""
+
+#: main.cpp:108
+msgid "Walk Through Desktop List (Reverse)"
+msgstr ""
+
+#: main.cpp:110 main.cpp:144 main.cpp:509 main.cpp:510
+msgid "Desktop Switching"
+msgstr "වැඩතල මාරුවීම"
+
+#: main.cpp:122 main.cpp:489
+#, kde-format
+msgid "Switch to Desktop %1"
+msgstr "%1 වැඩතලයට මාරුවෙන්න"
+
+#: main.cpp:154
+msgid "No Animation"
+msgstr "සජීවීකරණ නොමැත"
+
+#: main.cpp:493
+#, kde-format
+msgid "No suitable Shortcut for Desktop %1 found"
+msgstr "%1 වැඩතලය සඳහා සුදුසු කෙට මඟක් නොමැත"
+
+#: main.cpp:499
+#, kde-format
+msgid "Assigned global Shortcut \"%1\" to Desktop %2"
+msgstr "වැඩතලය %2 සඳහා \"%1\" කෙටිමඟක් සකසන්න"
+
+#: main.cpp:502
+#, kde-format
+msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
+msgstr "කෙට්මං ගැටුමක්: %2  වැඩතලය සඳහා %1 කෙටිමඟ සැකසිය නොහැක"
+
+#: main.cpp:604
+msgid "KWin development team"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, desktop)
+#: main.ui:33
+msgid "Desktops"
+msgstr "වැඩතල"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: main.ui:39
+msgid "Layout"
+msgstr "සැකැස්ම"
+
+#. i18n: ectx: property (whatsThis), widget (QLabel, numberLabel)
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, numberSpinBox)
+#: main.ui:51 main.ui:64
+#, fuzzy
+#| msgid ""
+#| "Here you can set how many virtual desktops you want on your KDE desktop. "
+#| "Move the slider to change the value."
+msgid ""
+"Here you can set how many virtual desktops you want on your KDE desktop."
+msgstr ""
+"මෙහිදී ඔබට ඔබේ KDE වැඩතලය මත පැවතිය යුතු අතත්‍ය වැඩතල ගණන සැකසිය හැක. ස්ගය වෙනස් කිරීමට "
+"ස්ලයිඩරය වෙනස් කරන්න"
+
+#. i18n: ectx: property (text), widget (QLabel, numberLabel)
+#: main.ui:54
+#, fuzzy
+#| msgid "Number of desktops:"
+msgid "&Number of desktops:"
+msgstr "වැඩතල ගණන:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: main.ui:83
+#, fuzzy
+#| msgid "Number of rows:"
+msgid "N&umber of rows:"
+msgstr "පේලි ගණන:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
+#: main.ui:103
+msgid "Desktop Names"
+msgstr "වැඩතල නාම"
+
+#. i18n: ectx: attribute (title), widget (QWidget, switching)
+#: main.ui:136
+msgid "Switching"
+msgstr "මාරුවීම"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, wrapAroundBox)
+#: main.ui:142
+msgid ""
+"Enable this option if you want keyboard or active desktop border navigation "
+"beyond the edge of a desktop to take you to the opposite edge of the new "
+"desktop."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, wrapAroundBox)
+#: main.ui:145
+msgid "Desktop navigation wraps around"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: main.ui:152
+msgid "Desktop Effect Animation"
+msgstr "වැඩතල අලංකරණ සජීවීකරණ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: main.ui:164
+msgid "Animation:"
+msgstr "සජීවීකරණ:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, popupInfoCheckBox)
+#: main.ui:204
+msgid "Desktop Switch On-Screen Display"
+msgstr "වැඩතල මාරුව තිරය මත දර්ශනය"
+
+#. i18n: ectx: property (text), widget (QLabel, hideLabel)
+#: main.ui:222
+msgid "Duration:"
+msgstr "කාල සීමාව:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, popupHideSpinBox)
+#: main.ui:232
+msgid " msec"
+msgstr " msec"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
+#: main.ui:245
+msgid ""
+"Enabling this option will show a small preview of the desktop layout "
+"indicating the selected desktop."
+msgstr "මෙම විකල්පය තෝරාගැනීමෙන් ඔබට තෝරාගත් වැඩතලයේ ආකෘතියේ කුඩා පෙරදැක්මක් දක්වයි"
+
+#. i18n: ectx: property (text), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
+#: main.ui:248
+msgid "Show desktop layout indicators"
+msgstr "වැඩතල ආකෘති දර්ශක පෙන්වන්න"
+
+#. i18n: ectx: property (title), widget (QGroupBox, shortcutsGroupBox)
+#: main.ui:258
+msgid "Shortcuts"
+msgstr "කෙටිමං"
+
+#. i18n: ectx: property (text), widget (QCheckBox, allShortcutsCheckBox)
+#: main.ui:277
+msgid "Show shortcuts for all possible desktops"
+msgstr "හැකි සියළුම වැඩතල සඳහා කෙටිමං පෙන්වන්න"

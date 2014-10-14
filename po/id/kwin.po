@@ -1,0 +1,872 @@
+# Indonesian translations for kwin package.
+# Copyright (C) 2010 This_file_is_part_of_KDE
+# This file is distributed under the same license as the kwin package.
+# Andhika Padmawan <andhika.padmawan@gmail.com>, 2010-2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"PO-Revision-Date: 2014-06-21 10:26+0700\n"
+"Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
+"Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Andhika Padmawan"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "andhika.padmawan@gmail.com"
+
+#: composite.cpp:500
+#, kde-format
+msgid ""
+"Desktop effects have been suspended by another application.<br/>You can "
+"resume using the '%1' shortcut."
+msgstr ""
+"Efek desktop telah disuspensi oleh aplikasi lain.<br/>Anda dapat melanjutkan "
+"dengan menggunakan jalan pintas '%1'."
+
+#: compositingprefs.cpp:98
+msgid ""
+"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
+"b><br>This was most likely due to a driver bug.<p>If you think that you have "
+"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
+"<b>be aware that this might result in an immediate crash!</b></"
+"p><p>Alternatively, you might want to use the XRender backend instead.</p>"
+msgstr ""
+"<b>Pengompositan OpenGL (standar) telah memacetkan KWin di masa lalu.</"
+"b><br>Ini kelihatannya disebabkan kutu penggerak.<p>Jika anda pikir anda "
+"telah memutakhirkan ke penggerak stabil,<br>anda dapat reset perlindungan "
+"ini tapi <b>hati-hati bahwa ini juga bisa berakibat macet seketika!</b></"
+"p><p>Sebagai alternatif, anda mungkin ingin menggunakan ujung belakang "
+"XRender.</p>"
+
+#: compositingprefs.cpp:105
+msgid "Required X extensions (XComposite and XDamage) are not available."
+msgstr "Ekstensi X yang diperlukan (XComposite dan XDamage) tidak tersedia."
+
+#: compositingprefs.cpp:109
+msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
+msgstr "GLX/OpenGL tidak tersedia dan hanya dukungan OpenGL yang dikompilasi."
+
+#: compositingprefs.cpp:113
+msgid "GLX/OpenGL and XRender/XFixes are not available."
+msgstr "GLX/OpenGL dan XRender/XFixes tidak tersedia."
+
+#: decorations.cpp:59
+msgid "KWin: "
+msgstr "KWin: "
+
+#: killer/killer.cpp:44
+msgid "Window Manager"
+msgstr "Manajer Jendela"
+
+#: killer/killer.cpp:49
+msgid "PID of the application to terminate"
+msgstr "PID dari aplikasi yang akan dihentikan"
+
+#: killer/killer.cpp:49
+msgid "pid"
+msgstr "pid"
+
+#: killer/killer.cpp:51
+msgid "Hostname on which the application is running"
+msgstr "Nama host tempat aplikasi berjalan"
+
+#: killer/killer.cpp:51
+msgid "hostname"
+msgstr "nama host"
+
+#: killer/killer.cpp:53
+msgid "Caption of the window to be terminated"
+msgstr "Inset dari jendela yang akan dihentikan"
+
+#: killer/killer.cpp:53
+msgid "caption"
+msgstr "inset"
+
+#: killer/killer.cpp:55
+msgid "Name of the application to be terminated"
+msgstr "Nama aplikasi yang akan dihentikan"
+
+#: killer/killer.cpp:55
+msgid "name"
+msgstr "nama"
+
+#: killer/killer.cpp:57
+msgid "ID of resource belonging to the application"
+msgstr "ID sumber daya milik aplikasi"
+
+#: killer/killer.cpp:57
+msgid "id"
+msgstr "id"
+
+#: killer/killer.cpp:59
+msgid "Time of user action causing termination"
+msgstr "Waktu aksi pengguna yang menyebabkan penghentian"
+
+#: killer/killer.cpp:59
+msgid "time"
+msgstr "waktu"
+
+#: killer/killer.cpp:61
+msgid "KWin helper utility"
+msgstr "Utilitas penolong KWin"
+
+#: killer/killer.cpp:85
+msgid "This helper utility is not supposed to be called directly."
+msgstr "Utilitas penolong ini tidak seharusnya dipanggil secara langsung."
+
+#: killer/killer.cpp:95
+#, kde-format
+msgctxt "@info"
+msgid "<b>Application \"%1\" is not responding</b>"
+msgstr "<b>Aplikasi \"%1\" tidak merespon</b>"
+
+#: killer/killer.cpp:106
+#, kde-format
+msgid "&Terminate Application %1"
+msgstr "&Hentikan Aplikasi %1"
+
+#: killer/killer.cpp:107
+msgid "Wait Longer"
+msgstr "Tunggu Lebih Lama"
+
+#: kwinbindings.cpp:40
+msgid "Walk Through Window Tabs"
+msgstr "Berjalan Antar Tab Jendela"
+
+#: kwinbindings.cpp:41
+msgid "Walk Through Window Tabs (Reverse)"
+msgstr "Berjalan Antar Tab Jendela (Kebalikan)"
+
+#: kwinbindings.cpp:42
+msgid "Remove Window From Group"
+msgstr "Hapus Jendela Dari Grup"
+
+#: kwinbindings.cpp:44
+msgid "Window Operations Menu"
+msgstr "Menu Operasi Jendela"
+
+#: kwinbindings.cpp:46
+msgid "Close Window"
+msgstr "Tutup Jendela"
+
+#: kwinbindings.cpp:48
+msgid "Maximize Window"
+msgstr "Maksimalkan Jendela"
+
+#: kwinbindings.cpp:50
+msgid "Maximize Window Vertically"
+msgstr "Maksimalkan Jendela Secata Vertikal"
+
+#: kwinbindings.cpp:52
+msgid "Maximize Window Horizontally"
+msgstr "Maksimalkan Jendela Secara Horizontal"
+
+#: kwinbindings.cpp:54
+msgid "Minimize Window"
+msgstr "Minimalkan Jendela"
+
+#: kwinbindings.cpp:56
+msgid "Shade Window"
+msgstr "Bayang Jendela"
+
+#: kwinbindings.cpp:58
+msgid "Move Window"
+msgstr "Pindahkan Jendela"
+
+#: kwinbindings.cpp:60
+msgid "Resize Window"
+msgstr "Ubah Ukuran Jendela"
+
+#: kwinbindings.cpp:62
+msgid "Raise Window"
+msgstr "Naikkan Jendela"
+
+#: kwinbindings.cpp:64
+msgid "Lower Window"
+msgstr "Turunkan Jendela"
+
+#: kwinbindings.cpp:66
+msgid "Toggle Window Raise/Lower"
+msgstr "Ubah Jendela Naik/Turun"
+
+#: kwinbindings.cpp:68
+msgid "Make Window Fullscreen"
+msgstr "Buat Jendela Layar Penuh"
+
+#: kwinbindings.cpp:70
+msgid "Hide Window Border"
+msgstr "Sembunyikan Batas Jendela"
+
+#: kwinbindings.cpp:72
+msgid "Keep Window Above Others"
+msgstr "Jaga Jendela Di Atas Lainnya"
+
+#: kwinbindings.cpp:74
+msgid "Keep Window Below Others"
+msgstr "Jaga Jendela Di Bawah Lainnya"
+
+#: kwinbindings.cpp:76
+msgid "Activate Window Demanding Attention"
+msgstr "Aktifkan Jendela Memerlukan Perhatian"
+
+#: kwinbindings.cpp:78
+msgid "Setup Window Shortcut"
+msgstr "Atur Jalan Pintas Jendela"
+
+#: kwinbindings.cpp:80
+msgid "Pack Window to the Right"
+msgstr "Kemas Jendela ke Kanan"
+
+#: kwinbindings.cpp:82
+msgid "Pack Window to the Left"
+msgstr "Kemas Jendela ke Kiri"
+
+#: kwinbindings.cpp:84
+msgid "Pack Window Up"
+msgstr "Kemas Jendela ke Atas"
+
+#: kwinbindings.cpp:86
+msgid "Pack Window Down"
+msgstr "Kemas Jendela ke Bawah"
+
+#: kwinbindings.cpp:88
+msgid "Pack Grow Window Horizontally"
+msgstr "Kemas Jendela Tumbuh Secara Horizontal"
+
+#: kwinbindings.cpp:90
+msgid "Pack Grow Window Vertically"
+msgstr "Kemas Jendela Tumbuh Secara Vertikal"
+
+#: kwinbindings.cpp:92
+msgid "Pack Shrink Window Horizontally"
+msgstr "Kemas Jendela Susut Secara Horizontal"
+
+#: kwinbindings.cpp:94
+msgid "Pack Shrink Window Vertically"
+msgstr "Kemas Jendela Susut Secara Vertikal"
+
+#: kwinbindings.cpp:96
+msgid "Quick Tile Window to the Left"
+msgstr "Ubin Jendela Cepat ke Kiri"
+
+#: kwinbindings.cpp:98
+msgid "Quick Tile Window to the Right"
+msgstr "Ubin Jendela Cepat ke Kanan"
+
+#: kwinbindings.cpp:100
+msgid "Quick Tile Window to the Top Left"
+msgstr "Ubin Jendela Cepat ke Kiri Atas"
+
+#: kwinbindings.cpp:102
+msgid "Quick Tile Window to the Bottom Left"
+msgstr "Ubin Jendela Cepat ke Kiri Bawah"
+
+#: kwinbindings.cpp:104
+msgid "Quick Tile Window to the Top Right"
+msgstr "Ubin Jendela Cepat ke Kanan Atas"
+
+#: kwinbindings.cpp:106
+msgid "Quick Tile Window to the Bottom Right"
+msgstr "Ubin Jendela Cepat ke Kanan Bawah"
+
+#: kwinbindings.cpp:108
+msgid "Switch to Window Above"
+msgstr "Ganti ke Jendela di Atas"
+
+#: kwinbindings.cpp:110
+msgid "Switch to Window Below"
+msgstr "Ganti ke Jendela di Bawah"
+
+#: kwinbindings.cpp:112
+msgid "Switch to Window to the Right"
+msgstr "Ganti ke Jendela di Kanan"
+
+#: kwinbindings.cpp:114
+msgid "Switch to Window to the Left"
+msgstr "Ganti ke Jendela di Kiri"
+
+#: kwinbindings.cpp:116
+msgid "Increase Opacity of Active Window by 5 %"
+msgstr "Tingkatkan Opasitas Jendela Aktif 5 %"
+
+#: kwinbindings.cpp:118
+msgid "Decrease Opacity of Active Window by 5 %"
+msgstr "Kurangi Opasitas Jendela Aktif 5 %"
+
+#: kwinbindings.cpp:121
+msgid "Keep Window on All Desktops"
+msgstr "Jaga Jendela di Semua Desktop"
+
+#: kwinbindings.cpp:125
+#, kde-format
+msgid "Window to Desktop %1"
+msgstr "Jendela ke Desktop %1"
+
+#: kwinbindings.cpp:127
+msgid "Window to Next Desktop"
+msgstr "Jendela ke Desktop Berikutnya"
+
+#: kwinbindings.cpp:128
+msgid "Window to Previous Desktop"
+msgstr "Jendela ke Desktop Sebelumnya"
+
+#: kwinbindings.cpp:129
+msgid "Window One Desktop to the Right"
+msgstr "Jendela Satu Desktop ke Kanan"
+
+#: kwinbindings.cpp:130
+msgid "Window One Desktop to the Left"
+msgstr "Jendela Satu Desktop ke Kiri"
+
+#: kwinbindings.cpp:131
+msgid "Window One Desktop Up"
+msgstr "Jendela Satu Desktop ke Atas"
+
+#: kwinbindings.cpp:132
+msgid "Window One Desktop Down"
+msgstr "Jendela Satu Desktop ke Bawah"
+
+#: kwinbindings.cpp:135
+#, kde-format
+msgid "Window to Screen %1"
+msgstr "Jendela ke Layar %1"
+
+#: kwinbindings.cpp:137
+msgid "Window to Next Screen"
+msgstr "Jendela ke Layar Berikutnya"
+
+#: kwinbindings.cpp:138
+msgid "Window to Previous Screen"
+msgstr "Jendela ke Layar Sebelumnya"
+
+#: kwinbindings.cpp:139
+msgid "Show Desktop"
+msgstr "Tampilkan Desktop"
+
+#: kwinbindings.cpp:142
+#, kde-format
+msgid "Switch to Screen %1"
+msgstr "Ganti ke Layar %1"
+
+#: kwinbindings.cpp:145
+msgid "Switch to Next Screen"
+msgstr "Ganti ke Layar Berikutnya"
+
+#: kwinbindings.cpp:146
+msgid "Switch to Previous Screen"
+msgstr "Ganti ke Layar Sebelumnya"
+
+#: kwinbindings.cpp:148
+msgid "Kill Window"
+msgstr "Matikan Jendela"
+
+#: kwinbindings.cpp:149
+msgid "Suspend Compositing"
+msgstr "Suspensi Pengompositan"
+
+#: kwinbindings.cpp:150
+msgid "Invert Screen Colors"
+msgstr "Balik Warna Layar"
+
+#: main.cpp:78
+msgid ""
+"KWin is unstable.\n"
+"It seems to have crashed several times in a row.\n"
+"You can select another window manager to run:"
+msgstr ""
+"KWin tidak stabil.\n"
+"Kelihatannya KWin telah beberapa kali macet secara berturut-turut.\n"
+"Anda dapat memilih manajer jendela lain untuk dijalankan:"
+
+#: main.cpp:259 main.cpp:286
+msgid "KDE window manager"
+msgstr "Manajer jendela KDE"
+
+#: main.cpp:264
+msgid "KWin"
+msgstr "KWin"
+
+#: main.cpp:268
+msgid "(c) 1999-2013, The KDE Developers"
+msgstr "(c) 1999-2013, Pengembang KDE"
+
+#: main.cpp:270
+msgid "Matthias Ettrich"
+msgstr "Matthias Ettrich"
+
+#: main.cpp:271
+msgid "Cristian Tibirna"
+msgstr "Cristian Tibirna"
+
+#: main.cpp:272
+msgid "Daniel M. Duley"
+msgstr "Daniel M. Duley"
+
+#: main.cpp:273
+msgid "Luboš Luňák"
+msgstr "Luboš Luňák"
+
+#: main.cpp:274
+msgid "Martin Gräßlin"
+msgstr "Martin Gräßlin"
+
+#: main.cpp:274
+msgid "Maintainer"
+msgstr "Pengelola"
+
+#: main.cpp:283
+msgid "Disable configuration options"
+msgstr "Nonaktifkan opsi konfigurasi"
+
+#: main.cpp:284
+msgid "Indicate that KWin has recently crashed n times"
+msgstr "Mengindikasikan bahwa KWin telah macet n kali akhir-akhir ini"
+
+#: main_wayland.cpp:88
+#, fuzzy
+#| msgid "kwin: another window manager is running (try using --replace)\n"
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+msgstr "kwin: manajer jendela lain berjalan (coba menggunakan --replace)\n"
+
+#: main_wayland.cpp:96
+msgid ""
+"kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
+"set.\n"
+msgstr ""
+
+#: main_wayland.cpp:231
+msgid "Start a nested X Server."
+msgstr ""
+
+#: main_wayland.cpp:234
+msgid "The X11 Display to connect to, required if option x-server is used."
+msgstr ""
+
+#: main_x11.cpp:149
+msgid ""
+"kwin: unable to claim manager selection, another wm running? (try using --"
+"replace)\n"
+msgstr ""
+"kwin: tak dapat mengklaim pemilihan manajer. wm lain berjalan? (coba "
+"menggunakan --replace)\n"
+
+#: main_x11.cpp:166
+msgid "kwin: another window manager is running (try using --replace)\n"
+msgstr "kwin: manajer jendela lain berjalan (coba menggunakan --replace)\n"
+
+#: main_x11.cpp:261
+msgid "Replace already-running ICCCM2.0-compliant window manager"
+msgstr "Ganti manajer jendela sesuai-ICCCM2.0 yang telah berjalan"
+
+#: scene_opengl.cpp:558
+msgid "Desktop effects were restarted due to a graphics reset"
+msgstr "Efek desktop telah dijalankan ulang karena reset grafis"
+
+#: scene_opengl.cpp:729
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
+"OpenGL Desktop Effects at the current resolution<br><br>You can try to "
+"select the XRender backend, but it might be very slow for this resolution as "
+"well.<br>Alternatively, lower the combined resolution of all screens to %1x"
+"%2 "
+msgstr ""
+"<h1>Efek desktop OpnGL tak memungkinkan</h1>Sistem anda tak dapat melakukan "
+"Efek Desktop OpenGL pada resolusi saat ini<br><br>Anda dapat coba memilih "
+"ujung belakang XRender, tapi kemungkinan akan sangat lambat pada resolusi "
+"ini.<br>Sebagai alternatif, kurangi resolusi gabungan seluruh layar ke %1x%2 "
+
+#: scene_opengl.cpp:736
+msgid ""
+"The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+"GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+"does not know such limitation, but the performance will usually be impacted "
+"by the hardware limitations that restrict the OpenGL viewport size."
+msgstr ""
+"Resolusi yang diinginkan melebihi batasan GL_MAX_VIEWPORT_DIMS GPU anda "
+"sehingga tidak cocok dengan kompositor OpenGL.<br>XRender tidak mengenal "
+"batasan seperti itu, tapi performa biasanya akan terpengaruh oleh batasan "
+"peranti lunak yang membatasi ukuran pangkalan tampilan OpenGL."
+
+#: scene_opengl.cpp:761
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+"the current resolution are supported but might be exceptionally slow."
+"<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
+"compositing, switch to the XRender backend or lower the resolution to %1x%1."
+msgstr ""
+"<h1>Efek desktop OpenGL mungkin tidak terpakai</h1>Efek Desktop OpenGL pada "
+"resolusi saat ini didukung tapi dapat berjalan sangat lambat.<br>Juga "
+"jendela besar akan menjadi gelap sepenuhnya.<br><br>Pertimbangkan untuk "
+"suspensi pengompositan, ganti ke ujung belakang XRender atau kurangi "
+"resolusi ke %1x%1."
+
+#: scene_opengl.cpp:767
+msgid ""
+"The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+"GPU, thus windows of that size cannot be assigned to textures and will be "
+"entirely black.<br>Also this limit will often be a performance level barrier "
+"despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+"software rendering in this case."
+msgstr ""
+"Resolusi yang diminta melebihi batasan GL_MAX_TEXTURE_SIZE GPU anda, "
+"sehingga jendela pada ukuran tersebut tak dapat ditugaskan ke tekstur dan "
+"akan sepenuhnya hitam.<br>Juga batasan ini merupakan halangan level performa "
+"walaupun di bawah GL_MAX_VIEWPORT_DIMS, karena penggerak akan kembali ke "
+"render peranti lunak dalam hal ini."
+
+#: scripting/genericscriptedconfig.cpp:81
+msgctxt "Error message"
+msgid "Plugin does not provide configuration file in expected location"
+msgstr "Plugin tidak menyediakan berkas konfigurasi di lokasi yang diharapkan"
+
+#: scripting/scripting.cpp:127
+#, kde-format
+msgctxt "Assertion failed in KWin script with given value"
+msgid "Assertion failed: %1 is not null"
+msgstr "Asersi gagal: %1 bukan nol"
+
+#: scripting/scripting.cpp:145
+msgctxt "Assertion failed in KWin script"
+msgid "Assertion failed: argument is null"
+msgstr "Asersi gagal: argumen nol"
+
+#: scripting/scripting.cpp:172
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid number of arguments. At least service, path, interface and method "
+"need to be provided"
+msgstr ""
+"Jumlah argumen tidak valid. Setidaknya layanan, alamat, antarmuka dan metode "
+"harus diberikan"
+
+#: scripting/scripting.cpp:178
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid type. Service, path, interface and method need to be string values"
+msgstr "Tipe tidak valid. Layanan, alamat, alamat dan metode harus nilai tali"
+
+#: scripting/scriptingutils.cpp:28
+msgctxt "syntax error in KWin script"
+msgid "Invalid number of arguments"
+msgstr "jumlah argumen tidak valid"
+
+#: scripting/scriptingutils.cpp:41
+#, kde-format
+msgctxt "KWin Scripting function received incorrect value for an expected type"
+msgid "%1 is not a variant type"
+msgstr "%1 bukan tipe varian"
+
+#: tabbox/tabbox.cpp:348
+msgctxt "Special entry in alt+tab list for minimizing all windows"
+msgid "Show Desktop"
+msgstr "Tampilkan Desktop"
+
+#: tabbox/tabbox.cpp:499
+msgid "Walk Through Windows"
+msgstr "Berjalan Antar Jendela"
+
+#: tabbox/tabbox.cpp:500
+msgid "Walk Through Windows (Reverse)"
+msgstr "Berjalan Antar Jendela (Kebalikan)"
+
+#: tabbox/tabbox.cpp:501
+msgid "Walk Through Windows Alternative"
+msgstr "Berjalan Antar Alternatif Jendela"
+
+#: tabbox/tabbox.cpp:502
+msgid "Walk Through Windows Alternative (Reverse)"
+msgstr "Berjalan Antar Alternatif Jendela (Kebalikan)"
+
+#: tabbox/tabbox.cpp:503
+msgid "Walk Through Windows of Current Application"
+msgstr "Berjalan Antar Jendela Aplikasi Saat Ini"
+
+#: tabbox/tabbox.cpp:504
+msgid "Walk Through Windows of Current Application (Reverse)"
+msgstr "Berjalan Antar Jendela Aplikasi Saat Ini (Kebalikan)"
+
+#: tabbox/tabbox.cpp:505
+msgid "Walk Through Windows of Current Application Alternative"
+msgstr "Berjalan Antar Alternatif Jendela Aplikasi Saat Ini"
+
+#: tabbox/tabbox.cpp:506
+msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+msgstr "Berjalan Antar Alternatif Jendela Aplikasi Saat Ini (Kebalikan)"
+
+#: tabbox/tabbox.cpp:507
+msgid "Walk Through Desktops"
+msgstr "Berjalan Antar Desktop"
+
+#: tabbox/tabbox.cpp:508
+msgid "Walk Through Desktops (Reverse)"
+msgstr "Berjalan Antar Desktop (Kebalikan)"
+
+#: tabbox/tabbox.cpp:509
+msgid "Walk Through Desktop List"
+msgstr "Berjalan Antar Senarai Desktop"
+
+#: tabbox/tabbox.cpp:510
+msgid "Walk Through Desktop List (Reverse)"
+msgstr "Berjalan Antar Senarai Desktop (Kebalikan)"
+
+#: tabbox/tabboxhandler.cpp:272
+msgid ""
+"The Window Switcher installation is broken, resources are missing.\n"
+"Contact your distribution about this."
+msgstr ""
+"Instalasi Pengganti Jendela rusak, sumber daya hilang.\n"
+"Hubungi distribusi anda tentang hal ini."
+
+#: useractions.cpp:186
+#, kde-format
+msgid ""
+"You have selected to show a window without its border.\n"
+"Without the border, you will not be able to enable the border again using "
+"the mouse: use the window operations menu instead, activated using the %1 "
+"keyboard shortcut."
+msgstr ""
+"Anda telah memilih untuk menampilkan jendela tanpa batasnya.\n"
+"Tanpa batas, anda tidak akan dapat mengaktifkan batas lagi menggunakan "
+"tetikus: gunakanlah menu operasi jendela, diaktifkan menggunakan jalan "
+"pintas papan ketik %1."
+
+#: useractions.cpp:194
+#, kde-format
+msgid ""
+"You have selected to show a window in fullscreen mode.\n"
+"If the application itself does not have an option to turn the fullscreen "
+"mode off you will not be able to disable it again using the mouse: use the "
+"window operations menu instead, activated using the %1 keyboard shortcut."
+msgstr ""
+"Anda telah memilih untuk menampilkan jendela dalam mode layar penuh.\n"
+"Jika aplikasi itu sendiri tidak mempunyai opsi untuk mematikan mode layar "
+"penuh maka anda tidak akan dapat menonaktifkannya lagi menggunakan tetikus: "
+"gunakanlah menu operasi jendela, diaktifkan menggunakan jalan pintas papan "
+"ketik %1."
+
+#: useractions.cpp:259
+msgid "&Move"
+msgstr "&Pindah"
+
+#: useractions.cpp:264
+msgid "Re&size"
+msgstr "&Ubah Ukuran"
+
+#: useractions.cpp:268
+msgid "Keep &Above Others"
+msgstr "Jaga di &Atas Lainnya"
+
+#: useractions.cpp:274
+msgid "Keep &Below Others"
+msgstr "Jaga di &Bawah Lainnya"
+
+#: useractions.cpp:280
+msgid "&Fullscreen"
+msgstr "&Layar Penuh"
+
+#: useractions.cpp:286
+msgid "Sh&ade"
+msgstr "Ba&yang"
+
+#: useractions.cpp:291
+msgid "&No Border"
+msgstr "&Tanpa Batas"
+
+#: useractions.cpp:298
+msgid "Window &Shortcut..."
+msgstr "&Jalan Pintas Jendela..."
+
+#: useractions.cpp:303
+msgid "&Special Window Settings..."
+msgstr "Pengaturan Jendela &Spesial..."
+
+#: useractions.cpp:307
+msgid "S&pecial Application Settings..."
+msgstr "Pengaturan Aplikasi S&pesial..."
+
+#: useractions.cpp:314
+msgctxt ""
+"Entry in context menu of window decoration to open the configuration module "
+"of KWin"
+msgid "Window &Manager Settings..."
+msgstr "Pengaturan &Manajer Jendela..."
+
+#: useractions.cpp:329
+msgid "Mi&nimize"
+msgstr "Mi&nimalkan"
+
+#: useractions.cpp:333
+msgid "Ma&ximize"
+msgstr "Ma&ksimalkan"
+
+#: useractions.cpp:342
+msgid "&Untab"
+msgstr "&Lepas Tab"
+
+#: useractions.cpp:346
+msgid "Close Entire &Group"
+msgstr "Tutup Seluruh &Grup"
+
+#: useractions.cpp:357
+msgid "&More Actions"
+msgstr "&Aksi Lainnya"
+
+#: useractions.cpp:361
+msgid "&Close"
+msgstr "&Tutup"
+
+#: useractions.cpp:434
+msgid "&Extensions"
+msgstr "&Ekstensi"
+
+#: useractions.cpp:489
+msgctxt "Switch to tab -> Previous"
+msgid "Previous"
+msgstr "Sebelumnya"
+
+#: useractions.cpp:490
+msgctxt "Switch to tab -> Next"
+msgid "Next"
+msgstr "Berikutnya"
+
+#: useractions.cpp:528
+msgctxt "There's no window available to be attached as tab to this one"
+msgid "None available"
+msgstr "Tak ada yang tersedia"
+
+#: useractions.cpp:537
+msgid "Switch to Tab"
+msgstr "Ganti ke Tab"
+
+#: useractions.cpp:548
+msgid "&Attach as tab to"
+msgstr "&Tambahkan sebagai tab ke"
+
+#: useractions.cpp:571
+msgid "Move To &Desktop"
+msgstr "Pindah Ke &Desktop"
+
+#: useractions.cpp:587
+msgid "Move To &Screen"
+msgstr "Pindah Ke &Layar"
+
+#: useractions.cpp:602
+msgid "Ac&tivities"
+msgstr "Ak&tivitas"
+
+#: useractions.cpp:614
+msgid "&All Desktops"
+msgstr "&Semua Desktop"
+
+#: useractions.cpp:640
+msgctxt "Create a new desktop and move there the window"
+msgid "&New Desktop"
+msgstr "&Desktop Baru"
+
+#: useractions.cpp:661
+#, kde-format
+msgctxt "@item:inmenu List of all Screens to send a window to"
+msgid "Screen &%1"
+msgstr "Layar &%1"
+
+#: useractions.cpp:679
+msgid "&All Activities"
+msgstr "Semua &Aktivitas"
+
+#: useractions.cpp:884
+#, kde-format
+msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
+msgid "<b>%1</b> is already in use"
+msgstr "<b>%1</b> telah digunakan"
+
+#: useractions.cpp:886
+#, kde-format
+msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
+msgid "<b>%1</b> is used by %2 in %3"
+msgstr "<b>%1</b> digunakan oleh %2 di %3"
+
+#: useractions.cpp:1009
+#, kde-format
+msgid "Activate Window (%1)"
+msgstr "Aktifkan Jendela (%1)"
+
+#: useractions.cpp:1382
+msgid ""
+"The window manager is configured to consider the screen with the mouse on it "
+"as active one.\n"
+"Therefore it is not possible to switch to a screen explicitly."
+msgstr ""
+"Manajer jendela diatur untuk mempertimbangkan layar dengan tetikus di "
+"atasnya sebagai yang aktif.\n"
+"Sehingga tidak dimungkinkan untuk mengganti layar secara eksplisit."
+
+#: virtualdesktops.cpp:334 virtualdesktops.cpp:396
+#, kde-format
+msgid "Desktop %1"
+msgstr "Desktop %1"
+
+#: virtualdesktops.cpp:427
+msgid "Switch to Next Desktop"
+msgstr "Ganti ke Desktop Berikutnya"
+
+#: virtualdesktops.cpp:428
+msgid "Switch to Previous Desktop"
+msgstr "Ganti ke Desktop Sebelumnya"
+
+#: virtualdesktops.cpp:429
+msgid "Switch One Desktop to the Right"
+msgstr "Ganti Satu Desktop ke Kanan"
+
+#: virtualdesktops.cpp:430
+msgid "Switch One Desktop to the Left"
+msgstr "Ganti Satu Desktop ke Kiri"
+
+#: virtualdesktops.cpp:431
+msgid "Switch One Desktop Up"
+msgstr "Ganti Satu Desktop ke Atas"
+
+#: virtualdesktops.cpp:432
+msgid "Switch One Desktop Down"
+msgstr "Ganti Satu Desktop ke Bawah"
+
+#: virtualdesktops.cpp:444
+#, kde-format
+msgid "Switch to Desktop %1"
+msgstr "Ganti ke Desktop %1"
+
+#: workspace.cpp:1340
+msgctxt "Introductory text shown in the support information."
+msgid ""
+"KWin Support Information:\n"
+"The following information should be used when requesting support on e.g. "
+"http://forum.kde.org.\n"
+"It provides information about the currently running instance, which options "
+"are used,\n"
+"what OpenGL driver and which effects are running.\n"
+"Please post the information provided underneath this introductory text to a "
+"paste bin service\n"
+"like http://paste.kde.org instead of pasting into support threads.\n"
+msgstr ""
+"Informasi Dukungan KWin:\n"
+"Informasi berikut harus digunakan ketika meminta dukungan misalnya di http://"
+"forum.kde.org.\n"
+"Hal itu memberikan informasi tentang instansi yang saat ini berjalan, opsi "
+"apa yang digunakan,\n"
+"penggerak OpenGL apa dan efek apa yang berjalan.\n"
+"Silakan pos informasi yang disediakan di bawah teks pendahuluan ini ke "
+"layanan tempel\n"
+"seperti http://paste.kde.org ketimbang menempelkannya di pembicaraan "
+"dukungan.\n"

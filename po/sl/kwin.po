@@ -1,0 +1,883 @@
+# translation of kwin.po to
+# Translation of kwin.po to Slovenian
+# Copyright (C) 2001, 2003, 2004, 2005, 2007 Free Software Foundation, Inc.
+# $Id: kwin.po 1402171 2014-10-07 11:38:11Z scripty $
+# $Source$
+#
+# Roman Maurer <roman.maurer@hermes.si>, 2000.
+# Gregor Rakar <gregor.rakar@kiss.si>, 2003, 2004, 2005.
+# Jure Repinc <jlp@holodeck1.com>, 2005, 2007, 2008, 2009, 2010, 2011, 2012.
+# Andrej Vernekar <andrej.vernekar@moj.net>, 2007, 2012.
+# Andrej Mernik <andrejm@ubuntu.si>, 2013, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"PO-Revision-Date: 2014-09-28 10:43+0200\n"
+"Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
+"Language-Team: Slovenian <lugos-slo@lugos.si>\n"
+"Language: sl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
+"%100==4 ? 3 : 0);\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Roman Maurer,Gregor Rakar,Jure Repinc,Andrej Mernik"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr ""
+"roman.maurer@amis.net,gregor.rakar@kiss.si,jlp@holodeck1.com,andrejm@ubuntu."
+"si"
+
+#: composite.cpp:500
+#, kde-format
+msgid ""
+"Desktop effects have been suspended by another application.<br/>You can "
+"resume using the '%1' shortcut."
+msgstr ""
+"Nek program je prestavil namizne učinke v pripravljenost.<br/>Da jih spet "
+"vklopite, lahko uporabite bližnjico »%1«."
+
+#: compositingprefs.cpp:98
+msgid ""
+"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
+"b><br>This was most likely due to a driver bug.<p>If you think that you have "
+"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
+"<b>be aware that this might result in an immediate crash!</b></"
+"p><p>Alternatively, you might want to use the XRender backend instead.</p>"
+msgstr ""
+"<b>Skladnja 3D OpenGL (privzeta) je v preteklosti povzročila sesutje KWin-a."
+"</b><br>Vzrok je najverjetneje hrošč v gonilniku za grafično kartico.<p>Če "
+"ste med tem nadgradili gonilnik in menite, da je stabilen,<br>lahko "
+"ponastavite to zaščito. Zavedajte se, da <b>to lahko povzroči takojšnje "
+"sesutje!</b></p><p>Druga možnost je uporaba zaledja XRender.</p>"
+
+#: compositingprefs.cpp:105
+msgid "Required X extensions (XComposite and XDamage) are not available."
+msgstr "Zahtevani razširitvi za X (XComposite in XDamage) nista na voljo."
+
+#: compositingprefs.cpp:109
+msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
+msgstr "GLX/OpenGL ni na voljo, prevedena je le podpora za OpenGL."
+
+#: compositingprefs.cpp:113
+msgid "GLX/OpenGL and XRender/XFixes are not available."
+msgstr "Niti GLX/OpenGL, niti XRender/XFixes nista na voljo."
+
+#: decorations.cpp:59
+msgid "KWin: "
+msgstr "KWin: "
+
+#: killer/killer.cpp:44
+msgid "Window Manager"
+msgstr "Upravljalnik oken"
+
+#: killer/killer.cpp:49
+msgid "PID of the application to terminate"
+msgstr "PID programa, ki naj bo uničen"
+
+#: killer/killer.cpp:49
+msgid "pid"
+msgstr "pid"
+
+#: killer/killer.cpp:51
+msgid "Hostname on which the application is running"
+msgstr "Ime gostitelja, na katerem teče program"
+
+#: killer/killer.cpp:51
+msgid "hostname"
+msgstr "ime gostitelja"
+
+#: killer/killer.cpp:53
+msgid "Caption of the window to be terminated"
+msgstr "Naslov okna, ki naj bo uničeno"
+
+#: killer/killer.cpp:53
+msgid "caption"
+msgstr "napis"
+
+#: killer/killer.cpp:55
+msgid "Name of the application to be terminated"
+msgstr "Ime programa, ki naj bo uničen"
+
+#: killer/killer.cpp:55
+msgid "name"
+msgstr "ime"
+
+#: killer/killer.cpp:57
+msgid "ID of resource belonging to the application"
+msgstr "ID vira, ki pripada programu"
+
+#: killer/killer.cpp:57
+msgid "id"
+msgstr "id"
+
+#: killer/killer.cpp:59
+msgid "Time of user action causing termination"
+msgstr "Čas uporabnikovega dejanja, ki povzroči uničenje"
+
+#: killer/killer.cpp:59
+msgid "time"
+msgstr "čas"
+
+#: killer/killer.cpp:61
+msgid "KWin helper utility"
+msgstr "Pomagalnik za KWin"
+
+#: killer/killer.cpp:85
+msgid "This helper utility is not supposed to be called directly."
+msgstr "Ta pomagalnik ne bi smel biti klican neposredno."
+
+#: killer/killer.cpp:95
+#, kde-format
+msgctxt "@info"
+msgid "<b>Application \"%1\" is not responding</b>"
+msgstr "<b>Program \"%1\" se ne odziva</b>"
+
+#: killer/killer.cpp:106
+#, kde-format
+msgid "&Terminate Application %1"
+msgstr "&Uniči program %1"
+
+#: killer/killer.cpp:107
+msgid "Wait Longer"
+msgstr "Čakaj dlje"
+
+#: kwinbindings.cpp:40
+msgid "Walk Through Window Tabs"
+msgstr "Sprehod med zavihki z okni"
+
+#: kwinbindings.cpp:41
+msgid "Walk Through Window Tabs (Reverse)"
+msgstr "Sprehod med zavihki z okni (obratno)"
+
+#: kwinbindings.cpp:42
+msgid "Remove Window From Group"
+msgstr "Odstrani okno iz skupine"
+
+#: kwinbindings.cpp:44
+msgid "Window Operations Menu"
+msgstr "Meni okenskih dejanj"
+
+#: kwinbindings.cpp:46
+msgid "Close Window"
+msgstr "Zapri okno"
+
+#: kwinbindings.cpp:48
+msgid "Maximize Window"
+msgstr "Razpni okno"
+
+#: kwinbindings.cpp:50
+msgid "Maximize Window Vertically"
+msgstr "Razpni okno navpično"
+
+#: kwinbindings.cpp:52
+msgid "Maximize Window Horizontally"
+msgstr "Razpni okno vodoravno"
+
+#: kwinbindings.cpp:54
+msgid "Minimize Window"
+msgstr "Skrči okno"
+
+#: kwinbindings.cpp:56
+msgid "Shade Window"
+msgstr "Zvij okno"
+
+#: kwinbindings.cpp:58
+msgid "Move Window"
+msgstr "Premakni okno"
+
+#: kwinbindings.cpp:60
+msgid "Resize Window"
+msgstr "Spremeni velikost okna"
+
+#: kwinbindings.cpp:62
+msgid "Raise Window"
+msgstr "Dvigni okno"
+
+#: kwinbindings.cpp:64
+msgid "Lower Window"
+msgstr "Spusti okno"
+
+#: kwinbindings.cpp:66
+msgid "Toggle Window Raise/Lower"
+msgstr "Preklapljaj med dvigom/spustom okna"
+
+#: kwinbindings.cpp:68
+msgid "Make Window Fullscreen"
+msgstr "Okno v celozaslonski način"
+
+#: kwinbindings.cpp:70
+msgid "Hide Window Border"
+msgstr "Skrij obrobo okna"
+
+#: kwinbindings.cpp:72
+msgid "Keep Window Above Others"
+msgstr "Ohrani okno nad drugimi"
+
+#: kwinbindings.cpp:74
+msgid "Keep Window Below Others"
+msgstr "Ohrani okno pod drugimi"
+
+#: kwinbindings.cpp:76
+msgid "Activate Window Demanding Attention"
+msgstr "Omogoči okno, ki potrebuje pozornost"
+
+#: kwinbindings.cpp:78
+msgid "Setup Window Shortcut"
+msgstr "Nastavi bližnjico okna"
+
+#: kwinbindings.cpp:80
+msgid "Pack Window to the Right"
+msgstr "Spravi okno na desno"
+
+#: kwinbindings.cpp:82
+msgid "Pack Window to the Left"
+msgstr "Spravi okno na levo"
+
+#: kwinbindings.cpp:84
+msgid "Pack Window Up"
+msgstr "Spravi okno navzgor"
+
+#: kwinbindings.cpp:86
+msgid "Pack Window Down"
+msgstr "Spravi okno navzdol"
+
+#: kwinbindings.cpp:88
+msgid "Pack Grow Window Horizontally"
+msgstr "Spravi rastoče okno vodoravno"
+
+#: kwinbindings.cpp:90
+msgid "Pack Grow Window Vertically"
+msgstr "Spravi rastoče okno navpično"
+
+#: kwinbindings.cpp:92
+msgid "Pack Shrink Window Horizontally"
+msgstr "Spravi pojemajoče okno vodoravno"
+
+#: kwinbindings.cpp:94
+msgid "Pack Shrink Window Vertically"
+msgstr "Spravi pojemajoče okno navpično"
+
+#: kwinbindings.cpp:96
+msgid "Quick Tile Window to the Left"
+msgstr "Hitro razpostavi okno na levi"
+
+#: kwinbindings.cpp:98
+msgid "Quick Tile Window to the Right"
+msgstr "Hitro razpostavi okno na desni"
+
+#: kwinbindings.cpp:100
+msgid "Quick Tile Window to the Top Left"
+msgstr "Hitro razpostavi okno zgoraj levo"
+
+#: kwinbindings.cpp:102
+msgid "Quick Tile Window to the Bottom Left"
+msgstr "Hitro razpostavi okno spodaj levo"
+
+#: kwinbindings.cpp:104
+msgid "Quick Tile Window to the Top Right"
+msgstr "Hitro razpostavi okno zgoraj desno"
+
+#: kwinbindings.cpp:106
+msgid "Quick Tile Window to the Bottom Right"
+msgstr "Hitro razpostavi okno spodaj desno"
+
+#: kwinbindings.cpp:108
+msgid "Switch to Window Above"
+msgstr "Preklopi na okno zgoraj"
+
+#: kwinbindings.cpp:110
+msgid "Switch to Window Below"
+msgstr "Preklopi na okno spodaj"
+
+#: kwinbindings.cpp:112
+msgid "Switch to Window to the Right"
+msgstr "Preklopi na okno desno"
+
+#: kwinbindings.cpp:114
+msgid "Switch to Window to the Left"
+msgstr "Preklopi na okno levo"
+
+#: kwinbindings.cpp:116
+msgid "Increase Opacity of Active Window by 5 %"
+msgstr "Povečaj motnost dejavnega okna za 5 %"
+
+#: kwinbindings.cpp:118
+msgid "Decrease Opacity of Active Window by 5 %"
+msgstr "Zmanjšaj motnost dejavnega okna za 5 %"
+
+#: kwinbindings.cpp:121
+msgid "Keep Window on All Desktops"
+msgstr "Ohrani okno na vseh namizjih"
+
+#: kwinbindings.cpp:125
+#, kde-format
+msgid "Window to Desktop %1"
+msgstr "Okno na namizje %1"
+
+#: kwinbindings.cpp:127
+msgid "Window to Next Desktop"
+msgstr "Okno na naslednje namizje"
+
+#: kwinbindings.cpp:128
+msgid "Window to Previous Desktop"
+msgstr "Okno na prejšnje namizje"
+
+#: kwinbindings.cpp:129
+msgid "Window One Desktop to the Right"
+msgstr "Okno na eno namizje desno"
+
+#: kwinbindings.cpp:130
+msgid "Window One Desktop to the Left"
+msgstr "Okno na eno namizje levo"
+
+#: kwinbindings.cpp:131
+msgid "Window One Desktop Up"
+msgstr "Okno na eno namizje gor"
+
+#: kwinbindings.cpp:132
+msgid "Window One Desktop Down"
+msgstr "Okno na eno namizje dol"
+
+#: kwinbindings.cpp:135
+#, kde-format
+msgid "Window to Screen %1"
+msgstr "Okno na zaslon %1"
+
+#: kwinbindings.cpp:137
+msgid "Window to Next Screen"
+msgstr "Okno na naslednji zaslon"
+
+#: kwinbindings.cpp:138
+msgid "Window to Previous Screen"
+msgstr "Okno na prejšnji zaslon"
+
+#: kwinbindings.cpp:139
+msgid "Show Desktop"
+msgstr "Pokaži namizje"
+
+#: kwinbindings.cpp:142
+#, kde-format
+msgid "Switch to Screen %1"
+msgstr "Preklopi na zaslon %1"
+
+#: kwinbindings.cpp:145
+msgid "Switch to Next Screen"
+msgstr "Preklopi na naslednji zaslon"
+
+#: kwinbindings.cpp:146
+msgid "Switch to Previous Screen"
+msgstr "Preklopi na prejšnji zaslon"
+
+#: kwinbindings.cpp:148
+msgid "Kill Window"
+msgstr "Uniči okno"
+
+#: kwinbindings.cpp:149
+msgid "Suspend Compositing"
+msgstr "Skladnja 3D v pripravljenost"
+
+#: kwinbindings.cpp:150
+msgid "Invert Screen Colors"
+msgstr "Obrni barve zaslona"
+
+#: main.cpp:78
+msgid ""
+"KWin is unstable.\n"
+"It seems to have crashed several times in a row.\n"
+"You can select another window manager to run:"
+msgstr ""
+"KWin je nestabilen.\n"
+"Videti je, da se je sesul večkrat zaporedoma.\n"
+"Izberete lahko drugega upravljalnika oken:"
+
+#: main.cpp:259 main.cpp:286
+msgid "KDE window manager"
+msgstr "Upravljalnik oken za KDE"
+
+#: main.cpp:264
+msgid "KWin"
+msgstr "KWin"
+
+#: main.cpp:268
+msgid "(c) 1999-2013, The KDE Developers"
+msgstr "© 1999-2013, razvijalci KDE"
+
+#: main.cpp:270
+msgid "Matthias Ettrich"
+msgstr "Matthias Ettrich"
+
+#: main.cpp:271
+msgid "Cristian Tibirna"
+msgstr "Cristian Tibirna"
+
+#: main.cpp:272
+msgid "Daniel M. Duley"
+msgstr "Daniel M. Duley"
+
+#: main.cpp:273
+msgid "Luboš Luňák"
+msgstr "Luboš Luňák"
+
+#: main.cpp:274
+msgid "Martin Gräßlin"
+msgstr "Martin Gräßlin"
+
+#: main.cpp:274
+msgid "Maintainer"
+msgstr "Vzdrževalec"
+
+#: main.cpp:283
+msgid "Disable configuration options"
+msgstr "Onemogoči nastavitvene možnosti"
+
+#: main.cpp:284
+msgid "Indicate that KWin has recently crashed n times"
+msgstr "Nakaži, da se je KWin nedavno sesul n-krat"
+
+#: main_wayland.cpp:88
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+msgstr "kwin_wayland: upravljalnik oken X11 že teče na prikazu X11.\n"
+
+#: main_wayland.cpp:96
+msgid ""
+"kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
+"set.\n"
+msgstr ""
+"kwin_wayland: ni se bilo mogoče povezati s strežnikom Wayland. Prepričajte "
+"se, da je nastavljen WAYLAND_DISPLAY.\n"
+
+#: main_wayland.cpp:231
+msgid "Start a nested X Server."
+msgstr "Zaženi ugnezden strežnik X."
+
+#: main_wayland.cpp:234
+msgid "The X11 Display to connect to, required if option x-server is used."
+msgstr ""
+"Prikaz X11, s katerim se želite povezati. To je zahtevano, če je uporabljena "
+"možnost x-server."
+
+#: main_x11.cpp:149
+msgid ""
+"kwin: unable to claim manager selection, another wm running? (try using --"
+"replace)\n"
+msgstr ""
+"kwin: ni mogoče uveljaviti izbora upravljalnika, mogoče teče kakšen drug? "
+"(poskusite uporabiti --replace)\n"
+
+#: main_x11.cpp:166
+msgid "kwin: another window manager is running (try using --replace)\n"
+msgstr ""
+"kwin: nek drug upravljalnik oken je že zagnan (poskusite uporabiti --"
+"replace)\n"
+
+#: main_x11.cpp:261
+msgid "Replace already-running ICCCM2.0-compliant window manager"
+msgstr ""
+"Zamenjaj z že zagnanim upravljalnikom oken, ki je združljiv z ICCCM 2.0"
+
+#: scene_opengl.cpp:558
+msgid "Desktop effects were restarted due to a graphics reset"
+msgstr ""
+"Namizni učinki so bili znova zagnani zaradi ponovnega zagona grafičnega "
+"sistema"
+
+#: scene_opengl.cpp:729
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
+"OpenGL Desktop Effects at the current resolution<br><br>You can try to "
+"select the XRender backend, but it might be very slow for this resolution as "
+"well.<br>Alternatively, lower the combined resolution of all screens to %1x"
+"%2 "
+msgstr ""
+"<h1>Namizni učinki OpenGL niso mogoči</h1>Vaš sistem ne more izvajati "
+"namiznih učinkov OpenGL na trenutni ločljivosti.<br><br>Poskusite lahko "
+"izbrati zaledje XRender, ampak bo najbrž tudi to zelo počasno za to "
+"ločljivost.<br>Lahko pa znižate skupno ločljivost vseh zaslonov na screens "
+"to %1x%2 "
+
+#: scene_opengl.cpp:736
+msgid ""
+"The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+"GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+"does not know such limitation, but the performance will usually be impacted "
+"by the hardware limitations that restrict the OpenGL viewport size."
+msgstr ""
+"Zahtevana ločljivost presega omejitev GL_MAX_VIEWPORT_DIMS vaše grafične "
+"kartice in zato ni združljiva z upravljalnikom skladnje 3D OpenGL."
+"<br>XRender takšne omejitve ne pozna, ampak bodo omejitve strojne opreme, ki "
+"omejujejo velikost vidnega polja OpenGL, vplivale na hitrost delovanja."
+
+#: scene_opengl.cpp:761
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+"the current resolution are supported but might be exceptionally slow."
+"<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
+"compositing, switch to the XRender backend or lower the resolution to %1x%1."
+msgstr ""
+"<h1>Namizni učinki OpenGL bodo morda neuporabni</h1>Namizni učinki OpenGL so "
+"podprti na trenutni ločljivosti, ampak bodo morda izjemno počasni.<br>Velika "
+"okna bodo v celoti postala črna.<br><br>Razmislite o prestavitvi skladnje 3D "
+"v pripravljenost, preklopu na zaledje XRender ali znižanju ločljivosti na %1x"
+"%1."
+
+#: scene_opengl.cpp:767
+msgid ""
+"The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+"GPU, thus windows of that size cannot be assigned to textures and will be "
+"entirely black.<br>Also this limit will often be a performance level barrier "
+"despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+"software rendering in this case."
+msgstr ""
+"Zahtevana ločljivost presega omejitev GL_MAX_TEXTURE_SIZE vaše grafične "
+"kartice, zato oknom te velikosti ni mogoče dodeliti tekstur in bodo "
+"popolnoma črna.<br>Ta omejitev bo tudi pogosto zmogljivostna ovira, kljub "
+"temu, da je pod GL_MAX_VIEWPORT_DIMS, saj lahko gonilnik preklopi v način "
+"programskega izrisovanja."
+
+#: scripting/genericscriptedconfig.cpp:81
+msgctxt "Error message"
+msgid "Plugin does not provide configuration file in expected location"
+msgstr "Vstavek ne ponuja nastavitvene datoteke na pričakovanem mestu"
+
+#: scripting/scripting.cpp:127
+#, kde-format
+msgctxt "Assertion failed in KWin script with given value"
+msgid "Assertion failed: %1 is not null"
+msgstr "Uveljavljanje je spodletelo: %1 ni null"
+
+#: scripting/scripting.cpp:145
+msgctxt "Assertion failed in KWin script"
+msgid "Assertion failed: argument is null"
+msgstr "Uveljavljanje je spodletelo: argument je null"
+
+#: scripting/scripting.cpp:172
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid number of arguments. At least service, path, interface and method "
+"need to be provided"
+msgstr ""
+"Neveljavno število argumentov. Podati morate vsaj storitev, pot, vmesnik in "
+"metodo"
+
+#: scripting/scripting.cpp:178
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid type. Service, path, interface and method need to be string values"
+msgstr "Neveljavna vrsta. Storitev, pot, vmesnik in metoda morajo biti nizi"
+
+#: scripting/scriptingutils.cpp:28
+msgctxt "syntax error in KWin script"
+msgid "Invalid number of arguments"
+msgstr "Neveljavno število argumentov"
+
+#: scripting/scriptingutils.cpp:41
+#, kde-format
+msgctxt "KWin Scripting function received incorrect value for an expected type"
+msgid "%1 is not a variant type"
+msgstr "%1 ni vrsta različice"
+
+#: tabbox/tabbox.cpp:348
+msgctxt "Special entry in alt+tab list for minimizing all windows"
+msgid "Show Desktop"
+msgstr "Pokaži namizje"
+
+#: tabbox/tabbox.cpp:499
+msgid "Walk Through Windows"
+msgstr "Sprehod med okni"
+
+#: tabbox/tabbox.cpp:500
+msgid "Walk Through Windows (Reverse)"
+msgstr "Sprehod med okni (obratno)"
+
+#: tabbox/tabbox.cpp:501
+msgid "Walk Through Windows Alternative"
+msgstr "Alternativen sprehod med okni"
+
+#: tabbox/tabbox.cpp:502
+msgid "Walk Through Windows Alternative (Reverse)"
+msgstr "Alternativen sprehod med okni (obratno)"
+
+#: tabbox/tabbox.cpp:503
+msgid "Walk Through Windows of Current Application"
+msgstr "Sprehod med okni trenutnega programa"
+
+#: tabbox/tabbox.cpp:504
+msgid "Walk Through Windows of Current Application (Reverse)"
+msgstr "Sprehod med okni trenutnega programa (obratno)"
+
+#: tabbox/tabbox.cpp:505
+msgid "Walk Through Windows of Current Application Alternative"
+msgstr "Alternativen sprehod med okni trenutnega programa"
+
+#: tabbox/tabbox.cpp:506
+msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+msgstr "Alternativen sprehod med okni trenutnega programa (obratno)"
+
+#: tabbox/tabbox.cpp:507
+msgid "Walk Through Desktops"
+msgstr "Sprehod med namizji"
+
+#: tabbox/tabbox.cpp:508
+msgid "Walk Through Desktops (Reverse)"
+msgstr "Sprehod med namizji (obratno)"
+
+#: tabbox/tabbox.cpp:509
+msgid "Walk Through Desktop List"
+msgstr "Sprehod skozi seznam namizij"
+
+#: tabbox/tabbox.cpp:510
+msgid "Walk Through Desktop List (Reverse)"
+msgstr "Sprehod skozi seznam namizij (obratno) "
+
+#: tabbox/tabboxhandler.cpp:272
+msgid ""
+"The Window Switcher installation is broken, resources are missing.\n"
+"Contact your distribution about this."
+msgstr ""
+"Namestitev preklopnika med okni je pokvarjena, manjkajo viri.\n"
+"Stopite v stik z upravitelji vaše distribucije."
+
+#: useractions.cpp:186
+#, kde-format
+msgid ""
+"You have selected to show a window without its border.\n"
+"Without the border, you will not be able to enable the border again using "
+"the mouse: use the window operations menu instead, activated using the %1 "
+"keyboard shortcut."
+msgstr ""
+"Izbrali ste prikaz okna brez njegove obrobe.\n"
+"Brez obrobe ne boste mogli več omogočiti obrobe z uporabo miške. Uporabite "
+"meni okenskih dejanj, ki ga omogočite s tipkovno bližnjico %1."
+
+#: useractions.cpp:194
+#, kde-format
+msgid ""
+"You have selected to show a window in fullscreen mode.\n"
+"If the application itself does not have an option to turn the fullscreen "
+"mode off you will not be able to disable it again using the mouse: use the "
+"window operations menu instead, activated using the %1 keyboard shortcut."
+msgstr ""
+"Izbrali ste prikaz okna v celozaslonskem načinu.\n"
+"Če program sam nima možnosti izklopa celozaslonskega načina, ga ne boste "
+"mogli izklopiti z uporabo miške. Uporabite meni okenskih dejanj, ki ga "
+"omogočite s tipkovno bližnjico %1."
+
+#: useractions.cpp:259
+msgid "&Move"
+msgstr "Pre&makni"
+
+#: useractions.cpp:264
+msgid "Re&size"
+msgstr "&Spremeni velikost"
+
+#: useractions.cpp:268
+msgid "Keep &Above Others"
+msgstr "Ohrani n&ad vsemi"
+
+#: useractions.cpp:274
+msgid "Keep &Below Others"
+msgstr "Ohrani po&d vsemi"
+
+#: useractions.cpp:280
+msgid "&Fullscreen"
+msgstr "&Celozaslonski način"
+
+#: useractions.cpp:286
+msgid "Sh&ade"
+msgstr "Zvi&j"
+
+#: useractions.cpp:291
+msgid "&No Border"
+msgstr "&Brez obrobe"
+
+#: useractions.cpp:298
+msgid "Window &Shortcut..."
+msgstr "&Bližnjica okna ..."
+
+#: useractions.cpp:303
+msgid "&Special Window Settings..."
+msgstr "Po&sebne okenske nastavitve ..."
+
+#: useractions.cpp:307
+msgid "S&pecial Application Settings..."
+msgstr "&Posebne programske nastavitve ..."
+
+#: useractions.cpp:314
+msgctxt ""
+"Entry in context menu of window decoration to open the configuration module "
+"of KWin"
+msgid "Window &Manager Settings..."
+msgstr "Nastavitve upravljalni&ka oken ..."
+
+#: useractions.cpp:329
+msgid "Mi&nimize"
+msgstr "Poma&njšaj"
+
+#: useractions.cpp:333
+msgid "Ma&ximize"
+msgstr "&Razpni"
+
+#: useractions.cpp:342
+msgid "&Untab"
+msgstr "Odcepi &zavihek"
+
+#: useractions.cpp:346
+msgid "Close Entire &Group"
+msgstr "Zapri &celotno skupino"
+
+#: useractions.cpp:357
+msgid "&More Actions"
+msgstr "&Več dejanj"
+
+#: useractions.cpp:361
+msgid "&Close"
+msgstr "&Zapri"
+
+#: useractions.cpp:434
+msgid "&Extensions"
+msgstr "&Razširitve"
+
+#: useractions.cpp:489
+msgctxt "Switch to tab -> Previous"
+msgid "Previous"
+msgstr "Predhodni"
+
+#: useractions.cpp:490
+msgctxt "Switch to tab -> Next"
+msgid "Next"
+msgstr "Naslednji"
+
+#: useractions.cpp:528
+msgctxt "There's no window available to be attached as tab to this one"
+msgid "None available"
+msgstr "Nobeno ni na voljo"
+
+#: useractions.cpp:537
+msgid "Switch to Tab"
+msgstr "Preklopi na zavihek"
+
+#: useractions.cpp:548
+msgid "&Attach as tab to"
+msgstr "Kot z&avihek pripni k"
+
+#: useractions.cpp:571
+msgid "Move To &Desktop"
+msgstr "Premakni na namizj&e"
+
+#: useractions.cpp:587
+msgid "Move To &Screen"
+msgstr "Premakni na za&slon"
+
+#: useractions.cpp:602
+msgid "Ac&tivities"
+msgstr "Dejavnos&ti"
+
+#: useractions.cpp:614
+msgid "&All Desktops"
+msgstr "Vs&a namizja"
+
+#: useractions.cpp:640
+msgctxt "Create a new desktop and move there the window"
+msgid "&New Desktop"
+msgstr "&Novo namizje"
+
+#: useractions.cpp:661
+#, kde-format
+msgctxt "@item:inmenu List of all Screens to send a window to"
+msgid "Screen &%1"
+msgstr "Zaslon &%1"
+
+#: useractions.cpp:679
+msgid "&All Activities"
+msgstr "&Vse dejavnosti"
+
+#: useractions.cpp:884
+#, kde-format
+msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
+msgid "<b>%1</b> is already in use"
+msgstr "<b>%1</b> je že v uporabi"
+
+#: useractions.cpp:886
+#, kde-format
+msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
+msgid "<b>%1</b> is used by %2 in %3"
+msgstr "<b>%1</b> je uporabljena za %2 v %3"
+
+#: useractions.cpp:1009
+#, kde-format
+msgid "Activate Window (%1)"
+msgstr "Omogoči okno (%1)"
+
+#: useractions.cpp:1382
+msgid ""
+"The window manager is configured to consider the screen with the mouse on it "
+"as active one.\n"
+"Therefore it is not possible to switch to a screen explicitly."
+msgstr ""
+"Upravljalnik oken je nastavljen tako, da obravnava zaslon, ki vsebuje miško "
+"kot dejavnega.\n"
+"Zato ni mogoče izrecno preklopiti na zaslon."
+
+#: virtualdesktops.cpp:334 virtualdesktops.cpp:396
+#, kde-format
+msgid "Desktop %1"
+msgstr "Namizje %1"
+
+#: virtualdesktops.cpp:427
+msgid "Switch to Next Desktop"
+msgstr "Preklopi na naslednje namizje"
+
+#: virtualdesktops.cpp:428
+msgid "Switch to Previous Desktop"
+msgstr "Preklopi na prejšnje namizje"
+
+#: virtualdesktops.cpp:429
+msgid "Switch One Desktop to the Right"
+msgstr "Preklopi na eno namizje desno"
+
+#: virtualdesktops.cpp:430
+msgid "Switch One Desktop to the Left"
+msgstr "Preklopi na eno namizje levo"
+
+#: virtualdesktops.cpp:431
+msgid "Switch One Desktop Up"
+msgstr "Preklopi na eno namizje navzgor"
+
+#: virtualdesktops.cpp:432
+msgid "Switch One Desktop Down"
+msgstr "Preklopi na eno namizje navzdol"
+
+#: virtualdesktops.cpp:444
+#, kde-format
+msgid "Switch to Desktop %1"
+msgstr "Preklopi na namizje %1"
+
+#: workspace.cpp:1340
+msgctxt "Introductory text shown in the support information."
+msgid ""
+"KWin Support Information:\n"
+"The following information should be used when requesting support on e.g. "
+"http://forum.kde.org.\n"
+"It provides information about the currently running instance, which options "
+"are used,\n"
+"what OpenGL driver and which effects are running.\n"
+"Please post the information provided underneath this introductory text to a "
+"paste bin service\n"
+"like http://paste.kde.org instead of pasting into support threads.\n"
+msgstr ""
+"Podrobnosti o podpori za KWin:\n"
+"Naslednje podatke uporabite pri iskanju pomoči, na primer na forum.kde.org.\n"
+"Podatki vsebujejo podrobnosti o trenutno zagnanem primerku, uporabljenih\n"
+"možnostih, gonilniku za grafično kartico in dejavnih namiznih učinkih. \n"
+"Podatke pod tem uvodnim besedilom kopirajte na storitev kot \n"
+"http://paste.kde.org in ne neposredno v teme na forumu.\n"

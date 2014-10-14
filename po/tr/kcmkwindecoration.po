@@ -1,0 +1,350 @@
+# translation of kcmkwindecoration.po to Turkish
+# kde
+# Copyright (C) 2003, 2004, 2008 Free Software Foundation, Inc.
+#
+# Görkem Çetin <gorkem@kde.org>, 2001, 2003.
+# Adil Yıldız <adil@linux-sevenler.org>, 2004.
+# Serdar Soytetir <tulliana@gmail.com>, 2008, 2009, 2010.
+# Onur Küçük <onur@pardus.org.tr>, 2010.
+# Volkan Gezer <volkangezer@gmail.com>, 2013, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: kcmkwindecoration\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-06-11 07:50+0000\n"
+"PO-Revision-Date: 2014-03-22 02:27+0100\n"
+"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
+"Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Görkem Çetin, Volkan Gezer"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "gorkem@kde.org, volkangezer@gmail.com"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: auroraeconfig.ui:23
+msgid "Border size:"
+msgstr "Kenarlık boyutu:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:34 configdialog.cpp:36
+msgctxt "@item:inlistbox Border size:"
+msgid "Tiny"
+msgstr "Minik"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:39 configdialog.cpp:37
+msgctxt "@item:inlistbox Border size:"
+msgid "Normal"
+msgstr "Normal"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:44 configdialog.cpp:38
+msgctxt "@item:inlistbox Border size:"
+msgid "Large"
+msgstr "Büyük"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:49 configdialog.cpp:39
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Large"
+msgstr "Çok Büyük"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:54 configdialog.cpp:40
+msgctxt "@item:inlistbox Border size:"
+msgid "Huge"
+msgstr "Kocaman"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:59 configdialog.cpp:41
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Huge"
+msgstr "İnanılmaz Büyük"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:64 configdialog.cpp:42
+msgctxt "@item:inlistbox Border size:"
+msgid "Oversized"
+msgstr "Aşırı Büyük"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: auroraeconfig.ui:72
+msgid "Button size:"
+msgstr "Düğme boyutu:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:83
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "Minik"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:88
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "Normal"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:93
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "Büyük"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:98
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "Çok Büyük"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:103
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "Kocaman"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:108
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "İnanılmaz Büyük"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:113
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "Aşırı Büyük"
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
+#: auroraeconfig.ui:126
+msgid "Close windows by double clicking the menu button"
+msgstr "Menü düğmesine çift tıklayarak pencereleri kapatın"
+
+#: buttons.cpp:620
+msgid "KDE"
+msgstr "KDE"
+
+#: buttons.cpp:649
+#, kde-format
+msgid "%1 (unavailable)"
+msgstr "%1 (mevcut değil)"
+
+#: buttons.cpp:672
+msgid ""
+"To add or remove titlebar buttons, simply <i>drag</i> items between the "
+"available item list and the titlebar preview. Similarly, drag items within "
+"the titlebar preview to re-position them."
+msgstr ""
+"Başlık çubuğu düğmelerini eklemek için sadece listeden bir öge seçerek "
+"başlık çubuğu önizleme penceresine doğru sürüklemek yeterlidir."
+
+#: buttons.cpp:728
+msgid "Resize"
+msgstr "Boyutlandır"
+
+#: buttons.cpp:733
+msgid "Shade"
+msgstr "Gölge"
+
+#: buttons.cpp:738
+msgid "Keep Below Others"
+msgstr "Diğerlerinin Altında Tut"
+
+#: buttons.cpp:743
+msgid "Keep Above Others"
+msgstr "Diğerlerinin Üstünde Tut"
+
+#: buttons.cpp:748
+msgid "Close"
+msgstr "Kapat"
+
+#: buttons.cpp:753
+msgid "Maximize"
+msgstr "Büyüt"
+
+#: buttons.cpp:758
+msgid "Minimize"
+msgstr "Küçült"
+
+#: buttons.cpp:763
+msgid "Help"
+msgstr "Yardım"
+
+#: buttons.cpp:768
+msgid "On All Desktops"
+msgstr "Tüm Masaüstlerinde"
+
+#: buttons.cpp:773
+msgctxt "Button showing window actions menu"
+msgid "Window Menu"
+msgstr "Pencere Menüsü"
+
+#: buttons.cpp:779
+msgctxt "Button showing application menu imported from dbusmenu"
+msgid "Application Menu"
+msgstr "Uygulama Menüsü"
+
+#: buttons.cpp:785
+msgid "--- spacer ---"
+msgstr "--- ayırıcı ---"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:20
+msgid ""
+"Enabling this checkbox will show window button tooltips. If this checkbox is "
+"off, no window button tooltips will be shown."
+msgstr ""
+"Bu düğmeye tıkladığınızda pencere düğmelerine ilişkin ipuçlarını "
+"görebilirsiniz."
+
+#. i18n: ectx: property (text), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:23
+msgid "&Show window button tooltips"
+msgstr "&Pencere düğmesi ipuçlarını göster"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:30
+msgid "Please note that this option is not available on all styles yet."
+msgstr ""
+"Lütfen bu seçeneğin tüm biçimler için henüz kullanılabilir olmadığını "
+"unutmayın."
+
+#. i18n: ectx: property (text), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:33
+msgid "Use custom titlebar button &positions"
+msgstr "Özel &başlık çubuğu düğme konumlarını kullan"
+
+#: buttonsconfigdialog.cpp:44
+msgid "Buttons"
+msgstr "Düğmeler"
+
+#. i18n: ectx: property (text), widget (QLabel, borderLabel)
+#: config.ui:19
+msgid "B&order size:"
+msgstr "Kenarlık b&oyutu:"
+
+#. i18n: ectx: property (whatsThis), widget (KComboBox, bordersCombo)
+#: config.ui:29
+msgid "Use this combobox to change the border size of the decoration."
+msgstr ""
+"Dekorasyonun kenarlık boyutunu değiştirmek için bu açılır kutuyu kullan."
+
+#: configdialog.cpp:43
+msgctxt "@item:inlistbox Border size:"
+msgid "No Side Border"
+msgstr "Yan Kenarlığı Yok"
+
+#: configdialog.cpp:44
+msgctxt "@item:inlistbox Border size:"
+msgid "No Border"
+msgstr "Kenarlık Yok"
+
+#: configdialog.cpp:81 kwindecoration.cpp:375
+msgid "Decoration Options"
+msgstr "Dekorasyon Seçenekleri"
+
+#. i18n: ectx: property (clickMessage), widget (KLineEdit, searchEdit)
+#: decoration.ui:17
+msgid "Search"
+msgstr "Ara"
+
+#. i18n: ectx: property (whatsThis), widget (QScrollArea, decorationList)
+#: decoration.ui:27
+msgid ""
+"Select the window decoration. This is the look and feel of both the window "
+"borders and the window handle."
+msgstr "Pencere dekorunu seçin."
+
+#. i18n: ectx: property (text), widget (QPushButton, configureDecorationButton)
+#: decoration.ui:58
+msgid "Configure Decoration..."
+msgstr "Dekorasyonu Yapılandır..."
+
+#. i18n: ectx: property (text), widget (QPushButton, configureButtonsButton)
+#: decoration.ui:65
+msgid "Configure Buttons..."
+msgstr "Düğmeleri Yapılandır..."
+
+#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
+#: decoration.ui:72
+msgid "Get New Decorations..."
+msgstr "Yeni Dekorasyonlar Al..."
+
+#: kwindecoration.cpp:99
+msgid "Window Decoration Control Module"
+msgstr "Pencere Dekoru Kontrol Modülü"
+
+#: kwindecoration.cpp:101
+msgid "(c) 2001 Karol Szwed"
+msgstr "(c) 2001 Karol Szwed"
+
+#: kwindecoration.cpp:102
+msgid "Karol Szwed"
+msgstr "Karol Szwed"
+
+#: kwindecoration.cpp:127
+msgid ""
+"<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main.qml</"
+"h2>could not be located in any application data path.<h2>Please contact your "
+"distribution</h2>The application will now abort"
+msgstr ""
+"<h1>Kurulum hatası</h1><h2>kwin/kcm_kwindecoration/main.qml</h2>kaynağı "
+"hiçbir uygulama veri yolunda konumlandırılamadı.<h2>Lütfen dağıtımınızla "
+"iletişime geçin</h2>Uygulama şimdi kapatılacak"
+
+#: kwindecoration.cpp:130
+msgid "Installation Error"
+msgstr "Kurulum Hatası"
+
+#: kwindecoration.cpp:301
+msgid "Oxygen"
+msgstr "Oxygen"
+
+#: kwindecoration.cpp:314
+msgid ""
+"<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+"window border decorations, as well as titlebar button positions and custom "
+"decoration options.</p>To choose a theme for your window decoration click on "
+"its name and apply your choice by clicking the \"Apply\" button below. If "
+"you do not want to apply your choice you can click the \"Reset\" button to "
+"discard your changes.<p>You can configure each theme. There are different "
+"options specific for each theme.</p><p>On the \"Buttons\" tab check the "
+"\"Use custom titlebar button positions\" box and you can change the "
+"positions of the buttons to your liking.</p>"
+msgstr ""
+"<h1>Pencere Yöneticisi Dekorasyonu</h1> <p>Bu modül pencere kenarlarının "
+"dekorasyonu ile başlık çubuğundaki düğmelerin konumunu ayarlamaya olanak "
+"verir. </p>Pencere dekorasyonunda kullanılacak bir tema seçmek için sadece "
+"üzerine tıklamak ve \"Uygula\" düğmesine basmak yeterlidir. Eğer seçimin "
+"uygun olmadığını düşünüyorsanız \"Sıfırla\" düğmesine tıklamak ve "
+"değişiklikleri silmek gerekecektir. <p>Her temayı \"Yapılandır...\" "
+"düğmesinden değiştirebilirsiniz. Temalar için farklı yapılandırma "
+"seçenekleri mevcuttur.</p> <p>Eğer varsa, \"Genel Seçenekler\" altında "
+"\"Özel başlık çubuğu düğme konumlarını kullan\" düğmesine tıklayarak "
+"\"Düğmeler\" sekmesini etkinleştirmek mümkündür. \"Düğmeler\" sekmesinde ise "
+"her düğmenin konumunu zevkinize göre ayarlayabilirsiniz.</p>"
+
+#: kwindecoration.cpp:389
+msgid ""
+"Close by double clicking:\n"
+" To open the menu, keep the button pressed until it appears."
+msgstr ""
+"Çift tıklayarak kapatın:\n"
+" Menüyü açmak için görünene kadar düğmeye basılı tutun."
+
+#: preview.cpp:373
+msgid "Active Window"
+msgstr "Öndeki Pencere"
+
+#: preview.cpp:373
+msgid "Inactive Window"
+msgstr "Arkadaki Pencere"

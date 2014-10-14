@@ -1,0 +1,351 @@
+# Translation of kcmkwincompositing.po to Catalan
+# Copyright (C) 2007-2014 This_file_is_part_of_KDE
+# This file is distributed under the license LGPL version 2.1 or
+# version 3 or later versions approved by the membership of KDE e.V.
+#
+# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014.
+# Antoni Bella Pérez <antonibella5@orange.es>, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: kcmkwincompositing\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-07-23 08:09+0000\n"
+"PO-Revision-Date: 2014-07-23 18:11+0200\n"
+"Last-Translator: Antoni Bella Pérez <antonibella5@orange.es>\n"
+"Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Accelerator-Marker: &\n"
+
+#: compositing.cpp:387
+msgid "OpenGL 3.1"
+msgstr "OpenGL 3.1"
+
+#: compositing.cpp:388
+msgid "OpenGL 2.0"
+msgstr "OpenGL 2.0"
+
+#: compositing.cpp:389
+msgid "XRender"
+msgstr "XRender"
+
+#: compositing.cpp:488
+msgctxt "OpenGL Platform Interface"
+msgid "EGL"
+msgstr "EGL"
+
+#: compositing.cpp:490
+msgctxt "OpenGL Platform Interface"
+msgid "GLX"
+msgstr "GLX"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, CompositingForm)
+#: compositing.ui:14
+msgid "Form"
+msgstr "Forma"
+
+#. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
+#: compositing.ui:23 qml/CompositingView.qml:55
+msgid "Enable compositor on startup"
+msgstr "Activa el compositor en la inicialització"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: compositing.ui:30
+msgid "Animation speed:"
+msgstr "Velocitat de l'animació:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: compositing.ui:57
+msgid "Instant"
+msgstr "Instantània"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: compositing.ui:77
+msgid "Very slow"
+msgstr "Molt lenta"
+
+#. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
+#. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
+#: compositing.ui:88 compositing.ui:114
+msgid "Scale method:"
+msgstr "Mètode d'escala:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
+#: compositing.ui:96 compositing.ui:122 qml/CompositingView.qml:113
+#: qml/CompositingView.qml:127
+msgid "Crisp"
+msgstr "Remarcat"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#: compositing.ui:101 qml/CompositingView.qml:113
+msgid "Smooth"
+msgstr "Suavitzat"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#: compositing.ui:106 qml/CompositingView.qml:113
+msgid "Accurate"
+msgstr "Acurat"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
+#: compositing.ui:127 qml/CompositingView.qml:127
+msgid "Smooth (slower)"
+msgstr "Suau (més lent)"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: compositing.ui:142 qml/CompositingView.qml:81
+msgid "Rendering backend:"
+msgstr "Dorsal de renderització:"
+
+#. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
+#: compositing.ui:152
+msgid "OpenGL interface:"
+msgstr "Interfície de l'OpenGL:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: compositing.ui:162
+msgid "Tearing prevention (\"vsync\"):"
+msgstr "Prevenció de l'esquinçament («vsync»):"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:170 compositing.ui:216 qml/CompositingView.qml:141
+#: qml/CompositingView.qml:154
+msgid "Never"
+msgstr "Mai"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:175 qml/CompositingView.qml:141
+msgid "Automatic"
+msgstr "Automàtic"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:180 qml/CompositingView.qml:141
+msgid "Only when cheap"
+msgstr "Només quan sigui econòmic"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:185 qml/CompositingView.qml:141
+msgid "Full screen repaints"
+msgstr "Repinta tota la pantalla"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:190 qml/CompositingView.qml:141
+msgid "Re-use screen content"
+msgstr "Reutilitza el contingut de la pantalla"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: compositing.ui:198
+msgid "Keep window thumbnails:"
+msgstr "Mantén les miniatures de les finestres:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:206
+msgid "Always"
+msgstr "Sempre"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:211 qml/CompositingView.qml:154
+msgid "Only for Shown Windows"
+msgstr "Només per a les finestres visualitzades"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: compositing.ui:224 qml/CompositingView.qml:175
+msgid "Expert:"
+msgstr "Expert:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
+#: compositing.ui:231 qml/CompositingView.qml:182
+msgid "Suspend compositor for full screen windows"
+msgstr "Suspèn el compositor per a les finestres a pantalla completa"
+
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#: compositing.ui:238 qml/CompositingView.qml:192
+msgid "Experimental:"
+msgstr "Experimental:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
+#: compositing.ui:245 qml/CompositingView.qml:200
+msgid "Enable color correction"
+msgstr "Activa la correcció del color"
+
+#. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
+#: compositing.ui:265
+msgid ""
+"OpenGL compositing (the default) has crashed KWin in the past.\n"
+"This was most likely due to a driver bug.\n"
+"If you think that you have meanwhile upgraded to a stable driver,\n"
+"you can reset this protection but be aware that this might result in an "
+"immediate crash!\n"
+"Alternatively, you might want to use the XRender backend instead."
+msgstr ""
+"La composició OpenGL (per defecte) ha trencat el KWin en el passat.\n"
+"Probablement era degut a una fallada en el controlador.\n"
+"Si penseu que mentrestant l'heu actualitzat a un controlador estable, podeu "
+"reiniciar aquesta protecció però sigueu conscient que podria produir-se una "
+"fallada immediata!\n"
+"De manera alternativa, en el seu lloc podríeu usar el dorsal XRender."
+
+#. i18n: ectx: property (text), widget (KMessageWidget, interfaceWarning)
+#: compositing.ui:281
+msgid ""
+"EGL is not supported by all OpenGL drivers. If not supported the Compositor "
+"will be disabled."
+msgstr ""
+"EGL no és admès per tots els controladors OpenGL. Si no s'admet, el "
+"compositor es desactivarà."
+
+#. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
+#: compositing.ui:297
+msgid ""
+"Scale method \"Accurate\" is not supported by all hardware and can cause "
+"performance regressions and rendering artifacts."
+msgstr ""
+"El mètode d'escala «Exacta» no és admès per tot el maquinari i pot provocar "
+"regressions al rendiment i objectes a la representació."
+
+#. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
+#: compositing.ui:326
+msgid ""
+"Keeping the window thumbnail always interferes with the minimized state of "
+"windows. This can result in windows not suspending their work when minimized."
+msgstr ""
+"El mantenir la miniatura de la finestra sempre interfereix amb l'estat "
+"minimitzat de les finestres. Això pot resultar en finestres que no suspenen "
+"el seu treball quan es minimitzen."
+
+#. i18n: ectx: property (text), widget (KMessageWidget, unredirectInformation)
+#: compositing.ui:342
+msgid ""
+"Having full screen windows bypass the compositor is not supported on every "
+"hardware."
+msgstr ""
+"El tenir les finestres a pantalla completa eludint el compositor no és admès "
+"per tot el maquinari."
+
+#: main.cpp:82
+msgid "Re-enable OpenGL detection"
+msgstr "Torna a activar la detecció de l'OpenGL"
+
+#: main.cpp:139
+msgid ""
+"\"Only when cheap\" only prevents tearing for full screen changes like a "
+"video."
+msgstr ""
+"«Només quan sigui econòmic» només prevé el parpelleig dels canvis a pantalla "
+"completa, com un vídeo."
+
+#: main.cpp:143
+msgid "\"Full screen repaints\" can cause performance problems."
+msgstr "«Repinta tota la pantalla» pot causar problemes de rendiment."
+
+#: main.cpp:147
+msgid ""
+"\"Re-use screen content\" causes performance severe problems on MESA drivers."
+msgstr ""
+"«Reutilitza el contingut de la pantalla» causa greus problemes de rendiment "
+"amb els controladors de MESA."
+
+#: model.cpp:67
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Accessibility"
+msgstr "Accessibilitat"
+
+#: model.cpp:68
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Appearance"
+msgstr "Aparença"
+
+#: model.cpp:69
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Candy"
+msgstr "Llaminadures"
+
+#: model.cpp:70
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Focus"
+msgstr "Focus"
+
+#: model.cpp:71
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Tools"
+msgstr "Eines"
+
+#: model.cpp:72
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Virtual Desktop Switching Animation"
+msgstr "Animació del canvi d'escriptoris virtuals"
+
+#: model.cpp:73
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Window Management"
+msgstr "Gestió de les finestres"
+
+#: model.cpp:235
+msgid "KWin development team"
+msgstr "Equip de desenvolupament del KWin"
+
+#: qml/CompositingView.qml:67
+msgid "Animation Speed:"
+msgstr "Velocitat de l'animació:"
+
+#: qml/CompositingView.qml:106 qml/CompositingView.qml:120
+msgid "Scale Method:"
+msgstr "Mètode d'escala:"
+
+#: qml/CompositingView.qml:135
+msgid "Tearing Prevention (VSync):"
+msgstr "Prevenció de l'esquinçament (VSync):"
+
+#: qml/CompositingView.qml:148
+msgid "Keep Window Thumbnails:"
+msgstr "Mantén les miniatures de les finestres:"
+
+#: qml/CompositingView.qml:154
+msgid "Always (Breaks Animations)"
+msgstr "Sempre (trenca les animacions)"
+
+#: qml/CompositingView.qml:160
+msgid "OpenGL Platform Interface:"
+msgstr "Interfície de la plataforma OpenGL:"
+
+#: qml/Effect.qml:118
+#, kde-format
+msgid ""
+"Author: %1\n"
+"License: %2"
+msgstr ""
+"Autor: %1\n"
+"Llicència: %2"
+
+#: qml/EffectView.qml:64
+msgid ""
+"Hint: To find out or configure how to activate an effect, look at the "
+"effect's settings."
+msgstr ""
+"Consell: per trobar els detalls o configurar la manera d'activar un efecte, "
+"examineu l'arranjament dels efectes."
+
+#: qml/EffectView.qml:75
+msgid "Search"
+msgstr "Cerca"
+
+#: qml/EffectView.qml:82
+msgid "Configure filter"
+msgstr "Configura el filtre"
+
+#: qml/EffectView.qml:85
+msgid "Exclude Desktop Effects not supported by the Compositor"
+msgstr "Exclou els efectes d'escriptori no acceptats pel compositor"
+
+#: qml/EffectView.qml:93
+msgid "Exclude internal Desktop Effects"
+msgstr "Exclou els efectes d'escriptori interns"
+
+#: qml/EffectView.qml:105
+msgid "Get New Effects ..."
+msgstr "Obtén efectes nous..."

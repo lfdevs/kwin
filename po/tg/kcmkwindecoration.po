@@ -1,0 +1,388 @@
+# translation of kcmkwindecoration.po to Tajik
+# translation of kcmkwindecoration.po to Тоҷикӣ
+# Copyright (C) 2004 Free Software Foundation, Inc.
+# 2004, Khujand Computer Technologies, Inc.
+# 2004, KCT1, NGO
+# Dilshod Marupov <dma165@hotmail.com>, 2004
+# Victor Ibragimov <youth_opportunities@tajik.net>, 2004
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kcmkwindecoration\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-06-11 07:50+0000\n"
+"PO-Revision-Date: 2009-01-11 14:47+0500\n"
+"Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
+"Language-Team: Tajik\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.0.1\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Tajik KDE Teams"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "youth_opportunities@tajik.net"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: auroraeconfig.ui:23
+#, fuzzy
+msgid "Border size:"
+msgstr "Border size: Tiny"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:34 configdialog.cpp:36
+#, fuzzy
+#| msgid "Tiny"
+msgctxt "@item:inlistbox Border size:"
+msgid "Tiny"
+msgstr "Хурд"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:39 configdialog.cpp:37
+#, fuzzy
+#| msgid "Normal"
+msgctxt "@item:inlistbox Border size:"
+msgid "Normal"
+msgstr "Оддӣ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:44 configdialog.cpp:38
+#, fuzzy
+#| msgid "Large"
+msgctxt "@item:inlistbox Border size:"
+msgid "Large"
+msgstr "Калон"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:49 configdialog.cpp:39
+#, fuzzy
+#| msgid "Very Large"
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Large"
+msgstr "Калонтарин"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:54 configdialog.cpp:40
+#, fuzzy
+#| msgid "Huge"
+msgctxt "@item:inlistbox Border size:"
+msgid "Huge"
+msgstr "Калонтар"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:59 configdialog.cpp:41
+#, fuzzy
+#| msgid "Very Huge"
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Huge"
+msgstr "Калонтарин"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:64 configdialog.cpp:42
+#, fuzzy
+msgctxt "@item:inlistbox Border size:"
+msgid "Oversized"
+msgstr "Бозандозагирӣ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: auroraeconfig.ui:72
+#, fuzzy
+#| msgid "Buttons"
+msgid "Button size:"
+msgstr "Тугмаҳо"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:83
+#, fuzzy
+#| msgid "Tiny"
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "Хурд"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:88
+#, fuzzy
+#| msgid "Normal"
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "Оддӣ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:93
+#, fuzzy
+#| msgid "Large"
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "Калон"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:98
+#, fuzzy
+#| msgid "Very Large"
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "Калонтарин"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:103
+#, fuzzy
+#| msgid "Huge"
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "Калонтар"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:108
+#, fuzzy
+#| msgid "Very Huge"
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "Калонтарин"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:113
+#, fuzzy
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "Бозандозагирӣ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
+#: auroraeconfig.ui:126
+msgid "Close windows by double clicking the menu button"
+msgstr ""
+
+#: buttons.cpp:620
+msgid "KDE"
+msgstr "KDE"
+
+#: buttons.cpp:649
+#, kde-format
+msgid "%1 (unavailable)"
+msgstr "%1 (дастнорас)"
+
+#: buttons.cpp:672
+msgid ""
+"To add or remove titlebar buttons, simply <i>drag</i> items between the "
+"available item list and the titlebar preview. Similarly, drag items within "
+"the titlebar preview to re-position them."
+msgstr ""
+"Барои иловакунӣ ё хориҷкунии тугмаи сатри унвон танҳо элементро аз рӯйхат ба "
+"азназаргузаронии пешакии сатри унвон <i>кашола</i> карда оред. Ҳамин тавр "
+"пунктҳоро кашола карда ба мавқеъи аввалаи онҳо оварда метавонед."
+
+#: buttons.cpp:728
+msgid "Resize"
+msgstr "Бозандозагирӣ"
+
+#: buttons.cpp:733
+msgid "Shade"
+msgstr "Соя"
+
+#: buttons.cpp:738
+msgid "Keep Below Others"
+msgstr "Дар Поёни Дигарон Нигоҳ доштан"
+
+#: buttons.cpp:743
+msgid "Keep Above Others"
+msgstr "Дар Болои Дигарон Нигоҳ доштан"
+
+#: buttons.cpp:748
+msgid "Close"
+msgstr "Хуруҷ"
+
+#: buttons.cpp:753
+msgid "Maximize"
+msgstr "Кушодан"
+
+#: buttons.cpp:758
+msgid "Minimize"
+msgstr "Маҳдуд кунед"
+
+#: buttons.cpp:763
+msgid "Help"
+msgstr "Ёрӣ"
+
+#: buttons.cpp:768
+msgid "On All Desktops"
+msgstr "Дар ҳамаи мизи корӣ"
+
+#: buttons.cpp:773
+msgctxt "Button showing window actions menu"
+msgid "Window Menu"
+msgstr ""
+
+#: buttons.cpp:779
+msgctxt "Button showing application menu imported from dbusmenu"
+msgid "Application Menu"
+msgstr ""
+
+#: buttons.cpp:785
+msgid "--- spacer ---"
+msgstr "--- фосила ---"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:20
+msgid ""
+"Enabling this checkbox will show window button tooltips. If this checkbox is "
+"off, no window button tooltips will be shown."
+msgstr ""
+"Ҳангоми фаъол будани ин хосият эъломи тугмаҳо намоиш дода мешаванд, дар "
+"ҳолати баръакс эъломҳо намоиш дода намешаванд."
+
+#. i18n: ectx: property (text), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:23
+msgid "&Show window button tooltips"
+msgstr "&Нишон додани луқмаи кнопкаҳои тиреза"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:30
+#, fuzzy
+#| msgid ""
+#| "The appropriate settings can be found in the \"Buttons\" Tab; please note "
+#| "that this option is not available on all styles yet."
+msgid "Please note that this option is not available on all styles yet."
+msgstr ""
+"Гузоришҳои мувофиқ дар Ҷадвали \"Тугмаҳо\" пайдо карда мешаванд; марҳамат "
+"карда дар хотир доред, ки ин хосиятҳо на дар ҳамаи навъҳо дастрасанд."
+
+#. i18n: ectx: property (text), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:33
+msgid "Use custom titlebar button &positions"
+msgstr "&Мавқеъҳои худии ҷойгиршавии тугмаҳои панели унвонро истифода баред"
+
+#: buttonsconfigdialog.cpp:44
+msgid "Buttons"
+msgstr "Тугмаҳо"
+
+#. i18n: ectx: property (text), widget (QLabel, borderLabel)
+#: config.ui:19
+#, fuzzy
+msgid "B&order size:"
+msgstr "Border size: Tiny"
+
+#. i18n: ectx: property (whatsThis), widget (KComboBox, bordersCombo)
+#: config.ui:29
+msgid "Use this combobox to change the border size of the decoration."
+msgstr ""
+
+#: configdialog.cpp:43
+msgctxt "@item:inlistbox Border size:"
+msgid "No Side Border"
+msgstr ""
+
+#: configdialog.cpp:44
+msgctxt "@item:inlistbox Border size:"
+msgid "No Border"
+msgstr ""
+
+#: configdialog.cpp:81 kwindecoration.cpp:375
+msgid "Decoration Options"
+msgstr "Хосиятҳои Танзимот"
+
+#. i18n: ectx: property (clickMessage), widget (KLineEdit, searchEdit)
+#: decoration.ui:17
+msgid "Search"
+msgstr ""
+
+#. i18n: ectx: property (whatsThis), widget (QScrollArea, decorationList)
+#: decoration.ui:27
+msgid ""
+"Select the window decoration. This is the look and feel of both the window "
+"borders and the window handle."
+msgstr ""
+"Танзимоти тирезаро - намуди зоҳирӣ ва интерфейсро ҳамчун сарҳадҳои тирезаро, "
+"қабул кунед."
+
+#. i18n: ectx: property (text), widget (QPushButton, configureDecorationButton)
+#: decoration.ui:58
+#, fuzzy
+#| msgid "&Window Decoration"
+msgid "Configure Decoration..."
+msgstr "Ороиши &Тиреза"
+
+#. i18n: ectx: property (text), widget (QPushButton, configureButtonsButton)
+#: decoration.ui:65
+msgid "Configure Buttons..."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
+#: decoration.ui:72
+#, fuzzy
+#| msgid "&Window Decoration"
+msgid "Get New Decorations..."
+msgstr "Ороиши &Тиреза"
+
+#: kwindecoration.cpp:99
+msgid "Window Decoration Control Module"
+msgstr "Бахши контроли тартиби тиреза"
+
+#: kwindecoration.cpp:101
+msgid "(c) 2001 Karol Szwed"
+msgstr "(c) 2001 Karol Szwed"
+
+#: kwindecoration.cpp:102
+msgid "Karol Szwed"
+msgstr "Karol Szwed"
+
+#: kwindecoration.cpp:127
+msgid ""
+"<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main.qml</"
+"h2>could not be located in any application data path.<h2>Please contact your "
+"distribution</h2>The application will now abort"
+msgstr ""
+
+#: kwindecoration.cpp:130
+msgid "Installation Error"
+msgstr ""
+
+#: kwindecoration.cpp:301
+msgid "Oxygen"
+msgstr ""
+
+#: kwindecoration.cpp:314
+#, fuzzy
+msgid ""
+"<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+"window border decorations, as well as titlebar button positions and custom "
+"decoration options.</p>To choose a theme for your window decoration click on "
+"its name and apply your choice by clicking the \"Apply\" button below. If "
+"you do not want to apply your choice you can click the \"Reset\" button to "
+"discard your changes.<p>You can configure each theme. There are different "
+"options specific for each theme.</p><p>On the \"Buttons\" tab check the "
+"\"Use custom titlebar button positions\" box and you can change the "
+"positions of the buttons to your liking.</p>"
+msgstr ""
+"<h1>Ороиши Мудири Тиреза</h1><p>Ин модул ба шумо имконияти интихоби ороишҳои "
+"ҳошияи тирезаро медиҳад, инчунин мавқеъи тугмаҳои сатри унвон ва хосиятҳои "
+"ороиши худиро.</p>Барои интихоби мавзӯъ баҳри ороиши тирезаи шумо ба номи он "
+"ангушт занед ва интихоби худро ба воситаи ангуштзании тугмаи \"Корфармоӣ\" "
+"истифода баред. Агар интихоби худро кор фармудан нахоҳед барои радкунии "
+"тағиротҳои худ ба тугмаи \"Бознишондан\" ангушт занед.<p>Шумо ҳар як мавзӯро "
+"дар ҷадвали \"Танзимкунӣ [...]\" ба танзим дароварда метавонед. Барои ҳар як "
+"мавзӯъ хосиятҳои мушаххас мавҷуданд.</p><p>Дар қисмати \"Хосиятҳои Умумӣ "
+"(агар дастрас бошанд)\" шумо ҷадвали \"Тугмаҳо\"-ро ба воситаи интихоби "
+"парчами \"Истифодаи мавқеъи дигари тугмаҳои панели унвон\" фаъол сохта "
+"метавонед. Дар ҷадвали \"Тугмаҳо\" шумо метавонед мавқеъи тугмаҳоро бо "
+"хоҳиши худ иваз карда кунед.</p>"
+
+#: kwindecoration.cpp:389
+msgid ""
+"Close by double clicking:\n"
+" To open the menu, keep the button pressed until it appears."
+msgstr ""
+
+#: preview.cpp:373
+#, fuzzy
+msgid "Active Window"
+msgstr "Тирезаи фаъол"
+
+#: preview.cpp:373
+#, fuzzy
+msgid "Inactive Window"
+msgstr "Тирезаи нофаъол"

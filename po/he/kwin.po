@@ -1,0 +1,871 @@
+# translation of kwin.po to
+# KDE Hebrew Localization Project
+#
+# In addition to the copyright owners of the program
+# which this translation accompanies, this translation is
+# Copyright (C) 2000-2002 Meni Livne <livne@kde.org>
+#
+# This translation is subject to the same Open Source
+# license as the program which it accompanies.
+#
+# Diego Iastrubni <elcuco@kde.org>, 2004.
+# Diego Iastrubni <elcuco@kde.org>, 2005, 2006, 2008, 2009, 2012.
+# tahmar1900 <tahmar1900@gmail.com>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"PO-Revision-Date: 2012-11-18 22:36+0200\n"
+"Last-Translator: Diego Iastrubni <elcuco@kde.org>\n"
+"Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
+"Language: he\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.4\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "צוות התרגום של KDE ישראל"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "kde-l10n-he@kde.org"
+
+#: composite.cpp:500
+#, kde-format
+msgid ""
+"Desktop effects have been suspended by another application.<br/>You can "
+"resume using the '%1' shortcut."
+msgstr ""
+"השזירה נכנסה למצב המתנה ע\"י יישום אחר. <br />באפשרותך להוציאה ממצב זה ע\"י "
+"שימוש בקיצור הדרך '%1'."
+
+#: compositingprefs.cpp:98
+msgid ""
+"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
+"b><br>This was most likely due to a driver bug.<p>If you think that you have "
+"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
+"<b>be aware that this might result in an immediate crash!</b></"
+"p><p>Alternatively, you might want to use the XRender backend instead.</p>"
+msgstr ""
+"<b> שזירה של OpenGL (ברירת המחדל) הקריסה את KWin בעבר.</b><br> כנראה שזה "
+"נגרם מתקלה במנהל ההתקן.<p> אם אתה חושב שמאז שידרגת את מנהל ההתקן לגרסה "
+"יציבה, <br> באפשרותך לבטל הגנה זו  אבל <b>ראה הוזהרת כי זה יכול לגרום לקריסה "
+"מיידית!</b></p> <p> לחלופין, באופשרותך להשתמש במנוע XRender במקום. </p>"
+
+#: compositingprefs.cpp:105
+msgid "Required X extensions (XComposite and XDamage) are not available."
+msgstr "הרחבות X הדרושות (XComposite ו־XDamage) אינן זמינות."
+
+#: compositingprefs.cpp:109
+msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
+msgstr "‏GLX/OpenGL לא זמין ורק תמיכה ב־OpenGL מהודרת."
+
+#: compositingprefs.cpp:113
+msgid "GLX/OpenGL and XRender/XFixes are not available."
+msgstr "‏GLX/OpenGL ו־XRender/XFixes אינן זמינות"
+
+#: decorations.cpp:59
+msgid "KWin: "
+msgstr "KWin: "
+
+#: killer/killer.cpp:44
+#, fuzzy
+#| msgid "KDE window manager"
+msgid "Window Manager"
+msgstr "מנהל החלונות של KDE"
+
+#: killer/killer.cpp:49
+msgid "PID of the application to terminate"
+msgstr "זיהוי היישום (PID) של היישום שיש להרוג"
+
+#: killer/killer.cpp:49
+msgid "pid"
+msgstr ""
+
+#: killer/killer.cpp:51
+msgid "Hostname on which the application is running"
+msgstr "שם המארח בן היישום רץ"
+
+#: killer/killer.cpp:51
+msgid "hostname"
+msgstr ""
+
+#: killer/killer.cpp:53
+msgid "Caption of the window to be terminated"
+msgstr "כותרת החלון של החלון שיש להרוג"
+
+#: killer/killer.cpp:53
+msgid "caption"
+msgstr ""
+
+#: killer/killer.cpp:55
+msgid "Name of the application to be terminated"
+msgstr "שם היישום שיש להרוג"
+
+#: killer/killer.cpp:55
+msgid "name"
+msgstr ""
+
+#: killer/killer.cpp:57
+msgid "ID of resource belonging to the application"
+msgstr "זיהוי המשאב השייך ליישום"
+
+#: killer/killer.cpp:57
+msgid "id"
+msgstr ""
+
+#: killer/killer.cpp:59
+msgid "Time of user action causing termination"
+msgstr "זמן פעולת המשתמש שגרסה לחיסול"
+
+#: killer/killer.cpp:59
+msgid "time"
+msgstr ""
+
+#: killer/killer.cpp:61
+msgid "KWin helper utility"
+msgstr "שירותית עזרה של KWin"
+
+#: killer/killer.cpp:85
+msgid "This helper utility is not supposed to be called directly."
+msgstr "לא ניתן להפעיל שירותית זו ישירות."
+
+#: killer/killer.cpp:95
+#, kde-format
+msgctxt "@info"
+msgid "<b>Application \"%1\" is not responding</b>"
+msgstr ""
+
+#: killer/killer.cpp:106
+#, kde-format
+msgid "&Terminate Application %1"
+msgstr "&הפסק את פעולת היישום %1"
+
+#: killer/killer.cpp:107
+msgid "Wait Longer"
+msgstr ""
+
+#: kwinbindings.cpp:40
+msgid "Walk Through Window Tabs"
+msgstr "עבור בין לשוניות החלונות"
+
+#: kwinbindings.cpp:41
+msgid "Walk Through Window Tabs (Reverse)"
+msgstr "עבור בין לשוניות החלונות (הפוך)"
+
+#: kwinbindings.cpp:42
+msgid "Remove Window From Group"
+msgstr "הסר חלון מקבוצה"
+
+#: kwinbindings.cpp:44
+msgid "Window Operations Menu"
+msgstr "תפריט פעולות חלון"
+
+#: kwinbindings.cpp:46
+msgid "Close Window"
+msgstr "סגור חלון"
+
+#: kwinbindings.cpp:48
+msgid "Maximize Window"
+msgstr "הגדל חלון"
+
+#: kwinbindings.cpp:50
+msgid "Maximize Window Vertically"
+msgstr "הגדל חלון אנכית"
+
+#: kwinbindings.cpp:52
+msgid "Maximize Window Horizontally"
+msgstr "הגדל חלון אופקית"
+
+#: kwinbindings.cpp:54
+msgid "Minimize Window"
+msgstr "מזער חלון"
+
+#: kwinbindings.cpp:56
+msgid "Shade Window"
+msgstr "גלול חלון"
+
+#: kwinbindings.cpp:58
+msgid "Move Window"
+msgstr "הזז חלונות"
+
+#: kwinbindings.cpp:60
+msgid "Resize Window"
+msgstr "שנה גודל חלון"
+
+#: kwinbindings.cpp:62
+msgid "Raise Window"
+msgstr "הבא חלון לקדמה"
+
+#: kwinbindings.cpp:64
+msgid "Lower Window"
+msgstr "הבא חלון אחורה"
+
+#: kwinbindings.cpp:66
+msgid "Toggle Window Raise/Lower"
+msgstr "העבר חלון קדימה או אחורה"
+
+#: kwinbindings.cpp:68
+msgid "Make Window Fullscreen"
+msgstr "הפוך חלון למסך מלא"
+
+#: kwinbindings.cpp:70
+msgid "Hide Window Border"
+msgstr "הסתר מסגרת לחלון"
+
+#: kwinbindings.cpp:72
+msgid "Keep Window Above Others"
+msgstr "השאר חלון מעל כולם"
+
+#: kwinbindings.cpp:74
+msgid "Keep Window Below Others"
+msgstr "השאר חלון מתחת כולם"
+
+#: kwinbindings.cpp:76
+msgid "Activate Window Demanding Attention"
+msgstr "הפעל את החלון הדורש התמקדות"
+
+#: kwinbindings.cpp:78
+msgid "Setup Window Shortcut"
+msgstr "תצורת מקשי קיצור לחלונות"
+
+#: kwinbindings.cpp:80
+msgid "Pack Window to the Right"
+msgstr "מזער את החלון לימין"
+
+#: kwinbindings.cpp:82
+msgid "Pack Window to the Left"
+msgstr "מזער את החלון לשמאל"
+
+#: kwinbindings.cpp:84
+msgid "Pack Window Up"
+msgstr "מזער את החלון למעלה"
+
+#: kwinbindings.cpp:86
+msgid "Pack Window Down"
+msgstr "מזער את החלון למטה"
+
+#: kwinbindings.cpp:88
+msgid "Pack Grow Window Horizontally"
+msgstr ""
+
+#: kwinbindings.cpp:90
+msgid "Pack Grow Window Vertically"
+msgstr ""
+
+#: kwinbindings.cpp:92
+msgid "Pack Shrink Window Horizontally"
+msgstr ""
+
+#: kwinbindings.cpp:94
+msgid "Pack Shrink Window Vertically"
+msgstr ""
+
+#: kwinbindings.cpp:96
+msgid "Quick Tile Window to the Left"
+msgstr "הדבק את החלון לצד השמאלי"
+
+#: kwinbindings.cpp:98
+msgid "Quick Tile Window to the Right"
+msgstr "הדבק את החלון לצד הימני"
+
+#: kwinbindings.cpp:100
+msgid "Quick Tile Window to the Top Left"
+msgstr "הדבק את החלון לצד השמאלי מלמעה"
+
+#: kwinbindings.cpp:102
+msgid "Quick Tile Window to the Bottom Left"
+msgstr "הדבק את החלון לצד השמאלי מלמטה"
+
+#: kwinbindings.cpp:104
+msgid "Quick Tile Window to the Top Right"
+msgstr "הדבק את החלון לצד הימני מלמעה"
+
+#: kwinbindings.cpp:106
+msgid "Quick Tile Window to the Bottom Right"
+msgstr "הדבק את החלון לצד הימני מלמטה"
+
+#: kwinbindings.cpp:108
+msgid "Switch to Window Above"
+msgstr "עבור לחלון מעל"
+
+#: kwinbindings.cpp:110
+msgid "Switch to Window Below"
+msgstr "עבור לחלון מתחת"
+
+#: kwinbindings.cpp:112
+msgid "Switch to Window to the Right"
+msgstr "עבור אל החלון מימין"
+
+#: kwinbindings.cpp:114
+msgid "Switch to Window to the Left"
+msgstr "עבור אל החלון משמאל"
+
+#: kwinbindings.cpp:116
+msgid "Increase Opacity of Active Window by 5 %"
+msgstr "הקטן את השקיפות של החלון הפעיל ב־5%"
+
+#: kwinbindings.cpp:118
+msgid "Decrease Opacity of Active Window by 5 %"
+msgstr "הגדל את השקיפות של החלון הפעיל ב־5%"
+
+#: kwinbindings.cpp:121
+msgid "Keep Window on All Desktops"
+msgstr "השאר חלון בכל שולחנות עבודה"
+
+#: kwinbindings.cpp:125
+#, kde-format
+msgid "Window to Desktop %1"
+msgstr "העבר חלון לשולחן עבודה %1"
+
+#: kwinbindings.cpp:127
+msgid "Window to Next Desktop"
+msgstr "העבר חלון אל שולחן העבודה הבא"
+
+#: kwinbindings.cpp:128
+msgid "Window to Previous Desktop"
+msgstr "העבר חלון אל שולחן העבודה הקודם"
+
+#: kwinbindings.cpp:129
+msgid "Window One Desktop to the Right"
+msgstr "עבור שולחן עבודה אחד ימינה"
+
+#: kwinbindings.cpp:130
+msgid "Window One Desktop to the Left"
+msgstr "עבור שולחן עבודה אחד שמאלה"
+
+#: kwinbindings.cpp:131
+msgid "Window One Desktop Up"
+msgstr "עבור שולחן עבודה אחד מעלה"
+
+#: kwinbindings.cpp:132
+msgid "Window One Desktop Down"
+msgstr "עבור שולחן עבודה אחד למטה"
+
+#: kwinbindings.cpp:135
+#, kde-format
+msgid "Window to Screen %1"
+msgstr "חלון לשולחן עבודה %1"
+
+#: kwinbindings.cpp:137
+msgid "Window to Next Screen"
+msgstr "חלון אל שולחן העבודה הבא"
+
+#: kwinbindings.cpp:138
+#, fuzzy
+#| msgid "Window to Previous Desktop"
+msgid "Window to Previous Screen"
+msgstr "העבר חלון אל שולחן העבודה הקודם"
+
+#: kwinbindings.cpp:139
+msgid "Show Desktop"
+msgstr "הצג את שולחן העבודה"
+
+#: kwinbindings.cpp:142
+#, kde-format
+msgid "Switch to Screen %1"
+msgstr "עבור למסך %1"
+
+#: kwinbindings.cpp:145
+msgid "Switch to Next Screen"
+msgstr "עבור אל המסך הבא"
+
+#: kwinbindings.cpp:146
+#, fuzzy
+#| msgid "Switch to Previous Desktop"
+msgid "Switch to Previous Screen"
+msgstr "עבור אל שולחן העבודה הקודם"
+
+#: kwinbindings.cpp:148
+msgid "Kill Window"
+msgstr "חסל חלון"
+
+#: kwinbindings.cpp:149
+msgid "Suspend Compositing"
+msgstr "השהה שזירה"
+
+#: kwinbindings.cpp:150
+msgid "Invert Screen Colors"
+msgstr "הפוך את צבעי המסך"
+
+#: main.cpp:78
+msgid ""
+"KWin is unstable.\n"
+"It seems to have crashed several times in a row.\n"
+"You can select another window manager to run:"
+msgstr ""
+"מנהל החלונות KWin לא יציב.\n"
+"נראה כי הוא קרס כמה פעמים ברציפות.\n"
+"ניתן לבחור מנהל חלונות אחר להפעלה:"
+
+#: main.cpp:259 main.cpp:286
+msgid "KDE window manager"
+msgstr "מנהל החלונות של KDE"
+
+#: main.cpp:264
+msgid "KWin"
+msgstr "מנהל החלונות"
+
+#: main.cpp:268
+#, fuzzy
+#| msgid "(c) 1999-2008, The KDE Developers"
+msgid "(c) 1999-2013, The KDE Developers"
+msgstr "‎(c) 1999-2008, המפתחים של KDE"
+
+#: main.cpp:270
+msgid "Matthias Ettrich"
+msgstr "Matthias Ettrich"
+
+#: main.cpp:271
+msgid "Cristian Tibirna"
+msgstr "Cristian Tibirna"
+
+#: main.cpp:272
+msgid "Daniel M. Duley"
+msgstr "Daniel M. Duley"
+
+#: main.cpp:273
+msgid "Luboš Luňák"
+msgstr "Luboš Luňák"
+
+#: main.cpp:274
+msgid "Martin Gräßlin"
+msgstr "Martin Gräßlin"
+
+#: main.cpp:274
+msgid "Maintainer"
+msgstr "מתחזק"
+
+#: main.cpp:283
+msgid "Disable configuration options"
+msgstr "בטל אפשרויות הגדרה"
+
+#: main.cpp:284
+msgid "Indicate that KWin has recently crashed n times"
+msgstr "מראה כי KWin קרס לאחרונה כמה פעמים"
+
+#: main_wayland.cpp:88
+#, fuzzy
+#| msgid ""
+#| "kwin: unable to claim manager selection, another wm running? (try using --"
+#| "replace)\n"
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+msgstr ""
+"אין אפשרות לתפוס פיקוד על ניהול חלונות, אולי מנהל חלונות אחר מופעל במקביל? "
+"(נסה להשתמש ב־‎--replace‏‏).\n"
+
+#: main_wayland.cpp:96
+msgid ""
+"kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
+"set.\n"
+msgstr ""
+
+#: main_wayland.cpp:231
+msgid "Start a nested X Server."
+msgstr ""
+
+#: main_wayland.cpp:234
+msgid "The X11 Display to connect to, required if option x-server is used."
+msgstr ""
+
+#: main_x11.cpp:149
+msgid ""
+"kwin: unable to claim manager selection, another wm running? (try using --"
+"replace)\n"
+msgstr ""
+"אין אפשרות לתפוס פיקוד על ניהול חלונות, אולי מנהל חלונות אחר מופעל במקביל? "
+"(נסה להשתמש ב־‎--replace‏‏).\n"
+
+#: main_x11.cpp:166
+#, fuzzy
+#| msgid ""
+#| "kwin: unable to claim manager selection, another wm running? (try using --"
+#| "replace)\n"
+msgid "kwin: another window manager is running (try using --replace)\n"
+msgstr ""
+"אין אפשרות לתפוס פיקוד על ניהול חלונות, אולי מנהל חלונות אחר מופעל במקביל? "
+"(נסה להשתמש ב־‎--replace‏‏).\n"
+
+#: main_x11.cpp:261
+msgid "Replace already-running ICCCM2.0-compliant window manager"
+msgstr "החלף מנהל חלונות תואם ICCCM2.0 קיים"
+
+#: scene_opengl.cpp:558
+msgid "Desktop effects were restarted due to a graphics reset"
+msgstr ""
+
+#: scene_opengl.cpp:729
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
+"OpenGL Desktop Effects at the current resolution<br><br>You can try to "
+"select the XRender backend, but it might be very slow for this resolution as "
+"well.<br>Alternatively, lower the combined resolution of all screens to %1x"
+"%2 "
+msgstr ""
+
+#: scene_opengl.cpp:736
+msgid ""
+"The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+"GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+"does not know such limitation, but the performance will usually be impacted "
+"by the hardware limitations that restrict the OpenGL viewport size."
+msgstr ""
+
+#: scene_opengl.cpp:761
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+"the current resolution are supported but might be exceptionally slow."
+"<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
+"compositing, switch to the XRender backend or lower the resolution to %1x%1."
+msgstr ""
+
+#: scene_opengl.cpp:767
+msgid ""
+"The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+"GPU, thus windows of that size cannot be assigned to textures and will be "
+"entirely black.<br>Also this limit will often be a performance level barrier "
+"despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+"software rendering in this case."
+msgstr ""
+
+#: scripting/genericscriptedconfig.cpp:81
+msgctxt "Error message"
+msgid "Plugin does not provide configuration file in expected location"
+msgstr ""
+
+#: scripting/scripting.cpp:127
+#, kde-format
+msgctxt "Assertion failed in KWin script with given value"
+msgid "Assertion failed: %1 is not null"
+msgstr ""
+
+#: scripting/scripting.cpp:145
+msgctxt "Assertion failed in KWin script"
+msgid "Assertion failed: argument is null"
+msgstr ""
+
+#: scripting/scripting.cpp:172
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid number of arguments. At least service, path, interface and method "
+"need to be provided"
+msgstr ""
+
+#: scripting/scripting.cpp:178
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid type. Service, path, interface and method need to be string values"
+msgstr ""
+
+#: scripting/scriptingutils.cpp:28
+msgctxt "syntax error in KWin script"
+msgid "Invalid number of arguments"
+msgstr ""
+
+#: scripting/scriptingutils.cpp:41
+#, kde-format
+msgctxt "KWin Scripting function received incorrect value for an expected type"
+msgid "%1 is not a variant type"
+msgstr ""
+
+#: tabbox/tabbox.cpp:348
+msgctxt "Special entry in alt+tab list for minimizing all windows"
+msgid "Show Desktop"
+msgstr "הצג את שולחן העבודה"
+
+#: tabbox/tabbox.cpp:499
+msgid "Walk Through Windows"
+msgstr "עבור בין החלונות"
+
+#: tabbox/tabbox.cpp:500
+msgid "Walk Through Windows (Reverse)"
+msgstr "עבור בין החלונות (הפוך)"
+
+#: tabbox/tabbox.cpp:501
+msgid "Walk Through Windows Alternative"
+msgstr "עבור בין החלונות (חלופי)"
+
+#: tabbox/tabbox.cpp:502
+msgid "Walk Through Windows Alternative (Reverse)"
+msgstr "עבור בין החלונות (חלופי הפוך)"
+
+#: tabbox/tabbox.cpp:503
+msgid "Walk Through Windows of Current Application"
+msgstr "עבור בין החלונות של היישום הנוכחי"
+
+#: tabbox/tabbox.cpp:504
+msgid "Walk Through Windows of Current Application (Reverse)"
+msgstr "עבור בין החלונות של היישום הנוכחי (הפוך)"
+
+#: tabbox/tabbox.cpp:505
+msgid "Walk Through Windows of Current Application Alternative"
+msgstr "עבור בין החלונות של היישום הנוכחי (חלופי)"
+
+#: tabbox/tabbox.cpp:506
+msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+msgstr "עבור בין החלונות של היישום הנוכחי (חלופי הפוך)"
+
+#: tabbox/tabbox.cpp:507
+msgid "Walk Through Desktops"
+msgstr "עבור בין שולחנות העבודה"
+
+#: tabbox/tabbox.cpp:508
+msgid "Walk Through Desktops (Reverse)"
+msgstr "עבור בין שולחנות העבודה (הפוך)"
+
+#: tabbox/tabbox.cpp:509
+msgid "Walk Through Desktop List"
+msgstr "עבור בין רשימת שולחנות העבודה"
+
+#: tabbox/tabbox.cpp:510
+msgid "Walk Through Desktop List (Reverse)"
+msgstr "עבור בין רשימת שולחנות העבודה (הפוך)"
+
+#: tabbox/tabboxhandler.cpp:272
+msgid ""
+"The Window Switcher installation is broken, resources are missing.\n"
+"Contact your distribution about this."
+msgstr ""
+
+#: useractions.cpp:186
+#, kde-format
+msgid ""
+"You have selected to show a window without its border.\n"
+"Without the border, you will not be able to enable the border again using "
+"the mouse: use the window operations menu instead, activated using the %1 "
+"keyboard shortcut."
+msgstr ""
+"בחרת להציג חלון ללא המסגרת שלו.\n"
+"ללא המסגרת, לא תוכל להציג חזרה את המסגרת עם העכבר בלבד: בכדי להשתמש בתפריט "
+"פעולת החלון, יש להשתמש בקיצור מקשים %1."
+
+#: useractions.cpp:194
+#, kde-format
+msgid ""
+"You have selected to show a window in fullscreen mode.\n"
+"If the application itself does not have an option to turn the fullscreen "
+"mode off you will not be able to disable it again using the mouse: use the "
+"window operations menu instead, activated using the %1 keyboard shortcut."
+msgstr ""
+"בחרת להראות חלון במצב מסך מלא.\n"
+"אם התוכנה אינה כוללת אפשרות לביטול המסך המלא, לא תוכל להציג חזרה את המסגרת "
+"עם העכבר בלבד: בכדי להשתמש בתפריט פעולת החלון, יש להשתמש בקיצור מקשים %1."
+
+#: useractions.cpp:259
+msgid "&Move"
+msgstr "ה&זז"
+
+#: useractions.cpp:264
+msgid "Re&size"
+msgstr "&שנה גודל"
+
+#: useractions.cpp:268
+msgid "Keep &Above Others"
+msgstr "השאר &מעל כולם"
+
+#: useractions.cpp:274
+msgid "Keep &Below Others"
+msgstr "השאר מ&תחת לכולם"
+
+#: useractions.cpp:280
+msgid "&Fullscreen"
+msgstr "&מסך מלא"
+
+#: useractions.cpp:286
+msgid "Sh&ade"
+msgstr "&גלול"
+
+#: useractions.cpp:291
+msgid "&No Border"
+msgstr "&ללא מסגרת"
+
+#: useractions.cpp:298
+msgid "Window &Shortcut..."
+msgstr "&קיצור החלון..."
+
+#: useractions.cpp:303
+msgid "&Special Window Settings..."
+msgstr "הגדרות חלון &מיוחדות..."
+
+#: useractions.cpp:307
+msgid "S&pecial Application Settings..."
+msgstr "הגדרות יישום &מיוחדות..."
+
+#: useractions.cpp:314
+msgctxt ""
+"Entry in context menu of window decoration to open the configuration module "
+"of KWin"
+msgid "Window &Manager Settings..."
+msgstr "הגדרות מנהל חלונות &מיוחדות..."
+
+#: useractions.cpp:329
+msgid "Mi&nimize"
+msgstr "&מזער"
+
+#: useractions.cpp:333
+msgid "Ma&ximize"
+msgstr "&הגדל"
+
+#: useractions.cpp:342
+msgid "&Untab"
+msgstr ""
+
+#: useractions.cpp:346
+msgid "Close Entire &Group"
+msgstr "סגור &קבוצה כולה"
+
+#: useractions.cpp:357
+#, fuzzy
+#| msgid "More Actions"
+msgid "&More Actions"
+msgstr "פעולות נוספות"
+
+#: useractions.cpp:361
+msgid "&Close"
+msgstr "&סגור"
+
+#: useractions.cpp:434
+msgid "&Extensions"
+msgstr "&הרחבות"
+
+#: useractions.cpp:489
+msgctxt "Switch to tab -> Previous"
+msgid "Previous"
+msgstr "הקודם"
+
+#: useractions.cpp:490
+msgctxt "Switch to tab -> Next"
+msgid "Next"
+msgstr "הבא"
+
+#: useractions.cpp:528
+msgctxt "There's no window available to be attached as tab to this one"
+msgid "None available"
+msgstr ""
+
+#: useractions.cpp:537
+msgid "Switch to Tab"
+msgstr "עבור ללשונית"
+
+#: useractions.cpp:548
+#, fuzzy
+#| msgid "Attach as tab to"
+msgid "&Attach as tab to"
+msgstr "הצמד בתור לשונית אל"
+
+#: useractions.cpp:571
+msgid "Move To &Desktop"
+msgstr "העבר &אל שולחן עבודה"
+
+#: useractions.cpp:587
+msgid "Move To &Screen"
+msgstr "העבר &אל מסך"
+
+#: useractions.cpp:602
+msgid "Ac&tivities"
+msgstr "פ&עילויות"
+
+#: useractions.cpp:614
+msgid "&All Desktops"
+msgstr "&כל שולחנות העבודה"
+
+#: useractions.cpp:640
+msgctxt "Create a new desktop and move there the window"
+msgid "&New Desktop"
+msgstr "שולחן עבודה &חדש"
+
+#: useractions.cpp:661
+#, kde-format
+msgctxt "@item:inmenu List of all Screens to send a window to"
+msgid "Screen &%1"
+msgstr "מסך %1"
+
+#: useractions.cpp:679
+msgid "&All Activities"
+msgstr "&כל הפעילויות"
+
+#: useractions.cpp:884
+#, kde-format
+msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
+msgid "<b>%1</b> is already in use"
+msgstr "‏<b>%1</b> כבר בשימוש"
+
+#: useractions.cpp:886
+#, kde-format
+msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
+msgid "<b>%1</b> is used by %2 in %3"
+msgstr "‏<b>%1</b> כבר בשימוש על ידי %2 ב־%3"
+
+#: useractions.cpp:1009
+#, kde-format
+msgid "Activate Window (%1)"
+msgstr "הפעל חלון (%1)"
+
+#: useractions.cpp:1382
+msgid ""
+"The window manager is configured to consider the screen with the mouse on it "
+"as active one.\n"
+"Therefore it is not possible to switch to a screen explicitly."
+msgstr ""
+
+#: virtualdesktops.cpp:334 virtualdesktops.cpp:396
+#, kde-format
+msgid "Desktop %1"
+msgstr "שולחן עבודה %1"
+
+#: virtualdesktops.cpp:427
+msgid "Switch to Next Desktop"
+msgstr "עבור אל שולחן העבודה הבא"
+
+#: virtualdesktops.cpp:428
+msgid "Switch to Previous Desktop"
+msgstr "עבור אל שולחן העבודה הקודם"
+
+#: virtualdesktops.cpp:429
+msgid "Switch One Desktop to the Right"
+msgstr "עבור שולחן עבודה אחד ימינה"
+
+#: virtualdesktops.cpp:430
+msgid "Switch One Desktop to the Left"
+msgstr "עבור שולחן עבודה אחד שמאלה"
+
+#: virtualdesktops.cpp:431
+msgid "Switch One Desktop Up"
+msgstr "עבור שולחן עבודה אחד למעלה"
+
+#: virtualdesktops.cpp:432
+msgid "Switch One Desktop Down"
+msgstr "עבור שולחן עבודה אחד למטה"
+
+#: virtualdesktops.cpp:444
+#, kde-format
+msgid "Switch to Desktop %1"
+msgstr "עבור לשולחן עבודה %1"
+
+#: workspace.cpp:1340
+msgctxt "Introductory text shown in the support information."
+msgid ""
+"KWin Support Information:\n"
+"The following information should be used when requesting support on e.g. "
+"http://forum.kde.org.\n"
+"It provides information about the currently running instance, which options "
+"are used,\n"
+"what OpenGL driver and which effects are running.\n"
+"Please post the information provided underneath this introductory text to a "
+"paste bin service\n"
+"like http://paste.kde.org instead of pasting into support threads.\n"
+msgstr ""
+"מידע אודות תמיכה ב־KWin:\n"
+"יש לספק את המידע הבא בעת בקשת תמיכה, למשל בפורומים: \n"
+"http://forum.kde.org.\n"
+"המידע נותן הסברים לגבר האפשרויות בשימוש, איזה מנהל התקן של OpenGL בשימוש, "
+"ואיזה אפקטים בשימוש.\n"
+"אנא ספק את המידע המסופק מתחת בתור פתיחה. נא לא להדביק את הטקסט לשירשורים, "
+"אלא להשתמש בשירותים להדבקה מקוונת כגון: \n"
+"http://paste.kde.org \n"

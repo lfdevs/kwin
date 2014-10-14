@@ -1,0 +1,381 @@
+# translation of kcmkwindecoration.po to Cymraeg
+# Copyright (C) 2003, 2004 Free Software Foundation, Inc.
+# KGyfieithu <kyfieithu@dotmon.com>, 2003.
+# KD at KGyfieithu <kyfieithu@dotmon.com>, 2003, 2004.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kcmkwindecoration\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-06-11 07:50+0000\n"
+"PO-Revision-Date: 2004-07-03 22:37+0100\n"
+"Last-Translator: KD at KGyfieithu <kyfieithu@dotmon.com>\n"
+"Language-Team: Cymraeg <cy@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.2\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Owain Green ar ran KGyfieithu"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "kyfieithu@dotmon.com"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: auroraeconfig.ui:23
+#, fuzzy
+msgid "Border size:"
+msgstr "Maint ffin: Bach Iawn"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:34 configdialog.cpp:36
+#, fuzzy
+#| msgid "Tiny"
+msgctxt "@item:inlistbox Border size:"
+msgid "Tiny"
+msgstr "Pitw"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:39 configdialog.cpp:37
+#, fuzzy
+#| msgid "Normal"
+msgctxt "@item:inlistbox Border size:"
+msgid "Normal"
+msgstr "Arferol"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:44 configdialog.cpp:38
+#, fuzzy
+#| msgid "Large"
+msgctxt "@item:inlistbox Border size:"
+msgid "Large"
+msgstr "Mawr"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:49 configdialog.cpp:39
+#, fuzzy
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Large"
+msgstr "Maint ffin: Mawr Iawn"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:54 configdialog.cpp:40
+#, fuzzy
+#| msgid "Huge"
+msgctxt "@item:inlistbox Border size:"
+msgid "Huge"
+msgstr "Anferth"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:59 configdialog.cpp:41
+#, fuzzy
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Huge"
+msgstr "Maint ffin: Mawr Iawn"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:64 configdialog.cpp:42
+#, fuzzy
+msgctxt "@item:inlistbox Border size:"
+msgid "Oversized"
+msgstr "Newid maint"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: auroraeconfig.ui:72
+#, fuzzy
+#| msgid "Buttons"
+msgid "Button size:"
+msgstr "Botymau"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:83
+#, fuzzy
+#| msgid "Tiny"
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "Pitw"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:88
+#, fuzzy
+#| msgid "Normal"
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "Arferol"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:93
+#, fuzzy
+#| msgid "Large"
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "Mawr"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:98
+#, fuzzy
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "Maint ffin: Mawr Iawn"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:103
+#, fuzzy
+#| msgid "Huge"
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "Anferth"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:108
+#, fuzzy
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "Maint ffin: Mawr Iawn"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:113
+#, fuzzy
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "Newid maint"
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
+#: auroraeconfig.ui:126
+msgid "Close windows by double clicking the menu button"
+msgstr ""
+
+#: buttons.cpp:620
+msgid "KDE"
+msgstr "KDE"
+
+#: buttons.cpp:649
+#, kde-format
+msgid "%1 (unavailable)"
+msgstr ""
+
+#: buttons.cpp:672
+msgid ""
+"To add or remove titlebar buttons, simply <i>drag</i> items between the "
+"available item list and the titlebar preview. Similarly, drag items within "
+"the titlebar preview to re-position them."
+msgstr ""
+"I ychwanegu neu waredu botymau bar teitl, <i>llusgwch</i> eitemau rhwng y "
+"restr eitemau ar gael â rhagolwg y bar teitl. Yn yr un mood, llusgwch "
+"eitemau o fewn rhagolwg y bar teitl i newid eu lleoliadau."
+
+#: buttons.cpp:728
+msgid "Resize"
+msgstr "Newid maint"
+
+#: buttons.cpp:733
+msgid "Shade"
+msgstr "Rholio"
+
+#: buttons.cpp:738
+msgid "Keep Below Others"
+msgstr "Cadw Dan y Lleill"
+
+#: buttons.cpp:743
+msgid "Keep Above Others"
+msgstr "Cadw Uwchben y Lleill"
+
+#: buttons.cpp:748
+msgid "Close"
+msgstr ""
+
+#: buttons.cpp:753
+msgid "Maximize"
+msgstr "Ehangu"
+
+#: buttons.cpp:758
+msgid "Minimize"
+msgstr "Lleihau"
+
+#: buttons.cpp:763
+msgid "Help"
+msgstr ""
+
+#: buttons.cpp:768
+msgid "On All Desktops"
+msgstr "Ar Bob Penbwrdd"
+
+#: buttons.cpp:773
+msgctxt "Button showing window actions menu"
+msgid "Window Menu"
+msgstr ""
+
+#: buttons.cpp:779
+msgctxt "Button showing application menu imported from dbusmenu"
+msgid "Application Menu"
+msgstr ""
+
+#: buttons.cpp:785
+msgid "--- spacer ---"
+msgstr ""
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:20
+msgid ""
+"Enabling this checkbox will show window button tooltips. If this checkbox is "
+"off, no window button tooltips will be shown."
+msgstr ""
+"Bydd galluogi'r blwch brith yma'n dangos cynghorion offer botymau ffenestri. "
+"Os yw'r blwch yma wedi'i ddiffodd, ni ddengys cynghorion offer botymau "
+"ffenestri."
+
+#. i18n: ectx: property (text), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:23
+msgid "&Show window button tooltips"
+msgstr "&Dangos cynghorion offer botymau ffenestri"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:30
+#, fuzzy
+#| msgid ""
+#| "The appropriate settings can be found in the \"Buttons\" Tab; please note "
+#| "that this option is not available on all styles yet."
+msgid "Please note that this option is not available on all styles yet."
+msgstr ""
+"Gellir canfod y gosodiadau perthnasol yn y Tab \"Botymau\"; noder nad yw'r  "
+"dewisiad yma ar gael ar bob arddull eto!"
+
+#. i18n: ectx: property (text), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:33
+msgid "Use custom titlebar button &positions"
+msgstr "Defnyddio &lleoliadau botymau bar teitl addasiedig"
+
+#: buttonsconfigdialog.cpp:44
+msgid "Buttons"
+msgstr "Botymau"
+
+#. i18n: ectx: property (text), widget (QLabel, borderLabel)
+#: config.ui:19
+#, fuzzy
+msgid "B&order size:"
+msgstr "Maint ffin: Bach Iawn"
+
+#. i18n: ectx: property (whatsThis), widget (KComboBox, bordersCombo)
+#: config.ui:29
+msgid "Use this combobox to change the border size of the decoration."
+msgstr ""
+
+#: configdialog.cpp:43
+msgctxt "@item:inlistbox Border size:"
+msgid "No Side Border"
+msgstr ""
+
+#: configdialog.cpp:44
+msgctxt "@item:inlistbox Border size:"
+msgid "No Border"
+msgstr ""
+
+#: configdialog.cpp:81 kwindecoration.cpp:375
+msgid "Decoration Options"
+msgstr "Dewisiadau Addurniadau"
+
+#. i18n: ectx: property (clickMessage), widget (KLineEdit, searchEdit)
+#: decoration.ui:17
+msgid "Search"
+msgstr ""
+
+#. i18n: ectx: property (whatsThis), widget (QScrollArea, decorationList)
+#: decoration.ui:27
+msgid ""
+"Select the window decoration. This is the look and feel of both the window "
+"borders and the window handle."
+msgstr ""
+"Dewiswch yr addurniad ffenestr. Dyma golwg a theimlad ffiniau ffenestr a "
+"dolen y ffenestr."
+
+#. i18n: ectx: property (text), widget (QPushButton, configureDecorationButton)
+#: decoration.ui:58
+#, fuzzy
+#| msgid "&Window Decoration"
+msgid "Configure Decoration..."
+msgstr "Addurniad &Ffenestr"
+
+#. i18n: ectx: property (text), widget (QPushButton, configureButtonsButton)
+#: decoration.ui:65
+msgid "Configure Buttons..."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
+#: decoration.ui:72
+#, fuzzy
+#| msgid "&Window Decoration"
+msgid "Get New Decorations..."
+msgstr "Addurniad &Ffenestr"
+
+#: kwindecoration.cpp:99
+msgid "Window Decoration Control Module"
+msgstr "Modwl Reoli Addurniadau Ffenestri"
+
+#: kwindecoration.cpp:101
+msgid "(c) 2001 Karol Szwed"
+msgstr "(h)(c) 2001 Karol Szwed"
+
+#: kwindecoration.cpp:102
+#, fuzzy
+#| msgid "(c) 2001 Karol Szwed"
+msgid "Karol Szwed"
+msgstr "(h)(c) 2001 Karol Szwed"
+
+#: kwindecoration.cpp:127
+msgid ""
+"<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main.qml</"
+"h2>could not be located in any application data path.<h2>Please contact your "
+"distribution</h2>The application will now abort"
+msgstr ""
+
+#: kwindecoration.cpp:130
+msgid "Installation Error"
+msgstr ""
+
+#: kwindecoration.cpp:301
+msgid "Oxygen"
+msgstr ""
+
+#: kwindecoration.cpp:314
+#, fuzzy
+msgid ""
+"<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+"window border decorations, as well as titlebar button positions and custom "
+"decoration options.</p>To choose a theme for your window decoration click on "
+"its name and apply your choice by clicking the \"Apply\" button below. If "
+"you do not want to apply your choice you can click the \"Reset\" button to "
+"discard your changes.<p>You can configure each theme. There are different "
+"options specific for each theme.</p><p>On the \"Buttons\" tab check the "
+"\"Use custom titlebar button positions\" box and you can change the "
+"positions of the buttons to your liking.</p>"
+msgstr ""
+"<h1>Addurniadau Ffenestri</h1><p> Galluoga'r modiwl yma i chi ddewis "
+"addurniadau ffiniau'r ffenestr, a hefyd lleoliadau botymau'r bar teitl a "
+"dewisiadau addurniadau addasiedig.</p> I ddewis thema i'ch addurniad "
+"ffenestr cliciwch ar ei enw a gweithredwch eich dewis drwy glicio ar y botwm "
+"\"Gweithredu\" isod. Os nad ydych am weithredu'ch dewis gallwch glicio ar y "
+"botwm \"Ailosod\" i daflu'ch newidiadau.<p>Gallwch ffurfweddu bob thema yn y "
+"tab \"Ffurfweddu [...]\". Mae dewisiadau gwahanol sy'n benodol i bob thema.</"
+"p><p>Yn \"Dewisiadau Cyffredinol (os ar gael)\" gallwch alluogi'r tab "
+"\"Botymau\" drwy fritho'r blwch \"Defnyddio lleoliadau bar teitl addasiedig"
+"\". Yn y tab \"Botymau\" gallwch newid lleoliadau'r botymau yn ôl eich dewis."
+"</p>"
+
+#: kwindecoration.cpp:389
+msgid ""
+"Close by double clicking:\n"
+" To open the menu, keep the button pressed until it appears."
+msgstr ""
+
+#: preview.cpp:373
+msgid "Active Window"
+msgstr "Ffenestr Weithredol"
+
+#: preview.cpp:373
+msgid "Inactive Window"
+msgstr "Ffenestr anweithredol"

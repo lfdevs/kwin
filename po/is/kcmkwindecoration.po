@@ -1,0 +1,347 @@
+# translation of kcmkwindecoration.po to Icelandic
+# Icelandic translation of kcmkwindecoration
+# Copyright (C) 2003, 2004, 2005, 2007, 2008, 2009, 2010 Free Software Foundation, Inc.
+#
+# Pjetur G. Hjaltason <pjetur@pjetur.net>, 2003.
+# Richard Allen <ra@ra.is>, 2004.
+# Svanur Palsson <svanur@tern.is>, 2004.
+# Arnar Leosson <leosson@frisurf.no>, 2005.
+# Sveinn í Felli <sveinki@nett.is>, 2007, 2009, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: kcmkwindecoration\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-06-11 07:50+0000\n"
+"PO-Revision-Date: 2010-05-30 16:24+0000\n"
+"Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
+"Language-Team: Icelandic <kde-isl@molar.is>\n"
+"Language: is\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: Plural-Forms: nplurals=2; plural=n != 1;\n"
+"\n"
+"\n"
+"\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Pjetur G. Hjaltason, Richard Allen, Svanur Pálsson"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "pjetur@pjetur.net, ra@ra.is, svanurpalsson@hotmail.com"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: auroraeconfig.ui:23
+msgid "Border size:"
+msgstr "Rammabreidd:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:34 configdialog.cpp:36
+msgctxt "@item:inlistbox Border size:"
+msgid "Tiny"
+msgstr "Örsmátt"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:39 configdialog.cpp:37
+msgctxt "@item:inlistbox Border size:"
+msgid "Normal"
+msgstr "Venulegt"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:44 configdialog.cpp:38
+msgctxt "@item:inlistbox Border size:"
+msgid "Large"
+msgstr "Stórt"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:49 configdialog.cpp:39
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Large"
+msgstr "Mjög stórt"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:54 configdialog.cpp:40
+msgctxt "@item:inlistbox Border size:"
+msgid "Huge"
+msgstr "Risastórt"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:59 configdialog.cpp:41
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Huge"
+msgstr "Hrikalega stórt"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:64 configdialog.cpp:42
+msgctxt "@item:inlistbox Border size:"
+msgid "Oversized"
+msgstr "Yfirstærð"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: auroraeconfig.ui:72
+msgid "Button size:"
+msgstr "Stærð hnappa:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:83
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "Örsmáir"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:88
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "Venulegir"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:93
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "Stórir"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:98
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "Mjög stórir"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:103
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "Risastórir"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:108
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "Hrikalega stórir"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:113
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "Yfirstærð"
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
+#: auroraeconfig.ui:126
+msgid "Close windows by double clicking the menu button"
+msgstr ""
+
+#: buttons.cpp:620
+msgid "KDE"
+msgstr "KDE"
+
+#: buttons.cpp:649
+#, kde-format
+msgid "%1 (unavailable)"
+msgstr "%1 (ófáanlegt)"
+
+#: buttons.cpp:672
+msgid ""
+"To add or remove titlebar buttons, simply <i>drag</i> items between the "
+"available item list and the titlebar preview. Similarly, drag items within "
+"the titlebar preview to re-position them."
+msgstr ""
+"Til að bæta gluggahnöppum við eða fjarlægja þá skaltu <i>draga</i> þá milli "
+"listans með tiltækum hnöppum og forsýnarinnar af titilröndinni. Sömuleiðis "
+"getur þú dregið takkana til á forsýninni til að endurraða þeim."
+
+#: buttons.cpp:728
+msgid "Resize"
+msgstr "Breyta stærð"
+
+#: buttons.cpp:733
+msgid "Shade"
+msgstr "Skyggja"
+
+#: buttons.cpp:738
+msgid "Keep Below Others"
+msgstr "Halda fyrir neðan aðra"
+
+#: buttons.cpp:743
+msgid "Keep Above Others"
+msgstr "Halda fyrir ofan aðra"
+
+#: buttons.cpp:748
+msgid "Close"
+msgstr "Loka"
+
+#: buttons.cpp:753
+msgid "Maximize"
+msgstr "Hámarka"
+
+#: buttons.cpp:758
+msgid "Minimize"
+msgstr "Minnka"
+
+#: buttons.cpp:763
+msgid "Help"
+msgstr "Hjálp"
+
+#: buttons.cpp:768
+msgid "On All Desktops"
+msgstr "Á öllum skjáborðum"
+
+#: buttons.cpp:773
+msgctxt "Button showing window actions menu"
+msgid "Window Menu"
+msgstr ""
+
+#: buttons.cpp:779
+msgctxt "Button showing application menu imported from dbusmenu"
+msgid "Application Menu"
+msgstr ""
+
+#: buttons.cpp:785
+msgid "--- spacer ---"
+msgstr "--- bil ---"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:20
+msgid ""
+"Enabling this checkbox will show window button tooltips. If this checkbox is "
+"off, no window button tooltips will be shown."
+msgstr ""
+"Ef er hakað við hér er sýnd flýtihjálp fyrir takkana sem fylgja hverjum "
+"glugga. Annars er flýtihjálpin ekki sýnd."
+
+#. i18n: ectx: property (text), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:23
+msgid "&Show window button tooltips"
+msgstr "&Sýna flýtihjálp um gluggatakka"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:30
+msgid "Please note that this option is not available on all styles yet."
+msgstr "Athugið að þetta er ekki til staðar á öllum stílsniðum ennþá."
+
+#. i18n: ectx: property (text), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:33
+msgid "Use custom titlebar button &positions"
+msgstr "Nota sérsniðnar valmyndatakka&staðsetningar"
+
+#: buttonsconfigdialog.cpp:44
+msgid "Buttons"
+msgstr "Hnappar"
+
+#. i18n: ectx: property (text), widget (QLabel, borderLabel)
+#: config.ui:19
+msgid "B&order size:"
+msgstr "Rammabreidd:"
+
+#. i18n: ectx: property (whatsThis), widget (KComboBox, bordersCombo)
+#: config.ui:29
+msgid "Use this combobox to change the border size of the decoration."
+msgstr "Notaðu þennan fjölvalsreit til að breyta rammastærð skreytingarinnar."
+
+#: configdialog.cpp:43
+msgctxt "@item:inlistbox Border size:"
+msgid "No Side Border"
+msgstr ""
+
+#: configdialog.cpp:44
+msgctxt "@item:inlistbox Border size:"
+msgid "No Border"
+msgstr ""
+
+#: configdialog.cpp:81 kwindecoration.cpp:375
+msgid "Decoration Options"
+msgstr "Stillingar skreytinga"
+
+#. i18n: ectx: property (clickMessage), widget (KLineEdit, searchEdit)
+#: decoration.ui:17
+msgid "Search"
+msgstr "Leita"
+
+#. i18n: ectx: property (whatsThis), widget (QScrollArea, decorationList)
+#: decoration.ui:27
+msgid ""
+"Select the window decoration. This is the look and feel of both the window "
+"borders and the window handle."
+msgstr ""
+"Veldu gluggaskrautið. Þetta er útlit og virkni fyrir bæði rammana og "
+"gluggahaldföngin."
+
+#. i18n: ectx: property (text), widget (QPushButton, configureDecorationButton)
+#: decoration.ui:58
+msgid "Configure Decoration..."
+msgstr "Stilla gluggaskreytingar..."
+
+#. i18n: ectx: property (text), widget (QPushButton, configureButtonsButton)
+#: decoration.ui:65
+msgid "Configure Buttons..."
+msgstr "Stilla hnappa..."
+
+#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
+#: decoration.ui:72
+msgid "Get New Decorations..."
+msgstr "Sækja nýjar gluggaskreytingar..."
+
+#: kwindecoration.cpp:99
+msgid "Window Decoration Control Module"
+msgstr "Stjórneining fyrir gluggaskreytingar"
+
+#: kwindecoration.cpp:101
+msgid "(c) 2001 Karol Szwed"
+msgstr "(c) 2001 Karol Szwed"
+
+#: kwindecoration.cpp:102
+msgid "Karol Szwed"
+msgstr "Karol Szwed"
+
+#: kwindecoration.cpp:127
+msgid ""
+"<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main.qml</"
+"h2>could not be located in any application data path.<h2>Please contact your "
+"distribution</h2>The application will now abort"
+msgstr ""
+
+#: kwindecoration.cpp:130
+msgid "Installation Error"
+msgstr ""
+
+#: kwindecoration.cpp:301
+msgid "Oxygen"
+msgstr "Oxygen"
+
+#: kwindecoration.cpp:314
+msgid ""
+"<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+"window border decorations, as well as titlebar button positions and custom "
+"decoration options.</p>To choose a theme for your window decoration click on "
+"its name and apply your choice by clicking the \"Apply\" button below. If "
+"you do not want to apply your choice you can click the \"Reset\" button to "
+"discard your changes.<p>You can configure each theme. There are different "
+"options specific for each theme.</p><p>On the \"Buttons\" tab check the "
+"\"Use custom titlebar button positions\" box and you can change the "
+"positions of the buttons to your liking.</p>"
+msgstr ""
+"<h1>Skreytingar gluggastjóra</h1><p>Þessi eining leyfir þér að velja "
+"skreytingar borða, ásamt staðsetningu hnappa og sérsniðnar stillingar "
+"skreytinga.</p>  Til að velja þema fyrir gluggaskreytinguna þína smelltu þá "
+"á nafnið og gerðu valið virkt með því að smella á \"Virkja\" hnappinn fyrir "
+"neðan.  Ef þú vilt ekki virkja valið þitt geturðu ýtt á \"Frumstilla\" "
+"hnappinn til að hætta við breytingarnar. <p>Þú getur stillt hvert þema í "
+"\"Stilla [...]\" flipanum.  Þar geturðu stillt mismunandi stillingar sem "
+"tilheyra hverju þema.</p> <p>Á flipanum \"Hnappar\" er hægt að að haka við í "
+"\"Nota sérsniðnar hnappastaðsetningar á titilslá\". Þar geturðu breytt "
+"staðsetningum hnappanna eins og þú vilt.</p>"
+
+#: kwindecoration.cpp:389
+msgid ""
+"Close by double clicking:\n"
+" To open the menu, keep the button pressed until it appears."
+msgstr ""
+
+#: preview.cpp:373
+msgid "Active Window"
+msgstr "Virkur gluggi"
+
+#: preview.cpp:373
+msgid "Inactive Window"
+msgstr "Óvirkur gluggi"

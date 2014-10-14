@@ -1,0 +1,103 @@
+# translation of kwin_lib.po to Malay
+# kwin_lib Bahasa Melayu (Malay) (ms)
+#
+# Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>, 2008, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin_lib\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-04-27 20:56+0000\n"
+"PO-Revision-Date: 2010-05-25 23:34+0800\n"
+"Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
+"Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
+"Language: ms\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=1;\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: kcommondecoration.cpp:316
+#, kde-format
+msgid "<center><b>%1</b></center>"
+msgstr "<center><b>%1</b></center>"
+
+#: kcommondecoration.cpp:408
+msgctxt "Button showing window actions menu"
+msgid "Window Menu"
+msgstr ""
+
+#: kcommondecoration.cpp:423
+msgctxt "Button showing application menu"
+msgid "Application Menu"
+msgstr ""
+
+#: kcommondecoration.cpp:445 kcommondecoration.cpp:668
+msgid "Not on all desktops"
+msgstr "Tidak pada semua desktop"
+
+#: kcommondecoration.cpp:445 kcommondecoration.cpp:669
+msgid "On all desktops"
+msgstr "Pada semua desktop"
+
+#: kcommondecoration.cpp:460
+msgid "Help"
+msgstr "Bantuan"
+
+#: kcommondecoration.cpp:473
+msgid "Minimize"
+msgstr "Minimakan"
+
+#: kcommondecoration.cpp:488 kcommondecoration.cpp:656
+msgid "Restore"
+msgstr "Kembalikan"
+
+#: kcommondecoration.cpp:488 kcommondecoration.cpp:655
+msgid "Maximize"
+msgstr "Maksimakan"
+
+#: kcommondecoration.cpp:503
+msgid "Close"
+msgstr "Tutup"
+
+#: kcommondecoration.cpp:517 kcommondecoration.cpp:709
+msgid "Do not keep above others"
+msgstr "Jangan letak diatas lain"
+
+#: kcommondecoration.cpp:517 kcommondecoration.cpp:709
+#: kcommondecoration.cpp:730
+msgid "Keep above others"
+msgstr "Kekal atas lain"
+
+#: kcommondecoration.cpp:533 kcommondecoration.cpp:724
+msgid "Do not keep below others"
+msgstr "Jangan letak dibawah lain"
+
+#: kcommondecoration.cpp:533 kcommondecoration.cpp:715
+#: kcommondecoration.cpp:724
+msgid "Keep below others"
+msgstr "Kekal bawah lain"
+
+#: kcommondecoration.cpp:549 kcommondecoration.cpp:680
+msgid "Unshade"
+msgstr "Nyahbayang"
+
+#: kcommondecoration.cpp:549 kcommondecoration.cpp:681
+msgid "Shade"
+msgstr "Bayang"
+
+#: kdecoration_plugins_p.cpp:101
+#, fuzzy
+#| msgid "No window decoration plugin library was found."
+msgid "Loading of window decoration plugin library disabled in configuration."
+msgstr "Tiada pustaka plugin hiasan tetingkap dijumpai."
+
+#: kdecoration_plugins_p.cpp:115
+#, fuzzy, kde-format
+#| msgid "The library %1 is not a KWin plugin."
+msgid "The library %1 has wrong API version %2"
+msgstr "Pustaka %1 adalah bukan plugin KWin."
+
+#: kdecoration_plugins_p.cpp:133
+msgid "The default decoration plugin is corrupt and could not be loaded."
+msgstr "Plugin hiasan default rosak dan tidak boleh dimuatkan."

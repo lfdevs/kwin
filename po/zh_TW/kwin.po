@@ -1,0 +1,859 @@
+# translation of kwin.po to Chinese Traditional
+# Copyright (C) 2001, 2002, 2003, 2007, 2008 Free Software Foundation, Inc.
+#
+# Kenduest Lee <kenduest@i18n.linux.org.tw>, 2001.
+# Yuan-Chen Cheng <ycheng@slat.org>, 2002.
+# Tsung-Chien Ho <iitze@hotmail.com>, 2003.
+# Frank Weng (a.k.a. Franklin) <franklin at goodhorse dot idv dot tw>, 2007, 2008, 2009, 2010.
+# Franklin Weng <franklin at goodhorse dot idv dot tw>, 2007, 2008.
+# Goodhorse <franklin@goodhorse.idv.tw>, 2008.
+# Frank Weng (a.k.a. Franklin) <franklin@goodhorse.idv.tw>, 2009.
+# Franklin Weng <franklin@mail.everfocus.com.tw>, 2010, 2012.
+# Franklin Weng <franklin@goodhorse.idv.tw>, 2011, 2012, 2013, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"PO-Revision-Date: 2014-01-02 10:38+0800\n"
+"Last-Translator: Franklin Weng <franklin at goodhorse dot idv dot tw>\n"
+"Language-Team: Chinese Traditional <kde-tw@googlegroups.com>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Kenduest Lee,Tsung-Chien Ho"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "kenduest@i18n.linux.org.tw,iitze@hotmail.com"
+
+#: composite.cpp:500
+#, kde-format
+msgid ""
+"Desktop effects have been suspended by another application.<br/>You can "
+"resume using the '%1' shortcut."
+msgstr "桌面效果已被其它的應用程式暫停。<br/> 您可以用快捷鍵 %1 來恢復。"
+
+#: compositingprefs.cpp:98
+msgid ""
+"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
+"b><br>This was most likely due to a driver bug.<p>If you think that you have "
+"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
+"<b>be aware that this might result in an immediate crash!</b></"
+"p><p>Alternatively, you might want to use the XRender backend instead.</p>"
+msgstr ""
+"<b>OpenGL 組合（預設）過去曾將 KWin 搞掛掉。</b><br> 通常這是因為驅動程式的問"
+"題所引起。 <p>若您認為您已經更新到穩定的驅動程式版本，<br> 您可以將此保護取"
+"消。<b>但是要注意，這可能會造成立即的崩潰！</b></p> <p>不然，您可以改用 "
+"XRender 後端介面。</p>"
+
+#: compositingprefs.cpp:105
+msgid "Required X extensions (XComposite and XDamage) are not available."
+msgstr "無法取得需要的 X 延伸模組（XComposite 與 XDamage）。"
+
+#: compositingprefs.cpp:109
+msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
+msgstr "沒有 GLX/OpenGL，只編譯了 OpenGL 支援。"
+
+#: compositingprefs.cpp:113
+msgid "GLX/OpenGL and XRender/XFixes are not available."
+msgstr "沒有 GLX/OpenGL 與 XRender/XFixes。 "
+
+#: decorations.cpp:59
+msgid "KWin: "
+msgstr "KWin:"
+
+#: killer/killer.cpp:44
+msgid "Window Manager"
+msgstr "視窗管理員"
+
+#: killer/killer.cpp:49
+msgid "PID of the application to terminate"
+msgstr "要結束的應用程式的行程代碼（PID）。"
+
+#: killer/killer.cpp:49
+msgid "pid"
+msgstr "行程代碼"
+
+#: killer/killer.cpp:51
+msgid "Hostname on which the application is running"
+msgstr "應用程式執行主機的主機名稱。"
+
+#: killer/killer.cpp:51
+msgid "hostname"
+msgstr "主機名稱"
+
+#: killer/killer.cpp:53
+msgid "Caption of the window to be terminated"
+msgstr "要結束的視窗標題。"
+
+#: killer/killer.cpp:53
+msgid "caption"
+msgstr "標題"
+
+#: killer/killer.cpp:55
+msgid "Name of the application to be terminated"
+msgstr "要結束的應用程式名稱。"
+
+#: killer/killer.cpp:55
+msgid "name"
+msgstr "名稱"
+
+#: killer/killer.cpp:57
+msgid "ID of resource belonging to the application"
+msgstr "此應用程式所屬資源代碼。"
+
+#: killer/killer.cpp:57
+msgid "id"
+msgstr "代碼"
+
+#: killer/killer.cpp:59
+msgid "Time of user action causing termination"
+msgstr "造成結束的使用者動作的時間。"
+
+#: killer/killer.cpp:59
+msgid "time"
+msgstr "時間"
+
+#: killer/killer.cpp:61
+msgid "KWin helper utility"
+msgstr "KWin 協助工具程式"
+
+#: killer/killer.cpp:85
+msgid "This helper utility is not supposed to be called directly."
+msgstr "此協助公用程式不支援直接呼叫。"
+
+#: killer/killer.cpp:95
+#, kde-format
+msgctxt "@info"
+msgid "<b>Application \"%1\" is not responding</b>"
+msgstr "<b>應用程式 \"%1\" 未回應</b>"
+
+#: killer/killer.cpp:106
+#, kde-format
+msgid "&Terminate Application %1"
+msgstr "終止應用程式 %1(&T)"
+
+#: killer/killer.cpp:107
+msgid "Wait Longer"
+msgstr "等久一點"
+
+#: kwinbindings.cpp:40
+msgid "Walk Through Window Tabs"
+msgstr "瀏覽已開啟視窗分頁"
+
+#: kwinbindings.cpp:41
+msgid "Walk Through Window Tabs (Reverse)"
+msgstr "瀏覽已開啟視窗分頁 (反向)"
+
+#: kwinbindings.cpp:42
+msgid "Remove Window From Group"
+msgstr "將視窗從群組中移除"
+
+#: kwinbindings.cpp:44
+msgid "Window Operations Menu"
+msgstr "視窗操作選單"
+
+#: kwinbindings.cpp:46
+msgid "Close Window"
+msgstr "關閉視窗"
+
+#: kwinbindings.cpp:48
+msgid "Maximize Window"
+msgstr "最大化視窗"
+
+#: kwinbindings.cpp:50
+msgid "Maximize Window Vertically"
+msgstr "垂直最大化視窗"
+
+#: kwinbindings.cpp:52
+msgid "Maximize Window Horizontally"
+msgstr "水平最大化視窗"
+
+#: kwinbindings.cpp:54
+msgid "Minimize Window"
+msgstr "最小化視窗"
+
+#: kwinbindings.cpp:56
+msgid "Shade Window"
+msgstr "遮蔽視窗"
+
+#: kwinbindings.cpp:58
+msgid "Move Window"
+msgstr "移動視窗"
+
+#: kwinbindings.cpp:60
+msgid "Resize Window"
+msgstr "重新調整視窗大小"
+
+#: kwinbindings.cpp:62
+msgid "Raise Window"
+msgstr "抬升視窗"
+
+#: kwinbindings.cpp:64
+msgid "Lower Window"
+msgstr "降下視窗"
+
+#: kwinbindings.cpp:66
+msgid "Toggle Window Raise/Lower"
+msgstr "視窗置前或置後"
+
+#: kwinbindings.cpp:68
+msgid "Make Window Fullscreen"
+msgstr "全螢幕"
+
+#: kwinbindings.cpp:70
+msgid "Hide Window Border"
+msgstr "隱藏視窗邊框"
+
+#: kwinbindings.cpp:72
+msgid "Keep Window Above Others"
+msgstr "將視窗置於最上層"
+
+#: kwinbindings.cpp:74
+msgid "Keep Window Below Others"
+msgstr "將視窗置於最下層"
+
+#: kwinbindings.cpp:76
+msgid "Activate Window Demanding Attention"
+msgstr "依請求注意作用視窗"
+
+#: kwinbindings.cpp:78
+msgid "Setup Window Shortcut"
+msgstr "設定視窗的捷徑鍵"
+
+#: kwinbindings.cpp:80
+msgid "Pack Window to the Right"
+msgstr "視窗推至右方"
+
+#: kwinbindings.cpp:82
+msgid "Pack Window to the Left"
+msgstr "視窗推至左方"
+
+#: kwinbindings.cpp:84
+msgid "Pack Window Up"
+msgstr "視窗推至上方"
+
+#: kwinbindings.cpp:86
+msgid "Pack Window Down"
+msgstr "視窗推至下方"
+
+#: kwinbindings.cpp:88
+msgid "Pack Grow Window Horizontally"
+msgstr "水平擴展視窗"
+
+#: kwinbindings.cpp:90
+msgid "Pack Grow Window Vertically"
+msgstr "垂直擴展視窗"
+
+#: kwinbindings.cpp:92
+msgid "Pack Shrink Window Horizontally"
+msgstr "水平收縮視窗"
+
+#: kwinbindings.cpp:94
+msgid "Pack Shrink Window Vertically"
+msgstr "垂直收縮視窗"
+
+#: kwinbindings.cpp:96
+msgid "Quick Tile Window to the Left"
+msgstr "視窗鋪排在左方"
+
+#: kwinbindings.cpp:98
+msgid "Quick Tile Window to the Right"
+msgstr "視窗鋪排在右方"
+
+#: kwinbindings.cpp:100
+msgid "Quick Tile Window to the Top Left"
+msgstr "視窗鋪排在左上方"
+
+#: kwinbindings.cpp:102
+msgid "Quick Tile Window to the Bottom Left"
+msgstr "視窗鋪排在左下方"
+
+#: kwinbindings.cpp:104
+msgid "Quick Tile Window to the Top Right"
+msgstr "視窗鋪排在右上方"
+
+#: kwinbindings.cpp:106
+msgid "Quick Tile Window to the Bottom Right"
+msgstr "視窗鋪排在右下方"
+
+#: kwinbindings.cpp:108
+msgid "Switch to Window Above"
+msgstr "切換到上方視窗"
+
+#: kwinbindings.cpp:110
+msgid "Switch to Window Below"
+msgstr "切換到下方視窗"
+
+#: kwinbindings.cpp:112
+msgid "Switch to Window to the Right"
+msgstr "切換到右方視窗"
+
+#: kwinbindings.cpp:114
+msgid "Switch to Window to the Left"
+msgstr "切換到左方視窗"
+
+#: kwinbindings.cpp:116
+msgid "Increase Opacity of Active Window by 5 %"
+msgstr "增加作用中的視窗的不透明度 5 %"
+
+#: kwinbindings.cpp:118
+msgid "Decrease Opacity of Active Window by 5 %"
+msgstr "減少作用中的視窗的不透明度 5 %"
+
+#: kwinbindings.cpp:121
+msgid "Keep Window on All Desktops"
+msgstr "將視窗顯示在桌面"
+
+#: kwinbindings.cpp:125
+#, kde-format
+msgid "Window to Desktop %1"
+msgstr "視窗移至桌面 %1"
+
+#: kwinbindings.cpp:127
+msgid "Window to Next Desktop"
+msgstr "視窗移到下一個桌面"
+
+#: kwinbindings.cpp:128
+msgid "Window to Previous Desktop"
+msgstr "視窗移到上一個桌面"
+
+#: kwinbindings.cpp:129
+msgid "Window One Desktop to the Right"
+msgstr "視窗右移一個桌面"
+
+#: kwinbindings.cpp:130
+msgid "Window One Desktop to the Left"
+msgstr "視窗左移一個桌面"
+
+#: kwinbindings.cpp:131
+msgid "Window One Desktop Up"
+msgstr "視窗上移一個桌面"
+
+#: kwinbindings.cpp:132
+msgid "Window One Desktop Down"
+msgstr "視窗下移一個桌面"
+
+#: kwinbindings.cpp:135
+#, kde-format
+msgid "Window to Screen %1"
+msgstr "視窗移至螢幕 %1"
+
+#: kwinbindings.cpp:137
+msgid "Window to Next Screen"
+msgstr "視窗移至下一個螢幕"
+
+#: kwinbindings.cpp:138
+msgid "Window to Previous Screen"
+msgstr "視窗移到上一個螢幕"
+
+#: kwinbindings.cpp:139
+msgid "Show Desktop"
+msgstr "顯示桌面"
+
+#: kwinbindings.cpp:142
+#, kde-format
+msgid "Switch to Screen %1"
+msgstr "切換到螢幕 %1"
+
+#: kwinbindings.cpp:145
+msgid "Switch to Next Screen"
+msgstr "切換到下一個螢幕"
+
+#: kwinbindings.cpp:146
+msgid "Switch to Previous Screen"
+msgstr "切換到上一個螢幕"
+
+#: kwinbindings.cpp:148
+msgid "Kill Window"
+msgstr "砍掉程式"
+
+#: kwinbindings.cpp:149
+msgid "Suspend Compositing"
+msgstr "暫停混合"
+
+#: kwinbindings.cpp:150
+msgid "Invert Screen Colors"
+msgstr "反轉螢幕顏色"
+
+#: main.cpp:78
+msgid ""
+"KWin is unstable.\n"
+"It seems to have crashed several times in a row.\n"
+"You can select another window manager to run:"
+msgstr ""
+"KWin 不穩定。\n"
+"似乎連續當機了數次。\n"
+"您可以選擇其他的視窗管理員："
+
+#: main.cpp:259 main.cpp:286
+msgid "KDE window manager"
+msgstr "KDE 視窗管理程式"
+
+#: main.cpp:264
+msgid "KWin"
+msgstr "KWin"
+
+#: main.cpp:268
+msgid "(c) 1999-2013, The KDE Developers"
+msgstr "(c) 1999-2013, The KDE 開發團隊"
+
+#: main.cpp:270
+msgid "Matthias Ettrich"
+msgstr "Matthias Ettrich"
+
+#: main.cpp:271
+msgid "Cristian Tibirna"
+msgstr "Cristian Tibirna"
+
+#: main.cpp:272
+msgid "Daniel M. Duley"
+msgstr "Daniel M. Duley"
+
+#: main.cpp:273
+msgid "Luboš Luňák"
+msgstr "Luboš Luňák"
+
+#: main.cpp:274
+msgid "Martin Gräßlin"
+msgstr "Martin Gräßlin"
+
+#: main.cpp:274
+msgid "Maintainer"
+msgstr "維護者"
+
+#: main.cpp:283
+msgid "Disable configuration options"
+msgstr "取消設定選項"
+
+#: main.cpp:284
+msgid "Indicate that KWin has recently crashed n times"
+msgstr "指出 KWin 最近已經連續當掉數次"
+
+#: main_wayland.cpp:88
+#, fuzzy
+#| msgid "kwin: another window manager is running (try using --replace)\n"
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+msgstr "kwin：另一個視窗管理員正在運行中（請試著使用 --replace）\n"
+
+#: main_wayland.cpp:96
+msgid ""
+"kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
+"set.\n"
+msgstr ""
+
+#: main_wayland.cpp:231
+msgid "Start a nested X Server."
+msgstr ""
+
+#: main_wayland.cpp:234
+msgid "The X11 Display to connect to, required if option x-server is used."
+msgstr ""
+
+#: main_x11.cpp:149
+msgid ""
+"kwin: unable to claim manager selection, another wm running? (try using --"
+"replace)\n"
+msgstr ""
+"kwin：無法宣告管理程式選擇區，是否有其他 wm 在執行？(嘗試使用 --replace)\n"
+
+#: main_x11.cpp:166
+msgid "kwin: another window manager is running (try using --replace)\n"
+msgstr "kwin：另一個視窗管理員正在運行中（請試著使用 --replace）\n"
+
+#: main_x11.cpp:261
+msgid "Replace already-running ICCCM2.0-compliant window manager"
+msgstr "置換已在執行中的 ICCCM2.0-相容視窗管理程式"
+
+#: scene_opengl.cpp:558
+msgid "Desktop effects were restarted due to a graphics reset"
+msgstr "桌面效果會重新啟動，因為圖形已重置"
+
+#: scene_opengl.cpp:729
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
+"OpenGL Desktop Effects at the current resolution<br><br>You can try to "
+"select the XRender backend, but it might be very slow for this resolution as "
+"well.<br>Alternatively, lower the combined resolution of all screens to %1x"
+"%2 "
+msgstr ""
+"<h1>OpenGL 桌面效果無法使用</h1>您的系統無法在目前的解析度上執行 OpenGL 桌面"
+"特效。<br><br>您可以試著使用 XRender 後端介面，不過它可能在此解析度上也會跑得"
+"很慢。<br>另外，您可以將所有螢幕的解析度降到 %1x%2。"
+
+#: scene_opengl.cpp:736
+msgid ""
+"The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+"GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+"does not know such limitation, but the performance will usually be impacted "
+"by the hardware limitations that restrict the OpenGL viewport size."
+msgstr ""
+"請求的解析度超過了您的 GPU 的 GL_MAX_VIEWPORT_DIMS 的限制，因此無法與 OpenGL "
+"相容。<br>XRender 不會去理會這個限制，不過通常它的效能會因為硬體對 OpenGL 檢"
+"視埠大小的限制而不太理想。"
+
+#: scene_opengl.cpp:761
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+"the current resolution are supported but might be exceptionally slow."
+"<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
+"compositing, switch to the XRender backend or lower the resolution to %1x%1."
+msgstr ""
+"<h1>OpenGL 桌面效果可能無法使用</h1>目前的解析度可以使用 OpenGL 桌面效果，但"
+"可能會非常慢。<br>此外大的視窗也會變整片黑。<br><br>請考慮暫停組合，切到 "
+"XRender 後端介面，或是將解析度降到 %1x%1。"
+
+#: scene_opengl.cpp:767
+msgid ""
+"The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+"GPU, thus windows of that size cannot be assigned to textures and will be "
+"entirely black.<br>Also this limit will often be a performance level barrier "
+"despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+"software rendering in this case."
+msgstr ""
+"請求的解析度超過了您的 GPU 的 GL_MAX_TEXTURE_SIZE 的限制，因此此大小的視窗會"
+"整個黑掉。<br>另外，此限制通常也是個效能的障礙，即使低於 "
+"GL_MAX_VIEWPORT_DIMS，因為驅動程式可能會在這種狀況下改用軟體成像。"
+
+#: scripting/genericscriptedconfig.cpp:81
+msgctxt "Error message"
+msgid "Plugin does not provide configuration file in expected location"
+msgstr ""
+
+#: scripting/scripting.cpp:127
+#, kde-format
+msgctxt "Assertion failed in KWin script with given value"
+msgid "Assertion failed: %1 is not null"
+msgstr ""
+
+#: scripting/scripting.cpp:145
+msgctxt "Assertion failed in KWin script"
+msgid "Assertion failed: argument is null"
+msgstr ""
+
+#: scripting/scripting.cpp:172
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid number of arguments. At least service, path, interface and method "
+"need to be provided"
+msgstr ""
+
+#: scripting/scripting.cpp:178
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid type. Service, path, interface and method need to be string values"
+msgstr ""
+
+#: scripting/scriptingutils.cpp:28
+msgctxt "syntax error in KWin script"
+msgid "Invalid number of arguments"
+msgstr ""
+
+#: scripting/scriptingutils.cpp:41
+#, kde-format
+msgctxt "KWin Scripting function received incorrect value for an expected type"
+msgid "%1 is not a variant type"
+msgstr ""
+
+#: tabbox/tabbox.cpp:348
+msgctxt "Special entry in alt+tab list for minimizing all windows"
+msgid "Show Desktop"
+msgstr "顯示桌面"
+
+#: tabbox/tabbox.cpp:499
+msgid "Walk Through Windows"
+msgstr "瀏覽已開啟視窗"
+
+#: tabbox/tabbox.cpp:500
+msgid "Walk Through Windows (Reverse)"
+msgstr "瀏覽已開啟視窗 (反向)"
+
+#: tabbox/tabbox.cpp:501
+msgid "Walk Through Windows Alternative"
+msgstr "瀏覽已開啟視窗（替代按鍵）"
+
+#: tabbox/tabbox.cpp:502
+msgid "Walk Through Windows Alternative (Reverse)"
+msgstr "瀏覽已開啟視窗（替代按鍵/反向）"
+
+#: tabbox/tabbox.cpp:503
+msgid "Walk Through Windows of Current Application"
+msgstr "瀏覽目前應用程式的視窗"
+
+#: tabbox/tabbox.cpp:504
+msgid "Walk Through Windows of Current Application (Reverse)"
+msgstr "瀏覽目前應用程式的視窗（反向）"
+
+#: tabbox/tabbox.cpp:505
+msgid "Walk Through Windows of Current Application Alternative"
+msgstr "瀏覽目前應用程式視窗（替代按鍵）"
+
+#: tabbox/tabbox.cpp:506
+msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+msgstr "瀏覽目前應用程式視窗（替代按鍵/反向）"
+
+#: tabbox/tabbox.cpp:507
+msgid "Walk Through Desktops"
+msgstr "瀏覽所有桌面"
+
+#: tabbox/tabbox.cpp:508
+msgid "Walk Through Desktops (Reverse)"
+msgstr "瀏覽所有桌面 (反向)"
+
+#: tabbox/tabbox.cpp:509
+msgid "Walk Through Desktop List"
+msgstr "瀏覽桌面清單項目"
+
+#: tabbox/tabbox.cpp:510
+msgid "Walk Through Desktop List (Reverse)"
+msgstr "瀏覽桌面清單項目（反向）"
+
+#: tabbox/tabboxhandler.cpp:272
+msgid ""
+"The Window Switcher installation is broken, resources are missing.\n"
+"Contact your distribution about this."
+msgstr ""
+"視窗切換器安裝不完整，找不到某些資源。\n"
+"請聯繫您的套件商。"
+
+#: useractions.cpp:186
+#, kde-format
+msgid ""
+"You have selected to show a window without its border.\n"
+"Without the border, you will not be able to enable the border again using "
+"the mouse: use the window operations menu instead, activated using the %1 "
+"keyboard shortcut."
+msgstr ""
+"您已經選擇顯示無邊框的視窗。\n"
+"沒有邊框，您將無法使用滑鼠讓邊框再次出現：要使用視窗操作選單來代替，使用 %1 "
+"鍵盤捷徑來作用它。"
+
+#: useractions.cpp:194
+#, kde-format
+msgid ""
+"You have selected to show a window in fullscreen mode.\n"
+"If the application itself does not have an option to turn the fullscreen "
+"mode off you will not be able to disable it again using the mouse: use the "
+"window operations menu instead, activated using the %1 keyboard shortcut."
+msgstr ""
+"您已經選擇要視窗以全螢幕模式顯示。\n"
+"如果該應用程式本身沒有關閉全螢幕模式的選項，您將無法使用滑鼠將其關閉：要使用"
+"視窗操作選單來代替，使用 %1 鍵盤捷徑來作用它。"
+
+#: useractions.cpp:259
+msgid "&Move"
+msgstr "移動(&M)"
+
+#: useractions.cpp:264
+msgid "Re&size"
+msgstr "重新調整大小(&S)"
+
+#: useractions.cpp:268
+msgid "Keep &Above Others"
+msgstr "置於最上層(&A)"
+
+#: useractions.cpp:274
+msgid "Keep &Below Others"
+msgstr "置於最下層(&B)"
+
+#: useractions.cpp:280
+msgid "&Fullscreen"
+msgstr "全螢幕(&F)"
+
+#: useractions.cpp:286
+msgid "Sh&ade"
+msgstr "遮蔽(&A)"
+
+#: useractions.cpp:291
+msgid "&No Border"
+msgstr "沒有邊框(&N)"
+
+#: useractions.cpp:298
+msgid "Window &Shortcut..."
+msgstr "視窗捷徑鍵(&S)..."
+
+#: useractions.cpp:303
+msgid "&Special Window Settings..."
+msgstr "特殊的視窗設定(&S)..."
+
+#: useractions.cpp:307
+msgid "S&pecial Application Settings..."
+msgstr "特殊的應用程式設定(&P)..."
+
+#: useractions.cpp:314
+msgctxt ""
+"Entry in context menu of window decoration to open the configuration module "
+"of KWin"
+msgid "Window &Manager Settings..."
+msgstr "視窗管理員設定(&M)..."
+
+#: useractions.cpp:329
+msgid "Mi&nimize"
+msgstr "最小化(&N)"
+
+#: useractions.cpp:333
+msgid "Ma&ximize"
+msgstr "最大化(&X)"
+
+#: useractions.cpp:342
+msgid "&Untab"
+msgstr "取消分頁(&U)"
+
+#: useractions.cpp:346
+msgid "Close Entire &Group"
+msgstr "關閉整個群組(&G)"
+
+#: useractions.cpp:357
+msgid "&More Actions"
+msgstr "更多動作(&M)"
+
+#: useractions.cpp:361
+msgid "&Close"
+msgstr "關閉(&C)"
+
+#: useractions.cpp:434
+msgid "&Extensions"
+msgstr "延伸功能(&E)"
+
+#: useractions.cpp:489
+msgctxt "Switch to tab -> Previous"
+msgid "Previous"
+msgstr "前一個"
+
+#: useractions.cpp:490
+msgctxt "Switch to tab -> Next"
+msgid "Next"
+msgstr "下一個"
+
+#: useractions.cpp:528
+msgctxt "There's no window available to be attached as tab to this one"
+msgid "None available"
+msgstr "沒有可使用的"
+
+#: useractions.cpp:537
+msgid "Switch to Tab"
+msgstr "切換到分頁"
+
+#: useractions.cpp:548
+msgid "&Attach as tab to"
+msgstr "以分頁附加到(&A)"
+
+#: useractions.cpp:571
+msgid "Move To &Desktop"
+msgstr "移動到桌面(&D)"
+
+#: useractions.cpp:587
+msgid "Move To &Screen"
+msgstr "移動到螢幕(&S)"
+
+#: useractions.cpp:602
+msgid "Ac&tivities"
+msgstr "活動(&T)"
+
+#: useractions.cpp:614
+msgid "&All Desktops"
+msgstr "所有的桌面(&A)"
+
+#: useractions.cpp:640
+msgctxt "Create a new desktop and move there the window"
+msgid "&New Desktop"
+msgstr "新增桌面(&N)"
+
+#: useractions.cpp:661
+#, kde-format
+msgctxt "@item:inmenu List of all Screens to send a window to"
+msgid "Screen &%1"
+msgstr "螢幕 %1 (&%1)"
+
+#: useractions.cpp:679
+msgid "&All Activities"
+msgstr "所有的活動(&A)"
+
+#: useractions.cpp:884
+#, kde-format
+msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
+msgid "<b>%1</b> is already in use"
+msgstr "<b>%1</b> 已被使用"
+
+#: useractions.cpp:886
+#, kde-format
+msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
+msgid "<b>%1</b> is used by %2 in %3"
+msgstr "<b>%1</b> 已被 %2 於 %3 使用"
+
+#: useractions.cpp:1009
+#, kde-format
+msgid "Activate Window (%1)"
+msgstr "作用中視窗（%1）"
+
+#: useractions.cpp:1382
+msgid ""
+"The window manager is configured to consider the screen with the mouse on it "
+"as active one.\n"
+"Therefore it is not possible to switch to a screen explicitly."
+msgstr ""
+"視窗管理員已設定為認定滑鼠指標所在的螢幕為作用中的螢幕。\n"
+"因此無法由外部切換。"
+
+#: virtualdesktops.cpp:334 virtualdesktops.cpp:396
+#, kde-format
+msgid "Desktop %1"
+msgstr "桌面 %1"
+
+#: virtualdesktops.cpp:427
+msgid "Switch to Next Desktop"
+msgstr "切換到下一個桌面"
+
+#: virtualdesktops.cpp:428
+msgid "Switch to Previous Desktop"
+msgstr "切換到上一個桌面"
+
+#: virtualdesktops.cpp:429
+msgid "Switch One Desktop to the Right"
+msgstr "往右移動一個桌面"
+
+#: virtualdesktops.cpp:430
+msgid "Switch One Desktop to the Left"
+msgstr "往左移動一個桌面"
+
+#: virtualdesktops.cpp:431
+msgid "Switch One Desktop Up"
+msgstr "切換到上面的桌面"
+
+#: virtualdesktops.cpp:432
+msgid "Switch One Desktop Down"
+msgstr "切換到下面的桌面"
+
+#: virtualdesktops.cpp:444
+#, kde-format
+msgid "Switch to Desktop %1"
+msgstr "切換到桌面 %1"
+
+#: workspace.cpp:1340
+msgctxt "Introductory text shown in the support information."
+msgid ""
+"KWin Support Information:\n"
+"The following information should be used when requesting support on e.g. "
+"http://forum.kde.org.\n"
+"It provides information about the currently running instance, which options "
+"are used,\n"
+"what OpenGL driver and which effects are running.\n"
+"Please post the information provided underneath this introductory text to a "
+"paste bin service\n"
+"like http://paste.kde.org instead of pasting into support threads.\n"
+msgstr ""
+"KWin 支援資訊：\n"
+"以下的資訊在您到，好比說，http://forum.kde.org 上請求支援時必須提供出來：\n"
+"包括您目前正在執行哪些實體，使用的選項，使用哪一個 OpenGL 驅動程式，以及正在"
+"執行哪些特效。\n"
+"請將這些資訊寫在這段介紹文字下面，送到 paste bin 服務，如 http://paste.kde."
+"org 而不是貼到支援討論串中。\n"

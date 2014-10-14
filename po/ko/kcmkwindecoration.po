@@ -1,0 +1,340 @@
+# Translation of kcmkwindecoration to Korean.
+# Copyright (C) 2001, 2007 Free Software Foundation, Inc.
+#
+# KIM KyungHeon <tody@teoal.net>, 2001.
+# Park Shinjo <peremen@gmail.com>, 2007, 2008, 2009, 2010, 2012, 2013, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: kcmkwindecoration\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-06-11 07:50+0000\n"
+"PO-Revision-Date: 2014-03-16 15:00+0900\n"
+"Last-Translator: Park Shinjo <peremen@gmail.com>\n"
+"Language-Team: Korean <kde@peremen.name>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Park Shinjo"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "kde@peremen.name"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: auroraeconfig.ui:23
+msgid "Border size:"
+msgstr "경계 크기:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:34 configdialog.cpp:36
+msgctxt "@item:inlistbox Border size:"
+msgid "Tiny"
+msgstr "작게"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:39 configdialog.cpp:37
+msgctxt "@item:inlistbox Border size:"
+msgid "Normal"
+msgstr "보통"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:44 configdialog.cpp:38
+msgctxt "@item:inlistbox Border size:"
+msgid "Large"
+msgstr "크게"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:49 configdialog.cpp:39
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Large"
+msgstr "매우 크게"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:54 configdialog.cpp:40
+msgctxt "@item:inlistbox Border size:"
+msgid "Huge"
+msgstr "매우 매우 크게"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:59 configdialog.cpp:41
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Huge"
+msgstr "매우 매우 매우 크게"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:64 configdialog.cpp:42
+msgctxt "@item:inlistbox Border size:"
+msgid "Oversized"
+msgstr "과다하게 크게"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: auroraeconfig.ui:72
+msgid "Button size:"
+msgstr "단추 크기:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:83
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "작게"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:88
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "보통"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:93
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "크게"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:98
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "매우 크게"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:103
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "매우 매우 크게"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:108
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "매우 매우 매우 크게"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:113
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "과다하게 크게"
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
+#: auroraeconfig.ui:126
+msgid "Close windows by double clicking the menu button"
+msgstr "메뉴 단추를 두 번 눌러서 창 닫기"
+
+#: buttons.cpp:620
+msgid "KDE"
+msgstr "KDE"
+
+#: buttons.cpp:649
+#, kde-format
+msgid "%1 (unavailable)"
+msgstr "%1 (사용 불가능)"
+
+#: buttons.cpp:672
+msgid ""
+"To add or remove titlebar buttons, simply <i>drag</i> items between the "
+"available item list and the titlebar preview. Similarly, drag items within "
+"the titlebar preview to re-position them."
+msgstr ""
+"제목 표시줄 단추를 추가하거나 삭제하려면 항목을 목록에서 <i>드래그</i>해서 제"
+"목 표시줄 미리보기에 놓으십시오. 제목 표시줄 미리보기 안에서 항목을 드래그하"
+"면 순서를 바꿀 수 있습니다."
+
+#: buttons.cpp:728
+msgid "Resize"
+msgstr "크기 조정"
+
+#: buttons.cpp:733
+msgid "Shade"
+msgstr "말아 올리기"
+
+#: buttons.cpp:738
+msgid "Keep Below Others"
+msgstr "항상 아래"
+
+#: buttons.cpp:743
+msgid "Keep Above Others"
+msgstr "항상 위"
+
+#: buttons.cpp:748
+msgid "Close"
+msgstr "닫기"
+
+#: buttons.cpp:753
+msgid "Maximize"
+msgstr "최대화"
+
+#: buttons.cpp:758
+msgid "Minimize"
+msgstr "최소화"
+
+#: buttons.cpp:763
+msgid "Help"
+msgstr "도움말"
+
+#: buttons.cpp:768
+msgid "On All Desktops"
+msgstr "모든 데스크톱에 표시"
+
+#: buttons.cpp:773
+msgctxt "Button showing window actions menu"
+msgid "Window Menu"
+msgstr "창 메뉴"
+
+#: buttons.cpp:779
+msgctxt "Button showing application menu imported from dbusmenu"
+msgid "Application Menu"
+msgstr "프로그램 메뉴"
+
+#: buttons.cpp:785
+msgid "--- spacer ---"
+msgstr "--- 구분자 ---"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:20
+msgid ""
+"Enabling this checkbox will show window button tooltips. If this checkbox is "
+"off, no window button tooltips will be shown."
+msgstr ""
+"이 체크 상자를 선택하면 창 단추의 풍선 도움말을 표시합니다. 선택되어 있지 않"
+"으면, 창 단추의 풍선 도움말은 표시되지 않습니다."
+
+#. i18n: ectx: property (text), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:23
+msgid "&Show window button tooltips"
+msgstr "창 단추의 풍선 도움말 보기(&S)"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:30
+msgid "Please note that this option is not available on all styles yet."
+msgstr "이 옵션은 모든 스타일에서 사용할 수 없습니다."
+
+#. i18n: ectx: property (text), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:33
+msgid "Use custom titlebar button &positions"
+msgstr "사용자 정의 제목 표시줄 단추 위치 사용하기(&P)"
+
+#: buttonsconfigdialog.cpp:44
+msgid "Buttons"
+msgstr "단추"
+
+#. i18n: ectx: property (text), widget (QLabel, borderLabel)
+#: config.ui:19
+msgid "B&order size:"
+msgstr "경계 크기(&O):"
+
+#. i18n: ectx: property (whatsThis), widget (KComboBox, bordersCombo)
+#: config.ui:29
+msgid "Use this combobox to change the border size of the decoration."
+msgstr "이 콤보 상자를 사용하여 창 장식의 경계 크기를 변경하십시오."
+
+#: configdialog.cpp:43
+msgctxt "@item:inlistbox Border size:"
+msgid "No Side Border"
+msgstr "옆쪽 경계선 없음"
+
+#: configdialog.cpp:44
+msgctxt "@item:inlistbox Border size:"
+msgid "No Border"
+msgstr "경계선 없음"
+
+#: configdialog.cpp:81 kwindecoration.cpp:375
+msgid "Decoration Options"
+msgstr "장식 설정"
+
+#. i18n: ectx: property (clickMessage), widget (KLineEdit, searchEdit)
+#: decoration.ui:17
+msgid "Search"
+msgstr "찾기"
+
+#. i18n: ectx: property (whatsThis), widget (QScrollArea, decorationList)
+#: decoration.ui:27
+msgid ""
+"Select the window decoration. This is the look and feel of both the window "
+"borders and the window handle."
+msgstr "창 장식을 선택하십시오. 창 테두리와 핸들의 모양을 결정합니다."
+
+#. i18n: ectx: property (text), widget (QPushButton, configureDecorationButton)
+#: decoration.ui:58
+msgid "Configure Decoration..."
+msgstr "창 장식 설정..."
+
+#. i18n: ectx: property (text), widget (QPushButton, configureButtonsButton)
+#: decoration.ui:65
+msgid "Configure Buttons..."
+msgstr "단추 설정..."
+
+#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
+#: decoration.ui:72
+msgid "Get New Decorations..."
+msgstr "새 장식 가져오기..."
+
+#: kwindecoration.cpp:99
+msgid "Window Decoration Control Module"
+msgstr "창 장식 제어 모듈"
+
+#: kwindecoration.cpp:101
+msgid "(c) 2001 Karol Szwed"
+msgstr "(c) 2001 Karol Szwed"
+
+#: kwindecoration.cpp:102
+msgid "Karol Szwed"
+msgstr "Karol Szwed"
+
+#: kwindecoration.cpp:127
+msgid ""
+"<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main.qml</"
+"h2>could not be located in any application data path.<h2>Please contact your "
+"distribution</h2>The application will now abort"
+msgstr ""
+"<h1>설치 오류</h1>자원 <h2>kwin/kcm_kwindecoration/main.qml</h2>을 프로그램 "
+"데이터 경로에서 찾을 수 없습니다.<h2>배포판 관리자에게 연락하십시오.</h2> 프"
+"로그램을 종료합니다"
+
+#: kwindecoration.cpp:130
+msgid "Installation Error"
+msgstr "설치 오류"
+
+#: kwindecoration.cpp:301
+msgid "Oxygen"
+msgstr "Oxygen"
+
+#: kwindecoration.cpp:314
+msgid ""
+"<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+"window border decorations, as well as titlebar button positions and custom "
+"decoration options.</p>To choose a theme for your window decoration click on "
+"its name and apply your choice by clicking the \"Apply\" button below. If "
+"you do not want to apply your choice you can click the \"Reset\" button to "
+"discard your changes.<p>You can configure each theme. There are different "
+"options specific for each theme.</p><p>On the \"Buttons\" tab check the "
+"\"Use custom titlebar button positions\" box and you can change the "
+"positions of the buttons to your liking.</p>"
+msgstr ""
+"<h1>창 관리자 장식</h1><p>이 모듈에서 창 경계 장식이나 제목 표시줄 단추 위"
+"치, 사용자 정의 장식 설정을 선택할 수 있습니다.</p>창 장식에 사용할 테마의 이"
+"름을 선택하시고 아래의 \"적용\" 단추를 눌러서 적용시키십시오. 만약 변경 사항"
+"이 마음에 들지 않으시면 \"초기화\" 단추를 누르십시오.<p>각각의 테마를 "
+"\"[...] 설정\" 탭에서 설정하십 수도 있습니다. 각각 테마마다의 다른 옵션이 있"
+"습니다.</p><p>\"일반 옵션(사용 가능하다면)\" 탭에서는 \"사용자 정의 창 제목 "
+"표시줄 단추 위치 사용\" 상자에 체크해서 \"단추\" 탭을 사용할 수 있습니다. "
+"\"단추\" 탭에서는 단추의 위치를 좋아하는 대로 바꿀 수 있습니다.</p>"
+
+#: kwindecoration.cpp:389
+msgid ""
+"Close by double clicking:\n"
+" To open the menu, keep the button pressed until it appears."
+msgstr ""
+"두 번 눌러서 닫기:\n"
+" 메뉴를 열려면 메뉴가 나타날 때까지 단추를 누르십시오."
+
+#: preview.cpp:373
+msgid "Active Window"
+msgstr "활성 창"
+
+#: preview.cpp:373
+msgid "Inactive Window"
+msgstr "비활성 창"

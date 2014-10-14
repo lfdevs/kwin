@@ -1,0 +1,229 @@
+# Translation of kcm_kwindesktop.po to Catalan
+# Copyright (C) 2007-2014 This_file_is_part_of_KDE
+# This file is distributed under the license LGPL version 2.1 or
+# version 3 or later versions approved by the membership of KDE e.V.
+#
+# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2009, 2010, 2013, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: kcm_kwindesktop\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-07-04 08:25+0000\n"
+"PO-Revision-Date: 2014-05-01 12:46+0200\n"
+"Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
+"Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.4\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Accelerator-Marker: &\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Josep Ma. Ferrer"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "txemaq@gmail.com"
+
+#: desktopnameswidget.cpp:67
+#, kde-format
+msgid "Desktop %1:"
+msgstr "Escriptori %1:"
+
+#: desktopnameswidget.cpp:69 desktopnameswidget.cpp:70
+#, kde-format
+msgid "Here you can enter the name for desktop %1"
+msgstr "Aquí podeu introduir el nom per a l'escriptori %1"
+
+#: desktopnameswidget.cpp:108 main.cpp:226
+#, kde-format
+msgid "Desktop %1"
+msgstr "Escriptori %1"
+
+#: main.cpp:87
+msgid ""
+"<h1>Multiple Desktops</h1>In this module, you can configure how many virtual "
+"desktops you want and how these should be labeled."
+msgstr ""
+"<h1>Escriptoris múltiples</h1>En aquest mòdul podeu configurar quants "
+"escriptoris virtuals voleu i com s'han d'anomenar."
+
+#: main.cpp:99
+msgid "Switch to Next Desktop"
+msgstr "Canvia a l'escriptori següent"
+
+#: main.cpp:100
+msgid "Switch to Previous Desktop"
+msgstr "Canvia a l'escriptori anterior"
+
+#: main.cpp:101
+msgid "Switch One Desktop to the Right"
+msgstr "Canvia un escriptori a la dreta"
+
+#: main.cpp:102
+msgid "Switch One Desktop to the Left"
+msgstr "Canvia un escriptori a l'esquerra"
+
+#: main.cpp:103
+msgid "Switch One Desktop Up"
+msgstr "Canvia un escriptori amunt"
+
+#: main.cpp:104
+msgid "Switch One Desktop Down"
+msgstr "Canvia un escriptori avall"
+
+#: main.cpp:105
+msgid "Walk Through Desktops"
+msgstr "Recorre els escriptoris"
+
+#: main.cpp:106
+msgid "Walk Through Desktops (Reverse)"
+msgstr "Recorre els escriptoris (a la inversa)"
+
+#: main.cpp:107
+msgid "Walk Through Desktop List"
+msgstr "Recorre la llista d'escriptoris"
+
+#: main.cpp:108
+msgid "Walk Through Desktop List (Reverse)"
+msgstr "Recorre la llista d'escriptoris (a la inversa)"
+
+#: main.cpp:110 main.cpp:144 main.cpp:509 main.cpp:510
+msgid "Desktop Switching"
+msgstr "Canvi d'escriptori"
+
+#: main.cpp:122 main.cpp:489
+#, kde-format
+msgid "Switch to Desktop %1"
+msgstr "Canvia a l'escriptori %1"
+
+#: main.cpp:154
+msgid "No Animation"
+msgstr "Sense animació"
+
+#: main.cpp:493
+#, kde-format
+msgid "No suitable Shortcut for Desktop %1 found"
+msgstr "No s'ha trobat cap drecera adequada per a l'escriptori %1"
+
+#: main.cpp:499
+#, kde-format
+msgid "Assigned global Shortcut \"%1\" to Desktop %2"
+msgstr "S'ha assignat la drecera global «%1» a l'escriptori %2"
+
+#: main.cpp:502
+#, kde-format
+msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
+msgstr ""
+"Conflicte de drecera: no s'ha pogut definir la drecera %1 per a l'escriptori "
+"%2"
+
+#: main.cpp:604
+msgid "KWin development team"
+msgstr "Equip de desenvolupament del KWin"
+
+#. i18n: ectx: attribute (title), widget (QWidget, desktop)
+#: main.ui:33
+msgid "Desktops"
+msgstr "Escriptoris"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: main.ui:39
+msgid "Layout"
+msgstr "Disposició"
+
+#. i18n: ectx: property (whatsThis), widget (QLabel, numberLabel)
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, numberSpinBox)
+#: main.ui:51 main.ui:64
+msgid ""
+"Here you can set how many virtual desktops you want on your KDE desktop."
+msgstr ""
+"Aquí podeu establir quants escriptoris virtuals voleu a l'escriptori KDE."
+
+#. i18n: ectx: property (text), widget (QLabel, numberLabel)
+#: main.ui:54
+msgid "&Number of desktops:"
+msgstr "&Nombre d'escriptoris:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: main.ui:83
+msgid "N&umber of rows:"
+msgstr "N&ombre de files:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
+#: main.ui:103
+msgid "Desktop Names"
+msgstr "Noms dels escriptoris"
+
+#. i18n: ectx: attribute (title), widget (QWidget, switching)
+#: main.ui:136
+msgid "Switching"
+msgstr "Canvi"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, wrapAroundBox)
+#: main.ui:142
+msgid ""
+"Enable this option if you want keyboard or active desktop border navigation "
+"beyond the edge of a desktop to take you to the opposite edge of the new "
+"desktop."
+msgstr ""
+"Habiliteu aquesta opció si voleu que la navegació de teclat o vores actives "
+"de l'escriptori més enllà de la vora de l'escriptori us porti a la vora "
+"oposada de l'escriptori nou."
+
+#. i18n: ectx: property (text), widget (QCheckBox, wrapAroundBox)
+#: main.ui:145
+msgid "Desktop navigation wraps around"
+msgstr "La navegació a l'escriptori dóna la volta"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: main.ui:152
+msgid "Desktop Effect Animation"
+msgstr "Animació d'efecte d'escriptori"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: main.ui:164
+msgid "Animation:"
+msgstr "Animació:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, popupInfoCheckBox)
+#: main.ui:204
+msgid "Desktop Switch On-Screen Display"
+msgstr "Visor en pantalla del canvi d'escriptori"
+
+#. i18n: ectx: property (text), widget (QLabel, hideLabel)
+#: main.ui:222
+msgid "Duration:"
+msgstr "Durada:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, popupHideSpinBox)
+#: main.ui:232
+msgid " msec"
+msgstr " ms"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
+#: main.ui:245
+msgid ""
+"Enabling this option will show a small preview of the desktop layout "
+"indicating the selected desktop."
+msgstr ""
+"Activant aquesta opció es mostrarà una petita vista prèvia de la disposició "
+"de l'escriptori, indicant l'escriptori seleccionat."
+
+#. i18n: ectx: property (text), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
+#: main.ui:248
+msgid "Show desktop layout indicators"
+msgstr "Mostra les indicacions de disposició d'escriptori"
+
+#. i18n: ectx: property (title), widget (QGroupBox, shortcutsGroupBox)
+#: main.ui:258
+msgid "Shortcuts"
+msgstr "Dreceres"
+
+#. i18n: ectx: property (text), widget (QCheckBox, allShortcutsCheckBox)
+#: main.ui:277
+msgid "Show shortcuts for all possible desktops"
+msgstr "Mostra les dreceres per a tots els escriptoris possibles"

@@ -1,0 +1,19 @@
+if (XCB_ICCCM_FOUND)
+    set(normalhintsbasesizetest_SRCS normalhintsbasesizetest.cpp)
+    add_executable(normalhintsbasesizetest ${normalhintsbasesizetest_SRCS})
+    target_link_libraries(normalhintsbasesizetest XCB::XCB XCB::ICCCM KF5::WindowSystem)
+endif()
+
+# next target
+set(screenedgeshowtest_SRCS screenedgeshowtest.cpp)
+add_executable(screenedgeshowtest ${screenedgeshowtest_SRCS})
+target_link_libraries(screenedgeshowtest Qt5::Widgets Qt5::X11Extras KF5::WindowSystem ${XCB_XCB_LIBRARY})
+
+if (Wayland_Client_FOUND AND XKB_FOUND AND KF5Wayland_FOUND)
+    add_definitions(-DSOURCE_DIR="${KWIN_SOURCE_DIR}")
+    set(waylandclienttest_SRCS
+            waylandclienttest.cpp
+       )
+    add_executable(waylandclienttest ${waylandclienttest_SRCS})
+    target_link_libraries(waylandclienttest Qt5::Core Qt5::Gui Wayland::Client KF5::WaylandClient)
+endif()

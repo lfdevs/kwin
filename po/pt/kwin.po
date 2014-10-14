@@ -1,0 +1,894 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"PO-Revision-Date: 2013-12-13 09:47+0000\n"
+"Last-Translator: Pedro Morais <morais@kde.org>\n"
+"Language-Team: pt <kde-i18n-pt@kde.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Spell-Extra: kde KWin kwin org\n"
+"X-POFile-SpellExtra: KWin kwin ICCCM replace Enable Option Composite\n"
+"X-POFile-SpellExtra: Section Damage Cim Extensions XOrg XFixes EndSection\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-POFile-SpellExtra: Tibirna Matthias ClearMouseMarks Duley Luňák Luboš\n"
+"X-POFile-SpellExtra: Ettrich Cristian XComposite XDamage Xorg XRender GLX\n"
+"X-POFile-SpellExtra: reactivá Gräßlin GPU GLMAXTEXTURESIZE\n"
+"X-POFile-SpellExtra: GLMAXVIEWPORTDIMS OnlyCurrentDesktopClients\n"
+"X-POFile-SpellExtra: OnlyCurrentActivityClients FocusChainSwitching\n"
+"X-POFile-SpellExtra: IgnoreMultiScreen IgnoreMinimizedStatus TabBoxClient\n"
+"X-POFile-SpellExtra: TabBoxClients AllWindowsAllApplications\n"
+"X-POFile-SpellExtra: TabBoxClientModel ecrão DoNotShowDesktopClient name\n"
+"X-POFile-SpellExtra: hostname pid caption time id\n"
+"X-POFile-IgnoreConsistency: name\n"
+"X-POFile-IgnoreConsistency: time\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Pedro Morais"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "morais@kde.org"
+
+#: composite.cpp:500
+#, kde-format
+msgid ""
+"Desktop effects have been suspended by another application.<br/>You can "
+"resume using the '%1' shortcut."
+msgstr ""
+"Os efeitos do ecrã foram suspensos por outra aplicação.<br/>Poderá "
+"prosseguir com eles, usando a combinação de teclas '%1'."
+
+#: compositingprefs.cpp:98
+msgid ""
+"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
+"b><br>This was most likely due to a driver bug.<p>If you think that you have "
+"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
+"<b>be aware that this might result in an immediate crash!</b></"
+"p><p>Alternatively, you might want to use the XRender backend instead.</p>"
+msgstr ""
+"<b>A composição OpenGL (por omissão) fez o KWin estoirar no passado.</"
+"b><br>Isto foi devido provavelmente a um erro no controlador gráfico.<p>Se "
+"acha que entretanto actualizou para um controlador mais estável,<br>poderá "
+"repor esta protecção mas <b>tenha atenção que isto poderá resultar num "
+"estoiro imediato!</b></p><p>Em alternativa, poderá querer usar a infra-"
+"estrutura do XRender.</p>"
+
+#: compositingprefs.cpp:105
+msgid "Required X extensions (XComposite and XDamage) are not available."
+msgstr ""
+"As extensões do X necessárias (XComposite e XDamage) não estão disponíveis."
+
+#: compositingprefs.cpp:109
+msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
+msgstr ""
+"O GLX/OpenGL não está disponível e apenas está compilado o suporte para o "
+"OpenGL."
+
+#: compositingprefs.cpp:113
+msgid "GLX/OpenGL and XRender/XFixes are not available."
+msgstr "O GLX/OpenGL e o XRender/XFixes não estão disponíveis."
+
+#: decorations.cpp:59
+msgid "KWin: "
+msgstr "KWin: "
+
+#: killer/killer.cpp:44
+msgid "Window Manager"
+msgstr "Gestor de Janelas"
+
+#: killer/killer.cpp:49
+msgid "PID of the application to terminate"
+msgstr "O PID da aplicação a terminar"
+
+#: killer/killer.cpp:49
+msgid "pid"
+msgstr "pid"
+
+#: killer/killer.cpp:51
+msgid "Hostname on which the application is running"
+msgstr "O nome da máquina onde a aplicação está a correr"
+
+#: killer/killer.cpp:51
+msgid "hostname"
+msgstr "hostname"
+
+#: killer/killer.cpp:53
+msgid "Caption of the window to be terminated"
+msgstr "O título da janela a terminar"
+
+#: killer/killer.cpp:53
+msgid "caption"
+msgstr "caption"
+
+#: killer/killer.cpp:55
+msgid "Name of the application to be terminated"
+msgstr "O nome da aplicação a terminar"
+
+#: killer/killer.cpp:55
+msgid "name"
+msgstr "name"
+
+#: killer/killer.cpp:57
+msgid "ID of resource belonging to the application"
+msgstr "O ID do recurso que pertence à aplicação"
+
+#: killer/killer.cpp:57
+msgid "id"
+msgstr "id"
+
+#: killer/killer.cpp:59
+msgid "Time of user action causing termination"
+msgstr "A hora da acção do utilizador que provocou o encerramento"
+
+#: killer/killer.cpp:59
+msgid "time"
+msgstr "time"
+
+#: killer/killer.cpp:61
+msgid "KWin helper utility"
+msgstr "Utilitário do KWin"
+
+#: killer/killer.cpp:85
+msgid "This helper utility is not supposed to be called directly."
+msgstr ""
+"Este utilitário auxiliar não foi concebido para ser chamado directamente."
+
+#: killer/killer.cpp:95
+#, kde-format
+msgctxt "@info"
+msgid "<b>Application \"%1\" is not responding</b>"
+msgstr "<b>A aplicação \"%1\" não está a responder</b>"
+
+#: killer/killer.cpp:106
+#, kde-format
+msgid "&Terminate Application %1"
+msgstr "&Terminar a Aplicação %1"
+
+#: killer/killer.cpp:107
+msgid "Wait Longer"
+msgstr "Esperar um Pouco"
+
+#: kwinbindings.cpp:40
+msgid "Walk Through Window Tabs"
+msgstr "Percorrer as Páginas da Janela"
+
+#: kwinbindings.cpp:41
+msgid "Walk Through Window Tabs (Reverse)"
+msgstr "Percorrer as Páginas da Janela (Sentido Inverso)"
+
+#: kwinbindings.cpp:42
+msgid "Remove Window From Group"
+msgstr "Remover a Janela do Grupo"
+
+#: kwinbindings.cpp:44
+msgid "Window Operations Menu"
+msgstr "Menu de Operações da Janela"
+
+#: kwinbindings.cpp:46
+msgid "Close Window"
+msgstr "Fechar a Janela"
+
+#: kwinbindings.cpp:48
+msgid "Maximize Window"
+msgstr "Maximizar a Janela"
+
+#: kwinbindings.cpp:50
+msgid "Maximize Window Vertically"
+msgstr "Maximizar Verticalmente a Janela"
+
+#: kwinbindings.cpp:52
+msgid "Maximize Window Horizontally"
+msgstr "Maximizar Horizontalmente a Janela"
+
+#: kwinbindings.cpp:54
+msgid "Minimize Window"
+msgstr "Minimizar a Janela"
+
+#: kwinbindings.cpp:56
+msgid "Shade Window"
+msgstr "Enrolar a Janela"
+
+#: kwinbindings.cpp:58
+msgid "Move Window"
+msgstr "Mover a Janela"
+
+#: kwinbindings.cpp:60
+msgid "Resize Window"
+msgstr "Redimensionar a Janela"
+
+#: kwinbindings.cpp:62
+msgid "Raise Window"
+msgstr "Elevar a Janela"
+
+#: kwinbindings.cpp:64
+msgid "Lower Window"
+msgstr "Baixar a Janela"
+
+#: kwinbindings.cpp:66
+msgid "Toggle Window Raise/Lower"
+msgstr "Elevar/Baixar a Janela"
+
+#: kwinbindings.cpp:68
+msgid "Make Window Fullscreen"
+msgstr "Janela a Ocupar Todo o Ecrã"
+
+#: kwinbindings.cpp:70
+msgid "Hide Window Border"
+msgstr "Esconder o Contorno da Janela"
+
+#: kwinbindings.cpp:72
+msgid "Keep Window Above Others"
+msgstr "Manter a Janela Acima das Outras"
+
+#: kwinbindings.cpp:74
+msgid "Keep Window Below Others"
+msgstr "Manter a Janela Debaixo das Outras"
+
+#: kwinbindings.cpp:76
+msgid "Activate Window Demanding Attention"
+msgstr "Activar a Janela que Necessita de Atenção"
+
+#: kwinbindings.cpp:78
+msgid "Setup Window Shortcut"
+msgstr "Configurar o Atalho da Janela"
+
+#: kwinbindings.cpp:80
+msgid "Pack Window to the Right"
+msgstr "Encostar a Janela à Direita"
+
+#: kwinbindings.cpp:82
+msgid "Pack Window to the Left"
+msgstr "Encostar a Janela à Esquerda"
+
+#: kwinbindings.cpp:84
+msgid "Pack Window Up"
+msgstr "Encostar a Janela Acima"
+
+#: kwinbindings.cpp:86
+msgid "Pack Window Down"
+msgstr "Encostar a Janela Abaixo"
+
+#: kwinbindings.cpp:88
+msgid "Pack Grow Window Horizontally"
+msgstr "Encostar e Aumentar Horizontalmente a Janela"
+
+#: kwinbindings.cpp:90
+msgid "Pack Grow Window Vertically"
+msgstr "Encostar e Aumentar Verticalmente a Janela"
+
+#: kwinbindings.cpp:92
+msgid "Pack Shrink Window Horizontally"
+msgstr "Encostar e Diminuir Horizontalmente a Janela"
+
+#: kwinbindings.cpp:94
+msgid "Pack Shrink Window Vertically"
+msgstr "Encostar e Diminuir Verticalmente a Janela"
+
+#: kwinbindings.cpp:96
+msgid "Quick Tile Window to the Left"
+msgstr "Colocar a Janela Lado-a-Lado à Esquerda"
+
+#: kwinbindings.cpp:98
+msgid "Quick Tile Window to the Right"
+msgstr "Colocar a Janela Lado-a-Lado à Direita"
+
+#: kwinbindings.cpp:100
+msgid "Quick Tile Window to the Top Left"
+msgstr "Colocar Rapidamente a Janela Lado-a-Lado em Cima-Esquerda"
+
+#: kwinbindings.cpp:102
+msgid "Quick Tile Window to the Bottom Left"
+msgstr "Colocar Rapidamente a Janela Lado-a-Lado em Baixo-Esquerda"
+
+#: kwinbindings.cpp:104
+msgid "Quick Tile Window to the Top Right"
+msgstr "Colocar Rapidamente a Janela Lado-a-Lado em Cima-Direita"
+
+#: kwinbindings.cpp:106
+msgid "Quick Tile Window to the Bottom Right"
+msgstr "Colocar Rapidamente a Janela Lado-a-Lado em Baixo-Direita"
+
+#: kwinbindings.cpp:108
+msgid "Switch to Window Above"
+msgstr "Mudar para a Janela Acima"
+
+#: kwinbindings.cpp:110
+msgid "Switch to Window Below"
+msgstr "Mudar para a Janela Abaixo"
+
+#: kwinbindings.cpp:112
+msgid "Switch to Window to the Right"
+msgstr "Mudar para a Janela à Direita"
+
+#: kwinbindings.cpp:114
+msgid "Switch to Window to the Left"
+msgstr "Mudar para a Janela à Esquerda"
+
+#: kwinbindings.cpp:116
+msgid "Increase Opacity of Active Window by 5 %"
+msgstr "Aumentar a Opacidade da Janela Activa em 5 %"
+
+#: kwinbindings.cpp:118
+msgid "Decrease Opacity of Active Window by 5 %"
+msgstr "Diminuir a Opacidade da Janela Activa em 5 %"
+
+#: kwinbindings.cpp:121
+msgid "Keep Window on All Desktops"
+msgstr "Manter a Janela em Todos os Ecrãs"
+
+#: kwinbindings.cpp:125
+#, kde-format
+msgid "Window to Desktop %1"
+msgstr "Janela para o Ecrã %1"
+
+#: kwinbindings.cpp:127
+msgid "Window to Next Desktop"
+msgstr "Janela para o Próximo Ecrã"
+
+#: kwinbindings.cpp:128
+msgid "Window to Previous Desktop"
+msgstr "Janela para o Ecrã Anterior"
+
+#: kwinbindings.cpp:129
+msgid "Window One Desktop to the Right"
+msgstr "Janela para um Ecrã à Direita"
+
+#: kwinbindings.cpp:130
+msgid "Window One Desktop to the Left"
+msgstr "Janela para um Ecrã à Esquerda"
+
+#: kwinbindings.cpp:131
+msgid "Window One Desktop Up"
+msgstr "Janela para Um Ecrã Acima"
+
+#: kwinbindings.cpp:132
+msgid "Window One Desktop Down"
+msgstr "Janela para um Ecrã Abaixo"
+
+#: kwinbindings.cpp:135
+#, kde-format
+msgid "Window to Screen %1"
+msgstr "Janela para o Ecrã %1"
+
+#: kwinbindings.cpp:137
+msgid "Window to Next Screen"
+msgstr "Janela para o Ecrã Seguinte"
+
+#: kwinbindings.cpp:138
+msgid "Window to Previous Screen"
+msgstr "Janela para o Ecrã Anterior"
+
+#: kwinbindings.cpp:139
+msgid "Show Desktop"
+msgstr "Mostrar o Ecrã"
+
+#: kwinbindings.cpp:142
+#, kde-format
+msgid "Switch to Screen %1"
+msgstr "Mudar para o Ecrã %1"
+
+#: kwinbindings.cpp:145
+msgid "Switch to Next Screen"
+msgstr "Mudar para o Ecrã Seguinte"
+
+#: kwinbindings.cpp:146
+msgid "Switch to Previous Screen"
+msgstr "Mudar para o Ecrã Anterior"
+
+#: kwinbindings.cpp:148
+msgid "Kill Window"
+msgstr "Matar a Janela"
+
+#: kwinbindings.cpp:149
+msgid "Suspend Compositing"
+msgstr "Suspender a Composição"
+
+#: kwinbindings.cpp:150
+msgid "Invert Screen Colors"
+msgstr "Inverter as Cores do Ecrã"
+
+#: main.cpp:78
+msgid ""
+"KWin is unstable.\n"
+"It seems to have crashed several times in a row.\n"
+"You can select another window manager to run:"
+msgstr ""
+"O KWin está instável.\n"
+"Parece ter estoirado várias vezes seguidas.\n"
+"Poderá seleccionar outro gestor de janelas a executar:"
+
+#: main.cpp:259 main.cpp:286
+msgid "KDE window manager"
+msgstr "O gestor de janelas do KDE"
+
+#: main.cpp:264
+msgid "KWin"
+msgstr "KWin"
+
+#: main.cpp:268
+msgid "(c) 1999-2013, The KDE Developers"
+msgstr "(c) 1999-2013, A Equipa de Desenvolvimento do KDE"
+
+#: main.cpp:270
+msgid "Matthias Ettrich"
+msgstr "Matthias Ettrich"
+
+#: main.cpp:271
+msgid "Cristian Tibirna"
+msgstr "Cristian Tibirna"
+
+#: main.cpp:272
+msgid "Daniel M. Duley"
+msgstr "Daniel M. Duley"
+
+#: main.cpp:273
+msgid "Luboš Luňák"
+msgstr "Luboš Luňák"
+
+#: main.cpp:274
+msgid "Martin Gräßlin"
+msgstr "Martin Gräßlin"
+
+#: main.cpp:274
+msgid "Maintainer"
+msgstr "Manutenção"
+
+#: main.cpp:283
+msgid "Disable configuration options"
+msgstr "Desactivar as opções de configuração"
+
+#: main.cpp:284
+msgid "Indicate that KWin has recently crashed n times"
+msgstr "Indica que o KWin estoirou recentemente 'n' vezes"
+
+#: main_wayland.cpp:88
+#, fuzzy
+#| msgid "kwin: another window manager is running (try using --replace)\n"
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+msgstr ""
+"kwin: está outro gestor de janela a correr (tente utilizar o --replace)\n"
+
+#: main_wayland.cpp:96
+msgid ""
+"kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
+"set.\n"
+msgstr ""
+
+#: main_wayland.cpp:231
+msgid "Start a nested X Server."
+msgstr ""
+
+#: main_wayland.cpp:234
+msgid "The X11 Display to connect to, required if option x-server is used."
+msgstr ""
+
+#: main_x11.cpp:149
+msgid ""
+"kwin: unable to claim manager selection, another wm running? (try using --"
+"replace)\n"
+msgstr ""
+"kwin: não foi possível obter a gestão, está outro gestor de janela a correr? "
+"(tente utilizar --replace)\n"
+
+#: main_x11.cpp:166
+msgid "kwin: another window manager is running (try using --replace)\n"
+msgstr ""
+"kwin: está outro gestor de janela a correr (tente utilizar o --replace)\n"
+
+#: main_x11.cpp:261
+msgid "Replace already-running ICCCM2.0-compliant window manager"
+msgstr "Substituir gestor de janelas (compatível ICCCM2.0) em execução"
+
+#: scene_opengl.cpp:558
+msgid "Desktop effects were restarted due to a graphics reset"
+msgstr "Os efeitos do ecrã foram reiniciados devido a um reinício gráfico"
+
+#: scene_opengl.cpp:729
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
+"OpenGL Desktop Effects at the current resolution<br><br>You can try to "
+"select the XRender backend, but it might be very slow for this resolution as "
+"well.<br>Alternatively, lower the combined resolution of all screens to %1x"
+"%2 "
+msgstr ""
+"<h1>Os efeitos de ecrã com OpenGL não são possíveis</h1>O seu sistema não "
+"poderá executar os efeitos do ecrã com OpenGL na resolução actual<br/><br/"
+">Poderá tentar a infra-estrutura do XRender, mas poderá ser demasiado lenta "
+"também para esta resolução.<br/>Em alternativa, baixe a resolução combinada "
+"de todos os ecrãs para %1x%2 "
+
+#: scene_opengl.cpp:736
+msgid ""
+"The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+"GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+"does not know such limitation, but the performance will usually be impacted "
+"by the hardware limitations that restrict the OpenGL viewport size."
+msgstr ""
+"A resolução pedida ultrapassa a limitação GL_MAX_VIEWPORT_DIMS do seu GPU e, "
+"como tal, não é compatível com o módulo de composição do OpenGL.<br/>O "
+"XRender não sabe dessa limitação, mas a performance poderá ter um grande "
+"impacto pelas limitações do 'hardware' que restringem o tamanho da área de "
+"visualização do OpenGL."
+
+#: scene_opengl.cpp:761
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+"the current resolution are supported but might be exceptionally slow."
+"<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
+"compositing, switch to the XRender backend or lower the resolution to %1x%1."
+msgstr ""
+"<h1>Os efeitos de ecrã do OpenGL poderão estar inúteis</h1>Os efeitos do "
+"ecrã com OpenGL, para a resolução actual, são suportados mas poderão ser "
+"excepcionalmente lentos.<br/>Da mesma forma, as janelas enormes poderão "
+"ficar completamente pretas.<br/><br/>Pense em suspender a composição "
+"gráfica, mudar para a infra-estrutura do XRender ou baixar a resolução para "
+"%1x%1."
+
+#: scene_opengl.cpp:767
+msgid ""
+"The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+"GPU, thus windows of that size cannot be assigned to textures and will be "
+"entirely black.<br>Also this limit will often be a performance level barrier "
+"despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+"software rendering in this case."
+msgstr ""
+"A resolução pedida ultrapassa a limitação do GL_MAX_TEXTURE_SIZE do seu GPU, "
+"pelo que as janelas desse tamanho não poderão ser atribuídas a texturas, "
+"pelo que irão aparecer completamente pretas.<br/>Da mesma forma, este limite "
+"será normalmente uma barreira ao nível de performance, apesar de estar "
+"abaixo de GL_MAX_VIEWPORT_DIMS, dado que o controlador poderá mudar em "
+"alternativa para a apresentação por 'software' nesse caso."
+
+#: scripting/genericscriptedconfig.cpp:81
+msgctxt "Error message"
+msgid "Plugin does not provide configuration file in expected location"
+msgstr "O 'plugin' não possui um ficheiro de configuração no local esperado"
+
+#: scripting/scripting.cpp:127
+#, kde-format
+msgctxt "Assertion failed in KWin script with given value"
+msgid "Assertion failed: %1 is not null"
+msgstr "O teste falhou: o %1 não é nulo"
+
+#: scripting/scripting.cpp:145
+msgctxt "Assertion failed in KWin script"
+msgid "Assertion failed: argument is null"
+msgstr "O teste falhou: o argumento é nulo"
+
+#: scripting/scripting.cpp:172
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid number of arguments. At least service, path, interface and method "
+"need to be provided"
+msgstr ""
+"O número de argumentos é inválido. É necessário indicar pelo menos o "
+"serviço, a localização, a interface e o método"
+
+#: scripting/scripting.cpp:178
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid type. Service, path, interface and method need to be string values"
+msgstr ""
+"O tipo é inválido. O serviço, a localização, a interface e o método deverão "
+"ser valores de texto"
+
+#: scripting/scriptingutils.cpp:28
+msgctxt "syntax error in KWin script"
+msgid "Invalid number of arguments"
+msgstr "Número de argumentos inválido"
+
+#: scripting/scriptingutils.cpp:41
+#, kde-format
+msgctxt "KWin Scripting function received incorrect value for an expected type"
+msgid "%1 is not a variant type"
+msgstr "O %1 não é um tipo variante"
+
+#: tabbox/tabbox.cpp:348
+msgctxt "Special entry in alt+tab list for minimizing all windows"
+msgid "Show Desktop"
+msgstr "Mostrar o Ecrã"
+
+#: tabbox/tabbox.cpp:499
+msgid "Walk Through Windows"
+msgstr "Percorrer as Janelas"
+
+#: tabbox/tabbox.cpp:500
+msgid "Walk Through Windows (Reverse)"
+msgstr "Percorrer as Janelas (Sentido Inverso)"
+
+#: tabbox/tabbox.cpp:501
+msgid "Walk Through Windows Alternative"
+msgstr "Percorrer as Janelas em Alternativa"
+
+#: tabbox/tabbox.cpp:502
+msgid "Walk Through Windows Alternative (Reverse)"
+msgstr "Percorrer as Janelas em Alternativa (Sentido Inverso)"
+
+#: tabbox/tabbox.cpp:503
+msgid "Walk Through Windows of Current Application"
+msgstr "Percorrer as Janelas da Aplicação Actual"
+
+#: tabbox/tabbox.cpp:504
+msgid "Walk Through Windows of Current Application (Reverse)"
+msgstr "Percorrer as Janelas da Aplicação Actual (Sentido Inverso)"
+
+#: tabbox/tabbox.cpp:505
+msgid "Walk Through Windows of Current Application Alternative"
+msgstr "Percorrer as Janelas da Aplicação Actual em Alternativa"
+
+#: tabbox/tabbox.cpp:506
+msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+msgstr ""
+"Percorrer as Janelas da Aplicação Actual em Alternativa (Sentido Inverso)"
+
+#: tabbox/tabbox.cpp:507
+msgid "Walk Through Desktops"
+msgstr "Percorrer os Ecrãs"
+
+#: tabbox/tabbox.cpp:508
+msgid "Walk Through Desktops (Reverse)"
+msgstr "Percorrer os Ecrãs (Sentido Inverso)"
+
+#: tabbox/tabbox.cpp:509
+msgid "Walk Through Desktop List"
+msgstr "Percorrer a Lista de Janelas"
+
+#: tabbox/tabbox.cpp:510
+msgid "Walk Through Desktop List (Reverse)"
+msgstr "Percorrer a Lista de Janelas (Sentido Inverso)"
+
+#: tabbox/tabboxhandler.cpp:272
+msgid ""
+"The Window Switcher installation is broken, resources are missing.\n"
+"Contact your distribution about this."
+msgstr ""
+"A instalação do Selector de Janelas está com problemas; faltam os recursos.\n"
+"Contacte a sua distribuição acerca disto."
+
+#: useractions.cpp:186
+#, kde-format
+msgid ""
+"You have selected to show a window without its border.\n"
+"Without the border, you will not be able to enable the border again using "
+"the mouse: use the window operations menu instead, activated using the %1 "
+"keyboard shortcut."
+msgstr ""
+"Você optou por mostrar uma janela sem o seu contorno.\n"
+"Sem o contorno, você não será capaz de activar de novo o contorno usando o "
+"rato. Utilize o menu de operações da janela em alternativa, activado através "
+"do atalho de teclado '%1'."
+
+#: useractions.cpp:194
+#, kde-format
+msgid ""
+"You have selected to show a window in fullscreen mode.\n"
+"If the application itself does not have an option to turn the fullscreen "
+"mode off you will not be able to disable it again using the mouse: use the "
+"window operations menu instead, activated using the %1 keyboard shortcut."
+msgstr ""
+"Você optou por mostrar uma janela no modo de ecrã completo.\n"
+"Se a aplicação em si não tiver uma opção para desactivar este modo, você não "
+"será capaz de o desactivar de novo, usando o rato. Utilize o menu de "
+"operações da janela em alternativa, activado através do atalho de teclado "
+"'%1'."
+
+#: useractions.cpp:259
+msgid "&Move"
+msgstr "&Mover"
+
+#: useractions.cpp:264
+msgid "Re&size"
+msgstr "Dimen&sionar"
+
+#: useractions.cpp:268
+msgid "Keep &Above Others"
+msgstr "Manter por Cim&a das Outras"
+
+#: useractions.cpp:274
+msgid "Keep &Below Others"
+msgstr "Manter por &Baixo das Outras"
+
+#: useractions.cpp:280
+msgid "&Fullscreen"
+msgstr "&Ecrã Completo"
+
+#: useractions.cpp:286
+msgid "Sh&ade"
+msgstr "Enrol&ar"
+
+#: useractions.cpp:291
+msgid "&No Border"
+msgstr "Sem Co&ntorno"
+
+#: useractions.cpp:298
+msgid "Window &Shortcut..."
+msgstr "Atal&ho da Janela..."
+
+#: useractions.cpp:303
+msgid "&Special Window Settings..."
+msgstr "Regras E&speciais de Janelas..."
+
+#: useractions.cpp:307
+msgid "S&pecial Application Settings..."
+msgstr "Regras E&speciais das Aplicações..."
+
+#: useractions.cpp:314
+msgctxt ""
+"Entry in context menu of window decoration to open the configuration module "
+"of KWin"
+msgid "Window &Manager Settings..."
+msgstr "Configuração do &Gestor de Janelas..."
+
+#: useractions.cpp:329
+msgid "Mi&nimize"
+msgstr "Mi&nimizar"
+
+#: useractions.cpp:333
+msgid "Ma&ximize"
+msgstr "Ma&ximizar"
+
+#: useractions.cpp:342
+msgid "&Untab"
+msgstr "&Tirar a Página"
+
+#: useractions.cpp:346
+msgid "Close Entire &Group"
+msgstr "Fechar o &Grupo Inteiro"
+
+#: useractions.cpp:357
+msgid "&More Actions"
+msgstr "&Mais Acções"
+
+#: useractions.cpp:361
+msgid "&Close"
+msgstr "Fe&char"
+
+#: useractions.cpp:434
+msgid "&Extensions"
+msgstr "&Extensões"
+
+#: useractions.cpp:489
+msgctxt "Switch to tab -> Previous"
+msgid "Previous"
+msgstr "Anterior"
+
+#: useractions.cpp:490
+msgctxt "Switch to tab -> Next"
+msgid "Next"
+msgstr "Seguinte"
+
+#: useractions.cpp:528
+msgctxt "There's no window available to be attached as tab to this one"
+msgid "None available"
+msgstr "Nenhuma disponível"
+
+#: useractions.cpp:537
+msgid "Switch to Tab"
+msgstr "Mudar para a Página"
+
+#: useractions.cpp:548
+msgid "&Attach as tab to"
+msgstr "&Anexar como página a"
+
+#: useractions.cpp:571
+msgid "Move To &Desktop"
+msgstr "Mover Para o &Ecrã"
+
+#: useractions.cpp:587
+msgid "Move To &Screen"
+msgstr "Mover Para o &Ecrã"
+
+#: useractions.cpp:602
+msgid "Ac&tivities"
+msgstr "Ac&tividades"
+
+#: useractions.cpp:614
+msgid "&All Desktops"
+msgstr "To&dos os Ecrãs"
+
+#: useractions.cpp:640
+msgctxt "Create a new desktop and move there the window"
+msgid "&New Desktop"
+msgstr "&Novo Ecrã"
+
+#: useractions.cpp:661
+#, kde-format
+msgctxt "@item:inmenu List of all Screens to send a window to"
+msgid "Screen &%1"
+msgstr "Ecrã &%1"
+
+#: useractions.cpp:679
+msgid "&All Activities"
+msgstr "Tod&as as Actividades"
+
+#: useractions.cpp:884
+#, kde-format
+msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
+msgid "<b>%1</b> is already in use"
+msgstr "O <b>%1</b> já está em uso"
+
+#: useractions.cpp:886
+#, kde-format
+msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
+msgid "<b>%1</b> is used by %2 in %3"
+msgstr "O <b>%1</b> está em uso por %2 em %3"
+
+#: useractions.cpp:1009
+#, kde-format
+msgid "Activate Window (%1)"
+msgstr "Activar a Janela (%1)"
+
+#: useractions.cpp:1382
+msgid ""
+"The window manager is configured to consider the screen with the mouse on it "
+"as active one.\n"
+"Therefore it is not possible to switch to a screen explicitly."
+msgstr ""
+"O gestor de janelas está configurado para considerar o ecrã que possui o "
+"rato como sendo o ecrã activo.\n"
+"Como tal, não é possível mudar de forma explícita para um dado ecrã."
+
+#: virtualdesktops.cpp:334 virtualdesktops.cpp:396
+#, kde-format
+msgid "Desktop %1"
+msgstr "Ecrã %1"
+
+#: virtualdesktops.cpp:427
+msgid "Switch to Next Desktop"
+msgstr "Mudar para o Próximo Ecrã"
+
+#: virtualdesktops.cpp:428
+msgid "Switch to Previous Desktop"
+msgstr "Mudar para o Ecrã Anterior"
+
+#: virtualdesktops.cpp:429
+msgid "Switch One Desktop to the Right"
+msgstr "Mudar para um Ecrã à Direita"
+
+#: virtualdesktops.cpp:430
+msgid "Switch One Desktop to the Left"
+msgstr "Mudar para um Ecrã à Esquerda"
+
+#: virtualdesktops.cpp:431
+msgid "Switch One Desktop Up"
+msgstr "Mudar para um Ecrã Acima"
+
+#: virtualdesktops.cpp:432
+msgid "Switch One Desktop Down"
+msgstr "Mudar para um Ecrã Abaixo"
+
+#: virtualdesktops.cpp:444
+#, kde-format
+msgid "Switch to Desktop %1"
+msgstr "Mudar para o Ecrã %1"
+
+#: workspace.cpp:1340
+msgctxt "Introductory text shown in the support information."
+msgid ""
+"KWin Support Information:\n"
+"The following information should be used when requesting support on e.g. "
+"http://forum.kde.org.\n"
+"It provides information about the currently running instance, which options "
+"are used,\n"
+"what OpenGL driver and which effects are running.\n"
+"Please post the information provided underneath this introductory text to a "
+"paste bin service\n"
+"like http://paste.kde.org instead of pasting into support threads.\n"
+msgstr ""
+"Informação de Suporte do KWin:\n"
+"Deve ser usada a seguinte informação ao pedir suporte p.ex. no http://forum."
+"kde.org.\n"
+"Fornece informações sobre a instância actualmente em execução, quais as "
+"opções usadas,\n"
+"qual o controlador de OpenGL e os efeitos em execução.\n"
+"Por favor, envie a informação oferecida por baixo deste texto introdutório "
+"para um serviço de área de transferência remoto\n"
+"como o http://paste.kde.org, em vez de colar o texto nos tópicos de "
+"suporte.\n"

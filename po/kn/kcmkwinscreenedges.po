@@ -1,0 +1,195 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Ashok <ashok567@gmail.com>, 2010.
+# Shankar Prasad <svenkate@redhat.com>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-05-16 07:57+0000\n"
+"PO-Revision-Date: 2010-01-21 12:38+0530\n"
+"Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
+"Language-Team: kn-IN <>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr ""
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr ""
+
+#: main.cpp:187
+msgid "No Action"
+msgstr "ಏನನ್ನೂ ಮಾಡಬೇಡ"
+
+#: main.cpp:188
+msgid "Show Dashboard"
+msgstr "ಡ್ಯಾಶ್‌ ಬೋರ್ಡನ್ನು ತೋರಿಸು"
+
+#: main.cpp:189
+msgid "Show Desktop"
+msgstr "ಗಣಕತೆರೆಯನ್ನು ತೋರಿಸು"
+
+#: main.cpp:190
+msgid "Lock Screen"
+msgstr ""
+
+#: main.cpp:191
+msgid "Prevent Screen Locking"
+msgstr ""
+
+#: main.cpp:200
+#, fuzzy, kde-format
+#| msgid "All Desktops"
+msgid "%1 - All Desktops"
+msgstr "ಎಲ್ಲಾ ಗಣಕತೆರೆಗಳು"
+
+#: main.cpp:201
+#, fuzzy, kde-format
+#| msgid "Current Desktop"
+msgid "%1 - Current Desktop"
+msgstr "ಪ್ರಸ್ತುತ ಗಣಕತೆರೆ"
+
+#: main.cpp:202
+#, kde-format
+msgid "%1 - Current Application"
+msgstr ""
+
+#: main.cpp:205
+#, fuzzy, kde-format
+#| msgid "Cube"
+msgid "%1 - Cube"
+msgstr "ಘನಾಕೃತಿ"
+
+#: main.cpp:206
+#, fuzzy, kde-format
+#| msgid "Cylinder"
+msgid "%1 - Cylinder"
+msgstr "ಸ್ತಂಭಾಕೃತಿ"
+
+#: main.cpp:207
+#, fuzzy, kde-format
+#| msgid "Sphere"
+msgid "%1 - Sphere"
+msgstr "ಗೋಳ"
+
+#: main.cpp:209
+msgid "Toggle window switching"
+msgstr ""
+
+#: main.cpp:210
+msgid "Toggle alternative window switching"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: main.ui:17
+msgid "Active Screen Edge Actions"
+msgstr "ಸಕ್ರಿಯ ತೆರೆ ಅಂಚುಗಳನ್ನು ಕ್ರಿಯೆಗಳು"
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: main.ui:36
+msgid ""
+"To trigger an action push your mouse cursor against the edge of the screen "
+"in the action's direction."
+msgstr "ಒಂದು ಕ್ರಿಯೆಯನ್ನು ಪ್ರಚೋದಿಸಲು ಮೌಸ್ ಸೂಚಕವನ್ನು ಕ್ರಿಯೆಯ ದಿಕ್ಕಿನ ತೆರೆಯ ಬದಿಗೊತ್ತಿ."
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: main.ui:52
+msgid "Window Management"
+msgstr "ಕಿಟಕಿ ನಿರ್ವಹಣೆ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
+#: main.ui:58
+msgid "Maximize windows by dragging them to the top of the screen"
+msgstr "ಕಿಟಕಿಗಳನ್ನು ತೆರೆಯ ಮೇಲ್ಗಡೆಗೆ ಎಳೆದೊಯ್ದಾಗ ಅವನ್ನು ಹಿಗ್ಗಿಸು"
+
+#. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
+#: main.ui:65
+msgid "Tile windows by dragging them to the side of the screen"
+msgstr "ಕಿಟಕಿಗಳನ್ನು ತೆರೆಯ ಬದಿಗೆ ಎಳೆದೊಸಯ್ದಾಗ ಅದನ್ನು ಚೌಕಜಾಲದಂತೆ(ಟೈಲ್) ತೋರಿಸು"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: main.ui:93
+msgid "Quarter tiling triggered in the outer"
+msgstr ""
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, electricBorderCornerRatio)
+#: main.ui:106
+#, no-c-format
+msgid "%"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: main.ui:122
+msgid "of the screen"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: main.ui:150
+msgid "Other Settings"
+msgstr "ಇತರೆ ಸಿದ್ಧತೆಗಳು"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, desktopSwitchLabel)
+#: main.ui:162
+msgid ""
+"Change desktop when the mouse cursor is pushed against the edge of the screen"
+msgstr "ಮೌಸ್‌ನ ಸೂಚಕವನ್ನು ತೆರೆಯ ಅಂಚಿಗೆ ಕೊಂಡೊಯ್ದಾಗ ಗಣಕತೆರೆಯನ್ನು ಬದಲಾಯಿಸು"
+
+#. i18n: ectx: property (text), widget (QLabel, desktopSwitchLabel)
+#: main.ui:165
+msgid "&Switch desktop on edge:"
+msgstr "ಗಣಕತೆರೆಯನ್ನು ಬದಿಯಿಂದ ಬದಲಾಯಿಸು(&S):"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
+#: main.ui:176
+msgctxt "Switch desktop on edge"
+msgid "Disabled"
+msgstr "ನಿಷ್ಕ್ರಿಯಗೊಂಡಿದೆ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
+#: main.ui:181
+msgid "Only When Moving Windows"
+msgstr "ಕಿಟಕಿಗಳನ್ನು ಚಲಿಸಿದಾಗ ಮಾತ್ರ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
+#: main.ui:186
+msgid "Always Enabled"
+msgstr "ಯಾವಾಗಲೂ ಶಕ್ತಗೊಳಿಸು"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, label)
+#: main.ui:194
+msgid ""
+"Amount of time required for the mouse cursor to be pushed against the edge "
+"of the screen before the action is triggered"
+msgstr "ಕ್ರಿಯೆಯನ್ನು ಪ್ರಚೋದಿಸಲು, ಮೌಸ್ ಸೂಚಕವನ್ನು ತೆರೆಯ ಬದಿಯಲ್ಲಿ ಒತ್ತಿಹಿಡಿಯಬೇಕಾದ ಸಮಯ."
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: main.ui:197
+msgid "Activation &delay:"
+msgstr "ಸಕ್ರಿಯಗೊಳಿಕೆಯ ವಿಳಂಬ(&d):"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, activationDelaySpin)
+#. i18n: ectx: property (suffix), widget (QSpinBox, triggerCooldownSpin)
+#: main.ui:207 main.ui:242
+msgid " ms"
+msgstr " ms"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, label_2)
+#: main.ui:226
+msgid ""
+"Amount of time required after triggering an action until the next trigger "
+"can occur"
+msgstr "ಕ್ರಿಯೆಯನ್ನು ಚಾಲನೆಗೊಳಿಸಿದ ನಂತರ ಮುಂದಿನ ಕ್ರಿಯೆಯನ್ನು ಪ್ರಚೋದಿಸಲು ಬೇಕಿರುವ ಸಮಯ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: main.ui:229
+msgid "&Reactivation delay:"
+msgstr "ಮರುಸಕ್ರಿಯಗೊಳಿಕೆಯ ವಿಳಂಬ(&R):"

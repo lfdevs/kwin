@@ -1,0 +1,397 @@
+# Vietnamese translation for kcmkwindecoration.
+# Copyright © 2007 KDE i18n Project for Vietnamese.
+# Nguyễn Hưng Vũ <Vu.Hung@techviet.com>, 2002.
+# Phan Vĩnh Thịnh <teppi82@gmail.com>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kcmkwindecoration\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-06-11 07:50+0000\n"
+"PO-Revision-Date: 2007-06-23 20:45+0930\n"
+"Last-Translator: Phan Vĩnh Thịnh <teppi82@gmail.com>\n"
+"Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: KBabel 1.10\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Phan Vĩnh Thịnh"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "teppi82@gmail.com"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: auroraeconfig.ui:23
+#, fuzzy
+#| msgid "B&order size:"
+msgid "Border size:"
+msgstr "Kích thước đường &biên:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:34 configdialog.cpp:36
+#, fuzzy
+#| msgid "Tiny"
+msgctxt "@item:inlistbox Border size:"
+msgid "Tiny"
+msgstr "Rất nhỏ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:39 configdialog.cpp:37
+#, fuzzy
+#| msgid "Normal"
+msgctxt "@item:inlistbox Border size:"
+msgid "Normal"
+msgstr "Vừa"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:44 configdialog.cpp:38
+#, fuzzy
+#| msgid "Large"
+msgctxt "@item:inlistbox Border size:"
+msgid "Large"
+msgstr "Lớn"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:49 configdialog.cpp:39
+#, fuzzy
+#| msgid "Very Large"
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Large"
+msgstr "Rất lớn"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:54 configdialog.cpp:40
+#, fuzzy
+#| msgid "Huge"
+msgctxt "@item:inlistbox Border size:"
+msgid "Huge"
+msgstr "Khổng lồ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:59 configdialog.cpp:41
+#, fuzzy
+#| msgid "Very Huge"
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Huge"
+msgstr "Trên cả khổng lồ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:64 configdialog.cpp:42
+#, fuzzy
+#| msgid "Oversized"
+msgctxt "@item:inlistbox Border size:"
+msgid "Oversized"
+msgstr "Quá cỡ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: auroraeconfig.ui:72
+#, fuzzy
+#| msgid "Buttons"
+msgid "Button size:"
+msgstr "Nút"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:83
+#, fuzzy
+#| msgid "Tiny"
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "Rất nhỏ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:88
+#, fuzzy
+#| msgid "Normal"
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "Vừa"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:93
+#, fuzzy
+#| msgid "Large"
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "Lớn"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:98
+#, fuzzy
+#| msgid "Very Large"
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "Rất lớn"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:103
+#, fuzzy
+#| msgid "Huge"
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "Khổng lồ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:108
+#, fuzzy
+#| msgid "Very Huge"
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "Trên cả khổng lồ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:113
+#, fuzzy
+#| msgid "Oversized"
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "Quá cỡ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
+#: auroraeconfig.ui:126
+msgid "Close windows by double clicking the menu button"
+msgstr ""
+
+#: buttons.cpp:620
+msgid "KDE"
+msgstr "KDE"
+
+#: buttons.cpp:649
+#, kde-format
+msgid "%1 (unavailable)"
+msgstr "%1 (không thể)"
+
+#: buttons.cpp:672
+msgid ""
+"To add or remove titlebar buttons, simply <i>drag</i> items between the "
+"available item list and the titlebar preview. Similarly, drag items within "
+"the titlebar preview to re-position them."
+msgstr ""
+"Để thêm hay bớt các nút của thanh đầu đề, chỉ cần <i>kéo </i> các mục giữa "
+"các danh sách mục dùng được và ô xem trước thanh tiêu đề. Tương tự, kéo các "
+"các mục trong ô xem trước của thanh tiêu đề để thay đổi vị trí của chúng ."
+
+#: buttons.cpp:728
+msgid "Resize"
+msgstr "Đổi cỡ"
+
+#: buttons.cpp:733
+msgid "Shade"
+msgstr "Bóng"
+
+#: buttons.cpp:738
+msgid "Keep Below Others"
+msgstr "Giữ nằm dưới các cửa sổ khác"
+
+#: buttons.cpp:743
+msgid "Keep Above Others"
+msgstr "Giữ nằm trên các cửa sổ khác"
+
+#: buttons.cpp:748
+msgid "Close"
+msgstr "Đóng"
+
+#: buttons.cpp:753
+msgid "Maximize"
+msgstr "Phóng đại"
+
+#: buttons.cpp:758
+msgid "Minimize"
+msgstr "Thu nhỏ"
+
+#: buttons.cpp:763
+msgid "Help"
+msgstr "Trợ giúp"
+
+#: buttons.cpp:768
+msgid "On All Desktops"
+msgstr "Trên mọi môi trường"
+
+#: buttons.cpp:773
+msgctxt "Button showing window actions menu"
+msgid "Window Menu"
+msgstr ""
+
+#: buttons.cpp:779
+msgctxt "Button showing application menu imported from dbusmenu"
+msgid "Application Menu"
+msgstr ""
+
+#: buttons.cpp:785
+msgid "--- spacer ---"
+msgstr "--- dấu cách ---"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:20
+msgid ""
+"Enabling this checkbox will show window button tooltips. If this checkbox is "
+"off, no window button tooltips will be shown."
+msgstr ""
+"Chọn hộp này này sẽ làm hiện ra lời mách về nút của cửa sổ. Nếu không chọn, "
+"thì sẽ không hiển thị lời mách đó."
+
+#. i18n: ectx: property (text), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:23
+msgid "&Show window button tooltips"
+msgstr "&Hiển thị lời mách về các nút của cửa sổ"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:30
+#, fuzzy
+#| msgid ""
+#| "The appropriate settings can be found in the \"Buttons\" Tab; please note "
+#| "that this option is not available on all styles yet."
+msgid "Please note that this option is not available on all styles yet."
+msgstr ""
+"Các thiết lập thích hợp có thể tìm thấy trong thẻ \"Nút\"; xin chú ý rằng "
+"tuỳ chọn này vẫn chưa có trong tất các kiểu!"
+
+#. i18n: ectx: property (text), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:33
+msgid "Use custom titlebar button &positions"
+msgstr "Dùng &vị trí tự chọn cho các nút của thanh tiêu đề"
+
+#: buttonsconfigdialog.cpp:44
+msgid "Buttons"
+msgstr "Nút"
+
+#. i18n: ectx: property (text), widget (QLabel, borderLabel)
+#: config.ui:19
+msgid "B&order size:"
+msgstr "Kích thước đường &biên:"
+
+#. i18n: ectx: property (whatsThis), widget (KComboBox, bordersCombo)
+#: config.ui:29
+msgid "Use this combobox to change the border size of the decoration."
+msgstr "Dùng hộp kết hợp này để thay đổi kích thước đường biên của các cửa sổ."
+
+#: configdialog.cpp:43
+msgctxt "@item:inlistbox Border size:"
+msgid "No Side Border"
+msgstr ""
+
+#: configdialog.cpp:44
+msgctxt "@item:inlistbox Border size:"
+msgid "No Border"
+msgstr ""
+
+#: configdialog.cpp:81 kwindecoration.cpp:375
+msgid "Decoration Options"
+msgstr "Tùy chọn trang trí cửa sổ"
+
+#. i18n: ectx: property (clickMessage), widget (KLineEdit, searchEdit)
+#: decoration.ui:17
+msgid "Search"
+msgstr ""
+
+#. i18n: ectx: property (whatsThis), widget (QScrollArea, decorationList)
+#: decoration.ui:27
+msgid ""
+"Select the window decoration. This is the look and feel of both the window "
+"borders and the window handle."
+msgstr ""
+"Chọn cách trang trí cửa sổ. Đây là những gì tạo ra 'thấy và cảm giác' của cả "
+"biên cửa sổ và điều khiển cửa sổ."
+
+#. i18n: ectx: property (text), widget (QPushButton, configureDecorationButton)
+#: decoration.ui:58
+#, fuzzy
+#| msgid "&Window Decoration"
+msgid "Configure Decoration..."
+msgstr "Trang trí cửa &sổ"
+
+#. i18n: ectx: property (text), widget (QPushButton, configureButtonsButton)
+#: decoration.ui:65
+msgid "Configure Buttons..."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
+#: decoration.ui:72
+#, fuzzy
+#| msgid "&Window Decoration"
+msgid "Get New Decorations..."
+msgstr "Trang trí cửa &sổ"
+
+#: kwindecoration.cpp:99
+msgid "Window Decoration Control Module"
+msgstr "Môđun điều khiển trang trí cửa sổ"
+
+#: kwindecoration.cpp:101
+msgid "(c) 2001 Karol Szwed"
+msgstr "Bản quyền © năm 2001 của Karol Szwed"
+
+#: kwindecoration.cpp:102
+#, fuzzy
+#| msgid "(c) 2001 Karol Szwed"
+msgid "Karol Szwed"
+msgstr "Bản quyền © năm 2001 của Karol Szwed"
+
+#: kwindecoration.cpp:127
+msgid ""
+"<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main.qml</"
+"h2>could not be located in any application data path.<h2>Please contact your "
+"distribution</h2>The application will now abort"
+msgstr ""
+
+#: kwindecoration.cpp:130
+msgid "Installation Error"
+msgstr ""
+
+#: kwindecoration.cpp:301
+msgid "Oxygen"
+msgstr ""
+
+#: kwindecoration.cpp:314
+#, fuzzy
+#| msgid ""
+#| "<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+#| "window border decorations, as well as titlebar button positions and "
+#| "custom decoration options.</p>To choose a theme for your window "
+#| "decoration click on its name and apply your choice by clicking the \"Apply"
+#| "\" button below. If you do not want to apply your choice you can click "
+#| "the \"Reset\" button to discard your changes.<p>You can configure each "
+#| "theme in the \"Configure [...]\" tab. There are different options "
+#| "specific for each theme.</p><p>In \"General Options (if available)\" you "
+#| "can activate the \"Buttons\" tab by checking the \"Use custom titlebar "
+#| "button positions\" box. In the \"Buttons\" tab you can change the "
+#| "positions of the buttons to your liking.</p>"
+msgid ""
+"<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+"window border decorations, as well as titlebar button positions and custom "
+"decoration options.</p>To choose a theme for your window decoration click on "
+"its name and apply your choice by clicking the \"Apply\" button below. If "
+"you do not want to apply your choice you can click the \"Reset\" button to "
+"discard your changes.<p>You can configure each theme. There are different "
+"options specific for each theme.</p><p>On the \"Buttons\" tab check the "
+"\"Use custom titlebar button positions\" box and you can change the "
+"positions of the buttons to your liking.</p>"
+msgstr ""
+"<h1>Trang trí trình quản lý cửa sổ</h1><p>Môđun này cho phép chọn trang trí "
+"đường biên cửa sổ cũng như vị trí các nút của thanh đầu đề và tự chỉnh các "
+"tùy chọn trang trí.</p> Để chọn một sắc thái cho trang trí cửa sổ nhấn vào "
+"tên của nó và áp dụng sự lựa chọn bằng nút \"Áp dụng ở bên dưới\". Nếu không "
+"muốn áp dụng thì nhấn nút \"Đặt lại\" để bỏ qua mọi thay đổi.<p>Có thể cấu "
+"hình mỗi sắc thái trong thẻ \"Cấu hình [...]\". Có các tùy chọn riêng cho "
+"mỗi sắc thái.</p><p>Trong \"Các tùy chọn chung (nếu có)\" bạn có thể chọn "
+"dùng các \"Nút\" nếu chọn hộp \"Dùng vị trí tự chọn cho các nút của thanh "
+"tiêu đề\". Trong thẻ \"Nút\" có thể thay đổi vị trí của các nút theo sở "
+"thích của bạn.</p>"
+
+#: kwindecoration.cpp:389
+msgid ""
+"Close by double clicking:\n"
+" To open the menu, keep the button pressed until it appears."
+msgstr ""
+
+#: preview.cpp:373
+msgid "Active Window"
+msgstr "Cửa sổ hoạt động"
+
+#: preview.cpp:373
+msgid "Inactive Window"
+msgstr "Cửa sổ bị động"

@@ -1,0 +1,229 @@
+# translation of kcm_kwindesktop.po to
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Serdar Soytetir <tulliana@gmail.com>, 2007, 2009, 2010, 2012.
+# Onur Küçük <onur@pardus.org.tr>, 2010.
+# H. İbrahim Güngör <ibrahim@pardus.org.tr>, 2010.
+# Volkan Gezer <volkangezer@gmail.com>, 2013, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: kcm_kwindesktop\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-07-04 08:25+0000\n"
+"PO-Revision-Date: 2014-04-20 02:44+0200\n"
+"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
+"Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Serdar Soytetir, H. İbrahim Güngör"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "tulliana@gmail.com, ibrahim@pardus.org.tr"
+
+#: desktopnameswidget.cpp:67
+#, kde-format
+msgid "Desktop %1:"
+msgstr "Masaüstü %1:"
+
+#: desktopnameswidget.cpp:69 desktopnameswidget.cpp:70
+#, kde-format
+msgid "Here you can enter the name for desktop %1"
+msgstr "Buradan %1 masaüstünün adını girebilirsiniz"
+
+#: desktopnameswidget.cpp:108 main.cpp:226
+#, kde-format
+msgid "Desktop %1"
+msgstr "Masaüstü %1"
+
+#: main.cpp:87
+msgid ""
+"<h1>Multiple Desktops</h1>In this module, you can configure how many virtual "
+"desktops you want and how these should be labeled."
+msgstr ""
+"<h1>Çoklu Masaüstü</h1>Buradan kaç tane sanal masaüstü istediğinizi "
+"belirleyebilir ve masaüstlerinin nasıl görüneceğini ayarlayabilirsiniz."
+
+#: main.cpp:99
+msgid "Switch to Next Desktop"
+msgstr "Sonraki Masaüstüne Geç"
+
+#: main.cpp:100
+msgid "Switch to Previous Desktop"
+msgstr "Önceki Masaüstüne Geç"
+
+#: main.cpp:101
+msgid "Switch One Desktop to the Right"
+msgstr "Bir Sağdaki Masaüstüne Geç"
+
+#: main.cpp:102
+msgid "Switch One Desktop to the Left"
+msgstr "Bir Soldaki Masaüstüne Geç"
+
+#: main.cpp:103
+msgid "Switch One Desktop Up"
+msgstr "Bir Üst Masaüstüne Geç"
+
+#: main.cpp:104
+msgid "Switch One Desktop Down"
+msgstr "Bir Alt Masaüstüne Geç"
+
+#: main.cpp:105
+msgid "Walk Through Desktops"
+msgstr "Masaüstleri Arasında Gezin"
+
+#: main.cpp:106
+msgid "Walk Through Desktops (Reverse)"
+msgstr "Masaüstleri Arasında Gezin (Ters)"
+
+#: main.cpp:107
+msgid "Walk Through Desktop List"
+msgstr "Masaüstü Listesi Arasında Gezin"
+
+#: main.cpp:108
+msgid "Walk Through Desktop List (Reverse)"
+msgstr "Masaüstü Listesi Arasında Gezin (Ters)"
+
+#: main.cpp:110 main.cpp:144 main.cpp:509 main.cpp:510
+msgid "Desktop Switching"
+msgstr "Masaüstü Geçişi"
+
+#: main.cpp:122 main.cpp:489
+#, kde-format
+msgid "Switch to Desktop %1"
+msgstr "%1 Masaüstüne Geç"
+
+#: main.cpp:154
+msgid "No Animation"
+msgstr "Canlandırma Yok"
+
+#: main.cpp:493
+#, kde-format
+msgid "No suitable Shortcut for Desktop %1 found"
+msgstr "%1 Masaüstü için uygun bir Kısayol bulunamadı"
+
+#: main.cpp:499
+#, kde-format
+msgid "Assigned global Shortcut \"%1\" to Desktop %2"
+msgstr "\"%1\" genel Kısayolu Masaüstü %2 için atandı"
+
+#: main.cpp:502
+#, kde-format
+msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
+msgstr "Kısayol çakışması: %1 Kısayolu %2 Masaüstü için ayarlanamadı"
+
+#: main.cpp:604
+msgid "KWin development team"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, desktop)
+#: main.ui:33
+msgid "Desktops"
+msgstr "Masaüstleri"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: main.ui:39
+msgid "Layout"
+msgstr "Düzen"
+
+#. i18n: ectx: property (whatsThis), widget (QLabel, numberLabel)
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, numberSpinBox)
+#: main.ui:51 main.ui:64
+msgid ""
+"Here you can set how many virtual desktops you want on your KDE desktop."
+msgstr ""
+"Buradan KDE masaüstünde kaç tane sanal masaüstü istediğinizi "
+"belirleyebilirsiniz."
+
+#. i18n: ectx: property (text), widget (QLabel, numberLabel)
+#: main.ui:54
+msgid "&Number of desktops:"
+msgstr "&Masaüstü sayısı: "
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: main.ui:83
+msgid "N&umber of rows:"
+msgstr "&Satır sayısı:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
+#: main.ui:103
+msgid "Desktop Names"
+msgstr "Masaüstü Adları"
+
+#. i18n: ectx: attribute (title), widget (QWidget, switching)
+#: main.ui:136
+msgid "Switching"
+msgstr "Geçiş"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, wrapAroundBox)
+#: main.ui:142
+msgid ""
+"Enable this option if you want keyboard or active desktop border navigation "
+"beyond the edge of a desktop to take you to the opposite edge of the new "
+"desktop."
+msgstr ""
+"Bir masaüstünün kenarından daha ileriye klavye ya da aktif masaüstü "
+"kenarları seçenekleri ile geçildiğinde diğer masaüstünün tam ters kenarına "
+"konumlanmak için bu seçeneği açın."
+
+#. i18n: ectx: property (text), widget (QCheckBox, wrapAroundBox)
+#: main.ui:145
+msgid "Desktop navigation wraps around"
+msgstr "Masaüstü gezinimi sondan ilerleyince başa döner"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: main.ui:152
+msgid "Desktop Effect Animation"
+msgstr "Masaüstü Efekt Canlandırması"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: main.ui:164
+msgid "Animation:"
+msgstr "Canlandırma:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, popupInfoCheckBox)
+#: main.ui:204
+msgid "Desktop Switch On-Screen Display"
+msgstr "Masaüstü Değiştirmesi Sırasında Ekranda Verilecek Bilgiler"
+
+#. i18n: ectx: property (text), widget (QLabel, hideLabel)
+#: main.ui:222
+msgid "Duration:"
+msgstr "Süre: "
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, popupHideSpinBox)
+#: main.ui:232
+msgid " msec"
+msgstr " ms"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
+#: main.ui:245
+msgid ""
+"Enabling this option will show a small preview of the desktop layout "
+"indicating the selected desktop."
+msgstr ""
+"Bu seçeneği işaretlemek, seçili masaüstünün ve düzeninin küçük bir "
+"önizlemesinin gösterilmesini sağlar."
+
+#. i18n: ectx: property (text), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
+#: main.ui:248
+msgid "Show desktop layout indicators"
+msgstr "Masaüstü düzeni göstergelerini göster"
+
+#. i18n: ectx: property (title), widget (QGroupBox, shortcutsGroupBox)
+#: main.ui:258
+msgid "Shortcuts"
+msgstr "Kısayollar"
+
+#. i18n: ectx: property (text), widget (QCheckBox, allShortcutsCheckBox)
+#: main.ui:277
+msgid "Show shortcuts for all possible desktops"
+msgstr "Tüm masaüstleri için kısayolları göster"

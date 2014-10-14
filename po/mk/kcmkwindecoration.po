@@ -1,0 +1,388 @@
+# translation of kcmkwindecoration.po to Macedonian
+# Copyright (C) 2002,2003, 2004, 2005, 2007, 2008, 2010 Free Software Foundation, Inc.
+#
+# Novica Nakov <novica@bagra.net.mk>, 2003.
+# Bozidar Proevski <bobibobi@freemail.com.mk>, 2004, 2005, 2007, 2008, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: kcmkwindecoration\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-06-11 07:50+0000\n"
+"PO-Revision-Date: 2010-01-29 22:35+0100\n"
+"Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
+"Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
+"Language: mk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: Plural-Forms: nplurals=3; plural=n%10==1 ? 0 : n%10==2 ? 1 : "
+"2;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Божидар Проевски"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "bobibobi@freemail.com.mk"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: auroraeconfig.ui:23
+#, fuzzy
+#| msgid "B&order size:"
+msgid "Border size:"
+msgstr "Г&олемина на работ:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:34 configdialog.cpp:36
+#, fuzzy
+#| msgid "Tiny"
+msgctxt "@item:inlistbox Border size:"
+msgid "Tiny"
+msgstr "малечка"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:39 configdialog.cpp:37
+#, fuzzy
+#| msgid "Normal"
+msgctxt "@item:inlistbox Border size:"
+msgid "Normal"
+msgstr "нормална"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:44 configdialog.cpp:38
+#, fuzzy
+#| msgid "Large"
+msgctxt "@item:inlistbox Border size:"
+msgid "Large"
+msgstr "голема"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:49 configdialog.cpp:39
+#, fuzzy
+#| msgid "Very Large"
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Large"
+msgstr "многу голема"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:54 configdialog.cpp:40
+#, fuzzy
+#| msgid "Huge"
+msgctxt "@item:inlistbox Border size:"
+msgid "Huge"
+msgstr "огромна"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:59 configdialog.cpp:41
+#, fuzzy
+#| msgid "Very Huge"
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Huge"
+msgstr "многу огромна"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:64 configdialog.cpp:42
+#, fuzzy
+#| msgid "Oversized"
+msgctxt "@item:inlistbox Border size:"
+msgid "Oversized"
+msgstr "преголема"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: auroraeconfig.ui:72
+#, fuzzy
+#| msgid "&Buttons"
+msgid "Button size:"
+msgstr "&Копчиња"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:83
+#, fuzzy
+#| msgid "Tiny"
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "малечка"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:88
+#, fuzzy
+#| msgid "Normal"
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "нормална"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:93
+#, fuzzy
+#| msgid "Large"
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "голема"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:98
+#, fuzzy
+#| msgid "Very Large"
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "многу голема"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:103
+#, fuzzy
+#| msgid "Huge"
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "огромна"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:108
+#, fuzzy
+#| msgid "Very Huge"
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "многу огромна"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:113
+#, fuzzy
+#| msgid "Oversized"
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "преголема"
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
+#: auroraeconfig.ui:126
+msgid "Close windows by double clicking the menu button"
+msgstr ""
+
+#: buttons.cpp:620
+msgid "KDE"
+msgstr "KDE"
+
+#: buttons.cpp:649
+#, kde-format
+msgid "%1 (unavailable)"
+msgstr "%1 (недостапно)"
+
+#: buttons.cpp:672
+msgid ""
+"To add or remove titlebar buttons, simply <i>drag</i> items between the "
+"available item list and the titlebar preview. Similarly, drag items within "
+"the titlebar preview to re-position them."
+msgstr ""
+"За да додадете или отстраните копчиња на насловната лента, едноставно "
+"<i>повлечете ги</i> елементите помеѓу достапната листа и прегледот на "
+"насловната лента. Слично, повлечете ги елементите во рамките на прегледот на "
+"лентата за да ги им ја смените позицијата."
+
+#: buttons.cpp:728
+msgid "Resize"
+msgstr "Смени големина"
+
+#: buttons.cpp:733
+msgid "Shade"
+msgstr "Засенчи"
+
+#: buttons.cpp:738
+msgid "Keep Below Others"
+msgstr "Задржи под другите"
+
+#: buttons.cpp:743
+msgid "Keep Above Others"
+msgstr "Задржи над другите"
+
+#: buttons.cpp:748
+msgid "Close"
+msgstr "Затвори"
+
+#: buttons.cpp:753
+msgid "Maximize"
+msgstr "Рашири"
+
+#: buttons.cpp:758
+msgid "Minimize"
+msgstr "Спушти"
+
+#: buttons.cpp:763
+msgid "Help"
+msgstr "Помош"
+
+#: buttons.cpp:768
+msgid "On All Desktops"
+msgstr "На сите површини"
+
+#: buttons.cpp:773
+msgctxt "Button showing window actions menu"
+msgid "Window Menu"
+msgstr ""
+
+#: buttons.cpp:779
+msgctxt "Button showing application menu imported from dbusmenu"
+msgid "Application Menu"
+msgstr ""
+
+#: buttons.cpp:785
+msgid "--- spacer ---"
+msgstr "--- граничник ---"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:20
+msgid ""
+"Enabling this checkbox will show window button tooltips. If this checkbox is "
+"off, no window button tooltips will be shown."
+msgstr ""
+"Ако ја изберете оваа опција ќе се прикажуваат совети за копчињата на "
+"прозорците. Ако не, нема да има никакви информации."
+
+#. i18n: ectx: property (text), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:23
+msgid "&Show window button tooltips"
+msgstr "&Прикажи совети за копчињата на прозорците"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:30
+#, fuzzy
+#| msgid ""
+#| "The appropriate settings can be found in the \"Buttons\" Tab; please note "
+#| "that this option is not available on all styles yet."
+msgid "Please note that this option is not available on all styles yet."
+msgstr ""
+"Соодветните поставувања можат да се најдат во ливчето „Копчиња“. Забележете "
+"дека оваа опција сѐ уште не е достапна во сите стилови."
+
+#. i18n: ectx: property (text), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:33
+msgid "Use custom titlebar button &positions"
+msgstr "Користи сопствени &позиции на копчињата од насловната лента"
+
+#: buttonsconfigdialog.cpp:44
+#, fuzzy
+#| msgid "&Buttons"
+msgid "Buttons"
+msgstr "&Копчиња"
+
+#. i18n: ectx: property (text), widget (QLabel, borderLabel)
+#: config.ui:19
+msgid "B&order size:"
+msgstr "Г&олемина на работ:"
+
+#. i18n: ectx: property (whatsThis), widget (KComboBox, bordersCombo)
+#: config.ui:29
+msgid "Use this combobox to change the border size of the decoration."
+msgstr ""
+"Користете го ова комбополе за да ја измените големината на работ на "
+"декорацијата."
+
+#: configdialog.cpp:43
+msgctxt "@item:inlistbox Border size:"
+msgid "No Side Border"
+msgstr ""
+
+#: configdialog.cpp:44
+msgctxt "@item:inlistbox Border size:"
+msgid "No Border"
+msgstr ""
+
+#: configdialog.cpp:81 kwindecoration.cpp:375
+msgid "Decoration Options"
+msgstr "Опции за декорација"
+
+#. i18n: ectx: property (clickMessage), widget (KLineEdit, searchEdit)
+#: decoration.ui:17
+msgid "Search"
+msgstr ""
+
+#. i18n: ectx: property (whatsThis), widget (QScrollArea, decorationList)
+#: decoration.ui:27
+msgid ""
+"Select the window decoration. This is the look and feel of both the window "
+"borders and the window handle."
+msgstr ""
+"Изберете ја декорацијата на прозорците. Ова е изгледот и чувството и на "
+"рабовите на прозорците и на рачката на прозорците."
+
+#. i18n: ectx: property (text), widget (QPushButton, configureDecorationButton)
+#: decoration.ui:58
+#, fuzzy
+#| msgid "&Window Decoration"
+msgid "Configure Decoration..."
+msgstr "&Декорација на прозорците"
+
+#. i18n: ectx: property (text), widget (QPushButton, configureButtonsButton)
+#: decoration.ui:65
+msgid "Configure Buttons..."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
+#: decoration.ui:72
+#, fuzzy
+#| msgid "&Window Decoration"
+msgid "Get New Decorations..."
+msgstr "&Декорација на прозорците"
+
+#: kwindecoration.cpp:99
+msgid "Window Decoration Control Module"
+msgstr "Контролен модул за декорација на прозорците"
+
+#: kwindecoration.cpp:101
+msgid "(c) 2001 Karol Szwed"
+msgstr "(c) 2001 Karol Szwed"
+
+#: kwindecoration.cpp:102
+msgid "Karol Szwed"
+msgstr "Karol Szwed"
+
+#: kwindecoration.cpp:127
+msgid ""
+"<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main.qml</"
+"h2>could not be located in any application data path.<h2>Please contact your "
+"distribution</h2>The application will now abort"
+msgstr ""
+
+#: kwindecoration.cpp:130
+msgid "Installation Error"
+msgstr ""
+
+#: kwindecoration.cpp:301
+msgid "Oxygen"
+msgstr "Оксиген"
+
+#: kwindecoration.cpp:314
+msgid ""
+"<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+"window border decorations, as well as titlebar button positions and custom "
+"decoration options.</p>To choose a theme for your window decoration click on "
+"its name and apply your choice by clicking the \"Apply\" button below. If "
+"you do not want to apply your choice you can click the \"Reset\" button to "
+"discard your changes.<p>You can configure each theme. There are different "
+"options specific for each theme.</p><p>On the \"Buttons\" tab check the "
+"\"Use custom titlebar button positions\" box and you can change the "
+"positions of the buttons to your liking.</p>"
+msgstr ""
+"<h1>Декорација на менаџерот на прозорци</h1><p>Овој модул ви дозволува да ги "
+"изберете декорациите на границите од прозорците, како и позициите на "
+"копчињата од насловната лента и сопствени опции за декорација.</p>За да "
+"изберете тема за вашата декорација за прозорец кликнете на нејзиното име и "
+"потврдете го вашиот избор со кликање на копчето „Примени“ подолу. Ако не "
+"сакате да го примените вашиот избор може да кликнете на копчето „Врати“ за "
+"да ги отфрлите вашите промени.<p>Секоја од темите може да ја конфигурирате. "
+"Постојат различни опции специфични за секоја тема.</p><p>Во ливчето "
+"„Копчиња“ може да ги смените позициите на копчињата со избирање на полето "
+"„Користи сопствени позиции на копчињата од насловната лента“.</p>"
+
+#: kwindecoration.cpp:389
+msgid ""
+"Close by double clicking:\n"
+" To open the menu, keep the button pressed until it appears."
+msgstr ""
+
+#: preview.cpp:373
+msgid "Active Window"
+msgstr "Активен прозорец"
+
+#: preview.cpp:373
+msgid "Inactive Window"
+msgstr "Неактивен прозорец"

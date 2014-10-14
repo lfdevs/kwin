@@ -1,0 +1,228 @@
+# translation of kcm_kwindesktop.po to
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Marta Rybczyńska <kde-i18n@rybczynska.net>, 2007.
+# Maciej Wikło <maciej.wiklo@wp.pl>, 2010.
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014.
+# krzysztof <x-men@mixbox.pl>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: kcm_kwindesktop\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-07-04 08:25+0000\n"
+"PO-Revision-Date: 2014-05-01 07:05+0200\n"
+"Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
+"Language-Team: Polish <kde-i18n-doc@kde.org>\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Maciej Wikło, Łukasz Wojniłowicz"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "maciej.wiklo@wp.pl, lukasz.wojnilowicz@gmail.com"
+
+#: desktopnameswidget.cpp:67
+#, kde-format
+msgid "Desktop %1:"
+msgstr "Pulpit %1:"
+
+#: desktopnameswidget.cpp:69 desktopnameswidget.cpp:70
+#, kde-format
+msgid "Here you can enter the name for desktop %1"
+msgstr "Tutaj możesz podać nazwę dla pulpitu %1"
+
+#: desktopnameswidget.cpp:108 main.cpp:226
+#, kde-format
+msgid "Desktop %1"
+msgstr "Pulpit %1"
+
+#: main.cpp:87
+msgid ""
+"<h1>Multiple Desktops</h1>In this module, you can configure how many virtual "
+"desktops you want and how these should be labeled."
+msgstr ""
+"<h1>Wiele pulpitów</h1> W tym module, możesz określić zarówno liczbę "
+"wirtualnych pulpitów, jak i ich etykiety."
+
+#: main.cpp:99
+msgid "Switch to Next Desktop"
+msgstr "Przełącz na następny pulpit"
+
+#: main.cpp:100
+msgid "Switch to Previous Desktop"
+msgstr "Przełącz na poprzedni pulpit"
+
+#: main.cpp:101
+msgid "Switch One Desktop to the Right"
+msgstr "Przełącz jeden pulpit w prawo"
+
+#: main.cpp:102
+msgid "Switch One Desktop to the Left"
+msgstr "Przełącz jeden pulpit w lewo"
+
+#: main.cpp:103
+msgid "Switch One Desktop Up"
+msgstr "Przełącz jeden pulpit w górę"
+
+#: main.cpp:104
+msgid "Switch One Desktop Down"
+msgstr "Przełącz jeden pulpit w dół"
+
+#: main.cpp:105
+msgid "Walk Through Desktops"
+msgstr "Przechodzenie między pulpitami"
+
+#: main.cpp:106
+msgid "Walk Through Desktops (Reverse)"
+msgstr "Przechodzenie między pulpitami (odwrotne)"
+
+#: main.cpp:107
+msgid "Walk Through Desktop List"
+msgstr "Przechodzenie między listą pulpitów"
+
+#: main.cpp:108
+msgid "Walk Through Desktop List (Reverse)"
+msgstr "Przechodzenie między listą pulpitów (odwrotne)"
+
+#: main.cpp:110 main.cpp:144 main.cpp:509 main.cpp:510
+msgid "Desktop Switching"
+msgstr "Przełączanie pulpitów"
+
+#: main.cpp:122 main.cpp:489
+#, kde-format
+msgid "Switch to Desktop %1"
+msgstr "Przełącz na pulpit %1"
+
+#: main.cpp:154
+msgid "No Animation"
+msgstr "Bez animacji"
+
+#: main.cpp:493
+#, kde-format
+msgid "No suitable Shortcut for Desktop %1 found"
+msgstr "Nie znaleziono odpowiedniego skrótu klawiaturowego dla pulpitu %1"
+
+#: main.cpp:499
+#, kde-format
+msgid "Assigned global Shortcut \"%1\" to Desktop %2"
+msgstr "Przypisano globalny skrót \"%1\" do pulpitu %2"
+
+#: main.cpp:502
+#, kde-format
+msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
+msgstr "Konflikt skrótów: Nie można ustawić skrótu %1 dla pulpitu %2"
+
+#: main.cpp:604
+msgid "KWin development team"
+msgstr "Zespół programistów KWin"
+
+#. i18n: ectx: attribute (title), widget (QWidget, desktop)
+#: main.ui:33
+msgid "Desktops"
+msgstr "Pulpity"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: main.ui:39
+msgid "Layout"
+msgstr "Układ"
+
+#. i18n: ectx: property (whatsThis), widget (QLabel, numberLabel)
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, numberSpinBox)
+#: main.ui:51 main.ui:64
+msgid ""
+"Here you can set how many virtual desktops you want on your KDE desktop."
+msgstr ""
+"Tutaj możesz ustawić liczbę wirtualnych pulpitów dla twojego pulpitu KDE."
+
+#. i18n: ectx: property (text), widget (QLabel, numberLabel)
+#: main.ui:54
+msgid "&Number of desktops:"
+msgstr "&Liczba pulpitów: "
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: main.ui:83
+msgid "N&umber of rows:"
+msgstr "L&iczba wierszy:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
+#: main.ui:103
+msgid "Desktop Names"
+msgstr "Nazwy pulpitów"
+
+#. i18n: ectx: attribute (title), widget (QWidget, switching)
+#: main.ui:136
+msgid "Switching"
+msgstr "Przełączanie"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, wrapAroundBox)
+#: main.ui:142
+msgid ""
+"Enable this option if you want keyboard or active desktop border navigation "
+"beyond the edge of a desktop to take you to the opposite edge of the new "
+"desktop."
+msgstr ""
+"Włącz tę opcję, jeśli chcesz przechodzić na inne pulpity przy użyciu "
+"klawiatury lub aktywnych krawędzi pulpitu."
+
+#. i18n: ectx: property (text), widget (QCheckBox, wrapAroundBox)
+#: main.ui:145
+msgid "Desktop navigation wraps around"
+msgstr "Cykliczne przechodzenie po pulpitach"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: main.ui:152
+msgid "Desktop Effect Animation"
+msgstr "Animacja efektu pulpitu"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: main.ui:164
+msgid "Animation:"
+msgstr "Animacja:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, popupInfoCheckBox)
+#: main.ui:204
+msgid "Desktop Switch On-Screen Display"
+msgstr "Powiadomienia ekranowe przełączania pulpitów"
+
+#. i18n: ectx: property (text), widget (QLabel, hideLabel)
+#: main.ui:222
+msgid "Duration:"
+msgstr "Czas trwania:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, popupHideSpinBox)
+#: main.ui:232
+msgid " msec"
+msgstr " msec"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
+#: main.ui:245
+msgid ""
+"Enabling this option will show a small preview of the desktop layout "
+"indicating the selected desktop."
+msgstr ""
+"Włącz tę opcję, aby wyświetlić niewielki podgląd układu pulpitu, wskazujący "
+"wybrany pulpit."
+
+#. i18n: ectx: property (text), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
+#: main.ui:248
+msgid "Show desktop layout indicators"
+msgstr "Pokaż wskaźniki układu pulpitu"
+
+#. i18n: ectx: property (title), widget (QGroupBox, shortcutsGroupBox)
+#: main.ui:258
+msgid "Shortcuts"
+msgstr "Skróty klawiszowe"
+
+#. i18n: ectx: property (text), widget (QCheckBox, allShortcutsCheckBox)
+#: main.ui:277
+msgid "Show shortcuts for all possible desktops"
+msgstr "Pokaż skróty dla wszystkich możliwych pulpitów"

@@ -1,0 +1,346 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kcmkwindecoration\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-06-11 07:50+0000\n"
+"PO-Revision-Date: 2014-03-13 10:30+0000\n"
+"Last-Translator: José Nuno Pires <zepires@gmail.com>\n"
+"Language-Team: pt <kde-i18n-pt@kde.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-POFile-SpellExtra: kcmkwindecoration Szwed Karol Oxygen main kwin qml\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-POFile-IgnoreConsistency: Oxygen\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "José Nuno Pires,Pedro Morais"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "zepires@gmail.com,morais@kde.org"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: auroraeconfig.ui:23
+msgid "Border size:"
+msgstr "Tamanho do contorno:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:34 configdialog.cpp:36
+msgctxt "@item:inlistbox Border size:"
+msgid "Tiny"
+msgstr "Minúsculo"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:39 configdialog.cpp:37
+msgctxt "@item:inlistbox Border size:"
+msgid "Normal"
+msgstr "Normal"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:44 configdialog.cpp:38
+msgctxt "@item:inlistbox Border size:"
+msgid "Large"
+msgstr "Grande"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:49 configdialog.cpp:39
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Large"
+msgstr "Muito Grande"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:54 configdialog.cpp:40
+msgctxt "@item:inlistbox Border size:"
+msgid "Huge"
+msgstr "Enorme"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:59 configdialog.cpp:41
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Huge"
+msgstr "Mais do que Enorme"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: auroraeconfig.ui:64 configdialog.cpp:42
+msgctxt "@item:inlistbox Border size:"
+msgid "Oversized"
+msgstr "Ainda Maior"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: auroraeconfig.ui:72
+msgid "Button size:"
+msgstr "Tamanho dos botões:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:83
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "Minúsculo"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:88
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "Normal"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:93
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "Grande"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:98
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "Muito Grande"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:103
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "Enorme"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:108
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "Mais do que Enorme"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
+#: auroraeconfig.ui:113
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "Ainda Maior"
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
+#: auroraeconfig.ui:126
+msgid "Close windows by double clicking the menu button"
+msgstr "Fechar as janelas com um duplo-click no botão do menu"
+
+#: buttons.cpp:620
+msgid "KDE"
+msgstr "KDE"
+
+#: buttons.cpp:649
+#, kde-format
+msgid "%1 (unavailable)"
+msgstr "%1 (não disponível)"
+
+#: buttons.cpp:672
+msgid ""
+"To add or remove titlebar buttons, simply <i>drag</i> items between the "
+"available item list and the titlebar preview. Similarly, drag items within "
+"the titlebar preview to re-position them."
+msgstr ""
+"Para adicionar ou remover os botões da barra de título, basta <i>arrastar</"
+"i> os itens entre a lista dos disponíveis e a antevisão da barra de título. "
+"Do mesmo modo, arraste os itens dentro da antevisão da barra para os "
+"posicionar de novo."
+
+#: buttons.cpp:728
+msgid "Resize"
+msgstr "Dimensionar"
+
+#: buttons.cpp:733
+msgid "Shade"
+msgstr "Enrolar"
+
+#: buttons.cpp:738
+msgid "Keep Below Others"
+msgstr "Manter por Baixo das Outras"
+
+#: buttons.cpp:743
+msgid "Keep Above Others"
+msgstr "Manter por Cima das Outras"
+
+#: buttons.cpp:748
+msgid "Close"
+msgstr "Fechar"
+
+#: buttons.cpp:753
+msgid "Maximize"
+msgstr "Maximizar"
+
+#: buttons.cpp:758
+msgid "Minimize"
+msgstr "Minimizar"
+
+#: buttons.cpp:763
+msgid "Help"
+msgstr "Ajuda"
+
+#: buttons.cpp:768
+msgid "On All Desktops"
+msgstr "Em Todos os Ecrãs"
+
+#: buttons.cpp:773
+msgctxt "Button showing window actions menu"
+msgid "Window Menu"
+msgstr "Menu da Janela"
+
+#: buttons.cpp:779
+msgctxt "Button showing application menu imported from dbusmenu"
+msgid "Application Menu"
+msgstr "Menu da Aplicação"
+
+#: buttons.cpp:785
+msgid "--- spacer ---"
+msgstr "--- espaço ---"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:20
+msgid ""
+"Enabling this checkbox will show window button tooltips. If this checkbox is "
+"off, no window button tooltips will be shown."
+msgstr ""
+"Se activar esta opção podem aparecer as dicas dos botões das janelas. Caso "
+"contrário, estas não aparecerão."
+
+#. i18n: ectx: property (text), widget (QCheckBox, showToolTipsCheckBox)
+#: buttons.ui:23
+msgid "&Show window button tooltips"
+msgstr "Mo&strar as dicas dos botões das janelas"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:30
+msgid "Please note that this option is not available on all styles yet."
+msgstr ""
+"Não se esqueça que esta opção ainda não está disponível em todos os estilos."
+
+#. i18n: ectx: property (text), widget (QCheckBox, useCustomButtonPositionsCheckBox)
+#: buttons.ui:33
+msgid "Use custom titlebar button &positions"
+msgstr "Usar as &posições configuráveis dos botões da barra de título"
+
+#: buttonsconfigdialog.cpp:44
+msgid "Buttons"
+msgstr "Botões"
+
+#. i18n: ectx: property (text), widget (QLabel, borderLabel)
+#: config.ui:19
+msgid "B&order size:"
+msgstr "Tamanho do c&ontorno:"
+
+#. i18n: ectx: property (whatsThis), widget (KComboBox, bordersCombo)
+#: config.ui:29
+msgid "Use this combobox to change the border size of the decoration."
+msgstr ""
+"Utilizar esta caixa de selecção para mudar o tamanho da margem da decoração."
+
+#: configdialog.cpp:43
+msgctxt "@item:inlistbox Border size:"
+msgid "No Side Border"
+msgstr "Sem Contorno Lateral"
+
+#: configdialog.cpp:44
+msgctxt "@item:inlistbox Border size:"
+msgid "No Border"
+msgstr "Sem Contorno"
+
+#: configdialog.cpp:81 kwindecoration.cpp:375
+msgid "Decoration Options"
+msgstr "Opções de Decoração"
+
+#. i18n: ectx: property (clickMessage), widget (KLineEdit, searchEdit)
+#: decoration.ui:17
+msgid "Search"
+msgstr "Procurar"
+
+#. i18n: ectx: property (whatsThis), widget (QScrollArea, decorationList)
+#: decoration.ui:27
+msgid ""
+"Select the window decoration. This is the look and feel of both the window "
+"borders and the window handle."
+msgstr ""
+"Seleccione a decoração da janela. Esta é a aparência e comportamento quer do "
+"contorno da janela quer da sua 'pega'."
+
+#. i18n: ectx: property (text), widget (QPushButton, configureDecorationButton)
+#: decoration.ui:58
+msgid "Configure Decoration..."
+msgstr "Configurar a Decoração..."
+
+#. i18n: ectx: property (text), widget (QPushButton, configureButtonsButton)
+#: decoration.ui:65
+msgid "Configure Buttons..."
+msgstr "Configurar os Botões ..."
+
+#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
+#: decoration.ui:72
+msgid "Get New Decorations..."
+msgstr "Obter Decorações Novas ..."
+
+#: kwindecoration.cpp:99
+msgid "Window Decoration Control Module"
+msgstr "Módulo de Controlo de Decoração da Janela"
+
+#: kwindecoration.cpp:101
+msgid "(c) 2001 Karol Szwed"
+msgstr "(c) 2001 Karol Szwed"
+
+#: kwindecoration.cpp:102
+msgid "Karol Szwed"
+msgstr "Karol Szwed"
+
+#: kwindecoration.cpp:127
+msgid ""
+"<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main.qml</"
+"h2>could not be located in any application data path.<h2>Please contact your "
+"distribution</h2>The application will now abort"
+msgstr ""
+"<h1>Erro de instalação</h1>Não foi possível localizar o recurso <h2>kwin/"
+"kcm_kwindecoration/main.qml</h2> em qualquer pasta de dados das aplicações."
+"<h2>Por favor contacte a sua distribuição</h2>A aplicação irá fechar agora"
+
+#: kwindecoration.cpp:130
+msgid "Installation Error"
+msgstr "Erro de Instalação"
+
+#: kwindecoration.cpp:301
+msgid "Oxygen"
+msgstr "Oxygen"
+
+#: kwindecoration.cpp:314
+msgid ""
+"<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+"window border decorations, as well as titlebar button positions and custom "
+"decoration options.</p>To choose a theme for your window decoration click on "
+"its name and apply your choice by clicking the \"Apply\" button below. If "
+"you do not want to apply your choice you can click the \"Reset\" button to "
+"discard your changes.<p>You can configure each theme. There are different "
+"options specific for each theme.</p><p>On the \"Buttons\" tab check the "
+"\"Use custom titlebar button positions\" box and you can change the "
+"positions of the buttons to your liking.</p>"
+msgstr ""
+"<h1>Decoração do Gestor de Janelas</h1><p>Este módulo permite-lhe escolher "
+"as decorações do contorno das janelas, assim como as posições dos botões da "
+"barra de título, bem como outras opções de decoração específicas.</p>Para "
+"escolher um tema para a sua decoração de janela carregue no seu nome e "
+"aplique a sua escolha ao carregar no botão \"Aplicar\" em baixo. Se não "
+"quiser aplicar a sua escolha pode carregar no botão \"Reiniciar\" para "
+"esquecer a sua alteração.<p>Você poderá configurar cada tema na página "
+"\"Configurar o [...]\". Existem diferentes opções específicas para cada tema."
+"</p><p>Nas \"Opções Gerais (se disponíveis)\" você poderá activar a página "
+"\"Botões\" se assinalar a opção \"Usar as posições personalizadas dos botões "
+"da barra de título\". Nessa página, você poderá alterar as posições dos "
+"botões de acordo com o seu gosto.</p>"
+
+#: kwindecoration.cpp:389
+msgid ""
+"Close by double clicking:\n"
+" To open the menu, keep the button pressed until it appears."
+msgstr ""
+"Feche com um duplo-click:\n"
+"Para abrir o menu, mantenha o botão carregado até que apareça."
+
+#: preview.cpp:373
+msgid "Active Window"
+msgstr "Janela Activa"
+
+#: preview.cpp:373
+msgid "Inactive Window"
+msgstr "Janela Inactiva"

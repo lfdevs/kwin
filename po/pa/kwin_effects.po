@@ -1,0 +1,1768 @@
+# translation of kwin_effects.po to Punjabi
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# A S Alam <aalam@users.sf.net>, 2007, 2009, 2010, 2011, 2012, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin_effects\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-09-27 09:13+0000\n"
+"PO-Revision-Date: 2013-01-05 08:23+0530\n"
+"Last-Translator: A S Alam <aalam@users.sf.net>\n"
+"Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
+"Language: pa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr ""
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: blur/blur_config.ui:17
+msgid "Strength of the effect:"
+msgstr "ਪਰਭਾਵ ਦੀ ਤਾਕਤ:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: blur/blur_config.ui:42
+msgid "Light"
+msgstr "ਹਲਕਾ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: blur/blur_config.ui:74
+msgid "Strong"
+msgstr "ਜ਼ੋਰਦਾਰ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_CacheTexture)
+#: blur/blur_config.ui:86
+#, fuzzy
+#| msgid "Safe intermediate rendering results."
+msgid "Save intermediate rendering results."
+msgstr "ਸੁਰੱਖਿਅਤ ਠੀਕ-ਠਾਕ ਰੈਡਰਿੰਗ ਨਤੀਜੇ।"
+
+#: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
+msgctxt "Special entry in alt+tab list for minimizing all windows"
+msgid "Show Desktop"
+msgstr "ਡੈਸਕਟਾਪ ਵੇਖੋ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowCaptions)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_WindowTitle)
+#: coverswitch/coverswitch_config.ui:17 flipswitch/flipswitch_config.ui:191
+#: presentwindows/presentwindows_config.ui:396
+msgid "Display window &titles"
+msgstr "ਵਿੰਡੋ ਟਾਈਟਲ ਵੇਖੋ(&t)"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: coverswitch/coverswitch_config.ui:29 cube/cube_config.ui:344
+msgid "Zoom"
+msgstr "ਜ਼ੂਮ"
+
+#. i18n: ectx: property (toolTip), widget (QSlider, kcfg_zPosition)
+#: coverswitch/coverswitch_config.ui:39
+msgid "Define how far away the windows should appear"
+msgstr "ਦੱਸੋ ਕਿ ਵਿੰਡੋ ਕਿੰਨੀ ਦੂਰ ਵੇਖਾਈ ਦੇਵੇ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: coverswitch/coverswitch_config.ui:66 cube/cube_config.ui:350
+msgid "Near"
+msgstr "ਨੇੜੇ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#: coverswitch/coverswitch_config.ui:86 cube/cube_config.ui:357
+msgid "Far"
+msgstr "ਦੂਰ"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: coverswitch/coverswitch_config.ui:110
+msgid "Animation"
+msgstr "ਐਨੀਮੇਸ਼ਨ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnimateSwitch)
+#: coverswitch/coverswitch_config.ui:116
+msgid "Animate switch"
+msgstr "ਸਵਿੱਚ ਐਨੀਮੇਟ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnimateStart)
+#: coverswitch/coverswitch_config.ui:123
+msgid "Animation on tab box open"
+msgstr "ਟੈਬ ਬਾਕਸ ਖੋਲ੍ਹਣ ਉੱਤੇ ਐਨੀਮੇਸ਼ਨ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnimateStop)
+#: coverswitch/coverswitch_config.ui:130
+msgid "Animation on tab box close"
+msgstr "ਟੈਬ ਬਾਕਸ ਬੰਦ ਹੋਣ ਉੱਤੇ ਐਨੀਮੇਸ਼ਨ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: coverswitch/coverswitch_config.ui:139 magiclamp/magiclamp_config.ui:17
+msgid "Animation duration:"
+msgstr "ਐਨੀਮੇਸ਼ਨ ਅੰਤਰਾਲ:"
+
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_RotationDuration)
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_AnimationDuration)
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
+#: coverswitch/coverswitch_config.ui:158 cube/cube_config.ui:149
+#: cube/cubeslide_config.ui:49 magiclamp/magiclamp_config.ui:36
+msgctxt "Duration of rotation"
+msgid "Default"
+msgstr "ਡਿਫਾਲਟ"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
+#: coverswitch/coverswitch_config.ui:161
+msgid " milliseconds"
+msgstr " ਮਿਲੀਸਕਿੰਟ"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_3)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Reflection)
+#: coverswitch/coverswitch_config.ui:177 coverswitch/coverswitch_config.ui:183
+msgid "Reflections"
+msgstr "ਪਰਿਵਰਤਨ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: coverswitch/coverswitch_config.ui:195
+msgid "Rear color"
+msgstr "ਪਿਛਲਾ ਰੰਗ"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: coverswitch/coverswitch_config.ui:205
+msgid "Front color"
+msgstr "ਅਗਲਾ ਰੰਗ"
+
+#: cube/cube.cpp:201 cube/cube_config.cpp:69
+msgid "Desktop Cube"
+msgstr "ਡੈਸਕਟਾਪ ਘਣ"
+
+#: cube/cube.cpp:209 cube/cube_config.cpp:74
+msgid "Desktop Cylinder"
+msgstr "ਡੈਸਕਟਾਪ ਸਿਲੰਡਰ"
+
+#: cube/cube.cpp:215 cube/cube_config.cpp:78
+msgid "Desktop Sphere"
+msgstr "ਡੈਸਕਟਾਪ ਗੋਲ੍ਹਾ"
+
+#: cube/cube_config.cpp:59
+msgctxt "@title:tab Basic Settings"
+msgid "Basic"
+msgstr "ਬੇਸਿਕ"
+
+#: cube/cube_config.cpp:60
+msgctxt "@title:tab Advanced Settings"
+msgid "Advanced"
+msgstr "ਤਕਨੀਕੀ"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: cube/cube_config.ui:21
+msgid "Tab 1"
+msgstr "ਟੈਬ 1"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
+#: cube/cube_config.ui:27
+msgid "Background"
+msgstr "ਬੈਕਗਰਾਊਂਡ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: cube/cube_config.ui:33
+msgid "Background color:"
+msgstr "ਬੈਕਗਰਾਊਂਡ ਰੰਗ:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: cube/cube_config.ui:56
+msgid "Wallpaper:"
+msgstr "ਵਾਲਪੇਪਰ:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: cube/cube_config.ui:82 desktopgrid/desktopgrid_config.ui:200
+#: flipswitch/flipswitch_config.ui:204
+#: presentwindows/presentwindows_config.ui:17
+msgid "Activation"
+msgstr "ਐਕਟੀਵੇਸ਼ਨ"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_7)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: cube/cube_config.ui:104 desktopgrid/desktopgrid_config.ui:17
+#: flipswitch/flipswitch_config.ui:17 mousemark/mousemark_config.ui:17
+#: presentwindows/presentwindows_config.ui:377
+#: thumbnailaside/thumbnailaside_config.ui:17
+msgid "Appearance"
+msgstr "ਦਿੱਖ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DisplayDesktopName)
+#: cube/cube_config.ui:110
+msgid "Display desktop name"
+msgstr "ਡੈਸਕਟਾਪ ਨਾਂ ਵੇਖੋ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Reflection)
+#: cube/cube_config.ui:117
+msgid "Reflection"
+msgstr "ਪਰਿਵਰਤਨ"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: cube/cube_config.ui:124 cube/cubeslide_config.ui:72
+msgid "Rotation duration:"
+msgstr "ਘੁੰਮਾਉਣ ਅੰਤਰਾਲ:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ZOrdering)
+#: cube/cube_config.ui:175
+msgid "Windows hover above cube"
+msgstr "ਘਣ ਉੱਤੇ ਵਿੰਡੋਜ਼ ਹੋਵਰ"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
+#: cube/cube_config.ui:185
+msgid "Opacity"
+msgstr "ਬਲੌਰੀਪਨ"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_OpacitySpin)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Opacity)
+#: cube/cube_config.ui:225 thumbnailaside/thumbnailaside_config.ui:87
+#, no-c-format
+msgid " %"
+msgstr " %"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: cube/cube_config.ui:238 translucency/package/contents/ui/config.ui:156
+#: translucency/package/contents/ui/config.ui:418
+msgid "Transparent"
+msgstr "ਪਾਰਦਰਸ਼ੀ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: cube/cube_config.ui:245 translucency/package/contents/ui/config.ui:121
+#: translucency/package/contents/ui/config.ui:431
+msgid "Opaque"
+msgstr "ਬਲੌਰੀਪਨ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_OpacityDesktopOnly)
+#: cube/cube_config.ui:255
+msgid "Do not change opacity of windows"
+msgstr "ਵਿੰਡੋ ਦੀ ਧੁੰਦਲਾਪਨ ਬਦਲਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: cube/cube_config.ui:279
+msgid "Tab 2"
+msgstr "ਟੈਬ 2"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: cube/cube_config.ui:285
+msgid "Caps"
+msgstr "ਕੈਪਸ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Caps)
+#: cube/cube_config.ui:291
+msgid "Show caps"
+msgstr "ਕੈਪਸ ਵਰਤੋਂ"
+
+#. i18n: ectx: property (text), widget (QLabel, capColorLabel)
+#: cube/cube_config.ui:298
+msgid "Cap color:"
+msgstr "ਕੈਪਸ ਰੰਗ:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_TexturedCaps)
+#: cube/cube_config.ui:321
+msgid "Display image on caps"
+msgstr "ਕੈਪਸ ਉੱਤੇ ਚਿੱਤਰ ਵੇਖੋ"
+
+#. i18n: ectx: property (toolTip), widget (QSlider, kcfg_ZPosition)
+#: cube/cube_config.ui:367
+msgid "Define how far away the object should appear"
+msgstr "ਦੱਸੋ ਕਿ ਆਬਜੈਕਟ ਕਿੰਨੀ ਦੂਰ ਹੋਵੇ"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_9)
+#: cube/cube_config.ui:408
+msgid "Additional Options"
+msgstr "ਹੋਰ ਚੋਣਾਂ"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_CloseOnMouseRelease)
+#: cube/cube_config.ui:415
+msgid ""
+"If enabled the effect will be deactivated after rotating the cube with the "
+"mouse,\n"
+"otherwise it will remain active"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_CloseOnMouseRelease)
+#: cube/cube_config.ui:418
+msgid "Close after mouse dragging"
+msgstr "ਮਾਊਸ ਡਰੈਗ ਕਰਨ ਬਾਅਦ ਬੰਦ ਕਰੋ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_TabBox)
+#: cube/cube_config.ui:425
+msgid "Use this effect for walking through the desktops"
+msgstr "ਡੈਸਕਟਾਪਾਂ ਵਿੱਚ ਜਾਣ ਲਈ ਇਹ ਪਰਭਾਵ ਵਰਤੋਂ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_InvertKeys)
+#: cube/cube_config.ui:432
+msgid "Invert cursor keys"
+msgstr "ਉਲਟ ਕਰਸਰ ਸਵਿੱਚਾਂ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_InvertMouse)
+#: cube/cube_config.ui:439
+msgid "Invert mouse"
+msgstr "ਉਲਟ ਮਾਊਂਸ"
+
+#. i18n: ectx: property (title), widget (QGroupBox, capDeformationGroupBox)
+#: cube/cube_config.ui:449
+msgid "Sphere Cap Deformation"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, capDeformationSphereLabel)
+#: cube/cube_config.ui:471
+msgid "Sphere"
+msgstr "ਗੋਲ਼ਾ"
+
+#. i18n: ectx: property (text), widget (QLabel, capDeformationPlaneLabel)
+#: cube/cube_config.ui:478
+msgid "Plane"
+msgstr "ਸਮਤਲ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSlideStickyWindows)
+#: cube/cubeslide_config.ui:17
+msgid "Do not animate windows on all desktops"
+msgstr "ਸਭ ਡੈਸਕਟਾਪ ਤੋਂ ਵਿੰਡੋਜ਼ ਐਨੀਮੇਟ ਨਾ ਕਰੋ"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RotationDuration)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingLife)
+#: cube/cubeslide_config.ui:52 mouseclick/mouseclick_config.ui:132
+msgid " msec"
+msgstr " ਮਿਲੀਸਕਿੰਟ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSlidePanels)
+#: cube/cubeslide_config.ui:65
+msgid "Do not animate panels"
+msgstr "ਪੈਨਲ ਐਨੀਮੇਟ ਨਾ ਕਰੋ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_UsePagerLayout)
+#: cube/cubeslide_config.ui:85
+msgid "Use pager layout for animation"
+msgstr "ਐਨੀਮੇਸ਼ਨ ਲਈ ਪੇਜ਼ਰ ਲੇਆਉਟ ਵਰਤੋਂ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseWindowMoving)
+#: cube/cubeslide_config.ui:92
+msgid "Start animation when moving windows towards screen edges"
+msgstr "ਜਦੋਂ ਵਿੰਡੋਜ਼ ਸਕਰੀਨ ਕੋਨਿਆਂ ਵੱਲ ਜਾਣ ਤਾਂ ਐਨੀਮੇਸ਼ਨ ਸ਼ੁਰੂ ਕਰੋ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: dashboard/dashboard_config.ui:17
+msgid "Brightness of the background:"
+msgstr "ਬੈਕਗਰਾਊਂਡ ਦੀ ਚਮਕ:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: dashboard/dashboard_config.ui:42
+msgctxt "Less brightness"
+msgid "Darker"
+msgstr "ਗੂੜਾ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: dashboard/dashboard_config.ui:74
+msgctxt "More brightness"
+msgid "Lighter"
+msgstr "ਹਲਕਾ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: dashboard/dashboard_config.ui:83
+msgid "Saturation of the background:"
+msgstr "ਬੈਕਗਰਾਊਂਡ ਦੀ ਸੰਤ੍ਰਿਪਤਾ:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: dashboard/dashboard_config.ui:108
+msgctxt "No saturation"
+msgid "Gray"
+msgstr "ਸਲੇਟੀ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: dashboard/dashboard_config.ui:140
+msgctxt "High saturation"
+msgid "Colored"
+msgstr "ਰੰਗਦਾਰ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: dashboard/dashboard_config.ui:149
+msgid "Duration of the fade:"
+msgstr "ਫੇਡ ਕਰਨ ਦਾ ਅੰਤਰਾਲ:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: dashboard/dashboard_config.ui:184
+msgid "ms"
+msgstr "ms"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_Blur)
+#: dashboard/dashboard_config.ui:193
+msgid "The blur effect must be enabled before it can be used."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Blur)
+#: dashboard/dashboard_config.ui:196
+msgid "Apply blur effect to background"
+msgstr "ਬੈਕਗਰਾਊਂਡ ਉੱਤੇ ਬਲਰ ਪਰਭਾਵ ਲਾਗੂ ਕਰੋ"
+
+#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:66
+msgid "Show Desktop Grid"
+msgstr "ਡੈਸਕਟਾਪ ਗਰਿੱਡ  ਵੇਖੋ"
+
+#: desktopgrid/desktopgrid_config.cpp:74
+msgctxt "Desktop name alignment:"
+msgid "Disabled"
+msgstr "ਬੰਦ ਹੈ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: desktopgrid/desktopgrid_config.cpp:75 flipswitch/flipswitch_config.ui:160
+msgid "Top"
+msgstr "ਉੱਤੇ"
+
+#: desktopgrid/desktopgrid_config.cpp:76
+msgid "Top-Right"
+msgstr "ਉੱਤੇ-ਸੱਜੇ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: desktopgrid/desktopgrid_config.cpp:77 flipswitch/flipswitch_config.ui:125
+#: mouseclick/mouseclick.cpp:60
+msgid "Right"
+msgstr "ਸੱਜਾ"
+
+#: desktopgrid/desktopgrid_config.cpp:78
+msgid "Bottom-Right"
+msgstr "ਤਲ-ਸੱਜੇ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: desktopgrid/desktopgrid_config.cpp:79 flipswitch/flipswitch_config.ui:180
+msgid "Bottom"
+msgstr "ਹੇਠਾਂ"
+
+#: desktopgrid/desktopgrid_config.cpp:80
+msgid "Bottom-Left"
+msgstr "ਤਲ-ਖੱਬੇ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: desktopgrid/desktopgrid_config.cpp:81 flipswitch/flipswitch_config.ui:105
+#: mouseclick/mouseclick.cpp:58
+msgid "Left"
+msgstr "ਖੱਬਾ"
+
+#: desktopgrid/desktopgrid_config.cpp:82
+msgid "Top-Left"
+msgstr "ਉੱਤੇ-ਖੱਬੇ"
+
+#: desktopgrid/desktopgrid_config.cpp:83
+msgid "Center"
+msgstr "ਸੈਂਟਰ"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: desktopgrid/desktopgrid_config.ui:23
+msgid "Zoom &duration:"
+msgstr "ਜ਼ੂਮ ਅੰਤਰਾਲ(&d):"
+
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_ZoomDuration)
+#: desktopgrid/desktopgrid_config.ui:42
+msgctxt "Duration of zoom"
+msgid "Default"
+msgstr "ਡਿਫਾਲਟ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: desktopgrid/desktopgrid_config.ui:55
+msgid "&Border width:"
+msgstr "ਬਾਰਡਰ ਚੌੜਾਈ(&B):"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: desktopgrid/desktopgrid_config.ui:84
+msgid "Desktop &name alignment:"
+msgstr "ਡੈਸਕਟਾਪ ਨਾਂ ਇਕਸਾਰ(&n):"
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: desktopgrid/desktopgrid_config.ui:107
+msgid "&Layout mode:"
+msgstr "ਲੇਆਉਟ ਮੋਡ(&L):"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:127
+msgid "Pager"
+msgstr "ਪੇਜ਼ਰ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:132
+msgid "Automatic"
+msgstr "ਆਟੋਮੈਟਿਕ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:137
+msgid "Custom"
+msgstr "ਕਸਟਮ"
+
+#. i18n: ectx: property (text), widget (QLabel, layoutRowsLabel)
+#: desktopgrid/desktopgrid_config.ui:145
+msgid "Number of &rows:"
+msgstr "ਕਤਾਰਾਂ ਦੀ ਗਿਣਤੀ(&r):"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_PresentWindows)
+#: desktopgrid/desktopgrid_config.ui:190
+msgid "Use Present Windows effect to layout the windows"
+msgstr "ਵਿੰਡੋਜ਼ ਲੇਆਉਟ ਲਈ ਮੌਜੂਦਾ ਵਿੰਡੋ ਪਰਭਾਵ ਵਰਤੋਂ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimPanels)
+#: diminactive/diminactive_config.ui:17
+msgid "Apply effect to &panels"
+msgstr "ਪੈਨਲ ਉੱਤੇ ਪਰਭਾਵ ਲਾਗੂ ਕਰੋ(&P)"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimDesktop)
+#: diminactive/diminactive_config.ui:24
+msgid "Apply effect to the desk&top"
+msgstr "ਡੈਸਕਟਾਪ ਉੱਤੇ ਪਰਭਾਵ ਲਾਗੂ ਕਰੋ(&t)"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimKeepAbove)
+#: diminactive/diminactive_config.ui:31
+msgid "Apply effect to &keep-above windows"
+msgstr "ਵਿੰਡੋ ਉੱਤੇ-ਰੱਖੋ ਉੱਤੇ ਪਰਭਾਵ ਲਾਗੂ ਕਰੋ(&k)"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimByGroup)
+#: diminactive/diminactive_config.ui:38
+msgid "Apply effect to &groups"
+msgstr "ਗਰੁੱਪ ਉੱਤੇ ਪਰਭਾਵ ਲਾਗੂ ਕਰੋ(&G)"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: diminactive/diminactive_config.ui:45
+msgid "&Strength:"
+msgstr "ਤਾਕਤ(&S):"
+
+#: effect_builtins.cpp:91
+msgctxt "Name of a KWin Effect"
+msgid "Blur"
+msgstr ""
+
+#: effect_builtins.cpp:92
+msgctxt "Comment describing the KWin Effect"
+msgid "Blurs the background behind semi-transparent windows"
+msgstr ""
+
+#: effect_builtins.cpp:103
+#, fuzzy
+#| msgid "Background color:"
+msgctxt "Name of a KWin Effect"
+msgid "Background contrast"
+msgstr "ਬੈਕਗਰਾਊਂਡ ਰੰਗ:"
+
+#: effect_builtins.cpp:104
+msgctxt "Comment describing the KWin Effect"
+msgid "Improve contrast and readability behind semi-transparent windows"
+msgstr ""
+
+#: effect_builtins.cpp:115
+msgctxt "Name of a KWin Effect"
+msgid "Cover Switch"
+msgstr ""
+
+#: effect_builtins.cpp:116
+msgctxt "Comment describing the KWin Effect"
+msgid "Display a Cover Flow effect for the alt+tab window switcher"
+msgstr ""
+
+#: effect_builtins.cpp:127
+#, fuzzy
+#| msgid "Desktop Cube"
+msgctxt "Name of a KWin Effect"
+msgid "Desktop Cube"
+msgstr "ਡੈਸਕਟਾਪ ਘਣ"
+
+#: effect_builtins.cpp:128
+msgctxt "Comment describing the KWin Effect"
+msgid "Display each virtual desktop on a side of a cube"
+msgstr ""
+
+#: effect_builtins.cpp:139
+#, fuzzy
+#| msgid "Desktop Cube"
+msgctxt "Name of a KWin Effect"
+msgid "Desktop Cube Animation"
+msgstr "ਡੈਸਕਟਾਪ ਘਣ"
+
+#: effect_builtins.cpp:140
+msgctxt "Comment describing the KWin Effect"
+msgid "Animate desktop switching with a cube"
+msgstr ""
+
+#: effect_builtins.cpp:151
+msgctxt "Name of a KWin Effect"
+msgid "Dashboard"
+msgstr ""
+
+#: effect_builtins.cpp:152
+msgctxt "Comment describing the KWin Effect"
+msgid "Desaturate the desktop when displaying the Plasma dashboard"
+msgstr ""
+
+#: effect_builtins.cpp:163
+#, fuzzy
+#| msgid "Show Desktop Grid"
+msgctxt "Name of a KWin Effect"
+msgid "Desktop Grid"
+msgstr "ਡੈਸਕਟਾਪ ਗਰਿੱਡ  ਵੇਖੋ"
+
+#: effect_builtins.cpp:164
+msgctxt "Comment describing the KWin Effect"
+msgid "Zoom out so all desktops are displayed side-by-side in a grid"
+msgstr ""
+
+#: effect_builtins.cpp:175
+msgctxt "Name of a KWin Effect"
+msgid "Dim Inactive"
+msgstr ""
+
+#: effect_builtins.cpp:176
+#, fuzzy
+#| msgid "Inactive windows:"
+msgctxt "Comment describing the KWin Effect"
+msgid "Darken inactive windows"
+msgstr "ਇਨ-ਐਕਟਿਵ ਵਿੰਡੋਜ਼:"
+
+#: effect_builtins.cpp:187
+msgctxt "Name of a KWin Effect"
+msgid "Dim Screen for Administrator Mode"
+msgstr ""
+
+#: effect_builtins.cpp:188
+msgctxt "Comment describing the KWin Effect"
+msgid "Darkens the entire screen when requesting root privileges"
+msgstr ""
+
+#: effect_builtins.cpp:199
+msgctxt "Name of a KWin Effect"
+msgid "Fall Apart"
+msgstr ""
+
+#: effect_builtins.cpp:200
+#, fuzzy
+#| msgid "Send window to all desktops"
+msgctxt "Comment describing the KWin Effect"
+msgid "Closed windows fall into pieces"
+msgstr "ਵਿੰਡੋ ਸਭ ਡੈਸਕਟਾਪ ਉੱਤੇ ਭੇਜੋ"
+
+#: effect_builtins.cpp:211
+msgctxt "Name of a KWin Effect"
+msgid "Flip Switch"
+msgstr ""
+
+#: effect_builtins.cpp:212
+msgctxt "Comment describing the KWin Effect"
+msgid ""
+"Flip through windows that are in a stack for the alt+tab window switcher"
+msgstr ""
+
+#: effect_builtins.cpp:223
+msgctxt "Name of a KWin Effect"
+msgid "Glide"
+msgstr ""
+
+#: effect_builtins.cpp:224
+msgctxt "Comment describing the KWin Effect"
+msgid "Windows Glide Effect as they are open and closed"
+msgstr ""
+
+#: effect_builtins.cpp:235
+msgctxt "Name of a KWin Effect"
+msgid "Highlight Window"
+msgstr ""
+
+#: effect_builtins.cpp:236
+msgctxt "Comment describing the KWin Effect"
+msgid "Highlight the appropriate window when hovering over taskbar entries"
+msgstr ""
+
+#: effect_builtins.cpp:247
+#, fuzzy
+#| msgid "Invert mouse"
+msgctxt "Name of a KWin Effect"
+msgid "Invert"
+msgstr "ਉਲਟ ਮਾਊਂਸ"
+
+#: effect_builtins.cpp:248
+msgctxt "Comment describing the KWin Effect"
+msgid "Inverts the color of the desktop and windows"
+msgstr ""
+
+#: effect_builtins.cpp:259
+msgctxt "Name of a KWin Effect"
+msgid "Kscreen"
+msgstr ""
+
+#: effect_builtins.cpp:260
+msgctxt "Comment describing the KWin Effect"
+msgid "Helper Effect for KScreen"
+msgstr ""
+
+#: effect_builtins.cpp:271
+msgctxt "Name of a KWin Effect"
+msgid "Logout"
+msgstr ""
+
+#: effect_builtins.cpp:272
+msgctxt "Comment describing the KWin Effect"
+msgid "Desaturate the desktop when displaying the logout dialog"
+msgstr ""
+
+#: effect_builtins.cpp:283
+msgctxt "Name of a KWin Effect"
+msgid "Looking Glass"
+msgstr ""
+
+#: effect_builtins.cpp:284
+msgctxt "Comment describing the KWin Effect"
+msgid "A screen magnifier that looks like a fisheye lens"
+msgstr ""
+
+#: effect_builtins.cpp:295
+msgctxt "Name of a KWin Effect"
+msgid "Magic Lamp"
+msgstr ""
+
+#: effect_builtins.cpp:296
+msgctxt "Comment describing the KWin Effect"
+msgid "Simulate a magic lamp when minimizing windows"
+msgstr ""
+
+#: effect_builtins.cpp:307
+#, fuzzy
+#| msgid "Modifiers"
+msgctxt "Name of a KWin Effect"
+msgid "Magnifier"
+msgstr "ਮੋਡੀਫਾਇਰ"
+
+#: effect_builtins.cpp:308
+msgctxt "Comment describing the KWin Effect"
+msgid "Magnify the section of the screen that is near the mouse cursor"
+msgstr ""
+
+#: effect_builtins.cpp:319
+#, fuzzy
+#| msgid "Animation"
+msgctxt "Name of a KWin Effect"
+msgid "Minimize Animation"
+msgstr "ਐਨੀਮੇਸ਼ਨ"
+
+#: effect_builtins.cpp:320
+#, fuzzy
+#| msgid "Ignore &minimized windows"
+msgctxt "Comment describing the KWin Effect"
+msgid "Animate the minimizing of windows"
+msgstr "ਘੱਟੋ-ਘੱਟ ਕੀਤੀਆਂ ਵਿੰਡੋਜ਼ ਅਣਡਿੱਠੀਆਂ(&m)"
+
+#: effect_builtins.cpp:331
+#, fuzzy
+#| msgid "Animation"
+msgctxt "Name of a KWin Effect"
+msgid "Mouse Click Animation"
+msgstr "ਐਨੀਮੇਸ਼ਨ"
+
+#: effect_builtins.cpp:332
+msgctxt "Comment describing the KWin Effect"
+msgid ""
+"Creates an animation whenever a mouse button is clicked. This is useful for "
+"screenrecordings/presentations"
+msgstr ""
+
+#: effect_builtins.cpp:343
+#, fuzzy
+#| msgid "Clear Mouse Marks"
+msgctxt "Name of a KWin Effect"
+msgid "Mouse Mark"
+msgstr "ਮਾਊਸ ਮਾਰਕ ਸਾਫ਼ ਕਰੋ"
+
+#: effect_builtins.cpp:344
+msgctxt "Comment describing the KWin Effect"
+msgid "Allows you to draw lines on the desktop"
+msgstr ""
+
+#: effect_builtins.cpp:355
+#, fuzzy
+#| msgid "Windows"
+msgctxt "Name of a KWin Effect"
+msgid "Present Windows"
+msgstr "ਵਿੰਡੋਜ਼"
+
+#: effect_builtins.cpp:356
+msgctxt "Comment describing the KWin Effect"
+msgid "Zoom out until all opened windows can be displayed side-by-side"
+msgstr ""
+
+#: effect_builtins.cpp:367
+#, fuzzy
+#| msgid "Close window"
+msgctxt "Name of a KWin Effect"
+msgid "Resize Window"
+msgstr "ਵਿੰਡੋ ਬੰਦ ਕਰੋ"
+
+#: effect_builtins.cpp:368
+msgctxt "Comment describing the KWin Effect"
+msgid "Resizes windows with a fast texture scale instead of updating contents"
+msgstr ""
+
+#: effect_builtins.cpp:379
+msgctxt "Name of a KWin Effect"
+msgid "Screen Edge"
+msgstr ""
+
+#: effect_builtins.cpp:380
+msgctxt "Comment describing the KWin Effect"
+msgid "Highlights a screen edge when approaching"
+msgstr ""
+
+#: effect_builtins.cpp:391
+msgctxt "Name of a KWin Effect"
+msgid "Screenshot"
+msgstr ""
+
+#: effect_builtins.cpp:392
+msgctxt "Comment describing the KWin Effect"
+msgid "Helper effect for KSnapshot"
+msgstr ""
+
+#: effect_builtins.cpp:403
+msgctxt "Name of a KWin Effect"
+msgid "Sheet"
+msgstr ""
+
+#: effect_builtins.cpp:404
+msgctxt "Comment describing the KWin Effect"
+msgid ""
+"Make modal dialogs smoothly fly in and out when they are shown or hidden"
+msgstr ""
+
+#: effect_builtins.cpp:415
+msgctxt "Name of a KWin Effect"
+msgid "Show FPS"
+msgstr ""
+
+#: effect_builtins.cpp:416
+msgctxt "Comment describing the KWin Effect"
+msgid "Display KWin's performance in the corner of the screen"
+msgstr ""
+
+#: effect_builtins.cpp:427
+#, fuzzy
+#| msgid "Show &panels"
+msgctxt "Name of a KWin Effect"
+msgid "Show Paint"
+msgstr "ਪੈਨਲ ਵੇਖੋ(&p)"
+
+#: effect_builtins.cpp:428
+msgctxt "Comment describing the KWin Effect"
+msgid "Highlight areas of the desktop that have been recently updated"
+msgstr ""
+
+#: effect_builtins.cpp:439
+msgctxt "Name of a KWin Effect"
+msgid "Slide"
+msgstr ""
+
+#: effect_builtins.cpp:440
+msgctxt "Comment describing the KWin Effect"
+msgid "Slide windows across the screen when switching virtual desktops"
+msgstr ""
+
+#: effect_builtins.cpp:451
+msgctxt "Name of a KWin Effect"
+msgid "Slide Back"
+msgstr ""
+
+#: effect_builtins.cpp:452
+msgctxt "Comment describing the KWin Effect"
+msgid "Slide back windows when another window is raised"
+msgstr ""
+
+#: effect_builtins.cpp:463
+msgctxt "Name of a KWin Effect"
+msgid "Sliding popups"
+msgstr ""
+
+#: effect_builtins.cpp:464
+msgctxt "Comment describing the KWin Effect"
+msgid "Sliding animation for Plasma popups"
+msgstr ""
+
+#: effect_builtins.cpp:475
+msgctxt "Name of a KWin Effect"
+msgid "Snap Helper"
+msgstr ""
+
+#: effect_builtins.cpp:476
+msgctxt "Comment describing the KWin Effect"
+msgid "Help you locate the center of the screen when moving a window"
+msgstr ""
+
+#: effect_builtins.cpp:487
+msgctxt "Name of a KWin Effect"
+msgid "Startup Feedback"
+msgstr ""
+
+#: effect_builtins.cpp:488
+msgctxt "Comment describing the KWin Effect"
+msgid "Helper effect for startup feedback"
+msgstr ""
+
+#: effect_builtins.cpp:499
+#, fuzzy
+#| msgid "Thumbnail Bar"
+msgctxt "Name of a KWin Effect"
+msgid "Thumbnail Aside"
+msgstr "ਥੰਮਨੇਲ ਬਾਰ"
+
+#: effect_builtins.cpp:500
+msgctxt "Comment describing the KWin Effect"
+msgid "Display window thumbnails on the edge of the screen"
+msgstr ""
+
+#: effect_builtins.cpp:511
+#, fuzzy
+#| msgid "Track mouse"
+msgctxt "Name of a KWin Effect"
+msgid "Track Mouse"
+msgstr "ਮਾਊਸ ਟਰੈਕ"
+
+#: effect_builtins.cpp:512
+msgctxt "Comment describing the KWin Effect"
+msgid "Display a mouse cursor locating effect when activated"
+msgstr ""
+
+#: effect_builtins.cpp:523
+msgctxt "Name of a KWin Effect"
+msgid "Window Geometry"
+msgstr ""
+
+#: effect_builtins.cpp:524
+#, fuzzy
+#| msgid "Display window &icons"
+msgctxt "Comment describing the KWin Effect"
+msgid "Display window geometries on move/resize"
+msgstr "ਵਿੰਡੋ ਆਈਕਾਨ ਵੇਖੋ(&i)"
+
+#: effect_builtins.cpp:535
+#, fuzzy
+#| msgid "Windows"
+msgctxt "Name of a KWin Effect"
+msgid "Wobbly Windows"
+msgstr "ਵਿੰਡੋਜ਼"
+
+#: effect_builtins.cpp:536
+#, fuzzy
+#| msgid "Use for window &switching"
+msgctxt "Comment describing the KWin Effect"
+msgid "Deform windows while they are moving"
+msgstr "ਵਿੰਡੋ ਸਵਿੱਚ ਲਈ ਵਰਤੋਂ(&s)"
+
+#: effect_builtins.cpp:547
+#, fuzzy
+#| msgid "Zoom"
+msgctxt "Name of a KWin Effect"
+msgid "Zoom"
+msgstr "ਜ਼ੂਮ"
+
+#: effect_builtins.cpp:548
+msgctxt "Comment describing the KWin Effect"
+msgid "Magnify the entire desktop"
+msgstr ""
+
+#: flipswitch/flipswitch.cpp:58 flipswitch/flipswitch_config.cpp:60
+msgid "Toggle Flip Switch (Current desktop)"
+msgstr "ਫਲਿੱਪ ਸਵਿੱਚ ਬਦਲੋ (ਮੌਜੂਦਾ ਡੈਸਕਟਾਪ)"
+
+#: flipswitch/flipswitch.cpp:65 flipswitch/flipswitch_config.cpp:63
+msgid "Toggle Flip Switch (All desktops)"
+msgstr "ਫਲਿੱਪ ਸਵਿੱਚ ਬਦਲੋ (ਸਭ ਡੈਸਕਟਾਪ)"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: flipswitch/flipswitch_config.ui:23
+msgid "Flip animation duration:"
+msgstr "ਫਲਿੱਪ ਐਨੀਮੇਸ਼ਨ ਅੰਤਰਾਲ:"
+
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
+#: flipswitch/flipswitch_config.ui:42
+msgctxt "Duration of flip animation"
+msgid "Default"
+msgstr "ਡਿਫਾਲਟ"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: flipswitch/flipswitch_config.ui:55
+msgid "Angle:"
+msgstr "ਕੋਣ:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Angle)
+#: flipswitch/flipswitch_config.ui:71
+msgid " °"
+msgstr " °"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: flipswitch/flipswitch_config.ui:81
+msgid "Horizontal position of front:"
+msgstr "ਅੱਗੇ ਦੀ ਹਰੀਜੱਟਲ ਸਥਿਤੀ:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: flipswitch/flipswitch_config.ui:136
+msgid "Vertical position of front:"
+msgstr "ਅੱਗੇ ਦੀ ਵਰਟੀਕਲ ਸਥਿਤੀ:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: glide/glide_config.ui:17
+msgid "Glide Effect:"
+msgstr "ਗਲਾਈਡ ਪਰਭਾਵ:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: glide/glide_config.ui:42
+msgid "In"
+msgstr "ਇਨ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: glide/glide_config.ui:71
+msgid "Out"
+msgstr "ਆਉਟ"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: glide/glide_config.ui:93
+msgid "Glide Angle:"
+msgstr "ਗਲਾਈਡ ਕੋਣ:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: glide/glide_config.ui:118
+msgid "-90"
+msgstr "-90"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: glide/glide_config.ui:147
+msgid "90"
+msgstr "90"
+
+#: invert/invert.cpp:44 invert/invert_config.cpp:51
+msgid "Toggle Invert Effect"
+msgstr "ਉਲਟ ਪਰਭਾਵ ਬਦਲੋ"
+
+#: invert/invert.cpp:52 invert/invert_config.cpp:57
+msgid "Toggle Invert Effect on Window"
+msgstr "ਵਿੰਡੋ ਉੱਤੇ ਉਲਟ ਪਰਭਾਵ ਬਦਲੋ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
+#: login/package/contents/ui/config.ui:17
+msgid "Fade to black (fullscreen splash screens only)"
+msgstr "ਕਾਲੇ ਲਈ ਫੇਡ ਕਰੋ (ਪੂਰੀ ਸਵਾਗਤੀ ਸਕਰੀਨ ਲਈ ਹੀ)"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: lookingglass/lookingglass_config.ui:24
+msgid "&Radius:"
+msgstr "ਰੇਡੀਅਸ(&R):"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AnimationDuration)
+#: magiclamp/magiclamp_config.ui:39
+msgid "milliseconds"
+msgstr "ਮਿਲੀਸਕਿੰਟ"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupSize)
+#: magnifier/magnifier_config.ui:17
+msgid "Size"
+msgstr "ਸਾਈਜ਼"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: magnifier/magnifier_config.ui:23 mousemark/mousemark_config.ui:23
+msgid "&Width:"
+msgstr "ਚੌੜਾਈ(&W):"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Width)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Height)
+#: magnifier/magnifier_config.ui:42 magnifier/magnifier_config.ui:74
+msgid " px"
+msgstr " px"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: magnifier/magnifier_config.ui:55
+msgid "&Height:"
+msgstr "ਉਚਾਈ(&H):"
+
+#: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
+#, fuzzy
+#| msgid "Toggle Effect"
+msgid "Toggle Mouse Click Effect"
+msgstr "ਬਦਲਣ ਪ੍ਰਭਾਵ"
+
+#: mouseclick/mouseclick.cpp:59
+msgid "Middle"
+msgstr "ਮੱਧ"
+
+#. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
+#: mouseclick/mouseclick_config.ui:21
+msgid "Basic Settings"
+msgstr "ਬੇਸਿਕ ਸੈਟਿੰਗ"
+
+#. i18n: ectx: property (text), widget (QLabel, button1_label)
+#: mouseclick/mouseclick_config.ui:37
+msgid "Left Mouse Button Color:"
+msgstr "ਖੱਬਾ ਮਾਊਸ ਬਟਨ ਰੰਗ:"
+
+#. i18n: ectx: property (text), widget (QLabel, button2_label)
+#: mouseclick/mouseclick_config.ui:50
+msgid "Middle Mouse Button Color:"
+msgstr "ਮੱਧ ਮਾਊਸ ਬਟਨ ਰੰਗ:"
+
+#. i18n: ectx: property (text), widget (QLabel, button3_label)
+#: mouseclick/mouseclick_config.ui:70
+msgid "Right Mouse Button Color:"
+msgstr "ਸੱਜਾ ਮਾਊਸ ਬਟਨ ਰੰਗ:"
+
+#. i18n: ectx: attribute (title), widget (QWidget, advanced_tab)
+#: mouseclick/mouseclick_config.ui:91
+msgid "Advanced Settings"
+msgstr "ਤਕਨੀਕੀ ਸੈਟਿੰਗ"
+
+#. i18n: ectx: property (title), widget (QGroupBox, rings)
+#: mouseclick/mouseclick_config.ui:97
+msgid "Rings"
+msgstr "ਰਿੰਗ"
+
+#. i18n: ectx: property (text), widget (QLabel, ring_line_width_label)
+#: mouseclick/mouseclick_config.ui:103
+msgid "Line Width:"
+msgstr "ਲਾਈਨ ਚੌੜਾਈ:"
+
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_LineWidth)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingSize)
+#: mouseclick/mouseclick_config.ui:119 mouseclick/mouseclick_config.ui:171
+#: mousemark/mousemark_config.cpp:55
+msgid " pixel"
+msgid_plural " pixels"
+msgstr[0] " ਪਿਕਸਲ"
+msgstr[1] " ਪਿਕਸਲ"
+
+#. i18n: ectx: property (text), widget (QLabel, ring_duration_label)
+#: mouseclick/mouseclick_config.ui:145
+msgid "Ring Duration:"
+msgstr "ਰਿੰਗ ਅੰਤਰਾਲ:"
+
+#. i18n: ectx: property (text), widget (QLabel, ring_radius_label)
+#: mouseclick/mouseclick_config.ui:155
+msgid "Ring Radius:"
+msgstr "ਰਿੰਗ ਰੇਡੀਅਸ:"
+
+#. i18n: ectx: property (text), widget (QLabel, ring_count_label)
+#: mouseclick/mouseclick_config.ui:184
+msgid "Ring Count:"
+msgstr "ਰਿੰਗ ਗਿਣਤੀ:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, font)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: mouseclick/mouseclick_config.ui:210 showfps/showfps_config.ui:17
+msgid "Text"
+msgstr "ਟੈਕਸਟ"
+
+#. i18n: ectx: property (text), widget (QLabel, font_label)
+#: mouseclick/mouseclick_config.ui:216
+msgid "Font:"
+msgstr "ਫੋਂਟ:"
+
+#. i18n: ectx: property (text), widget (QLabel, showtext_label)
+#: mouseclick/mouseclick_config.ui:233
+msgid "Show Text:"
+msgstr "ਟੈਕਸਟ ਵੇਖੋ:"
+
+#: mousemark/mousemark.cpp:50
+msgid "Clear All Mouse Marks"
+msgstr "ਸਭ ਮਾਊਸ ਮਾਰਕ ਸਾਫ਼ ਕਰੋ"
+
+#: mousemark/mousemark.cpp:57 mousemark/mousemark_config.cpp:73
+msgid "Clear Last Mouse Mark"
+msgstr "ਆਖਰੀ ਮਾਊਂਸ ਬਿੰਦੂ ਸਾਫ਼ ਕਰੋ"
+
+#: mousemark/mousemark_config.cpp:67
+msgid "Clear Mouse Marks"
+msgstr "ਮਾਊਸ ਮਾਰਕ ਸਾਫ਼ ਕਰੋ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: mousemark/mousemark_config.ui:55
+msgid "&Color:"
+msgstr "ਰੰਗ(&C):"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: mousemark/mousemark_config.ui:88
+msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
+msgstr ""
+
+#: presentwindows/presentwindows.cpp:70
+#: presentwindows/presentwindows_config.cpp:71
+msgid "Toggle Present Windows (Current desktop)"
+msgstr "ਮੌਜੂਦਾ ਵਿੰਡੋਜ਼ ਬਦਲੋ (ਮੌਜੂਦਾ ਡੈਸਕਟਾਪ)"
+
+#: presentwindows/presentwindows.cpp:78
+#: presentwindows/presentwindows_config.cpp:65
+msgid "Toggle Present Windows (All desktops)"
+msgstr "ਮੌਜੂਦਾ ਵਿੰਡੋਜ਼ ਬਦਲੋ (ਸਭ ਡੈਸਕਟਾਪ)"
+
+#: presentwindows/presentwindows.cpp:86
+#: presentwindows/presentwindows_config.cpp:77
+msgid "Toggle Present Windows (Window class)"
+msgstr "ਮੌਜੂਦਾ ਵਿੰਡੋਜ਼ ਬਦਲੋ (ਵਿੰਡੋ ਕਲਾਸ)"
+
+#: presentwindows/presentwindows.cpp:1551
+#, kde-format
+msgid ""
+"Filter:\n"
+"%1"
+msgstr ""
+"ਫਿਲਟਰ:\n"
+"%1"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: presentwindows/presentwindows_config.ui:39
+msgid "Natural Layout Settings"
+msgstr "ਕੁਦਰਤੀ ਲੇਆਉਟ ਸੈਟਿੰਗ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_FillGaps)
+#: presentwindows/presentwindows_config.ui:45
+msgid "Fill &gaps"
+msgstr "ਸੰਨ੍ਹ ਭਰੋ(&g)"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: presentwindows/presentwindows_config.ui:65
+msgid "Faster"
+msgstr "ਸਭ ਤੋਂ ਤੇਜ਼"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: presentwindows/presentwindows_config.ui:112
+msgid "Nicer"
+msgstr "ਸਭ ਤੋਂ ਵਧੀਆ"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
+#: presentwindows/presentwindows_config.ui:122
+msgid "Windows"
+msgstr "ਵਿੰਡੋਜ਼"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: presentwindows/presentwindows_config.ui:128
+#: presentwindows/presentwindows_config.ui:272
+msgid "Left button:"
+msgstr "ਖੱਬਾ ਬਟਨ:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonDesktop)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonDesktop)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
+#: presentwindows/presentwindows_config.ui:139
+#: presentwindows/presentwindows_config.ui:183
+#: presentwindows/presentwindows_config.ui:227
+#: presentwindows/presentwindows_config.ui:283
+#: presentwindows/presentwindows_config.ui:317
+#: presentwindows/presentwindows_config.ui:351
+msgid "No action"
+msgstr "ਕੋਈ ਕਾਰਵਾਈ ਨਹੀਂ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonDesktop)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonDesktop)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
+#: presentwindows/presentwindows_config.ui:144
+#: presentwindows/presentwindows_config.ui:188
+#: presentwindows/presentwindows_config.ui:232
+#: presentwindows/presentwindows_config.ui:288
+#: presentwindows/presentwindows_config.ui:322
+#: presentwindows/presentwindows_config.ui:356
+msgid "Activate window"
+msgstr "ਵਿੰਡੋ ਐਕਟੀਵੇਟ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonDesktop)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonDesktop)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
+#: presentwindows/presentwindows_config.ui:149
+#: presentwindows/presentwindows_config.ui:193
+#: presentwindows/presentwindows_config.ui:237
+#: presentwindows/presentwindows_config.ui:293
+#: presentwindows/presentwindows_config.ui:327
+#: presentwindows/presentwindows_config.ui:361
+msgid "End effect"
+msgstr "ਅੰਤ ਪਰਭਾਵ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
+#: presentwindows/presentwindows_config.ui:154
+#: presentwindows/presentwindows_config.ui:198
+#: presentwindows/presentwindows_config.ui:242
+msgid "Bring window to current desktop"
+msgstr "ਵਿੰਡੋ ਮੌਜੂਦਾ ਡੈਸਕਟਾਪ ਉੱਤੇ ਲੈ ਆਓ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
+#: presentwindows/presentwindows_config.ui:159
+#: presentwindows/presentwindows_config.ui:203
+#: presentwindows/presentwindows_config.ui:247
+msgid "Send window to all desktops"
+msgstr "ਵਿੰਡੋ ਸਭ ਡੈਸਕਟਾਪ ਉੱਤੇ ਭੇਜੋ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
+#: presentwindows/presentwindows_config.ui:164
+#: presentwindows/presentwindows_config.ui:208
+#: presentwindows/presentwindows_config.ui:252
+msgid "(Un-)Minimize window"
+msgstr "ਵਿੰਡੋ ਘੱਟੋ-ਘੱਟ ਕਰੋ (ਸਧਾਰਨ ਕਰੋ)"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#: presentwindows/presentwindows_config.ui:172
+#: presentwindows/presentwindows_config.ui:306
+msgid "Middle button:"
+msgstr "ਮੱਧ ਬਟਨ:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#. i18n: ectx: property (text), widget (QLabel, label_10)
+#: presentwindows/presentwindows_config.ui:216
+#: presentwindows/presentwindows_config.ui:340
+msgid "Right button:"
+msgstr "ਸੱਜਾ ਬਟਨ:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
+#: presentwindows/presentwindows_config.ui:263
+msgctxt "@title:group actions when clicking on desktop"
+msgid "Desktop"
+msgstr "ਡੈਸਕਟਾਪ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonDesktop)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonDesktop)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
+#: presentwindows/presentwindows_config.ui:298
+#: presentwindows/presentwindows_config.ui:332
+#: presentwindows/presentwindows_config.ui:366
+msgid "Show desktop"
+msgstr "ਡੈਸਕਟਾਪ ਵੇਖੋ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: presentwindows/presentwindows_config.ui:383
+msgid "Layout mode:"
+msgstr "ਲੇਆਉਟ ਮੋਡ:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowIcons)
+#: presentwindows/presentwindows_config.ui:403
+msgid "Display window &icons"
+msgstr "ਵਿੰਡੋ ਆਈਕਾਨ ਵੇਖੋ(&i)"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
+#: presentwindows/presentwindows_config.ui:410
+msgid "Ignore &minimized windows"
+msgstr "ਘੱਟੋ-ਘੱਟ ਕੀਤੀਆਂ ਵਿੰਡੋਜ਼ ਅਣਡਿੱਠੀਆਂ(&m)"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowPanel)
+#: presentwindows/presentwindows_config.ui:417
+msgid "Show &panels"
+msgstr "ਪੈਨਲ ਵੇਖੋ(&p)"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
+#: presentwindows/presentwindows_config.ui:431
+msgid "Natural"
+msgstr "ਕੁਦਰਤੀ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
+#: presentwindows/presentwindows_config.ui:436
+msgid "Regular Grid"
+msgstr "ਰੈਗੂਲਰ ਗਰਿੱਡ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
+#: presentwindows/presentwindows_config.ui:441
+msgid "Flexible Grid"
+msgstr "ਲੱਚਕਦਾਰ ਗਰਿੱਡ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowClosingWindows)
+#: presentwindows/presentwindows_config.ui:449
+msgid "Provide buttons to close the windows"
+msgstr "ਵਿੰਡੋ ਬੰਦ ਕਰਨ ਲਈ ਬਟਨ ਦਿਓ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_TextureScale)
+#: resize/resize_config.ui:17
+msgid "Scale window"
+msgstr "ਵਿੰਡੋ ਸਕੇਲ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Outline)
+#: resize/resize_config.ui:24
+msgid "Show outline"
+msgstr "ਆਉਟਲਾਈਨ ਵੇਖਾਓ"
+
+#: showfps/showfps.cpp:61
+msgid "This effect is not a benchmark"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: showfps/showfps_config.ui:23
+msgid "Text position:"
+msgstr "ਟੈਕਸਟ ਸਥਿਤੀ:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
+#: showfps/showfps_config.ui:43
+msgid "Inside Graph"
+msgstr "ਗਰਾਫ਼ ਵਿੱਚ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
+#: showfps/showfps_config.ui:48
+msgid "Nowhere"
+msgstr "ਕਿਤੇ ਵੀ ਨਹੀਂ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
+#: showfps/showfps_config.ui:53
+msgid "Top Left"
+msgstr "ਉੱਤੇ ਖੱਬੇ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
+#: showfps/showfps_config.ui:58
+msgid "Top Right"
+msgstr "ਉੱਤੇ ਸੱਜੇ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
+#: showfps/showfps_config.ui:63
+msgid "Bottom Left"
+msgstr "ਤਲ ਖੱਬੇ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
+#: showfps/showfps_config.ui:68
+msgid "Bottom Right"
+msgstr "ਤਲ ਸੱਜੇ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: showfps/showfps_config.ui:76
+msgid "Text font:"
+msgstr "ਟੈਕਸਟ ਫੋਂਟ:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: showfps/showfps_config.ui:96
+msgid "Text color:"
+msgstr "ਟੈਕਸਟ ਰੰਗ:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: showfps/showfps_config.ui:119
+msgid "Text alpha:"
+msgstr "ਟੈਕਸਟ ਐਲਫ਼ਾ:"
+
+#: thumbnailaside/thumbnailaside.cpp:37
+#: thumbnailaside/thumbnailaside_config.cpp:70
+msgid "Toggle Thumbnail for Current Window"
+msgstr "ਮੌਜੂਦ ਵਿੰਡੋ ਲਈ ਥੰਮਨੇਲ ਬਦਲੋ।"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: thumbnailaside/thumbnailaside_config.ui:23
+msgid "Maximum &width:"
+msgstr "ਵੱਧੋ-ਵੱਧ ਚੌੜਾਈ(&W):"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: thumbnailaside/thumbnailaside_config.ui:36
+msgid "&Spacing:"
+msgstr "ਸਪੇਸਿੰਗ(&S):"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Spacing)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_MaxWidth)
+#: thumbnailaside/thumbnailaside_config.ui:55
+#: thumbnailaside/thumbnailaside_config.ui:106
+msgid " pixels"
+msgstr " ਪਿਕਸਲ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: thumbnailaside/thumbnailaside_config.ui:68
+msgid "&Opacity:"
+msgstr "ਧੁੰਦਲਾਪਨ(&O):"
+
+#: trackmouse/trackmouse.cpp:60 trackmouse/trackmouse_config.cpp:66
+msgid "Track mouse"
+msgstr "ਮਾਊਸ ਟਰੈਕ"
+
+#. i18n: ectx: property (text), widget (KTitleWidget, ktitlewidget)
+#: trackmouse/trackmouse_config.ui:20
+msgid "Trigger on"
+msgstr "ਬਦਲਣਾ ਚਾਲੂ"
+
+#. i18n: ectx: property (text), widget (QRadioButton, modifierRadio)
+#: trackmouse/trackmouse_config.ui:27
+msgid "Modifiers"
+msgstr "ਮੋਡੀਫਾਇਰ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Alt)
+#: trackmouse/trackmouse_config.ui:43
+msgid "Alt"
+msgstr "Alt"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Control)
+#: trackmouse/trackmouse_config.ui:50
+msgid "Ctrl"
+msgstr "Ctrl"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Shift)
+#: trackmouse/trackmouse_config.ui:57
+msgid "Shift"
+msgstr "Shift"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Meta)
+#: trackmouse/trackmouse_config.ui:64
+msgid "Meta"
+msgstr "Meta"
+
+#. i18n: ectx: property (text), widget (QRadioButton, shortcutRadio)
+#: trackmouse/trackmouse_config.ui:74
+msgid "Shortcut"
+msgstr "ਸ਼ਾਰਟਕੱਟ"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, KWin::TranslucencyEffectConfigForm)
+#: translucency/package/contents/ui/config.ui:14
+msgid "Translucency"
+msgstr "ਟਰੈਨਜ਼ਲੂਸਨਟ"
+
+#. i18n: ectx: property (title), widget (QGroupBox, m_opacityGroupBox)
+#: translucency/package/contents/ui/config.ui:20
+msgid "General Translucency Settings"
+msgstr "ਆਮ ਟਰੈਨਜ਼ਲੂਸਨਟ ਸੈਟਿੰਗ"
+
+#. i18n: ectx: property (text), widget (QLabel, comboboxpopup_label)
+#: translucency/package/contents/ui/config.ui:64
+msgid "Combobox popups:"
+msgstr "ਕੰਬੋਬਾਕਸ ਪੋਪਅੱਪ:"
+
+#. i18n: ectx: property (text), widget (QLabel, dialogs_label)
+#: translucency/package/contents/ui/config.ui:137
+msgid "Dialogs:"
+msgstr "ਡਾਈਲਾਗ:"
+
+#. i18n: ectx: property (text), widget (QLabel, menus_label)
+#: translucency/package/contents/ui/config.ui:188
+msgid "Menus:"
+msgstr "ਮੇਨੂ:"
+
+#. i18n: ectx: property (text), widget (QLabel, moveresize_label)
+#: translucency/package/contents/ui/config.ui:207
+msgid "Moving windows:"
+msgstr "ਹਿਲਦੀਆਂ ਵਿੰਡੋਜ਼:"
+
+#. i18n: ectx: property (text), widget (QLabel, inactive_label)
+#: translucency/package/contents/ui/config.ui:226
+msgid "Inactive windows:"
+msgstr "ਇਨ-ਐਕਟਿਵ ਵਿੰਡੋਜ਼:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, kcfg_IndividualMenuConfig)
+#: translucency/package/contents/ui/config.ui:267
+msgid "Set menu translucency independently"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, dropdownmenus_label)
+#: translucency/package/contents/ui/config.ui:285
+msgid "Dropdown menus:"
+msgstr "ਲਟਕਦੇ ਮੇਨੂ:"
+
+#. i18n: ectx: property (text), widget (QLabel, popupmenus_label)
+#: translucency/package/contents/ui/config.ui:329
+msgid "Popup menus:"
+msgstr "ਪੋਪਅੱਪ ਮੇਨੂ:"
+
+#. i18n: ectx: property (text), widget (QLabel, tornoffmenus_label)
+#: translucency/package/contents/ui/config.ui:367
+msgid "Torn-off menus:"
+msgstr "ਵੱਖ ਹੋਣ ਯੋਗ ਮੇਨੂ:"
+
+#: windowgeometry/windowgeometry.cpp:62
+msgid "Toggle window geometry display (effect only)"
+msgstr "ਵਿੰਡੋ ਜੁਮੈਟਰੀ ਦਿੱਖ ਬਦਲੋ (ਕੇਵਲ ਪ੍ਰਭਾਵ)"
+
+#: windowgeometry/windowgeometry_config.cpp:55
+msgid "Toggle KWin composited geometry display"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Move)
+#: windowgeometry/windowgeometry_config.ui:17
+msgid "Display for moving windows"
+msgstr "ਹਿਲਾਈਆਂ ਜਾ ਰਹੀਆਂ ਵਿੰਡੋ ਲਈ ਵੇਖਾਓ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Resize)
+#: windowgeometry/windowgeometry_config.ui:24
+msgid "Display for resizing windows"
+msgstr "ਮੁੜ-ਆਕਾਰ ਹੁੰਦੀਆਂ ਵਿੰਡੋਜ਼ ਲਈ ਵੇਖਾਓ"
+
+#. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
+#: wobblywindows/wobblywindows_config.ui:20
+msgid "Advanced"
+msgstr "ਮਾਹਰ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: wobblywindows/wobblywindows_config.ui:26
+msgid "&Stiffness:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: wobblywindows/wobblywindows_config.ui:68
+msgid "Dra&g:"
+msgstr "ਡਰੈਗ(&g):"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: wobblywindows/wobblywindows_config.ui:81
+msgid "&Move factor:"
+msgstr "ਹਿਲਾਉਣ ਫੈਕਟਰ(&M):"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_MoveWobble)
+#: wobblywindows/wobblywindows_config.ui:155
+msgid "Wo&bble when moving"
+msgstr "ਏਧਰ-ਓਧਰ ਕਰਨ ਦੇ ਦੌਰਾਨ ਥਰਥਰਾਉ(&b)"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResizeWobble)
+#: wobblywindows/wobblywindows_config.ui:162
+msgid "Wobble when &resizing"
+msgstr "ਜਦੋਂ ਮੁੜ-ਆਕਾਰ ਹੋਵੇ ਤਾਂ ਥਰਥਰਾਉ(&r)"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AdvancedMode)
+#: wobblywindows/wobblywindows_config.ui:182
+msgid "Enable &advanced mode"
+msgstr "ਮਾਹਰ ਮੋਡ ਚਾਲੂ(&a)"
+
+#. i18n: ectx: property (title), widget (QGroupBox, basicGroup)
+#: wobblywindows/wobblywindows_config.ui:192
+msgid "&Wobbliness"
+msgstr "ਥਰਥਰਾਉਣਾ(&W)"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: wobblywindows/wobblywindows_config.ui:201
+msgid "Less"
+msgstr "ਘੱਟ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: wobblywindows/wobblywindows_config.ui:224
+msgid "More"
+msgstr "ਵੱਧ"
+
+#: zoom/zoom.cpp:86
+msgid "Move Zoomed Area to Left"
+msgstr ""
+
+#: zoom/zoom.cpp:94
+msgid "Move Zoomed Area to Right"
+msgstr ""
+
+#: zoom/zoom.cpp:102
+msgid "Move Zoomed Area Upwards"
+msgstr ""
+
+#: zoom/zoom.cpp:110
+msgid "Move Zoomed Area Downwards"
+msgstr ""
+
+#: zoom/zoom.cpp:119 zoom/zoom_config.cpp:112
+msgid "Move Mouse to Focus"
+msgstr "ਮਾਊਸ ਨੂੰ ਫੋਕਸ ਉੱਤੇ ਲੈ ਜਾਉ"
+
+#: zoom/zoom.cpp:127 zoom/zoom_config.cpp:119
+msgid "Move Mouse to Center"
+msgstr "ਮਾਊਸ ਸੈਂਟਰ 'ਚ ਲੈ ਜਾਉ"
+
+#: zoom/zoom_config.cpp:84
+msgid "Move Left"
+msgstr "ਖੱਬੇ ਭੇਜੋ"
+
+#: zoom/zoom_config.cpp:91
+msgid "Move Right"
+msgstr "ਸੱਜੇ ਭੇਜੋ"
+
+#: zoom/zoom_config.cpp:98
+msgid "Move Up"
+msgstr "ਉੱਤੇ ਭੇਜੋ"
+
+#: zoom/zoom_config.cpp:105
+msgid "Move Down"
+msgstr "ਹੇਠਾਂ ਭੇਜੋ"
+
+#. i18n: ectx: property (whatsThis), widget (QLabel, label)
+#. i18n: ectx: property (whatsThis), widget (QDoubleSpinBox, kcfg_ZoomFactor)
+#: zoom/zoom_config.ui:25 zoom/zoom_config.ui:41
+msgid "On zoom-in and zoom-out change the zoom by the defined zoom-factor."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: zoom/zoom_config.ui:28
+msgid "Zoom Factor:"
+msgstr "ਜ਼ੂਮ ਫੈਕਟਰ:"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_EnableFocusTracking)
+#: zoom/zoom_config.ui:66
+msgid ""
+"Enable tracking of the focused location. This needs QAccessible to be "
+"enabled per application (\"export QT_ACCESSIBILITY=1\")."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_EnableFocusTracking)
+#: zoom/zoom_config.ui:69
+msgid "Enable Focus Tracking"
+msgstr "ਫੋਕਸ ਟਰੈਕਿੰਗ ਚਾਲੂ"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_EnableFollowFocus)
+#: zoom/zoom_config.ui:79
+msgid "When the focus changes, move the zoom area to the focused location."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_EnableFollowFocus)
+#: zoom/zoom_config.ui:82
+msgid "Follow Focus"
+msgstr "ਫੋਕਸ ਦਾ ਪਿੱਛਾ ਕਰੋ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: zoom/zoom_config.ui:89
+msgid "Mouse Pointer:"
+msgstr "ਮਾਊਸ ਪੁਆਇੰਟਰ"
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_MousePointer)
+#: zoom/zoom_config.ui:102
+msgid "Visibility of the mouse-pointer."
+msgstr "ਮਾਊਸ-ਪੁਆਇੰਟ ਦੀ ਦਿੱਖ।"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
+#: zoom/zoom_config.ui:106
+msgid "Scale"
+msgstr "ਸਕੇਲ"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
+#: zoom/zoom_config.ui:111
+msgid "Keep"
+msgstr "ਰੱਖੋ"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
+#: zoom/zoom_config.ui:116
+msgid "Hide"
+msgstr "ਓਹਲੇ"
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_MouseTracking)
+#: zoom/zoom_config.ui:124
+msgid "Track moving of the mouse."
+msgstr "ਚੱਲਦੇ ਮਾਊਂਸ ਨੂੰ ਟਰੈਕ ਕਰੋ।"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
+#: zoom/zoom_config.ui:128
+msgid "Proportional"
+msgstr "ਅਨੁਪਾਤ"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
+#: zoom/zoom_config.ui:133
+msgid "Centered"
+msgstr "ਸੈਂਟਰ"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
+#: zoom/zoom_config.ui:138
+msgid "Push"
+msgstr "ਪੁਸ਼"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
+#: zoom/zoom_config.ui:143
+msgid "Disabled"
+msgstr "ਬੰਦ ਹੈ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: zoom/zoom_config.ui:151
+msgid "Mouse Tracking:"
+msgstr "ਮਾਊਸ ਟਰੈਕਿੰਗ:"

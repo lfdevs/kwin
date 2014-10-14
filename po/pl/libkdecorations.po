@@ -1,0 +1,105 @@
+# translation of kwin_lib.po to
+#
+# Krzysztof Lichota <krzysiek@lichota.net>, 2005.
+# Marta Rybczyńska <kde-i18n@rybczynska.net>, 2007, 2009, 2010.
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin_lib\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-04-27 20:56+0000\n"
+"PO-Revision-Date: 2012-11-24 10:24+0100\n"
+"Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
+"Language-Team: Polish <kde-i18n-doc@kde.org>\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+
+#: kcommondecoration.cpp:316
+#, kde-format
+msgid "<center><b>%1</b></center>"
+msgstr "<center><b>%1</b></center>"
+
+#: kcommondecoration.cpp:408
+msgctxt "Button showing window actions menu"
+msgid "Window Menu"
+msgstr "Menu okna"
+
+#: kcommondecoration.cpp:423
+msgctxt "Button showing application menu"
+msgid "Application Menu"
+msgstr "Menu programu"
+
+#: kcommondecoration.cpp:445 kcommondecoration.cpp:668
+msgid "Not on all desktops"
+msgstr "Nie na wszystkich pulpitach"
+
+#: kcommondecoration.cpp:445 kcommondecoration.cpp:669
+msgid "On all desktops"
+msgstr "Na wszystkich pulpitach"
+
+#: kcommondecoration.cpp:460
+msgid "Help"
+msgstr "Pomoc"
+
+#: kcommondecoration.cpp:473
+msgid "Minimize"
+msgstr "Minimalizuj"
+
+#: kcommondecoration.cpp:488 kcommondecoration.cpp:656
+msgid "Restore"
+msgstr "Przywróć"
+
+#: kcommondecoration.cpp:488 kcommondecoration.cpp:655
+msgid "Maximize"
+msgstr "Maksymalizuj"
+
+#: kcommondecoration.cpp:503
+msgid "Close"
+msgstr "Zamknij"
+
+#: kcommondecoration.cpp:517 kcommondecoration.cpp:709
+msgid "Do not keep above others"
+msgstr "Zawsze pod spodem"
+
+#: kcommondecoration.cpp:517 kcommondecoration.cpp:709
+#: kcommondecoration.cpp:730
+msgid "Keep above others"
+msgstr "Zawsze na wierzchu"
+
+#: kcommondecoration.cpp:533 kcommondecoration.cpp:724
+msgid "Do not keep below others"
+msgstr "Nie utrzymuj poniżej innych"
+
+#: kcommondecoration.cpp:533 kcommondecoration.cpp:715
+#: kcommondecoration.cpp:724
+msgid "Keep below others"
+msgstr "Utrzymuj poniżej innych"
+
+#: kcommondecoration.cpp:549 kcommondecoration.cpp:680
+msgid "Unshade"
+msgstr "Rozwiń"
+
+#: kcommondecoration.cpp:549 kcommondecoration.cpp:681
+msgid "Shade"
+msgstr "Zwiń"
+
+#: kdecoration_plugins_p.cpp:101
+msgid "Loading of window decoration plugin library disabled in configuration."
+msgstr ""
+"Wczytywanie biblioteki wtyczki dekoracji okien wyłączone w konfiguracji."
+
+#: kdecoration_plugins_p.cpp:115
+#, kde-format
+msgid "The library %1 has wrong API version %2"
+msgstr "Biblioteka %1 ma złą wersję API %2."
+
+#: kdecoration_plugins_p.cpp:133
+msgid "The default decoration plugin is corrupt and could not be loaded."
+msgstr ""
+"Domyślna wtyczka dekoracji okien jest uszkodzona i nie można było jej "
+"wczytać."

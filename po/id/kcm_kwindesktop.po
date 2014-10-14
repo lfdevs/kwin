@@ -1,0 +1,226 @@
+# Indonesian translations for kcm_kwindesktop package.
+# Copyright (C) 2010 This_file_is_part_of_KDE
+# This file is distributed under the same license as the kcm_kwindesktop package.
+# Andhika Padmawan <andhika.padmawan@gmail.com>, 2010-2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kcm_kwindesktop\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-07-04 08:25+0000\n"
+"PO-Revision-Date: 2014-06-16 19:15+0700\n"
+"Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
+"Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Andhika Padmawan"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "andhika.padmawan@gmail.com"
+
+#: desktopnameswidget.cpp:67
+#, kde-format
+msgid "Desktop %1:"
+msgstr "Desktop %1:"
+
+#: desktopnameswidget.cpp:69 desktopnameswidget.cpp:70
+#, kde-format
+msgid "Here you can enter the name for desktop %1"
+msgstr "Di sini anda dapat memasukkan nama untuk desktop %1"
+
+#: desktopnameswidget.cpp:108 main.cpp:226
+#, kde-format
+msgid "Desktop %1"
+msgstr "Desktop %1"
+
+#: main.cpp:87
+msgid ""
+"<h1>Multiple Desktops</h1>In this module, you can configure how many virtual "
+"desktops you want and how these should be labeled."
+msgstr ""
+"<h1>Banyak Desktop</h1>Di modul ini, anda dapat mengatur berapa banyak "
+"desktop virtual yang anda inginkan dan bagaimana cara pemberian labelnya."
+
+#: main.cpp:99
+msgid "Switch to Next Desktop"
+msgstr "Ganti ke Desktop Berikutnya"
+
+#: main.cpp:100
+msgid "Switch to Previous Desktop"
+msgstr "Ganti ke Desktop Sebelumnya"
+
+#: main.cpp:101
+msgid "Switch One Desktop to the Right"
+msgstr "Ganti Satu Desktop ke Kanan"
+
+#: main.cpp:102
+msgid "Switch One Desktop to the Left"
+msgstr "Ganti Satu Desktop ke Kiri"
+
+#: main.cpp:103
+msgid "Switch One Desktop Up"
+msgstr "Ganti Satu Desktop ke Atas"
+
+#: main.cpp:104
+msgid "Switch One Desktop Down"
+msgstr "Ganti Satu Desktop ke Bawah"
+
+#: main.cpp:105
+msgid "Walk Through Desktops"
+msgstr "Berjalan Melewati Desktop"
+
+#: main.cpp:106
+msgid "Walk Through Desktops (Reverse)"
+msgstr "Berjalan Melewati Desktop (Mundur)"
+
+#: main.cpp:107
+msgid "Walk Through Desktop List"
+msgstr "Berjalan Melewati Senarai Desktop"
+
+#: main.cpp:108
+msgid "Walk Through Desktop List (Reverse)"
+msgstr "Berjalan Melewati Senarai Desktop (Mundur))"
+
+#: main.cpp:110 main.cpp:144 main.cpp:509 main.cpp:510
+msgid "Desktop Switching"
+msgstr "Penggantian Desktop"
+
+#: main.cpp:122 main.cpp:489
+#, kde-format
+msgid "Switch to Desktop %1"
+msgstr "Ganti ke Desktop %1"
+
+#: main.cpp:154
+msgid "No Animation"
+msgstr "Tanpa Animasi"
+
+#: main.cpp:493
+#, kde-format
+msgid "No suitable Shortcut for Desktop %1 found"
+msgstr "Tak ada Jalan Pintas yang cocok untuk Desktop %1 yang ditemukan"
+
+#: main.cpp:499
+#, kde-format
+msgid "Assigned global Shortcut \"%1\" to Desktop %2"
+msgstr "Menugaskan Jalan Pintas \"%1\" ke Desktop %2"
+
+#: main.cpp:502
+#, kde-format
+msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
+msgstr ""
+"Konflik Jalan Pintas: Tak dapat mengatur Jalan Pintas %1 untuk Desktop %2"
+
+#: main.cpp:604
+msgid "KWin development team"
+msgstr "Tim pengembang KWin"
+
+#. i18n: ectx: attribute (title), widget (QWidget, desktop)
+#: main.ui:33
+msgid "Desktops"
+msgstr "Desktop"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: main.ui:39
+msgid "Layout"
+msgstr "Tata Letak"
+
+#. i18n: ectx: property (whatsThis), widget (QLabel, numberLabel)
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, numberSpinBox)
+#: main.ui:51 main.ui:64
+msgid ""
+"Here you can set how many virtual desktops you want on your KDE desktop."
+msgstr ""
+"Di sini anda dapat mengatur berapa banyak desktop virtual yang anda inginkan "
+"di desktop KDE anda."
+
+#. i18n: ectx: property (text), widget (QLabel, numberLabel)
+#: main.ui:54
+msgid "&Number of desktops:"
+msgstr "&Jumlah desktop:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: main.ui:83
+msgid "N&umber of rows:"
+msgstr "J&umlah baris:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
+#: main.ui:103
+msgid "Desktop Names"
+msgstr "Nama Desktop"
+
+#. i18n: ectx: attribute (title), widget (QWidget, switching)
+#: main.ui:136
+msgid "Switching"
+msgstr "Mengganti"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, wrapAroundBox)
+#: main.ui:142
+msgid ""
+"Enable this option if you want keyboard or active desktop border navigation "
+"beyond the edge of a desktop to take you to the opposite edge of the new "
+"desktop."
+msgstr ""
+"Aktifkan opsi ini jika anda ingin papan ketik atau navigasi batas desktop "
+"aktif di luar tepi desktop untuk membawa anda ke sisi yang berlawanan dari "
+"desktop baru."
+
+#. i18n: ectx: property (text), widget (QCheckBox, wrapAroundBox)
+#: main.ui:145
+msgid "Desktop navigation wraps around"
+msgstr "Navigasi desktop menggulung sekitar"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: main.ui:152
+msgid "Desktop Effect Animation"
+msgstr "Animasi Efek Desktop"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: main.ui:164
+msgid "Animation:"
+msgstr "Animasi:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, popupInfoCheckBox)
+#: main.ui:204
+msgid "Desktop Switch On-Screen Display"
+msgstr "Tampilan Di-Layar Ganti Desktop"
+
+#. i18n: ectx: property (text), widget (QLabel, hideLabel)
+#: main.ui:222
+msgid "Duration:"
+msgstr "Durasi:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, popupHideSpinBox)
+#: main.ui:232
+msgid " msec"
+msgstr " mdet"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
+#: main.ui:245
+msgid ""
+"Enabling this option will show a small preview of the desktop layout "
+"indicating the selected desktop."
+msgstr ""
+"Mengaktifkan opsi ini akan menampilkan pratilik kecil dari tata letak "
+"desktop yang mengindikasikan desktop terpilih."
+
+#. i18n: ectx: property (text), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
+#: main.ui:248
+msgid "Show desktop layout indicators"
+msgstr "Tampilkan indikator tata letak desktop"
+
+#. i18n: ectx: property (title), widget (QGroupBox, shortcutsGroupBox)
+#: main.ui:258
+msgid "Shortcuts"
+msgstr "Jalan Pintas"
+
+#. i18n: ectx: property (text), widget (QCheckBox, allShortcutsCheckBox)
+#: main.ui:277
+msgid "Show shortcuts for all possible desktops"
+msgstr "Tampilkan jalan pintas untuk semua desktop yang mungkin"

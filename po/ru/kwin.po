@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-10-07 11:26+0000\n"
-"PO-Revision-Date: 2014-08-27 04:10+0400\n"
+"PO-Revision-Date: 2014-10-19 22:56+0400\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -453,24 +453,26 @@ msgid "Indicate that KWin has recently crashed n times"
 msgstr "Показывает, что сбои KWin происходили n раз"
 
 #: main_wayland.cpp:88
-#, fuzzy
-#| msgid "kwin: another window manager is running (try using --replace)\n"
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
-msgstr "kwin: запущен другой диспетчер окон (попробуйте параметр --replace)\n"
+msgstr "kwin_wayland: диспетчер окон X11 работает на экране X11.\n"
 
 #: main_wayland.cpp:96
 msgid ""
 "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
 "set.\n"
 msgstr ""
+"kwin_wayland: не удалось подключиться в серверу Wayland, проверьте "
+"правильность установки переменной WAYLAND_DISPLAY.\n"
 
 #: main_wayland.cpp:231
 msgid "Start a nested X Server."
-msgstr ""
+msgstr "Запустить вложенный сервер X."
 
 #: main_wayland.cpp:234
 msgid "The X11 Display to connect to, required if option x-server is used."
 msgstr ""
+"Экран X11, к которому следует подключиться. Необходимо, если подан параметр "
+"«x-server»."
 
 #: main_x11.cpp:149
 msgid ""

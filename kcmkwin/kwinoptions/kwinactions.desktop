@@ -105,6 +105,7 @@ Comment[ca]=Accions del ratolí en les finestres
 Comment[cs]=Činnosti myši na oknech
 Comment[da]=Musehandlinger på vinduer
 Comment[de]=Maus-Aktionen für Fenster
+Comment[el]=Ενέργειες ποντικιού στα παράθυρα
 Comment[en_GB]=Mouse Actions on Windows
 Comment[es]=Acciones del ratón sobre las ventanas
 Comment[fi]=Ikkunoiden hiiritoiminnot
@@ -129,6 +130,7 @@ Comment[sr@latin]=Radnje mišem nad prozorima
 Comment[sv]=Musåtgärder för fönster
 Comment[uk]=Дії над вікнами за допомогою миші
 Comment[x-test]=xxMouse Actions on Windowsxx
+Comment[zh_CN]=窗口的鼠标动作
 
 X-KDE-Keywords=shade,maximise,maximize,minimize,minimise,lower,operations menu,titlebar,resize
 X-KDE-Keywords[bs]=sjena,povećali,povećala,smanjiti,umanjiti,sniziti,izbornik operacija,naslovnica,promjena veličine

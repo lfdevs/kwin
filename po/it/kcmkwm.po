@@ -16,7 +16,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.4\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 msgctxt "NAME OF TRANSLATORS"
@@ -577,10 +576,8 @@ msgstr "Nascondi le finestre accessorie delle applicazioni inattive"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: focus.ui:30
-#, fuzzy
-#| msgid "Special Windows"
 msgid "Activating windows"
-msgstr "Finestre speciali"
+msgstr "Attivazione delle finestre"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: focus.ui:69
@@ -590,6 +587,10 @@ msgid ""
 "This behaviour is common on other operating systems and<br>\n"
 "likely what you want."
 msgstr ""
+"<b>Click per il fuoco</b><br>\n"
+"Una finestra viene attivata facendo clic su di essa.<br><br>\n"
+"Questo comportamento è comune su altri sistemi operativi<br>\n"
+"e probabilmente è quello che vorrai usare."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: focus.ui:91
@@ -601,6 +602,12 @@ msgid ""
 "the window under the mouse is the preferred candidate.<br><br>\n"
 "Unusual, but possible variant of <i>Click To Focus</i>."
 msgstr ""
+"<b>Clic per il fuoco – Precedenza al mouse</b><br>\n"
+"Quasi lo stesso di <i>Clic per il fuoco</i><br><br>\n"
+"Se una finestra attiva deve essere scelta dal sistema<br>\n"
+"(ad es. perché quella attiva è stata chiusa), <br>\n"
+"quella sotto il puntatore è la candidata preferita.<br><br>\n"
+"Variante inconsueta ma possibilie di <i>Clic per il fuoco</i>."
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: focus.ui:112
@@ -611,6 +618,12 @@ msgid ""
 "Focus stealing prevention takes place as usual.<br><br>\n"
 "Think as <i>Click To Focus</i> just without having to actually click."
 msgstr ""
+"<b>Il fuoco segue il mouse</b><br>\n"
+"Spostando il mouse su una finestra la si attiva.<br><br>\n"
+"Ad es. le finestre che appaiono casualmente sotto il mouse non si "
+"attiveranno.<br>\n"
+"La prevenzione della cattura del fuoco è effettuata come al solito.<br><br>\n"
+"Pensa a <i>Clic per il fuoco</i> senza dover effettivamente fare clic."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: focus.ui:134
@@ -622,6 +635,12 @@ msgid ""
 "the window under the mouse is the preferred candidate.<br><br>\n"
 "Choose this, if you want a hover controlled focus."
 msgstr ""
+"<b>Il fuoco segue il mouse – Precedenza al mouse</b><br>\n"
+"Questa è quasi la stessa di <i>Il fuoco segue il mouse</i><br><br>\n"
+"Se la finestra attiva dev'essere scelta dal sistema<br>\n"
+"(ad es. perché quella attuale è stata chiusa) <br>\n"
+"quella sotto il puntatore è la candidata preferita.<br><br>\n"
+"Scegli questa opzione se vuoi che il fuoco sia controllato dallo sfioramento."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: focus.ui:158
@@ -635,6 +654,16 @@ msgid ""
 "You very likely want to use<br>\n"
 "<i>Focus Follows Mouse - Mouse Precedence</i> instead!"
 msgstr ""
+"<b>Fuoco sotto il mouse</b><br>\n"
+"Il fuoco rimane sempre sulla finestra sotto il puntatore del mouse.<br><br>\n"
+"\n"
+"Nota:<br>\n"
+"La <b>prevenzione della cattura del fuoco</b> e la <b>tabbox (\"Alt+Tab\")</"
+"b><br>\n"
+"contraddicono questa politica e <b>non funzioneranno</b>.<br><br>\n"
+"Molto probabilmente vorrai usare<br>\n"
+"<i>Il fuoco segue il mouse – Precedenza al mouse</i> invece di questa "
+"opzione!"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: focus.ui:183
@@ -650,13 +679,24 @@ msgid ""
 "You very likely want to use<br>\n"
 "<i>Focus Follows Mouse - Mouse Precedence</i> instead!"
 msgstr ""
+"<b>Fuoco strettamente sotto il mouse</b><br>\n"
+"Il fuoco è strettamente sulla finestra sotto il mouse – senza nessun dubbio –"
+"<br>\n"
+"in modo molto simile a quello dei sistemi X11 alla vecchia maniera, non "
+"gestiti.<br><br>\n"
+"\n"
+"Nota:<br>\n"
+"La <b>prevenzione della cattura del fuoco</b> e la <b>tabbox (\"Alt+Tab\")</"
+"b><br>\n"
+"contraddicono questa politica e <b>non funzioneranno</b>.<br><br>\n"
+"Molto probabilmente vorrai usare<br>\n"
+"<i>Il fuoco segue il mouse – Precedenza al mouse</i> invece di questa "
+"opzione!"
 
 #. i18n: ectx: property (text), widget (QLabel, delayFocusOnLabel)
 #: focus.ui:228
-#, fuzzy
-#| msgid "&Delay focus by:"
 msgid "&Delay focus by"
-msgstr "Ritar&do focus di:"
+msgstr "Ritar&do fuoco di"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, delayFocus)
 #: focus.ui:247
@@ -669,10 +709,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusStealingLabel)
 #: focus.ui:273
-#, fuzzy
-#| msgid "Focus &stealing prevention level:"
 msgid "Focus &stealing prevention"
-msgstr "Livello di prevenzione della &sottrazione del fuoco:"
+msgstr "Prevenzione della &sottrazione del fuoco:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, focusStealing)
 #: focus.ui:300
@@ -757,28 +795,23 @@ msgstr "Estremo"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: focus.ui:364
-#, fuzzy
-#| msgid "&Policy:"
 msgid "Policy"
-msgstr "&Politica:"
+msgstr "Politica"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: focus.ui:377
 msgid "Click"
-msgstr ""
+msgstr "Clic"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: focus.ui:409
 msgid "Hover"
-msgstr ""
+msgstr "Sfioramento"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: focus.ui:434
-#, fuzzy
-#| msgctxt "Window Raising Policy"
-#| msgid "Raise/Lower all floating windows"
 msgid "Raising windows"
-msgstr "Alza/abbassa tutte le finestre mobili"
+msgstr "Alzare le finestre"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, autoRaiseOn)
 #: focus.ui:443
@@ -792,7 +825,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, autoRaiseOn)
 #: focus.ui:446
 msgid "&Raise on hover, delayed by"
-msgstr ""
+msgstr "Solleva allo sfioramento, &ritardato di"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, autoRaise)
 #: focus.ui:472
@@ -822,7 +855,7 @@ msgstr "Il &clic alza la finestra attiva"
 #. i18n: ectx: property (title), widget (QGroupBox, multiscreenBox)
 #: focus.ui:520
 msgid "Multiscreen behaviour"
-msgstr ""
+msgstr "Comportamento con motli schermi"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, separateScreenFocus)
 #: focus.ui:529

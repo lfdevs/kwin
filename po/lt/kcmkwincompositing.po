@@ -5,13 +5,14 @@
 # Remigijus Jarmalavičius <remigijus@jarmalavicius.lt>, 2011.
 # Liudas Ališauskas <liudas.alisauskas@gmail.com>, 2012.
 # Liudas Alisauskas <liudas@akmc.lt>, 2013.
+# liudas@aksioma.lt <liudas@aksioma.lt>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-07-23 08:09+0000\n"
-"PO-Revision-Date: 2013-05-28 14:08+0300\n"
-"Last-Translator: Liudas Ališauskas <liudas@akmc.lt>\n"
+"PO-Revision-Date: 2014-11-05 18:49+0200\n"
+"Last-Translator: liudas@aksioma.lt <liudas@aksioma.lt>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
@@ -36,30 +37,25 @@ msgstr "XRender"
 #: compositing.cpp:488
 msgctxt "OpenGL Platform Interface"
 msgid "EGL"
-msgstr ""
+msgstr "EGL"
 
 #: compositing.cpp:490
 msgctxt "OpenGL Platform Interface"
 msgid "GLX"
-msgstr ""
+msgstr "GLX"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CompositingForm)
 #: compositing.ui:14
 msgid "Form"
-msgstr ""
+msgstr "Forma"
 
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:23 qml/CompositingView.qml:55
-#, fuzzy
-#| msgctxt "@option:check"
-#| msgid "Enable desktop effects at startup"
 msgid "Enable compositor on startup"
-msgstr "Įjungti darbastalio efektus paleidžiant"
+msgstr "Įjungti kompozitorių paleidžiant"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:30
-#, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation speed:"
 msgstr "Animacijos greitis:"
 
@@ -70,16 +66,12 @@ msgstr "Akimirksniu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:77
-#, fuzzy
-#| msgid "Very Slow"
 msgid "Very slow"
-msgstr "Labai lėtas"
+msgstr "Labai lėtai"
 
 #. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
 #: compositing.ui:88 compositing.ui:114
-#, fuzzy
-#| msgid "Scale method:"
 msgid "Scale method:"
 msgstr "Mastelio keitimo būdas:"
 
@@ -108,29 +100,22 @@ msgstr "Glotnus (lėtesnis)"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: compositing.ui:142 qml/CompositingView.qml:81
 msgid "Rendering backend:"
-msgstr ""
+msgstr "Atvaizdavimas galinė sąsaja:"
 
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:152
 msgid "OpenGL interface:"
-msgstr ""
+msgstr "OpenGL sąsaja:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: compositing.ui:162
-#, fuzzy
-#| msgid "Tearing Prevention (VSync)"
 msgid "Tearing prevention (\"vsync\"):"
-msgstr "Plyšimo prevencija (VSync)"
+msgstr "Plyšimo prevencija („VSync“):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:170 compositing.ui:216 qml/CompositingView.qml:141
 #: qml/CompositingView.qml:154
-#, fuzzy
-#| msgctxt ""
-#| "Windows are unmapped as they are requested. This can lead to not having "
-#| "updated thumbnials for windows on other desktops."
-#| msgid "Never"
 msgid "Never"
 msgstr "Niekada"
 
@@ -146,10 +131,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:185 qml/CompositingView.qml:141
-#, fuzzy
-#| msgid "Full scene repaints"
 msgid "Full screen repaints"
-msgstr "Pilni scenos perpiešimai"
+msgstr "Pilno ekrano perpiešimai"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:190 qml/CompositingView.qml:141
@@ -158,49 +141,38 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:198
-#, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep window thumbnails:"
 msgstr "Laikyti langų miniatiūras:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:206
 msgid "Always"
-msgstr ""
+msgstr "Visada"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:211 qml/CompositingView.qml:154
-#, fuzzy
-#| msgctxt ""
-#| "Windows are not unmapped if the window is somewhere visible on any of the "
-#| "virtual desktops."
-#| msgid "Only for Shown Windows"
 msgid "Only for Shown Windows"
 msgstr "Tik rodomiems langams"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: compositing.ui:224 qml/CompositingView.qml:175
 msgid "Expert:"
-msgstr ""
+msgstr "Ekspertas:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
 #: compositing.ui:231 qml/CompositingView.qml:182
-#, fuzzy
-#| msgid "Suspend desktop effects for fullscreen windows"
 msgid "Suspend compositor for full screen windows"
-msgstr "Sustabdyti darbastalio efektus pilno ekrano langams"
+msgstr "Sustabdyti kompozitorių pilno ekrano langams"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: compositing.ui:238 qml/CompositingView.qml:192
 msgid "Experimental:"
-msgstr ""
+msgstr "Ekperimentinis:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
 #: compositing.ui:245 qml/CompositingView.qml:200
-#, fuzzy
-#| msgid "Enable color correction (experimental)"
 msgid "Enable color correction"
-msgstr "Įgalinti spalvų taisymą (eksperimentinis)"
+msgstr "Įgalinti spalvų taisymą"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
 #: compositing.ui:265
@@ -261,36 +233,26 @@ msgid ""
 msgstr ""
 
 #: model.cpp:67
-#, fuzzy
-#| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
-msgstr "Prieinamumas"
+msgstr "Pritaikymas neįgaliesiems"
 
 #: model.cpp:68
-#, fuzzy
-#| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Išvaizda"
 
 #: model.cpp:69
-#, fuzzy
-#| msgid "Candy"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Saldainiukai"
 
 #: model.cpp:70
-#, fuzzy
-#| msgid "Focus"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Fokusas"
 
 #: model.cpp:71
-#, fuzzy
-#| msgid "Tools"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Įrankiai"
@@ -301,49 +263,33 @@ msgid "Virtual Desktop Switching Animation"
 msgstr ""
 
 #: model.cpp:73
-#, fuzzy
-#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Langų tvarkymas"
 
 #: model.cpp:235
 msgid "KWin development team"
-msgstr ""
+msgstr "KWin vystymo komanda"
 
 #: qml/CompositingView.qml:67
-#, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation Speed:"
 msgstr "Animacijos greitis:"
 
 #: qml/CompositingView.qml:106 qml/CompositingView.qml:120
-#, fuzzy
-#| msgid "Scale method:"
 msgid "Scale Method:"
 msgstr "Mastelio keitimo būdas:"
 
 #: qml/CompositingView.qml:135
-#, fuzzy
-#| msgid "Tearing Prevention (VSync)"
 msgid "Tearing Prevention (VSync):"
-msgstr "Plyšimo prevencija (VSync)"
+msgstr "Plyšimo prevencija (VSync):"
 
 #: qml/CompositingView.qml:148
-#, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep Window Thumbnails:"
 msgstr "Laikyti langų miniatiūras:"
 
 #: qml/CompositingView.qml:154
-#, fuzzy
-#| msgctxt ""
-#| "A window thumbnail requires to have the corresponding window mapped. To "
-#| "have thumbnails at all time, windows are not unmapped. This can break "
-#| "window minimization as it is modelled as unmapping of windows."
-#| msgid "Always (Breaks minimization)"
 msgid "Always (Breaks Animations)"
-msgstr "Visuomet (sugadina sumažinimą)"
+msgstr "Visuomet (sugadina animacijas)"
 
 #: qml/CompositingView.qml:160
 msgid "OpenGL Platform Interface:"
@@ -366,11 +312,11 @@ msgstr ""
 
 #: qml/EffectView.qml:75
 msgid "Search"
-msgstr ""
+msgstr "Ieškoti"
 
 #: qml/EffectView.qml:82
 msgid "Configure filter"
-msgstr ""
+msgstr "Konfigūruoti filtrą"
 
 #: qml/EffectView.qml:85
 msgid "Exclude Desktop Effects not supported by the Compositor"

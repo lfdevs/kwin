@@ -1,6 +1,6 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013.
+# Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013, 2014.
 # Lukáš Tinkl <ltinkl@redhat.com>, 2010, 2011.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
 #
@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-07-04 08:25+0000\n"
-"PO-Revision-Date: 2013-05-23 09:22+0200\n"
-"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
+"PO-Revision-Date: 2014-10-22 12:32+0200\n"
+"Last-Translator: Vít Pelčák <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Lokalize 1.5\n"
+"X-Language: cs_CZ\n"
+"X-Source-Language: en_US\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -294,7 +296,7 @@ msgstr "Do popředí/na pozadí"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:388 mouse.ui:131
 msgid "Shade/Unshade"
-msgstr "Zarolovat/vyrolovat"
+msgstr "Sbalit/rozbalit"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
@@ -510,7 +512,7 @@ msgstr "Pod myší"
 #. i18n: ectx: property (title), widget (QGroupBox, shBox)
 #: advanced.ui:167
 msgid "Shading"
-msgstr "Zarolování"
+msgstr "Sbalování"
 
 #. i18n: ectx: property (text), widget (QLabel, shadeHoverLabel)
 #: advanced.ui:176
@@ -523,13 +525,13 @@ msgid ""
 "If Shade Hover is enabled, a shaded window will un-shade automatically when "
 "the mouse pointer has been over the title bar for some time."
 msgstr ""
-"Je-li povoleno automatické vyrolování, pak se zarolované okno automaticky "
-"vyroluje, pokud ukazatel myši nad titulkem tohoto okna stráví určitou dobu."
+"Je-li povoleno automatické rozbalování, pak se sbalené okno automaticky "
+"rozbalí, pokud ukazatel myši nad titulkem tohoto okna stráví určitou dobu."
 
 #. i18n: ectx: property (text), widget (QCheckBox, shadeHoverOn)
 #: advanced.ui:208
 msgid "&Enable hover"
-msgstr "Povolit auto&matické vyrolování"
+msgstr "Povolit auto&matické rozbalování"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, shadeHover)
 #: advanced.ui:215
@@ -537,8 +539,8 @@ msgid ""
 "Sets the time in milliseconds before the window unshades when the mouse "
 "pointer goes over the shaded window."
 msgstr ""
-"Nastaví čas v milisekundách, za který se zarolované okno automaticky "
-"vyroluje, pokud ukazatel myši nad titulkem tohoto okna stráví určitou dobu."
+"Nastaví čas v milisekundách, za který se sbalené okno automaticky rozbalí, "
+"pokud ukazatel myši nad titulkem tohoto okna stráví určitou dobu."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, delayFocus)
 #. i18n: ectx: property (suffix), widget (QSpinBox, autoRaise)
@@ -550,7 +552,7 @@ msgstr " ms"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: advanced.ui:240
 msgid "Special Windows"
-msgstr "Speciální Okna"
+msgstr "Speciální okna"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, hideUtilityWindowsForInactive)
 #: advanced.ui:249
@@ -661,7 +663,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, focusStealingLabel)
 #: focus.ui:273
 msgid "Focus &stealing prevention"
-msgstr "P&revence ztráty zaměření:"
+msgstr "P&revence ztráty zaměření"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, focusStealing)
 #: focus.ui:300
@@ -756,7 +758,7 @@ msgstr "Přejezd"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: focus.ui:434
 msgid "Raising windows"
-msgstr ""
+msgstr "Zdvihání oken"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, autoRaiseOn)
 #: focus.ui:443
@@ -771,7 +773,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, autoRaiseOn)
 #: focus.ui:446
 msgid "&Raise on hover, delayed by"
-msgstr ""
+msgstr "Zdvihnout při pře&jezdu, se zpožděním"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, autoRaise)
 #: focus.ui:472
@@ -801,7 +803,7 @@ msgstr "K&liknutí zdvihne aktivní okno"
 #. i18n: ectx: property (title), widget (QGroupBox, multiscreenBox)
 #: focus.ui:520
 msgid "Multiscreen behaviour"
-msgstr ""
+msgstr "Chování více obrazovek"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, separateScreenFocus)
 #: focus.ui:529
@@ -810,7 +812,7 @@ msgid ""
 "Xinerama screen"
 msgstr ""
 "Pokud je povoleno, operace zaměření jsou omezeny pouze na aktivní Xinerama "
-"obrazovku."
+"obrazovku"
 
 #. i18n: ectx: property (text), widget (QCheckBox, separateScreenFocus)
 #: focus.ui:532
@@ -956,7 +958,7 @@ msgstr "Chování při <em>dvojitém</em> kliknutí myší na záhlaví okna."
 #: mouse.ui:75 mouse.ui:257 mouse.ui:330 mouse.ui:401 mouse.ui:474
 #: mouse.ui:545 mouse.ui:618
 msgid "Shade"
-msgstr "Zarolovat"
+msgstr "Sbalit"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
@@ -980,7 +982,7 @@ msgstr "Na všechny plochy"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mouse.ui:103
 msgid "Wheel event:"
-msgstr ""
+msgstr "Událost kolečka myši:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct4)
 #: mouse.ui:122
@@ -1104,20 +1106,21 @@ msgstr ""
 #. i18n: ectx: property (whatsThis), widget (KComboBox, leftClickMaximizeButton)
 #: mouse.ui:655 mouse.ui:709
 msgid "Behavior on <em>left</em> click onto the maximize button."
-msgstr "Chování při <em>levém</em> kliknutí myší na maximalizační tlačítko."
+msgstr "Chování při <em>levém</em> kliknutí myší na tlačítko pro maximalizaci."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_9)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, middleClickMaximizeButton)
 #: mouse.ui:671 mouse.ui:722
 msgid "Behavior on <em>middle</em> click onto the maximize button."
 msgstr ""
-"Chování při <em>prostředním</em> kliknutí myší na maximalizační tlačítko."
+"Chování při <em>prostředním</em> kliknutí myší na tlačítko pro maximalizaci."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_8)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, rightClickMaximizeButton)
 #: mouse.ui:687 mouse.ui:735
 msgid "Behavior on <em>right</em> click onto the maximize button."
-msgstr "Chování při <em>pravém</em> kliknutí myší na maximalizační tlačítko."
+msgstr ""
+"Chování při <em>pravém</em> kliknutí myší na tlačítko pro maximalizaci."
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: mouse.ui:770
@@ -1170,7 +1173,7 @@ msgstr " pixel"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, centerSnap)
 #: moving.ui:70
 msgid "no center snap zone"
-msgstr ""
+msgstr "žádná zóna přitahování středu"
 
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
 #: moving.ui:90
@@ -1195,7 +1198,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, windowSnap)
 #: moving.ui:137
 msgid "no window snap zone"
-msgstr ""
+msgstr "žádná zóna přitahování oken"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, borderSnap)
 #: moving.ui:150
@@ -1210,7 +1213,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, borderSnap)
 #: moving.ui:165
 msgid "no border snap zone"
-msgstr ""
+msgstr "žádná zóna přitahování okrajů"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, geometryTipOn)
 #: moving.ui:172

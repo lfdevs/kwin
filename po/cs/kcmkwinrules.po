@@ -1,6 +1,6 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013.
+# Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013, 2014.
 # Lukáš Tinkl <ltinkl@redhat.com>, 2010, 2011.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012, 2013.
 #
@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-04-28 15:51+0000\n"
-"PO-Revision-Date: 2013-11-26 10:26+0100\n"
+"PO-Revision-Date: 2014-10-22 12:32+0200\n"
 "Last-Translator: Vít Pelčák <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -18,6 +18,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Lokalize 1.5\n"
+"X-Language: cs_CZ\n"
+"X-Source-Language: en_US\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -301,8 +303,8 @@ msgstr "&Exportovat"
 
 #: ruleswidget.cpp:66
 msgid ""
-"Enable this checkbox to alter this window property for the specified window"
-"(s)."
+"Enable this checkbox to alter this window property for the specified "
+"window(s)."
 msgstr "Povolte ke změně této vlastnosti pro daná okna."
 
 #: ruleswidget.cpp:68
@@ -803,7 +805,7 @@ msgstr "M&inimalizované"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_shade)
 #: ruleswidgetbase.ui:972
 msgid "Sh&aded"
-msgstr "Z&arolované"
+msgstr "Sb&alené"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1056
@@ -1112,9 +1114,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fsplevel)
 #: ruleswidgetbase.ui:2452
 msgid "&Focus stealing prevention"
-msgstr "P&revence ztráty zaměření:"
+msgstr "P&revence ztráty zaměření"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_decocolor)
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
-msgstr ""
+msgstr "Barevné &schéma titulkového pruhu"

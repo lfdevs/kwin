@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-09-27 09:13+0000\n"
-"PO-Revision-Date: 2014-07-02 14:58+0200\n"
+"PO-Revision-Date: 2014-10-22 12:58+0200\n"
 "Last-Translator: Vít Pelčák <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -18,6 +18,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Lokalize 1.5\n"
+"X-Language: cs_CZ\n"
+"X-Source-Language: en_US\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -680,7 +682,7 @@ msgstr "Invertuje barvy plochy a oken"
 #: effect_builtins.cpp:259
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
-msgstr "Kscreen"
+msgstr "KScreen"
 
 #: effect_builtins.cpp:260
 msgctxt "Comment describing the KWin Effect"
@@ -700,7 +702,7 @@ msgstr "Odbarvit plochu při zobrazení okna pro odhlášení"
 #: effect_builtins.cpp:283
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
-msgstr "Looking Glass"
+msgstr "Lupa"
 
 #: effect_builtins.cpp:284
 msgctxt "Comment describing the KWin Effect"
@@ -748,6 +750,8 @@ msgid ""
 "Creates an animation whenever a mouse button is clicked. This is useful for "
 "screenrecordings/presentations"
 msgstr ""
+"Vytvoří animaci při každém kliknutí myši. Toto je užitečné pro nahrávání "
+"obrazovky nebo prezentace"
 
 #: effect_builtins.cpp:343
 msgctxt "Name of a KWin Effect"
@@ -799,7 +803,7 @@ msgstr "Snímek obrazovky"
 #: effect_builtins.cpp:392
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for KSnapshot"
-msgstr ""
+msgstr "Pomocný efekt pro KSnapshot"
 
 #: effect_builtins.cpp:403
 msgctxt "Name of a KWin Effect"
@@ -1014,7 +1018,7 @@ msgstr "Přepnout inverzní efekt na okno"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
 msgid "Fade to black (fullscreen splash screens only)"
-msgstr ""
+msgstr "Přechod do černé (pouze úvodní obrazovky)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: lookingglass/lookingglass_config.ui:24
@@ -1725,7 +1729,7 @@ msgstr "Tlačit"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:143
 msgid "Disabled"
-msgstr "Vypnuto"
+msgstr "Zakázáno"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: zoom/zoom_config.ui:151

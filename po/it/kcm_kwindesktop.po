@@ -15,7 +15,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 msgctxt "NAME OF TRANSLATORS"
@@ -75,19 +74,19 @@ msgstr "Vai al desktop sotto"
 
 #: main.cpp:105
 msgid "Walk Through Desktops"
-msgstr ""
+msgstr "Scorri i desktop"
 
 #: main.cpp:106
 msgid "Walk Through Desktops (Reverse)"
-msgstr ""
+msgstr "Scorri i desktop (all'indietro)"
 
 #: main.cpp:107
 msgid "Walk Through Desktop List"
-msgstr ""
+msgstr "Scorri nella lista dei desktop"
 
 #: main.cpp:108
 msgid "Walk Through Desktop List (Reverse)"
-msgstr ""
+msgstr "Scorri nella lista dei desktop (all'indietro)"
 
 #: main.cpp:110 main.cpp:144 main.cpp:509 main.cpp:510
 msgid "Desktop Switching"

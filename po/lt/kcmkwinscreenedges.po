@@ -4,13 +4,14 @@
 # Tomas Straupis <tomasstraupis@gmail.com>, 2010.
 # Liudas Ališauskas <liudas.alisauskas@gmail.com>, 2012, 2014.
 # Liudas Alisauskas <liudas@akmc.lt>, 2013.
+# liudas@aksioma.lt <liudas@aksioma.lt>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-05-16 07:57+0000\n"
-"PO-Revision-Date: 2014-03-17 10:51+0200\n"
-"Last-Translator: Liudas Ališauskas <liudas@aksioma.lt>\n"
+"PO-Revision-Date: 2014-11-05 18:51+0200\n"
+"Last-Translator: liudas@aksioma.lt <liudas@aksioma.lt>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
@@ -49,40 +50,34 @@ msgid "Prevent Screen Locking"
 msgstr "Apsaugoti nuo ekrano užrakinimo"
 
 #: main.cpp:200
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgid "%1 - All Desktops"
-msgstr "Visi darbastaliai"
+msgstr "%1 - Visus darbastalius"
 
 #: main.cpp:201
-#, fuzzy, kde-format
-#| msgid "Current Desktop"
+#, kde-format
 msgid "%1 - Current Desktop"
-msgstr "Dabartinis darbastalis"
+msgstr "%1 - Dabartinis darbastalis"
 
 #: main.cpp:202
-#, fuzzy, kde-format
-#| msgid "Current Application"
+#, kde-format
 msgid "%1 - Current Application"
-msgstr "Dabartinė programa"
+msgstr "%1 - Dabartinė programa"
 
 #: main.cpp:205
-#, fuzzy, kde-format
-#| msgid "Cube"
+#, kde-format
 msgid "%1 - Cube"
-msgstr "Kubas"
+msgstr "%1 - Kubas"
 
 #: main.cpp:206
-#, fuzzy, kde-format
-#| msgid "Cylinder"
+#, kde-format
 msgid "%1 - Cylinder"
-msgstr "Cilindras"
+msgstr "%1 - Cilindras"
 
 #: main.cpp:207
-#, fuzzy, kde-format
-#| msgid "Sphere"
+#, kde-format
 msgid "%1 - Sphere"
-msgstr "Sfera"
+msgstr "%1 - Sfera"
 
 #: main.cpp:209
 msgid "Toggle window switching"

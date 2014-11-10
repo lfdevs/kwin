@@ -3,15 +3,15 @@
 # Lie Ex <lilith.ex@gmail.com>, 2007-2010.
 # Ni Hui <shuizhuyuanluo@126.com>, 2010, 2011, 2013.
 # Feng Chao <rainofchaos@gmail.com>, 2011, 2013.
-# Weng Xuetian <wengxt@gmail.com>, 2011, 2012, 2013.
+# Weng Xuetian <wengxt@gmail.com>, 2011, 2012, 2013, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-07-23 08:09+0000\n"
-"PO-Revision-Date: 2013-06-18 21:36+0800\n"
-"Last-Translator: FengChao <rainofchaos@gmail.com>\n"
-"Language-Team: Chinese Simplified <kde-china@kde.org>\n"
+"PO-Revision-Date: 2014-11-05 10:38-0500\n"
+"Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
+"Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,30 +34,25 @@ msgstr "XRender"
 #: compositing.cpp:488
 msgctxt "OpenGL Platform Interface"
 msgid "EGL"
-msgstr ""
+msgstr "EGL"
 
 #: compositing.cpp:490
 msgctxt "OpenGL Platform Interface"
 msgid "GLX"
-msgstr ""
+msgstr "GLX"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CompositingForm)
 #: compositing.ui:14
 msgid "Form"
-msgstr ""
+msgstr "窗体"
 
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:23 qml/CompositingView.qml:55
-#, fuzzy
-#| msgctxt "@option:check"
-#| msgid "Enable desktop effects at startup"
 msgid "Enable compositor on startup"
-msgstr "启动时开启桌面特效"
+msgstr "启动时开启混成"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:30
-#, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation speed:"
 msgstr "动画速度："
 
@@ -68,16 +63,12 @@ msgstr "即时"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:77
-#, fuzzy
-#| msgid "Very Slow"
 msgid "Very slow"
 msgstr "非常慢"
 
 #. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
 #: compositing.ui:88 compositing.ui:114
-#, fuzzy
-#| msgid "Scale method:"
 msgid "Scale method:"
 msgstr "缩放方法："
 
@@ -106,29 +97,22 @@ msgstr "平滑(较慢)"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: compositing.ui:142 qml/CompositingView.qml:81
 msgid "Rendering backend:"
-msgstr ""
+msgstr "渲染后端："
 
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:152
 msgid "OpenGL interface:"
-msgstr ""
+msgstr "OpenGL 接口："
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: compositing.ui:162
-#, fuzzy
-#| msgid "Tearing Prevention (VSync)"
 msgid "Tearing prevention (\"vsync\"):"
-msgstr "避免撕裂(VSync)"
+msgstr "避免撕裂 (垂直同步)："
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:170 compositing.ui:216 qml/CompositingView.qml:141
 #: qml/CompositingView.qml:154
-#, fuzzy
-#| msgctxt ""
-#| "Windows are unmapped as they are requested. This can lead to not having "
-#| "updated thumbnials for windows on other desktops."
-#| msgid "Never"
 msgid "Never"
 msgstr "从不"
 
@@ -139,17 +123,13 @@ msgstr "自动"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:180 qml/CompositingView.qml:141
-#, fuzzy
-#| msgid "Only when Cheap"
 msgid "Only when cheap"
 msgstr "仅当占用资源少时"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:185 qml/CompositingView.qml:141
-#, fuzzy
-#| msgid "Full scene repaints"
 msgid "Full screen repaints"
-msgstr "全屏幕重画"
+msgstr "全场景重画"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:190 qml/CompositingView.qml:141
@@ -158,49 +138,38 @@ msgstr "重用窗口内容"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:198
-#, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep window thumbnails:"
 msgstr "保留窗口缩略图："
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:206
 msgid "Always"
-msgstr ""
+msgstr "总是"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:211 qml/CompositingView.qml:154
-#, fuzzy
-#| msgctxt ""
-#| "Windows are not unmapped if the window is somewhere visible on any of the "
-#| "virtual desktops."
-#| msgid "Only for Shown Windows"
 msgid "Only for Shown Windows"
 msgstr "只对显示的窗口"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: compositing.ui:224 qml/CompositingView.qml:175
 msgid "Expert:"
-msgstr ""
+msgstr "专家："
 
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
 #: compositing.ui:231 qml/CompositingView.qml:182
-#, fuzzy
-#| msgid "Suspend desktop effects for fullscreen windows"
 msgid "Suspend compositor for full screen windows"
-msgstr "为全屏窗口挂起桌面特效"
+msgstr "为全屏窗口挂起混成器"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: compositing.ui:238 qml/CompositingView.qml:192
 msgid "Experimental:"
-msgstr ""
+msgstr "实验性："
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
 #: compositing.ui:245 qml/CompositingView.qml:200
-#, fuzzy
-#| msgid "Enable color correction (experimental)"
 msgid "Enable color correction"
-msgstr "启用色彩矫正(实验性)"
+msgstr "启用色彩矫正"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
 #: compositing.ui:265
@@ -212,20 +181,25 @@ msgid ""
 "immediate crash!\n"
 "Alternatively, you might want to use the XRender backend instead."
 msgstr ""
+"OpenGL 混合(默认设置) 曾经导致 KWin 崩溃。\n"
+"通常是驱动原因。\n"
+"如果驱动升级到了稳定版本，\n"
+"可以重置此保护但是记得这可能导致立即崩溃！\n"
+"此外，可以考虑使用 XRender 后端。"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, interfaceWarning)
 #: compositing.ui:281
 msgid ""
 "EGL is not supported by all OpenGL drivers. If not supported the Compositor "
 "will be disabled."
-msgstr ""
+msgstr "EGL 不被所有 OpenGL 驱动支持。如果不被支持混成器将被禁用。"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
 #: compositing.ui:297
 msgid ""
 "Scale method \"Accurate\" is not supported by all hardware and can cause "
 "performance regressions and rendering artifacts."
-msgstr ""
+msgstr "缩放模式”精确“并不被所有硬件支持并且可能导致性能或渲染问题。"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
 #: compositing.ui:326
@@ -233,13 +207,15 @@ msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
 "windows. This can result in windows not suspending their work when minimized."
 msgstr ""
+"总是保持窗口缩略图影响窗口的最小化状态。这可能导致窗口在最小化时不暂停他们的"
+"工作。"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, unredirectInformation)
 #: compositing.ui:342
 msgid ""
 "Having full screen windows bypass the compositor is not supported on every "
 "hardware."
-msgstr ""
+msgstr "全屏窗口挂起绕过混成器并不被所有硬件支持。"
 
 #: main.cpp:82
 msgid "Re-enable OpenGL detection"
@@ -249,48 +225,38 @@ msgstr "重新启用 OpenGL 检测"
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
 "video."
-msgstr ""
+msgstr "”仅当占用资源少时“只阻止全屏幕变化带来的撕裂，例如视频。"
 
 #: main.cpp:143
 msgid "\"Full screen repaints\" can cause performance problems."
-msgstr ""
+msgstr "”全场景重画“可能导致性能问题。"
 
 #: main.cpp:147
 msgid ""
 "\"Re-use screen content\" causes performance severe problems on MESA drivers."
-msgstr ""
+msgstr "“"
 
 #: model.cpp:67
-#, fuzzy
-#| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "辅助功能"
 
 #: model.cpp:68
-#, fuzzy
-#| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "外观"
 
 #: model.cpp:69
-#, fuzzy
-#| msgid "Candy"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "蜜罐"
 
 #: model.cpp:70
-#, fuzzy
-#| msgid "Focus"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "焦点"
 
 #: model.cpp:71
-#, fuzzy
-#| msgid "Tools"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "工具"
@@ -298,56 +264,40 @@ msgstr "工具"
 #: model.cpp:72
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
-msgstr ""
+msgstr "虚拟桌面切换动画"
 
 #: model.cpp:73
-#, fuzzy
-#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "窗口管理"
 
 #: model.cpp:235
 msgid "KWin development team"
-msgstr ""
+msgstr "KWin 开发团队"
 
 #: qml/CompositingView.qml:67
-#, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation Speed:"
 msgstr "动画速度："
 
 #: qml/CompositingView.qml:106 qml/CompositingView.qml:120
-#, fuzzy
-#| msgid "Scale method:"
 msgid "Scale Method:"
 msgstr "缩放方法："
 
 #: qml/CompositingView.qml:135
-#, fuzzy
-#| msgid "Tearing Prevention (VSync)"
 msgid "Tearing Prevention (VSync):"
-msgstr "避免撕裂(VSync)"
+msgstr "避免撕裂 (垂直同步)："
 
 #: qml/CompositingView.qml:148
-#, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep Window Thumbnails:"
 msgstr "保留窗口缩略图："
 
 #: qml/CompositingView.qml:154
-#, fuzzy
-#| msgctxt ""
-#| "A window thumbnail requires to have the corresponding window mapped. To "
-#| "have thumbnails at all time, windows are not unmapped. This can break "
-#| "window minimization as it is modelled as unmapping of windows."
-#| msgid "Always (Breaks minimization)"
 msgid "Always (Breaks Animations)"
-msgstr "总是(无视窗口最小化)"
+msgstr "总是(动画无效)"
 
 #: qml/CompositingView.qml:160
 msgid "OpenGL Platform Interface:"
-msgstr ""
+msgstr "OpenGL 平台接口："
 
 #: qml/Effect.qml:118
 #, kde-format
@@ -355,6 +305,8 @@ msgid ""
 "Author: %1\n"
 "License: %2"
 msgstr ""
+"作者：%1\n"
+"许可协议： %2"
 
 #: qml/EffectView.qml:64
 msgid ""
@@ -364,19 +316,19 @@ msgstr "提示：要查找或配置如何激活效果，请查看相应效果的
 
 #: qml/EffectView.qml:75
 msgid "Search"
-msgstr ""
+msgstr "搜索"
 
 #: qml/EffectView.qml:82
 msgid "Configure filter"
-msgstr ""
+msgstr "配置过滤器"
 
 #: qml/EffectView.qml:85
 msgid "Exclude Desktop Effects not supported by the Compositor"
-msgstr ""
+msgstr "不包含不被混成器支持的桌面特效"
 
 #: qml/EffectView.qml:93
 msgid "Exclude internal Desktop Effects"
-msgstr ""
+msgstr "不包含内置桌面特效"
 
 #: qml/EffectView.qml:105
 msgid "Get New Effects ..."

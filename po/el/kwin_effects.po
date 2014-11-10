@@ -8,13 +8,14 @@
 # Dimitrios Glentadakis <dglent@gmail.com>, 2012.
 # Stelios <sstavra@gmail.com>, 2012.
 # Antonis Geralis <capoiosct@gmail.com>, 2013.
+# Dimitris Kardarakos <dimkard@gmail.com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-09-27 09:13+0000\n"
-"PO-Revision-Date: 2013-11-11 15:17+0200\n"
-"Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
+"PO-Revision-Date: 2014-11-02 13:49+0200\n"
+"Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-doc@kde.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
@@ -244,12 +245,12 @@ msgstr "Διαφανές"
 #: cube/cube_config.ui:245 translucency/package/contents/ui/config.ui:121
 #: translucency/package/contents/ui/config.ui:431
 msgid "Opaque"
-msgstr "Συμπαγές"
+msgstr "Αδιαφανές"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_OpacityDesktopOnly)
 #: cube/cube_config.ui:255
 msgid "Do not change opacity of windows"
-msgstr "Χωρίς τροποποίηση διαφάνειας των παραθύρων"
+msgstr "Χωρίς τροποποίηση της αδιαφάνειας των παραθύρων"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: cube/cube_config.ui:279
@@ -361,7 +362,7 @@ msgstr "Έναρξη κίνησης όταν τα παράθυρα πλησιά�
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: dashboard/dashboard_config.ui:17
 msgid "Brightness of the background:"
-msgstr "Λαμπρότητα του παρασκηνίου:"
+msgstr "Φωτεινότητα του φόντου:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dashboard/dashboard_config.ui:42
@@ -378,7 +379,7 @@ msgstr "Πιο φωτεινό"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dashboard/dashboard_config.ui:83
 msgid "Saturation of the background:"
-msgstr "Κορεσμός παρασκηνίου:"
+msgstr "Κορεσμός φόντου:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dashboard/dashboard_config.ui:108
@@ -410,7 +411,7 @@ msgstr "Το εφέ θολώματος πρέπει να ενεργοποιηθ�
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Blur)
 #: dashboard/dashboard_config.ui:196
 msgid "Apply blur effect to background"
-msgstr "Εφαρμογή θολώματος στο παρασκήνιο"
+msgstr "Εφαρμογή θολώματος στο φόντο"
 
 #: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:66
 msgid "Show Desktop Grid"
@@ -477,7 +478,7 @@ msgstr "Προκαθορισμένο"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: desktopgrid/desktopgrid_config.ui:55
 msgid "&Border width:"
-msgstr "Πλάτος &οριογραμμής:"
+msgstr "Πλάτος &περιγράμματος:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: desktopgrid/desktopgrid_config.ui:84
@@ -512,7 +513,7 @@ msgstr "Αριθμός &γραμμών:"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PresentWindows)
 #: desktopgrid/desktopgrid_config.ui:190
 msgid "Use Present Windows effect to layout the windows"
-msgstr "Χρήση του εφέ παρόντων παραθύρων για το σχηματισμό των παραθύρων"
+msgstr "Χρήση του εφέ παρουσίασης παραθύρων για τον σχηματισμό των παραθύρων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimPanels)
 #: diminactive/diminactive_config.ui:17
@@ -542,38 +543,34 @@ msgstr "&Ισχύς:"
 #: effect_builtins.cpp:91
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
-msgstr ""
+msgstr "Θόλωμα"
 
 #: effect_builtins.cpp:92
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
-msgstr ""
+msgstr "Θόλωμα του φόντου πίσω από ημιδιαφανή παράθυρα"
 
 #: effect_builtins.cpp:103
-#, fuzzy
-#| msgid "Background color:"
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
-msgstr "Χρώμα φόντου:"
+msgstr "Αντίθεση φόντου:"
 
 #: effect_builtins.cpp:104
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
-msgstr ""
+msgstr "Βελτίωση φόντου και αναγνωσιμότητας πίσω από ημιδιαφανή παράθυρα"
 
 #: effect_builtins.cpp:115
 msgctxt "Name of a KWin Effect"
 msgid "Cover Switch"
-msgstr ""
+msgstr "Εναλλαγή εξωφύλλου"
 
 #: effect_builtins.cpp:116
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a Cover Flow effect for the alt+tab window switcher"
-msgstr ""
+msgstr "Εμφάνιση ενός εφέ ροής εξωφύλλου για την εναλλαγή παραθύρων με alt+tab"
 
 #: effect_builtins.cpp:127
-#, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Κύβος επιφάνειας εργασίας"
@@ -581,191 +578,182 @@ msgstr "Κύβος επιφάνειας εργασίας"
 #: effect_builtins.cpp:128
 msgctxt "Comment describing the KWin Effect"
 msgid "Display each virtual desktop on a side of a cube"
-msgstr ""
+msgstr "Εμφάνιση κάθε εικονικής επιφάνειας εργασίας σε μια πλευρά ενός κύβου"
 
 #: effect_builtins.cpp:139
-#, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
-msgstr "Κύβος επιφάνειας εργασίας"
+msgstr "Εφέ κύβου επιφάνειας εργασίας"
 
 #: effect_builtins.cpp:140
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate desktop switching with a cube"
-msgstr ""
+msgstr "Εφέ εναλλαγής επιφάνειας εργασίας με έναν κύβο"
 
 #: effect_builtins.cpp:151
 msgctxt "Name of a KWin Effect"
 msgid "Dashboard"
-msgstr ""
+msgstr "Πίνακας συστατικών"
 
 #: effect_builtins.cpp:152
 msgctxt "Comment describing the KWin Effect"
 msgid "Desaturate the desktop when displaying the Plasma dashboard"
 msgstr ""
+"Αποχρωματισμός της επιφάνειας εργασίας κατά την εμφάνιση του πίνακα του "
+"Plasma"
 
 #: effect_builtins.cpp:163
-#, fuzzy
-#| msgid "Show Desktop Grid"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
-msgstr "Εμφάνιση καννάβου επιφάνειας εργασίας"
+msgstr "Κάνναβος επιφάνειας εργασίας"
 
 #: effect_builtins.cpp:164
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
 msgstr ""
+"Σμίκρυνση όλων των επιφανειών εργασίας και εμφάνιση σε παράθεση σε έναν "
+"κάνναβο"
 
 #: effect_builtins.cpp:175
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
-msgstr ""
+msgstr "Σκίαση ανενεργού"
 
 #: effect_builtins.cpp:176
-#, fuzzy
-#| msgid "Inactive windows:"
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
-msgstr "Ανενεργά παράθυρα:"
+msgstr "Σκίαση μη ενεργών παραθύρων"
 
 #: effect_builtins.cpp:187
 msgctxt "Name of a KWin Effect"
 msgid "Dim Screen for Administrator Mode"
-msgstr ""
+msgstr "Σκίαση οθόνης στη λειτουργία διαχειριστή"
 
 #: effect_builtins.cpp:188
 msgctxt "Comment describing the KWin Effect"
 msgid "Darkens the entire screen when requesting root privileges"
-msgstr ""
+msgstr "Σκίαση ολόκληρης της οθόνης όταν απαιτούνται διακαιώματα χρήστη root"
 
 #: effect_builtins.cpp:199
 msgctxt "Name of a KWin Effect"
 msgid "Fall Apart"
-msgstr ""
+msgstr "Διάλυση"
 
 #: effect_builtins.cpp:200
-#, fuzzy
-#| msgid "Send window to all desktops"
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
-msgstr "Αποστολή παραθύρου σε όλες τις επιφάνειες εργασίας"
+msgstr "Τα παράθυρα που κλείνουν διαλύονται"
 
 #: effect_builtins.cpp:211
 msgctxt "Name of a KWin Effect"
 msgid "Flip Switch"
-msgstr ""
+msgstr "Εναλλαγή στοίβας"
 
 #: effect_builtins.cpp:212
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Flip through windows that are in a stack for the alt+tab window switcher"
 msgstr ""
+"Εναλλαγή μεταξύ των παραθύρων στη στοίβα εναλλαγής παραθύρων με το alt+tab"
 
 #: effect_builtins.cpp:223
 msgctxt "Name of a KWin Effect"
 msgid "Glide"
-msgstr ""
+msgstr "Ολίσθηση"
 
 #: effect_builtins.cpp:224
 msgctxt "Comment describing the KWin Effect"
 msgid "Windows Glide Effect as they are open and closed"
-msgstr ""
+msgstr "Εφέ ολίσθησης παραθύρων κατά το άνοιγμα και το κλείσιμο"
 
 #: effect_builtins.cpp:235
 msgctxt "Name of a KWin Effect"
 msgid "Highlight Window"
-msgstr ""
+msgstr "Τονισμός παραθύρου"
 
 #: effect_builtins.cpp:236
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight the appropriate window when hovering over taskbar entries"
 msgstr ""
+"Τονισμός του αντίστοιχου παραθύρου όταν το ποντίκι περνάει πάνω από τη "
+"γραμμή εργασιών"
 
 #: effect_builtins.cpp:247
-#, fuzzy
-#| msgid "Invert mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
-msgstr "Αντιστροφή ποντικιού"
+msgstr "Αντιστροφή"
 
 #: effect_builtins.cpp:248
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
-msgstr ""
+msgstr "Αντιστροφή του χρώματος της επιφάνειας εργασίας και των παραθύρων"
 
 #: effect_builtins.cpp:259
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
-msgstr ""
+msgstr "Kscreen"
 
 #: effect_builtins.cpp:260
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper Effect for KScreen"
-msgstr ""
+msgstr "Βοηθητικό εφέ για το KScreen"
 
 #: effect_builtins.cpp:271
 msgctxt "Name of a KWin Effect"
 msgid "Logout"
-msgstr ""
+msgstr "Αποσύνδεση"
 
 #: effect_builtins.cpp:272
 msgctxt "Comment describing the KWin Effect"
 msgid "Desaturate the desktop when displaying the logout dialog"
 msgstr ""
+"Αποχρωματισμός της επιφάνειας εργασίας κατά την εμφάνιση του διαλόγου "
+"αποσύνδεσης"
 
 #: effect_builtins.cpp:283
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
-msgstr ""
+msgstr "Μεγεθυντικός φακός"
 
 #: effect_builtins.cpp:284
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
-msgstr ""
+msgstr "Ένας μεγεθυντικός φακός οθόνης με έντονη ευρυγώνια οπτική"
 
 #: effect_builtins.cpp:295
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
-msgstr ""
+msgstr "Μαγικό λυχνάρι"
 
 #: effect_builtins.cpp:296
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
-msgstr ""
+msgstr "Εξομοίωση ενός μαγικού λυχναριού κατά την ελαχιστοποίηση παραθύρων"
 
 #: effect_builtins.cpp:307
-#, fuzzy
-#| msgid "Modifiers"
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
-msgstr "Τροποποιητές"
+msgstr "Μεγεθυντής"
 
 #: effect_builtins.cpp:308
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
-msgstr ""
+msgstr "Μεγέθυνση του τμήματος της οθόνης που βρίσκεται κοντά στο ποντίκι"
 
 #: effect_builtins.cpp:319
-#, fuzzy
-#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
-msgstr "Κίνηση"
+msgstr "Κίνηση ελαχιστοποίησης"
 
 #: effect_builtins.cpp:320
-#, fuzzy
-#| msgid "Ignore &minimized windows"
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
-msgstr "Αγνόηση &ελαχιστοποιημένων παραθύρων"
+msgstr "Εφέ κίνησης της ελαχιστοποίησης των παραθύρων"
 
 #: effect_builtins.cpp:331
-#, fuzzy
-#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
-msgstr "Κίνηση"
+msgstr "Εφέ κίνησης με κλικ του ποντικιού"
 
 #: effect_builtins.cpp:332
 msgctxt "Comment describing the KWin Effect"
@@ -773,127 +761,123 @@ msgid ""
 "Creates an animation whenever a mouse button is clicked. This is useful for "
 "screenrecordings/presentations"
 msgstr ""
+"Σχηματίζει εφέ κίνησης όποτε γίνεται κλικ σε κουμπί του ποντικιού. Αυτό "
+"είναι χρήσιμο για βιντεοσκόπηση οθόνης / παρουσιάσεις"
 
 #: effect_builtins.cpp:343
-#, fuzzy
-#| msgid "Clear Mouse Marks"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
-msgstr "Καθαρισμός σημαδιών του ποντικιού"
+msgstr "Σήμανση ποντικιού"
 
 #: effect_builtins.cpp:344
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
-msgstr ""
+msgstr "Σας επιτρέπει τη σχεδίαση γραμμών στην επιφάνεια εργασίας σας"
 
 #: effect_builtins.cpp:355
-#, fuzzy
-#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
-msgstr "Παράθυρα"
+msgstr "Παρουσίαση παραθύρων"
 
 #: effect_builtins.cpp:356
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
-msgstr ""
+msgstr "Σμίκρυνση έως ότου όλα τα ανοιχτά παράθυρα να εμφανίζονται σε παράθεση"
 
 #: effect_builtins.cpp:367
-#, fuzzy
-#| msgid "Close window"
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
-msgstr "Κλείσιμο παραθύρου"
+msgstr "Αλλαγή μεγέθους παραθύρου"
 
 #: effect_builtins.cpp:368
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
 msgstr ""
+"Αλλάζει το μέγεθος του παραθύρου χρησιμοποιώντας ταχείες υφές αντί να "
+"ανανεώνει τα περιεχόμενα"
 
 #: effect_builtins.cpp:379
-#, fuzzy
-#| msgid "Screen edge:"
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
-msgstr "Άκρο οθόνης:"
+msgstr "Άκρο οθόνης"
 
 #: effect_builtins.cpp:380
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
-msgstr ""
+msgstr "Εμφανίζει τονισμένο το άκρο της οθόνης όταν το πλησιάζετε"
 
 #: effect_builtins.cpp:391
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
-msgstr ""
+msgstr "Στιγμιότυπο"
 
 #: effect_builtins.cpp:392
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for KSnapshot"
-msgstr ""
+msgstr "Βοηθητικό εφέ για το KScreen"
 
 #: effect_builtins.cpp:403
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
-msgstr ""
+msgstr "Φύλλο"
 
 #: effect_builtins.cpp:404
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Make modal dialogs smoothly fly in and out when they are shown or hidden"
-msgstr ""
+msgstr "Ομαλή εμφάνιση και απόκρυψη με κίνηση των βοηθητικών παραθύρων"
 
 #: effect_builtins.cpp:415
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
-msgstr ""
+msgstr "Εμφάνιση καρέ ανά δευτερόλεπτο"
 
 #: effect_builtins.cpp:416
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
-msgstr ""
+msgstr "Εμφάνιση επιδόσεων του KWin στη γωνία της οθόνης"
 
 #: effect_builtins.cpp:427
-#, fuzzy
-#| msgid "Show &panels"
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
-msgstr "Εμφάνιση &πινάκων"
+msgstr "Εμφάνιση σχεδίασης"
 
 #: effect_builtins.cpp:428
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
-msgstr ""
+msgstr "Τονισμός περιοχών της επιφάνειας εργασίας που ενημερώθηκαν πρόσφατα"
 
 #: effect_builtins.cpp:439
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
-msgstr ""
+msgstr "Κύλιση"
 
 #: effect_builtins.cpp:440
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide windows across the screen when switching virtual desktops"
 msgstr ""
+"Κύλιση παραθύρων κατά μήκος της οθόνης όταν γίνεται εναλλαγή επιφανειών "
+"εργασίας"
 
 #: effect_builtins.cpp:451
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
-msgstr ""
+msgstr "Κύλιση πίσω"
 
 #: effect_builtins.cpp:452
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
-msgstr ""
+msgstr "Κύλιση παραθύρων πίσω όταν ανοίξει κάποιο άλλο παράθυρο "
 
 #: effect_builtins.cpp:463
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
-msgstr ""
+msgstr "Κύλιση αναδυόμενων"
 
 #: effect_builtins.cpp:464
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
-msgstr ""
+msgstr "Γραφικά κύλισης για αναδυόμενα από το χώρο εργασίας Plasma"
 
 #: effect_builtins.cpp:475
 msgctxt "Name of a KWin Effect"
@@ -904,6 +888,7 @@ msgstr ""
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
 msgstr ""
+"Βοηθά στον εντοπισμό του κέντρου της οθόνης όταν μετακινείτε ένα παράθυρο"
 
 #: effect_builtins.cpp:487
 msgctxt "Name of a KWin Effect"
@@ -916,58 +901,47 @@ msgid "Helper effect for startup feedback"
 msgstr ""
 
 #: effect_builtins.cpp:499
-#, fuzzy
-#| msgid "Thumbnail Bar"
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
-msgstr "Γραμμή εικόνας επισκόπησης"
+msgstr "Εικόνα επισκόπησης στο πλάι"
 
 #: effect_builtins.cpp:500
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
-msgstr ""
+msgstr "Εμφανίζει στην άκρη της οθόνης την εικόνα επισκόπησης του παραθύρου"
 
 #: effect_builtins.cpp:511
-#, fuzzy
-#| msgid "Track mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
-msgstr "Εντοπισμός ποντικιού"
+msgstr "Ανίχνευση ποντικιού"
 
 #: effect_builtins.cpp:512
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a mouse cursor locating effect when activated"
-msgstr ""
+msgstr "Εμφάνιση εφέ υπόδειξης της θέσης του ποντικιού όταν ενεργοποιηθεί"
 
 #: effect_builtins.cpp:523
 msgctxt "Name of a KWin Effect"
 msgid "Window Geometry"
-msgstr ""
+msgstr "Γεωμετρία παραθύρου"
 
 #: effect_builtins.cpp:524
-#, fuzzy
-#| msgid "Display window &icons"
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
-msgstr "Εμφάνιση &εικονιδίων παραθύρων"
+msgstr ""
+"Εμφανίζει τη γεωμετρία του παραθύρου κατά τη μετακίνηση/αλλαγή μεγέθους"
 
 #: effect_builtins.cpp:535
-#, fuzzy
-#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
-msgstr "Παράθυρα"
+msgstr "Ταλαντευόμενα παράθυρα"
 
 #: effect_builtins.cpp:536
-#, fuzzy
-#| msgid "Use for window &switching"
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
-msgstr "Χρήση για την ενα&λλαγή παραθύρων"
+msgstr "Παραμόρφωση παραθύρων κατά τη μετακίνησή τους"
 
 #: effect_builtins.cpp:547
-#, fuzzy
-#| msgid "Zoom"
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Εστίαση"
@@ -975,7 +949,7 @@ msgstr "Εστίαση"
 #: effect_builtins.cpp:548
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
-msgstr ""
+msgstr "Μεγεθύνει ολόκληρη την επιφάνεια εργασίας"
 
 #: flipswitch/flipswitch.cpp:58 flipswitch/flipswitch_config.cpp:60
 msgid "Toggle Flip Switch (Current desktop)"
@@ -1019,22 +993,22 @@ msgstr "Κάθετη τοποθέτηση μπροστινού μέρους:"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: glide/glide_config.ui:17
 msgid "Glide Effect:"
-msgstr "Εφέ Glide:"
+msgstr "Εφέ ολίσθησης:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: glide/glide_config.ui:42
 msgid "In"
-msgstr "μέσα"
+msgstr "Μέσα"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: glide/glide_config.ui:71
 msgid "Out"
-msgstr "έξω"
+msgstr "Έξω"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: glide/glide_config.ui:93
 msgid "Glide Angle:"
-msgstr "Γωνία Glide:"
+msgstr "Γωνία ολίσθησης:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: glide/glide_config.ui:118
@@ -1091,10 +1065,8 @@ msgid "&Height:"
 msgstr "Ύ&ψος:"
 
 #: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
-#, fuzzy
-#| msgid "Toggle Effect"
 msgid "Toggle Mouse Click Effect"
-msgstr "Εναλλαγή εφέ"
+msgstr "Εναλλαγή εφέ ποντικιού"
 
 #: mouseclick/mouseclick.cpp:59
 msgid "Middle"
@@ -1200,17 +1172,17 @@ msgstr "Σχεδιάστε μα το ποντίκι κρατώντας πατη�
 #: presentwindows/presentwindows.cpp:70
 #: presentwindows/presentwindows_config.cpp:71
 msgid "Toggle Present Windows (Current desktop)"
-msgstr "Εναλλαγή παρόντων παραθύρων (τρέχουσα επιφάνεια)"
+msgstr "Εναλλαγή παρουσίασης παραθύρων (τρέχουσα επιφάνεια)"
 
 #: presentwindows/presentwindows.cpp:78
 #: presentwindows/presentwindows_config.cpp:65
 msgid "Toggle Present Windows (All desktops)"
-msgstr "Εναλλαγή παρόντων παραθύρων (όλες τις επιφάνειες)"
+msgstr "Εναλλαγή παρουσίασης παραθύρων (όλες τις επιφάνειες)"
 
 #: presentwindows/presentwindows.cpp:86
 #: presentwindows/presentwindows_config.cpp:77
 msgid "Toggle Present Windows (Window class)"
-msgstr "Εναλλαγή παρόντων παραθύρων (κατηγορία παραθύρου)"
+msgstr "Εναλλαγή παρουσίασης παραθύρων (κατηγορία παραθύρου)"
 
 #: presentwindows/presentwindows.cpp:1551
 #, kde-format
@@ -1576,6 +1548,7 @@ msgstr "Αναδυόμενα μενού:"
 
 #. i18n: ectx: property (text), widget (QLabel, tornoffmenus_label)
 #: translucency/package/contents/ui/config.ui:367
+#, fuzzy
 msgid "Torn-off menus:"
 msgstr "Στροφή μενού:"
 

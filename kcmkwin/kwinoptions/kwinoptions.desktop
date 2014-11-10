@@ -106,6 +106,7 @@ Comment[ca]=Accions i comportament de les finestres
 Comment[cs]=Činnosti a chování oken
 Comment[da]=Vindueshandlinger og -opførsel
 Comment[de]=Fenster-Aktionen und -verhalten
+Comment[el]=Ενέργειες και συμπεριφορά παραθύρου
 Comment[en_GB]=Window Actions and Behavior
 Comment[es]=Acciones y comportamiento de las ventanas
 Comment[fi]=Ikkunoiden toiminnot ja toiminta
@@ -130,11 +131,13 @@ Comment[sr@latin]=Ponašanje prozora i radnje nad njima
 Comment[sv]=Fönsteråtgärder och beteende
 Comment[uk]=Реакція і поведінка вікон
 Comment[x-test]=xxWindow Actions and Behaviorxx
+Comment[zh_CN]=窗口行为
 
 X-KDE-Keywords=focus,placement,window behavior,window actions,animation,raise,auto raise,windows,frame,titlebar,doubleclick
 X-KDE-Keywords[ca]=focus,emplaçament,comportament de finestra,accions de la finestra,animació,elevació,elevació automàtica,finestres,marc,barra de títol,clic doble
 X-KDE-Keywords[da]=fokus,placering,vinduesopførsel,vindueshandlinger,animation,hæv,autohæv,vinduesramme,titelbjælke,dobbeltklik
 X-KDE-Keywords[de]=Aktivierung,Platzierung,Fensterverhalten,Fensteraktionen,Animation,Nach vorn/hinten, Fenster,Rahmen,Umrandung,Titelleiste,Doppelklick
+X-KDE-Keywords[el]=εστίαση,τοποθέτηση,συμπεριφορά παραθύρου,κίνηση εικόνας,αύξηση,αυτόματη αύξηση,παράθυρα,πλαίσιο,γραμμή τίτλου,διπλό κλικ
 X-KDE-Keywords[en_GB]=focus,placement,window behaviour,window actions,animation,raise,auto raise,windows,frame,titlebar,doubleclick
 X-KDE-Keywords[es]=foco,posicionamiento,comportamiento de las ventanas,acciones de las ventanas,animación,elevación,autoelevación,ventanas,marco,barra de título,doble clic
 X-KDE-Keywords[fi]=kohdistus,sijoittelu,sijoitus,ikkunoiden toiminta,ikkunoiden toiminnot,animaatio,nosta,automaattinen nosto,ikkunat,kehys,otsikkopalkki,kaksoisnapsautus,tuplanapsautus,kaksoisklikkaus,tuplaklikkaus
@@ -159,6 +162,7 @@ X-KDE-Keywords[sr@latin]=focus,placement,window behavior,window actions,animatio
 X-KDE-Keywords[sv]=fokus,placering,fönsterbeteende,animering,höj,höj automatiskt,fönster,ram,namnlist,dubbelklick
 X-KDE-Keywords[uk]=focus,placement,window behavior,window actions,animation,raise,auto raise,windows,frame,titlebar,doubleclick,фокус,розташування,місце,вікно,поведінка,поведінка вікон,дії,реакція,дії з вікнами,реакція вікон,анімація,підняти,підняття,автоматична,автоматично,рамка,заголовок,смужка заголовка,клацання,подвійне
 X-KDE-Keywords[x-test]=xxfocus,placement,window behavior,window actions,animation,raise,auto raise,windows,frame,titlebar,doubleclickxx
+X-KDE-Keywords[zh_CN]=focus,placement,window behavior,window actions,animation,raise,auto raise,windows,frame,titlebar,doubleclick,焦点,位置,窗口行为,窗口动作,动画,升起,自动升起,窗口,边框,标题栏,双击
 
 Categories=Qt;KDE;X-KDE-settings-looknfeel;
 

@@ -1,5 +1,5 @@
 [Desktop Entry]
-Exec=kcmshell5 kwin-scripts
+Exec=kcmshell5 kwinscripts
 Icon=preferences-system-windows-actions
 Type=Service
 X-KDE-ServiceTypes=KCModule
@@ -12,7 +12,7 @@ X-KDE-Keywords=kwin script
 X-KDE-Keywords[bs]=kwin skripta
 X-KDE-Keywords[ca]=script del kwin
 X-KDE-Keywords[ca@valencia]=script del kwin
-X-KDE-Keywords[cs]=skript kwinu
+X-KDE-Keywords[cs]=skript KWinu
 X-KDE-Keywords[da]=kwin-script
 X-KDE-Keywords[de]=KWin-Skript
 X-KDE-Keywords[el]=σενάριο kwin

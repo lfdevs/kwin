@@ -104,6 +104,7 @@ Comment[ca]=Característiques avançades de la gestió de finestres
 Comment[cs]=Pokročilé vlastností správy oken
 Comment[da]=Avancerede vindueshåndteringsegenskaber
 Comment[de]=Erweiterte Fensterverwaltung
+Comment[el]=Διαμόρφωση προχωρημένων χαρακτηριστικών της διαχείρισης παραθύρων
 Comment[en_GB]=Advanced Window Management Features
 Comment[es]=Funciones avanzadas del gestor de ventanas
 Comment[fi]=Ikkunoinnin lisäominaisuudet
@@ -128,6 +129,7 @@ Comment[sr@latin]=Napredne mogućnosti upravljanja prozorima
 Comment[sv]=Avancerade fönsterhanteringsfunktioner
 Comment[uk]=Додаткові можливості з керування вікнами
 Comment[x-test]=xxAdvanced Window Management Featuresxx
+Comment[zh_CN]=高级窗口管理特性
 
 X-KDE-Keywords=shading,border,hover,active borders,tiling,tabs,tabbing,window tabbing,window grouping,window tiling,window placement,placement of windows,window advanced behavior
 X-KDE-Keywords[bs]=sjenčanje, granične, lebdjenje, aktivne granice, popločavanje, Kartice, tabovanje, prozorno tabovanje, grupiranje prozora, pločica, prozorna pločica,  plasman przora, plasman prozorâ, napredo ponašanje prozora

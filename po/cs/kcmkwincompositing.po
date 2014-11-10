@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-07-23 08:09+0000\n"
-"PO-Revision-Date: 2014-07-30 10:52+0200\n"
+"PO-Revision-Date: 2014-10-23 13:27+0200\n"
 "Last-Translator: Vít Pelčák <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -18,6 +18,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Lokalize 1.5\n"
+"X-Language: cs_CZ\n"
+"X-Source-Language: en_US\n"
 
 #: compositing.cpp:387
 msgid "OpenGL 3.1"
@@ -44,7 +46,7 @@ msgstr "GLX"
 #. i18n: ectx: property (windowTitle), widget (QWidget, CompositingForm)
 #: compositing.ui:14
 msgid "Form"
-msgstr ""
+msgstr "Form"
 
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:23 qml/CompositingView.qml:55
@@ -107,7 +109,7 @@ msgstr "Rozhraní OpenGL:"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: compositing.ui:162
 msgid "Tearing prevention (\"vsync\"):"
-msgstr "Zabránění trhání (\"vsync\"):"
+msgstr "Zabránění trhání (\"VSync\"):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
@@ -124,17 +126,17 @@ msgstr "Automaticky"
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:180 qml/CompositingView.qml:141
 msgid "Only when cheap"
-msgstr ""
+msgstr "Pouze pokud není náročné"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:185 qml/CompositingView.qml:141
 msgid "Full screen repaints"
-msgstr ""
+msgstr "Překreslení celé obrazovky"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:190 qml/CompositingView.qml:141
 msgid "Re-use screen content"
-msgstr ""
+msgstr "Znovu využít obsah obrazovky"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:198
@@ -188,6 +190,8 @@ msgid ""
 "EGL is not supported by all OpenGL drivers. If not supported the Compositor "
 "will be disabled."
 msgstr ""
+"EGL nepodporují všechny ovladače OpenGL. Pokud není podporováno, kompozitor "
+"bude vypnut."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
 #: compositing.ui:297
@@ -257,7 +261,7 @@ msgstr "Nástroje"
 #: model.cpp:72
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
-msgstr ""
+msgstr "Animace při přepínání virtuálních ploch"
 
 #: model.cpp:73
 msgctxt "Category of Desktop Effects, used as section header"
@@ -266,7 +270,7 @@ msgstr "Správa oken"
 
 #: model.cpp:235
 msgid "KWin development team"
-msgstr ""
+msgstr "Tým vývojářů KWin"
 
 #: qml/CompositingView.qml:67
 msgid "Animation Speed:"
@@ -278,7 +282,7 @@ msgstr "Metoda škálování:"
 
 #: qml/CompositingView.qml:135
 msgid "Tearing Prevention (VSync):"
-msgstr ""
+msgstr "Zabránění trhání (\"VSync\"):"
 
 #: qml/CompositingView.qml:148
 msgid "Keep Window Thumbnails:"
@@ -290,7 +294,7 @@ msgstr "Vždy (naruší animace)"
 
 #: qml/CompositingView.qml:160
 msgid "OpenGL Platform Interface:"
-msgstr ""
+msgstr "Rozhraní OpenGL platformy:"
 
 #: qml/Effect.qml:118
 #, kde-format
@@ -317,11 +321,11 @@ msgstr "Nastavte filtr"
 
 #: qml/EffectView.qml:85
 msgid "Exclude Desktop Effects not supported by the Compositor"
-msgstr ""
+msgstr "Vyjmout efekty na ploše nepodporované kompozitorem"
 
 #: qml/EffectView.qml:93
 msgid "Exclude internal Desktop Effects"
-msgstr ""
+msgstr "Vyjmout interní efekty na ploše"
 
 #: qml/EffectView.qml:105
 msgid "Get New Effects ..."

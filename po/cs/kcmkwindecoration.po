@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-06-11 07:50+0000\n"
-"PO-Revision-Date: 2014-07-30 10:53+0200\n"
+"PO-Revision-Date: 2014-10-22 12:27+0200\n"
 "Last-Translator: Vít Pelčák <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -18,6 +18,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Lokalize 1.5\n"
+"X-Language: cs_CZ\n"
+"X-Source-Language: en_US\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -124,7 +126,7 @@ msgstr "Nadměrná"
 #. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
 #: auroraeconfig.ui:126
 msgid "Close windows by double clicking the menu button"
-msgstr "Zavřít okno dvojkliknutím na tlačítko nabídky"
+msgstr "Zavřít okno dvojklikem na tlačítko nabídky"
 
 #: buttons.cpp:620
 msgid "KDE"
@@ -150,7 +152,7 @@ msgstr "Změnit velikost"
 
 #: buttons.cpp:733
 msgid "Shade"
-msgstr "Zarolovat"
+msgstr "Sbalit"
 
 #: buttons.cpp:738
 msgid "Keep Below Others"
@@ -211,7 +213,7 @@ msgstr "Zobrazovat ná&strojové tipy tlačítek"
 #: buttons.ui:30
 msgid "Please note that this option is not available on all styles yet."
 msgstr ""
-"Prosím všimněte si, že tato volba není zatím dostupná pro všechny styly."
+"Prosím, všimněte si, že tato volba není zatím dostupná pro všechny styly."
 
 #. i18n: ectx: property (text), widget (QCheckBox, useCustomButtonPositionsCheckBox)
 #: buttons.ui:33
@@ -291,6 +293,9 @@ msgid ""
 "h2>could not be located in any application data path.<h2>Please contact your "
 "distribution</h2>The application will now abort"
 msgstr ""
+"<h1>Chyba instalace</h1>Zdroj<h2>kwin/kcm_kwindecoration/main.qml</h2>nelze "
+"nalézt v kterékoliv cestě k datům aplikace.<h2>Prosím, kontaktujte svoji "
+"distribuci</h2>Aplikace bude nyní ukončena"
 
 #: kwindecoration.cpp:130
 msgid "Installation Error"

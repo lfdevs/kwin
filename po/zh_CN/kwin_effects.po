@@ -7,15 +7,15 @@
 # Lie Ex <lilith.ex@gmail.com>, 2007-2009.
 # Ni Hui <shuizhuyuanluo@126.com>, 2010, 2012.
 # Feng Chao <rainofchaos@gmail.com>, 2010, 2011, 2013.
-# Weng Xuetian <wengxt@gmail.com>, 2011, 2012.
+# Weng Xuetian <wengxt@gmail.com>, 2011, 2012, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-09-27 09:13+0000\n"
-"PO-Revision-Date: 2013-07-21 16:24+0800\n"
-"Last-Translator: FengChao <rainofchaos@gmail.com>\n"
-"Language-Team: Chinese Simplified <kde-china@kde.org>\n"
+"PO-Revision-Date: 2014-11-05 10:39-0500\n"
+"Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
+"Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,11 +25,11 @@ msgstr ""
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "KDE 中国"
 
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
+msgstr "kde-china@kde.org"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: blur/blur_config.ui:17
@@ -541,38 +541,34 @@ msgstr "强度(&S)："
 #: effect_builtins.cpp:91
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
-msgstr ""
+msgstr "模糊"
 
 #: effect_builtins.cpp:92
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
-msgstr ""
+msgstr "模糊半透明窗口的背景"
 
 #: effect_builtins.cpp:103
-#, fuzzy
-#| msgid "Background color:"
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
-msgstr "背景颜色："
+msgstr "背景对比度"
 
 #: effect_builtins.cpp:104
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
-msgstr ""
+msgstr "提高半透明窗口背景的对比度和可读性"
 
 #: effect_builtins.cpp:115
 msgctxt "Name of a KWin Effect"
 msgid "Cover Switch"
-msgstr ""
+msgstr "封面切换"
 
 #: effect_builtins.cpp:116
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a Cover Flow effect for the alt+tab window switcher"
-msgstr ""
+msgstr "Alt+Tab 窗口切换时呈现封面流动效果"
 
 #: effect_builtins.cpp:127
-#, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "桌面立方"
@@ -580,353 +576,323 @@ msgstr "桌面立方"
 #: effect_builtins.cpp:128
 msgctxt "Comment describing the KWin Effect"
 msgid "Display each virtual desktop on a side of a cube"
-msgstr ""
+msgstr "在立方体的各个面上显示虚拟桌面"
 
 #: effect_builtins.cpp:139
-#, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
-msgstr "桌面立方"
+msgstr "桌面立方动画"
 
 #: effect_builtins.cpp:140
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate desktop switching with a cube"
-msgstr ""
+msgstr "以立方体动画呈现桌面切换"
 
 #: effect_builtins.cpp:151
 msgctxt "Name of a KWin Effect"
 msgid "Dashboard"
-msgstr ""
+msgstr "部件板"
 
 #: effect_builtins.cpp:152
 msgctxt "Comment describing the KWin Effect"
 msgid "Desaturate the desktop when displaying the Plasma dashboard"
-msgstr ""
+msgstr "显示 Plasma 部件板时降低桌面饱和度"
 
 #: effect_builtins.cpp:163
-#, fuzzy
-#| msgid "Show Desktop Grid"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
-msgstr "显示桌面网格"
+msgstr "桌面窗格"
 
 #: effect_builtins.cpp:164
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
-msgstr ""
+msgstr "缩小所有桌面，使其可以在窗格中并列显示"
 
 #: effect_builtins.cpp:175
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
-msgstr ""
+msgstr "暗淡未激活窗口"
 
 #: effect_builtins.cpp:176
-#, fuzzy
-#| msgid "Inactive windows:"
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
-msgstr "非活动窗口："
+msgstr "将未激活窗口变暗"
 
 #: effect_builtins.cpp:187
 msgctxt "Name of a KWin Effect"
 msgid "Dim Screen for Administrator Mode"
-msgstr ""
+msgstr "进入管理员模式时暗淡屏幕"
 
 #: effect_builtins.cpp:188
 msgctxt "Comment describing the KWin Effect"
 msgid "Darkens the entire screen when requesting root privileges"
-msgstr ""
+msgstr "在请求 root 权限时暗化整个屏幕"
 
 #: effect_builtins.cpp:199
 msgctxt "Name of a KWin Effect"
 msgid "Fall Apart"
-msgstr ""
+msgstr "破碎"
 
 #: effect_builtins.cpp:200
-#, fuzzy
-#| msgid "Send window to all desktops"
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
-msgstr "将窗口发送到全部桌面"
+msgstr "关闭的窗口破碎飞散"
 
 #: effect_builtins.cpp:211
 msgctxt "Name of a KWin Effect"
 msgid "Flip Switch"
-msgstr ""
+msgstr "翻转切换"
 
 #: effect_builtins.cpp:212
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Flip through windows that are in a stack for the alt+tab window switcher"
-msgstr ""
+msgstr "Alt+Tab 窗口切换时在堆栈中翻转各个窗口"
 
 #: effect_builtins.cpp:223
 msgctxt "Name of a KWin Effect"
 msgid "Glide"
-msgstr ""
+msgstr "滑行"
 
 #: effect_builtins.cpp:224
 msgctxt "Comment describing the KWin Effect"
 msgid "Windows Glide Effect as they are open and closed"
-msgstr ""
+msgstr "打开或关闭窗口时，使其呈现滑移效果"
 
 #: effect_builtins.cpp:235
 msgctxt "Name of a KWin Effect"
 msgid "Highlight Window"
-msgstr ""
+msgstr "突出显示窗口"
 
 #: effect_builtins.cpp:236
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight the appropriate window when hovering over taskbar entries"
-msgstr ""
+msgstr "当鼠标悬停在任务栏上时突出显示相应的窗口"
 
 #: effect_builtins.cpp:247
-#, fuzzy
-#| msgid "Invert mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
-msgstr "反转鼠标"
+msgstr "反转"
 
 #: effect_builtins.cpp:248
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
-msgstr ""
+msgstr "反转桌面和窗口的颜色"
 
 #: effect_builtins.cpp:259
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
-msgstr ""
+msgstr "Kscreen"
 
 #: effect_builtins.cpp:260
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper Effect for KScreen"
-msgstr ""
+msgstr "KScreen 的帮助效果"
 
 #: effect_builtins.cpp:271
 msgctxt "Name of a KWin Effect"
 msgid "Logout"
-msgstr ""
+msgstr "注销"
 
 #: effect_builtins.cpp:272
 msgctxt "Comment describing the KWin Effect"
 msgid "Desaturate the desktop when displaying the logout dialog"
-msgstr ""
+msgstr "显示注销对话框时降低桌面饱和度"
 
 #: effect_builtins.cpp:283
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
-msgstr ""
+msgstr "窥镜"
 
 #: effect_builtins.cpp:284
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
-msgstr ""
+msgstr "类似鱼眼镜头的屏幕放大镜"
 
 #: effect_builtins.cpp:295
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
-msgstr ""
+msgstr "魔灯"
 
 #: effect_builtins.cpp:296
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
-msgstr ""
+msgstr "窗口最小化时模拟出魔灯效果"
 
 #: effect_builtins.cpp:307
-#, fuzzy
-#| msgid "Modifiers"
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
-msgstr "修饰键"
+msgstr "放大镜"
 
 #: effect_builtins.cpp:308
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
-msgstr ""
+msgstr "放大鼠标指针附近的屏幕"
 
 #: effect_builtins.cpp:319
-#, fuzzy
-#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
-msgstr "动画"
+msgstr "最小化动画"
 
 #: effect_builtins.cpp:320
-#, fuzzy
-#| msgid "Ignore &minimized windows"
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
-msgstr "忽略最小化的窗口(&M)"
+msgstr "窗口最小化的动画"
 
 #: effect_builtins.cpp:331
-#, fuzzy
-#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
-msgstr "动画"
+msgstr "鼠标点击动画"
 
 #: effect_builtins.cpp:332
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Creates an animation whenever a mouse button is clicked. This is useful for "
 "screenrecordings/presentations"
-msgstr ""
+msgstr "鼠标按键按下时显示动画。屏幕录制和演示时非常有用"
 
 #: effect_builtins.cpp:343
-#, fuzzy
-#| msgid "Clear Mouse Marks"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
-msgstr "清除鼠标标记"
+msgstr "鼠标标记"
 
 #: effect_builtins.cpp:344
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
-msgstr ""
+msgstr "让您在桌面上画线"
 
 #: effect_builtins.cpp:355
-#, fuzzy
-#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
-msgstr "窗口"
+msgstr "展现窗口"
 
 #: effect_builtins.cpp:356
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
-msgstr ""
+msgstr "缩小所有打开的窗口，使其可以并列显示"
 
 #: effect_builtins.cpp:367
-#, fuzzy
-#| msgid "Close window"
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
-msgstr "关闭窗口"
+msgstr "更改窗口大小"
 
 #: effect_builtins.cpp:368
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
-msgstr ""
+msgstr "用快速材质缩放而不是内容更新进行窗口缩放"
 
 #: effect_builtins.cpp:379
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
-msgstr ""
+msgstr "屏幕边缘"
 
 #: effect_builtins.cpp:380
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
-msgstr ""
+msgstr "接近屏幕边缘时高亮显示"
 
 #: effect_builtins.cpp:391
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
-msgstr ""
+msgstr "屏幕截图"
 
 #: effect_builtins.cpp:392
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for KSnapshot"
-msgstr ""
+msgstr "KSnapshot 的帮助效果"
 
 #: effect_builtins.cpp:403
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
-msgstr ""
+msgstr "飘落"
 
 #: effect_builtins.cpp:404
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Make modal dialogs smoothly fly in and out when they are shown or hidden"
-msgstr ""
+msgstr "显示或隐藏对话框时，以飘起飘落的形式呈现"
 
 #: effect_builtins.cpp:415
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
-msgstr ""
+msgstr "显示 FPS"
 
 #: effect_builtins.cpp:416
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
-msgstr ""
+msgstr "在屏幕角落上显示 KWin 的性能数据"
 
 #: effect_builtins.cpp:427
-#, fuzzy
-#| msgid "Show &panels"
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
-msgstr "显示面板(&P)"
+msgstr "显示绘制区域"
 
 #: effect_builtins.cpp:428
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
-msgstr ""
+msgstr "突出显示桌面上最近更新过的区域"
 
 #: effect_builtins.cpp:439
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
-msgstr ""
+msgstr "滑行"
 
 #: effect_builtins.cpp:440
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide windows across the screen when switching virtual desktops"
-msgstr ""
+msgstr "当切换虚拟桌面时，让窗口滑行穿过屏幕"
 
 #: effect_builtins.cpp:451
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
-msgstr ""
+msgstr "滑出"
 
 #: effect_builtins.cpp:452
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
-msgstr ""
+msgstr "在激活其它窗口时滑出当前窗口"
 
 #: effect_builtins.cpp:463
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
-msgstr ""
+msgstr "滑动气泡通知"
 
 #: effect_builtins.cpp:464
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
-msgstr ""
+msgstr "出现 Plasma 气泡通知时呈现滚动动画"
 
 #: effect_builtins.cpp:475
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
-msgstr ""
+msgstr "控屏助手"
 
 #: effect_builtins.cpp:476
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
-msgstr ""
+msgstr "帮助您在移动窗口时定位屏幕中间的位置"
 
 #: effect_builtins.cpp:487
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
-msgstr ""
+msgstr "启动反馈"
 
 #: effect_builtins.cpp:488
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
-msgstr ""
+msgstr "启动反馈的帮助效果"
 
 #: effect_builtins.cpp:499
-#, fuzzy
-#| msgid "Thumbnail Bar"
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
-msgstr "缩略栏"
+msgstr "缩略图置边"
 
 #: effect_builtins.cpp:500
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
-msgstr ""
+msgstr "在屏幕边缘显示窗口的缩略图"
 
 #: effect_builtins.cpp:511
-#, fuzzy
-#| msgid "Track mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "跟踪鼠标"
@@ -934,37 +900,29 @@ msgstr "跟踪鼠标"
 #: effect_builtins.cpp:512
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a mouse cursor locating effect when activated"
-msgstr ""
+msgstr "激活时显示鼠标指针定位效果"
 
 #: effect_builtins.cpp:523
 msgctxt "Name of a KWin Effect"
 msgid "Window Geometry"
-msgstr ""
+msgstr "窗口几何尺寸"
 
 #: effect_builtins.cpp:524
-#, fuzzy
-#| msgid "Display window &icons"
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
-msgstr "显示窗口图标(&I)"
+msgstr "在移动/缩放时显示窗口大小"
 
 #: effect_builtins.cpp:535
-#, fuzzy
-#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
-msgstr "窗口"
+msgstr "摆动窗口"
 
 #: effect_builtins.cpp:536
-#, fuzzy
-#| msgid "Use for window &switching"
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
-msgstr "窗口切换时应用(&S)"
+msgstr "当窗口被移动时，使其呈现变形效果"
 
 #: effect_builtins.cpp:547
-#, fuzzy
-#| msgid "Zoom"
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "缩放"
@@ -972,7 +930,7 @@ msgstr "缩放"
 #: effect_builtins.cpp:548
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
-msgstr ""
+msgstr "放大整个桌面"
 
 #: flipswitch/flipswitch.cpp:58 flipswitch/flipswitch_config.cpp:60
 msgid "Toggle Flip Switch (Current desktop)"
@@ -1088,10 +1046,8 @@ msgid "&Height:"
 msgstr "高度(&H)："
 
 #: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
-#, fuzzy
-#| msgid "Toggle Effect"
 msgid "Toggle Mouse Click Effect"
-msgstr "切换效果"
+msgstr "切换鼠标点击效果"
 
 #: mouseclick/mouseclick.cpp:59
 msgid "Middle"

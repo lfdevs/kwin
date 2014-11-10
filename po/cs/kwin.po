@@ -1,7 +1,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Lukáš Tinkl <lukas@kde.org>, 2010, 2011, 2012.
-# Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013.
+# Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013, 2014.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
 #
 msgid ""
@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-10-07 11:26+0000\n"
-"PO-Revision-Date: 2013-09-26 09:32+0200\n"
+"PO-Revision-Date: 2014-10-22 13:37+0200\n"
 "Last-Translator: Vít Pelčák <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -18,6 +18,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Lokalize 1.5\n"
+"X-Language: cs_CZ\n"
+"X-Source-Language: en_US\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -44,7 +46,7 @@ msgid ""
 "<b>be aware that this might result in an immediate crash!</b></"
 "p><p>Alternatively, you might want to use the XRender backend instead.</p>"
 msgstr ""
-"<b>OpenGL compositing (výchozí) vedl v minulosti k pádu KWinu.</b><br>K tomu "
+"<b>Kompozice OpenGL (výchozí) vedla v minulosti k pádu KWinu.</b><br>K tomu "
 "nejspíš došlo kvůli chybě v ovladači.<p>Pokud si myslíte, že jste mezitím "
 "aktualizovali na stabilní verzi ovladače,<br>můžete resetovat ochranu, ale "
 "<b>mějte na paměti, že to může vést k okamžitému pádu.</b></p><p>Případně "
@@ -76,7 +78,7 @@ msgstr "PID aplikace k ukončení"
 
 #: killer/killer.cpp:49
 msgid "pid"
-msgstr ""
+msgstr "pid"
 
 #: killer/killer.cpp:51
 msgid "Hostname on which the application is running"
@@ -130,7 +132,7 @@ msgstr "Tento pomocný nástroj není určen k samostatnému spouštění."
 #, kde-format
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
-msgstr ""
+msgstr "<b>Aplikace \"%1\" neodpovídá</b>"
 
 #: killer/killer.cpp:106
 #, kde-format
@@ -179,7 +181,7 @@ msgstr "Minimalizovat okno"
 
 #: kwinbindings.cpp:56
 msgid "Shade Window"
-msgstr "Zarolovat okno"
+msgstr "Sbalit okno"
 
 #: kwinbindings.cpp:58
 msgid "Move Window"
@@ -374,7 +376,7 @@ msgstr "Zabít okno"
 
 #: kwinbindings.cpp:149
 msgid "Suspend Compositing"
-msgstr "Zastavit compositing"
+msgstr "Zastavit kompozici"
 
 #: kwinbindings.cpp:150
 msgid "Invert Screen Colors"
@@ -435,24 +437,26 @@ msgid "Indicate that KWin has recently crashed n times"
 msgstr "Naznačuje, že KWin nedávno n-krát zhavaroval"
 
 #: main_wayland.cpp:88
-#, fuzzy
-#| msgid "kwin: another window manager is running (try using --replace)\n"
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
-msgstr "kwin: je spuštěn jiný správce oken (zkuste použít --replace)\n"
+msgstr "kwin_wayland: window manager X11 běží na zobrazení X11.\n"
 
 #: main_wayland.cpp:96
 msgid ""
 "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
 "set.\n"
 msgstr ""
+"kwin_wayland: nelze se připojit k serveru Wayland; ujistěte se, že je "
+"nastavena proměnná prostředí  WAYLAND_DISPLAY.\n"
 
 #: main_wayland.cpp:231
 msgid "Start a nested X Server."
-msgstr ""
+msgstr "Spustit nested X Server."
 
 #: main_wayland.cpp:234
 msgid "The X11 Display to connect to, required if option x-server is used."
 msgstr ""
+"Zobrazení X11, ke kterému se připojit. Je potřeba pokud je použita volba x-"
+"server."
 
 #: main_x11.cpp:149
 msgid ""
@@ -472,7 +476,7 @@ msgstr "Nahradit již běžící správce oken kompatibilní s ICCCM 2.0"
 
 #: scene_opengl.cpp:558
 msgid "Desktop effects were restarted due to a graphics reset"
-msgstr ""
+msgstr "Grafické efekty byly restartovány kvůli restartu grafiky"
 
 #: scene_opengl.cpp:729
 #, kde-format
@@ -483,6 +487,10 @@ msgid ""
 "well.<br>Alternatively, lower the combined resolution of all screens to %1x"
 "%2 "
 msgstr ""
+"<h1>Nelze použít grafické efekty OpenGL</h1>Váš systém v tomto rozlišení je "
+"nedokáže provádět<br><br>Můžete zkusit podpůrnou vrstvu XRender, ale ta může "
+"být pro toto rozlišení pomalá též.<br>Můžete také snížit celkové rozlišení "
+"všech obrazovek na %1x%2 "
 
 #: scene_opengl.cpp:736
 msgid ""
@@ -491,6 +499,10 @@ msgid ""
 "does not know such limitation, but the performance will usually be impacted "
 "by the hardware limitations that restrict the OpenGL viewport size."
 msgstr ""
+"Požadované rozlišení přesahuje omezení GL_MAX_VIEWPORT_DIMS vašeho GPU a "
+"proto není kompatibilní s kompozitorem OpenGL.<br>XRender nezná takové "
+"omezení, ale výkon bude obvykle ovlivněn mezemi hardwaru jenž omezují "
+"velikost zobrazené plochy v OpenGL."
 
 #: scene_opengl.cpp:761
 #, kde-format
@@ -500,6 +512,10 @@ msgid ""
 "<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
 "compositing, switch to the XRender backend or lower the resolution to %1x%1."
 msgstr ""
+"<h1>Grafické efekty v OpenGL mohou být nepoužitelné</h1>Grafické efekty v "
+"OpenGL jsou v tomto rozlišení podporované, ale mohou být velmi pomalé."
+"<br>Velká okna taky nakonec úplně zčernají.<br><br>Zvažte vypnutí kompozice, "
+"přepnutí na podpůrnou vrstvu XRender nebo snížení rozlišení na %1x%1."
 
 #: scene_opengl.cpp:767
 msgid ""
@@ -509,22 +525,27 @@ msgid ""
 "despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
 "software rendering in this case."
 msgstr ""
+"Požadované rozlišení překračuje omezení GL_MAX_TEXTURE_SIZE vašeho GPU, "
+"takže okna této velikosti nemohou dostat texturu a budou celá černá.<br>Toto "
+"omezení bude rovněž představovat výkonnostní bariéru i když jste pod hranicí "
+"GL_MAX_VIEWPORT_DIMS, protože ovladač může přepnout na softwarové "
+"vykreslování."
 
 #: scripting/genericscriptedconfig.cpp:81
 msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
-msgstr ""
+msgstr "Modul neposkytuje soubor s nastavením na obvyklém místě"
 
 #: scripting/scripting.cpp:127
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
-msgstr ""
+msgstr "Podmínka nesplněna: %1 je nenulový"
 
 #: scripting/scripting.cpp:145
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
-msgstr ""
+msgstr "Podmínka nesplněna: Argument je nenulový"
 
 #: scripting/scripting.cpp:172
 msgctxt "Error in KWin Script"
@@ -532,23 +553,25 @@ msgid ""
 "Invalid number of arguments. At least service, path, interface and method "
 "need to be provided"
 msgstr ""
+"Neplatný počet argumentů. Je potřeba poskytnout alespoň službu, cestu, "
+"rozhraní a metodu"
 
 #: scripting/scripting.cpp:178
 msgctxt "Error in KWin Script"
 msgid ""
 "Invalid type. Service, path, interface and method need to be string values"
-msgstr ""
+msgstr "Neplatný typ. Služba, cesta, rozhraní a metoda musí být řetězce"
 
 #: scripting/scriptingutils.cpp:28
 msgctxt "syntax error in KWin script"
 msgid "Invalid number of arguments"
-msgstr ""
+msgstr "Neplatný počet argumentů"
 
 #: scripting/scriptingutils.cpp:41
 #, kde-format
 msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
-msgstr ""
+msgstr "%1 není typ varianty"
 
 #: tabbox/tabbox.cpp:348
 msgctxt "Special entry in alt+tab list for minimizing all windows"
@@ -608,6 +631,8 @@ msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
 msgstr ""
+"Instalace přepínače oken je poškozena. Chybějí zdroje.\n"
+"Kontaktujte kvůli tomu svoji distribuci."
 
 #: useractions.cpp:186
 #, kde-format

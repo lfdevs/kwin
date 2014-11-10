@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-07-23 08:09+0000\n"
-"PO-Revision-Date: 2014-10-05 00:03+0300\n"
+"PO-Revision-Date: 2014-10-27 18:35+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
 "Language: el\n"
@@ -201,6 +201,8 @@ msgid ""
 "EGL is not supported by all OpenGL drivers. If not supported the Compositor "
 "will be disabled."
 msgstr ""
+"Το EGL δεν υποστηρίζεται από όλους τους οδηγούς OpenGL. Αν δεν υποστηρίζεται "
+"ο συνθέτης θα απενεργοποιηθεί."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
 #: compositing.ui:297
@@ -222,6 +224,8 @@ msgid ""
 "Having full screen windows bypass the compositor is not supported on every "
 "hardware."
 msgstr ""
+"Η παράκαμψη του συνθέτη για τα παράθυρα πλήρους οθόνης δεν υποστηρίζεται από "
+"όλες τις κάρτες γραφικών."
 
 #: main.cpp:82
 msgid "Re-enable OpenGL detection"
@@ -232,15 +236,20 @@ msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
 "video."
 msgstr ""
+"Το \"Μόνο όταν είναι φθηνό\" αποτρέπει τα κοψίματα στην εικόνα μόνο για "
+"αλλαγές πλήρους οθόνης, όπως το βίντεο."
 
 #: main.cpp:143
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr ""
+"Η \"Πλήρης ανασχεδίαση οθόνης\" μπορεί να προκαλέσει προβλήματα επιδόσεων."
 
 #: main.cpp:147
 msgid ""
 "\"Re-use screen content\" causes performance severe problems on MESA drivers."
 msgstr ""
+"Η \"Επαναχρησιμοποίηση περιεχομένου οθόνης\" προκαλεί σοβαρά προβλήματα "
+"επιδόσεων στους οδηγούς MESA."
 
 #: model.cpp:67
 msgctxt "Category of Desktop Effects, used as section header"

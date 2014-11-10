@@ -103,6 +103,7 @@ Comment[ca]=Moviment de les finestres
 Comment[cs]=Posun oken
 Comment[da]=Flytning af vinduer
 Comment[de]=Fensterbewegung
+Comment[el]=Μετακίνηση παραθύρου
 Comment[en_GB]=Window Moving
 Comment[es]=Movimiento de ventanas
 Comment[fi]=Ikkunoiden siirtäminen
@@ -127,6 +128,7 @@ Comment[sr@latin]=Pomeranje prozora
 Comment[sv]=Fönsterförflyttning
 Comment[uk]=Пересування вікон
 Comment[x-test]=xxWindow Movingxx
+Comment[zh_CN]=窗口移动
 
 X-KDE-Keywords=moving,smart,cascade,maximize,maximise,snap zone,snap,border
 X-KDE-Keywords[bs]=pomjeranje,pametno,kaskada,povećali,povećalo,namjestiti zonu,namjestiti,granica

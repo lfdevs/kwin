@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-05-16 07:57+0000\n"
-"PO-Revision-Date: 2014-04-30 09:42+0200\n"
+"PO-Revision-Date: 2014-08-27 19:07+0200\n"
 "Last-Translator: Vít Pelčák <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -17,6 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Lokalize 1.5\n"
+"X-Language: cs_CZ\n"
+"X-Source-Language: en_US\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -78,11 +80,11 @@ msgstr "%1 - Koule"
 
 #: main.cpp:209
 msgid "Toggle window switching"
-msgstr ""
+msgstr "Zapnout přepínání oken"
 
 #: main.cpp:210
 msgid "Toggle alternative window switching"
-msgstr ""
+msgstr "Zapnout alternativní přepínání oken"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
@@ -116,7 +118,7 @@ msgstr "Sesadit okna jako dlaždice jejich přetažením na stranu obrazovky"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
 msgid "Quarter tiling triggered in the outer"
-msgstr ""
+msgstr "Dlaždice aktivována ve vnějších"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, electricBorderCornerRatio)
 #: main.ui:106

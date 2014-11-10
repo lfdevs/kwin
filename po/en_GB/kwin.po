@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-10-07 11:26+0000\n"
-"PO-Revision-Date: 2014-06-28 16:22+0100\n"
+"PO-Revision-Date: 2014-10-25 12:50+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
 "Language: en_GB\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 1.5\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -436,24 +437,24 @@ msgid "Indicate that KWin has recently crashed n times"
 msgstr "Indicate that KWin has recently crashed n times"
 
 #: main_wayland.cpp:88
-#, fuzzy
-#| msgid "kwin: another window manager is running (try using --replace)\n"
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
-msgstr "kwin: another window manager is running (try using --replace)\n"
+msgstr "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 
 #: main_wayland.cpp:96
 msgid ""
 "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
 "set.\n"
 msgstr ""
+"kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
+"set.\n"
 
 #: main_wayland.cpp:231
 msgid "Start a nested X Server."
-msgstr ""
+msgstr "Start a nested X Server."
 
 #: main_wayland.cpp:234
 msgid "The X11 Display to connect to, required if option x-server is used."
-msgstr ""
+msgstr "The X11 Display to connect to, required if option x-server is used."
 
 #: main_x11.cpp:149
 msgid ""

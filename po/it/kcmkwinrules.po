@@ -2,21 +2,21 @@
 # Andrea Rizzi <rizzi@kde.org>, 2004, 2005.
 # Andrea RIZZI <arizzi@pi.infn.it>, 2004.
 # Luciano Montanaro <mikelima@cirulla.net>, 2007, 2008, 2010, 2011.
-# Federico Zenith <federico.zenith@member.fsf.org>, 2010, 2012, 2013.
+# Federico Zenith <federico.zenith@member.fsf.org>, 2010, 2012, 2013, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-04-28 15:51+0000\n"
-"PO-Revision-Date: 2013-06-19 09:06+0200\n"
-"Last-Translator: Federico Zenith <federico.zenith@member.fsf.org>\n"
+"PO-Revision-Date: 2014-10-08 09:19+0200\n"
+"Last-Translator: Federico Zenith <zenith.federico@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 1.5\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -263,7 +263,7 @@ msgstr "Esporta regola"
 
 #: ruleslist.cpp:154 ruleslist.cpp:166
 msgid "KWin Rule (*.kwinrule)"
-msgstr ""
+msgstr "Regola di KWin (*.kwinrule)"
 
 #: ruleslist.cpp:165
 msgid "Import Rules"
@@ -426,10 +426,8 @@ msgstr "Corrispondenza delle &finestre"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
-#, fuzzy
-#| msgid "De&scription:"
 msgid "&Description:"
-msgstr "De&scrizione:"
+msgstr "&Descrizione:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: ruleswidgetbase.ui:46
@@ -488,10 +486,8 @@ msgstr "Corrispondenza dell'intera classe della finestra"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: ruleswidgetbase.ui:109
-#, fuzzy
-#| msgid "Window &role:"
 msgid "Window ro&le:"
-msgstr "&Ruolo della finestra:"
+msgstr "Ruo&lo della finestra:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #: ruleswidgetbase.ui:162
@@ -1133,4 +1129,4 @@ msgstr "Prevenzione dell'atti&vazione"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_decocolor)
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
-msgstr ""
+msgstr "&Schema di colori della barra dei titoli"

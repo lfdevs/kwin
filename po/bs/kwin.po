@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"POT-Creation-Date: 2014-11-30 09:26+0000\n"
 "PO-Revision-Date: 2013-12-27 07:52+0000\n"
 "Last-Translator: Lejla Agic <lagic1@etf.unsa.ba>\n"
 "Language-Team: bosanski <bs@li.org>\n"
@@ -139,6 +139,37 @@ msgstr "Ova pomoćna alatka nije namijenjena direktnom pozivanju."
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
 msgstr "<b>Program \"%1\" ne odgovara</b>"
+
+#: killer/killer.cpp:97
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3) but the application is not responding.</para>"
+msgstr ""
+"<para>Pokušali ste zatvoriti prozor \"%1\" aplikacije \"%2\" (ID procesa: "
+"%3) ali aplikacija ne odgovara.</para>"
+
+#: killer/killer.cpp:99
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3), running on host \"%4\", but the application is not responding.</para>"
+msgstr ""
+"<para>Pokušali ste zatvoriti prozor \"%1\" aplikacije \"%2\" (ID procesa: "
+"%3), koji je pokrenut na računaru \"%4\", ali aplikacija ne odgovara.</para>"
+
+#: killer/killer.cpp:102
+msgctxt "@info"
+msgid ""
+"<para>Do you want to terminate this application?</"
+"para><para><warning>Terminating the application will close all of its child "
+"windows. Any unsaved data will be lost.</warning></para>"
+msgstr ""
+"<para>Da li želite prekinuti ovaj program?</para><para><warning>Prekidanje "
+"ovog programa će zatvoriti sve njegove prozore. Svi nespremljeni podaci će "
+"biti izgubljeni.</warning></para>"
 
 #: killer/killer.cpp:106
 #, kde-format

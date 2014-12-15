@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"POT-Creation-Date: 2014-11-30 09:26+0000\n"
 "PO-Revision-Date: 2012-12-26 18:24+0100\n"
 "Last-Translator: Federico Zenith <federico.zenith@member.fsf.org>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -135,6 +135,38 @@ msgstr ""
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
 msgstr "<b>L'applicazione «%1» non risponde</b>"
+
+#: killer/killer.cpp:97
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3) but the application is not responding.</para>"
+msgstr ""
+"<para>Hai provato a chiudere la finestra «%1» dell'applicazione «%2» (ID del "
+"processo: %3) ma l'applicazione non risponde.</para>"
+
+#: killer/killer.cpp:99
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3), running on host \"%4\", but the application is not responding.</para>"
+msgstr ""
+"<para>Hai provato a chiudere la finestra «%1» dell'applicazione «%2» che "
+"gira sull'host «%4» (ID del processo: %3) ma l'applicazione non risponde.</"
+"para>"
+
+#: killer/killer.cpp:102
+msgctxt "@info"
+msgid ""
+"<para>Do you want to terminate this application?</"
+"para><para><warning>Terminating the application will close all of its child "
+"windows. Any unsaved data will be lost.</warning></para>"
+msgstr ""
+"<para>Vuoi terminare l'applicazione?</para><para><warning>Terminando "
+"l'applicazione verranno chiuse tutte le sue finestre figlie. Tutti i dati "
+"non salvati saranno persi.</warning></para>"
 
 #: killer/killer.cpp:106
 #, kde-format

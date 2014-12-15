@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"POT-Creation-Date: 2014-11-30 09:26+0000\n"
 "PO-Revision-Date: 2014-01-20 18:37+0100\n"
 "Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -136,6 +136,37 @@ msgstr "Bu yardımcı uygulama doğrudan çağrılmayı desteklemiyor."
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
 msgstr "<b>\"%1\" uygulaması yanıt vermiyor</b>"
+
+#: killer/killer.cpp:97
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3) but the application is not responding.</para>"
+msgstr ""
+"<para>\"%2\" uygulamasından (Süreç Kimliği: %3) \"%1\" penceresini kapatmaya "
+"çalıştınız fakat uygulama yanıt vermiyor.</para>"
+
+#: killer/killer.cpp:99
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3), running on host \"%4\", but the application is not responding.</para>"
+msgstr ""
+"<para>\"%4\" sunucusunda çalışan \"%2\" uygulamasından (Süreç Kimliği: %3) "
+"\"%1\" penceresini kapatmaya çalıştınız fakat uygulama yanıt vermiyor.</para>"
+
+#: killer/killer.cpp:102
+msgctxt "@info"
+msgid ""
+"<para>Do you want to terminate this application?</"
+"para><para><warning>Terminating the application will close all of its child "
+"windows. Any unsaved data will be lost.</warning></para>"
+msgstr ""
+"<para>Bu uygulamayı sonlandırmak istiyor musunuz?</"
+"para><para><warning>Uygulamayı sonlandırmak tüm alt pencerelerini "
+"kapatacaktır. Kaydedilmemiş veriler kaybedilecek.</warning></para>"
 
 #: killer/killer.cpp:106
 #, kde-format

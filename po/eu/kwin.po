@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"POT-Creation-Date: 2014-11-30 09:26+0000\n"
 "PO-Revision-Date: 2014-02-04 11:21+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
@@ -140,6 +140,38 @@ msgstr "Laguntza-morroi honi ez zaio zuzenean deitu behar."
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
 msgstr "<b>\"%1\" aplikazioak ez du erantzuten</b>"
+
+#: killer/killer.cpp:97
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3) but the application is not responding.</para>"
+msgstr ""
+"<para>\"%2\" aplikazioaren (prozesu-IDa: %3) \"%1\" leihoa ixten saiatu "
+"zara, baino aplikazioak ez du erantzuten.</para>"
+
+#: killer/killer.cpp:99
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3), running on host \"%4\", but the application is not responding.</para>"
+msgstr ""
+"<para>\"%4\" ostalarian martxan dagoen \"%2\" aplikazioaren (prozesu-IDa: "
+"%3) \"%1\" leihoa ixten saiatu zara, baino aplikazioak ez du erantzuten.</"
+"para>"
+
+#: killer/killer.cpp:102
+msgctxt "@info"
+msgid ""
+"<para>Do you want to terminate this application?</"
+"para><para><warning>Terminating the application will close all of its child "
+"windows. Any unsaved data will be lost.</warning></para>"
+msgstr ""
+"<para>Aplikazio hau amaitu nahi duzu?</para><para><warning>Aplikazioa "
+"amaitzeak bere ume-leiho guztiak amaituko ditu. Gorde gabeko datu guztiak "
+"galduko dira.</warning></para>"
 
 #: killer/killer.cpp:106
 #, kde-format

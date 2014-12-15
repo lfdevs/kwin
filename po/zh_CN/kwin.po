@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"POT-Creation-Date: 2014-11-30 09:26+0000\n"
 "PO-Revision-Date: 2014-11-05 10:40-0500\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
@@ -131,6 +131,36 @@ msgstr "这一助手工具不应直接调用。"
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
 msgstr "<b>应用程序 \"%1\" 未响应</b>"
+
+#: killer/killer.cpp:97
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3) but the application is not responding.</para>"
+msgstr ""
+"<para>您尝试关闭应用程序 \"%2\" 的窗口 \"%1\" (进程号： %3)，但是程序未响应。"
+"</para>"
+
+#: killer/killer.cpp:99
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3), running on host \"%4\", but the application is not responding.</para>"
+msgstr ""
+"<para>您尝试关闭应用程序 \"%2\" 的窗口 \"%1\" (进程号： %3)，运行于主机 "
+"\"%4\"，但是程序未响应。</para>"
+
+#: killer/killer.cpp:102
+msgctxt "@info"
+msgid ""
+"<para>Do you want to terminate this application?</"
+"para><para><warning>Terminating the application will close all of its child "
+"windows. Any unsaved data will be lost.</warning></para>"
+msgstr ""
+"<para>您希望关闭这个程序吗？</para><para><warning>关闭该程序将关闭所有子窗"
+"口。任何未保存的数据将丢失。</warning></para>"
 
 #: killer/killer.cpp:106
 #, kde-format

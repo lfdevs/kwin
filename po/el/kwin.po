@@ -11,13 +11,14 @@
 # Dimitrios Glentadakis <dglent@gmail.com>, 2011, 2012, 2013, 2014.
 # Antonis Geralis <capoiosct@gmail.com>, 2012, 2013.
 # Stelios <sstavra@gmail.com>, 2012, 2013.
+# Dimitris Kardarakos <dimkard@gmail.com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-10-07 11:26+0000\n"
-"PO-Revision-Date: 2014-01-04 09:35+0100\n"
-"Last-Translator: Dimitrios Glentadakis <dglent@gmail.com>\n"
+"POT-Creation-Date: 2014-11-30 09:26+0000\n"
+"PO-Revision-Date: 2014-11-08 18:02+0200\n"
+"Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
@@ -143,6 +144,38 @@ msgstr "Αυτή η βοηθητική εφαρμογή δεν μπορεί να
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
 msgstr "<b>Η εφαρμογή «%1» δεν ανταποκρίνεται</b>"
+
+#: killer/killer.cpp:97
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3) but the application is not responding.</para>"
+msgstr ""
+"<para>Επιχειρήσατε να κλείσετε το παράθυρο «%1» της εφαρμογής «%2» (ID "
+"διεργασίας: %3) αλλά η εφαρμογή δεν ανταποκρίνεται.</para>"
+
+#: killer/killer.cpp:99
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3), running on host \"%4\", but the application is not responding.</para>"
+msgstr ""
+"<para>Επιχειρήσατε να κλείσετε το παράθυρο «%1» της εφαρμογής «%2» (ID "
+"διεργασίας: %3) που εκτελείται στον υπολογιστή «%4», αλλά η εφαρμογή δεν "
+"ανταποκρίνεται.</para>"
+
+#: killer/killer.cpp:102
+msgctxt "@info"
+msgid ""
+"<para>Do you want to terminate this application?</"
+"para><para><warning>Terminating the application will close all of its child "
+"windows. Any unsaved data will be lost.</warning></para>"
+msgstr ""
+"<para>Θέλετε να τερματίσετε αυτή την εφαρμογή?</para><para><warning>Ο "
+"τερματισμός της εφαρμογής θα κλείσει όλα τα θυγατρικά παράθυρα. Όλα τα μη "
+"αποθηκευμένα δεδομένα στην εφαρμογή θα χαθούν.</warning></para>"
 
 #: killer/killer.cpp:106
 #, kde-format
@@ -447,26 +480,27 @@ msgid "Indicate that KWin has recently crashed n times"
 msgstr "Υπόδειξη πρόσφατης κατάρρευσης του KWin n φορές στη σειρά"
 
 #: main_wayland.cpp:88
-#, fuzzy
-#| msgid "kwin: another window manager is running (try using --replace)\n"
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr ""
-"kwin: κάποιος άλλος διαχειριστής παραθύρων εκτελείται (δοκιμάστε με το --"
-"replace)\n"
+"kwin_wayland: κάποιος διαχειριστής παραθύρων X11 εκτελείται στην οθόνη X11\n"
 
 #: main_wayland.cpp:96
 msgid ""
 "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
 "set.\n"
 msgstr ""
+"kwin_wayland: αδυναμία σύνδεσης με τον διακομιστή Wayland, εξασφαλίστε ότι η "
+"WAYLAND_DISPLAY έχει οριστεί.\n"
 
 #: main_wayland.cpp:231
 msgid "Start a nested X Server."
-msgstr ""
+msgstr "Εκκίνηση εμφωλευμένου διακομιστή X."
 
 #: main_wayland.cpp:234
 msgid "The X11 Display to connect to, required if option x-server is used."
 msgstr ""
+"Η οθόνη Χ11 προς σύνδεση, απαιτείται αν χρησιμοποιείται η επιλογή διακομιστή "
+"Χ."
 
 #: main_x11.cpp:149
 msgid ""
@@ -552,18 +586,18 @@ msgstr ""
 #: scripting/genericscriptedconfig.cpp:81
 msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
-msgstr ""
+msgstr "Το πρόσθετο δεν παρέχει αρχείο διαμόρφωσης στην αναμενόμενη τοποθεσία"
 
 #: scripting/scripting.cpp:127
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
-msgstr ""
+msgstr "Αποτυχία δήλωσης: το %1 δεν είναι κενό"
 
 #: scripting/scripting.cpp:145
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
-msgstr ""
+msgstr "Αποτυχία δήλωσης: το όρισμα είναι κενό"
 
 #: scripting/scripting.cpp:172
 msgctxt "Error in KWin Script"
@@ -571,23 +605,27 @@ msgid ""
 "Invalid number of arguments. At least service, path, interface and method "
 "need to be provided"
 msgstr ""
+"Μη έγκυρος αριθμός ορισμάτων. Πρέπει να παρέχονται τουλάχιστον η υπηρεσία, η "
+"διαδρομή, η διεπαφή και η μέθοδος"
 
 #: scripting/scripting.cpp:178
 msgctxt "Error in KWin Script"
 msgid ""
 "Invalid type. Service, path, interface and method need to be string values"
 msgstr ""
+"Μη έγκυρος τύπος. Η υπηρεσία, η διαδρομή, η διεπαφή και η μέθοδος πρέπει να "
+"έχουν τιμές συμβολοσειράς"
 
 #: scripting/scriptingutils.cpp:28
 msgctxt "syntax error in KWin script"
 msgid "Invalid number of arguments"
-msgstr ""
+msgstr "Μη έγκυρος αριθμός ορισμάτων"
 
 #: scripting/scriptingutils.cpp:41
 #, kde-format
 msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
-msgstr ""
+msgstr "το %1 δεν είναι ένας τύπος παραλλαγής"
 
 #: tabbox/tabbox.cpp:348
 msgctxt "Special entry in alt+tab list for minimizing all windows"

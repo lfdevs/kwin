@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"POT-Creation-Date: 2014-11-30 09:26+0000\n"
 "PO-Revision-Date: 2014-10-07 16:09+0200\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -137,6 +137,38 @@ msgstr "Dieses Hilfsprogramm ist nicht für den direkten Aufruf gedacht."
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
 msgstr "<b>Die Anwendung „%1“ reagiert nicht</b>"
+
+#: killer/killer.cpp:97
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3) but the application is not responding.</para>"
+msgstr ""
+"<para>Sie haben versucht, Fenster „%1“ der Anwendung „%2“ (Prozesskennung: "
+"%3) zu schließen. Die Anwendung reagiert jedoch nicht.</para>"
+
+#: killer/killer.cpp:99
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3), running on host \"%4\", but the application is not responding.</para>"
+msgstr ""
+"<para>Sie haben versucht, Fenster „%1“ der Anwendung „%2“ (Prozesskennung: "
+"%3) zu schließen, die auf Rechner „%4“ läuft. Die Anwendung reagiert jedoch "
+"nicht.</para>"
+
+#: killer/killer.cpp:102
+msgctxt "@info"
+msgid ""
+"<para>Do you want to terminate this application?</"
+"para><para><warning>Terminating the application will close all of its child "
+"windows. Any unsaved data will be lost.</warning></para>"
+msgstr ""
+"<para>Möchten Sie diese Anwendung beenden?</para><para><warning>Beim Beenden "
+"der Anwendung werden alle zur Anwendung gehörenden Fenster geschlossen und "
+"ungespeicherte Daten gehen verloren.</warning></para>"
 
 #: killer/killer.cpp:106
 #, kde-format
@@ -893,35 +925,6 @@ msgstr ""
 "Bitte geben Sie die untenstehenden Informationen bei einem Pastebin-Dienst "
 "wie http://paste.kde.org ein, anstatt sie direkt in die Hilfediskussionen zu "
 "schreiben.\n"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

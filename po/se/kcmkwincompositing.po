@@ -236,7 +236,6 @@ msgstr ""
 
 #: model.cpp:68
 #, fuzzy
-#| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Fárda"
@@ -263,7 +262,6 @@ msgstr ""
 
 #: model.cpp:73
 #, fuzzy
-#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Lásegieđaheapmi"

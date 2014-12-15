@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-10-07 11:26+0000\n"
-"PO-Revision-Date: 2014-08-24 01:29+0200\n"
+"POT-Creation-Date: 2014-11-30 09:26+0000\n"
+"PO-Revision-Date: 2014-11-15 18:31+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr\n"
@@ -137,6 +137,37 @@ msgstr "Ова помоћна алатка није намењена дирек�
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
 msgstr "<b>Програм „%1“ се не одазива.</b>"
+
+#: killer/killer.cpp:97
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3) but the application is not responding.</para>"
+msgstr ""
+"<para>Покушали сте да затворите прозор „%1“ из програма „%2“ (ИД процеса "
+"%3), али се програм не одазива.</para>"
+
+#: killer/killer.cpp:99
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3), running on host \"%4\", but the application is not responding.</para>"
+msgstr ""
+"<para>Покушали сте да затворите прозор „%1“ из програма „%2“ (ИД процеса "
+"%3), који ради на домаћину „%4“, али се програм не одазива.</para>"
+
+#: killer/killer.cpp:102
+msgctxt "@info"
+msgid ""
+"<para>Do you want to terminate this application?</"
+"para><para><warning>Terminating the application will close all of its child "
+"windows. Any unsaved data will be lost.</warning></para>"
+msgstr ""
+"<para>Желите ли да обуставите овај програм?</"
+"para><para><warning>Обустављањем програма затварају се сви његови дечији "
+"прозори и губе се сви несачувани подаци.</warning></para>"
 
 #: killer/killer.cpp:106
 #, kde-format
@@ -801,9 +832,8 @@ msgstr "<b>%1</b> се већ користи"
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr ""
-"<b>%1</b> се већ користи за „%2“ у %3"
-"|/|"
-"<b>%1</b> се већ користи за „%2“ у $[лок %3]"
+"<b>%1</b> се већ користи за „%2“ у %3|/|<b>%1</b> се већ користи за „%2“ у "
+"$[лок %3]"
 
 #: useractions.cpp:1009
 #, kde-format
@@ -867,8 +897,8 @@ msgid ""
 "like http://paste.kde.org instead of pasting into support threads.\n"
 msgstr ""
 "К‑винови подаци за подршку:\n"
-"Приложите наредне податке када тражите подршку, нпр. на http://forum.kde.org."
-"\n"
+"Приложите наредне податке када тражите подршку, нпр. на http://forum.kde."
+"org.\n"
 "У њих спадају подаци о тренутном примерку у погону, коришћене опције,\n"
 "који опенГЛ драјвер и који ефекти су активни.\n"
 "Текст испод овог уводног текста пошаљите на сервис налепака, попут\n"

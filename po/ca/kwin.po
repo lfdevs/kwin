@@ -11,15 +11,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-10-07 11:26+0000\n"
-"PO-Revision-Date: 2014-09-29 19:02+0200\n"
-"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
+"POT-Creation-Date: 2014-11-30 09:26+0000\n"
+"PO-Revision-Date: 2014-12-01 22:38+0100\n"
+"Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 1.4\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -87,11 +87,11 @@ msgstr "PID"
 
 #: killer/killer.cpp:51
 msgid "Hostname on which the application is running"
-msgstr "Nom de la màquina on s'executa l'aplicació"
+msgstr "Nom de l'ordinador on s'executa l'aplicació"
 
 #: killer/killer.cpp:51
 msgid "hostname"
-msgstr "nom de la màquina"
+msgstr "nom de l'ordinador"
 
 #: killer/killer.cpp:53
 msgid "Caption of the window to be terminated"
@@ -138,6 +138,38 @@ msgstr "Aquesta utilitat d'ajuda no està pensada per a cridar-se directament."
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
 msgstr "<b>L'aplicació «%1» no respon</b>"
+
+#: killer/killer.cpp:97
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3) but the application is not responding.</para>"
+msgstr ""
+"<para>He intentat tancar la finestra «%1» de l'aplicació «%2» (ID del "
+"procés: %3) però l'aplicació no està responent.</para>"
+
+#: killer/killer.cpp:99
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3), running on host \"%4\", but the application is not responding.</para>"
+msgstr ""
+"<para>He intentat tancar la finestra «%1» de l'aplicació «%2» (ID del "
+"procés: %3), executant-se en el servidor %4, però l'aplicació no està "
+"responent.</para>"
+
+#: killer/killer.cpp:102
+msgctxt "@info"
+msgid ""
+"<para>Do you want to terminate this application?</"
+"para><para><warning>Terminating the application will close all of its child "
+"windows. Any unsaved data will be lost.</warning></para>"
+msgstr ""
+"<para>Voleu finalitzar aquesta aplicació?</para><para><warning>En finalitzar "
+"aquesta aplicació es tancaran totes les seves finestres filles. Qualsevol "
+"dada no desada es perdrà.</warning></para>"
 
 #: killer/killer.cpp:106
 #, kde-format
@@ -457,7 +489,7 @@ msgstr ""
 
 #: main_wayland.cpp:231
 msgid "Start a nested X Server."
-msgstr "Iniciar un servidor de X niat."
+msgstr "Iniciar un servidor d'X imbricat."
 
 #: main_wayland.cpp:234
 msgid "The X11 Display to connect to, required if option x-server is used."

@@ -1,7 +1,7 @@
 # translation of kwin.po to
 # Translation of kwin.po to Slovenian
 # Copyright (C) 2001, 2003, 2004, 2005, 2007 Free Software Foundation, Inc.
-# $Id: kwin.po 1402171 2014-10-07 11:38:11Z scripty $
+# $Id: kwin.po 1407765 2014-11-30 09:42:40Z scripty $
 # $Source$
 #
 # Roman Maurer <roman.maurer@hermes.si>, 2000.
@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"POT-Creation-Date: 2014-11-30 09:26+0000\n"
 "PO-Revision-Date: 2014-09-28 10:43+0200\n"
 "Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -139,6 +139,37 @@ msgstr "Ta pomagalnik ne bi smel biti klican neposredno."
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
 msgstr "<b>Program \"%1\" se ne odziva</b>"
+
+#: killer/killer.cpp:97
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3) but the application is not responding.</para>"
+msgstr ""
+"<para>Poskusili ste zapreti okno \"%1\" programa \"%2\" (ID opravila: %3), "
+"ampak se program ne odziva.</para>"
+
+#: killer/killer.cpp:99
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3), running on host \"%4\", but the application is not responding.</para>"
+msgstr ""
+"<para>Poskusili ste zapreti okno \"%1\" programa \"%2\" (ID opravila: %3), "
+"ki teče na gostitelju \"%4\", ampak se program ne odziva.</para>"
+
+#: killer/killer.cpp:102
+msgctxt "@info"
+msgid ""
+"<para>Do you want to terminate this application?</"
+"para><para><warning>Terminating the application will close all of its child "
+"windows. Any unsaved data will be lost.</warning></para>"
+msgstr ""
+"<para>Ali želite uničiti ta program?</para><para><warning>Uničenje programa "
+"bo zaprlo vsa njegova podrejena okna. Vsi neshranjeni podatki bodo "
+"izgubljeni.</warning></para>"
 
 #: killer/killer.cpp:106
 #, kde-format

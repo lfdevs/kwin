@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"POT-Creation-Date: 2014-11-30 09:26+0000\n"
 "PO-Revision-Date: 2014-08-24 00:00+0900\n"
 "Last-Translator: Park Shinjo <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
@@ -133,6 +133,37 @@ msgstr "이 도우미 프로그램은 직접 호출되지 않습니다."
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
 msgstr "<b>프로그램 \"%1\"이(가) 응답하지 않음</b>"
+
+#: killer/killer.cpp:97
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3) but the application is not responding.</para>"
+msgstr ""
+"<para>프로그램 \"%2\" (프로세스 ID %3)에서 연 창 \"%1\"을(를) 닫으려고 하였으"
+"나 프로그램이 응답하지 않습니다.</para>"
+
+#: killer/killer.cpp:99
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3), running on host \"%4\", but the application is not responding.</para>"
+msgstr ""
+"<para>호스트 \"%4\"에서 실행 중인 프로그램 \"%2\" (프로세스 ID %3)에서 연 창 "
+"\"%1\"을(를) 닫으려고 하였으나 프로그램이 응답하지 않습니다.</para>"
+
+#: killer/killer.cpp:102
+msgctxt "@info"
+msgid ""
+"<para>Do you want to terminate this application?</"
+"para><para><warning>Terminating the application will close all of its child "
+"windows. Any unsaved data will be lost.</warning></para>"
+msgstr ""
+"<para>이 프로그램을 강제로 종료하시겠습니까?</para><para><warning>프로그램을 "
+"종료하면 자식 창도 종료됩니다. 저장하지 않은 데이터는 손실됩니다.</warning></"
+"para>"
 
 #: killer/killer.cpp:106
 #, kde-format

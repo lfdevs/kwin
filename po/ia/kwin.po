@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"POT-Creation-Date: 2014-11-30 09:26+0000\n"
 "PO-Revision-Date: 2014-05-14 11:51+0200\n"
 "Last-Translator: Giovanni Sora <g.sora@tioscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -132,6 +132,38 @@ msgstr ""
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
 msgstr "<b>Application '\"%1' non responde</b>"
+
+#: killer/killer.cpp:97
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3) but the application is not responding.</para>"
+msgstr ""
+"<para>Tu essayava clauder fenestra \"%1\" ex application \"%2\" (ID de "
+"processo: %3) ma le application non es respondente. </para>"
+
+#: killer/killer.cpp:99
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3), running on host \"%4\", but the application is not responding.</para>"
+msgstr ""
+"<para>Tu essayava clauder fenestra \"%1\" ex application \"%2\" (ID de "
+"processo: %3) executante sur hopite \"%4\", ma le application non es "
+"respondente. </para>"
+
+#: killer/killer.cpp:102
+msgctxt "@info"
+msgid ""
+"<para>Do you want to terminate this application?</"
+"para><para><warning>Terminating the application will close all of its child "
+"windows. Any unsaved data will be lost.</warning></para>"
+msgstr ""
+"<para>Tu vole terminar iste application?</para> <para><warning>Quando on "
+"termina le application on claudera omne su fenestras filio. Omne datos non "
+"salveguardate essera perdite</warning></para>"
 
 #: killer/killer.cpp:106
 #, kde-format

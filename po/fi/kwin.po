@@ -14,10 +14,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-10-07 11:26+0000\n"
+"POT-Creation-Date: 2014-11-30 09:26+0000\n"
 "PO-Revision-Date: 2014-10-29 17:30+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
-"Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
+"Language-Team: Finnish <lokalisointi@lists.coss.fi>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -146,6 +146,37 @@ msgstr "Tätä apuohjelmaa ei ole tarkoitus kutsua suoraan."
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
 msgstr "<b>Sovellus ”%1” ei vastaa</b>"
+
+#: killer/killer.cpp:97
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3) but the application is not responding.</para>"
+msgstr ""
+"<para>Yritit sulkea ikkunan ”%1”, joka kuuluu sovellukselle ”%2” (prosessin "
+"tunniste: %3), mutta sovellus ei vastaa.</para>"
+
+#: killer/killer.cpp:99
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3), running on host \"%4\", but the application is not responding.</para>"
+msgstr ""
+"<para>Yritit sulkea ikkunan ”%1”, joka kuuluu sovellukselle ”%2” (prosessin "
+"tunniste: %3) koneella ”%4”, mutta sovellus ei vastaa.</para>"
+
+#: killer/killer.cpp:102
+msgctxt "@info"
+msgid ""
+"<para>Do you want to terminate this application?</"
+"para><para><warning>Terminating the application will close all of its child "
+"windows. Any unsaved data will be lost.</warning></para>"
+msgstr ""
+"<para>Haluatko lopettaa sovelluksen?</para><para><warning>Sovelluksen "
+"lopettaminen sulkee kaikki sen ikkunat. Kaikki tallentamattomat tiedot "
+"menetetään.</warning></para>"
 
 #: killer/killer.cpp:106
 #, kde-format
@@ -894,34 +925,6 @@ msgstr ""
 "Liitä alla olevat tiedot pastebin-palveluun, esimerkiksi osoitteeseen\n"
 "http://paste.kde.org, sen sijaan että liittäisit kyseiset tiedot "
 "keskustelupalstalle.\n"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

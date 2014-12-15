@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-07-23 08:09+0000\n"
+"POT-Creation-Date: 2014-12-09 11:16+0000\n"
 "PO-Revision-Date: 2014-11-05 10:38-0500\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
@@ -41,138 +41,133 @@ msgctxt "OpenGL Platform Interface"
 msgid "GLX"
 msgstr "GLX"
 
-#. i18n: ectx: property (windowTitle), widget (QWidget, CompositingForm)
-#: compositing.ui:14
-msgid "Form"
-msgstr "窗体"
-
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
-#: compositing.ui:23 qml/CompositingView.qml:55
+#: compositing.ui:20 qml/CompositingView.qml:55
 msgid "Enable compositor on startup"
 msgstr "启动时开启混成"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: compositing.ui:30
+#: compositing.ui:27
 msgid "Animation speed:"
 msgstr "动画速度："
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: compositing.ui:57
+#: compositing.ui:54
 msgid "Instant"
 msgstr "即时"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: compositing.ui:77
+#: compositing.ui:74
 msgid "Very slow"
 msgstr "非常慢"
 
 #. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
-#: compositing.ui:88 compositing.ui:114
+#: compositing.ui:85 compositing.ui:111
 msgid "Scale method:"
 msgstr "缩放方法："
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:96 compositing.ui:122 qml/CompositingView.qml:113
+#: compositing.ui:93 compositing.ui:119 qml/CompositingView.qml:113
 #: qml/CompositingView.qml:127
 msgid "Crisp"
 msgstr "快速"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:101 qml/CompositingView.qml:113
+#: compositing.ui:98 qml/CompositingView.qml:113
 msgid "Smooth"
 msgstr "平滑"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:106 qml/CompositingView.qml:113
+#: compositing.ui:103 qml/CompositingView.qml:113
 msgid "Accurate"
 msgstr "精确"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:127 qml/CompositingView.qml:127
+#: compositing.ui:124 qml/CompositingView.qml:127
 msgid "Smooth (slower)"
 msgstr "平滑(较慢)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: compositing.ui:142 qml/CompositingView.qml:81
+#: compositing.ui:139 qml/CompositingView.qml:81
 msgid "Rendering backend:"
 msgstr "渲染后端："
 
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
-#: compositing.ui:152
+#: compositing.ui:149
 msgid "OpenGL interface:"
 msgstr "OpenGL 接口："
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: compositing.ui:162
+#: compositing.ui:159
 msgid "Tearing prevention (\"vsync\"):"
 msgstr "避免撕裂 (垂直同步)："
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:170 compositing.ui:216 qml/CompositingView.qml:141
+#: compositing.ui:167 compositing.ui:213 qml/CompositingView.qml:141
 #: qml/CompositingView.qml:154
 msgid "Never"
 msgstr "从不"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:175 qml/CompositingView.qml:141
+#: compositing.ui:172 qml/CompositingView.qml:141
 msgid "Automatic"
 msgstr "自动"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:180 qml/CompositingView.qml:141
+#: compositing.ui:177 qml/CompositingView.qml:141
 msgid "Only when cheap"
 msgstr "仅当占用资源少时"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:185 qml/CompositingView.qml:141
+#: compositing.ui:182 qml/CompositingView.qml:141
 msgid "Full screen repaints"
 msgstr "全场景重画"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:190 qml/CompositingView.qml:141
+#: compositing.ui:187 qml/CompositingView.qml:141
 msgid "Re-use screen content"
 msgstr "重用窗口内容"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: compositing.ui:198
+#: compositing.ui:195
 msgid "Keep window thumbnails:"
 msgstr "保留窗口缩略图："
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:206
+#: compositing.ui:203
 msgid "Always"
 msgstr "总是"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:211 qml/CompositingView.qml:154
+#: compositing.ui:208 qml/CompositingView.qml:154
 msgid "Only for Shown Windows"
 msgstr "只对显示的窗口"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: compositing.ui:224 qml/CompositingView.qml:175
+#: compositing.ui:221 qml/CompositingView.qml:175
 msgid "Expert:"
 msgstr "专家："
 
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
-#: compositing.ui:231 qml/CompositingView.qml:182
+#: compositing.ui:228 qml/CompositingView.qml:182
 msgid "Suspend compositor for full screen windows"
 msgstr "为全屏窗口挂起混成器"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:238 qml/CompositingView.qml:192
+#: compositing.ui:235 qml/CompositingView.qml:192
 msgid "Experimental:"
 msgstr "实验性："
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:245 qml/CompositingView.qml:200
+#: compositing.ui:242 qml/CompositingView.qml:200
 msgid "Enable color correction"
 msgstr "启用色彩矫正"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
-#: compositing.ui:265
+#: compositing.ui:262
 msgid ""
 "OpenGL compositing (the default) has crashed KWin in the past.\n"
 "This was most likely due to a driver bug.\n"
@@ -188,21 +183,21 @@ msgstr ""
 "此外，可以考虑使用 XRender 后端。"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, interfaceWarning)
-#: compositing.ui:281
+#: compositing.ui:278
 msgid ""
 "EGL is not supported by all OpenGL drivers. If not supported the Compositor "
 "will be disabled."
 msgstr "EGL 不被所有 OpenGL 驱动支持。如果不被支持混成器将被禁用。"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
-#: compositing.ui:297
+#: compositing.ui:294
 msgid ""
 "Scale method \"Accurate\" is not supported by all hardware and can cause "
 "performance regressions and rendering artifacts."
 msgstr "缩放模式”精确“并不被所有硬件支持并且可能导致性能或渲染问题。"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
-#: compositing.ui:326
+#: compositing.ui:323
 msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
 "windows. This can result in windows not suspending their work when minimized."
@@ -211,7 +206,7 @@ msgstr ""
 "工作。"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, unredirectInformation)
-#: compositing.ui:342
+#: compositing.ui:339
 msgid ""
 "Having full screen windows bypass the compositor is not supported on every "
 "hardware."

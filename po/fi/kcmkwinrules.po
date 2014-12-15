@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-04-28 15:51+0000\n"
-"PO-Revision-Date: 2014-02-24 08:25+0200\n"
+"PO-Revision-Date: 2014-11-23 04:28+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
 "Language-Team: Finnish <lokalisointi@lists.coss.fi>\n"
 "Language: fi\n"
@@ -916,7 +916,7 @@ msgstr ""
 "tai kasvaa vain yhtä suuremmilla arvoilla\n"
 "(esim. yhden merkin askelin).\n"
 "Tämä saattaa olla merkityksetöntä, niin että rajoitus estää jotkin\n"
-"ulottuvuudet kuten koko ruudun alan."
+"ulottuvuudet kuten koko näytön alan."
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_strictgeometry)
 #: ruleswidgetbase.ui:1277

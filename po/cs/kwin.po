@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-10-07 11:26+0000\n"
-"PO-Revision-Date: 2014-10-22 13:37+0200\n"
+"POT-Creation-Date: 2014-11-30 09:26+0000\n"
+"PO-Revision-Date: 2014-11-10 10:03+0100\n"
 "Last-Translator: Vít Pelčák <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -133,6 +133,37 @@ msgstr "Tento pomocný nástroj není určen k samostatnému spouštění."
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
 msgstr "<b>Aplikace \"%1\" neodpovídá</b>"
+
+#: killer/killer.cpp:97
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3) but the application is not responding.</para>"
+msgstr ""
+"<para>Pokusili jste se uzavřít okno \"%1\" z aplikace \"%2\" (ID procesu: "
+"%3), ale aplikace neodpovídá.</para>"
+
+#: killer/killer.cpp:99
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3), running on host \"%4\", but the application is not responding.</para>"
+msgstr ""
+"<para>Pokusili jste se uzavřít okno \"%1\" z aplikace \"%2\" (ID procesu: "
+"%3), spuštěné na počítači %4, ale aplikace neodpovídá.</para>"
+
+#: killer/killer.cpp:102
+msgctxt "@info"
+msgid ""
+"<para>Do you want to terminate this application?</"
+"para><para><warning>Terminating the application will close all of its child "
+"windows. Any unsaved data will be lost.</warning></para>"
+msgstr ""
+"<para>Přejete si ukončit tuto aplikaci?</para><para><warning>Ukončení této "
+"aplikace uzavře všechny její okna. Veškerá neuložená data budou ztracena.</"
+"warning></para>"
 
 #: killer/killer.cpp:106
 #, kde-format

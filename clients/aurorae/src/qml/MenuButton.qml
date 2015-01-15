@@ -19,18 +19,22 @@ import org.kde.kquickcontrolsaddons 2.0 as KQuickControlsAddons
 import org.kde.kwin.decoration 0.1
 
 DecorationButton {
-    property bool closeOnDoubleClick: false
+    property bool closeOnDoubleClick: decorationSettings.closeOnDoubleClickOnMenu
     id: menuButton
     buttonType: DecorationOptions.DecorationButtonMenu
     KQuickControlsAddons.QIconItem {
-        icon: decoration.icon
+        icon: decoration.client.icon
         anchors.fill: parent
+    }
+    DecorationOptions {
+        id: options
+        deco: decoration
     }
     Timer {
         id: timer
-        interval: 150
+        interval: options.mousePressAndHoldInterval
         repeat: false
-        onTriggered: decoration.menuClicked()
+        onTriggered: decoration.requestShowWindowMenu()
     }
     MouseArea {
         anchors.fill: parent
@@ -64,23 +68,14 @@ DecorationButton {
             // for right clicks we show the menu instantly
             // and if the option is disabled we always show menu directly
             if (!menuButton.closeOnDoubleClick || mouse.button == Qt.RightButton) {
-                decoration.menuClicked();
+                decoration.requestShowWindowMenu();
                 timer.stop();
             }
         }
         onDoubleClicked: {
             if (menuButton.closeOnDoubleClick) {
-                decoration.closeWindow();
+                decoration.requestClose();
             }
-        }
-    }
-    Component.onCompleted: {
-        menuButton.closeOnDoubleClick = decoration.readConfig("CloseOnDoubleClickMenuButton", false);
-    }
-    Connections {
-        target: decoration
-        onConfigChanged: {
-            menuButton.closeOnDoubleClick = decoration.readConfig("CloseOnDoubleClickMenuButton", false);
         }
     }
 }

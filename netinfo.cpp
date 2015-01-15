@@ -21,11 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 // own
 #include "netinfo.h"
-// kwin libs
-#include <kdecorationfactory.h>
 // kwin
 #include "client.h"
-#include "decorations.h"
 #include "virtualdesktops.h"
 #include "workspace.h"
 // Qt
@@ -50,7 +47,7 @@ RootInfo *RootInfo::create()
     ScopedCPointer<xcb_generic_error_t> error(xcb_request_check(connection(),
         xcb_configure_window_checked(connection(), supportWindow, XCB_CONFIG_WINDOW_STACK_MODE, lowerValues)));
     if (!error.isNull()) {
-        qDebug() << "Error occurred while lowering support window: " << error->error_code;
+        qCDebug(KWIN_CORE) << "Error occurred while lowering support window: " << error->error_code;
     }
 
     const NET::Properties properties = NET::Supported |
@@ -110,7 +107,7 @@ RootInfo *RootInfo::create()
         NET::WM2FullPlacement |
         NET::WM2FullscreenMonitors |
         NET::WM2KDEShadow;
-#if KWIN_BUILD_ACTIVITIES
+#ifdef KWIN_BUILD_ACTIVITIES
         properties2 |= NET::WM2Activities;
 #endif
     const NET::Actions actions = NET::ActionMove |
@@ -123,10 +120,6 @@ RootInfo *RootInfo::create()
         NET::ActionFullScreen |
         NET::ActionChangeDesktop |
         NET::ActionClose;
-
-    DecorationPlugin *deco = DecorationPlugin::self();
-    if (!deco->isDisabled() && deco->factory()->supports(KDecorationDefines::AbilityExtendIntoClientArea))
-        properties2 |= NET::WM2FrameOverlap;
 
     s_self = new RootInfo(supportWindow, "KWin", properties, types, states, properties2, actions, screen_number);
     return s_self;
@@ -261,9 +254,9 @@ void WinInfo::changeState(NET::States state, NET::States mask)
     if ((mask & NET::Max) == NET::Max)
         m_client->setMaximize(state & NET::MaxVert, state & NET::MaxHoriz);
     else if (mask & NET::MaxVert)
-        m_client->setMaximize(state & NET::MaxVert, m_client->maximizeMode() & Client::MaximizeHorizontal);
+        m_client->setMaximize(state & NET::MaxVert, m_client->maximizeMode() & MaximizeHorizontal);
     else if (mask & NET::MaxHoriz)
-        m_client->setMaximize(m_client->maximizeMode() & Client::MaximizeVertical, state & NET::MaxHoriz);
+        m_client->setMaximize(m_client->maximizeMode() & MaximizeVertical, state & NET::MaxHoriz);
 
     if (mask & NET::Shaded)
         m_client->setShade(state & NET::Shaded ? ShadeNormal : ShadeNone);

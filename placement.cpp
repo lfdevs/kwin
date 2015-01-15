@@ -28,7 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QTextStream>
 
 #ifndef KCMRULES
-#include <kdecoration.h>
 #include "workspace.h"
 #include "client.h"
 #include "cursor.h"
@@ -71,8 +70,8 @@ void Placement::place(Client* c, QRect& area)
         placeDialog(c, area, options->placement());
     else if (c->isSplash())
         placeOnMainWindow(c, area);   // on mainwindow, if any, otherwise centered
-    else if (c->isNotification())
-        placeNotification(c, area);
+    else if (c->isOnScreenDisplay() || c->isNotification())
+        placeOnScreenDisplay(c, area);
     else
         place(c, area, options->placement());
 }
@@ -108,19 +107,19 @@ void Placement::place(Client* c, QRect& area, Policy policy, Policy nextPlacemen
         QPoint corner = geo.topLeft();
         const QPoint cp = c->clientPos();
         const QSize cs = geo.size() - c->clientSize();
-        KDecorationDefines::Position titlePos = c->titlebarPosition();
+        Client::Position titlePos = c->titlebarPosition();
 
         const QRect fullRect = workspace()->clientArea(FullArea, c);
-        if (!(c->maximizeMode() & KDecorationDefines::MaximizeHorizontal)) {
-            if (titlePos != KDecorationDefines::PositionRight && geo.right() == fullRect.right())
+        if (!(c->maximizeMode() & MaximizeHorizontal)) {
+            if (titlePos != Client::PositionRight && geo.right() == fullRect.right())
                 corner.rx() += cs.width() - cp.x();
-            if (titlePos != KDecorationDefines::PositionLeft && geo.x() == fullRect.x())
+            if (titlePos != Client::PositionLeft && geo.x() == fullRect.x())
                 corner.rx() -= cp.x();
         }
-        if (!(c->maximizeMode() & KDecorationDefines::MaximizeVertical)) {
-            if (titlePos != KDecorationDefines::PositionBottom && geo.bottom() == fullRect.bottom())
+        if (!(c->maximizeMode() & MaximizeVertical)) {
+            if (titlePos != Client::PositionBottom && geo.bottom() == fullRect.bottom())
                 corner.ry() += cs.height() - cp.y();
-            if (titlePos != KDecorationDefines::PositionTop && geo.y() == fullRect.y())
+            if (titlePos != Client::PositionTop && geo.y() == fullRect.y())
                 corner.ry() -= cp.y();
         }
         c->move(corner);
@@ -484,7 +483,7 @@ void Placement::placeUtility(Client* c, QRect& area, Policy /*next*/)
     place(c, area, Default);
 }
 
-void Placement::placeNotification(Client* c, QRect& area)
+void Placement::placeOnScreenDisplay(Client* c, QRect& area)
 {
     // place at lower 1/3 of the screen
     const int x = area.left() + (area.width() -  c->width())  / 2;
@@ -566,7 +565,7 @@ void Placement::placeMaximizing(Client* c, QRect& area, Policy nextPlacement)
         nextPlacement = Smart;
     if (c->isMaximizable() && c->maxSize().width() >= area.width() && c->maxSize().height() >= area.height()) {
         if (workspace()->clientArea(MaximizeArea, c) == area)
-            c->maximize(Client::MaximizeFull);
+            c->maximize(MaximizeFull);
         else { // if the geometry doesn't match default maximize area (xinerama case?),
             // it's probably better to use the given area
             c->setGeometry(area);
@@ -798,7 +797,7 @@ void Workspace::slotWindowQuickTileLeft()
     if (!active_client)
         return;
 
-    active_client->setQuickTileMode(QuickTileLeft, true);
+    active_client->setQuickTileMode(Client::QuickTileLeft, true);
 }
 
 void Workspace::slotWindowQuickTileRight()
@@ -806,7 +805,7 @@ void Workspace::slotWindowQuickTileRight()
     if (!active_client)
         return;
 
-    active_client->setQuickTileMode(QuickTileRight, true);
+    active_client->setQuickTileMode(Client::QuickTileRight, true);
 }
 
 void Workspace::slotWindowQuickTileTopLeft()
@@ -814,7 +813,7 @@ void Workspace::slotWindowQuickTileTopLeft()
     if (!active_client) {
         return;
     }
-    active_client->setQuickTileMode(QuickTileTop|QuickTileLeft, true);
+    active_client->setQuickTileMode(Client::QuickTileTop|Client::QuickTileLeft, true);
 }
 
 void Workspace::slotWindowQuickTileTopRight()
@@ -822,7 +821,7 @@ void Workspace::slotWindowQuickTileTopRight()
     if (!active_client) {
         return;
     }
-    active_client->setQuickTileMode(QuickTileTop|QuickTileRight, true);
+    active_client->setQuickTileMode(Client::QuickTileTop|Client::QuickTileRight, true);
 }
 
 void Workspace::slotWindowQuickTileBottomLeft()
@@ -830,7 +829,7 @@ void Workspace::slotWindowQuickTileBottomLeft()
     if (!active_client) {
         return;
     }
-    active_client->setQuickTileMode(QuickTileBottom|QuickTileLeft, true);
+    active_client->setQuickTileMode(Client::QuickTileBottom|Client::QuickTileLeft, true);
 }
 
 void Workspace::slotWindowQuickTileBottomRight()
@@ -838,7 +837,7 @@ void Workspace::slotWindowQuickTileBottomRight()
     if (!active_client) {
         return;
     }
-    active_client->setQuickTileMode(QuickTileBottom|QuickTileRight, true);
+    active_client->setQuickTileMode(Client::QuickTileBottom|Client::QuickTileRight, true);
 }
 
 int Workspace::packPositionLeft(const Client* cl, int oldx, bool left_edge) const
@@ -847,7 +846,7 @@ int Workspace::packPositionLeft(const Client* cl, int oldx, bool left_edge) cons
     if (oldx <= newx)   // try another Xinerama screen
         newx = clientArea(MaximizeArea,
                           QPoint(cl->geometry().left() - 1, cl->geometry().center().y()), cl->desktop()).left();
-    if (cl->titlebarPosition() != KDecorationDefines::PositionLeft) {
+    if (cl->titlebarPosition() != Client::PositionLeft) {
         QRect geo = cl->geometry();
         int rgt = newx - cl->clientPos().x();
         geo.moveRight(rgt);
@@ -874,7 +873,7 @@ int Workspace::packPositionRight(const Client* cl, int oldx, bool right_edge) co
     if (oldx >= newx)   // try another Xinerama screen
         newx = clientArea(MaximizeArea,
                           QPoint(cl->geometry().right() + 1, cl->geometry().center().y()), cl->desktop()).right();
-    if (cl->titlebarPosition() != KDecorationDefines::PositionRight) {
+    if (cl->titlebarPosition() != Client::PositionRight) {
         QRect geo = cl->geometry();
         int rgt = newx + cl->width() - (cl->clientSize().width() + cl->clientPos().x());
         geo.moveRight(rgt);
@@ -901,7 +900,7 @@ int Workspace::packPositionUp(const Client* cl, int oldy, bool top_edge) const
     if (oldy <= newy)   // try another Xinerama screen
         newy = clientArea(MaximizeArea,
                           QPoint(cl->geometry().center().x(), cl->geometry().top() - 1), cl->desktop()).top();
-    if (cl->titlebarPosition() != KDecorationDefines::PositionTop) {
+    if (cl->titlebarPosition() != Client::PositionTop) {
         QRect geo = cl->geometry();
         int top = newy - cl->clientPos().y();
         geo.moveTop(top);
@@ -928,7 +927,7 @@ int Workspace::packPositionDown(const Client* cl, int oldy, bool bottom_edge) co
     if (oldy >= newy)   // try another Xinerama screen
         newy = clientArea(MaximizeArea,
                           QPoint(cl->geometry().center().x(), cl->geometry().bottom() + 1), cl->desktop()).bottom();
-    if (cl->titlebarPosition() != KDecorationDefines::PositionBottom) {
+    if (cl->titlebarPosition() != Client::PositionBottom) {
         QRect geo = cl->geometry();
         int btm = newy + cl->height() - (cl->clientSize().height() + cl->clientPos().y());
         geo.moveBottom(btm);

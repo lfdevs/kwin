@@ -19,8 +19,8 @@ import org.kde.kwin.decoration 0.1
 import org.kde.kwin.decorations.plastik 1.0
 
 Decoration {
-    function readConfig() {
-        switch (decoration.readConfig("BorderSize", DecorationOptions.BorderNormal)) {
+    function readBorderSize() {
+        switch (borderSize) {
         case DecorationOptions.BorderTiny:
             borders.setBorders(3);
             extendedBorders.setAllBorders(0);
@@ -60,6 +60,8 @@ Decoration {
             extendedBorders.setAllBorders(0);
             break;
         }
+    }
+    function readConfig() {
         var titleAlignLeft = decoration.readConfig("titleAlignLeft", true);
         var titleAlignCenter = decoration.readConfig("titleAlignCenter", false);
         var titleAlignRight = decoration.readConfig("titleAlignRight", false);
@@ -87,6 +89,7 @@ Decoration {
         id: options
         deco: decoration
     }
+    property int borderSize: decorationSettings.borderSize
     property alias buttonSize: titleRow.captionHeight
     property alias titleAlignment: caption.horizontalAlignment
     property color titleBarColor: options.titleBarColor
@@ -107,7 +110,7 @@ Decoration {
             fill: parent
         }
         border {
-            width: decoration.maximized ? 0 : 2
+            width: decoration.client.maximized ? 0 : 2
             color: colorHelper.shade(root.titleBarColor, ColorHelper.DarkShade)
         }
         Rectangle {
@@ -120,7 +123,7 @@ Decoration {
                 bottomMargin: 1
                 topMargin: 1
             }
-            visible: !decoration.maximized
+            visible: !decoration.client.maximized
             width: root.borders.left
             color: root.titleBarColor
             Rectangle {
@@ -130,7 +133,7 @@ Decoration {
                     top: parent.top
                     bottom: parent.bottom
                 }
-                color: colorHelper.shade(root.titleBarColor, ColorHelper.LightShade, colorHelper.contrast - (decoration.active ? 0.4 : 0.8))
+                color: colorHelper.shade(root.titleBarColor, ColorHelper.LightShade, colorHelper.contrast - (decoration.client.active ? 0.4 : 0.8))
             }
         }
         Rectangle {
@@ -143,7 +146,7 @@ Decoration {
                 bottomMargin: 1
                 topMargin: 1
             }
-            visible: !decoration.maximzied
+            visible: !decoration.client.maximzied
             width: root.borders.right -1
             color: root.titleBarColor
             Rectangle {
@@ -153,7 +156,7 @@ Decoration {
                     top: parent.top
                 }
                 x: parent.x + parent.width - 1
-                color: colorHelper.shade(root.titleBarColor, ColorHelper.DarkShade, colorHelper.contrast - (decoration.active ? 0.4 : 0.8))
+                color: colorHelper.shade(root.titleBarColor, ColorHelper.DarkShade, colorHelper.contrast - (decoration.client.active ? 0.4 : 0.8))
             }
         }
         Rectangle {
@@ -166,7 +169,7 @@ Decoration {
                 rightMargin: 1
             }
             height: root.borders.bottom
-            visible: !decoration.maximzied
+            visible: !decoration.client.maximzied
             color: root.titleBarColor
             Rectangle {
                 height: 1
@@ -175,7 +178,7 @@ Decoration {
                     right: parent.right
                 }
                 y: parent.y + parent.height - 1
-                color: colorHelper.shade(root.titleBarColor, ColorHelper.DarkShade, colorHelper.contrast - (decoration.active ? 0.4 : 0.8))
+                color: colorHelper.shade(root.titleBarColor, ColorHelper.DarkShade, colorHelper.contrast - (decoration.client.active ? 0.4 : 0.8))
             }
         }
 
@@ -184,14 +187,14 @@ Decoration {
             property int topMargin: 1
             property real normalHeight: titleRow.normalHeight + topMargin + 1
             property real maximizedHeight: titleRow.maximizedHeight + 1
-            height: decoration.maximized ? maximizedHeight : normalHeight
+            height: decoration.client.maximized ? maximizedHeight : normalHeight
             anchors {
                 left: parent.left
                 right: parent.right
                 top: parent.top
-                topMargin: decoration.maximized ? 0 : top.topMargin
-                leftMargin: decoration.maximized ? 0 : 2
-                rightMargin: decoration.maximized ? 0 : 2
+                topMargin: decoration.client.maximized ? 0 : top.topMargin
+                leftMargin: decoration.client.maximized ? 0 : 2
+                rightMargin: decoration.client.maximized ? 0 : 2
             }
             gradient: Gradient {
                 id: topGradient
@@ -201,7 +204,7 @@ Decoration {
                 }
                 GradientStop {
                     id: middleGradientStop
-                    position: 4.0/(decoration.maximized ? top.maximizedHeight : top.normalHeight)
+                    position: 4.0/(decoration.client.maximized ? top.maximizedHeight : top.normalHeight)
                     color: colorHelper.shade(root.titleBarColor, ColorHelper.MidShade, colorHelper.contrast - 0.4)
                 }
                 GradientStop {
@@ -216,21 +219,8 @@ Decoration {
                     left: top.left
                     right: top.right
                 }
-                visible: !decoration.maximized
-                color: colorHelper.shade(root.titleBarColor, ColorHelper.LightShade, colorHelper.contrast - (decoration.active ? 0.4 : 0.8))
-            }
-            MouseArea {
-                acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
-                anchors.fill: parent
-                onDoubleClicked: decoration.titlebarDblClickOperation()
-                onPressed: {
-                    if (mouse.button == Qt.LeftButton) {
-                        mouse.accepted = false;
-                    } else {
-                        decoration.titlePressed(mouse.button, mouse.buttons);
-                    }
-                }
-                onReleased: decoration.titleReleased(mouse.button, mouse.buttons)
+                visible: !decoration.client.maximized
+                color: colorHelper.shade(root.titleBarColor, ColorHelper.LightShade, colorHelper.contrast - (decoration.client.active ? 0.4 : 0.8))
             }
 
             Item {
@@ -244,9 +234,9 @@ Decoration {
                     left: parent.left
                     right: parent.right
                     top: parent.top
-                    topMargin: decoration.maximized ? 0 : titleRow.topMargin
-                    leftMargin: decoration.maximized ? 0 : 3
-                    rightMargin: decoration.maximized ? 0 : 3
+                    topMargin: decoration.client.maximized ? 0 : titleRow.topMargin
+                    leftMargin: decoration.client.maximized ? 0 : 3
+                    rightMargin: decoration.client.maximized ? 0 : 3
                     bottomMargin: titleRow.bottomMargin
                 }
                 ButtonGroup {
@@ -284,7 +274,7 @@ Decoration {
                     Behavior on color {
                         ColorAnimation { duration: root.animationDuration }
                     }
-                    text: decoration.caption
+                    text: decoration.client.caption
                     font: options.titleFont
                     style: root.titleShadow ? Text.Raised : Text.Normal
                     styleColor: colorHelper.shade(color, ColorHelper.ShadowShade)
@@ -311,6 +301,9 @@ Decoration {
                         right: parent.right
                     }
                 }
+                Component.onCompleted: {
+                    decoration.installTitleItem(titleRow);
+                }
             }
         }
 
@@ -325,7 +318,7 @@ Decoration {
                 }
                 height: 1
                 y: top.height - 1
-                visible: decoration.maximized
+                visible: decoration.client.maximized
                 color: colorHelper.shade(root.titleBarColor, ColorHelper.MidShade)
             }
 
@@ -341,7 +334,7 @@ Decoration {
                     width: 1
                     color: colorHelper.shade(root.titleBarColor, ColorHelper.MidShade)
                 }
-                visible: !decoration.maximized
+                visible: !decoration.client.maximized
                 color: root.titleBarColor
             }
         }
@@ -421,10 +414,15 @@ Decoration {
         borders.setBorders(4);
         borders.setTitle(top.normalHeight);
         maximizedBorders.setTitle(top.maximizedHeight);
+        readBorderSize();
         readConfig();
     }
     Connections {
         target: decoration
-        onConfigChanged: readConfig()
+        onConfigChanged: root.readConfig()
+    }
+    Connections {
+        target: decorationSettings
+        onBorderSizeChanged: root.readBorderSize();
     }
 }

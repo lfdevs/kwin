@@ -35,6 +35,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <kmessagebox.h>
 
+#include <cmath>
+
 namespace KWin
 {
 
@@ -94,19 +96,13 @@ void LookingGlassEffect::reconfigure(ReconfigureFlags)
 
 bool LookingGlassEffect::loadData()
 {
-    // If NPOT textures are not supported, use nearest power-of-two sized
-    //  texture. It wastes memory, but it's possible to support systems without
-    //  NPOT textures that way
     const QSize screenSize = effects->virtualScreenSize();
     int texw = screenSize.width();
     int texh = screenSize.height();
-    if (!GLTexture::NPOTTextureSupported()) {
-        qWarning() << "NPOT textures not supported, wasting some memory" ;
-        texw = nearestPowerOfTwo(texw);
-        texh = nearestPowerOfTwo(texh);
-    }
+
     // Create texture and render target
-    m_texture = new GLTexture(texw, texh);
+    const int levels = std::log2(qMin(texw, texh)) + 1;
+    m_texture = new GLTexture(GL_RGBA8, texw, texh, levels);
     m_texture->setFilter(GL_LINEAR_MIPMAP_LINEAR);
     m_texture->setWrapMode(GL_CLAMP_TO_EDGE);
 
@@ -246,6 +242,7 @@ void LookingGlassEffect::postPaintScreen()
         assert(target == m_fbo);
         Q_UNUSED(target);
         m_texture->bind();
+        m_texture->generateMipmaps();
 
         // Use the shader
         ShaderBinder binder(m_shader);

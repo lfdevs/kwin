@@ -34,7 +34,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "useractions.h"
 #include "cursor.h"
 #include "client.h"
-#include "decorations.h"
 #include "input.h"
 #include "workspace.h"
 #include "effects.h"
@@ -227,9 +226,7 @@ QStringList configModules(bool controlCenter)
 #ifdef KWIN_BUILD_TABBOX
              << QStringLiteral("kwintabbox")
 #endif
-#ifdef KWIN_BUILD_SCREENEDGES
              << QStringLiteral("kwinscreenedges")
-#endif
              << QStringLiteral("kwinscripts")
              ;
     return args;
@@ -320,7 +317,7 @@ void UserActionsMenu::init()
                 args << QStringLiteral("--icon") << QStringLiteral("preferences-system-windows") << configModules(false);
                 QString error;
                 if (KToolInvocation::kdeinitExec(QStringLiteral("kcmshell5"), args, &error) != 0) {
-                    qDebug() << "Failed to start kcmshell5: " << error;
+                    qCDebug(KWIN_CORE) << "Failed to start kcmshell5: " << error;
                 }
             }
         );
@@ -338,7 +335,7 @@ void UserActionsMenu::init()
     m_menu->addSeparator();
 
     // Actions for window tabbing
-    if (decorationPlugin()->supportsTabbing()) {
+    if (false) {
         m_removeFromTabGroup = m_menu->addAction(i18n("&Untab"));
         setShortcut(m_removeFromTabGroup, QStringLiteral("Untab"));
         m_removeFromTabGroup->setData(Options::RemoveTabFromGroupOp);
@@ -398,7 +395,7 @@ void UserActionsMenu::menuAboutToShow()
     m_resizeOperation->setEnabled(m_client.data()->isResizable());
     m_moveOperation->setEnabled(m_client.data()->isMovableAcrossScreens());
     m_maximizeOperation->setEnabled(m_client.data()->isMaximizable());
-    m_maximizeOperation->setChecked(m_client.data()->maximizeMode() == Client::MaximizeFull);
+    m_maximizeOperation->setChecked(m_client.data()->maximizeMode() == MaximizeFull);
     m_shadeOperation->setEnabled(m_client.data()->isShadeable());
     m_shadeOperation->setChecked(m_client.data()->shadeMode() != ShadeNone);
     m_keepAboveOperation->setChecked(m_client.data()->keepAbove());
@@ -410,7 +407,7 @@ void UserActionsMenu::menuAboutToShow()
     m_minimizeOperation->setEnabled(m_client.data()->isMinimizable());
     m_closeOperation->setEnabled(m_client.data()->isCloseable());
 
-    if (decorationPlugin()->supportsTabbing()) {
+    if (false) {
         initTabbingPopups();
         m_addTabsMenu->setPalette(m_client.data()->palette());
     } else {
@@ -444,7 +441,7 @@ void UserActionsMenu::showHideActivityMenu()
 {
 #ifdef KWIN_BUILD_ACTIVITIES
     const QStringList &openActivities_ = Activities::self()->running();
-    qDebug() << "activities:" << openActivities_.size();
+    qCDebug(KWIN_CORE) << "activities:" << openActivities_.size();
     if (openActivities_.size() < 2) {
         delete m_activityMenu;
         m_activityMenu = 0;
@@ -739,11 +736,11 @@ void UserActionsMenu::slotWindowOperation(QAction *action)
         helperDialog(type, c);
     // need to delay performing the window operation as we need to have the
     // user actions menu closed before we destroy the decoration. Otherwise Qt crashes
-    qRegisterMetaType<KDecorationDefines::WindowOperation>();
+    qRegisterMetaType<Options::WindowOperation>();
     QMetaObject::invokeMethod(workspace(), "performWindowOperation",
                               Qt::QueuedConnection,
                               Q_ARG(KWin::Client*, c.data()),
-                              Q_ARG(KDecorationDefines::WindowOperation, op));
+                              Q_ARG(Options::WindowOperation, op));
 }
 
 void UserActionsMenu::slotSendToDesktop(QAction *action)
@@ -810,6 +807,8 @@ void UserActionsMenu::slotToggleOnActivity(QAction *action)
             }
         }
     }
+#else
+    Q_UNUSED(action)
 #endif
 }
 
@@ -1050,17 +1049,17 @@ void Workspace::performWindowOperation(Client* c, Options::WindowOperation op)
         QMetaObject::invokeMethod(c, "closeWindow", Qt::QueuedConnection);
         break;
     case Options::MaximizeOp:
-        c->maximize(c->maximizeMode() == Client::MaximizeFull
-                    ? Client::MaximizeRestore : Client::MaximizeFull);
+        c->maximize(c->maximizeMode() == MaximizeFull
+                    ? MaximizeRestore : MaximizeFull);
         break;
     case Options::HMaximizeOp:
-        c->maximize(c->maximizeMode() ^ Client::MaximizeHorizontal);
+        c->maximize(c->maximizeMode() ^ MaximizeHorizontal);
         break;
     case Options::VMaximizeOp:
-        c->maximize(c->maximizeMode() ^ Client::MaximizeVertical);
+        c->maximize(c->maximizeMode() ^ MaximizeVertical);
         break;
     case Options::RestoreOp:
-        c->maximize(Client::MaximizeRestore);
+        c->maximize(MaximizeRestore);
         break;
     case Options::MinimizeOp:
         c->minimize();
@@ -1286,10 +1285,10 @@ bool Client::performMouseCommand(Options::MouseCommand command, const QPoint &gl
         break;
     }
     case Options::MouseMaximize:
-        maximize(Client::MaximizeFull);
+        maximize(MaximizeFull);
         break;
     case Options::MouseRestore:
-        maximize(Client::MaximizeRestore);
+        maximize(MaximizeRestore);
         break;
     case Options::MouseMinimize:
         minimize();
@@ -1840,7 +1839,7 @@ void Workspace::slotInvertScreen()
                 continue;
             }
             if (gamma->size) {
-                qDebug() << "inverting screen using XRRSetCrtcGamma";
+                qCDebug(KWIN_CORE) << "inverting screen using XRRSetCrtcGamma";
                 const int half = gamma->size / 2 + 1;
 
                 uint16_t *red = gamma.red();
@@ -1873,7 +1872,7 @@ void Workspace::slotInvertScreen()
         green = new unsigned short[size];
         blue = new unsigned short[size];
         if (XF86VidModeGetGammaRamp(display(), scrn, size, red, green, blue)) {
-            qDebug() << "inverting screen using XF86VidModeSetGammaRamp";
+            qCDebug(KWIN_CORE) << "inverting screen using XF86VidModeSetGammaRamp";
             const int half = size / 2 + 1;
             unsigned short swap;
             for (int i = 0; i < half; ++i) {
@@ -1896,13 +1895,13 @@ void Workspace::slotInvertScreen()
     //BEGIN effect plugin inversion - atm only works with OpenGL and has an overhead to it
     if (effects) {
         if (Effect *inverter = static_cast<EffectsHandlerImpl*>(effects)->provides(Effect::ScreenInversion)) {
-            qDebug() << "inverting screen using Effect plugin";
+            qCDebug(KWIN_CORE) << "inverting screen using Effect plugin";
             QMetaObject::invokeMethod(inverter, "toggleScreenInversion", Qt::DirectConnection);
         }
     }
 
     if (!succeeded)
-        qDebug() << "sorry - neither Xrandr, nor XF86VidModeSetGammaRamp worked and there's no inversion supplying effect plugin either";
+        qCDebug(KWIN_CORE) << "sorry - neither Xrandr, nor XF86VidModeSetGammaRamp worked and there's no inversion supplying effect plugin either";
 
 }
 

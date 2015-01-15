@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils.h"
 #include "overlaywindow.h"
 #include "composite.h"
+#include "screens.h"
 #include "xcbutils.h"
 // kwin libs
 #include <kwinglplatform.h>
@@ -40,7 +41,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QOpenGLContext>
 // system
 #include <unistd.h>
-#include <xcb/glx.h>
+
+#include <deque>
+#include <algorithm>
 
 #ifndef XCB_GLX_BUFFER_SWAP_COMPLETE
 #define XCB_GLX_BUFFER_SWAP_COMPLETE 1
@@ -75,9 +78,10 @@ namespace std {
 namespace KWin
 {
 
-SwapEventFilter::SwapEventFilter(xcb_drawable_t drawable)
+SwapEventFilter::SwapEventFilter(xcb_drawable_t drawable, xcb_glx_drawable_t glxDrawable)
     : X11EventFilter(Xcb::Extensions::self()->glxEventBase() + XCB_GLX_BUFFER_SWAP_COMPLETE),
-      m_drawable(drawable)
+      m_drawable(drawable),
+      m_glxDrawable(glxDrawable)
 {
 }
 
@@ -86,7 +90,10 @@ bool SwapEventFilter::event(xcb_generic_event_t *event)
     xcb_glx_buffer_swap_complete_event_t *ev =
             reinterpret_cast<xcb_glx_buffer_swap_complete_event_t *>(event);
 
-    if (ev->drawable == m_drawable) {
+    // The drawable field is the X drawable when the event was synthesized
+    // by a WireToEvent handler, and the GLX drawable when the event was
+    // received over the wire
+    if (ev->drawable == m_drawable || ev->drawable == m_glxDrawable) {
         Compositor::self()->bufferSwapComplete();
         return true;
     }
@@ -120,7 +127,6 @@ GlxBackend::~GlxBackend()
     // TODO: cleanup in error case
     // do cleanup after initBuffer()
     cleanupGL();
-    checkGLError("Cleanup");
     doneCurrent();
 
     if (ctx)
@@ -142,15 +148,20 @@ static bool gs_tripleBufferNeedsDetection = false;
 void GlxBackend::init()
 {
     initGLX();
-    // require at least GLX 1.3
+
+    // Require at least GLX 1.3
     if (!hasGLXVersion(1, 3)) {
         setFailed(QStringLiteral("Requires at least GLX 1.3"));
         return;
     }
+
+    initVisualDepthHashTable();
+
     if (!initBuffer()) {
         setFailed(QStringLiteral("Could not initialize the buffer"));
         return;
     }
+
     if (!initRenderingContext()) {
         setFailed(QStringLiteral("Could not initialize rendering context"));
         return;
@@ -172,7 +183,9 @@ void GlxBackend::init()
     m_haveMESASwapControl   = hasGLExtension(QByteArrayLiteral("GLX_MESA_swap_control"));
     m_haveEXTSwapControl    = hasGLExtension(QByteArrayLiteral("GLX_EXT_swap_control"));
     m_haveSGISwapControl    = hasGLExtension(QByteArrayLiteral("GLX_SGI_swap_control"));
-    m_haveINTELSwapEvent    = hasGLExtension(QByteArrayLiteral("GLX_INTEL_swap_event"));
+    // only enable Intel swap event if env variable is set, see BUG 342582
+    m_haveINTELSwapEvent    = hasGLExtension(QByteArrayLiteral("GLX_INTEL_swap_event"))
+                                && qgetenv("KWIN_USE_INTEL_SWAP_EVENT") == QByteArrayLiteral("1");
 
     if (m_haveINTELSwapEvent) {
         const QList<QByteArray> tokens = QByteArray(qVersion()).split('.');
@@ -184,7 +197,7 @@ void GlxBackend::init()
     }
 
     if (m_haveINTELSwapEvent) {
-        m_swapEventFilter = std::make_unique<SwapEventFilter>(window);
+        m_swapEventFilter = std::make_unique<SwapEventFilter>(window, glxWindow);
         glXSelectEvent(display(), glxWindow, GLX_BUFFER_SWAP_COMPLETE_INTEL_MASK);
     }
 
@@ -222,9 +235,9 @@ void GlxBackend::init()
                 setBlocksForRetrace(true);
                 haveWaitSync = true;
             } else
-                qWarning() << "NO VSYNC! glXSwapInterval is not supported, glXWaitVideoSync is supported but broken";
+                qCWarning(KWIN_CORE) << "NO VSYNC! glXSwapInterval is not supported, glXWaitVideoSync is supported but broken";
         } else
-            qWarning() << "NO VSYNC! neither glSwapInterval nor glXWaitVideoSync are supported";
+            qCWarning(KWIN_CORE) << "NO VSYNC! neither glSwapInterval nor glXWaitVideoSync are supported";
     } else {
         // disable v-sync (if possible)
         setSwapInterval(0);
@@ -239,8 +252,6 @@ void GlxBackend::init()
     setIsDirectRendering(bool(glXIsDirect(display(), ctx)));
 
     qDebug() << "Direct rendering:" << isDirectRendering() << endl;
-
-    initVisualDepthHashTable();
 }
 
 bool GlxBackend::initRenderingContext()
@@ -317,29 +328,33 @@ bool GlxBackend::initBuffer()
         return false;
 
     if (overlayWindow()->create()) {
+        xcb_connection_t * const c = connection();
+
         // Try to create double-buffered window in the overlay
-        XVisualInfo* visual = glXGetVisualFromFBConfig(display(), fbconfig);
+        xcb_visualid_t visual;
+        glXGetFBConfigAttrib(display(), fbconfig, GLX_VISUAL_ID, (int *) &visual);
+
         if (!visual) {
-           qCritical() << "Failed to get visual from fbconfig";
+           qCCritical(KWIN_CORE) << "The GLXFBConfig does not have an associated X visual";
            return false;
         }
-        XSetWindowAttributes attrs;
-        attrs.colormap = XCreateColormap(display(), rootWindow(), visual->visual, AllocNone);
-        window = XCreateWindow(display(), overlayWindow()->window(), 0, 0, displayWidth(), displayHeight(),
-                               0, visual->depth, InputOutput, visual->visual, CWColormap, &attrs);
+
+        xcb_colormap_t colormap = xcb_generate_id(c);
+        xcb_create_colormap(c, false, colormap, rootWindow(), visual);
+
+        const QSize size = screens()->size();
+
+        window = xcb_generate_id(c);
+        xcb_create_window(c, visualDepth(visual), window, overlayWindow()->window(),
+                          0, 0, size.width(), size.height(), 0, XCB_WINDOW_CLASS_INPUT_OUTPUT,
+                          visual, XCB_CW_COLORMAP, &colormap);
+
         glxWindow = glXCreateWindow(display(), fbconfig, window, NULL);
         overlayWindow()->setup(window);
-        XFree(visual);
     } else {
-        qCritical() << "Failed to create overlay window";
+        qCCritical(KWIN_CORE) << "Failed to create overlay window";
         return false;
     }
-
-    int vis_buffer;
-    glXGetFBConfigAttrib(display(), fbconfig, GLX_VISUAL_ID, &vis_buffer);
-    XVisualInfo* visinfo_buffer = glXGetVisualFromFBConfig(display(), fbconfig);
-    qDebug() << "Buffer visual (depth " << visinfo_buffer->depth << "): 0x" << QString::number(vis_buffer, 16);
-    XFree(visinfo_buffer);
 
     return true;
 }
@@ -364,13 +379,54 @@ bool GlxBackend::initFbConfig()
     int count = 0;
     GLXFBConfig *configs = glXChooseFBConfig(display(), DefaultScreen(display()), attribs, &count);
 
-    if (count > 0) {
-        fbconfig = configs[0];
-        XFree(configs);
+    struct FBConfig {
+        GLXFBConfig config;
+        int depth;
+        int stencil;
+    };
+
+    std::deque<FBConfig> candidates;
+
+    for (int i = 0; i < count; i++) {
+        int depth, stencil;
+        glXGetFBConfigAttrib(display(), configs[i], GLX_DEPTH_SIZE,   &depth);
+        glXGetFBConfigAttrib(display(), configs[i], GLX_STENCIL_SIZE, &stencil);
+
+        candidates.emplace_back(FBConfig{configs[i], depth, stencil});
     }
 
-    if (fbconfig == NULL) {
-        qCritical() << "Failed to find a usable framebuffer configuration";
+    if (count > 0)
+        XFree(configs);
+
+    std::stable_sort(candidates.begin(), candidates.end(), [](const FBConfig &left, const FBConfig &right) {
+        if (left.depth < right.depth)
+            return true;
+
+        if (left.stencil < right.stencil)
+            return true;
+
+        return false;
+    });
+
+    if (candidates.size() > 0) {
+        fbconfig = candidates.front().config;
+
+        int fbconfig_id, visual_id, red, green, blue, alpha, depth, stencil;
+        glXGetFBConfigAttrib(display(), fbconfig, GLX_FBCONFIG_ID,  &fbconfig_id);
+        glXGetFBConfigAttrib(display(), fbconfig, GLX_VISUAL_ID,    &visual_id);
+        glXGetFBConfigAttrib(display(), fbconfig, GLX_RED_SIZE,     &red);
+        glXGetFBConfigAttrib(display(), fbconfig, GLX_GREEN_SIZE,   &green);
+        glXGetFBConfigAttrib(display(), fbconfig, GLX_BLUE_SIZE,    &blue);
+        glXGetFBConfigAttrib(display(), fbconfig, GLX_ALPHA_SIZE,   &alpha);
+        glXGetFBConfigAttrib(display(), fbconfig, GLX_DEPTH_SIZE,   &depth);
+        glXGetFBConfigAttrib(display(), fbconfig, GLX_STENCIL_SIZE, &stencil);
+
+        qCDebug(KWIN_CORE, "Choosing GLXFBConfig %#x X visual %#x depth %d RGBA %d:%d:%d:%d ZS %d:%d",
+                fbconfig_id, visual_id, visualDepth(visual_id), red, green, blue, alpha, depth, stencil);
+    }
+
+    if (fbconfig == nullptr) {
+        qCCritical(KWIN_CORE) << "Failed to find a usable framebuffer configuration";
         return false;
     }
 
@@ -415,7 +471,7 @@ FBConfigInfo *GlxBackend::infoForVisual(xcb_visualid_t visual)
     const xcb_render_directformat_t *direct = XRenderUtils::findPictFormatInfo(format);
 
     if (!direct) {
-        qCritical().nospace() << "Could not find a picture format for visual 0x" << hex << visual;
+        qCCritical(KWIN_CORE).nospace() << "Could not find a picture format for visual 0x" << hex << visual;
         return info;
     }
 
@@ -448,9 +504,18 @@ FBConfigInfo *GlxBackend::infoForVisual(xcb_visualid_t visual)
     GLXFBConfig *configs = glXChooseFBConfig(display(), DefaultScreen(display()), attribs, &count);
 
     if (count < 1) {
-        qCritical().nospace() << "Could not find a framebuffer configuration for visual 0x" << hex << visual;
+        qCCritical(KWIN_CORE).nospace() << "Could not find a framebuffer configuration for visual 0x" << hex << visual;
         return info;
     }
+
+    struct FBConfig {
+        GLXFBConfig config;
+        int depth;
+        int stencil;
+        int format;
+    };
+
+    std::deque<FBConfig> candidates;
 
     for (int i = 0; i < count; i++) {
         int red, green, blue;
@@ -474,26 +539,45 @@ FBConfigInfo *GlxBackend::infoForVisual(xcb_visualid_t visual)
         if (!bind_rgb && !bind_rgba)
             continue;
 
+        int depth, stencil;
+        glXGetFBConfigAttrib(display(), configs[i], GLX_DEPTH_SIZE,   &depth);
+        glXGetFBConfigAttrib(display(), configs[i], GLX_STENCIL_SIZE, &stencil);
+
         int texture_format;
         if (alpha_bits)
             texture_format = bind_rgba ? GLX_TEXTURE_FORMAT_RGBA_EXT : GLX_TEXTURE_FORMAT_RGB_EXT;
         else
             texture_format = bind_rgb ? GLX_TEXTURE_FORMAT_RGB_EXT : GLX_TEXTURE_FORMAT_RGBA_EXT;
 
-        int y_inverted, texture_targets;
-        glXGetFBConfigAttrib(display(), configs[i], GLX_BIND_TO_TEXTURE_TARGETS_EXT, &texture_targets);
-        glXGetFBConfigAttrib(display(), configs[i], GLX_Y_INVERTED_EXT, &y_inverted);
-
-        info->fbconfig            = configs[i];
-        info->bind_texture_format = texture_format;
-        info->texture_targets     = texture_targets;
-        info->y_inverted          = y_inverted;
-        info->mipmap              = 0;
-        break;
+        candidates.emplace_back(FBConfig{configs[i], depth, stencil, texture_format});
     }
 
     if (count > 0)
         XFree(configs);
+
+    std::stable_sort(candidates.begin(), candidates.end(), [](const FBConfig &left, const FBConfig &right) {
+        if (left.depth < right.depth)
+            return true;
+
+        if (left.stencil < right.stencil)
+            return true;
+
+        return false;
+    });
+
+    if (candidates.size() > 0) {
+        const FBConfig &candidate = candidates.front();
+
+        int y_inverted, texture_targets;
+        glXGetFBConfigAttrib(display(), candidate.config, GLX_BIND_TO_TEXTURE_TARGETS_EXT, &texture_targets);
+        glXGetFBConfigAttrib(display(), candidate.config, GLX_Y_INVERTED_EXT, &y_inverted);
+
+        info->fbconfig            = candidate.config;
+        info->bind_texture_format = candidate.format;
+        info->texture_targets     = texture_targets;
+        info->y_inverted          = y_inverted;
+        info->mipmap              = 0;
+    }
 
     if (info->fbconfig) {
         int fbc_id = 0;
@@ -540,7 +624,8 @@ void GlxBackend::present()
     if (lastDamage().isEmpty())
         return;
 
-    const QRegion displayRegion(0, 0, displayWidth(), displayHeight());
+    const QSize &screenSize = screens()->size();
+    const QRegion displayRegion(0, 0, screenSize.width(), screenSize.height());
     const bool fullRepaint = supportsBufferAge() || (lastDamage() == displayRegion);
 
     if (fullRepaint) {
@@ -562,7 +647,7 @@ void GlxBackend::present()
                         if (qstrcmp(qgetenv("__GL_YIELD"), "USLEEP")) {
                             options->setGlPreferBufferSwap(0);
                             setSwapInterval(0);
-                            qWarning() << "\nIt seems you are using the nvidia driver without triple buffering\n"
+                            qCWarning(KWIN_CORE) << "\nIt seems you are using the nvidia driver without triple buffering\n"
                                               "You must export __GL_YIELD=\"USLEEP\" to prevent large CPU overhead on synced swaps\n"
                                               "Preferably, enable the TripleBuffer Option in the xorg.conf Device\n"
                                               "For this reason, the tearing prevention has been disabled.\n"
@@ -582,7 +667,7 @@ void GlxBackend::present()
     } else if (m_haveMESACopySubBuffer) {
         foreach (const QRect & r, lastDamage().rects()) {
             // convert to OpenGL coordinates
-            int y = displayHeight() - r.y() - r.height();
+            int y = screenSize.height() - r.y() - r.height();
             glXCopySubBufferMESA(display(), glxWindow, r.x(), y, r.width(), r.height());
         }
     } else { // Copy Pixels (horribly slow on Mesa)
@@ -746,9 +831,7 @@ bool GlxTexture::loadTexture(xcb_pixmap_t pixmap, const QSize &size, xcb_visuali
     if (!info || info->fbconfig == nullptr)
         return false;
 
-    if ((info->texture_targets & GLX_TEXTURE_2D_BIT_EXT) &&
-            (GLTexture::NPOTTextureSupported() ||
-              (isPowerOfTwo(size.width()) && isPowerOfTwo(size.height())))) {
+    if (info->texture_targets & GLX_TEXTURE_2D_BIT_EXT) {
         m_target = GL_TEXTURE_2D;
         m_scale.setWidth(1.0f / m_size.width());
         m_scale.setHeight(1.0f / m_size.height());
@@ -762,7 +845,7 @@ bool GlxTexture::loadTexture(xcb_pixmap_t pixmap, const QSize &size, xcb_visuali
 
     const int attrs[] = {
         GLX_TEXTURE_FORMAT_EXT, info->bind_texture_format,
-        GLX_MIPMAP_TEXTURE_EXT, info->mipmap,
+        GLX_MIPMAP_TEXTURE_EXT, false,
         GLX_TEXTURE_TARGET_EXT, m_target == GL_TEXTURE_2D ? GLX_TEXTURE_2D_EXT : GLX_TEXTURE_RECTANGLE_EXT,
         0
     };
@@ -770,12 +853,12 @@ bool GlxTexture::loadTexture(xcb_pixmap_t pixmap, const QSize &size, xcb_visuali
     m_glxpixmap     = glXCreatePixmap(display(), info->fbconfig, pixmap, attrs);
     m_size          = size;
     m_yInverted     = info->y_inverted ? true : false;
-    m_canUseMipmaps = info->mipmap;
+    m_canUseMipmaps = false;
 
     glGenTextures(1, &m_texture);
 
     q->setDirty();
-    q->setFilter(info->mipmap > 0 ? GL_NEAREST_MIPMAP_LINEAR : GL_NEAREST);
+    q->setFilter(GL_NEAREST);
 
     glBindTexture(m_target, m_texture);
     glXBindTexImageEXT(display(), m_glxpixmap, GLX_FRONT_LEFT_EXT, nullptr);

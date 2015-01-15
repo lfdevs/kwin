@@ -128,7 +128,11 @@ static void startXServer(const QByteArray &process, const QByteArray &display)
         close(pipeFds[0]);
         char fdbuf[16];
         sprintf(fdbuf, "%d", pipeFds[1]);
-        execlp(process.constData(), process.constData(), "-displayfd", fdbuf, display.constData(), (char *)0);
+        if (display.isEmpty()) {
+            execlp(process.constData(), process.constData(), "-displayfd", fdbuf, (char *)0);
+        } else {
+            execlp(process.constData(), process.constData(), "-displayfd", fdbuf, display.constData(), (char *)0);
+        }
         close(pipeFds[1]);
         exit(20);
     }
@@ -149,7 +153,7 @@ static void startXServer(const QByteArray &process, const QByteArray &display)
 
     displayNumber.prepend(QByteArray(":"));
     displayNumber.remove(displayNumber.size() -1, 1);
-    std::cout << "X-Server started on display " << displayNumber.constData();
+    std::cout << "X-Server started on display " << displayNumber.constData() << std::endl;
 
     setenv("DISPLAY", displayNumber.constData(), true);
 
@@ -170,7 +174,7 @@ KWIN_EXPORT int kdemain(int argc, char * argv[])
     QByteArray xServer;
     for (int i = 1; i < argc; ++i) {
         QByteArray arg = argv[i];
-        if (arg == "-x" || arg == "--start-X-Server") {
+        if (arg == "-x" || arg == "--x-server") {
             if (++i < argc) {
                 xServer = argv[i];
             }
@@ -231,16 +235,25 @@ KWIN_EXPORT int kdemain(int argc, char * argv[])
                                           i18n("Start a nested X Server."),
                                           QStringLiteral("xephyr|xvfb|xwayland"));
     QCommandLineOption x11DisplayOption(QStringLiteral("display"),
-                                        i18n("The X11 Display to connect to, required if option x-server is used."),
+                                        i18n("The X11 Display to connect to. If not set next free number will be picked."),
                                         QStringLiteral("display"));
 
     QCommandLineParser parser;
     a.setupCommandLine(&parser);
     parser.addOption(startXServerOption);
     parser.addOption(x11DisplayOption);
+#if HAVE_INPUT
+    QCommandLineOption libinputOption(QStringLiteral("libinput"),
+                                      i18n("Enable libinput support for input events processing. Note: never use in a nested session."));
+    parser.addOption(libinputOption);
+#endif
 
     parser.process(a);
     a.processCommandLine(&parser);
+
+#if HAVE_INPUT
+    KWin::Application::setUseLibinput(parser.isSet(libinputOption));
+#endif
 
     // perform sanity checks
     // TODO: remove those two

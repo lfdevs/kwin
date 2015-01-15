@@ -202,7 +202,7 @@ void MagnifierEffect::paintScreen(int mask, QRegion region, ScreenPaintData& dat
                 m_picture.reset(new XRenderPicture(m_pixmap, 32));
             }
 #define DOUBLE_TO_FIXED(d) ((xcb_render_fixed_t) ((d) * 65536))
-            static xcb_render_transform_t identity = {
+            static const xcb_render_transform_t identity = {
                 DOUBLE_TO_FIXED(1), DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(0),
                 DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(1), DOUBLE_TO_FIXED(0),
                 DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(1)
@@ -261,7 +261,7 @@ void MagnifierEffect::zoomIn()
     }
     if (effects->isOpenGLCompositing() && !m_texture) {
         effects->makeOpenGLContextCurrent();
-        m_texture = new GLTexture(magnifier_size.width(), magnifier_size.height());
+        m_texture = new GLTexture(GL_RGBA8, magnifier_size.width(), magnifier_size.height());
         m_texture->setYInverted(false);
         m_fbo = new GLRenderTarget(*m_texture);
     }
@@ -301,7 +301,7 @@ void MagnifierEffect::toggle()
         }
         if (effects->isOpenGLCompositing() && !m_texture) {
             effects->makeOpenGLContextCurrent();
-            m_texture = new GLTexture(magnifier_size.width(), magnifier_size.height());
+            m_texture = new GLTexture(GL_RGBA8, magnifier_size.width(), magnifier_size.height());
             m_texture->setYInverted(false);
             m_fbo = new GLRenderTarget(*m_texture);
         }

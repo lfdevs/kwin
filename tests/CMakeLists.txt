@@ -17,3 +17,15 @@ if (Wayland_Client_FOUND AND XKB_FOUND AND KF5Wayland_FOUND)
     add_executable(waylandclienttest ${waylandclienttest_SRCS})
     target_link_libraries(waylandclienttest Qt5::Core Qt5::Gui Wayland::Client KF5::WaylandClient)
 endif()
+
+if (HAVE_INPUT)
+    set(libinputtest_SRCS
+            libinputtest.cpp
+            ${KWIN_SOURCE_DIR}/libinput/context.cpp
+            ${KWIN_SOURCE_DIR}/libinput/connection.cpp
+            ${KWIN_SOURCE_DIR}/libinput/events.cpp
+            ${KWIN_SOURCE_DIR}/logind.cpp
+    )
+    add_executable(libinputtest ${libinputtest_SRCS})
+    target_link_libraries(libinputtest Qt5::Core Qt5::DBus Libinput::Libinput ${UDEV_LIBS} KF5::WindowSystem)
+endif()

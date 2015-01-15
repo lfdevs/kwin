@@ -29,7 +29,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "activities.h"
 #endif
 #include "cursor.h"
-#include "decorations.h"
 #include <QX11Info>
 #include "rules.h"
 #include "group.h"
@@ -103,7 +102,8 @@ bool Client::manage(xcb_window_t w, bool isMapped)
         NET::WM2FrameOverlap |
         NET::WM2GroupLeader |
         NET::WM2Urgency |
-        NET::WM2Input;
+        NET::WM2Input |
+        NET::WM2Protocols;
 
     info = new WinInfo(this, m_client, rootWindow(), properties, properties2);
 
@@ -135,7 +135,6 @@ bool Client::manage(xcb_window_t w, bool isMapped)
     modal = (info->state() & NET::Modal) != 0;   // Needs to be valid before handling groups
     readTransient();
     getIcons();
-    getWindowProtocols();
     getWmNormalHints(); // Get xSizeHint
     getMotifHints();
     getWmOpaqueRegion();
@@ -329,7 +328,7 @@ bool Client::manage(xcb_window_t w, bool isMapped)
     // Create client group if the window will have a decoration
     bool dontKeepInArea = false;
     setTabGroup(NULL);
-    if (!noBorder() && DecorationPlugin::self()->supportsTabbing()) {
+    if (!noBorder() && false) {
         const bool autogrouping = rules()->checkAutogrouping(options->isAutogroupSimilarWindows());
         const bool autogroupInFg = rules()->checkAutogroupInForeground(options->isAutogroupInForeground());
         // Automatically add to previous groups on session restore
@@ -409,11 +408,11 @@ bool Client::manage(xcb_window_t w, bool isMapped)
             const QSize ss = workspace()->clientArea(ScreenArea, area.center(), desktop()).size();
             const QRect fsa = workspace()->clientArea(FullArea, geom.center(), desktop());
             const QSize cs = clientSize();
-            int pseudo_max = Client::MaximizeRestore;
+            int pseudo_max = MaximizeRestore;
             if (width() >= area.width())
-                pseudo_max |=  Client::MaximizeHorizontal;
+                pseudo_max |=  MaximizeHorizontal;
             if (height() >= area.height())
-                pseudo_max |=  Client::MaximizeVertical;
+                pseudo_max |=  MaximizeVertical;
 
             // heuristics:
             // if decorated client is smaller than the entire screen, the user might want to move it around (multiscreen)
@@ -425,24 +424,24 @@ bool Client::manage(xcb_window_t w, bool isMapped)
             // thus a former maximized window wil become non-maximized
             bool keepInFsArea = false;
             if (width() < fsa.width() && (cs.width() > ss.width()+1)) {
-                pseudo_max &= ~Client::MaximizeHorizontal;
+                pseudo_max &= ~MaximizeHorizontal;
                 keepInFsArea = true;
             }
             if (height() < fsa.height() && (cs.height() > ss.height()+1)) {
-                pseudo_max &= ~Client::MaximizeVertical;
+                pseudo_max &= ~MaximizeVertical;
                 keepInFsArea = true;
             }
 
-            if (pseudo_max != Client::MaximizeRestore) {
+            if (pseudo_max != MaximizeRestore) {
                 maximize((MaximizeMode)pseudo_max);
                 // from now on, care about maxmode, since the maximization call will override mode for fix aspects
-                dontKeepInArea |= (max_mode == Client::MaximizeFull);
+                dontKeepInArea |= (max_mode == MaximizeFull);
                 geom_restore = QRect(); // Use placement when unmaximizing ...
-                if (!(max_mode & Client::MaximizeVertical)) {
+                if (!(max_mode & MaximizeVertical)) {
                     geom_restore.setY(y());   // ...but only for horizontal direction
                     geom_restore.setHeight(height());
                 }
-                if (!(max_mode & Client::MaximizeHorizontal)) {
+                if (!(max_mode & MaximizeHorizontal)) {
                     geom_restore.setX(x());   // ...but only for vertical direction
                     geom_restore.setWidth(width());
                 }
@@ -686,7 +685,7 @@ void Client::embedClient(xcb_window_t w, xcb_visualid_t visualid, xcb_colormap_t
                                        XCB_EVENT_MASK_EXPOSURE |
                                        XCB_EVENT_MASK_STRUCTURE_NOTIFY | XCB_EVENT_MASK_SUBSTRUCTURE_REDIRECT;
 
-    const uint32_t frame_event_mask   = common_event_mask | XCB_EVENT_MASK_PROPERTY_CHANGE;
+    const uint32_t frame_event_mask   = common_event_mask | XCB_EVENT_MASK_PROPERTY_CHANGE | XCB_EVENT_MASK_VISIBILITY_CHANGE;
     const uint32_t wrapper_event_mask = common_event_mask | XCB_EVENT_MASK_SUBSTRUCTURE_NOTIFY;
 
     const uint32_t client_event_mask = XCB_EVENT_MASK_FOCUS_CHANGE | XCB_EVENT_MASK_PROPERTY_CHANGE |

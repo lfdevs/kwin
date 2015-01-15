@@ -189,6 +189,7 @@ set( testScreens_SRCS
     mock_screens.cpp
     mock_workspace.cpp
     ../screens.cpp
+    ../x11eventfilter.cpp
 )
 kconfig_add_kcfg_files(testScreens_SRCS ../settings.kcfgc)
 
@@ -205,3 +206,72 @@ target_link_libraries(testScreens
 
 add_test(kwin_testScreens testScreens)
 ecm_mark_as_test(testScreens)
+
+########################################################
+# Test XrandRScreens
+########################################################
+set( testXRandRScreens_SRCS
+     test_xrandr_screens.cpp
+     mock_client.cpp
+     mock_screens.cpp
+     mock_workspace.cpp
+     ../screens.cpp
+     ../screens_xrandr.cpp
+     ../xcbutils.cpp # init of extensions
+     ../x11eventfilter.cpp
+)
+kconfig_add_kcfg_files(testXRandRScreens_SRCS ../settings.kcfgc)
+add_executable( testXRandRScreens ${testXRandRScreens_SRCS} )
+target_link_libraries( testXRandRScreens
+                       Qt5::Test
+                       Qt5::Gui
+                       KF5::ConfigCore
+                       KF5::ConfigGui
+                       KF5::WindowSystem
+                       KF5::Service
+                       XCB::XCB
+                       XCB::RANDR
+                       XCB::XFIXES
+                       XCB::SYNC
+                       XCB::COMPOSITE
+                       XCB::DAMAGE
+                       XCB::GLX
+                       XCB::SHM
+)
+
+add_test(kwin-testXRandRScreens testXRandRScreens)
+ecm_mark_as_test(testXRandRScreens)
+
+########################################################
+# Test ScreenEdges
+########################################################
+set( testScreenEdges_SRCS
+    test_screen_edges.cpp
+    mock_client.cpp
+    mock_screens.cpp
+    mock_workspace.cpp
+    ../atoms.cpp
+    ../screens.cpp
+    ../screenedge.cpp
+    ../virtualdesktops.cpp
+)
+kconfig_add_kcfg_files(testScreenEdges_SRCS ../settings.kcfgc)
+qt5_add_dbus_interface( testScreenEdges_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/../org.freedesktop.ScreenSaver.xml screenlocker_interface)
+
+add_executable( testScreenEdges ${testScreenEdges_SRCS})
+target_include_directories(testScreenEdges BEFORE PRIVATE ./)
+target_link_libraries(testScreenEdges
+    Qt5::DBus
+    Qt5::Test
+    Qt5::X11Extras
+    KF5::ConfigCore
+    KF5::ConfigGui
+    KF5::I18n
+    KF5::GlobalAccel
+    KF5::WindowSystem
+    KF5::Service
+    XCB::XCB
+)
+
+add_test(kwin_testScreenEdges testScreenEdges)
+ecm_mark_as_test(testScreenEdges)

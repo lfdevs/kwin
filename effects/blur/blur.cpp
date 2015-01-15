@@ -37,7 +37,7 @@ BlurEffect::BlurEffect()
 
     // Offscreen texture that's used as the target for the horizontal blur pass
     // and the source for the vertical pass.
-    tex = GLTexture(effects->virtualScreenSize());
+    tex = GLTexture(GL_RGBA8, effects->virtualScreenSize());
     tex.setFilter(GL_LINEAR);
     tex.setWrapMode(GL_CLAMP_TO_EDGE);
 
@@ -98,9 +98,9 @@ void BlurEffect::updateBlurRegion(EffectWindow *w) const
     QRegion region;
 
     const QByteArray value = w->readProperty(net_wm_blur_region, XCB_ATOM_CARDINAL, 32);
-    if (value.size() > 0 && !(value.size() % (4 * sizeof(unsigned long)))) {
-        const unsigned long *cardinals = reinterpret_cast<const unsigned long*>(value.constData());
-        for (unsigned int i = 0; i < value.size() / sizeof(unsigned long);) {
+    if (value.size() > 0 && !(value.size() % (4 * sizeof(uint32_t)))) {
+        const uint32_t *cardinals = reinterpret_cast<const uint32_t*>(value.constData());
+        for (unsigned int i = 0; i < value.size() / sizeof(uint32_t);) {
             int x = cardinals[i++];
             int y = cardinals[i++];
             int w = cardinals[i++];
@@ -154,7 +154,7 @@ bool BlurEffect::enabledByDefault()
 
 bool BlurEffect::supported()
 {
-    bool supported = effects->isOpenGLCompositing() && GLRenderTarget::supported() && GLTexture::NPOTTextureSupported();
+    bool supported = effects->isOpenGLCompositing() && GLRenderTarget::supported();
 
     if (supported) {
         int maxTexSize;
@@ -296,7 +296,7 @@ void BlurEffect::prePaintWindow(EffectWindow* w, WindowPrePaintData& data, int t
     const QRegion blurArea = blurRegion(w).translated(w->pos()) & screen;
     const QRegion expandedBlur = expand(blurArea) & screen;
 
-    if (m_shouldCache) {
+    if (m_shouldCache && !w->isDeleted()) {
         // we are caching the horizontally blurred background texture
 
         // if a window underneath the blurred area is damaged we have to
@@ -403,7 +403,7 @@ void BlurEffect::drawWindow(EffectWindow *w, int mask, QRegion region, WindowPai
         }
 
         if (!shape.isEmpty()) {
-            if (m_shouldCache && !translated) {
+            if (m_shouldCache && !translated && !w->isDeleted()) {
                 doCachedBlur(w, region, data.opacity());
             } else {
                 doBlur(shape, screen, data.opacity());
@@ -438,12 +438,12 @@ void BlurEffect::doBlur(const QRegion& shape, const QRect& screen, const float o
 
     // Create a scratch texture and copy the area in the back buffer that we're
     // going to blur into it
-    GLTexture scratch(r.width(), r.height());
+    GLTexture scratch(GL_RGBA8, r.width(), r.height());
     scratch.setFilter(GL_LINEAR);
     scratch.setWrapMode(GL_CLAMP_TO_EDGE);
     scratch.bind();
 
-    glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, r.x(), displayHeight() - r.y() - r.height(),
+    glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, r.x(), effects->virtualScreenSize().height() - r.y() - r.height(),
                         r.width(), r.height());
 
     // Draw the texture on the offscreen framebuffer object, while blurring it horizontally
@@ -511,13 +511,13 @@ void BlurEffect::doCachedBlur(EffectWindow *w, const QRegion& region, const floa
     CacheEntry it = windows.find(w);
     if (it == windows.end()) {
         BlurWindowInfo bwi;
-        bwi.blurredBackground = GLTexture(r.width(),r.height());
+        bwi.blurredBackground = GLTexture(GL_RGBA8, r.width(),r.height());
         bwi.damagedRegion = expanded;
         bwi.dropCache = false;
         bwi.windowPos = w->pos();
         it = windows.insert(w, bwi);
     } else if (it->blurredBackground.size() != r.size()) {
-        it->blurredBackground = GLTexture(r.width(),r.height());
+        it->blurredBackground = GLTexture(GL_RGBA8, r.width(),r.height());
         it->dropCache = false;
         it->windowPos = w->pos();
     } else if (it->windowPos != w->pos()) {
@@ -587,7 +587,7 @@ void BlurEffect::doCachedBlur(EffectWindow *w, const QRegion& region, const floa
         // into a scratch texture (in this case "tex").
         tex.bind();
 
-        glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, updateRect.x(), displayHeight() - updateRect.y() - updateRect.height(),
+        glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, updateRect.x(), effects->virtualScreenSize().height() - updateRect.y() - updateRect.height(),
                             updateRect.width(), updateRect.height());
 
         // Draw the texture on the offscreen framebuffer object, while blurring it horizontally

@@ -6,7 +6,7 @@
 # Teemu Rytilahti <teemu.rytilahti@kde-fi.org>, 2008.
 # Teemu Rytilahti <teemu.rytilahti@d5k.net>, 2008.
 # Tommi Nieminen <translator@legisign.org>, 2009, 2010, 2012.
-# Lasse Liehu <lliehu@kolumbus.fi>, 2010, 2011, 2012, 2013, 2014.
+# Lasse Liehu <lliehu@kolumbus.fi>, 2010, 2011, 2012, 2013, 2014, 2015.
 # Jorma Karvonen <karvonen.jorma@gmail.com>, 2011.
 #
 # KDE Finnish translation sprint participants:

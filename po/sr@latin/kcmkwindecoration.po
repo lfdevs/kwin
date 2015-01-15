@@ -1,13 +1,13 @@
 # Translation of kcmkwindecoration.po into Serbian.
 # Toplica Tanaskovic <toptan@kde.org.yu>, 2003, 2004.
 # Chusslove Illich <caslav.ilic@gmx.net>, 2005, 2007, 2008, 2009, 2010, 2012, 2013, 2014.
-# Dalibor Djuric <dalibor.djuric@mozilla-srbija.org>, 2009, 2010.
+# Dalibor Djuric <daliborddjuric@gmail.com>, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-06-11 07:50+0000\n"
-"PO-Revision-Date: 2014-03-15 19:55+0100\n"
+"PO-Revision-Date: 2014-12-14 13:00+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr@latin\n"
@@ -126,7 +126,7 @@ msgstr "neizmerna"
 #. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
 #: auroraeconfig.ui:126
 msgid "Close windows by double clicking the menu button"
-msgstr "Zatvori prozor na dvoklik na dugme menija"
+msgstr "Zatvori prozor dvoklikom na dugme menija"
 
 #: buttons.cpp:620
 msgid "KDE"
@@ -238,7 +238,7 @@ msgstr "Upotrebite ovo da promenite veličinu ivica dekoracije."
 #: configdialog.cpp:43
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Border"
-msgstr "bez bočne ivice"
+msgstr "bez bočnih ivica"
 
 #: configdialog.cpp:44
 msgctxt "@item:inlistbox Border size:"
@@ -281,9 +281,8 @@ msgstr "Dobavi nove dekoracije..."
 #: kwindecoration.cpp:99
 msgid "Window Decoration Control Module"
 msgstr ""
-"Kontrolni modul dekoracije prozora"
-"|/|"
-"$[svojstva dat 'Kontrolnom modulu dekoracije prozora']"
+"Kontrolni modul dekoracije prozora|/|$[svojstva dat 'Kontrolnom modulu "
+"dekoracije prozora']"
 
 #: kwindecoration.cpp:101
 msgid "(c) 2001 Karol Szwed"

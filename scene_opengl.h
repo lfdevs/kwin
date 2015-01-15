@@ -28,12 +28,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kwinglutils.h"
 #include "kwingltexture_p.h"
 
+#include "decorations/decorationrenderer.h"
+
 namespace KWin
 {
 class ColorCorrection;
 class LanczosFilter;
 class OpenGLBackend;
-class OpenGLPaintRedirector;
 class SyncManager;
 class SyncObject;
 
@@ -59,6 +60,7 @@ public:
     virtual bool syncsToVBlank() const;
     virtual bool makeOpenGLContextCurrent() override;
     virtual void doneOpenGLContextCurrent() override;
+    Decoration::Renderer *createDecorationRenderer(Decoration::DecoratedClientImpl *impl) override;
     virtual void triggerFence() override;
 
     void insertWait();
@@ -66,6 +68,7 @@ public:
     void idle();
 
     bool debug() const { return m_debug; }
+    void initDebugOutput();
 
     /**
      * @brief Factory method to create a backend specific texture.
@@ -73,7 +76,6 @@ public:
      * @return :SceneOpenGL::Texture*
      **/
     Texture *createTexture();
-    Texture *createTexture(const QPixmap& pix, GLenum target = GL_TEXTURE_2D);
 
 #ifndef KWIN_HAVE_OPENGLES
     /**
@@ -122,8 +124,11 @@ public:
     static bool supported(OpenGLBackend *backend);
 
     ColorCorrection *colorCorrection();
+    QMatrix4x4 projectionMatrix() const { return m_projectionMatrix; }
+    QMatrix4x4 screenProjectionMatrix() const { return m_screenProjectionMatrix; }
 
 protected:
+    virtual void paintSimpleScreen(int mask, QRegion region);
     virtual void paintGenericScreen(int mask, ScreenPaintData data);
     virtual void doPaintBackground(const QVector< float >& vertices);
     virtual Scene::Window *createWindow(Toplevel *t);
@@ -136,10 +141,13 @@ private Q_SLOTS:
 
 private:
     void performPaintWindow(EffectWindowImpl* w, int mask, QRegion region, WindowPaintData& data);
+    QMatrix4x4 createProjectionMatrix() const;
 
 private:
     LanczosFilter *m_lanczosFilter;
     QScopedPointer<ColorCorrection> m_colorCorrection;
+    QMatrix4x4 m_projectionMatrix;
+    QMatrix4x4 m_screenProjectionMatrix;
     GLuint vao;
 };
 
@@ -164,16 +172,14 @@ class SceneOpenGL::Texture
 {
 public:
     Texture(OpenGLBackend *backend);
-    Texture(OpenGLBackend *backend, const QPixmap& pix, GLenum target = GL_TEXTURE_2D);
     virtual ~Texture();
 
     Texture & operator = (const Texture& tex);
 
-    using GLTexture::load;
-    virtual void discard();
+    void discard() override final;
 
 protected:
-    virtual bool load(xcb_pixmap_t pix, const QSize &size, xcb_visualid_t);
+    bool load(xcb_pixmap_t pix, const QSize &size, xcb_visualid_t);
 
     Texture(TexturePrivate& dd);
 
@@ -211,9 +217,6 @@ protected:
 protected:
     SceneOpenGL *m_scene;
     bool m_hardwareClipping;
-
-private:
-    OpenGLPaintRedirector *paintRedirector() const;
 };
 
 class SceneOpenGL2Window : public SceneOpenGL::Window
@@ -245,6 +248,7 @@ public:
     virtual ~SceneOpenGL2Window();
 
 protected:
+    QMatrix4x4 modelViewProjectionMatrix(int mask, const WindowPaintData &data) const;
     QVector4D modulate(float opacity, float brightness) const;
     void setBlendEnabled(bool enabled);
     void setupLeafNodes(LeafNode *nodes, const WindowQuadList *quads, const WindowPaintData &data);
@@ -291,14 +295,14 @@ private:
     void updateTexture();
     void updateTextTexture();
 
-    Texture* m_texture;
-    Texture* m_textTexture;
-    Texture* m_oldTextTexture;
-    QPixmap* m_textPixmap; // need to keep the pixmap around to workaround some driver problems
-    Texture* m_iconTexture;
-    Texture* m_oldIconTexture;
-    Texture* m_selectionTexture;
-    GLVertexBuffer* m_unstyledVBO;
+    GLTexture *m_texture;
+    GLTexture *m_textTexture;
+    GLTexture *m_oldTextTexture;
+    QPixmap *m_textPixmap; // need to keep the pixmap around to workaround some driver problems
+    GLTexture *m_iconTexture;
+    GLTexture *m_oldIconTexture;
+    GLTexture *m_selectionTexture;
+    GLVertexBuffer *m_unstyledVBO;
     SceneOpenGL *m_scene;
 
     static GLTexture* m_unstyledTexture;
@@ -320,13 +324,13 @@ public:
     virtual ~SceneOpenGLShadow();
 
     GLTexture *shadowTexture() {
-        return m_texture;
+        return m_texture.data();
     }
 protected:
     virtual void buildQuads();
     virtual bool prepareBackend();
 private:
-    GLTexture *m_texture;
+    QSharedPointer<GLTexture> m_texture;
 };
 
 /**
@@ -579,6 +583,35 @@ private:
      * @brief Timer to measure how long a frame renders.
      **/
     QElapsedTimer m_renderTimer;
+};
+
+class SceneOpenGLDecorationRenderer : public Decoration::Renderer
+{
+    Q_OBJECT
+public:
+    enum class DecorationPart : int {
+        Left,
+        Top,
+        Right,
+        Bottom,
+        Count
+    };
+    explicit SceneOpenGLDecorationRenderer(Decoration::DecoratedClientImpl *client);
+    virtual ~SceneOpenGLDecorationRenderer();
+
+    void render() override;
+    void reparent(Deleted *deleted) override;
+
+    GLTexture *texture() {
+        return m_texture.data();
+    }
+    GLTexture *texture() const {
+        return m_texture.data();
+    }
+
+private:
+    void resizeTexture();
+    QScopedPointer<GLTexture> m_texture;
 };
 
 inline bool SceneOpenGL::hasPendingFlush() const

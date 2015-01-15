@@ -36,9 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "effects.h"
 #include "input.h"
 #include "focuschain.h"
-#ifdef KWIN_BUILD_SCREENEDGES
 #include "screenedge.h"
-#endif
 #include "screens.h"
 #include "unmanaged.h"
 #include "virtualdesktops.h"
@@ -47,6 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Qt
 #include <QAction>
 #include <QDebug>
+#include <QKeyEvent>
 // KDE
 #include <KConfig>
 #include <KConfigGroup>
@@ -496,18 +495,18 @@ void TabBox::key(const char *actionName, Slot slot, const QKeySequence &shortcut
     globalShortcutChanged(a, cuts.isEmpty() ? QKeySequence() : cuts.first());
 }
 
-static const char *s_windows        = I18N_NOOP("Walk Through Windows");
-static const char *s_windowsRev     = I18N_NOOP("Walk Through Windows (Reverse)");
-static const char *s_windowsAlt     = I18N_NOOP("Walk Through Windows Alternative");
-static const char *s_windowsAltRev  = I18N_NOOP("Walk Through Windows Alternative (Reverse)");
-static const char *s_app            = I18N_NOOP("Walk Through Windows of Current Application");
-static const char *s_appRev         = I18N_NOOP("Walk Through Windows of Current Application (Reverse)");
-static const char *s_appAlt         = I18N_NOOP("Walk Through Windows of Current Application Alternative");
-static const char *s_appAltRev      = I18N_NOOP("Walk Through Windows of Current Application Alternative (Reverse)");
-static const char *s_desktops       = I18N_NOOP("Walk Through Desktops");
-static const char *s_desktopsRev    = I18N_NOOP("Walk Through Desktops (Reverse)");
-static const char *s_desktopList    = I18N_NOOP("Walk Through Desktop List");
-static const char *s_desktopListRev = I18N_NOOP("Walk Through Desktop List (Reverse)");
+static const char s_windows[]        = I18N_NOOP("Walk Through Windows");
+static const char s_windowsRev[]     = I18N_NOOP("Walk Through Windows (Reverse)");
+static const char s_windowsAlt[]     = I18N_NOOP("Walk Through Windows Alternative");
+static const char s_windowsAltRev[]  = I18N_NOOP("Walk Through Windows Alternative (Reverse)");
+static const char s_app[]            = I18N_NOOP("Walk Through Windows of Current Application");
+static const char s_appRev[]         = I18N_NOOP("Walk Through Windows of Current Application (Reverse)");
+static const char s_appAlt[]         = I18N_NOOP("Walk Through Windows of Current Application Alternative");
+static const char s_appAltRev[]      = I18N_NOOP("Walk Through Windows of Current Application Alternative (Reverse)");
+static const char s_desktops[]       = I18N_NOOP("Walk Through Desktops");
+static const char s_desktopsRev[]    = I18N_NOOP("Walk Through Desktops (Reverse)");
+static const char s_desktopList[]    = I18N_NOOP("Walk Through Desktop List");
+static const char s_desktopListRev[] = I18N_NOOP("Walk Through Desktop List (Reverse)");
 
 void TabBox::initShortcuts()
 {
@@ -761,10 +760,10 @@ void TabBox::reconfigure()
     m_delayShow = config.readEntry<bool>("ShowDelay", true);
     m_delayShowTime = config.readEntry<int>("DelayTime", 90);
 
-    m_desktopConfig.setLayoutName(config.readEntry("DesktopLayout", "informative"));
-    m_desktopListConfig.setLayoutName(config.readEntry("DesktopListLayout", "informative"));
+    const QString defaultDesktopLayout = QStringLiteral("org.kde.breeze.desktop");
+    m_desktopConfig.setLayoutName(config.readEntry("DesktopLayout", defaultDesktopLayout));
+    m_desktopListConfig.setLayoutName(config.readEntry("DesktopListLayout", defaultDesktopLayout));
 
-#ifdef KWIN_BUILD_SCREENEDGES
     QList<ElectricBorder> *borders = &m_borderActivate;
     QString borderConfig = QStringLiteral("BorderActivate");
     for (int i = 0; i < 2; ++i) {
@@ -784,7 +783,6 @@ void TabBox::reconfigure()
         borders = &m_borderAlternativeActivate;
         borderConfig = QStringLiteral("BorderAlternativeActivate");
     }
-#endif
 }
 
 void TabBox::loadConfig(const KConfigGroup& config, TabBoxConfig& tabBoxConfig)

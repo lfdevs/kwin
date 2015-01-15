@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "scene_xrender.h"
 #include "scene_opengl.h"
 #include "scene_qpainter.h"
+#include "screens.h"
 #include "shadow.h"
 #include "useractions.h"
 #include "compositingprefs.h"
@@ -39,6 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #if HAVE_WAYLAND
 #include "wayland_backend.h"
 #endif
+#include "decorations/decoratedclient.h"
 
 #include <stdio.h>
 
@@ -131,6 +133,7 @@ Compositor::Compositor(QObject* workspace)
 
 Compositor::~Compositor()
 {
+    emit aboutToDestroy();
     finish();
     deleteUnusedSupportProperties();
     delete cm_selection;
@@ -153,10 +156,10 @@ void Compositor::setup()
         if (m_suspended & ScriptSuspend) {
             reasons << QStringLiteral("Disabled by Script");
         }
-        qDebug() << "Compositing is suspended, reason:" << reasons;
+        qCDebug(KWIN_CORE) << "Compositing is suspended, reason:" << reasons;
         return;
     } else if (!CompositingPrefs::compositingPossible()) {
-        qCritical() << "Compositing is not possible";
+        qCCritical(KWIN_CORE) << "Compositing is not possible";
         return;
     }
     m_starting = true;
@@ -192,14 +195,14 @@ void Compositor::slotCompositingOptionsInitialized()
 
     switch(options->compositingMode()) {
     case OpenGLCompositing: {
-        qDebug() << "Initializing OpenGL compositing";
+        qCDebug(KWIN_CORE) << "Initializing OpenGL compositing";
 
         // Some broken drivers crash on glXQuery() so to prevent constant KWin crashes:
         KSharedConfigPtr unsafeConfigPtr = KSharedConfig::openConfig();
         KConfigGroup unsafeConfig(unsafeConfigPtr, "Compositing");
         const QString openGLIsUnsafe = QStringLiteral("OpenGLIsUnsafe") + (is_multihead ? QString::number(screen_number) : QString());
         if (unsafeConfig.readEntry(openGLIsUnsafe, false))
-            qWarning() << "KWin has detected that your OpenGL library is unsafe to use";
+            qCWarning(KWIN_CORE) << "KWin has detected that your OpenGL library is unsafe to use";
         else {
             unsafeConfig.writeEntry(openGLIsUnsafe, true);
             unsafeConfig.sync();
@@ -207,7 +210,7 @@ void Compositor::slotCompositingOptionsInitialized()
             if (!CompositingPrefs::hasGlx()) {
                 unsafeConfig.writeEntry(openGLIsUnsafe, false);
                 unsafeConfig.sync();
-                qDebug() << "No glx extensions available";
+                qCDebug(KWIN_CORE) << "No glx extensions available";
                 break;
             }
 #endif
@@ -231,36 +234,36 @@ void Compositor::slotCompositingOptionsInitialized()
     }
 #ifdef KWIN_HAVE_XRENDER_COMPOSITING
     case XRenderCompositing:
-        qDebug() << "Initializing XRender compositing";
+        qCDebug(KWIN_CORE) << "Initializing XRender compositing";
         m_scene = SceneXrender::createScene();
         break;
 #endif
     case QPainterCompositing:
-        qDebug() << "Initializing QPainter compositing";
+        qCDebug(KWIN_CORE) << "Initializing QPainter compositing";
         m_scene = SceneQPainter::createScene();
         break;
     default:
-        qDebug() << "No compositing enabled";
+        qCDebug(KWIN_CORE) << "No compositing enabled";
         m_starting = false;
         cm_selection->owning = false;
         cm_selection->release();
         if (kwinApp()->requiresCompositing()) {
-            qCritical() << "The used windowing system requires compositing";
-            qCritical() << "We are going to quit KWin now as it is broken";
+            qCCritical(KWIN_CORE) << "The used windowing system requires compositing";
+            qCCritical(KWIN_CORE) << "We are going to quit KWin now as it is broken";
             qApp->quit();
         }
         return;
     }
     if (m_scene == NULL || m_scene->initFailed()) {
-        qCritical() << "Failed to initialize compositing, compositing disabled";
+        qCCritical(KWIN_CORE) << "Failed to initialize compositing, compositing disabled";
         delete m_scene;
         m_scene = NULL;
         m_starting = false;
         cm_selection->owning = false;
         cm_selection->release();
         if (kwinApp()->requiresCompositing()) {
-            qCritical() << "The used windowing system requires compositing";
-            qCritical() << "We are going to quit KWin now as it is broken";
+            qCCritical(KWIN_CORE) << "The used windowing system requires compositing";
+            qCCritical(KWIN_CORE) << "We are going to quit KWin now as it is broken";
             qApp->quit();
         }
         return;
@@ -368,7 +371,7 @@ void Compositor::releaseCompositorSelection()
         m_releaseSelectionTimer.start();
         return;
     }
-    qDebug() << "Releasing compositor selection";
+    qCDebug(KWIN_CORE) << "Releasing compositor selection";
     cm_selection->owning = false;
     cm_selection->release();
 }
@@ -548,7 +551,8 @@ void Compositor::addRepaintFull()
 {
     if (!hasScene())
         return;
-    repaints_region = QRegion(0, 0, displayWidth(), displayHeight());
+    const QSize &s = screens()->size();
+    repaints_region = QRegion(0, 0, s.width(), s.height());
     scheduleRepaint();
 }
 
@@ -659,7 +663,11 @@ void Compositor::performCompositing()
     // is called the next time. If there would be nothing pending, it will not restart the timer and
     // scheduleRepaint() would restart it again somewhen later, called from functions that
     // would again add something pending.
-    scheduleRepaint();
+    if (m_bufferSwapPending && m_scene->syncsToVBlank()) {
+        m_composeAtSwapCompletion = true;
+    } else {
+        scheduleRepaint();
+    }
 }
 
 bool Compositor::windowRepaintsPending() const
@@ -785,7 +793,8 @@ void Compositor::delayedCheckUnredirect()
     forceUnredirectCheck = false;
     // Cut out parts from the overlay window where unredirected windows are,
     // so that they are actually visible.
-    QRegion reg(0, 0, displayWidth(), displayHeight());
+    const QSize &s = screens()->size();
+    QRegion reg(0, 0, s.width(), s.height());
     foreach (Toplevel * c, list) {
         if (c->unredirected())
             reg -= c->geometry();
@@ -1100,10 +1109,10 @@ bool Toplevel::updateUnredirectedState()
     lastUnredirect.start();
     unredirect = should;
     if (unredirect) {
-        qDebug() << "Unredirecting:" << this;
+        qCDebug(KWIN_CORE) << "Unredirecting:" << this;
         xcb_composite_unredirect_window(connection(), frameId(), XCB_COMPOSITE_REDIRECT_MANUAL);
     } else {
-        qDebug() << "Redirecting:" << this;
+        qCDebug(KWIN_CORE) << "Redirecting:" << this;
         xcb_composite_redirect_window(connection(), frameId(), XCB_COMPOSITE_REDIRECT_MANUAL);
         discardWindowPixmap();
     }
@@ -1127,11 +1136,10 @@ bool Client::setupCompositing()
     if (!Toplevel::setupCompositing()){
         return false;
     }
-    updateVisibility(); // for internalKeep()
-    if (isManaged()) {
-        // only create the decoration when a client is managed
-        updateDecoration(true, true);
+    if (isDecorated()) {
+        decoratedClient()->destroyRenderer();
     }
+    updateVisibility(); // for internalKeep()
     return true;
 }
 
@@ -1140,8 +1148,9 @@ void Client::finishCompositing(ReleaseReason releaseReason)
     Toplevel::finishCompositing(releaseReason);
     updateVisibility();
     if (!deleting) {
-        // only recreate the decoration if we are not shutting down completely
-        updateDecoration(true, true);
+        if (isDecorated()) {
+            decoratedClient()->destroyRenderer();
+        }
     }
     // for safety in case KWin is just resizing the window
     s_haveResizeEffect = false;

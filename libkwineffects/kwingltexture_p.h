@@ -42,16 +42,13 @@ public:
     GLTexturePrivate();
     virtual ~GLTexturePrivate();
 
-    virtual void bind();
-    virtual void unbind();
     virtual void onDamage();
-
-    QImage convertToGLFormat(const QImage& img) const;
 
     void updateMatrix();
 
     GLuint m_texture;
     GLenum m_target;
+    GLenum m_internalFormat;
     GLenum m_filter;
     GLenum m_wrapMode;
     QSize m_size;
@@ -62,6 +59,8 @@ public:
     bool m_markedDirty;
     bool m_filterChanged;
     bool m_wrapModeChanged;
+    bool m_immutable;
+    int m_mipLevels;
 
     int m_unnormalizeActive; // 0 - no, otherwise refcount
     int m_normalizeActive; // 0 - no, otherwise refcount
@@ -70,11 +69,12 @@ public:
 
     static void initStatic();
 
-    static bool sNPOTTextureSupported;
-    static bool sFramebufferObjectSupported;
-    static bool sSaturationSupported;
-    static GLenum sTextureFormat;
-    static uint s_fbo;
+    static bool s_supportsFramebufferObjects;
+    static bool s_supportsARGB32;
+    static bool s_supportsUnpack;
+    static bool s_supportsTextureStorage;
+    static bool s_supportsTextureSwizzle;
+    static GLuint s_fbo;
     static uint s_textureObjectCounter;
 private:
     friend void KWin::cleanupGL();

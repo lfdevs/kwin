@@ -22,6 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // KWin
 #include "cursor.h"
 #include "input.h"
+#include "main.h"
+#include "utils.h"
 #include <KWayland/Client/buffer.h>
 #include <KWayland/Client/compositor.h>
 #include <KWayland/Client/connection_thread.h>
@@ -30,10 +32,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/keyboard.h>
 #include <KWayland/Client/output.h>
 #include <KWayland/Client/pointer.h>
+#include <KWayland/Client/region.h>
 #include <KWayland/Client/registry.h>
 #include <KWayland/Client/seat.h>
 #include <KWayland/Client/shell.h>
 #include <KWayland/Client/shm_pool.h>
+#include <KWayland/Client/subcompositor.h>
+#include <KWayland/Client/subsurface.h>
 #include <KWayland/Client/surface.h>
 // Qt
 #include <QAbstractEventDispatcher>
@@ -86,9 +91,8 @@ bool CursorData::init()
     return true;
 }
 
-X11CursorTracker::X11CursorTracker(WaylandSeat *seat, WaylandBackend *backend, QObject* parent)
+X11CursorTracker::X11CursorTracker(WaylandBackend *backend, QObject* parent)
     : QObject(parent)
-    , m_seat(seat)
     , m_backend(backend)
     , m_lastX11Cursor(0)
 {
@@ -131,11 +135,11 @@ void X11CursorTracker::cursorChanged(uint32_t serial)
 void X11CursorTracker::installCursor(const CursorData& cursor)
 {
     const QImage &cursorImage = cursor.cursor();
-    auto buffer = m_backend->shmPool()->createBuffer(cursorImage).toStrongRef();
+    auto buffer = m_backend->shmPool()->createBuffer(cursorImage);
     if (!buffer) {
         return;
     }
-    m_seat->installCursorImage(buffer->buffer(), cursorImage.size(), cursor.hotSpot());
+    emit cursorImageChanged(buffer, cursorImage.size(), cursor.hotSpot());
 }
 
 void X11CursorTracker::resetCursor()
@@ -152,10 +156,10 @@ WaylandSeat::WaylandSeat(wl_seat *seat, WaylandBackend *backend)
     , m_pointer(NULL)
     , m_keyboard(NULL)
     , m_cursor(NULL)
-    , m_theme(NULL)
+    , m_theme(new WaylandCursorTheme(backend, this))
     , m_enteredSerial(0)
-    , m_cursorTracker()
     , m_backend(backend)
+    , m_installCursor(false)
 {
     m_seat->setup(seat);
     connect(m_seat, &Seat::hasKeyboardChanged, this,
@@ -198,6 +202,10 @@ WaylandSeat::WaylandSeat(wl_seat *seat, WaylandBackend *backend)
                 connect(m_pointer, &Pointer::entered, this,
                     [this](quint32 serial) {
                         m_enteredSerial = serial;
+                        if (!m_installCursor) {
+                            // explicitly hide cursor
+                            wl_pointer_set_cursor(*m_pointer, m_enteredSerial, nullptr, 0, 0);
+                        }
                     }
                 );
                 connect(m_pointer, &Pointer::motion, this,
@@ -234,7 +242,14 @@ WaylandSeat::WaylandSeat(wl_seat *seat, WaylandBackend *backend)
                         input()->processPointerAxis(toAxis(), delta, time);
                     }
                 );
-                m_cursorTracker.reset(new X11CursorTracker(this, m_backend));
+                connect(m_backend->cursorTracker(), &X11CursorTracker::cursorImageChanged, this,
+                    [this](Buffer::Ptr image, const QSize &size, const QPoint &hotspot) {
+                        if (image.isNull()) {
+                            return;
+                        }
+                        installCursorImage(image.toStrongRef()->buffer(), size, hotspot);
+                    }
+                );
             } else {
                 destroyPointer();
             }
@@ -246,14 +261,12 @@ WaylandSeat::~WaylandSeat()
 {
     destroyPointer();
     destroyKeyboard();
-    destroyTheme();
 }
 
 void WaylandSeat::destroyPointer()
 {
     delete m_pointer;
     m_pointer = nullptr;
-    m_cursorTracker.reset();
 }
 
 void WaylandSeat::destroyKeyboard()
@@ -262,15 +275,11 @@ void WaylandSeat::destroyKeyboard()
     m_keyboard = nullptr;
 }
 
-void WaylandSeat::resetCursor()
-{
-    if (!m_cursorTracker.isNull()) {
-        m_cursorTracker->resetCursor();
-    }
-}
-
 void WaylandSeat::installCursorImage(wl_buffer *image, const QSize &size, const QPoint &hotSpot)
 {
+    if (!m_installCursor) {
+        return;
+    }
     if (!m_pointer || !m_pointer->isValid()) {
         return;
     }
@@ -288,25 +297,39 @@ void WaylandSeat::installCursorImage(wl_buffer *image, const QSize &size, const 
 
 void WaylandSeat::installCursorImage(Qt::CursorShape shape)
 {
-    if (!m_theme) {
-        loadTheme();
-    }
-    wl_cursor *c = wl_cursor_theme_get_cursor(m_theme, Cursor::self()->cursorName(shape).constData());
-    if (!c || c->image_count <= 0) {
+    wl_cursor_image *image = m_theme->get(shape);
+    if (!image) {
         return;
     }
-    wl_cursor_image *image = c->images[0];
     installCursorImage(wl_cursor_image_get_buffer(image),
                        QSize(image->width, image->height),
                        QPoint(image->hotspot_x, image->hotspot_y));
 }
 
-void WaylandSeat::loadTheme()
+void WaylandSeat::setInstallCursor(bool install)
+{
+    // TODO: remove, add?
+    m_installCursor = install;
+}
+
+WaylandCursorTheme::WaylandCursorTheme(WaylandBackend *backend, QObject *parent)
+    : QObject(parent)
+    , m_theme(nullptr)
+    , m_backend(backend)
+{
+}
+
+WaylandCursorTheme::~WaylandCursorTheme()
+{
+    destroyTheme();
+}
+
+void WaylandCursorTheme::loadTheme()
 {
     Cursor *c = Cursor::self();
     if (!m_theme) {
         // so far the theme had not been created, this means we need to start tracking theme changes
-        connect(c, SIGNAL(themeChanged()), SLOT(loadTheme()));
+        connect(c, &Cursor::themeChanged, this, &WaylandCursorTheme::loadTheme);
     } else {
         destroyTheme();
     }
@@ -314,22 +337,101 @@ void WaylandSeat::loadTheme()
                                    c->themeSize(), m_backend->shmPool()->shm());
 }
 
-void WaylandSeat::destroyTheme()
+void WaylandCursorTheme::destroyTheme()
 {
-    if (m_theme) {
-        wl_cursor_theme_destroy(m_theme);
-        m_theme = NULL;
+    if (!m_theme) {
+        return;
     }
+    wl_cursor_theme_destroy(m_theme);
+    m_theme = nullptr;
+}
+
+wl_cursor_image *WaylandCursorTheme::get(Qt::CursorShape shape)
+{
+    if (!m_theme) {
+        loadTheme();
+    }
+    wl_cursor *c = wl_cursor_theme_get_cursor(m_theme, Cursor::self()->cursorName(shape).constData());
+    if (!c || c->image_count <= 0) {
+        return nullptr;
+    }
+    return c->images[0];
+}
+
+WaylandCursor::WaylandCursor(Surface *parentSurface, WaylandBackend *backend)
+    : QObject(backend)
+    , m_backend(backend)
+    , m_theme(new WaylandCursorTheme(backend, this))
+{
+    auto surface = backend->compositor()->createSurface(this);
+    m_subSurface = backend->subCompositor()->createSubSurface(QPointer<Surface>(surface), QPointer<Surface>(parentSurface), this);
+
+    connect(m_backend->cursorTracker(), &X11CursorTracker::cursorImageChanged, this,
+        [this](Buffer::Ptr image, const QSize &size, const QPoint &hotspot) {
+            if (image.isNull()) {
+                return;
+            }
+            setCursorImage(image.toStrongRef()->buffer(), size, hotspot);
+        }
+    );
+    connect(Cursor::self(), &Cursor::posChanged, this,
+        [this](const QPoint &pos) {
+            m_subSurface->setPosition(pos - m_hotSpot);
+            QPointer<Surface> parent = m_subSurface->parentSurface();
+            if (parent.isNull()) {
+                return;
+            }
+            parent->commit(Surface::CommitFlag::None);
+        }
+    );
+
+    // install a default cursor image:
+    setCursorImage(Qt::ArrowCursor);
+}
+
+void WaylandCursor::setHotSpot(const QPoint &pos)
+{
+    if (m_hotSpot == pos) {
+        return;
+    }
+    m_hotSpot = pos;
+    emit hotSpotChanged(m_hotSpot);
+}
+
+void WaylandCursor::setCursorImage(wl_buffer *image, const QSize &size, const QPoint &hotspot)
+{
+    QPointer<Surface> cursor = m_subSurface->surface();
+    if (cursor.isNull()) {
+        return;
+    }
+    cursor->attachBuffer(image);
+    cursor->damage(QRect(QPoint(0,0), size));
+    cursor->setInputRegion(m_backend->compositor()->createRegion(QRegion()).get());
+    cursor->commit(Surface::CommitFlag::None);
+    setHotSpot(hotspot);
+    m_subSurface->setPosition(Cursor::pos() - m_hotSpot);
+    QPointer<Surface> parent = m_subSurface->parentSurface();
+    if (parent.isNull()) {
+        return;
+    }
+    parent->commit(Surface::CommitFlag::None);
+}
+
+void WaylandCursor::setCursorImage(Qt::CursorShape shape)
+{
+    wl_cursor_image *image = m_theme->get(shape);
+    if (!image) {
+        return;
+    }
+    setCursorImage(wl_cursor_image_get_buffer(image),
+                   QSize(image->width, image->height),
+                   QPoint(image->hotspot_x, image->hotspot_y));
 }
 
 WaylandBackend *WaylandBackend::s_self = 0;
 WaylandBackend *WaylandBackend::create(QObject *parent)
 {
     Q_ASSERT(!s_self);
-    const QByteArray display = qgetenv("WAYLAND_DISPLAY");
-    if (display.isEmpty()) {
-        return NULL;
-    }
     s_self = new WaylandBackend(parent);
     return s_self;
 }
@@ -345,9 +447,12 @@ WaylandBackend::WaylandBackend(QObject *parent)
     , m_shellSurface(NULL)
     , m_seat()
     , m_shm(new ShmPool(this))
+    , m_cursorTracker()
     , m_connectionThreadObject(nullptr)
     , m_connectionThread(nullptr)
     , m_fullscreenShell(new FullscreenShell(this))
+    , m_subCompositor(new SubCompositor(this))
+    , m_cursor(nullptr)
 {
     connect(this, &WaylandBackend::shellSurfaceSizeChanged, this, &WaylandBackend::checkBackendReady);
     connect(m_registry, &Registry::compositorAnnounced, this,
@@ -358,7 +463,6 @@ WaylandBackend::WaylandBackend(QObject *parent)
     connect(m_registry, &Registry::shellAnnounced, this,
         [this](quint32 name) {
             m_shell->setup(m_registry->bindShell(name, 1));
-            createSurface();
         }
     );
     connect(m_registry, &Registry::outputAnnounced, this,
@@ -371,6 +475,9 @@ WaylandBackend::WaylandBackend(QObject *parent)
     );
     connect(m_registry, &Registry::seatAnnounced, this,
         [this](quint32 name) {
+            if (Application::usesLibinput()) {
+                return;
+            }
             m_seat.reset(new WaylandSeat(m_registry->bindSeat(name, 2), this));
         }
     );
@@ -382,9 +489,14 @@ WaylandBackend::WaylandBackend(QObject *parent)
     connect(m_registry, &Registry::fullscreenShellAnnounced, this,
         [this](quint32 name, quint32 version) {
             m_fullscreenShell->setup(m_registry->bindFullscreenShell(name, version));
-            createSurface();
         }
     );
+    connect(m_registry, &Registry::subCompositorAnnounced, this,
+        [this](quint32 name, quint32 version) {
+            m_subCompositor->setup(m_registry->bindSubCompositor(name, version));
+        }
+    );
+    connect(m_registry, &Registry::interfacesAnnounced, this, &WaylandBackend::createSurface);
     initConnection();
 }
 
@@ -409,7 +521,7 @@ WaylandBackend::~WaylandBackend()
     m_connectionThread->quit();
     m_connectionThread->wait();
 
-    qDebug() << "Destroyed Wayland display";
+    qCDebug(KWIN_CORE) << "Destroyed Wayland display";
     s_self = NULL;
 }
 
@@ -431,11 +543,13 @@ void WaylandBackend::initConnection()
             // setup registry
             m_registry->create(m_display);
             m_registry->setup();
+            m_cursorTracker.reset(new X11CursorTracker(this, this));
         },
         Qt::QueuedConnection);
     connect(m_connectionThreadObject, &ConnectionThread::connectionDied, this,
         [this]() {
             emit systemCompositorDied();
+            m_cursorTracker.reset();
             m_seat.reset();
             m_shm->destroy();
             destroyOutputs();
@@ -472,10 +586,11 @@ void WaylandBackend::initConnection()
 
 void WaylandBackend::installCursorImage(Qt::CursorShape shape)
 {
-    if (m_seat.isNull()) {
-        return;
+    if (!m_seat.isNull() && m_seat->isInstallCursor()) {
+        m_seat->installCursorImage(shape);
+    } else if (m_cursor) {
+        m_cursor->setCursorImage(shape);
     }
-    m_seat->installCursorImage(shape);
 }
 
 void WaylandBackend::createSurface()
@@ -484,6 +599,15 @@ void WaylandBackend::createSurface()
     if (!m_surface || !m_surface->isValid()) {
         qCritical() << "Creating Wayland Surface failed";
         return;
+    }
+    if (m_subCompositor->isValid()) {
+        // we have a sub compositor - let's use it for mouse cursor
+        m_cursor = new WaylandCursor(m_surface, this);
+    } else {
+        // no sub-compositor - use the seat for setting the cursor image
+        if (m_seat) {
+            m_seat->setInstallCursor(true);
+        }
     }
     if (m_fullscreenShell->isValid()) {
         Output *o = m_outputs.first();
@@ -502,13 +626,7 @@ void WaylandBackend::createSurface()
         // map the surface as fullscreen
         m_shellSurface = m_shell->createSurface(m_surface, this);
         m_shellSurface->setFullscreen();
-        connect(m_shellSurface, &ShellSurface::pinged, this,
-            [this]() {
-                if (!m_seat.isNull()) {
-                    m_seat->resetCursor();
-                }
-            }
-        );
+        connect(m_shellSurface, &ShellSurface::pinged, m_cursorTracker.data(), &X11CursorTracker::resetCursor);
         connect(m_shellSurface, &ShellSurface::sizeChanged, this, &WaylandBackend::shellSurfaceSizeChanged);
     }
 }

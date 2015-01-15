@@ -105,11 +105,14 @@ void LogoutEffect::prePaintScreen(ScreenPrePaintData& data, int time)
     } else if (!blurTexture) {
         blurSupported = false;
         delete blurTarget; // catch as we just tested the texture ;-P
-        if (effects->isOpenGLCompositing() && GLTexture::NPOTTextureSupported() && GLRenderTarget::blitSupported() && useBlur) {
+        if (effects->isOpenGLCompositing() && GLRenderTarget::blitSupported() && useBlur) {
             // TODO: It seems that it is not possible to create a GLRenderTarget that has
             //       a different size than the display right now. Most likely a KWin core bug.
             // Create texture and render target
-            blurTexture = new GLTexture(effects->virtualScreenSize());
+            const QSize size = effects->virtualScreenSize();
+
+            // The fragment shader uses a LOD bias of 1.75, so we need 3 mipmap levels.
+            blurTexture = new GLTexture(GL_RGBA8, size, 3);
             blurTexture->setFilter(GL_LINEAR_MIPMAP_LINEAR);
             blurTexture->setWrapMode(GL_CLAMP_TO_EDGE);
 
@@ -314,7 +317,7 @@ void LogoutEffect::renderVignetting()
     const QRect fullArea = effects->clientArea(FullArea, 0, 0);
     for (int screen = 0; screen < effects->numScreens(); screen++) {
         const QRect screenGeom = effects->clientArea(ScreenArea, screen, 0);
-        glScissor(screenGeom.x(), displayHeight() - screenGeom.y() - screenGeom.height(),
+        glScissor(screenGeom.x(), effects->virtualScreenSize().height() - screenGeom.y() - screenGeom.height(),
                   screenGeom.width(), screenGeom.height());  // GL coords are flipped
         const float cenX = screenGeom.x() + screenGeom.width() / 2;
         const float cenY = fullArea.height() - screenGeom.y() - screenGeom.height() / 2;
@@ -357,10 +360,10 @@ void LogoutEffect::renderBlurTexture()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     blurTexture->bind();
+    blurTexture->generateMipmaps();
     blurTexture->render(infiniteRegion(), effects->virtualScreenGeometry());
     blurTexture->unbind();
     glDisable(GL_BLEND);
-    checkGLError("Render blur texture");
 }
 
 void LogoutEffect::slotPropertyNotify(EffectWindow* w, long a)

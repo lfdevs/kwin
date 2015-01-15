@@ -29,6 +29,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "toplevel.h"
 #include "xcbutils.h"
 // Qt
+#include <QElapsedTimer>
+#include <QFlags>
+#include <QPointer>
 #include <QPixmap>
 #include <QWindow>
 // X
@@ -44,6 +47,11 @@ class KStartupInfoId;
 
 struct xcb_sync_alarm_notify_event_t;
 
+namespace KDecoration2
+{
+class Decoration;
+}
+
 namespace KWin
 {
 namespace TabBox
@@ -52,8 +60,10 @@ namespace TabBox
 class TabBoxClientImpl;
 }
 
-class Bridge;
-class PaintRedirector;
+namespace Decoration
+{
+class DecoratedClientImpl;
+}
 
 
 /**
@@ -286,7 +296,6 @@ class Client
 public:
     explicit Client();
     xcb_window_t wrapperId() const;
-    xcb_window_t decorationId() const;
     xcb_window_t inputId() const { return m_decoInputExtent; }
     virtual xcb_window_t frameId() const override;
 
@@ -329,7 +338,6 @@ public:
     QPoint inputPos() const { return input_offset; } // Inside of geometry()
 
     bool windowEvent(xcb_generic_event_t *e);
-    virtual bool eventFilter(QObject* o, QEvent* e);
     void syncEvent(xcb_sync_alarm_notify_event_t* e);
     NET::WindowType windowType(bool direct = false, int supported_types = 0) const;
 
@@ -379,6 +387,19 @@ public:
     bool isMaximizable() const;
     QRect geometryRestore() const;
     MaximizeMode maximizeMode() const;
+
+    enum QuickTileFlag {
+        QuickTileNone = 0,
+        QuickTileLeft = 1,
+        QuickTileRight = 1<<1,
+        QuickTileTop = 1<<2,
+        QuickTileBottom = 1<<3,
+        QuickTileHorizontal = QuickTileLeft|QuickTileRight,
+        QuickTileVertical = QuickTileTop|QuickTileBottom,
+        QuickTileMaximize = QuickTileLeft|QuickTileRight|QuickTileTop|QuickTileBottom
+    };
+
+    Q_DECLARE_FLAGS(QuickTileMode, QuickTileFlag)
     QuickTileMode quickTileMode() const;
     bool isMinimizable() const;
     void setMaximize(bool vertically, bool horizontally);
@@ -438,11 +459,7 @@ public:
     }
     void demandAttention(bool set = true);
 
-    void setMask(const QRegion& r, int mode = XCB_CLIP_ORDERING_UNSORTED);
-    QRegion mask() const;
-
     void updateDecoration(bool check_workspace_pos, bool force = false);
-    bool checkBorderSizes(bool also_resize);
     void triggerDecorationRepaint();
 
     void updateShape();
@@ -481,7 +498,7 @@ public:
     const QKeySequence &shortcut() const;
     void setShortcut(const QString& cut);
 
-    WindowOperation mouseButtonToWindowOperation(Qt::MouseButtons button);
+    Options::WindowOperation mouseButtonToWindowOperation(Qt::MouseButtons button);
     bool performMouseCommand(Options::MouseCommand, const QPoint& globalPos);
 
     QRect adjustedClientArea(const QRect& desktop, const QRect& area) const;
@@ -589,39 +606,44 @@ public:
     }
 
     // Decorations <-> Effects
-    PaintRedirector *decorationPaintRedirector() {
-        return paintRedirector;
+    KDecoration2::Decoration *decoration() {
+        return m_decoration;
     }
-
-    int paddingLeft() const {
-        return padding_left;
+    const KDecoration2::Decoration *decoration() const {
+        return m_decoration;
     }
-    int paddingRight() const {
-        return padding_right;
+    QPointer<Decoration::DecoratedClientImpl> decoratedClient() const;
+    bool isDecorated() const {
+        return m_decoration != nullptr;
     }
-    int paddingTop() const {
-        return padding_top;
-    }
-    int paddingBottom() const {
-        return padding_bottom;
-    }
+    void setDecoratedClient(QPointer<Decoration::DecoratedClientImpl> client);
 
     QRect decorationRect() const;
 
     QRect transparentRect() const;
 
-    QRegion decorationPendingRegion() const;
-
     bool decorationHasAlpha() const;
     bool isClientSideDecorated() const;
+    bool wantsShadowToBeRendered() const override;
 
+    /**
+     * These values represent positions inside an area
+     */
+    enum Position {
+        // without prefix, they'd conflict with Qt::TopLeftCorner etc. :(
+        PositionCenter         = 0x00,
+        PositionLeft           = 0x01,
+        PositionRight          = 0x02,
+        PositionTop            = 0x04,
+        PositionBottom         = 0x08,
+        PositionTopLeft        = PositionLeft | PositionTop,
+        PositionTopRight       = PositionRight | PositionTop,
+        PositionBottomLeft     = PositionLeft | PositionBottom,
+        PositionBottomRight    = PositionRight | PositionBottom
+    };
     Position titlebarPosition() const;
 
-    enum CoordinateMode {
-        DecorationRelative, // Relative to the top left corner of the decoration
-        WindowRelative      // Relative to the top left corner of the window
-    };
-    void layoutDecorationRects(QRect &left, QRect &top, QRect &right, QRect &bottom, CoordinateMode mode) const;
+    void layoutDecorationRects(QRect &left, QRect &top, QRect &right, QRect &bottom) const;
 
     QWeakPointer<TabBox::TabBoxClientImpl> tabBoxClient() const {
         return m_tabBoxClient.toWeakRef();
@@ -684,10 +706,6 @@ private Q_SLOTS:
     void shadeUnhover();
 
 private:
-    friend class Bridge; // FRAME
-    virtual void processMousePressEvent(QMouseEvent* e);
-
-private:
     // Use Workspace::createClient()
     virtual ~Client(); ///< Use destroyClient() or releaseWindow()
 
@@ -732,7 +750,7 @@ private Q_SLOTS:
 Q_SIGNALS:
     void clientManaging(KWin::Client*);
     void clientFullScreenSet(KWin::Client*, bool, bool);
-    void clientMaximizedStateChanged(KWin::Client*, KDecorationDefines::MaximizeMode);
+    void clientMaximizedStateChanged(KWin::Client*, MaximizeMode);
     void clientMaximizedStateChanged(KWin::Client* c, bool h, bool v);
     void clientMinimized(KWin::Client* client, bool animate);
     void clientUnminimized(KWin::Client* client, bool animate);
@@ -755,6 +773,8 @@ Q_SIGNALS:
     void skipSwitcherChanged();
     void skipTaskbarChanged();
     void skipPagerChanged();
+    void paletteChanged(const QPalette &p);
+
     /**
      * Emitted whenever the Client's TabGroup changed. That is whenever the Client is moved to
      * another group, but not when a Client gets added or removed to the Client's ClientGroup.
@@ -787,8 +807,18 @@ Q_SIGNALS:
      **/
     void blockingCompositingChanged(KWin::Client *client);
     void clientSideDecoratedChanged();
+    void quickTileModeChanged();
+
+    void closeableChanged(bool);
+    void minimizeableChanged(bool);
+    void shadeableChanged(bool);
+    void maximizeableChanged(bool);
 
 private:
+    int borderLeft() const;
+    int borderRight() const;
+    int borderTop() const;
+    int borderBottom() const;
     void exportMappingState(int s);   // ICCCM 4.1.3.1, 4.1.4, NETWM 2.5.1
     bool isManaged() const; ///< Returns false if this client is not yet managed
     void updateAllowedActions(bool force = false);
@@ -823,7 +853,7 @@ private:
     void positionGeometryTip();
     void grabButton(int mod);
     void ungrabButton(int mod);
-    void resizeDecoration(const QSize& s);
+    void resizeDecoration();
     void createDecoration(const QRect &oldgeom);
 
     void pingWindow();
@@ -869,8 +899,9 @@ private:
     Xcb::Window m_frame;
     // wrapper around m_frame to use as a parent for the decoration
     QScopedPointer<QWindow> m_frameWrapper;
-    KDecoration* decoration;
-    Bridge* bridge;
+    KDecoration2::Decoration *m_decoration;
+    QPointer<Decoration::DecoratedClientImpl> m_decoratedClient;
+    QElapsedTimer m_decorationDoubleClickTimer;
     int desk;
     QStringList activityList;
     int m_activityUpdatesBlocked;
@@ -922,10 +953,6 @@ private:
     uint keep_above : 1; ///< NET::KeepAbove (was stays_on_top)
     uint skip_taskbar : 1;
     uint original_skip_taskbar : 1; ///< Unaffected by KWin
-    uint Pdeletewindow : 1; ///< Does the window understand the DeleteWindow protocol?
-    uint Ptakefocus : 1;///< Does the window understand the TakeFocus protocol?
-    uint Pcontexthelp : 1; ///< Does the window understand the ContextHelp protocol?
-    uint Pping : 1; ///< Does it support _NET_WM_PING?
     uint skip_pager : 1;
     uint skip_switcher : 1;
     uint motif_may_resize : 1;
@@ -942,7 +969,6 @@ private:
     uint demands_attention : 1;
     bool blocks_compositing;
     WindowRules client_rules;
-    void getWindowProtocols();
     QIcon m_icon;
     Qt::CursorShape m_cursor;
     // DON'T reorder - Saved to config files !!!
@@ -987,15 +1013,11 @@ private:
         QTimer *timeout, *failsafeTimeout;
         bool isPending;
     } syncRequest;
-    int border_left, border_right, border_top, border_bottom;
-    int padding_left, padding_right, padding_top, padding_bottom;
-    QRegion _mask;
     static bool check_active_modal; ///< \see Client::checkActiveModal()
     QKeySequence _shortcut;
     int sm_stacking_order;
     friend struct ResetupRulesProcedure;
     friend class GeometryUpdatesBlocker;
-    PaintRedirector* paintRedirector;
     QSharedPointer<TabBox::TabBoxClientImpl> m_tabBoxClient;
     bool m_firstInTabBox;
 
@@ -1044,14 +1066,6 @@ private:
 inline xcb_window_t Client::wrapperId() const
 {
     return m_wrapper;
-}
-
-inline xcb_window_t Client::decorationId() const
-{
-    if (decoration) {
-        return decoration->window()->winId();
-    }
-    return XCB_WINDOW_NONE;
 }
 
 inline bool Client::isClientSideDecorated() const
@@ -1147,7 +1161,7 @@ inline QRect Client::geometryRestore() const
     return geom_restore;
 }
 
-inline Client::MaximizeMode Client::maximizeMode() const
+inline MaximizeMode Client::maximizeMode() const
 {
     return max_mode;
 }
@@ -1219,7 +1233,7 @@ inline bool Client::isManaged() const
 
 inline QPoint Client::clientPos() const
 {
-    return QPoint(border_left, border_top);
+    return QPoint(borderLeft(), borderTop());
 }
 
 inline QSize Client::clientSize() const
@@ -1292,5 +1306,6 @@ inline void Client::print(T &stream) const
 } // namespace
 Q_DECLARE_METATYPE(KWin::Client*)
 Q_DECLARE_METATYPE(QList<KWin::Client*>)
+Q_DECLARE_OPERATORS_FOR_FLAGS(KWin::Client::QuickTileMode)
 
 #endif

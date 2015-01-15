@@ -39,11 +39,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  the clients were created.
 
  Every window has one layer assigned in which it is. There are 7 layers,
- from bottom : DesktopLayer, BelowLayer, NormalLayer, DockLayer, AboveLayer, NotificationLayer
- and ActiveLayer (see also NETWM sect.7.10.). The layer a window is in depends
+ from bottom : DesktopLayer, BelowLayer, NormalLayer, DockLayer, AboveLayer, NotificationLayer,
+ ActiveLayer and OnScreenDisplayLayer (see also NETWM sect.7.10.). The layer a window is in depends
  on the window type, and on other things like whether the window is active. We extend the layers
- provided in NETWM by the NotificationLayer, which contains notification windows. Those are kept
- above all windows except the active fullscreen window.
+ provided in NETWM by the NotificationLayer and OnScreenDisplayLayer.
+ The NoficationLayer contains notification windows which are kept above all windows except the active
+ fullscreen window. The OnScreenDisplayLayer is used for eg. volume and brightness change feedback and
+ is kept above all windows since it provides immediate response to a user action.
 
  NET::Splash clients belong to the Normal layer. NET::TopMenu clients
  belong to Dock layer. Clients that are both NET::Dock and NET::KeepBelow
@@ -90,9 +92,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "effects.h"
 #include <QX11Info>
 #include "composite.h"
-#ifdef KWIN_BUILD_SCREENEDGES
 #include "screenedge.h"
-#endif
 
 #include <QDebug>
 
@@ -121,12 +121,12 @@ void Workspace::updateStackingOrder(bool propagate_new_clients)
     force_restacking = false;
     stacking_order = new_stacking_order;
 #if 0
-    qDebug() << "stacking:" << changed;
+    qCDebug(KWIN_CORE) << "stacking:" << changed;
     if (changed || propagate_new_clients) {
         for (ClientList::ConstIterator it = stacking_order.begin();
                 it != stacking_order.end();
                 ++it)
-            qDebug() << (void*)(*it) << *it << ":" << (*it)->layer();
+            qCDebug(KWIN_CORE) << (void*)(*it) << *it << ":" << (*it)->layer();
     }
 #endif
     if (changed || propagate_new_clients) {
@@ -141,7 +141,6 @@ void Workspace::updateStackingOrder(bool propagate_new_clients)
     }
 }
 
-#ifdef KWIN_BUILD_SCREENEDGES
 /*!
  * Some fullscreen effects have to raise the screenedge on top of an input window, thus all windows
  * this function puts them back where they belong for regular use and is some cheap variant of
@@ -153,7 +152,6 @@ void Workspace::stackScreenEdgesUnderOverrideRedirect()
 {
     Xcb::restackWindows(QVector<xcb_window_t>() << rootInfo()->supportWindow() << ScreenEdges::self()->windows());
 }
-#endif
 
 /*!
   Propagates the managed clients to the world.
@@ -172,9 +170,7 @@ void Workspace::propagateClients(bool propagate_new_clients)
     // windows (e.g. popups).
     newWindowStack << rootInfo()->supportWindow();
 
-#ifdef KWIN_BUILD_SCREENEDGES
     newWindowStack << ScreenEdges::self()->windows();
-#endif
 
     newWindowStack.reserve(newWindowStack.size() + 2*stacking_order.size()); // *2 for inputWindow
 
@@ -497,11 +493,11 @@ ToplevelList Workspace::constrainedStackingOrder()
     ToplevelList layer[ NumLayers ];
 
 #if 0
-    qDebug() << "stacking1:";
+    qCDebug(KWIN_CORE) << "stacking1:";
     for (ClientList::ConstIterator it = unconstrained_stacking_order.begin();
             it != unconstrained_stacking_order.end();
             ++it)
-        qDebug() << (void*)(*it) << *it << ":" << (*it)->layer();
+        qCDebug(KWIN_CORE) << (void*)(*it) << *it << ":" << (*it)->layer();
 #endif
     // build the order from layers
     QVector< QMap<Group*, Layer> > minimum_layer(screens()->count());
@@ -530,11 +526,11 @@ ToplevelList Workspace::constrainedStackingOrder()
             ++lay)
         stacking += layer[ lay ];
 #if 0
-    qDebug() << "stacking2:";
+    qCDebug(KWIN_CORE) << "stacking2:";
     for (ClientList::ConstIterator it = stacking.begin();
             it != stacking.end();
             ++it)
-        qDebug() << (void*)(*it) << *it << ":" << (*it)->layer();
+        qCDebug(KWIN_CORE) << (void*)(*it) << *it << ":" << (*it)->layer();
 #endif
     // now keep transients above their mainwindows
     // TODO this could(?) use some optimization
@@ -596,12 +592,12 @@ ToplevelList Workspace::constrainedStackingOrder()
         stacking.insert(i2, current);
     }
 #if 0
-    qDebug() << "stacking3:";
+    qCDebug(KWIN_CORE) << "stacking3:";
     for (ClientList::ConstIterator it = stacking.begin();
             it != stacking.end();
             ++it)
-        qDebug() << (void*)(*it) << *it << ":" << (*it)->layer();
-    qDebug() << "\n\n";
+        qCDebug(KWIN_CORE) << (void*)(*it) << *it << ":" << (*it)->layer();
+    qCDebug(KWIN_CORE) << "\n\n";
 #endif
     return stacking;
 }
@@ -832,6 +828,8 @@ Layer Client::belongsToLayer() const
             return AboveLayer;
         return DockLayer;
     }
+    if (isOnScreenDisplay())
+        return OnScreenDisplayLayer;
     if (isNotification())
         return NotificationLayer;
     if (keepBelow())
@@ -840,6 +838,7 @@ Layer Client::belongsToLayer() const
         return ActiveLayer;
     if (keepAbove())
         return AboveLayer;
+
     return NormalLayer;
 }
 

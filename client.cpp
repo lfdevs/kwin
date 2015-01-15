@@ -28,27 +28,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "appmenu.h"
 #endif
 #include "atoms.h"
-#include "bridge.h"
 #include "client_machine.h"
 #include "composite.h"
 #include "cursor.h"
-#include "decorations.h"
 #include "deleted.h"
 #include "focuschain.h"
 #include "group.h"
-#include "paintredirector.h"
 #include "shadow.h"
 #ifdef KWIN_BUILD_TABBOX
 #include "tabbox.h"
 #endif
 #include "workspace.h"
 #include "screenedge.h"
+#include "decorations/decorationbridge.h"
+#include "decorations/decoratedclient.h"
+#include <KDecoration2/Decoration>
+#include <KDecoration2/DecoratedClient>
 // KDE
 #include <KWindowSystem>
 #include <KColorScheme>
 // Qt
 #include <QApplication>
 #include <QDebug>
+#include <QFile>
 #include <QProcess>
 #include <QStandardPaths>
 #include <QScriptEngine>
@@ -181,8 +183,7 @@ Client::Client()
     , m_client()
     , m_wrapper()
     , m_frame()
-    , decoration(NULL)
-    , bridge(new Bridge(this))
+    , m_decoration(nullptr)
     , m_activityUpdatesBlocked(false)
     , m_blockedActivityUpdatesRequireTransients(false)
     , m_moveResizeGrabWindow()
@@ -210,16 +211,7 @@ Client::Client()
     , block_geometry_updates(0)
     , pending_geometry_update(PendingGeometryNone)
     , shade_geometry_change(false)
-    , border_left(0)
-    , border_right(0)
-    , border_top(0)
-    , border_bottom(0)
-    , padding_left(0)
-    , padding_right(0)
-    , padding_top(0)
-    , padding_bottom(0)
     , sm_stacking_order(-1)
-    , paintRedirector(0)
     , m_firstInTabBox(false)
     , electricMaximizing(false)
     , activitiesDefined(false)
@@ -271,10 +263,6 @@ Client::Client()
     demands_attention = false;
     check_active_modal = false;
 
-    Pdeletewindow = 0;
-    Ptakefocus = 0;
-    Pcontexthelp = 0;
-    Pping = 0;
     skip_pager = false;
 
     max_mode = MaximizeRestore;
@@ -292,7 +280,7 @@ Client::Client()
     ready_for_painting = false; // wait for first damage or sync reply
 
     connect(this, &Client::geometryShapeChanged, this, &Client::geometryChanged);
-    auto signalMaximizeChanged = static_cast<void (Client::*)(KWin::Client*, KDecorationDefines::MaximizeMode)>(&Client::clientMaximizedStateChanged);
+    auto signalMaximizeChanged = static_cast<void (Client::*)(KWin::Client*, MaximizeMode)>(&Client::clientMaximizedStateChanged);
     connect(this, signalMaximizeChanged, this, &Client::geometryChanged);
     connect(this, &Client::clientStepUserMovedResized,   this, &Client::geometryChanged);
     connect(this, &Client::clientStartUserMovedResized,  this, &Client::moveResizedChanged);
@@ -302,12 +290,6 @@ Client::Client()
 
     connect(clientMachine(), &ClientMachine::localhostChanged, this, &Client::updateCaption);
     connect(options, &Options::condensedTitleChanged, this, &Client::updateCaption);
-
-    m_connections << connect(VirtualDesktopManager::self(), &VirtualDesktopManager::countChanged, [this]() {
-        if (decoration) {
-            decoration->onAllDesktopsAvailableChanged();
-        }
-    });
 
     // SELI TODO: Initialize xsizehints??
 }
@@ -328,10 +310,9 @@ Client::~Client()
     assert(m_client == XCB_WINDOW_NONE);
     assert(m_wrapper == XCB_WINDOW_NONE);
     //assert( frameId() == None );
-    assert(decoration == NULL);
+    Q_ASSERT(m_decoration == nullptr);
     assert(block_geometry_updates == 0);
     assert(!check_active_modal);
-    delete bridge;
     for (auto it = m_connections.constBegin(); it != m_connections.constEnd(); ++it) {
         disconnect(*it);
     }
@@ -458,12 +439,19 @@ void Client::updateInputWindow()
 
     QRegion region;
 
-    if (!noBorder()) {
-        // This function is implemented as a slot to avoid breaking binary
-        // compatibility
-        QMetaObject::invokeMethod(decoration, "region", Qt::DirectConnection,
-                Q_RETURN_ARG(QRegion, region),
-                Q_ARG(KDecorationDefines::Region, KDecorationDefines::ExtendedBorderRegion));
+    if (!noBorder() && m_decoration) {
+        const QMargins &r = m_decoration->resizeOnlyBorders();
+        const int left   = r.left();
+        const int top    = r.top();
+        const int right  = r.right();
+        const int bottom = r.bottom();
+        if (left != 0 || top != 0 || right != 0 || bottom != 0) {
+            region = QRegion(-left,
+                             -top,
+                             m_decoration->size().width() + left + right,
+                             m_decoration->size().height() + top + bottom);
+            region = region.subtracted(m_decoration->rect());
+        }
     }
 
     if (region.isEmpty()) {
@@ -504,7 +492,7 @@ void Client::updateInputWindow()
 void Client::updateDecoration(bool check_workspace_pos, bool force)
 {
     if (!force &&
-            ((decoration == NULL && noBorder()) || (decoration != NULL && !noBorder())))
+            ((m_decoration == NULL && noBorder()) || (m_decoration != NULL && !noBorder())))
         return;
     QRect oldgeom = geometry();
     blockGeometryUpdates(true);
@@ -514,59 +502,37 @@ void Client::updateDecoration(bool check_workspace_pos, bool force)
         createDecoration(oldgeom);
     } else
         destroyDecoration();
+    getShadow();
     if (check_workspace_pos)
         checkWorkspacePosition(oldgeom);
     updateInputWindow();
     blockGeometryUpdates(false);
-    if (!noBorder())
-        decoration->show();
     updateFrameExtents();
 }
 
 void Client::createDecoration(const QRect& oldgeom)
 {
-    setMask(QRegion());  // Reset shape mask
-    if (decorationPlugin()->isDisabled()) {
-        decoration = NULL;
-        return;
-    } else {
-        decoration = decorationPlugin()->createDecoration(bridge);
+    m_decoration = Decoration::DecorationBridge::self()->createDecoration(this);
+    if (m_decoration) {
+        QMetaObject::invokeMethod(m_decoration, "update", Qt::QueuedConnection);
+        connect(m_decoration, &KDecoration2::Decoration::shadowChanged, this, &Toplevel::getShadow);
+        connect(m_decoration, &KDecoration2::Decoration::resizeOnlyBordersChanged, this, &Client::updateInputWindow);
+        connect(m_decoration, &KDecoration2::Decoration::bordersChanged, this,
+            [this]() {
+                GeometryUpdatesBlocker blocker(this);
+                move(calculateGravitation(true));
+                move(calculateGravitation(false));
+                QRect oldgeom = geometry();
+                plainResize(sizeForClientSize(clientSize()), ForceGeometrySet);
+                checkWorkspacePosition(oldgeom);
+                emit geometryShapeChanged(this, oldgeom);
+            }
+        );
     }
-    connect(this, &Client::iconChanged, decoration, &KDecoration::iconChanged);
-    connect(this, &Client::shadeChanged, decoration, &KDecoration::shadeChanged);
-    connect(this, &Client::desktopChanged, decoration, &KDecoration::desktopChanged);
-    connect(this, &Client::captionChanged, decoration, &KDecoration::captionChanged);
-    connect(this, &Client::activeChanged, decoration, &KDecoration::activeChanged);
-    auto signalMaximizeChanged = static_cast<void (Client::*)(Client*, KDecorationDefines::MaximizeMode)>(&Client::clientMaximizedStateChanged);
-    connect(this, signalMaximizeChanged, decoration, &KDecoration::maximizeChanged);
-    auto slotKeepAbove = static_cast<void(KDecoration::*)(bool)>(&KDecoration::keepAboveChanged);
-    connect(this, &Client::keepAboveChanged, decoration, slotKeepAbove);
-    auto slotKeepBelow = static_cast<void(KDecoration::*)(bool)>(&KDecoration::keepBelowChanged);
-    connect(this, &Client::keepBelowChanged, decoration, slotKeepBelow);
-#ifdef KWIN_BUILD_KAPPMENU
-    connect(this, SIGNAL(showRequest()), decoration, SIGNAL(showRequest()));
-    connect(this, SIGNAL(appMenuAvailable()), decoration, SIGNAL(appMenuAvailable()));
-    connect(this, SIGNAL(appMenuUnavailable()), decoration, SIGNAL(appMenuUnavailable()));
-    connect(this, SIGNAL(menuHidden()), decoration, SIGNAL(menuHidden()));
-#endif
-    // TODO: Check decoration's minimum size?
-    decoration->init();
-    if (decoration->widget()) {
-        decoration->widget()->installEventFilter(this);
-        decoration->window()->setParent(m_frameWrapper.data());
-    } else if (decoration->window()) {
-        decoration->window()->installEventFilter(this);
-        xcb_reparent_window(connection(), decoration->window()->winId(), frameId(), 0, 0);
-    }
-    decoration->window()->lower();
-    decoration->borders(border_left, border_right, border_top, border_bottom);
-    padding_left = padding_right = padding_top = padding_bottom = 0;
-    decoration->padding(padding_left, padding_right, padding_top, padding_bottom);
-    Xcb::moveWindow(decoration->window()->winId(), -padding_left, -padding_top);
+
     move(calculateGravitation(false));
     plainResize(sizeForClientSize(clientSize()), ForceGeometrySet);
     if (Compositor::compositing()) {
-        paintRedirector = PaintRedirector::create(this, decoration);
         discardWindowPixmap();
     }
     emit geometryShapeChanged(this, oldgeom);
@@ -575,13 +541,10 @@ void Client::createDecoration(const QRect& oldgeom)
 void Client::destroyDecoration()
 {
     QRect oldgeom = geometry();
-    if (decoration != NULL) {
-        delete decoration;
-        decoration = NULL;
-        paintRedirector = NULL;
+    if (m_decoration) {
+        delete m_decoration;
+        m_decoration = nullptr;
         QPoint grav = calculateGravitation(true);
-        border_left = border_right = border_top = border_bottom = 0;
-        setMask(QRegion());  // Reset shape mask
         plainResize(sizeForClientSize(clientSize()), ForceGeometrySet);
         move(grav);
         if (compositing())
@@ -593,59 +556,24 @@ void Client::destroyDecoration()
     m_decoInputExtent.reset();
 }
 
-bool Client::checkBorderSizes(bool also_resize)
-{
-    if (decoration == NULL)
-        return false;
-
-    int new_left = 0, new_right = 0, new_top = 0, new_bottom = 0;
-    decoration->padding(new_left, new_right, new_top, new_bottom);
-    if (padding_left != new_left || padding_top != new_top)
-        Xcb::moveWindow(decoration->window()->winId(), -new_left, -new_top);
-    padding_left = new_left;
-    padding_right = new_right;
-    padding_top = new_top;
-    padding_bottom = new_bottom;
-    decoration->borders(new_left, new_right, new_top, new_bottom);
-    if (new_left == border_left && new_right == border_right &&
-            new_top == border_top && new_bottom == border_bottom)
-        return false;
-    if (!also_resize) {
-        border_left = new_left;
-        border_right = new_right;
-        border_top = new_top;
-        border_bottom = new_bottom;
-        return true;
-    }
-    GeometryUpdatesBlocker blocker(this);
-    move(calculateGravitation(true));
-    border_left = new_left;
-    border_right = new_right;
-    border_top = new_top;
-    border_bottom = new_bottom;
-    move(calculateGravitation(false));
-    QRect oldgeom = geometry();
-    plainResize(sizeForClientSize(clientSize()), ForceGeometrySet);
-    checkWorkspacePosition(oldgeom);
-    return true;
-}
-
 void Client::triggerDecorationRepaint()
 {
-    if (decoration && decoration->widget())
-        decoration->widget()->update();
+    if (m_decoration) {
+        m_decoration->update();
+    }
 }
 
-void Client::layoutDecorationRects(QRect &left, QRect &top, QRect &right, QRect &bottom, Client::CoordinateMode mode) const
+void Client::layoutDecorationRects(QRect &left, QRect &top, QRect &right, QRect &bottom) const
 {
-    QRect r = decoration->rect();
-    if (mode == WindowRelative)
-        r.translate(-padding_left, -padding_top);
+    if (!m_decoration) {
+        return;
+    }
+    QRect r = m_decoration->rect();
 
     NETStrut strut = info->frameOverlap();
 
     // Ignore the overlap strut when compositing is disabled
-    if (!compositing() || !decorationPlugin()->supportsFrameOverlap())
+    if (!compositing())
         strut.left = strut.top = strut.right = strut.bottom = 0;
     else if (strut.left == -1 && strut.top == -1 && strut.right == -1 && strut.bottom == -1) {
         top = QRect(r.x(), r.y(), r.width(), r.height() / 3);
@@ -655,20 +583,13 @@ void Client::layoutDecorationRects(QRect &left, QRect &top, QRect &right, QRect 
         return;
     }
 
-    top = QRect(r.x(), r.y(), r.width(), padding_top + border_top + strut.top);
-    bottom = QRect(r.x(), r.y() + r.height() - padding_bottom - border_bottom - strut.bottom,
-                   r.width(), padding_bottom + border_bottom + strut.bottom);
+    top = QRect(r.x(), r.y(), r.width(), borderTop() + strut.top);
+    bottom = QRect(r.x(), r.y() + r.height() - borderBottom() - strut.bottom,
+                   r.width(), borderBottom() + strut.bottom);
     left = QRect(r.x(), r.y() + top.height(),
-                 padding_left + border_left + strut.left, r.height() - top.height() - bottom.height());
-    right = QRect(r.x() + r.width() - padding_right - border_right - strut.right, r.y() + top.height(),
-                  padding_right + border_right + strut.right, r.height() - top.height() - bottom.height());
-}
-
-QRegion Client::decorationPendingRegion() const
-{
-    if (!paintRedirector)
-        return QRegion();
-    return paintRedirector->scheduledRepaintRegion().translated(x() - padding_left, y() - padding_top);
+                 borderLeft() + strut.left, r.height() - top.height() - bottom.height());
+    right = QRect(r.x() + r.width() - borderRight() - strut.right, r.y() + top.height(),
+                  borderRight() + strut.right, r.height() - top.height() - bottom.height());
 }
 
 QRect Client::transparentRect() const
@@ -678,7 +599,7 @@ QRect Client::transparentRect() const
 
     NETStrut strut = info->frameOverlap();
     // Ignore the strut when compositing is disabled or the decoration doesn't support it
-    if (!compositing() || !decorationPlugin()->supportsFrameOverlap())
+    if (!compositing())
         strut.left = strut.top = strut.right = strut.bottom = 0;
     else if (strut.left == -1 && strut.top == -1 && strut.right == -1 && strut.bottom == -1)
         return QRect();
@@ -704,6 +625,7 @@ void Client::detectNoBorder()
     case NET::TopMenu :
     case NET::Splash :
     case NET::Notification :
+    case NET::OnScreenDisplay :
         noborder = true;
         app_noborder = true;
         break;
@@ -730,10 +652,10 @@ void Client::detectNoBorder()
 void Client::updateFrameExtents()
 {
     NETStrut strut;
-    strut.left = border_left;
-    strut.right = border_right;
-    strut.top = border_top;
-    strut.bottom = border_bottom;
+    strut.left = borderLeft();
+    strut.right = borderRight();
+    strut.top = borderTop();
+    strut.bottom = borderBottom();
     info->setFrameExtents(strut);
 }
 
@@ -751,34 +673,17 @@ void Client::detectGtkFrameExtents()
  * the decoration may alter some borders, but the actual size
  * of the decoration stays the same).
  */
-void Client::resizeDecoration(const QSize& s)
+void Client::resizeDecoration()
 {
-    if (decoration == NULL)
-        return;
-    QSize newSize = s + QSize(padding_left + padding_right, padding_top + padding_bottom);
-    QSize oldSize = decoration->window()->size();
-    decoration->resize(newSize);
-    if (oldSize == newSize) {
-        QResizeEvent e(newSize, oldSize);
-        QObject *receiver = nullptr;
-        if (decoration->widget()) {
-            receiver = decoration->widget();
-        } else {
-            receiver = decoration->window();
-        }
-        QApplication::sendEvent(receiver, &e);
-    } else if (paintRedirector) { // oldSize != newSize
-        paintRedirector->resizePixmaps();
-    } else {
-        triggerDecorationRepaint();
+    if (m_decoration) {
+        m_decoration->update();
     }
-    Xcb::moveWindow(decoration->window()->winId(), -padding_left, -padding_top);
     updateInputWindow();
 }
 
 bool Client::noBorder() const
 {
-    return decorationPlugin()->isDisabled() || noborder || isFullScreen();
+    return noborder || isFullScreen();
 }
 
 bool Client::userCanSetNoBorder() const
@@ -801,6 +706,11 @@ void Client::setNoBorder(bool set)
 void Client::checkNoBorder()
 {
     setNoBorder(app_noborder);
+}
+
+bool Client::wantsShadowToBeRendered() const
+{
+    return !isFullScreen() && maximizeMode() != MaximizeFull;
 }
 
 void Client::updateShape()
@@ -865,59 +775,6 @@ void Client::updateInputShape()
         xcb_shape_combine(c, XCB_SHAPE_SO_SET, XCB_SHAPE_SK_INPUT, XCB_SHAPE_SK_INPUT,
                           frameId(), 0, 0, shape_helper_window);
     }
-}
-
-void Client::setMask(const QRegion& reg, int mode)
-{
-    QRegion r = reg.translated(-padding_left, -padding_right) & QRect(0, 0, width(), height());
-    if (_mask == r)
-        return;
-    _mask = r;
-    xcb_connection_t *c = connection();
-    xcb_window_t shape_window = frameId();
-    if (shape()) {
-        // The same way of applying a shape without strange intermediate states like above
-        if (!shape_helper_window.isValid())
-            shape_helper_window.create(QRect(0, 0, 1, 1));
-        shape_window = shape_helper_window;
-    }
-    if (_mask.isEmpty()) {
-        xcb_shape_mask(c, XCB_SHAPE_SO_SET, XCB_SHAPE_SK_BOUNDING, shape_window, 0, 0, XCB_PIXMAP_NONE);
-    } else {
-        const QVector< QRect > rects = _mask.rects();
-        QVector< xcb_rectangle_t > xrects(rects.count());
-        for (int i = 0; i < rects.count(); ++i) {
-            const QRect &rect = rects.at(i);
-            xcb_rectangle_t xrect;
-            xrect.x = rect.x();
-            xrect.y = rect.y();
-            xrect.width = rect.width();
-            xrect.height = rect.height();
-            xrects[i] = xrect;
-        }
-        xcb_shape_rectangles(c, XCB_SHAPE_SO_SET, XCB_SHAPE_SK_BOUNDING, mode, shape_window,
-                             0, 0, xrects.count(), xrects.constData());
-    }
-    if (shape()) {
-        // The rest of the applying using a temporary window
-        xcb_rectangle_t rec = { 0, 0, static_cast<uint16_t>(clientSize().width()),
-                           static_cast<uint16_t>(clientSize().height()) };
-        xcb_shape_rectangles(c, XCB_SHAPE_SO_SUBTRACT, XCB_SHAPE_SK_BOUNDING, XCB_CLIP_ORDERING_UNSORTED,
-                             shape_helper_window, clientPos().x(), clientPos().y(), 1, &rec);
-        xcb_shape_combine(c, XCB_SHAPE_SO_UNION, XCB_SHAPE_SK_BOUNDING, XCB_SHAPE_SK_BOUNDING,
-                          shape_helper_window, clientPos().x(), clientPos().y(), window());
-        xcb_shape_combine(c, XCB_SHAPE_SO_SET, XCB_SHAPE_SK_BOUNDING, XCB_SHAPE_SK_BOUNDING,
-                          frameId(), 0, 0, shape_helper_window);
-    }
-    emit geometryShapeChanged(this, geometry());
-    updateShape();
-}
-
-QRegion Client::mask() const
-{
-    if (_mask.isEmpty())
-        return QRegion(0, 0, width(), height());
-    return _mask;
 }
 
 void Client::hideClient(bool hide)
@@ -1063,8 +920,10 @@ void Client::setShade(ShadeMode mode)
 
     // Decorations may turn off some borders when shaded
     // this has to happen _before_ the tab alignment since it will restrict the minimum geometry
+#if 0
     if (decoration)
         decoration->borders(border_left, border_right, border_top, border_bottom);
+#endif
 
     // Update states of all other windows in this group
     if (tabGroup())
@@ -1076,7 +935,7 @@ void Client::setShade(ShadeMode mode)
         return; // No real change in shaded state
     }
 
-    assert(decoration != NULL);   // noborder windows can't be shaded
+    assert(m_decoration != NULL);   // noborder windows can't be shaded
     GeometryUpdatesBlocker blocker(this);
 
     // TODO: All this unmapping, resizing etc. feels too much duplicated from elsewhere
@@ -1086,7 +945,7 @@ void Client::setShade(ShadeMode mode)
         // Shade
         shade_geometry_change = true;
         QSize s(sizeForClientSize(QSize(clientSize())));
-        s.setHeight(border_top + border_bottom);
+        s.setHeight(borderTop() + borderBottom());
         m_wrapper.selectInput(ClientWinMask);   // Avoid getting UnmapNotify
         m_wrapper.unmap();
         m_client.unmap();
@@ -1311,8 +1170,6 @@ void Client::map()
     // for use in effects, but now we want to have access to the new pixmap
     if (compositing())
         discardWindowPixmap();
-    if (decoration != NULL)
-        decoration->show(); // Not really necessary, but let it know the state
     m_frame.map();
     if (!isShade()) {
         m_wrapper.map();
@@ -1321,6 +1178,7 @@ void Client::map()
         exportMappingState(NormalState);
     } else
         exportMappingState(IconicState);
+    addLayerRepaint(visibleRect());
 }
 
 /**
@@ -1340,8 +1198,6 @@ void Client::unmap()
     m_client.unmap();
     m_decoInputExtent.unmap();
     m_wrapper.selectInput(ClientWinMask | XCB_EVENT_MASK_SUBSTRUCTURE_NOTIFY);
-    if (decoration != NULL)
-        decoration->hide(); // Not really necessary, but let it know the state
     exportMappingState(IconicState);
 }
 
@@ -1410,7 +1266,7 @@ void Client::closeWindow()
     // Update user time, because the window may create a confirming dialog.
     updateUserTime();
 
-    if (Pdeletewindow) {
+    if (info->supportsProtocol(NET::DeleteWindowProtocol)) {
         sendClientMessage(window(), atoms->wm_protocols, atoms->wm_delete_window);
         pingWindow();
     } else // Client will not react on wm_delete_window. We have not choice
@@ -1424,7 +1280,7 @@ void Client::closeWindow()
  */
 void Client::killWindow()
 {
-    qDebug() << "Client::killWindow():" << caption();
+    qCDebug(KWIN_CORE) << "Client::killWindow():" << caption();
     killProcess(false);
     m_client.kill();  // Always kill this client at the server
     destroyClient();
@@ -1436,7 +1292,7 @@ void Client::killWindow()
  */
 void Client::pingWindow()
 {
-    if (!Pping)
+    if (!info->supportsProtocol(NET::PingProtocol))
         return; // Can't ping :(
     if (options->killPingTimeout() == 0)
         return; // Turned off
@@ -1445,7 +1301,7 @@ void Client::pingWindow()
     ping_timer = new QTimer(this);
     connect(ping_timer, &QTimer::timeout, this,
         [this]() {
-            qDebug() << "Ping timeout:" << caption();
+            qCDebug(KWIN_CORE) << "Ping timeout:" << caption();
             ping_timer->deleteLater();
             ping_timer = nullptr;
             killProcess(true, m_pingTimestamp);
@@ -1478,7 +1334,7 @@ void Client::killProcess(bool ask, xcb_timestamp_t timestamp)
     pid_t pid = info->pid();
     if (pid <= 0 || clientMachine()->hostName().isEmpty())  // Needed properties missing
         return;
-    qDebug() << "Kill process:" << pid << "(" << clientMachine()->hostName() << ")";
+    qCDebug(KWIN_CORE) << "Kill process:" << pid << "(" << clientMachine()->hostName() << ")";
     if (!ask) {
         if (!clientMachine()->isLocal()) {
             QStringList lst;
@@ -1738,6 +1594,8 @@ void Client::setOnAllActivities(bool on)
     } else {
         setOnActivity(Activities::self()->current(), true);
     }
+#else
+    Q_UNUSED(on)
 #endif
 }
 
@@ -1763,7 +1621,7 @@ void Client::takeFocus()
         m_client.focus();
     else
         demandAttention(false); // window cannot take input, at least withdraw urgency
-    if (Ptakefocus)
+    if (info->supportsProtocol(NET::TakeFocusProtocol))
         sendClientMessage(window(), atoms->wm_protocols, atoms->wm_take_focus);
     workspace()->setShouldGetFocus(this);
 }
@@ -1777,7 +1635,7 @@ void Client::takeFocus()
  */
 bool Client::providesContextHelp() const
 {
-    return Pcontexthelp;
+    return info->supportsProtocol(NET::ContextHelpProtocol);
 }
 
 /**
@@ -1788,7 +1646,7 @@ bool Client::providesContextHelp() const
  */
 void Client::showContextHelp()
 {
-    if (Pcontexthelp) {
+    if (info->supportsProtocol(NET::ContextHelpProtocol)) {
         sendClientMessage(window(), atoms->wm_protocols, atoms->net_wm_context_help);
         QWhatsThis::enterWhatsThisMode(); // SELI TODO: ?
     }
@@ -1812,13 +1670,13 @@ QString Client::readName() const
 }
 
 // The list is taken from http://www.unicode.org/reports/tr9/ (#154840)
-QChar LRM(0x200E);
-QChar RLM(0x200F);
-QChar LRE(0x202A);
-QChar RLE(0x202B);
-QChar LRO(0x202D);
-QChar RLO(0x202E);
-QChar PDF(0x202C);
+static const QChar LRM(0x200E);
+static const QChar RLM(0x200F);
+static const QChar LRE(0x202A);
+static const QChar RLE(0x202B);
+static const QChar LRO(0x202D);
+static const QChar RLO(0x202E);
+static const QChar PDF(0x202C);
 
 void Client::setCaption(const QString& _s, bool force)
 {
@@ -1968,9 +1826,9 @@ bool Client::untab(const QRect &toGeometry, bool clientRemoved)
             setQuickTileMode(QuickTileNone); // if we leave a quicktiled group, assume that the user wants to untile
         }
         if (toGeometry.isValid()) {
-            if (maximizeMode() != Client::MaximizeRestore) {
+            if (maximizeMode() != MaximizeRestore) {
                 changedSize = true;
-                maximize(Client::MaximizeRestore); // explicitly calling for a geometry -> unmaximize
+                maximize(MaximizeRestore); // explicitly calling for a geometry -> unmaximize
             }
             if (keepSize && changedSize) {
                 geom_restore = geometry(); // checkWorkspacePosition() invokes it
@@ -2071,8 +1929,9 @@ void Client::getMotifHints()
     motif_may_close = mclose; // Motif apps like to crash when they set this hint and WM closes them anyway
     if (isManaged())
         updateDecoration(true);   // Check if noborder state has changed
-    if (decoration && closabilityChanged)
-        emit decoration->decorationButtonsChanged();
+    if (closabilityChanged) {
+        emit closeableChanged(isCloseable());
+    }
 }
 
 void Client::getIcons()
@@ -2114,32 +1973,6 @@ void Client::getIcons()
         m_icon.addPixmap(KWindowSystem::icon(window(), 128, 128, false, KWindowSystem::ClassHint | KWindowSystem::XApp));
     }
     emit iconChanged();
-}
-
-void Client::getWindowProtocols()
-{
-    Atom* p;
-    int i, n;
-
-    Pdeletewindow = 0;
-    Ptakefocus = 0;
-    Pcontexthelp = 0;
-    Pping = 0;
-
-    if (XGetWMProtocols(display(), window(), &p, &n)) {
-        for (i = 0; i < n; ++i) {
-            if (p[i] == atoms->wm_delete_window)
-                Pdeletewindow = 1;
-            else if (p[i] == atoms->wm_take_focus)
-                Ptakefocus = 1;
-            else if (p[i] == atoms->net_wm_context_help)
-                Pcontexthelp = 1;
-            else if (p[i] == atoms->net_wm_ping)
-                Pping = 1;
-        }
-        if (n > 0)
-            XFree(p);
-    }
 }
 
 void Client::getSyncCounter()
@@ -2235,7 +2068,7 @@ bool Client::wantsTabFocus() const
 
 bool Client::wantsInput() const
 {
-    return rules()->checkAcceptFocus(info->input() || Ptakefocus);
+    return rules()->checkAcceptFocus(info->input() || info->supportsProtocol(NET::TakeFocusProtocol));
 }
 
 bool Client::isSpecialWindow() const
@@ -2280,8 +2113,6 @@ void Client::updateCursor()
     if (c == m_cursor)
         return;
     m_cursor = c;
-    if (decoration != NULL)
-        decoration->window()->setCursor(m_cursor);
     xcb_cursor_t nativeCursor = Cursor::x11Cursor(m_cursor);
     m_frame.defineCursor(nativeCursor);
     if (m_decoInputExtent.isValid())
@@ -2304,8 +2135,29 @@ void Client::setBlockingCompositing(bool block)
 
 Client::Position Client::mousePosition(const QPoint& p) const
 {
-    if (decoration != NULL)
-        return decoration->mousePosition(p);
+    Q_UNUSED(p)
+    if (m_decoration) {
+        switch (m_decoration->sectionUnderMouse()) {
+            case Qt::BottomLeftSection:
+                return PositionBottomLeft;
+            case Qt::BottomRightSection:
+                return PositionBottomRight;
+            case Qt::BottomSection:
+                return PositionBottom;
+            case Qt::LeftSection:
+                return PositionLeft;
+            case Qt::RightSection:
+                return PositionRight;
+            case Qt::TopSection:
+                return PositionTop;
+            case Qt::TopLeftSection:
+                return PositionTopLeft;
+            case Qt::TopRightSection:
+                return PositionTopRight;
+            default:
+                return PositionCenter;
+        }
+    }
     return PositionCenter;
 }
 
@@ -2338,8 +2190,17 @@ void Client::updateAllowedActions(bool force)
 
     // ONLY if relevant features have changed (and the window didn't just get/loose moveresize for maximization state changes)
     const NET::Actions relevant = ~(NET::ActionMove|NET::ActionResize);
-    if (decoration && (allowed_actions & relevant) != (old_allowed_actions & relevant))
-        emit decoration->decorationButtonsChanged();
+    if ((allowed_actions & relevant) != (old_allowed_actions & relevant)) {
+        if ((allowed_actions & NET::ActionMinimize) != (old_allowed_actions & NET::ActionMinimize)) {
+            emit minimizeableChanged(allowed_actions & NET::ActionMinimize);
+        }
+        if ((allowed_actions & NET::ActionShade) != (old_allowed_actions & NET::ActionShade)) {
+            emit shadeableChanged(allowed_actions & NET::ActionShade);
+        }
+        if ((allowed_actions & NET::ActionMax) != (old_allowed_actions & NET::ActionMax)) {
+            emit maximizeableChanged(allowed_actions & NET::ActionMax);
+        }
+    }
 }
 
 void Client::autoRaise()
@@ -2390,13 +2251,13 @@ void Client::checkActivities()
     //otherwise, somebody else changed it. we need to validate before reacting
     QStringList allActivities = Activities::self()->all();
     if (allActivities.isEmpty()) {
-        qDebug() << "no activities!?!?";
+        qCDebug(KWIN_CORE) << "no activities!?!?";
         //don't touch anything, there's probably something bad going on and we don't wanna make it worse
         return;
     }
     for (int i = 0; i < newActivitiesList.size(); ++i) {
         if (! allActivities.contains(newActivitiesList.at(i))) {
-            qDebug() << "invalid:" << newActivitiesList.at(i);
+            qCDebug(KWIN_CORE) << "invalid:" << newActivitiesList.at(i);
             newActivitiesList.removeAt(i--);
         }
     }
@@ -2411,21 +2272,13 @@ void Client::setSessionInteract(bool needed)
 
 QRect Client::decorationRect() const
 {
-    if (decoration) {
-        return decoration->rect().translated(-padding_left, -padding_top);
-    } else {
-        return QRect(0, 0, width(), height());
-    }
+    return QRect(0, 0, width(), height());
 }
 
-KDecorationDefines::Position Client::titlebarPosition() const
+Client::Position Client::titlebarPosition() const
 {
-    Position titlePos = PositionCenter; // PositionTop is returned by the default implementation
-                                        // this will hint errors in the metaobject usage ;-)
-    if (decoration)
-        QMetaObject::invokeMethod(decoration, "titlebarPosition", Qt::DirectConnection,
-                                            Q_RETURN_ARG(KDecorationDefines::Position, titlePos));
-    return titlePos;
+    // TODO: still needed, remove?
+    return PositionTop;
 }
 
 void Client::updateFirstInTabBox()
@@ -2446,6 +2299,7 @@ void Client::updateColorScheme()
     } else {
         m_palette = QApplication::palette();
     }
+    emit paletteChanged(m_palette);
     triggerDecorationRepaint();
 }
 
@@ -2496,16 +2350,11 @@ NET::WindowType Client::windowType(bool direct, int supportedTypes) const
 
 bool Client::decorationHasAlpha() const
 {
-    if (!decoration || !decorationPlugin()->hasAlpha()) {
+    if (!m_decoration || m_decoration->isOpaque()) {
         // either no decoration or decoration has alpha disabled
         return false;
     }
-    if (decorationPlugin()->supportsAnnounceAlpha()) {
-        return decoration->isAlphaEnabled();
-    } else {
-        // decoration has alpha enabled and does not support alpha announcement
-        return true;
-    }
+    return true;
 }
 
 void Client::cancelFocusOutTimer()
@@ -2592,6 +2441,28 @@ void Client::sendKeybordKeyEvent(uint32_t key, InputRedirection::KeyboardKeyStat
         type = XCB_KEY_RELEASE;
     }
     xcb_test_fake_input(connection(), type, key + 8, XCB_TIME_CURRENT_TIME, frameId(), 0, 0, 0);
+}
+
+#define BORDER(which) \
+    int Client::border##which() const \
+    { \
+        return m_decoration ? m_decoration->border##which() : 0; \
+    }
+
+BORDER(Bottom)
+BORDER(Left)
+BORDER(Right)
+BORDER(Top)
+#undef BORDER
+
+QPointer<Decoration::DecoratedClientImpl> Client::decoratedClient() const
+{
+    return m_decoratedClient;
+}
+
+void Client::setDecoratedClient(QPointer< Decoration::DecoratedClientImpl > client)
+{
+    m_decoratedClient = client;
 }
 
 } // namespace

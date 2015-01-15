@@ -24,9 +24,10 @@
 // #include "libaurorae_export.h"
 
 #include <QObject>
-#include <kdecoration.h>
 
 #include <QLoggingCategory>
+
+#include <KDecoration2/DecorationButton>
 
 Q_DECLARE_LOGGING_CATEGORY(AURORAE)
 
@@ -183,13 +184,13 @@ public:
     * @returns true if the theme contains a FrameSvg for specified button.
     */
     bool hasButton(AuroraeButtonType button) const;
-    void setBorderSize(KDecorationDefines::BorderSize size);
+    void setBorderSize(KDecoration2::BorderSize size);
     /**
     * Sets the size of the buttons.
     * The available sizes are identical to border sizes, therefore BorderSize is used.
     * @param size The buttons size
     */
-    void setButtonSize(KDecorationDefines::BorderSize size);
+    void setButtonSize(KDecoration2::BorderSize size);
     qreal buttonSizeFactor() const;
 
     DecorationPosition decorationPosition() const;

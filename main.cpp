@@ -141,6 +141,7 @@ Application::Application(Application::OperationMode mode, int &argc, char **argv
     , m_configLock(false)
     , m_operationMode(mode)
 {
+    qRegisterMetaType<Options::WindowOperation>("Options::WindowOperation");
 }
 
 void Application::setConfigLock(bool lock)
@@ -202,10 +203,10 @@ void Application::crashChecking()
         else
             ::exit(1);
         if (cmd.length() > 500) {
-            qDebug() << "Command is too long, truncating";
+            qCDebug(KWIN_CORE) << "Command is too long, truncating";
             cmd = cmd.left(500);
         }
-        qDebug() << "Starting" << cmd << "and exiting";
+        qCDebug(KWIN_CORE) << "Starting" << cmd << "and exiting";
         char buf[1024];
         sprintf(buf, "%s &", cmd.toAscii().data());
         system(buf);
@@ -213,7 +214,7 @@ void Application::crashChecking()
     }
     if (crashes >= 2) {
         // Disable compositing if we have had too many crashes
-        qDebug() << "Too many crashes recently, disabling compositing";
+        qCDebug(KWIN_CORE) << "Too many crashes recently, disabling compositing";
         KConfigGroup compgroup(KSharedConfig::openConfig(), "Compositing");
         compgroup.writeEntry("Enabled", false);
     }
@@ -343,7 +344,8 @@ void Application::setupLocalizedString()
 void Application::setupLoggingCategoryFilters()
 {
     QLoggingCategory::setFilterRules(QStringLiteral("aurorae.debug = true\n") +
-                                     QStringLiteral("kwineffects.debug = true"));
+                                     QStringLiteral("kwineffects.debug = true\n") +
+                                     QStringLiteral("kwin_core.debug = true"));
 }
 
 void Application::notifyKSplash()
@@ -404,6 +406,18 @@ bool XcbEventFilter::nativeEventFilter(const QByteArray &eventType, void *messag
         return false;
     }
     return Workspace::self()->workspaceEvent(static_cast<xcb_generic_event_t *>(message));
+}
+
+static bool s_useLibinput = false;
+
+void Application::setUseLibinput(bool use)
+{
+    s_useLibinput = use;
+}
+
+bool Application::usesLibinput()
+{
+    return s_useLibinput;
 }
 
 } // namespace

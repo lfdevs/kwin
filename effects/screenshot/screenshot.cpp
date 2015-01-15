@@ -110,13 +110,7 @@ void ScreenShotEffect::postPaintScreen()
         QScopedPointer<GLTexture> offscreenTexture;
         QScopedPointer<GLRenderTarget> target;
         if (effects->isOpenGLCompositing()) {
-            int w = width;
-            int h = height;
-            if (!GLTexture::NPOTTextureSupported()) {
-                w = nearestPowerOfTwo(w);
-                h = nearestPowerOfTwo(h);
-            }
-            offscreenTexture.reset(new GLTexture(w, h));
+            offscreenTexture.reset(new GLTexture(GL_RGBA8, width, height));
             offscreenTexture->setFilter(GL_LINEAR);
             offscreenTexture->setWrapMode(GL_CLAMP_TO_EDGE);
             target.reset(new GLRenderTarget(*offscreenTexture));
@@ -134,9 +128,13 @@ void ScreenShotEffect::postPaintScreen()
                 glClearColor(0.0, 0.0, 0.0, 0.0);
                 glClear(GL_COLOR_BUFFER_BIT);
                 glClearColor(0.0, 0.0, 0.0, 1.0);
-                setMatrix(offscreenTexture->width(), offscreenTexture->height());
+
+                QMatrix4x4 projection;
+                projection.ortho(QRect(0, 0, offscreenTexture->width(), offscreenTexture->height()));
+                d.setProjectionMatrix(projection);
+
                 effects->drawWindow(m_scheduledScreenshot, mask, infiniteRegion(), d);
-                restoreMatrix();
+
                 // copy content from framebuffer into image
                 img = QImage(QSize(width, height), QImage::Format_ARGB32);
                 glReadnPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, img.byteCount(), (GLvoid*)img.bits());
@@ -178,30 +176,6 @@ void ScreenShotEffect::postPaintScreen()
         }
         m_scheduledScreenshot = NULL;
     }
-}
-
-static QMatrix4x4 s_origProjection;
-static QMatrix4x4 s_origModelview;
-
-void ScreenShotEffect::setMatrix(int width, int height)
-{
-    QMatrix4x4 projection;
-    QMatrix4x4 identity;
-    projection.ortho(QRect(0, 0, width, height));
-    ShaderBinder binder(ShaderManager::GenericShader);
-    GLShader *shader = binder.shader();
-    s_origProjection = shader->getUniformMatrix4x4("projection");
-    s_origModelview = shader->getUniformMatrix4x4("modelview");
-    shader->setUniform(GLShader::ProjectionMatrix, projection);
-    shader->setUniform(GLShader::ModelViewMatrix, identity);
-}
-
-void ScreenShotEffect::restoreMatrix()
-{
-    ShaderBinder binder(ShaderManager::GenericShader);
-    GLShader *shader = binder.shader();
-    shader->setUniform(GLShader::ProjectionMatrix, s_origProjection);
-    shader->setUniform(GLShader::ModelViewMatrix, s_origModelview);
 }
 
 void ScreenShotEffect::screenshotWindowUnderCursor(int mask)
@@ -262,7 +236,7 @@ QString ScreenShotEffect::blitScreenshot(const QRect &geometry)
             qCDebug(KWINEFFECTS) << "Framebuffer Blit not supported";
             return QString();
         }
-        GLTexture tex(geometry.width(), geometry.height());
+        GLTexture tex(GL_RGBA8, geometry.width(), geometry.height());
         GLRenderTarget target(tex);
         target.blitFromFramebuffer(geometry);
         // copy content from framebuffer into image

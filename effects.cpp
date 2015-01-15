@@ -26,7 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef KWIN_BUILD_ACTIVITIES
 #include "activities.h"
 #endif
-#include "decorations.h"
 #include "deleted.h"
 #include "client.h"
 #include "cursor.h"
@@ -37,9 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef KWIN_BUILD_TABBOX
 #include "tabbox.h"
 #endif
-#ifdef KWIN_BUILD_SCREENEDGES
 #include "screenedge.h"
-#endif
 #include "scripting/scriptedeffect.h"
 #include "screens.h"
 #include "thumbnailitem.h"
@@ -61,6 +58,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #if HAVE_WAYLAND
 #include "wayland_backend.h"
 #endif
+
+#include "decorations/decorationbridge.h"
+#include <KDecoration2/DecorationSettings>
 
 // dbus generated
 #include "screenlocker_interface.h"
@@ -284,9 +284,7 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
     connect(tabBox, &TabBox::TabBox::tabBoxClosed,   this, &EffectsHandler::tabBoxClosed);
     connect(tabBox, &TabBox::TabBox::tabBoxKeyEvent, this, &EffectsHandler::tabBoxKeyEvent);
 #endif
-#ifdef KWIN_BUILD_SCREENEDGES
     connect(ScreenEdges::self(), &ScreenEdges::approaching, this, &EffectsHandler::screenEdgeApproaching);
-#endif
     connect(m_screenLockerWatcher, &ScreenLockerWatcher::locked, this, &EffectsHandler::screenLockingChanged);
     // connect all clients
     for (Client *c : ws->clientList()) {
@@ -320,7 +318,7 @@ EffectsHandlerImpl::~EffectsHandlerImpl()
 void EffectsHandlerImpl::setupClientConnections(Client* c)
 {
     connect(c, &Client::windowClosed, this, &EffectsHandlerImpl::slotWindowClosed);
-    connect(c, static_cast<void (Client::*)(KWin::Client*, KDecorationDefines::MaximizeMode)>(&Client::clientMaximizedStateChanged),
+    connect(c, static_cast<void (Client::*)(KWin::Client*, MaximizeMode)>(&Client::clientMaximizedStateChanged),
             this, &EffectsHandlerImpl::slotClientMaximized);
     connect(c, &Client::clientStartUserMovedResized, this,
         [this](Client *c) {
@@ -492,17 +490,17 @@ void EffectsHandlerImpl::buildQuads(EffectWindow* w, WindowQuadList& quadList)
 
 bool EffectsHandlerImpl::hasDecorationShadows() const
 {
-    return decorationPlugin()->hasShadows();
+    return false;
 }
 
 bool EffectsHandlerImpl::decorationsHaveAlpha() const
 {
-    return decorationPlugin()->hasAlpha();
+    return true;
 }
 
 bool EffectsHandlerImpl::decorationSupportsBlurBehind() const
 {
-    return decorationPlugin()->supportsBlurBehind();
+    return Decoration::DecorationBridge::self()->needsBlur();
 }
 
 // start another painting pass
@@ -521,22 +519,22 @@ void EffectsHandlerImpl::startPaint()
     m_currentPaintEffectFrameIterator = m_activeEffects.constBegin();
 }
 
-void EffectsHandlerImpl::slotClientMaximized(KWin::Client *c, KDecorationDefines::MaximizeMode maxMode)
+void EffectsHandlerImpl::slotClientMaximized(KWin::Client *c, MaximizeMode maxMode)
 {
     bool horizontal = false;
     bool vertical = false;
     switch (maxMode) {
-    case KDecorationDefines::MaximizeHorizontal:
+    case MaximizeHorizontal:
         horizontal = true;
         break;
-    case KDecorationDefines::MaximizeVertical:
+    case MaximizeVertical:
         vertical = true;
         break;
-    case KDecorationDefines::MaximizeFull:
+    case MaximizeFull:
         horizontal = true;
         vertical = true;
         break;
-    case KDecorationDefines::MaximizeRestore: // fall through
+    case MaximizeRestore: // fall through
     default:
         // default - nothing to do
         break;
@@ -683,7 +681,8 @@ void EffectsHandlerImpl::startMouseInterception(Effect *effect, Qt::CursorShape 
     // NOTE: it is intended to not perform an XPointerGrab on X11. See documentation in kwineffects.h
     // The mouse grab is implemented by using a full screen input only window
     if (!m_mouseInterceptionWindow.isValid()) {
-        const QRect geo(0, 0, displayWidth(), displayHeight());
+        const QSize &s = screens()->size();
+        const QRect geo(0, 0, s.width(), s.height());
         const uint32_t mask = XCB_CW_OVERRIDE_REDIRECT | XCB_CW_EVENT_MASK | XCB_CW_CURSOR;
         const uint32_t values[] = {
             true,
@@ -696,9 +695,7 @@ void EffectsHandlerImpl::startMouseInterception(Effect *effect, Qt::CursorShape 
     m_mouseInterceptionWindow.raise();
     // Raise electric border windows above the input windows
     // so they can still be triggered.
-#ifdef KWIN_BUILD_SCREENEDGES
     ScreenEdges::self()->ensureOnTop();
-#endif
 }
 
 void EffectsHandlerImpl::stopMouseInterception(Effect *effect)
@@ -712,9 +709,7 @@ void EffectsHandlerImpl::stopMouseInterception(Effect *effect)
     }
     if (m_grabbedMouseEffects.isEmpty()) {
         m_mouseInterceptionWindow.unmap();
-#ifdef KWIN_BUILD_SCREENEDGES
         Workspace::self()->stackScreenEdgesUnderOverrideRedirect();
-#endif
     }
 }
 
@@ -1239,9 +1234,7 @@ void EffectsHandlerImpl::checkInputWindowStacking()
     m_mouseInterceptionWindow.raise();
     // Raise electric border windows above the input windows
     // so they can still be triggered. TODO: Do both at once.
-#ifdef KWIN_BUILD_SCREENEDGES
     ScreenEdges::self()->ensureOnTop();
-#endif
 }
 
 QPoint EffectsHandlerImpl::cursorPos() const
@@ -1251,22 +1244,12 @@ QPoint EffectsHandlerImpl::cursorPos() const
 
 void EffectsHandlerImpl::reserveElectricBorder(ElectricBorder border, Effect *effect)
 {
-#ifdef KWIN_BUILD_SCREENEDGES
     ScreenEdges::self()->reserve(border, effect, "borderActivated");
-#else
-    Q_UNUSED(border)
-    Q_UNUSED(effect)
-#endif
 }
 
 void EffectsHandlerImpl::unreserveElectricBorder(ElectricBorder border, Effect *effect)
 {
-#ifdef KWIN_BUILD_SCREENEDGES
     ScreenEdges::self()->unreserve(border, effect);
-#else
-    Q_UNUSED(border)
-    Q_UNUSED(effect)
-#endif
 }
 
 unsigned long EffectsHandlerImpl::xrenderBufferPicture()
@@ -1324,7 +1307,7 @@ void EffectsHandlerImpl::unloadEffect(const QString& name)
 
     for (QMap< int, EffectPair >::iterator it = effect_order.begin(); it != effect_order.end(); ++it) {
         if (it.value().first == name) {
-            qDebug() << "EffectsHandler::unloadEffect : Unloading Effect : " << name;
+            qCDebug(KWIN_CORE) << "EffectsHandler::unloadEffect : Unloading Effect : " << name;
             if (activeFullScreenEffect() == it.value().second) {
                 setActiveFullScreenEffect(0);
             }
@@ -1341,7 +1324,7 @@ void EffectsHandlerImpl::unloadEffect(const QString& name)
         }
     }
 
-    qDebug() << "EffectsHandler::unloadEffect : Effect not loaded : " << name;
+    qCDebug(KWIN_CORE) << "EffectsHandler::unloadEffect : Effect not loaded : " << name;
 }
 
 void EffectsHandlerImpl::reconfigureEffect(const QString& name)
@@ -1441,13 +1424,12 @@ QVariant EffectsHandlerImpl::kwinOption(KWinOption kwopt)
 {
     switch (kwopt) {
     case CloseButtonCorner:
-        return decorationPlugin()->closeButtonCorner();
-#ifdef KWIN_BUILD_SCREENEDGES
+        // TODO: this could become per window and be derived from the actual position in the deco
+        return Decoration::DecorationBridge::self()->settings()->decorationButtonsLeft().contains(KDecoration2::DecorationButtonType::Close) ? Qt::TopLeftCorner : Qt::TopRightCorner;
     case SwitchDesktopOnScreenEdge:
         return ScreenEdges::self()->isDesktopSwitching();
     case SwitchDesktopOnScreenEdgeMovingWindows:
         return ScreenEdges::self()->isDesktopSwitchingMovingClients();
-#endif
     default:
         return QVariant(); // an invalid one
     }

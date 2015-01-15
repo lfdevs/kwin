@@ -21,17 +21,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "scene_xrender.h"
 
+#include "utils.h"
+
 #ifdef KWIN_HAVE_XRENDER_COMPOSITING
 
 #include "toplevel.h"
 #include "client.h"
 #include "composite.h"
-#include "decorations.h"
 #include "deleted.h"
 #include "effects.h"
 #include "main.h"
 #include "overlaywindow.h"
-#include "paintredirector.h"
 #include "workspace.h"
 #include "xcbutils.h"
 #include "kwinxrenderutils.h"
@@ -40,6 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/shm_pool.h>
 #include <KWayland/Client/surface.h>
 #endif
+#include "decorations/decoratedclient.h"
 
 #include <xcb/xfixes.h>
 
@@ -99,7 +100,7 @@ void XRenderBackend::setBuffer(xcb_render_picture_t buffer)
 
 void XRenderBackend::setFailed(const QString& reason)
 {
-    qCritical() << "Creating the XRender backend failed: " << reason;
+    qCCritical(KWIN_CORE) << "Creating the XRender backend failed: " << reason;
     m_failed = true;
 }
 
@@ -271,7 +272,7 @@ void WaylandXRenderBackend::createBuffer()
     xcb_free_pixmap(connection(), pixmap);   // The picture owns the pixmap now
     setBuffer(b);
 
-    qDebug() << "Offscreen shm pixmap created";
+    qCDebug(KWIN_CORE) << "Offscreen shm pixmap created";
 }
 
 void WaylandXRenderBackend::present(int mask, const QRegion &damage)
@@ -286,7 +287,7 @@ void WaylandXRenderBackend::present(int mask, const QRegion &damage)
     const QSize &size = wl->shellSurfaceSize();
     auto buffer = wl->shmPool()->createBuffer(size, size.width() * 4, m_shm->buffer());
     if (!buffer) {
-        qDebug() << "Did not get a buffer";
+        qCDebug(KWIN_CORE) << "Did not get a buffer";
         return;
     }
 
@@ -399,6 +400,11 @@ Scene::EffectFrame *SceneXrender::createEffectFrame(EffectFrameImpl *frame)
 Shadow *SceneXrender::createShadow(Toplevel *toplevel)
 {
     return new SceneXRenderShadow(toplevel);
+}
+
+Decoration::Renderer *SceneXrender::createDecorationRenderer(Decoration::DecoratedClientImpl* client)
+{
+    return new SceneXRenderDecorationRenderer(client);
 }
 
 //****************************************
@@ -546,7 +552,7 @@ void SceneXrender::Window::performPaint(int mask, QRegion region, WindowPaintDat
     Deleted *deleted = dynamic_cast<Deleted*>(toplevel);
     const QRect decorationRect = toplevel->decorationRect();
     if (((client && !client->noBorder()) || (deleted && !deleted->noBorder())) &&
-                                                        decorationPlugin()->hasAlpha()) {
+                                                        true) {
         // decorated client
         transformed_shape = decorationRect;
         if (toplevel->shape()) {
@@ -565,7 +571,7 @@ void SceneXrender::Window::performPaint(int mask, QRegion region, WindowPaintDat
         DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(1), DOUBLE_TO_FIXED(0),
         DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(1)
     };
-    static xcb_render_transform_t identity = {
+    static const xcb_render_transform_t identity = {
         DOUBLE_TO_FIXED(1), DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(0),
         DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(1), DOUBLE_TO_FIXED(0),
         DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(1)
@@ -652,32 +658,37 @@ void SceneXrender::Window::performPaint(int mask, QRegion region, WindowPaintDat
     xcb_render_picture_t top    = XCB_RENDER_PICTURE_NONE;
     xcb_render_picture_t right  = XCB_RENDER_PICTURE_NONE;
     xcb_render_picture_t bottom = XCB_RENDER_PICTURE_NONE;
-    PaintRedirector *redirector = NULL;
     QRect dtr, dlr, drr, dbr;
-    if (client || deleted) {
+    const SceneXRenderDecorationRenderer *renderer = nullptr;
+    if (client) {
         if (client && !client->noBorder()) {
-            redirector = client->decorationPaintRedirector();
+            if (client->isDecorated()) {
+                SceneXRenderDecorationRenderer *r = static_cast<SceneXRenderDecorationRenderer*>(client->decoratedClient()->renderer());
+                if (r) {
+                    r->render();
+                    renderer = r;
+                }
+            }
             noBorder = client->noBorder();
-            client->layoutDecorationRects(dlr, dtr, drr, dbr, Client::WindowRelative);
+            client->layoutDecorationRects(dlr, dtr, drr, dbr);
         }
-        if (deleted && !deleted->noBorder()) {
-            noBorder = deleted->noBorder();
-            redirector = deleted->decorationPaintRedirector();
-            deleted->layoutDecorationRects(dlr, dtr, drr, dbr);
-        }
-        if (redirector) {
-            redirector->ensurePixmapsPainted();
-            left   = redirector->leftDecoPixmap<xcb_render_picture_t>();
-            top    = redirector->topDecoPixmap<xcb_render_picture_t>();
-            right  = redirector->rightDecoPixmap<xcb_render_picture_t>();
-            bottom = redirector->bottomDecoPixmap<xcb_render_picture_t>();
-        }
-        if (!noBorder) {
-            MAP_RECT_TO_TARGET(dtr);
-            MAP_RECT_TO_TARGET(dlr);
-            MAP_RECT_TO_TARGET(drr);
-            MAP_RECT_TO_TARGET(dbr);
-        }
+    }
+    if (deleted && !deleted->noBorder()) {
+        renderer = static_cast<const SceneXRenderDecorationRenderer*>(deleted->decorationRenderer());
+        noBorder = deleted->noBorder();
+        deleted->layoutDecorationRects(dlr, dtr, drr, dbr);
+    }
+    if (renderer) {
+        left   = renderer->picture(SceneXRenderDecorationRenderer::DecorationPart::Left);
+        top    = renderer->picture(SceneXRenderDecorationRenderer::DecorationPart::Top);
+        right  = renderer->picture(SceneXRenderDecorationRenderer::DecorationPart::Right);
+        bottom = renderer->picture(SceneXRenderDecorationRenderer::DecorationPart::Bottom);
+    }
+    if (!noBorder) {
+        MAP_RECT_TO_TARGET(dtr);
+        MAP_RECT_TO_TARGET(dlr);
+        MAP_RECT_TO_TARGET(drr);
+        MAP_RECT_TO_TARGET(dbr);
     }
     //END deco preparations
 
@@ -794,9 +805,6 @@ xcb_render_composite(connection(), XCB_RENDER_PICT_OP_OVER, m_xrenderShadow->pic
                 renderDeco(left, dlr);
                 renderDeco(right, drr);
                 renderDeco(bottom, dbr);
-            }
-            if (redirector) {
-                redirector->markAsRepainted();
             }
         }
 
@@ -1065,10 +1073,10 @@ void SceneXrender::EffectFrame::renderUnstyled(xcb_render_picture_t pict, const 
         xcb_render_color_t tranparent = {0, 0, 0, 0};
         xcb_render_fill_rectangles(connection(), XCB_RENDER_PICT_OP_SRC, *s_effectFrameCircle, tranparent, 1, &xrect);
 
-        static int num_segments = 80;
-        static qreal theta = 2 * M_PI / qreal(num_segments);
-        static qreal c = qCos(theta); //precalculate the sine and cosine
-        static qreal s = qSin(theta);
+        static const int num_segments = 80;
+        static const qreal theta = 2 * M_PI / qreal(num_segments);
+        static const qreal c = qCos(theta); //precalculate the sine and cosine
+        static const qreal s = qSin(theta);
         qreal t;
 
         qreal x = roundness;//we start at angle = 0
@@ -1225,6 +1233,10 @@ void SceneXRenderShadow::buildQuads()
 
 bool SceneXRenderShadow::prepareBackend()
 {
+    if (hasDecorationShadow()) {
+        // TODO: implement for XRender
+        return false;
+    }
     const uint32_t values[] = {XCB_RENDER_REPEAT_NORMAL};
     for (int i=0; i<ShadowElementsCount; ++i) {
         delete m_pictures[i];
@@ -1240,6 +1252,121 @@ xcb_render_picture_t SceneXRenderShadow::picture(Shadow::ShadowElements element)
         return XCB_RENDER_PICTURE_NONE;
     }
     return *m_pictures[element];
+}
+
+SceneXRenderDecorationRenderer::SceneXRenderDecorationRenderer(Decoration::DecoratedClientImpl *client)
+    : Renderer(client)
+    , m_gc(XCB_NONE)
+{
+    connect(this, &Renderer::renderScheduled, client->client(), static_cast<void (Client::*)(const QRect&)>(&Client::addRepaint));
+    for (int i = 0; i < int(DecorationPart::Count); ++i) {
+        m_pixmaps[i] = XCB_PIXMAP_NONE;
+        m_pictures[i] = nullptr;
+    }
+}
+
+SceneXRenderDecorationRenderer::~SceneXRenderDecorationRenderer()
+{
+    for (int i = 0; i < int(DecorationPart::Count); ++i) {
+        if (m_pixmaps[i] != XCB_PIXMAP_NONE) {
+            xcb_free_pixmap(connection(), m_pixmaps[i]);
+        }
+        delete m_pictures[i];
+    }
+    if (m_gc != 0) {
+        xcb_free_gc(connection(), m_gc);
+    }
+}
+
+void SceneXRenderDecorationRenderer::render()
+{
+    const QRegion scheduled = getScheduled();
+    if (scheduled.isEmpty()) {
+        return;
+    }
+    if (areImageSizesDirty()) {
+        resizePixmaps();
+        resetImageSizesDirty();
+    }
+
+    const QRect top(QPoint(0, 0), m_sizes[int(DecorationPart::Top)]);
+    const QRect left(QPoint(0, top.height()), m_sizes[int(DecorationPart::Left)]);
+    const QRect right(QPoint(top.width() - m_sizes[int(DecorationPart::Right)].width(), top.height()), m_sizes[int(DecorationPart::Right)]);
+    const QRect bottom(QPoint(0, left.y() + left.height()), m_sizes[int(DecorationPart::Bottom)]);
+
+    xcb_connection_t *c = connection();
+    if (m_gc == 0) {
+        m_gc = xcb_generate_id(connection());
+        xcb_create_gc(c, m_gc, m_pixmaps[int(DecorationPart::Top)], 0, nullptr);
+    }
+    auto renderPart = [this, c](const QRect &geo, const QPoint &offset, int index) {
+        if (geo.isNull()) {
+            return;
+        }
+        QImage image = renderToImage(geo);
+        xcb_put_image(c, XCB_IMAGE_FORMAT_Z_PIXMAP, m_pixmaps[index], m_gc,
+                      image.width(), image.height(), geo.x() - offset.x(), geo.y() - offset.y(), 0, 32,
+                      image.byteCount(), image.constBits());
+    };
+    const QRect geometry = scheduled.boundingRect();
+    renderPart(left.intersected(geometry),   left.topLeft(),   int(DecorationPart::Left));
+    renderPart(top.intersected(geometry),    top.topLeft(),    int(DecorationPart::Top));
+    renderPart(right.intersected(geometry),  right.topLeft(),  int(DecorationPart::Right));
+    renderPart(bottom.intersected(geometry), bottom.topLeft(), int(DecorationPart::Bottom));
+    xcb_flush(c);
+}
+
+void SceneXRenderDecorationRenderer::resizePixmaps()
+{
+    QRect left, top, right, bottom;
+    client()->client()->layoutDecorationRects(left, top, right, bottom);
+
+    xcb_connection_t *c = connection();
+    auto checkAndCreate = [this, c](int border, const QRect &rect) {
+        const QSize size = rect.size();
+        if (m_sizes[border] != size) {
+            m_sizes[border] = size;
+            if (m_pixmaps[border] != XCB_PIXMAP_NONE) {
+                xcb_free_pixmap(c, m_pixmaps[border]);
+            }
+            delete m_pictures[border];
+            if (!size.isEmpty()) {
+                m_pixmaps[border] = xcb_generate_id(connection());
+                xcb_create_pixmap(connection(), 32, m_pixmaps[border], rootWindow(), size.width(), size.height());
+                m_pictures[border] = new XRenderPicture(m_pixmaps[border], 32);
+            } else {
+                m_pixmaps[border] = XCB_PIXMAP_NONE;
+                m_pictures[border] = nullptr;
+            }
+        }
+        if (!m_pictures[border]) {
+            return;
+        }
+        // fill transparent
+        xcb_rectangle_t r = {0, 0, uint16_t(size.width()), uint16_t(size.height())};
+        xcb_render_fill_rectangles(connection(), XCB_RENDER_PICT_OP_SRC, *m_pictures[border], preMultiply(Qt::transparent), 1, &r);
+    };
+
+    checkAndCreate(int(DecorationPart::Left), left);
+    checkAndCreate(int(DecorationPart::Top), top);
+    checkAndCreate(int(DecorationPart::Right), right);
+    checkAndCreate(int(DecorationPart::Bottom), bottom);
+}
+
+xcb_render_picture_t SceneXRenderDecorationRenderer::picture(SceneXRenderDecorationRenderer::DecorationPart part) const
+{
+    Q_ASSERT(part != DecorationPart::Count);
+    XRenderPicture *picture = m_pictures[int(part)];
+    if (!picture) {
+        return XCB_RENDER_PICTURE_NONE;
+    }
+    return *picture;
+}
+
+void SceneXRenderDecorationRenderer::reparent(Deleted *deleted)
+{
+    render();
+    Renderer::reparent(deleted);
 }
 
 #undef DOUBLE_TO_FIXED

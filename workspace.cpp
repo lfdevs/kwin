@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // own
 #include "workspace.h"
 // kwin libs
-#include <kdecorationfactory.h>
 #include <kwinglplatform.h>
 #include <kwinxrenderutils.h>
 // kwin
@@ -36,20 +35,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "composite.h"
 #include "cursor.h"
 #include "dbusinterface.h"
-#include "decorations.h"
 #include "deleted.h"
 #include "effects.h"
 #include "focuschain.h"
 #include "group.h"
 #include "input.h"
+#include "logind.h"
 #include "killwindow.h"
 #include "netinfo.h"
 #include "outline.h"
 #include "placement.h"
 #include "rules.h"
-#ifdef KWIN_BUILD_SCREENEDGES
 #include "screenedge.h"
-#endif
 #include "screens.h"
 #include "scripting/scripting.h"
 #ifdef KWIN_BUILD_TABBOX
@@ -63,6 +60,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 #include "xcbutils.h"
 #include "main.h"
+#include "decorations/decorationbridge.h"
 // KDE
 #include <KConfig>
 #include <KConfigGroup>
@@ -145,6 +143,7 @@ Workspace::Workspace(bool restore)
     // first initialize the extensions
     Xcb::Extensions::self();
 
+    LogindIntegration::create(this);
     InputRedirection::create(this);
 
     // start the Wayland Backend - will only be created if WAYLAND_DISPLAY is present
@@ -170,7 +169,6 @@ Workspace::Workspace(bool restore)
 
     options->loadConfig();
     options->loadCompositingConfig(false);
-    DecorationPlugin::create(this);
     ColorMapper *colormaps = new ColorMapper(this);
     connect(this, SIGNAL(clientActivated(KWin::Client*)), colormaps, SLOT(update()));
 
@@ -194,9 +192,7 @@ Workspace::Workspace(bool restore)
     connect(qApp, SIGNAL(screenAdded(QScreen*)), this, SLOT(selectWmInputEventMask()));
 #endif
 
-#ifdef KWIN_BUILD_SCREENEDGES
     ScreenEdges::create(this);
-#endif
 
     // VirtualDesktopManager needs to be created prior to init shortcuts
     // and prior to TabBox, due to TabBox connecting to signals
@@ -212,7 +208,10 @@ Workspace::Workspace(bool restore)
     XRenderUtils::init(connection(), rootWindow());
     m_compositor = Compositor::create(this);
     connect(this, SIGNAL(currentDesktopChanged(int,KWin::Client*)), m_compositor, SLOT(addRepaintFull()));
-    connect(m_compositor, &Compositor::compositingToggled, decorationPlugin(), &DecorationPlugin::compositingToggled);
+
+    auto decorationBridge = Decoration::DecorationBridge::create(this);
+    decorationBridge->init();
+    connect(this, &Workspace::configChanged, decorationBridge, &Decoration::DecorationBridge::reconfigure);
 
     new DBusInterface(this);
 
@@ -237,14 +236,12 @@ void Workspace::init()
     screens->setConfig(config);
     screens->reconfigure();
     connect(options, SIGNAL(configChanged()), screens, SLOT(reconfigure()));
-#ifdef KWIN_BUILD_SCREENEDGES
     ScreenEdges *screenEdges = ScreenEdges::self();
     screenEdges->setConfig(config);
     screenEdges->init();
     connect(options, SIGNAL(configChanged()), screenEdges, SLOT(reconfigure()));
     connect(VirtualDesktopManager::self(), SIGNAL(layoutChanged(int,int)), screenEdges, SLOT(updateLayout()));
     connect(this, SIGNAL(clientActivated(KWin::Client*)), screenEdges, SIGNAL(checkBlocking()));
-#endif
 
     FocusChain *focusChain = FocusChain::create(this);
     connect(this, SIGNAL(clientRemoved(KWin::Client*)), focusChain, SLOT(remove(KWin::Client*)));
@@ -460,9 +457,7 @@ Client* Workspace::createClient(xcb_window_t w, bool is_mapped)
     connect(c, SIGNAL(geometryChanged()), m_compositor, SLOT(checkUnredirect()));
     connect(c, SIGNAL(geometryShapeChanged(KWin::Toplevel*,QRect)), m_compositor, SLOT(checkUnredirect()));
     connect(c, SIGNAL(blockingCompositingChanged(KWin::Client*)), m_compositor, SLOT(updateCompositeBlocking(KWin::Client*)));
-#ifdef KWIN_BUILD_SCREENEDGES
     connect(c, SIGNAL(clientFullScreenSet(KWin::Client*,bool,bool)), ScreenEdges::self(), SIGNAL(checkBlocking()));
-#endif
     connect(c, SIGNAL(desktopPresenceChanged(KWin::Client*,int)), SIGNAL(desktopPresenceChanged(KWin::Client*,int)), Qt::QueuedConnection);
     if (!c->manage(w, is_mapped)) {
         Client::deleteClient(c);
@@ -771,7 +766,7 @@ bool Workspace::waitForCompositingSetup()
 
 void Workspace::slotReconfigure()
 {
-    qDebug() << "Workspace::slotReconfigure()";
+    qCDebug(KWIN_CORE) << "Workspace::slotReconfigure()";
     reconfigureTimer.stop();
 
     bool borderlessMaximizedWindows = options->borderlessMaximizedWindows();
@@ -782,18 +777,6 @@ void Workspace::slotReconfigure()
     emit configChanged();
     m_userActionsMenu->discard();
     updateToolWindows(true);
-
-    DecorationPlugin *deco = DecorationPlugin::self();
-    if (!deco->isDisabled() && deco->reset()) {
-        deco->recreateDecorations();
-        deco->destroyPreviousPlugin();
-        connect(deco->factory(), &KDecorationFactory::recreateDecorations, deco, &DecorationPlugin::recreateDecorations);
-    } else {
-        foreach (Client * c, clients) {
-            c->checkBorderSizes(true);
-            c->triggerDecorationRepaint();
-        }
-    }
 
     RuleBook::self()->load();
     for (ClientList::Iterator it = clients.begin();
@@ -814,12 +797,6 @@ void Workspace::slotReconfigure()
             if ((*it)->maximizeMode() == MaximizeFull)
                 (*it)->checkNoBorder();
         }
-    }
-
-    if (!deco->isDisabled()) {
-        rootInfo()->setSupported(NET::WM2FrameOverlap, deco->factory()->supports(AbilityExtendIntoClientArea));
-    } else {
-        rootInfo()->setSupported(NET::WM2FrameOverlap, false);
     }
 }
 
@@ -1365,17 +1342,33 @@ QString Workspace::supportInformation() const
         break;
     }
     support.append(QStringLiteral("\n\n"));
+    if (auto bridge = Decoration::DecorationBridge::self()) {
+        support.append(QStringLiteral("Decoration\n"));
+        support.append(QStringLiteral("==========\n"));
+        support.append(bridge->supportInformation());
+        support.append(QStringLiteral("\n"));
+    }
     support.append(QStringLiteral("Options\n"));
     support.append(QStringLiteral("=======\n"));
     const QMetaObject *metaOptions = options->metaObject();
+    auto printProperty = [] (const QVariant &variant) {
+        if (variant.type() == QVariant::Size) {
+            const QSize &s = variant.toSize();
+            return QStringLiteral("%1x%2").arg(QString::number(s.width())).arg(QString::number(s.height()));
+        }
+        if (QLatin1String(variant.typeName()) == QLatin1String("KWin::OpenGLPlatformInterface") ||
+                QLatin1String(variant.typeName()) == QLatin1String("KWin::Options::WindowOperation")) {
+            return QString::number(variant.toInt());
+        }
+        return variant.toString();
+    };
     for (int i=0; i<metaOptions->propertyCount(); ++i) {
         const QMetaProperty property = metaOptions->property(i);
         if (QLatin1String(property.name()) == QLatin1String("objectName")) {
             continue;
         }
-        support.append(QLatin1String(property.name()) + QStringLiteral(": ") + options->property(property.name()).toString() + QStringLiteral("\n"));
+        support.append(QStringLiteral("%1: %2\n").arg(property.name()).arg(printProperty(options->property(property.name()))));
     }
-#ifdef KWIN_BUILD_SCREENEDGES
     support.append(QStringLiteral("\nScreen Edges\n"));
     support.append(QStringLiteral(  "============\n"));
     const QMetaObject *metaScreenEdges = ScreenEdges::self()->metaObject();
@@ -1384,9 +1377,8 @@ QString Workspace::supportInformation() const
         if (QLatin1String(property.name()) == QLatin1String("objectName")) {
             continue;
         }
-        support.append(QLatin1String(property.name()) + QStringLiteral(": ") + ScreenEdges::self()->property(property.name()).toString() + QStringLiteral("\n"));
+        support.append(QStringLiteral("%1: %2\n").arg(property.name()).arg(printProperty(ScreenEdges::self()->property(property.name()))));
     }
-#endif
     support.append(QStringLiteral("\nScreens\n"));
     support.append(QStringLiteral(  "=======\n"));
     support.append(QStringLiteral("Multi-Head: "));
@@ -1411,9 +1403,6 @@ QString Workspace::supportInformation() const
                               .arg(geo.width())
                               .arg(geo.height()));
     }
-    support.append(QStringLiteral("\nDecoration\n"));
-    support.append(QStringLiteral(  "==========\n"));
-    support.append(decorationPlugin()->supportInformation());
     support.append(QStringLiteral("\nCompositing\n"));
     support.append(QStringLiteral(  "===========\n"));
     if (effects) {

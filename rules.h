@@ -24,10 +24,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <netwm_def.h>
 #include <QRect>
+#include <QVector>
 #include <kconfiggroup.h>
 
 #include "placement.h"
-#include <kdecoration.h>
 #include "options.h"
 #include "utils.h"
 
@@ -44,7 +44,6 @@ class Rules;
 #ifndef KCMRULES // only for kwin core
 
 class WindowRules
-    : public KDecorationDefines
 {
 public:
     explicit WindowRules(const QVector< Rules* >& rules);
@@ -97,7 +96,6 @@ private:
 #endif
 
 class Rules
-    : public KDecorationDefines
 {
 public:
     Rules();

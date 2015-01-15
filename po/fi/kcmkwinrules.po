@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-04-28 15:51+0000\n"
-"PO-Revision-Date: 2014-11-23 04:28+0200\n"
+"PO-Revision-Date: 2014-12-23 21:18+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
 "Language-Team: Finnish <lokalisointi@lists.coss.fi>\n"
 "Language: fi\n"
@@ -818,7 +818,7 @@ msgstr "P&ienennetty"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_shade)
 #: ruleswidgetbase.ui:972
 msgid "Sh&aded"
-msgstr "V&arjostettu"
+msgstr "&Rullattu"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1056

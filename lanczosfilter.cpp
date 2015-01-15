@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "client.h"
 #include "deleted.h"
 #include "effects.h"
+#include "screens.h"
 #include "unmanaged.h"
 #include "options.h"
 #include "workspace.h"
@@ -63,7 +64,7 @@ void LanczosFilter::init()
     m_inited = true;
     const bool force = (qstrcmp(qgetenv("KWIN_FORCE_LANCZOS"), "1") == 0);
     if (force) {
-        qWarning() << "Lanczos Filter forced on by environment variable";
+        qCWarning(KWIN_CORE) << "Lanczos Filter forced on by environment variable";
     }
 
     if (!force && options->glSmoothScale() != 2)
@@ -93,7 +94,7 @@ void LanczosFilter::init()
         m_uKernel     = m_shader->uniformLocation("kernel");
         m_uOffsets    = m_shader->uniformLocation("offsets");
     } else {
-        qDebug() << "Shader is not valid";
+        qCDebug(KWIN_CORE) << "Shader is not valid";
         m_shader.reset();
     }
 }
@@ -101,18 +102,16 @@ void LanczosFilter::init()
 
 void LanczosFilter::updateOffscreenSurfaces()
 {
-    int w = displayWidth();
-    int h = displayHeight();
-    if (!GLTexture::NPOTTextureSupported()) {
-        w = nearestPowerOfTwo(w);
-        h = nearestPowerOfTwo(h);
-    }
+    const QSize &s = screens()->size();
+    int w = s.width();
+    int h = s.height();
+
     if (!m_offscreenTex || m_offscreenTex->width() != w || m_offscreenTex->height() != h) {
         if (m_offscreenTex) {
             delete m_offscreenTex;
             delete m_offscreenTarget;
         }
-        m_offscreenTex = new GLTexture(w, h);
+        m_offscreenTex = new GLTexture(GL_RGBA8, w, h);
         m_offscreenTex->setFilter(GL_LINEAR);
         m_offscreenTex->setWrapMode(GL_CLAMP_TO_EDGE);
         m_offscreenTarget = new GLRenderTarget(*m_offscreenTex);
@@ -255,7 +254,7 @@ void LanczosFilter::performPaint(EffectWindowImpl* w, int mask, QRegion region, 
             w->sceneWindow()->performPaint(mask, infiniteRegion(), thumbData);
 
             // Create a scratch texture and copy the rendered window into it
-            GLTexture tex(sw, sh);
+            GLTexture tex(GL_RGBA8, sw, sh);
             tex.setFilter(GL_LINEAR);
             tex.setWrapMode(GL_CLAMP_TO_EDGE);
             tex.bind();
@@ -294,7 +293,7 @@ void LanczosFilter::performPaint(EffectWindowImpl* w, int mask, QRegion region, 
             tex.discard();
 
             // create scratch texture for second rendering pass
-            GLTexture tex2(tw, sh);
+            GLTexture tex2(GL_RGBA8, tw, sh);
             tex2.setFilter(GL_LINEAR);
             tex2.setWrapMode(GL_CLAMP_TO_EDGE);
             tex2.bind();
@@ -327,7 +326,7 @@ void LanczosFilter::performPaint(EffectWindowImpl* w, int mask, QRegion region, 
             ShaderManager::instance()->popShader();
 
             // create cache texture
-            GLTexture *cache = new GLTexture(tw, th);
+            GLTexture *cache = new GLTexture(GL_RGBA8, tw, th);
 
             cache->setFilter(GL_LINEAR);
             cache->setWrapMode(GL_CLAMP_TO_EDGE);

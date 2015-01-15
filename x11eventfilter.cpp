@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 
 #include "x11eventfilter.h"
-#include "workspace.h"
+#include <workspace.h>
 
 namespace KWin
 {
@@ -32,7 +32,9 @@ X11EventFilter::X11EventFilter(int eventType, int opcode, int genericEventType)
 
 X11EventFilter::~X11EventFilter()
 {
-    Workspace::self()->unregisterEventFilter(this);
+    if (auto w = Workspace::self()) {
+        w->unregisterEventFilter(this);
+    }
 }
 
 }

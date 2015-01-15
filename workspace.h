@@ -24,8 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KWIN_WORKSPACE_H
 
 // kwin
-#include <kdecoration.h>
 #include "sm.h"
+#include "options.h"
 #include "utils.h"
 // Qt
 #include <QTimer>
@@ -58,7 +58,7 @@ class Compositor;
 class X11EventFilter;
 enum class Predicate;
 
-class Workspace : public QObject, public KDecorationDefines
+class Workspace : public QObject
 {
     Q_OBJECT
 public:
@@ -212,9 +212,7 @@ public:
         return deleted;
     }
 
-#ifdef KWIN_BUILD_SCREENEDGES
     void stackScreenEdgesUnderOverrideRedirect();
-#endif
 
 public:
     QPoint cascadeOffset(const Client *c) const;
@@ -332,7 +330,7 @@ public:
     void unregisterEventFilter(X11EventFilter *filter);
 
 public Q_SLOTS:
-    void performWindowOperation(KWin::Client* c, KDecorationDefines::WindowOperation op);
+    void performWindowOperation(KWin::Client* c, Options::WindowOperation op);
     // Keybindings
     //void slotSwitchToWindow( int );
     void slotWindowToDesktop();

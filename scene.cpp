@@ -72,10 +72,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QVector2D>
 
 #include "client.h"
-#include "decorations.h"
 #include "deleted.h"
 #include "effects.h"
 #include "overlaywindow.h"
+#include "screens.h"
 #include "shadow.h"
 
 #include "thumbnailitem.h"
@@ -107,7 +107,8 @@ Scene::~Scene()
 void Scene::paintScreen(int* mask, const QRegion &damage, const QRegion &repaint,
                         QRegion *updateRegion, QRegion *validRegion)
 {
-    const QRegion displayRegion(0, 0, displayWidth(), displayHeight());
+    const QSize &screenSize = screens()->size();
+    const QRegion displayRegion(0, 0, screenSize.width(), screenSize.height());
     *mask = (damage == displayRegion) ? 0 : PAINT_SCREEN_REGION;
 
     updateTimeDiff();
@@ -240,7 +241,8 @@ void Scene::paintGenericScreen(int orig_mask, ScreenPaintData)
         paintWindow(d.window, d.mask, d.region, d.quads);
     }
 
-    damaged_region = QRegion(0, 0, displayWidth(), displayHeight());
+    const QSize &screenSize = screens()->size();
+    damaged_region = QRegion(0, 0, screenSize.width(), screenSize.height());
 }
 
 // The optimized case without any transformations at all.
@@ -264,7 +266,6 @@ void Scene::paintSimpleScreen(int orig_mask, QRegion region)
         w->resetPaintingEnabled();
         data.paint = region;
         data.paint |= topw->repaints();
-        data.paint |= topw->decorationPendingRegion();
 
         // Reset the repaint_region.
         // This has to be done here because many effects schedule a repaint for
@@ -323,7 +324,8 @@ void Scene::paintSimpleScreen(int orig_mask, QRegion region)
     const QRegion repaintClip = repaint_region - dirtyArea;
     dirtyArea |= repaint_region;
 
-    const QRegion displayRegion(0, 0, displayWidth(), displayHeight());
+    const QSize &screenSize = screens()->size();
+    const QRegion displayRegion(0, 0, screenSize.width(), screenSize.height());
     bool fullRepaint(dirtyArea == displayRegion); // spare some expensive region operations
     if (!fullRepaint) {
         extendPaintRegion(dirtyArea, opaqueFullscreen);
@@ -457,7 +459,8 @@ static Scene::Window *s_recursionCheck = NULL;
 void Scene::paintWindow(Window* w, int mask, QRegion region, WindowQuadList quads)
 {
     // no painting outside visible screen (and no transformations)
-    region &= QRect(0, 0, displayWidth(), displayHeight());
+    const QSize &screenSize = screens()->size();
+    region &= QRect(0, 0, screenSize.width(), screenSize.height());
     if (region.isEmpty())  // completely clipped
         return;
     if (w->window()->isDeleted() && w->window()->skipsCloseAnimation()) {
@@ -571,11 +574,12 @@ void Scene::paintDesktopThumbnails(Scene::Window *w)
         s_recursionCheck = w;
 
         ScreenPaintData data;
-        QSize size = QSize(displayWidth(), displayHeight());
+        const QSize &screenSize = screens()->size();
+        QSize size = screenSize;
 
         size.scale(item->width(), item->height(), Qt::KeepAspectRatio);
-        data *= QVector2D(size.width() / double(displayWidth()),
-                          size.height() / double(displayHeight()));
+        data *= QVector2D(size.width() / double(screenSize.width()),
+                          size.height() / double(screenSize.height()));
         const QPointF point = item->mapToScene(item->position());
         const qreal x = point.x() + w->x() + (item->width() - size.width())/2;
         const qreal y = point.y() + w->y() + (item->height() - size.height()) / 2;
@@ -707,8 +711,7 @@ void Scene::Window::discardShape()
 const QRegion &Scene::Window::shape() const
 {
     if (!shape_valid) {
-        Client* c = dynamic_cast< Client* >(toplevel);
-        if (toplevel->shape() || (c != NULL && !c->mask().isEmpty())) {
+        if (toplevel->shape()) {
             auto cookie = xcb_shape_get_rectangles_unchecked(connection(), toplevel->frameId(), XCB_SHAPE_SK_BOUNDING);
             ScopedCPointer<xcb_shape_get_rectangles_reply_t> reply(xcb_shape_get_rectangles_reply(connection(), cookie, nullptr));
             if (!reply.isNull()) {
@@ -813,7 +816,7 @@ WindowQuadList Scene::Window::buildQuads(bool force) const
         Client *client = dynamic_cast<Client*>(toplevel);
         QRegion contents = clientShape();
         QRegion center = toplevel->transparentRect();
-        QRegion decoration = (client && decorationPlugin()->hasAlpha() ?
+        QRegion decoration = (client && true ?
                               QRegion(client->decorationRect()) : shape()) - center;
         ret = makeQuads(WindowQuadContents, contents);
 
@@ -821,7 +824,7 @@ WindowQuadList Scene::Window::buildQuads(bool force) const
         bool isShadedClient = false;
 
         if (client) {
-            client->layoutDecorationRects(rects[0], rects[1], rects[2], rects[3], Client::WindowRelative);
+            client->layoutDecorationRects(rects[0], rects[1], rects[2], rects[3]);
             isShadedClient = client->isShade() || center.isEmpty();
         }
 
@@ -833,7 +836,7 @@ WindowQuadList Scene::Window::buildQuads(bool force) const
         }
 
     }
-    if (m_shadow) {
+    if (m_shadow && toplevel->wantsShadowToBeRendered()) {
         ret << m_shadow->shadowQuads();
     }
     effects->buildQuads(toplevel->effectWindow(), ret);
@@ -941,20 +944,20 @@ void WindowPixmap::create()
     Xcb::WindowAttributes windowAttributes(toplevel()->frameId());
     Xcb::WindowGeometry windowGeometry(toplevel()->frameId());
     if (xcb_generic_error_t *error = xcb_request_check(connection(), namePixmapCookie)) {
-        qDebug() << "Creating window pixmap failed: " << error->error_code;
+        qCDebug(KWIN_CORE) << "Creating window pixmap failed: " << error->error_code;
         free(error);
         return;
     }
     // check that the received pixmap is valid and actually matches what we
     // know about the window (i.e. size)
     if (!windowAttributes || windowAttributes->map_state != XCB_MAP_STATE_VIEWABLE) {
-        qDebug() << "Creating window pixmap failed: " << this;
+        qCDebug(KWIN_CORE) << "Creating window pixmap failed: " << this;
         xcb_free_pixmap(connection(), pix);
         return;
     }
     if (!windowGeometry ||
         windowGeometry->width != toplevel()->width() || windowGeometry->height != toplevel()->height()) {
-        qDebug() << "Creating window pixmap failed: " << this;
+        qCDebug(KWIN_CORE) << "Creating window pixmap failed: " << this;
         xcb_free_pixmap(connection(), pix);
         return;
     }

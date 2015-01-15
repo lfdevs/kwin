@@ -811,10 +811,10 @@ CHECK_RULE(IgnoreGeometry, bool)
 CHECK_RULE(Desktop, int)
 CHECK_RULE(Activity, QString)
 CHECK_FORCE_RULE(Type, NET::WindowType)
-CHECK_RULE(MaximizeVert, KDecorationDefines::MaximizeMode)
-CHECK_RULE(MaximizeHoriz, KDecorationDefines::MaximizeMode)
+CHECK_RULE(MaximizeVert, MaximizeMode)
+CHECK_RULE(MaximizeHoriz, MaximizeMode)
 
-KDecorationDefines::MaximizeMode WindowRules::checkMaximize(MaximizeMode mode, bool init) const
+MaximizeMode WindowRules::checkMaximize(MaximizeMode mode, bool init) const
 {
     bool vert = checkMaximizeVert(mode, init) & MaximizeVertical;
     bool horiz = checkMaximizeHoriz(mode, init) & MaximizeHorizontal;
@@ -975,7 +975,7 @@ WindowRules RuleBook::find(const Client* c, bool ignore_temporary)
         }
         if ((*it)->match(c)) {
             Rules* rule = *it;
-            qDebug() << "Rule found:" << rule << ":" << c;
+            qCDebug(KWIN_CORE) << "Rule found:" << rule << ":" << c;
             if (rule->isTemporary())
                 it = m_rules.erase(it);
             else

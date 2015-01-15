@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "options.h"
 #include "config-kwin.h"
+#include "utils.h"
 
 #ifndef KCMRULES
 
@@ -65,7 +66,7 @@ int currentRefreshRate()
                     vtotal *= 2;
                 if (modeline.htotal*vtotal) // BUG 313996
                     rate = 1000*dotclock/(modeline.htotal*vtotal); // WTF was wikipedia 1998 when I nedded it?
-                qDebug() << "Vertical Refresh Rate (as detected by XF86VM): " << rate << "Hz";
+                qCDebug(KWIN_CORE) << "Vertical Refresh Rate (as detected by XF86VM): " << rate << "Hz";
             }
         }
         if (rate < 1)
@@ -85,7 +86,7 @@ int currentRefreshRate()
                     rate = -1;
                 else
                     rate = qRound(frate);
-                qDebug() << "Vertical Refresh Rate (as detected by nvidia-settings): " << rate << "Hz";
+                qCDebug(KWIN_CORE) << "Vertical Refresh Rate (as detected by nvidia-settings): " << rate << "Hz";
             }
         }
     }
@@ -102,12 +103,12 @@ int currentRefreshRate()
     // however, additional throttling prevents very high rates from taking place anyway
     else if (rate > 1000)
         rate = 1000;
-    qDebug() << "Vertical Refresh rate " << rate << "Hz";
+    qCDebug(KWIN_CORE) << "Vertical Refresh rate " << rate << "Hz";
     return rate;
 }
 
 Options::Options(QObject *parent)
-    : KDecorationOptions(parent)
+    : QObject(parent)
     , m_settings(new Settings(KSharedConfig::openConfig()))
     , m_focusPolicy(ClickToFocus)
     , m_nextFocusPrefersMouse(false)
@@ -375,6 +376,33 @@ void Options::setOperationTitlebarDblClick(WindowOperation operationTitlebarDblC
     }
     OpTitlebarDblClick = operationTitlebarDblClick;
     emit operationTitlebarDblClickChanged();
+}
+
+void Options::setOperationMaxButtonLeftClick(WindowOperation op)
+{
+    if (opMaxButtonLeftClick == op) {
+        return;
+    }
+    opMaxButtonLeftClick = op;
+    emit operationMaxButtonLeftClickChanged();
+}
+
+void Options::setOperationMaxButtonRightClick(WindowOperation op)
+{
+    if (opMaxButtonRightClick == op) {
+        return;
+    }
+    opMaxButtonRightClick = op;
+    emit operationMaxButtonRightClickChanged();
+}
+
+void Options::setOperationMaxButtonMiddleClick(WindowOperation op)
+{
+    if (opMaxButtonMiddleClick == op) {
+        return;
+    }
+    opMaxButtonMiddleClick = op;
+    emit operationMaxButtonMiddleClickChanged();
 }
 
 void Options::setCommandActiveTitlebar1(MouseCommand commandActiveTitlebar1)
@@ -757,24 +785,24 @@ void Options::setGlPlatformInterface(OpenGLPlatformInterface interface)
     const QByteArray envOpenGLInterface(qgetenv("KWIN_OPENGL_INTERFACE"));
     if (!envOpenGLInterface.isEmpty()) {
         if (qstrcmp(envOpenGLInterface, "egl") == 0) {
-            qDebug() << "Forcing EGL native interface through environment variable";
+            qCDebug(KWIN_CORE) << "Forcing EGL native interface through environment variable";
             interface = EglPlatformInterface;
         } else if (qstrcmp(envOpenGLInterface, "glx") == 0) {
-            qDebug() << "Forcing GLX native interface through environment variable";
+            qCDebug(KWIN_CORE) << "Forcing GLX native interface through environment variable";
             interface = GlxPlatformInterface;
         }
     }
     if (kwinApp()->shouldUseWaylandForCompositing() && interface == GlxPlatformInterface) {
         // Glx is impossible on Wayland, enforce egl
-        qDebug() << "Forcing EGL native interface for Wayland mode";
+        qCDebug(KWIN_CORE) << "Forcing EGL native interface for Wayland mode";
         interface = EglPlatformInterface;
     }
 #ifdef KWIN_HAVE_OPENGLES
-    qDebug() << "Forcing EGL native interface as compiled against OpenGL ES";
+    qCDebug(KWIN_CORE) << "Forcing EGL native interface as compiled against OpenGL ES";
     interface = EglPlatformInterface;
 #else
 #ifndef KWIN_HAVE_EGL
-    qDebug() << "Forcing GLX native interface as compiled without EGL support";
+    qCDebug(KWIN_CORE) << "Forcing GLX native interface as compiled without EGL support";
     interface = GlxPlatformInterface;
 #endif
 #endif
@@ -813,16 +841,15 @@ void Options::updateSettings()
 void Options::loadConfig()
 {
     m_settings->load();
-    KDecorationOptions::updateSettings(m_settings->config());   // read decoration settings
 
     syncFromKcfgc();
 
     // Electric borders
     KConfigGroup config(m_settings->config(), "Windows");
     OpTitlebarDblClick = windowOperation(config.readEntry("TitlebarDoubleClickCommand", "Maximize"), true);
-    setOpMaxButtonLeftClick(windowOperation(config.readEntry("MaximizeButtonLeftClickCommand", "Maximize"), true));
-    setOpMaxButtonMiddleClick(windowOperation(config.readEntry("MaximizeButtonMiddleClickCommand", "Maximize (vertical only)"), true));
-    setOpMaxButtonRightClick(windowOperation(config.readEntry("MaximizeButtonRightClickCommand", "Maximize (horizontal only)"), true));
+    setOperationMaxButtonLeftClick(windowOperation(config.readEntry("MaximizeButtonLeftClickCommand", "Maximize"), true));
+    setOperationMaxButtonMiddleClick(windowOperation(config.readEntry("MaximizeButtonMiddleClickCommand", "Maximize (vertical only)"), true));
+    setOperationMaxButtonRightClick(windowOperation(config.readEntry("MaximizeButtonRightClickCommand", "Maximize (horizontal only)"), true));
 
     // Mouse bindings
     config = KConfigGroup(m_settings->config(), "MouseBindings");
@@ -908,29 +935,29 @@ bool Options::loadCompositingConfig (bool force)
     if (const char *c = getenv("KWIN_COMPOSE")) {
         switch(c[0]) {
         case 'O':
-            qDebug() << "Compositing forced to OpenGL mode by environment variable";
+            qCDebug(KWIN_CORE) << "Compositing forced to OpenGL mode by environment variable";
             compositingMode = OpenGLCompositing;
             useCompositing = true;
             break;
         case 'X':
-            qDebug() << "Compositing forced to XRender mode by environment variable";
+            qCDebug(KWIN_CORE) << "Compositing forced to XRender mode by environment variable";
             compositingMode = XRenderCompositing;
             useCompositing = true;
             break;
         case 'Q':
-            qDebug() << "Compositing forced to QPainter mode by environment variable";
+            qCDebug(KWIN_CORE) << "Compositing forced to QPainter mode by environment variable";
             compositingMode = QPainterCompositing;
             useCompositing = true;
             break;
         case 'N':
             if (getenv("KDE_FAILSAFE"))
-                qDebug() << "Compositing disabled forcefully by KDE failsafe mode";
+                qCDebug(KWIN_CORE) << "Compositing disabled forcefully by KDE failsafe mode";
             else
-                qDebug() << "Compositing disabled forcefully by environment variable";
+                qCDebug(KWIN_CORE) << "Compositing disabled forcefully by environment variable";
             compositingMode = NoCompositing;
             break;
         default:
-            qDebug() << "Unknown KWIN_COMPOSE mode set, ignoring";
+            qCDebug(KWIN_CORE) << "Unknown KWIN_COMPOSE mode set, ignoring";
             break;
         }
     }
@@ -1127,6 +1154,13 @@ double Options::animationTimeFactor() const
 {
     const double factors[] = { 0, 0.2, 0.5, 1, 2, 4, 20 };
     return factors[ animationSpeed ];
+}
+
+Options::WindowOperation Options::operationMaxButtonClick(Qt::MouseButtons button) const
+{
+    return button == Qt::RightButton ? opMaxButtonRightClick :
+           button == Qt::MidButton ?   opMaxButtonMiddleClick :
+           opMaxButtonLeftClick;
 }
 
 } // namespace

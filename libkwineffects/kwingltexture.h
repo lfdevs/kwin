@@ -55,8 +55,8 @@ public:
     explicit GLTexture(const QImage& image, GLenum target = GL_TEXTURE_2D);
     explicit GLTexture(const QPixmap& pixmap, GLenum target = GL_TEXTURE_2D);
     explicit GLTexture(const QString& fileName);
-    GLTexture(int width, int height);
-    explicit GLTexture(const QSize &size);
+    GLTexture(GLenum internalFormat, int width, int height, int levels = 1);
+    explicit GLTexture(GLenum internalFormat, const QSize &size, int levels = 1);
     virtual ~GLTexture();
 
     GLTexture & operator = (const GLTexture& tex);
@@ -75,6 +75,17 @@ public:
     void setYInverted(bool inverted);
 
     /**
+     * Specifies which component of a texel is placed in each respective
+     * component of the vector returned to the shader.
+     *
+     * Valid values are GL_RED, GL_GREEN, GL_BLUE, GL_ALPHA, GL_ONE and GL_ZERO.
+     *
+     * @see swizzleSupported()
+     * @since 5.2
+     */
+    void setSwizzle(GLenum red, GLenum green, GLenum blue, GLenum alpha);
+
+    /**
      * Returns a matrix that transforms texture coordinates of the given type,
      * taking the texture target and the y-inversion flag into account.
      *
@@ -82,9 +93,6 @@ public:
      */
     QMatrix4x4 matrix(TextureCoordinateType type) const;
 
-    virtual bool load(const QImage& image, GLenum target = GL_TEXTURE_2D);
-    virtual bool load(const QPixmap& pixmap, GLenum target = GL_TEXTURE_2D);
-    virtual bool load(const QString& fileName);
     void update(const QImage& image, const QPoint &offset = QPoint(0, 0), const QRect &src = QRect());
     virtual void discard();
     void bind();
@@ -94,6 +102,8 @@ public:
     GLuint texture() const;
     GLenum target() const;
     GLenum filter() const;
+    GLenum internalFormat() const;
+
     /** @short
      * Make the texture fully transparent
      * Warning: this clobbers the current framebuffer binding except on fglrx
@@ -104,9 +114,18 @@ public:
     void setWrapMode(GLenum mode);
     void setDirty();
 
-    static bool NPOTTextureSupported();
+    void generateMipmaps();
+
     static bool framebufferObjectSupported();
-    static bool saturationSupported();
+
+    /**
+     * Returns true if texture swizzle is supported, and false otherwise
+     *
+     * Texture swizzle requires OpenGL 3.3, GL_ARB_texture_swizzle, or OpenGL ES 3.0.
+     *
+     * @since 5.2
+     */
+    static bool supportsSwizzle();
 
 protected:
     QExplicitlySharedDataPointer<GLTexturePrivate> d_ptr;

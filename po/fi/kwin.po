@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-11-30 09:26+0000\n"
-"PO-Revision-Date: 2014-10-29 17:30+0200\n"
-"Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
+"PO-Revision-Date: 2014-12-23 21:19+0200\n"
+"Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
 "Language-Team: Finnish <lokalisointi@lists.coss.fi>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
@@ -735,7 +735,7 @@ msgstr "&Koko näyttö"
 
 #: useractions.cpp:286
 msgid "Sh&ade"
-msgstr "&Varjosta"
+msgstr "&Rullaa"
 
 #: useractions.cpp:291
 msgid "&No Border"

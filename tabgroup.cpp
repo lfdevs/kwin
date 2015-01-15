@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "tabgroup.h"
 
 #include "client.h"
-#include "decorations.h"
 #include "effects.h"
 #include "workspace.h"
 
@@ -63,7 +62,7 @@ bool TabGroup::add(Client* c, Client *other, bool after, bool becomeVisible)
 {
     Q_ASSERT(!c->tabGroup());
 
-    if (!decorationPlugin()->supportsTabbing() || contains(c) || !contains(other))
+    if (contains(c) || !contains(other))
         return false;
 
     // Tabbed windows MUST have a decoration
@@ -244,7 +243,7 @@ void TabGroup::setCurrent(Client* c, bool force)
 void TabGroup::sync(const char *property, Client *c)
 {
     if (c->metaObject()->indexOfProperty(property) > -1) {
-        qWarning("caught attempt to sync non dynamic property: %s", property);
+        qCWarning(KWIN_CORE, "caught attempt to sync non dynamic property: %s", property);
         return;
     }
     QVariant v = c->property(property);
@@ -287,7 +286,7 @@ void TabGroup::blockStateUpdates(bool more) {
     more ? ++m_stateUpdatesBlocked : --m_stateUpdatesBlocked;
     if (m_stateUpdatesBlocked < 0) {
         m_stateUpdatesBlocked = 0;
-        qWarning("TabGroup: Something is messed up with TabGroup::blockStateUpdates() invocation\nReleased more than blocked!");
+        qCWarning(KWIN_CORE, "TabGroup: Something is messed up with TabGroup::blockStateUpdates() invocation\nReleased more than blocked!");
     }
 }
 

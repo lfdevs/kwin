@@ -21,8 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KWIN_TOPLEVEL_H
 #define KWIN_TOPLEVEL_H
 
-// kwin libs
-#include <kdecoration.h>
 // kwin
 #include "input.h"
 #include "utils.h"
@@ -60,7 +58,7 @@ enum class ReleaseReason {
 };
 
 class Toplevel
-    : public QObject, public KDecorationDefines
+    : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool alpha READ hasAlpha CONSTANT)
@@ -151,6 +149,10 @@ class Toplevel
      */
     Q_PROPERTY(bool notification READ isNotification)
     /**
+     * Returns whether the window is an On Screen Display.
+     */
+    Q_PROPERTY(bool onScreenDisplay READ isOnScreenDisplay)
+    /**
      * Returns whether the window is a combobox popup.
      * See _NET_WM_WINDOW_TYPE_COMBO at http://standards.freedesktop.org/wm-spec/wm-spec-latest.html .
      */
@@ -205,7 +207,6 @@ public:
     virtual QRect visibleRect() const; // the area the window occupies on the screen
     virtual QRect decorationRect() const; // rect including the decoration shadows
     virtual QRect transparentRect() const = 0;
-    virtual QRegion decorationPendingRegion() const; // decoration region that needs to be repainted
     virtual bool isClient() const;
     virtual bool isDeleted() const;
 
@@ -225,6 +226,7 @@ public:
     bool isPopupMenu() const; // a context popup, not dropdown, not torn-off
     bool isTooltip() const;
     bool isNotification() const;
+    bool isOnScreenDisplay() const;
     bool isComboBox() const;
     bool isDNDIcon() const;
 
@@ -302,6 +304,11 @@ public:
      * Call this method when the Property changes or Compositing is started.
      **/
     void getShadow();
+    /**
+     * Whether the Toplevel currently wants the shadow to be rendered. Default
+     * implementation always returns @c true.
+     **/
+    virtual bool wantsShadowToBeRendered() const;
 
     /**
      * This method returns the area that the Toplevel window reports to be opaque.
@@ -511,11 +518,6 @@ inline QRect Toplevel::rect() const
     return QRect(0, 0, width(), height());
 }
 
-inline QRegion Toplevel::decorationPendingRegion() const
-{
-    return QRegion();
-}
-
 inline bool Toplevel::readyForPainting() const
 {
     return ready_for_painting;
@@ -584,6 +586,11 @@ inline bool Toplevel::isTooltip() const
 inline bool Toplevel::isNotification() const
 {
     return windowType() == NET::Notification;
+}
+
+inline bool Toplevel::isOnScreenDisplay() const
+{
+    return windowType() == NET::OnScreenDisplay;
 }
 
 inline bool Toplevel::isComboBox() const

@@ -133,6 +133,7 @@ public:
         TextureMatrix = 0,
         ProjectionMatrix,
         ModelViewMatrix,
+        ModelViewProjectionMatrix,
         WindowTransformation,
         ScreenTransformation,
         MatrixCount
@@ -201,6 +202,17 @@ private:
     friend class ShaderManager;
 };
 
+
+enum class ShaderTrait {
+    MapTexture       = (1 << 0),
+    UniformColor     = (1 << 1),
+    Modulate         = (1 << 2),
+    AdjustSaturation = (1 << 3),
+};
+
+Q_DECLARE_FLAGS(ShaderTraits, ShaderTrait)
+
+
 /**
  * @short Manager for Shaders.
  *
@@ -250,6 +262,11 @@ public:
     };
 
     /**
+     * Returns a shader with the given traits, creating it if necessary.
+     */
+    GLShader *shader(ShaderTraits traits);
+
+    /**
      * @return The currently bound shader or @c null if no shader is bound.
      **/
     GLShader *getBoundShader() const;
@@ -282,6 +299,13 @@ public:
      * @see popShader
      **/
     GLShader *pushShader(ShaderType type, bool reset = false);
+
+    /**
+     * Pushes the current shader onto the stack and binds a shader
+     * with the given traits.
+     */
+    GLShader *pushShader(ShaderTraits traits);
+
     /**
      * Binds the @p shader.
      * To unbind the shader use @link popShader. A previous bound shader will be rebound.
@@ -337,6 +361,20 @@ public:
     GLShader *loadShaderFromCode(const QByteArray &vertexSource, const QByteArray &fragmentSource);
 
     /**
+     * Compiles and tests the dynamically generated shaders.
+     * Returns true if successful and false otherwise.
+     */
+    bool selfTest();
+
+    /**
+     * Sets the virtual screen size to @p s.
+     * @since 5.2
+     **/
+    static void setVirtualScreenSize(const QSize &s) {
+        s_virtualScreenSize = s;
+    }
+
+    /**
      * @return a pointer to the ShaderManager instance
      **/
     static ShaderManager *instance();
@@ -355,13 +393,19 @@ private:
     void bindFragDataLocations(GLShader *shader);
     void bindAttributeLocations(GLShader *shader) const;
 
+    QByteArray generateVertexSource(ShaderTraits traits) const;
+    QByteArray generateFragmentSource(ShaderTraits traits) const;
+    GLShader *generateShader(ShaderTraits traits);
+
     QStack<GLShader*> m_boundShaders;
     GLShader *m_shader[3];
+    QHash<ShaderTraits, GLShader *> m_shaderHash;
     bool m_inited;
     bool m_valid;
     bool m_debug;
     QByteArray m_shaderDir;
     static ShaderManager *s_shaderManager;
+    static QSize s_virtualScreenSize;
 };
 
 /**
@@ -505,6 +549,14 @@ public:
      **/
     void blitFromFramebuffer(const QRect &source = QRect(), const QRect &destination = QRect(), GLenum filter = GL_LINEAR);
 
+    /**
+     * Sets the virtual screen size to @p s.
+     * @since 5.2
+     **/
+    static void setVirtualScreenSize(const QSize &s) {
+        s_virtualScreenSize = s;
+    }
+
 
 protected:
     void initFBO();
@@ -516,6 +568,7 @@ private:
     static bool sSupported;
     static bool s_blitSupported;
     static QStack<GLRenderTarget*> s_renderTargets;
+    static QSize s_virtualScreenSize;
 
     GLTexture mTexture;
     bool mValid;
@@ -712,6 +765,20 @@ public:
     void reset();
 
     /**
+     * Notifies the vertex buffer that we are done painting the frame.
+     *
+     * @internal
+     */
+    void endOfFrame();
+
+    /**
+     * Notifies the vertex buffer that we have posted the frame.
+     *
+     * @internal
+     */
+    void framePosted();
+
+    /**
      * @internal
      */
     static void initStatic();
@@ -732,11 +799,22 @@ public:
      **/
     static GLVertexBuffer *streamingBuffer();
 
+    /**
+     * Sets the virtual screen size to @p s.
+     * @since 5.2
+     **/
+    static void setVirtualScreenSize(const QSize &s) {
+        s_virtualScreenSize = s;
+    }
+
 private:
     GLVertexBufferPrivate* const d;
+    static QSize s_virtualScreenSize;
 };
 
 } // namespace
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(KWin::ShaderTraits)
 
 /** @} */
 

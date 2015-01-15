@@ -40,11 +40,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMatrix4x4>
 #include <QVarLengthArray>
 
+#include <deque>
+
 #include <math.h>
 
 #define DEBUG_GLRENDERTARGET 0
 
 #define MAKE_GL_VERSION(major, minor, release)  ( ((major) << 16) | ((minor) << 8) | (release) )
+
+#ifdef __GNUC__
+#  define likely(x)   __builtin_expect(!!(x), 1)
+#  define unlikely(x) __builtin_expect(!!(x), 0)
+#else
+#  define likely(x)   (x)
+#  define unlikely(x) (x)
+#endif
 
 namespace KWin
 {
@@ -408,11 +418,12 @@ void GLShader::resolveLocations()
     if (mLocationsResolved)
         return;
 
-    mMatrixLocation[TextureMatrix]        = uniformLocation("textureMatrix");
-    mMatrixLocation[ProjectionMatrix]     = uniformLocation("projection");
-    mMatrixLocation[ModelViewMatrix]      = uniformLocation("modelview");
-    mMatrixLocation[WindowTransformation] = uniformLocation("windowTransformation");
-    mMatrixLocation[ScreenTransformation] = uniformLocation("screenTransformation");
+    mMatrixLocation[TextureMatrix]              = uniformLocation("textureMatrix");
+    mMatrixLocation[ProjectionMatrix]           = uniformLocation("projection");
+    mMatrixLocation[ModelViewMatrix]            = uniformLocation("modelview");
+    mMatrixLocation[ModelViewProjectionMatrix]  = uniformLocation("modelViewProjectionMatrix");
+    mMatrixLocation[WindowTransformation]       = uniformLocation("windowTransformation");
+    mMatrixLocation[ScreenTransformation]       = uniformLocation("screenTransformation");
 
     mVec2Location[Offset] = uniformLocation("offset");
 
@@ -615,6 +626,7 @@ QMatrix4x4 GLShader::getUniformMatrix4x4(const char* name)
 // ShaderManager
 //****************************************
 ShaderManager *ShaderManager::s_shaderManager = nullptr;
+QSize ShaderManager::s_virtualScreenSize;
 
 ShaderManager *ShaderManager::instance()
 {
@@ -650,6 +662,363 @@ ShaderManager::~ShaderManager()
 
     for (int i = 0; i < 3; i++)
         delete m_shader[i];
+
+    qDeleteAll(m_shaderHash);
+    m_shaderHash.clear();
+}
+
+static bool fuzzyCompare(const QVector4D &lhs, const QVector4D &rhs)
+{
+    const float epsilon = 1.0f / 255.0f;
+
+    return lhs[0] >= rhs[0] - epsilon && lhs[0] <= rhs[0] + epsilon &&
+           lhs[1] >= rhs[1] - epsilon && lhs[1] <= rhs[1] + epsilon &&
+           lhs[2] >= rhs[2] - epsilon && lhs[2] <= rhs[2] + epsilon &&
+           lhs[3] >= rhs[3] - epsilon && lhs[3] <= rhs[3] + epsilon;
+}
+
+static bool checkPixel(int x, int y, const QVector4D &expected, const char *file, int line)
+{
+    uint8_t data[4];
+    glReadnPixels(x, y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, 4, data);
+
+    const QVector4D pixel{data[0] / 255.f, data[1] / 255.f, data[2] / 255.f, data[3] / 255.f};
+
+    if (fuzzyCompare(pixel, expected))
+        return true;
+
+    QMessageLogger(file, line, nullptr).warning() << "Pixel was" << pixel << "expected" << expected;
+    return false;
+}
+
+#define CHECK_PIXEL(x, y, expected) \
+    checkPixel(x, y, expected, __FILE__, __LINE__)
+
+static QVector4D adjustSaturation(const QVector4D &color, float saturation)
+{
+    const float gray = QVector3D::dotProduct(color.toVector3D(), {0.2126, 0.7152, 0.0722});
+    return QVector4D{gray, gray, gray, color.w()} * (1.0f - saturation) + color * saturation;
+}
+
+bool ShaderManager::selfTest()
+{
+    bool pass = true;
+
+    if (!GLRenderTarget::supported()) {
+        qWarning() << "Framebuffer objects not supported - skipping shader tests";
+        return true;
+    }
+
+    // Create the source texture
+    QImage image(2, 2, QImage::Format_ARGB32_Premultiplied);
+    image.setPixel(0, 0, 0xffff0000); // Red
+    image.setPixel(1, 0, 0xff00ff00); // Green
+    image.setPixel(0, 1, 0xff0000ff); // Blue
+    image.setPixel(1, 1, 0xffffffff); // White
+
+    GLTexture src(image);
+    src.setFilter(GL_NEAREST);
+
+    // Create the render target
+    GLTexture dst(GL_RGBA8, 32, 32);
+
+    GLRenderTarget fbo(dst);
+    GLRenderTarget::pushRenderTarget(&fbo);
+
+    // Set up the vertex buffer
+    GLVertexBuffer *vbo = GLVertexBuffer::streamingBuffer();
+
+    const GLVertexAttrib attribs[] {
+        { VA_Position, 2, GL_FLOAT, offsetof(GLVertex2D, position) },
+        { VA_TexCoord, 2, GL_FLOAT, offsetof(GLVertex2D, texcoord) },
+    };
+
+    vbo->setAttribLayout(attribs, 2, sizeof(GLVertex2D));
+
+    GLVertex2D *verts = (GLVertex2D*) vbo->map(6 * sizeof(GLVertex2D));
+    verts[0] = GLVertex2D{{0,   0}, {0, 0}}; // Top left
+    verts[1] = GLVertex2D{{0,  32}, {0, 1}}; // Bottom left
+    verts[2] = GLVertex2D{{32,  0}, {1, 0}}; // Top right
+
+    verts[3] = GLVertex2D{{32,  0}, {1, 0}}; // Top right
+    verts[4] = GLVertex2D{{0,  32}, {0, 1}}; // Bottom left
+    verts[5] = GLVertex2D{{32, 32}, {1, 1}}; // Bottom right
+    vbo->unmap();
+
+    vbo->bindArrays();
+
+    glViewport(0, 0, 32, 32);
+    glClearColor(0, 0, 0, 0);
+
+    // Set up the projection matrix
+    QMatrix4x4 matrix;
+    matrix.ortho(QRect(0, 0, 32, 32));
+
+    // Bind the source texture
+    src.bind();
+
+    const QVector4D red   {1.0f, 0.0f, 0.0f, 1.0f};
+    const QVector4D green {0.0f, 1.0f, 0.0f, 1.0f};
+    const QVector4D blue  {0.0f, 0.0f, 1.0f, 1.0f};
+    const QVector4D white {1.0f, 1.0f, 1.0f, 1.0f};
+
+    // Note: To see the line number in error messages, set
+    //       QT_MESSAGE_PATTERN="%{message} (%{file}:%{line})"
+
+    // Test solid color
+    GLShader *shader = pushShader(ShaderTrait::UniformColor);
+    if (shader->isValid()) {
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        shader->setUniform(GLShader::ModelViewProjectionMatrix, matrix);
+        shader->setUniform(GLShader::Color, green);
+        vbo->draw(GL_TRIANGLES, 0, 6);
+
+        pass = CHECK_PIXEL(8,  24, green) && pass;
+        pass = CHECK_PIXEL(24, 24, green) && pass;
+        pass = CHECK_PIXEL(8,   8, green) && pass;
+        pass = CHECK_PIXEL(24,  8, green) && pass;
+    } else {
+        pass = false;
+    }
+    popShader();
+
+    // Test texture mapping
+    shader = pushShader(ShaderTrait::MapTexture);
+    if (shader->isValid()) {
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        shader->setUniform(GLShader::ModelViewProjectionMatrix, matrix);
+        vbo->draw(GL_TRIANGLES, 0, 6);
+
+        pass = CHECK_PIXEL(8,  24, red)   && pass;
+        pass = CHECK_PIXEL(24, 24, green) && pass;
+        pass = CHECK_PIXEL(8,   8, blue)  && pass;
+        pass = CHECK_PIXEL(24,  8, white) && pass;
+    } else {
+        pass = false;
+    }
+    popShader();
+
+    // Test saturation filter
+    shader = pushShader(ShaderTrait::MapTexture | ShaderTrait::AdjustSaturation);
+    if (shader->isValid()) {
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        const float saturation = .3;
+
+        shader->setUniform(GLShader::ModelViewProjectionMatrix, matrix);
+        shader->setUniform(GLShader::Saturation, saturation);
+        vbo->draw(GL_TRIANGLES, 0, 6);
+
+        pass = CHECK_PIXEL(8,  24, adjustSaturation(red,   saturation)) && pass;
+        pass = CHECK_PIXEL(24, 24, adjustSaturation(green, saturation)) && pass;
+        pass = CHECK_PIXEL(8,  8,  adjustSaturation(blue,  saturation)) && pass;
+        pass = CHECK_PIXEL(24, 8,  adjustSaturation(white, saturation)) && pass;
+    } else {
+        pass = false;
+    }
+    popShader();
+
+    // Test modulation filter
+    shader = pushShader(ShaderTrait::MapTexture | ShaderTrait::Modulate);
+    if (shader->isValid()) {
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        const QVector4D modulation{.3f, .4f, .5f, .6f};
+
+        shader->setUniform(GLShader::ModelViewProjectionMatrix, matrix);
+        shader->setUniform(GLShader::ModulationConstant, modulation);
+        vbo->draw(GL_TRIANGLES, 0, 6);
+
+        pass = CHECK_PIXEL(8,  24, red   * modulation) && pass;
+        pass = CHECK_PIXEL(24, 24, green * modulation) && pass;
+        pass = CHECK_PIXEL(8,   8, blue  * modulation) && pass;
+        pass = CHECK_PIXEL(24,  8, white * modulation) && pass;
+    } else {
+        pass = false;
+    }
+    popShader();
+
+    // Test saturation + modulation
+    shader = pushShader(ShaderTrait::MapTexture | ShaderTrait::AdjustSaturation | ShaderTrait::Modulate);
+    if (shader->isValid()) {
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        const QVector4D modulation{.3f, .4f, .5f, .6f};
+        const float saturation = .3;
+
+        shader->setUniform(GLShader::ModelViewProjectionMatrix, matrix);
+        shader->setUniform(GLShader::ModulationConstant, modulation);
+        shader->setUniform(GLShader::Saturation, saturation);
+        vbo->draw(GL_TRIANGLES, 0, 6);
+
+        pass = CHECK_PIXEL(8,  24, adjustSaturation(red   * modulation, saturation)) && pass;
+        pass = CHECK_PIXEL(24, 24, adjustSaturation(green * modulation, saturation)) && pass;
+        pass = CHECK_PIXEL(8,  8,  adjustSaturation(blue  * modulation, saturation)) && pass;
+        pass = CHECK_PIXEL(24, 8,  adjustSaturation(white * modulation, saturation)) && pass;
+    } else {
+        pass = false;
+    }
+    popShader();
+
+    vbo->unbindArrays();
+    GLRenderTarget::popRenderTarget();
+
+    return pass;
+}
+
+QByteArray ShaderManager::generateVertexSource(ShaderTraits traits) const
+{
+    QByteArray source;
+    QTextStream stream(&source);
+
+    GLPlatform * const gl = GLPlatform::instance();
+    QByteArray attribute, varying;
+
+    if (!gl->isGLES()) {
+        const bool glsl_140 = gl->glslVersion() >= kVersionNumber(1, 40);
+
+        attribute = glsl_140 ? QByteArrayLiteral("in")  : QByteArrayLiteral("attribute");
+        varying   = glsl_140 ? QByteArrayLiteral("out") : QByteArrayLiteral("varying");
+
+        if (glsl_140)
+            stream << "#version 140\n\n";
+    } else {
+        const bool glsl_es_300 = gl->glslVersion() >= kVersionNumber(3, 0);
+
+        attribute = glsl_es_300 ? QByteArrayLiteral("in")  : QByteArrayLiteral("attribute");
+        varying   = glsl_es_300 ? QByteArrayLiteral("out") : QByteArrayLiteral("varying");
+
+        if (glsl_es_300)
+            stream << "#version 300 es\n\n";
+    }
+
+    stream << attribute << " vec4 position;\n";
+    if (traits & ShaderTrait::MapTexture) {
+        stream << attribute << " vec4 texcoord;\n\n";
+        stream << varying << " vec2 texcoord0;\n\n";
+    } else
+        stream << "\n";
+
+    stream << "uniform mat4 modelViewProjectionMatrix;\n\n";
+
+    stream << "void main()\n{\n";
+    if (traits & ShaderTrait::MapTexture)
+        stream << "    texcoord0 = texcoord.st;\n";
+
+    stream << "    gl_Position = modelViewProjectionMatrix * position;\n";
+    stream << "}\n";
+
+    stream.flush();
+    return source;
+}
+
+QByteArray ShaderManager::generateFragmentSource(ShaderTraits traits) const
+{
+    QByteArray source;
+    QTextStream stream(&source);
+
+    GLPlatform * const gl = GLPlatform::instance();
+    QByteArray varying, output, textureLookup;
+
+    if (!gl->isGLES()) {
+        const bool glsl_140 = gl->glslVersion() >= kVersionNumber(1, 40);
+
+        if (glsl_140)
+            stream << "#version 140\n\n";
+
+        varying       = glsl_140 ? QByteArrayLiteral("in")         : QByteArrayLiteral("varying");
+        textureLookup = glsl_140 ? QByteArrayLiteral("texture")    : QByteArrayLiteral("texture2D");
+        output        = glsl_140 ? QByteArrayLiteral("fragColor")  : QByteArrayLiteral("gl_FragColor");
+    } else {
+        const bool glsl_es_300 = GLPlatform::instance()->glslVersion() >= kVersionNumber(3, 0);
+
+        if (glsl_es_300)
+            stream << "#version 300 es\n\n";
+
+        // From the GLSL ES specification:
+        //
+        //     "The fragment language has no default precision qualifier for floating point types."
+        stream << "precision highp float;\n\n";
+
+        varying       = glsl_es_300 ? QByteArrayLiteral("in")         : QByteArrayLiteral("varying");
+        textureLookup = glsl_es_300 ? QByteArrayLiteral("texture")    : QByteArrayLiteral("texture2D");
+        output        = glsl_es_300 ? QByteArrayLiteral("fragColor")  : QByteArrayLiteral("gl_FragColor");
+    }
+
+    if (traits & ShaderTrait::MapTexture) {
+        stream << "uniform sampler2D sampler;\n";
+
+        if (traits & ShaderTrait::Modulate)
+            stream << "uniform vec4 modulation;\n";
+        if (traits & ShaderTrait::AdjustSaturation)
+            stream << "uniform float saturation;\n";
+
+        stream << "\n" << varying << " vec2 texcoord0;\n";
+
+    } else if (traits & ShaderTrait::UniformColor)
+        stream << "uniform vec4 geometryColor;\n";
+
+    if (output != QByteArrayLiteral("gl_FragColor"))
+        stream << "\nout vec4 " << output << ";\n";
+
+    stream << "\nvoid main(void)\n{\n";
+    if (traits & ShaderTrait::MapTexture) {
+        if (traits & (ShaderTrait::Modulate | ShaderTrait::AdjustSaturation)) {
+            stream << "    vec4 texel = " << textureLookup << "(sampler, texcoord0);\n";
+
+            if (traits & ShaderTrait::Modulate)
+                stream << "    texel *= modulation;\n";
+            if (traits & ShaderTrait::AdjustSaturation)
+                stream << "    texel.rgb = mix(vec3(dot(texel.rgb, vec3(0.2126, 0.7152, 0.0722))), texel.rgb, saturation);\n";
+
+            stream << "    " << output << " = texel;\n";
+        } else {
+            stream << "    " << output << " = " << textureLookup << "(sampler, texcoord0);\n";
+        }
+    } else if (traits & ShaderTrait::UniformColor)
+        stream << "    " << output << " = geometryColor;\n";
+
+    stream << "}";
+    stream.flush();
+    return source;
+}
+
+GLShader *ShaderManager::generateShader(ShaderTraits traits)
+{
+    const QByteArray vertex   = generateVertexSource(traits);
+    const QByteArray fragment = generateFragmentSource(traits);
+
+#if 0
+    qDebug() << "**************";
+    qDebug() << vertex;
+    qDebug() << "**************";
+    qDebug() << fragment;
+    qDebug() << "**************";
+#endif
+
+    GLShader *shader = new GLShader(GLShader::ExplicitLinking);
+    shader->load(vertex, fragment);
+
+    shader->bindAttributeLocation("position", VA_Position);
+    shader->bindAttributeLocation("texcoord", VA_TexCoord);
+    shader->bindFragDataLocation("fragColor", 0);
+
+    shader->link();
+    return shader;
+}
+
+GLShader *ShaderManager::shader(ShaderTraits traits)
+{
+    GLShader *shader = m_shaderHash.value(traits);
+
+    if (!shader) {
+        shader = generateShader(traits);
+        m_shaderHash.insert(traits, shader);
+    }
+
+    return shader;
 }
 
 GLShader *ShaderManager::getBoundShader() const
@@ -674,6 +1043,13 @@ bool ShaderManager::isValid() const
 bool ShaderManager::isShaderDebug() const
 {
     return m_debug;
+}
+
+GLShader *ShaderManager::pushShader(ShaderTraits traits)
+{
+    GLShader *shader = this->shader(traits);
+    pushShader(shader);
+    return shader;
 }
 
 GLShader *ShaderManager::pushShader(ShaderType type, bool reset)
@@ -868,7 +1244,7 @@ void ShaderManager::resetShader(ShaderType type)
 
     switch(type) {
     case SimpleShader:
-        projection.ortho(0, displayWidth(), displayHeight(), 0, 0, 65535);
+        projection.ortho(0, s_virtualScreenSize.width(), s_virtualScreenSize.height(), 0, 0, 65535);
         break;
 
     case GenericShader: {
@@ -886,12 +1262,12 @@ void ShaderManager::resetShader(ShaderType type)
         // Set up the model-view matrix
         float scaleFactor = 1.1 * tan(fovy * M_PI / 360.0f) / ymax;
         modelView.translate(xmin * scaleFactor, ymax * scaleFactor, -1.1);
-        modelView.scale((xmax - xmin)*scaleFactor / displayWidth(), -(ymax - ymin)*scaleFactor / displayHeight(), 0.001);
+        modelView.scale((xmax - xmin)*scaleFactor / s_virtualScreenSize.width(), -(ymax - ymin)*scaleFactor / s_virtualScreenSize.height(), 0.001);
         break;
     }
 
     case ColorShader:
-        projection.ortho(0, displayWidth(), displayHeight(), 0, 0, 65535);
+        projection.ortho(0, s_virtualScreenSize.width(), s_virtualScreenSize.height(), 0, 0, 65535);
         shader->setUniform("geometryColor", QVector4D(0, 0, 0, 1));
         break;
     }
@@ -913,6 +1289,7 @@ void ShaderManager::resetShader(ShaderType type)
 bool GLRenderTarget::sSupported = false;
 bool GLRenderTarget::s_blitSupported = false;
 QStack<GLRenderTarget*> GLRenderTarget::s_renderTargets = QStack<GLRenderTarget*>();
+QSize GLRenderTarget::s_virtualScreenSize;
 
 void GLRenderTarget::initStatic()
 {
@@ -961,7 +1338,7 @@ GLRenderTarget* GLRenderTarget::popRenderTarget()
     if (!s_renderTargets.isEmpty()) {
         s_renderTargets.top()->enable();
     } else {
-        glViewport (0, 0, displayWidth(), displayHeight());
+        glViewport (0, 0, s_virtualScreenSize.width(), s_virtualScreenSize.height());
     }
 
     return ret;
@@ -1118,10 +1495,10 @@ void GLRenderTarget::blitFromFramebuffer(const QRect &source, const QRect &desti
     GLRenderTarget::pushRenderTarget(this);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mFramebuffer);
     glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
-    const QRect s = source.isNull() ? QRect(0, 0, displayWidth(), displayHeight()) : source;
+    const QRect s = source.isNull() ? QRect(0, 0, s_virtualScreenSize.width(), s_virtualScreenSize.height()) : source;
     const QRect d = destination.isNull() ? QRect(0, 0, mTexture.width(), mTexture.height()) : destination;
 
-    glBlitFramebuffer(s.x(), displayHeight() - s.y() - s.height(), s.x() + s.width(), displayHeight() - s.y(),
+    glBlitFramebuffer(s.x(), s_virtualScreenSize.height() - s.y() - s.height(), s.x() + s.width(), s_virtualScreenSize.height() - s.y(),
                       d.x(), mTexture.height() - d.y() - d.height(), d.x() + d.width(), mTexture.height() - d.y(),
                       GL_COLOR_BUFFER_BIT, filter);
     GLRenderTarget::popRenderTarget();
@@ -1490,6 +1867,65 @@ struct VertexAttrib
 };
 
 
+// ------------------------------------------------------------------
+
+
+
+struct BufferFence
+{
+    GLsync sync;
+    intptr_t nextEnd;
+
+    bool signaled() const
+    {
+        GLint value;
+        glGetSynciv(sync, GL_SYNC_STATUS, 1, nullptr, &value);
+        return value == GL_SIGNALED;
+    }
+};
+
+
+static void deleteAll(std::deque<BufferFence> &fences)
+{
+    for (const BufferFence &fence : fences)
+        glDeleteSync(fence.sync);
+
+    fences.clear();
+}
+
+
+
+// ------------------------------------------------------------------
+
+
+
+template <size_t Count>
+struct FrameSizesArray
+{
+public:
+    FrameSizesArray() {
+        m_array.fill(0);
+    }
+
+    void push(size_t size) {
+        m_array[m_index] = size;
+        m_index = (m_index + 1) % Count;
+    }
+
+    size_t average() const {
+        size_t sum = 0;
+        for (size_t size : m_array)
+            sum += size;
+        return sum / Count;
+    }
+
+private:
+    std::array<size_t, Count> m_array;
+    int m_index = 0;
+};
+
+
+
 //*********************************
 // GLVertexBufferPrivate
 //*********************************
@@ -1498,12 +1934,16 @@ class GLVertexBufferPrivate
 public:
     GLVertexBufferPrivate(GLVertexBuffer::UsageHint usageHint)
         : vertexCount(0)
+        , persistent(false)
         , useColor(false)
         , color(0, 0, 0, 255)
         , bufferSize(0)
+        , bufferEnd(0)
         , mappedSize(0)
+        , frameSize(0)
         , nextOffset(0)
         , baseAddress(0)
+        , map(nullptr)
     {
         glGenBuffers(1, &buffer);
 
@@ -1521,7 +1961,12 @@ public:
     }
 
     ~GLVertexBufferPrivate() {
-        glDeleteBuffers(1, &buffer);
+        deleteAll(fences);
+
+        if (buffer != 0) {
+            glDeleteBuffers(1, &buffer);
+            map = nullptr;
+        }
     }
 
     void interleaveArrays(float *array, int dim, const float *vertices, const float *texcoords, int count);
@@ -1529,21 +1974,32 @@ public:
     void unbindArrays();
     void reallocateBuffer(size_t size);
     GLvoid *mapNextFreeRange(size_t size);
+    void reallocatePersistentBuffer(size_t size);
+    bool awaitFence(intptr_t offset);
+    GLvoid *getIdleRange(size_t size);
 
     GLuint buffer;
     GLenum usage;
     int stride;
     int vertexCount;
     static GLVertexBuffer *streamingBuffer;
+    static bool haveBufferStorage;
+    static bool haveSyncFences;
     static bool hasMapBufferRange;
     static bool supportsIndexedQuads;
     QByteArray dataStore;
+    bool persistent;
     bool useColor;
     QVector4D color;
     size_t bufferSize;
+    intptr_t bufferEnd;
     size_t mappedSize;
+    size_t frameSize;
     intptr_t nextOffset;
     intptr_t baseAddress;
+    uint8_t *map;
+    std::deque<BufferFence> fences;
+    FrameSizesArray<4> frameSizes;
     VertexAttrib attrib[VertexAttributeCount];
     Bitfield enabledArrays;
 #ifndef KWIN_HAVE_OPENGLES
@@ -1554,6 +2010,8 @@ public:
 bool GLVertexBufferPrivate::hasMapBufferRange = false;
 bool GLVertexBufferPrivate::supportsIndexedQuads = false;
 GLVertexBuffer *GLVertexBufferPrivate::streamingBuffer = nullptr;
+bool GLVertexBufferPrivate::haveBufferStorage = false;
+bool GLVertexBufferPrivate::haveSyncFences = false;
 #ifndef KWIN_HAVE_OPENGLES
 IndexBuffer *GLVertexBufferPrivate::s_indexBuffer = nullptr;
 #endif
@@ -1624,6 +2082,95 @@ void GLVertexBufferPrivate::unbindArrays()
         glDisableVertexAttribArray(it.next());
 }
 
+void GLVertexBufferPrivate::reallocatePersistentBuffer(size_t size)
+{
+    if (buffer != 0) {
+        // This also unmaps and unbinds the buffer
+        glDeleteBuffers(1, &buffer);
+        buffer = 0;
+
+        deleteAll(fences);
+    }
+
+    if (buffer == 0)
+        glGenBuffers(1, &buffer);
+
+    // Round the size up to 64 kb
+    size_t minSize = qMax<size_t>(frameSizes.average() * 3, 128 * 1024);
+    bufferSize = align(qMax(size, minSize), 64 * 1024);
+
+    const GLbitfield storage = GL_DYNAMIC_STORAGE_BIT;
+    const GLbitfield access = GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
+
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBufferStorage(GL_ARRAY_BUFFER, bufferSize, nullptr, storage | access);
+
+    map = (uint8_t *) glMapBufferRange(GL_ARRAY_BUFFER, 0, bufferSize, access);
+
+    nextOffset = 0;
+    bufferEnd = bufferSize;
+}
+
+bool GLVertexBufferPrivate::awaitFence(intptr_t end)
+{
+    // Skip fences until we reach the end offset
+    while (!fences.empty() && fences.front().nextEnd < end) {
+        glDeleteSync(fences.front().sync);
+        fences.pop_front();
+    }
+
+    assert(!fences.empty());
+
+    // Wait on the next fence
+    const BufferFence &fence = fences.front();
+
+    if (!fence.signaled()) {
+        qDebug() << "Stalling on VBO fence";
+        const GLenum ret = glClientWaitSync(fence.sync, GL_SYNC_FLUSH_COMMANDS_BIT, 1000000000);
+
+        if (ret == GL_TIMEOUT_EXPIRED || ret == GL_WAIT_FAILED) {
+            qCritical() << "Wait failed";
+            return false;
+        }
+    }
+
+    glDeleteSync(fence.sync);
+
+    // Update the end pointer
+    bufferEnd = fence.nextEnd;
+    fences.pop_front();
+
+    return true;
+}
+
+GLvoid *GLVertexBufferPrivate::getIdleRange(size_t size)
+{
+    if (unlikely(size > bufferSize))
+        reallocatePersistentBuffer(size * 2);
+
+    // Handle wrap-around
+    if (unlikely(nextOffset + size > bufferSize)) {
+        nextOffset = 0;
+        bufferEnd -= bufferSize;
+
+        for (BufferFence &fence : fences)
+            fence.nextEnd -= bufferSize;
+
+        // Emit a fence now
+        BufferFence fence;
+        fence.sync = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+        fence.nextEnd = bufferSize;
+        fences.emplace_back(fence);
+    }
+
+    if (unlikely(nextOffset + intptr_t(size) > bufferEnd)) {
+        if (!awaitFence(nextOffset + size))
+            return nullptr;
+    }
+
+    return map + nextOffset;
+}
+
 void GLVertexBufferPrivate::reallocateBuffer(size_t size)
 {
     // Round the size up to 4 Kb for streaming/dynamic buffers.
@@ -1658,6 +2205,8 @@ GLvoid *GLVertexBufferPrivate::mapNextFreeRange(size_t size)
 //*********************************
 // GLVertexBuffer
 //*********************************
+QSize GLVertexBuffer::s_virtualScreenSize;
+
 GLVertexBuffer::GLVertexBuffer(UsageHint hint)
     : d(new GLVertexBufferPrivate(hint))
 {
@@ -1696,6 +2245,10 @@ void GLVertexBuffer::setData(int vertexCount, int dim, const float* vertices, co
 GLvoid *GLVertexBuffer::map(size_t size)
 {
     d->mappedSize = size;
+    d->frameSize += size;
+
+    if (d->persistent)
+        return d->getIdleRange(size);
 
     glBindBuffer(GL_ARRAY_BUFFER, d->buffer);
 
@@ -1715,6 +2268,13 @@ GLvoid *GLVertexBuffer::map(size_t size)
 
 void GLVertexBuffer::unmap()
 {
+    if (d->persistent) {
+        d->baseAddress = d->nextOffset;
+        d->nextOffset += align(d->mappedSize, 16); // Align to 16 bytes for SSE
+        d->mappedSize = 0;
+        return;
+    }
+
     bool preferBufferSubData = GLPlatform::instance()->preferBufferSubData();
 
     if (GLVertexBufferPrivate::hasMapBufferRange && !preferBufferSubData) {
@@ -1820,7 +2380,7 @@ void GLVertexBuffer::draw(const QRegion &region, GLenum primitiveMode, int first
         } else {
             // Clip using scissoring
             foreach (const QRect &r, region.rects()) {
-                glScissor(r.x(), displayHeight() - r.y() - r.height(), r.width(), r.height());
+                glScissor(r.x(), s_virtualScreenSize.height() - r.y() - r.height(), r.width(), r.height());
                 glDrawElementsBaseVertex(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, nullptr, first);
             }
         }
@@ -1833,7 +2393,7 @@ void GLVertexBuffer::draw(const QRegion &region, GLenum primitiveMode, int first
     } else {
         // Clip using scissoring
         foreach (const QRect &r, region.rects()) {
-            glScissor(r.x(), displayHeight() - r.y() - r.height(), r.width(), r.height());
+            glScissor(r.x(), s_virtualScreenSize.height() - r.y() - r.height(), r.width(), r.height());
             glDrawArrays(primitiveMode, first, count);
         }
     }
@@ -1867,11 +2427,58 @@ void GLVertexBuffer::reset()
     d->vertexCount    = 0;
 }
 
+void GLVertexBuffer::endOfFrame()
+{
+    if (!d->persistent)
+        return;
+
+    // Emit a fence if we have uploaded data
+    if (d->frameSize > 0) {
+        d->frameSizes.push(d->frameSize);
+        d->frameSize = 0;
+
+        // Force the buffer to be reallocated at the beginning of the next frame
+        // if the average frame size is greater than half the size of the buffer
+        if (unlikely(d->frameSizes.average() > d->bufferSize / 2)) {
+            deleteAll(d->fences);
+            glDeleteBuffers(1, &d->buffer);
+
+            d->buffer = 0;
+            d->bufferSize = 0;
+            d->nextOffset = 0;
+            d->map = nullptr;
+        } else {
+            BufferFence fence;
+            fence.sync = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+            fence.nextEnd = d->nextOffset + d->bufferSize;
+
+            d->fences.emplace_back(fence);
+        }
+    }
+}
+
+void GLVertexBuffer::framePosted()
+{
+    if (!d->persistent)
+        return;
+
+    // Remove finished fences from the list and update the bufferEnd offset
+    while (d->fences.size() > 1 && d->fences.front().signaled()) {
+        const BufferFence &fence = d->fences.front();
+        glDeleteSync(fence.sync);
+
+        d->bufferEnd = fence.nextEnd;
+        d->fences.pop_front();
+    }
+}
+
 void GLVertexBuffer::initStatic()
 {
 #ifdef KWIN_HAVE_OPENGLES
     GLVertexBufferPrivate::hasMapBufferRange = hasGLExtension(QByteArrayLiteral("GL_EXT_map_buffer_range"));
     GLVertexBufferPrivate::supportsIndexedQuads = false;
+    GLVertexBufferPrivate::haveBufferStorage = false;
+    GLVertexBufferPrivate::haveSyncFences = false;
 #else
     bool haveBaseVertex     = hasGLVersion(3, 2) || hasGLExtension(QByteArrayLiteral("GL_ARB_draw_elements_base_vertex"));
     bool haveCopyBuffer     = hasGLVersion(3, 1) || hasGLExtension(QByteArrayLiteral("GL_ARB_copy_buffer"));
@@ -1880,8 +2487,16 @@ void GLVertexBuffer::initStatic()
     GLVertexBufferPrivate::hasMapBufferRange = haveMapBufferRange;
     GLVertexBufferPrivate::supportsIndexedQuads = haveBaseVertex && haveCopyBuffer && haveMapBufferRange;
     GLVertexBufferPrivate::s_indexBuffer = nullptr;
+    GLVertexBufferPrivate::haveBufferStorage = hasGLVersion(4, 4) || hasGLExtension("GL_ARB_buffer_storage");
+    GLVertexBufferPrivate::haveSyncFences = hasGLVersion(3, 2) || hasGLExtension("GL_ARB_sync");
 #endif
     GLVertexBufferPrivate::streamingBuffer = new GLVertexBuffer(GLVertexBuffer::Stream);
+
+    if (GLVertexBufferPrivate::haveBufferStorage && GLVertexBufferPrivate::haveSyncFences) {
+        if (qgetenv("KWIN_PERSISTENT_VBO") != QByteArrayLiteral("0")) {
+            GLVertexBufferPrivate::streamingBuffer->d->persistent = true;
+        }
+    }
 }
 
 void GLVertexBuffer::cleanup()

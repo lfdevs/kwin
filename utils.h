@@ -30,25 +30,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // KDE
 #include <netwm_def.h>
 // Qt
+#include <QLoggingCategory>
 #include <QList>
 #include <QPoint>
 #include <QRect>
 #include <QScopedPointer>
 // system
 #include <limits.h>
-
+Q_DECLARE_LOGGING_CATEGORY(KWIN_CORE)
 namespace KWin
 {
 
 // window types that are supported as normal windows (i.e. KWin actually manages them)
 const NET::WindowTypes SUPPORTED_MANAGED_WINDOW_TYPES_MASK = NET::NormalMask | NET::DesktopMask | NET::DockMask
         | NET::ToolbarMask | NET::MenuMask | NET::DialogMask /*| NET::OverrideMask*/ | NET::TopMenuMask
-        | NET::UtilityMask | NET::SplashMask | NET::NotificationMask;
+        | NET::UtilityMask | NET::SplashMask | NET::NotificationMask | NET::OnScreenDisplayMask;
 // window types that are supported as unmanaged (mainly for compositing)
 const NET::WindowTypes SUPPORTED_UNMANAGED_WINDOW_TYPES_MASK = NET::NormalMask | NET::DesktopMask | NET::DockMask
         | NET::ToolbarMask | NET::MenuMask | NET::DialogMask /*| NET::OverrideMask*/ | NET::TopMenuMask
         | NET::UtilityMask | NET::SplashMask | NET::DropdownMenuMask | NET::PopupMenuMask
-        | NET::TooltipMask | NET::NotificationMask | NET::ComboBoxMask | NET::DNDIconMask;
+        | NET::TooltipMask | NET::NotificationMask | NET::ComboBoxMask | NET::DNDIconMask | NET::OnScreenDisplayMask;
 
 const QPoint invalidPoint(INT_MIN, INT_MIN);
 
@@ -79,6 +80,7 @@ enum Layer {
     AboveLayer,
     NotificationLayer, // layer for windows of type notification
     ActiveLayer, // active fullscreen, or active dialog
+    OnScreenDisplayLayer, // layer for On Screen Display windows such as volume feedback
     UnmanagedLayer, // layer for override redirect windows.
     NumLayers // number of layers, must be last
 };
@@ -119,6 +121,24 @@ enum ShadeMode {
     ShadeHover, // "shaded", but visible due to hover unshade
     ShadeActivated // "shaded", but visible due to alt+tab to the window
 };
+
+/**
+ * Maximize mode. These values specify how a window is maximized.
+ */
+// these values are written to session files, don't change the order
+enum MaximizeMode {
+    MaximizeRestore    = 0, ///< The window is not maximized in any direction.
+    MaximizeVertical   = 1, ///< The window is maximized vertically.
+    MaximizeHorizontal = 2, ///< The window is maximized horizontally.
+    /// Equal to @p MaximizeVertical | @p MaximizeHorizontal
+    MaximizeFull = MaximizeVertical | MaximizeHorizontal
+};
+
+inline
+MaximizeMode operator^(MaximizeMode m1, MaximizeMode m2)
+{
+    return MaximizeMode(int(m1) ^ int(m2));
+}
 
 template <typename T> using ScopedCPointer = QScopedPointer<T, QScopedPointerPodDeleter>;
 

@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QSize>
 
 class QTemporaryFile;
+struct wl_cursor_image;
 struct wl_cursor_theme;
 struct wl_buffer;
 struct wl_display;
@@ -39,6 +40,7 @@ namespace KWayland
 {
 namespace Client
 {
+class Buffer;
 class ShmPool;
 class Compositor;
 class ConnectionThread;
@@ -51,6 +53,8 @@ class Registry;
 class Seat;
 class Shell;
 class ShellSurface;
+class SubCompositor;
+class SubSurface;
 class Surface;
 }
 }
@@ -83,18 +87,37 @@ class X11CursorTracker : public QObject
 {
     Q_OBJECT
 public:
-    explicit X11CursorTracker(WaylandSeat *seat, WaylandBackend *backend, QObject* parent = 0);
+    explicit X11CursorTracker(WaylandBackend *backend, QObject* parent = 0);
     virtual ~X11CursorTracker();
     void resetCursor();
+
+Q_SIGNALS:
+    void cursorImageChanged(QWeakPointer<KWayland::Client::Buffer> image, const QSize &size, const QPoint &hotSpot);
+
 private Q_SLOTS:
     void cursorChanged(uint32_t serial);
 private:
     void installCursor(const CursorData &cursor);
-    WaylandSeat *m_seat;
     QHash<uint32_t, CursorData> m_cursors;
     WaylandBackend *m_backend;
     uint32_t m_installedCursor;
     uint32_t m_lastX11Cursor;
+};
+
+class WaylandCursorTheme : public QObject
+{
+    Q_OBJECT
+public:
+    explicit WaylandCursorTheme(WaylandBackend *backend, QObject *parent = nullptr);
+    virtual ~WaylandCursorTheme();
+
+    wl_cursor_image *get(Qt::CursorShape shape);
+
+private:
+    void loadTheme();
+    void destroyTheme();
+    wl_cursor_theme *m_theme;
+    WaylandBackend *m_backend;
 };
 
 class WaylandSeat : public QObject
@@ -104,23 +127,46 @@ public:
     WaylandSeat(wl_seat *seat, WaylandBackend *backend);
     virtual ~WaylandSeat();
 
-    void resetCursor();
     void installCursorImage(wl_buffer *image, const QSize &size, const QPoint &hotspot);
     void installCursorImage(Qt::CursorShape shape);
-private Q_SLOTS:
-    void loadTheme();
+    void setInstallCursor(bool install);
+    bool isInstallCursor() const {
+        return m_installCursor;
+    }
 private:
     void destroyPointer();
     void destroyKeyboard();
-    void destroyTheme();
     KWayland::Client::Seat *m_seat;
     KWayland::Client::Pointer *m_pointer;
     KWayland::Client::Keyboard *m_keyboard;
     KWayland::Client::Surface *m_cursor;
-    wl_cursor_theme *m_theme;
+    WaylandCursorTheme *m_theme;
     uint32_t m_enteredSerial;
-    QScopedPointer<X11CursorTracker> m_cursorTracker;
     WaylandBackend *m_backend;
+    bool m_installCursor;
+};
+
+class WaylandCursor : public QObject
+{
+    Q_OBJECT
+public:
+    explicit WaylandCursor(KWayland::Client::Surface *parentSurface, WaylandBackend *backend);
+
+    void setHotSpot(const QPoint &pos);
+    const QPoint &hotSpot() const {
+        return m_hotSpot;
+    }
+    void setCursorImage(wl_buffer *image, const QSize &size, const QPoint &hotspot);
+    void setCursorImage(Qt::CursorShape shape);
+
+Q_SIGNALS:
+    void hotSpotChanged(const QPoint &);
+
+private:
+    WaylandBackend *m_backend;
+    QPoint m_hotSpot;
+    KWayland::Client::SubSurface *m_subSurface;
+    WaylandCursorTheme *m_theme;
 };
 
 /**
@@ -138,6 +184,8 @@ public:
     KWayland::Client::Compositor *compositor();
     const QList<KWayland::Client::Output*> &outputs() const;
     KWayland::Client::ShmPool *shmPool();
+    KWayland::Client::SubCompositor *subCompositor();
+    X11CursorTracker *cursorTracker();
 
     KWayland::Client::Surface *surface() const;
     QSize shellSurfaceSize() const;
@@ -162,10 +210,13 @@ private:
     KWayland::Client::ShellSurface *m_shellSurface;
     QScopedPointer<WaylandSeat> m_seat;
     KWayland::Client::ShmPool *m_shm;
+    QScopedPointer<X11CursorTracker> m_cursorTracker;
     QList<KWayland::Client::Output*> m_outputs;
     KWayland::Client::ConnectionThread *m_connectionThreadObject;
     QThread *m_connectionThread;
     KWayland::Client::FullscreenShell *m_fullscreenShell;
+    KWayland::Client::SubCompositor *m_subCompositor;
+    WaylandCursor *m_cursor;
 
     KWIN_SINGLETON(WaylandBackend)
 };
@@ -201,9 +252,21 @@ KWayland::Client::Compositor *WaylandBackend::compositor()
 }
 
 inline
+KWayland::Client::SubCompositor *WaylandBackend::subCompositor()
+{
+    return m_subCompositor;
+}
+
+inline
 KWayland::Client::ShmPool* WaylandBackend::shmPool()
 {
     return m_shm;
+}
+
+inline
+X11CursorTracker *WaylandBackend::cursorTracker()
+{
+    return m_cursorTracker.data();
 }
 
 inline

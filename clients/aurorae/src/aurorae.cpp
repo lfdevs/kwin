@@ -20,54 +20,189 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "config-kwin.h"
 // qml imports
 #include "decorationoptions.h"
-
-#include <QApplication>
+// KDecoration2
+#include <KDecoration2/DecoratedClient>
+#include <KDecoration2/DecorationSettings>
+#include <KDecoration2/DecorationShadow>
+// KDE
+#include <KConfigGroup>
+#include <KConfigLoader>
+#include <KConfigDialogManager>
+#include <KDesktopFile>
+#include <KLocalizedTranslator>
+#include <KPluginFactory>
+#include <KSharedConfig>
+#include <KService>
+#include <KServiceTypeTrader>
+// Qt
 #include <QDebug>
 #include <QDirIterator>
-#include <QFileInfo>
-#include <QMutex>
+#include <QGuiApplication>
+#include <QStyleHints>
+#include <QOffscreenSurface>
+#include <QOpenGLContext>
 #include <QOpenGLFramebufferObject>
 #include <QPainter>
+#include <QQuickItem>
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+#define HAVE_RENDER_CONTROL 1
+#else
+#define HAVE_RENDER_CONTROL 0
+#endif
+
+#if HAVE_RENDER_CONTROL
+#include <QQuickRenderControl>
+#endif
+#include <QQuickWindow>
 #include <QQmlComponent>
 #include <QQmlContext>
 #include <QQmlEngine>
-#include <QQuickItem>
-#include <QQuickWindow>
 #include <QStandardPaths>
-#include <QWidget>
+#include <QTimer>
+#include <QUiLoader>
+#include <QVBoxLayout>
 
-#include <KConfig>
-#include <KConfigGroup>
-#include <KSharedConfig>
-#include <KPluginInfo>
-#include <KServiceTypeTrader>
-
-K_PLUGIN_FACTORY_WITH_JSON(AuroraePluginFactory,
+K_PLUGIN_FACTORY_WITH_JSON(AuroraeDecoFactory,
                            "aurorae.json",
-                           registerPlugin<Aurorae::AuroraeFactory>(QString(), &Aurorae::AuroraeFactory::createInstance);)
-K_EXPORT_PLUGIN_VERSION(KWIN_DECORATION_API_VERSION)
+                           registerPlugin<Aurorae::Decoration>();
+                           registerPlugin<Aurorae::ThemeFinder>(QStringLiteral("themes"));
+                           registerPlugin<Aurorae::ConfigurationModule>(QStringLiteral("kcmodule"));
+                          )
 
 namespace Aurorae
 {
 
-AuroraeFactory::AuroraeFactory(QObject *parent)
-        : KDecorationFactory(parent)
-        , m_theme(new AuroraeTheme(this))
-        , m_engine(new QQmlEngine(this))
-        , m_component(new QQmlComponent(m_engine, this))
-        , m_engineType(AuroraeEngine)
-        , m_mutex(new QMutex(QMutex::Recursive))
+class Helper
 {
-    init();
-    connect(options(), &KDecorationOptions::buttonsChanged, this, &AuroraeFactory::buttonsChanged);
-    connect(options(), &KDecorationOptions::fontsChanged, this, &AuroraeFactory::titleFontChanged);
-    connect(options(), &KDecorationOptions::configChanged, this, &AuroraeFactory::updateConfiguration);
+public:
+    void ref();
+    void unref();
+    QQmlComponent *component(const QString &theme);
+    QQmlContext *rootContext();
+    QQmlComponent *svgComponent() {
+        return m_svgComponent.data();
+    }
+
+    static Helper &instance();
+private:
+    Helper() = default;
+    void init();
+    QQmlComponent *loadComponent(const QString &themeName);
+    int m_refCount = 0;
+    QScopedPointer<QQmlEngine> m_engine;
+    QHash<QString, QQmlComponent*> m_components;
+    QScopedPointer<QQmlComponent> m_svgComponent;
+};
+
+Helper &Helper::instance()
+{
+    static Helper s_helper;
+    return s_helper;
 }
 
-void AuroraeFactory::init()
+void Helper::ref()
 {
-    qRegisterMetaType<uint>("Qt::MouseButtons");
+    m_refCount++;
+    if (m_refCount == 1) {
+        m_engine.reset(new QQmlEngine);
+        init();
+    }
+}
 
+void Helper::unref()
+{
+    m_refCount--;
+    if (m_refCount == 0) {
+        // cleanup
+        m_svgComponent.reset();
+        m_engine.reset();
+        m_components.clear();
+    }
+}
+
+static const QString s_defaultTheme = QStringLiteral("kwin4_decoration_qml_plastik");
+
+QQmlComponent *Helper::component(const QString &themeName)
+{
+    // maybe it's an SVG theme?
+    if (themeName.startsWith(QLatin1Literal("__aurorae__svg__"))) {
+        if (m_svgComponent.isNull()) {
+            /* use logic from KDeclarative::setupBindings():
+            "addImportPath adds the path at the beginning, so to honour user's
+            paths we need to traverse the list in reverse order" */
+            QStringListIterator paths(QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("module/imports"), QStandardPaths::LocateDirectory));
+            paths.toBack();
+            while (paths.hasPrevious()) {
+                m_engine->addImportPath(paths.previous());
+            }
+            m_svgComponent.reset(new QQmlComponent(m_engine.data()));
+            m_svgComponent->loadUrl(QUrl(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kwin/aurorae/aurorae.qml"))));
+        }
+        // verify that the theme exists
+        if (!QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("aurorae/themes/%1/%1rc").arg(themeName.mid(16))).isEmpty()) {
+            return m_svgComponent.data();
+        }
+    }
+    // try finding the QML package
+    auto it = m_components.constFind(themeName);
+    if (it != m_components.constEnd()) {
+        return it.value();
+    }
+    auto component = loadComponent(themeName);
+    if (component) {
+        m_components.insert(themeName, component);
+        return component;
+    }
+    // try loading default component
+    if (themeName != s_defaultTheme) {
+        return loadComponent(s_defaultTheme);
+    }
+    return nullptr;
+}
+
+QQmlComponent *Helper::loadComponent(const QString &themeName)
+{
+    qCDebug(AURORAE) << "Trying to load QML Decoration " << themeName;
+    const QString internalname = themeName.toLower();
+
+    QString constraint = QStringLiteral("[X-KDE-PluginInfo-Name] == '%1'").arg(internalname);
+    KService::List offers = KServiceTypeTrader::self()->query(QStringLiteral("KWin/Decoration"), constraint);
+    if (offers.isEmpty()) {
+        qCCritical(AURORAE) << "Couldn't find QML Decoration " << themeName << endl;
+        // TODO: what to do in error case?
+        return nullptr;
+    }
+    KService::Ptr service = offers.first();
+    const QString pluginName = service->property(QStringLiteral("X-KDE-PluginInfo-Name")).toString();
+    const QString scriptName = service->property(QStringLiteral("X-Plasma-MainScript")).toString();
+    const QString file = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral(KWIN_NAME) + QStringLiteral("/decorations/") + pluginName + QStringLiteral("/contents/") + scriptName);
+    if (file.isNull()) {
+        qCDebug(AURORAE) << "Could not find script file for " << pluginName;
+        // TODO: what to do in error case?
+        return nullptr;
+    }
+    // setup the QML engine
+    /* use logic from KDeclarative::setupBindings():
+    "addImportPath adds the path at the beginning, so to honour user's
+     paths we need to traverse the list in reverse order" */
+    QStringListIterator paths(QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("module/imports"), QStandardPaths::LocateDirectory));
+    paths.toBack();
+    while (paths.hasPrevious()) {
+        m_engine->addImportPath(paths.previous());
+    }
+    QQmlComponent *component = new QQmlComponent(m_engine.data(), m_engine.data());
+    component->loadUrl(QUrl::fromLocalFile(file));
+    return component;
+}
+
+QQmlContext *Helper::rootContext()
+{
+    return m_engine->rootContext();
+}
+
+void Helper::init()
+{
     // we need to first load our decoration plugin
     // once it's loaded we can provide the Borders and access them from C++ side
     // so let's try to locate our plugin:
@@ -95,224 +230,179 @@ void AuroraeFactory::init()
     m_engine->importPlugin(pluginPath, "org.kde.kwin.decoration", nullptr);
     qmlRegisterType<KWin::Borders>("org.kde.kwin.decoration", 0, 1, "Borders");
 
-    KConfig conf(QStringLiteral("auroraerc"));
-    KConfigGroup group(&conf, "Engine");
-    if (!group.hasKey("EngineType") && !group.hasKey("ThemeName")) {
-        // neither engine type and theme name are configured, use the only available theme
-        initQML(group);
-    } else if (group.hasKey("EngineType")) {
-        const QString engineType = group.readEntry("EngineType", "aurorae").toLower();
-        if (engineType == QStringLiteral("qml")) {
-            initQML(group);
-        } else {
-            // fallback to classic Aurorae Themes
-            initAurorae(conf, group);
-        }
-    } else {
-        // fallback to classic Aurorae Themes
-        initAurorae(conf, group);
-    }
+    qmlRegisterType<KDecoration2::Decoration>();
+    qmlRegisterType<KDecoration2::DecoratedClient>();
+    qRegisterMetaType<KDecoration2::BorderSize>();
 }
 
-void AuroraeFactory::initAurorae(KConfig &conf, KConfigGroup &group)
+static QString findTheme(const QVariantList &args)
 {
-    m_engineType = AuroraeEngine;
-    const QString themeName = group.readEntry("ThemeName");
-    if (themeName.isEmpty()) {
-        // no theme configured, fall back to Plastik QML theme
-        initQML(group);
-        return;
+    if (args.isEmpty()) {
+        return QString();
     }
-    KConfig config(QStringLiteral("aurorae/themes/") + themeName + QStringLiteral("/") + themeName + QStringLiteral("rc"),
-                   KConfig::FullConfig, QStandardPaths::GenericDataLocation);
-    KConfigGroup themeGroup(&conf, themeName);
-    m_theme->loadTheme(themeName, config);
-    m_theme->setBorderSize((KDecorationDefines::BorderSize)themeGroup.readEntry<int>("BorderSize", KDecorationDefines::BorderNormal));
-    m_theme->setButtonSize((KDecorationDefines::BorderSize)themeGroup.readEntry<int>("ButtonSize", KDecorationDefines::BorderNormal));
-    m_theme->setTabDragMimeType(tabDragMimeType());
-    // setup the QML engine
-    /* use logic from KDeclarative::setupBindings():
-    "addImportPath adds the path at the beginning, so to honour user's
-     paths we need to traverse the list in reverse order" */
-    QStringListIterator paths(QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("module/imports"), QStandardPaths::LocateDirectory));
-    paths.toBack();
-    while (paths.hasPrevious()) {
-        m_engine->addImportPath(paths.previous());
+    const auto map = args.first().toMap();
+    auto it = map.constFind(QStringLiteral("theme"));
+    if (it == map.constEnd()) {
+        return QString();
     }
-    m_component->loadUrl(QUrl(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kwin/aurorae/aurorae.qml"))));
-    m_engine->rootContext()->setContextProperty(QStringLiteral("auroraeTheme"), m_theme);
-    m_themeName = themeName;
+    return it.value().toString();
 }
 
-void AuroraeFactory::initQML(const KConfigGroup &group)
-{
-    // try finding the QML package
-    const QString themeName = group.readEntry("ThemeName", "kwin4_decoration_qml_plastik");
-    qCDebug(AURORAE) << "Trying to load QML Decoration " << themeName;
-    const QString internalname = themeName.toLower();
-
-    QString constraint = QStringLiteral("[X-KDE-PluginInfo-Name] == '%1'").arg(internalname);
-    KService::List offers = KServiceTypeTrader::self()->query(QStringLiteral("KWin/Decoration"), constraint);
-    if (offers.isEmpty()) {
-        qCCritical(AURORAE) << "Couldn't find QML Decoration " << themeName << endl;
-        // TODO: what to do in error case?
-        return;
-    }
-    KService::Ptr service = offers.first();
-    const QString pluginName = service->property(QStringLiteral("X-KDE-PluginInfo-Name")).toString();
-    const QString scriptName = service->property(QStringLiteral("X-Plasma-MainScript")).toString();
-    const QString file = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral(KWIN_NAME) + QStringLiteral("/decorations/") + pluginName + QStringLiteral("/contents/") + scriptName);
-    if (file.isNull()) {
-        qCDebug(AURORAE) << "Could not find script file for " << pluginName;
-        // TODO: what to do in error case?
-        return;
-    }
-    m_engineType = QMLEngine;
-    // setup the QML engine
-    /* use logic from KDeclarative::setupBindings():
-    "addImportPath adds the path at the beginning, so to honour user's
-     paths we need to traverse the list in reverse order" */
-    QStringListIterator paths(QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("module/imports"), QStandardPaths::LocateDirectory));
-    paths.toBack();
-    while (paths.hasPrevious()) {
-        m_engine->addImportPath(paths.previous());
-    }
-    m_component->loadUrl(QUrl::fromLocalFile(file));
-    m_themeName = themeName;
-}
-
-AuroraeFactory::~AuroraeFactory()
-{
-    s_instance = nullptr;
-}
-
-AuroraeFactory *AuroraeFactory::instance()
-{
-    if (!s_instance) {
-        s_instance = new AuroraeFactory;
-    }
-
-    return s_instance;
-}
-
-QObject *AuroraeFactory::createInstance(QWidget*, QObject*, const QList< QVariant >&)
-{
-    return instance();
-}
-
-void AuroraeFactory::updateConfiguration()
-{
-    const KConfig conf(QStringLiteral("auroraerc"));
-    const KConfigGroup group(&conf, "Engine");
-    const QString themeName = group.readEntry("ThemeName", "example-deco");
-    const KConfig config(QStringLiteral("aurorae/themes/") + themeName + QStringLiteral("/") + themeName + QStringLiteral("rc"),
-                         KConfig::FullConfig, QStandardPaths::GenericDataLocation);
-    const KConfigGroup themeGroup(&conf, themeName);
-    if (themeName != m_themeName) {
-        m_engine->clearComponentCache();
-        init();
-        emit recreateDecorations();
-    }
-    if (m_engineType == AuroraeEngine) {
-        m_theme->setBorderSize((KDecorationDefines::BorderSize)themeGroup.readEntry<int>("BorderSize", KDecorationDefines::BorderNormal));
-        m_theme->setButtonSize((KDecorationDefines::BorderSize)themeGroup.readEntry<int>("ButtonSize", KDecorationDefines::BorderNormal));
-    } else {
-        // we don't know how the settings change -> recreate
-        emit recreateDecorations();
-    }
-    emit configChanged();
-}
-
-bool AuroraeFactory::supports(Ability ability) const
-{
-    switch (ability) {
-    case AbilityAnnounceButtons:
-    case AbilityUsesAlphaChannel:
-    case AbilityAnnounceAlphaChannel:
-    case AbilityButtonMenu:
-    case AbilityButtonSpacer:
-    case AbilityExtendIntoClientArea:
-    case AbilityButtonMinimize:
-    case AbilityButtonMaximize:
-    case AbilityButtonClose:
-    case AbilityButtonAboveOthers:
-    case AbilityButtonBelowOthers:
-    case AbilityButtonShade:
-    case AbilityButtonOnAllDesktops:
-    case AbilityButtonHelp:
-    case AbilityButtonApplicationMenu:
-    case AbilityProvidesShadow:
-        return true; // TODO: correct value from theme
-    case AbilityTabbing:
-        return false;
-    case AbilityUsesBlurBehind:
-        return true;
-    default:
-        return false;
-    }
-}
-
-KDecoration *AuroraeFactory::createDecoration(KDecorationBridge *bridge)
-{
-    AuroraeClient *client = new AuroraeClient(bridge, this);
-    return client;
-}
-
-QList< KDecorationDefines::BorderSize > AuroraeFactory::borderSizes() const
-{
-    return QList< BorderSize >() << BorderTiny << BorderNormal <<
-        BorderLarge << BorderVeryLarge <<  BorderHuge <<
-        BorderVeryHuge << BorderOversized;
-}
-
-QQuickItem *AuroraeFactory::createQmlDecoration(Aurorae::AuroraeClient *client)
-{
-    QQmlContext *context = new QQmlContext(m_engine->rootContext(), this);
-    context->setContextProperty(QStringLiteral("decoration"), client);
-    return qobject_cast< QQuickItem* >(m_component->create(context));
-}
-
-AuroraeFactory *AuroraeFactory::s_instance = nullptr;
-
-/*******************************************************
-* Client
-*******************************************************/
-AuroraeClient::AuroraeClient(KDecorationBridge *bridge, KDecorationFactory *factory)
-    : KDecoration(bridge, factory)
-    , m_view(nullptr)
-    , m_item(AuroraeFactory::instance()->createQmlDecoration(this))
+Decoration::Decoration(QObject *parent, const QVariantList &args)
+    : KDecoration2::Decoration(parent, args)
+    , m_item(nullptr)
     , m_borders(nullptr)
     , m_maximizedBorders(nullptr)
     , m_extendedBorders(nullptr)
     , m_padding(nullptr)
+    , m_themeName(s_defaultTheme)
+    , m_mutex(QMutex::Recursive)
 {
-    connect(AuroraeFactory::instance(), SIGNAL(buttonsChanged()), SIGNAL(buttonsChanged()));
-    connect(AuroraeFactory::instance(), SIGNAL(configChanged()), SIGNAL(configChanged()));
-    connect(AuroraeFactory::instance(), SIGNAL(titleFontChanged()), SIGNAL(fontChanged()));
-    connect(m_item, SIGNAL(alphaChanged()), SLOT(slotAlphaChanged()));
-    connect(this, SIGNAL(appMenuAvailable()), SIGNAL(appMenuAvailableChanged()));
-    connect(this, SIGNAL(appMenuUnavailable()), SIGNAL(appMenuAvailableChanged()));
+    m_themeName = findTheme(args);
+    Helper::instance().ref();
 }
 
-AuroraeClient::~AuroraeClient()
+Decoration::~Decoration()
 {
-    QMutexLocker locker(AuroraeFactory::instance()->mutex());
+    Helper::instance().unref();
+#if HAVE_RENDER_CONTROL
+    if (m_context) {
+        m_context->makeCurrent(m_offscreenSurface.data());
+
+        delete m_renderControl;
+        delete m_view.data();
+        m_fbo.reset();
+        delete m_item;
+
+        m_context->doneCurrent();
+    }
+#endif
 }
 
-void AuroraeClient::init()
+void Decoration::init()
 {
-    m_view = new QQuickWindow();
-    m_view->setFlags(initialWFlags());
-    m_view->setColor(Qt::transparent);
-    setMainWindow(m_view);
-    if (compositingActive()) {
-        connect(m_view, &QQuickWindow::beforeRendering, [this]() {
-            int left, right, top, bottom;
-            left = right = top = bottom = 0;
-            padding(left, right, top, bottom);
-            if (m_fbo.isNull() || m_fbo->size() != QSize(width() + left + right, height() + top + bottom)) {
-                m_fbo.reset(new QOpenGLFramebufferObject(QSize(width() + left + right, height() + top + bottom),
-                                                         QOpenGLFramebufferObject::CombinedDepthStencil));
+    KDecoration2::Decoration::init();
+    auto s = settings();
+    connect(s.data(), &KDecoration2::DecorationSettings::reconfigured, this, &Decoration::configChanged);
+    // recreate scene when compositing gets disabled, TODO: remove with rendercontrol
+#if !HAVE_RENDER_CONTROL
+    if (!m_recreateNonCompositedConnection) {
+        m_recreateNonCompositedConnection = connect(s.data(), &KDecoration2::DecorationSettings::alphaChannelSupportedChanged,
+                this, [this](bool alpha) {
+                    if (!alpha && m_item) {
+                        m_item->deleteLater();
+                        m_decorationWindow.reset();
+                        init();
+                    }
+                });
+    }
+#endif
+
+    QQmlContext *context = new QQmlContext(Helper::instance().rootContext(), this);
+    context->setContextProperty(QStringLiteral("decoration"), this);
+    context->setContextProperty(QStringLiteral("decorationSettings"), s.data());
+    auto component = Helper::instance().component(m_themeName);
+    if (!component) {
+        return;
+    }
+    if (component == Helper::instance().svgComponent()) {
+        // load SVG theme
+        const QString themeName = m_themeName.mid(16);
+        KConfig config(QStringLiteral("aurorae/themes/") + themeName + QStringLiteral("/") + themeName + QStringLiteral("rc"),
+                       KConfig::FullConfig, QStandardPaths::GenericDataLocation);
+//         KConfigGroup themeGroup(&conf, themeName);
+        AuroraeTheme *theme = new AuroraeTheme(this);
+        theme->loadTheme(themeName, config);
+        theme->setBorderSize(s->borderSize());
+        connect(s.data(), &KDecoration2::DecorationSettings::borderSizeChanged, theme, &AuroraeTheme::setBorderSize);
+//         m_theme->setButtonSize((KDecorationDefines::BorderSize)themeGroup.readEntry<int>("ButtonSize", KDecorationDefines::BorderNormal));
+//         m_theme->setTabDragMimeType(tabDragMimeType());
+        context->setContextProperty(QStringLiteral("auroraeTheme"), theme);
+    }
+    m_item = qobject_cast< QQuickItem* >(component->create(context));
+    if (!m_item) {
+        return;
+    }
+    m_item->setParent(this);
+
+    QVariant visualParent = property("visualParent");
+    if (visualParent.isValid()) {
+        m_item->setParentItem(visualParent.value<QQuickItem*>());
+        visualParent.value<QQuickItem*>()->setProperty("drawBackground", false);
+    } else {
+#if HAVE_RENDER_CONTROL
+        // first create the context
+        QSurfaceFormat format;
+        format.setDepthBufferSize(16);
+        format.setStencilBufferSize(8);
+        m_context.reset(new QOpenGLContext);
+        m_context->setFormat(format);
+        m_context->create();
+        // and the offscreen surface
+        m_offscreenSurface.reset(new QOffscreenSurface);
+        m_offscreenSurface->setFormat(m_context->format());
+        m_offscreenSurface->create();
+
+        m_renderControl = new QQuickRenderControl(this);
+        m_view = new QQuickWindow(m_renderControl);
+        m_view->setColor(Qt::transparent);
+
+        // delay rendering a little bit for better performance
+        m_updateTimer.reset(new QTimer);
+        m_updateTimer->setSingleShot(true);
+        m_updateTimer->setInterval(5);
+        connect(m_updateTimer.data(), &QTimer::timeout, this,
+            [this] {
+                if (!m_context->makeCurrent(m_offscreenSurface.data())) {
+                    return;
+                }
+                if (m_fbo.isNull() || m_fbo->size() != m_view->size()) {
+                    m_fbo.reset(new QOpenGLFramebufferObject(m_view->size(), QOpenGLFramebufferObject::CombinedDepthStencil));
+                    if (!m_fbo->isValid()) {
+                        qCWarning(AURORAE) << "Creating FBO as render target failed";
+                        m_fbo.reset();
+                        return;
+                    }
+                }
+                m_view->setRenderTarget(m_fbo.data());
+                m_renderControl->polishItems();
+                m_renderControl->sync();
+                m_renderControl->render();
+
+                m_view->resetOpenGLState();
+                m_buffer = m_fbo->toImage();
+                QOpenGLFramebufferObject::bindDefault();
+                update();
+            }
+        );
+        auto requestUpdate = [this] {
+            if (m_updateTimer->isActive()) {
+                return;
+            }
+            m_updateTimer->start();
+        };
+        connect(m_renderControl, &QQuickRenderControl::renderRequested, this, requestUpdate);
+        connect(m_renderControl, &QQuickRenderControl::sceneChanged, this, requestUpdate);
+
+        m_item->setParentItem(m_view->contentItem());
+
+        m_context->makeCurrent(m_offscreenSurface.data());
+        m_renderControl->initialize(m_context.data());
+        m_context->doneCurrent();
+#else
+        // we need a QQuickWindow till we depend on Qt 5.4
+        m_decorationWindow.reset(QWindow::fromWinId(client().data()->decorationId()));
+        m_view = new QQuickWindow(m_decorationWindow.data());
+        m_view->setFlags(Qt::WindowDoesNotAcceptFocus | Qt::WindowTransparentForInput);
+        m_view->setColor(Qt::transparent);
+        connect(m_view.data(), &QQuickWindow::beforeRendering, [this]() {
+            if (!settings()->isAlphaChannelSupported()) {
+                // directly render to QQuickWindow
+                m_fbo.reset();
+                return;
+            }
+            if (m_fbo.isNull() || m_fbo->size() != m_view->size()) {
+                m_fbo.reset(new QOpenGLFramebufferObject(m_view->size(), QOpenGLFramebufferObject::CombinedDepthStencil));
                 if (!m_fbo->isValid()) {
                     qCWarning(AURORAE) << "Creating FBO as render target failed";
                     m_fbo.reset();
@@ -321,315 +411,340 @@ void AuroraeClient::init()
             }
             m_view->setRenderTarget(m_fbo.data());
         });
-        connect(m_view, &QQuickWindow::afterRendering, [this]{
-            QMutexLocker locker(AuroraeFactory::instance()->mutex());
+        connect(m_view.data(), &QQuickWindow::afterRendering, [this] {
+            if (!m_fbo) {
+                return;
+            }
+            QMutexLocker locker(&m_mutex);
             m_buffer = m_fbo->toImage();
         });
-        connect(m_view, &QQuickWindow::afterRendering, this,
-                static_cast<void (KDecoration::*)(void)>(&KDecoration::update), Qt::QueuedConnection);
-    }
-    if (m_item) {
+        connect(s.data(), &KDecoration2::DecorationSettings::alphaChannelSupportedChanged,
+                m_view.data(), &QQuickWindow::update);
+        connect(m_view.data(), &QQuickWindow::afterRendering, this, [this] { update(); }, Qt::QueuedConnection);
         m_item->setParentItem(m_view->contentItem());
-        m_item->setParent(m_view);
-        setupBorders();
+#endif
     }
-    slotAlphaChanged();
-
-    AuroraeFactory::instance()->theme()->setCompositingActive(compositingActive());
-}
-
-bool AuroraeClient::eventFilter(QObject *object, QEvent *event)
-{
-    // we need to filter the wheel events on the decoration
-    // QML does not yet provide a way to accept wheel events, this will change with Qt 5
-    // TODO: remove in KDE5
-    // see BUG: 304248
-    if (object != widget() || event->type() != QEvent::Wheel) {
-        return KDecoration::eventFilter(object, event);
+    setupBorders(m_item);
+    if (m_extendedBorders) {
+        auto updateExtendedBorders = [this] {
+            setResizeOnlyBorders(*m_extendedBorders);
+        };
+        updateExtendedBorders();
+        connect(m_extendedBorders, &KWin::Borders::leftChanged, this, updateExtendedBorders);
+        connect(m_extendedBorders, &KWin::Borders::rightChanged, this, updateExtendedBorders);
+        connect(m_extendedBorders, &KWin::Borders::topChanged, this, updateExtendedBorders);
+        connect(m_extendedBorders, &KWin::Borders::bottomChanged, this, updateExtendedBorders);
     }
-    QWheelEvent *wheel = static_cast<QWheelEvent*>(event);
-    if (mousePosition(wheel->pos()) == PositionCenter) {
-        titlebarMouseWheelOperation(wheel->delta());
-        return true;
-    }
-    return false;
-}
-
-void AuroraeClient::resize(const QSize &s)
-{
-    if (m_item) {
-        m_item->setWidth(s.width());
-        m_item->setHeight(s.height());
-    }
-    m_view->resize(s);
-}
-
-void AuroraeClient::borders(int &left, int &right, int &top, int &bottom) const
-{
-    if (!m_item) {
-        left = right = top = bottom = 0;
-        return;
-    }
-    KWin::Borders *borders = nullptr;
-    if (maximizeMode() == MaximizeFull) {
-        borders = m_maximizedBorders;
+    connect(client().data(), &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::updateBorders, Qt::QueuedConnection);
+    updateBorders();
+    if (!m_view.isNull()) {
+#if !HAVE_RENDER_CONTROL
+        m_view->setVisible(true);
+#endif
+        auto resizeWindow = [this] {
+            QRect rect(QPoint(0, 0), size());
+            if (m_padding && !client().data()->isMaximized()) {
+                rect = rect.adjusted(-m_padding->left(), -m_padding->top(), m_padding->right(), m_padding->bottom());
+            }
+            m_view->setGeometry(rect);
+#if !HAVE_RENDER_CONTROL
+            m_view->lower();
+            m_view->update();
+#endif
+        };
+        connect(this, &Decoration::bordersChanged, this, resizeWindow);
+        connect(client().data(), &KDecoration2::DecoratedClient::widthChanged, this, resizeWindow);
+        connect(client().data(), &KDecoration2::DecoratedClient::heightChanged, this, resizeWindow);
+        connect(client().data(), &KDecoration2::DecoratedClient::maximizedChanged, this, resizeWindow);
+        resizeWindow();
     } else {
-        borders = m_borders;
+        // create a dummy shadow for the configuration interface
+        if (m_padding) {
+            auto s = QSharedPointer<KDecoration2::DecorationShadow>::create();
+            s->setPadding(*m_padding);
+            s->setInnerShadowRect(QRect(m_padding->left(), m_padding->top(), 1, 1));
+            setShadow(s);
+        }
     }
-    sizesFromBorders(borders, left, right, top, bottom);
 }
 
-void AuroraeClient::padding(int &left, int &right, int &top, int &bottom) const
-{
-    if (!m_padding) {
-        left = right = top = bottom = 0;
-        return;
-    }
-    if (maximizeMode() == MaximizeFull) {
-        left = right = top = bottom = 0;
-        return;
-    }
-    sizesFromBorders(m_padding, left, right, top, bottom);
-}
-
-void AuroraeClient::sizesFromBorders(const KWin::Borders *borders, int &left, int &right, int &top, int &bottom) const
-{
-    if (!borders) {
-        left = right = top = bottom = 0;
-        return;
-    }
-    left   = borders->left();
-    right  = borders->right();
-    top    = borders->top();
-    bottom = borders->bottom();
-}
-
-QSize AuroraeClient::minimumSize() const
-{
-    return m_view->minimumSize();
-}
-
-KDecorationDefines::Position AuroraeClient::mousePosition(const QPoint &point) const
-{
-    // based on the code from deKorator
-    int pos = PositionCenter;
-    if (isShade() || isMaximized()) {
-        return Position(pos);
-    }
-
-    int borderLeft, borderTop, borderRight, borderBottom;
-    borders(borderLeft, borderRight, borderTop, borderBottom);
-    int paddingLeft, paddingTop, paddingRight, paddingBottom;
-    padding(paddingLeft, paddingRight, paddingTop, paddingBottom);
-    int titleEdgeLeft, titleEdgeRight, titleEdgeTop, titleEdgeBottom;
-    AuroraeFactory::instance()->theme()->titleEdges(titleEdgeLeft, titleEdgeTop, titleEdgeRight, titleEdgeBottom, false);
-    switch (AuroraeFactory::instance()->theme()->decorationPosition()) {
-    case DecorationTop:
-        borderTop = titleEdgeTop;
-        break;
-    case DecorationLeft:
-        borderLeft = titleEdgeLeft;
-        break;
-    case DecorationRight:
-        borderRight = titleEdgeRight;
-        break;
-    case DecorationBottom:
-        borderBottom = titleEdgeBottom;
-        break;
-    default:
-        break; // nothing
-    }
-    if (point.x() >= (m_view->width() -  borderRight - paddingRight)) {
-        pos |= PositionRight;
-    } else if (point.x() <= borderLeft + paddingLeft) {
-        pos |= PositionLeft;
-    }
-
-    if (point.y() >= m_view->height() - borderBottom - paddingBottom) {
-        pos |= PositionBottom;
-    } else if (point.y() <= borderTop + paddingTop ) {
-        pos |= PositionTop;
-    }
-
-    return Position(pos);
-}
-
-void AuroraeClient::menuClicked()
-{
-    showWindowMenu(QCursor::pos());
-}
-
-void AuroraeClient::appMenuClicked()
-{
-    showApplicationMenu(QCursor::pos());
-}
-
-void AuroraeClient::toggleShade()
-{
-    setShade(!isShade());
-}
-
-void AuroraeClient::toggleKeepAbove()
-{
-    setKeepAbove(!keepAbove());
-}
-
-void AuroraeClient::toggleKeepBelow()
-{
-    setKeepBelow(!keepBelow());
-}
-
-void AuroraeClient::titlePressed(int button, int buttons)
-{
-    titlePressed(static_cast<Qt::MouseButton>(button), static_cast<Qt::MouseButtons>(buttons));
-}
-
-void AuroraeClient::titlePressed(Qt::MouseButton button, Qt::MouseButtons buttons)
-{
-    const QPoint cursor = QCursor::pos();
-    QMouseEvent *event = new QMouseEvent(QEvent::MouseButtonPress, cursor - geometry().topLeft() + (m_padding ? QPoint(m_padding->left(), m_padding->top()) : QPoint(0, 0)),
-                                         cursor, button, buttons, Qt::NoModifier);
-    processMousePressEvent(event);
-    delete event;
-    event = nullptr;
-}
-
-void AuroraeClient::themeChanged()
-{
-    m_item->deleteLater();
-    m_item = AuroraeFactory::instance()->createQmlDecoration(this);
-    if (!m_item) {
-        m_borders = nullptr;
-        m_extendedBorders = nullptr;
-        m_maximizedBorders = nullptr;
-        m_padding = nullptr;
-        return;
-    }
-
-    m_item->setParentItem(m_view->contentItem());
-    m_item->setParent(m_view);
-    setupBorders();
-    connect(m_item, SIGNAL(alphaChanged()), SLOT(slotAlphaChanged()));
-    slotAlphaChanged();
-}
-
-int AuroraeClient::doubleClickInterval() const
-{
-    return QApplication::doubleClickInterval();
-}
-
-void AuroraeClient::closeWindow()
-{
-    QMetaObject::invokeMethod(qobject_cast< KDecoration* >(this), "doCloseWindow", Qt::QueuedConnection);
-}
-
-void AuroraeClient::doCloseWindow()
-{
-    KDecoration::closeWindow();
-}
-
-void AuroraeClient::maximize(int button)
-{
-    // a maximized window does not need to have a window decoration
-    // in that case we need to delay handling by one cycle
-    // BUG: 304870
-    QMetaObject::invokeMethod(qobject_cast< KDecoration* >(this),
-                              "doMaximzie",
-                              Qt::QueuedConnection,
-                              Q_ARG(int, button));
-}
-
-void AuroraeClient::doMaximzie(int button)
-{
-    KDecoration::maximize(static_cast<Qt::MouseButton>(button));
-}
-
-void AuroraeClient::titlebarDblClickOperation()
-{
-    // the double click operation can result in a window being maximized
-    // see maximize
-    QMetaObject::invokeMethod(qobject_cast< KDecoration* >(this), "doTitlebarDblClickOperation", Qt::QueuedConnection);
-}
-
-void AuroraeClient::doTitlebarDblClickOperation()
-{
-    KDecoration::titlebarDblClickOperation();
-}
-
-QVariant AuroraeClient::readConfig(const QString &key, const QVariant &defaultValue)
+QVariant Decoration::readConfig(const QString &key, const QVariant &defaultValue)
 {
     KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("auroraerc"));
-    return config->group(AuroraeFactory::instance()->currentThemeName()).readEntry(key, defaultValue);
+    return config->group(m_themeName).readEntry(key, defaultValue);
 }
 
-void AuroraeClient::slotAlphaChanged()
+void Decoration::setupBorders(QQuickItem *item)
 {
-    if (!m_item) {
-        setAlphaEnabled(false);
+    m_borders          = item->findChild<KWin::Borders*>(QStringLiteral("borders"));
+    m_maximizedBorders = item->findChild<KWin::Borders*>(QStringLiteral("maximizedBorders"));
+    m_extendedBorders  = item->findChild<KWin::Borders*>(QStringLiteral("extendedBorders"));
+    m_padding          = item->findChild<KWin::Borders*>(QStringLiteral("padding"));
+}
+
+void Decoration::updateBorders()
+{
+    KWin::Borders *b = m_borders;
+    if (client().data()->isMaximized() && m_maximizedBorders) {
+        b = m_maximizedBorders;
+    }
+    if (!b) {
         return;
     }
-    QVariant alphaProperty = m_item->property("alpha");
-    if (alphaProperty.isValid() && alphaProperty.canConvert<bool>()) {
-        setAlphaEnabled(alphaProperty.toBool());
+    setBorders(*b);
+}
+
+void Decoration::paint(QPainter *painter, const QRect &repaintRegion)
+{
+    Q_UNUSED(repaintRegion)
+#if !HAVE_RENDER_CONTROL
+    if (!settings()->isAlphaChannelSupported()) {
+        return;
+    }
+    QMutexLocker locker(&m_mutex);
+#endif
+    painter->fillRect(rect(), Qt::transparent);
+    QRectF r(QPointF(0, 0), m_buffer.size());
+    if (m_padding &&
+            (m_padding->left() > 0 || m_padding->top() > 0 || m_padding->right() > 0 || m_padding->bottom() > 0) &&
+            !client().data()->isMaximized()) {
+        r = r.adjusted(m_padding->left(), m_padding->top(), -m_padding->right(), -m_padding->bottom());
+        auto s = QSharedPointer<KDecoration2::DecorationShadow>::create();
+        s->setShadow(m_buffer);
+        s->setPadding(*m_padding);
+        s->setInnerShadowRect(QRect(m_padding->left(),
+                                    m_padding->top(),
+                                    m_buffer.width() - m_padding->left() - m_padding->right(),
+                                    m_buffer.height() - m_padding->top() - m_padding->bottom()));
+        m_scheduledShadow = s;
     } else {
-        // by default all Aurorae themes use the alpha channel
-        setAlphaEnabled(true);
+        m_scheduledShadow = QSharedPointer<KDecoration2::DecorationShadow>();
+    }
+    QMetaObject::invokeMethod(this, "updateShadow", Qt::QueuedConnection);
+    painter->drawImage(rect(), m_buffer, r);
+}
+
+void Decoration::updateShadow()
+{
+    setShadow(m_scheduledShadow);
+}
+
+QMouseEvent Decoration::translatedMouseEvent(QMouseEvent *orig)
+{
+    if (!m_padding || client().data()->isMaximized()) {
+        orig->setAccepted(false);
+        return *orig;
+    }
+    QMouseEvent event(orig->type(), orig->localPos() + QPointF(m_padding->left(), m_padding->top()), orig->button(), orig->buttons(), orig->modifiers());
+    event.setAccepted(false);
+    return event;
+}
+
+void Decoration::hoverEnterEvent(QHoverEvent *event)
+{
+    if (m_view) {
+        event->setAccepted(false);
+        QCoreApplication::sendEvent(m_view.data(), event);
+    }
+    KDecoration2::Decoration::hoverEnterEvent(event);
+}
+
+void Decoration::hoverLeaveEvent(QHoverEvent *event)
+{
+    if (m_view) {
+        event->setAccepted(false);
+        QCoreApplication::sendEvent(m_view.data(), event);
+    }
+    KDecoration2::Decoration::hoverLeaveEvent(event);
+}
+
+void Decoration::hoverMoveEvent(QHoverEvent *event)
+{
+    if (m_view) {
+        QMouseEvent mouseEvent(QEvent::MouseMove, event->posF(), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+        QMouseEvent ev = translatedMouseEvent(&mouseEvent);
+        QCoreApplication::sendEvent(m_view.data(), &ev);
+        event->setAccepted(ev.isAccepted());
+    }
+    KDecoration2::Decoration::hoverMoveEvent(event);
+}
+
+void Decoration::mouseMoveEvent(QMouseEvent *event)
+{
+    if (m_view) {
+        QMouseEvent ev = translatedMouseEvent(event);
+        QCoreApplication::sendEvent(m_view.data(), &ev);
+        event->setAccepted(ev.isAccepted());
+    }
+    KDecoration2::Decoration::mouseMoveEvent(event);
+}
+
+void Decoration::mousePressEvent(QMouseEvent *event)
+{
+    if (m_view) {
+        QMouseEvent ev = translatedMouseEvent(event);
+        QCoreApplication::sendEvent(m_view.data(), &ev);
+        if (ev.button() == Qt::LeftButton) {
+            if (!m_doubleClickTimer.hasExpired(QGuiApplication::styleHints()->mouseDoubleClickInterval())) {
+                QMouseEvent dc(QEvent::MouseButtonDblClick, ev.localPos(), ev.windowPos(), ev.screenPos(), ev.button(), ev.buttons(), ev.modifiers());
+                QCoreApplication::sendEvent(m_view.data(), &dc);
+            }
+        }
+        m_doubleClickTimer.invalidate();
+        event->setAccepted(ev.isAccepted());
+    }
+    KDecoration2::Decoration::mousePressEvent(event);
+}
+
+void Decoration::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (m_view) {
+        QMouseEvent ev = translatedMouseEvent(event);
+        QCoreApplication::sendEvent(m_view.data(), &ev);
+        event->setAccepted(ev.isAccepted());
+        if (ev.isAccepted() && ev.button() == Qt::LeftButton) {
+            m_doubleClickTimer.start();
+        }
+    }
+    KDecoration2::Decoration::mouseReleaseEvent(event);
+}
+
+void Decoration::installTitleItem(QQuickItem *item)
+{
+    auto update = [this, item] {
+        QRect rect = item->mapRectToScene(item->childrenRect()).toRect();
+        if (rect.isNull()) {
+            rect = item->parentItem()->mapRectToScene(QRectF(item->x(), item->y(), item->width(), item->height())).toRect();
+        }
+        setTitleBar(rect);
+    };
+    update();
+    connect(item, &QQuickItem::widthChanged, this, update);
+    connect(item, &QQuickItem::heightChanged, this, update);
+    connect(item, &QQuickItem::xChanged, this, update);
+    connect(item, &QQuickItem::yChanged, this, update);
+}
+
+KDecoration2::DecoratedClient *Decoration::clientPointer() const
+{
+    return client().data();
+}
+
+ThemeFinder::ThemeFinder(QObject *parent, const QVariantList &args)
+    : QObject(parent)
+{
+    Q_UNUSED(args)
+    init();
+}
+
+void ThemeFinder::init()
+{
+    findAllQmlThemes();
+    findAllSvgThemes();
+}
+
+void ThemeFinder::findAllQmlThemes()
+{
+    const KService::List offers = KServiceTypeTrader::self()->query(QStringLiteral("KWin/Decoration"));
+    for (const auto &offer : offers) {
+        m_themes.insert(offer->name(), offer->property(QStringLiteral("X-KDE-PluginInfo-Name")).toString());
     }
 }
 
-QRegion AuroraeClient::region(KDecorationDefines::Region r)
+void ThemeFinder::findAllSvgThemes()
 {
-    if (r != ExtendedBorderRegion) {
-        return QRegion();
+    QStringList themes;
+    const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("aurorae/themes/"), QStandardPaths::LocateDirectory);
+    QStringList themeDirectories;
+    for (const QString &dir : dirs) {
+        QDir directory = QDir(dir);
+        for (const QString &themeDir : directory.entryList(QDir::AllDirs | QDir::NoDotAndDotDot)) {
+            themeDirectories << dir + themeDir;
+        }
     }
-    if (!m_item) {
-        return QRegion();
+    for (const QString &dir : themeDirectories) {
+        for (const QString & file : QDir(dir).entryList(QStringList() << QStringLiteral("metadata.desktop"))) {
+            themes.append(dir + '/' + file);
+        }
     }
-    if (isMaximized()) {
-        // empty region for maximized windows
-        return QRegion();
-    }
-    int left, right, top, bottom;
-    left = right = top = bottom = 0;
-    sizesFromBorders(m_extendedBorders, left, right, top, bottom);
-    if (top == 0 && right == 0 && bottom == 0 && left == 0) {
-        // no extended borders
-        return QRegion();
-    }
+    for (const QString & theme : themes) {
+        int themeSepIndex = theme.lastIndexOf('/', -1);
+        QString themeRoot = theme.left(themeSepIndex);
+        int themeNameSepIndex = themeRoot.lastIndexOf('/', -1);
+        QString packageName = themeRoot.right(themeRoot.length() - themeNameSepIndex - 1);
 
-    int paddingLeft, paddingRight, paddingTop, paddingBottom;
-    paddingLeft = paddingRight = paddingTop = paddingBottom = 0;
-    padding(paddingLeft, paddingRight, paddingTop, paddingBottom);
-    QRect rect = this->rect().adjusted(paddingLeft, paddingTop, -paddingRight, -paddingBottom);
-    rect.translate(-paddingLeft, -paddingTop);
+        KDesktopFile df(theme);
+        QString name = df.readName();
+        if (name.isEmpty()) {
+            name = packageName;
+        }
 
-    return QRegion(rect.adjusted(-left, -top, right, bottom)).subtract(rect);
+        m_themes.insert(name, QStringLiteral("__aurorae__svg__") + packageName);
+    }
 }
 
-bool AuroraeClient::animationsSupported() const
+static const QString s_configUiPath = QStringLiteral("kwin/decorations/%1/contents/ui/config.ui");
+static const QString s_configXmlPath = QStringLiteral("kwin/decorations/%1/contents/config/main.xml");
+
+bool ThemeFinder::hasConfiguration(const QString &theme) const
 {
-    return compositingActive();
+    if (theme.startsWith(QLatin1String("__aurorae__svg__"))) {
+        return false;
+    }
+    const QString ui = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                              s_configUiPath.arg(theme));
+    const QString xml = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                               s_configXmlPath.arg(theme));
+    return !(ui.isEmpty() || xml.isEmpty());
 }
 
-void AuroraeClient::render(QPaintDevice *device, const QRegion &sourceRegion)
+ConfigurationModule::ConfigurationModule(QWidget *parent, const QVariantList &args)
+    : KCModule(parent, args)
+    , m_theme(findTheme(args))
 {
-    QMutexLocker locker(AuroraeFactory::instance()->mutex());
-    QPainter painter(device);
-    painter.setClipRegion(sourceRegion);
-    painter.drawImage(QPoint(0, 0), m_buffer);
+    setLayout(new QVBoxLayout(this));
+    init();
 }
 
-void AuroraeClient::setupBorders()
+void ConfigurationModule::init()
 {
-    if (!m_item) {
+    const QString ui = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                              s_configUiPath.arg(m_theme));
+    const QString xml = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                               s_configXmlPath.arg(m_theme));
+    if (ui.isEmpty() || xml.isEmpty()) {
         return;
     }
-    m_borders          = m_item->findChild<KWin::Borders*>(QStringLiteral("borders"));
-    m_maximizedBorders = m_item->findChild<KWin::Borders*>(QStringLiteral("maximizedBorders"));
-    m_extendedBorders  = m_item->findChild<KWin::Borders*>(QStringLiteral("extendedBorders"));
-    m_padding          = m_item->findChild<KWin::Borders*>(QStringLiteral("padding"));
+    KLocalizedTranslator *translator = new KLocalizedTranslator(this);
+    QCoreApplication::instance()->installTranslator(translator);
+    const KDesktopFile metaData(QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                                      QStringLiteral("kwin/decorations/%1/metadata.desktop").arg(m_theme)));
+    const QString translationDomain = metaData.desktopGroup().readEntry("X-KWin-Config-TranslationDomain", QString());
+    if (!translationDomain.isEmpty()) {
+        translator->setTranslationDomain(translationDomain);
+    }
+    // load the KConfigSkeleton
+    QFile configFile(xml);
+    KSharedConfigPtr auroraeConfig = KSharedConfig::openConfig("auroraerc");
+    KConfigGroup configGroup = auroraeConfig->group(m_theme);
+    m_skeleton = new KConfigLoader(configGroup, &configFile, this);
+    // load the ui file
+    QUiLoader *loader = new QUiLoader(this);
+    loader->setLanguageChangeEnabled(true);
+    QFile uiFile(ui);
+    uiFile.open(QFile::ReadOnly);
+    QWidget *customConfigForm = loader->load(&uiFile, this);
+    translator->addContextToMonitor(customConfigForm->objectName());
+    uiFile.close();
+    layout()->addWidget(customConfigForm);
+    // connect the ui file with the skeleton
+    addConfig(m_skeleton, customConfigForm);
+
+    // send a custom event to the translator to retranslate using our translator
+    QEvent le(QEvent::LanguageChange);
+    QCoreApplication::sendEvent(customConfigForm, &le);
 }
 
-} // namespace Aurorae
+}
 
 #include "aurorae.moc"

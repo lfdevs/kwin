@@ -23,8 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KWIN_OPTIONS_H
 #define KWIN_OPTIONS_H
 
-#include <kdecoration.h>
-
 #include "main.h"
 #include "placement.h"
 
@@ -47,13 +45,14 @@ enum HiddenPreviews {
 
 class Settings;
 
-class Options : public KDecorationOptions
+class Options : public QObject
 {
     Q_OBJECT
     Q_ENUMS(FocusPolicy)
     Q_ENUMS(GlSwapStrategy)
     Q_ENUMS(MouseCommand)
     Q_ENUMS(MouseWheelCommand)
+    Q_ENUMS(WindowOperation)
 
     Q_PROPERTY(FocusPolicy focusPolicy READ focusPolicy WRITE setFocusPolicy NOTIFY focusPolicyChanged)
     Q_PROPERTY(bool nextFocusPrefersMouse READ isNextFocusPrefersMouse WRITE setNextFocusPrefersMouse NOTIFY nextFocusPrefersMouseChanged)
@@ -117,7 +116,10 @@ class Options : public KDecorationOptions
     * support legacy fullscreen windows hack: borderless non-netwm windows with screen geometry
     */
     Q_PROPERTY(bool legacyFullscreenSupport READ isLegacyFullscreenSupport WRITE setLegacyFullscreenSupport NOTIFY legacyFullscreenSupportChanged)
-    Q_PROPERTY(WindowOperation operationTitlebarDblClick READ operationTitlebarDblClick WRITE setOperationTitlebarDblClick NOTIFY operationTitlebarDblClickChanged)
+    Q_PROPERTY(KWin::Options::WindowOperation operationTitlebarDblClick READ operationTitlebarDblClick WRITE setOperationTitlebarDblClick NOTIFY operationTitlebarDblClickChanged)
+    Q_PROPERTY(KWin::Options::WindowOperation operationMaxButtonLeftClick READ operationMaxButtonLeftClick WRITE setOperationMaxButtonLeftClick NOTIFY operationMaxButtonLeftClickChanged)
+    Q_PROPERTY(KWin::Options::WindowOperation operationMaxButtonMiddleClick READ operationMaxButtonMiddleClick WRITE setOperationMaxButtonMiddleClick NOTIFY operationMaxButtonMiddleClickChanged)
+    Q_PROPERTY(KWin::Options::WindowOperation operationMaxButtonRightClick READ operationMaxButtonRightClick WRITE setOperationMaxButtonRightClick NOTIFY operationMaxButtonRightClickChanged)
     Q_PROPERTY(MouseCommand commandActiveTitlebar1 READ commandActiveTitlebar1 WRITE setCommandActiveTitlebar1 NOTIFY commandActiveTitlebar1Changed)
     Q_PROPERTY(MouseCommand commandActiveTitlebar2 READ commandActiveTitlebar2 WRITE setCommandActiveTitlebar2 NOTIFY commandActiveTitlebar2Changed)
     Q_PROPERTY(MouseCommand commandActiveTitlebar3 READ commandActiveTitlebar3 WRITE setCommandActiveTitlebar3 NOTIFY commandActiveTitlebar3Changed)
@@ -189,7 +191,7 @@ class Options : public KDecorationOptions
     Q_PROPERTY(bool glStrictBindingFollowsDriver READ isGlStrictBindingFollowsDriver WRITE setGlStrictBindingFollowsDriver NOTIFY glStrictBindingFollowsDriverChanged)
     Q_PROPERTY(bool glCoreProfile READ glCoreProfile WRITE setGLCoreProfile NOTIFY glCoreProfileChanged)
     Q_PROPERTY(GlSwapStrategy glPreferBufferSwap READ glPreferBufferSwap WRITE setGlPreferBufferSwap NOTIFY glPreferBufferSwapChanged)
-    Q_PROPERTY(OpenGLPlatformInterface glPlatformInterface READ glPlatformInterface WRITE setGlPlatformInterface NOTIFY glPlatformInterfaceChanged)
+    Q_PROPERTY(KWin::OpenGLPlatformInterface glPlatformInterface READ glPlatformInterface WRITE setGlPlatformInterface NOTIFY glPlatformInterfaceChanged)
 public:
 
     explicit Options(QObject *parent = NULL);
@@ -344,9 +346,51 @@ public:
         return m_legacyFullscreenSupport;
     }
 
+    enum WindowOperation {
+        MaximizeOp = 5000,
+        RestoreOp,
+        MinimizeOp,
+        MoveOp,
+        UnrestrictedMoveOp,
+        ResizeOp,
+        UnrestrictedResizeOp,
+        CloseOp,
+        OnAllDesktopsOp,
+        ShadeOp,
+        KeepAboveOp,
+        KeepBelowOp,
+        OperationsOp,
+        WindowRulesOp,
+        ToggleStoreSettingsOp = WindowRulesOp, ///< @obsolete
+        HMaximizeOp,
+        VMaximizeOp,
+        LowerOp,
+        FullScreenOp,
+        NoBorderOp,
+        NoOp,
+        SetupWindowShortcutOp,
+        ApplicationRulesOp,
+        RemoveTabFromGroupOp, // Remove from group
+        CloseTabGroupOp, // Close the group
+        ActivateNextTabOp, // Move left in the group
+        ActivatePreviousTabOp, // Move right in the group
+        TabDragOp,
+    };
+
     WindowOperation operationTitlebarDblClick() const {
         return OpTitlebarDblClick;
     }
+    WindowOperation operationMaxButtonLeftClick() const {
+        return opMaxButtonLeftClick;
+    }
+    WindowOperation operationMaxButtonRightClick() const {
+        return opMaxButtonRightClick;
+    }
+    WindowOperation operationMaxButtonMiddleClick() const {
+        return opMaxButtonMiddleClick;
+    }
+    WindowOperation operationMaxButtonClick(Qt::MouseButtons button) const;
+
 
     enum MouseCommand {
         MouseRaise, MouseLower, MouseOperationsMenu, MouseToggleRaiseAndLower,
@@ -570,6 +614,9 @@ public:
     void setFocusStealingPreventionLevel(int focusStealingPreventionLevel);
     void setLegacyFullscreenSupport(bool legacyFullscreenSupport);
     void setOperationTitlebarDblClick(WindowOperation operationTitlebarDblClick);
+    void setOperationMaxButtonLeftClick(WindowOperation op);
+    void setOperationMaxButtonRightClick(WindowOperation op);
+    void setOperationMaxButtonMiddleClick(WindowOperation op);
     void setCommandActiveTitlebar1(MouseCommand commandActiveTitlebar1);
     void setCommandActiveTitlebar2(MouseCommand commandActiveTitlebar2);
     void setCommandActiveTitlebar3(MouseCommand commandActiveTitlebar3);
@@ -614,6 +661,15 @@ public:
     // default values
     static WindowOperation defaultOperationTitlebarDblClick() {
         return MaximizeOp;
+    }
+    static WindowOperation defaultOperationMaxButtonLeftClick() {
+        return MaximizeOp;
+    }
+    static WindowOperation defaultOperationMaxButtonRightClick() {
+        return HMaximizeOp;
+    }
+    static WindowOperation defaultOperationMaxButtonMiddleClick() {
+        return VMaximizeOp;
     }
     static MouseCommand defaultCommandActiveTitlebar1() {
         return MouseRaise;
@@ -754,6 +810,9 @@ Q_SIGNALS:
     void focusStealingPreventionLevelChanged();
     void legacyFullscreenSupportChanged();
     void operationTitlebarDblClickChanged();
+    void operationMaxButtonLeftClickChanged();
+    void operationMaxButtonRightClickChanged();
+    void operationMaxButtonMiddleClickChanged();
     void commandActiveTitlebar1Changed();
     void commandActiveTitlebar2Changed();
     void commandActiveTitlebar3Changed();
@@ -795,6 +854,8 @@ Q_SIGNALS:
     void glCoreProfileChanged();
     void glPreferBufferSwapChanged();
     void glPlatformInterfaceChanged();
+
+    void configChanged();
 
 public Q_SLOTS:
     void setColorCorrected(bool colorCorrected = false);
@@ -846,6 +907,9 @@ private:
     OpenGLPlatformInterface m_glPlatformInterface;
 
     WindowOperation OpTitlebarDblClick;
+    WindowOperation opMaxButtonRightClick = defaultOperationMaxButtonRightClick();
+    WindowOperation opMaxButtonMiddleClick = defaultOperationMaxButtonMiddleClick();
+    WindowOperation opMaxButtonLeftClick = defaultOperationMaxButtonRightClick();
 
     // mouse bindings
     MouseCommand CmdActiveTitlebar1;
@@ -879,5 +943,8 @@ private:
 extern Options* options;
 
 } // namespace
+
+Q_DECLARE_METATYPE(KWin::Options::WindowOperation)
+Q_DECLARE_METATYPE(KWin::OpenGLPlatformInterface)
 
 #endif

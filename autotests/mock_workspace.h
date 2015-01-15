@@ -21,11 +21,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KWIN_MOCK_WORKSPACE_H
 
 #include <QObject>
+#include <kwinglobals.h>
 
 namespace KWin
 {
 
 class Client;
+class X11EventFilter;
 
 class MockWorkspace;
 typedef MockWorkspace Workspace;
@@ -37,13 +39,26 @@ public:
     explicit MockWorkspace(QObject *parent = nullptr);
     virtual ~MockWorkspace();
     Client *activeClient() const;
+    Client *getMovingClient() const;
+    void setShowingDesktop(bool showing);
+    bool showingDesktop() const;
+    QRect clientArea(clientAreaOption, int screen, int desktop) const;
 
     void setActiveClient(Client *c);
+    void setMovingClient(Client *c);
+
+    void registerEventFilter(X11EventFilter *filter);
+    void unregisterEventFilter(X11EventFilter *filter);
 
     static Workspace *self();
 
+Q_SIGNALS:
+    void clientRemoved(KWin::Client*);
+
 private:
     Client *m_activeClient;
+    Client *m_movingClient;
+    bool m_showingDesktop;
     static Workspace *s_self;
 };
 
@@ -51,6 +66,11 @@ inline
 Workspace *MockWorkspace::self()
 {
     return s_self;
+}
+
+inline Workspace *workspace()
+{
+    return Workspace::self();
 }
 
 }

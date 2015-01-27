@@ -21,13 +21,11 @@ msgstr ""
 
 #: compositing.cpp:387
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 3.1"
 msgstr "OpenGL"
 
 #: compositing.cpp:388
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 2.0"
 msgstr "OpenGL"
 
@@ -48,7 +46,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:20 qml/CompositingView.qml:55
 #, fuzzy
-#| msgid "Enable desktop effects"
 msgid "Enable compositor on startup"
 msgstr "Уключыць эфекты працоўнага стала"
 
@@ -103,7 +100,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
 #, fuzzy
-#| msgid "OpenGL mode:"
 msgid "OpenGL interface:"
 msgstr "Рэжым OpenGL:"
 
@@ -162,7 +158,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
 #: compositing.ui:228 qml/CompositingView.qml:182
 #, fuzzy
-#| msgid "Enable desktop effects"
 msgid "Suspend compositor for full screen windows"
 msgstr "Уключыць эфекты працоўнага стала"
 
@@ -266,7 +261,6 @@ msgstr ""
 
 #: model.cpp:73
 #, fuzzy
-#| msgid "Improved window management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Палепшанае кіраванне вокнамі"
@@ -318,7 +312,6 @@ msgstr ""
 
 #: qml/EffectView.qml:82
 #, fuzzy
-#| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "Фільтр тэкстуры:"
 
@@ -328,12 +321,10 @@ msgstr ""
 
 #: qml/EffectView.qml:93
 #, fuzzy
-#| msgid "Enable desktop effects"
 msgid "Exclude internal Desktop Effects"
 msgstr "Уключыць эфекты працоўнага стала"
 
 #: qml/EffectView.qml:105
 #, fuzzy
-#| msgid "Common effects"
 msgid "Get New Effects ..."
 msgstr "Звычайныя эфекты"

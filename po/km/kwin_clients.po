@@ -197,31 +197,7 @@ msgstr "ធ្វើ​ឲ្យ​ប៊ូតុង​មាន​ចលនា
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 #  i18n: file ./plastik/config/configdialog.ui line 30
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -291,15 +267,7 @@ msgstr "ធ្វើ​ឲ្យ​ប៊ូតុង​មាន​ចលនា
 
 
 
-
 #  i18n: file ./plastik/config/configdialog.ui line 16
-
-
-
-
-
-
-
 
 
 

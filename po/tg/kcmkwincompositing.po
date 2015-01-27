@@ -19,13 +19,11 @@ msgstr ""
 
 #: compositing.cpp:387
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 3.1"
 msgstr "OpenGL"
 
 #: compositing.cpp:388
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 2.0"
 msgstr "OpenGL"
 
@@ -46,15 +44,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:20 qml/CompositingView.qml:55
 #, fuzzy
-#| msgctxt "@option:check"
-#| msgid "Enable desktop effects"
 msgid "Enable compositor on startup"
 msgstr "Фаъолсозии таъсирҳои мизи корӣ"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:27
 #, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation speed:"
 msgstr "Суръати аниматсия"
 
@@ -66,7 +61,6 @@ msgstr "Барномаи паёмнависӣ"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
 #, fuzzy
-#| msgid "Very Slow"
 msgid "Very slow"
 msgstr "Медленные клавиши"
 
@@ -96,7 +90,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
 #: compositing.ui:124 qml/CompositingView.qml:127
 #, fuzzy
-#| msgid "Smooth scaling (slower)"
 msgid "Smooth (slower)"
 msgstr "Фаъол сохтани масштабонии худкора "
 
@@ -108,7 +101,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
 #, fuzzy
-#| msgid "OpenGL mode:"
 msgid "OpenGL interface:"
 msgstr "Ҳолати OpenGL:"
 
@@ -122,7 +114,6 @@ msgstr ""
 #: compositing.ui:167 compositing.ui:213 qml/CompositingView.qml:141
 #: qml/CompositingView.qml:154
 #, fuzzy
-#| msgid "Never"
 msgid "Never"
 msgstr "Ҳеҷ гоҳ"
 
@@ -149,7 +140,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:195
 #, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep window thumbnails:"
 msgstr "Нигоҳ доштани нишонаҳои тиреза:"
 
@@ -161,7 +151,6 @@ msgstr "Ҳамеша"
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:208 qml/CompositingView.qml:154
 #, fuzzy
-#| msgid "Only for Shown Windows"
 msgid "Only for Shown Windows"
 msgstr "Танҳо барои тирезаҳо нишоншуда"
 
@@ -173,8 +162,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
 #: compositing.ui:228 qml/CompositingView.qml:182
 #, fuzzy
-#| msgctxt "@option:check"
-#| msgid "Enable desktop effects"
 msgid "Suspend compositor for full screen windows"
 msgstr "Фаъолсозии таъсирҳои мизи корӣ"
 
@@ -248,35 +235,30 @@ msgstr ""
 
 #: model.cpp:67
 #, fuzzy
-#| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Имкониятҳо"
 
 #: model.cpp:68
 #, fuzzy
-#| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Намуди зоҳирӣ"
 
 #: model.cpp:69
 #, fuzzy
-#| msgid "Candy"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Веб сайти KDE Eye Candy"
 
 #: model.cpp:70
 #, fuzzy
-#| msgid "Focus"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Фокус"
 
 #: model.cpp:71
 #, fuzzy
-#| msgid "Tools"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Асбобҳо"
@@ -288,7 +270,6 @@ msgstr ""
 
 #: model.cpp:73
 #, fuzzy
-#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Управление окнами"
@@ -299,7 +280,6 @@ msgstr ""
 
 #: qml/CompositingView.qml:67
 #, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation Speed:"
 msgstr "Суръати аниматсия"
 
@@ -313,7 +293,6 @@ msgstr ""
 
 #: qml/CompositingView.qml:148
 #, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep Window Thumbnails:"
 msgstr "Нигоҳ доштани нишонаҳои тиреза:"
 
@@ -344,7 +323,6 @@ msgstr ""
 
 #: qml/EffectView.qml:82
 #, fuzzy
-#| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "Фильтри текстура:"
 
@@ -354,13 +332,10 @@ msgstr ""
 
 #: qml/EffectView.qml:93
 #, fuzzy
-#| msgctxt "@option:check"
-#| msgid "Enable desktop effects"
 msgid "Exclude internal Desktop Effects"
 msgstr "Фаъолсозии таъсирҳои мизи корӣ"
 
 #: qml/EffectView.qml:105
 #, fuzzy
-#| msgid "No Effect"
 msgid "Get New Effects ..."
 msgstr "Бе Таъсир"

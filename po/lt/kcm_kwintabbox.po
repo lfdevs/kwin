@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-05-23 07:47+0000\n"
+"POT-Creation-Date: 2015-01-21 09:28+0000\n"
 "PO-Revision-Date: 2012-08-04 23:28+0300\n"
 "Last-Translator: Liudas Ališauskas <liudas.alisauskas@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -22,20 +22,20 @@ msgstr ""
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: layoutpreview.cpp:158
+#: layoutpreview.cpp:165
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Darbastalis 1"
 
-#: main.cpp:70
+#: main.cpp:73
 msgid "Main"
 msgstr "Pagrindinis"
 
-#: main.cpp:71
+#: main.cpp:74
 msgid "Alternative"
 msgstr "Alternatyvus"
 
-#: main.cpp:74
+#: main.cpp:77
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""

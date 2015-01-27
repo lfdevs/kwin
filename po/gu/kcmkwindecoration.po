@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-06-11 07:50+0000\n"
+"POT-Creation-Date: 2015-01-22 09:47+0000\n"
 "PO-Revision-Date: 2010-12-23 16:29+0530\n"
 "Last-Translator: Sweta Kothari <swkothar@redhat.com>\n"
 "Language-Team: Gujarati\n"
@@ -18,336 +18,139 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "શ્ર્વેતા કોઠારી"
+#: declarative-plugin/buttonsmodel.cpp:67
+msgid "Menu"
+msgstr "મેનુ"
 
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "swkothar@redhat.com"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: auroraeconfig.ui:23
-msgid "Border size:"
-msgstr "સીમારેખાનું માપ:"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:34 configdialog.cpp:36
-msgctxt "@item:inlistbox Border size:"
-msgid "Tiny"
-msgstr "બહુ નાનું"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:39 configdialog.cpp:37
-msgctxt "@item:inlistbox Border size:"
-msgid "Normal"
-msgstr "સામાન્ય"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:44 configdialog.cpp:38
-msgctxt "@item:inlistbox Border size:"
-msgid "Large"
-msgstr "વિશાળ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:49 configdialog.cpp:39
-msgctxt "@item:inlistbox Border size:"
-msgid "Very Large"
-msgstr "ઘણું વિશાળ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:54 configdialog.cpp:40
-msgctxt "@item:inlistbox Border size:"
-msgid "Huge"
-msgstr "વિશાળ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:59 configdialog.cpp:41
-msgctxt "@item:inlistbox Border size:"
-msgid "Very Huge"
-msgstr "ઘણું વિશાળ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:64 configdialog.cpp:42
-msgctxt "@item:inlistbox Border size:"
-msgid "Oversized"
-msgstr "વધારે માપનું"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: auroraeconfig.ui:72
-msgid "Button size:"
-msgstr "બટન માપ:"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:83
-msgctxt "@item:inlistbox Button size:"
-msgid "Tiny"
-msgstr "બહુ નાનું"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:88
-msgctxt "@item:inlistbox Button size:"
-msgid "Normal"
-msgstr "સામાન્ય"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:93
-msgctxt "@item:inlistbox Button size:"
-msgid "Large"
-msgstr "વિશાળ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:98
-msgctxt "@item:inlistbox Button size:"
-msgid "Very Large"
-msgstr "ઘણું વિશાળ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:103
-msgctxt "@item:inlistbox Button size:"
-msgid "Huge"
-msgstr "વિશાળ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:108
-msgctxt "@item:inlistbox Button size:"
-msgid "Very Huge"
-msgstr "ઘણું વિશાળ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:113
-msgctxt "@item:inlistbox Button size:"
-msgid "Oversized"
-msgstr "વધારે માપનું"
-
-#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
-#: auroraeconfig.ui:126
-msgid "Close windows by double clicking the menu button"
+#: declarative-plugin/buttonsmodel.cpp:69
+msgid "Application menu"
 msgstr ""
 
-#: buttons.cpp:620
-msgid "KDE"
-msgstr "KDE"
+#: declarative-plugin/buttonsmodel.cpp:71
+#, fuzzy
+msgid "On all desktops"
+msgstr "બધા ડેસ્કટોપો પર"
 
-#: buttons.cpp:649
-#, kde-format
-msgid "%1 (unavailable)"
-msgstr "%1 (બિનઉપલ્બધ)"
-
-#: buttons.cpp:672
-msgid ""
-"To add or remove titlebar buttons, simply <i>drag</i> items between the "
-"available item list and the titlebar preview. Similarly, drag items within "
-"the titlebar preview to re-position them."
-msgstr ""
-"શિર્ષકપટ્ટીનાં બટનો ને દૂર કરવા અથવા ઉમેરવા માટે, ઉપલબ્ધ વસ્તુ યાદી અને શિર્ષકપટ્ટી "
-"પૂર્વદર્શન વચ્ચે વસ્તુઓ ને સહેલાઇથી <i>ખેંચો</i>. એજ પ્રકારે, તેઓને ફરીથી સ્થાનિત કરવા માટે "
-"શિર્ષકપટ્ટી પૂર્વદર્શન માં વસ્તુઓને ખેંચો."
-
-#: buttons.cpp:728
-msgid "Resize"
-msgstr "ફરીથી માપ લો"
-
-#: buttons.cpp:733
-msgid "Shade"
-msgstr "છાંયડો"
-
-#: buttons.cpp:738
-msgid "Keep Below Others"
-msgstr "નીચે બીજાઓને રાખો"
-
-#: buttons.cpp:743
-msgid "Keep Above Others"
-msgstr "ઉપર બીજાઓને રાખો"
-
-#: buttons.cpp:748
-msgid "Close"
-msgstr "બંધ કરો"
-
-#: buttons.cpp:753
-msgid "Maximize"
-msgstr "મહત્તમ"
-
-#: buttons.cpp:758
+#: declarative-plugin/buttonsmodel.cpp:73
 msgid "Minimize"
 msgstr "ન્યૂનત્તમ"
 
-#: buttons.cpp:763
-msgid "Help"
-msgstr "મદદ"
+#: declarative-plugin/buttonsmodel.cpp:75
+msgid "Maximize"
+msgstr "મહત્તમ"
 
-#: buttons.cpp:768
-msgid "On All Desktops"
-msgstr "બધા ડેસ્કટોપો પર"
+#: declarative-plugin/buttonsmodel.cpp:77
+msgid "Close"
+msgstr "બંધ કરો"
 
-#: buttons.cpp:773
-msgctxt "Button showing window actions menu"
-msgid "Window Menu"
+#: declarative-plugin/buttonsmodel.cpp:79
+msgid "Context help"
 msgstr ""
 
-#: buttons.cpp:779
-msgctxt "Button showing application menu imported from dbusmenu"
-msgid "Application Menu"
-msgstr ""
+#: declarative-plugin/buttonsmodel.cpp:81
+msgid "Shade"
+msgstr "છાંયડો"
 
-#: buttons.cpp:785
-msgid "--- spacer ---"
-msgstr "--- સ્પેસર ---"
-
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, showToolTipsCheckBox)
-#: buttons.ui:20
-msgid ""
-"Enabling this checkbox will show window button tooltips. If this checkbox is "
-"off, no window button tooltips will be shown."
-msgstr ""
-"સક્રિય કરવા દરમ્યાન આ ચેકબોક્સ એ વિન્ડો બટનની ટુલટીપો ને બતાવશે. જો આ ચેકબોક્સ એ બંધ "
-"હોય તો, વિન્ડો બટન ટુલટીપો ને બતાવેલ હશે નહિં."
-
-#. i18n: ectx: property (text), widget (QCheckBox, showToolTipsCheckBox)
-#: buttons.ui:23
-msgid "&Show window button tooltips"
-msgstr "વિન્ડો બટન ટુલટીપો ને બતાવો (&S)"
-
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, useCustomButtonPositionsCheckBox)
-#: buttons.ui:30
-msgid "Please note that this option is not available on all styles yet."
-msgstr "મહેરબાની કરીને નોંધો કે આ વિકલ્પ હજુ બધી શૈલીઓ પર ઉપલબ્ધ નથી."
-
-#. i18n: ectx: property (text), widget (QCheckBox, useCustomButtonPositionsCheckBox)
-#: buttons.ui:33
-msgid "Use custom titlebar button &positions"
-msgstr "વૈવિધ્ય શિર્ષકપટ્ટી નાં બટન સ્થાનો ને વાપરો (&p)"
-
-#: buttonsconfigdialog.cpp:44
-msgid "Buttons"
-msgstr "બટનો"
-
-#. i18n: ectx: property (text), widget (QLabel, borderLabel)
-#: config.ui:19
-msgid "B&order size:"
-msgstr "સીમારેખાનું માપ (&o):"
-
-#. i18n: ectx: property (whatsThis), widget (KComboBox, bordersCombo)
-#: config.ui:29
-msgid "Use this combobox to change the border size of the decoration."
-msgstr "સજાવટની સીમારેખા માપ ને બદલવા માટે આ કોમ્બોબોક્સ ને વાપરો."
-
-#: configdialog.cpp:43
-msgctxt "@item:inlistbox Border size:"
-msgid "No Side Border"
-msgstr ""
-
-#: configdialog.cpp:44
-msgctxt "@item:inlistbox Border size:"
-msgid "No Border"
-msgstr ""
-
-#: configdialog.cpp:81 kwindecoration.cpp:375
-msgid "Decoration Options"
-msgstr "સજાવટ વિકલ્પો"
-
-#. i18n: ectx: property (clickMessage), widget (KLineEdit, searchEdit)
-#: decoration.ui:17
-msgid "Search"
-msgstr "શોધો"
-
-#. i18n: ectx: property (whatsThis), widget (QScrollArea, decorationList)
-#: decoration.ui:27
-msgid ""
-"Select the window decoration. This is the look and feel of both the window "
-"borders and the window handle."
-msgstr ""
-"વિન્ડો સજાવટ ને પસંદ કરો. આ વિન્ડો સીમાઓ અને વિન્ડો સંભાળવા એ બંને નું જોવાનું અને અનુભવવાનું "
-"છે."
-
-#. i18n: ectx: property (text), widget (QPushButton, configureDecorationButton)
-#: decoration.ui:58
-msgid "Configure Decoration..."
-msgstr "સજાવટને રૂપરેખાંકિત કરો..."
-
-#. i18n: ectx: property (text), widget (QPushButton, configureButtonsButton)
-#: decoration.ui:65
-msgid "Configure Buttons..."
-msgstr "બટનોને રૂપરેખાંકિત કરો..."
-
-#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
-#: decoration.ui:72
-msgid "Get New Decorations..."
-msgstr "નવી સજાવટને મેળવો..."
-
-#: kwindecoration.cpp:99
-msgid "Window Decoration Control Module"
-msgstr "વિન્ડો સજાવટ નિયંત્રણ મોડ્યુલ"
-
-#: kwindecoration.cpp:101
-msgid "(c) 2001 Karol Szwed"
-msgstr "(c) 2001 Karol Szwed"
-
-#: kwindecoration.cpp:102
-msgid "Karol Szwed"
-msgstr "Karol Szwed"
-
-#: kwindecoration.cpp:127
-msgid ""
-"<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main.qml</"
-"h2>could not be located in any application data path.<h2>Please contact your "
-"distribution</h2>The application will now abort"
-msgstr ""
-
-#: kwindecoration.cpp:130
-msgid "Installation Error"
-msgstr ""
-
-#: kwindecoration.cpp:301
-msgid "Oxygen"
-msgstr "ઑક્સિજન"
-
-#: kwindecoration.cpp:314
+#: declarative-plugin/buttonsmodel.cpp:83
 #, fuzzy
-#| msgid ""
-#| "<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
-#| "window border decorations, as well as titlebar button positions and "
-#| "custom decoration options.</p>To choose a theme for your window "
-#| "decoration click on its name and apply your choice by clicking the \"Apply"
-#| "\" button below. If you do not want to apply your choice you can click "
-#| "the \"Reset\" button to discard your changes.<p>You can configure each "
-#| "theme in the \"Configure [...]\" tab. There are different options "
-#| "specific for each theme.</p><p>In \"General Options (if available)\" you "
-#| "can activate the \"Buttons\" tab by checking the \"Use custom titlebar "
-#| "button positions\" box. In the \"Buttons\" tab you can change the "
-#| "positions of the buttons to your liking.</p>"
-msgid ""
-"<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
-"window border decorations, as well as titlebar button positions and custom "
-"decoration options.</p>To choose a theme for your window decoration click on "
-"its name and apply your choice by clicking the \"Apply\" button below. If "
-"you do not want to apply your choice you can click the \"Reset\" button to "
-"discard your changes.<p>You can configure each theme. There are different "
-"options specific for each theme.</p><p>On the \"Buttons\" tab check the "
-"\"Use custom titlebar button positions\" box and you can change the "
-"positions of the buttons to your liking.</p>"
-msgstr ""
-"<h1>વિન્ડો વ્યવસ્થાપક સજાવટ</h1><p> આ મોડ્યુલ એ વિન્ડોની સીમારેખા સજાવટોને પસંદ કરવા "
-"માટે પરવાનગી આપે છે, ની સાથે સાથે શિર્ષકપટ્ટી બટન સ્થાનો અને વૈવિધ્ય સજાવટ વિકલ્પો.</p> "
-"તમારા વિન્ડો સજાવટ માટે થીમ ને પસંદ કરવા માટે તેનાં નામ પર ક્લિક કરો અને નીચે \"લાગુ કરો"
-"\" બટન પર ક્લિક કરવા દરમ્યાન તમારી પસંદગી ને લાગુ કરો. જો તમો તમારી પસંદગીને લાગુ "
-"કરવાનું ઇચ્છતા ના હોય તો તમે તમારા બદલાવો ને કાઢવા માટે \"પુન:સુયોજિત\" બટન પર ક્લિક "
-"કરી શકો છો.<p>તમે \"Configure [...]\" ટેબમાં દરેક થીમ ને રૂપરેખાંકિત કરી શકો છો. ત્યાં "
-"દરેક થીમ માટે વિવિધ ચોક્કસ વિકલ્પો છે. </p><p> \"સામાન્ય વિકલ્પો (જો ઉપલ્બધ હોય "
-"તો)\" તમે \"વૈવિધ્ય શિર્ષકપટ્ટી બટન સ્થાનો ને વાપરો\" બોક્સ ચકાસવા દરમ્યાન \"બટનો\" "
-"ટેબને સક્રિય કરી શકો છો. \"બટનો\" ટેબમાં તમને ગમતી હોય તેવી બટનો નાં સ્થાનો તમે બદલી "
-"શકો છો.</p>"
+msgid "Keep below"
+msgstr "નીચે બીજાઓને રાખો"
 
-#: kwindecoration.cpp:389
+#: declarative-plugin/buttonsmodel.cpp:85
+#, fuzzy
+msgid "Keep above"
+msgstr "ઉપર બીજાઓને રાખો"
+
+#: kcm.cpp:100
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
 msgstr ""
 
-#: preview.cpp:373
-msgid "Active Window"
-msgstr "વિન્ડો ને સક્રિય કરો"
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
+#: kcm.ui:22
+msgid "Search"
+msgstr "શોધો"
 
-#: preview.cpp:373
-msgid "Inactive Window"
-msgstr "વિન્ડોને નિષ્ક્રિય કરો"
+#. i18n: ectx: property (text), widget (QPushButton, knsButton)
+#: kcm.ui:35
+msgid "Get New Decorations..."
+msgstr "નવી સજાવટને મેળવો..."
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kcm.ui:59
+#, fuzzy
+msgid "Border si&ze:"
+msgstr "સીમારેખાનું માપ:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:70
+#, fuzzy
+msgctxt "@item:inlistbox Border size:"
+msgid "No Borders"
+msgstr "સીમારેખાનું માપ:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:75
+msgctxt "@item:inlistbox Border size:"
+msgid "No Side Borders"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:80
+msgctxt "@item:inlistbox Border size:"
+msgid "Tiny"
+msgstr "બહુ નાનું"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:85
+msgctxt "@item:inlistbox Border size:"
+msgid "Normal"
+msgstr "સામાન્ય"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:90
+msgctxt "@item:inlistbox Border size:"
+msgid "Large"
+msgstr "વિશાળ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:95
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Large"
+msgstr "ઘણું વિશાળ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:100
+msgctxt "@item:inlistbox Border size:"
+msgid "Huge"
+msgstr "વિશાળ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:105
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Huge"
+msgstr "ઘણું વિશાળ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:110
+msgctxt "@item:inlistbox Border size:"
+msgid "Oversized"
+msgstr "વધારે માપનું"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: kcm.ui:128
+msgid "Close windows by double clicking &the menu button:"
+msgstr ""
+
+#: qml/Buttons.qml:74
+msgid "Titlebar"
+msgstr ""
+
+#: qml/Buttons.qml:197
+msgid "Drag buttons between here and the titlebar"
+msgstr ""
+
+#: qml/Buttons.qml:212
+msgid "Drop here to remove button"
+msgstr ""

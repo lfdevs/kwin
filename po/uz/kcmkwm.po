@@ -28,7 +28,6 @@ msgstr "kmashrab@uni-bremen.de"
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: actions.ui:32
 #, fuzzy
-#| msgid "Modifier key + mouse wheel:"
 msgid "M&ouse wheel:"
 msgstr "Tugma va sichqonchaning gʻildiragi:"
 
@@ -54,7 +53,6 @@ msgstr "Koʻchirish"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:60 actions.ui:162 actions.ui:325
 #, fuzzy
-#| msgid "Activate, Raise and Move"
 msgid "Activate, Raise & Move"
 msgstr "Aktivlashtirish, oldinga va koʻchirish"
 
@@ -130,7 +128,6 @@ msgstr "Yigʻish"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:90 actions.ui:192 actions.ui:355
 #, fuzzy
-#| msgid "Change Opacity"
 msgid "Decrease Opacity"
 msgstr "Shaffoflikni oʻzgartirish"
 
@@ -139,7 +136,6 @@ msgstr "Shaffoflikni oʻzgartirish"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:95 actions.ui:197 actions.ui:360
 #, fuzzy
-#| msgid "Change Opacity"
 msgid "Increase Opacity"
 msgstr "Shaffoflikni oʻzgartirish"
 
@@ -165,7 +161,6 @@ msgstr "Hech narsa"
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: actions.ui:108
 #, fuzzy
-#| msgid "Right button:"
 msgid "Ri&ght button:"
 msgstr "Oʻng tugma:"
 
@@ -177,7 +172,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:134
 #, fuzzy
-#| msgid "Middle button:"
 msgid "Middle b&utton:"
 msgstr "Oʻrta tugma:"
 
@@ -194,23 +188,18 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: actions.ui:210
 #, fuzzy
-#| msgid "Left button:"
 msgid "&Left button:"
 msgstr "Chap tugma:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: actions.ui:229
 #, fuzzy
-#| msgid "Inner Window, Titlebar && Frame"
 msgid "Inner Window, Titlebar & Frame"
 msgstr "Ichki oyna, sarlavha va freym"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWin2)
 #: actions.ui:242
 #, fuzzy
-#| msgid ""
-#| "In this row you can customize left click behavior when clicking into the "
-#| "titlebar or the frame."
 msgid ""
 "In this row you can customize middle click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
@@ -223,7 +212,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coWin3)
 #: actions.ui:246 actions.ui:449 actions.ui:482
 #, fuzzy
-#| msgid "Activate, Raise and Move"
 msgid "Activate, Raise & Pass Click"
 msgstr "Aktivlashtirish, oldinga va koʻchirish"
 
@@ -232,7 +220,6 @@ msgstr "Aktivlashtirish, oldinga va koʻchirish"
 #. i18n: ectx: property (text), item, widget (KComboBox, coWin3)
 #: actions.ui:251 actions.ui:454 actions.ui:487
 #, fuzzy
-#| msgid "Activate & Raise"
 msgid "Activate & Pass Click"
 msgstr "Aktivlashtirish va oldinga"
 
@@ -261,16 +248,12 @@ msgstr "Aktivlashtirish va oldinga"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: actions.ui:269
 #, fuzzy
-#| msgid "Right button:"
 msgid "&Right button:"
 msgstr "Oʻng tugma:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWinWheel)
 #: actions.ui:288
 #, fuzzy
-#| msgid ""
-#| "In this row you can customize left click behavior when clicking into the "
-#| "titlebar or the frame."
 msgid ""
 "In this row you can customize behavior when scrolling into an inactive inner "
 "window ('inner' means: not titlebar, not frame)."
@@ -286,14 +269,12 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:297
 #, fuzzy
-#| msgid "Activate & Lower"
 msgid "Activate & Scroll"
 msgstr "Aktivlashtirish va orqaga"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:302
 #, fuzzy
-#| msgid "Activate, Raise and Move"
 msgid "Activate, Raise & Scroll"
 msgstr "Aktivlashtirish, oldinga va koʻchirish"
 
@@ -310,9 +291,6 @@ msgstr ""
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAllW)
 #: actions.ui:379
 #, fuzzy
-#| msgid ""
-#| "Here you can customize KDE's behavior when clicking somewhere into a "
-#| "window while pressing a modifier key."
 msgid ""
 "Here you can customize KDE's behavior when scrolling with the mouse wheel in "
 "a window while pressing the modifier key."
@@ -365,9 +343,6 @@ msgstr ""
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWin1)
 #: actions.ui:445
 #, fuzzy
-#| msgid ""
-#| "In this row you can customize left click behavior when clicking into the "
-#| "titlebar or the frame."
 msgid ""
 "In this row you can customize left click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
@@ -378,9 +353,6 @@ msgstr ""
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWin3)
 #: actions.ui:478
 #, fuzzy
-#| msgid ""
-#| "In this row you can customize left click behavior when clicking into the "
-#| "titlebar or the frame."
 msgid ""
 "In this row you can customize right click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
@@ -391,7 +363,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: actions.ui:505
 #, fuzzy
-#| msgid "Middle button:"
 msgid "M&iddle button:"
 msgstr "Oʻrta tugma:"
 
@@ -403,14 +374,12 @@ msgstr "Aktiv boʻlmagan ichki oyna"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:531
 #, fuzzy
-#| msgid "Left button:"
 msgid "Left &button"
 msgstr "Chap tugma:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:561
 #, fuzzy
-#| msgid "Modifier key:"
 msgid "Modifier &key:"
 msgstr "Tugma:"
 
@@ -439,7 +408,6 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, wtBox)
 #: advanced.ui:43
 #, fuzzy
-#| msgid "Window Actio&ns"
 msgid "Window Tabbing"
 msgstr "Oynaning &amallari"
 
@@ -534,7 +502,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:156
 #, fuzzy
-#| msgid "Focus Under Mouse"
 msgid "Under Mouse"
 msgstr "Fokus sichqoncha tagida"
 
@@ -577,7 +544,6 @@ msgstr " ms"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: advanced.ui:240
 #, fuzzy
-#| msgid "Windows"
 msgid "Special Windows"
 msgstr "Oynalar"
 
@@ -598,7 +564,6 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: focus.ui:30
 #, fuzzy
-#| msgid "Active windows:"
 msgid "Activating windows"
 msgstr "Aktiv oynalar:"
 
@@ -719,8 +684,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:304
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "None"
 msgid "None"
 msgstr "Yoʻq"
 
@@ -728,8 +691,6 @@ msgstr "Yoʻq"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:309
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "Low"
 msgid "Low"
 msgstr "Past"
 
@@ -743,8 +704,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:319
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "High"
 msgid "High"
 msgstr "Yuqori"
 
@@ -752,15 +711,12 @@ msgstr "Yuqori"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:324
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "Extreme"
 msgid "Extreme"
 msgstr "Juda yuqori"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: focus.ui:364
 #, fuzzy
-#| msgid "&Policy:"
 msgid "Policy"
 msgstr "Q&oida:"
 
@@ -777,7 +733,6 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: focus.ui:434
 #, fuzzy
-#| msgid "Moving windows:"
 msgid "Raising windows"
 msgstr "Oynalarni koʻchirish:"
 
@@ -811,7 +766,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, clickRaiseOn)
 #: focus.ui:497
 #, fuzzy
-#| msgid "C&lick raise active window"
 msgid "C&lick raises active window"
 msgstr "&Bosish oynani aktivlashtiradi"
 
@@ -925,7 +879,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.cpp:195 mouse.ui:55
 #, fuzzy
-#| msgid "Maximize"
 msgid "Maximize"
 msgstr "Yoyish"
 
@@ -944,7 +897,6 @@ msgstr "Yoyish (faqat eniga)"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: mouse.ui:32
 #, fuzzy
-#| msgid "&Titlebar double-click:"
 msgid "&Double-click:"
 msgstr "&Sarlavhani ikki marta bosish:"
 
@@ -983,21 +935,18 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.ui:90
 #, fuzzy
-#| msgid "On All Desktops"
 msgid "On All Desktops"
 msgstr "Hamma ish stollariga"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mouse.ui:103
 #, fuzzy
-#| msgid "Titlebar wheel event:"
 msgid "Wheel event:"
 msgstr "Sarlavhada sichqonchaning gʻildirak amali:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct4)
 #: mouse.ui:122
 #, fuzzy
-#| msgid "Titlebar wheel event:"
 msgid "Handle mouse wheel events"
 msgstr "Sarlavhada sichqonchaning gʻildirak amali:"
 
@@ -1038,9 +987,6 @@ msgstr "Chap tugma:"
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct1)
 #: mouse.ui:233
 #, fuzzy
-#| msgid ""
-#| "In this column you can customize mouse clicks into the titlebar or the "
-#| "frame of an active window."
 msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an <em>active</"
 "em> window."
@@ -1068,7 +1014,6 @@ msgstr "Amallar menyusi"
 #: mouse.ui:272 mouse.ui:345 mouse.ui:416 mouse.ui:489 mouse.ui:560
 #: mouse.ui:633
 #, fuzzy
-#| msgid "Window Actio&ns"
 msgid "Start Window Tab Drag"
 msgstr "Oynaning &amallari"
 
@@ -1077,9 +1022,6 @@ msgstr "Oynaning &amallari"
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiInAct3)
 #: mouse.ui:291 mouse.ui:435 mouse.ui:579
 #, fuzzy
-#| msgid ""
-#| "In this column you can customize mouse clicks into the titlebar or the "
-#| "frame of an inactive window."
 msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an "
 "<em>inactive</em> window."
@@ -1103,9 +1045,6 @@ msgstr "Oʻrta tugma:"
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct2)
 #: mouse.ui:377
 #, fuzzy
-#| msgid ""
-#| "In this column you can customize mouse clicks into the titlebar or the "
-#| "frame of an active window."
 msgid ""
 "Behavior on <em>middle</em> click into the titlebar or frame of an "
 "<em>active</em> window."
@@ -1122,9 +1061,6 @@ msgstr "Oʻng tugma:"
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct3)
 #: mouse.ui:521
 #, fuzzy
-#| msgid ""
-#| "In this column you can customize mouse clicks into the titlebar or the "
-#| "frame of an active window."
 msgid ""
 "Behavior on <em>right</em> click into the titlebar or frame of an "
 "<em>active</em> window."
@@ -1136,7 +1072,6 @@ msgstr ""
 #. i18n: ectx: property (whatsThis), widget (KComboBox, leftClickMaximizeButton)
 #: mouse.ui:655 mouse.ui:709
 #, fuzzy
-#| msgid "Behavior on <em>double</em> click into the titlebar."
 msgid "Behavior on <em>left</em> click onto the maximize button."
 msgstr "Sarlavhani <em>ikki marta</em> bosish amallari."
 
@@ -1144,7 +1079,6 @@ msgstr "Sarlavhani <em>ikki marta</em> bosish amallari."
 #. i18n: ectx: property (whatsThis), widget (KComboBox, middleClickMaximizeButton)
 #: mouse.ui:671 mouse.ui:722
 #, fuzzy
-#| msgid "Behavior on <em>double</em> click into the titlebar."
 msgid "Behavior on <em>middle</em> click onto the maximize button."
 msgstr "Sarlavhani <em>ikki marta</em> bosish amallari."
 
@@ -1152,21 +1086,18 @@ msgstr "Sarlavhani <em>ikki marta</em> bosish amallari."
 #. i18n: ectx: property (whatsThis), widget (KComboBox, rightClickMaximizeButton)
 #: mouse.ui:687 mouse.ui:735
 #, fuzzy
-#| msgid "Behavior on <em>double</em> click into the titlebar."
 msgid "Behavior on <em>right</em> click onto the maximize button."
 msgstr "Sarlavhani <em>ikki marta</em> bosish amallari."
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: mouse.ui:770
 #, fuzzy
-#| msgid "Titlebar && Frame"
 msgid "Titlebar & Frame"
 msgstr "Sarlavha va freym"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: mouse.ui:783
 #, fuzzy
-#| msgid "&Titlebar Actions"
 msgid "Titlebar"
 msgstr "&Sarlavhaning amallari"
 
@@ -1229,7 +1160,6 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, windowSnap)
 #: moving.ui:137
 #, fuzzy
-#| msgid "Inactive window size:"
 msgid "no window snap zone"
 msgstr "Aktiv boʻlmagan oynaning oʻlchami:"
 

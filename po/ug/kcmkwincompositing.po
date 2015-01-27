@@ -19,13 +19,11 @@ msgstr ""
 
 #: compositing.cpp:387
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 3.1"
 msgstr "OpenGL"
 
 #: compositing.cpp:388
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 2.0"
 msgstr "OpenGL"
 
@@ -51,7 +49,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:27
 #, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation speed:"
 msgstr "جانلاندۇرۇم تېزلىكى:"
 
@@ -63,7 +60,6 @@ msgstr "ھازىر ئىزدە"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
 #, fuzzy
-#| msgid "Very Slow"
 msgid "Very slow"
 msgstr "بەك ئاستا"
 
@@ -115,10 +111,6 @@ msgstr ""
 #: compositing.ui:167 compositing.ui:213 qml/CompositingView.qml:141
 #: qml/CompositingView.qml:154
 #, fuzzy
-#| msgctxt ""
-#| "Windows are unmapped as they are requested. This can lead to not having "
-#| "updated thumbnials for windows on other desktops."
-#| msgid "Never"
 msgid "Never"
 msgstr "ھەرگىز"
 
@@ -237,14 +229,12 @@ msgstr ""
 
 #: model.cpp:67
 #, fuzzy
-#| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "قوشۇمچە ئىقتىدار"
 
 #: model.cpp:68
 #, fuzzy
-#| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "كۆرۈنۈشى"
@@ -256,14 +246,12 @@ msgstr ""
 
 #: model.cpp:70
 #, fuzzy
-#| msgid "Focus"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "فوكۇس"
 
 #: model.cpp:71
 #, fuzzy
-#| msgid "Tools"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "قوراللار"
@@ -275,7 +263,6 @@ msgstr ""
 
 #: model.cpp:73
 #, fuzzy
-#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "كۆزنەك باشقۇرۇش"
@@ -286,7 +273,6 @@ msgstr ""
 
 #: qml/CompositingView.qml:67
 #, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation Speed:"
 msgstr "جانلاندۇرۇم تېزلىكى:"
 
@@ -341,6 +327,5 @@ msgstr ""
 
 #: qml/EffectView.qml:105
 #, fuzzy
-#| msgid "No Effect"
 msgid "Get New Effects ..."
 msgstr "ئۈنۈم يوق"

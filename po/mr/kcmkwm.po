@@ -548,7 +548,6 @@ msgstr "निष्क्रिय अनुप्रयोगांकरी�
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: focus.ui:30
 #, fuzzy
-#| msgid "Special Windows"
 msgid "Activating windows"
 msgstr "विशिष्ठ चौकटी"
 
@@ -624,7 +623,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, delayFocusOnLabel)
 #: focus.ui:228
 #, fuzzy
-#| msgid "&Delay focus by:"
 msgid "&Delay focus by"
 msgstr "लक्ष विलंबित करा (&D):"
 
@@ -638,7 +636,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, focusStealingLabel)
 #: focus.ui:273
 #, fuzzy
-#| msgid "Focus &stealing prevention level:"
 msgid "Focus &stealing prevention"
 msgstr "लक्ष केंद्रीत करण्यास परावृत्त करणे (&S):"
 
@@ -702,7 +699,6 @@ msgstr "तीव्र"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: focus.ui:364
 #, fuzzy
-#| msgid "&Policy:"
 msgid "Policy"
 msgstr "धोरण (&P):"
 

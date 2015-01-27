@@ -1234,8 +1234,28 @@ void SceneXRenderShadow::buildQuads()
 bool SceneXRenderShadow::prepareBackend()
 {
     if (hasDecorationShadow()) {
-        // TODO: implement for XRender
-        return false;
+        const QImage shadowImage = decorationShadowImage();
+        QPainter p;
+        int x = 0;
+        int y = 0;
+        auto drawElement = [this, &x, &y, &p, &shadowImage] (ShadowElements element) {
+            QPixmap pix(elementSize(element));
+            pix.fill(Qt::transparent);
+            p.begin(&pix);
+            p.drawImage(0, 0, shadowImage, x, y, pix.width(), pix.height());
+            p.end();
+            setShadowElement(pix, element);
+            return pix.size();
+        };
+        x += drawElement(ShadowElementTopLeft).width();
+        x += drawElement(ShadowElementTop).width();
+        y += drawElement(ShadowElementTopRight).height();
+        drawElement(ShadowElementRight);
+        x = 0;
+        y += drawElement(ShadowElementLeft).height();
+        x += drawElement(ShadowElementBottomLeft).width();
+        x += drawElement(ShadowElementBottom).width();
+        drawElement(ShadowElementBottomRight).width();
     }
     const uint32_t values[] = {XCB_RENDER_REPEAT_NORMAL};
     for (int i=0; i<ShadowElementsCount; ++i) {
@@ -1280,13 +1300,14 @@ SceneXRenderDecorationRenderer::~SceneXRenderDecorationRenderer()
 
 void SceneXRenderDecorationRenderer::render()
 {
-    const QRegion scheduled = getScheduled();
+    QRegion scheduled = getScheduled();
     if (scheduled.isEmpty()) {
         return;
     }
     if (areImageSizesDirty()) {
         resizePixmaps();
         resetImageSizesDirty();
+        scheduled = client()->client()->decorationRect();
     }
 
     const QRect top(QPoint(0, 0), m_sizes[int(DecorationPart::Top)]);

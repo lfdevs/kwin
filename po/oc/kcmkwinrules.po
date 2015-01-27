@@ -368,7 +368,6 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage1)
 #: ruleswidgetbase.ui:21
 #, fuzzy
-#| msgid "&Window"
 msgid "&Window matching"
 msgstr "&Fenèstra"
 
@@ -1011,7 +1010,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #: ruleswidgetbase.ui:2373
 #, fuzzy
-#| msgid "None"
 msgctxt "no focus stealing prevention"
 msgid "None"
 msgstr "Pas cap"

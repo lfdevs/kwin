@@ -55,7 +55,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_coloredBorder)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:56
 #, fuzzy
-#| msgid "Close Window"
 msgid "Colored window border"
 msgstr "Tampar la fenèstra"
 

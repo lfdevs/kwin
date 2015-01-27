@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-09-27 09:13+0000\n"
+"POT-Creation-Date: 2015-01-13 12:17+0000\n"
 "PO-Revision-Date: 2008-11-30 14:57-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Malayalam <smc-discuss@googlegroups.com>\n"
@@ -35,14 +35,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: blur/blur_config.ui:42
 #, fuzzy
-#| msgid "Right"
 msgid "Light"
 msgstr "വലതു്"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: blur/blur_config.ui:74
 #, fuzzy
-#| msgid "&Strength:"
 msgid "Strong"
 msgstr "&ശക്തി:"
 
@@ -53,7 +51,6 @@ msgstr ""
 
 #: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
 #, fuzzy
-#| msgid "Show Desktop Grid"
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "പണിയിട വിതരണ ശ്രംഖല (ഗ്രിഡ്) കാണിക്കുക"
@@ -89,7 +86,6 @@ msgstr "ദൂരെ"
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: coverswitch/coverswitch_config.ui:110
 #, fuzzy
-#| msgid "Activation"
 msgid "Animation"
 msgstr "പ്രാവര്‍ത്തികമാക്കല്‍"
 
@@ -119,7 +115,6 @@ msgstr "&ആനിമേഷന്‍ (സജീവമാക്കല്‍) ദ�
 #: coverswitch/coverswitch_config.ui:158 cube/cube_config.ui:149
 #: cube/cubeslide_config.ui:49 magiclamp/magiclamp_config.ui:36
 #, fuzzy
-#| msgid "Default"
 msgctxt "Duration of rotation"
 msgid "Default"
 msgstr "സഹജമായ"
@@ -127,7 +122,6 @@ msgstr "സഹജമായ"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
 #: coverswitch/coverswitch_config.ui:161
 #, fuzzy
-#| msgid " msec"
 msgid " milliseconds"
 msgstr " മില്ലി-സെക്കന്റ്"
 
@@ -140,14 +134,12 @@ msgstr "&പ്രതിബിംബങ്ങള്‍"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: coverswitch/coverswitch_config.ui:195
 #, fuzzy
-#| msgid "Cap color:"
 msgid "Rear color"
 msgstr "ക്യാപ്  നിറം:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: coverswitch/coverswitch_config.ui:205
 #, fuzzy
-#| msgid "Background color:"
 msgid "Front color"
 msgstr "പശ്ചാത്തല നിറം:"
 
@@ -157,13 +149,11 @@ msgstr "പണിയിട ക്യൂബ്"
 
 #: cube/cube.cpp:209 cube/cube_config.cpp:74
 #, fuzzy
-#| msgid "Desktop Cube"
 msgid "Desktop Cylinder"
 msgstr "പണിയിട ക്യൂബ്"
 
 #: cube/cube.cpp:215 cube/cube_config.cpp:78
 #, fuzzy
-#| msgid "Desktop Cube"
 msgid "Desktop Sphere"
 msgstr "പണിയിട ക്യൂബ്"
 
@@ -335,7 +325,6 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, capDeformationGroupBox)
 #: cube/cube_config.ui:449
 #, fuzzy
-#| msgid "Cap Deformation"
 msgid "Sphere Cap Deformation"
 msgstr "തൊപ്പി (കാപ്) മാറ്റങ്ങള്‍ "
 
@@ -352,7 +341,6 @@ msgstr "നിലം"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSlideStickyWindows)
 #: cube/cubeslide_config.ui:17
 #, fuzzy
-#| msgid "Toggle Present Windows (All desktops)"
 msgid "Do not animate windows on all desktops"
 msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (എല്ലാ പണിയിടങ്ങള്‍ക്കുമായി)"
 
@@ -391,7 +379,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dashboard/dashboard_config.ui:74
 #, fuzzy
-#| msgid "Right"
 msgctxt "More brightness"
 msgid "Lighter"
 msgstr "വലതു്"
@@ -410,7 +397,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dashboard/dashboard_config.ui:140
 #, fuzzy
-#| msgid "&Color:"
 msgctxt "High saturation"
 msgid "Colored"
 msgstr "&നിറം:"
@@ -423,7 +409,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dashboard/dashboard_config.ui:184
 #, fuzzy
-#| msgid "msec"
 msgid "ms"
 msgstr "മില്ലി-സെക്കന്റ് (msec)"
 
@@ -435,7 +420,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Blur)
 #: dashboard/dashboard_config.ui:196
 #, fuzzy
-#| msgid "Apply effect to &groups"
 msgid "Apply blur effect to background"
 msgstr "&കൂട്ടങ്ങള്‍ക്ക് പ്രഭാവം പ്രാവര്‍ത്തികമാക്കുക "
 
@@ -445,7 +429,6 @@ msgstr "പണിയിട വിതരണ ശ്രംഖല (ഗ്രിഡ�
 
 #: desktopgrid/desktopgrid_config.cpp:74
 #, fuzzy
-#| msgid "Disabled"
 msgctxt "Desktop name alignment:"
 msgid "Disabled"
 msgstr "പ്രവര്‍ത്തനരഹിതമാക്കിയിരിയ്ക്കുന്നു"
@@ -500,7 +483,6 @@ msgstr "സൂം ചെയ്യേണ്ട (വലിപ്പം കൂട�
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_ZoomDuration)
 #: desktopgrid/desktopgrid_config.ui:42
 #, fuzzy
-#| msgid "Default"
 msgctxt "Duration of zoom"
 msgid "Default"
 msgstr "സഹജമായ"
@@ -558,7 +540,6 @@ msgstr "&പണിയിടത്തില്‍ പ്രഭാവം പ്ര
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimKeepAbove)
 #: diminactive/diminactive_config.ui:31
 #, fuzzy
-#| msgid "Apply effect to &panels"
 msgid "Apply effect to &keep-above windows"
 msgstr "&പാളികളുടെ മുകളില്‍ പ്രഭാവം പ്രാവര്‍ത്തികമാക്കുക"
 
@@ -584,7 +565,6 @@ msgstr ""
 
 #: effect_builtins.cpp:103
 #, fuzzy
-#| msgid "Background color:"
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "പശ്ചാത്തല നിറം:"
@@ -606,7 +586,6 @@ msgstr ""
 
 #: effect_builtins.cpp:127
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "പണിയിട ക്യൂബ്"
@@ -618,7 +597,6 @@ msgstr ""
 
 #: effect_builtins.cpp:139
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "പണിയിട ക്യൂബ്"
@@ -640,7 +618,6 @@ msgstr ""
 
 #: effect_builtins.cpp:163
 #, fuzzy
-#| msgid "Show Desktop Grid"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "പണിയിട വിതരണ ശ്രംഖല (ഗ്രിഡ്) കാണിക്കുക"
@@ -657,7 +634,6 @@ msgstr ""
 
 #: effect_builtins.cpp:176
 #, fuzzy
-#| msgid "Inactive windows:"
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "സജീവമല്ലാത്ത ജാലകങ്ങള്‍:"
@@ -679,7 +655,6 @@ msgstr ""
 
 #: effect_builtins.cpp:200
 #, fuzzy
-#| msgid "Toggle Present Windows (All desktops)"
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (എല്ലാ പണിയിടങ്ങള്‍ക്കുമായി)"
@@ -777,21 +752,18 @@ msgstr ""
 
 #: effect_builtins.cpp:319
 #, fuzzy
-#| msgid "Activation"
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "പ്രാവര്‍ത്തികമാക്കല്‍"
 
 #: effect_builtins.cpp:320
 #, fuzzy
-#| msgid "Ignore &minimized windows"
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "&മിനിമൈസ് ചെയ്തിരിക്കുന്ന ജാലകങ്ങള്‍ അവഗണിക്കുക"
 
 #: effect_builtins.cpp:331
 #, fuzzy
-#| msgid "Activation"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "പ്രാവര്‍ത്തികമാക്കല്‍"
@@ -805,7 +777,6 @@ msgstr ""
 
 #: effect_builtins.cpp:343
 #, fuzzy
-#| msgid "Clear Mouse Marks"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "മൌസ് പാടുകള്‍ മായിച്ചു കളയുക"
@@ -827,7 +798,6 @@ msgstr ""
 
 #: effect_builtins.cpp:367
 #, fuzzy
-#| msgid "All &other windows"
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "&മറ്റുള്ള എല്ലാ ജാലകങ്ങളും"
@@ -880,7 +850,6 @@ msgstr ""
 
 #: effect_builtins.cpp:427
 #, fuzzy
-#| msgid "Show caps"
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "ക്യാപ്സ് (വലിയ അക്ഷരങ്ങള്‍) കാണിക്കുക"
@@ -942,7 +911,6 @@ msgstr ""
 
 #: effect_builtins.cpp:499
 #, fuzzy
-#| msgid "Thumbnail Bar"
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "നഖചിത്രം പട്ട"
@@ -969,28 +937,24 @@ msgstr ""
 
 #: effect_builtins.cpp:524
 #, fuzzy
-#| msgid "Display window &icons"
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "ജാലക &ചിഹ്നങ്ങള്‍ കാണിക്കുക"
 
 #: effect_builtins.cpp:535
 #, fuzzy
-#| msgid "&Wobbliness"
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "&കുലുക്കം"
 
 #: effect_builtins.cpp:536
 #, fuzzy
-#| msgid "Use for window &switching"
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "ജാലകം &മാറാന്‍ ഉപയോഗിക്കുക"
 
 #: effect_builtins.cpp:547
 #, fuzzy
-#| msgid "Zoom"
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "വലുതാക്കുക"
@@ -1002,27 +966,23 @@ msgstr ""
 
 #: flipswitch/flipswitch.cpp:58 flipswitch/flipswitch_config.cpp:60
 #, fuzzy
-#| msgid "Toggle Present Windows (Current desktop)"
 msgid "Toggle Flip Switch (Current desktop)"
 msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (നിലവിലുള്ള പണിയിടത്തിനായി)"
 
 #: flipswitch/flipswitch.cpp:65 flipswitch/flipswitch_config.cpp:63
 #, fuzzy
-#| msgid "Toggle Present Windows (All desktops)"
 msgid "Toggle Flip Switch (All desktops)"
 msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (എല്ലാ പണിയിടങ്ങള്‍ക്കുമായി)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: flipswitch/flipswitch_config.ui:23
 #, fuzzy
-#| msgid "F&lip animation duration:"
 msgid "Flip animation duration:"
 msgstr "ഫ്ലി&പ്പ് അനിമേഷന്‍ (ജീവിപ്പിക്കേണ്ട) സമയം:"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
 #: flipswitch/flipswitch_config.ui:42
 #, fuzzy
-#| msgid "Default"
 msgctxt "Duration of flip animation"
 msgid "Default"
 msgstr "സഹജമായ"
@@ -1047,32 +1007,32 @@ msgstr ""
 msgid "Vertical position of front:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, glideEffectLabel)
 #: glide/glide_config.ui:17
 msgid "Glide Effect:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, inGlideEffectLabel)
 #: glide/glide_config.ui:42
 msgid "In"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, outGlideEffectLabel)
 #: glide/glide_config.ui:71
 msgid "Out"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, glideAngleLabel)
 #: glide/glide_config.ui:93
 msgid "Glide Angle:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, glideAnglenegLabel)
 #: glide/glide_config.ui:118
 msgid "-90"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, glideAngleposLabel)
 #: glide/glide_config.ui:147
 msgid "90"
 msgstr ""
@@ -1098,7 +1058,6 @@ msgstr "&റേഡിയസ് (വ്യാസാര്‍ദ്ധം):"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AnimationDuration)
 #: magiclamp/magiclamp_config.ui:39
 #, fuzzy
-#| msgid " msec"
 msgid "milliseconds"
 msgstr " മില്ലി-സെക്കന്റ്"
 
@@ -1125,7 +1084,6 @@ msgstr "&പൊക്കം:"
 
 #: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
 #, fuzzy
-#| msgid "Toggle Invert Effect"
 msgid "Toggle Mouse Click Effect"
 msgstr "മറിക്കല്‍ പ്രഭാവം ടോഗിള്‍ ചെയ്യുക"
 
@@ -1156,7 +1114,6 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, advanced_tab)
 #: mouseclick/mouseclick_config.ui:91
 #, fuzzy
-#| msgid "Advanced"
 msgid "Advanced Settings"
 msgstr "സങ്കീര്‍ണമായ"
 
@@ -1168,7 +1125,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, ring_line_width_label)
 #: mouseclick/mouseclick_config.ui:103
 #, fuzzy
-#| msgid "&Width:"
 msgid "Line Width:"
 msgstr "&വീതി:"
 
@@ -1177,7 +1133,6 @@ msgstr "&വീതി:"
 #: mouseclick/mouseclick_config.ui:119 mouseclick/mouseclick_config.ui:171
 #: mousemark/mousemark_config.cpp:55
 #, fuzzy
-#| msgid " pixels"
 msgid " pixel"
 msgid_plural " pixels"
 msgstr[0] " പിക്സെലുകള്‍"
@@ -1186,14 +1141,12 @@ msgstr[1] " പിക്സെലുകള്‍"
 #. i18n: ectx: property (text), widget (QLabel, ring_duration_label)
 #: mouseclick/mouseclick_config.ui:145
 #, fuzzy
-#| msgid "Fading duration:"
 msgid "Ring Duration:"
 msgstr "മായല്‍ ദൈര്‍ഘ്യം:"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_radius_label)
 #: mouseclick/mouseclick_config.ui:155
 #, fuzzy
-#| msgid "&Radius:"
 msgid "Ring Radius:"
 msgstr "&റേഡിയസ് (വ്യാസാര്‍ദ്ധം):"
 
@@ -1216,7 +1169,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, showtext_label)
 #: mouseclick/mouseclick_config.ui:233
 #, fuzzy
-#| msgid "Show Desktop Grid"
 msgid "Show Text:"
 msgstr "പണിയിട വിതരണ ശ്രംഖല (ഗ്രിഡ്) കാണിക്കുക"
 
@@ -1255,7 +1207,6 @@ msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗ�
 #: presentwindows/presentwindows.cpp:86
 #: presentwindows/presentwindows_config.cpp:77
 #, fuzzy
-#| msgid "Toggle Present Windows (All desktops)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (എല്ലാ പണിയിടങ്ങള്‍ക്കുമായി)"
 
@@ -1328,7 +1279,6 @@ msgstr ""
 #: presentwindows/presentwindows_config.ui:322
 #: presentwindows/presentwindows_config.ui:356
 #, fuzzy
-#| msgid "Inactive windows:"
 msgid "Activate window"
 msgstr "സജീവമല്ലാത്ത ജാലകങ്ങള്‍:"
 
@@ -1354,7 +1304,6 @@ msgstr ""
 #: presentwindows/presentwindows_config.ui:198
 #: presentwindows/presentwindows_config.ui:242
 #, fuzzy
-#| msgid "Toggle Present Windows (Current desktop)"
 msgid "Bring window to current desktop"
 msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (നിലവിലുള്ള പണിയിടത്തിനായി)"
 
@@ -1365,7 +1314,6 @@ msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗ�
 #: presentwindows/presentwindows_config.ui:203
 #: presentwindows/presentwindows_config.ui:247
 #, fuzzy
-#| msgid "Toggle Present Windows (All desktops)"
 msgid "Send window to all desktops"
 msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (എല്ലാ പണിയിടങ്ങള്‍ക്കുമായി)"
 
@@ -1376,7 +1324,6 @@ msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗ�
 #: presentwindows/presentwindows_config.ui:208
 #: presentwindows/presentwindows_config.ui:252
 #, fuzzy
-#| msgid "Ignore &minimized windows"
 msgid "(Un-)Minimize window"
 msgstr "&മിനിമൈസ് ചെയ്തിരിക്കുന്ന ജാലകങ്ങള്‍ അവഗണിക്കുക"
 
@@ -1397,7 +1344,6 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
 #: presentwindows/presentwindows_config.ui:263
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "@title:group actions when clicking on desktop"
 msgid "Desktop"
 msgstr "പണിയിട ക്യൂബ്"
@@ -1409,7 +1355,6 @@ msgstr "പണിയിട ക്യൂബ്"
 #: presentwindows/presentwindows_config.ui:332
 #: presentwindows/presentwindows_config.ui:366
 #, fuzzy
-#| msgid "Show Desktop Grid"
 msgid "Show desktop"
 msgstr "പണിയിട വിതരണ ശ്രംഖല (ഗ്രിഡ്) കാണിക്കുക"
 
@@ -1431,7 +1376,6 @@ msgstr "&മിനിമൈസ് ചെയ്തിരിക്കുന്ന 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowPanel)
 #: presentwindows/presentwindows_config.ui:417
 #, fuzzy
-#| msgid "Show caps"
 msgid "Show &panels"
 msgstr "ക്യാപ്സ് (വലിയ അക്ഷരങ്ങള്‍) കാണിക്കുക"
 
@@ -1458,7 +1402,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TextureScale)
 #: resize/resize_config.ui:17
 #, fuzzy
-#| msgid "All &other windows"
 msgid "Scale window"
 msgstr "&മറ്റുള്ള എല്ലാ ജാലകങ്ങളും"
 
@@ -1541,7 +1484,6 @@ msgstr "&സ്പെയ്സിങ്ങ് (നടുക്കുള്ള �
 #: thumbnailaside/thumbnailaside_config.ui:55
 #: thumbnailaside/thumbnailaside_config.ui:106
 #, fuzzy
-#| msgid " pixels"
 msgid " pixels"
 msgstr " പിക്സെലുകള്‍"
 
@@ -1572,7 +1514,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Control)
 #: trackmouse/trackmouse_config.ui:50
 #, fuzzy
-#| msgid "Center"
 msgid "Ctrl"
 msgstr "നടുക്കു്"
 
@@ -1657,14 +1598,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Move)
 #: windowgeometry/windowgeometry_config.ui:17
 #, fuzzy
-#| msgid "Display window &icons"
 msgid "Display for moving windows"
 msgstr "ജാലക &ചിഹ്നങ്ങള്‍ കാണിക്കുക"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Resize)
 #: windowgeometry/windowgeometry_config.ui:24
 #, fuzzy
-#| msgid "Display window &icons"
 msgid "Display for resizing windows"
 msgstr "ജാലക &ചിഹ്നങ്ങള്‍ കാണിക്കുക"
 
@@ -1744,13 +1683,11 @@ msgstr ""
 
 #: zoom/zoom_config.cpp:84
 #, fuzzy
-#| msgid "Top Left"
 msgid "Move Left"
 msgstr "മുകള്‍ ഇടത്തു"
 
 #: zoom/zoom_config.cpp:91
 #, fuzzy
-#| msgid "Top Right"
 msgid "Move Right"
 msgstr "മുകള്‍ വലതു"
 
@@ -1771,7 +1708,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: zoom/zoom_config.ui:28
 #, fuzzy
-#| msgid "Zoom &duration:"
 msgid "Zoom Factor:"
 msgstr "സൂം ചെയ്യേണ്ട (വലിപ്പം കൂട്ടേണ്ട) ദൈര്‍ഘ്യം"
 
@@ -1835,7 +1771,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:133
 #, fuzzy
-#| msgid "Center"
 msgid "Centered"
 msgstr "നടുക്കു്"
 
@@ -1847,7 +1782,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:143
 #, fuzzy
-#| msgid "Disabled"
 msgid "Disabled"
 msgstr "പ്രവര്‍ത്തനരഹിതമാക്കിയിരിയ്ക്കുന്നു"
 

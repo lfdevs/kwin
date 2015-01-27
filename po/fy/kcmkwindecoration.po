@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-06-11 07:50+0000\n"
+"POT-Creation-Date: 2015-01-22 09:47+0000\n"
 "PO-Revision-Date: 2010-07-11 13:38+0100\n"
 "Last-Translator: Berend Ytsma <berendy@gmail.com>\n"
 "Language-Team: Frysk <kde-i18n-fry@kde.org>\n"
@@ -19,323 +19,139 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Berend Ytsma"
+#: declarative-plugin/buttonsmodel.cpp:67
+msgid "Menu"
+msgstr "Menu"
 
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "berendy@bigfoot.com"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: auroraeconfig.ui:23
-msgid "Border size:"
-msgstr "Râne grutte:"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:34 configdialog.cpp:36
-msgctxt "@item:inlistbox Border size:"
-msgid "Tiny"
-msgstr "Lyts"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:39 configdialog.cpp:37
-msgctxt "@item:inlistbox Border size:"
-msgid "Normal"
-msgstr "Normaal"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:44 configdialog.cpp:38
-msgctxt "@item:inlistbox Border size:"
-msgid "Large"
-msgstr "Grut"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:49 configdialog.cpp:39
-msgctxt "@item:inlistbox Border size:"
-msgid "Very Large"
-msgstr "Hiel grut"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:54 configdialog.cpp:40
-msgctxt "@item:inlistbox Border size:"
-msgid "Huge"
-msgstr "Grutst"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:59 configdialog.cpp:41
-msgctxt "@item:inlistbox Border size:"
-msgid "Very Huge"
-msgstr "Alder Grutst"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:64 configdialog.cpp:42
-msgctxt "@item:inlistbox Border size:"
-msgid "Oversized"
-msgstr "Te Grut"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: auroraeconfig.ui:72
-msgid "Button size:"
-msgstr "Knop grutte:"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:83
-msgctxt "@item:inlistbox Button size:"
-msgid "Tiny"
-msgstr "Lyts"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:88
-msgctxt "@item:inlistbox Button size:"
-msgid "Normal"
-msgstr "Normaal"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:93
-msgctxt "@item:inlistbox Button size:"
-msgid "Large"
-msgstr "Grut"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:98
-msgctxt "@item:inlistbox Button size:"
-msgid "Very Large"
-msgstr "Hiel grut"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:103
-msgctxt "@item:inlistbox Button size:"
-msgid "Huge"
-msgstr "Grutst"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:108
-msgctxt "@item:inlistbox Button size:"
-msgid "Very Huge"
-msgstr "Alder Grutst"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:113
-msgctxt "@item:inlistbox Button size:"
-msgid "Oversized"
-msgstr "Te Grut"
-
-#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
-#: auroraeconfig.ui:126
-msgid "Close windows by double clicking the menu button"
+#: declarative-plugin/buttonsmodel.cpp:69
+msgid "Application menu"
 msgstr ""
 
-#: buttons.cpp:620
-msgid "KDE"
-msgstr "KDE"
+#: declarative-plugin/buttonsmodel.cpp:71
+#, fuzzy
+msgid "On all desktops"
+msgstr "Op alle buroblêden"
 
-#: buttons.cpp:649
-#, kde-format
-msgid "%1 (unavailable)"
-msgstr "%1 (net beschikber)"
-
-#: buttons.cpp:672
-msgid ""
-"To add or remove titlebar buttons, simply <i>drag</i> items between the "
-"available item list and the titlebar preview. Similarly, drag items within "
-"the titlebar preview to re-position them."
-msgstr ""
-"It tafoegjen of fuortsmite fan titelbalkeknoppen kin ienfâldich, <i>sleep</"
-"i>items tusken de beskikbere list en de titelbalke foarbyld. Ek kinst op dy "
-"manier Items op de titelbalkefoarbyld in oarderje."
-
-#: buttons.cpp:728
-msgid "Resize"
-msgstr "Grutte feroarje"
-
-#: buttons.cpp:733
-msgid "Shade"
-msgstr "Oprolje"
-
-#: buttons.cpp:738
-msgid "Keep Below Others"
-msgstr "Op eftergrûn hâlde"
-
-#: buttons.cpp:743
-msgid "Keep Above Others"
-msgstr "Op foargrûn hâlde"
-
-#: buttons.cpp:748
-msgid "Close"
-msgstr "Slúte"
-
-#: buttons.cpp:753
-msgid "Maximize"
-msgstr "Maksimalisearje"
-
-#: buttons.cpp:758
+#: declarative-plugin/buttonsmodel.cpp:73
 msgid "Minimize"
 msgstr "Minimalisearje"
 
-#: buttons.cpp:763
-msgid "Help"
-msgstr "Help"
+#: declarative-plugin/buttonsmodel.cpp:75
+msgid "Maximize"
+msgstr "Maksimalisearje"
 
-#: buttons.cpp:768
-msgid "On All Desktops"
-msgstr "Op alle buroblêden"
+#: declarative-plugin/buttonsmodel.cpp:77
+msgid "Close"
+msgstr "Slúte"
 
-#: buttons.cpp:773
-msgctxt "Button showing window actions menu"
-msgid "Window Menu"
+#: declarative-plugin/buttonsmodel.cpp:79
+msgid "Context help"
 msgstr ""
 
-#: buttons.cpp:779
-msgctxt "Button showing application menu imported from dbusmenu"
-msgid "Application Menu"
-msgstr ""
+#: declarative-plugin/buttonsmodel.cpp:81
+msgid "Shade"
+msgstr "Oprolje"
 
-#: buttons.cpp:785
-msgid "--- spacer ---"
-msgstr "--- skieding ---"
+#: declarative-plugin/buttonsmodel.cpp:83
+#, fuzzy
+msgid "Keep below"
+msgstr "Op eftergrûn hâlde"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, showToolTipsCheckBox)
-#: buttons.ui:20
-msgid ""
-"Enabling this checkbox will show window button tooltips. If this checkbox is "
-"off, no window button tooltips will be shown."
-msgstr ""
-"It oansetten fan dit seleksjefakje sil arktips sjen litte by finster "
-"knoppen. Is dit seleksjefakje útsetten dan silst gjin arktips sjen."
+#: declarative-plugin/buttonsmodel.cpp:85
+#, fuzzy
+msgid "Keep above"
+msgstr "Op foargrûn hâlde"
 
-#. i18n: ectx: property (text), widget (QCheckBox, showToolTipsCheckBox)
-#: buttons.ui:23
-msgid "&Show window button tooltips"
-msgstr "Arktips by finsterknop &sjen litte"
-
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, useCustomButtonPositionsCheckBox)
-#: buttons.ui:30
-msgid "Please note that this option is not available on all styles yet."
-msgstr "Tink derom dat dizze opsje noch net beskikber is op alle styllen."
-
-#. i18n: ectx: property (text), widget (QCheckBox, useCustomButtonPositionsCheckBox)
-#: buttons.ui:33
-msgid "Use custom titlebar button &positions"
-msgstr "Brûk oanpaste titelbalke knop &posysjes"
-
-#: buttonsconfigdialog.cpp:44
-msgid "Buttons"
-msgstr "Knoppen"
-
-#. i18n: ectx: property (text), widget (QLabel, borderLabel)
-#: config.ui:19
-msgid "B&order size:"
-msgstr "Râne &grutte:"
-
-#. i18n: ectx: property (whatsThis), widget (KComboBox, bordersCombo)
-#: config.ui:29
-msgid "Use this combobox to change the border size of the decoration."
-msgstr ""
-"Brûk dit kombinaasjefakje om de rânegrutte fan de dekoraasjes te feroarjen."
-
-#: configdialog.cpp:43
-msgctxt "@item:inlistbox Border size:"
-msgid "No Side Border"
-msgstr ""
-
-#: configdialog.cpp:44
-msgctxt "@item:inlistbox Border size:"
-msgid "No Border"
-msgstr ""
-
-#: configdialog.cpp:81 kwindecoration.cpp:375
-msgid "Decoration Options"
-msgstr "Dekoraasjeopsjes"
-
-#. i18n: ectx: property (clickMessage), widget (KLineEdit, searchEdit)
-#: decoration.ui:17
-msgid "Search"
-msgstr "Sykje"
-
-#. i18n: ectx: property (whatsThis), widget (QScrollArea, decorationList)
-#: decoration.ui:27
-msgid ""
-"Select the window decoration. This is the look and feel of both the window "
-"borders and the window handle."
-msgstr ""
-"Selektearje de finsterdekoraasje. dit is it uterlik en gefoel fan beide "
-"finsterrânen en de finster hanneling"
-
-#. i18n: ectx: property (text), widget (QPushButton, configureDecorationButton)
-#: decoration.ui:58
-msgid "Configure Decoration..."
-msgstr "Dekoraasjes ynstelle..."
-
-#. i18n: ectx: property (text), widget (QPushButton, configureButtonsButton)
-#: decoration.ui:65
-msgid "Configure Buttons..."
-msgstr "Knoppen ynstelle..."
-
-#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
-#: decoration.ui:72
-msgid "Get New Decorations..."
-msgstr "Krij nije dekoraasjes..."
-
-#: kwindecoration.cpp:99
-msgid "Window Decoration Control Module"
-msgstr "Finsterdekoraasje ynstellingsmodule"
-
-#: kwindecoration.cpp:101
-msgid "(c) 2001 Karol Szwed"
-msgstr "(c) 2001 Karol Szwed"
-
-#: kwindecoration.cpp:102
-msgid "Karol Szwed"
-msgstr "Karol Szwed"
-
-#: kwindecoration.cpp:127
-msgid ""
-"<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main.qml</"
-"h2>could not be located in any application data path.<h2>Please contact your "
-"distribution</h2>The application will now abort"
-msgstr ""
-
-#: kwindecoration.cpp:130
-msgid "Installation Error"
-msgstr ""
-
-#: kwindecoration.cpp:301
-msgid "Oxygen"
-msgstr "Oxygen"
-
-#: kwindecoration.cpp:314
-msgid ""
-"<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
-"window border decorations, as well as titlebar button positions and custom "
-"decoration options.</p>To choose a theme for your window decoration click on "
-"its name and apply your choice by clicking the \"Apply\" button below. If "
-"you do not want to apply your choice you can click the \"Reset\" button to "
-"discard your changes.<p>You can configure each theme. There are different "
-"options specific for each theme.</p><p>On the \"Buttons\" tab check the "
-"\"Use custom titlebar button positions\" box and you can change the "
-"positions of the buttons to your liking.</p>"
-msgstr ""
-"<h1>Finster Manager Dekoraasje</h1><p>Mei dizze module kine jo de "
-"finsterrâne dekoraasje kieze, en ek de titelbalke posysje en oanpaste "
-"dekoraasje opsjes</p>Om in tema foar jo finsterdekoraasje te kiezen, klik on "
-"de namme en pas jo ksr ta troch hjirûnder te klikken op de \"Tapasse\" knop. "
-"As jo de kar net tapasse wolle klik dan op de knop \"ôfbrekke\" om jo "
-"oanpassingen ûngedien te meitjen.<p>Jo kinne els tema ynstelle. Dêr binne "
-"ferskate opsjes omskraeun for els tema.</p><p>Op de ljepper \"Knoppen\" "
-"kontrolearje it fak \"Brûk oanpaste titelbalke knop posysjes\" en jo kinne "
-"de posysje fan de knoppen oapasse lykas jo it wolle.</p>"
-
-#: kwindecoration.cpp:389
+#: kcm.cpp:100
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
 msgstr ""
 
-#: preview.cpp:373
-msgid "Active Window"
-msgstr "Aktyf finster"
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
+#: kcm.ui:22
+msgid "Search"
+msgstr "Sykje"
 
-#: preview.cpp:373
-msgid "Inactive Window"
-msgstr "Inaktyf finster"
+#. i18n: ectx: property (text), widget (QPushButton, knsButton)
+#: kcm.ui:35
+msgid "Get New Decorations..."
+msgstr "Krij nije dekoraasjes..."
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kcm.ui:59
+#, fuzzy
+msgid "Border si&ze:"
+msgstr "Râne grutte:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:70
+#, fuzzy
+msgctxt "@item:inlistbox Border size:"
+msgid "No Borders"
+msgstr "Râne grutte:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:75
+msgctxt "@item:inlistbox Border size:"
+msgid "No Side Borders"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:80
+msgctxt "@item:inlistbox Border size:"
+msgid "Tiny"
+msgstr "Lyts"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:85
+msgctxt "@item:inlistbox Border size:"
+msgid "Normal"
+msgstr "Normaal"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:90
+msgctxt "@item:inlistbox Border size:"
+msgid "Large"
+msgstr "Grut"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:95
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Large"
+msgstr "Hiel grut"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:100
+msgctxt "@item:inlistbox Border size:"
+msgid "Huge"
+msgstr "Grutst"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:105
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Huge"
+msgstr "Alder Grutst"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:110
+msgctxt "@item:inlistbox Border size:"
+msgid "Oversized"
+msgstr "Te Grut"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: kcm.ui:128
+msgid "Close windows by double clicking &the menu button:"
+msgstr ""
+
+#: qml/Buttons.qml:74
+msgid "Titlebar"
+msgstr ""
+
+#: qml/Buttons.qml:197
+msgid "Drag buttons between here and the titlebar"
+msgstr ""
+
+#: qml/Buttons.qml:212
+msgid "Drop here to remove button"
+msgstr ""

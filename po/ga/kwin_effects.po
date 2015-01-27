@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/kwin_effects.po\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-09-27 09:13+0000\n"
+"POT-Creation-Date: 2015-01-13 12:17+0000\n"
 "PO-Revision-Date: 2007-11-14 08:24-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -545,7 +545,6 @@ msgstr ""
 
 #: effect_builtins.cpp:103
 #, fuzzy
-#| msgid "Background color:"
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Dath an chúlra:"
@@ -567,7 +566,6 @@ msgstr ""
 
 #: effect_builtins.cpp:127
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Ciúb Deisce"
@@ -579,7 +577,6 @@ msgstr ""
 
 #: effect_builtins.cpp:139
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Ciúb Deisce"
@@ -601,7 +598,6 @@ msgstr ""
 
 #: effect_builtins.cpp:163
 #, fuzzy
-#| msgid "Show Desktop Grid"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Taispeáin Greille na Deisce"
@@ -618,7 +614,6 @@ msgstr ""
 
 #: effect_builtins.cpp:176
 #, fuzzy
-#| msgid "Inactive windows:"
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Fuinneoga neamhghníomhacha:"
@@ -676,7 +671,6 @@ msgstr ""
 
 #: effect_builtins.cpp:247
 #, fuzzy
-#| msgid "Invert mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Inbhéartaigh an luch"
@@ -738,21 +732,18 @@ msgstr ""
 
 #: effect_builtins.cpp:319
 #, fuzzy
-#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Beochan"
 
 #: effect_builtins.cpp:320
 #, fuzzy
-#| msgid "Ignore &minimized windows"
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "Déan nea&mhshuim d'fhuinneoga íoslaghdaithe"
 
 #: effect_builtins.cpp:331
 #, fuzzy
-#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Beochan"
@@ -766,7 +757,6 @@ msgstr ""
 
 #: effect_builtins.cpp:343
 #, fuzzy
-#| msgid "Clear Mouse Marks"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Glan Marcanna Luiche"
@@ -778,7 +768,6 @@ msgstr ""
 
 #: effect_builtins.cpp:355
 #, fuzzy
-#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Fuinneoga"
@@ -790,7 +779,6 @@ msgstr ""
 
 #: effect_builtins.cpp:367
 #, fuzzy
-#| msgid "Close window"
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Dún fuinneog"
@@ -843,7 +831,6 @@ msgstr ""
 
 #: effect_builtins.cpp:427
 #, fuzzy
-#| msgid "Show &panels"
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Taispeáin &painéil"
@@ -905,7 +892,6 @@ msgstr ""
 
 #: effect_builtins.cpp:499
 #, fuzzy
-#| msgid "Thumbnail Bar"
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Barra Mionsamhla"
@@ -917,7 +903,6 @@ msgstr ""
 
 #: effect_builtins.cpp:511
 #, fuzzy
-#| msgid "Track mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Lorg an luch"
@@ -934,28 +919,24 @@ msgstr ""
 
 #: effect_builtins.cpp:524
 #, fuzzy
-#| msgid "Display window &icons"
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "Ta&ispeáin deilbhíní fuinneoige"
 
 #: effect_builtins.cpp:535
 #, fuzzy
-#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Fuinneoga"
 
 #: effect_builtins.cpp:536
 #, fuzzy
-#| msgid "Use for window &switching"
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "Ú&sáid le haghaidh mhalairt na fuinneoige"
 
 #: effect_builtins.cpp:547
 #, fuzzy
-#| msgid "Zoom"
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Súmáil"
@@ -1004,32 +985,32 @@ msgstr ""
 msgid "Vertical position of front:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, glideEffectLabel)
 #: glide/glide_config.ui:17
 msgid "Glide Effect:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, inGlideEffectLabel)
 #: glide/glide_config.ui:42
 msgid "In"
 msgstr "Isteach"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, outGlideEffectLabel)
 #: glide/glide_config.ui:71
 msgid "Out"
 msgstr "Amach"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, glideAngleLabel)
 #: glide/glide_config.ui:93
 msgid "Glide Angle:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, glideAnglenegLabel)
 #: glide/glide_config.ui:118
 msgid "-90"
 msgstr "-90"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, glideAngleposLabel)
 #: glide/glide_config.ui:147
 msgid "90"
 msgstr "90"
@@ -1080,7 +1061,6 @@ msgstr "&Airde:"
 
 #: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
 #, fuzzy
-#| msgid "Toggle Effect"
 msgid "Toggle Mouse Click Effect"
 msgstr "Scoránaigh an Mhaisíocht"
 

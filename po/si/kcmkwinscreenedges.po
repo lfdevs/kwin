@@ -47,13 +47,11 @@ msgstr ""
 
 #: main.cpp:200
 #, fuzzy, kde-format
-#| msgid "All Desktops"
 msgid "%1 - All Desktops"
 msgstr "සියළු වැඩතල"
 
 #: main.cpp:201
 #, fuzzy, kde-format
-#| msgid "Current Desktop"
 msgid "%1 - Current Desktop"
 msgstr "වත්මන් වැඩතලය"
 
@@ -64,19 +62,16 @@ msgstr ""
 
 #: main.cpp:205
 #, fuzzy, kde-format
-#| msgid "Cube"
 msgid "%1 - Cube"
 msgstr "ඝණකය"
 
 #: main.cpp:206
 #, fuzzy, kde-format
-#| msgid "Cylinder"
 msgid "%1 - Cylinder"
 msgstr "සිලින්ඩරය"
 
 #: main.cpp:207
 #, fuzzy, kde-format
-#| msgid "Sphere"
 msgid "%1 - Sphere"
 msgstr "ගෝලය"
 
@@ -150,7 +145,6 @@ msgstr "සීමාවේදී වැඩතලය මාරු කරන්න
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:176
 #, fuzzy
-#| msgid "Disabled"
 msgctxt "Switch desktop on edge"
 msgid "Disabled"
 msgstr "අක්‍රීය"

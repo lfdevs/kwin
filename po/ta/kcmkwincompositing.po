@@ -21,13 +21,11 @@ msgstr ""
 
 #: compositing.cpp:387
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 3.1"
 msgstr "ஓபன்ஜிஎல்"
 
 #: compositing.cpp:388
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 2.0"
 msgstr "ஓபன்ஜிஎல்"
 
@@ -48,7 +46,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:20 qml/CompositingView.qml:55
 #, fuzzy
-#| msgid "Enable desktop effects"
 msgid "Enable compositor on startup"
 msgstr "திரைப்பண்புகளை செயற்படுத்துக"
 
@@ -93,7 +90,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
 #: compositing.ui:124 qml/CompositingView.qml:127
 #, fuzzy
-#| msgid "Smooth scaling (slower)"
 msgid "Smooth (slower)"
 msgstr "மிருதுவாக அளவாக்கம் (மெதுவாக)"
 
@@ -105,7 +101,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
 #, fuzzy
-#| msgid "OpenGL mode:"
 msgid "OpenGL interface:"
 msgstr "ஓபன்ஜிஎல் முறை:"
 
@@ -164,7 +159,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
 #: compositing.ui:228 qml/CompositingView.qml:182
 #, fuzzy
-#| msgid "Enable desktop effects"
 msgid "Suspend compositor for full screen windows"
 msgstr "திரைப்பண்புகளை செயற்படுத்துக"
 
@@ -238,14 +232,12 @@ msgstr ""
 
 #: model.cpp:67
 #, fuzzy
-#| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "அணுகுத்தன்மை"
 
 #: model.cpp:68
 #, fuzzy
-#| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "தோற்றம்"
@@ -272,7 +264,6 @@ msgstr ""
 
 #: model.cpp:73
 #, fuzzy
-#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "சாளர நிர்வாகம்"
@@ -314,9 +305,6 @@ msgstr ""
 
 #: qml/EffectView.qml:64
 #, fuzzy
-#| msgid ""
-#| "Hint: to find out or configure how to activate an effect, look at "
-#| "effect's settings"
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
 "effect's settings."
@@ -330,7 +318,6 @@ msgstr ""
 
 #: qml/EffectView.qml:82
 #, fuzzy
-#| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "சாய வழிகட்டி:"
 
@@ -340,12 +327,10 @@ msgstr ""
 
 #: qml/EffectView.qml:93
 #, fuzzy
-#| msgid "Enable desktop effects"
 msgid "Exclude internal Desktop Effects"
 msgstr "திரைப்பண்புகளை செயற்படுத்துக"
 
 #: qml/EffectView.qml:105
 #, fuzzy
-#| msgid "All Effects"
 msgid "Get New Effects ..."
 msgstr "அனைத்துப் பண்புகள்"

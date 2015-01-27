@@ -45,15 +45,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:20 qml/CompositingView.qml:55
 #, fuzzy
-#| msgctxt "@option:check"
-#| msgid "Enable desktop effects at startup"
 msgid "Enable compositor on startup"
 msgstr "Activa els efectes d'escriptori en la inicialització"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:27
 #, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation speed:"
 msgstr "Velocitat d'animació:"
 
@@ -65,7 +62,6 @@ msgstr "Instantani"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
 #, fuzzy
-#| msgid "Very Slow"
 msgid "Very slow"
 msgstr "Molt lent"
 
@@ -73,7 +69,6 @@ msgstr "Molt lent"
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
 #: compositing.ui:85 compositing.ui:111
 #, fuzzy
-#| msgid "Scale method:"
 msgid "Scale method:"
 msgstr "Mètode d'escala:"
 
@@ -112,7 +107,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: compositing.ui:159
 #, fuzzy
-#| msgid "Tearing Prevention (VSync)"
 msgid "Tearing prevention (\"vsync\"):"
 msgstr "Prevenció de l'esquinçament (VSync)"
 
@@ -121,10 +115,6 @@ msgstr "Prevenció de l'esquinçament (VSync)"
 #: compositing.ui:167 compositing.ui:213 qml/CompositingView.qml:141
 #: qml/CompositingView.qml:154
 #, fuzzy
-#| msgctxt ""
-#| "Windows are unmapped as they are requested. This can lead to not having "
-#| "updated thumbnials for windows on other desktops."
-#| msgid "Never"
 msgid "Never"
 msgstr "Mai"
 
@@ -136,14 +126,12 @@ msgstr "Automàtic"
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:177 qml/CompositingView.qml:141
 #, fuzzy
-#| msgid "Only when Cheap"
 msgid "Only when cheap"
 msgstr "Només quan siga econòmic"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:182 qml/CompositingView.qml:141
 #, fuzzy
-#| msgid "Full scene repaints"
 msgid "Full screen repaints"
 msgstr "Repinta tota l'escena"
 
@@ -155,7 +143,6 @@ msgstr "Reutilitza el contingut de la pantalla"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:195
 #, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep window thumbnails:"
 msgstr "Mantén les miniatures de les finestres:"
 
@@ -167,10 +154,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:208 qml/CompositingView.qml:154
 #, fuzzy
-#| msgctxt ""
-#| "Windows are not unmapped if the window is somewhere visible on any of the "
-#| "virtual desktops."
-#| msgid "Only for Shown Windows"
 msgid "Only for Shown Windows"
 msgstr "Només per les finestres visualitzades"
 
@@ -182,7 +165,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
 #: compositing.ui:228 qml/CompositingView.qml:182
 #, fuzzy
-#| msgid "Suspend desktop effects for fullscreen windows"
 msgid "Suspend compositor for full screen windows"
 msgstr ""
 "Se suspenen els efectes d'escriptori per les finestres en pantalla completa"
@@ -195,7 +177,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
 #: compositing.ui:242 qml/CompositingView.qml:200
 #, fuzzy
-#| msgid "Enable color correction (experimental)"
 msgid "Enable color correction"
 msgstr "Activa la correcció de color (experimental)"
 
@@ -259,35 +240,30 @@ msgstr ""
 
 #: model.cpp:67
 #, fuzzy
-#| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Accessibilitat"
 
 #: model.cpp:68
 #, fuzzy
-#| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Aparença"
 
 #: model.cpp:69
 #, fuzzy
-#| msgid "Candy"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Llaminadures"
 
 #: model.cpp:70
 #, fuzzy
-#| msgid "Focus"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Focus"
 
 #: model.cpp:71
 #, fuzzy
-#| msgid "Tools"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Eines"
@@ -299,7 +275,6 @@ msgstr ""
 
 #: model.cpp:73
 #, fuzzy
-#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Gestió de les finestres"
@@ -310,35 +285,26 @@ msgstr ""
 
 #: qml/CompositingView.qml:67
 #, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation Speed:"
 msgstr "Velocitat d'animació:"
 
 #: qml/CompositingView.qml:106 qml/CompositingView.qml:120
 #, fuzzy
-#| msgid "Scale method:"
 msgid "Scale Method:"
 msgstr "Mètode d'escala:"
 
 #: qml/CompositingView.qml:135
 #, fuzzy
-#| msgid "Tearing Prevention (VSync)"
 msgid "Tearing Prevention (VSync):"
 msgstr "Prevenció de l'esquinçament (VSync)"
 
 #: qml/CompositingView.qml:148
 #, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep Window Thumbnails:"
 msgstr "Mantén les miniatures de les finestres:"
 
 #: qml/CompositingView.qml:154
 #, fuzzy
-#| msgctxt ""
-#| "A window thumbnail requires to have the corresponding window mapped. To "
-#| "have thumbnails at all time, windows are not unmapped. This can break "
-#| "window minimization as it is modelled as unmapping of windows."
-#| msgid "Always (Breaks minimization)"
 msgid "Always (Breaks Animations)"
 msgstr "Sempre (trenca la minimització)"
 

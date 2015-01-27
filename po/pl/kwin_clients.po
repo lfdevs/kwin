@@ -3,13 +3,13 @@
 # Marta Rybczyńska <kde-i18n@rybczynska.net>, 2007, 2008, 2009, 2010.
 # Maciej Wikło <maciej.wiklo@wp.pl>, 2009, 2010.
 # Mirek Sabiniewicz <m.sabiniewicz@gmail.com>, 2010.
-# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014.
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-04-27 20:56+0000\n"
-"PO-Revision-Date: 2014-02-21 18:26+0100\n"
+"PO-Revision-Date: 2015-01-17 07:33+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -23,7 +23,7 @@ msgstr ""
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlastikConfigDialog)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14
 msgid "Config Dialog"
-msgstr "Okno konfiguracji"
+msgstr "Okno ustawień"
 
 #. i18n: ectx: property (title), widget (KButtonGroup, titleAlign)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:23

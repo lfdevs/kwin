@@ -47,15 +47,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:20 qml/CompositingView.qml:55
 #, fuzzy
-#| msgctxt "@option:check"
-#| msgid "Enable desktop effects at startup"
 msgid "Enable compositor on startup"
 msgstr "啟動時開啟桌面效果"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:27
 #, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation speed:"
 msgstr "動畫速度："
 
@@ -67,7 +64,6 @@ msgstr "即時"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
 #, fuzzy
-#| msgid "Very Slow"
 msgid "Very slow"
 msgstr "非常慢"
 
@@ -75,7 +71,6 @@ msgstr "非常慢"
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
 #: compositing.ui:85 compositing.ui:111
 #, fuzzy
-#| msgid "Scale method:"
 msgid "Scale method:"
 msgstr "縮放方法："
 
@@ -109,14 +104,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
 #, fuzzy
-#| msgid "OpenGL mode:"
 msgid "OpenGL interface:"
 msgstr "OpenGL 模式："
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: compositing.ui:159
 #, fuzzy
-#| msgid "Tearing Prevention (VSync)"
 msgid "Tearing prevention (\"vsync\"):"
 msgstr "避免破碎 (VSync)"
 
@@ -125,10 +118,6 @@ msgstr "避免破碎 (VSync)"
 #: compositing.ui:167 compositing.ui:213 qml/CompositingView.qml:141
 #: qml/CompositingView.qml:154
 #, fuzzy
-#| msgctxt ""
-#| "Windows are unmapped as they are requested. This can lead to not having "
-#| "updated thumbnials for windows on other desktops."
-#| msgid "Never"
 msgid "Never"
 msgstr "永不"
 
@@ -140,14 +129,12 @@ msgstr "自動"
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:177 qml/CompositingView.qml:141
 #, fuzzy
-#| msgid "Only when Cheap"
 msgid "Only when cheap"
 msgstr "只更新主要區域"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:182 qml/CompositingView.qml:141
 #, fuzzy
-#| msgid "Full scene repaints"
 msgid "Full screen repaints"
 msgstr "整個螢幕重繪"
 
@@ -159,7 +146,6 @@ msgstr "重新使用螢幕內容"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:195
 #, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep window thumbnails:"
 msgstr "保持視窗縮圖："
 
@@ -171,10 +157,6 @@ msgstr "總是"
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:208 qml/CompositingView.qml:154
 #, fuzzy
-#| msgctxt ""
-#| "Windows are not unmapped if the window is somewhere visible on any of the "
-#| "virtual desktops."
-#| msgid "Only for Shown Windows"
 msgid "Only for Shown Windows"
 msgstr "只對顯示的視窗"
 
@@ -186,7 +168,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
 #: compositing.ui:228 qml/CompositingView.qml:182
 #, fuzzy
-#| msgid "Suspend desktop effects for fullscreen windows"
 msgid "Suspend compositor for full screen windows"
 msgstr "暫停全螢幕視窗的桌面效果"
 
@@ -198,7 +179,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
 #: compositing.ui:242 qml/CompositingView.qml:200
 #, fuzzy
-#| msgid "Enable color correction (experimental)"
 msgid "Enable color correction"
 msgstr "開啟色彩校正（實驗性質）"
 
@@ -262,35 +242,30 @@ msgstr ""
 
 #: model.cpp:67
 #, fuzzy
-#| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "輔助"
 
 #: model.cpp:68
 #, fuzzy
-#| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "外觀"
 
 #: model.cpp:69
 #, fuzzy
-#| msgid "Candy"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Candy"
 
 #: model.cpp:70
 #, fuzzy
-#| msgid "Focus"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "焦點"
 
 #: model.cpp:71
 #, fuzzy
-#| msgid "Tools"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "工具"
@@ -302,7 +277,6 @@ msgstr ""
 
 #: model.cpp:73
 #, fuzzy
-#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "視窗管理員"
@@ -313,35 +287,26 @@ msgstr ""
 
 #: qml/CompositingView.qml:67
 #, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation Speed:"
 msgstr "動畫速度："
 
 #: qml/CompositingView.qml:106 qml/CompositingView.qml:120
 #, fuzzy
-#| msgid "Scale method:"
 msgid "Scale Method:"
 msgstr "縮放方法："
 
 #: qml/CompositingView.qml:135
 #, fuzzy
-#| msgid "Tearing Prevention (VSync)"
 msgid "Tearing Prevention (VSync):"
 msgstr "避免破碎 (VSync)"
 
 #: qml/CompositingView.qml:148
 #, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep Window Thumbnails:"
 msgstr "保持視窗縮圖："
 
 #: qml/CompositingView.qml:154
 #, fuzzy
-#| msgctxt ""
-#| "A window thumbnail requires to have the corresponding window mapped. To "
-#| "have thumbnails at all time, windows are not unmapped. This can break "
-#| "window minimization as it is modelled as unmapping of windows."
-#| msgid "Always (Breaks minimization)"
 msgid "Always (Breaks Animations)"
 msgstr "總是（不管最小化）"
 
@@ -368,7 +333,6 @@ msgstr ""
 
 #: qml/EffectView.qml:82
 #, fuzzy
-#| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "紋理過濾器："
 
@@ -378,7 +342,6 @@ msgstr ""
 
 #: qml/EffectView.qml:93
 #, fuzzy
-#| msgid "Suspend Desktop Effects"
 msgid "Exclude internal Desktop Effects"
 msgstr "暫停桌面效果"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-05-23 07:47+0000\n"
+"POT-Creation-Date: 2015-01-21 09:28+0000\n"
 "PO-Revision-Date: 2011-01-17 23:42+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@gmail.com>\n"
 "Language-Team: Malay <kedidiemas@yahoogroups.com>\n"
@@ -19,22 +19,21 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=1;\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: layoutpreview.cpp:158
+#: layoutpreview.cpp:165
 #, fuzzy
-#| msgid "All Desktops"
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Semua Desktop"
 
-#: main.cpp:70
+#: main.cpp:73
 msgid "Main"
 msgstr "Utama"
 
-#: main.cpp:71
+#: main.cpp:74
 msgid "Alternative"
 msgstr "Alternatif"
 
-#: main.cpp:74
+#: main.cpp:77
 #, fuzzy
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
@@ -48,7 +47,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, showDesktop)
 #: main.ui:41
 #, fuzzy
-#| msgid "Include desktop"
 msgid "Include \"Show Desktop\" icon"
 msgstr "Sertakan desktop"
 
@@ -80,21 +78,18 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, filterDesktops)
 #: main.ui:113
 #, fuzzy
-#| msgid "All Desktops"
 msgid "Virtual desktops"
 msgstr "Semua Desktop"
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentDesktop)
 #: main.ui:157
 #, fuzzy
-#| msgid "Current Desktop"
 msgid "Current desktop"
 msgstr "Desktop Semasa"
 
 #. i18n: ectx: property (text), widget (QRadioButton, otherDesktops)
 #: main.ui:164
 #, fuzzy
-#| msgid "All Desktops"
 msgid "All other desktops"
 msgstr "Semua Desktop"
 
@@ -121,7 +116,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QRadioButton, currentScreen)
 #: main.ui:279
 #, fuzzy
-#| msgid "Current Desktop"
 msgid "Current screen"
 msgstr "Desktop Semasa"
 
@@ -133,7 +127,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, filterMinimization)
 #: main.ui:296
 #, fuzzy
-#| msgid "Minimum Size"
 msgid "Minimization"
 msgstr "Saiz Minimum"
 
@@ -177,7 +170,6 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:489
 #, fuzzy
-#| msgid "Navigation"
 msgid "Visualization"
 msgstr "Navigasi"
 
@@ -196,7 +188,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, highlightWindowCheck)
 #: main.ui:552
 #, fuzzy
-#| msgid "Show Selected Item"
 msgid "Show selected window"
 msgstr "Papar Item Dipilih"
 

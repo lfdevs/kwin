@@ -147,14 +147,12 @@ msgstr "ここで KDE デスクトップで使用する仮想デスクトップ�
 #. i18n: ectx: property (text), widget (QLabel, numberLabel)
 #: main.ui:54
 #, fuzzy
-#| msgid "Number of desktops:"
 msgid "&Number of desktops:"
 msgstr "デスクトップの数:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:83
 #, fuzzy
-#| msgid "Number of rows:"
 msgid "N&umber of rows:"
 msgstr "段数:"
 

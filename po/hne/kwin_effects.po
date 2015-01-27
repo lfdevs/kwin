@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-09-27 09:13+0000\n"
+"POT-Creation-Date: 2015-01-13 12:17+0000\n"
 "PO-Revision-Date: 2009-01-29 14:19+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -35,14 +35,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: blur/blur_config.ui:42
 #, fuzzy
-#| msgid "Right"
 msgid "Light"
 msgstr "जेवनी"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: blur/blur_config.ui:74
 #, fuzzy
-#| msgid "&Strength:"
 msgid "Strong"
 msgstr "सामर्थ्य (&S):"
 
@@ -53,7 +51,6 @@ msgstr ""
 
 #: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
 #, fuzzy
-#| msgid "Show Desktop Grid"
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "डेस्कटाप ग्रिड देखाव"
@@ -89,7 +86,6 @@ msgstr "दूर"
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: coverswitch/coverswitch_config.ui:110
 #, fuzzy
-#| msgid "Activation"
 msgid "Animation"
 msgstr "एक्टिवेसन"
 
@@ -126,7 +122,6 @@ msgstr "डिफाल्ट"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
 #: coverswitch/coverswitch_config.ui:161
 #, fuzzy
-#| msgid " msec"
 msgid " milliseconds"
 msgstr "मि.से."
 
@@ -139,14 +134,12 @@ msgstr "रेफ्लेक्सन्स"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: coverswitch/coverswitch_config.ui:195
 #, fuzzy
-#| msgid "Cap color:"
 msgid "Rear color"
 msgstr "कैप रंग:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: coverswitch/coverswitch_config.ui:205
 #, fuzzy
-#| msgid "Background color:"
 msgid "Front color"
 msgstr "पिछोत अंगना के रंगः"
 
@@ -385,7 +378,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dashboard/dashboard_config.ui:74
 #, fuzzy
-#| msgid "Right"
 msgctxt "More brightness"
 msgid "Lighter"
 msgstr "जेवनी"
@@ -404,7 +396,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dashboard/dashboard_config.ui:140
 #, fuzzy
-#| msgid "&Color:"
 msgctxt "High saturation"
 msgid "Colored"
 msgstr "रंग: (&C)"
@@ -417,7 +408,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dashboard/dashboard_config.ui:184
 #, fuzzy
-#| msgid "msec"
 msgid "ms"
 msgstr "मि.से."
 
@@ -429,7 +419,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Blur)
 #: dashboard/dashboard_config.ui:196
 #, fuzzy
-#| msgid "Apply effect to &groups"
 msgid "Apply blur effect to background"
 msgstr "प्रभाव मन ल समूह मन मं लगाव (&g)"
 
@@ -439,7 +428,6 @@ msgstr "डेस्कटाप ग्रिड देखाव"
 
 #: desktopgrid/desktopgrid_config.cpp:74
 #, fuzzy
-#| msgid "Disabled"
 msgctxt "Desktop name alignment:"
 msgid "Disabled"
 msgstr "अक्छम"
@@ -551,7 +539,6 @@ msgstr "प्रभाव ल डेस्कटाप मं लगाव"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimKeepAbove)
 #: diminactive/diminactive_config.ui:31
 #, fuzzy
-#| msgid "Apply effect to &panels"
 msgid "Apply effect to &keep-above windows"
 msgstr "प्रभाव मन ल पैनल मन मं लगाव (&p)"
 
@@ -577,7 +564,6 @@ msgstr ""
 
 #: effect_builtins.cpp:103
 #, fuzzy
-#| msgid "Background color:"
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "पिछोत अंगना के रंगः"
@@ -599,7 +585,6 @@ msgstr ""
 
 #: effect_builtins.cpp:127
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "डेस्कटाप घन"
@@ -611,7 +596,6 @@ msgstr ""
 
 #: effect_builtins.cpp:139
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "डेस्कटाप घन"
@@ -633,7 +617,6 @@ msgstr ""
 
 #: effect_builtins.cpp:163
 #, fuzzy
-#| msgid "Show Desktop Grid"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "डेस्कटाप ग्रिड देखाव"
@@ -650,7 +633,6 @@ msgstr ""
 
 #: effect_builtins.cpp:176
 #, fuzzy
-#| msgid "Inactive windows:"
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "असक्रिय विंडो:"
@@ -769,21 +751,18 @@ msgstr ""
 
 #: effect_builtins.cpp:319
 #, fuzzy
-#| msgid "Activation"
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "एक्टिवेसन"
 
 #: effect_builtins.cpp:320
 #, fuzzy
-#| msgid "Ignore &minimized windows"
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "सबसे छोटे करे गे विंडो ल अनदेखा करव (&m)"
 
 #: effect_builtins.cpp:331
 #, fuzzy
-#| msgid "Activation"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "एक्टिवेसन"
@@ -797,7 +776,6 @@ msgstr ""
 
 #: effect_builtins.cpp:343
 #, fuzzy
-#| msgid "Clear Mouse Marks"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "मुसुवा चिनहा साफ करव"
@@ -819,7 +797,6 @@ msgstr ""
 
 #: effect_builtins.cpp:367
 #, fuzzy
-#| msgid "All &other windows"
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "सब्बो अउ दूसर विंडो (&o)"
@@ -933,7 +910,6 @@ msgstr ""
 
 #: effect_builtins.cpp:499
 #, fuzzy
-#| msgid "Thumbnail Bar"
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "छोटेफोटू पट्टी"
@@ -960,28 +936,24 @@ msgstr ""
 
 #: effect_builtins.cpp:524
 #, fuzzy
-#| msgid "Display window &icons"
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "विंडो चिनहा देखाव (&i)"
 
 #: effect_builtins.cpp:535
 #, fuzzy
-#| msgid "&Wobbliness"
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "डगमग-पन (&W)"
 
 #: effect_builtins.cpp:536
 #, fuzzy
-#| msgid "Use for window &switching"
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "विंडो स्विचिंग बर उपयोग करव (&s)"
 
 #: effect_builtins.cpp:547
 #, fuzzy
-#| msgid "Zoom"
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "जूम"
@@ -993,20 +965,17 @@ msgstr ""
 
 #: flipswitch/flipswitch.cpp:58 flipswitch/flipswitch_config.cpp:60
 #, fuzzy
-#| msgid "Toggle Present Windows (Current desktop)"
 msgid "Toggle Flip Switch (Current desktop)"
 msgstr "अभी हाल के के विंडोज ल टागल करव (अभी वाले डेस्कटाप)"
 
 #: flipswitch/flipswitch.cpp:65 flipswitch/flipswitch_config.cpp:63
 #, fuzzy
-#| msgid "Toggle Present Windows (All desktops)"
 msgid "Toggle Flip Switch (All desktops)"
 msgstr "अभी हाल के के विंडोज ल टागल करव (सब्बो डेस्कटाप)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: flipswitch/flipswitch_config.ui:23
 #, fuzzy
-#| msgid "F&lip animation duration:"
 msgid "Flip animation duration:"
 msgstr "उलटा एनीमेसन अवधि: (&l)"
 
@@ -1037,32 +1006,32 @@ msgstr ""
 msgid "Vertical position of front:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, glideEffectLabel)
 #: glide/glide_config.ui:17
 msgid "Glide Effect:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, inGlideEffectLabel)
 #: glide/glide_config.ui:42
 msgid "In"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, outGlideEffectLabel)
 #: glide/glide_config.ui:71
 msgid "Out"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, glideAngleLabel)
 #: glide/glide_config.ui:93
 msgid "Glide Angle:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, glideAnglenegLabel)
 #: glide/glide_config.ui:118
 msgid "-90"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, glideAngleposLabel)
 #: glide/glide_config.ui:147
 msgid "90"
 msgstr ""
@@ -1088,7 +1057,6 @@ msgstr "त्रिज्या: (&R)"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AnimationDuration)
 #: magiclamp/magiclamp_config.ui:39
 #, fuzzy
-#| msgid " msec"
 msgid "milliseconds"
 msgstr "मि.से."
 
@@ -1115,7 +1083,6 @@ msgstr "ऊंचाईः (&H)"
 
 #: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
 #, fuzzy
-#| msgid "Toggle Expose Effect"
 msgid "Toggle Mouse Click Effect"
 msgstr "एक्सपोज प्रभाव टागल करव"
 
@@ -1146,7 +1113,6 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, advanced_tab)
 #: mouseclick/mouseclick_config.ui:91
 #, fuzzy
-#| msgid "Advanced"
 msgid "Advanced Settings"
 msgstr "विस्तृत"
 
@@ -1158,7 +1124,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, ring_line_width_label)
 #: mouseclick/mouseclick_config.ui:103
 #, fuzzy
-#| msgid "&Width:"
 msgid "Line Width:"
 msgstr "चौड़ाईः (&W)"
 
@@ -1167,7 +1132,6 @@ msgstr "चौड़ाईः (&W)"
 #: mouseclick/mouseclick_config.ui:119 mouseclick/mouseclick_config.ui:171
 #: mousemark/mousemark_config.cpp:55
 #, fuzzy
-#| msgid " pixels"
 msgid " pixel"
 msgid_plural " pixels"
 msgstr[0] "पिक्सेल्स"
@@ -1176,14 +1140,12 @@ msgstr[1] "पिक्सेल्स"
 #. i18n: ectx: property (text), widget (QLabel, ring_duration_label)
 #: mouseclick/mouseclick_config.ui:145
 #, fuzzy
-#| msgid "Fading duration:"
 msgid "Ring Duration:"
 msgstr "फीका पड़े के अवधिः"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_radius_label)
 #: mouseclick/mouseclick_config.ui:155
 #, fuzzy
-#| msgid "&Radius:"
 msgid "Ring Radius:"
 msgstr "त्रिज्या: (&R)"
 
@@ -1206,7 +1168,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, showtext_label)
 #: mouseclick/mouseclick_config.ui:233
 #, fuzzy
-#| msgid "Show Desktop Grid"
 msgid "Show Text:"
 msgstr "डेस्कटाप ग्रिड देखाव"
 
@@ -1245,7 +1206,6 @@ msgstr "अभी हाल के के विंडोज ल टागल �
 #: presentwindows/presentwindows.cpp:86
 #: presentwindows/presentwindows_config.cpp:77
 #, fuzzy
-#| msgid "Toggle Present Windows (All desktops)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "अभी हाल के के विंडोज ल टागल करव (सब्बो डेस्कटाप)"
 
@@ -1318,7 +1278,6 @@ msgstr ""
 #: presentwindows/presentwindows_config.ui:322
 #: presentwindows/presentwindows_config.ui:356
 #, fuzzy
-#| msgid "Inactive windows:"
 msgid "Activate window"
 msgstr "असक्रिय विंडो:"
 
@@ -1344,7 +1303,6 @@ msgstr ""
 #: presentwindows/presentwindows_config.ui:198
 #: presentwindows/presentwindows_config.ui:242
 #, fuzzy
-#| msgid "Toggle Present Windows (Current desktop)"
 msgid "Bring window to current desktop"
 msgstr "अभी हाल के के विंडोज ल टागल करव (अभी वाले डेस्कटाप)"
 
@@ -1365,7 +1323,6 @@ msgstr "अभी हाल के के विंडोज ल टागल �
 #: presentwindows/presentwindows_config.ui:208
 #: presentwindows/presentwindows_config.ui:252
 #, fuzzy
-#| msgid "Ignore &minimized windows"
 msgid "(Un-)Minimize window"
 msgstr "सबसे छोटे करे गे विंडो ल अनदेखा करव (&m)"
 
@@ -1386,7 +1343,6 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
 #: presentwindows/presentwindows_config.ui:263
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "@title:group actions when clicking on desktop"
 msgid "Desktop"
 msgstr "डेस्कटाप घन"
@@ -1398,7 +1354,6 @@ msgstr "डेस्कटाप घन"
 #: presentwindows/presentwindows_config.ui:332
 #: presentwindows/presentwindows_config.ui:366
 #, fuzzy
-#| msgid "Show Desktop Grid"
 msgid "Show desktop"
 msgstr "डेस्कटाप ग्रिड देखाव"
 
@@ -1446,7 +1401,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TextureScale)
 #: resize/resize_config.ui:17
 #, fuzzy
-#| msgid "All &other windows"
 msgid "Scale window"
 msgstr "सब्बो अउ दूसर विंडो (&o)"
 
@@ -1529,7 +1483,6 @@ msgstr "जगह: (&S)"
 #: thumbnailaside/thumbnailaside_config.ui:55
 #: thumbnailaside/thumbnailaside_config.ui:106
 #, fuzzy
-#| msgid " pixels"
 msgid " pixels"
 msgstr "पिक्सेल्स"
 
@@ -1560,7 +1513,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Control)
 #: trackmouse/trackmouse_config.ui:50
 #, fuzzy
-#| msgid "Center"
 msgid "Ctrl"
 msgstr "बीच में"
 
@@ -1645,14 +1597,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Move)
 #: windowgeometry/windowgeometry_config.ui:17
 #, fuzzy
-#| msgid "Display window &icons"
 msgid "Display for moving windows"
 msgstr "विंडो चिनहा देखाव (&i)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Resize)
 #: windowgeometry/windowgeometry_config.ui:24
 #, fuzzy
-#| msgid "Display window &icons"
 msgid "Display for resizing windows"
 msgstr "विंडो चिनहा देखाव (&i)"
 
@@ -1732,13 +1682,11 @@ msgstr ""
 
 #: zoom/zoom_config.cpp:84
 #, fuzzy
-#| msgid "Top Left"
 msgid "Move Left"
 msgstr "ऊपरी डेरी "
 
 #: zoom/zoom_config.cpp:91
 #, fuzzy
-#| msgid "Top Right"
 msgid "Move Right"
 msgstr "ऊपरी जेवनी "
 
@@ -1759,7 +1707,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: zoom/zoom_config.ui:28
 #, fuzzy
-#| msgid "Zoom &duration:"
 msgid "Zoom Factor:"
 msgstr "जूम अवधिः (&d)"
 
@@ -1823,7 +1770,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:133
 #, fuzzy
-#| msgid "Center"
 msgid "Centered"
 msgstr "बीच में"
 
@@ -1835,7 +1781,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:143
 #, fuzzy
-#| msgid "Disabled"
 msgid "Disabled"
 msgstr "अक्छम"
 

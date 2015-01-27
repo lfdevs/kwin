@@ -212,7 +212,6 @@ msgstr "Woknowe nastajenja %1"
 
 #: main.cpp:215
 #, fuzzy
-#| msgid "Application settings for %1"
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Pogramowe nastajenja za %1"
@@ -379,7 +378,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: ruleswidgetbase.ui:46
 #, fuzzy
-#| msgid "Use window &class (whole application)"
 msgid "Window &class (application):"
 msgstr "Woknowu klasu &wužiwać (cyłu aplikaciju)"
 
@@ -467,7 +465,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #: ruleswidgetbase.ui:468
 #, fuzzy
-#| msgid "Normal Window"
 msgid "Unmanaged Window"
 msgstr "Normalne wokno"
 
@@ -867,7 +864,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_screen)
 #: ruleswidgetbase.ui:1369
 #, fuzzy
-#| msgid "Splash Screen"
 msgid "Screen"
 msgstr "Powitančko"
 
@@ -1017,7 +1013,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #: ruleswidgetbase.ui:2373
 #, fuzzy
-#| msgid "None"
 msgctxt "no focus stealing prevention"
 msgid "None"
 msgstr "Žane"

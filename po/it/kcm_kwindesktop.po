@@ -142,14 +142,12 @@ msgstr "Qui puoi impostare quanti desktop virtuali avere nel desktop di KDE."
 #. i18n: ectx: property (text), widget (QLabel, numberLabel)
 #: main.ui:54
 #, fuzzy
-#| msgid "Number of desktops:"
 msgid "&Number of desktops:"
 msgstr "Numero di desktop:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:83
 #, fuzzy
-#| msgid "Number of rows:"
 msgid "N&umber of rows:"
 msgstr "Numero di righe:"
 

@@ -44,15 +44,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:20 qml/CompositingView.qml:55
 #, fuzzy
-#| msgctxt "@option:check"
-#| msgid "Enable desktop effects at startup"
 msgid "Enable compositor on startup"
 msgstr "Aktivér skrivebordseffekter ved opstart"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:27
 #, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation speed:"
 msgstr "Animationshastighed:"
 
@@ -64,7 +61,6 @@ msgstr "Øjeblikkelig"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
 #, fuzzy
-#| msgid "Very Slow"
 msgid "Very slow"
 msgstr "Meget langsomt"
 
@@ -72,7 +68,6 @@ msgstr "Meget langsomt"
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
 #: compositing.ui:85 compositing.ui:111
 #, fuzzy
-#| msgid "Scale method:"
 msgid "Scale method:"
 msgstr "Skaleringsmetode:"
 
@@ -106,14 +101,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
 #, fuzzy
-#| msgid "OpenGL mode:"
 msgid "OpenGL interface:"
 msgstr "OpenGL-tilstand:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: compositing.ui:159
 #, fuzzy
-#| msgid "Tearing Prevention (VSync)"
 msgid "Tearing prevention (\"vsync\"):"
 msgstr "Forhindring af artefakter (VSync)"
 
@@ -122,10 +115,6 @@ msgstr "Forhindring af artefakter (VSync)"
 #: compositing.ui:167 compositing.ui:213 qml/CompositingView.qml:141
 #: qml/CompositingView.qml:154
 #, fuzzy
-#| msgctxt ""
-#| "Windows are unmapped as they are requested. This can lead to not having "
-#| "updated thumbnials for windows on other desktops."
-#| msgid "Never"
 msgid "Never"
 msgstr "Aldrig"
 
@@ -137,14 +126,12 @@ msgstr "Automatisk"
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:177 qml/CompositingView.qml:141
 #, fuzzy
-#| msgid "Only when Cheap"
 msgid "Only when cheap"
 msgstr "Kun når det er billigt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:182 qml/CompositingView.qml:141
 #, fuzzy
-#| msgid "Full scene repaints"
 msgid "Full screen repaints"
 msgstr "Hele skærmen gentegnes"
 
@@ -156,7 +143,6 @@ msgstr "Genbrug skærmindhold"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:195
 #, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep window thumbnails:"
 msgstr "Behold miniaturer af vinduer:"
 
@@ -168,10 +154,6 @@ msgstr "Altid"
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:208 qml/CompositingView.qml:154
 #, fuzzy
-#| msgctxt ""
-#| "Windows are not unmapped if the window is somewhere visible on any of the "
-#| "virtual desktops."
-#| msgid "Only for Shown Windows"
 msgid "Only for Shown Windows"
 msgstr "Kun for viste vinduer"
 
@@ -183,7 +165,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
 #: compositing.ui:228 qml/CompositingView.qml:182
 #, fuzzy
-#| msgid "Suspend desktop effects for fullscreen windows"
 msgid "Suspend compositor for full screen windows"
 msgstr "Suspendér skrivebordseffekter for fuldskærm-vinduer"
 
@@ -195,7 +176,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
 #: compositing.ui:242 qml/CompositingView.qml:200
 #, fuzzy
-#| msgid "Enable color correction (experimental)"
 msgid "Enable color correction"
 msgstr "Aktivér farvekorrektion (eksperimentelt)"
 
@@ -259,35 +239,30 @@ msgstr ""
 
 #: model.cpp:67
 #, fuzzy
-#| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Tilgængelighed"
 
 #: model.cpp:68
 #, fuzzy
-#| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Udseende"
 
 #: model.cpp:69
 #, fuzzy
-#| msgid "Candy"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Øjeguf"
 
 #: model.cpp:70
 #, fuzzy
-#| msgid "Focus"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Fokus"
 
 #: model.cpp:71
 #, fuzzy
-#| msgid "Tools"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Værktøjer"
@@ -299,7 +274,6 @@ msgstr ""
 
 #: model.cpp:73
 #, fuzzy
-#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Vindueshåndtering"
@@ -310,35 +284,26 @@ msgstr ""
 
 #: qml/CompositingView.qml:67
 #, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation Speed:"
 msgstr "Animationshastighed:"
 
 #: qml/CompositingView.qml:106 qml/CompositingView.qml:120
 #, fuzzy
-#| msgid "Scale method:"
 msgid "Scale Method:"
 msgstr "Skaleringsmetode:"
 
 #: qml/CompositingView.qml:135
 #, fuzzy
-#| msgid "Tearing Prevention (VSync)"
 msgid "Tearing Prevention (VSync):"
 msgstr "Forhindring af artefakter (VSync)"
 
 #: qml/CompositingView.qml:148
 #, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep Window Thumbnails:"
 msgstr "Behold miniaturer af vinduer:"
 
 #: qml/CompositingView.qml:154
 #, fuzzy
-#| msgctxt ""
-#| "A window thumbnail requires to have the corresponding window mapped. To "
-#| "have thumbnails at all time, windows are not unmapped. This can break "
-#| "window minimization as it is modelled as unmapping of windows."
-#| msgid "Always (Breaks minimization)"
 msgid "Always (Breaks Animations)"
 msgstr "Altid (ødelægger minimering)"
 
@@ -367,7 +332,6 @@ msgstr ""
 
 #: qml/EffectView.qml:82
 #, fuzzy
-#| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "Teksturfilter"
 
@@ -377,7 +341,6 @@ msgstr ""
 
 #: qml/EffectView.qml:93
 #, fuzzy
-#| msgid "Suspend Desktop Effects"
 msgid "Exclude internal Desktop Effects"
 msgstr "Suspendér skrivebordseffekter"
 

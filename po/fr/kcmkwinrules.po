@@ -450,7 +450,6 @@ msgstr "Correspondance de &fenêtre"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
 #, fuzzy
-#| msgid "De&scription:"
 msgid "&Description:"
 msgstr "De&scription :"
 
@@ -512,7 +511,6 @@ msgstr "Co&rrespondance complète à la classe de fenêtre"
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: ruleswidgetbase.ui:109
 #, fuzzy
-#| msgid "Window &role:"
 msgid "Window ro&le:"
 msgstr "&Rôle de fenêtre :"
 

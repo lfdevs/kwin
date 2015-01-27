@@ -56,6 +56,11 @@ Shadow *Shadow::createShadow(Toplevel *toplevel)
         if (toplevel->effectWindow() && toplevel->effectWindow()->sceneWindow()) {
             toplevel->effectWindow()->sceneWindow()->updateShadow(shadow);
         }
+        if (shadow->hasDecorationShadow()) {
+            if (toplevel->effectWindow()) {
+                toplevel->effectWindow()->buildQuads(true);
+            }
+        }
     }
     return shadow;
 }
@@ -354,6 +359,11 @@ QSize Shadow::elementSize(Shadow::ShadowElements element) const
     } else {
         return m_shadowElements[element].size();
     }
+}
+
+void Shadow::setShadowElement(const QPixmap &shadow, Shadow::ShadowElements element)
+{
+    m_shadowElements[element] = shadow;
 }
 
 } // namespace

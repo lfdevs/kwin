@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-05-23 07:47+0000\n"
+"POT-Creation-Date: 2015-01-21 09:28+0000\n"
 "PO-Revision-Date: 2010-06-17 13:22+0530\n"
 "Last-Translator: Sweta Kothari <swkothar@redhat.com>\n"
 "Language-Team: Gujarati\n"
@@ -18,22 +18,21 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: layoutpreview.cpp:158
+#: layoutpreview.cpp:165
 #, fuzzy
-#| msgid "All Desktops"
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "બધા ડેસ્કટોપ"
 
-#: main.cpp:70
+#: main.cpp:73
 msgid "Main"
 msgstr "મુખ્ય"
 
-#: main.cpp:71
+#: main.cpp:74
 msgid "Alternative"
 msgstr ""
 
-#: main.cpp:74
+#: main.cpp:77
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""
@@ -46,7 +45,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, showDesktop)
 #: main.ui:41
 #, fuzzy
-#| msgid "Include desktop"
 msgid "Include \"Show Desktop\" icon"
 msgstr "ડેસ્કટોપ સમાવો"
 
@@ -78,21 +76,18 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, filterDesktops)
 #: main.ui:113
 #, fuzzy
-#| msgid "All Desktops"
 msgid "Virtual desktops"
 msgstr "બધા ડેસ્કટોપ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentDesktop)
 #: main.ui:157
 #, fuzzy
-#| msgid "Current Desktop"
 msgid "Current desktop"
 msgstr "હાલનું ડેસ્કટોપ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, otherDesktops)
 #: main.ui:164
 #, fuzzy
-#| msgid "All Desktops"
 msgid "All other desktops"
 msgstr "બધા ડેસ્કટોપ"
 
@@ -119,7 +114,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QRadioButton, currentScreen)
 #: main.ui:279
 #, fuzzy
-#| msgid "Current Desktop"
 msgid "Current screen"
 msgstr "હાલનું ડેસ્કટોપ"
 
@@ -131,7 +125,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, filterMinimization)
 #: main.ui:296
 #, fuzzy
-#| msgid "Minimum Size"
 msgid "Minimization"
 msgstr "ન્યૂનત્તમ માપ"
 
@@ -192,7 +185,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, highlightWindowCheck)
 #: main.ui:552
 #, fuzzy
-#| msgid "Highlight selected window"
 msgid "Show selected window"
 msgstr "પસંદ થયેલ વિન્ડોને પ્રકાશિત કરો"
 

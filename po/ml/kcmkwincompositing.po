@@ -17,13 +17,11 @@ msgstr ""
 
 #: compositing.cpp:387
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 3.1"
 msgstr "ഓപ്പണ്‍ജിഎല്‍"
 
 #: compositing.cpp:388
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 2.0"
 msgstr "ഓപ്പണ്‍ജിഎല്‍"
 
@@ -44,7 +42,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:20 qml/CompositingView.qml:55
 #, fuzzy
-#| msgid "Enable desktop effects"
 msgid "Enable compositor on startup"
 msgstr "പണിയിട പ്രഭാവങ്ങള്‍ പ്രാവര്‍ത്തികമാക്കുക"
 
@@ -89,7 +86,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
 #: compositing.ui:124 qml/CompositingView.qml:127
 #, fuzzy
-#| msgid "Smooth scaling (slower)"
 msgid "Smooth (slower)"
 msgstr "സ്വൂത്ത് സ്കേല്ങ് (പതുക്കെ)"
 
@@ -101,7 +97,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
 #, fuzzy
-#| msgid "OpenGL mode:"
 msgid "OpenGL interface:"
 msgstr "ഓപ്പണ്‍ജിഎല്‍ രീതി"
 
@@ -160,7 +155,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
 #: compositing.ui:228 qml/CompositingView.qml:182
 #, fuzzy
-#| msgid "Enable desktop effects"
 msgid "Suspend compositor for full screen windows"
 msgstr "പണിയിട പ്രഭാവങ്ങള്‍ പ്രാവര്‍ത്തികമാക്കുക"
 
@@ -234,14 +228,12 @@ msgstr ""
 
 #: model.cpp:67
 #, fuzzy
-#| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "സാമീപ്യത"
 
 #: model.cpp:68
 #, fuzzy
-#| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "ബാഹ്യരൂപം"
@@ -268,7 +260,6 @@ msgstr ""
 
 #: model.cpp:73
 #, fuzzy
-#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "ജാലകത്തിന്റെ നടത്തിപ്പ്"
@@ -321,7 +312,6 @@ msgstr ""
 
 #: qml/EffectView.qml:82
 #, fuzzy
-#| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "ഇഴയടുപ്പത്തിന്റെ ഫില്‍ട്ടര്‍"
 
@@ -331,12 +321,10 @@ msgstr ""
 
 #: qml/EffectView.qml:93
 #, fuzzy
-#| msgid "Enable desktop effects"
 msgid "Exclude internal Desktop Effects"
 msgstr "പണിയിട പ്രഭാവങ്ങള്‍ പ്രാവര്‍ത്തികമാക്കുക"
 
 #: qml/EffectView.qml:105
 #, fuzzy
-#| msgid "All Effects"
 msgid "Get New Effects ..."
 msgstr "എല്ലാ പ്രഭാവങ്ങള്‍"

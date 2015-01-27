@@ -42,7 +42,6 @@ msgstr "Tamás Krutki"
 
 #: module.cpp:77
 #, fuzzy
-#| msgid "Import KWin script..."
 msgid "Import KWin Script"
 msgstr "Importuoti KWin scenarijų..."
 

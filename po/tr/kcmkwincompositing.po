@@ -51,7 +51,6 @@ msgstr "Masaüstü Efektlerini başlangıçta etkinleştir"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:27
 #, fuzzy
-#| msgid "Animation Speed:"
 msgid "Animation speed:"
 msgstr "Canlandırma hızı:"
 
@@ -63,7 +62,6 @@ msgstr "Anında"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
 #, fuzzy
-#| msgid "Very Slow"
 msgid "Very slow"
 msgstr "Çok Yavaş"
 
@@ -71,7 +69,6 @@ msgstr "Çok Yavaş"
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
 #: compositing.ui:85 compositing.ui:111
 #, fuzzy
-#| msgid "Scale method:"
 msgid "Scale method:"
 msgstr "Ölçekleme yöntemi:"
 
@@ -105,14 +102,12 @@ msgstr "İşleme arka ucu:"
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
 #, fuzzy
-#| msgid "OpenGL Platform Interface:"
 msgid "OpenGL interface:"
 msgstr "OpenGL Platform Arayüzü:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: compositing.ui:159
 #, fuzzy
-#| msgid "Tearing Prevention (VSync):"
 msgid "Tearing prevention (\"vsync\"):"
 msgstr "Yaşarma Koruması (VSync):"
 
@@ -146,7 +141,6 @@ msgstr "Ekran içeriğini tekrar kullan"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:195
 #, fuzzy
-#| msgid "Keep Window Thumbnails:"
 msgid "Keep window thumbnails:"
 msgstr "Pencere Küçük Resimlerini Sakla:"
 
@@ -283,7 +277,6 @@ msgstr "Canlandırma hızı:"
 
 #: qml/CompositingView.qml:106 qml/CompositingView.qml:120
 #, fuzzy
-#| msgid "Scale method:"
 msgid "Scale Method:"
 msgstr "Ölçekleme yöntemi:"
 
@@ -326,7 +319,6 @@ msgstr "Ara"
 
 #: qml/EffectView.qml:82
 #, fuzzy
-#| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "Doku filtresi:"
 

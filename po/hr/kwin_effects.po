@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-09-27 09:13+0000\n"
+"POT-Creation-Date: 2015-01-13 12:17+0000\n"
 "PO-Revision-Date: 2011-07-12 17:50+0200\n"
 "Last-Translator: Marko Dimjašević <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -55,7 +55,6 @@ msgstr ""
 
 #: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
 #, fuzzy
-#| msgid "Show desktop"
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Pokaži radnu površinu"
@@ -125,8 +124,6 @@ msgstr "Uobičajeno"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
 #: coverswitch/coverswitch_config.ui:161
 #, fuzzy
-#| msgid " millisecond"
-#| msgid_plural " milliseconds"
 msgid " milliseconds"
 msgstr " millisekunda"
 
@@ -557,7 +554,6 @@ msgstr ""
 
 #: effect_builtins.cpp:103
 #, fuzzy
-#| msgid "Background color:"
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Boja pozadine:"
@@ -579,7 +575,6 @@ msgstr ""
 
 #: effect_builtins.cpp:127
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Desktop Cube"
@@ -591,7 +586,6 @@ msgstr ""
 
 #: effect_builtins.cpp:139
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Desktop Cube"
@@ -613,7 +607,6 @@ msgstr ""
 
 #: effect_builtins.cpp:163
 #, fuzzy
-#| msgid "Show Desktop Grid"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Pokaži mrežu radnih površina"
@@ -630,7 +623,6 @@ msgstr ""
 
 #: effect_builtins.cpp:176
 #, fuzzy
-#| msgid "Inactive windows:"
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Neaktivni prozori:"
@@ -652,7 +644,6 @@ msgstr ""
 
 #: effect_builtins.cpp:200
 #, fuzzy
-#| msgid "Send window to all desktops"
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "Pošalji prozor na sve radne površine"
@@ -690,7 +681,6 @@ msgstr ""
 
 #: effect_builtins.cpp:247
 #, fuzzy
-#| msgid "Invert mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Obrni miša"
@@ -752,21 +742,18 @@ msgstr ""
 
 #: effect_builtins.cpp:319
 #, fuzzy
-#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Animacije"
 
 #: effect_builtins.cpp:320
 #, fuzzy
-#| msgid "Ignore &minimized windows"
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "Zanemari spušte&ne prozore"
 
 #: effect_builtins.cpp:331
 #, fuzzy
-#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Animacije"
@@ -780,7 +767,6 @@ msgstr ""
 
 #: effect_builtins.cpp:343
 #, fuzzy
-#| msgid "Clear Mouse Marks"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Izbriši oznake miša"
@@ -792,7 +778,6 @@ msgstr ""
 
 #: effect_builtins.cpp:355
 #, fuzzy
-#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Prozori"
@@ -804,7 +789,6 @@ msgstr ""
 
 #: effect_builtins.cpp:367
 #, fuzzy
-#| msgid "Close window"
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Zatvori prozor"
@@ -857,7 +841,6 @@ msgstr ""
 
 #: effect_builtins.cpp:427
 #, fuzzy
-#| msgid "Show &panels"
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Pokaži &panele"
@@ -919,7 +902,6 @@ msgstr ""
 
 #: effect_builtins.cpp:499
 #, fuzzy
-#| msgid "Thumbnail Bar"
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Traka sa sličicama"
@@ -931,7 +913,6 @@ msgstr ""
 
 #: effect_builtins.cpp:511
 #, fuzzy
-#| msgid "Track mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Prati miš"
@@ -948,28 +929,24 @@ msgstr ""
 
 #: effect_builtins.cpp:524
 #, fuzzy
-#| msgid "Display window &icons"
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "Prikaži &ikone prozora"
 
 #: effect_builtins.cpp:535
 #, fuzzy
-#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Prozori"
 
 #: effect_builtins.cpp:536
 #, fuzzy
-#| msgid "Use for window &switching"
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "Koristi za pre&bacivanje prozora"
 
 #: effect_builtins.cpp:547
 #, fuzzy
-#| msgid "Zoom"
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Zoom"
@@ -1018,32 +995,32 @@ msgstr "Horizontalni položaj prednjice:"
 msgid "Vertical position of front:"
 msgstr "Vertikalni položaj prednjice:"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, glideEffectLabel)
 #: glide/glide_config.ui:17
 msgid "Glide Effect:"
 msgstr "Efekt klizanja:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, inGlideEffectLabel)
 #: glide/glide_config.ui:42
 msgid "In"
 msgstr "Unutra"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, outGlideEffectLabel)
 #: glide/glide_config.ui:71
 msgid "Out"
 msgstr "Van"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, glideAngleLabel)
 #: glide/glide_config.ui:93
 msgid "Glide Angle:"
 msgstr "Kut klizanja:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, glideAnglenegLabel)
 #: glide/glide_config.ui:118
 msgid "-90"
 msgstr "-90"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, glideAngleposLabel)
 #: glide/glide_config.ui:147
 msgid "90"
 msgstr "90"
@@ -1069,8 +1046,6 @@ msgstr "&Radijus:"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AnimationDuration)
 #: magiclamp/magiclamp_config.ui:39
 #, fuzzy
-#| msgid " millisecond"
-#| msgid_plural " milliseconds"
 msgid "milliseconds"
 msgstr " millisekunda"
 
@@ -1097,13 +1072,11 @@ msgstr "&Visina:"
 
 #: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
 #, fuzzy
-#| msgid "Toggle Invert Effect"
 msgid "Toggle Mouse Click Effect"
 msgstr "Uključi obrnuti efekt"
 
 #: mouseclick/mouseclick.cpp:59
 #, fuzzy
-#| msgid "Middle button:"
 msgid "Middle"
 msgstr "Srednji gumb:"
 
@@ -1115,28 +1088,24 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, button1_label)
 #: mouseclick/mouseclick_config.ui:37
 #, fuzzy
-#| msgid "Left button:"
 msgid "Left Mouse Button Color:"
 msgstr "Lijevi gumb:"
 
 #. i18n: ectx: property (text), widget (QLabel, button2_label)
 #: mouseclick/mouseclick_config.ui:50
 #, fuzzy
-#| msgid "Middle button:"
 msgid "Middle Mouse Button Color:"
 msgstr "Srednji gumb:"
 
 #. i18n: ectx: property (text), widget (QLabel, button3_label)
 #: mouseclick/mouseclick_config.ui:70
 #, fuzzy
-#| msgid "Right button:"
 msgid "Right Mouse Button Color:"
 msgstr "Desni gumb:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, advanced_tab)
 #: mouseclick/mouseclick_config.ui:91
 #, fuzzy
-#| msgid "Advanced"
 msgid "Advanced Settings"
 msgstr "Napredno"
 
@@ -1148,7 +1117,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, ring_line_width_label)
 #: mouseclick/mouseclick_config.ui:103
 #, fuzzy
-#| msgid "&Width:"
 msgid "Line Width:"
 msgstr "Š&irina:"
 
@@ -1165,14 +1133,12 @@ msgstr[2] "piksela"
 #. i18n: ectx: property (text), widget (QLabel, ring_duration_label)
 #: mouseclick/mouseclick_config.ui:145
 #, fuzzy
-#| msgid "Fading duration:"
 msgid "Ring Duration:"
 msgstr "Trajanje blijeđenja:"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_radius_label)
 #: mouseclick/mouseclick_config.ui:155
 #, fuzzy
-#| msgid "&Radius:"
 msgid "Ring Radius:"
 msgstr "&Radijus:"
 
@@ -1195,7 +1161,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, showtext_label)
 #: mouseclick/mouseclick_config.ui:233
 #, fuzzy
-#| msgid "Show desktop"
 msgid "Show Text:"
 msgstr "Pokaži radnu površinu"
 
@@ -1502,8 +1467,6 @@ msgstr "&Razmak:"
 #: thumbnailaside/thumbnailaside_config.ui:55
 #: thumbnailaside/thumbnailaside_config.ui:106
 #, fuzzy
-#| msgid " pixel"
-#| msgid_plural " pixels"
 msgid " pixels"
 msgstr "piksel"
 
@@ -1524,7 +1487,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QRadioButton, modifierRadio)
 #: trackmouse/trackmouse_config.ui:27
 #, fuzzy
-#| msgid "Modifier keys"
 msgid "Modifiers"
 msgstr "Modifikacijske tipke"
 

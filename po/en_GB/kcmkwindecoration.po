@@ -3,14 +3,14 @@
 #
 # Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2003, 2004, 2008.
 # Andrew Coles <andrew_coles@yahoo.co.uk>, 2004, 2005, 2009, 2010.
-# Steve Allewell <steve.allewell@gmail.com>, 2014.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-06-11 07:50+0000\n"
-"PO-Revision-Date: 2014-07-06 18:22+0100\n"
-"Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
+"POT-Creation-Date: 2015-01-22 09:47+0000\n"
+"PO-Revision-Date: 2015-01-25 16:18+0000\n"
+"Last-Translator: \n"
 "Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
@@ -19,327 +19,136 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 1.5\n"
 
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Malcolm Hunter, Steve Allewell"
+#: declarative-plugin/buttonsmodel.cpp:67
+msgid "Menu"
+msgstr "Menu"
 
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "malcolm.hunter@gmx.co.uk, steve.allewell@gmail.com"
+#: declarative-plugin/buttonsmodel.cpp:69
+msgid "Application menu"
+msgstr "Application menu"
+
+#: declarative-plugin/buttonsmodel.cpp:71
+msgid "On all desktops"
+msgstr "On all desktops"
+
+#: declarative-plugin/buttonsmodel.cpp:73
+msgid "Minimize"
+msgstr "Minimise"
+
+#: declarative-plugin/buttonsmodel.cpp:75
+msgid "Maximize"
+msgstr "Maximise"
+
+#: declarative-plugin/buttonsmodel.cpp:77
+msgid "Close"
+msgstr "Close"
+
+#: declarative-plugin/buttonsmodel.cpp:79
+msgid "Context help"
+msgstr "Context help"
+
+#: declarative-plugin/buttonsmodel.cpp:81
+msgid "Shade"
+msgstr "Shade"
+
+#: declarative-plugin/buttonsmodel.cpp:83
+msgid "Keep below"
+msgstr "Keep below"
+
+#: declarative-plugin/buttonsmodel.cpp:85
+msgid "Keep above"
+msgstr "Keep above"
+
+#: kcm.cpp:100
+msgid ""
+"Close by double clicking:\n"
+" To open the menu, keep the button pressed until it appears."
+msgstr ""
+"Close by double clicking:\n"
+" To open the menu, keep the button pressed until it appears."
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
+#: kcm.ui:22
+msgid "Search"
+msgstr "Search"
+
+#. i18n: ectx: property (text), widget (QPushButton, knsButton)
+#: kcm.ui:35
+msgid "Get New Decorations..."
+msgstr "Get New Decorations..."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: auroraeconfig.ui:23
-msgid "Border size:"
-msgstr "Border size:"
+#: kcm.ui:59
+msgid "Border si&ze:"
+msgstr "Border si&ze:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:34 configdialog.cpp:36
+#: kcm.ui:70
+msgctxt "@item:inlistbox Border size:"
+msgid "No Borders"
+msgstr "No Borders"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:75
+msgctxt "@item:inlistbox Border size:"
+msgid "No Side Borders"
+msgstr "No Side Borders"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
+#: kcm.ui:80
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "Tiny"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:39 configdialog.cpp:37
+#: kcm.ui:85
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "Normal"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:44 configdialog.cpp:38
+#: kcm.ui:90
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "Large"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:49 configdialog.cpp:39
+#: kcm.ui:95
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "Very Large"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:54 configdialog.cpp:40
+#: kcm.ui:100
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "Huge"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:59 configdialog.cpp:41
+#: kcm.ui:105
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "Very Huge"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: auroraeconfig.ui:64 configdialog.cpp:42
+#: kcm.ui:110
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "Oversized"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: auroraeconfig.ui:72
-msgid "Button size:"
-msgstr "Button size:"
+#: kcm.ui:128
+msgid "Close windows by double clicking &the menu button:"
+msgstr "Close windows by double clicking &the menu button:"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:83
-msgctxt "@item:inlistbox Button size:"
-msgid "Tiny"
-msgstr "Tiny"
+#: qml/Buttons.qml:74
+msgid "Titlebar"
+msgstr "Titlebar"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:88
-msgctxt "@item:inlistbox Button size:"
-msgid "Normal"
-msgstr "Normal"
+#: qml/Buttons.qml:197
+msgid "Drag buttons between here and the titlebar"
+msgstr "Drag buttons between here and the titlebar"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:93
-msgctxt "@item:inlistbox Button size:"
-msgid "Large"
-msgstr "Large"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:98
-msgctxt "@item:inlistbox Button size:"
-msgid "Very Large"
-msgstr "Very Large"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:103
-msgctxt "@item:inlistbox Button size:"
-msgid "Huge"
-msgstr "Huge"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:108
-msgctxt "@item:inlistbox Button size:"
-msgid "Very Huge"
-msgstr "Very Huge"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, buttonSizesCombo)
-#: auroraeconfig.ui:113
-msgctxt "@item:inlistbox Button size:"
-msgid "Oversized"
-msgstr "Oversized"
-
-#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
-#: auroraeconfig.ui:126
-msgid "Close windows by double clicking the menu button"
-msgstr "Close windows by double clicking the menu button"
-
-#: buttons.cpp:620
-msgid "KDE"
-msgstr "KDE"
-
-#: buttons.cpp:649
-#, kde-format
-msgid "%1 (unavailable)"
-msgstr "%1 (unavailable)"
-
-#: buttons.cpp:672
-msgid ""
-"To add or remove titlebar buttons, simply <i>drag</i> items between the "
-"available item list and the titlebar preview. Similarly, drag items within "
-"the titlebar preview to re-position them."
-msgstr ""
-"To add or remove titlebar buttons, simply <i>drag</i> items between the "
-"available item list and the titlebar preview. Similarly, drag items within "
-"the titlebar preview to re-position them."
-
-#: buttons.cpp:728
-msgid "Resize"
-msgstr "Resize"
-
-#: buttons.cpp:733
-msgid "Shade"
-msgstr "Shade"
-
-#: buttons.cpp:738
-msgid "Keep Below Others"
-msgstr "Keep Below Others"
-
-#: buttons.cpp:743
-msgid "Keep Above Others"
-msgstr "Keep Above Others"
-
-#: buttons.cpp:748
-msgid "Close"
-msgstr "Close"
-
-#: buttons.cpp:753
-msgid "Maximize"
-msgstr "Maximise"
-
-#: buttons.cpp:758
-msgid "Minimize"
-msgstr "Minimise"
-
-#: buttons.cpp:763
-msgid "Help"
-msgstr "Help"
-
-#: buttons.cpp:768
-msgid "On All Desktops"
-msgstr "On All Desktops"
-
-#: buttons.cpp:773
-msgctxt "Button showing window actions menu"
-msgid "Window Menu"
-msgstr "Window Menu"
-
-#: buttons.cpp:779
-msgctxt "Button showing application menu imported from dbusmenu"
-msgid "Application Menu"
-msgstr "Application Menu"
-
-#: buttons.cpp:785
-msgid "--- spacer ---"
-msgstr "--- spacer ---"
-
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, showToolTipsCheckBox)
-#: buttons.ui:20
-msgid ""
-"Enabling this checkbox will show window button tooltips. If this checkbox is "
-"off, no window button tooltips will be shown."
-msgstr ""
-"Enabling this tickbox will show window button tooltips. If this tickbox is "
-"off, no window button tooltips will be shown."
-
-#. i18n: ectx: property (text), widget (QCheckBox, showToolTipsCheckBox)
-#: buttons.ui:23
-msgid "&Show window button tooltips"
-msgstr "&Show window button tooltips"
-
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, useCustomButtonPositionsCheckBox)
-#: buttons.ui:30
-msgid "Please note that this option is not available on all styles yet."
-msgstr "Please note that this option is not available on all styles yet."
-
-#. i18n: ectx: property (text), widget (QCheckBox, useCustomButtonPositionsCheckBox)
-#: buttons.ui:33
-msgid "Use custom titlebar button &positions"
-msgstr "Use custom titlebar button &positions"
-
-#: buttonsconfigdialog.cpp:44
-msgid "Buttons"
-msgstr "Buttons"
-
-#. i18n: ectx: property (text), widget (QLabel, borderLabel)
-#: config.ui:19
-msgid "B&order size:"
-msgstr "B&order size:"
-
-#. i18n: ectx: property (whatsThis), widget (KComboBox, bordersCombo)
-#: config.ui:29
-msgid "Use this combobox to change the border size of the decoration."
-msgstr "Use this combobox to change the border size of the decoration."
-
-#: configdialog.cpp:43
-msgctxt "@item:inlistbox Border size:"
-msgid "No Side Border"
-msgstr "No Side Border"
-
-#: configdialog.cpp:44
-msgctxt "@item:inlistbox Border size:"
-msgid "No Border"
-msgstr "No Border"
-
-#: configdialog.cpp:81 kwindecoration.cpp:375
-msgid "Decoration Options"
-msgstr "Decoration Options"
-
-#. i18n: ectx: property (clickMessage), widget (KLineEdit, searchEdit)
-#: decoration.ui:17
-msgid "Search"
-msgstr "Search"
-
-#. i18n: ectx: property (whatsThis), widget (QScrollArea, decorationList)
-#: decoration.ui:27
-msgid ""
-"Select the window decoration. This is the look and feel of both the window "
-"borders and the window handle."
-msgstr ""
-"Select the window decoration. This is the look and feel of both the window "
-"borders and the window handle."
-
-#. i18n: ectx: property (text), widget (QPushButton, configureDecorationButton)
-#: decoration.ui:58
-msgid "Configure Decoration..."
-msgstr "Configure Decoration..."
-
-#. i18n: ectx: property (text), widget (QPushButton, configureButtonsButton)
-#: decoration.ui:65
-msgid "Configure Buttons..."
-msgstr "Configure Buttons..."
-
-#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
-#: decoration.ui:72
-msgid "Get New Decorations..."
-msgstr "Get New Decorations..."
-
-#: kwindecoration.cpp:99
-msgid "Window Decoration Control Module"
-msgstr "Window Decoration Control Module"
-
-#: kwindecoration.cpp:101
-msgid "(c) 2001 Karol Szwed"
-msgstr "(c) 2001 Karol Szwed"
-
-#: kwindecoration.cpp:102
-msgid "Karol Szwed"
-msgstr "Karol Szwed"
-
-#: kwindecoration.cpp:127
-msgid ""
-"<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main.qml</"
-"h2>could not be located in any application data path.<h2>Please contact your "
-"distribution</h2>The application will now abort"
-msgstr ""
-"<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main.qml</"
-"h2>could not be located in any application data path.<h2>Please contact your "
-"distribution</h2>The application will now abort"
-
-#: kwindecoration.cpp:130
-msgid "Installation Error"
-msgstr "Installation Error"
-
-#: kwindecoration.cpp:301
-msgid "Oxygen"
-msgstr "Oxygen"
-
-#: kwindecoration.cpp:314
-msgid ""
-"<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
-"window border decorations, as well as titlebar button positions and custom "
-"decoration options.</p>To choose a theme for your window decoration click on "
-"its name and apply your choice by clicking the \"Apply\" button below. If "
-"you do not want to apply your choice you can click the \"Reset\" button to "
-"discard your changes.<p>You can configure each theme. There are different "
-"options specific for each theme.</p><p>On the \"Buttons\" tab check the "
-"\"Use custom titlebar button positions\" box and you can change the "
-"positions of the buttons to your liking.</p>"
-msgstr ""
-"<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
-"window border decorations, as well as titlebar button positions and custom "
-"decoration options.</p>To choose a theme for your window decoration click on "
-"its name and apply your choice by clicking the \"Apply\" button below. If "
-"you do not want to apply your choice you can click the \"Reset\" button to "
-"discard your changes.<p>You can configure each theme. There are different "
-"options specific for each theme.</p><p>On the \"Buttons\" tab tick the \"Use "
-"custom titlebar button positions\" box and you can change the positions of "
-"the buttons to your liking.</p>"
-
-#: kwindecoration.cpp:389
-msgid ""
-"Close by double clicking:\n"
-" To open the menu, keep the button pressed until it appears."
-msgstr ""
-"Close by double clicking:\n"
-" To open the menu, keep the button pressed until it appears."
-
-#: preview.cpp:373
-msgid "Active Window"
-msgstr "Active Window"
-
-#: preview.cpp:373
-msgid "Inactive Window"
-msgstr "Inactive Window"
+#: qml/Buttons.qml:212
+msgid "Drop here to remove button"
+msgstr "Drop here to remove button"

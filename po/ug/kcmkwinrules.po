@@ -370,7 +370,6 @@ msgstr "كۆزنەككە ماسلاشتۇرۇش(&W)"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
 #, fuzzy
-#| msgid "De&scription:"
 msgid "&Description:"
 msgstr "چۈشەندۈرۈش(&S):"
 
@@ -432,7 +431,6 @@ msgstr "پۈتۈن كۆزنەك تىپى(class) غا ماسلاشتۇر(&H)"
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: ruleswidgetbase.ui:109
 #, fuzzy
-#| msgid "Window &role:"
 msgid "Window ro&le:"
 msgstr "كۆزنەك رولى(&R):"
 

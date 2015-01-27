@@ -30,7 +30,6 @@ msgstr "kde-shqip@yahoogroups.com,vilsongjeci@gmail.com"
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: actions.ui:32
 #, fuzzy
-#| msgid "Mouse wheel:"
 msgid "M&ouse wheel:"
 msgstr "Rrota e miut:"
 
@@ -169,7 +168,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:134
 #, fuzzy
-#| msgid "Maximize Button"
 msgid "Middle b&utton:"
 msgstr "Butoni i Maksimizimit"
 
@@ -232,7 +230,6 @@ msgstr "Aktivizoje"
 #: actions.ui:261 actions.ui:464 actions.ui:497 mouse.ui:295 mouse.ui:439
 #: mouse.ui:583
 #, fuzzy
-#| msgid "Activate"
 msgid "Activate & Raise"
 msgstr "Aktivizoje"
 
@@ -256,7 +253,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:297
 #, fuzzy
-#| msgid "Activate"
 msgid "Activate & Scroll"
 msgstr "Aktivizoje"
 
@@ -284,7 +280,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:383 mouse.ui:126
 #, fuzzy
-#| msgid "Lower"
 msgid "Raise/Lower"
 msgstr "Inferior"
 
@@ -298,7 +293,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:393 mouse.ui:136
 #, fuzzy
-#| msgid "Maximizing"
 msgid "Maximize/Restore"
 msgstr "Maksimizuese"
 
@@ -343,7 +337,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: actions.ui:505
 #, fuzzy
-#| msgid "Maximize Button"
 msgid "M&iddle button:"
 msgstr "Butoni i Maksimizimit"
 
@@ -455,7 +448,6 @@ msgstr "E Zgjuar"
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:131
 #, fuzzy
-#| msgid "Maximizing"
 msgid "Maximizing"
 msgstr "Maksimizuese"
 
@@ -523,7 +515,6 @@ msgstr " ms"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: advanced.ui:240
 #, fuzzy
-#| msgid "Windows"
 msgid "Special Windows"
 msgstr "Dritaret"
 
@@ -544,7 +535,6 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: focus.ui:30
 #, fuzzy
-#| msgid "Windows"
 msgid "Activating windows"
 msgstr "Dritaret"
 
@@ -665,8 +655,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:304
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "None"
 msgid "None"
 msgstr "Asnjë"
 
@@ -674,8 +662,6 @@ msgstr "Asnjë"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:309
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "Low"
 msgid "Low"
 msgstr "I Ulët"
 
@@ -689,8 +675,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:319
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "High"
 msgid "High"
 msgstr "I Lartë"
 
@@ -698,8 +682,6 @@ msgstr "I Lartë"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:324
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "Extreme"
 msgid "Extreme"
 msgstr "E skajshme"
 
@@ -865,7 +847,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.cpp:195 mouse.ui:55
 #, fuzzy
-#| msgid "Maximizing"
 msgid "Maximize"
 msgstr "Maksimizuese"
 
@@ -1006,7 +987,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
 #: mouse.ui:300 mouse.ui:444 mouse.ui:588
 #, fuzzy
-#| msgid "Activate"
 msgid "Activate & Lower"
 msgstr "Aktivizoje"
 
@@ -1014,7 +994,6 @@ msgstr "Aktivizoje"
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: mouse.ui:361 mouse.ui:674
 #, fuzzy
-#| msgid "Maximize Button"
 msgid "Middle button:"
 msgstr "Butoni i Maksimizimit"
 
@@ -1097,8 +1076,6 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, borderSnap)
 #: moving.ui:67 moving.ui:134 moving.ui:162
 #, fuzzy
-#| msgid " pixel"
-#| msgid_plural " pixels"
 msgid " pixel"
 msgstr " pixel"
 

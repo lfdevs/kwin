@@ -1,3 +1,15 @@
+kwin (4:5.2.0.1-0ubuntu1) vivid; urgency=medium
+
+  * New upstream release
+  * Soversion bump properly
+  * Rename packages for 5->6 transition in library version
+  * Update install accordingly
+    + Apply more restrictive wildcards to prevent sobumps slip past us
+  * New lib packages break/replace the old ones <<5.2.0 because the
+    pre-release packages were uploaded with libfoo.so.6 in the .so.5 packages
+
+ -- Harald Sitter <sitter@kde.org>  Tue, 27 Jan 2015 14:54:41 +0100
+
 kwin (4:5.1.95-0ubuntu2) vivid; urgency=medium
 
   * version kwayland build-dep

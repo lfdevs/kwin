@@ -31,7 +31,6 @@ msgstr "peter.ani@gmail.com"
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: actions.ui:32
 #, fuzzy
-#| msgid "Modifier key + mouse wheel:"
 msgid "M&ouse wheel:"
 msgstr "മോഡിഫയര്‍ കീ + മൌസ് വീല്‍:"
 
@@ -57,7 +56,6 @@ msgstr "നീക്കുക"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:60 actions.ui:162 actions.ui:325
 #, fuzzy
-#| msgid "Activate, Raise and Move"
 msgid "Activate, Raise & Move"
 msgstr "സജീവമാക്കുക, ഉയര്‍ത്തുക, നീക്കുക"
 
@@ -133,7 +131,6 @@ msgstr "ചെറുതാക്കുക"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:90 actions.ui:192 actions.ui:355
 #, fuzzy
-#| msgid "Change Opacity"
 msgid "Decrease Opacity"
 msgstr "തെളിച്ചം മാറ്റുക"
 
@@ -142,7 +139,6 @@ msgstr "തെളിച്ചം മാറ്റുക"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:95 actions.ui:197 actions.ui:360
 #, fuzzy
-#| msgid "Change Opacity"
 msgid "Increase Opacity"
 msgstr "തെളിച്ചം മാറ്റുക"
 
@@ -168,7 +164,6 @@ msgstr "ഒന്നുമില്ല"
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: actions.ui:108
 #, fuzzy
-#| msgid "Right button:"
 msgid "Ri&ght button:"
 msgstr "വലത്തുള്ള ബട്ടണ്‍:"
 
@@ -180,7 +175,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:134
 #, fuzzy
-#| msgid "Middle button:"
 msgid "Middle b&utton:"
 msgstr "മധ്യത്തിലുള്ള ബട്ടണ്‍: "
 
@@ -197,14 +191,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: actions.ui:210
 #, fuzzy
-#| msgid "Left button:"
 msgid "&Left button:"
 msgstr "ഇടത്തുള്ള ബട്ടണ്‍: "
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: actions.ui:229
 #, fuzzy
-#| msgid "Inner Window, Titlebar && Frame"
 msgid "Inner Window, Titlebar & Frame"
 msgstr "ഉള്‍ജാലകം, തലപ്പട്ട && ഫ്രെയിം"
 
@@ -256,16 +248,12 @@ msgstr "സജീവമാക്കി ഉയര്‍ത്തുക"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: actions.ui:269
 #, fuzzy
-#| msgid "Right button:"
 msgid "&Right button:"
 msgstr "വലത്തുള്ള ബട്ടണ്‍:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWinWheel)
 #: actions.ui:288
 #, fuzzy
-#| msgid ""
-#| "In this row you can customize left click behavior when clicking into an "
-#| "inactive inner window ('inner' means: not titlebar, not frame)."
 msgid ""
 "In this row you can customize behavior when scrolling into an inactive inner "
 "window ('inner' means: not titlebar, not frame)."
@@ -281,14 +269,12 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:297
 #, fuzzy
-#| msgid "Activate & Lower"
 msgid "Activate & Scroll"
 msgstr "സജീവമാക്കി താഴ്ത്തുക"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:302
 #, fuzzy
-#| msgid "Activate, Raise and Move"
 msgid "Activate, Raise & Scroll"
 msgstr "സജീവമാക്കുക, ഉയര്‍ത്തുക, നീക്കുക"
 
@@ -305,9 +291,6 @@ msgstr ""
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAllW)
 #: actions.ui:379
 #, fuzzy
-#| msgid ""
-#| "Here you can customize KDE's behavior when scrolling with the mouse "
-#| "wheel  in a window while pressing the modifier key."
 msgid ""
 "Here you can customize KDE's behavior when scrolling with the mouse wheel in "
 "a window while pressing the modifier key."
@@ -378,7 +361,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: actions.ui:505
 #, fuzzy
-#| msgid "Middle button:"
 msgid "M&iddle button:"
 msgstr "മധ്യത്തിലുള്ള ബട്ടണ്‍: "
 
@@ -390,14 +372,12 @@ msgstr "നിര്‍ജ്ജീവ ഉള്‍ജാലകം"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:531
 #, fuzzy
-#| msgid "Left button:"
 msgid "Left &button"
 msgstr "ഇടത്തുള്ള ബട്ടണ്‍: "
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:561
 #, fuzzy
-#| msgid "Modifier key:"
 msgid "Modifier &key:"
 msgstr "മോഡിഫയര്‍ കീ:"
 
@@ -426,7 +406,6 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, wtBox)
 #: advanced.ui:43
 #, fuzzy
-#| msgid "Window Actio&ns"
 msgid "Window Tabbing"
 msgstr "ജാലകത്തിലുള്ള പ്ര&വ‍ത്തികള്‍"
 
@@ -521,14 +500,12 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:156
 #, fuzzy
-#| msgid "Focus Under Mouse"
 msgid "Under Mouse"
 msgstr "കേന്ദ്രീകരണം മൌസിന്റെ താഴെ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shBox)
 #: advanced.ui:167
 #, fuzzy
-#| msgid "Shade"
 msgid "Shading"
 msgstr "മറയ്ക്കുക"
 
@@ -566,7 +543,6 @@ msgstr " ms"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: advanced.ui:240
 #, fuzzy
-#| msgid "Windows"
 msgid "Special Windows"
 msgstr "ജാലകങ്ങള്‍"
 
@@ -587,7 +563,6 @@ msgstr "നിര്‍ജ്ജീവ പ്രയോഗങ്ങളുടെ �
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: focus.ui:30
 #, fuzzy
-#| msgid "Windows"
 msgid "Activating windows"
 msgstr "ജാലകങ്ങള്‍"
 
@@ -663,7 +638,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, delayFocusOnLabel)
 #: focus.ui:228
 #, fuzzy
-#| msgid "Delay focus"
 msgid "&Delay focus by"
 msgstr "കേന്ദ്രീകരണം വൈകിക്കുക"
 
@@ -710,8 +684,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:304
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "None"
 msgid "None"
 msgstr "ശൂന്യം"
 
@@ -719,8 +691,6 @@ msgstr "ശൂന്യം"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:309
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "Low"
 msgid "Low"
 msgstr "കുറഞ്ഞ"
 
@@ -734,8 +704,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:319
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "High"
 msgid "High"
 msgstr "ഉയര്‍ന്ന"
 
@@ -743,15 +711,12 @@ msgstr "ഉയര്‍ന്ന"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:324
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "Extreme"
 msgid "Extreme"
 msgstr "കൂടിയ"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: focus.ui:364
 #, fuzzy
-#| msgid "&Policy:"
 msgid "Policy"
 msgstr "&പോളിസി:"
 
@@ -800,7 +765,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, clickRaiseOn)
 #: focus.ui:497
 #, fuzzy
-#| msgid "C&lick raise active window"
 msgid "C&lick raises active window"
 msgstr "സജീവജാലകം ഉയര്‍ത്താന്‍ &ക്ലിക്ക്"
 
@@ -920,7 +884,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.cpp:195 mouse.ui:55
 #, fuzzy
-#| msgid "Maximize"
 msgid "Maximize"
 msgstr "വലുതാക്കുക"
 
@@ -939,7 +902,6 @@ msgstr "വലുതാക്കുക (ഹൊറിസോണ്ടല്‍ 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: mouse.ui:32
 #, fuzzy
-#| msgid "&Titlebar double-click:"
 msgid "&Double-click:"
 msgstr "&തലപ്പട്ട ഇരട്ടക്ലിക്ക്:"
 
@@ -978,14 +940,12 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.ui:90
 #, fuzzy
-#| msgid "On All Desktops"
 msgid "On All Desktops"
 msgstr "എല്ലാ പണിയിടങ്ങളിലും"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mouse.ui:103
 #, fuzzy
-#| msgid "Titlebar wheel event:"
 msgid "Wheel event:"
 msgstr "തലപ്പട്ട ചക്രം സംഭവം:"
 
@@ -1057,7 +1017,6 @@ msgstr "പ്രക്രിയകള്‍ക്കുള്ള മെനു"
 #: mouse.ui:272 mouse.ui:345 mouse.ui:416 mouse.ui:489 mouse.ui:560
 #: mouse.ui:633
 #, fuzzy
-#| msgid "Window Actio&ns"
 msgid "Start Window Tab Drag"
 msgstr "ജാലകത്തിലുള്ള പ്ര&വ‍ത്തികള്‍"
 
@@ -1130,14 +1089,12 @@ msgstr "വലുതാക്കുവാനുള്ള ബട്ടണില�
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: mouse.ui:770
 #, fuzzy
-#| msgid "Titlebar && Frame"
 msgid "Titlebar & Frame"
 msgstr "ശീര്‍ഷകപ്പട്ടയും ഫ്രെയിമും"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: mouse.ui:783
 #, fuzzy
-#| msgid "&Titlebar Actions"
 msgid "Titlebar"
 msgstr "&തലപ്പട്ടയിലുള്ള പ്രവൃത്തികള്‍"
 
@@ -1172,8 +1129,6 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, borderSnap)
 #: moving.ui:67 moving.ui:134 moving.ui:162
 #, fuzzy
-#| msgid " pixel"
-#| msgid_plural " pixels"
 msgid " pixel"
 msgstr " പിക്സല്‍"
 

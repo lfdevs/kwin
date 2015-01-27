@@ -95,7 +95,6 @@ msgstr ""
 
 #: main.cpp:122 main.cpp:489
 #, fuzzy, kde-format
-#| msgid "Desktop %1"
 msgid "Switch to Desktop %1"
 msgstr "डेस्कटॉप %1"
 
@@ -125,7 +124,6 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, desktop)
 #: main.ui:33
 #, fuzzy
-#| msgid "Desktop %1"
 msgid "Desktops"
 msgstr "डेस्कटॉप %1"
 
@@ -138,9 +136,6 @@ msgstr ""
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, numberSpinBox)
 #: main.ui:51 main.ui:64
 #, fuzzy
-#| msgid ""
-#| "Here you can set how many virtual desktops you want on your KDE desktop. "
-#| "Move the slider to change the value."
 msgid ""
 "Here you can set how many virtual desktops you want on your KDE desktop."
 msgstr ""
@@ -150,21 +145,18 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, numberLabel)
 #: main.ui:54
 #, fuzzy
-#| msgid "N&umber of desktops: "
 msgid "&Number of desktops:"
 msgstr "डेस्कटॉप की संख्याः (&u)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:83
 #, fuzzy
-#| msgid "N&umber of desktops: "
 msgid "N&umber of rows:"
 msgstr "डेस्कटॉप की संख्याः (&u)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
 #: main.ui:103
 #, fuzzy
-#| msgid "Desktop &Names"
 msgid "Desktop Names"
 msgstr "डेस्कटॉप नाम (&N)"
 

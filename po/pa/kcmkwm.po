@@ -35,9 +35,6 @@ msgstr "ਮਾਊਸ ਪਹੀਆ(&o):"
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAll2)
 #: actions.ui:51 mouse.ui:358
 #, fuzzy
-#| msgid ""
-#| "Here you can customize mouse click behavior when clicking on the titlebar "
-#| "or the frame of a window."
 msgid ""
 "In this row you can customize middle click behavior when clicking into the "
 "titlebar or the frame."
@@ -176,9 +173,6 @@ msgstr "ਮੱਧ ਬਟਨ(&u):"
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAll3)
 #: actions.ui:153 mouse.ui:502
 #, fuzzy
-#| msgid ""
-#| "Here you can customize mouse click behavior when clicking on the titlebar "
-#| "or the frame of a window."
 msgid ""
 "In this row you can customize right click behavior when clicking into the "
 "titlebar or the frame."
@@ -197,9 +191,6 @@ msgstr "ਅੰਦਰੂਨੀ ਵਿੰਡੋ, ਟਾਇਟਲਬਾਰ ਅਤ�
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWin2)
 #: actions.ui:242
 #, fuzzy
-#| msgid ""
-#| "Here you can customize mouse click behavior when clicking on the titlebar "
-#| "or the frame of a window."
 msgid ""
 "In this row you can customize middle click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
@@ -272,9 +263,6 @@ msgstr "ਸਰਗਰਮ, ਉਭਰਿਆ ਤੇ ਏਧਰ-ਓਧਰ"
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAll1)
 #: actions.ui:316 mouse.ui:214
 #, fuzzy
-#| msgid ""
-#| "Here you can customize mouse click behavior when clicking on the titlebar "
-#| "or the frame of a window."
 msgid ""
 "In this row you can customize left click behavior when clicking into the "
 "titlebar or the frame."
@@ -283,9 +271,6 @@ msgstr "ਝਰੋਖੇ ਦੇ ਸਿਰਲੇਖ ਜਾਂ ਫਰੇਮ ਨੂ�
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAllW)
 #: actions.ui:379
 #, fuzzy
-#| msgid ""
-#| "Here you can customize mouse click behavior when clicking on the titlebar "
-#| "or the frame of a window."
 msgid ""
 "Here you can customize KDE's behavior when scrolling with the mouse wheel in "
 "a window while pressing the modifier key."
@@ -336,9 +321,6 @@ msgstr "ਵਿੰਡੋ ਟੈਬ ਖੱਬੇ/ਸੱਜੇ ਬਦਲੋ"
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWin1)
 #: actions.ui:445
 #, fuzzy
-#| msgid ""
-#| "Here you can customize mouse click behavior when clicking on the titlebar "
-#| "or the frame of a window."
 msgid ""
 "In this row you can customize left click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
@@ -347,9 +329,6 @@ msgstr "ਝਰੋਖੇ ਦੇ ਸਿਰਲੇਖ ਜਾਂ ਫਰੇਮ ਨੂ�
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWin3)
 #: actions.ui:478
 #, fuzzy
-#| msgid ""
-#| "Here you can customize mouse click behavior when clicking on the titlebar "
-#| "or the frame of a window."
 msgid ""
 "In this row you can customize right click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
@@ -553,7 +532,6 @@ msgstr "ਨਾ-ਸਰਗਰਮ ਕਾਰਜਾਂ ਲਈ ਸਹੂਲਤ ਵਿ�
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: focus.ui:30
 #, fuzzy
-#| msgid "Windows"
 msgid "Activating windows"
 msgstr "ਵਿੰਡੋਜ਼"
 
@@ -641,7 +619,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, focusStealingLabel)
 #: focus.ui:273
 #, fuzzy
-#| msgid "Focus stealing prevention level:"
 msgid "Focus &stealing prevention"
 msgstr "ਫੋਕਸ ਲੈਣ ਤੋਂ ਬਚਾਓ ਪੱਧਰ:"
 
@@ -720,8 +697,6 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: focus.ui:434
 #, fuzzy
-#| msgctxt "Window Raising Policy"
-#| msgid "Raise/Lower all floating windows"
 msgid "Raising windows"
 msgstr "ਸਭ ਤਰਦੀਆਂ ਵਿੰਡੋ ਉਭਾਰੋ/ਹੇਠਾਂ ਭੇਜੋ"
 
@@ -936,9 +911,6 @@ msgstr "ਮਾਊਸ ਪਹੀਆ ਘਟਨਾਵਾਂ ਹੈਂਡਲ ਕਰ�
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_6)
 #: mouse.ui:182
 #, fuzzy
-#| msgid ""
-#| "Here you can customize mouse click behavior when clicking on the titlebar "
-#| "or the frame of a window."
 msgid ""
 "In this column you can customize mouse clicks into the titlebar or the frame "
 "of an active window."
@@ -952,9 +924,6 @@ msgstr "ਸਰਗਰਮ"
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_7)
 #: mouse.ui:201
 #, fuzzy
-#| msgid ""
-#| "Here you can customize mouse click behavior when clicking on the titlebar "
-#| "or the frame of a window."
 msgid ""
 "In this column you can customize mouse clicks into the titlebar or the frame "
 "of an inactive window."
@@ -974,7 +943,6 @@ msgstr "ਖੱਬਾ ਬਟਨ:"
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct1)
 #: mouse.ui:233
 #, fuzzy
-#| msgid "Behavior on <em>double</em> click into the titlebar."
 msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an <em>active</"
 "em> window."
@@ -1007,7 +975,6 @@ msgstr "ਵਿੰਡੋ ਟੈਬ ਡਰੈਗ ਸ਼ੁਰੂ"
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiInAct3)
 #: mouse.ui:291 mouse.ui:435 mouse.ui:579
 #, fuzzy
-#| msgid "Behavior on <em>double</em> click into the titlebar."
 msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an "
 "<em>inactive</em> window."
@@ -1029,7 +996,6 @@ msgstr "ਮੱਧ ਬਟਨ:"
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct2)
 #: mouse.ui:377
 #, fuzzy
-#| msgid "Behavior on <em>double</em> click into the titlebar."
 msgid ""
 "Behavior on <em>middle</em> click into the titlebar or frame of an "
 "<em>active</em> window."
@@ -1044,7 +1010,6 @@ msgstr "ਸੱਜਾ ਬਟਨ:"
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct3)
 #: mouse.ui:521
 #, fuzzy
-#| msgid "Behavior on <em>right</em> click onto the maximize button."
 msgid ""
 "Behavior on <em>right</em> click into the titlebar or frame of an "
 "<em>active</em> window."
@@ -1071,7 +1036,6 @@ msgstr "ਅਧਿਕਤਮ ਬਟਨ ਤੇ <em>ਸੱਜਾ</em> ਬਟਨ ਦ�
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: mouse.ui:770
 #, fuzzy
-#| msgid "Titlebar && Frame"
 msgid "Titlebar & Frame"
 msgstr "ਟਾਇਟਲਬਾਰ ਤੇ ਫਰੇਮ"
 
@@ -1116,14 +1080,12 @@ msgstr " ਪਿਕਸਲ"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, centerSnap)
 #: moving.ui:70
 #, fuzzy
-#| msgid "&Center snap zone:"
 msgid "no center snap zone"
 msgstr "ਸੈਂਟਰ ਸਨੈਪ ਜ਼ੋਨ(&C):"
 
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
 #: moving.ui:90
 #, fuzzy
-#| msgid "&Center snap zone:"
 msgid "&Border snap zone:"
 msgstr "ਸੈਂਟਰ ਸਨੈਪ ਜ਼ੋਨ(&C):"
 
@@ -1143,7 +1105,6 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, windowSnap)
 #: moving.ui:137
 #, fuzzy
-#| msgid "&Window snap zone:"
 msgid "no window snap zone"
 msgstr "ਵਿੰਡੋ ਸਨੈਪ ਜ਼ੋਨ(&W):"
 
@@ -1158,7 +1119,6 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, borderSnap)
 #: moving.ui:165
 #, fuzzy
-#| msgid "&Center snap zone:"
 msgid "no border snap zone"
 msgstr "ਸੈਂਟਰ ਸਨੈਪ ਜ਼ੋਨ(&C):"
 

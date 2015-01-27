@@ -57,41 +57,35 @@ msgstr "spriječi zaključavanje ekrana"
 # >> @option:check Screen edge action
 #: main.cpp:200
 #, fuzzy, kde-format
-#| msgid "All Desktops"
 msgid "%1 - All Desktops"
 msgstr "sve površi"
 
 # >> @option:check Screen edge action
 #: main.cpp:201
 #, fuzzy, kde-format
-#| msgid "Current Desktop"
 msgid "%1 - Current Desktop"
 msgstr "tekuća površ"
 
 #: main.cpp:202
 #, fuzzy, kde-format
-#| msgid "Current Application"
 msgid "%1 - Current Application"
 msgstr "Trenutna aplikacija"
 
 # >> @option:check Screen edge action
 #: main.cpp:205
 #, fuzzy, kde-format
-#| msgid "Cube"
 msgid "%1 - Cube"
 msgstr "kocka"
 
 # >> @option:check Screen edge action
 #: main.cpp:206
 #, fuzzy, kde-format
-#| msgid "Cylinder"
 msgid "%1 - Cylinder"
 msgstr "valjak"
 
 # >> @option:check Screen edge action
 #: main.cpp:207
 #, fuzzy, kde-format
-#| msgid "Sphere"
 msgid "%1 - Sphere"
 msgstr "sfera"
 

@@ -30,7 +30,6 @@ msgstr "oensari@gmail.com"
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: actions.ui:32
 #, fuzzy
-#| msgid "Mouse wheel:"
 msgid "M&ouse wheel:"
 msgstr "Giloveroka mişkê:"
 
@@ -56,7 +55,6 @@ msgstr "Bibe"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:60 actions.ui:162 actions.ui:325
 #, fuzzy
-#| msgid "Activate, Raise and Move"
 msgid "Activate, Raise & Move"
 msgstr "Çalak Bike, Bilind Bike û Bibe"
 
@@ -132,7 +130,6 @@ msgstr "Biçûktirîn"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:90 actions.ui:192 actions.ui:355
 #, fuzzy
-#| msgid "Change Opacity"
 msgid "Decrease Opacity"
 msgstr "Zelalî yê Biguherîne"
 
@@ -141,7 +138,6 @@ msgstr "Zelalî yê Biguherîne"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:95 actions.ui:197 actions.ui:360
 #, fuzzy
-#| msgid "Change Opacity"
 msgid "Increase Opacity"
 msgstr "Zelalî yê Biguherîne"
 
@@ -167,7 +163,6 @@ msgstr "Qet"
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: actions.ui:108
 #, fuzzy
-#| msgid "Right button:"
 msgid "Ri&ght button:"
 msgstr "Bişkojka rast:"
 
@@ -179,7 +174,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:134
 #, fuzzy
-#| msgid "Middle button:"
 msgid "Middle b&utton:"
 msgstr "Bişkojka navîn:"
 
@@ -196,23 +190,18 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: actions.ui:210
 #, fuzzy
-#| msgid "Left button:"
 msgid "&Left button:"
 msgstr "Bişkojka çep:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: actions.ui:229
 #, fuzzy
-#| msgid "Inner Window, Titlebar && Frame"
 msgid "Inner Window, Titlebar & Frame"
 msgstr "Paceya Hûndirîn, Darika Sernavê && Dorbend"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWin2)
 #: actions.ui:242
 #, fuzzy
-#| msgid ""
-#| "In this row you can customize left click behavior when clicking into the "
-#| "titlebar or the frame."
 msgid ""
 "In this row you can customize middle click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
@@ -259,16 +248,12 @@ msgstr "Çalak Bike & Bilind Bike"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: actions.ui:269
 #, fuzzy
-#| msgid "Right button:"
 msgid "&Right button:"
 msgstr "Bişkojka rast:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWinWheel)
 #: actions.ui:288
 #, fuzzy
-#| msgid ""
-#| "In this row you can customize left click behavior when clicking into the "
-#| "titlebar or the frame."
 msgid ""
 "In this row you can customize behavior when scrolling into an inactive inner "
 "window ('inner' means: not titlebar, not frame)."
@@ -284,14 +269,12 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:297
 #, fuzzy
-#| msgid "Activate & Lower"
 msgid "Activate & Scroll"
 msgstr "Çalak Bike & Nizim Bike"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:302
 #, fuzzy
-#| msgid "Activate, Raise and Move"
 msgid "Activate, Raise & Scroll"
 msgstr "Çalak Bike, Bilind Bike û Bibe"
 
@@ -308,9 +291,6 @@ msgstr ""
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAllW)
 #: actions.ui:379
 #, fuzzy
-#| msgid ""
-#| "Here you can customize mouse click behavior when clicking on the titlebar "
-#| "or the frame of a window."
 msgid ""
 "Here you can customize KDE's behavior when scrolling with the mouse wheel in "
 "a window while pressing the modifier key."
@@ -363,9 +343,6 @@ msgstr ""
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWin1)
 #: actions.ui:445
 #, fuzzy
-#| msgid ""
-#| "In this row you can customize left click behavior when clicking into the "
-#| "titlebar or the frame."
 msgid ""
 "In this row you can customize left click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
@@ -376,9 +353,6 @@ msgstr ""
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWin3)
 #: actions.ui:478
 #, fuzzy
-#| msgid ""
-#| "In this row you can customize left click behavior when clicking into the "
-#| "titlebar or the frame."
 msgid ""
 "In this row you can customize right click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
@@ -389,7 +363,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: actions.ui:505
 #, fuzzy
-#| msgid "Middle button:"
 msgid "M&iddle button:"
 msgstr "Bişkojka navîn:"
 
@@ -401,14 +374,12 @@ msgstr "Pace ya Neçalak yê Hûndirîn"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:531
 #, fuzzy
-#| msgid "Left button:"
 msgid "Left &button"
 msgstr "Bişkojka çep:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:561
 #, fuzzy
-#| msgid "Modifier key:"
 msgid "Modifier &key:"
 msgstr "Mifte ya guherîner:"
 
@@ -437,8 +408,6 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, wtBox)
 #: advanced.ui:43
 #, fuzzy
-#| msgctxt "@title:group"
-#| msgid "Window Switching"
 msgid "Window Tabbing"
 msgstr "Derbasbûna Pace yê"
 
@@ -533,7 +502,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:156
 #, fuzzy
-#| msgid "Focus Under Mouse"
 msgid "Under Mouse"
 msgstr "Nîvend di Bin Mişkê de"
 
@@ -576,7 +544,6 @@ msgstr " mç"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: advanced.ui:240
 #, fuzzy
-#| msgid "Windows"
 msgid "Special Windows"
 msgstr "Pace"
 
@@ -597,7 +564,6 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: focus.ui:30
 #, fuzzy
-#| msgid "Windows"
 msgid "Activating windows"
 msgstr "Pace"
 
@@ -673,7 +639,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, delayFocusOnLabel)
 #: focus.ui:228
 #, fuzzy
-#| msgid "Delay focus by:"
 msgid "&Delay focus by"
 msgstr "Dereng mayîna nîvendê bi:"
 
@@ -720,8 +685,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:304
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "None"
 msgid "None"
 msgstr "Ne yek jî"
 
@@ -729,8 +692,6 @@ msgstr "Ne yek jî"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:309
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "Low"
 msgid "Low"
 msgstr "Kin"
 
@@ -744,8 +705,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:319
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "High"
 msgid "High"
 msgstr "Bilind"
 
@@ -753,15 +712,12 @@ msgstr "Bilind"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:324
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "Extreme"
 msgid "Extreme"
 msgstr "Pir Gelek"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: focus.ui:364
 #, fuzzy
-#| msgid "&Policy:"
 msgid "Policy"
 msgstr "&Rêgez:"
 
@@ -928,7 +884,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.cpp:195 mouse.ui:55
 #, fuzzy
-#| msgid "Maximize"
 msgid "Maximize"
 msgstr "Mezintirîn"
 
@@ -947,7 +902,6 @@ msgstr "Mezintirîn (tenê berwarî)"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: mouse.ui:32
 #, fuzzy
-#| msgid "&Titlebar double-click:"
 msgid "&Double-click:"
 msgstr "&Darika sernavê du-car-tikandin:"
 
@@ -986,14 +940,12 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.ui:90
 #, fuzzy
-#| msgid "On All Desktops"
 msgid "On All Desktops"
 msgstr "Di Hemû Sermase yan de"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mouse.ui:103
 #, fuzzy
-#| msgid "Titlebar wheel event:"
 msgid "Wheel event:"
 msgstr "Bûyera giloveroka mişkê di ser darika sernavê de:"
 
@@ -1065,8 +1017,6 @@ msgstr "Pêşeka Xebatan"
 #: mouse.ui:272 mouse.ui:345 mouse.ui:416 mouse.ui:489 mouse.ui:560
 #: mouse.ui:633
 #, fuzzy
-#| msgctxt "@title:group"
-#| msgid "Window Switching"
 msgid "Start Window Tab Drag"
 msgstr "Derbasbûna Pace yê"
 
@@ -1140,14 +1090,12 @@ msgstr "Tevgera di <em>rast</em> tikandinê de yê ser bişkojka mezintirîn bik
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: mouse.ui:770
 #, fuzzy
-#| msgid "Titlebar && Frame"
 msgid "Titlebar & Frame"
 msgstr "Darika sernavê && dorbend"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: mouse.ui:783
 #, fuzzy
-#| msgid "&Titlebar Actions"
 msgid "Titlebar"
 msgstr "Çalakiyên &Darika Sernavê"
 
@@ -1182,8 +1130,6 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, borderSnap)
 #: moving.ui:67 moving.ui:134 moving.ui:162
 #, fuzzy
-#| msgid " pixel"
-#| msgid_plural " pixels"
 msgid " pixel"
 msgstr " pîksel"
 

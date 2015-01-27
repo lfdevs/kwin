@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-09-27 09:13+0000\n"
+"POT-Creation-Date: 2015-01-13 12:17+0000\n"
 "PO-Revision-Date: 2009-12-22 01:06+0530\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <danishka@gmail.com>\n"
@@ -33,14 +33,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: blur/blur_config.ui:42
 #, fuzzy
-#| msgid "Right"
 msgid "Light"
 msgstr "දකුණ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: blur/blur_config.ui:74
 #, fuzzy
-#| msgid "&Strength:"
 msgid "Strong"
 msgstr "ශක්තිය (&S):"
 
@@ -51,7 +49,6 @@ msgstr ""
 
 #: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
 #, fuzzy
-#| msgid "Show desktop"
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "වැඩතලය පෙන්වන්න"
@@ -121,8 +118,6 @@ msgstr "පෙරනිමි"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
 #: coverswitch/coverswitch_config.ui:161
 #, fuzzy
-#| msgid " millisecond"
-#| msgid_plural " milliseconds"
 msgid " milliseconds"
 msgstr "මිලිතත්පරය"
 
@@ -374,7 +369,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dashboard/dashboard_config.ui:74
 #, fuzzy
-#| msgid "Right"
 msgctxt "More brightness"
 msgid "Lighter"
 msgstr "දකුණ"
@@ -393,7 +387,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dashboard/dashboard_config.ui:140
 #, fuzzy
-#| msgid "&Color:"
 msgctxt "High saturation"
 msgid "Colored"
 msgstr "වර්‍ණය (&C):"
@@ -416,7 +409,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Blur)
 #: dashboard/dashboard_config.ui:196
 #, fuzzy
-#| msgid "Apply effect to &groups"
 msgid "Apply blur effect to background"
 msgstr "කණ්ඩායම් සඳහා සැරසිලි ඇතුළත් කරන්න (&g)"
 
@@ -426,7 +418,6 @@ msgstr "වැඩතල ජාලය පෙන්වන්න"
 
 #: desktopgrid/desktopgrid_config.cpp:74
 #, fuzzy
-#| msgid "Disabled"
 msgctxt "Desktop name alignment:"
 msgid "Disabled"
 msgstr "අක්‍රීය කල"
@@ -537,7 +528,6 @@ msgstr "වැඩතලය වෙත සැරසිල්ල ඇතුලත්
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimKeepAbove)
 #: diminactive/diminactive_config.ui:31
 #, fuzzy
-#| msgid "Apply effect to &panels"
 msgid "Apply effect to &keep-above windows"
 msgstr "පැනල සඳහා සැරසිලි ඇතුළත් කරන්න (&p)"
 
@@ -563,7 +553,6 @@ msgstr ""
 
 #: effect_builtins.cpp:103
 #, fuzzy
-#| msgid "Background color:"
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "පසුබිම් වර්‍ණය:"
@@ -585,7 +574,6 @@ msgstr ""
 
 #: effect_builtins.cpp:127
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "වැඩතල ඝනකය"
@@ -597,7 +585,6 @@ msgstr ""
 
 #: effect_builtins.cpp:139
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "වැඩතල ඝනකය"
@@ -619,7 +606,6 @@ msgstr ""
 
 #: effect_builtins.cpp:163
 #, fuzzy
-#| msgid "Show Desktop Grid"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "වැඩතල ජාලය පෙන්වන්න"
@@ -636,7 +622,6 @@ msgstr ""
 
 #: effect_builtins.cpp:176
 #, fuzzy
-#| msgid "Inactive windows:"
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "අක්‍රීය කවුළු:"
@@ -658,7 +643,6 @@ msgstr ""
 
 #: effect_builtins.cpp:200
 #, fuzzy
-#| msgid "Send window to all desktops"
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "කවුළුව සියලු වැඩතල වෙත යවන්න"
@@ -696,7 +680,6 @@ msgstr ""
 
 #: effect_builtins.cpp:247
 #, fuzzy
-#| msgid "Invert mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "මවුසය යටිකුරු කිරීම"
@@ -758,21 +741,18 @@ msgstr ""
 
 #: effect_builtins.cpp:319
 #, fuzzy
-#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "සජීවීකරණය"
 
 #: effect_builtins.cpp:320
 #, fuzzy
-#| msgid "Ignore &minimized windows"
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "හැකිලූ කවුළු මඟහරින්න  (&m)"
 
 #: effect_builtins.cpp:331
 #, fuzzy
-#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "සජීවීකරණය"
@@ -786,7 +766,6 @@ msgstr ""
 
 #: effect_builtins.cpp:343
 #, fuzzy
-#| msgid "Clear Mouse Marks"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "මවුස සටහන් මකන්න"
@@ -798,7 +777,6 @@ msgstr ""
 
 #: effect_builtins.cpp:355
 #, fuzzy
-#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "කවුළු"
@@ -810,7 +788,6 @@ msgstr ""
 
 #: effect_builtins.cpp:367
 #, fuzzy
-#| msgid "Close window"
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "කවුළුව වසාදමන්න"
@@ -863,7 +840,6 @@ msgstr ""
 
 #: effect_builtins.cpp:427
 #, fuzzy
-#| msgid "Show &panels"
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "පැනල පෙන්වන්න (&p)"
@@ -925,7 +901,6 @@ msgstr ""
 
 #: effect_builtins.cpp:499
 #, fuzzy
-#| msgid "Thumbnail Bar"
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "කුඩාරූප තීරුව"
@@ -937,7 +912,6 @@ msgstr ""
 
 #: effect_builtins.cpp:511
 #, fuzzy
-#| msgid "Invert mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "මවුසය යටිකුරු කිරීම"
@@ -954,28 +928,24 @@ msgstr ""
 
 #: effect_builtins.cpp:524
 #, fuzzy
-#| msgid "Display window &icons"
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "කවුළු අයිකන පෙන්වන්න (&i)"
 
 #: effect_builtins.cpp:535
 #, fuzzy
-#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "කවුළු"
 
 #: effect_builtins.cpp:536
 #, fuzzy
-#| msgid "Use for window &switching"
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "කවුළු මාරුවීම සඳහා භාවිත කරන්න (&s)"
 
 #: effect_builtins.cpp:547
 #, fuzzy
-#| msgid "Zoom"
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "විශාලනය"
@@ -1027,36 +997,34 @@ msgstr "ඉදිරියේ තිරස් ස්ථානය:"
 msgid "Vertical position of front:"
 msgstr "ඉදිරියේ සිරස් ස්ථානය:"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, glideEffectLabel)
 #: glide/glide_config.ui:17
 #, fuzzy
-#| msgid "End effect"
 msgid "Glide Effect:"
 msgstr "අවසන් රටාව"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, inGlideEffectLabel)
 #: glide/glide_config.ui:42
 msgid "In"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, outGlideEffectLabel)
 #: glide/glide_config.ui:71
 msgid "Out"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, glideAngleLabel)
 #: glide/glide_config.ui:93
 #, fuzzy
-#| msgid "Angle:"
 msgid "Glide Angle:"
 msgstr "කෝණය:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, glideAnglenegLabel)
 #: glide/glide_config.ui:118
 msgid "-90"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, glideAngleposLabel)
 #: glide/glide_config.ui:147
 msgid "90"
 msgstr ""
@@ -1082,8 +1050,6 @@ msgstr "අරය(&R):"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AnimationDuration)
 #: magiclamp/magiclamp_config.ui:39
 #, fuzzy
-#| msgid " millisecond"
-#| msgid_plural " milliseconds"
 msgid "milliseconds"
 msgstr "මිලිතත්පරය"
 
@@ -1110,13 +1076,11 @@ msgstr "උස (&H)"
 
 #: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
 #, fuzzy
-#| msgid "Toggle Invert Effect"
 msgid "Toggle Mouse Click Effect"
 msgstr "යටිකුරු සැරසිලි අතර මාරුවන්න"
 
 #: mouseclick/mouseclick.cpp:59
 #, fuzzy
-#| msgid "Middle button:"
 msgid "Middle"
 msgstr "මැද බොත්තම:"
 
@@ -1128,28 +1092,24 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, button1_label)
 #: mouseclick/mouseclick_config.ui:37
 #, fuzzy
-#| msgid "Left button:"
 msgid "Left Mouse Button Color:"
 msgstr "වම් බොත්තම:"
 
 #. i18n: ectx: property (text), widget (QLabel, button2_label)
 #: mouseclick/mouseclick_config.ui:50
 #, fuzzy
-#| msgid "Middle button:"
 msgid "Middle Mouse Button Color:"
 msgstr "මැද බොත්තම:"
 
 #. i18n: ectx: property (text), widget (QLabel, button3_label)
 #: mouseclick/mouseclick_config.ui:70
 #, fuzzy
-#| msgid "Right button:"
 msgid "Right Mouse Button Color:"
 msgstr "දකුණු බොත්තම:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, advanced_tab)
 #: mouseclick/mouseclick_config.ui:91
 #, fuzzy
-#| msgid "Advanced"
 msgid "Advanced Settings"
 msgstr "උසස්"
 
@@ -1161,7 +1121,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, ring_line_width_label)
 #: mouseclick/mouseclick_config.ui:103
 #, fuzzy
-#| msgid "&Width:"
 msgid "Line Width:"
 msgstr "පළල (&W):"
 
@@ -1177,14 +1136,12 @@ msgstr[1] "පික්සෙල"
 #. i18n: ectx: property (text), widget (QLabel, ring_duration_label)
 #: mouseclick/mouseclick_config.ui:145
 #, fuzzy
-#| msgid "Fading duration:"
 msgid "Ring Duration:"
 msgstr "අවපැහැ කාලසීමාව:"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_radius_label)
 #: mouseclick/mouseclick_config.ui:155
 #, fuzzy
-#| msgid "&Radius:"
 msgid "Ring Radius:"
 msgstr "අරය(&R):"
 
@@ -1207,7 +1164,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, showtext_label)
 #: mouseclick/mouseclick_config.ui:233
 #, fuzzy
-#| msgid "Show desktop"
 msgid "Show Text:"
 msgstr "වැඩතලය පෙන්වන්න"
 
@@ -1378,7 +1334,6 @@ msgstr "දකුණු බොත්තම:"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
 #: presentwindows/presentwindows_config.ui:263
 #, fuzzy
-#| msgid "Desktop"
 msgctxt "@title:group actions when clicking on desktop"
 msgid "Desktop"
 msgstr "වැඩතලය"
@@ -1435,7 +1390,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TextureScale)
 #: resize/resize_config.ui:17
 #, fuzzy
-#| msgid "Close window"
 msgid "Scale window"
 msgstr "කවුළුව වසාදමන්න"
 
@@ -1518,8 +1472,6 @@ msgstr "ඉඩතැබීම (&S):"
 #: thumbnailaside/thumbnailaside_config.ui:55
 #: thumbnailaside/thumbnailaside_config.ui:106
 #, fuzzy
-#| msgid " pixel"
-#| msgid_plural " pixels"
 msgid " pixels"
 msgstr "පික්සෙලය"
 
@@ -1530,7 +1482,6 @@ msgstr "පාරාන්ධතාව(&O):"
 
 #: trackmouse/trackmouse.cpp:60 trackmouse/trackmouse_config.cpp:66
 #, fuzzy
-#| msgid "Invert mouse"
 msgid "Track mouse"
 msgstr "මවුසය යටිකුරු කිරීම"
 
@@ -1552,7 +1503,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Control)
 #: trackmouse/trackmouse_config.ui:50
 #, fuzzy
-#| msgid "Center"
 msgid "Ctrl"
 msgstr "මධ්‍යය"
 
@@ -1637,14 +1587,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Move)
 #: windowgeometry/windowgeometry_config.ui:17
 #, fuzzy
-#| msgid "Display window &icons"
 msgid "Display for moving windows"
 msgstr "කවුළු අයිකන පෙන්වන්න (&i)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Resize)
 #: windowgeometry/windowgeometry_config.ui:24
 #, fuzzy
-#| msgid "Display window &icons"
 msgid "Display for resizing windows"
 msgstr "කවුළු අයිකන පෙන්වන්න (&i)"
 
@@ -1724,13 +1672,11 @@ msgstr ""
 
 #: zoom/zoom_config.cpp:84
 #, fuzzy
-#| msgid "Top Left"
 msgid "Move Left"
 msgstr "ඉහළ වම"
 
 #: zoom/zoom_config.cpp:91
 #, fuzzy
-#| msgid "Top Right"
 msgid "Move Right"
 msgstr "ඉහළ දකුණ"
 
@@ -1751,7 +1697,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: zoom/zoom_config.ui:28
 #, fuzzy
-#| msgid "Zoom &duration:"
 msgid "Zoom Factor:"
 msgstr "විශාලන කාලසීමාව (&d):"
 
@@ -1810,14 +1755,12 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:128
 #, fuzzy
-#| msgid "Horizontal"
 msgid "Proportional"
 msgstr "තිරස්"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:133
 #, fuzzy
-#| msgid "Center"
 msgid "Centered"
 msgstr "මධ්‍යය"
 
@@ -1829,7 +1772,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:143
 #, fuzzy
-#| msgid "Disabled"
 msgid "Disabled"
 msgstr "අක්‍රීය කල"
 

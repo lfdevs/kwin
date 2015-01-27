@@ -165,15 +165,6 @@ msgstr "ចំណង​ជើងបង្អួច (ជាក់លាក់ អ
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: editshortcut.ui:18
 #, fuzzy
-#| msgid ""
-#| "A single shortcut can be easily assigned or cleared using the two "
-#| "buttons. Only shortcuts with modifiers can be used.<p>\n"
-#| "It is possible to have several possible shortcuts, and the first "
-#| "available shortcut will be used. The shortcuts are specified using space-"
-#| "separated shortcut sets. One set is specified as <i>base</i>+(<i>list</"
-#| "i>), where base are modifiers and list is a list of keys.<br>\n"
-#| "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try "
-#| "<b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
 msgid ""
 "A single shortcut can be easily assigned or cleared using the two buttons. "
 "Only shortcuts with modifiers can be used.<p>\n"
@@ -443,7 +434,6 @@ msgstr "ការ​ផ្គូផ្គង​បង្អួច"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
 #, fuzzy
-#| msgid "De&scription:"
 msgid "&Description:"
 msgstr "ការ​ពិពណ៌នា ៖"
 
@@ -513,7 +503,6 @@ msgstr "ផ្គូផ្គង​ថ្នាក់​បង្អួច​ទ
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: ruleswidgetbase.ui:109
 #, fuzzy
-#| msgid "Window &role:"
 msgid "Window ro&le:"
 msgstr "តួនាទី​បង្អួច ៖"
 
@@ -988,7 +977,6 @@ msgstr "គោរព​ការ​ដាក់កម្រិត​ធរណី
 #. i18n: ectx: property (text), widget (QCheckBox, enable_screen)
 #: ruleswidgetbase.ui:1369
 #, fuzzy
-#| msgid "Splash Screen"
 msgid "Screen"
 msgstr "អេក្រង់​ស្វាគមន៍"
 

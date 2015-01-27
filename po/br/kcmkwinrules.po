@@ -208,7 +208,6 @@ msgstr "Kefluniadur prenestr evit %1"
 
 #: main.cpp:215
 #, fuzzy
-#| msgid "Application settings for %1"
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Dibarzhoù ar meziant evit %1"
@@ -364,21 +363,18 @@ msgstr "Aozañ ar berradennoù"
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage1)
 #: ruleswidgetbase.ui:21
 #, fuzzy
-#| msgid "&Window"
 msgid "&Window matching"
 msgstr "&Prenestr"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
 #, fuzzy
-#| msgid "De&scription:"
 msgid "&Description:"
 msgstr "De&skrivadur :"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: ruleswidgetbase.ui:46
 #, fuzzy
-#| msgid "Window &class (application type):"
 msgid "Window &class (application):"
 msgstr "&Renkad ar prenestr (seurt ar meziant) :"
 
@@ -435,7 +431,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: ruleswidgetbase.ui:109
 #, fuzzy
-#| msgid "Window t&itle:"
 msgid "Window ro&le:"
 msgstr "T&itl ar prenestr :"
 
@@ -467,14 +462,12 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #: ruleswidgetbase.ui:468
 #, fuzzy
-#| msgid "On Main Window"
 msgid "Unmanaged Window"
 msgstr "War ar brenestr gentañ"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage3)
 #: ruleswidgetbase.ui:489
 #, fuzzy
-#| msgid "&Position"
 msgid "&Size && Position"
 msgstr "&Lec'h"
 
@@ -825,7 +818,6 @@ msgstr "War ar brenestr gentañ"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_placement)
 #: ruleswidgetbase.ui:1112
 #, fuzzy
-#| msgid "P&lacement"
 msgid "Initial p&lacement"
 msgstr "L&ec'hiadur"
 
@@ -871,7 +863,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_screen)
 #: ruleswidgetbase.ui:1369
 #, fuzzy
-#| msgid "Splash Screen"
 msgid "Screen"
 msgstr "Skramm-degemer"
 
@@ -1021,7 +1012,6 @@ msgstr "&Giz ar prenestr"
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #: ruleswidgetbase.ui:2373
 #, fuzzy
-#| msgid "None"
 msgctxt "no focus stealing prevention"
 msgid "None"
 msgstr "Ebet"

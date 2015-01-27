@@ -146,15 +146,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: editshortcut.ui:18
 #, fuzzy
-#| msgid ""
-#| "A single shortcut can be easily assigned or cleared using the two "
-#| "buttons. Only shortcuts with modifiers can be used.<p>\n"
-#| "It is possible to have several possible shortcuts, and the first "
-#| "available shortcut will be used. The shortcuts are specified using space-"
-#| "separated shortcut sets. One set is specified as <i>base</i>+(<i>list</"
-#| "i>), where base are modifiers and list is a list of keys.<br>\n"
-#| "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try "
-#| "<b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
 msgid ""
 "A single shortcut can be easily assigned or cleared using the two buttons. "
 "Only shortcuts with modifiers can be used.<p>\n"
@@ -232,7 +223,6 @@ msgstr "%1 සඳහා කවුළු සැකසුම්"
 
 #: main.cpp:215
 #, fuzzy
-#| msgid "Edit Window-Specific Settings"
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "කවුළු කේන්ද්‍රීය සැකසුම් වෙනස් කරන්න"
@@ -312,22 +302,6 @@ msgstr "නිවේශිත කවුළු(ව) සඳහා මෙම කව
 
 #: ruleswidget.cpp:68
 #, fuzzy
-#| msgid ""
-#| "Specify how the window property should be affected:<ul><li><em>Do Not "
-#| "Affect:</em> The window property will not be affected and therefore the "
-#| "default handling for it will be used. Specifying this will block more "
-#| "generic window settings from taking effect.</li><li><em>Apply Initially:</"
-#| "em> The window property will be only set to the given value after the "
-#| "window is created. No further changes will be affected.</"
-#| "li><li><em>Remember:</em> The value of the window property will be "
-#| "remembered and every time time the window is created, the last remembered "
-#| "value will be applied.</li><li><em>Force:</em> The window property will "
-#| "be always forced to the given value.</li><li><em>Apply Now:</em> The "
-#| "window property will be set to the given value immediately and will not "
-#| "be affected later (this action will be deleted afterwards).</"
-#| "li><li><em>Force temporarily:</em> The window property will be forced to "
-#| "the given value until it is hidden (this action will be deleted after the "
-#| "window is hidden).</li></ul>"
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
 "</em> The window property will not be affected and therefore the default "
@@ -427,21 +401,18 @@ msgstr "කෙටිමං සකසන්න"
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage1)
 #: ruleswidgetbase.ui:21
 #, fuzzy
-#| msgid "&Window"
 msgid "&Window matching"
 msgstr "කවුළුව (&W)"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
 #, fuzzy
-#| msgid "De&scription:"
 msgid "&Description:"
 msgstr "විස්තරය (&s):"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: ruleswidgetbase.ui:46
 #, fuzzy
-#| msgid "Window &class (application type):"
 msgid "Window &class (application):"
 msgstr "කවුළු කණ්ඩායම (යෙදුම් වර්‍ගය) (&c):"
 
@@ -498,7 +469,6 @@ msgstr "මුළු කවුළු පංතිය සඳහා ගලපන�
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: ruleswidgetbase.ui:109
 #, fuzzy
-#| msgid "Window &role:"
 msgid "Window ro&le:"
 msgstr "කවුළු චරිතය (&r):"
 
@@ -530,14 +500,12 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #: ruleswidgetbase.ui:468
 #, fuzzy
-#| msgid "On Main Window"
 msgid "Unmanaged Window"
 msgstr "ප්‍රධාන කවුළුව මත"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage3)
 #: ruleswidgetbase.ui:489
 #, fuzzy
-#| msgid "&Position"
 msgid "&Size && Position"
 msgstr "ස්ථානය (&P)"
 
@@ -818,7 +786,6 @@ msgstr "වැඩතලය (&D)"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_activity)
 #: ruleswidgetbase.ui:802
 #, fuzzy
-#| msgid "A&ctive opacity in %"
 msgid "Activit&y"
 msgstr "සක්‍රීය පාරාන්ධතාවය % (&c)"
 
@@ -890,7 +857,6 @@ msgstr "ප්‍රධාන කවුළුව මත"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_placement)
 #: ruleswidgetbase.ui:1112
 #, fuzzy
-#| msgid "P&lacement"
 msgid "Initial p&lacement"
 msgstr "ස්ථානකරණය (&l)"
 
@@ -936,7 +902,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_screen)
 #: ruleswidgetbase.ui:1369
 #, fuzzy
-#| msgid "Splash Screen"
 msgid "Screen"
 msgstr "ස්පලෑශ් තිරය"
 
@@ -973,7 +938,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_skipswitcher)
 #: ruleswidgetbase.ui:1501
 #, fuzzy
-#| msgid "Skip pa&ger"
 msgid "Skip &switcher"
 msgstr "පේජරය මඟහරින්න (&g)"
 
@@ -1030,7 +994,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityactive)
 #: ruleswidgetbase.ui:1995
 #, fuzzy
-#| msgid "A&ctive opacity in %"
 msgid "A&ctive opacity"
 msgstr "සක්‍රීය පාරාන්ධතාවය % (&c)"
 
@@ -1044,7 +1007,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityinactive)
 #: ruleswidgetbase.ui:2031
 #, fuzzy
-#| msgid "I&nactive opacity in %"
 msgid "I&nactive opacity"
 msgstr "අක්‍රීය පාරාන්ධතාව % හී ((&n)"
 
@@ -1077,7 +1039,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_disableglobalshortcuts)
 #: ruleswidgetbase.ui:2143
 #, fuzzy
-#| msgid "Block global shortcuts"
 msgid "Ignore global shortcuts"
 msgstr "ගෝලීය කෙටිමං වලකන්න"
 
@@ -1094,7 +1055,6 @@ msgstr "කවුළු වර්ගය (&t)"
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #: ruleswidgetbase.ui:2373
 #, fuzzy
-#| msgid "None"
 msgctxt "no focus stealing prevention"
 msgid "None"
 msgstr "නොමැති"

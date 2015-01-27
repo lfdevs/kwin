@@ -370,14 +370,12 @@ msgstr "Kurtenivîsan Sererast bike"
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage1)
 #: ruleswidgetbase.ui:21
 #, fuzzy
-#| msgid "&Window"
 msgid "&Window matching"
 msgstr "&Pace"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
 #, fuzzy
-#| msgid "De&scription:"
 msgid "&Description:"
 msgstr "Şîro&ve"
 
@@ -439,7 +437,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: ruleswidgetbase.ui:109
 #, fuzzy
-#| msgid "Window t&itle:"
 msgid "Window ro&le:"
 msgstr "Sernivîsa P&aceyê:"
 
@@ -471,14 +468,12 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #: ruleswidgetbase.ui:468
 #, fuzzy
-#| msgid "On Main Window"
 msgid "Unmanaged Window"
 msgstr "Di Paceya Sereke de"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage3)
 #: ruleswidgetbase.ui:489
 #, fuzzy
-#| msgid "&Position"
 msgid "&Size && Position"
 msgstr "&Rewş"
 
@@ -759,7 +754,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_activity)
 #: ruleswidgetbase.ui:802
 #, fuzzy
-#| msgid "A&ctive opacity in %"
 msgid "Activit&y"
 msgstr "Ta&rîtiyê çalak bike di % de"
 
@@ -831,7 +825,6 @@ msgstr "Di Paceya Sereke de"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_placement)
 #: ruleswidgetbase.ui:1112
 #, fuzzy
-#| msgid "P&lacement"
 msgid "Initial p&lacement"
 msgstr "Bi&cihkirin"
 
@@ -877,7 +870,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_screen)
 #: ruleswidgetbase.ui:1369
 #, fuzzy
-#| msgid "Splash Screen"
 msgid "Screen"
 msgstr "Ekrana Pekandinê"
 
@@ -914,7 +906,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_skipswitcher)
 #: ruleswidgetbase.ui:1501
 #, fuzzy
-#| msgid "Skip pa&ger"
 msgid "Skip &switcher"
 msgstr "Qevastina pe&lan"
 
@@ -971,7 +962,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityactive)
 #: ruleswidgetbase.ui:1995
 #, fuzzy
-#| msgid "A&ctive opacity in %"
 msgid "A&ctive opacity"
 msgstr "Ta&rîtiyê çalak bike di % de"
 
@@ -985,7 +975,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityinactive)
 #: ruleswidgetbase.ui:2031
 #, fuzzy
-#| msgid "I&nactive opacity in %"
 msgid "I&nactive opacity"
 msgstr "Ta&rîtiyê çalak neke di % de"
 
@@ -1033,7 +1022,6 @@ msgstr "Pace &Cure"
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #: ruleswidgetbase.ui:2373
 #, fuzzy
-#| msgid "None"
 msgctxt "no focus stealing prevention"
 msgid "None"
 msgstr "Ne yek jî"

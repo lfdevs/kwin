@@ -21,13 +21,11 @@ msgstr ""
 
 #: compositing.cpp:387
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 3.1"
 msgstr "OpenGL"
 
 #: compositing.cpp:388
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 2.0"
 msgstr "OpenGL"
 
@@ -48,15 +46,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:20 qml/CompositingView.qml:55
 #, fuzzy
-#| msgctxt "@option:check"
-#| msgid "Enable desktop effects"
 msgid "Enable compositor on startup"
 msgstr "เปิดการใช้งานลูกเล่นของพื้นที่ทำงาน"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:27
 #, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation speed:"
 msgstr "ความเร็วของการเคลื่อนไหว:"
 
@@ -68,7 +63,6 @@ msgstr "คงที่"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
 #, fuzzy
-#| msgid "Very Slow"
 msgid "Very slow"
 msgstr "ช้ามาก"
 
@@ -76,7 +70,6 @@ msgstr "ช้ามาก"
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
 #: compositing.ui:85 compositing.ui:111
 #, fuzzy
-#| msgid "Scale method:"
 msgid "Scale method:"
 msgstr "วิธีการปรับขนาด:"
 
@@ -110,7 +103,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
 #, fuzzy
-#| msgid "OpenGL mode:"
 msgid "OpenGL interface:"
 msgstr "โหมด OpenGL:"
 
@@ -124,7 +116,6 @@ msgstr ""
 #: compositing.ui:167 compositing.ui:213 qml/CompositingView.qml:141
 #: qml/CompositingView.qml:154
 #, fuzzy
-#| msgid "Never"
 msgid "Never"
 msgstr "ไม่ต้องเลย"
 
@@ -151,7 +142,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:195
 #, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep window thumbnails:"
 msgstr "คงภาพตัวอย่างของหน้าต่าง:"
 
@@ -163,7 +153,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:208 qml/CompositingView.qml:154
 #, fuzzy
-#| msgid "Only for Shown Windows"
 msgid "Only for Shown Windows"
 msgstr "ใช้กับหน้าต่างที่ถูกแสดงอยู่เท่านั้น"
 
@@ -175,7 +164,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
 #: compositing.ui:228 qml/CompositingView.qml:182
 #, fuzzy
-#| msgid "Suspend desktop effects for fullscreen windows"
 msgid "Suspend compositor for full screen windows"
 msgstr "พักการใช้งานลูกเล่นของพื้นที่ทำงานเมื่อใช้หน้าต่างที่ทำงานแบบเต็มหน้าจอ"
 
@@ -249,35 +237,30 @@ msgstr ""
 
 #: model.cpp:67
 #, fuzzy
-#| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "การช่วยใช้งาน"
 
 #: model.cpp:68
 #, fuzzy
-#| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "รูปลักษณ์"
 
 #: model.cpp:69
 #, fuzzy
-#| msgid "Candy"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "ลูกเล่นพิเศษ"
 
 #: model.cpp:70
 #, fuzzy
-#| msgid "Focus"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "การโฟกัส"
 
 #: model.cpp:71
 #, fuzzy
-#| msgid "Tools"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "เครื่องมือ"
@@ -289,7 +272,6 @@ msgstr ""
 
 #: model.cpp:73
 #, fuzzy
-#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "การจัดการหน้าต่าง"
@@ -300,13 +282,11 @@ msgstr ""
 
 #: qml/CompositingView.qml:67
 #, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation Speed:"
 msgstr "ความเร็วของการเคลื่อนไหว:"
 
 #: qml/CompositingView.qml:106 qml/CompositingView.qml:120
 #, fuzzy
-#| msgid "Scale method:"
 msgid "Scale Method:"
 msgstr "วิธีการปรับขนาด:"
 
@@ -316,13 +296,11 @@ msgstr ""
 
 #: qml/CompositingView.qml:148
 #, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep Window Thumbnails:"
 msgstr "คงภาพตัวอย่างของหน้าต่าง:"
 
 #: qml/CompositingView.qml:154
 #, fuzzy
-#| msgid "Always (Breaks minimization)"
 msgid "Always (Breaks Animations)"
 msgstr "เสมอ (เป็นการหยุดการย่อเล็กสุด)"
 
@@ -349,7 +327,6 @@ msgstr ""
 
 #: qml/EffectView.qml:82
 #, fuzzy
-#| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "การปรับสีพื้นผิว:"
 
@@ -359,12 +336,10 @@ msgstr ""
 
 #: qml/EffectView.qml:93
 #, fuzzy
-#| msgid "Suspend Desktop Effects"
 msgid "Exclude internal Desktop Effects"
 msgstr "พักการใช้งานลูกเล่นของพื้นที่ทำงาน"
 
 #: qml/EffectView.qml:105
 #, fuzzy
-#| msgid "No Effect"
 msgid "Get New Effects ..."
 msgstr "ไม่มีลูกเล่น"

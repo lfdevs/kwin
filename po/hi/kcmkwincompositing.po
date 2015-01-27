@@ -20,13 +20,11 @@ msgstr ""
 
 #: compositing.cpp:387
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 3.1"
 msgstr "ओपन-जीएल"
 
 #: compositing.cpp:388
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 2.0"
 msgstr "ओपन-जीएल"
 
@@ -47,7 +45,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:20 qml/CompositingView.qml:55
 #, fuzzy
-#| msgid "Enable desktop effects"
 msgid "Enable compositor on startup"
 msgstr "डेस्कटॉप प्रभाव को सक्षम करें "
 
@@ -92,7 +89,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
 #: compositing.ui:124 qml/CompositingView.qml:127
 #, fuzzy
-#| msgid "Smooth scaling (slower)"
 msgid "Smooth (slower)"
 msgstr "स्मूथ स्केलिंग (धीमा)"
 
@@ -104,7 +100,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
 #, fuzzy
-#| msgid "OpenGL mode:"
 msgid "OpenGL interface:"
 msgstr "ओपनजीएल मोड"
 
@@ -163,7 +158,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
 #: compositing.ui:228 qml/CompositingView.qml:182
 #, fuzzy
-#| msgid "Enable desktop effects"
 msgid "Suspend compositor for full screen windows"
 msgstr "डेस्कटॉप प्रभाव को सक्षम करें "
 
@@ -237,14 +231,12 @@ msgstr ""
 
 #: model.cpp:67
 #, fuzzy
-#| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "पहुँच"
 
 #: model.cpp:68
 #, fuzzy
-#| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "रूप"
@@ -271,7 +263,6 @@ msgstr ""
 
 #: model.cpp:73
 #, fuzzy
-#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "विंडो प्रबंधन"
@@ -325,7 +316,6 @@ msgstr ""
 
 #: qml/EffectView.qml:82
 #, fuzzy
-#| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "टैक्सचर फिल्टर:"
 
@@ -335,12 +325,10 @@ msgstr ""
 
 #: qml/EffectView.qml:93
 #, fuzzy
-#| msgid "Enable desktop effects"
 msgid "Exclude internal Desktop Effects"
 msgstr "डेस्कटॉप प्रभाव को सक्षम करें "
 
 #: qml/EffectView.qml:105
 #, fuzzy
-#| msgid "All Effects"
 msgid "Get New Effects ..."
 msgstr "सभी प्रभाव"

@@ -328,21 +328,7 @@ msgstr "Beoigh cnaipí"
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 # silly to explain what happens if not chosen
-
 
 
 

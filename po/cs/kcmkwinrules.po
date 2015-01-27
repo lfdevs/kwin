@@ -303,8 +303,8 @@ msgstr "&Exportovat"
 
 #: ruleswidget.cpp:66
 msgid ""
-"Enable this checkbox to alter this window property for the specified "
-"window(s)."
+"Enable this checkbox to alter this window property for the specified window"
+"(s)."
 msgstr "Povolte ke změně této vlastnosti pro daná okna."
 
 #: ruleswidget.cpp:68

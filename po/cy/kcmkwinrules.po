@@ -181,12 +181,6 @@ msgstr ""
 
 #: kcm.cpp:83
 #, fuzzy
-#| msgid ""
-#| "<h1>Window-specific Settings</h1> Here you can customize window settings "
-#| "specifically only for some windows. <p>Please note that this "
-#| "configuration will not take effect if you do not use KWin as your window "
-#| "manager. If you do use a different window manager, please refer to its "
-#| "documentation for how to customize window behavior."
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -403,14 +397,12 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage1)
 #: ruleswidgetbase.ui:21
 #, fuzzy
-#| msgid "&Window"
 msgid "&Window matching"
 msgstr "&Ffenestr"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
 #, fuzzy
-#| msgid "De&scription:"
 msgid "&Description:"
 msgstr "Di&sgrifiad:"
 
@@ -475,7 +467,6 @@ msgstr "Cydweddu holl ddosbarth ffenestr"
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: ruleswidgetbase.ui:109
 #, fuzzy
-#| msgid "Window &role:"
 msgid "Window ro&le:"
 msgstr "&Rôl y ffenestr:"
 
@@ -499,7 +490,6 @@ msgstr "Peiriant (enw gwesteiwr):"
 #. i18n: ectx: property (text), widget (QPushButton, detect)
 #: ruleswidgetbase.ui:318
 #, fuzzy
-#| msgid "Detect Window Properties"
 msgid "&Detect Window Properties"
 msgstr "Darganfod Priodweddau Ffenestr"
 
@@ -511,14 +501,12 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #: ruleswidgetbase.ui:468
 #, fuzzy
-#| msgid "On Main Window"
 msgid "Unmanaged Window"
 msgstr "Ar Brif Ffenestr"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage3)
 #: ruleswidgetbase.ui:489
 #, fuzzy
-#| msgid "&Position"
 msgid "&Size && Position"
 msgstr "&Lleoliad"
 
@@ -922,7 +910,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_screen)
 #: ruleswidgetbase.ui:1369
 #, fuzzy
-#| msgid "Splash Screen"
 msgid "Screen"
 msgstr "Sgrin Croeso"
 
@@ -1080,7 +1067,6 @@ msgstr "Math ffenestr"
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #: ruleswidgetbase.ui:2373
 #, fuzzy
-#| msgid "None"
 msgctxt "no focus stealing prevention"
 msgid "None"
 msgstr "Dim"

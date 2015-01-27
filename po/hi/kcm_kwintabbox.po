@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-05-23 07:47+0000\n"
+"POT-Creation-Date: 2015-01-21 09:28+0000\n"
 "PO-Revision-Date: 2010-01-31 20:41+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh672@gmail.com>\n"
 "Language-Team: Hindi <indlinux>\n"
@@ -19,22 +19,21 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "\n"
 
-#: layoutpreview.cpp:158
+#: layoutpreview.cpp:165
 #, fuzzy
-#| msgid "All Desktops"
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "सभी डेस्कटॉप"
 
-#: main.cpp:70
+#: main.cpp:73
 msgid "Main"
 msgstr "मुख्य"
 
-#: main.cpp:71
+#: main.cpp:74
 msgid "Alternative"
 msgstr "वैकल्पिक"
 
-#: main.cpp:74
+#: main.cpp:77
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""
@@ -47,7 +46,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, showDesktop)
 #: main.ui:41
 #, fuzzy
-#| msgid "Current Desktop"
 msgid "Include \"Show Desktop\" icon"
 msgstr "वर्तमान डेस्कटॉप"
 
@@ -79,21 +77,18 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, filterDesktops)
 #: main.ui:113
 #, fuzzy
-#| msgid "All Desktops"
 msgid "Virtual desktops"
 msgstr "सभी डेस्कटॉप"
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentDesktop)
 #: main.ui:157
 #, fuzzy
-#| msgid "Current Desktop"
 msgid "Current desktop"
 msgstr "वर्तमान डेस्कटॉप"
 
 #. i18n: ectx: property (text), widget (QRadioButton, otherDesktops)
 #: main.ui:164
 #, fuzzy
-#| msgid "All Desktops"
 msgid "All other desktops"
 msgstr "सभी डेस्कटॉप"
 
@@ -120,7 +115,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QRadioButton, currentScreen)
 #: main.ui:279
 #, fuzzy
-#| msgid "Current Desktop"
 msgid "Current screen"
 msgstr "वर्तमान डेस्कटॉप"
 
@@ -132,7 +126,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, filterMinimization)
 #: main.ui:296
 #, fuzzy
-#| msgid "Minimum Size"
 msgid "Minimization"
 msgstr "न्यूनतम आकार"
 
@@ -171,14 +164,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:470
 #, fuzzy
-#| msgid "Current Desktop Grouped by Applications"
 msgid "Current application"
 msgstr "वर्तमान डेस्कटॉप अनुप्रयोग द्वारा समूहीकृत"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:489
 #, fuzzy
-#| msgid "Navigation"
 msgid "Visualization"
 msgstr "नेविगेशन"
 
@@ -197,7 +188,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, highlightWindowCheck)
 #: main.ui:552
 #, fuzzy
-#| msgid "Show Selected Item"
 msgid "Show selected window"
 msgstr "चयनित मद दिखाएँ"
 

@@ -19,13 +19,11 @@ msgstr ""
 
 #: compositing.cpp:387
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 3.1"
 msgstr "OpenGL"
 
 #: compositing.cpp:388
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 2.0"
 msgstr "OpenGL"
 
@@ -46,15 +44,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:20 qml/CompositingView.qml:55
 #, fuzzy
-#| msgctxt "@option:check"
-#| msgid "Enable desktop effects at startup"
 msgid "Enable compositor on startup"
 msgstr "Cumasaigh maisíochtaí deisce ag am tosaithe"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:27
 #, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation speed:"
 msgstr "Luas na beochana:"
 
@@ -66,7 +61,6 @@ msgstr "Meandarach"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
 #, fuzzy
-#| msgid "Very Slow"
 msgid "Very slow"
 msgstr "An-Mhall"
 
@@ -74,7 +68,6 @@ msgstr "An-Mhall"
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
 #: compositing.ui:85 compositing.ui:111
 #, fuzzy
-#| msgid "Scale method:"
 msgid "Scale method:"
 msgstr "Mód scálaithe:"
 
@@ -108,7 +101,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
 #, fuzzy
-#| msgid "OpenGL mode:"
 msgid "OpenGL interface:"
 msgstr "Mód OpenGL:"
 
@@ -122,10 +114,6 @@ msgstr ""
 #: compositing.ui:167 compositing.ui:213 qml/CompositingView.qml:141
 #: qml/CompositingView.qml:154
 #, fuzzy
-#| msgctxt ""
-#| "Windows are unmapped as they are requested. This can lead to not having "
-#| "updated thumbnials for windows on other desktops."
-#| msgid "Never"
 msgid "Never"
 msgstr "Ná Coinnigh Riamh"
 
@@ -152,7 +140,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:195
 #, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep window thumbnails:"
 msgstr "Coinnigh mionsamhlacha na bhfuinneog:"
 
@@ -164,10 +151,6 @@ msgstr "I gcónaí"
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:208 qml/CompositingView.qml:154
 #, fuzzy
-#| msgctxt ""
-#| "Windows are not unmapped if the window is somewhere visible on any of the "
-#| "virtual desktops."
-#| msgid "Only for Shown Windows"
 msgid "Only for Shown Windows"
 msgstr "D'fhuinneoga Ar Taispeáint Amháin"
 
@@ -251,35 +234,30 @@ msgstr ""
 
 #: model.cpp:67
 #, fuzzy
-#| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Inrochtaineacht"
 
 #: model.cpp:68
 #, fuzzy
-#| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Cuma"
 
 #: model.cpp:69
 #, fuzzy
-#| msgid "Candy"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Milseán"
 
 #: model.cpp:70
 #, fuzzy
-#| msgid "Focus"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Fócas"
 
 #: model.cpp:71
 #, fuzzy
-#| msgid "Tools"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Uirlisí"
@@ -291,7 +269,6 @@ msgstr ""
 
 #: model.cpp:73
 #, fuzzy
-#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Bainisteoireacht Fuinneog"
@@ -302,13 +279,11 @@ msgstr ""
 
 #: qml/CompositingView.qml:67
 #, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation Speed:"
 msgstr "Luas na beochana:"
 
 #: qml/CompositingView.qml:106 qml/CompositingView.qml:120
 #, fuzzy
-#| msgid "Scale method:"
 msgid "Scale Method:"
 msgstr "Mód scálaithe:"
 
@@ -318,17 +293,11 @@ msgstr ""
 
 #: qml/CompositingView.qml:148
 #, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep Window Thumbnails:"
 msgstr "Coinnigh mionsamhlacha na bhfuinneog:"
 
 #: qml/CompositingView.qml:154
 #, fuzzy
-#| msgctxt ""
-#| "A window thumbnail requires to have the corresponding window mapped. To "
-#| "have thumbnails at all time, windows are not unmapped. This can break "
-#| "window minimization as it is modelled as unmapping of windows."
-#| msgid "Always (Breaks minimization)"
 msgid "Always (Breaks Animations)"
 msgstr "I gCónaí (Briseann sé seo íoslaghdú)"
 
@@ -357,7 +326,6 @@ msgstr ""
 
 #: qml/EffectView.qml:82
 #, fuzzy
-#| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "Scagaire uigeachta:"
 
@@ -367,12 +335,10 @@ msgstr ""
 
 #: qml/EffectView.qml:93
 #, fuzzy
-#| msgid "Suspend Desktop Effects"
 msgid "Exclude internal Desktop Effects"
 msgstr "Cuir maisíochtaí deisce ar fionraí"
 
 #: qml/EffectView.qml:105
 #, fuzzy
-#| msgid "Get New Effect"
 msgid "Get New Effects ..."
 msgstr "Faigh Maisíocht Nua"

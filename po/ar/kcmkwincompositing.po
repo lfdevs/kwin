@@ -26,13 +26,11 @@ msgstr ""
 
 #: compositing.cpp:387
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 3.1"
 msgstr "OpenGL"
 
 #: compositing.cpp:388
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 2.0"
 msgstr "OpenGL"
 
@@ -58,7 +56,6 @@ msgstr "مكّن تأثيرات سطح المكتب عند بدء التشغيل
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:27
 #, fuzzy
-#| msgid "Animation Speed:"
 msgid "Animation speed:"
 msgstr "سرعة التحريك:"
 
@@ -70,7 +67,6 @@ msgstr "لحظي"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
 #, fuzzy
-#| msgid "Very Slow"
 msgid "Very slow"
 msgstr "بطيء جدا"
 
@@ -78,7 +74,6 @@ msgstr "بطيء جدا"
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
 #: compositing.ui:85 compositing.ui:111
 #, fuzzy
-#| msgid "Scale Method:"
 msgid "Scale method:"
 msgstr "طريقة التحجيم:"
 
@@ -112,14 +107,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
 #, fuzzy
-#| msgid "OpenGL Platform Interface:"
 msgid "OpenGL interface:"
 msgstr "واجهة منصة OpenGL:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: compositing.ui:159
 #, fuzzy
-#| msgid "Tearing Prevention (VSync):"
 msgid "Tearing prevention (\"vsync\"):"
 msgstr "منع التكسير (المزامنة العمودية):"
 
@@ -128,7 +121,6 @@ msgstr "منع التكسير (المزامنة العمودية):"
 #: compositing.ui:167 compositing.ui:213 qml/CompositingView.qml:141
 #: qml/CompositingView.qml:154
 #, fuzzy
-#| msgid "Never"
 msgid "Never"
 msgstr "لا مطلقا"
 
@@ -155,7 +147,6 @@ msgstr "استخدام مسبق لمحتوى الشاشة"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:195
 #, fuzzy
-#| msgid "Keep Window Thumbnails:"
 msgid "Keep window thumbnails:"
 msgstr "حافظ على مصغرات النافذة:"
 
@@ -332,7 +323,6 @@ msgstr "بحث"
 
 #: qml/EffectView.qml:82
 #, fuzzy
-#| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "مرشح النسيج:"
 

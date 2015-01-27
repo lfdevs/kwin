@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-11-30 09:26+0000\n"
+"POT-Creation-Date: 2015-01-18 09:50+0000\n"
 "PO-Revision-Date: 2013-11-26 23:23+0200\n"
 "Last-Translator: Sergiu Bivol <sergiu@ase.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -32,7 +32,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "sergiu@ase.md,lbuz@rolix.org"
 
-#: composite.cpp:500
+#: composite.cpp:503
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -41,7 +41,7 @@ msgstr ""
 "Efectele de birou au fost suspendate de altă aplicație.<br/> O puteți relua "
 "utilizînd scurtătura „%1”."
 
-#: compositingprefs.cpp:98
+#: compositingprefs.cpp:99
 msgid ""
 "<b>OpenGL compositing (the default) has crashed KWin in the past.</"
 "b><br>This was most likely due to a driver bug.<p>If you think that you have "
@@ -56,21 +56,17 @@ msgstr ""
 "rezulta într-o prăbușire imediată!</b></p><p>Altfel puteți folosi în loc "
 "suportul XRender.</p>"
 
-#: compositingprefs.cpp:105
+#: compositingprefs.cpp:106
 msgid "Required X extensions (XComposite and XDamage) are not available."
 msgstr "Extensiile X necesare (XComposite și XDamage) nu sînt disponibile."
 
-#: compositingprefs.cpp:109
+#: compositingprefs.cpp:110
 msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
 msgstr "GLX/OpenGL nu sînt disponibile și numai suportul OpenGL este compilat."
 
-#: compositingprefs.cpp:113
+#: compositingprefs.cpp:114
 msgid "GLX/OpenGL and XRender/XFixes are not available."
 msgstr "GLX/OpenGL și XRender/XFixes nu sînt disponibile."
-
-#: decorations.cpp:59
-msgid "KWin: "
-msgstr "KWin: "
 
 #: killer/killer.cpp:44
 msgid "Window Manager"
@@ -420,55 +416,52 @@ msgstr ""
 "Se pare că a eșuat de cîteva ori la rînd.\n"
 "Puteți alege alt gestionar de ferestre de pornit:"
 
-#: main.cpp:259 main.cpp:286
+#: main.cpp:260 main.cpp:287
 msgid "KDE window manager"
 msgstr "Gestionarul de ferestre KDE"
 
-#: main.cpp:264
+#: main.cpp:265
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:268
+#: main.cpp:269
 msgid "(c) 1999-2013, The KDE Developers"
 msgstr "(c) 1999-2013, Dezvoltatorii KDE"
 
-#: main.cpp:270
+#: main.cpp:271
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:271
+#: main.cpp:272
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:272
+#: main.cpp:273
 msgid "Daniel M. Duley"
 msgstr "Daniel M. Duley"
 
-#: main.cpp:273
+#: main.cpp:274
 msgid "Luboš Luňák"
 msgstr "Luboš Luňák"
 
-#: main.cpp:274
+#: main.cpp:275
 msgid "Martin Gräßlin"
 msgstr "Martin Gräßlin"
 
-#: main.cpp:274
+#: main.cpp:275
 msgid "Maintainer"
 msgstr "Responsabil"
 
-#: main.cpp:283
+#: main.cpp:284
 msgid "Disable configuration options"
 msgstr "Dezactivează opțiunile de configurare"
 
-#: main.cpp:284
+#: main.cpp:285
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Indică faptul că KWin a eșuat recent de n ori"
 
 #: main_wayland.cpp:88
 #, fuzzy
-#| msgid ""
-#| "kwin: unable to claim manager selection, another wm running? (try using --"
-#| "replace)\n"
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr ""
 "kwin: nu pot cere selecția gestionarului de ferestre. Rulează alt gestionar? "
@@ -480,12 +473,19 @@ msgid ""
 "set.\n"
 msgstr ""
 
-#: main_wayland.cpp:231
+#: main_wayland.cpp:235
 msgid "Start a nested X Server."
 msgstr ""
 
-#: main_wayland.cpp:234
-msgid "The X11 Display to connect to, required if option x-server is used."
+#: main_wayland.cpp:238
+msgid ""
+"The X11 Display to connect to. If not set next free number will be picked."
+msgstr ""
+
+#: main_wayland.cpp:247
+msgid ""
+"Enable libinput support for input events processing. Note: never use in a "
+"nested session."
 msgstr ""
 
 #: main_x11.cpp:149
@@ -498,9 +498,6 @@ msgstr ""
 
 #: main_x11.cpp:166
 #, fuzzy
-#| msgid ""
-#| "kwin: unable to claim manager selection, another wm running? (try using --"
-#| "replace)\n"
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "kwin: nu pot cere selecția gestionarului de ferestre. Rulează alt gestionar? "
@@ -512,11 +509,11 @@ msgstr ""
 "Înlocuiește un alt gestionar de ferestre compatibil\n"
 "ICCCM2.0 ce rulează deja"
 
-#: scene_opengl.cpp:558
+#: scene_opengl.cpp:610
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr "Efectele de birou au fost repornite din cauza reinițializării graficii"
 
-#: scene_opengl.cpp:729
+#: scene_opengl.cpp:774
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -526,7 +523,7 @@ msgid ""
 "%2 "
 msgstr ""
 
-#: scene_opengl.cpp:736
+#: scene_opengl.cpp:781
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
 "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
@@ -534,7 +531,7 @@ msgid ""
 "by the hardware limitations that restrict the OpenGL viewport size."
 msgstr ""
 
-#: scene_opengl.cpp:761
+#: scene_opengl.cpp:806
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -543,7 +540,7 @@ msgid ""
 "compositing, switch to the XRender backend or lower the resolution to %1x%1."
 msgstr ""
 
-#: scene_opengl.cpp:767
+#: scene_opengl.cpp:812
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
 "GPU, thus windows of that size cannot be assigned to textures and will be "
@@ -592,70 +589,68 @@ msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
 msgstr ""
 
-#: tabbox/tabbox.cpp:348
+#: tabbox/tabbox.cpp:347
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Arată biroul"
 
-#: tabbox/tabbox.cpp:499
+#: tabbox/tabbox.cpp:498
 msgid "Walk Through Windows"
 msgstr "Comută printre ferestre"
 
-#: tabbox/tabbox.cpp:500
+#: tabbox/tabbox.cpp:499
 msgid "Walk Through Windows (Reverse)"
 msgstr "Comută printre ferestre (invers)"
 
-#: tabbox/tabbox.cpp:501
+#: tabbox/tabbox.cpp:500
 msgid "Walk Through Windows Alternative"
 msgstr "Comută printre alternative ferestre"
 
-#: tabbox/tabbox.cpp:502
+#: tabbox/tabbox.cpp:501
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Comută printre alternative ferestre (invers)"
 
-#: tabbox/tabbox.cpp:503
+#: tabbox/tabbox.cpp:502
 msgid "Walk Through Windows of Current Application"
 msgstr "Comută printre ferestrele aplicației curente"
 
-#: tabbox/tabbox.cpp:504
+#: tabbox/tabbox.cpp:503
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Comută printre ferestrele aplicației curente (invers)"
 
-#: tabbox/tabbox.cpp:505
+#: tabbox/tabbox.cpp:504
 #, fuzzy
-#| msgid "Walk Through Windows Alternative"
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Comută printre ferestrele aplicației curente "
 
-#: tabbox/tabbox.cpp:506
+#: tabbox/tabbox.cpp:505
 #, fuzzy
-#| msgid "Walk Through Windows Alternative (Reverse)"
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "Comută printre alternative ferestre (invers)"
 
-#: tabbox/tabbox.cpp:507
+#: tabbox/tabbox.cpp:506
 msgid "Walk Through Desktops"
 msgstr "Comută printre birouri"
 
-#: tabbox/tabbox.cpp:508
+#: tabbox/tabbox.cpp:507
 msgid "Walk Through Desktops (Reverse)"
 msgstr "Comută printre birouri (invers)"
 
-#: tabbox/tabbox.cpp:509
+#: tabbox/tabbox.cpp:508
 msgid "Walk Through Desktop List"
 msgstr "Comută prin lista de ferestre"
 
-#: tabbox/tabbox.cpp:510
+#: tabbox/tabbox.cpp:509
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Comută prin lista de ferestre (invers)"
 
-#: tabbox/tabboxhandler.cpp:272
+#: tabbox/tabboxhandler.cpp:278
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
 msgstr ""
 
-#: useractions.cpp:186
+#: useractions.cpp:185
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -668,7 +663,7 @@ msgstr ""
 "folosind mausul. Folosiți în schimb meniul de sistem al ferestrei, pe care "
 "îl puteți activa prin combinația de taste %1."
 
-#: useractions.cpp:194
+#: useractions.cpp:193
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -682,153 +677,153 @@ msgstr ""
 "Folosiți în schimb meniul de sistem al ferestrei, pe care îl puteți activa "
 "folosind combinația de taste %1."
 
-#: useractions.cpp:259
+#: useractions.cpp:256
 msgid "&Move"
 msgstr "&Mută"
 
-#: useractions.cpp:264
+#: useractions.cpp:261
 msgid "Re&size"
 msgstr "Redimen&sionează"
 
-#: useractions.cpp:268
+#: useractions.cpp:265
 msgid "Keep &Above Others"
 msgstr "Ține de&asupra celorlalte"
 
-#: useractions.cpp:274
+#: useractions.cpp:271
 msgid "Keep &Below Others"
 msgstr "Ține su&b celelalte"
 
-#: useractions.cpp:280
+#: useractions.cpp:277
 msgid "&Fullscreen"
 msgstr "&Ecran complet"
 
-#: useractions.cpp:286
+#: useractions.cpp:283
 msgid "Sh&ade"
 msgstr "&Strînge"
 
-#: useractions.cpp:291
+#: useractions.cpp:288
 msgid "&No Border"
 msgstr "Fără che&nar"
 
-#: useractions.cpp:298
+#: useractions.cpp:295
 msgid "Window &Shortcut..."
 msgstr "Accelerator ferea&stră..."
 
-#: useractions.cpp:303
+#: useractions.cpp:300
 msgid "&Special Window Settings..."
 msgstr "Configurări &speciale fereastră..."
 
-#: useractions.cpp:307
+#: useractions.cpp:304
 msgid "S&pecial Application Settings..."
 msgstr "Configurări s&peciale aplicație..."
 
-#: useractions.cpp:314
+#: useractions.cpp:311
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
 msgid "Window &Manager Settings..."
 msgstr "Configurare &gestionar de ferestre..."
 
-#: useractions.cpp:329
+#: useractions.cpp:326
 msgid "Mi&nimize"
 msgstr "Mi&nimizează"
 
-#: useractions.cpp:333
+#: useractions.cpp:330
 msgid "Ma&ximize"
 msgstr "Ma&ximizează"
 
-#: useractions.cpp:342
+#: useractions.cpp:339
 msgid "&Untab"
 msgstr "Detașea&ză fila"
 
-#: useractions.cpp:346
+#: useractions.cpp:343
 msgid "Close Entire &Group"
 msgstr "Închide întregul &grup"
 
-#: useractions.cpp:357
+#: useractions.cpp:354
 msgid "&More Actions"
 msgstr "&Mai multe acțiuni"
 
-#: useractions.cpp:361
+#: useractions.cpp:358
 msgid "&Close"
 msgstr "În&chide"
 
-#: useractions.cpp:434
+#: useractions.cpp:431
 msgid "&Extensions"
 msgstr "&Extensii"
 
-#: useractions.cpp:489
+#: useractions.cpp:486
 msgctxt "Switch to tab -> Previous"
 msgid "Previous"
 msgstr "Precedentă"
 
-#: useractions.cpp:490
+#: useractions.cpp:487
 msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr "Următoare"
 
-#: useractions.cpp:528
+#: useractions.cpp:525
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr "Niciuna disponibilă"
 
-#: useractions.cpp:537
+#: useractions.cpp:534
 msgid "Switch to Tab"
 msgstr "Comută la fila"
 
-#: useractions.cpp:548
+#: useractions.cpp:545
 msgid "&Attach as tab to"
 msgstr "&Atașează ca filă la"
 
-#: useractions.cpp:571
+#: useractions.cpp:568
 msgid "Move To &Desktop"
 msgstr "Mută în &biroul"
 
-#: useractions.cpp:587
+#: useractions.cpp:584
 msgid "Move To &Screen"
 msgstr "Mută la &ecranul"
 
-#: useractions.cpp:602
+#: useractions.cpp:599
 msgid "Ac&tivities"
 msgstr "Ac&tivități"
 
-#: useractions.cpp:614
+#: useractions.cpp:611
 msgid "&All Desktops"
 msgstr "&Toate birourile"
 
-#: useractions.cpp:640
+#: useractions.cpp:637
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "Birou &nou"
 
-#: useractions.cpp:661
+#: useractions.cpp:658
 #, kde-format
 msgctxt "@item:inmenu List of all Screens to send a window to"
 msgid "Screen &%1"
 msgstr "Ecranul &%1"
 
-#: useractions.cpp:679
+#: useractions.cpp:676
 msgid "&All Activities"
 msgstr "Toate &activitățile"
 
-#: useractions.cpp:884
+#: useractions.cpp:883
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "<b>%1</b> este deja folosit"
 
-#: useractions.cpp:886
+#: useractions.cpp:885
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "<b>%1</b> este folosit de %2 în %3"
 
-#: useractions.cpp:1009
+#: useractions.cpp:1008
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Activează fereastra (%1)"
 
-#: useractions.cpp:1382
+#: useractions.cpp:1381
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
 "as active one.\n"
@@ -869,7 +864,7 @@ msgstr "Comută un birou în jos"
 msgid "Switch to Desktop %1"
 msgstr "Comută la biroul %1"
 
-#: workspace.cpp:1340
+#: workspace.cpp:1317
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

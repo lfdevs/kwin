@@ -14,13 +14,13 @@
 # Rinse de Vries <RinseDeVries@home.nl>, 2005.
 # Kristof Bal <kristof.bal@gmail.com>, 2008.
 # Freek de Kruijf <freekdekruijf@kde.nl>, 2009.
-# Freek de Kruijf <freekdekruijf@kde.nl>, 2009, 2010, 2011, 2012, 2013, 2014.
+# Freek de Kruijf <freekdekruijf@kde.nl>, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-11-30 09:26+0000\n"
-"PO-Revision-Date: 2014-09-27 13:56+0200\n"
+"POT-Creation-Date: 2015-01-18 09:50+0000\n"
+"PO-Revision-Date: 2015-01-13 22:07+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -38,7 +38,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "rinsedevries@kde.nl,,wilbertberendsen@kde.nl,freekdekruijf@kde.nl"
 
-#: composite.cpp:500
+#: composite.cpp:503
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -47,7 +47,7 @@ msgstr ""
 "Bureaublad-effecten zijn onderbroken door een andere applicatie.<br/>U kunt "
 "het hervatten met de sneltoets '%1'."
 
-#: compositingprefs.cpp:98
+#: compositingprefs.cpp:99
 msgid ""
 "<b>OpenGL compositing (the default) has crashed KWin in the past.</"
 "b><br>This was most likely due to a driver bug.<p>If you think that you have "
@@ -63,23 +63,19 @@ msgstr ""
 "</b></p><p>Als alternatief kunt u in plaats daarvan de XRender backend "
 "gebruiken.</p>"
 
-#: compositingprefs.cpp:105
+#: compositingprefs.cpp:106
 msgid "Required X extensions (XComposite and XDamage) are not available."
 msgstr "De vereiste X-extensies (XComposite en XDamage) zijn niet beschikbaar."
 
-#: compositingprefs.cpp:109
+#: compositingprefs.cpp:110
 msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
 msgstr ""
 "GLX/OpenGL zijn niet beschikbaar, en alleen OpenGL-ondersteuning is "
 "meegecompileerd."
 
-#: compositingprefs.cpp:113
+#: compositingprefs.cpp:114
 msgid "GLX/OpenGL and XRender/XFixes are not available."
 msgstr "GLX/OpenGL en XRender/XFixes zijn niet beschikbaar."
-
-#: decorations.cpp:59
-msgid "KWin: "
-msgstr "KWin: "
 
 #: killer/killer.cpp:44
 msgid "Window Manager"
@@ -437,47 +433,47 @@ msgstr ""
 "Het programma is nu verschillende malen achter elkaar onverwacht beëindigd.\n"
 "U kunt een andere windowmanager kiezen om te gebruiken:"
 
-#: main.cpp:259 main.cpp:286
+#: main.cpp:260 main.cpp:287
 msgid "KDE window manager"
 msgstr "De KDE-windowmanager"
 
-#: main.cpp:264
+#: main.cpp:265
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:268
+#: main.cpp:269
 msgid "(c) 1999-2013, The KDE Developers"
 msgstr "(c) 1999-2013, de KDE-ontwikkelaars"
 
-#: main.cpp:270
+#: main.cpp:271
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:271
+#: main.cpp:272
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:272
+#: main.cpp:273
 msgid "Daniel M. Duley"
 msgstr "Daniel M. Duley"
 
-#: main.cpp:273
+#: main.cpp:274
 msgid "Luboš Luňák"
 msgstr "Luboš Luňák"
 
-#: main.cpp:274
+#: main.cpp:275
 msgid "Martin Gräßlin"
 msgstr "Martin Gräßlin"
 
-#: main.cpp:274
+#: main.cpp:275
 msgid "Maintainer"
 msgstr "Onderhouder"
 
-#: main.cpp:283
+#: main.cpp:284
 msgid "Disable configuration options"
 msgstr "Instelmogelijkheden uitschakelen"
 
-#: main.cpp:284
+#: main.cpp:285
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Geeft aan dat KWin recentelijk n maal is vastgelopen"
 
@@ -493,14 +489,24 @@ msgstr ""
 "kwin_wayland: kon niet verbinden met Wayland-server, ga na dat "
 "WAYLAND_DISPLAY is ingesteld.\n"
 
-#: main_wayland.cpp:231
+#: main_wayland.cpp:235
 msgid "Start a nested X Server."
 msgstr "Een geneste X-server starten."
 
-#: main_wayland.cpp:234
-msgid "The X11 Display to connect to, required if option x-server is used."
+#: main_wayland.cpp:238
+msgid ""
+"The X11 Display to connect to. If not set next free number will be picked."
 msgstr ""
-"Het X11-scherm om naar te verbinden, vereist dat optie x-server is gebruikt."
+"Het X11-scherm om naar te verbinden. Indien niet ingesteld wordt het "
+"volgende vrije getal gebruikt."
+
+#: main_wayland.cpp:247
+msgid ""
+"Enable libinput support for input events processing. Note: never use in a "
+"nested session."
+msgstr ""
+"Schakel ondersteuning van libinput in voor processing van "
+"invoergebeurtenissen. Merk op: nooit gebruiken in een geneste sessie."
 
 #: main_x11.cpp:149
 msgid ""
@@ -520,11 +526,11 @@ msgstr ""
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "Reeds gestarte ICCCM2.0 compliant windowmanager vervangen"
 
-#: scene_opengl.cpp:558
+#: scene_opengl.cpp:610
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr "Bureaubladeffecten zijn opnieuw gestart vanwege een grafische reset"
 
-#: scene_opengl.cpp:729
+#: scene_opengl.cpp:774
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -539,7 +545,7 @@ msgstr ""
 "deze resolutie erg langzaam zijn.<br>Verlaag als alternatief de "
 "gecombineerde resolutie van alle schermen tot %1x%2 "
 
-#: scene_opengl.cpp:736
+#: scene_opengl.cpp:781
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
 "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
@@ -551,7 +557,7 @@ msgstr ""
 "beperkingen niet, maar de performance zal gewoonlijk beïnvloed zijn door de "
 "beperkingen in de hardware die de viewport-grootte van OpenGL beperken."
 
-#: scene_opengl.cpp:761
+#: scene_opengl.cpp:806
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -565,7 +571,7 @@ msgstr ""
 "worden.<br><br>Overweeg om compositing te onderbreken, schakel over naar de "
 "XRender-backend of verlaag de resolutie naar %1x%1."
 
-#: scene_opengl.cpp:767
+#: scene_opengl.cpp:812
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
 "GPU, thus windows of that size cannot be assigned to textures and will be "
@@ -623,60 +629,60 @@ msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
 msgstr "%1 is niet van het type variabel"
 
-#: tabbox/tabbox.cpp:348
+#: tabbox/tabbox.cpp:347
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Bureaublad tonen"
 
-#: tabbox/tabbox.cpp:499
+#: tabbox/tabbox.cpp:498
 msgid "Walk Through Windows"
 msgstr "Door vensters wandelen"
 
-#: tabbox/tabbox.cpp:500
+#: tabbox/tabbox.cpp:499
 msgid "Walk Through Windows (Reverse)"
 msgstr "Door vensters wandelen (omgekeerd)"
 
-#: tabbox/tabbox.cpp:501
+#: tabbox/tabbox.cpp:500
 msgid "Walk Through Windows Alternative"
 msgstr "Alternatief door vensters wandelen"
 
-#: tabbox/tabbox.cpp:502
+#: tabbox/tabbox.cpp:501
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Alternatief door vensters wandelen (omgekeerd)"
 
-#: tabbox/tabbox.cpp:503
+#: tabbox/tabbox.cpp:502
 msgid "Walk Through Windows of Current Application"
 msgstr "Door vensters van de huidige toepassing lopen"
 
-#: tabbox/tabbox.cpp:504
+#: tabbox/tabbox.cpp:503
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Door vensters van de huidige toepassing lopen (omgekeerd)"
 
-#: tabbox/tabbox.cpp:505
+#: tabbox/tabbox.cpp:504
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Alternatief door vensters van de huidige toepassing lopen"
 
-#: tabbox/tabbox.cpp:506
+#: tabbox/tabbox.cpp:505
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "Alternatief door vensters van de huidige toepassing lopen (omgekeerd)"
 
-#: tabbox/tabbox.cpp:507
+#: tabbox/tabbox.cpp:506
 msgid "Walk Through Desktops"
 msgstr "Door bureaubladen wandelen"
 
-#: tabbox/tabbox.cpp:508
+#: tabbox/tabbox.cpp:507
 msgid "Walk Through Desktops (Reverse)"
 msgstr "Door bureaubladen wandelen (omgekeerd)"
 
-#: tabbox/tabbox.cpp:509
+#: tabbox/tabbox.cpp:508
 msgid "Walk Through Desktop List"
 msgstr "Door bureaubladenlijst wandelen"
 
-#: tabbox/tabbox.cpp:510
+#: tabbox/tabbox.cpp:509
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Door bureaubladenlijst wandelen (omgekeerd)"
 
-#: tabbox/tabboxhandler.cpp:272
+#: tabbox/tabboxhandler.cpp:278
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
@@ -685,7 +691,7 @@ msgstr ""
 "hulpbronnenbronnen.\n"
 "Neem hierover contact op met uw distributie."
 
-#: useractions.cpp:186
+#: useractions.cpp:185
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -697,7 +703,7 @@ msgstr ""
 "Zonder rand kunt u het venstermenu niet meer met de muis oproepen. U kunt "
 "dit venstermenu wel oproepen met de  sneltoets %1."
 
-#: useractions.cpp:194
+#: useractions.cpp:193
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -710,153 +716,153 @@ msgstr ""
 "zult u het venstermenu van de windowmanager moeten gebruiken om deze modus "
 "weer te verlaten. U kunt dit venstermenu oproepen met de  sneltoets %1."
 
-#: useractions.cpp:259
+#: useractions.cpp:256
 msgid "&Move"
 msgstr "Ver&plaatsen"
 
-#: useractions.cpp:264
+#: useractions.cpp:261
 msgid "Re&size"
 msgstr "&Grootte wijzigen"
 
-#: useractions.cpp:268
+#: useractions.cpp:265
 msgid "Keep &Above Others"
 msgstr "Altijd op &voorgrond"
 
-#: useractions.cpp:274
+#: useractions.cpp:271
 msgid "Keep &Below Others"
 msgstr "Altijd op &achtergrond"
 
-#: useractions.cpp:280
+#: useractions.cpp:277
 msgid "&Fullscreen"
 msgstr "Venster &schermvullend"
 
-#: useractions.cpp:286
+#: useractions.cpp:283
 msgid "Sh&ade"
 msgstr "&Oprollen"
 
-#: useractions.cpp:291
+#: useractions.cpp:288
 msgid "&No Border"
 msgstr "Vensterrand ver&bergen"
 
-#: useractions.cpp:298
+#: useractions.cpp:295
 msgid "Window &Shortcut..."
 msgstr "Venster&sneltoets..."
 
-#: useractions.cpp:303
+#: useractions.cpp:300
 msgid "&Special Window Settings..."
 msgstr "&Speciale vensterinstellingen..."
 
-#: useractions.cpp:307
+#: useractions.cpp:304
 msgid "S&pecial Application Settings..."
 msgstr "S&peciale programmainstellingen..."
 
-#: useractions.cpp:314
+#: useractions.cpp:311
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
 msgid "Window &Manager Settings..."
 msgstr "Instellingen van &vensterbeheerder..."
 
-#: useractions.cpp:329
+#: useractions.cpp:326
 msgid "Mi&nimize"
 msgstr "&Minimaliseren"
 
-#: useractions.cpp:333
+#: useractions.cpp:330
 msgid "Ma&ximize"
 msgstr "Ma&ximaliseren"
 
-#: useractions.cpp:342
+#: useractions.cpp:339
 msgid "&Untab"
 msgstr "&Tabs verwijderen"
 
-#: useractions.cpp:346
+#: useractions.cpp:343
 msgid "Close Entire &Group"
 msgstr "Gehele &groep sluiten"
 
-#: useractions.cpp:357
+#: useractions.cpp:354
 msgid "&More Actions"
 msgstr "&Meer acties"
 
-#: useractions.cpp:361
+#: useractions.cpp:358
 msgid "&Close"
 msgstr "Sl&uiten"
 
-#: useractions.cpp:434
+#: useractions.cpp:431
 msgid "&Extensions"
 msgstr "&Extensies"
 
-#: useractions.cpp:489
+#: useractions.cpp:486
 msgctxt "Switch to tab -> Previous"
 msgid "Previous"
 msgstr "Vorige"
 
-#: useractions.cpp:490
+#: useractions.cpp:487
 msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr "Volgende"
 
-#: useractions.cpp:528
+#: useractions.cpp:525
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr "Geen beschikbaar"
 
-#: useractions.cpp:537
+#: useractions.cpp:534
 msgid "Switch to Tab"
 msgstr "Naar tabblad omschakelen"
 
-#: useractions.cpp:548
+#: useractions.cpp:545
 msgid "&Attach as tab to"
 msgstr "Als tabblad &vastmaken aan"
 
-#: useractions.cpp:571
+#: useractions.cpp:568
 msgid "Move To &Desktop"
 msgstr "Naar bureaubla&d verplaatsen"
 
-#: useractions.cpp:587
+#: useractions.cpp:584
 msgid "Move To &Screen"
 msgstr "Naar &scherm verplaatsen"
 
-#: useractions.cpp:602
+#: useractions.cpp:599
 msgid "Ac&tivities"
 msgstr "Ac&tiviteiten"
 
-#: useractions.cpp:614
+#: useractions.cpp:611
 msgid "&All Desktops"
 msgstr "&Alle bureaubladen"
 
-#: useractions.cpp:640
+#: useractions.cpp:637
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "&Nieuw bureaublad"
 
-#: useractions.cpp:661
+#: useractions.cpp:658
 #, kde-format
 msgctxt "@item:inmenu List of all Screens to send a window to"
 msgid "Screen &%1"
 msgstr "Scherm %1"
 
-#: useractions.cpp:679
+#: useractions.cpp:676
 msgid "&All Activities"
 msgstr "&Alle activiteiten"
 
-#: useractions.cpp:884
+#: useractions.cpp:883
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "<b>%1</b> is al in gebruik"
 
-#: useractions.cpp:886
+#: useractions.cpp:885
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "<b>%1</b> is in gebruik door %2 in %3"
 
-#: useractions.cpp:1009
+#: useractions.cpp:1008
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Venster (%1) activeren"
 
-#: useractions.cpp:1382
+#: useractions.cpp:1381
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
 "as active one.\n"
@@ -900,7 +906,7 @@ msgstr "Een bureaublad omlaag schakelen"
 msgid "Switch to Desktop %1"
 msgstr "Schakel naar bureaublad %1"
 
-#: workspace.cpp:1340
+#: workspace.cpp:1317
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

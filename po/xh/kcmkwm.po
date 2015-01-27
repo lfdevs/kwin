@@ -166,7 +166,6 @@ msgstr "Akukho nto"
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: actions.ui:108
 #, fuzzy
-#| msgid "Right button:"
 msgid "Ri&ght button:"
 msgstr "Iqhosha lasekunene:"
 
@@ -178,7 +177,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:134
 #, fuzzy
-#| msgid "Middle button:"
 msgid "Middle b&utton:"
 msgstr "Iqhosha laphakathi:"
 
@@ -195,14 +193,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: actions.ui:210
 #, fuzzy
-#| msgid "Left button:"
 msgid "&Left button:"
 msgstr "Iqhosha lasekhohlo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: actions.ui:229
 #, fuzzy
-#| msgid "Inner Window, Titlebar && Frame"
 msgid "Inner Window, Titlebar & Frame"
 msgstr "Window yangaphakathi, Ibar yewonga && Nesakhelo"
 
@@ -255,16 +251,12 @@ msgstr "Sebenzisa & Nyusa"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: actions.ui:269
 #, fuzzy
-#| msgid "Right button:"
 msgid "&Right button:"
 msgstr "Iqhosha lasekunene:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWinWheel)
 #: actions.ui:288
 #, fuzzy
-#| msgid ""
-#| "In this row you can customize left click behavior when clicking into an "
-#| "inactive inner window ('inner' means: not titlebar, not frame)."
 msgid ""
 "In this row you can customize behavior when scrolling into an inactive inner "
 "window ('inner' means: not titlebar, not frame)."
@@ -281,7 +273,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:297
 #, fuzzy
-#| msgid "Activate & Lower"
 msgid "Activate & Scroll"
 msgstr "Sebenzisa & Yehlisa"
 
@@ -378,7 +369,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: actions.ui:505
 #, fuzzy
-#| msgid "Middle button:"
 msgid "M&iddle button:"
 msgstr "Iqhosha laphakathi:"
 
@@ -390,14 +380,12 @@ msgstr "Window Yangaphakathi Engasebenziyo"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:531
 #, fuzzy
-#| msgid "Left button:"
 msgid "Left &button"
 msgstr "Iqhosha lasekhohlo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:561
 #, fuzzy
-#| msgid "Modifier key:"
 msgid "Modifier &key:"
 msgstr "Isitshixo sokuguqula kancinane:"
 
@@ -529,7 +517,6 @@ msgstr "Zero-Cornered"
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:156
 #, fuzzy
-#| msgid "Focus Under Mouse"
 msgid "Under Mouse"
 msgstr "Uqwalaselo Lungaphantsi kwe Mouse"
 
@@ -572,14 +559,12 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadeHover)
 #: advanced.ui:230 focus.ui:250 focus.ui:475
 #, fuzzy
-#| msgid " msec"
 msgid " ms"
 msgstr " msec"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: advanced.ui:240
 #, fuzzy
-#| msgid "Windows"
 msgid "Special Windows"
 msgstr "Windows"
 
@@ -730,7 +715,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:309
 #, fuzzy
-#| msgid "Lower"
 msgid "Low"
 msgstr "Ezantsi"
 
@@ -755,7 +739,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: focus.ui:364
 #, fuzzy
-#| msgid "&Policy:"
 msgid "Policy"
 msgstr "&Inkqubo:"
 
@@ -936,7 +919,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.cpp:195 mouse.ui:55
 #, fuzzy
-#| msgid "Maximize"
 msgid "Maximize"
 msgstr "Yenza nkulu"
 
@@ -955,7 +937,6 @@ msgstr "Yenza nkulu (tye kuphela)"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: mouse.ui:32
 #, fuzzy
-#| msgid "&Titlebar double-click:"
 msgid "&Double-click:"
 msgstr "&Unqakrazo kabini lwe bar yewonga:"
 
@@ -1144,7 +1125,6 @@ msgstr "Ukuziphatha ku <em>kabini</em> nqakraza kwi bar yewonga."
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: mouse.ui:770
 #, fuzzy
-#| msgid "Titlebar && Frame"
 msgid "Titlebar & Frame"
 msgstr "Ibar yewonga && Isakhelo"
 
@@ -1180,10 +1160,6 @@ msgstr "Bamba ii window kuphela xa &zisalekwa ngaphezulu"
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, centerSnap)
 #: moving.ui:55
 #, fuzzy
-#| msgid ""
-#| "Here you can set the snap zone for screen borders, i.e. the 'strength' of "
-#| "the magnetic field which will make windows snap to the border when moved "
-#| "near it."
 msgid ""
 "Here you can set the snap zone for the screen center, i.e. the 'strength' of "
 "the magnetic field which will make windows snap to the center of the screen "
@@ -1203,7 +1179,6 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, centerSnap)
 #: moving.ui:70
 #, fuzzy
-#| msgid "&Border snap zone:"
 msgid "no center snap zone"
 msgstr "&Ummandla womda wokwenza ngokukhawuleza:"
 
@@ -1215,17 +1190,12 @@ msgstr "&Ummandla womda wokwenza ngokukhawuleza:"
 #. i18n: ectx: property (text), widget (QLabel, centerSnapLabel)
 #: moving.ui:103
 #, fuzzy
-#| msgid "&Border snap zone:"
 msgid "&Center snap zone:"
 msgstr "&Ummandla womda wokwenza ngokukhawuleza:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, windowSnap)
 #: moving.ui:122
 #, fuzzy
-#| msgid ""
-#| "Here you can set the snap zone for windows, i.e. the 'strength' of the "
-#| "magnetic field which will make windows snap to each other when they're "
-#| "moved near another window."
 msgid ""
 "Here you can set the snap zone for windows, i.e. the 'strength' of the "
 "magnetic field which will make windows snap to each other when they are "
@@ -1238,7 +1208,6 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, windowSnap)
 #: moving.ui:137
 #, fuzzy
-#| msgid "&Window snap zone:"
 msgid "no window snap zone"
 msgstr "&Ummandla wokwenziwa ngokukhawuleza we Window:"
 
@@ -1256,7 +1225,6 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, borderSnap)
 #: moving.ui:165
 #, fuzzy
-#| msgid "&Border snap zone:"
 msgid "no border snap zone"
 msgstr "&Ummandla womda wokwenza ngokukhawuleza:"
 

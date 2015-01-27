@@ -51,7 +51,6 @@ msgstr "Перанесці"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:60 actions.ui:162 actions.ui:325
 #, fuzzy
-#| msgid "Activate"
 msgid "Activate, Raise & Move"
 msgstr "Актывізаваць"
 
@@ -127,7 +126,6 @@ msgstr "Найменшыць"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:90 actions.ui:192 actions.ui:355
 #, fuzzy
-#| msgid "Change Opacity"
 msgid "Decrease Opacity"
 msgstr "Змяніць празрыстасць"
 
@@ -136,7 +134,6 @@ msgstr "Змяніць празрыстасць"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:95 actions.ui:197 actions.ui:360
 #, fuzzy
-#| msgid "Change Opacity"
 msgid "Increase Opacity"
 msgstr "Змяніць празрыстасць"
 
@@ -162,7 +159,6 @@ msgstr "Нічога"
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: actions.ui:108
 #, fuzzy
-#| msgid "Right button:"
 msgid "Ri&ght button:"
 msgstr "Правая кнопка:"
 
@@ -174,7 +170,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:134
 #, fuzzy
-#| msgid "Middle button:"
 msgid "Middle b&utton:"
 msgstr "Сярэдняя кнопка:"
 
@@ -189,7 +184,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: actions.ui:210
 #, fuzzy
-#| msgid "Left button:"
 msgid "&Left button:"
 msgstr "Левая кнопка:"
 
@@ -217,7 +211,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coWin3)
 #: actions.ui:251 actions.ui:454 actions.ui:487
 #, fuzzy
-#| msgid "Activate"
 msgid "Activate & Pass Click"
 msgstr "Актывізаваць"
 
@@ -241,14 +234,12 @@ msgstr "Актывізаваць"
 #: actions.ui:261 actions.ui:464 actions.ui:497 mouse.ui:295 mouse.ui:439
 #: mouse.ui:583
 #, fuzzy
-#| msgid "Activate"
 msgid "Activate & Raise"
 msgstr "Актывізаваць"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: actions.ui:269
 #, fuzzy
-#| msgid "Right button:"
 msgid "&Right button:"
 msgstr "Правая кнопка:"
 
@@ -267,14 +258,12 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:297
 #, fuzzy
-#| msgid "Activate"
 msgid "Activate & Scroll"
 msgstr "Актывізаваць"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:302
 #, fuzzy
-#| msgid "Activate"
 msgid "Activate, Raise & Scroll"
 msgstr "Актывізаваць"
 
@@ -297,7 +286,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:383 mouse.ui:126
 #, fuzzy
-#| msgid "Lower"
 msgid "Raise/Lower"
 msgstr "Пасунуць ніжэй"
 
@@ -311,7 +299,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:393 mouse.ui:136
 #, fuzzy
-#| msgid "Maximize"
 msgid "Maximize/Restore"
 msgstr "Найбольшыць"
 
@@ -356,7 +343,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: actions.ui:505
 #, fuzzy
-#| msgid "Middle button:"
 msgid "M&iddle button:"
 msgstr "Сярэдняя кнопка:"
 
@@ -368,7 +354,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:531
 #, fuzzy
-#| msgid "Left button:"
 msgid "Left &button"
 msgstr "Левая кнопка:"
 
@@ -402,7 +387,6 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, wtBox)
 #: advanced.ui:43
 #, fuzzy
-#| msgid "Window Actio&ns"
 msgid "Window Tabbing"
 msgstr "Днеянні во&кнаў"
 
@@ -472,7 +456,6 @@ msgstr "Разумна"
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:131
 #, fuzzy
-#| msgid "Maximize"
 msgid "Maximizing"
 msgstr "Найбольшыць"
 
@@ -535,14 +518,12 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadeHover)
 #: advanced.ui:230 focus.ui:250 focus.ui:475
 #, fuzzy
-#| msgid " msec"
 msgid " ms"
 msgstr " мс"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: advanced.ui:240
 #, fuzzy
-#| msgid "Windows"
 msgid "Special Windows"
 msgstr "Вокны"
 
@@ -563,7 +544,6 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: focus.ui:30
 #, fuzzy
-#| msgid "Windows"
 msgid "Activating windows"
 msgstr "Вокны"
 
@@ -684,8 +664,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:304
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "None"
 msgid "None"
 msgstr "Няма"
 
@@ -693,8 +671,6 @@ msgstr "Няма"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:309
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "Low"
 msgid "Low"
 msgstr "Нізкі"
 
@@ -708,8 +684,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:319
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "High"
 msgid "High"
 msgstr "Высокі"
 
@@ -717,15 +691,12 @@ msgstr "Высокі"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:324
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "Extreme"
 msgid "Extreme"
 msgstr "Экстрымальна"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: focus.ui:364
 #, fuzzy
-#| msgid "&Policy:"
 msgid "Policy"
 msgstr "&Палітыка:"
 
@@ -886,7 +857,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.cpp:195 mouse.ui:55
 #, fuzzy
-#| msgid "Maximize"
 msgid "Maximize"
 msgstr "Найбольшыць"
 
@@ -905,7 +875,6 @@ msgstr "Найбольшыць (толькі гарызантальна)"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: mouse.ui:32
 #, fuzzy
-#| msgid "&Titlebar double-click:"
 msgid "&Double-click:"
 msgstr "Падвоеная пстрычка па загалоўку:"
 
@@ -944,7 +913,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.ui:90
 #, fuzzy
-#| msgid "On All Desktops"
 msgid "On All Desktops"
 msgstr "На ўсіх працоўных сталах"
 
@@ -980,7 +948,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: mouse.ui:204
 #, fuzzy
-#| msgid "Active"
 msgid "Inactive"
 msgstr "Актыўная"
 
@@ -1017,7 +984,6 @@ msgstr "Меню аперацый"
 #: mouse.ui:272 mouse.ui:345 mouse.ui:416 mouse.ui:489 mouse.ui:560
 #: mouse.ui:633
 #, fuzzy
-#| msgid "Window Actio&ns"
 msgid "Start Window Tab Drag"
 msgstr "Днеянні во&кнаў"
 
@@ -1035,7 +1001,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
 #: mouse.ui:300 mouse.ui:444 mouse.ui:588
 #, fuzzy
-#| msgid "Activate"
 msgid "Activate & Lower"
 msgstr "Актывізаваць"
 
@@ -1091,14 +1056,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: mouse.ui:783
 #, fuzzy
-#| msgid "&Titlebar Actions"
 msgid "Titlebar"
 msgstr "Дзеянні радку загалоўку"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: mouse.ui:796
 #, fuzzy
-#| msgid "Maximize"
 msgid "Maximize Button"
 msgstr "Найбольшыць"
 

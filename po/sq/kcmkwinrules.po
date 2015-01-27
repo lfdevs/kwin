@@ -367,14 +367,12 @@ msgstr "Modifiko Shkurtoren"
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage1)
 #: ruleswidgetbase.ui:21
 #, fuzzy
-#| msgid "&Window"
 msgid "&Window matching"
 msgstr "&Dritare"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
 #, fuzzy
-#| msgid "De&scription:"
 msgid "&Description:"
 msgstr "Pë&rshkrimi:"
 
@@ -466,14 +464,12 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #: ruleswidgetbase.ui:468
 #, fuzzy
-#| msgid "On Main Window"
 msgid "Unmanaged Window"
 msgstr "Në Dritaren Kryesore"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage3)
 #: ruleswidgetbase.ui:489
 #, fuzzy
-#| msgid "&Position"
 msgid "&Size && Position"
 msgstr "&Pozicioni"
 
@@ -824,7 +820,6 @@ msgstr "Në Dritaren Kryesore"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_placement)
 #: ruleswidgetbase.ui:1112
 #, fuzzy
-#| msgid "P&lacement"
 msgid "Initial p&lacement"
 msgstr "V&endosja"
 
@@ -870,7 +865,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_screen)
 #: ruleswidgetbase.ui:1369
 #, fuzzy
-#| msgid "Splash Screen"
 msgid "Screen"
 msgstr "Ekrani në Nisje"
 

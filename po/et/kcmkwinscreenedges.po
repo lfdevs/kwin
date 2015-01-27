@@ -48,37 +48,31 @@ msgstr "Ekraani lukustamise vältimine"
 
 #: main.cpp:200
 #, fuzzy, kde-format
-#| msgid "All Desktops"
 msgid "%1 - All Desktops"
 msgstr "Kõigil töölaudadel"
 
 #: main.cpp:201
 #, fuzzy, kde-format
-#| msgid "Current Desktop"
 msgid "%1 - Current Desktop"
 msgstr "Aktiivsel töölaual"
 
 #: main.cpp:202
 #, fuzzy, kde-format
-#| msgid "Current Application"
 msgid "%1 - Current Application"
 msgstr "Aktiivses rakenduses"
 
 #: main.cpp:205
 #, fuzzy, kde-format
-#| msgid "Cube"
 msgid "%1 - Cube"
 msgstr "Kuup"
 
 #: main.cpp:206
 #, fuzzy, kde-format
-#| msgid "Cylinder"
 msgid "%1 - Cylinder"
 msgstr "Silinder"
 
 #: main.cpp:207
 #, fuzzy, kde-format
-#| msgid "Sphere"
 msgid "%1 - Sphere"
 msgstr "Sfäär"
 

@@ -21,13 +21,11 @@ msgstr ""
 
 #: compositing.cpp:387
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 3.1"
 msgstr "ओपन GL"
 
 #: compositing.cpp:388
 #, fuzzy
-#| msgid "OpenGL"
 msgid "OpenGL 2.0"
 msgstr "ओपन GL"
 
@@ -48,15 +46,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:20 qml/CompositingView.qml:55
 #, fuzzy
-#| msgctxt "@option:check"
-#| msgid "Enable desktop effects at startup"
 msgid "Enable compositor on startup"
 msgstr "सुरुवात होताना डेस्कटॉप परिणाम कार्यान्वित करा"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:27
 #, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation speed:"
 msgstr "ऍनीमेशन वेग:"
 
@@ -68,7 +63,6 @@ msgstr "अती जलद"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
 #, fuzzy
-#| msgid "Very Slow"
 msgid "Very slow"
 msgstr "खूप हळु"
 
@@ -76,7 +70,6 @@ msgstr "खूप हळु"
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
 #: compositing.ui:85 compositing.ui:111
 #, fuzzy
-#| msgid "Scale method:"
 msgid "Scale method:"
 msgstr "प्रमाण पद्धत :"
 
@@ -110,7 +103,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
 #, fuzzy
-#| msgid "OpenGL mode:"
 msgid "OpenGL interface:"
 msgstr "OpenGL पद्धती:"
 
@@ -124,10 +116,6 @@ msgstr ""
 #: compositing.ui:167 compositing.ui:213 qml/CompositingView.qml:141
 #: qml/CompositingView.qml:154
 #, fuzzy
-#| msgctxt ""
-#| "Windows are unmapped as they are requested. This can lead to not having "
-#| "updated thumbnials for windows on other desktops."
-#| msgid "Never"
 msgid "Never"
 msgstr "कधीही नाही"
 
@@ -139,14 +127,12 @@ msgstr "स्वयंचलित"
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:177 qml/CompositingView.qml:141
 #, fuzzy
-#| msgid "Only when Cheap"
 msgid "Only when cheap"
 msgstr "फक्त स्वस्त असताना"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:182 qml/CompositingView.qml:141
 #, fuzzy
-#| msgid "Full scene repaints"
 msgid "Full screen repaints"
 msgstr "पूर्ण दृश्य पुन्हप्रदर्शन"
 
@@ -158,7 +144,6 @@ msgstr "स्क्रीन मजकूर पुन्हा वापरा
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:195
 #, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep window thumbnails:"
 msgstr "चौकट लघुप्रतिमा ठेवा :"
 
@@ -170,10 +155,6 @@ msgstr "नेहमी"
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:208 qml/CompositingView.qml:154
 #, fuzzy
-#| msgctxt ""
-#| "Windows are not unmapped if the window is somewhere visible on any of the "
-#| "virtual desktops."
-#| msgid "Only for Shown Windows"
 msgid "Only for Shown Windows"
 msgstr "फक्त दर्शविलेल्या चौकटीं करिताच"
 
@@ -185,7 +166,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
 #: compositing.ui:228 qml/CompositingView.qml:182
 #, fuzzy
-#| msgid "Suspend desktop effects for fullscreen windows"
 msgid "Suspend compositor for full screen windows"
 msgstr "पूर्ण स्क्रीन चौकटींकरिता डेस्कटॉप परिणाम अकार्यान्वित करा"
 
@@ -197,7 +177,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
 #: compositing.ui:242 qml/CompositingView.qml:200
 #, fuzzy
-#| msgid "Enable color correction (experimental)"
 msgid "Enable color correction"
 msgstr "रंग सूसुत्रता कार्यान्वित करा (प्रायोगिक)"
 
@@ -261,35 +240,30 @@ msgstr ""
 
 #: model.cpp:67
 #, fuzzy
-#| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "सुलभता"
 
 #: model.cpp:68
 #, fuzzy
-#| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "दर्शन"
 
 #: model.cpp:69
 #, fuzzy
-#| msgid "Candy"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "केंडी"
 
 #: model.cpp:70
 #, fuzzy
-#| msgid "Focus"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "केंद्र"
 
 #: model.cpp:71
 #, fuzzy
-#| msgid "Tools"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "साधने"
@@ -301,7 +275,6 @@ msgstr ""
 
 #: model.cpp:73
 #, fuzzy
-#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "चौकट व्यवस्थापन"
@@ -312,13 +285,11 @@ msgstr ""
 
 #: qml/CompositingView.qml:67
 #, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation Speed:"
 msgstr "ऍनीमेशन वेग:"
 
 #: qml/CompositingView.qml:106 qml/CompositingView.qml:120
 #, fuzzy
-#| msgid "Scale method:"
 msgid "Scale Method:"
 msgstr "प्रमाण पद्धत :"
 
@@ -328,17 +299,11 @@ msgstr ""
 
 #: qml/CompositingView.qml:148
 #, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep Window Thumbnails:"
 msgstr "चौकट लघुप्रतिमा ठेवा :"
 
 #: qml/CompositingView.qml:154
 #, fuzzy
-#| msgctxt ""
-#| "A window thumbnail requires to have the corresponding window mapped. To "
-#| "have thumbnails at all time, windows are not unmapped. This can break "
-#| "window minimization as it is modelled as unmapping of windows."
-#| msgid "Always (Breaks minimization)"
 msgid "Always (Breaks Animations)"
 msgstr "नेहमी (न्यूनतमता तोडतो)"
 
@@ -367,7 +332,6 @@ msgstr ""
 
 #: qml/EffectView.qml:82
 #, fuzzy
-#| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "टेक्सचर फिल्टर:"
 
@@ -377,8 +341,6 @@ msgstr ""
 
 #: qml/EffectView.qml:93
 #, fuzzy
-#| msgctxt "@option:check"
-#| msgid "Enable desktop effects"
 msgid "Exclude internal Desktop Effects"
 msgstr "डेस्कटॉप प्रभाव कार्यान्वीत करा"
 

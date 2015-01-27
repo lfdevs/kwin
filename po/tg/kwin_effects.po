@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-09-27 09:13+0000\n"
+"POT-Creation-Date: 2015-01-13 12:17+0000\n"
 "PO-Revision-Date: 2010-01-31 01:17+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik <>\n"
@@ -33,14 +33,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: blur/blur_config.ui:42
 #, fuzzy
-#| msgid "Right"
 msgid "Light"
 msgstr "Рост"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: blur/blur_config.ui:74
 #, fuzzy
-#| msgid "&Strength:"
 msgid "Strong"
 msgstr "&Сила:"
 
@@ -51,7 +49,6 @@ msgstr ""
 
 #: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
 #, fuzzy
-#| msgid "Show desktop"
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Показать рабочий стол"
@@ -374,7 +371,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dashboard/dashboard_config.ui:74
 #, fuzzy
-#| msgid "Right"
 msgctxt "More brightness"
 msgid "Lighter"
 msgstr "Рост"
@@ -393,7 +389,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dashboard/dashboard_config.ui:140
 #, fuzzy
-#| msgid "&Color:"
 msgctxt "High saturation"
 msgid "Colored"
 msgstr "&Ранг:"
@@ -406,7 +401,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dashboard/dashboard_config.ui:184
 #, fuzzy
-#| msgid "msec"
 msgid "ms"
 msgstr " мсон"
 
@@ -418,7 +412,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Blur)
 #: dashboard/dashboard_config.ui:196
 #, fuzzy
-#| msgid "Apply effect to &groups"
 msgid "Apply blur effect to background"
 msgstr "Применить эффект к &группам"
 
@@ -537,7 +530,6 @@ msgstr "Применить эффект к &рабочему столу"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimKeepAbove)
 #: diminactive/diminactive_config.ui:31
 #, fuzzy
-#| msgid "Apply effect to &panels"
 msgid "Apply effect to &keep-above windows"
 msgstr "Применить эффект к &панелям"
 
@@ -563,7 +555,6 @@ msgstr ""
 
 #: effect_builtins.cpp:103
 #, fuzzy
-#| msgid "Background color:"
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Ранги пасзамина:"
@@ -585,7 +576,6 @@ msgstr ""
 
 #: effect_builtins.cpp:127
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Мизи кории куб"
@@ -597,7 +587,6 @@ msgstr ""
 
 #: effect_builtins.cpp:139
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Мизи кории куб"
@@ -619,7 +608,6 @@ msgstr ""
 
 #: effect_builtins.cpp:163
 #, fuzzy
-#| msgid "Show Desktop Grid"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Сетка рабочих столов"
@@ -636,7 +624,6 @@ msgstr ""
 
 #: effect_builtins.cpp:176
 #, fuzzy
-#| msgid "Inactive windows:"
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Неактивные окна:"
@@ -658,7 +645,6 @@ msgstr ""
 
 #: effect_builtins.cpp:200
 #, fuzzy
-#| msgid "Send window to all desktops"
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "Показать окно на все рабочие столы"
@@ -696,7 +682,6 @@ msgstr ""
 
 #: effect_builtins.cpp:247
 #, fuzzy
-#| msgid "Invert mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Мышь с клавишами"
@@ -758,21 +743,18 @@ msgstr ""
 
 #: effect_builtins.cpp:319
 #, fuzzy
-#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Анимация"
 
 #: effect_builtins.cpp:320
 #, fuzzy
-#| msgid "Ignore &minimized windows"
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "Игнорировать св&ёрнутые окна"
 
 #: effect_builtins.cpp:331
 #, fuzzy
-#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Анимация"
@@ -786,7 +768,6 @@ msgstr ""
 
 #: effect_builtins.cpp:343
 #, fuzzy
-#| msgid "Clear Mouse Marks"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Очистить метки мыши"
@@ -798,7 +779,6 @@ msgstr ""
 
 #: effect_builtins.cpp:355
 #, fuzzy
-#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Окна"
@@ -810,7 +790,6 @@ msgstr ""
 
 #: effect_builtins.cpp:367
 #, fuzzy
-#| msgid "Close window"
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Закрыть окно"
@@ -863,7 +842,6 @@ msgstr ""
 
 #: effect_builtins.cpp:427
 #, fuzzy
-#| msgid "Show &panels"
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Показывать панели"
@@ -925,7 +903,6 @@ msgstr ""
 
 #: effect_builtins.cpp:499
 #, fuzzy
-#| msgid "Thumbnail Bar"
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Панель миниатюр"
@@ -937,7 +914,6 @@ msgstr ""
 
 #: effect_builtins.cpp:511
 #, fuzzy
-#| msgid "Invert mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Мышь с клавишами"
@@ -954,28 +930,24 @@ msgstr ""
 
 #: effect_builtins.cpp:524
 #, fuzzy
-#| msgid "Display window &icons"
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "Показывать з&начки окон"
 
 #: effect_builtins.cpp:535
 #, fuzzy
-#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Окна"
 
 #: effect_builtins.cpp:536
 #, fuzzy
-#| msgid "Use for window &switching"
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "Использовать для переключения &окон"
 
 #: effect_builtins.cpp:547
 #, fuzzy
-#| msgid "Zoom"
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Калонкунӣ"
@@ -1024,36 +996,34 @@ msgstr "Значение GtkAdjustment для горизонтальной по�
 msgid "Vertical position of front:"
 msgstr "Значение GtkAdjustment для вертикальной позиции элемента."
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, glideEffectLabel)
 #: glide/glide_config.ui:17
 #, fuzzy
-#| msgid "End effect"
 msgid "Glide Effect:"
 msgstr "Остановить эффект"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, inGlideEffectLabel)
 #: glide/glide_config.ui:42
 msgid "In"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, outGlideEffectLabel)
 #: glide/glide_config.ui:71
 msgid "Out"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, glideAngleLabel)
 #: glide/glide_config.ui:93
 #, fuzzy
-#| msgid "Angle:"
 msgid "Glide Angle:"
 msgstr "Угол:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, glideAnglenegLabel)
 #: glide/glide_config.ui:118
 msgid "-90"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, glideAngleposLabel)
 #: glide/glide_config.ui:147
 msgid "90"
 msgstr ""
@@ -1104,13 +1074,11 @@ msgstr "&Фароҳӣ:"
 
 #: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
 #, fuzzy
-#| msgid "Toggle Invert Effect"
 msgid "Toggle Mouse Click Effect"
 msgstr "Переключить эффект инвертирования"
 
 #: mouseclick/mouseclick.cpp:59
 #, fuzzy
-#| msgid "Middle button:"
 msgid "Middle"
 msgstr "Средняя кнопка:"
 
@@ -1122,28 +1090,24 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, button1_label)
 #: mouseclick/mouseclick_config.ui:37
 #, fuzzy
-#| msgid "Left button:"
 msgid "Left Mouse Button Color:"
 msgstr "Левая кнопка:"
 
 #. i18n: ectx: property (text), widget (QLabel, button2_label)
 #: mouseclick/mouseclick_config.ui:50
 #, fuzzy
-#| msgid "Middle button:"
 msgid "Middle Mouse Button Color:"
 msgstr "Средняя кнопка:"
 
 #. i18n: ectx: property (text), widget (QLabel, button3_label)
 #: mouseclick/mouseclick_config.ui:70
 #, fuzzy
-#| msgid "Right button:"
 msgid "Right Mouse Button Color:"
 msgstr "Правая кнопка:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, advanced_tab)
 #: mouseclick/mouseclick_config.ui:91
 #, fuzzy
-#| msgid "Advanced"
 msgid "Advanced Settings"
 msgstr "Иловагӣ"
 
@@ -1155,7 +1119,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, ring_line_width_label)
 #: mouseclick/mouseclick_config.ui:103
 #, fuzzy
-#| msgid "&Width:"
 msgid "Line Width:"
 msgstr "&Дарозӣ:"
 
@@ -1164,7 +1127,6 @@ msgstr "&Дарозӣ:"
 #: mouseclick/mouseclick_config.ui:119 mouseclick/mouseclick_config.ui:171
 #: mousemark/mousemark_config.cpp:55
 #, fuzzy
-#| msgid " px"
 msgid " pixel"
 msgid_plural " pixels"
 msgstr[0] " пиксель"
@@ -1173,14 +1135,12 @@ msgstr[1] " пикселов"
 #. i18n: ectx: property (text), widget (QLabel, ring_duration_label)
 #: mouseclick/mouseclick_config.ui:145
 #, fuzzy
-#| msgid "Fading duration:"
 msgid "Ring Duration:"
 msgstr "Продолжительность затухания:"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_radius_label)
 #: mouseclick/mouseclick_config.ui:155
 #, fuzzy
-#| msgid "&Radius:"
 msgid "Ring Radius:"
 msgstr "&Радиус:"
 
@@ -1203,7 +1163,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, showtext_label)
 #: mouseclick/mouseclick_config.ui:233
 #, fuzzy
-#| msgid "Show desktop"
 msgid "Show Text:"
 msgstr "Показать рабочий стол"
 
@@ -1430,7 +1389,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TextureScale)
 #: resize/resize_config.ui:17
 #, fuzzy
-#| msgid "Close window"
 msgid "Scale window"
 msgstr "Закрыть окно"
 
@@ -1513,7 +1471,6 @@ msgstr "&Оступ:"
 #: thumbnailaside/thumbnailaside_config.ui:55
 #: thumbnailaside/thumbnailaside_config.ui:106
 #, fuzzy
-#| msgid " px"
 msgid " pixels"
 msgstr " пиксель"
 
@@ -1524,7 +1481,6 @@ msgstr "&Непрозрачность:"
 
 #: trackmouse/trackmouse.cpp:60 trackmouse/trackmouse_config.cpp:66
 #, fuzzy
-#| msgid "Invert mouse"
 msgid "Track mouse"
 msgstr "Мышь с клавишами"
 
@@ -1546,7 +1502,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Control)
 #: trackmouse/trackmouse_config.ui:50
 #, fuzzy
-#| msgid "Center"
 msgid "Ctrl"
 msgstr "Марказ"
 
@@ -1631,14 +1586,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Move)
 #: windowgeometry/windowgeometry_config.ui:17
 #, fuzzy
-#| msgid "Display window &icons"
 msgid "Display for moving windows"
 msgstr "Показывать з&начки окон"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Resize)
 #: windowgeometry/windowgeometry_config.ui:24
 #, fuzzy
-#| msgid "Display window &icons"
 msgid "Display for resizing windows"
 msgstr "Показывать з&начки окон"
 
@@ -1718,13 +1671,11 @@ msgstr ""
 
 #: zoom/zoom_config.cpp:84
 #, fuzzy
-#| msgid "Top Left"
 msgid "Move Left"
 msgstr "Вверху слева"
 
 #: zoom/zoom_config.cpp:91
 #, fuzzy
-#| msgid "Top Right"
 msgid "Move Right"
 msgstr "Вверху справа"
 
@@ -1745,7 +1696,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: zoom/zoom_config.ui:28
 #, fuzzy
-#| msgid "Zoom &duration:"
 msgid "Zoom Factor:"
 msgstr "&Длительность масштабирования:"
 
@@ -1804,14 +1754,12 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:128
 #, fuzzy
-#| msgid "Horizontal"
 msgid "Proportional"
 msgstr "Горизонталь"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:133
 #, fuzzy
-#| msgid "Center"
 msgid "Centered"
 msgstr "Марказ"
 
@@ -1823,8 +1771,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:143
 #, fuzzy
-#| msgctxt "Desktop name alignment:"
-#| msgid "Disabled"
 msgid "Disabled"
 msgstr "Выключен"
 

@@ -112,10 +112,12 @@ Description: KDE window manager effect builtins library
  .
  This package is part of the KDE base workspace module.
 
-Package: libkwineffects5
+Package: libkwineffects6
 Section: libs
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
+Breaks: libkwineffects5 (<< 4:5.2.0)
+Replaces: libkwineffects5 (<< 4:5.2.0)
 Description: KDE window manager effects library
  KWin (pronounced as one syllable "kwin") is the window
  manager for the KDE Plasma Desktop. It gives you complete
@@ -127,10 +129,12 @@ Description: KDE window manager effects library
  .
  This package is part of the KDE base workspace module.
 
-Package: libkwinglutils5
+Package: libkwinglutils6
 Section: libs
 Architecture: amd64 arm64 i386 powerpc ppc64el
 Depends: ${misc:Depends}, ${shlibs:Depends}
+Breaks: libkwinglutils5 (<< 4:5.2.0)
+Replaces: libkwinglutils5 (<< 4:5.2.0)
 Description: KDE window manager gl utils library
  KWin (pronounced as one syllable "kwin") is the window
  manager for the KDE Plasma Desktop. It gives you complete
@@ -142,10 +146,12 @@ Description: KDE window manager gl utils library
  .
  This package is part of the KDE base workspace module.
 
-Package: libkwinglesutils5
+Package: libkwinglesutils6
 Section: libs
 Architecture: armhf
 Depends: ${misc:Depends}, ${shlibs:Depends}
+Breaks: libkwinglesutils5 (<< 4:5.2.0)
+Replaces: libkwinglesutils5 (<< 4:5.2.0)
 Description: KDE window manager gl utils library
  KWin (pronounced as one syllable "kwin") is the window
  manager for the KDE Plasma Desktop. It gives you complete
@@ -157,10 +163,12 @@ Description: KDE window manager gl utils library
  .
  This package is part of the KDE base workspace module.
 
-Package: libkwinxrenderutils5
+Package: libkwinxrenderutils6
 Section: libs
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
+Breaks: libkwinxrenderutils5 (<< 4:5.2.0)
+Replaces: libkwinxrenderutils5 (<< 4:5.2.0)
 Description: KDE window manager render utils library
  KWin (pronounced as one syllable "kwin") is the window
  manager for the KDE Plasma Desktop. It gives you complete

@@ -43,7 +43,6 @@ msgstr "तमास कृत्की"
 
 #: module.cpp:77
 #, fuzzy
-#| msgid "Import KWin script..."
 msgid "Import KWin Script"
 msgstr "के-विन स्क्रिप्ट आयात करा..."
 

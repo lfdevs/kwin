@@ -59,7 +59,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:60 actions.ui:162 actions.ui:325
 #, fuzzy
-#| msgid "Activate, Raise and Move"
 msgid "Activate, Raise & Move"
 msgstr "Gweithredoli, Codi a Symud"
 
@@ -168,7 +167,6 @@ msgstr "Dim"
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: actions.ui:108
 #, fuzzy
-#| msgid "Right button:"
 msgid "Ri&ght button:"
 msgstr "Botwm dde:"
 
@@ -180,7 +178,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:134
 #, fuzzy
-#| msgid "Middle button:"
 msgid "Middle b&utton:"
 msgstr "Botwm canol:"
 
@@ -197,14 +194,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: actions.ui:210
 #, fuzzy
-#| msgid "Left button:"
 msgid "&Left button:"
 msgstr "Botwm chwith:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: actions.ui:229
 #, fuzzy
-#| msgid "Inner Window, Titlebar && Frame"
 msgid "Inner Window, Titlebar & Frame"
 msgstr "Ffenestr Mewnol, Bar Teitl, a Ffrâm"
 
@@ -256,16 +251,12 @@ msgstr "Gweithredoli a Chodi"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: actions.ui:269
 #, fuzzy
-#| msgid "Right button:"
 msgid "&Right button:"
 msgstr "Botwm dde:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWinWheel)
 #: actions.ui:288
 #, fuzzy
-#| msgid ""
-#| "In this row you can customize left click behavior when clicking into an "
-#| "inactive inner window ('inner' means: not titlebar, not frame)."
 msgid ""
 "In this row you can customize behavior when scrolling into an inactive inner "
 "window ('inner' means: not titlebar, not frame)."
@@ -281,14 +272,12 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:297
 #, fuzzy
-#| msgid "Activate & Lower"
 msgid "Activate & Scroll"
 msgstr "Gweithredoli a Gostwng"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:302
 #, fuzzy
-#| msgid "Activate, Raise and Move"
 msgid "Activate, Raise & Scroll"
 msgstr "Gweithredoli, Codi a Symud"
 
@@ -378,7 +367,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: actions.ui:505
 #, fuzzy
-#| msgid "Middle button:"
 msgid "M&iddle button:"
 msgstr "Botwm canol:"
 
@@ -390,14 +378,12 @@ msgstr "Ffenestr Mewnol Anweithredol"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:531
 #, fuzzy
-#| msgid "Left button:"
 msgid "Left &button"
 msgstr "Botwm chwith:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:561
 #, fuzzy
-#| msgid "Modifier key:"
 msgid "Modifier &key:"
 msgstr "Bysell addasu:"
 
@@ -528,7 +514,6 @@ msgstr "Cornel-Sero"
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:156
 #, fuzzy
-#| msgid "Focus Under Mouse"
 msgid "Under Mouse"
 msgstr "Canolbwynt o Dan Lygoden"
 
@@ -570,14 +555,12 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadeHover)
 #: advanced.ui:230 focus.ui:250 focus.ui:475
 #, fuzzy
-#| msgid " msec"
 msgid " ms"
 msgstr "m-eil"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: advanced.ui:240
 #, fuzzy
-#| msgid "Windows"
 msgid "Special Windows"
 msgstr "Ffenestri"
 
@@ -673,7 +656,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, delayFocusOnLabel)
 #: focus.ui:228
 #, fuzzy
-#| msgid "Delay focus"
 msgid "&Delay focus by"
 msgstr "Oedi canolbwynt"
 
@@ -689,7 +671,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, focusStealingLabel)
 #: focus.ui:273
 #, fuzzy
-#| msgid "Focus stealing prevention level:"
 msgid "Focus &stealing prevention"
 msgstr "Lefel o ataliad dwyn canolbwynt:"
 
@@ -741,8 +722,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:304
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "None"
 msgid "None"
 msgstr "Dim"
 
@@ -750,8 +729,6 @@ msgstr "Dim"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:309
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "Low"
 msgid "Low"
 msgstr "Isel"
 
@@ -765,8 +742,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:319
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "High"
 msgid "High"
 msgstr "Uchel"
 
@@ -774,15 +749,12 @@ msgstr "Uchel"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:324
 #, fuzzy
-#| msgctxt "Focus Stealing Prevention Level"
-#| msgid "Extreme"
 msgid "Extreme"
 msgstr "Eithaf"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: focus.ui:364
 #, fuzzy
-#| msgid "&Policy:"
 msgid "Policy"
 msgstr "&Polisi:"
 
@@ -839,7 +811,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, clickRaiseOn)
 #: focus.ui:497
 #, fuzzy
-#| msgid "C&lick raise active window"
 msgid "C&lick raises active window"
 msgstr "C&lic i godi'r ffenestr weithredol"
 
@@ -943,13 +914,6 @@ msgstr ""
 
 #: main.cpp:166
 #, fuzzy
-#| msgid ""
-#| "<h1>Window Behavior</h1> Here you can customize the way windows behave "
-#| "when being moved, resized or clicked on. You can also specify a focus "
-#| "policy as well as a placement policy for new windows. <p>Please note that "
-#| "this configuration will not take effect if you do not use KWin as your "
-#| "window manager. If you do use a different window manager, please refer to "
-#| "its documentation for how to customize window behavior."
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
 "when being moved, resized or clicked on. You can also specify a focus policy "
@@ -969,7 +933,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.cpp:195 mouse.ui:55
 #, fuzzy
-#| msgid "Maximize"
 msgid "Maximize"
 msgstr "Ehangu"
 
@@ -988,7 +951,6 @@ msgstr "Ehangu (llorweddol yn unig)"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: mouse.ui:32
 #, fuzzy
-#| msgid "&Titlebar double-click:"
 msgid "&Double-click:"
 msgstr "Clic-dwbl ar y &Bar Teitl:"
 
@@ -1027,7 +989,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.ui:90
 #, fuzzy
-#| msgid "On All Desktops"
 msgid "On All Desktops"
 msgstr "Ar Bob Penbwrdd"
 
@@ -1179,7 +1140,6 @@ msgstr "Ymddygiad ar glic <em>dwbl</em> i'r bar teitl."
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: mouse.ui:770
 #, fuzzy
-#| msgid "Titlebar && Frame"
 msgid "Titlebar & Frame"
 msgstr "Bar Teitl && Ffrâm"
 
@@ -1214,10 +1174,6 @@ msgstr "Snapio ffenestri pan yn gorgyffwrdd yn &unig"
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, centerSnap)
 #: moving.ui:55
 #, fuzzy
-#| msgid ""
-#| "Here you can set the snap zone for screen borders, i.e. the 'strength' of "
-#| "the magnetic field which will make windows snap to the border when moved "
-#| "near it."
 msgid ""
 "Here you can set the snap zone for the screen center, i.e. the 'strength' of "
 "the magnetic field which will make windows snap to the center of the screen "
@@ -1236,7 +1192,6 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, centerSnap)
 #: moving.ui:70
 #, fuzzy
-#| msgid "&Border snap zone:"
 msgid "no center snap zone"
 msgstr "Cylchfa snap ff&in"
 
@@ -1248,17 +1203,12 @@ msgstr "Cylchfa snap ff&in"
 #. i18n: ectx: property (text), widget (QLabel, centerSnapLabel)
 #: moving.ui:103
 #, fuzzy
-#| msgid "&Border snap zone:"
 msgid "&Center snap zone:"
 msgstr "Cylchfa snap ff&in"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, windowSnap)
 #: moving.ui:122
 #, fuzzy
-#| msgid ""
-#| "Here you can set the snap zone for windows, i.e. the 'strength' of the "
-#| "magnetic field which will make windows snap to each other when they're "
-#| "moved near another window."
 msgid ""
 "Here you can set the snap zone for windows, i.e. the 'strength' of the "
 "magnetic field which will make windows snap to each other when they are "
@@ -1271,7 +1221,6 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, windowSnap)
 #: moving.ui:137
 #, fuzzy
-#| msgid "&Window snap zone:"
 msgid "no window snap zone"
 msgstr "Cylchfa snap &ffenestr"
 
@@ -1288,7 +1237,6 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, borderSnap)
 #: moving.ui:165
 #, fuzzy
-#| msgid "&Border snap zone:"
 msgid "no border snap zone"
 msgstr "Cylchfa snap ff&in"
 

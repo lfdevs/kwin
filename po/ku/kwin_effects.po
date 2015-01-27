@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-09-27 09:13+0000\n"
+"POT-Creation-Date: 2015-01-13 12:17+0000\n"
 "PO-Revision-Date: 2009-01-06 02:36+0200\n"
 "Last-Translator: Omer Ensari <oensari@gmail.com>\n"
 "Language-Team: Kurdish <ubuntu-l10n-kur@lists.ubuntu.com>\n"
@@ -35,7 +35,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: blur/blur_config.ui:42
 #, fuzzy
-#| msgid "Right"
 msgid "Light"
 msgstr "Rast"
 
@@ -51,7 +50,6 @@ msgstr ""
 
 #: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Sermase ya Mîkap"
@@ -87,7 +85,6 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: coverswitch/coverswitch_config.ui:110
 #, fuzzy
-#| msgid "Activation"
 msgid "Animation"
 msgstr "Çalak kirin"
 
@@ -123,7 +120,6 @@ msgstr "Wekî heyî"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
 #: coverswitch/coverswitch_config.ui:161
 #, fuzzy
-#| msgid " msec"
 msgid " milliseconds"
 msgstr " mçir"
 
@@ -136,14 +132,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: coverswitch/coverswitch_config.ui:195
 #, fuzzy
-#| msgid "Text color:"
 msgid "Rear color"
 msgstr "Rengê nivîsê:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: coverswitch/coverswitch_config.ui:205
 #, fuzzy
-#| msgid "Background color:"
 msgid "Front color"
 msgstr "Rengê rûerdê:"
 
@@ -153,13 +147,11 @@ msgstr "Sermase ya Mîkap"
 
 #: cube/cube.cpp:209 cube/cube_config.cpp:74
 #, fuzzy
-#| msgid "Desktop Cube"
 msgid "Desktop Cylinder"
 msgstr "Sermase ya Mîkap"
 
 #: cube/cube.cpp:215 cube/cube_config.cpp:78
 #, fuzzy
-#| msgid "Desktop Cube"
 msgid "Desktop Sphere"
 msgstr "Sermase ya Mîkap"
 
@@ -381,7 +373,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dashboard/dashboard_config.ui:74
 #, fuzzy
-#| msgid "Right"
 msgctxt "More brightness"
 msgid "Lighter"
 msgstr "Rast"
@@ -400,7 +391,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dashboard/dashboard_config.ui:140
 #, fuzzy
-#| msgid "&Color:"
 msgctxt "High saturation"
 msgid "Colored"
 msgstr "&Reng:"
@@ -413,7 +403,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dashboard/dashboard_config.ui:184
 #, fuzzy
-#| msgid "msec"
 msgid "ms"
 msgstr "mçir"
 
@@ -433,7 +422,6 @@ msgstr ""
 
 #: desktopgrid/desktopgrid_config.cpp:74
 #, fuzzy
-#| msgid "Disabled"
 msgctxt "Desktop name alignment:"
 msgid "Disabled"
 msgstr "Neçalak"
@@ -568,7 +556,6 @@ msgstr ""
 
 #: effect_builtins.cpp:103
 #, fuzzy
-#| msgid "Background color:"
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Rengê rûerdê:"
@@ -590,7 +577,6 @@ msgstr ""
 
 #: effect_builtins.cpp:127
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Sermase ya Mîkap"
@@ -602,7 +588,6 @@ msgstr ""
 
 #: effect_builtins.cpp:139
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Sermase ya Mîkap"
@@ -624,7 +609,6 @@ msgstr ""
 
 #: effect_builtins.cpp:163
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Sermase ya Mîkap"
@@ -641,7 +625,6 @@ msgstr ""
 
 #: effect_builtins.cpp:176
 #, fuzzy
-#| msgid "Activation"
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Çalak kirin"
@@ -759,7 +742,6 @@ msgstr ""
 
 #: effect_builtins.cpp:319
 #, fuzzy
-#| msgid "Activation"
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Çalak kirin"
@@ -771,7 +753,6 @@ msgstr ""
 
 #: effect_builtins.cpp:331
 #, fuzzy
-#| msgid "Activation"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Çalak kirin"
@@ -856,7 +837,6 @@ msgstr ""
 
 #: effect_builtins.cpp:427
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Sermase ya Mîkap"
@@ -958,7 +938,6 @@ msgstr ""
 
 #: effect_builtins.cpp:547
 #, fuzzy
-#| msgid "Zoom"
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Mezin kirin"
@@ -1007,32 +986,32 @@ msgstr ""
 msgid "Vertical position of front:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, glideEffectLabel)
 #: glide/glide_config.ui:17
 msgid "Glide Effect:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, inGlideEffectLabel)
 #: glide/glide_config.ui:42
 msgid "In"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, outGlideEffectLabel)
 #: glide/glide_config.ui:71
 msgid "Out"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, glideAngleLabel)
 #: glide/glide_config.ui:93
 msgid "Glide Angle:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, glideAnglenegLabel)
 #: glide/glide_config.ui:118
 msgid "-90"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, glideAngleposLabel)
 #: glide/glide_config.ui:147
 msgid "90"
 msgstr ""
@@ -1058,7 +1037,6 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AnimationDuration)
 #: magiclamp/magiclamp_config.ui:39
 #, fuzzy
-#| msgid " msec"
 msgid "milliseconds"
 msgstr " mçir"
 
@@ -1114,7 +1092,6 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, advanced_tab)
 #: mouseclick/mouseclick_config.ui:91
 #, fuzzy
-#| msgid "Advanced"
 msgid "Advanced Settings"
 msgstr "Pêşketî"
 
@@ -1126,7 +1103,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, ring_line_width_label)
 #: mouseclick/mouseclick_config.ui:103
 #, fuzzy
-#| msgid "&Width:"
 msgid "Line Width:"
 msgstr "&Firehî:"
 
@@ -1135,7 +1111,6 @@ msgstr "&Firehî:"
 #: mouseclick/mouseclick_config.ui:119 mouseclick/mouseclick_config.ui:171
 #: mousemark/mousemark_config.cpp:55
 #, fuzzy
-#| msgid " pixels"
 msgid " pixel"
 msgid_plural " pixels"
 msgstr[0] " pîksel"
@@ -1170,7 +1145,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, showtext_label)
 #: mouseclick/mouseclick_config.ui:233
 #, fuzzy
-#| msgid "Desktop Cube"
 msgid "Show Text:"
 msgstr "Sermase ya Mîkap"
 
@@ -1280,7 +1254,6 @@ msgstr ""
 #: presentwindows/presentwindows_config.ui:322
 #: presentwindows/presentwindows_config.ui:356
 #, fuzzy
-#| msgid "Activation"
 msgid "Activate window"
 msgstr "Çalak kirin"
 
@@ -1343,7 +1316,6 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
 #: presentwindows/presentwindows_config.ui:263
 #, fuzzy
-#| msgid "Desktop Cube"
 msgctxt "@title:group actions when clicking on desktop"
 msgid "Desktop"
 msgstr "Sermase ya Mîkap"
@@ -1400,7 +1372,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TextureScale)
 #: resize/resize_config.ui:17
 #, fuzzy
-#| msgid "Activation"
 msgid "Scale window"
 msgstr "Çalak kirin"
 
@@ -1483,7 +1454,6 @@ msgstr ""
 #: thumbnailaside/thumbnailaside_config.ui:55
 #: thumbnailaside/thumbnailaside_config.ui:106
 #, fuzzy
-#| msgid " pixels"
 msgid " pixels"
 msgstr " pîksel"
 
@@ -1514,7 +1484,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Control)
 #: trackmouse/trackmouse_config.ui:50
 #, fuzzy
-#| msgid "Center"
 msgid "Ctrl"
 msgstr "Navîn"
 
@@ -1682,13 +1651,11 @@ msgstr ""
 
 #: zoom/zoom_config.cpp:84
 #, fuzzy
-#| msgid "Top Left"
 msgid "Move Left"
 msgstr "Çepê Jor"
 
 #: zoom/zoom_config.cpp:91
 #, fuzzy
-#| msgid "Top Right"
 msgid "Move Right"
 msgstr "Rastê Jor"
 
@@ -1771,7 +1738,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:133
 #, fuzzy
-#| msgid "Center"
 msgid "Centered"
 msgstr "Navîn"
 
@@ -1783,7 +1749,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:143
 #, fuzzy
-#| msgid "Disabled"
 msgid "Disabled"
 msgstr "Neçalak"
 

@@ -47,7 +47,6 @@ msgstr "Aktifkan kompositor saat startup"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:27
 #, fuzzy
-#| msgid "Animation Speed:"
 msgid "Animation speed:"
 msgstr "Kecepatan Animasi:"
 
@@ -59,7 +58,6 @@ msgstr "Instan"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
 #, fuzzy
-#| msgid "Very Slow"
 msgid "Very slow"
 msgstr "Sangat Pelan"
 
@@ -67,7 +65,6 @@ msgstr "Sangat Pelan"
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
 #: compositing.ui:85 compositing.ui:111
 #, fuzzy
-#| msgid "Scale Method:"
 msgid "Scale method:"
 msgstr "Metode Skala:"
 
@@ -101,14 +98,12 @@ msgstr "Ujung belakang render:"
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
 #, fuzzy
-#| msgid "OpenGL Platform Interface:"
 msgid "OpenGL interface:"
 msgstr "Antarmuka Platform OpenGL:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: compositing.ui:159
 #, fuzzy
-#| msgid "Tearing Prevention (VSync):"
 msgid "Tearing prevention (\"vsync\"):"
 msgstr "Pencegahan Sobek (VSync):"
 
@@ -142,7 +137,6 @@ msgstr "Daur ulang isi layar"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:195
 #, fuzzy
-#| msgid "Keep Window Thumbnails:"
 msgid "Keep window thumbnails:"
 msgstr "Jaga Miniatur Jendela:"
 
@@ -324,7 +318,6 @@ msgstr "Pencarian"
 
 #: qml/EffectView.qml:82
 #, fuzzy
-#| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "Filter tekstur:"
 

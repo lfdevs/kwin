@@ -213,7 +213,6 @@ msgstr "%1 కొరకు విండో అమరికలు"
 
 #: main.cpp:215
 #, fuzzy
-#| msgid "Edit Window-Specific Settings"
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "విండో-ప్రత్యేక అమరికలను సరికూర్చుము"
@@ -369,21 +368,18 @@ msgstr "శీఘ్రమార్గమును సరికూర్చు�
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage1)
 #: ruleswidgetbase.ui:21
 #, fuzzy
-#| msgid "&Window"
 msgid "&Window matching"
 msgstr "(&W) విండో"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
 #, fuzzy
-#| msgid "De&scription:"
 msgid "&Description:"
 msgstr "(&s) వివరణ:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: ruleswidgetbase.ui:46
 #, fuzzy
-#| msgid "Window &class (application type):"
 msgid "Window &class (application):"
 msgstr "(&c) విండో క్లాస్ (అనువర్తనము రకము):"
 
@@ -440,7 +436,6 @@ msgstr "(&h) మొత్తము విండో క్లాస్‌ను �
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: ruleswidgetbase.ui:109
 #, fuzzy
-#| msgid "Window &role:"
 msgid "Window ro&le:"
 msgstr "(&r) విండో పాత్ర:"
 
@@ -472,14 +467,12 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #: ruleswidgetbase.ui:468
 #, fuzzy
-#| msgid "On Main Window"
 msgid "Unmanaged Window"
 msgstr "ముఖ్య విండోపైన"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage3)
 #: ruleswidgetbase.ui:489
 #, fuzzy
-#| msgid "&Position"
 msgid "&Size && Position"
 msgstr "(&P) స్థానము"
 
@@ -760,7 +753,6 @@ msgstr "(&D) రంగస్థలము"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_activity)
 #: ruleswidgetbase.ui:802
 #, fuzzy
-#| msgid "A&ctive opacity in %"
 msgid "Activit&y"
 msgstr "(&c) క్రియాశీల వొపాసిటి % లో"
 
@@ -832,7 +824,6 @@ msgstr "ముఖ్య విండోపైన"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_placement)
 #: ruleswidgetbase.ui:1112
 #, fuzzy
-#| msgid "No Placement"
 msgid "Initial p&lacement"
 msgstr "ప్లేస్ చేయలేదు"
 
@@ -878,7 +869,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_screen)
 #: ruleswidgetbase.ui:1369
 #, fuzzy
-#| msgid "Splash Screen"
 msgid "Screen"
 msgstr "స్ప్లాష్ స్క్రీన్"
 
@@ -915,7 +905,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_skipswitcher)
 #: ruleswidgetbase.ui:1501
 #, fuzzy
-#| msgid "Skip pa&ger"
 msgid "Skip &switcher"
 msgstr "(&g) పేజర్‌ను వదిలివేయుము"
 
@@ -972,7 +961,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityactive)
 #: ruleswidgetbase.ui:1995
 #, fuzzy
-#| msgid "A&ctive opacity in %"
 msgid "A&ctive opacity"
 msgstr "(&c) క్రియాశీల వొపాసిటి % లో"
 
@@ -986,7 +974,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityinactive)
 #: ruleswidgetbase.ui:2031
 #, fuzzy
-#| msgid "I&nactive opacity in %"
 msgid "I&nactive opacity"
 msgstr "(&n) క్రియాహీన వొపాసిటీ % లో"
 
@@ -1019,7 +1006,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_disableglobalshortcuts)
 #: ruleswidgetbase.ui:2143
 #, fuzzy
-#| msgid "Block global shortcuts"
 msgid "Ignore global shortcuts"
 msgstr "సార్వత్రిక శీఘ్రమార్గములను బ్లాక్ చేయుము"
 
@@ -1036,7 +1022,6 @@ msgstr "(&t) విండో రకము"
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #: ruleswidgetbase.ui:2373
 #, fuzzy
-#| msgid "None"
 msgctxt "no focus stealing prevention"
 msgid "None"
 msgstr "ఏదీకాదు"

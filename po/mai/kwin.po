@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-11-30 09:26+0000\n"
+"POT-Creation-Date: 2015-01-18 09:50+0000\n"
 "PO-Revision-Date: 2010-09-24 21:47+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh672@gmail.com>\n"
 "Language-Team: Maithili <bhashaghar@googlegroups.com>\n"
@@ -32,14 +32,14 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "sangeeta09@gmail.com"
 
-#: composite.cpp:500
+#: composite.cpp:503
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
 "resume using the '%1' shortcut."
 msgstr ""
 
-#: compositingprefs.cpp:98
+#: compositingprefs.cpp:99
 msgid ""
 "<b>OpenGL compositing (the default) has crashed KWin in the past.</"
 "b><br>This was most likely due to a driver bug.<p>If you think that you have "
@@ -48,25 +48,20 @@ msgid ""
 "p><p>Alternatively, you might want to use the XRender backend instead.</p>"
 msgstr ""
 
-#: compositingprefs.cpp:105
+#: compositingprefs.cpp:106
 msgid "Required X extensions (XComposite and XDamage) are not available."
 msgstr ""
 
-#: compositingprefs.cpp:109
+#: compositingprefs.cpp:110
 msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
 msgstr ""
 
-#: compositingprefs.cpp:113
+#: compositingprefs.cpp:114
 msgid "GLX/OpenGL and XRender/XFixes are not available."
 msgstr ""
 
-#: decorations.cpp:59
-msgid "KWin: "
-msgstr "के-विनः"
-
 #: killer/killer.cpp:44
 #, fuzzy
-#| msgid "KDE window manager"
 msgid "Window Manager"
 msgstr "केडीई विंडो प्रबंधक"
 
@@ -167,13 +162,11 @@ msgstr ""
 
 #: kwinbindings.cpp:40
 #, fuzzy
-#| msgid "Walk Through Windows"
 msgid "Walk Through Window Tabs"
 msgstr "विंडोज केर आरपार चलू"
 
 #: kwinbindings.cpp:41
 #, fuzzy
-#| msgid "Walk Through Windows (Reverse)"
 msgid "Walk Through Window Tabs (Reverse)"
 msgstr "विंडोज केर आरपार चलू (उनटू)"
 
@@ -287,61 +280,51 @@ msgstr "विंडो खडे मे पैक सिकोड़ू"
 
 #: kwinbindings.cpp:96
 #, fuzzy
-#| msgid "Pack Window to the Left"
 msgid "Quick Tile Window to the Left"
 msgstr "विंडो बम्माँ क तरफ पैक करू"
 
 #: kwinbindings.cpp:98
 #, fuzzy
-#| msgid "Pack Window to the Right"
 msgid "Quick Tile Window to the Right"
 msgstr "विंडो दहिन्ना कए तरफ पैक करू"
 
 #: kwinbindings.cpp:100
 #, fuzzy
-#| msgid "Pack Window to the Left"
 msgid "Quick Tile Window to the Top Left"
 msgstr "विंडो बम्माँ क तरफ पैक करू"
 
 #: kwinbindings.cpp:102
 #, fuzzy
-#| msgid "Pack Window to the Left"
 msgid "Quick Tile Window to the Bottom Left"
 msgstr "विंडो बम्माँ क तरफ पैक करू"
 
 #: kwinbindings.cpp:104
 #, fuzzy
-#| msgid "Pack Window to the Right"
 msgid "Quick Tile Window to the Top Right"
 msgstr "विंडो दहिन्ना कए तरफ पैक करू"
 
 #: kwinbindings.cpp:106
 #, fuzzy
-#| msgid "Pack Window to the Right"
 msgid "Quick Tile Window to the Bottom Right"
 msgstr "विंडो दहिन्ना कए तरफ पैक करू"
 
 #: kwinbindings.cpp:108
 #, fuzzy
-#| msgid "Switch to Screen 0"
 msgid "Switch to Window Above"
 msgstr "स्क्रीन 0 मे स्विच करू"
 
 #: kwinbindings.cpp:110
 #, fuzzy
-#| msgid "Switch to Previous Desktop"
 msgid "Switch to Window Below"
 msgstr "पछिला डेस्कटाप पर स्विच करू"
 
 #: kwinbindings.cpp:112
 #, fuzzy
-#| msgid "Pack Window to the Right"
 msgid "Switch to Window to the Right"
 msgstr "विंडो दहिन्ना कए तरफ पैक करू"
 
 #: kwinbindings.cpp:114
 #, fuzzy
-#| msgid "Pack Window to the Left"
 msgid "Switch to Window to the Left"
 msgstr "विंडो बम्माँ क तरफ पैक करू"
 
@@ -359,7 +342,6 @@ msgstr "विंडो सबहि डेस्कटाप पर राख�
 
 #: kwinbindings.cpp:125
 #, fuzzy, kde-format
-#| msgid "Window to Desktop 1"
 msgid "Window to Desktop %1"
 msgstr "विंडो डेस्कटाप 1 पर"
 
@@ -389,7 +371,6 @@ msgstr "विंडो एकटा डेस्कटाप नीच्चा
 
 #: kwinbindings.cpp:135
 #, fuzzy, kde-format
-#| msgid "Window to Screen 1"
 msgid "Window to Screen %1"
 msgstr "विंडो सँ स्क्रीन 1"
 
@@ -399,19 +380,16 @@ msgstr "विंडो सँ अगिला स्क्रीन"
 
 #: kwinbindings.cpp:138
 #, fuzzy
-#| msgid "Window to Previous Desktop"
 msgid "Window to Previous Screen"
 msgstr "विंडो पछिला डेस्कटाप पर"
 
 #: kwinbindings.cpp:139
 #, fuzzy
-#| msgid "To &Desktop"
 msgid "Show Desktop"
 msgstr "डेस्कटॉप देखाबू"
 
 #: kwinbindings.cpp:142
 #, fuzzy, kde-format
-#| msgid "Switch to Screen 1"
 msgid "Switch to Screen %1"
 msgstr "स्क्रीन 1 मे स्विच करू"
 
@@ -421,7 +399,6 @@ msgstr "अगिला स्क्रीन मे स्विच करू"
 
 #: kwinbindings.cpp:146
 #, fuzzy
-#| msgid "Switch to Previous Desktop"
 msgid "Switch to Previous Screen"
 msgstr "पछिला डेस्कटाप पर स्विच करू"
 
@@ -447,55 +424,52 @@ msgstr ""
 "प्रतीत हाएत अछि जे ई बहुत बेर लगातार क्रैश भए गेल अछि.\n"
 "अहाँ दोसर विंडो प्रबंधक चुनि सकैत छी:"
 
-#: main.cpp:259 main.cpp:286
+#: main.cpp:260 main.cpp:287
 msgid "KDE window manager"
 msgstr "केडीई विंडो प्रबंधक"
 
-#: main.cpp:264
+#: main.cpp:265
 msgid "KWin"
 msgstr "के-विन"
 
-#: main.cpp:268
+#: main.cpp:269
 msgid "(c) 1999-2013, The KDE Developers"
 msgstr ""
 
-#: main.cpp:270
+#: main.cpp:271
 msgid "Matthias Ettrich"
 msgstr "मेथियास एट्रिच"
 
-#: main.cpp:271
+#: main.cpp:272
 msgid "Cristian Tibirna"
 msgstr "क्रिश्चियन टिबरिना"
 
-#: main.cpp:272
+#: main.cpp:273
 msgid "Daniel M. Duley"
 msgstr "डेनियल एम. डुले"
 
-#: main.cpp:273
+#: main.cpp:274
 msgid "Luboš Luňák"
 msgstr "Luboš Luňák"
 
-#: main.cpp:274
+#: main.cpp:275
 msgid "Martin Gräßlin"
 msgstr ""
 
-#: main.cpp:274
+#: main.cpp:275
 msgid "Maintainer"
 msgstr "अनुरक्षक"
 
-#: main.cpp:283
+#: main.cpp:284
 msgid "Disable configuration options"
 msgstr "कान्फिगरेशन विकल्प अक्षम करू"
 
-#: main.cpp:284
+#: main.cpp:285
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "इंगित करैत अछि जे के-विन हाले मे बहुत बेर क्रैश भेल अछि"
 
 #: main_wayland.cpp:88
 #, fuzzy
-#| msgid ""
-#| "kwin: unable to claim manager selection, another wm running? (try using --"
-#| "replace)\n"
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr ""
 "के-विनः प्रबंधक सत्र क्लेम करब मे अक्षम, आन विंडो प्रबंधक चलि रहल अछि. (आजमाबू --replace "
@@ -507,12 +481,19 @@ msgid ""
 "set.\n"
 msgstr ""
 
-#: main_wayland.cpp:231
+#: main_wayland.cpp:235
 msgid "Start a nested X Server."
 msgstr ""
 
-#: main_wayland.cpp:234
-msgid "The X11 Display to connect to, required if option x-server is used."
+#: main_wayland.cpp:238
+msgid ""
+"The X11 Display to connect to. If not set next free number will be picked."
+msgstr ""
+
+#: main_wayland.cpp:247
+msgid ""
+"Enable libinput support for input events processing. Note: never use in a "
+"nested session."
 msgstr ""
 
 #: main_x11.cpp:149
@@ -525,9 +506,6 @@ msgstr ""
 
 #: main_x11.cpp:166
 #, fuzzy
-#| msgid ""
-#| "kwin: unable to claim manager selection, another wm running? (try using --"
-#| "replace)\n"
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "के-विनः प्रबंधक सत्र क्लेम करब मे अक्षम, आन विंडो प्रबंधक चलि रहल अछि. (आजमाबू --replace "
@@ -537,11 +515,11 @@ msgstr ""
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "पहिने सँ चलि रहल ICCCM2.0  कम्पलाएँट विंडो प्रबंधक केँ बदलू."
 
-#: scene_opengl.cpp:558
+#: scene_opengl.cpp:610
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
 
-#: scene_opengl.cpp:729
+#: scene_opengl.cpp:774
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -551,7 +529,7 @@ msgid ""
 "%2 "
 msgstr ""
 
-#: scene_opengl.cpp:736
+#: scene_opengl.cpp:781
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
 "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
@@ -559,7 +537,7 @@ msgid ""
 "by the hardware limitations that restrict the OpenGL viewport size."
 msgstr ""
 
-#: scene_opengl.cpp:761
+#: scene_opengl.cpp:806
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -568,7 +546,7 @@ msgid ""
 "compositing, switch to the XRender backend or lower the resolution to %1x%1."
 msgstr ""
 
-#: scene_opengl.cpp:767
+#: scene_opengl.cpp:812
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
 "GPU, thus windows of that size cannot be assigned to textures and will be "
@@ -617,80 +595,73 @@ msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
 msgstr ""
 
-#: tabbox/tabbox.cpp:348
+#: tabbox/tabbox.cpp:347
 #, fuzzy
-#| msgid "To &Desktop"
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "डेस्कटॉप देखाबू"
 
-#: tabbox/tabbox.cpp:499
+#: tabbox/tabbox.cpp:498
 msgid "Walk Through Windows"
 msgstr "विंडोज केर आरपार चलू"
 
-#: tabbox/tabbox.cpp:500
+#: tabbox/tabbox.cpp:499
 msgid "Walk Through Windows (Reverse)"
+msgstr "विंडोज केर आरपार चलू (उनटू)"
+
+#: tabbox/tabbox.cpp:500
+#, fuzzy
+msgid "Walk Through Windows Alternative"
 msgstr "विंडोज केर आरपार चलू (उनटू)"
 
 #: tabbox/tabbox.cpp:501
 #, fuzzy
-#| msgid "Walk Through Windows (Reverse)"
-msgid "Walk Through Windows Alternative"
+msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "विंडोज केर आरपार चलू (उनटू)"
 
 #: tabbox/tabbox.cpp:502
 #, fuzzy
-#| msgid "Walk Through Windows (Reverse)"
-msgid "Walk Through Windows Alternative (Reverse)"
+msgid "Walk Through Windows of Current Application"
 msgstr "विंडोज केर आरपार चलू (उनटू)"
 
 #: tabbox/tabbox.cpp:503
 #, fuzzy
-#| msgid "Walk Through Windows (Reverse)"
-msgid "Walk Through Windows of Current Application"
+msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "विंडोज केर आरपार चलू (उनटू)"
 
 #: tabbox/tabbox.cpp:504
 #, fuzzy
-#| msgid "Walk Through Windows (Reverse)"
-msgid "Walk Through Windows of Current Application (Reverse)"
+msgid "Walk Through Windows of Current Application Alternative"
 msgstr "विंडोज केर आरपार चलू (उनटू)"
 
 #: tabbox/tabbox.cpp:505
 #, fuzzy
-#| msgid "Walk Through Windows (Reverse)"
-msgid "Walk Through Windows of Current Application Alternative"
-msgstr "विंडोज केर आरपार चलू (उनटू)"
-
-#: tabbox/tabbox.cpp:506
-#, fuzzy
-#| msgid "Walk Through Windows (Reverse)"
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "विंडोज केर आरपार चलू (उनटू)"
 
-#: tabbox/tabbox.cpp:507
+#: tabbox/tabbox.cpp:506
 msgid "Walk Through Desktops"
 msgstr "डेस्कटाप केर आरपार चलू"
 
-#: tabbox/tabbox.cpp:508
+#: tabbox/tabbox.cpp:507
 msgid "Walk Through Desktops (Reverse)"
 msgstr "डेस्कटाप केर आरपार चलू (उनटू)"
 
-#: tabbox/tabbox.cpp:509
+#: tabbox/tabbox.cpp:508
 msgid "Walk Through Desktop List"
 msgstr "डेस्कटाप सूची केर आरपार चलू"
 
-#: tabbox/tabbox.cpp:510
+#: tabbox/tabbox.cpp:509
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "डेस्कटाप सूची केर आरपार चलू (उनटू)"
 
-#: tabbox/tabboxhandler.cpp:272
+#: tabbox/tabboxhandler.cpp:278
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
 msgstr ""
 
-#: useractions.cpp:186
+#: useractions.cpp:185
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -702,7 +673,7 @@ msgstr ""
 "बिनु किनार, अहाँ फिनु सँ माउसक मद्दति सँ बार्डर नहि बनाए सकम. एकर बदला विंडो संचालन "
 "मेनू प्रयोग करू, जे %1 कुँजी शार्टकट सँ सक्रिय हाइछ."
 
-#: useractions.cpp:194
+#: useractions.cpp:193
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -711,166 +682,159 @@ msgid ""
 "window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
 
-#: useractions.cpp:259
+#: useractions.cpp:256
 msgid "&Move"
 msgstr "घसकाबू (&M)"
 
-#: useractions.cpp:264
+#: useractions.cpp:261
 msgid "Re&size"
 msgstr "नवीन आकार (&s)"
 
-#: useractions.cpp:268
+#: useractions.cpp:265
 msgid "Keep &Above Others"
 msgstr "आनसभ केर उप्पर राखू (&A)"
 
-#: useractions.cpp:274
+#: useractions.cpp:271
 msgid "Keep &Below Others"
 msgstr "आनसभ केर नीच्चाँ राखू (&B)"
 
-#: useractions.cpp:280
+#: useractions.cpp:277
 msgid "&Fullscreen"
 msgstr "संपूर्ण स्क्रीन (&F)"
 
-#: useractions.cpp:286
+#: useractions.cpp:283
 msgid "Sh&ade"
 msgstr "छायांकित (&a)"
 
-#: useractions.cpp:291
+#: useractions.cpp:288
 msgid "&No Border"
 msgstr "किनार बिनु (&N)"
 
-#: useractions.cpp:298
+#: useractions.cpp:295
 msgid "Window &Shortcut..."
 msgstr "विंडो शार्टकट... (&S)"
 
-#: useractions.cpp:303
+#: useractions.cpp:300
 msgid "&Special Window Settings..."
 msgstr "विशिष्ट विंडो बिन्यास...(&S)"
 
-#: useractions.cpp:307
+#: useractions.cpp:304
 #, fuzzy
-#| msgid "&Special Application Settings..."
 msgid "S&pecial Application Settings..."
 msgstr "विशिष्ट अनुप्रयोग बिन्यास... (&S)"
 
-#: useractions.cpp:314
+#: useractions.cpp:311
 #, fuzzy
-#| msgid "&Special Window Settings..."
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
 msgid "Window &Manager Settings..."
 msgstr "विशिष्ट विंडो बिन्यास...(&S)"
 
-#: useractions.cpp:329
+#: useractions.cpp:326
 msgid "Mi&nimize"
 msgstr "छोट करु (&n)"
 
-#: useractions.cpp:333
+#: useractions.cpp:330
 msgid "Ma&ximize"
 msgstr "अधिकतम करु (&x)"
 
-#: useractions.cpp:342
+#: useractions.cpp:339
 msgid "&Untab"
 msgstr ""
 
-#: useractions.cpp:346
+#: useractions.cpp:343
 msgid "Close Entire &Group"
 msgstr ""
 
-#: useractions.cpp:357
+#: useractions.cpp:354
 msgid "&More Actions"
 msgstr ""
 
-#: useractions.cpp:361
+#: useractions.cpp:358
 msgid "&Close"
 msgstr "बन्न करु (&C)"
 
-#: useractions.cpp:434
+#: useractions.cpp:431
 msgid "&Extensions"
 msgstr ""
 
-#: useractions.cpp:489
+#: useractions.cpp:486
 msgctxt "Switch to tab -> Previous"
 msgid "Previous"
 msgstr ""
 
-#: useractions.cpp:490
+#: useractions.cpp:487
 msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr ""
 
-#: useractions.cpp:528
+#: useractions.cpp:525
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr ""
 
-#: useractions.cpp:537
+#: useractions.cpp:534
 #, fuzzy
-#| msgid "Switch to Screen 0"
 msgid "Switch to Tab"
 msgstr "स्क्रीन 0 मे स्विच करू"
 
-#: useractions.cpp:548
+#: useractions.cpp:545
 msgid "&Attach as tab to"
 msgstr ""
 
-#: useractions.cpp:571
+#: useractions.cpp:568
 #, fuzzy
-#| msgid "To &Desktop"
 msgid "Move To &Desktop"
 msgstr "डेस्कटाप पर (&D)"
 
-#: useractions.cpp:587
+#: useractions.cpp:584
 #, fuzzy
-#| msgid "To &Desktop"
 msgid "Move To &Screen"
 msgstr "डेस्कटाप पर (&D)"
 
-#: useractions.cpp:602
+#: useractions.cpp:599
 msgid "Ac&tivities"
 msgstr ""
 
-#: useractions.cpp:614
+#: useractions.cpp:611
 msgid "&All Desktops"
 msgstr "सभटा डेस्कटाप (&A)"
 
-#: useractions.cpp:640
+#: useractions.cpp:637
 #, fuzzy
-#| msgid "To &Desktop"
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "डेस्कटॉप देखाबू"
 
-#: useractions.cpp:661
+#: useractions.cpp:658
 #, fuzzy, kde-format
-#| msgid "Window to Screen 1"
 msgctxt "@item:inmenu List of all Screens to send a window to"
 msgid "Screen &%1"
 msgstr "विंडो सँ स्क्रीन 1"
 
-#: useractions.cpp:679
+#: useractions.cpp:676
 msgid "&All Activities"
 msgstr ""
 
-#: useractions.cpp:884
+#: useractions.cpp:883
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr ""
 
-#: useractions.cpp:886
+#: useractions.cpp:885
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr ""
 
-#: useractions.cpp:1009
+#: useractions.cpp:1008
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr ""
 
-#: useractions.cpp:1382
+#: useractions.cpp:1381
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
 "as active one.\n"
@@ -908,11 +872,10 @@ msgstr "एकटा डेस्कटाप नीच्चाँ स्वि
 
 #: virtualdesktops.cpp:444
 #, fuzzy, kde-format
-#| msgid "Switch to Desktop 1"
 msgid "Switch to Desktop %1"
 msgstr "डेस्कटाप 1 पर स्विच करू"
 
-#: workspace.cpp:1340
+#: workspace.cpp:1317
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

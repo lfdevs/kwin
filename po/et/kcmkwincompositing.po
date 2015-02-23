@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-12-09 11:16+0000\n"
+"POT-Creation-Date: 2015-02-05 09:36+0000\n"
 "PO-Revision-Date: 2014-03-02 04:40+0200\n"
 "Last-Translator: Marek Laane <bald@smail.ee>\n"
 "Language-Team: Estonian <kde-et@linux.ee>\n"
@@ -111,7 +111,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:167 compositing.ui:213 qml/CompositingView.qml:141
+#: compositing.ui:167 compositing.ui:203 qml/CompositingView.qml:141
 #: qml/CompositingView.qml:154
 #, fuzzy
 msgid "Never"
@@ -144,15 +144,15 @@ msgid "Keep window thumbnails:"
 msgstr "Akende pisipiltide säilitamine:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:203
-msgid "Always"
-msgstr "Alati"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:208 qml/CompositingView.qml:154
 #, fuzzy
 msgid "Only for Shown Windows"
 msgstr "Ainult kuvatavate akende puhul"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:213
+msgid "Always"
+msgstr "Alati"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: compositing.ui:221 qml/CompositingView.qml:175

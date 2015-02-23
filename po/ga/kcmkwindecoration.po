@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-22 09:47+0000\n"
+"POT-Creation-Date: 2015-01-28 09:29+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -62,7 +62,7 @@ msgstr "Coimeád Faoi Chinn Eile"
 msgid "Keep above"
 msgstr "Coimeád Os Cionn"
 
-#: kcm.cpp:100
+#: kcm.cpp:106
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
@@ -79,68 +79,68 @@ msgid "Get New Decorations..."
 msgstr "Faigh Maisiúcháin Nua..."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: kcm.ui:59
+#: kcm.ui:56
 #, fuzzy
 msgid "Border si&ze:"
 msgstr "Méid na himlíne:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:70
+#: kcm.ui:67
 #, fuzzy
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Méid na himlíne:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:75
+#: kcm.ui:72
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:80
+#: kcm.ui:77
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "An-bheag"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:85
+#: kcm.ui:82
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "Gnáthmhéid"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:90
+#: kcm.ui:87
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "Mór"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:95
+#: kcm.ui:92
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "An-Mhór"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:100
+#: kcm.ui:97
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "Ollmhór"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:105
+#: kcm.ui:102
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "Fíor-ollmhór"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:110
+#: kcm.ui:107
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "Fíor-mhórthomhais"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: kcm.ui:128
+#: kcm.ui:125
 #, fuzzy
 msgid "Close windows by double clicking &the menu button:"
 msgstr "Dún fuinneoga trí dhéchliceáil ar an gcnaipe roghchláir"

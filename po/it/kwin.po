@@ -4,27 +4,29 @@
 # Luciano Montanaro <mikelima@cirulla.net>, 2007, 2008, 2010, 2011, 2012.
 # Andrea Rizzi <rizzi@sns.it>, 2007.
 # Federico Zenith <federico.zenith@member.fsf.org>, 2009.
+# Vincenzo Reale <smart2128@baslug.org>, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-01-18 09:50+0000\n"
-"PO-Revision-Date: 2012-12-26 18:24+0100\n"
-"Last-Translator: Federico Zenith <federico.zenith@member.fsf.org>\n"
+"PO-Revision-Date: 2015-02-15 16:55+0100\n"
+"Last-Translator: Vincenzo Reale <smart2128@baslug.org>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 1.5\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Andrea Rizzi,Federico Cozzi, Luciano Montanaro"
+msgstr "Vincenzo Reale,Andrea Rizzi,Federico Cozzi, Luciano Montanaro"
 
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "rizzi@kde.org,federico.cozzi@sns.it,mikelima@cirulla.net"
+msgstr "smart2128@baslug.org,,,"
 
 #: composite.cpp:503
 #, kde-format
@@ -66,7 +68,7 @@ msgstr "GLX/OpenGL e XRender/XFixes non sono disponibili."
 
 #: killer/killer.cpp:44
 msgid "Window Manager"
-msgstr "Window manager"
+msgstr "Gestore delle finestre"
 
 #: killer/killer.cpp:49
 msgid "PID of the application to terminate"
@@ -74,7 +76,7 @@ msgstr "PID dell'applicazione da far terminare"
 
 #: killer/killer.cpp:49
 msgid "pid"
-msgstr ""
+msgstr "pid"
 
 #: killer/killer.cpp:51
 msgid "Hostname on which the application is running"
@@ -82,7 +84,7 @@ msgstr "Nome host su cui l'applicazione è in esecuzione"
 
 #: killer/killer.cpp:51
 msgid "hostname"
-msgstr ""
+msgstr "nome host"
 
 #: killer/killer.cpp:53
 msgid "Caption of the window to be terminated"
@@ -90,7 +92,7 @@ msgstr "Titolo della finestra da far terminare"
 
 #: killer/killer.cpp:53
 msgid "caption"
-msgstr ""
+msgstr "titolo"
 
 #: killer/killer.cpp:55
 msgid "Name of the application to be terminated"
@@ -98,7 +100,7 @@ msgstr "Nome dell'applicazione da far terminare"
 
 #: killer/killer.cpp:55
 msgid "name"
-msgstr ""
+msgstr "nome"
 
 #: killer/killer.cpp:57
 msgid "ID of resource belonging to the application"
@@ -106,7 +108,7 @@ msgstr "ID della risorsa appartenente all'applicazione"
 
 #: killer/killer.cpp:57
 msgid "id"
-msgstr ""
+msgstr "id"
 
 #: killer/killer.cpp:59
 msgid "Time of user action causing termination"
@@ -114,7 +116,7 @@ msgstr "Ora dell'azione dell'utente che ha causato l'interruzione"
 
 #: killer/killer.cpp:59
 msgid "time"
-msgstr ""
+msgstr "ora"
 
 #: killer/killer.cpp:61
 msgid "KWin helper utility"
@@ -437,9 +439,8 @@ msgid "KWin"
 msgstr "KWin"
 
 #: main.cpp:269
-#, fuzzy
 msgid "(c) 1999-2013, The KDE Developers"
-msgstr "© 1999–2008, gli sviluppatori di KDE"
+msgstr "© 1999–2013, gli sviluppatori di KDE"
 
 #: main.cpp:271
 msgid "Matthias Ettrich"
@@ -474,32 +475,36 @@ msgid "Indicate that KWin has recently crashed n times"
 msgstr "Indica che KWin si è schiantato recentemente per n volte"
 
 #: main_wayland.cpp:88
-#, fuzzy
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr ""
-"kwin: impossibile ottenere la selezione del gestore, c'è un altro WM attivo? "
-"(prova ad usare --replace)\n"
+"kwin_wayland: un gestore di finestre X11 in esecuzione sul Display X11.\n"
 
 #: main_wayland.cpp:96
 msgid ""
 "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
 "set.\n"
 msgstr ""
+"kwin_wayland: impossibile connettersi al server Wayland, assicurati che la "
+"variabile WAYLAND_DISPLAY sia impostata.\n"
 
 #: main_wayland.cpp:235
 msgid "Start a nested X Server."
-msgstr ""
+msgstr "Avvia un server X nidificato."
 
 #: main_wayland.cpp:238
 msgid ""
 "The X11 Display to connect to. If not set next free number will be picked."
 msgstr ""
+"Il Display X11 al quale collegarsi. Se non impostato, sarà scelto il numero "
+"libero successivo."
 
 #: main_wayland.cpp:247
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
 msgstr ""
+"Abilita il supporto libinput per l'elaborazione degli eventi di immissione. "
+"Nota: da non utilizzare mai in una sessione nidificata."
 
 #: main_x11.cpp:149
 msgid ""
@@ -510,11 +515,10 @@ msgstr ""
 "(prova ad usare --replace)\n"
 
 #: main_x11.cpp:166
-#, fuzzy
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
-"kwin: impossibile ottenere la selezione del gestore, c'è un altro WM attivo? "
-"(prova ad usare --replace)\n"
+"kwin: è in esecuzione un altro gestore di finestre (prova a utilizzare --"
+"replace)\n"
 
 #: main_x11.cpp:261
 msgid "Replace already-running ICCCM2.0-compliant window manager"
@@ -587,17 +591,18 @@ msgstr ""
 msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
 msgstr ""
+"L'estensione non fornisce il file di configurazione nella posizione attesa"
 
 #: scripting/scripting.cpp:127
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
-msgstr ""
+msgstr "Dichiarazione non riuscita: %1 non è nullo"
 
 #: scripting/scripting.cpp:145
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
-msgstr ""
+msgstr "Dichiarazione non riuscita: l'argomento è nullo"
 
 #: scripting/scripting.cpp:172
 msgctxt "Error in KWin Script"
@@ -605,23 +610,27 @@ msgid ""
 "Invalid number of arguments. At least service, path, interface and method "
 "need to be provided"
 msgstr ""
+"Numero di argomenti non valido. Devono essere forniti almeno servizio, "
+"percorso, interfaccia e metodo"
 
 #: scripting/scripting.cpp:178
 msgctxt "Error in KWin Script"
 msgid ""
 "Invalid type. Service, path, interface and method need to be string values"
 msgstr ""
+"Tipo non valido. I valori di servizio, percorso, interfaccia e metodo devono "
+"essere di tipo stringa"
 
 #: scripting/scriptingutils.cpp:28
 msgctxt "syntax error in KWin script"
 msgid "Invalid number of arguments"
-msgstr ""
+msgstr "Numero di argomenti non valido"
 
 #: scripting/scriptingutils.cpp:41
 #, kde-format
 msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
-msgstr ""
+msgstr "%1 non è un tipo variant"
 
 #: tabbox/tabbox.cpp:347
 msgctxt "Special entry in alt+tab list for minimizing all windows"
@@ -682,6 +691,8 @@ msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
 msgstr ""
+"L'installazione dello scambiafinestre è danneggiata, mancano delle risorse.\n"
+"Contatta la tua distribuzione a proposito."
 
 #: useractions.cpp:185
 #, kde-format

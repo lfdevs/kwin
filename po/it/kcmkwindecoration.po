@@ -1,35 +1,34 @@
 # translation of kcmkwindecoration.po to Italian
 # Copyright (C) 2003, 2004, 2005, 2007 Free Software Foundation, Inc.
-#
 # Andrea Rizzi <rizzi@kde.org>, 2003, 2005.
 # Andrea RIZZI <arizzi@pi.infn.it>, 2004.
 # Luciano Montanaro <mikelima@cirulla.net>, 2007, 2010, 2012.
+# Vincenzo Reale <smart2128@baslug.org>, 2015.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-22 09:47+0000\n"
-"PO-Revision-Date: 2012-12-26 18:21+0100\n"
-"Last-Translator: Luciano Montanaro <mikelima@cirulla.net>\n"
+"POT-Creation-Date: 2015-01-28 09:29+0000\n"
+"PO-Revision-Date: 2015-02-15 15:30+0100\n"
+"Last-Translator: Vincenzo Reale <smart2128@baslug.org>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: declarative-plugin/buttonsmodel.cpp:67
-#, fuzzy
 msgid "Menu"
 msgstr "Menu"
 
 #: declarative-plugin/buttonsmodel.cpp:69
-#, fuzzy
 msgid "Application menu"
 msgstr "Menu dell'applicazione"
 
 #: declarative-plugin/buttonsmodel.cpp:71
-#, fuzzy
 msgid "On all desktops"
 msgstr "Su tutti i desktop"
 
@@ -47,27 +46,27 @@ msgstr "Chiudi"
 
 #: declarative-plugin/buttonsmodel.cpp:79
 msgid "Context help"
-msgstr ""
+msgstr "Aiuto contestuale"
 
 #: declarative-plugin/buttonsmodel.cpp:81
 msgid "Shade"
 msgstr "Arrotola"
 
 #: declarative-plugin/buttonsmodel.cpp:83
-#, fuzzy
 msgid "Keep below"
 msgstr "Mantieni sotto le altre"
 
 #: declarative-plugin/buttonsmodel.cpp:85
-#, fuzzy
 msgid "Keep above"
 msgstr "Mantieni sopra le altre"
 
-#: kcm.cpp:100
+#: kcm.cpp:106
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
 msgstr ""
+"Chiudi con un doppio clic:\n"
+" Per aprire il menu, tieni premuto il pulsante finché appare."
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
 #: kcm.ui:22
@@ -80,84 +79,80 @@ msgid "Get New Decorations..."
 msgstr "Scarica nuove decorazioni..."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: kcm.ui:59
-#, fuzzy
+#: kcm.ui:56
 msgid "Border si&ze:"
-msgstr "Dimensione del bordo:"
+msgstr "Dimen&sione del bordo:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:70
-#, fuzzy
+#: kcm.ui:67
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Nessun bordo"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:75
-#, fuzzy
+#: kcm.ui:72
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr "Nessun bordo laterale"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:80
+#: kcm.ui:77
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "Sottile"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:85
+#: kcm.ui:82
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "Normale"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:90
+#: kcm.ui:87
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "Spesso"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:95
+#: kcm.ui:92
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "Molto spesso"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:100
+#: kcm.ui:97
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "Enorme"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:105
+#: kcm.ui:102
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "Gigantesco"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:110
+#: kcm.ui:107
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "Sovradimensionato"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: kcm.ui:128
-#, fuzzy
+#: kcm.ui:125
 msgid "Close windows by double clicking &the menu button:"
-msgstr "Chiudi la finestra con un doppio clic del pulsante del menu"
+msgstr "Chiudi la fines&tra con un doppio clic del pulsante del menu:"
 
 #: qml/Buttons.qml:74
 msgid "Titlebar"
-msgstr ""
+msgstr "Barra del titolo"
 
 #: qml/Buttons.qml:197
 msgid "Drag buttons between here and the titlebar"
-msgstr ""
+msgstr "Trascina i pulsanti tra questo punto e la barra del titolo"
 
 #: qml/Buttons.qml:212
 msgid "Drop here to remove button"
-msgstr ""
+msgstr "Rilascia qui per rimuovere il pulsante"
 
 
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-12-09 11:16+0000\n"
+"POT-Creation-Date: 2015-02-05 09:36+0000\n"
 "PO-Revision-Date: 2014-06-19 21:11+0700\n"
 "Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
@@ -109,7 +109,7 @@ msgstr "Pencegahan Sobek (VSync):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:167 compositing.ui:213 qml/CompositingView.qml:141
+#: compositing.ui:167 compositing.ui:203 qml/CompositingView.qml:141
 #: qml/CompositingView.qml:154
 msgid "Never"
 msgstr "Tak Pernah"
@@ -141,14 +141,14 @@ msgid "Keep window thumbnails:"
 msgstr "Jaga Miniatur Jendela:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:203
-msgid "Always"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:208 qml/CompositingView.qml:154
 msgid "Only for Shown Windows"
 msgstr "Hanya untuk Jendela yang Ditampilkan"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:213
+msgid "Always"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: compositing.ui:221 qml/CompositingView.qml:175

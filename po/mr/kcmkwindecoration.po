@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-22 09:47+0000\n"
+"POT-Creation-Date: 2015-01-28 09:29+0000\n"
 "PO-Revision-Date: 2013-02-23 17:39+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -63,7 +63,7 @@ msgstr "इतरांच्या खाली दर्शवा"
 msgid "Keep above"
 msgstr "इतरांच्या वर दर्शवा"
 
-#: kcm.cpp:100
+#: kcm.cpp:106
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
@@ -80,68 +80,68 @@ msgid "Get New Decorations..."
 msgstr "नवीन सजावटी प्राप्त करा..."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: kcm.ui:59
+#: kcm.ui:56
 #, fuzzy
 msgid "Border si&ze:"
 msgstr "किनार आकार :"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:70
+#: kcm.ui:67
 #, fuzzy
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "किनार आकार :"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:75
+#: kcm.ui:72
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:80
+#: kcm.ui:77
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "लहान"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:85
+#: kcm.ui:82
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "सामान्य"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:90
+#: kcm.ui:87
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "मोठे"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:95
+#: kcm.ui:92
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "प्रचंड मोठे"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:100
+#: kcm.ui:97
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "अवाढव्य"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:105
+#: kcm.ui:102
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "प्रचंड अवाढव्य"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:110
+#: kcm.ui:107
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "आकारापेक्षा जास्त"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: kcm.ui:128
+#: kcm.ui:125
 #, fuzzy
 msgid "Close windows by double clicking &the menu button:"
 msgstr "मेन्यू बटन वर दोनदा क्लिक करून चौकटी बंद करा"

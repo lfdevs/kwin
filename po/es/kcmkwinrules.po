@@ -7,14 +7,14 @@
 # Enrique Matias Sanchez (aka Quique) <cronopios@gmail.com>, 2007.
 # Jaime Robles <jaime@kde.org>, 2008.
 # Cristina Yenyxe González García <the.blue.valkyrie@gmail.com>, 2010, 2011.
-# Eloy Cuadra <ecuadra@eloihr.net>, 2010, 2012, 2013, 2014.
+# Eloy Cuadra <ecuadra@eloihr.net>, 2010, 2012, 2013, 2014, 2015.
 # Javier Vinal <fjvinal@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-04-28 15:51+0000\n"
-"PO-Revision-Date: 2014-03-26 14:28+0100\n"
+"PO-Revision-Date: 2015-02-11 12:46+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -61,7 +61,7 @@ msgstr "Barra de herramientas"
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
 #: detectwidget.cpp:104 ruleswidgetbase.ui:453 ruleswidgetbase.ui:2254
 msgid "Torn-Off Menu"
-msgstr "Menú despegable"
+msgstr "Menú desprendido"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
@@ -77,7 +77,7 @@ msgstr "Sobrescribir el tipo"
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
 #: detectwidget.cpp:107 ruleswidgetbase.ui:473 ruleswidgetbase.ui:2269
 msgid "Standalone Menubar"
-msgstr "Barra de menú autónoma"
+msgstr "Barra de menú independiente"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
@@ -93,7 +93,7 @@ msgstr "Pantalla anunciadora"
 
 #: detectwidget.cpp:115
 msgid "Unknown - will be treated as Normal Window"
-msgstr "Desconocido - se considerará como Ventana normal"
+msgstr "Desconocido - se considerará como ventana normal"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: detectwidget.ui:17
@@ -128,7 +128,7 @@ msgstr "Máquina:"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: detectwidget.ui:172
 msgid "Match by primary class name and"
-msgstr "Coincide con nombre de clase primario y"
+msgstr "Coincidir con nombre de clase primario y"
 
 #. i18n: ectx: property (text), widget (QCheckBox, match_whole_class)
 #: detectwidget.ui:181
@@ -139,13 +139,14 @@ msgstr "Nombre de clase secundario (resultado en término en paréntesis)"
 #: detectwidget.ui:188
 msgid "Window role (can be used to select windows by function)"
 msgstr ""
-"Papel de la ventana (Puede usarse para seleccionar ventanas por función)"
+"Papel de la ventana (puede usarse para seleccionar ventanas por función)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, match_type)
 #: detectwidget.ui:195
 msgid "Window type (eg. all dialogs, but not the main windows)"
 msgstr ""
-"Tipo de ventana (p.ej. todos los diálogos, pero no la ventana principal)"
+"Tipo de ventana (por ejemplo, todos los diálogos, pero no la ventana "
+"principal)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, match_title)
 #: detectwidget.ui:202
@@ -185,7 +186,7 @@ msgstr "Acce&so rápido único"
 #. i18n: ectx: property (text), widget (QPushButton, pushButton2)
 #: editshortcut.ui:85
 msgid "C&lear"
-msgstr "&Limpiar"
+msgstr "&Borrar"
 
 #: kcm.cpp:50
 msgid "Window-Specific Settings Configuration Module"
@@ -223,7 +224,7 @@ msgstr "Mostrar las preferencias internas para recordar"
 
 #: kcm.cpp:101
 msgid "Internal setting for remembering"
-msgstr "Opción interna para recordar"
+msgstr "Preferencia interna para recordar"
 
 #: main.cpp:143
 #, kde-format
@@ -246,7 +247,7 @@ msgstr "KWin"
 
 #: main.cpp:253
 msgid "KWin helper utility"
-msgstr "Asistente de KWin"
+msgstr "Utilidad auxiliar de KWin"
 
 #: main.cpp:254
 msgid "WId of the window for special window settings."
@@ -259,7 +260,7 @@ msgstr ""
 
 #: main.cpp:263
 msgid "This helper utility is not supposed to be called directly."
-msgstr "Este asistente no debería llamarse directamente."
+msgstr "Este utilidad auxiliar no debería llamarse directamente."
 
 #: ruleslist.cpp:153
 msgid "Export Rule"
@@ -276,7 +277,7 @@ msgstr "Importar reglas"
 #. i18n: ectx: property (text), widget (QPushButton, new_button)
 #: ruleslist.ui:32
 msgid "&New..."
-msgstr "&Nuevo..."
+msgstr "&Nueva..."
 
 #. i18n: ectx: property (text), widget (QPushButton, modify_button)
 #: ruleslist.ui:39
@@ -513,7 +514,7 @@ msgstr "&Detectar propiedades de la ventana"
 #. i18n: ectx: property (suffix), widget (QSpinBox, detection_delay)
 #: ruleswidgetbase.ui:325
 msgid "s delay"
-msgstr "s retraso"
+msgstr "s de retraso"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #: ruleswidgetbase.ui:468
@@ -523,7 +524,7 @@ msgstr "Ventana no gestionada"
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage3)
 #: ruleswidgetbase.ui:489
 msgid "&Size && Position"
-msgstr "&Tamaño y Posición"
+msgstr "&Tamaño y posición"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_position)
 #: ruleswidgetbase.ui:495
@@ -782,7 +783,7 @@ msgstr "&Tamaño"
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, maxsize)
 #: ruleswidgetbase.ui:599 ruleswidgetbase.ui:1215 ruleswidgetbase.ui:1257
 msgid "width,height"
-msgstr "anchura, altura"
+msgstr "anchura,altura"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_maximizehoriz)
 #: ruleswidgetbase.ui:616
@@ -822,7 +823,7 @@ msgstr "Recogi&da"
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1056
 msgid "Default"
-msgstr "Predeterminado"
+msgstr "Por omisión"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1061
@@ -911,10 +912,10 @@ msgid ""
 "This may be pointless and the restriction prevents arbitrary dimensions\n"
 "like your complete screen area."
 msgstr ""
-"P.ej. los terminales o reproductores de video pueden pedir mantener cierta "
-"relación de aspecto\n"
+"Por ejemplo, los terminales o reproductores de video pueden pedir mantener "
+"cierta relación de aspecto\n"
 "o solo crecer por valores mayores que uno\n"
-"(p.ej. por las dimensiones de un carácter).\n"
+"(por ejemplo, por las dimensiones de un carácter).\n"
 "Esto puede tener sentido y la restricción evita dimensiones arbitrarias\n"
 "como su área de pantalla completa."
 
@@ -931,12 +932,12 @@ msgstr "Pantalla"
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage4)
 #: ruleswidgetbase.ui:1377
 msgid "&Arrangement && Access"
-msgstr "Disposición y &Acceso"
+msgstr "Disposición y &acceso"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_skippager)
 #: ruleswidgetbase.ui:1420
 msgid "Window shall (not) appear in the manager for virtual desktops"
-msgstr "La ventana (no) debe aparecer en el gestor par escritorios virtuales"
+msgstr "La ventana (no) debe aparecer en el gestor para escritorios virtuales"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_skippager)
 #: ruleswidgetbase.ui:1423
@@ -996,22 +997,22 @@ msgstr "Autoagrupar por I&D"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_autogroup)
 #: ruleswidgetbase.ui:1850
 msgid "Autogroup with &identical"
-msgstr "Autoagrupar con &idénticos"
+msgstr "Autoagrupar con &idénticas"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: ruleswidgetbase.ui:1902
 msgid "Appearance && &Fixes"
-msgstr "Apariencia y &fijados"
+msgstr "Aparienc&ia y correcciones"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_blockcompositing)
 #: ruleswidgetbase.ui:1937
 msgid "Block compositing"
-msgstr "Composición de bloque"
+msgstr "Bloquear composición"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_noborder)
 #: ruleswidgetbase.ui:1944
 msgid "&No titlebar and frame"
-msgstr "Si&n barra de título y marco"
+msgstr "Si&n barra de título ni marco"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityactive)
 #: ruleswidgetbase.ui:1995
@@ -1075,7 +1076,7 @@ msgstr "Ignorar accesos rápidos globales"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_closeable)
 #: ruleswidgetbase.ui:2175
 msgid "&Closeable"
-msgstr "&Cerrable"
+msgstr "Se puede &cerrar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_type)
 #: ruleswidgetbase.ui:2182

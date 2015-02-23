@@ -1,23 +1,25 @@
 # translation of kcmkwincompositing.po to Italian
 # Copyright (C) 2007 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kdebase package.
-#
 # Luciano Montanaro <mikelima@cirulla.net>, 2007, 2008, 2010, 2012.
 # Andrea Rizzi <rizzi@sns.it>, 2007.
 # Federico Zenith <federico.zenith@member.fsf.org>, 2009.
+# Vincenzo Reale <smart2128@baslug.org>, 2015.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-12-09 11:16+0000\n"
-"PO-Revision-Date: 2013-07-16 11:50+0200\n"
-"Last-Translator: Luciano Montanaro <mikelima@cirulla.net>\n"
+"POT-Creation-Date: 2015-02-05 09:36+0000\n"
+"PO-Revision-Date: 2015-02-16 12:47+0100\n"
+"Last-Translator: Vincenzo Reale <smart2128@baslug.org>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: compositing.cpp:387
 msgid "OpenGL 3.1"
@@ -34,16 +36,15 @@ msgstr "XRender"
 #: compositing.cpp:488
 msgctxt "OpenGL Platform Interface"
 msgid "EGL"
-msgstr ""
+msgstr "EGL"
 
 #: compositing.cpp:490
 msgctxt "OpenGL Platform Interface"
 msgid "GLX"
-msgstr ""
+msgstr "GLX"
 
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:20 qml/CompositingView.qml:55
-#, fuzzy
 msgid "Enable compositor on startup"
 msgstr "Abilita gli effetti del desktop all'avvio"
 
@@ -59,7 +60,6 @@ msgstr "Istantaneo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
-#, fuzzy
 msgid "Very slow"
 msgstr "Lentissimo"
 
@@ -94,25 +94,22 @@ msgstr "Liscio (più lento)"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: compositing.ui:139 qml/CompositingView.qml:81
 msgid "Rendering backend:"
-msgstr ""
+msgstr "Motore di rendering:"
 
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
-#, fuzzy
 msgid "OpenGL interface:"
-msgstr "Modalità OpenGL:"
+msgstr "Interfaccia OpenGL:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: compositing.ui:159
-#, fuzzy
 msgid "Tearing prevention (\"vsync\"):"
-msgstr "Prevenzione disturbi (VSync)"
+msgstr "Prevenzione dei disturbi («vsync»):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:167 compositing.ui:213 qml/CompositingView.qml:141
+#: compositing.ui:167 compositing.ui:203 qml/CompositingView.qml:141
 #: qml/CompositingView.qml:154
-#, fuzzy
 msgid "Never"
 msgstr "Mai"
 
@@ -123,15 +120,13 @@ msgstr "Automatica"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:177 qml/CompositingView.qml:141
-#, fuzzy
 msgid "Only when cheap"
 msgstr "Solo se conveniente"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:182 qml/CompositingView.qml:141
-#, fuzzy
 msgid "Full screen repaints"
-msgstr "Ridisegno dell'intera scena"
+msgstr "Ridisegno dell'intero schermo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:187 qml/CompositingView.qml:141
@@ -144,37 +139,34 @@ msgid "Keep window thumbnails:"
 msgstr "Tieni le miniature delle finestre:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:203
-msgid "Always"
-msgstr "Sempre"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:208 qml/CompositingView.qml:154
-#, fuzzy
 msgid "Only for Shown Windows"
 msgstr "Solo per le finestre visibili"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:213
+msgid "Always"
+msgstr "Sempre"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: compositing.ui:221 qml/CompositingView.qml:175
 msgid "Expert:"
-msgstr ""
+msgstr "Esperto:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
 #: compositing.ui:228 qml/CompositingView.qml:182
-#, fuzzy
 msgid "Suspend compositor for full screen windows"
 msgstr "Sospendi gli effetti del desktop per le finestre a schermo intero"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: compositing.ui:235 qml/CompositingView.qml:192
 msgid "Experimental:"
-msgstr ""
+msgstr "Sperimentale:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
 #: compositing.ui:242 qml/CompositingView.qml:200
-#, fuzzy
 msgid "Enable color correction"
-msgstr "Abilita la correzione dei colori (sperimentale)"
+msgstr "Abilita la correzione dei colori"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
 #: compositing.ui:262
@@ -233,33 +225,30 @@ msgstr ""
 msgid ""
 "\"Re-use screen content\" causes performance severe problems on MESA drivers."
 msgstr ""
+"«Riutilizza il contenuto dello schermo» causa gravi problemi di prestazioni "
+"con i driver MESA."
 
 #: model.cpp:67
-#, fuzzy
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Accessibilità"
 
 #: model.cpp:68
-#, fuzzy
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Aspetto"
 
 #: model.cpp:69
-#, fuzzy
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Attrazioni"
 
 #: model.cpp:70
-#, fuzzy
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Focus"
 
 #: model.cpp:71
-#, fuzzy
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Strumenti"
@@ -267,37 +256,32 @@ msgstr "Strumenti"
 #: model.cpp:72
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
-msgstr ""
+msgstr "Animazione del passaggio tra i desktop virtuali"
 
 #: model.cpp:73
-#, fuzzy
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Gestione delle finestre"
 
 #: model.cpp:235
 msgid "KWin development team"
-msgstr ""
+msgstr "La squadra di sviluppo di KWin"
 
 #: qml/CompositingView.qml:67
-#, fuzzy
 msgid "Animation Speed:"
 msgstr "Velocità di animazione:"
 
 #: qml/CompositingView.qml:106 qml/CompositingView.qml:120
-#, fuzzy
 msgid "Scale Method:"
 msgstr "Metodo di scalatura:"
 
 #: qml/CompositingView.qml:135
-#, fuzzy
 msgid "Tearing Prevention (VSync):"
 msgstr "Prevenzione disturbi (VSync)"
 
 #: qml/CompositingView.qml:148
-#, fuzzy
 msgid "Keep Window Thumbnails:"
-msgstr "Tieni le miniature delle finestre:"
+msgstr "Mantieni le miniature delle finestre:"
 
 #: qml/CompositingView.qml:154
 #, fuzzy
@@ -306,7 +290,7 @@ msgstr "Sempre (Rompe la minimizzazione)"
 
 #: qml/CompositingView.qml:160
 msgid "OpenGL Platform Interface:"
-msgstr ""
+msgstr "Interfaccia piattaforma OpenGL:"
 
 #: qml/Effect.qml:118
 #, kde-format
@@ -314,6 +298,8 @@ msgid ""
 "Author: %1\n"
 "License: %2"
 msgstr ""
+"Autore: %1\n"
+"Licenza: %2"
 
 #: qml/EffectView.qml:64
 msgid ""
@@ -325,21 +311,19 @@ msgstr ""
 
 #: qml/EffectView.qml:75
 msgid "Search"
-msgstr ""
+msgstr "Ricerca"
 
 #: qml/EffectView.qml:82
-#, fuzzy
 msgid "Configure filter"
-msgstr "Filtraggio trama:"
+msgstr "Configura il filtro"
 
 #: qml/EffectView.qml:85
 msgid "Exclude Desktop Effects not supported by the Compositor"
 msgstr ""
 
 #: qml/EffectView.qml:93
-#, fuzzy
 msgid "Exclude internal Desktop Effects"
-msgstr "Sospendi gli effetti del desktop"
+msgstr "Escludi gli effetti del desktop interni"
 
 #: qml/EffectView.qml:105
 msgid "Get New Effects ..."

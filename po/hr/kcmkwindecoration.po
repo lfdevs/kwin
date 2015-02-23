@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration 0\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-22 09:47+0000\n"
+"POT-Creation-Date: 2015-01-28 09:29+0000\n"
 "PO-Revision-Date: 2011-03-19 10:00+0100\n"
 "Last-Translator: Marko Dimjašević <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -67,7 +67,7 @@ msgstr "Čuvaj ispod ostalih"
 msgid "Keep above"
 msgstr "Čuvaj iznad ostalih"
 
-#: kcm.cpp:100
+#: kcm.cpp:106
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
@@ -84,68 +84,68 @@ msgid "Get New Decorations..."
 msgstr "Preuzmi nove dekoracije…"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: kcm.ui:59
+#: kcm.ui:56
 #, fuzzy
 msgid "Border si&ze:"
 msgstr "Veličina ruba:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:70
+#: kcm.ui:67
 #, fuzzy
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Veličina ruba:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:75
+#: kcm.ui:72
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:80
+#: kcm.ui:77
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "Sićušan"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:85
+#: kcm.ui:82
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "Normalan"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:90
+#: kcm.ui:87
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "Velik"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:95
+#: kcm.ui:92
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "Vrlo velik"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:100
+#: kcm.ui:97
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "Ogroman"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:105
+#: kcm.ui:102
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "Vrlo ogroman"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:110
+#: kcm.ui:107
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "Prekomjeran"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: kcm.ui:128
+#: kcm.ui:125
 msgid "Close windows by double clicking &the menu button:"
 msgstr ""
 

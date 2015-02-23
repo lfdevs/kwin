@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-12-09 11:16+0000\n"
+"POT-Creation-Date: 2015-02-05 09:36+0000\n"
 "PO-Revision-Date: 2008-07-08 11:50+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <indlinux-hindi@lists.sourceforge.net>\n"
@@ -110,7 +110,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:167 compositing.ui:213 qml/CompositingView.qml:141
+#: compositing.ui:167 compositing.ui:203 qml/CompositingView.qml:141
 #: qml/CompositingView.qml:154
 msgid "Never"
 msgstr ""
@@ -141,13 +141,13 @@ msgid "Keep window thumbnails:"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:203
-msgid "Always"
+#: compositing.ui:208 qml/CompositingView.qml:154
+msgid "Only for Shown Windows"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:208 qml/CompositingView.qml:154
-msgid "Only for Shown Windows"
+#: compositing.ui:213
+msgid "Always"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)

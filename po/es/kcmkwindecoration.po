@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-22 09:47+0000\n"
-"PO-Revision-Date: 2015-01-14 11:35+0100\n"
+"POT-Creation-Date: 2015-01-28 09:29+0000\n"
+"PO-Revision-Date: 2015-02-01 12:29+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -67,7 +67,7 @@ msgstr "Mantener por debajo"
 msgid "Keep above"
 msgstr "Mantener por encima"
 
-#: kcm.cpp:100
+#: kcm.cpp:106
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
@@ -86,76 +86,76 @@ msgid "Get New Decorations..."
 msgstr "Obtener nuevas decoraciones..."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: kcm.ui:59
+#: kcm.ui:56
 msgid "Border si&ze:"
 msgstr "&Tamaño del borde:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:70
+#: kcm.ui:67
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Sin bordes"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:75
+#: kcm.ui:72
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr "Sin bordes laterales"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:80
+#: kcm.ui:77
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "Pequeño"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:85
+#: kcm.ui:82
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "Normal"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:90
+#: kcm.ui:87
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "Grande"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:95
+#: kcm.ui:92
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "Muy grande"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:100
+#: kcm.ui:97
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "Enorme"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:105
+#: kcm.ui:102
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "Gigantesco"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:110
+#: kcm.ui:107
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "De tamaño excesivo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: kcm.ui:128
+#: kcm.ui:125
 msgid "Close windows by double clicking &the menu button:"
 msgstr "Cerrar las ventanas al hacer doble clic en el bo&tón de menú:"
 
 #: qml/Buttons.qml:74
 msgid "Titlebar"
-msgstr ""
+msgstr "Barra de título"
 
 #: qml/Buttons.qml:197
 msgid "Drag buttons between here and the titlebar"
-msgstr ""
+msgstr "Arrastre los botones de aquí a la barra de título y viceversa"
 
 #: qml/Buttons.qml:212
 msgid "Drop here to remove button"

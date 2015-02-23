@@ -11,13 +11,13 @@
 # Dimitrios Glentadakis <dglent@gmail.com>, 2011, 2012.
 # Stelios <sstavra@gmail.com>, 2012.
 # Antonis Geralis <capoiosct@gmail.com>, 2014.
-# Dimitris Kardarakos <dimkard@gmail.com>, 2014.
+# Dimitris Kardarakos <dimkard@gmail.com>, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-22 09:47+0000\n"
-"PO-Revision-Date: 2014-03-15 16:13+0200\n"
+"POT-Creation-Date: 2015-01-28 09:29+0000\n"
+"PO-Revision-Date: 2015-02-10 14:10+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
 "Language: el\n"
@@ -32,12 +32,10 @@ msgid "Menu"
 msgstr "Μενού"
 
 #: declarative-plugin/buttonsmodel.cpp:69
-#, fuzzy
 msgid "Application menu"
-msgstr "Μενού εφαρμογής"
+msgstr "Μενού εφαρμογών"
 
 #: declarative-plugin/buttonsmodel.cpp:71
-#, fuzzy
 msgid "On all desktops"
 msgstr "Σε όλες τις επιφάνειες εργασίας"
 
@@ -55,23 +53,21 @@ msgstr "Κλείσιμο"
 
 #: declarative-plugin/buttonsmodel.cpp:79
 msgid "Context help"
-msgstr ""
+msgstr "Πλαίσιο βοήθειας"
 
 #: declarative-plugin/buttonsmodel.cpp:81
 msgid "Shade"
 msgstr "Τύλιγμα"
 
 #: declarative-plugin/buttonsmodel.cpp:83
-#, fuzzy
 msgid "Keep below"
-msgstr "Διατήρηση κάτω από τα άλλα"
+msgstr "Διατήρηση από κάτω"
 
 #: declarative-plugin/buttonsmodel.cpp:85
-#, fuzzy
 msgid "Keep above"
-msgstr "Διατήρηση πάνω από τα άλλα"
+msgstr "Διατήρηση από πάνω"
 
-#: kcm.cpp:100
+#: kcm.cpp:106
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
@@ -90,81 +86,77 @@ msgid "Get New Decorations..."
 msgstr "Λήψη νέων διακοσμήσεων παραθύρου..."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: kcm.ui:59
-#, fuzzy
+#: kcm.ui:56
 msgid "Border si&ze:"
-msgstr "Μέγεθος περιγράμματος:"
+msgstr "Μέγεθος &περιγράμματος:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:70
-#, fuzzy
+#: kcm.ui:67
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
-msgstr "Χωρίς οριογραμμή"
+msgstr "Χωρίς περιγράμματα"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:75
-#, fuzzy
+#: kcm.ui:72
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
-msgstr "Χωρίς πλευρική οριογραμμή"
+msgstr "Χωρίς πλευρικά περιγράμματα"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:80
+#: kcm.ui:77
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "Μικροσκοπικό"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:85
+#: kcm.ui:82
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "Κανονικό"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:90
+#: kcm.ui:87
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "Μεγάλο"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:95
+#: kcm.ui:92
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "Πολύ μεγάλο"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:100
+#: kcm.ui:97
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "Τεράστιο"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:105
+#: kcm.ui:102
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "Τερατώδες"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:110
+#: kcm.ui:107
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "Υπερφυσικό"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: kcm.ui:128
-#, fuzzy
+#: kcm.ui:125
 msgid "Close windows by double clicking &the menu button:"
-msgstr "Κλείστε τα παράθυρα με διπλό κλικ στο κουμπί του μενού"
+msgstr "Κλείσιμο παραθύρων με διπλό &κλικ στο κουμπί μενού:"
 
 #: qml/Buttons.qml:74
 msgid "Titlebar"
-msgstr ""
+msgstr "Γραμμή τίτλου"
 
 #: qml/Buttons.qml:197
 msgid "Drag buttons between here and the titlebar"
-msgstr ""
+msgstr "Σύρσιμο κουμπιών μεταξύ της θέσης αυτής και της γραμμής τίτλου"
 
 #: qml/Buttons.qml:212
 msgid "Drop here to remove button"
-msgstr ""
+msgstr "Απόθεση εδώ για αφαίρεση κουμπιού"

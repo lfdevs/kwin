@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-13 12:17+0000\n"
+"POT-Creation-Date: 2015-01-21 09:28+0000\n"
 "PO-Revision-Date: 2012-08-10 09:45+0200\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 
-#: layoutpreview.cpp:158
+#: layoutpreview.cpp:165
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Skrivebord 1"

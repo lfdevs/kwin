@@ -10,7 +10,7 @@
 # Pablo de Vicente <vicnte@oan.es>, 2003.
 # Pablo de Vicente <p.devicente@wanadoo.es>, 2004.
 # Juan Manuel Garcia Molina <juanma@superiodico.net>, 2005.
-# Eloy Cuadra <ecuadra@eloihr.net>, 2005, 2006, 2009, 2010, 2012, 2013.
+# Eloy Cuadra <ecuadra@eloihr.net>, 2005, 2006, 2009, 2010, 2012, 2013, 2015.
 # Pablo de Vicente <pablo.devicente@gmail.com>, 2006.
 # Enrique Matias Sanchez (aka Quique) <cronopios@gmail.com>, 2007.
 # Cristina Yenyxe González García <the.blue.valkyrie@gmail.com>, 2010.
@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-07-04 08:25+0000\n"
-"PO-Revision-Date: 2013-07-21 20:13+0200\n"
-"Last-Translator: Rocío Gallego <traducciones@rociogallego.com>\n"
+"PO-Revision-Date: 2015-02-04 19:42+0100\n"
+"Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -34,11 +34,11 @@ msgstr ""
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Jaime Robles,Pablo de Vicente,Miguel Revilla Rodríguez"
+msgstr "Eloy Cuadra,Jaime Robles,Pablo de Vicente,Miguel Revilla Rodríguez"
 
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "jaime@kde.org,vicente@oan.es,yo@miguelrevilla.com"
+msgstr "ecuadra@eloihr.net,jaime@kde.org,vicente@oan.es,yo@miguelrevilla.com"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: actions.ui:32
@@ -309,19 +309,19 @@ msgstr "Pasar al frente/atrás"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:388 mouse.ui:131
 msgid "Shade/Unshade"
-msgstr "Recoger/Desplegar"
+msgstr "Recoger/desplegar"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:393 mouse.ui:136
 msgid "Maximize/Restore"
-msgstr "Maximizar/Restaurar"
+msgstr "Maximizar/restaurar"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:398 mouse.ui:141
 msgid "Keep Above/Below"
-msgstr "Mantener arriba/debajo"
+msgstr "Mantener encima/debajo"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
@@ -518,7 +518,7 @@ msgstr "Centrado"
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:151
 msgid "Zero-Cornered"
-msgstr "Esquina en el cero"
+msgstr "Esquina cero"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:156
@@ -938,7 +938,7 @@ msgstr "Módulo de configuración del comportamiento de ventanas"
 
 #: main.cpp:104
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
-msgstr "(c) 1997 - 2002 Autores de KWin y KControl"
+msgstr "© 1997 - 2002 Autores de KWin y KControl"
 
 #: main.cpp:106
 msgid "Matthias Ettrich"

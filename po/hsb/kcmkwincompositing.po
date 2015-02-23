@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: desktop_kdebase\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-12-09 11:16+0000\n"
+"POT-Creation-Date: 2015-02-05 09:36+0000\n"
 "PO-Revision-Date: 2008-11-21 23:03+0100\n"
 "Last-Translator: Eduard Werner <edi.werner@gmx.de>\n"
 "Language-Team: en_US <kde-i18n-doc@lists.kde.org>\n"
@@ -112,7 +112,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:167 compositing.ui:213 qml/CompositingView.qml:141
+#: compositing.ui:167 compositing.ui:203 qml/CompositingView.qml:141
 #: qml/CompositingView.qml:154
 #, fuzzy
 msgid "Never"
@@ -145,15 +145,15 @@ msgid "Keep window thumbnails:"
 msgstr "Miniwobrazi woknow wobchować:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:203
-msgid "Always"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:208 qml/CompositingView.qml:154
 #, fuzzy
 msgid "Only for Shown Windows"
 msgstr "Jenož za pokazowane wokna"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:213
+msgid "Always"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: compositing.ui:221 qml/CompositingView.qml:175

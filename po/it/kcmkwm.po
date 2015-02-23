@@ -4,27 +4,29 @@
 # Pino Toscano <toscano.pino@tiscali.it>, 2006.
 # Luciano Montanaro <mikelima@cirulla.net>, 2007, 2008, 2009, 2010, 2011, 2012.
 # Luigi Toscano <luigi.toscano@tiscali.it>, 2013.
+# Vincenzo Reale <smart2128@baslug.org>, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-07-04 08:25+0000\n"
-"PO-Revision-Date: 2013-02-27 23:41+0100\n"
-"Last-Translator: Luigi Toscano <luigi.toscano@tiscali.it>\n"
+"PO-Revision-Date: 2015-02-15 15:30+0100\n"
+"Last-Translator: Vincenzo Reale <smart2128@baslug.org>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 1.5\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Luciano Montanaro,Andrea Rizzi"
+msgstr "Vincenzo Reale,Luciano Montanaro,Andrea Rizzi"
 
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "mikelima@cirulla.net,rizzi@kde.org"
+msgstr "smart2128@baslug.org,,"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: actions.ui:32
@@ -587,7 +589,7 @@ msgid ""
 "This behaviour is common on other operating systems and<br>\n"
 "likely what you want."
 msgstr ""
-"<b>Click per il fuoco</b><br>\n"
+"<b>Clic per il fuoco</b><br>\n"
 "Una finestra viene attivata facendo clic su di essa.<br><br>\n"
 "Questo comportamento è comune su altri sistemi operativi<br>\n"
 "e probabilmente è quello che vorrai usare."

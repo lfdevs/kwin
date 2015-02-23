@@ -1,5 +1,5 @@
 project(KWIN)
-set(PROJECT_VERSION "5.2.0")
+set(PROJECT_VERSION "5.2.1")
 set(PROJECT_VERSION_MAJOR 5)
 
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
@@ -44,6 +44,7 @@ include(KDECMakeSettings)
 include(KDECompilerSettings)
 
 include(ECMInstallIcons)
+include(ECMOptionalAddSubdirectory)
 
 add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0)
 
@@ -145,7 +146,7 @@ set_package_properties(UDev PROPERTIES  URL "http://www.freedesktop.org/software
                                         PURPOSE "Required for input handling on Wayland."
                         )
 set(HAVE_INPUT FALSE)
-if (Libinput_FOUND AND UDEV_FOUND)
+if (Libinput_FOUND AND UDEV_FOUND AND Libinput_VERSION VERSION_LESS 0.8)
     set(HAVE_INPUT TRUE)
 endif()
 
@@ -426,7 +427,7 @@ qt5_add_dbus_interface( kwin_KDEINIT_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/org.freede
 
 qt5_add_resources( kwin_KDEINIT_SRCS resources.qrc )
 
-qt5_wrap_ui(kwin_KDEINIT_SRCS
+ki18n_wrap_ui(kwin_KDEINIT_SRCS
     shortcutdialog.ui
 )
 

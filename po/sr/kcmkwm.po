@@ -19,7 +19,7 @@ msgstr ""
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Associated-UI-Catalogs: kio4\n"
+"X-Associated-UI-Catalogs: kio5\n"
 "X-Environment: kde\n"
 
 msgctxt "NAME OF TRANSLATORS"

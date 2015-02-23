@@ -2,6 +2,7 @@
 # Andrea Rizzi <rizzi@kde.org>, 2004, 2005.
 # Luciano Montanaro <mikelima@cirulla.net>, 2007, 2008, 2009, 2010, 2011, 2012.
 # Andrea Rizzi <rizzi@sns.it>, 2007.
+# Vincenzo Reale <smart2128@baslug.org>, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
@@ -15,6 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 1.5\n"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlastikConfigDialog)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14

@@ -2,13 +2,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Martin Schlander <mschlander@opensuse.org>, 2008.
-# Martin Schlander <mschlander@opensuse.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014.
+# Martin Schlander <mschlander@opensuse.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-01-18 09:50+0000\n"
-"PO-Revision-Date: 2014-08-26 20:21+0200\n"
+"PO-Revision-Date: 2015-02-17 17:33+0100\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
 "Language: da\n"
@@ -463,33 +463,35 @@ msgid "Indicate that KWin has recently crashed n times"
 msgstr "Indikér at KWin for nyligt er gået ned n gange"
 
 #: main_wayland.cpp:88
-#, fuzzy
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
-msgstr "kwin: en anden vindueshåndtering kører (prøv at bruge --replace)\n"
+msgstr "kwin_wayland: en X11-vindueshåndtering kører på X11-displayet.\n"
 
 #: main_wayland.cpp:96
 msgid ""
 "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
 "set.\n"
 msgstr ""
+"kwin_wayland: Kunne ikke forbinde til Wayland-server, kontrollér at "
+"WAYLAND_DISPLAY er sat.\n"
 
 #: main_wayland.cpp:235
 msgid "Start a nested X Server."
-msgstr ""
+msgstr "Start en indlejret X-server."
 
 #: main_wayland.cpp:238
-#, fuzzy
-#| msgid "The X11 Display to connect to, required if option x-server is used."
 msgid ""
 "The X11 Display to connect to. If not set next free number will be picked."
 msgstr ""
-"X11-displayet der skal forbindes til. Kræves hvis tilvalget x-server bruges."
+"X11-displayet der skal forbindes til. Hvis det ikke er angivet vælges næste "
+"ledige nummer."
 
 #: main_wayland.cpp:247
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
 msgstr ""
+"Aktivér libinput-understøttelse til behandling af input-hændelser. Bemærk: "
+"Brug aldrig dette i en indlejret session."
 
 #: main_x11.cpp:149
 msgid ""

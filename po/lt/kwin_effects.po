@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-13 12:17+0000\n"
+"POT-Creation-Date: 2015-02-02 09:35+0000\n"
 "PO-Revision-Date: 2015-01-26 12:15+0200\n"
 "Last-Translator: Liudas Ališauskas <liudas@akmc.lt>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -537,219 +537,219 @@ msgstr "Pritaikyti efektus &grupėms"
 msgid "&Strength:"
 msgstr "&Stiprumas"
 
-#: effect_builtins.cpp:91
+#: effect_builtins.cpp:102
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
 msgstr "Suliejimas"
 
-#: effect_builtins.cpp:92
+#: effect_builtins.cpp:103
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
 msgstr "Sulieja pusiau permatomų langų foną"
 
-#: effect_builtins.cpp:103
+#: effect_builtins.cpp:117
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Fono kontrastas"
 
-#: effect_builtins.cpp:104
+#: effect_builtins.cpp:118
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
 msgstr "Pagerinti kontrastą ir skaitomumą už pusiau permatomų langų"
 
-#: effect_builtins.cpp:115
+#: effect_builtins.cpp:132
 msgctxt "Name of a KWin Effect"
 msgid "Cover Switch"
 msgstr "Viršelių keitiklis"
 
-#: effect_builtins.cpp:116
+#: effect_builtins.cpp:133
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a Cover Flow effect for the alt+tab window switcher"
 msgstr "Suteikia viršelių slinkimo efektą naudojant Alt+Tab langų keitimo būdą"
 
-#: effect_builtins.cpp:127
+#: effect_builtins.cpp:147
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Darbastalio kubas"
 
-#: effect_builtins.cpp:128
+#: effect_builtins.cpp:148
 msgctxt "Comment describing the KWin Effect"
 msgid "Display each virtual desktop on a side of a cube"
 msgstr "Rodo kiekvieną virtualų darbastalį ant kubo sienos"
 
-#: effect_builtins.cpp:139
+#: effect_builtins.cpp:162
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Darbastalio kubo animacija"
 
-#: effect_builtins.cpp:140
+#: effect_builtins.cpp:163
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate desktop switching with a cube"
 msgstr "Animuoti persijungimą tarp ekranų rodant kubą"
 
-#: effect_builtins.cpp:151
+#: effect_builtins.cpp:177
 msgctxt "Name of a KWin Effect"
 msgid "Dashboard"
 msgstr "Prietaisų skydelis"
 
-#: effect_builtins.cpp:152
+#: effect_builtins.cpp:178
 msgctxt "Comment describing the KWin Effect"
 msgid "Desaturate the desktop when displaying the Plasma dashboard"
 msgstr ""
 "Panaikina darbastalio spalvų sodrumą kai rodomas plasma valdymo skydelis"
 
-#: effect_builtins.cpp:163
+#: effect_builtins.cpp:192
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Darbastalio tinklelis"
 
-#: effect_builtins.cpp:164
+#: effect_builtins.cpp:193
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
 msgstr ""
 "Atitolinti darbastalį, kad visi darbastaliai būtų matomi kaip vienas "
 "tinklelis"
 
-#: effect_builtins.cpp:175
+#: effect_builtins.cpp:207
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
 msgstr "Užtemdomi neaktyvūs langai"
 
-#: effect_builtins.cpp:176
+#: effect_builtins.cpp:208
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Pritemdo neaktyvius langus"
 
-#: effect_builtins.cpp:187
+#: effect_builtins.cpp:222
 msgctxt "Name of a KWin Effect"
 msgid "Dim Screen for Administrator Mode"
 msgstr "Užtemdomas ekraną administratoriaus veiksenai"
 
-#: effect_builtins.cpp:188
+#: effect_builtins.cpp:223
 msgctxt "Comment describing the KWin Effect"
 msgid "Darkens the entire screen when requesting root privileges"
 msgstr "Pritemdo visą ekraną prašant administratoriaus privilegijų"
 
-#: effect_builtins.cpp:199
+#: effect_builtins.cpp:237
 msgctxt "Name of a KWin Effect"
 msgid "Fall Apart"
 msgstr "Subyrėjimas"
 
-#: effect_builtins.cpp:200
+#: effect_builtins.cpp:238
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "Uždaromi langai subyra į gabalėlius"
 
-#: effect_builtins.cpp:211
+#: effect_builtins.cpp:252
 msgctxt "Name of a KWin Effect"
 msgid "Flip Switch"
 msgstr "Kartotekos imitacijos keitiklis"
 
-#: effect_builtins.cpp:212
+#: effect_builtins.cpp:253
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Flip through windows that are in a stack for the alt+tab window switcher"
 msgstr ""
 "Rodo langus kaip kartotekos korteles naudojant Alt+Tab langų keitimo būdą"
 
-#: effect_builtins.cpp:223
+#: effect_builtins.cpp:267
 msgctxt "Name of a KWin Effect"
 msgid "Glide"
 msgstr "Sklendimas"
 
-#: effect_builtins.cpp:224
+#: effect_builtins.cpp:268
 msgctxt "Comment describing the KWin Effect"
 msgid "Windows Glide Effect as they are open and closed"
 msgstr "Langų sklendimo efektas juos atidarant ir uždarant"
 
-#: effect_builtins.cpp:235
+#: effect_builtins.cpp:282
 msgctxt "Name of a KWin Effect"
 msgid "Highlight Window"
 msgstr "Pažymėti langą"
 
-#: effect_builtins.cpp:236
+#: effect_builtins.cpp:283
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight the appropriate window when hovering over taskbar entries"
 msgstr ""
 "Rodo langų miniatiūras užvedus kursorių virš lango įrašo užduočių juostoje"
 
-#: effect_builtins.cpp:247
+#: effect_builtins.cpp:297
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Invertuoti"
 
-#: effect_builtins.cpp:248
+#: effect_builtins.cpp:298
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
 msgstr "Invertuoja darbastalio ir langų spalvas"
 
-#: effect_builtins.cpp:259
+#: effect_builtins.cpp:312
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
 msgstr "KScreen"
 
-#: effect_builtins.cpp:260
+#: effect_builtins.cpp:313
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper Effect for KScreen"
 msgstr "Pagalbinis efektas skirtas KScreen"
 
-#: effect_builtins.cpp:271
+#: effect_builtins.cpp:327
 msgctxt "Name of a KWin Effect"
 msgid "Logout"
 msgstr "Atsijungti"
 
-#: effect_builtins.cpp:272
+#: effect_builtins.cpp:328
 msgctxt "Comment describing the KWin Effect"
 msgid "Desaturate the desktop when displaying the logout dialog"
 msgstr ""
 "Panaikina darbastalio spalvų sodrumą kai rodomas išsiregistravimo dialogas"
 
-#: effect_builtins.cpp:283
+#: effect_builtins.cpp:342
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
 msgstr "Didinamasis stiklas"
 
-#: effect_builtins.cpp:284
+#: effect_builtins.cpp:343
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
 msgstr "Ekrano didintuvas, panašus į žuvies akį"
 
-#: effect_builtins.cpp:295
+#: effect_builtins.cpp:357
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
 msgstr "Magiška lempa"
 
-#: effect_builtins.cpp:296
+#: effect_builtins.cpp:358
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
 msgstr "Imituoja magišką lempą sumažinant langus"
 
-#: effect_builtins.cpp:307
+#: effect_builtins.cpp:372
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Didinamasis stiklas"
 
-#: effect_builtins.cpp:308
+#: effect_builtins.cpp:373
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
 msgstr "Padidina ekrano dalį, esančią netoli pelės"
 
-#: effect_builtins.cpp:319
+#: effect_builtins.cpp:387
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Sumažinimo animacija"
 
-#: effect_builtins.cpp:320
+#: effect_builtins.cpp:388
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "Animuoja langų sumažinimą"
 
-#: effect_builtins.cpp:331
+#: effect_builtins.cpp:402
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Spragtelėjimo pele animacija"
 
-#: effect_builtins.cpp:332
+#: effect_builtins.cpp:403
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Creates an animation whenever a mouse button is clicked. This is useful for "
@@ -758,66 +758,66 @@ msgstr ""
 "Kuria animaciją kai tik pelės mygtukas paspaudžiamas. Tai naudojama ekrano "
 "įrašymams / pristatymams."
 
-#: effect_builtins.cpp:343
+#: effect_builtins.cpp:417
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Piešimas pele"
 
-#: effect_builtins.cpp:344
+#: effect_builtins.cpp:418
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
 msgstr "Leidžia piešti linijas ekrane"
 
-#: effect_builtins.cpp:355
+#: effect_builtins.cpp:432
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Dabar atverti langai"
 
-#: effect_builtins.cpp:356
+#: effect_builtins.cpp:433
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
 msgstr ""
 "Sukuria atsitraukimo efektą ir leidžia pamatyti visus langus vienu metu "
 "greta vienas kito"
 
-#: effect_builtins.cpp:367
+#: effect_builtins.cpp:447
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Keisti lango dydį"
 
-#: effect_builtins.cpp:368
+#: effect_builtins.cpp:448
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
 msgstr ""
 "Keičia langų dydį naudojant greitą tekstūros dydžio pakeitimą, o ne pilnai "
 "atnaujinant turinį"
 
-#: effect_builtins.cpp:379
+#: effect_builtins.cpp:462
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr "Ekrano kraštas"
 
-#: effect_builtins.cpp:380
+#: effect_builtins.cpp:463
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
 msgstr "Paryškina ekrano kraštą kai priartėjama"
 
-#: effect_builtins.cpp:391
+#: effect_builtins.cpp:477
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
 msgstr "Ekranvaizdis"
 
-#: effect_builtins.cpp:392
+#: effect_builtins.cpp:478
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for KSnapshot"
 msgstr "Pagalbinis efektas skirtas KSnapshot"
 
-#: effect_builtins.cpp:403
+#: effect_builtins.cpp:492
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
 msgstr "Lapas"
 
-#: effect_builtins.cpp:404
+#: effect_builtins.cpp:493
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Make modal dialogs smoothly fly in and out when they are shown or hidden"
@@ -825,122 +825,122 @@ msgstr ""
 "Dialogai pamažu išnyksta/atsiranda jei juos prašoma parodyti arba jie "
 "slepiami"
 
-#: effect_builtins.cpp:415
+#: effect_builtins.cpp:507
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
 msgstr "FPS rodymas"
 
-#: effect_builtins.cpp:416
+#: effect_builtins.cpp:508
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
 msgstr "Rodo KWin greitaveiką ekrano kampe"
 
-#: effect_builtins.cpp:427
+#: effect_builtins.cpp:522
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Piešimo rodymas"
 
-#: effect_builtins.cpp:428
+#: effect_builtins.cpp:523
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
 msgstr "Paryškina darbastalio elementus, kurie buvo neseniai atnaujinti"
 
-#: effect_builtins.cpp:439
+#: effect_builtins.cpp:537
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
 msgstr "Slinktis"
 
-#: effect_builtins.cpp:440
+#: effect_builtins.cpp:538
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide windows across the screen when switching virtual desktops"
 msgstr "Perslenka langus per ekraną pereinant iš vieno darbastalio į kitą"
 
-#: effect_builtins.cpp:451
+#: effect_builtins.cpp:552
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
 msgstr "Užkišti po apačia"
 
-#: effect_builtins.cpp:452
+#: effect_builtins.cpp:553
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
 msgstr "Slinkti atgal langus, kai kitas langas yra pakeliamas"
 
-#: effect_builtins.cpp:463
+#: effect_builtins.cpp:567
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
 msgstr "Slystantys elementai"
 
-#: effect_builtins.cpp:464
+#: effect_builtins.cpp:568
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
 msgstr "Slydimo animacija Plasma pasirodantiems elementams"
 
-#: effect_builtins.cpp:475
+#: effect_builtins.cpp:582
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
 msgstr "Prilygiavimo pagalbininkas"
 
-#: effect_builtins.cpp:476
+#: effect_builtins.cpp:583
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
 msgstr "Perkeliant langą padeda atrasti ekrano centrą"
 
-#: effect_builtins.cpp:487
+#: effect_builtins.cpp:597
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
 msgstr "Paleidimo atsakas"
 
-#: effect_builtins.cpp:488
+#: effect_builtins.cpp:598
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
 msgstr "Paleidimo atsako pagalbininko efektas"
 
-#: effect_builtins.cpp:499
+#: effect_builtins.cpp:612
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Miniatiūros pakrašty"
 
-#: effect_builtins.cpp:500
+#: effect_builtins.cpp:613
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
 msgstr "Rodo langų miniatiūras ekrano pakrašty"
 
-#: effect_builtins.cpp:511
+#: effect_builtins.cpp:627
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Pelės sekimas"
 
-#: effect_builtins.cpp:512
+#: effect_builtins.cpp:628
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a mouse cursor locating effect when activated"
 msgstr "Rodo pelės žymeklio vietos nustatymo efektą"
 
-#: effect_builtins.cpp:523
+#: effect_builtins.cpp:642
 msgctxt "Name of a KWin Effect"
 msgid "Window Geometry"
 msgstr "Lango geometrija"
 
-#: effect_builtins.cpp:524
+#: effect_builtins.cpp:643
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "Rodyti lango turinį perkeliant ir keičiant dydį"
 
-#: effect_builtins.cpp:535
+#: effect_builtins.cpp:657
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Svirduliuojantys langai"
 
-#: effect_builtins.cpp:536
+#: effect_builtins.cpp:658
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "Deformuoja langus kai šie juda"
 
-#: effect_builtins.cpp:547
+#: effect_builtins.cpp:672
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Mastelis"
 
-#: effect_builtins.cpp:548
+#: effect_builtins.cpp:673
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
 msgstr "Didina visą darbastalį"

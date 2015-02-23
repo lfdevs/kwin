@@ -9,13 +9,13 @@
 # Dimitrios Glentadakis <dglent@gmail.com>, 2011, 2012.
 # Antonis Geralis <capoiosct@gmail.com>, 2012.
 # Stelios <sstavra@gmail.com>, 2012, 2013.
-# Dimitris Kardarakos <dimkard@gmail.com>, 2014.
+# Dimitris Kardarakos <dimkard@gmail.com>, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-12-09 11:16+0000\n"
-"PO-Revision-Date: 2014-10-27 18:35+0200\n"
+"POT-Creation-Date: 2015-02-05 09:36+0000\n"
+"PO-Revision-Date: 2015-02-08 12:43+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
 "Language: el\n"
@@ -112,7 +112,7 @@ msgstr "Αποτροπή κοψίματος εικόνας (VSync):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:167 compositing.ui:213 qml/CompositingView.qml:141
+#: compositing.ui:167 compositing.ui:203 qml/CompositingView.qml:141
 #: qml/CompositingView.qml:154
 msgid "Never"
 msgstr "Ποτέ"
@@ -143,14 +143,14 @@ msgid "Keep window thumbnails:"
 msgstr "Διατήρηση επισκόπησης παραθύρων:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:203
-msgid "Always"
-msgstr "Πάντα"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:208 qml/CompositingView.qml:154
 msgid "Only for Shown Windows"
 msgstr "Μόνο για ορατά παράθυρα"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:213
+msgid "Always"
+msgstr "Πάντα"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: compositing.ui:221 qml/CompositingView.qml:175
@@ -205,6 +205,9 @@ msgid ""
 "Scale method \"Accurate\" is not supported by all hardware and can cause "
 "performance regressions and rendering artifacts."
 msgstr ""
+"Η μέθοδος κλιμάκωσης \"Ακριβείας\" δεν υποστηρίζεται από όλες τις συσκευές "
+"γραφικών και μπορεί να προκαλέσει χειροτέρευση των επιδόσεων και σφάλματα "
+"απεικόνισης."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
 #: compositing.ui:323
@@ -212,6 +215,9 @@ msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
 "windows. This can result in windows not suspending their work when minimized."
 msgstr ""
+"Η διατήρηση της εικόνας επισκόπησης παραθύρου πάντοτε επιδρά στην κατάσταση "
+"ελαχιστοποίησης των παραθύρων. Αυτό μπορεί να έχει ως αποτέλεσμα τα παράθυρα "
+"να μην μπαίνουν σε αδράνεια όταν ελαχιστοποιούνται."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, unredirectInformation)
 #: compositing.ui:339

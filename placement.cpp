@@ -663,6 +663,8 @@ const char* Placement::policyToString(Policy policy)
 
 void Client::packTo(int left, int top)
 {
+    workspace()->updateFocusMousePosition(Cursor::pos()); // may cause leave event;
+
     const int oldScreen = screen();
     move(left, top);
     if (screen() != oldScreen) {
@@ -725,6 +727,8 @@ void Client::growHorizontal()
             geom.setRight(newright);
     }
     geom.setSize(adjustedSize(geom.size(), SizemodeFixedW));
+    geom.setSize(adjustedSize(geom.size(), SizemodeFixedH));
+    workspace()->updateFocusMousePosition(Cursor::pos()); // may cause leave event;
     setGeometry(geom);
 }
 
@@ -743,8 +747,10 @@ void Client::shrinkHorizontal()
     if (geom.width() <= 1)
         return;
     geom.setSize(adjustedSize(geom.size(), SizemodeFixedW));
-    if (geom.width() > 20)
+    if (geom.width() > 20) {
+        workspace()->updateFocusMousePosition(Cursor::pos()); // may cause leave event;
         setGeometry(geom);
+    }
 }
 
 void Workspace::slotWindowGrowVertical()
@@ -768,6 +774,7 @@ void Client::growVertical()
             geom.setBottom(newbottom);
     }
     geom.setSize(adjustedSize(geom.size(), SizemodeFixedH));
+    workspace()->updateFocusMousePosition(Cursor::pos()); // may cause leave event;
     setGeometry(geom);
 }
 
@@ -787,8 +794,10 @@ void Client::shrinkVertical()
     if (geom.height() <= 1)
         return;
     geom.setSize(adjustedSize(geom.size(), SizemodeFixedH));
-    if (geom.height() > 20)
+    if (geom.height() > 20) {
+        workspace()->updateFocusMousePosition(Cursor::pos()); // may cause leave event;
         setGeometry(geom);
+    }
 }
 
 
@@ -855,8 +864,9 @@ int Workspace::packPositionLeft(const Client* cl, int oldx, bool left_edge) cons
     }
     if (oldx <= newx)
         return oldx;
+    const int desktop = cl->desktop() == 0 || cl->isOnAllDesktops() ? VirtualDesktopManager::self()->current() : cl->desktop();
     for (ClientList::ConstIterator it = clients.constBegin(), end = clients.constEnd(); it != end; ++it) {
-        if (isIrrelevant(*it, cl, cl->desktop()))
+        if (isIrrelevant(*it, cl, desktop))
             continue;
         int x = left_edge ? (*it)->geometry().right() + 1 : (*it)->geometry().left() - 1;
         if (x > newx && x < oldx
@@ -882,8 +892,9 @@ int Workspace::packPositionRight(const Client* cl, int oldx, bool right_edge) co
     }
     if (oldx >= newx)
         return oldx;
+    const int desktop = cl->desktop() == 0 || cl->isOnAllDesktops() ? VirtualDesktopManager::self()->current() : cl->desktop();
     for (ClientList::ConstIterator it = clients.constBegin(), end = clients.constEnd(); it != end; ++it) {
-        if (isIrrelevant(*it, cl, cl->desktop()))
+        if (isIrrelevant(*it, cl, desktop))
             continue;
         int x = right_edge ? (*it)->geometry().left() - 1 : (*it)->geometry().right() + 1;
         if (x < newx && x > oldx
@@ -909,8 +920,9 @@ int Workspace::packPositionUp(const Client* cl, int oldy, bool top_edge) const
     }
     if (oldy <= newy)
         return oldy;
+    const int desktop = cl->desktop() == 0 || cl->isOnAllDesktops() ? VirtualDesktopManager::self()->current() : cl->desktop();
     for (ClientList::ConstIterator it = clients.constBegin(), end = clients.constEnd(); it != end; ++it) {
-        if (isIrrelevant(*it, cl, cl->desktop()))
+        if (isIrrelevant(*it, cl, desktop))
             continue;
         int y = top_edge ? (*it)->geometry().bottom() + 1 : (*it)->geometry().top() - 1;
         if (y > newy && y < oldy
@@ -936,8 +948,9 @@ int Workspace::packPositionDown(const Client* cl, int oldy, bool bottom_edge) co
     }
     if (oldy >= newy)
         return oldy;
+    const int desktop = cl->desktop() == 0 || cl->isOnAllDesktops() ? VirtualDesktopManager::self()->current() : cl->desktop();
     for (ClientList::ConstIterator it = clients.constBegin(), end = clients.constEnd(); it != end; ++it) {
-        if (isIrrelevant(*it, cl, cl->desktop()))
+        if (isIrrelevant(*it, cl, desktop))
             continue;
         int y = bottom_edge ? (*it)->geometry().top() - 1 : (*it)->geometry().bottom() + 1;
         if (y < newy && y > oldy

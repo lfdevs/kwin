@@ -1,1 +1,1 @@
-add_subdirectory(en_US)
+add_subdirectory(en)

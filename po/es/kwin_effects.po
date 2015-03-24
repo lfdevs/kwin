@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-02 09:35+0000\n"
+"POT-Creation-Date: 2015-03-21 10:21+0000\n"
 "PO-Revision-Date: 2014-06-25 13:09+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -1185,7 +1185,7 @@ msgstr "Conmutar las ventanas presentes (todos los escritorios)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Conmutar las ventanas presentes (clase de ventana)"
 
-#: presentwindows/presentwindows.cpp:1551
+#: presentwindows/presentwindows.cpp:1556
 #, kde-format
 msgid ""
 "Filter:\n"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/kwin_effects.po\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-02 09:35+0000\n"
+"POT-Creation-Date: 2015-03-21 10:21+0000\n"
 "PO-Revision-Date: 2007-11-14 08:24-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -1184,7 +1184,7 @@ msgstr "Scoránaigh na Fuinneoga atá ann (Gach deasc)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Scoránaigh na Fuinneoga atá ann (Aicme fhuinneoige)"
 
-#: presentwindows/presentwindows.cpp:1551
+#: presentwindows/presentwindows.cpp:1556
 #, kde-format
 msgid ""
 "Filter:\n"

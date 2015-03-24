@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-02 09:35+0000\n"
+"POT-Creation-Date: 2015-03-21 10:21+0000\n"
 "PO-Revision-Date: 2014-11-05 10:39-0500\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
@@ -1164,7 +1164,7 @@ msgstr "切换显示窗口(对全部桌面)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "切换当前窗口分类"
 
-#: presentwindows/presentwindows.cpp:1551
+#: presentwindows/presentwindows.cpp:1556
 #, kde-format
 msgid ""
 "Filter:\n"

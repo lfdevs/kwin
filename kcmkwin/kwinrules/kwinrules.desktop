@@ -75,6 +75,7 @@ Name[zh_CN]=窗口规则
 Name[zh_TW]=視窗規則
 
 Comment=Individual Window Behavior
+Comment[bs]=Ponašanje pojedinog prozora
 Comment[ca]=Comportament individual de les finestres
 Comment[cs]=Chování individuálních oken
 Comment[da]=Opførsel af enkeltvinduer
@@ -87,6 +88,7 @@ Comment[fr]=Comportement individuel des fenêtres
 Comment[hu]=Egyéni ablakműveletek
 Comment[ia]=Comportamento de fenestra individual
 Comment[id]=Perilaku Jendela Individu
+Comment[it]=Comportamento della singola finestra
 Comment[ko]=개별 창 동작
 Comment[lt]=Individuali lango elgsena
 Comment[nb]=Oppførsel for individuelle vinduer
@@ -106,6 +108,7 @@ Comment[sv]=Individuellt fönsterbeteende
 Comment[uk]=Поведінка окремих вікон
 Comment[x-test]=xxIndividual Window Behaviorxx
 Comment[zh_CN]=个别窗口行为
+Comment[zh_TW]=個別視窗行為
 
 X-KDE-Keywords=size,position,state,window behavior,windows,specific,workarounds,remember,rules
 X-KDE-Keywords[bs]=veličina,pozicija,grad,reagiranje prozora,prozori,specifičan,workarounds,sjećati se,pravila

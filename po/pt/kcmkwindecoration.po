@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-01-28 09:29+0000\n"
-"PO-Revision-Date: 2014-03-13 10:30+0000\n"
+"PO-Revision-Date: 2015-03-22 15:22+0000\n"
 "Last-Translator: José Nuno Pires <zepires@gmail.com>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: \n"
@@ -19,14 +19,12 @@ msgid "Menu"
 msgstr "Menu"
 
 #: declarative-plugin/buttonsmodel.cpp:69
-#, fuzzy
 msgid "Application menu"
-msgstr "Menu da Aplicação"
+msgstr "Menu da aplicação"
 
 #: declarative-plugin/buttonsmodel.cpp:71
-#, fuzzy
 msgid "On all desktops"
-msgstr "Em Todos os Ecrãs"
+msgstr "Em todos os ecrãs"
 
 #: declarative-plugin/buttonsmodel.cpp:73
 msgid "Minimize"
@@ -49,14 +47,12 @@ msgid "Shade"
 msgstr "Enrolar"
 
 #: declarative-plugin/buttonsmodel.cpp:83
-#, fuzzy
 msgid "Keep below"
-msgstr "Manter por Baixo das Outras"
+msgstr "Manter abaixo"
 
 #: declarative-plugin/buttonsmodel.cpp:85
-#, fuzzy
 msgid "Keep above"
-msgstr "Manter por Cima das Outras"
+msgstr "Manter acima"
 
 #: kcm.cpp:106
 msgid ""
@@ -78,23 +74,20 @@ msgstr "Obter Decorações Novas ..."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kcm.ui:56
-#, fuzzy
 msgid "Border si&ze:"
-msgstr "Tamanho do contorno:"
+msgstr "Tamanho do &contorno:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:67
-#, fuzzy
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Sem Contorno"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:72
-#, fuzzy
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
-msgstr "Sem Contorno Lateral"
+msgstr "Sem Contornos Laterais"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:77
@@ -140,17 +133,16 @@ msgstr "Ainda Maior"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: kcm.ui:125
-#, fuzzy
 msgid "Close windows by double clicking &the menu button:"
-msgstr "Fechar as janelas com um duplo-click no botão do menu"
+msgstr "Fechar as janelas com um duplo-click no bo&tão do menu:"
 
 #: qml/Buttons.qml:74
 msgid "Titlebar"
-msgstr ""
+msgstr "Barra de título"
 
 #: qml/Buttons.qml:197
 msgid "Drag buttons between here and the titlebar"
-msgstr ""
+msgstr "Arraste os botões entre a barra de título e aqui"
 
 #: qml/Buttons.qml:212
 msgid "Drop here to remove button"

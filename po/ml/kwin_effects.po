@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-02 09:35+0000\n"
+"POT-Creation-Date: 2015-03-21 10:21+0000\n"
 "PO-Revision-Date: 2008-11-30 14:57-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Malayalam <smc-discuss@googlegroups.com>\n"
@@ -1210,7 +1210,7 @@ msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗ�
 msgid "Toggle Present Windows (Window class)"
 msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (എല്ലാ പണിയിടങ്ങള്‍ക്കുമായി)"
 
-#: presentwindows/presentwindows.cpp:1551
+#: presentwindows/presentwindows.cpp:1556
 #, kde-format
 msgid ""
 "Filter:\n"

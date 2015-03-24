@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-02 09:35+0000\n"
+"POT-Creation-Date: 2015-03-21 10:21+0000\n"
 "PO-Revision-Date: 2013-01-15 02:28+0200\n"
 "Last-Translator: Marek Laane <bald@smail.ee>\n"
 "Language-Team: Estonian <kde-et@linux.ee>\n"
@@ -1185,7 +1185,7 @@ msgstr "Aktiivsete akende lülitamine (kõigil töölaudadel)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Aktiivsete akende lülitamine (Window klass)"
 
-#: presentwindows/presentwindows.cpp:1551
+#: presentwindows/presentwindows.cpp:1556
 #, kde-format
 msgid ""
 "Filter:\n"

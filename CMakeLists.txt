@@ -1,5 +1,5 @@
 project(KWIN)
-set(PROJECT_VERSION "5.2.1")
+set(PROJECT_VERSION "5.2.2")
 set(PROJECT_VERSION_MAJOR 5)
 
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
@@ -76,6 +76,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     Plasma
     WidgetsAddons
     WindowSystem
+    IconThemes
 )
 # required frameworks by config modules
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS

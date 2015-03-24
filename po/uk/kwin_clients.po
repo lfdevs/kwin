@@ -1,5 +1,8 @@
 # Translation of kwin_clients.po to Ukrainian
-# translation of kwin_clients.po to Ukrainian
+# Copyright (C) 2004-2013 This_file_is_part_of_KDE
+# This file is distributed under the license LGPL version 2.1 or
+# version 3 or later versions approved by the membership of KDE e.V.
+#
 # Eugene Onischenko <oneugene@ukr.net>, 2004, 2005.
 # Andriy Rysin <rysin@kde.org>, 2004, 2006.
 # Ivan Petrouchtchak <fr.ivan@ukrainian-orthodox.org>, 2004, 2005, 2006, 2007, 2008.

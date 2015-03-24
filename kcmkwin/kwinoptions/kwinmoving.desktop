@@ -99,6 +99,7 @@ Name[zh_CN]=移动
 Name[zh_TW]=移動
 
 Comment=Window Moving
+Comment[bs]=Kretanje prozora
 Comment[ca]=Moviment de les finestres
 Comment[cs]=Posun oken
 Comment[da]=Flytning af vinduer
@@ -111,6 +112,7 @@ Comment[fr]=Déplacement des fenêtres
 Comment[hu]=Ablakmozgatás
 Comment[ia]=Movimento de fenestra
 Comment[id]=Memindahkan Jendela
+Comment[it]=Spostamento delle finestre
 Comment[ko]=창 이동
 Comment[lt]=Lango judinimas
 Comment[nb]=Vindusflytting
@@ -130,6 +132,7 @@ Comment[sv]=Fönsterförflyttning
 Comment[uk]=Пересування вікон
 Comment[x-test]=xxWindow Movingxx
 Comment[zh_CN]=窗口移动
+Comment[zh_TW]=視窗移動
 
 X-KDE-Keywords=moving,smart,cascade,maximize,maximise,snap zone,snap,border
 X-KDE-Keywords[bs]=pomjeranje,pametno,kaskada,povećali,povećalo,namjestiti zonu,namjestiti,granica

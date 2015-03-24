@@ -6,7 +6,7 @@
 # Matthieu Robin <kde@macolu.org>, 2004.
 # Nicolas Ternisien <nicolas.ternisien@gmail.com>, 2004, 2005.
 # Nicolas Ternisien <nicolas.ternisien@gmail.com>, 2007, 2008, 2010.
-# Sébastien Renard <renard@kde.org>, 2010, 2014.
+# Sébastien Renard <renard@kde.org>, 2010, 2014, 2015.
 # xavier <ktranslator31@yahoo.fr>, 2013.
 # Vincent PINON <vincent.pinon@st.com>, 2013.
 #
@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-01-28 09:29+0000\n"
-"PO-Revision-Date: 2014-07-12 13:24+0200\n"
+"PO-Revision-Date: 2015-02-15 17:13+0100\n"
 "Last-Translator: Sebastien Renard <renard@kde.org>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -33,12 +33,10 @@ msgid "Menu"
 msgstr "Menu"
 
 #: declarative-plugin/buttonsmodel.cpp:69
-#, fuzzy
 msgid "Application menu"
 msgstr "Menu d'application"
 
 #: declarative-plugin/buttonsmodel.cpp:71
-#, fuzzy
 msgid "On all desktops"
 msgstr "Sur tous les bureaux"
 
@@ -56,21 +54,19 @@ msgstr "Fermer"
 
 #: declarative-plugin/buttonsmodel.cpp:79
 msgid "Context help"
-msgstr ""
+msgstr "Aide contextuelle"
 
 #: declarative-plugin/buttonsmodel.cpp:81
 msgid "Shade"
 msgstr "Enrouler"
 
 #: declarative-plugin/buttonsmodel.cpp:83
-#, fuzzy
 msgid "Keep below"
-msgstr "Conserver au-dessous des autres"
+msgstr "Conserver au-dessous "
 
 #: declarative-plugin/buttonsmodel.cpp:85
-#, fuzzy
 msgid "Keep above"
-msgstr "Conserver au-dessus des autres"
+msgstr "Conserver au-dessus "
 
 #: kcm.cpp:106
 msgid ""
@@ -92,20 +88,17 @@ msgstr "Obtenir de nouvelles décorations..."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kcm.ui:56
-#, fuzzy
 msgid "Border si&ze:"
-msgstr "Taille de la bordure :"
+msgstr "&Taille de la bordure : "
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:67
-#, fuzzy
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Aucune bordure"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:72
-#, fuzzy
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr "Aucune bordure latérale"
@@ -154,18 +147,17 @@ msgstr "Démesurée"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: kcm.ui:125
-#, fuzzy
 msgid "Close windows by double clicking &the menu button:"
-msgstr "Fermer les fenêtres en faisant un double clic sur le bouton de menu"
+msgstr "Fermer les fenêtres en faisant un &double clic sur le bouton de menu"
 
 #: qml/Buttons.qml:74
 msgid "Titlebar"
-msgstr ""
+msgstr "Barre de titre"
 
 #: qml/Buttons.qml:197
 msgid "Drag buttons between here and the titlebar"
-msgstr ""
+msgstr "Faites glisser les boutons vers la barre de titre"
 
 #: qml/Buttons.qml:212
 msgid "Drop here to remove button"
-msgstr ""
+msgstr "Faites glisser ici pour supprimer un bouton"

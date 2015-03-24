@@ -6,88 +6,81 @@ msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-05-16 07:57+0000\n"
-"PO-Revision-Date: 2013-10-18 20:28+0000\n"
+"PO-Revision-Date: 2014-10-20 19:32+0000\n"
 "Last-Translator: Samir Ribić <Unknown>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
 "Language: bs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 16807)\n"
-"X-Launchpad-Export-Date: 2013-10-19 05:17+0000\n"
+"X-Generator: Launchpad (build 17341)\n"
+"X-Launchpad-Export-Date: 2015-02-16 06:42+0000\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 "X-Environment: kde\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr " "
+msgstr "Samir Ribić"
 
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
+msgstr "samir.ribic@etf.unsa.ba"
 
 # >> @option:check Screen edge action
 #: main.cpp:187
 msgid "No Action"
-msgstr "bez radnje"
+msgstr "Bez radnje"
 
 # >> @option:check Screen edge action
 #: main.cpp:188
 msgid "Show Dashboard"
-msgstr "prikaži instrument-tablu"
+msgstr "Prikaži instrument-tablu"
 
 # >> @option:check Screen edge action
 #: main.cpp:189
 msgid "Show Desktop"
-msgstr "prikaži površ"
+msgstr "Prikaži površ"
 
 # >> @option:check Screen edge action
 #: main.cpp:190
 msgid "Lock Screen"
-msgstr "zaključaj ekran"
+msgstr "Zaključaj ekran"
 
 # >> @option:check Screen edge action
 #: main.cpp:191
 msgid "Prevent Screen Locking"
-msgstr "spriječi zaključavanje ekrana"
+msgstr "Spriječi zaključavanje ekrana"
 
-# >> @option:check Screen edge action
 #: main.cpp:200
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 - All Desktops"
-msgstr "sve površi"
+msgstr "%1 - Svi desktopi"
 
-# >> @option:check Screen edge action
 #: main.cpp:201
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 - Current Desktop"
-msgstr "tekuća površ"
+msgstr "%1 - Trenutni Desktop"
 
 #: main.cpp:202
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 - Current Application"
-msgstr "Trenutna aplikacija"
+msgstr "%1 - Trenutna aplikacija"
 
-# >> @option:check Screen edge action
 #: main.cpp:205
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 - Cube"
-msgstr "kocka"
+msgstr "%1 - Kocka"
 
-# >> @option:check Screen edge action
 #: main.cpp:206
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 - Cylinder"
-msgstr "valjak"
+msgstr "%1 - Cilindar"
 
-# >> @option:check Screen edge action
 #: main.cpp:207
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 - Sphere"
-msgstr "sfera"
+msgstr "%1 - Sfera"
 
 #: main.cpp:209
 msgid "Toggle window switching"
@@ -161,17 +154,17 @@ msgstr "&Prebaci površ na ivici:"
 #: main.ui:176
 msgctxt "Switch desktop on edge"
 msgid "Disabled"
-msgstr "isključeno"
+msgstr "Isključeno"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:181
 msgid "Only When Moving Windows"
-msgstr "samo pri pomijeranju prozora"
+msgstr "Samo pri pomijeranju prozora"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:186
 msgid "Always Enabled"
-msgstr "uvijek uključeno"
+msgstr "Uvijek uključeno"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: main.ui:194

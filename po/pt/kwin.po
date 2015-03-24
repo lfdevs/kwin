@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-01-18 09:50+0000\n"
-"PO-Revision-Date: 2013-12-13 09:47+0000\n"
+"PO-Revision-Date: 2015-03-22 15:37+0000\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: \n"
@@ -22,9 +22,10 @@ msgstr ""
 "X-POFile-SpellExtra: IgnoreMultiScreen IgnoreMinimizedStatus TabBoxClient\n"
 "X-POFile-SpellExtra: TabBoxClients AllWindowsAllApplications\n"
 "X-POFile-SpellExtra: TabBoxClientModel ecrão DoNotShowDesktopClient name\n"
-"X-POFile-SpellExtra: hostname pid caption time id\n"
+"X-POFile-SpellExtra: hostname pid caption time id kwinwayland Wayland\n"
 "X-POFile-IgnoreConsistency: name\n"
 "X-POFile-IgnoreConsistency: time\n"
+"X-POFile-SpellExtra: WAYLANDDISPLAY libinput\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -475,20 +476,21 @@ msgid "Indicate that KWin has recently crashed n times"
 msgstr "Indica que o KWin estoirou recentemente 'n' vezes"
 
 #: main_wayland.cpp:88
-#, fuzzy
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr ""
-"kwin: está outro gestor de janela a correr (tente utilizar o --replace)\n"
+"kwin_wayland: está outro gestor de janelas de X11 a correr no ecrã de X11.\n"
 
 #: main_wayland.cpp:96
 msgid ""
 "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
 "set.\n"
 msgstr ""
+"kwin_wayland: não foi possível contactar o servidor do Wayland; certifique-"
+"se que a variável WAYLAND_DISPLAY está definida.\n"
 
 #: main_wayland.cpp:235
 msgid "Start a nested X Server."
-msgstr ""
+msgstr "Iniciar um servidor de X incorporado e encadeado."
 
 #: main_wayland.cpp:238
 msgid ""

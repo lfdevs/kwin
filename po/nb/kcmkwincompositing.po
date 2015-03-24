@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-12-09 11:16+0000\n"
+"POT-Creation-Date: 2015-02-05 09:36+0000\n"
 "PO-Revision-Date: 2014-08-09 17:52+0200\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -106,7 +106,7 @@ msgstr "Rift-forebygging («vsync»):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:167 compositing.ui:213 qml/CompositingView.qml:141
+#: compositing.ui:167 compositing.ui:203 qml/CompositingView.qml:141
 #: qml/CompositingView.qml:154
 msgid "Never"
 msgstr "Aldri"
@@ -137,14 +137,14 @@ msgid "Keep window thumbnails:"
 msgstr "Behold småbilder av vinduer:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:203
-msgid "Always"
-msgstr "Alltid"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:208 qml/CompositingView.qml:154
 msgid "Only for Shown Windows"
 msgstr "Bare for viste vinduer"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:213
+msgid "Always"
+msgstr "Alltid"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: compositing.ui:221 qml/CompositingView.qml:175

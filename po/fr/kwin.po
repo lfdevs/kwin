@@ -13,14 +13,14 @@
 # Sébastien Renard <Sebastien.Renard@digitalfox.org>, 2008.
 # Anne-Marie Mahfouf <annemarie.mahfouf@free.fr>, 2009, 2011, 2012.
 # xavier <ktranslator31@yahoo.fr>, 2013.
-# Sebastien Renard <renard@kde.org>, 2013, 2014.
+# Sebastien Renard <renard@kde.org>, 2013, 2014, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-01-18 09:50+0000\n"
-"PO-Revision-Date: 2014-06-15 13:38+0200\n"
+"PO-Revision-Date: 2015-02-15 17:51+0100\n"
 "Last-Translator: Sebastien Renard <renard@kde.org>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -490,32 +490,37 @@ msgid "Indicate that KWin has recently crashed n times"
 msgstr "Indiquer que KWin s'est arrêté brutalement un certain nombre de fois"
 
 #: main_wayland.cpp:88
-#, fuzzy
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr ""
-"kwin : un autre gestionnaire de fenêtres est fonctionnement (essayez "
-"d'utiliser « --replace »)\n"
+"kwin_wayland : un gestionnaire de fenêtres X11 est en fonctionnement sur "
+"l'affichage X11\n"
 
 #: main_wayland.cpp:96
 msgid ""
 "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
 "set.\n"
 msgstr ""
+"kwin_wayland : impossible de se connecter au serveur Wayland. Vérifiez que "
+"WAYLAND_DISPLAY est défini.\n"
 
 #: main_wayland.cpp:235
 msgid "Start a nested X Server."
-msgstr ""
+msgstr "Démarrer un serveur X imbriqué."
 
 #: main_wayland.cpp:238
 msgid ""
 "The X11 Display to connect to. If not set next free number will be picked."
 msgstr ""
+"Le n° d'affichage X11 auquel se connecter. Si non défini, le prochain n° "
+"disponible sera utilisé."
 
 #: main_wayland.cpp:247
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
 msgstr ""
+"Activer libinput pour la prise en charge des évènements d'entrée. Remarque : "
+"à ne jamais utiliser dans une session imbriquée."
 
 #: main_x11.cpp:149
 msgid ""

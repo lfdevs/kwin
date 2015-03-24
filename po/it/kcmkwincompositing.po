@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-02-05 09:36+0000\n"
-"PO-Revision-Date: 2015-02-16 12:47+0100\n"
+"PO-Revision-Date: 2015-02-17 11:23+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128@baslug.org>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -178,6 +178,14 @@ msgid ""
 "immediate crash!\n"
 "Alternatively, you might want to use the XRender backend instead."
 msgstr ""
+"La composizione OpenGL (la predefinita) ha causato problemi di stabilità di "
+"KWin nel passato.\n"
+"Ciò era causato per lo più da bug dei driver.\n"
+"Se pensi di aver aggiornato , nel frattempo, a una versione stabile del "
+"driver,\n"
+"puoi rimuovere questa protezione, tenendo presente che ciò potrebbe causare "
+"una chiusura inattesa immediata!\n"
+"In alternativa, potresti voler utilizzare il motore XRender."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, interfaceWarning)
 #: compositing.ui:278
@@ -185,6 +193,8 @@ msgid ""
 "EGL is not supported by all OpenGL drivers. If not supported the Compositor "
 "will be disabled."
 msgstr ""
+"EGL non è supportato da tutti i driver OpenGL. Se non supportato, il "
+"compositore sarà disabilitato."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
 #: compositing.ui:294
@@ -192,6 +202,8 @@ msgid ""
 "Scale method \"Accurate\" is not supported by all hardware and can cause "
 "performance regressions and rendering artifacts."
 msgstr ""
+"Il metodo di scalatura «Accurato» non è supportato da tutto l'hardware e può "
+"causare perdite di prestazioni e artefatti di rendering."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
 #: compositing.ui:323
@@ -199,6 +211,9 @@ msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
 "windows. This can result in windows not suspending their work when minimized."
 msgstr ""
+"Il mantenimento dell'anteprima delle finestre interferisce con lo stato "
+"minimizzato delle finestre. Ciò può tradursi in finestre che non sospendono "
+"il loro lavoro quando sono minimizzate."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, unredirectInformation)
 #: compositing.ui:339
@@ -206,6 +221,8 @@ msgid ""
 "Having full screen windows bypass the compositor is not supported on every "
 "hardware."
 msgstr ""
+"La possibilità per le finestre a schermo intero di aggirare il compositore "
+"non è supportata su qualsiasi hardware."
 
 #: main.cpp:82
 msgid "Re-enable OpenGL detection"
@@ -216,10 +233,13 @@ msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
 "video."
 msgstr ""
+"«Solo se conveniente» evita solo i disturbi per i cambiamenti a schermo "
+"interno come un video."
 
 #: main.cpp:143
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr ""
+"«Ridisegno dell'intero schermo» può causare dei problemi di prestazioni."
 
 #: main.cpp:147
 msgid ""
@@ -284,9 +304,8 @@ msgid "Keep Window Thumbnails:"
 msgstr "Mantieni le miniature delle finestre:"
 
 #: qml/CompositingView.qml:154
-#, fuzzy
 msgid "Always (Breaks Animations)"
-msgstr "Sempre (Rompe la minimizzazione)"
+msgstr "Sempre (problemi con le animazioni)"
 
 #: qml/CompositingView.qml:160
 msgid "OpenGL Platform Interface:"
@@ -319,7 +338,7 @@ msgstr "Configura il filtro"
 
 #: qml/EffectView.qml:85
 msgid "Exclude Desktop Effects not supported by the Compositor"
-msgstr ""
+msgstr "Escludi gli efffetti del desktop non supportati dal compositore"
 
 #: qml/EffectView.qml:93
 msgid "Exclude internal Desktop Effects"

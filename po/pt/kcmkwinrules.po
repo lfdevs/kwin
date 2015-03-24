@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-04-28 15:51+0000\n"
-"PO-Revision-Date: 2013-11-26 11:00+0000\n"
+"PO-Revision-Date: 2015-03-22 16:17+0000\n"
 "Last-Translator: José Nuno Pires <zepires@gmail.com>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: \n"
@@ -970,7 +970,7 @@ msgstr "Atalho"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_above)
 #: ruleswidgetbase.ui:1725
 msgid "Keep &above"
-msgstr "M&anter sobre"
+msgstr "M&anter acima"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_autogroupfg)
 #: ruleswidgetbase.ui:1745
@@ -980,7 +980,7 @@ msgstr "Auto-ag&rupar em primeiro plano"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_below)
 #: ruleswidgetbase.ui:1788
 msgid "Keep &below"
-msgstr "Manter so&b"
+msgstr "Manter a&baixo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_autogroupid)
 #: ruleswidgetbase.ui:1843

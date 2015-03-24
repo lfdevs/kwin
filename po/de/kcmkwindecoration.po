@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-01-28 09:29+0000\n"
-"PO-Revision-Date: 2015-01-13 19:46+0100\n"
+"PO-Revision-Date: 2015-03-11 14:02+0100\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -143,11 +143,11 @@ msgstr "Fens&ter durch Doppelklick auf Menüknopf schließen"
 
 #: qml/Buttons.qml:74
 msgid "Titlebar"
-msgstr ""
+msgstr "Titelleiste"
 
 #: qml/Buttons.qml:197
 msgid "Drag buttons between here and the titlebar"
-msgstr ""
+msgstr "Ziehen Sie Knöpfe zwischen hier und der Titelleiste"
 
 #: qml/Buttons.qml:212
 msgid "Drop here to remove button"

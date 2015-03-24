@@ -2,15 +2,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Frank Weng (a.k.a. Franklin) <franklin at goodhorse dot idv dot tw>, 2009, 2010.
-# Franklin Weng <franklin@goodhorse.idv.tw>, 2012, 2013.
+# Franklin Weng <franklin@goodhorse.idv.tw>, 2012, 2013, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-05-16 07:57+0000\n"
-"PO-Revision-Date: 2013-10-03 16:39+0800\n"
-"Last-Translator: Franklin Weng <franklin at goodhorse dot idv dot tw>\n"
-"Language-Team: Chinese Traditional <kde-tw@googlegroups.com>\n"
+"PO-Revision-Date: 2015-02-27 16:13+0800\n"
+"Last-Translator: Franklin Weng <franklin@goodhorse.idv.tw>\n"
+"Language-Team: Chinese Traditional <zh-l10n@linux.org.tw>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,34 +47,34 @@ msgid "Prevent Screen Locking"
 msgstr "防止螢幕鎖定"
 
 #: main.cpp:200
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 - All Desktops"
-msgstr "所有桌面"
+msgstr "%1 - 所有桌面"
 
 #: main.cpp:201
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 - Current Desktop"
-msgstr "目前的桌面"
+msgstr "%1 - 目前的桌面"
 
 #: main.cpp:202
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 - Current Application"
-msgstr "目前的應用程式"
+msgstr "%1 - 目前的應用程式"
 
 #: main.cpp:205
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 - Cube"
-msgstr "立方體"
+msgstr "%1 - 立方體"
 
 #: main.cpp:206
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 - Cylinder"
-msgstr "圓柱"
+msgstr "%1 - 圓柱"
 
 #: main.cpp:207
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 - Sphere"
-msgstr "球體"
+msgstr "%1 - 球體"
 
 #: main.cpp:209
 msgid "Toggle window switching"

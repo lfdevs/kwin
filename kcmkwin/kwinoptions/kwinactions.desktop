@@ -101,6 +101,7 @@ Name[zh_CN]=动作
 Name[zh_TW]=動作
 
 Comment=Mouse Actions on Windows
+Comment[bs]=Akcioje miša na prozorima
 Comment[ca]=Accions del ratolí en les finestres
 Comment[cs]=Činnosti myši na oknech
 Comment[da]=Musehandlinger på vinduer
@@ -113,6 +114,7 @@ Comment[fr]=Actions de souris sur les fenêtres
 Comment[hu]=Egérműveletek az ablakokon
 Comment[ia]=Actiones de mus sur fenestras
 Comment[id]=Aksi Tetikus di Jendela
+Comment[it]=Azioni del mouse sulle finestre
 Comment[ko]=창 마우스 동작 설정
 Comment[lt]=Pelės veiksmai ant langų
 Comment[nb]=Musehandlinger på vinduer
@@ -132,6 +134,7 @@ Comment[sv]=Musåtgärder för fönster
 Comment[uk]=Дії над вікнами за допомогою миші
 Comment[x-test]=xxMouse Actions on Windowsxx
 Comment[zh_CN]=窗口的鼠标动作
+Comment[zh_TW]=視窗上的滑鼠動作
 
 X-KDE-Keywords=shade,maximise,maximize,minimize,minimise,lower,operations menu,titlebar,resize
 X-KDE-Keywords[bs]=sjena,povećali,povećala,smanjiti,umanjiti,sniziti,izbornik operacija,naslovnica,promjena veličine

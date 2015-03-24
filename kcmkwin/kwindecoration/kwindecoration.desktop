@@ -74,6 +74,7 @@ Name[zh_CN]=窗口装饰
 Name[zh_TW]=視窗裝飾
 
 Comment=Look and Feel of Window Titles
+Comment[bs]=Izgled i osjećaj naslova prozora
 Comment[ca]=Aspecte i comportament dels títols de les finestres
 Comment[cs]=Vzhled a dekorace titulků oken
 Comment[da]=Udseendet af vinduestitler
@@ -86,6 +87,7 @@ Comment[fr]=Apparence des titres de fenêtre
 Comment[hu]=Az ablakok címsorának megjelenése
 Comment[ia]=Semblantia de titulos de fenestra
 Comment[id]=Tampilan dan Rasa dari Judul Jendela
+Comment[it]=Aspetto dei titoli delle finestre
 Comment[ko]=창 제목 표시줄의 모습과 느낌 설정
 Comment[lt]=Langų antraščių išvaizda ir elgsena
 Comment[nb]=Utseende og virkemåte for vindustitlene
@@ -105,6 +107,7 @@ Comment[sv]=Namnlisternas utseende och känsla
 Comment[uk]=Вигляд і поведінка смужок заголовків вікон
 Comment[x-test]=xxLook and Feel of Window Titlesxx
 Comment[zh_CN]=窗口标题的观感
+Comment[zh_TW]=視窗標題列的外觀與感覺
 
 X-KDE-Keywords=kwin,window,manager,border,style,theme,look,feel,layout,button,handle,edge,kwm,decoration
 X-KDE-Keywords[bs]=kwin,prozor,upravitelj,granica,stil,tema,izgled,osjećati,izgled,dugme,držati,ivica,kwm,dekoracija

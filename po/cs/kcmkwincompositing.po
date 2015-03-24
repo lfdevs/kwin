@@ -1,7 +1,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Lukáš Tinkl <lukas@kde.org>, 2010, 2011, 2012.
-# Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013, 2014.
+# Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013, 2014, 2015.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013.
 #
 msgid ""
@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-02-05 09:36+0000\n"
-"PO-Revision-Date: 2014-10-23 13:27+0200\n"
+"PO-Revision-Date: 2015-03-20 13:58+0100\n"
 "Last-Translator: Vít Pelčák <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "X-Language: cs_CZ\n"
 "X-Source-Language: en_US\n"
 
@@ -178,6 +178,12 @@ msgid ""
 "immediate crash!\n"
 "Alternatively, you might want to use the XRender backend instead."
 msgstr ""
+"Kompozice OpenGL (výchozí) vedla v minulosti k pádu KWinu.\n"
+"K tomu nejspíš došlo kvůli chybě v ovladači.\n"
+"Pokud si myslíte, že jste mezitím aktualizovali na stabilní verzi ovladače,\n"
+"můžete resetovat ochranu, ale mějte na paměti, že to může vést k okamžitému "
+"pádu.\n"
+"Případně můžete na místo toho zkusit použít XRender."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, interfaceWarning)
 #: compositing.ui:278

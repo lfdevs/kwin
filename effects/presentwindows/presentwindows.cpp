@@ -132,6 +132,10 @@ void PresentWindowsEffect::reconfigure(ReconfigureFlags)
     m_showCaptions = PresentWindowsConfig::drawWindowCaptions();
     m_showIcons = PresentWindowsConfig::drawWindowIcons();
     m_doNotCloseWindows = !PresentWindowsConfig::allowClosingWindows();
+    if (m_doNotCloseWindows) {
+        delete m_closeView;
+        m_closeView = nullptr;
+    }
     m_ignoreMinimized = PresentWindowsConfig::ignoreMinimized();
     m_accuracy = PresentWindowsConfig::accuracy() * 20;
     m_fillGaps = PresentWindowsConfig::fillGaps();
@@ -193,7 +197,7 @@ void PresentWindowsEffect::postPaintScreen()
 {
     if (m_motionManager.areWindowsMoving())
         effects->addRepaintFull();
-    else if (!m_activated && m_motionManager.managingWindows() && !m_closeWindow) {
+    else if (!m_activated && m_motionManager.managingWindows() && !(m_closeWindow && m_closeView->isVisible())) {
         // We have finished moving them back, stop processing
         m_motionManager.unmanageAll();
 
@@ -490,7 +494,8 @@ void PresentWindowsEffect::slotWindowGeometryShapeChanged(EffectWindow* w, const
         return;
     if (!m_windowData.contains(w))
         return;
-    rearrangeWindows();
+    if (w != m_closeWindow)
+        rearrangeWindows();
 }
 
 bool PresentWindowsEffect::borderActivated(ElectricBorder border)
@@ -1421,7 +1426,7 @@ void PresentWindowsEffect::setActive(bool active)
         m_highlightedWindow = NULL;
         m_windowFilter.clear();
 
-        if (!m_doNotCloseWindows) {
+        if (!(m_doNotCloseWindows || m_closeView)) {
             m_closeView = new CloseWindowView();
             connect(m_closeView, &CloseWindowView::requestClose, this, &PresentWindowsEffect::closeWindow);
         }
@@ -1505,8 +1510,8 @@ void PresentWindowsEffect::setActive(bool active)
                 winData->visible = (w->isOnDesktop(desktop) || w->isOnAllDesktops()) &&
                                     !w->isMinimized() && (w->isCurrentTab() || winData->visible);
         }
-        delete m_closeView;
-        m_closeView = 0;
+        if (m_closeView)
+            m_closeView->hide();
 
         // Move all windows back to their original position
         foreach (EffectWindow * w, m_motionManager.managedWindows())
@@ -1589,7 +1594,7 @@ bool PresentWindowsEffect::isSelectableWindow(EffectWindow *w)
 
 bool PresentWindowsEffect::isVisibleWindow(EffectWindow *w)
 {
-    if (w->isDesktop())
+    if (w->isDesktop() || w == m_closeWindow)
         return true;
     return isSelectableWindow(w);
 }
@@ -1616,7 +1621,7 @@ void PresentWindowsEffect::setHighlightedWindow(EffectWindow *w)
 
 void PresentWindowsEffect::elevateCloseWindow()
 {
-    if (!m_closeView)
+    if (!m_closeView || !m_activated)
         return;
     if (EffectWindow *cw = effects->findWindow(m_closeView->winId()))
         effects->setElevatedWindow(cw, true);
@@ -1626,7 +1631,8 @@ void PresentWindowsEffect::updateCloseWindow()
 {
     if (!m_closeView || m_doNotCloseWindows)
         return;
-    if (!m_highlightedWindow || m_highlightedWindow->isDesktop()) {
+
+    if (!m_activated || !m_highlightedWindow || m_highlightedWindow->isDesktop()) {
         m_closeView->hide();
         return;
     }
@@ -1874,6 +1880,7 @@ CloseWindowView::CloseWindowView(QObject *parent)
     , m_armTimer(new QElapsedTimer())
     , m_window(new QQuickView())
     , m_visible(false)
+    , m_posIsValid(false)
 {
     m_window->setFlags(Qt::X11BypassWindowManagerHint);
     m_window->setColor(Qt::transparent);
@@ -1909,12 +1916,21 @@ bool CloseWindowView::isVisible() const
 
 void CloseWindowView::show()
 {
+    if (!m_visible && m_posIsValid) {
+        m_window->setPosition(m_pos);
+        m_posIsValid = false;
+    }
     m_visible = true;
     m_window->show();
 }
 
 void CloseWindowView::hide()
 {
+    if (!m_posIsValid) {
+        m_pos = m_window->position();
+        m_posIsValid = true;
+        m_window->setPosition(-m_window->width(), -m_window->height());
+    }
     m_visible = false;
     QEvent event(QEvent::Leave);
     qApp->sendEvent(m_window.data(), &event);
@@ -1936,6 +1952,7 @@ DELEGATE(WId, winId)
 
 void CloseWindowView::setGeometry(const QRect &geometry)
 {
+    m_posIsValid = false;
     m_window->setGeometry(geometry);
 }
 

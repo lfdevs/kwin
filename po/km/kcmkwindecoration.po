@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
 "PO-Revision-Date: 2010-05-24 08:43+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -28,6 +28,7 @@ msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:71
 #, fuzzy
+#| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "លើ​ផ្ទៃតុ​ទាំងអស់"
 
@@ -53,11 +54,13 @@ msgstr "ស្រមោល​"
 
 #: declarative-plugin/buttonsmodel.cpp:83
 #, fuzzy
+#| msgid "Keep Below Others"
 msgid "Keep below"
 msgstr "ដាក់​ក្រោម​គេ"
 
 #: declarative-plugin/buttonsmodel.cpp:85
 #, fuzzy
+#| msgid "Keep Above Others"
 msgid "Keep above"
 msgstr "ដាក់​លើ​គេ"
 
@@ -80,12 +83,14 @@ msgstr "យក​ការ​តុបតែង​ថ្មី..."
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kcm.ui:56
 #, fuzzy
+#| msgid "Border size:"
 msgid "Border si&ze:"
 msgstr "ទំហំ​ស៊ុម ៖"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:67
 #, fuzzy
+#| msgid "Border size:"
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "ទំហំ​ស៊ុម ៖"

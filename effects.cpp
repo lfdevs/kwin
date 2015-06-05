@@ -56,7 +56,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "composite.h"
 #include "xcbutils.h"
 #if HAVE_WAYLAND
-#include "wayland_backend.h"
+#include "abstract_backend.h"
+#include "wayland_server.h"
 #endif
 
 #include "decorations/decorationbridge.h"
@@ -198,6 +199,7 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
     , m_desktopRendering(false)
     , m_currentRenderedDesktop(0)
     , m_effectLoader(new EffectLoader(this))
+    , m_trackingCursorChanges(0)
 {
     connect(m_effectLoader, &AbstractEffectLoader::effectLoaded, this,
         [this](Effect *effect, const QString &name) {
@@ -215,6 +217,8 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
 
     Workspace *ws = Workspace::self();
     VirtualDesktopManager *vds = VirtualDesktopManager::self();
+    connect(ws, &Workspace::showingDesktopChanged,
+            this, &EffectsHandlerImpl::showingDesktopChanged);
     connect(ws, &Workspace::currentDesktopChanged, this,
         [this](int old, Client *c) {
             const int newDesktop = VirtualDesktopManager::self()->current();
@@ -672,7 +676,7 @@ void EffectsHandlerImpl::startMouseInterception(Effect *effect, Qt::CursorShape 
     }
     if (kwinApp()->operationMode() != Application::OperationModeX11) {
 #if HAVE_WAYLAND
-        if (Wayland::WaylandBackend *w = Wayland::WaylandBackend::self()) {
+        if (AbstractBackend *w = waylandServer()->backend()) {
             w->installCursorImage(shape);
         }
 #endif
@@ -683,13 +687,13 @@ void EffectsHandlerImpl::startMouseInterception(Effect *effect, Qt::CursorShape 
     if (!m_mouseInterceptionWindow.isValid()) {
         const QSize &s = screens()->size();
         const QRect geo(0, 0, s.width(), s.height());
-        const uint32_t mask = XCB_CW_OVERRIDE_REDIRECT | XCB_CW_EVENT_MASK | XCB_CW_CURSOR;
+        const uint32_t mask = XCB_CW_OVERRIDE_REDIRECT | XCB_CW_EVENT_MASK;
         const uint32_t values[] = {
             true,
-            XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE | XCB_EVENT_MASK_POINTER_MOTION,
-            Cursor::x11Cursor(shape)
+            XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE | XCB_EVENT_MASK_POINTER_MOTION
         };
         m_mouseInterceptionWindow.reset(Xcb::createInputWindow(geo, mask, values));
+        defineCursor(shape);
     } else {
         defineCursor(shape);
     }
@@ -1015,7 +1019,7 @@ EffectWindowList EffectsHandlerImpl::stackingOrder() const
     return ret;
 }
 
-void EffectsHandlerImpl::setElevatedWindow(EffectWindow* w, bool set)
+void EffectsHandlerImpl::setElevatedWindow(KWin::EffectWindow* w, bool set)
 {
     elevated_windows.removeAll(w);
     if (set)
@@ -1170,13 +1174,18 @@ void EffectsHandlerImpl::defineCursor(Qt::CursorShape shape)
 {
     if (!m_mouseInterceptionWindow.isValid()) {
 #if HAVE_WAYLAND
-        if (Wayland::WaylandBackend *w = Wayland::WaylandBackend::self()) {
-            w->installCursorImage(shape);
+        if (waylandServer()) {
+            if (AbstractBackend *w = waylandServer()->backend()) {
+                w->installCursorImage(shape);
+            }
         }
 #endif
         return;
     }
-    m_mouseInterceptionWindow.defineCursor(Cursor::x11Cursor(shape));
+    const xcb_cursor_t c = Cursor::x11Cursor(shape);
+    if (c != XCB_CURSOR_NONE) {
+        m_mouseInterceptionWindow.defineCursor(c);
+    }
 }
 
 bool EffectsHandlerImpl::checkInputWindowEvent(xcb_button_press_event_t *e)
@@ -1224,6 +1233,31 @@ bool EffectsHandlerImpl::checkInputWindowEvent(QMouseEvent *e)
     }
     return true;
 }
+
+void EffectsHandlerImpl::connectNotify(const QMetaMethod &signal)
+{
+    if (signal == QMetaMethod::fromSignal(&EffectsHandler::cursorShapeChanged)) {
+        if (!m_trackingCursorChanges) {
+            connect(Cursor::self(), &Cursor::cursorChanged, this, &EffectsHandler::cursorShapeChanged);
+            Cursor::self()->startCursorTracking();
+        }
+        ++m_trackingCursorChanges;
+    }
+    EffectsHandler::connectNotify(signal);
+}
+
+void EffectsHandlerImpl::disconnectNotify(const QMetaMethod &signal)
+{
+    if (signal == QMetaMethod::fromSignal(&EffectsHandler::cursorShapeChanged)) {
+        Q_ASSERT(m_trackingCursorChanges > 0);
+        if (!--m_trackingCursorChanges) {
+            Cursor::self()->stopCursorTracking();
+            disconnect(Cursor::self(), &Cursor::cursorChanged, this, &EffectsHandler::cursorShapeChanged);
+        }
+    }
+    EffectsHandler::disconnectNotify(signal);
+}
+
 
 void EffectsHandlerImpl::checkInputWindowStacking()
 {

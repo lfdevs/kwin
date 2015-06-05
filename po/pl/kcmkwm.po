@@ -1,18 +1,18 @@
 # translation of kcmkwm.po to Polish
 # translation of kcmkwm.po to
-# Version: $Revision: 1411774 $
+# Version: $Revision: 1411780 $
 # Previous translations Piotr Roszatycki <dexter@debian.org>
 # Michał Rudolf <mrudolf@kdewebdev.org>, 2002.
 # Michal Rudolf <mrudolf@kdewebdev.org>, 2002, 2003, 2004.
 # Michal Rudolf <mrudolf@kdewebdev.org>, 2004, 2005, 2008, 2009, 2010.
 # Krzysztof Lichota <lichota@mimuw.edu.pl>, 2005, 2006.
 # Marta Rybczyńska <kde-i18n@rybczynska.net>, 2008, 2009, 2010, 2013.
-# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2015.
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-07-04 08:25+0000\n"
+"POT-Creation-Date: 2015-01-14 07:58+0000\n"
 "PO-Revision-Date: 2015-01-17 07:32+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -36,7 +36,7 @@ msgstr "mrudolf@kdewebdev.org, dexter@debian.org, lukasz.wojnilowicz@gmail.com"
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: actions.ui:32
 msgid "M&ouse wheel:"
-msgstr "R&olka myszy:"
+msgstr "R&olka:"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_4)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAll2)
@@ -45,7 +45,7 @@ msgid ""
 "In this row you can customize middle click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"Tu możesz ustawić działanie kliknięcia środkowego przycisku myszy na tytule "
+"Tu możesz ustawić działanie naciśnięcia środkowego przycisku myszy na tytule "
 "lub brzegu okna."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll2)
@@ -53,14 +53,14 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:55 actions.ui:157 actions.ui:320
 msgid "Move"
-msgstr "Przenieś"
+msgstr "Przesuwa"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll2)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:60 actions.ui:162 actions.ui:325
 msgid "Activate, Raise & Move"
-msgstr "Uaktywnij, przywołaj i przesuń"
+msgstr "Uaktywnia, przywołuje i przesuwa"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct1)
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
@@ -74,14 +74,14 @@ msgstr "Uaktywnij, przywołaj i przesuń"
 #: actions.ui:65 actions.ui:167 actions.ui:330 mouse.ui:247 mouse.ui:320
 #: mouse.ui:391 mouse.ui:464 mouse.ui:535 mouse.ui:608
 msgid "Toggle Raise & Lower"
-msgstr "Przełącz przywołaj i odwołaj"
+msgstr "Przywołuje/odwołuje"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll2)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:70 actions.ui:172 actions.ui:335
 msgid "Resize"
-msgstr "Zmień rozmiar"
+msgstr "Zmienia rozmiar"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct1)
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
@@ -95,7 +95,7 @@ msgstr "Zmień rozmiar"
 #: actions.ui:75 actions.ui:177 actions.ui:340 mouse.ui:237 mouse.ui:310
 #: mouse.ui:381 mouse.ui:454 mouse.ui:525 mouse.ui:598
 msgid "Raise"
-msgstr "Przywołaj"
+msgstr "Przywołuje"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
@@ -111,7 +111,7 @@ msgstr "Przywołaj"
 #: actions.ui:80 actions.ui:182 actions.ui:345 mouse.ui:80 mouse.ui:242
 #: mouse.ui:315 mouse.ui:386 mouse.ui:459 mouse.ui:530 mouse.ui:603
 msgid "Lower"
-msgstr "Odwołaj"
+msgstr "Odwołuje"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
@@ -127,21 +127,21 @@ msgstr "Odwołaj"
 #: actions.ui:85 actions.ui:187 actions.ui:350 mouse.ui:70 mouse.ui:252
 #: mouse.ui:325 mouse.ui:396 mouse.ui:469 mouse.ui:540 mouse.ui:613
 msgid "Minimize"
-msgstr "Minimalizuj"
+msgstr "Minimalizuje"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll2)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:90 actions.ui:192 actions.ui:355
 msgid "Decrease Opacity"
-msgstr "Zmniejsz nieprzezroczystość"
+msgstr "Zmniejsza nieprzezroczystość"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll2)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:95 actions.ui:197 actions.ui:360
 msgid "Increase Opacity"
-msgstr "Zwiększ nieprzezroczystość"
+msgstr "Zwiększa nieprzezroczystość"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
@@ -184,8 +184,8 @@ msgid ""
 "In this row you can customize right click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"Tu możesz ustawić działanie kliknięcia prawego przycisku myszy na tytule lub "
-"brzegu okna."
+"Tu możesz ustawić działanie naciśnięcia prawego przycisku myszy na tytule "
+"lub brzegu okna."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: actions.ui:210
@@ -195,7 +195,7 @@ msgstr "&Lewy przycisk:"
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: actions.ui:229
 msgid "Inner Window, Titlebar & Frame"
-msgstr "Wnętrze okno, pasek tytułowy i ramka"
+msgstr "Wnętrze okna, pasek tytułowy i obramowanie"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWin2)
 #: actions.ui:242
@@ -203,22 +203,23 @@ msgid ""
 "In this row you can customize middle click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"Tu możesz ustawić działanie kliknięcia środkowego przycisku myszy na wnętrzu "
-"nieaktywnego okna ('wnętrze' oznacza: nie pasek tytułu, nie ramka)."
+"Tu możesz ustawić działanie naciśnięcia środkowego przycisku myszy we "
+"wnętrzu nieaktywnego okna ('wnętrze' oznacza: nie pasek tytułu, nie "
+"obramowanie)."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coWin2)
 #. i18n: ectx: property (text), item, widget (KComboBox, coWin1)
 #. i18n: ectx: property (text), item, widget (KComboBox, coWin3)
 #: actions.ui:246 actions.ui:449 actions.ui:482
 msgid "Activate, Raise & Pass Click"
-msgstr "Uaktywnij, przywołaj i kliknij"
+msgstr "Uaktywnia, przywołuje i naciska"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coWin2)
 #. i18n: ectx: property (text), item, widget (KComboBox, coWin1)
 #. i18n: ectx: property (text), item, widget (KComboBox, coWin3)
 #: actions.ui:251 actions.ui:454 actions.ui:487
 msgid "Activate & Pass Click"
-msgstr "Uaktywnij i kliknij"
+msgstr "Uaktywnia i naciska"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct2)
@@ -229,7 +230,7 @@ msgstr "Uaktywnij i kliknij"
 #: actions.ui:256 actions.ui:459 actions.ui:492 mouse.ui:305 mouse.ui:449
 #: mouse.ui:593
 msgid "Activate"
-msgstr "Uaktywnij"
+msgstr "Uaktywnia"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct2)
@@ -240,7 +241,7 @@ msgstr "Uaktywnij"
 #: actions.ui:261 actions.ui:464 actions.ui:497 mouse.ui:295 mouse.ui:439
 #: mouse.ui:583
 msgid "Activate & Raise"
-msgstr "Uaktywnij i przywołaj"
+msgstr "Uaktywnia i przywołuje"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: actions.ui:269
@@ -253,23 +254,23 @@ msgid ""
 "In this row you can customize behavior when scrolling into an inactive inner "
 "window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"Tu możesz ustawić działanie przewijania na wnętrzu nieaktywnego okna "
-"('wnętrze' oznacza: nie pasek tytułu, nie ramka)."
+"Tu możesz ustawić działanie przewijania rolką myszy we wnętrzu nieaktywnego "
+"okna ('wnętrze' oznacza: nie pasek tytułu, nie obramowanie)."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:292
 msgid "Scroll"
-msgstr "Przewijanie"
+msgstr "Przewija"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:297
 msgid "Activate & Scroll"
-msgstr "Uaktywnij i przewiń"
+msgstr "Uaktywnia i przewija"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:302
 msgid "Activate, Raise & Scroll"
-msgstr "Uaktywnij, przywołaj i przewiń"
+msgstr "Uaktywnia, przywołuje i przewija"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_3)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAll1)
@@ -278,7 +279,7 @@ msgid ""
 "In this row you can customize left click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"Tu możesz ustawić działanie kliknięcia lewego przycisku myszy na tytule lub "
+"Tu możesz ustawić działanie naciśnięcia lewego przycisku myszy na tytule lub "
 "brzegu okna."
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAllW)
@@ -294,43 +295,43 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:383 mouse.ui:126
 msgid "Raise/Lower"
-msgstr "Przywołaj/odwołaj"
+msgstr "Przywołuje/odwołuje"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:388 mouse.ui:131
 msgid "Shade/Unshade"
-msgstr "Zwiń/rozwiń"
+msgstr "Zwija/rozwija"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:393 mouse.ui:136
 msgid "Maximize/Restore"
-msgstr "Maksymalizuj/przywróć"
+msgstr "Maksymalizuje/przywraca"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:398 mouse.ui:141
 msgid "Keep Above/Below"
-msgstr "Zawsze na wierzchu/pod spodem"
+msgstr "Przesuwa na wierzch/pod spód"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:403 mouse.ui:146
 msgid "Move to Previous/Next Desktop"
-msgstr "Przenieś na poprzedni/następny pulpit"
+msgstr "Przenosi na poprzedni/następny pulpit"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:408 mouse.ui:151
 msgid "Change Opacity"
-msgstr "Zmień przezroczystość"
+msgstr "Zmienia nieprzezroczystość"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:413 mouse.ui:156
 msgid "Switch to Window Tab to the Left/Right"
-msgstr "Przełącz na kartę po lewej/prawej"
+msgstr "Przełącza na kartę po lewej/prawej"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWin1)
 #: actions.ui:445
@@ -338,8 +339,8 @@ msgid ""
 "In this row you can customize left click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"Tu możesz ustawić działanie kliknięcia lewego przycisku myszy na wnętrzu "
-"nieaktywnego okna ('wnętrze' oznacza: nie pasek tytułu, nie ramka)."
+"Tu możesz ustawić działanie naciśnięcia lewego przycisku myszy we wnętrzu "
+"nieaktywnego okna ('wnętrze' oznacza: nie pasek tytułu, nie obramowanie)."
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWin3)
 #: actions.ui:478
@@ -347,8 +348,8 @@ msgid ""
 "In this row you can customize right click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"Tu możesz ustawić działanie kliknięcia prawego przycisku myszy na wnętrzu "
-"nieaktywnego okna ('wnętrze' oznacza: nie pasek tytułu, nie ramka)."
+"Tu możesz ustawić działanie naciśnięcia prawego przycisku myszy we wnętrzu "
+"nieaktywnego okna ('wnętrze' oznacza: nie pasek tytułu, nie obramowanie)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: actions.ui:505
@@ -421,7 +422,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, autogroupSimilarWindows)
 #: advanced.ui:65
 msgid "Automatically group similar windows"
-msgstr "Samoczynnie pogrupuj podobne okna"
+msgstr "Zawsze grupuj podobne okna"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, autogroupInForeground)
 #: advanced.ui:72
@@ -435,19 +436,18 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, autogroupInForeground)
 #: advanced.ui:75
 msgid "Switch to automatically grouped windows immediately"
-msgstr "Natychmiastowo przełącz do samoczynnie pogrupowanych okien"
+msgstr "Natychmiastowo przełączaj do pogrupowanych okien"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: advanced.ui:98
 msgid "&Placement:"
-msgstr "&Umieszczanie:"
+msgstr "&Rozmieszczanie:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, placementCombo)
-#: advanced.ui:122
+#: advanced.ui:121
 msgid ""
 "The placement policy determines where a new window will appear on the "
-"desktop.\n"
-"<ul>\n"
+"desktop.<br><ul>\n"
 "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
 "<li><em>Maximizing</em> will try to maximize every window to fill the whole "
 "screen. It might be useful to selectively affect placement of some windows "
@@ -460,8 +460,8 @@ msgid ""
 "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
 "</ul>"
 msgstr ""
-"Sposób rozmieszczania określa, gdzie na pulpicie pojawi się nowe okno.\n"
-"<ul>\n"
+"Sposób rozmieszczania określa, gdzie na pulpicie pojawi się nowe okno."
+"<br><ul>\n"
 "<li><em>Inteligentnie</em> rozmieszcza okna tak, by jak najmniej nachodziły "
 "na siebie</li> <li><em>Maksymalnie</em> maksymalizuje każde okno na cały "
 "ekran. Przy tym ustawieniu przydatne może być włączenie specyficznych "
@@ -472,87 +472,88 @@ msgstr ""
 "wskaźnikiem myszy</em> umieści okno pod wskaźnikiem</li></ul>"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:126
+#: advanced.ui:125
 msgid "Smart"
 msgstr "Mądre"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:131
+#: advanced.ui:130
 msgid "Maximizing"
 msgstr "Maksymalizowanie"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:136
+#: advanced.ui:135
 msgid "Cascade"
 msgstr "Kaskadowe"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:141
+#: advanced.ui:140
 msgid "Random"
 msgstr "Przypadkowe"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:146
+#: advanced.ui:145
 msgid "Centered"
 msgstr "Wyśrodkowane"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:151
+#: advanced.ui:150
 msgid "Zero-Cornered"
 msgstr "W narożniku"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:156
+#: advanced.ui:155
 msgid "Under Mouse"
 msgstr "Pod wskaźnikiem myszy"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shBox)
-#: advanced.ui:167
+#: advanced.ui:166
 msgid "Shading"
 msgstr "(Ro)zwiń"
 
 #. i18n: ectx: property (text), widget (QLabel, shadeHoverLabel)
-#: advanced.ui:176
+#: advanced.ui:175
 msgid "Dela&y:"
-msgstr "&Opóźnienie:"
+msgstr "&Po czasie:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, shadeHoverOn)
-#: advanced.ui:205
+#: advanced.ui:204
 msgid ""
 "If Shade Hover is enabled, a shaded window will un-shade automatically when "
 "the mouse pointer has been over the title bar for some time."
 msgstr ""
 "Jeśli samoczynne rozwijanie jest włączone, zwinięte okno rozwinie się "
-"samoczynnie, kiedy kursor pozostanie nad paskiem tytułowym przez zadany czas."
+"samoczynnie, kiedy wskaźnik pozostanie nad paskiem tytułowym przez zadany "
+"czas."
 
 #. i18n: ectx: property (text), widget (QCheckBox, shadeHoverOn)
-#: advanced.ui:208
+#: advanced.ui:207
 msgid "&Enable hover"
-msgstr "Włącz samoczynn&e rozwijanie"
+msgstr "Rozwijaj samoczynnie "
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, shadeHover)
-#: advanced.ui:215
+#: advanced.ui:214
 msgid ""
 "Sets the time in milliseconds before the window unshades when the mouse "
 "pointer goes over the shaded window."
 msgstr ""
 "Określa czas w milisekundach, po którym zwinięte okno samoczynnie rozwija "
-"się, jeśli kursor pozostaje nad paskiem tytułowym."
+"się, jeśli wskaźnik pozostaje nad paskiem tytułowym."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, delayFocus)
 #. i18n: ectx: property (suffix), widget (QSpinBox, autoRaise)
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadeHover)
-#: advanced.ui:230 focus.ui:250 focus.ui:475
+#: advanced.ui:229 focus.ui:250 focus.ui:475
 msgid " ms"
 msgstr " ms"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: advanced.ui:240
+#: advanced.ui:239
 msgid "Special Windows"
 msgstr "Okna specjalne"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, hideUtilityWindowsForInactive)
-#: advanced.ui:249
+#: advanced.ui:248
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
 "inactive applications will be hidden and will be shown only when the "
@@ -565,7 +566,7 @@ msgstr ""
 "były one rozpoznane jako pomocnicze."
 
 #. i18n: ectx: property (text), widget (QCheckBox, hideUtilityWindowsForInactive)
-#: advanced.ui:252
+#: advanced.ui:251
 msgid "Hide utility windows for inactive applications"
 msgstr "Ukryj okna pomocnicze nieaktywnych programów"
 
@@ -582,8 +583,8 @@ msgid ""
 "This behaviour is common on other operating systems and<br>\n"
 "likely what you want."
 msgstr ""
-"<b>Kliknij, aby uaktywnić</b><br>\n"
-"Okno staje się aktywne, kiedy na nim klikniesz.<br><br>\n"
+"<b>Naciśnij, aby uaktywnić</b><br>\n"
+"Okno staje się aktywne, kiedy na nim naciśniesz.<br><br>\n"
 "Zachowanie to jest powszechne na innych systemach operacyjnych i<br>\n"
 "jest prawdopodobnie tym czego chcesz."
 
@@ -597,12 +598,12 @@ msgid ""
 "the window under the mouse is the preferred candidate.<br><br>\n"
 "Unusual, but possible variant of <i>Click To Focus</i>."
 msgstr ""
-"<b>Kliknij, aby uaktywnić - pierwszeństwo myszy</b><br>\n"
-"Jest to w większości to samo co <i>Kliknij, aby uaktywnić</i><br><br>\n"
+"<b>Naciśnij, aby uaktywnić - pierwszeństwo myszy</b><br>\n"
+"Jest to w większości to samo co <i>Naciśnij, aby uaktywnić</i><br><br>\n"
 "Gdy przychodzi do wyboru aktywnego okna przez system<br>\n"
 "(bo np. bieżące aktywne okno zostało zamknięte) <br>\n"
 "to okno pod wskaźnikiem myszy jest faworyzowanym kandydatem.<br><br>\n"
-"Niezbyt popularna, ale możliwa odmiana <i>Kliknij, aby uaktywnić</i>."
+"Niezbyt popularna, ale możliwa odmiana <i>Naciśnij, aby uaktywnić</i>."
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: focus.ui:112
@@ -617,8 +618,8 @@ msgstr ""
 "Przesunięcie myszy na okno, aktywuje je.<br><br>\n"
 "np. okna losowo ukazujące się pod myszą nie zostaną uaktywnione.<br>\n"
 "Jak zwykle zapobieganie przechwyceniu uaktywnienia wchodzi w grę.<br><br>\n"
-"Myśl o tym jako o <i>Kliknij, aby uaktywnić</i>, lecz bez konieczności "
-"klikania."
+"Myśl o tym jako o <i>Naciśnij, aby uaktywnić</i>, lecz bez konieczności "
+"naciskania."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: focus.ui:134
@@ -733,7 +734,7 @@ msgid ""
 msgstr ""
 "<p>Ta opcja określa poziom ochrony KWin przed niepożądaną zmianą aktywnego "
 "okna spowodowaną niespodziewanym pojawieniem się nowego okna. (Uwaga: ta "
-"opcja nie działa w trybie samoczynnego uaktywniania kursorem myszy).\n"
+"opcja nie działa w trybie samoczynnego uaktywniania wskaźnikiem myszy).\n"
 "<ul>\n"
 "<li><em>Brak:</em>Standardowe ustawienie starszych menadżerów okien - "
 "ochrona jest wyłączona, nowe okna zawsze stają się aktywne.</li>\n"
@@ -745,7 +746,7 @@ msgstr ""
 "<li><em>Wysoki:</em>Nowe okno zostaje uaktywnione jedynie wtedy, jeśli "
 "należy do aktywnego programu, albo w ogóle brak w danej chwili aktywnego "
 "okna. To ustawienie jest zapewne bezużyteczne bez trybu uaktywniania okien "
-"kursorem myszy.</li>\n"
+"wskaźnikiem myszy.</li>\n"
 "<li><em>Bardzo wysoki:</em>Wszystkie okna muszą być ręcznie uaktywnione "
 "przez użytkownika.</li>\n"
 "</ul></p>\n"
@@ -786,17 +787,17 @@ msgstr "Ekstremalna"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: focus.ui:364
 msgid "Policy"
-msgstr "Polityka"
+msgstr "Zasady"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: focus.ui:377
 msgid "Click"
-msgstr "Kliknięcie"
+msgstr "Naciskanie"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: focus.ui:409
 msgid "Hover"
-msgstr "Pod kursorem"
+msgstr "Najeżdżanie"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: focus.ui:434
@@ -810,13 +811,13 @@ msgid ""
 "come to the front when the mouse pointer has been over it for some time."
 msgstr ""
 "Jeśli opcja ta zostanie włączona, to okno w tle zostanie samoczynnie "
-"przesunięte na pierwszy plan, gdy kursor myszy będzie nad nim przebywał "
+"przesunięte na pierwszy plan, gdy wskaźnik myszy będzie nad nim przebywał "
 "przez pewien czas."
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoRaiseOn)
 #: focus.ui:446
 msgid "&Raise on hover, delayed by"
-msgstr "&Podnieś pod kursorem, opóźnione o"
+msgstr "&Podniesienie po najechaniu, opóźnione o"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, autoRaise)
 #: focus.ui:472
@@ -835,13 +836,13 @@ msgid ""
 "windows, you need to change the settings in the Actions tab."
 msgstr ""
 "Jeśli ta opcja jest włączona, aktywne okna będą przesuwane na wierzch po "
-"kliknięciu na jego wnętrzu. Żeby ustawić podobne zachowanie dla okien "
+"naciśnięciu na jego wnętrzu. Żeby ustawić podobne zachowanie dla okien "
 "nieaktywnych, należy zmienić ustawienia na karcie Działania."
 
 #. i18n: ectx: property (text), widget (QCheckBox, clickRaiseOn)
 #: focus.ui:497
 msgid "C&lick raises active window"
-msgstr "K&liknięcie przywołuje aktywne okno"
+msgstr "&Naciśnięcie przywołuje aktywne okno"
 
 #. i18n: ectx: property (title), widget (QGroupBox, multiscreenBox)
 #: focus.ui:520
@@ -872,10 +873,10 @@ msgid ""
 "for other focus policies."
 msgstr ""
 "Jeśli ta opcja jest włączona, aktywnym ekranem Xineramy (tym, na którym "
-"pojawiają się nowe okna) jest ekran z kursorem myszy. Jeśli ta opcja jest "
+"pojawiają się nowe okna) jest ekran z wskaźnikiem myszy. Jeśli ta opcja jest "
 "wyłączona, aktywny ekran Xineramy to ten, który zawiera aktywne okno. Ta "
 "opcja jest domyślnie wyłączona tylko wtedy, jeśli włączone jest uaktywnianie "
-"kliknięciem."
+"naciśnięciem."
 
 #. i18n: ectx: property (text), widget (QCheckBox, activeMouseScreen)
 #: focus.ui:542
@@ -888,11 +889,11 @@ msgstr "&Uaktywnianie"
 
 #: main.cpp:83 main.cpp:191
 msgid "&Titlebar Actions"
-msgstr "Działania &paska tytułu"
+msgstr "Zachowania pasków &tytułu"
 
 #: main.cpp:88 main.cpp:196
 msgid "Window Actio&ns"
-msgstr "Działania &okna"
+msgstr "Zachowanie &okien"
 
 #: main.cpp:93
 msgid "&Moving"
@@ -904,7 +905,7 @@ msgstr "Zaa&wansowane"
 
 #: main.cpp:102
 msgid "Window Behavior Configuration Module"
-msgstr "Moduł konfiguracyjny zachowania okien"
+msgstr "Moduł ustawień zachowania okien"
 
 #: main.cpp:104
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
@@ -956,11 +957,11 @@ msgid ""
 "documentation for how to customize window behavior.</p>"
 msgstr ""
 "<p><h1>Zachowanie okien</h1>Tu możesz ustawić sposób zachowania okien "
-"podczas ich przesuwania, zmiany rozmiaru lub po kliknięciu. Możesz też "
+"podczas ich przesuwania, zmiany rozmiaru lub po naciśnięciu. Możesz też "
 "określić sposób uaktywniania okien i metodę rozmieszczania na ekranie nowych "
-"okien.</p><p>Uwaga: konfiguracja dotyczy jedynie domyślnego menadżera okien "
-"KDE - KWin. Jeśli używasz innego menadżera, sprawdź w jego dokumentacji, jak "
-"skonfigurować zachowanie okien.</p>"
+"okien.</p><p>Uwaga: ustawienia dotyczą jedynie domyślnego programu do "
+"zarządzania oknami KDE - KWin. Jeśli używasz innego zarządzania oknami, "
+"sprawdź w jego dokumentacji, jak ustawić zachowanie okien.</p>"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
@@ -983,12 +984,12 @@ msgstr "Maksymalizuj (tylko w poziomie)"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: mouse.ui:32
 msgid "&Double-click:"
-msgstr "Po&dwójne kliknięcie:"
+msgstr "&Dwukrotne naciśnięcie:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiDbl)
 #: mouse.ui:51
 msgid "Behavior on <em>double</em> click into the titlebar."
-msgstr "Zachowanie przy <em>dwukrotnym</em> kliknięciu na tytule okna."
+msgstr "Zachowanie przy <em>dwukrotnym</em> naciśnięciu na tytule okna."
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
@@ -1025,12 +1026,12 @@ msgstr "Na wszystkich pulpitach"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mouse.ui:103
 msgid "Wheel event:"
-msgstr "Zdarzenie rolki:"
+msgstr "Działanie rolki:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct4)
 #: mouse.ui:122
 msgid "Handle mouse wheel events"
-msgstr "Obsługuj zdarzenia kółka myszy"
+msgstr "Obsługuj działania rolki myszy"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_6)
 #: mouse.ui:182
@@ -1038,8 +1039,8 @@ msgid ""
 "In this column you can customize mouse clicks into the titlebar or the frame "
 "of an active window."
 msgstr ""
-"W tej kolumnie możesz ustawić działanie kliknięć na pasku tytułowym i ramce "
-"aktywnego okna."
+"W tej kolumnie możesz ustawić działanie naciśnięć na pasku tytułowym i "
+"obramowaniu aktywnego okna."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: mouse.ui:185
@@ -1052,8 +1053,8 @@ msgid ""
 "In this column you can customize mouse clicks into the titlebar or the frame "
 "of an inactive window."
 msgstr ""
-"W tej kolumnie możesz ustawić działanie kliknięć na pasku tytułowym i ramce "
-"nieaktywnego okna."
+"W tej kolumnie możesz ustawić działanie naciśnięć na pasku tytułowym i "
+"obramowaniu nieaktywnego okna."
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: mouse.ui:204
@@ -1072,7 +1073,7 @@ msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an <em>active</"
 "em> window."
 msgstr ""
-"Zachowanie dla kliknięcia <em>lewym</em> przyciskiem myszy na tytule lub "
+"Zachowanie dla naciśnięcia <em>lewym</em> przyciskiem myszy na tytule lub "
 "brzegu <em>aktywnego</em> okna."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct1)
@@ -1084,7 +1085,7 @@ msgstr ""
 #: mouse.ui:267 mouse.ui:340 mouse.ui:411 mouse.ui:484 mouse.ui:555
 #: mouse.ui:628
 msgid "Operations Menu"
-msgstr "Menu operacji na oknie"
+msgstr "Menu działań"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct1)
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
@@ -1095,7 +1096,7 @@ msgstr "Menu operacji na oknie"
 #: mouse.ui:272 mouse.ui:345 mouse.ui:416 mouse.ui:489 mouse.ui:560
 #: mouse.ui:633
 msgid "Start Window Tab Drag"
-msgstr "Rozpocznij przeciąganie karty"
+msgstr "Rozpoczyna przeciąganie karty"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiInAct1)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiInAct2)
@@ -1105,7 +1106,7 @@ msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an "
 "<em>inactive</em> window."
 msgstr ""
-"Zachowanie dla kliknięcia <em>lewym</em> przyciskiem myszy na tytule lub "
+"Zachowanie dla naciśnięcia <em>lewym</em> przyciskiem myszy na tytule lub "
 "brzegu <em>nieaktywnego</em> okna."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
@@ -1113,7 +1114,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
 #: mouse.ui:300 mouse.ui:444 mouse.ui:588
 msgid "Activate & Lower"
-msgstr "Uaktywnij i odwołaj"
+msgstr "Uaktywnia i odwołuje"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
@@ -1127,8 +1128,8 @@ msgid ""
 "Behavior on <em>middle</em> click into the titlebar or frame of an "
 "<em>active</em> window."
 msgstr ""
-"Zachowanie dla kliknięcia <em>środkowym</em> przyciskiem myszy na tytule lub "
-"brzegu <em>aktywnego</em> okna."
+"Zachowanie dla naciśnięcia <em>środkowym</em> przyciskiem myszy na tytule "
+"lub brzegu <em>aktywnego</em> okna."
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
@@ -1142,7 +1143,7 @@ msgid ""
 "Behavior on <em>right</em> click into the titlebar or frame of an "
 "<em>active</em> window."
 msgstr ""
-"Zachowanie dla kliknięcia <em>prawym</em> przyciskiem myszy na tytule lub "
+"Zachowanie dla naciśnięcia <em>prawym</em> przyciskiem myszy na tytule lub "
 "brzegu <em>aktywnego</em> okna."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_10)
@@ -1150,7 +1151,7 @@ msgstr ""
 #: mouse.ui:655 mouse.ui:709
 msgid "Behavior on <em>left</em> click onto the maximize button."
 msgstr ""
-"Zachowanie przy kliknięciu <em>lewym</em> przyciskiem na przycisku "
+"Zachowanie przy naciśnięciu <em>lewym</em> przyciskiem na przycisku "
 "maksymalizacji."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_9)
@@ -1158,7 +1159,7 @@ msgstr ""
 #: mouse.ui:671 mouse.ui:722
 msgid "Behavior on <em>middle</em> click onto the maximize button."
 msgstr ""
-"Zachowanie przy kliknięciu <em>środkowym</em> przyciskiem na przycisku "
+"Zachowanie przy naciśnięciu <em>środkowym</em> przyciskiem na przycisku "
 "maksymalizacji."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_8)
@@ -1166,13 +1167,13 @@ msgstr ""
 #: mouse.ui:687 mouse.ui:735
 msgid "Behavior on <em>right</em> click onto the maximize button."
 msgstr ""
-"Zachowanie przy kliknięciu <em>prawym</em> przyciskiem na przycisku "
+"Zachowanie przy naciśnięciu <em>prawym</em> przyciskiem na przycisku "
 "maksymalizacji."
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: mouse.ui:770
 msgid "Titlebar & Frame"
-msgstr "Ramka i pasek tytułu"
+msgstr "Obramowanie i pasek tytułu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: mouse.ui:783
@@ -1216,7 +1217,7 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, borderSnap)
 #: moving.ui:67 moving.ui:134 moving.ui:162
 msgid " pixel"
-msgstr " piksel"
+msgstr " pikseli"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, centerSnap)
 #: moving.ui:70

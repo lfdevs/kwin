@@ -210,8 +210,13 @@ private Q_SLOTS:
     void deleteUnusedSupportProperties();
 
 private:
+    void claimCompositorSelection();
     void setCompositeTimer();
     bool windowRepaintsPending() const;
+    /**
+     * Continues the startup after Scene And Workspace are created
+     **/
+    void startupWithWorkspace();
 
     /**
      * Whether the Compositor is currently suspended, 8 bits encoding the reason
@@ -234,6 +239,7 @@ private:
     bool m_finishing; // finish() sets this variable while shutting down
     bool m_starting; // start() sets this variable while starting
     qint64 m_timeSinceLastVBlank;
+    qint64 m_timeSinceStart = 0;
     Scene *m_scene;
     bool m_bufferSwapPending;
     bool m_composeAtSwapCompletion;

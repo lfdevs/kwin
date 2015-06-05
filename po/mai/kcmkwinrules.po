@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-28 15:51+0000\n"
+"POT-Creation-Date: 2015-05-16 12:24+0000\n"
 "PO-Revision-Date: 2010-01-29 13:59+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh672@gmail.com>\n"
 "Language-Team: Maithili <maithili.sf.net>\n"
@@ -171,19 +171,19 @@ msgstr "एकल शार्टकट... (&S)"
 msgid "C&lear"
 msgstr "साफ करू (&l)"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 msgid "Window-Specific Settings Configuration Module"
 msgstr "विंडो-विशिष्ट बिन्यास कान्फिगरेशन मोड्यूल"
 
-#: kcm.cpp:51
+#: kcm.cpp:52
 msgid "(c) 2004 KWin and KControl Authors"
 msgstr "(c) 2004 के-विन आओर के-कन्ट्रोल लेखक"
 
-#: kcm.cpp:52
+#: kcm.cpp:53
 msgid "Lubos Lunak"
 msgstr "लुबास लुनाक"
 
-#: kcm.cpp:83
+#: kcm.cpp:84
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -192,15 +192,15 @@ msgid ""
 "documentation for how to customize window behavior.</p>"
 msgstr ""
 
-#: kcm.cpp:99
+#: kcm.cpp:100
 msgid "Remember settings separately for every window"
 msgstr "प्रत्येक विंडो क' लेल बिन्याससभ केँ अलग-अलग याद राखू"
 
-#: kcm.cpp:100
+#: kcm.cpp:101
 msgid "Show internal settings for remembering"
 msgstr "याद रखबाक लेल आंतरिक बिन्याससभ केँ देखाबू"
 
-#: kcm.cpp:101
+#: kcm.cpp:102
 msgid "Internal setting for remembering"
 msgstr "याद रखबा क' लेल आंतरिक बिन्यास"
 
@@ -216,6 +216,7 @@ msgstr "%1 क' लेल विंडो बिन्यास"
 
 #: main.cpp:215
 #, fuzzy
+#| msgid "Edit Window-Specific Settings"
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "विंडो-विशिष्ट बिन्यास संपादित करू"
@@ -371,18 +372,21 @@ msgstr "शार्टकट संपादित करू"
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage1)
 #: ruleswidgetbase.ui:21
 #, fuzzy
+#| msgid "&Window"
 msgid "&Window matching"
 msgstr "विंडो (&W)"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
 #, fuzzy
+#| msgid "De&scription:"
 msgid "&Description:"
 msgstr "वर्णन (&s):"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: ruleswidgetbase.ui:46
 #, fuzzy
+#| msgid "Window &class (application type):"
 msgid "Window &class (application):"
 msgstr "विंडो वर्ग (&c) (अनुप्रयोग प्रकार):"
 
@@ -439,6 +443,7 @@ msgstr "संपूर्ण विंडो वर्गक जोडी म�
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: ruleswidgetbase.ui:109
 #, fuzzy
+#| msgid "Window &role:"
 msgid "Window ro&le:"
 msgstr "विंडो भूमिका (&r):"
 
@@ -470,12 +475,14 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #: ruleswidgetbase.ui:468
 #, fuzzy
+#| msgid "On Main Window"
 msgid "Unmanaged Window"
 msgstr "मुख्य विंडो पर"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage3)
 #: ruleswidgetbase.ui:489
 #, fuzzy
+#| msgid "&Position"
 msgid "&Size && Position"
 msgstr "स्थिति (&P)"
 
@@ -756,6 +763,7 @@ msgstr "डेस्कटाप (&D)"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_activity)
 #: ruleswidgetbase.ui:802
 #, fuzzy
+#| msgid "A&ctive opacity in %"
 msgid "Activit&y"
 msgstr "एकरामे सक्रिय अपारदर्शिता (&c)_ %"
 
@@ -827,6 +835,7 @@ msgstr "मुख्य विंडो पर"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_placement)
 #: ruleswidgetbase.ui:1112
 #, fuzzy
+#| msgid "P&lacement"
 msgid "Initial p&lacement"
 msgstr "निर्धारित जगह (&l)"
 
@@ -872,6 +881,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_screen)
 #: ruleswidgetbase.ui:1369
 #, fuzzy
+#| msgid "Splash Screen"
 msgid "Screen"
 msgstr "स्प्लैश स्क्रीन"
 
@@ -908,6 +918,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_skipswitcher)
 #: ruleswidgetbase.ui:1501
 #, fuzzy
+#| msgid "Skip pa&ger"
 msgid "Skip &switcher"
 msgstr "पेजर छोडू (&g)"
 
@@ -964,6 +975,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityactive)
 #: ruleswidgetbase.ui:1995
 #, fuzzy
+#| msgid "A&ctive opacity in %"
 msgid "A&ctive opacity"
 msgstr "एकरामे सक्रिय अपारदर्शिता (&c)_ %"
 
@@ -977,6 +989,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityinactive)
 #: ruleswidgetbase.ui:2031
 #, fuzzy
+#| msgid "I&nactive opacity in %"
 msgid "I&nactive opacity"
 msgstr "एकरामे अक्रिय अपारदर्शिता (&n)_ %"
 
@@ -1009,6 +1022,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_disableglobalshortcuts)
 #: ruleswidgetbase.ui:2143
 #, fuzzy
+#| msgid "Block global shortcuts"
 msgid "Ignore global shortcuts"
 msgstr "वैश्विक शार्टकटसभ पर रोक लगाबू"
 
@@ -1067,3 +1081,14 @@ msgstr "फोकस स्टीलिंग प्रिवेंशन (&F)"
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
 msgstr ""
+
+#: yesnobox.h:35
+msgid "Yes"
+msgstr ""
+
+#: yesnobox.h:36
+#, fuzzy
+#| msgctxt "no focus stealing prevention"
+#| msgid "None"
+msgid "No"
+msgstr "किछु नहि"

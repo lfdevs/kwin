@@ -27,6 +27,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QElapsedTimer>
 
+#if HAVE_WAYLAND
+namespace KWayland
+{
+namespace Server
+{
+class BufferInterface;
+}
+}
+#endif
+
 namespace KWin
 {
 
@@ -37,7 +47,6 @@ class Renderer;
 }
 
 class AbstractThumbnailItem;
-class Workspace;
 class Deleted;
 class EffectFrameImpl;
 class EffectWindowImpl;
@@ -50,7 +59,7 @@ class Scene : public QObject
 {
     Q_OBJECT
 public:
-    explicit Scene(Workspace* ws);
+    explicit Scene(QObject *parent = nullptr);
     virtual ~Scene() = 0;
     class EffectFrame;
     class Window;
@@ -199,7 +208,6 @@ protected:
     // time since last repaint
     int time_diff;
     QElapsedTimer last_time;
-    Workspace* wspace;
 private:
     void paintWindowThumbnails(Scene::Window *w, QRegion region, qreal opacity, qreal brightness, qreal saturation);
     void paintDesktopThumbnails(Scene::Window *w);
@@ -345,6 +353,12 @@ public:
      * @return The native X11 pixmap handle
      */
     xcb_pixmap_t pixmap() const;
+#if HAVE_WAYLAND
+    /**
+     * @return The Wayland BufferInterface for this WindowPixmap.
+     **/
+    QPointer<KWayland::Server::BufferInterface> buffer() const;
+#endif
     /**
      * @brief Whether this WindowPixmap is considered as discarded. This means the window has changed in a way that a new
      * WindowPixmap should have been created already.
@@ -370,24 +384,35 @@ public:
      * contentsRect tells where inside the complete pixmap the real content is.
      */
     const QRect &contentsRect() const;
-
-protected:
-    explicit WindowPixmap(Scene::Window *window);
     /**
      * @brief Returns the Toplevel this WindowPixmap belongs to.
      * Note: the Toplevel can change over the lifetime of the WindowPixmap in case the Toplevel is copied to Deleted.
      */
     Toplevel *toplevel();
+
+protected:
+    explicit WindowPixmap(Scene::Window *window);
     /**
      * @return The Window this WindowPixmap belongs to
      */
     Scene::Window *window();
+
+#if HAVE_WAYLAND
+    /**
+     * Should be called by the implementing subclasses when the Wayland Buffer changed and needs
+     * updating.
+     **/
+    void updateBuffer();
+#endif
 private:
     Scene::Window *m_window;
     xcb_pixmap_t m_pixmap;
     QSize m_pixmapSize;
     bool m_discarded;
     QRect m_contentsRect;
+#if HAVE_WAYLAND
+    QPointer<KWayland::Server::BufferInterface> m_buffer;
+#endif
 };
 
 class Scene::EffectFrame
@@ -491,11 +516,13 @@ Shadow* Scene::Window::shadow()
     return m_shadow;
 }
 
+#if HAVE_WAYLAND
 inline
-bool WindowPixmap::isValid() const
+QPointer<KWayland::Server::BufferInterface> WindowPixmap::buffer() const
 {
-    return m_pixmap != XCB_PIXMAP_NONE;
+    return m_buffer;
 }
+#endif
 
 template <typename T>
 inline

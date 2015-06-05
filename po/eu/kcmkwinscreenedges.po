@@ -49,31 +49,37 @@ msgstr "Galarazi pantaila giltzatzea"
 
 #: main.cpp:200
 #, fuzzy, kde-format
+#| msgid "All Desktops"
 msgid "%1 - All Desktops"
 msgstr "Mahaigain guztiak"
 
 #: main.cpp:201
 #, fuzzy, kde-format
+#| msgid "Current Desktop"
 msgid "%1 - Current Desktop"
 msgstr "Uneko mahaigaina"
 
 #: main.cpp:202
 #, fuzzy, kde-format
+#| msgid "Current Application"
 msgid "%1 - Current Application"
 msgstr "Uneko aplikazioa"
 
 #: main.cpp:205
 #, fuzzy, kde-format
+#| msgid "Cube"
 msgid "%1 - Cube"
 msgstr "Kuboa"
 
 #: main.cpp:206
 #, fuzzy, kde-format
+#| msgid "Cylinder"
 msgid "%1 - Cylinder"
 msgstr "Zilindroa"
 
 #: main.cpp:207
 #, fuzzy, kde-format
+#| msgid "Sphere"
 msgid "%1 - Sphere"
 msgstr "Esfera"
 

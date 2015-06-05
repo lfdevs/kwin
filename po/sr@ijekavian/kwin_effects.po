@@ -1,11 +1,11 @@
 # Translation of kwin_effects.po into Serbian.
-# Chusslove Illich <caslav.ilic@gmx.net>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014.
+# Chusslove Illich <caslav.ilic@gmx.net>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
 # Dalibor Djuric <daliborddjuric@gmail.com>, 2009, 2010, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-03-10 14:02+0000\n"
+"POT-Creation-Date: 2015-04-08 08:29+0000\n"
 "PO-Revision-Date: 2014-07-02 21:48+0200\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -49,7 +49,7 @@ msgstr "јак"
 msgid "Save intermediate rendering results."
 msgstr "Сачувај међурезултате рендеровања"
 
-#: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:960 flipswitch/flipswitch.cpp:932
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Прикажи површ"
@@ -1208,7 +1208,7 @@ msgstr "Присутни прозори (све површи)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Присутни прозори (класа прозора)"
 
-#: presentwindows/presentwindows.cpp:1555
+#: presentwindows/presentwindows.cpp:1560
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1590,7 +1590,7 @@ msgstr "Искачући менији:"
 msgid "Torn-off menus:"
 msgstr "Отцепљени менији:"
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:61
 msgid "Toggle window geometry display (effect only)"
 msgstr "Приказ геометрије прозора (само ефекат)"
 
@@ -1661,27 +1661,27 @@ msgstr "мања"
 msgid "More"
 msgstr "већа"
 
-#: zoom/zoom.cpp:86
+#: zoom/zoom.cpp:84
 msgid "Move Zoomed Area to Left"
 msgstr "Помјери зону увеличања улијево"
 
-#: zoom/zoom.cpp:94
+#: zoom/zoom.cpp:92
 msgid "Move Zoomed Area to Right"
 msgstr "Помјери зону увеличања удесно"
 
-#: zoom/zoom.cpp:102
+#: zoom/zoom.cpp:100
 msgid "Move Zoomed Area Upwards"
 msgstr "Помјери зону увеличања нагоре"
 
-#: zoom/zoom.cpp:110
+#: zoom/zoom.cpp:108
 msgid "Move Zoomed Area Downwards"
 msgstr "Помјери зону увеличања надоље"
 
-#: zoom/zoom.cpp:119 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
 msgid "Move Mouse to Focus"
 msgstr "Помјери миш на фокус"
 
-#: zoom/zoom.cpp:127 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
 msgid "Move Mouse to Center"
 msgstr "Помјери миш на средину"
 

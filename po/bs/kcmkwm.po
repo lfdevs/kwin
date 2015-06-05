@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-07-04 08:25+0000\n"
+"POT-Creation-Date: 2015-01-14 07:58+0000\n"
 "PO-Revision-Date: 2013-10-18 20:17+0000\n"
 "Last-Translator: Samir Ribić <Unknown>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -16,12 +16,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 17341)\n"
-"X-Launchpad-Export-Date: 2015-02-15 05:58+0000\n"
+"X-Generator: Launchpad (build 16807)\n"
+"X-Launchpad-Export-Date: 2013-10-19 05:17+0000\n"
 "X-Associated-UI-Catalogs: desktop_kdebase\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 "X-Environment: kde\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -34,7 +36,7 @@ msgstr "samir.ribic@etf.unsa.ba"
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: actions.ui:32
 msgid "M&ouse wheel:"
-msgstr "T&očak miša:"
+msgstr "T&očak miša"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_4)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAll2)
@@ -44,7 +46,7 @@ msgid ""
 "titlebar or the frame."
 msgstr ""
 "U ovom redu možete prilagoditi ponašanje srednjeg klika prilikom klika "
-"nanaslovnu traku okvira."
+"nanaslovnu traku okvira"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll2)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
@@ -163,7 +165,7 @@ msgstr "Ništa"
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: actions.ui:108
 msgid "Ri&ght button:"
-msgstr "De&sno dugme:"
+msgstr "De&sno dugme"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: actions.ui:121
@@ -173,7 +175,7 @@ msgstr "&Točak"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:134
 msgid "Middle b&utton:"
-msgstr "Srednje d&ugme:"
+msgstr "Srednje d&ugme"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_5)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAll3)
@@ -183,7 +185,7 @@ msgid ""
 "titlebar or the frame."
 msgstr ""
 "U ovom redu možete prilagoditi ponašanje desnog klika klikom na naslovnu "
-"traku okvira."
+"traku okvira"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: actions.ui:210
@@ -243,7 +245,7 @@ msgstr "Aktiviraj i podigni"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: actions.ui:269
 msgid "&Right button:"
-msgstr "&Desbi dugme:"
+msgstr "&Desbi dugme"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWinWheel)
 #: actions.ui:288
@@ -277,7 +279,7 @@ msgid ""
 "titlebar or the frame."
 msgstr ""
 "U ovom redu možete prilagoditi ponašanje lijevog klika prilikom klika na "
-"naslovnu traku okvira."
+"naslovnu traku okvira"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAllW)
 #: actions.ui:379
@@ -366,7 +368,7 @@ msgstr "Lijevo &dugme"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:561
 msgid "Modifier &key:"
-msgstr "Modifikatorski &taster:"
+msgstr "Modifikatorski &taster"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAllKey)
 #: actions.ui:571
@@ -400,8 +402,7 @@ msgstr "Kartice prozora"
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, inactiveTabsSkipTaskbar)
 #: advanced.ui:52
 msgid "When turned on hide all tabs that are not active from the taskbar."
-msgstr ""
-"Kada je uključeno, sakrij sve kartice koje nisu aktivne s alatne trake."
+msgstr "Kada je uključeno, sakrij sve kartice koje nisu aktivne s alatne trake"
 
 #. i18n: ectx: property (text), widget (QCheckBox, inactiveTabsSkipTaskbar)
 #: advanced.ui:55
@@ -429,7 +430,7 @@ msgid ""
 "automatically added to the current group."
 msgstr ""
 "Kada je uključeno, odmah pređi na nove kartice prozora koje su automatski "
-"dodane u trenutnu grupu."
+"dodane u trenutnu grupu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, autogroupInForeground)
 #: advanced.ui:75
@@ -442,11 +443,26 @@ msgid "&Placement:"
 msgstr "&Pozicioniranje:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, placementCombo)
-#: advanced.ui:122
+#: advanced.ui:121
+#, fuzzy
+#| msgid ""
+#| "The placement policy determines where a new window will appear on the "
+#| "desktop.\n"
+#| "<ul>\n"
+#| "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
+#| "<li><em>Maximizing</em> will try to maximize every window to fill the "
+#| "whole screen. It might be useful to selectively affect placement of some "
+#| "windows using the window-specific settings.</li>\n"
+#| "<li><em>Cascade</em> will cascade the windows</li>\n"
+#| "<li><em>Random</em> will use a random position</li>\n"
+#| "<li><em>Centered</em> will place the window centered</li>\n"
+#| "<li><em>Zero-Cornered</em> will place the window in the top-left corner</"
+#| "li>\n"
+#| "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
+#| "</ul>"
 msgid ""
 "The placement policy determines where a new window will appear on the "
-"desktop.\n"
-"<ul>\n"
+"desktop.<br><ul>\n"
 "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
 "<li><em>Maximizing</em> will try to maximize every window to fill the whole "
 "screen. It might be useful to selectively affect placement of some windows "
@@ -474,52 +490,52 @@ msgstr ""
 "</ul>"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:126
+#: advanced.ui:125
 msgid "Smart"
 msgstr "Pametno"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:131
+#: advanced.ui:130
 msgid "Maximizing"
 msgstr "Maksimiziranje"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:136
+#: advanced.ui:135
 msgid "Cascade"
 msgstr "Kaskada"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:141
+#: advanced.ui:140
 msgid "Random"
 msgstr "Slučajno"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:146
+#: advanced.ui:145
 msgid "Centered"
 msgstr "Centrirano"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:151
+#: advanced.ui:150
 msgid "Zero-Cornered"
 msgstr "Nulti ugao"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:156
+#: advanced.ui:155
 msgid "Under Mouse"
 msgstr "Pod mišem"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shBox)
-#: advanced.ui:167
+#: advanced.ui:166
 msgid "Shading"
 msgstr "Sijenčenje"
 
 #. i18n: ectx: property (text), widget (QLabel, shadeHoverLabel)
-#: advanced.ui:176
+#: advanced.ui:175
 msgid "Dela&y:"
-msgstr "Kašnjenj&e:"
+msgstr "Kašnjenj&e"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, shadeHoverOn)
-#: advanced.ui:205
+#: advanced.ui:204
 msgid ""
 "If Shade Hover is enabled, a shaded window will un-shade automatically when "
 "the mouse pointer has been over the title bar for some time."
@@ -528,12 +544,12 @@ msgstr ""
 "sijenku automatski kada je pointer miša iznad naslova neko vrijeme."
 
 #. i18n: ectx: property (text), widget (QCheckBox, shadeHoverOn)
-#: advanced.ui:208
+#: advanced.ui:207
 msgid "&Enable hover"
 msgstr "&Omogući nadlijetanje"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, shadeHover)
-#: advanced.ui:215
+#: advanced.ui:214
 msgid ""
 "Sets the time in milliseconds before the window unshades when the mouse "
 "pointer goes over the shaded window."
@@ -544,17 +560,17 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, delayFocus)
 #. i18n: ectx: property (suffix), widget (QSpinBox, autoRaise)
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadeHover)
-#: advanced.ui:230 focus.ui:250 focus.ui:475
+#: advanced.ui:229 focus.ui:250 focus.ui:475
 msgid " ms"
 msgstr " ms"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: advanced.ui:240
+#: advanced.ui:239
 msgid "Special Windows"
 msgstr "Specijalni prozori"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, hideUtilityWindowsForInactive)
-#: advanced.ui:249
+#: advanced.ui:248
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
 "inactive applications will be hidden and will be shown only when the "
@@ -567,7 +583,7 @@ msgstr ""
 "bi ova osobina radila."
 
 #. i18n: ectx: property (text), widget (QCheckBox, hideUtilityWindowsForInactive)
-#: advanced.ui:252
+#: advanced.ui:251
 msgid "Hide utility windows for inactive applications"
 msgstr "Sakrij pomoćne prozore za neaktivne aplikacije"
 
@@ -694,7 +710,7 @@ msgid ""
 "automatically receive focus."
 msgstr ""
 "Ovo je kašnjenje nakon koga će prozor iznad kog je pokazivač automatski "
-"dobiti fokus."
+"dobiti fokus"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStealingLabel)
 #: focus.ui:273
@@ -806,7 +822,7 @@ msgid ""
 "come to the front when the mouse pointer has been over it for some time."
 msgstr ""
 "Kada je ova opcija omogućena, prozor u pozadini će automatski doći u prednji "
-"plan kada je pokazivač miša iznad nmjega neko vrijeme."
+"plan kada je pokazivač miša iznad nmjega neko vrijeme"
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoRaiseOn)
 #: focus.ui:446
@@ -820,7 +836,7 @@ msgid ""
 "automatically come to the front."
 msgstr ""
 "Ovo je kašnjenje nakon koga će prozor iznad kog je pokazivač miša doći u "
-"prednji plan."
+"prednji plan"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, clickRaiseOn)
 #: focus.ui:494
@@ -961,24 +977,24 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.cpp:195 mouse.ui:55
 msgid "Maximize"
-msgstr "Maksimizuj"
+msgstr "maksimizuj"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.cpp:196 mouse.ui:60
 msgid "Maximize (vertical only)"
-msgstr "Maksimizuj (samo uspravno)"
+msgstr "maksimizuj (samo uspravno)"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.cpp:197 mouse.ui:65
 msgid "Maximize (horizontal only)"
-msgstr "Maksimizuj (samo vodoravno)"
+msgstr "maksimizuj (samo vodoravno)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: mouse.ui:32
 msgid "&Double-click:"
-msgstr "&Dvostruki klik:"
+msgstr "&Dvostruki klik"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiDbl)
 #: mouse.ui:51
@@ -1020,7 +1036,7 @@ msgstr "Na svim radnim površinama"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mouse.ui:103
 msgid "Wheel event:"
-msgstr "Događaj točkića:"
+msgstr "Događaj točkića"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct4)
 #: mouse.ui:122
@@ -1059,7 +1075,7 @@ msgstr "Neaktivno"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: mouse.ui:217 mouse.ui:658
 msgid "Left button:"
-msgstr "Lijeva tipka:"
+msgstr "Lijeva tipka"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct1)
 #: mouse.ui:233
@@ -1214,7 +1230,7 @@ msgstr "nema centralne zone namiještanja"
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
 #: moving.ui:90
 msgid "&Border snap zone:"
-msgstr "Nona &namiještanja ivica:"
+msgstr "Nona &namiještanja ivica"
 
 #. i18n: ectx: property (text), widget (QLabel, centerSnapLabel)
 #: moving.ui:103

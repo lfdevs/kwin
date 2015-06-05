@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-21 09:28+0000\n"
+"POT-Creation-Date: 2015-01-22 08:06+0000\n"
 "PO-Revision-Date: 2010-01-15 13:41+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: Kannada <kde-l10n-kn@kde.org>\n"
@@ -20,6 +20,7 @@ msgstr ""
 
 #: layoutpreview.cpp:165
 #, fuzzy
+#| msgid "All Desktops"
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "ಎಲ್ಲಾ ಗಣಕತೆರೆಗಳು"
@@ -47,6 +48,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, showDesktop)
 #: main.ui:41
 #, fuzzy
+#| msgid "Current Desktop"
 msgid "Include \"Show Desktop\" icon"
 msgstr "ಪ್ರಸ್ತುತ ಗಣಕತೆರೆ"
 
@@ -73,24 +75,28 @@ msgstr "ವಿಂಗಡಿಸುವ ಕ್ರಮ:"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:104
 #, fuzzy
+#| msgid "List windows:"
 msgid "Filter windows by"
 msgstr "ಕಿಟಕಿಗಳ ಪಟ್ಟಿ:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterDesktops)
 #: main.ui:113
 #, fuzzy
+#| msgid "All Desktops"
 msgid "Virtual desktops"
 msgstr "ಎಲ್ಲಾ ಗಣಕತೆರೆಗಳು"
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentDesktop)
 #: main.ui:157
 #, fuzzy
+#| msgid "Current Desktop"
 msgid "Current desktop"
 msgstr "ಪ್ರಸ್ತುತ ಗಣಕತೆರೆ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, otherDesktops)
 #: main.ui:164
 #, fuzzy
+#| msgid "All Desktops"
 msgid "All other desktops"
 msgstr "ಎಲ್ಲಾ ಗಣಕತೆರೆಗಳು"
 
@@ -117,6 +123,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QRadioButton, currentScreen)
 #: main.ui:279
 #, fuzzy
+#| msgid "Current Desktop"
 msgid "Current screen"
 msgstr "ಪ್ರಸ್ತುತ ಗಣಕತೆರೆ"
 
@@ -128,18 +135,21 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, filterMinimization)
 #: main.ui:296
 #, fuzzy
+#| msgid "Minimum Size"
 msgid "Minimization"
 msgstr "ಕನಿಷ್ಟ ಗಾತ್ರ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, visibleWindows)
 #: main.ui:340
 #, fuzzy
+#| msgid "List windows:"
 msgid "Visible windows"
 msgstr "ಕಿಟಕಿಗಳ ಪಟ್ಟಿ:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, hiddenWindows)
 #: main.ui:347
 #, fuzzy
+#| msgid "List windows:"
 msgid "Hidden windows"
 msgstr "ಕಿಟಕಿಗಳ ಪಟ್ಟಿ:"
 
@@ -157,6 +167,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:418
 #, fuzzy
+#| msgid "List windows:"
 msgid "All windows"
 msgstr "ಕಿಟಕಿಗಳ ಪಟ್ಟಿ:"
 
@@ -169,12 +180,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:470
 #, fuzzy
+#| msgid "Current Desktop Grouped by Applications"
 msgid "Current application"
 msgstr "ಪ್ರಸ್ತುತ ಗಣಕತೆರೆಯನ್ನು ಅನ್ವಯಿಕದಿಂದ ಗುಂಪಾಗೂಡಿಸಲಾಗಿದೆ."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:489
 #, fuzzy
+#| msgid "Navigation"
 msgid "Visualization"
 msgstr "ಸಂಚಾರ"
 
@@ -195,6 +208,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, highlightWindowCheck)
 #: main.ui:552
 #, fuzzy
+#| msgid "Show outline of selected window"
 msgid "Show selected window"
 msgstr "ಆಯ್ದ ವಿಂಡೋವಿನ ಹೊರನಕಾಶೆಯನ್ನು ತೋರಿಸು"
 

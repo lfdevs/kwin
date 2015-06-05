@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-03-21 10:21+0000\n"
+"POT-Creation-Date: 2015-05-21 11:34+0000\n"
 "PO-Revision-Date: 2009-01-05 19:38+0530\n"
 "Last-Translator: Runa Bhattacharjee <runab@redhat.com>\n"
 "Language-Team: Bengali INDIA <fedora-trans-bn_IN@redhat.com>\n"
@@ -34,6 +34,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: blur/blur_config.ui:42
 #, fuzzy
+#| msgid "Right"
 msgid "Light"
 msgstr "ডানদিকে"
 
@@ -47,8 +48,9 @@ msgstr ""
 msgid "Save intermediate rendering results."
 msgstr ""
 
-#: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
 #, fuzzy
+#| msgid "Sphere"
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "গোলাকার"
@@ -84,6 +86,7 @@ msgstr "দূরে"
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: coverswitch/coverswitch_config.ui:110
 #, fuzzy
+#| msgid "Activation"
 msgid "Animation"
 msgstr "সক্রিয়করণ"
 
@@ -119,6 +122,7 @@ msgstr "ডিফল্ট মান"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
 #: coverswitch/coverswitch_config.ui:161
 #, fuzzy
+#| msgid " msec"
 msgid " milliseconds"
 msgstr " msec"
 
@@ -131,12 +135,14 @@ msgstr "প্রতিচ্ছবি"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: coverswitch/coverswitch_config.ui:195
 #, fuzzy
+#| msgid "Text color:"
 msgid "Rear color"
 msgstr "হরফের রং:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: coverswitch/coverswitch_config.ui:205
 #, fuzzy
+#| msgid "Background color:"
 msgid "Front color"
 msgstr "পটভূমির রং:"
 
@@ -150,6 +156,7 @@ msgstr ""
 
 #: cube/cube.cpp:215 cube/cube_config.cpp:78
 #, fuzzy
+#| msgid "Sphere"
 msgid "Desktop Sphere"
 msgstr "গোলাকার"
 
@@ -371,6 +378,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dashboard/dashboard_config.ui:74
 #, fuzzy
+#| msgid "Right"
 msgctxt "More brightness"
 msgid "Lighter"
 msgstr "ডানদিকে"
@@ -389,6 +397,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dashboard/dashboard_config.ui:140
 #, fuzzy
+#| msgid "&Color:"
 msgctxt "High saturation"
 msgid "Colored"
 msgstr "রং: (&C)"
@@ -401,6 +410,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dashboard/dashboard_config.ui:184
 #, fuzzy
+#| msgid "msec"
 msgid "ms"
 msgstr "msec"
 
@@ -420,6 +430,7 @@ msgstr ""
 
 #: desktopgrid/desktopgrid_config.cpp:74
 #, fuzzy
+#| msgid "Disabled"
 msgctxt "Desktop name alignment:"
 msgid "Disabled"
 msgstr "নিষ্ক্রিয়"
@@ -554,6 +565,7 @@ msgstr ""
 
 #: effect_builtins.cpp:117
 #, fuzzy
+#| msgid "Background color:"
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "পটভূমির রং:"
@@ -575,6 +587,7 @@ msgstr ""
 
 #: effect_builtins.cpp:147
 #, fuzzy
+#| msgid "Sphere"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "গোলাকার"
@@ -606,6 +619,7 @@ msgstr ""
 
 #: effect_builtins.cpp:192
 #, fuzzy
+#| msgid "Sphere"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "গোলাকার"
@@ -622,6 +636,7 @@ msgstr ""
 
 #: effect_builtins.cpp:208
 #, fuzzy
+#| msgid "Inactive windows:"
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "নিষ্ক্রিয় উইন্ডো:"
@@ -739,18 +754,21 @@ msgstr ""
 
 #: effect_builtins.cpp:387
 #, fuzzy
+#| msgid "Activation"
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "সক্রিয়করণ"
 
 #: effect_builtins.cpp:388
 #, fuzzy
+#| msgid "Ignore &minimized windows"
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "আড়াল করা উইন্ডো অগ্রাহ্য করা হবে (&m)"
 
 #: effect_builtins.cpp:402
 #, fuzzy
+#| msgid "Activation"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "সক্রিয়করণ"
@@ -764,6 +782,7 @@ msgstr ""
 
 #: effect_builtins.cpp:417
 #, fuzzy
+#| msgid "Clear Mouse Marks"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "মাউসের চিহ্নগুলি মুছে ফেলুন"
@@ -785,6 +804,7 @@ msgstr ""
 
 #: effect_builtins.cpp:447
 #, fuzzy
+#| msgid "All &other windows"
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "অন্যান্য সকল উইন্ডো (&o)"
@@ -837,6 +857,7 @@ msgstr ""
 
 #: effect_builtins.cpp:522
 #, fuzzy
+#| msgid "Sphere"
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "গোলাকার"
@@ -898,6 +919,7 @@ msgstr ""
 
 #: effect_builtins.cpp:612
 #, fuzzy
+#| msgid "Thumbnail Bar"
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "থাম্ব-নেইল বার"
@@ -924,6 +946,7 @@ msgstr ""
 
 #: effect_builtins.cpp:643
 #, fuzzy
+#| msgid "Display window &icons"
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "উইন্ডোর আইকন প্রদর্শন করা হবে (&i)"
@@ -940,6 +963,7 @@ msgstr ""
 
 #: effect_builtins.cpp:672
 #, fuzzy
+#| msgid "Zoom"
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "বড় মাপ প্রদর্শন"
@@ -960,6 +984,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: flipswitch/flipswitch_config.ui:23
 #, fuzzy
+#| msgid "Animation duration:"
 msgid "Flip animation duration:"
 msgstr "অ্যানিমেশনের অবকাল:"
 
@@ -1040,6 +1065,7 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AnimationDuration)
 #: magiclamp/magiclamp_config.ui:39
 #, fuzzy
+#| msgid " msec"
 msgid "milliseconds"
 msgstr " msec"
 
@@ -1095,6 +1121,7 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, advanced_tab)
 #: mouseclick/mouseclick_config.ui:91
 #, fuzzy
+#| msgid "Advanced"
 msgid "Advanced Settings"
 msgstr "উন্নত বৈশিষ্ট্য"
 
@@ -1106,6 +1133,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, ring_line_width_label)
 #: mouseclick/mouseclick_config.ui:103
 #, fuzzy
+#| msgid "&Width:"
 msgid "Line Width:"
 msgstr "প্রস্থ: (&W)"
 
@@ -1114,6 +1142,7 @@ msgstr "প্রস্থ: (&W)"
 #: mouseclick/mouseclick_config.ui:119 mouseclick/mouseclick_config.ui:171
 #: mousemark/mousemark_config.cpp:55
 #, fuzzy
+#| msgid " pixels"
 msgid " pixel"
 msgid_plural " pixels"
 msgstr[0] " পিক্সেল"
@@ -1122,6 +1151,7 @@ msgstr[1] " পিক্সেল"
 #. i18n: ectx: property (text), widget (QLabel, ring_duration_label)
 #: mouseclick/mouseclick_config.ui:145
 #, fuzzy
+#| msgid "Zoom &duration:"
 msgid "Ring Duration:"
 msgstr "বড় করে প্রদর্শনের অবকাল: (&d)"
 
@@ -1149,6 +1179,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, showtext_label)
 #: mouseclick/mouseclick_config.ui:233
 #, fuzzy
+#| msgid "Sphere"
 msgid "Show Text:"
 msgstr "গোলাকার"
 
@@ -1189,7 +1220,7 @@ msgstr ""
 msgid "Toggle Present Windows (Window class)"
 msgstr ""
 
-#: presentwindows/presentwindows.cpp:1556
+#: presentwindows/presentwindows.cpp:1561
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1258,6 +1289,7 @@ msgstr ""
 #: presentwindows/presentwindows_config.ui:322
 #: presentwindows/presentwindows_config.ui:356
 #, fuzzy
+#| msgid "Inactive windows:"
 msgid "Activate window"
 msgstr "নিষ্ক্রিয় উইন্ডো:"
 
@@ -1301,6 +1333,7 @@ msgstr ""
 #: presentwindows/presentwindows_config.ui:208
 #: presentwindows/presentwindows_config.ui:252
 #, fuzzy
+#| msgid "Ignore &minimized windows"
 msgid "(Un-)Minimize window"
 msgstr "আড়াল করা উইন্ডো অগ্রাহ্য করা হবে (&m)"
 
@@ -1321,6 +1354,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
 #: presentwindows/presentwindows_config.ui:263
 #, fuzzy
+#| msgid "Sphere"
 msgctxt "@title:group actions when clicking on desktop"
 msgid "Desktop"
 msgstr "গোলাকার"
@@ -1377,6 +1411,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TextureScale)
 #: resize/resize_config.ui:17
 #, fuzzy
+#| msgid "All &other windows"
 msgid "Scale window"
 msgstr "অন্যান্য সকল উইন্ডো (&o)"
 
@@ -1459,6 +1494,7 @@ msgstr ""
 #: thumbnailaside/thumbnailaside_config.ui:55
 #: thumbnailaside/thumbnailaside_config.ui:106
 #, fuzzy
+#| msgid " pixels"
 msgid " pixels"
 msgstr " পিক্সেল"
 
@@ -1489,6 +1525,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Control)
 #: trackmouse/trackmouse_config.ui:50
 #, fuzzy
+#| msgid "Center"
 msgid "Ctrl"
 msgstr "কেন্দ্রস্থিত"
 
@@ -1562,7 +1599,7 @@ msgstr "পপ-আপ মেনু:"
 msgid "Torn-off menus:"
 msgstr ""
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:61
 msgid "Toggle window geometry display (effect only)"
 msgstr ""
 
@@ -1573,12 +1610,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Move)
 #: windowgeometry/windowgeometry_config.ui:17
 #, fuzzy
+#| msgid "Display window &icons"
 msgid "Display for moving windows"
 msgstr "উইন্ডোর আইকন প্রদর্শন করা হবে (&i)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Resize)
 #: windowgeometry/windowgeometry_config.ui:24
 #, fuzzy
+#| msgid "Display window &icons"
 msgid "Display for resizing windows"
 msgstr "উইন্ডোর আইকন প্রদর্শন করা হবে (&i)"
 
@@ -1632,37 +1671,39 @@ msgstr "কম"
 msgid "More"
 msgstr "বেশি"
 
-#: zoom/zoom.cpp:86
+#: zoom/zoom.cpp:84
 msgid "Move Zoomed Area to Left"
 msgstr ""
 
-#: zoom/zoom.cpp:94
+#: zoom/zoom.cpp:92
 msgid "Move Zoomed Area to Right"
 msgstr ""
 
-#: zoom/zoom.cpp:102
+#: zoom/zoom.cpp:100
 msgid "Move Zoomed Area Upwards"
 msgstr ""
 
-#: zoom/zoom.cpp:110
+#: zoom/zoom.cpp:108
 msgid "Move Zoomed Area Downwards"
 msgstr ""
 
-#: zoom/zoom.cpp:119 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
 msgid "Move Mouse to Focus"
 msgstr ""
 
-#: zoom/zoom.cpp:127 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
 msgid "Move Mouse to Center"
 msgstr ""
 
 #: zoom/zoom_config.cpp:84
 #, fuzzy
+#| msgid "Top Left"
 msgid "Move Left"
 msgstr "উপরে বাঁদিকে"
 
 #: zoom/zoom_config.cpp:91
 #, fuzzy
+#| msgid "Top Right"
 msgid "Move Right"
 msgstr "উপরে ডানদিকে"
 
@@ -1683,6 +1724,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: zoom/zoom_config.ui:28
 #, fuzzy
+#| msgid "Zoom &duration:"
 msgid "Zoom Factor:"
 msgstr "বড় করে প্রদর্শনের অবকাল: (&d)"
 
@@ -1746,6 +1788,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:133
 #, fuzzy
+#| msgid "Center"
 msgid "Centered"
 msgstr "কেন্দ্রস্থিত"
 
@@ -1757,6 +1800,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:143
 #, fuzzy
+#| msgid "Disabled"
 msgid "Disabled"
 msgstr "নিষ্ক্রিয়"
 

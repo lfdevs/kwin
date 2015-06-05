@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
 "PO-Revision-Date: 2013-01-05 08:28+0530\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
@@ -24,11 +24,14 @@ msgstr "ਮੇਨੂ"
 
 #: declarative-plugin/buttonsmodel.cpp:69
 #, fuzzy
+#| msgctxt "Button showing application menu imported from dbusmenu"
+#| msgid "Application Menu"
 msgid "Application menu"
 msgstr "ਐਪਲੀਕੇਸ਼ਨ ਮੇਨੂ"
 
 #: declarative-plugin/buttonsmodel.cpp:71
 #, fuzzy
+#| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "ਸਭ ਡੈਸਕਟਾਪਾਂ ਉੱਤੇ"
 
@@ -54,11 +57,13 @@ msgstr "ਸ਼ੇਡ"
 
 #: declarative-plugin/buttonsmodel.cpp:83
 #, fuzzy
+#| msgid "Keep Below Others"
 msgid "Keep below"
 msgstr "ਹੋਰਾਂ ਦੇ ਹੇਠਾਂ ਰੱਖੋ"
 
 #: declarative-plugin/buttonsmodel.cpp:85
 #, fuzzy
+#| msgid "Keep Above Others"
 msgid "Keep above"
 msgstr "ਹੋਰਾਂ ਦੇ ਉੱਤੇ ਰੱਖੋ"
 
@@ -81,12 +86,14 @@ msgstr "ਨਵੀਂ ਸਜਾਵਟ ਲਵੋ..."
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kcm.ui:56
 #, fuzzy
+#| msgid "Border size:"
 msgid "Border si&ze:"
 msgstr "ਬਾਰਡਰ ਸਾਈਜ਼:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:67
 #, fuzzy
+#| msgid "Border size:"
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "ਬਾਰਡਰ ਸਾਈਜ਼:"
@@ -142,6 +149,7 @@ msgstr "ਵੱਧ-ਆਕਾਰ"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: kcm.ui:125
 #, fuzzy
+#| msgid "Close windows by double clicking the menu button"
 msgid "Close windows by double clicking &the menu button:"
 msgstr "ਮੇਨੂ ਬਟਨ ਨੂੰ ਦੋ ਵਾਰ ਦਬਾ ਕੇ ਵਿੰਡੋਜ਼ ਬੰਦ ਕਰੋ"
 

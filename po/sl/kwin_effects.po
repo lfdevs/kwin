@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-03-21 10:21+0000\n"
-"PO-Revision-Date: 2014-08-26 11:14+0200\n"
+"POT-Creation-Date: 2015-05-21 11:34+0000\n"
+"PO-Revision-Date: 2014-08-26 11:01+0200\n"
 "Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -49,7 +49,7 @@ msgstr "Močan"
 msgid "Save intermediate rendering results."
 msgstr "Shrani vmesne rezultate izrisovanja."
 
-#: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Pokaži namizje"
@@ -1174,7 +1174,7 @@ msgstr "Preklopi predstavitev oken (vsa namizja)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Preklopi predstavitev oken (razred oken)"
 
-#: presentwindows/presentwindows.cpp:1556
+#: presentwindows/presentwindows.cpp:1561
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1541,7 +1541,7 @@ msgstr "Pojavni meniji:"
 msgid "Torn-off menus:"
 msgstr "Odcepljeni meniji:"
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:61
 msgid "Toggle window geometry display (effect only)"
 msgstr "Preklopi prikaz geometrije okna (samo učinek)"
 
@@ -1609,27 +1609,27 @@ msgstr "Nizka"
 msgid "More"
 msgstr "Visoka"
 
-#: zoom/zoom.cpp:86
+#: zoom/zoom.cpp:84
 msgid "Move Zoomed Area to Left"
 msgstr "Približano območje pomakni v levo"
 
-#: zoom/zoom.cpp:94
+#: zoom/zoom.cpp:92
 msgid "Move Zoomed Area to Right"
 msgstr "Približano območje pomakni v desno"
 
-#: zoom/zoom.cpp:102
+#: zoom/zoom.cpp:100
 msgid "Move Zoomed Area Upwards"
 msgstr "Približano območje pomakni navzgor"
 
-#: zoom/zoom.cpp:110
+#: zoom/zoom.cpp:108
 msgid "Move Zoomed Area Downwards"
 msgstr "Približano območje pomakni navzdol"
 
-#: zoom/zoom.cpp:119 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
 msgid "Move Mouse to Focus"
 msgstr "Miško premakni v žarišče"
 
-#: zoom/zoom.cpp:127 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
 msgid "Move Mouse to Center"
 msgstr "Miško premakni v sredino"
 

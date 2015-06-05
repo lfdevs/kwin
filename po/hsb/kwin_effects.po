@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: desktop_kdebase\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-03-21 10:21+0000\n"
+"POT-Creation-Date: 2015-05-21 11:34+0000\n"
 "PO-Revision-Date: 2008-11-06 22:08+0100\n"
 "Last-Translator: Eduard Werner <edi.werner@gmx.de>\n"
 "Language-Team: en_US <kde-i18n-doc@lists.kde.org>\n"
@@ -46,7 +46,7 @@ msgstr ""
 msgid "Save intermediate rendering results."
 msgstr ""
 
-#: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
 #, fuzzy
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -83,6 +83,7 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: coverswitch/coverswitch_config.ui:110
 #, fuzzy
+#| msgid "Saturday"
 msgid "Animation"
 msgstr "Sobotu"
 
@@ -104,6 +105,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: coverswitch/coverswitch_config.ui:139 magiclamp/magiclamp_config.ui:17
 #, fuzzy
+#| msgid "Saturday"
 msgid "Animation duration:"
 msgstr "Sobotu"
 
@@ -113,6 +115,7 @@ msgstr "Sobotu"
 #: coverswitch/coverswitch_config.ui:158 cube/cube_config.ui:149
 #: cube/cubeslide_config.ui:49 magiclamp/magiclamp_config.ui:36
 #, fuzzy
+#| msgid "Default"
 msgctxt "Duration of rotation"
 msgid "Default"
 msgstr "Standard"
@@ -126,18 +129,22 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Reflection)
 #: coverswitch/coverswitch_config.ui:177 coverswitch/coverswitch_config.ui:183
 #, fuzzy
+#| msgid "Actions"
 msgid "Reflections"
 msgstr "Akcije"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: coverswitch/coverswitch_config.ui:195
 #, fuzzy
+#| msgctxt "@label stroke color"
+#| msgid "Color"
 msgid "Rear color"
 msgstr "Barba"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: coverswitch/coverswitch_config.ui:205
 #, fuzzy
+#| msgid "Backward Word"
 msgid "Front color"
 msgstr "Wo słowo dozady"
 
@@ -178,6 +185,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: cube/cube_config.ui:33
 #, fuzzy
+#| msgid "Backward Word"
 msgid "Background color:"
 msgstr "Wo słowo dozady"
 
@@ -274,6 +282,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, capColorLabel)
 #: cube/cube_config.ui:298
 #, fuzzy
+#| msgctxt "@label stroke color"
+#| msgid "Color"
 msgid "Cap color:"
 msgstr "Barba"
 
@@ -290,6 +300,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_9)
 #: cube/cube_config.ui:408
 #, fuzzy
+#| msgid "Additional Information: %1"
 msgid "Additional Options"
 msgstr "Dalša informacija: %1"
 
@@ -326,6 +337,8 @@ msgstr "Swójstwa %2"
 #. i18n: ectx: property (title), widget (QGroupBox, capDeformationGroupBox)
 #: cube/cube_config.ui:449
 #, fuzzy
+#| msgctxt "Comment"
+#| msgid "PCI information"
 msgid "Sphere Cap Deformation"
 msgstr "Informacija wo PCI"
 
@@ -435,6 +448,8 @@ msgstr ""
 
 #: desktopgrid/desktopgrid_config.cpp:76
 #, fuzzy
+#| msgctxt "keyboard-key-name"
+#| msgid "Right"
 msgid "Top-Right"
 msgstr "Naprawo"
 
@@ -446,6 +461,8 @@ msgstr ""
 
 #: desktopgrid/desktopgrid_config.cpp:78
 #, fuzzy
+#| msgctxt "toolbar position string"
+#| msgid "Bottom"
 msgid "Bottom-Right"
 msgstr "Deleka"
 
@@ -456,6 +473,8 @@ msgstr ""
 
 #: desktopgrid/desktopgrid_config.cpp:80
 #, fuzzy
+#| msgctxt "toolbar position string"
+#| msgid "Bottom"
 msgid "Bottom-Left"
 msgstr "Deleka"
 
@@ -467,6 +486,8 @@ msgstr ""
 
 #: desktopgrid/desktopgrid_config.cpp:82
 #, fuzzy
+#| msgctxt "keyboard-key-name"
+#| msgid "Left"
 msgid "Top-Left"
 msgstr "Nalěwo"
 
@@ -482,6 +503,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_ZoomDuration)
 #: desktopgrid/desktopgrid_config.ui:42
 #, fuzzy
+#| msgid "Default"
 msgctxt "Duration of zoom"
 msgid "Default"
 msgstr "Standard"
@@ -563,6 +585,7 @@ msgstr ""
 
 #: effect_builtins.cpp:117
 #, fuzzy
+#| msgid "Backward Word"
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Wo słowo dozady"
@@ -749,6 +772,7 @@ msgstr ""
 
 #: effect_builtins.cpp:387
 #, fuzzy
+#| msgid "Saturday"
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Sobotu"
@@ -760,6 +784,7 @@ msgstr ""
 
 #: effect_builtins.cpp:402
 #, fuzzy
+#| msgid "Saturday"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Sobotu"
@@ -793,6 +818,7 @@ msgstr ""
 
 #: effect_builtins.cpp:447
 #, fuzzy
+#| msgid "Close window?"
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Wokno začinić?"
@@ -845,6 +871,7 @@ msgstr ""
 
 #: effect_builtins.cpp:522
 #, fuzzy
+#| msgid "Show help"
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Pokaž pomoc"
@@ -906,6 +933,8 @@ msgstr ""
 
 #: effect_builtins.cpp:612
 #, fuzzy
+#| msgctxt "Comment"
+#| msgid "Thumbnail Handler"
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Thumbnail Handler"
@@ -967,12 +996,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: flipswitch/flipswitch_config.ui:23
 #, fuzzy
+#| msgid "Saturday"
 msgid "Flip animation duration:"
 msgstr "Sobotu"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
 #: flipswitch/flipswitch_config.ui:42
 #, fuzzy
+#| msgid "Default"
 msgctxt "Duration of flip animation"
 msgid "Default"
 msgstr "Standard"
@@ -1128,6 +1159,7 @@ msgstr[3] ""
 #. i18n: ectx: property (text), widget (QLabel, ring_duration_label)
 #: mouseclick/mouseclick_config.ui:145
 #, fuzzy
+#| msgid "Saturday"
 msgid "Ring Duration:"
 msgstr "Sobotu"
 
@@ -1195,7 +1227,7 @@ msgstr ""
 msgid "Toggle Present Windows (Window class)"
 msgstr ""
 
-#: presentwindows/presentwindows.cpp:1556
+#: presentwindows/presentwindows.cpp:1561
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1355,6 +1387,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowPanel)
 #: presentwindows/presentwindows_config.ui:417
 #, fuzzy
+#| msgid "Show help"
 msgid "Show &panels"
 msgstr "Pokaž pomoc"
 
@@ -1366,6 +1399,8 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
 #: presentwindows/presentwindows_config.ui:436
 #, fuzzy
+#| msgctxt "@item font"
+#| msgid "Regular"
 msgid "Regular Grid"
 msgstr "normalne"
 
@@ -1382,6 +1417,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TextureScale)
 #: resize/resize_config.ui:17
 #, fuzzy
+#| msgid "Close window?"
 msgid "Scale window"
 msgstr "Wokno začinić?"
 
@@ -1519,6 +1555,8 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, m_opacityGroupBox)
 #: translucency/package/contents/ui/config.ui:20
 #, fuzzy
+#| msgctxt "KCharselect unicode block name"
+#| msgid "General Punctuation"
 msgid "General Translucency Settings"
 msgstr "Interpunkcija"
 
@@ -1567,7 +1605,7 @@ msgstr ""
 msgid "Torn-off menus:"
 msgstr ""
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:61
 msgid "Toggle window geometry display (effect only)"
 msgstr ""
 
@@ -1635,27 +1673,27 @@ msgstr ""
 msgid "More"
 msgstr ""
 
-#: zoom/zoom.cpp:86
+#: zoom/zoom.cpp:84
 msgid "Move Zoomed Area to Left"
 msgstr ""
 
-#: zoom/zoom.cpp:94
+#: zoom/zoom.cpp:92
 msgid "Move Zoomed Area to Right"
 msgstr ""
 
-#: zoom/zoom.cpp:102
+#: zoom/zoom.cpp:100
 msgid "Move Zoomed Area Upwards"
 msgstr ""
 
-#: zoom/zoom.cpp:110
+#: zoom/zoom.cpp:108
 msgid "Move Zoomed Area Downwards"
 msgstr ""
 
-#: zoom/zoom.cpp:119 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
 msgid "Move Mouse to Focus"
 msgstr ""
 
-#: zoom/zoom.cpp:127 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
 msgid "Move Mouse to Center"
 msgstr ""
 
@@ -1665,6 +1703,8 @@ msgstr ""
 
 #: zoom/zoom_config.cpp:91
 #, fuzzy
+#| msgctxt "keyboard-key-name"
+#| msgid "Right"
 msgid "Move Right"
 msgstr "Naprawo"
 

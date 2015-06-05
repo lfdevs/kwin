@@ -2,14 +2,14 @@
 # Stephan Johach <hunsum@gmx.de>, 2005.
 # Thomas Reitelbach <tr@erdfunkstelle.de>, 2005, 2006, 2007, 2008, 2010.
 # Frederik Schwarzer <schwarzer@kde.org>, 2009, 2010, 2011, 2012.
-# Burkhard Lück <lueck@hube-lueck.de>, 2011, 2012, 2013, 2014.
+# Burkhard Lück <lueck@hube-lueck.de>, 2011, 2012, 2013, 2014, 2015.
 # Frank Steinmetzger <Warp_7@gmx.de>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-28 15:51+0000\n"
-"PO-Revision-Date: 2014-01-19 17:50+0100\n"
+"POT-Creation-Date: 2015-05-16 12:24+0000\n"
+"PO-Revision-Date: 2015-04-26 15:41+0200\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -182,19 +182,19 @@ msgstr "&Einfaches Tastenkürzel"
 msgid "C&lear"
 msgstr "&Löschen"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 msgid "Window-Specific Settings Configuration Module"
 msgstr "Festlegen von fensterspezifischen Einstellungen"
 
-#: kcm.cpp:51
+#: kcm.cpp:52
 msgid "(c) 2004 KWin and KControl Authors"
 msgstr "© 2004, die KWin- und KControl-Autoren"
 
-#: kcm.cpp:52
+#: kcm.cpp:53
 msgid "Lubos Lunak"
 msgstr "Lubos Lunak"
 
-#: kcm.cpp:83
+#: kcm.cpp:84
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -208,15 +208,15 @@ msgstr ""
 "verwenden. In solchen Fällen schlagen Sie bitte in der jeweiligen "
 "Dokumentation nach, wie sich das Fensterverhalten anpassen lässt.</p>"
 
-#: kcm.cpp:99
+#: kcm.cpp:100
 msgid "Remember settings separately for every window"
 msgstr "Einstellungen für jedes Fenster einzeln speichern"
 
-#: kcm.cpp:100
+#: kcm.cpp:101
 msgid "Show internal settings for remembering"
 msgstr "Interne Einstellungen der Speicherung anzeigen"
 
-#: kcm.cpp:101
+#: kcm.cpp:102
 msgid "Internal setting for remembering"
 msgstr "Interne Einstellung für Speicherung"
 
@@ -412,7 +412,7 @@ msgstr ""
 
 #: ruleswidget.cpp:815
 msgid "Consult the documentation for more details."
-msgstr "Tiefergehende Informationen finden Sie im Handbuch."
+msgstr "Weitergehende Informationen finden Sie im Handbuch."
 
 #: ruleswidget.cpp:854
 msgid "Edit Shortcut"
@@ -1133,3 +1133,11 @@ msgstr "Vorbeugung gegen Übernahme der A&ktivierung"
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
 msgstr "Farb&schema der Titelleiste"
+
+#: yesnobox.h:35
+msgid "Yes"
+msgstr "Ja"
+
+#: yesnobox.h:36
+msgid "No"
+msgstr "Nein"

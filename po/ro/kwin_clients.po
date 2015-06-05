@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-27 20:56+0000\n"
+"POT-Creation-Date: 2015-02-20 09:22+0000\n"
 "PO-Revision-Date: 2013-11-26 23:25+0200\n"
 "Last-Translator: Sergiu Bivol <sergiu@ase.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -23,6 +23,56 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
 "X-Generator: Lokalize 1.5\n"
+
+#: aurorae/src/aurorae.cpp:703
+#, fuzzy
+#| msgctxt "@item:inlistbox Border size:"
+#| msgid "Tiny"
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "Minusculă"
+
+#: aurorae/src/aurorae.cpp:704
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "Normală"
+
+#: aurorae/src/aurorae.cpp:705
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "Mare"
+
+#: aurorae/src/aurorae.cpp:706
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "Foarte mare"
+
+#: aurorae/src/aurorae.cpp:707
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "Imensă"
+
+#: aurorae/src/aurorae.cpp:708
+#, fuzzy
+#| msgctxt "@item:inlistbox Border size:"
+#| msgid "Very Huge"
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "Extrem de mare"
+
+#: aurorae/src/aurorae.cpp:709
+#, fuzzy
+#| msgctxt "@item:inlistbox Border size:"
+#| msgid "Oversized"
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "Supradimensionată"
+
+#: aurorae/src/aurorae.cpp:712
+#, fuzzy
+#| msgid "B&utton size:"
+msgid "Button size:"
+msgstr "Dimensiune b&uton:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlastikConfigDialog)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14

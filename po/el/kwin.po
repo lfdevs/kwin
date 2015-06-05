@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-18 09:50+0000\n"
+"POT-Creation-Date: 2015-05-20 10:44+0000\n"
 "PO-Revision-Date: 2014-11-08 18:02+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -35,7 +35,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "sng@hellug.gr, manolis@koppermind.homelinux.org"
 
-#: composite.cpp:503
+#: composite.cpp:545
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -307,121 +307,133 @@ msgid "Quick Tile Window to the Right"
 msgstr "Γρήγορη στοίβαξη παραθύρου στα δεξιά"
 
 #: kwinbindings.cpp:100
-msgid "Quick Tile Window to the Top Left"
+#, fuzzy
+#| msgid "Quick Tile Window to the Top Left"
+msgid "Quick Tile Window to the Top"
 msgstr "Γρήγορη στοίβαξη παραθύρου πάνω αριστερά"
 
 #: kwinbindings.cpp:102
-msgid "Quick Tile Window to the Bottom Left"
+#, fuzzy
+#| msgid "Quick Tile Window to the Bottom Left"
+msgid "Quick Tile Window to the Bottom"
 msgstr "Γρήγορη στοίβαξη παραθύρου κάτω αριστερά"
 
 #: kwinbindings.cpp:104
+msgid "Quick Tile Window to the Top Left"
+msgstr "Γρήγορη στοίβαξη παραθύρου πάνω αριστερά"
+
+#: kwinbindings.cpp:106
+msgid "Quick Tile Window to the Bottom Left"
+msgstr "Γρήγορη στοίβαξη παραθύρου κάτω αριστερά"
+
+#: kwinbindings.cpp:108
 msgid "Quick Tile Window to the Top Right"
 msgstr "Γρήγορη στοίβαξη παραθύρου πάνω δεξιά"
 
-#: kwinbindings.cpp:106
+#: kwinbindings.cpp:110
 msgid "Quick Tile Window to the Bottom Right"
 msgstr "Γρήγορη στοίβαξη παραθύρου κάτω δεξιά"
 
-#: kwinbindings.cpp:108
+#: kwinbindings.cpp:112
 msgid "Switch to Window Above"
 msgstr "Εναλλαγή στο πάνω παράθυρο"
 
-#: kwinbindings.cpp:110
+#: kwinbindings.cpp:114
 msgid "Switch to Window Below"
 msgstr "Εναλλαγή στο κάτω παράθυρο"
 
-#: kwinbindings.cpp:112
+#: kwinbindings.cpp:116
 msgid "Switch to Window to the Right"
 msgstr "Εναλλαγή στο παράθυρο δεξιά"
 
-#: kwinbindings.cpp:114
+#: kwinbindings.cpp:118
 msgid "Switch to Window to the Left"
 msgstr "Εναλλαγή στο παράθυρο αριστερά"
 
-#: kwinbindings.cpp:116
+#: kwinbindings.cpp:120
 msgid "Increase Opacity of Active Window by 5 %"
 msgstr "Αύξηση της αδιαφάνειας του ενεργού παραθύρου κατά 5%"
 
-#: kwinbindings.cpp:118
+#: kwinbindings.cpp:122
 msgid "Decrease Opacity of Active Window by 5 %"
 msgstr "Μείωση της αδιαφάνειας του ενεργού παραθύρου κατά 5%"
 
-#: kwinbindings.cpp:121
+#: kwinbindings.cpp:125
 msgid "Keep Window on All Desktops"
 msgstr "Διατήρηση παραθύρου σε όλες τις επιφάνειες εργασίας"
 
-#: kwinbindings.cpp:125
+#: kwinbindings.cpp:129
 #, kde-format
 msgid "Window to Desktop %1"
 msgstr "Παράθυρο στην Επιφάνεια εργασίας %1"
 
-#: kwinbindings.cpp:127
+#: kwinbindings.cpp:131
 msgid "Window to Next Desktop"
 msgstr "Παράθυρο στην επόμενη Επιφάνεια εργασίας"
 
-#: kwinbindings.cpp:128
+#: kwinbindings.cpp:132
 msgid "Window to Previous Desktop"
 msgstr "Παράθυρο στην προηγούμενη Επιφάνεια εργασίας"
 
-#: kwinbindings.cpp:129
+#: kwinbindings.cpp:133
 msgid "Window One Desktop to the Right"
 msgstr "Μετάβαση μία επιφάνεια εργασίας δεξιά"
 
-#: kwinbindings.cpp:130
+#: kwinbindings.cpp:134
 msgid "Window One Desktop to the Left"
 msgstr "Μετάβαση μία επιφάνεια εργασίας αριστερά"
 
-#: kwinbindings.cpp:131
+#: kwinbindings.cpp:135
 msgid "Window One Desktop Up"
 msgstr "Μετάβαση μία επιφάνεια εργασίας πάνω"
 
-#: kwinbindings.cpp:132
+#: kwinbindings.cpp:136
 msgid "Window One Desktop Down"
 msgstr "Μετάβαση μία επιφάνεια εργασίας κάτω"
 
-#: kwinbindings.cpp:135
+#: kwinbindings.cpp:139
 #, kde-format
 msgid "Window to Screen %1"
 msgstr "Παράθυρο στην οθόνη %1"
 
-#: kwinbindings.cpp:137
+#: kwinbindings.cpp:141
 msgid "Window to Next Screen"
 msgstr "Παράθυρο στην επόμενη οθόνη"
 
-#: kwinbindings.cpp:138
+#: kwinbindings.cpp:142
 msgid "Window to Previous Screen"
 msgstr "Παράθυρο στην προηγούμενη οθόνη"
 
-#: kwinbindings.cpp:139
+#: kwinbindings.cpp:143
 msgid "Show Desktop"
 msgstr "Εμφάνιση επιφάνειας εργασίας"
 
-#: kwinbindings.cpp:142
+#: kwinbindings.cpp:146
 #, kde-format
 msgid "Switch to Screen %1"
 msgstr "Εναλλαγή στην οθόνη %1"
 
-#: kwinbindings.cpp:145
+#: kwinbindings.cpp:149
 msgid "Switch to Next Screen"
 msgstr "Εναλλαγή στην επόμενη οθόνη"
 
-#: kwinbindings.cpp:146
+#: kwinbindings.cpp:150
 msgid "Switch to Previous Screen"
 msgstr "Μετάβαση στην προηγούμενη οθόνη"
 
-#: kwinbindings.cpp:148
+#: kwinbindings.cpp:152
 msgid "Kill Window"
 msgstr "Σκότωμα παραθύρου"
 
-#: kwinbindings.cpp:149
+#: kwinbindings.cpp:153
 msgid "Suspend Compositing"
 msgstr "Αναστολή σύνθεσης"
 
-#: kwinbindings.cpp:150
+#: kwinbindings.cpp:154
 msgid "Invert Screen Colors"
 msgstr "Αντιστροφή χρωμάτων οθόνης"
 
-#: main.cpp:78
+#: main.cpp:90
 msgid ""
 "KWin is unstable.\n"
 "It seems to have crashed several times in a row.\n"
@@ -431,56 +443,51 @@ msgstr ""
 "Φαίνεται να έχει καταρρεύσει αρκετές φορές στη σειρά.\n"
 "Μπορείτε να επιλέξετε κάποιον άλλο διαχειριστή παραθύρων:"
 
-#: main.cpp:260 main.cpp:287
+#: main.cpp:272 main.cpp:299
 msgid "KDE window manager"
 msgstr "Ο διαχειριστής παραθύρων του KDE"
 
-#: main.cpp:265
+#: main.cpp:277
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:269
+#: main.cpp:281
 msgid "(c) 1999-2013, The KDE Developers"
 msgstr "(c) 1999-2013, οι προγραμματιστές του KDE"
 
-#: main.cpp:271
+#: main.cpp:283
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:272
+#: main.cpp:284
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:273
+#: main.cpp:285
 msgid "Daniel M. Duley"
 msgstr "Daniel M. Duley"
 
-#: main.cpp:274
+#: main.cpp:286
 msgid "Luboš Luňák"
 msgstr "Luboš Luňák"
 
-#: main.cpp:275
+#: main.cpp:287
 msgid "Martin Gräßlin"
 msgstr "Martin Gräßlin"
 
-#: main.cpp:275
+#: main.cpp:287
 msgid "Maintainer"
 msgstr "Συντηρητής"
 
-#: main.cpp:284
+#: main.cpp:296
 msgid "Disable configuration options"
 msgstr "Απενεργοποίηση επιλογών διαμόρφωσης"
 
-#: main.cpp:285
+#: main.cpp:297
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Υπόδειξη πρόσφατης κατάρρευσης του KWin n φορές στη σειρά"
 
-#: main_wayland.cpp:88
-msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
-msgstr ""
-"kwin_wayland: κάποιος διαχειριστής παραθύρων X11 εκτελείται στην οθόνη X11\n"
-
-#: main_wayland.cpp:96
+#: main_wayland.cpp:106
 msgid ""
 "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
 "set.\n"
@@ -488,19 +495,51 @@ msgstr ""
 "kwin_wayland: αδυναμία σύνδεσης με τον διακομιστή Wayland, εξασφαλίστε ότι η "
 "WAYLAND_DISPLAY έχει οριστεί.\n"
 
-#: main_wayland.cpp:235
-msgid "Start a nested X Server."
+#: main_wayland.cpp:213
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+msgstr ""
+"kwin_wayland: κάποιος διαχειριστής παραθύρων X11 εκτελείται στην οθόνη X11\n"
+
+#: main_wayland.cpp:384
+#, fuzzy
+#| msgid "Start a nested X Server."
+msgid "Start a rootless Xwayland server."
 msgstr "Εκκίνηση εμφωλευμένου διακομιστή X."
 
-#: main_wayland.cpp:238
-#, fuzzy
+#: main_wayland.cpp:386
 msgid ""
-"The X11 Display to connect to. If not set next free number will be picked."
+"Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
-"Η οθόνη Χ11 προς σύνδεση, απαιτείται αν χρησιμοποιείται η επιλογή διακομιστή "
-"Χ."
 
-#: main_wayland.cpp:247
+#: main_wayland.cpp:389
+msgid "Use a nested compositor in windowed mode."
+msgstr ""
+
+#: main_wayland.cpp:391
+msgid "Render to framebuffer."
+msgstr ""
+
+#: main_wayland.cpp:393
+msgid "The framebuffer device to render to."
+msgstr ""
+
+#: main_wayland.cpp:397
+msgid "The X11 Display to use in windowed mode on platform X11."
+msgstr ""
+
+#: main_wayland.cpp:400
+msgid "The Wayland Display to use in windowed mode on platform Wayland."
+msgstr ""
+
+#: main_wayland.cpp:403
+msgid "The width for windowed mode. Default width is 1024."
+msgstr ""
+
+#: main_wayland.cpp:407
+msgid "The height for windowed mode. Default height is 768."
+msgstr ""
+
+#: main_wayland.cpp:424
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
@@ -508,7 +547,7 @@ msgstr ""
 "Ενεργοποίηση υποστήριξης libinput για την επεξεργασία συμβάντων εισόδου. "
 "Σημείωση: να μη χρησιμοποιείται ποτέ σε εμφωλευμένη συνεδρία."
 
-#: main_x11.cpp:149
+#: main_x11.cpp:151
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
@@ -516,23 +555,23 @@ msgstr ""
 "kwin: Αδυναμία ορισμού επιλογής διαχειριστή, κάποιος άλλος διαχειριστής "
 "παραθύρων εκτελείται; (δοκιμάστε χρησιμοποιώντας το --replace)\n"
 
-#: main_x11.cpp:166
+#: main_x11.cpp:168
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "kwin: κάποιος άλλος διαχειριστής παραθύρων εκτελείται (δοκιμάστε με το --"
 "replace)\n"
 
-#: main_x11.cpp:261
+#: main_x11.cpp:270
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr ""
 "Αντικατάσταση ήδη εκτελούμενου συμβατού με ICCCM2.0 διαχειριστή παραθύρων"
 
-#: scene_opengl.cpp:610
+#: scene_opengl.cpp:620
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
 "Τα εφέ επιφάνειας εργασίας επανεκκινήθηκαν λόγω της επαναφοράς γραφικών"
 
-#: scene_opengl.cpp:774
+#: scene_opengl.cpp:784
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -547,7 +586,7 @@ msgstr ""
 "ενδέχεται να είναι επίσης πολύ αργό γι 'αυτή την ανάλυση. <br>Εναλλακτικά, "
 "μειώστε την συνδυασμένη ανάλυση όλων των οθονών σε %1x%2 "
 
-#: scene_opengl.cpp:781
+#: scene_opengl.cpp:791
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
 "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
@@ -560,7 +599,7 @@ msgstr ""
 "περιορισμούς του υλικού που επιβάλλουν το μέγεθος του παραθύρου της προβολής "
 "OpenGL."
 
-#: scene_opengl.cpp:806
+#: scene_opengl.cpp:816
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -574,7 +613,7 @@ msgstr ""
 "μαύρα.<br>Είτε αναστείλετε τα εφέ, είτε αλλάξτε το σύστημα υποστήριξης σε "
 "XRender ή μειώστε την ανάλυση σε %1x%1."
 
-#: scene_opengl.cpp:812
+#: scene_opengl.cpp:822
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
 "GPU, thus windows of that size cannot be assigned to textures and will be "
@@ -633,61 +672,61 @@ msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
 msgstr "το %1 δεν είναι ένας τύπος παραλλαγής"
 
-#: tabbox/tabbox.cpp:347
+#: tabbox/tabbox.cpp:358
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Εμφάνιση επιφάνειας εργασίας"
 
-#: tabbox/tabbox.cpp:498
+#: tabbox/tabbox.cpp:508
 msgid "Walk Through Windows"
 msgstr "Διάσχιση παραθύρων"
 
-#: tabbox/tabbox.cpp:499
+#: tabbox/tabbox.cpp:509
 msgid "Walk Through Windows (Reverse)"
 msgstr "Διάσχιση παραθύρων (Αντίστροφη)"
 
-#: tabbox/tabbox.cpp:500
+#: tabbox/tabbox.cpp:510
 msgid "Walk Through Windows Alternative"
 msgstr "Εναλλακτική για την διάσχιση παραθύρων"
 
-#: tabbox/tabbox.cpp:501
+#: tabbox/tabbox.cpp:511
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Εναλλακτική για την διάσχιση παραθύρων (Αντίστροφη)"
 
-#: tabbox/tabbox.cpp:502
+#: tabbox/tabbox.cpp:512
 msgid "Walk Through Windows of Current Application"
 msgstr "Διάσχιση παραθύρων της τρέχουσας εφαρμογής"
 
-#: tabbox/tabbox.cpp:503
+#: tabbox/tabbox.cpp:513
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Διάσχιση παραθύρων της τρέχουσας εφαρμογής (Αντίστροφη)"
 
-#: tabbox/tabbox.cpp:504
+#: tabbox/tabbox.cpp:514
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Εναλλακτική για την διάσχιση παραθύρων της τρέχουσας εφαρμογής"
 
-#: tabbox/tabbox.cpp:505
+#: tabbox/tabbox.cpp:515
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr ""
 "Εναλλακτική για την διάσχιση παραθύρων της τρέχουσας εφαρμογής (Αντίστροφη)"
 
-#: tabbox/tabbox.cpp:506
+#: tabbox/tabbox.cpp:516
 msgid "Walk Through Desktops"
 msgstr "Διάσχιση επιφανειών εργασίας"
 
-#: tabbox/tabbox.cpp:507
+#: tabbox/tabbox.cpp:517
 msgid "Walk Through Desktops (Reverse)"
 msgstr "Διάσχιση επιφανειών εργασίας (Αντίστροφη)"
 
-#: tabbox/tabbox.cpp:508
+#: tabbox/tabbox.cpp:518
 msgid "Walk Through Desktop List"
 msgstr "Διάσχιση λίστας επιφανειών εργασίας"
 
-#: tabbox/tabbox.cpp:509
+#: tabbox/tabbox.cpp:519
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Διάσχιση λίστας επιφανειών εργασίας (Αντίστροφη)"
 
-#: tabbox/tabboxhandler.cpp:278
+#: tabbox/tabboxhandler.cpp:285
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
@@ -696,7 +735,7 @@ msgstr ""
 "πηγών.\n"
 "Επικοινωνήστε με τη διανομή σας για αυτό."
 
-#: useractions.cpp:185
+#: useractions.cpp:181
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -709,7 +748,7 @@ msgstr ""
 "χρησιμοποιώντας το ποντίκι: Κάντε χρήση του μενού λειτουργιών παραθύρου αντί "
 "για αυτό, που αναδύεται χρησιμοποιώντας τη συντόμευση %1."
 
-#: useractions.cpp:193
+#: useractions.cpp:189
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -723,153 +762,153 @@ msgstr ""
 "χρήση του μενού λειτουργιών παραθύρου αντί για αυτό, που αναδύεται "
 "χρησιμοποιώντας τη συντόμευση %1."
 
-#: useractions.cpp:256
+#: useractions.cpp:252
 msgid "&Move"
 msgstr "&Μετακίνηση"
 
-#: useractions.cpp:261
+#: useractions.cpp:257
 msgid "Re&size"
 msgstr "&Αλλαγή μεγέθους"
 
-#: useractions.cpp:265
+#: useractions.cpp:261
 msgid "Keep &Above Others"
 msgstr "Διατήρηση &πάνω από τα άλλα"
 
-#: useractions.cpp:271
+#: useractions.cpp:267
 msgid "Keep &Below Others"
 msgstr "Διατήρηση &κάτω από τα άλλα"
 
-#: useractions.cpp:277
+#: useractions.cpp:273
 msgid "&Fullscreen"
 msgstr "&Πλήρης οθόνη"
 
-#: useractions.cpp:283
+#: useractions.cpp:279
 msgid "Sh&ade"
 msgstr "&Τύλιγμα"
 
-#: useractions.cpp:288
+#: useractions.cpp:284
 msgid "&No Border"
 msgstr "&Χωρίς περίγραμμα"
 
-#: useractions.cpp:295
+#: useractions.cpp:291
 msgid "Window &Shortcut..."
 msgstr "&Συντόμευση παραθύρου..."
 
-#: useractions.cpp:300
+#: useractions.cpp:296
 msgid "&Special Window Settings..."
 msgstr "&Ειδικές ρυθμίσεις παραθύρου..."
 
-#: useractions.cpp:304
+#: useractions.cpp:300
 msgid "S&pecial Application Settings..."
 msgstr "&Ειδικές ρυθμίσεις εφαρμογής..."
 
-#: useractions.cpp:311
+#: useractions.cpp:307
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
 msgid "Window &Manager Settings..."
 msgstr "&Ρυθμίσεις διαχειριστή παραθύρου..."
 
-#: useractions.cpp:326
+#: useractions.cpp:322
 msgid "Mi&nimize"
 msgstr "&Ελαχιστοποίηση"
 
-#: useractions.cpp:330
+#: useractions.cpp:326
 msgid "Ma&ximize"
 msgstr "Με&γιστοποίηση"
 
-#: useractions.cpp:339
+#: useractions.cpp:335
 msgid "&Untab"
 msgstr "Απο&κόλληση καρτέλας"
 
-#: useractions.cpp:343
+#: useractions.cpp:339
 msgid "Close Entire &Group"
 msgstr "Κλείσιμο όλης της ο&μάδας"
 
-#: useractions.cpp:354
+#: useractions.cpp:350
 msgid "&More Actions"
 msgstr "Π&ερισσότερες ενέργειες"
 
-#: useractions.cpp:358
+#: useractions.cpp:354
 msgid "&Close"
 msgstr "&Κλείσιμο"
 
-#: useractions.cpp:431
+#: useractions.cpp:427
 msgid "&Extensions"
 msgstr "&Επεκτάσεις"
 
-#: useractions.cpp:486
+#: useractions.cpp:482
 msgctxt "Switch to tab -> Previous"
 msgid "Previous"
 msgstr "Προηγούμενη"
 
-#: useractions.cpp:487
+#: useractions.cpp:483
 msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr "Επόμενη"
 
-#: useractions.cpp:525
+#: useractions.cpp:521
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr "Κανένα διαθέσιμο"
 
-#: useractions.cpp:534
+#: useractions.cpp:530
 msgid "Switch to Tab"
 msgstr "Εναλλαγή στην καρτέλα"
 
-#: useractions.cpp:545
+#: useractions.cpp:541
 msgid "&Attach as tab to"
 msgstr "Επι&σύναψη ως καρτέλα σε"
 
-#: useractions.cpp:568
+#: useractions.cpp:564
 msgid "Move To &Desktop"
 msgstr "Στην επι&φάνεια εργασίας"
 
-#: useractions.cpp:584
+#: useractions.cpp:580
 msgid "Move To &Screen"
 msgstr "Μετακίνη&ση στην οθόνη"
 
-#: useractions.cpp:599
+#: useractions.cpp:595
 msgid "Ac&tivities"
 msgstr "&Δραστηριότητες"
 
-#: useractions.cpp:611
+#: useractions.cpp:607
 msgid "&All Desktops"
 msgstr "Ό&λες τις επιφάνειες εργασίας"
 
-#: useractions.cpp:637
+#: useractions.cpp:633
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "&Νέα επιφάνεια εργασίας"
 
-#: useractions.cpp:658
+#: useractions.cpp:654
 #, kde-format
 msgctxt "@item:inmenu List of all Screens to send a window to"
 msgid "Screen &%1"
 msgstr "Οθόνη &%1"
 
-#: useractions.cpp:676
+#: useractions.cpp:672
 msgid "&All Activities"
 msgstr "&Όλες οι δραστηριότητες"
 
-#: useractions.cpp:883
+#: useractions.cpp:879
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "<b>%1</b> χρησιμοποιείται ήδη"
 
-#: useractions.cpp:885
+#: useractions.cpp:881
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "<b>%1</b> χρησιμοποιείται από την ενέργεια %2 του %3"
 
-#: useractions.cpp:1008
+#: useractions.cpp:1003
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Ενεργοποίηση παραθύρου (%1)"
 
-#: useractions.cpp:1381
+#: useractions.cpp:1376
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
 "as active one.\n"
@@ -913,7 +952,7 @@ msgstr "Μετάβαση μία επιφάνεια εργασίας κάτω"
 msgid "Switch to Desktop %1"
 msgstr "Εναλλαγή στην Επιφάνεια εργασίας %1"
 
-#: workspace.cpp:1317
+#: workspace.cpp:1258
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

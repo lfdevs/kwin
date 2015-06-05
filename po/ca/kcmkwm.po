@@ -1,26 +1,26 @@
 # Translation of kcmkwm.po to Catalan
-# Copyright (C) 1998-2013 This_file_is_part_of_KDE
+# Copyright (C) 1998-2015 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
 # Sebastià Pla i Sanz <sps@sastia.com>, 1998, 1999, 2000, 2001, 2002, 2004, 2005, 2006.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2003, 2011, 2013.
 # Albert Astals Cid <aacid@kde.org>, 2005.
-# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013.
+# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015.
 # Manuel Tortosa Moreno <manutortosa@chakra-project.org>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-07-04 08:25+0000\n"
-"PO-Revision-Date: 2013-11-23 20:46+0100\n"
+"POT-Creation-Date: 2015-01-14 07:58+0000\n"
+"PO-Revision-Date: 2015-05-16 18:36+0200\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -449,11 +449,10 @@ msgid "&Placement:"
 msgstr "Co&l·locació:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, placementCombo)
-#: advanced.ui:122
+#: advanced.ui:121
 msgid ""
 "The placement policy determines where a new window will appear on the "
-"desktop.\n"
-"<ul>\n"
+"desktop.<br><ul>\n"
 "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
 "<li><em>Maximizing</em> will try to maximize every window to fill the whole "
 "screen. It might be useful to selectively affect placement of some windows "
@@ -467,8 +466,7 @@ msgid ""
 "</ul>"
 msgstr ""
 "La política de col·locació determina on apareixerà una finestra nova a "
-"l'escriptori.\n"
-"<ul>\n"
+"l'escriptori.<br><ul>\n"
 "<li><em>Astuta</em> provarà d'aconseguir un encavallament mínim de les "
 "finestres.</li>\n"
 "<li><em>Maximitzada</em> provarà de maximitzar cada finestra per omplir la "
@@ -483,52 +481,52 @@ msgstr ""
 "</ul>"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:126
+#: advanced.ui:125
 msgid "Smart"
 msgstr "Intel·ligent"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:131
+#: advanced.ui:130
 msgid "Maximizing"
 msgstr "Maximitzada"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:136
+#: advanced.ui:135
 msgid "Cascade"
 msgstr "Cascada"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:141
+#: advanced.ui:140
 msgid "Random"
 msgstr "Aleatòria"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:146
+#: advanced.ui:145
 msgid "Centered"
 msgstr "Centrada"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:151
+#: advanced.ui:150
 msgid "Zero-Cornered"
 msgstr "Arraconada"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:156
+#: advanced.ui:155
 msgid "Under Mouse"
 msgstr "Sota el ratolí"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shBox)
-#: advanced.ui:167
+#: advanced.ui:166
 msgid "Shading"
 msgstr "Ombrejat"
 
 #. i18n: ectx: property (text), widget (QLabel, shadeHoverLabel)
-#: advanced.ui:176
+#: advanced.ui:175
 msgid "Dela&y:"
 msgstr "Re&tard:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, shadeHoverOn)
-#: advanced.ui:205
+#: advanced.ui:204
 msgid ""
 "If Shade Hover is enabled, a shaded window will un-shade automatically when "
 "the mouse pointer has been over the title bar for some time."
@@ -538,12 +536,12 @@ msgstr ""
 "títol durant un temps."
 
 #. i18n: ectx: property (text), widget (QCheckBox, shadeHoverOn)
-#: advanced.ui:208
+#: advanced.ui:207
 msgid "&Enable hover"
 msgstr "&Habilita desplegat automàtic"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, shadeHover)
-#: advanced.ui:215
+#: advanced.ui:214
 msgid ""
 "Sets the time in milliseconds before the window unshades when the mouse "
 "pointer goes over the shaded window."
@@ -554,31 +552,31 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, delayFocus)
 #. i18n: ectx: property (suffix), widget (QSpinBox, autoRaise)
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadeHover)
-#: advanced.ui:230 focus.ui:250 focus.ui:475
+#: advanced.ui:229 focus.ui:250 focus.ui:475
 msgid " ms"
 msgstr " ms"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: advanced.ui:240
+#: advanced.ui:239
 msgid "Special Windows"
 msgstr "Finestres especials"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, hideUtilityWindowsForInactive)
-#: advanced.ui:249
+#: advanced.ui:248
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
 "inactive applications will be hidden and will be shown only when the "
 "application becomes active. Note that applications have to mark the windows "
 "with the proper window type for this feature to work."
 msgstr ""
-"Quan està habilitat, les finestres d'utilitat (finestres d'eines, menús "
-"escapçats,...) de les aplicacions inactives s'ocultaran i només es mostraran "
+"Quan està activat, les finestres d'utilitat (finestres d'eines, menús "
+"escapçats...) de les aplicacions inactives s'ocultaran i només es mostraran "
 "quan l'aplicació esdevingui activa. Tingueu present que les aplicacions han "
-"de marcar les finestres amb el tipus de finestra correcte per a què funcioni "
+"de marcar les finestres amb el tipus de finestra correcte perquè funcioni "
 "aquesta característica."
 
 #. i18n: ectx: property (text), widget (QCheckBox, hideUtilityWindowsForInactive)
-#: advanced.ui:252
+#: advanced.ui:251
 msgid "Hide utility windows for inactive applications"
 msgstr "Oculta les finestres d'utilitat per a les aplicacions inactives"
 
@@ -1144,7 +1142,7 @@ msgid ""
 "Behavior on <em>middle</em> click into the titlebar or frame of an "
 "<em>active</em> window."
 msgstr ""
-"Comportament en clicar amb el<em>mig</em> a la barra de títol o marc d'una "
+"Comportament en clicar amb el <em>mig</em> a la barra de títol o marc d'una "
 "finestra <em>activa</em>."
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -1159,7 +1157,7 @@ msgid ""
 "Behavior on <em>right</em> click into the titlebar or frame of an "
 "<em>active</em> window."
 msgstr ""
-"Comportament en clicar amb la<em>dreta</em> a la barra de títol o marc d'una "
+"Comportament en clicar amb el <em>dret</em> a la barra de títol o marc d'una "
 "finestra <em>activa</em>."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_10)

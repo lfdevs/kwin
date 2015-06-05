@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
 "PO-Revision-Date: 2008-12-25 15:34+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: Kannada <en@li.org>\n"
@@ -30,6 +30,7 @@ msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:71
 #, fuzzy
+#| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "ಎಲ್ಲಾ ಗಣಕತೆರೆಗಳ ಮೇಲೆ"
 
@@ -55,11 +56,13 @@ msgstr "ಛಾಯೆ (ಷೇಡ್)"
 
 #: declarative-plugin/buttonsmodel.cpp:83
 #, fuzzy
+#| msgid "Keep Below Others"
 msgid "Keep below"
 msgstr "ಬೇರೆಯವುಗಳ ಕೆಳಗಿಡು"
 
 #: declarative-plugin/buttonsmodel.cpp:85
 #, fuzzy
+#| msgid "Keep Above Others"
 msgid "Keep above"
 msgstr "ಬೇರೆಯವುಗಳ ಮೇಲಿಡು"
 
@@ -77,18 +80,21 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
 #: kcm.ui:35
 #, fuzzy
+#| msgid "&Window Decoration"
 msgid "Get New Decorations..."
 msgstr "ವಿಂಡೋ ಅಲಂಕಾರ(&W)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kcm.ui:56
 #, fuzzy
+#| msgid "B&order size:"
 msgid "Border si&ze:"
 msgstr "ಸೀಮೆಯ ಗಾತ್ರ(&o):"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:67
 #, fuzzy
+#| msgid "B&order size:"
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "ಸೀಮೆಯ ಗಾತ್ರ(&o):"
@@ -102,6 +108,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:77
 #, fuzzy
+#| msgid "Tiny"
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "ಅತಿ ಸಣ್ಣ"
@@ -109,6 +116,7 @@ msgstr "ಅತಿ ಸಣ್ಣ"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:82
 #, fuzzy
+#| msgid "Normal"
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "ಸಾಧಾರಣ"
@@ -116,6 +124,7 @@ msgstr "ಸಾಧಾರಣ"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:87
 #, fuzzy
+#| msgid "Large"
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "ದೊಡ್ಡದು"
@@ -123,6 +132,7 @@ msgstr "ದೊಡ್ಡದು"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:92
 #, fuzzy
+#| msgid "Very Large"
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "ಅತಿ ದೊಡ್ಡದು"
@@ -130,6 +140,7 @@ msgstr "ಅತಿ ದೊಡ್ಡದು"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:97
 #, fuzzy
+#| msgid "Huge"
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "ಬೃಹತ್ತಾದ"
@@ -137,6 +148,7 @@ msgstr "ಬೃಹತ್ತಾದ"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:102
 #, fuzzy
+#| msgid "Very Huge"
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "ಅತಿ ಬೃಹತ್ತಾದ"
@@ -144,6 +156,7 @@ msgstr "ಅತಿ ಬೃಹತ್ತಾದ"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:107
 #, fuzzy
+#| msgid "Oversized"
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "ಅತಿಗಾತ್ರವಾದ"

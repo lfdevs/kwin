@@ -10,16 +10,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-05 09:36+0000\n"
-"PO-Revision-Date: 2014-06-03 20:31+0200\n"
-"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
+"POT-Creation-Date: 2015-02-05 07:54+0000\n"
+"PO-Revision-Date: 2014-10-21 09:49+0000\n"
+"Last-Translator: Necdet <necdetyucel@gmail.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: compositing.cpp:387
 msgid "OpenGL 3.1"
@@ -44,13 +44,12 @@ msgid "GLX"
 msgstr "GLX"
 
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
-#: compositing.ui:20 qml/CompositingView.qml:55
+#: compositing.ui:20
 msgid "Enable compositor on startup"
 msgstr "Masaüstü Efektlerini başlangıçta etkinleştir"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:27
-#, fuzzy
 msgid "Animation speed:"
 msgstr "Canlandırma hızı:"
 
@@ -61,91 +60,84 @@ msgstr "Anında"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
-#, fuzzy
 msgid "Very slow"
-msgstr "Çok Yavaş"
+msgstr "Çok yavaş"
 
 #. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
 #: compositing.ui:85 compositing.ui:111
-#, fuzzy
 msgid "Scale method:"
 msgstr "Ölçekleme yöntemi:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:93 compositing.ui:119 qml/CompositingView.qml:113
-#: qml/CompositingView.qml:127
+#: compositing.ui:93 compositing.ui:119
 msgid "Crisp"
 msgstr "Gevrek"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:98 qml/CompositingView.qml:113
+#: compositing.ui:98
 msgid "Smooth"
 msgstr "Yumuşak"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:103 qml/CompositingView.qml:113
+#: compositing.ui:103
 msgid "Accurate"
 msgstr "Kesin"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:124 qml/CompositingView.qml:127
+#: compositing.ui:124
 msgid "Smooth (slower)"
 msgstr "Yumuşak (daha yavaş)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: compositing.ui:139 qml/CompositingView.qml:81
+#: compositing.ui:139
 msgid "Rendering backend:"
 msgstr "İşleme arka ucu:"
 
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
-#, fuzzy
 msgid "OpenGL interface:"
-msgstr "OpenGL Platform Arayüzü:"
+msgstr "OpenGL arayüzü:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: compositing.ui:159
-#, fuzzy
 msgid "Tearing prevention (\"vsync\"):"
-msgstr "Yaşarma Koruması (VSync):"
+msgstr "Yaşarma Koruması (\"vsync\"):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:167 compositing.ui:203 qml/CompositingView.qml:141
-#: qml/CompositingView.qml:154
+#: compositing.ui:167 compositing.ui:203
 msgid "Never"
 msgstr "Asla"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:172 qml/CompositingView.qml:141
+#: compositing.ui:172
 msgid "Automatic"
 msgstr "Otomatik"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:177 qml/CompositingView.qml:141
+#: compositing.ui:177
 msgid "Only when cheap"
 msgstr "Sadece maliyetsiz ise"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:182 qml/CompositingView.qml:141
+#: compositing.ui:182
 msgid "Full screen repaints"
 msgstr "Tam ekran yeniden çizim"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:187 qml/CompositingView.qml:141
+#: compositing.ui:187
 msgid "Re-use screen content"
 msgstr "Ekran içeriğini tekrar kullan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:195
-#, fuzzy
 msgid "Keep window thumbnails:"
-msgstr "Pencere Küçük Resimlerini Sakla:"
+msgstr "Pencere küçük resimlerini sakla:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:208 qml/CompositingView.qml:154
+#: compositing.ui:208
 msgid "Only for Shown Windows"
 msgstr "Sadece Gösterilen Pencereler için"
 
@@ -155,22 +147,22 @@ msgid "Always"
 msgstr "Her zaman"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: compositing.ui:221 qml/CompositingView.qml:175
+#: compositing.ui:221
 msgid "Expert:"
 msgstr "Uzman:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
-#: compositing.ui:228 qml/CompositingView.qml:182
+#: compositing.ui:228
 msgid "Suspend compositor for full screen windows"
 msgstr "Tam ekran pencereler için masaüstü efektlerini askıya al"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:235 qml/CompositingView.qml:192
+#: compositing.ui:235
 msgid "Experimental:"
 msgstr "Deneysel:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:242 qml/CompositingView.qml:200
+#: compositing.ui:242
 msgid "Enable color correction"
 msgstr "Renk düzeltmeyi etkinleştir"
 
@@ -184,6 +176,13 @@ msgid ""
 "immediate crash!\n"
 "Alternatively, you might want to use the XRender backend instead."
 msgstr ""
+"Daha önceden OpenGL derlemesi (öntanımlı) KWin'in çökmesine sebep oldu.\n"
+"Bu muhtemelen bir sürücü hatasıdır.\n"
+"Eğer bu durumun kararlı bir sürücüye yükseltme yaparken olduğunu "
+"düşünüyorsanız\n"
+"bu korumayı sıfırlayabilirsiniz ancak bu işlemin ani çökmeye neden "
+"olabileceğini unutmayın!\n"
+"Alternatif olarak, XRender arka ucunu kullanmak isteyebilirsiniz."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, interfaceWarning)
 #: compositing.ui:278
@@ -191,6 +190,8 @@ msgid ""
 "EGL is not supported by all OpenGL drivers. If not supported the Compositor "
 "will be disabled."
 msgstr ""
+"EGL tüm OpenGL sürücüleri tarafından desteklenmemektedir. Desteklenmiyorsa "
+"Dizgici kapatılacaktır."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
 #: compositing.ui:294
@@ -198,6 +199,8 @@ msgid ""
 "Scale method \"Accurate\" is not supported by all hardware and can cause "
 "performance regressions and rendering artifacts."
 msgstr ""
+"\"Kesin\" ölçekleme yöntemi tüm donanımlar tarafından desteklenmemektedir ve "
+"performans düşüklüğü veya gerçekleme sorunlarına yolaçabilir."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
 #: compositing.ui:323
@@ -205,6 +208,9 @@ msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
 "windows. This can result in windows not suspending their work when minimized."
 msgstr ""
+"Pencere küçük resimlerini tutumak herzaman pencerelerin simge durumuna "
+"gelmesini engeller. Bunun sonucu olarak, pencere küçültüldüğünde kendi işini "
+"durdurabilir."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, unredirectInformation)
 #: compositing.ui:339
@@ -212,6 +218,7 @@ msgid ""
 "Having full screen windows bypass the compositor is not supported on every "
 "hardware."
 msgstr ""
+"Pencereyi tam ekran yaparak dizgiciyi atlama her donanımda desteklenmiyor."
 
 #: main.cpp:82
 msgid "Re-enable OpenGL detection"
@@ -222,15 +229,19 @@ msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
 "video."
 msgstr ""
+"\"Sadece kalitesiz olduğunda\" sadece bir video gibi tam ekran "
+"değişikliklerinde parçalanmayı engeller."
 
 #: main.cpp:143
 msgid "\"Full screen repaints\" can cause performance problems."
-msgstr ""
+msgstr "\"Tam ekran onarumı\" performans sorunlarına yok açabilir."
 
 #: main.cpp:147
 msgid ""
 "\"Re-use screen content\" causes performance severe problems on MESA drivers."
 msgstr ""
+"\"Ekran içeriğini yeniden kullan\" MESA sürücülerinde şiddetli performans "
+"sorunlarına yol açabilir."
 
 #: model.cpp:67
 msgctxt "Category of Desktop Effects, used as section header"
@@ -271,31 +282,6 @@ msgstr "Pencere Yönetimi"
 msgid "KWin development team"
 msgstr "KWin geliştirme takımı"
 
-#: qml/CompositingView.qml:67
-msgid "Animation Speed:"
-msgstr "Canlandırma hızı:"
-
-#: qml/CompositingView.qml:106 qml/CompositingView.qml:120
-#, fuzzy
-msgid "Scale Method:"
-msgstr "Ölçekleme yöntemi:"
-
-#: qml/CompositingView.qml:135
-msgid "Tearing Prevention (VSync):"
-msgstr "Yaşarma Koruması (VSync):"
-
-#: qml/CompositingView.qml:148
-msgid "Keep Window Thumbnails:"
-msgstr "Pencere Küçük Resimlerini Sakla:"
-
-#: qml/CompositingView.qml:154
-msgid "Always (Breaks Animations)"
-msgstr "Her Zaman (Animasyonları Bozar)"
-
-#: qml/CompositingView.qml:160
-msgid "OpenGL Platform Interface:"
-msgstr "OpenGL Platform Arayüzü:"
-
 #: qml/Effect.qml:118
 #, kde-format
 msgid ""
@@ -318,9 +304,8 @@ msgid "Search"
 msgstr "Ara"
 
 #: qml/EffectView.qml:82
-#, fuzzy
 msgid "Configure filter"
-msgstr "Doku filtresi:"
+msgstr "Süzgeci yapılandır"
 
 #: qml/EffectView.qml:85
 msgid "Exclude Desktop Effects not supported by the Compositor"

@@ -5,15 +5,16 @@
 #
 # Ni Hui <shuizhuyuanluo@126.com>, 2009, 2010.
 # Lie Ex <lilith.ex@gmail.com>, 2009.
-# Weng Xuetian <wengxt@gmail.com>, 2012, 2014.
+# Weng Xuetian <wengxt@gmail.com>, 2012.
 # Feng Chao <chaofeng111@gmail.com>, 2014.
+# Xuetian Weng <xweng@cs.stonybrook.edu>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-05-16 07:57+0000\n"
-"PO-Revision-Date: 2014-11-05 10:39-0500\n"
-"Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
+"PO-Revision-Date: 2014-10-19 21:29-0400\n"
+"Last-Translator: Xuetian Weng <xweng@cs.stonybrook.edu>\n"
 "Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"

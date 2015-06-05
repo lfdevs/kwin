@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -23,11 +23,14 @@ msgstr "تىزىملىك"
 
 #: declarative-plugin/buttonsmodel.cpp:69
 #, fuzzy
+#| msgctxt "Button showing application menu imported from dbusmenu"
+#| msgid "Application Menu"
 msgid "Application menu"
 msgstr "قوللانچى تىزىملىكى"
 
 #: declarative-plugin/buttonsmodel.cpp:71
 #, fuzzy
+#| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "بارلىق ئۈستەلئۈستىلىرىدە"
 
@@ -53,11 +56,13 @@ msgstr "تۈرۈش"
 
 #: declarative-plugin/buttonsmodel.cpp:83
 #, fuzzy
+#| msgid "Keep Below Others"
 msgid "Keep below"
 msgstr "ئەڭ ئاستىدا"
 
 #: declarative-plugin/buttonsmodel.cpp:85
 #, fuzzy
+#| msgid "Keep Above Others"
 msgid "Keep above"
 msgstr "ئەڭ ئۈستىدە"
 
@@ -80,12 +85,15 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kcm.ui:56
 #, fuzzy
+#| msgid "Border size:"
 msgid "Border si&ze:"
 msgstr "گىرۋەك چوڭلۇقى:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:67
 #, fuzzy
+#| msgctxt "@item:inlistbox Border size:"
+#| msgid "No Border"
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "گىرۋەكسىز"
@@ -93,6 +101,8 @@ msgstr "گىرۋەكسىز"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:72
 #, fuzzy
+#| msgctxt "@item:inlistbox Border size:"
+#| msgid "No Side Border"
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr "يان گىرۋىكى يوق"
@@ -142,6 +152,7 @@ msgstr "چوڭلۇقى ئېشىپ كەتكەن"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: kcm.ui:125
 #, fuzzy
+#| msgid "Close windows by double clicking the menu button"
 msgid "Close windows by double clicking &the menu button:"
 msgstr "تىزىملىك توپچا قوش چېكىلسە كۆنەكنى ياپىدۇ"
 

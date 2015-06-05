@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-27 20:56+0000\n"
+"POT-Creation-Date: 2015-02-20 09:22+0000\n"
 "PO-Revision-Date: 2013-11-17 12:06+0100\n"
 "Last-Translator: Bruno Patri <bruno.patri@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -26,6 +26,54 @@ msgstr ""
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
+
+#: aurorae/src/aurorae.cpp:703
+#, fuzzy
+#| msgctxt "@item:inlistbox Border size:"
+#| msgid "Tiny"
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "Petite"
+
+#: aurorae/src/aurorae.cpp:704
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "Normal"
+
+#: aurorae/src/aurorae.cpp:705
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "Grand"
+
+#: aurorae/src/aurorae.cpp:706
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "Très grand"
+
+#: aurorae/src/aurorae.cpp:707
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "Énorme"
+
+#: aurorae/src/aurorae.cpp:708
+#, fuzzy
+#| msgctxt "@item:inlistbox Border size:"
+#| msgid "Very Huge"
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "Gigantesque"
+
+#: aurorae/src/aurorae.cpp:709
+#, fuzzy
+#| msgctxt "@item:inlistbox Border size:"
+#| msgid "Oversized"
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "Démesurée"
+
+#: aurorae/src/aurorae.cpp:712
+msgid "Button size:"
+msgstr "Taille de bouton :"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlastikConfigDialog)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14

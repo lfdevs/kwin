@@ -1,15 +1,17 @@
 # Translation of kcmkwincompositing into Japanese.
 # This file is distributed under the same license as the kdebase package.
 # Yukiko Bando <ybando@k6.dion.ne.jp>, 2007, 2008, 2009, 2010.
-# Fumiaki Okushi <okushi@kde.gr.jp> 2010.
+# Fuminobu TAKEYAMA <ftake@geeko.jp>, 2015.
+# TAKANO Yuji <takachan@running-dog.net>, 2015.
+# Fumiaki Okushi <fumiaki.okushi@gmail.com>, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-05 09:36+0000\n"
-"PO-Revision-Date: 2010-09-25 16:26-0700\n"
-"Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
+"POT-Creation-Date: 2015-02-05 07:54+0000\n"
+"PO-Revision-Date: 2015-05-13 19:19-0700\n"
+"Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -18,16 +20,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: compositing.cpp:387
-#, fuzzy
 msgid "OpenGL 3.1"
-msgstr "OpenGL"
+msgstr "OpenGL 3.1"
 
 #: compositing.cpp:388
-#, fuzzy
 msgid "OpenGL 2.0"
-msgstr "OpenGL"
+msgstr "OpenGL 2.0"
 
 #: compositing.cpp:389
 msgid "XRender"
@@ -36,18 +37,17 @@ msgstr "XRender"
 #: compositing.cpp:488
 msgctxt "OpenGL Platform Interface"
 msgid "EGL"
-msgstr ""
+msgstr "EGL"
 
 #: compositing.cpp:490
 msgctxt "OpenGL Platform Interface"
 msgid "GLX"
-msgstr ""
+msgstr "GLX"
 
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
-#: compositing.ui:20 qml/CompositingView.qml:55
-#, fuzzy
+#: compositing.ui:20
 msgid "Enable compositor on startup"
-msgstr "デスクトップ効果を有効にする"
+msgstr "コンポジタを起動時に有効にする"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:27
@@ -61,7 +61,6 @@ msgstr "即時"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
-#, fuzzy
 msgid "Very slow"
 msgstr "非常に遅く"
 
@@ -69,72 +68,69 @@ msgstr "非常に遅く"
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
 #: compositing.ui:85 compositing.ui:111
 msgid "Scale method:"
-msgstr ""
+msgstr "拡大方法:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:93 compositing.ui:119 qml/CompositingView.qml:113
-#: qml/CompositingView.qml:127
+#: compositing.ui:93 compositing.ui:119
 msgid "Crisp"
-msgstr ""
+msgstr "鮮明"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:98 qml/CompositingView.qml:113
+#: compositing.ui:98
 msgid "Smooth"
-msgstr ""
+msgstr "スムーズ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:103 qml/CompositingView.qml:113
+#: compositing.ui:103
 msgid "Accurate"
-msgstr ""
+msgstr "正確"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:124 qml/CompositingView.qml:127
-#, fuzzy
+#: compositing.ui:124
 msgid "Smooth (slower)"
-msgstr "スムーズスケーリング (低速)"
+msgstr "スムーズ (低速)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: compositing.ui:139 qml/CompositingView.qml:81
+#: compositing.ui:139
 msgid "Rendering backend:"
-msgstr ""
+msgstr "レンダリングバックエンド:"
 
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
 msgid "OpenGL interface:"
-msgstr ""
+msgstr "OpenGL インターフェース:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: compositing.ui:159
 msgid "Tearing prevention (\"vsync\"):"
-msgstr ""
+msgstr "ティアリング防止 (\"vsync\"):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:167 compositing.ui:203 qml/CompositingView.qml:141
-#: qml/CompositingView.qml:154
+#: compositing.ui:167 compositing.ui:203
 msgid "Never"
 msgstr "しない"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:172 qml/CompositingView.qml:141
+#: compositing.ui:172
 msgid "Automatic"
-msgstr ""
+msgstr "自動"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:177 qml/CompositingView.qml:141
+#: compositing.ui:177
 msgid "Only when cheap"
-msgstr ""
+msgstr "チープな場合のみ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:182 qml/CompositingView.qml:141
+#: compositing.ui:182
 msgid "Full screen repaints"
-msgstr ""
+msgstr "フルスクリーン再描画"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:187 qml/CompositingView.qml:141
+#: compositing.ui:187
 msgid "Re-use screen content"
-msgstr ""
+msgstr "画面の内容を再利用"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:195
@@ -142,35 +138,34 @@ msgid "Keep window thumbnails:"
 msgstr "ウィンドウのサムネイルを保つ:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:208 qml/CompositingView.qml:154
+#: compositing.ui:208
 msgid "Only for Shown Windows"
 msgstr "表示されているウィンドウのみ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:213
 msgid "Always"
-msgstr ""
+msgstr "常に"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: compositing.ui:221 qml/CompositingView.qml:175
+#: compositing.ui:221
 msgid "Expert:"
-msgstr ""
+msgstr "エキスパート:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
-#: compositing.ui:228 qml/CompositingView.qml:182
-#, fuzzy
+#: compositing.ui:228
 msgid "Suspend compositor for full screen windows"
-msgstr "フルスクリーンウィンドウのときにデスクトップ効果を無効にする"
+msgstr "フルスクリーンウィンドウのときにコンポジタを無効にする"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:235 qml/CompositingView.qml:192
+#: compositing.ui:235
 msgid "Experimental:"
-msgstr ""
+msgstr "実験的:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:242 qml/CompositingView.qml:200
+#: compositing.ui:242
 msgid "Enable color correction"
-msgstr ""
+msgstr "色補正を有効にする"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
 #: compositing.ui:262
@@ -231,31 +226,26 @@ msgid ""
 msgstr ""
 
 #: model.cpp:67
-#, fuzzy
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "アクセシビリティ"
 
 #: model.cpp:68
-#, fuzzy
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "外観"
 
 #: model.cpp:69
-#, fuzzy
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
-msgstr "アイキャンディ"
+msgstr "キャンディ"
 
 #: model.cpp:70
-#, fuzzy
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "フォーカス"
 
 #: model.cpp:71
-#, fuzzy
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "ツール"
@@ -263,43 +253,17 @@ msgstr "ツール"
 #: model.cpp:72
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
-msgstr ""
+msgstr "仮想デスクトップの切り替えアニメーション"
 
 #: model.cpp:73
 #, fuzzy
+#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "ウィンドウマネージメント"
 
 #: model.cpp:235
 msgid "KWin development team"
-msgstr ""
-
-#: qml/CompositingView.qml:67
-#, fuzzy
-msgid "Animation Speed:"
-msgstr "アニメーションの速度:"
-
-#: qml/CompositingView.qml:106 qml/CompositingView.qml:120
-msgid "Scale Method:"
-msgstr ""
-
-#: qml/CompositingView.qml:135
-msgid "Tearing Prevention (VSync):"
-msgstr ""
-
-#: qml/CompositingView.qml:148
-#, fuzzy
-msgid "Keep Window Thumbnails:"
-msgstr "ウィンドウのサムネイルを保つ:"
-
-#: qml/CompositingView.qml:154
-#, fuzzy
-msgid "Always (Breaks Animations)"
-msgstr "常に (最小化を妨げる)"
-
-#: qml/CompositingView.qml:160
-msgid "OpenGL Platform Interface:"
 msgstr ""
 
 #: qml/Effect.qml:118
@@ -334,6 +298,5 @@ msgid "Exclude internal Desktop Effects"
 msgstr ""
 
 #: qml/EffectView.qml:105
-#, fuzzy
 msgid "Get New Effects ..."
-msgstr "効果なし"
+msgstr "新しい効果を取得 ..."

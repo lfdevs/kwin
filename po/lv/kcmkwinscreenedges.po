@@ -49,11 +49,13 @@ msgstr "Neļaut bloķēt ekrānu"
 
 #: main.cpp:200
 #, fuzzy, kde-format
+#| msgid "All Desktops"
 msgid "%1 - All Desktops"
 msgstr "Visas darbvirsmas"
 
 #: main.cpp:201
 #, fuzzy, kde-format
+#| msgid "Current Desktop"
 msgid "%1 - Current Desktop"
 msgstr "Aktīvā darbvirsma"
 
@@ -64,16 +66,19 @@ msgstr ""
 
 #: main.cpp:205
 #, fuzzy, kde-format
+#| msgid "Cube"
 msgid "%1 - Cube"
 msgstr "Kubs"
 
 #: main.cpp:206
 #, fuzzy, kde-format
+#| msgid "Cylinder"
 msgid "%1 - Cylinder"
 msgstr "Cilindrs"
 
 #: main.cpp:207
 #, fuzzy, kde-format
+#| msgid "Sphere"
 msgid "%1 - Sphere"
 msgstr "Sfēra"
 

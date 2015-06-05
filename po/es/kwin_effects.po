@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-03-21 10:21+0000\n"
+"POT-Creation-Date: 2015-05-21 11:34+0000\n"
 "PO-Revision-Date: 2014-06-25 13:09+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -51,7 +51,7 @@ msgstr "Intensa"
 msgid "Save intermediate rendering results."
 msgstr "Guardar los resultados de la representación intermedia."
 
-#: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Mostrar el escritorio"
@@ -1185,7 +1185,7 @@ msgstr "Conmutar las ventanas presentes (todos los escritorios)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Conmutar las ventanas presentes (clase de ventana)"
 
-#: presentwindows/presentwindows.cpp:1556
+#: presentwindows/presentwindows.cpp:1561
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1552,7 +1552,7 @@ msgstr "Menús emergentes:"
 msgid "Torn-off menus:"
 msgstr "Menús torcidos:"
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:61
 msgid "Toggle window geometry display (effect only)"
 msgstr "Conmutar visualización de la geometría de la ventana (solo efecto)"
 
@@ -1620,27 +1620,27 @@ msgstr "Menos"
 msgid "More"
 msgstr "Más"
 
-#: zoom/zoom.cpp:86
+#: zoom/zoom.cpp:84
 msgid "Move Zoomed Area to Left"
 msgstr "Mover el área ampliada hacia la izquierda"
 
-#: zoom/zoom.cpp:94
+#: zoom/zoom.cpp:92
 msgid "Move Zoomed Area to Right"
 msgstr "Mover el área ampliada hacia la derecha"
 
-#: zoom/zoom.cpp:102
+#: zoom/zoom.cpp:100
 msgid "Move Zoomed Area Upwards"
 msgstr "Mover el área ampliada hacia arriba"
 
-#: zoom/zoom.cpp:110
+#: zoom/zoom.cpp:108
 msgid "Move Zoomed Area Downwards"
 msgstr "Mover el área ampliada hacia abajo"
 
-#: zoom/zoom.cpp:119 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
 msgid "Move Mouse to Focus"
 msgstr "Mover el ratón hacia el foco"
 
-#: zoom/zoom.cpp:127 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
 msgid "Move Mouse to Center"
 msgstr "Mover el ratón hacia el centro"
 

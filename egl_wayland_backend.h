@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #ifndef KWIN_EGL_WAYLAND_BACKEND_H
 #define KWIN_EGL_WAYLAND_BACKEND_H
+#include "abstract_egl_backend.h"
 #include "scene_opengl.h"
 // wayland
 #include <wayland-egl.h>
@@ -34,10 +35,6 @@ namespace Wayland {
     class WaylandBackend;
 }
 
-namespace Xcb {
-    class Shm;
-}
-
 /**
  * @brief OpenGL Backend using Egl on a Wayland surface.
  *
@@ -46,27 +43,20 @@ namespace Xcb {
  * system compositor. The OpenGL context is created on the Wayland surface, so for rendering X11 is
  * not involved.
  *
- * At the moment the backend is still rather limited. For getting textures from pixmap it uses the
- * XShm library. This is currently a hack and only as proof of concept till we support texture from
- * Wayland buffers. From then on we should use XWayland for texture mapping.
- *
  * Also in repainting the backend is currently still rather limited. Only supported mode is fullscreen
  * repaints, which is obviously not optimal. Best solution is probably to go for buffer_age extension
  * and make it the only available solution next to fullscreen repaints.
  **/
-class EglWaylandBackend : public QObject, public OpenGLBackend
+class EglWaylandBackend : public QObject, public AbstractEglBackend
 {
     Q_OBJECT
 public:
-    EglWaylandBackend();
+    EglWaylandBackend(Wayland::WaylandBackend *b);
     virtual ~EglWaylandBackend();
     virtual void screenGeometryChanged(const QSize &size);
     virtual SceneOpenGL::TexturePrivate *createBackendTexture(SceneOpenGL::Texture *texture);
     virtual QRegion prepareRenderingFrame();
     virtual void endRenderingFrame(const QRegion &renderedRegion, const QRegion &damagedRegion);
-    virtual bool makeCurrent() override;
-    virtual void doneCurrent() override;
-    Xcb::Shm *shm();
     virtual bool usesOverlayWindow() const override;
 
 protected:
@@ -81,14 +71,9 @@ private:
     bool initBufferConfigs();
     bool initRenderingContext();
     bool makeContextCurrent();
-    EGLDisplay m_display;
-    EGLConfig m_config;
-    EGLSurface m_surface;
-    EGLContext m_context;
     int m_bufferAge;
     Wayland::WaylandBackend *m_wayland;
     wl_egl_window *m_overlay;
-    QScopedPointer<Xcb::Shm> m_shm;
     bool m_havePlatformBase;
     friend class EglWaylandTexture;
 };
@@ -96,23 +81,14 @@ private:
 /**
  * @brief Texture using an EGLImageKHR.
  **/
-class EglWaylandTexture : public SceneOpenGL::TexturePrivate
+class EglWaylandTexture : public AbstractEglTexture
 {
 public:
     virtual ~EglWaylandTexture();
-    virtual bool loadTexture(xcb_pixmap_t pix, const QSize &size, xcb_visualid_t visual) override;
-    virtual OpenGLBackend *backend();
-    virtual bool update(const QRegion &damage);
 
 private:
     friend class EglWaylandBackend;
     EglWaylandTexture(SceneOpenGL::Texture *texture, EglWaylandBackend *backend);
-    SceneOpenGL::Texture *q;
-    EglWaylandBackend *m_backend;
-    /**
-     * The Pixmap of the window content. Get's updated in loadTexture.
-     */
-    xcb_pixmap_t m_referencedPixmap;
 };
 
 } // namespace

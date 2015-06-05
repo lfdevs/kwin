@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: desktop_kdebase\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-28 15:51+0000\n"
+"POT-Creation-Date: 2015-05-16 12:24+0000\n"
 "PO-Revision-Date: 2008-11-21 23:13+0100\n"
 "Last-Translator: Eduard Werner <edi.werner@gmx.de>\n"
 "Language-Team: en_US <kde-i18n-doc@lists.kde.org>\n"
@@ -167,19 +167,19 @@ msgstr ""
 msgid "C&lear"
 msgstr "&Wuprózdnić"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 msgid "Window-Specific Settings Configuration Module"
 msgstr "Připrawjenski modul za specifiske nastajenja woknow"
 
-#: kcm.cpp:51
+#: kcm.cpp:52
 msgid "(c) 2004 KWin and KControl Authors"
 msgstr "(c) 2004 KWin a awtorojo KControl"
 
-#: kcm.cpp:52
+#: kcm.cpp:53
 msgid "Lubos Lunak"
 msgstr "Lubos Lunak"
 
-#: kcm.cpp:83
+#: kcm.cpp:84
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -188,15 +188,15 @@ msgid ""
 "documentation for how to customize window behavior.</p>"
 msgstr ""
 
-#: kcm.cpp:99
+#: kcm.cpp:100
 msgid "Remember settings separately for every window"
 msgstr "Nastajenja za kóžde wokno separatnje spomjatkować"
 
-#: kcm.cpp:100
+#: kcm.cpp:101
 msgid "Show internal settings for remembering"
 msgstr "Nutřkowne nastajenja za spomjatkowanje pokazać"
 
-#: kcm.cpp:101
+#: kcm.cpp:102
 msgid "Internal setting for remembering"
 msgstr "Nutřkowne nastajenja za spomjatkowanje"
 
@@ -212,6 +212,7 @@ msgstr "Woknowe nastajenja %1"
 
 #: main.cpp:215
 #, fuzzy
+#| msgid "Application settings for %1"
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Pogramowe nastajenja za %1"
@@ -378,6 +379,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: ruleswidgetbase.ui:46
 #, fuzzy
+#| msgid "Use window &class (whole application)"
 msgid "Window &class (application):"
 msgstr "Woknowu klasu &wužiwać (cyłu aplikaciju)"
 
@@ -465,6 +467,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #: ruleswidgetbase.ui:468
 #, fuzzy
+#| msgid "Normal Window"
 msgid "Unmanaged Window"
 msgstr "Normalne wokno"
 
@@ -864,6 +867,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_screen)
 #: ruleswidgetbase.ui:1369
 #, fuzzy
+#| msgid "Splash Screen"
 msgid "Screen"
 msgstr "Powitančko"
 
@@ -1013,6 +1017,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #: ruleswidgetbase.ui:2373
 #, fuzzy
+#| msgid "None"
 msgctxt "no focus stealing prevention"
 msgid "None"
 msgstr "Žane"
@@ -1056,3 +1061,13 @@ msgstr ""
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
 msgstr ""
+
+#: yesnobox.h:35
+msgid "Yes"
+msgstr ""
+
+#: yesnobox.h:36
+#, fuzzy
+#| msgid "None"
+msgid "No"
+msgstr "Žane"

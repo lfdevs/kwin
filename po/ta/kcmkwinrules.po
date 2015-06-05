@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-28 15:51+0000\n"
+"POT-Creation-Date: 2015-05-16 12:24+0000\n"
 "PO-Revision-Date: 2005-03-14 23:55-0800\n"
 "Last-Translator: Tamil PC <tamilpc@ambalam.com>\n"
 "Language-Team: KDE <kde-i18n-doc@kde.org>\n"
@@ -141,6 +141,15 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: editshortcut.ui:18
 #, fuzzy
+#| msgid ""
+#| "A single shortcut can be easily assigned or cleared using the two "
+#| "buttons. Only shortcuts with modifiers can be used.<p>\n"
+#| "It is possible to have several possible shortcuts, and the first "
+#| "available shortcut will be used. The shortcuts are specified using space-"
+#| "separated shortcut sets. One set is specified as <i>base</i>+(<i>list</"
+#| "i>), where base are modifiers and list is a list of keys.<br>\n"
+#| "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try "
+#| "<b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
 msgid ""
 "A single shortcut can be easily assigned or cleared using the two buttons. "
 "Only shortcuts with modifiers can be used.<p>\n"
@@ -170,20 +179,26 @@ msgstr "&ஒற்றை குறுக்குவழி"
 msgid "C&lear"
 msgstr "நீக்கு"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 msgid "Window-Specific Settings Configuration Module"
 msgstr "சாளர-குறிப்பிடப்பட்ட அமைப்புகள் வடிவமைப்பு வகை"
 
-#: kcm.cpp:51
+#: kcm.cpp:52
 msgid "(c) 2004 KWin and KControl Authors"
 msgstr "(c) 2004 கேவின் மற்றும் கேகட்டுப்பாட்டு ஆசிரியர்கள்"
 
-#: kcm.cpp:52
+#: kcm.cpp:53
 msgid "Lubos Lunak"
 msgstr ""
 
-#: kcm.cpp:83
+#: kcm.cpp:84
 #, fuzzy
+#| msgid ""
+#| "<h1>Window-specific Settings</h1> Here you can customize window settings "
+#| "specifically only for some windows. <p>Please note that this "
+#| "configuration will not take effect if you do not use KWin as your window "
+#| "manager. If you do use a different window manager, please refer to its "
+#| "documentation for how to customize window behavior."
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -196,15 +211,15 @@ msgstr ""
 "வடிவமைக்க இயலாது. மாறுபட்ட சாளர மேலாளரை பயன்படுத்தினால், வேறு சாளரத்தை "
 "பயன்படுத்தினால் அதை தனிப்பயன் ஆக்குவதற்கு அதனுடைய ஆவணத்தைப் பார்க்கவேண்டும்."
 
-#: kcm.cpp:99
+#: kcm.cpp:100
 msgid "Remember settings separately for every window"
 msgstr "ஒவ்வொரு சாளரத்திற்கான அமைப்புகளை தனித்தனியாக நினைவில் கொள்"
 
-#: kcm.cpp:100
+#: kcm.cpp:101
 msgid "Show internal settings for remembering"
 msgstr "நினைவில் கொள்வதற்கான உள்ளார்ந்த அமைப்புகளைக் காட்டு"
 
-#: kcm.cpp:101
+#: kcm.cpp:102
 msgid "Internal setting for remembering"
 msgstr "நினைவில் கொள்வதற்கான உள்ளார்ந்த அமைப்பு"
 
@@ -220,6 +235,7 @@ msgstr "%1க்கான அமைப்புகள்"
 
 #: main.cpp:215
 #, fuzzy
+#| msgid "Edit Window-Specific Settings"
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "குறிப்பிடப்பட்ட சாளர அமைப்புகளை தொகு"
@@ -395,18 +411,21 @@ msgstr "குறுக்கு வழியைத் தொகு"
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage1)
 #: ruleswidgetbase.ui:21
 #, fuzzy
+#| msgid "&Window"
 msgid "&Window matching"
 msgstr "&சாளரம்"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
 #, fuzzy
+#| msgid "De&scription:"
 msgid "&Description:"
 msgstr "விவரம்:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: ruleswidgetbase.ui:46
 #, fuzzy
+#| msgid "Window &class (application type):"
 msgid "Window &class (application):"
 msgstr "சாளர வகுப்பு (நிரப்புப் படிவம் வகை):"
 
@@ -464,6 +483,7 @@ msgstr "முழுமையான சாளர வகுப்புக்க�
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: ruleswidgetbase.ui:109
 #, fuzzy
+#| msgid "Window &role:"
 msgid "Window ro&le:"
 msgstr "சாளரத்தின் வேலை:"
 
@@ -485,6 +505,7 @@ msgstr "&இயந்திரம்(புரவலன் பெயர்)"
 #. i18n: ectx: property (text), widget (QPushButton, detect)
 #: ruleswidgetbase.ui:318
 #, fuzzy
+#| msgid "Detect Window Properties"
 msgid "&Detect Window Properties"
 msgstr "சாளர பண்புகளை கண்டுபிடி"
 
@@ -496,12 +517,14 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #: ruleswidgetbase.ui:468
 #, fuzzy
+#| msgid "On Main Window"
 msgid "Unmanaged Window"
 msgstr "பிரதான சாளரத்தில்"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage3)
 #: ruleswidgetbase.ui:489
 #, fuzzy
+#| msgid "&Position"
 msgid "&Size && Position"
 msgstr "&நிலை"
 
@@ -782,6 +805,7 @@ msgstr "&மேல்மேசை"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_activity)
 #: ruleswidgetbase.ui:802
 #, fuzzy
+#| msgid "A&ctive opacity in %"
 msgid "Activit&y"
 msgstr "%ல் உள்ள செயலில் உள்ள தெளிவுத்திறன்"
 
@@ -854,6 +878,7 @@ msgstr "பிரதான சாளரத்தில்"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_placement)
 #: ruleswidgetbase.ui:1112
 #, fuzzy
+#| msgid "P&lacement"
 msgid "Initial p&lacement"
 msgstr "இடவமைவு"
 
@@ -900,6 +925,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_screen)
 #: ruleswidgetbase.ui:1369
 #, fuzzy
+#| msgid "Splash Screen"
 msgid "Screen"
 msgstr "தோன்றும் திரை"
 
@@ -936,6 +962,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_skipswitcher)
 #: ruleswidgetbase.ui:1501
 #, fuzzy
+#| msgid "Skip pa&ger"
 msgid "Skip &switcher"
 msgstr "பேஜரை விட்டுவிடு"
 
@@ -992,6 +1019,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityactive)
 #: ruleswidgetbase.ui:1995
 #, fuzzy
+#| msgid "A&ctive opacity in %"
 msgid "A&ctive opacity"
 msgstr "%ல் உள்ள செயலில் உள்ள தெளிவுத்திறன்"
 
@@ -1005,6 +1033,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityinactive)
 #: ruleswidgetbase.ui:2031
 #, fuzzy
+#| msgid "I&nactive opacity in %"
 msgid "I&nactive opacity"
 msgstr "%ல் உள்ள செயல்படாத தெளிவுத்திறன்"
 
@@ -1052,6 +1081,7 @@ msgstr "சாளர &வகை"
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #: ruleswidgetbase.ui:2373
 #, fuzzy
+#| msgid "None"
 msgctxt "no focus stealing prevention"
 msgid "None"
 msgstr "ஒன்றுமில்லை"
@@ -1095,3 +1125,13 @@ msgstr "&ஃபோகஸ் திருடுவதில் இருந்த
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
 msgstr ""
+
+#: yesnobox.h:35
+msgid "Yes"
+msgstr ""
+
+#: yesnobox.h:36
+#, fuzzy
+#| msgid "None"
+msgid "No"
+msgstr "ஒன்றுமில்லை"

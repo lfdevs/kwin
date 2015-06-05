@@ -10,13 +10,13 @@
 # Freek de Kruijf <f.de.kruijf@hetnet.nl>, 2009, 2010.
 # Freek de Kruijf <freek@opensuse.org>, 2009.
 # Freek de Kruijf <freekdekruijf@kde.nl>, 2009, 2010, 2011, 2012.
-# Freek de Kruijf <f.de.kruijf@gmail.com>, 2011, 2013.
+# Freek de Kruijf <f.de.kruijf@gmail.com>, 2011, 2013, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-28 15:51+0000\n"
-"PO-Revision-Date: 2013-11-26 10:35+0100\n"
+"POT-Creation-Date: 2015-05-16 12:24+0000\n"
+"PO-Revision-Date: 2015-04-11 14:52+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -189,19 +189,19 @@ msgstr "Enkelvoudige toet&sencombinatie"
 msgid "C&lear"
 msgstr "W&issen"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 msgid "Window-Specific Settings Configuration Module"
 msgstr "Configuratiemodule voor vensterspecifieke instellingen"
 
-#: kcm.cpp:51
+#: kcm.cpp:52
 msgid "(c) 2004 KWin and KControl Authors"
 msgstr "(c) 2004 KWin- en KControl-auteurs"
 
-#: kcm.cpp:52
+#: kcm.cpp:53
 msgid "Lubos Lunak"
 msgstr "Lubos Lunak"
 
-#: kcm.cpp:83
+#: kcm.cpp:84
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -215,22 +215,22 @@ msgstr ""
 "een andere windowmanager gebruikt, raadpleeg dan de documentatie van die "
 "windowmanager over hoe u het venstergedrag kunt wijzigen.</p>"
 
-#: kcm.cpp:99
+#: kcm.cpp:100
 msgid "Remember settings separately for every window"
 msgstr "Instellingen bewaren voor elk afzonderlijk venster"
 
-#: kcm.cpp:100
+#: kcm.cpp:101
 msgid "Show internal settings for remembering"
 msgstr "Interne instellingen voor onthouden tonen"
 
-#: kcm.cpp:101
+#: kcm.cpp:102
 msgid "Internal setting for remembering"
 msgstr "Interne bewaar-instellingen"
 
 #: main.cpp:143
 #, kde-format
 msgid "Application settings for %1"
-msgstr "Programmainstellingen voor %1"
+msgstr "Programma-instellingen voor %1"
 
 #: main.cpp:163
 #, kde-format
@@ -1140,3 +1140,11 @@ msgstr "Voorkomen van afpakken toetsenbord&focus"
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
 msgstr "Kleuren&schema van titelbalk"
+
+#: yesnobox.h:35
+msgid "Yes"
+msgstr "Ja"
+
+#: yesnobox.h:36
+msgid "No"
+msgstr "Nee"

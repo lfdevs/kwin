@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-28 15:51+0000\n"
+"POT-Creation-Date: 2015-05-16 12:24+0000\n"
 "PO-Revision-Date: 2012-09-29 00:24+0300\n"
 "Last-Translator: Donatas G. <dgvirtual@akl.lt>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -151,6 +151,15 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: editshortcut.ui:18
 #, fuzzy
+#| msgid ""
+#| "A single shortcut can be easily assigned or cleared using the two "
+#| "buttons. Only shortcuts with modifiers can be used.<p>\n"
+#| "It is possible to have several possible shortcuts, and the first "
+#| "available shortcut will be used. The shortcuts are specified using space-"
+#| "separated shortcut sets. One set is specified as <i>base</i>+(<i>list</"
+#| "i>), where base are modifiers and list is a list of keys.<br>\n"
+#| "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try "
+#| "<b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
 msgid ""
 "A single shortcut can be easily assigned or cleared using the two buttons. "
 "Only shortcuts with modifiers can be used.<p>\n"
@@ -181,19 +190,19 @@ msgstr "&Pavienis derinys"
 msgid "C&lear"
 msgstr "Iš&valyti"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 msgid "Window-Specific Settings Configuration Module"
 msgstr "Specifinių lango nustatymų derinimo modulis"
 
-#: kcm.cpp:51
+#: kcm.cpp:52
 msgid "(c) 2004 KWin and KControl Authors"
 msgstr "(c) 2004 KWin ir KControl autoriai"
 
-#: kcm.cpp:52
+#: kcm.cpp:53
 msgid "Lubos Lunak"
 msgstr "Lubos Lunak"
 
-#: kcm.cpp:83
+#: kcm.cpp:84
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -207,15 +216,15 @@ msgstr ""
 "programą, kaip tvarkomi nustatymai turite pasidomėti atitinkamoje "
 "dokumentacijoje.</p>"
 
-#: kcm.cpp:99
+#: kcm.cpp:100
 msgid "Remember settings separately for every window"
 msgstr "Įsiminti nustatymus kiekvienam langui atskirai"
 
-#: kcm.cpp:100
+#: kcm.cpp:101
 msgid "Show internal settings for remembering"
 msgstr "Rodyti įsimenamų savybių nustatymus"
 
-#: kcm.cpp:101
+#: kcm.cpp:102
 msgid "Internal setting for remembering"
 msgstr "Įsimenamos savybės nustatymas"
 
@@ -417,6 +426,7 @@ msgstr "&Langų atitikimas"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
 #, fuzzy
+#| msgid "De&scription:"
 msgid "&Description:"
 msgstr "&Apibūdinimas:"
 
@@ -478,6 +488,7 @@ msgstr "Sutampa &visa lango klasė"
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: ruleswidgetbase.ui:109
 #, fuzzy
+#| msgid "Window &role:"
 msgid "Window ro&le:"
 msgstr "Lango &paskirtis:"
 
@@ -1124,3 +1135,14 @@ msgstr "Pirmojo plano &netekimo prevencija"
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
 msgstr ""
+
+#: yesnobox.h:35
+msgid "Yes"
+msgstr ""
+
+#: yesnobox.h:36
+#, fuzzy
+#| msgctxt "no focus stealing prevention"
+#| msgid "None"
+msgid "No"
+msgstr "Nieko"

@@ -40,6 +40,13 @@ namespace Xcb {
     class Shm;
 }
 
+namespace Wayland
+{
+class WaylandBackend;
+}
+class FramebufferBackend;
+class X11WindowedBackend;
+
 class QPainterBackend
 {
 public:
@@ -86,6 +93,7 @@ public:
 
     virtual QImage *buffer() = 0;
     virtual bool needsFullRepaint() const = 0;
+    virtual void renderCursor(QPainter *painter);
 
 protected:
     QPainterBackend();
@@ -108,7 +116,7 @@ class WaylandQPainterBackend : public QObject, public QPainterBackend
 {
     Q_OBJECT
 public:
-    WaylandQPainterBackend();
+    explicit WaylandQPainterBackend(Wayland::WaylandBackend *b);
     virtual ~WaylandQPainterBackend();
 
     virtual void present(int mask, const QRegion& damage) override;
@@ -120,9 +128,51 @@ public:
 private Q_SLOTS:
     void remapBuffer();
 private:
+    Wayland::WaylandBackend *m_backend;
     bool m_needsFullRepaint;
     QImage m_backBuffer;
     QWeakPointer<KWayland::Client::Buffer> m_buffer;
+};
+
+class X11WindowedQPainterBackend : public QObject, public QPainterBackend
+{
+    Q_OBJECT
+public:
+    X11WindowedQPainterBackend(X11WindowedBackend *backend);
+    virtual ~X11WindowedQPainterBackend();
+
+    QImage *buffer() override;
+    bool needsFullRepaint() const override;
+    bool usesOverlayWindow() const override;
+    void prepareRenderingFrame() override;
+    void present(int mask, const QRegion &damage) override;
+    void screenGeometryChanged(const QSize &size);
+
+private:
+    bool m_needsFullRepaint = true;
+    xcb_gcontext_t m_gc = XCB_NONE;
+    QImage m_backBuffer;
+    X11WindowedBackend *m_backend;
+};
+
+class FramebufferQPainterBackend : public QObject, public QPainterBackend
+{
+    Q_OBJECT
+public:
+    FramebufferQPainterBackend(FramebufferBackend *backend);
+    virtual ~FramebufferQPainterBackend();
+
+    QImage *buffer() override;
+    bool needsFullRepaint() const override;
+    bool usesOverlayWindow() const override;
+    void prepareRenderingFrame() override;
+    void present(int mask, const QRegion &damage) override;
+    void renderCursor(QPainter *painter) override;
+
+private:
+    QImage m_renderBuffer;
+    QImage m_backBuffer;
+    FramebufferBackend *m_backend;
 };
 #endif
 
@@ -141,17 +191,18 @@ public:
     virtual EffectFrame *createEffectFrame(EffectFrameImpl *frame) override;
     virtual Shadow *createShadow(Toplevel *toplevel) override;
     Decoration::Renderer *createDecorationRenderer(Decoration::DecoratedClientImpl *impl) override;
+    void screenGeometryChanged(const QSize &size) override;
 
     QPainter *painter();
 
-    static SceneQPainter *createScene();
+    static SceneQPainter *createScene(QObject *parent);
 
 protected:
     virtual void paintBackground(QRegion region) override;
     virtual Scene::Window *createWindow(Toplevel *toplevel) override;
 
 private:
-    explicit SceneQPainter(QPainterBackend *backend);
+    explicit SceneQPainter(QPainterBackend *backend, QObject *parent = nullptr);
     QScopedPointer<QPainterBackend> m_backend;
     QScopedPointer<QPainter> m_painter;
     class Window;

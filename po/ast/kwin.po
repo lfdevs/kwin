@@ -1,0 +1,878 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# enolp <enolp@softastur.org>, 2015.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2015-05-20 10:44+0000\n"
+"PO-Revision-Date: 2015-04-06 19:38+0100\n"
+"Last-Translator: enolp <enolp@softastur.org>\n"
+"Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
+"Language: ast\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 2.0\n"
+
+#, fuzzy
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Softastur"
+
+#, fuzzy
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "alministradores@softastur.org"
+
+#: composite.cpp:545
+#, kde-format
+msgid ""
+"Desktop effects have been suspended by another application.<br/>You can "
+"resume using the '%1' shortcut."
+msgstr ""
+
+#: compositingprefs.cpp:99
+msgid ""
+"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
+"b><br>This was most likely due to a driver bug.<p>If you think that you have "
+"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
+"<b>be aware that this might result in an immediate crash!</b></"
+"p><p>Alternatively, you might want to use the XRender backend instead.</p>"
+msgstr ""
+
+#: compositingprefs.cpp:106
+msgid "Required X extensions (XComposite and XDamage) are not available."
+msgstr ""
+
+#: compositingprefs.cpp:110
+msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
+msgstr ""
+
+#: compositingprefs.cpp:114
+msgid "GLX/OpenGL and XRender/XFixes are not available."
+msgstr ""
+
+#: killer/killer.cpp:44
+msgid "Window Manager"
+msgstr ""
+
+#: killer/killer.cpp:49
+msgid "PID of the application to terminate"
+msgstr ""
+
+#: killer/killer.cpp:49
+msgid "pid"
+msgstr ""
+
+#: killer/killer.cpp:51
+msgid "Hostname on which the application is running"
+msgstr ""
+
+#: killer/killer.cpp:51
+msgid "hostname"
+msgstr ""
+
+#: killer/killer.cpp:53
+msgid "Caption of the window to be terminated"
+msgstr ""
+
+#: killer/killer.cpp:53
+msgid "caption"
+msgstr ""
+
+#: killer/killer.cpp:55
+msgid "Name of the application to be terminated"
+msgstr ""
+
+#: killer/killer.cpp:55
+msgid "name"
+msgstr ""
+
+#: killer/killer.cpp:57
+msgid "ID of resource belonging to the application"
+msgstr ""
+
+#: killer/killer.cpp:57
+msgid "id"
+msgstr ""
+
+#: killer/killer.cpp:59
+msgid "Time of user action causing termination"
+msgstr ""
+
+#: killer/killer.cpp:59
+msgid "time"
+msgstr ""
+
+#: killer/killer.cpp:61
+msgid "KWin helper utility"
+msgstr ""
+
+#: killer/killer.cpp:85
+msgid "This helper utility is not supposed to be called directly."
+msgstr ""
+
+#: killer/killer.cpp:95
+#, kde-format
+msgctxt "@info"
+msgid "<b>Application \"%1\" is not responding</b>"
+msgstr ""
+
+#: killer/killer.cpp:97
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3) but the application is not responding.</para>"
+msgstr ""
+
+#: killer/killer.cpp:99
+#, kde-format
+msgctxt "@info"
+msgid ""
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3), running on host \"%4\", but the application is not responding.</para>"
+msgstr ""
+
+#: killer/killer.cpp:102
+msgctxt "@info"
+msgid ""
+"<para>Do you want to terminate this application?</"
+"para><para><warning>Terminating the application will close all of its child "
+"windows. Any unsaved data will be lost.</warning></para>"
+msgstr ""
+
+#: killer/killer.cpp:106
+#, kde-format
+msgid "&Terminate Application %1"
+msgstr ""
+
+#: killer/killer.cpp:107
+msgid "Wait Longer"
+msgstr ""
+
+#: kwinbindings.cpp:40
+msgid "Walk Through Window Tabs"
+msgstr ""
+
+#: kwinbindings.cpp:41
+msgid "Walk Through Window Tabs (Reverse)"
+msgstr ""
+
+#: kwinbindings.cpp:42
+msgid "Remove Window From Group"
+msgstr ""
+
+#: kwinbindings.cpp:44
+msgid "Window Operations Menu"
+msgstr ""
+
+#: kwinbindings.cpp:46
+msgid "Close Window"
+msgstr ""
+
+#: kwinbindings.cpp:48
+msgid "Maximize Window"
+msgstr ""
+
+#: kwinbindings.cpp:50
+msgid "Maximize Window Vertically"
+msgstr ""
+
+#: kwinbindings.cpp:52
+msgid "Maximize Window Horizontally"
+msgstr ""
+
+#: kwinbindings.cpp:54
+msgid "Minimize Window"
+msgstr ""
+
+#: kwinbindings.cpp:56
+msgid "Shade Window"
+msgstr ""
+
+#: kwinbindings.cpp:58
+msgid "Move Window"
+msgstr ""
+
+#: kwinbindings.cpp:60
+msgid "Resize Window"
+msgstr ""
+
+#: kwinbindings.cpp:62
+msgid "Raise Window"
+msgstr ""
+
+#: kwinbindings.cpp:64
+msgid "Lower Window"
+msgstr ""
+
+#: kwinbindings.cpp:66
+msgid "Toggle Window Raise/Lower"
+msgstr ""
+
+#: kwinbindings.cpp:68
+msgid "Make Window Fullscreen"
+msgstr ""
+
+#: kwinbindings.cpp:70
+msgid "Hide Window Border"
+msgstr ""
+
+#: kwinbindings.cpp:72
+msgid "Keep Window Above Others"
+msgstr ""
+
+#: kwinbindings.cpp:74
+msgid "Keep Window Below Others"
+msgstr ""
+
+#: kwinbindings.cpp:76
+msgid "Activate Window Demanding Attention"
+msgstr ""
+
+#: kwinbindings.cpp:78
+msgid "Setup Window Shortcut"
+msgstr ""
+
+#: kwinbindings.cpp:80
+msgid "Pack Window to the Right"
+msgstr ""
+
+#: kwinbindings.cpp:82
+msgid "Pack Window to the Left"
+msgstr ""
+
+#: kwinbindings.cpp:84
+msgid "Pack Window Up"
+msgstr ""
+
+#: kwinbindings.cpp:86
+msgid "Pack Window Down"
+msgstr ""
+
+#: kwinbindings.cpp:88
+msgid "Pack Grow Window Horizontally"
+msgstr ""
+
+#: kwinbindings.cpp:90
+msgid "Pack Grow Window Vertically"
+msgstr ""
+
+#: kwinbindings.cpp:92
+msgid "Pack Shrink Window Horizontally"
+msgstr ""
+
+#: kwinbindings.cpp:94
+msgid "Pack Shrink Window Vertically"
+msgstr ""
+
+#: kwinbindings.cpp:96
+msgid "Quick Tile Window to the Left"
+msgstr ""
+
+#: kwinbindings.cpp:98
+msgid "Quick Tile Window to the Right"
+msgstr ""
+
+#: kwinbindings.cpp:100
+msgid "Quick Tile Window to the Top"
+msgstr ""
+
+#: kwinbindings.cpp:102
+msgid "Quick Tile Window to the Bottom"
+msgstr ""
+
+#: kwinbindings.cpp:104
+msgid "Quick Tile Window to the Top Left"
+msgstr ""
+
+#: kwinbindings.cpp:106
+msgid "Quick Tile Window to the Bottom Left"
+msgstr ""
+
+#: kwinbindings.cpp:108
+msgid "Quick Tile Window to the Top Right"
+msgstr ""
+
+#: kwinbindings.cpp:110
+msgid "Quick Tile Window to the Bottom Right"
+msgstr ""
+
+#: kwinbindings.cpp:112
+msgid "Switch to Window Above"
+msgstr ""
+
+#: kwinbindings.cpp:114
+msgid "Switch to Window Below"
+msgstr ""
+
+#: kwinbindings.cpp:116
+msgid "Switch to Window to the Right"
+msgstr ""
+
+#: kwinbindings.cpp:118
+msgid "Switch to Window to the Left"
+msgstr ""
+
+#: kwinbindings.cpp:120
+msgid "Increase Opacity of Active Window by 5 %"
+msgstr ""
+
+#: kwinbindings.cpp:122
+msgid "Decrease Opacity of Active Window by 5 %"
+msgstr ""
+
+#: kwinbindings.cpp:125
+msgid "Keep Window on All Desktops"
+msgstr ""
+
+#: kwinbindings.cpp:129
+#, kde-format
+msgid "Window to Desktop %1"
+msgstr ""
+
+#: kwinbindings.cpp:131
+msgid "Window to Next Desktop"
+msgstr ""
+
+#: kwinbindings.cpp:132
+msgid "Window to Previous Desktop"
+msgstr ""
+
+#: kwinbindings.cpp:133
+msgid "Window One Desktop to the Right"
+msgstr ""
+
+#: kwinbindings.cpp:134
+msgid "Window One Desktop to the Left"
+msgstr ""
+
+#: kwinbindings.cpp:135
+msgid "Window One Desktop Up"
+msgstr ""
+
+#: kwinbindings.cpp:136
+msgid "Window One Desktop Down"
+msgstr ""
+
+#: kwinbindings.cpp:139
+#, kde-format
+msgid "Window to Screen %1"
+msgstr ""
+
+#: kwinbindings.cpp:141
+msgid "Window to Next Screen"
+msgstr ""
+
+#: kwinbindings.cpp:142
+msgid "Window to Previous Screen"
+msgstr ""
+
+#: kwinbindings.cpp:143
+msgid "Show Desktop"
+msgstr ""
+
+#: kwinbindings.cpp:146
+#, kde-format
+msgid "Switch to Screen %1"
+msgstr ""
+
+#: kwinbindings.cpp:149
+msgid "Switch to Next Screen"
+msgstr ""
+
+#: kwinbindings.cpp:150
+msgid "Switch to Previous Screen"
+msgstr ""
+
+#: kwinbindings.cpp:152
+msgid "Kill Window"
+msgstr ""
+
+#: kwinbindings.cpp:153
+msgid "Suspend Compositing"
+msgstr ""
+
+#: kwinbindings.cpp:154
+msgid "Invert Screen Colors"
+msgstr ""
+
+#: main.cpp:90
+msgid ""
+"KWin is unstable.\n"
+"It seems to have crashed several times in a row.\n"
+"You can select another window manager to run:"
+msgstr ""
+
+#: main.cpp:272 main.cpp:299
+msgid "KDE window manager"
+msgstr ""
+
+#: main.cpp:277
+msgid "KWin"
+msgstr ""
+
+#: main.cpp:281
+msgid "(c) 1999-2013, The KDE Developers"
+msgstr ""
+
+#: main.cpp:283
+msgid "Matthias Ettrich"
+msgstr ""
+
+#: main.cpp:284
+msgid "Cristian Tibirna"
+msgstr ""
+
+#: main.cpp:285
+msgid "Daniel M. Duley"
+msgstr ""
+
+#: main.cpp:286
+msgid "Luboš Luňák"
+msgstr ""
+
+#: main.cpp:287
+msgid "Martin Gräßlin"
+msgstr ""
+
+#: main.cpp:287
+msgid "Maintainer"
+msgstr ""
+
+#: main.cpp:296
+msgid "Disable configuration options"
+msgstr ""
+
+#: main.cpp:297
+msgid "Indicate that KWin has recently crashed n times"
+msgstr ""
+
+#: main_wayland.cpp:106
+msgid ""
+"kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
+"set.\n"
+msgstr ""
+
+#: main_wayland.cpp:213
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+msgstr ""
+
+#: main_wayland.cpp:384
+msgid "Start a rootless Xwayland server."
+msgstr ""
+
+#: main_wayland.cpp:386
+msgid ""
+"Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
+msgstr ""
+
+#: main_wayland.cpp:389
+msgid "Use a nested compositor in windowed mode."
+msgstr ""
+
+#: main_wayland.cpp:391
+msgid "Render to framebuffer."
+msgstr ""
+
+#: main_wayland.cpp:393
+msgid "The framebuffer device to render to."
+msgstr ""
+
+#: main_wayland.cpp:397
+msgid "The X11 Display to use in windowed mode on platform X11."
+msgstr ""
+
+#: main_wayland.cpp:400
+msgid "The Wayland Display to use in windowed mode on platform Wayland."
+msgstr ""
+
+#: main_wayland.cpp:403
+msgid "The width for windowed mode. Default width is 1024."
+msgstr ""
+
+#: main_wayland.cpp:407
+msgid "The height for windowed mode. Default height is 768."
+msgstr ""
+
+#: main_wayland.cpp:424
+msgid ""
+"Enable libinput support for input events processing. Note: never use in a "
+"nested session."
+msgstr ""
+
+#: main_x11.cpp:151
+msgid ""
+"kwin: unable to claim manager selection, another wm running? (try using --"
+"replace)\n"
+msgstr ""
+
+#: main_x11.cpp:168
+msgid "kwin: another window manager is running (try using --replace)\n"
+msgstr ""
+
+#: main_x11.cpp:270
+msgid "Replace already-running ICCCM2.0-compliant window manager"
+msgstr ""
+
+#: scene_opengl.cpp:620
+msgid "Desktop effects were restarted due to a graphics reset"
+msgstr ""
+
+#: scene_opengl.cpp:784
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
+"OpenGL Desktop Effects at the current resolution<br><br>You can try to "
+"select the XRender backend, but it might be very slow for this resolution as "
+"well.<br>Alternatively, lower the combined resolution of all screens to %1x"
+"%2 "
+msgstr ""
+
+#: scene_opengl.cpp:791
+msgid ""
+"The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+"GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+"does not know such limitation, but the performance will usually be impacted "
+"by the hardware limitations that restrict the OpenGL viewport size."
+msgstr ""
+
+#: scene_opengl.cpp:816
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+"the current resolution are supported but might be exceptionally slow."
+"<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
+"compositing, switch to the XRender backend or lower the resolution to %1x%1."
+msgstr ""
+
+#: scene_opengl.cpp:822
+msgid ""
+"The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+"GPU, thus windows of that size cannot be assigned to textures and will be "
+"entirely black.<br>Also this limit will often be a performance level barrier "
+"despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+"software rendering in this case."
+msgstr ""
+
+#: scripting/genericscriptedconfig.cpp:81
+msgctxt "Error message"
+msgid "Plugin does not provide configuration file in expected location"
+msgstr ""
+
+#: scripting/scripting.cpp:127
+#, kde-format
+msgctxt "Assertion failed in KWin script with given value"
+msgid "Assertion failed: %1 is not null"
+msgstr ""
+
+#: scripting/scripting.cpp:145
+msgctxt "Assertion failed in KWin script"
+msgid "Assertion failed: argument is null"
+msgstr ""
+
+#: scripting/scripting.cpp:172
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid number of arguments. At least service, path, interface and method "
+"need to be provided"
+msgstr ""
+
+#: scripting/scripting.cpp:178
+msgctxt "Error in KWin Script"
+msgid ""
+"Invalid type. Service, path, interface and method need to be string values"
+msgstr ""
+
+#: scripting/scriptingutils.cpp:28
+msgctxt "syntax error in KWin script"
+msgid "Invalid number of arguments"
+msgstr ""
+
+#: scripting/scriptingutils.cpp:41
+#, kde-format
+msgctxt "KWin Scripting function received incorrect value for an expected type"
+msgid "%1 is not a variant type"
+msgstr ""
+
+#: tabbox/tabbox.cpp:358
+msgctxt "Special entry in alt+tab list for minimizing all windows"
+msgid "Show Desktop"
+msgstr ""
+
+#: tabbox/tabbox.cpp:508
+msgid "Walk Through Windows"
+msgstr ""
+
+#: tabbox/tabbox.cpp:509
+msgid "Walk Through Windows (Reverse)"
+msgstr ""
+
+#: tabbox/tabbox.cpp:510
+msgid "Walk Through Windows Alternative"
+msgstr ""
+
+#: tabbox/tabbox.cpp:511
+msgid "Walk Through Windows Alternative (Reverse)"
+msgstr ""
+
+#: tabbox/tabbox.cpp:512
+msgid "Walk Through Windows of Current Application"
+msgstr ""
+
+#: tabbox/tabbox.cpp:513
+msgid "Walk Through Windows of Current Application (Reverse)"
+msgstr ""
+
+#: tabbox/tabbox.cpp:514
+msgid "Walk Through Windows of Current Application Alternative"
+msgstr ""
+
+#: tabbox/tabbox.cpp:515
+msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+msgstr ""
+
+#: tabbox/tabbox.cpp:516
+msgid "Walk Through Desktops"
+msgstr ""
+
+#: tabbox/tabbox.cpp:517
+msgid "Walk Through Desktops (Reverse)"
+msgstr ""
+
+#: tabbox/tabbox.cpp:518
+msgid "Walk Through Desktop List"
+msgstr ""
+
+#: tabbox/tabbox.cpp:519
+msgid "Walk Through Desktop List (Reverse)"
+msgstr ""
+
+#: tabbox/tabboxhandler.cpp:285
+msgid ""
+"The Window Switcher installation is broken, resources are missing.\n"
+"Contact your distribution about this."
+msgstr ""
+
+#: useractions.cpp:181
+#, kde-format
+msgid ""
+"You have selected to show a window without its border.\n"
+"Without the border, you will not be able to enable the border again using "
+"the mouse: use the window operations menu instead, activated using the %1 "
+"keyboard shortcut."
+msgstr ""
+
+#: useractions.cpp:189
+#, kde-format
+msgid ""
+"You have selected to show a window in fullscreen mode.\n"
+"If the application itself does not have an option to turn the fullscreen "
+"mode off you will not be able to disable it again using the mouse: use the "
+"window operations menu instead, activated using the %1 keyboard shortcut."
+msgstr ""
+
+#: useractions.cpp:252
+msgid "&Move"
+msgstr ""
+
+#: useractions.cpp:257
+msgid "Re&size"
+msgstr ""
+
+#: useractions.cpp:261
+msgid "Keep &Above Others"
+msgstr ""
+
+#: useractions.cpp:267
+msgid "Keep &Below Others"
+msgstr ""
+
+#: useractions.cpp:273
+msgid "&Fullscreen"
+msgstr ""
+
+#: useractions.cpp:279
+msgid "Sh&ade"
+msgstr ""
+
+#: useractions.cpp:284
+msgid "&No Border"
+msgstr ""
+
+#: useractions.cpp:291
+msgid "Window &Shortcut..."
+msgstr ""
+
+#: useractions.cpp:296
+msgid "&Special Window Settings..."
+msgstr ""
+
+#: useractions.cpp:300
+msgid "S&pecial Application Settings..."
+msgstr ""
+
+#: useractions.cpp:307
+msgctxt ""
+"Entry in context menu of window decoration to open the configuration module "
+"of KWin"
+msgid "Window &Manager Settings..."
+msgstr ""
+
+#: useractions.cpp:322
+msgid "Mi&nimize"
+msgstr ""
+
+#: useractions.cpp:326
+msgid "Ma&ximize"
+msgstr ""
+
+#: useractions.cpp:335
+msgid "&Untab"
+msgstr ""
+
+#: useractions.cpp:339
+msgid "Close Entire &Group"
+msgstr ""
+
+#: useractions.cpp:350
+msgid "&More Actions"
+msgstr ""
+
+#: useractions.cpp:354
+msgid "&Close"
+msgstr ""
+
+#: useractions.cpp:427
+msgid "&Extensions"
+msgstr ""
+
+#: useractions.cpp:482
+msgctxt "Switch to tab -> Previous"
+msgid "Previous"
+msgstr ""
+
+#: useractions.cpp:483
+msgctxt "Switch to tab -> Next"
+msgid "Next"
+msgstr ""
+
+#: useractions.cpp:521
+msgctxt "There's no window available to be attached as tab to this one"
+msgid "None available"
+msgstr ""
+
+#: useractions.cpp:530
+msgid "Switch to Tab"
+msgstr ""
+
+#: useractions.cpp:541
+msgid "&Attach as tab to"
+msgstr ""
+
+#: useractions.cpp:564
+msgid "Move To &Desktop"
+msgstr ""
+
+#: useractions.cpp:580
+msgid "Move To &Screen"
+msgstr ""
+
+#: useractions.cpp:595
+msgid "Ac&tivities"
+msgstr ""
+
+#: useractions.cpp:607
+msgid "&All Desktops"
+msgstr ""
+
+#: useractions.cpp:633
+msgctxt "Create a new desktop and move there the window"
+msgid "&New Desktop"
+msgstr ""
+
+#: useractions.cpp:654
+#, kde-format
+msgctxt "@item:inmenu List of all Screens to send a window to"
+msgid "Screen &%1"
+msgstr ""
+
+#: useractions.cpp:672
+msgid "&All Activities"
+msgstr ""
+
+#: useractions.cpp:879
+#, kde-format
+msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
+msgid "<b>%1</b> is already in use"
+msgstr ""
+
+#: useractions.cpp:881
+#, kde-format
+msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
+msgid "<b>%1</b> is used by %2 in %3"
+msgstr ""
+
+#: useractions.cpp:1003
+#, kde-format
+msgid "Activate Window (%1)"
+msgstr ""
+
+#: useractions.cpp:1376
+msgid ""
+"The window manager is configured to consider the screen with the mouse on it "
+"as active one.\n"
+"Therefore it is not possible to switch to a screen explicitly."
+msgstr ""
+
+#: virtualdesktops.cpp:334 virtualdesktops.cpp:396
+#, kde-format
+msgid "Desktop %1"
+msgstr ""
+
+#: virtualdesktops.cpp:427
+msgid "Switch to Next Desktop"
+msgstr ""
+
+#: virtualdesktops.cpp:428
+msgid "Switch to Previous Desktop"
+msgstr ""
+
+#: virtualdesktops.cpp:429
+msgid "Switch One Desktop to the Right"
+msgstr ""
+
+#: virtualdesktops.cpp:430
+msgid "Switch One Desktop to the Left"
+msgstr ""
+
+#: virtualdesktops.cpp:431
+msgid "Switch One Desktop Up"
+msgstr ""
+
+#: virtualdesktops.cpp:432
+msgid "Switch One Desktop Down"
+msgstr ""
+
+#: virtualdesktops.cpp:444
+#, kde-format
+msgid "Switch to Desktop %1"
+msgstr ""
+
+#: workspace.cpp:1258
+msgctxt "Introductory text shown in the support information."
+msgid ""
+"KWin Support Information:\n"
+"The following information should be used when requesting support on e.g. "
+"http://forum.kde.org.\n"
+"It provides information about the currently running instance, which options "
+"are used,\n"
+"what OpenGL driver and which effects are running.\n"
+"Please post the information provided underneath this introductory text to a "
+"paste bin service\n"
+"like http://paste.kde.org instead of pasting into support threads.\n"
+msgstr ""

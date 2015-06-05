@@ -2,7 +2,7 @@
 # Bulgarian translation of KDE.
 # This file is licensed under the GPL.
 #
-# $Id: kcmkwindecoration.po 1413349 2015-01-28 09:47:03Z scripty $
+# $Id: kcmkwindecoration.po 1413456 2015-01-29 09:04:07Z scripty $
 #
 # Zlatko Popov <zlatkopopov@fsa-bg.org>, 2006, 2007, 2008.
 # Yasen Pramatarov <yasen@lindeas.com>, 2009, 2010.
@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
 "PO-Revision-Date: 2010-10-05 23:36+0300\n"
 "Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -31,6 +31,7 @@ msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:71
 #, fuzzy
+#| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "Към всички работни плотове"
 
@@ -56,11 +57,13 @@ msgstr "Сгъване"
 
 #: declarative-plugin/buttonsmodel.cpp:83
 #, fuzzy
+#| msgid "Keep Below Others"
 msgid "Keep below"
 msgstr "На заден план"
 
 #: declarative-plugin/buttonsmodel.cpp:85
 #, fuzzy
+#| msgid "Keep Above Others"
 msgid "Keep above"
 msgstr "На преден план"
 
@@ -83,12 +86,14 @@ msgstr "Взимане на нови декорации..."
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kcm.ui:56
 #, fuzzy
+#| msgid "Border size:"
 msgid "Border si&ze:"
 msgstr "Размер на рамката:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:67
 #, fuzzy
+#| msgid "Border size:"
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Размер на рамката:"

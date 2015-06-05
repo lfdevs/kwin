@@ -49,10 +49,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KProcess>
 #include <KToolInvocation>
 
-#ifndef KWIN_NO_XF86VM
-#include <X11/extensions/xf86vmode.h>
-#endif
-#include <fixx11h.h>
 #include <QAction>
 #include <QCheckBox>
 #include <QtConcurrentRun>
@@ -941,8 +937,7 @@ void Workspace::initShortcut(const QString &actionName, const QString &descripti
     }
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << shortcut);
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << shortcut);
-    connect(a, &QAction::triggered, this, slot);
-    input()->registerShortcut(shortcut, a);
+    input()->registerShortcut(shortcut, a, this, slot);
 }
 
 /*!
@@ -1687,7 +1682,7 @@ void Workspace::switchWindow(Direction direction)
     Client *c = active_client;
     Client *switchTo = 0;
     int bestScore = 0;
-    int d = c->desktop();
+    int d = c->isOnAllDesktops() ? VirtualDesktopManager::self()->current() : c->desktop();
     // Centre of the active window
     QPoint curPos(c->pos().x() + c->geometry().width() / 2,
                   c->pos().y() + c->geometry().height() / 2);
@@ -1699,7 +1694,7 @@ void Workspace::switchWindow(Direction direction)
             continue;
         }
         if (client->wantsTabFocus() && *i != c &&
-                client->desktop() == d && !client->isMinimized() && (*i)->isOnCurrentActivity()) {
+                client->isOnDesktop(d) && !client->isMinimized() && (*i)->isOnCurrentActivity()) {
             // Centre of the other window
             QPoint other(client->pos().x() + client->geometry().width() / 2,
                          client->pos().y() + client->geometry().height() / 2);
@@ -1860,37 +1855,6 @@ void Workspace::slotInvertScreen()
     }
     if (succeeded)
         return;
-
-    //BEGIN XF86VidMode inversion - only works if optionally libXxf86vm is linked
-#ifndef KWIN_NO_XF86VM
-    int size = 0;
-    // TODO: this doesn't work with screen numbers in twinview - probably relevant only for multihead?
-    const int scrn = 0; // active_screen
-    if (XF86VidModeGetGammaRampSize(display(), scrn, &size)) {
-        unsigned short *red, *green, *blue;
-        red = new unsigned short[size];
-        green = new unsigned short[size];
-        blue = new unsigned short[size];
-        if (XF86VidModeGetGammaRamp(display(), scrn, size, red, green, blue)) {
-            qCDebug(KWIN_CORE) << "inverting screen using XF86VidModeSetGammaRamp";
-            const int half = size / 2 + 1;
-            unsigned short swap;
-            for (int i = 0; i < half; ++i) {
-                swap = red[i]; red[i] = red[size - 1 - i]; red[size - 1 - i] = swap;
-                swap = green[i]; green[i] = green[size - 1 - i]; green[size - 1 - i] = swap;
-                swap = blue[i]; blue[i] = blue[size - 1 - i]; blue[size - 1 - i] = swap;
-            }
-            XF86VidModeSetGammaRamp(display(), scrn, size, red, green, blue);
-            succeeded = true;
-        }
-        delete [] red;
-        delete [] green;
-        delete [] blue;
-    }
-
-    if (succeeded)
-        return;
-#endif
 
     //BEGIN effect plugin inversion - atm only works with OpenGL and has an overhead to it
     if (effects) {

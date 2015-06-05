@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-03-21 10:21+0000\n"
+"POT-Creation-Date: 2015-05-21 11:34+0000\n"
 "PO-Revision-Date: 2014-04-29 15:36+0200\n"
 "Last-Translator: G.Sora <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-l10n-ia@kde.org>\n"
@@ -45,7 +45,7 @@ msgstr "Forte"
 msgid "Save intermediate rendering results."
 msgstr "Salveguarda resultatos de rendition intermediate."
 
-#: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Monstra Scriptorio"
@@ -1066,6 +1066,7 @@ msgstr "A&ltessa:"
 
 #: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
 #, fuzzy
+#| msgid "Toggle Effect"
 msgid "Toggle Mouse Click Effect"
 msgstr "Commuta effecto"
 
@@ -1185,7 +1186,7 @@ msgstr "Commuta (Toggle) fenestras presente (Omne scriptorios)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Commuta fenestra presente (classe de fenestra)"
 
-#: presentwindows/presentwindows.cpp:1556
+#: presentwindows/presentwindows.cpp:1561
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1552,7 +1553,7 @@ msgstr "Menus de popup:"
 msgid "Torn-off menus:"
 msgstr "Menus de laceration:"
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:61
 msgid "Toggle window geometry display (effect only)"
 msgstr "Commuta monstrator de geometria de fenestra (sol effecto)"
 
@@ -1620,27 +1621,27 @@ msgstr "Minus"
 msgid "More"
 msgstr "Plus"
 
-#: zoom/zoom.cpp:86
+#: zoom/zoom.cpp:84
 msgid "Move Zoomed Area to Left"
 msgstr "Move area sub zoom a sinistra"
 
-#: zoom/zoom.cpp:94
+#: zoom/zoom.cpp:92
 msgid "Move Zoomed Area to Right"
 msgstr "Move area sub zoom a dextera"
 
-#: zoom/zoom.cpp:102
+#: zoom/zoom.cpp:100
 msgid "Move Zoomed Area Upwards"
 msgstr "Move area sub zoom in alto"
 
-#: zoom/zoom.cpp:110
+#: zoom/zoom.cpp:108
 msgid "Move Zoomed Area Downwards"
 msgstr "Move area sub zoom a basso"
 
-#: zoom/zoom.cpp:119 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
 msgid "Move Mouse to Focus"
 msgstr "Move mus pro focalisar"
 
-#: zoom/zoom.cpp:127 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
 msgid "Move Mouse to Center"
 msgstr "Move mus pro centrar"
 

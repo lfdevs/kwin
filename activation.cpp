@@ -46,7 +46,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "screens.h"
 #include "useractions.h"
 #include <QDebug>
-#include <QX11Info>
 
 namespace KWin
 {
@@ -464,6 +463,11 @@ bool Workspace::activateNextClient(Client* c)
             get_focus = NULL;
     }
 
+    const int desktop = VirtualDesktopManager::self()->current();
+
+    if (!get_focus && showingDesktop())
+        get_focus = findDesktop(true, desktop); // to not break the state
+
     if (!get_focus && options->isNextFocusPrefersMouse()) {
         get_focus = clientUnderMouse(c ? c->screen() : screens()->current());
         if (get_focus && (get_focus == c || get_focus->isDesktop())) {
@@ -471,8 +475,6 @@ bool Workspace::activateNextClient(Client* c)
             get_focus = NULL;
         }
     }
-
-    const int desktop = VirtualDesktopManager::self()->current();
 
     if (!get_focus) { // no suitable window under the mouse -> find sth. else
         // first try to pass the focus to the (former) active clients leader
@@ -556,8 +558,10 @@ bool Workspace::allowClientActivation(const KWin::Client *c, xcb_timestamp_t tim
         // got FocusOut, and therefore got deactivated.
         ac = last_active_client;
     }
-    if (time == 0)   // explicitly asked not to get focus
-        return false;
+    if (time == 0) {   // explicitly asked not to get focus
+        if (!c->rules()->checkAcceptFocus(false))
+            return false;
+    }
     if (level == 0)   // none
         return true;
     if (level == 4)   // extreme
@@ -730,7 +734,7 @@ xcb_timestamp_t Client::readUserTimeMapTimestamp(const KStartupInfoId *asn_id, c
                     ; // is transient for currently active window, even though it's not
                 // the same app (e.g. kcookiejar dialog) -> allow activation
                 else if (groupTransient() &&
-                        findInList<Client>(mainClients(), sameApplicationActiveHackPredicate) == NULL)
+                        findInList<Client, Client>(mainClients(), sameApplicationActiveHackPredicate) == NULL)
                     ; // standalone transient
                 else
                     first_window = false;

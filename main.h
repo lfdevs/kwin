@@ -45,6 +45,10 @@ public:
 class KWIN_EXPORT Application : public  QApplication
 {
     Q_OBJECT
+    Q_PROPERTY(quint32 x11Time READ x11Time WRITE setX11Time)
+    Q_PROPERTY(quint32 x11RootWindow READ x11RootWindow CONSTANT)
+    Q_PROPERTY(void *x11Connection READ x11Connection NOTIFY x11ConnectionChanged)
+    Q_PROPERTY(int x11ScreenNumber READ x11ScreenNumber CONSTANT)
 public:
     /**
     * @brief This enum provides the various operation modes of KWin depending on the available
@@ -61,7 +65,11 @@ public:
         * @brief KWin uses X11 for managing windows, but renders to a Wayland compositor.
         * Input is received from the Wayland compositor.
         */
-        OperationModeWaylandAndX11
+        OperationModeWaylandAndX11,
+        /**
+         * @brief KWin uses Wayland and controls a nested Xwayland server.
+         **/
+        OperationModeXwayland
     };
     virtual ~Application();
 
@@ -82,7 +90,16 @@ public:
     void setupCommandLine(QCommandLineParser *parser);
     void processCommandLine(QCommandLineParser *parser);
 
-    void registerDBusService();
+    xcb_timestamp_t x11Time() const {
+        return m_x11Time;
+    }
+    void setX11Time(xcb_timestamp_t timestamp) {
+        if (timestamp > m_x11Time) {
+            m_x11Time = timestamp;
+        }
+    }
+    void updateX11Time(xcb_generic_event_t *event);
+    void createScreens();
 
     static void setCrashCount(int count);
     static bool wasCrash();
@@ -110,6 +127,20 @@ public:
      */
     static void setX11MultiHead(bool multiHead);
 
+    /**
+     * @returns the X11 root window.
+     **/
+    xcb_window_t x11RootWindow() const {
+        return m_rootWindow;
+    }
+
+    /**
+     * @returns the X11 xcb connection
+     **/
+    xcb_connection_t *x11Connection() const {
+        return m_connection;
+    }
+
     static void setupMalloc();
     static void setupLocalizedString();
     static void setupLoggingCategoryFilters();
@@ -117,16 +148,38 @@ public:
     static bool usesLibinput();
     static void setUseLibinput(bool use);
 
+Q_SIGNALS:
+    void x11ConnectionChanged();
+    void workspaceCreated();
+    void screensCreated();
+
 protected:
     Application(OperationMode mode, int &argc, char **argv);
     virtual void performStartup() = 0;
 
     void notifyKSplash();
+    void createInput();
     void createWorkspace();
     void createAtoms();
     void createOptions();
+    void createCompositor();
     void setupEventFilters();
     void destroyWorkspace();
+    /**
+     * Inheriting classes should use this method to set the X11 root window
+     * before accessing any X11 specific code pathes.
+     **/
+    void setX11RootWindow(xcb_window_t root) {
+        m_rootWindow = root;
+    }
+    /**
+     * Inheriting classes should use this method to set the xcb connection
+     * before accessing any X11 specific code pathes.
+     **/
+    void setX11Connection(xcb_connection_t *c) {
+        m_connection = c;
+        emit x11ConnectionChanged();
+    }
 
     bool notify(QObject* o, QEvent* e);
     static void crashHandler(int signal);
@@ -139,6 +192,9 @@ private:
     QScopedPointer<XcbEventFilter> m_eventFilter;
     bool m_configLock;
     OperationMode m_operationMode;
+    xcb_timestamp_t m_x11Time = XCB_TIME_CURRENT_TIME;
+    xcb_window_t m_rootWindow = XCB_WINDOW_NONE;
+    xcb_connection_t *m_connection = nullptr;
     static int crashes;
 };
 

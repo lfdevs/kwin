@@ -145,24 +145,6 @@ private:
     xcb_render_pictformat_t m_format;
 };
 
-#if HAVE_WAYLAND
-class WaylandXRenderBackend :  public QObject, public XRenderBackend
-{
-    Q_OBJECT
-public:
-    WaylandXRenderBackend();
-    virtual ~WaylandXRenderBackend();
-    virtual void present(int mask, const QRegion &damage);
-    virtual bool usesOverlayWindow() const;
-
-private:
-    void createBuffer();
-    void init();
-    QScopedPointer<Xcb::Shm> m_shm;
-    xcb_render_pictformat_t m_format;
-};
-#endif
-
 class SceneXrender
     : public Scene
 {
@@ -187,14 +169,14 @@ public:
     }
     Decoration::Renderer *createDecorationRenderer(Decoration::DecoratedClientImpl *client);
 
-    static SceneXrender *createScene();
+    static SceneXrender *createScene(QObject *parent);
 protected:
     virtual Scene::Window *createWindow(Toplevel *toplevel);
     virtual void paintBackground(QRegion region);
     virtual void paintGenericScreen(int mask, ScreenPaintData data);
     virtual void paintDesktop(int desktop, int mask, const QRegion &region, ScreenPaintData &data);
 private:
-    explicit SceneXrender(XRenderBackend *backend);
+    explicit SceneXrender(XRenderBackend *backend, QObject *parent = nullptr);
     static ScreenPaintData screen_paint;
     class Window;
     QScopedPointer<XRenderBackend> m_backend;

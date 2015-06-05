@@ -7,14 +7,15 @@
 # Lie Ex <lilith.ex@gmail.com>, 2007-2009.
 # Ni Hui <shuizhuyuanluo@126.com>, 2010, 2012.
 # Feng Chao <rainofchaos@gmail.com>, 2010, 2011, 2013.
-# Weng Xuetian <wengxt@gmail.com>, 2011, 2012, 2014.
+# Weng Xuetian <wengxt@gmail.com>, 2011, 2012.
+# Xuetian Weng <xweng@cs.stonybrook.edu>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-03-21 10:21+0000\n"
-"PO-Revision-Date: 2014-11-05 10:39-0500\n"
-"Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
+"POT-Creation-Date: 2015-05-21 11:34+0000\n"
+"PO-Revision-Date: 2014-10-18 10:30-0400\n"
+"Last-Translator: Xuetian Weng <xweng@cs.stonybrook.edu>\n"
 "Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +52,7 @@ msgstr "重"
 msgid "Save intermediate rendering results."
 msgstr "保存中间渲染的结果。"
 
-#: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "显示桌面"
@@ -1164,7 +1165,7 @@ msgstr "切换显示窗口(对全部桌面)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "切换当前窗口分类"
 
-#: presentwindows/presentwindows.cpp:1556
+#: presentwindows/presentwindows.cpp:1561
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1531,7 +1532,7 @@ msgstr "弹出菜单："
 msgid "Torn-off menus:"
 msgstr "虚折菜单："
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:61
 msgid "Toggle window geometry display (effect only)"
 msgstr "切换窗口几何属性显示 (仅特效)"
 
@@ -1599,27 +1600,27 @@ msgstr "较低"
 msgid "More"
 msgstr "较高"
 
-#: zoom/zoom.cpp:86
+#: zoom/zoom.cpp:84
 msgid "Move Zoomed Area to Left"
 msgstr "将缩放区域向左移动"
 
-#: zoom/zoom.cpp:94
+#: zoom/zoom.cpp:92
 msgid "Move Zoomed Area to Right"
 msgstr "将缩放区域向右移动"
 
-#: zoom/zoom.cpp:102
+#: zoom/zoom.cpp:100
 msgid "Move Zoomed Area Upwards"
 msgstr "将缩放区域向上移动"
 
-#: zoom/zoom.cpp:110
+#: zoom/zoom.cpp:108
 msgid "Move Zoomed Area Downwards"
 msgstr "将缩放区域向下移动"
 
-#: zoom/zoom.cpp:119 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
 msgid "Move Mouse to Focus"
 msgstr "移动鼠标到焦点"
 
-#: zoom/zoom.cpp:127 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
 msgid "Move Mouse to Center"
 msgstr "移动鼠标到中央"
 

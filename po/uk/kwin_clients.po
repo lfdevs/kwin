@@ -1,18 +1,18 @@
 # Translation of kwin_clients.po to Ukrainian
-# Copyright (C) 2004-2013 This_file_is_part_of_KDE
+# Copyright (C) 2004-2015 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
 # Eugene Onischenko <oneugene@ukr.net>, 2004, 2005.
 # Andriy Rysin <rysin@kde.org>, 2004, 2006.
 # Ivan Petrouchtchak <fr.ivan@ukrainian-orthodox.org>, 2004, 2005, 2006, 2007, 2008.
-# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013.
+# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-27 20:56+0000\n"
-"PO-Revision-Date: 2013-10-09 08:30+0300\n"
+"POT-Creation-Date: 2015-02-20 09:22+0000\n"
+"PO-Revision-Date: 2015-01-15 12:53+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -22,6 +22,45 @@ msgstr ""
 "X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: aurorae/src/aurorae.cpp:703
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "Крихітний"
+
+#: aurorae/src/aurorae.cpp:704
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "Звичайний"
+
+#: aurorae/src/aurorae.cpp:705
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "Великий"
+
+#: aurorae/src/aurorae.cpp:706
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "Дуже великий"
+
+#: aurorae/src/aurorae.cpp:707
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "Величезний"
+
+#: aurorae/src/aurorae.cpp:708
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "Гігантський"
+
+#: aurorae/src/aurorae.cpp:709
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "Найбільший"
+
+#: aurorae/src/aurorae.cpp:712
+msgid "Button size:"
+msgstr "Розмір кнопки:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlastikConfigDialog)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14

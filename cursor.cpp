@@ -33,11 +33,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDBusConnection>
 #include <QScreen>
 #include <QTimer>
-// Xlib
-#include <X11/Xcursor/Xcursor.h>
-#include <fixx11h.h>
 // xcb
 #include <xcb/xfixes.h>
+#if HAVE_XCB_CURSOR
+#include <xcb/xcb_cursor.h>
+#endif
 
 namespace KWin
 {
@@ -157,9 +157,20 @@ xcb_cursor_t Cursor::getX11Cursor(Qt::CursorShape shape)
     return XCB_CURSOR_NONE;
 }
 
+xcb_cursor_t Cursor::getX11Cursor(const QByteArray &name)
+{
+    Q_UNUSED(name)
+    return XCB_CURSOR_NONE;
+}
+
 xcb_cursor_t Cursor::x11Cursor(Qt::CursorShape shape)
 {
     return s_self->getX11Cursor(shape);
+}
+
+xcb_cursor_t Cursor::x11Cursor(const QByteArray &name)
+{
+    return s_self->getX11Cursor(name);
 }
 
 void Cursor::doSetPos()
@@ -270,11 +281,11 @@ void X11Cursor::doSetPos()
 void X11Cursor::doGetPos()
 {
     if (m_timeStamp != XCB_TIME_CURRENT_TIME &&
-            m_timeStamp == QX11Info::appTime()) {
+            m_timeStamp == xTime()) {
         // time stamps did not change, no need to query again
         return;
     }
-    m_timeStamp = QX11Info::appTime();
+    m_timeStamp = xTime();
     Xcb::Pointer pointer(rootWindow());
     if (pointer.isNull()) {
         return;
@@ -325,28 +336,133 @@ void X11Cursor::mousePolled()
 
 xcb_cursor_t X11Cursor::getX11Cursor(Qt::CursorShape shape)
 {
-    QHash<Qt::CursorShape, xcb_cursor_t>::const_iterator it = m_cursors.constFind(shape);
+    return getX11Cursor(cursorName(shape));
+}
+
+xcb_cursor_t X11Cursor::getX11Cursor(const QByteArray &name)
+{
+    auto it = m_cursors.constFind(name);
     if (it != m_cursors.constEnd()) {
         return it.value();
     }
-    return createCursor(shape);
+    return createCursor(name);
 }
 
-xcb_cursor_t X11Cursor::createCursor(Qt::CursorShape shape)
+xcb_cursor_t X11Cursor::createCursor(const QByteArray &name)
 {
-    const QByteArray name = cursorName(shape);
     if (name.isEmpty()) {
         return XCB_CURSOR_NONE;
     }
-    // XCursor is an XLib only lib
-    XcursorImage *ximg = XcursorLibraryLoadImage(name.constData(), themeName().toUtf8().constData(), themeSize());
-    if (!ximg) {
+#if HAVE_XCB_CURSOR
+    xcb_cursor_context_t *ctx;
+    if (xcb_cursor_context_new(connection(), defaultScreen(), &ctx) < 0) {
         return XCB_CURSOR_NONE;
     }
-    xcb_cursor_t cursor = XcursorImageLoadCursor(display(), ximg);
-    XcursorImageDestroy(ximg);
-    m_cursors.insert(shape, cursor);
+    xcb_cursor_t cursor = xcb_cursor_load_cursor(ctx, name.constData());
+    if (cursor == XCB_CURSOR_NONE) {
+        static const QHash<QByteArray, QVector<QByteArray>> alternatives = {
+            {QByteArrayLiteral("left_ptr"),       {QByteArrayLiteral("arrow"),
+                                                   QByteArrayLiteral("dnd-none"),
+                                                   QByteArrayLiteral("op_left_arrow")}},
+            {QByteArrayLiteral("cross"),          {QByteArrayLiteral("crosshair"),
+                                                   QByteArrayLiteral("diamond-cross"),
+                                                   QByteArrayLiteral("cross-reverse")}},
+            {QByteArrayLiteral("up_arrow"),       {QByteArrayLiteral("center_ptr"),
+                                                   QByteArrayLiteral("sb_up_arrow"),
+                                                   QByteArrayLiteral("centre_ptr")}},
+            {QByteArrayLiteral("wait"),           {QByteArrayLiteral("watch"),
+                                                   QByteArrayLiteral("progress")}},
+            {QByteArrayLiteral("ibeam"),          {QByteArrayLiteral("xterm"),
+                                                   QByteArrayLiteral("text")}},
+            {QByteArrayLiteral("size_all"),       {QByteArrayLiteral("fleur")}},
+            {QByteArrayLiteral("pointing_hand"),  {QByteArrayLiteral("hand2"),
+                                                   QByteArrayLiteral("hand"),
+                                                   QByteArrayLiteral("hand1"),
+                                                   QByteArrayLiteral("pointer"),
+                                                   QByteArrayLiteral("e29285e634086352946a0e7090d73106"),
+                                                   QByteArrayLiteral("9d800788f1b08800ae810202380a0822")}},
+            {QByteArrayLiteral("size_ver"),       {QByteArrayLiteral("00008160000006810000408080010102"),
+                                                   QByteArrayLiteral("sb_v_double_arrow"),
+                                                   QByteArrayLiteral("v_double_arrow"),
+                                                   QByteArrayLiteral("n-resize"),
+                                                   QByteArrayLiteral("s-resize"),
+                                                   QByteArrayLiteral("col-resize"),
+                                                   QByteArrayLiteral("top_side"),
+                                                   QByteArrayLiteral("bottom_side"),
+                                                   QByteArrayLiteral("base_arrow_up"),
+                                                   QByteArrayLiteral("base_arrow_down"),
+                                                   QByteArrayLiteral("based_arrow_down"),
+                                                   QByteArrayLiteral("based_arrow_up")}},
+            {QByteArrayLiteral("size_hor"),       {QByteArrayLiteral("028006030e0e7ebffc7f7070c0600140"),
+                                                   QByteArrayLiteral("sb_h_double_arrow"),
+                                                   QByteArrayLiteral("h_double_arrow"),
+                                                   QByteArrayLiteral("e-resize"),
+                                                   QByteArrayLiteral("w-resize"),
+                                                   QByteArrayLiteral("row-resize"),
+                                                   QByteArrayLiteral("right_side"),
+                                                   QByteArrayLiteral("left_side")}},
+            {QByteArrayLiteral("size_bdiag"),     {QByteArrayLiteral("fcf1c3c7cd4491d801f1e1c78f100000"),
+                                                   QByteArrayLiteral("fd_double_arrow"),
+                                                   QByteArrayLiteral("bottom_left_corner"),
+                                                   QByteArrayLiteral("top_right_corner")}},
+            {QByteArrayLiteral("size_fdiag"),     {QByteArrayLiteral("c7088f0f3e6c8088236ef8e1e3e70000"),
+                                                   QByteArrayLiteral("bd_double_arrow"),
+                                                   QByteArrayLiteral("bottom_right_corner"),
+                                                   QByteArrayLiteral("top_left_corner")}},
+            {QByteArrayLiteral("whats_this"),     {QByteArrayLiteral("d9ce0ab605698f320427677b458ad60b"),
+                                                   QByteArrayLiteral("left_ptr_help"),
+                                                   QByteArrayLiteral("help"),
+                                                   QByteArrayLiteral("question_arrow"),
+                                                   QByteArrayLiteral("dnd-ask"),
+                                                   QByteArrayLiteral("5c6cd98b3f3ebcb1f9c7f1c204630408")}},
+            {QByteArrayLiteral("split_h"),        {QByteArrayLiteral("14fef782d02440884392942c11205230"),
+                                                   QByteArrayLiteral("size_hor")}},
+            {QByteArrayLiteral("split_v"),        {QByteArrayLiteral("2870a09082c103050810ffdffffe0204"),
+                                                   QByteArrayLiteral("size_ver")}},
+            {QByteArrayLiteral("forbidden"),      {QByteArrayLiteral("03b6e0fcb3499374a867c041f52298f0"),
+                                                   QByteArrayLiteral("circle"),
+                                                   QByteArrayLiteral("dnd-no-drop"),
+                                                   QByteArrayLiteral("not-allowed")}},
+            {QByteArrayLiteral("left_ptr_watch"), {QByteArrayLiteral("3ecb610c1bf2410f44200f48c40d3599"),
+                                                   QByteArrayLiteral("00000000000000020006000e7e9ffc3f"),
+                                                   QByteArrayLiteral("08e8e1c95fe2fc01f976f1e063a24ccd")}},
+            {QByteArrayLiteral("openhand"),       {QByteArrayLiteral("9141b49c8149039304290b508d208c40"),
+                                                   QByteArrayLiteral("all_scroll"),
+                                                   QByteArrayLiteral("all-scroll")}},
+            {QByteArrayLiteral("closedhand"),     {QByteArrayLiteral("05e88622050804100c20044008402080"),
+                                                   QByteArrayLiteral("4498f0e0c1937ffe01fd06f973665830"),
+                                                   QByteArrayLiteral("9081237383d90e509aa00f00170e968f"),
+                                                   QByteArrayLiteral("fcf21c00b30f7e3f83fe0dfd12e71cff")}},
+            {QByteArrayLiteral("dnd-link"),       {QByteArrayLiteral("link"),
+                                                   QByteArrayLiteral("alias"),
+                                                   QByteArrayLiteral("3085a0e285430894940527032f8b26df"),
+                                                   QByteArrayLiteral("640fb0e74195791501fd1ed57b41487f"),
+                                                   QByteArrayLiteral("a2a266d0498c3104214a47bd64ab0fc8")}},
+            {QByteArrayLiteral("dnd-copy"),       {QByteArrayLiteral("copy"),
+                                                   QByteArrayLiteral("1081e37283d90000800003c07f3ef6bf"),
+                                                   QByteArrayLiteral("6407b0e94181790501fd1e167b474872"),
+                                                   QByteArrayLiteral("b66166c04f8c3109214a4fbd64a50fc8")}},
+            {QByteArrayLiteral("dnd-move"),       {QByteArrayLiteral("move")}}
+        };
+        auto it = alternatives.find(name);
+        if (it != alternatives.end()) {
+            const auto &names = it.value();
+            for (auto cit = names.begin(); cit != names.end(); ++cit) {
+                cursor = xcb_cursor_load_cursor(ctx, (*cit).constData());
+                if (cursor != XCB_CURSOR_NONE) {
+                    break;
+                }
+            }
+        }
+    }
+    if (cursor != XCB_CURSOR_NONE) {
+        m_cursors.insert(name, cursor);
+    }
+    xcb_cursor_context_free(ctx);
     return cursor;
+#else
+    return XCB_CURSOR_NONE;
+#endif
 }
 
 QByteArray Cursor::cursorName(Qt::CursorShape shape) const
@@ -410,6 +526,13 @@ InputRedirectionCursor::InputRedirectionCursor(QObject *parent)
 #ifndef KCMRULES
     connect(input(), &InputRedirection::keyboardModifiersChanged,
             this, &InputRedirectionCursor::slotModifiersChanged);
+    connect(kwinApp(), &Application::x11ConnectionChanged, this,
+        [this] {
+            if (isCursorTracking()) {
+                doStartCursorTracking();
+            }
+        }, Qt::QueuedConnection
+    );
 #endif
 }
 
@@ -444,12 +567,18 @@ void InputRedirectionCursor::slotPointerButtonChanged()
 
 void InputRedirectionCursor::doStartCursorTracking()
 {
+    if (!kwinApp()->x11Connection()) {
+        return;
+    }
     xcb_xfixes_select_cursor_input(connection(), rootWindow(), XCB_XFIXES_CURSOR_NOTIFY_MASK_DISPLAY_CURSOR);
     // TODO: also track the Wayland cursor
 }
 
 void InputRedirectionCursor::doStopCursorTracking()
 {
+    if (!kwinApp()->x11Connection()) {
+        return;
+    }
     xcb_xfixes_select_cursor_input(connection(), rootWindow(), 0);
     // TODO: also track the Wayland cursor
 }

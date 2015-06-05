@@ -35,6 +35,7 @@ Build-Depends: cmake,
                libwayland-dev,
                libx11-xcb-dev,
                libxcb-composite0-dev,
+               libxcb-cursor-dev,
                libxcb-damage0-dev,
                libxcb-icccm4-dev,
                libxcb-image0-dev,
@@ -52,14 +53,17 @@ Build-Depends: cmake,
                pkg-config,
                pkg-kde-tools (>= 0.15.15ubuntu1~),
                plasma-framework-dev (>= 5.2.0),
+               qtbase5-private-dev,
                qtdeclarative5-dev,
                qtscript5-dev,
                qttools5-dev,
                xauth,
                xvfb
 Standards-Version: 3.9.5
-Section: libs
-Homepage: https://projects.kde.org/projects/kde/unstable/plasma/kwin
+Section: utils
+Homepage: https://projects.kde.org/projects/kde/workspace/kwin
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-kde/plasma/kwin.git
+Vcs-Git: git://anonscm.debian.org/pkg-kde/plasma/kwin.git
 
 Package: kwin-dev
 Section: devel
@@ -78,13 +82,13 @@ Description: KDE window manager - devel files
  This package is part of the KDE base workspace module.
 
 Package: kwin
-Section: utils
 Architecture: any
 Depends: kwin-data (= ${source:Version}),
+         qml-module-org-kde-kquickcontrolsaddons,
          qml-module-qtmultimedia,
          ${misc:Depends},
          ${shlibs:Depends}
-Recommends: kwin-decoration-oxygen, libqt5multimedia5
+Recommends: libqt5multimedia5
 Suggests: kwin-addons
 Description: KDE window manager
  KWin (pronounced as one syllable "kwin") is the window
@@ -181,9 +185,13 @@ Description: KDE window manager render utils library
  This package is part of the KDE base workspace module.
 
 Package: kwin-data
-Section: libs
 Architecture: all
 Depends: ${misc:Depends}, ${shlibs:Depends}
+Recommends: plasma-framework,
+            qml-module-qtmultimedia,
+            qml-module-qtquick-layouts,
+            qml-module-qtquick-window2,
+            qml-module-qtquick2
 Description: KDE window manager data files
  KWin (pronounced as one syllable "kwin") is the window
  manager for the KDE Plasma Desktop. It gives you complete

@@ -24,6 +24,7 @@
 #include <KLocalizedString>
 #include <kaboutdata.h>
 #include <QtDBus/QtDBus>
+#include <QX11Info>
 
 #include "ruleslist.h"
 #include <KPluginFactory>

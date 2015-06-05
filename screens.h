@@ -70,6 +70,14 @@ public:
      **/
     QRect geometry() const;
     /**
+     * The output name of the screen (usually eg. LVDS-1, VGA-0 or DVI-I-1 etc.)
+     */
+    virtual QString name(int screen) const;
+    /**
+     * @returns current refreshrate of the @p screen.
+     **/
+    virtual float refreshRate(int screen) const;
+    /**
      * @returns size of the @p screen.
      *
      * To get the size of all screens combined use size().

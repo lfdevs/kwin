@@ -1,19 +1,19 @@
 # Translation of kwin_clients.po to Brazilian Portuguese
-# Copyright (C) 2004-2013 This_file_is_part_of_KDE
+# Copyright (C) 2004-2015 This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Lisiane Sztoltz Teixeira <lisiane@kdemail.net>, 2004, 2005.
 # Diniz Bortolotto <diniz.bortolotto@gmail.com>, 2007, 2008.
 # Fernando Boaglio <boaglio@kde.org>, 2008.
 # Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2009, 2010.
-# André Marcelo Alvarenga <alvarenga@kde.org>, 2009, 2010, 2011, 2012, 2013, 2014.
+# André Marcelo Alvarenga <alvarenga@kde.org>, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
 # Aracele Torres <araceletorres@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-27 20:56+0000\n"
-"PO-Revision-Date: 2014-01-23 01:29-0200\n"
+"POT-Creation-Date: 2015-02-20 09:22+0000\n"
+"PO-Revision-Date: 2015-01-15 08:34-0200\n"
 "Last-Translator: André Marcelo Alvarenga <alvarenga@kde.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_br@kde.org>\n"
 "Language: pt_BR\n"
@@ -22,6 +22,45 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Lokalize 1.5\n"
+
+#: aurorae/src/aurorae.cpp:703
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "Minúsculo"
+
+#: aurorae/src/aurorae.cpp:704
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "Normal"
+
+#: aurorae/src/aurorae.cpp:705
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "Grande"
+
+#: aurorae/src/aurorae.cpp:706
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "Muito grande"
+
+#: aurorae/src/aurorae.cpp:707
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "Enorme"
+
+#: aurorae/src/aurorae.cpp:708
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "Realmente grande"
+
+#: aurorae/src/aurorae.cpp:709
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "Ainda maior"
+
+#: aurorae/src/aurorae.cpp:712
+msgid "Button size:"
+msgstr "Tamanho do botão:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlastikConfigDialog)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14

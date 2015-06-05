@@ -20,6 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KWIN_WAYLAND_BACKEND_H
 #define KWIN_WAYLAND_BACKEND_H
 // KWin
+#include "abstract_backend.h"
+#include <config-kwin.h>
 #include <kwinglobals.h>
 // Qt
 #include <QHash>
@@ -56,6 +58,7 @@ class ShellSurface;
 class SubCompositor;
 class SubSurface;
 class Surface;
+class Touch;
 }
 }
 
@@ -68,47 +71,12 @@ namespace Wayland
 class WaylandBackend;
 class WaylandSeat;
 
-class CursorData
-{
-public:
-    CursorData();
-    ~CursorData();
-    bool isValid() const;
-    const QPoint &hotSpot() const;
-    const QImage &cursor() const;
-private:
-    bool init();
-    QImage m_cursor;
-    QPoint m_hotSpot;
-    bool m_valid;
-};
-
-class X11CursorTracker : public QObject
-{
-    Q_OBJECT
-public:
-    explicit X11CursorTracker(WaylandBackend *backend, QObject* parent = 0);
-    virtual ~X11CursorTracker();
-    void resetCursor();
-
-Q_SIGNALS:
-    void cursorImageChanged(QWeakPointer<KWayland::Client::Buffer> image, const QSize &size, const QPoint &hotSpot);
-
-private Q_SLOTS:
-    void cursorChanged(uint32_t serial);
-private:
-    void installCursor(const CursorData &cursor);
-    QHash<uint32_t, CursorData> m_cursors;
-    WaylandBackend *m_backend;
-    uint32_t m_installedCursor;
-    uint32_t m_lastX11Cursor;
-};
-
+#if HAVE_WAYLAND_CURSOR
 class WaylandCursorTheme : public QObject
 {
     Q_OBJECT
 public:
-    explicit WaylandCursorTheme(WaylandBackend *backend, QObject *parent = nullptr);
+    explicit WaylandCursorTheme(KWayland::Client::ShmPool *shm, QObject *parent = nullptr);
     virtual ~WaylandCursorTheme();
 
     wl_cursor_image *get(Qt::CursorShape shape);
@@ -117,8 +85,9 @@ private:
     void loadTheme();
     void destroyTheme();
     wl_cursor_theme *m_theme;
-    WaylandBackend *m_backend;
+    KWayland::Client::ShmPool *m_shm = nullptr;
 };
+#endif
 
 class WaylandSeat : public QObject
 {
@@ -129,6 +98,7 @@ public:
 
     void installCursorImage(wl_buffer *image, const QSize &size, const QPoint &hotspot);
     void installCursorImage(Qt::CursorShape shape);
+    void installCursorImage(const QImage &image, const QPoint &hotspot);
     void setInstallCursor(bool install);
     bool isInstallCursor() const {
         return m_installCursor;
@@ -136,11 +106,15 @@ public:
 private:
     void destroyPointer();
     void destroyKeyboard();
+    void destroyTouch();
     KWayland::Client::Seat *m_seat;
     KWayland::Client::Pointer *m_pointer;
     KWayland::Client::Keyboard *m_keyboard;
+    KWayland::Client::Touch *m_touch;
     KWayland::Client::Surface *m_cursor;
+#if HAVE_WAYLAND_CURSOR
     WaylandCursorTheme *m_theme;
+#endif
     uint32_t m_enteredSerial;
     WaylandBackend *m_backend;
     bool m_installCursor;
@@ -157,6 +131,7 @@ public:
         return m_hotSpot;
     }
     void setCursorImage(wl_buffer *image, const QSize &size, const QPoint &hotspot);
+    void setCursorImage(const QImage &image, const QPoint &hotspot);
     void setCursorImage(Qt::CursorShape shape);
 
 Q_SIGNALS:
@@ -166,7 +141,9 @@ private:
     WaylandBackend *m_backend;
     QPoint m_hotSpot;
     KWayland::Client::SubSurface *m_subSurface;
+#if HAVE_WAYLAND_CURSOR
     WaylandCursorTheme *m_theme;
+#endif
 };
 
 /**
@@ -175,21 +152,30 @@ private:
 * It creates the connection to the Wayland Compositor, sets up the registry and creates
 * the Wayland surface and its shell mapping.
 */
-class KWIN_EXPORT WaylandBackend : public QObject
+class KWIN_EXPORT WaylandBackend : public AbstractBackend
 {
     Q_OBJECT
 public:
+    explicit WaylandBackend(const QByteArray &display, QObject *parent = nullptr);
     virtual ~WaylandBackend();
     wl_display *display();
     KWayland::Client::Compositor *compositor();
     const QList<KWayland::Client::Output*> &outputs() const;
     KWayland::Client::ShmPool *shmPool();
     KWayland::Client::SubCompositor *subCompositor();
-    X11CursorTracker *cursorTracker();
 
     KWayland::Client::Surface *surface() const;
     QSize shellSurfaceSize() const;
-    void installCursorImage(Qt::CursorShape shape);
+    void installCursorImage(Qt::CursorShape shape) override;
+    void installCursorFromServer() override;
+
+    Screens *createScreens(QObject *parent = nullptr) override;
+    OpenGLBackend *createOpenGLBackend() override;
+    QPainterBackend *createQPainterBackend() override;
+
+protected:
+    void connectNotify(const QMetaMethod &signal) override;
+
 Q_SIGNALS:
     void shellSurfaceSizeChanged(const QSize &size);
     void systemCompositorDied();
@@ -210,34 +196,14 @@ private:
     KWayland::Client::ShellSurface *m_shellSurface;
     QScopedPointer<WaylandSeat> m_seat;
     KWayland::Client::ShmPool *m_shm;
-    QScopedPointer<X11CursorTracker> m_cursorTracker;
     QList<KWayland::Client::Output*> m_outputs;
     KWayland::Client::ConnectionThread *m_connectionThreadObject;
     QThread *m_connectionThread;
     KWayland::Client::FullscreenShell *m_fullscreenShell;
     KWayland::Client::SubCompositor *m_subCompositor;
     WaylandCursor *m_cursor;
-
-    KWIN_SINGLETON(WaylandBackend)
+    bool m_ready = false;
 };
-
-inline
-bool CursorData::isValid() const
-{
-    return m_valid;
-}
-
-inline
-const QPoint& CursorData::hotSpot() const
-{
-    return m_hotSpot;
-}
-
-inline
-const QImage &CursorData::cursor() const
-{
-    return m_cursor;
-}
 
 inline
 wl_display *WaylandBackend::display()
@@ -261,12 +227,6 @@ inline
 KWayland::Client::ShmPool* WaylandBackend::shmPool()
 {
     return m_shm;
-}
-
-inline
-X11CursorTracker *WaylandBackend::cursorTracker()
-{
-    return m_cursorTracker.data();
 }
 
 inline

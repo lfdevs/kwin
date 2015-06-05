@@ -4,9 +4,9 @@
 # Nicola Ruggero <nicola@nxnt.org>, 2013.
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: kwin_scripting\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-13 12:17+0000\n"
+"POT-Creation-Date: 2014-11-25 09:50+0000\n"
 "PO-Revision-Date: 2013-07-05 01:26+0200\n"
 "Last-Translator: Nicola Ruggero <nicola@nxnt.org>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "Nicola Ruggero"
 
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
+msgstr "nicola@nxnt.org"
 
 #: genericscriptedconfig.cpp:81
 msgctxt "Error message"

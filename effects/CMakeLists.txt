@@ -31,7 +31,6 @@ set(kwin_effect_QT_LIBS
 
 set(kwin_effect_XLIB_LIBS
     ${X11_X11_LIB}
-    ${X11_Xcursor_LIB}
 )
 
 set(kwin_effect_XCB_LIBS
@@ -132,12 +131,14 @@ kconfig_add_kcfg_files(kwin4_effect_builtins_sources
 
 # scripted effects
 add_subdirectory( dialogparent )
+add_subdirectory( eyeonscreen )
 add_subdirectory( fade )
 add_subdirectory( fadedesktop )
 add_subdirectory( login )
 add_subdirectory( maximize )
 add_subdirectory( scalein )
 add_subdirectory( translucency )
+add_subdirectory( windowaperture )
 
 ###############################################################################
 # Built-in effects go here

@@ -929,7 +929,7 @@ public:
     Q_SCRIPTABLE virtual KWin::EffectWindow* findWindow(WId id) const = 0;
     virtual EffectWindowList stackingOrder() const = 0;
     // window will be temporarily painted as if being at the top of the stack
-    virtual void setElevatedWindow(EffectWindow* w, bool set) = 0;
+    Q_SCRIPTABLE virtual void setElevatedWindow(KWin::EffectWindow* w, bool set) = 0;
 
     virtual void setTabBoxWindow(EffectWindow*) = 0;
     virtual void setTabBoxDesktop(int) = 0;
@@ -1125,6 +1125,13 @@ Q_SIGNALS:
      * @since 5.0
      **/
     void numberScreensChanged();
+    /**
+     * Signal emitted when the desktop showing ("dashboard") state changed
+     * The desktop is risen to the keepAbove layer, you may want to elevate
+     * windows or such.
+     * @since 5.3
+     **/
+    void showingDesktopChanged(bool);
     /**
      * Signal emitted when a new window has been added to the Workspace.
      * @param w The added window
@@ -1323,6 +1330,12 @@ Q_SIGNALS:
                               Qt::MouseButtons buttons, Qt::MouseButtons oldbuttons,
                               Qt::KeyboardModifiers modifiers, Qt::KeyboardModifiers oldmodifiers);
     /**
+     * Signal emitted when the cursor shape changed.
+     * You'll likely want to query the current cursor as reaction: xcb_xfixes_get_cursor_image_unchecked
+     * Connection to this signal is tracked, so if you don't need it anymore, disconnect from it to stop cursor event filtering
+     */
+    void cursorShapeChanged();
+    /**
      * Receives events registered for using @link registerPropertyType.
      * Use readProperty() to get the property data.
      * Note that the property may be already set on the window, so doing the same
@@ -1497,6 +1510,11 @@ class KWINEFFECTS_EXPORT EffectWindow : public QObject
      * See _NET_WM_WINDOW_TYPE_NOTIFICATION at http://standards.freedesktop.org/wm-spec/wm-spec-latest.html .
      */
     Q_PROPERTY(bool notification READ isNotification)
+    /**
+     * Returns whether the window is an on screen display window
+     * using the non-standard _KDE_NET_WM_WINDOW_TYPE_ON_SCREEN_DISPLAY
+     */
+    Q_PROPERTY(bool onScreenDisplay READ isOnScreenDisplay)
     /**
      * Returns whether the window is a combobox popup.
      * See _NET_WM_WINDOW_TYPE_COMBO at http://standards.freedesktop.org/wm-spec/wm-spec-latest.html .
@@ -1786,6 +1804,11 @@ public:
      * See _NET_WM_WINDOW_TYPE_NOTIFICATION at http://standards.freedesktop.org/wm-spec/wm-spec-latest.html .
      */
     bool isNotification() const;
+    /**
+     * Returns whether the window is an on screen display window
+     * using the non-standard _KDE_NET_WM_WINDOW_TYPE_ON_SCREEN_DISPLAY
+     */
+    bool isOnScreenDisplay() const;
     /**
      * Returns whether the window is a combobox popup.
      * See _NET_WM_WINDOW_TYPE_COMBO at http://standards.freedesktop.org/wm-spec/wm-spec-latest.html .

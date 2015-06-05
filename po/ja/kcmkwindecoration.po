@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
 "PO-Revision-Date: 2010-06-12 23:33+0900\n"
 "Last-Translator: Taiki Komoda <kom@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -34,6 +34,7 @@ msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:71
 #, fuzzy
+#| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "すべてのデスクトップに配置"
 
@@ -59,11 +60,13 @@ msgstr "シェード"
 
 #: declarative-plugin/buttonsmodel.cpp:83
 #, fuzzy
+#| msgid "Keep Below Others"
 msgid "Keep below"
 msgstr "常に最背面に表示"
 
 #: declarative-plugin/buttonsmodel.cpp:85
 #, fuzzy
+#| msgid "Keep Above Others"
 msgid "Keep above"
 msgstr "常に最前面に表示"
 
@@ -86,12 +89,14 @@ msgstr "新しい装飾を取得..."
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kcm.ui:56
 #, fuzzy
+#| msgid "Border size:"
 msgid "Border si&ze:"
 msgstr "枠のサイズ:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:67
 #, fuzzy
+#| msgid "Border size:"
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "枠のサイズ:"

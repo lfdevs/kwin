@@ -29,7 +29,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "activities.h"
 #endif
 #include "cursor.h"
-#include <QX11Info>
 #include "rules.h"
 #include "group.h"
 #include "netinfo.h"
@@ -71,15 +70,6 @@ bool Client::manage(xcb_window_t w, bool isMapped)
 
     // SELI TODO: Order all these things in some sane manner
 
-    bool init_minimize = false;
-    XWMHints* hints = XGetWMHints(display(), w);
-    if (hints && (hints->flags & StateHint) && hints->initial_state == IconicState)
-        init_minimize = true;
-    if (hints)
-        XFree(hints);
-    if (isMapped)
-        init_minimize = false; // If it's already mapped, ignore hint
-
     const NET::Properties properties =
         NET::WMDesktop |
         NET::WMState |
@@ -103,14 +93,30 @@ bool Client::manage(xcb_window_t w, bool isMapped)
         NET::WM2GroupLeader |
         NET::WM2Urgency |
         NET::WM2Input |
-        NET::WM2Protocols;
+        NET::WM2Protocols |
+        NET::WM2InitialMappingState |
+        NET::WM2IconPixmap |
+        NET::WM2OpaqueRegion;
 
+    auto wmClientLeaderCookie = fetchWmClientLeader();
+    auto skipCloseAnimationCookie = fetchSkipCloseAnimation();
+    auto gtkFrameExtentsCookie = fetchGtkFrameExtents();
+    auto showOnScreenEdgeCookie = fetchShowOnScreenEdge();
+    auto colorSchemeCookie = fetchColorScheme();
+    auto firstInTabBoxCookie = fetchFirstInTabBox();
+    auto transientCookie = fetchTransient();
+    auto activitiesCookie = fetchActivities();
+    m_geometryHints.init(window());
+    m_motif.init(window());
     info = new WinInfo(this, m_client, rootWindow(), properties, properties2);
+
+    // If it's already mapped, ignore hint
+    bool init_minimize = !isMapped && (info->initialMappingState() == NET::Iconic);
 
     m_colormap = attr->colormap;
 
     getResourceClass();
-    getWmClientLeader();
+    readWmClientLeader(wmClientLeaderCookie);
     getWmClientMachine();
     getSyncCounter();
     // First only read the caption text, so that setupWindowRules() can use it for matching,
@@ -123,7 +129,7 @@ bool Client::manage(xcb_window_t w, bool isMapped)
     if (Xcb::Extensions::self()->isShapeAvailable())
         xcb_shape_select_input(connection(), window(), true);
     detectShape(window());
-    detectGtkFrameExtents();
+    readGtkFrameExtents(gtkFrameExtentsCookie);
     detectNoBorder();
     fetchIconicName();
 
@@ -133,18 +139,18 @@ bool Client::manage(xcb_window_t w, bool isMapped)
     updateAllowedActions(); // Group affects isMinimizable()
 
     modal = (info->state() & NET::Modal) != 0;   // Needs to be valid before handling groups
-    readTransient();
+    readTransientProperty(transientCookie);
     getIcons();
-    getWmNormalHints(); // Get xSizeHint
+    m_geometryHints.read();
     getMotifHints();
     getWmOpaqueRegion();
-    getSkipCloseAnimation();
+    readSkipCloseAnimation(skipCloseAnimationCookie);
 
     // TODO: Try to obey all state information from info->state()
 
     original_skip_taskbar = skip_taskbar = (info->state() & NET::SkipTaskbar) != 0;
     skip_pager = (info->state() & NET::SkipPager) != 0;
-    updateFirstInTabBox();
+    readFirstInTabBox(firstInTabBoxCookie);
 
     setupCompositing();
 
@@ -168,7 +174,7 @@ bool Client::manage(xcb_window_t w, bool isMapped)
     init_minimize = rules()->checkMinimize(init_minimize, !isMapped);
     noborder = rules()->checkNoBorder(noborder, !isMapped);
 
-    checkActivities();
+    readActivities(activitiesCookie);
 
     // Initial desktop placement
     if (session) {
@@ -299,8 +305,7 @@ bool Client::manage(xcb_window_t w, bool isMapped)
     else
         usePosition = true;
     if (!rules()->checkIgnoreGeometry(!usePosition, true)) {
-        if (((xSizeHint.flags & PPosition)) ||
-                (xSizeHint.flags & USPosition)) {
+        if (m_geometryHints.hasPosition()) {
             placementDone = true;
             // Disobey xinerama placement option for now (#70943)
             area = workspace()->clientArea(PlacementArea, geom.center(), desktop());
@@ -312,12 +317,12 @@ bool Client::manage(xcb_window_t w, bool isMapped)
     //        // Keep in mind that we now actually have a size :-)
     //        }
 
-    if (xSizeHint.flags & PMaxSize)
+    if (m_geometryHints.hasMaxSize())
         geom.setSize(geom.size().boundedTo(
-                         rules()->checkMaxSize(QSize(xSizeHint.max_width, xSizeHint.max_height))));
-    if (xSizeHint.flags & PMinSize)
+                         rules()->checkMaxSize(m_geometryHints.maxSize())));
+    if (m_geometryHints.hasMinSize())
         geom.setSize(geom.size().expandedTo(
-                         rules()->checkMinSize(QSize(xSizeHint.min_width, xSizeHint.min_height))));
+                         rules()->checkMinSize(m_geometryHints.minSize())));
 
     if (isMovable() && (geom.x() > area.right() || geom.y() > area.bottom()))
         placementDone = false; // Weird, do not trust.
@@ -371,6 +376,8 @@ bool Client::manage(xcb_window_t w, bool isMapped)
             }
         }
     }
+
+    readColorScheme(colorSchemeCookie);
 
     updateDecoration(false);   // Also gravitates
     // TODO: Is CentralGravity right here, when resizing is done after gravitating?
@@ -596,8 +603,6 @@ bool Client::manage(xcb_window_t w, bool isMapped)
             }
         }
 
-        resetShowingDesktop(options->isShowDesktopIsMinimizeAll());
-
         if (isOnCurrentDesktop() && !isMapped && !allow && (!session || session->stackingOrder < 0))
             workspace()->restackClientUnderActive(this);
 
@@ -636,8 +641,7 @@ bool Client::manage(xcb_window_t w, bool isMapped)
     updateWindowRules(Rules::All); // Was blocked while !isManaged()
 
     setBlockingCompositing(info->isBlockingCompositing());
-    updateColorScheme();
-    updateShowOnScreenEdge();
+    readShowOnScreenEdge(showOnScreenEdgeCookie);
 
     // TODO: there's a small problem here - isManaged() depends on the mapping state,
     // but this client is not yet in Workspace's client list at this point, will

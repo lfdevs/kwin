@@ -21,7 +21,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KWIN_LIB_KWINGLOBALS_H
 #define KWIN_LIB_KWINGLOBALS_H
 
+#include <QCoreApplication>
+#include <QVariant>
 #include <QtX11Extras/QX11Info>
+#include <QCoreApplication>
+#include <QVariant>
 
 #include <kwin_export.h>
 
@@ -138,7 +142,7 @@ KWIN_EXPORT xcb_connection_t *connection()
 {
     static xcb_connection_t *s_con = nullptr;
     if (!s_con) {
-        s_con = QX11Info::connection();
+        s_con = reinterpret_cast<xcb_connection_t*>(qApp->property("x11Connection").value<void*>());
     }
     return s_con;
 }
@@ -148,7 +152,7 @@ KWIN_EXPORT xcb_window_t rootWindow()
 {
     static xcb_window_t s_rootWindow = XCB_WINDOW_NONE;
     if (s_rootWindow == XCB_WINDOW_NONE) {
-        s_rootWindow = QX11Info::appRootWindow();
+        s_rootWindow = qApp->property("x11RootWindow").value<quint32>();
     }
     return s_rootWindow;
 }
@@ -156,7 +160,7 @@ KWIN_EXPORT xcb_window_t rootWindow()
 inline
 KWIN_EXPORT xcb_timestamp_t xTime()
 {
-    return QX11Info::appTime();
+    return qApp->property("x11Time").value<xcb_timestamp_t>();
 }
 
 inline
@@ -166,7 +170,7 @@ KWIN_EXPORT xcb_screen_t *defaultScreen()
     if (s_screen) {
         return s_screen;
     }
-    int screen = QX11Info::appScreen();
+    int screen = qApp->property("x11ScreenNumber").toInt();
     for (xcb_screen_iterator_t it = xcb_setup_roots_iterator(xcb_get_setup(connection()));
             it.rem;
             --screen, xcb_screen_next(&it)) {

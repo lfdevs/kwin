@@ -2,13 +2,13 @@
 # Translation of kcmkwinrules.po to Slovenian
 # Gregor Rakar <gregor.rakar@kiss.si>, 2004, 2005.
 # Jure Repinc <jlp@holodeck1.com>, 2007, 2008, 2009, 2010, 2011, 2012.
-# Andrej Mernik <andrejm@ubuntu.si>, 2013, 2014.
+# Andrej Mernik <andrejm@ubuntu.si>, 2013, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-28 15:51+0000\n"
-"PO-Revision-Date: 2014-08-02 20:25+0200\n"
+"POT-Creation-Date: 2015-05-16 12:24+0000\n"
+"PO-Revision-Date: 2015-04-16 16:48+0200\n"
 "Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -178,19 +178,19 @@ msgstr "&Enojna bližnjica"
 msgid "C&lear"
 msgstr "Po&čisti"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 msgid "Window-Specific Settings Configuration Module"
 msgstr "Nastavitveni modul za nastavitve glede na okna"
 
-#: kcm.cpp:51
+#: kcm.cpp:52
 msgid "(c) 2004 KWin and KControl Authors"
 msgstr "© 2004 Avtorji KWin in KControl"
 
-#: kcm.cpp:52
+#: kcm.cpp:53
 msgid "Lubos Lunak"
 msgstr "Lubos Lunak"
 
-#: kcm.cpp:83
+#: kcm.cpp:84
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -204,15 +204,15 @@ msgstr ""
 "uporabljate drugega okenskega upravljalnika, preverite njegovo dokumentacijo "
 "za prilagoditev obnašanja oken.</p>"
 
-#: kcm.cpp:99
+#: kcm.cpp:100
 msgid "Remember settings separately for every window"
 msgstr "Zaponi si nastavitve, ločene za vsako okno"
 
-#: kcm.cpp:100
+#: kcm.cpp:101
 msgid "Show internal settings for remembering"
 msgstr "Prikaži notranje nastavitve za pomnjenje"
 
-#: kcm.cpp:101
+#: kcm.cpp:102
 msgid "Internal setting for remembering"
 msgstr "Notranja nastavitev za pomnjenje"
 
@@ -1115,3 +1115,11 @@ msgstr "Preprečevanje kraje &žarišča"
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
 msgstr "Barvna &shema naslovne vrstice"
+
+#: yesnobox.h:35
+msgid "Yes"
+msgstr "Da"
+
+#: yesnobox.h:36
+msgid "No"
+msgstr "Ne"

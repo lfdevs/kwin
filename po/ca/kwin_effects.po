@@ -1,17 +1,17 @@
 # Translation of kwin_effects.po to Catalan
-# Copyright (C) 2007-2014 This_file_is_part_of_KDE
+# Copyright (C) 2007-2015 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014.
+# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-03-21 10:21+0000\n"
-"PO-Revision-Date: 2014-06-24 18:31+0200\n"
-"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
+"POT-Creation-Date: 2015-05-21 11:34+0000\n"
+"PO-Revision-Date: 2015-05-16 21:30+0200\n"
+"Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +49,7 @@ msgstr "Potent"
 msgid "Save intermediate rendering results."
 msgstr "Desa els resultats de la representació intermèdia."
 
-#: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Mostra l'escriptori"
@@ -130,7 +130,7 @@ msgstr "Reflexos"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: coverswitch/coverswitch_config.ui:195
 msgid "Rear color"
-msgstr "Color del darrera"
+msgstr "Color del darrere"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: coverswitch/coverswitch_config.ui:205
@@ -404,7 +404,7 @@ msgstr "ms"
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_Blur)
 #: dashboard/dashboard_config.ui:193
 msgid "The blur effect must be enabled before it can be used."
-msgstr "L'efecte de difuminat ha d'estar actiu per a que es pugui utilitzar."
+msgstr "L'efecte de difuminat ha d'estar actiu perquè es pugui utilitzar."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Blur)
 #: dashboard/dashboard_config.ui:196
@@ -795,7 +795,7 @@ msgstr "Dimensiona la finestra"
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
 msgstr ""
-"Redimensiona les finestres amb un escalat de textura ràpid enlloc "
+"Redimensiona les finestres amb un escalat de textura ràpid en lloc "
 "d'actualitzar els continguts"
 
 #: effect_builtins.cpp:462
@@ -1185,7 +1185,7 @@ msgstr "Commuta les finestres presents (tots els escriptoris)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Commuta les finestres presents (classe finestra)"
 
-#: presentwindows/presentwindows.cpp:1556
+#: presentwindows/presentwindows.cpp:1561
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1340,7 +1340,7 @@ msgstr "Mostra les &icones de les finestres"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
 #: presentwindows/presentwindows_config.ui:410
 msgid "Ignore &minimized windows"
-msgstr "Ignore les finestres &minimitzades"
+msgstr "Ignora les finestres &minimitzades"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowPanel)
 #: presentwindows/presentwindows_config.ui:417
@@ -1552,7 +1552,7 @@ msgstr "Menús emergents:"
 msgid "Torn-off menus:"
 msgstr "Menús d'apagat:"
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:61
 msgid "Toggle window geometry display (effect only)"
 msgstr "Commuta la geometria de visualització de la finestra (només efectes)"
 
@@ -1620,27 +1620,27 @@ msgstr "Menys"
 msgid "More"
 msgstr "Més"
 
-#: zoom/zoom.cpp:86
+#: zoom/zoom.cpp:84
 msgid "Move Zoomed Area to Left"
 msgstr "Mou l'àrea ampliada a l'esquerra"
 
-#: zoom/zoom.cpp:94
+#: zoom/zoom.cpp:92
 msgid "Move Zoomed Area to Right"
 msgstr "Mou l'àrea ampliada a la dreta"
 
-#: zoom/zoom.cpp:102
+#: zoom/zoom.cpp:100
 msgid "Move Zoomed Area Upwards"
 msgstr "Mou l'àrea ampliada cap a dalt"
 
-#: zoom/zoom.cpp:110
+#: zoom/zoom.cpp:108
 msgid "Move Zoomed Area Downwards"
 msgstr "Mou l'àrea ampliada cap a baix"
 
-#: zoom/zoom.cpp:119 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
 msgid "Move Mouse to Focus"
 msgstr "Mou el ratolí al focus"
 
-#: zoom/zoom.cpp:127 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
 msgid "Move Mouse to Center"
 msgstr "Mou el ratolí al centre"
 

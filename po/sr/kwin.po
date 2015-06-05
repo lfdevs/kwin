@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-18 09:50+0000\n"
-"PO-Revision-Date: 2014-11-15 18:31+0100\n"
+"POT-Creation-Date: 2015-04-22 10:24+0000\n"
+"PO-Revision-Date: 2015-04-03 15:04+0200\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr\n"
@@ -30,7 +30,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "toptan@kde.org.yu,caslav.ilic@gmx.net"
 
-#: composite.cpp:503
+#: composite.cpp:544
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -299,121 +299,129 @@ msgid "Quick Tile Window to the Right"
 msgstr "Брзо поплочај прозор десно"
 
 #: kwinbindings.cpp:100
+msgid "Quick Tile Window to the Top"
+msgstr "Брзо поплочај прозор горе"
+
+#: kwinbindings.cpp:102
+msgid "Quick Tile Window to the Bottom"
+msgstr "Брзо поплочај прозор доле"
+
+#: kwinbindings.cpp:104
 msgid "Quick Tile Window to the Top Left"
 msgstr "Брзо поплочај прозор горе лево"
 
-#: kwinbindings.cpp:102
+#: kwinbindings.cpp:106
 msgid "Quick Tile Window to the Bottom Left"
 msgstr "Брзо поплочај прозор доле лево"
 
-#: kwinbindings.cpp:104
+#: kwinbindings.cpp:108
 msgid "Quick Tile Window to the Top Right"
 msgstr "Брзо поплочај прозор горе десно"
 
-#: kwinbindings.cpp:106
+#: kwinbindings.cpp:110
 msgid "Quick Tile Window to the Bottom Right"
 msgstr "Брзо поплочај прозор доле десно"
 
-#: kwinbindings.cpp:108
+#: kwinbindings.cpp:112
 msgid "Switch to Window Above"
 msgstr "На прозор изнад"
 
-#: kwinbindings.cpp:110
+#: kwinbindings.cpp:114
 msgid "Switch to Window Below"
 msgstr "На прозор испод"
 
-#: kwinbindings.cpp:112
+#: kwinbindings.cpp:116
 msgid "Switch to Window to the Right"
 msgstr "На прозор прозор десно"
 
-#: kwinbindings.cpp:114
+#: kwinbindings.cpp:118
 msgid "Switch to Window to the Left"
 msgstr "На прозор лево"
 
-#: kwinbindings.cpp:116
+#: kwinbindings.cpp:120
 msgid "Increase Opacity of Active Window by 5 %"
 msgstr "Увећај непрозирност активног прозора 5%"
 
-#: kwinbindings.cpp:118
+#: kwinbindings.cpp:122
 msgid "Decrease Opacity of Active Window by 5 %"
 msgstr "Смањи непрозирност активног прозора 5%"
 
-#: kwinbindings.cpp:121
+#: kwinbindings.cpp:125
 msgid "Keep Window on All Desktops"
 msgstr "Држи прозор на свим површима"
 
-#: kwinbindings.cpp:125
+#: kwinbindings.cpp:129
 #, kde-format
 msgid "Window to Desktop %1"
 msgstr "Прозор на површ %1"
 
-#: kwinbindings.cpp:127
+#: kwinbindings.cpp:131
 msgid "Window to Next Desktop"
 msgstr "Прозор на наредну површ"
 
-#: kwinbindings.cpp:128
+#: kwinbindings.cpp:132
 msgid "Window to Previous Desktop"
 msgstr "Прозор на претходну површ"
 
-#: kwinbindings.cpp:129
+#: kwinbindings.cpp:133
 msgid "Window One Desktop to the Right"
 msgstr "Прозор једну површ удесно"
 
-#: kwinbindings.cpp:130
+#: kwinbindings.cpp:134
 msgid "Window One Desktop to the Left"
 msgstr "Прозор једну површ улево"
 
-#: kwinbindings.cpp:131
+#: kwinbindings.cpp:135
 msgid "Window One Desktop Up"
 msgstr "Прозор једну површ нагоре"
 
-#: kwinbindings.cpp:132
+#: kwinbindings.cpp:136
 msgid "Window One Desktop Down"
 msgstr "Прозор једну површ надоле"
 
-#: kwinbindings.cpp:135
+#: kwinbindings.cpp:139
 #, kde-format
 msgid "Window to Screen %1"
 msgstr "Прозор на екран %1"
 
-#: kwinbindings.cpp:137
+#: kwinbindings.cpp:141
 msgid "Window to Next Screen"
 msgstr "Прозор на наредни екран"
 
-#: kwinbindings.cpp:138
+#: kwinbindings.cpp:142
 msgid "Window to Previous Screen"
 msgstr "Прозор на претходни екран"
 
-#: kwinbindings.cpp:139
+#: kwinbindings.cpp:143
 msgid "Show Desktop"
 msgstr "Прикажи површ"
 
-#: kwinbindings.cpp:142
+#: kwinbindings.cpp:146
 #, kde-format
 msgid "Switch to Screen %1"
 msgstr "На екран %1"
 
-#: kwinbindings.cpp:145
+#: kwinbindings.cpp:149
 msgid "Switch to Next Screen"
 msgstr "На наредни екран"
 
-#: kwinbindings.cpp:146
+#: kwinbindings.cpp:150
 msgid "Switch to Previous Screen"
 msgstr "На претходни екран"
 
-#: kwinbindings.cpp:148
+#: kwinbindings.cpp:152
 msgid "Kill Window"
 msgstr "Убиј прозор"
 
-#: kwinbindings.cpp:149
+#: kwinbindings.cpp:153
 msgid "Suspend Compositing"
 msgstr "Суспендуј слагање"
 
-#: kwinbindings.cpp:150
+#: kwinbindings.cpp:154
 msgid "Invert Screen Colors"
 msgstr "Изврни боје екрана"
 
-#: main.cpp:78
+#: main.cpp:90
 msgid ""
 "KWin is unstable.\n"
 "It seems to have crashed several times in a row.\n"
@@ -423,55 +431,51 @@ msgstr ""
 "Изгледа да је дошло до рушења неколико пута за редом.\n"
 "Можете изабрати неки други менаџер прозора:"
 
-#: main.cpp:260 main.cpp:287
+#: main.cpp:272 main.cpp:299
 msgid "KDE window manager"
 msgstr "КДЕ‑ов менаџер прозора"
 
-#: main.cpp:265
+#: main.cpp:277
 msgid "KWin"
 msgstr "К‑вин"
 
-#: main.cpp:269
+#: main.cpp:281
 msgid "(c) 1999-2013, The KDE Developers"
 msgstr "© 1999-2013, програмери КДЕ‑а"
 
-#: main.cpp:271
+#: main.cpp:283
 msgid "Matthias Ettrich"
 msgstr "Матијас Етрих"
 
-#: main.cpp:272
+#: main.cpp:284
 msgid "Cristian Tibirna"
 msgstr "Кристијан Тибирна"
 
-#: main.cpp:273
+#: main.cpp:285
 msgid "Daniel M. Duley"
 msgstr "Денијел М. Дјули"
 
-#: main.cpp:274
+#: main.cpp:286
 msgid "Luboš Luňák"
 msgstr "Лубош Луњак"
 
-#: main.cpp:275
+#: main.cpp:287
 msgid "Martin Gräßlin"
 msgstr "Мартин Греслин"
 
-#: main.cpp:275
+#: main.cpp:287
 msgid "Maintainer"
 msgstr "одржавалац"
 
-#: main.cpp:284
+#: main.cpp:296
 msgid "Disable configuration options"
 msgstr "Искључи опције поставе"
 
-#: main.cpp:285
+#: main.cpp:297
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Упозори да се К‑вин недавно срушио n пута"
 
-#: main_wayland.cpp:88
-msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
-msgstr "kwin_wayland: Икс11 менаџер прозора ради на икс11 приказу.\n"
-
-#: main_wayland.cpp:96
+#: main_wayland.cpp:106
 msgid ""
 "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
 "set.\n"
@@ -479,17 +483,50 @@ msgstr ""
 "kwin_wayland: Не могу да се повежем на вејланд сервер, проверите да ли је "
 "постављена WAYLAND_DISPLAY.\n"
 
-#: main_wayland.cpp:235
-msgid "Start a nested X Server."
-msgstr "Покрени угнежђени икс сервер."
+#: main_wayland.cpp:213
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+msgstr "kwin_wayland: Икс11 менаџер прозора ради на икс11 приказу.\n"
 
-#: main_wayland.cpp:238
+#: main_wayland.cpp:384
+msgid "Start a rootless Xwayland server."
+msgstr "Покрени бескорени икс‑вејланд сервер."
+
+# literal-segment: wayland-0
+#: main_wayland.cpp:386
 msgid ""
-"The X11 Display to connect to. If not set next free number will be picked."
+"Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
-"Икс11 приказ за повезивање. Ако се не зада, узима се наредни слободан број."
+"Име вејланд сокета на коме се слуша. Ако се не зада, користи се „wayland-0“."
 
-#: main_wayland.cpp:247
+#: main_wayland.cpp:389
+msgid "Use a nested compositor in windowed mode."
+msgstr "Користи угнежђени слагач у прозорском режиму."
+
+#: main_wayland.cpp:391
+msgid "Render to framebuffer."
+msgstr "Рендеруј у кадробафер."
+
+#: main_wayland.cpp:393
+msgid "The framebuffer device to render to."
+msgstr "Кадробаферски уређај у који се рендерује."
+
+#: main_wayland.cpp:397
+msgid "The X11 Display to use in windowed mode on platform X11."
+msgstr "Икс11 приказ за прозорски режим на платформи Икс11."
+
+#: main_wayland.cpp:400
+msgid "The Wayland Display to use in windowed mode on platform Wayland."
+msgstr "Вејланд приказ за прозорски режим на платформи вејланд."
+
+#: main_wayland.cpp:403
+msgid "The width for windowed mode. Default width is 1024."
+msgstr "Ширина прозорског режима. Подразумевана је 1024."
+
+#: main_wayland.cpp:407
+msgid "The height for windowed mode. Default height is 768."
+msgstr "Висина прозорског режима. Подразумевана је 768."
+
+#: main_wayland.cpp:424
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
@@ -497,7 +534,7 @@ msgstr ""
 "Подршка за обраду улазних догађаја преко Либинпута. Напомена: никад не "
 "користити у угнежђеној сесији."
 
-#: main_x11.cpp:149
+#: main_x11.cpp:151
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
@@ -505,19 +542,19 @@ msgstr ""
 "kwin: на могу да потврдим избор менаџера, да није већ покренут неки други? "
 "(покушајте са --replace)\n"
 
-#: main_x11.cpp:166
+#: main_x11.cpp:168
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr "kwin: у погону је други менаџер прозора (покушајте са --replace)\n"
 
-#: main_x11.cpp:261
+#: main_x11.cpp:270
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "Замени већ покренути ИЦЦЦМ‑у 2.0 сагласни менаџер прозора"
 
-#: scene_opengl.cpp:610
+#: scene_opengl.cpp:620
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr "Ефекти површи су поново покренути због ресетовања графике."
 
-#: scene_opengl.cpp:774
+#: scene_opengl.cpp:784
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -531,7 +568,7 @@ msgstr ""
 "као позадином, али и то може бити преспоро у овој резолуцији. Иначе, смањите "
 "збирну резолуцију свих екрана на %1×%2.</p>"
 
-#: scene_opengl.cpp:781
+#: scene_opengl.cpp:791
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
 "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
@@ -543,7 +580,7 @@ msgstr ""
 "перформансе обично трпети због ограничења хардвера над величином опенГЛ "
 "видног поља."
 
-#: scene_opengl.cpp:806
+#: scene_opengl.cpp:816
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -557,7 +594,7 @@ msgstr ""
 "слагање, пребаците на Икс‑рендер као позадину или смањите резолуцију на %1×"
 "%1.</p>"
 
-#: scene_opengl.cpp:812
+#: scene_opengl.cpp:822
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
 "GPU, thus windows of that size cannot be assigned to textures and will be "
@@ -610,60 +647,60 @@ msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
 msgstr "%1 није варијантни тип."
 
-#: tabbox/tabbox.cpp:347
+#: tabbox/tabbox.cpp:358
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Прикажи површ"
 
-#: tabbox/tabbox.cpp:498
+#: tabbox/tabbox.cpp:508
 msgid "Walk Through Windows"
 msgstr "Мењај прозоре"
 
-#: tabbox/tabbox.cpp:499
+#: tabbox/tabbox.cpp:509
 msgid "Walk Through Windows (Reverse)"
 msgstr "Мењај прозоре (обратно)"
 
-#: tabbox/tabbox.cpp:500
+#: tabbox/tabbox.cpp:510
 msgid "Walk Through Windows Alternative"
 msgstr "Мењај прозоре алтернативно"
 
-#: tabbox/tabbox.cpp:501
+#: tabbox/tabbox.cpp:511
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Мењај прозоре алтернативно (обратно)"
 
-#: tabbox/tabbox.cpp:502
+#: tabbox/tabbox.cpp:512
 msgid "Walk Through Windows of Current Application"
 msgstr "Мењај прозоре текућег програма"
 
-#: tabbox/tabbox.cpp:503
+#: tabbox/tabbox.cpp:513
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Мењај прозоре текућег програма (обратно)"
 
-#: tabbox/tabbox.cpp:504
+#: tabbox/tabbox.cpp:514
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Мењај прозоре текућег програма алтернативно"
 
-#: tabbox/tabbox.cpp:505
+#: tabbox/tabbox.cpp:515
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "Мењај прозоре текућег програма алтернативно (обратно)"
 
-#: tabbox/tabbox.cpp:506
+#: tabbox/tabbox.cpp:516
 msgid "Walk Through Desktops"
 msgstr "Мењај површи"
 
-#: tabbox/tabbox.cpp:507
+#: tabbox/tabbox.cpp:517
 msgid "Walk Through Desktops (Reverse)"
 msgstr "Мењај површи (обратно)"
 
-#: tabbox/tabbox.cpp:508
+#: tabbox/tabbox.cpp:518
 msgid "Walk Through Desktop List"
 msgstr "Мењај површи по списку"
 
-#: tabbox/tabbox.cpp:509
+#: tabbox/tabbox.cpp:519
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Мењај површи по списку (обратно)"
 
-#: tabbox/tabboxhandler.cpp:278
+#: tabbox/tabboxhandler.cpp:285
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
@@ -671,7 +708,7 @@ msgstr ""
 "Инсталација мењача површи није исправна, недостају неки ресурси.\n"
 "Обратите се својој дистрибуцији."
 
-#: useractions.cpp:185
+#: useractions.cpp:181
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -684,7 +721,7 @@ msgstr ""
 "употребите мени радњи са прозором, који се активира пречицом <shortcut>%1</"
 "shortcut>."
 
-#: useractions.cpp:193
+#: useractions.cpp:189
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -697,142 +734,142 @@ msgstr ""
 "моћи да га искључите мишем. Уместо тога употребите мени радњи са прозором, "
 "који се активира пречицом <shortcut>%1</shortcut>."
 
-#: useractions.cpp:256
+#: useractions.cpp:252
 msgid "&Move"
 msgstr "По&мери"
 
-#: useractions.cpp:261
+#: useractions.cpp:257
 msgid "Re&size"
 msgstr "&Промени величину"
 
-#: useractions.cpp:265
+#: useractions.cpp:261
 msgid "Keep &Above Others"
 msgstr "Држи из&над осталих"
 
-#: useractions.cpp:271
+#: useractions.cpp:267
 msgid "Keep &Below Others"
 msgstr "Држи ис&под осталих"
 
-#: useractions.cpp:277
+#: useractions.cpp:273
 msgid "&Fullscreen"
 msgstr "Преко &целог екрана"
 
-#: useractions.cpp:283
+#: useractions.cpp:279
 msgid "Sh&ade"
 msgstr "&Намотај"
 
-#: useractions.cpp:288
+#: useractions.cpp:284
 msgid "&No Border"
 msgstr "&Без ивице"
 
-#: useractions.cpp:295
+#: useractions.cpp:291
 msgid "Window &Shortcut..."
 msgstr "Пречица &прозора..."
 
-#: useractions.cpp:300
+#: useractions.cpp:296
 msgid "&Special Window Settings..."
 msgstr "&Посебне поставке прозора..."
 
-#: useractions.cpp:304
+#: useractions.cpp:300
 msgid "S&pecial Application Settings..."
 msgstr "Посе&бне поставке програма..."
 
-#: useractions.cpp:311
+#: useractions.cpp:307
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
 msgid "Window &Manager Settings..."
 msgstr "Поставке &менаџера прозора..."
 
-#: useractions.cpp:326
+#: useractions.cpp:322
 msgid "Mi&nimize"
 msgstr "М&инимизуј"
 
-#: useractions.cpp:330
+#: useractions.cpp:326
 msgid "Ma&ximize"
 msgstr "М&аксимизуј"
 
-#: useractions.cpp:339
+#: useractions.cpp:335
 msgid "&Untab"
 msgstr "&Распусти језичке"
 
-#: useractions.cpp:343
+#: useractions.cpp:339
 msgid "Close Entire &Group"
 msgstr "Затвори &целу групу"
 
-#: useractions.cpp:354
+#: useractions.cpp:350
 msgid "&More Actions"
 msgstr "&Више радњи"
 
-#: useractions.cpp:358
+#: useractions.cpp:354
 msgid "&Close"
 msgstr "&Затвори"
 
-#: useractions.cpp:431
+#: useractions.cpp:427
 msgid "&Extensions"
 msgstr "&Проширења"
 
-#: useractions.cpp:486
+#: useractions.cpp:482
 msgctxt "Switch to tab -> Previous"
 msgid "Previous"
 msgstr "Претходни"
 
-#: useractions.cpp:487
+#: useractions.cpp:483
 msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr "Следећи"
 
-#: useractions.cpp:525
+#: useractions.cpp:521
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr "Нема ниједног"
 
-#: useractions.cpp:534
+#: useractions.cpp:530
 msgid "Switch to Tab"
 msgstr "На језичак"
 
-#: useractions.cpp:545
+#: useractions.cpp:541
 msgid "&Attach as tab to"
 msgstr "&Прикачи као језичак под"
 
-#: useractions.cpp:568
+#: useractions.cpp:564
 msgid "Move To &Desktop"
 msgstr "Премести на &површ"
 
-#: useractions.cpp:584
+#: useractions.cpp:580
 msgid "Move To &Screen"
 msgstr "Премести на &екран"
 
-#: useractions.cpp:599
+#: useractions.cpp:595
 msgid "Ac&tivities"
 msgstr "&Активности"
 
-#: useractions.cpp:611
+#: useractions.cpp:607
 msgid "&All Desktops"
 msgstr "&Све површи"
 
-#: useractions.cpp:637
+#: useractions.cpp:633
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "&Нова површ"
 
-#: useractions.cpp:658
+#: useractions.cpp:654
 #, kde-format
 msgctxt "@item:inmenu List of all Screens to send a window to"
 msgid "Screen &%1"
 msgstr "екран %1"
 
-#: useractions.cpp:676
+#: useractions.cpp:672
 msgid "&All Activities"
 msgstr "С&ве активности"
 
-#: useractions.cpp:883
+#: useractions.cpp:879
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "<b>%1</b> се већ користи"
 
-#: useractions.cpp:885
+#: useractions.cpp:881
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
@@ -840,12 +877,12 @@ msgstr ""
 "<b>%1</b> се већ користи за „%2“ у %3|/|<b>%1</b> се већ користи за „%2“ у "
 "$[лок %3]"
 
-#: useractions.cpp:1008
+#: useractions.cpp:1003
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Активирај прозор (%1)"
 
-#: useractions.cpp:1381
+#: useractions.cpp:1376
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
 "as active one.\n"
@@ -888,7 +925,7 @@ msgstr "На прву површ испод"
 msgid "Switch to Desktop %1"
 msgstr "На површ %1"
 
-#: workspace.cpp:1317
+#: workspace.cpp:1251
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

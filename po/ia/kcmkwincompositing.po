@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-05 09:36+0000\n"
+"POT-Creation-Date: 2015-02-05 07:54+0000\n"
 "PO-Revision-Date: 2014-07-25 14:43+0200\n"
 "Last-Translator: Giovanni Sora <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -41,7 +41,7 @@ msgid "GLX"
 msgstr "GLX"
 
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
-#: compositing.ui:20 qml/CompositingView.qml:55
+#: compositing.ui:20
 msgid "Enable compositor on startup"
 msgstr "Habilita effectos de compositor al initio"
 
@@ -68,28 +68,27 @@ msgstr "Methodo de scala:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:93 compositing.ui:119 qml/CompositingView.qml:113
-#: qml/CompositingView.qml:127
+#: compositing.ui:93 compositing.ui:119
 msgid "Crisp"
 msgstr "Crispe"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:98 qml/CompositingView.qml:113
+#: compositing.ui:98
 msgid "Smooth"
 msgstr "Lisie"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:103 qml/CompositingView.qml:113
+#: compositing.ui:103
 msgid "Accurate"
 msgstr "Accurate"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:124 qml/CompositingView.qml:127
+#: compositing.ui:124
 msgid "Smooth (slower)"
 msgstr "Lisie (plus lente)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: compositing.ui:139 qml/CompositingView.qml:81
+#: compositing.ui:139
 msgid "Rendering backend:"
 msgstr "Retro administration de rendition (rendering):"
 
@@ -105,28 +104,27 @@ msgstr "Prevention de laceration (\"vsync\"):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:167 compositing.ui:203 qml/CompositingView.qml:141
-#: qml/CompositingView.qml:154
+#: compositing.ui:167 compositing.ui:203
 msgid "Never"
 msgstr "Jammais"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:172 qml/CompositingView.qml:141
+#: compositing.ui:172
 msgid "Automatic"
 msgstr "Automatic"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:177 qml/CompositingView.qml:141
+#: compositing.ui:177
 msgid "Only when cheap"
 msgstr "Solo quando incostose"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:182 qml/CompositingView.qml:141
+#: compositing.ui:182
 msgid "Full screen repaints"
 msgstr "Il repingi schermo completemente"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:187 qml/CompositingView.qml:141
+#: compositing.ui:187
 msgid "Re-use screen content"
 msgstr "Reusa contento de schermo"
 
@@ -136,7 +134,7 @@ msgid "Keep window thumbnails:"
 msgstr "Mantene miniaturas de fenestras:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:208 qml/CompositingView.qml:154
+#: compositing.ui:208
 msgid "Only for Shown Windows"
 msgstr "Solmente pro fenestras monstrate"
 
@@ -146,22 +144,22 @@ msgid "Always"
 msgstr "Sempre"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: compositing.ui:221 qml/CompositingView.qml:175
+#: compositing.ui:221
 msgid "Expert:"
 msgstr "Experto:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
-#: compositing.ui:228 qml/CompositingView.qml:182
+#: compositing.ui:228
 msgid "Suspend compositor for full screen windows"
 msgstr "Suspende effectos de compositor pro fenestras de schermo plen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:235 qml/CompositingView.qml:192
+#: compositing.ui:235
 msgid "Experimental:"
 msgstr "Experimental:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:242 qml/CompositingView.qml:200
+#: compositing.ui:242
 msgid "Enable color correction"
 msgstr "Habilita correction de color"
 
@@ -261,30 +259,6 @@ msgstr "Gestion de Fenestra"
 #: model.cpp:235
 msgid "KWin development team"
 msgstr "Equipa de disveloppamento de KWin"
-
-#: qml/CompositingView.qml:67
-msgid "Animation Speed:"
-msgstr "Velocitate de animation:"
-
-#: qml/CompositingView.qml:106 qml/CompositingView.qml:120
-msgid "Scale Method:"
-msgstr "Methodo de scala:"
-
-#: qml/CompositingView.qml:135
-msgid "Tearing Prevention (VSync):"
-msgstr "Prevention de laceration (VSync):"
-
-#: qml/CompositingView.qml:148
-msgid "Keep Window Thumbnails:"
-msgstr "Mantene miniaturas de fenestras:"
-
-#: qml/CompositingView.qml:154
-msgid "Always (Breaks Animations)"
-msgstr "Sempre ( interrumpe animationes)"
-
-#: qml/CompositingView.qml:160
-msgid "OpenGL Platform Interface:"
-msgstr "Interfacie de platteforma OpenGL:"
 
 #: qml/Effect.qml:118
 #, kde-format

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-03-21 10:21+0000\n"
+"POT-Creation-Date: 2015-05-21 11:34+0000\n"
 "PO-Revision-Date: 2013-01-15 02:28+0200\n"
 "Last-Translator: Marek Laane <bald@smail.ee>\n"
 "Language-Team: Estonian <kde-et@linux.ee>\n"
@@ -44,10 +44,11 @@ msgstr "Tugev"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_CacheTexture)
 #: blur/blur_config.ui:86
 #, fuzzy
+#| msgid "Safe intermediate rendering results."
 msgid "Save intermediate rendering results."
 msgstr "Turvalised renderdamise vahetulemused."
 
-#: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Töölaua näitamine"
@@ -546,6 +547,7 @@ msgstr ""
 
 #: effect_builtins.cpp:117
 #, fuzzy
+#| msgid "Background color:"
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Taustavärv:"
@@ -567,6 +569,7 @@ msgstr ""
 
 #: effect_builtins.cpp:147
 #, fuzzy
+#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Töölauakuubik"
@@ -578,12 +581,14 @@ msgstr ""
 
 #: effect_builtins.cpp:162
 #, fuzzy
+#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Töölauakuubik"
 
 #: effect_builtins.cpp:163
 #, fuzzy
+#| msgid "Animate desktop changes"
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate desktop switching with a cube"
 msgstr "Töölaua muudatuste animeerimine"
@@ -600,6 +605,7 @@ msgstr ""
 
 #: effect_builtins.cpp:192
 #, fuzzy
+#| msgid "Show Desktop Grid"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Töölaua võrgustiku näitamine"
@@ -616,6 +622,7 @@ msgstr ""
 
 #: effect_builtins.cpp:208
 #, fuzzy
+#| msgid "Inactive windows:"
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Mitteaktiivsed aknad:"
@@ -637,6 +644,7 @@ msgstr ""
 
 #: effect_builtins.cpp:238
 #, fuzzy
+#| msgid "Send window to all desktops"
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "Akna saatmine kõigile töölaudadele"
@@ -674,6 +682,7 @@ msgstr ""
 
 #: effect_builtins.cpp:297
 #, fuzzy
+#| msgid "Invert mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Hiir teistpidi"
@@ -725,6 +734,7 @@ msgstr ""
 
 #: effect_builtins.cpp:372
 #, fuzzy
+#| msgid "Modifiers"
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Muuteklahvid"
@@ -736,18 +746,21 @@ msgstr ""
 
 #: effect_builtins.cpp:387
 #, fuzzy
+#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Animatsioon"
 
 #: effect_builtins.cpp:388
 #, fuzzy
+#| msgid "Ignore &minimized windows"
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "&Minimeeritud akende eiramine"
 
 #: effect_builtins.cpp:402
 #, fuzzy
+#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Animatsioon"
@@ -761,6 +774,7 @@ msgstr ""
 
 #: effect_builtins.cpp:417
 #, fuzzy
+#| msgid "Clear Mouse Marks"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Eemalda hiiretähised"
@@ -772,6 +786,7 @@ msgstr ""
 
 #: effect_builtins.cpp:432
 #, fuzzy
+#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Aknad"
@@ -783,6 +798,7 @@ msgstr ""
 
 #: effect_builtins.cpp:447
 #, fuzzy
+#| msgid "Close window"
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Akna sulgemine"
@@ -794,6 +810,7 @@ msgstr ""
 
 #: effect_builtins.cpp:462
 #, fuzzy
+#| msgid "Screen edge:"
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr "Ekraani serv:"
@@ -836,6 +853,7 @@ msgstr ""
 
 #: effect_builtins.cpp:522
 #, fuzzy
+#| msgid "Show &panels"
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "&Paneelide näitamine"
@@ -897,6 +915,7 @@ msgstr ""
 
 #: effect_builtins.cpp:612
 #, fuzzy
+#| msgid "Thumbnail Bar"
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Pisipildiriba"
@@ -908,6 +927,7 @@ msgstr ""
 
 #: effect_builtins.cpp:627
 #, fuzzy
+#| msgid "Track mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Hiire jälgimine"
@@ -924,24 +944,28 @@ msgstr ""
 
 #: effect_builtins.cpp:643
 #, fuzzy
+#| msgid "Display window &icons"
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "Akende &ikoonide näitamine"
 
 #: effect_builtins.cpp:657
 #, fuzzy
+#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Aknad"
 
 #: effect_builtins.cpp:658
 #, fuzzy
+#| msgid "Use for window &switching"
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "Ka&sutamine akende lülitamisel"
 
 #: effect_builtins.cpp:672
 #, fuzzy
+#| msgid "Zoom"
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Suurendus"
@@ -1066,6 +1090,7 @@ msgstr "&Kõrgus:"
 
 #: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
 #, fuzzy
+#| msgid "Toggle Effect"
 msgid "Toggle Mouse Click Effect"
 msgstr "Efekti lülitamine"
 
@@ -1185,7 +1210,7 @@ msgstr "Aktiivsete akende lülitamine (kõigil töölaudadel)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Aktiivsete akende lülitamine (Window klass)"
 
-#: presentwindows/presentwindows.cpp:1556
+#: presentwindows/presentwindows.cpp:1561
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1552,7 +1577,7 @@ msgstr "Hüpikmenüüd:"
 msgid "Torn-off menus:"
 msgstr "Eraldatavad menüüd:"
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:61
 msgid "Toggle window geometry display (effect only)"
 msgstr "Akna geomeetria näitamise lülitamine (ainult efekt)"
 
@@ -1620,27 +1645,27 @@ msgstr "Vähem"
 msgid "More"
 msgstr "Rohkem"
 
-#: zoom/zoom.cpp:86
+#: zoom/zoom.cpp:84
 msgid "Move Zoomed Area to Left"
 msgstr "Suurendatud ala liigutamine vasakule"
 
-#: zoom/zoom.cpp:94
+#: zoom/zoom.cpp:92
 msgid "Move Zoomed Area to Right"
 msgstr "Suurendatud ala liigutamine paremale"
 
-#: zoom/zoom.cpp:102
+#: zoom/zoom.cpp:100
 msgid "Move Zoomed Area Upwards"
 msgstr "Suurendatud ala liigutamine üles"
 
-#: zoom/zoom.cpp:110
+#: zoom/zoom.cpp:108
 msgid "Move Zoomed Area Downwards"
 msgstr "Suurendatud ala liigutamine alla"
 
-#: zoom/zoom.cpp:119 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
 msgid "Move Mouse to Focus"
 msgstr "Hiire liigutamine fookusse"
 
-#: zoom/zoom.cpp:127 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
 msgid "Move Mouse to Center"
 msgstr "Hiire liigutamine keskele"
 

@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "screens_xrandr.h"
 #include "xcbutils.h"
 
+
 namespace KWin
 {
 
@@ -36,25 +37,65 @@ void XRandRScreens::update()
 {
     auto fallback = [this]() {
         m_geometries << QRect();
+        m_refreshRates << -1.0f;
         setCount(1);
     };
     m_geometries.clear();
+    m_names.clear();
     T resources(rootWindow());
     if (resources.isNull()) {
         fallback();
         return;
     }
     xcb_randr_crtc_t *crtcs = resources.crtcs();
+    xcb_randr_mode_info_t *modes = resources.modes();
 
     QVector<Xcb::RandR::CrtcInfo> infos(resources->num_crtcs);
     for (int i = 0; i < resources->num_crtcs; ++i) {
         infos[i] = Xcb::RandR::CrtcInfo(crtcs[i], resources->config_timestamp);
     }
+
     for (int i = 0; i < resources->num_crtcs; ++i) {
         Xcb::RandR::CrtcInfo info(infos.at(i));
+
+        xcb_randr_output_t *outputs = info.outputs();
+        QVector<Xcb::RandR::OutputInfo> outputInfos(outputs ? resources->num_outputs : 0);
+        if (outputs) {
+            for (int i = 0; i < resources->num_outputs; ++i) {
+                outputInfos[i] = Xcb::RandR::OutputInfo(outputs[i], resources->config_timestamp);
+            }
+        }
+
+        float refreshRate = -1.0f;
+        for (int j = 0; j < resources->num_modes; ++j) {
+            if (info->mode == modes[j].id) {
+                if (modes[j].htotal*modes[j].vtotal) { // BUG 313996
+                    // refresh rate calculation - WTF was wikipedia 1998 when I needed it?
+                    int dotclock = modes[j].dot_clock,
+                          vtotal = modes[j].vtotal;
+                    if (modes[j].mode_flags & XCB_RANDR_MODE_FLAG_INTERLACE)
+                        dotclock *= 2;
+                    if (modes[j].mode_flags & XCB_RANDR_MODE_FLAG_DOUBLE_SCAN)
+                        vtotal *= 2;
+                    refreshRate = dotclock/float(modes[j].htotal*vtotal);
+                }
+                break; // found mode
+            }
+        }
+
         const QRect geo = info.rect();
         if (geo.isValid()) {
             m_geometries << geo;
+            m_refreshRates << refreshRate;
+            QString name;
+            for (int j = 0; j < info->num_outputs; ++j) {
+                Xcb::RandR::OutputInfo outputInfo(outputInfos.at(j));
+                if (crtcs[i] == outputInfo->crtc) {
+                    name = outputInfo.name();
+                    break;
+                }
+            }
+            m_names << name;
         }
     }
     if (m_geometries.isEmpty()) {
@@ -82,6 +123,14 @@ QRect XRandRScreens::geometry(int screen) const
     return m_geometries.at(screen);
 }
 
+QString XRandRScreens::name(int screen) const
+{
+    if (screen >= m_names.size() || screen < 0) {
+        return QString();
+    }
+    return m_names.at(screen);
+}
+
 int XRandRScreens::number(const QPoint &pos) const
 {
     int bestScreen = 0;
@@ -101,6 +150,14 @@ int XRandRScreens::number(const QPoint &pos) const
         }
     }
     return bestScreen;
+}
+
+float XRandRScreens::refreshRate(int screen) const
+{
+    if (screen >= m_refreshRates.size() || screen < 0) {
+        return -1.0f;
+    }
+    return m_refreshRates.at(screen);
 }
 
 QSize XRandRScreens::size(int screen) const

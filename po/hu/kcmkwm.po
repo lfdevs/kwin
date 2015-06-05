@@ -3,14 +3,14 @@
 # Balazs Nagy <julian7@kva.hu>, 1998.
 # Csaba Major <major@terrasoft.hu>, 1998.
 # Marcell Lengyel <miketkf@yahoo.com>, 1998.
-# Kristóf Kiszel <ulysses@kubuntu.org>, 2010, 2011, 2012, 2014.
+# Kristóf Kiszel <ulysses@kubuntu.org>, 2010, 2011, 2012, 2014, 2015.
 # Balázs Úr <urbalazs@gmail.com>, 2012, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-07-04 08:25+0000\n"
-"PO-Revision-Date: 2014-09-06 12:14+0200\n"
+"POT-Creation-Date: 2015-01-14 07:58+0000\n"
+"PO-Revision-Date: 2015-03-26 12:31+0100\n"
 "Last-Translator: Kristóf Kiszel <ulysses@kubuntu.org>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -441,11 +441,10 @@ msgid "&Placement:"
 msgstr "Ablak&elhelyezés:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, placementCombo)
-#: advanced.ui:122
+#: advanced.ui:121
 msgid ""
 "The placement policy determines where a new window will appear on the "
-"desktop.\n"
-"<ul>\n"
+"desktop.<br><ul>\n"
 "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
 "<li><em>Maximizing</em> will try to maximize every window to fill the whole "
 "screen. It might be useful to selectively affect placement of some windows "
@@ -459,8 +458,7 @@ msgid ""
 "</ul>"
 msgstr ""
 "Az ablakelhelyezési mód határozza meg, hogy az új ablakok hol jelennek meg "
-"az asztalon.\n"
-"<ul>\n"
+"az asztalon.<br><ul>\n"
 "<li><em>Intelligens</em> esetén minimális átfedés lesz az ablakok között</"
 "li>\n"
 "<li><em>Maximalizálás</em> esetén minden ablak maximalizálva lesz (ha ez "
@@ -476,52 +474,52 @@ msgstr ""
 "</ul>"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:126
+#: advanced.ui:125
 msgid "Smart"
 msgstr "intelligens"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:131
+#: advanced.ui:130
 msgid "Maximizing"
 msgstr "maximalizálás"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:136
+#: advanced.ui:135
 msgid "Cascade"
 msgstr "lépcsőzetes"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:141
+#: advanced.ui:140
 msgid "Random"
 msgstr "véletlenszerű"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:146
+#: advanced.ui:145
 msgid "Centered"
 msgstr "középre igazított"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:151
+#: advanced.ui:150
 msgid "Zero-Cornered"
 msgstr "a bal felső sarokba"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:156
+#: advanced.ui:155
 msgid "Under Mouse"
 msgstr "az egér alatt"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shBox)
-#: advanced.ui:167
+#: advanced.ui:166
 msgid "Shading"
 msgstr "felgördítés"
 
 #. i18n: ectx: property (text), widget (QLabel, shadeHoverLabel)
-#: advanced.ui:176
+#: advanced.ui:175
 msgid "Dela&y:"
 msgstr "Késlel&tetés:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, shadeHoverOn)
-#: advanced.ui:205
+#: advanced.ui:204
 msgid ""
 "If Shade Hover is enabled, a shaded window will un-shade automatically when "
 "the mouse pointer has been over the title bar for some time."
@@ -531,12 +529,12 @@ msgstr ""
 "marad."
 
 #. i18n: ectx: property (text), widget (QCheckBox, shadeHoverOn)
-#: advanced.ui:208
+#: advanced.ui:207
 msgid "&Enable hover"
 msgstr "A&utomatikus legördítés"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, shadeHover)
-#: advanced.ui:215
+#: advanced.ui:214
 msgid ""
 "Sets the time in milliseconds before the window unshades when the mouse "
 "pointer goes over the shaded window."
@@ -547,17 +545,17 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, delayFocus)
 #. i18n: ectx: property (suffix), widget (QSpinBox, autoRaise)
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadeHover)
-#: advanced.ui:230 focus.ui:250 focus.ui:475
+#: advanced.ui:229 focus.ui:250 focus.ui:475
 msgid " ms"
 msgstr " ms"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: advanced.ui:240
+#: advanced.ui:239
 msgid "Special Windows"
 msgstr "Speciális ablakok"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, hideUtilityWindowsForInactive)
-#: advanced.ui:249
+#: advanced.ui:248
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
 "inactive applications will be hidden and will be shown only when the "
@@ -570,7 +568,7 @@ msgstr ""
 "amelyeket az alkalmazás eszköztípusúnak jelölt meg."
 
 #. i18n: ectx: property (text), widget (QCheckBox, hideUtilityWindowsForInactive)
-#: advanced.ui:252
+#: advanced.ui:251
 msgid "Hide utility windows for inactive applications"
 msgstr "Az eszközablakok elrejtése inaktív alkalmazásoknál"
 

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
 "PO-Revision-Date: 2014-03-23 14:22+0100\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -26,11 +26,14 @@ msgstr "Menu"
 
 #: declarative-plugin/buttonsmodel.cpp:69
 #, fuzzy
+#| msgctxt "Button showing application menu imported from dbusmenu"
+#| msgid "Application Menu"
 msgid "Application menu"
 msgstr "Programmenu"
 
 #: declarative-plugin/buttonsmodel.cpp:71
 #, fuzzy
+#| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "På alle skriveborde"
 
@@ -56,11 +59,13 @@ msgstr "Skyg"
 
 #: declarative-plugin/buttonsmodel.cpp:83
 #, fuzzy
+#| msgid "Keep Below Others"
 msgid "Keep below"
 msgstr "Hold under andre"
 
 #: declarative-plugin/buttonsmodel.cpp:85
 #, fuzzy
+#| msgid "Keep Above Others"
 msgid "Keep above"
 msgstr "Hold over andre"
 
@@ -85,12 +90,15 @@ msgstr "Hent nye dekorationer..."
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kcm.ui:56
 #, fuzzy
+#| msgid "Border size:"
 msgid "Border si&ze:"
 msgstr "Kantstørrelse:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:67
 #, fuzzy
+#| msgctxt "@item:inlistbox Border size:"
+#| msgid "No Border"
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Ingen kant"
@@ -98,6 +106,8 @@ msgstr "Ingen kant"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:72
 #, fuzzy
+#| msgctxt "@item:inlistbox Border size:"
+#| msgid "No Side Border"
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr "Ingen sidekant"
@@ -147,6 +157,7 @@ msgstr "Overstørrelse"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: kcm.ui:125
 #, fuzzy
+#| msgid "Close windows by double clicking the menu button"
 msgid "Close windows by double clicking &the menu button:"
 msgstr "Luk vinduer ved at dobbeltklikke på menuknappen"
 

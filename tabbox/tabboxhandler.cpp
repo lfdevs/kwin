@@ -41,13 +41,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QQmlEngine>
 #include <QQuickItem>
 #include <QQuickWindow>
-#include <QX11Info>
 #include <X11/Xlib.h>
 // KDE
 #include <KLocalizedString>
 #include <KProcess>
 #include <KServiceTypeTrader>
-#include <KWindowSystem>
 
 namespace KWin
 {
@@ -176,6 +174,7 @@ void TabBoxHandlerPrivate::updateHighlightWindows()
             q->elevateClient(currentClient, w ? w->winId() : 0, true);
     } else {
         if (lastRaisedClient) {
+            q->shadeClient(lastRaisedClient, true);
             if (lastRaisedClientSucc)
                 q->restack(lastRaisedClient, lastRaisedClientSucc);
             // TODO lastRaisedClient->setMinimized( lastRaisedClientWasMinimized );
@@ -183,6 +182,7 @@ void TabBoxHandlerPrivate::updateHighlightWindows()
 
         lastRaisedClient = currentClient;
         if (lastRaisedClient) {
+            q->shadeClient(lastRaisedClient, false);
             // TODO if ( (lastRaisedClientWasMinimized = lastRaisedClient->isMinimized()) )
             //         lastRaisedClient->setMinimized( false );
             TabBoxClientList order = q->stackingOrder();
@@ -205,7 +205,7 @@ void TabBoxHandlerPrivate::updateHighlightWindows()
         data.resize(2);
         data[ 1 ] = wId;
     } else {
-        wId = QX11Info::appRootWindow();
+        wId = rootWindow();
         data.resize(1);
     }
     data[ 0 ] = currentClient ? currentClient->window() : 0L;
@@ -216,6 +216,13 @@ void TabBoxHandlerPrivate::updateHighlightWindows()
 void TabBoxHandlerPrivate::endHighlightWindows(bool abort)
 {
     TabBoxClient *currentClient = q->client(index);
+    if (config.isHighlightWindows() && q->isKWinCompositing()) {
+        foreach (const QWeakPointer<TabBoxClient> &clientPointer, q->stackingOrder()) {
+            if (QSharedPointer<TabBoxClient> client = clientPointer.toStrongRef())
+            if (client != currentClient) // to not mess up with wanted ShadeActive/ShadeHover state
+                q->shadeClient(client.data(), true);
+        }
+    }
     QWindow *w = window();
     if (currentClient)
         q->elevateClient(currentClient, w ? w->winId() : 0, false);
@@ -373,15 +380,21 @@ void TabBoxHandler::show()
     if (d->config.isHighlightWindows()) {
         Xcb::sync();
         // TODO this should be
-        // QMetaObject::invokeMethod(this, "updateHighlightWindows", Qt::QueuedConnection);
+        // QMetaObject::invokeMethod(this, "initHighlightWindows", Qt::QueuedConnection);
         // but we somehow need to cross > 1 event cycle (likely because of queued invocation in the effects)
         // to ensure the EffectWindow is present when updateHighlightWindows, thus elevating the window/tabbox
-        QTimer::singleShot(1, this, SLOT(updateHighlightWindows()));
+        QTimer::singleShot(1, this, SLOT(initHighlightWindows()));
     }
 }
 
-void TabBoxHandler::updateHighlightWindows()
+void TabBoxHandler::initHighlightWindows()
 {
+    if (isKWinCompositing()) {
+        foreach (const QWeakPointer<TabBoxClient> &clientPointer, stackingOrder()) {
+        if (QSharedPointer<TabBoxClient> client = clientPointer.toStrongRef())
+            shadeClient(client.data(), false);
+        }
+    }
     d->updateHighlightWindows();
 }
 

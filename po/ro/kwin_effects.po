@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-03-21 10:21+0000\n"
+"POT-Creation-Date: 2015-05-21 11:34+0000\n"
 "PO-Revision-Date: 2013-11-26 23:26+0200\n"
 "Last-Translator: Sergiu Bivol <sergiu@ase.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -52,7 +52,7 @@ msgstr "Puternică"
 msgid "Save intermediate rendering results."
 msgstr "Salvează rezultatele randării intermediare."
 
-#: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Arată biroul"
@@ -552,6 +552,7 @@ msgstr ""
 
 #: effect_builtins.cpp:117
 #, fuzzy
+#| msgid "Background color:"
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Culoare fundal:"
@@ -573,6 +574,7 @@ msgstr ""
 
 #: effect_builtins.cpp:147
 #, fuzzy
+#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Cub de birou"
@@ -584,6 +586,7 @@ msgstr ""
 
 #: effect_builtins.cpp:162
 #, fuzzy
+#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Cub de birou"
@@ -605,6 +608,7 @@ msgstr ""
 
 #: effect_builtins.cpp:192
 #, fuzzy
+#| msgid "Show Desktop Grid"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Afișează grila biroului"
@@ -621,6 +625,7 @@ msgstr ""
 
 #: effect_builtins.cpp:208
 #, fuzzy
+#| msgid "Inactive windows:"
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Ferestre inactive:"
@@ -642,6 +647,7 @@ msgstr ""
 
 #: effect_builtins.cpp:238
 #, fuzzy
+#| msgid "Send window to all desktops"
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "Trimite fereastra spre toate birourile"
@@ -679,6 +685,7 @@ msgstr ""
 
 #: effect_builtins.cpp:297
 #, fuzzy
+#| msgid "Invert mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Inversează mouseul"
@@ -730,6 +737,7 @@ msgstr ""
 
 #: effect_builtins.cpp:372
 #, fuzzy
+#| msgid "Modifiers"
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Modificatori"
@@ -741,18 +749,21 @@ msgstr ""
 
 #: effect_builtins.cpp:387
 #, fuzzy
+#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Animație"
 
 #: effect_builtins.cpp:388
 #, fuzzy
+#| msgid "Ignore &minimized windows"
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "Ignoră ferestrele &minimizate"
 
 #: effect_builtins.cpp:402
 #, fuzzy
+#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Animație"
@@ -766,6 +777,7 @@ msgstr ""
 
 #: effect_builtins.cpp:417
 #, fuzzy
+#| msgid "Clear Mouse Marks"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Curăță urmele mausului"
@@ -777,6 +789,7 @@ msgstr ""
 
 #: effect_builtins.cpp:432
 #, fuzzy
+#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Ferestre"
@@ -788,6 +801,7 @@ msgstr ""
 
 #: effect_builtins.cpp:447
 #, fuzzy
+#| msgid "Close window"
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Închide fereastra"
@@ -840,6 +854,7 @@ msgstr ""
 
 #: effect_builtins.cpp:522
 #, fuzzy
+#| msgid "Show &panels"
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Arată &panourile"
@@ -901,6 +916,7 @@ msgstr ""
 
 #: effect_builtins.cpp:612
 #, fuzzy
+#| msgid "Thumbnail Bar"
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Bara cu pictograme"
@@ -912,6 +928,7 @@ msgstr ""
 
 #: effect_builtins.cpp:627
 #, fuzzy
+#| msgid "Track mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Urmărește mausul"
@@ -928,12 +945,14 @@ msgstr ""
 
 #: effect_builtins.cpp:643
 #, fuzzy
+#| msgid "Display window &icons"
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "Afișează p&ictogramele ferestrelor"
 
 #: effect_builtins.cpp:657
 #, fuzzy
+#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Ferestre"
@@ -945,6 +964,7 @@ msgstr ""
 
 #: effect_builtins.cpp:672
 #, fuzzy
+#| msgid "Zoom"
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Scalează"
@@ -1069,6 +1089,7 @@ msgstr "Î&nălțime:"
 
 #: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
 #, fuzzy
+#| msgid "Toggle Effect"
 msgid "Toggle Mouse Click Effect"
 msgstr "Comută efectul"
 
@@ -1189,7 +1210,7 @@ msgstr "Comută ferestre prezente (toate birourile)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Comută ferestre prezente (clasa ferestrei)"
 
-#: presentwindows/presentwindows.cpp:1556
+#: presentwindows/presentwindows.cpp:1561
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1556,7 +1577,7 @@ msgstr "Meniuri contextuale:"
 msgid "Torn-off menus:"
 msgstr "Meniuri „rupte”"
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:61
 msgid "Toggle window geometry display (effect only)"
 msgstr "Comută afișarea geometriei ferestrei (doar efectul)"
 
@@ -1624,27 +1645,27 @@ msgstr "Mai puțin"
 msgid "More"
 msgstr "Mai mult"
 
-#: zoom/zoom.cpp:86
+#: zoom/zoom.cpp:84
 msgid "Move Zoomed Area to Left"
 msgstr "Mută zona mărită spre stînga"
 
-#: zoom/zoom.cpp:94
+#: zoom/zoom.cpp:92
 msgid "Move Zoomed Area to Right"
 msgstr "Mută zona mărită spre dreapta"
 
-#: zoom/zoom.cpp:102
+#: zoom/zoom.cpp:100
 msgid "Move Zoomed Area Upwards"
 msgstr "Mută zona mărită în sus"
 
-#: zoom/zoom.cpp:110
+#: zoom/zoom.cpp:108
 msgid "Move Zoomed Area Downwards"
 msgstr "Mută zona mărită în jos"
 
-#: zoom/zoom.cpp:119 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
 msgid "Move Mouse to Focus"
 msgstr "Mută mouseul la focalizarea curentă"
 
-#: zoom/zoom.cpp:127 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
 msgid "Move Mouse to Center"
 msgstr "Mută mouseul la centru"
 

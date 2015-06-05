@@ -2,7 +2,7 @@
 # Bulgarian translation of KDE.
 # This file is licensed under the GPL.
 #
-# $Id: kcmkwm.po 1411160 2015-01-13 00:22:53Z aacid $
+# $Id: kcmkwm.po 1411474 2015-01-14 08:48:01Z scripty $
 #
 # Zlatko Popov <zlatkopopov@fsa-bg.org>, 2006, 2007, 2008.
 # Yasen Pramatarov <yasen@lindeas.com>, 2009.
@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-07-04 08:25+0000\n"
+"POT-Creation-Date: 2015-01-14 07:58+0000\n"
 "PO-Revision-Date: 2009-06-21 21:01+0300\n"
 "Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -32,6 +32,7 @@ msgstr "radnev@yahoo.com"
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: actions.ui:32
 #, fuzzy
+#| msgid "Mouse wheel:"
 msgid "M&ouse wheel:"
 msgstr "Колелце на мишката:"
 
@@ -57,6 +58,7 @@ msgstr "Преместване"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:60 actions.ui:162 actions.ui:325
 #, fuzzy
+#| msgid "Activate, Raise and Move"
 msgid "Activate, Raise & Move"
 msgstr "Активиране, извеждане напред и преместване"
 
@@ -132,6 +134,7 @@ msgstr "Минимизиране"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:90 actions.ui:192 actions.ui:355
 #, fuzzy
+#| msgid "Change Opacity"
 msgid "Decrease Opacity"
 msgstr "Промяна на непрозрачност"
 
@@ -140,6 +143,7 @@ msgstr "Промяна на непрозрачност"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:95 actions.ui:197 actions.ui:360
 #, fuzzy
+#| msgid "Change Opacity"
 msgid "Increase Opacity"
 msgstr "Промяна на непрозрачност"
 
@@ -165,6 +169,7 @@ msgstr "Нищо (без операция)"
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: actions.ui:108
 #, fuzzy
+#| msgid "Right button:"
 msgid "Ri&ght button:"
 msgstr "Десен бутон:"
 
@@ -176,6 +181,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:134
 #, fuzzy
+#| msgid "Middle button:"
 msgid "Middle b&utton:"
 msgstr "Среден бутон:"
 
@@ -192,12 +198,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: actions.ui:210
 #, fuzzy
+#| msgid "Left button:"
 msgid "&Left button:"
 msgstr "Ляв бутон:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: actions.ui:229
 #, fuzzy
+#| msgid "Inner Window, Titlebar && Frame"
 msgid "Inner Window, Titlebar & Frame"
 msgstr "Щракване върху прозорец с натиснат клавиш за модификация"
 
@@ -249,6 +257,7 @@ msgstr "Активиране и извеждане напред"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: actions.ui:269
 #, fuzzy
+#| msgid "Right button:"
 msgid "&Right button:"
 msgstr "Десен бутон:"
 
@@ -269,12 +278,14 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:297
 #, fuzzy
+#| msgid "Activate & Lower"
 msgid "Activate & Scroll"
 msgstr "Активиране и извеждане назад"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:302
 #, fuzzy
+#| msgid "Activate, Raise and Move"
 msgid "Activate, Raise & Scroll"
 msgstr "Активиране, извеждане напред и преместване"
 
@@ -291,6 +302,9 @@ msgstr ""
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAllW)
 #: actions.ui:379
 #, fuzzy
+#| msgid ""
+#| "Here you can customize KDE's behavior when scrolling with the mouse "
+#| "wheel  in a window while pressing the modifier key."
 msgid ""
 "Here you can customize KDE's behavior when scrolling with the mouse wheel in "
 "a window while pressing the modifier key."
@@ -362,6 +376,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: actions.ui:505
 #, fuzzy
+#| msgid "Middle button:"
 msgid "M&iddle button:"
 msgstr "Среден бутон:"
 
@@ -373,12 +388,14 @@ msgstr "Щракване вътре в неактивен прозорец"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:531
 #, fuzzy
+#| msgid "Left button:"
 msgid "Left &button"
 msgstr "Ляв бутон:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:561
 #, fuzzy
+#| msgid "Modifier key:"
 msgid "Modifier &key:"
 msgstr "Клавиш за модификация:"
 
@@ -409,6 +426,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, wtBox)
 #: advanced.ui:43
 #, fuzzy
+#| msgid "Window Actio&ns"
 msgid "Window Tabbing"
 msgstr "Действия за &прозореца"
 
@@ -452,12 +470,21 @@ msgid "&Placement:"
 msgstr "Разполо&жение:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, placementCombo)
-#: advanced.ui:122
+#: advanced.ui:121
 #, fuzzy
+#| msgid ""
+#| "The placement policy determines where a new window will appear on the "
+#| "desktop. <ul> <li><em>Smart</em> will try to achieve a minimum overlap of "
+#| "windows</li> <li><em>Maximizing</em> will try to maximize every window to "
+#| "fill the whole screen. It might be useful to selectively affect placement "
+#| "of some windows using the window-specific settings.</li> <li><em>Cascade</"
+#| "em> will cascade the windows</li> <li><em>Random</em> will use a random "
+#| "position</li> <li><em>Centered</em> will place the window centered</li> "
+#| "<li><em>Zero-Cornered</em> will place the window in the top-left corner</"
+#| "li></ul>"
 msgid ""
 "The placement policy determines where a new window will appear on the "
-"desktop.\n"
-"<ul>\n"
+"desktop.<br><ul>\n"
 "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
 "<li><em>Maximizing</em> will try to maximize every window to fill the whole "
 "screen. It might be useful to selectively affect placement of some windows "
@@ -481,53 +508,54 @@ msgstr ""
 "някой от ъглите на екрана.</li> </ul>"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:126
+#: advanced.ui:125
 msgid "Smart"
 msgstr "Интелигентно"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:131
+#: advanced.ui:130
 msgid "Maximizing"
 msgstr "Максимизирано"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:136
+#: advanced.ui:135
 msgid "Cascade"
 msgstr "Каскадно"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:141
+#: advanced.ui:140
 msgid "Random"
 msgstr "Случайно"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:146
+#: advanced.ui:145
 msgid "Centered"
 msgstr "Центрирано"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:151
+#: advanced.ui:150
 msgid "Zero-Cornered"
 msgstr "Ъглово"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:156
+#: advanced.ui:155
 #, fuzzy
+#| msgid "Focus Under Mouse"
 msgid "Under Mouse"
 msgstr "Фокусът е под мишката"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shBox)
-#: advanced.ui:167
+#: advanced.ui:166
 msgid "Shading"
 msgstr "Сгъване на прозорец"
 
 #. i18n: ectx: property (text), widget (QLabel, shadeHoverLabel)
-#: advanced.ui:176
+#: advanced.ui:175
 msgid "Dela&y:"
 msgstr "Па&уза:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, shadeHoverOn)
-#: advanced.ui:205
+#: advanced.ui:204
 msgid ""
 "If Shade Hover is enabled, a shaded window will un-shade automatically when "
 "the mouse pointer has been over the title bar for some time."
@@ -536,12 +564,12 @@ msgstr ""
 "задържан върху заглавието на прозореца за определено време."
 
 #. i18n: ectx: property (text), widget (QCheckBox, shadeHoverOn)
-#: advanced.ui:208
+#: advanced.ui:207
 msgid "&Enable hover"
 msgstr "Ав&томатично разгъване"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, shadeHover)
-#: advanced.ui:215
+#: advanced.ui:214
 msgid ""
 "Sets the time in milliseconds before the window unshades when the mouse "
 "pointer goes over the shaded window."
@@ -552,18 +580,19 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, delayFocus)
 #. i18n: ectx: property (suffix), widget (QSpinBox, autoRaise)
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadeHover)
-#: advanced.ui:230 focus.ui:250 focus.ui:475
+#: advanced.ui:229 focus.ui:250 focus.ui:475
 msgid " ms"
 msgstr " мсек"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: advanced.ui:240
+#: advanced.ui:239
 #, fuzzy
+#| msgid "Windows"
 msgid "Special Windows"
 msgstr "Прозорци"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, hideUtilityWindowsForInactive)
-#: advanced.ui:249
+#: advanced.ui:248
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
 "inactive applications will be hidden and will be shown only when the "
@@ -576,13 +605,14 @@ msgstr ""
 "те ще се показват обратно."
 
 #. i18n: ectx: property (text), widget (QCheckBox, hideUtilityWindowsForInactive)
-#: advanced.ui:252
+#: advanced.ui:251
 msgid "Hide utility windows for inactive applications"
 msgstr "Скриване на помощните прозорци на неактивните програми"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: focus.ui:30
 #, fuzzy
+#| msgid "Windows"
 msgid "Activating windows"
 msgstr "Прозорци"
 
@@ -658,6 +688,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, delayFocusOnLabel)
 #: focus.ui:228
 #, fuzzy
+#| msgid "Delay focus by:"
 msgid "&Delay focus by"
 msgstr "Изчакване за фокус:"
 
@@ -673,12 +704,31 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, focusStealingLabel)
 #: focus.ui:273
 #, fuzzy
+#| msgid "Focus stealing prevention level:"
 msgid "Focus &stealing prevention"
 msgstr "Ниво на предотвратяване на открадването на фокуса:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, focusStealing)
 #: focus.ui:300
 #, fuzzy
+#| msgid ""
+#| "<p>This option specifies how much KWin will try to prevent unwanted focus "
+#| "stealing caused by unexpected activation of new windows. (Note: This "
+#| "feature does not work with the Focus Under Mouse or Focus Strictly Under "
+#| "Mouse focus policies.)<ul><li><em>None:</em> Prevention is turned off and "
+#| "new windows always become activated.</li><li><em>Low:</em> Prevention is "
+#| "enabled; when some window does not have support for the underlying "
+#| "mechanism and KWin cannot reliably decide whether to activate the window "
+#| "or not, it will be activated. This setting may have both worse and better "
+#| "results than normal level, depending on the applications.</"
+#| "li><li><em>Normal:</em> Prevention is enabled.</li><li><em>High:</em> New "
+#| "windows get activated only if no window is currently active or if they "
+#| "belong to the currently active application. This setting is probably not "
+#| "really usable when not using mouse focus policy.</li><li><em>Extreme:</"
+#| "em> All windows must be explicitly activated by the user.</li></ul></"
+#| "p><p>Windows that are prevented from stealing focus are marked as "
+#| "demanding attention, which by default means their taskbar entry will be "
+#| "highlighted. This can be changed in the Notifications control module.</p>"
 msgid ""
 "<p>This option specifies how much KWin will try to prevent unwanted focus "
 "stealing caused by unexpected activation of new windows. (Note: This feature "
@@ -721,6 +771,8 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:304
 #, fuzzy
+#| msgctxt "Focus Stealing Prevention Level"
+#| msgid "None"
 msgid "None"
 msgstr "Без"
 
@@ -728,6 +780,8 @@ msgstr "Без"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:309
 #, fuzzy
+#| msgctxt "Focus Stealing Prevention Level"
+#| msgid "Low"
 msgid "Low"
 msgstr "Ниско"
 
@@ -741,6 +795,8 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:319
 #, fuzzy
+#| msgctxt "Focus Stealing Prevention Level"
+#| msgid "High"
 msgid "High"
 msgstr "Високо"
 
@@ -748,12 +804,15 @@ msgstr "Високо"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:324
 #, fuzzy
+#| msgctxt "Focus Stealing Prevention Level"
+#| msgid "Extreme"
 msgid "Extreme"
 msgstr "Екстремално"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: focus.ui:364
 #, fuzzy
+#| msgid "&Policy:"
 msgid "Policy"
 msgstr "Пов&едение:"
 
@@ -833,6 +892,12 @@ msgstr "&Разделяне фокуса на екрана"
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, activeMouseScreen)
 #: focus.ui:539
 #, fuzzy
+#| msgid ""
+#| "When this option is enabled, the active Xinerama screen (where new "
+#| "windows appear, for example) is the screen containing the mouse pointer. "
+#| "When disabled, the active Xinerama screen is the  screen containing the "
+#| "focused window. By default this option is disabled for Click to focus and "
+#| "enabled for other focus policies."
 msgid ""
 "When this option is enabled, the active Xinerama screen (where new windows "
 "appear, for example) is the screen containing the mouse pointer. When "
@@ -933,6 +998,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.cpp:195 mouse.ui:55
 #, fuzzy
+#| msgid "Maximize"
 msgid "Maximize"
 msgstr "Максимизиране"
 
@@ -951,6 +1017,7 @@ msgstr "Само хоризонтално максимизиране"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: mouse.ui:32
 #, fuzzy
+#| msgid "&Titlebar double-click:"
 msgid "&Double-click:"
 msgstr "Дво&йно щракване на заглавието:"
 
@@ -989,12 +1056,14 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.ui:90
 #, fuzzy
+#| msgid "On All Desktops"
 msgid "On All Desktops"
 msgstr "Преместване към всички работни плотове"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mouse.ui:103
 #, fuzzy
+#| msgid "Titlebar wheel event:"
 msgid "Wheel event:"
 msgstr "Събитие на колелцето върху заглавието:"
 
@@ -1064,6 +1133,7 @@ msgstr "Показване на менюто"
 #: mouse.ui:272 mouse.ui:345 mouse.ui:416 mouse.ui:489 mouse.ui:560
 #: mouse.ui:633
 #, fuzzy
+#| msgid "Window Actio&ns"
 msgid "Start Window Tab Drag"
 msgstr "Действия за &прозореца"
 
@@ -1142,12 +1212,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: mouse.ui:770
 #, fuzzy
+#| msgid "Titlebar && Frame"
 msgid "Titlebar & Frame"
 msgstr "Щракване върху заглавието или рамката"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: mouse.ui:783
 #, fuzzy
+#| msgid "&Titlebar Actions"
 msgid "Titlebar"
 msgstr "Действия за &заглавието"
 
@@ -1175,6 +1247,10 @@ msgstr "Пр&илепване на прозорците само когато с
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, centerSnap)
 #: moving.ui:55
 #, fuzzy
+#| msgid ""
+#| "Here you can set the snap zone for screen borders, i.e. the 'strength' of "
+#| "the magnetic field which will make windows snap to the border when moved "
+#| "near it."
 msgid ""
 "Here you can set the snap zone for the screen center, i.e. the 'strength' of "
 "the magnetic field which will make windows snap to the center of the screen "
@@ -1190,12 +1266,15 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, borderSnap)
 #: moving.ui:67 moving.ui:134 moving.ui:162
 #, fuzzy
+#| msgid " pixel"
+#| msgid_plural " pixels"
 msgid " pixel"
 msgstr " пиксел"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, centerSnap)
 #: moving.ui:70
 #, fuzzy
+#| msgid "&Border snap zone:"
 msgid "no center snap zone"
 msgstr "Зона на прилепване към краи&щата на екрана:"
 
@@ -1207,6 +1286,7 @@ msgstr "Зона на прилепване към краи&щата на екр�
 #. i18n: ectx: property (text), widget (QLabel, centerSnapLabel)
 #: moving.ui:103
 #, fuzzy
+#| msgid "&Border snap zone:"
 msgid "&Center snap zone:"
 msgstr "Зона на прилепване към краи&щата на екрана:"
 
@@ -1226,6 +1306,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, windowSnap)
 #: moving.ui:137
 #, fuzzy
+#| msgid "&Window snap zone:"
 msgid "no window snap zone"
 msgstr "Зона на прилепване към рамките на прозор&ците:"
 
@@ -1244,6 +1325,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, borderSnap)
 #: moving.ui:165
 #, fuzzy
+#| msgid "&Border snap zone:"
 msgid "no border snap zone"
 msgstr "Зона на прилепване към краи&щата на екрана:"
 

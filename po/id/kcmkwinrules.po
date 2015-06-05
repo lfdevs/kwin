@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-28 15:51+0000\n"
+"POT-Creation-Date: 2015-05-16 12:24+0000\n"
 "PO-Revision-Date: 2014-06-13 21:29+0700\n"
 "Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
@@ -178,19 +178,19 @@ msgstr "Jalan Pintas &Tunggal"
 msgid "C&lear"
 msgstr "&Hapus"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 msgid "Window-Specific Settings Configuration Module"
 msgstr "Modul Konfigurasi Pengaturan Khusus Jendela"
 
-#: kcm.cpp:51
+#: kcm.cpp:52
 msgid "(c) 2004 KWin and KControl Authors"
 msgstr "(c) 2004 Penulis KWin dan KControl"
 
-#: kcm.cpp:52
+#: kcm.cpp:53
 msgid "Lubos Lunak"
 msgstr "Lubos Lunak"
 
-#: kcm.cpp:83
+#: kcm.cpp:84
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -205,15 +205,15 @@ msgstr ""
 "manajer jendela yang berbeda, silakan merujuk ke dokumentasi manajer jendela "
 "tersebut untuk mengetahui bagaimana cara menyesuaikan perilaku jendela.</p>"
 
-#: kcm.cpp:99
+#: kcm.cpp:100
 msgid "Remember settings separately for every window"
 msgstr "Ingat pengaturan secara terpisah untuk tiap jendela"
 
-#: kcm.cpp:100
+#: kcm.cpp:101
 msgid "Show internal settings for remembering"
 msgstr "Tampilan pengaturan internal untuk mengingat"
 
-#: kcm.cpp:101
+#: kcm.cpp:102
 msgid "Internal setting for remembering"
 msgstr "Pengaturan internal untuk mengingat"
 
@@ -1124,3 +1124,14 @@ msgstr "Pen&cegahan mencuri fokus"
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
 msgstr "&Skema warna batang judul"
+
+#: yesnobox.h:35
+msgid "Yes"
+msgstr ""
+
+#: yesnobox.h:36
+#, fuzzy
+#| msgctxt "no focus stealing prevention"
+#| msgid "None"
+msgid "No"
+msgstr "Tak ada"

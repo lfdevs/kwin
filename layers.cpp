@@ -90,7 +90,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "unmanaged.h"
 #include "deleted.h"
 #include "effects.h"
-#include <QX11Info>
 #include "composite.h"
 #include "screenedge.h"
 
@@ -432,10 +431,10 @@ void Workspace::lowerClientRequest(KWin::Client *c, NET::RequestSource src, xcb_
 }
 
 
-void Workspace::restack(Client* c, Client* under)
+void Workspace::restack(Client* c, Client* under, bool force)
 {
     assert(unconstrained_stacking_order.contains(under));
-    if (!Client::belongToSameApplication(under, c)) {
+    if (!force && !Client::belongToSameApplication(under, c)) {
          // put in the stacking order below _all_ windows belonging to the active application
         for (int i = 0; i < unconstrained_stacking_order.size(); ++i) {
             Client *other = qobject_cast<Client*>(unconstrained_stacking_order.at(i));
@@ -669,12 +668,25 @@ ToplevelList Workspace::xStackingOrder() const
     foreach (Toplevel * c, stacking_order)
     x_stacking.append(c);
 
-    xcb_window_t *windows = tree.children();
-    for (unsigned int i = 0;
-            i < tree->children_len;
-            ++i) {
-        if (Unmanaged* c = findUnmanaged(windows[i]))
-            x_stacking.append(c);
+    if (!tree.isNull()) {
+        xcb_window_t *windows = tree.children();
+        const auto count = tree->children_len;
+        int foundUnmanagedCount = unmanaged.count();
+        for (unsigned int i = 0;
+                i < count;
+                ++i) {
+            for (auto it = unmanaged.constBegin(); it != unmanaged.constEnd(); ++it) {
+                Unmanaged *u = *it;
+                if (u->window() == windows[i]) {
+                    x_stacking.append(u);
+                    foundUnmanagedCount--;
+                    break;
+                }
+            }
+            if (foundUnmanagedCount == 0) {
+                break;
+            }
+        }
     }
     if (m_compositor) {
         const_cast< Workspace* >(this)->m_compositor->checkUnredirect();
@@ -814,11 +826,18 @@ Layer Client::layer() const
 
 Layer Client::belongsToLayer() const
 {
+    // NOTICE while showingDesktop, desktops move to the AboveLayer
+    // (interchangeable w/ eg. yakuake etc. which will at first remain visible)
+    // and the docks move into the NotificationLayer (which is between Above- and
+    // ActiveLayer, so that active fullscreen windows will still cover everything)
+    // Since the desktop is also activated, nothing should be in the ActiveLayer, though
     if (isDesktop())
-        return DesktopLayer;
+        return workspace()->showingDesktop() ? AboveLayer : DesktopLayer;
     if (isSplash())          // no damn annoying splashscreens
         return NormalLayer; // getting in the way of everything else
     if (isDock()) {
+        if (workspace()->showingDesktop())
+            return NotificationLayer;
         // slight hack for the 'allow window to cover panel' Kicker setting
         // don't move keepbelow docks below normal window, but only to the same
         // layer, so that both may be raised to cover the other
@@ -832,6 +851,12 @@ Layer Client::belongsToLayer() const
         return OnScreenDisplayLayer;
     if (isNotification())
         return NotificationLayer;
+    if (workspace()->showingDesktop()) {
+        foreach (const Client *c, group()->members()) {
+            if (c->isDesktop())
+                return AboveLayer;
+        }
+    }
     if (keepBelow())
         return BelowLayer;
     if (isActiveFullScreen())

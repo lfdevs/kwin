@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libkwinquartz_config\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-27 20:56+0000\n"
-"PO-Revision-Date: 2013-10-09 12:46+0100\n"
+"POT-Creation-Date: 2015-02-20 09:22+0000\n"
+"PO-Revision-Date: 2015-01-15 10:32+0000\n"
 "Last-Translator: Jose Nuno Pires <zepires@gmail.com>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: \n"
@@ -17,6 +17,45 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-POFile-IgnoreConsistency: Oxygen\n"
 "X-POFile-SpellExtra: Nitrogen TextLabel desagrupadas px\n"
+
+#: aurorae/src/aurorae.cpp:703
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "Minúsculo"
+
+#: aurorae/src/aurorae.cpp:704
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "Normal"
+
+#: aurorae/src/aurorae.cpp:705
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "Grande"
+
+#: aurorae/src/aurorae.cpp:706
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "Muito Grande"
+
+#: aurorae/src/aurorae.cpp:707
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "Enorme"
+
+#: aurorae/src/aurorae.cpp:708
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "Mais do que Enorme"
+
+#: aurorae/src/aurorae.cpp:709
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "Ainda Maior"
+
+#: aurorae/src/aurorae.cpp:712
+msgid "Button size:"
+msgstr "Tamanho dos botões:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlastikConfigDialog)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14

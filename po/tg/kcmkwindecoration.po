@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
 "PO-Revision-Date: 2009-01-11 14:47+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik\n"
@@ -31,6 +31,7 @@ msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:71
 #, fuzzy
+#| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "Дар ҳамаи мизи корӣ"
 
@@ -56,11 +57,13 @@ msgstr "Соя"
 
 #: declarative-plugin/buttonsmodel.cpp:83
 #, fuzzy
+#| msgid "Keep Below Others"
 msgid "Keep below"
 msgstr "Дар Поёни Дигарон Нигоҳ доштан"
 
 #: declarative-plugin/buttonsmodel.cpp:85
 #, fuzzy
+#| msgid "Keep Above Others"
 msgid "Keep above"
 msgstr "Дар Болои Дигарон Нигоҳ доштан"
 
@@ -78,6 +81,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
 #: kcm.ui:35
 #, fuzzy
+#| msgid "&Window Decoration"
 msgid "Get New Decorations..."
 msgstr "Ороиши &Тиреза"
 
@@ -103,6 +107,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:77
 #, fuzzy
+#| msgid "Tiny"
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "Хурд"
@@ -110,6 +115,7 @@ msgstr "Хурд"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:82
 #, fuzzy
+#| msgid "Normal"
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "Оддӣ"
@@ -117,6 +123,7 @@ msgstr "Оддӣ"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:87
 #, fuzzy
+#| msgid "Large"
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "Калон"
@@ -124,6 +131,7 @@ msgstr "Калон"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:92
 #, fuzzy
+#| msgid "Very Large"
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "Калонтарин"
@@ -131,6 +139,7 @@ msgstr "Калонтарин"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:97
 #, fuzzy
+#| msgid "Huge"
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "Калонтар"
@@ -138,6 +147,7 @@ msgstr "Калонтар"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:102
 #, fuzzy
+#| msgid "Very Huge"
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "Калонтарин"

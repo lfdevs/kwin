@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-05 09:36+0000\n"
+"POT-Creation-Date: 2015-02-05 07:54+0000\n"
 "PO-Revision-Date: 2010-01-24 15:31+0100\n"
 "Last-Translator: Eirik U. Birkeland <eirbir@gmail.com>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -44,7 +44,7 @@ msgid "GLX"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
-#: compositing.ui:20 qml/CompositingView.qml:55
+#: compositing.ui:20
 msgid "Enable compositor on startup"
 msgstr ""
 
@@ -71,28 +71,27 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:93 compositing.ui:119 qml/CompositingView.qml:113
-#: qml/CompositingView.qml:127
+#: compositing.ui:93 compositing.ui:119
 msgid "Crisp"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:98 qml/CompositingView.qml:113
+#: compositing.ui:98
 msgid "Smooth"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:103 qml/CompositingView.qml:113
+#: compositing.ui:103
 msgid "Accurate"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:124 qml/CompositingView.qml:127
+#: compositing.ui:124
 msgid "Smooth (slower)"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: compositing.ui:139 qml/CompositingView.qml:81
+#: compositing.ui:139
 msgid "Rendering backend:"
 msgstr ""
 
@@ -108,28 +107,27 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:167 compositing.ui:203 qml/CompositingView.qml:141
-#: qml/CompositingView.qml:154
+#: compositing.ui:167 compositing.ui:203
 msgid "Never"
 msgstr "Aldri"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:172 qml/CompositingView.qml:141
+#: compositing.ui:172
 msgid "Automatic"
 msgstr "Automatisk"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:177 qml/CompositingView.qml:141
+#: compositing.ui:177
 msgid "Only when cheap"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:182 qml/CompositingView.qml:141
+#: compositing.ui:182
 msgid "Full screen repaints"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:187 qml/CompositingView.qml:141
+#: compositing.ui:187
 msgid "Re-use screen content"
 msgstr ""
 
@@ -139,7 +137,7 @@ msgid "Keep window thumbnails:"
 msgstr "Ta vare på miniatyrbilete av vindauge:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:208 qml/CompositingView.qml:154
+#: compositing.ui:208
 msgid "Only for Shown Windows"
 msgstr "Berre for viste vindauge"
 
@@ -149,22 +147,22 @@ msgid "Always"
 msgstr "Alltid"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: compositing.ui:221 qml/CompositingView.qml:175
+#: compositing.ui:221
 msgid "Expert:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
-#: compositing.ui:228 qml/CompositingView.qml:182
+#: compositing.ui:228
 msgid "Suspend compositor for full screen windows"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:235 qml/CompositingView.qml:192
+#: compositing.ui:235
 msgid "Experimental:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:242 qml/CompositingView.qml:200
+#: compositing.ui:242
 msgid "Enable color correction"
 msgstr ""
 
@@ -269,32 +267,6 @@ msgstr "Vindaugshandsaming"
 
 #: model.cpp:235
 msgid "KWin development team"
-msgstr ""
-
-#: qml/CompositingView.qml:67
-#, fuzzy
-msgid "Animation Speed:"
-msgstr "Animasjonsfart:"
-
-#: qml/CompositingView.qml:106 qml/CompositingView.qml:120
-msgid "Scale Method:"
-msgstr ""
-
-#: qml/CompositingView.qml:135
-msgid "Tearing Prevention (VSync):"
-msgstr ""
-
-#: qml/CompositingView.qml:148
-#, fuzzy
-msgid "Keep Window Thumbnails:"
-msgstr "Ta vare på miniatyrbilete av vindauge:"
-
-#: qml/CompositingView.qml:154
-msgid "Always (Breaks Animations)"
-msgstr ""
-
-#: qml/CompositingView.qml:160
-msgid "OpenGL Platform Interface:"
 msgstr ""
 
 #: qml/Effect.qml:118

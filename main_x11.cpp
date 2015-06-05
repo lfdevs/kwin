@@ -115,6 +115,8 @@ ApplicationX11::ApplicationX11(int &argc, char **argv)
     , owner()
     , m_replace(false)
 {
+    setX11Connection(QX11Info::connection());
+    setX11RootWindow(QX11Info::appRootWindow());
 }
 
 ApplicationX11::~ApplicationX11()
@@ -167,6 +169,7 @@ void ApplicationX11::performStartup()
             ::exit(1);
         }
 
+        createInput();
         createWorkspace();
 
         Xcb::sync(); // Trigger possible errors, there's still a chance to abort
@@ -224,6 +227,12 @@ KWIN_EXPORT int kdemain(int argc, char * argv[])
             // acts exactly as previously
             if (i != KWin::Application::x11ScreenNumber() && fork() == 0) {
                 KWin::Application::setX11ScreenNumber(i);
+                QByteArray dBusSuffix = qgetenv("KWIN_DBUS_SERVICE_SUFFIX");
+                if (!dBusSuffix.isNull()) {
+                    dBusSuffix.append(".");
+                }
+                dBusSuffix.append(QByteArrayLiteral("head-")).append(QByteArray::number(i));
+                qputenv("KWIN_DBUS_SERVICE_SUFFIX", dBusSuffix);
                 // Break here because we are the child process, we don't
                 // want to fork() anymore
                 break;
@@ -287,9 +296,6 @@ KWIN_EXPORT int kdemain(int argc, char * argv[])
     KWin::SessionManager weAreIndeed;
 #endif
     KWin::SessionSaveDoneHelper helper;
-
-    // TODO: is this still needed?
-    a.registerDBusService();
 
     return a.exec();
 }

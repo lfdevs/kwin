@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-27 20:56+0000\n"
-"PO-Revision-Date: 2013-10-12 14:02+0200\n"
+"POT-Creation-Date: 2015-02-20 09:22+0000\n"
+"PO-Revision-Date: 2015-01-17 13:25+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr\n"
@@ -19,6 +19,45 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 "X-Environment: kde\n"
+
+#: aurorae/src/aurorae.cpp:703
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "сићушна"
+
+#: aurorae/src/aurorae.cpp:704
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "нормална"
+
+#: aurorae/src/aurorae.cpp:705
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "велика"
+
+#: aurorae/src/aurorae.cpp:706
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "врло велика"
+
+#: aurorae/src/aurorae.cpp:707
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "огромна"
+
+#: aurorae/src/aurorae.cpp:708
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "врло огромна"
+
+#: aurorae/src/aurorae.cpp:709
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "неизмерна"
+
+#: aurorae/src/aurorae.cpp:712
+msgid "Button size:"
+msgstr "Величина дугмади:"
 
 # >> @title:window
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlastikConfigDialog)

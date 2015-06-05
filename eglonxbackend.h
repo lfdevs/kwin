@@ -19,25 +19,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #ifndef KWIN_EGL_ON_X_BACKEND_H
 #define KWIN_EGL_ON_X_BACKEND_H
+#include "abstract_egl_backend.h"
 #include "scene_opengl.h"
 
 namespace KWin
 {
 
+class X11WindowedBackend;
+
 /**
  * @brief OpenGL Backend using Egl windowing system over an X overlay window.
  **/
-class EglOnXBackend : public OpenGLBackend
+class EglOnXBackend : public AbstractEglBackend
 {
 public:
     EglOnXBackend();
+#if HAVE_X11_XCB
+    explicit EglOnXBackend(X11WindowedBackend *backend);
+#endif
     virtual ~EglOnXBackend();
     virtual void screenGeometryChanged(const QSize &size);
     virtual SceneOpenGL::TexturePrivate *createBackendTexture(SceneOpenGL::Texture *texture);
     virtual QRegion prepareRenderingFrame();
     virtual void endRenderingFrame(const QRegion &damage, const QRegion &damagedRegion);
-    virtual bool makeCurrent() override;
-    virtual void doneCurrent() override;
     virtual OverlayWindow* overlayWindow() override;
     virtual bool usesOverlayWindow() const override;
 
@@ -52,32 +56,31 @@ private:
      * @brief The OverlayWindow used by this Backend.
      **/
     OverlayWindow *m_overlayWindow;
-    EGLDisplay dpy;
-    EGLConfig config;
-    EGLSurface surface;
-    EGLContext ctx;
     int surfaceHasSubPost;
     int m_bufferAge;
+    bool m_usesOverlayWindow;
+#if HAVE_X11_XCB
+    X11WindowedBackend *m_x11Backend = nullptr;
+#endif
+    xcb_connection_t *m_connection;
+    Display *m_x11Display;
+    xcb_window_t m_rootWindow;
+    int m_x11ScreenNumber;
     friend class EglTexture;
 };
 
 /**
  * @brief Texture using an EGLImageKHR.
  **/
-class EglTexture : public SceneOpenGL::TexturePrivate
+class EglTexture : public AbstractEglTexture
 {
 public:
     virtual ~EglTexture();
     virtual void onDamage();
-    virtual bool loadTexture(xcb_pixmap_t pix, const QSize &size, xcb_visualid_t visual) override;
-    virtual OpenGLBackend *backend();
 
 private:
     friend class EglOnXBackend;
     EglTexture(SceneOpenGL::Texture *texture, EglOnXBackend *backend);
-    SceneOpenGL::Texture *q;
-    EglOnXBackend *m_backend;
-    EGLImageKHR m_image;
 };
 
 } // namespace

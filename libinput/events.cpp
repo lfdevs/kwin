@@ -42,6 +42,12 @@ Event *Event::create(libinput_event *event)
     case LIBINPUT_EVENT_POINTER_MOTION:
     case LIBINPUT_EVENT_POINTER_MOTION_ABSOLUTE:
         return new PointerEvent(event, t);
+    case LIBINPUT_EVENT_TOUCH_DOWN:
+    case LIBINPUT_EVENT_TOUCH_UP:
+    case LIBINPUT_EVENT_TOUCH_MOTION:
+    case LIBINPUT_EVENT_TOUCH_CANCEL:
+    case LIBINPUT_EVENT_TOUCH_FRAME:
+        return new TouchEvent(event, t);
     default:
         return new Event(event, t);
     }
@@ -143,22 +149,59 @@ InputRedirection::PointerButtonState PointerEvent::buttonState() const
     abort();
 }
 
-InputRedirection::PointerAxis PointerEvent::axis() const
+QVector<InputRedirection::PointerAxis> PointerEvent::axis() const
 {
     Q_ASSERT(type() == LIBINPUT_EVENT_POINTER_AXIS);
-    switch (libinput_event_pointer_get_axis(m_pointerEvent)) {
-    case LIBINPUT_POINTER_AXIS_SCROLL_HORIZONTAL:
-        return InputRedirection::PointerAxisHorizontal;
-    case LIBINPUT_POINTER_AXIS_SCROLL_VERTICAL:
-        return InputRedirection::PointerAxisVertical;
+    QVector<InputRedirection::PointerAxis> a;
+    if (libinput_event_pointer_has_axis(m_pointerEvent, LIBINPUT_POINTER_AXIS_SCROLL_HORIZONTAL)) {
+        a << InputRedirection::PointerAxisHorizontal;
     }
-    abort();
+    if (libinput_event_pointer_has_axis(m_pointerEvent, LIBINPUT_POINTER_AXIS_SCROLL_VERTICAL)) {
+        a << InputRedirection::PointerAxisVertical;
+    }
+    return a;
 }
 
-qreal PointerEvent::axisValue() const
+qreal PointerEvent::axisValue(InputRedirection::PointerAxis axis) const
 {
     Q_ASSERT(type() == LIBINPUT_EVENT_POINTER_AXIS);
-    return libinput_event_pointer_get_axis_value(m_pointerEvent);
+    const libinput_pointer_axis a = axis == InputRedirection::PointerAxisHorizontal
+                                          ? LIBINPUT_POINTER_AXIS_SCROLL_HORIZONTAL
+                                          : LIBINPUT_POINTER_AXIS_SCROLL_VERTICAL;
+    return libinput_event_pointer_get_axis_value(m_pointerEvent, a);
+}
+
+TouchEvent::TouchEvent(libinput_event *event, libinput_event_type type)
+    : Event(event, type)
+    , m_touchEvent(libinput_event_get_touch_event(event))
+{
+}
+
+TouchEvent::~TouchEvent() = default;
+
+quint32 TouchEvent::time() const
+{
+    return libinput_event_touch_get_time(m_touchEvent);
+}
+
+QPointF TouchEvent::absolutePos() const
+{
+    Q_ASSERT(type() == LIBINPUT_EVENT_TOUCH_DOWN || type() == LIBINPUT_EVENT_TOUCH_MOTION);
+    return QPointF(libinput_event_touch_get_x(m_touchEvent),
+                   libinput_event_touch_get_y(m_touchEvent));
+}
+
+QPointF TouchEvent::absolutePos(const QSize &size) const
+{
+    Q_ASSERT(type() == LIBINPUT_EVENT_TOUCH_DOWN || type() == LIBINPUT_EVENT_TOUCH_MOTION);
+    return QPointF(libinput_event_touch_get_x_transformed(m_touchEvent, size.width()),
+                   libinput_event_touch_get_y_transformed(m_touchEvent, size.height()));
+}
+
+qint32 TouchEvent::id() const
+{
+    Q_ASSERT(type() != LIBINPUT_EVENT_TOUCH_CANCEL && type() != LIBINPUT_EVENT_TOUCH_FRAME);
+    return libinput_event_touch_get_slot(m_touchEvent);
 }
 
 }

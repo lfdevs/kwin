@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-28 15:51+0000\n"
+"POT-Creation-Date: 2015-05-16 12:24+0000\n"
 "PO-Revision-Date: 2012-06-13 15:34+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer\n"
@@ -165,6 +165,15 @@ msgstr "ចំណង​ជើងបង្អួច (ជាក់លាក់ អ
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: editshortcut.ui:18
 #, fuzzy
+#| msgid ""
+#| "A single shortcut can be easily assigned or cleared using the two "
+#| "buttons. Only shortcuts with modifiers can be used.<p>\n"
+#| "It is possible to have several possible shortcuts, and the first "
+#| "available shortcut will be used. The shortcuts are specified using space-"
+#| "separated shortcut sets. One set is specified as <i>base</i>+(<i>list</"
+#| "i>), where base are modifiers and list is a list of keys.<br>\n"
+#| "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try "
+#| "<b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
 msgid ""
 "A single shortcut can be easily assigned or cleared using the two buttons. "
 "Only shortcuts with modifiers can be used.<p>\n"
@@ -196,19 +205,19 @@ msgstr "ផ្លូវកាត់​តែ​មួយ"
 msgid "C&lear"
 msgstr "ជម្រះ"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 msgid "Window-Specific Settings Configuration Module"
 msgstr "បង្អួច - ម៉ូឌុល​កំណត់​រចនាសម្ព័ន្ធ​ការ​កំណត់​ជាក់លាក់"
 
-#: kcm.cpp:51
+#: kcm.cpp:52
 msgid "(c) 2004 KWin and KControl Authors"
 msgstr "រក្សា​សិទ្ធិ​ឆ្នាំ​ ២០០៤ ដោយ​អ្នក​និពន្ធ​របស់​  KWin និង KControl"
 
-#: kcm.cpp:52
+#: kcm.cpp:53
 msgid "Lubos Lunak"
 msgstr "Lubos Lunak"
 
-#: kcm.cpp:83
+#: kcm.cpp:84
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -221,15 +230,15 @@ msgstr ""
 "ប្រសិទ្ធិភាព​ទេ បើ​អ្នក​មិន​បាន​ប្រើ KWin ជា​កម្មវិធី​គ្រប់គ្រង​បង្អួច​របស់​អ្នក ។ បើ​អ្នក​ប្រើ​កម្មវិធី​គ្រប់គ្រង​"
 "បង្អួច​មួយ​ផ្សេង​ទៀត សូម​យោង​ទៅ ឯកសារ​របស់​វា ចំពោះ​របៀប​ប្ដូរ​ឥរិយាបទ បង្អួច​តាម​បំណង ។</p>"
 
-#: kcm.cpp:99
+#: kcm.cpp:100
 msgid "Remember settings separately for every window"
 msgstr "សូម​ចងចាំ​ការ​កំណត់​ដោយ​ឡែកៗ សម្រាប់​បង្អួច​នីមួយៗ"
 
-#: kcm.cpp:100
+#: kcm.cpp:101
 msgid "Show internal settings for remembering"
 msgstr "បង្ហាញ​ការ​កំណត់​ខាង​ក្នុង​សម្រាប់​ការ​​ចងចាំ"
 
-#: kcm.cpp:101
+#: kcm.cpp:102
 msgid "Internal setting for remembering"
 msgstr "ការ​កំណត់​ខាង​ក្នុង​សម្រាប់​ការ​​ចងចាំ"
 
@@ -434,6 +443,7 @@ msgstr "ការ​ផ្គូផ្គង​បង្អួច"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
 #, fuzzy
+#| msgid "De&scription:"
 msgid "&Description:"
 msgstr "ការ​ពិពណ៌នា ៖"
 
@@ -503,6 +513,7 @@ msgstr "ផ្គូផ្គង​ថ្នាក់​បង្អួច​ទ
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: ruleswidgetbase.ui:109
 #, fuzzy
+#| msgid "Window &role:"
 msgid "Window ro&le:"
 msgstr "តួនាទី​បង្អួច ៖"
 
@@ -977,6 +988,7 @@ msgstr "គោរព​ការ​ដាក់កម្រិត​ធរណី
 #. i18n: ectx: property (text), widget (QCheckBox, enable_screen)
 #: ruleswidgetbase.ui:1369
 #, fuzzy
+#| msgid "Splash Screen"
 msgid "Screen"
 msgstr "អេក្រង់​ស្វាគមន៍"
 
@@ -1203,6 +1215,18 @@ msgstr "ផ្តោត​លើ​ការ​ការពារ​ការ​
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
 msgstr ""
+
+#: yesnobox.h:35
+msgid "Yes"
+msgstr ""
+
+#  i18n: file ruleswidgetbase.ui line 2115
+#: yesnobox.h:36
+#, fuzzy
+#| msgctxt "no focus stealing prevention"
+#| msgid "None"
+msgid "No"
+msgstr "គ្មាន"
 
 
 

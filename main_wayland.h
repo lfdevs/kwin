@@ -31,8 +31,41 @@ public:
     ApplicationWayland(int &argc, char **argv);
     virtual ~ApplicationWayland();
 
+    void setStartXwayland(bool start) {
+        m_startXWayland = start;
+    }
+    void setBackendSize(const QSize &size) {
+        m_backendSize = size;
+    }
+    void setWindowed(bool set) {
+        m_windowed = set;
+    }
+    void setX11Display(const QByteArray &display) {
+        m_x11Display = display;
+    }
+    void setWaylandDisplay(const QByteArray &display) {
+        m_waylandDisplay = display;
+    }
+    void setFramebuffer(const QString &fbdev) {
+        m_framebuffer = fbdev;
+    }
+
 protected:
     void performStartup() override;
+
+private:
+    void createBackend();
+    void createX11Connection();
+    void continueStartupWithScreens();
+    void continueStartupWithX();
+
+    bool m_startXWayland = false;
+    int m_xcbConnectionFd = -1;
+    QSize m_backendSize;
+    bool m_windowed = false;
+    QByteArray m_x11Display;
+    QByteArray m_waylandDisplay;
+    QString m_framebuffer;
 };
 
 }

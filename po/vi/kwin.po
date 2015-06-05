@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-18 09:50+0000\n"
+"POT-Creation-Date: 2015-05-20 10:44+0000\n"
 "PO-Revision-Date: 2007-06-23 22:34+0930\n"
 "Last-Translator: Phan Vĩnh Thịnh <teppi82@gmail.com>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -26,7 +26,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "teppi82@gmail.com"
 
-#: composite.cpp:503
+#: composite.cpp:545
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -56,6 +56,7 @@ msgstr ""
 
 #: killer/killer.cpp:44
 #, fuzzy
+#| msgid "KDE window manager"
 msgid "Window Manager"
 msgstr "Trình quản lí cửa sổ KDE"
 
@@ -156,11 +157,13 @@ msgstr ""
 
 #: kwinbindings.cpp:40
 #, fuzzy
+#| msgid "Walk Through Windows"
 msgid "Walk Through Window Tabs"
 msgstr "Đi qua các cửa sổ"
 
 #: kwinbindings.cpp:41
 #, fuzzy
+#| msgid "Walk Through Windows (Reverse)"
 msgid "Walk Through Window Tabs (Reverse)"
 msgstr "Đi qua các cửa sổ (Hướng ngược lại)"
 
@@ -274,221 +277,281 @@ msgstr "Thay đổi cỡ cửa sổ đang giảm theo chiều dọc"
 
 #: kwinbindings.cpp:96
 #, fuzzy
+#| msgid "Pack Window to the Left"
 msgid "Quick Tile Window to the Left"
 msgstr "Thay đổi cỡ cứa sổ sang trái"
 
 #: kwinbindings.cpp:98
 #, fuzzy
+#| msgid "Pack Window to the Right"
 msgid "Quick Tile Window to the Right"
 msgstr "Thay đổi cỡ cứa sổ sang phải"
 
 #: kwinbindings.cpp:100
 #, fuzzy
-msgid "Quick Tile Window to the Top Left"
+#| msgid "Pack Window to the Left"
+msgid "Quick Tile Window to the Top"
 msgstr "Thay đổi cỡ cứa sổ sang trái"
 
 #: kwinbindings.cpp:102
 #, fuzzy
-msgid "Quick Tile Window to the Bottom Left"
+#| msgid "Pack Window to the Left"
+msgid "Quick Tile Window to the Bottom"
 msgstr "Thay đổi cỡ cứa sổ sang trái"
 
 #: kwinbindings.cpp:104
 #, fuzzy
-msgid "Quick Tile Window to the Top Right"
-msgstr "Thay đổi cỡ cứa sổ sang phải"
+#| msgid "Pack Window to the Left"
+msgid "Quick Tile Window to the Top Left"
+msgstr "Thay đổi cỡ cứa sổ sang trái"
 
 #: kwinbindings.cpp:106
 #, fuzzy
-msgid "Quick Tile Window to the Bottom Right"
-msgstr "Thay đổi cỡ cứa sổ sang phải"
+#| msgid "Pack Window to the Left"
+msgid "Quick Tile Window to the Bottom Left"
+msgstr "Thay đổi cỡ cứa sổ sang trái"
 
 #: kwinbindings.cpp:108
 #, fuzzy
-msgid "Switch to Window Above"
-msgstr "Chuyển tới màn hình 0"
+#| msgid "Pack Window to the Right"
+msgid "Quick Tile Window to the Top Right"
+msgstr "Thay đổi cỡ cứa sổ sang phải"
 
 #: kwinbindings.cpp:110
 #, fuzzy
-msgid "Switch to Window Below"
-msgstr "Chuyển tới màn hình trước"
+#| msgid "Pack Window to the Right"
+msgid "Quick Tile Window to the Bottom Right"
+msgstr "Thay đổi cỡ cứa sổ sang phải"
 
 #: kwinbindings.cpp:112
 #, fuzzy
-msgid "Switch to Window to the Right"
-msgstr "Thay đổi cỡ cứa sổ sang phải"
+#| msgid "Switch to Screen 0"
+msgid "Switch to Window Above"
+msgstr "Chuyển tới màn hình 0"
 
 #: kwinbindings.cpp:114
 #, fuzzy
+#| msgid "Switch to Previous Desktop"
+msgid "Switch to Window Below"
+msgstr "Chuyển tới màn hình trước"
+
+#: kwinbindings.cpp:116
+#, fuzzy
+#| msgid "Pack Window to the Right"
+msgid "Switch to Window to the Right"
+msgstr "Thay đổi cỡ cứa sổ sang phải"
+
+#: kwinbindings.cpp:118
+#, fuzzy
+#| msgid "Pack Window to the Left"
 msgid "Switch to Window to the Left"
 msgstr "Thay đổi cỡ cứa sổ sang trái"
 
-#: kwinbindings.cpp:116
+#: kwinbindings.cpp:120
 msgid "Increase Opacity of Active Window by 5 %"
 msgstr ""
 
-#: kwinbindings.cpp:118
+#: kwinbindings.cpp:122
 msgid "Decrease Opacity of Active Window by 5 %"
 msgstr ""
 
-#: kwinbindings.cpp:121
+#: kwinbindings.cpp:125
 msgid "Keep Window on All Desktops"
 msgstr "Đặt cửa sổ trên mọi màn hình"
 
-#: kwinbindings.cpp:125
+#: kwinbindings.cpp:129
 #, fuzzy, kde-format
+#| msgid "Window to Desktop 1"
 msgid "Window to Desktop %1"
 msgstr "Cửa sổ tới màn hình 1"
 
-#: kwinbindings.cpp:127
+#: kwinbindings.cpp:131
 msgid "Window to Next Desktop"
 msgstr "Cửa sổ tới màn hình tiếp"
 
-#: kwinbindings.cpp:128
+#: kwinbindings.cpp:132
 msgid "Window to Previous Desktop"
 msgstr "Cửa sổ tới màn hình trước"
 
-#: kwinbindings.cpp:129
+#: kwinbindings.cpp:133
 msgid "Window One Desktop to the Right"
 msgstr "Cửa sổ tới màn hình ngay bên phải"
 
-#: kwinbindings.cpp:130
+#: kwinbindings.cpp:134
 msgid "Window One Desktop to the Left"
 msgstr "Cửa sổ tới màn hình ngay bên trái"
 
-#: kwinbindings.cpp:131
+#: kwinbindings.cpp:135
 msgid "Window One Desktop Up"
 msgstr "Cửa sổ tới màn hình ngay trên"
 
-#: kwinbindings.cpp:132
+#: kwinbindings.cpp:136
 msgid "Window One Desktop Down"
 msgstr "Cửa sổ tới màn hình ngay dưới"
 
-#: kwinbindings.cpp:135
+#: kwinbindings.cpp:139
 #, fuzzy, kde-format
+#| msgid "Window to Screen 1"
 msgid "Window to Screen %1"
 msgstr "Cửa sổ tới màn hình 1"
 
-#: kwinbindings.cpp:137
+#: kwinbindings.cpp:141
 msgid "Window to Next Screen"
 msgstr "Cửa sổ tới màn hình kế"
 
-#: kwinbindings.cpp:138
+#: kwinbindings.cpp:142
 #, fuzzy
+#| msgid "Window to Previous Desktop"
 msgid "Window to Previous Screen"
 msgstr "Cửa sổ tới màn hình trước"
 
-#: kwinbindings.cpp:139
+#: kwinbindings.cpp:143
 #, fuzzy
+#| msgid "Switch to Desktop 1"
 msgid "Show Desktop"
 msgstr "Chuyển tới màn hình 1"
 
-#: kwinbindings.cpp:142
+#: kwinbindings.cpp:146
 #, fuzzy, kde-format
+#| msgid "Switch to Screen 1"
 msgid "Switch to Screen %1"
 msgstr "Chuyển tới màn hình 1"
 
-#: kwinbindings.cpp:145
+#: kwinbindings.cpp:149
 msgid "Switch to Next Screen"
 msgstr "Chuyển tới màn hình kế"
 
-#: kwinbindings.cpp:146
+#: kwinbindings.cpp:150
 #, fuzzy
+#| msgid "Switch to Previous Desktop"
 msgid "Switch to Previous Screen"
 msgstr "Chuyển tới màn hình trước"
 
-#: kwinbindings.cpp:148
+#: kwinbindings.cpp:152
 msgid "Kill Window"
 msgstr "Diệt cửa sổ"
 
-#: kwinbindings.cpp:149
+#: kwinbindings.cpp:153
 msgid "Suspend Compositing"
 msgstr ""
 
-#: kwinbindings.cpp:150
+#: kwinbindings.cpp:154
 msgid "Invert Screen Colors"
 msgstr ""
 
-#: main.cpp:78
+#: main.cpp:90
 msgid ""
 "KWin is unstable.\n"
 "It seems to have crashed several times in a row.\n"
 "You can select another window manager to run:"
 msgstr ""
 
-#: main.cpp:260 main.cpp:287
+#: main.cpp:272 main.cpp:299
 msgid "KDE window manager"
 msgstr "Trình quản lí cửa sổ KDE"
 
-#: main.cpp:265
+#: main.cpp:277
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:269
+#: main.cpp:281
 #, fuzzy
+#| msgid "(c) 1999-2005, The KDE Developers"
 msgid "(c) 1999-2013, The KDE Developers"
 msgstr "Đăng ký (c) 1999-2005 bởi các nhà phát triển KDE"
 
-#: main.cpp:271
+#: main.cpp:283
 msgid "Matthias Ettrich"
 msgstr ""
 
-#: main.cpp:272
+#: main.cpp:284
 msgid "Cristian Tibirna"
 msgstr ""
 
-#: main.cpp:273
+#: main.cpp:285
 msgid "Daniel M. Duley"
 msgstr ""
 
-#: main.cpp:274
+#: main.cpp:286
 msgid "Luboš Luňák"
 msgstr ""
 
-#: main.cpp:275
+#: main.cpp:287
 msgid "Martin Gräßlin"
 msgstr ""
 
-#: main.cpp:275
+#: main.cpp:287
 msgid "Maintainer"
 msgstr "Nhà duy trì"
 
-#: main.cpp:284
+#: main.cpp:296
 msgid "Disable configuration options"
 msgstr "Tắt các tùy chọn cấu hình"
 
-#: main.cpp:285
+#: main.cpp:297
 msgid "Indicate that KWin has recently crashed n times"
 msgstr ""
 
-#: main_wayland.cpp:88
-#, fuzzy
-msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
-msgstr ""
-"kwin: không đòi hỏi được lựa chọn trình quản lý, có một wm khác đang chạy? "
-"(hãy thử dùng --replace)\n"
-
-#: main_wayland.cpp:96
+#: main_wayland.cpp:106
 msgid ""
 "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
 "set.\n"
 msgstr ""
 
-#: main_wayland.cpp:235
-msgid "Start a nested X Server."
+#: main_wayland.cpp:213
+#, fuzzy
+#| msgid ""
+#| "kwin: unable to claim manager selection, another wm running? (try using --"
+#| "replace)\n"
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+msgstr ""
+"kwin: không đòi hỏi được lựa chọn trình quản lý, có một wm khác đang chạy? "
+"(hãy thử dùng --replace)\n"
+
+#: main_wayland.cpp:384
+msgid "Start a rootless Xwayland server."
 msgstr ""
 
-#: main_wayland.cpp:238
+#: main_wayland.cpp:386
 msgid ""
-"The X11 Display to connect to. If not set next free number will be picked."
+"Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 
-#: main_wayland.cpp:247
+#: main_wayland.cpp:389
+msgid "Use a nested compositor in windowed mode."
+msgstr ""
+
+#: main_wayland.cpp:391
+msgid "Render to framebuffer."
+msgstr ""
+
+#: main_wayland.cpp:393
+msgid "The framebuffer device to render to."
+msgstr ""
+
+#: main_wayland.cpp:397
+msgid "The X11 Display to use in windowed mode on platform X11."
+msgstr ""
+
+#: main_wayland.cpp:400
+msgid "The Wayland Display to use in windowed mode on platform Wayland."
+msgstr ""
+
+#: main_wayland.cpp:403
+msgid "The width for windowed mode. Default width is 1024."
+msgstr ""
+
+#: main_wayland.cpp:407
+msgid "The height for windowed mode. Default height is 768."
+msgstr ""
+
+#: main_wayland.cpp:424
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
 msgstr ""
 
-#: main_x11.cpp:149
+#: main_x11.cpp:151
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
@@ -496,22 +559,25 @@ msgstr ""
 "kwin: không đòi hỏi được lựa chọn trình quản lý, có một wm khác đang chạy? "
 "(hãy thử dùng --replace)\n"
 
-#: main_x11.cpp:166
+#: main_x11.cpp:168
 #, fuzzy
+#| msgid ""
+#| "kwin: unable to claim manager selection, another wm running? (try using --"
+#| "replace)\n"
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "kwin: không đòi hỏi được lựa chọn trình quản lý, có một wm khác đang chạy? "
 "(hãy thử dùng --replace)\n"
 
-#: main_x11.cpp:261
+#: main_x11.cpp:270
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "Thay thế trình quản lý cửa sổ tương thích ICCCM2.0 đang chạy"
 
-#: scene_opengl.cpp:610
+#: scene_opengl.cpp:620
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
 
-#: scene_opengl.cpp:774
+#: scene_opengl.cpp:784
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -521,7 +587,7 @@ msgid ""
 "%2 "
 msgstr ""
 
-#: scene_opengl.cpp:781
+#: scene_opengl.cpp:791
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
 "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
@@ -529,7 +595,7 @@ msgid ""
 "by the hardware limitations that restrict the OpenGL viewport size."
 msgstr ""
 
-#: scene_opengl.cpp:806
+#: scene_opengl.cpp:816
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -538,7 +604,7 @@ msgid ""
 "compositing, switch to the XRender backend or lower the resolution to %1x%1."
 msgstr ""
 
-#: scene_opengl.cpp:812
+#: scene_opengl.cpp:822
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
 "GPU, thus windows of that size cannot be assigned to textures and will be "
@@ -587,73 +653,80 @@ msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
 msgstr ""
 
-#: tabbox/tabbox.cpp:347
+#: tabbox/tabbox.cpp:358
 #, fuzzy
+#| msgid "Switch to Desktop 1"
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Chuyển tới màn hình 1"
 
-#: tabbox/tabbox.cpp:498
+#: tabbox/tabbox.cpp:508
 msgid "Walk Through Windows"
 msgstr "Đi qua các cửa sổ"
 
-#: tabbox/tabbox.cpp:499
+#: tabbox/tabbox.cpp:509
 msgid "Walk Through Windows (Reverse)"
 msgstr "Đi qua các cửa sổ (Hướng ngược lại)"
 
-#: tabbox/tabbox.cpp:500
+#: tabbox/tabbox.cpp:510
 #, fuzzy
+#| msgid "Walk Through Windows (Reverse)"
 msgid "Walk Through Windows Alternative"
 msgstr "Đi qua các cửa sổ (Hướng ngược lại)"
 
-#: tabbox/tabbox.cpp:501
+#: tabbox/tabbox.cpp:511
 #, fuzzy
+#| msgid "Walk Through Windows (Reverse)"
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Đi qua các cửa sổ (Hướng ngược lại)"
 
-#: tabbox/tabbox.cpp:502
+#: tabbox/tabbox.cpp:512
 #, fuzzy
+#| msgid "Walk Through Windows (Reverse)"
 msgid "Walk Through Windows of Current Application"
 msgstr "Đi qua các cửa sổ (Hướng ngược lại)"
 
-#: tabbox/tabbox.cpp:503
+#: tabbox/tabbox.cpp:513
 #, fuzzy
+#| msgid "Walk Through Windows (Reverse)"
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Đi qua các cửa sổ (Hướng ngược lại)"
 
-#: tabbox/tabbox.cpp:504
+#: tabbox/tabbox.cpp:514
 #, fuzzy
+#| msgid "Walk Through Windows (Reverse)"
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Đi qua các cửa sổ (Hướng ngược lại)"
 
-#: tabbox/tabbox.cpp:505
+#: tabbox/tabbox.cpp:515
 #, fuzzy
+#| msgid "Walk Through Windows (Reverse)"
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "Đi qua các cửa sổ (Hướng ngược lại)"
 
-#: tabbox/tabbox.cpp:506
+#: tabbox/tabbox.cpp:516
 msgid "Walk Through Desktops"
 msgstr "Đi qua các màn hình"
 
-#: tabbox/tabbox.cpp:507
+#: tabbox/tabbox.cpp:517
 msgid "Walk Through Desktops (Reverse)"
 msgstr "Đi qua các màn hình (Hướng ngược lại)"
 
-#: tabbox/tabbox.cpp:508
+#: tabbox/tabbox.cpp:518
 msgid "Walk Through Desktop List"
 msgstr "Đi dọc theo danh sách màn hình"
 
-#: tabbox/tabbox.cpp:509
+#: tabbox/tabbox.cpp:519
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Đi dọc theo danh sách màn hình (Hướng ngược lại)"
 
-#: tabbox/tabboxhandler.cpp:278
+#: tabbox/tabboxhandler.cpp:285
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
 msgstr ""
 
-#: useractions.cpp:185
+#: useractions.cpp:181
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -665,7 +738,7 @@ msgstr ""
 "Khi không có đường biên, thì không thể hiển thị lại đường biên bằng chuột: "
 "hãy sử dụng thực đơn thao tác cửa sổ bằng phím nóng %1 để thay thế."
 
-#: useractions.cpp:193
+#: useractions.cpp:189
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -678,159 +751,166 @@ msgstr ""
 "nó bằng chuột: hãy sử dụng thực đơn thao tác cửa sổ bằng phím nóng %1 để "
 "thay thế."
 
-#: useractions.cpp:256
+#: useractions.cpp:252
 msgid "&Move"
 msgstr "&Chuyển"
 
-#: useractions.cpp:261
+#: useractions.cpp:257
 msgid "Re&size"
 msgstr "Đổ &cỡ"
 
-#: useractions.cpp:265
+#: useractions.cpp:261
 msgid "Keep &Above Others"
 msgstr "Giữ trên các cửa &sổ khác"
 
-#: useractions.cpp:271
+#: useractions.cpp:267
 msgid "Keep &Below Others"
 msgstr "Giữ dướ&i các cửa sổ khác"
 
-#: useractions.cpp:277
+#: useractions.cpp:273
 msgid "&Fullscreen"
 msgstr "Đầ&y màn hình"
 
-#: useractions.cpp:283
+#: useractions.cpp:279
 msgid "Sh&ade"
 msgstr "&Che"
 
-#: useractions.cpp:288
+#: useractions.cpp:284
 msgid "&No Border"
 msgstr "&Không biên"
 
-#: useractions.cpp:295
+#: useractions.cpp:291
 msgid "Window &Shortcut..."
 msgstr "Phím nón&g cửa sổ..."
 
-#: useractions.cpp:300
+#: useractions.cpp:296
 msgid "&Special Window Settings..."
 msgstr "Thiết lậ&p cửa sổ đặc biệt..."
 
-#: useractions.cpp:304
+#: useractions.cpp:300
 #, fuzzy
+#| msgid "&Special Application Settings..."
 msgid "S&pecial Application Settings..."
 msgstr "Thiết lậ&p ứng dụng đặc biệt..."
 
-#: useractions.cpp:311
+#: useractions.cpp:307
 #, fuzzy
+#| msgid "&Special Window Settings..."
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
 msgid "Window &Manager Settings..."
 msgstr "Thiết lậ&p cửa sổ đặc biệt..."
 
-#: useractions.cpp:326
+#: useractions.cpp:322
 msgid "Mi&nimize"
 msgstr "Th&u nhỏ"
 
-#: useractions.cpp:330
+#: useractions.cpp:326
 msgid "Ma&ximize"
 msgstr "Phóng t&o"
 
-#: useractions.cpp:339
+#: useractions.cpp:335
 msgid "&Untab"
 msgstr ""
 
-#: useractions.cpp:343
+#: useractions.cpp:339
 msgid "Close Entire &Group"
 msgstr ""
 
-#: useractions.cpp:354
+#: useractions.cpp:350
 msgid "&More Actions"
 msgstr ""
 
-#: useractions.cpp:358
+#: useractions.cpp:354
 msgid "&Close"
 msgstr "Đón&g"
 
-#: useractions.cpp:431
+#: useractions.cpp:427
 msgid "&Extensions"
 msgstr ""
 
-#: useractions.cpp:486
+#: useractions.cpp:482
 msgctxt "Switch to tab -> Previous"
 msgid "Previous"
 msgstr ""
 
-#: useractions.cpp:487
+#: useractions.cpp:483
 msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr ""
 
-#: useractions.cpp:525
+#: useractions.cpp:521
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr ""
 
-#: useractions.cpp:534
+#: useractions.cpp:530
 #, fuzzy
+#| msgid "Switch to Screen 0"
 msgid "Switch to Tab"
 msgstr "Chuyển tới màn hình 0"
 
-#: useractions.cpp:545
+#: useractions.cpp:541
 msgid "&Attach as tab to"
 msgstr ""
 
-#: useractions.cpp:568
+#: useractions.cpp:564
 #, fuzzy
+#| msgid "To &Desktop"
 msgid "Move To &Desktop"
 msgstr "&Tới màn hình"
 
-#: useractions.cpp:584
+#: useractions.cpp:580
 #, fuzzy
+#| msgid "To &Desktop"
 msgid "Move To &Screen"
 msgstr "&Tới màn hình"
 
-#: useractions.cpp:599
+#: useractions.cpp:595
 msgid "Ac&tivities"
 msgstr ""
 
-#: useractions.cpp:611
+#: useractions.cpp:607
 msgid "&All Desktops"
 msgstr "&Mọi màn hình"
 
-#: useractions.cpp:637
+#: useractions.cpp:633
 #, fuzzy
+#| msgid "Switch to Desktop 1"
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "Chuyển tới màn hình 1"
 
-#: useractions.cpp:658
+#: useractions.cpp:654
 #, fuzzy, kde-format
+#| msgid "Window to Screen 1"
 msgctxt "@item:inmenu List of all Screens to send a window to"
 msgid "Screen &%1"
 msgstr "Cửa sổ tới màn hình 1"
 
-#: useractions.cpp:676
+#: useractions.cpp:672
 msgid "&All Activities"
 msgstr ""
 
-#: useractions.cpp:883
+#: useractions.cpp:879
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr ""
 
-#: useractions.cpp:885
+#: useractions.cpp:881
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr ""
 
-#: useractions.cpp:1008
+#: useractions.cpp:1003
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr ""
 
-#: useractions.cpp:1381
+#: useractions.cpp:1376
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
 "as active one.\n"
@@ -868,10 +948,11 @@ msgstr "Chuyển tới màn hình ngay dưới"
 
 #: virtualdesktops.cpp:444
 #, fuzzy, kde-format
+#| msgid "Switch to Desktop 1"
 msgid "Switch to Desktop %1"
 msgstr "Chuyển tới màn hình 1"
 
-#: workspace.cpp:1317
+#: workspace.cpp:1258
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

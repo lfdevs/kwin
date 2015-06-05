@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/kwin_effects.po\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-03-21 10:21+0000\n"
+"POT-Creation-Date: 2015-05-21 11:34+0000\n"
 "PO-Revision-Date: 2007-11-14 08:24-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -45,7 +45,7 @@ msgstr "Trom"
 msgid "Save intermediate rendering results."
 msgstr ""
 
-#: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Taispeáin an Deasc"
@@ -545,6 +545,7 @@ msgstr ""
 
 #: effect_builtins.cpp:117
 #, fuzzy
+#| msgid "Background color:"
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Dath an chúlra:"
@@ -566,6 +567,7 @@ msgstr ""
 
 #: effect_builtins.cpp:147
 #, fuzzy
+#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Ciúb Deisce"
@@ -577,6 +579,7 @@ msgstr ""
 
 #: effect_builtins.cpp:162
 #, fuzzy
+#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Ciúb Deisce"
@@ -598,6 +601,7 @@ msgstr ""
 
 #: effect_builtins.cpp:192
 #, fuzzy
+#| msgid "Show Desktop Grid"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Taispeáin Greille na Deisce"
@@ -614,6 +618,7 @@ msgstr ""
 
 #: effect_builtins.cpp:208
 #, fuzzy
+#| msgid "Inactive windows:"
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Fuinneoga neamhghníomhacha:"
@@ -671,6 +676,7 @@ msgstr ""
 
 #: effect_builtins.cpp:297
 #, fuzzy
+#| msgid "Invert mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Inbhéartaigh an luch"
@@ -732,18 +738,21 @@ msgstr ""
 
 #: effect_builtins.cpp:387
 #, fuzzy
+#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Beochan"
 
 #: effect_builtins.cpp:388
 #, fuzzy
+#| msgid "Ignore &minimized windows"
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "Déan nea&mhshuim d'fhuinneoga íoslaghdaithe"
 
 #: effect_builtins.cpp:402
 #, fuzzy
+#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Beochan"
@@ -757,6 +766,7 @@ msgstr ""
 
 #: effect_builtins.cpp:417
 #, fuzzy
+#| msgid "Clear Mouse Marks"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Glan Marcanna Luiche"
@@ -768,6 +778,7 @@ msgstr ""
 
 #: effect_builtins.cpp:432
 #, fuzzy
+#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Fuinneoga"
@@ -779,6 +790,7 @@ msgstr ""
 
 #: effect_builtins.cpp:447
 #, fuzzy
+#| msgid "Close window"
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Dún fuinneog"
@@ -831,6 +843,7 @@ msgstr ""
 
 #: effect_builtins.cpp:522
 #, fuzzy
+#| msgid "Show &panels"
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Taispeáin &painéil"
@@ -892,6 +905,7 @@ msgstr ""
 
 #: effect_builtins.cpp:612
 #, fuzzy
+#| msgid "Thumbnail Bar"
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Barra Mionsamhla"
@@ -903,6 +917,7 @@ msgstr ""
 
 #: effect_builtins.cpp:627
 #, fuzzy
+#| msgid "Track mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Lorg an luch"
@@ -919,24 +934,28 @@ msgstr ""
 
 #: effect_builtins.cpp:643
 #, fuzzy
+#| msgid "Display window &icons"
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "Ta&ispeáin deilbhíní fuinneoige"
 
 #: effect_builtins.cpp:657
 #, fuzzy
+#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Fuinneoga"
 
 #: effect_builtins.cpp:658
 #, fuzzy
+#| msgid "Use for window &switching"
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "Ú&sáid le haghaidh mhalairt na fuinneoige"
 
 #: effect_builtins.cpp:672
 #, fuzzy
+#| msgid "Zoom"
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Súmáil"
@@ -1061,6 +1080,7 @@ msgstr "&Airde:"
 
 #: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
 #, fuzzy
+#| msgid "Toggle Effect"
 msgid "Toggle Mouse Click Effect"
 msgstr "Scoránaigh an Mhaisíocht"
 
@@ -1184,7 +1204,7 @@ msgstr "Scoránaigh na Fuinneoga atá ann (Gach deasc)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Scoránaigh na Fuinneoga atá ann (Aicme fhuinneoige)"
 
-#: presentwindows/presentwindows.cpp:1556
+#: presentwindows/presentwindows.cpp:1561
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1551,7 +1571,7 @@ msgstr "Roghchláir aníos:"
 msgid "Torn-off menus:"
 msgstr "Roghchlár stróicthe:"
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:61
 msgid "Toggle window geometry display (effect only)"
 msgstr ""
 
@@ -1619,27 +1639,27 @@ msgstr "Níos Lú"
 msgid "More"
 msgstr "Tuilleadh"
 
-#: zoom/zoom.cpp:86
+#: zoom/zoom.cpp:84
 msgid "Move Zoomed Area to Left"
 msgstr ""
 
-#: zoom/zoom.cpp:94
+#: zoom/zoom.cpp:92
 msgid "Move Zoomed Area to Right"
 msgstr ""
 
-#: zoom/zoom.cpp:102
+#: zoom/zoom.cpp:100
 msgid "Move Zoomed Area Upwards"
 msgstr ""
 
-#: zoom/zoom.cpp:110
+#: zoom/zoom.cpp:108
 msgid "Move Zoomed Area Downwards"
 msgstr ""
 
-#: zoom/zoom.cpp:119 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
 msgid "Move Mouse to Focus"
 msgstr ""
 
-#: zoom/zoom.cpp:127 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
 msgid "Move Mouse to Center"
 msgstr ""
 

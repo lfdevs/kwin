@@ -7,7 +7,6 @@ X-KDE-ParentComponents=dashboard
 
 Name=Dashboard
 Name[ar]=لوحة الودجات
-Name[ast]=Tableru de mandos
 Name[be@latin]=Dashboard
 Name[bg]=Табло
 Name[bn]=ড্যাশবোর্ড
@@ -18,7 +17,7 @@ Name[ca@valencia]=Tauler
 Name[cs]=Dashboard
 Name[csb]=Panel
 Name[da]=Instrumentbræt
-Name[de]=Dashboard
+Name[de]=Übersichtsseite
 Name[el]=Πίνακας συστατικών
 Name[en_GB]=Dashboard
 Name[eo]=Stirtablo

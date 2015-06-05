@@ -32,15 +32,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #if HAVE_INPUT
 #include "libinput/connection.h"
 #endif
+#if HAVE_WAYLAND
+#include "abstract_backend.h"
+#include "wayland_server.h"
+#include "virtual_terminal.h"
+#include <KWayland/Server/seat_interface.h>
+#endif
 // Qt
 #include <QKeyEvent>
 #include <QMouseEvent>
 // KDE
 #include <kkeyserver.h>
-// TODO: remove xtest
-#include <xcb/xtest.h>
 #if HAVE_XKB
 #include <xkbcommon/xkbcommon.h>
+#include <xkbcommon/xkbcommon-keysyms.h>
 #endif
 // system
 #include <linux/input.h>
@@ -62,6 +67,14 @@ Xkb::Xkb()
 {
     if (!m_context) {
         qCDebug(KWIN_CORE) << "Could not create xkb context";
+    } else {
+        // load default keymap
+        xkb_keymap *keymap = xkb_keymap_new_from_names(m_context, nullptr, XKB_KEYMAP_COMPILE_NO_FLAGS);
+        if (keymap) {
+            updateKeymap(keymap);
+        } else {
+            qCDebug(KWIN_CORE) << "Could not create default xkb keymap";
+        }
     }
 }
 
@@ -87,6 +100,12 @@ void Xkb::installKeymap(int fd, uint32_t size)
         qCDebug(KWIN_CORE) << "Could not map keymap from file";
         return;
     }
+    updateKeymap(keymap);
+}
+
+void Xkb::updateKeymap(xkb_keymap *keymap)
+{
+    Q_ASSERT(keymap);
     xkb_state *state = xkb_state_new(keymap);
     if (!state) {
         qCDebug(KWIN_CORE) << "Could not create XKB state";
@@ -112,6 +131,20 @@ void Xkb::updateModifiers(uint32_t modsDepressed, uint32_t modsLatched, uint32_t
         return;
     }
     xkb_state_update_mask(m_state, modsDepressed, modsLatched, modsLocked, 0, 0, group);
+    updateModifiers();
+}
+
+void Xkb::updateKey(uint32_t key, InputRedirection::KeyboardKeyState state)
+{
+    if (!m_keymap || !m_state) {
+        return;
+    }
+    xkb_state_update_key(m_state, key + 8, static_cast<xkb_key_direction>(state));
+    updateModifiers();
+}
+
+void Xkb::updateModifiers()
+{
     Qt::KeyboardModifiers mods = Qt::NoModifier;
     if (xkb_state_mod_index_is_active(m_state, m_shiftModifier, XKB_STATE_MODS_EFFECTIVE) == 1) {
         mods |= Qt::ShiftModifier;
@@ -126,14 +159,6 @@ void Xkb::updateModifiers(uint32_t modsDepressed, uint32_t modsLatched, uint32_t
         mods |= Qt::MetaModifier;
     }
     m_modifiers = mods;
-}
-
-void Xkb::updateKey(uint32_t key, InputRedirection::KeyboardKeyState state)
-{
-    if (!m_keymap || !m_state) {
-        return;
-    }
-    xkb_state_update_key(m_state, key + 8, static_cast<xkb_key_direction>(state));
 }
 
 xkb_keysym_t Xkb::toKeysym(uint32_t key)
@@ -183,7 +208,7 @@ InputRedirection::InputRedirection(QObject *parent)
                 setupLibInput();
             } else {
                 logind->takeControl();
-                connect(logind, &LogindIntegration::hasSessionControlChanged, this, &InputRedirection::setupLibInput);
+                m_sessionControlConnection = connect(logind, &LogindIntegration::hasSessionControlChanged, this, &InputRedirection::setupLibInput);
             }
         };
         if (logind->isConnected()) {
@@ -200,21 +225,34 @@ InputRedirection::~InputRedirection()
     s_self = NULL;
 }
 
+#if HAVE_WAYLAND
+static KWayland::Server::SeatInterface *findSeat()
+{
+    auto server = waylandServer();
+    if (!server) {
+        return nullptr;
+    }
+    return server->seat();
+}
+#endif
+
 void InputRedirection::setupLibInput()
 {
 #if HAVE_INPUT
     if (!Application::usesLibinput()) {
         return;
     }
+    if (m_sessionControlConnection) {
+        disconnect(m_sessionControlConnection);
+        m_sessionControlConnection = QMetaObject::Connection();
+    }
+    if (m_libInput) {
+        return;
+    }
     LibInput::Connection *conn = LibInput::Connection::create(this);
+    m_libInput = conn;
     if (conn) {
         conn->setup();
-        conn->setScreenSize(screens()->size());
-        connect(screens(), &Screens::sizeChanged, this,
-            [this, conn] {
-                conn->setScreenSize(screens()->size());
-            }
-        );
         connect(conn, &LibInput::Connection::pointerButtonChanged, this, &InputRedirection::processPointerButton);
         connect(conn, &LibInput::Connection::pointerAxisChanged, this, &InputRedirection::processPointerAxis);
         connect(conn, &LibInput::Connection::keyChanged, this, &InputRedirection::processKeyboardKey);
@@ -229,15 +267,69 @@ void InputRedirection::setupLibInput()
                 processPointerMotion(screen, time);
             }
         );
-        connect(screens(), &Screens::changed, this, &InputRedirection::updatePointerAfterScreenChange);
-        // set pos to center of all screens
+        connect(conn, &LibInput::Connection::touchDown, this, &InputRedirection::processTouchDown);
+        connect(conn, &LibInput::Connection::touchUp, this, &InputRedirection::processTouchUp);
+        connect(conn, &LibInput::Connection::touchMotion, this, &InputRedirection::processTouchMotion);
+        connect(conn, &LibInput::Connection::touchCanceled, this, &InputRedirection::cancelTouch);
+        connect(conn, &LibInput::Connection::touchFrame, this, &InputRedirection::touchFrame);
         if (screens()) {
-            m_globalPointer = screens()->geometry().center();
-            emit globalPointerChanged(m_globalPointer);
-            // sanitize
-            updatePointerAfterScreenChange();
+            setupLibInputWithScreens();
+        } else {
+            connect(kwinApp(), &Application::screensCreated, this, &InputRedirection::setupLibInputWithScreens);
         }
+#if HAVE_WAYLAND
+        if (auto s = findSeat()) {
+            s->setHasKeyboard(conn->hasKeyboard());
+            s->setHasPointer(conn->hasPointer());
+            s->setHasTouch(conn->hasTouch());
+            connect(conn, &LibInput::Connection::hasKeyboardChanged, this,
+                [this, s] (bool set) {
+                    if (m_libInput->isSuspended()) {
+                        return;
+                    }
+                    s->setHasKeyboard(set);
+                }
+            );
+            connect(conn, &LibInput::Connection::hasPointerChanged, this,
+                [this, s] (bool set) {
+                    if (m_libInput->isSuspended()) {
+                        return;
+                    }
+                    s->setHasPointer(set);
+                }
+            );
+            connect(conn, &LibInput::Connection::hasTouchChanged, this,
+                [this, s] (bool set) {
+                    if (m_libInput->isSuspended()) {
+                        return;
+                    }
+                    s->setHasTouch(set);
+                }
+            );
+        }
+#endif
     }
+#endif
+}
+
+void InputRedirection::setupLibInputWithScreens()
+{
+#if HAVE_INPUT
+    if (!screens() || !m_libInput) {
+        return;
+    }
+    m_libInput->setScreenSize(screens()->size());
+    connect(screens(), &Screens::sizeChanged, this,
+        [this] {
+            m_libInput->setScreenSize(screens()->size());
+        }
+    );
+    // set pos to center of all screens
+    connect(screens(), &Screens::changed, this, &InputRedirection::updatePointerAfterScreenChange);
+    m_globalPointer = screens()->geometry().center();
+    emit globalPointerChanged(m_globalPointer);
+    // sanitize
+    updatePointerAfterScreenChange();
 #endif
 }
 
@@ -245,24 +337,75 @@ void InputRedirection::updatePointerWindow()
 {
     // TODO: handle pointer grab aka popups
     Toplevel *t = findToplevel(m_globalPointer.toPoint());
-    const bool oldWindowValid = !m_pointerWindow.isNull();
-    if (oldWindowValid && t == m_pointerWindow.data()) {
+    auto oldWindow = m_pointerWindow;
+    if (!oldWindow.isNull() && t == m_pointerWindow.data()) {
         return;
     }
-    if (oldWindowValid) {
-        m_pointerWindow.data()->sendPointerLeaveEvent(m_globalPointer);
+#if HAVE_WAYLAND
+    if (auto seat = findSeat()) {
+        // disconnect old surface
+        if (oldWindow) {
+            disconnect(oldWindow.data(), &Toplevel::geometryChanged, this, &InputRedirection::updateFocusedPointerPosition);
+            if (AbstractBackend *b = waylandServer()->backend()) {
+                disconnect(seat->focusedPointer()->cursor(), &KWayland::Server::Cursor::changed, b, &AbstractBackend::installCursorFromServer);
+            }
+        }
+        if (t && t->surface()) {
+            seat->setFocusedPointerSurface(t->surface(), t->pos());
+            connect(t, &Toplevel::geometryChanged, this, &InputRedirection::updateFocusedPointerPosition);
+            if (AbstractBackend *b = waylandServer()->backend()) {
+                b->installCursorFromServer();
+                connect(seat->focusedPointer()->cursor(), &KWayland::Server::Cursor::changed, b, &AbstractBackend::installCursorFromServer);
+            }
+        } else {
+            seat->setFocusedPointerSurface(nullptr);
+            t = nullptr;
+        }
     }
+#endif
     if (!t) {
         m_pointerWindow.clear();
         return;
     }
     m_pointerWindow = QWeakPointer<Toplevel>(t);
-    t->sendPointerEnterEvent(m_globalPointer);
+}
+
+void InputRedirection::updateFocusedPointerPosition()
+{
+#if HAVE_WAYLAND
+    if (m_pointerWindow.isNull()) {
+        return;
+    }
+    if (workspace()->getMovingClient()) {
+        // don't update while moving
+        return;
+    }
+    if (auto seat = findSeat()) {
+        if (m_pointerWindow.data()->surface() != seat->focusedPointerSurface()) {
+            return;
+        }
+        seat->setFocusedPointerSurfacePosition(m_pointerWindow.data()->pos());
+    }
+#endif
+}
+
+void InputRedirection::updateFocusedTouchPosition()
+{
+#if HAVE_WAYLAND
+    if (m_touchWindow.isNull()) {
+        return;
+    }
+    if (auto seat = findSeat()) {
+        if (m_touchWindow.data()->surface() != seat->focusedTouchSurface()) {
+            return;
+        }
+        seat->setFocusedTouchSurfacePosition(m_touchWindow.data()->pos());
+    }
+#endif
 }
 
 void InputRedirection::processPointerMotion(const QPointF &pos, uint32_t time)
 {
-    Q_UNUSED(time)
     // first update to new mouse position
 //     const QPointF oldPos = m_globalPointer;
     updatePointerPosition(pos);
@@ -277,19 +420,16 @@ void InputRedirection::processPointerMotion(const QPointF &pos, uint32_t time)
     }
     QWeakPointer<Toplevel> old = m_pointerWindow;
     updatePointerWindow();
-    if (!m_pointerWindow.isNull() && old.data() == m_pointerWindow.data()) {
-        m_pointerWindow.data()->sendPointerMoveEvent(pos);
+#if HAVE_WAYLAND
+    if (auto seat = findSeat()) {
+        seat->setTimestamp(time);
+        seat->setPointerPos(pos);
     }
-
-    // TODO: don't use xtest
-    // still doing the fake event here as it requires the event to be send on the root window
-    xcb_test_fake_input(connection(), XCB_MOTION_NOTIFY, 0, XCB_TIME_CURRENT_TIME, XCB_WINDOW_NONE,
-                        pos.toPoint().x(), pos.toPoint().y(), 0);
+#endif
 }
 
 void InputRedirection::processPointerButton(uint32_t button, InputRedirection::PointerButtonState state, uint32_t time)
 {
-    Q_UNUSED(time)
     m_pointerButtons[button] = state;
     emit pointerButtonStateChanged(button, state);
 
@@ -308,16 +448,16 @@ void InputRedirection::processPointerButton(uint32_t button, InputRedirection::P
     }
 #endif
     // TODO: check which part of KWin would like to intercept the event
-    if (m_pointerWindow.isNull()) {
-        // there is no window which can receive the
-        return;
+#if HAVE_WAYLAND
+    if (auto seat = findSeat()) {
+        seat->setTimestamp(time);
+        state == PointerButtonPressed ? seat->pointerButtonPressed(button) : seat->pointerButtonReleased(button);
     }
-    m_pointerWindow.data()->sendPointerButtonEvent(button, state);
+#endif
 }
 
 void InputRedirection::processPointerAxis(InputRedirection::PointerAxis axis, qreal delta, uint32_t time)
 {
-    Q_UNUSED(time)
     if (delta == 0) {
         return;
     }
@@ -346,21 +486,36 @@ void InputRedirection::processPointerAxis(InputRedirection::PointerAxis axis, qr
 
     // TODO: check which part of KWin would like to intercept the event
     // TODO: Axis support for effect redirection
-    if (m_pointerWindow.isNull()) {
-        // there is no window which can receive the
-        return;
+#if HAVE_WAYLAND
+    if (auto seat = findSeat()) {
+        seat->setTimestamp(time);
+        seat->pointerAxis(axis == InputRedirection::PointerAxisHorizontal ? Qt::Horizontal : Qt::Vertical, delta);
     }
-    m_pointerWindow.data()->sendPointerAxisEvent(axis, delta);
+#endif
 }
 
 void InputRedirection::processKeyboardKey(uint32_t key, InputRedirection::KeyboardKeyState state, uint32_t time)
 {
-    Q_UNUSED(time)
 #if HAVE_XKB
+    const Qt::KeyboardModifiers oldMods = keyboardModifiers();
     m_xkb->updateKey(key, state);
+    if (oldMods != keyboardModifiers()) {
+        emit keyboardModifiersChanged(keyboardModifiers(), oldMods);
+    }
+#if HAVE_WAYLAND
+    // check for vt-switch
+    if (VirtualTerminal::self()) {
+        const xkb_keysym_t keysym = m_xkb->toKeysym(key);
+        if (state == KWin::InputRedirection::KeyboardKeyPressed &&
+                (keysym >= XKB_KEY_XF86Switch_VT_1 && keysym <= XKB_KEY_XF86Switch_VT_12)) {
+            VirtualTerminal::self()->activate(keysym - XKB_KEY_XF86Switch_VT_1 + 1);
+            return;
+        }
+    }
+#endif
     // TODO: pass to internal parts of KWin
 #ifdef KWIN_BUILD_TABBOX
-    if (TabBox::TabBox::self()->isGrabbed()) {
+    if (TabBox::TabBox::self() && TabBox::TabBox::self()->isGrabbed()) {
         if (state == KWin::InputRedirection::KeyboardKeyPressed) {
             TabBox::TabBox::self()->keyPress(m_xkb->modifiers() | m_xkb->toQtKey(m_xkb->toKeysym(key)));
         }
@@ -376,11 +531,13 @@ void InputRedirection::processKeyboardKey(uint32_t key, InputRedirection::Keyboa
         static_cast< EffectsHandlerImpl* >(effects)->grabbedKeyboardEvent(&event);
         return;
     }
-    if (Client *c = workspace()->getMovingClient()) {
-        // TODO: this does not yet fully support moving of the Client
-        // cursor events change the cursor and on Wayland pointer warping is not possible
-        c->keyPressEvent(m_xkb->toQtKey(m_xkb->toKeysym(key)));
-        return;
+    if (workspace()) {
+        if (Client *c = workspace()->getMovingClient()) {
+            // TODO: this does not yet fully support moving of the Client
+            // cursor events change the cursor and on Wayland pointer warping is not possible
+            c->keyPressEvent(m_xkb->toQtKey(m_xkb->toKeysym(key)));
+            return;
+        }
     }
     // process global shortcuts
     if (state == KeyboardKeyPressed) {
@@ -389,15 +546,27 @@ void InputRedirection::processKeyboardKey(uint32_t key, InputRedirection::Keyboa
         }
     }
 #endif
-    // check unmanaged
-    if (!workspace()->unmanagedList().isEmpty()) {
-        // TODO: better check whether this unmanaged should get the key event
-        workspace()->unmanagedList().first()->sendKeybordKeyEvent(key, state);
-        return;
+#if HAVE_WAYLAND
+    if (auto seat = findSeat()) {
+        seat->setTimestamp(time);
+        // TODO: this needs better integration
+        // check unmanaged
+        Toplevel *t = nullptr;
+        if (!workspace()->unmanagedList().isEmpty()) {
+            // TODO: better check whether this unmanaged should get the key event
+            t = workspace()->unmanagedList().first();
+        }
+        if (!t) {
+            t = workspace()->activeClient();
+        }
+        if (t && t->surface()) {
+            if (t->surface() != seat->focusedKeyboardSurface()) {
+                seat->setFocusedKeyboardSurface(t->surface());
+            }
+            state == InputRedirection::KeyboardKeyPressed ? seat->keyPressed(key) : seat->keyReleased(key);
+        }
     }
-    if (Client *client = workspace()->activeClient()) {
-        client->sendKeybordKeyEvent(key, state);
-    }
+#endif
 }
 
 void InputRedirection::processKeyboardModifiers(uint32_t modsDepressed, uint32_t modsLatched, uint32_t modsLocked, uint32_t group)
@@ -425,6 +594,109 @@ void InputRedirection::processKeymapChange(int fd, uint32_t size)
 #else
     Q_UNUSED(fd)
     Q_UNUSED(size)
+#endif
+}
+
+void InputRedirection::processTouchDown(qint32 id, const QPointF &pos, quint32 time)
+{
+    // TODO: internal handling?
+#if HAVE_WAYLAND
+    if (auto seat = findSeat()) {
+        seat->setTimestamp(time);
+        if (!seat->isTouchSequence()) {
+            updateTouchWindow(pos);
+        }
+        m_touchIdMapper.insert(id, seat->touchDown(pos));
+    }
+#else
+    Q_UNUSED(id)
+    Q_UNUSED(pos)
+    Q_UNUSED(time)
+#endif
+}
+
+void InputRedirection::updateTouchWindow(const QPointF &pos)
+{
+    // TODO: handle pointer grab aka popups
+    Toplevel *t = findToplevel(pos.toPoint());
+    auto oldWindow = m_touchWindow;
+    if (!oldWindow.isNull() && t == oldWindow.data()) {
+        return;
+    }
+#if HAVE_WAYLAND
+    if (auto seat = findSeat()) {
+        // disconnect old surface
+        if (oldWindow) {
+            disconnect(oldWindow.data(), &Toplevel::geometryChanged, this, &InputRedirection::updateFocusedTouchPosition);
+        }
+        if (t && t->surface()) {
+            seat->setFocusedTouchSurface(t->surface(), t->pos());
+            connect(t, &Toplevel::geometryChanged, this, &InputRedirection::updateFocusedTouchPosition);
+        } else {
+            seat->setFocusedTouchSurface(nullptr);
+            t = nullptr;
+        }
+    }
+#endif
+    if (!t) {
+        m_touchWindow.clear();
+        return;
+    }
+    m_touchWindow = QWeakPointer<Toplevel>(t);
+}
+
+
+void InputRedirection::processTouchUp(qint32 id, quint32 time)
+{
+    // TODO: internal handling?
+#if HAVE_WAYLAND
+    if (auto seat = findSeat()) {
+        auto it = m_touchIdMapper.constFind(id);
+        if (it != m_touchIdMapper.constEnd()) {
+            seat->setTimestamp(time);
+            seat->touchUp(it.value());
+        }
+    }
+#else
+    Q_UNUSED(id)
+    Q_UNUSED(time)
+#endif
+}
+
+void InputRedirection::processTouchMotion(qint32 id, const QPointF &pos, quint32 time)
+{
+    // TODO: internal handling?
+#if HAVE_WAYLAND
+    if (auto seat = findSeat()) {
+        seat->setTimestamp(time);
+        auto it = m_touchIdMapper.constFind(id);
+        if (it != m_touchIdMapper.constEnd()) {
+            seat->setTimestamp(time);
+            seat->touchMove(it.value(), pos);
+        }
+    }
+#else
+    Q_UNUSED(id)
+    Q_UNUSED(pos)
+    Q_UNUSED(time)
+#endif
+}
+
+void InputRedirection::cancelTouch()
+{
+#if HAVE_WAYLAND
+    if (auto seat = findSeat()) {
+        seat->cancelTouchSequence();
+    }
+#endif
+}
+
+void InputRedirection::touchFrame()
+{
+#if HAVE_WAYLAND
+    if (auto seat = findSeat()) {
+        seat->touchFrame();
+    }
 #endif
 }
 
@@ -473,6 +745,9 @@ Qt::MouseButtons InputRedirection::qtButtonStates() const
 
 Toplevel *InputRedirection::findToplevel(const QPoint &pos)
 {
+    if (!Workspace::self()) {
+        return nullptr;
+    }
     // TODO: check whether the unmanaged wants input events at all
     const UnmanagedList &unmanaged = Workspace::self()->unmanagedList();
     foreach (Unmanaged *u, unmanaged) {
@@ -551,6 +826,7 @@ Qt::KeyboardModifiers InputRedirection::keyboardModifiers() const
 void InputRedirection::registerShortcut(const QKeySequence &shortcut, QAction *action)
 {
     m_shortcuts->registerShortcut(action, shortcut);
+    registerShortcutForGlobalAccelTimestamp(action);
 }
 
 void InputRedirection::registerPointerShortcut(Qt::KeyboardModifiers modifiers, Qt::MouseButton pointerButtons, QAction *action)
@@ -561,6 +837,18 @@ void InputRedirection::registerPointerShortcut(Qt::KeyboardModifiers modifiers, 
 void InputRedirection::registerAxisShortcut(Qt::KeyboardModifiers modifiers, PointerAxisDirection axis, QAction *action)
 {
     m_shortcuts->registerAxisShortcut(action, modifiers, axis);
+}
+
+void InputRedirection::registerShortcutForGlobalAccelTimestamp(QAction *action)
+{
+    connect(action, &QAction::triggered, kwinApp(), [action] {
+        QVariant timestamp = action->property("org.kde.kglobalaccel.activationTimestamp");
+        bool ok = false;
+        const quint32 t = timestamp.toULongLong(&ok);
+        if (ok) {
+            kwinApp()->setX11Time(t);
+        }
+    });
 }
 
 static bool screenContainsPos(const QPointF &pos)

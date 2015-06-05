@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-28 15:51+0000\n"
+"POT-Creation-Date: 2015-05-16 12:24+0000\n"
 "PO-Revision-Date: 2014-01-07 11:23+0100\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -184,19 +184,19 @@ msgstr "&Enkel hurtigtast"
 msgid "C&lear"
 msgstr "&Tøm"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 msgid "Window-Specific Settings Configuration Module"
 msgstr "Oppsettsmodul for vindus-spesifikke innstillinger"
 
-#: kcm.cpp:51
+#: kcm.cpp:52
 msgid "(c) 2004 KWin and KControl Authors"
 msgstr "© 2004 KWin og KControl-forfatterne"
 
-#: kcm.cpp:52
+#: kcm.cpp:53
 msgid "Lubos Lunak"
 msgstr "Lubos Lunak"
 
-#: kcm.cpp:83
+#: kcm.cpp:84
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -210,15 +210,15 @@ msgstr ""
 "bruker en  annen vindusbehandler bør du se i dens dokumentasjon hvordan "
 "vindusoppførselen tilpasses.</p>"
 
-#: kcm.cpp:99
+#: kcm.cpp:100
 msgid "Remember settings separately for every window"
 msgstr "Husk innstillinger separat for hvert vindu"
 
-#: kcm.cpp:100
+#: kcm.cpp:101
 msgid "Show internal settings for remembering"
 msgstr "Vis interne innstillinger for å huske"
 
-#: kcm.cpp:101
+#: kcm.cpp:102
 msgid "Internal setting for remembering"
 msgstr "Intern innstilling for å huske"
 
@@ -1126,3 +1126,11 @@ msgstr "&Forebygge fokus-stjeling"
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
 msgstr "Fargeskjema for tittellinja"
+
+#: yesnobox.h:35
+msgid "Yes"
+msgstr "Ja"
+
+#: yesnobox.h:36
+msgid "No"
+msgstr "Nei"

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-21 09:28+0000\n"
+"POT-Creation-Date: 2015-01-22 08:06+0000\n"
 "PO-Revision-Date: 2010-05-22 11:25-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -18,6 +18,7 @@ msgstr ""
 
 #: layoutpreview.cpp:165
 #, fuzzy
+#| msgid "All Desktops"
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "すべてのデスクトップ"
@@ -43,6 +44,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, showDesktop)
 #: main.ui:41
 #, fuzzy
+#| msgid "Include desktop"
 msgid "Include \"Show Desktop\" icon"
 msgstr "デスクトップを含む"
 
@@ -69,24 +71,28 @@ msgstr "ソート順:"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:104
 #, fuzzy
+#| msgid "List windows:"
 msgid "Filter windows by"
 msgstr "ウィンドウのリスト:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterDesktops)
 #: main.ui:113
 #, fuzzy
+#| msgid "All Desktops"
 msgid "Virtual desktops"
 msgstr "すべてのデスクトップ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentDesktop)
 #: main.ui:157
 #, fuzzy
+#| msgid "Current Desktop"
 msgid "Current desktop"
 msgstr "現在のデスクトップ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, otherDesktops)
 #: main.ui:164
 #, fuzzy
+#| msgid "All Desktops"
 msgid "All other desktops"
 msgstr "すべてのデスクトップ"
 
@@ -113,6 +119,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QRadioButton, currentScreen)
 #: main.ui:279
 #, fuzzy
+#| msgid "Current Desktop"
 msgid "Current screen"
 msgstr "現在のデスクトップ"
 
@@ -129,12 +136,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QRadioButton, visibleWindows)
 #: main.ui:340
 #, fuzzy
+#| msgid "List windows:"
 msgid "Visible windows"
 msgstr "ウィンドウのリスト:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, hiddenWindows)
 #: main.ui:347
 #, fuzzy
+#| msgid "List windows:"
 msgid "Hidden windows"
 msgstr "ウィンドウのリスト:"
 
@@ -152,6 +161,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:418
 #, fuzzy
+#| msgid "List windows:"
 msgid "All windows"
 msgstr "ウィンドウのリスト:"
 
@@ -164,12 +174,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:470
 #, fuzzy
+#| msgid "Current Desktop Grouped by Applications"
 msgid "Current application"
 msgstr "現在のデスクトップ、アプリケーションでグループ化"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:489
 #, fuzzy
+#| msgid "Navigation"
 msgid "Visualization"
 msgstr "ナビゲーション"
 
@@ -193,6 +205,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, highlightWindowCheck)
 #: main.ui:552
 #, fuzzy
+#| msgid "Show outline of selected window"
 msgid "Show selected window"
 msgstr "選択したウィンドウのアウトラインを表示する"
 

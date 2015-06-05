@@ -140,12 +140,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, numberLabel)
 #: main.ui:54
 #, fuzzy
+#| msgid "Number of rows:"
 msgid "&Number of desktops:"
 msgstr "Numri i rreshtave:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:83
 #, fuzzy
+#| msgid "Number of rows:"
 msgid "N&umber of rows:"
 msgstr "Numri i rreshtave:"
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-08-08 09:24+0000\n"
+"POT-Creation-Date: 2014-08-08 08:31+0000\n"
 "PO-Revision-Date: 2013-02-22 14:26+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -43,6 +43,7 @@ msgstr "तमास कृत्की"
 
 #: module.cpp:77
 #, fuzzy
+#| msgid "Import KWin script..."
 msgid "Import KWin Script"
 msgstr "के-विन स्क्रिप्ट आयात करा..."
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
 "PO-Revision-Date: 2007-06-23 20:45+0930\n"
 "Last-Translator: Phan Vĩnh Thịnh <teppi82@gmail.com>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -28,6 +28,7 @@ msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:71
 #, fuzzy
+#| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "Trên mọi môi trường"
 
@@ -53,11 +54,13 @@ msgstr "Bóng"
 
 #: declarative-plugin/buttonsmodel.cpp:83
 #, fuzzy
+#| msgid "Keep Below Others"
 msgid "Keep below"
 msgstr "Giữ nằm dưới các cửa sổ khác"
 
 #: declarative-plugin/buttonsmodel.cpp:85
 #, fuzzy
+#| msgid "Keep Above Others"
 msgid "Keep above"
 msgstr "Giữ nằm trên các cửa sổ khác"
 
@@ -75,18 +78,21 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
 #: kcm.ui:35
 #, fuzzy
+#| msgid "&Window Decoration"
 msgid "Get New Decorations..."
 msgstr "Trang trí cửa &sổ"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kcm.ui:56
 #, fuzzy
+#| msgid "B&order size:"
 msgid "Border si&ze:"
 msgstr "Kích thước đường &biên:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:67
 #, fuzzy
+#| msgid "B&order size:"
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Kích thước đường &biên:"
@@ -100,6 +106,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:77
 #, fuzzy
+#| msgid "Tiny"
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "Rất nhỏ"
@@ -107,6 +114,7 @@ msgstr "Rất nhỏ"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:82
 #, fuzzy
+#| msgid "Normal"
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "Vừa"
@@ -114,6 +122,7 @@ msgstr "Vừa"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:87
 #, fuzzy
+#| msgid "Large"
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "Lớn"
@@ -121,6 +130,7 @@ msgstr "Lớn"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:92
 #, fuzzy
+#| msgid "Very Large"
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "Rất lớn"
@@ -128,6 +138,7 @@ msgstr "Rất lớn"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:97
 #, fuzzy
+#| msgid "Huge"
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "Khổng lồ"
@@ -135,6 +146,7 @@ msgstr "Khổng lồ"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:102
 #, fuzzy
+#| msgid "Very Huge"
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "Trên cả khổng lồ"
@@ -142,6 +154,7 @@ msgstr "Trên cả khổng lồ"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:107
 #, fuzzy
+#| msgid "Oversized"
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "Quá cỡ"

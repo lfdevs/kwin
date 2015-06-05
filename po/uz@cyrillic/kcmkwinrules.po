@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-28 15:51+0000\n"
+"POT-Creation-Date: 2015-05-16 12:24+0000\n"
 "PO-Revision-Date: 2005-10-19 21:33+0200\n"
 "Last-Translator: Mashrab Kuvatov <kmashrab@uni-bremen.de>\n"
 "Language-Team: Uzbek <floss-uz-l10n@googlegroups.com>\n"
@@ -166,19 +166,19 @@ msgstr ""
 msgid "C&lear"
 msgstr "&Тозалаш"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 msgid "Window-Specific Settings Configuration Module"
 msgstr "Махсус ойналар учун бошқарув модули"
 
-#: kcm.cpp:51
+#: kcm.cpp:52
 msgid "(c) 2004 KWin and KControl Authors"
 msgstr "(C) 2004, KWin ва KControl муаллифлари"
 
-#: kcm.cpp:52
+#: kcm.cpp:53
 msgid "Lubos Lunak"
 msgstr ""
 
-#: kcm.cpp:83
+#: kcm.cpp:84
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -187,15 +187,15 @@ msgid ""
 "documentation for how to customize window behavior.</p>"
 msgstr ""
 
-#: kcm.cpp:99
+#: kcm.cpp:100
 msgid "Remember settings separately for every window"
 msgstr ""
 
-#: kcm.cpp:100
+#: kcm.cpp:101
 msgid "Show internal settings for remembering"
 msgstr ""
 
-#: kcm.cpp:101
+#: kcm.cpp:102
 msgid "Internal setting for remembering"
 msgstr ""
 
@@ -211,6 +211,7 @@ msgstr "%1 учун ойна мосламалари"
 
 #: main.cpp:215
 #, fuzzy
+#| msgid "Application settings for %1"
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "%1 учун дастур мосламалари"
@@ -367,18 +368,21 @@ msgstr "Тугмалар бирикмасини таҳрирлаш"
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage1)
 #: ruleswidgetbase.ui:21
 #, fuzzy
+#| msgid "&Window"
 msgid "&Window matching"
 msgstr "&Ойна"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
 #, fuzzy
+#| msgid "De&scription:"
 msgid "&Description:"
 msgstr "&Таъриф:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: ruleswidgetbase.ui:46
 #, fuzzy
+#| msgid "Window &class (application type):"
 msgid "Window &class (application):"
 msgstr "Ойнанинг &синфи (дастурнинг тури):"
 
@@ -436,6 +440,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: ruleswidgetbase.ui:109
 #, fuzzy
+#| msgid "Window t&itle:"
 msgid "Window ro&le:"
 msgstr "Ойнанинг с&арлавҳаси:"
 
@@ -457,6 +462,7 @@ msgstr "&Компьютернинг номи:"
 #. i18n: ectx: property (text), widget (QPushButton, detect)
 #: ruleswidgetbase.ui:318
 #, fuzzy
+#| msgid "Detect Window Properties"
 msgid "&Detect Window Properties"
 msgstr "Ойнанинг хоссаларини аниқлаш"
 
@@ -468,12 +474,14 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #: ruleswidgetbase.ui:468
 #, fuzzy
+#| msgid "On Main Window"
 msgid "Unmanaged Window"
 msgstr "Асосий ойна устида"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage3)
 #: ruleswidgetbase.ui:489
 #, fuzzy
+#| msgid "&Position"
 msgid "&Size && Position"
 msgstr "&Жойлашиши"
 
@@ -824,6 +832,7 @@ msgstr "Асосий ойна устида"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_placement)
 #: ruleswidgetbase.ui:1112
 #, fuzzy
+#| msgid "P&lacement"
 msgid "Initial p&lacement"
 msgstr "Жойл&аштириш"
 
@@ -869,6 +878,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_screen)
 #: ruleswidgetbase.ui:1369
 #, fuzzy
+#| msgid "Splash Screen"
 msgid "Screen"
 msgstr "Сплэш ойнаси"
 
@@ -1018,6 +1028,7 @@ msgstr "Ойнанинг &тури"
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #: ruleswidgetbase.ui:2373
 #, fuzzy
+#| msgid "None"
 msgctxt "no focus stealing prevention"
 msgid "None"
 msgstr "Йўқ"
@@ -1061,3 +1072,13 @@ msgstr ""
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
 msgstr ""
+
+#: yesnobox.h:35
+msgid "Yes"
+msgstr ""
+
+#: yesnobox.h:36
+#, fuzzy
+#| msgid "None"
+msgid "No"
+msgstr "Йўқ"

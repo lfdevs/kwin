@@ -188,15 +188,6 @@ void GlxBackend::init()
                                 && qgetenv("KWIN_USE_INTEL_SWAP_EVENT") == QByteArrayLiteral("1");
 
     if (m_haveINTELSwapEvent) {
-        const QList<QByteArray> tokens = QByteArray(qVersion()).split('.');
-        uint32_t version = tokens[0].toInt() << 16 | tokens[1].toInt() << 8 | tokens[2].toInt();
-
-        // Qt 5.3 doesn't forward swap events to the native event filter
-        if (version < 0x00050400)
-            m_haveINTELSwapEvent = false;
-    }
-
-    if (m_haveINTELSwapEvent) {
         m_swapEventFilter = std::make_unique<SwapEventFilter>(window, glxWindow);
         glXSelectEvent(display(), glxWindow, GLX_BUFFER_SWAP_COMPLETE_INTEL_MASK);
     }
@@ -865,6 +856,12 @@ bool GlxTexture::loadTexture(xcb_pixmap_t pixmap, const QSize &size, xcb_visuali
 
     updateMatrix();
     return true;
+}
+
+bool GlxTexture::loadTexture(WindowPixmap *pixmap)
+{
+    Toplevel *t = pixmap->toplevel();
+    return loadTexture(pixmap->pixmap(), t->size(), t->visual());
 }
 
 OpenGLBackend *GlxTexture::backend()

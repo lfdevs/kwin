@@ -2,13 +2,13 @@
 #
 # Axel Bojer <axelb@skolelinux.no>, 2003.
 # Knut Yrvin <knuty@skolelinux.no>, 2003.
-# Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2005, 2007, 2008, 2009, 2010, 2012, 2013, 2014.
+# Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2005, 2007, 2008, 2009, 2010, 2012, 2013, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
-"PO-Revision-Date: 2014-03-21 22:11+0100\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
+"PO-Revision-Date: 2015-04-26 21:29+0200\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: nb\n"
@@ -26,14 +26,12 @@ msgid "Menu"
 msgstr "Meny"
 
 #: declarative-plugin/buttonsmodel.cpp:69
-#, fuzzy
 msgid "Application menu"
 msgstr "Programmeny"
 
 #: declarative-plugin/buttonsmodel.cpp:71
-#, fuzzy
 msgid "On all desktops"
-msgstr "På alle arbeidsflater"
+msgstr "På alle skrivebord"
 
 #: declarative-plugin/buttonsmodel.cpp:73
 msgid "Minimize"
@@ -49,21 +47,19 @@ msgstr "Lukk"
 
 #: declarative-plugin/buttonsmodel.cpp:79
 msgid "Context help"
-msgstr ""
+msgstr "Konteksthjelp"
 
 #: declarative-plugin/buttonsmodel.cpp:81
 msgid "Shade"
 msgstr "Rull"
 
 #: declarative-plugin/buttonsmodel.cpp:83
-#, fuzzy
 msgid "Keep below"
-msgstr "Behold under andre"
+msgstr "Hold under"
 
 #: declarative-plugin/buttonsmodel.cpp:85
-#, fuzzy
 msgid "Keep above"
-msgstr "Behold over andre"
+msgstr "Hold over"
 
 #: kcm.cpp:106
 msgid ""
@@ -85,20 +81,17 @@ msgstr "Hent nye dekorasjoner …"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kcm.ui:56
-#, fuzzy
 msgid "Border si&ze:"
-msgstr "Kantlinjestørrelse:"
+msgstr "Kantlin&jestørrelse:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:67
-#, fuzzy
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Ingen kantlinjer"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:72
-#, fuzzy
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr "Ingen sidekantlinjer"
@@ -147,9 +140,8 @@ msgstr "Forstørret"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: kcm.ui:125
-#, fuzzy
 msgid "Close windows by double clicking &the menu button:"
-msgstr "Velg vinduer ved å dobbelttrykke på menyknappen"
+msgstr "Velg vinduer ved å dobbelt&trykke på menyknappen"
 
 #: qml/Buttons.qml:74
 msgid "Titlebar"
@@ -157,8 +149,8 @@ msgstr "Tittellinje"
 
 #: qml/Buttons.qml:197
 msgid "Drag buttons between here and the titlebar"
-msgstr ""
+msgstr "Dra knapper mellom her og tittellinja"
 
 #: qml/Buttons.qml:212
 msgid "Drop here to remove button"
-msgstr ""
+msgstr "Slipp her for å fjerne knapp"

@@ -135,6 +135,7 @@ void PresentWindowsEffect::reconfigure(ReconfigureFlags)
     if (m_doNotCloseWindows) {
         delete m_closeView;
         m_closeView = nullptr;
+        m_closeWindow = nullptr;
     }
     m_ignoreMinimized = PresentWindowsConfig::ignoreMinimized();
     m_accuracy = PresentWindowsConfig::accuracy() * 20;
@@ -212,6 +213,7 @@ void PresentWindowsEffect::postPaintScreen()
         foreach (EffectWindow * w, effects->stackingOrder()) {
             if (w->isDock()) {
                 w->setData(WindowForceBlurRole, QVariant(false));
+                w->setData(WindowForceBackgroundContrastRole, QVariant(false));
             }
         }
         effects->setActiveFullScreenEffect(NULL);
@@ -446,6 +448,7 @@ void PresentWindowsEffect::slotWindowAdded(EffectWindow *w)
         winData->highlight = 1.0;
         m_closeWindow = w;
         w->setData(WindowForceBlurRole, QVariant(true));
+        w->setData(WindowForceBackgroundContrastRole, QVariant(true));
     }
 }
 
@@ -1420,6 +1423,7 @@ void PresentWindowsEffect::setActive(bool active)
         return;
     m_activated = active;
     if (m_activated) {
+        effects->setShowingDesktop(false);
         m_needInitialSelection = true;
         m_closeButtonCorner = (Qt::Corner)effects->kwinOption(KWin::CloseButtonCorner).toInt();
         m_decalOpacity = 0.0;
@@ -1493,6 +1497,7 @@ void PresentWindowsEffect::setActive(bool active)
         foreach (EffectWindow * w, effects->stackingOrder()) {
             if (w->isDock()) {
                 w->setData(WindowForceBlurRole, QVariant(true));
+                w->setData(WindowForceBackgroundContrastRole, QVariant(true));
             }
         }
     } else {

@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KWIN_XCB_UTILS_H
 
 #include <kwinglobals.h>
+#include "main.h"
 
 #include <QRect>
 #include <QRegion>
@@ -32,6 +33,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <xcb/randr.h>
 
 #include <xcb/shm.h>
+
+class TestXcbSizeHints;
 
 namespace KWin {
 
@@ -454,9 +457,10 @@ public:
 class Atom
 {
 public:
-    explicit Atom(const QByteArray &name, bool onlyIfExists = false)
-        : m_retrieved(false)
-        , m_cookie(xcb_intern_atom_unchecked(connection(), onlyIfExists, name.length(), name.constData()))
+    explicit Atom(const QByteArray &name, bool onlyIfExists = false, xcb_connection_t *c = connection())
+        : m_connection(c)
+        , m_retrieved(false)
+        , m_cookie(xcb_intern_atom_unchecked(m_connection, onlyIfExists, name.length(), name.constData()))
         , m_atom(XCB_ATOM_NONE)
         , m_name(name)
         {
@@ -466,7 +470,7 @@ public:
 
     ~Atom() {
         if (!m_retrieved && m_cookie.sequence) {
-            xcb_discard_reply(connection(), m_cookie.sequence);
+            xcb_discard_reply(m_connection, m_cookie.sequence);
         }
     }
 
@@ -492,12 +496,13 @@ private:
         if (m_retrieved || !m_cookie.sequence) {
             return;
         }
-        ScopedCPointer<xcb_intern_atom_reply_t> reply(xcb_intern_atom_reply(connection(), m_cookie, nullptr));
+        ScopedCPointer<xcb_intern_atom_reply_t> reply(xcb_intern_atom_reply(m_connection, m_cookie, nullptr));
         if (!reply.isNull()) {
             m_atom = reply->atom;
         }
         m_retrieved = true;
     }
+    xcb_connection_t *m_connection;
     bool m_retrieved;
     xcb_intern_atom_cookie_t m_cookie;
     xcb_atom_t m_atom;
@@ -571,7 +576,7 @@ public:
     explicit Tree(WindowId window) : Wrapper<TreeData, xcb_window_t>(window) {}
 
     inline WindowId *children() {
-        if (data()->children_len == 0) {
+        if (isNull() || data()->children_len == 0) {
             return nullptr;
         }
         return xcb_query_tree_children(data());
@@ -600,6 +605,43 @@ public:
         if (isNull())
             return XCB_WINDOW_NONE;
         return (*this)->focus;
+    }
+};
+
+struct QueryKeymapData : public WrapperData< xcb_query_keymap_reply_t, xcb_query_keymap_cookie_t >
+{
+    static constexpr request_func requestFunc = &xcb_query_keymap_unchecked;
+    static constexpr reply_func replyFunc = &xcb_query_keymap_reply;
+};
+
+class QueryKeymap : public Wrapper<QueryKeymapData>
+{
+public:
+    QueryKeymap() : Wrapper<QueryKeymapData>() {}
+};
+
+struct ModifierMappingData : public WrapperData< xcb_get_modifier_mapping_reply_t, xcb_get_modifier_mapping_cookie_t >
+{
+    static constexpr request_func requestFunc = &xcb_get_modifier_mapping_unchecked;
+    static constexpr reply_func replyFunc = &xcb_get_modifier_mapping_reply;
+};
+
+class ModifierMapping : public Wrapper<ModifierMappingData>
+{
+public:
+    ModifierMapping() : Wrapper<ModifierMappingData>() {}
+
+    inline xcb_keycode_t *keycodes() {
+        if (isNull()) {
+            return nullptr;
+        }
+        return xcb_get_modifier_mapping_keycodes(data());
+    }
+    inline int size() {
+        if (isNull()) {
+            return 0;
+        }
+        return xcb_get_modifier_mapping_keycodes_length(data());
     }
 };
 
@@ -826,6 +868,247 @@ public:
     }
 };
 
+class GeometryHints
+{
+public:
+    GeometryHints() = default;
+    void init(xcb_window_t window) {
+        Q_ASSERT(window);
+        if (m_window) {
+            // already initialized
+            return;
+        }
+        m_window = window;
+        fetch();
+    }
+    void fetch() {
+        if (!m_window) {
+            return;
+        }
+        m_sizeHints = nullptr;
+        m_hints = NormalHints(m_window);
+    }
+    void read() {
+        m_sizeHints = m_hints.sizeHints();
+    }
+
+    bool hasPosition() const {
+        return testFlag(NormalHints::SizeHints::UserPosition) || testFlag(NormalHints::SizeHints::ProgramPosition);
+    }
+    bool hasSize() const {
+        return testFlag(NormalHints::SizeHints::UserSize) || testFlag(NormalHints::SizeHints::ProgramSize);
+    }
+    bool hasMinSize() const {
+        return testFlag(NormalHints::SizeHints::MinSize);
+    }
+    bool hasMaxSize() const {
+        return testFlag(NormalHints::SizeHints::MaxSize);
+    }
+    bool hasResizeIncrements() const {
+        return testFlag(NormalHints::SizeHints::ResizeIncrements);
+    }
+    bool hasAspect() const {
+        return testFlag(NormalHints::SizeHints::Aspect);
+    }
+    bool hasBaseSize() const {
+        return testFlag(NormalHints::SizeHints::BaseSize);
+    }
+    bool hasWindowGravity() const {
+        return testFlag(NormalHints::SizeHints::WindowGravity);
+    }
+    QSize maxSize() const {
+        if (!hasMaxSize()) {
+            return QSize(INT_MAX, INT_MAX);
+        }
+        return QSize(qMax(m_sizeHints->maxWidth, 1), qMax(m_sizeHints->maxHeight, 1));
+    }
+    QSize minSize() const {
+        if (!hasMinSize()) {
+            // according to ICCCM 4.1.23 base size should be used as a fallback
+            return baseSize();
+        }
+        return QSize(m_sizeHints->minWidth, m_sizeHints->minHeight);
+    }
+    QSize baseSize() const {
+        // Note: not using minSize as fallback
+        if (!hasBaseSize()) {
+            return QSize(0, 0);
+        }
+        return QSize(m_sizeHints->baseWidth, m_sizeHints->baseHeight);
+    }
+    QSize resizeIncrements() const {
+        if (!hasResizeIncrements()) {
+            return QSize(1, 1);
+        }
+        return QSize(qMax(m_sizeHints->widthInc, 1), qMax(m_sizeHints->heightInc, 1));
+    }
+    xcb_gravity_t windowGravity() const {
+        if (!hasWindowGravity()) {
+            return XCB_GRAVITY_NORTH_WEST;
+        }
+        return xcb_gravity_t(m_sizeHints->winGravity);
+    }
+    QSize minAspect() const {
+        if (!hasAspect()) {
+            return QSize(1, INT_MAX);
+        }
+        // prevent devision by zero
+        return QSize(m_sizeHints->minAspect[0], qMax(m_sizeHints->minAspect[1], 1));
+    }
+    QSize maxAspect() const {
+        if (!hasAspect()) {
+            return QSize(INT_MAX, 1);
+        }
+        // prevent devision by zero
+        return QSize(m_sizeHints->maxAspect[0], qMax(m_sizeHints->maxAspect[1], 1));
+    }
+
+private:
+    /**
+    * NormalHints as specified in ICCCM 4.1.2.3.
+    **/
+    class NormalHints : public Property
+    {
+    public:
+        struct SizeHints {
+            enum Flags {
+                UserPosition = 1,
+                UserSize = 2,
+                ProgramPosition = 4,
+                ProgramSize = 8,
+                MinSize = 16,
+                MaxSize = 32,
+                ResizeIncrements = 64,
+                Aspect = 128,
+                BaseSize = 256,
+                WindowGravity = 512
+            };
+            qint32 flags = 0;
+            qint32 pad[4] = {0, 0, 0, 0};
+            qint32 minWidth = 0;
+            qint32 minHeight = 0;
+            qint32 maxWidth = 0;
+            qint32 maxHeight = 0;
+            qint32 widthInc = 0;
+            qint32 heightInc = 0;
+            qint32 minAspect[2] = {0, 0};
+            qint32 maxAspect[2] = {0, 0};
+            qint32 baseWidth = 0;
+            qint32 baseHeight = 0;
+            qint32 winGravity = 0;
+        };
+        explicit NormalHints() : Property() {};
+        explicit NormalHints(WindowId window)
+            : Property(0, window, XCB_ATOM_WM_NORMAL_HINTS, XCB_ATOM_WM_SIZE_HINTS, 0, 18)
+        {
+        }
+        inline SizeHints *sizeHints() {
+            return value<SizeHints*>(32, XCB_ATOM_WM_SIZE_HINTS, nullptr);
+        }
+    };
+    friend TestXcbSizeHints;
+    bool testFlag(NormalHints::SizeHints::Flags flag) const {
+        if (!m_window || !m_sizeHints) {
+            return false;
+        }
+        return m_sizeHints->flags & flag;
+    }
+    xcb_window_t m_window = XCB_WINDOW_NONE;
+    NormalHints m_hints;
+    NormalHints::SizeHints *m_sizeHints = nullptr;
+};
+
+class MotifHints
+{
+public:
+    MotifHints(xcb_atom_t atom) : m_atom(atom) {}
+    void init(xcb_window_t window) {
+        Q_ASSERT(window);
+        if (m_window) {
+            // already initialized
+            return;
+        }
+        m_window = window;
+        fetch();
+    }
+    void fetch() {
+        if (!m_window) {
+            return;
+        }
+        m_hints = nullptr;
+        m_prop = Property(0, m_window, m_atom, m_atom, 0, 5);
+    }
+    void read() {
+        m_hints = m_prop.value<MwmHints*>(32, m_atom, nullptr);
+    }
+    bool hasDecoration() const {
+        if (!m_window || !m_hints) {
+            return false;
+        }
+        return m_hints->flags & uint32_t(Hints::Decorations);
+    }
+    bool noBorder() const {
+        if (!hasDecoration()) {
+            return false;
+        }
+        return !m_hints->decorations;
+    }
+    bool resize() const {
+        return testFunction(Functions::Resize);
+    }
+    bool move() const {
+        return testFunction(Functions::Move);
+    }
+    bool minimize() const {
+        return testFunction(Functions::Minimize);
+    }
+    bool maximize() const {
+        return testFunction(Functions::Maximize);
+    }
+    bool close() const {
+        return testFunction(Functions::Close);
+    }
+
+private:
+    struct MwmHints {
+        uint32_t flags;
+        uint32_t functions;
+        uint32_t decorations;
+        int32_t input_mode;
+        uint32_t status;
+    };
+    enum class Hints {
+        Functions = (1L << 0),
+        Decorations = (1L << 1)
+    };
+    enum class Functions {
+        All = (1L << 0),
+        Resize = (1L << 1),
+        Move = (1L << 2),
+        Minimize = (1L << 3),
+        Maximize = (1L << 4),
+        Close = (1L << 5)
+    };
+    bool testFunction(Functions flag) const {
+        if (!m_window || !m_hints) {
+            return true;
+        }
+        if (!(m_hints->flags & uint32_t(Hints::Functions))) {
+            return true;
+        }
+        // if MWM_FUNC_ALL is set, other flags say what to turn _off_
+        const bool set_value = ((m_hints->functions & uint32_t(Functions::All)) == 0);
+        if (m_hints->functions & uint32_t(flag)) {
+            return set_value;
+        }
+        return !set_value;
+    }
+    xcb_window_t m_window = XCB_WINDOW_NONE;
+    Property m_prop;
+    xcb_atom_t m_atom;
+    MwmHints *m_hints = nullptr;
+};
+
 namespace RandR
 {
 XCB_WRAPPER(ScreenInfo, xcb_randr_get_screen_info, xcb_window_t)
@@ -841,6 +1124,18 @@ public:
             return nullptr;
         }
         return xcb_randr_get_screen_resources_crtcs(data());
+    }
+    inline xcb_randr_mode_info_t *modes() {
+        if (isNull()) {
+            return nullptr;
+        }
+        return xcb_randr_get_screen_resources_modes(data());
+    }
+    inline uint8_t *names() {
+        if (isNull()) {
+            return nullptr;
+        }
+        return xcb_randr_get_screen_resources_names(data());
     }
 };
 
@@ -876,6 +1171,30 @@ public:
         }
         return QRect(info->x, info->y, info->width, info->height);
     }
+    inline xcb_randr_output_t *outputs() {
+        const CrtcInfoData::reply_type *info = data();
+        if (!info || info->num_outputs == 0 || info->mode == XCB_NONE || info->status != XCB_RANDR_SET_CONFIG_SUCCESS) {
+            return nullptr;
+        }
+        return xcb_randr_get_crtc_info_outputs(info);
+    }
+};
+
+XCB_WRAPPER_DATA(OutputInfoData, xcb_randr_get_output_info, xcb_randr_output_t, xcb_timestamp_t)
+class OutputInfo : public Wrapper<OutputInfoData, xcb_randr_output_t, xcb_timestamp_t>
+{
+public:
+    OutputInfo() = default;
+    OutputInfo(const OutputInfo&) = default;
+    explicit OutputInfo(xcb_randr_output_t c, xcb_timestamp_t t) : Wrapper<OutputInfoData, xcb_randr_output_t, xcb_timestamp_t>(c, t) {}
+
+    inline QString name() {
+        const OutputInfoData::reply_type *info = data();
+        if (!info || info->num_crtcs == 0 || info->num_modes == 0 || info->status != XCB_RANDR_SET_CONFIG_SUCCESS) {
+            return QString();
+        }
+        return QString::fromUtf8(reinterpret_cast<char*>(xcb_randr_get_output_info_name(info)), info->name_len);
+    }
 };
 
 XCB_WRAPPER_DATA(CurrentResourcesData, xcb_randr_get_screen_resources_current, xcb_window_t)
@@ -889,6 +1208,12 @@ public:
             return nullptr;
         }
         return xcb_randr_get_screen_resources_current_crtcs(data());
+    }
+    inline xcb_randr_mode_info_t *modes() {
+        if (isNull()) {
+            return nullptr;
+        }
+        return xcb_randr_get_screen_resources_current_modes(data());
     }
 };
 
@@ -1433,7 +1758,7 @@ static inline int defaultDepth()
     if (depth != 0) {
         return depth;
     }
-    int screen = QX11Info::appScreen();
+    int screen = Application::x11ScreenNumber();
     for (xcb_screen_iterator_t it = xcb_setup_roots_iterator(xcb_get_setup(connection()));
             it.rem;
             --screen, xcb_screen_next(&it)) {

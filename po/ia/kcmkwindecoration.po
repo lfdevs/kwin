@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
 "PO-Revision-Date: 2014-03-17 14:03+0100\n"
 "Last-Translator: G.Sora <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-l10n-ia@kde.org>\n"
@@ -23,11 +23,14 @@ msgstr "Menu"
 
 #: declarative-plugin/buttonsmodel.cpp:69
 #, fuzzy
+#| msgctxt "Button showing application menu imported from dbusmenu"
+#| msgid "Application Menu"
 msgid "Application menu"
 msgstr "Menu de application"
 
 #: declarative-plugin/buttonsmodel.cpp:71
 #, fuzzy
+#| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "Super omne scriptorios"
 
@@ -53,11 +56,13 @@ msgstr "Umbra"
 
 #: declarative-plugin/buttonsmodel.cpp:83
 #, fuzzy
+#| msgid "Keep Below Others"
 msgid "Keep below"
 msgstr "Mantene sub alteres"
 
 #: declarative-plugin/buttonsmodel.cpp:85
 #, fuzzy
+#| msgid "Keep Above Others"
 msgid "Keep above"
 msgstr "Mantene super alteres"
 
@@ -82,12 +87,15 @@ msgstr "Obtene nove decorationes..."
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kcm.ui:56
 #, fuzzy
+#| msgid "Border size:"
 msgid "Border si&ze:"
 msgstr "Dimension de bordo:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:67
 #, fuzzy
+#| msgctxt "@item:inlistbox Border size:"
+#| msgid "No Border"
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Necun Bordo"
@@ -95,6 +103,8 @@ msgstr "Necun Bordo"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:72
 #, fuzzy
+#| msgctxt "@item:inlistbox Border size:"
+#| msgid "No Side Border"
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr "Necun Bordo Lateral "
@@ -144,6 +154,7 @@ msgstr "Super dimensionate"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: kcm.ui:125
 #, fuzzy
+#| msgid "Close windows by double clicking the menu button"
 msgid "Close windows by double clicking &the menu button:"
 msgstr "Claude fenestras per duple pulsar sur le button de menu"
 

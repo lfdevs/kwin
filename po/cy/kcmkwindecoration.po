@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
 "PO-Revision-Date: 2004-07-03 22:37+0100\n"
 "Last-Translator: KD at KGyfieithu <kyfieithu@dotmon.com>\n"
 "Language-Team: Cymraeg <cy@li.org>\n"
@@ -28,6 +28,7 @@ msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:71
 #, fuzzy
+#| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "Ar Bob Penbwrdd"
 
@@ -53,11 +54,13 @@ msgstr "Rholio"
 
 #: declarative-plugin/buttonsmodel.cpp:83
 #, fuzzy
+#| msgid "Keep Below Others"
 msgid "Keep below"
 msgstr "Cadw Dan y Lleill"
 
 #: declarative-plugin/buttonsmodel.cpp:85
 #, fuzzy
+#| msgid "Keep Above Others"
 msgid "Keep above"
 msgstr "Cadw Uwchben y Lleill"
 
@@ -75,6 +78,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
 #: kcm.ui:35
 #, fuzzy
+#| msgid "&Window Decoration"
 msgid "Get New Decorations..."
 msgstr "Addurniad &Ffenestr"
 
@@ -100,6 +104,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:77
 #, fuzzy
+#| msgid "Tiny"
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "Pitw"
@@ -107,6 +112,7 @@ msgstr "Pitw"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:82
 #, fuzzy
+#| msgid "Normal"
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "Arferol"
@@ -114,6 +120,7 @@ msgstr "Arferol"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:87
 #, fuzzy
+#| msgid "Large"
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "Mawr"
@@ -128,6 +135,7 @@ msgstr "Maint ffin: Mawr Iawn"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:97
 #, fuzzy
+#| msgid "Huge"
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "Anferth"

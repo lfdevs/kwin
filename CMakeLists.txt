@@ -1,10 +1,10 @@
 project(KWIN)
-set(PROJECT_VERSION "5.2.2")
+set(PROJECT_VERSION "5.3.1")
 set(PROJECT_VERSION_MAJOR 5)
 
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
-set(QT_MIN_VERSION "5.3.0")
-set(KF5_MIN_VERSION "5.3.0")
+set(QT_MIN_VERSION "5.4.0")
+set(KF5_MIN_VERSION "5.8.0")
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH} )
 
@@ -88,6 +88,12 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     XmlGui
 )
 
+find_package(Threads)
+set_package_properties(Threads PROPERTIES
+         PURPOSE "Needed for VirtualTerminal support in KWin Wayland"
+         TYPE REQUIRED
+         )
+
 # optional frameworks
 find_package(KF5Activities ${KF5_MIN_VERSION} CONFIG)
 set_package_properties(KF5Activities PROPERTIES
@@ -123,12 +129,12 @@ set_package_properties(epoxy PROPERTIES DESCRIPTION "libepoxy"
                        PURPOSE "OpenGL dispatch library"
                       )
 
-find_package(Wayland 1.2 COMPONENTS Client Egl Cursor Server)
+find_package(Wayland 1.2 COMPONENTS Egl Cursor)
 set_package_properties(Wayland PROPERTIES
                        TYPE OPTIONAL
                        PURPOSE "Required for building KWin with Wayland support"
                       )
-add_feature_info("Wayland-Client" Wayland_Client_FOUND "Required for building the Wayland backend in KWin")
+add_feature_info("Wayland-Cursor" Wayland_Cursor_FOUND "Required for cursor support in Wayland backend of kwin_wayland")
 add_feature_info("Wayland-EGL" Wayland_Egl_FOUND "Required for building the Wayland EGL compositing backend in KWin")
 
 find_package(XKB 0.4.1)
@@ -137,7 +143,7 @@ set_package_properties(XKB PROPERTIES
                        PURPOSE "Required for building KWin with Wayland support"
                       )
 
-find_package(Libinput 0.5)
+find_package(Libinput 0.10)
 set_package_properties(Libinput PROPERTIES TYPE OPTIONAL PURPOSE "Required for input handling on Wayland.")
 
 find_package(UDev)
@@ -147,7 +153,7 @@ set_package_properties(UDev PROPERTIES  URL "http://www.freedesktop.org/software
                                         PURPOSE "Required for input handling on Wayland."
                         )
 set(HAVE_INPUT FALSE)
-if (Libinput_FOUND AND UDEV_FOUND AND Libinput_VERSION VERSION_LESS 0.8)
+if (Libinput_FOUND AND UDEV_FOUND)
     set(HAVE_INPUT TRUE)
 endif()
 
@@ -171,10 +177,10 @@ find_package(XCB
         KEYSYMS
         IMAGE
         SHM
-        XTEST
         GLX
     OPTIONAL_COMPONENTS
         ICCCM
+        CURSOR
 )
 set_package_properties(XCB PROPERTIES TYPE REQUIRED)
 
@@ -183,8 +189,18 @@ if (XCB_ICCCM_VERSION VERSION_LESS "0.4")
     set(XCB_ICCCM_FOUND FALSE)
 endif()
 add_feature_info("XCB-ICCCM" XCB_ICCCM_FOUND "Required for building test applications for KWin")
+add_feature_info("XCB-CURSOR" XCB_CURSOR_FOUND "Required for XCursor support")
 
-feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
+set(HAVE_XCB_SYNC TRUE)
+if (XCB_VERSION VERSION_LESS "1.10")
+    set(HAVE_XCB_SYNC FALSE)
+endif()
+add_feature_info("XCB-SYNC" HAVE_XCB_SYNC "XCB Sync version >= 1.10 required for synced window resizing")
+
+find_package(X11_XCB)
+set_package_properties(X11_XCB PROPERTIES
+                       PURPOSE "Required for OpenGL support in X11 windowed backend of kwin_wayland"
+                       TYPE OPTIONAL)
 
 ########### configure tests ###############
 include(CMakeDependentOption)
@@ -192,7 +208,6 @@ include(CMakeDependentOption)
 option(KWIN_BUILD_DECORATIONS "Enable building of KWin decorations." ON)
 option(KWIN_BUILD_KCMS "Enable building of KWin configuration modules." ON)
 option(KWIN_BUILD_TABBOX "Enable building of KWin Tabbox functionality" ON)
-option(KWIN_BUILD_KAPPMENU "Enable building of KWin with application menu support" OFF)
 option(KWIN_BUILD_XRENDER_COMPOSITING "Enable building of KWin with XRender Compositing support" ON)
 cmake_dependent_option(KWIN_BUILD_ACTIVITIES "Enable building of KWin with kactivities support" ON "KF5Activities_FOUND" OFF)
 option(KWIN_PLASMA_ACTIVE "Enable building KWin for Plasma Active." OFF)
@@ -218,8 +233,6 @@ if(KWIN_PLASMA_ACTIVE)
     set(KWIN_BUILD_WITH_OPENGLES ON)
     set(KWIN_NAME "kwinactive")
 endif()
-
-cmake_dependent_option(KWIN_BUILD_KAPPMENU "Build without appmenu support" ON "KWIN_BUILD_DECORATIONS" FALSE)
 
 set(KWIN_BUILD_OPENGL FALSE)
 set(KWIN_BUILD_OPENGLES FALSE)
@@ -252,14 +265,28 @@ include_directories(${epoxy_INCLUDE_DIR})
 # for things that are also used by kwin libraries
 configure_file(libkwineffects/kwinconfig.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/libkwineffects/kwinconfig.h )
 # for kwin internal things
-if(Wayland_Client_FOUND AND XKB_FOUND AND KF5Wayland_FOUND)
-    set(HAVE_WAYLAND ${Wayland_Client_FOUND})
+if(XKB_FOUND AND KF5Wayland_FOUND)
+    set(HAVE_WAYLAND TRUE)
     set(HAVE_XKB ${XKB_FOUND})
-    set(HAVE_WAYLAND_EGL ${Wayland_Egl_FOUND})
+    if (KWIN_HAVE_EGL)
+        set(HAVE_WAYLAND_EGL ${Wayland_Egl_FOUND})
+    else()
+        set(HAVE_WAYLAND_EGL FALSE)
+    endif()
+    set(HAVE_WAYLAND_CURSOR ${Wayland_Cursor_FOUND})
+    set(HAVE_X11_XCB ${X11_XCB_FOUND})
 else()
     set(HAVE_WAYLAND FALSE)
     set(HAVE_XKB FALSE)
     set(HAVE_WAYLAND_EGL FALSE)
+    set(HAVE_WAYLAND_CURSOR FALSE)
+    set(HAVE_X11_XCB FALSE)
+endif()
+
+if(XCB_CURSOR_FOUND)
+    set(HAVE_XCB_CURSOR ${XCB_CURSOR_FOUND})
+else()
+    set(HAVE_XCB_CURSOR FALSE)
 endif()
 
 include(CheckIncludeFiles)
@@ -361,6 +388,7 @@ set(kwin_KDEINIT_SRCS
     scripting/screenedgeitem.cpp
     decorations/decoratedclient.cpp
     decorations/decorationbridge.cpp
+    decorations/decorationpalette.cpp
     decorations/settings.cpp
     decorations/decorationrenderer.cpp
    )
@@ -378,15 +406,6 @@ if(KWIN_BUILD_TABBOX)
   )
 endif()
 
-if(KWIN_BUILD_KAPPMENU)
-    set(
-        kwin_KDEINIT_SRCS ${kwin_KDEINIT_SRCS}
-        appmenu.cpp
-    )
-    qt5_add_dbus_interface(kwin_KDEINIT_SRCS
-        ${CMAKE_SOURCE_DIR}/plasma-workspace/appmenu/org.kde.kappmenu.xml appmenu_interface)
-endif()
-
 if(KWIN_BUILD_ACTIVITIES)
     set(
         kwin_KDEINIT_SRCS ${kwin_KDEINIT_SRCS}
@@ -395,14 +414,21 @@ if(KWIN_BUILD_ACTIVITIES)
 endif()
 
 if(KWIN_HAVE_EGL)
-    set(kwin_KDEINIT_SRCS ${kwin_KDEINIT_SRCS} eglonxbackend.cpp)
+    set(kwin_KDEINIT_SRCS ${kwin_KDEINIT_SRCS} abstract_egl_backend.cpp eglonxbackend.cpp)
 endif()
 
 if(HAVE_WAYLAND)
     set(kwin_KDEINIT_SRCS
             ${kwin_KDEINIT_SRCS}
+            abstract_backend.cpp
+            fb_backend.cpp
+            screens_fb.cpp
             screens_wayland.cpp
+            screens_x11windowed.cpp
+            virtual_terminal.cpp
             wayland_backend.cpp
+            wayland_server.cpp
+            x11windowed_backend.cpp
        )
     if(KWIN_HAVE_EGL AND Wayland_Egl_FOUND)
         set(kwin_KDEINIT_SRCS ${kwin_KDEINIT_SRCS} egl_wayland_backend.cpp)
@@ -465,8 +491,6 @@ set(kwin_KDE_LIBS
 
 set(kwin_XLIB_LIBS
     ${X11_X11_LIB}
-    ${X11_Xext_LIB}
-    ${X11_Xcursor_LIB}
     ${X11_ICE_LIB}
     ${X11_SM_LIB}
 )
@@ -482,31 +506,34 @@ set(kwin_XCB_LIBS
     XCB::RANDR
     XCB::KEYSYMS
     XCB::SHM
-    XCB::XTEST
     XCB::GLX
 )
 
 set(kwin_WAYLAND_LIBS
-    Wayland::Client
-    Wayland::Cursor
-    XCB::XTEST
     XKB::XKB
     KF5::WaylandClient
+    KF5::WaylandServer
+    ${CMAKE_THREAD_LIBS_INIT}
 )
 
 set(kwin_WAYLAND_EGL_LIBS
     Wayland::Egl
 )
 
-find_library(XF86VM_LIBRARY Xxf86vm)
-if (XF86VM_LIBRARY)
-    set(kwin_XLIB_LIBS ${kwin_XLIB_LIBS} ${XF86VM_LIBRARY})
-else()
-    add_definitions(-DKWIN_NO_XF86VM)
+if(X11_XCB_FOUND)
+    set(kwin_WAYLAND_LIBS ${kwin_WAYLAND_LIBS} X11::XCB)
+endif()
+
+if(Wayland_Cursor_FOUND)
+    set(kwin_WAYLAND_LIBS ${kwin_WAYLAND_LIBS} Wayland::Cursor)
 endif()
 
 if(KWIN_BUILD_ACTIVITIES)
     set(kwin_KDE_LIBS ${kwin_KDE_LIBS} KF5::Activities)
+endif()
+
+if(HAVE_XCB_CURSOR)
+    set(kwin_XCB_LIBS ${kwin_XCB_LIBS} XCB::CURSOR)
 endif()
 
 set(kwinLibs
@@ -558,6 +585,7 @@ install(TARGETS kdeinit_kwin_x11 ${INSTALL_TARGETS_DEFAULT_ARGS} )
 install(TARGETS kwin_x11         ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 if(HAVE_WAYLAND)
+    include_directories(${Qt5Core_PRIVATE_INCLUDE_DIRS})
     kf5_add_kdeinit_executable(kwin_wayland main_wayland.cpp)
     target_link_libraries(kdeinit_kwin_wayland kwin)
 
@@ -601,6 +629,8 @@ add_subdirectory(tests)
 if (KF5DocTools_FOUND)
     add_subdirectory(doc)
 endif()
+
+feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 include(ECMPackageConfigHelpers)
 set(CMAKECONFIG_INSTALL_DIR "${CMAKECONFIG_INSTALL_PREFIX}/KWinDBusInterface")

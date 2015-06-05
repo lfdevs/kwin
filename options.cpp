@@ -29,15 +29,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QProcess>
 
 #include "compositingprefs.h"
+#include "screens.h"
 #include "settings.h"
 #include "xcbutils.h"
 #include <kwinglplatform.h>
-
-#ifndef KWIN_HAVE_OPENGLES
-#ifndef KWIN_NO_XF86VM
-#include <X11/extensions/xf86vmode.h>
-#endif
-#endif
 
 #endif //KCMRULES
 
@@ -49,61 +44,44 @@ namespace KWin
 int currentRefreshRate()
 {
     int rate = -1;
-    if (options->refreshRate() > 0)   // use manually configured refresh rate
+    QString syncScreenName(QLatin1String("primary screen"));
+    if (options->refreshRate() > 0) {  // use manually configured refresh rate
         rate = options->refreshRate();
-#ifndef KWIN_HAVE_OPENGLES
-    else if (GLPlatform::instance()->driver() == Driver_NVidia) {
-#ifndef KWIN_NO_XF86VM
-        int major, event, error;
-        if (XQueryExtension(display(), "XFree86-VidModeExtension", &major, &event, &error)) {
-            XF86VidModeModeLine modeline;
-            int dotclock, vtotal;
-            if (XF86VidModeGetModeLine(display(), 0, &dotclock, &modeline)) {
-                vtotal = modeline.vtotal;
-                if (modeline.flags & 0x0010) // V_INTERLACE
-                    dotclock *= 2;
-                if (modeline.flags & 0x0020) // V_DBLSCAN
-                    vtotal *= 2;
-                if (modeline.htotal*vtotal) // BUG 313996
-                    rate = 1000*dotclock/(modeline.htotal*vtotal); // WTF was wikipedia 1998 when I nedded it?
-                qCDebug(KWIN_CORE) << "Vertical Refresh Rate (as detected by XF86VM): " << rate << "Hz";
+    } else if (GLPlatform::instance()->driver() == Driver_NVidia &&
+               Screens::self()->count() > 0) {
+        // prefer the refreshrate calculated from the screens mode information
+        // at least the nvidia driver reports 50Hz BS ... *again*!
+        int syncScreen = 0;
+        if (Screens::self()->count() > 1) {
+            const QByteArray syncDisplayDevice(qgetenv("__GL_SYNC_DISPLAY_DEVICE"));
+            // if __GL_SYNC_DISPLAY_DEVICE is exported, the GPU shall sync to that device
+            // so we try to use its refresh rate
+            if (!syncDisplayDevice.isEmpty()) {
+                for (int i = 0; i < Screens::self()->count(); ++i) {
+                    if (Screens::self()->name(i) == syncDisplayDevice) {
+                        syncScreenName = Screens::self()->name(i);
+                        syncScreen = i;
+                        break;
+                    }
+                }
             }
         }
-        if (rate < 1)
-#endif
-        { // modeline approach failed
-            QProcess nvidia_settings;
-            QStringList env = QProcess::systemEnvironment();
-            env << QStringLiteral("LC_ALL=C");
-            nvidia_settings.setEnvironment(env);
-            nvidia_settings.start(QStringLiteral("nvidia-settings"), QStringList() << QStringLiteral("-t") << QStringLiteral("-q") << QStringLiteral("RefreshRate"), QIODevice::ReadOnly);
-            nvidia_settings.waitForFinished();
-            if (nvidia_settings.exitStatus() == QProcess::NormalExit) {
-                QString reply = QString::fromLocal8Bit(nvidia_settings.readAllStandardOutput()).split(QStringLiteral(" ")).first();
-                bool ok;
-                float frate = QLocale::c().toFloat(reply, &ok);
-                if (!ok)
-                    rate = -1;
-                else
-                    rate = qRound(frate);
-                qCDebug(KWIN_CORE) << "Vertical Refresh Rate (as detected by nvidia-settings): " << rate << "Hz";
-            }
-        }
-    }
-#endif
-    else if (Xcb::Extensions::self()->isRandrAvailable()) {
+        rate = qRound(Screens::self()->refreshRate(syncScreen)); // TODO forward float precision?
+    } else if (Xcb::Extensions::self()->isRandrAvailable()) {
+        // last restort - query XRandR screenInfo rate - probably wrong on nvidia systems
         Xcb::RandR::ScreenInfo screenInfo(rootWindow());
         rate = screenInfo->rate;
     }
 
     // 0Hz or less is invalid, so we fallback to a default rate
     if (rate <= 0)
-        rate = 60;
+        rate = 60; // and not shitty 50Hz for sure! *grrr*
+
     // QTimer gives us 1msec (1000Hz) at best, so we ignore anything higher;
     // however, additional throttling prevents very high rates from taking place anyway
     else if (rate > 1000)
         rate = 1000;
-    qCDebug(KWIN_CORE) << "Vertical Refresh rate " << rate << "Hz";
+    qCDebug(KWIN_CORE) << "Vertical Refresh rate " << rate << "Hz (" << syncScreenName << ")";
     return rate;
 }
 
@@ -124,7 +102,6 @@ Options::Options(QObject *parent)
     , m_windowSnapZone(0)
     , m_centerSnapZone(0)
     , m_snapOnlyWhenOverlapping(false)
-    , m_showDesktopIsMinimizeAll(false)
     , m_rollOverDesktops(false)
     , m_focusStealingPreventionLevel(0)
     , m_legacyFullscreenSupport(false)
@@ -328,15 +305,6 @@ void Options::setSnapOnlyWhenOverlapping(bool snapOnlyWhenOverlapping)
     }
     m_snapOnlyWhenOverlapping = snapOnlyWhenOverlapping;
     emit snapOnlyWhenOverlappingChanged();
-}
-
-void Options::setShowDesktopIsMinimizeAll(bool showDesktopIsMinimizeAll)
-{
-    if (m_showDesktopIsMinimizeAll == showDesktopIsMinimizeAll) {
-        return;
-    }
-    m_showDesktopIsMinimizeAll = showDesktopIsMinimizeAll;
-    emit showDesktopIsMinimizeAllChanged();
 }
 
 void Options::setRollOverDesktops(bool rollOverDesktops)
@@ -910,7 +878,6 @@ void Options::syncFromKcfgc()
     setInactiveTabsSkipTaskbar(m_settings->inactiveTabsSkipTaskbar());
     setAutogroupSimilarWindows(m_settings->autogroupSimilarWindows());
     setAutogroupInForeground(m_settings->autogroupInForeground());
-    setShowDesktopIsMinimizeAll(m_settings->showDesktopIsMinimizeAll());
     setBorderlessMaximizedWindows(m_settings->borderlessMaximizedWindows());
     setElectricBorderMaximize(m_settings->electricBorderMaximize());
     setElectricBorderTiling(m_settings->electricBorderTiling());

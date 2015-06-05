@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-21 09:28+0000\n"
+"POT-Creation-Date: 2015-01-22 08:06+0000\n"
 "PO-Revision-Date: 2010-01-05 10:43+0530\n"
 "Last-Translator: Sangeeta Kumari <sangeeta09@gmail.com>\n"
 "Language-Team: Maithili <www.bhasharghar.in>\n"
@@ -22,6 +22,7 @@ msgstr ""
 
 #: layoutpreview.cpp:165
 #, fuzzy
+#| msgid "All Desktops"
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "सभ डेस्कटॉप"
@@ -77,6 +78,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, filterDesktops)
 #: main.ui:113
 #, fuzzy
+#| msgid "All Desktops"
 msgid "Virtual desktops"
 msgstr "सभ डेस्कटॉप"
 
@@ -88,6 +90,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QRadioButton, otherDesktops)
 #: main.ui:164
 #, fuzzy
+#| msgid "All Desktops"
 msgid "All other desktops"
 msgstr "सभ डेस्कटॉप"
 
@@ -166,6 +169,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:489
 #, fuzzy
+#| msgid "Navigation"
 msgid "Visualization"
 msgstr "नेविगेशन"
 

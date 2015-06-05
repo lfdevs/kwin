@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-05 09:36+0000\n"
+"POT-Creation-Date: 2015-02-05 07:54+0000\n"
 "PO-Revision-Date: 2013-10-13 13:15+0300\n"
 "Last-Translator: Sergiu Bivol <sergiu@ase.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -49,14 +49,17 @@ msgid "GLX"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
-#: compositing.ui:20 qml/CompositingView.qml:55
+#: compositing.ui:20
 #, fuzzy
+#| msgctxt "@option:check"
+#| msgid "Enable desktop effects at startup"
 msgid "Enable compositor on startup"
 msgstr "Activează efecte de birou la pornire"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:27
 #, fuzzy
+#| msgid "Animation speed:"
 msgid "Animation speed:"
 msgstr "Viteza animației:"
 
@@ -68,6 +71,7 @@ msgstr "Instantaneu"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
 #, fuzzy
+#| msgid "Very Slow"
 msgid "Very slow"
 msgstr "Foarte lent"
 
@@ -75,87 +79,99 @@ msgstr "Foarte lent"
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
 #: compositing.ui:85 compositing.ui:111
 #, fuzzy
+#| msgid "Scale method:"
 msgid "Scale method:"
 msgstr "Metoda de scalare:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:93 compositing.ui:119 qml/CompositingView.qml:113
-#: qml/CompositingView.qml:127
+#: compositing.ui:93 compositing.ui:119
 msgid "Crisp"
 msgstr "Aspru"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:98 qml/CompositingView.qml:113
+#: compositing.ui:98
 msgid "Smooth"
 msgstr "Neted"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:103 qml/CompositingView.qml:113
+#: compositing.ui:103
 msgid "Accurate"
 msgstr "Precis"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:124 qml/CompositingView.qml:127
+#: compositing.ui:124
 msgid "Smooth (slower)"
 msgstr "Neted (mai încet)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: compositing.ui:139 qml/CompositingView.qml:81
+#: compositing.ui:139
 msgid "Rendering backend:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
 #, fuzzy
+#| msgid "OpenGL mode:"
 msgid "OpenGL interface:"
 msgstr "Mod OpenGL:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: compositing.ui:159
 #, fuzzy
+#| msgid "Tearing Prevention (VSync)"
 msgid "Tearing prevention (\"vsync\"):"
 msgstr "Prevenirea frînturilor (VSync)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:167 compositing.ui:203 qml/CompositingView.qml:141
-#: qml/CompositingView.qml:154
+#: compositing.ui:167 compositing.ui:203
 #, fuzzy
+#| msgctxt ""
+#| "Windows are unmapped as they are requested. This can lead to not having "
+#| "updated thumbnials for windows on other desktops."
+#| msgid "Never"
 msgid "Never"
 msgstr "Niciodată"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:172 qml/CompositingView.qml:141
+#: compositing.ui:172
 msgid "Automatic"
 msgstr "Automat"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:177 qml/CompositingView.qml:141
+#: compositing.ui:177
 #, fuzzy
+#| msgid "Only when Cheap"
 msgid "Only when cheap"
 msgstr "Doar cînd e ieftină"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:182 qml/CompositingView.qml:141
+#: compositing.ui:182
 #, fuzzy
+#| msgid "Full scene repaints"
 msgid "Full screen repaints"
 msgstr "Redesenare scene întregi"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:187 qml/CompositingView.qml:141
+#: compositing.ui:187
 msgid "Re-use screen content"
 msgstr "Refolosește conținutul ecranului"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:195
 #, fuzzy
+#| msgid "Keep window thumbnails:"
 msgid "Keep window thumbnails:"
 msgstr "Păstrează miniaturile ferestrei:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:208 qml/CompositingView.qml:154
+#: compositing.ui:208
 #, fuzzy
+#| msgctxt ""
+#| "Windows are not unmapped if the window is somewhere visible on any of the "
+#| "virtual desktops."
+#| msgid "Only for Shown Windows"
 msgid "Only for Shown Windows"
 msgstr "Numai pentru ferestrele afișate"
 
@@ -165,24 +181,26 @@ msgid "Always"
 msgstr "Întotdeauna"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: compositing.ui:221 qml/CompositingView.qml:175
+#: compositing.ui:221
 msgid "Expert:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
-#: compositing.ui:228 qml/CompositingView.qml:182
+#: compositing.ui:228
 #, fuzzy
+#| msgid "Suspend desktop effects for fullscreen windows"
 msgid "Suspend compositor for full screen windows"
 msgstr "Suspendă efectele de birou pentru ferestrele pe ecran complet"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:235 qml/CompositingView.qml:192
+#: compositing.ui:235
 msgid "Experimental:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:242 qml/CompositingView.qml:200
+#: compositing.ui:242
 #, fuzzy
+#| msgid "Enable color correction (experimental)"
 msgid "Enable color correction"
 msgstr "Activează corecția de culoare (experimentală)"
 
@@ -246,30 +264,35 @@ msgstr ""
 
 #: model.cpp:67
 #, fuzzy
+#| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Accesibilitate"
 
 #: model.cpp:68
 #, fuzzy
+#| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Aspect"
 
 #: model.cpp:69
 #, fuzzy
+#| msgid "Candy"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Atrăgător"
 
 #: model.cpp:70
 #, fuzzy
+#| msgid "Focus"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Focalizare"
 
 #: model.cpp:71
 #, fuzzy
+#| msgid "Tools"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Unelte"
@@ -281,41 +304,13 @@ msgstr ""
 
 #: model.cpp:73
 #, fuzzy
+#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Gestiunea ferestrelor"
 
 #: model.cpp:235
 msgid "KWin development team"
-msgstr ""
-
-#: qml/CompositingView.qml:67
-#, fuzzy
-msgid "Animation Speed:"
-msgstr "Viteza animației:"
-
-#: qml/CompositingView.qml:106 qml/CompositingView.qml:120
-#, fuzzy
-msgid "Scale Method:"
-msgstr "Metoda de scalare:"
-
-#: qml/CompositingView.qml:135
-#, fuzzy
-msgid "Tearing Prevention (VSync):"
-msgstr "Prevenirea frînturilor (VSync)"
-
-#: qml/CompositingView.qml:148
-#, fuzzy
-msgid "Keep Window Thumbnails:"
-msgstr "Păstrează miniaturile ferestrei:"
-
-#: qml/CompositingView.qml:154
-#, fuzzy
-msgid "Always (Breaks Animations)"
-msgstr "Întotdeauna (strică minimizarea)"
-
-#: qml/CompositingView.qml:160
-msgid "OpenGL Platform Interface:"
 msgstr ""
 
 #: qml/Effect.qml:118
@@ -339,6 +334,7 @@ msgstr ""
 
 #: qml/EffectView.qml:82
 #, fuzzy
+#| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "Filtru texturi:"
 
@@ -348,6 +344,7 @@ msgstr ""
 
 #: qml/EffectView.qml:93
 #, fuzzy
+#| msgid "Suspend Desktop Effects"
 msgid "Exclude internal Desktop Effects"
 msgstr "Suspendă efectele de birou"
 

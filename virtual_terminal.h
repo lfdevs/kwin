@@ -2,9 +2,7 @@
  KWin - the KDE window manager
  This file is part of the KDE project.
 
-Copyright (c) 2011 Lionel Chauvin <megabigbug@yahoo.fr>
-Copyright (c) 2011,2012 Cédric Bellegarde <gnumdk@gmail.com>
-Copyright (C) 2013 Martin Gräßlin <mgraesslin@kde.org>
+Copyright (C) 2015 Martin Gräßlin <mgraesslin@kde.org>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,44 +17,44 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
-#ifndef KWIN_APPLICATIONMENU_H
-#define KWIN_APPLICATIONMENU_H
-// KWin
+#ifndef KWIN_VIRTUAL_TERMINAL_H
+#define KWIN_VIRTUAL_TERMINAL_H
 #include <kwinglobals.h>
-// Qt
-#include <QObject>
-// xcb
-#include <xcb/xcb.h>
 
-class QPoint;
-class OrgKdeKappmenuInterface;
+#include <QObject>
+
+class QSocketNotifier;
 
 namespace KWin
 {
 
-class ApplicationMenu : public QObject
+class VirtualTerminal : public QObject
 {
     Q_OBJECT
-
 public:
-    virtual ~ApplicationMenu();
+    virtual ~VirtualTerminal();
 
-    bool hasMenu(xcb_window_t window);
-    void showApplicationMenu(const QPoint &pos, const xcb_window_t window);
+    void init();
+    void activate(int vt);
+    bool isActive() const {
+        return m_active;
+    }
 
-private Q_SLOTS:
-    void slotShowRequest(qulonglong wid);
-    void slotMenuAvailable(qulonglong wid);
-    void slotMenuHidden(qulonglong wid);
-    void slotClearMenus();
+Q_SIGNALS:
+    void activeChanged(bool);
 
 private:
-    QList<xcb_window_t> m_windowsMenu;
-    OrgKdeKappmenuInterface *m_appmenuInterface;
+    void setup(int vtNr);
+    void closeFd();
+    bool createSignalHandler();
+    void setActive(bool active);
+    int m_vt = -1;
+    QSocketNotifier *m_notifier = nullptr;
+    bool m_active = false;
 
-    KWIN_SINGLETON(ApplicationMenu)
+    KWIN_SINGLETON(VirtualTerminal)
 };
 
 }
 
-#endif // KWIN_APPLICATIONMENU_H
+#endif

@@ -96,6 +96,7 @@ msgstr "Penukaran Ruang Kerja"
 
 #: main.cpp:122 main.cpp:489
 #, fuzzy, kde-format
+#| msgid "Desktop %1"
 msgid "Switch to Desktop %1"
 msgstr "Desktop %1"
 
@@ -144,12 +145,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, numberLabel)
 #: main.ui:54
 #, fuzzy
+#| msgid "Number of desktops:"
 msgid "&Number of desktops:"
 msgstr "Jumlah desktop:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:83
 #, fuzzy
+#| msgid "Number of rows:"
 msgid "N&umber of rows:"
 msgstr "Bilangan baris:"
 

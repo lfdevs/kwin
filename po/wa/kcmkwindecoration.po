@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
 "PO-Revision-Date: 2011-07-17 15:45+0200\n"
 "Last-Translator: Jean Cayron <jean.cayron@base.be>\n"
 "Language-Team: Walloon <linux@walon.org>\n"
@@ -29,6 +29,7 @@ msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:71
 #, fuzzy
+#| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "So tos les scribannes"
 
@@ -54,11 +55,13 @@ msgstr "Ombion"
 
 #: declarative-plugin/buttonsmodel.cpp:83
 #, fuzzy
+#| msgid "Keep Below Others"
 msgid "Keep below"
 msgstr "Mete pa dzo les ôtes"
 
 #: declarative-plugin/buttonsmodel.cpp:85
 #, fuzzy
+#| msgid "Keep Above Others"
 msgid "Keep above"
 msgstr "Mete pa dzeu les ôtes"
 
@@ -81,12 +84,14 @@ msgstr "Cweri des noveas gåyotaedjes..."
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kcm.ui:56
 #, fuzzy
+#| msgid "Border size:"
 msgid "Border si&ze:"
 msgstr "Grandeu del boirdeure :"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:67
 #, fuzzy
+#| msgid "Border size:"
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Grandeu del boirdeure :"
@@ -142,6 +147,7 @@ msgstr "Foû mzeure"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: kcm.ui:125
 #, fuzzy
+#| msgid "&Close windows by double clicking the menu button"
 msgid "Close windows by double clicking &the menu button:"
 msgstr "&Clôre les purneas avou on dobe-clitch sol boto d' menu"
 

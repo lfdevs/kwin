@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
-"PO-Revision-Date: 2015-03-22 15:22+0000\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
+"PO-Revision-Date: 2015-01-22 10:19+0000\n"
 "Last-Translator: José Nuno Pires <zepires@gmail.com>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: \n"
@@ -13,6 +13,7 @@ msgstr ""
 "X-POFile-SpellExtra: kcmkwindecoration Szwed Karol Oxygen main kwin qml\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-POFile-IgnoreConsistency: Oxygen\n"
+"X-POFile-SpellExtra: Form\n"
 
 #: declarative-plugin/buttonsmodel.cpp:67
 msgid "Menu"
@@ -81,7 +82,7 @@ msgstr "Tamanho do &contorno:"
 #: kcm.ui:67
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
-msgstr "Sem Contorno"
+msgstr "Sem Contornos"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:72

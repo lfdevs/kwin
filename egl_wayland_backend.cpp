@@ -1,3 +1,4 @@
+
 /********************************************************************
  KWin - the KDE window manager
  This file is part of the KDE project.
@@ -23,23 +24,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "composite.h"
 #include "options.h"
 #include "wayland_backend.h"
+#include "wayland_server.h"
 #include <KWayland/Client/surface.h>
-#include "xcbutils.h"
 // kwin libs
 #include <kwinglplatform.h>
 // KDE
+#include <KWayland/Server/buffer_interface.h>
+#include <KWayland/Server/display.h>
 // Qt
 #include <QOpenGLContext>
 
 namespace KWin
 {
 
-EglWaylandBackend::EglWaylandBackend()
+EglWaylandBackend::EglWaylandBackend(Wayland::WaylandBackend *b)
     : QObject(NULL)
-    , OpenGLBackend()
-    , m_context(EGL_NO_CONTEXT)
+    , AbstractEglBackend()
     , m_bufferAge(0)
-    , m_wayland(Wayland::WaylandBackend::self())
+    , m_wayland(b)
     , m_overlay(NULL)
 {
     if (!m_wayland) {
@@ -64,12 +66,7 @@ EglWaylandBackend::EglWaylandBackend()
 
 EglWaylandBackend::~EglWaylandBackend()
 {
-    cleanupGL();
-    doneCurrent();
-    eglDestroyContext(m_display, m_context);
-    eglDestroySurface(m_display, m_surface);
-    eglTerminate(m_display);
-    eglReleaseThread();
+    cleanup();
     if (m_overlay) {
         wl_egl_window_destroy(m_overlay);
     }
@@ -77,52 +74,26 @@ EglWaylandBackend::~EglWaylandBackend()
 
 bool EglWaylandBackend::initializeEgl()
 {
-    // Get the list of client extensions
-    const QByteArray clientExtensionString = eglQueryString(EGL_NO_DISPLAY, EGL_EXTENSIONS);
-    if (clientExtensionString.isEmpty()) {
-        // If eglQueryString() returned NULL, the implementation doesn't support
-        // EGL_EXT_client_extensions. Expect an EGL_BAD_DISPLAY error.
-        (void) eglGetError();
-    }
-
-    const QList<QByteArray> clientExtensions = clientExtensionString.split(' ');
+    initClientExtensions();
+    EGLDisplay display = EGL_NO_DISPLAY;
 
     // Use eglGetPlatformDisplayEXT() to get the display pointer
     // if the implementation supports it.
-    m_havePlatformBase = clientExtensions.contains("EGL_EXT_platform_base");
+    m_havePlatformBase = hasClientExtension(QByteArrayLiteral("EGL_EXT_platform_base"));
     if (m_havePlatformBase) {
         // Make sure that the wayland platform is supported
-        if (!clientExtensions.contains("EGL_EXT_platform_wayland"))
+        if (!hasClientExtension(QByteArrayLiteral("EGL_EXT_platform_wayland")))
             return false;
 
-        m_display = eglGetPlatformDisplayEXT(EGL_PLATFORM_WAYLAND_EXT, m_wayland->display(), nullptr);
+        display = eglGetPlatformDisplayEXT(EGL_PLATFORM_WAYLAND_EXT, m_wayland->display(), nullptr);
     } else {
-        m_display = eglGetDisplay(m_wayland->display());
+        display = eglGetDisplay(m_wayland->display());
     }
 
-    if (m_display == EGL_NO_DISPLAY)
+    if (display == EGL_NO_DISPLAY)
         return false;
-
-    EGLint major, minor;
-    if (eglInitialize(m_display, &major, &minor) == EGL_FALSE)
-        return false;
-    EGLint error = eglGetError();
-    if (error != EGL_SUCCESS) {
-        qCWarning(KWIN_CORE) << "Error during eglInitialize " << error;
-        return false;
-    }
-    qCDebug(KWIN_CORE) << "Egl Initialize succeeded";
-
-#ifdef KWIN_HAVE_OPENGLES
-    eglBindAPI(EGL_OPENGL_ES_API);
-#else
-    if (eglBindAPI(EGL_OPENGL_API) == EGL_FALSE) {
-        qCCritical(KWIN_CORE) << "bind OpenGL API failed";
-        return false;
-    }
-#endif
-    qCDebug(KWIN_CORE) << "EGL version: " << major << "." << minor;
-    return true;
+    setEglDisplay(display);
+    return initEglAPI();
 }
 
 void EglWaylandBackend::init()
@@ -132,33 +103,23 @@ void EglWaylandBackend::init()
         return;
     }
 
-    initEGL();
-    GLPlatform *glPlatform = GLPlatform::instance();
-    glPlatform->detect(EglPlatformInterface);
-    glPlatform->printResults();
-    initGL(EglPlatformInterface);
-
-    setSupportsBufferAge(false);
-
-    if (hasGLExtension(QByteArrayLiteral("EGL_EXT_buffer_age"))) {
-        const QByteArray useBufferAge = qgetenv("KWIN_USE_BUFFER_AGE");
-
-        if (useBufferAge != "0")
-            setSupportsBufferAge(true);
-    }
+    initKWinGL();
+    initBufferAge();
+    initWayland();
 }
 
 bool EglWaylandBackend::initRenderingContext()
 {
     initBufferConfigs();
 
+    EGLContext context = EGL_NO_CONTEXT;
 #ifdef KWIN_HAVE_OPENGLES
     const EGLint context_attribs[] = {
         EGL_CONTEXT_CLIENT_VERSION, 2,
         EGL_NONE
     };
 
-    m_context = eglCreateContext(m_display, m_config, EGL_NO_CONTEXT, context_attribs);
+    context = eglCreateContext(eglDisplay(), config(), EGL_NO_CONTEXT, context_attribs);
 #else
     const EGLint context_attribs_31_core[] = {
         EGL_CONTEXT_MAJOR_VERSION_KHR, 3,
@@ -171,21 +132,22 @@ bool EglWaylandBackend::initRenderingContext()
         EGL_NONE
     };
 
-    const QByteArray eglExtensions = eglQueryString(m_display, EGL_EXTENSIONS);
-    const QList<QByteArray> extensions = eglExtensions.split(' ');
+    const char* eglExtensionsCString = eglQueryString(eglDisplay(), EGL_EXTENSIONS);
+    const QList<QByteArray> extensions = QByteArray::fromRawData(eglExtensionsCString, qstrlen(eglExtensionsCString)).split(' ');
 
     // Try to create a 3.1 core context
-    if (options->glCoreProfile() && extensions.contains("EGL_KHR_create_context"))
-        m_context = eglCreateContext(m_display, m_config, EGL_NO_CONTEXT, context_attribs_31_core);
+    if (options->glCoreProfile() && extensions.contains(QByteArrayLiteral("EGL_KHR_create_context")))
+        context = eglCreateContext(eglDisplay(), config(), EGL_NO_CONTEXT, context_attribs_31_core);
 
-    if (m_context == EGL_NO_CONTEXT)
-        m_context = eglCreateContext(m_display, m_config, EGL_NO_CONTEXT, context_attribs_legacy);
+    if (context == EGL_NO_CONTEXT)
+        context = eglCreateContext(eglDisplay(), config(), EGL_NO_CONTEXT, context_attribs_legacy);
 #endif
 
-    if (m_context == EGL_NO_CONTEXT) {
+    if (context == EGL_NO_CONTEXT) {
         qCCritical(KWIN_CORE) << "Create Context failed";
         return false;
     }
+    setContext(context);
 
     if (!m_wayland->surface()) {
         return false;
@@ -200,22 +162,24 @@ bool EglWaylandBackend::initRenderingContext()
         return false;
     }
 
+    EGLSurface surface = EGL_NO_SURFACE;
     if (m_havePlatformBase)
-        m_surface = eglCreatePlatformWindowSurfaceEXT(m_display, m_config, (void *) m_overlay, nullptr);
+        surface = eglCreatePlatformWindowSurfaceEXT(eglDisplay(), config(), (void *) m_overlay, nullptr);
     else
-        m_surface = eglCreateWindowSurface(m_display, m_config, m_overlay, nullptr);
+        surface = eglCreateWindowSurface(eglDisplay(), config(), m_overlay, nullptr);
 
-    if (m_surface == EGL_NO_SURFACE) {
+    if (surface == EGL_NO_SURFACE) {
         qCCritical(KWIN_CORE) << "Create Window Surface failed";
         return false;
     }
+    setSurface(surface);
 
     return makeContextCurrent();
 }
 
 bool EglWaylandBackend::makeContextCurrent()
 {
-    if (eglMakeCurrent(m_display, m_surface, m_surface, m_context) == EGL_FALSE) {
+    if (eglMakeCurrent(eglDisplay(), surface(), surface(), context()) == EGL_FALSE) {
         qCCritical(KWIN_CORE) << "Make Context Current failed";
         return false;
     }
@@ -247,7 +211,7 @@ bool EglWaylandBackend::initBufferConfigs()
 
     EGLint count;
     EGLConfig configs[1024];
-    if (eglChooseConfig(m_display, config_attribs, configs, 1, &count) == EGL_FALSE) {
+    if (eglChooseConfig(eglDisplay(), config_attribs, configs, 1, &count) == EGL_FALSE) {
         qCCritical(KWIN_CORE) << "choose config failed";
         return false;
     }
@@ -255,7 +219,7 @@ bool EglWaylandBackend::initBufferConfigs()
         qCCritical(KWIN_CORE) << "choose config did not return a config" << count;
         return false;
     }
-    m_config = configs[0];
+    setConfig(configs[0]);
 
     return true;
 }
@@ -266,12 +230,12 @@ void EglWaylandBackend::present()
     Compositor::self()->aboutToSwapBuffers();
 
     if (supportsBufferAge()) {
-        eglSwapBuffers(m_display, m_surface);
-        eglQuerySurface(m_display, m_surface, EGL_BUFFER_AGE_EXT, &m_bufferAge);
+        eglSwapBuffers(eglDisplay(), surface());
+        eglQuerySurface(eglDisplay(), surface(), EGL_BUFFER_AGE_EXT, &m_bufferAge);
         setLastDamage(QRegion());
         return;
     } else {
-        eglSwapBuffers(m_display, m_surface);
+        eglSwapBuffers(eglDisplay(), surface());
         setLastDamage(QRegion());
     }
 }
@@ -339,29 +303,6 @@ void EglWaylandBackend::endRenderingFrame(const QRegion &renderedRegion, const Q
         addToDamageHistory(damagedRegion);
 }
 
-bool EglWaylandBackend::makeCurrent()
-{
-    if (QOpenGLContext *context = QOpenGLContext::currentContext()) {
-        // Workaround to tell Qt that no QOpenGLContext is current
-        context->doneCurrent();
-    }
-    const bool current = eglMakeCurrent(m_display, m_surface, m_surface, m_context);
-    return current;
-}
-
-void EglWaylandBackend::doneCurrent()
-{
-    eglMakeCurrent(m_display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
-}
-
-Xcb::Shm *EglWaylandBackend::shm()
-{
-    if (m_shm.isNull()) {
-        m_shm.reset(new Xcb::Shm);
-    }
-    return m_shm.data();
-}
-
 void EglWaylandBackend::overlaySizeChanged(const QSize &size)
 {
     wl_egl_window_resize(m_overlay, size.width(), size.height(), 0, 0);
@@ -377,98 +318,10 @@ bool EglWaylandBackend::usesOverlayWindow() const
  ************************************************/
 
 EglWaylandTexture::EglWaylandTexture(KWin::SceneOpenGL::Texture *texture, KWin::EglWaylandBackend *backend)
-    : SceneOpenGL::TexturePrivate()
-    , q(texture)
-    , m_backend(backend)
-    , m_referencedPixmap(XCB_PIXMAP_NONE)
-{
-    m_target = GL_TEXTURE_2D;
-}
-
-EglWaylandTexture::~EglWaylandTexture()
+    : AbstractEglTexture(texture, backend)
 {
 }
 
-OpenGLBackend *EglWaylandTexture::backend()
-{
-    return m_backend;
-}
-
-bool EglWaylandTexture::loadTexture(xcb_pixmap_t pix, const QSize &size, xcb_visualid_t visual)
-{
-    Q_UNUSED(visual)
-
-    // HACK: egl wayland platform doesn't support texture from X11 pixmap through the KHR_image_pixmap
-    // extension. To circumvent this problem we copy the pixmap content into a SHM image and from there
-    // to the OpenGL texture. This is a temporary solution. In future we won't need to get the content
-    // from X11 pixmaps. That's what we have XWayland for to get the content into a nice Wayland buffer.
-    if (pix == XCB_PIXMAP_NONE)
-        return false;
-
-    m_referencedPixmap = pix;
-
-    Xcb::Shm *shm = m_backend->shm();
-    if (!shm->isValid()) {
-        return false;
-    }
-
-    xcb_shm_get_image_cookie_t cookie = xcb_shm_get_image_unchecked(connection(), pix, 0, 0, size.width(),
-        size.height(), ~0, XCB_IMAGE_FORMAT_Z_PIXMAP, shm->segment(), 0);
-
-    glGenTextures(1, &m_texture);
-    q->setWrapMode(GL_CLAMP_TO_EDGE);
-    q->setFilter(GL_LINEAR);
-    q->bind();
-
-    ScopedCPointer<xcb_shm_get_image_reply_t> image(xcb_shm_get_image_reply(connection(), cookie, NULL));
-    if (image.isNull()) {
-        return false;
-    }
-
-    // TODO: other formats
-#ifndef KWIN_HAVE_OPENGLES
-    glTexImage2D(m_target, 0, GL_RGBA8, size.width(), size.height(), 0,
-                 GL_BGRA, GL_UNSIGNED_BYTE, shm->buffer());
-#endif
-
-    q->unbind();
-    q->setYInverted(true);
-    m_size = size;
-    updateMatrix();
-    return true;
-}
-
-bool EglWaylandTexture::update(const QRegion &damage)
-{
-    if (m_referencedPixmap == XCB_PIXMAP_NONE) {
-        return false;
-    }
-
-    Xcb::Shm *shm = m_backend->shm();
-    if (!shm->isValid()) {
-        return false;
-    }
-
-    // TODO: optimize by only updating the damaged areas
-    const QRect &damagedRect = damage.boundingRect();
-    xcb_shm_get_image_cookie_t cookie = xcb_shm_get_image_unchecked(connection(), m_referencedPixmap,
-        damagedRect.x(), damagedRect.y(), damagedRect.width(), damagedRect.height(),
-        ~0, XCB_IMAGE_FORMAT_Z_PIXMAP, shm->segment(), 0);
-
-    q->bind();
-
-    ScopedCPointer<xcb_shm_get_image_reply_t> image(xcb_shm_get_image_reply(connection(), cookie, NULL));
-    if (image.isNull()) {
-        return false;
-    }
-
-    // TODO: other formats
-#ifndef KWIN_HAVE_OPENGLES
-    glTexSubImage2D(m_target, 0, damagedRect.x(), damagedRect.y(), damagedRect.width(), damagedRect.height(), GL_BGRA, GL_UNSIGNED_BYTE, shm->buffer());
-#endif
-
-    q->unbind();
-    return true;
-}
+EglWaylandTexture::~EglWaylandTexture() = default;
 
 } // namespace

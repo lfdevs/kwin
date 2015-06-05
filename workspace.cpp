@@ -27,9 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef KWIN_BUILD_ACTIVITIES
 #include "activities.h"
 #endif
-#ifdef KWIN_BUILD_KAPPMENU
-#include "appmenu.h"
-#endif
 #include "atoms.h"
 #include "client.h"
 #include "composite.h"
@@ -66,8 +63,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KStartupInfo>
-#include <KWindowInfo>
-#include <KWindowSystem>
 // Qt
 #include <QtConcurrentRun>
 
@@ -118,7 +113,6 @@ Workspace::Workspace(bool restore)
     , force_restacking(false)
     , x_stacking_dirty(true)
     , showing_desktop(false)
-    , block_showing_desktop(0)
     , was_user_interaction(false)
     , session_saving(false)
     , block_focus(0)
@@ -134,17 +128,10 @@ Workspace::Workspace(bool restore)
     // If KWin was already running it saved its configuration after loosing the selection -> Reread
     QFuture<void> reparseConfigFuture = QtConcurrent::run(options, &Options::reparseConfiguration);
 
-#ifdef KWIN_BUILD_KAPPMENU
-    ApplicationMenu::create(this);
-#endif
-
     _self = this;
 
     // first initialize the extensions
     Xcb::Extensions::self();
-
-    LogindIntegration::create(this);
-    InputRedirection::create(this);
 
     // start the Wayland Backend - will only be created if WAYLAND_DISPLAY is present
 #if HAVE_WAYLAND
@@ -152,8 +139,6 @@ Workspace::Workspace(bool restore)
         connect(this, SIGNAL(stackingOrderChanged()), input(), SLOT(updatePointerWindow()));
     }
 #endif
-    // start the cursor support
-    Cursor::create(this);
 
 #ifdef KWIN_BUILD_ACTIVITIES
     Activities *activities = Activities::create(this);
@@ -162,10 +147,6 @@ Workspace::Workspace(bool restore)
 
     // PluginMgr needs access to the config file, so we need to wait for it for finishing
     reparseConfigFuture.waitForFinished();
-
-    // get screen support
-    Screens *screens = Screens::create(this);
-    connect(screens, SIGNAL(changed()), SLOT(desktopResized()));
 
     options->loadConfig();
     options->loadCompositingConfig(false);
@@ -186,12 +167,6 @@ Workspace::Workspace(bool restore)
     // Select windowmanager privileges
     selectWmInputEventMask();
 
-#if QT_VERSION < 0x050302
-    // WORKAROUND: QXcbScreen before 5.3.2 overrides them, see bug #335926, QTBUG-39648
-    // TODO once we depend on Qt 5.4 remove it
-    connect(qApp, SIGNAL(screenAdded(QScreen*)), this, SLOT(selectWmInputEventMask()));
-#endif
-
     ScreenEdges::create(this);
 
     // VirtualDesktopManager needs to be created prior to init shortcuts
@@ -205,8 +180,14 @@ Workspace::Workspace(bool restore)
 #endif
 
     // init XRenderUtils
-    XRenderUtils::init(connection(), rootWindow());
-    m_compositor = Compositor::create(this);
+    if (kwinApp()->operationMode() == Application::OperationModeX11) {
+        XRenderUtils::init(connection(), rootWindow());
+    }
+    if (Compositor::self()) {
+        m_compositor = Compositor::self();
+    } else {
+        m_compositor = Compositor::create(this);
+    }
     connect(this, SIGNAL(currentDesktopChanged(int,KWin::Client*)), m_compositor, SLOT(addRepaintFull()));
 
     auto decorationBridge = Decoration::DecorationBridge::create(this);
@@ -232,7 +213,10 @@ void Workspace::init()
 {
     updateXTime(); // Needed for proper initialization of user_time in Client ctor
     KSharedConfigPtr config = KSharedConfig::openConfig();
+    kwinApp()->createScreens();
     Screens *screens = Screens::self();
+    // get screen support
+    connect(screens, SIGNAL(changed()), SLOT(desktopResized()));
     screens->setConfig(config);
     screens->reconfigure();
     connect(options, SIGNAL(configChanged()), screens, SLOT(reconfigure()));
@@ -486,8 +470,6 @@ void Workspace::addClient(Client* c)
 {
     Group* grp = findGroup(c->window());
 
-    KWindowInfo info(c->window(), NET::WMAllProperties, NET::WM2WindowClass);
-
     emit clientAdded(c);
 
     if (grp != NULL)
@@ -523,10 +505,6 @@ void Workspace::addClient(Client* c)
 #ifdef KWIN_BUILD_TABBOX
     if (TabBox::TabBox::self()->isDisplayed())
         TabBox::TabBox::self()->reset(true);
-#endif
-#ifdef KWIN_BUILD_KAPPMENU
-        if (ApplicationMenu::self()->hasMenu(c->window()))
-            c->setAppMenuAvailable();
 #endif
 }
 
@@ -570,7 +548,6 @@ void Workspace::removeClient(Client* c)
     desktops.removeAll(c);
     x_stacking_dirty = true;
     attention_chain.removeAll(c);
-    showing_desktop_clients.removeAll(c);
     Group* group = findGroup(c->window());
     if (group != NULL)
         group->lostLeader();
@@ -869,7 +846,6 @@ void Workspace::slotCurrentDesktopChanged(uint oldDesktop, uint newDesktop)
 
 void Workspace::updateClientVisibilityOnDesktopChange(uint oldDesktop, uint newDesktop)
 {
-    ++block_showing_desktop;
     ObscuringWindows obs_wins;
     for (ToplevelList::ConstIterator it = stacking_order.constBegin();
             it != stacking_order.constEnd();
@@ -899,9 +875,8 @@ void Workspace::updateClientVisibilityOnDesktopChange(uint oldDesktop, uint newD
         if (c->isOnDesktop(newDesktop) && c->isOnCurrentActivity())
             c->updateVisibility();
     }
-    --block_showing_desktop;
     if (showingDesktop())   // Do this only after desktop change to avoid flicker
-        resetShowingDesktop(false);
+        setShowingDesktop(false);
 }
 
 void Workspace::activateClientOnNewDesktop(uint desktop)
@@ -976,7 +951,6 @@ void Workspace::updateCurrentActivity(const QString &new_activity)
     // TODO: Q_ASSERT( block_stacking_updates == 0 ); // Make sure stacking_order is up to date
     StackingUpdatesBlocker blocker(this);
 
-    ++block_showing_desktop; //FIXME should I be using that?
     // Optimized Desktop switching: unmapping done from back to front
     // mapping done from front to back => less exposure events
     //Notify::raise((Notify::Event) (Notify::DesktopChange+new_desktop));
@@ -1017,10 +991,9 @@ void Workspace::updateCurrentActivity(const QString &new_activity)
             c->updateVisibility();
     }
 
-    --block_showing_desktop;
     //FIXME not sure if I should do this either
     if (showingDesktop())   // Do this only after desktop change to avoid flicker
-        resetShowingDesktop(false);
+        setShowingDesktop(false);
 
     // Restore the focus on this desktop
     --block_focus;
@@ -1224,70 +1197,36 @@ void Workspace::focusToNull()
 
 void Workspace::setShowingDesktop(bool showing)
 {
+    const bool changed = showing != showing_desktop;
     rootInfo()->setShowingDesktop(showing);
     showing_desktop = showing;
-    ++block_showing_desktop;
-    if (showing_desktop) {
-        showing_desktop_clients.clear();
-        ++block_focus;
-        ToplevelList cls = stackingOrder();
-        // Find them first, then minimize, otherwise transients may get minimized with the window
-        // they're transient for
-        for (ToplevelList::ConstIterator it = cls.constBegin();
-                it != cls.constEnd();
-                ++it) {
-            Client *c = qobject_cast<Client*>(*it);
-            if (!c) {
-                continue;
-            }
-            if (c->isOnCurrentActivity() && c->isOnCurrentDesktop() && c->isShown(true) && !c->isSpecialWindow())
-                showing_desktop_clients.prepend(c);   // Topmost first to reduce flicker
-        }
-        for (ClientList::ConstIterator it = showing_desktop_clients.constBegin();
-                it != showing_desktop_clients.constEnd();
-                ++it)
-            (*it)->minimize();
-        --block_focus;
-        if (Client* desk = findDesktop(true, VirtualDesktopManager::self()->current()))
-            requestFocus(desk);
-    } else {
-        for (ClientList::ConstIterator it = showing_desktop_clients.constBegin();
-                it != showing_desktop_clients.constEnd();
-                ++it)
-            (*it)->unminimize();
-        if (showing_desktop_clients.count() > 0)
-            requestFocus(showing_desktop_clients.first());
-        showing_desktop_clients.clear();
-    }
-    --block_showing_desktop;
-}
 
-/**
- * Following Kicker's behavior:
- * Changing a virtual desktop resets the state and shows the windows again.
- * Unminimizing a window resets the state but keeps the windows hidden (except
- * the one that was unminimized).
- * A new window resets the state and shows the windows again, with the new window
- * being active. Due to popular demand (#67406) by people who apparently
- * don't see a difference between "show desktop" and "minimize all", this is not
- * true if "showDesktopIsMinimizeAll" is set in kwinrc. In such case showing
- * a new window resets the state but doesn't show windows.
- */
-void Workspace::resetShowingDesktop(bool keep_hidden)
-{
-    if (block_showing_desktop > 0)
-        return;
-    rootInfo()->setShowingDesktop(false);
-    showing_desktop = false;
-    ++block_showing_desktop;
-    if (!keep_hidden) {
-        for (ClientList::ConstIterator it = showing_desktop_clients.constBegin();
-                it != showing_desktop_clients.constEnd();
-                ++it)
-            (*it)->unminimize();
+    Client *topDesk = nullptr;
+
+    { // for the blocker RAII
+    StackingUpdatesBlocker blocker(this); // updateLayer & lowerClient would invalidate stacking_order
+    for (int i = stacking_order.count() - 1; i > -1; --i) {
+        Client *c = qobject_cast<Client*>(stacking_order.at(i));
+        if (c && c->isOnCurrentDesktop()) {
+            if (c->isDock()) {
+                c->updateLayer();
+            } else if (c->isDesktop() && c->isShown(true)) {
+                c->updateLayer();
+                lowerClient(c);
+                if (!topDesk)
+                    topDesk = c;
+                foreach (Client *cm, c->group()->members()) {
+                    cm->updateLayer();
+                }
+            }
+        }
     }
-    showing_desktop_clients.clear();
-    --block_showing_desktop;
+    } // ~StackingUpdatesBlocker
+
+    if (showing_desktop && topDesk)
+        requestFocus(topDesk);
+    if (changed)
+        emit showingDesktopChanged(showing);
 }
 
 void Workspace::disableGlobalShortcutsForClient(bool disable)
@@ -1312,6 +1251,8 @@ void Workspace::disableGlobalShortcutsForClient(bool disable)
 QString Workspace::supportInformation() const
 {
     QString support;
+    const QString yes = QStringLiteral("yes\n");
+    const QString no = QStringLiteral("no\n");
 
     support.append(ki18nc("Introductory text shown in the support information.",
         "KWin Support Information:\n"
@@ -1331,7 +1272,9 @@ QString Workspace::supportInformation() const
     support.append(QStringLiteral("\n"));
     support.append(QStringLiteral("Qt Version: "));
     support.append(QString::fromUtf8(qVersion()));
-    support.append(QStringLiteral("\n\n"));
+    support.append(QStringLiteral("\n"));
+    support.append(QStringLiteral("Qt compile version: %1\n").arg(QStringLiteral(QT_VERSION_STR)));
+    support.append(QStringLiteral("XCB compile version: %1\n\n").arg(QStringLiteral(XCB_VERSION_STRING)));
     support.append(QStringLiteral("Operation Mode: "));
     switch (kwinApp()->operationMode()) {
     case Application::OperationModeX11:
@@ -1340,8 +1283,97 @@ QString Workspace::supportInformation() const
     case Application::OperationModeWaylandAndX11:
         support.append(QStringLiteral("Wayland and X11"));
         break;
+    case Application::OperationModeXwayland:
+        support.append(QStringLiteral("Xwayland"));
+        break;
     }
     support.append(QStringLiteral("\n\n"));
+
+    support.append(QStringLiteral("Build Options\n"));
+    support.append(QStringLiteral("=============\n"));
+
+    support.append(QStringLiteral("KWIN_BUILD_DECORATIONS: "));
+#ifdef KWIN_BUILD_DECORATIONS
+    support.append(yes);
+#else
+    support.append(no);
+#endif
+    support.append(QStringLiteral("KWIN_BUILD_TABBOX: "));
+#ifdef KWIN_BUILD_TABBOX
+    support.append(yes);
+#else
+    support.append(no);
+#endif
+    support.append(QStringLiteral("KWIN_BUILD_ACTIVITIES: "));
+#ifdef KWIN_BUILD_ACTIVITIES
+    support.append(yes);
+#else
+    support.append(no);
+#endif
+    support.append(QStringLiteral("HAVE_WAYLAND: "));
+#if HAVE_WAYLAND
+    support.append(yes);
+#else
+    support.append(no);
+#endif
+    support.append(QStringLiteral("HAVE_WAYLAND_EGL: "));
+#if HAVE_WAYLAND_EGL
+    support.append(yes);
+#else
+    support.append(no);
+#endif
+    support.append(QStringLiteral("HAVE_WAYLAND_CURSOR: "));
+#if HAVE_WAYLAND_CURSOR
+    support.append(yes);
+#else
+    support.append(no);
+#endif
+    support.append(QStringLiteral("HAVE_XKB: "));
+#if HAVE_XKB
+    support.append(yes);
+#else
+    support.append(no);
+#endif
+    support.append(QStringLiteral("HAVE_INPUT: "));
+#if HAVE_INPUT
+    support.append(yes);
+#else
+    support.append(no);
+#endif
+    support.append(QStringLiteral("HAVE_XCB_CURSOR: "));
+#if HAVE_XCB_CURSOR
+    support.append(yes);
+#else
+    support.append(no);
+#endif
+    support.append(QStringLiteral("HAVE_XCB_SYNC: "));
+#if HAVE_XCB_SYNC
+    support.append(yes);
+#else
+    support.append(no);
+#endif
+    support.append(QStringLiteral("HAVE_X11_XCB: "));
+#if HAVE_X11_XCB
+    support.append(yes);
+#else
+    support.append(no);
+#endif
+    support.append(QStringLiteral("\n"));
+
+    support.append(QStringLiteral("X11\n"));
+    support.append(QStringLiteral("===\n"));
+    auto x11setup = xcb_get_setup(connection());
+    support.append(QStringLiteral("Vendor: %1\n").arg(QString::fromUtf8(QByteArray::fromRawData(xcb_setup_vendor(x11setup), xcb_setup_vendor_length(x11setup)))));
+    support.append(QStringLiteral("Vendor Release: %1\n").arg(x11setup->release_number));
+    support.append(QStringLiteral("Protocol Version/Revision: %1/%2\n").arg(x11setup->protocol_major_version).arg(x11setup->protocol_minor_version));
+    const auto extensions = Xcb::Extensions::self()->extensions();
+    for (const auto &e : extensions) {
+        support.append(QStringLiteral("%1: %2; Version: 0x%3\n").arg(QString::fromUtf8(e.name))
+                                                                .arg(e.present ? yes.trimmed() : no.trimmed())
+                                                                .arg(QString::number(e.version, 16)));
+    }
+    support.append(QStringLiteral("\n"));
+
     if (auto bridge = Decoration::DecorationBridge::self()) {
         support.append(QStringLiteral("Decoration\n"));
         support.append(QStringLiteral("==========\n"));
@@ -1577,6 +1609,20 @@ Client *Workspace::findClient(Predicate predicate, xcb_window_t w) const
         return findClient([w](const Client *c) {
             return c->inputId() == w;
         });
+    }
+    return nullptr;
+}
+
+Toplevel *Workspace::findToplevel(std::function<bool (const Toplevel*)> func) const
+{
+    if (Client *ret = Toplevel::findInList(clients, func)) {
+        return ret;
+    }
+    if (Client *ret = Toplevel::findInList(desktops, func)) {
+        return ret;
+    }
+    if (Unmanaged *ret = Toplevel::findInList(unmanaged, func)) {
+        return ret;
     }
     return nullptr;
 }

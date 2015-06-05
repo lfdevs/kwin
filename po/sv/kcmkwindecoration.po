@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
-"PO-Revision-Date: 2015-01-22 18:21+0100\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
+"PO-Revision-Date: 2015-01-22 18:23+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -80,19 +80,19 @@ msgstr "Hämta nya dekorationer..."
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kcm.ui:56
 msgid "Border si&ze:"
-msgstr "&Kantbredd:"
+msgstr "Kant&bredd:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:67
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
-msgstr "Utan kant"
+msgstr "Utan kanter"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:72
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
-msgstr "Utan sidokant"
+msgstr "Utan sidokanter"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:77
@@ -139,7 +139,7 @@ msgstr "Förstorad"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: kcm.ui:125
 msgid "Close windows by double clicking &the menu button:"
-msgstr "S&täng fönster genom att dubbelklicka på menyknappen"
+msgstr "S&täng fönster genom att dubbelklicka på menyknappen:"
 
 #: qml/Buttons.qml:74
 msgid "Titlebar"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-05 09:36+0000\n"
+"POT-Creation-Date: 2015-02-05 07:54+0000\n"
 "PO-Revision-Date: 2015-02-04 15:48+0000\n"
 "Last-Translator: Samir Ribić <Unknown>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -20,6 +20,8 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 "X-Environment: kde\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: compositing.cpp:387
 msgid "OpenGL 3.1"
@@ -44,7 +46,7 @@ msgid "GLX"
 msgstr "GLX"
 
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
-#: compositing.ui:20 qml/CompositingView.qml:55
+#: compositing.ui:20
 msgid "Enable compositor on startup"
 msgstr "Omogući kompozitora pri pokretanju"
 
@@ -71,28 +73,27 @@ msgstr "Način skaliranja:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:93 compositing.ui:119 qml/CompositingView.qml:113
-#: qml/CompositingView.qml:127
+#: compositing.ui:93 compositing.ui:119
 msgid "Crisp"
 msgstr "Diskretno"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:98 qml/CompositingView.qml:113
+#: compositing.ui:98
 msgid "Smooth"
 msgstr "Glatko"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:103 qml/CompositingView.qml:113
+#: compositing.ui:103
 msgid "Accurate"
 msgstr "Precizno"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:124 qml/CompositingView.qml:127
+#: compositing.ui:124
 msgid "Smooth (slower)"
 msgstr "Glatko (sporije)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: compositing.ui:139 qml/CompositingView.qml:81
+#: compositing.ui:139
 msgid "Rendering backend:"
 msgstr "Pozadinski softver za obradu:"
 
@@ -108,28 +109,27 @@ msgstr "Prevencija cijepanja (\"vsync\"):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:167 compositing.ui:203 qml/CompositingView.qml:141
-#: qml/CompositingView.qml:154
+#: compositing.ui:167 compositing.ui:203
 msgid "Never"
 msgstr "Nikada"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:172 qml/CompositingView.qml:141
+#: compositing.ui:172
 msgid "Automatic"
 msgstr "Automatski"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:177 qml/CompositingView.qml:141
+#: compositing.ui:177
 msgid "Only when cheap"
 msgstr "Samo kada je jeftino"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:182 qml/CompositingView.qml:141
+#: compositing.ui:182
 msgid "Full screen repaints"
 msgstr "Prefarbavanje cijelog ekrana"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:187 qml/CompositingView.qml:141
+#: compositing.ui:187
 msgid "Re-use screen content"
 msgstr "Ponovo koristi sadržaj ekrana"
 
@@ -139,7 +139,7 @@ msgid "Keep window thumbnails:"
 msgstr "Drži sličice prozora:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:208 qml/CompositingView.qml:154
+#: compositing.ui:208
 msgid "Only for Shown Windows"
 msgstr "Samo za prikazane prozore"
 
@@ -149,22 +149,22 @@ msgid "Always"
 msgstr "Uvijek"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: compositing.ui:221 qml/CompositingView.qml:175
+#: compositing.ui:221
 msgid "Expert:"
 msgstr "Ekspert:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
-#: compositing.ui:228 qml/CompositingView.qml:182
+#: compositing.ui:228
 msgid "Suspend compositor for full screen windows"
 msgstr "Obustavi kompozitora za prozore preko cijelog ekrana"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:235 qml/CompositingView.qml:192
+#: compositing.ui:235
 msgid "Experimental:"
 msgstr "Eksperimentalno:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:242 qml/CompositingView.qml:200
+#: compositing.ui:242
 msgid "Enable color correction"
 msgstr "Omogući korekciju boje"
 
@@ -283,30 +283,6 @@ msgstr "Upravljanje prozorima"
 #: model.cpp:235
 msgid "KWin development team"
 msgstr "KWin razvojni tim"
-
-#: qml/CompositingView.qml:67
-msgid "Animation Speed:"
-msgstr "Brzina animacije:"
-
-#: qml/CompositingView.qml:106 qml/CompositingView.qml:120
-msgid "Scale Method:"
-msgstr "Metod skaliranja:"
-
-#: qml/CompositingView.qml:135
-msgid "Tearing Prevention (VSync):"
-msgstr "Prvencija cijepanja (VSync):"
-
-#: qml/CompositingView.qml:148
-msgid "Keep Window Thumbnails:"
-msgstr "Zadrži ikonice prozora:"
-
-#: qml/CompositingView.qml:154
-msgid "Always (Breaks Animations)"
-msgstr "Uvijek(Prekida animacije)"
-
-#: qml/CompositingView.qml:160
-msgid "OpenGL Platform Interface:"
-msgstr "OpenGL sučelje platforme:"
 
 #: qml/Effect.qml:118
 #, kde-format

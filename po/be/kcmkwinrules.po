@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-28 15:51+0000\n"
+"POT-Creation-Date: 2015-05-16 12:24+0000\n"
 "PO-Revision-Date: 2007-10-28 14:23+0200\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@licei2.com>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -20,11 +20,13 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #, fuzzy
+#| msgid "Your names"
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Дарафей Праляскоўскі"
 
 #, fuzzy
+#| msgid "Your emails"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "komzpa@licei2.com"
@@ -170,19 +172,19 @@ msgstr "Змяніць скарот"
 msgid "C&lear"
 msgstr "А&чысціць"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 msgid "Window-Specific Settings Configuration Module"
 msgstr ""
 
-#: kcm.cpp:51
+#: kcm.cpp:52
 msgid "(c) 2004 KWin and KControl Authors"
 msgstr "(c) 2004 Аўтары KWin і KControl"
 
-#: kcm.cpp:52
+#: kcm.cpp:53
 msgid "Lubos Lunak"
 msgstr "Любас Лунак"
 
-#: kcm.cpp:83
+#: kcm.cpp:84
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -191,15 +193,15 @@ msgid ""
 "documentation for how to customize window behavior.</p>"
 msgstr ""
 
-#: kcm.cpp:99
+#: kcm.cpp:100
 msgid "Remember settings separately for every window"
 msgstr ""
 
-#: kcm.cpp:100
+#: kcm.cpp:101
 msgid "Show internal settings for remembering"
 msgstr ""
 
-#: kcm.cpp:101
+#: kcm.cpp:102
 #, fuzzy
 msgid "Internal setting for remembering"
 msgstr "Памылка ўсталяваньня схемы для \"%s\": %s"
@@ -216,6 +218,7 @@ msgstr "Уласцівасці акна для %1"
 
 #: main.cpp:215
 #, fuzzy
+#| msgid "Edit Window-Specific Settings"
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Змяніць настаўленні для асобных вокнаў"
@@ -371,18 +374,21 @@ msgstr "Змяніць скарот"
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage1)
 #: ruleswidgetbase.ui:21
 #, fuzzy
+#| msgid "&Window"
 msgid "&Window matching"
 msgstr "&Вакно"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
 #, fuzzy
+#| msgid "De&scription:"
 msgid "&Description:"
 msgstr "Апі&санне:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: ruleswidgetbase.ui:46
 #, fuzzy
+#| msgid "Window &class (application type):"
 msgid "Window &class (application):"
 msgstr "&Клас вакна (тып праграмы):"
 
@@ -439,6 +445,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: ruleswidgetbase.ui:109
 #, fuzzy
+#| msgid "Window &role:"
 msgid "Window ro&le:"
 msgstr "&Роля вакна:"
 
@@ -472,6 +479,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #: ruleswidgetbase.ui:468
 #, fuzzy
+#| msgid "On Main Window"
 msgid "Unmanaged Window"
 msgstr "На галоўным акне"
 
@@ -877,6 +885,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_screen)
 #: ruleswidgetbase.ui:1369
 #, fuzzy
+#| msgid "Splash Screen"
 msgid "Screen"
 msgstr "Застаўка загрузкі"
 
@@ -1012,6 +1021,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_disableglobalshortcuts)
 #: ruleswidgetbase.ui:2143
 #, fuzzy
+#| msgid "Block global shortcuts"
 msgid "Ignore global shortcuts"
 msgstr "Блакаваць глабальныя скароты"
 
@@ -1028,6 +1038,7 @@ msgstr "Тып акна"
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #: ruleswidgetbase.ui:2373
 #, fuzzy
+#| msgid "None"
 msgctxt "no focus stealing prevention"
 msgid "None"
 msgstr "Няма"
@@ -1072,3 +1083,13 @@ msgstr "Засяроджаньне на вехнім узроўні"
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
 msgstr ""
+
+#: yesnobox.h:35
+msgid "Yes"
+msgstr ""
+
+#: yesnobox.h:36
+#, fuzzy
+#| msgid "None"
+msgid "No"
+msgstr "Няма"

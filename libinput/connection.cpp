@@ -94,9 +94,28 @@ void Connection::setup()
     LogindIntegration *logind = LogindIntegration::self();
     connect(logind, &LogindIntegration::sessionActiveChanged, this,
         [this](bool active) {
-            active ? m_input->resume() : m_input->suspend();
+            if (active) {
+                m_input->resume();
+                handleEvent();
+                if (m_keyboardBeforeSuspend && !m_keyboard) {
+                    emit hasKeyboardChanged(false);
+                }
+                if (m_pointerBeforeSuspend && !m_pointer) {
+                    emit hasPointerChanged(false);
+                }
+                if (m_touchBeforeSuspend && !m_touch) {
+                    emit hasTouchChanged(false);
+                }
+            } else {
+                m_keyboardBeforeSuspend = hasKeyboard();
+                m_pointerBeforeSuspend = hasPointer();
+                m_touchBeforeSuspend = hasTouch();
+                m_input->suspend();
+                handleEvent();
+            }
         }
     );
+    handleEvent();
 }
 
 void Connection::handleEvent()
@@ -108,6 +127,46 @@ void Connection::handleEvent()
             break;
         }
         switch (event->type()) {
+            case LIBINPUT_EVENT_DEVICE_ADDED:
+                if (libinput_device_has_capability(event->device(), LIBINPUT_DEVICE_CAP_KEYBOARD)) {
+                    m_keyboard++;
+                    if (m_keyboard == 1) {
+                        emit hasKeyboardChanged(true);
+                    }
+                }
+                if (libinput_device_has_capability(event->device(), LIBINPUT_DEVICE_CAP_POINTER)) {
+                    m_pointer++;
+                    if (m_pointer == 1) {
+                        emit hasPointerChanged(true);
+                    }
+                }
+                if (libinput_device_has_capability(event->device(), LIBINPUT_DEVICE_CAP_TOUCH)) {
+                    m_touch++;
+                    if (m_touch == 1) {
+                        emit hasTouchChanged(true);
+                    }
+                }
+                break;
+            case LIBINPUT_EVENT_DEVICE_REMOVED:
+                if (libinput_device_has_capability(event->device(), LIBINPUT_DEVICE_CAP_KEYBOARD)) {
+                    m_keyboard--;
+                    if (m_keyboard == 0) {
+                        emit hasKeyboardChanged(false);
+                    }
+                }
+                if (libinput_device_has_capability(event->device(), LIBINPUT_DEVICE_CAP_POINTER)) {
+                    m_pointer--;
+                    if (m_pointer == 0) {
+                        emit hasPointerChanged(false);
+                    }
+                }
+                if (libinput_device_has_capability(event->device(), LIBINPUT_DEVICE_CAP_TOUCH)) {
+                    m_touch--;
+                    if (m_touch == 0) {
+                        emit hasTouchChanged(false);
+                    }
+                }
+                break;
             case LIBINPUT_EVENT_KEYBOARD_KEY: {
                 KeyEvent *ke = static_cast<KeyEvent*>(event.data());
                 emit keyChanged(ke->key(), ke->state(), ke->time());
@@ -115,7 +174,10 @@ void Connection::handleEvent()
             }
             case LIBINPUT_EVENT_POINTER_AXIS: {
                 PointerEvent *pe = static_cast<PointerEvent*>(event.data());
-                emit pointerAxisChanged(pe->axis(), pe->axisValue(), pe->time());
+                const auto axis = pe->axis();
+                for (auto it = axis.begin(); it != axis.end(); ++it) {
+                    emit pointerAxisChanged(*it, pe->axisValue(*it), pe->time());
+                }
                 break;
             }
             case LIBINPUT_EVENT_POINTER_BUTTON: {
@@ -133,6 +195,29 @@ void Connection::handleEvent()
                 emit pointerMotionAbsolute(pe->absolutePos(), pe->absolutePos(m_size), pe->time());
                 break;
             }
+            case LIBINPUT_EVENT_TOUCH_DOWN: {
+                TouchEvent *te = static_cast<TouchEvent*>(event.data());
+                emit touchDown(te->id(), te->absolutePos(m_size), te->time());
+                break;
+            }
+            case LIBINPUT_EVENT_TOUCH_UP: {
+                TouchEvent *te = static_cast<TouchEvent*>(event.data());
+                emit touchUp(te->id(), te->time());
+                break;
+            }
+            case LIBINPUT_EVENT_TOUCH_MOTION: {
+                TouchEvent *te = static_cast<TouchEvent*>(event.data());
+                emit touchMotion(te->id(), te->absolutePos(m_size), te->time());
+                break;
+            }
+            case LIBINPUT_EVENT_TOUCH_CANCEL: {
+                emit touchCanceled();
+                break;
+            }
+            case LIBINPUT_EVENT_TOUCH_FRAME: {
+                emit touchFrame();
+                break;
+            }
             default:
                 // nothing
                 break;
@@ -143,6 +228,14 @@ void Connection::handleEvent()
 void Connection::setScreenSize(const QSize &size)
 {
     m_size = size;
+}
+
+bool Connection::isSuspended() const
+{
+    if (!s_context) {
+        return false;
+    }
+    return s_context->isSuspended();
 }
 
 }

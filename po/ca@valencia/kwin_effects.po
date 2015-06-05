@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-03-21 10:21+0000\n"
+"POT-Creation-Date: 2015-05-21 11:34+0000\n"
 "PO-Revision-Date: 2013-10-13 17:36+0200\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -48,7 +48,7 @@ msgstr "Potent"
 msgid "Save intermediate rendering results."
 msgstr "Guarda els resultats de la representació intermèdia."
 
-#: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Mostra l'escriptori"
@@ -550,6 +550,7 @@ msgstr ""
 
 #: effect_builtins.cpp:117
 #, fuzzy
+#| msgid "Background color:"
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Color de fons:"
@@ -571,6 +572,7 @@ msgstr ""
 
 #: effect_builtins.cpp:147
 #, fuzzy
+#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Cub d'escriptori"
@@ -582,6 +584,7 @@ msgstr ""
 
 #: effect_builtins.cpp:162
 #, fuzzy
+#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Cub d'escriptori"
@@ -603,6 +606,7 @@ msgstr ""
 
 #: effect_builtins.cpp:192
 #, fuzzy
+#| msgid "Show Desktop Grid"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Mostra la graella de l'escriptori"
@@ -619,6 +623,7 @@ msgstr ""
 
 #: effect_builtins.cpp:208
 #, fuzzy
+#| msgid "Inactive windows:"
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Finestres inactives:"
@@ -640,6 +645,7 @@ msgstr ""
 
 #: effect_builtins.cpp:238
 #, fuzzy
+#| msgid "Send window to all desktops"
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "Envia la finestra a tots els escriptoris"
@@ -677,6 +683,7 @@ msgstr ""
 
 #: effect_builtins.cpp:297
 #, fuzzy
+#| msgid "Invert mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Inverteix el ratolí"
@@ -728,6 +735,7 @@ msgstr ""
 
 #: effect_builtins.cpp:372
 #, fuzzy
+#| msgid "Modifiers"
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Modificadors"
@@ -739,18 +747,21 @@ msgstr ""
 
 #: effect_builtins.cpp:387
 #, fuzzy
+#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Animació"
 
 #: effect_builtins.cpp:388
 #, fuzzy
+#| msgid "Ignore &minimized windows"
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "Ignore les finestres &minimitzades"
 
 #: effect_builtins.cpp:402
 #, fuzzy
+#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Animació"
@@ -764,6 +775,7 @@ msgstr ""
 
 #: effect_builtins.cpp:417
 #, fuzzy
+#| msgid "Clear Mouse Marks"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Neteja les marques del ratolí"
@@ -775,6 +787,7 @@ msgstr ""
 
 #: effect_builtins.cpp:432
 #, fuzzy
+#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Finestres"
@@ -786,6 +799,7 @@ msgstr ""
 
 #: effect_builtins.cpp:447
 #, fuzzy
+#| msgid "Close window"
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Tanca la finestra"
@@ -838,6 +852,7 @@ msgstr ""
 
 #: effect_builtins.cpp:522
 #, fuzzy
+#| msgid "Show &panels"
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Mostra els &plafons"
@@ -899,6 +914,7 @@ msgstr ""
 
 #: effect_builtins.cpp:612
 #, fuzzy
+#| msgid "Thumbnail Bar"
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Barra de miniatures"
@@ -910,6 +926,7 @@ msgstr ""
 
 #: effect_builtins.cpp:627
 #, fuzzy
+#| msgid "Track mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Seguiment del ratolí"
@@ -926,12 +943,14 @@ msgstr ""
 
 #: effect_builtins.cpp:643
 #, fuzzy
+#| msgid "Display window &icons"
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "Mostra les &icones de les finestres"
 
 #: effect_builtins.cpp:657
 #, fuzzy
+#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Finestres"
@@ -943,6 +962,7 @@ msgstr ""
 
 #: effect_builtins.cpp:672
 #, fuzzy
+#| msgid "Zoom"
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Zoom"
@@ -1067,6 +1087,7 @@ msgstr "A&lçada:"
 
 #: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
 #, fuzzy
+#| msgid "Toggle Effect"
 msgid "Toggle Mouse Click Effect"
 msgstr "Commuta l'efecte"
 
@@ -1186,7 +1207,7 @@ msgstr "Commuta les finestres presents (tots els escriptoris)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Commuta les finestres presents (classe finestra)"
 
-#: presentwindows/presentwindows.cpp:1556
+#: presentwindows/presentwindows.cpp:1561
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1553,7 +1574,7 @@ msgstr "Menús emergents:"
 msgid "Torn-off menus:"
 msgstr "Menús d'apagat:"
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:61
 msgid "Toggle window geometry display (effect only)"
 msgstr "Commuta la geometria de visualització de la finestra (només efectes)"
 
@@ -1621,27 +1642,27 @@ msgstr "Menys"
 msgid "More"
 msgstr "Més"
 
-#: zoom/zoom.cpp:86
+#: zoom/zoom.cpp:84
 msgid "Move Zoomed Area to Left"
 msgstr "Mou l'àrea ampliada a l'esquerra"
 
-#: zoom/zoom.cpp:94
+#: zoom/zoom.cpp:92
 msgid "Move Zoomed Area to Right"
 msgstr "Mou l'àrea ampliada a la dreta"
 
-#: zoom/zoom.cpp:102
+#: zoom/zoom.cpp:100
 msgid "Move Zoomed Area Upwards"
 msgstr "Mou l'àrea ampliada cap a dalt"
 
-#: zoom/zoom.cpp:110
+#: zoom/zoom.cpp:108
 msgid "Move Zoomed Area Downwards"
 msgstr "Mou l'àrea ampliada cap a baix"
 
-#: zoom/zoom.cpp:119 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
 msgid "Move Mouse to Focus"
 msgstr "Mou el ratolí al focus"
 
-#: zoom/zoom.cpp:127 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
 msgid "Move Mouse to Center"
 msgstr "Mou el ratolí al centre"
 

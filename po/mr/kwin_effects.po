@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-03-21 10:21+0000\n"
+"POT-Creation-Date: 2015-05-21 11:34+0000\n"
 "PO-Revision-Date: 2013-02-12 10:55+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -45,10 +45,11 @@ msgstr "मजबूत"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_CacheTexture)
 #: blur/blur_config.ui:86
 #, fuzzy
+#| msgid "Safe intermediate rendering results."
 msgid "Save intermediate rendering results."
 msgstr "सुरक्षित मध्यवर्ती रेंडरींग निकाल"
 
-#: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "डेस्कटॉप दर्शवा"
@@ -546,6 +547,7 @@ msgstr ""
 
 #: effect_builtins.cpp:117
 #, fuzzy
+#| msgid "Background color:"
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "पार्श्वभूमी रंग:"
@@ -567,6 +569,7 @@ msgstr ""
 
 #: effect_builtins.cpp:147
 #, fuzzy
+#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "डेस्कटॉप क्यूब"
@@ -578,6 +581,7 @@ msgstr ""
 
 #: effect_builtins.cpp:162
 #, fuzzy
+#| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "डेस्कटॉप क्यूब"
@@ -599,6 +603,7 @@ msgstr ""
 
 #: effect_builtins.cpp:192
 #, fuzzy
+#| msgid "Show Desktop Grid"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "डेस्कटॉप जाळे दर्शवा"
@@ -615,6 +620,7 @@ msgstr ""
 
 #: effect_builtins.cpp:208
 #, fuzzy
+#| msgid "Inactive windows:"
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "निष्क्रिय चौकटी :"
@@ -636,6 +642,7 @@ msgstr ""
 
 #: effect_builtins.cpp:238
 #, fuzzy
+#| msgid "Send window to all desktops"
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "चौकट सर्व डेस्कटॉपवर पाठवा"
@@ -673,6 +680,7 @@ msgstr ""
 
 #: effect_builtins.cpp:297
 #, fuzzy
+#| msgid "Invert mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "माऊस उलट करा"
@@ -724,6 +732,7 @@ msgstr ""
 
 #: effect_builtins.cpp:372
 #, fuzzy
+#| msgid "Modifiers"
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "बदलकर्ते"
@@ -735,18 +744,21 @@ msgstr ""
 
 #: effect_builtins.cpp:387
 #, fuzzy
+#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "ऍनीमेशन"
 
 #: effect_builtins.cpp:388
 #, fuzzy
+#| msgid "Ignore &minimized windows"
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "लहान केलेल्या चौकटी दुर्लक्षीत करा (&M)"
 
 #: effect_builtins.cpp:402
 #, fuzzy
+#| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "ऍनीमेशन"
@@ -760,6 +772,7 @@ msgstr ""
 
 #: effect_builtins.cpp:417
 #, fuzzy
+#| msgid "Clear Mouse Marks"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "माऊस मार्क्स साफ करा"
@@ -771,6 +784,7 @@ msgstr ""
 
 #: effect_builtins.cpp:432
 #, fuzzy
+#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "चौकटी"
@@ -782,6 +796,7 @@ msgstr ""
 
 #: effect_builtins.cpp:447
 #, fuzzy
+#| msgid "Close window"
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "चौकट बंद करा"
@@ -834,6 +849,7 @@ msgstr ""
 
 #: effect_builtins.cpp:522
 #, fuzzy
+#| msgid "Show &panels"
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "पटल दर्शवा (&P)"
@@ -895,6 +911,7 @@ msgstr ""
 
 #: effect_builtins.cpp:612
 #, fuzzy
+#| msgid "Thumbnail Bar"
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "लघुप्रतिमा पट्टी"
@@ -906,6 +923,7 @@ msgstr ""
 
 #: effect_builtins.cpp:627
 #, fuzzy
+#| msgid "Track mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "माऊसचा मागोवा घ्या"
@@ -922,12 +940,14 @@ msgstr ""
 
 #: effect_builtins.cpp:643
 #, fuzzy
+#| msgid "Display window &icons"
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "चौकट चिन्हे दर्शवा (&I)"
 
 #: effect_builtins.cpp:657
 #, fuzzy
+#| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "चौकटी"
@@ -939,6 +959,7 @@ msgstr ""
 
 #: effect_builtins.cpp:672
 #, fuzzy
+#| msgid "Zoom"
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "झूम"
@@ -1063,6 +1084,7 @@ msgstr "उंची (&H):"
 
 #: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
 #, fuzzy
+#| msgid "Toggle Effect"
 msgid "Toggle Mouse Click Effect"
 msgstr "चालू/बंद परिणाम"
 
@@ -1182,7 +1204,7 @@ msgstr "वर्तमान चौकटी चालू/बंद करा (
 msgid "Toggle Present Windows (Window class)"
 msgstr "वर्तमान चौकटी चालू/बंद करा (चौकट वर्ग)"
 
-#: presentwindows/presentwindows.cpp:1556
+#: presentwindows/presentwindows.cpp:1561
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1549,7 +1571,7 @@ msgstr "पॉपअप मेन्यू :"
 msgid "Torn-off menus:"
 msgstr "तोडलेले मेन्यू :"
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:61
 msgid "Toggle window geometry display (effect only)"
 msgstr "चौकट भूमिती दृश्य चालू/बंद करा (फक्त परिणाम)"
 
@@ -1617,27 +1639,27 @@ msgstr "कमी"
 msgid "More"
 msgstr "अधिक"
 
-#: zoom/zoom.cpp:86
+#: zoom/zoom.cpp:84
 msgid "Move Zoomed Area to Left"
 msgstr ""
 
-#: zoom/zoom.cpp:94
+#: zoom/zoom.cpp:92
 msgid "Move Zoomed Area to Right"
 msgstr ""
 
-#: zoom/zoom.cpp:102
+#: zoom/zoom.cpp:100
 msgid "Move Zoomed Area Upwards"
 msgstr ""
 
-#: zoom/zoom.cpp:110
+#: zoom/zoom.cpp:108
 msgid "Move Zoomed Area Downwards"
 msgstr ""
 
-#: zoom/zoom.cpp:119 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
 msgid "Move Mouse to Focus"
 msgstr "माऊस लक्ष्यावर हलवा"
 
-#: zoom/zoom.cpp:127 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
 msgid "Move Mouse to Center"
 msgstr "माऊस मध्यावर हलवा"
 

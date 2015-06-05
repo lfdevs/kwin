@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-28 15:51+0000\n"
+"POT-Creation-Date: 2015-05-16 12:24+0000\n"
 "PO-Revision-Date: 2014-03-26 11:43-0500\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
@@ -167,19 +167,19 @@ msgstr "ਇੱਕਲਾ ਸ਼ਾਰਟਕੱਟ(&S)"
 msgid "C&lear"
 msgstr "ਸਾਫ਼ ਕਰੋ(&l)"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 msgid "Window-Specific Settings Configuration Module"
 msgstr "ਵਿੰਡੋ ਖਾਸ ਸੈਟਿੰਗ ਸੰਰਚਨਾ ਮੋਡੀਊਲ"
 
-#: kcm.cpp:51
+#: kcm.cpp:52
 msgid "(c) 2004 KWin and KControl Authors"
 msgstr "(c) ੨੦੦੪ ਕੇਵਿਨ ਤੇ ਕੇਕੰਟਰੋਲ ਲੇਖਕ"
 
-#: kcm.cpp:52
+#: kcm.cpp:53
 msgid "Lubos Lunak"
 msgstr "Lubos Lunak"
 
-#: kcm.cpp:83
+#: kcm.cpp:84
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -188,15 +188,15 @@ msgid ""
 "documentation for how to customize window behavior.</p>"
 msgstr ""
 
-#: kcm.cpp:99
+#: kcm.cpp:100
 msgid "Remember settings separately for every window"
 msgstr "ਹਰੇਕ ਵਿੰਡੋ ਲਈ ਵੱਖਰੀ ਸੈਟਿੰਗ ਯਾਦ ਰੱਖੋ"
 
-#: kcm.cpp:100
+#: kcm.cpp:101
 msgid "Show internal settings for remembering"
 msgstr "ਯਾਦਸ਼ਾਤ ਲਈ ਅੰਦਰੂਨੀ ਸੈਟਿੰਗ ਵੇਖਾਓ"
 
-#: kcm.cpp:101
+#: kcm.cpp:102
 msgid "Internal setting for remembering"
 msgstr "ਯਾਦਸ਼ਾਤ ਲਈ ਅੰਦਰੂਨੀ ਸੈਟਿੰਗ"
 
@@ -1049,3 +1049,14 @@ msgstr "ਫੋਕਸ ਲੈਣ ਤੋਂ ਬਚਾਓ(&F)"
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
 msgstr ""
+
+#: yesnobox.h:35
+msgid "Yes"
+msgstr ""
+
+#: yesnobox.h:36
+#, fuzzy
+#| msgctxt "no focus stealing prevention"
+#| msgid "None"
+msgid "No"
+msgstr "ਕੋਈ ਨਹੀਂ"

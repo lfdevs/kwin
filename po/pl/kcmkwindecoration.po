@@ -1,5 +1,5 @@
 # translation of kcmkwindecoration.po to Polish
-# Version: $Revision: 1413349 $
+# Version: $Revision: 1413456 $
 # translation of kcmkwindecoration.po to
 # Norbert Popiołek <norbert@kde.com.pl>\n"
 # Michał Rudolf <mrudolf@kdewebdev.org>, 2002.
@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
 "PO-Revision-Date: 2015-01-24 09:00+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -69,7 +69,7 @@ msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
 msgstr ""
-"Zamknij poprzez podwójne naciśnięcie:\n"
+"Zamknij poprzez dwukrotne naciśnięcie:\n"
 " Aby otworzyć menu, trzymaj przycisk wciśniętym dopóki się nie pokaże."
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-02 09:35+0000\n"
+"POT-Creation-Date: 2015-05-16 12:24+0000\n"
 "PO-Revision-Date: 2014-08-12 21:38+0200\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -47,7 +47,7 @@ msgstr "Sterkt uthevet"
 msgid "Save intermediate rendering results."
 msgstr "Lagre mellomresultater fra opptegning."
 
-#: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Vis skrivebord"
@@ -1169,7 +1169,7 @@ msgstr "Slå av/på nærværende vinduer  (alle skrivebord) "
 msgid "Toggle Present Windows (Window class)"
 msgstr "Slå av/på nærværende vinduer (Vindusklasse) "
 
-#: presentwindows/presentwindows.cpp:1551
+#: presentwindows/presentwindows.cpp:1560
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1536,7 +1536,7 @@ msgstr "Sprettoppmenyer:"
 msgid "Torn-off menus:"
 msgstr "Avrevne menyer:"
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:61
 msgid "Toggle window geometry display (effect only)"
 msgstr "Slå på/av visning av vindusgeometri (bare effekt)"
 
@@ -1604,27 +1604,27 @@ msgstr "Mindre"
 msgid "More"
 msgstr "Mer"
 
-#: zoom/zoom.cpp:86
+#: zoom/zoom.cpp:84
 msgid "Move Zoomed Area to Left"
 msgstr "Flytt forstørret område mot venstre"
 
-#: zoom/zoom.cpp:94
+#: zoom/zoom.cpp:92
 msgid "Move Zoomed Area to Right"
 msgstr "Flytt forstørret område mot høyre"
 
-#: zoom/zoom.cpp:102
+#: zoom/zoom.cpp:100
 msgid "Move Zoomed Area Upwards"
 msgstr "Flytt forstørret område oppover"
 
-#: zoom/zoom.cpp:110
+#: zoom/zoom.cpp:108
 msgid "Move Zoomed Area Downwards"
 msgstr "Flytt forstørret område nedover"
 
-#: zoom/zoom.cpp:119 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
 msgid "Move Mouse to Focus"
 msgstr "Flytt mus til fokus"
 
-#: zoom/zoom.cpp:127 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
 msgid "Move Mouse to Center"
 msgstr "Flytt mus til senter"
 

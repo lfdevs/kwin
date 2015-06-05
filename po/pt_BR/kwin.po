@@ -12,13 +12,12 @@
 # Fernando Boaglio <boaglio@kde.org>, 2008.
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
 # Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2009, 2010, 2012.
-# Aracele Torres <aracele@kde.org>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-18 09:50+0000\n"
-"PO-Revision-Date: 2015-01-12 23:36-0200\n"
+"POT-Creation-Date: 2015-05-20 10:44+0000\n"
+"PO-Revision-Date: 2015-05-09 22:43-0300\n"
 "Last-Translator: André Marcelo Alvarenga <alvarenga@kde.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_br@kde.org>\n"
 "Language: pt_BR\n"
@@ -32,15 +31,15 @@ msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 "Diniz Bortolotto, Rodrigo Stulzer Lopes, Lisiane Sztoltz Teixeira, André "
-"Marcelo Alvarenga, Aracele Torres"
+"Marcelo Alvarenga"
 
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
 "diniz.bortolotto@gmail.com, rodrigo@conectiva.com.br, lisiane@kdemail.net, "
-"alvarenga@kde.org, aracele@kde.org"
+"alvarenga@kde.org"
 
-#: composite.cpp:503
+#: composite.cpp:545
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -308,121 +307,129 @@ msgid "Quick Tile Window to the Right"
 msgstr "Colocar a janela lado a lado à direita"
 
 #: kwinbindings.cpp:100
+msgid "Quick Tile Window to the Top"
+msgstr "Colocar a janela lado a lado parte superior"
+
+#: kwinbindings.cpp:102
+msgid "Quick Tile Window to the Bottom"
+msgstr "Colocar a janela lado a lado na parte inferior"
+
+#: kwinbindings.cpp:104
 msgid "Quick Tile Window to the Top Left"
 msgstr "Colocar a janela lado a lado parte superior à esquerda"
 
-#: kwinbindings.cpp:102
+#: kwinbindings.cpp:106
 msgid "Quick Tile Window to the Bottom Left"
 msgstr "Colocar a janela lado a lado na parte inferior à esquerda"
 
-#: kwinbindings.cpp:104
+#: kwinbindings.cpp:108
 msgid "Quick Tile Window to the Top Right"
 msgstr "Colocar a janela lado a lado na parte de cima à direita"
 
-#: kwinbindings.cpp:106
+#: kwinbindings.cpp:110
 msgid "Quick Tile Window to the Bottom Right"
 msgstr "Colocar a janela lado a lado na parte inferior à direita"
 
-#: kwinbindings.cpp:108
+#: kwinbindings.cpp:112
 msgid "Switch to Window Above"
 msgstr "Mudar para a janela acima"
 
-#: kwinbindings.cpp:110
+#: kwinbindings.cpp:114
 msgid "Switch to Window Below"
 msgstr "Mudar para a janela abaixo"
 
-#: kwinbindings.cpp:112
+#: kwinbindings.cpp:116
 msgid "Switch to Window to the Right"
 msgstr "Mudar para a janela à direita"
 
-#: kwinbindings.cpp:114
+#: kwinbindings.cpp:118
 msgid "Switch to Window to the Left"
 msgstr "Mudar para a janela à esquerda"
 
-#: kwinbindings.cpp:116
+#: kwinbindings.cpp:120
 msgid "Increase Opacity of Active Window by 5 %"
 msgstr "Aumentar a opacidade da janela ativa em 5%"
 
-#: kwinbindings.cpp:118
+#: kwinbindings.cpp:122
 msgid "Decrease Opacity of Active Window by 5 %"
 msgstr "Diminuir a opacidade da janela ativa em 5%"
 
-#: kwinbindings.cpp:121
+#: kwinbindings.cpp:125
 msgid "Keep Window on All Desktops"
 msgstr "Manter janela em todas as áreas de trabalho"
 
-#: kwinbindings.cpp:125
+#: kwinbindings.cpp:129
 #, kde-format
 msgid "Window to Desktop %1"
 msgstr "Janela para a área de trabalho %1"
 
-#: kwinbindings.cpp:127
+#: kwinbindings.cpp:131
 msgid "Window to Next Desktop"
 msgstr "Janela para a próxima área de trabalho"
 
-#: kwinbindings.cpp:128
+#: kwinbindings.cpp:132
 msgid "Window to Previous Desktop"
 msgstr "Janela para a área de trabalho anterior"
 
-#: kwinbindings.cpp:129
+#: kwinbindings.cpp:133
 msgid "Window One Desktop to the Right"
 msgstr "Janela em uma área de trabalho à direita"
 
-#: kwinbindings.cpp:130
+#: kwinbindings.cpp:134
 msgid "Window One Desktop to the Left"
 msgstr "Janela em uma área de trabalho à esquerda"
 
-#: kwinbindings.cpp:131
+#: kwinbindings.cpp:135
 msgid "Window One Desktop Up"
 msgstr "Janela em uma área de trabalho acima"
 
-#: kwinbindings.cpp:132
+#: kwinbindings.cpp:136
 msgid "Window One Desktop Down"
 msgstr "Janela em uma área de trabalho abaixo"
 
-#: kwinbindings.cpp:135
+#: kwinbindings.cpp:139
 #, kde-format
 msgid "Window to Screen %1"
 msgstr "Janela para a tela %1"
 
-#: kwinbindings.cpp:137
+#: kwinbindings.cpp:141
 msgid "Window to Next Screen"
 msgstr "Janela para a próxima tela"
 
-#: kwinbindings.cpp:138
+#: kwinbindings.cpp:142
 msgid "Window to Previous Screen"
 msgstr "Janela para a tela anterior"
 
-#: kwinbindings.cpp:139
+#: kwinbindings.cpp:143
 msgid "Show Desktop"
 msgstr "Exibir a área de trabalho"
 
-#: kwinbindings.cpp:142
+#: kwinbindings.cpp:146
 #, kde-format
 msgid "Switch to Screen %1"
 msgstr "Mudar para a tela %1"
 
-#: kwinbindings.cpp:145
+#: kwinbindings.cpp:149
 msgid "Switch to Next Screen"
 msgstr "Mudar para a próxima tela"
 
-#: kwinbindings.cpp:146
+#: kwinbindings.cpp:150
 msgid "Switch to Previous Screen"
 msgstr "Mudar para a tela anterior"
 
-#: kwinbindings.cpp:148
+#: kwinbindings.cpp:152
 msgid "Kill Window"
 msgstr "Matar janela"
 
-#: kwinbindings.cpp:149
+#: kwinbindings.cpp:153
 msgid "Suspend Compositing"
 msgstr "Suspender composição"
 
-#: kwinbindings.cpp:150
+#: kwinbindings.cpp:154
 msgid "Invert Screen Colors"
 msgstr "Inverter cores da tela"
 
-#: main.cpp:78
+#: main.cpp:90
 msgid ""
 "KWin is unstable.\n"
 "It seems to have crashed several times in a row.\n"
@@ -432,76 +439,104 @@ msgstr ""
 "Ele parece ter travado várias vezes em seguida.\n"
 "Você pode selecionar outro gerenciador de janelas para executar:"
 
-#: main.cpp:260 main.cpp:287
+#: main.cpp:272 main.cpp:299
 msgid "KDE window manager"
 msgstr "Gerenciador de janelas do KDE"
 
-#: main.cpp:265
+#: main.cpp:277
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:269
+#: main.cpp:281
 msgid "(c) 1999-2013, The KDE Developers"
 msgstr "(c) 1999-2013, dos desenvolvedores do KDE"
 
-#: main.cpp:271
+#: main.cpp:283
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:272
+#: main.cpp:284
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:273
+#: main.cpp:285
 msgid "Daniel M. Duley"
 msgstr "Daniel M. Duley"
 
-#: main.cpp:274
+#: main.cpp:286
 msgid "Luboš Luňák"
 msgstr "Luboš Luňák"
 
-#: main.cpp:275
+#: main.cpp:287
 msgid "Martin Gräßlin"
 msgstr "Martin Gräßlin"
 
-#: main.cpp:275
+#: main.cpp:287
 msgid "Maintainer"
 msgstr "Mantenedor"
 
-#: main.cpp:284
+#: main.cpp:296
 msgid "Disable configuration options"
 msgstr "Desabilita as opções de configuração"
 
-#: main.cpp:285
+#: main.cpp:297
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Indica que o KWin travou recentemente 'n' vezes"
 
-#: main_wayland.cpp:88
-msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
-msgstr ""
-"kwin_wayland: um gerenciador de janelas X11 está em execução no X11 "
-"Display. \n"
-
-#: main_wayland.cpp:96
+#: main_wayland.cpp:106
 msgid ""
 "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
 "set.\n"
 msgstr ""
-"kwin_wayland: não foi possível conectar ao Servidor Wayland, certifique-se "
-"de o WAYLAND_DISPLAY está configurado.\n"
+"kwin_wayland: Não foi possível estabelecer conexão com o servidor Wayland, "
+"verifique se o WAYLAND_DISPLAY está definido.\n"
 
-#: main_wayland.cpp:235
-msgid "Start a nested X Server."
-msgstr "Iniciar um Servidor X encadeado."
-
-#: main_wayland.cpp:238
-msgid ""
-"The X11 Display to connect to. If not set next free number will be picked."
+#: main_wayland.cpp:213
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr ""
-"Display X11 para conectar-se. Se não for definido, será usado o próximo "
-"número disponível."
+"kwin_wayland: Um gerenciador de janelas X11 está em execução no X11 "
+"Display.\n"
 
-#: main_wayland.cpp:247
+#: main_wayland.cpp:384
+msgid "Start a rootless Xwayland server."
+msgstr "Iniciar um servidor de Xwayland sem 'root'."
+
+#: main_wayland.cpp:386
+msgid ""
+"Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
+msgstr ""
+"Nome do socket do Wayland onde atender pedidos. Se não for definido, será "
+"usado o \"wayland-0\"."
+
+#: main_wayland.cpp:389
+msgid "Use a nested compositor in windowed mode."
+msgstr "Usar um compositor encadeado no modo em janelas."
+
+#: main_wayland.cpp:391
+msgid "Render to framebuffer."
+msgstr "Renderizar no framebuffer."
+
+#: main_wayland.cpp:393
+msgid "The framebuffer device to render to."
+msgstr "O dispositivo framebuffer onde renderizar."
+
+#: main_wayland.cpp:397
+msgid "The X11 Display to use in windowed mode on platform X11."
+msgstr "O Display X11 a usar no modo em janelas da plataforma X11."
+
+#: main_wayland.cpp:400
+msgid "The Wayland Display to use in windowed mode on platform Wayland."
+msgstr "O Display Wayland a usar no modo em janelas da plataforma Wayland."
+
+#: main_wayland.cpp:403
+msgid "The width for windowed mode. Default width is 1024."
+msgstr "A largura do modo em janelas. A largura padrão é 1024."
+
+#: main_wayland.cpp:407
+msgid "The height for windowed mode. Default height is 768."
+msgstr "A altura do modo em janelas. A altura padrão é 768."
+
+#: main_wayland.cpp:424
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
@@ -509,7 +544,7 @@ msgstr ""
 "Ativa o suporte à libinput, que processa os eventos de entrada. Nota: Nunca "
 "use em uma sessão encadeada."
 
-#: main_x11.cpp:149
+#: main_x11.cpp:151
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
@@ -517,24 +552,24 @@ msgstr ""
 "kwin: impossível chamar a o gerenciador de seleção, outro gerenciador sendo "
 "executado? (tente usando --replace)\n"
 
-#: main_x11.cpp:166
+#: main_x11.cpp:168
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "kwin: outro gerenciador de janelas está em execução (tente usar o --"
 "replace)\n"
 
-#: main_x11.cpp:261
+#: main_x11.cpp:270
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr ""
 "Substitui o gerenciador de janelas compatível com ICCCM2.0 que já está em "
 "execução"
 
-#: scene_opengl.cpp:610
+#: scene_opengl.cpp:620
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
 "Os efeitos da área de trabalho foram reiniciados devido a um reinício gráfico"
 
-#: scene_opengl.cpp:774
+#: scene_opengl.cpp:784
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -549,7 +584,7 @@ msgstr ""
 "também poderá ficar muito lento para esta resolução.<br/>Alternativamente, "
 "reduza a resolução combinada de todas as telas para %1x%2 "
 
-#: scene_opengl.cpp:781
+#: scene_opengl.cpp:791
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
 "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
@@ -562,7 +597,7 @@ msgstr ""
 "impacto pelas limitações do hardware que restringem o tamanho da área de "
 "visualização do OpenGL."
 
-#: scene_opengl.cpp:806
+#: scene_opengl.cpp:816
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -577,7 +612,7 @@ msgstr ""
 "composição gráfica, mudar para a infraestrutura XRender ou reduzir a "
 "resolução para %1x%1."
 
-#: scene_opengl.cpp:812
+#: scene_opengl.cpp:822
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
 "GPU, thus windows of that size cannot be assigned to textures and will be "
@@ -636,60 +671,60 @@ msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
 msgstr "O %1 não é um tipo variante"
 
-#: tabbox/tabbox.cpp:347
+#: tabbox/tabbox.cpp:358
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Exibir a área de trabalho"
 
-#: tabbox/tabbox.cpp:498
+#: tabbox/tabbox.cpp:508
 msgid "Walk Through Windows"
 msgstr "Passear pelas janelas"
 
-#: tabbox/tabbox.cpp:499
+#: tabbox/tabbox.cpp:509
 msgid "Walk Through Windows (Reverse)"
 msgstr "Passear pelas janelas (sentido inverso)"
 
-#: tabbox/tabbox.cpp:500
+#: tabbox/tabbox.cpp:510
 msgid "Walk Through Windows Alternative"
 msgstr "Passear pelas janelas alternativo"
 
-#: tabbox/tabbox.cpp:501
+#: tabbox/tabbox.cpp:511
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Passear pelas janelas alternativo (reverso)"
 
-#: tabbox/tabbox.cpp:502
+#: tabbox/tabbox.cpp:512
 msgid "Walk Through Windows of Current Application"
 msgstr "Passear pelas janelas do aplicativo atual"
 
-#: tabbox/tabbox.cpp:503
+#: tabbox/tabbox.cpp:513
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Passear pelas janelas do aplicativo atual (reverso)"
 
-#: tabbox/tabbox.cpp:504
+#: tabbox/tabbox.cpp:514
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Passear pelas janelas do aplicativo atual alternativo"
 
-#: tabbox/tabbox.cpp:505
+#: tabbox/tabbox.cpp:515
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "Passear pelas janelas do aplicativo atual alternativo (reverso)"
 
-#: tabbox/tabbox.cpp:506
+#: tabbox/tabbox.cpp:516
 msgid "Walk Through Desktops"
 msgstr "Passear pelas áreas de trabalho"
 
-#: tabbox/tabbox.cpp:507
+#: tabbox/tabbox.cpp:517
 msgid "Walk Through Desktops (Reverse)"
 msgstr "Passear pelas áreas de trabalho (reverso)"
 
-#: tabbox/tabbox.cpp:508
+#: tabbox/tabbox.cpp:518
 msgid "Walk Through Desktop List"
 msgstr "Passear pela lista de áreas de trabalho"
 
-#: tabbox/tabbox.cpp:509
+#: tabbox/tabbox.cpp:519
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Passear pela lista de áreas de trabalho (reverso)"
 
-#: tabbox/tabboxhandler.cpp:278
+#: tabbox/tabboxhandler.cpp:285
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
@@ -698,7 +733,7 @@ msgstr ""
 "recursos.\n"
 "Entre em contato com a sua distribuição sobre isto."
 
-#: useractions.cpp:185
+#: useractions.cpp:181
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -711,7 +746,7 @@ msgstr ""
 "Em vez disto, use o menu de operações de janela, que é ativado com o atalho "
 "%1."
 
-#: useractions.cpp:193
+#: useractions.cpp:189
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -724,153 +759,153 @@ msgstr ""
 "você não será capaz de desabilitar novamente, usando o mouse. Em vez disto, "
 "use o menu de operações de janela, ativado utilizando o atalho de teclado %1."
 
-#: useractions.cpp:256
+#: useractions.cpp:252
 msgid "&Move"
 msgstr "&Mover"
 
-#: useractions.cpp:261
+#: useractions.cpp:257
 msgid "Re&size"
 msgstr "&Redimensionar"
 
-#: useractions.cpp:265
+#: useractions.cpp:261
 msgid "Keep &Above Others"
 msgstr "Manter &acima das outras"
 
-#: useractions.cpp:271
+#: useractions.cpp:267
 msgid "Keep &Below Others"
 msgstr "Manter a&baixo das outras"
 
-#: useractions.cpp:277
+#: useractions.cpp:273
 msgid "&Fullscreen"
 msgstr "Tela &cheia"
 
-#: useractions.cpp:283
+#: useractions.cpp:279
 msgid "Sh&ade"
 msgstr "&Enrolar"
 
-#: useractions.cpp:288
+#: useractions.cpp:284
 msgid "&No Border"
 msgstr "&Sem borda"
 
-#: useractions.cpp:295
+#: useractions.cpp:291
 msgid "Window &Shortcut..."
 msgstr "&Atalho da janela..."
 
-#: useractions.cpp:300
+#: useractions.cpp:296
 msgid "&Special Window Settings..."
 msgstr "&Configurações especiais da janela..."
 
-#: useractions.cpp:304
+#: useractions.cpp:300
 msgid "S&pecial Application Settings..."
 msgstr "Configurações es&peciais do aplicativo..."
 
-#: useractions.cpp:311
+#: useractions.cpp:307
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
 msgid "Window &Manager Settings..."
 msgstr "&Configurações do gerenciador de janelas..."
 
-#: useractions.cpp:326
+#: useractions.cpp:322
 msgid "Mi&nimize"
 msgstr "Mi&nimizar"
 
-#: useractions.cpp:330
+#: useractions.cpp:326
 msgid "Ma&ximize"
 msgstr "Ma&ximizar"
 
-#: useractions.cpp:339
+#: useractions.cpp:335
 msgid "&Untab"
 msgstr "&Retirar a aba"
 
-#: useractions.cpp:343
+#: useractions.cpp:339
 msgid "Close Entire &Group"
 msgstr "Fechar o &grupo inteiro"
 
-#: useractions.cpp:354
+#: useractions.cpp:350
 msgid "&More Actions"
 msgstr "&Mais ações"
 
-#: useractions.cpp:358
+#: useractions.cpp:354
 msgid "&Close"
 msgstr "Fe&char"
 
-#: useractions.cpp:431
+#: useractions.cpp:427
 msgid "&Extensions"
 msgstr "&Extensões"
 
-#: useractions.cpp:486
+#: useractions.cpp:482
 msgctxt "Switch to tab -> Previous"
 msgid "Previous"
 msgstr "Anterior"
 
-#: useractions.cpp:487
+#: useractions.cpp:483
 msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr "Próximo"
 
-#: useractions.cpp:525
+#: useractions.cpp:521
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr "Nenhuma disponível"
 
-#: useractions.cpp:534
+#: useractions.cpp:530
 msgid "Switch to Tab"
 msgstr "Mudar para a aba"
 
-#: useractions.cpp:545
+#: useractions.cpp:541
 msgid "&Attach as tab to"
 msgstr "&Anexar como aba em"
 
-#: useractions.cpp:568
+#: useractions.cpp:564
 msgid "Move To &Desktop"
 msgstr "Mover &para a área de trabalho"
 
-#: useractions.cpp:584
+#: useractions.cpp:580
 msgid "Move To &Screen"
 msgstr "Mover para &tela"
 
-#: useractions.cpp:599
+#: useractions.cpp:595
 msgid "Ac&tivities"
 msgstr "A&tividades"
 
-#: useractions.cpp:611
+#: useractions.cpp:607
 msgid "&All Desktops"
 msgstr "&Todas as áreas de trabalho"
 
-#: useractions.cpp:637
+#: useractions.cpp:633
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "&Nova área de trabalho"
 
-#: useractions.cpp:658
+#: useractions.cpp:654
 #, kde-format
 msgctxt "@item:inmenu List of all Screens to send a window to"
 msgid "Screen &%1"
 msgstr "Tela &%1"
 
-#: useractions.cpp:676
+#: useractions.cpp:672
 msgid "&All Activities"
 msgstr "Tod&as as atividades"
 
-#: useractions.cpp:883
+#: useractions.cpp:879
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "O <b>%1</b> já está em uso"
 
-#: useractions.cpp:885
+#: useractions.cpp:881
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "O <b>%1</b> está em uso por %2 em %3"
 
-#: useractions.cpp:1008
+#: useractions.cpp:1003
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Ativar a janela (%1)"
 
-#: useractions.cpp:1381
+#: useractions.cpp:1376
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
 "as active one.\n"
@@ -883,7 +918,7 @@ msgstr ""
 #: virtualdesktops.cpp:334 virtualdesktops.cpp:396
 #, kde-format
 msgid "Desktop %1"
-msgstr "Área de trabalho %1"
+msgstr "Área de Trabalho %1"
 
 #: virtualdesktops.cpp:427
 msgid "Switch to Next Desktop"
@@ -914,7 +949,7 @@ msgstr "Mudar para a área de trabalho abaixo"
 msgid "Switch to Desktop %1"
 msgstr "Mudar para a área de trabalho %1"
 
-#: workspace.cpp:1317
+#: workspace.cpp:1258
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

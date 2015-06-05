@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
 "PO-Revision-Date: 2012-01-05 22:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -54,14 +54,12 @@ msgid "Shade"
 msgstr "Fald saman"
 
 #: declarative-plugin/buttonsmodel.cpp:83
-#, fuzzy
 msgid "Keep below"
-msgstr "Hald under andre"
+msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:85
-#, fuzzy
 msgid "Keep above"
-msgstr "Hald over andre"
+msgstr ""
 
 #: kcm.cpp:106
 msgid ""
@@ -81,16 +79,14 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kcm.ui:56
-#, fuzzy
 msgid "Border si&ze:"
-msgstr "&Kantlinjestorleik:"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:67
-#, fuzzy
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
-msgstr "&Kantlinjestorleik:"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:72
@@ -142,9 +138,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: kcm.ui:125
-#, fuzzy
 msgid "Close windows by double clicking &the menu button:"
-msgstr "Lukk vindauga ved dobbeltklikk på menyknappen"
+msgstr ""
 
 #: qml/Buttons.qml:74
 msgid "Titlebar"

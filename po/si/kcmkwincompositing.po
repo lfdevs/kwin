@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-05 09:36+0000\n"
+"POT-Creation-Date: 2015-02-05 07:54+0000\n"
 "PO-Revision-Date: 2011-08-03 15:35+0530\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <danishka@gmail.com>\n"
@@ -19,11 +19,13 @@ msgstr ""
 
 #: compositing.cpp:387
 #, fuzzy
+#| msgid "OpenGL"
 msgid "OpenGL 3.1"
 msgstr "OpenGL"
 
 #: compositing.cpp:388
 #, fuzzy
+#| msgid "OpenGL"
 msgid "OpenGL 2.0"
 msgstr "OpenGL"
 
@@ -42,14 +44,17 @@ msgid "GLX"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
-#: compositing.ui:20 qml/CompositingView.qml:55
+#: compositing.ui:20
 #, fuzzy
+#| msgctxt "@option:check"
+#| msgid "Enable desktop effects at startup"
 msgid "Enable compositor on startup"
 msgstr "ආරම්භයේදී වැඩතල සැරසිලි සක්‍රීය කරන්න"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:27
 #, fuzzy
+#| msgid "Animation speed:"
 msgid "Animation speed:"
 msgstr "සජීවීකරණ වේගය:"
 
@@ -61,6 +66,7 @@ msgstr "ක්‍ෂණික"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
 #, fuzzy
+#| msgid "Very Slow"
 msgid "Very slow"
 msgstr "ඉතා සෙමින්"
 
@@ -68,33 +74,33 @@ msgstr "ඉතා සෙමින්"
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
 #: compositing.ui:85 compositing.ui:111
 #, fuzzy
+#| msgid "Scale method:"
 msgid "Scale method:"
 msgstr "ප්‍රමාණකරන ක්‍රමය:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:93 compositing.ui:119 qml/CompositingView.qml:113
-#: qml/CompositingView.qml:127
+#: compositing.ui:93 compositing.ui:119
 msgid "Crisp"
 msgstr "ක්‍රිස්පි"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:98 qml/CompositingView.qml:113
+#: compositing.ui:98
 msgid "Smooth"
 msgstr "මෘදු"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:103 qml/CompositingView.qml:113
+#: compositing.ui:103
 msgid "Accurate"
 msgstr "නිරවද්‍ය"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:124 qml/CompositingView.qml:127
+#: compositing.ui:124
 msgid "Smooth (slower)"
 msgstr "මෘදු (සෙමින්)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: compositing.ui:139 qml/CompositingView.qml:81
+#: compositing.ui:139
 msgid "Rendering backend:"
 msgstr ""
 
@@ -110,41 +116,49 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:167 compositing.ui:203 qml/CompositingView.qml:141
-#: qml/CompositingView.qml:154
+#: compositing.ui:167 compositing.ui:203
 #, fuzzy
+#| msgctxt ""
+#| "Windows are unmapped as they are requested. This can lead to not having "
+#| "updated thumbnials for windows on other desktops."
+#| msgid "Never"
 msgid "Never"
 msgstr "කිසිදා නැත"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:172 qml/CompositingView.qml:141
+#: compositing.ui:172
 msgid "Automatic"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:177 qml/CompositingView.qml:141
+#: compositing.ui:177
 msgid "Only when cheap"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:182 qml/CompositingView.qml:141
+#: compositing.ui:182
 msgid "Full screen repaints"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:187 qml/CompositingView.qml:141
+#: compositing.ui:187
 msgid "Re-use screen content"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:195
 #, fuzzy
+#| msgid "Keep window thumbnails:"
 msgid "Keep window thumbnails:"
 msgstr "කවුළු කුඩාරූ තබාගන්න:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:208 qml/CompositingView.qml:154
+#: compositing.ui:208
 #, fuzzy
+#| msgctxt ""
+#| "Windows are not unmapped if the window is somewhere visible on any of the "
+#| "virtual desktops."
+#| msgid "Only for Shown Windows"
 msgid "Only for Shown Windows"
 msgstr "පෙන්වන කවුළු සඳහා පමණක්"
 
@@ -154,23 +168,24 @@ msgid "Always"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: compositing.ui:221 qml/CompositingView.qml:175
+#: compositing.ui:221
 msgid "Expert:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
-#: compositing.ui:228 qml/CompositingView.qml:182
+#: compositing.ui:228
 #, fuzzy
+#| msgid "Suspend desktop effects for fullscreen windows"
 msgid "Suspend compositor for full screen windows"
 msgstr "පුළුල්තිර කවුළු සඳහා වැඩතල සැරසිලි නවතන්න"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:235 qml/CompositingView.qml:192
+#: compositing.ui:235
 msgid "Experimental:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:242 qml/CompositingView.qml:200
+#: compositing.ui:242
 msgid "Enable color correction"
 msgstr ""
 
@@ -234,30 +249,35 @@ msgstr ""
 
 #: model.cpp:67
 #, fuzzy
+#| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "පිවිසීමේ හැකියාව"
 
 #: model.cpp:68
 #, fuzzy
+#| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "පෙනුම"
 
 #: model.cpp:69
 #, fuzzy
+#| msgid "Candy"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "කැන්ඩි"
 
 #: model.cpp:70
 #, fuzzy
+#| msgid "Focus"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "නාඹිගතවීම"
 
 #: model.cpp:71
 #, fuzzy
+#| msgid "Tools"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "ආයුධ"
@@ -269,40 +289,13 @@ msgstr ""
 
 #: model.cpp:73
 #, fuzzy
+#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "කවුළු පරිපාලනය"
 
 #: model.cpp:235
 msgid "KWin development team"
-msgstr ""
-
-#: qml/CompositingView.qml:67
-#, fuzzy
-msgid "Animation Speed:"
-msgstr "සජීවීකරණ වේගය:"
-
-#: qml/CompositingView.qml:106 qml/CompositingView.qml:120
-#, fuzzy
-msgid "Scale Method:"
-msgstr "ප්‍රමාණකරන ක්‍රමය:"
-
-#: qml/CompositingView.qml:135
-msgid "Tearing Prevention (VSync):"
-msgstr ""
-
-#: qml/CompositingView.qml:148
-#, fuzzy
-msgid "Keep Window Thumbnails:"
-msgstr "කවුළු කුඩාරූ තබාගන්න:"
-
-#: qml/CompositingView.qml:154
-#, fuzzy
-msgid "Always (Breaks Animations)"
-msgstr "සැමවිටම (කුඩාකිරීම බිඳදමයි)"
-
-#: qml/CompositingView.qml:160
-msgid "OpenGL Platform Interface:"
 msgstr ""
 
 #: qml/Effect.qml:118
@@ -336,5 +329,6 @@ msgstr ""
 
 #: qml/EffectView.qml:105
 #, fuzzy
+#| msgid "No Effect"
 msgid "Get New Effects ..."
 msgstr "සැරසිලි නොමැත"

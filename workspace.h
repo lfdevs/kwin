@@ -58,7 +58,7 @@ class Compositor;
 class X11EventFilter;
 enum class Predicate;
 
-class Workspace : public QObject
+class KWIN_EXPORT Workspace : public QObject
 {
     Q_OBJECT
 public:
@@ -122,6 +122,7 @@ public:
      */
     Unmanaged *findUnmanaged(xcb_window_t w) const;
     void forEachUnmanaged(std::function<void (Unmanaged*)> func);
+    Toplevel *findToplevel(std::function<bool (const Toplevel*)> func) const;
 
     QRect clientArea(clientAreaOption, const QPoint& p, int desktop) const;
     QRect clientArea(clientAreaOption, const Client* c) const;
@@ -176,7 +177,7 @@ public:
     void raiseClientRequest(Client* c, NET::RequestSource src, xcb_timestamp_t timestamp);
     void lowerClientRequest(Client* c, NET::RequestSource src, xcb_timestamp_t timestamp);
     void restackClientUnderActive(Client*);
-    void restack(Client *c, Client *under);
+    void restack(Client *c, Client *under, bool force = false);
     void updateClientLayer(Client* c);
     void raiseOrLowerClient(Client*);
     void resetUpdateToolWindowsTimer();
@@ -276,7 +277,6 @@ public:
     void setCurrentScreen(int new_screen);
 
     void setShowingDesktop(bool showing);
-    void resetShowingDesktop(bool keep_hidden);
     bool showingDesktop() const;
 
     void sendPingToWindow(xcb_window_t w, xcb_timestamp_t timestamp);   // Called from Client::pingWindow()
@@ -371,6 +371,8 @@ public Q_SLOTS:
     void slotWindowShrinkVertical();
     void slotWindowQuickTileLeft();
     void slotWindowQuickTileRight();
+    void slotWindowQuickTileTop();
+    void slotWindowQuickTileBottom();
     void slotWindowQuickTileTopLeft();
     void slotWindowQuickTileTopRight();
     void slotWindowQuickTileBottomLeft();
@@ -450,6 +452,7 @@ Q_SIGNALS:
     void propertyNotify(long a);
     void configChanged();
     void reinitializeCompositing();
+    void showingDesktopChanged(bool showing);
     /**
      * This signels is emitted when ever the stacking order is change, ie. a window is risen
      * or lowered
@@ -532,8 +535,6 @@ private:
     ClientList attention_chain;
 
     bool showing_desktop;
-    ClientList showing_desktop_clients;
-    int block_showing_desktop;
 
     GroupList groups;
 

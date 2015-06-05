@@ -25,7 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config-kwin.h>
 #include "screens_xrandr.h"
 #if HAVE_WAYLAND
-#include "screens_wayland.h"
+#include "abstract_backend.h"
+#include "wayland_server.h"
 #endif
 #ifdef KWIN_UNIT_TEST
 #include <mock_screens.h>
@@ -42,14 +43,15 @@ Screens *Screens::create(QObject *parent)
     s_self = new MockScreens(parent);
 #else
 #if HAVE_WAYLAND
-    if (kwinApp()->operationMode() == Application::OperationModeWaylandAndX11) {
-        s_self = new WaylandScreens(parent);
+    if (kwinApp()->shouldUseWaylandForCompositing()) {
+        s_self = waylandServer()->backend()->createScreens(parent);
     }
 #endif
     if (kwinApp()->operationMode() == Application::OperationModeX11) {
         s_self = new XRandRScreens(parent);
     }
 #endif
+    Q_ASSERT(s_self);
     s_self->init();
     return s_self;
 }
@@ -81,6 +83,18 @@ void Screens::init()
     Settings settings;
     settings.setDefaults();
     m_currentFollowsMouse = settings.activeMouseScreen();
+}
+
+QString Screens::name(int screen) const
+{
+    qWarning("%s::name(int screen) is a stub, please reimplement it!", metaObject()->className());
+    return QLatin1String("DUMMY");
+}
+
+float Screens::refreshRate(int screen) const
+{
+    qWarning("%s::refreshRate(int screen) is a stub, please reimplement it!", metaObject()->className());
+    return 60.0f;
 }
 
 void Screens::reconfigure()

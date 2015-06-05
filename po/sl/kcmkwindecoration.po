@@ -1,7 +1,7 @@
 # translation of kcmkwindecoration.po to
 # Translation of kcmkwindecoration.po to Slovenian
 # SLOVENIAN TRANSLATION OF K DESKTOP ENVIRONMENT.
-# $Id: kcmkwindecoration.po 1413349 2015-01-28 09:47:03Z scripty $
+# $Id: kcmkwindecoration.po 1421055 2015-04-03 08:59:17Z mernik $
 # $Source$
 #
 # Copyright (C) 2001, 2003, 2004, 2005, 2007 Free Software Foundation, Inc.
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
-"PO-Revision-Date: 2015-01-18 12:23+0100\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
+"PO-Revision-Date: 2015-04-03 10:36+0200\n"
 "Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -149,11 +149,11 @@ msgstr "&Zapri okna z dvojnim klikom na menijski gumb:"
 
 #: qml/Buttons.qml:74
 msgid "Titlebar"
-msgstr ""
+msgstr "Naslovna vrstica"
 
 #: qml/Buttons.qml:197
 msgid "Drag buttons between here and the titlebar"
-msgstr ""
+msgstr "Povlecite tukajšnje gumbe do naslovne vrstice in obratno"
 
 #: qml/Buttons.qml:212
 msgid "Drop here to remove button"

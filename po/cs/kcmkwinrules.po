@@ -1,6 +1,6 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013, 2014.
+# Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013, 2014, 2015.
 # Lukáš Tinkl <ltinkl@redhat.com>, 2010, 2011.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012, 2013.
 #
@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-28 15:51+0000\n"
-"PO-Revision-Date: 2014-10-22 12:32+0200\n"
+"POT-Creation-Date: 2015-05-16 12:24+0000\n"
+"PO-Revision-Date: 2015-04-13 12:50+0100\n"
 "Last-Translator: Vít Pelčák <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "X-Language: cs_CZ\n"
 "X-Source-Language: en_US\n"
 
@@ -181,19 +181,19 @@ msgstr "&Jedna zkratka"
 msgid "C&lear"
 msgstr "Vyči&stit"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 msgid "Window-Specific Settings Configuration Module"
 msgstr "Nastavení specifická pro okno"
 
-#: kcm.cpp:51
+#: kcm.cpp:52
 msgid "(c) 2004 KWin and KControl Authors"
 msgstr "(c) 2004 autoři KWin a Ovládacího centra"
 
-#: kcm.cpp:52
+#: kcm.cpp:53
 msgid "Lubos Lunak"
 msgstr "Lubos Lunak"
 
-#: kcm.cpp:83
+#: kcm.cpp:84
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -207,15 +207,15 @@ msgstr ""
 "oken, řiďte se jeho dokumentací. Tam se dozvíte, jak chováni oken upravit.</"
 "p>"
 
-#: kcm.cpp:99
+#: kcm.cpp:100
 msgid "Remember settings separately for every window"
 msgstr "Zapamatovat si nastavení pro každé okno zvlášť"
 
-#: kcm.cpp:100
+#: kcm.cpp:101
 msgid "Show internal settings for remembering"
 msgstr "Zobrazit interní nastavení k zapamatování"
 
-#: kcm.cpp:101
+#: kcm.cpp:102
 msgid "Internal setting for remembering"
 msgstr "Interní nastavení k zapamatování"
 
@@ -303,8 +303,8 @@ msgstr "&Exportovat"
 
 #: ruleswidget.cpp:66
 msgid ""
-"Enable this checkbox to alter this window property for the specified window"
-"(s)."
+"Enable this checkbox to alter this window property for the specified "
+"window(s)."
 msgstr "Povolte ke změně této vlastnosti pro daná okna."
 
 #: ruleswidget.cpp:68
@@ -1120,3 +1120,11 @@ msgstr "P&revence ztráty zaměření"
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
 msgstr "Barevné &schéma titulkového pruhu"
+
+#: yesnobox.h:35
+msgid "Yes"
+msgstr "Ano"
+
+#: yesnobox.h:36
+msgid "No"
+msgstr "Ne"

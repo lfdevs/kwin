@@ -5,13 +5,13 @@
 # Andrej Vernekar <andrej.vernekar@moj.net>, 2004, 2007, 2012, 2013.
 # Gregor Rakar <gregor.rakar@kiss.si>, 2004, 2005.
 # Jure Repinc <jlp@holodeck1.com>, 2005, 2008, 2009, 2010, 2011, 2012, 2013.
-# Andrej Mernik <andrejm@ubuntu.si>, 2013.
+# Andrej Mernik <andrejm@ubuntu.si>, 2013, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-27 20:56+0000\n"
-"PO-Revision-Date: 2013-10-10 17:38+0200\n"
+"POT-Creation-Date: 2015-02-20 09:22+0000\n"
+"PO-Revision-Date: 2015-01-18 11:53+0100\n"
 "Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -21,6 +21,45 @@ msgstr ""
 "X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
+
+#: aurorae/src/aurorae.cpp:703
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "Zelo majhna"
+
+#: aurorae/src/aurorae.cpp:704
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "Običajna"
+
+#: aurorae/src/aurorae.cpp:705
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "Velika"
+
+#: aurorae/src/aurorae.cpp:706
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "Zelo velika"
+
+#: aurorae/src/aurorae.cpp:707
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "Ogromna"
+
+#: aurorae/src/aurorae.cpp:708
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "Velikanska"
+
+#: aurorae/src/aurorae.cpp:709
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "Prevelika"
+
+#: aurorae/src/aurorae.cpp:712
+msgid "Button size:"
+msgstr "Velikost gumbov:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlastikConfigDialog)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14

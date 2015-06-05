@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KWIN_INPUT_H
 #define KWIN_INPUT_H
 #include <kwinglobals.h>
+#include <QAction>
 #include <QHash>
 #include <QObject>
 #include <QPoint>
@@ -27,7 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QWeakPointer>
 #include <config-kwin.h>
 
-class QAction;
 class QKeySequence;
 
 struct xkb_context;
@@ -41,6 +41,11 @@ namespace KWin
 class GlobalShortcutsManager;
 class Toplevel;
 class Xkb;
+
+namespace LibInput
+{
+    class Connection;
+}
 
 /**
  * @brief This class is responsible for redirecting incoming input to the surface which currently
@@ -85,6 +90,16 @@ public:
     Qt::KeyboardModifiers keyboardModifiers() const;
 
     void registerShortcut(const QKeySequence &shortcut, QAction *action);
+    /**
+     * @overload
+     *
+     * Like registerShortcut, but also connects QAction::triggered to the @p slot on @p receiver.
+     * It's recommended to use this method as it ensures that the X11 timestamp is updated prior
+     * to the @p slot being invoked. If not using this overload it's required to ensure that
+     * registerShortcut is called before connecting to QAction's triggered signal.
+     **/
+    template <typename T>
+    void registerShortcut(const QKeySequence &shortcut, QAction *action, T *receiver, void (T::*slot)());
     void registerPointerShortcut(Qt::KeyboardModifiers modifiers, Qt::MouseButton pointerButtons, QAction *action);
     void registerAxisShortcut(Qt::KeyboardModifiers modifiers, PointerAxisDirection axis, QAction *action);
 
@@ -112,6 +127,11 @@ public:
      * @internal
      **/
     void processKeymapChange(int fd, uint32_t size);
+    void processTouchDown(qint32 id, const QPointF &pos, quint32 time);
+    void processTouchUp(qint32 id, quint32 time);
+    void processTouchMotion(qint32 id, const QPointF &pos, quint32 time);
+    void cancelTouch();
+    void touchFrame();
 
     static uint8_t toXPointerButton(uint32_t button);
     static uint8_t toXPointerButton(PointerAxis axis, qreal delta);
@@ -156,8 +176,13 @@ private:
     static Qt::MouseButton buttonToQtMouseButton(uint32_t button);
     Toplevel *findToplevel(const QPoint &pos);
     void setupLibInput();
+    void setupLibInputWithScreens();
     void updatePointerPosition(const QPointF &pos);
     void updatePointerAfterScreenChange();
+    void registerShortcutForGlobalAccelTimestamp(QAction *action);
+    void updateFocusedPointerPosition();
+    void updateFocusedTouchPosition();
+    void updateTouchWindow(const QPointF &pos);
     QPointF m_globalPointer;
     QHash<uint32_t, PointerButtonState> m_pointerButtons;
 #if HAVE_XKB
@@ -167,8 +192,20 @@ private:
      * @brief The Toplevel which currently receives pointer events
      */
     QWeakPointer<Toplevel> m_pointerWindow;
+    /**
+     * @brief The Toplevel which currently receives touch events
+     */
+    QWeakPointer<Toplevel> m_touchWindow;
+    /**
+     * external/kwayland
+     **/
+    QHash<qint32, qint32> m_touchIdMapper;
 
     GlobalShortcutsManager *m_shortcuts;
+
+    QMetaObject::Connection m_sessionControlConnection;
+
+    LibInput::Connection *m_libInput = nullptr;
 
     KWIN_SINGLETON(InputRedirection)
     friend InputRedirection *input();
@@ -188,6 +225,8 @@ public:
     Qt::Key toQtKey(xkb_keysym_t keysym);
     Qt::KeyboardModifiers modifiers() const;
 private:
+    void updateKeymap(xkb_keymap *keymap);
+    void updateModifiers();
     xkb_context *m_context;
     xkb_keymap *m_keymap;
     xkb_state *m_state;
@@ -220,6 +259,13 @@ InputRedirection::PointerButtonState InputRedirection::pointerButtonState(uint32
     } else {
         return KWin::InputRedirection::PointerButtonReleased;
     }
+}
+
+template <typename T>
+inline
+void InputRedirection::registerShortcut(const QKeySequence &shortcut, QAction *action, T *receiver, void (T::*slot)()) {
+    registerShortcut(shortcut, action);
+    connect(action, &QAction::triggered, receiver, slot);
 }
 
 #if HAVE_XKB

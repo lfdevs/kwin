@@ -93,6 +93,7 @@ msgstr ""
 
 #: main.cpp:122 main.cpp:489
 #, fuzzy, kde-format
+#| msgid "Desktop %1"
 msgid "Switch to Desktop %1"
 msgstr "Burèu %1"
 
@@ -122,6 +123,7 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, desktop)
 #: main.ui:33
 #, fuzzy
+#| msgid "Desktop %1"
 msgid "Desktops"
 msgstr "Burèu %1"
 
@@ -150,6 +152,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
 #: main.ui:103
 #, fuzzy
+#| msgid "Desktop %1"
 msgid "Desktop Names"
 msgstr "Burèu %1"
 

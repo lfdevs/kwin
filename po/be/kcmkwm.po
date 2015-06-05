@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-07-04 08:25+0000\n"
+"POT-Creation-Date: 2015-01-14 07:58+0000\n"
 "PO-Revision-Date: 2007-08-26 21:22+0300\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@licei2.com>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -51,6 +51,7 @@ msgstr "Перанесці"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:60 actions.ui:162 actions.ui:325
 #, fuzzy
+#| msgid "Activate"
 msgid "Activate, Raise & Move"
 msgstr "Актывізаваць"
 
@@ -126,6 +127,7 @@ msgstr "Найменшыць"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:90 actions.ui:192 actions.ui:355
 #, fuzzy
+#| msgid "Change Opacity"
 msgid "Decrease Opacity"
 msgstr "Змяніць празрыстасць"
 
@@ -134,6 +136,7 @@ msgstr "Змяніць празрыстасць"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:95 actions.ui:197 actions.ui:360
 #, fuzzy
+#| msgid "Change Opacity"
 msgid "Increase Opacity"
 msgstr "Змяніць празрыстасць"
 
@@ -159,6 +162,7 @@ msgstr "Нічога"
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: actions.ui:108
 #, fuzzy
+#| msgid "Right button:"
 msgid "Ri&ght button:"
 msgstr "Правая кнопка:"
 
@@ -170,6 +174,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:134
 #, fuzzy
+#| msgid "Middle button:"
 msgid "Middle b&utton:"
 msgstr "Сярэдняя кнопка:"
 
@@ -184,6 +189,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: actions.ui:210
 #, fuzzy
+#| msgid "Left button:"
 msgid "&Left button:"
 msgstr "Левая кнопка:"
 
@@ -211,6 +217,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coWin3)
 #: actions.ui:251 actions.ui:454 actions.ui:487
 #, fuzzy
+#| msgid "Activate"
 msgid "Activate & Pass Click"
 msgstr "Актывізаваць"
 
@@ -234,12 +241,14 @@ msgstr "Актывізаваць"
 #: actions.ui:261 actions.ui:464 actions.ui:497 mouse.ui:295 mouse.ui:439
 #: mouse.ui:583
 #, fuzzy
+#| msgid "Activate"
 msgid "Activate & Raise"
 msgstr "Актывізаваць"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: actions.ui:269
 #, fuzzy
+#| msgid "Right button:"
 msgid "&Right button:"
 msgstr "Правая кнопка:"
 
@@ -258,12 +267,14 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:297
 #, fuzzy
+#| msgid "Activate"
 msgid "Activate & Scroll"
 msgstr "Актывізаваць"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:302
 #, fuzzy
+#| msgid "Activate"
 msgid "Activate, Raise & Scroll"
 msgstr "Актывізаваць"
 
@@ -286,6 +297,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:383 mouse.ui:126
 #, fuzzy
+#| msgid "Lower"
 msgid "Raise/Lower"
 msgstr "Пасунуць ніжэй"
 
@@ -299,6 +311,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:393 mouse.ui:136
 #, fuzzy
+#| msgid "Maximize"
 msgid "Maximize/Restore"
 msgstr "Найбольшыць"
 
@@ -343,6 +356,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: actions.ui:505
 #, fuzzy
+#| msgid "Middle button:"
 msgid "M&iddle button:"
 msgstr "Сярэдняя кнопка:"
 
@@ -354,6 +368,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:531
 #, fuzzy
+#| msgid "Left button:"
 msgid "Left &button"
 msgstr "Левая кнопка:"
 
@@ -387,6 +402,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, wtBox)
 #: advanced.ui:43
 #, fuzzy
+#| msgid "Window Actio&ns"
 msgid "Window Tabbing"
 msgstr "Днеянні во&кнаў"
 
@@ -430,11 +446,10 @@ msgid "&Placement:"
 msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, placementCombo)
-#: advanced.ui:122
+#: advanced.ui:121
 msgid ""
 "The placement policy determines where a new window will appear on the "
-"desktop.\n"
-"<ul>\n"
+"desktop.<br><ul>\n"
 "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
 "<li><em>Maximizing</em> will try to maximize every window to fill the whole "
 "screen. It might be useful to selectively affect placement of some windows "
@@ -449,65 +464,66 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:126
+#: advanced.ui:125
 msgid "Smart"
 msgstr "Разумна"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:131
+#: advanced.ui:130
 #, fuzzy
+#| msgid "Maximize"
 msgid "Maximizing"
 msgstr "Найбольшыць"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:136
+#: advanced.ui:135
 msgid "Cascade"
 msgstr "Каскад"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:141
+#: advanced.ui:140
 msgid "Random"
 msgstr "Выпадковыя"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:146
+#: advanced.ui:145
 msgid "Centered"
 msgstr "Пасярэдзіне"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:151
+#: advanced.ui:150
 msgid "Zero-Cornered"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:156
+#: advanced.ui:155
 msgid "Under Mouse"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, shBox)
-#: advanced.ui:167
+#: advanced.ui:166
 msgid "Shading"
 msgstr "Зацяненне"
 
 #. i18n: ectx: property (text), widget (QLabel, shadeHoverLabel)
-#: advanced.ui:176
+#: advanced.ui:175
 msgid "Dela&y:"
 msgstr "За&трымка:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, shadeHoverOn)
-#: advanced.ui:205
+#: advanced.ui:204
 msgid ""
 "If Shade Hover is enabled, a shaded window will un-shade automatically when "
 "the mouse pointer has been over the title bar for some time."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, shadeHoverOn)
-#: advanced.ui:208
+#: advanced.ui:207
 msgid "&Enable hover"
 msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, shadeHover)
-#: advanced.ui:215
+#: advanced.ui:214
 msgid ""
 "Sets the time in milliseconds before the window unshades when the mouse "
 "pointer goes over the shaded window."
@@ -516,19 +532,21 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, delayFocus)
 #. i18n: ectx: property (suffix), widget (QSpinBox, autoRaise)
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadeHover)
-#: advanced.ui:230 focus.ui:250 focus.ui:475
+#: advanced.ui:229 focus.ui:250 focus.ui:475
 #, fuzzy
+#| msgid " msec"
 msgid " ms"
 msgstr " мс"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: advanced.ui:240
+#: advanced.ui:239
 #, fuzzy
+#| msgid "Windows"
 msgid "Special Windows"
 msgstr "Вокны"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, hideUtilityWindowsForInactive)
-#: advanced.ui:249
+#: advanced.ui:248
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
 "inactive applications will be hidden and will be shown only when the "
@@ -537,13 +555,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, hideUtilityWindowsForInactive)
-#: advanced.ui:252
+#: advanced.ui:251
 msgid "Hide utility windows for inactive applications"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: focus.ui:30
 #, fuzzy
+#| msgid "Windows"
 msgid "Activating windows"
 msgstr "Вокны"
 
@@ -664,6 +683,8 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:304
 #, fuzzy
+#| msgctxt "Focus Stealing Prevention Level"
+#| msgid "None"
 msgid "None"
 msgstr "Няма"
 
@@ -671,6 +692,8 @@ msgstr "Няма"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:309
 #, fuzzy
+#| msgctxt "Focus Stealing Prevention Level"
+#| msgid "Low"
 msgid "Low"
 msgstr "Нізкі"
 
@@ -684,6 +707,8 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:319
 #, fuzzy
+#| msgctxt "Focus Stealing Prevention Level"
+#| msgid "High"
 msgid "High"
 msgstr "Высокі"
 
@@ -691,12 +716,15 @@ msgstr "Высокі"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:324
 #, fuzzy
+#| msgctxt "Focus Stealing Prevention Level"
+#| msgid "Extreme"
 msgid "Extreme"
 msgstr "Экстрымальна"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: focus.ui:364
 #, fuzzy
+#| msgid "&Policy:"
 msgid "Policy"
 msgstr "&Палітыка:"
 
@@ -857,6 +885,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.cpp:195 mouse.ui:55
 #, fuzzy
+#| msgid "Maximize"
 msgid "Maximize"
 msgstr "Найбольшыць"
 
@@ -875,6 +904,7 @@ msgstr "Найбольшыць (толькі гарызантальна)"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: mouse.ui:32
 #, fuzzy
+#| msgid "&Titlebar double-click:"
 msgid "&Double-click:"
 msgstr "Падвоеная пстрычка па загалоўку:"
 
@@ -913,6 +943,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.ui:90
 #, fuzzy
+#| msgid "On All Desktops"
 msgid "On All Desktops"
 msgstr "На ўсіх працоўных сталах"
 
@@ -948,6 +979,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: mouse.ui:204
 #, fuzzy
+#| msgid "Active"
 msgid "Inactive"
 msgstr "Актыўная"
 
@@ -984,6 +1016,7 @@ msgstr "Меню аперацый"
 #: mouse.ui:272 mouse.ui:345 mouse.ui:416 mouse.ui:489 mouse.ui:560
 #: mouse.ui:633
 #, fuzzy
+#| msgid "Window Actio&ns"
 msgid "Start Window Tab Drag"
 msgstr "Днеянні во&кнаў"
 
@@ -1001,6 +1034,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
 #: mouse.ui:300 mouse.ui:444 mouse.ui:588
 #, fuzzy
+#| msgid "Activate"
 msgid "Activate & Lower"
 msgstr "Актывізаваць"
 
@@ -1056,12 +1090,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: mouse.ui:783
 #, fuzzy
+#| msgid "&Titlebar Actions"
 msgid "Titlebar"
 msgstr "Дзеянні радку загалоўку"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: mouse.ui:796
 #, fuzzy
+#| msgid "Maximize"
 msgid "Maximize Button"
 msgstr "Найбольшыць"
 

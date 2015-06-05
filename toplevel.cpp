@@ -31,6 +31,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "shadow.h"
 #include "xcbutils.h"
 
+#if HAVE_WAYLAND
+#include <KWayland/Server/surface_interface.h>
+#endif
+
 #include <QDebug>
 
 namespace KWin
@@ -145,10 +149,20 @@ QRect Toplevel::visibleRect() const
     return r.translated(geometry().topLeft());
 }
 
+Xcb::Property Toplevel::fetchWmClientLeader() const
+{
+    return Xcb::Property(false, window(), atoms->wm_client_leader, XCB_ATOM_WINDOW, 0, 10000);
+}
+
+void Toplevel::readWmClientLeader(Xcb::Property &prop)
+{
+    wmClientLeaderWin = prop.value<xcb_window_t>(window());
+}
+
 void Toplevel::getWmClientLeader()
 {
-    Xcb::Property prop(false, window(), atoms->wm_client_leader, XCB_ATOM_WINDOW, 0, 10000);
-    wmClientLeaderWin = prop.value<xcb_window_t>(window());
+    auto prop = fetchWmClientLeader();
+    readWmClientLeader(prop);
 }
 
 /*!
@@ -354,38 +368,11 @@ bool Toplevel::wantsShadowToBeRendered() const
 
 void Toplevel::getWmOpaqueRegion()
 {
-    const int length=32768;
-    unsigned long bytes_after_return=0;
+    const auto rects = info->opaqueRegion();
     QRegion new_opaque_region;
-    do {
-        unsigned long* data;
-        Atom type;
-        int rformat;
-        unsigned long nitems;
-        if (XGetWindowProperty(display(), m_client,
-                               atoms->net_wm_opaque_region, 0, length, false, XCB_ATOM_CARDINAL,
-                               &type, &rformat, &nitems, &bytes_after_return,
-                               reinterpret_cast< unsigned char** >(&data)) == Success) {
-            if (type != XCB_ATOM_CARDINAL || rformat != 32 || nitems%4) {
-                // it can happen, that the window does not provide this property
-                XFree(data);
-                break;
-            }
-
-            for (unsigned int i = 0; i < nitems;) {
-                const int x = data[i++];
-                const int y = data[i++];
-                const int w = data[i++];
-                const int h = data[i++];
-
-                new_opaque_region += QRect(x,y,w,h);
-            }
-            XFree(data);
-        } else {
-            qCWarning(KWIN_CORE) << "XGetWindowProperty failed";
-            break;
-        }
-    } while (bytes_after_return > 0);
+    for (const auto &r : rects) {
+        new_opaque_region += QRect(r.pos.x, r.pos.y, r.size.width, r.size.height);
+    }
 
     opaque_region = new_opaque_region;
 }
@@ -428,10 +415,20 @@ xcb_window_t Toplevel::frameId() const
     return m_client;
 }
 
+Xcb::Property Toplevel::fetchSkipCloseAnimation() const
+{
+    return Xcb::Property(false, window(), atoms->kde_skip_close_animation, XCB_ATOM_CARDINAL, 0, 1);
+}
+
+void Toplevel::readSkipCloseAnimation(Xcb::Property &property)
+{
+    setSkipCloseAnimation(property.toBool());
+}
+
 void Toplevel::getSkipCloseAnimation()
 {
-    Xcb::Property property(false, window(), atoms->kde_skip_close_animation, XCB_ATOM_CARDINAL, 0, 1);
-    setSkipCloseAnimation(property.toBool());
+    Xcb::Property property = fetchSkipCloseAnimation();
+    readSkipCloseAnimation(property);
 }
 
 bool Toplevel::skipsCloseAnimation() const
@@ -448,37 +445,29 @@ void Toplevel::setSkipCloseAnimation(bool set)
     emit skipCloseAnimationChanged();
 }
 
-void Toplevel::sendPointerEnterEvent(const QPointF &globalPos)
+#if HAVE_WAYLAND
+void Toplevel::setSurface(KWayland::Server::SurfaceInterface *surface)
 {
-    Q_UNUSED(globalPos)
+    if (m_surface == surface) {
+        return;
+    }
+    using namespace KWayland::Server;
+    if (m_surface) {
+        disconnect(m_surface, &SurfaceInterface::damaged, this, &Toplevel::addDamage);
+    }
+    m_surface = surface;
+    connect(m_surface, &SurfaceInterface::damaged, this, &Toplevel::addDamage);
 }
+#endif
 
-void Toplevel::sendPointerLeaveEvent(const QPointF &globalPos)
+void Toplevel::addDamage(const QRegion &damage)
 {
-    Q_UNUSED(globalPos)
-}
-
-void Toplevel::sendPointerMoveEvent(const QPointF &globalPos)
-{
-    Q_UNUSED(globalPos)
-}
-
-void Toplevel::sendPointerButtonEvent(uint32_t button, InputRedirection::PointerButtonState state)
-{
-    Q_UNUSED(button)
-    Q_UNUSED(state)
-}
-
-void Toplevel::sendPointerAxisEvent(InputRedirection::PointerAxis axis, qreal delta)
-{
-    Q_UNUSED(axis)
-    Q_UNUSED(delta)
-}
-
-void Toplevel::sendKeybordKeyEvent(uint32_t key, InputRedirection::KeyboardKeyState state)
-{
-    Q_UNUSED(key)
-    Q_UNUSED(state)
+    m_isDamaged = true;
+    damage_region += damage;
+    repaints_region += damage;
+    for (const QRect &r : damage.rects()) {
+        emit damaged(this, r);
+    }
 }
 
 } // namespace

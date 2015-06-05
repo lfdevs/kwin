@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-27 20:56+0000\n"
+"POT-Creation-Date: 2015-02-20 09:22+0000\n"
 "PO-Revision-Date: 2010-01-31 20:50+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh672@gmail.com>\n"
 "Language-Team: Hindi <indlinux-hindi@lists.sourceforge.net>\n"
@@ -19,6 +19,61 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "\n"
+
+#: aurorae/src/aurorae.cpp:703
+#, fuzzy
+#| msgid "Tiny"
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "नन्हा"
+
+#: aurorae/src/aurorae.cpp:704
+#, fuzzy
+#| msgid "Normal"
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "सामान्य"
+
+#: aurorae/src/aurorae.cpp:705
+#, fuzzy
+#| msgid "Large"
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "बड़ा"
+
+#: aurorae/src/aurorae.cpp:706
+#, fuzzy
+#| msgid "Very Large"
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "बहुत बड़ा"
+
+#: aurorae/src/aurorae.cpp:707
+#, fuzzy
+#| msgid "Huge"
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "बहुत बड़ा"
+
+#: aurorae/src/aurorae.cpp:708
+#, fuzzy
+#| msgid "Very Huge"
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "अत्यंत विशाल"
+
+#: aurorae/src/aurorae.cpp:709
+#, fuzzy
+#| msgid "Oversized"
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "बडा आकार"
+
+#: aurorae/src/aurorae.cpp:712
+#, fuzzy
+#| msgid "Button size:"
+msgid "Button size:"
+msgstr "बटन आकार:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlastikConfigDialog)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14
@@ -57,6 +112,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_coloredBorder)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:56
 #, fuzzy
+#| msgid "Colored Window Border"
 msgid "Colored window border"
 msgstr "रंगीन विंडो किनारा"
 

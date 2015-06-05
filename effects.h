@@ -125,7 +125,7 @@ public:
     void stopMousePolling() override;
     EffectWindow* findWindow(WId id) const override;
     EffectWindowList stackingOrder() const override;
-    void setElevatedWindow(EffectWindow* w, bool set) override;
+    void setElevatedWindow(KWin::EffectWindow* w, bool set) override;
 
     void setTabBoxWindow(EffectWindow*) override;
     void setTabBoxDesktop(int) override;
@@ -245,6 +245,8 @@ protected Q_SLOTS:
     void slotPropertyNotify(KWin::Toplevel *t, long atom);
 
 protected:
+    void connectNotify(const QMetaMethod &signal) override;
+    void disconnectNotify(const QMetaMethod &signal) override;
     void effectsChanged();
     void setupClientConnections(KWin::Client *c);
     void setupUnmanagedConnections(KWin::Unmanaged *u);
@@ -276,6 +278,7 @@ private:
     Xcb::Window m_mouseInterceptionWindow;
     QList<Effect*> m_grabbedMouseEffects;
     EffectLoader *m_effectLoader;
+    int m_trackingCursorChanges;
 };
 
 class EffectWindowImpl : public EffectWindow
@@ -459,6 +462,8 @@ private:
 inline
 QList<EffectWindow*> EffectsHandlerImpl::elevatedWindows() const
 {
+    if (isScreenLocked())
+        return QList<EffectWindow*>();
     return elevated_windows;
 }
 

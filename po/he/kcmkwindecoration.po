@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
 "PO-Revision-Date: 2013-02-02 00:52+0200\n"
 "Last-Translator: Diego Iastrubni <elcuco@kde.org>\n"
 "Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
@@ -32,11 +32,14 @@ msgstr "תפריט"
 
 #: declarative-plugin/buttonsmodel.cpp:69
 #, fuzzy
+#| msgctxt "Button showing application menu imported from dbusmenu"
+#| msgid "Application Menu"
 msgid "Application menu"
 msgstr "תפריט היישום"
 
 #: declarative-plugin/buttonsmodel.cpp:71
 #, fuzzy
+#| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "בכל השולחנות עבודה"
 
@@ -62,11 +65,13 @@ msgstr "גלול"
 
 #: declarative-plugin/buttonsmodel.cpp:83
 #, fuzzy
+#| msgid "Keep Below Others"
 msgid "Keep below"
 msgstr "השאר מתחת לאחרים"
 
 #: declarative-plugin/buttonsmodel.cpp:85
 #, fuzzy
+#| msgid "Keep Above Others"
 msgid "Keep above"
 msgstr "השאר מעל לאחרים"
 
@@ -89,12 +94,15 @@ msgstr "קבל קישוטים חדשים..."
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kcm.ui:56
 #, fuzzy
+#| msgid "Border size:"
 msgid "Border si&ze:"
 msgstr "גודל מסגרת: "
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:67
 #, fuzzy
+#| msgctxt "@item:inlistbox Border size:"
+#| msgid "No Border"
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "ללא מסגרת"
@@ -102,6 +110,8 @@ msgstr "ללא מסגרת"
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:72
 #, fuzzy
+#| msgctxt "@item:inlistbox Border size:"
+#| msgid "No Side Border"
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr "ללא מסגרת בצצדים"
@@ -151,6 +161,7 @@ msgstr "גדול מדי"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: kcm.ui:125
 #, fuzzy
+#| msgid "Close windows by double clicking the menu button"
 msgid "Close windows by double clicking &the menu button:"
 msgstr "סגור את החלון באמצעות לחיצה כפולה על תפריט החלון"
 

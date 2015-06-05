@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-07-04 08:25+0000\n"
+"POT-Creation-Date: 2015-01-14 07:58+0000\n"
 "PO-Revision-Date: 2010-06-01 10:33-0700\n"
 "Last-Translator: Deepayan Sarkar <deepayan.sarkar@gmail.com>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -28,6 +28,7 @@ msgstr "anirban@bengalinux.org, deepayan.sarkar@gmail.com"
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: actions.ui:32
 #, fuzzy
+#| msgid "Mouse wheel:"
 msgid "M&ouse wheel:"
 msgstr "মাউস হুইল:"
 
@@ -53,6 +54,7 @@ msgstr "সরাও"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:60 actions.ui:162 actions.ui:325
 #, fuzzy
+#| msgid "Activate, Raise and Move"
 msgid "Activate, Raise & Move"
 msgstr "সক্রিয় কর, তুলে ধর এবং সরাও"
 
@@ -128,6 +130,7 @@ msgstr "ছোট কর"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:90 actions.ui:192 actions.ui:355
 #, fuzzy
+#| msgid "Change Opacity"
 msgid "Decrease Opacity"
 msgstr "স্বচ্ছতা বদলাও"
 
@@ -136,6 +139,7 @@ msgstr "স্বচ্ছতা বদলাও"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:95 actions.ui:197 actions.ui:360
 #, fuzzy
+#| msgid "Change Opacity"
 msgid "Increase Opacity"
 msgstr "স্বচ্ছতা বদলাও"
 
@@ -161,6 +165,7 @@ msgstr "কিছু নয়"
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: actions.ui:108
 #, fuzzy
+#| msgid "Right button:"
 msgid "Ri&ght button:"
 msgstr "ডান বোতাম:"
 
@@ -172,6 +177,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:134
 #, fuzzy
+#| msgid "Middle button:"
 msgid "Middle b&utton:"
 msgstr "মাঝের বোতাম:"
 
@@ -188,12 +194,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: actions.ui:210
 #, fuzzy
+#| msgid "Left button:"
 msgid "&Left button:"
 msgstr "বাঁ বোতাম:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: actions.ui:229
 #, fuzzy
+#| msgid "Inner Window, Titlebar && Frame"
 msgid "Inner Window, Titlebar & Frame"
 msgstr "ভিতরের উইন্ডো, শীর্ষকবার এবং কাঠামো"
 
@@ -245,12 +253,16 @@ msgstr "সক্রিয় কর এবং তুলে ধর"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: actions.ui:269
 #, fuzzy
+#| msgid "Right button:"
 msgid "&Right button:"
 msgstr "ডান বোতাম:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWinWheel)
 #: actions.ui:288
 #, fuzzy
+#| msgid ""
+#| "In this row you can customize left click behavior when clicking into an "
+#| "inactive inner window ('inner' means: not titlebar, not frame)."
 msgid ""
 "In this row you can customize behavior when scrolling into an inactive inner "
 "window ('inner' means: not titlebar, not frame)."
@@ -266,12 +278,14 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:297
 #, fuzzy
+#| msgid "Activate & Lower"
 msgid "Activate & Scroll"
 msgstr "সক্রিয় কর এবং নামাও"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:302
 #, fuzzy
+#| msgid "Activate, Raise and Move"
 msgid "Activate, Raise & Scroll"
 msgstr "সক্রিয় কর, তুলে ধর এবং সরাও"
 
@@ -299,6 +313,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:383 mouse.ui:126
 #, fuzzy
+#| msgid "Toggle Raise & Lower"
 msgid "Raise/Lower"
 msgstr "ওঠানো বা নামানোর মধ্যে পরিবর্তন কর"
 
@@ -359,6 +374,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: actions.ui:505
 #, fuzzy
+#| msgid "Middle button:"
 msgid "M&iddle button:"
 msgstr "মাঝের বোতাম:"
 
@@ -370,12 +386,14 @@ msgstr "নিষ্ক্রিয় ভিতরের উইন্ডো"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:531
 #, fuzzy
+#| msgid "Left button:"
 msgid "Left &button"
 msgstr "বাঁ বোতাম:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:561
 #, fuzzy
+#| msgid "Modifier key:"
 msgid "Modifier &key:"
 msgstr "পরিবর্তক কী(key):"
 
@@ -448,12 +466,11 @@ msgid "&Placement:"
 msgstr "সংস্থাপ&ন"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, placementCombo)
-#: advanced.ui:122
+#: advanced.ui:121
 #, fuzzy
 msgid ""
 "The placement policy determines where a new window will appear on the "
-"desktop.\n"
-"<ul>\n"
+"desktop.<br><ul>\n"
 "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
 "<li><em>Maximizing</em> will try to maximize every window to fill the whole "
 "screen. It might be useful to selectively affect placement of some windows "
@@ -472,53 +489,54 @@ msgstr ""
 "li><li><em>এলোমেলো</em> যে কোনো একটি স্থানে উইন্ডোটিকে রাখবে</li></ul>"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:126
+#: advanced.ui:125
 msgid "Smart"
 msgstr "বুদ্ধিমান"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:131
+#: advanced.ui:130
 msgid "Maximizing"
 msgstr "যথাসম্ভব বড় করা"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:136
+#: advanced.ui:135
 msgid "Cascade"
 msgstr "গুচ্ছাকার"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:141
+#: advanced.ui:140
 msgid "Random"
 msgstr "এলোমেলো"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:146
+#: advanced.ui:145
 msgid "Centered"
 msgstr "কেন্দ্রীয়"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:151
+#: advanced.ui:150
 msgid "Zero-Cornered"
 msgstr "শুন্য কোণবিশিষ্ট"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:156
+#: advanced.ui:155
 #, fuzzy
+#| msgid "Focus Under Mouse"
 msgid "Under Mouse"
 msgstr "মাউসের নিচে ফোকাস"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shBox)
-#: advanced.ui:167
+#: advanced.ui:166
 msgid "Shading"
 msgstr "ছায়াবৃতকরণ"
 
 #. i18n: ectx: property (text), widget (QLabel, shadeHoverLabel)
-#: advanced.ui:176
+#: advanced.ui:175
 msgid "Dela&y:"
 msgstr "বি&লম্ব"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, shadeHoverOn)
-#: advanced.ui:205
+#: advanced.ui:204
 msgid ""
 "If Shade Hover is enabled, a shaded window will un-shade automatically when "
 "the mouse pointer has been over the title bar for some time."
@@ -527,12 +545,12 @@ msgstr ""
 "কিছুক্ষন রাখলেই সেটি আপনা থেকে ছড়িয়ে যাবে"
 
 #. i18n: ectx: property (text), widget (QCheckBox, shadeHoverOn)
-#: advanced.ui:208
+#: advanced.ui:207
 msgid "&Enable hover"
 msgstr "হোভার কার্য&কর কর"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, shadeHover)
-#: advanced.ui:215
+#: advanced.ui:214
 msgid ""
 "Sets the time in milliseconds before the window unshades when the mouse "
 "pointer goes over the shaded window."
@@ -543,18 +561,19 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, delayFocus)
 #. i18n: ectx: property (suffix), widget (QSpinBox, autoRaise)
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadeHover)
-#: advanced.ui:230 focus.ui:250 focus.ui:475
+#: advanced.ui:229 focus.ui:250 focus.ui:475
 msgid " ms"
 msgstr " মাইক্রোসেকেন্ড"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: advanced.ui:240
+#: advanced.ui:239
 #, fuzzy
+#| msgid "Windows"
 msgid "Special Windows"
 msgstr "উইন্ডোসমূহ"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, hideUtilityWindowsForInactive)
-#: advanced.ui:249
+#: advanced.ui:248
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
 "inactive applications will be hidden and will be shown only when the "
@@ -563,13 +582,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, hideUtilityWindowsForInactive)
-#: advanced.ui:252
+#: advanced.ui:251
 msgid "Hide utility windows for inactive applications"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: focus.ui:30
 #, fuzzy
+#| msgid "Active windows:"
 msgid "Activating windows"
 msgstr "সক্রিয় উইন্ডো:"
 
@@ -658,6 +678,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, focusStealingLabel)
 #: focus.ui:273
 #, fuzzy
+#| msgid "Focus stealing prevention level:"
 msgid "Focus &stealing prevention"
 msgstr "ফোকাস হরণ প্রতিরোধ স্তর:"
 
@@ -705,6 +726,8 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:304
 #, fuzzy
+#| msgctxt "Focus Stealing Prevention Level"
+#| msgid "None"
 msgid "None"
 msgstr "কিছু নয়"
 
@@ -712,6 +735,8 @@ msgstr "কিছু নয়"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:309
 #, fuzzy
+#| msgctxt "Focus Stealing Prevention Level"
+#| msgid "Low"
 msgid "Low"
 msgstr "কম"
 
@@ -719,6 +744,8 @@ msgstr "কম"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:314
 #, fuzzy
+#| msgctxt "Focus Stealing Prevention Level"
+#| msgid "Medium"
 msgid "Medium"
 msgstr "মাঝারি"
 
@@ -726,6 +753,8 @@ msgstr "মাঝারি"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:319
 #, fuzzy
+#| msgctxt "Focus Stealing Prevention Level"
+#| msgid "High"
 msgid "High"
 msgstr "বেশী"
 
@@ -733,12 +762,15 @@ msgstr "বেশী"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:324
 #, fuzzy
+#| msgctxt "Focus Stealing Prevention Level"
+#| msgid "Extreme"
 msgid "Extreme"
 msgstr "অত্যন্ত বেশী"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: focus.ui:364
 #, fuzzy
+#| msgid "&Policy:"
 msgid "Policy"
 msgstr "নীতি (&ন):"
 
@@ -755,6 +787,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: focus.ui:434
 #, fuzzy
+#| msgid "Inactive windows:"
 msgid "Raising windows"
 msgstr "নিষ্ক্রিয় উইন্ডো:"
 
@@ -912,6 +945,8 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.cpp:195 mouse.ui:55
 #, fuzzy
+#| msgctxt "@item:inlistbox behavior on double click"
+#| msgid "Maximize"
 msgid "Maximize"
 msgstr "পুরো বড় কর"
 
@@ -930,6 +965,7 @@ msgstr "পুরো বড় (শুধু আড়াআড়ি) কর"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: mouse.ui:32
 #, fuzzy
+#| msgid "&Titlebar double-click:"
 msgid "&Double-click:"
 msgstr "শীর্ষ&কবার দুবার ক্লিক"
 
@@ -968,6 +1004,8 @@ msgstr "বন্ধ করো"
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.ui:90
 #, fuzzy
+#| msgctxt "@item:inlistbox behavior on double click"
+#| msgid "On All Desktops"
 msgid "On All Desktops"
 msgstr "সমস্ত ডেস্কটপে"
 
@@ -1044,6 +1082,7 @@ msgstr "অপারেশন মেনু"
 #: mouse.ui:272 mouse.ui:345 mouse.ui:416 mouse.ui:489 mouse.ui:560
 #: mouse.ui:633
 #, fuzzy
+#| msgid "Window Tabbing"
 msgid "Start Window Tab Drag"
 msgstr "উইণ্ডো ট্যাবিং"
 
@@ -1116,12 +1155,14 @@ msgstr "ম্যাক্সিমাইজ বাটনে <em>রাইট</e
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: mouse.ui:770
 #, fuzzy
+#| msgid "Titlebar && Frame"
 msgid "Titlebar & Frame"
 msgstr "শীর্ষকবার এবং ফ্রেম"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: mouse.ui:783
 #, fuzzy
+#| msgid "&Titlebar Actions"
 msgid "Titlebar"
 msgstr "শীর্ষ&কবার অ্যাকশন"
 
@@ -1162,6 +1203,8 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, borderSnap)
 #: moving.ui:67 moving.ui:134 moving.ui:162
 #, fuzzy
+#| msgid " pixel"
+#| msgid_plural " pixels"
 msgid " pixel"
 msgstr " পিক্সেল"
 
@@ -1197,6 +1240,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, windowSnap)
 #: moving.ui:137
 #, fuzzy
+#| msgid "&Window snap zone:"
 msgid "no window snap zone"
 msgstr "&উইন্ডো সংযোগ ক্ষেত্র:"
 
@@ -1214,6 +1258,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, borderSnap)
 #: moving.ui:165
 #, fuzzy
+#| msgid "&Border snap zone:"
 msgid "no border snap zone"
 msgstr "সীমা সংযো&গ ক্ষেত্র:"
 

@@ -50,6 +50,11 @@ Activities::~Activities()
     s_self = NULL;
 }
 
+KActivities::Consumer::ServiceStatus Activities::serviceStatus() const
+{
+    return m_controller->serviceStatus();
+}
+
 void Activities::setCurrent(const QString &activity)
 {
     m_controller->setCurrentActivity(activity);
@@ -71,7 +76,7 @@ void Activities::slotRemoved(const QString &activity)
         client->setOnActivity(activity, false);
     }
     //toss out any session data for it
-    KConfigGroup cg(KSharedConfig::openConfig(), QString("SubSession: ") + activity);
+    KConfigGroup cg(KSharedConfig::openConfig(), QByteArray("SubSession: ").append(activity.toUtf8()).constData());
     cg.deleteGroup();
 }
 

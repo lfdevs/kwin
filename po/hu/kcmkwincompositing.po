@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-05 09:36+0000\n"
-"PO-Revision-Date: 2014-09-06 12:15+0200\n"
+"POT-Creation-Date: 2015-02-05 07:54+0000\n"
+"PO-Revision-Date: 2014-08-30 11:02+0200\n"
 "Last-Translator: Kristóf Kiszel <ulysses@kubuntu.org>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -42,7 +42,7 @@ msgid "GLX"
 msgstr "GLX"
 
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
-#: compositing.ui:20 qml/CompositingView.qml:55
+#: compositing.ui:20
 msgid "Enable compositor on startup"
 msgstr "Kompozitor bekapcsolása induláskor"
 
@@ -54,7 +54,7 @@ msgstr "Animálási sebesség:"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: compositing.ui:54
 msgid "Instant"
-msgstr "Azonnal"
+msgstr "Azonnali"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
@@ -69,28 +69,27 @@ msgstr "Nagyítási mód:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:93 compositing.ui:119 qml/CompositingView.qml:113
-#: qml/CompositingView.qml:127
+#: compositing.ui:93 compositing.ui:119
 msgid "Crisp"
 msgstr "Gyors"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:98 qml/CompositingView.qml:113
+#: compositing.ui:98
 msgid "Smooth"
 msgstr "Sima"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:103 qml/CompositingView.qml:113
+#: compositing.ui:103
 msgid "Accurate"
 msgstr "Pontos"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:124 qml/CompositingView.qml:127
+#: compositing.ui:124
 msgid "Smooth (slower)"
 msgstr "Sima (lassabb)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: compositing.ui:139 qml/CompositingView.qml:81
+#: compositing.ui:139
 msgid "Rendering backend:"
 msgstr "Renderelő modul:"
 
@@ -106,28 +105,27 @@ msgstr "Szakadás megelőzés (VSync):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:167 compositing.ui:203 qml/CompositingView.qml:141
-#: qml/CompositingView.qml:154
+#: compositing.ui:167 compositing.ui:203
 msgid "Never"
 msgstr "Soha"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:172 qml/CompositingView.qml:141
+#: compositing.ui:172
 msgid "Automatic"
 msgstr "Automatikus"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:177 qml/CompositingView.qml:141
+#: compositing.ui:177
 msgid "Only when cheap"
 msgstr "Csak ha olcsó"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:182 qml/CompositingView.qml:141
+#: compositing.ui:182
 msgid "Full screen repaints"
 msgstr "Teljes színtér újrarajzolása"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:187 qml/CompositingView.qml:141
+#: compositing.ui:187
 msgid "Re-use screen content"
 msgstr "Képernyőtartalom újrahasználata"
 
@@ -137,7 +135,7 @@ msgid "Keep window thumbnails:"
 msgstr "Ablakok bélyegképének megtartása:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:208 qml/CompositingView.qml:154
+#: compositing.ui:208
 msgid "Only for Shown Windows"
 msgstr "Csak a megjelenített ablakokról"
 
@@ -147,22 +145,22 @@ msgid "Always"
 msgstr "Mindig"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: compositing.ui:221 qml/CompositingView.qml:175
+#: compositing.ui:221
 msgid "Expert:"
 msgstr "Szakértői:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
-#: compositing.ui:228 qml/CompositingView.qml:182
+#: compositing.ui:228
 msgid "Suspend compositor for full screen windows"
 msgstr "Kompozitor felfüggesztése teljes képernyős ablakoknál"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:235 qml/CompositingView.qml:192
+#: compositing.ui:235
 msgid "Experimental:"
 msgstr "Kísérleti:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:242 qml/CompositingView.qml:200
+#: compositing.ui:242
 msgid "Enable color correction"
 msgstr "Színjavítás engedélyezése"
 
@@ -281,30 +279,6 @@ msgstr "Ablakkezelés"
 msgid "KWin development team"
 msgstr "A KWin fejlesztői"
 
-#: qml/CompositingView.qml:67
-msgid "Animation Speed:"
-msgstr "Animálási sebesség:"
-
-#: qml/CompositingView.qml:106 qml/CompositingView.qml:120
-msgid "Scale Method:"
-msgstr "Nagyítási mód:"
-
-#: qml/CompositingView.qml:135
-msgid "Tearing Prevention (VSync):"
-msgstr "Szakadás megelőzés (VSync):"
-
-#: qml/CompositingView.qml:148
-msgid "Keep Window Thumbnails:"
-msgstr "Ablakok bélyegképének megtartása:"
-
-#: qml/CompositingView.qml:154
-msgid "Always (Breaks Animations)"
-msgstr "Mindig (elrontja az animációkat)"
-
-#: qml/CompositingView.qml:160
-msgid "OpenGL Platform Interface:"
-msgstr "OpenGL platform interfész:"
-
 #: qml/Effect.qml:118
 #, kde-format
 msgid ""
@@ -339,4 +313,4 @@ msgstr "Belső asztali effektusok kizárása"
 
 #: qml/EffectView.qml:105
 msgid "Get New Effects ..."
-msgstr "Új effektusok letöltése …"
+msgstr "Új effektusok letöltése…"

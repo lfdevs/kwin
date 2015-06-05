@@ -6,20 +6,20 @@
 # Sebastià Pla i Sanz <sps@sastia.com>, 1999, 2000, 2001, 2002, 2004, 2005, 2006.
 # Albert Astals Cid <aacid@kde.org>, 2005.
 # Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
-# Antoni Bella Pérez <antonibella5@yahoo.com>, 2013, 2014.
+# Antoni Bella Pérez <antonibella5@yahoo.com>, 2013, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-18 09:50+0000\n"
-"PO-Revision-Date: 2015-01-16 19:34+0100\n"
+"POT-Creation-Date: 2015-05-20 10:44+0000\n"
+"PO-Revision-Date: 2015-05-16 21:24+0200\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -31,7 +31,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "sps@sastia.com"
 
-#: composite.cpp:503
+#: composite.cpp:545
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -49,7 +49,7 @@ msgid ""
 "p><p>Alternatively, you might want to use the XRender backend instead.</p>"
 msgstr ""
 "<b>La composició OpenGL (per defecte) ha trencat el KWin en el passat.</"
-"b><br>Probablement era degut a una fallada en el controlador.<p>Si penseu "
+"b><br>Probablement era a causa d'una fallada en el controlador.<p>Si penseu "
 "que mentrestant l'heu actualitzat a un controlador estable,<br>podeu "
 "reiniciar aquesta protecció però <b>sigueu conscient que podria produir-se "
 "una fallada immediata.</b></p><p>Alternativament, en el seu lloc podríeu "
@@ -83,11 +83,11 @@ msgstr "PID"
 
 #: killer/killer.cpp:51
 msgid "Hostname on which the application is running"
-msgstr "Nom de l'ordinador on s'executa l'aplicació"
+msgstr "Nom de la màquina on s'executa l'aplicació"
 
 #: killer/killer.cpp:51
 msgid "hostname"
-msgstr "nom de l'ordinador"
+msgstr "nom de la màquina"
 
 #: killer/killer.cpp:53
 msgid "Caption of the window to be terminated"
@@ -143,7 +143,7 @@ msgid ""
 "%3) but the application is not responding.</para>"
 msgstr ""
 "<para>He intentat tancar la finestra «%1» de l'aplicació «%2» (ID del "
-"procés: %3) però l'aplicació no està responent.</para>"
+"procés: %3), però l'aplicació no està responent.</para>"
 
 #: killer/killer.cpp:99
 #, kde-format
@@ -301,181 +301,183 @@ msgid "Quick Tile Window to the Right"
 msgstr "Situa la finestra en mosaic a la dreta"
 
 #: kwinbindings.cpp:100
+msgid "Quick Tile Window to the Top"
+msgstr "Situa la finestra en mosaic a la part superior"
+
+#: kwinbindings.cpp:102
+msgid "Quick Tile Window to the Bottom"
+msgstr "Situa la finestra en mosaic a la part inferior"
+
+#: kwinbindings.cpp:104
 msgid "Quick Tile Window to the Top Left"
 msgstr "Situa la finestra en mosaic a l'esquerra superior"
 
-#: kwinbindings.cpp:102
+#: kwinbindings.cpp:106
 msgid "Quick Tile Window to the Bottom Left"
 msgstr "Situa la finestra en mosaic a l'esquerra inferior"
 
-#: kwinbindings.cpp:104
+#: kwinbindings.cpp:108
 msgid "Quick Tile Window to the Top Right"
 msgstr "Situa la finestra en mosaic a la dreta superior"
 
-#: kwinbindings.cpp:106
+#: kwinbindings.cpp:110
 msgid "Quick Tile Window to the Bottom Right"
 msgstr "Situa la finestra en mosaic a la dreta inferior"
 
-#: kwinbindings.cpp:108
+#: kwinbindings.cpp:112
 msgid "Switch to Window Above"
 msgstr "Canvia a la finestra de la part superior"
 
-#: kwinbindings.cpp:110
+#: kwinbindings.cpp:114
 msgid "Switch to Window Below"
 msgstr "Canvia a la finestra de la part inferior"
 
-#: kwinbindings.cpp:112
+#: kwinbindings.cpp:116
 msgid "Switch to Window to the Right"
 msgstr "Canvia a la finestra de la dreta"
 
-#: kwinbindings.cpp:114
+#: kwinbindings.cpp:118
 msgid "Switch to Window to the Left"
 msgstr "Canvia a la finestra de l'esquerra"
 
-#: kwinbindings.cpp:116
+#: kwinbindings.cpp:120
 msgid "Increase Opacity of Active Window by 5 %"
 msgstr "Augmenta l'opacitat de la finestra activa en un 5%"
 
-#: kwinbindings.cpp:118
+#: kwinbindings.cpp:122
 msgid "Decrease Opacity of Active Window by 5 %"
 msgstr "Disminueix l'opacitat de la finestra activa en un 5%"
 
-#: kwinbindings.cpp:121
+#: kwinbindings.cpp:125
 msgid "Keep Window on All Desktops"
 msgstr "Mantén la finestra a tots els escriptoris"
 
-#: kwinbindings.cpp:125
+#: kwinbindings.cpp:129
 #, kde-format
 msgid "Window to Desktop %1"
 msgstr "Finestra a l'escriptori %1"
 
-#: kwinbindings.cpp:127
+#: kwinbindings.cpp:131
 msgid "Window to Next Desktop"
 msgstr "Finestra a l'escriptori següent"
 
-#: kwinbindings.cpp:128
+#: kwinbindings.cpp:132
 msgid "Window to Previous Desktop"
 msgstr "Finestra a l'escriptori anterior"
 
-#: kwinbindings.cpp:129
+#: kwinbindings.cpp:133
 msgid "Window One Desktop to the Right"
 msgstr "Envia la finestra un escriptori a la dreta"
 
-#: kwinbindings.cpp:130
+#: kwinbindings.cpp:134
 msgid "Window One Desktop to the Left"
 msgstr "Envia la finestra un escriptori a l'esquerra"
 
-#: kwinbindings.cpp:131
+#: kwinbindings.cpp:135
 msgid "Window One Desktop Up"
 msgstr "Envia la finestra un escriptori amunt"
 
-#: kwinbindings.cpp:132
+#: kwinbindings.cpp:136
 msgid "Window One Desktop Down"
 msgstr "Envia la finestra un escriptori avall"
 
-#: kwinbindings.cpp:135
+#: kwinbindings.cpp:139
 #, kde-format
 msgid "Window to Screen %1"
 msgstr "Finestra a la pantalla %1"
 
-#: kwinbindings.cpp:137
+#: kwinbindings.cpp:141
 msgid "Window to Next Screen"
 msgstr "Finestra a la pantalla següent"
 
-#: kwinbindings.cpp:138
+#: kwinbindings.cpp:142
 msgid "Window to Previous Screen"
 msgstr "Finestra a la pantalla anterior"
 
-#: kwinbindings.cpp:139
+#: kwinbindings.cpp:143
 msgid "Show Desktop"
 msgstr "Mostra l'escriptori"
 
-#: kwinbindings.cpp:142
+#: kwinbindings.cpp:146
 #, kde-format
 msgid "Switch to Screen %1"
 msgstr "Canvia a la pantalla %1"
 
-#: kwinbindings.cpp:145
+#: kwinbindings.cpp:149
 msgid "Switch to Next Screen"
 msgstr "Canvia a la pantalla següent"
 
-#: kwinbindings.cpp:146
+#: kwinbindings.cpp:150
 msgid "Switch to Previous Screen"
 msgstr "Canvia a la pantalla anterior"
 
-#: kwinbindings.cpp:148
+#: kwinbindings.cpp:152
 msgid "Kill Window"
 msgstr "Mata la finestra"
 
-#: kwinbindings.cpp:149
+#: kwinbindings.cpp:153
 msgid "Suspend Compositing"
 msgstr "Suspèn la composició"
 
-#: kwinbindings.cpp:150
+#: kwinbindings.cpp:154
 msgid "Invert Screen Colors"
 msgstr "Inverteix els colors de la pantalla"
 
-#: main.cpp:78
+#: main.cpp:90
 msgid ""
 "KWin is unstable.\n"
 "It seems to have crashed several times in a row.\n"
 "You can select another window manager to run:"
 msgstr ""
 "El KWin no està estabilitzat.\n"
-"Sembla que ha fallat vàries vegades seguides.\n"
+"Sembla que ha fallat diverses vegades seguides.\n"
 "Podeu seleccionar un altre gestor de finestres a executar:"
 
-#: main.cpp:260 main.cpp:287
+#: main.cpp:272 main.cpp:299
 msgid "KDE window manager"
 msgstr "El gestor de finestres KDE"
 
-#: main.cpp:265
+#: main.cpp:277
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:269
+#: main.cpp:281
 msgid "(c) 1999-2013, The KDE Developers"
 msgstr "(c) 1999-2013, The KDE Developers"
 
-#: main.cpp:271
+#: main.cpp:283
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:272
+#: main.cpp:284
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:273
+#: main.cpp:285
 msgid "Daniel M. Duley"
 msgstr "Daniel M. Duley"
 
-#: main.cpp:274
+#: main.cpp:286
 msgid "Luboš Luňák"
 msgstr "Luboš Luňák"
 
-#: main.cpp:275
+#: main.cpp:287
 msgid "Martin Gräßlin"
 msgstr "Martin Gräßlin"
 
-#: main.cpp:275
+#: main.cpp:287
 msgid "Maintainer"
 msgstr "Mantenidor"
 
-#: main.cpp:284
+#: main.cpp:296
 msgid "Disable configuration options"
 msgstr "Deshabilita les opcions de configuració"
 
-#: main.cpp:285
+#: main.cpp:297
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Indica que el KWin ha fallat recentment n vegades"
 
-#: main_wayland.cpp:88
-msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
-msgstr ""
-"kwin_wayland: hi ha un gestor de finestres del X11 executant-se a la "
-"pantalla del X11.\n"
-
-#: main_wayland.cpp:96
+#: main_wayland.cpp:106
 msgid ""
 "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
 "set.\n"
@@ -483,18 +485,51 @@ msgstr ""
 "kwin_wayland: no s'ha va pogut connectar amb el servidor de Wayland, "
 "assegureu-vos que s'ha definit WAYLAND_DISPLAY.\n"
 
-#: main_wayland.cpp:235
-msgid "Start a nested X Server."
-msgstr "Iniciar un servidor d'X imbricat."
-
-#: main_wayland.cpp:238
-msgid ""
-"The X11 Display to connect to. If not set next free number will be picked."
+#: main_wayland.cpp:213
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr ""
-"La pantalla X11 a la qual connectar-se. Si no s'estableix, es triarà el "
-"següent número lliure."
+"kwin_wayland: hi ha un gestor de finestres del X11 executant-se a la "
+"pantalla del X11.\n"
 
-#: main_wayland.cpp:247
+#: main_wayland.cpp:384
+msgid "Start a rootless Xwayland server."
+msgstr "Iniciar un servidor Xwayland sense finestra arrel."
+
+#: main_wayland.cpp:386
+msgid ""
+"Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
+msgstr ""
+"Nom del sòcol Wayland a escoltar. Si no està definit, s'utilitza «wayland-0»."
+
+#: main_wayland.cpp:389
+msgid "Use a nested compositor in windowed mode."
+msgstr "Usa un compositor imbricat en mode finestra."
+
+#: main_wayland.cpp:391
+msgid "Render to framebuffer."
+msgstr "Renderitza al framebuffer."
+
+#: main_wayland.cpp:393
+msgid "The framebuffer device to render to."
+msgstr "El dispositiu de framebuffer on renderitzar."
+
+#: main_wayland.cpp:397
+msgid "The X11 Display to use in windowed mode on platform X11."
+msgstr "La pantalla X11 a usar en mode finestra en la plataforma X11."
+
+#: main_wayland.cpp:400
+msgid "The Wayland Display to use in windowed mode on platform Wayland."
+msgstr "La pantalla Wayland a usar en mode finestra en la plataforma Wayland."
+
+#: main_wayland.cpp:403
+msgid "The width for windowed mode. Default width is 1024."
+msgstr "L'amplada del mode finestra. L'amplada per defecte és 1024."
+
+#: main_wayland.cpp:407
+msgid "The height for windowed mode. Default height is 768."
+msgstr "L'alçada del mode finestra. L'alçada per defecte és 768."
+
+#: main_wayland.cpp:424
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
@@ -502,7 +537,7 @@ msgstr ""
 "Activa la compatibilitat amb «libinput» per al processament d'esdeveniments "
 "d'entrada. Nota: No utilitzar en sessions imbricades."
 
-#: main_x11.cpp:149
+#: main_x11.cpp:151
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
@@ -510,23 +545,24 @@ msgstr ""
 "kwin: no s'ha pogut reclamar la selecció del gestor, hi ha un altre wm "
 "executant-se? (proveu l'ús de --replace)\n"
 
-#: main_x11.cpp:166
+#: main_x11.cpp:168
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "kwin: hi ha un altre gestor de finestres executant-se (proveu l'ús de --"
 "replace)\n"
 
-#: main_x11.cpp:261
+#: main_x11.cpp:270
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr ""
 "Substitueix el gestor de finestres conforme amb ICCCM2.0 que ja s'executa"
 
-#: scene_opengl.cpp:610
+#: scene_opengl.cpp:620
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
-"Els efectes d'escriptori es reiniciaran degut a una reinicialització gràfica"
+"Els efectes d'escriptori es reiniciaran a causa d'una reinicialització "
+"gràfica"
 
-#: scene_opengl.cpp:774
+#: scene_opengl.cpp:784
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -537,11 +573,11 @@ msgid ""
 msgstr ""
 "<h1>Els efectes d'escriptori OpenGL no són possibles</h1>El sistema no pot "
 "executar els efectes d'escriptori OpenGL en la resolució actual<br><br>Podeu "
-"intentar seleccionar el dorsal de l'XRender, però també pot ser molt lent "
-"amb aquesta resolució.<br>Alternativament, reduïu la resolució combinada de "
+"intentar seleccionar el dorsal del XRender, però també pot ser molt lent amb "
+"aquesta resolució.<br>Alternativament, reduïu la resolució combinada de "
 "totes les pantalles a %1x%2 "
 
-#: scene_opengl.cpp:781
+#: scene_opengl.cpp:791
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
 "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
@@ -549,12 +585,12 @@ msgid ""
 "by the hardware limitations that restrict the OpenGL viewport size."
 msgstr ""
 "La resolució sol·licitada excedeix la limitació GL_MAX_VIEWPORT_DIMS de la "
-"GPU i, per tant, no és compatible amb el compositor de l'OpenGL."
-"<br>L'XRender no té aquesta limitació, però el rendiment estarà impactat "
+"GPU i, per tant, no és compatible amb el compositor de l'OpenGL.<br>El "
+"XRender no té aquesta limitació, però el rendiment estarà impactat "
 "normalment per les limitacions de maquinari que restringeixen la mida de "
 "l'àrea de visualització de l'OpenGL."
 
-#: scene_opengl.cpp:806
+#: scene_opengl.cpp:816
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -568,7 +604,7 @@ msgstr ""
 "completament negres.<br><br>Considereu suspendre la composició, canviar al "
 "dorsal XRender o disminuir la resolució a %1x%1."
 
-#: scene_opengl.cpp:812
+#: scene_opengl.cpp:822
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
 "GPU, thus windows of that size cannot be assigned to textures and will be "
@@ -629,60 +665,60 @@ msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
 msgstr "%1 no és cap tipus variable"
 
-#: tabbox/tabbox.cpp:347
+#: tabbox/tabbox.cpp:358
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Mostra l'escriptori"
 
-#: tabbox/tabbox.cpp:498
+#: tabbox/tabbox.cpp:508
 msgid "Walk Through Windows"
 msgstr "Recorre les finestres"
 
-#: tabbox/tabbox.cpp:499
+#: tabbox/tabbox.cpp:509
 msgid "Walk Through Windows (Reverse)"
 msgstr "Recorre les finestres (a la inversa)"
 
-#: tabbox/tabbox.cpp:500
+#: tabbox/tabbox.cpp:510
 msgid "Walk Through Windows Alternative"
 msgstr "Recorre les finestres en alternativa"
 
-#: tabbox/tabbox.cpp:501
+#: tabbox/tabbox.cpp:511
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Recorre les finestres en alternativa (a la inversa)"
 
-#: tabbox/tabbox.cpp:502
+#: tabbox/tabbox.cpp:512
 msgid "Walk Through Windows of Current Application"
 msgstr "Recorre les finestres de l'aplicació actual"
 
-#: tabbox/tabbox.cpp:503
+#: tabbox/tabbox.cpp:513
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Recorre les finestres de l'aplicació actual (a la inversa)"
 
-#: tabbox/tabbox.cpp:504
+#: tabbox/tabbox.cpp:514
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Recorre les finestres de l'aplicació actual alternativa"
 
-#: tabbox/tabbox.cpp:505
+#: tabbox/tabbox.cpp:515
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "Recorre les finestres de l'aplicació actual alternativa (a la inversa)"
 
-#: tabbox/tabbox.cpp:506
+#: tabbox/tabbox.cpp:516
 msgid "Walk Through Desktops"
 msgstr "Recorre els escriptoris"
 
-#: tabbox/tabbox.cpp:507
+#: tabbox/tabbox.cpp:517
 msgid "Walk Through Desktops (Reverse)"
 msgstr "Recorre els escriptoris (a la inversa)"
 
-#: tabbox/tabbox.cpp:508
+#: tabbox/tabbox.cpp:518
 msgid "Walk Through Desktop List"
 msgstr "Recorre la llista d'escriptoris"
 
-#: tabbox/tabbox.cpp:509
+#: tabbox/tabbox.cpp:519
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Recorre la llista d'escriptoris (a la inversa)"
 
-#: tabbox/tabboxhandler.cpp:278
+#: tabbox/tabboxhandler.cpp:285
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
@@ -691,7 +727,7 @@ msgstr ""
 "recursos.\n"
 "Contacteu amb la vostra distribució respecte a això."
 
-#: useractions.cpp:185
+#: useractions.cpp:181
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -703,7 +739,7 @@ msgstr ""
 "Sense la vora no podreu tornar-la a habilitar usant el ratolí: per a fer-ho "
 "useu el menú d'operacions de finestra, activat usant la drecera de teclat %1."
 
-#: useractions.cpp:193
+#: useractions.cpp:189
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -716,153 +752,153 @@ msgstr ""
 "completa, no podreu tornar-lo a deshabilitar usant el ratolí: per a fer-ho "
 "useu el menú d'operacions de finestra, activat usant la drecera de teclat %1."
 
-#: useractions.cpp:256
+#: useractions.cpp:252
 msgid "&Move"
 msgstr "&Mou"
 
-#: useractions.cpp:261
+#: useractions.cpp:257
 msgid "Re&size"
 msgstr "Dimen&siona"
 
-#: useractions.cpp:265
+#: useractions.cpp:261
 msgid "Keep &Above Others"
 msgstr "Mantén sobre les &altres"
 
-#: useractions.cpp:271
+#: useractions.cpp:267
 msgid "Keep &Below Others"
 msgstr "Mantén &sota les altres"
 
-#: useractions.cpp:277
+#: useractions.cpp:273
 msgid "&Fullscreen"
 msgstr "&Pantalla completa"
 
-#: useractions.cpp:283
+#: useractions.cpp:279
 msgid "Sh&ade"
 msgstr "&Plega"
 
-#: useractions.cpp:288
+#: useractions.cpp:284
 msgid "&No Border"
 msgstr "&Sense vores"
 
-#: useractions.cpp:295
+#: useractions.cpp:291
 msgid "Window &Shortcut..."
 msgstr "Drecera de fine&stra..."
 
-#: useractions.cpp:300
+#: useractions.cpp:296
 msgid "&Special Window Settings..."
 msgstr "Arranjament e&special de finestra..."
 
-#: useractions.cpp:304
+#: useractions.cpp:300
 msgid "S&pecial Application Settings..."
 msgstr "Arranjament e&special d'aplicació..."
 
-#: useractions.cpp:311
+#: useractions.cpp:307
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
 msgid "Window &Manager Settings..."
 msgstr "Arranja&ment del gestor de finestres..."
 
-#: useractions.cpp:326
+#: useractions.cpp:322
 msgid "Mi&nimize"
 msgstr "Mi&nimitza"
 
-#: useractions.cpp:330
+#: useractions.cpp:326
 msgid "Ma&ximize"
 msgstr "Ma&ximitza"
 
-#: useractions.cpp:339
+#: useractions.cpp:335
 msgid "&Untab"
 msgstr "&Desprèn la pestanya"
 
-#: useractions.cpp:343
+#: useractions.cpp:339
 msgid "Close Entire &Group"
 msgstr "Tanca el &grup sencer"
 
-#: useractions.cpp:354
+#: useractions.cpp:350
 msgid "&More Actions"
 msgstr "&Més accions"
 
-#: useractions.cpp:358
+#: useractions.cpp:354
 msgid "&Close"
 msgstr "&Tanca"
 
-#: useractions.cpp:431
+#: useractions.cpp:427
 msgid "&Extensions"
 msgstr "&Extensions"
 
-#: useractions.cpp:486
+#: useractions.cpp:482
 msgctxt "Switch to tab -> Previous"
 msgid "Previous"
 msgstr "Anterior"
 
-#: useractions.cpp:487
+#: useractions.cpp:483
 msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr "Següent"
 
-#: useractions.cpp:525
+#: useractions.cpp:521
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr "Cap disponible "
 
-#: useractions.cpp:534
+#: useractions.cpp:530
 msgid "Switch to Tab"
 msgstr "Canvia a una pestanya"
 
-#: useractions.cpp:545
+#: useractions.cpp:541
 msgid "&Attach as tab to"
 msgstr "&Adjunta com a pestanya a"
 
-#: useractions.cpp:568
+#: useractions.cpp:564
 msgid "Move To &Desktop"
 msgstr "Mou a l'&escriptori"
 
-#: useractions.cpp:584
+#: useractions.cpp:580
 msgid "Move To &Screen"
 msgstr "Mou a la &pantalla"
 
-#: useractions.cpp:599
+#: useractions.cpp:595
 msgid "Ac&tivities"
 msgstr "Ac&tivitats"
 
-#: useractions.cpp:611
+#: useractions.cpp:607
 msgid "&All Desktops"
 msgstr "&Tots els escriptoris"
 
-#: useractions.cpp:637
+#: useractions.cpp:633
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "Escriptori &nou"
 
-#: useractions.cpp:658
+#: useractions.cpp:654
 #, kde-format
 msgctxt "@item:inmenu List of all Screens to send a window to"
 msgid "Screen &%1"
 msgstr "Pantalla %1"
 
-#: useractions.cpp:676
+#: useractions.cpp:672
 msgid "&All Activities"
 msgstr "&Totes les activitats"
 
-#: useractions.cpp:883
+#: useractions.cpp:879
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "<b>%1</b> ja està utilitzat"
 
-#: useractions.cpp:885
+#: useractions.cpp:881
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "<b>%1</b> està utilitzat per %2 a %3"
 
-#: useractions.cpp:1008
+#: useractions.cpp:1003
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Activa la finestra (%1)"
 
-#: useractions.cpp:1381
+#: useractions.cpp:1376
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
 "as active one.\n"
@@ -906,7 +942,7 @@ msgstr "Canvia un escriptori avall"
 msgid "Switch to Desktop %1"
 msgstr "Canvia a l'escriptori %1"
 
-#: workspace.cpp:1317
+#: workspace.cpp:1258
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

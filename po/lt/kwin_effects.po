@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-03-21 10:21+0000\n"
+"POT-Creation-Date: 2015-05-21 11:34+0000\n"
 "PO-Revision-Date: 2015-01-26 12:15+0200\n"
 "Last-Translator: Liudas Ališauskas <liudas@akmc.lt>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -50,7 +50,7 @@ msgstr "Stiprus"
 msgid "Save intermediate rendering results."
 msgstr "Išsaugoti tarpinius apdorojimo rezultatus."
 
-#: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Rodyti darbastalį"
@@ -1181,7 +1181,7 @@ msgstr "Perjungti dabartinių langų efektą (visi darbastaliai)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Perjungti dabartinių langų efektą (lango klasė)"
 
-#: presentwindows/presentwindows.cpp:1556
+#: presentwindows/presentwindows.cpp:1561
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1548,7 +1548,7 @@ msgstr "Iškylantys meniu:"
 msgid "Torn-off menus:"
 msgstr "Atplėšti meniu:"
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:61
 msgid "Toggle window geometry display (effect only)"
 msgstr "Įjungti/išjungti lango dydžio rodymą (tik efektams)"
 
@@ -1617,27 +1617,27 @@ msgstr "Mažiau"
 msgid "More"
 msgstr "Daugiau"
 
-#: zoom/zoom.cpp:86
+#: zoom/zoom.cpp:84
 msgid "Move Zoomed Area to Left"
 msgstr "Perkelti išdidintą plotą į kairę"
 
-#: zoom/zoom.cpp:94
+#: zoom/zoom.cpp:92
 msgid "Move Zoomed Area to Right"
 msgstr "Perkelti išdidintą plotą į dešinę"
 
-#: zoom/zoom.cpp:102
+#: zoom/zoom.cpp:100
 msgid "Move Zoomed Area Upwards"
 msgstr "Perkelti išdidintą plotą į viršų"
 
-#: zoom/zoom.cpp:110
+#: zoom/zoom.cpp:108
 msgid "Move Zoomed Area Downwards"
 msgstr "Perkelti išdidintą plotą į apačią"
 
-#: zoom/zoom.cpp:119 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
 msgid "Move Mouse to Focus"
 msgstr "Perkelti pelės žymeklį į židinį"
 
-#: zoom/zoom.cpp:127 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
 msgid "Move Mouse to Center"
 msgstr "Perkelti pelės žymeklį į vidurį"
 

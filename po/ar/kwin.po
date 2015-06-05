@@ -10,38 +10,39 @@
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
 # zayed <zayed.alsaidi@gmail.com>, 2008.
 # Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2010.
+# Safa Alfulaij <safa1996alfulaij@gmail.com>, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-18 09:50+0000\n"
-"PO-Revision-Date: 2010-07-31 12:37+0400\n"
-"Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
-"Language-Team: Arabic <linuxac-kde-arabic-team@googlegroups.com>\n"
+"POT-Creation-Date: 2015-05-20 10:44+0000\n"
+"PO-Revision-Date: 2015-01-22 02:22+0300\n"
+"Last-Translator: Safa Alfulaij <safa1996alfulaij@gmail.com>\n"
+"Language-Team: Arabic <doc@arabeyes.org>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Lokalize 1.5\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "زايد السعيدي"
+msgstr "زايد السعيدي,صفا الفليج"
 
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "zayed.alsaidi@gmail.com"
+msgstr "zayed.alsaidi@gmail.com,safa1996alfulaij@gmail.com"
 
-#: composite.cpp:503
+#: composite.cpp:545
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
 "resume using the '%1' shortcut."
 msgstr ""
-"علقت تأثيرات سطح المكتب بواسطة برنامج أخرى.<br/>يمكنك استئنافه باستخدام  "
-"الاختصار '%1' ."
+"علّقت تطبيقات أخرى تأثيرات سطح المكتب.<br/>يمكنك استئنافها باستخدام الاختصار "
+"'%1'."
 
 #: compositingprefs.cpp:99
 msgid ""
@@ -51,85 +52,88 @@ msgid ""
 "<b>be aware that this might result in an immediate crash!</b></"
 "p><p>Alternatively, you might want to use the XRender backend instead.</p>"
 msgstr ""
+"<b>قد جعل تركيب OpenGL (الافتراضيّ) نوافذك ينهار في السّابق.</b><br>قد يكون "
+"هذا غالبًا علّة في التّعريف.<p>إن كنت ترى أنّك رقّيت المشغّل إلى إصدار مستقرّ،"
+"<br>يمكنك تصفير هذه الحماية لكن <b>انتبه أنّ هذا قد يسبّب انهيارًا فوريًّا!</b></"
+"p><p>يمكنك كبديل استخدام سند XRender بدل الحاليّ.</p>"
 
 #: compositingprefs.cpp:106
 msgid "Required X extensions (XComposite and XDamage) are not available."
-msgstr "امتدادات X (أي XComposite و XDamage) غير متوفرة."
+msgstr "امتدادات إكس المطلوبة (XComposite و XDamage) غير متوفّرة."
 
 #: compositingprefs.cpp:110
 msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
-msgstr "GLX/OpenGL غير متوفرين ، و يوجد دعم OpenGL فقط"
+msgstr "كلا GLX/OpenGL غير متوفّرين وفقط دعم OpenGL مصرّف."
 
 #: compositingprefs.cpp:114
 msgid "GLX/OpenGL and XRender/XFixes are not available."
-msgstr "GLX/OpenGL و XRender/XFixes غير موجودة."
+msgstr "كلا GLX/OpenGL و XRender/XFixes غير موجودين."
 
 #: killer/killer.cpp:44
-#, fuzzy
 msgid "Window Manager"
-msgstr "مدير  النوافذ لكدي"
+msgstr "مدير نوافذ"
 
 #: killer/killer.cpp:49
 msgid "PID of the application to terminate"
-msgstr "رمز العملية PID للتطبيق المراد إنهائه."
+msgstr "معرّف عمليّة التّطبيق لإنهائه."
 
 #: killer/killer.cpp:49
 msgid "pid"
-msgstr ""
+msgstr "معرّف_العمليّة"
 
 #: killer/killer.cpp:51
 msgid "Hostname on which the application is running"
-msgstr "اسم المضيف للتطبيق قيد التشغيل."
+msgstr "اسم المضيف الذي يعمل فيه التّطبيق"
 
 #: killer/killer.cpp:51
 msgid "hostname"
-msgstr ""
+msgstr "اسم_المضيف"
 
 #: killer/killer.cpp:53
 msgid "Caption of the window to be terminated"
-msgstr "تعليق النافذة المراد إنهائه."
+msgstr "واصفة النّافذة لإنهائها"
 
 #: killer/killer.cpp:53
 msgid "caption"
-msgstr ""
+msgstr "الواصفة"
 
 #: killer/killer.cpp:55
 msgid "Name of the application to be terminated"
-msgstr "اسم التطبيق المراد إنهائه."
+msgstr "اسم التّطبيق لإنهائه."
 
 #: killer/killer.cpp:55
 msgid "name"
-msgstr ""
+msgstr "الاسم"
 
 #: killer/killer.cpp:57
 msgid "ID of resource belonging to the application"
-msgstr "الرقم التعريفي للمورد التابع للتطبيق"
+msgstr "معرّف المورد التّابع للتّطبيق"
 
 #: killer/killer.cpp:57
 msgid "id"
-msgstr ""
+msgstr "المعرّف"
 
 #: killer/killer.cpp:59
 msgid "Time of user action causing termination"
-msgstr "الوقت إجراء المستخدم  المسبّب للإنهاء"
+msgstr "وقت إجراء المستخدم المسبّب للإنهاء"
 
 #: killer/killer.cpp:59
 msgid "time"
-msgstr ""
+msgstr "الوقت"
 
 #: killer/killer.cpp:61
 msgid "KWin helper utility"
-msgstr "أداة مساعدة كِون"
+msgstr "أداة نوافذك للمساعدة"
 
 #: killer/killer.cpp:85
 msgid "This helper utility is not supposed to be called directly."
-msgstr "طلب الأداة المساعدة بشكل مباشر غير مدعوم."
+msgstr "لا يفترض طلب الأداة المساعدة هذه مباشرةً."
 
 #: killer/killer.cpp:95
 #, kde-format
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
-msgstr ""
+msgstr "<b>التّطبيق \"%1\" لا يستجيب</b>"
 
 #: killer/killer.cpp:97
 #, kde-format
@@ -138,6 +142,8 @@ msgid ""
 "<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
 "%3) but the application is not responding.</para>"
 msgstr ""
+"<para>حاولت إغلاق النّافذة \"%1\" من التّطبيق \"%2\" (معرّف العمليّة: %3) لكنّ "
+"التّطبيق لا يستجيب.</para>"
 
 #: killer/killer.cpp:99
 #, kde-format
@@ -146,6 +152,8 @@ msgid ""
 "<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
 "%3), running on host \"%4\", but the application is not responding.</para>"
 msgstr ""
+"<para>حاولت إغلاق النّافذة \"%1\" من التّطبيق \"%2\" (معرّف العمليّة: %3)، والّتي "
+"تعمل على المضيف \"%4، لكنّ التّطبيق لا يستجيب.</para>"
 
 #: killer/killer.cpp:102
 msgctxt "@info"
@@ -154,368 +162,396 @@ msgid ""
 "para><para><warning>Terminating the application will close all of its child "
 "windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
+"<para>أتريد إنهاء هذا التّطبيق؟</para><para><warning>إنهاء التّطبيق سيغلق كلّ "
+"نوافذه الابنة. أيّة بيانات غير محفوظة ستُفقد.</warning></para>"
 
 #: killer/killer.cpp:106
 #, kde-format
 msgid "&Terminate Application %1"
-msgstr "أ&نه التطبيق %1"
+msgstr "أ&نهِ التّطبيق %1"
 
 #: killer/killer.cpp:107
 msgid "Wait Longer"
-msgstr ""
+msgstr "انتظر أكثر"
 
 #: kwinbindings.cpp:40
 msgid "Walk Through Window Tabs"
-msgstr "تنقل بين ألسنة النوافذ"
+msgstr "تنقّل بين ألسنة النّافذة"
 
 #: kwinbindings.cpp:41
 msgid "Walk Through Window Tabs (Reverse)"
-msgstr "تنقل بين ألسنة النوافذ (عكسيا)"
+msgstr "تنقّل بين ألسنة النّافذة (بالعكس)"
 
 #: kwinbindings.cpp:42
 msgid "Remove Window From Group"
-msgstr "أزل النافذة من المجموعة"
+msgstr "أزل النّافذة من المجموعة"
 
 #: kwinbindings.cpp:44
 msgid "Window Operations Menu"
-msgstr "قائمة عمليات النوافذ"
+msgstr "قائمة عمليّات النّافذة"
 
 #: kwinbindings.cpp:46
 msgid "Close Window"
-msgstr "أغلق النافذة"
+msgstr "أغلق النّافذة"
 
 #: kwinbindings.cpp:48
 msgid "Maximize Window"
-msgstr "كبّر النافذة"
+msgstr "كبّر النّافذة"
 
 #: kwinbindings.cpp:50
 msgid "Maximize Window Vertically"
-msgstr "كبّر النافذة عمودياً"
+msgstr "كبّر النّافذة رأسيًّا"
 
 #: kwinbindings.cpp:52
 msgid "Maximize Window Horizontally"
-msgstr "كبّر النافذة أفقياً"
+msgstr "كبّر النّافذة أفقيًّا"
 
 #: kwinbindings.cpp:54
 msgid "Minimize Window"
-msgstr "صغّر النافذة"
+msgstr "صغّر النّافذة"
 
 #: kwinbindings.cpp:56
 msgid "Shade Window"
-msgstr "ظلّل النافذة"
+msgstr "ظلّل النّافذة"
 
 #: kwinbindings.cpp:58
 msgid "Move Window"
-msgstr "حرّك النافذة"
+msgstr "انقل النّافذة"
 
 #: kwinbindings.cpp:60
 msgid "Resize Window"
-msgstr "أعد تحجيم النافذة"
+msgstr "غيّر حجم النّافذة"
 
 #: kwinbindings.cpp:62
 msgid "Raise Window"
-msgstr "ارفع النافذة"
+msgstr "ارفع النّافذة"
 
 #: kwinbindings.cpp:64
 msgid "Lower Window"
-msgstr "اخفض النافذة"
+msgstr "اخفض النّافذة"
 
 #: kwinbindings.cpp:66
 msgid "Toggle Window Raise/Lower"
-msgstr "ارفع/اخفض النافذة"
+msgstr "بدّل رفع/خفض النّافذة"
 
 #: kwinbindings.cpp:68
 msgid "Make Window Fullscreen"
-msgstr "اجعل النافذة ملء الشاشة"
+msgstr "اجعل النّافذة بملء الشّاشة"
 
 #: kwinbindings.cpp:70
 msgid "Hide Window Border"
-msgstr "اخفِ حد النافذة"
+msgstr "أخفِ حدّ النّافذة"
 
 #: kwinbindings.cpp:72
 msgid "Keep Window Above Others"
-msgstr "ابق النافذة فوق الآخرين"
+msgstr "أبقِ النّافذة فوق غيرها"
 
 #: kwinbindings.cpp:74
 msgid "Keep Window Below Others"
-msgstr "ابق النافذة تحت الآخرين"
+msgstr "أبقِ النّافذة تحت غيرها"
 
 #: kwinbindings.cpp:76
 msgid "Activate Window Demanding Attention"
-msgstr "نشّط النافذة الطالبة للإنتباه"
+msgstr "نشّط النّافذة الطّالبة الانتباه"
 
 #: kwinbindings.cpp:78
 msgid "Setup Window Shortcut"
-msgstr "عيّن اختصار النافذة"
+msgstr "أعدّ اختصار النّافذة"
 
 #: kwinbindings.cpp:80
 msgid "Pack Window to the Right"
-msgstr "احزم النافذة إلى اليمين"
+msgstr "احزم النّافذة إلى اليمين"
 
 #: kwinbindings.cpp:82
 msgid "Pack Window to the Left"
-msgstr "احزم النافذة إلى اليسار"
+msgstr "احزم النّافذة إلى اليسار"
 
 #: kwinbindings.cpp:84
 msgid "Pack Window Up"
-msgstr "احزم النافذة لأعلى"
+msgstr "احزم النّافذة لأعلى"
 
 #: kwinbindings.cpp:86
 msgid "Pack Window Down"
-msgstr "احزم النافذة لأسفل"
+msgstr "احزم النّافذة لأسفل"
 
 #: kwinbindings.cpp:88
 msgid "Pack Grow Window Horizontally"
-msgstr "كبّر النافذة أفقياً"
+msgstr "احزم النّافذة نامية أفقيًّا"
 
 #: kwinbindings.cpp:90
 msgid "Pack Grow Window Vertically"
-msgstr "كبّر النافذة عمودياً"
+msgstr "احزم النّافذة بإنمائها رأسيًّا"
 
 #: kwinbindings.cpp:92
 msgid "Pack Shrink Window Horizontally"
-msgstr "قلّص النافذة أفقياً"
+msgstr "احزم النّافذة بتقليصها أفقيًّا"
 
 #: kwinbindings.cpp:94
 msgid "Pack Shrink Window Vertically"
-msgstr "قلّص النافذة عمودياً"
+msgstr "احزم النّافذة بتقليصها رأسيًّا"
 
 #: kwinbindings.cpp:96
 msgid "Quick Tile Window to the Left"
-msgstr "صف النافذة إلى اليسار بسرعة"
+msgstr ""
 
 #: kwinbindings.cpp:98
 msgid "Quick Tile Window to the Right"
-msgstr "صف النافذة إلى اليمين بسرعة"
+msgstr ""
 
 #: kwinbindings.cpp:100
 #, fuzzy
-msgid "Quick Tile Window to the Top Left"
-msgstr "صف النافذة إلى اليسار بسرعة"
+#| msgid "Pack Window to the Left"
+msgid "Quick Tile Window to the Top"
+msgstr "احزم النّافذة إلى اليسار"
 
 #: kwinbindings.cpp:102
 #, fuzzy
-msgid "Quick Tile Window to the Bottom Left"
-msgstr "صف النافذة إلى اليسار بسرعة"
+#| msgid "Pack Window to the Left"
+msgid "Quick Tile Window to the Bottom"
+msgstr "احزم النّافذة إلى اليسار"
 
 #: kwinbindings.cpp:104
-#, fuzzy
-msgid "Quick Tile Window to the Top Right"
-msgstr "صف النافذة إلى اليمين بسرعة"
+msgid "Quick Tile Window to the Top Left"
+msgstr ""
 
 #: kwinbindings.cpp:106
-#, fuzzy
-msgid "Quick Tile Window to the Bottom Right"
-msgstr "صف النافذة إلى اليمين بسرعة"
+msgid "Quick Tile Window to the Bottom Left"
+msgstr ""
 
 #: kwinbindings.cpp:108
-msgid "Switch to Window Above"
-msgstr "بدّل للنافذة الأعلى"
+msgid "Quick Tile Window to the Top Right"
+msgstr ""
 
 #: kwinbindings.cpp:110
-msgid "Switch to Window Below"
-msgstr "بدّل للنافذة السفلى"
+msgid "Quick Tile Window to the Bottom Right"
+msgstr ""
 
 #: kwinbindings.cpp:112
-msgid "Switch to Window to the Right"
-msgstr "بدل إلى النافذة التي باليمين"
+msgid "Switch to Window Above"
+msgstr "بدّل إلى النّافذة العليا"
 
 #: kwinbindings.cpp:114
-msgid "Switch to Window to the Left"
-msgstr "بدل للنافذة التي باليسار"
+msgid "Switch to Window Below"
+msgstr "بدّل إلى النّافذة السفلى"
 
 #: kwinbindings.cpp:116
-msgid "Increase Opacity of Active Window by 5 %"
-msgstr ""
+msgid "Switch to Window to the Right"
+msgstr "بدّل إلى النّافذة اليمنى"
 
 #: kwinbindings.cpp:118
-msgid "Decrease Opacity of Active Window by 5 %"
-msgstr ""
+msgid "Switch to Window to the Left"
+msgstr "بدّل إلى النّافذة اليسرى"
 
-#: kwinbindings.cpp:121
-msgid "Keep Window on All Desktops"
-msgstr "ابق النافذة على كلّ أسطح المكتب"
+#: kwinbindings.cpp:120
+msgid "Increase Opacity of Active Window by 5 %"
+msgstr "زِد عتمة النّافذة النّشطة 5%"
+
+#: kwinbindings.cpp:122
+msgid "Decrease Opacity of Active Window by 5 %"
+msgstr "أنقص عتمة النّافذة النّشطة 5%"
 
 #: kwinbindings.cpp:125
-#, fuzzy, kde-format
-msgid "Window to Desktop %1"
-msgstr "النافذة لسطح المكتب 1"
-
-#: kwinbindings.cpp:127
-msgid "Window to Next Desktop"
-msgstr "النافذة لسطح المكتب التالي"
-
-#: kwinbindings.cpp:128
-msgid "Window to Previous Desktop"
-msgstr "النافذة لسطح المكتب السابق"
+msgid "Keep Window on All Desktops"
+msgstr "أبقِ النّافذة في كلّ أسطح المكتب"
 
 #: kwinbindings.cpp:129
-msgid "Window One Desktop to the Right"
-msgstr "اذهب إلى سطح المكتب الأيمن"
-
-#: kwinbindings.cpp:130
-msgid "Window One Desktop to the Left"
-msgstr "اذهب إلى سطح المكتب الأيسر"
+#, kde-format
+msgid "Window to Desktop %1"
+msgstr "النّافذة إلى سطح المكتب %1"
 
 #: kwinbindings.cpp:131
-msgid "Window One Desktop Up"
-msgstr "اذهب إلى سطح المكتب الأعلى"
+msgid "Window to Next Desktop"
+msgstr "النّافذة إلى سطح المكتب التّالي"
 
 #: kwinbindings.cpp:132
-msgid "Window One Desktop Down"
-msgstr "اذهب إلى سطح المكتب الأسفل"
+msgid "Window to Previous Desktop"
+msgstr "النّافذة إلى سطح المكتب السّابق"
+
+#: kwinbindings.cpp:133
+msgid "Window One Desktop to the Right"
+msgstr ""
+
+#: kwinbindings.cpp:134
+msgid "Window One Desktop to the Left"
+msgstr ""
 
 #: kwinbindings.cpp:135
-#, fuzzy, kde-format
-msgid "Window to Screen %1"
-msgstr "النافذة للشاشة 1"
+msgid "Window One Desktop Up"
+msgstr ""
 
-#: kwinbindings.cpp:137
-msgid "Window to Next Screen"
-msgstr "النافذة للشاشة التالية"
-
-#: kwinbindings.cpp:138
-#, fuzzy
-msgid "Window to Previous Screen"
-msgstr "النافذة لسطح المكتب السابق"
+#: kwinbindings.cpp:136
+msgid "Window One Desktop Down"
+msgstr ""
 
 #: kwinbindings.cpp:139
+#, kde-format
+msgid "Window to Screen %1"
+msgstr ""
+
+#: kwinbindings.cpp:141
+msgid "Window to Next Screen"
+msgstr ""
+
+#: kwinbindings.cpp:142
+msgid "Window to Previous Screen"
+msgstr ""
+
+#: kwinbindings.cpp:143
 msgid "Show Desktop"
 msgstr "أظهر سطح المكتب"
 
-#: kwinbindings.cpp:142
-#, fuzzy, kde-format
-msgid "Switch to Screen %1"
-msgstr "بدّل للشاشة 1"
-
-#: kwinbindings.cpp:145
-msgid "Switch to Next Screen"
-msgstr "بدّل للشاشة التالية"
-
 #: kwinbindings.cpp:146
-#, fuzzy
-msgid "Switch to Previous Screen"
-msgstr "بدّل لسطح المكتب السابق"
-
-#: kwinbindings.cpp:148
-msgid "Kill Window"
-msgstr "اقتل النافذة"
+#, kde-format
+msgid "Switch to Screen %1"
+msgstr "بدّل إلى الشّاشة %1"
 
 #: kwinbindings.cpp:149
-msgid "Suspend Compositing"
-msgstr "علق التركيب"
+msgid "Switch to Next Screen"
+msgstr "بدّل إلى الشّاشة التّالية"
 
 #: kwinbindings.cpp:150
-msgid "Invert Screen Colors"
-msgstr ""
+msgid "Switch to Previous Screen"
+msgstr "بدّل إلى الشّاشة السّابقة"
 
-#: main.cpp:78
+#: kwinbindings.cpp:152
+msgid "Kill Window"
+msgstr "اقتل النّافذة"
+
+#: kwinbindings.cpp:153
+msgid "Suspend Compositing"
+msgstr "علّق التّركيب"
+
+#: kwinbindings.cpp:154
+msgid "Invert Screen Colors"
+msgstr "اعكس ألوان الشّاشة"
+
+#: main.cpp:90
 msgid ""
 "KWin is unstable.\n"
 "It seems to have crashed several times in a row.\n"
 "You can select another window manager to run:"
 msgstr ""
-"برنامج كِون غير مستقر.\n"
-"يبدو أنه انهار مرات كثيرة على التوالي.\n"
-"يمكن اختيار مدير نوافذ آخر:"
+"نوافذك غير مستقرّ.\n"
+"يبدو أنّه انهار عدّة مرّات متتالية.\n"
+"يمكنك اختيار مدير نوافذ آخر لتشغيله:"
 
-#: main.cpp:260 main.cpp:287
+#: main.cpp:272 main.cpp:299
 msgid "KDE window manager"
-msgstr "مدير  النوافذ لكدي"
+msgstr "مدير كدي للنّوافذ"
 
-#: main.cpp:265
+#: main.cpp:277
 msgid "KWin"
-msgstr "كِون"
+msgstr "نوافذك"
 
-#: main.cpp:269
-#, fuzzy
+#: main.cpp:281
 msgid "(c) 1999-2013, The KDE Developers"
-msgstr "1999-2008، مطوري كدي"
+msgstr ""
 
-#: main.cpp:271
+#: main.cpp:283
 msgid "Matthias Ettrich"
-msgstr "Matthias Ettrich"
+msgstr ""
 
-#: main.cpp:272
+#: main.cpp:284
 msgid "Cristian Tibirna"
-msgstr "Cristian Tibirna"
+msgstr ""
 
-#: main.cpp:273
+#: main.cpp:285
 msgid "Daniel M. Duley"
-msgstr "Daniel M. Duley"
+msgstr ""
 
-#: main.cpp:274
+#: main.cpp:286
 msgid "Luboš Luňák"
-msgstr "Luboš Luňák"
+msgstr ""
 
-#: main.cpp:275
+#: main.cpp:287
 msgid "Martin Gräßlin"
 msgstr ""
 
-#: main.cpp:275
+#: main.cpp:287
 msgid "Maintainer"
-msgstr "مشرف المشروع"
+msgstr "المصين"
 
-#: main.cpp:284
+#: main.cpp:296
 msgid "Disable configuration options"
-msgstr "عطّل خيارات الضبط"
+msgstr "عطّل خيارات الضّبط"
 
-#: main.cpp:285
+#: main.cpp:297
 msgid "Indicate that KWin has recently crashed n times"
-msgstr "يشير إلى عدد انهيارات كِون"
+msgstr "يشير إلى أنّ نوافذك انهار ن مرّة حديثًا"
 
-#: main_wayland.cpp:88
-#, fuzzy
-msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
-msgstr ""
-"kwin: غير قادر على طلب اختيار مدير، هناك wm آخر يعمل؟ (حاول استخدام -- "
-"استبدال)\n"
-
-#: main_wayland.cpp:96
+#: main_wayland.cpp:106
 msgid ""
 "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
 "set.\n"
 msgstr ""
 
-#: main_wayland.cpp:235
-msgid "Start a nested X Server."
+#: main_wayland.cpp:213
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr ""
 
-#: main_wayland.cpp:238
+#: main_wayland.cpp:384
+msgid "Start a rootless Xwayland server."
+msgstr ""
+
+#: main_wayland.cpp:386
 msgid ""
-"The X11 Display to connect to. If not set next free number will be picked."
+"Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 
-#: main_wayland.cpp:247
+#: main_wayland.cpp:389
+msgid "Use a nested compositor in windowed mode."
+msgstr ""
+
+#: main_wayland.cpp:391
+msgid "Render to framebuffer."
+msgstr ""
+
+#: main_wayland.cpp:393
+msgid "The framebuffer device to render to."
+msgstr ""
+
+#: main_wayland.cpp:397
+msgid "The X11 Display to use in windowed mode on platform X11."
+msgstr ""
+
+#: main_wayland.cpp:400
+msgid "The Wayland Display to use in windowed mode on platform Wayland."
+msgstr ""
+
+#: main_wayland.cpp:403
+msgid "The width for windowed mode. Default width is 1024."
+msgstr ""
+
+#: main_wayland.cpp:407
+msgid "The height for windowed mode. Default height is 768."
+msgstr ""
+
+#: main_wayland.cpp:424
+#, fuzzy
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
-msgstr ""
+msgstr "مكّن دعم libinput لمعالجة أحداث الدَّخل. لاحظ: أبدًا لا تستخدمه في جلسة"
 
-#: main_x11.cpp:149
+#: main_x11.cpp:151
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
 msgstr ""
-"kwin: غير قادر على طلب اختيار مدير، هناك wm آخر يعمل؟ (حاول استخدام -- "
-"استبدال)\n"
 
-#: main_x11.cpp:166
-#, fuzzy
+#: main_x11.cpp:168
 msgid "kwin: another window manager is running (try using --replace)\n"
-msgstr ""
-"kwin: غير قادر على طلب اختيار مدير، هناك wm آخر يعمل؟ (حاول استخدام -- "
-"استبدال)\n"
+msgstr "نوافذك: مدير نوافذ آخر يعمل (جرّب استخدام ‎--replace)\n"
 
-#: main_x11.cpp:261
+#: main_x11.cpp:270
 msgid "Replace already-running ICCCM2.0-compliant window manager"
-msgstr "استبدل مدير النوافذ المتوافق مع ICCCM2.0 والذي يعمل حالياً."
+msgstr "استبدل مدير النّوافذ المتوافق مع ICCCM2.0 المشغّل بالفعل"
 
-#: scene_opengl.cpp:610
+#: scene_opengl.cpp:620
 msgid "Desktop effects were restarted due to a graphics reset"
-msgstr ""
+msgstr "أُعيد تشغيل تأثيرات سطح المكتب بسبب تصفير الرّسوميّات"
 
-#: scene_opengl.cpp:774
+#: scene_opengl.cpp:784
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -524,8 +560,12 @@ msgid ""
 "well.<br>Alternatively, lower the combined resolution of all screens to %1x"
 "%2 "
 msgstr ""
+"<h1>تأثيرات OpenGL لسطح المكتب غير ممكنة</h1>يتعذّر على نظامك عمل تأثيرات "
+"OpenGL لسطح المكتب بالميز الحاليّ<br><br>يمكنك تجريب اختيار سند XRender، لكنّه "
+"قد يكون بطيئًا جدًّا لهذا الميز أيضًا.<br>اخفض الميز المشترك لكلّ الشّاشات إلى %1×"
+"%2 كبديل"
 
-#: scene_opengl.cpp:781
+#: scene_opengl.cpp:791
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
 "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
@@ -533,7 +573,7 @@ msgid ""
 "by the hardware limitations that restrict the OpenGL viewport size."
 msgstr ""
 
-#: scene_opengl.cpp:806
+#: scene_opengl.cpp:816
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -542,7 +582,7 @@ msgid ""
 "compositing, switch to the XRender backend or lower the resolution to %1x%1."
 msgstr ""
 
-#: scene_opengl.cpp:812
+#: scene_opengl.cpp:822
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
 "GPU, thus windows of that size cannot be assigned to textures and will be "
@@ -554,18 +594,18 @@ msgstr ""
 #: scripting/genericscriptedconfig.cpp:81
 msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
-msgstr ""
+msgstr "لم توفّر الملحقة ملفّ ضبط في المكان المتوقّع"
 
 #: scripting/scripting.cpp:127
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
-msgstr ""
+msgstr "فشل توكيد: %1 ليس خاليًا"
 
 #: scripting/scripting.cpp:145
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
-msgstr ""
+msgstr "فشل توكيد: المعطى خالٍ"
 
 #: scripting/scripting.cpp:172
 msgctxt "Error in KWin Script"
@@ -583,78 +623,76 @@ msgstr ""
 #: scripting/scriptingutils.cpp:28
 msgctxt "syntax error in KWin script"
 msgid "Invalid number of arguments"
-msgstr ""
+msgstr "عدد معطيات غير صالح"
 
 #: scripting/scriptingutils.cpp:41
 #, kde-format
 msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
-msgstr ""
+msgstr "%1 ليس نوع تنويعة"
 
-#: tabbox/tabbox.cpp:347
+#: tabbox/tabbox.cpp:358
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "أظهر سطح المكتب"
 
-#: tabbox/tabbox.cpp:498
-msgid "Walk Through Windows"
-msgstr "تنقل بين النوافذ"
-
-#: tabbox/tabbox.cpp:499
-msgid "Walk Through Windows (Reverse)"
-msgstr "تنقل بين النوافذ (عكسياً)"
-
-#: tabbox/tabbox.cpp:500
-msgid "Walk Through Windows Alternative"
-msgstr "تنقل بين النوافذ البديلة"
-
-#: tabbox/tabbox.cpp:501
-msgid "Walk Through Windows Alternative (Reverse)"
-msgstr "تنقل بين النوافذ البديلة (عكسياً)"
-
-#: tabbox/tabbox.cpp:502
-#, fuzzy
-msgid "Walk Through Windows of Current Application"
-msgstr "تنقل بين النوافذ البديلة"
-
-#: tabbox/tabbox.cpp:503
-#, fuzzy
-msgid "Walk Through Windows of Current Application (Reverse)"
-msgstr "تنقل بين النوافذ البديلة (عكسياً)"
-
-#: tabbox/tabbox.cpp:504
-#, fuzzy
-msgid "Walk Through Windows of Current Application Alternative"
-msgstr "تنقل بين النوافذ البديلة"
-
-#: tabbox/tabbox.cpp:505
-#, fuzzy
-msgid "Walk Through Windows of Current Application Alternative (Reverse)"
-msgstr "تنقل بين النوافذ البديلة (عكسياً)"
-
-#: tabbox/tabbox.cpp:506
-msgid "Walk Through Desktops"
-msgstr "تنقل بين أسطح المكتب"
-
-#: tabbox/tabbox.cpp:507
-msgid "Walk Through Desktops (Reverse)"
-msgstr "تنقل بين أسطح المكتب (عكسياً)"
-
 #: tabbox/tabbox.cpp:508
-msgid "Walk Through Desktop List"
-msgstr "تنقل خلال قائمة سطح المكتب"
+msgid "Walk Through Windows"
+msgstr "تنقّل بين النّوافذ"
 
 #: tabbox/tabbox.cpp:509
-msgid "Walk Through Desktop List (Reverse)"
-msgstr "تنقل خلال قائمة سطح المكتب (عكسياً)"
+msgid "Walk Through Windows (Reverse)"
+msgstr "تنقّل بين النّوافذ (بالعكس)"
 
-#: tabbox/tabboxhandler.cpp:278
+#: tabbox/tabbox.cpp:510
+msgid "Walk Through Windows Alternative"
+msgstr "تنقّل بين النّوافذ البديلة"
+
+#: tabbox/tabbox.cpp:511
+msgid "Walk Through Windows Alternative (Reverse)"
+msgstr "تنقّل بين النّوافذ البديلة (بالعكس)"
+
+#: tabbox/tabbox.cpp:512
+msgid "Walk Through Windows of Current Application"
+msgstr "تنقّل بين نوافذ التّطبيق الحاليّ"
+
+#: tabbox/tabbox.cpp:513
+msgid "Walk Through Windows of Current Application (Reverse)"
+msgstr "تنقّل بين نوافذ التّطبيق الحاليّ (بالعكس)"
+
+#: tabbox/tabbox.cpp:514
+msgid "Walk Through Windows of Current Application Alternative"
+msgstr "تنقّل بين نوافذ التّطبيق الحاليّ البديلة"
+
+#: tabbox/tabbox.cpp:515
+msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+msgstr "تنقّل بين نوافذ التّطبيق الحاليّ البديلة (بالعكس)"
+
+#: tabbox/tabbox.cpp:516
+msgid "Walk Through Desktops"
+msgstr "تنقّل بين أسطح المكتب"
+
+#: tabbox/tabbox.cpp:517
+msgid "Walk Through Desktops (Reverse)"
+msgstr "تنقّل بين أسطح المكتب (بالعكس)"
+
+#: tabbox/tabbox.cpp:518
+msgid "Walk Through Desktop List"
+msgstr "تنقّل بين قائمة أسطح المكتب"
+
+#: tabbox/tabbox.cpp:519
+msgid "Walk Through Desktop List (Reverse)"
+msgstr "تنقّل بين قائمة أسطح المكتب (بالعكس)"
+
+#: tabbox/tabboxhandler.cpp:285
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
 msgstr ""
+"تثبيت مبدّل النّوافذ معطوب، الموارد ناقصة.\n"
+"تواصل مع توزيعتك حول هذا."
 
-#: useractions.cpp:185
+#: useractions.cpp:181
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -662,11 +700,11 @@ msgid ""
 "the mouse: use the window operations menu instead, activated using the %1 "
 "keyboard shortcut."
 msgstr ""
-"لقد اخترت إظهار نافذة من غير حدود.\n"
-"وبدون حدود لن تستطيع تمكين الحد مرّة أخرى بدون استخدام الفأرة. استخدم قائمة "
-"عمليّات النوافذ بدلاً من ذلك بتنشيطها باستخدام اختصار لوحة المفاتيح %1."
+"لقد اخترت إظهار نافذة بلا حدّ.\n"
+"بدون الحدود لن تستطيع تمكين الحدّ مجدّدًا باستخدام الفأرة: استخدم قائمة عمليّات "
+"النّافذة بدل ذلك، لتنشيطها استخدم اختصار لوحة المفاتيح %1."
 
-#: useractions.cpp:193
+#: useractions.cpp:189
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -674,169 +712,165 @@ msgid ""
 "mode off you will not be able to disable it again using the mouse: use the "
 "window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
-"لقد اخترت إظهار نافذة في وضعيّة ملء الشاشة.\n"
-"إذا لم يكن للتطبيق نفسه خيار لإيقاف تشغيل وضعية ملء الشاشة، فلن يكون بمقدورك "
-"تعطيله مرّة أخرى باستخدام الفأرة. استخدم قائمة عمليّات النوافذ بدلاً من ذلك "
-"بتنشيطها باستخدام اختصار لوحة المفاتيح %1."
+"لقد اخترت إظهار نافذة بوضع ملء الشّاشة.\n"
+"إن لم يحوي التّطبيق نفسه خيارًا لإطفاء وقت ملء الشّاشة لن تستطيع تعطيله مجدّدًا "
+"باستخدام الفأرة: استخدم قائمة عمليّات النّافذة بدل ذلك، لتنشيطها استخدم اختصار "
+"لوحة المفاتيح %1."
 
-#: useractions.cpp:256
+#: useractions.cpp:252
 msgid "&Move"
-msgstr "ح&رّك"
+msgstr "ا&نقل"
+
+#: useractions.cpp:257
+msgid "Re&size"
+msgstr "&غيّر الحجم"
 
 #: useractions.cpp:261
-msgid "Re&size"
-msgstr "أع&د تحجيم"
-
-#: useractions.cpp:265
 msgid "Keep &Above Others"
-msgstr "ابقِ ف&وق الآخرين"
+msgstr "أبقِ فو&ق غيرها"
 
-#: useractions.cpp:271
+#: useractions.cpp:267
 msgid "Keep &Below Others"
-msgstr "ابقِ ت&حت الآخرين"
+msgstr "أبقِ ت&حت غيرها"
 
-#: useractions.cpp:277
+#: useractions.cpp:273
 msgid "&Fullscreen"
-msgstr "&ملء الشاشة"
+msgstr "&ملء الشّاشة"
 
-#: useractions.cpp:283
+#: useractions.cpp:279
 msgid "Sh&ade"
-msgstr "ظ&لّل"
+msgstr "&ظلّل"
 
-#: useractions.cpp:288
+#: useractions.cpp:284
 msgid "&No Border"
-msgstr "&بدون حد"
+msgstr "&بلا حدّ"
 
-#: useractions.cpp:295
+#: useractions.cpp:291
 msgid "Window &Shortcut..."
-msgstr "اختصار ال&نافذة..."
+msgstr "اختصار ال&نّافذة..."
+
+#: useractions.cpp:296
+msgid "&Special Window Settings..."
+msgstr "إعدادات &خاصّة للنّافذة..."
 
 #: useractions.cpp:300
-msgid "&Special Window Settings..."
-msgstr "إع&دادات النافذة الخاصة..."
-
-#: useractions.cpp:304
 msgid "S&pecial Application Settings..."
-msgstr "إع&دادات التطبيق الخاصة..."
+msgstr "إعدادات خا&صّة للتّطبيق..."
 
-#: useractions.cpp:311
-#, fuzzy
+#: useractions.cpp:307
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
 msgid "Window &Manager Settings..."
-msgstr "إع&دادات النافذة الخاصة..."
+msgstr "إعدادات &مدير النّوافذ..."
+
+#: useractions.cpp:322
+msgid "Mi&nimize"
+msgstr "&صغّر"
 
 #: useractions.cpp:326
-msgid "Mi&nimize"
-msgstr "ك&بّر"
-
-#: useractions.cpp:330
 msgid "Ma&ximize"
-msgstr "ص&غّر"
+msgstr "&كبّر"
 
-#: useractions.cpp:339
+#: useractions.cpp:335
 msgid "&Untab"
 msgstr ""
 
-#: useractions.cpp:343
+#: useractions.cpp:339
 msgid "Close Entire &Group"
-msgstr "أغلق &كامل المجموعة"
+msgstr "أغلق الم&جموعة بالكامل"
+
+#: useractions.cpp:350
+msgid "&More Actions"
+msgstr "إ&جراءات أكثر"
 
 #: useractions.cpp:354
-msgid "&More Actions"
-msgstr ""
-
-#: useractions.cpp:358
 msgid "&Close"
 msgstr "أ&غلق"
 
-#: useractions.cpp:431
+#: useractions.cpp:427
 msgid "&Extensions"
-msgstr ""
+msgstr "الامت&دادات"
 
-#: useractions.cpp:486
-#, fuzzy
+#: useractions.cpp:482
 msgctxt "Switch to tab -> Previous"
 msgid "Previous"
-msgstr "التخطيط السابق"
+msgstr "السّابق"
 
-#: useractions.cpp:487
+#: useractions.cpp:483
 msgctxt "Switch to tab -> Next"
 msgid "Next"
-msgstr ""
+msgstr "التّالي"
 
-#: useractions.cpp:525
+#: useractions.cpp:521
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
-msgstr ""
+msgstr "لا شيء متوفّر"
 
-#: useractions.cpp:534
-#, fuzzy
+#: useractions.cpp:530
 msgid "Switch to Tab"
-msgstr "بدّل إلى لسان النافذة"
+msgstr "بدّل إلى اللسان"
 
-#: useractions.cpp:545
+#: useractions.cpp:541
 msgid "&Attach as tab to"
-msgstr ""
+msgstr "أر&فق كلسان إلى"
 
-#: useractions.cpp:568
-#, fuzzy
+#: useractions.cpp:564
 msgid "Move To &Desktop"
-msgstr "إلى س&طح المكتب"
+msgstr "انقل إلى سطح المك&تب"
 
-#: useractions.cpp:584
-#, fuzzy
+#: useractions.cpp:580
 msgid "Move To &Screen"
-msgstr "إلى س&طح المكتب"
+msgstr "انقل إلى ال&شّاشة"
 
-#: useractions.cpp:599
+#: useractions.cpp:595
 msgid "Ac&tivities"
 msgstr "الأ&نشطة"
 
-#: useractions.cpp:611
+#: useractions.cpp:607
 msgid "&All Desktops"
 msgstr "كلّ أ&سطح المكتب"
 
-#: useractions.cpp:637
-#, fuzzy
+#: useractions.cpp:633
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
-msgstr "أظهر سطح المكتب"
+msgstr "سطح مكتب &جديد"
 
-#: useractions.cpp:658
-#, fuzzy, kde-format
+#: useractions.cpp:654
+#, kde-format
 msgctxt "@item:inmenu List of all Screens to send a window to"
 msgid "Screen &%1"
-msgstr "النافذة للشاشة 1"
+msgstr "الشّاشة &%1"
 
-#: useractions.cpp:676
+#: useractions.cpp:672
 msgid "&All Activities"
-msgstr "&جميع الأنشطة"
+msgstr "&كلّ الأنشطة"
 
-#: useractions.cpp:883
+#: useractions.cpp:879
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
-msgstr ""
+msgstr "<b>%1</b> مستخدم بالفعل"
 
-#: useractions.cpp:885
+#: useractions.cpp:881
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
-msgstr ""
+msgstr "<b>%1</b> يستخدمه %2 في %3"
 
-#: useractions.cpp:1008
+#: useractions.cpp:1003
 #, kde-format
 msgid "Activate Window (%1)"
-msgstr "نشط النافذة (%1)"
+msgstr "فعّل النّافذة (%1)"
 
-#: useractions.cpp:1381
+#: useractions.cpp:1376
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
 "as active one.\n"
 "Therefore it is not possible to switch to a screen explicitly."
 msgstr ""
+"مدير النّوافذ مضبوط ليعتبر الشّاشة بالفأرة عليها هي الشّاشة النّشطة.\n"
+"لذلك لا يمكن التّبديل إلى شاشة تبديلًا صريحًا."
 
 #: virtualdesktops.cpp:334 virtualdesktops.cpp:396
 #, kde-format
@@ -845,34 +879,34 @@ msgstr "سطح المكتب %1"
 
 #: virtualdesktops.cpp:427
 msgid "Switch to Next Desktop"
-msgstr "بدّل لسطح المكتب التالي"
+msgstr "بدّل إلى سطح المكتب التّالي"
 
 #: virtualdesktops.cpp:428
 msgid "Switch to Previous Desktop"
-msgstr "بدّل لسطح المكتب السابق"
+msgstr "بدّل إلى سطح المكتب السّابق"
 
 #: virtualdesktops.cpp:429
 msgid "Switch One Desktop to the Right"
-msgstr "بدّل سطح المكتب إلى اليمين"
+msgstr ""
 
 #: virtualdesktops.cpp:430
 msgid "Switch One Desktop to the Left"
-msgstr "بدّل سطح المكتب إلى اليسار"
+msgstr ""
 
 #: virtualdesktops.cpp:431
 msgid "Switch One Desktop Up"
-msgstr "بدّل سطح المكتب الأعلى"
+msgstr ""
 
 #: virtualdesktops.cpp:432
 msgid "Switch One Desktop Down"
-msgstr "بدّل سطح المكتب الأسفل"
+msgstr ""
 
 #: virtualdesktops.cpp:444
-#, fuzzy, kde-format
+#, kde-format
 msgid "Switch to Desktop %1"
-msgstr "بدّل لسطح المكتب 1"
+msgstr "بدّل إلى سطح المكتب %1"
 
-#: workspace.cpp:1317
+#: workspace.cpp:1258
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

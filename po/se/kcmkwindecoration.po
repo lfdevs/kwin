@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
 "PO-Revision-Date: 2007-12-28 23:37+0100\n"
 "Last-Translator: Børre Gaup <boerre@skolelinux.no>\n"
 "Language-Team: Northern Sami <i18n-sme@lister.ping.uio.no>\n"
@@ -52,14 +52,12 @@ msgid "Shade"
 msgstr "Rulle bajás"
 
 #: declarative-plugin/buttonsmodel.cpp:83
-#, fuzzy
 msgid "Keep below"
-msgstr "Doalat earáid vuolábeallái"
+msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:85
-#, fuzzy
 msgid "Keep above"
-msgstr "Doalat earáid bajábeallái"
+msgstr ""
 
 #: kcm.cpp:106
 msgid ""
@@ -79,16 +77,14 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kcm.ui:56
-#, fuzzy
 msgid "Border si&ze:"
-msgstr "&Ravdalinnjásturrodat:"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:67
-#, fuzzy
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
-msgstr "&Ravdalinnjásturrodat:"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:72

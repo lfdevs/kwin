@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-28 09:29+0000\n"
-"PO-Revision-Date: 2015-02-28 00:02+0100\n"
-"Last-Translator: Samir Ribić <megaribi@epn.ba>\n"
+"POT-Creation-Date: 2015-01-29 08:07+0000\n"
+"PO-Revision-Date: 2015-02-03 11:42+0100\n"
+"Last-Translator: Samir Ribic <sribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <kde-i18n-doc@kde.org>\n"
 "Language: bs\n"
 "MIME-Version: 1.0\n"
@@ -20,18 +20,22 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 "X-Environment: kde\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: declarative-plugin/buttonsmodel.cpp:67
 msgid "Menu"
-msgstr "Meni"
+msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:69
+#, fuzzy
 msgid "Application menu"
 msgstr "Meni programa"
 
 #: declarative-plugin/buttonsmodel.cpp:71
+#, fuzzy
 msgid "On all desktops"
-msgstr "Na svim radnim površinama"
+msgstr "Na sve površi"
 
 #: declarative-plugin/buttonsmodel.cpp:73
 msgid "Minimize"
@@ -47,19 +51,21 @@ msgstr "Zatvori"
 
 #: declarative-plugin/buttonsmodel.cpp:79
 msgid "Context help"
-msgstr "Kontekstna pomoć"
+msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:81
 msgid "Shade"
 msgstr "Namotaj"
 
 #: declarative-plugin/buttonsmodel.cpp:83
+#, fuzzy
 msgid "Keep below"
-msgstr "Drži is&pod"
+msgstr "Drži ispod ostalih"
 
 #: declarative-plugin/buttonsmodel.cpp:85
+#, fuzzy
 msgid "Keep above"
-msgstr "Drži iz&nad"
+msgstr "Drži iznad ostalih"
 
 #: kcm.cpp:106
 msgid ""
@@ -81,20 +87,23 @@ msgstr "Dobavi nove dekoracije..."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kcm.ui:56
+#, fuzzy
 msgid "Border si&ze:"
-msgstr "&Veličina ivice:"
+msgstr "Veličina ivica:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:67
+#, fuzzy
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
-msgstr "Bez ruba"
+msgstr "Nema ivice"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:72
+#, fuzzy
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
-msgstr "Bez bočnih ivica"
+msgstr "Nema ivice sa strane"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:77
@@ -141,17 +150,18 @@ msgstr "Neizmjerne"
 # >> @option:check
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: kcm.ui:125
+#, fuzzy
 msgid "Close windows by double clicking &the menu button:"
 msgstr "Dvoklik na dugme menija zatvara prozor"
 
 #: qml/Buttons.qml:74
 msgid "Titlebar"
-msgstr "Naslovna traka"
+msgstr ""
 
 #: qml/Buttons.qml:197
 msgid "Drag buttons between here and the titlebar"
-msgstr "Prevuci dugmad između ovog mjesta i naslovne trake"
+msgstr ""
 
 #: qml/Buttons.qml:212
 msgid "Drop here to remove button"
-msgstr "Ispusti ovdje za uklanjanje dugmeta"
+msgstr ""

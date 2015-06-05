@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "tabgroup.h"
 #include "toplevel.h"
 #include "xcbutils.h"
+#include "decorations/decorationpalette.h"
 // Qt
 #include <QElapsedTimer>
 #include <QFlags>
@@ -36,8 +37,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QWindow>
 // X
 #include <xcb/sync.h>
-#include <X11/Xutil.h>
-#include <fixx11h.h>
 
 // TODO: Cleanup the order of things in this .h file
 
@@ -473,8 +472,8 @@ public:
     void plainResize(int w, int h, ForceGeometry_t force = NormalGeometrySet);
     void plainResize(const QSize& s, ForceGeometry_t force = NormalGeometrySet);
     /// resizeWithChecks() resizes according to gravity, and checks workarea position
-    void resizeWithChecks(int w, int h, ForceGeometry_t force = NormalGeometrySet);
-    void resizeWithChecks(const QSize& s, ForceGeometry_t force = NormalGeometrySet);
+    void resizeWithChecks(int w, int h, xcb_gravity_t gravity = XCB_GRAVITY_BIT_FORGET, ForceGeometry_t force = NormalGeometrySet);
+    void resizeWithChecks(const QSize& s, xcb_gravity_t gravity = XCB_GRAVITY_BIT_FORGET, ForceGeometry_t force = NormalGeometrySet);
     void keepInArea(QRect area, bool partial = false);
     void setElectricBorderMode(QuickTileMode mode);
     QuickTileMode electricBorderMode() const;
@@ -654,7 +653,11 @@ public:
     void setFirstInTabBox(bool enable) {
         m_firstInTabBox = enable;
     }
+    Xcb::Property fetchFirstInTabBox() const;
+    void readFirstInTabBox(Xcb::Property &property);
     void updateFirstInTabBox();
+    Xcb::StringProperty fetchColorScheme() const;
+    void readColorScheme(Xcb::StringProperty &property);
     void updateColorScheme();
 
     //sets whether the client should be treated as a SessionInteract window
@@ -663,38 +666,19 @@ public:
     // a helper for the workspace window packing. tests for screen validity and updates since in maximization case as with normal moving
     void packTo(int left, int top);
 
-#ifdef KWIN_BUILD_KAPPMENU
-    // Used by workspace
-    void emitShowRequest() {
-        emit showRequest();
-    }
-    void emitMenuHidden() {
-        emit menuHidden();
-    }
-    void setAppMenuAvailable();
-    void setAppMenuUnavailable();
-    void showApplicationMenu(const QPoint&);
-    bool menuAvailable() {
-        return m_menuAvailable;
-    }
-#endif
-
     template <typename T>
     void print(T &stream) const;
 
     void cancelFocusOutTimer();
 
     QPalette palette() const;
+    const Decoration::DecorationPalette *decorationPalette() const;
 
     /**
      * Restores the Client after it had been hidden due to show on screen edge functionality.
      * In addition the property gets deleted so that the Client knows that it is visible again.
      **/
     void showOnScreenEdge();
-
-    void sendPointerButtonEvent(uint32_t button, InputRedirection::PointerButtonState state) override;
-    void sendPointerAxisEvent(InputRedirection::PointerAxis axis, qreal delta) override;
-    void sendKeybordKeyEvent(uint32_t key, InputRedirection::KeyboardKeyState state) override;
 
 public Q_SLOTS:
     void closeWindow();
@@ -718,7 +702,7 @@ private:
     void destroyNotifyEvent(xcb_destroy_notify_event_t *e);
     void configureRequestEvent(xcb_configure_request_event_t *e);
     virtual void propertyNotifyEvent(xcb_property_notify_event_t *e) override;
-    void clientMessageEvent(xcb_client_message_event_t *e);
+    void clientMessageEvent(xcb_client_message_event_t *e) override;
     void enterNotifyEvent(xcb_enter_notify_event_t *e);
     void leaveNotifyEvent(xcb_leave_notify_event_t *e);
     void focusInEvent(xcb_focus_in_event_t *e);
@@ -733,11 +717,11 @@ private:
     bool processDecorationButtonPress(int button, int state, int x, int y, int x_root, int y_root,
                                       bool ignoreMenu = false);
     Client* findAutogroupCandidate() const;
-    void resetShowingDesktop(bool keep_hidden);
 
 protected:
     virtual void debug(QDebug& stream) const;
     virtual bool shouldUnredirect() const;
+    void addDamage(const QRegion &damage) override;
 
 private Q_SLOTS:
     void delayedSetShortcut();
@@ -864,6 +848,8 @@ private:
 
     void embedClient(xcb_window_t w, xcb_visualid_t visualid, xcb_colormap_t colormap, uint8_t depth);
     void detectNoBorder();
+    Xcb::Property fetchGtkFrameExtents() const;
+    void readGtkFrameExtents(Xcb::Property &prop);
     void detectGtkFrameExtents();
     void destroyDecoration();
     void updateFrameExtents();
@@ -888,11 +874,15 @@ private:
 
     bool tabTo(Client *other, bool behind, bool activate);
 
+    Xcb::Property fetchShowOnScreenEdge() const;
+    void readShowOnScreenEdge(Xcb::Property &property);
     /**
      * Reads the property and creates/destroys the screen edge if required
      * and shows/hides the client.
      **/
     void updateShowOnScreenEdge();
+
+    void handlePaletteChange();
 
     Xcb::Window m_client;
     Xcb::Window m_wrapper;
@@ -920,7 +910,7 @@ private:
     QPoint invertedMoveOffset;
     QRect moveResizeGeom;
     QRect initialMoveResizeGeom;
-    XSizeHints xSizeHint;
+    Xcb::GeometryHints m_geometryHints;
     void sendSyntheticConfigureNotify();
     enum MappingState {
         Withdrawn, ///< Not handled, as per ICCCM WithdrawnState
@@ -934,6 +924,8 @@ private:
      */
     int quick_tile_mode;
 
+    Xcb::TransientFor fetchTransient() const;
+    void readTransientProperty(Xcb::TransientFor &transientFor);
     void readTransient();
     xcb_window_t verifyTransientFor(xcb_window_t transient_for, bool set);
     void addTransient(Client* cl);
@@ -955,16 +947,13 @@ private:
     uint original_skip_taskbar : 1; ///< Unaffected by KWin
     uint skip_pager : 1;
     uint skip_switcher : 1;
-    uint motif_may_resize : 1;
-    uint motif_may_move : 1;
-    uint motif_may_close : 1;
+    Xcb::MotifHints m_motif;
     uint keep_below : 1; ///< NET::KeepBelow
     uint minimized : 1;
     uint hidden : 1; ///< Forcibly hidden by calling hide()
     uint modal : 1; ///< NET::Modal
     uint noborder : 1;
     uint app_noborder : 1; ///< App requested no border via window type, shape extension, etc.
-    uint motif_noborder : 1; ///< App requested no border via Motif WM hints
     uint ignore_focus_stealing : 1; ///< Don't apply focus stealing prevention to this client
     uint demands_attention : 1;
     bool blocks_compositing;
@@ -1026,21 +1015,24 @@ private:
 
     friend bool performTransiencyCheck();
 
+    Xcb::StringProperty fetchActivities() const;
+    void readActivities(Xcb::StringProperty &property);
     void checkActivities();
     bool activitiesDefined; //whether the x property was actually set
 
     bool needsSessionInteract;
     bool needsXWindowMove;
 
-#ifdef KWIN_BUILD_KAPPMENU
-    bool m_menuAvailable;
-#endif
     Xcb::Window m_decoInputExtent;
     QPoint input_offset;
 
     QTimer *m_focusOutTimer;
 
-    QPalette m_palette;
+    QString m_colorScheme;
+    std::shared_ptr<Decoration::DecorationPalette> m_palette;
+    static QHash<QString, std::weak_ptr<Decoration::DecorationPalette>> s_palettes;
+    static std::shared_ptr<Decoration::DecorationPalette> s_defaultPalette;
+
     QList<QMetaObject::Connection> m_connections;
     bool m_clientSideDecorated;
 };
@@ -1256,9 +1248,9 @@ inline void Client::plainResize(const QSize& s, ForceGeometry_t force)
     plainResize(s.width(), s.height(), force);
 }
 
-inline void Client::resizeWithChecks(const QSize& s, ForceGeometry_t force)
+inline void Client::resizeWithChecks(const QSize& s, xcb_gravity_t gravity, ForceGeometry_t force)
 {
-    resizeWithChecks(s.width(), s.height(), force);
+    resizeWithChecks(s.width(), s.height(), gravity, force);
 }
 
 inline bool Client::hasUserTimeSupport() const
@@ -1293,7 +1285,12 @@ inline bool Client::hiddenPreview() const
 
 inline QPalette Client::palette() const
 {
-    return m_palette;
+    return m_palette->palette();
+}
+
+inline const Decoration::DecorationPalette *Client::decorationPalette() const
+{
+    return m_palette.get();
 }
 
 template <typename T>

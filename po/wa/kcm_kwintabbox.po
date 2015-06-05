@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-21 09:28+0000\n"
+"POT-Creation-Date: 2015-01-22 08:06+0000\n"
 "PO-Revision-Date: 2010-10-22 18:28+0200\n"
 "Last-Translator: Jean Cayron <jean.cayron@gmail.com>\n"
 "Language-Team: Walloon <linux@walon.org>\n"
@@ -19,6 +19,7 @@ msgstr ""
 
 #: layoutpreview.cpp:165
 #, fuzzy
+#| msgid "All Desktops"
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Tos les scribannes"
@@ -46,6 +47,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, showDesktop)
 #: main.ui:41
 #, fuzzy
+#| msgid "Include desktop"
 msgid "Include \"Show Desktop\" icon"
 msgstr "Mete sicribanne didins"
 
@@ -72,24 +74,28 @@ msgstr "Ôre po relére :"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:104
 #, fuzzy
+#| msgid "List windows:"
 msgid "Filter windows by"
 msgstr "Fé l' djivêye des purneas :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterDesktops)
 #: main.ui:113
 #, fuzzy
+#| msgid "All Desktops"
 msgid "Virtual desktops"
 msgstr "Tos les scribannes"
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentDesktop)
 #: main.ui:157
 #, fuzzy
+#| msgid "Current Desktop"
 msgid "Current desktop"
 msgstr "Sicribanne do moumint"
 
 #. i18n: ectx: property (text), widget (QRadioButton, otherDesktops)
 #: main.ui:164
 #, fuzzy
+#| msgid "All Desktops"
 msgid "All other desktops"
 msgstr "Tos les scribannes"
 
@@ -116,6 +122,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QRadioButton, currentScreen)
 #: main.ui:279
 #, fuzzy
+#| msgid "Current Desktop"
 msgid "Current screen"
 msgstr "Sicribanne do moumint"
 
@@ -127,18 +134,21 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, filterMinimization)
 #: main.ui:296
 #, fuzzy
+#| msgid "Minimum Size"
 msgid "Minimization"
 msgstr "Grandeu minimom"
 
 #. i18n: ectx: property (text), widget (QRadioButton, visibleWindows)
 #: main.ui:340
 #, fuzzy
+#| msgid "List windows:"
 msgid "Visible windows"
 msgstr "Fé l' djivêye des purneas :"
 
 #. i18n: ectx: property (text), widget (QRadioButton, hiddenWindows)
 #: main.ui:347
 #, fuzzy
+#| msgid "List windows:"
 msgid "Hidden windows"
 msgstr "Fé l' djivêye des purneas :"
 
@@ -156,6 +166,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:418
 #, fuzzy
+#| msgid "List windows:"
 msgid "All windows"
 msgstr "Fé l' djivêye des purneas :"
 
@@ -168,12 +179,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:470
 #, fuzzy
+#| msgid "Current Desktop Grouped by Applications"
 msgid "Current application"
 msgstr "Sicribanne do moumint groupé pa programes"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:489
 #, fuzzy
+#| msgid "Navigation"
 msgid "Visualization"
 msgstr "Naiviaedje"
 
@@ -194,6 +207,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, highlightWindowCheck)
 #: main.ui:552
 #, fuzzy
+#| msgid "Show outline of selected window"
 msgid "Show selected window"
 msgstr "Mostrer l' cotoû do purnea di tchoezi"
 

@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "wayland_backend.h"
 #include <KWayland/Client/output.h>
+#include "main.h"
 #include "utils.h"
 #include "xcbutils.h"
 
@@ -31,8 +32,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace KWin
 {
 
-WaylandScreens::WaylandScreens(QObject* parent)
+WaylandScreens::WaylandScreens(Wayland::WaylandBackend *backend, QObject* parent)
     : Screens(parent)
+    , m_backend(backend)
 {
 }
 
@@ -43,7 +45,7 @@ WaylandScreens::~WaylandScreens()
 void WaylandScreens::init()
 {
     Screens::init();
-    connect(Wayland::WaylandBackend::self(), &Wayland::WaylandBackend::outputsChanged,
+    connect(m_backend, &Wayland::WaylandBackend::outputsChanged,
             this, &WaylandScreens::startChangedTimer);
     updateCount();
 }
@@ -86,7 +88,7 @@ void WaylandScreens::updateCount()
 {
     m_geometries.clear();
     int count = 0;
-    const QList<KWayland::Client::Output*> &outputs = Wayland::WaylandBackend::self()->outputs();
+    const QList<KWayland::Client::Output*> &outputs = m_backend->outputs();
     for (auto it = outputs.begin(); it != outputs.end(); ++it) {
         if ((*it)->pixelSize().isEmpty()) {
             continue;
@@ -208,6 +210,10 @@ static bool addModeToOutput(xcb_randr_output_t output, xcb_randr_mode_t mode)
 
 void WaylandScreens::updateXRandr()
 {
+    if (kwinApp()->operationMode() == Application::OperationModeXwayland) {
+        // no need to update, will be done automagically by Xwayland
+        return;
+    }
     if (!Xcb::Extensions::self()->isRandrAvailable()) {
         qCDebug(KWIN_CORE) << "No RandR extension available, cannot sync with X";
         return;

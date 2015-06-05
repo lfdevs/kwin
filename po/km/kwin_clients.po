@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-27 20:56+0000\n"
+"POT-Creation-Date: 2015-02-20 09:22+0000\n"
 "PO-Revision-Date: 2012-06-14 11:25+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer\n"
@@ -17,6 +17,68 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: KBabel 1.11.4\n"
 "X-Language: km-CM\n"
+
+#: aurorae/src/aurorae.cpp:703
+#, fuzzy
+#| msgctxt "@item:inlistbox Border size:"
+#| msgid "Tiny"
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "ល្អិត"
+
+#: aurorae/src/aurorae.cpp:704
+#, fuzzy
+#| msgctxt "@item:inlistbox Button size:"
+#| msgid "Normal"
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "ធម្មតា"
+
+#: aurorae/src/aurorae.cpp:705
+#, fuzzy
+#| msgctxt "@item:inlistbox Button size:"
+#| msgid "Large"
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "ធំ"
+
+#: aurorae/src/aurorae.cpp:706
+#, fuzzy
+#| msgctxt "@item:inlistbox Button size:"
+#| msgid "Very Large"
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "ធំណាស់"
+
+#: aurorae/src/aurorae.cpp:707
+#, fuzzy
+#| msgctxt "@item:inlistbox Button size:"
+#| msgid "Huge"
+msgctxt "@item:inlistbox Button size:"
+msgid "Huge"
+msgstr "ធំសម្បើម"
+
+#: aurorae/src/aurorae.cpp:708
+#, fuzzy
+#| msgctxt "@item:inlistbox Border size:"
+#| msgid "Very Huge"
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Huge"
+msgstr "ធំ​សម្បើម​ណាស់"
+
+#: aurorae/src/aurorae.cpp:709
+#, fuzzy
+#| msgctxt "@item:inlistbox Border size:"
+#| msgid "Oversized"
+msgctxt "@item:inlistbox Button size:"
+msgid "Oversized"
+msgstr "លើស​ទំហំ"
+
+#: aurorae/src/aurorae.cpp:712
+#, fuzzy
+#| msgid "Button size:"
+msgid "Button size:"
+msgstr "ទំហំប៊ូតុង ៖"
 
 #  i18n: file ./plastik/config/configdialog.ui line 16
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlastikConfigDialog)
@@ -191,29 +253,7 @@ msgstr "ធ្វើ​ឲ្យ​ប៊ូតុង​មាន​ចលនា
 
 
 
-
-
-
-
-
-
 #  i18n: file ./plastik/config/configdialog.ui line 30
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -267,7 +307,15 @@ msgstr "ធ្វើ​ឲ្យ​ប៊ូតុង​មាន​ចលនា
 
 
 
+
 #  i18n: file ./plastik/config/configdialog.ui line 16
+
+
+
+
+
+
+
 
 
 

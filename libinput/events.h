@@ -87,8 +87,8 @@ public:
     uint32_t button() const;
     InputRedirection::PointerButtonState buttonState() const;
     uint32_t time() const;
-    InputRedirection::PointerAxis axis() const;
-    qreal axisValue() const;
+    QVector<InputRedirection::PointerAxis> axis() const;
+    qreal axisValue(InputRedirection::PointerAxis a) const;
 
     operator libinput_event_pointer*() {
         return m_pointerEvent;
@@ -99,6 +99,28 @@ public:
 
 private:
     libinput_event_pointer *m_pointerEvent;
+};
+
+class TouchEvent : public Event
+{
+public:
+    TouchEvent(libinput_event *event, libinput_event_type type);
+    virtual ~TouchEvent();
+
+    quint32 time() const;
+    QPointF absolutePos() const;
+    QPointF absolutePos(const QSize &size) const;
+    qint32 id() const;
+
+    operator libinput_event_touch*() {
+        return m_touchEvent;
+    }
+    operator libinput_event_touch*() const {
+        return m_touchEvent;
+    }
+
+private:
+    libinput_event_touch *m_touchEvent;
 };
 
 inline

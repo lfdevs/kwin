@@ -29,14 +29,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "scene_opengl.h"
 #ifdef KWIN_HAVE_EGL
 #include "eglonxbackend.h"
-// for Wayland
-#if HAVE_WAYLAND_EGL
-#include "egl_wayland_backend.h"
-#endif
-#endif
+#endif // KWIN_HAVE_EGL
 #ifndef KWIN_HAVE_OPENGLES
 #include "glxbackend.h"
-#endif
+#endif // KWIN_HAVE_OPENGLES
+
+#if HAVE_WAYLAND
+#include "abstract_backend.h"
+#include "wayland_server.h"
+#endif // HAVE_WAYLAND
 
 #include <kwinglcolorcorrection.h>
 #include <kwinglplatform.h>
@@ -50,7 +51,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "main.h"
 #include "overlaywindow.h"
 #include "screens.h"
-#include "workspace.h"
 #include "decorations/decoratedclient.h"
 
 #include <array>
@@ -120,6 +120,17 @@ SyncObject::SyncObject()
 
 SyncObject::~SyncObject()
 {
+    // If glDeleteSync is called before the xcb fence is signalled
+    // the nvidia driver (the only one to implement GL_SYNC_X11_FENCE_EXT)
+    // deadlocks waiting for the fence to be signalled.
+    // To avoid this, make sure the fence is signalled before
+    // deleting the sync.
+    if (m_state == Resetting || m_state == Ready){
+        trigger();
+        // The flush is necessary!
+        // The trigger command needs to be sent to the X server.
+        xcb_flush(connection());
+    }
     xcb_sync_destroy_fence(connection(), m_fence);
     glDeleteSync(m_sync);
 
@@ -350,8 +361,8 @@ OverlayWindow* OpenGLBackend::overlayWindow()
  * SceneOpenGL
  ***********************************************/
 
-SceneOpenGL::SceneOpenGL(Workspace* ws, OpenGLBackend *backend)
-    : Scene(ws)
+SceneOpenGL::SceneOpenGL(OpenGLBackend *backend, QObject *parent)
+    : Scene(parent)
     , init_ok(true)
     , m_backend(backend)
     , m_syncManager(nullptr)
@@ -471,7 +482,7 @@ void SceneOpenGL::initDebugOutput()
                          GL_DEBUG_SEVERITY_LOW, message.length(), message.constData());
 }
 
-SceneOpenGL *SceneOpenGL::createScene()
+SceneOpenGL *SceneOpenGL::createScene(QObject *parent)
 {
     OpenGLBackend *backend = NULL;
     OpenGLPlatformInterface platformInterface = options->glPlatformInterface();
@@ -484,16 +495,15 @@ SceneOpenGL *SceneOpenGL::createScene()
         break;
     case EglPlatformInterface:
 #ifdef KWIN_HAVE_EGL
-#if HAVE_WAYLAND_EGL
+#if HAVE_WAYLAND
         if (kwinApp()->shouldUseWaylandForCompositing()) {
-            backend = new EglWaylandBackend();
-        } else {
+            backend = waylandServer()->backend()->createOpenGLBackend();
+        } else
+#endif // HAVE_WAYLAND
+        {
             backend = new EglOnXBackend();
         }
-#else
-        backend = new EglOnXBackend();
-#endif
-#endif
+#endif // KWIN_HAVE_EGL
         break;
     default:
         // no backend available
@@ -506,7 +516,7 @@ SceneOpenGL *SceneOpenGL::createScene()
     SceneOpenGL *scene = NULL;
     // first let's try an OpenGL 2 scene
     if (SceneOpenGL2::supported(backend)) {
-        scene = new SceneOpenGL2(backend);
+        scene = new SceneOpenGL2(backend, parent);
         if (scene->initFailed()) {
             delete scene;
             scene = NULL;
@@ -904,8 +914,8 @@ bool SceneOpenGL2::supported(OpenGLBackend *backend)
     return true;
 }
 
-SceneOpenGL2::SceneOpenGL2(OpenGLBackend *backend)
-    : SceneOpenGL(Workspace::self(), backend)
+SceneOpenGL2::SceneOpenGL2(OpenGLBackend *backend, QObject *parent)
+    : SceneOpenGL(backend, parent)
     , m_lanczosFilter(NULL)
     , m_colorCorrection()
 {
@@ -1140,17 +1150,23 @@ void SceneOpenGL::Texture::discard()
     d_ptr = d_func()->backend()->createBackendTexture(this);
 }
 
-bool SceneOpenGL::Texture::load(xcb_pixmap_t pix, const QSize &size,
-                                xcb_visualid_t visual)
+bool SceneOpenGL::Texture::load(WindowPixmap *pixmap)
 {
-    if (pix == XCB_NONE)
+    if (!pixmap->isValid()) {
         return false;
+    }
 
     // decrease the reference counter for the old texture
     d_ptr = d_func()->backend()->createBackendTexture(this); //new TexturePrivate();
 
     Q_D(Texture);
-    return d->loadTexture(pix, size, visual);
+    return d->loadTexture(pixmap);
+}
+
+void SceneOpenGL::Texture::updateFromPixmap(WindowPixmap *pixmap)
+{
+    Q_D(Texture);
+    d->updateTexture(pixmap);
 }
 
 //****************************************
@@ -1162,6 +1178,11 @@ SceneOpenGL::TexturePrivate::TexturePrivate()
 
 SceneOpenGL::TexturePrivate::~TexturePrivate()
 {
+}
+
+void SceneOpenGL::TexturePrivate::updateTexture(WindowPixmap *pixmap)
+{
+    Q_UNUSED(pixmap)
 }
 
 //****************************************
@@ -1579,6 +1600,10 @@ bool OpenGLWindowPixmap::bind()
 {
     if (!m_texture->isNull()) {
         if (!toplevel()->damage().isEmpty()) {
+#if HAVE_WAYLAND
+            updateBuffer();
+            m_texture->updateFromPixmap(this);
+#endif
             // mipmaps need to be updated
             m_texture->setDirty();
             toplevel()->resetDamage();
@@ -1589,7 +1614,7 @@ bool OpenGLWindowPixmap::bind()
         return false;
     }
 
-    bool success = m_texture->load(pixmap(), toplevel()->size(), toplevel()->visual());
+    bool success = m_texture->load(this);
 
     if (success)
         toplevel()->resetDamage();

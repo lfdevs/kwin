@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-28 15:51+0000\n"
+"POT-Creation-Date: 2015-05-16 12:24+0000\n"
 "PO-Revision-Date: 2004-07-03 17:42+0100\n"
 "Last-Translator: KD at KGyfieithu <kyfieithu@dotmon.com>\n"
 "Language-Team: Cymraeg <cy@li.org>\n"
@@ -167,20 +167,26 @@ msgstr ""
 msgid "C&lear"
 msgstr "&Gwaredu"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 msgid "Window-Specific Settings Configuration Module"
 msgstr "Modiwl Ffurfweddu Gosodiadau sy'n Benodol i'r Ffenestr"
 
-#: kcm.cpp:51
+#: kcm.cpp:52
 msgid "(c) 2004 KWin and KControl Authors"
 msgstr "(c) 2004 Awduron KWin a KControl"
 
-#: kcm.cpp:52
+#: kcm.cpp:53
 msgid "Lubos Lunak"
 msgstr ""
 
-#: kcm.cpp:83
+#: kcm.cpp:84
 #, fuzzy
+#| msgid ""
+#| "<h1>Window-specific Settings</h1> Here you can customize window settings "
+#| "specifically only for some windows. <p>Please note that this "
+#| "configuration will not take effect if you do not use KWin as your window "
+#| "manager. If you do use a different window manager, please refer to its "
+#| "documentation for how to customize window behavior."
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -194,15 +200,15 @@ msgstr ""
 "ffenestri.  Os defnyddiwch rheolydd ffenestr arall, cyfeiriwch at ei "
 "ddogfennaeth i ddarganfod sut i addasu ymddygiad ffenestri."
 
-#: kcm.cpp:99
+#: kcm.cpp:100
 msgid "Remember settings separately for every window"
 msgstr ""
 
-#: kcm.cpp:100
+#: kcm.cpp:101
 msgid "Show internal settings for remembering"
 msgstr ""
 
-#: kcm.cpp:101
+#: kcm.cpp:102
 msgid "Internal setting for remembering"
 msgstr ""
 
@@ -397,12 +403,14 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage1)
 #: ruleswidgetbase.ui:21
 #, fuzzy
+#| msgid "&Window"
 msgid "&Window matching"
 msgstr "&Ffenestr"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
 #, fuzzy
+#| msgid "De&scription:"
 msgid "&Description:"
 msgstr "Di&sgrifiad:"
 
@@ -467,6 +475,7 @@ msgstr "Cydweddu holl ddosbarth ffenestr"
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: ruleswidgetbase.ui:109
 #, fuzzy
+#| msgid "Window &role:"
 msgid "Window ro&le:"
 msgstr "&Rôl y ffenestr:"
 
@@ -490,6 +499,7 @@ msgstr "Peiriant (enw gwesteiwr):"
 #. i18n: ectx: property (text), widget (QPushButton, detect)
 #: ruleswidgetbase.ui:318
 #, fuzzy
+#| msgid "Detect Window Properties"
 msgid "&Detect Window Properties"
 msgstr "Darganfod Priodweddau Ffenestr"
 
@@ -501,12 +511,14 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #: ruleswidgetbase.ui:468
 #, fuzzy
+#| msgid "On Main Window"
 msgid "Unmanaged Window"
 msgstr "Ar Brif Ffenestr"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage3)
 #: ruleswidgetbase.ui:489
 #, fuzzy
+#| msgid "&Position"
 msgid "&Size && Position"
 msgstr "&Lleoliad"
 
@@ -910,6 +922,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_screen)
 #: ruleswidgetbase.ui:1369
 #, fuzzy
+#| msgid "Splash Screen"
 msgid "Screen"
 msgstr "Sgrin Croeso"
 
@@ -1067,6 +1080,7 @@ msgstr "Math ffenestr"
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #: ruleswidgetbase.ui:2373
 #, fuzzy
+#| msgid "None"
 msgctxt "no focus stealing prevention"
 msgid "None"
 msgstr "Dim"
@@ -1111,3 +1125,13 @@ msgstr "Atal dwyn canolbwynt"
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
 msgstr ""
+
+#: yesnobox.h:35
+msgid "Yes"
+msgstr ""
+
+#: yesnobox.h:36
+#, fuzzy
+#| msgid "None"
+msgid "No"
+msgstr "Dim"

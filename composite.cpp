@@ -39,8 +39,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "xcbutils.h"
 #if HAVE_WAYLAND
 #include "wayland_backend.h"
+#include "wayland_server.h"
 #endif
 #include "decorations/decoratedclient.h"
+
+#if HAVE_WAYLAND
+#include <KWayland/Server/surface_interface.h>
+#endif
 
 #include <stdio.h>
 
@@ -64,7 +69,7 @@ namespace KWin
 
 extern int currentRefreshRate();
 
-CompositorSelectionOwner::CompositorSelectionOwner(const char *selection) : KSelectionOwner(selection), owning(false)
+CompositorSelectionOwner::CompositorSelectionOwner(const char *selection) : KSelectionOwner(selection, connection(), rootWindow()), owning(false)
 {
     connect (this, SIGNAL(lostOwnership()), SLOT(looseOwnership()));
 }
@@ -96,7 +101,7 @@ Compositor::Compositor(QObject* workspace)
     qRegisterMetaType<Compositor::SuspendReason>("Compositor::SuspendReason");
     connect(&unredirectTimer, SIGNAL(timeout()), SLOT(delayedCheckUnredirect()));
     connect(&compositeResetTimer, SIGNAL(timeout()), SLOT(restart()));
-    connect(workspace, SIGNAL(configChanged()), SLOT(slotConfigChanged()));
+    connect(options, &Options::configChanged, this, &Compositor::slotConfigChanged);
     connect(options, SIGNAL(unredirectFullscreenChanged()), SLOT(delayedCheckUnredirect()));
     unredirectTimer.setSingleShot(true);
     compositeResetTimer.setSingleShot(true);
@@ -114,8 +119,12 @@ Compositor::Compositor(QObject* workspace)
     connect(&m_unusedSupportPropertyTimer, SIGNAL(timeout()), SLOT(deleteUnusedSupportProperties()));
 #if HAVE_WAYLAND
     if (kwinApp()->operationMode() != Application::OperationModeX11) {
-        connect(Wayland::WaylandBackend::self(), &Wayland::WaylandBackend::systemCompositorDied, this, &Compositor::finish);
-        connect(Wayland::WaylandBackend::self(), &Wayland::WaylandBackend::backendReady, this, &Compositor::setup);
+        if (Wayland::WaylandBackend *w = dynamic_cast<Wayland::WaylandBackend *>(waylandServer()->backend())) {
+            connect(w, &Wayland::WaylandBackend::systemCompositorDied, this, &Compositor::finish);
+            connect(w, &Wayland::WaylandBackend::backendReady, this, &Compositor::setup);
+        } else {
+            QMetaObject::invokeMethod(this, "setup", Qt::QueuedConnection);
+        }
     } else
 #endif
 
@@ -177,20 +186,13 @@ extern bool is_multihead;
 
 void Compositor::slotCompositingOptionsInitialized()
 {
-    char selection_name[ 100 ];
-    sprintf(selection_name, "_NET_WM_CM_S%d", QX11Info::appScreen());
-    if (!cm_selection) {
-        cm_selection = new CompositorSelectionOwner(selection_name);
-        connect(cm_selection, SIGNAL(lostOwnership()), SLOT(finish()));
-    }
-    if (!cm_selection->owning) {
-        cm_selection->claim(true);   // force claiming
-        cm_selection->owning = true;
-    }
+    claimCompositorSelection();
 
     // There might still be a deleted around, needs to be cleared before creating the scene (BUG 333275)
-    while (!Workspace::self()->deletedList().isEmpty()) {
-        Workspace::self()->deletedList().first()->discard();
+    if (Workspace::self()) {
+        while (!Workspace::self()->deletedList().isEmpty()) {
+            Workspace::self()->deletedList().first()->discard();
+        }
     }
 
     switch(options->compositingMode()) {
@@ -207,7 +209,7 @@ void Compositor::slotCompositingOptionsInitialized()
             unsafeConfig.writeEntry(openGLIsUnsafe, true);
             unsafeConfig.sync();
 #ifndef KWIN_HAVE_OPENGLES
-            if (!CompositingPrefs::hasGlx()) {
+            if (!kwinApp()->shouldUseWaylandForCompositing() && !CompositingPrefs::hasGlx()) {
                 unsafeConfig.writeEntry(openGLIsUnsafe, false);
                 unsafeConfig.sync();
                 qCDebug(KWIN_CORE) << "No glx extensions available";
@@ -215,7 +217,7 @@ void Compositor::slotCompositingOptionsInitialized()
             }
 #endif
 
-            m_scene = SceneOpenGL::createScene();
+            m_scene = SceneOpenGL::createScene(this);
 
             // TODO: Add 30 second delay to protect against screen freezes as well
             unsafeConfig.writeEntry(openGLIsUnsafe, false);
@@ -235,18 +237,20 @@ void Compositor::slotCompositingOptionsInitialized()
 #ifdef KWIN_HAVE_XRENDER_COMPOSITING
     case XRenderCompositing:
         qCDebug(KWIN_CORE) << "Initializing XRender compositing";
-        m_scene = SceneXrender::createScene();
+        m_scene = SceneXrender::createScene(this);
         break;
 #endif
     case QPainterCompositing:
         qCDebug(KWIN_CORE) << "Initializing QPainter compositing";
-        m_scene = SceneQPainter::createScene();
+        m_scene = SceneQPainter::createScene(this);
         break;
     default:
         qCDebug(KWIN_CORE) << "No compositing enabled";
         m_starting = false;
-        cm_selection->owning = false;
-        cm_selection->release();
+        if (cm_selection) {
+            cm_selection->owning = false;
+            cm_selection->release();
+        }
         if (kwinApp()->requiresCompositing()) {
             qCCritical(KWIN_CORE) << "The used windowing system requires compositing";
             qCCritical(KWIN_CORE) << "We are going to quit KWin now as it is broken";
@@ -259,8 +263,10 @@ void Compositor::slotCompositingOptionsInitialized()
         delete m_scene;
         m_scene = NULL;
         m_starting = false;
-        cm_selection->owning = false;
-        cm_selection->release();
+        if (cm_selection) {
+            cm_selection->owning = false;
+            cm_selection->release();
+        }
         if (kwinApp()->requiresCompositing()) {
             qCCritical(KWIN_CORE) << "The used windowing system requires compositing";
             qCCritical(KWIN_CORE) << "We are going to quit KWin now as it is broken";
@@ -268,6 +274,40 @@ void Compositor::slotCompositingOptionsInitialized()
         }
         return;
     }
+
+    if (Workspace::self()) {
+        startupWithWorkspace();
+    } else {
+        connect(kwinApp(), &Application::workspaceCreated, this, &Compositor::startupWithWorkspace);
+    }
+}
+
+void Compositor::claimCompositorSelection()
+{
+    if (!cm_selection && kwinApp()->x11Connection()) {
+        char selection_name[ 100 ];
+        sprintf(selection_name, "_NET_WM_CM_S%d", Application::x11ScreenNumber());
+        cm_selection = new CompositorSelectionOwner(selection_name);
+        connect(cm_selection, SIGNAL(lostOwnership()), SLOT(finish()));
+    }
+
+    if (!cm_selection) // no X11 yet
+        return;
+
+    if (!cm_selection->owning) {
+        cm_selection->claim(true);   // force claiming
+        cm_selection->owning = true;
+    }
+}
+
+void Compositor::startupWithWorkspace()
+{
+    if (!m_starting) {
+        return;
+    }
+    Q_ASSERT(m_scene);
+    claimCompositorSelection();
+    connect(Workspace::self(), &Workspace::deletedRemoved, m_scene, &Scene::windowDeleted);
     m_xrrRefreshRate = KWin::currentRefreshRate();
     fpsInterval = options->maxFpsInterval();
     if (m_scene->syncsToVBlank()) {  // if we do vsync, set the fps to the next multiple of the vblank rate
@@ -372,8 +412,10 @@ void Compositor::releaseCompositorSelection()
         return;
     }
     qCDebug(KWIN_CORE) << "Releasing compositor selection";
-    cm_selection->owning = false;
-    cm_selection->release();
+    if (cm_selection) {
+        cm_selection->owning = false;
+        cm_selection->release();
+    }
 }
 
 void Compositor::keepSupportProperty(xcb_atom_t atom)
@@ -635,6 +677,7 @@ void Compositor::performCompositing()
     if (repaints_region.isEmpty() && !windowRepaintsPending()) {
         m_scene->idle();
         m_timeSinceLastVBlank = fpsInterval - (options->vBlankTime() + 1); // means "start now"
+        m_timeSinceStart += m_timeSinceLastVBlank;
         // Note: It would seem here we should undo suspended unredirect, but when scenes need
         // it for some reason, e.g. transformations or translucency, the next pass that does not
         // need this anymore and paints normally will also reset the suspended unredirect.
@@ -656,6 +699,17 @@ void Compositor::performCompositing()
     repaints_region = QRegion();
 
     m_timeSinceLastVBlank = m_scene->paint(repaints, windows);
+    m_timeSinceStart += m_timeSinceLastVBlank;
+
+#if HAVE_WAYLAND
+    if (kwinApp()->shouldUseWaylandForCompositing()) {
+        for (Toplevel *win : damaged) {
+            if (auto surface = win->surface()) {
+                surface->frameRendered(m_timeSinceStart);
+            }
+        }
+    }
+#endif
 
     compositeTimer.stop(); // stop here to ensure *we* cause the next repaint schedule - not some effect through m_scene->paint()
 
@@ -696,6 +750,9 @@ void Compositor::setCompositeTimer()
 {
     if (!hasScene())  // should not really happen, but there may be e.g. some damage events still pending
         return;
+    if (!Workspace::self()) {
+        return;
+    }
 
     // Don't start the timer if we're waiting for a swap event
     if (m_bufferSwapPending && m_composeAtSwapCompletion)
@@ -866,8 +923,10 @@ bool Toplevel::setupCompositing()
     if (damage_handle != XCB_NONE)
         return false;
 
-    damage_handle = xcb_generate_id(connection());
-    xcb_damage_create(connection(), damage_handle, frameId(), XCB_DAMAGE_REPORT_LEVEL_NON_EMPTY);
+    if (kwinApp()->operationMode() == Application::OperationModeX11) {
+        damage_handle = xcb_generate_id(connection());
+        xcb_damage_create(connection(), damage_handle, frameId(), XCB_DAMAGE_REPORT_LEVEL_NON_EMPTY);
+    }
 
     damage_region = QRegion(0, 0, width(), height());
     effect_window = new EffectWindowImpl(this);
@@ -888,7 +947,7 @@ bool Toplevel::setupCompositing()
 
 void Toplevel::finishCompositing(ReleaseReason releaseReason)
 {
-    if (damage_handle == XCB_NONE)
+    if (kwinApp()->operationMode() == Application::OperationModeX11 && damage_handle == XCB_NONE)
         return;
     Compositor::self()->checkUnredirect(true);
     if (effect_window->window() == this) { // otherwise it's already passed to Deleted, don't free data
@@ -896,7 +955,8 @@ void Toplevel::finishCompositing(ReleaseReason releaseReason)
         delete effect_window;
     }
 
-    if (releaseReason != ReleaseReason::Destroyed) {
+    if (kwinApp()->operationMode() == Application::OperationModeX11 &&
+            releaseReason != ReleaseReason::Destroyed) {
         xcb_damage_destroy(connection(), damage_handle);
     }
 
@@ -948,6 +1008,11 @@ bool Toplevel::resetAndFetchDamage()
 {
     if (!m_isDamaged)
         return false;
+
+    if (kwinApp()->operationMode() != Application::OperationModeX11) {
+        m_isDamaged = false;
+        return true;
+    }
 
     xcb_connection_t *conn = connection();
 

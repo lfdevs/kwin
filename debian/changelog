@@ -1,3 +1,20 @@
+kwin (4:5.3.1-0ubuntu1) wily; urgency=medium
+
+  [ Scarlett Clark ]
+  * Manual merge kubuntu_stable.
+
+  [ Jonathan Riddell ]
+  * Plasma 5.3 beta
+  * new upstream release
+
+  [ Scarlett Clark ]
+  * Vivid backport
+
+  [ Jonathan Riddell ]
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 05 Jun 2015 02:34:16 +0200
+
 kwin (4:5.2.2a-0ubuntu1) vivid; urgency=medium
 
   * New upstream release 

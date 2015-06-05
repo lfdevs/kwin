@@ -41,6 +41,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // c++
 #include <functional>
 
+#if HAVE_WAYLAND
+namespace KWayland
+{
+namespace Server
+{
+class SurfaceInterface;
+}
+}
+#endif
+
 namespace KWin
 {
 
@@ -187,6 +197,11 @@ class Toplevel
      * window being captured.
      **/
     Q_PROPERTY(bool skipsCloseAnimation READ skipsCloseAnimation WRITE setSkipCloseAnimation NOTIFY skipCloseAnimationChanged)
+    /**
+     * The Id of the Wayland Surface associated with this Toplevel.
+     * On X11 only setups the value is @c 0.
+     **/
+    Q_PROPERTY(quint32 surfaceId READ surfaceId NOTIFY surfaceIdChanged)
 public:
     explicit Toplevel();
     virtual xcb_window_t frameId() const;
@@ -338,12 +353,11 @@ public:
     bool skipsCloseAnimation() const;
     void setSkipCloseAnimation(bool set);
 
-    virtual void sendPointerMoveEvent(const QPointF &globalPos);
-    virtual void sendPointerEnterEvent(const QPointF &globalPos);
-    virtual void sendPointerLeaveEvent(const QPointF &globalPos);
-    virtual void sendPointerButtonEvent(uint32_t button, InputRedirection::PointerButtonState state);
-    virtual void sendPointerAxisEvent(InputRedirection::PointerAxis axis, qreal delta);
-    virtual void sendKeybordKeyEvent(uint32_t key, InputRedirection::KeyboardKeyState state);
+    quint32 surfaceId() const;
+#if HAVE_WAYLAND
+    KWayland::Server::SurfaceInterface *surface() const;
+    void setSurface(KWayland::Server::SurfaceInterface *surface);
+#endif
 
     /**
      * @brief Finds the Toplevel matching the condition expressed in @p func in @p list.
@@ -354,8 +368,8 @@ public:
      * @param func The condition function (compare std::find_if)
      * @return T* The found Toplevel or @c null if there is no matching Toplevel
      */
-    template <class T>
-    static T *findInList(const QList<T*> &list, std::function<bool (const T*)> func);
+    template <class T, class U>
+    static T *findInList(const QList<T*> &list, std::function<bool (const U*)> func);
 
 Q_SIGNALS:
     void opacityChanged(KWin::Toplevel* toplevel, qreal oldOpacity);
@@ -395,6 +409,11 @@ Q_SIGNALS:
      * @since 5.0
      **/
     void windowClassChanged();
+    /**
+     * Emitted when a Wayland Surface gets associated with this Toplevel.
+     * @since 5.3
+     **/
+    void surfaceIdChanged(quint32);
 
 protected Q_SLOTS:
     /**
@@ -412,8 +431,12 @@ protected:
     void detectShape(Window id);
     virtual void propertyNotifyEvent(xcb_property_notify_event_t *e);
     virtual void damageNotifyEvent();
+    virtual void clientMessageEvent(xcb_client_message_event_t *e);
     void discardWindowPixmap();
     void addDamageFull();
+    virtual void addDamage(const QRegion &damage);
+    Xcb::Property fetchWmClientLeader() const;
+    void readWmClientLeader(Xcb::Property &p);
     void getWmClientLeader();
     void getWmClientMachine();
     /**
@@ -428,6 +451,8 @@ protected:
     void getWmOpaqueRegion();
 
     void getResourceClass();
+    Xcb::Property fetchSkipCloseAnimation() const;
+    void readSkipCloseAnimation(Xcb::Property &prop);
     void getSkipCloseAnimation();
     virtual void debug(QDebug& stream) const = 0;
     void copyToDeleted(Toplevel* c);
@@ -464,6 +489,10 @@ private:
     xcb_xfixes_fetch_region_cookie_t m_regionCookie;
     int m_screen;
     bool m_skipCloseAnimation;
+    quint32 m_surfaceId = 0;
+#if HAVE_WAYLAND
+    KWayland::Server::SurfaceInterface *m_surface = nullptr;
+#endif
     // when adding new data members, check also copyToDeleted()
 };
 
@@ -695,9 +724,23 @@ inline const ClientMachine *Toplevel::clientMachine() const
     return m_clientMachine;
 }
 
-template <class T>
-inline T *Toplevel::findInList(const QList<T*> &list, std::function<bool (const T*)> func)
+inline quint32 Toplevel::surfaceId() const
 {
+    return m_surfaceId;
+}
+
+#if HAVE_WAYLAND
+inline KWayland::Server::SurfaceInterface *Toplevel::surface() const
+{
+    return m_surface;
+}
+#endif
+
+template <class T, class U>
+inline T *Toplevel::findInList(const QList<T*> &list, std::function<bool (const U*)> func)
+{
+    static_assert(std::is_base_of<U, T>::value,
+                 "U must be derived from T");
     const auto it = std::find_if(list.begin(), list.end(), func);
     if (it == list.end()) {
         return nullptr;

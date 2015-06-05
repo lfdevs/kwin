@@ -24,9 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef KWIN_BUILD_ACTIVITIES
 #include "activities.h"
 #endif
-#ifdef KWIN_BUILD_KAPPMENU
-#include "appmenu.h"
-#endif
 #include "atoms.h"
 #include "client_machine.h"
 #include "composite.h"
@@ -57,8 +54,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QScriptProgram>
 #include <QWhatsThis>
 // XLib
-#include <X11/extensions/sync.h>
-#include <xcb/xtest.h>
+#include <X11/Xutil.h>
+#include <fixx11h.h>
 // system
 #include <unistd.h>
 #include <signal.h>
@@ -82,84 +79,8 @@ const long ClientWinMask = XCB_EVENT_MASK_KEY_PRESS | XCB_EVENT_MASK_KEY_RELEASE
                            XCB_EVENT_MASK_STRUCTURE_NOTIFY |
                            XCB_EVENT_MASK_SUBSTRUCTURE_REDIRECT;
 
-//************************************
-// Motif
-//************************************
-class Motif
-{
-public:
-    // Read a window's current settings from its _MOTIF_WM_HINTS
-    // property.  If it explicitly requests that decorations be shown
-    // or hidden, 'got_noborder' is set to true and 'noborder' is set
-    // appropriately.
-    static void readFlags(xcb_window_t w, bool& got_noborder, bool& noborder,
-                          bool& resize, bool& move, bool& minimize, bool& maximize,
-                          bool& close);
-    struct MwmHints {
-        ulong flags;
-        ulong functions;
-        ulong decorations;
-        long input_mode;
-        ulong status;
-    };
-    enum {
-        MWM_HINTS_FUNCTIONS = (1L << 0),
-        MWM_HINTS_DECORATIONS = (1L << 1),
-
-        MWM_FUNC_ALL = (1L << 0),
-        MWM_FUNC_RESIZE = (1L << 1),
-        MWM_FUNC_MOVE = (1L << 2),
-        MWM_FUNC_MINIMIZE = (1L << 3),
-        MWM_FUNC_MAXIMIZE = (1L << 4),
-        MWM_FUNC_CLOSE = (1L << 5)
-    };
-};
-
-void Motif::readFlags(xcb_window_t w, bool& got_noborder, bool& noborder,
-                      bool& resize, bool& move, bool& minimize, bool& maximize, bool& close)
-{
-    Atom type;
-    int format;
-    unsigned long length, after;
-    unsigned char* data;
-    MwmHints* hints = 0;
-    if (XGetWindowProperty(display(), w, atoms->motif_wm_hints, 0, 5,
-                          false, atoms->motif_wm_hints, &type, &format,
-                          &length, &after, &data) == Success) {
-        if (data)
-            hints = (MwmHints*) data;
-    }
-    got_noborder = false;
-    noborder = false;
-    resize = true;
-    move = true;
-    minimize = true;
-    maximize = true;
-    close = true;
-    if (hints) {
-        // To quote from Metacity 'We support those MWM hints deemed non-stupid'
-        if (hints->flags & MWM_HINTS_FUNCTIONS) {
-            // if MWM_FUNC_ALL is set, other flags say what to turn _off_
-            bool set_value = ((hints->functions & MWM_FUNC_ALL) == 0);
-            resize = move = minimize = maximize = close = !set_value;
-            if (hints->functions & MWM_FUNC_RESIZE)
-                resize = set_value;
-            if (hints->functions & MWM_FUNC_MOVE)
-                move = set_value;
-            if (hints->functions & MWM_FUNC_MINIMIZE)
-                minimize = set_value;
-            if (hints->functions & MWM_FUNC_MAXIMIZE)
-                maximize = set_value;
-            if (hints->functions & MWM_FUNC_CLOSE)
-                close = set_value;
-        }
-        if (hints->flags & MWM_HINTS_DECORATIONS) {
-            got_noborder = true;
-            noborder = !hints->decorations;
-        }
-        XFree(data);
-    }
-}
+QHash<QString, std::weak_ptr<Decoration::DecorationPalette>> Client::s_palettes;
+std::shared_ptr<Decoration::DecorationPalette> Client::s_defaultPalette;
 
 // Creating a client:
 //  - only by calling Workspace::createClient()
@@ -194,6 +115,7 @@ Client::Client()
     , m_originalTransientForId(XCB_WINDOW_NONE)
     , shade_below(NULL)
     , skip_switcher(false)
+    , m_motif(atoms->motif_wm_hints)
     , blocks_compositing(false)
     , m_cursor(Qt::ArrowCursor)
     , autoRaiseTimer(NULL)
@@ -217,12 +139,9 @@ Client::Client()
     , activitiesDefined(false)
     , needsSessionInteract(false)
     , needsXWindowMove(false)
-#ifdef KWIN_BUILD_KAPPMENU
-    , m_menuAvailable(false)
-#endif
     , m_decoInputExtent()
     , m_focusOutTimer(nullptr)
-    , m_palette(QApplication::palette())
+    , m_colorScheme(QStringLiteral("kdeglobals"))
     , m_clientSideDecorated(false)
 {
     // TODO: Do all as initialization
@@ -247,9 +166,6 @@ Client::Client()
     deleting = false;
     keep_above = false;
     keep_below = false;
-    motif_may_move = true;
-    motif_may_resize = true;
-    motif_may_close = true;
     fullscreen_mode = FullScreenNone;
     skip_taskbar = false;
     original_skip_taskbar = false;
@@ -258,7 +174,6 @@ Client::Client()
     modal = false;
     noborder = false;
     app_noborder = false;
-    motif_noborder = false;
     ignore_focus_stealing = false;
     demands_attention = false;
     check_active_modal = false;
@@ -643,7 +558,7 @@ void Client::detectNoBorder()
     // NET::Override is some strange beast without clear definition, usually
     // just meaning "noborder", so let's treat it only as such flag, and ignore it as
     // a window type otherwise (SUPPORTED_WINDOW_TYPES_MASK doesn't include it)
-    if (info->windowType(SUPPORTED_MANAGED_WINDOW_TYPES_MASK | NET::OverrideMask) == NET::Override) {
+    if (info->windowType(NET::OverrideMask) == NET::Override) {
         noborder = true;
         app_noborder = true;
     }
@@ -659,11 +574,21 @@ void Client::updateFrameExtents()
     info->setFrameExtents(strut);
 }
 
-void Client::detectGtkFrameExtents()
+Xcb::Property Client::fetchGtkFrameExtents() const
 {
-    Xcb::Property prop(false, m_client, atoms->gtk_frame_extents, XCB_ATOM_CARDINAL, 0, 4);
+    return Xcb::Property(false, m_client, atoms->gtk_frame_extents, XCB_ATOM_CARDINAL, 0, 4);
+}
+
+void Client::readGtkFrameExtents(Xcb::Property &prop)
+{
     m_clientSideDecorated = !prop.isNull() && prop->type != 0;
     emit clientSideDecoratedChanged();
+}
+
+void Client::detectGtkFrameExtents()
+{
+    Xcb::Property prop = fetchGtkFrameExtents();
+    readGtkFrameExtents(prop);
 }
 
 /**
@@ -731,7 +656,7 @@ void Client::updateShape()
         xcb_shape_mask(connection(), XCB_SHAPE_SO_SET, XCB_SHAPE_SK_BOUNDING, frameId(), 0, 0, XCB_PIXMAP_NONE);
         detectNoBorder();
         app_noborder = noborder;
-        noborder = rules()->checkNoBorder(noborder || motif_noborder);
+        noborder = rules()->checkNoBorder(noborder || m_motif.noBorder());
         updateDecoration(true);
     }
 
@@ -955,7 +880,7 @@ void Client::setShade(ShadeMode mode)
         shade_geometry_change = false;
         if (was_shade_mode == ShadeHover) {
             if (shade_below && workspace()->stackingOrder().indexOf(shade_below) > -1)
-                    workspace()->restack(this, shade_below);
+                    workspace()->restack(this, shade_below, true);
             if (isActive())
                 workspace()->activateNextClient(this);
         } else if (isActive()) {
@@ -1064,25 +989,9 @@ void Client::updateVisibility()
             internalHide();
         return;
     }
-    if (isManaged())
-        resetShowingDesktop(true);
     internalShow();
 }
 
-
-void Client::resetShowingDesktop(bool keep_hidden)
-{
-    if (isDock() || !workspace()->showingDesktop())
-        return;
-    bool belongs_to_desktop = false;
-    for (ClientList::ConstIterator it = group()->members().constBegin(),
-                                    end = group()->members().constEnd(); it != end; ++it)
-        if ((belongs_to_desktop = (*it)->isDesktop()))
-            break;
-
-    if (!belongs_to_desktop)
-        workspace()->resetShowingDesktop(keep_hidden);
-}
 
 /**
  * Sets the client window's mapping state. Possible values are
@@ -1252,7 +1161,7 @@ void Client::sendClientMessage(xcb_window_t w, xcb_atom_t a, xcb_atom_t protocol
  */
 bool Client::isCloseable() const
 {
-    return rules()->checkCloseable(motif_may_close && !isSpecialWindow());
+    return rules()->checkCloseable(m_motif.close() && !isSpecialWindow());
 }
 
 /**
@@ -1486,9 +1395,11 @@ void Client::setOnActivities(QStringList newActivitiesList)
     newActivitiesList = joinedActivitiesList.split(QStringLiteral(","), QString::SkipEmptyParts);
 
     QStringList allActivities = Activities::self()->all();
-    if ( newActivitiesList.isEmpty() ||
-        (newActivitiesList.count() > 1 && newActivitiesList.count() == allActivities.count()) ||
-        (newActivitiesList.count() == 1 && newActivitiesList.at(0) == Activities::nullUuid())) {
+    if (// If we got the request to be on all activities explicitly
+        newActivitiesList.isEmpty() || joinedActivitiesList == Activities::nullUuid() ||
+        // If we got a list of activities that covers all activities
+        (newActivitiesList.count() > 1 && newActivitiesList.count() == allActivities.count())) {
+
         activityList.clear();
         const QByteArray nullUuid = Activities::nullUuid().toUtf8();
         m_client.changeProperty(atoms->activities, XCB_ATOM_STRING, 8, nullUuid.length(), nullUuid.constData());
@@ -1621,9 +1532,23 @@ void Client::takeFocus()
         m_client.focus();
     else
         demandAttention(false); // window cannot take input, at least withdraw urgency
-    if (info->supportsProtocol(NET::TakeFocusProtocol))
+    if (info->supportsProtocol(NET::TakeFocusProtocol)) {
+        updateXTime();
         sendClientMessage(window(), atoms->wm_protocols, atoms->wm_take_focus);
+    }
     workspace()->setShouldGetFocus(this);
+
+    bool breakShowingDesktop = !keepAbove();
+    if (breakShowingDesktop) {
+        foreach (const Client *c, group()->members()) {
+            if (c->isDesktop()) {
+                breakShowingDesktop = false;
+                break;
+            }
+        }
+    }
+    if (breakShowingDesktop)
+        workspace()->setShowingDesktop(false);
 }
 
 /**
@@ -1904,29 +1829,22 @@ void Client::setClientShown(bool shown)
 
 void Client::getMotifHints()
 {
-    bool mgot_noborder, mnoborder, mresize, mmove, mminimize, mmaximize, mclose;
-    Motif::readFlags(m_client, mgot_noborder, mnoborder, mresize, mmove, mminimize, mmaximize, mclose);
-    if (mgot_noborder && motif_noborder != mnoborder) {
-        motif_noborder = mnoborder;
+    const bool wasClosable = m_motif.close();
+    const bool wasNoBorder = m_motif.noBorder();
+    m_motif.read();
+    if (m_motif.hasDecoration() && m_motif.noBorder() != wasNoBorder) {
         // If we just got a hint telling us to hide decorations, we do so.
-        if (motif_noborder)
+        if (m_motif.noBorder())
             noborder = rules()->checkNoBorder(true);
         // If the Motif hint is now telling us to show decorations, we only do so if the app didn't
         // instruct us to hide decorations in some other way, though.
         else if (!app_noborder)
             noborder = rules()->checkNoBorder(false);
     }
-    if (!hasNETSupport()) {
-        // NETWM apps should set type and size constraints
-        motif_may_resize = mresize; // This should be set using minsize==maxsize, but oh well
-        motif_may_move = mmove;
-    } else
-        motif_may_resize = motif_may_move = true;
 
     // mminimize; - Ignore, bogus - E.g. shading or sending to another desktop is "minimizing" too
     // mmaximize; - Ignore, bogus - Maximizing is basically just resizing
-    const bool closabilityChanged = motif_may_close != mclose;
-    motif_may_close = mclose; // Motif apps like to crash when they set this hint and WM closes them anyway
+    const bool closabilityChanged = wasClosable != m_motif.close();
     if (isManaged())
         updateDecoration(true);   // Check if noborder state has changed
     if (closabilityChanged) {
@@ -1939,7 +1857,7 @@ void Client::getIcons()
     // First read icons from the window itself
     m_icon = QIcon();
     auto readIcon = [this](int size, bool scale = true) {
-        const QPixmap pix = KWindowSystem::icon(window(), size, size, scale, KWindowSystem::NETWM | KWindowSystem::WMHints);
+        const QPixmap pix = KWindowSystem::icon(window(), size, size, scale, KWindowSystem::NETWM | KWindowSystem::WMHints, info);
         if (!pix.isNull()) {
             m_icon.addPixmap(pix);
         }
@@ -1967,16 +1885,17 @@ void Client::getIcons()
     }
     if (m_icon.isNull()) {
         // And if nothing else, load icon from classhint or xapp icon
-        m_icon.addPixmap(KWindowSystem::icon(window(),  32,  32,  true, KWindowSystem::ClassHint | KWindowSystem::XApp));
-        m_icon.addPixmap(KWindowSystem::icon(window(),  16,  16,  true, KWindowSystem::ClassHint | KWindowSystem::XApp));
-        m_icon.addPixmap(KWindowSystem::icon(window(),  64,  64, false, KWindowSystem::ClassHint | KWindowSystem::XApp));
-        m_icon.addPixmap(KWindowSystem::icon(window(), 128, 128, false, KWindowSystem::ClassHint | KWindowSystem::XApp));
+        m_icon.addPixmap(KWindowSystem::icon(window(),  32,  32,  true, KWindowSystem::ClassHint | KWindowSystem::XApp, info));
+        m_icon.addPixmap(KWindowSystem::icon(window(),  16,  16,  true, KWindowSystem::ClassHint | KWindowSystem::XApp, info));
+        m_icon.addPixmap(KWindowSystem::icon(window(),  64,  64, false, KWindowSystem::ClassHint | KWindowSystem::XApp, info));
+        m_icon.addPixmap(KWindowSystem::icon(window(), 128, 128, false, KWindowSystem::ClassHint | KWindowSystem::XApp, info));
     }
     emit iconChanged();
 }
 
 void Client::getSyncCounter()
 {
+#if HAVE_XCB_SYNC
     if (!Xcb::Extensions::self()->isSyncAvailable())
         return;
 
@@ -2002,13 +1921,17 @@ void Client::getSyncCounter()
             if (!error.isNull()) {
                 syncRequest.alarm = XCB_NONE;
             } else {
-                XSyncAlarmAttributes attrs;
-                XSyncIntToValue(&attrs.trigger.wait_value, 1);
-                XSyncIntToValue(&attrs.delta, 1);
-                XSyncChangeAlarm(display(), syncRequest.alarm, XSyncCADelta | XSyncCAValue, &attrs);
+                xcb_sync_change_alarm_value_list_t value;
+                memset(&value, 0, sizeof(value));
+                value.value.hi = 0;
+                value.value.lo = 1;
+                value.delta.hi = 0;
+                value.delta.lo = 1;
+                xcb_sync_change_alarm_aux(c, syncRequest.alarm, XCB_SYNC_CA_DELTA | XCB_SYNC_CA_VALUE, &value);
             }
         }
     }
+#endif
 }
 
 /**
@@ -2074,7 +1997,7 @@ bool Client::wantsInput() const
 bool Client::isSpecialWindow() const
 {
     // TODO
-    return isDesktop() || isDock() || isSplash() || isToolbar();
+    return isDesktop() || isDock() || isSplash() || isToolbar() || isNotification() || isOnScreenDisplay();
 }
 
 /**
@@ -2220,13 +2143,23 @@ void Client::debug(QDebug& stream) const
     print<QDebug>(stream);
 }
 
-void Client::checkActivities()
+Xcb::StringProperty Client::fetchActivities() const
+{
+#ifdef KWIN_BUILD_ACTIVITIES
+    return Xcb::StringProperty(window(), atoms->activities);
+#else
+    return Xcb::StringProperty();
+#endif
+}
+
+void Client::readActivities(Xcb::StringProperty &property)
 {
 #ifdef KWIN_BUILD_ACTIVITIES
     QStringList newActivitiesList;
-    QByteArray prop = Xcb::StringProperty(window(), atoms->activities);
+    QString prop = QString::fromUtf8(property);
     activitiesDefined = !prop.isEmpty();
-    if (QString::fromUtf8(prop) == Activities::nullUuid()) {
+
+    if (prop == Activities::nullUuid()) {
         //copied from setOnAllActivities to avoid a redundant XChangeProperty.
         if (!activityList.isEmpty()) {
             activityList.clear();
@@ -2243,25 +2176,42 @@ void Client::checkActivities()
         return;
     }
 
-    newActivitiesList = QString::fromUtf8(prop).split(QStringLiteral(","));
+    newActivitiesList = prop.split(QStringLiteral(","));
 
     if (newActivitiesList == activityList)
         return; //expected change, it's ok.
 
-    //otherwise, somebody else changed it. we need to validate before reacting
-    QStringList allActivities = Activities::self()->all();
-    if (allActivities.isEmpty()) {
-        qCDebug(KWIN_CORE) << "no activities!?!?";
-        //don't touch anything, there's probably something bad going on and we don't wanna make it worse
-        return;
-    }
-    for (int i = 0; i < newActivitiesList.size(); ++i) {
-        if (! allActivities.contains(newActivitiesList.at(i))) {
-            qCDebug(KWIN_CORE) << "invalid:" << newActivitiesList.at(i);
-            newActivitiesList.removeAt(i--);
+    //otherwise, somebody else changed it. we need to validate before reacting.
+    //if the activities are not synced, and there are existing clients with
+    //activities specified, somebody has restarted kwin. we can not validate
+    //activities in this case. we need to trust the old values.
+    if (Activities::self()->serviceStatus() != KActivities::Consumer::Unknown) {
+        QStringList allActivities = Activities::self()->all();
+        if (allActivities.isEmpty()) {
+            qCDebug(KWIN_CORE) << "no activities!?!?";
+            //don't touch anything, there's probably something bad going on and we don't wanna make it worse
+            return;
+        }
+
+
+        for (int i = 0; i < newActivitiesList.size(); ++i) {
+            if (! allActivities.contains(newActivitiesList.at(i))) {
+                qCDebug(KWIN_CORE) << "invalid:" << newActivitiesList.at(i);
+                newActivitiesList.removeAt(i--);
+            }
         }
     }
     setOnActivities(newActivitiesList);
+#else
+    Q_UNUSED(property)
+#endif
+}
+
+void Client::checkActivities()
+{
+#ifdef KWIN_BUILD_ACTIVITIES
+    Xcb::StringProperty property = fetchActivities();
+    readActivities(property);
 #endif
 }
 
@@ -2281,55 +2231,90 @@ Client::Position Client::titlebarPosition() const
     return PositionTop;
 }
 
+Xcb::Property Client::fetchFirstInTabBox() const
+{
+    return Xcb::Property(false, m_client, atoms->kde_first_in_window_list,
+                         atoms->kde_first_in_window_list, 0, 1);
+}
+
+void Client::readFirstInTabBox(Xcb::Property &property)
+{
+    setFirstInTabBox(property.toBool(32, atoms->kde_first_in_window_list));
+}
+
 void Client::updateFirstInTabBox()
 {
     // TODO: move into KWindowInfo
-    Xcb::Property property(false, m_client, atoms->kde_first_in_window_list,
-                           atoms->kde_first_in_window_list, 0, 1);
-    setFirstInTabBox(property.toBool(32, atoms->kde_first_in_window_list));
+    Xcb::Property property = fetchFirstInTabBox();
+    readFirstInTabBox(property);
+}
+
+Xcb::StringProperty Client::fetchColorScheme() const
+{
+    return Xcb::StringProperty(m_client, atoms->kde_color_sheme);
+}
+
+void Client::readColorScheme(Xcb::StringProperty &property)
+{
+    QString path = QString::fromUtf8(property);
+    path = rules()->checkDecoColor(path);
+
+    if (path.isEmpty()) {
+        path = QStringLiteral("kdeglobals");
+    }
+
+    if (!m_palette || m_colorScheme != path) {
+        m_colorScheme = path;
+
+        if (m_palette) {
+            disconnect(m_palette.get(), &Decoration::DecorationPalette::changed, this, &Client::handlePaletteChange);
+        }
+
+        auto it = s_palettes.find(m_colorScheme);
+
+        if (it == s_palettes.end() || it->expired()) {
+            m_palette = std::make_shared<Decoration::DecorationPalette>(m_colorScheme);
+            if (m_palette->isValid()) {
+                s_palettes[m_colorScheme] = m_palette;
+            } else {
+                if (!s_defaultPalette) {
+                    s_defaultPalette = std::make_shared<Decoration::DecorationPalette>(QStringLiteral("kdeglobals"));
+                    s_palettes[QStringLiteral("kdeglobals")] = s_defaultPalette;
+                }
+
+                m_palette = s_defaultPalette;
+            }
+
+            if (m_colorScheme == QStringLiteral("kdeglobals")) {
+                s_defaultPalette = m_palette;
+            }
+        } else {
+            m_palette = it->lock();
+        }
+
+        connect(m_palette.get(), &Decoration::DecorationPalette::changed, this, &Client::handlePaletteChange);
+
+        emit paletteChanged(palette());
+        triggerDecorationRepaint();
+    }
 }
 
 void Client::updateColorScheme()
 {
-    // TODO: move into KWindowInfo
-    QString path = QString::fromUtf8(Xcb::StringProperty(m_client, atoms->kde_color_sheme));
-    path = rules()->checkDecoColor(path);
-    QPalette p = m_palette;
-    if (!path.isEmpty()) {
-        p = KColorScheme::createApplicationPalette(KSharedConfig::openConfig(path));
-    } else {
-        p = QApplication::palette();
-    }
-    if (p != m_palette) {
-        m_palette = p;
-        emit paletteChanged(m_palette);
-        triggerDecorationRepaint();
-    }
+    Xcb::StringProperty property = fetchColorScheme();
+    readColorScheme(property);
+}
+
+void Client::handlePaletteChange()
+{
+    emit paletteChanged(palette());
+    triggerDecorationRepaint();
 }
 
 bool Client::isClient() const
 {
     return true;
 }
-
-#ifdef KWIN_BUILD_KAPPMENU
-void Client::setAppMenuAvailable()
-{
-    m_menuAvailable = true;
-    emit appMenuAvailable();
-}
-
-void Client::setAppMenuUnavailable()
-{
-    m_menuAvailable = false;
-    emit appMenuUnavailable();
-}
-
-void Client::showApplicationMenu(const QPoint &p)
-{
-    ApplicationMenu::self()->showApplicationMenu(p, window());
-}
-#endif
 
 NET::WindowType Client::windowType(bool direct, int supportedTypes) const
 {
@@ -2373,9 +2358,13 @@ xcb_window_t Client::frameId() const
     return m_frame;
 }
 
-void Client::updateShowOnScreenEdge()
+Xcb::Property Client::fetchShowOnScreenEdge() const
 {
-    Xcb::Property property(false, window(), atoms->kde_screen_edge_show, XCB_ATOM_CARDINAL, 0, 1);
+    return Xcb::Property(false, window(), atoms->kde_screen_edge_show, XCB_ATOM_CARDINAL, 0, 1);
+}
+
+void Client::readShowOnScreenEdge(Xcb::Property &property)
+{
     const uint32_t value = property.value<uint32_t>(ElectricNone);
     ElectricBorder border = ElectricNone;
     switch (value) {
@@ -2407,44 +2396,16 @@ void Client::updateShowOnScreenEdge()
     }
 }
 
+void Client::updateShowOnScreenEdge()
+{
+    Xcb::Property property = fetchShowOnScreenEdge();
+    readShowOnScreenEdge(property);
+}
+
 void Client::showOnScreenEdge()
 {
     hideClient(false);
     xcb_delete_property(connection(), window(), atoms->kde_screen_edge_show);
-}
-
-void Client::sendPointerButtonEvent(uint32_t button, InputRedirection::PointerButtonState state)
-{
-    // TODO: don't use xtest
-    uint8_t type = XCB_BUTTON_PRESS;
-    if (state == KWin::InputRedirection::PointerButtonReleased) {
-        type = XCB_BUTTON_RELEASE;
-    }
-    xcb_test_fake_input(connection(), type, InputRedirection::toXPointerButton(button), XCB_TIME_CURRENT_TIME, frameId(), 0, 0, 0);
-}
-
-void Client::sendPointerAxisEvent(InputRedirection::PointerAxis axis, qreal delta)
-{
-    // TODO: don't use xtest
-    const int val = qRound(delta);
-    if (val == 0) {
-        return;
-    }
-    const uint8_t button = InputRedirection::toXPointerButton(axis, delta);
-    for (int i = 0; i < qAbs(val); ++i) {
-        xcb_test_fake_input(connection(), XCB_BUTTON_PRESS, button, XCB_TIME_CURRENT_TIME, frameId(), 0, 0, 0);
-        xcb_test_fake_input(connection(), XCB_BUTTON_RELEASE, button, XCB_TIME_CURRENT_TIME, frameId(), 0, 0, 0);
-    }
-}
-
-void Client::sendKeybordKeyEvent(uint32_t key, InputRedirection::KeyboardKeyState state)
-{
-    // TODO: don't use xtest
-    uint8_t type = XCB_KEY_PRESS;
-    if (state == InputRedirection::KeyboardKeyReleased) {
-        type = XCB_KEY_RELEASE;
-    }
-    xcb_test_fake_input(connection(), type, key + 8, XCB_TIME_CURRENT_TIME, frameId(), 0, 0, 0);
 }
 
 #define BORDER(which) \
@@ -2467,6 +2428,15 @@ QPointer<Decoration::DecoratedClientImpl> Client::decoratedClient() const
 void Client::setDecoratedClient(QPointer< Decoration::DecoratedClientImpl > client)
 {
     m_decoratedClient = client;
+}
+
+void Client::addDamage(const QRegion &damage)
+{
+    if (!ready_for_painting) { // avoid "setReadyForPainting()" function calling overhead
+        if (syncRequest.counter == XCB_NONE)   // cannot detect complete redraw, consider done now
+            setReadyForPainting();
+    }
+    Toplevel::addDamage(damage);
 }
 
 } // namespace

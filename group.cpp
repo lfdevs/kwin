@@ -37,7 +37,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <kstartupinfo.h>
 #include <KWindowSystem>
 #include <QDebug>
-#include <QX11Info>
 
 
 /*
@@ -223,8 +222,9 @@ QIcon Group::icon() const
         return leader_client->icon();
     else if (leader_wid != None) {
         QIcon ic;
-        auto readIcon = [&ic, this](int size, bool scale = true) {
-            const QPixmap pix = KWindowSystem::icon(leader_wid, size, size, scale, KWindowSystem::NETWM | KWindowSystem::WMHints);
+        NETWinInfo info(connection(), leader_wid, rootWindow(), NET::WMIcon, NET::WM2IconPixmap);
+        auto readIcon = [&ic, &info, this](int size, bool scale = true) {
+            const QPixmap pix = KWindowSystem::icon(leader_wid, size, size, scale, KWindowSystem::NETWM | KWindowSystem::WMHints, &info);
             if (!pix.isNull()) {
                 ic.addPixmap(pix);
             }
@@ -550,10 +550,14 @@ bool Client::sameAppWindowRoleMatch(const Client* c1, const Client* c2, bool act
  - every window in the group : group()->members()
 */
 
-void Client::readTransient()
+Xcb::TransientFor Client::fetchTransient() const
+{
+    return Xcb::TransientFor(window());
+}
+
+void Client::readTransientProperty(Xcb::TransientFor &transientFor)
 {
     TRANSIENCY_CHECK(this);
-    Xcb::TransientFor transientFor(window());
     xcb_window_t new_transient_for_id = XCB_WINDOW_NONE;
     if (transientFor.getTransientFor(&new_transient_for_id)) {
         m_originalTransientForId = new_transient_for_id;
@@ -563,6 +567,12 @@ void Client::readTransient()
         new_transient_for_id = verifyTransientFor(XCB_WINDOW_NONE, false);
     }
     setTransient(new_transient_for_id);
+}
+
+void Client::readTransient()
+{
+    Xcb::TransientFor transientFor = fetchTransient();
+    readTransientProperty(transientFor);
 }
 
 void Client::setTransient(xcb_window_t new_transient_for_id)

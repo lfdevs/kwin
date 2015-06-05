@@ -4,13 +4,13 @@
 # Serdar Soytetir <tulliana@gmail.com>, 2008, 2012.
 # Onur Küçük <onur@pardus.org.tr>, 2010.
 # Ozan Çağlayan <ozan@pardus.org.tr>, 2010, 2011.
-# Volkan Gezer <volkangezer@gmail.com>, 2013, 2014.
+# Volkan Gezer <volkangezer@gmail.com>, 2013, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-28 15:51+0000\n"
-"PO-Revision-Date: 2014-04-21 14:53+0200\n"
+"POT-Creation-Date: 2015-05-16 12:24+0000\n"
+"PO-Revision-Date: 2015-02-09 11:36+0100\n"
 "Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -162,7 +162,7 @@ msgid ""
 msgstr ""
 "Bir tek kısayol basitçe iki düğme kullanılarak atanır veya temizlenir. "
 "Sadece değiştiricili kısayollar kullanılabilir.<p>\n"
-"Bir çok kısayola sahip olmak mümkündür, ve ilk mümkün olan kısayol "
+"Birçok kısayola sahip olmak mümkündür, ve ilk mümkün olan kısayol "
 "kullanılır. Kısayollar \"-\" ile ayrılmış kısayolu setleri ile "
 "özelleştirilmiştir. Bir set <i>taban</i>+(<i>liste</i>) şeklinde "
 "özelleştirilmiştir, Burada taban değiştiricileri ve liste tuşların listesini "
@@ -181,19 +181,19 @@ msgstr "Tek Kı&sayol"
 msgid "C&lear"
 msgstr "Temiz&le"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 msgid "Window-Specific Settings Configuration Module"
 msgstr "Pencereye Özel Ayarlar Yapılandırma Birimi"
 
-#: kcm.cpp:51
+#: kcm.cpp:52
 msgid "(c) 2004 KWin and KControl Authors"
 msgstr "(c) 2004 KWin ve KControl Yazarları"
 
-#: kcm.cpp:52
+#: kcm.cpp:53
 msgid "Lubos Lunak"
 msgstr "Lubos Lunak"
 
-#: kcm.cpp:83
+#: kcm.cpp:84
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -207,15 +207,15 @@ msgstr ""
 "yöneticisi kullanıyorsanız, pencere davranışlarını değiştirmek için lütfen "
 "yardım belgelerine bakın.</p>"
 
-#: kcm.cpp:99
+#: kcm.cpp:100
 msgid "Remember settings separately for every window"
 msgstr "Her pencere için ayarları ayrı ayrı hatırla"
 
-#: kcm.cpp:100
+#: kcm.cpp:101
 msgid "Show internal settings for remembering"
 msgstr "Hatırlama için iç ayarları göster"
 
-#: kcm.cpp:101
+#: kcm.cpp:102
 msgid "Internal setting for remembering"
 msgstr "Hatırlama için iç ayarlar"
 
@@ -330,7 +330,7 @@ msgid ""
 msgstr ""
 "Pencere özelliğinin nasıl etkileneceğini belirtin:<ul><li><em>Etkilenme:</"
 "em> Pencere özelliği etkilenmeyecektir ve öntanımlı ayarlar kullanılacaktır. "
-"Bunu belirtmek bir çok genel pencerenin etkilenmesini engelliyeecktir.</"
+"Bunu belirtmek birçok genel pencerenin etkilenmesini engelliyeecktir.</"
 "li><li><em>İlk Olarak Uygula:</em> Pencere özelliği, pencere oluşturulduktan "
 "sonra verilen değere ayarlanacaktır. Daha başka değişiklik olmayacaktır.</"
 "li><li><em>Hatırla:</em> Pencere özelliğinin değeri her zaman hatırlanacak "
@@ -353,7 +353,7 @@ msgid ""
 msgstr ""
 "Pencere özelliğinin nasıl etkileneceğini belirtin:<ul><li><em>Etkileme Yok:</"
 "em> Pencere özelliği etkilenmeyecektir ve öntanımlı ayarlar kullanılacaktır. "
-"Bunu belirtmek bir çok genel pencerenin etkilenmesini engelleyecektir.</"
+"Bunu belirtmek birçok genel pencerenin etkilenmesini engelleyecektir.</"
 "li><li><em>Zorla:</em> Bu, pencere özelliğini her zaman verilen değerlere "
 "zorlar.</li><li><em>Geçici olarak Zorla:</em>Bu, pencere özelliğini pencere "
 "gizlenene kadar verilen değerlere zorlar. (bu eylem pencere gizlenince "
@@ -496,7 +496,7 @@ msgstr "Pencere başl&ığı:"
 #. i18n: ectx: property (text), widget (QLabel, textLabel7)
 #: ruleswidgetbase.ui:231
 msgid "&Machine (hostname):"
-msgstr "&Makine (evsahibi):"
+msgstr "&Makine (sunucu adı):"
 
 #. i18n: ectx: property (text), widget (QPushButton, detect)
 #: ruleswidgetbase.ui:318
@@ -876,7 +876,7 @@ msgid ""
 "to unconditionally popup in the middle of your screen."
 msgstr ""
 "Pencereler özel bir konumda görünmek isteyebilirler.\n"
-"Varsayılan olarak bu yerleştirme stratejisini yoksayar\n"
+"Öntanımlı olarak bu yerleştirme stratejisini yoksayar\n"
 "ve bu durumda bir istemci özelliği istismar ederek ekranın\n"
 "ortasında koşulsuz olarak çıkması kötü olabilir."
 
@@ -1124,3 +1124,14 @@ msgstr "O&dak çalma koruması"
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
 msgstr "Başlık çubuğu renk &düzeni"
+
+#: yesnobox.h:35
+msgid "Yes"
+msgstr ""
+
+#: yesnobox.h:36
+#, fuzzy
+#| msgctxt "no focus stealing prevention"
+#| msgid "None"
+msgid "No"
+msgstr "Hiçbiri"

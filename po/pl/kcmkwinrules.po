@@ -2,13 +2,13 @@
 # Mikolaj Machowski <mikmach@wp.pl>, 2004, 2005, 2007, 2010.
 # Krzysztof Lichota <lichota@mimuw.edu.pl>, 2005, 2006.
 # Marta Rybczyńska <kde-i18n@rybczynska.net>, 2008, 2010, 2013.
-# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014.
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-04-28 15:51+0000\n"
-"PO-Revision-Date: 2014-02-21 18:44+0100\n"
+"POT-Creation-Date: 2015-05-16 12:24+0000\n"
+"PO-Revision-Date: 2015-04-25 07:51+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -92,7 +92,7 @@ msgstr "Nieznany - będzie traktowany jako zwykłe okno"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: detectwidget.ui:17
 msgid "Information About Selected Window"
-msgstr "Informacja o wybranym oknie"
+msgstr "Szczegóły wybranego okna"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: detectwidget.ui:29
@@ -122,30 +122,30 @@ msgstr "Komputer:"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: detectwidget.ui:172
 msgid "Match by primary class name and"
-msgstr "Dopasuj wg nazwy pierwszorzędnej klasy i"
+msgstr "Dopasuj wg nazwy głównej klasy i"
 
 #. i18n: ectx: property (text), widget (QCheckBox, match_whole_class)
 #: detectwidget.ui:181
 msgid "Secondary class name  (resulting in term in brackets)"
-msgstr "Nazwa drugorzędnej klasy (wynikiem jest wyrażenie w nawiasach)"
+msgstr "Nazwie pobocznej klasy (wynikiem jest wyrażenie w nawiasach)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, match_role)
 #: detectwidget.ui:188
 msgid "Window role (can be used to select windows by function)"
-msgstr "Rola okna (może być użyte do zaznaczania okien przez funkcję)"
+msgstr "Roli okna (może być użyte do zaznaczania okien przez funkcję)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, match_type)
 #: detectwidget.ui:195
 msgid "Window type (eg. all dialogs, but not the main windows)"
-msgstr "Typ okna (np. wszystkie okna dialogowe, ale bez okien głównych)"
+msgstr "Rodzaju okna (np. wszystkie okna dialogowe, ale bez okien głównych)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, match_title)
 #: detectwidget.ui:202
 msgid ""
 "Window title (very specific, can fail due to content changes or translation)"
 msgstr ""
-"Tytuł okna (bardzo specyficzne, może zawieść ze względu na zmiany treści lub "
-"tłumaczenia)"
+"Tytule okna (bardzo specyficzne, może zawieść ze względu na zmiany treści "
+"lub tłumaczenia)"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: editshortcut.ui:18
@@ -179,19 +179,19 @@ msgstr "&Pojedynczy skrót"
 msgid "C&lear"
 msgstr "W&yczyść"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 msgid "Window-Specific Settings Configuration Module"
 msgstr "Moduł konfiguracji ustawień okien charakterystycznych"
 
-#: kcm.cpp:51
+#: kcm.cpp:52
 msgid "(c) 2004 KWin and KControl Authors"
 msgstr "(c) 2004 Autorzy KWin i KControl"
 
-#: kcm.cpp:52
+#: kcm.cpp:53
 msgid "Lubos Lunak"
 msgstr "Lubos Lunak"
 
-#: kcm.cpp:83
+#: kcm.cpp:84
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -201,19 +201,19 @@ msgid ""
 msgstr ""
 "<p><h1>Ustawienia charakterystycznych okien</h1> Tutaj można dostosować do "
 "własnych potrzeb ustawienia okien.</p> <p>Pamiętaj, że ta konfiguracja "
-"będzie działać tylko jeśli używasz KWin jako menadżera okien. Jeśli używasz "
-"innego menadżera okien, zajrzyj do jego dokumentacji jak przystosować "
+"będzie działać tylko jeśli używasz KWin jako programu do zarządzania oknami. "
+"Jeśli używasz innego programu, zajrzyj do jego dokumentacji jak przystosować "
 "zachowania okien.</p>"
 
-#: kcm.cpp:99
+#: kcm.cpp:100
 msgid "Remember settings separately for every window"
 msgstr "Pamiętaj ustawienia osobno dla każdego okna"
 
-#: kcm.cpp:100
+#: kcm.cpp:101
 msgid "Show internal settings for remembering"
 msgstr "Pokaż wewnętrzne ustawienia dla zapamiętywania"
 
-#: kcm.cpp:101
+#: kcm.cpp:102
 msgid "Internal setting for remembering"
 msgstr "Wewnętrzne ustawienia dla zapamiętywania"
 
@@ -230,7 +230,7 @@ msgstr "Ustawienia okna dla %1"
 #: main.cpp:215
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
-msgstr "Edytuj ustawienia charakterystyczne dla programu"
+msgstr "Edytowanie ustawień wyjątkowych dla aplikacji"
 
 #: main.cpp:245
 msgid "KWin"
@@ -387,7 +387,7 @@ msgstr ""
 
 #: ruleswidget.cpp:781
 msgid "Edit Window-Specific Settings"
-msgstr "Edytuj ustawienia specyficzne dla okna"
+msgstr "Edytowanie ustawień wyjątkowych dla okna"
 
 #: ruleswidget.cpp:811
 msgid ""
@@ -412,7 +412,7 @@ msgstr "Edytuj skrót"
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage1)
 #: ruleswidgetbase.ui:21
 msgid "&Window matching"
-msgstr "Paso&wanie okien"
+msgstr "Dopaso&wywanie okien"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
@@ -440,7 +440,7 @@ msgstr "Nieistotne"
 #: ruleswidgetbase.ui:68 ruleswidgetbase.ui:131 ruleswidgetbase.ui:200
 #: ruleswidgetbase.ui:253
 msgid "Exact Match"
-msgstr "Dokładne dopasowanie"
+msgstr "Pasuje dokładnie"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, wmclass_match)
 #. i18n: ectx: property (text), item, widget (KComboBox, role_match)
@@ -449,7 +449,7 @@ msgstr "Dokładne dopasowanie"
 #: ruleswidgetbase.ui:73 ruleswidgetbase.ui:136 ruleswidgetbase.ui:205
 #: ruleswidgetbase.ui:258
 msgid "Substring Match"
-msgstr "Dopasowanie częściowe"
+msgstr "Pasuje częściowo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, wmclass_match)
 #. i18n: ectx: property (text), item, widget (KComboBox, role_match)
@@ -492,7 +492,7 @@ msgstr "T&ytuł okna:"
 #. i18n: ectx: property (text), widget (QLabel, textLabel7)
 #: ruleswidgetbase.ui:231
 msgid "&Machine (hostname):"
-msgstr "&Komputer (nazwa hosta):"
+msgstr "Ko&mputer (nazwa gospodarza):"
 
 #. i18n: ectx: property (text), widget (QPushButton, detect)
 #: ruleswidgetbase.ui:318
@@ -512,7 +512,7 @@ msgstr "Niezarządzane okno"
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage3)
 #: ruleswidgetbase.ui:489
 msgid "&Size && Position"
-msgstr "&Rozmiar && położenie"
+msgstr "&Rozmiar i położenie"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_position)
 #: ruleswidgetbase.ui:495
@@ -593,7 +593,7 @@ msgstr "Nie stosuj"
 #: ruleswidgetbase.ui:1439 ruleswidgetbase.ui:1562 ruleswidgetbase.ui:1646
 #: ruleswidgetbase.ui:1683 ruleswidgetbase.ui:1866 ruleswidgetbase.ui:1960
 msgid "Apply Initially"
-msgstr "Stosuj początkowo"
+msgstr "Zastosuj na początku"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_position)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_size)
@@ -620,7 +620,7 @@ msgstr "Stosuj początkowo"
 #: ruleswidgetbase.ui:1444 ruleswidgetbase.ui:1567 ruleswidgetbase.ui:1651
 #: ruleswidgetbase.ui:1688 ruleswidgetbase.ui:1871 ruleswidgetbase.ui:1965
 msgid "Remember"
-msgstr "Pamiętaj"
+msgstr "Zapamiętaj"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_position)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_size)
@@ -879,7 +879,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_ignoregeometry)
 #: ruleswidgetbase.ui:1125
 msgid "Ignore requested &geometry"
-msgstr "Ignoruj żądanie &geometrii"
+msgstr "Zlekceważ żądanie &geometrii"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_minsize)
 #: ruleswidgetbase.ui:1205
@@ -920,12 +920,12 @@ msgstr "Ekran"
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage4)
 #: ruleswidgetbase.ui:1377
 msgid "&Arrangement && Access"
-msgstr "&Rozmieszczenie && Dostęp"
+msgstr "&Rozmieszczenie i dostęp"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_skippager)
 #: ruleswidgetbase.ui:1420
 msgid "Window shall (not) appear in the manager for virtual desktops"
-msgstr "Okno (nie) powinno pojawiać się w menadżerze wirtualnych pulpitów"
+msgstr "Okno (nie) powinno pojawiać się w zarządzaniu wirtualnymi pulpitami"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_skippager)
 #: ruleswidgetbase.ui:1423
@@ -970,7 +970,7 @@ msgstr "Zawsze na &wierzchu"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_autogroupfg)
 #: ruleswidgetbase.ui:1745
 msgid "Autog&roup in foreground"
-msgstr "Automatycznie g&rupuj z przodu"
+msgstr "Samoczynnie g&rupuj z przodu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_below)
 #: ruleswidgetbase.ui:1788
@@ -980,17 +980,17 @@ msgstr "Zawsze pod &spodem"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_autogroupid)
 #: ruleswidgetbase.ui:1843
 msgid "Autogroup by I&D"
-msgstr "Automatycznie grupuj wg I&D"
+msgstr "Samoczynnie grupuj wg I&D"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_autogroup)
 #: ruleswidgetbase.ui:1850
 msgid "Autogroup with &identical"
-msgstr "Automatycznie grupuj z &identycznymi"
+msgstr "Samoczynnie grupuj z &identycznymi"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: ruleswidgetbase.ui:1902
 msgid "Appearance && &Fixes"
-msgstr "Wygląd && &Naprawy"
+msgstr "Wygląd i &poprawki"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_blockcompositing)
 #: ruleswidgetbase.ui:1937
@@ -1063,7 +1063,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_disableglobalshortcuts)
 #: ruleswidgetbase.ui:2143
 msgid "Ignore global shortcuts"
-msgstr "Ignoruj skróty globalne"
+msgstr "Zlekceważ skróty globalne"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_closeable)
 #: ruleswidgetbase.ui:2175
@@ -1125,3 +1125,11 @@ msgstr "&Ochrona przed zmianą aktywnego okna"
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
 msgstr "Motyw kolorów pa&ska tytułu"
+
+#: yesnobox.h:35
+msgid "Yes"
+msgstr "Tak"
+
+#: yesnobox.h:36
+msgid "No"
+msgstr "Nie"

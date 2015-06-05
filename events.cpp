@@ -66,6 +66,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "killwindow.h"
 #include "x11eventfilter.h"
 
+#if HAVE_WAYLAND
+#include "wayland_server.h"
+#include <KWayland/Server/surface_interface.h>
+#endif
+
 #ifndef XCB_GE_GENERIC
 #define XCB_GE_GENERIC 35
 typedef struct xcb_ge_generic_event_t {
@@ -638,6 +643,9 @@ bool Client::windowEvent(xcb_generic_event_t *e)
         if (dirtyProperties2.testFlag(NET::WM2Urgency)) {
             updateUrgency();
         }
+        if (dirtyProperties2 & NET::WM2OpaqueRegion) {
+            getWmOpaqueRegion();
+        }
     }
 
     const uint8_t eventType = e->response_type & ~0x80;
@@ -820,6 +828,7 @@ void Client::destroyNotifyEvent(xcb_destroy_notify_event_t *e)
 */
 void Client::clientMessageEvent(xcb_client_message_event_t *e)
 {
+    Toplevel::clientMessageEvent(e);
     if (e->window != window())
         return; // ignore frame/wrapper
     // WM_STATE
@@ -899,9 +908,10 @@ void Client::propertyNotifyEvent(xcb_property_notify_event_t *e)
         getIcons(); // because KWin::icon() uses WMHints as fallback
         break;
     default:
-        if (e->atom == atoms->motif_wm_hints)
+        if (e->atom == atoms->motif_wm_hints) {
+            m_motif.fetch();
             getMotifHints();
-        else if (e->atom == atoms->net_wm_sync_request_counter)
+        } else if (e->atom == atoms->net_wm_sync_request_counter)
             getSyncCounter();
         else if (e->atom == atoms->activities)
             checkActivities();
@@ -1587,6 +1597,9 @@ bool Unmanaged::windowEvent(xcb_generic_event_t *e)
             emit opacityChanged(this, old_opacity);
         }
     }
+    if (dirtyProperties2 & NET::WM2OpaqueRegion) {
+        getWmOpaqueRegion();
+    }
     if (dirtyProperties2.testFlag(NET::WM2WindowRole)) {
         emit windowRoleChanged();
     }
@@ -1624,6 +1637,9 @@ bool Unmanaged::windowEvent(xcb_generic_event_t *e)
         break;
     case XCB_PROPERTY_NOTIFY:
         propertyNotifyEvent(reinterpret_cast<xcb_property_notify_event_t*>(e));
+        break;
+    case XCB_CLIENT_MESSAGE:
+        clientMessageEvent(reinterpret_cast<xcb_client_message_event_t*>(e));
         break;
     default: {
         if (eventType == Xcb::Extensions::self()->shapeNotifyEvent()) {
@@ -1671,8 +1687,6 @@ void Toplevel::propertyNotifyEvent(xcb_property_notify_event_t *e)
             getWmClientLeader();
         else if (e->atom == atoms->kde_net_wm_shadow)
             getShadow();
-        else if (e->atom == atoms->net_wm_opaque_region)
-            getWmOpaqueRegion();
         else if (e->atom == atoms->kde_skip_close_animation)
             getSkipCloseAnimation();
         break;
@@ -1680,5 +1694,17 @@ void Toplevel::propertyNotifyEvent(xcb_property_notify_event_t *e)
     emit propertyNotify(this, e->atom);
 }
 
+void Toplevel::clientMessageEvent(xcb_client_message_event_t *e)
+{
+    if (e->type == atoms->wl_surface_id) {
+        m_surfaceId = e->data.data32[0];
+#if HAVE_WAYLAND
+        if (auto w = waylandServer()) {
+            m_surface = KWayland::Server::SurfaceInterface::get(m_surfaceId, w->xWaylandConnection());
+        }
+#endif
+        emit surfaceIdChanged(m_surfaceId);
+    }
+}
 
 } // namespace

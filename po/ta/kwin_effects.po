@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: கேபசூ 4.1 தமிழாக்கம்\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-03-21 10:21+0000\n"
+"POT-Creation-Date: 2015-05-21 11:34+0000\n"
 "PO-Revision-Date: 2008-03-25 09:16+0530\n"
 "Last-Translator: ஆமாச்சு <amachu@ubuntu.com>\n"
 "Language-Team: தமிழ் <https://lists.ubuntu.com/mailman/listinfo/ubuntu-l10n-"
@@ -34,12 +34,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: blur/blur_config.ui:42
 #, fuzzy
+#| msgid "Right"
 msgid "Light"
 msgstr "வலது"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: blur/blur_config.ui:74
 #, fuzzy
+#| msgid "&Strength:"
 msgid "Strong"
 msgstr "&வலிமை:"
 
@@ -48,8 +50,9 @@ msgstr "&வலிமை:"
 msgid "Save intermediate rendering results."
 msgstr ""
 
-#: coverswitch/coverswitch.cpp:954 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
 #, fuzzy
+#| msgid "Show Desktop Grid"
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "பணிமேசை தடுப்பினை காட்டுக"
@@ -65,6 +68,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: coverswitch/coverswitch_config.ui:29 cube/cube_config.ui:344
 #, fuzzy
+#| msgid "Bottom"
 msgid "Zoom"
 msgstr "கீழே"
 
@@ -86,30 +90,35 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: coverswitch/coverswitch_config.ui:110
 #, fuzzy
+#| msgid "&Animation duration:"
 msgid "Animation"
 msgstr "&அசைவூட்ட காலவளவு:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnimateSwitch)
 #: coverswitch/coverswitch_config.ui:116
 #, fuzzy
+#| msgid "Animate &switch"
 msgid "Animate switch"
 msgstr "அசைவூட்டி &மாற்றுக"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnimateStart)
 #: coverswitch/coverswitch_config.ui:123
 #, fuzzy
+#| msgid "Animation on tab box &open"
 msgid "Animation on tab box open"
 msgstr "தத்து பெட்டி &திறக்க அசைவூட்டம்"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnimateStop)
 #: coverswitch/coverswitch_config.ui:130
 #, fuzzy
+#| msgid "Animation on tab box &close"
 msgid "Animation on tab box close"
 msgstr "தத்து பெட்டி &மூட அசைவூட்டம்"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: coverswitch/coverswitch_config.ui:139 magiclamp/magiclamp_config.ui:17
 #, fuzzy
+#| msgid "&Animation duration:"
 msgid "Animation duration:"
 msgstr "&அசைவூட்ட காலவளவு:"
 
@@ -119,6 +128,7 @@ msgstr "&அசைவூட்ட காலவளவு:"
 #: coverswitch/coverswitch_config.ui:158 cube/cube_config.ui:149
 #: cube/cubeslide_config.ui:49 magiclamp/magiclamp_config.ui:36
 #, fuzzy
+#| msgid "Decorations:"
 msgctxt "Duration of rotation"
 msgid "Default"
 msgstr "அலங்காரங்கள்:"
@@ -126,6 +136,7 @@ msgstr "அலங்காரங்கள்:"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
 #: coverswitch/coverswitch_config.ui:161
 #, fuzzy
+#| msgid " msec"
 msgid " milliseconds"
 msgstr " மிநொ"
 
@@ -133,18 +144,21 @@ msgstr " மிநொ"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Reflection)
 #: coverswitch/coverswitch_config.ui:177 coverswitch/coverswitch_config.ui:183
 #, fuzzy
+#| msgid "&Reflections"
 msgid "Reflections"
 msgstr "&பிரதிபலிப்புகள்"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: coverswitch/coverswitch_config.ui:195
 #, fuzzy
+#| msgid "&Color:"
 msgid "Rear color"
 msgstr "&நிறம்"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: coverswitch/coverswitch_config.ui:205
 #, fuzzy
+#| msgid "Shadow color:"
 msgid "Front color"
 msgstr "நிழலின் நிறம்:"
 
@@ -154,11 +168,13 @@ msgstr ""
 
 #: cube/cube.cpp:209 cube/cube_config.cpp:74
 #, fuzzy
+#| msgid "Show Desktop Grid"
 msgid "Desktop Cylinder"
 msgstr "பணிமேசை தடுப்பினை காட்டுக"
 
 #: cube/cube.cpp:215 cube/cube_config.cpp:78
 #, fuzzy
+#| msgid "Nowhere"
 msgid "Desktop Sphere"
 msgstr "எங்குமில்லை"
 
@@ -185,6 +201,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: cube/cube_config.ui:33
 #, fuzzy
+#| msgid "Shadow color:"
 msgid "Background color:"
 msgstr "நிழலின் நிறம்:"
 
@@ -213,18 +230,21 @@ msgstr "தோற்றம்"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DisplayDesktopName)
 #: cube/cube_config.ui:110
 #, fuzzy
+#| msgid "Animate desktop changes"
 msgid "Display desktop name"
 msgstr "பணிமேசை மாற்றங்களுக்கு அசைவூட்டுக"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Reflection)
 #: cube/cube_config.ui:117
 #, fuzzy
+#| msgid "&Reflections"
 msgid "Reflection"
 msgstr "&பிரதிபலிப்புகள்"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: cube/cube_config.ui:124 cube/cubeslide_config.ui:72
 #, fuzzy
+#| msgid "&Animation duration:"
 msgid "Rotation duration:"
 msgstr "&அசைவூட்ட காலவளவு:"
 
@@ -236,6 +256,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: cube/cube_config.ui:185
 #, fuzzy
+#| msgid "&Opacity:"
 msgid "Opacity"
 msgstr "&காட்டுமை:"
 
@@ -265,6 +286,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_OpacityDesktopOnly)
 #: cube/cube_config.ui:255
 #, fuzzy
+#| msgid "Changes opacity of following elements:"
 msgid "Do not change opacity of windows"
 msgstr "கீழகாணும் உறுகப்புகளின் காணப்படும் திறனை மாற்றும்:"
 
@@ -286,6 +308,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, capColorLabel)
 #: cube/cube_config.ui:298
 #, fuzzy
+#| msgid "&Color:"
 msgid "Cap color:"
 msgstr "&நிறம்"
 
@@ -335,12 +358,14 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, capDeformationGroupBox)
 #: cube/cube_config.ui:449
 #, fuzzy
+#| msgid "Decorations:"
 msgid "Sphere Cap Deformation"
 msgstr "அலங்காரங்கள்:"
 
 #. i18n: ectx: property (text), widget (QLabel, capDeformationSphereLabel)
 #: cube/cube_config.ui:471
 #, fuzzy
+#| msgid "Nowhere"
 msgid "Sphere"
 msgstr "எங்குமில்லை"
 
@@ -352,6 +377,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSlideStickyWindows)
 #: cube/cubeslide_config.ui:17
 #, fuzzy
+#| msgid "for windows on all desktops: "
 msgid "Do not animate windows on all desktops"
 msgstr "அனைத்து பணிமேசைகளிலும் உள்ள சாளரங்களுக்காக:"
 
@@ -390,6 +416,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dashboard/dashboard_config.ui:74
 #, fuzzy
+#| msgid "Right"
 msgctxt "More brightness"
 msgid "Lighter"
 msgstr "வலது"
@@ -408,6 +435,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dashboard/dashboard_config.ui:140
 #, fuzzy
+#| msgid "&Color:"
 msgctxt "High saturation"
 msgid "Colored"
 msgstr "&நிறம்"
@@ -420,6 +448,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dashboard/dashboard_config.ui:184
 #, fuzzy
+#| msgid " msec"
 msgid "ms"
 msgstr " மிநொ"
 
@@ -431,6 +460,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Blur)
 #: dashboard/dashboard_config.ui:196
 #, fuzzy
+#| msgid "Apply effect to &groups"
 msgid "Apply blur effect to background"
 msgstr "&குழுக்களுக்கு தாக்கத்தை பொருத்துக"
 
@@ -450,6 +480,7 @@ msgstr "மேலே"
 
 #: desktopgrid/desktopgrid_config.cpp:76
 #, fuzzy
+#| msgid "Top-right"
 msgid "Top-Right"
 msgstr "வலது-மேற்புறம்"
 
@@ -461,6 +492,7 @@ msgstr "வலது"
 
 #: desktopgrid/desktopgrid_config.cpp:78
 #, fuzzy
+#| msgid "Bottom-right"
 msgid "Bottom-Right"
 msgstr "வலது-கீழ்புறம்"
 
@@ -471,6 +503,7 @@ msgstr "கீழே"
 
 #: desktopgrid/desktopgrid_config.cpp:80
 #, fuzzy
+#| msgid "Bottom-left"
 msgid "Bottom-Left"
 msgstr "இடது-கீழ்புறம்"
 
@@ -482,6 +515,7 @@ msgstr "இடது"
 
 #: desktopgrid/desktopgrid_config.cpp:82
 #, fuzzy
+#| msgid "Top-left"
 msgid "Top-Left"
 msgstr "இடது-மேலே"
 
@@ -492,12 +526,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: desktopgrid/desktopgrid_config.ui:23
 #, fuzzy
+#| msgid "&Animation duration:"
 msgid "Zoom &duration:"
 msgstr "&அசைவூட்ட காலவளவு:"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_ZoomDuration)
 #: desktopgrid/desktopgrid_config.ui:42
 #, fuzzy
+#| msgid "Decorations:"
 msgctxt "Duration of zoom"
 msgid "Default"
 msgstr "அலங்காரங்கள்:"
@@ -535,6 +571,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, layoutRowsLabel)
 #: desktopgrid/desktopgrid_config.ui:145
 #, fuzzy
+#| msgid "&Number of snowflakes:"
 msgid "Number of &rows:"
 msgstr "ஸ்நோபிளேக்ஸின் &எண்ணிக்கை"
 
@@ -551,12 +588,14 @@ msgstr "தாக்கத்தை &பலகத்துக்கு பொர
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimDesktop)
 #: diminactive/diminactive_config.ui:24
 #, fuzzy
+#| msgid "Apply effect to &groups"
 msgid "Apply effect to the desk&top"
 msgstr "&குழுக்களுக்கு தாக்கத்தை பொருத்துக"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimKeepAbove)
 #: diminactive/diminactive_config.ui:31
 #, fuzzy
+#| msgid "Apply effect to &panels"
 msgid "Apply effect to &keep-above windows"
 msgstr "தாக்கத்தை &பலகத்துக்கு பொருத்துக"
 
@@ -582,6 +621,7 @@ msgstr ""
 
 #: effect_builtins.cpp:117
 #, fuzzy
+#| msgid "Shadow color:"
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "நிழலின் நிறம்:"
@@ -603,6 +643,7 @@ msgstr ""
 
 #: effect_builtins.cpp:147
 #, fuzzy
+#| msgid "Nowhere"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "எங்குமில்லை"
@@ -634,6 +675,7 @@ msgstr ""
 
 #: effect_builtins.cpp:192
 #, fuzzy
+#| msgid "Show Desktop Grid"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "பணிமேசை தடுப்பினை காட்டுக"
@@ -650,6 +692,7 @@ msgstr ""
 
 #: effect_builtins.cpp:208
 #, fuzzy
+#| msgid "Inactive windows:"
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "செயலற்ற சாளரங்கள்:"
@@ -671,6 +714,7 @@ msgstr ""
 
 #: effect_builtins.cpp:238
 #, fuzzy
+#| msgid "for windows on all desktops: "
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "அனைத்து பணிமேசைகளிலும் உள்ள சாளரங்களுக்காக:"
@@ -768,6 +812,7 @@ msgstr ""
 
 #: effect_builtins.cpp:387
 #, fuzzy
+#| msgid "&Animation duration:"
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "&அசைவூட்ட காலவளவு:"
@@ -779,6 +824,7 @@ msgstr ""
 
 #: effect_builtins.cpp:402
 #, fuzzy
+#| msgid "&Animation duration:"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "&அசைவூட்ட காலவளவு:"
@@ -792,6 +838,7 @@ msgstr ""
 
 #: effect_builtins.cpp:417
 #, fuzzy
+#| msgid "Clear Mouse Marks"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "எலியத்தின் தடங்களை துடைக்க"
@@ -813,6 +860,7 @@ msgstr ""
 
 #: effect_builtins.cpp:447
 #, fuzzy
+#| msgid "Decorations:"
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "அலங்காரங்கள்:"
@@ -865,6 +913,7 @@ msgstr ""
 
 #: effect_builtins.cpp:522
 #, fuzzy
+#| msgid "Show Desktop Grid"
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "பணிமேசை தடுப்பினை காட்டுக"
@@ -966,6 +1015,7 @@ msgstr ""
 
 #: effect_builtins.cpp:672
 #, fuzzy
+#| msgid "Bottom"
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "கீழே"
@@ -977,23 +1027,27 @@ msgstr ""
 
 #: flipswitch/flipswitch.cpp:58 flipswitch/flipswitch_config.cpp:60
 #, fuzzy
+#| msgid "for windows on current desktop: "
 msgid "Toggle Flip Switch (Current desktop)"
 msgstr "தற்போதைய பணிமேசையின் மீதுள்ள சாளரங்களுக்காக:"
 
 #: flipswitch/flipswitch.cpp:65 flipswitch/flipswitch_config.cpp:63
 #, fuzzy
+#| msgid "for windows on all desktops: "
 msgid "Toggle Flip Switch (All desktops)"
 msgstr "அனைத்து பணிமேசைகளிலும் உள்ள சாளரங்களுக்காக:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: flipswitch/flipswitch_config.ui:23
 #, fuzzy
+#| msgid "F&lip Animation duration:"
 msgid "Flip animation duration:"
 msgstr "ம&றுதலிப்பு அசைவூட்ட காலவளவு:"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
 #: flipswitch/flipswitch_config.ui:42
 #, fuzzy
+#| msgid "Decorations:"
 msgctxt "Duration of flip animation"
 msgid "Default"
 msgstr "அலங்காரங்கள்:"
@@ -1054,6 +1108,7 @@ msgstr "தாக்கத்தை மறுதலிக்க"
 
 #: invert/invert.cpp:52 invert/invert_config.cpp:57
 #, fuzzy
+#| msgid "Toggle Invert Effect"
 msgid "Toggle Invert Effect on Window"
 msgstr "தாக்கத்தை மறுதலிக்க"
 
@@ -1070,6 +1125,7 @@ msgstr "&ஆரம்"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AnimationDuration)
 #: magiclamp/magiclamp_config.ui:39
 #, fuzzy
+#| msgid " msec"
 msgid "milliseconds"
 msgstr " மிநொ"
 
@@ -1096,6 +1152,7 @@ msgstr "&உயரம்"
 
 #: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
 #, fuzzy
+#| msgid "Toggle Expose Effect"
 msgid "Toggle Mouse Click Effect"
 msgstr "வெளிப்படுத்தும் தாக்கத்தை மாற்றுக"
 
@@ -1136,6 +1193,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, ring_line_width_label)
 #: mouseclick/mouseclick_config.ui:103
 #, fuzzy
+#| msgid "&Width:"
 msgid "Line Width:"
 msgstr "&அகலம்:"
 
@@ -1144,6 +1202,7 @@ msgstr "&அகலம்:"
 #: mouseclick/mouseclick_config.ui:119 mouseclick/mouseclick_config.ui:171
 #: mousemark/mousemark_config.cpp:55
 #, fuzzy
+#| msgid " px"
 msgid " pixel"
 msgid_plural " pixels"
 msgstr[0] " பிக்ஸ்"
@@ -1152,12 +1211,14 @@ msgstr[1] " பிக்ஸ்"
 #. i18n: ectx: property (text), widget (QLabel, ring_duration_label)
 #: mouseclick/mouseclick_config.ui:145
 #, fuzzy
+#| msgid "&Animation duration:"
 msgid "Ring Duration:"
 msgstr "&அசைவூட்ட காலவளவு:"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_radius_label)
 #: mouseclick/mouseclick_config.ui:155
 #, fuzzy
+#| msgid "&Radius:"
 msgid "Ring Radius:"
 msgstr "&ஆரம்"
 
@@ -1180,6 +1241,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, showtext_label)
 #: mouseclick/mouseclick_config.ui:233
 #, fuzzy
+#| msgid "Show Desktop Grid"
 msgid "Show Text:"
 msgstr "பணிமேசை தடுப்பினை காட்டுக"
 
@@ -1209,22 +1271,25 @@ msgstr ""
 #: presentwindows/presentwindows.cpp:70
 #: presentwindows/presentwindows_config.cpp:71
 #, fuzzy
+#| msgid "for windows on current desktop: "
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "தற்போதைய பணிமேசையின் மீதுள்ள சாளரங்களுக்காக:"
 
 #: presentwindows/presentwindows.cpp:78
 #: presentwindows/presentwindows_config.cpp:65
 #, fuzzy
+#| msgid "for windows on all desktops: "
 msgid "Toggle Present Windows (All desktops)"
 msgstr "அனைத்து பணிமேசைகளிலும் உள்ள சாளரங்களுக்காக:"
 
 #: presentwindows/presentwindows.cpp:86
 #: presentwindows/presentwindows_config.cpp:77
 #, fuzzy
+#| msgid "for windows on all desktops: "
 msgid "Toggle Present Windows (Window class)"
 msgstr "அனைத்து பணிமேசைகளிலும் உள்ள சாளரங்களுக்காக:"
 
-#: presentwindows/presentwindows.cpp:1556
+#: presentwindows/presentwindows.cpp:1561
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1293,6 +1358,7 @@ msgstr ""
 #: presentwindows/presentwindows_config.ui:322
 #: presentwindows/presentwindows_config.ui:356
 #, fuzzy
+#| msgid "Inactive windows:"
 msgid "Activate window"
 msgstr "செயலற்ற சாளரங்கள்:"
 
@@ -1318,6 +1384,7 @@ msgstr ""
 #: presentwindows/presentwindows_config.ui:198
 #: presentwindows/presentwindows_config.ui:242
 #, fuzzy
+#| msgid "for windows on current desktop: "
 msgid "Bring window to current desktop"
 msgstr "தற்போதைய பணிமேசையின் மீதுள்ள சாளரங்களுக்காக:"
 
@@ -1328,6 +1395,7 @@ msgstr "தற்போதைய பணிமேசையின் மீது�
 #: presentwindows/presentwindows_config.ui:203
 #: presentwindows/presentwindows_config.ui:247
 #, fuzzy
+#| msgid "for windows on all desktops: "
 msgid "Send window to all desktops"
 msgstr "அனைத்து பணிமேசைகளிலும் உள்ள சாளரங்களுக்காக:"
 
@@ -1357,6 +1425,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
 #: presentwindows/presentwindows_config.ui:263
 #, fuzzy
+#| msgid "Nowhere"
 msgctxt "@title:group actions when clicking on desktop"
 msgid "Desktop"
 msgstr "எங்குமில்லை"
@@ -1368,6 +1437,7 @@ msgstr "எங்குமில்லை"
 #: presentwindows/presentwindows_config.ui:332
 #: presentwindows/presentwindows_config.ui:366
 #, fuzzy
+#| msgid "Show Desktop Grid"
 msgid "Show desktop"
 msgstr "பணிமேசை தடுப்பினை காட்டுக"
 
@@ -1414,6 +1484,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TextureScale)
 #: resize/resize_config.ui:17
 #, fuzzy
+#| msgid "Decorations:"
 msgid "Scale window"
 msgstr "அலங்காரங்கள்:"
 
@@ -1484,6 +1555,7 @@ msgstr "தற்போதைய சாளரத்தின் தம்ப்�
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: thumbnailaside/thumbnailaside_config.ui:23
 #, fuzzy
+#| msgid "Maximal &width:"
 msgid "Maximum &width:"
 msgstr "அதிகபட்ச &அகலம்:"
 
@@ -1497,6 +1569,7 @@ msgstr "&இடவெளி:"
 #: thumbnailaside/thumbnailaside_config.ui:55
 #: thumbnailaside/thumbnailaside_config.ui:106
 #, fuzzy
+#| msgid " px"
 msgid " pixels"
 msgstr " பிக்ஸ்"
 
@@ -1572,6 +1645,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, moveresize_label)
 #: translucency/package/contents/ui/config.ui:207
 #, fuzzy
+#| msgid "Moved/resized windows:"
 msgid "Moving windows:"
 msgstr "சாளரங்கள் அளவு மாற்றப்பட்டன/நகர்த்தப்பட்டன:"
 
@@ -1600,7 +1674,7 @@ msgstr ""
 msgid "Torn-off menus:"
 msgstr ""
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:61
 msgid "Toggle window geometry display (effect only)"
 msgstr ""
 
@@ -1611,6 +1685,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Move)
 #: windowgeometry/windowgeometry_config.ui:17
 #, fuzzy
+#| msgid "Moved/resized windows:"
 msgid "Display for moving windows"
 msgstr "சாளரங்கள் அளவு மாற்றப்பட்டன/நகர்த்தப்பட்டன:"
 
@@ -1632,6 +1707,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: wobblywindows/wobblywindows_config.ui:68
 #, fuzzy
+#| msgid "Dialogs:"
 msgid "Dra&g:"
 msgstr "பலகங்கள்:"
 
@@ -1670,37 +1746,39 @@ msgstr ""
 msgid "More"
 msgstr ""
 
-#: zoom/zoom.cpp:86
+#: zoom/zoom.cpp:84
 msgid "Move Zoomed Area to Left"
 msgstr ""
 
-#: zoom/zoom.cpp:94
+#: zoom/zoom.cpp:92
 msgid "Move Zoomed Area to Right"
 msgstr ""
 
-#: zoom/zoom.cpp:102
+#: zoom/zoom.cpp:100
 msgid "Move Zoomed Area Upwards"
 msgstr ""
 
-#: zoom/zoom.cpp:110
+#: zoom/zoom.cpp:108
 msgid "Move Zoomed Area Downwards"
 msgstr ""
 
-#: zoom/zoom.cpp:119 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
 msgid "Move Mouse to Focus"
 msgstr ""
 
-#: zoom/zoom.cpp:127 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
 msgid "Move Mouse to Center"
 msgstr ""
 
 #: zoom/zoom_config.cpp:84
 #, fuzzy
+#| msgid "Top Left"
 msgid "Move Left"
 msgstr "இடது மேற்புறம்"
 
 #: zoom/zoom_config.cpp:91
 #, fuzzy
+#| msgid "Top Right"
 msgid "Move Right"
 msgstr "வலது மேற்புறம்"
 
@@ -1721,6 +1799,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: zoom/zoom_config.ui:28
 #, fuzzy
+#| msgid "&Animation duration:"
 msgid "Zoom Factor:"
 msgstr "&அசைவூட்ட காலவளவு:"
 

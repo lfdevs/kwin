@@ -84,10 +84,10 @@ public:
     static void copyPixels(const QRegion &region);
 #endif
 
-    static SceneOpenGL *createScene();
+    static SceneOpenGL *createScene(QObject *parent);
 
 protected:
-    SceneOpenGL(Workspace* ws, OpenGLBackend *backend);
+    SceneOpenGL(OpenGLBackend *backend, QObject *parent = nullptr);
     virtual void paintBackground(QRegion region);
     virtual void extendPaintRegion(QRegion &region, bool opaqueFullscreen);
     QMatrix4x4 transformation(int mask, const ScreenPaintData &data) const;
@@ -115,7 +115,7 @@ class SceneOpenGL2 : public SceneOpenGL
 {
     Q_OBJECT
 public:
-    explicit SceneOpenGL2(OpenGLBackend *backend);
+    explicit SceneOpenGL2(OpenGLBackend *backend, QObject *parent = nullptr);
     virtual ~SceneOpenGL2();
     virtual CompositingType compositingType() const {
         return OpenGL2Compositing;
@@ -157,7 +157,8 @@ class SceneOpenGL::TexturePrivate
 public:
     virtual ~TexturePrivate();
 
-    virtual bool loadTexture(xcb_pixmap_t pix, const QSize &size, xcb_visualid_t visual) = 0;
+    virtual bool loadTexture(WindowPixmap *pixmap) = 0;
+    virtual void updateTexture(WindowPixmap *pixmap);
     virtual OpenGLBackend *backend() = 0;
 
 protected:
@@ -179,7 +180,8 @@ public:
     void discard() override final;
 
 protected:
-    bool load(xcb_pixmap_t pix, const QSize &size, xcb_visualid_t);
+    bool load(WindowPixmap *pixmap);
+    void updateFromPixmap(WindowPixmap *pixmap);
 
     Texture(TexturePrivate& dd);
 

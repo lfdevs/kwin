@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm-1.1\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-07-04 08:25+0000\n"
+"POT-Creation-Date: 2015-01-14 07:58+0000\n"
 "PO-Revision-Date: 2004-07-08 22:32+0200\n"
 "Last-Translator: Jañ-Mai Drapier <jan-mai.drapier@mail.dotcom.fr>\n"
 "Language-Team: Brezhoneg <Suav.Icb@wanadoo.fr>\n"
@@ -27,6 +27,7 @@ msgstr "tvignaud@mandriva.com, jdrapier@club-internet.fr"
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: actions.ui:32
 #, fuzzy
+#| msgid "Modifier key + mouse wheel:"
 msgid "M&ouse wheel:"
 msgstr "Stokell kemmer + logodenn gant ur rodell :"
 
@@ -50,6 +51,7 @@ msgstr "Fiñval"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:60 actions.ui:162 actions.ui:325
 #, fuzzy
+#| msgid "Activate, Raise and Move"
 msgid "Activate, Raise & Move"
 msgstr "Bevaat, sevel ha fiñval"
 
@@ -158,6 +160,7 @@ msgstr "Netra"
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: actions.ui:108
 #, fuzzy
+#| msgid "Right button:"
 msgid "Ri&ght button:"
 msgstr "Nozel a-zehou :"
 
@@ -169,6 +172,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:134
 #, fuzzy
+#| msgid "Middle button:"
 msgid "Middle b&utton:"
 msgstr "Nozel a-greiz :"
 
@@ -183,12 +187,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: actions.ui:210
 #, fuzzy
+#| msgid "Left button:"
 msgid "&Left button:"
 msgstr "Nozel a-gleiz :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: actions.ui:229
 #, fuzzy
+#| msgid "Inner Window, Titlebar && Frame"
 msgid "Inner Window, Titlebar & Frame"
 msgstr "Prenestr diabarzh, barrenn-ditl ha stern"
 
@@ -238,6 +244,7 @@ msgstr "Bevaat ha sevel"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: actions.ui:269
 #, fuzzy
+#| msgid "Right button:"
 msgid "&Right button:"
 msgstr "Nozel a-zehou :"
 
@@ -256,12 +263,14 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:297
 #, fuzzy
+#| msgid "Activate & Lower"
 msgid "Activate & Scroll"
 msgstr "Bevaat hag izelaat"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:302
 #, fuzzy
+#| msgid "Activate, Raise and Move"
 msgid "Activate, Raise & Scroll"
 msgstr "Bevaat, sevel ha fiñval"
 
@@ -340,6 +349,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: actions.ui:505
 #, fuzzy
+#| msgid "Middle button:"
 msgid "M&iddle button:"
 msgstr "Nozel a-greiz :"
 
@@ -351,12 +361,14 @@ msgstr "Prenestr marv diabarzh"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:531
 #, fuzzy
+#| msgid "Left button:"
 msgid "Left &button"
 msgstr "Nozel a-gleiz :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:561
 #, fuzzy
+#| msgid "Modifier key:"
 msgid "Modifier &key:"
 msgstr "Stokell kemmer :"
 
@@ -385,6 +397,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, wtBox)
 #: advanced.ui:43
 #, fuzzy
+#| msgid "Window Actio&ns"
 msgid "Window Tabbing"
 msgstr "Obe&roù ar prenestr"
 
@@ -428,11 +441,10 @@ msgid "&Placement:"
 msgstr "&Lec'hiadur :"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, placementCombo)
-#: advanced.ui:122
+#: advanced.ui:121
 msgid ""
 "The placement policy determines where a new window will appear on the "
-"desktop.\n"
-"<ul>\n"
+"desktop.<br><ul>\n"
 "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
 "<li><em>Maximizing</em> will try to maximize every window to fill the whole "
 "screen. It might be useful to selectively affect placement of some windows "
@@ -447,67 +459,68 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:126
+#: advanced.ui:125
 msgid "Smart"
 msgstr "Poellek"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:131
+#: advanced.ui:130
 msgid "Maximizing"
 msgstr "Oc'h uhelaat"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:136
+#: advanced.ui:135
 msgid "Cascade"
 msgstr "Diri"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:141
+#: advanced.ui:140
 msgid "Random"
 msgstr "Ankivil"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:146
+#: advanced.ui:145
 msgid "Centered"
 msgstr "Kreizennet"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:151
+#: advanced.ui:150
 msgid "Zero-Cornered"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
-#: advanced.ui:156
+#: advanced.ui:155
 #, fuzzy
+#| msgid "Focus Under Mouse"
 msgid "Under Mouse"
 msgstr "Fokus dindañ al logodenn"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shBox)
-#: advanced.ui:167
+#: advanced.ui:166
 #, fuzzy
 msgid "Shading"
 msgstr "(Dis)Heoliañ"
 
 #. i18n: ectx: property (text), widget (QLabel, shadeHoverLabel)
-#: advanced.ui:176
+#: advanced.ui:175
 msgid "Dela&y:"
 msgstr "Dal&e :"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, shadeHoverOn)
-#: advanced.ui:205
+#: advanced.ui:204
 msgid ""
 "If Shade Hover is enabled, a shaded window will un-shade automatically when "
 "the mouse pointer has been over the title bar for some time."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, shadeHoverOn)
-#: advanced.ui:208
+#: advanced.ui:207
 #, fuzzy
 msgid "&Enable hover"
 msgstr "(Dis)Heoliañ"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, shadeHover)
-#: advanced.ui:215
+#: advanced.ui:214
 msgid ""
 "Sets the time in milliseconds before the window unshades when the mouse "
 "pointer goes over the shaded window."
@@ -516,19 +529,21 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, delayFocus)
 #. i18n: ectx: property (suffix), widget (QSpinBox, autoRaise)
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadeHover)
-#: advanced.ui:230 focus.ui:250 focus.ui:475
+#: advanced.ui:229 focus.ui:250 focus.ui:475
 #, fuzzy
+#| msgid " msec"
 msgid " ms"
 msgstr " msec"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: advanced.ui:240
+#: advanced.ui:239
 #, fuzzy
+#| msgid "Windows"
 msgid "Special Windows"
 msgstr "Prenester"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, hideUtilityWindowsForInactive)
-#: advanced.ui:249
+#: advanced.ui:248
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
 "inactive applications will be hidden and will be shown only when the "
@@ -537,13 +552,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, hideUtilityWindowsForInactive)
-#: advanced.ui:252
+#: advanced.ui:251
 msgid "Hide utility windows for inactive applications"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: focus.ui:30
 #, fuzzy
+#| msgid "Active windows:"
 msgid "Activating windows"
 msgstr "Prenester bev :"
 
@@ -619,6 +635,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, delayFocusOnLabel)
 #: focus.ui:228
 #, fuzzy
+#| msgid "Delay focus"
 msgid "&Delay focus by"
 msgstr "Dale ar fokus"
 
@@ -665,6 +682,8 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:304
 #, fuzzy
+#| msgctxt "Focus Stealing Prevention Level"
+#| msgid "None"
 msgid "None"
 msgstr "Hini ebet"
 
@@ -672,6 +691,8 @@ msgstr "Hini ebet"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:309
 #, fuzzy
+#| msgctxt "Focus Stealing Prevention Level"
+#| msgid "Low"
 msgid "Low"
 msgstr "Izel"
 
@@ -685,6 +706,8 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:319
 #, fuzzy
+#| msgctxt "Focus Stealing Prevention Level"
+#| msgid "High"
 msgid "High"
 msgstr "Uhel"
 
@@ -697,6 +720,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: focus.ui:364
 #, fuzzy
+#| msgid "&Policy:"
 msgid "Policy"
 msgstr "&Politikerez :"
 
@@ -713,6 +737,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: focus.ui:434
 #, fuzzy
+#| msgid "Moving windows:"
 msgid "Raising windows"
 msgstr "Emaon o fiñval ar prenester :"
 
@@ -746,6 +771,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, clickRaiseOn)
 #: focus.ui:497
 #, fuzzy
+#| msgid "C&lick raise active window"
 msgid "C&lick raises active window"
 msgstr "K&likañ evit sevel ar prenestr bev"
 
@@ -860,6 +886,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.cpp:195 mouse.ui:55
 #, fuzzy
+#| msgid "Maximize"
 msgid "Maximize"
 msgstr "Uhelaat"
 
@@ -915,6 +942,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.ui:90
 #, fuzzy
+#| msgid "On All Desktops"
 msgid "On All Desktops"
 msgstr "War an holl vurevoù"
 
@@ -985,6 +1013,7 @@ msgstr "Lañser obererezhoù"
 #: mouse.ui:272 mouse.ui:345 mouse.ui:416 mouse.ui:489 mouse.ui:560
 #: mouse.ui:633
 #, fuzzy
+#| msgid "Window Actio&ns"
 msgid "Start Window Tab Drag"
 msgstr "Obe&roù ar prenestr"
 
@@ -1051,6 +1080,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: mouse.ui:770
 #, fuzzy
+#| msgid "Titlebar && Frame"
 msgid "Titlebar & Frame"
 msgstr "Barrenn-ditl ha stern"
 
@@ -1091,12 +1121,15 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, borderSnap)
 #: moving.ui:67 moving.ui:134 moving.ui:162
 #, fuzzy
+#| msgid " pixel"
+#| msgid_plural " pixels"
 msgid " pixel"
 msgstr " pikseloù"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, centerSnap)
 #: moving.ui:70
 #, fuzzy
+#| msgid "&Border snap zone:"
 msgid "no center snap zone"
 msgstr "Takad sachañ ar &vevenn :"
 
@@ -1108,6 +1141,7 @@ msgstr "Takad sachañ ar &vevenn :"
 #. i18n: ectx: property (text), widget (QLabel, centerSnapLabel)
 #: moving.ui:103
 #, fuzzy
+#| msgid "&Border snap zone:"
 msgid "&Center snap zone:"
 msgstr "Takad sachañ ar &vevenn :"
 
@@ -1122,6 +1156,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, windowSnap)
 #: moving.ui:137
 #, fuzzy
+#| msgid "&Window snap zone:"
 msgid "no window snap zone"
 msgstr "Takad sachañ ar &prenestr :"
 
@@ -1136,6 +1171,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, borderSnap)
 #: moving.ui:165
 #, fuzzy
+#| msgid "&Border snap zone:"
 msgid "no border snap zone"
 msgstr "Takad sachañ ar &vevenn :"
 

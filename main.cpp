@@ -23,9 +23,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config-kwin.h>
 // kwin
 #include "atoms.h"
+#include "composite.h"
+#include "cursor.h"
+#include "input.h"
+#include "logind.h"
 #include "options.h"
+#include "screens.h"
 #include "sm.h"
 #include "workspace.h"
+#include "xcbutils.h"
 
 // KDE
 #include <KAboutData>
@@ -56,6 +62,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef HAVE_MALLOC_H
 #include <malloc.h>
 #endif // HAVE_MALLOC_H
+
+// xcb
+#include <xcb/damage.h>
+#ifndef XCB_GE_GENERIC
+#define XCB_GE_GENERIC 35
+#endif
 
 namespace KWin
 {
@@ -161,7 +173,7 @@ void Application::setOperationMode(OperationMode mode)
 
 bool Application::shouldUseWaylandForCompositing() const
 {
-    return m_operationMode == OperationModeWaylandAndX11;
+    return m_operationMode == OperationModeWaylandAndX11 || m_operationMode == OperationModeXwayland;
 }
 
 bool Application::requiresCompositing() const
@@ -298,18 +310,6 @@ void Application::processCommandLine(QCommandLineParser *parser)
     Application::setCrashCount(parser->value(s_crashesOption).toInt());
 }
 
-void Application::registerDBusService()
-{
-    QString appname;
-    if (x11ScreenNumber() == 0)
-        appname = QStringLiteral("org.kde.kwin");
-    else
-        appname.sprintf("org.kde.kwin-screen-%d", KWin::Application::x11ScreenNumber());
-
-    QDBusConnection::sessionBus().interface()->registerService(
-        appname, QDBusConnectionInterface::DontQueueService);
-}
-
 void Application::setupTranslator()
 {
     QTranslator *qtTranslator = new QTranslator(qApp);
@@ -373,6 +373,23 @@ void Application::createWorkspace()
 
     // create workspace.
     (void) new Workspace(isSessionRestored());
+    emit workspaceCreated();
+}
+
+void Application::createInput()
+{
+    LogindIntegration::create(this);
+    InputRedirection::create(this);
+    Cursor::create(this);
+}
+
+void Application::createScreens()
+{
+    if (Screens::self()) {
+        return;
+    }
+    Screens::create(this);
+    emit screensCreated();
 }
 
 void Application::createAtoms()
@@ -385,6 +402,11 @@ void Application::createOptions()
     options = new Options;
 }
 
+void Application::createCompositor()
+{
+    Compositor::create(this);
+}
+
 void Application::setupEventFilters()
 {
     installNativeEventFilter(m_eventFilter.data());
@@ -395,17 +417,93 @@ void Application::destroyWorkspace()
     delete Workspace::self();
 }
 
+void Application::updateX11Time(xcb_generic_event_t *event)
+{
+    xcb_timestamp_t time = XCB_TIME_CURRENT_TIME;
+    const uint8_t eventType = event->response_type & ~0x80;
+    switch(eventType) {
+    case XCB_KEY_PRESS:
+    case XCB_KEY_RELEASE:
+        time = reinterpret_cast<xcb_key_press_event_t*>(event)->time;
+        break;
+    case XCB_BUTTON_PRESS:
+    case XCB_BUTTON_RELEASE:
+        time = reinterpret_cast<xcb_button_press_event_t*>(event)->time;
+        break;
+    case XCB_MOTION_NOTIFY:
+        time = reinterpret_cast<xcb_motion_notify_event_t*>(event)->time;
+        break;
+    case XCB_ENTER_NOTIFY:
+    case XCB_LEAVE_NOTIFY:
+        time = reinterpret_cast<xcb_enter_notify_event_t*>(event)->time;
+        break;
+    case XCB_FOCUS_IN:
+    case XCB_FOCUS_OUT:
+    case XCB_KEYMAP_NOTIFY:
+    case XCB_EXPOSE:
+    case XCB_GRAPHICS_EXPOSURE:
+    case XCB_NO_EXPOSURE:
+    case XCB_VISIBILITY_NOTIFY:
+    case XCB_CREATE_NOTIFY:
+    case XCB_DESTROY_NOTIFY:
+    case XCB_UNMAP_NOTIFY:
+    case XCB_MAP_NOTIFY:
+    case XCB_MAP_REQUEST:
+    case XCB_REPARENT_NOTIFY:
+    case XCB_CONFIGURE_NOTIFY:
+    case XCB_CONFIGURE_REQUEST:
+    case XCB_GRAVITY_NOTIFY:
+    case XCB_RESIZE_REQUEST:
+    case XCB_CIRCULATE_NOTIFY:
+    case XCB_CIRCULATE_REQUEST:
+        // no timestamp
+        return;
+    case XCB_PROPERTY_NOTIFY:
+        time = reinterpret_cast<xcb_property_notify_event_t*>(event)->time;
+        break;
+    case XCB_SELECTION_CLEAR:
+        time = reinterpret_cast<xcb_selection_clear_event_t*>(event)->time;
+        break;
+    case XCB_SELECTION_REQUEST:
+        time = reinterpret_cast<xcb_selection_request_event_t*>(event)->time;
+        break;
+    case XCB_SELECTION_NOTIFY:
+        time = reinterpret_cast<xcb_selection_notify_event_t*>(event)->time;
+        break;
+    case XCB_COLORMAP_NOTIFY:
+    case XCB_CLIENT_MESSAGE:
+    case XCB_MAPPING_NOTIFY:
+    case XCB_GE_GENERIC:
+        // no timestamp
+        return;
+    default:
+        // extension handling
+        if (Xcb::Extensions::self()) {
+            if (eventType == Xcb::Extensions::self()->shapeNotifyEvent()) {
+                time = reinterpret_cast<xcb_shape_notify_event_t*>(event)->server_time;
+            }
+            if (eventType == Xcb::Extensions::self()->damageNotifyEvent()) {
+                time = reinterpret_cast<xcb_damage_notify_event_t*>(event)->timestamp;
+            }
+        }
+        break;
+    }
+    setX11Time(time);
+}
+
 bool XcbEventFilter::nativeEventFilter(const QByteArray &eventType, void *message, long int *result)
 {
     Q_UNUSED(result)
+    if (eventType != "xcb_generic_event_t") {
+        return false;
+    }
+    auto event = static_cast<xcb_generic_event_t *>(message);
+    kwinApp()->updateX11Time(event);
     if (!Workspace::self()) {
         // Workspace not yet created
         return false;
     }
-    if (eventType != "xcb_generic_event_t") {
-        return false;
-    }
-    return Workspace::self()->workspaceEvent(static_cast<xcb_generic_event_t *>(message));
+    return Workspace::self()->workspaceEvent(event);
 }
 
 static bool s_useLibinput = false;

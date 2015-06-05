@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-05 09:36+0000\n"
-"PO-Revision-Date: 2014-06-19 21:11+0700\n"
+"POT-Creation-Date: 2015-02-05 07:54+0000\n"
+"PO-Revision-Date: 2014-11-22 11:12+0700\n"
 "Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
 "Language: id\n"
@@ -40,15 +40,14 @@ msgid "GLX"
 msgstr "GLX"
 
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
-#: compositing.ui:20 qml/CompositingView.qml:55
+#: compositing.ui:20
 msgid "Enable compositor on startup"
 msgstr "Aktifkan kompositor saat startup"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:27
-#, fuzzy
 msgid "Animation speed:"
-msgstr "Kecepatan Animasi:"
+msgstr "Kecepatan animasi:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: compositing.ui:54
@@ -57,116 +56,109 @@ msgstr "Instan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
-#, fuzzy
 msgid "Very slow"
-msgstr "Sangat Pelan"
+msgstr "Sangat pelan"
 
 #. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
 #: compositing.ui:85 compositing.ui:111
-#, fuzzy
 msgid "Scale method:"
-msgstr "Metode Skala:"
+msgstr "Metode skala:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:93 compositing.ui:119 qml/CompositingView.qml:113
-#: qml/CompositingView.qml:127
+#: compositing.ui:93 compositing.ui:119
 msgid "Crisp"
 msgstr "Tajam"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:98 qml/CompositingView.qml:113
+#: compositing.ui:98
 msgid "Smooth"
 msgstr "Halus"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:103 qml/CompositingView.qml:113
+#: compositing.ui:103
 msgid "Accurate"
 msgstr "Akurat"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:124 qml/CompositingView.qml:127
+#: compositing.ui:124
 msgid "Smooth (slower)"
 msgstr "Halus (lebih pelan)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: compositing.ui:139 qml/CompositingView.qml:81
+#: compositing.ui:139
 msgid "Rendering backend:"
 msgstr "Ujung belakang render:"
 
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
-#, fuzzy
 msgid "OpenGL interface:"
-msgstr "Antarmuka Platform OpenGL:"
+msgstr "Antarmuka OpenGL:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: compositing.ui:159
-#, fuzzy
 msgid "Tearing prevention (\"vsync\"):"
-msgstr "Pencegahan Sobek (VSync):"
+msgstr "Pencegahan Sobek (\"vsync\"):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:167 compositing.ui:203 qml/CompositingView.qml:141
-#: qml/CompositingView.qml:154
+#: compositing.ui:167 compositing.ui:203
 msgid "Never"
 msgstr "Tak Pernah"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:172 qml/CompositingView.qml:141
+#: compositing.ui:172
 msgid "Automatic"
 msgstr "Otomatis"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:177 qml/CompositingView.qml:141
+#: compositing.ui:177
 msgid "Only when cheap"
 msgstr "Hanya jika murah"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:182 qml/CompositingView.qml:141
+#: compositing.ui:182
 msgid "Full screen repaints"
 msgstr "Gambar ulang layar penuh"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:187 qml/CompositingView.qml:141
+#: compositing.ui:187
 msgid "Re-use screen content"
 msgstr "Daur ulang isi layar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:195
-#, fuzzy
 msgid "Keep window thumbnails:"
-msgstr "Jaga Miniatur Jendela:"
+msgstr "Jaga miniatur jendela:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:208 qml/CompositingView.qml:154
+#: compositing.ui:208
 msgid "Only for Shown Windows"
 msgstr "Hanya untuk Jendela yang Ditampilkan"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:213
 msgid "Always"
-msgstr ""
+msgstr "Selalu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: compositing.ui:221 qml/CompositingView.qml:175
+#: compositing.ui:221
 msgid "Expert:"
 msgstr "Ahli:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
-#: compositing.ui:228 qml/CompositingView.qml:182
+#: compositing.ui:228
 msgid "Suspend compositor for full screen windows"
 msgstr "Suspensi kompositor untuk jendela layar penuh"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:235 qml/CompositingView.qml:192
+#: compositing.ui:235
 msgid "Experimental:"
 msgstr "Eksperimental:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:242 qml/CompositingView.qml:200
+#: compositing.ui:242
 msgid "Enable color correction"
 msgstr "Aktifkan koreksi warna"
 
@@ -180,6 +172,12 @@ msgid ""
 "immediate crash!\n"
 "Alternatively, you might want to use the XRender backend instead."
 msgstr ""
+"Komposit OpenGL (standar) telah menyebabkan KWin macet di masa lalu.\n"
+"Kemungkinan ini disebabkan oleh kutu penggerak.\n"
+"Jika anda pikir ada telah meningkatkan ke penggerak yang stabil,\n"
+"anda dapat mengatur ulang perlindungan ini tapi ingat bahwa ini dapat "
+"menyebabkan kemacetan!\n"
+"Sebagai alternatif, anda dapat menggunakan ujung belakang XRender."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, interfaceWarning)
 #: compositing.ui:278
@@ -187,6 +185,8 @@ msgid ""
 "EGL is not supported by all OpenGL drivers. If not supported the Compositor "
 "will be disabled."
 msgstr ""
+"EGL tidak didukung oleh semua penggerak OpenGL. Jika tidak didukung "
+"Kompositor akan dinonaktifkan."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
 #: compositing.ui:294
@@ -194,6 +194,8 @@ msgid ""
 "Scale method \"Accurate\" is not supported by all hardware and can cause "
 "performance regressions and rendering artifacts."
 msgstr ""
+"Metode skala \"Akurat\" tidak didukung oleh semua peranti keras dan dapat "
+"menyebabkan regresi performa dan artifak render."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
 #: compositing.ui:323
@@ -201,6 +203,9 @@ msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
 "windows. This can result in windows not suspending their work when minimized."
 msgstr ""
+"Menjaga miniatur jendela selalu mengganggu dengan ukuran jendela yang "
+"diminimalkan. Ini dapat berakibat di jendela tidak mensuspensi pekerjaan "
+"mereka ketika diminimalkan."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, unredirectInformation)
 #: compositing.ui:339
@@ -208,6 +213,8 @@ msgid ""
 "Having full screen windows bypass the compositor is not supported on every "
 "hardware."
 msgstr ""
+"Dengan jendela layar penuh menerobos kompositor tidak didukung di semua "
+"peranti keras."
 
 #: main.cpp:82
 msgid "Re-enable OpenGL detection"
@@ -271,30 +278,6 @@ msgstr "Manajemen Jendela"
 msgid "KWin development team"
 msgstr "Tim pengembang KWin"
 
-#: qml/CompositingView.qml:67
-msgid "Animation Speed:"
-msgstr "Kecepatan Animasi:"
-
-#: qml/CompositingView.qml:106 qml/CompositingView.qml:120
-msgid "Scale Method:"
-msgstr "Metode Skala:"
-
-#: qml/CompositingView.qml:135
-msgid "Tearing Prevention (VSync):"
-msgstr "Pencegahan Sobek (VSync):"
-
-#: qml/CompositingView.qml:148
-msgid "Keep Window Thumbnails:"
-msgstr "Jaga Miniatur Jendela:"
-
-#: qml/CompositingView.qml:154
-msgid "Always (Breaks Animations)"
-msgstr "Selalu (Merusak Animasi)"
-
-#: qml/CompositingView.qml:160
-msgid "OpenGL Platform Interface:"
-msgstr "Antarmuka Platform OpenGL:"
-
 #: qml/Effect.qml:118
 #, kde-format
 msgid ""
@@ -317,9 +300,8 @@ msgid "Search"
 msgstr "Pencarian"
 
 #: qml/EffectView.qml:82
-#, fuzzy
 msgid "Configure filter"
-msgstr "Filter tekstur:"
+msgstr "Atur filter"
 
 #: qml/EffectView.qml:85
 msgid "Exclude Desktop Effects not supported by the Compositor"

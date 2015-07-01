@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-02-05 07:54+0000\n"
-"PO-Revision-Date: 2015-05-13 19:19-0700\n"
+"PO-Revision-Date: 2015-05-22 22:20-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
 "Language: ja\n"
@@ -256,8 +256,6 @@ msgid "Virtual Desktop Switching Animation"
 msgstr "仮想デスクトップの切り替えアニメーション"
 
 #: model.cpp:73
-#, fuzzy
-#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "ウィンドウマネージメント"
@@ -287,7 +285,7 @@ msgstr ""
 
 #: qml/EffectView.qml:82
 msgid "Configure filter"
-msgstr ""
+msgstr "フィルタの設定"
 
 #: qml/EffectView.qml:85
 msgid "Exclude Desktop Effects not supported by the Compositor"

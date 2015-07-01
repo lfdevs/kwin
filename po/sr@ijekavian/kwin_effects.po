@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-04-08 08:29+0000\n"
+"POT-Creation-Date: 2015-05-21 11:34+0000\n"
 "PO-Revision-Date: 2014-07-02 21:48+0200\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -49,7 +49,7 @@ msgstr "јак"
 msgid "Save intermediate rendering results."
 msgstr "Сачувај међурезултате рендеровања"
 
-#: coverswitch/coverswitch.cpp:960 flipswitch/flipswitch.cpp:932
+#: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Прикажи површ"
@@ -1208,7 +1208,7 @@ msgstr "Присутни прозори (све површи)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Присутни прозори (класа прозора)"
 
-#: presentwindows/presentwindows.cpp:1560
+#: presentwindows/presentwindows.cpp:1561
 #, kde-format
 msgid ""
 "Filter:\n"

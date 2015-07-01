@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-05-16 12:24+0000\n"
+"POT-Creation-Date: 2015-06-04 12:15+0000\n"
 "PO-Revision-Date: 2010-01-29 13:59+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh672@gmail.com>\n"
 "Language-Team: Maithili <maithili.sf.net>\n"
@@ -204,40 +204,40 @@ msgstr "याद रखबाक लेल आंतरिक बिन्य�
 msgid "Internal setting for remembering"
 msgstr "याद रखबा क' लेल आंतरिक बिन्यास"
 
-#: main.cpp:143
+#: main.cpp:149
 #, kde-format
 msgid "Application settings for %1"
 msgstr "%1 क' लेल अनुप्रयोग बिन्यास"
 
-#: main.cpp:163
+#: main.cpp:169
 #, kde-format
 msgid "Window settings for %1"
 msgstr "%1 क' लेल विंडो बिन्यास"
 
-#: main.cpp:215
+#: main.cpp:221
 #, fuzzy
 #| msgid "Edit Window-Specific Settings"
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "विंडो-विशिष्ट बिन्यास संपादित करू"
 
-#: main.cpp:245
+#: main.cpp:251
 msgid "KWin"
 msgstr "के-विन"
 
-#: main.cpp:253
+#: main.cpp:259
 msgid "KWin helper utility"
 msgstr "के-विन मद्दति यूटिलिटी"
 
-#: main.cpp:254
+#: main.cpp:260
 msgid "WId of the window for special window settings."
 msgstr "विशिष्ट विंडो सेटिंग क' लेल विंडो क' डबल्यूआईडी"
 
-#: main.cpp:255
+#: main.cpp:261
 msgid "Whether the settings should affect all windows of the application."
 msgstr "सेटिंग की अनुप्रयोग केर सबहि विंडो पर प्रभाव डालैछ"
 
-#: main.cpp:263
+#: main.cpp:269
 msgid "This helper utility is not supposed to be called directly."
 msgstr "ई मद्दति यूटिलिटी सीधे बुलाएल नहि जाए सकैत अछि."
 

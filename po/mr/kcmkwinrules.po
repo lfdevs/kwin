@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-05-16 12:24+0000\n"
+"POT-Creation-Date: 2015-06-04 12:15+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -205,38 +205,38 @@ msgstr "लक्षात ठेवण्याकरिता आंतरी�
 msgid "Internal setting for remembering"
 msgstr "लक्षात ठेवण्याकरिता आंतरीक संयोजना"
 
-#: main.cpp:143
+#: main.cpp:149
 #, kde-format
 msgid "Application settings for %1"
 msgstr "%1 करिता अनुप्रयोग संयोजना"
 
-#: main.cpp:163
+#: main.cpp:169
 #, kde-format
 msgid "Window settings for %1"
 msgstr "%1 करिता चौकट संयोजना"
 
-#: main.cpp:215
+#: main.cpp:221
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "अनुप्रयोग-संबंधित संयोजना संपादित करा"
 
-#: main.cpp:245
+#: main.cpp:251
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:253
+#: main.cpp:259
 msgid "KWin helper utility"
 msgstr "KWin सहाय्यकीय उपकार्यक्रम"
 
-#: main.cpp:254
+#: main.cpp:260
 msgid "WId of the window for special window settings."
 msgstr "विशेष चौकट संयोजना करिता चौकटचे WId."
 
-#: main.cpp:255
+#: main.cpp:261
 msgid "Whether the settings should affect all windows of the application."
 msgstr "संयोजनामुळे अनुप्रयोगातील सर्व चौकट प्रभावीत व्हायला हवे का."
 
-#: main.cpp:263
+#: main.cpp:269
 msgid "This helper utility is not supposed to be called directly."
 msgstr "या सहाय्यक उपकार्यक्रमास प्रत्यरित्या कॉल नाही केले पाहिजे."
 

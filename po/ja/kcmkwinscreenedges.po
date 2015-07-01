@@ -1,13 +1,14 @@
 # Translation of kcmkwinscreenedges into Japanese.
 # Yukiko Bando <ybando@k6.dion.ne.jp>, 2009, 2010.
 # Jumpei Ogawa <phanective@gmail.com>, 2010.
+# Fumiaki Okushi <fumiaki.okushi@gmail.com>, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-05-16 07:57+0000\n"
-"PO-Revision-Date: 2010-08-14 00:11+0900\n"
-"Last-Translator: Jumpei Ogawa <phanective@gmail.com>\n"
+"PO-Revision-Date: 2015-05-23 16:23-0700\n"
+"Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -47,16 +48,14 @@ msgid "Prevent Screen Locking"
 msgstr ""
 
 #: main.cpp:200
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgid "%1 - All Desktops"
-msgstr "すべてのデスクトップ"
+msgstr "%1 - すべてのデスクトップ"
 
 #: main.cpp:201
-#, fuzzy, kde-format
-#| msgid "Current Desktop"
+#, kde-format
 msgid "%1 - Current Desktop"
-msgstr "現在のデスクトップ"
+msgstr "%1 - 現在のデスクトップ"
 
 #: main.cpp:202
 #, kde-format
@@ -64,22 +63,19 @@ msgid "%1 - Current Application"
 msgstr ""
 
 #: main.cpp:205
-#, fuzzy, kde-format
-#| msgid "Cube"
+#, kde-format
 msgid "%1 - Cube"
-msgstr "キューブ"
+msgstr "%1 - キューブ"
 
 #: main.cpp:206
-#, fuzzy, kde-format
-#| msgid "Cylinder"
+#, kde-format
 msgid "%1 - Cylinder"
-msgstr "シリンダー"
+msgstr "%1 - シリンダー"
 
 #: main.cpp:207
-#, fuzzy, kde-format
-#| msgid "Sphere"
+#, kde-format
 msgid "%1 - Sphere"
-msgstr "球形"
+msgstr "%1 - 球形"
 
 #: main.cpp:209
 msgid "Toggle window switching"

@@ -2,16 +2,16 @@
 #
 # Hans Petter Bieker <bieker@kde.org>, 2000.
 # Knut Erik Hollund <khollund@responze.net>, 2003.
-# Axel Bojer <axelb@skolelinux.no>, 2003, 2005.
+# Axel Bojer <axel@bojer.no>, 2003, 2005.
 # Sven Harald Klein Bakke <sirius@nonline.org>, 2005.
 # Eskild Hustvedt <zerodogg@skolelinux.no>, 2005.
-# Knut Yrvin <knuty@skolelinux.no>, 2005, 2006.
+# Knut Yrvin <knut.yrvin@gmail.com>, 2005, 2006.
 # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-05-18 11:00+0000\n"
+"POT-Creation-Date: 2015-05-20 10:44+0000\n"
 "PO-Revision-Date: 2014-09-04 11:55+0200\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -32,8 +32,8 @@ msgstr "Knut Yrvin,Gunnhild Lurås,Knut Erik Hollund,Eskild Hustvedt"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
-"knuty@skolelinux.no,gluras@c2i.net,khollund@responze.net,zerodogg@skolelinux."
-"no"
+"knut.yrvin@gmail.com,gluras@c2i.net,khollund@responze.net,"
+"zerodogg@skolelinux.no"
 
 #: composite.cpp:545
 #, kde-format
@@ -929,7 +929,7 @@ msgstr "Hopp ett skrivebord ned"
 msgid "Switch to Desktop %1"
 msgstr "Bytt til skrivebord %1"
 
-#: workspace.cpp:1251
+#: workspace.cpp:1258
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

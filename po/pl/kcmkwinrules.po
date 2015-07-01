@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-05-16 12:24+0000\n"
-"PO-Revision-Date: 2015-04-25 07:51+0200\n"
+"POT-Creation-Date: 2015-06-04 12:15+0000\n"
+"PO-Revision-Date: 2015-06-05 09:10+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
@@ -181,7 +181,7 @@ msgstr "W&yczyść"
 
 #: kcm.cpp:51
 msgid "Window-Specific Settings Configuration Module"
-msgstr "Moduł konfiguracji ustawień okien charakterystycznych"
+msgstr "Moduł nadawania osobnych ustawień dla okien"
 
 #: kcm.cpp:52
 msgid "(c) 2004 KWin and KControl Authors"
@@ -217,38 +217,38 @@ msgstr "Pokaż wewnętrzne ustawienia dla zapamiętywania"
 msgid "Internal setting for remembering"
 msgstr "Wewnętrzne ustawienia dla zapamiętywania"
 
-#: main.cpp:143
+#: main.cpp:149
 #, kde-format
 msgid "Application settings for %1"
 msgstr "Ustawienia programu dla %1"
 
-#: main.cpp:163
+#: main.cpp:169
 #, kde-format
 msgid "Window settings for %1"
 msgstr "Ustawienia okna dla %1"
 
-#: main.cpp:215
+#: main.cpp:221
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Edytowanie ustawień wyjątkowych dla aplikacji"
 
-#: main.cpp:245
+#: main.cpp:251
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:253
+#: main.cpp:259
 msgid "KWin helper utility"
 msgstr "Narzędzie pomocnicze KWin"
 
-#: main.cpp:254
+#: main.cpp:260
 msgid "WId of the window for special window settings."
 msgstr "WId okna dla specjalnych ustawień okna."
 
-#: main.cpp:255
+#: main.cpp:261
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Czy ustawienia powinny dotyczyć wszystkich okien programu."
 
-#: main.cpp:263
+#: main.cpp:269
 msgid "This helper utility is not supposed to be called directly."
 msgstr "To narzędzie pomocnicze nie powinno być wywoływane bezpośrednio."
 
@@ -396,10 +396,9 @@ msgid ""
 "setting using the checkbox, select in what way the setting should be "
 "affected and to which value."
 msgstr ""
-"To okno dialogowe pozwala na zmianę ustawień tylko dla wybranego okna lub "
-"programu. Znajdź ustawienia jakie chcesz zmienić, włącz ustawienia używając "
-"pola wyboru, wybierz w jaki sposób opcja powinna być zmieniona i do jakiego "
-"stopnia."
+"To okno dialogowe umozliwia zmianę ustawień wyłącznie dla wybranego okna lub "
+"programu. Wyszukaj ustawienia, które chcesz mienić, włącz je poprzez pole "
+"zaznaczane, wybierz sposób zastosowania ustawienie, a także jego wartość."
 
 #: ruleswidget.cpp:815
 msgid "Consult the documentation for more details."
@@ -1124,7 +1123,7 @@ msgstr "&Ochrona przed zmianą aktywnego okna"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_decocolor)
 #: ruleswidgetbase.ui:2459
 msgid "Titlebar color &scheme"
-msgstr "Motyw kolorów pa&ska tytułu"
+msgstr "Zestaw kolorów pa&ska tytułu"
 
 #: yesnobox.h:35
 msgid "Yes"

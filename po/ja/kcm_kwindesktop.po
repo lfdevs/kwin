@@ -1,15 +1,15 @@
 # Translation of kcm_kwindesktop into Japanese.
 # This file is distributed under the same license as the kdebase package.
 # Yukiko Bando <ybando@k6.dion.ne.jp>, 2007, 2009, 2010.
-# Fumiaki Okushi <okushi@kde.gr.jp>, 2010.
+# Fumiaki Okushi <fumiaki.okushi@gmail.com>, 2010, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-07-04 08:25+0000\n"
-"PO-Revision-Date: 2010-05-22 11:24-0700\n"
-"Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
+"PO-Revision-Date: 2015-05-22 22:20-0700\n"
+"Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -146,17 +146,13 @@ msgstr "ここで KDE デスクトップで使用する仮想デスクトップ�
 
 #. i18n: ectx: property (text), widget (QLabel, numberLabel)
 #: main.ui:54
-#, fuzzy
-#| msgid "Number of desktops:"
 msgid "&Number of desktops:"
-msgstr "デスクトップの数:"
+msgstr "デスクトップの数(&N):"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:83
-#, fuzzy
-#| msgid "Number of rows:"
 msgid "N&umber of rows:"
-msgstr "段数:"
+msgstr "段数(&U):"
 
 #. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
 #: main.ui:103

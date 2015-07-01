@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-05-20 10:44+0000\n"
-"PO-Revision-Date: 2015-05-09 22:43-0300\n"
+"PO-Revision-Date: 2015-06-07 22:27-0300\n"
 "Last-Translator: André Marcelo Alvarenga <alvarenga@kde.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_br@kde.org>\n"
 "Language: pt_BR\n"
@@ -244,7 +244,7 @@ msgstr "Alternar entre elevar/diminuir janela"
 
 #: kwinbindings.cpp:68
 msgid "Make Window Fullscreen"
-msgstr "Janela em tela cheia"
+msgstr "Janela em tela inteira"
 
 #: kwinbindings.cpp:70
 msgid "Hide Window Border"
@@ -754,7 +754,7 @@ msgid ""
 "mode off you will not be able to disable it again using the mouse: use the "
 "window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
-"Você selecionou mostrar uma janela em modo tela cheia.\n"
+"Você selecionou mostrar uma janela em modo em tela inteira.\n"
 "Se o aplicativo sozinho não possui uma opção para desabilitar este modo, "
 "você não será capaz de desabilitar novamente, usando o mouse. Em vez disto, "
 "use o menu de operações de janela, ativado utilizando o atalho de teclado %1."
@@ -777,7 +777,7 @@ msgstr "Manter a&baixo das outras"
 
 #: useractions.cpp:273
 msgid "&Fullscreen"
-msgstr "Tela &cheia"
+msgstr "&Tela inteira"
 
 #: useractions.cpp:279
 msgid "Sh&ade"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-04-23 11:03+0000\n"
+"POT-Creation-Date: 2015-06-04 12:15+0000\n"
 "PO-Revision-Date: 2015-04-22 16:06+0200\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -182,21 +182,21 @@ msgstr "&Једна пречица"
 msgid "C&lear"
 msgstr "&Очисти"
 
-#: kcm.cpp:55
+#: kcm.cpp:51
 msgid "Window-Specific Settings Configuration Module"
 msgstr ""
 "Модул за подешавање посебних поставки за прозор|/|$[својства дат 'Модулу за "
 "подешавање посебних поставки за прозор']"
 
-#: kcm.cpp:56
+#: kcm.cpp:52
 msgid "(c) 2004 KWin and KControl Authors"
 msgstr "© 2004, аутори К‑вина и К‑контроле"
 
-#: kcm.cpp:57
+#: kcm.cpp:53
 msgid "Lubos Lunak"
 msgstr "Лубош Луњак"
 
-#: kcm.cpp:88
+#: kcm.cpp:84
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -209,52 +209,52 @@ msgstr ""
 "само ако користите К‑вин као менаџер прозора. Ако користите други менаџер, "
 "погледајте његову документацију за подешавање понашања прозора.</p>"
 
-#: kcm.cpp:104
+#: kcm.cpp:100
 msgid "Remember settings separately for every window"
 msgstr "Запамти поставке одвојено за сваки прозор"
 
-#: kcm.cpp:105
+#: kcm.cpp:101
 msgid "Show internal settings for remembering"
 msgstr "Прикажи унутрашње поставке за памћење"
 
-#: kcm.cpp:106
+#: kcm.cpp:102
 msgid "Internal setting for remembering"
 msgstr "Унутрашње поставке за памћење"
 
 # >> %1 is window class (not translated)
-#: main.cpp:143
+#: main.cpp:149
 #, kde-format
 msgid "Application settings for %1"
 msgstr "Програмске поставке за „%1“"
 
 # >> %1 is window class (not translated)
-#: main.cpp:163
+#: main.cpp:169
 #, kde-format
 msgid "Window settings for %1"
 msgstr "Прозорске поставке за „%1“"
 
-#: main.cpp:215
+#: main.cpp:221
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Уређивање посебних поставки за програм"
 
-#: main.cpp:245
+#: main.cpp:251
 msgid "KWin"
 msgstr "К‑вин"
 
-#: main.cpp:257
+#: main.cpp:259
 msgid "KWin helper utility"
 msgstr "Помоћна алатка за К‑вин"
 
-#: main.cpp:258
+#: main.cpp:260
 msgid "WId of the window for special window settings."
 msgstr "ИД прозора за посебне поставке по прозору."
 
-#: main.cpp:259
+#: main.cpp:261
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Да ли поставке утичу на све прозоре истог програма."
 
-#: main.cpp:267
+#: main.cpp:269
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Ова помоћна алатка не би требало да се позива директно."
 

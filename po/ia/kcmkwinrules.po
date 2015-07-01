@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-05-16 12:24+0000\n"
+"POT-Creation-Date: 2015-06-04 12:15+0000\n"
 "PO-Revision-Date: 2013-11-27 14:22+0100\n"
 "Last-Translator: G.Sora <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-l10n-ia@kde.org>\n"
@@ -217,38 +217,38 @@ msgstr "Monstra preferentias interne pro memorar"
 msgid "Internal setting for remembering"
 msgstr "Preferentias interne pro memorar"
 
-#: main.cpp:143
+#: main.cpp:149
 #, kde-format
 msgid "Application settings for %1"
 msgstr "Preferentias de application pro %1"
 
-#: main.cpp:163
+#: main.cpp:169
 #, kde-format
 msgid "Window settings for %1"
 msgstr "Preferentia de fenestra per %1"
 
-#: main.cpp:215
+#: main.cpp:221
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Modifica preferentias specific de application"
 
-#: main.cpp:245
+#: main.cpp:251
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:253
+#: main.cpp:259
 msgid "KWin helper utility"
 msgstr "Utilitate de adjuta de KWin"
 
-#: main.cpp:254
+#: main.cpp:260
 msgid "WId of the window for special window settings."
 msgstr "WId del fenestra pro preferentias special de fenestra."
 
-#: main.cpp:255
+#: main.cpp:261
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Si le preferentias debe influentiar omne fenestras del application"
 
-#: main.cpp:263
+#: main.cpp:269
 msgid "This helper utility is not supposed to be called directly."
 msgstr ""
 "Iste utilitate de adjuta il non es supponite de esser appellate directemente"

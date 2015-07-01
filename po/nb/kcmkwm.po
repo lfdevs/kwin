@@ -1,10 +1,10 @@
 # Translation of kcmkwm to Norwegian Bokmål
 #
 # Hans Petter Bieker <bieker@kde.org>, 1998, 1999, 2000.
-# Knut Yrvin <knuty@skolelinux.no>, 2002, 2005.
+# Knut Yrvin <knut.yrvin@gmail.com>, 2002, 2005.
 # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2002, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015.
 # Knut Erik Hollund <khollund@responze.net>, 2003.
-# Axel Bojer <axelb@skolelinux.no>, 2003, 2005, 2006.
+# Axel Bojer <axel@bojer.no>, 2003, 2005, 2006.
 # Bjørn Kvisli <bjorn.kvisli@gmail.com>, 2007.
 # Nils Kristian Tomren <slx@nilsk.net>, 2007.
 msgid ""
@@ -32,7 +32,7 @@ msgstr "Knut Yrvin,Klaus Ade Johnstad,Bjørn Steensrud,Knut Erik Hollund"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
-"knuty@skolelinux.no,klaus@skolelinux.no,bjornst@skogkatt.homelinux.org,"
+"knut.yrvin@gmail.com,klaus@skolelinux.no,bjornst@skogkatt.homelinux.org,"
 "khollund@responze.net"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)

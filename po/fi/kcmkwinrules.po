@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-05-16 12:24+0000\n"
-"PO-Revision-Date: 2015-04-11 11:58+0200\n"
+"POT-Creation-Date: 2015-06-04 12:15+0000\n"
+"PO-Revision-Date: 2015-06-07 15:19+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
 "Language-Team: Finnish <lokalisointi@lists.coss.fi>\n"
 "Language: fi\n"
@@ -209,10 +209,10 @@ msgid ""
 "manager. If you do use a different window manager, please refer to its "
 "documentation for how to customize window behavior.</p>"
 msgstr ""
-"<p><h1>Ikkuna-asetukset</h1> Voit säätää tässä erityisesti vain "
-"määräikkunoita koskevia ikkuna-asetuksia.</p><p>Huomaa, että nämä asetukset "
-"eivät tule voimaan, jos KWin ei hallitse ikkunoita. Jos käytät toista "
-"ikkunointiohjelmaa, katso sen opasteista, miten ikkunoiden toimintaa voi "
+"<p><h1>Ikkuna-asetukset</h1> Voit säätää tästä ikkuna-asetuksia, jotka "
+"koskevat vain tiettyjä ikkunoita.</p><p>Huomaa, että nämä asetukset eivät "
+"tule voimaan, jos KWin ei hallitse ikkunoita. Jos käytät toista "
+"ikkunointiohjelmaa, katso sen käyttöoppaasta, miten ikkunoiden toimintaa voi "
 "mukauttaa.</p>"
 
 #: kcm.cpp:100
@@ -227,38 +227,38 @@ msgstr "Näytä muistamisen sisäiset asetukset"
 msgid "Internal setting for remembering"
 msgstr "Muistamisen sisäiset asetukset"
 
-#: main.cpp:143
+#: main.cpp:149
 #, kde-format
 msgid "Application settings for %1"
 msgstr "Sovelluksen %1 asetukset"
 
-#: main.cpp:163
+#: main.cpp:169
 #, kde-format
 msgid "Window settings for %1"
 msgstr "Ikkunan %1 asetukset"
 
-#: main.cpp:215
+#: main.cpp:221
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Sovelluskohtaisten asetuksien muokkaus"
 
-#: main.cpp:245
+#: main.cpp:251
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:253
+#: main.cpp:259
 msgid "KWin helper utility"
 msgstr "KWin-avustaja"
 
-#: main.cpp:254
+#: main.cpp:260
 msgid "WId of the window for special window settings."
 msgstr "Ikkunan tunniste (WId) ikkunakohtaisia asetuksia varten."
 
-#: main.cpp:255
+#: main.cpp:261
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Määrittää, koskeeko asetus kaikkia valitun sovelluksen ikkunoita."
 
-#: main.cpp:263
+#: main.cpp:269
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Tätä avustajaa ei ole tarkoitettu kutsuttavaksi suoraan."
 
@@ -392,10 +392,10 @@ msgid ""
 "types."
 msgstr ""
 "Olet määrittänyt ikkunaluokan merkityksettömäksi.\n"
-"Tämä tarkoittaa, että asetukset voivat vaikuttaa kaikkien "
-"sovellustenikkunoihin. Jos haluat todella määrittää yleisasetuksen, on "
-"suositeltavaa, että vähintäänkin rajoitat ikkunatyyppejä välttääksesi "
-"määräikkunatyypit."
+"Tämä tarkoittaa, että asetukset voivat vaikuttaa kaikkien sovellusten "
+"ikkunoihin. Jos haluat todella määrittää yleisasetuksen, on suositeltavaa, "
+"että vähintäänkin rajoitat ikkunatyyppejä välttääksesi erikoiset "
+"ikkunatyypit."
 
 #: ruleswidget.cpp:781
 msgid "Edit Window-Specific Settings"
@@ -408,10 +408,10 @@ msgid ""
 "setting using the checkbox, select in what way the setting should be "
 "affected and to which value."
 msgstr ""
-"Tämä asetusikkuna sallii asetusten tekemisen nimenomaisesti määräikkunoille "
-"tai -sovelluksille. Etsi asetus, johon haluat vaikuttaa, ota se käyttöön "
-"valitsemalla valintaruutu ja valitse, millä tavoin asetukseen tulisi "
-"vaikuttaa."
+"Tämä asetusikkuna sallii sellaisten asetusten tekemisen, jotka koskevat vain "
+"tiettyjä ikkunoita tai sovelluksia. Etsi asetus, johon haluat vaikuttaa, ota "
+"se käyttöön valitsemalla valintaruutu ja valitse, millä tavoin asetukseen "
+"tulisi vaikuttaa."
 
 #: ruleswidget.cpp:815
 msgid "Consult the documentation for more details."

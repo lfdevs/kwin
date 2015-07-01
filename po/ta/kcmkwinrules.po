@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-05-16 12:24+0000\n"
+"POT-Creation-Date: 2015-06-04 12:15+0000\n"
 "PO-Revision-Date: 2005-03-14 23:55-0800\n"
 "Last-Translator: Tamil PC <tamilpc@ambalam.com>\n"
 "Language-Team: KDE <kde-i18n-doc@kde.org>\n"
@@ -223,40 +223,40 @@ msgstr "நினைவில் கொள்வதற்கான உள்ள�
 msgid "Internal setting for remembering"
 msgstr "நினைவில் கொள்வதற்கான உள்ளார்ந்த அமைப்பு"
 
-#: main.cpp:143
+#: main.cpp:149
 #, fuzzy, kde-format
 msgid "Application settings for %1"
 msgstr "%1க்கான அமைப்புகள்"
 
-#: main.cpp:163
+#: main.cpp:169
 #, fuzzy, kde-format
 msgid "Window settings for %1"
 msgstr "%1க்கான அமைப்புகள்"
 
-#: main.cpp:215
+#: main.cpp:221
 #, fuzzy
 #| msgid "Edit Window-Specific Settings"
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "குறிப்பிடப்பட்ட சாளர அமைப்புகளை தொகு"
 
-#: main.cpp:245
+#: main.cpp:251
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:253
+#: main.cpp:259
 msgid "KWin helper utility"
 msgstr "KWin உதவும் வசதி"
 
-#: main.cpp:254
+#: main.cpp:260
 msgid "WId of the window for special window settings."
 msgstr ""
 
-#: main.cpp:255
+#: main.cpp:261
 msgid "Whether the settings should affect all windows of the application."
 msgstr ""
 
-#: main.cpp:263
+#: main.cpp:269
 msgid "This helper utility is not supposed to be called directly."
 msgstr "இந்த உதவி வசதியை நேரடியாக அழைக்கமுடியாது"
 

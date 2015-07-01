@@ -1,8 +1,8 @@
 # Translation of kcmkwinrules to Norwegian Bokmål
 #
 # Torstein Dybdahl <torsted@runbox.no>, 2004.
-# Knut Yrvin <knuty@skolelinux.no>, 2005.
-# Axel Bojer <axelb@skolelinux.no>, 2005.
+# Knut Yrvin <knut.yrvin@gmail.com>, 2005.
+# Axel Bojer <axel@bojer.no>, 2005.
 # Bjørn Kvisli <bjorn.kvisli@gmail.com>, 2007.
 # Nils Kristian Tomren <slx@nilsk.net>, 2007.
 # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014.
@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-05-16 12:24+0000\n"
+"POT-Creation-Date: 2015-06-04 12:15+0000\n"
 "PO-Revision-Date: 2014-01-07 11:23+0100\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -222,38 +222,38 @@ msgstr "Vis interne innstillinger for å huske"
 msgid "Internal setting for remembering"
 msgstr "Intern innstilling for å huske"
 
-#: main.cpp:143
+#: main.cpp:149
 #, kde-format
 msgid "Application settings for %1"
 msgstr "Programinnstillinger for %1"
 
-#: main.cpp:163
+#: main.cpp:169
 #, kde-format
 msgid "Window settings for %1"
 msgstr "Vindusinnstillinger for %1"
 
-#: main.cpp:215
+#: main.cpp:221
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Rediger programspesifikke innstillinger"
 
-#: main.cpp:245
+#: main.cpp:251
 msgid "KWin"
 msgstr "KWin "
 
-#: main.cpp:253
+#: main.cpp:259
 msgid "KWin helper utility"
 msgstr "KWin hjelpeverktøy"
 
-#: main.cpp:254
+#: main.cpp:260
 msgid "WId of the window for special window settings."
 msgstr "Bredde på vinduet for spesielt vinduoppsett."
 
-#: main.cpp:255
+#: main.cpp:261
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Hvorvidt innstillingene skal påvirke alle vinduene i programmet."
 
-#: main.cpp:263
+#: main.cpp:269
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Dette hjelpeprogrammet er ikke ment å bli startet direkte."
 

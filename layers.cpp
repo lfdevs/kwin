@@ -92,6 +92,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "effects.h"
 #include "composite.h"
 #include "screenedge.h"
+#if HAVE_WAYLAND
+#include "shell_client.h"
+#include "wayland_server.h"
+#endif
 
 #include <QDebug>
 
@@ -102,7 +106,7 @@ namespace KWin
 // Workspace
 //*******************************
 
-void Workspace::updateClientLayer(Client* c)
+void Workspace::updateClientLayer(AbstractClient* c)
 {
     if (c)
         c->updateLayer();
@@ -281,10 +285,10 @@ Client* Workspace::findDesktop(bool topmost, int desktop) const
     return NULL;
 }
 
-void Workspace::raiseOrLowerClient(Client *c)
+void Workspace::raiseOrLowerClient(AbstractClient *c)
 {
     if (!c) return;
-    Client* topmost = NULL;
+    AbstractClient* topmost = NULL;
 // TODO    Q_ASSERT( block_stacking_updates == 0 );
     if (most_recently_raised && stacking_order.contains(most_recently_raised) &&
             most_recently_raised->isShown(true) && c->isOnCurrentDesktop())
@@ -300,7 +304,7 @@ void Workspace::raiseOrLowerClient(Client *c)
 }
 
 
-void Workspace::lowerClient(Client* c, bool nogroup)
+void Workspace::lowerClient(AbstractClient* c, bool nogroup)
 {
     if (!c)
         return;
@@ -313,7 +317,7 @@ void Workspace::lowerClient(Client* c, bool nogroup)
     unconstrained_stacking_order.prepend(c);
     if (!nogroup && c->isTransient()) {
         // lower also all windows in the group, in their reversed stacking order
-        ClientList wins = ensureStackingOrder(c->group()->members());
+        ClientList wins = ensureStackingOrder(static_cast<Client*>(c)->group()->members());
         for (int i = wins.size() - 1;
                 i >= 0;
                 --i) {
@@ -356,7 +360,7 @@ void Workspace::lowerClientWithinApplication(Client* c)
     // ignore mainwindows
 }
 
-void Workspace::raiseClient(Client* c, bool nogroup)
+void Workspace::raiseClient(AbstractClient* c, bool nogroup)
 {
     if (!c)
         return;
@@ -367,7 +371,7 @@ void Workspace::raiseClient(Client* c, bool nogroup)
 
     if (!nogroup && c->isTransient()) {
         ClientList transients;
-        Client *transient_parent = c;
+        Client *transient_parent = static_cast<Client*>(c);
         while ((transient_parent = transient_parent->transientFor()))
             transients << transient_parent;
         foreach (transient_parent, transients)
@@ -431,14 +435,14 @@ void Workspace::lowerClientRequest(KWin::Client *c, NET::RequestSource src, xcb_
 }
 
 
-void Workspace::restack(Client* c, Client* under, bool force)
+void Workspace::restack(AbstractClient* c, AbstractClient* under, bool force)
 {
     assert(unconstrained_stacking_order.contains(under));
-    if (!force && !Client::belongToSameApplication(under, c)) {
+    if (!force && !AbstractClient::belongToSameApplication(under, c)) {
          // put in the stacking order below _all_ windows belonging to the active application
         for (int i = 0; i < unconstrained_stacking_order.size(); ++i) {
-            Client *other = qobject_cast<Client*>(unconstrained_stacking_order.at(i));
-            if (other && other->layer() == c->layer() && Client::belongToSameApplication(under, other)) {
+            AbstractClient *other = qobject_cast<AbstractClient*>(unconstrained_stacking_order.at(i));
+            if (other && other->layer() == c->layer() && AbstractClient::belongToSameApplication(under, other)) {
                 under = (c == other) ? 0 : other;
                 break;
             }
@@ -454,7 +458,7 @@ void Workspace::restack(Client* c, Client* under, bool force)
     updateStackingOrder();
 }
 
-void Workspace::restackClientUnderActive(Client* c)
+void Workspace::restackClientUnderActive(AbstractClient* c)
 {
     if (!active_client || active_client == c || active_client->layer() != c->layer()) {
         raiseClient(c);
@@ -688,6 +692,14 @@ ToplevelList Workspace::xStackingOrder() const
             }
         }
     }
+#if HAVE_WAYLAND
+    if (waylandServer()) {
+        const auto clients = waylandServer()->internalClients();
+        for (auto c: clients) {
+            x_stacking << c;
+        }
+    }
+#endif
     if (m_compositor) {
         const_cast< Workspace* >(this)->m_compositor->checkUnredirect();
     }
@@ -773,48 +785,18 @@ void Client::restackWindow(xcb_window_t above, int detail, NET::RequestSource sr
         sendSyntheticConfigureNotify();
 }
 
-void Client::setKeepAbove(bool b)
+void Client::doSetKeepAbove()
 {
-    b = rules()->checkKeepAbove(b);
-    if (b && !rules()->checkKeepBelow(false))
-        setKeepBelow(false);
-    if (b == keepAbove()) {
-        // force hint change if different
-        if (bool(info->state() & NET::KeepAbove) != keepAbove())
-            info->setState(keepAbove() ? NET::KeepAbove : NET::States(0), NET::KeepAbove);
-        return;
-    }
-    keep_above = b;
-    info->setState(keepAbove() ? NET::KeepAbove : NET::States(0), NET::KeepAbove);
-    workspace()->updateClientLayer(this);
-    updateWindowRules(Rules::Above);
-
     // Update states of all other windows in this group
     if (tabGroup())
         tabGroup()->updateStates(this, TabGroup::Layer);
-    emit keepAboveChanged(keep_above);
 }
 
-void Client::setKeepBelow(bool b)
+void Client::doSetKeepBelow()
 {
-    b = rules()->checkKeepBelow(b);
-    if (b && !rules()->checkKeepAbove(false))
-        setKeepAbove(false);
-    if (b == keepBelow()) {
-        // force hint change if different
-        if (bool(info->state() & NET::KeepBelow) != keepBelow())
-            info->setState(keepBelow() ? NET::KeepBelow : NET::States(0), NET::KeepBelow);
-        return;
-    }
-    keep_below = b;
-    info->setState(keepBelow() ? NET::KeepBelow : NET::States(0), NET::KeepBelow);
-    workspace()->updateClientLayer(this);
-    updateWindowRules(Rules::Below);
-
     // Update states of all other windows in this group
     if (tabGroup())
         tabGroup()->updateStates(this, TabGroup::Layer);
-    emit keepBelowChanged(keep_below);
 }
 
 Layer Client::layer() const
@@ -893,7 +875,7 @@ bool Client::isActiveFullScreen() const
     if (!isFullScreen())
         return false;
 
-    const Client* ac = workspace()->mostRecentlyActivatedClient(); // instead of activeClient() - avoids flicker
+    const Client* ac = dynamic_cast<Client*>(workspace()->mostRecentlyActivatedClient()); // instead of activeClient() - avoids flicker
     // according to NETWM spec implementation notes suggests
     // "focused windows having state _NET_WM_STATE_FULLSCREEN" to be on the highest layer.
     // we'll also take the screen into account

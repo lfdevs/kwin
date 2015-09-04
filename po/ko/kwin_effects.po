@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-05-21 11:34+0000\n"
-"PO-Revision-Date: 2014-08-24 00:01+0900\n"
+"POT-Creation-Date: 2015-08-12 11:22+0000\n"
+"PO-Revision-Date: 2015-04-25 23:41+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
 "Language: ko\n"
@@ -135,15 +135,15 @@ msgstr "뒤쪽 색"
 msgid "Front color"
 msgstr "앞쪽 색"
 
-#: cube/cube.cpp:201 cube/cube_config.cpp:69
+#: cube/cube.cpp:201 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "데스크톱 큐브"
 
-#: cube/cube.cpp:209 cube/cube_config.cpp:74
+#: cube/cube.cpp:209 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "데스크톱 실린더"
 
-#: cube/cube.cpp:215 cube/cube_config.cpp:78
+#: cube/cube.cpp:215 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "데스크톱 구"
 
@@ -156,6 +156,17 @@ msgstr "기본"
 msgctxt "@title:tab Advanced Settings"
 msgid "Advanced"
 msgstr "고급"
+
+#: cube/cube_config.cpp:64 desktopgrid/desktopgrid_config.cpp:62
+#: flipswitch/flipswitch_config.cpp:66 invert/invert_config.cpp:49
+#: lookingglass/lookingglass_config.cpp:67 magnifier/magnifier_config.cpp:67
+#: mouseclick/mouseclick_config.cpp:60 mousemark/mousemark_config.cpp:65
+#: presentwindows/presentwindows_config.cpp:61
+#: thumbnailaside/thumbnailaside_config.cpp:66
+#: trackmouse/trackmouse_config.cpp:62
+#: windowgeometry/windowgeometry_config.cpp:54 zoom/zoom_config.cpp:63
+msgid "KWin"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: cube/cube_config.ui:21
@@ -407,54 +418,52 @@ msgstr "흐림 효과를 사용하기 전에 활성화해야 합니다."
 msgid "Apply blur effect to background"
 msgstr "배경에 흐림 효과 적용하기"
 
-#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:66
+#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "데스크톱 모눈 보이기"
 
-#: desktopgrid/desktopgrid_config.cpp:74
+#: desktopgrid/desktopgrid_config.cpp:75
 msgctxt "Desktop name alignment:"
 msgid "Disabled"
 msgstr "사용 안 함"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: desktopgrid/desktopgrid_config.cpp:75 flipswitch/flipswitch_config.ui:160
+#: desktopgrid/desktopgrid_config.cpp:76 flipswitch/flipswitch_config.ui:160
 msgid "Top"
 msgstr "위쪽"
 
-#: desktopgrid/desktopgrid_config.cpp:76
+#: desktopgrid/desktopgrid_config.cpp:77
 msgid "Top-Right"
 msgstr "위 오른쪽"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: desktopgrid/desktopgrid_config.cpp:77 flipswitch/flipswitch_config.ui:125
-#: mouseclick/mouseclick.cpp:60
+#: desktopgrid/desktopgrid_config.cpp:78 flipswitch/flipswitch_config.ui:125
 msgid "Right"
 msgstr "오른쪽"
 
-#: desktopgrid/desktopgrid_config.cpp:78
+#: desktopgrid/desktopgrid_config.cpp:79
 msgid "Bottom-Right"
 msgstr "아래 오른쪽"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: desktopgrid/desktopgrid_config.cpp:79 flipswitch/flipswitch_config.ui:180
+#: desktopgrid/desktopgrid_config.cpp:80 flipswitch/flipswitch_config.ui:180
 msgid "Bottom"
 msgstr "아래쪽"
 
-#: desktopgrid/desktopgrid_config.cpp:80
+#: desktopgrid/desktopgrid_config.cpp:81
 msgid "Bottom-Left"
 msgstr "아래 왼쪽"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: desktopgrid/desktopgrid_config.cpp:81 flipswitch/flipswitch_config.ui:105
-#: mouseclick/mouseclick.cpp:58
+#: desktopgrid/desktopgrid_config.cpp:82 flipswitch/flipswitch_config.ui:105
 msgid "Left"
 msgstr "왼쪽"
 
-#: desktopgrid/desktopgrid_config.cpp:82
+#: desktopgrid/desktopgrid_config.cpp:83
 msgid "Top-Left"
 msgstr "왼쪽 위"
 
-#: desktopgrid/desktopgrid_config.cpp:83
+#: desktopgrid/desktopgrid_config.cpp:84
 msgid "Center"
 msgstr "가운데"
 
@@ -999,11 +1008,11 @@ msgstr "-90"
 msgid "90"
 msgstr "90"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:51
+#: invert/invert.cpp:44 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "반전 효과 켬/끔"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:57
+#: invert/invert.cpp:52 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "창 반전 효과 켬/끔"
 
@@ -1043,13 +1052,24 @@ msgstr " 픽셀"
 msgid "&Height:"
 msgstr "높이(&H):"
 
-#: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
+#: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:63
 msgid "Toggle Mouse Click Effect"
 msgstr "마우스 클릭 효과 켬/끔"
 
+#: mouseclick/mouseclick.cpp:58
+msgctxt "Left mouse button"
+msgid "Left"
+msgstr "왼쪽"
+
 #: mouseclick/mouseclick.cpp:59
+msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "가운데"
+
+#: mouseclick/mouseclick.cpp:60
+msgctxt "Right mouse button"
+msgid "Right"
+msgstr "오른쪽"
 
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
@@ -1129,11 +1149,11 @@ msgstr "텍스트 보이기:"
 msgid "Clear All Mouse Marks"
 msgstr "모든 마우스 자취 지우기"
 
-#: mousemark/mousemark.cpp:57 mousemark/mousemark_config.cpp:73
+#: mousemark/mousemark.cpp:57 mousemark/mousemark_config.cpp:74
 msgid "Clear Last Mouse Mark"
 msgstr "마지막 마우스 자취 지우기"
 
-#: mousemark/mousemark_config.cpp:67
+#: mousemark/mousemark_config.cpp:68
 msgid "Clear Mouse Marks"
 msgstr "마우스 자취 지우기"
 
@@ -1148,17 +1168,17 @@ msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Shift+Meta 키를 누르면서 마우스를 움직여서 그림을 그리십시오."
 
 #: presentwindows/presentwindows.cpp:70
-#: presentwindows/presentwindows_config.cpp:71
+#: presentwindows/presentwindows_config.cpp:72
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "보이는 창 바꾸기 (현재 데스크톱)"
 
 #: presentwindows/presentwindows.cpp:78
-#: presentwindows/presentwindows_config.cpp:65
+#: presentwindows/presentwindows_config.cpp:66
 msgid "Toggle Present Windows (All desktops)"
 msgstr "보이는 창 바꾸기 (모든 데스크톱)"
 
 #: presentwindows/presentwindows.cpp:86
-#: presentwindows/presentwindows_config.cpp:77
+#: presentwindows/presentwindows_config.cpp:78
 msgid "Toggle Present Windows (Window class)"
 msgstr "보이는 창 바꾸기 (창 클래스)"
 
@@ -1409,7 +1429,7 @@ msgid "Text alpha:"
 msgstr "텍스트 투명도"
 
 #: thumbnailaside/thumbnailaside.cpp:37
-#: thumbnailaside/thumbnailaside_config.cpp:70
+#: thumbnailaside/thumbnailaside_config.cpp:71
 msgid "Toggle Thumbnail for Current Window"
 msgstr "현재 창의 미리 보기 그림 켬/끔"
 
@@ -1435,7 +1455,7 @@ msgstr " 픽셀"
 msgid "&Opacity:"
 msgstr "투명도(&O):"
 
-#: trackmouse/trackmouse.cpp:60 trackmouse/trackmouse_config.cpp:66
+#: trackmouse/trackmouse.cpp:60 trackmouse/trackmouse_config.cpp:67
 msgid "Track mouse"
 msgstr "마우스 자취"
 
@@ -1533,7 +1553,7 @@ msgstr "떼낸 메뉴:"
 msgid "Toggle window geometry display (effect only)"
 msgstr "창 크기 표시/숨기기 (효과에만)"
 
-#: windowgeometry/windowgeometry_config.cpp:55
+#: windowgeometry/windowgeometry_config.cpp:56
 msgid "Toggle KWin composited geometry display"
 msgstr "KWin에서 생성한 창 크기 표시/숨기기"
 
@@ -1613,27 +1633,27 @@ msgstr "크기 조정된 영역을 위로 이동"
 msgid "Move Zoomed Area Downwards"
 msgstr "크기 조정된 영역을 아래로 이동"
 
-#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:113
 msgid "Move Mouse to Focus"
 msgstr "마우스를 초점으로 이동"
 
-#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:120
 msgid "Move Mouse to Center"
 msgstr "마우스를 가운데로 이동"
 
-#: zoom/zoom_config.cpp:84
+#: zoom/zoom_config.cpp:85
 msgid "Move Left"
 msgstr "왼쪽으로 이동"
 
-#: zoom/zoom_config.cpp:91
+#: zoom/zoom_config.cpp:92
 msgid "Move Right"
 msgstr "오른쪽으로 이동"
 
-#: zoom/zoom_config.cpp:98
+#: zoom/zoom_config.cpp:99
 msgid "Move Up"
 msgstr "위로 이동"
 
-#: zoom/zoom_config.cpp:105
+#: zoom/zoom_config.cpp:106
 msgid "Move Down"
 msgstr "아래로 이동"
 

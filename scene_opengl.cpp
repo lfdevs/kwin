@@ -357,6 +357,24 @@ OverlayWindow* OpenGLBackend::overlayWindow()
     return NULL;
 }
 
+QRegion OpenGLBackend::prepareRenderingForScreen(int screenId)
+{
+    // fallback to repaint complete screen
+    return screens()->geometry(screenId);
+}
+
+void OpenGLBackend::endRenderingFrameForScreen(int screenId, const QRegion &damage, const QRegion &damagedRegion)
+{
+    Q_UNUSED(screenId)
+    Q_UNUSED(damage)
+    Q_UNUSED(damagedRegion)
+}
+
+bool OpenGLBackend::perScreenRendering() const
+{
+    return false;
+}
+
 /************************************************
  * SceneOpenGL
  ***********************************************/
@@ -418,9 +436,11 @@ SceneOpenGL::SceneOpenGL(OpenGLBackend *backend, QObject *parent)
     }
 }
 
+static SceneOpenGL *gs_debuggedScene = nullptr;
 SceneOpenGL::~SceneOpenGL()
 {
     // do cleanup after initBuffer()
+    gs_debuggedScene = nullptr;
     SceneOpenGL::EffectFrame::cleanup();
     if (init_ok) {
         delete m_syncManager;
@@ -430,11 +450,31 @@ SceneOpenGL::~SceneOpenGL()
     }
 }
 
+static void scheduleVboReInit()
+{
+    if (!gs_debuggedScene)
+        return;
+
+    static QPointer<QTimer> timer;
+    if (!timer) {
+        delete timer;
+        timer = new QTimer(gs_debuggedScene);
+        timer->setSingleShot(true);
+        QObject::connect(timer.data(), &QTimer::timeout, gs_debuggedScene, []() {
+            GLVertexBuffer::cleanup();
+            GLVertexBuffer::initStatic();
+        });
+    }
+    timer->start(250);
+}
+
 void SceneOpenGL::initDebugOutput()
 {
     const bool have_KHR_debug = hasGLExtension(QByteArrayLiteral("GL_KHR_debug"));
     if (!have_KHR_debug && !hasGLExtension(QByteArrayLiteral("GL_ARB_debug_output")))
         return;
+
+    gs_debuggedScene = this;
 
     // Set the callback function
     auto callback = [](GLenum source, GLenum type, GLuint id,
@@ -444,6 +484,8 @@ void SceneOpenGL::initDebugOutput()
         Q_UNUSED(source)
         Q_UNUSED(severity)
         Q_UNUSED(userParam)
+        while (message[length] == '\n' || message[length] == '\r')
+            --length;
 
         switch (type) {
         case GL_DEBUG_TYPE_ERROR:
@@ -451,15 +493,27 @@ void SceneOpenGL::initDebugOutput()
             qCWarning(KWIN_CORE, "%#x: %.*s", id, length, message);
             break;
 
+        case GL_DEBUG_TYPE_OTHER:
+            // at least the nvidia driver seems prone to end up with invalid VBOs after
+            // transferring them between system heap and VRAM
+            // so we re-init them whenever this happens (typically when switching VT, resuming
+            // from STR and XRandR events - #344326
+            if (strstr(message, "Buffer detailed info:") && strstr(message, "has been updated"))
+                scheduleVboReInit();
+            // fall through! for general message printing
         case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
         case GL_DEBUG_TYPE_PORTABILITY:
         case GL_DEBUG_TYPE_PERFORMANCE:
-        case GL_DEBUG_TYPE_OTHER:
         default:
             qCDebug(KWIN_CORE, "%#x: %.*s", id, length, message);
             break;
         }
     };
+
+    // Expoxy fails to resolve glDebugMessageCallback on GLES
+    if (!glDebugMessageCallback) {
+        return;
+    }
 
     glDebugMessageCallback(callback, nullptr);
 
@@ -641,45 +695,71 @@ qint64 SceneOpenGL::paint(QRegion damage, ToplevelList toplevels)
     // actually paint the frame, flushed with the NEXT frame
     createStackingOrder(toplevels);
 
-    m_backend->makeCurrent();
-    QRegion repaint = m_backend->prepareRenderingFrame();
-
-    const GLenum status = glGetGraphicsResetStatus();
-    if (status != GL_NO_ERROR) {
-        handleGraphicsReset(status);
-        return 0;
-    }
-
-    int mask = 0;
-
     // After this call, updateRegion will contain the damaged region in the
     // back buffer. This is the region that needs to be posted to repair
     // the front buffer. It doesn't include the additional damage returned
     // by prepareRenderingFrame(). validRegion is the region that has been
     // repainted, and may be larger than updateRegion.
     QRegion updateRegion, validRegion;
-    paintScreen(&mask, damage, repaint, &updateRegion, &validRegion);   // call generic implementation
+    if (m_backend->perScreenRendering()) {
+        // trigger start render timer
+        m_backend->prepareRenderingFrame();
+        for (int i = 0; i < screens()->count(); ++i) {
+            const QRect &geo = screens()->geometry(i);
+            QRegion update;
+            QRegion valid;
+            // prepare rendering makes context current on the output
+            QRegion repaint = m_backend->prepareRenderingForScreen(i);
+
+            const GLenum status = glGetGraphicsResetStatus();
+            if (status != GL_NO_ERROR) {
+                handleGraphicsReset(status);
+                return 0;
+            }
+
+            int mask = 0;
+            paintScreen(&mask, damage.intersected(geo), repaint, &update, &valid);   // call generic implementation
+
+            GLVertexBuffer::streamingBuffer()->endOfFrame();
+
+            m_backend->endRenderingFrameForScreen(i, valid, update);
+
+            GLVertexBuffer::streamingBuffer()->framePosted();
+        }
+    } else {
+        m_backend->makeCurrent();
+        QRegion repaint = m_backend->prepareRenderingFrame();
+
+        const GLenum status = glGetGraphicsResetStatus();
+        if (status != GL_NO_ERROR) {
+            handleGraphicsReset(status);
+            return 0;
+        }
+
+        int mask = 0;
+        paintScreen(&mask, damage, repaint, &updateRegion, &validRegion);   // call generic implementation
 
 #ifndef KWIN_HAVE_OPENGLES
-    const QSize &screenSize = screens()->size();
-    const QRegion displayRegion(0, 0, screenSize.width(), screenSize.height());
+        const QSize &screenSize = screens()->size();
+        const QRegion displayRegion(0, 0, screenSize.width(), screenSize.height());
 
-    // copy dirty parts from front to backbuffer
-    if (!m_backend->supportsBufferAge() &&
-        options->glPreferBufferSwap() == Options::CopyFrontBuffer &&
-        validRegion != displayRegion) {
-        glReadBuffer(GL_FRONT);
-        copyPixels(displayRegion - validRegion);
-        glReadBuffer(GL_BACK);
-        validRegion = displayRegion;
-    }
+        // copy dirty parts from front to backbuffer
+        if (!m_backend->supportsBufferAge() &&
+            options->glPreferBufferSwap() == Options::CopyFrontBuffer &&
+            validRegion != displayRegion) {
+            glReadBuffer(GL_FRONT);
+            copyPixels(displayRegion - validRegion);
+            glReadBuffer(GL_BACK);
+            validRegion = displayRegion;
+        }
 #endif
 
-    GLVertexBuffer::streamingBuffer()->endOfFrame();
+        GLVertexBuffer::streamingBuffer()->endOfFrame();
 
-    m_backend->endRenderingFrame(validRegion, updateRegion);
+        m_backend->endRenderingFrame(validRegion, updateRegion);
 
-    GLVertexBuffer::streamingBuffer()->framePosted();
+        GLVertexBuffer::streamingBuffer()->framePosted();
+    }
 
     if (m_currentFence) {
         if (!m_syncManager->updateFences()) {
@@ -926,7 +1006,7 @@ SceneOpenGL2::SceneOpenGL2(OpenGLBackend *backend, QObject *parent)
 
     // We only support the OpenGL 2+ shader API, not GL_ARB_shader_objects
     if (!hasGLVersion(2, 0)) {
-        qDebug() << "OpenGL 2.0 is not supported";
+        qCDebug(KWIN_CORE) << "OpenGL 2.0 is not supported";
         init_ok = false;
         return;
     }

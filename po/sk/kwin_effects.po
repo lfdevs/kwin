@@ -1,20 +1,20 @@
 # translation of kwin_effects.po to Slovak
 # Richard Fric <Richard.Fric@kdemail.net>, 2007.
 # Michal Sulek <misurel@gmail.com>, 2009, 2010, 2011.
-# Roman Paholík <wizzardsk@gmail.com>, 2012, 2013, 2014.
+# Roman Paholík <wizzardsk@gmail.com>, 2012, 2013, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-05-21 11:34+0000\n"
-"PO-Revision-Date: 2014-06-24 15:19+0200\n"
+"POT-Creation-Date: 2015-08-12 11:22+0000\n"
+"PO-Revision-Date: 2015-08-12 19:15+0100\n"
 "Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 msgctxt "NAME OF TRANSLATORS"
@@ -133,15 +133,15 @@ msgstr "Farba pozadia:"
 msgid "Front color"
 msgstr "Farba popredia:"
 
-#: cube/cube.cpp:201 cube/cube_config.cpp:69
+#: cube/cube.cpp:201 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "Plochy na kocke"
 
-#: cube/cube.cpp:209 cube/cube_config.cpp:74
+#: cube/cube.cpp:209 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "Plochy na valci"
 
-#: cube/cube.cpp:215 cube/cube_config.cpp:78
+#: cube/cube.cpp:215 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "Plochy na guli"
 
@@ -154,6 +154,17 @@ msgstr "Základné"
 msgctxt "@title:tab Advanced Settings"
 msgid "Advanced"
 msgstr "Pokročilé"
+
+#: cube/cube_config.cpp:64 desktopgrid/desktopgrid_config.cpp:62
+#: flipswitch/flipswitch_config.cpp:66 invert/invert_config.cpp:49
+#: lookingglass/lookingglass_config.cpp:67 magnifier/magnifier_config.cpp:67
+#: mouseclick/mouseclick_config.cpp:60 mousemark/mousemark_config.cpp:65
+#: presentwindows/presentwindows_config.cpp:61
+#: thumbnailaside/thumbnailaside_config.cpp:66
+#: trackmouse/trackmouse_config.cpp:62
+#: windowgeometry/windowgeometry_config.cpp:54 zoom/zoom_config.cpp:63
+msgid "KWin"
+msgstr "KWin"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: cube/cube_config.ui:21
@@ -405,54 +416,52 @@ msgstr "Efekt rozostrenia treba povoliť pred jeho použitím."
 msgid "Apply blur effect to background"
 msgstr "Používať efekt rozostrenia na pozadie"
 
-#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:66
+#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Zobraziť plochy v mriežke"
 
-#: desktopgrid/desktopgrid_config.cpp:74
+#: desktopgrid/desktopgrid_config.cpp:75
 msgctxt "Desktop name alignment:"
 msgid "Disabled"
 msgstr "Zakázané"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: desktopgrid/desktopgrid_config.cpp:75 flipswitch/flipswitch_config.ui:160
+#: desktopgrid/desktopgrid_config.cpp:76 flipswitch/flipswitch_config.ui:160
 msgid "Top"
 msgstr "Hore"
 
-#: desktopgrid/desktopgrid_config.cpp:76
+#: desktopgrid/desktopgrid_config.cpp:77
 msgid "Top-Right"
 msgstr "Vpravo hore"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: desktopgrid/desktopgrid_config.cpp:77 flipswitch/flipswitch_config.ui:125
-#: mouseclick/mouseclick.cpp:60
+#: desktopgrid/desktopgrid_config.cpp:78 flipswitch/flipswitch_config.ui:125
 msgid "Right"
 msgstr "Vpravo"
 
-#: desktopgrid/desktopgrid_config.cpp:78
+#: desktopgrid/desktopgrid_config.cpp:79
 msgid "Bottom-Right"
 msgstr "Vpravo dole"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: desktopgrid/desktopgrid_config.cpp:79 flipswitch/flipswitch_config.ui:180
+#: desktopgrid/desktopgrid_config.cpp:80 flipswitch/flipswitch_config.ui:180
 msgid "Bottom"
 msgstr "Dole"
 
-#: desktopgrid/desktopgrid_config.cpp:80
+#: desktopgrid/desktopgrid_config.cpp:81
 msgid "Bottom-Left"
 msgstr "Vľavo dole"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: desktopgrid/desktopgrid_config.cpp:81 flipswitch/flipswitch_config.ui:105
-#: mouseclick/mouseclick.cpp:58
+#: desktopgrid/desktopgrid_config.cpp:82 flipswitch/flipswitch_config.ui:105
 msgid "Left"
 msgstr "Vľavo"
 
-#: desktopgrid/desktopgrid_config.cpp:82
+#: desktopgrid/desktopgrid_config.cpp:83
 msgid "Top-Left"
 msgstr "Vľavo hore"
 
-#: desktopgrid/desktopgrid_config.cpp:83
+#: desktopgrid/desktopgrid_config.cpp:84
 msgid "Center"
 msgstr "V strede"
 
@@ -1001,11 +1010,11 @@ msgstr "-90"
 msgid "90"
 msgstr "90"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:51
+#: invert/invert.cpp:44 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "Zapnúť efekt inverzie"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:57
+#: invert/invert.cpp:52 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "Zapnúť efekt inverzie na okno"
 
@@ -1045,13 +1054,24 @@ msgstr " px"
 msgid "&Height:"
 msgstr "&Výška:"
 
-#: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
+#: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:63
 msgid "Toggle Mouse Click Effect"
 msgstr "Prepnúť efekt kliknutia myši"
 
+#: mouseclick/mouseclick.cpp:58
+msgctxt "Left mouse button"
+msgid "Left"
+msgstr "Vľavo"
+
 #: mouseclick/mouseclick.cpp:59
+msgctxt "Middle mouse button"
 msgid "Middle"
-msgstr "Stredné"
+msgstr "Stred"
+
+#: mouseclick/mouseclick.cpp:60
+msgctxt "Right mouse button"
+msgid "Right"
+msgstr "Vpravo"
 
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
@@ -1133,11 +1153,11 @@ msgstr "Ukázať text:"
 msgid "Clear All Mouse Marks"
 msgstr "Vyčistiť všetky stopy myši"
 
-#: mousemark/mousemark.cpp:57 mousemark/mousemark_config.cpp:73
+#: mousemark/mousemark.cpp:57 mousemark/mousemark_config.cpp:74
 msgid "Clear Last Mouse Mark"
 msgstr "Vyčistiť poslednú stopu myši"
 
-#: mousemark/mousemark_config.cpp:67
+#: mousemark/mousemark_config.cpp:68
 msgid "Clear Mouse Marks"
 msgstr "Vyčistiť stopy myši"
 
@@ -1152,17 +1172,17 @@ msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Kreslite môžete myšou držaním kláves Shift+Meta a pohybom myšou."
 
 #: presentwindows/presentwindows.cpp:70
-#: presentwindows/presentwindows_config.cpp:71
+#: presentwindows/presentwindows_config.cpp:72
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Zapnúť efekt súčasné okná (aktuálna plocha)"
 
 #: presentwindows/presentwindows.cpp:78
-#: presentwindows/presentwindows_config.cpp:65
+#: presentwindows/presentwindows_config.cpp:66
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Zapnúť efekt súčasné okná (všetky plochy)"
 
 #: presentwindows/presentwindows.cpp:86
-#: presentwindows/presentwindows_config.cpp:77
+#: presentwindows/presentwindows_config.cpp:78
 msgid "Toggle Present Windows (Window class)"
 msgstr "Zapnúť efekt súčasné okná (trieda okna)"
 
@@ -1413,7 +1433,7 @@ msgid "Text alpha:"
 msgstr "Alfa textu:"
 
 #: thumbnailaside/thumbnailaside.cpp:37
-#: thumbnailaside/thumbnailaside_config.cpp:70
+#: thumbnailaside/thumbnailaside_config.cpp:71
 msgid "Toggle Thumbnail for Current Window"
 msgstr "Zapnúť náhľad pre aktuálne okno"
 
@@ -1439,7 +1459,7 @@ msgstr " pixelov"
 msgid "&Opacity:"
 msgstr "&Nepriehľadnosť:"
 
-#: trackmouse/trackmouse.cpp:60 trackmouse/trackmouse_config.cpp:66
+#: trackmouse/trackmouse.cpp:60 trackmouse/trackmouse_config.cpp:67
 msgid "Track mouse"
 msgstr "Sledovanie myši"
 
@@ -1537,7 +1557,7 @@ msgstr "Odtrhnuté menu:"
 msgid "Toggle window geometry display (effect only)"
 msgstr "Zapnúť zobrazenie geometrie okna (iba efekt)"
 
-#: windowgeometry/windowgeometry_config.cpp:55
+#: windowgeometry/windowgeometry_config.cpp:56
 msgid "Toggle KWin composited geometry display"
 msgstr "Zapnúť zobrazenie geometrie cez kompozitný KWin"
 
@@ -1617,27 +1637,27 @@ msgstr "Presunúť priblíženú oblasť hore"
 msgid "Move Zoomed Area Downwards"
 msgstr "Presunúť priblíženú oblasť dolu"
 
-#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:113
 msgid "Move Mouse to Focus"
 msgstr "Posunúť myš na zameranie"
 
-#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:120
 msgid "Move Mouse to Center"
 msgstr "Posunúť myš na stred"
 
-#: zoom/zoom_config.cpp:84
+#: zoom/zoom_config.cpp:85
 msgid "Move Left"
 msgstr "Posunúť doľava"
 
-#: zoom/zoom_config.cpp:91
+#: zoom/zoom_config.cpp:92
 msgid "Move Right"
 msgstr "Posunúť doprava"
 
-#: zoom/zoom_config.cpp:98
+#: zoom/zoom_config.cpp:99
 msgid "Move Up"
 msgstr "Posunúť hore"
 
-#: zoom/zoom_config.cpp:105
+#: zoom/zoom_config.cpp:106
 msgid "Move Down"
 msgstr "Posunúť dolu"
 

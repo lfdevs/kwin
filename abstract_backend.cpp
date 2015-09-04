@@ -21,10 +21,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config-kwin.h>
 #include "composite.h"
 #include "cursor.h"
+#include "input.h"
 #include "wayland_server.h"
-#if HAVE_WAYLAND_CURSOR
-#include "wayland_backend.h"
-#endif
+#include "wayland_cursor_theme.h"
 // KWayland
 #include <KWayland/Client/buffer.h>
 #include <KWayland/Client/connection_thread.h>
@@ -56,6 +55,12 @@ void AbstractBackend::installCursorFromServer()
     if (!m_softWareCursor) {
         return;
     }
+    triggerCursorRepaint();
+    updateCursorFromServer();
+}
+
+void AbstractBackend::updateCursorFromServer()
+{
     if (!waylandServer() || !waylandServer()->seat()->focusedPointer()) {
         return;
     }
@@ -71,9 +76,9 @@ void AbstractBackend::installCursorFromServer()
     if (!buffer) {
         return;
     }
-    triggerCursorRepaint();
     m_cursor.hotspot = c->hotspot();
     m_cursor.image = buffer->data().copy();
+    emit cursorChanged();
 }
 
 void AbstractBackend::installCursorImage(Qt::CursorShape shape)
@@ -81,11 +86,16 @@ void AbstractBackend::installCursorImage(Qt::CursorShape shape)
     if (!m_softWareCursor) {
         return;
     }
+    updateCursorImage(shape);
+}
+
+void AbstractBackend::updateCursorImage(Qt::CursorShape shape)
+{
 #if HAVE_WAYLAND_CURSOR
     if (!m_cursorTheme) {
         // check whether we can create it
         if (waylandServer() && waylandServer()->internalShmPool()) {
-            m_cursorTheme = new Wayland::WaylandCursorTheme(waylandServer()->internalShmPool(), this);
+            m_cursorTheme = new WaylandCursorTheme(waylandServer()->internalShmPool(), this);
         }
     }
     if (!m_cursorTheme) {
@@ -100,11 +110,8 @@ void AbstractBackend::installCursorImage(Qt::CursorShape shape)
         return;
     }
     waylandServer()->internalClientConection()->flush();
-    QMetaObject::invokeMethod(this,
-                              "installThemeCursor",
-                              Qt::QueuedConnection,
-                              Q_ARG(quint32, KWayland::Client::Buffer::getId(b)),
-                              Q_ARG(QPoint, QPoint(cursor->hotspot_x, cursor->hotspot_y)));
+    waylandServer()->dispatch();
+    installThemeCursor(KWayland::Client::Buffer::getId(b), QPoint(cursor->hotspot_x, cursor->hotspot_y));
 #else
     Q_UNUSED(shape)
 #endif
@@ -116,9 +123,12 @@ void AbstractBackend::installThemeCursor(quint32 id, const QPoint &hotspot)
     if (!buffer) {
         return;
     }
-    triggerCursorRepaint();
+    if (m_softWareCursor) {
+        triggerCursorRepaint();
+    }
     m_cursor.hotspot = hotspot;
     m_cursor.image = buffer->data().copy();
+    emit cursorChanged();
 }
 
 Screens *AbstractBackend::createScreens(QObject *parent)
@@ -163,6 +173,140 @@ void AbstractBackend::triggerCursorRepaint()
 void AbstractBackend::markCursorAsRendered()
 {
     m_cursor.lastRenderedPosition = Cursor::pos();
+}
+
+void AbstractBackend::keyboardKeyPressed(quint32 key, quint32 time)
+{
+    if (!input()) {
+        return;
+    }
+    input()->processKeyboardKey(key, InputRedirection::KeyboardKeyPressed, time);
+}
+
+void AbstractBackend::keyboardKeyReleased(quint32 key, quint32 time)
+{
+    if (!input()) {
+        return;
+    }
+    input()->processKeyboardKey(key, InputRedirection::KeyboardKeyReleased, time);
+}
+
+void AbstractBackend::keyboardModifiers(uint32_t modsDepressed, uint32_t modsLatched, uint32_t modsLocked, uint32_t group)
+{
+    if (!input()) {
+        return;
+    }
+    input()->processKeyboardModifiers(modsDepressed, modsLatched, modsLocked, group);
+}
+
+void AbstractBackend::keymapChange(int fd, uint32_t size)
+{
+    if (!input()) {
+        return;
+    }
+    input()->processKeymapChange(fd, size);
+}
+
+void AbstractBackend::pointerAxisHorizontal(qreal delta, quint32 time)
+{
+    if (!input()) {
+        return;
+    }
+    input()->processPointerAxis(InputRedirection::PointerAxisHorizontal, delta, time);
+}
+
+void AbstractBackend::pointerAxisVertical(qreal delta, quint32 time)
+{
+    if (!input()) {
+        return;
+    }
+    input()->processPointerAxis(InputRedirection::PointerAxisVertical, delta, time);
+}
+
+void AbstractBackend::pointerButtonPressed(quint32 button, quint32 time)
+{
+    if (!input()) {
+        return;
+    }
+    input()->processPointerButton(button, InputRedirection::PointerButtonPressed, time);
+}
+
+void AbstractBackend::pointerButtonReleased(quint32 button, quint32 time)
+{
+    if (!input()) {
+        return;
+    }
+    input()->processPointerButton(button, InputRedirection::PointerButtonReleased, time);
+}
+
+void AbstractBackend::pointerMotion(const QPointF &position, quint32 time)
+{
+    if (!input()) {
+        return;
+    }
+    input()->processPointerMotion(position, time);
+}
+
+void AbstractBackend::touchCancel()
+{
+    if (!input()) {
+        return;
+    }
+    input()->cancelTouch();
+}
+
+void AbstractBackend::touchDown(qint32 id, const QPointF &pos, quint32 time)
+{
+    if (!input()) {
+        return;
+    }
+    input()->processTouchDown(id, pos, time);
+}
+
+void AbstractBackend::touchFrame()
+{
+    if (!input()) {
+        return;
+    }
+    input()->touchFrame();
+}
+
+void AbstractBackend::touchMotion(qint32 id, const QPointF &pos, quint32 time)
+{
+    if (!input()) {
+        return;
+    }
+    input()->processTouchMotion(id, pos, time);
+}
+
+void AbstractBackend::touchUp(qint32 id, quint32 time)
+{
+    if (!input()) {
+        return;
+    }
+    input()->processTouchUp(id, time);
+}
+
+void AbstractBackend::repaint(const QRect &rect)
+{
+    if (!Compositor::self()) {
+        return;
+    }
+    Compositor::self()->addRepaint(rect);
+}
+
+void AbstractBackend::setReady(bool ready)
+{
+    if (m_ready == ready) {
+        return;
+    }
+    m_ready = ready;
+    emit readyChanged(m_ready);
+}
+
+void AbstractBackend::warpPointer(const QPointF &globalPos)
+{
+    Q_UNUSED(globalPos)
 }
 
 }

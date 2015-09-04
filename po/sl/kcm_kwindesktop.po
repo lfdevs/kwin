@@ -4,13 +4,13 @@
 #
 # Andrej Vernekar <andrej.vernekar@moj.net>, 2007.
 # Jure Repinc <jlp@holodeck1.com>, 2009, 2010, 2013.
-# Andrej Mernik <andrejm@ubuntu.si>, 2013, 2014.
+# Andrej Mernik <andrejm@ubuntu.si>, 2013, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-07-04 08:25+0000\n"
-"PO-Revision-Date: 2014-05-22 11:43+0200\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"PO-Revision-Date: 2015-06-04 09:06+0200\n"
 "Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -113,7 +113,7 @@ msgstr "Za namizje %1 ni bilo najdene nobene ustrezne bližnjice"
 #: main.cpp:499
 #, kde-format
 msgid "Assigned global Shortcut \"%1\" to Desktop %2"
-msgstr "Namizju %2 je bila dodeljena globalna bližnjica »%1«"
+msgstr "Namizju %2 je bila dodeljena splošna bližnjica »%1«"
 
 #: main.cpp:502
 #, kde-format

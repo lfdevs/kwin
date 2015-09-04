@@ -53,7 +53,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "useractions.h"
 #include "virtualdesktops.h"
 #if HAVE_WAYLAND
-#include "wayland_backend.h"
+#include "shell_client.h"
+#include "wayland_server.h"
 #endif
 #include "xcbutils.h"
 #include "main.h"
@@ -86,7 +87,7 @@ ColorMapper::~ColorMapper()
 void ColorMapper::update()
 {
     xcb_colormap_t cmap = m_default;
-    if (Client *c = Workspace::self()->activeClient()) {
+    if (Client *c = dynamic_cast<Client*>(Workspace::self()->activeClient())) {
         if (c->colormap() != XCB_COLORMAP_NONE) {
             cmap = c->colormap();
         }
@@ -99,12 +100,13 @@ void ColorMapper::update()
 
 Workspace* Workspace::_self = 0;
 
-Workspace::Workspace(bool restore)
+Workspace::Workspace(const QString &sessionKey)
     : QObject(0)
     , m_compositor(NULL)
     // Unsorted
     , active_popup(NULL)
     , active_popup_client(NULL)
+    , m_initialDesktop(1)
     , active_client(0)
     , last_active_client(0)
     , most_recently_raised(0)
@@ -141,8 +143,18 @@ Workspace::Workspace(bool restore)
 #endif
 
 #ifdef KWIN_BUILD_ACTIVITIES
-    Activities *activities = Activities::create(this);
-    connect(activities, SIGNAL(currentChanged(QString)), SLOT(updateCurrentActivity(QString)));
+    Activities *activities = nullptr;
+    // HACK: do not use Activities on Wayland as it blocks the startup
+#if HAVE_WAYLAND
+    if (kwinApp()->operationMode() == Application::OperationModeX11) {
+        activities = Activities::create(this);
+    }
+#else
+    activities = Activities::create(this);
+#endif
+    if (activities) {
+        connect(activities, SIGNAL(currentChanged(QString)), SLOT(updateCurrentActivity(QString)));
+    }
 #endif
 
     // PluginMgr needs access to the config file, so we need to wait for it for finishing
@@ -151,12 +163,14 @@ Workspace::Workspace(bool restore)
     options->loadConfig();
     options->loadCompositingConfig(false);
     ColorMapper *colormaps = new ColorMapper(this);
-    connect(this, SIGNAL(clientActivated(KWin::Client*)), colormaps, SLOT(update()));
+    connect(this, &Workspace::clientActivated, colormaps, &ColorMapper::update);
 
     delayFocusTimer = 0;
 
-    if (restore)
-        loadSessionInfo();
+    if (!sessionKey.isEmpty())
+        loadSessionInfo(sessionKey);
+    connect(qApp, &QGuiApplication::commitDataRequest, this, &Workspace::commitData);
+    connect(qApp, &QGuiApplication::saveStateRequest, this, &Workspace::saveState);
 
     RuleBook::create(this)->load();
 
@@ -188,7 +202,7 @@ Workspace::Workspace(bool restore)
     } else {
         m_compositor = Compositor::create(this);
     }
-    connect(this, SIGNAL(currentDesktopChanged(int,KWin::Client*)), m_compositor, SLOT(addRepaintFull()));
+    connect(this, &Workspace::currentDesktopChanged, m_compositor, &Compositor::addRepaintFull);
 
     auto decorationBridge = Decoration::DecorationBridge::create(this);
     decorationBridge->init();
@@ -225,11 +239,11 @@ void Workspace::init()
     screenEdges->init();
     connect(options, SIGNAL(configChanged()), screenEdges, SLOT(reconfigure()));
     connect(VirtualDesktopManager::self(), SIGNAL(layoutChanged(int,int)), screenEdges, SLOT(updateLayout()));
-    connect(this, SIGNAL(clientActivated(KWin::Client*)), screenEdges, SIGNAL(checkBlocking()));
+    connect(this, &Workspace::clientActivated, screenEdges, &ScreenEdges::checkBlocking);
 
     FocusChain *focusChain = FocusChain::create(this);
-    connect(this, SIGNAL(clientRemoved(KWin::Client*)), focusChain, SLOT(remove(KWin::Client*)));
-    connect(this, SIGNAL(clientActivated(KWin::Client*)), focusChain, SLOT(setActiveClient(KWin::Client*)));
+    connect(this, &Workspace::clientRemoved, focusChain, &FocusChain::remove);
+    connect(this, &Workspace::clientActivated, focusChain, &FocusChain::setActiveClient);
     connect(VirtualDesktopManager::self(), SIGNAL(countChanged(uint,uint)), focusChain, SLOT(resize(uint,uint)));
     connect(VirtualDesktopManager::self(), SIGNAL(currentChanged(uint,uint)), focusChain, SLOT(setCurrentDesktop(uint,uint)));
     connect(options, SIGNAL(separateScreenFocusChanged(bool)), focusChain, SLOT(setSeparateScreenFocus(bool)));
@@ -260,18 +274,9 @@ void Workspace::init()
 
     // Extra NETRootInfo instance in Client mode is needed to get the values of the properties
     NETRootInfo client_info(connection(), NET::ActiveWindow | NET::CurrentDesktop);
-    int initial_desktop;
     if (!qApp->isSessionRestored())
-        initial_desktop = client_info.currentDesktop();
-    else {
-#if KWIN_QT5_PORTING
-        KConfigGroup group(kapp->sessionConfig(), "Session");
-        initial_desktop = group.readEntry("desktop", 1);
-#else
-        initial_desktop = 1;
-#endif
-    }
-    if (!VirtualDesktopManager::self()->setCurrent(initial_desktop))
+        m_initialDesktop = client_info.currentDesktop();
+    if (!VirtualDesktopManager::self()->setCurrent(m_initialDesktop))
         VirtualDesktopManager::self()->setCurrent(1);
 
     reconfigureTimer.setSingleShot(true);
@@ -373,6 +378,40 @@ void Workspace::init()
 
     Scripting::create(this);
 
+#if HAVE_WAYLAND
+    if (auto w = waylandServer()) {
+        connect(w, &WaylandServer::shellClientAdded, this,
+            [this] (ShellClient *c) {
+                if (!c->isInternal()) {
+                    QRect area = clientArea(PlacementArea, Screens::self()->current(), c->desktop());
+                    if (!c->isInitialPositionSet()) {
+                        Placement::self()->place(c, area);
+                    }
+                    if (!unconstrained_stacking_order.contains(c))
+                        unconstrained_stacking_order.append(c);   // Raise if it hasn't got any stacking position yet
+                    if (!stacking_order.contains(c))    // It'll be updated later, and updateToolWindows() requires
+                        stacking_order.append(c);      // c to be in stacking_order
+                }
+                x_stacking_dirty = true;
+                updateStackingOrder(true);
+                updateClientArea();
+                if (c->wantsInput()) {
+                    activateClient(c);
+                }
+            }
+        );
+        connect(w, &WaylandServer::shellClientRemoved, this,
+            [this] (ShellClient *c) {
+                clientHidden(c);
+                emit clientRemoved(c);
+                x_stacking_dirty = true;
+                updateStackingOrder(true);
+                updateClientArea();
+            }
+        );
+    }
+#endif
+
     // SELI TODO: This won't work with unreasonable focus policies,
     // and maybe in rare cases also if the selected client doesn't
     // want focus
@@ -436,13 +475,13 @@ Client* Workspace::createClient(xcb_window_t w, bool is_mapped)
     StackingUpdatesBlocker blocker(this);
     Client* c = new Client();
     connect(c, SIGNAL(needsRepaint()), m_compositor, SLOT(scheduleRepaint()));
-    connect(c, SIGNAL(activeChanged()), m_compositor, SLOT(checkUnredirect()));
+    connect(c, &Client::activeChanged, m_compositor, static_cast<void (Compositor::*)()>(&Compositor::checkUnredirect));
     connect(c, SIGNAL(fullScreenChanged()), m_compositor, SLOT(checkUnredirect()));
     connect(c, SIGNAL(geometryChanged()), m_compositor, SLOT(checkUnredirect()));
     connect(c, SIGNAL(geometryShapeChanged(KWin::Toplevel*,QRect)), m_compositor, SLOT(checkUnredirect()));
     connect(c, SIGNAL(blockingCompositingChanged(KWin::Client*)), m_compositor, SLOT(updateCompositeBlocking(KWin::Client*)));
     connect(c, SIGNAL(clientFullScreenSet(KWin::Client*,bool,bool)), ScreenEdges::self(), SIGNAL(checkBlocking()));
-    connect(c, SIGNAL(desktopPresenceChanged(KWin::Client*,int)), SIGNAL(desktopPresenceChanged(KWin::Client*,int)), Qt::QueuedConnection);
+    connect(c, &Client::desktopPresenceChanged, this, &Workspace::desktopPresenceChanged);
     if (!c->manage(w, is_mapped)) {
         Client::deleteClient(c);
         return NULL;
@@ -622,7 +661,7 @@ void Workspace::updateToolWindows(bool also_hide)
         return;
     }
     const Group* group = NULL;
-    const Client* client = active_client;
+    const Client* client = dynamic_cast<Client*>(active_client);
     // Go up in transiency hiearchy, if the top is found, only tool transients for the top mainwindow
     // will be shown; if a group transient is group, all tools in the group will be shown
     while (client != NULL) {
@@ -881,7 +920,7 @@ void Workspace::updateClientVisibilityOnDesktopChange(uint oldDesktop, uint newD
 
 void Workspace::activateClientOnNewDesktop(uint desktop)
 {
-    Client* c = NULL;
+    AbstractClient* c = NULL;
     if (options->focusPolicyIsReasonable()) {
         c = findClientToActivateOnDesktop(desktop);
     }
@@ -905,7 +944,7 @@ void Workspace::activateClientOnNewDesktop(uint desktop)
         focusToNull();
 }
 
-Client *Workspace::findClientToActivateOnDesktop(uint desktop)
+AbstractClient *Workspace::findClientToActivateOnDesktop(uint desktop)
 {
     if (movingClient != NULL && active_client == movingClient &&
         FocusChain::self()->contains(active_client, desktop) &&
@@ -946,6 +985,9 @@ Client *Workspace::findClientToActivateOnDesktop(uint desktop)
 void Workspace::updateCurrentActivity(const QString &new_activity)
 {
 #ifdef KWIN_BUILD_ACTIVITIES
+    if (!Activities::self()) {
+        return;
+    }
     //closeActivePopup();
     ++block_focus;
     // TODO: Q_ASSERT( block_stacking_updates == 0 ); // Make sure stacking_order is up to date
@@ -997,7 +1039,7 @@ void Workspace::updateCurrentActivity(const QString &new_activity)
 
     // Restore the focus on this desktop
     --block_focus;
-    Client* c = 0;
+    AbstractClient* c = 0;
 
     //FIXME below here is a lot of focuschain stuff, probably all wrong now
     if (options->focusPolicyIsReasonable()) {
@@ -1087,7 +1129,7 @@ void Workspace::selectWmInputEventMask()
  *
  * Takes care of transients as well.
  */
-void Workspace::sendClientToDesktop(Client* c, int desk, bool dont_activate)
+void Workspace::sendClientToDesktop(AbstractClient* c, int desk, bool dont_activate)
 {
     if ((desk < 1 && desk != NET::OnAllDesktops) || desk > static_cast<int>(VirtualDesktopManager::self()->count()))
         return;
@@ -1110,11 +1152,14 @@ void Workspace::sendClientToDesktop(Client* c, int desk, bool dont_activate)
 
     c->checkWorkspacePosition( QRect(), old_desktop );
 
-    ClientList transients_stacking_order = ensureStackingOrder(c->transients());
-    for (ClientList::ConstIterator it = transients_stacking_order.constBegin();
-            it != transients_stacking_order.constEnd();
-            ++it)
-        sendClientToDesktop(*it, desk, dont_activate);
+    if (Client *client = dynamic_cast<Client*>(c)) {
+        // TODO: adjust transients for non-X11
+        ClientList transients_stacking_order = ensureStackingOrder(client->transients());
+        for (ClientList::ConstIterator it = transients_stacking_order.constBegin();
+                it != transients_stacking_order.constEnd();
+                ++it)
+            sendClientToDesktop(*it, desk, dont_activate);
+    }
     updateClientArea();
 }
 
@@ -1146,7 +1191,7 @@ bool Workspace::isOnCurrentHead()
     return rootWindow() == geometry->root;
 }
 
-void Workspace::sendClientToScreen(Client* c, int screen)
+void Workspace::sendClientToScreen(AbstractClient* c, int screen)
 {
     c->sendToScreen(screen);
 }
@@ -1201,12 +1246,12 @@ void Workspace::setShowingDesktop(bool showing)
     rootInfo()->setShowingDesktop(showing);
     showing_desktop = showing;
 
-    Client *topDesk = nullptr;
+    AbstractClient *topDesk = nullptr;
 
     { // for the blocker RAII
     StackingUpdatesBlocker blocker(this); // updateLayer & lowerClient would invalidate stacking_order
     for (int i = stacking_order.count() - 1; i > -1; --i) {
-        Client *c = qobject_cast<Client*>(stacking_order.at(i));
+        AbstractClient *c = qobject_cast<AbstractClient*>(stacking_order.at(i));
         if (c && c->isOnCurrentDesktop()) {
             if (c->isDock()) {
                 c->updateLayer();
@@ -1215,8 +1260,10 @@ void Workspace::setShowingDesktop(bool showing)
                 lowerClient(c);
                 if (!topDesk)
                     topDesk = c;
-                foreach (Client *cm, c->group()->members()) {
-                    cm->updateLayer();
+                if (Client *client = qobject_cast<Client*>(c)) {
+                    foreach (Client *cm, client->group()->members()) {
+                        cm->updateLayer();
+                    }
                 }
             }
         }
@@ -1340,14 +1387,14 @@ QString Workspace::supportInformation() const
 #else
     support.append(no);
 #endif
-    support.append(QStringLiteral("HAVE_XCB_CURSOR: "));
-#if HAVE_XCB_CURSOR
+    support.append(QStringLiteral("HAVE_DRM: "));
+#if HAVE_DRM
     support.append(yes);
 #else
     support.append(no);
 #endif
-    support.append(QStringLiteral("HAVE_XCB_SYNC: "));
-#if HAVE_XCB_SYNC
+    support.append(QStringLiteral("HAVE_GBM: "));
+#if HAVE_GBM
     support.append(yes);
 #else
     support.append(no);
@@ -1425,15 +1472,18 @@ QString Workspace::supportInformation() const
         support.append(QStringLiteral(" yes\n"));
     else
         support.append(QStringLiteral(" no\n"));
-    support.append(QStringLiteral("Number of Screens: %1\n").arg(screens()->count()));
+    support.append(QStringLiteral("Number of Screens: %1\n\n").arg(screens()->count()));
     for (int i=0; i<screens()->count(); ++i) {
         const QRect geo = screens()->geometry(i);
-        support.append(QStringLiteral("Screen %1 Geometry: %2,%3,%4x%5\n")
-                              .arg(i)
+        support.append(QStringLiteral("Screen %1:\n").arg(i));
+        support.append(QStringLiteral("---------\n").arg(i));
+        support.append(QStringLiteral("Name: %1\n").arg(screens()->name(i)));
+        support.append(QStringLiteral("Geometry: %1,%2,%3x%4\n")
                               .arg(geo.x())
                               .arg(geo.y())
                               .arg(geo.width())
                               .arg(geo.height()));
+        support.append(QStringLiteral("Refresh Rate: %1\n\n").arg(screens()->refreshRate(i)));
     }
     support.append(QStringLiteral("\nCompositing\n"));
     support.append(QStringLiteral(  "===========\n"));
@@ -1625,6 +1675,15 @@ Toplevel *Workspace::findToplevel(std::function<bool (const Toplevel*)> func) co
         return ret;
     }
     return nullptr;
+}
+
+bool Workspace::hasClient(const AbstractClient *c)
+{
+    if (auto cc = dynamic_cast<const Client*>(c)) {
+        return hasClient(cc);
+    }
+    // TODO: test for ShellClient
+    return false;
 }
 
 } // namespace

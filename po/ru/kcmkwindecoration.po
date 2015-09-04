@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-29 08:07+0000\n"
-"PO-Revision-Date: 2015-04-18 21:03+0300\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"PO-Revision-Date: 2015-04-18 21:02+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -55,7 +55,6 @@ msgstr "Распахнуть"
 msgid "Close"
 msgstr "Закрыть"
 
-# Контекстная справка "Что это?" --aspotashev
 #: declarative-plugin/buttonsmodel.cpp:79
 msgid "Context help"
 msgstr "Контекстная справка"

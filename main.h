@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Qt
 #include <QApplication>
 #include <QAbstractNativeEventFilter>
+#include <QProcessEnvironment>
 
 class QCommandLineParser;
 
@@ -141,9 +142,10 @@ public:
         return m_connection;
     }
 
+    virtual QProcessEnvironment processStartupEnvironment() const;
+
     static void setupMalloc();
     static void setupLocalizedString();
-    static void setupLoggingCategoryFilters();
 
     static bool usesLibinput();
     static void setUseLibinput(bool use);
@@ -152,6 +154,7 @@ Q_SIGNALS:
     void x11ConnectionChanged();
     void workspaceCreated();
     void screensCreated();
+    void virtualTerminalCreated();
 
 protected:
     Application(OperationMode mode, int &argc, char **argv);
@@ -165,6 +168,7 @@ protected:
     void createCompositor();
     void setupEventFilters();
     void destroyWorkspace();
+    void destroyCompositor();
     /**
      * Inheriting classes should use this method to set the X11 root window
      * before accessing any X11 specific code pathes.
@@ -180,9 +184,13 @@ protected:
         m_connection = c;
         emit x11ConnectionChanged();
     }
+    void destroyAtoms();
 
     bool notify(QObject* o, QEvent* e);
     static void crashHandler(int signal);
+
+protected:
+    QString m_originalSessionKey;
 
 private Q_SLOTS:
     void resetCrashesCount();

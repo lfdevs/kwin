@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace KWin
 {
 // forward declarations
+class AbstractClient;
 class Client;
 
 class WorkspaceWrapper : public QObject
@@ -39,7 +40,7 @@ class WorkspaceWrapper : public QObject
     Q_ENUMS(ClientAreaOption)
     Q_ENUMS(ElectricBorder)
     Q_PROPERTY(int currentDesktop READ currentDesktop WRITE setCurrentDesktop NOTIFY currentDesktopChanged)
-    Q_PROPERTY(KWin::Client *activeClient READ activeClient WRITE setActiveClient NOTIFY clientActivated)
+    Q_PROPERTY(KWin::AbstractClient *activeClient READ activeClient WRITE setActiveClient NOTIFY clientActivated)
     // TODO: write and notify?
     Q_PROPERTY(QSize desktopGridSize READ desktopGridSize NOTIFY desktopLayoutChanged)
     Q_PROPERTY(int desktopGridWidth READ desktopGridWidth NOTIFY desktopLayoutChanged)
@@ -87,17 +88,17 @@ private:
     Q_DISABLE_COPY(WorkspaceWrapper)
 
 Q_SIGNALS:
-    void desktopPresenceChanged(KWin::Client *client, int desktop);
-    void currentDesktopChanged(int desktop, KWin::Client *client);
+    void desktopPresenceChanged(KWin::AbstractClient *client, int desktop);
+    void currentDesktopChanged(int desktop, KWin::AbstractClient *client);
     void clientAdded(KWin::Client *client);
-    void clientRemoved(KWin::Client *client);
+    void clientRemoved(KWin::AbstractClient *client);
     void clientManaging(KWin::Client *client);
-    void clientMinimized(KWin::Client *client);
-    void clientUnminimized(KWin::Client *client);
+    void clientMinimized(KWin::AbstractClient *client);
+    void clientUnminimized(KWin::AbstractClient *client);
     void clientRestored(KWin::Client *client);
-    void clientMaximizeSet(KWin::Client *client, bool h, bool v);
+    void clientMaximizeSet(KWin::AbstractClient *client, bool h, bool v);
     void killWindowCalled(KWin::Client *client);
-    void clientActivated(KWin::Client *client);
+    void clientActivated(KWin::AbstractClient *client);
     void clientFullScreenSet(KWin::Client *client, bool fullScreen, bool user);
     void clientSetKeepAbove(KWin::Client *client, bool keepAbove);
     /**
@@ -117,7 +118,7 @@ Q_SIGNALS:
      * @param c The Client for which demands attention changed
      * @param set New value of demands attention
      **/
-    void clientDemandsAttentionChanged(KWin::Client *client, bool set);
+    void clientDemandsAttentionChanged(KWin::AbstractClient *client, bool set);
     /**
      * Signal emitted when the number of screens changes.
      * @param count The new number of screens
@@ -203,7 +204,7 @@ rettype getter() const; \
 void setter( rettype val );
     GETTERSETTERDEF(int, numberOfDesktops, setNumberOfDesktops)
     GETTERSETTERDEF(int, currentDesktop, setCurrentDesktop)
-    GETTERSETTERDEF(KWin::Client*, activeClient, setActiveClient)
+    GETTERSETTERDEF(KWin::AbstractClient*, activeClient, setActiveClient)
 #undef GETTERSETTERDEF
     QSize desktopGridSize() const;
     int desktopGridWidth() const;

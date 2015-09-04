@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-20 09:22+0000\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: aurorae/src/aurorae.cpp:703
+#: aurorae/src/aurorae.cpp:706
 #, fuzzy
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Tiny"
@@ -25,27 +25,27 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "كىچىك"
 
-#: aurorae/src/aurorae.cpp:704
+#: aurorae/src/aurorae.cpp:707
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "نورمال"
 
-#: aurorae/src/aurorae.cpp:705
+#: aurorae/src/aurorae.cpp:708
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "چوڭ"
 
-#: aurorae/src/aurorae.cpp:706
+#: aurorae/src/aurorae.cpp:709
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "بەك چوڭ"
 
-#: aurorae/src/aurorae.cpp:707
+#: aurorae/src/aurorae.cpp:710
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "ئىنتايىن چوڭ"
 
-#: aurorae/src/aurorae.cpp:708
+#: aurorae/src/aurorae.cpp:711
 #, fuzzy
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Very Huge"
@@ -53,7 +53,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "ئىنتايىن چوڭ"
 
-#: aurorae/src/aurorae.cpp:709
+#: aurorae/src/aurorae.cpp:712
 #, fuzzy
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Oversized"
@@ -61,7 +61,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "چوڭلۇقى ئېشىپ كەتكەن"
 
-#: aurorae/src/aurorae.cpp:712
+#: aurorae/src/aurorae.cpp:715
 #, fuzzy
 #| msgid "Button size:"
 msgid "Button size:"

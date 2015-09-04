@@ -42,7 +42,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KSharedConfig>
 // Qt
 #include <qplatformdefs.h>
-#include <QDebug>
 #include <QComboBox>
 #include <qcommandlineparser.h>
 #include <QDialog>
@@ -200,7 +199,13 @@ void Application::start()
 Application::~Application()
 {
     delete options;
+    destroyAtoms();
+}
+
+void Application::destroyAtoms()
+{
     delete atoms;
+    atoms = nullptr;
 }
 
 void Application::crashChecking()
@@ -341,13 +346,6 @@ void Application::setupLocalizedString()
     KLocalizedString::setApplicationDomain("kwin");
 }
 
-void Application::setupLoggingCategoryFilters()
-{
-    QLoggingCategory::setFilterRules(QStringLiteral("aurorae.debug = true\n") +
-                                     QStringLiteral("kwineffects.debug = true\n") +
-                                     QStringLiteral("kwin_core.debug = true"));
-}
-
 void Application::notifyKSplash()
 {
     // Tell KSplash that KWin has started
@@ -372,14 +370,15 @@ void Application::createWorkspace()
     // critical startup section where x errors cause kwin to abort.
 
     // create workspace.
-    (void) new Workspace(isSessionRestored());
+    (void) new Workspace(m_originalSessionKey);
     emit workspaceCreated();
 }
 
 void Application::createInput()
 {
     LogindIntegration::create(this);
-    InputRedirection::create(this);
+    auto input = InputRedirection::create(this);
+    input->init();
     Cursor::create(this);
 }
 
@@ -415,6 +414,15 @@ void Application::setupEventFilters()
 void Application::destroyWorkspace()
 {
     delete Workspace::self();
+}
+
+void Application::destroyCompositor()
+{
+    if (Workspace::self()) {
+        // compositor is destroyed together with Workspace
+        return;
+    }
+    delete Compositor::self();
 }
 
 void Application::updateX11Time(xcb_generic_event_t *event)
@@ -516,6 +524,11 @@ void Application::setUseLibinput(bool use)
 bool Application::usesLibinput()
 {
     return s_useLibinput;
+}
+
+QProcessEnvironment Application::processStartupEnvironment() const
+{
+    return QProcessEnvironment::systemEnvironment();
 }
 
 } // namespace

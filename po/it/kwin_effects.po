@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-05-21 11:34+0000\n"
-"PO-Revision-Date: 2015-02-16 12:45+0100\n"
+"POT-Creation-Date: 2015-08-12 11:22+0000\n"
+"PO-Revision-Date: 2015-08-14 15:15+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128@baslug.org>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -136,15 +136,15 @@ msgstr "Colore posteriore"
 msgid "Front color"
 msgstr "Colore anteriore"
 
-#: cube/cube.cpp:201 cube/cube_config.cpp:69
+#: cube/cube.cpp:201 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "Cubo dei desktop"
 
-#: cube/cube.cpp:209 cube/cube_config.cpp:74
+#: cube/cube.cpp:209 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "Cilindro dei desktop"
 
-#: cube/cube.cpp:215 cube/cube_config.cpp:78
+#: cube/cube.cpp:215 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "Sfera dei desktop"
 
@@ -157,6 +157,17 @@ msgstr "Base"
 msgctxt "@title:tab Advanced Settings"
 msgid "Advanced"
 msgstr "Avanzate"
+
+#: cube/cube_config.cpp:64 desktopgrid/desktopgrid_config.cpp:62
+#: flipswitch/flipswitch_config.cpp:66 invert/invert_config.cpp:49
+#: lookingglass/lookingglass_config.cpp:67 magnifier/magnifier_config.cpp:67
+#: mouseclick/mouseclick_config.cpp:60 mousemark/mousemark_config.cpp:65
+#: presentwindows/presentwindows_config.cpp:61
+#: thumbnailaside/thumbnailaside_config.cpp:66
+#: trackmouse/trackmouse_config.cpp:62
+#: windowgeometry/windowgeometry_config.cpp:54 zoom/zoom_config.cpp:63
+msgid "KWin"
+msgstr "KWin"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: cube/cube_config.ui:21
@@ -410,54 +421,52 @@ msgstr "L'effetto di sfocatura dev'essere abilitato prima di poterlo usare."
 msgid "Apply blur effect to background"
 msgstr "Applica l'effetto sfocato allo sfondo"
 
-#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:66
+#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Mostra la griglia dei desktop"
 
-#: desktopgrid/desktopgrid_config.cpp:74
+#: desktopgrid/desktopgrid_config.cpp:75
 msgctxt "Desktop name alignment:"
 msgid "Disabled"
 msgstr "Disabilitato"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: desktopgrid/desktopgrid_config.cpp:75 flipswitch/flipswitch_config.ui:160
+#: desktopgrid/desktopgrid_config.cpp:76 flipswitch/flipswitch_config.ui:160
 msgid "Top"
 msgstr "In alto"
 
-#: desktopgrid/desktopgrid_config.cpp:76
+#: desktopgrid/desktopgrid_config.cpp:77
 msgid "Top-Right"
 msgstr "In alto a destra"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: desktopgrid/desktopgrid_config.cpp:77 flipswitch/flipswitch_config.ui:125
-#: mouseclick/mouseclick.cpp:60
+#: desktopgrid/desktopgrid_config.cpp:78 flipswitch/flipswitch_config.ui:125
 msgid "Right"
 msgstr "A destra"
 
-#: desktopgrid/desktopgrid_config.cpp:78
+#: desktopgrid/desktopgrid_config.cpp:79
 msgid "Bottom-Right"
 msgstr "In basso a destra"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: desktopgrid/desktopgrid_config.cpp:79 flipswitch/flipswitch_config.ui:180
+#: desktopgrid/desktopgrid_config.cpp:80 flipswitch/flipswitch_config.ui:180
 msgid "Bottom"
 msgstr "In basso"
 
-#: desktopgrid/desktopgrid_config.cpp:80
+#: desktopgrid/desktopgrid_config.cpp:81
 msgid "Bottom-Left"
 msgstr "In basso a sinistra"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: desktopgrid/desktopgrid_config.cpp:81 flipswitch/flipswitch_config.ui:105
-#: mouseclick/mouseclick.cpp:58
+#: desktopgrid/desktopgrid_config.cpp:82 flipswitch/flipswitch_config.ui:105
 msgid "Left"
 msgstr "A sinistra"
 
-#: desktopgrid/desktopgrid_config.cpp:82
+#: desktopgrid/desktopgrid_config.cpp:83
 msgid "Top-Left"
 msgstr "In alto a sinistra"
 
-#: desktopgrid/desktopgrid_config.cpp:83
+#: desktopgrid/desktopgrid_config.cpp:84
 msgid "Center"
 msgstr "Al centro"
 
@@ -1015,11 +1024,11 @@ msgstr "-90"
 msgid "90"
 msgstr "90"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:51
+#: invert/invert.cpp:44 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "Attiva/disattiva effetto inversione"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:57
+#: invert/invert.cpp:52 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "Attiva/disattiva effetto inversione sulla finestra"
 
@@ -1059,13 +1068,24 @@ msgstr " px"
 msgid "&Height:"
 msgstr "&Altezza:"
 
-#: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
+#: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:63
 msgid "Toggle Mouse Click Effect"
 msgstr "Attiva/disattiva effetto del clic del mouse"
 
+#: mouseclick/mouseclick.cpp:58
+msgctxt "Left mouse button"
+msgid "Left"
+msgstr "Sinistro"
+
 #: mouseclick/mouseclick.cpp:59
+msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Centrale"
+
+#: mouseclick/mouseclick.cpp:60
+msgctxt "Right mouse button"
+msgid "Right"
+msgstr "Destro"
 
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
@@ -1146,11 +1166,11 @@ msgstr "Mostra testo:"
 msgid "Clear All Mouse Marks"
 msgstr "Pulisci tutte le tracce del mouse"
 
-#: mousemark/mousemark.cpp:57 mousemark/mousemark_config.cpp:73
+#: mousemark/mousemark.cpp:57 mousemark/mousemark_config.cpp:74
 msgid "Clear Last Mouse Mark"
 msgstr "Pulisci l'ultima traccia del mouse"
 
-#: mousemark/mousemark_config.cpp:67
+#: mousemark/mousemark_config.cpp:68
 msgid "Clear Mouse Marks"
 msgstr "Pulisci le tracce del mouse"
 
@@ -1165,17 +1185,17 @@ msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Disegna con il mouse tenendo premuto Shift+Meta e spostando il mouse."
 
 #: presentwindows/presentwindows.cpp:70
-#: presentwindows/presentwindows_config.cpp:71
+#: presentwindows/presentwindows_config.cpp:72
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Attiva/disattiva presentazione delle finestre (Desktop attuale)"
 
 #: presentwindows/presentwindows.cpp:78
-#: presentwindows/presentwindows_config.cpp:65
+#: presentwindows/presentwindows_config.cpp:66
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Attiva/disattiva presentazione delle finestre (Tutti i desktop)"
 
 #: presentwindows/presentwindows.cpp:86
-#: presentwindows/presentwindows_config.cpp:77
+#: presentwindows/presentwindows_config.cpp:78
 msgid "Toggle Present Windows (Window class)"
 msgstr "Attiva/disattiva presentazione delle finestre (Classe di finestre)"
 
@@ -1426,7 +1446,7 @@ msgid "Text alpha:"
 msgstr "Alfa del testo:"
 
 #: thumbnailaside/thumbnailaside.cpp:37
-#: thumbnailaside/thumbnailaside_config.cpp:70
+#: thumbnailaside/thumbnailaside_config.cpp:71
 msgid "Toggle Thumbnail for Current Window"
 msgstr "Attiva/disattiva miniatura per la finestra attuale"
 
@@ -1452,7 +1472,7 @@ msgstr " pixel"
 msgid "&Opacity:"
 msgstr "&Opacità:"
 
-#: trackmouse/trackmouse.cpp:60 trackmouse/trackmouse_config.cpp:66
+#: trackmouse/trackmouse.cpp:60 trackmouse/trackmouse_config.cpp:67
 msgid "Track mouse"
 msgstr "Insegui il mouse"
 
@@ -1552,7 +1572,7 @@ msgstr ""
 "Attiva/disattiva la visualizzazione della geometria della finestra (solo "
 "effetti)"
 
-#: windowgeometry/windowgeometry_config.cpp:55
+#: windowgeometry/windowgeometry_config.cpp:56
 msgid "Toggle KWin composited geometry display"
 msgstr "Attiva/disattiva la visualizzazione della geometria di KWin"
 
@@ -1632,27 +1652,27 @@ msgstr "Sposta l'area ingrandita in alto"
 msgid "Move Zoomed Area Downwards"
 msgstr "Sposta l'area ingrandita in basso"
 
-#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:113
 msgid "Move Mouse to Focus"
 msgstr "Sposta il mouse sul fuoco"
 
-#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:120
 msgid "Move Mouse to Center"
 msgstr "Sposta il mouse al centro"
 
-#: zoom/zoom_config.cpp:84
+#: zoom/zoom_config.cpp:85
 msgid "Move Left"
 msgstr "Sposta a sinistra"
 
-#: zoom/zoom_config.cpp:91
+#: zoom/zoom_config.cpp:92
 msgid "Move Right"
 msgstr "Sposta a destra"
 
-#: zoom/zoom_config.cpp:98
+#: zoom/zoom_config.cpp:99
 msgid "Move Up"
 msgstr "Sposta in alto"
 
-#: zoom/zoom_config.cpp:105
+#: zoom/zoom_config.cpp:106
 msgid "Move Down"
 msgstr "Sposta in basso"
 

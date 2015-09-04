@@ -1,6 +1,6 @@
 # translation of kcmkwm.po to Polish
 # translation of kcmkwm.po to
-# Version: $Revision: 1411780 $
+# Version: $Revision: 1435260 $
 # Previous translations Piotr Roszatycki <dexter@debian.org>
 # Michał Rudolf <mrudolf@kdewebdev.org>, 2002.
 # Michal Rudolf <mrudolf@kdewebdev.org>, 2002, 2003, 2004.
@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-14 07:58+0000\n"
-"PO-Revision-Date: 2015-01-17 07:32+0100\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"PO-Revision-Date: 2015-08-15 13:10+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 ">\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
@@ -289,7 +289,7 @@ msgid ""
 "a window while pressing the modifier key."
 msgstr ""
 "Tu możesz ustawić działanie kółka myszy w oknie, jeśli wciśnięty jest "
-"klawisz modyfikujący."
+"klawisz odmieniający."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
@@ -369,14 +369,14 @@ msgstr "&Lewy przycisk"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:561
 msgid "Modifier &key:"
-msgstr "&Klawisz modyfikujący:"
+msgstr "&Klawisz odmieniający:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAllKey)
 #: actions.ui:571
 msgid ""
 "Here you select whether holding the Meta key or Alt key will allow you to "
 "perform the following actions."
-msgstr "Tu możesz wybrać, czy klawiszem modyfikującym jest Alt czy Meta."
+msgstr "Tu możesz wybrać, czy klawiszem odmieniającym jest Alt czy Meta."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllKey)
 #: actions.ui:575
@@ -584,7 +584,7 @@ msgid ""
 "likely what you want."
 msgstr ""
 "<b>Naciśnij, aby uaktywnić</b><br>\n"
-"Okno staje się aktywne, kiedy na nim naciśniesz.<br><br>\n"
+"Okno staje się aktywne, kiedy na nie naciśniesz.<br><br>\n"
 "Zachowanie to jest powszechne na innych systemach operacyjnych i<br>\n"
 "jest prawdopodobnie tym czego chcesz."
 
@@ -602,8 +602,8 @@ msgstr ""
 "Jest to w większości to samo co <i>Naciśnij, aby uaktywnić</i><br><br>\n"
 "Gdy przychodzi do wyboru aktywnego okna przez system<br>\n"
 "(bo np. bieżące aktywne okno zostało zamknięte) <br>\n"
-"to okno pod wskaźnikiem myszy jest faworyzowanym kandydatem.<br><br>\n"
-"Niezbyt popularna, ale możliwa odmiana <i>Naciśnij, aby uaktywnić</i>."
+"to okno pod wskaźnikiem myszy ma pierszeństwo<br><br>\n"
+"Niezbyt powszechna, ale możliwa odmiana <i>Naciśnij, aby uaktywnić</i>."
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: focus.ui:112
@@ -615,7 +615,7 @@ msgid ""
 "Think as <i>Click To Focus</i> just without having to actually click."
 msgstr ""
 "<b>Uaktywnienie podąża za myszą</b><br>\n"
-"Przesunięcie myszy na okno, aktywuje je.<br><br>\n"
+"Przesunięcie wskaźnika myszy na okno, aktywuje je.<br><br>\n"
 "np. okna losowo ukazujące się pod myszą nie zostaną uaktywnione.<br>\n"
 "Jak zwykle zapobieganie przechwyceniu uaktywnienia wchodzi w grę.<br><br>\n"
 "Myśl o tym jako o <i>Naciśnij, aby uaktywnić</i>, lecz bez konieczności "
@@ -635,8 +635,9 @@ msgstr ""
 "Jest to w większości to samo co <i>Uaktywnienie podąża za myszą</i><br><br>\n"
 "Gdy przychodzi do wyboru aktywnego okna przez system<br>\n"
 "(bo np. bieżące aktywne okno zostało zamknięte) <br>\n"
-"to okno pod wskaźnikiem myszy jest faworyzowanym kandydatem.<br><br>\n"
-"Wybierz to, jeśli chcesz uaktywnienie sterowne unoszeniem myszy."
+"to okno pod wskaźnikiem myszy ma pierszeństwo.<br><br>\n"
+"Wybierz to, jeśli chcesz uaktywnienie zależne od najechania wskaźnikiem "
+"myszy."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: focus.ui:158
@@ -656,7 +657,7 @@ msgstr ""
 "Uwaga:<br>\n"
 "<b>Ochrona przed zmianą aktywnego okna</b> i <b>pole kart (\"Alt+Tab\")</"
 "b><br>\n"
-"zaprzecza tej polityce i <b>nie zadziała</b>.<br><br>\n"
+"zaprzecza tej zasadzie i <b>nie zadziała</b>.<br><br>\n"
 "W tym przypadku prawdopodobnie chcesz użyć<br>\n"
 "<i>Uaktywnienie podąża za myszą - pierwszeństwo myszy</i>!"
 
@@ -683,7 +684,7 @@ msgstr ""
 "Uwaga:<br>\n"
 "<b>Ochrona przed zmianą aktywnego okna</b> i <b>pole kart (\"Alt+Tab\")</"
 "b><br>\n"
-"zaprzecza tej polityce i <b>nie zadziała</b>.<br><br>\n"
+"zaprzecza tej zasadzie i <b>nie zadziała</b>.<br><br>\n"
 "W tym przypadku prawdopodobnie chcesz użyć<br>\n"
 "<i>Uaktywnienie podąża za myszą - pierwszeństwo myszy</i>!"
 

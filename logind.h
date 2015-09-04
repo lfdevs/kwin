@@ -30,7 +30,7 @@ class QDBusServiceWatcher;
 namespace KWin
 {
 
-class LogindIntegration : public QObject
+class KWIN_EXPORT LogindIntegration : public QObject
 {
     Q_OBJECT
 public:
@@ -64,6 +64,7 @@ Q_SIGNALS:
 private Q_SLOTS:
     void getSessionActive();
     void getVirtualTerminal();
+    void pauseDevice(uint major, uint minor, const QString &type);
 
 private:
     friend class LogindTest;

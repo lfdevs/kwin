@@ -1234,7 +1234,7 @@ public:
     QVector<QByteArray> errorCodes;
 };
 
-class Extensions
+class KWIN_EXPORT Extensions
 {
 public:
     bool isShapeAvailable() const {
@@ -1385,6 +1385,7 @@ public:
      * Configures the window with a new geometry.
      * @param geometry The new window geometry to be used
      **/
+    inline const QRect &geometry() const { return m_logicGeometry; }
     void setGeometry(const QRect &geometry);
     void setGeometry(uint32_t x, uint32_t y, uint32_t width, uint32_t height);
     void move(const QPoint &pos);
@@ -1423,6 +1424,7 @@ private:
     void destroy();
     xcb_window_t m_window;
     bool m_destroy;
+    QRect m_logicGeometry;
 };
 
 inline
@@ -1490,6 +1492,7 @@ void Window::create(const QRect &geometry, uint32_t mask, const uint32_t *values
 inline
 xcb_window_t Window::doCreate(const QRect &geometry, uint16_t windowClass, uint32_t mask, const uint32_t *values, xcb_window_t parent)
 {
+    m_logicGeometry = geometry;
     xcb_window_t w = xcb_generate_id(connection());
     xcb_create_window(connection(), XCB_COPY_FROM_PARENT, w, parent,
                       geometry.x(), geometry.y(), geometry.width(), geometry.height(),
@@ -1514,6 +1517,7 @@ void Window::setGeometry(const QRect &geometry)
 inline
 void Window::setGeometry(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
 {
+    m_logicGeometry.setRect(x, y, width, height);
     if (!isValid()) {
         return;
     }
@@ -1531,6 +1535,7 @@ void Window::move(const QPoint &pos)
 inline
 void Window::move(uint32_t x, uint32_t y)
 {
+    m_logicGeometry.moveTo(x, y);
     if (!isValid()) {
         return;
     }
@@ -1546,6 +1551,7 @@ void Window::resize(const QSize &size)
 inline
 void Window::resize(uint32_t width, uint32_t height)
 {
+    m_logicGeometry.setSize(QSize(width, height));
     if (!isValid()) {
         return;
     }

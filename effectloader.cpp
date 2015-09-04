@@ -27,8 +27,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils.h"
 // KDE
 #include <KConfigGroup>
-#include <KPluginTrader>
-#include <KServiceTypeTrader>
+#include <KPluginLoader>
+#include <KPackage/Package>
+#include <KPackage/PackageLoader>
 // Qt
 #include <QtConcurrentRun>
 #include <QDebug>
@@ -183,7 +184,7 @@ static const QString s_serviceType = QStringLiteral("KWin/Effect");
 
 ScriptedEffectLoader::ScriptedEffectLoader(QObject *parent)
     : AbstractEffectLoader(parent)
-    , m_queue(new EffectLoadQueue<ScriptedEffectLoader, KService::Ptr>(this))
+    , m_queue(new EffectLoadQueue<ScriptedEffectLoader, KPluginMetaData>(this))
 {
 }
 
@@ -193,7 +194,7 @@ ScriptedEffectLoader::~ScriptedEffectLoader()
 
 bool ScriptedEffectLoader::hasEffect(const QString &name) const
 {
-    return findEffect(name);
+    return findEffect(name).isValid();
 }
 
 bool ScriptedEffectLoader::isEffectSupported(const QString &name) const
@@ -204,26 +205,26 @@ bool ScriptedEffectLoader::isEffectSupported(const QString &name) const
 
 QStringList ScriptedEffectLoader::listOfKnownEffects() const
 {
-    const KService::List effects = findAllEffects();
+    const auto effects = findAllEffects();
     QStringList result;
-    for (KService::Ptr service : effects) {
-        result << service->property(s_nameProperty).toString();
+    for (const auto &service : effects) {
+        result << service.pluginId();
     }
     return result;
 }
 
 bool ScriptedEffectLoader::loadEffect(const QString &name)
 {
-    KService::Ptr effect = findEffect(name);
-    if (!effect) {
+    auto effect = findEffect(name);
+    if (!effect.isValid()) {
         return false;
     }
     return loadEffect(effect, LoadEffectFlag::Load);
 }
 
-bool ScriptedEffectLoader::loadEffect(KService::Ptr effect, LoadEffectFlags flags)
+bool ScriptedEffectLoader::loadEffect(const KPluginMetaData &effect, LoadEffectFlags flags)
 {
-    const QString name = effect->property(s_nameProperty).toString();
+    const QString name = effect.pluginId();
     if (!flags.testFlag(LoadEffectFlag::Load)) {
         qCDebug(KWIN_CORE) << "Loading flags disable effect: " << name;
         return false;
@@ -253,13 +254,12 @@ bool ScriptedEffectLoader::loadEffect(KService::Ptr effect, LoadEffectFlags flag
 void ScriptedEffectLoader::queryAndLoadAll()
 {
     // perform querying for the services in a thread
-    QFutureWatcher<KService::List> *watcher = new QFutureWatcher<KService::List>(this);
-    connect(watcher, &QFutureWatcher<KService::List>::finished, this,
+    QFutureWatcher<QList<KPluginMetaData>> *watcher = new QFutureWatcher<QList<KPluginMetaData>>(this);
+    connect(watcher, &QFutureWatcher<QList<KPluginMetaData>>::finished, this,
         [this, watcher]() {
-            const KService::List effects = watcher->result();
-            for (KService::Ptr effect : effects) {
-                const LoadEffectFlags flags = readConfig(effect->property(s_nameProperty).toString(),
-                                                        effect->property(QStringLiteral("X-KDE-PluginInfo-EnabledByDefault")).toBool());
+            const auto effects = watcher->result();
+            for (auto effect : effects) {
+                const LoadEffectFlags flags = readConfig(effect.pluginId(), effect.isEnabledByDefault());
                 if (flags.testFlag(LoadEffectFlag::Load)) {
                     m_queue->enqueue(qMakePair(effect, flags));
                 }
@@ -270,26 +270,28 @@ void ScriptedEffectLoader::queryAndLoadAll()
     watcher->setFuture(QtConcurrent::run(this, &ScriptedEffectLoader::findAllEffects));
 }
 
-KService::List ScriptedEffectLoader::findAllEffects() const
+QList<KPluginMetaData> ScriptedEffectLoader::findAllEffects() const
 {
-    return KServiceTypeTrader::self()->query(s_serviceType, s_jsConstraint);
+    return KPackage::PackageLoader::self()->listPackages(s_serviceType, QStringLiteral("kwin/effects"));
 }
 
-KService::Ptr ScriptedEffectLoader::findEffect(const QString &name) const
+KPluginMetaData ScriptedEffectLoader::findEffect(const QString &name) const
 {
-    const QString constraint = QStringLiteral("%1 and [%2] == '%3'").arg(s_jsConstraint).arg(s_nameProperty).arg(name.toLower());
-    const KService::List services = KServiceTypeTrader::self()->query(s_serviceType,
-                                                                      constraint);
-    if (!services.isEmpty()) {
-        return services.first();
+    const auto plugins = KPackage::PackageLoader::self()->findPackages(s_serviceType, QStringLiteral("kwin/effects"),
+        [name] (const KPluginMetaData &metadata) {
+            return metadata.pluginId().compare(name, Qt::CaseInsensitive) == 0;
+        }
+    );
+    if (!plugins.isEmpty()) {
+        return plugins.first();
     }
-    return KService::Ptr();
+    return KPluginMetaData();
 }
 
 
 PluginEffectLoader::PluginEffectLoader(QObject *parent)
     : AbstractEffectLoader(parent)
-    , m_queue(new EffectLoadQueue< PluginEffectLoader, KPluginInfo>(this))
+    , m_queue(new EffectLoadQueue< PluginEffectLoader, KPluginMetaData>(this))
     , m_pluginSubDirectory(QStringLiteral("kwin/effects/plugins/"))
 {
 }
@@ -300,16 +302,19 @@ PluginEffectLoader::~PluginEffectLoader()
 
 bool PluginEffectLoader::hasEffect(const QString &name) const
 {
-    KPluginInfo info = findEffect(name);
+    const auto info = findEffect(name);
     return info.isValid();
 }
 
-KPluginInfo PluginEffectLoader::findEffect(const QString &name) const
+KPluginMetaData PluginEffectLoader::findEffect(const QString &name) const
 {
-    const QString constraint = QStringLiteral("[%1] == '%2'").arg(s_nameProperty).arg(name.toLower());
-    KPluginInfo::List plugins = KPluginTrader::self()->query(m_pluginSubDirectory, s_serviceType, constraint);
+    const auto plugins = KPluginLoader::findPlugins(m_pluginSubDirectory,
+        [name] (const KPluginMetaData &data) {
+            return data.pluginId().compare(name, Qt::CaseInsensitive) == 0 && data.serviceTypes().contains(s_serviceType);
+        }
+    );
     if (plugins.isEmpty()) {
-        return KPluginInfo();
+        return KPluginMetaData();
     }
     return plugins.first();
 }
@@ -322,19 +327,19 @@ bool PluginEffectLoader::isEffectSupported(const QString &name) const
     return false;
 }
 
-EffectPluginFactory *PluginEffectLoader::factory(const KPluginInfo &info) const
+EffectPluginFactory *PluginEffectLoader::factory(const KPluginMetaData &info) const
 {
     if (!info.isValid()) {
         return nullptr;
     }
-    KPluginLoader loader(info.libraryPath());
+    KPluginLoader loader(info.fileName());
     if (loader.pluginVersion() != KWIN_EFFECT_API_VERSION) {
-        qCDebug(KWIN_CORE) << info.pluginName() << " has not matching plugin version, expected " << KWIN_EFFECT_API_VERSION << "got " << loader.pluginVersion();
+        qCDebug(KWIN_CORE) << info.pluginId() << " has not matching plugin version, expected " << KWIN_EFFECT_API_VERSION << "got " << loader.pluginVersion();
         return nullptr;
     }
     KPluginFactory *factory = loader.factory();
     if (!factory) {
-        qCDebug(KWIN_CORE) << "Did not get KPluginFactory for " << info.pluginName();
+        qCDebug(KWIN_CORE) << "Did not get KPluginFactory for " << info.pluginId();
         return nullptr;
     }
     return dynamic_cast< EffectPluginFactory* >(factory);
@@ -342,30 +347,31 @@ EffectPluginFactory *PluginEffectLoader::factory(const KPluginInfo &info) const
 
 QStringList PluginEffectLoader::listOfKnownEffects() const
 {
-    const KPluginInfo::List plugins = findAllEffects();
+    const auto plugins = findAllEffects();
     QStringList result;
-    for (const KPluginInfo &plugin : plugins) {
-        result << plugin.pluginName();
+    for (const auto &plugin : plugins) {
+        result << plugin.pluginId();
     }
+    qCDebug(KWIN_CORE) << result;
     return result;
 }
 
 bool PluginEffectLoader::loadEffect(const QString &name)
 {
-    KPluginInfo info = findEffect(name);
+    const auto info = findEffect(name);
     if (!info.isValid()) {
         return false;
     }
     return loadEffect(info, LoadEffectFlag::Load);
 }
 
-bool PluginEffectLoader::loadEffect(const KPluginInfo &info, LoadEffectFlags flags)
+bool PluginEffectLoader::loadEffect(const KPluginMetaData &info, LoadEffectFlags flags)
 {
     if (!info.isValid()) {
         qCDebug(KWIN_CORE) << "Plugin info is not valid";
         return false;
     }
-    const QString name = info.pluginName();
+    const QString name = info.pluginId();
     if (!flags.testFlag(LoadEffectFlag::Load)) {
         qCDebug(KWIN_CORE) << "Loading flags disable effect: " << name;
         return false;
@@ -416,12 +422,12 @@ bool PluginEffectLoader::loadEffect(const KPluginInfo &info, LoadEffectFlags fla
 void PluginEffectLoader::queryAndLoadAll()
 {
     // perform querying for the services in a thread
-    QFutureWatcher<KPluginInfo::List> *watcher = new QFutureWatcher<KPluginInfo::List>(this);
-    connect(watcher, &QFutureWatcher<KPluginInfo::List>::finished, this,
+    QFutureWatcher<QVector<KPluginMetaData>> *watcher = new QFutureWatcher<QVector<KPluginMetaData>>(this);
+    connect(watcher, &QFutureWatcher<QVector<KPluginMetaData>>::finished, this,
         [this, watcher]() {
-            const KPluginInfo::List effects = watcher->result();
-            for (const KPluginInfo &effect : effects) {
-                const LoadEffectFlags flags = readConfig(effect.pluginName(), effect.isPluginEnabledByDefault());
+            const auto effects = watcher->result();
+            for (const auto &effect : effects) {
+                const LoadEffectFlags flags = readConfig(effect.pluginId(), effect.isEnabledByDefault());
                 if (flags.testFlag(LoadEffectFlag::Load)) {
                     m_queue->enqueue(qMakePair(effect, flags));
                 }
@@ -432,9 +438,9 @@ void PluginEffectLoader::queryAndLoadAll()
     watcher->setFuture(QtConcurrent::run(this, &PluginEffectLoader::findAllEffects));
 }
 
-KPluginInfo::List PluginEffectLoader::findAllEffects() const
+QVector<KPluginMetaData> PluginEffectLoader::findAllEffects() const
 {
-    return KPluginTrader::self()->query(m_pluginSubDirectory, s_serviceType);
+    return KPluginLoader::findPlugins(m_pluginSubDirectory, [] (const KPluginMetaData &data) { return data.serviceTypes().contains(s_serviceType); });
 }
 
 void PluginEffectLoader::setPluginSubDirectory(const QString &directory)

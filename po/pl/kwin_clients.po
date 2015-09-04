@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-20 09:22+0000\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
 "PO-Revision-Date: 2015-01-17 07:33+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -20,42 +20,42 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
-#: aurorae/src/aurorae.cpp:703
+#: aurorae/src/aurorae.cpp:706
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "Mały"
 
-#: aurorae/src/aurorae.cpp:704
+#: aurorae/src/aurorae.cpp:707
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "Normalny"
 
-#: aurorae/src/aurorae.cpp:705
+#: aurorae/src/aurorae.cpp:708
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "Duży"
 
-#: aurorae/src/aurorae.cpp:706
+#: aurorae/src/aurorae.cpp:709
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "Bardzo duży"
 
-#: aurorae/src/aurorae.cpp:707
+#: aurorae/src/aurorae.cpp:710
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "Wielki"
 
-#: aurorae/src/aurorae.cpp:708
+#: aurorae/src/aurorae.cpp:711
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "Bardzo wielki"
 
-#: aurorae/src/aurorae.cpp:709
+#: aurorae/src/aurorae.cpp:712
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "Olbrzymi"
 
-#: aurorae/src/aurorae.cpp:712
+#: aurorae/src/aurorae.cpp:715
 msgid "Button size:"
 msgstr "Rozmiar przycisku:"
 

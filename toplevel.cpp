@@ -42,6 +42,7 @@ namespace KWin
 
 Toplevel::Toplevel()
     : m_visual(XCB_NONE)
+    , bit_depth(24)
     , info(NULL)
     , ready_for_painting(true)
     , m_isDamaged(false)
@@ -225,8 +226,13 @@ Window Toplevel::wmClientLeader() const
 
 void Toplevel::getResourceClass()
 {
-    resource_name  = QByteArray(info->windowClassName()).toLower();
-    resource_class = QByteArray(info->windowClassClass()).toLower();
+    setResourceClass(QByteArray(info->windowClassName()).toLower(), QByteArray(info->windowClassClass()).toLower());
+}
+
+void Toplevel::setResourceClass(const QByteArray &name, const QByteArray &className)
+{
+    resource_name  = name;
+    resource_class = className;
     emit windowClassChanged();
 }
 
@@ -390,6 +396,9 @@ bool Toplevel::isDeleted() const
 bool Toplevel::isOnCurrentActivity() const
 {
 #ifdef KWIN_BUILD_ACTIVITIES
+    if (!Activities::self()) {
+        return true;
+    }
     return isOnActivity(Activities::self()->current());
 #else
     return true;
@@ -457,6 +466,11 @@ void Toplevel::setSurface(KWayland::Server::SurfaceInterface *surface)
     }
     m_surface = surface;
     connect(m_surface, &SurfaceInterface::damaged, this, &Toplevel::addDamage);
+    connect(m_surface, &SurfaceInterface::destroyed, this,
+        [this] {
+            m_surface = nullptr;
+        }
+    );
 }
 #endif
 
@@ -468,6 +482,34 @@ void Toplevel::addDamage(const QRegion &damage)
     for (const QRect &r : damage.rects()) {
         emit damaged(this, r);
     }
+}
+
+QByteArray Toplevel::windowRole() const
+{
+    return QByteArray(info->windowRole());
+}
+
+void Toplevel::setDepth(int depth)
+{
+    if (bit_depth == depth) {
+        return;
+    }
+    const bool oldAlpha = hasAlpha();
+    bit_depth = depth;
+    if (oldAlpha != hasAlpha()) {
+        emit hasAlphaChanged();
+    }
+}
+
+QRegion Toplevel::inputShape() const
+{
+#if HAVE_WAYLAND
+    if (m_surface) {
+        return m_surface->input();
+    } else
+#endif
+    // TODO: maybe also for X11?
+    return QRegion();
 }
 
 } // namespace

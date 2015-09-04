@@ -1,13 +1,13 @@
 # translation of kcmkwinrules.po to
 # Danish translation of kcmkwinrules
 # Erik Kjær Pedersen <erik@binghamton.edu>, 2004, 2005.
-# Martin Schlander <mschlander@opensuse.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014.
+# Martin Schlander <mschlander@opensuse.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-06-04 12:15+0000\n"
-"PO-Revision-Date: 2014-03-05 19:58+0100\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"PO-Revision-Date: 2015-07-08 21:27+0200\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
 "Language: da\n"
@@ -359,20 +359,20 @@ msgstr ""
 msgid "All Desktops"
 msgstr "Alle skriveborde"
 
-#: ruleswidget.cpp:159
+#: ruleswidget.cpp:327
 msgid "All Activities"
 msgstr "Alle aktiviteter"
 
-#: ruleswidget.cpp:739
+#: ruleswidget.cpp:753
 #, kde-format
 msgid "Settings for %1"
 msgstr "Indstillinger for %1"
 
-#: ruleswidget.cpp:741
+#: ruleswidget.cpp:755
 msgid "Unnamed entry"
 msgstr "Unavngiven indgang"
 
-#: ruleswidget.cpp:751
+#: ruleswidget.cpp:765
 msgid ""
 "You have specified the window class as unimportant.\n"
 "This means the settings will possibly apply to windows from all "
@@ -386,11 +386,11 @@ msgstr ""
 "anbefales det du i det mindste begrænser vinduestyperne for at undgå "
 "specielle vinduestyper."
 
-#: ruleswidget.cpp:781
+#: ruleswidget.cpp:795
 msgid "Edit Window-Specific Settings"
 msgstr "Redigér vinduesspecifikke indstillinger"
 
-#: ruleswidget.cpp:811
+#: ruleswidget.cpp:825
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
 "window or application. Find the setting you want to affect, enable the "
@@ -402,11 +402,11 @@ msgstr ""
 "indstillingen ved brug af afkrydsningsfeltet og vælg på hvilken måde "
 "indstillingen skal påvirkes og til hvilken værdi."
 
-#: ruleswidget.cpp:815
+#: ruleswidget.cpp:829
 msgid "Consult the documentation for more details."
 msgstr "Se dokumentationen for flere detaljer."
 
-#: ruleswidget.cpp:854
+#: ruleswidget.cpp:868
 msgid "Edit Shortcut"
 msgstr "Redigér genvej"
 
@@ -1126,11 +1126,8 @@ msgstr "Farve&tema til titellinjen"
 
 #: yesnobox.h:35
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: yesnobox.h:36
-#, fuzzy
-#| msgctxt "no focus stealing prevention"
-#| msgid "None"
 msgid "No"
-msgstr "Ingen"
+msgstr "Nej"

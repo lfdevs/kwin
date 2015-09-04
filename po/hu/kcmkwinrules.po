@@ -1,12 +1,12 @@
-# Kristóf Kiszel <ulysses@kubuntu.org>, 2010, 2012, 2015.
+# Kristóf Kiszel <ulysses@kubuntu.org>, 2010, 2012.
 # Balázs Úr <urbalazs@gmail.com>, 2012, 2013, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.1\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-06-04 12:15+0000\n"
-"PO-Revision-Date: 2015-04-15 09:39+0200\n"
-"Last-Translator: Kristóf Kiszel <ulysses@kubuntu.org>\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"PO-Revision-Date: 2014-01-20 21:20+0100\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -361,20 +361,20 @@ msgstr ""
 msgid "All Desktops"
 msgstr "Összes asztalra"
 
-#: ruleswidget.cpp:159
+#: ruleswidget.cpp:327
 msgid "All Activities"
 msgstr "Összes aktivitásra"
 
-#: ruleswidget.cpp:739
+#: ruleswidget.cpp:753
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 beállításai"
 
-#: ruleswidget.cpp:741
+#: ruleswidget.cpp:755
 msgid "Unnamed entry"
 msgstr "Névtelen bejegyzés"
 
-#: ruleswidget.cpp:751
+#: ruleswidget.cpp:765
 msgid ""
 "You have specified the window class as unimportant.\n"
 "This means the settings will possibly apply to windows from all "
@@ -387,11 +387,11 @@ msgstr ""
 "figyelembe lesz véve. Ha általános beállítást szeretne, érdemes lekorlátozni "
 "az ablaktípust a speciális ablaktípusok kihagyása érdekében."
 
-#: ruleswidget.cpp:781
+#: ruleswidget.cpp:795
 msgid "Edit Window-Specific Settings"
 msgstr "Az egyedi ablakbeállítások módosítása"
 
-#: ruleswidget.cpp:811
+#: ruleswidget.cpp:825
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
 "window or application. Find the setting you want to affect, enable the "
@@ -402,11 +402,11 @@ msgstr ""
 "jellemzőinek beállítását. Keresse ki a beállítandó jellemzőt, jelölje be, "
 "majd adja meg a kezelési módot és a konkrét értéket, ha van."
 
-#: ruleswidget.cpp:815
+#: ruleswidget.cpp:829
 msgid "Consult the documentation for more details."
 msgstr "További részletek a dokumentációban találhatók."
 
-#: ruleswidget.cpp:854
+#: ruleswidget.cpp:868
 msgid "Edit Shortcut"
 msgstr "A billentyűkombináció módosítása"
 
@@ -1125,8 +1125,11 @@ msgstr "&Címsor színséma"
 
 #: yesnobox.h:35
 msgid "Yes"
-msgstr "Igen"
+msgstr ""
 
 #: yesnobox.h:36
+#, fuzzy
+#| msgctxt "no focus stealing prevention"
+#| msgid "None"
 msgid "No"
-msgstr "Nem"
+msgstr "Nincs"

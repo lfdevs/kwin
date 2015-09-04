@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-05-21 11:34+0000\n"
+"POT-Creation-Date: 2015-08-12 11:22+0000\n"
 "PO-Revision-Date: 2014-07-05 19:42+0300\n"
 "Last-Translator: Abdalrahim Fakhouri <abdilra7eem@yahoo.com>\n"
 "Language-Team: Arabic <doc@arabeyes.org\n"
@@ -135,15 +135,15 @@ msgstr "اللون الخلفي"
 msgid "Front color"
 msgstr "اللون الأمامي"
 
-#: cube/cube.cpp:201 cube/cube_config.cpp:69
+#: cube/cube.cpp:201 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "سطح المكتب المكعّب"
 
-#: cube/cube.cpp:209 cube/cube_config.cpp:74
+#: cube/cube.cpp:209 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "سطح المكتب الأسطواني"
 
-#: cube/cube.cpp:215 cube/cube_config.cpp:78
+#: cube/cube.cpp:215 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "سطح المكتب الكروي"
 
@@ -156,6 +156,17 @@ msgstr "أساسي"
 msgctxt "@title:tab Advanced Settings"
 msgid "Advanced"
 msgstr "متقدّم"
+
+#: cube/cube_config.cpp:64 desktopgrid/desktopgrid_config.cpp:62
+#: flipswitch/flipswitch_config.cpp:66 invert/invert_config.cpp:49
+#: lookingglass/lookingglass_config.cpp:67 magnifier/magnifier_config.cpp:67
+#: mouseclick/mouseclick_config.cpp:60 mousemark/mousemark_config.cpp:65
+#: presentwindows/presentwindows_config.cpp:61
+#: thumbnailaside/thumbnailaside_config.cpp:66
+#: trackmouse/trackmouse_config.cpp:62
+#: windowgeometry/windowgeometry_config.cpp:54 zoom/zoom_config.cpp:63
+msgid "KWin"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: cube/cube_config.ui:21
@@ -408,54 +419,52 @@ msgstr "تأثير الغشاوة يجب تمكينه قبل استخدامه."
 msgid "Apply blur effect to background"
 msgstr "طبّق تأثير الغشاوة على الخلفية"
 
-#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:66
+#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "أظهر شبكة سطح المكتب"
 
-#: desktopgrid/desktopgrid_config.cpp:74
+#: desktopgrid/desktopgrid_config.cpp:75
 msgctxt "Desktop name alignment:"
 msgid "Disabled"
 msgstr "معطّلة"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: desktopgrid/desktopgrid_config.cpp:75 flipswitch/flipswitch_config.ui:160
+#: desktopgrid/desktopgrid_config.cpp:76 flipswitch/flipswitch_config.ui:160
 msgid "Top"
 msgstr "أعلى"
 
-#: desktopgrid/desktopgrid_config.cpp:76
+#: desktopgrid/desktopgrid_config.cpp:77
 msgid "Top-Right"
 msgstr "أعلى اليمين"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: desktopgrid/desktopgrid_config.cpp:77 flipswitch/flipswitch_config.ui:125
-#: mouseclick/mouseclick.cpp:60
+#: desktopgrid/desktopgrid_config.cpp:78 flipswitch/flipswitch_config.ui:125
 msgid "Right"
 msgstr "يمين"
 
-#: desktopgrid/desktopgrid_config.cpp:78
+#: desktopgrid/desktopgrid_config.cpp:79
 msgid "Bottom-Right"
 msgstr "أدنى اليمين"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: desktopgrid/desktopgrid_config.cpp:79 flipswitch/flipswitch_config.ui:180
+#: desktopgrid/desktopgrid_config.cpp:80 flipswitch/flipswitch_config.ui:180
 msgid "Bottom"
 msgstr "أسفل"
 
-#: desktopgrid/desktopgrid_config.cpp:80
+#: desktopgrid/desktopgrid_config.cpp:81
 msgid "Bottom-Left"
 msgstr "أدنى اليسار"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: desktopgrid/desktopgrid_config.cpp:81 flipswitch/flipswitch_config.ui:105
-#: mouseclick/mouseclick.cpp:58
+#: desktopgrid/desktopgrid_config.cpp:82 flipswitch/flipswitch_config.ui:105
 msgid "Left"
 msgstr "يسار"
 
-#: desktopgrid/desktopgrid_config.cpp:82
+#: desktopgrid/desktopgrid_config.cpp:83
 msgid "Top-Left"
 msgstr "أعلى اليسار"
 
-#: desktopgrid/desktopgrid_config.cpp:83
+#: desktopgrid/desktopgrid_config.cpp:84
 msgid "Center"
 msgstr "وسط"
 
@@ -1002,11 +1011,11 @@ msgstr "-90"
 msgid "90"
 msgstr "90"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:51
+#: invert/invert.cpp:44 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "بدّل بين تأثير العكس وعدمه"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:57
+#: invert/invert.cpp:52 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "بدّل بين تأثير العكس للنافذة وعدمه"
 
@@ -1046,15 +1055,32 @@ msgstr " بكسل"
 msgid "&Height:"
 msgstr "الا&رتفاع:"
 
-#: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
+#: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:63
 #, fuzzy
 #| msgid "Toggle Effect"
 msgid "Toggle Mouse Click Effect"
 msgstr "بدّل بين التأثير وعدمه"
 
+#: mouseclick/mouseclick.cpp:58
+#, fuzzy
+#| msgid "Left"
+msgctxt "Left mouse button"
+msgid "Left"
+msgstr "يسار"
+
 #: mouseclick/mouseclick.cpp:59
+#, fuzzy
+#| msgid "Middle button:"
+msgctxt "Middle mouse button"
 msgid "Middle"
-msgstr ""
+msgstr "الزر الأوسط:"
+
+#: mouseclick/mouseclick.cpp:60
+#, fuzzy
+#| msgid "Right"
+msgctxt "Right mouse button"
+msgid "Right"
+msgstr "يمين"
 
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
@@ -1139,11 +1165,11 @@ msgstr "أظهر النصّ:"
 msgid "Clear All Mouse Marks"
 msgstr "امحُ كل علامات الفأرة"
 
-#: mousemark/mousemark.cpp:57 mousemark/mousemark_config.cpp:73
+#: mousemark/mousemark.cpp:57 mousemark/mousemark_config.cpp:74
 msgid "Clear Last Mouse Mark"
 msgstr "امحُ آخر علامة للفأرة"
 
-#: mousemark/mousemark_config.cpp:67
+#: mousemark/mousemark_config.cpp:68
 msgid "Clear Mouse Marks"
 msgstr "امحُ علامات الفأرة"
 
@@ -1158,17 +1184,17 @@ msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "اسحب بالفأرة بالضغط على المفاتيح Shift+Meta وتحريك الفأرة."
 
 #: presentwindows/presentwindows.cpp:70
-#: presentwindows/presentwindows_config.cpp:71
+#: presentwindows/presentwindows_config.cpp:72
 msgid "Toggle Present Windows (Current desktop)"
 msgstr ""
 
 #: presentwindows/presentwindows.cpp:78
-#: presentwindows/presentwindows_config.cpp:65
+#: presentwindows/presentwindows_config.cpp:66
 msgid "Toggle Present Windows (All desktops)"
 msgstr ""
 
 #: presentwindows/presentwindows.cpp:86
-#: presentwindows/presentwindows_config.cpp:77
+#: presentwindows/presentwindows_config.cpp:78
 msgid "Toggle Present Windows (Window class)"
 msgstr ""
 
@@ -1420,7 +1446,7 @@ msgid "Text alpha:"
 msgstr "ألفا للنصّ:"
 
 #: thumbnailaside/thumbnailaside.cpp:37
-#: thumbnailaside/thumbnailaside_config.cpp:70
+#: thumbnailaside/thumbnailaside_config.cpp:71
 msgid "Toggle Thumbnail for Current Window"
 msgstr "بدّل بين مصغّرات النافذة الحالية وبدونها"
 
@@ -1446,7 +1472,7 @@ msgstr " بكسل"
 msgid "&Opacity:"
 msgstr "الإ&عتام:"
 
-#: trackmouse/trackmouse.cpp:60 trackmouse/trackmouse_config.cpp:66
+#: trackmouse/trackmouse.cpp:60 trackmouse/trackmouse_config.cpp:67
 msgid "Track mouse"
 msgstr ""
 
@@ -1544,7 +1570,7 @@ msgstr "القوائم المفصولة:"
 msgid "Toggle window geometry display (effect only)"
 msgstr ""
 
-#: windowgeometry/windowgeometry_config.cpp:55
+#: windowgeometry/windowgeometry_config.cpp:56
 msgid "Toggle KWin composited geometry display"
 msgstr ""
 
@@ -1624,27 +1650,27 @@ msgstr ""
 msgid "Move Zoomed Area Downwards"
 msgstr ""
 
-#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:113
 msgid "Move Mouse to Focus"
 msgstr ""
 
-#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:120
 msgid "Move Mouse to Center"
 msgstr ""
 
-#: zoom/zoom_config.cpp:84
+#: zoom/zoom_config.cpp:85
 msgid "Move Left"
 msgstr ""
 
-#: zoom/zoom_config.cpp:91
+#: zoom/zoom_config.cpp:92
 msgid "Move Right"
 msgstr ""
 
-#: zoom/zoom_config.cpp:98
+#: zoom/zoom_config.cpp:99
 msgid "Move Up"
 msgstr ""
 
-#: zoom/zoom_config.cpp:105
+#: zoom/zoom_config.cpp:106
 msgid "Move Down"
 msgstr ""
 

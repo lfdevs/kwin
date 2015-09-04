@@ -30,7 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QHash>
 #include <Plasma/FrameSvg>
-#include <KService>
 
 namespace Plasma {
 class Theme;
@@ -38,7 +37,6 @@ class Theme;
 
 class QDBusPendingCallWatcher;
 class QDBusServiceWatcher;
-class KService;
 class OrgFreedesktopScreenSaverInterface;
 
 
@@ -234,9 +232,10 @@ public Q_SLOTS:
 
 protected Q_SLOTS:
     void slotClientShown(KWin::Toplevel*);
+    void slotShellClientShown(KWin::Toplevel*);
     void slotUnmanagedShown(KWin::Toplevel*);
     void slotWindowClosed(KWin::Toplevel *c);
-    void slotClientMaximized(KWin::Client *c, MaximizeMode maxMode);
+    void slotClientMaximized(KWin::AbstractClient *c, MaximizeMode maxMode);
     void slotOpacityChanged(KWin::Toplevel *t, qreal oldOpacity);
     void slotClientModalityChanged();
     void slotGeometryShapeChanged(KWin::Toplevel *t, const QRect &old);

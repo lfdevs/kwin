@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-05-21 11:34+0000\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
 "PO-Revision-Date: 2014-08-12 21:38+0200\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -429,7 +429,6 @@ msgstr "Øverst til høyre"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: desktopgrid/desktopgrid_config.cpp:77 flipswitch/flipswitch_config.ui:125
-#: mouseclick/mouseclick.cpp:60
 msgid "Right"
 msgstr "Høyre"
 
@@ -448,7 +447,6 @@ msgstr "Nederst til venstre"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: desktopgrid/desktopgrid_config.cpp:81 flipswitch/flipswitch_config.ui:105
-#: mouseclick/mouseclick.cpp:58
 msgid "Left"
 msgstr "Venstre"
 
@@ -1053,9 +1051,20 @@ msgstr "&Høyde:"
 msgid "Toggle Mouse Click Effect"
 msgstr "Slå museklikk-effekt av/på "
 
+#: mouseclick/mouseclick.cpp:58
+msgctxt "Left mouse button"
+msgid "Left"
+msgstr ""
+
 #: mouseclick/mouseclick.cpp:59
+msgctxt "Middle mouse button"
 msgid "Middle"
-msgstr "Midtre"
+msgstr ""
+
+#: mouseclick/mouseclick.cpp:60
+msgctxt "Right mouse button"
+msgid "Right"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21

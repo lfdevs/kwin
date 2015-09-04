@@ -6,10 +6,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-14 07:58+0000\n"
-"PO-Revision-Date: 2015-04-06 19:44+0100\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"PO-Revision-Date: 2015-07-31 13:51+0100\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
-"Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
+"Language-Team: Asturian <alminsitradores@softastur.org>\n"
 "Language: ast\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,12 +17,10 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 2.0\n"
 
-#, fuzzy
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Softastur"
 
-#, fuzzy
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "alministradores@softastur.org "
@@ -465,7 +463,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:155
 msgid "Under Mouse"
-msgstr ""
+msgstr "Sol mur"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shBox)
 #: advanced.ui:166
@@ -506,7 +504,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: advanced.ui:239
 msgid "Special Windows"
-msgstr ""
+msgstr "Ventanes especiales"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, hideUtilityWindowsForInactive)
 #: advanced.ui:248
@@ -1122,7 +1120,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: moving.ui:221
 msgid "Windows"
-msgstr ""
+msgstr "Ventanes"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: moving.ui:234

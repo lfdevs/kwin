@@ -1,7 +1,7 @@
 # translation of kwin.po to
 # Translation of kwin.po to Slovenian
 # Copyright (C) 2001, 2003, 2004, 2005, 2007 Free Software Foundation, Inc.
-# $Id: kwin.po 1426552 2015-05-20 11:34:13Z scripty $
+# $Id: kwin.po 1434079 2015-08-07 12:22:12Z scripty $
 # $Source$
 #
 # Roman Maurer <roman.maurer@hermes.si>, 2000.
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-05-20 10:44+0000\n"
-"PO-Revision-Date: 2015-04-03 12:02+0200\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"PO-Revision-Date: 2015-07-06 14:17+0200\n"
 "Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -35,7 +35,7 @@ msgstr ""
 "roman.maurer@amis.net,gregor.rakar@kiss.si,jlp@holodeck1.com,andrejm@ubuntu."
 "si"
 
-#: composite.cpp:545
+#: composite.cpp:556
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -423,7 +423,7 @@ msgstr "Skladnja 3D v pripravljenost"
 msgid "Invert Screen Colors"
 msgstr "Obrni barve zaslona"
 
-#: main.cpp:90
+#: main.cpp:89
 msgid ""
 "KWin is unstable.\n"
 "It seems to have crashed several times in a row.\n"
@@ -433,102 +433,98 @@ msgstr ""
 "Videti je, da se je sesul večkrat zaporedoma.\n"
 "Izberete lahko drugega upravljalnika oken:"
 
-#: main.cpp:272 main.cpp:299
+#: main.cpp:277 main.cpp:304
 msgid "KDE window manager"
 msgstr "Upravljalnik oken za KDE"
 
-#: main.cpp:277
+#: main.cpp:282
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:281
+#: main.cpp:286
 msgid "(c) 1999-2013, The KDE Developers"
 msgstr "© 1999-2013, razvijalci KDE"
 
-#: main.cpp:283
+#: main.cpp:288
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:284
+#: main.cpp:289
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:285
+#: main.cpp:290
 msgid "Daniel M. Duley"
 msgstr "Daniel M. Duley"
 
-#: main.cpp:286
+#: main.cpp:291
 msgid "Luboš Luňák"
 msgstr "Luboš Luňák"
 
-#: main.cpp:287
+#: main.cpp:292
 msgid "Martin Gräßlin"
 msgstr "Martin Gräßlin"
 
-#: main.cpp:287
+#: main.cpp:292
 msgid "Maintainer"
 msgstr "Vzdrževalec"
 
-#: main.cpp:296
+#: main.cpp:301
 msgid "Disable configuration options"
 msgstr "Onemogoči nastavitvene možnosti"
 
-#: main.cpp:297
+#: main.cpp:302
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Nakaži, da se je KWin nedavno sesul n-krat"
 
-#: main_wayland.cpp:106
-msgid ""
-"kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
-"set.\n"
-msgstr ""
-"kwin_wayland: ni se bilo mogoče povezati s strežnikom Wayland. Prepričajte "
-"se, da je nastavljen WAYLAND_DISPLAY.\n"
-
-#: main_wayland.cpp:213
+#: main_wayland.cpp:173
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr "kwin_wayland: upravljalnik oken X11 že teče na prikazu X11.\n"
 
-#: main_wayland.cpp:384
+#: main_wayland.cpp:473
 msgid "Start a rootless Xwayland server."
 msgstr "Zaženi neskrbniški strežnik Xwayland."
 
-#: main_wayland.cpp:386
+#: main_wayland.cpp:475
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 "Ime vtiča Wayland na katerem bo poslušano. Če ni nastavljeno, bo uporabljeno "
 "»wayland-0«."
 
-#: main_wayland.cpp:389
+#: main_wayland.cpp:478
 msgid "Use a nested compositor in windowed mode."
 msgstr "V okenskem načinu uporabi ugnezden upravljalnik skladnje."
 
-#: main_wayland.cpp:391
+#: main_wayland.cpp:480
 msgid "Render to framebuffer."
 msgstr "Izriši v medpomnilnik sličic."
 
-#: main_wayland.cpp:393
+#: main_wayland.cpp:482
 msgid "The framebuffer device to render to."
 msgstr "Naprava z medpomnilnikom sličic za izris."
 
-#: main_wayland.cpp:397
+#: main_wayland.cpp:486
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "Prikaz X11, ki bo uporabljen v okenskem načinu v okolju X11."
 
-#: main_wayland.cpp:400
+#: main_wayland.cpp:489
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr "Prikaz Wayland, ki bo uporabljen v okenskem načinu v okolju Wayland."
 
-#: main_wayland.cpp:403
+#: main_wayland.cpp:492
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "Širina okenskega načina. Privzeta širina je 1024."
 
-#: main_wayland.cpp:407
+#: main_wayland.cpp:496
 msgid "The height for windowed mode. Default height is 768."
 msgstr "Višina okenskega načina. Privzeta višina je 768."
 
-#: main_wayland.cpp:424
+#: main_wayland.cpp:512
+msgid "Use libhybris hwcomposer"
+msgstr "Uporabi strojni upravljalnik skladnje libhybris"
+
+#: main_wayland.cpp:517
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
@@ -536,7 +532,19 @@ msgstr ""
 "Omogoči podporo libinput za obdelovanje vnosnih dogodkov. Opomba: nikoli ne "
 "uporabite v gnezdeni seji."
 
-#: main_x11.cpp:151
+#: main_wayland.cpp:521
+msgid "Render through drm node."
+msgstr "Izriši preko vozlišča drm."
+
+#: main_wayland.cpp:526
+msgid "Input method that KWin starts."
+msgstr "Vnosni način, ki ga zažene KWin."
+
+#: main_wayland.cpp:531
+msgid "Applications to start once Wayland and Xwayland server are started"
+msgstr "Programi, ki bodo zagnani po zagonu strežnikov Wayland in Xwayland"
+
+#: main_x11.cpp:156
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
@@ -544,24 +552,24 @@ msgstr ""
 "kwin: ni mogoče uveljaviti izbora upravljalnika, mogoče teče kakšen drug? "
 "(poskusite uporabiti --replace)\n"
 
-#: main_x11.cpp:168
+#: main_x11.cpp:173
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "kwin: nek drug upravljalnik oken je že zagnan (poskusite uporabiti --"
 "replace)\n"
 
-#: main_x11.cpp:270
+#: main_x11.cpp:276
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr ""
 "Zamenjaj z že zagnanim upravljalnikom oken, ki je združljiv z ICCCM 2.0"
 
-#: scene_opengl.cpp:620
+#: scene_opengl.cpp:674
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
 "Namizni učinki so bili znova zagnani zaradi ponovnega zagona grafičnega "
 "sistema"
 
-#: scene_opengl.cpp:784
+#: scene_opengl.cpp:864
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -576,7 +584,7 @@ msgstr ""
 "ločljivost.<br>Lahko pa znižate skupno ločljivost vseh zaslonov na screens "
 "to %1x%2 "
 
-#: scene_opengl.cpp:791
+#: scene_opengl.cpp:871
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
 "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
@@ -588,7 +596,7 @@ msgstr ""
 "<br>XRender takšne omejitve ne pozna, ampak bodo omejitve strojne opreme, ki "
 "omejujejo velikost vidnega polja OpenGL, vplivale na hitrost delovanja."
 
-#: scene_opengl.cpp:816
+#: scene_opengl.cpp:896
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -602,7 +610,7 @@ msgstr ""
 "v pripravljenost, preklopu na zaledje XRender ali znižanju ločljivosti na %1x"
 "%1."
 
-#: scene_opengl.cpp:822
+#: scene_opengl.cpp:902
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
 "GPU, thus windows of that size cannot be assigned to textures and will be "
@@ -658,60 +666,60 @@ msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
 msgstr "%1 ni vrsta različice"
 
-#: tabbox/tabbox.cpp:358
+#: tabbox/tabbox.cpp:364
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Pokaži namizje"
 
-#: tabbox/tabbox.cpp:508
+#: tabbox/tabbox.cpp:514
 msgid "Walk Through Windows"
 msgstr "Sprehod med okni"
 
-#: tabbox/tabbox.cpp:509
+#: tabbox/tabbox.cpp:515
 msgid "Walk Through Windows (Reverse)"
 msgstr "Sprehod med okni (obratno)"
 
-#: tabbox/tabbox.cpp:510
+#: tabbox/tabbox.cpp:516
 msgid "Walk Through Windows Alternative"
 msgstr "Alternativen sprehod med okni"
 
-#: tabbox/tabbox.cpp:511
+#: tabbox/tabbox.cpp:517
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Alternativen sprehod med okni (obratno)"
 
-#: tabbox/tabbox.cpp:512
+#: tabbox/tabbox.cpp:518
 msgid "Walk Through Windows of Current Application"
 msgstr "Sprehod med okni trenutnega programa"
 
-#: tabbox/tabbox.cpp:513
+#: tabbox/tabbox.cpp:519
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Sprehod med okni trenutnega programa (obratno)"
 
-#: tabbox/tabbox.cpp:514
+#: tabbox/tabbox.cpp:520
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Alternativen sprehod med okni trenutnega programa"
 
-#: tabbox/tabbox.cpp:515
+#: tabbox/tabbox.cpp:521
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "Alternativen sprehod med okni trenutnega programa (obratno)"
 
-#: tabbox/tabbox.cpp:516
+#: tabbox/tabbox.cpp:522
 msgid "Walk Through Desktops"
 msgstr "Sprehod med namizji"
 
-#: tabbox/tabbox.cpp:517
+#: tabbox/tabbox.cpp:523
 msgid "Walk Through Desktops (Reverse)"
 msgstr "Sprehod med namizji (obratno)"
 
-#: tabbox/tabbox.cpp:518
+#: tabbox/tabbox.cpp:524
 msgid "Walk Through Desktop List"
 msgstr "Sprehod skozi seznam namizij"
 
-#: tabbox/tabbox.cpp:519
+#: tabbox/tabbox.cpp:525
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Sprehod skozi seznam namizij (obratno) "
 
-#: tabbox/tabboxhandler.cpp:285
+#: tabbox/tabboxhandler.cpp:292
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
@@ -719,7 +727,7 @@ msgstr ""
 "Namestitev preklopnika med okni je pokvarjena, manjkajo viri.\n"
 "Stopite v stik z upravitelji vaše distribucije."
 
-#: useractions.cpp:181
+#: useractions.cpp:180
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -731,7 +739,7 @@ msgstr ""
 "Brez obrobe ne boste mogli več omogočiti obrobe z uporabo miške. Uporabite "
 "meni okenskih dejanj, ki ga omogočite s tipkovno bližnjico %1."
 
-#: useractions.cpp:189
+#: useractions.cpp:188
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -744,153 +752,155 @@ msgstr ""
 "mogli izklopiti z uporabo miške. Uporabite meni okenskih dejanj, ki ga "
 "omogočite s tipkovno bližnjico %1."
 
-#: useractions.cpp:252
+#: useractions.cpp:251
 msgid "&Move"
 msgstr "Pre&makni"
 
-#: useractions.cpp:257
+#: useractions.cpp:256
 msgid "Re&size"
 msgstr "&Spremeni velikost"
 
-#: useractions.cpp:261
+#: useractions.cpp:260
 msgid "Keep &Above Others"
 msgstr "Ohrani n&ad vsemi"
 
-#: useractions.cpp:267
+#: useractions.cpp:266
 msgid "Keep &Below Others"
 msgstr "Ohrani po&d vsemi"
 
-#: useractions.cpp:273
+#: useractions.cpp:272
 msgid "&Fullscreen"
 msgstr "&Celozaslonski način"
 
-#: useractions.cpp:279
+#: useractions.cpp:278
 msgid "Sh&ade"
 msgstr "Zvi&j"
 
-#: useractions.cpp:284
+#: useractions.cpp:283
 msgid "&No Border"
 msgstr "&Brez obrobe"
 
-#: useractions.cpp:291
+#: useractions.cpp:290
 msgid "Window &Shortcut..."
 msgstr "&Bližnjica okna ..."
 
-#: useractions.cpp:296
+#: useractions.cpp:295
 msgid "&Special Window Settings..."
 msgstr "Po&sebne okenske nastavitve ..."
 
-#: useractions.cpp:300
+#: useractions.cpp:299
 msgid "S&pecial Application Settings..."
 msgstr "&Posebne programske nastavitve ..."
 
-#: useractions.cpp:307
+#: useractions.cpp:306
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
 msgid "Window &Manager Settings..."
 msgstr "Nastavitve upravljalni&ka oken ..."
 
-#: useractions.cpp:322
+#: useractions.cpp:330
 msgid "Mi&nimize"
 msgstr "Poma&njšaj"
 
-#: useractions.cpp:326
+#: useractions.cpp:334
 msgid "Ma&ximize"
 msgstr "&Razpni"
 
-#: useractions.cpp:335
+#: useractions.cpp:343
 msgid "&Untab"
 msgstr "Odcepi &zavihek"
 
-#: useractions.cpp:339
+#: useractions.cpp:347
 msgid "Close Entire &Group"
 msgstr "Zapri &celotno skupino"
 
-#: useractions.cpp:350
+#: useractions.cpp:358
 msgid "&More Actions"
 msgstr "&Več dejanj"
 
-#: useractions.cpp:354
+#: useractions.cpp:362
 msgid "&Close"
 msgstr "&Zapri"
 
-#: useractions.cpp:427
+#: useractions.cpp:436
 msgid "&Extensions"
 msgstr "&Razširitve"
 
-#: useractions.cpp:482
+#: useractions.cpp:494
 msgctxt "Switch to tab -> Previous"
 msgid "Previous"
 msgstr "Predhodni"
 
-#: useractions.cpp:483
+#: useractions.cpp:495
 msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr "Naslednji"
 
-#: useractions.cpp:521
+#: useractions.cpp:537
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr "Nobeno ni na voljo"
 
-#: useractions.cpp:530
+#: useractions.cpp:546
 msgid "Switch to Tab"
 msgstr "Preklopi na zavihek"
 
-#: useractions.cpp:541
+#: useractions.cpp:557
 msgid "&Attach as tab to"
 msgstr "Kot z&avihek pripni k"
 
-#: useractions.cpp:564
+#: useractions.cpp:580
 msgid "Move To &Desktop"
 msgstr "Premakni na namizj&e"
 
-#: useractions.cpp:580
+#: useractions.cpp:596
 msgid "Move To &Screen"
 msgstr "Premakni na za&slon"
 
-#: useractions.cpp:595
+#: useractions.cpp:611
 msgid "Ac&tivities"
 msgstr "Dejavnos&ti"
 
-#: useractions.cpp:607
+#: useractions.cpp:623
 msgid "&All Desktops"
 msgstr "Vs&a namizja"
 
-#: useractions.cpp:633
+#: useractions.cpp:649
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "&Novo namizje"
 
-#: useractions.cpp:654
+#: useractions.cpp:669
 #, kde-format
-msgctxt "@item:inmenu List of all Screens to send a window to"
-msgid "Screen &%1"
-msgstr "Zaslon &%1"
+msgctxt ""
+"@item:inmenu List of all Screens to send a window to. First argument is a "
+"number, second the output identifier. E.g. Screen 1 (HDMI1)"
+msgid "Screen &%1 (%2)"
+msgstr "Zaslon &%1 (%2)"
 
-#: useractions.cpp:672
+#: useractions.cpp:690
 msgid "&All Activities"
 msgstr "&Vse dejavnosti"
 
-#: useractions.cpp:879
+#: useractions.cpp:905
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "<b>%1</b> je že v uporabi"
 
-#: useractions.cpp:881
+#: useractions.cpp:907
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "<b>%1</b> je uporabljena za %2 v %3"
 
-#: useractions.cpp:1003
+#: useractions.cpp:1029
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Omogoči okno (%1)"
 
-#: useractions.cpp:1376
+#: useractions.cpp:1299
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
 "as active one.\n"
@@ -934,7 +944,7 @@ msgstr "Preklopi na eno namizje navzdol"
 msgid "Switch to Desktop %1"
 msgstr "Preklopi na namizje %1"
 
-#: workspace.cpp:1258
+#: workspace.cpp:1305
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

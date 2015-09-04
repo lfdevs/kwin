@@ -1,10 +1,10 @@
 project(KWIN)
-set(PROJECT_VERSION "5.3.2")
+set(PROJECT_VERSION "5.4.0")
 set(PROJECT_VERSION_MAJOR 5)
 
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 set(QT_MIN_VERSION "5.4.0")
-set(KF5_MIN_VERSION "5.8.0")
+set(KF5_MIN_VERSION "5.12.0")
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH} )
 
@@ -72,7 +72,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     I18n
     Init
     Notifications
-    Service
+    Package
     Plasma
     WidgetsAddons
     WindowSystem
@@ -85,6 +85,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     KCMUtils
     KIO
     NewStuff
+    Service
     XmlGui
 )
 
@@ -157,6 +158,24 @@ if (Libinput_FOUND AND UDEV_FOUND)
     set(HAVE_INPUT TRUE)
 endif()
 
+find_package(Libdrm)
+set_package_properties(Libdrm PROPERTIES TYPE OPTIONAL PURPOSE "Required for drm output on Wayland.")
+set(HAVE_DRM FALSE)
+if(Libdrm_FOUND AND UDEV_FOUND)
+    set(HAVE_DRM TRUE)
+endif()
+
+find_package(gbm)
+set_package_properties(gbm PROPERTIES TYPE OPTIONAL PURPOSE "Required for egl ouput of drm backend.")
+set(HAVE_GBM FALSE)
+if(HAVE_DRM AND gbm_FOUND)
+    set(HAVE_GBM TRUE)
+endif()
+
+find_package(libhybris)
+set_package_properties(libhybris PROPERTIES TYPE OPTIONAL PURPOSE "Required for libhybris backend")
+set(HAVE_LIBHYBRIS ${libhybris_FOUND})
+
 find_package(X11)
 set_package_properties(X11 PROPERTIES DESCRIPTION "X11 libraries"
                         URL "http://www.x.org"
@@ -164,7 +183,7 @@ set_package_properties(X11 PROPERTIES DESCRIPTION "X11 libraries"
                     )
 
 # All the required XCB components
-find_package(XCB
+find_package(XCB 1.10
     REQUIRED COMPONENTS
         XCB
         XFIXES
@@ -178,9 +197,9 @@ find_package(XCB
         IMAGE
         SHM
         GLX
+        CURSOR
     OPTIONAL_COMPONENTS
         ICCCM
-        CURSOR
 )
 set_package_properties(XCB PROPERTIES TYPE REQUIRED)
 
@@ -189,13 +208,6 @@ if (XCB_ICCCM_VERSION VERSION_LESS "0.4")
     set(XCB_ICCCM_FOUND FALSE)
 endif()
 add_feature_info("XCB-ICCCM" XCB_ICCCM_FOUND "Required for building test applications for KWin")
-add_feature_info("XCB-CURSOR" XCB_CURSOR_FOUND "Required for XCursor support")
-
-set(HAVE_XCB_SYNC TRUE)
-if (XCB_VERSION VERSION_LESS "1.10")
-    set(HAVE_XCB_SYNC FALSE)
-endif()
-add_feature_info("XCB-SYNC" HAVE_XCB_SYNC "XCB Sync version >= 1.10 required for synced window resizing")
 
 find_package(X11_XCB)
 set_package_properties(X11_XCB PROPERTIES
@@ -243,6 +255,7 @@ endif()
 if(${Qt5Gui_OPENGL_IMPLEMENTATION} STREQUAL "GLESv2")
     set(KWIN_BUILD_OPENGLES TRUE)
     message("Building KWin with OpenGL ES 2 support")
+    add_definitions(-DKWIN_HAVE_OPENGLES)
 endif()
 
 if(NOT KWIN_BUILD_OPENGL AND NOT KWIN_BUILD_OPENGLES)
@@ -281,12 +294,12 @@ else()
     set(HAVE_WAYLAND_EGL FALSE)
     set(HAVE_WAYLAND_CURSOR FALSE)
     set(HAVE_X11_XCB FALSE)
+    set(HAVE_DRM FALSE)
+    set(HAVE_GBM FALSE)
 endif()
 
-if(XCB_CURSOR_FOUND)
-    set(HAVE_XCB_CURSOR ${XCB_CURSOR_FOUND})
-else()
-    set(HAVE_XCB_CURSOR FALSE)
+if(NOT KWIN_HAVE_EGL)
+    set(HAVE_GBM FALSE)
 endif()
 
 include(CheckIncludeFiles)
@@ -329,6 +342,7 @@ add_definitions(-DKDE_DEFAULT_DEBUG_AREA=1212)
 set(kwin_KDEINIT_SRCS
    workspace.cpp 
    dbusinterface.cpp
+   abstract_client.cpp
    client.cpp 
    client_machine.cpp
    cursor.cpp
@@ -386,11 +400,13 @@ set(kwin_KDEINIT_SRCS
     scripting/scripting_model.cpp
     scripting/dbuscall.cpp
     scripting/screenedgeitem.cpp
+    scripting/scripting_logging.cpp
     decorations/decoratedclient.cpp
     decorations/decorationbridge.cpp
     decorations/decorationpalette.cpp
     decorations/settings.cpp
     decorations/decorationrenderer.cpp
+    decorations/decorations_logging.cpp
    )
 
 if(KWIN_BUILD_TABBOX)
@@ -403,6 +419,7 @@ if(KWIN_BUILD_TABBOX)
         tabbox/switcheritem.cpp
         tabbox/tabboxconfig.cpp
         tabbox/tabboxhandler.cpp
+        tabbox/tabbox_logging.cpp
   )
 endif()
 
@@ -421,18 +438,23 @@ if(HAVE_WAYLAND)
     set(kwin_KDEINIT_SRCS
             ${kwin_KDEINIT_SRCS}
             abstract_backend.cpp
-            fb_backend.cpp
-            screens_fb.cpp
-            screens_wayland.cpp
-            screens_x11windowed.cpp
             virtual_terminal.cpp
-            wayland_backend.cpp
+            shell_client.cpp
             wayland_server.cpp
-            x11windowed_backend.cpp
        )
-    if(KWIN_HAVE_EGL AND Wayland_Egl_FOUND)
-        set(kwin_KDEINIT_SRCS ${kwin_KDEINIT_SRCS} egl_wayland_backend.cpp)
+    if(HAVE_WAYLAND_CURSOR)
+        set(kwin_KDEINIT_SRCS
+                ${kwin_KDEINIT_SRCS}
+                wayland_cursor_theme.cpp
+            )
     endif()
+endif()
+
+if(UDEV_FOUND)
+    set(kwin_KDEINIT_SRCS
+        ${kwin_KDEINIT_SRCS}
+        udev.cpp
+    )
 endif()
 
 if(HAVE_INPUT)
@@ -441,6 +463,7 @@ if(HAVE_INPUT)
         libinput/context.cpp
         libinput/connection.cpp
         libinput/events.cpp
+        libinput/libinput_logging.cpp
     )
 endif()
 
@@ -480,9 +503,10 @@ set(kwin_KDE_LIBS
     KF5::ConfigWidgets
     KF5::Crash
     KF5::GlobalAccel
+    KF5::GlobalAccelPrivate
     KF5::I18n
     KF5::Notifications
-    KF5::Service
+    KF5::Package
     KF5::Plasma
     KF5::WindowSystem
     KDecoration2::KDecoration
@@ -507,6 +531,7 @@ set(kwin_XCB_LIBS
     XCB::KEYSYMS
     XCB::SHM
     XCB::GLX
+    XCB::CURSOR
 )
 
 set(kwin_WAYLAND_LIBS
@@ -516,24 +541,12 @@ set(kwin_WAYLAND_LIBS
     ${CMAKE_THREAD_LIBS_INIT}
 )
 
-set(kwin_WAYLAND_EGL_LIBS
-    Wayland::Egl
-)
-
-if(X11_XCB_FOUND)
-    set(kwin_WAYLAND_LIBS ${kwin_WAYLAND_LIBS} X11::XCB)
-endif()
-
 if(Wayland_Cursor_FOUND)
     set(kwin_WAYLAND_LIBS ${kwin_WAYLAND_LIBS} Wayland::Cursor)
 endif()
 
 if(KWIN_BUILD_ACTIVITIES)
     set(kwin_KDE_LIBS ${kwin_KDE_LIBS} KF5::Activities)
-endif()
-
-if(HAVE_XCB_CURSOR)
-    set(kwin_XCB_LIBS ${kwin_XCB_LIBS} XCB::CURSOR)
 endif()
 
 set(kwinLibs
@@ -546,13 +559,14 @@ set(kwinLibs
 
 if(HAVE_WAYLAND)
     set(kwinLibs ${kwinLibs} ${kwin_WAYLAND_LIBS})
-    if(KWIN_HAVE_EGL AND Wayland_Egl_FOUND)
-        set(kwinLibs ${kwinLibs} ${kwin_WAYLAND_EGL_LIBS})
-    endif()
+endif()
+
+if(UDEV_FOUND)
+    set(kwinLibs ${kwinLibs} ${UDEV_LIBS})
 endif()
 
 if(HAVE_INPUT)
-    set(kwinLibs ${kwinLibs} Libinput::Libinput ${UDEV_LIBS})
+    set(kwinLibs ${kwinLibs} Libinput::Libinput)
 endif()
 
 add_library(kwin SHARED ${kwin_KDEINIT_SRCS})
@@ -586,11 +600,14 @@ install(TARGETS kwin_x11         ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 if(HAVE_WAYLAND)
     include_directories(${Qt5Core_PRIVATE_INCLUDE_DIRS})
-    kf5_add_kdeinit_executable(kwin_wayland main_wayland.cpp)
-    target_link_libraries(kdeinit_kwin_wayland kwin)
+    include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+    add_executable(kwin_wayland main_wayland.cpp)
+    target_link_libraries(kwin_wayland kwin)
 
-    install(TARGETS kdeinit_kwin_wayland ${INSTALL_TARGETS_DEFAULT_ARGS} )
     install(TARGETS kwin_wayland         ${INSTALL_TARGETS_DEFAULT_ARGS} )
+
+    add_subdirectory(backends)
+    add_subdirectory(plugins)
 endif()
 
 ########### install files ###############

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-05-20 10:44+0000\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
 "PO-Revision-Date: 2015-01-26 12:18+0200\n"
 "Last-Translator: Liudas Ališauskas <liudas@akmc.lt>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -27,7 +27,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "rch@richard.eu.org,dgvirtual@akl.lt"
 
-#: composite.cpp:545
+#: composite.cpp:556
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -413,7 +413,7 @@ msgstr "Sustabdyti Compositing"
 msgid "Invert Screen Colors"
 msgstr "Apversti ekrano spalvas"
 
-#: main.cpp:90
+#: main.cpp:89
 msgid ""
 "KWin is unstable.\n"
 "It seems to have crashed several times in a row.\n"
@@ -423,57 +423,51 @@ msgstr ""
 "Atrodo, kad sistema nulužo kelis kartus iš eilės.\n"
 "Jūs galite pasirinkti kitą langų valdiklį paleidimui:"
 
-#: main.cpp:272 main.cpp:299
+#: main.cpp:277 main.cpp:304
 msgid "KDE window manager"
 msgstr "KDE langų tvarkyklė"
 
-#: main.cpp:277
+#: main.cpp:282
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:281
+#: main.cpp:286
 msgid "(c) 1999-2013, The KDE Developers"
 msgstr "(c) 1999-2013, KDE programuotojai"
 
-#: main.cpp:283
+#: main.cpp:288
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:284
+#: main.cpp:289
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:285
+#: main.cpp:290
 msgid "Daniel M. Duley"
 msgstr "Daniel M. Duley"
 
-#: main.cpp:286
+#: main.cpp:291
 msgid "Luboš Luňák"
 msgstr "Luboš Luňák"
 
-#: main.cpp:287
+#: main.cpp:292
 msgid "Martin Gräßlin"
 msgstr "Martin Gräßlin"
 
-#: main.cpp:287
+#: main.cpp:292
 msgid "Maintainer"
 msgstr "Prižiūrėtojas"
 
-#: main.cpp:296
+#: main.cpp:301
 msgid "Disable configuration options"
 msgstr "Išjungti konfigūravime numatytus variantus"
 
-#: main.cpp:297
+#: main.cpp:302
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Rodoma kad KWin katik nulužo keletą kartų"
 
-#: main_wayland.cpp:106
-msgid ""
-"kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is "
-"set.\n"
-msgstr ""
-
-#: main_wayland.cpp:213
+#: main_wayland.cpp:173
 #, fuzzy
 #| msgid ""
 #| "kwin: unable to claim manager selection, another wm running? (try using --"
@@ -483,50 +477,66 @@ msgstr ""
 "kwin: nepavyksta rezervuoti tvarkyklės pasirinkimo, gal veikia kita langų "
 "tvarkyklė? (bandykite su parinktimi --replace)\n"
 
-#: main_wayland.cpp:384
+#: main_wayland.cpp:473
 msgid "Start a rootless Xwayland server."
 msgstr ""
 
-#: main_wayland.cpp:386
+#: main_wayland.cpp:475
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 
-#: main_wayland.cpp:389
+#: main_wayland.cpp:478
 msgid "Use a nested compositor in windowed mode."
 msgstr ""
 
-#: main_wayland.cpp:391
+#: main_wayland.cpp:480
 msgid "Render to framebuffer."
 msgstr ""
 
-#: main_wayland.cpp:393
+#: main_wayland.cpp:482
 msgid "The framebuffer device to render to."
 msgstr ""
 
-#: main_wayland.cpp:397
+#: main_wayland.cpp:486
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr ""
 
-#: main_wayland.cpp:400
+#: main_wayland.cpp:489
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
 
-#: main_wayland.cpp:403
+#: main_wayland.cpp:492
 msgid "The width for windowed mode. Default width is 1024."
 msgstr ""
 
-#: main_wayland.cpp:407
+#: main_wayland.cpp:496
 msgid "The height for windowed mode. Default height is 768."
 msgstr ""
 
-#: main_wayland.cpp:424
+#: main_wayland.cpp:512
+msgid "Use libhybris hwcomposer"
+msgstr ""
+
+#: main_wayland.cpp:517
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
 msgstr ""
 
-#: main_x11.cpp:151
+#: main_wayland.cpp:521
+msgid "Render through drm node."
+msgstr ""
+
+#: main_wayland.cpp:526
+msgid "Input method that KWin starts."
+msgstr ""
+
+#: main_wayland.cpp:531
+msgid "Applications to start once Wayland and Xwayland server are started"
+msgstr ""
+
+#: main_x11.cpp:156
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
@@ -534,7 +544,7 @@ msgstr ""
 "kwin: nepavyksta rezervuoti tvarkyklės pasirinkimo, gal veikia kita langų "
 "tvarkyklė? (bandykite su parinktimi --replace)\n"
 
-#: main_x11.cpp:168
+#: main_x11.cpp:173
 #, fuzzy
 #| msgid ""
 #| "kwin: unable to claim manager selection, another wm running? (try using --"
@@ -544,15 +554,15 @@ msgstr ""
 "kwin: nepavyksta rezervuoti tvarkyklės pasirinkimo, gal veikia kita langų "
 "tvarkyklė? (bandykite su parinktimi --replace)\n"
 
-#: main_x11.cpp:270
+#: main_x11.cpp:276
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "Pakeisti jau veikiantį su ICCCM2.0 suderintą langų tvarkyklę"
 
-#: scene_opengl.cpp:620
+#: scene_opengl.cpp:674
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
 
-#: scene_opengl.cpp:784
+#: scene_opengl.cpp:864
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -562,7 +572,7 @@ msgid ""
 "%2 "
 msgstr ""
 
-#: scene_opengl.cpp:791
+#: scene_opengl.cpp:871
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
 "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
@@ -570,7 +580,7 @@ msgid ""
 "by the hardware limitations that restrict the OpenGL viewport size."
 msgstr ""
 
-#: scene_opengl.cpp:816
+#: scene_opengl.cpp:896
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -579,7 +589,7 @@ msgid ""
 "compositing, switch to the XRender backend or lower the resolution to %1x%1."
 msgstr ""
 
-#: scene_opengl.cpp:822
+#: scene_opengl.cpp:902
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
 "GPU, thus windows of that size cannot be assigned to textures and will be "
@@ -628,66 +638,66 @@ msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
 msgstr ""
 
-#: tabbox/tabbox.cpp:358
+#: tabbox/tabbox.cpp:364
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Rodyti darbastalį"
 
-#: tabbox/tabbox.cpp:508
+#: tabbox/tabbox.cpp:514
 msgid "Walk Through Windows"
 msgstr "Eiti per langus"
 
-#: tabbox/tabbox.cpp:509
+#: tabbox/tabbox.cpp:515
 msgid "Walk Through Windows (Reverse)"
 msgstr "Eiti per langus (atvirkščiai)"
 
-#: tabbox/tabbox.cpp:510
+#: tabbox/tabbox.cpp:516
 msgid "Walk Through Windows Alternative"
 msgstr "Peržiūrėti langus – alternatyva"
 
-#: tabbox/tabbox.cpp:511
+#: tabbox/tabbox.cpp:517
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Peržiūrėti langus – alternatyva (atvirkščiai)"
 
-#: tabbox/tabbox.cpp:512
+#: tabbox/tabbox.cpp:518
 msgid "Walk Through Windows of Current Application"
 msgstr "Eiti per dabartinės programos langus"
 
-#: tabbox/tabbox.cpp:513
+#: tabbox/tabbox.cpp:519
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Eiti per dabartinės programos langus (atvirkščiai)"
 
-#: tabbox/tabbox.cpp:514
+#: tabbox/tabbox.cpp:520
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Eiti per dabartinės programos alternatyvos langus"
 
-#: tabbox/tabbox.cpp:515
+#: tabbox/tabbox.cpp:521
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "Eiti per dabartinės programos alternatyvos langus (atvirkščiai)"
 
-#: tabbox/tabbox.cpp:516
+#: tabbox/tabbox.cpp:522
 msgid "Walk Through Desktops"
 msgstr "Eiti per darbastalius"
 
-#: tabbox/tabbox.cpp:517
+#: tabbox/tabbox.cpp:523
 msgid "Walk Through Desktops (Reverse)"
 msgstr "Eiti per darbastalius (atvirkščiai)"
 
-#: tabbox/tabbox.cpp:518
+#: tabbox/tabbox.cpp:524
 msgid "Walk Through Desktop List"
 msgstr "Eiti per darbastalių sąrašą"
 
-#: tabbox/tabbox.cpp:519
+#: tabbox/tabbox.cpp:525
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Eiti per darbastalių sąrašą (atvirkščiai)"
 
-#: tabbox/tabboxhandler.cpp:285
+#: tabbox/tabboxhandler.cpp:292
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
 msgstr ""
 
-#: useractions.cpp:181
+#: useractions.cpp:180
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -700,7 +710,7 @@ msgstr ""
 "pelės naudokite lango operacijų meniu, aktyvuojamą greitųjų klavišų "
 "kombinacija %1."
 
-#: useractions.cpp:189
+#: useractions.cpp:188
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -713,153 +723,157 @@ msgstr ""
 "rėžimą, naudodamiesi pele to padaryti negalėsite. Vietoje to galite naudoti "
 "lango operacijų meniu, iššaukiamą greitųjų klavišų kombinacija %1."
 
-#: useractions.cpp:252
+#: useractions.cpp:251
 msgid "&Move"
 msgstr "Perkel&ti"
 
-#: useractions.cpp:257
+#: useractions.cpp:256
 msgid "Re&size"
 msgstr "Keisti &dydį"
 
-#: useractions.cpp:261
+#: useractions.cpp:260
 msgid "Keep &Above Others"
 msgstr "Laikyti &virš kitų"
 
-#: useractions.cpp:267
+#: useractions.cpp:266
 msgid "Keep &Below Others"
 msgstr "Laikyti &po kitais"
 
-#: useractions.cpp:273
+#: useractions.cpp:272
 msgid "&Fullscreen"
 msgstr "Viso &ekrano veiksena"
 
-#: useractions.cpp:279
+#: useractions.cpp:278
 msgid "Sh&ade"
 msgstr "&Tik antraštės juosta"
 
-#: useractions.cpp:284
+#: useractions.cpp:283
 msgid "&No Border"
 msgstr "&Nerodyti rėmelio"
 
-#: useractions.cpp:291
+#: useractions.cpp:290
 msgid "Window &Shortcut..."
 msgstr "Lango &greitasis klavišas..."
 
-#: useractions.cpp:296
+#: useractions.cpp:295
 msgid "&Special Window Settings..."
 msgstr "Ypatingi lango nu&statymai"
 
-#: useractions.cpp:300
+#: useractions.cpp:299
 msgid "S&pecial Application Settings..."
 msgstr "Ypatingi programos nu&statymai..."
 
-#: useractions.cpp:307
+#: useractions.cpp:306
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
 msgid "Window &Manager Settings..."
 msgstr "Langų tvarkyklės &nustatymai..."
 
-#: useractions.cpp:322
+#: useractions.cpp:330
 msgid "Mi&nimize"
 msgstr "&Sutraukti"
 
-#: useractions.cpp:326
+#: useractions.cpp:334
 msgid "Ma&ximize"
 msgstr "&Išdidinti"
 
-#: useractions.cpp:335
+#: useractions.cpp:343
 msgid "&Untab"
 msgstr "Iši&mti iš kortelių"
 
-#: useractions.cpp:339
+#: useractions.cpp:347
 msgid "Close Entire &Group"
 msgstr "Užverti &visą grupę"
 
-#: useractions.cpp:350
+#: useractions.cpp:358
 msgid "&More Actions"
 msgstr "&Daugiau veiksmų"
 
-#: useractions.cpp:354
+#: useractions.cpp:362
 msgid "&Close"
 msgstr "&Užverti"
 
-#: useractions.cpp:427
+#: useractions.cpp:436
 msgid "&Extensions"
 msgstr "&Plėtiniai"
 
-#: useractions.cpp:482
+#: useractions.cpp:494
 msgctxt "Switch to tab -> Previous"
 msgid "Previous"
 msgstr "Ankstesnis"
 
-#: useractions.cpp:483
+#: useractions.cpp:495
 msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr "Kitas"
 
-#: useractions.cpp:521
+#: useractions.cpp:537
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr "Nepasiekiamas joks"
 
-#: useractions.cpp:530
+#: useractions.cpp:546
 msgid "Switch to Tab"
 msgstr "Persijungti į kortelę"
 
-#: useractions.cpp:541
+#: useractions.cpp:557
 msgid "&Attach as tab to"
 msgstr "&Pridėti kaip kortelę į"
 
-#: useractions.cpp:564
+#: useractions.cpp:580
 msgid "Move To &Desktop"
 msgstr "Perkelti į &darbastalį"
 
-#: useractions.cpp:580
+#: useractions.cpp:596
 msgid "Move To &Screen"
 msgstr "Perkelti į &ekraną"
 
-#: useractions.cpp:595
+#: useractions.cpp:611
 msgid "Ac&tivities"
 msgstr "&Veikla"
 
-#: useractions.cpp:607
+#: useractions.cpp:623
 msgid "&All Desktops"
 msgstr "&Visus darbastalius"
 
-#: useractions.cpp:633
+#: useractions.cpp:649
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "&Naujas darbastalis"
 
-#: useractions.cpp:654
-#, kde-format
-msgctxt "@item:inmenu List of all Screens to send a window to"
-msgid "Screen &%1"
+#: useractions.cpp:669
+#, fuzzy, kde-format
+#| msgctxt "@item:inmenu List of all Screens to send a window to"
+#| msgid "Screen &%1"
+msgctxt ""
+"@item:inmenu List of all Screens to send a window to. First argument is a "
+"number, second the output identifier. E.g. Screen 1 (HDMI1)"
+msgid "Screen &%1 (%2)"
 msgstr "Ekranas &%1"
 
-#: useractions.cpp:672
+#: useractions.cpp:690
 msgid "&All Activities"
 msgstr "Vi&sos veiklos"
 
-#: useractions.cpp:879
+#: useractions.cpp:905
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "<b>%1</b> jau naudojamas"
 
-#: useractions.cpp:881
+#: useractions.cpp:907
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "<b>%1</b>jau naudojamas %2 %3"
 
-#: useractions.cpp:1003
+#: useractions.cpp:1029
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Aktyvuoti langą (%1)"
 
-#: useractions.cpp:1376
+#: useractions.cpp:1299
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
 "as active one.\n"
@@ -900,7 +914,7 @@ msgstr "Persijungti vienu darbastaliu žemiau"
 msgid "Switch to Desktop %1"
 msgstr "Persijungti į darbastalį %1"
 
-#: workspace.cpp:1258
+#: workspace.cpp:1305
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

@@ -24,12 +24,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QObject>
 
+class QWindow;
+
 namespace KWayland
 {
 namespace Client
 {
 class ConnectionThread;
 class ShmPool;
+class Surface;
 }
 namespace Server
 {
@@ -38,14 +41,20 @@ class CompositorInterface;
 class Display;
 class ShellInterface;
 class SeatInterface;
+class SurfaceInterface;
 class OutputInterface;
+class PlasmaShellInterface;
+class PlasmaWindowManagementInterface;
+class QtSurfaceExtensionInterface;
 }
 }
 
 namespace KWin
 {
+class ShellClient;
 
 class AbstractBackend;
+class AbstractClient;
 
 class KWIN_EXPORT WaylandServer : public QObject
 {
@@ -67,6 +76,18 @@ public:
     KWayland::Server::ShellInterface *shell() {
         return m_shell;
     }
+    KWayland::Server::PlasmaWindowManagementInterface *windowManagement() {
+        return m_windowManagement;
+    }
+    QList<ShellClient*> clients() const {
+        return m_clients;
+    }
+    QList<ShellClient*> internalClients() const {
+        return m_internalClients;
+    }
+    void removeClient(ShellClient *c);
+    ShellClient *findClient(quint32 id) const;
+    ShellClient *findClient(KWayland::Server::SurfaceInterface *surface) const;
 
     AbstractBackend *backend() const {
         return m_backend;
@@ -80,13 +101,26 @@ public:
     int createXWaylandConnection();
 
     /**
+     * @returns file descriptor to the input method server's socket.
+     **/
+    int createInputMethodConnection();
+
+    /**
      * @returns file descriptor for QtWayland
      **/
     int createQtConnection();
     void createInternalConnection();
+    void createDummyQtWindow();
+    void initWorkspace();
 
     KWayland::Server::ClientConnection *xWaylandConnection() const {
         return m_xwaylandConnection;
+    }
+    KWayland::Server::ClientConnection *qtConnection() const {
+        return m_qtConnection;
+    }
+    KWayland::Server::ClientConnection *inputMethodConnection() const {
+        return m_inputMethodServerConnection;
     }
     KWayland::Server::ClientConnection *internalConnection() const {
         return m_internalConnection.server;
@@ -97,14 +131,27 @@ public:
     KWayland::Client::ConnectionThread *internalClientConection() {
         return m_internalConnection.client;
     }
+    void dispatch();
+    quint32 createWindowId(KWayland::Server::SurfaceInterface *surface);
+
+Q_SIGNALS:
+    void shellClientAdded(ShellClient*);
+    void shellClientRemoved(ShellClient*);
 
 private:
+    void fakeDummyQtWindowInput();
+    quint16 createClientId(KWayland::Server::ClientConnection *c);
     KWayland::Server::Display *m_display = nullptr;
     KWayland::Server::CompositorInterface *m_compositor = nullptr;
     KWayland::Server::SeatInterface *m_seat = nullptr;
     KWayland::Server::ShellInterface *m_shell = nullptr;
+    KWayland::Server::PlasmaShellInterface *m_plasmaShell = nullptr;
+    KWayland::Server::PlasmaWindowManagementInterface *m_windowManagement = nullptr;
+    KWayland::Server::QtSurfaceExtensionInterface *m_qtExtendedSurface = nullptr;
     KWayland::Server::ClientConnection *m_xwaylandConnection = nullptr;
+    KWayland::Server::ClientConnection *m_inputMethodServerConnection = nullptr;
     KWayland::Server::ClientConnection *m_qtConnection = nullptr;
+    KWayland::Client::ConnectionThread *m_qtClientConnection = nullptr;
     struct {
         KWayland::Server::ClientConnection *server = nullptr;
         KWayland::Client::ConnectionThread *client = nullptr;
@@ -112,6 +159,11 @@ private:
 
     } m_internalConnection;
     AbstractBackend *m_backend = nullptr;
+    QList<ShellClient*> m_clients;
+    QList<ShellClient*> m_internalClients;
+    QScopedPointer<QWindow> m_dummyWindow;
+    KWayland::Client::Surface *m_dummyWindowSurface = nullptr;
+    QHash<KWayland::Server::ClientConnection*, quint16> m_clientIds;
     KWIN_SINGLETON(WaylandServer)
 };
 

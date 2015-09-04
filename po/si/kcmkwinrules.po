@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-06-04 12:15+0000\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
 "PO-Revision-Date: 2009-12-28 17:56+0530\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <danishka@gmail.com>\n"
@@ -376,20 +376,20 @@ msgstr ""
 msgid "All Desktops"
 msgstr "සියළු වැඩතල"
 
-#: ruleswidget.cpp:159
+#: ruleswidget.cpp:327
 msgid "All Activities"
 msgstr ""
 
-#: ruleswidget.cpp:739
+#: ruleswidget.cpp:753
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 සඳහා සැකසුම්"
 
-#: ruleswidget.cpp:741
+#: ruleswidget.cpp:755
 msgid "Unnamed entry"
 msgstr "නම් නොකල ඇතුළත් කිරීමක්"
 
-#: ruleswidget.cpp:751
+#: ruleswidget.cpp:765
 msgid ""
 "You have specified the window class as unimportant.\n"
 "This means the settings will possibly apply to windows from all "
@@ -401,11 +401,11 @@ msgstr ""
 "එනම් සැකසුම් සියලුම යෙදුම් සඳහා බොහෝවිට ඇතුළත් වේ. ඔබට ඇත්තෙන්ම සාමාන්‍ය සැකසුමක් නිර්‍මාණයට "
 "ඇවැසි නම්, අවම වශයෙන් විශේෂිත කවුළු වර්‍ග මඟහැරීම සඳහා කවුළු වර්‍ගයවත් නිවේශනය කිරීම නිර්දේශිතයි."
 
-#: ruleswidget.cpp:781
+#: ruleswidget.cpp:795
 msgid "Edit Window-Specific Settings"
 msgstr "කවුළු කේන්ද්‍රීය සැකසුම් වෙනස් කරන්න"
 
-#: ruleswidget.cpp:811
+#: ruleswidget.cpp:825
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
 "window or application. Find the setting you want to affect, enable the "
@@ -416,11 +416,11 @@ msgstr ""
 "සැකසුම සොයාගෙන, එය සලකුණු කොටුව මගින් සක්‍රීය කර, ඒවා බලපැවැත්විය යුතු ක්‍රමය හා අගය "
 "ලබාදෙන්න."
 
-#: ruleswidget.cpp:815
+#: ruleswidget.cpp:829
 msgid "Consult the documentation for more details."
 msgstr "වැඩි විස්තර සඳහා ලේඛන පරිශීලනය කරන්න"
 
-#: ruleswidget.cpp:854
+#: ruleswidget.cpp:868
 msgid "Edit Shortcut"
 msgstr "කෙටිමං සකසන්න"
 

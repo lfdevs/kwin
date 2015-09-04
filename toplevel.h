@@ -71,7 +71,7 @@ class Toplevel
     : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool alpha READ hasAlpha CONSTANT)
+    Q_PROPERTY(bool alpha READ hasAlpha NOTIFY hasAlphaChanged)
     Q_PROPERTY(qulonglong frameId READ frameId)
     Q_PROPERTY(QRect geometry READ geometry NOTIFY geometryChanged)
     Q_PROPERTY(QRect visibleRect READ visibleRect)
@@ -205,7 +205,7 @@ class Toplevel
 public:
     explicit Toplevel();
     virtual xcb_window_t frameId() const;
-    xcb_window_t window() const;
+    virtual xcb_window_t window() const;
     QRect geometry() const;
     QSize size() const;
     QPoint pos() const;
@@ -254,7 +254,7 @@ public:
     bool isOnAllDesktops() const;
     bool isOnAllActivities() const;
 
-    QByteArray windowRole() const;
+    virtual QByteArray windowRole() const;
     QByteArray sessionId() const;
     QByteArray resourceName() const;
     QByteArray resourceClass() const;
@@ -268,8 +268,9 @@ public:
     bool readyForPainting() const; // true if the window has been already painted its contents
     xcb_visualid_t visual() const;
     bool shape() const;
-    void setOpacity(double opacity);
-    double opacity() const;
+    QRegion inputShape() const;
+    virtual void setOpacity(double opacity);
+    virtual double opacity() const;
     int depth() const;
     bool hasAlpha() const;
     virtual bool setupCompositing();
@@ -380,6 +381,7 @@ Q_SIGNALS:
     void paddingChanged(KWin::Toplevel* toplevel, const QRect& old);
     void windowClosed(KWin::Toplevel* toplevel, KWin::Deleted* deleted);
     void windowShown(KWin::Toplevel* toplevel);
+    void windowHidden(KWin::Toplevel* toplevel);
     /**
      * Signal emitted when the window's shape state changed. That is if it did not have a shape
      * and received one or if the shape was withdrawn. Think of Chromium enabling/disabling KWin's
@@ -414,6 +416,10 @@ Q_SIGNALS:
      * @since 5.3
      **/
     void surfaceIdChanged(quint32);
+    /**
+     * @since 5.4
+     **/
+    void hasAlphaChanged();
 
 protected Q_SLOTS:
     /**
@@ -451,6 +457,7 @@ protected:
     void getWmOpaqueRegion();
 
     void getResourceClass();
+    void setResourceClass(const QByteArray &name, const QByteArray &className = QByteArray());
     Xcb::Property fetchSkipCloseAnimation() const;
     void readSkipCloseAnimation(Xcb::Property &prop);
     void getSkipCloseAnimation();
@@ -460,6 +467,7 @@ protected:
     friend QDebug& operator<<(QDebug& stream, const Toplevel*);
     void deleteEffectWindow();
     virtual bool shouldUnredirect() const = 0;
+    void setDepth(int depth);
     QRect geom;
     xcb_visualid_t m_visual;
     int bit_depth;
@@ -707,11 +715,6 @@ inline QByteArray Toplevel::resourceName() const
 inline QByteArray Toplevel::resourceClass() const
 {
     return resource_class; // it is always lowercase
-}
-
-inline QByteArray Toplevel::windowRole() const
-{
-    return QByteArray(info->windowRole());
 }
 
 inline bool Toplevel::unredirected() const

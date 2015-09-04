@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libkwinquartz_config\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-20 09:22+0000\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
 "PO-Revision-Date: 2015-01-15 10:32+0000\n"
 "Last-Translator: Jose Nuno Pires <zepires@gmail.com>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -18,42 +18,42 @@ msgstr ""
 "X-POFile-IgnoreConsistency: Oxygen\n"
 "X-POFile-SpellExtra: Nitrogen TextLabel desagrupadas px\n"
 
-#: aurorae/src/aurorae.cpp:703
+#: aurorae/src/aurorae.cpp:706
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "Minúsculo"
 
-#: aurorae/src/aurorae.cpp:704
+#: aurorae/src/aurorae.cpp:707
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "Normal"
 
-#: aurorae/src/aurorae.cpp:705
+#: aurorae/src/aurorae.cpp:708
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "Grande"
 
-#: aurorae/src/aurorae.cpp:706
+#: aurorae/src/aurorae.cpp:709
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "Muito Grande"
 
-#: aurorae/src/aurorae.cpp:707
+#: aurorae/src/aurorae.cpp:710
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "Enorme"
 
-#: aurorae/src/aurorae.cpp:708
+#: aurorae/src/aurorae.cpp:711
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "Mais do que Enorme"
 
-#: aurorae/src/aurorae.cpp:709
+#: aurorae/src/aurorae.cpp:712
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "Ainda Maior"
 
-#: aurorae/src/aurorae.cpp:712
+#: aurorae/src/aurorae.cpp:715
 msgid "Button size:"
 msgstr "Tamanho dos botões:"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-05-21 11:34+0000\n"
+"POT-Creation-Date: 2015-08-12 11:22+0000\n"
 "PO-Revision-Date: 2014-06-26 19:22+0700\n"
 "Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
@@ -133,15 +133,15 @@ msgstr "Warna belakang"
 msgid "Front color"
 msgstr "Warna depan"
 
-#: cube/cube.cpp:201 cube/cube_config.cpp:69
+#: cube/cube.cpp:201 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "Kubus Desktop"
 
-#: cube/cube.cpp:209 cube/cube_config.cpp:74
+#: cube/cube.cpp:209 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "Silinder Desktop"
 
-#: cube/cube.cpp:215 cube/cube_config.cpp:78
+#: cube/cube.cpp:215 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "Lingkaran Desktop"
 
@@ -154,6 +154,17 @@ msgstr "Dasar"
 msgctxt "@title:tab Advanced Settings"
 msgid "Advanced"
 msgstr "Lanjutan"
+
+#: cube/cube_config.cpp:64 desktopgrid/desktopgrid_config.cpp:62
+#: flipswitch/flipswitch_config.cpp:66 invert/invert_config.cpp:49
+#: lookingglass/lookingglass_config.cpp:67 magnifier/magnifier_config.cpp:67
+#: mouseclick/mouseclick_config.cpp:60 mousemark/mousemark_config.cpp:65
+#: presentwindows/presentwindows_config.cpp:61
+#: thumbnailaside/thumbnailaside_config.cpp:66
+#: trackmouse/trackmouse_config.cpp:62
+#: windowgeometry/windowgeometry_config.cpp:54 zoom/zoom_config.cpp:63
+msgid "KWin"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: cube/cube_config.ui:21
@@ -406,54 +417,52 @@ msgstr "Efek kabur harus diaktifkan sebelum dapat digunakan."
 msgid "Apply blur effect to background"
 msgstr "Terapkan efek ke kabur ke latar belakang"
 
-#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:66
+#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Tampilkan Petak Desktop"
 
-#: desktopgrid/desktopgrid_config.cpp:74
+#: desktopgrid/desktopgrid_config.cpp:75
 msgctxt "Desktop name alignment:"
 msgid "Disabled"
 msgstr "Dinonaktifkan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: desktopgrid/desktopgrid_config.cpp:75 flipswitch/flipswitch_config.ui:160
+#: desktopgrid/desktopgrid_config.cpp:76 flipswitch/flipswitch_config.ui:160
 msgid "Top"
 msgstr "Atas"
 
-#: desktopgrid/desktopgrid_config.cpp:76
+#: desktopgrid/desktopgrid_config.cpp:77
 msgid "Top-Right"
 msgstr "Kanan-Atas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: desktopgrid/desktopgrid_config.cpp:77 flipswitch/flipswitch_config.ui:125
-#: mouseclick/mouseclick.cpp:60
+#: desktopgrid/desktopgrid_config.cpp:78 flipswitch/flipswitch_config.ui:125
 msgid "Right"
 msgstr "Kanan"
 
-#: desktopgrid/desktopgrid_config.cpp:78
+#: desktopgrid/desktopgrid_config.cpp:79
 msgid "Bottom-Right"
 msgstr "Kanan-Bawah"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: desktopgrid/desktopgrid_config.cpp:79 flipswitch/flipswitch_config.ui:180
+#: desktopgrid/desktopgrid_config.cpp:80 flipswitch/flipswitch_config.ui:180
 msgid "Bottom"
 msgstr "Bawah"
 
-#: desktopgrid/desktopgrid_config.cpp:80
+#: desktopgrid/desktopgrid_config.cpp:81
 msgid "Bottom-Left"
 msgstr "Kiri-Bawah"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: desktopgrid/desktopgrid_config.cpp:81 flipswitch/flipswitch_config.ui:105
-#: mouseclick/mouseclick.cpp:58
+#: desktopgrid/desktopgrid_config.cpp:82 flipswitch/flipswitch_config.ui:105
 msgid "Left"
 msgstr "Kiri"
 
-#: desktopgrid/desktopgrid_config.cpp:82
+#: desktopgrid/desktopgrid_config.cpp:83
 msgid "Top-Left"
 msgstr "Kiri-Atas"
 
-#: desktopgrid/desktopgrid_config.cpp:83
+#: desktopgrid/desktopgrid_config.cpp:84
 msgid "Center"
 msgstr "Tengah"
 
@@ -1002,11 +1011,11 @@ msgstr "-90"
 msgid "90"
 msgstr "90"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:51
+#: invert/invert.cpp:44 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "Ubah Efek Balik"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:57
+#: invert/invert.cpp:52 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "Ubah Efek Balik di Jendela"
 
@@ -1046,13 +1055,30 @@ msgstr " px"
 msgid "&Height:"
 msgstr "&Tinggi:"
 
-#: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
+#: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:63
 msgid "Toggle Mouse Click Effect"
 msgstr "Ubah Efek Klik Tetikus"
 
+#: mouseclick/mouseclick.cpp:58
+#, fuzzy
+#| msgid "Left"
+msgctxt "Left mouse button"
+msgid "Left"
+msgstr "Kiri"
+
 #: mouseclick/mouseclick.cpp:59
+#, fuzzy
+#| msgid "Middle"
+msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Tengah"
+
+#: mouseclick/mouseclick.cpp:60
+#, fuzzy
+#| msgid "Right"
+msgctxt "Right mouse button"
+msgid "Right"
+msgstr "Kanan"
 
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
@@ -1132,11 +1158,11 @@ msgstr "Tampilkan Teks:"
 msgid "Clear All Mouse Marks"
 msgstr "Hapus Semua Tanda Tetikus"
 
-#: mousemark/mousemark.cpp:57 mousemark/mousemark_config.cpp:73
+#: mousemark/mousemark.cpp:57 mousemark/mousemark_config.cpp:74
 msgid "Clear Last Mouse Mark"
 msgstr "Hapus Tanda Tetikus Terakhir"
 
-#: mousemark/mousemark_config.cpp:67
+#: mousemark/mousemark_config.cpp:68
 msgid "Clear Mouse Marks"
 msgstr "Hapus Tanda Tetikus"
 
@@ -1153,17 +1179,17 @@ msgstr ""
 "tetikus."
 
 #: presentwindows/presentwindows.cpp:70
-#: presentwindows/presentwindows_config.cpp:71
+#: presentwindows/presentwindows_config.cpp:72
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Ubah Jendela Saat Ini (Desktop saat ini)"
 
 #: presentwindows/presentwindows.cpp:78
-#: presentwindows/presentwindows_config.cpp:65
+#: presentwindows/presentwindows_config.cpp:66
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Ubah Jendela Saat Ini (Semua desktop)"
 
 #: presentwindows/presentwindows.cpp:86
-#: presentwindows/presentwindows_config.cpp:77
+#: presentwindows/presentwindows_config.cpp:78
 msgid "Toggle Present Windows (Window class)"
 msgstr "Ubah Jendela Saat Ini (Kelas jendela)"
 
@@ -1414,7 +1440,7 @@ msgid "Text alpha:"
 msgstr "Alfa teks:"
 
 #: thumbnailaside/thumbnailaside.cpp:37
-#: thumbnailaside/thumbnailaside_config.cpp:70
+#: thumbnailaside/thumbnailaside_config.cpp:71
 msgid "Toggle Thumbnail for Current Window"
 msgstr "Ubah Miniatur untuk Jendela Saat Ini"
 
@@ -1440,7 +1466,7 @@ msgstr " pixel"
 msgid "&Opacity:"
 msgstr "&Opasitas:"
 
-#: trackmouse/trackmouse.cpp:60 trackmouse/trackmouse_config.cpp:66
+#: trackmouse/trackmouse.cpp:60 trackmouse/trackmouse_config.cpp:67
 msgid "Track mouse"
 msgstr "Lacak tetikus"
 
@@ -1538,7 +1564,7 @@ msgstr "Menu cabik:"
 msgid "Toggle window geometry display (effect only)"
 msgstr "Ubah tampilan geometri jendela (hanya efek)"
 
-#: windowgeometry/windowgeometry_config.cpp:55
+#: windowgeometry/windowgeometry_config.cpp:56
 msgid "Toggle KWin composited geometry display"
 msgstr "Ubah tampilan geometri komposit KWin"
 
@@ -1618,27 +1644,27 @@ msgstr "Pindah Area Pembesaran ke Atas"
 msgid "Move Zoomed Area Downwards"
 msgstr "Pindah Area Pembesaran ke Bawah"
 
-#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:113
 msgid "Move Mouse to Focus"
 msgstr "Pindah Tetikus ke Fokus"
 
-#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:120
 msgid "Move Mouse to Center"
 msgstr "Pindah Tetikus ke Tengah"
 
-#: zoom/zoom_config.cpp:84
+#: zoom/zoom_config.cpp:85
 msgid "Move Left"
 msgstr "Pindah Kiri"
 
-#: zoom/zoom_config.cpp:91
+#: zoom/zoom_config.cpp:92
 msgid "Move Right"
 msgstr "Pindah Kanan"
 
-#: zoom/zoom_config.cpp:98
+#: zoom/zoom_config.cpp:99
 msgid "Move Up"
 msgstr "Pindah ke Atas"
 
-#: zoom/zoom_config.cpp:105
+#: zoom/zoom_config.cpp:106
 msgid "Move Down"
 msgstr "Pindah ke Bawah"
 

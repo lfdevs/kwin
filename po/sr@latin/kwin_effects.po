@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-05-21 11:34+0000\n"
-"PO-Revision-Date: 2014-07-02 21:48+0200\n"
+"POT-Creation-Date: 2015-08-12 11:22+0000\n"
+"PO-Revision-Date: 2015-08-15 09:47+0200\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr@latin\n"
@@ -139,15 +139,15 @@ msgstr "Boja pozadi"
 msgid "Front color"
 msgstr "Boja spreda"
 
-#: cube/cube.cpp:201 cube/cube_config.cpp:69
+#: cube/cube.cpp:201 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "Kocka površi"
 
-#: cube/cube.cpp:209 cube/cube_config.cpp:74
+#: cube/cube.cpp:209 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "Valjak površi"
 
-#: cube/cube.cpp:215 cube/cube_config.cpp:78
+#: cube/cube.cpp:215 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "Sfera površi"
 
@@ -160,6 +160,17 @@ msgstr "Osnovno"
 msgctxt "@title:tab Advanced Settings"
 msgid "Advanced"
 msgstr "Napredno"
+
+#: cube/cube_config.cpp:64 desktopgrid/desktopgrid_config.cpp:62
+#: flipswitch/flipswitch_config.cpp:66 invert/invert_config.cpp:49
+#: lookingglass/lookingglass_config.cpp:67 magnifier/magnifier_config.cpp:67
+#: mouseclick/mouseclick_config.cpp:60 mousemark/mousemark_config.cpp:65
+#: presentwindows/presentwindows_config.cpp:61
+#: thumbnailaside/thumbnailaside_config.cpp:66
+#: trackmouse/trackmouse_config.cpp:62
+#: windowgeometry/windowgeometry_config.cpp:54 zoom/zoom_config.cpp:63
+msgid "KWin"
+msgstr "KWin"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: cube/cube_config.ui:21
@@ -418,24 +429,24 @@ msgstr "Efekat zamućenja mora biti uključen da bi se koristio."
 msgid "Apply blur effect to background"
 msgstr "Efekat zamućenja pozadine"
 
-#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:66
+#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Prikaži mrežu površi"
 
 # >> @item:inlistbox +
-#: desktopgrid/desktopgrid_config.cpp:74
+#: desktopgrid/desktopgrid_config.cpp:75
 msgctxt "Desktop name alignment:"
 msgid "Disabled"
 msgstr "isključeno"
 
 # >> @item:inlistbox Desktop name alignment
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: desktopgrid/desktopgrid_config.cpp:75 flipswitch/flipswitch_config.ui:160
+#: desktopgrid/desktopgrid_config.cpp:76 flipswitch/flipswitch_config.ui:160
 msgid "Top"
 msgstr "gore"
 
 # >> @item:inlistbox Desktop name alignment
-#: desktopgrid/desktopgrid_config.cpp:76
+#: desktopgrid/desktopgrid_config.cpp:77
 msgid "Top-Right"
 msgstr "gore desno"
 
@@ -443,24 +454,23 @@ msgstr "gore desno"
 # >> @item mouse button
 # >> @item:inlistbox Desktop name alignment
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: desktopgrid/desktopgrid_config.cpp:77 flipswitch/flipswitch_config.ui:125
-#: mouseclick/mouseclick.cpp:60
+#: desktopgrid/desktopgrid_config.cpp:78 flipswitch/flipswitch_config.ui:125
 msgid "Right"
 msgstr "desno"
 
 # >> @item:inlistbox Desktop name alignment
-#: desktopgrid/desktopgrid_config.cpp:78
+#: desktopgrid/desktopgrid_config.cpp:79
 msgid "Bottom-Right"
 msgstr "dole desno"
 
 # >> @item:inlistbox Desktop name alignment
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: desktopgrid/desktopgrid_config.cpp:79 flipswitch/flipswitch_config.ui:180
+#: desktopgrid/desktopgrid_config.cpp:80 flipswitch/flipswitch_config.ui:180
 msgid "Bottom"
 msgstr "dole"
 
 # >> @item:inlistbox Desktop name alignment
-#: desktopgrid/desktopgrid_config.cpp:80
+#: desktopgrid/desktopgrid_config.cpp:81
 msgid "Bottom-Left"
 msgstr "dole levo"
 
@@ -468,18 +478,17 @@ msgstr "dole levo"
 # >> @item mouse button
 # >> @item:inlistbox Desktop name alignment
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: desktopgrid/desktopgrid_config.cpp:81 flipswitch/flipswitch_config.ui:105
-#: mouseclick/mouseclick.cpp:58
+#: desktopgrid/desktopgrid_config.cpp:82 flipswitch/flipswitch_config.ui:105
 msgid "Left"
 msgstr "levo"
 
 # >> @item:inlistbox Desktop name alignment
-#: desktopgrid/desktopgrid_config.cpp:82
+#: desktopgrid/desktopgrid_config.cpp:83
 msgid "Top-Left"
 msgstr "gore levo"
 
 # >> @item:inlistbox Desktop name alignment
-#: desktopgrid/desktopgrid_config.cpp:83
+#: desktopgrid/desktopgrid_config.cpp:84
 msgid "Center"
 msgstr "sredina"
 
@@ -1033,11 +1042,11 @@ msgstr "-90"
 msgid "90"
 msgstr "90"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:51
+#: invert/invert.cpp:44 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "Efekat izvrtanja"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:57
+#: invert/invert.cpp:52 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "Efekat izvrtanja na prozoru"
 
@@ -1077,14 +1086,27 @@ msgstr " px"
 msgid "&Height:"
 msgstr "&Visina:"
 
-#: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
+#: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:63
 msgid "Toggle Mouse Click Effect"
 msgstr "Prebaci efekta klika mišem"
 
-# >> @item mouse button
+# >> @item +
+#: mouseclick/mouseclick.cpp:58
+msgctxt "Left mouse button"
+msgid "Left"
+msgstr "levo"
+
+# >> @item +
 #: mouseclick/mouseclick.cpp:59
+msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "srednje"
+
+# >> @item +
+#: mouseclick/mouseclick.cpp:60
+msgctxt "Right mouse button"
+msgid "Right"
+msgstr "desno"
 
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
@@ -1173,11 +1195,11 @@ msgstr "Prikaži tekst:"
 msgid "Clear All Mouse Marks"
 msgstr "Očisti sve tragove miša"
 
-#: mousemark/mousemark.cpp:57 mousemark/mousemark_config.cpp:73
+#: mousemark/mousemark.cpp:57 mousemark/mousemark_config.cpp:74
 msgid "Clear Last Mouse Mark"
 msgstr "Očisti poslednji trag miša"
 
-#: mousemark/mousemark_config.cpp:67
+#: mousemark/mousemark_config.cpp:68
 msgid "Clear Mouse Marks"
 msgstr "Očisti tragove miša"
 
@@ -1194,17 +1216,17 @@ msgstr ""
 "pomerate ga."
 
 #: presentwindows/presentwindows.cpp:70
-#: presentwindows/presentwindows_config.cpp:71
+#: presentwindows/presentwindows_config.cpp:72
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Prisutni prozori (tekuća površ)"
 
 #: presentwindows/presentwindows.cpp:78
-#: presentwindows/presentwindows_config.cpp:65
+#: presentwindows/presentwindows_config.cpp:66
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Prisutni prozori (sve površi)"
 
 #: presentwindows/presentwindows.cpp:86
-#: presentwindows/presentwindows_config.cpp:77
+#: presentwindows/presentwindows_config.cpp:78
 msgid "Toggle Present Windows (Window class)"
 msgstr "Prisutni prozori (klasa prozora)"
 
@@ -1470,7 +1492,7 @@ msgid "Text alpha:"
 msgstr "Alfa teksta:"
 
 #: thumbnailaside/thumbnailaside.cpp:37
-#: thumbnailaside/thumbnailaside_config.cpp:70
+#: thumbnailaside/thumbnailaside_config.cpp:71
 msgid "Toggle Thumbnail for Current Window"
 msgstr "Sličica za tekući prozor"
 
@@ -1496,7 +1518,7 @@ msgstr " piksela"
 msgid "&Opacity:"
 msgstr "&Neprozirnost:"
 
-#: trackmouse/trackmouse.cpp:60 trackmouse/trackmouse_config.cpp:66
+#: trackmouse/trackmouse.cpp:60 trackmouse/trackmouse_config.cpp:67
 msgid "Track mouse"
 msgstr "Prati miš"
 
@@ -1594,7 +1616,7 @@ msgstr "Otcepljeni meniji:"
 msgid "Toggle window geometry display (effect only)"
 msgstr "Prikaz geometrije prozora (samo efekat)"
 
-#: windowgeometry/windowgeometry_config.cpp:55
+#: windowgeometry/windowgeometry_config.cpp:56
 msgid "Toggle KWin composited geometry display"
 msgstr "Prikaz KWinove složene geometrije"
 
@@ -1677,27 +1699,27 @@ msgstr "Pomeri zonu uveličanja nagore"
 msgid "Move Zoomed Area Downwards"
 msgstr "Pomeri zonu uveličanja nadole"
 
-#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:113
 msgid "Move Mouse to Focus"
 msgstr "Pomeri miš na fokus"
 
-#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:120
 msgid "Move Mouse to Center"
 msgstr "Pomeri miš na sredinu"
 
-#: zoom/zoom_config.cpp:84
+#: zoom/zoom_config.cpp:85
 msgid "Move Left"
 msgstr "Pomeri ulevo"
 
-#: zoom/zoom_config.cpp:91
+#: zoom/zoom_config.cpp:92
 msgid "Move Right"
 msgstr "Pomeri udesno"
 
-#: zoom/zoom_config.cpp:98
+#: zoom/zoom_config.cpp:99
 msgid "Move Up"
 msgstr "Pomeri nagore"
 
-#: zoom/zoom_config.cpp:105
+#: zoom/zoom_config.cpp:106
 msgid "Move Down"
 msgstr "Pomeri nadole"
 

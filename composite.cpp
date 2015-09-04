@@ -38,7 +38,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "compositingprefs.h"
 #include "xcbutils.h"
 #if HAVE_WAYLAND
-#include "wayland_backend.h"
+#include "abstract_backend.h"
+#include "shell_client.h"
 #include "wayland_server.h"
 #endif
 #include "decorations/decoratedclient.h"
@@ -119,12 +120,18 @@ Compositor::Compositor(QObject* workspace)
     connect(&m_unusedSupportPropertyTimer, SIGNAL(timeout()), SLOT(deleteUnusedSupportProperties()));
 #if HAVE_WAYLAND
     if (kwinApp()->operationMode() != Application::OperationModeX11) {
-        if (Wayland::WaylandBackend *w = dynamic_cast<Wayland::WaylandBackend *>(waylandServer()->backend())) {
-            connect(w, &Wayland::WaylandBackend::systemCompositorDied, this, &Compositor::finish);
-            connect(w, &Wayland::WaylandBackend::backendReady, this, &Compositor::setup);
-        } else {
+        if (waylandServer()->backend()->isReady()) {
             QMetaObject::invokeMethod(this, "setup", Qt::QueuedConnection);
         }
+        connect(waylandServer()->backend(), &AbstractBackend::readyChanged, this,
+            [this] (bool ready) {
+                if (ready) {
+                    setup();
+                } else {
+                    finish();
+                }
+            }, Qt::QueuedConnection
+        );
     } else
 #endif
 
@@ -355,41 +362,45 @@ void Compositor::finish()
         return;
     m_finishing = true;
     m_releaseSelectionTimer.start();
-    foreach (Client * c, Workspace::self()->clientList())
-        m_scene->windowClosed(c, NULL);
-    foreach (Client * c, Workspace::self()->desktopList())
-        m_scene->windowClosed(c, NULL);
-    foreach (Unmanaged * c, Workspace::self()->unmanagedList())
-        m_scene->windowClosed(c, NULL);
-    foreach (Deleted * c, Workspace::self()->deletedList())
-        m_scene->windowDeleted(c);
-    foreach (Client * c, Workspace::self()->clientList())
-    c->finishCompositing();
-    foreach (Client * c, Workspace::self()->desktopList())
-    c->finishCompositing();
-    foreach (Unmanaged * c, Workspace::self()->unmanagedList())
-    c->finishCompositing();
-    foreach (Deleted * c, Workspace::self()->deletedList())
-    c->finishCompositing();
-    xcb_composite_unredirect_subwindows(connection(), rootWindow(), XCB_COMPOSITE_REDIRECT_MANUAL);
+    if (Workspace::self()) {
+        foreach (Client * c, Workspace::self()->clientList())
+            m_scene->windowClosed(c, NULL);
+        foreach (Client * c, Workspace::self()->desktopList())
+            m_scene->windowClosed(c, NULL);
+        foreach (Unmanaged * c, Workspace::self()->unmanagedList())
+            m_scene->windowClosed(c, NULL);
+        foreach (Deleted * c, Workspace::self()->deletedList())
+            m_scene->windowDeleted(c);
+        foreach (Client * c, Workspace::self()->clientList())
+        c->finishCompositing();
+        foreach (Client * c, Workspace::self()->desktopList())
+        c->finishCompositing();
+        foreach (Unmanaged * c, Workspace::self()->unmanagedList())
+        c->finishCompositing();
+        foreach (Deleted * c, Workspace::self()->deletedList())
+        c->finishCompositing();
+        xcb_composite_unredirect_subwindows(connection(), rootWindow(), XCB_COMPOSITE_REDIRECT_MANUAL);
+    }
     delete effects;
     effects = NULL;
     delete m_scene;
     m_scene = NULL;
     compositeTimer.stop();
     repaints_region = QRegion();
-    for (ClientList::ConstIterator it = Workspace::self()->clientList().constBegin();
-            it != Workspace::self()->clientList().constEnd();
-            ++it) {
-        // forward all opacity values to the frame in case there'll be other CM running
-        if ((*it)->opacity() != 1.0) {
-            NETWinInfo i(connection(), (*it)->frameId(), rootWindow(), 0, 0);
-            i.setOpacity(static_cast< unsigned long >((*it)->opacity() * 0xffffffff));
+    if (Workspace::self()) {
+        for (ClientList::ConstIterator it = Workspace::self()->clientList().constBegin();
+                it != Workspace::self()->clientList().constEnd();
+                ++it) {
+            // forward all opacity values to the frame in case there'll be other CM running
+            if ((*it)->opacity() != 1.0) {
+                NETWinInfo i(connection(), (*it)->frameId(), rootWindow(), 0, 0);
+                i.setOpacity(static_cast< unsigned long >((*it)->opacity() * 0xffffffff));
+            }
         }
+        // discard all Deleted windows (#152914)
+        while (!Workspace::self()->deletedList().isEmpty())
+            Workspace::self()->deletedList().first()->discard();
     }
-    // discard all Deleted windows (#152914)
-    while (!Workspace::self()->deletedList().isEmpty())
-        Workspace::self()->deletedList().first()->discard();
     m_finishing = false;
     emit compositingToggled(false);
 }
@@ -738,6 +749,22 @@ bool Compositor::windowRepaintsPending() const
     foreach (Toplevel * c, Workspace::self()->deletedList())
     if (!c->repaints().isEmpty())
         return true;
+#if HAVE_WAYLAND
+    if (auto w = waylandServer()) {
+        const auto &clients = w->clients();
+        for (auto c : clients) {
+            if (c->isShown(true) && !c->repaints().isEmpty()) {
+                return true;
+            }
+        }
+        const auto &internalClients = w->internalClients();
+        for (auto c : internalClients) {
+            if (c->isShown(true) && !c->repaints().isEmpty()) {
+                return true;
+            }
+        }
+    }
+#endif
     return false;
 }
 
@@ -997,8 +1024,10 @@ void Client::damageNotifyEvent()
     }
 
     if (!ready_for_painting) { // avoid "setReadyForPainting()" function calling overhead
-        if (syncRequest.counter == XCB_NONE)   // cannot detect complete redraw, consider done now
+        if (syncRequest.counter == XCB_NONE) {  // cannot detect complete redraw, consider done now
             setReadyForPainting();
+            setupWindowManagementInterface();
+        }
     }
 
     Toplevel::damageNotifyEvent();

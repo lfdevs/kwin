@@ -20,12 +20,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "virtual_terminal.h"
 // kwin
 #include "logind.h"
+#include "main.h"
 #include "utils.h"
 // Qt
 #include <QDebug>
 #include <QSocketNotifier>
 // linux
 #include <linux/major.h>
+#include <linux/kd.h>
 #include <linux/vt.h>
 // system
 #include <fcntl.h>
@@ -108,6 +110,11 @@ void VirtualTerminal::setup(int vtNr)
         closeFd();
         return;
     }
+    if (ioctl(m_vt, KDSETMODE, KD_GRAPHICS) < 0) {
+        qCWarning(KWIN_CORE()) << "Failed to set tty " << vtNr << " in graphics mode";
+        closeFd();
+        return;
+    }
     if (!createSignalHandler()) {
         qCWarning(KWIN_CORE) << "Failed to create signalfd";
         closeFd();
@@ -125,7 +132,9 @@ void VirtualTerminal::setup(int vtNr)
         closeFd();
         return;
     }
+    m_vtNumber = vtNr;
     setActive(true);
+    emit kwinApp()->virtualTerminalCreated();
 }
 
 void VirtualTerminal::closeFd()
@@ -171,8 +180,8 @@ bool VirtualTerminal::createSignalHandler()
                 }
                 switch (sigInfo.ssi_signo) {
                 case RELEASE_SIGNAL:
-                    ioctl(m_vt, VT_RELDISP, 1);
                     setActive(false);
+                    ioctl(m_vt, VT_RELDISP, 1);
                     break;
                 case ACQUISITION_SIGNAL:
                     ioctl(m_vt, VT_RELDISP, VT_ACKACQ);
@@ -188,6 +197,9 @@ bool VirtualTerminal::createSignalHandler()
 void VirtualTerminal::activate(int vt)
 {
     if (m_vt < 0) {
+        return;
+    }
+    if (vt == m_vtNumber) {
         return;
     }
     ioctl(m_vt, VT_ACTIVATE, vt);

@@ -7,14 +7,16 @@
 #define KWIN_VERSION_STRING "${PROJECT_VERSION}"
 #define XCB_VERSION_STRING "${XCB_VERSION}"
 #define KWIN_KILLER_BIN "${CMAKE_INSTALL_PREFIX}/${LIBEXEC_INSTALL_DIR}/kwin_killer_helper"
+#define KWIN_RULES_DIALOG_BIN "${CMAKE_INSTALL_PREFIX}/${LIBEXEC_INSTALL_DIR}/kwin_rules_dialog"
 #cmakedefine01 HAVE_WAYLAND
 #cmakedefine01 HAVE_WAYLAND_EGL
 #cmakedefine01 HAVE_WAYLAND_CURSOR
 #cmakedefine01 HAVE_XKB
 #cmakedefine01 HAVE_INPUT
-#cmakedefine01 HAVE_XCB_CURSOR
-#cmakedefine01 HAVE_XCB_SYNC
 #cmakedefine01 HAVE_X11_XCB
+#cmakedefine01 HAVE_DRM
+#cmakedefine01 HAVE_GBM
+#cmakedefine01 HAVE_LIBHYBRIS
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #cmakedefine HAVE_UNISTD_H 1

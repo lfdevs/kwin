@@ -188,8 +188,11 @@ void Edge::handle(const QPoint &cursorPos)
         unreserve();
         return;
     }
-    Client *movingClient = Workspace::self()->getMovingClient();
-    if ((edges()->isDesktopSwitchingMovingClients() && movingClient && !movingClient->isResize()) ||
+    AbstractClient *movingClient = Workspace::self()->getMovingClient();
+    bool isResize = false;
+    if (Client *movingClientClient = qobject_cast<Client*>(movingClient))
+        isResize = movingClientClient->isResize();
+    if ((edges()->isDesktopSwitchingMovingClients() && movingClient && !isResize) ||
         (edges()->isDesktopSwitching() && isScreenEdge())) {
         // always switch desktops in case:
         // moving a Client and option for switch on client move is enabled
@@ -286,7 +289,7 @@ void Edge::switchDesktop(const QPoint &cursorPos)
             pos.setY(OFFSET);
     }
 #ifndef KWIN_UNIT_TEST
-    if (Client *c = Workspace::self()->getMovingClient()) {
+    if (AbstractClient *c = Workspace::self()->getMovingClient()) {
         if (c->rules()->checkDesktop(desktop) != int(desktop)) {
             // user attempts to move a client to another desktop where it is ruleforced to not be
             return;
@@ -382,7 +385,7 @@ void Edge::checkBlocking()
         return;
     }
     bool newValue = false;
-    if (Client *client = Workspace::self()->activeClient()) {
+    if (AbstractClient *client = Workspace::self()->activeClient()) {
         newValue = client->isFullScreen() && client->geometry().contains(m_geometry.center());
     }
     if (newValue == m_blocked) {
@@ -641,7 +644,11 @@ ScreenEdges::ScreenEdges(QObject *parent)
     QWidget w;
     m_cornerOffset = (w.physicalDpiX() + w.physicalDpiY() + 5) / 6;
 
-    connect(workspace(), &Workspace::clientRemoved, [this](KWin::Client *client) {
+    connect(workspace(), &Workspace::clientRemoved, [this](KWin::AbstractClient *c) {
+        Client *client = qobject_cast<Client*>(c);
+        if (!client) {
+            return;
+        }
         deleteEdgeForClient(client);
         QObject::disconnect(client, &Client::geometryChanged,
                             ScreenEdges::self(), &ScreenEdges::handleClientGeometryChanged);
@@ -1070,9 +1077,11 @@ void ScreenEdges::unreserve(ElectricBorder border, QObject *object)
 
 void ScreenEdges::reserve(Client *client, ElectricBorder border)
 {
+    bool hadBorder = false;
     auto it = m_edges.begin();
     while (it != m_edges.end()) {
         if ((*it)->client() == client) {
+            hadBorder = true;
             if ((*it)->border() == border) {
                 if (client->isHiddenInternal() && !(*it)->isReserved()) {
                     (*it)->reserve();
@@ -1086,9 +1095,15 @@ void ScreenEdges::reserve(Client *client, ElectricBorder border)
             it++;
         }
     }
-    createEdgeForClient(client, border);
 
-    connect(client, &Client::geometryChanged, this, &ScreenEdges::handleClientGeometryChanged);
+    if (border != ElectricNone) {
+        connect(client, &Client::geometryChanged, this, &ScreenEdges::handleClientGeometryChanged, Qt::UniqueConnection);
+        createEdgeForClient(client, border);
+    } else {
+        disconnect(client, &Client::geometryChanged, this, &ScreenEdges::handleClientGeometryChanged);
+        if (hadBorder) // show again
+            client->showOnScreenEdge();
+    }
 }
 
 void ScreenEdges::createEdgeForClient(Client *client, ElectricBorder border)

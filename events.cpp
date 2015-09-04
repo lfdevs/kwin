@@ -312,8 +312,8 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
         xcb_key_press_event_t *event = reinterpret_cast<xcb_key_press_event_t*>(e);
         KKeyServer::xcbKeyPressEventToQt(event, &keyQt);
 //            qDebug() << "Workspace::keyPress( " << keyQt << " )";
-        if (movingClient) {
-            movingClient->keyPressEvent(keyQt, event->time);
+        if (Client *c = dynamic_cast<Client*>(movingClient)) {
+            c->keyPressEvent(keyQt, event->time);
             return true;
         }
 #ifdef KWIN_BUILD_TABBOX
@@ -366,9 +366,9 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
             }
         }
     }
-    if (movingClient) {
+    if (Client *c = dynamic_cast<Client*>(movingClient)) {
         if (eventType == XCB_BUTTON_PRESS || eventType == XCB_BUTTON_RELEASE || eventType == XCB_MOTION_NOTIFY) {
-            if (movingClient->moveResizeGrabWindow() == reinterpret_cast<xcb_button_press_event_t*>(e)->event && movingClient->windowEvent(e)) {
+            if (c->moveResizeGrabWindow() == reinterpret_cast<xcb_button_press_event_t*>(e)->event && c->windowEvent(e)) {
                 return true;
             }
         }
@@ -491,7 +491,7 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
             updateXTime(); // focusToNull() uses xTime(), which is old now (FocusIn has no timestamp)
             if (!currentInput.isNull() && (currentInput->focus == XCB_WINDOW_NONE || currentInput->focus == XCB_INPUT_FOCUS_POINTER_ROOT)) {
                 //kWarning( 1212 ) << "X focus set to None/PointerRoot, reseting focus" ;
-                Client *c = mostRecentlyActivatedClient();
+                AbstractClient *c = mostRecentlyActivatedClient();
                 if (c != NULL)
                     requestFocus(c, true);
                 else if (activateNextClient(NULL))
@@ -957,11 +957,7 @@ void Client::enterNotifyEvent(xcb_enter_notify_event_t *e)
                 currentPos != workspace()->focusMousePosition() &&
                 workspace()->topClientOnDesktop(VirtualDesktopManager::self()->current(),
                                                 options->isSeparateScreenFocus() ? screen() : -1) != this) {
-            delete autoRaiseTimer;
-            autoRaiseTimer = new QTimer(this);
-            connect(autoRaiseTimer, SIGNAL(timeout()), this, SLOT(autoRaise()));
-            autoRaiseTimer->setSingleShot(true);
-            autoRaiseTimer->start(options->autoRaiseInterval());
+            startAutoRaise();
         }
 
         if (isDesktop() || isDock())
@@ -1139,30 +1135,12 @@ bool Client::buttonPressEvent(xcb_window_t w, int button, int state, int x, int 
                 break;
             }
         } else {
-            // inactive inner window
-            if (!isActive() && w == wrapperId() && button < 6) {
-                was_action = true;
-                switch(button) {
-                case XCB_BUTTON_INDEX_1:
-                    com = options->commandWindow1();
-                    break;
-                case XCB_BUTTON_INDEX_2:
-                    com = options->commandWindow2();
-                    break;
-                case XCB_BUTTON_INDEX_3:
-                    com = options->commandWindow3();
-                    break;
-                case XCB_BUTTON_INDEX_4:
-                case XCB_BUTTON_INDEX_5:
-                    com = options->commandWindowWheel();
-                    break;
+            if (w == wrapperId()) {
+                if (button < 4) {
+                    com = getMouseCommand(x11ToQtMouseButton(button), &was_action);
+                } else if (button < 6) {
+                    com = getWheelCommand(Qt::Vertical, &was_action);
                 }
-            }
-            // active inner window
-            if (isActive() && w == wrapperId()
-                    && options->isClickRaise() && button < 4) { // exclude wheel
-                com = Options::MouseActivateRaiseAndPassClick;
-                was_action = true;
             }
         }
         if (was_action) {
@@ -1259,7 +1237,7 @@ bool Client::processDecorationButtonPress(int button, int /*state*/, int x, int 
             && com != Options::MouseOperationsMenu // actions where it's not possible to get the matching
             && com != Options::MouseMinimize  // mouse release event
             && com != Options::MouseDragTab) {
-        mode = mousePosition(QPoint(x, y));
+        mode = mousePosition();
         buttonDown = true;
         moveOffset = QPoint(x/* - padding_left*/, y/* - padding_top*/);
         invertedMoveOffset = rect().bottomRight() - moveOffset;
@@ -1324,9 +1302,7 @@ bool Client::buttonReleaseEvent(xcb_window_t w, int button, int state, int x, in
         stopDelayedMoveResize();
         if (moveResizeMode) {
             finishMoveResize(false);
-            // mouse position is still relative to old Client position, adjust it
-            QPoint mousepos(x_root - x, y_root - y);
-            mode = mousePosition(mousepos);
+            mode = mousePosition();
         }
         updateCursor();
     }
@@ -1375,18 +1351,16 @@ bool Client::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x_ro
     if (w != frameId() && w != inputId() && w != moveResizeGrabWindow())
         return true; // care only about the whole frame
     if (!buttonDown) {
-        QPoint mousePos(x, y);
         if (w == inputId()) {
             int x = x_root - geometry().x();// + padding_left;
             int y = y_root - geometry().y();// + padding_top;
-            mousePos = QPoint(x, y);
 
             if (m_decoration) {
                 QHoverEvent event(QEvent::HoverMove, QPointF(x, y), QPointF(x, y));
                 QCoreApplication::instance()->sendEvent(m_decoration, &event);
             }
         }
-        Position newmode = modKeyDown(state) ? PositionCenter : mousePosition(mousePos);
+        Position newmode = modKeyDown(state) ? PositionCenter : mousePosition();
         if (newmode != mode) {
             mode = newmode;
             updateCursor();
@@ -1398,21 +1372,7 @@ bool Client::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x_ro
         y = this->y();
     }
 
-    const QRect oldGeo = geometry();
-    handleMoveResize(x, y, x_root, y_root);
-    if (!isFullScreen() && isMove()) {
-        if (quick_tile_mode != QuickTileNone && oldGeo != geometry()) {
-            GeometryUpdatesBlocker blocker(this);
-            setQuickTileMode(QuickTileNone);
-            moveOffset = QPoint(double(moveOffset.x()) / double(oldGeo.width()) * double(geom_restore.width()),
-                                double(moveOffset.y()) / double(oldGeo.height()) * double(geom_restore.height()));
-            if (rules()->checkMaximize(MaximizeRestore) == MaximizeRestore)
-                moveResizeGeom = geom_restore;
-            handleMoveResize(x, y, x_root, y_root); // fix position
-        } else if (quick_tile_mode == QuickTileNone && isResizable()) {
-            checkQuickTilingMaximizationZones(x_root, y_root);
-        }
-    }
+    handleMoveResize(QPoint(x, y), QPoint(x_root, y_root));
     return true;
 }
 
@@ -1569,6 +1529,7 @@ void Client::syncEvent(xcb_sync_alarm_notify_event_t* e)
 {
     if (e->alarm == syncRequest.alarm && e->counter_value.hi == syncRequest.value.hi && e->counter_value.lo == syncRequest.value.lo) {
         setReadyForPainting();
+        setupWindowManagementInterface();
         syncRequest.isPending = false;
         if (syncRequest.failsafeTimeout)
             syncRequest.failsafeTimeout->stop();

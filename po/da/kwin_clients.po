@@ -1,13 +1,13 @@
 # translation of kwin_clients.po to
 # Danish translation of kwin_clients
 # Erik Kjær Pedersen <erik@binghamton.edu>, 2004, 2005.
-# Martin Schlander <mschlander@opensuse.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014.
+# Martin Schlander <mschlander@opensuse.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-20 09:22+0000\n"
-"PO-Revision-Date: 2014-03-05 20:07+0100\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"PO-Revision-Date: 2015-07-08 21:34+0200\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
 "Language: da\n"
@@ -17,55 +17,44 @@ msgstr ""
 "X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: aurorae/src/aurorae.cpp:703
-#, fuzzy
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Tiny"
+#: aurorae/src/aurorae.cpp:706
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "Meget lille"
 
-#: aurorae/src/aurorae.cpp:704
+#: aurorae/src/aurorae.cpp:707
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "Normal"
 
-#: aurorae/src/aurorae.cpp:705
+#: aurorae/src/aurorae.cpp:708
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "Stor"
 
-#: aurorae/src/aurorae.cpp:706
+#: aurorae/src/aurorae.cpp:709
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "Meget stor"
 
-#: aurorae/src/aurorae.cpp:707
+#: aurorae/src/aurorae.cpp:710
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "Enorm"
 
-#: aurorae/src/aurorae.cpp:708
-#, fuzzy
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Very Huge"
+#: aurorae/src/aurorae.cpp:711
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "Meget enorm"
 
-#: aurorae/src/aurorae.cpp:709
-#, fuzzy
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Oversized"
+#: aurorae/src/aurorae.cpp:712
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "Overstørrelse"
 
-#: aurorae/src/aurorae.cpp:712
-#, fuzzy
-#| msgid "B&utton size:"
+#: aurorae/src/aurorae.cpp:715
 msgid "Button size:"
-msgstr "K&napstørrelse:"
+msgstr "Knapstørrelse:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlastikConfigDialog)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14

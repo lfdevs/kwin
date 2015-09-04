@@ -693,9 +693,13 @@ void Scene::Window::unreferencePreviousPixmap()
 
 void Scene::Window::pixmapDiscarded()
 {
-    if (!m_currentPixmap.isNull() && m_currentPixmap->isValid()) {
-        m_previousPixmap.reset(m_currentPixmap.take());
-        m_previousPixmap->markAsDiscarded();
+    if (!m_currentPixmap.isNull()) {
+        if (m_currentPixmap->isValid()) {
+            m_previousPixmap.reset(m_currentPixmap.take());
+            m_previousPixmap->markAsDiscarded();
+        } else {
+            m_currentPixmap.reset();
+        }
     }
 }
 
@@ -756,8 +760,8 @@ bool Scene::Window::isVisible() const
         return false;
     if (!toplevel->isOnCurrentActivity())
         return false;
-    if (toplevel->isClient())
-        return (static_cast< Client *>(toplevel))->isShown(true);
+    if (AbstractClient *c = dynamic_cast<AbstractClient*>(toplevel))
+        return c->isShown(true);
     return true; // Unmanaged is always visible
 }
 
@@ -933,6 +937,13 @@ WindowPixmap::~WindowPixmap()
     if (isValid() && !kwinApp()->shouldUseWaylandForCompositing()) {
         xcb_free_pixmap(connection(), m_pixmap);
     }
+#if HAVE_WAYLAND
+    if (m_buffer) {
+        using namespace KWayland::Server;
+        QObject::disconnect(m_buffer.data(), &BufferInterface::aboutToBeDestroyed, m_buffer.data(), &BufferInterface::unref);
+        m_buffer->unref();
+    }
+#endif
 }
 
 void WindowPixmap::create()
@@ -993,8 +1004,15 @@ bool WindowPixmap::isValid() const
 void WindowPixmap::updateBuffer()
 {
     if (auto s = toplevel()->surface()) {
+        using namespace KWayland::Server;
         if (auto b = s->buffer()) {
+            if (m_buffer) {
+                QObject::disconnect(m_buffer.data(), &BufferInterface::aboutToBeDestroyed, m_buffer.data(), &BufferInterface::unref);
+                m_buffer->unref();
+            }
             m_buffer = b;
+            m_buffer->ref();
+            QObject::connect(m_buffer.data(), &BufferInterface::aboutToBeDestroyed, m_buffer.data(), &BufferInterface::unref);
         }
     }
 }

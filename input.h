@@ -24,10 +24,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QHash>
 #include <QObject>
 #include <QPoint>
+#include <QPointer>
 #include <QEvent>
 #include <QWeakPointer>
 #include <config-kwin.h>
 
+class KGlobalAccelInterface;
 class QKeySequence;
 
 struct xkb_context;
@@ -41,6 +43,11 @@ namespace KWin
 class GlobalShortcutsManager;
 class Toplevel;
 class Xkb;
+
+namespace Decoration
+{
+class DecoratedClientImpl;
+}
 
 namespace LibInput
 {
@@ -56,7 +63,7 @@ namespace LibInput
  * a full input grab.
  *
  */
-class InputRedirection : public QObject
+class KWIN_EXPORT InputRedirection : public QObject
 {
     Q_OBJECT
 public:
@@ -73,6 +80,7 @@ public:
         KeyboardKeyPressed
     };
     virtual ~InputRedirection();
+    void init();
 
     /**
      * @return const QPointF& The current global pointer position
@@ -102,6 +110,7 @@ public:
     void registerShortcut(const QKeySequence &shortcut, QAction *action, T *receiver, void (T::*slot)());
     void registerPointerShortcut(Qt::KeyboardModifiers modifiers, Qt::MouseButton pointerButtons, QAction *action);
     void registerAxisShortcut(Qt::KeyboardModifiers modifiers, PointerAxisDirection axis, QAction *action);
+    void registerGlobalAccel(KGlobalAccelInterface *interface);
 
     /**
      * @internal
@@ -132,6 +141,9 @@ public:
     void processTouchMotion(qint32 id, const QPointF &pos, quint32 time);
     void cancelTouch();
     void touchFrame();
+
+    bool supportsPointerWarping() const;
+    void warpPointer(const QPointF &pos);
 
     static uint8_t toXPointerButton(uint32_t button);
     static uint8_t toXPointerButton(PointerAxis axis, qreal delta);
@@ -183,6 +195,13 @@ private:
     void updateFocusedPointerPosition();
     void updateFocusedTouchPosition();
     void updateTouchWindow(const QPointF &pos);
+    void updatePointerDecoration(Toplevel *t);
+    void updatePointerInternalWindow();
+    void pointerInternalWindowVisibilityChanged(bool visible);
+    void installCursorFromDecoration();
+    bool areButtonsPressed() const;
+    void updateKeyboardWindow();
+    void setupWorkspace();
     QPointF m_globalPointer;
     QHash<uint32_t, PointerButtonState> m_pointerButtons;
 #if HAVE_XKB
@@ -192,6 +211,12 @@ private:
      * @brief The Toplevel which currently receives pointer events
      */
     QWeakPointer<Toplevel> m_pointerWindow;
+    /**
+     * @brief The Decoration which currently receives pointer events.
+     * Decoration belongs to the pointerWindow
+     **/
+    QPointer<Decoration::DecoratedClientImpl> m_pointerDecoration;
+    QPointer<QWindow> m_pointerInternalWindow;
     /**
      * @brief The Toplevel which currently receives touch events
      */
@@ -203,9 +228,9 @@ private:
 
     GlobalShortcutsManager *m_shortcuts;
 
-    QMetaObject::Connection m_sessionControlConnection;
-
     LibInput::Connection *m_libInput = nullptr;
+
+    bool m_pointerWarping = false;
 
     KWIN_SINGLETON(InputRedirection)
     friend InputRedirection *input();
@@ -215,7 +240,7 @@ private:
 class Xkb
 {
 public:
-    Xkb();
+    Xkb(InputRedirection *input);
     ~Xkb();
     void installKeymap(int fd, uint32_t size);
     void updateModifiers(uint32_t modsDepressed, uint32_t modsLatched, uint32_t modsLocked, uint32_t group);
@@ -224,9 +249,14 @@ public:
     QString toString(xkb_keysym_t keysym);
     Qt::Key toQtKey(xkb_keysym_t keysym);
     Qt::KeyboardModifiers modifiers() const;
+
+    quint32 getMods(quint32 components);
+    quint32 getGroup();
 private:
     void updateKeymap(xkb_keymap *keymap);
+    void createKeymapFile();
     void updateModifiers();
+    InputRedirection *m_input;
     xkb_context *m_context;
     xkb_keymap *m_keymap;
     xkb_state *m_state;

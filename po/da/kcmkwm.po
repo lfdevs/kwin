@@ -5,13 +5,13 @@
 # Bo Thorsen <gobo@imada.sdu.dk>, 1999.
 # Erik Kjær Pedersen <erik@binghamton.edu>, 2002,2003, 2004, 2005, 2006.
 # Erik K. Pedersen <erik@binghamton.edu>, 2005.
-# Martin Schlander <mschlander@opensuse.org>, 2008, 2009, 2010, 2011, 2012, 2013.
+# Martin Schlander <mschlander@opensuse.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-14 07:58+0000\n"
-"PO-Revision-Date: 2013-07-03 19:13+0200\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"PO-Revision-Date: 2015-07-08 21:28+0200\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
 "Language: da\n"
@@ -443,22 +443,6 @@ msgstr "&Placering:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, placementCombo)
 #: advanced.ui:121
-#, fuzzy
-#| msgid ""
-#| "The placement policy determines where a new window will appear on the "
-#| "desktop.\n"
-#| "<ul>\n"
-#| "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
-#| "<li><em>Maximizing</em> will try to maximize every window to fill the "
-#| "whole screen. It might be useful to selectively affect placement of some "
-#| "windows using the window-specific settings.</li>\n"
-#| "<li><em>Cascade</em> will cascade the windows</li>\n"
-#| "<li><em>Random</em> will use a random position</li>\n"
-#| "<li><em>Centered</em> will place the window centered</li>\n"
-#| "<li><em>Zero-Cornered</em> will place the window in the top-left corner</"
-#| "li>\n"
-#| "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
-#| "</ul>"
 msgid ""
 "The placement policy determines where a new window will appear on the "
 "desktop.<br><ul>\n"
@@ -475,8 +459,7 @@ msgid ""
 "</ul>"
 msgstr ""
 "Placeringspolitikken afgør hvor et nyt vindue vil komme til syne på "
-"skrivebordet.\n"
-"<ul>\n"
+"skrivebordet.<br><ul>\n"
 "<li><em>Smart</em> vil forsøge at opnå et minimum af overlap af vinduerne</"
 "li>\n"
 "<li><em>Maksimering</em> vil forsøge at maksimere hvert vindue til at fylde "

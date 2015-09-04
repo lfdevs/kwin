@@ -148,8 +148,8 @@ bool Client::manage(xcb_window_t w, bool isMapped)
 
     // TODO: Try to obey all state information from info->state()
 
-    original_skip_taskbar = skip_taskbar = (info->state() & NET::SkipTaskbar) != 0;
-    skip_pager = (info->state() & NET::SkipPager) != 0;
+    setOriginalSkipTaskbar((info->state() & NET::SkipTaskbar) != 0);
+    setSkipPager((info->state() & NET::SkipPager) != 0);
     readFirstInTabBox(firstInTabBoxCookie);
 
     setupCompositing();
@@ -177,6 +177,7 @@ bool Client::manage(xcb_window_t w, bool isMapped)
     readActivities(activitiesCookie);
 
     // Initial desktop placement
+    int desk = 0;
     if (session) {
         desk = session->desktop;
         if (session->onAllDesktops)
@@ -218,7 +219,7 @@ bool Client::manage(xcb_window_t w, bool isMapped)
         if (desktop() == 0 && asn_valid && asn_data.desktop() != 0)
             desk = asn_data.desktop();
 #ifdef KWIN_BUILD_ACTIVITIES
-        if (!isMapped && !noborder && isNormalWindow() && !activitiesDefined) {
+        if (Activities::self() && !isMapped && !noborder && isNormalWindow() && !activitiesDefined) {
             //a new, regular window, when we're not recovering from a crash,
             //and it hasn't got an activity. let's try giving it the current one.
             //TODO: decide whether to keep this before the 4.6 release
@@ -236,6 +237,7 @@ bool Client::manage(xcb_window_t w, bool isMapped)
     desk = rules()->checkDesktop(desk, !isMapped);
     if (desk != NET::OnAllDesktops)   // Do range check
         desk = qBound(1, desk, static_cast<int>(VirtualDesktopManager::self()->count()));
+    setDesktop(desk);
     info->setDesktop(desk);
     workspace()->updateOnAllDesktopsOfTransients(this);   // SELI TODO
     //onAllDesktopsChange(); // Decoration doesn't exist here yet
@@ -253,9 +255,10 @@ bool Client::manage(xcb_window_t w, bool isMapped)
 
     QRect area;
     bool partial_keep_in_area = isMapped || session;
-    if (isMapped || session)
+    if (isMapped || session) {
         area = workspace()->clientArea(FullArea, geom.center(), desktop());
-    else {
+        checkOffscreenPosition(&geom, area);
+    } else {
         int screen = asn_data.xinerama() == -1 ? screens()->current() : asn_data.xinerama();
         screen = rules()->checkScreen(screen, !isMapped);
         area = workspace()->clientArea(PlacementArea, screens()->geometry(screen).center(), desktop());
@@ -500,7 +503,7 @@ bool Client::manage(xcb_window_t w, bool isMapped)
         // I.e. obey only forcing rules
         setKeepAbove(session->keepAbove);
         setKeepBelow(session->keepBelow);
-        setSkipTaskbar(session->skipTaskbar, true);
+        setOriginalSkipTaskbar(session->skipTaskbar);
         setSkipPager(session->skipPager);
         setSkipSwitcher(session->skipSwitcher);
         setShade(session->shaded ? ShadeNormal : ShadeNone);
@@ -515,6 +518,8 @@ bool Client::manage(xcb_window_t w, bool isMapped)
             setFullScreen(true, false);
             geom_fs_restore = session->fsrestore;
         }
+        checkOffscreenPosition(&geom_restore, area);
+        checkOffscreenPosition(&geom_fs_restore, area);
     } else {
         // Window may want to be maximized
         // done after checking that the window isn't larger than the workarea, so that
@@ -534,7 +539,7 @@ bool Client::manage(xcb_window_t w, bool isMapped)
         setShade(rules()->checkShade(info->state() & NET::Shaded ? ShadeNormal : ShadeNone, !isMapped));
         setKeepAbove(rules()->checkKeepAbove(info->state() & NET::KeepAbove, !isMapped));
         setKeepBelow(rules()->checkKeepBelow(info->state() & NET::KeepBelow, !isMapped));
-        setSkipTaskbar(rules()->checkSkipTaskbar(info->state() & NET::SkipTaskbar, !isMapped), true);
+        setOriginalSkipTaskbar(rules()->checkSkipTaskbar(info->state() & NET::SkipTaskbar, !isMapped));
         setSkipPager(rules()->checkSkipPager(info->state() & NET::SkipPager, !isMapped));
         setSkipSwitcher(rules()->checkSkipSwitcher(false, !isMapped));
         if (info->state() & NET::DemandsAttention)
@@ -702,7 +707,6 @@ void Client::embedClient(xcb_window_t w, xcb_visualid_t visualid, xcb_colormap_t
     xcb_create_window(conn, depth, frame, rootWindow(), 0, 0, 1, 1, 0,
                       XCB_WINDOW_CLASS_INPUT_OUTPUT, visualid, cw_mask, cw_values);
     m_frame.reset(frame);
-    m_frameWrapper.reset(QWindow::fromWinId(m_frame));
 
     setWindowHandles(m_client);
 

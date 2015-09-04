@@ -54,7 +54,6 @@ target_link_libraries( testClientMachine
                        Qt5::Widgets
                        KF5::ConfigCore
                        KF5::WindowSystem
-                       KF5::Service
                        XCB::XCB
                        XCB::XFIXES
                        ${X11_X11_LIB} # to make jenkins happy
@@ -124,6 +123,7 @@ add_executable( testBuiltInEffectLoader ${testBuiltInEffectLoader_SRCS})
 target_link_libraries(testBuiltInEffectLoader
     Qt5::Concurrent
     Qt5::Test
+    KF5::Package
     kwineffects
     kwin4_effect_builtins
 )
@@ -141,6 +141,7 @@ set( testScriptedEffectLoader_SRCS
     ../effectloader.cpp
     ../scripting/scriptedeffect.cpp
     ../scripting/scriptingutils.cpp
+    ../scripting/scripting_logging.cpp
 )
 add_executable( testScriptedEffectLoader ${testScriptedEffectLoader_SRCS})
 
@@ -151,6 +152,7 @@ target_link_libraries(testScriptedEffectLoader
     KF5::ConfigGui
     KF5::GlobalAccel
     KF5::I18n
+    KF5::Package
     kwineffects
     kwin4_effect_builtins
 )
@@ -171,6 +173,7 @@ add_executable( testPluginEffectLoader ${testPluginEffectLoader_SRCS})
 target_link_libraries(testPluginEffectLoader
     Qt5::Concurrent
     Qt5::Test
+    KF5::Package
     kwineffects
     kwin4_effect_builtins
 )
@@ -197,6 +200,7 @@ target_link_libraries(effectversionplugin kwineffects)
 ########################################################
 set( testScreens_SRCS
     test_screens.cpp
+    mock_abstract_client.cpp
     mock_client.cpp
     mock_screens.cpp
     mock_workspace.cpp
@@ -213,7 +217,6 @@ target_link_libraries(testScreens
     KF5::ConfigCore
     KF5::ConfigGui
     KF5::WindowSystem
-    KF5::Service
 )
 
 add_test(kwin_testScreens testScreens)
@@ -224,6 +227,7 @@ ecm_mark_as_test(testScreens)
 ########################################################
 set( testXRandRScreens_SRCS
      test_xrandr_screens.cpp
+     mock_abstract_client.cpp
      mock_client.cpp
      mock_screens.cpp
      mock_workspace.cpp
@@ -240,7 +244,6 @@ target_link_libraries( testXRandRScreens
                        KF5::ConfigCore
                        KF5::ConfigGui
                        KF5::WindowSystem
-                       KF5::Service
                        XCB::XCB
                        XCB::RANDR
                        XCB::XFIXES
@@ -259,6 +262,7 @@ ecm_mark_as_test(testXRandRScreens)
 ########################################################
 set( testScreenEdges_SRCS
     test_screen_edges.cpp
+    mock_abstract_client.cpp
     mock_client.cpp
     mock_screens.cpp
     mock_workspace.cpp
@@ -281,7 +285,6 @@ target_link_libraries(testScreenEdges
     KF5::I18n
     KF5::GlobalAccel
     KF5::WindowSystem
-    KF5::Service
     XCB::XCB
 )
 

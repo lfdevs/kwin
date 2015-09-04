@@ -21,8 +21,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "context.h"
 #include "events.h"
 #include "../logind.h"
+#include "../udev.h"
+#include "libinput_logging.h"
 
-#include <QDebug>
 #include <QSocketNotifier>
 
 #include <libinput.h>
@@ -47,20 +48,20 @@ Connection *Connection::create(QObject *parent)
     Q_ASSERT(!s_self);
     static Udev s_udev;
     if (!s_udev.isValid()) {
-        qWarning() << "Failed to initialize udev";
+        qCWarning(KWIN_LIBINPUT) << "Failed to initialize udev";
         return nullptr;
     }
     if (!s_context) {
         s_context = new Context(s_udev);
         if (!s_context->isValid()) {
-            qWarning() << "Failed to create context from udev";
+            qCWarning(KWIN_LIBINPUT) << "Failed to create context from udev";
             delete s_context;
             s_context = nullptr;
             return nullptr;
         }
         // TODO: don't hardcode seat name
         if (!s_context->assignSeat("seat0")) {
-            qWarning() << "Failed to assign seat seat0";
+            qCWarning(KWIN_LIBINPUT) << "Failed to assign seat seat0";
             delete s_context;
             s_context = nullptr;
             return nullptr;
@@ -95,6 +96,9 @@ void Connection::setup()
     connect(logind, &LogindIntegration::sessionActiveChanged, this,
         [this](bool active) {
             if (active) {
+                if (!m_input->isSuspended()) {
+                    return;
+                }
                 m_input->resume();
                 handleEvent();
                 if (m_keyboardBeforeSuspend && !m_keyboard) {
@@ -107,14 +111,22 @@ void Connection::setup()
                     emit hasTouchChanged(false);
                 }
             } else {
-                m_keyboardBeforeSuspend = hasKeyboard();
-                m_pointerBeforeSuspend = hasPointer();
-                m_touchBeforeSuspend = hasTouch();
-                m_input->suspend();
-                handleEvent();
+                deactivate();
             }
         }
     );
+    handleEvent();
+}
+
+void Connection::deactivate()
+{
+    if (m_input->isSuspended()) {
+        return;
+    }
+    m_keyboardBeforeSuspend = hasKeyboard();
+    m_pointerBeforeSuspend = hasPointer();
+    m_touchBeforeSuspend = hasTouch();
+    m_input->suspend();
     handleEvent();
 }
 

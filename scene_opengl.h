@@ -370,7 +370,7 @@ private:
  *
  * @author Martin Gräßlin <mgraesslin@kde.org>
  **/
-class OpenGLBackend
+class KWIN_EXPORT OpenGLBackend
 {
 public:
     OpenGLBackend();
@@ -400,9 +400,16 @@ public:
      * @param damagedRegion The damaged region that should be posted
      **/
     virtual void endRenderingFrame(const QRegion &damage, const QRegion &damagedRegion) = 0;
+    virtual void endRenderingFrameForScreen(int screenId, const QRegion &damage, const QRegion &damagedRegion);
     virtual bool makeCurrent() = 0;
     virtual void doneCurrent() = 0;
     virtual bool usesOverlayWindow() const = 0;
+    /**
+     * Whether the rendering needs to be split per screen.
+     * Default implementation returns @c false.
+     **/
+    virtual bool perScreenRendering() const;
+    virtual QRegion prepareRenderingForScreen(int screenId);
     /**
      * @brief Compositor is going into idle mode, flushes any pending paints.
      **/

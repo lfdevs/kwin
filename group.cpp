@@ -765,7 +765,7 @@ xcb_window_t Client::verifyTransientFor(xcb_window_t new_transient_for, bool set
     if (Client* new_transient_for_client = workspace()->findClient(Predicate::WindowMatch, new_transient_for)) {
         if (new_transient_for != before_search) {
             qCDebug(KWIN_CORE) << "Client " << this << " has WM_TRANSIENT_FOR poiting to non-toplevel window "
-                         << before_search << ", child of " << new_transient_for_client << ", adjusting." << endl;
+                         << before_search << ", child of " << new_transient_for_client << ", adjusting.";
             new_property_value = new_transient_for; // also fix the property
         }
     } else
@@ -902,12 +902,12 @@ ClientList Client::allMainClients() const
     return result;
 }
 
-Client* Client::findModal(bool allow_itself)
+AbstractClient* Client::findModal(bool allow_itself)
 {
     for (ClientList::ConstIterator it = transients().constBegin();
             it != transients().constEnd();
             ++it)
-        if (Client* ret = (*it)->findModal(true))
+        if (AbstractClient* ret = (*it)->findModal(true))
             return ret;
     if (isModal() && allow_itself)
         return this;
@@ -1052,9 +1052,9 @@ void Client::checkActiveModal()
     // if the active window got new modal transient, activate it.
     // cannot be done in AddTransient(), because there may temporarily
     // exist loops, breaking findModal
-    Client* check_modal = workspace()->mostRecentlyActivatedClient();
+    Client* check_modal = dynamic_cast<Client*>(workspace()->mostRecentlyActivatedClient());
     if (check_modal != NULL && check_modal->check_active_modal) {
-        Client* new_modal = check_modal->findModal();
+        Client* new_modal = dynamic_cast<Client*>(check_modal->findModal());
         if (new_modal != NULL && new_modal != check_modal) {
             if (!new_modal->isManaged())
                 return; // postpone check until end of manage()

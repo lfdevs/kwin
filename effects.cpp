@@ -57,6 +57,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "xcbutils.h"
 #if HAVE_WAYLAND
 #include "abstract_backend.h"
+#include "shell_client.h"
 #include "wayland_server.h"
 #endif
 
@@ -220,7 +221,7 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
     connect(ws, &Workspace::showingDesktopChanged,
             this, &EffectsHandlerImpl::showingDesktopChanged);
     connect(ws, &Workspace::currentDesktopChanged, this,
-        [this](int old, Client *c) {
+        [this](int old, AbstractClient *c) {
             const int newDesktop = VirtualDesktopManager::self()->current();
             if (old != 0 && newDesktop != old) {
                 emit desktopChanged(old, newDesktop, c ? c->effectWindow() : 0);
@@ -230,11 +231,15 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
         }
     );
     connect(ws, &Workspace::desktopPresenceChanged, this,
-        [this](Client *c, int old) {
+        [this](AbstractClient *c, int old) {
             if (!c->effectWindow()) {
                 return;
             }
-            emit desktopPresenceChanged(c->effectWindow(), old, c->desktop());
+            // the visibility update hasn't happed yet, thus the signal is delayed to prevent glitches, see also BUG 347490
+            QMetaObject::invokeMethod(this, "desktopPresenceChanged", Qt::QueuedConnection,
+                                      Q_ARG(KWin::EffectWindow*, c->effectWindow()),
+                                      Q_ARG(int, old),
+                                      Q_ARG(int, c->desktop()));
         }
     );
     connect(ws, &Workspace::clientAdded, this,
@@ -252,7 +257,7 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
         }
     );
     connect(ws, &Workspace::clientActivated, this,
-        [this](KWin::Client *c) {
+        [this](KWin::AbstractClient *c) {
             emit windowActivated(c ? c->effectWindow() : nullptr);
         }
     );
@@ -275,10 +280,11 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
     connect(screens(), &Screens::sizeChanged,     this, &EffectsHandler::virtualScreenSizeChanged);
     connect(screens(), &Screens::geometryChanged, this, &EffectsHandler::virtualScreenGeometryChanged);
 #ifdef KWIN_BUILD_ACTIVITIES
-    Activities *activities = Activities::self();
-    connect(activities, &Activities::added,          this, &EffectsHandler::activityAdded);
-    connect(activities, &Activities::removed,        this, &EffectsHandler::activityRemoved);
-    connect(activities, &Activities::currentChanged, this, &EffectsHandler::currentActivityChanged);
+    if (Activities *activities = Activities::self()) {
+        connect(activities, &Activities::added,          this, &EffectsHandler::activityAdded);
+        connect(activities, &Activities::removed,        this, &EffectsHandler::activityRemoved);
+        connect(activities, &Activities::currentChanged, this, &EffectsHandler::currentActivityChanged);
+    }
 #endif
     connect(ws, &Workspace::stackingOrderChanged, this, &EffectsHandler::stackingOrderChanged);
 #ifdef KWIN_BUILD_TABBOX
@@ -297,6 +303,18 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
     for (Unmanaged *u : ws->unmanagedList()) {
         setupUnmanagedConnections(u);
     }
+#if HAVE_WAYLAND
+    if (auto w = waylandServer()) {
+        connect(w, &WaylandServer::shellClientAdded, this,
+            [this](ShellClient *c) {
+                if (c->readyForPainting())
+                    slotShellClientShown(c);
+                else
+                    connect(c, &Toplevel::windowShown, this, &EffectsHandlerImpl::slotShellClientShown);
+            }
+        );
+    }
+#endif
     reconfigure();
 }
 
@@ -322,7 +340,7 @@ EffectsHandlerImpl::~EffectsHandlerImpl()
 void EffectsHandlerImpl::setupClientConnections(Client* c)
 {
     connect(c, &Client::windowClosed, this, &EffectsHandlerImpl::slotWindowClosed);
-    connect(c, static_cast<void (Client::*)(KWin::Client*, MaximizeMode)>(&Client::clientMaximizedStateChanged),
+    connect(c, static_cast<void (Client::*)(KWin::AbstractClient*, MaximizeMode)>(&Client::clientMaximizedStateChanged),
             this, &EffectsHandlerImpl::slotClientMaximized);
     connect(c, &Client::clientStartUserMovedResized, this,
         [this](Client *c) {
@@ -341,7 +359,7 @@ void EffectsHandlerImpl::setupClientConnections(Client* c)
     );
     connect(c, &Client::opacityChanged, this, &EffectsHandlerImpl::slotOpacityChanged);
     connect(c, &Client::clientMinimized, this,
-        [this](Client *c, bool animate) {
+        [this](AbstractClient *c, bool animate) {
             // TODO: notify effects even if it should not animate?
             if (animate) {
                 emit windowMinimized(c->effectWindow());
@@ -349,7 +367,7 @@ void EffectsHandlerImpl::setupClientConnections(Client* c)
         }
     );
     connect(c, &Client::clientUnminimized, this,
-        [this](Client* c, bool animate) {
+        [this](AbstractClient* c, bool animate) {
             // TODO: notify effects even if it should not animate?
             if (animate) {
                 emit windowUnminimized(c->effectWindow());
@@ -523,7 +541,7 @@ void EffectsHandlerImpl::startPaint()
     m_currentPaintEffectFrameIterator = m_activeEffects.constBegin();
 }
 
-void EffectsHandlerImpl::slotClientMaximized(KWin::Client *c, MaximizeMode maxMode)
+void EffectsHandlerImpl::slotClientMaximized(KWin::AbstractClient *c, MaximizeMode maxMode)
 {
     bool horizontal = false;
     bool vertical = false;
@@ -563,6 +581,18 @@ void EffectsHandlerImpl::slotClientShown(KWin::Toplevel *t)
     setupClientConnections(c);
     if (!c->tabGroup()) // the "window" has already been there
         emit windowAdded(c->effectWindow());
+}
+
+void EffectsHandlerImpl::slotShellClientShown(Toplevel *t)
+{
+#if HAVE_WAYLAND
+    ShellClient *c = static_cast<ShellClient*>(t);
+    connect(c, &ShellClient::windowClosed, this, &EffectsHandlerImpl::slotWindowClosed);
+    connect(c, &ShellClient::geometryShapeChanged, this, &EffectsHandlerImpl::slotGeometryShapeChanged);
+    connect(c, static_cast<void (ShellClient::*)(KWin::AbstractClient*, MaximizeMode)>(&Client::clientMaximizedStateChanged),
+            this, &EffectsHandlerImpl::slotClientMaximized);
+    emit windowAdded(t->effectWindow());
+#endif
 }
 
 void EffectsHandlerImpl::slotUnmanagedShown(KWin::Toplevel *t)
@@ -847,7 +877,7 @@ void EffectsHandlerImpl::deleteRootProperty(long atom) const
 
 void EffectsHandlerImpl::activateWindow(EffectWindow* c)
 {
-    if (Client* cl = dynamic_cast< Client* >(static_cast<EffectWindowImpl*>(c)->window()))
+    if (AbstractClient* cl = dynamic_cast< AbstractClient* >(static_cast<EffectWindowImpl*>(c)->window()))
         Workspace::self()->activateClient(cl, true);
 }
 
@@ -890,6 +920,9 @@ void EffectsHandlerImpl::setShowingDesktop(bool showing)
 QString EffectsHandlerImpl::currentActivity() const
 {
 #ifdef KWIN_BUILD_ACTIVITIES
+    if (!Activities::self()) {
+        return QString();
+    }
     return Activities::self()->current();
 #else
     return QString();
@@ -1005,6 +1038,13 @@ EffectWindow* EffectsHandlerImpl::findWindow(WId id) const
         return w->effectWindow();
     if (Unmanaged* w = Workspace::self()->findUnmanaged(id))
         return w->effectWindow();
+#if HAVE_WAYLAND
+    if (waylandServer()) {
+        if (ShellClient *w = waylandServer()->findClient(id)) {
+            return w->effectWindow();
+        }
+    }
+#endif
     return NULL;
 }
 
@@ -1050,9 +1090,8 @@ EffectWindowList EffectsHandlerImpl::currentTabBoxWindowList() const
 {
 #ifdef KWIN_BUILD_TABBOX
     EffectWindowList ret;
-    ClientList clients;
-    clients = TabBox::TabBox::self()->currentClientList();
-    for (Client * c : clients)
+    const auto clients = TabBox::TabBox::self()->currentClientList();
+    for (auto c : clients)
     ret.append(c->effectWindow());
     return ret;
 #else
@@ -1100,7 +1139,7 @@ int EffectsHandlerImpl::currentTabBoxDesktop() const
 EffectWindow* EffectsHandlerImpl::currentTabBoxWindow() const
 {
 #ifdef KWIN_BUILD_TABBOX
-    if (Client* c = TabBox::TabBox::self()->currentClient())
+    if (auto c = TabBox::TabBox::self()->currentClient())
         return c->effectWindow();
 #endif
     return NULL;
@@ -1610,8 +1649,8 @@ void EffectWindowImpl::deleteProperty(long int atom) const
 
 EffectWindow* EffectWindowImpl::findModal()
 {
-    if (Client* c = dynamic_cast< Client* >(toplevel)) {
-        if (Client* c2 = c->findModal())
+    if (AbstractClient* c = dynamic_cast< AbstractClient* >(toplevel)) {
+        if (AbstractClient* c2 = c->findModal())
             return c2->effectWindow();
     }
     return NULL;

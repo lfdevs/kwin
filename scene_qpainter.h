@@ -24,15 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "shadow.h"
 
 #include "decorations/decorationrenderer.h"
-#if HAVE_WAYLAND
-namespace KWayland
-{
-namespace Client
-{
-class Buffer;
-}
-}
-#endif
 
 namespace KWin {
 
@@ -40,14 +31,7 @@ namespace Xcb {
     class Shm;
 }
 
-namespace Wayland
-{
-class WaylandBackend;
-}
-class FramebufferBackend;
-class X11WindowedBackend;
-
-class QPainterBackend
+class KWIN_EXPORT QPainterBackend
 {
 public:
     virtual ~QPainterBackend();
@@ -92,8 +76,20 @@ public:
     }
 
     virtual QImage *buffer() = 0;
+    /**
+     * Overload for the case that there is a different buffer per screen.
+     * Default implementation just calls buffer.
+     * @param screenId The id of the screen as used in Screens
+     * @todo Get a better identifier for screen then a counter variable
+     **/
+    virtual QImage *bufferForScreen(int screenId);
     virtual bool needsFullRepaint() const = 0;
     virtual void renderCursor(QPainter *painter);
+    /**
+     * Whether the rendering needs to be split per screen.
+     * Default implementation returns @c false.
+     **/
+    virtual bool perScreenRendering() const;
 
 protected:
     QPainterBackend();
@@ -110,71 +106,6 @@ protected:
 private:
     bool m_failed;
 };
-
-#if HAVE_WAYLAND
-class WaylandQPainterBackend : public QObject, public QPainterBackend
-{
-    Q_OBJECT
-public:
-    explicit WaylandQPainterBackend(Wayland::WaylandBackend *b);
-    virtual ~WaylandQPainterBackend();
-
-    virtual void present(int mask, const QRegion& damage) override;
-    virtual bool usesOverlayWindow() const override;
-    virtual void screenGeometryChanged(const QSize &size) override;
-    virtual QImage *buffer() override;
-    virtual void prepareRenderingFrame() override;
-    virtual bool needsFullRepaint() const override;
-private Q_SLOTS:
-    void remapBuffer();
-private:
-    Wayland::WaylandBackend *m_backend;
-    bool m_needsFullRepaint;
-    QImage m_backBuffer;
-    QWeakPointer<KWayland::Client::Buffer> m_buffer;
-};
-
-class X11WindowedQPainterBackend : public QObject, public QPainterBackend
-{
-    Q_OBJECT
-public:
-    X11WindowedQPainterBackend(X11WindowedBackend *backend);
-    virtual ~X11WindowedQPainterBackend();
-
-    QImage *buffer() override;
-    bool needsFullRepaint() const override;
-    bool usesOverlayWindow() const override;
-    void prepareRenderingFrame() override;
-    void present(int mask, const QRegion &damage) override;
-    void screenGeometryChanged(const QSize &size);
-
-private:
-    bool m_needsFullRepaint = true;
-    xcb_gcontext_t m_gc = XCB_NONE;
-    QImage m_backBuffer;
-    X11WindowedBackend *m_backend;
-};
-
-class FramebufferQPainterBackend : public QObject, public QPainterBackend
-{
-    Q_OBJECT
-public:
-    FramebufferQPainterBackend(FramebufferBackend *backend);
-    virtual ~FramebufferQPainterBackend();
-
-    QImage *buffer() override;
-    bool needsFullRepaint() const override;
-    bool usesOverlayWindow() const override;
-    void prepareRenderingFrame() override;
-    void present(int mask, const QRegion &damage) override;
-    void renderCursor(QPainter *painter) override;
-
-private:
-    QImage m_renderBuffer;
-    QImage m_backBuffer;
-    FramebufferBackend *m_backend;
-};
-#endif
 
 class SceneQPainter : public Scene
 {

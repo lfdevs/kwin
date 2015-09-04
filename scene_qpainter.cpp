@@ -25,16 +25,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "deleted.h"
 #include "effects.h"
 #include "main.h"
+#include "screens.h"
 #include "toplevel.h"
 #if HAVE_WAYLAND
-#include "fb_backend.h"
-#include "virtual_terminal.h"
-#include "wayland_backend.h"
+#include "abstract_backend.h"
 #include "wayland_server.h"
-#include "x11windowed_backend.h"
-#include <KWayland/Client/buffer.h>
-#include <KWayland/Client/shm_pool.h>
-#include <KWayland/Client/surface.h>
 #include <KWayland/Server/buffer_interface.h>
 #include <KWayland/Server/surface_interface.h>
 #endif
@@ -85,254 +80,16 @@ void QPainterBackend::renderCursor(QPainter *painter)
     Q_UNUSED(painter)
 }
 
-#if HAVE_WAYLAND
-//****************************************
-// WaylandQPainterBackend
-//****************************************
-
-WaylandQPainterBackend::WaylandQPainterBackend(Wayland::WaylandBackend *b)
-    : QPainterBackend()
-    , m_backend(b)
-    , m_needsFullRepaint(true)
-    , m_backBuffer(QImage(QSize(), QImage::Format_RGB32))
-    , m_buffer()
-{
-    connect(b->shmPool(), SIGNAL(poolResized()), SLOT(remapBuffer()));
-    connect(b, &Wayland::WaylandBackend::shellSurfaceSizeChanged,
-            this, &WaylandQPainterBackend::screenGeometryChanged);
-    connect(b->surface(), &KWayland::Client::Surface::frameRendered,
-            Compositor::self(), &Compositor::bufferSwapComplete);
-}
-
-WaylandQPainterBackend::~WaylandQPainterBackend()
-{
-    if (m_buffer) {
-        m_buffer.toStrongRef()->setUsed(false);
-    }
-}
-
-bool WaylandQPainterBackend::usesOverlayWindow() const
+bool QPainterBackend::perScreenRendering() const
 {
     return false;
 }
 
-void WaylandQPainterBackend::present(int mask, const QRegion &damage)
+QImage *QPainterBackend::bufferForScreen(int screenId)
 {
-    Q_UNUSED(mask)
-    if (m_backBuffer.isNull()) {
-        return;
-    }
-    Compositor::self()->aboutToSwapBuffers();
-    m_needsFullRepaint = false;
-    auto s = m_backend->surface();
-    s->attachBuffer(m_buffer);
-    s->damage(damage);
-    s->commit();
+    Q_UNUSED(screenId)
+    return buffer();
 }
-
-void WaylandQPainterBackend::screenGeometryChanged(const QSize &size)
-{
-    Q_UNUSED(size)
-    if (!m_buffer) {
-        return;
-    }
-    m_buffer.toStrongRef()->setUsed(false);
-    m_buffer.clear();
-}
-
-QImage *WaylandQPainterBackend::buffer()
-{
-    return &m_backBuffer;
-}
-
-void WaylandQPainterBackend::prepareRenderingFrame()
-{
-    if (m_buffer) {
-        auto b = m_buffer.toStrongRef();
-        if (b->isReleased()) {
-            // we can re-use this buffer
-            b->setReleased(false);
-            return;
-        } else {
-            // buffer is still in use, get a new one
-            b->setUsed(false);
-        }
-    }
-    m_buffer.clear();
-    const QSize size(m_backend->shellSurfaceSize());
-    m_buffer = m_backend->shmPool()->getBuffer(size, size.width() * 4);
-    if (!m_buffer) {
-        qCDebug(KWIN_CORE) << "Did not get a new Buffer from Shm Pool";
-        m_backBuffer = QImage();
-        return;
-    }
-    auto b = m_buffer.toStrongRef();
-    b->setUsed(true);
-    m_backBuffer = QImage(b->address(), size.width(), size.height(), QImage::Format_RGB32);
-    m_backBuffer.fill(Qt::transparent);
-    m_needsFullRepaint = true;
-    qCDebug(KWIN_CORE) << "Created a new back buffer";
-}
-
-void WaylandQPainterBackend::remapBuffer()
-{
-    if (!m_buffer) {
-        return;
-    }
-    auto b = m_buffer.toStrongRef();
-    if (!b->isUsed()){
-        return;
-    }
-    const QSize size = m_backBuffer.size();
-    m_backBuffer = QImage(b->address(), size.width(), size.height(), QImage::Format_RGB32);
-    qCDebug(KWIN_CORE) << "Remapped our back buffer";
-}
-
-bool WaylandQPainterBackend::needsFullRepaint() const
-{
-    return m_needsFullRepaint;
-}
-
-//****************************************
-// X11WindowedBackend
-//****************************************
-X11WindowedQPainterBackend::X11WindowedQPainterBackend(X11WindowedBackend *backend)
-    : QPainterBackend()
-    , m_backBuffer(backend->size(), QImage::Format_RGB32)
-    , m_backend(backend)
-{
-}
-
-X11WindowedQPainterBackend::~X11WindowedQPainterBackend()
-{
-    if (m_gc) {
-        xcb_free_gc(m_backend->connection(), m_gc);
-    }
-}
-
-QImage *X11WindowedQPainterBackend::buffer()
-{
-    return &m_backBuffer;
-}
-
-bool X11WindowedQPainterBackend::needsFullRepaint() const
-{
-    return m_needsFullRepaint;
-}
-
-void X11WindowedQPainterBackend::prepareRenderingFrame()
-{
-}
-
-void X11WindowedQPainterBackend::screenGeometryChanged(const QSize &size)
-{
-    if (m_backBuffer.size() != size) {
-        m_backBuffer = QImage(size, QImage::Format_RGB32);
-        m_backBuffer.fill(Qt::black);
-        m_needsFullRepaint = true;
-    }
-}
-
-void X11WindowedQPainterBackend::present(int mask, const QRegion &damage)
-{
-    Q_UNUSED(mask)
-    Q_UNUSED(damage)
-    xcb_connection_t *c = m_backend->connection();
-    const xcb_window_t window = m_backend->window();
-    if (m_gc == XCB_NONE) {
-        m_gc = xcb_generate_id(c);
-        xcb_create_gc(c, m_gc, window, 0, nullptr);
-    }
-    // TODO: only update changes?
-    xcb_put_image(c, XCB_IMAGE_FORMAT_Z_PIXMAP, window, m_gc,
-                    m_backBuffer.width(), m_backBuffer.height(), 0, 0, 0, 24,
-                    m_backBuffer.byteCount(), m_backBuffer.constBits());
-}
-
-bool X11WindowedQPainterBackend::usesOverlayWindow() const
-{
-    return false;
-}
-
-//****************************************
-// FramebufferBackend
-//****************************************
-FramebufferQPainterBackend::FramebufferQPainterBackend(FramebufferBackend *backend)
-    : QObject()
-    , QPainterBackend()
-    , m_renderBuffer(backend->size(), QImage::Format_RGB32)
-    , m_backend(backend)
-{
-    m_renderBuffer.fill(Qt::black);
-
-    m_backend->map();
-
-    m_backBuffer = QImage((uchar*)backend->mappedMemory(),
-                          backend->bytesPerLine() / (backend->bitsPerPixel() / 8),
-                          backend->bufferSize() / backend->bytesPerLine(),
-                          backend->bytesPerLine(), backend->imageFormat());
-
-    m_backBuffer.fill(Qt::black);
-    connect(VirtualTerminal::self(), &VirtualTerminal::activeChanged, this,
-        [this] (bool active) {
-            if (active) {
-                Compositor::self()->bufferSwapComplete();
-                Compositor::self()->addRepaintFull();
-            } else {
-                Compositor::self()->aboutToSwapBuffers();
-            }
-        }
-    );
-}
-
-FramebufferQPainterBackend::~FramebufferQPainterBackend() = default;
-
-QImage *FramebufferQPainterBackend::buffer()
-{
-    return &m_renderBuffer;
-}
-
-bool FramebufferQPainterBackend::needsFullRepaint() const
-{
-    return false;
-}
-
-void FramebufferQPainterBackend::prepareRenderingFrame()
-{
-}
-
-void FramebufferQPainterBackend::present(int mask, const QRegion &damage)
-{
-    Q_UNUSED(mask)
-    Q_UNUSED(damage)
-    if (!VirtualTerminal::self()->isActive()) {
-        return;
-    }
-    QPainter p(&m_backBuffer);
-    p.drawImage(QPoint(0, 0), m_renderBuffer);
-}
-
-bool FramebufferQPainterBackend::usesOverlayWindow() const
-{
-    return false;
-}
-
-void FramebufferQPainterBackend::renderCursor(QPainter *painter)
-{
-    if (!m_backend->usesSoftwareCursor()) {
-        return;
-    }
-    const QImage img = m_backend->softwareCursor();
-    if (img.isNull()) {
-        return;
-    }
-    const QPoint cursorPos = Cursor::pos();
-    const QPoint hotspot = m_backend->softwareCursorHotspot();
-    painter->drawImage(cursorPos - hotspot, img);
-    m_backend->markCursorAsRendered();
-}
-
-#endif
 
 //****************************************
 // SceneQPainter
@@ -394,19 +151,48 @@ qint64 SceneQPainter::paint(QRegion damage, ToplevelList toplevels)
 
     int mask = 0;
     m_backend->prepareRenderingFrame();
-    m_painter->begin(m_backend->buffer());
-    if (m_backend->needsFullRepaint()) {
-        mask |= Scene::PAINT_SCREEN_BACKGROUND_FIRST;
-        damage = QRegion(0, 0, displayWidth(), displayHeight());
+    if (m_backend->perScreenRendering()) {
+        const bool needsFullRepaint = m_backend->needsFullRepaint();
+        if (needsFullRepaint) {
+            mask |= Scene::PAINT_SCREEN_BACKGROUND_FIRST;
+            damage = screens()->geometry();
+        }
+        QRegion overallUpdate;
+        for (int i = 0; i < screens()->count(); ++i) {
+            const QRect geometry = screens()->geometry(i);
+            QImage *buffer = m_backend->bufferForScreen(i);
+            if (!buffer || buffer->isNull()) {
+                continue;
+            }
+            m_painter->begin(buffer);
+            m_painter->save();
+            m_painter->setWindow(geometry);
+
+            QRegion updateRegion, validRegion;
+            paintScreen(&mask, damage.intersected(geometry), QRegion(), &updateRegion, &validRegion);
+            overallUpdate = overallUpdate.united(updateRegion);
+
+            m_painter->restore();
+            m_painter->end();
+        }
+        m_backend->showOverlay();
+        m_backend->present(mask, overallUpdate);
+    } else {
+        m_painter->begin(m_backend->buffer());
+        if (m_backend->needsFullRepaint()) {
+            mask |= Scene::PAINT_SCREEN_BACKGROUND_FIRST;
+            damage = QRegion(0, 0, displayWidth(), displayHeight());
+        }
+        QRegion updateRegion, validRegion;
+        paintScreen(&mask, damage, QRegion(), &updateRegion, &validRegion);
+
+        m_backend->renderCursor(m_painter.data());
+        m_backend->showOverlay();
+
+        m_painter->end();
+        m_backend->present(mask, updateRegion);
     }
-    QRegion updateRegion, validRegion;
-    paintScreen(&mask, damage, QRegion(), &updateRegion, &validRegion);
-    m_backend->renderCursor(m_painter.data());
 
-    m_backend->showOverlay();
-
-    m_painter->end();
-    m_backend->present(mask, updateRegion);
     // do cleanup
     clearStackingOrder();
 

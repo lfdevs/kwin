@@ -6,10 +6,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-05 07:54+0000\n"
-"PO-Revision-Date: 2015-04-06 16:45+0100\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"PO-Revision-Date: 2015-07-31 14:09+0100\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
-"Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
+"Language-Team: Asturian <alminsitradores@softastur.org>\n"
 "Language: ast\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,53 +18,44 @@ msgstr ""
 "X-Generator: Lokalize 2.0\n"
 
 #: compositing.cpp:387
-#, fuzzy
 msgid "OpenGL 3.1"
 msgstr "OpenGL 3.1"
 
 #: compositing.cpp:388
-#, fuzzy
 msgid "OpenGL 2.0"
 msgstr "OpenGL 2.0"
 
 #: compositing.cpp:389
-#, fuzzy
 msgid "XRender"
 msgstr "XRender"
 
 #: compositing.cpp:488
-#, fuzzy
 msgctxt "OpenGL Platform Interface"
 msgid "EGL"
 msgstr "EGL"
 
 #: compositing.cpp:490
-#, fuzzy
 msgctxt "OpenGL Platform Interface"
 msgid "GLX"
 msgstr "GLX"
 
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:20
-#, fuzzy
 msgid "Enable compositor on startup"
 msgstr "Habilitar el compositor nel aniciu"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:27
-#, fuzzy
 msgid "Animation speed:"
 msgstr "Velocidá d'animación:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: compositing.ui:54
-#, fuzzy
 msgid "Instant"
 msgstr "Nel intre"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
-#, fuzzy
 msgid "Very slow"
 msgstr "Perlenta"
 
@@ -72,7 +63,7 @@ msgstr "Perlenta"
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
 #: compositing.ui:85 compositing.ui:111
 msgid "Scale method:"
-msgstr ""
+msgstr "Métodu d'escala:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
@@ -103,7 +94,6 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
-#, fuzzy
 msgid "OpenGL interface:"
 msgstr "Interfaz d'OpenGL:"
 
@@ -115,13 +105,11 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:167 compositing.ui:203
-#, fuzzy
 msgid "Never"
 msgstr "Enxamás"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:172
-#, fuzzy
 msgid "Automatic"
 msgstr "Automáticu"
 
@@ -147,19 +135,16 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:208
-#, fuzzy
 msgid "Only for Shown Windows"
 msgstr "Namái pa ventanes amosaes"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:213
-#, fuzzy
 msgid "Always"
 msgstr "Siempres"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: compositing.ui:221
-#, fuzzy
 msgid "Expert:"
 msgstr "Espertu:"
 
@@ -170,13 +155,11 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: compositing.ui:235
-#, fuzzy
 msgid "Experimental:"
 msgstr "Esperimental:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
 #: compositing.ui:242
-#, fuzzy
 msgid "Enable color correction"
 msgstr "Habilitar correición de color"
 
@@ -239,13 +222,11 @@ msgid ""
 msgstr ""
 
 #: model.cpp:67
-#, fuzzy
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Accesibilidá"
 
 #: model.cpp:68
-#, fuzzy
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Aspeutu"
@@ -261,7 +242,6 @@ msgid "Focus"
 msgstr ""
 
 #: model.cpp:71
-#, fuzzy
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Ferramientes"
@@ -269,20 +249,19 @@ msgstr "Ferramientes"
 #: model.cpp:72
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
-msgstr ""
+msgstr "Animación de conmutación d'escritorios virtuales"
 
 #: model.cpp:73
-#, fuzzy
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
-msgstr "Xestión de ventana"
+msgstr "Xestión de ventanes"
 
 #: model.cpp:235
 msgid "KWin development team"
 msgstr ""
 
 #: qml/Effect.qml:118
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Author: %1\n"
 "License: %2"
@@ -297,7 +276,6 @@ msgid ""
 msgstr ""
 
 #: qml/EffectView.qml:75
-#, fuzzy
 msgid "Search"
 msgstr "Guetar"
 
@@ -314,6 +292,5 @@ msgid "Exclude internal Desktop Effects"
 msgstr ""
 
 #: qml/EffectView.qml:105
-#, fuzzy
 msgid "Get New Effects ..."
 msgstr "Consiguir efeutos nuevos..."

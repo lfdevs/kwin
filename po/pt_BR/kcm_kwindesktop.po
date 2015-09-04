@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-07-04 08:25+0000\n"
-"PO-Revision-Date: 2015-05-10 00:02-0300\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"PO-Revision-Date: 2015-07-08 22:59-0300\n"
 "Last-Translator: André Marcelo Alvarenga <alvarenga@kde.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_br@kde.org>\n"
 "Language: pt_BR\n"
@@ -98,7 +98,7 @@ msgstr "Mudar a área de trabalho"
 #: main.cpp:122 main.cpp:489
 #, kde-format
 msgid "Switch to Desktop %1"
-msgstr "Alternar para a área de trabalho %1"
+msgstr "Mudar para a área de trabalho %1"
 
 #: main.cpp:154
 msgid "No Animation"

@@ -27,6 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QKeySequence>
 
 class QAction;
+class KGlobalAccelD;
+class KGlobalAccelInterface;
 
 namespace KWin
 {
@@ -48,6 +50,8 @@ class GlobalShortcutsManager : public QObject
 public:
     explicit GlobalShortcutsManager(QObject *parent = nullptr);
     virtual ~GlobalShortcutsManager();
+    void init();
+
     /**
      * @brief Registers an internal global shortcut
      *
@@ -97,6 +101,11 @@ public:
      * @return @c true if a shortcut triggered, @c false otherwise
      */
     bool processAxis(Qt::KeyboardModifiers modifiers, PointerAxisDirection axis);
+
+    void setKGlobalAccelInterface(KGlobalAccelInterface *interface) {
+        m_kglobalAccelInterface = interface;
+    }
+
 private:
     void objectDeleted(QObject *object);
     QKeySequence getShortcutForAction(const QString &componentName, const QString &actionName, const QKeySequence &defaultShortcut);
@@ -104,6 +113,8 @@ private:
     QHash<Qt::KeyboardModifiers, QHash<Qt::MouseButtons, GlobalShortcut*> > m_pointerShortcuts;
     QHash<Qt::KeyboardModifiers, QHash<PointerAxisDirection, GlobalShortcut*> > m_axisShortcuts;
     KSharedConfigPtr m_config;
+    KGlobalAccelD *m_kglobalAccel = nullptr;
+    KGlobalAccelInterface *m_kglobalAccelInterface = nullptr;
 };
 
 class GlobalShortcut

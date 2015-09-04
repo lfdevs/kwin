@@ -38,22 +38,23 @@ WorkspaceWrapper::WorkspaceWrapper(QObject* parent) : QObject(parent)
 {
     KWin::Workspace *ws = KWin::Workspace::self();
     KWin::VirtualDesktopManager *vds = KWin::VirtualDesktopManager::self();
-    connect(ws, SIGNAL(desktopPresenceChanged(KWin::Client*,int)), SIGNAL(desktopPresenceChanged(KWin::Client*,int)));
-    connect(ws, SIGNAL(currentDesktopChanged(int,KWin::Client*)), SIGNAL(currentDesktopChanged(int,KWin::Client*)));
+    connect(ws, &Workspace::desktopPresenceChanged, this, &WorkspaceWrapper::desktopPresenceChanged);
+    connect(ws, &Workspace::currentDesktopChanged, this, &WorkspaceWrapper::currentDesktopChanged);
     connect(ws, SIGNAL(clientAdded(KWin::Client*)), SIGNAL(clientAdded(KWin::Client*)));
     connect(ws, SIGNAL(clientAdded(KWin::Client*)), SLOT(setupClientConnections(KWin::Client*)));
-    connect(ws, SIGNAL(clientRemoved(KWin::Client*)), SIGNAL(clientRemoved(KWin::Client*)));
-    connect(ws, SIGNAL(clientActivated(KWin::Client*)), SIGNAL(clientActivated(KWin::Client*)));
+    connect(ws, &Workspace::clientRemoved, this, &WorkspaceWrapper::clientRemoved);
+    connect(ws, &Workspace::clientActivated, this, &WorkspaceWrapper::clientActivated);
     connect(vds, SIGNAL(countChanged(uint,uint)), SIGNAL(numberDesktopsChanged(uint)));
     connect(vds, SIGNAL(layoutChanged(int,int)), SIGNAL(desktopLayoutChanged()));
-    connect(ws, SIGNAL(clientDemandsAttentionChanged(KWin::Client*,bool)), SIGNAL(clientDemandsAttentionChanged(KWin::Client*,bool)));
+    connect(ws, &Workspace::clientDemandsAttentionChanged, this, &WorkspaceWrapper::clientDemandsAttentionChanged);
 #ifdef KWIN_BUILD_ACTIVITIES
-    KWin::Activities *activities = KWin::Activities::self();
-    connect(activities, SIGNAL(currentChanged(QString)), SIGNAL(currentActivityChanged(QString)));
-    connect(activities, SIGNAL(added(QString)), SIGNAL(activitiesChanged(QString)));
-    connect(activities, SIGNAL(added(QString)), SIGNAL(activityAdded(QString)));
-    connect(activities, SIGNAL(removed(QString)), SIGNAL(activitiesChanged(QString)));
-    connect(activities, SIGNAL(removed(QString)), SIGNAL(activityRemoved(QString)));
+    if (KWin::Activities *activities = KWin::Activities::self()) {
+        connect(activities, SIGNAL(currentChanged(QString)), SIGNAL(currentActivityChanged(QString)));
+        connect(activities, SIGNAL(added(QString)), SIGNAL(activitiesChanged(QString)));
+        connect(activities, SIGNAL(added(QString)), SIGNAL(activityAdded(QString)));
+        connect(activities, SIGNAL(removed(QString)), SIGNAL(activitiesChanged(QString)));
+        connect(activities, SIGNAL(removed(QString)), SIGNAL(activityRemoved(QString)));
+    }
 #endif
     connect(screens(), &Screens::sizeChanged, this, &WorkspaceWrapper::virtualScreenSizeChanged);
     connect(screens(), &Screens::geometryChanged, this, &WorkspaceWrapper::virtualScreenGeometryChanged);
@@ -93,7 +94,7 @@ void WorkspaceWrapper::setNumberOfDesktops(int count)
 rettype WorkspaceWrapper::getterName( ) const { \
     return Workspace::self()->getterName(); \
 }
-GETTER(KWin::Client*, activeClient)
+GETTER(KWin::AbstractClient*, activeClient)
 GETTER(QList< KWin::Client* >, clientList)
 
 #undef GETTER
@@ -101,6 +102,9 @@ GETTER(QList< KWin::Client* >, clientList)
 QString WorkspaceWrapper::currentActivity() const
 {
 #ifdef KWIN_BUILD_ACTIVITIES
+    if (!Activities::self()) {
+        return QString();
+    }
     return Activities::self()->current();
 #else
     return QString();
@@ -110,6 +114,9 @@ QString WorkspaceWrapper::currentActivity() const
 QStringList WorkspaceWrapper::activityList() const
 {
 #ifdef KWIN_BUILD_ACTIVITIES
+    if (!Activities::self()) {
+        return QStringList();
+    }
     return Activities::self()->all();
 #else
     return QStringList();
@@ -192,7 +199,7 @@ SLOTWRAPPER(slotSwitchDesktopDown,DesktopBelow)
 
 #undef SLOTWRAPPER
 
-void WorkspaceWrapper::setActiveClient(KWin::Client* client)
+void WorkspaceWrapper::setActiveClient(KWin::AbstractClient* client)
 {
     KWin::Workspace::self()->activateClient(client);
 }
@@ -244,11 +251,12 @@ QString WorkspaceWrapper::supportInformation() const
 
 void WorkspaceWrapper::setupClientConnections(KWin::Client *client)
 {
-    connect(client, SIGNAL(clientMinimized(KWin::Client*,bool)), SIGNAL(clientMinimized(KWin::Client*)));
-    connect(client, SIGNAL(clientUnminimized(KWin::Client*,bool)), SIGNAL(clientUnminimized(KWin::Client*)));
+    connect(client, &Client::clientMinimized, this, &WorkspaceWrapper::clientMinimized);
+    connect(client, &Client::clientUnminimized, this, &WorkspaceWrapper::clientUnminimized);
     connect(client, SIGNAL(clientManaging(KWin::Client*)), SIGNAL(clientManaging(KWin::Client*)));
     connect(client, SIGNAL(clientFullScreenSet(KWin::Client*,bool,bool)), SIGNAL(clientFullScreenSet(KWin::Client*,bool,bool)));
-    connect(client, SIGNAL(clientMaximizedStateChanged(KWin::Client*,bool,bool)), SIGNAL(clientMaximizeSet(KWin::Client*,bool,bool)));
+    connect(client, static_cast<void (Client::*)(KWin::AbstractClient*, bool, bool)>(&Client::clientMaximizedStateChanged),
+            this, &WorkspaceWrapper::clientMaximizeSet);
 }
 
 void WorkspaceWrapper::showOutline(const QRect &geometry)

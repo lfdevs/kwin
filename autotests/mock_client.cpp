@@ -23,82 +23,20 @@ namespace KWin
 {
 
 Client::Client(QObject *parent)
-    : QObject(parent)
-    , m_active(false)
-    , m_screen(0)
-    , m_fullscreen(false)
-    , m_hiddenInternal(false)
-    , m_geometry()
+    : AbstractClient(parent)
 {
 }
 
 Client::~Client() = default;
-
-bool Client::isActive() const
-{
-    return m_active;
-}
-
-void Client::setActive(bool active)
-{
-    m_active = active;
-}
-
-void Client::setScreen(int screen)
-{
-    m_screen = screen;
-}
-
-bool Client::isOnScreen(int screen) const
-{
-    // TODO: mock checking client geometry
-    return screen == m_screen;
-}
-
-int Client::screen() const
-{
-    return m_screen;
-}
 
 void Client::showOnScreenEdge()
 {
     setHiddenInternal(false);
 }
 
-void Client::setFullScreen(bool set)
-{
-    m_fullscreen = set;
-}
-
-bool Client::isFullScreen() const
-{
-    return m_fullscreen;
-}
-
-bool Client::isHiddenInternal() const
-{
-    return m_hiddenInternal;
-}
-
-void Client::setHiddenInternal(bool set)
-{
-    m_hiddenInternal = set;
-}
-
 bool Client::isResize() const
 {
     return false;
-}
-
-void Client::setGeometry(const QRect &rect)
-{
-    m_geometry = rect;
-    emit geometryChanged();
-}
-
-QRect Client::geometry() const
-{
-    return m_geometry;
 }
 
 }

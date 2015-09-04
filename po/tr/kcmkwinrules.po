@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-06-04 12:15+0000\n"
-"PO-Revision-Date: 2015-02-09 11:36+0100\n"
-"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"PO-Revision-Date: 2015-05-19 12:13+0000\n"
+"Last-Translator: Necdet <necdetyucel@gmail.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -162,7 +162,7 @@ msgid ""
 msgstr ""
 "Bir tek kısayol basitçe iki düğme kullanılarak atanır veya temizlenir. "
 "Sadece değiştiricili kısayollar kullanılabilir.<p>\n"
-"Birçok kısayola sahip olmak mümkündür, ve ilk mümkün olan kısayol "
+"Bir çok kısayola sahip olmak mümkündür, ve ilk mümkün olan kısayol "
 "kullanılır. Kısayollar \"-\" ile ayrılmış kısayolu setleri ile "
 "özelleştirilmiştir. Bir set <i>taban</i>+(<i>liste</i>) şeklinde "
 "özelleştirilmiştir, Burada taban değiştiricileri ve liste tuşların listesini "
@@ -330,7 +330,7 @@ msgid ""
 msgstr ""
 "Pencere özelliğinin nasıl etkileneceğini belirtin:<ul><li><em>Etkilenme:</"
 "em> Pencere özelliği etkilenmeyecektir ve öntanımlı ayarlar kullanılacaktır. "
-"Bunu belirtmek birçok genel pencerenin etkilenmesini engelliyeecktir.</"
+"Bunu belirtmek bir çok genel pencerenin etkilenmesini engelliyeecktir.</"
 "li><li><em>İlk Olarak Uygula:</em> Pencere özelliği, pencere oluşturulduktan "
 "sonra verilen değere ayarlanacaktır. Daha başka değişiklik olmayacaktır.</"
 "li><li><em>Hatırla:</em> Pencere özelliğinin değeri her zaman hatırlanacak "
@@ -353,7 +353,7 @@ msgid ""
 msgstr ""
 "Pencere özelliğinin nasıl etkileneceğini belirtin:<ul><li><em>Etkileme Yok:</"
 "em> Pencere özelliği etkilenmeyecektir ve öntanımlı ayarlar kullanılacaktır. "
-"Bunu belirtmek birçok genel pencerenin etkilenmesini engelleyecektir.</"
+"Bunu belirtmek bir çok genel pencerenin etkilenmesini engelleyecektir.</"
 "li><li><em>Zorla:</em> Bu, pencere özelliğini her zaman verilen değerlere "
 "zorlar.</li><li><em>Geçici olarak Zorla:</em>Bu, pencere özelliğini pencere "
 "gizlenene kadar verilen değerlere zorlar. (bu eylem pencere gizlenince "
@@ -363,20 +363,20 @@ msgstr ""
 msgid "All Desktops"
 msgstr "Tüm Masaüstleri"
 
-#: ruleswidget.cpp:159
+#: ruleswidget.cpp:327
 msgid "All Activities"
 msgstr "Tüm Etkinlikler"
 
-#: ruleswidget.cpp:739
+#: ruleswidget.cpp:753
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 için ayarlar"
 
-#: ruleswidget.cpp:741
+#: ruleswidget.cpp:755
 msgid "Unnamed entry"
 msgstr "İsimsiz girdi"
 
-#: ruleswidget.cpp:751
+#: ruleswidget.cpp:765
 msgid ""
 "You have specified the window class as unimportant.\n"
 "This means the settings will possibly apply to windows from all "
@@ -389,11 +389,11 @@ msgstr ""
 "genel bir ayar oluşturmak istiyorsanız, en azından pencere türünü belirterek "
 "özel pencereleri korumanızı öneririz."
 
-#: ruleswidget.cpp:781
+#: ruleswidget.cpp:795
 msgid "Edit Window-Specific Settings"
 msgstr "Pencereye Özel Ayarlarını Yapılandır"
 
-#: ruleswidget.cpp:811
+#: ruleswidget.cpp:825
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
 "window or application. Find the setting you want to affect, enable the "
@@ -405,11 +405,11 @@ msgstr ""
 "kutusunu kullanarak etkinleştirin. Ayarların hangi yolu izleyerek ve hangi "
 "değerler kullanılarak uygulanacağını seçin."
 
-#: ruleswidget.cpp:815
+#: ruleswidget.cpp:829
 msgid "Consult the documentation for more details."
 msgstr "Daha fazla ayrıntı için belgelendirmeye bakın."
 
-#: ruleswidget.cpp:854
+#: ruleswidget.cpp:868
 msgid "Edit Shortcut"
 msgstr "Kısayolu Düzenle"
 
@@ -1127,11 +1127,8 @@ msgstr "Başlık çubuğu renk &düzeni"
 
 #: yesnobox.h:35
 msgid "Yes"
-msgstr ""
+msgstr "Evet"
 
 #: yesnobox.h:36
-#, fuzzy
-#| msgctxt "no focus stealing prevention"
-#| msgid "None"
 msgid "No"
-msgstr "Hiçbiri"
+msgstr "Hayır"

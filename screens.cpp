@@ -18,8 +18,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "screens.h"
+#include <abstract_client.h>
 #include <client.h>
 #include "cursor.h"
+#include "utils.h"
 #include "settings.h"
 #include <workspace.h>
 #include <config-kwin.h>
@@ -87,13 +89,15 @@ void Screens::init()
 
 QString Screens::name(int screen) const
 {
-    qWarning("%s::name(int screen) is a stub, please reimplement it!", metaObject()->className());
+    Q_UNUSED(screen)
+    qCWarning(KWIN_CORE, "%s::name(int screen) is a stub, please reimplement it!", metaObject()->className());
     return QLatin1String("DUMMY");
 }
 
 float Screens::refreshRate(int screen) const
 {
-    qWarning("%s::refreshRate(int screen) is a stub, please reimplement it!", metaObject()->className());
+    Q_UNUSED(screen)
+    qCWarning(KWIN_CORE, "%s::refreshRate(int screen) is a stub, please reimplement it!", metaObject()->className());
     return 60.0f;
 }
 
@@ -143,7 +147,7 @@ void Screens::setCurrent(const QPoint &pos)
     setCurrent(number(pos));
 }
 
-void Screens::setCurrent(const Client *c)
+void Screens::setCurrent(const AbstractClient *c)
 {
     if (!c->isActive()) {
         return;
@@ -166,7 +170,7 @@ int Screens::current() const
     if (m_currentFollowsMouse) {
         return number(Cursor::pos());
     }
-    Client *client = Workspace::self()->activeClient();
+    AbstractClient *client = Workspace::self()->activeClient();
     if (client && !client->isOnScreen(m_current)) {
         return client->screen();
     }

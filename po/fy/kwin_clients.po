@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-02-20 09:22+0000\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
 "PO-Revision-Date: 2010-07-20 16:44+0100\n"
 "Last-Translator: Berend Ytsma <berendy@gmail.com>\n"
 "Language-Team: Frysk <kde-i18n-fry@kde.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: aurorae/src/aurorae.cpp:703
+#: aurorae/src/aurorae.cpp:706
 #, fuzzy
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Tiny"
@@ -27,7 +27,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "Lyts"
 
-#: aurorae/src/aurorae.cpp:704
+#: aurorae/src/aurorae.cpp:707
 #, fuzzy
 #| msgctxt "@item:inlistbox Button size:"
 #| msgid "Normal"
@@ -35,12 +35,12 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "Normaal"
 
-#: aurorae/src/aurorae.cpp:705
+#: aurorae/src/aurorae.cpp:708
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "Grut"
 
-#: aurorae/src/aurorae.cpp:706
+#: aurorae/src/aurorae.cpp:709
 #, fuzzy
 #| msgctxt "@item:inlistbox Button size:"
 #| msgid "Very Large"
@@ -48,7 +48,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "Hiel grut"
 
-#: aurorae/src/aurorae.cpp:707
+#: aurorae/src/aurorae.cpp:710
 #, fuzzy
 #| msgctxt "@item:inlistbox Button size:"
 #| msgid "Huge"
@@ -56,7 +56,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "Mânsk"
 
-#: aurorae/src/aurorae.cpp:708
+#: aurorae/src/aurorae.cpp:711
 #, fuzzy
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Very Huge"
@@ -64,7 +64,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "Alder Grutst"
 
-#: aurorae/src/aurorae.cpp:709
+#: aurorae/src/aurorae.cpp:712
 #, fuzzy
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Oversized"
@@ -72,7 +72,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "Te Grut"
 
-#: aurorae/src/aurorae.cpp:712
+#: aurorae/src/aurorae.cpp:715
 #, fuzzy
 #| msgid "Button size:"
 msgid "Button size:"

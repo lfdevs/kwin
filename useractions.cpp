@@ -47,7 +47,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #include <KProcess>
-#include <KToolInvocation>
 
 #include <QAction>
 #include <QCheckBox>
@@ -92,7 +91,7 @@ UserActionsMenu::UserActionsMenu(QObject *parent)
     , m_closeOperation(NULL)
     , m_removeFromTabGroup(NULL)
     , m_closeTabGroup(NULL)
-    , m_client(QWeakPointer<Client>())
+    , m_client(QWeakPointer<AbstractClient>())
 {
 }
 
@@ -120,7 +119,7 @@ void UserActionsMenu::close()
     m_client.clear();
 }
 
-bool UserActionsMenu::isMenuClient(const Client *c) const
+bool UserActionsMenu::isMenuClient(const AbstractClient *c) const
 {
     if (!c || m_client.isNull()) {
         return false;
@@ -128,7 +127,7 @@ bool UserActionsMenu::isMenuClient(const Client *c) const
     return c == m_client.data();
 }
 
-void UserActionsMenu::show(const QRect &pos, const QWeakPointer<Client> &cl)
+void UserActionsMenu::show(const QRect &pos, const QWeakPointer<AbstractClient> &cl)
 {
     if (!KAuthorized::authorizeKAction(QStringLiteral("kwin_rmb")))
         return;
@@ -165,7 +164,7 @@ void UserActionsMenu::show(const QRect &pos, const QWeakPointer<Client> &cl)
     }
 }
 
-void UserActionsMenu::helperDialog(const QString& message, const QWeakPointer<Client> &c)
+void UserActionsMenu::helperDialog(const QString& message, const QWeakPointer<AbstractClient> &c)
 {
     QStringList args;
     QString type;
@@ -288,12 +287,12 @@ void UserActionsMenu::init()
 
     advancedMenu->addSeparator();
 
-    QAction *action = advancedMenu->addAction(i18n("Window &Shortcut..."));
-    action->setIcon(QIcon::fromTheme(QStringLiteral("configure-shortcuts")));
-    setShortcut(action, QStringLiteral("Setup Window Shortcut"));
-    action->setData(Options::SetupWindowShortcutOp);
+    m_shortcutOperation = advancedMenu->addAction(i18n("Window &Shortcut..."));
+    m_shortcutOperation->setIcon(QIcon::fromTheme(QStringLiteral("configure-shortcuts")));
+    setShortcut(m_shortcutOperation, QStringLiteral("Setup Window Shortcut"));
+    m_shortcutOperation->setData(Options::SetupWindowShortcutOp);
 
-    action = advancedMenu->addAction(i18n("&Special Window Settings..."));
+    QAction *action = advancedMenu->addAction(i18n("&Special Window Settings..."));
     action->setIcon(QIcon::fromTheme(QStringLiteral("preferences-system-windows-actions")));
     action->setData(Options::WindowRulesOp);
 
@@ -307,14 +306,23 @@ void UserActionsMenu::init()
                                         "Window &Manager Settings..."));
         action->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
         connect(action, &QAction::triggered, this,
-            []() {
+            [this]() {
                 // opens the KWin configuration
                 QStringList args;
                 args << QStringLiteral("--icon") << QStringLiteral("preferences-system-windows") << configModules(false);
-                QString error;
-                if (KToolInvocation::kdeinitExec(QStringLiteral("kcmshell5"), args, &error) != 0) {
-                    qCDebug(KWIN_CORE) << "Failed to start kcmshell5: " << error;
-                }
+                QProcess *p = new QProcess(this);
+                p->setArguments(args);
+                p->setProcessEnvironment(kwinApp()->processStartupEnvironment());
+                p->setProgram(QStringLiteral("kcmshell5"));
+                connect(p, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), p, &QProcess::deleteLater);
+                connect(p, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error), this,
+                    [p] (QProcess::ProcessError e) {
+                        if (e == QProcess::FailedToStart) {
+                            qCDebug(KWIN_CORE) << "Failed to start kcmshell5";
+                        }
+                    }
+                );
+                p->start();
             }
         );
     }
@@ -402,6 +410,7 @@ void UserActionsMenu::menuAboutToShow()
     m_noBorderOperation->setChecked(m_client.data()->noBorder());
     m_minimizeOperation->setEnabled(m_client.data()->isMinimizable());
     m_closeOperation->setEnabled(m_client.data()->isCloseable());
+    m_shortcutOperation->setEnabled(m_client.data()->rules()->checkShortcut(QString()).isNull());
 
     if (false) {
         initTabbingPopups();
@@ -436,6 +445,9 @@ void UserActionsMenu::menuAboutToShow()
 void UserActionsMenu::showHideActivityMenu()
 {
 #ifdef KWIN_BUILD_ACTIVITIES
+    if (!Activities::self()) {
+        return;
+    }
     const QStringList &openActivities_ = Activities::self()->running();
     qCDebug(KWIN_CORE) << "activities:" << openActivities_.size();
     if (openActivities_.size() < 2) {
@@ -497,12 +509,16 @@ void UserActionsMenu::entabPopupClient(QAction* action)
 {
     if (m_client.isNull() || !action->data().isValid())
         return;
-    Client *other = action->data().value<Client*>();
+    Client *other = dynamic_cast<Client*>(action->data().value<AbstractClient*>());
     if (!Workspace::self()->clientList().contains(other)) // might have been lost betwenn pop-up and selection
         return;
-    m_client.data()->tabBehind(other, true);
+    Client *c = dynamic_cast<Client*>(m_client.data());
+    if (!c) {
+        return;
+    }
+    c->tabBehind(other, true);
     if (options->focusPolicyIsReasonable())
-        Workspace::self()->requestFocus(m_client.data());
+        Workspace::self()->requestFocus(c);
 }
 
 void UserActionsMenu::rebuildTabGroupPopup()
@@ -648,10 +664,9 @@ void UserActionsMenu::screenPopupAboutToShow()
     QActionGroup *group = new QActionGroup(m_screenMenu);
 
     for (int i = 0; i<screens()->count(); ++i) {
-        // TODO: retrieve the screen name?
         // assumption: there are not more than 9 screens attached.
-        QAction *action = m_screenMenu->addAction(i18nc("@item:inmenu List of all Screens to send a window to",
-                                                        "Screen &%1", (i+1)));
+        QAction *action = m_screenMenu->addAction(i18nc("@item:inmenu List of all Screens to send a window to. First argument is a number, second the output identifier. E.g. Screen 1 (HDMI1)",
+                                                        "Screen &%1 (%2)", (i+1), screens()->name(i)));
         action->setData(i);
         action->setCheckable(true);
         if (!m_client.isNull() && i == m_client.data()->screen()) {
@@ -667,6 +682,9 @@ void UserActionsMenu::activityPopupAboutToShow()
         return;
 
 #ifdef KWIN_BUILD_ACTIVITIES
+    if (!Activities::self()) {
+        return;
+    }
     m_activityMenu->clear();
     m_activityMenu->setPalette(m_client.data()->palette());
     QAction *action = m_activityMenu->addAction(i18n("&All Activities"));
@@ -712,7 +730,7 @@ void UserActionsMenu::slotWindowOperation(QAction *action)
         return;
 
     Options::WindowOperation op = static_cast< Options::WindowOperation >(action->data().toInt());
-    QWeakPointer<Client> c = (!m_client.isNull()) ? m_client : QWeakPointer<Client>(Workspace::self()->activeClient());
+    QWeakPointer<AbstractClient> c = (!m_client.isNull()) ? m_client : QWeakPointer<AbstractClient>(Workspace::self()->activeClient());
     if (c.isNull())
         return;
     QString type;
@@ -735,7 +753,7 @@ void UserActionsMenu::slotWindowOperation(QAction *action)
     qRegisterMetaType<Options::WindowOperation>();
     QMetaObject::invokeMethod(workspace(), "performWindowOperation",
                               Qt::QueuedConnection,
-                              Q_ARG(KWin::Client*, c.data()),
+                              Q_ARG(KWin::AbstractClient*, c.data()),
                               Q_ARG(Options::WindowOperation, op));
 }
 
@@ -777,6 +795,9 @@ void UserActionsMenu::slotSendToScreen(QAction *action)
 void UserActionsMenu::slotToggleOnActivity(QAction *action)
 {
 #ifdef KWIN_BUILD_ACTIVITIES
+    if (!Activities::self()) {
+        return;
+    }
     QString activity = action->data().toString();
     if (m_client.isNull())
         return;
@@ -786,7 +807,12 @@ void UserActionsMenu::slotToggleOnActivity(QAction *action)
         return;
     }
 
-    Activities::self()->toggleClientOnActivity(m_client.data(), activity, false);
+    Client *c = dynamic_cast<Client*>(m_client.data());
+    if (!c) {
+        return;
+    }
+
+    Activities::self()->toggleClientOnActivity(c, activity, false);
     if (m_activityMenu && m_activityMenu->isVisible() && m_activityMenu->actions().count()) {
         const bool isOnAll = m_client.data()->isOnAllActivities();
         m_activityMenu->actions().at(0)->setChecked(isOnAll);
@@ -954,7 +980,7 @@ void Workspace::initShortcuts()
     m_userActionsMenu->discard(); // so that it's recreated next time
 }
 
-void Workspace::setupWindowShortcut(Client* c)
+void Workspace::setupWindowShortcut(AbstractClient* c)
 {
     assert(client_keys_dialog == NULL);
     // TODO: PORT ME (KGlobalAccel related)
@@ -1019,7 +1045,7 @@ void Workspace::clientShortcutUpdated(Client* c)
     }
 }
 
-void Workspace::performWindowOperation(Client* c, Options::WindowOperation op)
+void Workspace::performWindowOperation(AbstractClient* c, Options::WindowOperation op)
 {
     if (!c)
         return;
@@ -1156,9 +1182,6 @@ bool Client::performMouseCommand(Options::MouseCommand command, const QPoint &gl
 {
     bool replay = false;
     switch(command) {
-    case Options::MouseRaise:
-        workspace()->raiseClient(this);
-        break;
     case Options::MouseLower: {
         workspace()->lowerClient(this);
         // used to be activateNextClient(this), then topClientOnDesktop
@@ -1181,54 +1204,6 @@ bool Client::performMouseCommand(Options::MouseCommand command, const QPoint &gl
     case Options::MouseUnsetShade:
         setShade(ShadeNone);
         cancelShadeHoverTimer();
-        break;
-    case Options::MouseOperationsMenu:
-        if (isActive() && options->isClickRaise())
-            autoRaise();
-        workspace()->showWindowMenu(QRect(globalPos, globalPos), this);
-        break;
-    case Options::MouseToggleRaiseAndLower:
-        workspace()->raiseOrLowerClient(this);
-        break;
-    case Options::MouseActivateAndRaise: {
-        replay = isActive(); // for clickraise mode
-        bool mustReplay = !rules()->checkAcceptFocus(info->input());
-        if (mustReplay) {
-            ToplevelList::const_iterator  it = workspace()->stackingOrder().constEnd(),
-                                     begin = workspace()->stackingOrder().constBegin();
-            while (mustReplay && --it != begin && *it != this) {
-                Client *c = qobject_cast<Client*>(*it);
-                if (!c || (c->keepAbove() && !keepAbove()) || (keepBelow() && !c->keepBelow()))
-                    continue; // can never raise above "it"
-                mustReplay = !(c->isOnCurrentDesktop() && c->isOnCurrentActivity() && c->geometry().intersects(geometry()));
-            }
-        }
-        workspace()->takeActivity(this, Workspace::ActivityFocus | Workspace::ActivityRaise);
-        screens()->setCurrent(globalPos);
-        replay = replay || mustReplay;
-        break;
-    }
-    case Options::MouseActivateAndLower:
-        workspace()->requestFocus(this);
-        workspace()->lowerClient(this);
-        screens()->setCurrent(globalPos);
-        replay = replay || !rules()->checkAcceptFocus(info->input());
-        break;
-    case Options::MouseActivate:
-        replay = isActive(); // for clickraise mode
-        workspace()->takeActivity(this, Workspace::ActivityFocus);
-        screens()->setCurrent(globalPos);
-        replay = replay || !rules()->checkAcceptFocus(info->input());
-        break;
-    case Options::MouseActivateRaiseAndPassClick:
-        workspace()->takeActivity(this, Workspace::ActivityFocus | Workspace::ActivityRaise);
-        screens()->setCurrent(globalPos);
-        replay = true;
-        break;
-    case Options::MouseActivateAndPassClick:
-        workspace()->takeActivity(this, Workspace::ActivityFocus);
-        screens()->setCurrent(globalPos);
-        replay = true;
         break;
     case Options::MouseActivateRaiseAndMove:
     case Options::MouseActivateRaiseAndUnrestrictedMove:
@@ -1279,60 +1254,8 @@ bool Client::performMouseCommand(Options::MouseCommand command, const QPoint &gl
         updateCursor();
         break;
     }
-    case Options::MouseMaximize:
-        maximize(MaximizeFull);
-        break;
-    case Options::MouseRestore:
-        maximize(MaximizeRestore);
-        break;
-    case Options::MouseMinimize:
-        minimize();
-        break;
-    case Options::MouseAbove: {
-        StackingUpdatesBlocker blocker(workspace());
-        if (keepBelow())
-            setKeepBelow(false);
-        else
-            setKeepAbove(true);
-        break;
-    }
-    case Options::MouseBelow: {
-        StackingUpdatesBlocker blocker(workspace());
-        if (keepAbove())
-            setKeepAbove(false);
-        else
-            setKeepBelow(true);
-        break;
-    }
-    case Options::MousePreviousDesktop:
-        workspace()->windowToPreviousDesktop(this);
-        break;
-    case Options::MouseNextDesktop:
-        workspace()->windowToNextDesktop(this);
-        break;
-    case Options::MouseOpacityMore:
-        if (!isDesktop())   // No point in changing the opacity of the desktop
-            setOpacity(qMin(opacity() + 0.1, 1.0));
-        break;
-    case Options::MouseOpacityLess:
-        if (!isDesktop())   // No point in changing the opacity of the desktop
-            setOpacity(qMax(opacity() - 0.1, 0.1));
-        break;
-    case Options::MousePreviousTab:
-        if (tabGroup())
-            tabGroup()->activatePrev();
-    break;
-    case Options::MouseNextTab:
-        if (tabGroup())
-            tabGroup()->activateNext();
-    break;
-    case Options::MouseClose:
-        closeWindow();
-        break;
-    case Options::MouseDragTab:
-    case Options::MouseNothing:
-        replay = true;
-        break;
+    default:
+        return AbstractClient::performMouseCommand(command, globalPos);
     }
     return replay;
 }
@@ -1556,7 +1479,7 @@ void Workspace::slotToggleShowDesktop()
 }
 
 template <typename Direction>
-void windowToDesktop(Client *c)
+void windowToDesktop(AbstractClient *c)
 {
     VirtualDesktopManager *vds = VirtualDesktopManager::self();
     Workspace *ws = Workspace::self();
@@ -1580,7 +1503,7 @@ void Workspace::slotWindowToNextDesktop()
         windowToNextDesktop(active_client);
 }
 
-void Workspace::windowToNextDesktop(Client* c)
+void Workspace::windowToNextDesktop(AbstractClient* c)
 {
     windowToDesktop<DesktopNext>(c);
 }
@@ -1594,7 +1517,7 @@ void Workspace::slotWindowToPreviousDesktop()
         windowToPreviousDesktop(active_client);
 }
 
-void Workspace::windowToPreviousDesktop(Client* c)
+void Workspace::windowToPreviousDesktop(AbstractClient* c)
 {
     windowToDesktop<DesktopPrevious>(c);
 }
@@ -1679,7 +1602,7 @@ void Workspace::switchWindow(Direction direction)
 {
     if (!active_client)
         return;
-    Client *c = active_client;
+    AbstractClient *c = active_client;
     Client *switchTo = 0;
     int bestScore = 0;
     int d = c->isOnAllDesktops() ? VirtualDesktopManager::self()->current() : c->desktop();
@@ -1783,7 +1706,7 @@ void Workspace::slotWindowOperations()
     showWindowMenu(QRect(pos, pos), active_client);
 }
 
-void Workspace::showWindowMenu(const QRect &pos, Client* cl)
+void Workspace::showWindowMenu(const QRect &pos, AbstractClient* cl)
 {
     m_userActionsMenu->show(pos, cl);
 }

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-29 08:07+0000\n"
-"PO-Revision-Date: 2015-04-06 16:12+0100\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"PO-Revision-Date: 2015-05-17 03:13+0100\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
 "Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
 "Language: ast\n"
@@ -18,29 +18,28 @@ msgstr ""
 "X-Generator: Lokalize 2.0\n"
 
 #: declarative-plugin/buttonsmodel.cpp:67
-#, fuzzy
 msgid "Menu"
 msgstr "Menú"
 
 #: declarative-plugin/buttonsmodel.cpp:69
 msgid "Application menu"
-msgstr ""
+msgstr "Menú d'aplicaciones"
 
 #: declarative-plugin/buttonsmodel.cpp:71
 msgid "On all desktops"
-msgstr ""
+msgstr "En tolos escritorios"
 
 #: declarative-plugin/buttonsmodel.cpp:73
 msgid "Minimize"
-msgstr ""
+msgstr "Minimizar"
 
 #: declarative-plugin/buttonsmodel.cpp:75
 msgid "Maximize"
-msgstr ""
+msgstr "Maximizar"
 
 #: declarative-plugin/buttonsmodel.cpp:77
 msgid "Close"
-msgstr ""
+msgstr "Zarrar"
 
 #: declarative-plugin/buttonsmodel.cpp:79
 msgid "Context help"
@@ -52,11 +51,11 @@ msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:83
 msgid "Keep below"
-msgstr ""
+msgstr "Caltener embaxo"
 
 #: declarative-plugin/buttonsmodel.cpp:85
 msgid "Keep above"
-msgstr ""
+msgstr "Caltener enriba"
 
 #: kcm.cpp:106
 msgid ""
@@ -67,7 +66,7 @@ msgstr ""
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
 #: kcm.ui:22
 msgid "Search"
-msgstr ""
+msgstr "Guetar"
 
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
 #: kcm.ui:35
@@ -83,7 +82,7 @@ msgstr ""
 #: kcm.ui:67
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
-msgstr ""
+msgstr "Ensin berbesos"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:72
@@ -95,37 +94,37 @@ msgstr ""
 #: kcm.ui:77
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
-msgstr ""
+msgstr "Nanu"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:82
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:87
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
-msgstr ""
+msgstr "Grande"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:92
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
-msgstr ""
+msgstr "Pergrande"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:97
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
-msgstr ""
+msgstr "Escomanáu"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:102
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
-msgstr ""
+msgstr "Perescomanáu"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:107

@@ -20,6 +20,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KWIN_MAIN_WAYLAND_H
 #define KWIN_MAIN_WAYLAND_H
 #include "main.h"
+#include <QtCore/private/qeventdispatcher_unix_p.h>
+#include <QProcessEnvironment>
+
+class QProcess;
 
 namespace KWin
 {
@@ -34,20 +38,20 @@ public:
     void setStartXwayland(bool start) {
         m_startXWayland = start;
     }
-    void setBackendSize(const QSize &size) {
-        m_backendSize = size;
+    void setApplicationsToStart(const QStringList &applications) {
+        m_applicationsToStart = applications;
     }
-    void setWindowed(bool set) {
-        m_windowed = set;
+    void setInputMethodServerToStart(const QString &inputMethodServer) {
+        m_inputMethodServerToStart = inputMethodServer;
     }
-    void setX11Display(const QByteArray &display) {
-        m_x11Display = display;
+    void setProcessStartupEnvironment(const QProcessEnvironment &environment) {
+        m_environment = environment;
     }
-    void setWaylandDisplay(const QByteArray &display) {
-        m_waylandDisplay = display;
-    }
-    void setFramebuffer(const QString &fbdev) {
-        m_framebuffer = fbdev;
+
+    bool notify(QObject *o, QEvent *e) override;
+
+    QProcessEnvironment processStartupEnvironment() const override {
+        return m_environment;
     }
 
 protected:
@@ -58,14 +62,25 @@ private:
     void createX11Connection();
     void continueStartupWithScreens();
     void continueStartupWithX();
+    void startXwaylandServer();
 
     bool m_startXWayland = false;
     int m_xcbConnectionFd = -1;
-    QSize m_backendSize;
-    bool m_windowed = false;
-    QByteArray m_x11Display;
-    QByteArray m_waylandDisplay;
-    QString m_framebuffer;
+    QStringList m_applicationsToStart;
+    QString m_inputMethodServerToStart;
+    QProcess *m_xwaylandProcess = nullptr;
+    QProcessEnvironment m_environment;
+};
+
+class EventDispatcher : public QEventDispatcherUNIX
+{
+    Q_OBJECT
+public:
+    explicit EventDispatcher(QObject *parent = nullptr);
+    virtual ~EventDispatcher();
+
+    bool processEvents(QEventLoop::ProcessEventsFlags flags) override;
+    bool hasPendingEvents() override;
 };
 
 }

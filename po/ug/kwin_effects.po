@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-05-21 11:34+0000\n"
+"POT-Creation-Date: 2015-08-12 11:22+0000\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -133,15 +133,15 @@ msgstr "ئارقا رەڭ"
 msgid "Front color"
 msgstr "ئالدى رەڭ"
 
-#: cube/cube.cpp:201 cube/cube_config.cpp:69
+#: cube/cube.cpp:201 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "ئۈستەلئۈستى كۈپى"
 
-#: cube/cube.cpp:209 cube/cube_config.cpp:74
+#: cube/cube.cpp:209 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "ئۈستەلئۈستى سىلىندىرى"
 
-#: cube/cube.cpp:215 cube/cube_config.cpp:78
+#: cube/cube.cpp:215 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "ئۈستەلئۈستى شارى"
 
@@ -154,6 +154,17 @@ msgstr "ئاساس"
 msgctxt "@title:tab Advanced Settings"
 msgid "Advanced"
 msgstr "ئالىي"
+
+#: cube/cube_config.cpp:64 desktopgrid/desktopgrid_config.cpp:62
+#: flipswitch/flipswitch_config.cpp:66 invert/invert_config.cpp:49
+#: lookingglass/lookingglass_config.cpp:67 magnifier/magnifier_config.cpp:67
+#: mouseclick/mouseclick_config.cpp:60 mousemark/mousemark_config.cpp:65
+#: presentwindows/presentwindows_config.cpp:61
+#: thumbnailaside/thumbnailaside_config.cpp:66
+#: trackmouse/trackmouse_config.cpp:62
+#: windowgeometry/windowgeometry_config.cpp:54 zoom/zoom_config.cpp:63
+msgid "KWin"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: cube/cube_config.ui:21
@@ -406,54 +417,52 @@ msgstr "blur ئۈنۈمىنى ئىشلىتىشتىن بۇرۇن ئىناۋەتل
 msgid "Apply blur effect to background"
 msgstr "تەگلىككە blur ئۈنۈمى قوللان"
 
-#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:66
+#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "ئۈستەلئۈستى سېتكىسىنى كۆرسەت"
 
-#: desktopgrid/desktopgrid_config.cpp:74
+#: desktopgrid/desktopgrid_config.cpp:75
 msgctxt "Desktop name alignment:"
 msgid "Disabled"
 msgstr "ئىناۋەتسىز قىلىنغان"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: desktopgrid/desktopgrid_config.cpp:75 flipswitch/flipswitch_config.ui:160
+#: desktopgrid/desktopgrid_config.cpp:76 flipswitch/flipswitch_config.ui:160
 msgid "Top"
 msgstr "ئۈستى"
 
-#: desktopgrid/desktopgrid_config.cpp:76
+#: desktopgrid/desktopgrid_config.cpp:77
 msgid "Top-Right"
 msgstr "ئوڭ ئۇستى"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: desktopgrid/desktopgrid_config.cpp:77 flipswitch/flipswitch_config.ui:125
-#: mouseclick/mouseclick.cpp:60
+#: desktopgrid/desktopgrid_config.cpp:78 flipswitch/flipswitch_config.ui:125
 msgid "Right"
 msgstr "ئوڭ"
 
-#: desktopgrid/desktopgrid_config.cpp:78
+#: desktopgrid/desktopgrid_config.cpp:79
 msgid "Bottom-Right"
 msgstr "تۆۋەن ئوڭ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: desktopgrid/desktopgrid_config.cpp:79 flipswitch/flipswitch_config.ui:180
+#: desktopgrid/desktopgrid_config.cpp:80 flipswitch/flipswitch_config.ui:180
 msgid "Bottom"
 msgstr "ئاستى"
 
-#: desktopgrid/desktopgrid_config.cpp:80
+#: desktopgrid/desktopgrid_config.cpp:81
 msgid "Bottom-Left"
 msgstr "تۆۋەن سول"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: desktopgrid/desktopgrid_config.cpp:81 flipswitch/flipswitch_config.ui:105
-#: mouseclick/mouseclick.cpp:58
+#: desktopgrid/desktopgrid_config.cpp:82 flipswitch/flipswitch_config.ui:105
 msgid "Left"
 msgstr "سول"
 
-#: desktopgrid/desktopgrid_config.cpp:82
+#: desktopgrid/desktopgrid_config.cpp:83
 msgid "Top-Left"
 msgstr "سول ئۇستى"
 
-#: desktopgrid/desktopgrid_config.cpp:83
+#: desktopgrid/desktopgrid_config.cpp:84
 msgid "Center"
 msgstr "مەركەز"
 
@@ -1036,11 +1045,11 @@ msgstr "-90"
 msgid "90"
 msgstr "90"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:51
+#: invert/invert.cpp:44 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "تەتۈر قىلىش ئۈنۈمىنى ئالماشتۇر"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:57
+#: invert/invert.cpp:52 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "كۆزنەك تەتۈر قىلىش ئۈنۈمىنى ئالماشتۇر"
 
@@ -1080,15 +1089,32 @@ msgstr " px"
 msgid "&Height:"
 msgstr "ئېگىزلىك(&H):"
 
-#: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:62
+#: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:63
 #, fuzzy
 #| msgid "Toggle Invert Effect"
 msgid "Toggle Mouse Click Effect"
 msgstr "تەتۈر قىلىش ئۈنۈمىنى ئالماشتۇر"
 
+#: mouseclick/mouseclick.cpp:58
+#, fuzzy
+#| msgid "Left"
+msgctxt "Left mouse button"
+msgid "Left"
+msgstr "سول"
+
 #: mouseclick/mouseclick.cpp:59
+#, fuzzy
+#| msgid "Middle"
+msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "ئوتتۇرا"
+
+#: mouseclick/mouseclick.cpp:60
+#, fuzzy
+#| msgid "Right"
+msgctxt "Right mouse button"
+msgid "Right"
+msgstr "ئوڭ"
 
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
@@ -1168,11 +1194,11 @@ msgstr ""
 msgid "Clear All Mouse Marks"
 msgstr "بارلىق چاشقىنەك بەلگىلىرىنى تازىلا"
 
-#: mousemark/mousemark.cpp:57 mousemark/mousemark_config.cpp:73
+#: mousemark/mousemark.cpp:57 mousemark/mousemark_config.cpp:74
 msgid "Clear Last Mouse Mark"
 msgstr "ئەڭ ئاخىرقى چاشقىنەك بەلگىسىنى تازىلا"
 
-#: mousemark/mousemark_config.cpp:67
+#: mousemark/mousemark_config.cpp:68
 msgid "Clear Mouse Marks"
 msgstr "چاشقىنەك بەلگىسىنى تازىلا"
 
@@ -1187,17 +1213,17 @@ msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Shift+Meta نى بېسىپ تۇرۇپ چاشقىنەكنى يۆتكەش ئارقىلىق سىزىدۇ."
 
 #: presentwindows/presentwindows.cpp:70
-#: presentwindows/presentwindows_config.cpp:71
+#: presentwindows/presentwindows_config.cpp:72
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "بار كۆزنەكلەرنى ئالماشتۇر(نۆۋەتتىكى ئۈستەلئۈستى)"
 
 #: presentwindows/presentwindows.cpp:78
-#: presentwindows/presentwindows_config.cpp:65
+#: presentwindows/presentwindows_config.cpp:66
 msgid "Toggle Present Windows (All desktops)"
 msgstr "بار كۆزنەكلەرنى ئالماشتۇر(بارلىق ئۈستەلئۈستى)"
 
 #: presentwindows/presentwindows.cpp:86
-#: presentwindows/presentwindows_config.cpp:77
+#: presentwindows/presentwindows_config.cpp:78
 msgid "Toggle Present Windows (Window class)"
 msgstr "بار كۆزنەكلەرنى ئالماشتۇر(كۆزنەك تىپى(class))"
 
@@ -1448,7 +1474,7 @@ msgid "Text alpha:"
 msgstr "تېكىستنىڭ ئالفا قىممىتى:"
 
 #: thumbnailaside/thumbnailaside.cpp:37
-#: thumbnailaside/thumbnailaside_config.cpp:70
+#: thumbnailaside/thumbnailaside_config.cpp:71
 msgid "Toggle Thumbnail for Current Window"
 msgstr "نۆۋەتتىكى كۆزنەكنىڭ Thumbnail نى ئالماشتۇر"
 
@@ -1474,7 +1500,7 @@ msgstr " چېكىت"
 msgid "&Opacity:"
 msgstr "غۇۋالىقى(&O):"
 
-#: trackmouse/trackmouse.cpp:60 trackmouse/trackmouse_config.cpp:66
+#: trackmouse/trackmouse.cpp:60 trackmouse/trackmouse_config.cpp:67
 msgid "Track mouse"
 msgstr "چاشقىنەكنى ئىزلا"
 
@@ -1572,7 +1598,7 @@ msgstr "قاتلانغان تىزىملىك:"
 msgid "Toggle window geometry display (effect only)"
 msgstr "كۆزنەك گېئومېتىرىيىلىك كۆرسىتىشنى ئالماشتۇر(ئۈنۈملا)"
 
-#: windowgeometry/windowgeometry_config.cpp:55
+#: windowgeometry/windowgeometry_config.cpp:56
 msgid "Toggle KWin composited geometry display"
 msgstr "KWin بىرىكمە گېئومېتىرىيىلىك كۆرسىتىشنى ئالماشتۇر"
 
@@ -1652,27 +1678,27 @@ msgstr ""
 msgid "Move Zoomed Area Downwards"
 msgstr ""
 
-#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:112
+#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:113
 msgid "Move Mouse to Focus"
 msgstr "چاشقىنەكنى فوكۇسقا يۆتكە"
 
-#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:119
+#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:120
 msgid "Move Mouse to Center"
 msgstr "چاشقىنەكنى مەركەزگە يۆتكە"
 
-#: zoom/zoom_config.cpp:84
+#: zoom/zoom_config.cpp:85
 msgid "Move Left"
 msgstr "سولغا يۆتكە"
 
-#: zoom/zoom_config.cpp:91
+#: zoom/zoom_config.cpp:92
 msgid "Move Right"
 msgstr "ئوڭغا يۆتكە"
 
-#: zoom/zoom_config.cpp:98
+#: zoom/zoom_config.cpp:99
 msgid "Move Up"
 msgstr "ئۈستىگە"
 
-#: zoom/zoom_config.cpp:105
+#: zoom/zoom_config.cpp:106
 msgid "Move Down"
 msgstr "پەسكە"
 

@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // KDE
 #include <KConfig>
 #include <KConfigGroup>
-#include <KServiceTypeTrader>
+#include <KPackage/PackageLoader>
 // Qt
 #include <QtTest/QtTest>
 #include <QStringList>
@@ -35,6 +35,7 @@ Q_DECLARE_METATYPE(KWin::LoadEffectFlags)
 Q_DECLARE_METATYPE(KWin::Effect*)
 
 Q_LOGGING_CATEGORY(KWIN_CORE, "kwin_core")
+
 
 namespace KWin
 {
@@ -262,8 +263,11 @@ void TestScriptedEffectLoader::testLoadScriptedEffect()
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     loader.setConfig(config);
 
-    const auto services = KServiceTypeTrader::self()->query(QStringLiteral("KWin/Effect"),
-                                                            QStringLiteral("[X-KDE-PluginInfo-Name] == '%1'").arg(name));
+    const auto services = KPackage::PackageLoader::self()->findPackages(QStringLiteral("KWin/Effect"), QStringLiteral("kwin/effects"),
+        [name] (const KPluginMetaData &metadata) {
+            return metadata.pluginId().compare(name, Qt::CaseInsensitive) == 0;
+        }
+    );
     QCOMPARE(services.count(), 1);
 
     qRegisterMetaType<KWin::Effect*>();
@@ -325,6 +329,8 @@ void TestScriptedEffectLoader::testLoadAllEffects()
     plugins.writeEntry(kwin4 + QStringLiteral("minimizeanimationEnabled"), false);
     plugins.writeEntry(kwin4 + QStringLiteral("scaleinEnabled"), false);
     plugins.writeEntry(kwin4 + QStringLiteral("translucencyEnabled"), false);
+    plugins.writeEntry(kwin4 + QStringLiteral("eyeonscreenEnabled"), false);
+    plugins.writeEntry(kwin4 + QStringLiteral("windowapertureEnabled"), false);
     plugins.sync();
 
     loader.setConfig(config);

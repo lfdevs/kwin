@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-05-16 07:57+0000\n"
-"PO-Revision-Date: 2015-04-06 19:43+0100\n"
+"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"PO-Revision-Date: 2015-06-20 01:58+0100\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
 "Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
 "Language: ast\n"
@@ -17,65 +17,63 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 2.0\n"
 
-#, fuzzy
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Softastur"
 
-#, fuzzy
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "alministradores@softastur.org"
 
 #: main.cpp:187
 msgid "No Action"
-msgstr ""
+msgstr "Ensin aición"
 
 #: main.cpp:188
 msgid "Show Dashboard"
-msgstr ""
+msgstr "Amosar cuadru de mandos"
 
 #: main.cpp:189
 msgid "Show Desktop"
-msgstr ""
+msgstr "Amosar escritoriu"
 
 #: main.cpp:190
 msgid "Lock Screen"
-msgstr ""
+msgstr "Bloquiar pantalla"
 
 #: main.cpp:191
 msgid "Prevent Screen Locking"
-msgstr ""
+msgstr "Antemanar el bloquéu de pantalla"
 
 #: main.cpp:200
 #, kde-format
 msgid "%1 - All Desktops"
-msgstr ""
+msgstr "%1 - Tolos escritorios"
 
 #: main.cpp:201
 #, kde-format
 msgid "%1 - Current Desktop"
-msgstr ""
+msgstr "%1 - Escritoriu actual"
 
 #: main.cpp:202
 #, kde-format
 msgid "%1 - Current Application"
-msgstr ""
+msgstr "%1 - Aplicación actual"
 
 #: main.cpp:205
 #, kde-format
 msgid "%1 - Cube"
-msgstr ""
+msgstr "%1 - Cubu"
 
 #: main.cpp:206
 #, kde-format
 msgid "%1 - Cylinder"
-msgstr ""
+msgstr "%1 Cilindru"
 
 #: main.cpp:207
 #, kde-format
 msgid "%1 - Sphere"
-msgstr ""
+msgstr "%1 - Esfera"
 
 #: main.cpp:209
 msgid "Toggle window switching"
@@ -100,7 +98,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
 msgid "Window Management"
-msgstr ""
+msgstr "Xestión de ventanes"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
@@ -121,7 +119,7 @@ msgstr ""
 #: main.ui:106
 #, no-c-format
 msgid "%"
-msgstr ""
+msgstr "%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: main.ui:122

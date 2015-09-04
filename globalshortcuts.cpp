@@ -21,9 +21,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "globalshortcuts.h"
 // kwin
 #include <config-kwin.h>
+#include "main.h"
+#include "utils.h"
 // KDE
 #include <kkeyserver.h>
 #include <KConfigGroup>
+#include <KGlobalAccel/private/kglobalacceld.h>
+#include <KGlobalAccel/private/kglobalaccel_interface.h>
 // Qt
 #include <QAction>
 
@@ -106,6 +110,21 @@ GlobalShortcutsManager::~GlobalShortcutsManager()
     clearShortcuts(m_shortcuts);
     clearShortcuts(m_pointerShortcuts);
     clearShortcuts(m_axisShortcuts);
+}
+
+void GlobalShortcutsManager::init()
+{
+    if (kwinApp()->shouldUseWaylandForCompositing()) {
+        qputenv("KGLOBALACCELD_PLATFORM", QByteArrayLiteral("org.kde.kwin"));
+        m_kglobalAccel = new KGlobalAccelD(this);
+        if (!m_kglobalAccel->init()) {
+            qCDebug(KWIN_CORE) << "Init of kglobalaccel failed";
+            delete m_kglobalAccel;
+            m_kglobalAccel = nullptr;
+        } else {
+            qCDebug(KWIN_CORE) << "KGlobalAcceld inited";
+        }
+    }
 }
 
 template <typename T>
@@ -227,7 +246,24 @@ bool processShortcut(Qt::KeyboardModifiers mods, T key, U &shortcuts)
 
 bool GlobalShortcutsManager::processKey(Qt::KeyboardModifiers mods, uint32_t key)
 {
-    return processShortcut(mods, key, m_shortcuts);
+    if (m_kglobalAccelInterface) {
+        bool retVal = false;
+        int keyQt = 0;
+        if (KKeyServer::symXToKeyQt(key, &keyQt)) {
+            QMetaObject::invokeMethod(m_kglobalAccelInterface,
+                                    "checkKeyPressed",
+                                    Qt::DirectConnection,
+                                    Q_RETURN_ARG(bool, retVal),
+                                    Q_ARG(int, int(mods) | keyQt));
+            if (retVal) {
+                return true;
+            }
+        }
+    }
+    if (processShortcut(mods, key, m_shortcuts)) {
+        return true;
+    }
+    return false;
 }
 
 bool GlobalShortcutsManager::processPointerPressed(Qt::KeyboardModifiers mods, Qt::MouseButtons pointerButtons)

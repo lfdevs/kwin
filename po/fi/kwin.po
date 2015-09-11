@@ -15,9 +15,9 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2015-06-14 12:26+0200\n"
+"PO-Revision-Date: 2015-08-28 11:59+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
-"Language-Team: Finnish <lokalisointi@lists.coss.fi>\n"
+"Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -930,11 +930,11 @@ msgstr "Työpöytä %1"
 
 #: virtualdesktops.cpp:427
 msgid "Switch to Next Desktop"
-msgstr "Vaihda seuraavaan työpöytään"
+msgstr "Vaihda seuraavalle työpöydälle"
 
 #: virtualdesktops.cpp:428
 msgid "Switch to Previous Desktop"
-msgstr "Vaihda edelliseen työpöytään"
+msgstr "Vaihda edelliselle työpöydälle"
 
 # Näissä neljässä Switch one desktop to the X -käännöksessä on yritetty kääntää niin, että jonot tulevat aakkostettuna peräkkäin; erikseen kirjoitetut ”alas päin” jne. ovat kielitoimiston uudemman suosituksen mukaisia
 #: virtualdesktops.cpp:429
@@ -956,7 +956,7 @@ msgstr "Vaihda työpöytää alas päin"
 #: virtualdesktops.cpp:444
 #, kde-format
 msgid "Switch to Desktop %1"
-msgstr "Vaihda työpöytään %1"
+msgstr "Vaihda työpöydälle %1"
 
 #: workspace.cpp:1305
 msgctxt "Introductory text shown in the support information."

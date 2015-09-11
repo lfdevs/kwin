@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-08-12 11:22+0000\n"
-"PO-Revision-Date: 2015-01-26 12:15+0200\n"
+"PO-Revision-Date: 2015-08-30 15:36+0200\n"
 "Last-Translator: Liudas Ališauskas <liudas@akmc.lt>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -169,7 +169,7 @@ msgstr "Sudėtingesni"
 #: trackmouse/trackmouse_config.cpp:62
 #: windowgeometry/windowgeometry_config.cpp:54 zoom/zoom_config.cpp:63
 msgid "KWin"
-msgstr ""
+msgstr "KWin"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: cube/cube_config.ui:21
@@ -1072,25 +1072,19 @@ msgid "Toggle Mouse Click Effect"
 msgstr "Perjungti pelės paspaudimo efektą"
 
 #: mouseclick/mouseclick.cpp:58
-#, fuzzy
-#| msgid "Left"
 msgctxt "Left mouse button"
 msgid "Left"
-msgstr "Kairė"
+msgstr "Kairėje"
 
 #: mouseclick/mouseclick.cpp:59
-#, fuzzy
-#| msgid "Middle"
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Viduryje"
 
 #: mouseclick/mouseclick.cpp:60
-#, fuzzy
-#| msgid "Right"
 msgctxt "Right mouse button"
 msgid "Right"
-msgstr "Dešinė"
+msgstr "Dešinėje"
 
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21

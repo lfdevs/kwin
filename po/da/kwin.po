@@ -2,13 +2,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Martin Schlander <mschlander@opensuse.org>, 2008.
-# Martin Schlander <mschlander@opensuse.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014.
+# Martin Schlander <mschlander@opensuse.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2014-09-20 20:55+0200\n"
+"PO-Revision-Date: 2015-08-26 20:44+0200\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
 "Language: da\n"
@@ -294,16 +294,12 @@ msgid "Quick Tile Window to the Right"
 msgstr "Hurtig fliseudlægning af vindue til højre"
 
 #: kwinbindings.cpp:100
-#, fuzzy
-#| msgid "Quick Tile Window to the Top Left"
 msgid "Quick Tile Window to the Top"
-msgstr "Hurtig fliseudlægning af vindue øverst til venstre"
+msgstr "Hurtig fliseudlægning af vindue øverst"
 
 #: kwinbindings.cpp:102
-#, fuzzy
-#| msgid "Quick Tile Window to the Bottom Left"
 msgid "Quick Tile Window to the Bottom"
-msgstr "Hurtig fliseudlægning af vindue nederst til venstre"
+msgstr "Hurtig fliseudlægning af vindue nederst"
 
 #: kwinbindings.cpp:104
 msgid "Quick Tile Window to the Top Left"
@@ -479,65 +475,69 @@ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr "kwin_wayland: en X11-vindueshåndtering kører på X11-displayet.\n"
 
 #: main_wayland.cpp:473
-#, fuzzy
-#| msgid "Start a nested X Server."
 msgid "Start a rootless Xwayland server."
-msgstr "Start en indlejret X-server."
+msgstr "Start en rodløs Xwayland-server."
 
 #: main_wayland.cpp:475
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
+"Navnet på den Wayland-sokkel der skal lyttes på. Hvis ikke angivet bruges "
+"\"wayland-0\"."
 
 #: main_wayland.cpp:478
 msgid "Use a nested compositor in windowed mode."
-msgstr ""
+msgstr "Brug en indlejret compositor i vinduestilstand."
 
 #: main_wayland.cpp:480
 msgid "Render to framebuffer."
-msgstr ""
+msgstr "Render til framebuffer."
 
 #: main_wayland.cpp:482
 msgid "The framebuffer device to render to."
-msgstr ""
+msgstr "Framebuffer-enheder der skal renderes til."
 
 #: main_wayland.cpp:486
 msgid "The X11 Display to use in windowed mode on platform X11."
-msgstr ""
+msgstr "Den X11-visning der skal bruges i vinduestilstand på platform X11."
 
 #: main_wayland.cpp:489
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
+"Den Wayland-visning der skal bruges i vinduestilstand på platform Wayland."
 
 #: main_wayland.cpp:492
 msgid "The width for windowed mode. Default width is 1024."
-msgstr ""
+msgstr "Bredde for vinduestilstand. Standardbredde er 1024."
 
 #: main_wayland.cpp:496
 msgid "The height for windowed mode. Default height is 768."
-msgstr ""
+msgstr "Højde for vinduestilstand. Standardbredde er 768."
 
 #: main_wayland.cpp:512
 msgid "Use libhybris hwcomposer"
-msgstr ""
+msgstr "Brug libhybris hwcomposer"
 
 #: main_wayland.cpp:517
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
 msgstr ""
+"Aktivér libinput-understøttelse til behandling af hændelser. Bemærk: Brug "
+"aldrig dette i en indlejret session."
 
 #: main_wayland.cpp:521
 msgid "Render through drm node."
-msgstr ""
+msgstr "Render igennem drm-knude."
 
 #: main_wayland.cpp:526
 msgid "Input method that KWin starts."
-msgstr ""
+msgstr "Inputmetode som KWin starter."
 
 #: main_wayland.cpp:531
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr ""
+"Programmer der skal starte når Wayland- og Xwayland-serverne er startet"
 
 #: main_x11.cpp:156
 msgid ""
@@ -865,14 +865,12 @@ msgid "&New Desktop"
 msgstr "&Nyt skrivebord"
 
 #: useractions.cpp:669
-#, fuzzy, kde-format
-#| msgctxt "@item:inmenu List of all Screens to send a window to"
-#| msgid "Screen &%1"
+#, kde-format
 msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
 "number, second the output identifier. E.g. Screen 1 (HDMI1)"
 msgid "Screen &%1 (%2)"
-msgstr "Skærm &%1"
+msgstr "Skærm &%1 (%2)"
 
 #: useractions.cpp:690
 msgid "&All Activities"

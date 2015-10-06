@@ -1,21 +1,19 @@
-# Translation of kcmkwm to Norwegian Nynorsk
-#
 # Gaute Hvoslef Kvalnes <gaute@verdsveven.com>, 1999, 2000, 2002, 2004, 2005.
-# Karl Ove Hufthammer <karl@huftis.org>, 2004, 2007, 2008, 2010, 2011.
+# Karl Ove Hufthammer <karl@huftis.org>, 2004, 2007, 2008, 2010, 2011, 2015.
 # Eirik U. Birkeland <eirbir@gmail.com>, 2008, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2011-07-07 17:27+0200\n"
+"PO-Revision-Date: 2015-09-22 20:31+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.2\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
@@ -32,7 +30,7 @@ msgstr "gaute@verdsveven.com,karl@huftis.org"
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: actions.ui:32
 msgid "M&ouse wheel:"
-msgstr ""
+msgstr "M&ushjul:"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_4)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAll2)
@@ -56,7 +54,7 @@ msgstr "Flytt"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:60 actions.ui:162 actions.ui:325
 msgid "Activate, Raise & Move"
-msgstr ""
+msgstr "Aktiver, hev og flytt"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct1)
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
@@ -130,14 +128,14 @@ msgstr "Minimer"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:90 actions.ui:192 actions.ui:355
 msgid "Decrease Opacity"
-msgstr ""
+msgstr "Minsk tettleik"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll2)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:95 actions.ui:197 actions.ui:360
 msgid "Increase Opacity"
-msgstr ""
+msgstr "Auk tettleik"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
@@ -161,17 +159,17 @@ msgstr "Ingenting"
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: actions.ui:108
 msgid "Ri&ght button:"
-msgstr ""
+msgstr "Hø&gre knapp:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: actions.ui:121
 msgid "&Wheel"
-msgstr ""
+msgstr "&Mushjul"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:134
 msgid "Middle b&utton:"
-msgstr ""
+msgstr "Midtk&napp:"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_5)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAll3)
@@ -185,12 +183,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: actions.ui:210
 msgid "&Left button:"
-msgstr ""
+msgstr "&Venstreknapp:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: actions.ui:229
 msgid "Inner Window, Titlebar & Frame"
-msgstr ""
+msgstr "Indre vindauge, tittellinje og ramme"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWin2)
 #: actions.ui:242
@@ -240,7 +238,7 @@ msgstr "Aktiver og hev"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: actions.ui:269
 msgid "&Right button:"
-msgstr ""
+msgstr "&Høgre knapp:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWinWheel)
 #: actions.ui:288
@@ -348,7 +346,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: actions.ui:505
 msgid "M&iddle button:"
-msgstr ""
+msgstr "&Midtknapp:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: actions.ui:524
@@ -358,12 +356,12 @@ msgstr "Inaktivt indre vindauge"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:531
 msgid "Left &button"
-msgstr ""
+msgstr "Venstre&knapp:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:561
 msgid "Modifier &key:"
-msgstr ""
+msgstr "Val&tast:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAllKey)
 #: actions.ui:571
@@ -387,7 +385,7 @@ msgstr "Alt"
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: actions.ui:603
 msgid "   + "
-msgstr ""
+msgstr "   + "
 
 #. i18n: ectx: property (title), widget (QGroupBox, wtBox)
 #: advanced.ui:43
@@ -457,6 +455,19 @@ msgid ""
 "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
 "</ul>"
 msgstr ""
+"Plasseringsreglene fastset kor eit nytt vindauge vil dukka opp på "
+"skrivebordet.<br><ul>\n"
+"<li><em>Smart</em> vil prøva å få minst mogleg overlapping av vindauge.</"
+"li>\n"
+"<li><em>Maksimering</em> vil prøva å maksimera alle vindauge slik at dei "
+"fyllar heile skjermen. Det kan vera nyttig å endra dette for enkeltvindauge "
+"ved å bruka innstillingar for enkeltvindauge.</li> \n"
+"<li><em>Overlappande</em> vil leggja vindauga delvis oppgå kvarandre.</li> \n"
+"<li><em>Tilfeldig</em> vil bruka tilfeldige plasseringar.</li>\n"
+"<li><em>Midtstilt</em> vil plassera vindauget i midten.</li>\n"
+"<li><em>Hjørnet lengst opp til venstre</em> vil plassera vindauget øvst i "
+"venstre hjørne</li>\n"
+"<li><em>Under mus</em> vil plassera vindauget under musepeikeren.</li></ul>"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:125
@@ -471,7 +482,7 @@ msgstr "Maksimering"
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:135
 msgid "Cascade"
-msgstr "Kaskade"
+msgstr "Overlappande"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:140
@@ -536,7 +547,7 @@ msgstr " ms"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: advanced.ui:239
 msgid "Special Windows"
-msgstr ""
+msgstr "Spesialvindauge"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, hideUtilityWindowsForInactive)
 #: advanced.ui:248
@@ -559,7 +570,7 @@ msgstr "Gøym verktøyvindauge for program som ikkje er i bruk"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: focus.ui:30
 msgid "Activating windows"
-msgstr ""
+msgstr "Aktivering av vindauge"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: focus.ui:69
@@ -569,6 +580,10 @@ msgid ""
 "This behaviour is common on other operating systems and<br>\n"
 "likely what you want."
 msgstr ""
+"<b>Trykk for fokus</b><br>\n"
+"Eit vindauge vert aktivt når du trykkjer museknappen inni det.<br><br>\n"
+"Denne åtferda er vanleg i andre operativsystem og<br> \n"
+"er truleg det du vil ha."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: focus.ui:91
@@ -580,6 +595,12 @@ msgid ""
 "the window under the mouse is the preferred candidate.<br><br>\n"
 "Unusual, but possible variant of <i>Click To Focus</i>."
 msgstr ""
+"<b>Trykk for fokus – muspresedens</b><br>\n"
+"Dette er stort sett det same som <i>Trykk for fokus</i><br><br>\n"
+"Viss systemet må velja eit aktivt vindauge<br>\n"
+"(for eksempel fordi det gjeldande aktive vart lukka),<br>\n"
+"så vert vindauget under musepeikeren den føretrekte kandidaten.<br><br>\n"
+"Uvanleg, men mogleg variant av <i>Trykk for fokus</i>."
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: focus.ui:112
@@ -590,6 +611,12 @@ msgid ""
 "Focus stealing prevention takes place as usual.<br><br>\n"
 "Think as <i>Click To Focus</i> just without having to actually click."
 msgstr ""
+"<b>Fokus følgjer musa</b><br>\n"
+"Eit vindauge vert aktivt når musepeikaren vert flytt inn i det.<br><br>\n"
+"Vindauge som tilfeldigvis dukkar opp under musepeikaren får ikkje fokus."
+"<br>\n"
+"Fokusstjeling vert førebygd som vanleg.<br> <br> \n"
+"Tenk som <i>Trykk for fokus</i> utan at det er nødvendig å trykkja,"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: focus.ui:134
@@ -601,6 +628,12 @@ msgid ""
 "the window under the mouse is the preferred candidate.<br><br>\n"
 "Choose this, if you want a hover controlled focus."
 msgstr ""
+"<b>Fokus følgjer musa – muspresedens</b><br>\n"
+"Dette er stort sett det same som <i>Fokus følgjer musa</i><br><br>\n"
+"Viss systemet må velja eit aktivt vindauge<br>\n"
+"(for eksempel fordi det gjeldande aktive vart lukka),<br>\n"
+"så vert vindauget under musepeikeren den føretrekte kandidaten.<br><br>\n"
+"Vel dette viss du ønskjer fokus styrt av plasseringa til musepeikaren."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: focus.ui:158
@@ -614,6 +647,14 @@ msgid ""
 "You very likely want to use<br>\n"
 "<i>Focus Follows Mouse - Mouse Precedence</i> instead!"
 msgstr ""
+"<b>Fokus under musa</b><br>\n"
+"Fokus er alltid på vindauget under musepekeren.<br><br>\n"
+"nMerk:<br>\n"
+"<b>Hindring av fokusstjeling</b> og <b>programbytevindauget («Alt+Tab»)</"
+"b><br>\n"
+"er mot denne praksisen og <b>vil ikkje verka</b>.<br><br>\n"
+"Du vil truleg heller vilja bruka<br>\n"
+"<i>Fokus følgjer mus – muspresedens</i> i staden."
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: focus.ui:183
@@ -629,11 +670,23 @@ msgid ""
 "You very likely want to use<br>\n"
 "<i>Focus Follows Mouse - Mouse Precedence</i> instead!"
 msgstr ""
+"<b>Fokus strengt under mus</b><br>\n"
+"Fokus er alltid på vindauget under musepeikeren – viss tvil, ingen stadar "
+"–<br>\n"
+"svært likt fokusåtferda i eit gammeldags X11-miljø utan vindaugshandsamar."
+"<br><br>\n"
+"\n"
+"Merk:<br>\n"
+"<b>Hindring av fokusstjeling</b> og <b>programbytevindauget  («Alt+Tab»)</"
+"b><br>\n"
+"er mot denne praksisen og <b>vil ikkje verka</b>.<br><br>\n"
+"Du vil truleg heller vilja bruka<br>\n"
+"<i>Fokus følgjer mus – muspresedens</i> i staden."
 
 #. i18n: ectx: property (text), widget (QLabel, delayFocusOnLabel)
 #: focus.ui:228
 msgid "&Delay focus by"
-msgstr ""
+msgstr "&Forseinka fokus med"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, delayFocus)
 #: focus.ui:247
@@ -646,7 +699,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, focusStealingLabel)
 #: focus.ui:273
 msgid "Focus &stealing prevention"
-msgstr ""
+msgstr "&Førebygg fokus-steling"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, focusStealing)
 #: focus.ui:300
@@ -674,12 +727,33 @@ msgid ""
 "attention, which by default means their taskbar entry will be highlighted. "
 "This can be changed in the Notifications control module.</p>"
 msgstr ""
+"<p>Med denne funksjonen kan du velja kor mykje KWin skal prøva å hindra "
+"uønskt fokussteling frå vindauge som dukkar uventa opp. (Merk at denne "
+"funksjonen ikkje fungerer med «Fokus under musa» og «Fokus strengt under "
+"musa».)</p><ul>\n"
+"<li><em>Inga:</em> Tradisjonell åtferd. Fokussteling vert ikkje hindra, og "
+"nye vindauge vert alltid vert verksame.</li>\n"
+"<li><em>Låg:</em> Hindring av fokussteling er slått på. Eit vindauge vert "
+"verksamt dersom det ikkje støttar den underliggjande mekanismen, slik at "
+"KWin ikkje klarar å avgjera om vindauget skal gjerast verksamt. Avhengig av "
+"programmet kan denne innstillinga gje dårlegare eller betre resultat enn "
+"middelsnivået.</li>\n"
+"<li><em>Middels:</em> Fokussteling vert hindra. Dette er "
+"standardinnstillinga.</li>\n"
+"<li><em>Høg:</em> Nye vindauge vert berre verksame dersom ingen andre "
+"vindauge er verksame, eller dersom dei høyrer til det aktive programmet. "
+"Denne innstillinga er truleg ikkje særleg nyttig dersom du ikkje brukar musa "
+"til fokusering.</li>\n"
+"<li><em>Ekstrem:</em> Alle vindauge må gjerast verksame særskilt av brukaren."
+"</li></ul><p>Vindauge som vert hindra i å stela fokus vil visa at dei "
+"påkallar merksemd. Det skjer vanlegvis ved at dei vert markerte i "
+"oppgåvelinja. Du kan endra på dette i kontrollmodulen «Varsel».</p>"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:304
 msgid "None"
-msgstr ""
+msgstr "Inga"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
@@ -691,7 +765,7 @@ msgstr "Låg"
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:314
 msgid "Medium"
-msgstr ""
+msgstr "Middels"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
@@ -708,22 +782,22 @@ msgstr "Ekstrem"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: focus.ui:364
 msgid "Policy"
-msgstr ""
+msgstr "Praksis"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: focus.ui:377
 msgid "Click"
-msgstr ""
+msgstr "Klikk"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: focus.ui:409
 msgid "Hover"
-msgstr ""
+msgstr "Peikar over"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: focus.ui:434
 msgid "Raising windows"
-msgstr ""
+msgstr "Hev vindauge"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, autoRaiseOn)
 #: focus.ui:443
@@ -737,7 +811,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, autoRaiseOn)
 #: focus.ui:446
 msgid "&Raise on hover, delayed by"
-msgstr ""
+msgstr "&Hev ved peikar over, forseinka med"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, autoRaise)
 #: focus.ui:472
@@ -766,7 +840,7 @@ msgstr "&Klikk for å heva aktivt vindauge"
 #. i18n: ectx: property (title), widget (QGroupBox, multiscreenBox)
 #: focus.ui:520
 msgid "Multiscreen behaviour"
-msgstr ""
+msgstr "Fleirskjermsåtferd"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, separateScreenFocus)
 #: focus.ui:529
@@ -791,6 +865,11 @@ msgid ""
 "window. By default this option is disabled for Click to focus and enabled "
 "for other focus policies."
 msgstr ""
+"Når dette valet er på, er den aktive Ximerama-skjermen (der for eksempel eit "
+"nytt vindauge kjem til syne) den skjermen der musepeikaren er. Når valet er "
+"av, er den aktive Xinerama-skjermen den skjermen som har eit vindauge i "
+"fokus. Som standard er dette valet slått av for «klikk for fokusering» og "
+"slått på for andre fokuseringspraksisar."
 
 #. i18n: ectx: property (text), widget (QCheckBox, activeMouseScreen)
 #: focus.ui:542
@@ -899,7 +978,7 @@ msgstr "Maksimer (berre loddrett)"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: mouse.ui:32
 msgid "&Double-click:"
-msgstr ""
+msgstr "&Dobbeltklikk:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiDbl)
 #: mouse.ui:51
@@ -941,7 +1020,7 @@ msgstr "På alle skrivebord"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mouse.ui:103
 msgid "Wheel event:"
-msgstr ""
+msgstr "Hjulhending:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct4)
 #: mouse.ui:122
@@ -1082,12 +1161,12 @@ msgstr "Åtferd ved <em>høgreklikk</em> på maksimeringsknappen."
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: mouse.ui:770
 msgid "Titlebar & Frame"
-msgstr ""
+msgstr "Tittellinje og ramme"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: mouse.ui:783
 msgid "Titlebar"
-msgstr ""
+msgstr "Tittellinje"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: mouse.ui:796
@@ -1126,12 +1205,12 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, borderSnap)
 #: moving.ui:67 moving.ui:134 moving.ui:162
 msgid " pixel"
-msgstr ""
+msgstr " piksel"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, centerSnap)
 #: moving.ui:70
 msgid "no center snap zone"
-msgstr ""
+msgstr "inga låsesone i midten"
 
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
 #: moving.ui:90
@@ -1156,7 +1235,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, windowSnap)
 #: moving.ui:137
 msgid "no window snap zone"
-msgstr ""
+msgstr "inga vindaugslåsesone"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, borderSnap)
 #: moving.ui:150
@@ -1172,7 +1251,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, borderSnap)
 #: moving.ui:165
 msgid "no border snap zone"
-msgstr ""
+msgstr "inga kantlåsesone"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, geometryTipOn)
 #: moving.ui:172

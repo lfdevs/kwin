@@ -1,5 +1,3 @@
-# Translation of kwin to Norwegian Bokmål
-#
 # Hans Petter Bieker <bieker@kde.org>, 2000.
 # Knut Erik Hollund <khollund@responze.net>, 2003.
 # Axel Bojer <axel@bojer.no>, 2003, 2005.

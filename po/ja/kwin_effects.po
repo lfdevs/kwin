@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-12 11:22+0000\n"
+"POT-Creation-Date: 2015-09-15 14:06+0000\n"
 "PO-Revision-Date: 2010-09-25 16:49-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -434,7 +434,7 @@ msgstr ""
 msgid "Apply blur effect to background"
 msgstr "グループに効果を適用する(&G)"
 
-#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "デスクトップグリッドを表示"
 
@@ -1268,7 +1268,7 @@ msgstr "ウィンドウを並べて表示 (すべてのデスクトップ)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "ウィンドウを並べて表示 (ウィンドウのクラス)"
 
-#: presentwindows/presentwindows.cpp:1561
+#: presentwindows/presentwindows.cpp:1566
 #, kde-format
 msgid ""
 "Filter:\n"

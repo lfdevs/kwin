@@ -1,5 +1,3 @@
-# Translation of kcmkwinrules to Norwegian Bokmål
-#
 # Torstein Dybdahl <torsted@runbox.no>, 2004.
 # Knut Yrvin <knut.yrvin@gmail.com>, 2005.
 # Axel Bojer <axel@bojer.no>, 2005.

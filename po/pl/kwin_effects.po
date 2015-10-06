@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-12 11:22+0000\n"
+"POT-Creation-Date: 2015-09-15 14:06+0000\n"
 "PO-Revision-Date: 2015-08-15 10:48+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -422,7 +422,7 @@ msgstr "Efekt rozmycia musi zostać włączony przed jego użyciem."
 msgid "Apply blur effect to background"
 msgstr "Zastosuj efekt rozmycia do tła"
 
-#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Pokaż siatkę na pulpicie"
 
@@ -1199,7 +1199,7 @@ msgstr "Włącz/wyłącz prezentację okien (Wszystkie pulpity)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Włącz/wyłącz prezentację okien (Klasa okna)"
 
-#: presentwindows/presentwindows.cpp:1561
+#: presentwindows/presentwindows.cpp:1566
 #, kde-format
 msgid ""
 "Filter:\n"

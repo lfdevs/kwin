@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-12 11:22+0000\n"
+"POT-Creation-Date: 2015-09-15 14:06+0000\n"
 "PO-Revision-Date: 2014-06-26 19:22+0700\n"
 "Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
@@ -417,7 +417,7 @@ msgstr "Efek kabur harus diaktifkan sebelum dapat digunakan."
 msgid "Apply blur effect to background"
 msgstr "Terapkan efek ke kabur ke latar belakang"
 
-#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Tampilkan Petak Desktop"
 
@@ -1193,7 +1193,7 @@ msgstr "Ubah Jendela Saat Ini (Semua desktop)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Ubah Jendela Saat Ini (Kelas jendela)"
 
-#: presentwindows/presentwindows.cpp:1561
+#: presentwindows/presentwindows.cpp:1566
 #, kde-format
 msgid ""
 "Filter:\n"

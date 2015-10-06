@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-12 11:22+0000\n"
+"POT-Creation-Date: 2015-09-15 14:06+0000\n"
 "PO-Revision-Date: 2010-12-17 21:12+0700\n"
 "Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -424,7 +424,7 @@ msgstr "ลูกเล่นปรับให้ไม่ชัดจะต้
 msgid "Apply blur effect to background"
 msgstr "ปรับใชั้ลูกเล่นปรับให้ไม่ชัดเจนกับพื้นหลัง"
 
-#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "แสดงแนวตารางของพื้นที่ทำงาน"
 
@@ -1255,7 +1255,7 @@ msgstr "เปิด/ปิดลูกเล่นกับหน้าต่�
 msgid "Toggle Present Windows (Window class)"
 msgstr "เปิด/ปิดลูกเล่นกับหน้าต่างต่าง ๆ ในปัจจุบัน (คลาสของหน้าต่าง)"
 
-#: presentwindows/presentwindows.cpp:1561
+#: presentwindows/presentwindows.cpp:1566
 #, kde-format
 msgid ""
 "Filter:\n"

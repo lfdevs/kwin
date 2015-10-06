@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Malayalam\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-09-19 13:17+0000\n"
 "PO-Revision-Date: 2008-07-11 15:31+0530\n"
 "Last-Translator: മണിലാല്‍ കെ.എം|Manilal K M <libregeek@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് "
@@ -14,6 +14,14 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: Malayalam\n"
 "X-Poedit-Country: INDIA\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "മണിലാല്‍ കെ എം"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "libregeek@gmail.com"
 
 #: compositing.cpp:387
 #, fuzzy
@@ -230,48 +238,48 @@ msgid ""
 "\"Re-use screen content\" causes performance severe problems on MESA drivers."
 msgstr ""
 
-#: model.cpp:67
+#: model.cpp:69
 #, fuzzy
 #| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "സാമീപ്യത"
 
-#: model.cpp:68
+#: model.cpp:70
 #, fuzzy
 #| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "ബാഹ്യരൂപം"
 
-#: model.cpp:69
+#: model.cpp:71
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr ""
 
-#: model.cpp:70
+#: model.cpp:72
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr ""
 
-#: model.cpp:71
+#: model.cpp:73
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr ""
 
-#: model.cpp:72
+#: model.cpp:74
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr ""
 
-#: model.cpp:73
+#: model.cpp:75
 #, fuzzy
 #| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "ജാലകത്തിന്റെ നടത്തിപ്പ്"
 
-#: model.cpp:235
+#: model.cpp:231
 msgid "KWin development team"
 msgstr ""
 

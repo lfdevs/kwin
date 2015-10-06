@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2015-04-22 12:38+0300\n"
+"PO-Revision-Date: 2015-09-03 20:52+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -516,11 +516,11 @@ msgstr "Устройство фреймбуфера, в которое след�
 
 #: main_wayland.cpp:486
 msgid "The X11 Display to use in windowed mode on platform X11."
-msgstr ""
+msgstr "Экран X11, на котором KWin будет запущен в оконном режиме."
 
 #: main_wayland.cpp:489
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
-msgstr ""
+msgstr "Экран Wayland, на котором KWin будет запущен в оконном режиме."
 
 #: main_wayland.cpp:492
 msgid "The width for windowed mode. Default width is 1024."
@@ -548,7 +548,7 @@ msgstr "Отрисовка во фреймбуфер."
 
 #: main_wayland.cpp:526
 msgid "Input method that KWin starts."
-msgstr ""
+msgstr "Запускаемый сервер методов ввода."
 
 #: main_wayland.cpp:531
 msgid "Applications to start once Wayland and Xwayland server are started"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-09-19 13:17+0000\n"
 "PO-Revision-Date: 2015-02-17 11:23+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128@baslug.org>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -20,6 +20,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 1.5\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Vincenzo Reale,Luciano Montanaro"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "smart2128@baslug.org,"
 
 #: compositing.cpp:387
 msgid "OpenGL 3.1"
@@ -246,42 +254,42 @@ msgstr ""
 "«Riutilizza il contenuto dello schermo» causa gravi problemi di prestazioni "
 "con i driver MESA."
 
-#: model.cpp:67
+#: model.cpp:69
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Accessibilità"
 
-#: model.cpp:68
+#: model.cpp:70
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Aspetto"
 
-#: model.cpp:69
+#: model.cpp:71
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Attrazioni"
 
-#: model.cpp:70
+#: model.cpp:72
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Focus"
 
-#: model.cpp:71
+#: model.cpp:73
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Strumenti"
 
-#: model.cpp:72
+#: model.cpp:74
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr "Animazione del passaggio tra i desktop virtuali"
 
-#: model.cpp:73
+#: model.cpp:75
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Gestione delle finestre"
 
-#: model.cpp:235
+#: model.cpp:231
 msgid "KWin development team"
 msgstr "La squadra di sviluppo di KWin"
 

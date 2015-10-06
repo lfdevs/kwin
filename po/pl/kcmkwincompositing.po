@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-09-19 13:17+0000\n"
 "PO-Revision-Date: 2015-03-14 08:50+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -21,6 +21,14 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 1.5\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Marta Rybczyńska, Łukasz Wojniłowicz"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "kde-i18n@rybczynska.net, lukasz.wojnilowicz@gmail.com"
 
 #: compositing.cpp:387
 msgid "OpenGL 3.1"
@@ -245,42 +253,42 @@ msgstr ""
 "\"Użyj ponownie zawartości ekranu\" powoduje poważne problemy na "
 "sterownikach MESA."
 
-#: model.cpp:67
+#: model.cpp:69
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Dostępność"
 
-#: model.cpp:68
+#: model.cpp:70
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Wygląd"
 
-#: model.cpp:69
+#: model.cpp:71
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Cukierki"
 
-#: model.cpp:70
+#: model.cpp:72
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Uaktywnianie"
 
-#: model.cpp:71
+#: model.cpp:73
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Narzędzia"
 
-#: model.cpp:72
+#: model.cpp:74
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr "Animacja przełączania pulpitów wirtualnych"
 
-#: model.cpp:73
+#: model.cpp:75
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Zarządzanie oknami"
 
-#: model.cpp:235
+#: model.cpp:231
 msgid "KWin development team"
 msgstr "Zespół programistów KWin"
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/kcmkwincompositing.po\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-09-19 13:17+0000\n"
 "PO-Revision-Date: 2007-07-22 14:30-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -16,6 +16,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n < 11 ? "
 "3 : 4\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Séamus Ó Ciardhuáin,Kevin Scannell"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "seoc@iolfree.ie,kscanne@gmail.com"
 
 #: compositing.cpp:387
 #, fuzzy
@@ -247,54 +255,54 @@ msgid ""
 "\"Re-use screen content\" causes performance severe problems on MESA drivers."
 msgstr ""
 
-#: model.cpp:67
+#: model.cpp:69
 #, fuzzy
 #| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Inrochtaineacht"
 
-#: model.cpp:68
+#: model.cpp:70
 #, fuzzy
 #| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Cuma"
 
-#: model.cpp:69
+#: model.cpp:71
 #, fuzzy
 #| msgid "Candy"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Milseán"
 
-#: model.cpp:70
+#: model.cpp:72
 #, fuzzy
 #| msgid "Focus"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Fócas"
 
-#: model.cpp:71
+#: model.cpp:73
 #, fuzzy
 #| msgid "Tools"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Uirlisí"
 
-#: model.cpp:72
+#: model.cpp:74
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr ""
 
-#: model.cpp:73
+#: model.cpp:75
 #, fuzzy
 #| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Bainisteoireacht Fuinneog"
 
-#: model.cpp:235
+#: model.cpp:231
 msgid "KWin development team"
 msgstr ""
 

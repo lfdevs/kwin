@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-12 11:22+0000\n"
+"POT-Creation-Date: 2015-09-15 14:06+0000\n"
 "PO-Revision-Date: 2011-07-12 17:50+0200\n"
 "Last-Translator: Marko Dimjašević <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -429,7 +429,7 @@ msgstr "Efekt mrlje mora biti omogućen kako bi se mogao koristiti."
 msgid "Apply blur effect to background"
 msgstr "Primijeni efekt mrlje na pozadinu"
 
-#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Pokaži mrežu radnih površina"
 
@@ -1260,7 +1260,7 @@ msgstr "Uključi prisutne prozore (sve radne površine)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Uključi prisutne prozore (klase prozora)"
 
-#: presentwindows/presentwindows.cpp:1561
+#: presentwindows/presentwindows.cpp:1566
 #, kde-format
 msgid ""
 "Filter:\n"

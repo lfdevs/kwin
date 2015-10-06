@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-12 11:22+0000\n"
+"POT-Creation-Date: 2015-09-15 14:06+0000\n"
 "PO-Revision-Date: 2013-09-30 00:41+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -418,7 +418,7 @@ msgstr "Бұған алдымен бұлдырлату эффектін қосу
 msgid "Apply blur effect to background"
 msgstr "Бұлдырлату эффекті аясына қолданылсын"
 
-#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Үстел торын көрсету"
 
@@ -1230,7 +1230,7 @@ msgstr "'Терезелерді көрсету' күйін терістеу (б�
 msgid "Toggle Present Windows (Window class)"
 msgstr "'Терезелерді көрсету' күйін терістеу (терезе класы үшін)"
 
-#: presentwindows/presentwindows.cpp:1561
+#: presentwindows/presentwindows.cpp:1566
 #, kde-format
 msgid ""
 "Filter:\n"

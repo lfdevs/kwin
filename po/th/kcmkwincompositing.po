@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-09-19 13:17+0000\n"
 "PO-Revision-Date: 2010-12-17 21:24+0700\n"
 "Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -18,6 +18,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 1.1\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "สหชาติ อนุกูลกิจ, ถนอมทรัพย์ นพบูรณ์"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "drrider@gmail.com, donga.nb@gmailc.om"
 
 #: compositing.cpp:387
 #, fuzzy
@@ -245,54 +253,54 @@ msgid ""
 "\"Re-use screen content\" causes performance severe problems on MESA drivers."
 msgstr ""
 
-#: model.cpp:67
+#: model.cpp:69
 #, fuzzy
 #| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "การช่วยใช้งาน"
 
-#: model.cpp:68
+#: model.cpp:70
 #, fuzzy
 #| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "รูปลักษณ์"
 
-#: model.cpp:69
+#: model.cpp:71
 #, fuzzy
 #| msgid "Candy"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "ลูกเล่นพิเศษ"
 
-#: model.cpp:70
+#: model.cpp:72
 #, fuzzy
 #| msgid "Focus"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "การโฟกัส"
 
-#: model.cpp:71
+#: model.cpp:73
 #, fuzzy
 #| msgid "Tools"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "เครื่องมือ"
 
-#: model.cpp:72
+#: model.cpp:74
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr ""
 
-#: model.cpp:73
+#: model.cpp:75
 #, fuzzy
 #| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "การจัดการหน้าต่าง"
 
-#: model.cpp:235
+#: model.cpp:231
 msgid "KWin development team"
 msgstr ""
 

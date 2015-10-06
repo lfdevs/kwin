@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-09-19 13:17+0000\n"
 "PO-Revision-Date: 2015-02-04 15:48+0000\n"
 "Last-Translator: Samir Ribić <Unknown>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -22,6 +22,14 @@ msgstr ""
 "X-Environment: kde\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr ""
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr ""
 
 #: compositing.cpp:387
 msgid "OpenGL 3.1"
@@ -245,42 +253,42 @@ msgstr ""
 "\"Ponovno upotrebljavanje sadržaja ekrana\" uzrokuje ozbiljne probleme "
 "performasni na MESA drajverima."
 
-#: model.cpp:67
+#: model.cpp:69
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Pristupačnost"
 
-#: model.cpp:68
+#: model.cpp:70
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Prikaz"
 
-#: model.cpp:69
+#: model.cpp:71
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Slatkiši"
 
-#: model.cpp:70
+#: model.cpp:72
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Fokus"
 
-#: model.cpp:71
+#: model.cpp:73
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Alati"
 
-#: model.cpp:72
+#: model.cpp:74
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr "Animacija zamjene virtualne pozadinske površine"
 
-#: model.cpp:73
+#: model.cpp:75
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Upravljanje prozorima"
 
-#: model.cpp:235
+#: model.cpp:231
 msgid "KWin development team"
 msgstr "KWin razvojni tim"
 

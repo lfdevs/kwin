@@ -909,7 +909,6 @@ void Client::propertyNotifyEvent(xcb_property_notify_event_t *e)
         break;
     default:
         if (e->atom == atoms->motif_wm_hints) {
-            m_motif.fetch();
             getMotifHints();
         } else if (e->atom == atoms->net_wm_sync_request_counter)
             getSyncCounter();
@@ -1005,6 +1004,11 @@ void Client::leaveNotifyEvent(xcb_leave_notify_event_t *e)
                 connect(shadeHoverTimer, SIGNAL(timeout()), this, SLOT(shadeUnhover()));
                 shadeHoverTimer->setSingleShot(true);
                 shadeHoverTimer->start(options->shadeHoverInterval());
+            }
+            if (m_decoration) {
+                // sending a move instead of a leave. With leave we need to send proper coords, with move it's handled internally
+                QHoverEvent leaveEvent(QEvent::HoverMove, QPointF(-1, -1), QPointF(-1, -1), Qt::NoModifier);
+                QCoreApplication::sendEvent(m_decoration, &leaveEvent);
             }
         }
         if (options->focusPolicy() == Options::FocusStrictlyUnderMouse && isActive() && lostMouse) {
@@ -1343,7 +1347,7 @@ void Client::checkQuickTilingMaximizationZones(int xroot, int yroot)
 // return value matters only when filtering events before decoration gets them
 bool Client::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x_root, int y_root)
 {
-    if (w == frameId() && m_decoration) {
+    if (w == frameId() && m_decoration && !isMinimized()) {
         // TODO Mouse move event dependent on state
         QHoverEvent event(QEvent::HoverMove, QPointF(x, y), QPointF(x, y));
         QCoreApplication::instance()->sendEvent(m_decoration, &event);

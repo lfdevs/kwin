@@ -1,5 +1,3 @@
-# Translation of kcmkwinscreenedges to Norwegian Bokmål
-#
 # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2009, 2010, 2012, 2013, 2014.
 msgid ""
 msgstr ""

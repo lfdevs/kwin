@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-12 11:22+0000\n"
+"POT-Creation-Date: 2015-09-15 14:06+0000\n"
 "PO-Revision-Date: 2010-01-09 20:10+0200\n"
 "Last-Translator: Maris Nartiss <maris.kde@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -436,7 +436,7 @@ msgstr ""
 msgid "Apply blur effect to background"
 msgstr "Pielietot efektu &grupām"
 
-#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Parādīt darbvirsmas režģi"
 
@@ -1273,7 +1273,7 @@ msgstr "Pārslēgt 'Parādīt logus' (Visas darbvirsmas)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Pārslēgt 'Parādīt logus' (Loga klase)"
 
-#: presentwindows/presentwindows.cpp:1561
+#: presentwindows/presentwindows.cpp:1566
 #, kde-format
 msgid ""
 "Filter:\n"

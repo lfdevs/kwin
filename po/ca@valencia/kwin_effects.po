@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-12 11:22+0000\n"
+"POT-Creation-Date: 2015-09-15 14:06+0000\n"
 "PO-Revision-Date: 2013-10-13 17:36+0200\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -421,7 +421,7 @@ msgstr "L'efecte de difuminat ha d'estar actiu per a que es puga utilitzar."
 msgid "Apply blur effect to background"
 msgstr "Aplica l'efecte de difuminat al fons"
 
-#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Mostra la graella de l'escriptori"
 
@@ -1233,7 +1233,7 @@ msgstr "Commuta les finestres presents (tots els escriptoris)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Commuta les finestres presents (classe finestra)"
 
-#: presentwindows/presentwindows.cpp:1561
+#: presentwindows/presentwindows.cpp:1566
 #, kde-format
 msgid ""
 "Filter:\n"

@@ -1,5 +1,3 @@
-# Translation of kcm_kwindesktop to Northern Sami
-#
 # Børre Gaup <boerre@skolelinux.no>, 2007.
 msgid ""
 msgstr ""

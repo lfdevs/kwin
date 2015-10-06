@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-12 11:22+0000\n"
+"POT-Creation-Date: 2015-09-15 14:06+0000\n"
 "PO-Revision-Date: 2015-04-20 13:47+0100\n"
 "Last-Translator: Vít Pelčák <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -420,7 +420,7 @@ msgstr "Efekt rozostření je třeba nejprve povolit před jeho použitím."
 msgid "Apply blur effect to background"
 msgstr "Použít efekt rozostření na pozadí"
 
-#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Zobrazit mřížku ploch"
 
@@ -1192,7 +1192,7 @@ msgstr "Zapnout současná okna (na všech plochách)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Zapnout současná okna (třída okno)"
 
-#: presentwindows/presentwindows.cpp:1561
+#: presentwindows/presentwindows.cpp:1566
 #, kde-format
 msgid ""
 "Filter:\n"

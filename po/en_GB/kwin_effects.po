@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-12 11:22+0000\n"
+"POT-Creation-Date: 2015-09-15 14:06+0000\n"
 "PO-Revision-Date: 2015-04-26 16:16+0100\n"
 "Last-Translator: \n"
 "Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
@@ -422,7 +422,7 @@ msgstr "The blur effect must be enabled before it can be used."
 msgid "Apply blur effect to background"
 msgstr "Apply blur effect to background"
 
-#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Show Desktop Grid"
 
@@ -1189,7 +1189,7 @@ msgstr "Toggle Present Windows (All desktops)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Toggle Present Windows (Window class)"
 
-#: presentwindows/presentwindows.cpp:1561
+#: presentwindows/presentwindows.cpp:1566
 #, kde-format
 msgid ""
 "Filter:\n"

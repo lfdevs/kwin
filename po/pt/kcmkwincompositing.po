@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2014-07-23 10:38+0100\n"
+"POT-Creation-Date: 2015-09-19 13:17+0000\n"
+"PO-Revision-Date: 2015-09-20 14:02+0100\n"
 "Last-Translator: José Nuno Coelho Pires <zepires@gmail.com>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: \n"
@@ -16,6 +16,14 @@ msgstr ""
 "X-POFile-SpellExtra: white XRenderSetPictureFilter GLNEAREST GLLINEAR\n"
 "X-POFile-SpellExtra: Shading shaders Shaders Kolor Manager GLFRONT GLBACK\n"
 "X-POFile-SpellExtra: Sinc GLX EGL\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "José Nuno Pires"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "zepires@gmail.com"
 
 #: compositing.cpp:387
 msgid "OpenGL 3.1"
@@ -240,42 +248,42 @@ msgstr ""
 "O \"Reutilizar o conteúdo do ecrã\" causa problemas graves de performance "
 "nos controladores MESA."
 
-#: model.cpp:67
+#: model.cpp:69
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Acessibilidade"
 
-#: model.cpp:68
+#: model.cpp:70
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Aparência"
 
-#: model.cpp:69
+#: model.cpp:71
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Beleza"
 
-#: model.cpp:70
+#: model.cpp:72
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Foco"
 
-#: model.cpp:71
+#: model.cpp:73
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Ferramentas"
 
-#: model.cpp:72
+#: model.cpp:74
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr "Animação de Mudança de Ecrã Virtual"
 
-#: model.cpp:73
+#: model.cpp:75
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Gestão de Janelas"
 
-#: model.cpp:235
+#: model.cpp:231
 msgid "KWin development team"
 msgstr "Equipa de desenvolvimento do KWin"
 

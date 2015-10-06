@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-09-19 13:17+0000\n"
 "PO-Revision-Date: 2014-07-04 19:16+0300\n"
 "Last-Translator: Abdalrahim G. Fakhouri <abdilra7eem@yahoo.com>\n"
 "Language-Team: Arabic <Arabic <doc@arabeyes.org>>\n"
@@ -23,6 +23,14 @@ msgstr ""
 "X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "يوسف الشهيبي, زايد السعيدي"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "chahibi@gmail.com,zayed.alsaidi@gmail.com"
 
 #: compositing.cpp:387
 #, fuzzy
@@ -245,42 +253,42 @@ msgid ""
 "\"Re-use screen content\" causes performance severe problems on MESA drivers."
 msgstr ""
 
-#: model.cpp:67
+#: model.cpp:69
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "إتاحة الوصول"
 
-#: model.cpp:68
+#: model.cpp:70
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "المظهر"
 
-#: model.cpp:69
+#: model.cpp:71
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "حلوى"
 
-#: model.cpp:70
+#: model.cpp:72
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "التركيز"
 
-#: model.cpp:71
+#: model.cpp:73
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "أدوات"
 
-#: model.cpp:72
+#: model.cpp:74
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr "مؤثر التبديل بين أسطح المكتب الافتراضية"
 
-#: model.cpp:73
+#: model.cpp:75
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "إدارة النوافذ"
 
-#: model.cpp:235
+#: model.cpp:231
 msgid "KWin development team"
 msgstr "فريق تطوير KWin"
 

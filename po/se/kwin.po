@@ -1,5 +1,3 @@
-# Translation of kwin to Northern Sami
-#
 # Børre Gaup <boerre@skolelinux.no>, 2003, 2004, 2005, 2006, 2007.
 msgid ""
 msgstr ""

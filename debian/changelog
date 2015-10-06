@@ -1,3 +1,21 @@
+kwin (4:5.4.2-1) unstable; urgency=medium
+
+  [ Luigi Toscano ]
+  * Changes to Recommends for kwin-common:
+    - add libqt5multimedia5-plugins (it enables the playback of the
+      preview of KWin effects);
+    - remove libqt5multimedia5 (it is dependency of the required
+      qml-module-qtmultimedia package).
+
+  [ Maximiliano Curia ]
+  * New upstream release (5.4.2).
+  * Update symbols files from buildds logs (4:5.4.1-1).
+  * Drop upstream patch:
+    upstream_fake_a_leave_event_for_the_decoration_when_client_is_left.d
+    iff
+
+ -- Maximiliano Curia <maxy@debian.org>  Tue, 06 Oct 2015 07:51:48 +0200
+
 kwin (4:5.4.1-1) unstable; urgency=medium
 
   * New upstream release (5.4.1).

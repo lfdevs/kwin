@@ -1,20 +1,18 @@
-# Translation of kcm_kwindesktop to Norwegian Nynorsk
-#
-# Karl Ove Hufthammer <karl@huftis.org>, 2007, 2008, 2010.
+# Karl Ove Hufthammer <karl@huftis.org>, 2007, 2008, 2010, 2015.
 # Eirik U. Birkeland <eirbir@gmail.com>, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2010-01-24 15:15+0100\n"
-"Last-Translator: Eirik U. Birkeland <eirbir@gmail.com>\n"
+"PO-Revision-Date: 2015-09-19 14:11+0100\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
@@ -22,11 +20,11 @@ msgstr ""
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Eirik U. Birkeland"
+msgstr "Eirik U. Birkeland,Karl Ove Hufthammer"
 
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "eirbir@gmail.com"
+msgstr "eirbir@gmail.com,karl@huftis.org"
 
 #: desktopnameswidget.cpp:67
 #, kde-format
@@ -121,7 +119,7 @@ msgstr "Snarvegkonflikt: Klarte ikkje laga snarvegen %1 til skrivebord %2"
 
 #: main.cpp:604
 msgid "KWin development team"
-msgstr ""
+msgstr "KWin-utviklingslaget"
 
 #. i18n: ectx: attribute (title), widget (QWidget, desktop)
 #: main.ui:33
@@ -145,12 +143,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, numberLabel)
 #: main.ui:54
 msgid "&Number of desktops:"
-msgstr ""
+msgstr "&Tal på skrivebord:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:83
 msgid "N&umber of rows:"
-msgstr ""
+msgstr "T&al på rader:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
 #: main.ui:103

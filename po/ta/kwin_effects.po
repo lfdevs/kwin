@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: கேபசூ 4.1 தமிழாக்கம்\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-12 11:22+0000\n"
+"POT-Creation-Date: 2015-09-15 14:06+0000\n"
 "PO-Revision-Date: 2008-03-25 09:16+0530\n"
 "Last-Translator: ஆமாச்சு <amachu@ubuntu.com>\n"
 "Language-Team: தமிழ் <https://lists.ubuntu.com/mailman/listinfo/ubuntu-l10n-"
@@ -475,7 +475,7 @@ msgstr ""
 msgid "Apply blur effect to background"
 msgstr "&குழுக்களுக்கு தாக்கத்தை பொருத்துக"
 
-#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "பணிமேசை தடுப்பினை காட்டுக"
 
@@ -1313,7 +1313,7 @@ msgstr "அனைத்து பணிமேசைகளிலும் உள�
 msgid "Toggle Present Windows (Window class)"
 msgstr "அனைத்து பணிமேசைகளிலும் உள்ள சாளரங்களுக்காக:"
 
-#: presentwindows/presentwindows.cpp:1561
+#: presentwindows/presentwindows.cpp:1566
 #, kde-format
 msgid ""
 "Filter:\n"

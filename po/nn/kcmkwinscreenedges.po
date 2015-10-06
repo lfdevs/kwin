@@ -1,20 +1,18 @@
-# Translation of kcmkwinscreenedges to Norwegian Nynorsk
-#
 # Eirik U. Birkeland <eirbir@gmail.com>, 2009, 2010.
-# Karl Ove Hufthammer <karl@huftis.org>, 2010.
+# Karl Ove Hufthammer <karl@huftis.org>, 2010, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2010-01-24 15:35+0100\n"
-"Last-Translator: Eirik U. Birkeland <eirbir@gmail.com>\n"
+"PO-Revision-Date: 2015-09-20 18:34+0100\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
@@ -22,11 +20,11 @@ msgstr ""
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "Karl Ove Hufthammer"
 
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
+msgstr "karl@huftis.org"
 
 #: main.cpp:187
 msgid "No Action"
@@ -34,11 +32,11 @@ msgstr "Inga handling"
 
 #: main.cpp:188
 msgid "Show Dashboard"
-msgstr "Vis kontrollpanelet"
+msgstr "Vis kontrollpulten"
 
 #: main.cpp:189
 msgid "Show Desktop"
-msgstr "Vis skrivebord"
+msgstr "Vis skrivebordet"
 
 #: main.cpp:190
 msgid "Lock Screen"
@@ -46,50 +44,50 @@ msgstr "Lås skjermen"
 
 #: main.cpp:191
 msgid "Prevent Screen Locking"
-msgstr ""
+msgstr "Hindra skjermlåsing"
 
 #: main.cpp:200
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 - All Desktops"
-msgstr "Alle skrivebord"
+msgstr "%1 – alle skrivebord"
 
 #: main.cpp:201
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 - Current Desktop"
-msgstr "Gjeldande skrivebord"
+msgstr "%1 – gjeldande skrivebord"
 
 #: main.cpp:202
 #, kde-format
 msgid "%1 - Current Application"
-msgstr ""
+msgstr "%1 – gjeldande program"
 
 #: main.cpp:205
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 - Cube"
-msgstr "Kube"
+msgstr "%1 – kube"
 
 #: main.cpp:206
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 - Cylinder"
-msgstr "Sylinder"
+msgstr "%1 – sylinder"
 
 #: main.cpp:207
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 - Sphere"
-msgstr "Kule"
+msgstr "%1 – kule"
 
 #: main.cpp:209
 msgid "Toggle window switching"
-msgstr ""
+msgstr "Slå på/av vindaugsbyte"
 
 #: main.cpp:210
 msgid "Toggle alternative window switching"
-msgstr ""
+msgstr "Slå på/av alternativ vindaugsbyte"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
 msgid "Active Screen Edge Actions"
-msgstr "Skjermkanthandlingar som er på"
+msgstr "Verksame skjermkanthandlingar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
@@ -97,8 +95,8 @@ msgid ""
 "To trigger an action push your mouse cursor against the edge of the screen "
 "in the action's direction."
 msgstr ""
-"For å setja i gang ei handling, dreg du musepeikaren mot den kanten av "
-"skjermen der du vil at ho skal skje"
+"For å setja i gang ei handling, drar du musepeikaren mot den kanten av "
+"skjermen der du vil at ho skal skje."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
@@ -120,18 +118,18 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
 msgid "Quarter tiling triggered in the outer"
-msgstr ""
+msgstr "Kvadrantflislegging utløyst i det ytre"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, electricBorderCornerRatio)
 #: main.ui:106
 #, no-c-format
 msgid "%"
-msgstr ""
+msgstr " %"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: main.ui:122
 msgid "of the screen"
-msgstr ""
+msgstr "av skjermen"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:150

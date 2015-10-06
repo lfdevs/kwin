@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-12 11:22+0000\n"
+"POT-Creation-Date: 2015-09-15 14:06+0000\n"
 "PO-Revision-Date: 2009-12-22 01:06+0530\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <danishka@gmail.com>\n"
@@ -431,7 +431,7 @@ msgstr ""
 msgid "Apply blur effect to background"
 msgstr "කණ්ඩායම් සඳහා සැරසිලි ඇතුළත් කරන්න (&g)"
 
-#: desktopgrid/desktopgrid.cpp:70 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "වැඩතල ජාලය පෙන්වන්න"
 
@@ -1272,7 +1272,7 @@ msgstr "පවතින කවුළු අතර මාරුවන්න (ස�
 msgid "Toggle Present Windows (Window class)"
 msgstr "පවතින කවුළු අතර මාරුවන්න (කවුලු කාණ්ඩය)"
 
-#: presentwindows/presentwindows.cpp:1561
+#: presentwindows/presentwindows.cpp:1566
 #, kde-format
 msgid ""
 "Filter:\n"

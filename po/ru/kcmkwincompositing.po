@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-09-19 13:17+0000\n"
+"POT-Creation-Date: 2015-10-22 12:22+0000\n"
 "PO-Revision-Date: 2014-08-31 12:44+0400\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -308,31 +308,31 @@ msgstr ""
 "Автор: %1\n"
 "Лицензия: %2"
 
-#: qml/EffectView.qml:64
+#: qml/EffectView.qml:63
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
 "effect's settings."
 msgstr "Совет: способ запуска эффекта обычно находится в параметрах эффекта."
 
-#: qml/EffectView.qml:75
+#: qml/EffectView.qml:74
 msgid "Search"
 msgstr "Поиск"
 
-#: qml/EffectView.qml:82
+#: qml/EffectView.qml:81
 msgid "Configure filter"
 msgstr "Настроить фильтр"
 
-#: qml/EffectView.qml:85
+#: qml/EffectView.qml:84
 msgid "Exclude Desktop Effects not supported by the Compositor"
 msgstr "Скрыть неподдерживаемые эффекты"
 
 # BUGME: TBD: make the translation clearer on what is "internal" --aspotashev
-#: qml/EffectView.qml:93
+#: qml/EffectView.qml:92
 msgid "Exclude internal Desktop Effects"
 msgstr "Скрыть внутренние эффекты"
 
 # BUGME: please remove space in front of ellipsis --aspotashev
-#: qml/EffectView.qml:105
+#: qml/EffectView.qml:104
 msgid "Get New Effects ..."
 msgstr "Получить новые эффекты..."
 

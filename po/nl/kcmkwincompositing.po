@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-09-19 13:17+0000\n"
+"POT-Creation-Date: 2015-10-22 12:22+0000\n"
 "PO-Revision-Date: 2014-07-23 11:01+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -304,7 +304,7 @@ msgstr ""
 "Auteur: %1\n"
 "Licentie: %2"
 
-#: qml/EffectView.qml:64
+#: qml/EffectView.qml:63
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
 "effect's settings."
@@ -312,23 +312,23 @@ msgstr ""
 "Tip: om uit te vinden hoe u een effect kunt activeren of instellen, kijk bij "
 "de instellingen ervan."
 
-#: qml/EffectView.qml:75
+#: qml/EffectView.qml:74
 msgid "Search"
 msgstr "Zoeken"
 
-#: qml/EffectView.qml:82
+#: qml/EffectView.qml:81
 msgid "Configure filter"
 msgstr "Filter instellen"
 
-#: qml/EffectView.qml:85
+#: qml/EffectView.qml:84
 msgid "Exclude Desktop Effects not supported by the Compositor"
 msgstr ""
 "Bureaubladeffecten uitsluiten wordt door de compositor niet ondersteund"
 
-#: qml/EffectView.qml:93
+#: qml/EffectView.qml:92
 msgid "Exclude internal Desktop Effects"
 msgstr "Interne bureaublad-effecten uitsluiten"
 
-#: qml/EffectView.qml:105
+#: qml/EffectView.qml:104
 msgid "Get New Effects ..."
 msgstr "Nieuwe effecten ophalen ..."

@@ -1,19 +1,21 @@
+# Translation of kwin_clients to Norwegian Nynorsk
+#
 # Gaute Hvoslef Kvalnes <gaute@verdsveven.com>, 2004, 2005.
-# Karl Ove Hufthammer <karl@huftis.org>, 2007, 2008, 2010.
+# Karl Ove Hufthammer <karl@huftis.org>, 2007, 2008, 2010, 2015.
 # Eirik U. Birkeland <eirbir@gmail.com>, 2008, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2010-01-24 16:24+0100\n"
-"Last-Translator: Eirik U. Birkeland <eirbir@gmail.com>\n"
+"PO-Revision-Date: 2015-10-02 19:41+0100\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
@@ -22,37 +24,37 @@ msgstr ""
 #: aurorae/src/aurorae.cpp:706
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
-msgstr ""
+msgstr "Ørliten"
 
 #: aurorae/src/aurorae.cpp:707
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
-msgstr ""
+msgstr "Vanleg"
 
 #: aurorae/src/aurorae.cpp:708
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
-msgstr ""
+msgstr "Stor"
 
 #: aurorae/src/aurorae.cpp:709
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
-msgstr ""
+msgstr "Svært stor"
 
 #: aurorae/src/aurorae.cpp:710
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
-msgstr ""
+msgstr "Enorm"
 
 #: aurorae/src/aurorae.cpp:711
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
-msgstr ""
+msgstr "Kolossal"
 
 #: aurorae/src/aurorae.cpp:712
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
-msgstr ""
+msgstr "Altfor stor"
 
 #: aurorae/src/aurorae.cpp:715
 msgid "Button size:"

@@ -1,3 +1,5 @@
+# Translation of kcm_kwindesktop to Norwegian Nynorsk
+#
 # Karl Ove Hufthammer <karl@huftis.org>, 2007, 2008, 2010, 2015.
 # Eirik U. Birkeland <eirbir@gmail.com>, 2009, 2010.
 msgid ""

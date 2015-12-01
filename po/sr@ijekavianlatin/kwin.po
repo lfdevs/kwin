@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2015-06-19 22:24+0200\n"
+"PO-Revision-Date: 2015-10-14 18:13+0200\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr@ijekavianlatin\n"
@@ -520,7 +520,7 @@ msgstr "Visina prozorskog režima. Podrazumevana je 768."
 
 #: main_wayland.cpp:512
 msgid "Use libhybris hwcomposer"
-msgstr "Koristi hardverski slagač preko libhybris‑a"
+msgstr "Koristi HWcomposer preko libhybris‑a"
 
 #: main_wayland.cpp:517
 msgid ""

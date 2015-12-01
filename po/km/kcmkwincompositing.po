@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-09-19 13:17+0000\n"
+"POT-Creation-Date: 2015-10-22 12:22+0000\n"
 "PO-Revision-Date: 2012-06-13 15:30+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer\n"
@@ -317,7 +317,7 @@ msgid ""
 "License: %2"
 msgstr ""
 
-#: qml/EffectView.qml:64
+#: qml/EffectView.qml:63
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
 "effect's settings."
@@ -325,23 +325,23 @@ msgstr ""
 "ព័ត៌មាន​ជំនួយ ៖ ដើម្បី​ស្វែងយល់ ឬ​កំណត់​រចនា​សម្ព័ន្ធ​អំពី​របៀប​ធ្វើ​ឲ្យ​បែបផែន​សកម្ម សូម​មើល​ការ​កំណត់​របស់​"
 "បែបផែន ។"
 
-#: qml/EffectView.qml:75
+#: qml/EffectView.qml:74
 msgid "Search"
 msgstr ""
 
-#: qml/EffectView.qml:82
+#: qml/EffectView.qml:81
 msgid "Configure filter"
 msgstr ""
 
-#: qml/EffectView.qml:85
+#: qml/EffectView.qml:84
 msgid "Exclude Desktop Effects not supported by the Compositor"
 msgstr ""
 
-#: qml/EffectView.qml:93
+#: qml/EffectView.qml:92
 msgid "Exclude internal Desktop Effects"
 msgstr ""
 
-#: qml/EffectView.qml:105
+#: qml/EffectView.qml:104
 #, fuzzy
 #| msgid "No effect"
 msgid "Get New Effects ..."

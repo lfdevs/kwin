@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-09-19 13:17+0000\n"
+"POT-Creation-Date: 2015-10-22 12:22+0000\n"
 "PO-Revision-Date: 2014-02-11 11:31+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
@@ -322,7 +322,7 @@ msgid ""
 "License: %2"
 msgstr ""
 
-#: qml/EffectView.qml:64
+#: qml/EffectView.qml:63
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
 "effect's settings."
@@ -330,27 +330,27 @@ msgstr ""
 "Argibidea: efektu bat nola aktibatu jakiteko, edo hura konfiguratzeko, "
 "begiratu efektuen ezarpenetan."
 
-#: qml/EffectView.qml:75
+#: qml/EffectView.qml:74
 msgid "Search"
 msgstr ""
 
-#: qml/EffectView.qml:82
+#: qml/EffectView.qml:81
 #, fuzzy
 #| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "Iragazki testuraduna:"
 
-#: qml/EffectView.qml:85
+#: qml/EffectView.qml:84
 msgid "Exclude Desktop Effects not supported by the Compositor"
 msgstr ""
 
-#: qml/EffectView.qml:93
+#: qml/EffectView.qml:92
 #, fuzzy
 #| msgctxt "@option:check"
 #| msgid "Enable desktop effects"
 msgid "Exclude internal Desktop Effects"
 msgstr "Gaitu mahaigain efektuak"
 
-#: qml/EffectView.qml:105
+#: qml/EffectView.qml:104
 msgid "Get New Effects ..."
 msgstr "Lortu efektu berriak ..."

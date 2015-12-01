@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-09-19 13:17+0000\n"
+"POT-Creation-Date: 2015-10-22 12:22+0000\n"
 "PO-Revision-Date: 2008-07-08 11:50+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <indlinux-hindi@lists.sourceforge.net>\n"
@@ -293,7 +293,7 @@ msgid ""
 "License: %2"
 msgstr ""
 
-#: qml/EffectView.qml:64
+#: qml/EffectView.qml:63
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
 "effect's settings."
@@ -301,27 +301,27 @@ msgstr ""
 "युक्ति:प्रभाव ढूंढने के लिए या प्रभाव कैसे सक्षम करें यह कॉन्फ़िगर करने के लिए प्रभाव के विन्यास "
 "में देखें."
 
-#: qml/EffectView.qml:75
+#: qml/EffectView.qml:74
 msgid "Search"
 msgstr ""
 
-#: qml/EffectView.qml:82
+#: qml/EffectView.qml:81
 #, fuzzy
 #| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "टैक्सचर फिल्टर:"
 
-#: qml/EffectView.qml:85
+#: qml/EffectView.qml:84
 msgid "Exclude Desktop Effects not supported by the Compositor"
 msgstr ""
 
-#: qml/EffectView.qml:93
+#: qml/EffectView.qml:92
 #, fuzzy
 #| msgid "Enable desktop effects"
 msgid "Exclude internal Desktop Effects"
 msgstr "डेस्कटॉप प्रभाव को सक्षम करें "
 
-#: qml/EffectView.qml:105
+#: qml/EffectView.qml:104
 #, fuzzy
 #| msgid "All Effects"
 msgid "Get New Effects ..."

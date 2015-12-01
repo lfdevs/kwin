@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-09-19 13:17+0000\n"
+"POT-Creation-Date: 2015-10-22 12:22+0000\n"
 "PO-Revision-Date: 2010-12-17 21:24+0700\n"
 "Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -311,33 +311,33 @@ msgid ""
 "License: %2"
 msgstr ""
 
-#: qml/EffectView.qml:64
+#: qml/EffectView.qml:63
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
 "effect's settings."
 msgstr "ข้อแนะนำ: ในการหาว่าจะทำการเปิดใช้ลูกเล่นได้อย่างไร ให้ดูที่ การตั้งค่าลูกเล่น"
 
-#: qml/EffectView.qml:75
+#: qml/EffectView.qml:74
 msgid "Search"
 msgstr ""
 
-#: qml/EffectView.qml:82
+#: qml/EffectView.qml:81
 #, fuzzy
 #| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "การปรับสีพื้นผิว:"
 
-#: qml/EffectView.qml:85
+#: qml/EffectView.qml:84
 msgid "Exclude Desktop Effects not supported by the Compositor"
 msgstr ""
 
-#: qml/EffectView.qml:93
+#: qml/EffectView.qml:92
 #, fuzzy
 #| msgid "Suspend Desktop Effects"
 msgid "Exclude internal Desktop Effects"
 msgstr "พักการใช้งานลูกเล่นของพื้นที่ทำงาน"
 
-#: qml/EffectView.qml:105
+#: qml/EffectView.qml:104
 #, fuzzy
 #| msgid "No Effect"
 msgid "Get New Effects ..."

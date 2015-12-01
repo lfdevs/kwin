@@ -1,24 +1,26 @@
-# Translation of kcmkwm.po to Catalan
-# Copyright (C)
+# Translation of kcmkwm.po to Catalan (Valencian)
+# Copyright (C) 1998-2015 This_file_is_part_of_KDE
+# This file is distributed under the license LGPL version 2.1 or
+# version 3 or later versions approved by the membership of KDE e.V.
 #
 # Sebastià Pla i Sanz <sps@sastia.com>, 1998, 1999, 2000, 2001, 2002, 2004, 2005, 2006.
-# Antoni Bella Pérez <antonibella5@orange.es>, 2003, 2011, 2013.
+# Antoni Bella Pérez <antonibella5@yahoo.com>, 2003, 2011, 2013, 2015.
 # Albert Astals Cid <aacid@kde.org>, 2005.
-# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013.
-# Manuel Tortosa Moreno <manutortosa@gmail.com>, 2009.
+# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015.
+# Manuel Tortosa Moreno <manutortosa@chakra-project.org>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2013-11-23 20:46+0100\n"
-"Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
+"PO-Revision-Date: 2015-07-29 15:19+0100\n"
+"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -448,22 +450,6 @@ msgstr "Co&l·locació:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, placementCombo)
 #: advanced.ui:121
-#, fuzzy
-#| msgid ""
-#| "The placement policy determines where a new window will appear on the "
-#| "desktop.\n"
-#| "<ul>\n"
-#| "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
-#| "<li><em>Maximizing</em> will try to maximize every window to fill the "
-#| "whole screen. It might be useful to selectively affect placement of some "
-#| "windows using the window-specific settings.</li>\n"
-#| "<li><em>Cascade</em> will cascade the windows</li>\n"
-#| "<li><em>Random</em> will use a random position</li>\n"
-#| "<li><em>Centered</em> will place the window centered</li>\n"
-#| "<li><em>Zero-Cornered</em> will place the window in the top-left corner</"
-#| "li>\n"
-#| "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
-#| "</ul>"
 msgid ""
 "The placement policy determines where a new window will appear on the "
 "desktop.<br><ul>\n"
@@ -480,8 +466,7 @@ msgid ""
 "</ul>"
 msgstr ""
 "La política de col·locació determina on apareixerà una finestra nova a "
-"l'escriptori.\n"
-"<ul>\n"
+"l'escriptori.<br><ul>\n"
 "<li><em>Astuta</em> provarà d'aconseguir un encavallament mínim de les "
 "finestres.</li>\n"
 "<li><em>Maximitzada</em> provarà de maximitzar cada finestra per omplir la "
@@ -561,8 +546,8 @@ msgid ""
 "Sets the time in milliseconds before the window unshades when the mouse "
 "pointer goes over the shaded window."
 msgstr ""
-"Estableix el temps en mil·lisegons abans que la finestra es desplegui quan "
-"l'apuntador del ratolí va damunt de la finestra plegada."
+"Estableix el temps en mil·lisegons abans que la finestra es desplegui si "
+"l'apuntador del ratolí està per sobre de la finestra plegada."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, delayFocus)
 #. i18n: ectx: property (suffix), widget (QSpinBox, autoRaise)
@@ -584,10 +569,10 @@ msgid ""
 "application becomes active. Note that applications have to mark the windows "
 "with the proper window type for this feature to work."
 msgstr ""
-"Quan està habilitat, les finestres d'utilitat (finestres d'eines, menús "
-"escapçats,...) de les aplicacions inactives s'ocultaran i només es mostraran "
+"Quan està activat, les finestres d'utilitat (finestres d'eines, menús "
+"escapçats...) de les aplicacions inactives s'ocultaran i només es mostraran "
 "quan l'aplicació esdevingui activa. Tingueu present que les aplicacions han "
-"de marcar les finestres amb el tipus de finestra correcte per a què funcione "
+"de marcar les finestres amb el tipus de finestra correcte perquè funcione "
 "esta característica."
 
 #. i18n: ectx: property (text), widget (QCheckBox, hideUtilityWindowsForInactive)
@@ -757,7 +742,7 @@ msgid ""
 "attention, which by default means their taskbar entry will be highlighted. "
 "This can be changed in the Notifications control module.</p>"
 msgstr ""
-"<p>Esta opció especifica quant provarà KWin d'evitar robatori de focus no "
+"<p>Esta opció especifica quan provarà KWin d'evitar robatori de focus no "
 "desitjat causat per una activació inesperada de noves finestres. (Nota: Esta "
 "característica no funciona amb les polítiques Focus sota el ratolí o Focus "
 "estrictament sota el ratolí).\n"
@@ -776,7 +761,7 @@ msgstr ""
 "<li><em>Extrem:</em> Totes les finestres s'han d'activar explícitament per "
 "l'usuari.</li>\n"
 "</ul></p>\n"
-"<p>Les finestres a les que s'impedeix que robin el focus es marquen com a "
+"<p>Les finestres a les quals s'impedeix que robin el focus es marquen com a "
 "sol·licitants d'atenció, el que significa que, per omissió, la seua entrada "
 "a la barra de tasques es ressaltarà. Això es pot canviar al mòdul de control "
 "de Notificacions.</p>"
@@ -1058,7 +1043,7 @@ msgstr "Esdeveniment en girar la roda:"
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct4)
 #: mouse.ui:122
 msgid "Handle mouse wheel events"
-msgstr "Gestió dels esdeveniments de roda de ratolí"
+msgstr "Gestió dels esdeveniments per a la roda del ratolí"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_6)
 #: mouse.ui:182
@@ -1155,7 +1140,7 @@ msgid ""
 "Behavior on <em>middle</em> click into the titlebar or frame of an "
 "<em>active</em> window."
 msgstr ""
-"Comportament en clicar amb el<em>mig</em> a la barra de títol o marc d'una "
+"Comportament en clicar amb el <em>mig</em> a la barra de títol o marc d'una "
 "finestra <em>activa</em>."
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -1170,7 +1155,7 @@ msgid ""
 "Behavior on <em>right</em> click into the titlebar or frame of an "
 "<em>active</em> window."
 msgstr ""
-"Comportament en clicar amb la<em>dreta</em> a la barra de títol o marc d'una "
+"Comportament en clicar amb el <em>dret</em> a la barra de títol o marc d'una "
 "finestra <em>activa</em>."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_10)
@@ -1220,7 +1205,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, OverlapSnap)
 #: moving.ui:35
 msgid "Snap windows onl&y when overlapping"
-msgstr "Apega les finestres només en &encavallar-se"
+msgstr "Enganxa les finestres només en &encavallar-se"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, centerSnap)
 #: moving.ui:55

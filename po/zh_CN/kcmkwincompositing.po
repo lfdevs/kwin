@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-09-19 13:17+0000\n"
+"POT-Creation-Date: 2015-10-22 12:22+0000\n"
 "PO-Revision-Date: 2014-10-20 12:56-0400\n"
 "Last-Translator: Xuetian Weng <xweng@cs.stonybrook.edu>\n"
 "Language-Team: Chinese Simplified <kde-i18n-doc@kde.org>\n"
@@ -286,28 +286,28 @@ msgstr ""
 "作者：%1\n"
 "许可协议： %2"
 
-#: qml/EffectView.qml:64
+#: qml/EffectView.qml:63
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
 "effect's settings."
 msgstr "提示：要查找或配置如何激活效果，请查看相应效果的选项。"
 
-#: qml/EffectView.qml:75
+#: qml/EffectView.qml:74
 msgid "Search"
 msgstr "搜索"
 
-#: qml/EffectView.qml:82
+#: qml/EffectView.qml:81
 msgid "Configure filter"
 msgstr "配置过滤器"
 
-#: qml/EffectView.qml:85
+#: qml/EffectView.qml:84
 msgid "Exclude Desktop Effects not supported by the Compositor"
 msgstr "不包含不被混成器支持的桌面特效"
 
-#: qml/EffectView.qml:93
+#: qml/EffectView.qml:92
 msgid "Exclude internal Desktop Effects"
 msgstr "不包含内置桌面特效"
 
-#: qml/EffectView.qml:105
+#: qml/EffectView.qml:104
 msgid "Get New Effects ..."
 msgstr "获得新特效..."

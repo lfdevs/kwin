@@ -1,6 +1,8 @@
+# Translation of kwin to Norwegian Nynorsk
+#
 # Gaute Hvoslef Kvalnes <gaute@verdsveven.com>, 1999, 2000, 2001, 2002, 2003, 2004, 2005.
 # Håvard Korsvoll <korsvoll@skulelinux.no>, 2004, 2005.
-# Karl Ove Hufthammer <karl@huftis.org>, 2004, 2007, 2008, 2010, 2014.
+# Karl Ove Hufthammer <karl@huftis.org>, 2004, 2007, 2008, 2010, 2014, 2015.
 # Sven Harald Klein Bakke <sirius@nonline.org>, 2005, 2008.
 # Eirik U. Birkeland <eirbir@gmail.com>, 2008, 2009, 2010.
 # Olav Selseng Vestreim <o.vest@operamail.com>, 2015.
@@ -9,14 +11,14 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2015-04-16 13:38+0200\n"
-"Last-Translator: Olav Selseng Vestreim <o.vest@operamail.com>\n"
+"PO-Revision-Date: 2015-10-04 16:57+0100\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
@@ -47,6 +49,11 @@ msgid ""
 "<b>be aware that this might result in an immediate crash!</b></"
 "p><p>Alternatively, you might want to use the XRender backend instead.</p>"
 msgstr ""
+"<b>OpenGL-samansetjing (standarden) har tidlegare krasja KWin.</b><br>Dette "
+"var truleg på grunn av ein drivarfeil.<p>Viss du meiner du i mellomtida har "
+"oppgradert til ein stabil drivar,<br>kan du tilbakestille dette vernet, men "
+"<b>ver merksam på at det kan føra krasj med ein gong!</b></p><p>Elles kan du "
+"kanskje bruka XRender-motoren i staden.</p>"
 
 #: compositingprefs.cpp:106
 msgid "Required X extensions (XComposite and XDamage) are not available."
@@ -293,11 +300,11 @@ msgstr "Legg vindauget kjapt til høgre"
 
 #: kwinbindings.cpp:100
 msgid "Quick Tile Window to the Top"
-msgstr ""
+msgstr "Legg vindauget kjapt til oppe"
 
 #: kwinbindings.cpp:102
 msgid "Quick Tile Window to the Bottom"
-msgstr ""
+msgstr "Legg vindauget kjapt til nede"
 
 #: kwinbindings.cpp:104
 msgid "Quick Tile Window to the Top Left"
@@ -474,62 +481,67 @@ msgstr "kwin_wayland: Ein X11-vindaugshandsamar køyrer på X11-oppsettet.\n"
 
 #: main_wayland.cpp:473
 msgid "Start a rootless Xwayland server."
-msgstr ""
+msgstr "Start ein rotlaus Xwayland-tener."
 
 #: main_wayland.cpp:475
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
+"Namn på Wayland-sokkelen å lytta på. Viss ikkje noko er valt, vert "
+"«wayland-0» brukt."
 
 #: main_wayland.cpp:478
 msgid "Use a nested compositor in windowed mode."
-msgstr ""
+msgstr "Bruk ein nøsta samansetjar i vindaugsmodus."
 
 #: main_wayland.cpp:480
 msgid "Render to framebuffer."
-msgstr ""
+msgstr "Teikn opp til biletbuffer."
 
 #: main_wayland.cpp:482
 msgid "The framebuffer device to render to."
-msgstr ""
+msgstr "Biletbuffer-eininga det skal verta teikna til."
 
 #: main_wayland.cpp:486
 msgid "The X11 Display to use in windowed mode on platform X11."
-msgstr ""
+msgstr "X11-skjermbiletet som skal brukast i vindaugsmodus på X11-plattforma."
 
 #: main_wayland.cpp:489
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
+"Wayland-skjermbiletet skal brukast i vindaugsmodus på Wayland-plattforma."
 
 #: main_wayland.cpp:492
 msgid "The width for windowed mode. Default width is 1024."
-msgstr ""
+msgstr "Breidda for vindaugsmodus. Standardbreidda er 1024."
 
 #: main_wayland.cpp:496
 msgid "The height for windowed mode. Default height is 768."
-msgstr ""
+msgstr "Høgda for vindaugsmodus. Standardhøgda er 768."
 
 #: main_wayland.cpp:512
 msgid "Use libhybris hwcomposer"
-msgstr ""
+msgstr "Bruk libhybris hwcomposer"
 
 #: main_wayland.cpp:517
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
 msgstr ""
+"Slå på libinput-støtte for handsaming av inndata-hendingar. Merk: bruka "
+"aldri dette i ei nøsta økt."
 
 #: main_wayland.cpp:521
 msgid "Render through drm node."
-msgstr ""
+msgstr "Teikn opp gjennom drm-node."
 
 #: main_wayland.cpp:526
 msgid "Input method that KWin starts."
-msgstr ""
+msgstr "Inndata-metode som KWin startar."
 
 #: main_wayland.cpp:531
 msgid "Applications to start once Wayland and Xwayland server are started"
-msgstr ""
+msgstr "Program som skal startast når Wayland og XWayland-tenar vert starta"
 
 #: main_x11.cpp:156
 msgid ""
@@ -563,6 +575,11 @@ msgid ""
 "well.<br>Alternatively, lower the combined resolution of all screens to %1x"
 "%2 "
 msgstr ""
+"<h1>OpenGL skrivebordseffektar er ikkje moglege</h1>Systemet ditt kan ikkje "
+"utføra OpenGL skrivebordseffekter ved gjeldande oppløysing<br><br>Du kan "
+"prøva å velja XRender-motoren, men han kan òg vera svært treg for denne "
+"oppløysinga.<br>Elles kan du senka den kombinerte oppløysinga for alle "
+"skjermane til %1 × %2 "
 
 #: scene_opengl.cpp:871
 msgid ""
@@ -571,6 +588,11 @@ msgid ""
 "does not know such limitation, but the performance will usually be impacted "
 "by the hardware limitations that restrict the OpenGL viewport size."
 msgstr ""
+"Den ønskte oppløysinga går ut over grensa GL_MAX_VIEWPORT_DIMS til "
+"skjermkortet, og passar derfor ikkje saman med OpenGL-samansetjaren."
+"<br>XRender har inga slik avgrensing, men ytinga vil påverkast av "
+"maskinvareavgrensinga, som set grense for storleiken til OpenGL-"
+"skjermbiletet."
 
 #: scene_opengl.cpp:896
 #, kde-format
@@ -580,6 +602,11 @@ msgid ""
 "<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
 "compositing, switch to the XRender backend or lower the resolution to %1x%1."
 msgstr ""
+"<h1>OpenGL-skrivebordseffektar kan vera ubrukelege</h1>OpenGL-"
+"skrivebordseffekter er støtta for den gjeldande skjermoppløysinga, men kan "
+"vera svært trege.<br>Og store vindauge vil verta heilt svarte.<br><br>Du bør "
+"vurdera å slå av samansetjinga, byta til XRender-motoren eller senka "
+"oppløysinga til %1 x %1."
 
 #: scene_opengl.cpp:902
 msgid ""
@@ -589,22 +616,27 @@ msgid ""
 "despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
 "software rendering in this case."
 msgstr ""
+"Den ønskte oppløysinga går ut over grensa GL_MAX_TEXTURE_SIZE til "
+"skjermkortet. Vindauge med den storleiken kan ikkje tildelast teksturar, og "
+"vil derfor sjå heilt svarte ut.<br>Denne grensa vil òg påverka ytinga for "
+"vindauge mindre en GL_MAX_VIEWPORT_DIMS, sidan drivaren kan falla tilbake "
+"til programvarebasert oppteikning."
 
 #: scripting/genericscriptedconfig.cpp:81
 msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
-msgstr ""
+msgstr "Programtillegget har ikkje oppsettfil på den forventa staden"
 
 #: scripting/scripting.cpp:127
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
-msgstr ""
+msgstr "Feil ved føresetnad: %1 er ikkje null"
 
 #: scripting/scripting.cpp:145
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
-msgstr ""
+msgstr "Feil ved føresetnad: argument er null"
 
 #: scripting/scripting.cpp:172
 msgctxt "Error in KWin Script"
@@ -612,23 +644,27 @@ msgid ""
 "Invalid number of arguments. At least service, path, interface and method "
 "need to be provided"
 msgstr ""
+"Ugyldig tal på argument. Du må oppgje minst teneste, mappeadresse, "
+"grensesnitt og metode."
 
 #: scripting/scripting.cpp:178
 msgctxt "Error in KWin Script"
 msgid ""
 "Invalid type. Service, path, interface and method need to be string values"
 msgstr ""
+"Ugyldig type. Teneste, mappeadresse, grensesnitt og metode må vera "
+"tekstverdiar."
 
 #: scripting/scriptingutils.cpp:28
 msgctxt "syntax error in KWin script"
 msgid "Invalid number of arguments"
-msgstr ""
+msgstr "Ugyldig tal på argument"
 
 #: scripting/scriptingutils.cpp:41
 #, kde-format
 msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
-msgstr ""
+msgstr "%1 er ikkje ein variant-type"
 
 #: tabbox/tabbox.cpp:364
 msgctxt "Special entry in alt+tab list for minimizing all windows"
@@ -688,6 +724,8 @@ msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
 msgstr ""
+"Vindaugsbytar-installasjonen er øydelagd; det manglar enkelte ressursar.\n"
+"Kontakt distribusjonen din om dette."
 
 #: useractions.cpp:180
 #, kde-format
@@ -699,8 +737,8 @@ msgid ""
 msgstr ""
 "Du har valt å visa vindauget utan kantlinje.\n"
 "Når kantlinja er gøymd, vil du ikkje kunna visa ho att ved å bruka musa. Du "
-"må i staden bruka menyen for vindaugsoperasjonar, ved hjelp av snøggtasten «"
-"%1»."
+"må i staden bruka menyen for vindaugsoperasjonar, ved hjelp av "
+"snøggtasten «%1»."
 
 #: useractions.cpp:188
 #, kde-format
@@ -749,7 +787,7 @@ msgstr "Vindaugs&snøggtast …"
 
 #: useractions.cpp:295
 msgid "&Special Window Settings..."
-msgstr "&Spesielle vindaugsinnstillingar …"
+msgstr "Spesielle &vindaugsinnstillingar …"
 
 #: useractions.cpp:299
 msgid "S&pecial Application Settings..."
@@ -760,7 +798,7 @@ msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
 msgid "Window &Manager Settings..."
-msgstr "Innstillingar for vindaugshandsamar …"
+msgstr "Set opp &vindaugshandsamar …"
 
 #: useractions.cpp:330
 msgid "Mi&nimize"
@@ -840,7 +878,7 @@ msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
 "number, second the output identifier. E.g. Screen 1 (HDMI1)"
 msgid "Screen &%1 (%2)"
-msgstr ""
+msgstr "Skjerm &%1 (%2)"
 
 #: useractions.cpp:690
 msgid "&All Activities"
@@ -869,6 +907,9 @@ msgid ""
 "as active one.\n"
 "Therefore it is not possible to switch to a screen explicitly."
 msgstr ""
+"Vindaugshandsamaren er sett opp til å rekna skjermen som har musepeikaren "
+"som den aktive.\n"
+"Derfor er det ikkje mogleg å manuelt byta skjerm."
 
 #: virtualdesktops.cpp:334 virtualdesktops.cpp:396
 #, kde-format
@@ -917,3 +958,12 @@ msgid ""
 "paste bin service\n"
 "like http://paste.kde.org instead of pasting into support threads.\n"
 msgstr ""
+"Informasjon om støtte for KWin:\n"
+"Følgjande opplysningar må brukast når du ber om hjelp, for eksempel på "
+"http://forum.kde.org/.\n"
+"Dei viser informasjon om instansen som køyrer no, kva for val som er brukte, "
+"og\n"
+"kva OpenGL-drivar og effektar som er i bruk.\n"
+"Lim inn opplysningane under denne hjelpeteksten i ei teksttavle-teneste,\n"
+"for eksempel http://paste.kde.org/, i staden for direkte i "
+"hjelpeførespurnadane.\n"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-09-19 13:17+0000\n"
+"POT-Creation-Date: 2015-10-22 12:22+0000\n"
 "PO-Revision-Date: 2015-03-14 08:50+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -301,7 +301,7 @@ msgstr ""
 "Autor: %1\n"
 "Licencja: %2"
 
-#: qml/EffectView.qml:64
+#: qml/EffectView.qml:63
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
 "effect's settings."
@@ -309,22 +309,22 @@ msgstr ""
 "Podpowiedź: Aby dowiedzieć się o efekcie lub sposobach jego wyzwolenia, "
 "zajrzyj do ustawień efektu"
 
-#: qml/EffectView.qml:75
+#: qml/EffectView.qml:74
 msgid "Search"
 msgstr "Znajdź"
 
-#: qml/EffectView.qml:82
+#: qml/EffectView.qml:81
 msgid "Configure filter"
 msgstr "Ustawienia filtra"
 
-#: qml/EffectView.qml:85
+#: qml/EffectView.qml:84
 msgid "Exclude Desktop Effects not supported by the Compositor"
 msgstr "Wyklucz efekty pulpitu nieobsługiwane przez kompozytora"
 
-#: qml/EffectView.qml:93
+#: qml/EffectView.qml:92
 msgid "Exclude internal Desktop Effects"
 msgstr "Wyklucz wewnętrzne efekty pulpitu"
 
-#: qml/EffectView.qml:105
+#: qml/EffectView.qml:104
 msgid "Get New Effects ..."
 msgstr "Pobierz nowe efekty ..."

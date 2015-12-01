@@ -1,6 +1,8 @@
+# Translation of kwin_effects to Norwegian Nynorsk
+#
 # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2007.
 # Håvard Korsvoll <korsvoll@skulelinux.no>, 2008.
-# Karl Ove Hufthammer <karl@huftis.org>, 2008, 2010.
+# Karl Ove Hufthammer <karl@huftis.org>, 2008, 2010, 2015.
 # Eirik U. Birkeland <eirbir@gmail.com>, 2008, 2009, 2010.
 # Sveinung Kvilhaugsvik <sveinung84@users.sourceforge.net>, 2009.
 msgid ""
@@ -8,14 +10,14 @@ msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-09-15 14:06+0000\n"
-"PO-Revision-Date: 2010-01-24 16:26+0100\n"
-"Last-Translator: Eirik U. Birkeland <eirbir@gmail.com>\n"
+"PO-Revision-Date: 2015-10-02 20:11+0100\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
@@ -23,16 +25,16 @@ msgstr ""
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "Karl Ove Hufthammer"
 
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
+msgstr "karl@huftis.org"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: blur/blur_config.ui:17
 msgid "Strength of the effect:"
-msgstr ""
+msgstr "Styrke på effekt:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: blur/blur_config.ui:42
@@ -47,12 +49,12 @@ msgstr "Sterk"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_CacheTexture)
 #: blur/blur_config.ui:86
 msgid "Save intermediate rendering results."
-msgstr ""
+msgstr "Lagra mellomresultat frå oppteikning."
 
 #: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
-msgstr ""
+msgstr "Vis skrivebordet"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowCaptions)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_WindowTitle)
@@ -119,7 +121,7 @@ msgstr "Standard"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
 #: coverswitch/coverswitch_config.ui:161
 msgid " milliseconds"
-msgstr ""
+msgstr " millisekund"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Reflection)
@@ -143,7 +145,7 @@ msgstr "Skrivebordskube"
 
 #: cube/cube.cpp:209 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
-msgstr "Skrivebordsylinder"
+msgstr "Skrivebordssylinder"
 
 #: cube/cube.cpp:215 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
@@ -152,7 +154,7 @@ msgstr "Skrivebordskule"
 #: cube/cube_config.cpp:59
 msgctxt "@title:tab Basic Settings"
 msgid "Basic"
-msgstr "Enkelt"
+msgstr "Enkel"
 
 #: cube/cube_config.cpp:60
 msgctxt "@title:tab Advanced Settings"
@@ -220,7 +222,7 @@ msgstr "Refleksjon"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: cube/cube_config.ui:124 cube/cubeslide_config.ui:72
 msgid "Rotation duration:"
-msgstr "Rotasjonslengd:"
+msgstr "Rotasjonstid:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ZOrdering)
 #: cube/cube_config.ui:175
@@ -268,22 +270,22 @@ msgstr "Fane 2"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: cube/cube_config.ui:285
 msgid "Caps"
-msgstr "Lok"
+msgstr "Endar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Caps)
 #: cube/cube_config.ui:291
 msgid "Show caps"
-msgstr "Vis lok"
+msgstr "Vis endar"
 
 #. i18n: ectx: property (text), widget (QLabel, capColorLabel)
 #: cube/cube_config.ui:298
 msgid "Cap color:"
-msgstr "Lokfarge:"
+msgstr "Endefarge:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TexturedCaps)
 #: cube/cube_config.ui:321
 msgid "Display image on caps"
-msgstr "Vis bilete på lok"
+msgstr "Vis bilete på endane"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, kcfg_ZPosition)
 #: cube/cube_config.ui:367
@@ -302,9 +304,9 @@ msgid ""
 "mouse,\n"
 "otherwise it will remain active"
 msgstr ""
-"Viss det er kryssa av her, vil effekten verta slått av etter at kuben er "
-"rotert med musa,\n"
-"og viss dette ikkje er på, vil ikkje effekten verta slått av"
+"Viss det er kryssa av her, vert effekten slått av etter at kuben er rotert "
+"med musa;\n"
+"elles vert han aldri slått av."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_CloseOnMouseRelease)
 #: cube/cube_config.ui:418
@@ -319,17 +321,17 @@ msgstr "Bruk denne effekten for å veksla mellom skriveborda"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_InvertKeys)
 #: cube/cube_config.ui:432
 msgid "Invert cursor keys"
-msgstr "Omvend piltastane"
+msgstr "Vend om piltastane"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_InvertMouse)
 #: cube/cube_config.ui:439
 msgid "Invert mouse"
-msgstr "Omvend musa"
+msgstr "Vend om musa"
 
 #. i18n: ectx: property (title), widget (QGroupBox, capDeformationGroupBox)
 #: cube/cube_config.ui:449
 msgid "Sphere Cap Deformation"
-msgstr "Lokforvrenging for kule"
+msgstr "Endeforvrenging for kule"
 
 #. i18n: ectx: property (text), widget (QLabel, capDeformationSphereLabel)
 #: cube/cube_config.ui:471
@@ -344,7 +346,7 @@ msgstr "Plan"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSlideStickyWindows)
 #: cube/cubeslide_config.ui:17
 msgid "Do not animate windows on all desktops"
-msgstr "Ikkje animer vindauge på alle skrivebord"
+msgstr "Ikkje animer vindauge på alle skriveborda"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RotationDuration)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingLife)
@@ -365,65 +367,65 @@ msgstr "Bruk skrivebordsoppsett i animeringa"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseWindowMoving)
 #: cube/cubeslide_config.ui:92
 msgid "Start animation when moving windows towards screen edges"
-msgstr ""
+msgstr "Start animering når vindauge vert flytte mot skjermkantane"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: dashboard/dashboard_config.ui:17
 msgid "Brightness of the background:"
-msgstr ""
+msgstr "Lysstyrke på bakgrunn:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dashboard/dashboard_config.ui:42
 msgctxt "Less brightness"
 msgid "Darker"
-msgstr ""
+msgstr "Mørkare"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dashboard/dashboard_config.ui:74
 msgctxt "More brightness"
 msgid "Lighter"
-msgstr ""
+msgstr "Lysare"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dashboard/dashboard_config.ui:83
 msgid "Saturation of the background:"
-msgstr ""
+msgstr "Fargemetning for bakgrunn:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dashboard/dashboard_config.ui:108
 msgctxt "No saturation"
 msgid "Gray"
-msgstr ""
+msgstr "Grå"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dashboard/dashboard_config.ui:140
 msgctxt "High saturation"
 msgid "Colored"
-msgstr ""
+msgstr "Farga"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: dashboard/dashboard_config.ui:149
 msgid "Duration of the fade:"
-msgstr ""
+msgstr "Uttoningstid:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dashboard/dashboard_config.ui:184
 msgid "ms"
-msgstr ""
+msgstr "ms"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_Blur)
 #: dashboard/dashboard_config.ui:193
 msgid "The blur effect must be enabled before it can be used."
-msgstr ""
+msgstr "Du må slå på sløreffekten før du kan bruka han."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Blur)
 #: dashboard/dashboard_config.ui:196
 msgid "Apply blur effect to background"
-msgstr ""
+msgstr "Bruk sløreffekt på bakgrunnen"
 
 #: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
-msgstr "Vis rutenett på skrivebordet"
+msgstr "Vis skrivebordsoversikt"
 
 #: desktopgrid/desktopgrid_config.cpp:75
 msgctxt "Desktop name alignment:"
@@ -433,42 +435,42 @@ msgstr "Av"
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: desktopgrid/desktopgrid_config.cpp:76 flipswitch/flipswitch_config.ui:160
 msgid "Top"
-msgstr "Topp"
+msgstr "Oppe"
 
 #: desktopgrid/desktopgrid_config.cpp:77
 msgid "Top-Right"
-msgstr "Øvre høgre"
+msgstr "Oppe til høgre"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: desktopgrid/desktopgrid_config.cpp:78 flipswitch/flipswitch_config.ui:125
 msgid "Right"
-msgstr "Høgre"
+msgstr "Til høgre"
 
 #: desktopgrid/desktopgrid_config.cpp:79
 msgid "Bottom-Right"
-msgstr "Nedre høgre"
+msgstr "Nede til høgre"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: desktopgrid/desktopgrid_config.cpp:80 flipswitch/flipswitch_config.ui:180
 msgid "Bottom"
-msgstr "Botn"
+msgstr "Nede"
 
 #: desktopgrid/desktopgrid_config.cpp:81
 msgid "Bottom-Left"
-msgstr "Nedre venstre"
+msgstr "Nede til venstre"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: desktopgrid/desktopgrid_config.cpp:82 flipswitch/flipswitch_config.ui:105
 msgid "Left"
-msgstr "Venstre"
+msgstr "Til venstre"
 
 #: desktopgrid/desktopgrid_config.cpp:83
 msgid "Top-Left"
-msgstr "Øvre venstre"
+msgstr "Oppe til venstre"
 
 #: desktopgrid/desktopgrid_config.cpp:84
 msgid "Center"
-msgstr "Midten"
+msgstr "I midten"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: desktopgrid/desktopgrid_config.ui:23
@@ -484,7 +486,7 @@ msgstr "Standard"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: desktopgrid/desktopgrid_config.ui:55
 msgid "&Border width:"
-msgstr "&Kantbreidde:"
+msgstr "&Kantbreidd:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: desktopgrid/desktopgrid_config.ui:84
@@ -534,7 +536,7 @@ msgstr "Bruk effekten på &skrivebordet"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimKeepAbove)
 #: diminactive/diminactive_config.ui:31
 msgid "Apply effect to &keep-above windows"
-msgstr ""
+msgstr "Bruk effekt på &svevande vindauge"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimByGroup)
 #: diminactive/diminactive_config.ui:38
@@ -549,36 +551,35 @@ msgstr "&Styrke:"
 #: effect_builtins.cpp:102
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
-msgstr ""
+msgstr "Slør"
 
 #: effect_builtins.cpp:103
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
-msgstr ""
+msgstr "Gjer bakgrunnen til halvgjennomsiktige vindauge uklar"
 
 #: effect_builtins.cpp:117
-#, fuzzy
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
-msgstr "Bakgrunnsfarge:"
+msgstr "Bakgrunnskontrast"
 
 #: effect_builtins.cpp:118
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
-msgstr ""
+msgstr "Forbetra kontrasten og leselegheit bak delvis gjennomsiktige vindauge"
 
 #: effect_builtins.cpp:132
 msgctxt "Name of a KWin Effect"
 msgid "Cover Switch"
-msgstr ""
+msgstr "Omslagvekslar"
 
 #: effect_builtins.cpp:133
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a Cover Flow effect for the alt+tab window switcher"
 msgstr ""
+"Den kjende «Cover Flower»-effekten ved vindaugsveksling med «Alt + Tab»"
 
 #: effect_builtins.cpp:147
-#, fuzzy
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Skrivebordskube"
@@ -586,181 +587,174 @@ msgstr "Skrivebordskube"
 #: effect_builtins.cpp:148
 msgctxt "Comment describing the KWin Effect"
 msgid "Display each virtual desktop on a side of a cube"
-msgstr ""
+msgstr "Vis kvart virtuelle skrivebord som ei side på ein kube"
 
 #: effect_builtins.cpp:162
-#, fuzzy
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
-msgstr "Skrivebordskube"
+msgstr "Kubeskifte av skrivebord"
 
 #: effect_builtins.cpp:163
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate desktop switching with a cube"
-msgstr ""
+msgstr "Vis skrivebordsbyte på ein kube"
 
 #: effect_builtins.cpp:177
 msgctxt "Name of a KWin Effect"
 msgid "Dashboard"
-msgstr ""
+msgstr "Kontrollpult"
 
 #: effect_builtins.cpp:178
 msgctxt "Comment describing the KWin Effect"
 msgid "Desaturate the desktop when displaying the Plasma dashboard"
-msgstr ""
+msgstr "Ton ut skrivebordet ved vising av Plasma-kontrollpulten"
 
 #: effect_builtins.cpp:192
-#, fuzzy
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
-msgstr "Vis rutenett på skrivebordet"
+msgstr "Skrivebordsoversikt"
 
 #: effect_builtins.cpp:193
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
-msgstr ""
+msgstr "Forminsk skjermflata slik at alle skriveborda vert viste side om side"
 
 #: effect_builtins.cpp:207
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
-msgstr ""
+msgstr "Mørklegg inaktive vindauge"
 
 #: effect_builtins.cpp:208
-#, fuzzy
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
-msgstr "Inaktive vindauge:"
+msgstr "Gjer inaktive vindauge mørkare"
 
 #: effect_builtins.cpp:222
 msgctxt "Name of a KWin Effect"
 msgid "Dim Screen for Administrator Mode"
-msgstr ""
+msgstr "Mørklegg skjermen i administratormodus"
 
 #: effect_builtins.cpp:223
 msgctxt "Comment describing the KWin Effect"
 msgid "Darkens the entire screen when requesting root privileges"
-msgstr ""
+msgstr "Gjer heile skjermen mørkare når det vert spurt om rottilgang"
 
 #: effect_builtins.cpp:237
 msgctxt "Name of a KWin Effect"
 msgid "Fall Apart"
-msgstr ""
+msgstr "Gå i knas"
 
 #: effect_builtins.cpp:238
-#, fuzzy
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
-msgstr "Send vindauget til alle skriveborda"
+msgstr "La vindauge gå i tusen når dei vert lukka"
 
 #: effect_builtins.cpp:252
 msgctxt "Name of a KWin Effect"
 msgid "Flip Switch"
-msgstr ""
+msgstr "Stabelvekslar"
 
 #: effect_builtins.cpp:253
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Flip through windows that are in a stack for the alt+tab window switcher"
 msgstr ""
+"Bla gjennom vindauge som i ein kortstokk ved vindaugsveksling med «Alt + Tab»"
 
 #: effect_builtins.cpp:267
 msgctxt "Name of a KWin Effect"
 msgid "Glide"
-msgstr ""
+msgstr "Skliding"
 
 #: effect_builtins.cpp:268
 msgctxt "Comment describing the KWin Effect"
 msgid "Windows Glide Effect as they are open and closed"
-msgstr ""
+msgstr "Windows-sklieffekt når dei vert opna og lukka"
 
 #: effect_builtins.cpp:282
 msgctxt "Name of a KWin Effect"
 msgid "Highlight Window"
-msgstr ""
+msgstr "Framhev vindauge"
 
 #: effect_builtins.cpp:283
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight the appropriate window when hovering over taskbar entries"
-msgstr ""
+msgstr "Framhev vindauga når peikaren vert halden over ikon på oppgåvelinja"
 
 #: effect_builtins.cpp:297
-#, fuzzy
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
-msgstr "Omvend musa"
+msgstr "Snu fargane"
 
 #: effect_builtins.cpp:298
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
-msgstr ""
+msgstr "Snu fargane på skrivebordet og vindauge"
 
 #: effect_builtins.cpp:312
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
-msgstr ""
+msgstr "KScreen"
 
 #: effect_builtins.cpp:313
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper Effect for KScreen"
-msgstr ""
+msgstr "Hjelpareffekt for KScreen"
 
 #: effect_builtins.cpp:327
 msgctxt "Name of a KWin Effect"
 msgid "Logout"
-msgstr ""
+msgstr "Logg ut"
 
 #: effect_builtins.cpp:328
 msgctxt "Comment describing the KWin Effect"
 msgid "Desaturate the desktop when displaying the logout dialog"
-msgstr ""
+msgstr "Bleik ut skrivebordet ved utlogging"
 
 #: effect_builtins.cpp:342
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
-msgstr ""
+msgstr "Forstørringsglas"
 
 #: effect_builtins.cpp:343
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
-msgstr ""
+msgstr "Skjermforstørring forma som ei fiskeaugelinse"
 
 #: effect_builtins.cpp:357
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
-msgstr ""
+msgstr "Magisk lampe"
 
 #: effect_builtins.cpp:358
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
-msgstr ""
+msgstr "Minimer vindauge ned i ein magisk lampe"
 
 #: effect_builtins.cpp:372
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
-msgstr ""
+msgstr "Forstørr skjermdel"
 
 #: effect_builtins.cpp:373
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
-msgstr ""
+msgstr "Forstørr delen av skjermen som er under musepeikaren"
 
 #: effect_builtins.cpp:387
-#, fuzzy
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
-msgstr "Animasjon"
+msgstr "Minimeringsanimasjon"
 
 #: effect_builtins.cpp:388
-#, fuzzy
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
-msgstr "Ignorer &minimerte vindauge"
+msgstr "Animer minimering av vindauge"
 
 #: effect_builtins.cpp:402
-#, fuzzy
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
-msgstr "Animasjon"
+msgstr "Museklikkanimasjon"
 
 #: effect_builtins.cpp:403
 msgctxt "Comment describing the KWin Effect"
@@ -768,186 +762,184 @@ msgid ""
 "Creates an animation whenever a mouse button is clicked. This is useful for "
 "screenrecordings/presentations"
 msgstr ""
+"Lagar ein animasjon kvar gong ein museknapp vert trykt ned. Dette er nyttig "
+"for skjermopptak/presentasjonar."
 
 #: effect_builtins.cpp:417
-#, fuzzy
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
-msgstr "Fjern musemerker"
+msgstr "Muselinjer"
 
 #: effect_builtins.cpp:418
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
-msgstr ""
+msgstr "La deg teikna linjer på skjermen"
 
 #: effect_builtins.cpp:432
-#, fuzzy
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
-msgstr "Vindauge"
+msgstr "Presenter vindauge"
 
 #: effect_builtins.cpp:433
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
 msgstr ""
+"Forminsk skjermflata heilt til alle dei opne vindauga kan visast side om side"
 
 #: effect_builtins.cpp:447
-#, fuzzy
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
-msgstr "Vindauge"
+msgstr "Endra storleik på vindauget"
 
 #: effect_builtins.cpp:448
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
 msgstr ""
+"Endrar storleik på vindauge med rask teksturskalering i staden for å "
+"oppdatera innhaldet"
 
 #: effect_builtins.cpp:462
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
-msgstr ""
+msgstr "Skjermkant"
 
 #: effect_builtins.cpp:463
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
-msgstr ""
+msgstr "Fremhever ein skjermkant når han kjem nær"
 
 #: effect_builtins.cpp:477
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
-msgstr ""
+msgstr "Skjermbilete"
 
 #: effect_builtins.cpp:478
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for KSnapshot"
-msgstr ""
+msgstr "Hjelpareffekt for KSnapshot"
 
 #: effect_builtins.cpp:492
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
-msgstr ""
+msgstr "Ark"
 
 #: effect_builtins.cpp:493
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Make modal dialogs smoothly fly in and out when they are shown or hidden"
-msgstr ""
+msgstr "Brett undervindauge inn og ut av skjermen"
 
 #: effect_builtins.cpp:507
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
-msgstr ""
+msgstr "Vis talet på bilete per sekund"
 
 #: effect_builtins.cpp:508
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
-msgstr ""
+msgstr "Vis KWin-ytinga i eit hjørne av skjermen"
 
 #: effect_builtins.cpp:522
-#, fuzzy
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
-msgstr "Vis &panel"
+msgstr "Vis oppteikning"
 
 #: effect_builtins.cpp:523
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
-msgstr ""
+msgstr "Marker nyleg oppdaterte område på skjermflata"
 
 #: effect_builtins.cpp:537
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
-msgstr ""
+msgstr "Lysbilete"
 
 #: effect_builtins.cpp:538
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide windows across the screen when switching virtual desktops"
-msgstr ""
+msgstr "La vindauga skli bortover skjermen ved veksling mellom skrivebord"
 
 #: effect_builtins.cpp:552
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
-msgstr ""
+msgstr "Skli tilbake"
 
 #: effect_builtins.cpp:553
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
-msgstr ""
+msgstr "Skli tilbake vindauge som mistar fokus"
 
 #: effect_builtins.cpp:567
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
-msgstr ""
+msgstr "Glidande sprettoppvindauge"
 
 #: effect_builtins.cpp:568
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
-msgstr ""
+msgstr "Glide-animasjon for Plasma-sprettoppvindauge"
 
 #: effect_builtins.cpp:582
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
-msgstr ""
+msgstr "Midthjelpar"
 
 #: effect_builtins.cpp:583
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
-msgstr ""
+msgstr "Hjelp til å finna midten av skjermen når du flyttar vindauge"
 
 #: effect_builtins.cpp:597
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
-msgstr ""
+msgstr "Oppstartsmelding"
 
 #: effect_builtins.cpp:598
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
-msgstr ""
+msgstr "Hjelpareffekt for oppstartsvisning"
 
 #: effect_builtins.cpp:612
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
-msgstr ""
+msgstr "Miniatyrbilete ved skjermkanten"
 
 #: effect_builtins.cpp:613
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
-msgstr ""
+msgstr "Vis miniatyrbilete av vindauge ved kanten av skjermen"
 
 #: effect_builtins.cpp:627
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
-msgstr ""
+msgstr "Følg mus"
 
 #: effect_builtins.cpp:628
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a mouse cursor locating effect when activated"
-msgstr ""
+msgstr "Vis kor musepeikaren er"
 
 #: effect_builtins.cpp:642
 msgctxt "Name of a KWin Effect"
 msgid "Window Geometry"
-msgstr ""
+msgstr "Vindaugsgeometri"
 
 #: effect_builtins.cpp:643
-#, fuzzy
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
-msgstr "Vis vindaugs&ikon"
+msgstr "Vis vindaugsdimensjonar ved flytting og endring av storleik"
 
 #: effect_builtins.cpp:657
-#, fuzzy
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
-msgstr "Vindauge"
+msgstr "Vaklande vindauge"
 
 #: effect_builtins.cpp:658
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
-msgstr ""
+msgstr "Deformer vindauga når dei vert flytte"
 
 #: effect_builtins.cpp:672
-#, fuzzy
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Forstørr/forminsk"
@@ -955,7 +947,7 @@ msgstr "Forstørr/forminsk"
 #: effect_builtins.cpp:673
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
-msgstr ""
+msgstr "Forstørr heile skrivebordet"
 
 #: flipswitch/flipswitch.cpp:58 flipswitch/flipswitch_config.cpp:60
 msgid "Toggle Flip Switch (Current desktop)"
@@ -999,32 +991,32 @@ msgstr "Loddrett plassering av framgrunnen:"
 #. i18n: ectx: property (text), widget (QLabel, glideEffectLabel)
 #: glide/glide_config.ui:17
 msgid "Glide Effect:"
-msgstr ""
+msgstr "Glideeffekt:"
 
 #. i18n: ectx: property (text), widget (QLabel, inGlideEffectLabel)
 #: glide/glide_config.ui:42
 msgid "In"
-msgstr ""
+msgstr "Inn"
 
 #. i18n: ectx: property (text), widget (QLabel, outGlideEffectLabel)
 #: glide/glide_config.ui:71
 msgid "Out"
-msgstr ""
+msgstr "Ut"
 
 #. i18n: ectx: property (text), widget (QLabel, glideAngleLabel)
 #: glide/glide_config.ui:93
 msgid "Glide Angle:"
-msgstr ""
+msgstr "Glidevinkel:"
 
 #. i18n: ectx: property (text), widget (QLabel, glideAnglenegLabel)
 #: glide/glide_config.ui:118
 msgid "-90"
-msgstr ""
+msgstr "−90"
 
 #. i18n: ectx: property (text), widget (QLabel, glideAngleposLabel)
 #: glide/glide_config.ui:147
 msgid "90"
-msgstr ""
+msgstr "90"
 
 #: invert/invert.cpp:44 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
@@ -1037,7 +1029,7 @@ msgstr "Slå av/på omsnuingseffekt på vindauge"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
 msgid "Fade to black (fullscreen splash screens only)"
-msgstr ""
+msgstr "Ton ut til svart (berre velkomstskjermar som brukar heile skjermen)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: lookingglass/lookingglass_config.ui:24
@@ -1063,7 +1055,7 @@ msgstr "&Breidd:"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Height)
 #: magnifier/magnifier_config.ui:42 magnifier/magnifier_config.ui:74
 msgid " px"
-msgstr " px"
+msgstr " pikslar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: magnifier/magnifier_config.ui:55
@@ -1071,24 +1063,23 @@ msgid "&Height:"
 msgstr "&Høgd:"
 
 #: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:63
-#, fuzzy
 msgid "Toggle Mouse Click Effect"
-msgstr "Slå av/på omsnuingseffekt"
+msgstr "Slå på/av museklikk-effekt"
 
 #: mouseclick/mouseclick.cpp:58
 msgctxt "Left mouse button"
 msgid "Left"
-msgstr ""
+msgstr "Venstre"
 
 #: mouseclick/mouseclick.cpp:59
 msgctxt "Middle mouse button"
 msgid "Middle"
-msgstr ""
+msgstr "Midt på"
 
 #: mouseclick/mouseclick.cpp:60
 msgctxt "Right mouse button"
 msgid "Right"
-msgstr ""
+msgstr "Høgre"
 
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
@@ -1098,22 +1089,22 @@ msgstr "Grunnleggjande innstillingar"
 #. i18n: ectx: property (text), widget (QLabel, button1_label)
 #: mouseclick/mouseclick_config.ui:37
 msgid "Left Mouse Button Color:"
-msgstr ""
+msgstr "Farge på venstre museknapp:"
 
 #. i18n: ectx: property (text), widget (QLabel, button2_label)
 #: mouseclick/mouseclick_config.ui:50
 msgid "Middle Mouse Button Color:"
-msgstr ""
+msgstr "Farge på midtre museknapp:"
 
 #. i18n: ectx: property (text), widget (QLabel, button3_label)
 #: mouseclick/mouseclick_config.ui:70
 msgid "Right Mouse Button Color:"
-msgstr ""
+msgstr "Farge på høgre museknapp:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, advanced_tab)
 #: mouseclick/mouseclick_config.ui:91
 msgid "Advanced Settings"
-msgstr ""
+msgstr "Avanserte innstillingar"
 
 #. i18n: ectx: property (title), widget (QGroupBox, rings)
 #: mouseclick/mouseclick_config.ui:97
@@ -1123,7 +1114,7 @@ msgstr "Ringar"
 #. i18n: ectx: property (text), widget (QLabel, ring_line_width_label)
 #: mouseclick/mouseclick_config.ui:103
 msgid "Line Width:"
-msgstr ""
+msgstr "Linjebreidd:"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_LineWidth)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingSize)
@@ -1137,17 +1128,17 @@ msgstr[1] " pikslar"
 #. i18n: ectx: property (text), widget (QLabel, ring_duration_label)
 #: mouseclick/mouseclick_config.ui:145
 msgid "Ring Duration:"
-msgstr ""
+msgstr "Ringtid:"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_radius_label)
 #: mouseclick/mouseclick_config.ui:155
 msgid "Ring Radius:"
-msgstr ""
+msgstr "Ringradius:"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_count_label)
 #: mouseclick/mouseclick_config.ui:184
 msgid "Ring Count:"
-msgstr ""
+msgstr "Mengd ringar:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, font)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
@@ -1163,19 +1154,19 @@ msgstr "Skrift:"
 #. i18n: ectx: property (text), widget (QLabel, showtext_label)
 #: mouseclick/mouseclick_config.ui:233
 msgid "Show Text:"
-msgstr ""
+msgstr "Vis tekst:"
 
 #: mousemark/mousemark.cpp:50
 msgid "Clear All Mouse Marks"
-msgstr "Fjern alle musemerker"
+msgstr "Fjern alle musemerke"
 
 #: mousemark/mousemark.cpp:57 mousemark/mousemark_config.cpp:74
 msgid "Clear Last Mouse Mark"
-msgstr "Fjern siste musemerke"
+msgstr "Fjern siste muselinje"
 
 #: mousemark/mousemark_config.cpp:68
 msgid "Clear Mouse Marks"
-msgstr "Fjern musemerker"
+msgstr "Fjern muselinjer"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mousemark/mousemark_config.ui:55
@@ -1382,21 +1373,21 @@ msgstr "Tilpassa rutenett"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowClosingWindows)
 #: presentwindows/presentwindows_config.ui:449
 msgid "Provide buttons to close the windows"
-msgstr ""
+msgstr "Set på knappar til å lukka vindauga"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TextureScale)
 #: resize/resize_config.ui:17
 msgid "Scale window"
-msgstr ""
+msgstr "Skaler vindauge"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Outline)
 #: resize/resize_config.ui:24
 msgid "Show outline"
-msgstr ""
+msgstr "Vis omriss"
 
 #: showfps/showfps.cpp:61
 msgid "This effect is not a benchmark"
-msgstr ""
+msgstr "Denne effekten er ikkje ein ytingstest"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: showfps/showfps_config.ui:23
@@ -1416,22 +1407,22 @@ msgstr "Ingen stad"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:53
 msgid "Top Left"
-msgstr "Øvre venstre"
+msgstr "Oppe til venstre"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:58
 msgid "Top Right"
-msgstr "Øvre høgre"
+msgstr "Oppe til høgre"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:63
 msgid "Bottom Left"
-msgstr "Nedre venstre"
+msgstr "Nede til venstre"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:68
 msgid "Bottom Right"
-msgstr "Nedre høgre"
+msgstr "Nede til høgre"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: showfps/showfps_config.ui:76
@@ -1446,7 +1437,7 @@ msgstr "Tekstfarge:"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: showfps/showfps_config.ui:119
 msgid "Text alpha:"
-msgstr "Tekstalfa:"
+msgstr "Tekstgjennomsikt:"
 
 #: thumbnailaside/thumbnailaside.cpp:37
 #: thumbnailaside/thumbnailaside_config.cpp:71
@@ -1456,19 +1447,19 @@ msgstr "Slå av/på minibilete for gjeldande vindauge"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: thumbnailaside/thumbnailaside_config.ui:23
 msgid "Maximum &width:"
-msgstr "Maksimal &breidde"
+msgstr "Maks&breidd:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: thumbnailaside/thumbnailaside_config.ui:36
 msgid "&Spacing:"
-msgstr "Mellom&rom"
+msgstr "&Mellomrom:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Spacing)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_MaxWidth)
 #: thumbnailaside/thumbnailaside_config.ui:55
 #: thumbnailaside/thumbnailaside_config.ui:106
 msgid " pixels"
-msgstr ""
+msgstr " biletpunkt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: thumbnailaside/thumbnailaside_config.ui:68
@@ -1477,17 +1468,17 @@ msgstr "&Ugjennomsikt:"
 
 #: trackmouse/trackmouse.cpp:60 trackmouse/trackmouse_config.cpp:67
 msgid "Track mouse"
-msgstr ""
+msgstr "Følg mus"
 
 #. i18n: ectx: property (text), widget (KTitleWidget, ktitlewidget)
 #: trackmouse/trackmouse_config.ui:20
 msgid "Trigger on"
-msgstr ""
+msgstr "Utløysar på"
 
 #. i18n: ectx: property (text), widget (QRadioButton, modifierRadio)
 #: trackmouse/trackmouse_config.ui:27
 msgid "Modifiers"
-msgstr ""
+msgstr "Valtastar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Alt)
 #: trackmouse/trackmouse_config.ui:43
@@ -1542,7 +1533,7 @@ msgstr "Menyar:"
 #. i18n: ectx: property (text), widget (QLabel, moveresize_label)
 #: translucency/package/contents/ui/config.ui:207
 msgid "Moving windows:"
-msgstr "Flytta vindauge:"
+msgstr "Vindauge som vert flytta:"
 
 #. i18n: ectx: property (text), widget (QLabel, inactive_label)
 #: translucency/package/contents/ui/config.ui:226
@@ -1557,7 +1548,7 @@ msgstr "Vel menygjennomsikt uavhengig"
 #. i18n: ectx: property (text), widget (QLabel, dropdownmenus_label)
 #: translucency/package/contents/ui/config.ui:285
 msgid "Dropdown menus:"
-msgstr "Nedtrekkslister:"
+msgstr "Nedtrekksmenyar:"
 
 #. i18n: ectx: property (text), widget (QLabel, popupmenus_label)
 #: translucency/package/contents/ui/config.ui:329
@@ -1571,21 +1562,21 @@ msgstr "Avrivne menyar:"
 
 #: windowgeometry/windowgeometry.cpp:61
 msgid "Toggle window geometry display (effect only)"
-msgstr ""
+msgstr "Slå på/av vising av vindaugegeometri (berre effekt)"
 
 #: windowgeometry/windowgeometry_config.cpp:56
 msgid "Toggle KWin composited geometry display"
-msgstr ""
+msgstr "Slå på/av vising av KWin samansett geometri"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Move)
 #: windowgeometry/windowgeometry_config.ui:17
 msgid "Display for moving windows"
-msgstr ""
+msgstr "Vis for vindauge som vert flytta"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Resize)
 #: windowgeometry/windowgeometry_config.ui:24
 msgid "Display for resizing windows"
-msgstr ""
+msgstr "Vis for vindauge som får endra storleik"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -1610,7 +1601,7 @@ msgstr "&Flyttefaktor:"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MoveWobble)
 #: wobblywindows/wobblywindows_config.ui:155
 msgid "Wo&bble when moving"
-msgstr "Rist ved &flytting"
+msgstr "Rista ved &flytting"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResizeWobble)
 #: wobblywindows/wobblywindows_config.ui:162
@@ -1639,54 +1630,54 @@ msgstr "Høgare"
 
 #: zoom/zoom.cpp:84
 msgid "Move Zoomed Area to Left"
-msgstr ""
+msgstr "Flytt forstørra område til venstre"
 
 #: zoom/zoom.cpp:92
 msgid "Move Zoomed Area to Right"
-msgstr ""
+msgstr "Flytt forstørra område til høgre"
 
 #: zoom/zoom.cpp:100
 msgid "Move Zoomed Area Upwards"
-msgstr ""
+msgstr "Flytt forstørra område oppover"
 
 #: zoom/zoom.cpp:108
 msgid "Move Zoomed Area Downwards"
-msgstr ""
+msgstr "Flytt forstørra område nedover"
 
 #: zoom/zoom.cpp:117 zoom/zoom_config.cpp:113
 msgid "Move Mouse to Focus"
-msgstr ""
+msgstr "Flytt peikar til fokus"
 
 #: zoom/zoom.cpp:125 zoom/zoom_config.cpp:120
 msgid "Move Mouse to Center"
-msgstr ""
+msgstr "Flytt peikar til midten"
 
 #: zoom/zoom_config.cpp:85
 msgid "Move Left"
-msgstr ""
+msgstr "Flytt til venstre"
 
 #: zoom/zoom_config.cpp:92
 msgid "Move Right"
-msgstr ""
+msgstr "Flytt til høgre"
 
 #: zoom/zoom_config.cpp:99
 msgid "Move Up"
-msgstr ""
+msgstr "Flytt opp"
 
 #: zoom/zoom_config.cpp:106
 msgid "Move Down"
-msgstr ""
+msgstr "Flytt ned"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label)
 #. i18n: ectx: property (whatsThis), widget (QDoubleSpinBox, kcfg_ZoomFactor)
 #: zoom/zoom_config.ui:25 zoom/zoom_config.ui:41
 msgid "On zoom-in and zoom-out change the zoom by the defined zoom-factor."
-msgstr ""
+msgstr "Ved forstørring/forminsking, endra med vald storleiksfaktor."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: zoom/zoom_config.ui:28
 msgid "Zoom Factor:"
-msgstr ""
+msgstr "Storleiksfaktor:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_EnableFocusTracking)
 #: zoom/zoom_config.ui:66
@@ -1694,73 +1685,75 @@ msgid ""
 "Enable tracking of the focused location. This needs QAccessible to be "
 "enabled per application (\"export QT_ACCESSIBILITY=1\")."
 msgstr ""
+"Slå på fokusfølging. For dette må QAccessible slåast på for programmet "
+"(«export QT_ACCESSIBILITY=1»)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_EnableFocusTracking)
 #: zoom/zoom_config.ui:69
 msgid "Enable Focus Tracking"
-msgstr ""
+msgstr "Bruk fokusfølging"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_EnableFollowFocus)
 #: zoom/zoom_config.ui:79
 msgid "When the focus changes, move the zoom area to the focused location."
-msgstr ""
+msgstr "Når fokuset vert endra, flytt zoom-området til staden som har fokus."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_EnableFollowFocus)
 #: zoom/zoom_config.ui:82
 msgid "Follow Focus"
-msgstr ""
+msgstr "Følg fokuset"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: zoom/zoom_config.ui:89
 msgid "Mouse Pointer:"
-msgstr ""
+msgstr "Musepeikar:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_MousePointer)
 #: zoom/zoom_config.ui:102
 msgid "Visibility of the mouse-pointer."
-msgstr ""
+msgstr "Synlegheit for musepeikaren."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
 #: zoom/zoom_config.ui:106
 msgid "Scale"
-msgstr ""
+msgstr "Skalering"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
 #: zoom/zoom_config.ui:111
 msgid "Keep"
-msgstr ""
+msgstr "Behald"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
 #: zoom/zoom_config.ui:116
 msgid "Hide"
-msgstr ""
+msgstr "Gøym"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:124
 msgid "Track moving of the mouse."
-msgstr ""
+msgstr "Spor muserørsler."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:128
 msgid "Proportional"
-msgstr ""
+msgstr "Proporsjonal"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:133
 msgid "Centered"
-msgstr ""
+msgstr "Sentrert"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:138
 msgid "Push"
-msgstr ""
+msgstr "Skuv"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:143
 msgid "Disabled"
-msgstr ""
+msgstr "Av"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: zoom/zoom_config.ui:151
 msgid "Mouse Tracking:"
-msgstr ""
+msgstr "Musesporing:"

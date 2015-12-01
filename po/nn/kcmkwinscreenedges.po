@@ -1,3 +1,5 @@
+# Translation of kcmkwinscreenedges to Norwegian Nynorsk
+#
 # Eirik U. Birkeland <eirbir@gmail.com>, 2009, 2010.
 # Karl Ove Hufthammer <karl@huftis.org>, 2010, 2015.
 msgid ""
@@ -168,7 +170,7 @@ msgstr "Alltid på"
 msgid ""
 "Amount of time required for the mouse cursor to be pushed against the edge "
 "of the screen before the action is triggered"
-msgstr "Tid musa må dragast mot kanten av skjermen før handlinga vert utførd"
+msgstr "Tid musa må dragast mot kanten av skjermen før handlinga vert utført"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:197

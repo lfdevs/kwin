@@ -1,23 +1,25 @@
-# Translation of kwin.po to Catalan
-# Copyright (C)
+# Translation of kwin.po to Catalan (Valencian)
+# Copyright (C) 1999-2015 This_file_is_part_of_KDE
+# This file is distributed under the license LGPL version 2.1 or
+# version 3 or later versions approved by the membership of KDE e.V.
 #
 # Sebastià Pla i Sanz <sps@sastia.com>, 1999, 2000, 2001, 2002, 2004, 2005, 2006.
 # Albert Astals Cid <aacid@kde.org>, 2005.
-# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014.
-# Antoni Bella Pérez <antonibella5@orange.es>, 2013.
+# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
+# Antoni Bella Pérez <antonibella5@yahoo.com>, 2013, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2014-01-05 11:11+0100\n"
+"PO-Revision-Date: 2015-06-13 14:18+0200\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -47,7 +49,7 @@ msgid ""
 "p><p>Alternatively, you might want to use the XRender backend instead.</p>"
 msgstr ""
 "<b>La composició OpenGL (per defecte) ha trencat el KWin en el passat.</"
-"b><br>Probablement era degut a una fallada en el controlador.<p>Si penseu "
+"b><br>Probablement era a causa d'una fallada en el controlador.<p>Si penseu "
 "que mentrestant l'heu actualitzat a un controlador estable,<br>podeu "
 "reiniciar esta protecció però <b>sigueu conscient que podria produir-se una "
 "fallada immediata.</b></p><p>Alternativament, en el seu lloc podríeu "
@@ -81,11 +83,11 @@ msgstr "PID"
 
 #: killer/killer.cpp:51
 msgid "Hostname on which the application is running"
-msgstr "Nom d'ordinador en el que s'executa l'aplicació"
+msgstr "Nom de la màquina on s'executa l'aplicació"
 
 #: killer/killer.cpp:51
 msgid "hostname"
-msgstr "nom de l'ordinador"
+msgstr "nom de la màquina"
 
 #: killer/killer.cpp:53
 msgid "Caption of the window to be terminated"
@@ -140,8 +142,8 @@ msgid ""
 "<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
 "%3) but the application is not responding.</para>"
 msgstr ""
-"<para>Heu intentat tancar la finestra «%1» de l'aplicació «%2» (ID del "
-"procés: %3), però l'aplicació no respon.</para>"
+"<para>He intentat tancar la finestra «%1» de l'aplicació «%2» (ID del "
+"procés: %3), però l'aplicació no està responent.</para>"
 
 #: killer/killer.cpp:99
 #, kde-format
@@ -150,8 +152,9 @@ msgid ""
 "<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
 "%3), running on host \"%4\", but the application is not responding.</para>"
 msgstr ""
-"<para>Heu intentat tancar la finestra «%1» de l'aplicació «%2» (ID del "
-"procés: %3), executant-se a «%4», però l'aplicació no respon.</para>"
+"<para>He intentat tancar la finestra «%1» de l'aplicació «%2» (ID del "
+"procés: %3), executant-se en el servidor %4, però l'aplicació no està "
+"responent.</para>"
 
 #: killer/killer.cpp:102
 msgctxt "@info"
@@ -160,9 +163,9 @@ msgid ""
 "para><para><warning>Terminating the application will close all of its child "
 "windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
-"<para>Voleu finalitzar esta aplicació?</para><para><warning>La finalització "
-"de l'aplicació tancarà totes les seues finestres filles. Qualsevol dada no "
-"guardada es perdrà.</warning></para>"
+"<para>Voleu finalitzar esta aplicació?</para><para><warning>En finalitzar "
+"esta aplicació es tancaran totes les seues finestres filles. Qualsevol dada "
+"no guardada es perdrà.</warning></para>"
 
 #: killer/killer.cpp:106
 #, kde-format
@@ -298,16 +301,12 @@ msgid "Quick Tile Window to the Right"
 msgstr "Situa la finestra en mosaic a la dreta"
 
 #: kwinbindings.cpp:100
-#, fuzzy
-#| msgid "Quick Tile Window to the Top Left"
 msgid "Quick Tile Window to the Top"
-msgstr "Situa la finestra en mosaic a l'esquerra superior"
+msgstr "Situa la finestra en mosaic a la part superior"
 
 #: kwinbindings.cpp:102
-#, fuzzy
-#| msgid "Quick Tile Window to the Bottom Left"
 msgid "Quick Tile Window to the Bottom"
-msgstr "Situa la finestra en mosaic a l'esquerra inferior"
+msgstr "Situa la finestra en mosaic a la part inferior"
 
 #: kwinbindings.cpp:104
 msgid "Quick Tile Window to the Top Left"
@@ -431,7 +430,7 @@ msgid ""
 "You can select another window manager to run:"
 msgstr ""
 "El KWin no està estabilitzat.\n"
-"Pareix que ha fallat vàries vegades seguides.\n"
+"Pareix que ha fallat diverses vegades seguides.\n"
 "Podeu seleccionar un altre gestor de finestres a executar:"
 
 #: main.cpp:277 main.cpp:304
@@ -479,71 +478,74 @@ msgid "Indicate that KWin has recently crashed n times"
 msgstr "Indica que el KWin ha fallat recentment n vegades"
 
 #: main_wayland.cpp:173
-#, fuzzy
-#| msgid "kwin: another window manager is running (try using --replace)\n"
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr ""
-"kwin: hi ha un altre gestor de finestres executant-se (proveu l'ús de --"
-"replace)\n"
+"kwin_wayland: hi ha un gestor de finestres del X11 executant-se a la "
+"pantalla del X11.\n"
 
 #: main_wayland.cpp:473
 msgid "Start a rootless Xwayland server."
-msgstr ""
+msgstr "Iniciar un servidor Xwayland sense finestra arrel."
 
 #: main_wayland.cpp:475
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
+"Nom del sòcol Wayland a escoltar. Si no està definit, s'utilitza «wayland-0»."
 
 #: main_wayland.cpp:478
 msgid "Use a nested compositor in windowed mode."
-msgstr ""
+msgstr "Usa un compositor imbricat en mode finestra."
 
 #: main_wayland.cpp:480
 msgid "Render to framebuffer."
-msgstr ""
+msgstr "Renderitza al framebuffer."
 
 #: main_wayland.cpp:482
 msgid "The framebuffer device to render to."
-msgstr ""
+msgstr "El dispositiu de framebuffer on renderitzar."
 
 #: main_wayland.cpp:486
 msgid "The X11 Display to use in windowed mode on platform X11."
-msgstr ""
+msgstr "La pantalla X11 a usar en mode finestra en la plataforma X11."
 
 #: main_wayland.cpp:489
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
-msgstr ""
+msgstr "La pantalla Wayland a usar en mode finestra en la plataforma Wayland."
 
 #: main_wayland.cpp:492
 msgid "The width for windowed mode. Default width is 1024."
-msgstr ""
+msgstr "L'amplada del mode finestra. L'amplada per defecte és 1024."
 
 #: main_wayland.cpp:496
 msgid "The height for windowed mode. Default height is 768."
-msgstr ""
+msgstr "L'alçada del mode finestra. L'alçada per defecte és 768."
 
 #: main_wayland.cpp:512
 msgid "Use libhybris hwcomposer"
-msgstr ""
+msgstr "Usa el «hwcomposer» «libhybris»"
 
 #: main_wayland.cpp:517
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
 msgstr ""
+"Activa la compatibilitat amb «libinput» per al processament d'esdeveniments "
+"d'entrada. Nota: No utilitzar en sessions imbricades."
 
 #: main_wayland.cpp:521
 msgid "Render through drm node."
-msgstr ""
+msgstr "Renderitza mitjançant el node del DRM."
 
 #: main_wayland.cpp:526
 msgid "Input method that KWin starts."
-msgstr ""
+msgstr "Mètode d'entrada que inicia el KWin."
 
 #: main_wayland.cpp:531
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr ""
+"Les aplicacions a iniciar un cop s'han engegat el Wayland i el servidor "
+"Xwayland"
 
 #: main_x11.cpp:156
 msgid ""
@@ -567,7 +569,8 @@ msgstr ""
 #: scene_opengl.cpp:674
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
-"Els efectes d'escriptori es reiniciaran degut a una reinicialització gràfica"
+"Els efectes d'escriptori es reiniciaran a causa d'una reinicialització "
+"gràfica"
 
 #: scene_opengl.cpp:864
 #, kde-format
@@ -580,9 +583,9 @@ msgid ""
 msgstr ""
 "<h1>Els efectes d'escriptori OpenGL no són possibles</h1>El sistema no pot "
 "executar els efectes d'escriptori OpenGL en la resolució actual<br><br>Podeu "
-"intentar seleccionar el dorsal de l'XRender, però també pot ser molt lent "
-"amb esta resolució.<br>Alternativament, reduïu la resolució combinada de "
-"totes les pantalles a %1x%2 "
+"intentar seleccionar el dorsal del XRender, però també pot ser molt lent amb "
+"esta resolució.<br>Alternativament, reduïu la resolució combinada de totes "
+"les pantalles a %1x%2 "
 
 #: scene_opengl.cpp:871
 msgid ""
@@ -592,10 +595,10 @@ msgid ""
 "by the hardware limitations that restrict the OpenGL viewport size."
 msgstr ""
 "La resolució sol·licitada excedeix la limitació GL_MAX_VIEWPORT_DIMS de la "
-"GPU i, per tant, no és compatible amb el compositor de l'OpenGL."
-"<br>L'XRender no té esta limitació, però el rendiment estarà impactat "
-"normalment per les limitacions de maquinari que restringeixen la mida de "
-"l'àrea de visualització de l'OpenGL."
+"GPU i, per tant, no és compatible amb el compositor de l'OpenGL.<br>El "
+"XRender no té esta limitació, però el rendiment estarà impactat normalment "
+"per les limitacions de maquinari que restringeixen la mida de l'àrea de "
+"visualització de l'OpenGL."
 
 #: scene_opengl.cpp:896
 #, kde-format
@@ -630,17 +633,19 @@ msgstr ""
 msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
 msgstr ""
+"El connector no ha proporcionat cap fitxer de configuració en la ubicació "
+"esperada"
 
 #: scripting/scripting.cpp:127
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
-msgstr ""
+msgstr "La declaració ha fallat: %1 no és nul"
 
 #: scripting/scripting.cpp:145
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
-msgstr ""
+msgstr "La declaració ha fallat: L'argument és nul"
 
 #: scripting/scripting.cpp:172
 msgctxt "Error in KWin Script"
@@ -648,23 +653,27 @@ msgid ""
 "Invalid number of arguments. At least service, path, interface and method "
 "need to be provided"
 msgstr ""
+"Nombre no vàlid d'arguments. Com a mínim cal proporcionar el servei, el "
+"camí, la interfície i el mètode."
 
 #: scripting/scripting.cpp:178
 msgctxt "Error in KWin Script"
 msgid ""
 "Invalid type. Service, path, interface and method need to be string values"
 msgstr ""
+"Tipus no vàlid. Cal que el servei, el camí, la interfície i el mètode siguen "
+"valors de cadenes de text"
 
 #: scripting/scriptingutils.cpp:28
 msgctxt "syntax error in KWin script"
 msgid "Invalid number of arguments"
-msgstr ""
+msgstr "Nombre no vàlid d'arguments"
 
 #: scripting/scriptingutils.cpp:41
 #, kde-format
 msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
-msgstr ""
+msgstr "%1 no és cap tipus variable"
 
 #: tabbox/tabbox.cpp:364
 msgctxt "Special entry in alt+tab list for minimizing all windows"
@@ -873,14 +882,12 @@ msgid "&New Desktop"
 msgstr "Escriptori &nou"
 
 #: useractions.cpp:669
-#, fuzzy, kde-format
-#| msgctxt "@item:inmenu List of all Screens to send a window to"
-#| msgid "Screen &%1"
+#, kde-format
 msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
 "number, second the output identifier. E.g. Screen 1 (HDMI1)"
 msgid "Screen &%1 (%2)"
-msgstr "Pantalla %1"
+msgstr "Pantalla &%1 (%2)"
 
 #: useractions.cpp:690
 msgid "&All Activities"
@@ -968,4 +975,4 @@ msgstr ""
 "quin controlador OpenGL i quins efectes s'estan executant.\n"
 "Per favor, publiqueu la informació que hi ha sota este text introductori en "
 "un servei d'enganxament\n"
-"com http://paste.kde.org en lloc d'apegar-ho en els fils d'ajuda.\n"
+"com http://paste.kde.org en lloc d'enganxar-ho en els fils d'ajuda.\n"

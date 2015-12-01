@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2015-06-28 23:22-0300\n"
+"PO-Revision-Date: 2015-11-02 19:52-0200\n"
 "Last-Translator: André Marcelo Alvarenga <alvarenga@kde.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_br@kde.org>\n"
 "Language: pt_BR\n"
@@ -443,7 +443,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, autogroupInForeground)
 #: advanced.ui:75
 msgid "Switch to automatically grouped windows immediately"
-msgstr "Mudar imediatamente para as janelas agrupadas automaticamente"
+msgstr "Mudar imediatamente para as janelas agrupadas de forma automática"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: advanced.ui:98

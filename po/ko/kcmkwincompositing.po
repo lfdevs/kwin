@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-09-19 13:17+0000\n"
+"POT-Creation-Date: 2015-10-22 12:22+0000\n"
 "PO-Revision-Date: 2014-08-23 23:42+0900\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
@@ -182,7 +182,7 @@ msgid ""
 "immediate crash!\n"
 "Alternatively, you might want to use the XRender backend instead."
 msgstr ""
-"예전에 KWin을 실행시켰을 때 OpenGL 컴포지팅(기본값)이 충돌하였습니다.\n"
+"예전에 KWin을 실행시켰을 때 OpenGL 컴포지팅(기본값)이 충돌했습니다.\n"
 "드라이버 버그 때문에 문제가 발생했을 수도 있습니다.\n"
 "만약 안정적인 드라이버로 업그레이드하였다면 이 보호 장치를 해제할 수도 있으"
 "나\n"
@@ -294,7 +294,7 @@ msgstr ""
 "작성자: %1\n"
 "라이선스: %2"
 
-#: qml/EffectView.qml:64
+#: qml/EffectView.qml:63
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
 "effect's settings."
@@ -302,22 +302,22 @@ msgstr ""
 "정보: 효과를 활성화시키고 설정하는 방법을 알아 보시려면 효과의 설정을 보십시"
 "오"
 
-#: qml/EffectView.qml:75
+#: qml/EffectView.qml:74
 msgid "Search"
 msgstr "찾기"
 
-#: qml/EffectView.qml:82
+#: qml/EffectView.qml:81
 msgid "Configure filter"
 msgstr "필터 설정"
 
-#: qml/EffectView.qml:85
+#: qml/EffectView.qml:84
 msgid "Exclude Desktop Effects not supported by the Compositor"
 msgstr "컴포지터에서 지원하지 않는 데스크톱 효과 제외"
 
-#: qml/EffectView.qml:93
+#: qml/EffectView.qml:92
 msgid "Exclude internal Desktop Effects"
 msgstr "내부 데스크톱 효과 제외"
 
-#: qml/EffectView.qml:105
+#: qml/EffectView.qml:104
 msgid "Get New Effects ..."
 msgstr "새 효과 가져오기..."

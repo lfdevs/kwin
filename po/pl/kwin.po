@@ -1,5 +1,5 @@
 # translation of kwin.po to
-# Version: $Revision: 1435252 $
+# Version: $Revision: 1439726 $
 # translation of kwin.po to Polish
 # translation of kwin.po to
 # Norbert Popiołek <norbert@kde.com.pl>
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2015-08-15 12:59+0100\n"
+"PO-Revision-Date: 2015-10-04 09:04+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -273,35 +273,35 @@ msgstr "Ustawienia skrótu okna"
 
 #: kwinbindings.cpp:80
 msgid "Pack Window to the Right"
-msgstr "Umieszczaj okno z prawej"
+msgstr "Wyrównaj okno do prawej"
 
 #: kwinbindings.cpp:82
 msgid "Pack Window to the Left"
-msgstr "Umieszczaj okno z lewej"
+msgstr "Wyrównaj okno do lewej"
 
 #: kwinbindings.cpp:84
 msgid "Pack Window Up"
-msgstr "Umieszczaj okno u góry"
+msgstr "Wyrównaj okno do góry"
 
 #: kwinbindings.cpp:86
 msgid "Pack Window Down"
-msgstr "Umieszczaj okno u dołu"
+msgstr "Wyrównaj okno do dołu"
 
 #: kwinbindings.cpp:88
 msgid "Pack Grow Window Horizontally"
-msgstr "Umieszczaj kolejne okna w poziomie"
+msgstr "Rozwiń okno w prawo"
 
 #: kwinbindings.cpp:90
 msgid "Pack Grow Window Vertically"
-msgstr "Umieszczaj okno z lewej"
+msgstr "Rozwiń okno w dół"
 
 #: kwinbindings.cpp:92
 msgid "Pack Shrink Window Horizontally"
-msgstr "Umieszczaj kolejne okna w poziomie"
+msgstr "Zwiń okno w lewo"
 
 #: kwinbindings.cpp:94
 msgid "Pack Shrink Window Vertically"
-msgstr "Umieszczaj kolejne okna w pionie"
+msgstr "Zwiń okno w górę"
 
 #: kwinbindings.cpp:96
 msgid "Quick Tile Window to the Left"

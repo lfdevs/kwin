@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2015-06-05 09:10+0100\n"
+"PO-Revision-Date: 2015-10-31 08:55+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -396,9 +396,9 @@ msgid ""
 "setting using the checkbox, select in what way the setting should be "
 "affected and to which value."
 msgstr ""
-"To okno dialogowe umozliwia zmianę ustawień wyłącznie dla wybranego okna lub "
-"programu. Wyszukaj ustawienia, które chcesz mienić, włącz je poprzez pole "
-"zaznaczane, wybierz sposób zastosowania ustawienie, a także jego wartość."
+"To okno dialogowe umożliwia zmianę ustawień wyłącznie dla wybranego okna lub "
+"programu. Znajdź ustawienia, które chcesz zmienić, włącz je poprzez pole "
+"zaznaczane, wybierz sposób zastosowania ustawienia, a także jego wartość."
 
 #: ruleswidget.cpp:829
 msgid "Consult the documentation for more details."
@@ -878,7 +878,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_ignoregeometry)
 #: ruleswidgetbase.ui:1125
 msgid "Ignore requested &geometry"
-msgstr "Zlekceważ żądanie &geometrii"
+msgstr "Pomiń żądanie &geometrii"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_minsize)
 #: ruleswidgetbase.ui:1205
@@ -909,7 +909,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_strictgeometry)
 #: ruleswidgetbase.ui:1277
 msgid "Obey geometry restrictions"
-msgstr "Omiń ograniczenia geometryczne"
+msgstr "Pomiń ograniczenia geometryczne"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_screen)
 #: ruleswidgetbase.ui:1369
@@ -1062,7 +1062,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_disableglobalshortcuts)
 #: ruleswidgetbase.ui:2143
 msgid "Ignore global shortcuts"
-msgstr "Zlekceważ skróty globalne"
+msgstr "Pomiń skróty globalne"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_closeable)
 #: ruleswidgetbase.ui:2175

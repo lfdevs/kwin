@@ -73,6 +73,7 @@ Rules::Rules()
     , decocolorrule(UnusedForceRule)
     , blockcompositingrule(UnusedForceRule)
     , fsplevelrule(UnusedForceRule)
+    , fpplevelrule(UnusedForceRule)
     , acceptfocusrule(UnusedForceRule)
     , closeablerule(UnusedForceRule)
     , autogrouprule(UnusedForceRule)
@@ -182,6 +183,7 @@ void Rules::readFromCfg(const KConfigGroup& cfg)
     decocolorrule = decocolor.isEmpty() ? UnusedForceRule : readForceRule(cfg, QStringLiteral("decocolorrule"));
     READ_FORCE_RULE(blockcompositing, , false);
     READ_FORCE_RULE(fsplevel, limit0to4, 0); // fsp is 0-4
+    READ_FORCE_RULE(fpplevel, limit0to4, 0); // fpp is 0-4
     READ_FORCE_RULE(acceptfocus, , false);
     READ_FORCE_RULE(closeable, , false);
     READ_FORCE_RULE(autogroup, , false);
@@ -270,7 +272,7 @@ void Rules::write(KConfigGroup& cfg) const
     WRITE_SET_RULE(fullscreen,);
     WRITE_SET_RULE(noborder,);
     auto colorToString = [](const QString &value) -> QString {
-        if (value.endsWith(QStringLiteral(".colors"))) {
+        if (value.endsWith(QLatin1String(".colors"))) {
             return QFileInfo(value).baseName();
         } else {
             return value;
@@ -279,6 +281,7 @@ void Rules::write(KConfigGroup& cfg) const
     WRITE_FORCE_RULE(decocolor, colorToString);
     WRITE_FORCE_RULE(blockcompositing,);
     WRITE_FORCE_RULE(fsplevel,);
+    WRITE_FORCE_RULE(fpplevel,);
     WRITE_FORCE_RULE(acceptfocus,);
     WRITE_FORCE_RULE(closeable,);
     WRITE_FORCE_RULE(autogroup,);
@@ -322,6 +325,7 @@ bool Rules::isEmpty() const
            && decocolorrule == UnusedForceRule
            && blockcompositingrule == UnusedForceRule
            && fsplevelrule == UnusedForceRule
+           && fpplevelrule == UnusedForceRule
            && acceptfocusrule == UnusedForceRule
            && closeablerule == UnusedForceRule
            && autogrouprule == UnusedForceRule
@@ -364,7 +368,7 @@ QString Rules::readDecoColor(const KConfigGroup &cfg)
     }
     // find the actual scheme file
     return QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                  QStringLiteral("color-schemes/") + themeName + QStringLiteral(".colors"));
+                                  QLatin1String("color-schemes/") + themeName + QLatin1String(".colors"));
 }
 
 bool Rules::matchType(NET::WindowType match_type) const
@@ -449,9 +453,14 @@ bool Rules::match(const Client* c) const
         return false;
     if (!matchRole(c->windowRole()))
         return false;
-    if (!matchTitle(c->caption(false)))
-        return false;
     if (!matchClientMachine(c->clientMachine()->hostName(), c->clientMachine()->isLocal()))
+        return false;
+    if (titlematch != UnimportantMatch) // track title changes to rematch rules
+        QObject::connect(c, &Client::captionChanged, c, &Client::evaluateWindowRules,
+                         // QueuedConnection, because title may change before
+                         // the client is ready (could segfault!)
+                         static_cast<Qt::ConnectionType>(Qt::QueuedConnection|Qt::UniqueConnection));
+    if (!matchTitle(c->caption(false)))
         return false;
     return true;
 }
@@ -645,6 +654,7 @@ APPLY_RULE(noborder, NoBorder, bool)
 APPLY_FORCE_RULE(decocolor, DecoColor, QString)
 APPLY_FORCE_RULE(blockcompositing, BlockCompositing, bool)
 APPLY_FORCE_RULE(fsplevel, FSP, int)
+APPLY_FORCE_RULE(fpplevel, FPP, int)
 APPLY_FORCE_RULE(acceptfocus, AcceptFocus, bool)
 APPLY_FORCE_RULE(closeable, Closeable, bool)
 APPLY_FORCE_RULE(autogroup, Autogrouping, bool)
@@ -713,6 +723,7 @@ void Rules::discardUsed(bool withdrawn)
     DISCARD_USED_FORCE_RULE(decocolor);
     DISCARD_USED_FORCE_RULE(blockcompositing);
     DISCARD_USED_FORCE_RULE(fsplevel);
+    DISCARD_USED_FORCE_RULE(fpplevel);
     DISCARD_USED_FORCE_RULE(acceptfocus);
     DISCARD_USED_FORCE_RULE(closeable);
     DISCARD_USED_FORCE_RULE(autogroup);
@@ -846,6 +857,7 @@ CHECK_RULE(NoBorder, bool)
 CHECK_FORCE_RULE(DecoColor, QString)
 CHECK_FORCE_RULE(BlockCompositing, bool)
 CHECK_FORCE_RULE(FSP, int)
+CHECK_FORCE_RULE(FPP, int)
 CHECK_FORCE_RULE(AcceptFocus, bool)
 CHECK_FORCE_RULE(Closeable, bool)
 CHECK_FORCE_RULE(Autogrouping, bool)
@@ -862,6 +874,7 @@ CHECK_FORCE_RULE(DisableGlobalShortcuts, bool)
 
 void Client::setupWindowRules(bool ignore_temporary)
 {
+    disconnect(this, &Client::captionChanged, this, &Client::evaluateWindowRules);
     client_rules = RuleBook::self()->find(this, ignore_temporary);
     // check only after getting the rules, because there may be a rule forcing window type
 }
@@ -994,7 +1007,7 @@ void RuleBook::edit(AbstractClient* c, bool whole_app)
     args << QStringLiteral("--wid") << QString::number(c->window());
     if (whole_app)
         args << QStringLiteral("--whole-app");
-    QProcess *p = new QProcess(this);
+    QProcess *p = new Process(this);
     p->setArguments(args);
     p->setProcessEnvironment(kwinApp()->processStartupEnvironment());
     p->setProgram(QStringLiteral(KWIN_RULES_DIALOG_BIN));
@@ -1012,7 +1025,7 @@ void RuleBook::edit(AbstractClient* c, bool whole_app)
 void RuleBook::load()
 {
     deleteAll();
-    KConfig cfg(QStringLiteral(KWIN_NAME) + QStringLiteral("rulesrc"), KConfig::NoGlobals);
+    KConfig cfg(QStringLiteral(KWIN_NAME "rulesrc"), KConfig::NoGlobals);
     int count = cfg.group("General").readEntry("count", 0);
     for (int i = 1;
             i <= count;
@@ -1026,7 +1039,7 @@ void RuleBook::load()
 void RuleBook::save()
 {
     m_updateTimer->stop();
-    KConfig cfg(QStringLiteral(KWIN_NAME) + QStringLiteral("rulesrc"), KConfig::NoGlobals);
+    KConfig cfg(QStringLiteral(KWIN_NAME "rulesrc"), KConfig::NoGlobals);
     QStringList groups = cfg.groupList();
     for (QStringList::ConstIterator it = groups.constBegin();
             it != groups.constEnd();

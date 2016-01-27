@@ -16,15 +16,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2015-02-10 14:10+0200\n"
+"POT-Creation-Date: 2015-10-06 10:22+0000\n"
+"PO-Revision-Date: 2015-11-18 16:23+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: declarative-plugin/buttonsmodel.cpp:67
@@ -67,7 +67,7 @@ msgstr "Διατήρηση από κάτω"
 msgid "Keep above"
 msgstr "Διατήρηση από πάνω"
 
-#: kcm.cpp:106
+#: kcm.cpp:128
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
@@ -75,88 +75,98 @@ msgstr ""
 "Κλείσιμο με διπλό κλικ  :\n"
 " Για να ανοίξετε το μενού, κρατήστε το κουμπί πατημένο μέχρι να εμφανιστεί."
 
+#. i18n: ectx: attribute (title), widget (QWidget, theTab)
+#: kcm.ui:21
+msgid "Theme"
+msgstr "Θέμα"
+
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
-#: kcm.ui:22
+#: kcm.ui:29
 msgid "Search"
 msgstr "Αναζήτηση"
 
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
-#: kcm.ui:35
+#: kcm.ui:42
 msgid "Get New Decorations..."
 msgstr "Λήψη νέων διακοσμήσεων παραθύρου..."
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: kcm.ui:56
+#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
+#: kcm.ui:54
+msgid "Close windows by double clicking &the menu button"
+msgstr "Κλείσιμο παραθύρων με διπλό &κλικ στο κουμπί μενού"
+
+#. i18n: ectx: property (text), widget (QLabel, borderSizesLabel)
+#: kcm.ui:95
 msgid "Border si&ze:"
 msgstr "Μέγεθος &περιγράμματος:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:67
+#: kcm.ui:109
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Χωρίς περιγράμματα"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:72
+#: kcm.ui:114
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr "Χωρίς πλευρικά περιγράμματα"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:77
+#: kcm.ui:119
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "Μικροσκοπικό"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:82
+#: kcm.ui:124
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "Κανονικό"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:87
+#: kcm.ui:129
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "Μεγάλο"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:92
+#: kcm.ui:134
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "Πολύ μεγάλο"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:97
+#: kcm.ui:139
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "Τεράστιο"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:102
+#: kcm.ui:144
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "Τερατώδες"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:107
+#: kcm.ui:149
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "Υπερφυσικό"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: kcm.ui:125
-msgid "Close windows by double clicking &the menu button:"
-msgstr "Κλείσιμο παραθύρων με διπλό &κλικ στο κουμπί μενού:"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: kcm.ui:160
+msgid "Buttons"
+msgstr "Κουμπιά"
 
-#: qml/Buttons.qml:74
+#: qml/Buttons.qml:77
 msgid "Titlebar"
 msgstr "Γραμμή τίτλου"
 
-#: qml/Buttons.qml:197
+#: qml/Buttons.qml:201
 msgid "Drag buttons between here and the titlebar"
 msgstr "Σύρσιμο κουμπιών μεταξύ της θέσης αυτής και της γραμμής τίτλου"
 
-#: qml/Buttons.qml:212
+#: qml/Buttons.qml:216
 msgid "Drop here to remove button"
 msgstr "Απόθεση εδώ για αφαίρεση κουμπιού"

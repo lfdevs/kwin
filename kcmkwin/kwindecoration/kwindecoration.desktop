@@ -73,6 +73,7 @@ Name[zh_CN]=窗口装饰
 Name[zh_TW]=視窗裝飾
 
 Comment=Look and Feel of Window Titles
+Comment[ast]=Aspeutu y sintir de los títulos de ventana
 Comment[bs]=Izgled i osjećaj naslova prozora
 Comment[ca]=Aspecte i comportament dels títols de les finestres
 Comment[ca@valencia]=Aspecte i comportament dels títols de les finestres
@@ -82,6 +83,7 @@ Comment[de]=Erscheinungsbild von Fenstertiteln
 Comment[el]=Διαμόρφωση της εμφάνισης και αίσθησης του τίτλου των παραθύρων
 Comment[en_GB]=Look and Feel of Window Titles
 Comment[es]=Aspecto visual de los títulos de las ventanas
+Comment[et]=Akna tiitliribade välimus ja tunnetus
 Comment[fi]=Ikkunoiden kehysten ulkoasu
 Comment[fr]=Apparence des titres de fenêtre
 Comment[gl]=Aparencia e o comportamento dos títulos das xanelas

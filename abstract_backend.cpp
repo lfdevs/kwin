@@ -19,9 +19,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "abstract_backend.h"
 #include <config-kwin.h>
+#include "abstract_egl_backend.h"
 #include "composite.h"
 #include "cursor.h"
 #include "input.h"
+#include "scene_opengl.h"
 #include "wayland_server.h"
 #include "wayland_cursor_theme.h"
 // KWayland
@@ -32,9 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/seat_interface.h>
 #include <KWayland/Server/surface_interface.h>
 // Wayland
-#if HAVE_WAYLAND_CURSOR
 #include <wayland-cursor.h>
-#endif
 
 namespace KWin
 {
@@ -91,7 +91,6 @@ void AbstractBackend::installCursorImage(Qt::CursorShape shape)
 
 void AbstractBackend::updateCursorImage(Qt::CursorShape shape)
 {
-#if HAVE_WAYLAND_CURSOR
     if (!m_cursorTheme) {
         // check whether we can create it
         if (waylandServer() && waylandServer()->internalShmPool()) {
@@ -112,9 +111,6 @@ void AbstractBackend::updateCursorImage(Qt::CursorShape shape)
     waylandServer()->internalClientConection()->flush();
     waylandServer()->dispatch();
     installThemeCursor(KWayland::Client::Buffer::getId(b), QPoint(cursor->hotspot_x, cursor->hotspot_y));
-#else
-    Q_UNUSED(shape)
-#endif
 }
 
 void AbstractBackend::installThemeCursor(quint32 id, const QPoint &hotspot)
@@ -307,6 +303,36 @@ void AbstractBackend::setReady(bool ready)
 void AbstractBackend::warpPointer(const QPointF &globalPos)
 {
     Q_UNUSED(globalPos)
+}
+
+bool AbstractBackend::supportsQpaContext() const
+{
+    return hasGLExtension(QByteArrayLiteral("EGL_KHR_surfaceless_context"));
+}
+
+EGLDisplay AbstractBackend::sceneEglDisplay() const
+{
+    if (Compositor *c = Compositor::self()) {
+        if (SceneOpenGL *s = dynamic_cast<SceneOpenGL*>(c->scene())) {
+            return static_cast<AbstractEglBackend*>(s->backend())->eglDisplay();
+        }
+    }
+    return EGL_NO_DISPLAY;
+}
+
+EGLContext AbstractBackend::sceneEglContext() const
+{
+    if (Compositor *c = Compositor::self()) {
+        if (SceneOpenGL *s = dynamic_cast<SceneOpenGL*>(c->scene())) {
+            return static_cast<AbstractEglBackend*>(s->backend())->context();
+        }
+    }
+    return EGL_NO_CONTEXT;
+}
+
+QSize AbstractBackend::screenSize() const
+{
+    return QSize();
 }
 
 }

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-11-19 09:30+0000\n"
 "PO-Revision-Date: 2013-01-11 11:13+0200\n"
 "Last-Translator: Sergiu Bivol <sergiu@ase.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -31,37 +31,37 @@ msgstr "claudiuc@kde.org"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:100 ruleswidgetbase.ui:428 ruleswidgetbase.ui:2229
+#: detectwidget.cpp:100 ruleswidgetbase.ui:428 ruleswidgetbase.ui:2459
 msgid "Normal Window"
 msgstr "Fereastră normală"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:101 ruleswidgetbase.ui:463 ruleswidgetbase.ui:2264
+#: detectwidget.cpp:101 ruleswidgetbase.ui:463 ruleswidgetbase.ui:2494
 msgid "Desktop"
 msgstr "Birou"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:102 ruleswidgetbase.ui:443 ruleswidgetbase.ui:2244
+#: detectwidget.cpp:102 ruleswidgetbase.ui:443 ruleswidgetbase.ui:2474
 msgid "Dock (panel)"
 msgstr "Andocat (panou)"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:103 ruleswidgetbase.ui:448 ruleswidgetbase.ui:2249
+#: detectwidget.cpp:103 ruleswidgetbase.ui:448 ruleswidgetbase.ui:2479
 msgid "Toolbar"
 msgstr "Bara de unelte"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:104 ruleswidgetbase.ui:453 ruleswidgetbase.ui:2254
+#: detectwidget.cpp:104 ruleswidgetbase.ui:453 ruleswidgetbase.ui:2484
 msgid "Torn-Off Menu"
 msgstr "Meniu „rupt”"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:105 ruleswidgetbase.ui:433 ruleswidgetbase.ui:2234
+#: detectwidget.cpp:105 ruleswidgetbase.ui:433 ruleswidgetbase.ui:2464
 msgid "Dialog Window"
 msgstr "Fereastră de dialog"
 
@@ -71,21 +71,21 @@ msgstr "Tip corecție"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:107 ruleswidgetbase.ui:473 ruleswidgetbase.ui:2269
+#: detectwidget.cpp:107 ruleswidgetbase.ui:473 ruleswidgetbase.ui:2499
 msgid "Standalone Menubar"
 msgstr "Bară de meniu independentă"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:108 ruleswidgetbase.ui:438 ruleswidgetbase.ui:2239
+#: detectwidget.cpp:108 ruleswidgetbase.ui:438 ruleswidgetbase.ui:2469
 msgid "Utility Window"
 msgstr "Fereastră utilitară"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:109 ruleswidgetbase.ui:458 ruleswidgetbase.ui:2259
+#: detectwidget.cpp:109 ruleswidgetbase.ui:458 ruleswidgetbase.ui:2489
 msgid "Splash Screen"
-msgstr "Imagine de întîmpinare"
+msgstr "Imagine de întâmpinare"
 
 #: detectwidget.cpp:115
 msgid "Unknown - will be treated as Normal Window"
@@ -175,14 +175,14 @@ msgid ""
 "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try "
 "<b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
 msgstr ""
-"Un singur accelerator poate fi atribuit sau eliminat ușor utilizînd cele "
+"Un singur accelerator poate fi atribuit sau eliminat ușor utilizând cele "
 "două butoane. Pot fi utilizate numai acceleratori cu taste modificator.<p>\n"
 "Este posibil să aveți mai mulți acceleratori, dar primul din ele va fi "
-"utilizat. Ei sînt specificați utilizînd seturi separate prin spații. Un set "
+"utilizat. Ei sunt specificați utilizând seturi separate prin spații. Un set "
 "este specificat astfel: <i>bază</i>+(<i>listă</i>), unde bază reprezintă "
 "modificatori și listă o listă de taste.<br>\n"
-"Exemplu: \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" va încerca mai întîi "
-"<b>Shift+Alt+1</b> iar apoi pînă la <b>Shift+Ctrl+C</b>."
+"Exemplu: \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" va încerca mai întâi "
+"<b>Shift+Alt+1</b> iar apoi până la <b>Shift+Ctrl+C</b>."
 
 #. i18n: ectx: property (text), widget (QPushButton, pushButton1)
 #: editshortcut.ui:62
@@ -346,13 +346,13 @@ msgstr ""
 "inițial:</em> Proprietatea ferestrei va fi stabilită la valoarea dată numai "
 "la momentul creării ei. Alte modificări ulterioare nu vor fi afectate.</"
 "li><li><em>Ține minte:</em> Valoarea proprietății ferestrei va fi ținută "
-"minte și de fiecare dată cînd fereastra este creată, va fi aplicată ultima "
+"minte și de fiecare dată când fereastra este creată, va fi aplicată ultima "
 "valoare memorată.</li><li><em>Forțează:</em> Proprietatea ferestrei va fi "
 "forțată întotdeauna la valoarea dată.</li><li><em>Aplică acum:</em> "
 "Proprietatea ferestrei va fi stabilită la valoarea indicată imediat și nu va "
 "fi afectată ulterior (această acțiune va fi ștearsă).</li><li><em>Forțează "
 "temporar:</em> Proprietatea ferestrei va fi forțată la valoarea indicată "
-"pînă este ascunsă (această acțiune va fi ștearsă după ascunderea ferestrei)."
+"până este ascunsă (această acțiune va fi ștearsă după ascunderea ferestrei)."
 "</li></ul>"
 
 #: ruleswidget.cpp:83
@@ -371,27 +371,27 @@ msgstr ""
 "configurările mult mai generice nu vor avea efect.</li><li><em>Forțează:</"
 "em> Proprietatea ferestrei va fi forțată întotdeauna la valoarea dată.</"
 "li><li><em>Forțează temporar:</em> Proprietatea ferestrei va fi forțată la "
-"valoarea dată numai pînă la ascundere (această acțiune va fi ștearsă cînd "
+"valoarea dată numai până la ascundere (această acțiune va fi ștearsă când "
 "fereastra este ascunsă).</li></ul>"
 
-#: ruleswidget.cpp:149
+#: ruleswidget.cpp:150
 msgid "All Desktops"
 msgstr "Toate birourile"
 
-#: ruleswidget.cpp:327
+#: ruleswidget.cpp:329
 msgid "All Activities"
 msgstr "Toate activitățile"
 
-#: ruleswidget.cpp:753
+#: ruleswidget.cpp:758
 #, kde-format
 msgid "Settings for %1"
 msgstr "Configurări pentru %1"
 
-#: ruleswidget.cpp:755
+#: ruleswidget.cpp:760
 msgid "Unnamed entry"
 msgstr "Înregistrare fără nume"
 
-#: ruleswidget.cpp:765
+#: ruleswidget.cpp:770
 msgid ""
 "You have specified the window class as unimportant.\n"
 "This means the settings will possibly apply to windows from all "
@@ -405,11 +405,11 @@ msgstr ""
 "generică, este recomandabil să limitați tipurile de ferestre pentru a evita "
 "tipurile speciale de ferestre."
 
-#: ruleswidget.cpp:795
+#: ruleswidget.cpp:800
 msgid "Edit Window-Specific Settings"
 msgstr "Editează configurări specifice ferestrei"
 
-#: ruleswidget.cpp:825
+#: ruleswidget.cpp:830
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
 "window or application. Find the setting you want to affect, enable the "
@@ -421,11 +421,11 @@ msgstr ""
 "modificați, activați-o prin bifare și alegeți modul în care configurarea "
 "trebuie afectată și la ce valoare."
 
-#: ruleswidget.cpp:829
+#: ruleswidget.cpp:834
 msgid "Consult the documentation for more details."
 msgstr "Consultați documentația pentru mai multe detalii."
 
-#: ruleswidget.cpp:868
+#: ruleswidget.cpp:873
 msgid "Edit Shortcut"
 msgstr "Editează scurtătură"
 
@@ -526,7 +526,7 @@ msgstr "&Detectează proprietățile ferestrei"
 #. i18n: ectx: property (suffix), widget (QSpinBox, detection_delay)
 #: ruleswidgetbase.ui:325
 msgid "s delay"
-msgstr "s întîrziere"
+msgstr "s întârziere"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #: ruleswidgetbase.ui:468
@@ -567,16 +567,17 @@ msgstr "&Poziție"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_autogroupfg)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_autogroupid)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_above)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityactive)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_noborder)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_decocolor)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityactive)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityinactive)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_fsplevel)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_fpplevel)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_acceptfocus)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_disableglobalshortcuts)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_closeable)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_blockcompositing)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_fsplevel)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_decocolor)
 #: ruleswidgetbase.ui:506 ruleswidgetbase.ui:563 ruleswidgetbase.ui:627
 #: ruleswidgetbase.ui:678 ruleswidgetbase.ui:749 ruleswidgetbase.ui:813
 #: ruleswidgetbase.ui:881 ruleswidgetbase.ui:932 ruleswidgetbase.ui:983
@@ -585,10 +586,10 @@ msgstr "&Poziție"
 #: ruleswidgetbase.ui:1387 ruleswidgetbase.ui:1434 ruleswidgetbase.ui:1535
 #: ruleswidgetbase.ui:1557 ruleswidgetbase.ui:1641 ruleswidgetbase.ui:1678
 #: ruleswidgetbase.ui:1756 ruleswidgetbase.ui:1812 ruleswidgetbase.ui:1861
-#: ruleswidgetbase.ui:1919 ruleswidgetbase.ui:1955 ruleswidgetbase.ui:2042
-#: ruleswidgetbase.ui:2108 ruleswidgetbase.ui:2157 ruleswidgetbase.ui:2207
-#: ruleswidgetbase.ui:2351 ruleswidgetbase.ui:2405 ruleswidgetbase.ui:2427
-#: ruleswidgetbase.ui:2477
+#: ruleswidgetbase.ui:1919 ruleswidgetbase.ui:1970 ruleswidgetbase.ui:2006
+#: ruleswidgetbase.ui:2058 ruleswidgetbase.ui:2162 ruleswidgetbase.ui:2243
+#: ruleswidgetbase.ui:2309 ruleswidgetbase.ui:2358 ruleswidgetbase.ui:2401
+#: ruleswidgetbase.ui:2437 ruleswidgetbase.ui:2525
 msgid "Do Not Affect"
 msgstr "Nu afectează"
 
@@ -615,7 +616,7 @@ msgstr "Nu afectează"
 #: ruleswidgetbase.ui:886 ruleswidgetbase.ui:937 ruleswidgetbase.ui:988
 #: ruleswidgetbase.ui:1141 ruleswidgetbase.ui:1341 ruleswidgetbase.ui:1392
 #: ruleswidgetbase.ui:1439 ruleswidgetbase.ui:1562 ruleswidgetbase.ui:1646
-#: ruleswidgetbase.ui:1683 ruleswidgetbase.ui:1866 ruleswidgetbase.ui:1960
+#: ruleswidgetbase.ui:1683 ruleswidgetbase.ui:1866 ruleswidgetbase.ui:1924
 msgid "Apply Initially"
 msgstr "Aplică inițial"
 
@@ -642,7 +643,7 @@ msgstr "Aplică inițial"
 #: ruleswidgetbase.ui:891 ruleswidgetbase.ui:942 ruleswidgetbase.ui:993
 #: ruleswidgetbase.ui:1146 ruleswidgetbase.ui:1346 ruleswidgetbase.ui:1397
 #: ruleswidgetbase.ui:1444 ruleswidgetbase.ui:1567 ruleswidgetbase.ui:1651
-#: ruleswidgetbase.ui:1688 ruleswidgetbase.ui:1871 ruleswidgetbase.ui:1965
+#: ruleswidgetbase.ui:1688 ruleswidgetbase.ui:1871 ruleswidgetbase.ui:1929
 msgid "Remember"
 msgstr "Ține minte"
 
@@ -670,16 +671,17 @@ msgstr "Ține minte"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_autogroupfg)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_autogroupid)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_above)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityactive)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_noborder)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_decocolor)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityactive)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityinactive)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_fsplevel)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_fpplevel)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_acceptfocus)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_disableglobalshortcuts)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_closeable)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_blockcompositing)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_fsplevel)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_decocolor)
 #: ruleswidgetbase.ui:521 ruleswidgetbase.ui:578 ruleswidgetbase.ui:642
 #: ruleswidgetbase.ui:693 ruleswidgetbase.ui:764 ruleswidgetbase.ui:828
 #: ruleswidgetbase.ui:896 ruleswidgetbase.ui:947 ruleswidgetbase.ui:998
@@ -688,10 +690,10 @@ msgstr "Ține minte"
 #: ruleswidgetbase.ui:1402 ruleswidgetbase.ui:1449 ruleswidgetbase.ui:1540
 #: ruleswidgetbase.ui:1572 ruleswidgetbase.ui:1656 ruleswidgetbase.ui:1693
 #: ruleswidgetbase.ui:1761 ruleswidgetbase.ui:1817 ruleswidgetbase.ui:1876
-#: ruleswidgetbase.ui:1924 ruleswidgetbase.ui:1970 ruleswidgetbase.ui:2047
-#: ruleswidgetbase.ui:2113 ruleswidgetbase.ui:2162 ruleswidgetbase.ui:2212
-#: ruleswidgetbase.ui:2356 ruleswidgetbase.ui:2410 ruleswidgetbase.ui:2432
-#: ruleswidgetbase.ui:2482
+#: ruleswidgetbase.ui:1934 ruleswidgetbase.ui:1975 ruleswidgetbase.ui:2011
+#: ruleswidgetbase.ui:2063 ruleswidgetbase.ui:2167 ruleswidgetbase.ui:2248
+#: ruleswidgetbase.ui:2314 ruleswidgetbase.ui:2363 ruleswidgetbase.ui:2406
+#: ruleswidgetbase.ui:2442 ruleswidgetbase.ui:2530
 msgid "Force"
 msgstr "Forțează"
 
@@ -718,7 +720,7 @@ msgstr "Forțează"
 #: ruleswidgetbase.ui:901 ruleswidgetbase.ui:952 ruleswidgetbase.ui:1003
 #: ruleswidgetbase.ui:1156 ruleswidgetbase.ui:1356 ruleswidgetbase.ui:1407
 #: ruleswidgetbase.ui:1454 ruleswidgetbase.ui:1577 ruleswidgetbase.ui:1661
-#: ruleswidgetbase.ui:1698 ruleswidgetbase.ui:1881 ruleswidgetbase.ui:1975
+#: ruleswidgetbase.ui:1698 ruleswidgetbase.ui:1881 ruleswidgetbase.ui:1939
 msgid "Apply Now"
 msgstr "Aplică acum"
 
@@ -746,16 +748,17 @@ msgstr "Aplică acum"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_autogroupfg)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_autogroupid)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_above)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityactive)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_noborder)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_decocolor)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityactive)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityinactive)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_fsplevel)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_fpplevel)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_acceptfocus)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_disableglobalshortcuts)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_closeable)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_blockcompositing)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_fsplevel)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_decocolor)
 #: ruleswidgetbase.ui:531 ruleswidgetbase.ui:588 ruleswidgetbase.ui:652
 #: ruleswidgetbase.ui:703 ruleswidgetbase.ui:774 ruleswidgetbase.ui:838
 #: ruleswidgetbase.ui:906 ruleswidgetbase.ui:957 ruleswidgetbase.ui:1008
@@ -764,10 +767,10 @@ msgstr "Aplică acum"
 #: ruleswidgetbase.ui:1412 ruleswidgetbase.ui:1459 ruleswidgetbase.ui:1545
 #: ruleswidgetbase.ui:1582 ruleswidgetbase.ui:1666 ruleswidgetbase.ui:1703
 #: ruleswidgetbase.ui:1766 ruleswidgetbase.ui:1822 ruleswidgetbase.ui:1886
-#: ruleswidgetbase.ui:1929 ruleswidgetbase.ui:1980 ruleswidgetbase.ui:2052
-#: ruleswidgetbase.ui:2118 ruleswidgetbase.ui:2167 ruleswidgetbase.ui:2217
-#: ruleswidgetbase.ui:2361 ruleswidgetbase.ui:2415 ruleswidgetbase.ui:2437
-#: ruleswidgetbase.ui:2487
+#: ruleswidgetbase.ui:1944 ruleswidgetbase.ui:1980 ruleswidgetbase.ui:2016
+#: ruleswidgetbase.ui:2068 ruleswidgetbase.ui:2172 ruleswidgetbase.ui:2253
+#: ruleswidgetbase.ui:2319 ruleswidgetbase.ui:2368 ruleswidgetbase.ui:2411
+#: ruleswidgetbase.ui:2447 ruleswidgetbase.ui:2535
 msgid "Force Temporarily"
 msgstr "Forțează temporar"
 
@@ -830,7 +833,7 @@ msgstr "M&inimizat"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_shade)
 #: ruleswidgetbase.ui:972
 msgid "Sh&aded"
-msgstr "&Strîns"
+msgstr "&Strâns"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1056
@@ -850,7 +853,7 @@ msgstr "Inteligent"
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1071
 msgid "Maximizing"
-msgstr "Maximizînd"
+msgstr "Maximizând"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1076
@@ -870,7 +873,7 @@ msgstr "Aleator"
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1091
 msgid "Top-Left Corner"
-msgstr "Colțul stînga sus"
+msgstr "Colțul stânga sus"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1096
@@ -897,7 +900,7 @@ msgid ""
 msgstr ""
 "Ferestrele pot cere să apară într-o anumită poziție.\n"
 "Implicit aceasta suprascrie strategia de plasare\n"
-"care poate fi urîtă dacă clientul face abuz de această\n"
+"care poate fi urâtă dacă clientul face abuz de această\n"
 "caracteristică pentru a face popup necondiționat în\n"
 "mijlocul ecranului dumneavoastră."
 
@@ -926,7 +929,7 @@ msgid ""
 "like your complete screen area."
 msgstr ""
 "De ex. terminalele sau dispozitivele de redare video pot cere să mențină\n"
-"un anumit raport de aspect sau să crească doar cu valori mai mari decît unu\n"
+"un anumit raport de aspect sau să crească doar cu valori mai mari decât unu\n"
 "(de ex. cu dimensiunile unui caracter).\n"
 "Aceasta poate fi fără sens și restricțiile previn dimensiuni arbitrare\n"
 "cum ar fi întregul ecran."
@@ -1016,51 +1019,120 @@ msgstr "Auto-grupare cu cele &identice"
 msgid "Appearance && &Fixes"
 msgstr "Aspect && &Fixări"
 
-#. i18n: ectx: property (text), widget (QCheckBox, enable_blockcompositing)
-#: ruleswidgetbase.ui:1937
-msgid "Block compositing"
-msgstr "Compoziționare în bloc"
-
 #. i18n: ectx: property (text), widget (QCheckBox, enable_noborder)
-#: ruleswidgetbase.ui:1944
+#: ruleswidgetbase.ui:1908
 msgid "&No titlebar and frame"
 msgstr "&Fără bara de titlu și cadru"
 
+#. i18n: ectx: property (text), widget (QCheckBox, enable_decocolor)
+#: ruleswidgetbase.ui:1959
+msgid "Titlebar color &scheme"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityactive)
-#: ruleswidgetbase.ui:1995
+#: ruleswidgetbase.ui:2024
 msgid "A&ctive opacity"
 msgstr "Opacitate a&ctivă"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, opacityactive)
 #. i18n: ectx: property (suffix), widget (QSpinBox, opacityinactive)
-#: ruleswidgetbase.ui:2018 ruleswidgetbase.ui:2063
+#: ruleswidgetbase.ui:2034 ruleswidgetbase.ui:2079
 #, no-c-format
 msgid "%"
 msgstr "%"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityinactive)
-#: ruleswidgetbase.ui:2031
+#: ruleswidgetbase.ui:2047
 msgid "I&nactive opacity"
 msgstr "Opacitate i&nactivă"
 
+#. i18n: ectx: property (toolTip), widget (QCheckBox, enable_fsplevel)
+#: ruleswidgetbase.ui:2148
+msgid ""
+"KWin tries to prevent windows from taking the focus\n"
+"(\"activate\") while you're working in another window,\n"
+"but this may sometimes fail or superact.\n"
+"\"None\" will unconditionally allow this window to get the focus while\n"
+"\"Extreme\" will completely prevent it from taking the focus."
+msgstr ""
+"KWin încearcă să oprească ferestrele să obțină focusul\n"
+"(„să se activeze”) în timp ce lucrați în altă fereastră,\n"
+"dar aceasta câteodată poate eșua sau să aibă efect prea puternic.\n"
+"„Niciuna” va permite în mod necondiționat acestei ferestre să obțină focusul "
+"în timp ce\n"
+"„Extrem” va opri complet obținerea lui."
+
+#. i18n: ectx: property (text), widget (QCheckBox, enable_fsplevel)
+#: ruleswidgetbase.ui:2151
+msgid "&Focus stealing prevention"
+msgstr "Prevenire captură foc&us"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
+#. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
+#: ruleswidgetbase.ui:2184 ruleswidgetbase.ui:2265
+msgctxt "no focus stealing prevention"
+msgid "None"
+msgstr "Niciuna"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
+#. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
+#: ruleswidgetbase.ui:2189 ruleswidgetbase.ui:2270
+msgid "Low"
+msgstr "Mic"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
+#. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
+#: ruleswidgetbase.ui:2194 ruleswidgetbase.ui:2275
+msgid "Normal"
+msgstr "Normal"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
+#. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
+#: ruleswidgetbase.ui:2199 ruleswidgetbase.ui:2280
+msgid "High"
+msgstr "Mare"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
+#. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
+#: ruleswidgetbase.ui:2204 ruleswidgetbase.ui:2285
+msgid "Extreme"
+msgstr "Extrem"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, enable_fpplevel)
+#: ruleswidgetbase.ui:2229
+msgid ""
+"This controls the focus protection of the currently active window.\n"
+"None will always give the focus away,\n"
+"Extreme will keep it.\n"
+"Otherwise it's interleaved with the stealing prevention\n"
+"assigned to the window that wants the focus."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, enable_fpplevel)
+#: ruleswidgetbase.ui:2232
+#, fuzzy
+#| msgid "&Focus stealing prevention"
+msgid "Focus protection"
+msgstr "Prevenire captură foc&us"
+
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_acceptfocus)
-#: ruleswidgetbase.ui:2094
+#: ruleswidgetbase.ui:2295
 msgid ""
 "Windows may prevent to get the focus (activate) when being clicked.\n"
 "On the other hand you might wish to prevent a window\n"
 "from getting focused on a mouse click."
 msgstr ""
-"Ferestrele pot opri obținerea focusului (activare) cînd se face clic.\n"
+"Ferestrele pot opri obținerea focusului (activare) când se face clic.\n"
 "Pe de altă parte poate doriți să opriți o fereastră să obțină\n"
 "focusul la un clic de maus."
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_acceptfocus)
-#: ruleswidgetbase.ui:2097
+#: ruleswidgetbase.ui:2298
 msgid "Accept &focus"
 msgstr "Acceptă &focusul"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_disableglobalshortcuts)
-#: ruleswidgetbase.ui:2140
+#: ruleswidgetbase.ui:2341
 msgid ""
 "When used, a window will receive\n"
 "all keyboard inputs while it is active, including Alt+Tab etc.\n"
@@ -1071,82 +1143,35 @@ msgid ""
 "nor use any other global shortcut (such as Alt+F2 to show KRunner)\n"
 "while it's active!"
 msgstr ""
-"Cînd este folosit, o fereastră va primi\n"
-"toate intrările de la tastatură cît timp este activă, inclusiv Alt+Tab etc.\n"
+"Când este folosit, o fereastră va primi\n"
+"toate intrările de la tastatură cât timp este activă, inclusiv Alt+Tab etc.\n"
 "Aceasta interesează în special emulatoarele sau mașinile virtuale.\n"
 "\n"
 "Avertisment:\n"
 "nu veți putea ieși cu Alt+Tab dintr-o fereastră\n"
 "nici să folosiți orice altă scurtătură globală (precum Alt+F2 pentru a arăta "
 "KRunner)\n"
-"cît timp este activ!"
+"cât timp este activ!"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_disableglobalshortcuts)
-#: ruleswidgetbase.ui:2143
+#: ruleswidgetbase.ui:2344
 msgid "Ignore global shortcuts"
 msgstr "Ignoră scurtăturile globale"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_closeable)
-#: ruleswidgetbase.ui:2175
+#: ruleswidgetbase.ui:2390
 msgid "&Closeable"
 msgstr "Poate fi în&chisă"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_type)
-#: ruleswidgetbase.ui:2182
+#: ruleswidgetbase.ui:2426
 msgid "Window &type"
 msgstr "&Tip fereastră"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
-#: ruleswidgetbase.ui:2373
-msgctxt "no focus stealing prevention"
-msgid "None"
-msgstr "Niciuna"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
-#: ruleswidgetbase.ui:2378
-msgid "Low"
-msgstr "Mic"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
-#: ruleswidgetbase.ui:2383
-msgid "Normal"
-msgstr "Normal"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
-#: ruleswidgetbase.ui:2388
-msgid "High"
-msgstr "Mare"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
-#: ruleswidgetbase.ui:2393
-msgid "Extreme"
-msgstr "Extrem"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, enable_fsplevel)
-#: ruleswidgetbase.ui:2449
-msgid ""
-"KWin tries to prevent windows from taking the focus\n"
-"(\"activate\") while you're working in another window,\n"
-"but this may sometimes fail or superact.\n"
-"\"None\" will unconditionally allow this window to get the focus while\n"
-"\"Extreme\" will completely prevent it from taking the focus."
-msgstr ""
-"KWin încearcă să oprească ferestrele să obțină focusul\n"
-"(„să se activeze”) în timp ce lucrați în altă fereastră,\n"
-"dar aceasta cîteodată poate eșua sau să aibă efect prea puternic.\n"
-"„Niciuna” va permite în mod necondiționat acestei ferestre să obțină focusul "
-"în timp ce\n"
-"„Extrem” va opri complet obținerea lui."
-
-#. i18n: ectx: property (text), widget (QCheckBox, enable_fsplevel)
-#: ruleswidgetbase.ui:2452
-msgid "&Focus stealing prevention"
-msgstr "Prevenire captură foc&us"
-
-#. i18n: ectx: property (text), widget (QCheckBox, enable_decocolor)
-#: ruleswidgetbase.ui:2459
-msgid "Titlebar color &scheme"
-msgstr ""
+#. i18n: ectx: property (text), widget (QCheckBox, enable_blockcompositing)
+#: ruleswidgetbase.ui:2514
+msgid "Block compositing"
+msgstr "Compoziționare în bloc"
 
 #: yesnobox.h:35
 msgid "Yes"

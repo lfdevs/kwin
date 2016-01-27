@@ -26,10 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <workspace.h>
 #include <config-kwin.h>
 #include "screens_xrandr.h"
-#if HAVE_WAYLAND
 #include "abstract_backend.h"
 #include "wayland_server.h"
-#endif
 #ifdef KWIN_UNIT_TEST
 #include <mock_screens.h>
 #endif
@@ -44,11 +42,9 @@ Screens *Screens::create(QObject *parent)
 #ifdef KWIN_UNIT_TEST
     s_self = new MockScreens(parent);
 #else
-#if HAVE_WAYLAND
     if (kwinApp()->shouldUseWaylandForCompositing()) {
         s_self = waylandServer()->backend()->createScreens(parent);
     }
-#endif
     if (kwinApp()->operationMode() == Application::OperationModeX11) {
         s_self = new XRandRScreens(parent);
     }
@@ -186,6 +182,52 @@ int Screens::intersecting(const QRect &r) const
         }
     }
     return cnt;
+}
+
+BasicScreens::BasicScreens(AbstractBackend *backend, QObject *parent)
+    : Screens(parent)
+    , m_backend(backend)
+{
+}
+
+BasicScreens::~BasicScreens() = default;
+
+void BasicScreens::init()
+{
+    KWin::Screens::init();
+#ifndef KWIN_UNIT_TEST
+    connect(m_backend, &AbstractBackend::screenSizeChanged,
+            this, &BasicScreens::startChangedTimer);
+#endif
+    updateCount();
+    emit changed();
+}
+
+QRect BasicScreens::geometry(int screen) const
+{
+    if (screen == 0) {
+        return QRect(QPoint(0, 0), size(screen));
+    }
+    return QRect();
+}
+
+QSize BasicScreens::size(int screen) const
+{
+    if (screen == 0) {
+        return m_backend->screenSize();
+    }
+    return QSize();
+}
+
+void BasicScreens::updateCount()
+{
+    setCount(1);
+}
+
+int BasicScreens::number(const QPoint &pos) const
+{
+    Q_UNUSED(pos)
+    return 0;
 }
 
 } // namespace

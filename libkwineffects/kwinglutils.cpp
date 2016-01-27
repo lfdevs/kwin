@@ -45,6 +45,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <math.h>
 
+#if HAVE_EPOXY_GLX
+#include <epoxy/glx.h>
+#endif
+
 #define DEBUG_GLRENDERTARGET 0
 
 #define MAKE_GL_VERSION(major, minor, release)  ( ((major) << 16) | ((minor) << 8) | (release) )
@@ -77,7 +81,7 @@ int glTextureUnitsCount;
 // Functions
 void initGLX()
 {
-#ifndef KWIN_HAVE_OPENGLES
+#if HAVE_EPOXY_GLX
     // Get GLX version
     int major, minor;
     glXQueryVersion(display(), &major, &minor);
@@ -91,27 +95,32 @@ void initGLX()
 
 void initEGL()
 {
-#ifdef KWIN_HAVE_EGL
     EGLDisplay dpy = eglGetCurrentDisplay();
+    if (dpy == EGL_NO_DISPLAY)
+        dpy = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     int major, minor;
     eglInitialize(dpy, &major, &minor);
     eglVersion = MAKE_GL_VERSION(major, minor, 0);
     const QByteArray string = eglQueryString(dpy, EGL_EXTENSIONS);
     eglExtensions = string.split(' ');
     eglResolveFunctions();
-#endif
 }
 
 void initGL(OpenGLPlatformInterface platformInterface)
 {
     // Get OpenGL version
-    QString glversionstring = QString::fromUtf8((const char*)glGetString(GL_VERSION));
-    if (glversionstring.startsWith(QLatin1String("OpenGL ES "))) {
+    const char* glversioncstring = (const char*)glGetString(GL_VERSION);
+    QByteArray glversionstring = QByteArray::fromRawData(glversioncstring, qstrlen(glversioncstring));
+    if (glversionstring.startsWith("OpenGL ES ")) {
         glversionstring = glversionstring.mid(10);
     }
-    QStringList glversioninfo = glversionstring.left(glversionstring.indexOf(QStringLiteral(" "))).split(QStringLiteral("."));
+    const int whiteSpaceIndex = glversionstring.indexOf(' ');
+    if (whiteSpaceIndex != -1) {
+        glversionstring.truncate(whiteSpaceIndex);
+    }
+    auto glversioninfo = glversionstring.split('.');
     while (glversioninfo.count() < 3)
-        glversioninfo << QStringLiteral("0");
+        glversioninfo << "0";
     glVersion = MAKE_GL_VERSION(glversioninfo[0].toInt(), glversioninfo[1].toInt(), glversioninfo[2].toInt());
 
     // Get list of supported OpenGL extensions
@@ -179,12 +188,10 @@ static QString formatGLError(GLenum err)
     case GL_INVALID_ENUM:      return QStringLiteral("GL_INVALID_ENUM");
     case GL_INVALID_VALUE:     return QStringLiteral("GL_INVALID_VALUE");
     case GL_INVALID_OPERATION: return QStringLiteral("GL_INVALID_OPERATION");
-#ifndef KWIN_HAVE_OPENGLES
     case GL_STACK_OVERFLOW:    return QStringLiteral("GL_STACK_OVERFLOW");
     case GL_STACK_UNDERFLOW:   return QStringLiteral("GL_STACK_UNDERFLOW");
-#endif
     case GL_OUT_OF_MEMORY:     return QStringLiteral("GL_OUT_OF_MEMORY");
-    default: return QStringLiteral("0x") + QString::number(err, 16);
+    default: return QLatin1String("0x") + QString::number(err, 16);
     }
 }
 
@@ -296,20 +303,16 @@ const QByteArray GLShader::prepareSource(GLenum shaderType, const QByteArray &so
 {
     // Prepare the source code
     QByteArray ba;
-#ifdef KWIN_HAVE_OPENGLES
-    if (GLPlatform::instance()->glslVersion() < kVersionNumber(3, 0)) {
+    if (GLPlatform::instance()->isGLES() && GLPlatform::instance()->glslVersion() < kVersionNumber(3, 0)) {
         ba.append("precision highp float;\n");
     }
-#endif
     if (ShaderManager::instance()->isShaderDebug()) {
         ba.append("#define KWIN_SHADER_DEBUG 1\n");
     }
     ba.append(source);
-#ifdef KWIN_HAVE_OPENGLES
-    if (GLPlatform::instance()->glslVersion() >= kVersionNumber(3, 0)) {
+    if (GLPlatform::instance()->isGLES() && GLPlatform::instance()->glslVersion() >= kVersionNumber(3, 0)) {
         ba.replace("#version 140", "#version 300 es\n\nprecision highp float;\n");
     }
-#endif
 
     // Inject color correction code for fragment shaders, if possible
     if (shaderType == GL_FRAGMENT_SHADER && sColorCorrect)
@@ -355,13 +358,11 @@ bool GLShader::compile(GLuint program, GLenum shaderType, const QByteArray &sour
 
 bool GLShader::load(const QByteArray &vertexSource, const QByteArray &fragmentSource)
 {
-#ifndef KWIN_HAVE_OPENGLES
     // Make sure shaders are actually supported
     if (!GLPlatform::instance()->supports(GLSL) || GLPlatform::instance()->supports(LimitedNPOT)) {
         qCCritical(LIBKWINGLUTILS) << "Shaders are not supported";
         return false;
     }
-#endif
 
     mValid = false;
 
@@ -395,13 +396,8 @@ void GLShader::bindAttributeLocation(const char *name, int index)
 
 void GLShader::bindFragDataLocation(const char *name, int index)
 {
-#ifndef KWIN_HAVE_OPENGLES
-    if (hasGLVersion(3, 0) || hasGLExtension(QByteArrayLiteral("GL_EXT_gpu_shader4")))
+    if (!GLPlatform::instance()->isGLES() && (hasGLVersion(3, 0) || hasGLExtension(QByteArrayLiteral("GL_EXT_gpu_shader4"))))
         glBindFragDataLocation(mProgram, index, name);
-#else
-    Q_UNUSED(name)
-    Q_UNUSED(index)
-#endif
 }
 
 void GLShader::bind()
@@ -1194,11 +1190,7 @@ void ShaderManager::initShaders()
         "scene-color-fragment.glsl",
     };
 
-#ifdef KWIN_HAVE_OPENGLES
-    const qint64 coreVersionNumber = kVersionNumber(3, 0);
-#else
-    const qint64 coreVersionNumber = kVersionNumber(1, 40);
-#endif
+    const qint64 coreVersionNumber = GLPlatform::instance()->isGLES() ? kVersionNumber(3, 0) : kVersionNumber(1, 40);
     if (GLPlatform::instance()->glslVersion() >= coreVersionNumber)
         m_shaderDir = ":/resources/shaders/1.40/";
     else
@@ -1294,18 +1286,18 @@ QSize GLRenderTarget::s_virtualScreenSize;
 
 void GLRenderTarget::initStatic()
 {
-#ifdef KWIN_HAVE_OPENGLES
-    sSupported = true;
-    s_blitSupported = hasGLVersion(3, 0);
-#else
-    sSupported = hasGLVersion(3, 0) ||
-        hasGLExtension(QByteArrayLiteral("GL_ARB_framebuffer_object")) ||
-        hasGLExtension(QByteArrayLiteral("GL_EXT_framebuffer_object"));
+    if (GLPlatform::instance()->isGLES()) {
+        sSupported = true;
+        s_blitSupported = hasGLVersion(3, 0);
+    } else {
+        sSupported = hasGLVersion(3, 0) ||
+            hasGLExtension(QByteArrayLiteral("GL_ARB_framebuffer_object")) ||
+            hasGLExtension(QByteArrayLiteral("GL_EXT_framebuffer_object"));
 
-    s_blitSupported = hasGLVersion(3, 0) ||
-        hasGLExtension(QByteArrayLiteral("GL_ARB_framebuffer_object")) ||
-        hasGLExtension(QByteArrayLiteral("GL_EXT_framebuffer_blit"));
-#endif
+        s_blitSupported = hasGLVersion(3, 0) ||
+            hasGLExtension(QByteArrayLiteral("GL_ARB_framebuffer_object")) ||
+            hasGLExtension(QByteArrayLiteral("GL_EXT_framebuffer_blit"));
+    }
 }
 
 void GLRenderTarget::cleanup()
@@ -1405,7 +1397,6 @@ static QString formatFramebufferStatus(GLenum status)
     case GL_FRAMEBUFFER_UNSUPPORTED:
         // A format or the combination of formats of the attachments is unsupported
         return QStringLiteral("GL_FRAMEBUFFER_UNSUPPORTED");
-#ifndef KWIN_HAVE_OPENGLES
     case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
         // Not all attached images have the same width and height
         return QStringLiteral("GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT");
@@ -1421,7 +1412,6 @@ static QString formatFramebufferStatus(GLenum status)
     case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT:
         // The read buffer is missing
         return QStringLiteral("GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER");
-#endif
     default:
         return QStringLiteral("Unknown (0x") + QString::number(status, 16) + QStringLiteral(")");
     }
@@ -1517,9 +1507,6 @@ void GLRenderTarget::attachTexture(const GLTexture& target)
 
 
 // ------------------------------------------------------------------
-
-
-#ifndef KWIN_HAVE_OPENGLES
 
 static const uint16_t indices[] = {
         1,    0,    3,    3,    2,    1,    5,    4,    7,    7,    6,    5,    9,    8,   11,   11,   10,    9,
@@ -1695,18 +1682,12 @@ static const uint16_t indices[] = {
      2041, 2040, 2043, 2043, 2042, 2041, 2045, 2044, 2047, 2047, 2046, 2045
 };
 
-#endif // KWIN_HAVE_OPENGLES
-
 template <typename T>
 T align(T value, int bytes)
 {
     return (value + bytes - 1) & ~T(bytes - 1);
 }
 
-#ifndef KWIN_HAVE_OPENGLES
-
-// This class is not be used with OpenGL ES for now, since we need
-// GL_ARB_draw_elements_base_vertex and GL_ARB_copy_buffer.
 class IndexBuffer
 {
 public:
@@ -1780,8 +1761,6 @@ void IndexBuffer::bind()
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
 }
-
-#endif // KWIN_HAVE_OPENGLES
 
 
 
@@ -1997,9 +1976,7 @@ public:
     FrameSizesArray<4> frameSizes;
     VertexAttrib attrib[VertexAttributeCount];
     Bitfield enabledArrays;
-#ifndef KWIN_HAVE_OPENGLES
     static IndexBuffer *s_indexBuffer;
-#endif
 };
 
 bool GLVertexBufferPrivate::hasMapBufferRange = false;
@@ -2007,9 +1984,7 @@ bool GLVertexBufferPrivate::supportsIndexedQuads = false;
 GLVertexBuffer *GLVertexBufferPrivate::streamingBuffer = nullptr;
 bool GLVertexBufferPrivate::haveBufferStorage = false;
 bool GLVertexBufferPrivate::haveSyncFences = false;
-#ifndef KWIN_HAVE_OPENGLES
 IndexBuffer *GLVertexBufferPrivate::s_indexBuffer = nullptr;
-#endif
 
 void GLVertexBufferPrivate::interleaveArrays(float *dst, int dim,
                                              const float *vertices, const float *texcoords,
@@ -2358,7 +2333,6 @@ void GLVertexBuffer::draw(GLenum primitiveMode, int first, int count)
 
 void GLVertexBuffer::draw(const QRegion &region, GLenum primitiveMode, int first, int count, bool hardwareClipping)
 {
-#ifndef KWIN_HAVE_OPENGLES
     if (primitiveMode == GL_QUADS) {
         IndexBuffer *&indexBuffer = GLVertexBufferPrivate::s_indexBuffer;
 
@@ -2381,7 +2355,6 @@ void GLVertexBuffer::draw(const QRegion &region, GLenum primitiveMode, int first
         }
         return;
     }
-#endif
 
     if (!hardwareClipping) {
         glDrawArrays(primitiveMode, first, count);
@@ -2469,22 +2442,26 @@ void GLVertexBuffer::framePosted()
 
 void GLVertexBuffer::initStatic()
 {
-#ifdef KWIN_HAVE_OPENGLES
-    GLVertexBufferPrivate::hasMapBufferRange = hasGLExtension(QByteArrayLiteral("GL_EXT_map_buffer_range"));
-    GLVertexBufferPrivate::supportsIndexedQuads = false;
-    GLVertexBufferPrivate::haveBufferStorage = false;
-    GLVertexBufferPrivate::haveSyncFences = false;
-#else
-    bool haveBaseVertex     = hasGLVersion(3, 2) || hasGLExtension(QByteArrayLiteral("GL_ARB_draw_elements_base_vertex"));
-    bool haveCopyBuffer     = hasGLVersion(3, 1) || hasGLExtension(QByteArrayLiteral("GL_ARB_copy_buffer"));
-    bool haveMapBufferRange = hasGLVersion(3, 0) || hasGLExtension(QByteArrayLiteral("GL_ARB_map_buffer_range"));
+    if (GLPlatform::instance()->isGLES()) {
+        bool haveBaseVertex     = hasGLExtension(QByteArrayLiteral("GL_OES_draw_elements_base_vertex"));
+        bool haveCopyBuffer     = hasGLVersion(3, 0);
+        bool haveMapBufferRange = hasGLExtension(QByteArrayLiteral("GL_EXT_map_buffer_range"));
 
-    GLVertexBufferPrivate::hasMapBufferRange = haveMapBufferRange;
-    GLVertexBufferPrivate::supportsIndexedQuads = haveBaseVertex && haveCopyBuffer && haveMapBufferRange;
+        GLVertexBufferPrivate::hasMapBufferRange = haveMapBufferRange;
+        GLVertexBufferPrivate::supportsIndexedQuads = haveBaseVertex && haveCopyBuffer && haveMapBufferRange;
+        GLVertexBufferPrivate::haveBufferStorage = hasGLExtension("GL_EXT_buffer_storage");
+        GLVertexBufferPrivate::haveSyncFences = hasGLVersion(3, 0);
+    } else {
+        bool haveBaseVertex     = hasGLVersion(3, 2) || hasGLExtension(QByteArrayLiteral("GL_ARB_draw_elements_base_vertex"));
+        bool haveCopyBuffer     = hasGLVersion(3, 1) || hasGLExtension(QByteArrayLiteral("GL_ARB_copy_buffer"));
+        bool haveMapBufferRange = hasGLVersion(3, 0) || hasGLExtension(QByteArrayLiteral("GL_ARB_map_buffer_range"));
+
+        GLVertexBufferPrivate::hasMapBufferRange = haveMapBufferRange;
+        GLVertexBufferPrivate::supportsIndexedQuads = haveBaseVertex && haveCopyBuffer && haveMapBufferRange;
+        GLVertexBufferPrivate::haveBufferStorage = hasGLVersion(4, 4) || hasGLExtension("GL_ARB_buffer_storage");
+        GLVertexBufferPrivate::haveSyncFences = hasGLVersion(3, 2) || hasGLExtension("GL_ARB_sync");
+    }
     GLVertexBufferPrivate::s_indexBuffer = nullptr;
-    GLVertexBufferPrivate::haveBufferStorage = hasGLVersion(4, 4) || hasGLExtension("GL_ARB_buffer_storage");
-    GLVertexBufferPrivate::haveSyncFences = hasGLVersion(3, 2) || hasGLExtension("GL_ARB_sync");
-#endif
     GLVertexBufferPrivate::streamingBuffer = new GLVertexBuffer(GLVertexBuffer::Stream);
 
     if (GLVertexBufferPrivate::haveBufferStorage && GLVertexBufferPrivate::haveSyncFences) {
@@ -2496,10 +2473,8 @@ void GLVertexBuffer::initStatic()
 
 void GLVertexBuffer::cleanup()
 {
-#ifndef KWIN_HAVE_OPENGLES
     delete GLVertexBufferPrivate::s_indexBuffer;
     GLVertexBufferPrivate::s_indexBuffer = nullptr;
-#endif
     GLVertexBufferPrivate::hasMapBufferRange = false;
     GLVertexBufferPrivate::supportsIndexedQuads = false;
     delete GLVertexBufferPrivate::streamingBuffer;

@@ -66,10 +66,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "killwindow.h"
 #include "x11eventfilter.h"
 
-#if HAVE_WAYLAND
 #include "wayland_server.h"
 #include <KWayland/Server/surface_interface.h>
-#endif
 
 #ifndef XCB_GE_GENERIC
 #define XCB_GE_GENERIC 35
@@ -486,10 +484,13 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
     case XCB_FOCUS_IN: {
         const auto *event = reinterpret_cast<xcb_focus_in_event_t*>(e);
         if (event->event == rootWindow()
-                && (event->detail == XCB_NOTIFY_DETAIL_NONE || event->detail == XCB_NOTIFY_DETAIL_POINTER_ROOT)) {
+                && (event->detail == XCB_NOTIFY_DETAIL_NONE || event->detail == XCB_NOTIFY_DETAIL_POINTER_ROOT || event->detail == XCB_NOTIFY_DETAIL_INFERIOR)) {
             Xcb::CurrentInput currentInput;
             updateXTime(); // focusToNull() uses xTime(), which is old now (FocusIn has no timestamp)
-            if (!currentInput.isNull() && (currentInput->focus == XCB_WINDOW_NONE || currentInput->focus == XCB_INPUT_FOCUS_POINTER_ROOT)) {
+            // it seems we can "loose" focus reversions when the closing client hold a grab
+            // => catch the typical pattern (though we don't want the focus on the root anyway) #348935
+            const bool lostFocusPointerToRoot = currentInput->focus == rootWindow() && event->detail == XCB_NOTIFY_DETAIL_INFERIOR;
+            if (!currentInput.isNull() && (currentInput->focus == XCB_WINDOW_NONE || currentInput->focus == XCB_INPUT_FOCUS_POINTER_ROOT || lostFocusPointerToRoot)) {
                 //kWarning( 1212 ) << "X focus set to None/PointerRoot, reseting focus" ;
                 AbstractClient *c = mostRecentlyActivatedClient();
                 if (c != NULL)
@@ -976,8 +977,8 @@ void Client::leaveNotifyEvent(xcb_leave_notify_event_t *e)
     if (e->event != frameId())
         return; // care only about leaving the whole frame
     if (e->mode == XCB_NOTIFY_MODE_NORMAL) {
-        if (!buttonDown) {
-            mode = PositionCenter;
+        if (!isMoveResizePointerButtonDown()) {
+            setMoveResizePointerMode(PositionCenter);
             updateCursor();
         }
         bool lostMouse = !rect().contains(QPoint(e->event_x, e->event_y));
@@ -999,7 +1000,7 @@ void Client::leaveNotifyEvent(xcb_leave_notify_event_t *e)
             cancelAutoRaise();
             workspace()->cancelDelayFocus();
             cancelShadeHoverTimer();
-            if (shade_mode == ShadeHover && !moveResizeMode && !buttonDown) {
+            if (shade_mode == ShadeHover && !isMoveResize() && !isMoveResizePointerButtonDown()) {
                 shadeHoverTimer = new QTimer(this);
                 connect(shadeHoverTimer, SIGNAL(timeout()), this, SLOT(shadeUnhover()));
                 shadeHoverTimer->setSingleShot(true);
@@ -1098,7 +1099,7 @@ static bool modKeyDown(int state) {
 // return value matters only when filtering events before decoration gets them
 bool Client::buttonPressEvent(xcb_window_t w, int button, int state, int x, int y, int x_root, int y_root, xcb_timestamp_t time)
 {
-    if (buttonDown) {
+    if (isMoveResizePointerButtonDown()) {
         if (w == wrapperId())
             xcb_allow_events(connection(), XCB_ALLOW_SYNC_POINTER, XCB_TIME_CURRENT_TIME);  //xTime());
         return true;
@@ -1241,11 +1242,11 @@ bool Client::processDecorationButtonPress(int button, int /*state*/, int x, int 
             && com != Options::MouseOperationsMenu // actions where it's not possible to get the matching
             && com != Options::MouseMinimize  // mouse release event
             && com != Options::MouseDragTab) {
-        mode = mousePosition();
-        buttonDown = true;
-        moveOffset = QPoint(x/* - padding_left*/, y/* - padding_top*/);
-        invertedMoveOffset = rect().bottomRight() - moveOffset;
-        unrestrictedMoveResize = false;
+        setMoveResizePointerMode(mousePosition());
+        setMoveResizePointerButtonDown(true);
+        setMoveOffset(QPoint(x/* - padding_left*/, y/* - padding_top*/));
+        setInvertedMoveOffset(rect().bottomRight() - moveOffset());
+        setUnrestrictedMoveResize(false);
         startDelayedMoveResize();
         updateCursor();
     }
@@ -1289,6 +1290,9 @@ bool Client::buttonReleaseEvent(xcb_window_t w, int button, int state, int x, in
     }
     if (w != frameId() && w != inputId() && w != moveResizeGrabWindow())
         return true;
+    if (w == frameId() && workspace()->userActionsMenu() && workspace()->userActionsMenu()->isShown()) {
+        const_cast<UserActionsMenu*>(workspace()->userActionsMenu())->grabInput();
+    }
     x = this->x(); // translate from grab window to local coords
     y = this->y();
 
@@ -1302,46 +1306,9 @@ bool Client::buttonReleaseEvent(xcb_window_t w, int button, int state, int x, in
         buttonMask &= ~XCB_BUTTON_MASK_3;
 
     if ((state & buttonMask) == 0) {
-        buttonDown = false;
-        stopDelayedMoveResize();
-        if (moveResizeMode) {
-            finishMoveResize(false);
-            mode = mousePosition();
-        }
-        updateCursor();
+        endMoveResize();
     }
     return true;
-}
-
-// Checks if the mouse cursor is near the edge of the screen and if so activates quick tiling or maximization
-void Client::checkQuickTilingMaximizationZones(int xroot, int yroot)
-{
-
-    QuickTileMode mode = QuickTileNone;
-    for (int i=0; i<screens()->count(); ++i) {
-
-        if (!screens()->geometry(i).contains(QPoint(xroot, yroot)))
-            continue;
-
-        QRect area = workspace()->clientArea(MaximizeArea, QPoint(xroot, yroot), desktop());
-        if (options->electricBorderTiling()) {
-        if (xroot <= area.x() + 20)
-            mode |= QuickTileLeft;
-        else if (xroot >= area.x() + area.width() - 20)
-            mode |= QuickTileRight;
-        }
-
-        if (mode != QuickTileNone) {
-            if (yroot <= area.y() + area.height() * options->electricBorderCornerRatio())
-                mode |= QuickTileTop;
-            else if (yroot >= area.y() + area.height() - area.height()  * options->electricBorderCornerRatio())
-                mode |= QuickTileBottom;
-        } else if (options->electricBorderMaximize() && yroot <= area.y() + 5 && isMaximizable())
-            mode = QuickTileMaximize;
-        break; // no point in checking other screens to contain this... "point"...
-    }
-    setElectricBorderMode(mode);
-    setElectricBorderMaximizing(mode != QuickTileNone);
 }
 
 // return value matters only when filtering events before decoration gets them
@@ -1354,7 +1321,7 @@ bool Client::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x_ro
     }
     if (w != frameId() && w != inputId() && w != moveResizeGrabWindow())
         return true; // care only about the whole frame
-    if (!buttonDown) {
+    if (!isMoveResizePointerButtonDown()) {
         if (w == inputId()) {
             int x = x_root - geometry().x();// + padding_left;
             int y = y_root - geometry().y();// + padding_top;
@@ -1365,8 +1332,8 @@ bool Client::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x_ro
             }
         }
         Position newmode = modKeyDown(state) ? PositionCenter : mousePosition();
-        if (newmode != mode) {
-            mode = newmode;
+        if (newmode != moveResizePointerMode()) {
+            setMoveResizePointerMode(newmode);
             updateCursor();
         }
         return false;
@@ -1450,9 +1417,9 @@ void Client::NETMoveResize(int x_root, int y_root, NET::Direction direction)
 {
     if (direction == NET::Move)
         performMouseCommand(Options::MouseMove, QPoint(x_root, y_root));
-    else if (moveResizeMode && direction == NET::MoveResizeCancel) {
+    else if (isMoveResize() && direction == NET::MoveResizeCancel) {
         finishMoveResize(true);
-        buttonDown = false;
+        setMoveResizePointerButtonDown(false);
         updateCursor();
     } else if (direction >= NET::TopLeft && direction <= NET::Left) {
         static const Position convert[] = {
@@ -1467,15 +1434,15 @@ void Client::NETMoveResize(int x_root, int y_root, NET::Direction direction)
         };
         if (!isResizable() || isShade())
             return;
-        if (moveResizeMode)
+        if (isMoveResize())
             finishMoveResize(false);
-        buttonDown = true;
-        moveOffset = QPoint(x_root - x(), y_root - y());  // map from global
-        invertedMoveOffset = rect().bottomRight() - moveOffset;
-        unrestrictedMoveResize = false;
-        mode = convert[ direction ];
+        setMoveResizePointerButtonDown(true);
+        setMoveOffset(QPoint(x_root - x(), y_root - y()));  // map from global
+        setInvertedMoveOffset(rect().bottomRight() - moveOffset());
+        setUnrestrictedMoveResize(false);
+        setMoveResizePointerMode(convert[ direction ]);
         if (!startMoveResize())
-            buttonDown = false;
+            setMoveResizePointerButtonDown(false);
         updateCursor();
     } else if (direction == NET::KeyboardMove) {
         // ignore mouse coordinates given in the message, mouse position is used by the moving algorithm
@@ -1491,42 +1458,7 @@ void Client::NETMoveResize(int x_root, int y_root, NET::Direction direction)
 void Client::keyPressEvent(uint key_code, xcb_timestamp_t time)
 {
     updateUserTime(time);
-    if (!isMove() && !isResize())
-        return;
-    bool is_control = key_code & Qt::CTRL;
-    bool is_alt = key_code & Qt::ALT;
-    key_code = key_code & ~Qt::KeyboardModifierMask;
-    int delta = is_control ? 1 : is_alt ? 32 : 8;
-    QPoint pos = Cursor::pos();
-    switch(key_code) {
-    case Qt::Key_Left:
-        pos.rx() -= delta;
-        break;
-    case Qt::Key_Right:
-        pos.rx() += delta;
-        break;
-    case Qt::Key_Up:
-        pos.ry() -= delta;
-        break;
-    case Qt::Key_Down:
-        pos.ry() += delta;
-        break;
-    case Qt::Key_Space:
-    case Qt::Key_Return:
-    case Qt::Key_Enter:
-        finishMoveResize(false);
-        buttonDown = false;
-        updateCursor();
-        break;
-    case Qt::Key_Escape:
-        finishMoveResize(true);
-        buttonDown = false;
-        updateCursor();
-        break;
-    default:
-        return;
-    }
-    Cursor::setPos(pos);
+    AbstractClient::keyPressEvent(key_code);
 }
 
 void Client::syncEvent(xcb_sync_alarm_notify_event_t* e)
@@ -1663,11 +1595,9 @@ void Toplevel::clientMessageEvent(xcb_client_message_event_t *e)
 {
     if (e->type == atoms->wl_surface_id) {
         m_surfaceId = e->data.data32[0];
-#if HAVE_WAYLAND
         if (auto w = waylandServer()) {
             m_surface = KWayland::Server::SurfaceInterface::get(m_surfaceId, w->xWaylandConnection());
         }
-#endif
         emit surfaceIdChanged(m_surfaceId);
     }
 }

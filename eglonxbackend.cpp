@@ -68,12 +68,19 @@ EglOnXBackend::EglOnXBackend(xcb_connection_t *connection, Display *display, xcb
     setIsDirectRendering(true);
 }
 
+static bool gs_tripleBufferUndetected = true;
+static bool gs_tripleBufferNeedsDetection = false;
+
 EglOnXBackend::~EglOnXBackend()
 {
     if (isFailed() && m_overlayWindow) {
         m_overlayWindow->destroy();
     }
     cleanup();
+
+    gs_tripleBufferUndetected = true;
+    gs_tripleBufferNeedsDetection = false;
+
     if (m_overlayWindow) {
         if (overlayWindow()->window()) {
             overlayWindow()->destroy();
@@ -82,11 +89,10 @@ EglOnXBackend::~EglOnXBackend()
     }
 }
 
-static bool gs_tripleBufferUndetected = true;
-static bool gs_tripleBufferNeedsDetection = false;
-
 void EglOnXBackend::init()
 {
+    initEGL();       // required to toggle
+    initBufferAge(); // EGL_SWAP_BEHAVIOR_PRESERVED_BIT
     if (!initRenderingContext()) {
         setFailed(QStringLiteral("Could not initialize rendering context"));
         return;
@@ -226,43 +232,11 @@ bool EglOnXBackend::initRenderingContext()
     }
     setSurface(surface);
 
-    EGLContext ctx = EGL_NO_CONTEXT;
-#ifdef KWIN_HAVE_OPENGLES
-    const EGLint context_attribs[] = {
-        EGL_CONTEXT_CLIENT_VERSION, 2,
-        EGL_NONE
-    };
-
-    ctx = eglCreateContext(dpy, config(), EGL_NO_CONTEXT, context_attribs);
-#else
-    const EGLint context_attribs_31_core[] = {
-        EGL_CONTEXT_MAJOR_VERSION_KHR, 3,
-        EGL_CONTEXT_MINOR_VERSION_KHR, 1,
-        EGL_NONE
-    };
-
-    const EGLint context_attribs_legacy[] = {
-        EGL_NONE
-    };
-
-    const QByteArray eglExtensions = eglQueryString(dpy, EGL_EXTENSIONS);
-    const QList<QByteArray> extensions = eglExtensions.split(' ');
-
-    // Try to create a 3.1 core context
-    if (options->glCoreProfile() && extensions.contains("EGL_KHR_create_context"))
-        ctx = eglCreateContext(dpy, config(), EGL_NO_CONTEXT, context_attribs_31_core);
-
-    if (ctx == EGL_NO_CONTEXT)
-        ctx = eglCreateContext(dpy, config(), EGL_NO_CONTEXT, context_attribs_legacy);
-#endif
-
-    if (ctx == EGL_NO_CONTEXT) {
-        qCCritical(KWIN_CORE) << "Create Context failed";
+    if (!createContext()) {
         return false;
     }
-    setContext(ctx);
 
-    if (eglMakeCurrent(dpy, surface, surface, ctx) == EGL_FALSE) {
+    if (eglMakeCurrent(dpy, surface, surface, context()) == EGL_FALSE) {
         qCCritical(KWIN_CORE) << "Make Context Current failed";
         return false;
     }
@@ -279,16 +253,12 @@ bool EglOnXBackend::initRenderingContext()
 bool EglOnXBackend::initBufferConfigs()
 {
     const EGLint config_attribs[] = {
-        EGL_SURFACE_TYPE,         EGL_WINDOW_BIT|EGL_SWAP_BEHAVIOR_PRESERVED_BIT,
+        EGL_SURFACE_TYPE,         EGL_WINDOW_BIT | (supportsBufferAge() ? 0 : EGL_SWAP_BEHAVIOR_PRESERVED_BIT),
         EGL_RED_SIZE,             1,
         EGL_GREEN_SIZE,           1,
         EGL_BLUE_SIZE,            1,
         EGL_ALPHA_SIZE,           0,
-#ifdef KWIN_HAVE_OPENGLES
-        EGL_RENDERABLE_TYPE,      EGL_OPENGL_ES2_BIT,
-#else
-        EGL_RENDERABLE_TYPE,      EGL_OPENGL_BIT,
-#endif
+        EGL_RENDERABLE_TYPE,      isOpenGLES() ? EGL_OPENGL_ES2_BIT : EGL_OPENGL_BIT,
         EGL_CONFIG_CAVEAT,        EGL_NONE,
         EGL_NONE,
     };
@@ -347,6 +317,7 @@ void EglOnXBackend::present()
                     if (qstrcmp(qgetenv("__GL_YIELD"), "USLEEP")) {
                         options->setGlPreferBufferSwap(0);
                         eglSwapInterval(eglDisplay(), 0);
+                        result = 0; // hint proper behavior
                         qCWarning(KWIN_CORE) << "\nIt seems you are using the nvidia driver without triple buffering\n"
                                           "You must export __GL_YIELD=\"USLEEP\" to prevent large CPU overhead on synced swaps\n"
                                           "Preferably, enable the TripleBuffer Option in the xorg.conf Device\n"

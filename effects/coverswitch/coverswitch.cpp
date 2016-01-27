@@ -61,11 +61,7 @@ CoverSwitchEffect::CoverSwitchEffect()
 
     if (effects->compositingType() == OpenGL2Compositing) {
         QString shadersDir = QStringLiteral("kwin/shaders/1.10/");
-#ifdef KWIN_HAVE_OPENGLES
-        const qint64 coreVersionNumber = kVersionNumber(3, 0);
-#else
-        const qint64 coreVersionNumber = kVersionNumber(1, 40);
-#endif
+        const qint64 coreVersionNumber = GLPlatform::instance()->isGLES() ? kVersionNumber(3, 0) : kVersionNumber(1, 40);
         if (GLPlatform::instance()->glslVersion() >= coreVersionNumber)
             shadersDir = QStringLiteral("kwin/shaders/1.40/");
         const QString fragmentshader = QStandardPaths::locate(QStandardPaths::GenericDataLocation, shadersDir + QStringLiteral("coverswitch-reflection.glsl"));
@@ -948,7 +944,7 @@ void CoverSwitchEffect::slotWindowClosed(EffectWindow* c)
 
 bool CoverSwitchEffect::isActive() const
 {
-    return mActivated || stop || stopRequested;
+    return (mActivated || stop || stopRequested) && !effects->isScreenLocked();
 }
 
 void CoverSwitchEffect::updateCaption()

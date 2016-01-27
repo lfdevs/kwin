@@ -21,6 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KWIN_ABSTRACT_EGL_BACKEND_H
 #include "scene_opengl.h"
 
+class QOpenGLFramebufferObject;
+
 namespace KWin
 {
 
@@ -34,12 +36,12 @@ public:
     EGLDisplay eglDisplay() const {
         return m_display;
     }
-
-protected:
-    AbstractEglBackend();
     EGLContext context() const {
         return m_context;
     }
+
+protected:
+    AbstractEglBackend();
     EGLSurface surface() const {
         return m_surface;
     }
@@ -48,9 +50,6 @@ protected:
     }
     void setEglDisplay(const EGLDisplay &display) {
         m_display = display;
-    }
-    void setContext(const EGLContext &context) {
-        m_context = context;
     }
     void setSurface(const EGLSurface &surface) {
         m_surface = surface;
@@ -66,6 +65,9 @@ protected:
     void initClientExtensions();
     void initWayland();
     bool hasClientExtension(const QByteArray &ext) const;
+    bool isOpenGLES() const;
+
+    bool createContext();
 
 private:
     EGLDisplay m_display = EGL_NO_DISPLAY;
@@ -91,11 +93,10 @@ protected:
 
 private:
     bool loadTexture(xcb_pixmap_t pix, const QSize &size);
-#if HAVE_WAYLAND
     bool loadShmTexture(const QPointer<KWayland::Server::BufferInterface> &buffer);
     bool loadEglTexture(const QPointer<KWayland::Server::BufferInterface> &buffer);
     EGLImageKHR attach(const QPointer<KWayland::Server::BufferInterface> &buffer);
-#endif
+    bool updateFromFBO(const QSharedPointer<QOpenGLFramebufferObject> &fbo);
     SceneOpenGL::Texture *q;
     AbstractEglBackend *m_backend;
     EGLImageKHR m_image;

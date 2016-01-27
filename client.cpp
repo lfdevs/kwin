@@ -64,8 +64,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace KWin
 {
 
-bool Client::s_haveResizeEffect = false;
-
 const long ClientWinMask = XCB_EVENT_MASK_KEY_PRESS | XCB_EVENT_MASK_KEY_RELEASE |
                            XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE |
                            XCB_EVENT_MASK_KEYMAP_STATE |
@@ -105,29 +103,22 @@ Client::Client()
     , m_moveResizeGrabWindow()
     , move_resize_has_keyboard_grab(false)
     , m_managed(false)
-    , transient_for (NULL)
     , m_transientForId(XCB_WINDOW_NONE)
     , m_originalTransientForId(XCB_WINDOW_NONE)
     , shade_below(NULL)
     , m_motif(atoms->motif_wm_hints)
     , blocks_compositing(false)
-    , m_cursor(Qt::ArrowCursor)
     , shadeHoverTimer(NULL)
-    , delayedMoveResizeTimer(NULL)
     , m_colormap(XCB_COLORMAP_NONE)
     , in_group(NULL)
     , tab_group(NULL)
-    , in_layer(UnknownLayer)
     , ping_timer(NULL)
     , m_killHelperPID(0)
     , m_pingTimestamp(XCB_TIME_CURRENT_TIME)
     , m_userTime(XCB_TIME_CURRENT_TIME)   // Not known yet
     , allowed_actions(0)
-    , block_geometry_updates(0)
-    , pending_geometry_update(PendingGeometryNone)
     , shade_geometry_change(false)
     , sm_stacking_order(-1)
-    , electricMaximizing(false)
     , activitiesDefined(false)
     , needsSessionInteract(false)
     , needsXWindowMove(false)
@@ -143,11 +134,6 @@ Client::Client()
 
     // Set the initial mapping state
     mapping_state = Withdrawn;
-    quick_tile_mode = QuickTileNone;
-
-    mode = PositionCenter;
-    buttonDown = false;
-    moveResizeMode = false;
 
     info = NULL;
 
@@ -155,7 +141,6 @@ Client::Client()
     deleting = false;
     fullscreen_mode = FullScreenNone;
     hidden = false;
-    modal = false;
     noborder = false;
     app_noborder = false;
     ignore_focus_stealing = false;
@@ -170,18 +155,22 @@ Client::Client()
     client_size = QSize(100, 100);
     ready_for_painting = false; // wait for first damage or sync reply
 
-    connect(this, &Client::geometryShapeChanged, this, &Client::geometryChanged);
-    auto signalMaximizeChanged = static_cast<void (Client::*)(KWin::AbstractClient*, MaximizeMode)>(&Client::clientMaximizedStateChanged);
-    connect(this, signalMaximizeChanged, this, &Client::geometryChanged);
-    connect(this, &Client::clientStepUserMovedResized,   this, &Client::geometryChanged);
-    connect(this, &Client::clientStartUserMovedResized,  this, &Client::moveResizedChanged);
-    connect(this, &Client::clientFinishUserMovedResized, this, &Client::moveResizedChanged);
-    connect(this, &Client::clientStartUserMovedResized,  this, &Client::removeCheckScreenConnection);
-    connect(this, &Client::clientFinishUserMovedResized, this, &Client::setupCheckScreenConnection);
     connect(this, &Client::paletteChanged, this, &Client::triggerDecorationRepaint);
 
     connect(clientMachine(), &ClientMachine::localhostChanged, this, &Client::updateCaption);
     connect(options, &Options::condensedTitleChanged, this, &Client::updateCaption);
+
+    connect(this, &Client::moveResizeCursorChanged, this, [this] (Qt::CursorShape cursor) {
+        xcb_cursor_t nativeCursor = Cursor::x11Cursor(cursor);
+        m_frame.defineCursor(nativeCursor);
+        if (m_decoInputExtent.isValid())
+            m_decoInputExtent.defineCursor(nativeCursor);
+        if (isMoveResize()) {
+            // changing window attributes doesn't change cursor if there's pointer grab active
+            xcb_change_active_pointer_grab(connection(), nativeCursor, xTime(),
+                XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE | XCB_EVENT_MASK_POINTER_MOTION | XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW);
+        }
+    });
 
     // SELI TODO: Initialize xsizehints??
 }
@@ -198,12 +187,11 @@ Client::~Client()
     //SWrapper::Client::clientRelease(this);
     if (syncRequest.alarm != XCB_NONE)
         xcb_sync_destroy_alarm(connection(), syncRequest.alarm);
-    assert(!moveResizeMode);
+    assert(!isMoveResize());
     assert(m_client == XCB_WINDOW_NONE);
     assert(m_wrapper == XCB_WINDOW_NONE);
     //assert( frameId() == None );
     Q_ASSERT(m_decoration == nullptr);
-    assert(block_geometry_updates == 0);
     assert(!check_active_modal);
     for (auto it = m_connections.constBegin(); it != m_connections.constEnd(); ++it) {
         disconnect(*it);
@@ -228,16 +216,16 @@ void Client::releaseWindow(bool on_shutdown)
     if (!on_shutdown) {
         del = Deleted::create(this);
     }
-    if (moveResizeMode)
+    if (isMoveResize())
         emit clientFinishUserMovedResized(this);
     emit windowClosed(this, del);
     finishCompositing();
     RuleBook::self()->discardUsed(this, true);   // Remove ForceTemporarily rules
     StackingUpdatesBlocker blocker(workspace());
-    if (moveResizeMode)
+    if (isMoveResize())
         leaveMoveResize();
     finishWindowRules();
-    ++block_geometry_updates;
+    blockGeometryUpdates();
     if (isOnCurrentDesktop() && isShown(true))
         addWorkspaceRepaint(visibleRect());
     // Grab X during the release to make removing of properties, setting to withdrawn state
@@ -276,7 +264,7 @@ void Client::releaseWindow(bool on_shutdown)
     m_wrapper.reset();
     m_frame.reset();
     //frame = None;
-    --block_geometry_updates; // Don't use GeometryUpdatesBlocker, it would now set the geometry
+    unblockGeometryUpdates(); // Don't use GeometryUpdatesBlocker, it would now set the geometry
     if (!on_shutdown) {
         disownDataPassedToDeleted();
         del->unrefWindow();
@@ -296,16 +284,16 @@ void Client::destroyClient()
     deleting = true;
     destroyWindowManagementInterface();
     Deleted* del = Deleted::create(this);
-    if (moveResizeMode)
+    if (isMoveResize())
         emit clientFinishUserMovedResized(this);
     emit windowClosed(this, del);
     finishCompositing(ReleaseReason::Destroyed);
     RuleBook::self()->discardUsed(this, true);   // Remove ForceTemporarily rules
     StackingUpdatesBlocker blocker(workspace());
-    if (moveResizeMode)
+    if (isMoveResize())
         leaveMoveResize();
     finishWindowRules();
-    ++block_geometry_updates;
+    blockGeometryUpdates();
     if (isOnCurrentDesktop() && isShown(true))
         addWorkspaceRepaint(visibleRect());
     setModal(false);
@@ -318,7 +306,7 @@ void Client::destroyClient()
     m_wrapper.reset();
     m_frame.reset();
     //frame = None;
-    --block_geometry_updates; // Don't use GeometryUpdatesBlocker, it would now set the geometry
+    unblockGeometryUpdates(); // Don't use GeometryUpdatesBlocker, it would now set the geometry
     disownDataPassedToDeleted();
     del->unrefWindow();
     checkNonExistentClients();
@@ -706,8 +694,8 @@ bool Client::isMinimizable() const
     if (isTransient()) {
         // #66868 - Let other xmms windows be minimized when the mainwindow is minimized
         bool shown_mainwindow = false;
-        ClientList mainclients = mainClients();
-        for (ClientList::ConstIterator it = mainclients.constBegin();
+        auto mainclients = mainClients();
+        for (auto it = mainclients.constBegin();
                 it != mainclients.constEnd();
                 ++it)
             if ((*it)->isShown(true))
@@ -747,7 +735,11 @@ QRect Client::iconGeometry() const
         return geom;
     else {
         // Check all mainwindows of this window (recursively)
-        foreach (Client * mainwin, mainClients()) {
+        foreach (AbstractClient * amainwin, mainClients()) {
+            Client *mainwin = dynamic_cast<Client*>(amainwin);
+            if (!mainwin) {
+                continue;
+            }
             geom = mainwin->iconGeometry();
             if (geom.isValid())
                 return geom;
@@ -1206,38 +1198,10 @@ void Client::doSetSkipPager()
     info->setState(skipPager() ? NET::SkipPager : NET::States(0), NET::SkipPager);
 }
 
-void Client::setModal(bool m)
-{
-    // Qt-3.2 can have even modal normal windows :(
-    if (modal == m)
-        return;
-    modal = m;
-    emit modalChanged();
-    // Changing modality for a mapped window is weird (?)
-    // _NET_WM_STATE_MODAL should possibly rather be _NET_WM_WINDOW_TYPE_MODAL_DIALOG
-}
-
 void Client::doSetDesktop(int desktop, int was_desk)
 {
-    info->setDesktop(desktop);
-    if ((was_desk == NET::OnAllDesktops) != (desktop == NET::OnAllDesktops)) {
-        // onAllDesktops changed
-        workspace()->updateOnAllDesktopsOfTransients(this);
-    }
-
-    ClientList transients_stacking_order = workspace()->ensureStackingOrder(transients());
-    for (ClientList::ConstIterator it = transients_stacking_order.constBegin();
-            it != transients_stacking_order.constEnd();
-            ++it)
-        (*it)->setDesktop(desktop);
-
-    if (isModal())  // if a modal dialog is moved, move the mainwindow with it as otherwise
-        // the (just moved) modal dialog will confusingly return to the mainwindow with
-        // the next desktop change
-    {
-        foreach (Client * c2, mainClients())
-        c2->setDesktop(desktop);
-    }
+    Q_UNUSED(desktop)
+    Q_UNUSED(was_desk)
     updateVisibility();
 
     // Update states of all other windows in this group
@@ -1286,7 +1250,7 @@ void Client::setOnActivities(QStringList newActivitiesList)
     }
     QString joinedActivitiesList = newActivitiesList.join(QStringLiteral(","));
     joinedActivitiesList = rules()->checkActivity(joinedActivitiesList, false);
-    newActivitiesList = joinedActivitiesList.split(QStringLiteral(","), QString::SkipEmptyParts);
+    newActivitiesList = joinedActivitiesList.split(u',', QString::SkipEmptyParts);
 
     QStringList allActivities = Activities::self()->all();
     if (// If we got the request to be on all activities explicitly
@@ -1496,7 +1460,7 @@ void Client::setCaption(const QString& _s, bool force)
         static QScriptProgram stripTitle;
         static QScriptValue script;
         if (stripTitle.isNull()) {
-            const QString scriptFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral(KWIN_NAME) + QStringLiteral("/stripTitle.js"));
+            const QString scriptFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral(KWIN_NAME "/stripTitle.js"));
             if (!scriptFile.isEmpty()) {
                 QFile f(scriptFile);
                 if (f.open(QIODevice::ReadOnly|QIODevice::Text)) {
@@ -1523,9 +1487,9 @@ void Client::setCaption(const QString& _s, bool force)
     QString machine_suffix;
     if (!options->condensedTitle()) { // machine doesn't qualify for "clean"
         if (clientMachine()->hostName() != ClientMachine::localhost() && !clientMachine()->isLocal())
-            machine_suffix = QStringLiteral(" <@") + QString::fromUtf8(clientMachine()->hostName()) + QStringLiteral(">") + LRM;
+            machine_suffix = QLatin1String(" <@") + QString::fromUtf8(clientMachine()->hostName()) + QLatin1Char('>') + LRM;
     }
-    QString shortcut_suffix = !shortcut().isEmpty() ? (QStringLiteral(" {") + shortcut().toString() + QStringLiteral("}")) : QString();
+    QString shortcut_suffix = !shortcut().isEmpty() ? (QLatin1String(" {") + shortcut().toString() + QLatin1Char('}')) : QString();
     cap_suffix = machine_suffix + shortcut_suffix;
     auto fetchNameInternalPredicate = [this](const Client *cl) {
         return (!cl->isSpecialWindow() || cl->isToolbar()) &&
@@ -1534,7 +1498,7 @@ void Client::setCaption(const QString& _s, bool force)
     if ((!isSpecialWindow() || isToolbar()) && workspace()->findClient(fetchNameInternalPredicate)) {
         int i = 2;
         do {
-            cap_suffix = machine_suffix + QStringLiteral(" <") + QString::number(i) + QStringLiteral(">") + LRM;
+            cap_suffix = machine_suffix + QLatin1String(" <") + QString::number(i) + QLatin1Char('>') + LRM;
             i++;
         } while (workspace()->findClient(fetchNameInternalPredicate));
         info->setVisibleName(caption().toUtf8().constData());
@@ -1554,6 +1518,12 @@ void Client::setCaption(const QString& _s, bool force)
 void Client::updateCaption()
 {
     setCaption(cap_normal, true);
+}
+
+void Client::evaluateWindowRules()
+{
+    setupWindowRules(true);
+    applyWindowRules();
 }
 
 void Client::fetchIconicName()
@@ -1677,9 +1647,9 @@ void Client::syncTabGroupFor(QString property, bool fromThisClient)
 
 void Client::dontMoveResize()
 {
-    buttonDown = false;
+    setMoveResizePointerButtonDown(false);
     stopDelayedMoveResize();
-    if (moveResizeMode)
+    if (isMoveResize())
         finishMoveResize(false);
 }
 
@@ -1754,8 +1724,8 @@ void Client::getIcons()
     }
     if (icon.isNull() && isTransient()) {
         // Then mainclients
-        ClientList mainclients = mainClients();
-        for (ClientList::ConstIterator it = mainclients.constBegin();
+        auto mainclients = mainClients();
+        for (auto it = mainclients.constBegin();
                 it != mainclients.constEnd() && icon.isNull();
                 ++it) {
             if (!(*it)->icon().isNull()) {
@@ -1867,53 +1837,6 @@ void Client::sendSyncRequest()
 bool Client::wantsInput() const
 {
     return rules()->checkAcceptFocus(info->input() || info->supportsProtocol(NET::TakeFocusProtocol));
-}
-
-/**
- * Sets an appropriate cursor shape for the logical mouse position \a m
- */
-void Client::updateCursor()
-{
-    Position m = mode;
-    if (!isResizable() || isShade())
-        m = PositionCenter;
-    Qt::CursorShape c = Qt::ArrowCursor;
-    switch(m) {
-    case PositionTopLeft:
-    case PositionBottomRight:
-        c = Qt::SizeFDiagCursor;
-        break;
-    case PositionBottomLeft:
-    case PositionTopRight:
-        c = Qt::SizeBDiagCursor;
-        break;
-    case PositionTop:
-    case PositionBottom:
-        c = Qt::SizeVerCursor;
-        break;
-    case PositionLeft:
-    case PositionRight:
-        c = Qt::SizeHorCursor;
-        break;
-    default:
-        if (moveResizeMode)
-            c = Qt::SizeAllCursor;
-        else
-            c = Qt::ArrowCursor;
-        break;
-    }
-    if (c == m_cursor)
-        return;
-    m_cursor = c;
-    xcb_cursor_t nativeCursor = Cursor::x11Cursor(m_cursor);
-    m_frame.defineCursor(nativeCursor);
-    if (m_decoInputExtent.isValid())
-        m_decoInputExtent.defineCursor(nativeCursor);
-    if (moveResizeMode) {
-        // changing window attributes doesn't change cursor if there's pointer grab active
-        xcb_change_active_pointer_grab(connection(), nativeCursor, xTime(),
-            XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE | XCB_EVENT_MASK_POINTER_MOTION | XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW);
-    }
 }
 
 void Client::setBlockingCompositing(bool block)
@@ -2032,7 +1955,7 @@ void Client::readActivities(Xcb::StringProperty &property)
         return;
     }
 
-    newActivitiesList = prop.split(QStringLiteral(","));
+    newActivitiesList = prop.split(u',');
 
     if (newActivitiesList == activityList)
         return; //expected change, it's ok.
@@ -2169,9 +2092,14 @@ Xcb::Property Client::fetchShowOnScreenEdge() const
 
 void Client::readShowOnScreenEdge(Xcb::Property &property)
 {
+    //value comes in two parts, edge in the lower byte
+    //then the type in the upper byte
+    // 0 = autohide
+    // 1 = raise in front on activate
+
     const uint32_t value = property.value<uint32_t>(ElectricNone);
     ElectricBorder border = ElectricNone;
-    switch (value) {
+    switch (value & 0xFF) {
     case 0:
         border = ElectricTop;
         break;
@@ -2186,8 +2114,32 @@ void Client::readShowOnScreenEdge(Xcb::Property &property)
         break;
     }
     if (border != ElectricNone) {
-        hideClient(true);
-        ScreenEdges::self()->reserve(this, border);
+        disconnect(m_edgeRemoveConnection);
+        bool successfullyHidden = false;
+
+        if (((value >> 8) & 0xFF) == 1) {
+            setKeepBelow(true);
+            successfullyHidden = keepBelow(); //request could have failed due to user kwin rules
+
+            m_edgeRemoveConnection = connect(this, &AbstractClient::keepBelowChanged, this, [this](){
+                if (!keepBelow()) {
+                    ScreenEdges::self()->reserve(this, ElectricNone);
+                }
+            });
+        } else {
+            hideClient(true);
+            successfullyHidden = isHiddenInternal();
+
+            m_edgeRemoveConnection = connect(this, &Client::geometryChanged, this, [this](){
+                ScreenEdges::self()->reserve(this, ElectricNone);
+            });
+        }
+
+        if (successfullyHidden) {
+            ScreenEdges::self()->reserve(this, border);
+        } else {
+            ScreenEdges::self()->reserve(this, ElectricNone);
+        }
     } else if (!property.isNull() && property->type != XCB_ATOM_NONE) {
         // property value is incorrect, delete the property
         // so that the client knows that it is not hidden
@@ -2195,8 +2147,9 @@ void Client::readShowOnScreenEdge(Xcb::Property &property)
     } else {
         // restore
         // TODO: add proper unreserve
+
+        //this will call showOnScreenEdge to reset the state
         ScreenEdges::self()->reserve(this, ElectricNone);
-        hideClient(false);
     }
 }
 
@@ -2208,7 +2161,10 @@ void Client::updateShowOnScreenEdge()
 
 void Client::showOnScreenEdge()
 {
+    disconnect(m_edgeRemoveConnection);
+
     hideClient(false);
+    setKeepBelow(false);
     xcb_delete_property(connection(), window(), atoms->kde_screen_edge_show);
 }
 
@@ -2270,11 +2226,11 @@ void Client::processDecorationButtonRelease(QMouseEvent *event)
     }
 
     if (event->buttons() == Qt::NoButton) {
-        buttonDown = false;
+        setMoveResizePointerButtonDown(false);
         stopDelayedMoveResize();
-        if (moveResizeMode) {
+        if (isMoveResize()) {
             finishMoveResize(false);
-            mode = mousePosition();
+            setMoveResizePointerMode(mousePosition());
         }
         updateCursor();
     }
@@ -2282,15 +2238,27 @@ void Client::processDecorationButtonRelease(QMouseEvent *event)
 
 void Client::processDecorationMove()
 {
-    if (buttonDown) {
+    if (isMoveResizePointerButtonDown()) {
         return;
     }
     // TODO: handle modifiers
     Position newmode = mousePosition();
-    if (newmode != mode) {
-        mode = newmode;
+    if (newmode != moveResizePointerMode()) {
+        setMoveResizePointerMode(newmode);
         updateCursor();
     }
+}
+
+void Client::updateTabGroupStates(TabGroup::States states)
+{
+    if (auto t = tabGroup()) {
+        t->updateStates(this, states);
+    }
+}
+
+QSize Client::resizeIncrements() const
+{
+    return m_geometryHints.resizeIncrements();
 }
 
 } // namespace

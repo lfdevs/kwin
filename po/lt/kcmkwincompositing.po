@@ -6,14 +6,15 @@
 # Liudas Ališauskas <liudas.alisauskas@gmail.com>, 2012.
 # Liudas Alisauskas <liudas@akmc.lt>, 2013.
 # liudas@aksioma.lt <liudas@aksioma.lt>, 2014.
+# Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-22 12:22+0000\n"
-"PO-Revision-Date: 2014-11-05 18:49+0200\n"
-"Last-Translator: liudas@aksioma.lt <liudas@aksioma.lt>\n"
-"Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
+"POT-Creation-Date: 2015-10-22 08:56+0000\n"
+"PO-Revision-Date: 2015-12-29 20:05+0200\n"
+"Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
+"Language-Team: lt <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -285,7 +286,7 @@ msgid ""
 "effect's settings."
 msgstr ""
 "Užuomina: norėdami rasti, kaip aktyvuoti efektą arba jį konfigūruoti, "
-"žiūrėkite efekto nustatymus."
+"žiūrėkite efekto nuostatas."
 
 #: qml/EffectView.qml:74
 msgid "Search"

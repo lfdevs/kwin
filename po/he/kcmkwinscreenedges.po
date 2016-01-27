@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-10-21 08:16+0000\n"
 "PO-Revision-Date: 2012-05-15 23:20+0300\n"
 "Last-Translator: Diego Iastrubni <elcuco@kde.org>\n"
 "Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
@@ -30,62 +30,54 @@ msgid "No Action"
 msgstr "ללא פעולה"
 
 #: main.cpp:188
-msgid "Show Dashboard"
-msgstr "הצג את לוח המחוונים"
-
-#: main.cpp:189
 msgid "Show Desktop"
 msgstr "הצג את שולחן העבודה"
 
-#: main.cpp:190
+#: main.cpp:189
 msgid "Lock Screen"
 msgstr "נעל מסך"
 
-#: main.cpp:191
-msgid "Prevent Screen Locking"
-msgstr "מנע נעילת מסך"
-
-#: main.cpp:200
+#: main.cpp:193
 #, fuzzy, kde-format
 #| msgid "All Desktops"
 msgid "%1 - All Desktops"
 msgstr "כל שולחנות העבודה"
 
-#: main.cpp:201
+#: main.cpp:194
 #, fuzzy, kde-format
 #| msgid "Current Desktop"
 msgid "%1 - Current Desktop"
 msgstr "שולחן עבודה הנוכחי"
 
-#: main.cpp:202
+#: main.cpp:195
 #, fuzzy, kde-format
 #| msgid "Current Application"
 msgid "%1 - Current Application"
 msgstr "יישום נוכחי"
 
-#: main.cpp:205
+#: main.cpp:198
 #, fuzzy, kde-format
 #| msgid "Cube"
 msgid "%1 - Cube"
 msgstr "קוביה"
 
-#: main.cpp:206
+#: main.cpp:199
 #, fuzzy, kde-format
 #| msgid "Cylinder"
 msgid "%1 - Cylinder"
 msgstr "גליל"
 
-#: main.cpp:207
+#: main.cpp:200
 #, fuzzy, kde-format
 #| msgid "Sphere"
 msgid "%1 - Sphere"
 msgstr "ספרה"
 
-#: main.cpp:209
+#: main.cpp:202
 msgid "Toggle window switching"
 msgstr ""
 
-#: main.cpp:210
+#: main.cpp:203
 msgid "Toggle alternative window switching"
 msgstr ""
 

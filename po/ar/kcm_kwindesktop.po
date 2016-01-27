@@ -2,29 +2,30 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 # محمد ابراهيم الحرقان <malham1@hotmail.com>, 2008.
+# Safa Alfulaij <safa1996alfulaij@gmail.com>, ٢٠١٥.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2008-12-12 16:22+0300\n"
-"Last-Translator: محمد ابراهيم الحرقان <malham1@hotmail.com>\n"
-"Language-Team: <ar@li.org>\n"
+"POT-Creation-Date: 2014-07-04 08:25+0000\n"
+"PO-Revision-Date: ٢٠١٥-٠٨-١٨ ١٢:٤٧+0300\n"
+"Last-Translator: Safa Alfulaij <safa1996alfulaij@gmail.com>\n"
+"Language-Team: Arabic <doc@arabeyes.org>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 2.0\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "صفا الفليج"
 
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
+msgstr "safa1996alfulaij@gmail.com"
 
 #: desktopnameswidget.cpp:67
 #, kde-format
@@ -34,7 +35,7 @@ msgstr "سطح المكتب %1:"
 #: desktopnameswidget.cpp:69 desktopnameswidget.cpp:70
 #, kde-format
 msgid "Here you can enter the name for desktop %1"
-msgstr "من هنا يمكنك كتابة اسم لسطح المكتب %1"
+msgstr "هنا يمكنك كتابة اسم لسطح المكتب %1"
 
 #: desktopnameswidget.cpp:108 main.cpp:226
 #, kde-format
@@ -46,124 +47,117 @@ msgid ""
 "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual "
 "desktops you want and how these should be labeled."
 msgstr ""
-"<h1>أسطح مكتب متعددة</h1>في هذه الوحدة  ، تستطيع ضبط عدد أسطح المكتب "
-"الافتراضية المطلوبة ومسمياتها"
+"<h1>أسطح المكتب المتعددة</h1>يمكنك في هذه الوحدة ضبط عدد أسطح المكتب الوهميّة "
+"التي تريدها، إلى جانب تسميتها."
 
 #: main.cpp:99
 msgid "Switch to Next Desktop"
-msgstr ""
+msgstr "بدّل إلى سطح المكتب التّالي"
 
 #: main.cpp:100
 msgid "Switch to Previous Desktop"
-msgstr ""
+msgstr "بدّل إلى سطح المكتب السّابق"
 
 #: main.cpp:101
 msgid "Switch One Desktop to the Right"
-msgstr ""
+msgstr "بدّل سطح مكتب واحد إلى اليمين"
 
 #: main.cpp:102
 msgid "Switch One Desktop to the Left"
-msgstr ""
+msgstr "بدّل سطح مكتب واحد إلى اليسار"
 
 #: main.cpp:103
 msgid "Switch One Desktop Up"
-msgstr ""
+msgstr "بدّل سطح مكتب واحد لأعلى"
 
 #: main.cpp:104
 msgid "Switch One Desktop Down"
-msgstr ""
+msgstr "بدّل سطح مكتب واحد لأسفل"
 
 #: main.cpp:105
 msgid "Walk Through Desktops"
-msgstr ""
+msgstr "تنقّل بين أسطح المكتب"
 
 #: main.cpp:106
 msgid "Walk Through Desktops (Reverse)"
-msgstr ""
+msgstr "تنقّل بين أسطح المكتب (بالعكس)"
 
 #: main.cpp:107
 msgid "Walk Through Desktop List"
-msgstr ""
+msgstr "تنقّل في قائمة أسطح المكتب"
 
 #: main.cpp:108
 msgid "Walk Through Desktop List (Reverse)"
-msgstr ""
+msgstr "تنقّل في قائمة أسطح المكتب (بالعكس)"
 
 #: main.cpp:110 main.cpp:144 main.cpp:509 main.cpp:510
 msgid "Desktop Switching"
-msgstr ""
+msgstr "تبديل سطح المكتب"
 
 #: main.cpp:122 main.cpp:489
-#, fuzzy, kde-format
+#, kde-format
 msgid "Switch to Desktop %1"
-msgstr "سطح المكتب %1:"
+msgstr "بدّل إلى سطح المكتب %1"
 
 #: main.cpp:154
 msgid "No Animation"
-msgstr ""
+msgstr "لا حركة"
 
 #: main.cpp:493
 #, kde-format
 msgid "No suitable Shortcut for Desktop %1 found"
-msgstr ""
+msgstr "لم يُعثر على اختصار مناسب لسطح المكتب %1"
 
 #: main.cpp:499
 #, kde-format
 msgid "Assigned global Shortcut \"%1\" to Desktop %2"
-msgstr ""
+msgstr "أُسند الاختصار العموميّ \"%1\" إلى سطح المكتب %2"
 
 #: main.cpp:502
 #, kde-format
 msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
-msgstr ""
+msgstr "تضارب في الاختصارات: تعذّر تعيين الاختصار %1 لسطح المكتب %2"
 
 #: main.cpp:604
 msgid "KWin development team"
-msgstr ""
+msgstr "فريق تطوير «نافذتك»"
 
 #. i18n: ectx: attribute (title), widget (QWidget, desktop)
 #: main.ui:33
-#, fuzzy
 msgid "Desktops"
-msgstr "سطح المكتب %1:"
+msgstr "أسطح المكتب"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:39
 msgid "Layout"
-msgstr ""
+msgstr "التّخطيط"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, numberLabel)
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, numberSpinBox)
 #: main.ui:51 main.ui:64
-#, fuzzy
 msgid ""
 "Here you can set how many virtual desktops you want on your KDE desktop."
-msgstr ""
-"هنا يمكنك وضع عدد أسطح المكتب الافتراضية على سطح مكتب كيدي. حرك المزلاق "
-"لتغيير القيمة ."
+msgstr "يمكنك هنا تعيين عدد أسطح المكتب الوهميّة التي تريدها في سطح مكتب كدي."
 
 #. i18n: ectx: property (text), widget (QLabel, numberLabel)
 #: main.ui:54
-#, fuzzy
 msgid "&Number of desktops:"
-msgstr "ع&دد أسطح المكتب: "
+msgstr "&عدد أسطح المكتب:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:83
-#, fuzzy
 msgid "N&umber of rows:"
-msgstr "ع&دد أسطح المكتب: "
+msgstr "عدد ال&صّفوف:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
 #: main.ui:103
-#, fuzzy
 msgid "Desktop Names"
-msgstr "أسماء أس&طح المكتب "
+msgstr "أسماء أسطح المكتب"
 
 #. i18n: ectx: attribute (title), widget (QWidget, switching)
 #: main.ui:136
 msgid "Switching"
-msgstr ""
+msgstr "التّبديل"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, wrapAroundBox)
 #: main.ui:142
@@ -181,12 +175,12 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:152
 msgid "Desktop Effect Animation"
-msgstr ""
+msgstr "حركة تأثير سطح المكتب"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:164
 msgid "Animation:"
-msgstr ""
+msgstr "الحركة:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, popupInfoCheckBox)
 #: main.ui:204
@@ -196,12 +190,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, hideLabel)
 #: main.ui:222
 msgid "Duration:"
-msgstr ""
+msgstr "المدّة:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, popupHideSpinBox)
 #: main.ui:232
 msgid " msec"
-msgstr ""
+msgstr " م‌ث"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
 #: main.ui:245
@@ -209,6 +203,8 @@ msgid ""
 "Enabling this option will show a small preview of the desktop layout "
 "indicating the selected desktop."
 msgstr ""
+"تفعيل هذا الخيار سيظهر معاينة صغيرة لتخطيط سطح المكتب مشيرة إلى سطح المكتب "
+"المحدّد."
 
 #. i18n: ectx: property (text), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
 #: main.ui:248
@@ -218,9 +214,9 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, shortcutsGroupBox)
 #: main.ui:258
 msgid "Shortcuts"
-msgstr ""
+msgstr "الاختصارات"
 
 #. i18n: ectx: property (text), widget (QCheckBox, allShortcutsCheckBox)
 #: main.ui:277
 msgid "Show shortcuts for all possible desktops"
-msgstr ""
+msgstr "أظهر اختصارات لكلّ أسطح المكتب الممكنة"

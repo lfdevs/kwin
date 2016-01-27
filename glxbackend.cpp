@@ -22,8 +22,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 
-// TODO: cmake magic
-#ifndef KWIN_HAVE_OPENGLES
 // own
 #include "glxbackend.h"
 // kwin
@@ -119,6 +117,9 @@ GlxBackend::GlxBackend()
     init();
 }
 
+static bool gs_tripleBufferUndetected = true;
+static bool gs_tripleBufferNeedsDetection = false;
+
 GlxBackend::~GlxBackend()
 {
     if (isFailed()) {
@@ -128,6 +129,9 @@ GlxBackend::~GlxBackend()
     // do cleanup after initBuffer()
     cleanupGL();
     doneCurrent();
+
+    gs_tripleBufferUndetected = true;
+    gs_tripleBufferNeedsDetection = false;
 
     if (ctx)
         glXDestroyContext(display(), ctx);
@@ -141,9 +145,6 @@ GlxBackend::~GlxBackend()
     overlayWindow()->destroy();
     delete m_overlayWindow;
 }
-
-static bool gs_tripleBufferUndetected = true;
-static bool gs_tripleBufferNeedsDetection = false;
 
 void GlxBackend::init()
 {
@@ -638,6 +639,7 @@ void GlxBackend::present()
                         if (qstrcmp(qgetenv("__GL_YIELD"), "USLEEP")) {
                             options->setGlPreferBufferSwap(0);
                             setSwapInterval(0);
+                            result = 0; // hint proper behavior
                             qCWarning(KWIN_CORE) << "\nIt seems you are using the nvidia driver without triple buffering\n"
                                               "You must export __GL_YIELD=\"USLEEP\" to prevent large CPU overhead on synced swaps\n"
                                               "Preferably, enable the TripleBuffer Option in the xorg.conf Device\n"
@@ -647,6 +649,10 @@ void GlxBackend::present()
                     }
                     setBlocksForRetrace(result == 'd');
                 }
+            } else if (blocksForRetrace()) {
+                // at least the nvidia blob manages to swap async, ie. return immediately on double
+                // buffering - what messes our timing calculation and leads to laggy behavior #346275
+                glXWaitGL();
             }
         } else {
             waitSync();
@@ -870,4 +876,3 @@ OpenGLBackend *GlxTexture::backend()
 }
 
 } // namespace
-#endif

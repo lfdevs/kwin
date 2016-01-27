@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2015-01-26 10:38+0200\n"
+"POT-Creation-Date: 2015-10-06 10:22+0000\n"
+"PO-Revision-Date: 2015-10-07 11:23+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -66,7 +66,7 @@ msgstr "Pidä alinna"
 msgid "Keep above"
 msgstr "Pidä ylinnä"
 
-#: kcm.cpp:106
+#: kcm.cpp:128
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
@@ -74,89 +74,99 @@ msgstr ""
 "Sulje kaksoisnapsauttamalla:\n"
 "Avaa valikko pitämällä painike pohjassa, kunnes se ilmestyy."
 
+#. i18n: ectx: attribute (title), widget (QWidget, theTab)
+#: kcm.ui:21
+msgid "Theme"
+msgstr "Teema"
+
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
-#: kcm.ui:22
+#: kcm.ui:29
 msgid "Search"
 msgstr "Etsi"
 
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
-#: kcm.ui:35
+#: kcm.ui:42
 msgid "Get New Decorations..."
 msgstr "Hae uusia kehyksiä…"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: kcm.ui:56
+#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
+#: kcm.ui:54
+msgid "Close windows by double clicking &the menu button"
+msgstr "Sulje ikkunat kaksoisnapsauttamalla &valikkopainiketta"
+
+#. i18n: ectx: property (text), widget (QLabel, borderSizesLabel)
+#: kcm.ui:95
 msgid "Border si&ze:"
 msgstr "Reunuksen koko:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:67
+#: kcm.ui:109
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Ei reunusta"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:72
+#: kcm.ui:114
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr "Ei sivureunusta"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:77
+#: kcm.ui:119
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "Pieni"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:82
+#: kcm.ui:124
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "Tavallinen"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:87
+#: kcm.ui:129
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "Suuri"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:92
+#: kcm.ui:134
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "Hyvin suuri"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:97
+#: kcm.ui:139
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "Valtava"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:102
+#: kcm.ui:144
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "Aivan valtava"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:107
+#: kcm.ui:149
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "Ylisuuri"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: kcm.ui:125
-msgid "Close windows by double clicking &the menu button:"
-msgstr "Sulje ikkunat kaksoisnapsauttamalla &valikkopainiketta:"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: kcm.ui:160
+msgid "Buttons"
+msgstr "Painikkeet"
 
-#: qml/Buttons.qml:74
+#: qml/Buttons.qml:77
 msgid "Titlebar"
 msgstr "Otsikkopalkki"
 
-#: qml/Buttons.qml:197
+#: qml/Buttons.qml:201
 msgid "Drag buttons between here and the titlebar"
 msgstr "Vedä painikkeita tämän alueen ja otsikkopalkin välillä"
 
-#: qml/Buttons.qml:212
+#: qml/Buttons.qml:216
 msgid "Drop here to remove button"
 msgstr "Poista painike pudottamalla se tähän"
 
@@ -229,9 +239,6 @@ msgstr "Poista painike pudottamalla se tähän"
 
 
 # Vanha käännös ”väliviiva”, mutta kyse on painikkeiden väliin tulevasta tyhjästä tilasta
-
-
-
 
 
 

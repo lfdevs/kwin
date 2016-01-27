@@ -35,7 +35,7 @@ class QtExtendedSurfaceInterface;
 namespace KWin
 {
 
-class ShellClient : public AbstractClient
+class KWIN_EXPORT ShellClient : public AbstractClient
 {
     Q_OBJECT
 public:
@@ -45,7 +45,6 @@ public:
     QStringList activities() const override;
     QPoint clientPos() const override;
     QSize clientSize() const override;
-    Layer layer() const override;
     QRect transparentRect() const override;
     bool shouldUnredirect() const override;
     NET::WindowType windowType(bool direct = false, int supported_types = 0) const override;
@@ -60,7 +59,6 @@ public:
 
     void blockActivityUpdates(bool b = true) override;
     QString caption(bool full = true, bool stripped = false) const override;
-    void checkWorkspacePosition(QRect oldGeometry = QRect(), int oldDesktop = -2, QRect oldClientGeometry = QRect()) override;
     void closeWindow() override;
     AbstractClient *findModal(bool allow_itself = false) override;
     bool isCloseable() const override;
@@ -68,20 +66,21 @@ public:
     bool isFullScreen() const override;
     bool isMaximizable() const override;
     bool isMinimizable() const override;
+    QRect iconGeometry() const override;
     bool isMovable() const override;
     bool isMovableAcrossScreens() const override;
     bool isResizable() const override;
     bool isShown(bool shaded_is_shown) const override;
     void hideClient(bool hide) override;
-    void maximize(MaximizeMode) override;
     MaximizeMode maximizeMode() const override;
+    QRect geometryRestore() const override {
+        return m_geomMaximizeRestore;
+    }
     bool noBorder() const override;
     const WindowRules *rules() const override;
-    void sendToScreen(int screen) override;
     void setFullScreen(bool set, bool user = true) override;
     void setNoBorder(bool set) override;
     void setOnAllActivities(bool set) override;
-    void setQuickTileMode(QuickTileMode mode, bool keyboard = false) override;
     void setShortcut(const QString &cut) override;
     const QKeySequence &shortcut() const override;
     void takeFocus() override;
@@ -90,16 +89,20 @@ public:
     bool userCanSetNoBorder() const override;
     bool wantsInput() const override;
     xcb_window_t window() const override;
-    using AbstractClient::move;
-    void move(int x, int y, ForceGeometry_t force = NormalGeometrySet) override;
     using AbstractClient::resizeWithChecks;
     void resizeWithChecks(int w, int h, ForceGeometry_t force = NormalGeometrySet) override;
+    using AbstractClient::setGeometry;
+    void setGeometry(int x, int y, int w, int h, ForceGeometry_t force = NormalGeometrySet) override;
     bool hasStrut() const override;
+
+    void setInternalFramebufferObject(const QSharedPointer<QOpenGLFramebufferObject> &fbo) override;
 
     quint32 windowId() const {
         return m_windowId;
     }
     bool isInternal() const;
+    bool isLockScreen() const override;
+    bool isInputMethod() const override;
     QWindow *internalWindow() const {
         return m_internalWindow;
     }
@@ -109,17 +112,28 @@ public:
 
     bool isInitialPositionSet() const;
 
+    bool isTransient() const override;
+    bool hasTransientPlacementHint() const override;
+    QPoint transientPlacementHint() const override;
+
 protected:
     void addDamage(const QRegion &damage) override;
     bool belongsToSameApplication(const AbstractClient *other, bool active_hack) const override;
     void doSetActive() override;
+    Layer layerForDock() const override;
+    void changeMaximize(bool horizontal, bool vertical, bool adjust) override;
+    void setGeometryRestore(const QRect &geo) override {
+        m_geomMaximizeRestore = geo;
+    }
+    void doResizeSync() override;
+    bool isWaitingForMoveResizeSync() const override;
 
 private Q_SLOTS:
     void clientFullScreenChanged(bool fullScreen);
 
 private:
     void requestGeometry(const QRect &rect);
-    void setGeometry(const QRect &rect);
+    void doSetGeometry(const QRect &rect);
     void destroyClient();
     void unmap();
     void createWindowId();
@@ -127,6 +141,7 @@ private:
     void updateInternalWindowGeometry();
     void updateIcon();
     void markAsMapped();
+    void setTransient();
     static void deleteClient(ShellClient *c);
 
     KWayland::Server::ShellSurfaceInterface *m_shellSurface;
@@ -143,8 +158,12 @@ private:
     NET::WindowType m_windowType = NET::Normal;
     QPointer<KWayland::Server::PlasmaShellSurfaceInterface> m_plasmaShellSurface;
     QPointer<KWayland::Server::QtExtendedSurfaceInterface> m_qtExtendedSurface;
+    bool m_fullScreen = false;
+    bool m_transient = false;
 };
 
 }
+
+Q_DECLARE_METATYPE(KWin::ShellClient*)
 
 #endif

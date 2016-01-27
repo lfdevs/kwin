@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-10-21 08:16+0000\n"
 "PO-Revision-Date: 2009-07-08 14:31+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: Arabic <kde-i18n-doc@kde.org>\n"
@@ -30,61 +30,53 @@ msgid "No Action"
 msgstr "بدون إجراء"
 
 #: main.cpp:188
-msgid "Show Dashboard"
-msgstr "أظهر لوحة الودجات"
-
-#: main.cpp:189
 msgid "Show Desktop"
 msgstr ""
 
-#: main.cpp:190
+#: main.cpp:189
 msgid "Lock Screen"
 msgstr ""
 
-#: main.cpp:191
-msgid "Prevent Screen Locking"
-msgstr ""
-
-#: main.cpp:200
+#: main.cpp:193
 #, fuzzy, kde-format
 #| msgid "All Desktops"
 msgid "%1 - All Desktops"
 msgstr "جميع الأسطح"
 
-#: main.cpp:201
+#: main.cpp:194
 #, fuzzy, kde-format
 #| msgid "Current Desktop"
 msgid "%1 - Current Desktop"
 msgstr "السطح الحالي"
 
-#: main.cpp:202
+#: main.cpp:195
 #, kde-format
 msgid "%1 - Current Application"
 msgstr ""
 
-#: main.cpp:205
+#: main.cpp:198
 #, fuzzy, kde-format
 #| msgid "Cube"
 msgid "%1 - Cube"
 msgstr "المعكب"
 
-#: main.cpp:206
+#: main.cpp:199
 #, fuzzy, kde-format
 #| msgid "Cylinder"
 msgid "%1 - Cylinder"
 msgstr "الاسطوانة"
 
-#: main.cpp:207
+#: main.cpp:200
 #, fuzzy, kde-format
 #| msgid "Sphere"
 msgid "%1 - Sphere"
 msgstr "الكرة"
 
-#: main.cpp:209
+#: main.cpp:202
 msgid "Toggle window switching"
 msgstr ""
 
-#: main.cpp:210
+#: main.cpp:203
 msgid "Toggle alternative window switching"
 msgstr ""
 

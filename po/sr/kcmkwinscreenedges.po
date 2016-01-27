@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-10-21 08:16+0000\n"
 "PO-Revision-Date: 2014-05-03 22:24+0200\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -34,67 +34,57 @@ msgstr "без радње"
 
 # >> @option:check Screen edge action
 #: main.cpp:188
-msgid "Show Dashboard"
-msgstr "прикажи инструмент-таблу"
-
-# >> @option:check Screen edge action
-#: main.cpp:189
 msgid "Show Desktop"
 msgstr "прикажи површ"
 
 # >> @option:check Screen edge action
-#: main.cpp:190
+#: main.cpp:189
 msgid "Lock Screen"
 msgstr "закључај екран"
 
 # >> @option:check Screen edge action
-#: main.cpp:191
-msgid "Prevent Screen Locking"
-msgstr "спречи закључавање екрана"
-
-# >> @option:check Screen edge action
-#: main.cpp:200
+#: main.cpp:193
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 — све површи"
 
 # >> @option:check Screen edge action
-#: main.cpp:201
+#: main.cpp:194
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 — текућа површ"
 
 # >> @option:check Screen edge action
-#: main.cpp:202
+#: main.cpp:195
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 — текући програм"
 
 # >> @option:check Screen edge action
-#: main.cpp:205
+#: main.cpp:198
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 — коцка"
 
 # >> @option:check Screen edge action
-#: main.cpp:206
+#: main.cpp:199
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 — ваљак"
 
 # >> @option:check Screen edge action
-#: main.cpp:207
+#: main.cpp:200
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 — сфера"
 
 # >> @option:check Screen edge action
-#: main.cpp:209
+#: main.cpp:202
 msgid "Toggle window switching"
 msgstr "обрни мењање прозора"
 
 # >> @option:check Screen edge action
-#: main.cpp:210
+#: main.cpp:203
 msgid "Toggle alternative window switching"
 msgstr "обрни алтернативно мењање прозора"
 

@@ -172,12 +172,13 @@ public:
      */
     void setClientIsMoving(AbstractClient* c);
 
-    QPoint adjustClientPosition(Client* c, QPoint pos, bool unrestricted, double snapAdjust = 1.0);
-    QRect adjustClientSize(Client* c, QRect moveResizeGeom, int mode);
+    QPoint adjustClientPosition(AbstractClient* c, QPoint pos, bool unrestricted, double snapAdjust = 1.0);
+    QRect adjustClientSize(AbstractClient* c, QRect moveResizeGeom, int mode);
     void raiseClient(AbstractClient* c, bool nogroup = false);
     void lowerClient(AbstractClient* c, bool nogroup = false);
-    void raiseClientRequest(Client* c, NET::RequestSource src, xcb_timestamp_t timestamp);
+    void raiseClientRequest(AbstractClient* c, NET::RequestSource src = NET::FromApplication, xcb_timestamp_t timestamp = 0);
     void lowerClientRequest(Client* c, NET::RequestSource src, xcb_timestamp_t timestamp);
+    void lowerClientRequest(AbstractClient* c);
     void restackClientUnderActive(AbstractClient*);
     void restack(AbstractClient *c, AbstractClient *under, bool force = false);
     void updateClientLayer(AbstractClient* c);
@@ -214,6 +215,12 @@ public:
     const DeletedList &deletedList() const {
         return deleted;
     }
+    /**
+     * @returns List of all clients (either X11 or Wayland) currently managed by Workspace
+     **/
+    const QList<AbstractClient*> allClientList() const {
+        return m_allClients;
+    }
 
     void stackScreenEdgesUnderOverrideRedirect();
 
@@ -243,10 +250,11 @@ public:
     const ToplevelList& stackingOrder() const;
     ToplevelList xStackingOrder() const;
     ClientList ensureStackingOrder(const ClientList& clients) const;
+    QList<AbstractClient*> ensureStackingOrder(const QList<AbstractClient*> &clients) const;
 
-    Client* topClientOnDesktop(int desktop, int screen, bool unconstrained = false,
+    AbstractClient* topClientOnDesktop(int desktop, int screen, bool unconstrained = false,
                                bool only_normal = true) const;
-    Client* findDesktop(bool topmost, int desktop) const;
+    AbstractClient* findDesktop(bool topmost, int desktop) const;
     void sendClientToDesktop(AbstractClient* c, int desktop, bool dont_activate);
     void windowToPreviousDesktop(AbstractClient* c);
     void windowToNextDesktop(AbstractClient* c);
@@ -261,8 +269,8 @@ public:
         return m_userActionsMenu;
     }
 
-    void updateMinimizedOfTransients(Client*);
-    void updateOnAllDesktopsOfTransients(Client*);
+    void updateMinimizedOfTransients(AbstractClient*);
+    void updateOnAllDesktopsOfTransients(AbstractClient*);
     void checkTransients(xcb_window_t w);
 
     void storeSession(KConfig* config, SMSavePhase phase);
@@ -482,10 +490,10 @@ private:
 
     void propagateClients(bool propagate_new_clients);   // Called only from updateStackingOrder
     ToplevelList constrainedStackingOrder();
-    void raiseClientWithinApplication(Client* c);
-    void lowerClientWithinApplication(Client* c);
+    void raiseClientWithinApplication(AbstractClient* c);
+    void lowerClientWithinApplication(AbstractClient* c);
     bool allowFullClientRaising(const AbstractClient* c, xcb_timestamp_t timestamp);
-    bool keepTransientAbove(const Client* mainwindow, const Client* transient);
+    bool keepTransientAbove(const AbstractClient* mainwindow, const AbstractClient* transient);
     void blockStackingUpdates(bool block);
     void updateToolWindows(bool also_hide);
     void fixPositionAfterCrash(xcb_window_t w, const xcb_get_geometry_reply_t *geom);
@@ -529,6 +537,7 @@ private:
     QPoint focusMousePos;
 
     ClientList clients;
+    QList<AbstractClient*> m_allClients;
     ClientList desktops;
     UnmanagedList unmanaged;
     DeletedList deleted;

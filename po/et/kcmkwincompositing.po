@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Marek Laane <bald@smail.ee>, 2007-2009.
-# Marek Laane <bald@smail.ee>, 2009, 2010, 2011, 2012, 2013, 2014.
+# Marek Laane <bald@smail.ee>, 2009, 2010, 2011, 2012, 2013, 2014, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-22 12:22+0000\n"
-"PO-Revision-Date: 2014-03-02 04:40+0200\n"
-"Last-Translator: Marek Laane <bald@smail.ee>\n"
-"Language-Team: Estonian <kde-et@linux.ee>\n"
+"POT-Creation-Date: 2015-10-22 08:56+0000\n"
+"PO-Revision-Date: 2016-01-10 12:23+0200\n"
+"Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
+"Language-Team: Estonian <kde-i18n-doc@kde.org>\n"
 "Language: et\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +25,7 @@ msgstr "Marek Laane"
 
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "bald@starman.ee"
+msgstr "qiilaq69@gmail.com"
 
 #: compositing.cpp:387
 msgid "OpenGL 3.1"
@@ -42,25 +42,20 @@ msgstr "XRender"
 #: compositing.cpp:488
 msgctxt "OpenGL Platform Interface"
 msgid "EGL"
-msgstr ""
+msgstr "EGL"
 
 #: compositing.cpp:490
 msgctxt "OpenGL Platform Interface"
 msgid "GLX"
-msgstr ""
+msgstr "GLX"
 
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:20
-#, fuzzy
-#| msgctxt "@option:check"
-#| msgid "Enable desktop effects at startup"
 msgid "Enable compositor on startup"
-msgstr "Töölauaefektide lubamine käivitamisel"
+msgstr "Komposiitori lubamine käivitamisel"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:27
-#, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation speed:"
 msgstr "Animatsiooni kiirus:"
 
@@ -71,16 +66,12 @@ msgstr "Otsekohene"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
-#, fuzzy
-#| msgid "Very Slow"
 msgid "Very slow"
 msgstr "Väga aeglane"
 
 #. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
 #: compositing.ui:85 compositing.ui:111
-#, fuzzy
-#| msgid "Scale method:"
 msgid "Scale method:"
 msgstr "Skaleerimisviis:"
 
@@ -108,65 +99,51 @@ msgstr "Sujuv (aeglasem)"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: compositing.ui:139
 msgid "Rendering backend:"
-msgstr ""
+msgstr "Renderdamise taustaprogramm:"
 
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
-#, fuzzy
-#| msgid "OpenGL mode:"
 msgid "OpenGL interface:"
-msgstr "OpenGL režiim:"
+msgstr "OpenGL liides:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: compositing.ui:159
 msgid "Tearing prevention (\"vsync\"):"
-msgstr ""
+msgstr "Rebestuse vältimine (\"vsync\"):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:167 compositing.ui:203
-#, fuzzy
-#| msgctxt ""
-#| "Windows are unmapped as they are requested. This can lead to not having "
-#| "updated thumbnials for windows on other desktops."
-#| msgid "Never"
 msgid "Never"
 msgstr "Mitte kunagi"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:172
 msgid "Automatic"
-msgstr ""
+msgstr "Automaatne"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:177
 msgid "Only when cheap"
-msgstr ""
+msgstr "Ainult vähese koormuse korral"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:182
 msgid "Full screen repaints"
-msgstr ""
+msgstr "Täisekraani ülejoonistamine"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:187
 msgid "Re-use screen content"
-msgstr ""
+msgstr "Ekraanisisu taaskasutamine"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:195
-#, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep window thumbnails:"
 msgstr "Akende pisipiltide säilitamine:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:208
-#, fuzzy
-#| msgctxt ""
-#| "Windows are not unmapped if the window is somewhere visible on any of the "
-#| "virtual desktops."
-#| msgid "Only for Shown Windows"
 msgid "Only for Shown Windows"
 msgstr "Ainult kuvatavate akende puhul"
 
@@ -178,26 +155,22 @@ msgstr "Alati"
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: compositing.ui:221
 msgid "Expert:"
-msgstr ""
+msgstr "Ekspert:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
 #: compositing.ui:228
-#, fuzzy
-#| msgid "Suspend desktop effects for fullscreen windows"
 msgid "Suspend compositor for full screen windows"
-msgstr "Töölauaefektide peatamine täisekraanakende puhul"
+msgstr "Komposiitori peatamine täisekraanakende puhul"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: compositing.ui:235
 msgid "Experimental:"
-msgstr ""
+msgstr "Eksperimentaalne:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
 #: compositing.ui:242
-#, fuzzy
-#| msgid "Enable color correction (experimental)"
 msgid "Enable color correction"
-msgstr "Värviparanduse lubamine (eksperimentaalne)"
+msgstr "Värviparanduse lubamine"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
 #: compositing.ui:262
@@ -209,6 +182,12 @@ msgid ""
 "immediate crash!\n"
 "Alternatively, you might want to use the XRender backend instead."
 msgstr ""
+"OpenGL komposiit (vaikimisi) on varem tekitanud KWini krahhe.\n"
+"Tõenäoliselt on tegemist draiveri veaga.\n"
+"Kui arvad, et oled vahepeal paigaldanud stabiilse draiveri,\n"
+"võid selle kaitse maha võtta, aga arvesta, et see võib kaasa tuua kohese "
+"krahhi!\n"
+"Teine võimalus on kasutada selle asemel XRenderi taustaprogrammi."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, interfaceWarning)
 #: compositing.ui:278
@@ -216,6 +195,8 @@ msgid ""
 "EGL is not supported by all OpenGL drivers. If not supported the Compositor "
 "will be disabled."
 msgstr ""
+"Kõik OpenGL draiverid EGL-i ei toeta. Kui see pole toetatud, komposiitor "
+"keelatakse."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
 #: compositing.ui:294
@@ -223,6 +204,8 @@ msgid ""
 "Scale method \"Accurate\" is not supported by all hardware and can cause "
 "performance regressions and rendering artifacts."
 msgstr ""
+"Kõik riistvara ei toeta skaleerimisviisi \"täpne\" ning see võib põhjustada "
+"jõudlusprobleeme ja renderdamisvigu."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
 #: compositing.ui:323
@@ -230,6 +213,8 @@ msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
 "windows. This can result in windows not suspending their work when minimized."
 msgstr ""
+"Akna pisipildi alati säilitamine läheb vastuollu akende minimeeritud "
+"olekuga. See võib tähendada, et aken ei peata tööd, kui see minimeeritakse."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, unredirectInformation)
 #: compositing.ui:339
@@ -237,6 +222,7 @@ msgid ""
 "Having full screen windows bypass the compositor is not supported on every "
 "hardware."
 msgstr ""
+"Kõik riistvara ei toeta täisekraanakende väljajätmist komposiitori mõju alt."
 
 #: main.cpp:82
 msgid "Re-enable OpenGL detection"
@@ -247,47 +233,41 @@ msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
 "video."
 msgstr ""
+"\"Ainult vähese koormuse korral\" takistab ainult rebestusi täisekraani "
+"muutumise puhul, näiteks video esitamisel."
 
 #: main.cpp:143
 msgid "\"Full screen repaints\" can cause performance problems."
-msgstr ""
+msgstr "\"Täisekraani ülejoonistamine\" võib tekitada jõudlusprobleeme."
 
 #: main.cpp:147
 msgid ""
 "\"Re-use screen content\" causes performance severe problems on MESA drivers."
 msgstr ""
+"\"Ekraanisisu taaskasutamine\" tekitab MESA draiverite korral tõsiseid "
+"jõudlusprobleeme."
 
 #: model.cpp:69
-#, fuzzy
-#| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Hõlbustus"
 
 #: model.cpp:70
-#, fuzzy
-#| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Välimus"
 
 #: model.cpp:71
-#, fuzzy
-#| msgid "Candy"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Silmailu"
 
 #: model.cpp:72
-#, fuzzy
-#| msgid "Focus"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Fookus"
 
 #: model.cpp:73
-#, fuzzy
-#| msgid "Tools"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Tööriistad"
@@ -295,18 +275,16 @@ msgstr "Tööriistad"
 #: model.cpp:74
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
-msgstr ""
+msgstr "Virtuaalsete töölaudade vahetamise animatsioon"
 
 #: model.cpp:75
-#, fuzzy
-#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
-msgstr "Akende haldamine"
+msgstr "Aknahaldus"
 
 #: model.cpp:231
 msgid "KWin development team"
-msgstr ""
+msgstr "KWini arendusmeeskond"
 
 #: qml/Effect.qml:118
 #, kde-format
@@ -314,6 +292,8 @@ msgid ""
 "Author: %1\n"
 "License: %2"
 msgstr ""
+"Autor: %1\n"
+"Litsents: %2"
 
 #: qml/EffectView.qml:63
 msgid ""
@@ -323,23 +303,19 @@ msgstr "Vihje: mõistmaks, kuidas efekti aktiveerida, uuri efekti seadistusi."
 
 #: qml/EffectView.qml:74
 msgid "Search"
-msgstr ""
+msgstr "Otsing"
 
 #: qml/EffectView.qml:81
-#, fuzzy
-#| msgid "Texture filter:"
 msgid "Configure filter"
-msgstr "Tekstuuri filter:"
+msgstr "Filtri seadistamine"
 
 #: qml/EffectView.qml:84
 msgid "Exclude Desktop Effects not supported by the Compositor"
-msgstr ""
+msgstr "Komposiitori toetuseta töölauaefektid jäetakse välja"
 
 #: qml/EffectView.qml:92
-#, fuzzy
-#| msgid "Suspend Desktop Effects"
 msgid "Exclude internal Desktop Effects"
-msgstr "Peata töölauaefektid"
+msgstr "Sissemised töölauaefektid jäetakse välja"
 
 #: qml/EffectView.qml:104
 msgid "Get New Effects ..."

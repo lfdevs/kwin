@@ -25,14 +25,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QObject>
 #include <QSize>
+#include <QMutex>
+#include <QVector>
 
 class QSocketNotifier;
+class QThread;
 
 namespace KWin
 {
 namespace LibInput
 {
 
+class Event;
 class Context;
 
 class Connection : public QObject
@@ -62,12 +66,14 @@ public:
 
     void deactivate();
 
+    void processEvents();
+
 Q_SIGNALS:
-    void keyChanged(uint32_t key, InputRedirection::KeyboardKeyState, uint32_t time);
-    void pointerButtonChanged(uint32_t button, InputRedirection::PointerButtonState state, uint32_t time);
-    void pointerMotionAbsolute(QPointF orig, QPointF screen, uint32_t time);
-    void pointerMotion(QPointF delta, uint32_t time);
-    void pointerAxisChanged(InputRedirection::PointerAxis axis, qreal delta, uint32_t time);
+    void keyChanged(quint32 key, KWin::InputRedirection::KeyboardKeyState, quint32 time);
+    void pointerButtonChanged(quint32 button, KWin::InputRedirection::PointerButtonState state, quint32 time);
+    void pointerMotionAbsolute(QPointF orig, QPointF screen, quint32 time);
+    void pointerMotion(QPointF delta, quint32 time);
+    void pointerAxisChanged(KWin::InputRedirection::PointerAxis axis, qreal delta, quint32 time);
     void touchFrame();
     void touchCanceled();
     void touchDown(qint32 id, const QPointF &absolutePos, quint32 time);
@@ -76,6 +82,11 @@ Q_SIGNALS:
     void hasKeyboardChanged(bool);
     void hasPointerChanged(bool);
     void hasTouchChanged(bool);
+
+    void eventsRead();
+
+private Q_SLOTS:
+    void doSetup();
 
 private:
     Connection(Context *input, QObject *parent = nullptr);
@@ -89,8 +100,12 @@ private:
     bool m_keyboardBeforeSuspend = false;
     bool m_pointerBeforeSuspend = false;
     bool m_touchBeforeSuspend = false;
+    QMutex m_mutex;
+    QVector<Event*> m_eventQueue;
+    bool wasSuspended = false;
 
     KWIN_SINGLETON(Connection)
+    static QThread *s_thread;
 };
 
 }

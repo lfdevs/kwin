@@ -1,0 +1,46 @@
+add_definitions(-DKWINBACKENDPATH="${CMAKE_BINARY_DIR}/backends/virtual/KWinWaylandVirtualBackend.so")
+add_definitions(-DKWINQPAPATH="${CMAKE_BINARY_DIR}/plugins/qpa/")
+########################################################
+# Test Start
+########################################################
+set( testStart_SRCS start_test.cpp kwin_wayland_test.cpp )
+add_executable(testStart ${testStart_SRCS})
+target_link_libraries( testStart kwin Qt5::Test)
+add_test(kwin-testStart testStart)
+ecm_mark_as_test(testStart)
+
+########################################################
+# Transient Window without input test
+########################################################
+set( testTransientNoInput_SRCS transient_no_input_test.cpp kwin_wayland_test.cpp )
+add_executable(testTransientNoInput ${testTransientNoInput_SRCS})
+target_link_libraries( testTransientNoInput kwin Qt5::Test)
+add_test(kwin-testTransientNoInput testTransientNoInput)
+ecm_mark_as_test(testTransientNoInput)
+
+########################################################
+# Quick Tiling test
+########################################################
+set( testQuickTiling_SRCS quick_tiling_test.cpp kwin_wayland_test.cpp )
+add_executable(testQuickTiling ${testQuickTiling_SRCS})
+target_link_libraries( testQuickTiling kwin Qt5::Test)
+add_test(kwin-testQuickTiling testQuickTiling)
+ecm_mark_as_test(testQuickTiling)
+
+########################################################
+# Move/Resize window test
+########################################################
+set( testMoveResize_SRCS move_resize_window_test.cpp kwin_wayland_test.cpp )
+add_executable(testMoveResize ${testMoveResize_SRCS})
+target_link_libraries( testMoveResize kwin Qt5::Test)
+add_test(kwin-testMoveResize testMoveResize)
+ecm_mark_as_test(testMoveResize)
+
+########################################################
+# Don't Crash For glxgears
+########################################################
+set( testDontCrashGlxgears_SRCS dont_crash_glxgears.cpp kwin_wayland_test.cpp )
+add_executable(testDontCrashGlxgears ${testDontCrashGlxgears_SRCS})
+target_link_libraries( testDontCrashGlxgears kwin Qt5::Test)
+add_test(kwin-testDontCrashGlxgears testDontCrashGlxgears)
+ecm_mark_as_test(testDontCrashGlxgears)

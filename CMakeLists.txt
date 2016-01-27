@@ -1,5 +1,5 @@
 project(KWIN)
-set(PROJECT_VERSION "5.4.3")
+set(PROJECT_VERSION "5.5.4")
 set(PROJECT_VERSION_MAJOR 5)
 
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
@@ -46,7 +46,7 @@ include(KDECompilerSettings)
 include(ECMInstallIcons)
 include(ECMOptionalAddSubdirectory)
 
-add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0)
+add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0 -DQT_USE_QSTRINGBUILDER)
 
 # require at least gcc 4.8
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
@@ -77,6 +77,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     WidgetsAddons
     WindowSystem
     IconThemes
+    IdleTime
 )
 # required frameworks by config modules
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
@@ -111,11 +112,15 @@ set_package_properties(KF5DocTools PROPERTIES
 add_feature_info("KF5DocTools" KF5DocTools_FOUND "Enable building documentation")
 
 find_package(KDecoration2 CONFIG REQUIRED)
-find_package(KF5Wayland CONFIG)
+find_package(KF5Wayland CONFIG REQUIRED)
 set_package_properties(KF5Wayland PROPERTIES
-                       TYPE OPTIONAL
+                       TYPE REQUIRED
                       )
-add_feature_info("KF5Wayland" KF5Wayland_FOUND "Required for Wayland Compositor Information Module")
+
+find_package(KScreenLocker CONFIG REQUIRED)
+set_package_properties(KScreenLocker PROPERTIES
+                       TYPE REQUIRED
+                       PURPOSE "For screenlocker integration in kwin_wayland")
 
 find_package(EGL)
 set_package_properties(EGL PROPERTIES
@@ -130,17 +135,20 @@ set_package_properties(epoxy PROPERTIES DESCRIPTION "libepoxy"
                        PURPOSE "OpenGL dispatch library"
                       )
 
-find_package(Wayland 1.2 COMPONENTS Egl Cursor)
+find_package(Wayland 1.2 REQUIRED COMPONENTS Cursor OPTIONAL_COMPONENTS Egl)
 set_package_properties(Wayland PROPERTIES
-                       TYPE OPTIONAL
+                       TYPE REQUIRED
                        PURPOSE "Required for building KWin with Wayland support"
                       )
-add_feature_info("Wayland-Cursor" Wayland_Cursor_FOUND "Required for cursor support in Wayland backend of kwin_wayland")
-add_feature_info("Wayland-EGL" Wayland_Egl_FOUND "Required for building the Wayland EGL compositing backend in KWin")
+add_feature_info("Wayland::EGL" Wayland_Egl_FOUND "Enable building of Wayland backend and QPA with EGL support.")
+set(HAVE_WAYLAND_EGL FALSE)
+if(Wayland_Egl_FOUND)
+    set(HAVE_WAYLAND_EGL TRUE)
+endif()
 
 find_package(XKB 0.4.1)
 set_package_properties(XKB PROPERTIES
-                       TYPE OPTIONAL
+                       TYPE REQUIRED
                        PURPOSE "Required for building KWin with Wayland support"
                       )
 
@@ -211,8 +219,23 @@ add_feature_info("XCB-ICCCM" XCB_ICCCM_FOUND "Required for building test applica
 
 find_package(X11_XCB)
 set_package_properties(X11_XCB PROPERTIES
-                       PURPOSE "Required for OpenGL support in X11 windowed backend of kwin_wayland"
+                       PURPOSE "Required for building X11 windowed backend of kwin_wayland"
                        TYPE OPTIONAL)
+
+# dependencies for QPA plugin
+find_package(Qt5PlatformSupport REQUIRED)
+find_package(Freetype REQUIRED)
+set_package_properties(Freetype PROPERTIES DESCRIPTION "A font rendering engine"
+                       URL "http://www.freetype.org"
+                       TYPE REQUIRED
+                       PURPOSE "Needed for KWin's QPA plugin."
+                      )
+find_package(Fontconfig REQUIRED)
+set_package_properties(Fontconfig PROPERTIES DESCRIPTION "Font access configuration library"
+                       URL "http://www.freedesktop.org/wiki/Software/fontconfig"
+                       TYPE REQUIRED
+                       PURPOSE "Needed for KWin's QPA plugin."
+                      )
 
 ########### configure tests ###############
 include(CMakeDependentOption)
@@ -222,8 +245,6 @@ option(KWIN_BUILD_KCMS "Enable building of KWin configuration modules." ON)
 option(KWIN_BUILD_TABBOX "Enable building of KWin Tabbox functionality" ON)
 option(KWIN_BUILD_XRENDER_COMPOSITING "Enable building of KWin with XRender Compositing support" ON)
 cmake_dependent_option(KWIN_BUILD_ACTIVITIES "Enable building of KWin with kactivities support" ON "KF5Activities_FOUND" OFF)
-option(KWIN_PLASMA_ACTIVE "Enable building KWin for Plasma Active." OFF)
-option(KWIN_BUILD_EGL "Enables building the EGL backend in KWin" ON)
 
 option(KWIN_BUILD_COVERAGE "Build KWin with gcov support" OFF)
 
@@ -238,69 +259,20 @@ set(KWIN_INTERNAL_NAME_X11 "kwin_x11")
 set(KWIN_INTERNAL_NAME_WAYLAND "kwin_wayland")
 set(KWIN_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
-if(KWIN_PLASMA_ACTIVE)
-    set(KWIN_BUILD_DECORATIONS OFF)
-    set(KWIN_BUILD_KCMS OFF)
-    set(KWIN_BUILD_XRENDER_COMPOSITING OFF)
-    set(KWIN_BUILD_WITH_OPENGLES ON)
-    set(KWIN_NAME "kwinactive")
-endif()
-
-set(KWIN_BUILD_OPENGL FALSE)
-set(KWIN_BUILD_OPENGLES FALSE)
-if(${Qt5Gui_OPENGL_IMPLEMENTATION} STREQUAL "GL")
-    set(KWIN_BUILD_OPENGL TRUE)
-    message("Building KWin with OpenGL support")
-endif()
-if(${Qt5Gui_OPENGL_IMPLEMENTATION} STREQUAL "GLESv2")
-    set(KWIN_BUILD_OPENGLES TRUE)
-    message("Building KWin with OpenGL ES 2 support")
-    add_definitions(-DKWIN_HAVE_OPENGLES)
-endif()
-
-if(NOT KWIN_BUILD_OPENGL AND NOT KWIN_BUILD_OPENGLES)
-    message(FATAL_ERROR "KWin needs to be built against either OpenGL or OpenGL ES 2. Check your Qt config!")
-endif()
-
 # KWIN_HAVE_XRENDER_COMPOSITING - whether XRender-based compositing support is available: may be disabled
 if( KWIN_BUILD_XRENDER_COMPOSITING )
     set( KWIN_HAVE_XRENDER_COMPOSITING 1 )
 endif()
 
-set(KWIN_HAVE_EGL ${KWIN_BUILD_EGL})
-
-if (XKB_FOUND)
-  include_directories(${XKB_INCLUDE_DIR})
-endif()
+include_directories(${XKB_INCLUDE_DIR})
 
 include_directories(${epoxy_INCLUDE_DIR})
+set(HAVE_EPOXY_GLX ${epoxy_HAS_GLX})
 
 # for things that are also used by kwin libraries
 configure_file(libkwineffects/kwinconfig.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/libkwineffects/kwinconfig.h )
 # for kwin internal things
-if(XKB_FOUND AND KF5Wayland_FOUND)
-    set(HAVE_WAYLAND TRUE)
-    set(HAVE_XKB ${XKB_FOUND})
-    if (KWIN_HAVE_EGL)
-        set(HAVE_WAYLAND_EGL ${Wayland_Egl_FOUND})
-    else()
-        set(HAVE_WAYLAND_EGL FALSE)
-    endif()
-    set(HAVE_WAYLAND_CURSOR ${Wayland_Cursor_FOUND})
-    set(HAVE_X11_XCB ${X11_XCB_FOUND})
-else()
-    set(HAVE_WAYLAND FALSE)
-    set(HAVE_XKB FALSE)
-    set(HAVE_WAYLAND_EGL FALSE)
-    set(HAVE_WAYLAND_CURSOR FALSE)
-    set(HAVE_X11_XCB FALSE)
-    set(HAVE_DRM FALSE)
-    set(HAVE_GBM FALSE)
-endif()
-
-if(NOT KWIN_HAVE_EGL)
-    set(HAVE_GBM FALSE)
-endif()
+set(HAVE_X11_XCB ${X11_XCB_FOUND})
 
 include(CheckIncludeFiles)
 check_include_files(unistd.h HAVE_UNISTD_H)
@@ -379,7 +351,6 @@ set(kwin_KDEINIT_SRCS
    scene_xrender.cpp
    scene_opengl.cpp
    scene_qpainter.cpp
-   glxbackend.cpp
    thumbnailitem.cpp
    lanczosfilter.cpp
    deleted.cpp
@@ -407,7 +378,17 @@ set(kwin_KDEINIT_SRCS
     decorations/settings.cpp
     decorations/decorationrenderer.cpp
     decorations/decorations_logging.cpp
+    abstract_egl_backend.cpp
+    eglonxbackend.cpp
+    abstract_backend.cpp
+    shell_client.cpp
+    wayland_server.cpp
+    wayland_cursor_theme.cpp
    )
+
+if(HAVE_EPOXY_GLX)
+    set(kwin_KDEINIT_SRCS ${kwin_KDEINIT_SRCS} glxbackend.cpp)
+endif()
 
 if(KWIN_BUILD_TABBOX)
     set(
@@ -430,26 +411,6 @@ if(KWIN_BUILD_ACTIVITIES)
     )
 endif()
 
-if(KWIN_HAVE_EGL)
-    set(kwin_KDEINIT_SRCS ${kwin_KDEINIT_SRCS} abstract_egl_backend.cpp eglonxbackend.cpp)
-endif()
-
-if(HAVE_WAYLAND)
-    set(kwin_KDEINIT_SRCS
-            ${kwin_KDEINIT_SRCS}
-            abstract_backend.cpp
-            virtual_terminal.cpp
-            shell_client.cpp
-            wayland_server.cpp
-       )
-    if(HAVE_WAYLAND_CURSOR)
-        set(kwin_KDEINIT_SRCS
-                ${kwin_KDEINIT_SRCS}
-                wayland_cursor_theme.cpp
-            )
-    endif()
-endif()
-
 if(UDEV_FOUND)
     set(kwin_KDEINIT_SRCS
         ${kwin_KDEINIT_SRCS}
@@ -464,6 +425,7 @@ if(HAVE_INPUT)
         libinput/connection.cpp
         libinput/events.cpp
         libinput/libinput_logging.cpp
+        virtual_terminal.cpp
     )
 endif()
 
@@ -511,6 +473,7 @@ set(kwin_KDE_LIBS
     KF5::WindowSystem
     KDecoration2::KDecoration
     KDecoration2::KDecoration2Private
+    PW::KScreenLocker
 )
 
 set(kwin_XLIB_LIBS
@@ -538,12 +501,9 @@ set(kwin_WAYLAND_LIBS
     XKB::XKB
     KF5::WaylandClient
     KF5::WaylandServer
+    Wayland::Cursor
     ${CMAKE_THREAD_LIBS_INIT}
 )
-
-if(Wayland_Cursor_FOUND)
-    set(kwin_WAYLAND_LIBS ${kwin_WAYLAND_LIBS} Wayland::Cursor)
-endif()
 
 if(KWIN_BUILD_ACTIVITIES)
     set(kwin_KDE_LIBS ${kwin_KDE_LIBS} KF5::Activities)
@@ -555,11 +515,8 @@ set(kwinLibs
     ${kwin_KDE_LIBS}
     ${kwin_XLIB_LIBS}
     ${kwin_XCB_LIBS}
+    ${kwin_WAYLAND_LIBS}
 )
-
-if(HAVE_WAYLAND)
-    set(kwinLibs ${kwinLibs} ${kwin_WAYLAND_LIBS})
-endif()
 
 if(UDEV_FOUND)
     set(kwinLibs ${kwinLibs} ${UDEV_LIBS})
@@ -579,16 +536,11 @@ set_target_properties(kwin PROPERTIES
 target_link_libraries(kwin ${kwinLibs})
 generate_export_header(kwin EXPORT_FILE_NAME kwin_export.h)
 
-if(KWIN_BUILD_OPENGL)
-  target_link_libraries(kwin kwinglutils ${epoxy_LIBRARY})
-  # -ldl used by OpenGL code
-  find_library(DL_LIBRARY dl)
-  if (DL_LIBRARY)
-    target_link_libraries(kwin ${DL_LIBRARY})
-  endif()
-elseif(KWIN_BUILD_OPENGLES)
-  target_link_libraries(kwin ${kwinLibs} kwinglesutils ${epoxy_LIBRARY})
-  set_target_properties(kwin PROPERTIES COMPILE_FLAGS "-DKWIN_HAVE_OPENGLES")
+target_link_libraries(kwin kwinglutils ${epoxy_LIBRARY})
+# -ldl used by OpenGL code
+find_library(DL_LIBRARY dl)
+if (DL_LIBRARY)
+target_link_libraries(kwin ${DL_LIBRARY})
 endif()
 
 kf5_add_kdeinit_executable(kwin_x11 main_x11.cpp)
@@ -598,17 +550,13 @@ install(TARGETS kwin             ${INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELIN
 install(TARGETS kdeinit_kwin_x11 ${INSTALL_TARGETS_DEFAULT_ARGS} )
 install(TARGETS kwin_x11         ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
-if(HAVE_WAYLAND)
-    include_directories(${Qt5Core_PRIVATE_INCLUDE_DIRS})
-    include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
-    add_executable(kwin_wayland main_wayland.cpp)
-    target_link_libraries(kwin_wayland kwin)
+add_executable(kwin_wayland main_wayland.cpp)
+target_link_libraries(kwin_wayland kwin)
 
-    install(TARGETS kwin_wayland         ${INSTALL_TARGETS_DEFAULT_ARGS} )
+install(TARGETS kwin_wayland         ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
-    add_subdirectory(backends)
-    add_subdirectory(plugins)
-endif()
+add_subdirectory(backends)
+add_subdirectory(plugins)
 
 ########### install files ###############
 
@@ -620,7 +568,7 @@ install(
         org.kde.kwin.Compositing.xml
         org.kde.kwin.Effects.xml
     DESTINATION
-        ${DBUS_INTERFACES_INSTALL_DIR}
+        ${KDE_INSTALL_DBUSINTERFACEDIR}
 )
 install( FILES ${CMAKE_CURRENT_BINARY_DIR}/kwin_export.h DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel)
 
@@ -653,6 +601,7 @@ include(ECMPackageConfigHelpers)
 set(CMAKECONFIG_INSTALL_DIR "${CMAKECONFIG_INSTALL_PREFIX}/KWinDBusInterface")
 ecm_configure_package_config_file(KWinDBusInterfaceConfig.cmake.in
     "${CMAKE_CURRENT_BINARY_DIR}/KWinDBusInterfaceConfig.cmake"
+    PATH_VARS KDE_INSTALL_DBUSINTERFACEDIR
     INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR})
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/KWinDBusInterfaceConfig.cmake
     DESTINATION ${CMAKECONFIG_INSTALL_DIR})

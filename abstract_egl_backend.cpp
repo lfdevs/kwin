@@ -19,20 +19,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "abstract_egl_backend.h"
 #include "options.h"
-#if HAVE_WAYLAND
 #include "wayland_server.h"
 #include <KWayland/Server/buffer_interface.h>
 #include <KWayland/Server/display.h>
-#endif
 // kwin libs
 #include <kwinglplatform.h>
 // Qt
 #include <QOpenGLContext>
+#include <QOpenGLFramebufferObject>
 
 namespace KWin
 {
 
-#if HAVE_WAYLAND
 typedef GLboolean(*eglBindWaylandDisplayWL_func)(EGLDisplay dpy, wl_display *display);
 typedef GLboolean(*eglUnbindWaylandDisplayWL_func)(EGLDisplay dpy, wl_display *display);
 typedef GLboolean(*eglQueryWaylandBufferWL_func)(EGLDisplay dpy, struct wl_resource *buffer, EGLint attribute, EGLint *value);
@@ -49,7 +47,6 @@ eglQueryWaylandBufferWL_func eglQueryWaylandBufferWL = nullptr;
 #ifndef EGL_WAYLAND_Y_INVERTED_WL
 #define EGL_WAYLAND_Y_INVERTED_WL               0x31DB
 #endif
-#endif
 
 AbstractEglBackend::AbstractEglBackend()
     : OpenGLBackend()
@@ -60,11 +57,9 @@ AbstractEglBackend::~AbstractEglBackend() = default;
 
 void AbstractEglBackend::cleanup()
 {
-#if HAVE_WAYLAND
     if (eglUnbindWaylandDisplayWL && eglDisplay() != EGL_NO_DISPLAY) {
         eglUnbindWaylandDisplayWL(eglDisplay(), *(WaylandServer::self()->display()));
     }
-#endif
     cleanupGL();
     doneCurrent();
     eglDestroyContext(m_display, m_context);
@@ -93,14 +88,10 @@ bool AbstractEglBackend::initEglAPI()
     }
     qCDebug(KWIN_CORE) << "Egl Initialize succeeded";
 
-#ifdef KWIN_HAVE_OPENGLES
-    eglBindAPI(EGL_OPENGL_ES_API);
-#else
-    if (eglBindAPI(EGL_OPENGL_API) == EGL_FALSE) {
+    if (eglBindAPI(isOpenGLES() ? EGL_OPENGL_ES_API : EGL_OPENGL_API) == EGL_FALSE) {
         qCCritical(KWIN_CORE) << "bind OpenGL API failed";
         return false;
     }
-#endif
     qCDebug(KWIN_CORE) << "EGL version: " << major << "." << minor;
     return true;
 }
@@ -133,7 +124,6 @@ void AbstractEglBackend::initBufferAge()
 
 void AbstractEglBackend::initWayland()
 {
-#if HAVE_WAYLAND
     if (!WaylandServer::self()) {
         return;
     }
@@ -148,7 +138,6 @@ void AbstractEglBackend::initWayland()
             waylandServer()->display()->setEglDisplay(eglDisplay());
         }
     }
-#endif
 }
 
 void AbstractEglBackend::initClientExtensions()
@@ -185,10 +174,94 @@ void AbstractEglBackend::doneCurrent()
     eglMakeCurrent(m_display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
 }
 
+bool AbstractEglBackend::isOpenGLES() const
+{
+    if (qstrcmp(qgetenv("KWIN_COMPOSE"), "O2ES") == 0) {
+        return true;
+    }
+    return QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGLES;
+}
+
+bool AbstractEglBackend::createContext()
+{
+    const QByteArray eglExtensions = eglQueryString(m_display, EGL_EXTENSIONS);
+    const QList<QByteArray> extensions = eglExtensions.split(' ');
+    const bool haveRobustness = extensions.contains(QByteArrayLiteral("EGL_EXT_create_context_robustness"));
+    const bool haveCreateContext = extensions.contains(QByteArrayLiteral("EGL_KHR_create_context"));
+
+    EGLContext ctx = EGL_NO_CONTEXT;
+    if (isOpenGLES()) {
+        if (haveCreateContext && haveRobustness) {
+            const EGLint context_attribs[] = {
+                EGL_CONTEXT_CLIENT_VERSION,                         2,
+                EGL_CONTEXT_OPENGL_ROBUST_ACCESS_EXT,               EGL_TRUE,
+                EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY_EXT, EGL_LOSE_CONTEXT_ON_RESET_EXT,
+                EGL_NONE
+            };
+            ctx = eglCreateContext(m_display, config(), EGL_NO_CONTEXT, context_attribs);
+        }
+        if (ctx == EGL_NO_CONTEXT) {
+            const EGLint context_attribs[] = {
+                EGL_CONTEXT_CLIENT_VERSION, 2,
+                EGL_NONE
+            };
+
+            ctx = eglCreateContext(m_display, config(), EGL_NO_CONTEXT, context_attribs);
+        }
+    } else {
+        // Try to create a 3.1 core context
+        if (options->glCoreProfile() && haveCreateContext) {
+            if (haveRobustness) {
+                const int attribs[] = {
+                    EGL_CONTEXT_MAJOR_VERSION_KHR,                      3,
+                    EGL_CONTEXT_MINOR_VERSION_KHR,                      1,
+                    EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY_KHR, EGL_LOSE_CONTEXT_ON_RESET_KHR,
+                    EGL_CONTEXT_FLAGS_KHR,                              EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT_KHR,
+                    EGL_NONE
+                };
+                ctx = eglCreateContext(m_display, config(), EGL_NO_CONTEXT, attribs);
+            }
+            if (ctx == EGL_NO_CONTEXT) {
+                // try without robustness
+                const EGLint attribs[] = {
+                    EGL_CONTEXT_MAJOR_VERSION_KHR, 3,
+                    EGL_CONTEXT_MINOR_VERSION_KHR, 1,
+                    EGL_NONE
+                };
+                ctx = eglCreateContext(m_display, config(), EGL_NO_CONTEXT, attribs);
+            }
+        }
+
+        if (ctx == EGL_NO_CONTEXT && haveRobustness && haveCreateContext) {
+            const int attribs[] = {
+                EGL_CONTEXT_FLAGS_KHR, EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT_KHR,
+                EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY_KHR, EGL_LOSE_CONTEXT_ON_RESET_KHR,
+                EGL_NONE
+            };
+            ctx = eglCreateContext(m_display, config(), EGL_NO_CONTEXT, attribs);
+        }
+        if (ctx == EGL_NO_CONTEXT) {
+            // and last but not least: try without robustness
+            const EGLint attribs[] = {
+                EGL_NONE
+            };
+            ctx = eglCreateContext(m_display, config(), EGL_NO_CONTEXT, attribs);
+        }
+    }
+
+    if (ctx == EGL_NO_CONTEXT) {
+        qCCritical(KWIN_CORE) << "Create Context failed";
+        return false;
+    }
+    m_context = ctx;
+    return true;
+}
+
 AbstractEglTexture::AbstractEglTexture(SceneOpenGL::Texture *texture, AbstractEglBackend *backend)
     : SceneOpenGL::TexturePrivate()
     , q(texture)
     , m_backend(backend)
+    , m_image(EGL_NO_IMAGE_KHR)
 {
     m_target = GL_TEXTURE_2D;
 }
@@ -207,9 +280,11 @@ OpenGLBackend *AbstractEglTexture::backend()
 
 bool AbstractEglTexture::loadTexture(WindowPixmap *pixmap)
 {
-#if HAVE_WAYLAND
     const auto &buffer = pixmap->buffer();
     if (buffer.isNull()) {
+        if (updateFromFBO(pixmap->fbo())) {
+            return true;
+        }
         // try X11 loading
         return loadTexture(pixmap->pixmap(), pixmap->toplevel()->size());
     }
@@ -219,9 +294,6 @@ bool AbstractEglTexture::loadTexture(WindowPixmap *pixmap)
     } else {
         return loadEglTexture(buffer);
     }
-#else
-    return loadTexture(pixmap->pixmap(), pixmap->toplevel()->size());
-#endif
 }
 
 bool AbstractEglTexture::loadTexture(xcb_pixmap_t pix, const QSize &size)
@@ -256,9 +328,15 @@ bool AbstractEglTexture::loadTexture(xcb_pixmap_t pix, const QSize &size)
 
 void AbstractEglTexture::updateTexture(WindowPixmap *pixmap)
 {
-#if HAVE_WAYLAND
     const auto &buffer = pixmap->buffer();
     if (buffer.isNull()) {
+        const auto &fbo = pixmap->fbo();
+        if (!fbo.isNull()) {
+            if (m_texture != fbo->texture()) {
+                updateFromFBO(fbo);
+            }
+            return;
+        }
         return;
     }
     if (!buffer->shmBuffer()) {
@@ -303,10 +381,8 @@ void AbstractEglTexture::updateTexture(WindowPixmap *pixmap)
         }
     }
     q->unbind();
-#endif
 }
 
-#if HAVE_WAYLAND
 bool AbstractEglTexture::loadShmTexture(const QPointer< KWayland::Server::BufferInterface > &buffer)
 {
     const QImage &image = buffer->data();
@@ -407,7 +483,20 @@ EGLImageKHR AbstractEglTexture::attach(const QPointer< KWayland::Server::BufferI
     }
     return image;
 }
-#endif
+
+bool AbstractEglTexture::updateFromFBO(const QSharedPointer<QOpenGLFramebufferObject> &fbo)
+{
+    if (fbo.isNull()) {
+        return false;
+    }
+    m_texture = fbo->texture();
+    m_size = fbo->size();
+    q->setWrapMode(GL_CLAMP_TO_EDGE);
+    q->setFilter(GL_LINEAR);
+    q->setYInverted(false);
+    updateMatrix();
+    return true;
+}
 
 }
 

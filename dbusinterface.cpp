@@ -37,6 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 // Qt
+#include <QOpenGLContext>
 #include <QDBusServiceWatcher>
 
 namespace KWin
@@ -52,7 +53,7 @@ DBusInterface::DBusInterface(QObject *parent)
     dbus.registerObject(QStringLiteral("/KWin"), this);
     const QByteArray dBusSuffix = qgetenv("KWIN_DBUS_SERVICE_SUFFIX");
     if (!dBusSuffix.isNull()) {
-        m_serviceName = m_serviceName + QStringLiteral(".") + dBusSuffix;
+        m_serviceName = m_serviceName + QLatin1Char('.') + dBusSuffix;
     }
     if (!dbus.registerService(m_serviceName)) {
         QDBusServiceWatcher *dog = new QDBusServiceWatcher(m_serviceName, dbus, QDBusServiceWatcher::WatchForUnregistration, this);
@@ -200,11 +201,11 @@ QString CompositorDBusInterface::compositingType() const
     case XRenderCompositing:
         return QStringLiteral("xrender");
     case OpenGL2Compositing:
-#ifdef KWIN_HAVE_OPENGLES
-        return QStringLiteral("gles");
-#else
-        return QStringLiteral("gl2");
-#endif
+        if (QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGLES) {
+            return QStringLiteral("gles");
+        } else {
+            return QStringLiteral("gl2");
+        }
     case QPainterCompositing:
         return QStringLiteral("qpainter");
     case NoCompositing:
@@ -241,16 +242,17 @@ void CompositorDBusInterface::suspend()
 QStringList CompositorDBusInterface::supportedOpenGLPlatformInterfaces() const
 {
     QStringList interfaces;
-    bool supportsGlx = (kwinApp()->operationMode() == Application::OperationModeX11);
-#ifdef KWIN_HAVE_OPENGLES
-    supportsGlx = false;
+    bool supportsGlx = false;
+#if HAVE_EPOXY_GLX
+    supportsGlx = (kwinApp()->operationMode() == Application::OperationModeX11);
 #endif
+    if (QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGLES) {
+        supportsGlx = false;
+    }
     if (supportsGlx) {
         interfaces << QStringLiteral("glx");
     }
-#ifdef KWIN_HAVE_EGL
     interfaces << QStringLiteral("egl");
-#endif
     return interfaces;
 }
 

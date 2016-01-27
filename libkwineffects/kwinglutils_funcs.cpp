@@ -19,12 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 
 #include "kwinglutils.h"
+#include "kwinglplatform.h"
 
 #include <dlfcn.h>
+#if HAVE_EPOXY_GLX
+#include <epoxy/glx.h>
+#endif
 
 
 // Resolves given function, using getProcAddress
-#ifdef KWIN_HAVE_EGL
 #define GL_RESOLVE( function ) \
     if (platformInterface == GlxPlatformInterface) \
         function = (function ## _func)getProcAddress( #function ); \
@@ -38,13 +41,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     } else if (platformInterface == EglPlatformInterface) { \
         function = (function ## _func)eglGetProcAddress( #symbolName ); \
     }
-#else
-// same without the switch to egl
-#define GL_RESOLVE( function ) function = (function ## _func)getProcAddress( #function );
-
-#define GL_RESOLVE_WITH_EXT( function, symbolName ) \
-    function = (function ## _func)getProcAddress( #symbolName );
-#endif
 
 namespace KWin
 {
@@ -64,10 +60,12 @@ glGetnUniformfv_func          glGetnUniformfv;
 
 typedef void (*glXFuncPtr)();
 
-#ifndef KWIN_HAVE_OPENGLES
 static glXFuncPtr getProcAddress(const char* name)
 {
-    glXFuncPtr ret = glXGetProcAddress((const GLubyte*) name);
+    glXFuncPtr ret = nullptr;
+#if HAVE_EPOXY_GLX
+    ret = glXGetProcAddress((const GLubyte*) name);
+#endif
     if (ret == nullptr)
         ret = (glXFuncPtr) dlsym(RTLD_DEFAULT, name);
     return ret;
@@ -80,29 +78,41 @@ void glxResolveFunctions()
     else
         glXSwapIntervalMESA = nullptr;
 }
-#endif
 
-#ifdef KWIN_HAVE_EGL
 void eglResolveFunctions()
 {
 }
-#endif
 
 void glResolveFunctions(OpenGLPlatformInterface platformInterface)
 {
-#ifndef KWIN_HAVE_OPENGLES
-    if (hasGLExtension(QByteArrayLiteral("GL_ARB_robustness"))) {
+    const bool haveArbRobustness = hasGLExtension(QByteArrayLiteral("GL_ARB_robustness"));
+    const bool haveExtRobustness = hasGLExtension(QByteArrayLiteral("GL_EXT_robustness"));
+    bool robustContext = false;
+    if (GLPlatform::instance()->isGLES()) {
+        if (haveExtRobustness) {
+            GLint value = 0;
+            glGetIntegerv(GL_CONTEXT_ROBUST_ACCESS_EXT, &value);
+            robustContext = (value != 0);
+        }
+    } else {
+        if (haveArbRobustness) {
+            if (hasGLVersion(3, 0)) {
+                GLint value = 0;
+                glGetIntegerv(GL_CONTEXT_FLAGS, &value);
+                if (value & GL_CONTEXT_FLAG_ROBUST_ACCESS_BIT_ARB) {
+                    robustContext = true;
+                }
+            } else {
+                robustContext = true;
+            }
+        }
+    }
+    if (robustContext && haveArbRobustness) {
         // See http://www.opengl.org/registry/specs/ARB/robustness.txt
         GL_RESOLVE_WITH_EXT(glGetGraphicsResetStatus, glGetGraphicsResetStatusARB);
         GL_RESOLVE_WITH_EXT(glReadnPixels,            glReadnPixelsARB);
         GL_RESOLVE_WITH_EXT(glGetnUniformfv,          glGetnUniformfvARB);
-    } else {
-        glGetGraphicsResetStatus = KWin::GetGraphicsResetStatus;
-        glReadnPixels            = KWin::ReadnPixels;
-        glGetnUniformfv          = KWin::GetnUniformfv;
-    }
-#else
-    if (hasGLExtension(QByteArrayLiteral("GL_EXT_robustness"))) {
+    } else if (robustContext && haveExtRobustness) {
         // See http://www.khronos.org/registry/gles/extensions/EXT/EXT_robustness.txt
         glGetGraphicsResetStatus = (glGetGraphicsResetStatus_func) eglGetProcAddress("glGetGraphicsResetStatusEXT");
         glReadnPixels            = (glReadnPixels_func)            eglGetProcAddress("glReadnPixelsEXT");
@@ -112,7 +122,6 @@ void glResolveFunctions(OpenGLPlatformInterface platformInterface)
         glReadnPixels            = KWin::ReadnPixels;
         glGetnUniformfv          = KWin::GetnUniformfv;
     }
-#endif // KWIN_HAVE_OPENGLES
 }
 
 static GLenum GetGraphicsResetStatus()

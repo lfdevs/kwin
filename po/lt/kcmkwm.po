@@ -3,14 +3,15 @@
 # Tomas Straupis <tomasstraupis@gmail.com>, 2011.
 # Remigijus Jarmalavičius <remigijus@jarmalavicius.lt>, 2011.
 # Liudas Ališauskas <liudas@akmc.lt>, 2013, 2014.
+# Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2014-03-17 10:58+0200\n"
-"Last-Translator: Liudas Ališauskas <liudas@aksioma.lt>\n"
-"Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
+"POT-Creation-Date: 2015-01-14 07:58+0000\n"
+"PO-Revision-Date: 2015-12-29 20:05+0200\n"
+"Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
+"Language-Team: lt <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -314,7 +315,7 @@ msgstr "Laikyti viršuje/apačioje"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:403 mouse.ui:146
 msgid "Move to Previous/Next Desktop"
-msgstr "Perkelti į ankstesnį/kitą darbastalį"
+msgstr "Perkelti į ankstesnį/kitą darbalaukį"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
@@ -468,12 +469,12 @@ msgid ""
 "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
 "</ul>"
 msgstr ""
-"Dėliojimo taisyklė nurodo, kur, kurioje darbastalio vietoje, pasirodys "
+"Dėliojimo taisyklė nurodo, kur, kurioje darbalaukio vietoje, pasirodys "
 "naujas langas. <ul><li><em>Išradingai</em> stengiasi, kad langai kuo mažiau "
 "užklotų vienas kitą;</li><li><em>Laiptuotai</em> sudėlios langus laiptais;</"
 "li> <li><em>Išdidintai</em> bandys išdidinti kiekvieną langą, kad šis užimtų "
 "visą ekraną. Ši taisyklė gali būti naudinga siekiant pakeisti atskirų langų "
-"pasirodymą naudojant nuo lango priklausančius nustatymus;</li> "
+"pasirodymą naudojant nuo lango priklausančias nuostatas;</li> "
 "<li><em>Atsitiktinai</em> naudoja atsitiktinę vietą;</li> "
 "<li><em>Centruotai</em> išdėlios langus centruotai;</li> <li><em>Nulinio "
 "kampo</em> padės langą viršutiniame kairiajame kampe.</li></ul>"
@@ -820,7 +821,7 @@ msgid ""
 msgstr ""
 "Įgalinus šią parinktį, aktyvus langas bus perkeltas į priekį spragtelėjus "
 "kur nors lange. Norėdami taip padaryti su neaktyviais langais turite "
-"pakeisti nustatymus kortelėje „Veiksmai“."
+"pakeisti nuostatas kortelėje „Veiksmai“."
 
 #. i18n: ectx: property (text), widget (QCheckBox, clickRaiseOn)
 #: focus.ui:497
@@ -1012,7 +1013,7 @@ msgstr "Užverti"
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.ui:90
 msgid "On All Desktops"
-msgstr "Visuose darbastaliuose"
+msgstr "Visuose darbalaukiuose"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mouse.ui:103

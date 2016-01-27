@@ -77,13 +77,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "overlaywindow.h"
 #include "screens.h"
 #include "shadow.h"
+#include "wayland_server.h"
 
 #include "thumbnailitem.h"
 
-#if HAVE_WAYLAND
 #include <KWayland/Server/buffer_interface.h>
 #include <KWayland/Server/surface_interface.h>
-#endif
 
 namespace KWin
 {
@@ -277,13 +276,13 @@ void Scene::paintSimpleScreen(int orig_mask, QRegion region)
         // Clip out the decoration for opaque windows; the decoration is drawn in the second pass
         opaqueFullscreen = false; // TODO: do we care about unmanged windows here (maybe input windows?)
         if (w->isOpaque()) {
-            Client *c = NULL;
-            if (topw->isClient()) {
-                c = static_cast<Client*>(topw);
+            AbstractClient *c = dynamic_cast<AbstractClient*>(topw);
+            if (c) {
                 opaqueFullscreen = c->isFullScreen();
             }
+            Client *cc = dynamic_cast<Client*>(c);
             // the window is fully opaque
-            if (c && c->decorationHasAlpha()) {
+            if (cc && cc->decorationHasAlpha()) {
                 // decoration uses alpha channel, so we may not exclude it in clipping
                 data.clip = w->clientShape().translated(w->x(), w->y());
             } else {
@@ -610,6 +609,9 @@ void Scene::finalPaintWindow(EffectWindowImpl* w, int mask, QRegion region, Wind
 // will be eventually called from drawWindow()
 void Scene::finalDrawWindow(EffectWindowImpl* w, int mask, QRegion region, WindowPaintData& data)
 {
+    if (waylandServer() && waylandServer()->isScreenLocked() && !w->window()->isLockScreen()) {
+        return;
+    }
     w->sceneWindow()->performPaint(mask, region, data);
 }
 
@@ -741,8 +743,7 @@ const QRegion &Scene::Window::shape() const
 
 QRegion Scene::Window::clientShape() const
 {
-    if (toplevel->isClient()) {
-        Client *c = static_cast< Client * > (toplevel);
+    if (AbstractClient *c = dynamic_cast< AbstractClient * > (toplevel)) {
         if (c->isShade())
             return QRegion();
     }
@@ -790,14 +791,16 @@ void Scene::Window::resetPaintingEnabled()
     }
     if (!toplevel->isOnCurrentActivity())
         disable_painting |= PAINT_DISABLED_BY_ACTIVITY;
-    if (toplevel->isClient()) {
-        Client *c = static_cast<Client*>(toplevel);
+    if (AbstractClient *c = dynamic_cast<AbstractClient*>(toplevel)) {
         if (c->isMinimized())
             disable_painting |= PAINT_DISABLED_BY_MINIMIZE;
         if (c->tabGroup() && c != c->tabGroup()->current())
             disable_painting |= PAINT_DISABLED_BY_TAB_GROUP;
-        else if (c->isHiddenInternal())
-            disable_painting |= PAINT_DISABLED;
+        if (Client *cc = dynamic_cast<Client*>(c)) {
+            if (cc->isHiddenInternal()) {
+                disable_painting |= PAINT_DISABLED;
+            }
+        }
     }
 }
 
@@ -937,13 +940,11 @@ WindowPixmap::~WindowPixmap()
     if (isValid() && !kwinApp()->shouldUseWaylandForCompositing()) {
         xcb_free_pixmap(connection(), m_pixmap);
     }
-#if HAVE_WAYLAND
     if (m_buffer) {
         using namespace KWayland::Server;
         QObject::disconnect(m_buffer.data(), &BufferInterface::aboutToBeDestroyed, m_buffer.data(), &BufferInterface::unref);
         m_buffer->unref();
     }
-#endif
 }
 
 void WindowPixmap::create()
@@ -951,16 +952,14 @@ void WindowPixmap::create()
     if (isValid() || toplevel()->isDeleted()) {
         return;
     }
-#if HAVE_WAYLAND
     if (kwinApp()->shouldUseWaylandForCompositing()) {
         // use Buffer
         updateBuffer();
-        if (m_buffer) {
+        if (m_buffer || !m_fbo.isNull()) {
             m_window->unreferencePreviousPixmap();
         }
         return;
     }
-#endif
     XServerGrabber grabber;
     xcb_pixmap_t pix = xcb_generate_id(connection());
     xcb_void_cookie_t namePixmapCookie = xcb_composite_name_window_pixmap_checked(connection(), toplevel()->frameId(), pix);
@@ -992,15 +991,12 @@ void WindowPixmap::create()
 
 bool WindowPixmap::isValid() const
 {
-#if HAVE_WAYLAND
     if (kwinApp()->shouldUseWaylandForCompositing()) {
-        return !m_buffer.isNull();
+        return !m_buffer.isNull() || !m_fbo.isNull();
     }
-#endif
     return m_pixmap != XCB_PIXMAP_NONE;
 }
 
-#if HAVE_WAYLAND
 void WindowPixmap::updateBuffer()
 {
     if (auto s = toplevel()->surface()) {
@@ -1013,10 +1009,15 @@ void WindowPixmap::updateBuffer()
             m_buffer = b;
             m_buffer->ref();
             QObject::connect(m_buffer.data(), &BufferInterface::aboutToBeDestroyed, m_buffer.data(), &BufferInterface::unref);
+        } else {
+            // might be an internal window
+            const auto &fbo = toplevel()->internalFramebufferObject();
+            if (!fbo.isNull()) {
+                m_fbo = fbo;
+            }
         }
     }
 }
-#endif
 
 //****************************************
 // Scene::EffectFrame

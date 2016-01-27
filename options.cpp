@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "settings.h"
 #include "xcbutils.h"
 #include <kwinglplatform.h>
+#include <QOpenGLContext>
 
 #endif //KCMRULES
 
@@ -764,15 +765,17 @@ void Options::setGlPlatformInterface(OpenGLPlatformInterface interface)
         qCDebug(KWIN_CORE) << "Forcing EGL native interface for Wayland mode";
         interface = EglPlatformInterface;
     }
-#ifdef KWIN_HAVE_OPENGLES
-    qCDebug(KWIN_CORE) << "Forcing EGL native interface as compiled against OpenGL ES";
+#if !HAVE_EPOXY_GLX
+    qCDebug(KWIN_CORE) << "Forcing EGL native interface as compiled without GLX support";
     interface = EglPlatformInterface;
-#else
-#ifndef KWIN_HAVE_EGL
-    qCDebug(KWIN_CORE) << "Forcing GLX native interface as compiled without EGL support";
-    interface = GlxPlatformInterface;
 #endif
-#endif
+    if (QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGLES) {
+        qCDebug(KWIN_CORE) << "Forcing EGL native interface as Qt uses OpenGL ES";
+        interface = EglPlatformInterface;
+    } else if (qstrcmp(qgetenv("KWIN_COMPOSE"), "O2ES") == 0) {
+        qCDebug(KWIN_CORE) << "Forcing EGL native interface as OpenGL ES requested through KWIN_COMPOSE environment variable.";
+        interface = EglPlatformInterface;
+    }
 
     if (m_glPlatformInterface == interface) {
         return;
@@ -843,6 +846,22 @@ void Options::loadConfig()
     setMaxFpsInterval(1 * 1000 * 1000 * 1000 / config.readEntry("MaxFPS", Options::defaultMaxFps()));
     setRefreshRate(config.readEntry("RefreshRate", Options::defaultRefreshRate()));
     setVBlankTime(config.readEntry("VBlankTime", Options::defaultVBlankTime()) * 1000); // config in micro, value in nano resolution
+
+    // Modifier Only Shortcuts
+    config = KConfigGroup(m_settings->config(), "ModifierOnlyShortcuts");
+    m_modifierOnlyShortcuts.clear();
+    if (config.hasKey("Shift")) {
+        m_modifierOnlyShortcuts.insert(Qt::ShiftModifier, config.readEntry("Shift", QStringList()));
+    }
+    if (config.hasKey("Control")) {
+        m_modifierOnlyShortcuts.insert(Qt::ControlModifier, config.readEntry("Control", QStringList()));
+    }
+    if (config.hasKey("Alt")) {
+        m_modifierOnlyShortcuts.insert(Qt::AltModifier, config.readEntry("Alt", QStringList()));
+    }
+    if (config.hasKey("Meta")) {
+        m_modifierOnlyShortcuts.insert(Qt::MetaModifier, config.readEntry("Meta", QStringList()));
+    }
 }
 
 void Options::syncFromKcfgc()
@@ -926,6 +945,10 @@ bool Options::loadCompositingConfig (bool force)
             qCDebug(KWIN_CORE) << "Unknown KWIN_COMPOSE mode set, ignoring";
             break;
         }
+    }
+    if (kwinApp()->shouldUseWaylandForCompositing() && (compositingMode == XRenderCompositing || compositingMode == NoCompositing)) {
+        qCDebug(KWIN_CORE) << "Compositing forced to QPainter mode by invalid compositor selection";
+        compositingMode = QPainterCompositing;
     }
     setCompositingMode(compositingMode);
 
@@ -1127,6 +1150,11 @@ Options::WindowOperation Options::operationMaxButtonClick(Qt::MouseButtons butto
     return button == Qt::RightButton ? opMaxButtonRightClick :
            button == Qt::MidButton ?   opMaxButtonMiddleClick :
            opMaxButtonLeftClick;
+}
+
+QStringList Options::modifierOnlyDBusShortcut(Qt::KeyboardModifier mod) const
+{
+    return m_modifierOnlyShortcuts.value(mod);
 }
 
 } // namespace

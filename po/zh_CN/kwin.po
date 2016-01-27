@@ -13,10 +13,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2015-07-06 13:22UTC-0800\n"
-"Last-Translator: Weng Xuetian <wengxt@gmail.cm>\n"
-"Language-Team: Chinese <kde-china@kde.org>\n"
+"POT-Creation-Date: 2015-12-15 11:59+0000\n"
+"PO-Revision-Date: 2015-11-25 20:40-0800\n"
+"Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
+"Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,14 +32,14 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kde-china@kde.org"
 
-#: composite.cpp:556
+#: composite.cpp:555
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
 "resume using the '%1' shortcut."
 msgstr "桌面特效被另一个程序中断。<br/>您可以使用“%1”快捷键恢复。"
 
-#: compositingprefs.cpp:99
+#: compositingprefs.cpp:102
 msgid ""
 "<b>OpenGL compositing (the default) has crashed KWin in the past.</"
 "b><br>This was most likely due to a driver bug.<p>If you think that you have "
@@ -51,15 +51,15 @@ msgstr ""
 "驱动升级到了稳定版本，<br>可以重置此保护但是<b>记得这可能导致立即崩溃！</b></"
 "p><p>此外，可以考虑使用 XRender 后端。</p>"
 
-#: compositingprefs.cpp:106
+#: compositingprefs.cpp:109
 msgid "Required X extensions (XComposite and XDamage) are not available."
 msgstr "需要的 X 扩展功能(XComposite and XDamage)不可用。"
 
-#: compositingprefs.cpp:110
+#: compositingprefs.cpp:113
 msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
 msgstr "GLX/OpenGL 不可用，编译时只纳入了 OpenGL 支持。"
 
-#: compositingprefs.cpp:114
+#: compositingprefs.cpp:117
 msgid "GLX/OpenGL and XRender/XFixes are not available."
 msgstr "GLX/OpenGL 和 XRender/XFixes 不可用。"
 
@@ -469,70 +469,86 @@ msgstr "禁用配置选项"
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "情况显示 KWin 近期连续崩溃了多次"
 
-#: main_wayland.cpp:173
+#: main_wayland.cpp:188
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr "kwin_wayland：X11 窗口管理器正在 X11 显示上运行。\n"
 
-#: main_wayland.cpp:473
+#: main_wayland.cpp:445
 msgid "Start a rootless Xwayland server."
 msgstr "启动rootless Xwayland 服务器。"
 
-#: main_wayland.cpp:475
+#: main_wayland.cpp:447
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr "要监听的 Wayland 套接字名称。如果未设置则使用“wayland-0”。"
 
-#: main_wayland.cpp:478
+#: main_wayland.cpp:450
 msgid "Use a nested compositor in windowed mode."
 msgstr "在窗口模式中使用嵌套的混成器。"
 
-#: main_wayland.cpp:480
+#: main_wayland.cpp:452
 msgid "Render to framebuffer."
 msgstr "渲染到帧缓冲。"
 
-#: main_wayland.cpp:482
+#: main_wayland.cpp:454
 msgid "The framebuffer device to render to."
 msgstr "要渲染到帧缓冲设备。"
 
-#: main_wayland.cpp:486
+#: main_wayland.cpp:458
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "X11 平台上窗口模式要使用的 X11 显示。"
 
-#: main_wayland.cpp:489
+#: main_wayland.cpp:461
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr "Wayland 平台上窗口模式要使用的 Wayland 显示。"
 
-#: main_wayland.cpp:492
+#: main_wayland.cpp:463
+msgid "Render to a virtual framebuffer."
+msgstr "渲染到虚拟帧缓冲。"
+
+#: main_wayland.cpp:465
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "窗口模式的宽度。默认宽度为 1024。"
 
-#: main_wayland.cpp:496
+#: main_wayland.cpp:469
 msgid "The height for windowed mode. Default height is 768."
 msgstr "窗口模式的高度。默认高度为 768。"
 
-#: main_wayland.cpp:512
+#: main_wayland.cpp:498
 msgid "Use libhybris hwcomposer"
 msgstr "使用 libhybris hwcomposer"
 
-#: main_wayland.cpp:517
+#: main_wayland.cpp:505
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
 msgstr "启用 libinput 的输入事件处理支持。注意：不要在嵌套会话中使用。"
 
-#: main_wayland.cpp:521
+#: main_wayland.cpp:509
 msgid "Render through drm node."
 msgstr "通过 drm 结点渲染。"
 
-#: main_wayland.cpp:526
+#: main_wayland.cpp:516
 msgid "Input method that KWin starts."
 msgstr "KWin 启动的输入法。"
 
-#: main_wayland.cpp:531
+#: main_wayland.cpp:521
+msgid "List all available backends and quit."
+msgstr "列出所有可用后端并退出"
+
+#: main_wayland.cpp:525
+msgid "Starts the session in locked mode."
+msgstr "在锁定模式下启动会话。"
+
+#: main_wayland.cpp:529
+msgid "Exit after the session application, which is started by KWin, closed."
+msgstr "在由 KWin 启动会话应用程序关闭之后退出。"
+
+#: main_wayland.cpp:534
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr "Wayland 和 Xwayland 服务器启动后要启动的应用程序"
 
-#: main_x11.cpp:156
+#: main_x11.cpp:158
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
@@ -540,19 +556,19 @@ msgstr ""
 "kwin：无法声明窗口管理器选择，是否正在运行另外一种窗口管理器？(试着使用 --"
 "replace)\n"
 
-#: main_x11.cpp:173
+#: main_x11.cpp:175
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr "kwin：其他窗口管理器正在运行 (试着使用 --replace)\n"
 
-#: main_x11.cpp:276
+#: main_x11.cpp:278
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "替换已经运行的 ICCCM2.0 兼容的窗口管理器"
 
-#: scene_opengl.cpp:674
+#: scene_opengl.cpp:677
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr "由于图形重置，桌面效果已被重启。"
 
-#: scene_opengl.cpp:864
+#: scene_opengl.cpp:867
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -565,7 +581,7 @@ msgstr ""
 "果。<br></br>您可以尝试选择 XRender 后端，但是在此分辨率下同样会比较慢。<br>"
 "或者，降低所有屏幕整合的分辨率到 %1x%2"
 
-#: scene_opengl.cpp:871
+#: scene_opengl.cpp:874
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
 "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
@@ -576,7 +592,7 @@ msgstr ""
 "成。<br>XRender 不会受到此项限制，但是其性能将会被限制 OpenGL viewport 的硬件"
 "限制所影响。"
 
-#: scene_opengl.cpp:896
+#: scene_opengl.cpp:899
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -588,7 +604,7 @@ msgstr ""
 "但是可能会比较慢。<br>同时大型窗口将会完全变为黑色。<br><br>请考虑停用混成，"
 "切换为 XRender 后端或降低分辨率到 %1x%1。"
 
-#: scene_opengl.cpp:902
+#: scene_opengl.cpp:905
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
 "GPU, thus windows of that size cannot be assigned to textures and will be "
@@ -701,7 +717,7 @@ msgstr ""
 "窗口切换器安装损坏，资源无法找到。\n"
 "请与您的发行版联系。"
 
-#: useractions.cpp:180
+#: useractions.cpp:200
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -713,7 +729,7 @@ msgstr ""
 "没有边框的话，您就无法使用鼠标再次启用边框：请使用快捷键 %1 激活窗口的操作菜"
 "单来完成这一任务。"
 
-#: useractions.cpp:188
+#: useractions.cpp:208
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -725,126 +741,126 @@ msgstr ""
 "如果应用程序自身没有提供退出全屏模式的选项，您就无法使用鼠标退出全屏模式：请"
 "使用快捷键 %1 激活窗口的操作菜单来完成这一任务。"
 
-#: useractions.cpp:251
+#: useractions.cpp:271
 msgid "&Move"
 msgstr "移动(&M)"
 
-#: useractions.cpp:256
-msgid "Re&size"
-msgstr "大小(&S)"
+#: useractions.cpp:276
+msgid "&Resize"
+msgstr "大小(&R)"
 
-#: useractions.cpp:260
+#: useractions.cpp:280
 msgid "Keep &Above Others"
 msgstr "常居顶端(&A)"
 
-#: useractions.cpp:266
+#: useractions.cpp:286
 msgid "Keep &Below Others"
 msgstr "常居底端(&B)"
 
-#: useractions.cpp:272
+#: useractions.cpp:292
 msgid "&Fullscreen"
 msgstr "全屏(&F)"
 
-#: useractions.cpp:278
-msgid "Sh&ade"
-msgstr "卷起(&A)"
+#: useractions.cpp:298
+msgid "&Shade"
+msgstr "卷起(&S)"
 
-#: useractions.cpp:283
+#: useractions.cpp:303
 msgid "&No Border"
 msgstr "无边框(&N)"
 
-#: useractions.cpp:290
-msgid "Window &Shortcut..."
-msgstr "窗口快捷键(&S)..."
+#: useractions.cpp:310
+msgid "Window Short&cut..."
+msgstr "窗口快捷键(&C)..."
 
-#: useractions.cpp:295
-msgid "&Special Window Settings..."
-msgstr "特殊窗口设置(&S)..."
+#: useractions.cpp:315
+msgid "Special &Window Settings..."
+msgstr "特殊窗口设置(&W)..."
 
-#: useractions.cpp:299
+#: useractions.cpp:319
 msgid "S&pecial Application Settings..."
 msgstr "特殊应用程序设置(&P)..."
 
-#: useractions.cpp:306
+#: useractions.cpp:326
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
-msgid "Window &Manager Settings..."
-msgstr "窗口管理器设置(&M)..."
+msgid "Window Manager S&ettings..."
+msgstr "窗口管理器设置(&E)..."
 
-#: useractions.cpp:330
+#: useractions.cpp:350
 msgid "Mi&nimize"
 msgstr "最小化(&N)"
 
-#: useractions.cpp:334
+#: useractions.cpp:354
 msgid "Ma&ximize"
 msgstr "最大化(&X)"
 
-#: useractions.cpp:343
+#: useractions.cpp:363
 msgid "&Untab"
 msgstr "解除标签(&U)"
 
-#: useractions.cpp:347
+#: useractions.cpp:367
 msgid "Close Entire &Group"
 msgstr "关闭整个组(&G)"
 
-#: useractions.cpp:358
+#: useractions.cpp:378
 msgid "&More Actions"
 msgstr "更多动作(&M)"
 
-#: useractions.cpp:362
+#: useractions.cpp:382
 msgid "&Close"
 msgstr "关闭(&C)"
 
-#: useractions.cpp:436
+#: useractions.cpp:456
 msgid "&Extensions"
 msgstr "扩展(&E)"
 
-#: useractions.cpp:494
+#: useractions.cpp:511
 msgctxt "Switch to tab -> Previous"
 msgid "Previous"
 msgstr "上一个"
 
-#: useractions.cpp:495
+#: useractions.cpp:512
 msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr "下一个"
 
-#: useractions.cpp:537
+#: useractions.cpp:554
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr "无可用项"
 
-#: useractions.cpp:546
+#: useractions.cpp:563
 msgid "Switch to Tab"
 msgstr "切换到标签"
 
-#: useractions.cpp:557
+#: useractions.cpp:574
 msgid "&Attach as tab to"
 msgstr "作为标签附加到(&A)"
 
-#: useractions.cpp:580
+#: useractions.cpp:597
 msgid "Move To &Desktop"
 msgstr "移动到桌面(&D)"
 
-#: useractions.cpp:596
+#: useractions.cpp:613
 msgid "Move To &Screen"
 msgstr "移动到屏幕(&S)"
 
-#: useractions.cpp:611
+#: useractions.cpp:628
 msgid "Ac&tivities"
 msgstr "活动(&T)"
 
-#: useractions.cpp:623
+#: useractions.cpp:640
 msgid "&All Desktops"
 msgstr "全部桌面(&A)"
 
-#: useractions.cpp:649
+#: useractions.cpp:666
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "新建桌面(&N)"
 
-#: useractions.cpp:669
+#: useractions.cpp:686
 #, kde-format
 msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
@@ -852,28 +868,28 @@ msgctxt ""
 msgid "Screen &%1 (%2)"
 msgstr "屏幕 &%1 (%2)"
 
-#: useractions.cpp:690
+#: useractions.cpp:707
 msgid "&All Activities"
 msgstr "全部活动(&A)"
 
-#: useractions.cpp:905
+#: useractions.cpp:922
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "<b>%1</b> 已被使用"
 
-#: useractions.cpp:907
+#: useractions.cpp:924
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "<b>%1</b> 已由 %2 在 %3 中使用"
 
-#: useractions.cpp:1029
+#: useractions.cpp:1046
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "活动窗口(%1)"
 
-#: useractions.cpp:1299
+#: useractions.cpp:1267
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
 "as active one.\n"
@@ -916,7 +932,7 @@ msgstr "切换到下面的桌面"
 msgid "Switch to Desktop %1"
 msgstr "切换到桌面 %1"
 
-#: workspace.cpp:1305
+#: workspace.cpp:1306
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

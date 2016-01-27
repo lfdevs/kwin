@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2015-04-06 19:53+0100\n"
+"POT-Creation-Date: 2015-01-22 08:06+0000\n"
+"PO-Revision-Date: 2015-10-20 15:05+0100\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
 "Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
 "Language: ast\n"
@@ -20,15 +20,15 @@ msgstr ""
 #: layoutpreview.cpp:165
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
-msgstr ""
+msgstr "Escritoriu 1"
 
 #: main.cpp:73
 msgid "Main"
-msgstr ""
+msgstr "Principal"
 
 #: main.cpp:74
 msgid "Alternative"
-msgstr ""
+msgstr "Alternativu"
 
 #: main.cpp:77
 msgid ""
@@ -37,7 +37,6 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
-#, fuzzy
 msgid "Content"
 msgstr "Conteníu"
 
@@ -49,7 +48,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, switchingModeCombo)
 #: main.ui:55
 msgid "Recently used"
-msgstr ""
+msgstr "Usao apocayá"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, switchingModeCombo)
 #: main.ui:60
@@ -59,82 +58,82 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, oneAppWindow)
 #: main.ui:68
 msgid "Only one window per application"
-msgstr ""
+msgstr "Namái una ventana per aplicación"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: main.ui:78
 msgid "Sort order:"
-msgstr ""
+msgstr "Mou d'orenación:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:104
 msgid "Filter windows by"
-msgstr ""
+msgstr "Peñerar ventanes per"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterDesktops)
 #: main.ui:113
 msgid "Virtual desktops"
-msgstr ""
+msgstr "Escritorios virtuales"
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentDesktop)
 #: main.ui:157
 msgid "Current desktop"
-msgstr ""
+msgstr "Escritoriu actual"
 
 #. i18n: ectx: property (text), widget (QRadioButton, otherDesktops)
 #: main.ui:164
 msgid "All other desktops"
-msgstr ""
+msgstr "Tolos otros escritorios"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterActivities)
 #: main.ui:174
 msgid "Activities"
-msgstr ""
+msgstr "Actividaes"
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentActivity)
 #: main.ui:218
 msgid "Current activity"
-msgstr ""
+msgstr "Actividá actual"
 
 #. i18n: ectx: property (text), widget (QRadioButton, otherActivities)
 #: main.ui:225
 msgid "All other activities"
-msgstr ""
+msgstr "Toles otres actividaes"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterScreens)
 #: main.ui:235
 msgid "Screens"
-msgstr ""
+msgstr "Pantalles"
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentScreen)
 #: main.ui:279
 msgid "Current screen"
-msgstr ""
+msgstr "Pantalla actual"
 
 #. i18n: ectx: property (text), widget (QRadioButton, otherScreens)
 #: main.ui:286
 msgid "All other screens"
-msgstr ""
+msgstr "Toles otres pantalles"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterMinimization)
 #: main.ui:296
 msgid "Minimization"
-msgstr ""
+msgstr "Minimización"
 
 #. i18n: ectx: property (text), widget (QRadioButton, visibleWindows)
 #: main.ui:340
 msgid "Visible windows"
-msgstr ""
+msgstr "Ventanes visibles"
 
 #. i18n: ectx: property (text), widget (QRadioButton, hiddenWindows)
 #: main.ui:347
 msgid "Hidden windows"
-msgstr ""
+msgstr "Ventanes anubríes"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: main.ui:386
 msgid "Shortcuts"
-msgstr ""
+msgstr "Atayos"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -145,7 +144,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:418
 msgid "All windows"
-msgstr ""
+msgstr "Toles ventanes"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -156,17 +155,18 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:470
 msgid "Current application"
-msgstr ""
+msgstr "Aplicación actual"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:489
 msgid "Visualization"
-msgstr ""
+msgstr "Visualización"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, effectCombo)
 #: main.ui:519
 msgid "The effect to replace the list window when desktop effects are active."
 msgstr ""
+"L'efeutu pa trocar el llistáu de ventanes cuando tán activaos los efeutos."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, highlightWindowCheck)
 #: main.ui:549

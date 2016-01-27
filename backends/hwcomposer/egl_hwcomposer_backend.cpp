@@ -35,12 +35,13 @@ EglHwcomposerBackend::EglHwcomposerBackend(HwcomposerBackend *backend)
     init();
     // EGL is always direct rendering
     setIsDirectRendering(true);
+    setSyncsToVBlank(true);
+    setBlocksForRetrace(true);
 }
 
 EglHwcomposerBackend::~EglHwcomposerBackend()
 {
     cleanup();
-    delete m_nativeSurface;
 }
 
 bool EglHwcomposerBackend::initializeEgl()
@@ -101,19 +102,9 @@ bool EglHwcomposerBackend::initRenderingContext()
         return false;
     }
 
-    EGLContext context = EGL_NO_CONTEXT;
-    const EGLint context_attribs[] = {
-        EGL_CONTEXT_CLIENT_VERSION, 2,
-        EGL_NONE
-    };
-
-    context = eglCreateContext(eglDisplay(), config(), EGL_NO_CONTEXT, context_attribs);
-
-    if (context == EGL_NO_CONTEXT) {
-        qCCritical(KWIN_HWCOMPOSER) << "Create Context failed";
+    if (!createContext()) {
         return false;
     }
-    setContext(context);
 
     m_nativeSurface = m_backend->createSurface();
     EGLSurface surface = eglCreateWindowSurface(eglDisplay(), config(), (EGLNativeWindowType)static_cast<ANativeWindow*>(m_nativeSurface), nullptr);
@@ -143,8 +134,12 @@ bool EglHwcomposerBackend::makeContextCurrent()
 
 void EglHwcomposerBackend::present()
 {
+    if (lastDamage().isEmpty()) {
+        return;
+    }
+
     eglSwapBuffers(eglDisplay(), surface());
-    m_nativeSurface->present();
+    setLastDamage(QRegion());
 }
 
 void EglHwcomposerBackend::screenGeometryChanged(const QSize &size)
@@ -154,6 +149,8 @@ void EglHwcomposerBackend::screenGeometryChanged(const QSize &size)
 
 QRegion EglHwcomposerBackend::prepareRenderingFrame()
 {
+    present();
+
     // TODO: buffer age?
     startRenderTimer();
     // triggers always a full repaint
@@ -162,9 +159,8 @@ QRegion EglHwcomposerBackend::prepareRenderingFrame()
 
 void EglHwcomposerBackend::endRenderingFrame(const QRegion &renderedRegion, const QRegion &damagedRegion)
 {
-    Q_UNUSED(renderedRegion)
     Q_UNUSED(damagedRegion)
-    present();
+    setLastDamage(renderedRegion);
 }
 
 SceneOpenGL::TexturePrivate *EglHwcomposerBackend::createBackendTexture(SceneOpenGL::Texture *texture)

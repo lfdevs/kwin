@@ -59,10 +59,6 @@ EglWaylandBackend::EglWaylandBackend(Wayland::WaylandBackend *b)
     init();
     // Egl is always direct rendering
     setIsDirectRendering(true);
-
-    qCWarning(KWIN_WAYLAND_BACKEND) << "Using Wayland rendering backend";
-    qCWarning(KWIN_WAYLAND_BACKEND) << "This is a highly experimental backend, do not use for productive usage!";
-    qCWarning(KWIN_WAYLAND_BACKEND) << "Please do not report any issues you might encounter when using this backend!";
 }
 
 EglWaylandBackend::~EglWaylandBackend()
@@ -113,42 +109,9 @@ bool EglWaylandBackend::initRenderingContext()
 {
     initBufferConfigs();
 
-    EGLContext context = EGL_NO_CONTEXT;
-#ifdef KWIN_HAVE_OPENGLES
-    const EGLint context_attribs[] = {
-        EGL_CONTEXT_CLIENT_VERSION, 2,
-        EGL_NONE
-    };
-
-    context = eglCreateContext(eglDisplay(), config(), EGL_NO_CONTEXT, context_attribs);
-#else
-    const EGLint context_attribs_31_core[] = {
-        EGL_CONTEXT_MAJOR_VERSION_KHR, 3,
-        EGL_CONTEXT_MINOR_VERSION_KHR, 1,
-        EGL_CONTEXT_FLAGS_KHR,         EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT_KHR,
-        EGL_NONE
-    };
-
-    const EGLint context_attribs_legacy[] = {
-        EGL_NONE
-    };
-
-    const char* eglExtensionsCString = eglQueryString(eglDisplay(), EGL_EXTENSIONS);
-    const QList<QByteArray> extensions = QByteArray::fromRawData(eglExtensionsCString, qstrlen(eglExtensionsCString)).split(' ');
-
-    // Try to create a 3.1 core context
-    if (options->glCoreProfile() && extensions.contains(QByteArrayLiteral("EGL_KHR_create_context")))
-        context = eglCreateContext(eglDisplay(), config(), EGL_NO_CONTEXT, context_attribs_31_core);
-
-    if (context == EGL_NO_CONTEXT)
-        context = eglCreateContext(eglDisplay(), config(), EGL_NO_CONTEXT, context_attribs_legacy);
-#endif
-
-    if (context == EGL_NO_CONTEXT) {
-        qCCritical(KWIN_WAYLAND_BACKEND) << "Create Context failed";
+    if (!createContext()) {
         return false;
     }
-    setContext(context);
 
     if (!m_wayland->surface()) {
         return false;
@@ -201,11 +164,7 @@ bool EglWaylandBackend::initBufferConfigs()
         EGL_GREEN_SIZE,           1,
         EGL_BLUE_SIZE,            1,
         EGL_ALPHA_SIZE,           0,
-#ifdef KWIN_HAVE_OPENGLES
-        EGL_RENDERABLE_TYPE,      EGL_OPENGL_ES2_BIT,
-#else
-        EGL_RENDERABLE_TYPE,      EGL_OPENGL_BIT,
-#endif
+        EGL_RENDERABLE_TYPE,      isOpenGLES() ? EGL_OPENGL_ES2_BIT : EGL_OPENGL_BIT,
         EGL_CONFIG_CAVEAT,        EGL_NONE,
         EGL_NONE,
     };

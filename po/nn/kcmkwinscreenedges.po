@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-10-21 08:16+0000\n"
 "PO-Revision-Date: 2015-09-20 18:34+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -33,56 +33,48 @@ msgid "No Action"
 msgstr "Inga handling"
 
 #: main.cpp:188
-msgid "Show Dashboard"
-msgstr "Vis kontrollpulten"
-
-#: main.cpp:189
 msgid "Show Desktop"
 msgstr "Vis skrivebordet"
 
-#: main.cpp:190
+#: main.cpp:189
 msgid "Lock Screen"
 msgstr "Lås skjermen"
 
-#: main.cpp:191
-msgid "Prevent Screen Locking"
-msgstr "Hindra skjermlåsing"
-
-#: main.cpp:200
+#: main.cpp:193
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 – alle skrivebord"
 
-#: main.cpp:201
+#: main.cpp:194
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 – gjeldande skrivebord"
 
-#: main.cpp:202
+#: main.cpp:195
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 – gjeldande program"
 
-#: main.cpp:205
+#: main.cpp:198
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 – kube"
 
-#: main.cpp:206
+#: main.cpp:199
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 – sylinder"
 
-#: main.cpp:207
+#: main.cpp:200
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 – kule"
 
-#: main.cpp:209
+#: main.cpp:202
 msgid "Toggle window switching"
 msgstr "Slå på/av vindaugsbyte"
 
-#: main.cpp:210
+#: main.cpp:203
 msgid "Toggle alternative window switching"
 msgstr "Slå på/av alternativ vindaugsbyte"
 

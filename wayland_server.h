@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QObject>
 
+class QThread;
 class QWindow;
 
 namespace KWayland
@@ -31,6 +32,7 @@ namespace KWayland
 namespace Client
 {
 class ConnectionThread;
+class Registry;
 class ShmPool;
 class Surface;
 }
@@ -60,9 +62,17 @@ class KWIN_EXPORT WaylandServer : public QObject
 {
     Q_OBJECT
 public:
+    enum class InitalizationFlag {
+        NoOptions = 0x0,
+        LockScreen = 0x1
+    };
+
+    Q_DECLARE_FLAGS(InitalizationFlags, InitalizationFlag)
+
     virtual ~WaylandServer();
-    void init(const QByteArray &socketName = QByteArray());
+    void init(const QByteArray &socketName = QByteArray(), InitalizationFlags flags = InitalizationFlag::NoOptions);
     void initOutputs();
+    void terminateClientConnections();
 
     KWayland::Server::Display *display() {
         return m_display;
@@ -88,6 +98,7 @@ public:
     void removeClient(ShellClient *c);
     ShellClient *findClient(quint32 id) const;
     ShellClient *findClient(KWayland::Server::SurfaceInterface *surface) const;
+    ShellClient *findClient(QWindow *w) const;
 
     AbstractBackend *backend() const {
         return m_backend;
@@ -99,25 +110,24 @@ public:
      * @returns file descriptor for Xwayland to connect to.
      **/
     int createXWaylandConnection();
+    void destroyXWaylandConnection();
 
     /**
      * @returns file descriptor to the input method server's socket.
      **/
     int createInputMethodConnection();
+    void destroyInputMethodConnection();
 
     /**
-     * @returns file descriptor for QtWayland
+     * @returns true if screen is locked.
      **/
-    int createQtConnection();
+    bool isScreenLocked() const;
+
     void createInternalConnection();
-    void createDummyQtWindow();
     void initWorkspace();
 
     KWayland::Server::ClientConnection *xWaylandConnection() const {
-        return m_xwaylandConnection;
-    }
-    KWayland::Server::ClientConnection *qtConnection() const {
-        return m_qtConnection;
+        return m_xwayland.client;
     }
     KWayland::Server::ClientConnection *inputMethodConnection() const {
         return m_inputMethodServerConnection;
@@ -125,22 +135,28 @@ public:
     KWayland::Server::ClientConnection *internalConnection() const {
         return m_internalConnection.server;
     }
+    KWayland::Server::ClientConnection *screenLockerClientConnection() const {
+        return m_screenLockerClientConnection;
+    }
     KWayland::Client::ShmPool *internalShmPool() {
         return m_internalConnection.shm;
     }
     KWayland::Client::ConnectionThread *internalClientConection() {
         return m_internalConnection.client;
     }
+    KWayland::Client::Registry *internalClientRegistry() {
+        return m_internalConnection.registry;
+    }
     void dispatch();
     quint32 createWindowId(KWayland::Server::SurfaceInterface *surface);
 
 Q_SIGNALS:
-    void shellClientAdded(ShellClient*);
-    void shellClientRemoved(ShellClient*);
+    void shellClientAdded(KWin::ShellClient*);
+    void shellClientRemoved(KWin::ShellClient*);
 
 private:
-    void fakeDummyQtWindowInput();
     quint16 createClientId(KWayland::Server::ClientConnection *c);
+    void destroyInternalConnection();
     KWayland::Server::Display *m_display = nullptr;
     KWayland::Server::CompositorInterface *m_compositor = nullptr;
     KWayland::Server::SeatInterface *m_seat = nullptr;
@@ -148,22 +164,25 @@ private:
     KWayland::Server::PlasmaShellInterface *m_plasmaShell = nullptr;
     KWayland::Server::PlasmaWindowManagementInterface *m_windowManagement = nullptr;
     KWayland::Server::QtSurfaceExtensionInterface *m_qtExtendedSurface = nullptr;
-    KWayland::Server::ClientConnection *m_xwaylandConnection = nullptr;
+    struct {
+        KWayland::Server::ClientConnection *client = nullptr;
+        QMetaObject::Connection destroyConnection;
+    } m_xwayland;
     KWayland::Server::ClientConnection *m_inputMethodServerConnection = nullptr;
-    KWayland::Server::ClientConnection *m_qtConnection = nullptr;
-    KWayland::Client::ConnectionThread *m_qtClientConnection = nullptr;
+    KWayland::Server::ClientConnection *m_screenLockerClientConnection = nullptr;
     struct {
         KWayland::Server::ClientConnection *server = nullptr;
         KWayland::Client::ConnectionThread *client = nullptr;
+        QThread *clientThread = nullptr;
+        KWayland::Client::Registry *registry = nullptr;
         KWayland::Client::ShmPool *shm = nullptr;
 
     } m_internalConnection;
     AbstractBackend *m_backend = nullptr;
     QList<ShellClient*> m_clients;
     QList<ShellClient*> m_internalClients;
-    QScopedPointer<QWindow> m_dummyWindow;
-    KWayland::Client::Surface *m_dummyWindowSurface = nullptr;
     QHash<KWayland::Server::ClientConnection*, quint16> m_clientIds;
+    InitalizationFlags m_initFlags;
     KWIN_SINGLETON(WaylandServer)
 };
 

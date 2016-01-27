@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2015-04-06 19:43+0100\n"
+"POT-Creation-Date: 2014-07-04 08:25+0000\n"
+"PO-Revision-Date: 2015-11-16 00:29+0100\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
 "Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
 "Language: ast\n"
@@ -17,12 +17,10 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 2.0\n"
 
-#, fuzzy
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Softastur"
 
-#, fuzzy
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "alministradores@softastur.org"
@@ -30,17 +28,17 @@ msgstr "alministradores@softastur.org"
 #: desktopnameswidget.cpp:67
 #, kde-format
 msgid "Desktop %1:"
-msgstr ""
+msgstr "Escritoriu %1"
 
 #: desktopnameswidget.cpp:69 desktopnameswidget.cpp:70
 #, kde-format
 msgid "Here you can enter the name for desktop %1"
-msgstr ""
+msgstr "Equí pues introducir el nome pal escritoriu %1"
 
 #: desktopnameswidget.cpp:108 main.cpp:226
 #, kde-format
 msgid "Desktop %1"
-msgstr ""
+msgstr "Escritoriu %1"
 
 #: main.cpp:87
 msgid ""
@@ -99,7 +97,7 @@ msgstr ""
 
 #: main.cpp:154
 msgid "No Animation"
-msgstr ""
+msgstr "Ensín animaciones"
 
 #: main.cpp:493
 #, kde-format
@@ -123,12 +121,12 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, desktop)
 #: main.ui:33
 msgid "Desktops"
-msgstr ""
+msgstr "Escritorios"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:39
 msgid "Layout"
-msgstr ""
+msgstr "Distribución"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, numberLabel)
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, numberSpinBox)
@@ -136,6 +134,7 @@ msgstr ""
 msgid ""
 "Here you can set how many virtual desktops you want on your KDE desktop."
 msgstr ""
+"Equí pues afitar cuantos escritorios virtuales quies nel to escritoriu KDE."
 
 #. i18n: ectx: property (text), widget (QLabel, numberLabel)
 #: main.ui:54
@@ -145,12 +144,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:83
 msgid "N&umber of rows:"
-msgstr ""
+msgstr "&Númberu de fileres:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
 #: main.ui:103
 msgid "Desktop Names"
-msgstr ""
+msgstr "Nomes d'escritoriu"
 
 #. i18n: ectx: attribute (title), widget (QWidget, switching)
 #: main.ui:136
@@ -173,12 +172,12 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:152
 msgid "Desktop Effect Animation"
-msgstr ""
+msgstr "Animación d'efeutos d'escritoriu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:164
 msgid "Animation:"
-msgstr ""
+msgstr "Animación:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, popupInfoCheckBox)
 #: main.ui:204
@@ -188,7 +187,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, hideLabel)
 #: main.ui:222
 msgid "Duration:"
-msgstr ""
+msgstr "Duración:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, popupHideSpinBox)
 #: main.ui:232
@@ -210,7 +209,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, shortcutsGroupBox)
 #: main.ui:258
 msgid "Shortcuts"
-msgstr ""
+msgstr "Atayos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, allShortcutsCheckBox)
 #: main.ui:277

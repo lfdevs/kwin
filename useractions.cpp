@@ -144,9 +144,14 @@ void UserActionsMenu::show(const QRect &pos, const QWeakPointer<AbstractClient> 
     Workspace *ws = Workspace::self();
     int x = pos.left();
     int y = pos.bottom();
+    const bool needsPopup = kwinApp()->shouldUseWaylandForCompositing();
     if (y == pos.top()) {
         m_client.data()->blockActivityUpdates(true);
-        m_menu->exec(QPoint(x, y));
+        if (needsPopup) {
+            m_menu->popup(QPoint(x, y));
+        } else {
+            m_menu->exec(QPoint(x, y));
+        }
         if (!m_client.isNull())
             m_client.data()->blockActivityUpdates(false);
     }
@@ -155,13 +160,28 @@ void UserActionsMenu::show(const QRect &pos, const QWeakPointer<AbstractClient> 
         QRect area = ws->clientArea(ScreenArea, QPoint(x, y), VirtualDesktopManager::self()->current());
         menuAboutToShow(); // needed for sizeHint() to be correct :-/
         int popupHeight = m_menu->sizeHint().height();
-        if (y + popupHeight < area.height())
-            m_menu->exec(QPoint(x, y));
-        else
-            m_menu->exec(QPoint(x, pos.top() - popupHeight));
+        if (y + popupHeight < area.height()) {
+            if (needsPopup) {
+                m_menu->popup(QPoint(x, y));
+            } else {
+                m_menu->exec(QPoint(x, y));
+            }
+        } else {
+            if (needsPopup) {
+                m_menu->popup(QPoint(x, pos.top() - popupHeight));
+            } else {
+                m_menu->exec(QPoint(x, pos.top() - popupHeight));
+            }
+        }
         if (!m_client.isNull())
             m_client.data()->blockActivityUpdates(true);
     }
+}
+
+void UserActionsMenu::grabInput()
+{
+    m_menu->windowHandle()->setMouseGrabEnabled(true);
+    m_menu->windowHandle()->setKeyboardGrabEnabled(true);
 }
 
 void UserActionsMenu::helperDialog(const QString& message, const QWeakPointer<AbstractClient> &c)
@@ -183,7 +203,7 @@ void UserActionsMenu::helperDialog(const QString& message, const QWeakPointer<Ab
                  "activated using the %1 keyboard shortcut.",
                  shortcut(QStringLiteral("Window Operations Menu")));
         type = QStringLiteral("altf3warning");
-    } else if (message == QStringLiteral("fullscreenaltf3")) {
+    } else if (message == QLatin1String("fullscreenaltf3")) {
         args << QStringLiteral("--msgbox") << i18n(
                  "You have selected to show a window in fullscreen mode.\n"
                  "If the application itself does not have an option to turn the fullscreen "
@@ -199,7 +219,7 @@ void UserActionsMenu::helperDialog(const QString& message, const QWeakPointer<Ab
         KConfigGroup cg(&cfg, "Notification Messages");  // Depends on KMessageBox
         if (!cg.readEntry(type, true))
             return;
-        args << QStringLiteral("--dontagain") << QStringLiteral("kwin_dialogsrc:") + type;
+        args << QStringLiteral("--dontagain") << QLatin1String("kwin_dialogsrc:") + type;
     }
     if (!c.isNull())
         args << QStringLiteral("--embed") << QString::number(c.data()->window());
@@ -253,7 +273,7 @@ void UserActionsMenu::init()
     setShortcut(m_moveOperation, QStringLiteral("Window Move"));
     m_moveOperation->setData(Options::UnrestrictedMoveOp);
 
-    m_resizeOperation = advancedMenu->addAction(i18n("Re&size"));
+    m_resizeOperation = advancedMenu->addAction(i18n("&Resize"));
     setShortcut(m_resizeOperation, QStringLiteral("Window Resize"));
     m_resizeOperation->setData(Options::ResizeOp);
 
@@ -275,7 +295,7 @@ void UserActionsMenu::init()
     m_fullScreenOperation->setCheckable(true);
     m_fullScreenOperation->setData(Options::FullScreenOp);
 
-    m_shadeOperation = advancedMenu->addAction(i18n("Sh&ade"));
+    m_shadeOperation = advancedMenu->addAction(i18n("&Shade"));
     setShortcut(m_shadeOperation, QStringLiteral("Window Shade"));
     m_shadeOperation->setCheckable(true);
     m_shadeOperation->setData(Options::ShadeOp);
@@ -287,12 +307,12 @@ void UserActionsMenu::init()
 
     advancedMenu->addSeparator();
 
-    m_shortcutOperation = advancedMenu->addAction(i18n("Window &Shortcut..."));
+    m_shortcutOperation = advancedMenu->addAction(i18n("Window Short&cut..."));
     m_shortcutOperation->setIcon(QIcon::fromTheme(QStringLiteral("configure-shortcuts")));
     setShortcut(m_shortcutOperation, QStringLiteral("Setup Window Shortcut"));
     m_shortcutOperation->setData(Options::SetupWindowShortcutOp);
 
-    QAction *action = advancedMenu->addAction(i18n("&Special Window Settings..."));
+    QAction *action = advancedMenu->addAction(i18n("Special &Window Settings..."));
     action->setIcon(QIcon::fromTheme(QStringLiteral("preferences-system-windows-actions")));
     action->setData(Options::WindowRulesOp);
 
@@ -303,14 +323,14 @@ void UserActionsMenu::init()
             !KAuthorized::authorizeControlModules(configModules(true)).isEmpty()) {
         advancedMenu->addSeparator();
         action = advancedMenu->addAction(i18nc("Entry in context menu of window decoration to open the configuration module of KWin",
-                                        "Window &Manager Settings..."));
+                                        "Window Manager S&ettings..."));
         action->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
         connect(action, &QAction::triggered, this,
             [this]() {
                 // opens the KWin configuration
                 QStringList args;
                 args << QStringLiteral("--icon") << QStringLiteral("preferences-system-windows") << configModules(false);
-                QProcess *p = new QProcess(this);
+                QProcess *p = new Process(this);
                 p->setArguments(args);
                 p->setProcessEnvironment(kwinApp()->processStartupEnvironment());
                 p->setProgram(QStringLiteral("kcmshell5"));
@@ -424,19 +444,16 @@ void UserActionsMenu::menuAboutToShow()
     delete m_scriptsMenu;
     m_scriptsMenu = NULL;
     // ask scripts whether they want to add entries for the given Client
-    m_scriptsMenu = new QMenu(m_menu);
-    m_scriptsMenu->setPalette(m_client.data()->palette());
     QList<QAction*> scriptActions = Scripting::self()->actionsForUserActionMenu(m_client.data(), m_scriptsMenu);
     if (!scriptActions.isEmpty()) {
+        m_scriptsMenu = new QMenu(m_menu);
+        m_scriptsMenu->setPalette(m_client.data()->palette());
         m_scriptsMenu->addActions(scriptActions);
 
         QAction *action = m_scriptsMenu->menuAction();
         // set it as the first item after desktop
         m_menu->insertAction(m_closeOperation, action);
         action->setText(i18n("&Extensions"));
-    } else {
-        delete m_scriptsMenu;
-        m_scriptsMenu = NULL;
     }
 
     showHideActivityMenu();
@@ -633,9 +650,9 @@ void UserActionsMenu::desktopPopupAboutToShow()
     for (uint i = 1; i <= vds->count(); ++i) {
         QString basic_name(QStringLiteral("%1  %2"));
         if (i < BASE) {
-            basic_name.prepend(QStringLiteral("&"));
+            basic_name.prepend(QLatin1Char('&'));
         }
-        action = m_desktopMenu->addAction(basic_name.arg(i).arg(vds->name(i).replace(QStringLiteral("&"), QStringLiteral("&&"))));
+        action = m_desktopMenu->addAction(basic_name.arg(i).arg(vds->name(i).replace(QLatin1Char('&'), QStringLiteral("&&"))));
         action->setData(i);
         action->setCheckable(true);
         group->addAction(action);
@@ -1205,55 +1222,6 @@ bool Client::performMouseCommand(Options::MouseCommand command, const QPoint &gl
         setShade(ShadeNone);
         cancelShadeHoverTimer();
         break;
-    case Options::MouseActivateRaiseAndMove:
-    case Options::MouseActivateRaiseAndUnrestrictedMove:
-        workspace()->raiseClient(this);
-        workspace()->requestFocus(this);
-        screens()->setCurrent(globalPos);
-        // fallthrough
-    case Options::MouseMove:
-    case Options::MouseUnrestrictedMove: {
-        if (!isMovableAcrossScreens())
-            break;
-        if (moveResizeMode)
-            finishMoveResize(false);
-        mode = PositionCenter;
-        buttonDown = true;
-        moveOffset = QPoint(globalPos.x() - x(), globalPos.y() - y());  // map from global
-        invertedMoveOffset = rect().bottomRight() - moveOffset;
-        unrestrictedMoveResize = (command == Options::MouseActivateRaiseAndUnrestrictedMove
-                                  || command == Options::MouseUnrestrictedMove);
-        if (!startMoveResize())
-            buttonDown = false;
-        updateCursor();
-        break;
-    }
-    case Options::MouseResize:
-    case Options::MouseUnrestrictedResize: {
-        if (!isResizable() || isShade())
-            break;
-        if (moveResizeMode)
-            finishMoveResize(false);
-        buttonDown = true;
-        moveOffset = QPoint(globalPos.x() - x(), globalPos.y() - y());  // map from global
-        int x = moveOffset.x(), y = moveOffset.y();
-        bool left = x < width() / 3;
-        bool right = x >= 2 * width() / 3;
-        bool top = y < height() / 3;
-        bool bot = y >= 2 * height() / 3;
-        if (top)
-            mode = left ? PositionTopLeft : (right ? PositionTopRight : PositionTop);
-        else if (bot)
-            mode = left ? PositionBottomLeft : (right ? PositionBottomRight : PositionBottom);
-        else
-            mode = (x < width() / 2) ? PositionLeft : PositionRight;
-        invertedMoveOffset = rect().bottomRight() - moveOffset;
-        unrestrictedMoveResize = (command == Options::MouseUnrestrictedResize);
-        if (!startMoveResize())
-            buttonDown = false;
-        updateCursor();
-        break;
-    }
     default:
         return AbstractClient::performMouseCommand(command, globalPos);
     }
@@ -1746,33 +1714,34 @@ void Workspace::slotInvertScreen()
     using namespace Xcb::RandR;
     bool succeeded = false;
 
-    //BEGIN Xrandr inversion - does atm NOT work with the nvidia blob
-    ScreenResources res(active_client ? active_client->window() : rootWindow());
+    if (Xcb::Extensions::self()->isRandrAvailable()) {
+        ScreenResources res(active_client ? active_client->window() : rootWindow());
 
-    if (!res.isNull()) {
-        for (int j = 0; j < res->num_crtcs; ++j) {
-            auto crtc = res.crtcs()[j];
-            CrtcGamma gamma(crtc);
-            if (gamma.isNull()) {
-                continue;
-            }
-            if (gamma->size) {
-                qCDebug(KWIN_CORE) << "inverting screen using XRRSetCrtcGamma";
-                const int half = gamma->size / 2 + 1;
-
-                uint16_t *red = gamma.red();
-                uint16_t *green = gamma.green();
-                uint16_t *blue = gamma.blue();
-                for (int i = 0; i < half; ++i) {
-                    auto invert = [&gamma, i](uint16_t *ramp) {
-                        qSwap(ramp[i], ramp[gamma->size - 1 - i]);
-                    };
-                    invert(red);
-                    invert(green);
-                    invert(blue);
+        if (!res.isNull()) {
+            for (int j = 0; j < res->num_crtcs; ++j) {
+                auto crtc = res.crtcs()[j];
+                CrtcGamma gamma(crtc);
+                if (gamma.isNull()) {
+                    continue;
                 }
-                xcb_randr_set_crtc_gamma(connection(), crtc, gamma->size, red, green, blue);
-                succeeded = true;
+                if (gamma->size) {
+                    qCDebug(KWIN_CORE) << "inverting screen using xcb_randr_set_crtc_gamma";
+                    const int half = gamma->size / 2 + 1;
+
+                    uint16_t *red = gamma.red();
+                    uint16_t *green = gamma.green();
+                    uint16_t *blue = gamma.blue();
+                    for (int i = 0; i < half; ++i) {
+                        auto invert = [&gamma, i](uint16_t *ramp) {
+                            qSwap(ramp[i], ramp[gamma->size - 1 - i]);
+                        };
+                        invert(red);
+                        invert(green);
+                        invert(blue);
+                    }
+                    xcb_randr_set_crtc_gamma(connection(), crtc, gamma->size, red, green, blue);
+                    succeeded = true;
+                }
             }
         }
     }
@@ -1805,7 +1774,7 @@ void Client::setShortcut(const QString& _cut)
 // Format:
 // base+(abcdef)<space>base+(abcdef)
 // E.g. Alt+Ctrl+(ABCDEF);Meta+X,Meta+(ABCDEF)
-    if (!cut.contains(QStringLiteral("(")) && !cut.contains(QStringLiteral(")")) && !cut.contains(QStringLiteral(" - "))) {
+    if (!cut.contains(QLatin1Char('(')) && !cut.contains(QLatin1Char(')')) && !cut.contains(QLatin1String(" - "))) {
         if (workspace()->shortcutAvailable(cut, this))
             setShortcutInternal(QKeySequence(cut));
         else

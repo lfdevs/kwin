@@ -24,7 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../udev.h"
 #include "libinput_logging.h"
 
+#include <QMutexLocker>
 #include <QSocketNotifier>
+#include <QThread>
 
 #include <libinput.h>
 
@@ -34,6 +36,7 @@ namespace LibInput
 {
 
 Connection *Connection::s_self = nullptr;
+QThread *Connection::s_thread = nullptr;
 
 static Context *s_context = nullptr;
 
@@ -67,7 +70,13 @@ Connection *Connection::create(QObject *parent)
             return nullptr;
         }
     }
-    s_self = new Connection(s_context, parent);
+    s_thread = new QThread();
+    s_self = new Connection(s_context);
+    s_self->moveToThread(s_thread);
+    s_thread->start();
+    QObject::connect(s_thread, &QThread::finished, s_self, &QObject::deleteLater);
+    QObject::connect(s_thread, &QThread::finished, s_thread, &QObject::deleteLater);
+    QObject::connect(parent, &QObject::destroyed, s_thread, &QThread::quit);
     return s_self;
 }
 
@@ -75,6 +84,7 @@ Connection::Connection(Context *input, QObject *parent)
     : QObject(parent)
     , m_input(input)
     , m_notifier(nullptr)
+    , m_mutex(QMutex::Recursive)
 {
     Q_ASSERT(m_input);
 }
@@ -88,6 +98,11 @@ Connection::~Connection()
 
 void Connection::setup()
 {
+    QMetaObject::invokeMethod(this, "doSetup", Qt::QueuedConnection);
+}
+
+void Connection::doSetup()
+{
     Q_ASSERT(!m_notifier);
     m_notifier = new QSocketNotifier(m_input->fileDescriptor(), QSocketNotifier::Read, this);
     connect(m_notifier, &QSocketNotifier::activated, this, &Connection::handleEvent);
@@ -100,16 +115,7 @@ void Connection::setup()
                     return;
                 }
                 m_input->resume();
-                handleEvent();
-                if (m_keyboardBeforeSuspend && !m_keyboard) {
-                    emit hasKeyboardChanged(false);
-                }
-                if (m_pointerBeforeSuspend && !m_pointer) {
-                    emit hasPointerChanged(false);
-                }
-                if (m_touchBeforeSuspend && !m_touch) {
-                    emit hasTouchChanged(false);
-                }
+                wasSuspended = true;
             } else {
                 deactivate();
             }
@@ -132,12 +138,26 @@ void Connection::deactivate()
 
 void Connection::handleEvent()
 {
+    QMutexLocker locker(&m_mutex);
+    const bool wasEmpty = m_eventQueue.isEmpty();
     do {
         m_input->dispatch();
-        QScopedPointer<Event> event(m_input->event());
-        if (event.isNull()) {
+        Event *event = m_input->event();
+        if (!event) {
             break;
         }
+        m_eventQueue << event;
+    } while (true);
+    if (wasEmpty && !m_eventQueue.isEmpty()) {
+        emit eventsRead();
+    }
+}
+
+void Connection::processEvents()
+{
+    QMutexLocker locker(&m_mutex);
+    while (!m_eventQueue.isEmpty()) {
+        QScopedPointer<Event> event(m_eventQueue.takeFirst());
         switch (event->type()) {
             case LIBINPUT_EVENT_DEVICE_ADDED:
                 if (libinput_device_has_capability(event->device(), LIBINPUT_DEVICE_CAP_KEYBOARD)) {
@@ -186,9 +206,31 @@ void Connection::handleEvent()
             }
             case LIBINPUT_EVENT_POINTER_AXIS: {
                 PointerEvent *pe = static_cast<PointerEvent*>(event.data());
-                const auto axis = pe->axis();
-                for (auto it = axis.begin(); it != axis.end(); ++it) {
-                    emit pointerAxisChanged(*it, pe->axisValue(*it), pe->time());
+                struct Axis {
+                    qreal delta = 0.0;
+                    quint32 time = 0;
+                };
+                QMap<InputRedirection::PointerAxis, Axis> deltas;
+                auto update = [&deltas] (PointerEvent *pe) {
+                    const auto axis = pe->axis();
+                    for (auto it = axis.begin(); it != axis.end(); ++it) {
+                        deltas[*it].delta += pe->axisValue(*it);
+                        deltas[*it].time = pe->time();
+                    }
+                };
+                update(pe);
+                auto it = m_eventQueue.begin();
+                while (it != m_eventQueue.end()) {
+                    if ((*it)->type() == LIBINPUT_EVENT_POINTER_AXIS) {
+                        QScopedPointer<PointerEvent> p(static_cast<PointerEvent*>(*it));
+                        update(p.data());
+                        it = m_eventQueue.erase(it);
+                    } else {
+                        break;
+                    }
+                }
+                for (auto it = deltas.constBegin(); it != deltas.constEnd(); ++it) {
+                    emit pointerAxisChanged(it.key(), it.value().delta, it.value().time);
                 }
                 break;
             }
@@ -199,7 +241,20 @@ void Connection::handleEvent()
             }
             case LIBINPUT_EVENT_POINTER_MOTION: {
                 PointerEvent *pe = static_cast<PointerEvent*>(event.data());
-                emit pointerMotion(pe->delta(), pe->time());
+                QPointF delta = pe->delta();
+                quint32 latestTime = pe->time();
+                auto it = m_eventQueue.begin();
+                while (it != m_eventQueue.end()) {
+                    if ((*it)->type() == LIBINPUT_EVENT_POINTER_MOTION) {
+                        QScopedPointer<PointerEvent> p(static_cast<PointerEvent*>(*it));
+                        delta += p->delta();
+                        latestTime = p->time();
+                        it = m_eventQueue.erase(it);
+                    } else {
+                        break;
+                    }
+                }
+                emit pointerMotion(delta, latestTime);
                 break;
             }
             case LIBINPUT_EVENT_POINTER_MOTION_ABSOLUTE: {
@@ -234,7 +289,19 @@ void Connection::handleEvent()
                 // nothing
                 break;
         }
-    } while (true);
+    }
+    if (wasSuspended) {
+        if (m_keyboardBeforeSuspend && !m_keyboard) {
+            emit hasKeyboardChanged(false);
+        }
+        if (m_pointerBeforeSuspend && !m_pointer) {
+            emit hasPointerChanged(false);
+        }
+        if (m_touchBeforeSuspend && !m_touch) {
+            emit hasTouchChanged(false);
+        }
+        wasSuspended = false;
+    }
 }
 
 void Connection::setScreenSize(const QSize &size)

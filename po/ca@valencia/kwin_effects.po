@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-09-15 14:06+0000\n"
-"PO-Revision-Date: 2015-08-12 18:27+0200\n"
-"Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
+"POT-Creation-Date: 2015-11-03 14:08+0000\n"
+"PO-Revision-Date: 2015-11-07 01:45+0100\n"
+"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -49,7 +49,7 @@ msgstr "Potent"
 msgid "Save intermediate rendering results."
 msgstr "Guarda els resultats de la representació intermèdia."
 
-#: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Mostra l'escriptori"
@@ -137,15 +137,15 @@ msgstr "Color del darrere"
 msgid "Front color"
 msgstr "Color del davant"
 
-#: cube/cube.cpp:201 cube/cube_config.cpp:70
+#: cube/cube.cpp:197 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "Cub d'escriptori"
 
-#: cube/cube.cpp:209 cube/cube_config.cpp:75
+#: cube/cube.cpp:205 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "Cilindre d'escriptori"
 
-#: cube/cube.cpp:215 cube/cube_config.cpp:79
+#: cube/cube.cpp:211 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "Esfera d'escriptori"
 
@@ -192,7 +192,7 @@ msgstr "Fons d'escriptori:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: cube/cube_config.ui:82 desktopgrid/desktopgrid_config.ui:200
+#: cube/cube_config.ui:82 desktopgrid/desktopgrid_config.ui:207
 #: flipswitch/flipswitch_config.ui:204
 #: presentwindows/presentwindows_config.ui:17
 msgid "Activation"
@@ -368,61 +368,7 @@ msgid "Start animation when moving windows towards screen edges"
 msgstr ""
 "Inicia l'animació en moure les finestres cap a les vores de les pantalles"
 
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: dashboard/dashboard_config.ui:17
-msgid "Brightness of the background:"
-msgstr "Lluminositat del fons:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: dashboard/dashboard_config.ui:42
-msgctxt "Less brightness"
-msgid "Darker"
-msgstr "Més fosca"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: dashboard/dashboard_config.ui:74
-msgctxt "More brightness"
-msgid "Lighter"
-msgstr "Més clara"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: dashboard/dashboard_config.ui:83
-msgid "Saturation of the background:"
-msgstr "Saturació del fons:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: dashboard/dashboard_config.ui:108
-msgctxt "No saturation"
-msgid "Gray"
-msgstr "Gris"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: dashboard/dashboard_config.ui:140
-msgctxt "High saturation"
-msgid "Colored"
-msgstr "Acolorida"
-
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#: dashboard/dashboard_config.ui:149
-msgid "Duration of the fade:"
-msgstr "Durada de l'esvaïment:"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: dashboard/dashboard_config.ui:184
-msgid "ms"
-msgstr "ms"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_Blur)
-#: dashboard/dashboard_config.ui:193
-msgid "The blur effect must be enabled before it can be used."
-msgstr "L'efecte de difuminat ha d'estar actiu perquè es puga utilitzar."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Blur)
-#: dashboard/dashboard_config.ui:196
-msgid "Apply blur effect to background"
-msgstr "Aplica l'efecte de difuminat al fons"
-
-#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Mostra la graella de l'escriptori"
 
@@ -484,7 +430,7 @@ msgstr "Omissió"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: desktopgrid/desktopgrid_config.ui:55
-msgid "&Border width:"
+msgid "Border wid&th:"
 msgstr "Amplada de la &vora:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -514,14 +460,19 @@ msgstr "A mida"
 
 #. i18n: ectx: property (text), widget (QLabel, layoutRowsLabel)
 #: desktopgrid/desktopgrid_config.ui:145
-msgid "Number of &rows:"
-msgstr "&Nombre de files:"
+msgid "N&umber of rows:"
+msgstr "N&ombre de files:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PresentWindows)
 #: desktopgrid/desktopgrid_config.ui:190
 msgid "Use Present Windows effect to layout the windows"
 msgstr ""
 "Utilitza l'efecte de presentació de finestres per disposar les finestres"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAddRemove)
+#: desktopgrid/desktopgrid_config.ui:197
+msgid "Show buttons to alter count of virtual desktops"
+msgstr "Mostra els botons per alterar el comptador d'escriptoris virtuals"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimPanels)
 #: diminactive/diminactive_config.ui:17
@@ -548,117 +499,106 @@ msgstr "Aplica l'efecte als &grups"
 msgid "&Strength:"
 msgstr "&Potència:"
 
-#: effect_builtins.cpp:102
+#: effect_builtins.cpp:101
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
 msgstr "Difumina"
 
-#: effect_builtins.cpp:103
+#: effect_builtins.cpp:102
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
 msgstr "Difumina el fons de darrere de les finestres semitransparents"
 
-#: effect_builtins.cpp:117
+#: effect_builtins.cpp:116
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Contrast del fons"
 
-#: effect_builtins.cpp:118
+#: effect_builtins.cpp:117
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
 msgstr ""
 "Millora el contrast i la legibilitat darrere de les finestres "
 "semitransparents"
 
-#: effect_builtins.cpp:132
+#: effect_builtins.cpp:131
 msgctxt "Name of a KWin Effect"
 msgid "Cover Switch"
 msgstr "Canvi de capa"
 
-#: effect_builtins.cpp:133
+#: effect_builtins.cpp:132
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a Cover Flow effect for the alt+tab window switcher"
 msgstr "Mostra un efecte de capes en el commutador de finestres amb Alt+Tab"
 
-#: effect_builtins.cpp:147
+#: effect_builtins.cpp:146
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Cub d'escriptori"
 
-#: effect_builtins.cpp:148
+#: effect_builtins.cpp:147
 msgctxt "Comment describing the KWin Effect"
 msgid "Display each virtual desktop on a side of a cube"
 msgstr "Visualitza cada escriptori virtual a la cara d'un cub"
 
-#: effect_builtins.cpp:162
+#: effect_builtins.cpp:161
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Animació del cub d'escriptori"
 
-#: effect_builtins.cpp:163
+#: effect_builtins.cpp:162
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate desktop switching with a cube"
 msgstr "Anima el canvi d'escriptori amb un cub"
 
-#: effect_builtins.cpp:177
-msgctxt "Name of a KWin Effect"
-msgid "Dashboard"
-msgstr "Tauler"
-
-#: effect_builtins.cpp:178
-msgctxt "Comment describing the KWin Effect"
-msgid "Desaturate the desktop when displaying the Plasma dashboard"
-msgstr ""
-"Reducció de la saturació de l'escriptori en mostrar el tauler del Plasma"
-
-#: effect_builtins.cpp:192
+#: effect_builtins.cpp:176
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Graella de l'escriptori"
 
-#: effect_builtins.cpp:193
+#: effect_builtins.cpp:177
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
 msgstr ""
 "Redueix tots els escriptoris per a visualitzar-los un al costat de l'altre "
 "en una graella"
 
-#: effect_builtins.cpp:207
+#: effect_builtins.cpp:191
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
 msgstr "Enfosqueix les inactives"
 
-#: effect_builtins.cpp:208
+#: effect_builtins.cpp:192
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Enfosqueix les finestres inactives"
 
-#: effect_builtins.cpp:222
+#: effect_builtins.cpp:206
 msgctxt "Name of a KWin Effect"
 msgid "Dim Screen for Administrator Mode"
 msgstr "Enfosqueix la pantalla pel mode administrador"
 
-#: effect_builtins.cpp:223
+#: effect_builtins.cpp:207
 msgctxt "Comment describing the KWin Effect"
 msgid "Darkens the entire screen when requesting root privileges"
 msgstr "Enfosqueix tota la pantalla en demanar privilegis d'administrador"
 
-#: effect_builtins.cpp:237
+#: effect_builtins.cpp:221
 msgctxt "Name of a KWin Effect"
 msgid "Fall Apart"
 msgstr "Trencament"
 
-#: effect_builtins.cpp:238
+#: effect_builtins.cpp:222
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "Les finestres tancades es trenquen en peces"
 
-#: effect_builtins.cpp:252
+#: effect_builtins.cpp:236
 msgctxt "Name of a KWin Effect"
 msgid "Flip Switch"
 msgstr "Canvi en roda"
 
-#: effect_builtins.cpp:253
+#: effect_builtins.cpp:237
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Flip through windows that are in a stack for the alt+tab window switcher"
@@ -666,104 +606,104 @@ msgstr ""
 "Roda a través de les finestres que estan en una pila en el commutador de "
 "finestres Alt+Tab"
 
-#: effect_builtins.cpp:267
+#: effect_builtins.cpp:251
 msgctxt "Name of a KWin Effect"
 msgid "Glide"
 msgstr "Lliscament"
 
-#: effect_builtins.cpp:268
+#: effect_builtins.cpp:252
 msgctxt "Comment describing the KWin Effect"
 msgid "Windows Glide Effect as they are open and closed"
 msgstr "Provoca un efecte de lliscament quan s'obren i es tanquen"
 
-#: effect_builtins.cpp:282
+#: effect_builtins.cpp:266
 msgctxt "Name of a KWin Effect"
 msgid "Highlight Window"
 msgstr "Realça la finestra"
 
-#: effect_builtins.cpp:283
+#: effect_builtins.cpp:267
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight the appropriate window when hovering over taskbar entries"
 msgstr ""
 "Realça la finestra apropiada en passar el cursor sobre les entrades de la "
 "barra de tasques"
 
-#: effect_builtins.cpp:297
+#: effect_builtins.cpp:281
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Inverteix"
 
-#: effect_builtins.cpp:298
+#: effect_builtins.cpp:282
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
 msgstr "Inverteix el color de l'escriptori i les finestres"
 
-#: effect_builtins.cpp:312
+#: effect_builtins.cpp:296
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
 msgstr "Kscreen"
 
-#: effect_builtins.cpp:313
+#: effect_builtins.cpp:297
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper Effect for KScreen"
 msgstr "Efecte auxiliar pel KScreen"
 
-#: effect_builtins.cpp:327
+#: effect_builtins.cpp:311
 msgctxt "Name of a KWin Effect"
 msgid "Logout"
 msgstr "Eixida"
 
-#: effect_builtins.cpp:328
+#: effect_builtins.cpp:312
 msgctxt "Comment describing the KWin Effect"
 msgid "Desaturate the desktop when displaying the logout dialog"
 msgstr "Reducció de la saturació de l'escriptori en mostrar el diàleg d'eixida"
 
-#: effect_builtins.cpp:342
+#: effect_builtins.cpp:326
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
 msgstr "Aparença de vidre"
 
-#: effect_builtins.cpp:343
+#: effect_builtins.cpp:327
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
 msgstr "Una lupa de pantalla que pareix un objectiu d'ull de peix"
 
-#: effect_builtins.cpp:357
+#: effect_builtins.cpp:341
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
 msgstr "Làmpada màgica"
 
-#: effect_builtins.cpp:358
+#: effect_builtins.cpp:342
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
 msgstr "Simula una làmpada màgica en minimitzar les finestres"
 
-#: effect_builtins.cpp:372
+#: effect_builtins.cpp:356
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Lupa"
 
-#: effect_builtins.cpp:373
+#: effect_builtins.cpp:357
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
 msgstr "Amplia la secció de la pantalla que està prop del cursor del ratolí"
 
-#: effect_builtins.cpp:387
+#: effect_builtins.cpp:371
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Animació de minimització"
 
-#: effect_builtins.cpp:388
+#: effect_builtins.cpp:372
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "Anima la minimització de les finestres"
 
-#: effect_builtins.cpp:402
+#: effect_builtins.cpp:386
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Animació de clic de ratolí"
 
-#: effect_builtins.cpp:403
+#: effect_builtins.cpp:387
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Creates an animation whenever a mouse button is clicked. This is useful for "
@@ -772,189 +712,189 @@ msgstr ""
 "Crea una animació quan es fa clic amb un botó del ratolí. Això és útil per "
 "enregistrar la pantalla o en presentacions"
 
-#: effect_builtins.cpp:417
+#: effect_builtins.cpp:401
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Marca amb el ratolí"
 
-#: effect_builtins.cpp:418
+#: effect_builtins.cpp:402
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
 msgstr "Vos permet dibuixar línies a l'escriptori"
 
-#: effect_builtins.cpp:432
+#: effect_builtins.cpp:416
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Presenta les finestres"
 
-#: effect_builtins.cpp:433
+#: effect_builtins.cpp:417
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
 msgstr ""
 "Redueix fins que totes les finestres obertes es poden mostrar una al costat "
 "de l'altra"
 
-#: effect_builtins.cpp:447
+#: effect_builtins.cpp:431
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Dimensiona la finestra"
 
-#: effect_builtins.cpp:448
+#: effect_builtins.cpp:432
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
 msgstr ""
 "Redimensiona les finestres amb un escalat de textura ràpid en lloc "
 "d'actualitzar els continguts"
 
-#: effect_builtins.cpp:462
+#: effect_builtins.cpp:446
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr "Vora de la pantalla"
 
-#: effect_builtins.cpp:463
+#: effect_builtins.cpp:447
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
 msgstr "Ressalta la vora de la pantalla en aproximar-se"
 
-#: effect_builtins.cpp:477
+#: effect_builtins.cpp:461
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
 msgstr "Captura de pantalla"
 
-#: effect_builtins.cpp:478
+#: effect_builtins.cpp:462
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for KSnapshot"
 msgstr "Efecte auxiliar pel KScreen"
 
-#: effect_builtins.cpp:492
+#: effect_builtins.cpp:476
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
 msgstr "Full"
 
-#: effect_builtins.cpp:493
+#: effect_builtins.cpp:477
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Make modal dialogs smoothly fly in and out when they are shown or hidden"
 msgstr ""
 "Fa que els diàlegs modals entrin o isquen volant quan es mostren o s'oculten"
 
-#: effect_builtins.cpp:507
+#: effect_builtins.cpp:491
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
 msgstr "Mostra els FPS"
 
-#: effect_builtins.cpp:508
+#: effect_builtins.cpp:492
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
 msgstr "Mostra el rendiment del KWin a la cantonada de la pantalla"
 
-#: effect_builtins.cpp:522
+#: effect_builtins.cpp:506
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Mostra el pintat"
 
-#: effect_builtins.cpp:523
+#: effect_builtins.cpp:507
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
 msgstr "Ressalta les àrees de l'escriptori que s'han actualitzat darrerament"
 
-#: effect_builtins.cpp:537
+#: effect_builtins.cpp:521
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
 msgstr "Diapositiva"
 
-#: effect_builtins.cpp:538
+#: effect_builtins.cpp:522
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide windows across the screen when switching virtual desktops"
 msgstr ""
 "Desplaça les finestres per la pantalla en canviar els escriptoris virtuals"
 
-#: effect_builtins.cpp:552
+#: effect_builtins.cpp:536
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
 msgstr "Llisca cap arrere"
 
-#: effect_builtins.cpp:553
+#: effect_builtins.cpp:537
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
 msgstr "Llisca arrere les finestres quan s'eleva una altra finestra"
 
-#: effect_builtins.cpp:567
+#: effect_builtins.cpp:551
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
 msgstr "Missatges emergents desplaçant-se"
 
-#: effect_builtins.cpp:568
+#: effect_builtins.cpp:552
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
 msgstr "Animació de desplaçament pels missatges emergents del Plasma"
 
-#: effect_builtins.cpp:582
+#: effect_builtins.cpp:566
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
 msgstr "Ajudant de desplaçament"
 
-#: effect_builtins.cpp:583
+#: effect_builtins.cpp:567
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
 msgstr "Vos ajuda a ubicar el centre de la pantalla en moure una finestra"
 
-#: effect_builtins.cpp:597
+#: effect_builtins.cpp:581
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
 msgstr "Reacció en iniciar"
 
-#: effect_builtins.cpp:598
+#: effect_builtins.cpp:582
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
 msgstr "Efecte auxiliar de reacció en iniciar"
 
-#: effect_builtins.cpp:612
+#: effect_builtins.cpp:596
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Miniatures de costat"
 
-#: effect_builtins.cpp:613
+#: effect_builtins.cpp:597
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
 msgstr "Mostra les miniatures de les finestres a la vora de la pantalla"
 
-#: effect_builtins.cpp:627
+#: effect_builtins.cpp:611
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Seguiment del ratolí"
 
-#: effect_builtins.cpp:628
+#: effect_builtins.cpp:612
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a mouse cursor locating effect when activated"
 msgstr "Mostra un efecte de posició del cursor del ratolí quan està activat"
 
-#: effect_builtins.cpp:642
+#: effect_builtins.cpp:626
 msgctxt "Name of a KWin Effect"
 msgid "Window Geometry"
 msgstr "Geometria de la finestra"
 
-#: effect_builtins.cpp:643
+#: effect_builtins.cpp:627
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "Mostra la geometria de les finestres en moure/redimensionar"
 
-#: effect_builtins.cpp:657
+#: effect_builtins.cpp:641
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Finestres sacsejades"
 
-#: effect_builtins.cpp:658
+#: effect_builtins.cpp:642
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "Deforma les finestres quan es mouen"
 
-#: effect_builtins.cpp:672
+#: effect_builtins.cpp:656
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Zoom"
 
-#: effect_builtins.cpp:673
+#: effect_builtins.cpp:657
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
 msgstr "Amplia l'escriptori sencer"
@@ -1125,7 +1065,7 @@ msgstr "Cèrcols"
 #. i18n: ectx: property (text), widget (QLabel, ring_line_width_label)
 #: mouseclick/mouseclick_config.ui:103
 msgid "Line Width:"
-msgstr "Amplada de línia:"
+msgstr "Amplada de la línia:"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_LineWidth)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingSize)
@@ -1167,11 +1107,11 @@ msgstr "Tipus de lletra:"
 msgid "Show Text:"
 msgstr "Mostra text:"
 
-#: mousemark/mousemark.cpp:50
+#: mousemark/mousemark.cpp:51
 msgid "Clear All Mouse Marks"
 msgstr "Neteja totes les marques de ratolí"
 
-#: mousemark/mousemark.cpp:57 mousemark/mousemark_config.cpp:74
+#: mousemark/mousemark.cpp:58 mousemark/mousemark_config.cpp:74
 msgid "Clear Last Mouse Mark"
 msgstr "Neteja l'última marca del ratolí"
 
@@ -1453,7 +1393,7 @@ msgstr "Alfa del text:"
 #: thumbnailaside/thumbnailaside.cpp:37
 #: thumbnailaside/thumbnailaside_config.cpp:71
 msgid "Toggle Thumbnail for Current Window"
-msgstr "Commuta la miniatura per la finestra actual"
+msgstr "Commuta la miniatura per a la finestra actual"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: thumbnailaside/thumbnailaside_config.ui:23

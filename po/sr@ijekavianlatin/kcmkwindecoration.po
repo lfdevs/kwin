@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2015-01-25 02:11+0100\n"
+"POT-Creation-Date: 2015-10-06 10:22+0000\n"
+"PO-Revision-Date: 2015-10-14 18:13+0200\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr@ijekavianlatin\n"
@@ -61,7 +61,7 @@ msgstr "Drži ispod"
 msgid "Keep above"
 msgstr "Drži iznad"
 
-#: kcm.cpp:106
+#: kcm.cpp:128
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
@@ -69,88 +69,98 @@ msgstr ""
 "Zatvorite dvoklikom.\n"
 "Da otvorite meni, držite dugme pritisnuto dok se ne pojavi."
 
+#. i18n: ectx: attribute (title), widget (QWidget, theTab)
+#: kcm.ui:21
+msgid "Theme"
+msgstr "Tema"
+
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
-#: kcm.ui:22
+#: kcm.ui:29
 msgid "Search"
 msgstr "Traži"
 
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
-#: kcm.ui:35
+#: kcm.ui:42
 msgid "Get New Decorations..."
 msgstr "Dobavi nove dekoracije..."
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: kcm.ui:56
+#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
+#: kcm.ui:54
+msgid "Close windows by double clicking &the menu button"
+msgstr "Zatvori prozor dvoklikom na &dugme menija"
+
+#. i18n: ectx: property (text), widget (QLabel, borderSizesLabel)
+#: kcm.ui:95
 msgid "Border si&ze:"
 msgstr "Veličina &ivica:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:67
+#: kcm.ui:109
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "bez ivica"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:72
+#: kcm.ui:114
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr "bez bočnih ivica"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:77
+#: kcm.ui:119
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "sićušne"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:82
+#: kcm.ui:124
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "normalne"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:87
+#: kcm.ui:129
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "velike"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:92
+#: kcm.ui:134
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "vrlo velike"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:97
+#: kcm.ui:139
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "ogromne"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:102
+#: kcm.ui:144
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "vrlo ogromne"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:107
+#: kcm.ui:149
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "neizmjerne"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: kcm.ui:125
-msgid "Close windows by double clicking &the menu button:"
-msgstr "Zatvori prozor dvoklikom na &dugme menija:"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: kcm.ui:160
+msgid "Buttons"
+msgstr "Dugmad"
 
-#: qml/Buttons.qml:74
+#: qml/Buttons.qml:77
 msgid "Titlebar"
 msgstr "Naslovna traka"
 
-#: qml/Buttons.qml:197
+#: qml/Buttons.qml:201
 msgid "Drag buttons between here and the titlebar"
 msgstr "Prevlačite dugmad između ovog mesta i naslovne trake."
 
-#: qml/Buttons.qml:212
+#: qml/Buttons.qml:216
 msgid "Drop here to remove button"
 msgstr "Uklonite dugme ispuštanjem ovde."

@@ -37,16 +37,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "useractions.h"
 #include "compositingprefs.h"
 #include "xcbutils.h"
-#if HAVE_WAYLAND
 #include "abstract_backend.h"
 #include "shell_client.h"
 #include "wayland_server.h"
-#endif
 #include "decorations/decoratedclient.h"
 
-#if HAVE_WAYLAND
 #include <KWayland/Server/surface_interface.h>
-#endif
 
 #include <stdio.h>
 
@@ -55,6 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMenu>
 #include <QTimerEvent>
 #include <QDateTime>
+#include <QOpenGLContext>
 #include <KGlobalAccel>
 #include <KLocalizedString>
 #include <KNotification>
@@ -118,7 +115,6 @@ Compositor::Compositor(QObject* workspace)
     m_unusedSupportPropertyTimer.setInterval(compositorLostMessageDelay);
     m_unusedSupportPropertyTimer.setSingleShot(true);
     connect(&m_unusedSupportPropertyTimer, SIGNAL(timeout()), SLOT(deleteUnusedSupportProperties()));
-#if HAVE_WAYLAND
     if (kwinApp()->operationMode() != Application::OperationModeX11) {
         if (waylandServer()->backend()->isReady()) {
             QMetaObject::invokeMethod(this, "setup", Qt::QueuedConnection);
@@ -132,15 +128,18 @@ Compositor::Compositor(QObject* workspace)
                 }
             }, Qt::QueuedConnection
         );
-    } else
-#endif
-
-    {
-    // delay the call to setup by one event cycle
-    // The ctor of this class is invoked from the Workspace ctor, that means before
-    // Workspace is completely constructed, so calling Workspace::self() would result
-    // in undefined behavior. This is fixed by using a delayed invocation.
-    QMetaObject::invokeMethod(this, "setup", Qt::QueuedConnection);
+        connect(kwinApp(), &Application::x11ConnectionAboutToBeDestroyed, this,
+            [this] {
+                delete cm_selection;
+                cm_selection = nullptr;
+            }
+        );
+    } else {
+        // delay the call to setup by one event cycle
+        // The ctor of this class is invoked from the Workspace ctor, that means before
+        // Workspace is completely constructed, so calling Workspace::self() would result
+        // in undefined behavior. This is fixed by using a delayed invocation.
+        QMetaObject::invokeMethod(this, "setup", Qt::QueuedConnection);
     }
 
     // register DBus
@@ -209,20 +208,18 @@ void Compositor::slotCompositingOptionsInitialized()
         // Some broken drivers crash on glXQuery() so to prevent constant KWin crashes:
         KSharedConfigPtr unsafeConfigPtr = KSharedConfig::openConfig();
         KConfigGroup unsafeConfig(unsafeConfigPtr, "Compositing");
-        const QString openGLIsUnsafe = QStringLiteral("OpenGLIsUnsafe") + (is_multihead ? QString::number(screen_number) : QString());
+        const QString openGLIsUnsafe = QLatin1String("OpenGLIsUnsafe") + (is_multihead ? QString::number(screen_number) : QString());
         if (unsafeConfig.readEntry(openGLIsUnsafe, false))
             qCWarning(KWIN_CORE) << "KWin has detected that your OpenGL library is unsafe to use";
         else {
             unsafeConfig.writeEntry(openGLIsUnsafe, true);
             unsafeConfig.sync();
-#ifndef KWIN_HAVE_OPENGLES
-            if (!kwinApp()->shouldUseWaylandForCompositing() && !CompositingPrefs::hasGlx()) {
+            if (QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGL && !kwinApp()->shouldUseWaylandForCompositing() && !CompositingPrefs::hasGlx()) {
                 unsafeConfig.writeEntry(openGLIsUnsafe, false);
                 unsafeConfig.sync();
                 qCDebug(KWIN_CORE) << "No glx extensions available";
                 break;
             }
-#endif
 
             m_scene = SceneOpenGL::createScene(this);
 
@@ -452,9 +449,11 @@ void Compositor::deleteUnusedSupportProperties()
         m_unusedSupportPropertyTimer.start();
         return;
     }
-    foreach (const xcb_atom_t &atom, m_unusedSupportProperties) {
-        // remove property from root window
-        xcb_delete_property(connection(), rootWindow(), atom);
+    if (kwinApp()->x11Connection()) {
+        foreach (const xcb_atom_t &atom, m_unusedSupportProperties) {
+            // remove property from root window
+            xcb_delete_property(connection(), rootWindow(), atom);
+        }
     }
 }
 
@@ -648,6 +647,13 @@ void Compositor::performCompositing()
         return;
     }
 
+    // If outputs are disabled, we return to the event loop and
+    // continue processing events until the outputs are enabled again
+    if (waylandServer() && !waylandServer()->backend()->areOutputsEnabled()) {
+        compositeTimer.stop();
+        return;
+    }
+
     // Create a list of all windows in the stacking order
     ToplevelList windows = Workspace::self()->xStackingOrder();
     ToplevelList damaged;
@@ -697,13 +703,21 @@ void Compositor::performCompositing()
         return;
     }
 
-    // skip windows that are not yet ready for being painted
+    // skip windows that are not yet ready for being painted and if screen is locked skip windows that are
+    // neither lockscreen nor inputmethod windows
     // TODO ?
     // this cannot be used so carelessly - needs protections against broken clients, the window
     // should not get focus before it's displayed, handle unredirected windows properly and so on.
-    foreach (Toplevel *t, windows)
-        if (!t->readyForPainting())
+    foreach (Toplevel *t, windows) {
+        if (!t->readyForPainting()) {
             windows.removeAll(t);
+        }
+        if (waylandServer() && waylandServer()->isScreenLocked()) {
+            if(!t->isLockScreen() && !t->isInputMethod()) {
+                windows.removeAll(t);
+            }
+        }
+    }
 
     QRegion repaints = repaints_region;
     // clear all repaints, so that post-pass can add repaints for the next repaint
@@ -712,7 +726,6 @@ void Compositor::performCompositing()
     m_timeSinceLastVBlank = m_scene->paint(repaints, windows);
     m_timeSinceStart += m_timeSinceLastVBlank;
 
-#if HAVE_WAYLAND
     if (kwinApp()->shouldUseWaylandForCompositing()) {
         for (Toplevel *win : damaged) {
             if (auto surface = win->surface()) {
@@ -720,7 +733,6 @@ void Compositor::performCompositing()
             }
         }
     }
-#endif
 
     compositeTimer.stop(); // stop here to ensure *we* cause the next repaint schedule - not some effect through m_scene->paint()
 
@@ -749,7 +761,6 @@ bool Compositor::windowRepaintsPending() const
     foreach (Toplevel * c, Workspace::self()->deletedList())
     if (!c->repaints().isEmpty())
         return true;
-#if HAVE_WAYLAND
     if (auto w = waylandServer()) {
         const auto &clients = w->clients();
         for (auto c : clients) {
@@ -764,7 +775,6 @@ bool Compositor::windowRepaintsPending() const
             }
         }
     }
-#endif
     return false;
 }
 
@@ -777,13 +787,18 @@ void Compositor::setCompositeTimer()
 {
     if (!hasScene())  // should not really happen, but there may be e.g. some damage events still pending
         return;
-    if (!Workspace::self()) {
+    if (m_starting || !Workspace::self()) {
         return;
     }
 
     // Don't start the timer if we're waiting for a swap event
     if (m_bufferSwapPending && m_composeAtSwapCompletion)
         return;
+
+    // Don't start the timer if all outputs are disabled
+    if (waylandServer() && !waylandServer()->backend()->areOutputsEnabled()) {
+        return;
+    }
 
     uint waitTime = 1;
 
@@ -864,12 +879,14 @@ void Compositor::delayedCheckUnredirect()
     ToplevelList list;
     bool changed = forceUnredirectCheck;
     foreach (Client * c, Workspace::self()->clientList())
-    list.append(c);
+        list.append(c);
     foreach (Unmanaged * c, Workspace::self()->unmanagedList())
-    list.append(c);
+        list.append(c);
     foreach (Toplevel * c, list) {
-        if (c->updateUnredirectedState())
+        if (c->updateUnredirectedState()) {
             changed = true;
+            break;
+        }
     }
     // no desktops, no Deleted ones
     if (!changed)
@@ -884,6 +901,7 @@ void Compositor::delayedCheckUnredirect()
             reg -= c->geometry();
     }
     m_scene->overlayWindow()->setShape(reg);
+    addRepaint(reg);
 }
 
 bool Compositor::checkForOverlayWindow(WId w) const
@@ -1247,7 +1265,7 @@ void Client::finishCompositing(ReleaseReason releaseReason)
         }
     }
     // for safety in case KWin is just resizing the window
-    s_haveResizeEffect = false;
+    resetHaveResizeEffect();
 }
 
 bool Client::shouldUnredirect() const

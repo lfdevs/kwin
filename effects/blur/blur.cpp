@@ -19,12 +19,18 @@
  */
 
 #include "blur.h"
+#include "effects.h"
 #include "blurshader.h"
 // KConfigSkeleton
 #include "blurconfig.h"
 
 #include <QMatrix4x4>
 #include <QLinkedList>
+
+#include <KWayland/Server/surface_interface.h>
+#include <KWayland/Server/blur_interface.h>
+#include <KWayland/Server/shadow_interface.h>
+#include <KWayland/Server/display.h>
 
 namespace KWin
 {
@@ -49,6 +55,11 @@ BlurEffect::BlurEffect()
     //     Should be included in _NET_SUPPORTED instead.
     if (shader && shader->isValid() && target->valid()) {
         net_wm_blur_region = effects->announceSupportProperty(s_blurAtomName, this);
+        KWayland::Server::Display *display = effects->waylandDisplay();
+        if (display) {
+            m_blurManager = display->createBlurManager(this);
+            m_blurManager->create();
+        }
     } else {
         net_wm_blur_region = 0;
     }
@@ -89,8 +100,11 @@ void BlurEffect::reconfigure(ReconfigureFlags flags)
 
     windows.clear();
 
-    if (!shader || !shader->isValid())
+    if (!shader || !shader->isValid()) {
         effects->removeSupportProperty(s_blurAtomName, this);
+        delete m_blurManager;
+        m_blurManager = nullptr;
+    }
 }
 
 void BlurEffect::updateBlurRegion(EffectWindow *w) const
@@ -109,7 +123,15 @@ void BlurEffect::updateBlurRegion(EffectWindow *w) const
         }
     }
 
-    if (region.isEmpty() && !value.isNull()) {
+    KWayland::Server::SurfaceInterface *surf = w->surface();
+
+    if (surf && surf->blur()) {
+        region = surf->blur()->region();
+    }
+
+    //!value.isNull() full window in X11 case, surf->blur()
+    //valid, full window in wayland case
+    if (region.isEmpty() && (!value.isNull() || (surf && surf->blur()))) {
         // Set the data to a dummy value.
         // This is needed to be able to distinguish between the value not
         // being set, and being set to an empty region.
@@ -120,12 +142,23 @@ void BlurEffect::updateBlurRegion(EffectWindow *w) const
 
 void BlurEffect::slotWindowAdded(EffectWindow *w)
 {
+    KWayland::Server::SurfaceInterface *surf = w->surface();
+
+    if (surf) {
+        windows[w].blurChangedConnection = connect(surf, &KWayland::Server::SurfaceInterface::blurChanged, this, [this, w] () {
+
+            if (w) {
+                updateBlurRegion(w);
+            }
+        });
+    }
     updateBlurRegion(w);
 }
 
 void BlurEffect::slotWindowDeleted(EffectWindow *w)
 {
     if (windows.contains(w)) {
+        disconnect(windows[w].blurChangedConnection);
         windows.remove(w);
     }
 }

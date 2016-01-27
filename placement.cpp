@@ -72,6 +72,8 @@ void Placement::place(AbstractClient* c, QRect& area)
         placeOnMainWindow(c, area);   // on mainwindow, if any, otherwise centered
     else if (c->isOnScreenDisplay() || c->isNotification())
         placeOnScreenDisplay(c, area);
+    else if (c->isTransient() && c->hasTransientPlacementHint())
+        placeTransient(c);
     else
         place(c, area, options->placement());
 }
@@ -492,6 +494,12 @@ void Placement::placeOnScreenDisplay(AbstractClient* c, QRect& area)
     c->move(QPoint(x, y));
 }
 
+void Placement::placeTransient(AbstractClient *c)
+{
+    // TODO: apply sanity checks?
+    c->move(c->transientFor()->pos() + c->transientPlacementHint());
+}
+
 void Placement::placeDialog(AbstractClient* c, QRect& area, Policy nextPlacement)
 {
     placeOnMainWindow(c, area, nextPlacement);
@@ -513,14 +521,11 @@ void Placement::placeOnMainWindow(AbstractClient* c, QRect& area, Policy nextPla
     if (nextPlacement == Maximizing)   // maximize if needed
         placeMaximizing(c, area, NoPlacement);
     area = checkArea(c, area);
-    ClientList mainwindows;
-    if (Client *client = qobject_cast<Client*>(c)) {
-        mainwindows = client->mainClients();
-    }
+    auto mainwindows = c->mainClients();
     AbstractClient* place_on = nullptr;
     AbstractClient* place_on2 = nullptr;
     int mains_count = 0;
-    for (ClientList::ConstIterator it = mainwindows.constBegin();
+    for (auto it = mainwindows.constBegin();
             it != mainwindows.constEnd();
             ++it) {
         if (mainwindows.count() > 1 && (*it)->isSpecialWindow())
@@ -666,7 +671,7 @@ const char* Placement::policyToString(Policy policy)
 // Workspace
 // ********************
 
-void Client::packTo(int left, int top)
+void AbstractClient::packTo(int left, int top)
 {
     workspace()->updateFocusMousePosition(Cursor::pos()); // may cause leave event;
 
@@ -716,15 +721,15 @@ void Workspace::slotWindowGrowHorizontal()
         active_client->growHorizontal();
 }
 
-void Client::growHorizontal()
+void AbstractClient::growHorizontal()
 {
     if (!isResizable() || isShade())
         return;
     QRect geom = geometry();
     geom.setRight(workspace()->packPositionRight(this, geom.right(), true));
     QSize adjsize = adjustedSize(geom.size(), SizemodeFixedW);
-    if (geometry().size() == adjsize && geom.size() != adjsize && m_geometryHints.resizeIncrements().width() > 1) { // take care of size increments
-        int newright = workspace()->packPositionRight(this, geom.right() + m_geometryHints.resizeIncrements().width() - 1, true);
+    if (geometry().size() == adjsize && geom.size() != adjsize && resizeIncrements().width() > 1) { // take care of size increments
+        int newright = workspace()->packPositionRight(this, geom.right() + resizeIncrements().width() - 1, true);
         // check that it hasn't grown outside of the area, due to size increments
         // TODO this may be wrong?
         if (workspace()->clientArea(MovementArea,
@@ -743,7 +748,7 @@ void Workspace::slotWindowShrinkHorizontal()
         active_client->shrinkHorizontal();
 }
 
-void Client::shrinkHorizontal()
+void AbstractClient::shrinkHorizontal()
 {
     if (!isResizable() || isShade())
         return;
@@ -764,15 +769,15 @@ void Workspace::slotWindowGrowVertical()
         active_client->growVertical();
 }
 
-void Client::growVertical()
+void AbstractClient::growVertical()
 {
     if (!isResizable() || isShade())
         return;
     QRect geom = geometry();
     geom.setBottom(workspace()->packPositionDown(this, geom.bottom(), true));
     QSize adjsize = adjustedSize(geom.size(), SizemodeFixedH);
-    if (geometry().size() == adjsize && geom.size() != adjsize && m_geometryHints.resizeIncrements().height() > 1) { // take care of size increments
-        int newbottom = workspace()->packPositionDown(this, geom.bottom() + m_geometryHints.resizeIncrements().height() - 1, true);
+    if (geometry().size() == adjsize && geom.size() != adjsize && resizeIncrements().height() > 1) { // take care of size increments
+        int newbottom = workspace()->packPositionDown(this, geom.bottom() + resizeIncrements().height() - 1, true);
         // check that it hasn't grown outside of the area, due to size increments
         if (workspace()->clientArea(MovementArea,
                                    QPoint(geometry().center().x(), (y() + newbottom) / 2), desktop()).bottom() >= newbottom)
@@ -790,7 +795,7 @@ void Workspace::slotWindowShrinkVertical()
         active_client->shrinkVertical();
 }
 
-void Client::shrinkVertical()
+void AbstractClient::shrinkVertical()
 {
     if (!isResizable() || isShade())
         return;
@@ -886,7 +891,7 @@ int Workspace::packPositionLeft(const AbstractClient* cl, int oldx, bool left_ed
     if (oldx <= newx)
         return oldx;
     const int desktop = cl->desktop() == 0 || cl->isOnAllDesktops() ? VirtualDesktopManager::self()->current() : cl->desktop();
-    for (ClientList::ConstIterator it = clients.constBegin(), end = clients.constEnd(); it != end; ++it) {
+    for (auto it = m_allClients.constBegin(), end = m_allClients.constEnd(); it != end; ++it) {
         if (isIrrelevant(*it, cl, desktop))
             continue;
         int x = left_edge ? (*it)->geometry().right() + 1 : (*it)->geometry().left() - 1;
@@ -914,7 +919,7 @@ int Workspace::packPositionRight(const AbstractClient* cl, int oldx, bool right_
     if (oldx >= newx)
         return oldx;
     const int desktop = cl->desktop() == 0 || cl->isOnAllDesktops() ? VirtualDesktopManager::self()->current() : cl->desktop();
-    for (ClientList::ConstIterator it = clients.constBegin(), end = clients.constEnd(); it != end; ++it) {
+    for (auto it = m_allClients.constBegin(), end = m_allClients.constEnd(); it != end; ++it) {
         if (isIrrelevant(*it, cl, desktop))
             continue;
         int x = right_edge ? (*it)->geometry().left() - 1 : (*it)->geometry().right() + 1;
@@ -942,7 +947,7 @@ int Workspace::packPositionUp(const AbstractClient* cl, int oldy, bool top_edge)
     if (oldy <= newy)
         return oldy;
     const int desktop = cl->desktop() == 0 || cl->isOnAllDesktops() ? VirtualDesktopManager::self()->current() : cl->desktop();
-    for (ClientList::ConstIterator it = clients.constBegin(), end = clients.constEnd(); it != end; ++it) {
+    for (auto it = m_allClients.constBegin(), end = m_allClients.constEnd(); it != end; ++it) {
         if (isIrrelevant(*it, cl, desktop))
             continue;
         int y = top_edge ? (*it)->geometry().bottom() + 1 : (*it)->geometry().top() - 1;
@@ -970,7 +975,7 @@ int Workspace::packPositionDown(const AbstractClient* cl, int oldy, bool bottom_
     if (oldy >= newy)
         return oldy;
     const int desktop = cl->desktop() == 0 || cl->isOnAllDesktops() ? VirtualDesktopManager::self()->current() : cl->desktop();
-    for (ClientList::ConstIterator it = clients.constBegin(), end = clients.constEnd(); it != end; ++it) {
+    for (auto it = m_allClients.constBegin(), end = m_allClients.constEnd(); it != end; ++it) {
         if (isIrrelevant(*it, cl, desktop))
             continue;
         int y = bottom_edge ? (*it)->geometry().top() - 1 : (*it)->geometry().bottom() + 1;

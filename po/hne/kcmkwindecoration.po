@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-10-06 10:22+0000\n"
 "PO-Revision-Date: 2009-02-10 11:56+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -65,33 +65,43 @@ msgstr "सब के नीचे रखव"
 msgid "Keep above"
 msgstr "सब के ऊपर रखव"
 
-#: kcm.cpp:106
+#: kcm.cpp:128
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
 msgstr ""
 
+#. i18n: ectx: attribute (title), widget (QWidget, theTab)
+#: kcm.ui:21
+msgid "Theme"
+msgstr ""
+
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
-#: kcm.ui:22
+#: kcm.ui:29
 msgid "Search"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
-#: kcm.ui:35
+#: kcm.ui:42
 #, fuzzy
 #| msgid "&Window Decoration"
 msgid "Get New Decorations..."
 msgstr "विंडो सजावट (&W)"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: kcm.ui:56
+#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
+#: kcm.ui:54
+msgid "Close windows by double clicking &the menu button"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, borderSizesLabel)
+#: kcm.ui:95
 #, fuzzy
 #| msgid "B&order size:"
 msgid "Border si&ze:"
 msgstr "किनारा आकार: (&o)"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:67
+#: kcm.ui:109
 #, fuzzy
 #| msgid "B&order size:"
 msgctxt "@item:inlistbox Border size:"
@@ -99,13 +109,13 @@ msgid "No Borders"
 msgstr "किनारा आकार: (&o)"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:72
+#: kcm.ui:114
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:77
+#: kcm.ui:119
 #, fuzzy
 #| msgid "Tiny"
 msgctxt "@item:inlistbox Border size:"
@@ -113,7 +123,7 @@ msgid "Tiny"
 msgstr "छोटकुन"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:82
+#: kcm.ui:124
 #, fuzzy
 #| msgid "Normal"
 msgctxt "@item:inlistbox Border size:"
@@ -121,7 +131,7 @@ msgid "Normal"
 msgstr "सामान्य"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:87
+#: kcm.ui:129
 #, fuzzy
 #| msgid "Large"
 msgctxt "@item:inlistbox Border size:"
@@ -129,7 +139,7 @@ msgid "Large"
 msgstr "बड़े"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:92
+#: kcm.ui:134
 #, fuzzy
 #| msgid "Very Large"
 msgctxt "@item:inlistbox Border size:"
@@ -137,7 +147,7 @@ msgid "Very Large"
 msgstr "बहुत बड़े"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:97
+#: kcm.ui:139
 #, fuzzy
 #| msgid "Huge"
 msgctxt "@item:inlistbox Border size:"
@@ -145,7 +155,7 @@ msgid "Huge"
 msgstr "बहुत बहुत बड़े"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:102
+#: kcm.ui:144
 #, fuzzy
 #| msgid "Very Huge"
 msgctxt "@item:inlistbox Border size:"
@@ -153,26 +163,26 @@ msgid "Very Huge"
 msgstr "बहुत बड़े"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:107
+#: kcm.ui:149
 #, fuzzy
 #| msgid "Oversized"
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "बड़ेआकार"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: kcm.ui:125
-msgid "Close windows by double clicking &the menu button:"
-msgstr ""
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: kcm.ui:160
+msgid "Buttons"
+msgstr "बटन"
 
-#: qml/Buttons.qml:74
+#: qml/Buttons.qml:77
 msgid "Titlebar"
 msgstr ""
 
-#: qml/Buttons.qml:197
+#: qml/Buttons.qml:201
 msgid "Drag buttons between here and the titlebar"
 msgstr ""
 
-#: qml/Buttons.qml:212
+#: qml/Buttons.qml:216
 msgid "Drop here to remove button"
 msgstr ""

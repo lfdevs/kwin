@@ -12,16 +12,16 @@
 # Andrey Cherepanov <skull@kde.ru>, 2009.
 # Alexander Potashev <aspotashev@gmail.com>, 2009, 2010, 2011, 2014, 2015.
 # Yuri Efremov <yur.arh@gmail.com>, 2011, 2013.
-# Nick Shaforostoff <shafff@ukr.net>, 2011.
+# Nick Shaforostoff <shafff@ukr.net>, 2011, 2015.
 # Julia Dronova <juliette.tux@gmail.com>, 2013.
 # Alexander Lakhin <exclusion@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2015-09-03 20:52+0300\n"
-"Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
+"POT-Creation-Date: 2015-12-15 11:59+0000\n"
+"PO-Revision-Date: 2015-11-14 17:43+0000\n"
+"Last-Translator: Nick Shaforostoff <shafff@ukr.net>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "asm@som.kiev.ua,mokhin@bog.msu.ru"
 
-#: composite.cpp:556
+#: composite.cpp:555
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -52,7 +52,7 @@ msgstr ""
 "Графические эффекты были отключены другим приложением.<br/>Можно их "
 "возобновить комбинацией клавиш «%1»."
 
-#: compositingprefs.cpp:99
+#: compositingprefs.cpp:102
 msgid ""
 "<b>OpenGL compositing (the default) has crashed KWin in the past.</"
 "b><br>This was most likely due to a driver bug.<p>If you think that you have "
@@ -66,16 +66,16 @@ msgstr ""
 "но <b>помните, что это может привести к немедленному сбою.</b></p><p>Как "
 "вариант, вместо него можно использовать XRender.</p>"
 
-#: compositingprefs.cpp:106
+#: compositingprefs.cpp:109
 msgid "Required X extensions (XComposite and XDamage) are not available."
 msgstr "Отсутствуют необходимые расширения X-сервера (XComposite и XDamage)."
 
-#: compositingprefs.cpp:110
+#: compositingprefs.cpp:113
 msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
 msgstr ""
 "Поддерживается только режим OpenGL, однако расширения GLX/OpenGL недоступны."
 
-#: compositingprefs.cpp:114
+#: compositingprefs.cpp:117
 msgid "GLX/OpenGL and XRender/XFixes are not available."
 msgstr "Расширения GLX/OpenGL и XRender/XFixes недоступны."
 
@@ -411,11 +411,11 @@ msgstr "Показать рабочий стол"
 #: kwinbindings.cpp:146
 #, kde-format
 msgid "Switch to Screen %1"
-msgstr "Переключиться на рабочий стол %1"
+msgstr "Переключиться на экран %1"
 
 #: kwinbindings.cpp:149
 msgid "Switch to Next Screen"
-msgstr "Переключиться на следующий рабочий стол"
+msgstr "Переключиться на следующий экран"
 
 #: kwinbindings.cpp:150
 msgid "Switch to Previous Screen"
@@ -487,74 +487,88 @@ msgstr "Отключить параметры конфигурации"
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Показывает, что сбои KWin происходили n раз"
 
-#: main_wayland.cpp:173
+#: main_wayland.cpp:188
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr "kwin_wayland: диспетчер окон X11 работает на экране X11.\n"
 
-#: main_wayland.cpp:473
+#: main_wayland.cpp:445
 msgid "Start a rootless Xwayland server."
 msgstr "Запустить вложенный сервер Xwayland."
 
-#: main_wayland.cpp:475
+#: main_wayland.cpp:447
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 "Имя сокета Wayland для ожидания подключений. По умолчанию используется "
 "«wayland-0»."
 
-#: main_wayland.cpp:478
+#: main_wayland.cpp:450
 msgid "Use a nested compositor in windowed mode."
 msgstr ""
 
-#: main_wayland.cpp:480
+#: main_wayland.cpp:452
 msgid "Render to framebuffer."
 msgstr "Отрисовка во фреймбуфер."
 
-#: main_wayland.cpp:482
+#: main_wayland.cpp:454
 msgid "The framebuffer device to render to."
 msgstr "Устройство фреймбуфера, в которое следует направить вывод."
 
-#: main_wayland.cpp:486
+#: main_wayland.cpp:458
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "Экран X11, на котором KWin будет запущен в оконном режиме."
 
-#: main_wayland.cpp:489
+#: main_wayland.cpp:461
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr "Экран Wayland, на котором KWin будет запущен в оконном режиме."
 
-#: main_wayland.cpp:492
+#: main_wayland.cpp:463
+msgid "Render to a virtual framebuffer."
+msgstr "Отрисовка в виртуальный фреймбуфер."
+
+#: main_wayland.cpp:465
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "Ширина окна в случае оконного режима. Значение по умолчанию — 1024."
 
-#: main_wayland.cpp:496
+#: main_wayland.cpp:469
 msgid "The height for windowed mode. Default height is 768."
 msgstr "Высота окна в случае оконного режима. Значение по умолчанию — 768."
 
-#: main_wayland.cpp:512
+#: main_wayland.cpp:498
 msgid "Use libhybris hwcomposer"
 msgstr ""
 
-#: main_wayland.cpp:517
+#: main_wayland.cpp:505
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
 msgstr ""
 
-#: main_wayland.cpp:521
-#, fuzzy
-#| msgid "Render to framebuffer."
+#: main_wayland.cpp:509
 msgid "Render through drm node."
-msgstr "Отрисовка во фреймбуфер."
+msgstr "Отрисовка через DRM."
 
-#: main_wayland.cpp:526
+#: main_wayland.cpp:516
 msgid "Input method that KWin starts."
 msgstr "Запускаемый сервер методов ввода."
 
-#: main_wayland.cpp:531
-msgid "Applications to start once Wayland and Xwayland server are started"
+#: main_wayland.cpp:521
+msgid "List all available backends and quit."
+msgstr "Перечислить все доступные модули реализации и завершить работу."
+
+#: main_wayland.cpp:525
+msgid "Starts the session in locked mode."
+msgstr "Запускать сеанс в заблокированном виде."
+
+#: main_wayland.cpp:529
+msgid "Exit after the session application, which is started by KWin, closed."
 msgstr ""
 
-#: main_x11.cpp:156
+#: main_wayland.cpp:534
+msgid "Applications to start once Wayland and Xwayland server are started"
+msgstr "Приложения открываемые после загрузки Wayland и Xwayland"
+
+#: main_x11.cpp:158
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
@@ -562,20 +576,20 @@ msgstr ""
 "kwin: невозможно использовать как диспетчер окон, возможно, запущен другой "
 "диспетчер окон (попробуйте параметр --replace)\n"
 
-#: main_x11.cpp:173
+#: main_x11.cpp:175
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr "kwin: запущен другой диспетчер окон (попробуйте параметр --replace)\n"
 
-#: main_x11.cpp:276
+#: main_x11.cpp:278
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "Заменить уже запущенный ICCCM2.0-совместимый диспетчер окон"
 
-#: scene_opengl.cpp:674
+#: scene_opengl.cpp:677
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
 "Подсистема эффектов рабочего стола была перезапущена из-за сброса графики"
 
-#: scene_opengl.cpp:864
+#: scene_opengl.cpp:867
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -590,7 +604,7 @@ msgstr ""
 "также может работать очень медленно . <br>Как вариант, попробуйте снизить "
 "общее разрешение всех дисплеев до %1x%2"
 
-#: scene_opengl.cpp:871
+#: scene_opengl.cpp:874
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
 "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
@@ -602,7 +616,7 @@ msgstr ""
 "драйвера XRender таких ограничений нет, но на производительность влияют "
 "аппаратные ограничения, блокирующие размер окна просмотра OpenGL"
 
-#: scene_opengl.cpp:896
+#: scene_opengl.cpp:899
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -616,7 +630,7 @@ msgstr ""
 "Рассмотрите возможность отключения эффектов, переключения на драйвер "
 "XRender  или уменьшения разрешения до %1x%1."
 
-#: scene_opengl.cpp:902
+#: scene_opengl.cpp:905
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
 "GPU, thus windows of that size cannot be assigned to textures and will be "
@@ -737,7 +751,7 @@ msgstr ""
 "отсутствуют.\n"
 "Обратитесь к производителю дистрибутива."
 
-#: useractions.cpp:180
+#: useractions.cpp:200
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -750,7 +764,7 @@ msgstr ""
 "вместо этого меню действий с окном, которое можно активировать комбинацией "
 "клавиш %1."
 
-#: useractions.cpp:188
+#: useractions.cpp:208
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -764,157 +778,155 @@ msgstr ""
 "Используйте вместо этого меню действий с окном, которое можно активировать "
 "комбинацией клавиш %1."
 
-#: useractions.cpp:251
+#: useractions.cpp:271
 msgid "&Move"
 msgstr "&Переместить"
 
-#: useractions.cpp:256
-msgid "Re&size"
+#: useractions.cpp:276
+msgid "&Resize"
 msgstr "&Изменить размер"
 
-#: useractions.cpp:260
+#: useractions.cpp:280
 msgid "Keep &Above Others"
 msgstr "Поддержи&вать поверх других"
 
-#: useractions.cpp:266
+#: useractions.cpp:286
 msgid "Keep &Below Others"
 msgstr "Поддерживать на &заднем плане"
 
-#: useractions.cpp:272
+#: useractions.cpp:292
 msgid "&Fullscreen"
 msgstr "На весь &экран"
 
-#: useractions.cpp:278
-msgid "Sh&ade"
-msgstr "Свернуть в за&головок"
+#: useractions.cpp:298
+msgid "&Shade"
+msgstr "&Свернуть в заголовок"
 
-#: useractions.cpp:283
+#: useractions.cpp:303
 msgid "&No Border"
 msgstr "&Нет рамки"
 
-#: useractions.cpp:290
-msgid "Window &Shortcut..."
-msgstr "&Комбинация клавиш..."
+#: useractions.cpp:310
+msgid "Window Short&cut..."
+msgstr "Комбинация клавиш для переключения в это окно..."
 
-#: useractions.cpp:295
-msgid "&Special Window Settings..."
+#: useractions.cpp:315
+msgid "Special &Window Settings..."
 msgstr "&Специальные параметры окна..."
 
-#: useractions.cpp:299
+#: useractions.cpp:319
 msgid "S&pecial Application Settings..."
 msgstr "Специальные параметры при&ложения..."
 
-#: useractions.cpp:306
+#: useractions.cpp:326
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
-msgid "Window &Manager Settings..."
+msgid "Window Manager S&ettings..."
 msgstr "Параметры &диспетчера окон..."
 
-#: useractions.cpp:330
+#: useractions.cpp:350
 msgid "Mi&nimize"
 msgstr "&Свернуть"
 
-#: useractions.cpp:334
+#: useractions.cpp:354
 msgid "Ma&ximize"
 msgstr "Р&аспахнуть"
 
-#: useractions.cpp:343
+#: useractions.cpp:363
 msgid "&Untab"
 msgstr "&Открепить вкладку"
 
-#: useractions.cpp:347
+#: useractions.cpp:367
 msgid "Close Entire &Group"
 msgstr "Закрыть &всю группу"
 
-#: useractions.cpp:358
+#: useractions.cpp:378
 msgid "&More Actions"
 msgstr "&Дополнительно"
 
-#: useractions.cpp:362
+#: useractions.cpp:382
 msgid "&Close"
 msgstr "&Закрыть"
 
-#: useractions.cpp:436
+#: useractions.cpp:456
 msgid "&Extensions"
 msgstr "&Расширения"
 
-#: useractions.cpp:494
+#: useractions.cpp:511
 msgctxt "Switch to tab -> Previous"
 msgid "Previous"
 msgstr "Предыдущую"
 
-#: useractions.cpp:495
+#: useractions.cpp:512
 msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr "Следующую"
 
-#: useractions.cpp:537
+#: useractions.cpp:554
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr "Нет подходящего"
 
-#: useractions.cpp:546
+#: useractions.cpp:563
 msgid "Switch to Tab"
 msgstr "Перейти на вкладку"
 
-#: useractions.cpp:557
+#: useractions.cpp:574
 msgid "&Attach as tab to"
 msgstr "&Прикрепить как вкладку к"
 
-#: useractions.cpp:580
+#: useractions.cpp:597
 msgid "Move To &Desktop"
 msgstr "Переместить &на рабочий стол"
 
-#: useractions.cpp:596
+#: useractions.cpp:613
 msgid "Move To &Screen"
 msgstr "Переместить на &экран"
 
-#: useractions.cpp:611
+#: useractions.cpp:628
 msgid "Ac&tivities"
 msgstr "В &комнатах"
 
-#: useractions.cpp:623
+#: useractions.cpp:640
 msgid "&All Desktops"
 msgstr "На &всех рабочих столах"
 
-#: useractions.cpp:649
+#: useractions.cpp:666
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "&Новый рабочий стол"
 
-#: useractions.cpp:669
-#, fuzzy, kde-format
-#| msgctxt "@item:inmenu List of all Screens to send a window to"
-#| msgid "Screen &%1"
+#: useractions.cpp:686
+#, kde-format
 msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
 "number, second the output identifier. E.g. Screen 1 (HDMI1)"
 msgid "Screen &%1 (%2)"
-msgstr "Экран &%1"
+msgstr "Экран &%1 (%2)"
 
-#: useractions.cpp:690
+#: useractions.cpp:707
 msgid "&All Activities"
 msgstr "Во &всех комнатах"
 
-#: useractions.cpp:905
+#: useractions.cpp:922
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "<b>%1</b> уже используется"
 
-#: useractions.cpp:907
+#: useractions.cpp:924
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "<b>%1</b> уже используется для действия «%2» в приложении %3"
 
-#: useractions.cpp:1029
+#: useractions.cpp:1046
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Активировать окно (%1)"
 
-#: useractions.cpp:1299
+#: useractions.cpp:1267
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
 "as active one.\n"
@@ -958,7 +970,7 @@ msgstr "Переключиться на один рабочий стол вни�
 msgid "Switch to Desktop %1"
 msgstr "Переключиться на рабочий стол %1"
 
-#: workspace.cpp:1305
+#: workspace.cpp:1306
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

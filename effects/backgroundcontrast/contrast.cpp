@@ -26,6 +26,10 @@
 #include <QMatrix4x4>
 #include <QLinkedList>
 
+#include <KWayland/Server/surface_interface.h>
+#include <KWayland/Server/contrast_interface.h>
+#include <KWayland/Server/display.h>
+
 namespace KWin
 {
 
@@ -41,11 +45,17 @@ ContrastEffect::ContrastEffect()
     //     Should be included in _NET_SUPPORTED instead.
     if (shader && shader->isValid()) {
         net_wm_contrast_region = effects->announceSupportProperty(s_contrastAtomName, this);
+        KWayland::Server::Display *display = effects->waylandDisplay();
+        if (display) {
+            m_contrastManager = display->createContrastManager(this);
+            m_contrastManager->create();
+        }
     } else {
         net_wm_contrast_region = 0;
     }
 
     connect(effects, SIGNAL(windowAdded(KWin::EffectWindow*)), this, SLOT(slotWindowAdded(KWin::EffectWindow*)));
+    connect(effects, SIGNAL(windowDeleted(KWin::EffectWindow*)), this, SLOT(slotWindowDeleted(KWin::EffectWindow*)));
     connect(effects, SIGNAL(propertyNotify(KWin::EffectWindow*,long)), this, SLOT(slotPropertyNotify(KWin::EffectWindow*,long)));
     connect(effects, SIGNAL(screenGeometryChanged(QSize)), this, SLOT(slotScreenGeometryChanged()));
 
@@ -71,8 +81,11 @@ void ContrastEffect::reconfigure(ReconfigureFlags flags)
     if (shader)
         shader->init();
 
-    if (!shader || !shader->isValid())
+    if (!shader || !shader->isValid()) {
         effects->removeSupportProperty(s_contrastAtomName, this);
+        delete m_contrastManager;
+        m_contrastManager = nullptr;
+    }
 }
 
 void ContrastEffect::updateContrastRegion(EffectWindow *w) const
@@ -102,7 +115,16 @@ void ContrastEffect::updateContrastRegion(EffectWindow *w) const
         shader->setColorMatrix(colorMatrix);
     }
 
-    if (region.isEmpty() && !value.isNull()) {
+    KWayland::Server::SurfaceInterface *surf = w->surface();
+
+    if (surf && surf->contrast()) {
+        region = surf->contrast()->region();
+        shader->setColorMatrix(colorMatrix(surf->contrast()->contrast(), surf->contrast()->intensity(), surf->contrast()->saturation()));
+    }
+
+    //!value.isNull() full window in X11 case, surf->contrast()
+    //valid, full window in wayland case
+    if (region.isEmpty() && (!value.isNull() || (surf && surf->contrast()))) {
         // Set the data to a dummy value.
         // This is needed to be able to distinguish between the value not
         // being set, and being set to an empty region.
@@ -113,7 +135,25 @@ void ContrastEffect::updateContrastRegion(EffectWindow *w) const
 
 void ContrastEffect::slotWindowAdded(EffectWindow *w)
 {
+    KWayland::Server::SurfaceInterface *surf = w->surface();
+
+    if (surf) {
+        m_contrastChangedConnections[w] = connect(surf, &KWayland::Server::SurfaceInterface::contrastChanged, this, [this, w] () {
+
+            if (w) {
+                updateContrastRegion(w);
+            }
+        });
+    }
     updateContrastRegion(w);
+}
+
+void ContrastEffect::slotWindowDeleted(EffectWindow *w)
+{
+    if (m_contrastChangedConnections.contains(w)) {
+        disconnect(m_contrastChangedConnections[w]);
+        m_contrastChangedConnections.remove(w);
+    }
 }
 
 void ContrastEffect::slotPropertyNotify(EffectWindow *w, long atom)

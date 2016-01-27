@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-09-15 14:06+0000\n"
-"PO-Revision-Date: 2015-08-13 20:35+0300\n"
+"POT-Creation-Date: 2015-11-03 14:08+0000\n"
+"PO-Revision-Date: 2015-12-21 19:27+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -49,7 +49,7 @@ msgstr "Сильний"
 msgid "Save intermediate rendering results."
 msgstr "Зберігати проміжні результати обробки"
 
-#: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Показати стільницю"
@@ -137,15 +137,15 @@ msgstr "Колір задньої сторони"
 msgid "Front color"
 msgstr "Колір переднього плану"
 
-#: cube/cube.cpp:201 cube/cube_config.cpp:70
+#: cube/cube.cpp:197 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "Куб стільниць"
 
-#: cube/cube.cpp:209 cube/cube_config.cpp:75
+#: cube/cube.cpp:205 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "Стільничний циліндр"
 
-#: cube/cube.cpp:215 cube/cube_config.cpp:79
+#: cube/cube.cpp:211 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "Стільнична сфера"
 
@@ -192,7 +192,7 @@ msgstr "Тло стільниці:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: cube/cube_config.ui:82 desktopgrid/desktopgrid_config.ui:200
+#: cube/cube_config.ui:82 desktopgrid/desktopgrid_config.ui:207
 #: flipswitch/flipswitch_config.ui:204
 #: presentwindows/presentwindows_config.ui:17
 msgid "Activation"
@@ -367,61 +367,7 @@ msgstr "Використовувати формат пейджера для ан
 msgid "Start animation when moving windows towards screen edges"
 msgstr "Почати анімацію, якщо вікно рухається у напрямку до краю екрана"
 
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: dashboard/dashboard_config.ui:17
-msgid "Brightness of the background:"
-msgstr "Яскравість тла:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: dashboard/dashboard_config.ui:42
-msgctxt "Less brightness"
-msgid "Darker"
-msgstr "темніше"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: dashboard/dashboard_config.ui:74
-msgctxt "More brightness"
-msgid "Lighter"
-msgstr "світліше"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: dashboard/dashboard_config.ui:83
-msgid "Saturation of the background:"
-msgstr "Насиченість тла:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: dashboard/dashboard_config.ui:108
-msgctxt "No saturation"
-msgid "Gray"
-msgstr "сіре"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: dashboard/dashboard_config.ui:140
-msgctxt "High saturation"
-msgid "Colored"
-msgstr "кольорове"
-
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#: dashboard/dashboard_config.ui:149
-msgid "Duration of the fade:"
-msgstr "Тривалість згасання:"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: dashboard/dashboard_config.ui:184
-msgid "ms"
-msgstr "мс"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_Blur)
-#: dashboard/dashboard_config.ui:193
-msgid "The blur effect must be enabled before it can be used."
-msgstr "Перш ніж користуватися цим ефектом, слід увімкнути ефект розмивання."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Blur)
-#: dashboard/dashboard_config.ui:196
-msgid "Apply blur effect to background"
-msgstr "Застосувати ефект розмивання до тла"
-
-#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Показати ґратку стільниці"
 
@@ -483,7 +429,7 @@ msgstr "Типова"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: desktopgrid/desktopgrid_config.ui:55
-msgid "&Border width:"
+msgid "Border wid&th:"
 msgstr "&Товщина рамки:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -513,13 +459,18 @@ msgstr "Нетиповий"
 
 #. i18n: ectx: property (text), widget (QLabel, layoutRowsLabel)
 #: desktopgrid/desktopgrid_config.ui:145
-msgid "Number of &rows:"
-msgstr "Кількість &рядків:"
+msgid "N&umber of rows:"
+msgstr "Кі&лькість рядків:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PresentWindows)
 #: desktopgrid/desktopgrid_config.ui:190
 msgid "Use Present Windows effect to layout the windows"
 msgstr "Застосувати ефект «Показ вікон» до компонування вікон"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAddRemove)
+#: desktopgrid/desktopgrid_config.ui:197
+msgid "Show buttons to alter count of virtual desktops"
+msgstr "Показувати кнопки для зміни кількості віртуальних стільниць"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimPanels)
 #: diminactive/diminactive_config.ui:17
@@ -546,224 +497,212 @@ msgstr "Застосувати ефект до &груп"
 msgid "&Strength:"
 msgstr "&Сила:"
 
-#: effect_builtins.cpp:102
+#: effect_builtins.cpp:101
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
 msgstr "Розмивання"
 
-#: effect_builtins.cpp:103
+#: effect_builtins.cpp:102
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
 msgstr "Розмивання тла напівпрозорих вікон"
 
-#: effect_builtins.cpp:117
+#: effect_builtins.cpp:116
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Контрастність тла"
 
-#: effect_builtins.cpp:118
+#: effect_builtins.cpp:117
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
 msgstr ""
 "Покращення контрастності та придатності до читання тексту під напівпрозорими "
 "вікнами"
 
-#: effect_builtins.cpp:132
+#: effect_builtins.cpp:131
 msgctxt "Name of a KWin Effect"
 msgid "Cover Switch"
 msgstr "Перемикач обкладинок"
 
-#: effect_builtins.cpp:133
+#: effect_builtins.cpp:132
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a Cover Flow effect for the alt+tab window switcher"
 msgstr "Демонстрація ефекту поверхневої течії для перемикача вікон за Alt+Tab"
 
-#: effect_builtins.cpp:147
+#: effect_builtins.cpp:146
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Куб стільниць"
 
-#: effect_builtins.cpp:148
+#: effect_builtins.cpp:147
 msgctxt "Comment describing the KWin Effect"
 msgid "Display each virtual desktop on a side of a cube"
 msgstr "Показ всіх віртуальні стільниць на поверхні куба"
 
-#: effect_builtins.cpp:162
+#: effect_builtins.cpp:161
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Анімація куба стільниць"
 
-#: effect_builtins.cpp:163
+#: effect_builtins.cpp:162
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate desktop switching with a cube"
 msgstr "Створювати анімацію перемикання стільниць куба"
 
-#: effect_builtins.cpp:177
-msgctxt "Name of a KWin Effect"
-msgid "Dashboard"
-msgstr "Панель приладів"
-
-#: effect_builtins.cpp:178
-msgctxt "Comment describing the KWin Effect"
-msgid "Desaturate the desktop when displaying the Plasma dashboard"
-msgstr ""
-"Зменшення насиченості кольорів стільниці під час показу панелі приладів "
-"Плазми"
-
-#: effect_builtins.cpp:192
+#: effect_builtins.cpp:176
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Таблиця стільниць"
 
-#: effect_builtins.cpp:193
+#: effect_builtins.cpp:177
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
 msgstr ""
 "Зменшення стільниць так, щоб всі стільниці було показано поруч у форматі "
 "таблиці"
 
-#: effect_builtins.cpp:207
+#: effect_builtins.cpp:191
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
 msgstr "Затемнення неактивних"
 
-#: effect_builtins.cpp:208
+#: effect_builtins.cpp:192
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Затемнення неактивних вікон"
 
-#: effect_builtins.cpp:222
+#: effect_builtins.cpp:206
 msgctxt "Name of a KWin Effect"
 msgid "Dim Screen for Administrator Mode"
 msgstr "Тьмяний екран для режиму адміністратора"
 
-#: effect_builtins.cpp:223
+#: effect_builtins.cpp:207
 msgctxt "Comment describing the KWin Effect"
 msgid "Darkens the entire screen when requesting root privileges"
 msgstr ""
 "Затемнення всього екрана, якщо показано запит щодо пароля адміністратора"
 
-#: effect_builtins.cpp:237
+#: effect_builtins.cpp:221
 msgctxt "Name of a KWin Effect"
 msgid "Fall Apart"
 msgstr "Розпадання"
 
-#: effect_builtins.cpp:238
+#: effect_builtins.cpp:222
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "Розпадання вікон на шматочки під час закриття вікон"
 
-#: effect_builtins.cpp:252
+#: effect_builtins.cpp:236
 msgctxt "Name of a KWin Effect"
 msgid "Flip Switch"
 msgstr "Тасування карток"
 
-#: effect_builtins.cpp:253
+#: effect_builtins.cpp:237
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Flip through windows that are in a stack for the alt+tab window switcher"
 msgstr "Тасування вікон у стосі для перемикача вікон за alt+tab"
 
-#: effect_builtins.cpp:267
+#: effect_builtins.cpp:251
 msgctxt "Name of a KWin Effect"
 msgid "Glide"
 msgstr "Плин"
 
-#: effect_builtins.cpp:268
+#: effect_builtins.cpp:252
 msgctxt "Comment describing the KWin Effect"
 msgid "Windows Glide Effect as they are open and closed"
 msgstr "Ефекти плину вікон під час відкриття та закриття"
 
-#: effect_builtins.cpp:282
+#: effect_builtins.cpp:266
 msgctxt "Name of a KWin Effect"
 msgid "Highlight Window"
 msgstr "Підсвічування вікна"
 
-#: effect_builtins.cpp:283
+#: effect_builtins.cpp:267
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight the appropriate window when hovering over taskbar entries"
 msgstr ""
 "Підсвічування відповідного вікна у відповідь на наведення вказівника миші на "
 "елементи панелі задач"
 
-#: effect_builtins.cpp:297
+#: effect_builtins.cpp:281
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Інверсія"
 
-#: effect_builtins.cpp:298
+#: effect_builtins.cpp:282
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
 msgstr "Обернення кольорів стільниці і вікон"
 
-#: effect_builtins.cpp:312
+#: effect_builtins.cpp:296
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
 msgstr "Kscreen"
 
-#: effect_builtins.cpp:313
+#: effect_builtins.cpp:297
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper Effect for KScreen"
 msgstr "Допоміжний ефект KScreen"
 
-#: effect_builtins.cpp:327
+#: effect_builtins.cpp:311
 msgctxt "Name of a KWin Effect"
 msgid "Logout"
 msgstr "Вихід"
 
-#: effect_builtins.cpp:328
+#: effect_builtins.cpp:312
 msgctxt "Comment describing the KWin Effect"
 msgid "Desaturate the desktop when displaying the logout dialog"
 msgstr "Зменшення насиченості кольорів стільниці під час показу вікна виходу"
 
-#: effect_builtins.cpp:342
+#: effect_builtins.cpp:326
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
 msgstr "Збільшувальне скло"
 
-#: effect_builtins.cpp:343
+#: effect_builtins.cpp:327
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
 msgstr ""
 "Екранна лупа, яка робить вигляд стільниці схожим на зображення, отримане з "
 "ефектом «риб’ячого ока»"
 
-#: effect_builtins.cpp:357
+#: effect_builtins.cpp:341
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
 msgstr "Чарівна лампа"
 
-#: effect_builtins.cpp:358
+#: effect_builtins.cpp:342
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
 msgstr "Імітація ефекту чарівної лампи під час мінімізації вікон"
 
-#: effect_builtins.cpp:372
+#: effect_builtins.cpp:356
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Лупа"
 
-#: effect_builtins.cpp:373
+#: effect_builtins.cpp:357
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
 msgstr "Збільшення частини екрана поруч з вказівником миші"
 
-#: effect_builtins.cpp:387
+#: effect_builtins.cpp:371
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Анімація мінімізації"
 
-#: effect_builtins.cpp:388
+#: effect_builtins.cpp:372
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "Оживлення мінімізації вікон"
 
-#: effect_builtins.cpp:402
+#: effect_builtins.cpp:386
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Анімація за клацанням миші"
 
-#: effect_builtins.cpp:403
+#: effect_builtins.cpp:387
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Creates an animation whenever a mouse button is clicked. This is useful for "
@@ -772,189 +711,189 @@ msgstr ""
 "Створення анімацій у відповідь на клацання кнопкою миші. Корисне для записів "
 "демонстрацій та презентацій."
 
-#: effect_builtins.cpp:417
+#: effect_builtins.cpp:401
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Позначки мишкою"
 
-#: effect_builtins.cpp:418
+#: effect_builtins.cpp:402
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
 msgstr "Можливість малювання ліній на стільниці"
 
-#: effect_builtins.cpp:432
+#: effect_builtins.cpp:416
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Показ вікон"
 
-#: effect_builtins.cpp:433
+#: effect_builtins.cpp:417
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
 msgstr ""
 "Зменшення масштабу вікон так, щоб всі відкриті вікна можна було розташувати "
 "поряд"
 
-#: effect_builtins.cpp:447
+#: effect_builtins.cpp:431
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Зміна розмірів вікон"
 
-#: effect_builtins.cpp:448
+#: effect_builtins.cpp:432
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
 msgstr ""
 "Зміна розмірів вікон швидким масштабуванням текстур замість оновлення вмісту "
 "вікон"
 
-#: effect_builtins.cpp:462
+#: effect_builtins.cpp:446
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr "Край екрана"
 
-#: effect_builtins.cpp:463
+#: effect_builtins.cpp:447
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
 msgstr "Підсвічує край екрана у разі наближення вказівника"
 
-#: effect_builtins.cpp:477
+#: effect_builtins.cpp:461
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
 msgstr "Знімок вікна"
 
-#: effect_builtins.cpp:478
+#: effect_builtins.cpp:462
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for KSnapshot"
 msgstr "Допоміжний ефект для KSnapshot"
 
-#: effect_builtins.cpp:492
+#: effect_builtins.cpp:476
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
 msgstr "Аркуш"
 
-#: effect_builtins.cpp:493
+#: effect_builtins.cpp:477
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Make modal dialogs smoothly fly in and out when they are shown or hidden"
 msgstr "Плавне влітання або відлітання вікон під час їх появи або приховування"
 
-#: effect_builtins.cpp:507
+#: effect_builtins.cpp:491
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
 msgstr "Показ частоти кадрів"
 
-#: effect_builtins.cpp:508
+#: effect_builtins.cpp:492
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
 msgstr "Показ параметра швидкодії KWin (частоти кадрів) у куті екрана"
 
-#: effect_builtins.cpp:522
+#: effect_builtins.cpp:506
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Показати намальоване"
 
-#: effect_builtins.cpp:523
+#: effect_builtins.cpp:507
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
 msgstr "Підсвічує області екрана, у яких спостерігалося оновлення"
 
-#: effect_builtins.cpp:537
+#: effect_builtins.cpp:521
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
 msgstr "Ковзання"
 
-#: effect_builtins.cpp:538
+#: effect_builtins.cpp:522
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide windows across the screen when switching virtual desktops"
 msgstr "Ковзання вікон вздовж стільниці, під час перемикання стільниць"
 
-#: effect_builtins.cpp:552
+#: effect_builtins.cpp:536
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
 msgstr "Зниження"
 
-#: effect_builtins.cpp:553
+#: effect_builtins.cpp:537
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
 msgstr "Ковзання вікон на задній план під час підняття інших вікон"
 
-#: effect_builtins.cpp:567
+#: effect_builtins.cpp:551
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
 msgstr "Ковзні контекстні вікна"
 
-#: effect_builtins.cpp:568
+#: effect_builtins.cpp:552
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
 msgstr "Анімація з ковзанням для контекстних вікон Плазми"
 
-#: effect_builtins.cpp:582
+#: effect_builtins.cpp:566
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
 msgstr "Помічник розташування"
 
-#: effect_builtins.cpp:583
+#: effect_builtins.cpp:567
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
 msgstr "Допомога у пошуку центра екрана, коли ви пересуватимете вікно"
 
-#: effect_builtins.cpp:597
+#: effect_builtins.cpp:581
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
 msgstr "Повідомлення під час запуску"
 
-#: effect_builtins.cpp:598
+#: effect_builtins.cpp:582
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
 msgstr ""
 "Допоміжний ефект перегляду повідомлень, що надсилаються програмою під час "
 "запуску"
 
-#: effect_builtins.cpp:612
+#: effect_builtins.cpp:596
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Мініатюри збоку"
 
-#: effect_builtins.cpp:613
+#: effect_builtins.cpp:597
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
 msgstr "Показ мініатюр вікон при наведенні на край екрана"
 
-#: effect_builtins.cpp:627
+#: effect_builtins.cpp:611
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Сліди мишки"
 
-#: effect_builtins.cpp:628
+#: effect_builtins.cpp:612
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a mouse cursor locating effect when activated"
 msgstr "Показ наближення вказівника миші"
 
-#: effect_builtins.cpp:642
+#: effect_builtins.cpp:626
 msgctxt "Name of a KWin Effect"
 msgid "Window Geometry"
 msgstr "Розміри вікна"
 
-#: effect_builtins.cpp:643
+#: effect_builtins.cpp:627
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "Показ розмірів вікон при пересуванні або зміні розмірів"
 
-#: effect_builtins.cpp:657
+#: effect_builtins.cpp:641
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Желейні вікна"
 
-#: effect_builtins.cpp:658
+#: effect_builtins.cpp:642
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "Деформація вікон під час їхнього пересування"
 
-#: effect_builtins.cpp:672
+#: effect_builtins.cpp:656
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Масштабування"
 
-#: effect_builtins.cpp:673
+#: effect_builtins.cpp:657
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
 msgstr "Збільшення цілої стільниці"
@@ -1168,11 +1107,11 @@ msgstr "Шрифт:"
 msgid "Show Text:"
 msgstr "Показати текст:"
 
-#: mousemark/mousemark.cpp:50
+#: mousemark/mousemark.cpp:51
 msgid "Clear All Mouse Marks"
 msgstr "Очистити всі позначки мишки"
 
-#: mousemark/mousemark.cpp:57 mousemark/mousemark_config.cpp:74
+#: mousemark/mousemark.cpp:58 mousemark/mousemark_config.cpp:74
 msgid "Clear Last Mouse Mark"
 msgstr "Очистити останню позначку мишки"
 
@@ -1731,7 +1670,7 @@ msgstr "Видимість вказівника миші."
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
 #: zoom/zoom_config.ui:106
 msgid "Scale"
-msgstr "Масштаб"
+msgstr "Масштабувати"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
 #: zoom/zoom_config.ui:111

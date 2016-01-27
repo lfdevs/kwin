@@ -27,6 +27,14 @@
 #include <QVector>
 #include <QVector2D>
 
+namespace KWayland
+{
+namespace Server
+{
+class BlurManagerInterface;
+}
+}
+
 namespace KWin
 {
 
@@ -93,10 +101,12 @@ private:
         QRegion damagedRegion;
         QPoint windowPos;
         bool dropCache;
+        QMetaObject::Connection blurChangedConnection;
     };
 
     QHash< const EffectWindow*, BlurWindowInfo > windows;
     typedef QHash<const EffectWindow*, BlurWindowInfo>::iterator CacheEntry;
+    KWayland::Server::BlurManagerInterface *m_blurManager = nullptr;
 };
 
 inline

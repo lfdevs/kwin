@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2015-04-06 19:42+0100\n"
+"POT-Creation-Date: 2014-08-08 08:31+0000\n"
+"PO-Revision-Date: 2015-11-16 00:29+0100\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
 "Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
 "Language: ast\n"
@@ -17,19 +17,17 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 2.0\n"
 
-#, fuzzy
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Softastur"
 
-#, fuzzy
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "alministradores@softastur.org"
 
 #: module.cpp:50
 msgid "KWin Scripts"
-msgstr ""
+msgstr "Scripts KWin"
 
 #: module.cpp:52
 msgid "Configure KWin scripts"
@@ -37,7 +35,7 @@ msgstr ""
 
 #: module.cpp:55
 msgid "Tamás Krutki"
-msgstr ""
+msgstr "Tamás Krutki"
 
 #: module.cpp:77
 msgid "Import KWin Script"
@@ -45,25 +43,27 @@ msgstr ""
 
 #: module.cpp:78
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
-msgstr ""
+msgstr "*.kwinscript|Scripts KWin (*.kwinscript)"
 
 #: module.cpp:87
 msgid ""
 "Cannot import selected script: maybe a script already exists with the same "
 "name or there is a permission problem."
 msgstr ""
+"Nun pue importase'l script: quiciabes yá esiste un script col mesmu nome o "
+"heba un problema de permisos."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Module)
 #: module.ui:14
 msgid "KWin script configuration"
-msgstr ""
+msgstr "Configuración de Script Kwin"
 
 #. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
 #: module.ui:41
 msgid "Import KWin script..."
-msgstr ""
+msgstr "Importar script Kwin..."
 
 #. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
 #: module.ui:48
 msgid "Get New Script..."
-msgstr ""
+msgstr "Consiguir script nuevu..."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-10-21 08:16+0000\n"
 "PO-Revision-Date: 2015-02-08 21:59+0100\n"
 "Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -32,56 +32,48 @@ msgid "No Action"
 msgstr "Eylem Yok"
 
 #: main.cpp:188
-msgid "Show Dashboard"
-msgstr "Kontrol Panelini Göster"
-
-#: main.cpp:189
 msgid "Show Desktop"
 msgstr "Masaüstünü Göster"
 
-#: main.cpp:190
+#: main.cpp:189
 msgid "Lock Screen"
 msgstr "Ekranı Kilitle"
 
-#: main.cpp:191
-msgid "Prevent Screen Locking"
-msgstr "Ekran Kilitlemeyi Engelle"
-
-#: main.cpp:200
+#: main.cpp:193
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - Tüm Masaüstleri"
 
-#: main.cpp:201
+#: main.cpp:194
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - Geçerli Masaüstü"
 
-#: main.cpp:202
+#: main.cpp:195
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - Geçerli Uygulama"
 
-#: main.cpp:205
+#: main.cpp:198
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 - Küp"
 
-#: main.cpp:206
+#: main.cpp:199
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 - Silindir"
 
-#: main.cpp:207
+#: main.cpp:200
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 - Küre"
 
-#: main.cpp:209
+#: main.cpp:202
 msgid "Toggle window switching"
 msgstr "Pencere geçişini aç/kapat"
 
-#: main.cpp:210
+#: main.cpp:203
 msgid "Toggle alternative window switching"
 msgstr "Alternatif pencere geçişini aç/kapat"
 

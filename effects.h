@@ -35,6 +35,14 @@ namespace Plasma {
 class Theme;
 }
 
+namespace KWayland
+{
+namespace Server
+{
+class Display;
+}
+}
+
 class QDBusPendingCallWatcher;
 class QDBusServiceWatcher;
 class OrgFreedesktopScreenSaverInterface;
@@ -54,7 +62,7 @@ class EffectLoader;
 class Unmanaged;
 class ScreenLockerWatcher;
 
-class EffectsHandlerImpl : public EffectsHandler
+class KWIN_EXPORT EffectsHandlerImpl : public EffectsHandler
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kwin.Effects")
@@ -122,6 +130,7 @@ public:
     void startMousePolling() override;
     void stopMousePolling() override;
     EffectWindow* findWindow(WId id) const override;
+    EffectWindow* findWindow(KWayland::Server::SurfaceInterface *surf) const override;
     EffectWindowList stackingOrder() const override;
     void setElevatedWindow(KWin::EffectWindow* w, bool set) override;
 
@@ -197,6 +206,7 @@ public:
     void reloadEffect(Effect *effect) override;
     QStringList loadedEffects() const;
     QStringList listOfEffects() const;
+    void unloadAllEffects();
 
     QList<EffectWindow*> elevatedWindows() const;
     QStringList activeEffects() const;
@@ -213,6 +223,8 @@ public:
     int currentRenderedDesktop() const {
         return m_currentRenderedDesktop;
     }
+
+    KWayland::Server::Display *waylandDisplay() const override;
 
 public Q_SLOTS:
     void slotCurrentTabAboutToChange(EffectWindow* from, EffectWindow* to);
@@ -234,7 +246,7 @@ protected Q_SLOTS:
     void slotClientShown(KWin::Toplevel*);
     void slotShellClientShown(KWin::Toplevel*);
     void slotUnmanagedShown(KWin::Toplevel*);
-    void slotWindowClosed(KWin::Toplevel *c);
+    void slotWindowClosed(KWin::Toplevel *c, KWin::Deleted *d);
     void slotClientMaximized(KWin::AbstractClient *c, MaximizeMode maxMode);
     void slotOpacityChanged(KWin::Toplevel *t, qreal oldOpacity);
     void slotClientModalityChanged();
@@ -247,6 +259,7 @@ protected:
     void connectNotify(const QMetaMethod &signal) override;
     void disconnectNotify(const QMetaMethod &signal) override;
     void effectsChanged();
+    void setupAbstractClientConnections(KWin::AbstractClient *c);
     void setupClientConnections(KWin::Client *c);
     void setupUnmanagedConnections(KWin::Unmanaged *u);
 

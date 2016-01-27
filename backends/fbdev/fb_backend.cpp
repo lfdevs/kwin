@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "logging.h"
 #include "logind.h"
 #include "scene_qpainter_fb_backend.h"
-#include "screens_fb.h"
+#include "screens.h"
 #include "virtual_terminal.h"
 // system
 #include <fcntl.h>
@@ -51,7 +51,7 @@ FramebufferBackend::~FramebufferBackend()
 
 Screens *FramebufferBackend::createScreens(QObject *parent)
 {
-    return new FramebufferScreens(this, parent);
+    return new BasicScreens(this, parent);
 }
 
 QPainterBackend *FramebufferBackend::createQPainterBackend()
@@ -157,15 +157,48 @@ QImage::Format FramebufferBackend::imageFormat() const
     if (m_fd < 0) {
         return QImage::Format_Invalid;
     }
-    if (m_alpha.length == 0 &&
+
+    qCDebug(KWIN_FB) << "Bits Per Pixel: " << m_bitsPerPixel;
+    qCDebug(KWIN_FB) << "Buffer Length: " << m_bufferLength;
+    qCDebug(KWIN_FB) << "Bytes Per Line: " << m_bytesPerLine;
+    qCDebug(KWIN_FB) << "Alpha Length: " << m_alpha.length;
+    qCDebug(KWIN_FB) << "Red Length: "   << m_red.length;
+    qCDebug(KWIN_FB) << "Green Length: " << m_green.length;
+    qCDebug(KWIN_FB) << "Blue Length: "  << m_blue.length;
+    qCDebug(KWIN_FB) << "Blue Offset: "  << m_blue.offset;
+    qCDebug(KWIN_FB) << "Green Offset: " << m_green.offset;
+    qCDebug(KWIN_FB) << "Red Offset: "   << m_red.offset;
+    qCDebug(KWIN_FB) << "Alpha Offset: " << m_alpha.offset;
+
+    if (m_bitsPerPixel == 32 &&
             m_red.length == 8 &&
             m_green.length == 8 &&
             m_blue.length == 8 &&
             m_blue.offset == 0 &&
             m_green.offset == 8 &&
             m_red.offset == 16) {
+        qCDebug(KWIN_FB) << "Framebuffer format is RGB32";
         return QImage::Format_RGB32;
+    } else if (m_bitsPerPixel == 24 &&
+            m_red.length == 8 &&
+            m_green.length == 8 &&
+            m_blue.length == 8 &&
+            m_blue.offset == 0 &&
+            m_green.offset == 8 &&
+            m_red.offset == 16) {
+        qCDebug(KWIN_FB) << "Framebuffer Format is RGB888";
+        return QImage::Format_RGB888;
+    } else if (m_bitsPerPixel == 16 &&
+            m_red.length == 5 &&
+            m_green.length == 6 &&
+            m_blue.length == 5 &&
+            m_blue.offset == 0 &&
+            m_green.offset == 5 &&
+            m_red.offset == 11) {
+        qCDebug(KWIN_FB) << "Framebuffer Format is RGB16";
+        return QImage::Format_RGB16;
     }
+    qCWarning(KWIN_FB) << "Framebuffer format is unknown";
     return QImage::Format_Invalid;
 }
 

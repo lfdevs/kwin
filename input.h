@@ -182,6 +182,13 @@ Q_SIGNALS:
      * @param oldMods The previous modifiers state
      */
     void keyboardModifiersChanged(Qt::KeyboardModifiers newMods, Qt::KeyboardModifiers oldMods);
+    /**
+     * @brief Emitted when the state of a key changed.
+     *
+     * @param keyCode The keycode of the key which changed
+     * @param oldMods The new key state
+     */
+    void keyStateChanged(quint32 keyCode, InputRedirection::KeyboardKeyState state);
 
 private:
     static QEvent::Type buttonStateToEvent(PointerButtonState state);
@@ -202,11 +209,10 @@ private:
     bool areButtonsPressed() const;
     void updateKeyboardWindow();
     void setupWorkspace();
+    void reconfigure();
     QPointF m_globalPointer;
     QHash<uint32_t, PointerButtonState> m_pointerButtons;
-#if HAVE_XKB
     QScopedPointer<Xkb> m_xkb;
-#endif
     /**
      * @brief The Toplevel which currently receives pointer events
      */
@@ -236,7 +242,6 @@ private:
     friend InputRedirection *input();
 };
 
-#if HAVE_XKB
 class Xkb
 {
 public:
@@ -265,8 +270,11 @@ private:
     xkb_mod_index_t m_altModifier;
     xkb_mod_index_t m_metaModifier;
     Qt::KeyboardModifiers m_modifiers;
+    struct {
+        uint pressCount = 0;
+        Qt::KeyboardModifier modifier = Qt::NoModifier;
+    } m_modOnlyShortcut;
 };
-#endif
 
 inline
 InputRedirection *input()
@@ -298,14 +306,16 @@ void InputRedirection::registerShortcut(const QKeySequence &shortcut, QAction *a
     connect(action, &QAction::triggered, receiver, slot);
 }
 
-#if HAVE_XKB
 inline
 Qt::KeyboardModifiers Xkb::modifiers() const
 {
     return m_modifiers;
 }
-#endif
 
 } // namespace KWin
+
+Q_DECLARE_METATYPE(KWin::InputRedirection::KeyboardKeyState)
+Q_DECLARE_METATYPE(KWin::InputRedirection::PointerButtonState)
+Q_DECLARE_METATYPE(KWin::InputRedirection::PointerAxis)
 
 #endif // KWIN_INPUT_H

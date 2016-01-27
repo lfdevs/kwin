@@ -19,28 +19,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "x11windowed_backend.h"
 #include "scene_qpainter_x11_backend.h"
-#include "screens_x11windowed.h"
 #include "logging.h"
 #include "wayland_server.h"
 #include "xcbutils.h"
-#ifdef KWIN_HAVE_EGL
-#if HAVE_X11_XCB
 #include "eglonxbackend.h"
-#endif
-#endif
+#include "screens.h"
 #include <kwinxrenderutils.h>
+// KDE
+#include <KLocalizedString>
 #include <QAbstractEventDispatcher>
 #include <QCoreApplication>
 #include <QSocketNotifier>
 // kwayland
 #include <KWayland/Server/buffer_interface.h>
+#include <KWayland/Server/display.h>
 #include <KWayland/Server/seat_interface.h>
 #include <KWayland/Server/surface_interface.h>
+// xcb
+#include <xcb/xcb_keysyms.h>
 // system
 #include <linux/input.h>
-#if HAVE_X11_XCB
 #include <X11/Xlib-xcb.h>
-#endif
 
 namespace KWin
 {
@@ -49,11 +48,15 @@ X11WindowedBackend::X11WindowedBackend(QObject *parent)
     : AbstractBackend(parent)
 {
     setSupportsPointerWarping(true);
+    connect(this, &X11WindowedBackend::sizeChanged, this, &X11WindowedBackend::screenSizeChanged);
 }
 
 X11WindowedBackend::~X11WindowedBackend()
 {
     if (m_connection) {
+        if (m_keySymbols) {
+            xcb_key_symbols_free(m_keySymbols);
+        }
         if (m_window) {
             xcb_unmap_window(m_connection, m_window);
             xcb_destroy_window(m_connection, m_window);
@@ -69,22 +72,16 @@ void X11WindowedBackend::init()
 {
     int screen = 0;
     xcb_connection_t *c = nullptr;
-#if HAVE_X11_XCB
     Display *xDisplay = XOpenDisplay(deviceIdentifier().constData());
     if (xDisplay) {
         c = XGetXCBConnection(xDisplay);
         XSetEventQueueOwner(xDisplay, XCBOwnsEventQueue);
         screen = XDefaultScreen(xDisplay);
     }
-#else
-    c = xcb_connect(deviceIdentifier().constData(), &screen);
-#endif
     if (c && !xcb_connection_has_error(c)) {
         m_connection = c;
         m_screenNumber = screen;
-#if HAVE_X11_XCB
         m_display = xDisplay;
-#endif
         for (xcb_screen_iterator_t it = xcb_setup_roots_iterator(xcb_get_setup(m_connection));
             it.rem;
             --screen, xcb_screen_next(&it)) {
@@ -110,8 +107,9 @@ void X11WindowedBackend::createWindow()
     Xcb::Atom protocolsAtom(QByteArrayLiteral("WM_PROTOCOLS"), false, m_connection);
     Xcb::Atom deleteWindowAtom(QByteArrayLiteral("WM_DELETE_WINDOW"), false, m_connection);
     m_window = xcb_generate_id(m_connection);
-    uint32_t mask = XCB_CW_EVENT_MASK;
+    uint32_t mask = XCB_CW_BACK_PIXEL | XCB_CW_EVENT_MASK;
     const uint32_t values[] = {
+        m_screen->black_pixel,
         XCB_EVENT_MASK_KEY_PRESS |
         XCB_EVENT_MASK_KEY_RELEASE |
         XCB_EVENT_MASK_BUTTON_PRESS |
@@ -126,6 +124,26 @@ void X11WindowedBackend::createWindow()
     xcb_create_window(m_connection, XCB_COPY_FROM_PARENT, m_window, m_screen->root,
                       0, 0, m_size.width(), m_size.height(),
                       0, XCB_WINDOW_CLASS_INPUT_OUTPUT, XCB_COPY_FROM_PARENT, mask, values);
+
+    m_winInfo = new NETWinInfo(m_connection, m_window, m_screen->root, NET::WMWindowType, NET::Properties2());
+    m_winInfo->setWindowType(NET::Normal);
+    updateWindowTitle();
+    m_winInfo->setPid(QCoreApplication::applicationPid());
+    QIcon windowIcon = QIcon::fromTheme(QStringLiteral("kwin"));
+    auto addIcon = [this, &windowIcon] (const QSize &size) {
+        if (windowIcon.actualSize(size) != size) {
+            return;
+        }
+        NETIcon icon;
+        icon.data = windowIcon.pixmap(size).toImage().bits();
+        icon.size.width = size.width();
+        icon.size.height = size.height();
+        m_winInfo->setIcon(icon, false);
+    };
+    addIcon(QSize(16, 16));
+    addIcon(QSize(32, 32));
+    addIcon(QSize(48, 48));
+
     xcb_map_window(m_connection, m_window);
 
     m_protocols = protocolsAtom;
@@ -167,6 +185,13 @@ void X11WindowedBackend::handleEvent(xcb_generic_event_t *e)
     case XCB_KEY_RELEASE: {
             auto event = reinterpret_cast<xcb_key_press_event_t*>(e);
             if (eventType == XCB_KEY_PRESS) {
+                if (!m_keySymbols) {
+                    m_keySymbols = xcb_key_symbols_alloc(m_connection);
+                }
+                const xcb_keysym_t kc = xcb_key_symbols_get_keysym(m_keySymbols, event->detail, 0);
+                if (kc == XK_Control_R) {
+                    grabKeyboard(event->time);
+                }
                 keyboardKeyPressed(event->detail - 8, event->time);
             } else {
                 keyboardKeyReleased(event->detail - 8, event->time);
@@ -187,9 +212,58 @@ void X11WindowedBackend::handleEvent(xcb_generic_event_t *e)
     case XCB_EXPOSE:
         handleExpose(reinterpret_cast<xcb_expose_event_t*>(e));
         break;
+    case XCB_MAPPING_NOTIFY:
+        if (m_keySymbols) {
+            xcb_refresh_keyboard_mapping(m_keySymbols, reinterpret_cast<xcb_mapping_notify_event_t*>(e));
+        }
+        break;
     default:
         break;
     }
+}
+
+void X11WindowedBackend::grabKeyboard(xcb_timestamp_t time)
+{
+    const bool oldState = m_keyboardGrabbed;
+    if (m_keyboardGrabbed) {
+        xcb_ungrab_keyboard(m_connection, time);
+        xcb_ungrab_pointer(m_connection, time);
+        m_keyboardGrabbed = false;
+    } else {
+        const auto c = xcb_grab_keyboard_unchecked(m_connection, false, m_window, time,
+                                                   XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC);
+        ScopedCPointer<xcb_grab_keyboard_reply_t> grab(xcb_grab_keyboard_reply(m_connection, c, nullptr));
+        if (grab.isNull()) {
+            return;
+        }
+        if (grab->status == XCB_GRAB_STATUS_SUCCESS) {
+            const auto c = xcb_grab_pointer_unchecked(m_connection, false, m_window,
+                                                      XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE |
+                                                      XCB_EVENT_MASK_POINTER_MOTION |
+                                                      XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW,
+                                                      XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC,
+                                                      m_window, XCB_CURSOR_NONE, time);
+            ScopedCPointer<xcb_grab_pointer_reply_t> grab(xcb_grab_pointer_reply(m_connection, c, nullptr));
+            if (grab.isNull() || grab->status != XCB_GRAB_STATUS_SUCCESS) {
+                xcb_ungrab_keyboard(m_connection, time);
+                return;
+            }
+            m_keyboardGrabbed = true;
+        }
+    }
+    if (oldState != m_keyboardGrabbed) {
+        updateWindowTitle();
+        xcb_flush(m_connection);
+    }
+}
+
+void X11WindowedBackend::updateWindowTitle()
+{
+    const QString grab = m_keyboardGrabbed ? i18n("Press right control to ungrab input") : i18n("Press right control key to grab input");
+    const QString title = QStringLiteral("%1 (%2) - %3").arg(i18n("KDE Wayland Compositor"))
+                                                        .arg(waylandServer()->display()->socketName())
+                                                        .arg(grab);
+    m_winInfo->setName(title.toUtf8().constData());
 }
 
 void X11WindowedBackend::handleClientMessage(xcb_client_message_event_t *event)
@@ -322,17 +396,12 @@ xcb_window_t X11WindowedBackend::rootWindow() const
 
 Screens *X11WindowedBackend::createScreens(QObject *parent)
 {
-    return new X11WindowedScreens(this, parent);
+    return new BasicScreens(this, parent);
 }
 
 OpenGLBackend *X11WindowedBackend::createOpenGLBackend()
 {
-#ifdef KWIN_HAVE_EGL
-#if HAVE_X11_XCB
     return  new EglOnXBackend(connection(), display(), rootWindow(), screenNumer(), window());
-#endif
-#endif
-    return nullptr;
 }
 
 QPainterBackend *X11WindowedBackend::createQPainterBackend()

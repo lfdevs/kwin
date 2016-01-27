@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-10-21 08:16+0000\n"
 "PO-Revision-Date: 2010-03-18 11:06+0100\n"
 "Last-Translator: Andrej Dundovic <adundovi@gmail.com>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -35,61 +35,53 @@ msgid "No Action"
 msgstr "Bez radnje"
 
 #: main.cpp:188
-msgid "Show Dashboard"
-msgstr "Prikaži nadzornu ploču"
-
-#: main.cpp:189
 msgid "Show Desktop"
 msgstr "Prikaži radnu površinu"
 
-#: main.cpp:190
+#: main.cpp:189
 msgid "Lock Screen"
 msgstr "Zaključaj zaslon"
 
-#: main.cpp:191
-msgid "Prevent Screen Locking"
-msgstr "Spriječi zaključavanje zaslona"
-
-#: main.cpp:200
+#: main.cpp:193
 #, fuzzy, kde-format
 #| msgid "All Desktops"
 msgid "%1 - All Desktops"
 msgstr "Sve radne površine"
 
-#: main.cpp:201
+#: main.cpp:194
 #, fuzzy, kde-format
 #| msgid "Current Desktop"
 msgid "%1 - Current Desktop"
 msgstr "Trenutna radna površina"
 
-#: main.cpp:202
+#: main.cpp:195
 #, kde-format
 msgid "%1 - Current Application"
 msgstr ""
 
-#: main.cpp:205
+#: main.cpp:198
 #, fuzzy, kde-format
 #| msgid "Cube"
 msgid "%1 - Cube"
 msgstr "Kocka"
 
-#: main.cpp:206
+#: main.cpp:199
 #, fuzzy, kde-format
 #| msgid "Cylinder"
 msgid "%1 - Cylinder"
 msgstr "Cilindar"
 
-#: main.cpp:207
+#: main.cpp:200
 #, fuzzy, kde-format
 #| msgid "Sphere"
 msgid "%1 - Sphere"
 msgstr "Sfera"
 
-#: main.cpp:209
+#: main.cpp:202
 msgid "Toggle window switching"
 msgstr ""
 
-#: main.cpp:210
+#: main.cpp:203
 msgid "Toggle alternative window switching"
 msgstr ""
 

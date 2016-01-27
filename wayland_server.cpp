@@ -27,12 +27,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Client
 #include <KWayland/Client/connection_thread.h>
+#include <KWayland/Client/event_queue.h>
 #include <KWayland/Client/registry.h>
+#include <KWayland/Client/shm_pool.h>
 #include <KWayland/Client/surface.h>
 // Server
 #include <KWayland/Server/compositor_interface.h>
 #include <KWayland/Server/datadevicemanager_interface.h>
 #include <KWayland/Server/display.h>
+#include <KWayland/Server/dpms_interface.h>
 #include <KWayland/Server/idle_interface.h>
 #include <KWayland/Server/output_interface.h>
 #include <KWayland/Server/plasmashell_interface.h>
@@ -40,14 +43,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/qtsurfaceextension_interface.h>
 #include <KWayland/Server/seat_interface.h>
 #include <KWayland/Server/shadow_interface.h>
+#include <KWayland/Server/blur_interface.h>
 #include <KWayland/Server/shell_interface.h>
 
 // Qt
+#include <QThread>
 #include <QWindow>
 
 // system
 #include <sys/types.h>
 #include <sys/socket.h>
+
+//screenlocker
+#include <KScreenLocker/KsldApp>
 
 using namespace KWayland::Server;
 
@@ -59,12 +67,43 @@ KWIN_SINGLETON_FACTORY(WaylandServer)
 WaylandServer::WaylandServer(QObject *parent)
     : QObject(parent)
 {
+    qRegisterMetaType<KWayland::Server::SurfaceInterface *>("KWayland::Server::SurfaceInterface *");
+    qRegisterMetaType<KWayland::Server::OutputInterface::DpmsMode>();
 }
 
-WaylandServer::~WaylandServer() = default;
-
-void WaylandServer::init(const QByteArray &socketName)
+WaylandServer::~WaylandServer()
 {
+    destroyInputMethodConnection();
+}
+
+void WaylandServer::destroyInternalConnection()
+{
+    if (m_internalConnection.client) {
+        delete m_internalConnection.registry;
+        delete m_internalConnection.shm;
+        dispatch();
+        m_internalConnection.client->deleteLater();
+        m_internalConnection.clientThread->quit();
+        m_internalConnection.clientThread->wait();
+        delete m_internalConnection.clientThread;
+        m_internalConnection.client = nullptr;
+        m_internalConnection.server->destroy();
+    }
+}
+
+void WaylandServer::terminateClientConnections()
+{
+    destroyInternalConnection();
+    destroyInputMethodConnection();
+    const auto connections = m_display->connections();
+    for (auto it = connections.begin(); it != connections.end(); ++it) {
+        (*it)->destroy();
+    }
+}
+
+void WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
+{
+    m_initFlags = flags;
     m_display = new KWayland::Server::Display(this);
     if (!socketName.isNull() && !socketName.isEmpty()) {
         m_display->setSocketName(QString::fromUtf8(socketName));
@@ -100,23 +139,12 @@ void WaylandServer::init(const QByteArray &socketName)
                 // it's possible that a Surface gets created before Workspace is created
                 return;
             }
-            if (surface->client() == m_xwaylandConnection) {
+            if (surface->client() == m_xwayland.client) {
                 // skip Xwayland clients, those are created using standard X11 way
                 return;
             }
-            if (surface->client() == m_qtConnection) {
-                // one of Qt's windows
-                if (m_dummyWindowSurface && (m_dummyWindowSurface->id() == surface->surface()->id())) {
-                    fakeDummyQtWindowInput();
-                    return;
-                }
-                // HACK: in order to get Qt to not block for frame rendered, we immediatelly emit the
-                // frameRendered once we get a new damage event.
-                auto s = surface->surface();
-                connect(s, &SurfaceInterface::damaged, this, [this, s] {
-                    s->frameRendered(0);
-                    m_qtConnection->flush();
-                });
+            if (surface->client() == m_screenLockerClientConnection && !isScreenLocked()) {
+                ScreenLocker::KSldApp::self()->lockScreenShown();
             }
             auto client = new ShellClient(surface);
             if (auto c = Compositor::self()) {
@@ -189,6 +217,8 @@ void WaylandServer::init(const QByteArray &socketName)
     );
     auto shadowManager = m_display->createShadowManager(m_display);
     shadowManager->create();
+
+    m_display->createDpmsManager(m_display)->create();
 }
 
 void WaylandServer::initWorkspace()
@@ -203,6 +233,26 @@ void WaylandServer::initWorkspace()
                 );
             }
         );
+    }
+
+    ScreenLocker::KSldApp::self();
+    ScreenLocker::KSldApp::self()->setWaylandDisplay(m_display);
+    ScreenLocker::KSldApp::self()->initialize();
+
+    connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::greeterClientConnectionChanged, this,
+        [this] () {
+            m_screenLockerClientConnection = ScreenLocker::KSldApp::self()->greeterClientConnection();
+        }
+    );
+
+    connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::unlocked, this,
+        [this] () {
+            m_screenLockerClientConnection = nullptr;
+        }
+    );
+
+    if (m_initFlags.testFlag(InitalizationFlag::LockScreen)) {
+        ScreenLocker::KSldApp::self()->lock(ScreenLocker::EstablishLock::Immediate);
     }
 }
 
@@ -228,13 +278,23 @@ int WaylandServer::createXWaylandConnection()
         qCWarning(KWIN_CORE) << "Could not create socket";
         return -1;
     }
-    m_xwaylandConnection = m_display->createClient(sx[0]);
-    connect(m_xwaylandConnection, &KWayland::Server::ClientConnection::disconnected, this,
+    m_xwayland.client = m_display->createClient(sx[0]);
+    m_xwayland.destroyConnection = connect(m_xwayland.client, &KWayland::Server::ClientConnection::disconnected, this,
         [] {
             qFatal("Xwayland Connection died");
         }
     );
     return sx[1];
+}
+
+void WaylandServer::destroyXWaylandConnection()
+{
+    if (!m_xwayland.client) {
+        return;
+    }
+    disconnect(m_xwayland.destroyConnection);
+    m_xwayland.client->destroy();
+    m_xwayland.client = nullptr;
 }
 
 int WaylandServer::createInputMethodConnection()
@@ -248,15 +308,13 @@ int WaylandServer::createInputMethodConnection()
     return sx[1];
 }
 
-int WaylandServer::createQtConnection()
+void WaylandServer::destroyInputMethodConnection()
 {
-    int sx[2];
-    if (socketpair(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0, sx) < 0) {
-        qCWarning(KWIN_CORE) << "Could not create socket";
-        return -1;
+    if (!m_inputMethodServerConnection) {
+        return;
     }
-    m_qtConnection = m_display->createClient(sx[0]);
-    return sx[1];
+    m_inputMethodServerConnection->destroy();
+    m_inputMethodServerConnection = nullptr;
 }
 
 void WaylandServer::createInternalConnection()
@@ -268,15 +326,23 @@ void WaylandServer::createInternalConnection()
     }
     m_internalConnection.server = m_display->createClient(sx[0]);
     using namespace KWayland::Client;
-    m_internalConnection.client = new ConnectionThread(this);
+    m_internalConnection.client = new ConnectionThread();
     m_internalConnection.client->setSocketFd(sx[1]);
+    m_internalConnection.clientThread = new QThread;
+    m_internalConnection.client->moveToThread(m_internalConnection.clientThread);
+    m_internalConnection.clientThread->start();
+
     connect(m_internalConnection.client, &ConnectionThread::connected, this,
         [this] {
-            Registry *registry = new Registry(m_internalConnection.client);
+            Registry *registry = new Registry(this);
+            EventQueue *eventQueue = new EventQueue(this);
+            eventQueue->setup(m_internalConnection.client);
+            registry->setEventQueue(eventQueue);
             registry->create(m_internalConnection.client);
+            m_internalConnection.registry = registry;
             connect(registry, &Registry::shmAnnounced, this,
-                [this, registry] (quint32 name, quint32 version) {
-                    m_internalConnection.shm = registry->createShmPool(name, version, m_internalConnection.client);
+                [this] (quint32 name, quint32 version) {
+                    m_internalConnection.shm = m_internalConnection.registry->createShmPool(name, version, this);
                 }
             );
             registry->setup();
@@ -304,49 +370,13 @@ void WaylandServer::removeClient(ShellClient *c)
     emit shellClientRemoved(c);
 }
 
-void WaylandServer::createDummyQtWindow()
-{
-    if (m_dummyWindow) {
-        return;
-    }
-    m_dummyWindow.reset(new QWindow());
-    m_dummyWindow->setSurfaceType(QSurface::RasterSurface);
-    m_dummyWindow->show();
-    m_dummyWindowSurface = KWayland::Client::Surface::fromWindow(m_dummyWindow.data());
-}
-
-void WaylandServer::fakeDummyQtWindowInput()
-{
-    // we need to fake Qt into believing it has got any seat events
-    // this is done only when receiving either a key press or button.
-    // we simulate by sending a button press and release
-    auto surface = KWayland::Server::SurfaceInterface::get(m_dummyWindowSurface->id(), m_qtConnection);
-    if (!surface) {
-        return;
-    }
-    const auto oldSeatSurface = m_seat->focusedPointerSurface();
-    const auto oldPos = m_seat->focusedPointerSurfacePosition();
-    m_seat->setFocusedPointerSurface(surface, QPoint(0, 0));
-    m_seat->setPointerPos(QPointF(0, 0));
-    m_seat->pointerButtonPressed(Qt::LeftButton);
-    m_seat->pointerButtonReleased(Qt::LeftButton);
-    m_qtConnection->flush();
-    m_dummyWindow->hide();
-    m_seat->setFocusedPointerSurface(oldSeatSurface, oldPos);
-}
-
 void WaylandServer::dispatch()
 {
     if (!m_display) {
         return;
     }
-    if (!m_qtClientConnection) {
-        if (m_qtConnection && QGuiApplication::instance()) {
-            m_qtClientConnection = KWayland::Client::ConnectionThread::fromApplication(this);
-        }
-    }
-    if (m_qtClientConnection) {
-        m_qtClientConnection->flush();
+    if (m_internalConnection.server) {
+        m_internalConnection.server->flush();
     }
     m_display->dispatchEvents(0);
 }
@@ -405,6 +435,22 @@ ShellClient *WaylandServer::findClient(SurfaceInterface *surface) const
     return nullptr;
 }
 
+ShellClient *WaylandServer::findClient(QWindow *w) const
+{
+    if (!w) {
+        return nullptr;
+    }
+    auto it = std::find_if(m_internalClients.constBegin(), m_internalClients.constEnd(),
+        [w] (const ShellClient *c) {
+            return c->internalWindow() == w;
+        }
+    );
+    if (it != m_internalClients.constEnd()) {
+        return *it;
+    }
+    return nullptr;
+}
+
 quint32 WaylandServer::createWindowId(SurfaceInterface *surface)
 {
     auto it = m_clientIds.constFind(surface->client());
@@ -445,6 +491,11 @@ quint16 WaylandServer::createClientId(ClientConnection *c)
         }
     );
     return id;
+}
+
+bool WaylandServer::isScreenLocked() const
+{
+    return ScreenLocker::KSldApp::self()->lockState() == ScreenLocker::KSldApp::Locked;
 }
 
 }

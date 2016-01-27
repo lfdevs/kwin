@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-07-07 12:09+0000\n"
 "PO-Revision-Date: 2013-11-26 23:25+0200\n"
 "Last-Translator: Sergiu Bivol <sergiu@ase.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -87,7 +87,7 @@ msgstr "&Aliniere titlu"
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignLeft)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:29
 msgid "Left"
-msgstr "Stînga"
+msgstr "Stânga"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignCenter)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:36
@@ -133,8 +133,8 @@ msgid ""
 "Check this option if you want the buttons to fade in when the mouse pointer "
 "hovers over them and fade out again when it moves away."
 msgstr ""
-"Bifați această opțiune dacă doriți ca butoanele să apară gradual cînd "
-"indicatorul de maus planează peste ele și să se estompeze iar cînd este dat "
+"Bifați această opțiune dacă doriți ca butoanele să apară gradual când "
+"indicatorul de maus planează peste ele și să se estompeze iar când este dat "
 "deoparte."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)

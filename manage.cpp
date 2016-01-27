@@ -50,18 +50,15 @@ bool Client::manage(xcb_window_t w, bool isMapped)
 {
     StackingUpdatesBlocker stacking_blocker(workspace());
 
-    grabXServer();
-
     Xcb::WindowAttributes attr(w);
     Xcb::WindowGeometry windowGeometry(w);
     if (attr.isNull() || windowGeometry.isNull()) {
-        ungrabXServer();
         return false;
     }
 
     // From this place on, manage() must not return false
-    block_geometry_updates = 1;
-    pending_geometry_update = PendingGeometryForced; // Force update when finishing with geometry changes
+    blockGeometryUpdates();
+    setPendingGeometryUpdate(PendingGeometryForced); // Force update when finishing with geometry changes
 
     embedClient(w, attr->visual, attr->colormap, windowGeometry->depth);
 
@@ -138,7 +135,7 @@ bool Client::manage(xcb_window_t w, bool isMapped)
     updateUrgency();
     updateAllowedActions(); // Group affects isMinimizable()
 
-    modal = (info->state() & NET::Modal) != 0;   // Needs to be valid before handling groups
+    setModal((info->state() & NET::Modal) != 0);   // Needs to be valid before handling groups
     readTransientProperty(transientCookie);
     getIcons();
     m_geometryHints.read();
@@ -188,12 +185,12 @@ bool Client::manage(xcb_window_t w, bool isMapped)
         // same window as its parent.  this is necessary when an application
         // starts up on a different desktop than is currently displayed
         if (isTransient()) {
-            ClientList mainclients = mainClients();
+            auto mainclients = mainClients();
             bool on_current = false;
             bool on_all = false;
-            Client* maincl = NULL;
+            AbstractClient* maincl = nullptr;
             // This is slightly duplicated from Placement::placeOnMainWindow()
-            for (ClientList::ConstIterator it = mainclients.constBegin();
+            for (auto it = mainclients.constBegin();
                     it != mainclients.constEnd();
                     ++it) {
                 if (mainclients.count() > 1 &&      // A group-transient
@@ -421,7 +418,8 @@ bool Client::manage(xcb_window_t w, bool isMapped)
             const QSize ss = workspace()->clientArea(ScreenArea, area.center(), desktop()).size();
             const QRect fsa = workspace()->clientArea(FullArea, geom.center(), desktop());
             const QSize cs = clientSize();
-            int pseudo_max = MaximizeRestore;
+            int pseudo_max = ((info->state() & NET::MaxVert) ? MaximizeVertical : 0) |
+                             ((info->state() & NET::MaxHoriz) ? MaximizeHorizontal : 0);
             if (width() >= area.width())
                 pseudo_max |=  MaximizeHorizontal;
             if (height() >= area.height())
@@ -473,8 +471,8 @@ bool Client::manage(xcb_window_t w, bool isMapped)
     // if client has initial state set to Iconic and is transient with a parent
     // window that is not Iconic, set init_state to Normal
     if (init_minimize && isTransient()) {
-        ClientList mainclients = mainClients();
-        for (ClientList::ConstIterator it = mainclients.constBegin();
+        auto mainclients = mainClients();
+        for (auto it = mainclients.constBegin();
                 it != mainclients.constEnd();
                 ++it)
             if ((*it)->isShown(true))
@@ -485,8 +483,8 @@ bool Client::manage(xcb_window_t w, bool isMapped)
         bool visible_parent = false;
         // Use allMainClients(), to include also main clients of group transients
         // that have been optimized out in Client::checkGroupTransients()
-        ClientList mainclients = allMainClients();
-        for (ClientList::ConstIterator it = mainclients.constBegin();
+        auto mainclients = allMainClients();
+        for (auto it = mainclients.constBegin();
                 it != mainclients.constEnd();
                 ++it)
             if ((*it)->isShown(true))
@@ -594,10 +592,12 @@ bool Client::manage(xcb_window_t w, bool isMapped)
                  */
                 needsSessionInteract = true;
                 //show the parent too
-                ClientList mainclients = mainClients();
-                for (ClientList::ConstIterator it = mainclients.constBegin();
+                auto mainclients = mainClients();
+                for (auto it = mainclients.constBegin();
                         it != mainclients.constEnd(); ++it) {
-                    (*it)->setSessionInteract(true);
+                    if (Client *mc = dynamic_cast<Client*>((*it))) {
+                        mc->setSessionInteract(true);
+                    }
                     (*it)->unminimize();
                 }
             } else if (allow) {
@@ -640,8 +640,6 @@ bool Client::manage(xcb_window_t w, bool isMapped)
     //sendSyntheticConfigureNotify(); // Done when setting mapping state
 
     delete session;
-
-    ungrabXServer();
 
     client_rules.discardTemporary();
     applyWindowRules(); // Just in case

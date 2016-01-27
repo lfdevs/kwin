@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-09-15 14:06+0000\n"
-"PO-Revision-Date: 2015-04-18 15:10+0100\n"
+"POT-Creation-Date: 2015-11-03 14:08+0000\n"
+"PO-Revision-Date: 2015-10-30 11:07+0000\n"
 "Last-Translator: José Nuno Coelho Pires <zepires@gmail.com>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: \n"
@@ -47,7 +47,7 @@ msgstr "Forte"
 msgid "Save intermediate rendering results."
 msgstr "Grava os resultados de desenho intermédios."
 
-#: coverswitch/coverswitch.cpp:961 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Mostrar o Ecrã"
@@ -135,15 +135,15 @@ msgstr "Cor traseira"
 msgid "Front color"
 msgstr "Cor frontal"
 
-#: cube/cube.cpp:201 cube/cube_config.cpp:70
+#: cube/cube.cpp:197 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "Cubo de Ecrãs"
 
-#: cube/cube.cpp:209 cube/cube_config.cpp:75
+#: cube/cube.cpp:205 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "Cilindro de Ecrãs"
 
-#: cube/cube.cpp:215 cube/cube_config.cpp:79
+#: cube/cube.cpp:211 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "Esfera de Ecrãs"
 
@@ -190,7 +190,7 @@ msgstr "Papel de parede:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: cube/cube_config.ui:82 desktopgrid/desktopgrid_config.ui:200
+#: cube/cube_config.ui:82 desktopgrid/desktopgrid_config.ui:207
 #: flipswitch/flipswitch_config.ui:204
 #: presentwindows/presentwindows_config.ui:17
 msgid "Activation"
@@ -364,61 +364,7 @@ msgstr "Usar a disposição do paginador na animação"
 msgid "Start animation when moving windows towards screen edges"
 msgstr "Iniciar a animação ao mover as janelas para os extremos do ecrã"
 
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: dashboard/dashboard_config.ui:17
-msgid "Brightness of the background:"
-msgstr "Brilho do fundo:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: dashboard/dashboard_config.ui:42
-msgctxt "Less brightness"
-msgid "Darker"
-msgstr "Mais escuro"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: dashboard/dashboard_config.ui:74
-msgctxt "More brightness"
-msgid "Lighter"
-msgstr "Mais claro"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: dashboard/dashboard_config.ui:83
-msgid "Saturation of the background:"
-msgstr "Saturação do fundo:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: dashboard/dashboard_config.ui:108
-msgctxt "No saturation"
-msgid "Gray"
-msgstr "Cinzento"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: dashboard/dashboard_config.ui:140
-msgctxt "High saturation"
-msgid "Colored"
-msgstr "Colorido"
-
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#: dashboard/dashboard_config.ui:149
-msgid "Duration of the fade:"
-msgstr "Duração do desvanecimento:"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: dashboard/dashboard_config.ui:184
-msgid "ms"
-msgstr "ms"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_Blur)
-#: dashboard/dashboard_config.ui:193
-msgid "The blur effect must be enabled before it can be used."
-msgstr "O efeito de borrão deverá estar activo antes de poder ser usado."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Blur)
-#: dashboard/dashboard_config.ui:196
-msgid "Apply blur effect to background"
-msgstr "Aplicar o efeito de borrão ao fundo"
-
-#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Mostrar a Grelha do Ecrã"
 
@@ -480,7 +426,7 @@ msgstr "Predefinida"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: desktopgrid/desktopgrid_config.ui:55
-msgid "&Border width:"
+msgid "Border wid&th:"
 msgstr "Largura do &contorno:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -510,13 +456,18 @@ msgstr "Personalizado"
 
 #. i18n: ectx: property (text), widget (QLabel, layoutRowsLabel)
 #: desktopgrid/desktopgrid_config.ui:145
-msgid "Number of &rows:"
-msgstr "Núme&ro de linhas:"
+msgid "N&umber of rows:"
+msgstr "Número de &linhas:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PresentWindows)
 #: desktopgrid/desktopgrid_config.ui:190
 msgid "Use Present Windows effect to layout the windows"
 msgstr "Usar o efeito das Janelas Presentes para dispor as janelas"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAddRemove)
+#: desktopgrid/desktopgrid_config.ui:197
+msgid "Show buttons to alter count of virtual desktops"
+msgstr "Mostrar os botões para alterar o número de ecrãs virtuais"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimPanels)
 #: diminactive/diminactive_config.ui:17
@@ -543,219 +494,209 @@ msgstr "Aplicar o efeito aos &grupos"
 msgid "&Strength:"
 msgstr "&Potência:"
 
-#: effect_builtins.cpp:102
+#: effect_builtins.cpp:101
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
 msgstr "Borrão"
 
-#: effect_builtins.cpp:103
+#: effect_builtins.cpp:102
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
 msgstr "Borra o fundo atrás das janelas semi-transparentes"
 
-#: effect_builtins.cpp:117
+#: effect_builtins.cpp:116
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Contraste do fundo"
 
-#: effect_builtins.cpp:118
+#: effect_builtins.cpp:117
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
 msgstr ""
 "Melhora o contraste e a legibilidade atrás das janelas semi-transparentes"
 
-#: effect_builtins.cpp:132
+#: effect_builtins.cpp:131
 msgctxt "Name of a KWin Effect"
 msgid "Cover Switch"
 msgstr "Mudança de Capas"
 
-#: effect_builtins.cpp:133
+#: effect_builtins.cpp:132
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a Cover Flow effect for the alt+tab window switcher"
 msgstr ""
 "Mostra um efeito de Fluxo de Capas para o selector de janelas por Alt+Tab"
 
-#: effect_builtins.cpp:147
+#: effect_builtins.cpp:146
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Cubo de Ecrãs"
 
-#: effect_builtins.cpp:148
+#: effect_builtins.cpp:147
 msgctxt "Comment describing the KWin Effect"
 msgid "Display each virtual desktop on a side of a cube"
 msgstr "Mostra cada ecrã virtual numa face de um cubo"
 
-#: effect_builtins.cpp:162
+#: effect_builtins.cpp:161
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Animação do Cubo de Ecrãs"
 
-#: effect_builtins.cpp:163
+#: effect_builtins.cpp:162
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate desktop switching with a cube"
 msgstr "Anima a mudança de ecrã com um cubo"
 
-#: effect_builtins.cpp:177
-msgctxt "Name of a KWin Effect"
-msgid "Dashboard"
-msgstr "Quadro"
-
-#: effect_builtins.cpp:178
-msgctxt "Comment describing the KWin Effect"
-msgid "Desaturate the desktop when displaying the Plasma dashboard"
-msgstr "Reduz a saturação do ecrã ao mostrar o quadro do Plasma"
-
-#: effect_builtins.cpp:192
+#: effect_builtins.cpp:176
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Grelha do Ecrã"
 
-#: effect_builtins.cpp:193
+#: effect_builtins.cpp:177
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
 msgstr ""
 "Reduz até que todos os ecrãs sejam apresentados lado-a-lado numa grelha"
 
-#: effect_builtins.cpp:207
+#: effect_builtins.cpp:191
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
 msgstr "Escurecimento das Inactivas"
 
-#: effect_builtins.cpp:208
+#: effect_builtins.cpp:192
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Escurecer as janelas inactivas"
 
-#: effect_builtins.cpp:222
+#: effect_builtins.cpp:206
 msgctxt "Name of a KWin Effect"
 msgid "Dim Screen for Administrator Mode"
 msgstr "Escurecimento do Ecrã no Modo de Administração"
 
-#: effect_builtins.cpp:223
+#: effect_builtins.cpp:207
 msgctxt "Comment describing the KWin Effect"
 msgid "Darkens the entire screen when requesting root privileges"
 msgstr "Escurece o ecrã inteiro ao pedir os privilégios de 'root'"
 
-#: effect_builtins.cpp:237
+#: effect_builtins.cpp:221
 msgctxt "Name of a KWin Effect"
 msgid "Fall Apart"
 msgstr "Queda aos Bocados"
 
-#: effect_builtins.cpp:238
+#: effect_builtins.cpp:222
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "As janelas fechadas caem aos bocados"
 
-#: effect_builtins.cpp:252
+#: effect_builtins.cpp:236
 msgctxt "Name of a KWin Effect"
 msgid "Flip Switch"
 msgstr "Mudança por Inversão"
 
-#: effect_builtins.cpp:253
+#: effect_builtins.cpp:237
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Flip through windows that are in a stack for the alt+tab window switcher"
 msgstr ""
 "Vai virando as janelas numa pilha para o selector de janelas por Alt+Tab"
 
-#: effect_builtins.cpp:267
+#: effect_builtins.cpp:251
 msgctxt "Name of a KWin Effect"
 msgid "Glide"
 msgstr "Deslizamento"
 
-#: effect_builtins.cpp:268
+#: effect_builtins.cpp:252
 msgctxt "Comment describing the KWin Effect"
 msgid "Windows Glide Effect as they are open and closed"
 msgstr "Efeito de deslizamento das janelas à medida que se abrem ou fecham"
 
-#: effect_builtins.cpp:282
+#: effect_builtins.cpp:266
 msgctxt "Name of a KWin Effect"
 msgid "Highlight Window"
 msgstr "Realce da Janela"
 
-#: effect_builtins.cpp:283
+#: effect_builtins.cpp:267
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight the appropriate window when hovering over taskbar entries"
 msgstr ""
 "Realça a janela apropriada quando passar o rato sobre os itens da barra de "
 "tarefas"
 
-#: effect_builtins.cpp:297
+#: effect_builtins.cpp:281
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Inversão"
 
-#: effect_builtins.cpp:298
+#: effect_builtins.cpp:282
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
 msgstr "Inverte a cor do ecrã e das janelas"
 
-#: effect_builtins.cpp:312
+#: effect_builtins.cpp:296
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
 msgstr "Kscreen"
 
-#: effect_builtins.cpp:313
+#: effect_builtins.cpp:297
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper Effect for KScreen"
 msgstr "Efeito Auxiliar do KScreen"
 
-#: effect_builtins.cpp:327
+#: effect_builtins.cpp:311
 msgctxt "Name of a KWin Effect"
 msgid "Logout"
 msgstr "Encerramento"
 
-#: effect_builtins.cpp:328
+#: effect_builtins.cpp:312
 msgctxt "Comment describing the KWin Effect"
 msgid "Desaturate the desktop when displaying the logout dialog"
 msgstr "Reduz a saturação do ecrã ao mostrar a janela de encerramento"
 
-#: effect_builtins.cpp:342
+#: effect_builtins.cpp:326
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
 msgstr "Lente"
 
-#: effect_builtins.cpp:343
+#: effect_builtins.cpp:327
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
 msgstr "Uma lupa do ecrã que se parece a uma lente olho-de-peixe"
 
-#: effect_builtins.cpp:357
+#: effect_builtins.cpp:341
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
 msgstr "Lâmpada Mágica"
 
-#: effect_builtins.cpp:358
+#: effect_builtins.cpp:342
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
 msgstr "Simula uma lâmpada mágica ao minimizar as janelas"
 
-#: effect_builtins.cpp:372
+#: effect_builtins.cpp:356
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Lupa"
 
-#: effect_builtins.cpp:373
+#: effect_builtins.cpp:357
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
 msgstr "Amplia a secção do ecrã que está próxima do cursor do rato"
 
-#: effect_builtins.cpp:387
+#: effect_builtins.cpp:371
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Animação da Minimização"
 
-#: effect_builtins.cpp:388
+#: effect_builtins.cpp:372
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "Animar a minimização das janelas"
 
-#: effect_builtins.cpp:402
+#: effect_builtins.cpp:386
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Animação do 'Click' do Rato"
 
-#: effect_builtins.cpp:403
+#: effect_builtins.cpp:387
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Creates an animation whenever a mouse button is clicked. This is useful for "
@@ -764,65 +705,65 @@ msgstr ""
 "Cria uma animação sempre que um botão do rato é carregado. Isto é útil para "
 "gravações/apresentações do ecrã"
 
-#: effect_builtins.cpp:417
+#: effect_builtins.cpp:401
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Marcas do Rato"
 
-#: effect_builtins.cpp:418
+#: effect_builtins.cpp:402
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
 msgstr "Permite-lhe desenhar linhas sobre o ecrã"
 
-#: effect_builtins.cpp:432
+#: effect_builtins.cpp:416
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Janelas Presentes"
 
-#: effect_builtins.cpp:433
+#: effect_builtins.cpp:417
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
 msgstr ""
 "Reduz até que todas as janelas abertas possam ser apresentadas lado-a-lado"
 
-#: effect_builtins.cpp:447
+#: effect_builtins.cpp:431
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Dimensionar a Janela"
 
-#: effect_builtins.cpp:448
+#: effect_builtins.cpp:432
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
 msgstr ""
 "Dimensiona as janelas com uma escala de textura rápida em vez de actualizar "
 "o conteúdo"
 
-#: effect_builtins.cpp:462
+#: effect_builtins.cpp:446
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr "Extremo do Ecrã"
 
-#: effect_builtins.cpp:463
+#: effect_builtins.cpp:447
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
 msgstr "Realça um dado extremo do ecrã à aproximação do cursor do rato"
 
-#: effect_builtins.cpp:477
+#: effect_builtins.cpp:461
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
 msgstr "Captura do Ecrã"
 
-#: effect_builtins.cpp:478
+#: effect_builtins.cpp:462
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for KSnapshot"
 msgstr "Efeito auxiliar do KSnapshot"
 
-#: effect_builtins.cpp:492
+#: effect_builtins.cpp:476
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
 msgstr "Folha"
 
-#: effect_builtins.cpp:493
+#: effect_builtins.cpp:477
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Make modal dialogs smoothly fly in and out when they are shown or hidden"
@@ -830,122 +771,122 @@ msgstr ""
 "Faz com que as janelas modais voem suavemente ao serem apresentadas ou "
 "escondidas"
 
-#: effect_builtins.cpp:507
+#: effect_builtins.cpp:491
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
 msgstr "Mostrar as IPS"
 
-#: effect_builtins.cpp:508
+#: effect_builtins.cpp:492
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
 msgstr "Mostra a performance do KWin no canto do ecrã"
 
-#: effect_builtins.cpp:522
+#: effect_builtins.cpp:506
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Mostrar a Pintura"
 
-#: effect_builtins.cpp:523
+#: effect_builtins.cpp:507
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
 msgstr "Realça as áreas do ecrã que foram actualizadas recentemente"
 
-#: effect_builtins.cpp:537
+#: effect_builtins.cpp:521
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
 msgstr "Deslize de Janelas"
 
-#: effect_builtins.cpp:538
+#: effect_builtins.cpp:522
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide windows across the screen when switching virtual desktops"
 msgstr "Desliza as janelas pelo ecrã ao mudar de ecrãs virtuais"
 
-#: effect_builtins.cpp:552
+#: effect_builtins.cpp:536
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
 msgstr "Deslize para Trás"
 
-#: effect_builtins.cpp:553
+#: effect_builtins.cpp:537
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
 msgstr "Desliza as janelas para trás quando se eleva outra janela"
 
-#: effect_builtins.cpp:567
+#: effect_builtins.cpp:551
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
 msgstr "Janelas Instantâneas Deslizantes"
 
-#: effect_builtins.cpp:568
+#: effect_builtins.cpp:552
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
 msgstr "Animação do deslize das janelas instantâneas no Plasma"
 
-#: effect_builtins.cpp:582
+#: effect_builtins.cpp:566
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
 msgstr "Auxiliar de Ajuste"
 
-#: effect_builtins.cpp:583
+#: effect_builtins.cpp:567
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
 msgstr "Permite-lhe localizar o centro do ecrã ao mover uma janela"
 
-#: effect_builtins.cpp:597
+#: effect_builtins.cpp:581
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
 msgstr "Reacção no Arranque"
 
-#: effect_builtins.cpp:598
+#: effect_builtins.cpp:582
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
 msgstr "Efeito auxiliar para dar reacção no arranque"
 
-#: effect_builtins.cpp:612
+#: effect_builtins.cpp:596
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Miniaturas ao Lado"
 
-#: effect_builtins.cpp:613
+#: effect_builtins.cpp:597
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
 msgstr "Mostra miniaturas das janelas no extremo do ecrã"
 
-#: effect_builtins.cpp:627
+#: effect_builtins.cpp:611
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Seguir o Rato"
 
-#: effect_builtins.cpp:628
+#: effect_builtins.cpp:612
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a mouse cursor locating effect when activated"
 msgstr "Mostrar um efeito de localização do cursor do rato, caso esteja activo"
 
-#: effect_builtins.cpp:642
+#: effect_builtins.cpp:626
 msgctxt "Name of a KWin Effect"
 msgid "Window Geometry"
 msgstr "Geometria da Janela"
 
-#: effect_builtins.cpp:643
+#: effect_builtins.cpp:627
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "Mostrar as dimensões da janela ao mover/dimensionar"
 
-#: effect_builtins.cpp:657
+#: effect_builtins.cpp:641
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Janelas Ondulantes"
 
-#: effect_builtins.cpp:658
+#: effect_builtins.cpp:642
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "Deforma as janelas à medida que são movidas"
 
-#: effect_builtins.cpp:672
+#: effect_builtins.cpp:656
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Ampliação"
 
-#: effect_builtins.cpp:673
+#: effect_builtins.cpp:657
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
 msgstr "Amplia o ecrã inteiro"
@@ -1157,11 +1098,11 @@ msgstr "Tipo de letra:"
 msgid "Show Text:"
 msgstr "Mostrar o Texto:"
 
-#: mousemark/mousemark.cpp:50
+#: mousemark/mousemark.cpp:51
 msgid "Clear All Mouse Marks"
 msgstr "Limpar Todas as Marcas do Rato"
 
-#: mousemark/mousemark.cpp:57 mousemark/mousemark_config.cpp:74
+#: mousemark/mousemark.cpp:58 mousemark/mousemark_config.cpp:74
 msgid "Clear Last Mouse Mark"
 msgstr "Limpar as Últimas Marcas do Rato"
 

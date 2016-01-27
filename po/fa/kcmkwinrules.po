@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-11-19 09:30+0000\n"
 "PO-Revision-Date: 2007-09-02 13:18+0330\n"
 "Last-Translator: Nazanin Kazemi <kazemi@itland.ir>\n"
 "Language-Team: Persian <kde-i18n-fa@kde.org>\n"
@@ -28,37 +28,37 @@ msgstr "kazemi@itland.ir"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:100 ruleswidgetbase.ui:428 ruleswidgetbase.ui:2229
+#: detectwidget.cpp:100 ruleswidgetbase.ui:428 ruleswidgetbase.ui:2459
 msgid "Normal Window"
 msgstr "پنجره عادی"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:101 ruleswidgetbase.ui:463 ruleswidgetbase.ui:2264
+#: detectwidget.cpp:101 ruleswidgetbase.ui:463 ruleswidgetbase.ui:2494
 msgid "Desktop"
 msgstr "رومیزی"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:102 ruleswidgetbase.ui:443 ruleswidgetbase.ui:2244
+#: detectwidget.cpp:102 ruleswidgetbase.ui:443 ruleswidgetbase.ui:2474
 msgid "Dock (panel)"
 msgstr "پیوند )تابلو("
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:103 ruleswidgetbase.ui:448 ruleswidgetbase.ui:2249
+#: detectwidget.cpp:103 ruleswidgetbase.ui:448 ruleswidgetbase.ui:2479
 msgid "Toolbar"
 msgstr "میله ابزار"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:104 ruleswidgetbase.ui:453 ruleswidgetbase.ui:2254
+#: detectwidget.cpp:104 ruleswidgetbase.ui:453 ruleswidgetbase.ui:2484
 msgid "Torn-Off Menu"
 msgstr "گزینگان جدا کردن"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:105 ruleswidgetbase.ui:433 ruleswidgetbase.ui:2234
+#: detectwidget.cpp:105 ruleswidgetbase.ui:433 ruleswidgetbase.ui:2464
 msgid "Dialog Window"
 msgstr "پنجره محاوره"
 
@@ -68,19 +68,19 @@ msgstr "لغو نوع"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:107 ruleswidgetbase.ui:473 ruleswidgetbase.ui:2269
+#: detectwidget.cpp:107 ruleswidgetbase.ui:473 ruleswidgetbase.ui:2499
 msgid "Standalone Menubar"
 msgstr "میله گزینگان خوداتکا"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:108 ruleswidgetbase.ui:438 ruleswidgetbase.ui:2239
+#: detectwidget.cpp:108 ruleswidgetbase.ui:438 ruleswidgetbase.ui:2469
 msgid "Utility Window"
 msgstr "پنجره سودمندی"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:109 ruleswidgetbase.ui:458 ruleswidgetbase.ui:2259
+#: detectwidget.cpp:109 ruleswidgetbase.ui:458 ruleswidgetbase.ui:2489
 msgid "Splash Screen"
 msgstr "پرده رنگ‌پاشی"
 
@@ -381,24 +381,24 @@ msgstr ""
 "که پنهان است، به مقدار داده‌شده اجبار می‌شود )این کنش پس از پنهان شدن پنجره "
 "حذف می‌شود(.</li></ul>"
 
-#: ruleswidget.cpp:149
+#: ruleswidget.cpp:150
 msgid "All Desktops"
 msgstr "همه رومیزیها"
 
-#: ruleswidget.cpp:327
+#: ruleswidget.cpp:329
 msgid "All Activities"
 msgstr ""
 
-#: ruleswidget.cpp:753
+#: ruleswidget.cpp:758
 #, kde-format
 msgid "Settings for %1"
 msgstr "تنظیمات برای %1"
 
-#: ruleswidget.cpp:755
+#: ruleswidget.cpp:760
 msgid "Unnamed entry"
 msgstr "مدخل بی‌نام"
 
-#: ruleswidget.cpp:765
+#: ruleswidget.cpp:770
 msgid ""
 "You have specified the window class as unimportant.\n"
 "This means the settings will possibly apply to windows from all "
@@ -411,11 +411,11 @@ msgstr ""
 "واقعاً می‌خواهید تنظیم عمومی ایجاد کنید، توصیه می‌شود حداقل انواع پنجره را "
 "محدود کنید تا از انواع مشخص پنجره دوری شود."
 
-#: ruleswidget.cpp:795
+#: ruleswidget.cpp:800
 msgid "Edit Window-Specific Settings"
 msgstr "ویرایش تنظیمات مشخص پنجره"
 
-#: ruleswidget.cpp:825
+#: ruleswidget.cpp:830
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
 "window or application. Find the setting you want to affect, enable the "
@@ -427,11 +427,11 @@ msgstr ""
 "آنها را با استفاده از جعبه بررسی فعال کنید؛ روشی را که تنظیمات باید تحت "
 "تأثیر قرار گیرند و مقدار آن را انتخاب کنید."
 
-#: ruleswidget.cpp:829
+#: ruleswidget.cpp:834
 msgid "Consult the documentation for more details."
 msgstr "برای اطلاعات بیشتر به مستندات مراجعه کنید."
 
-#: ruleswidget.cpp:868
+#: ruleswidget.cpp:873
 msgid "Edit Shortcut"
 msgstr "ویرایش میان‌بر"
 
@@ -582,16 +582,17 @@ msgstr "&موقعیت‌"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_autogroupfg)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_autogroupid)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_above)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityactive)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_noborder)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_decocolor)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityactive)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityinactive)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_fsplevel)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_fpplevel)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_acceptfocus)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_disableglobalshortcuts)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_closeable)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_blockcompositing)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_fsplevel)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_decocolor)
 #: ruleswidgetbase.ui:506 ruleswidgetbase.ui:563 ruleswidgetbase.ui:627
 #: ruleswidgetbase.ui:678 ruleswidgetbase.ui:749 ruleswidgetbase.ui:813
 #: ruleswidgetbase.ui:881 ruleswidgetbase.ui:932 ruleswidgetbase.ui:983
@@ -600,10 +601,10 @@ msgstr "&موقعیت‌"
 #: ruleswidgetbase.ui:1387 ruleswidgetbase.ui:1434 ruleswidgetbase.ui:1535
 #: ruleswidgetbase.ui:1557 ruleswidgetbase.ui:1641 ruleswidgetbase.ui:1678
 #: ruleswidgetbase.ui:1756 ruleswidgetbase.ui:1812 ruleswidgetbase.ui:1861
-#: ruleswidgetbase.ui:1919 ruleswidgetbase.ui:1955 ruleswidgetbase.ui:2042
-#: ruleswidgetbase.ui:2108 ruleswidgetbase.ui:2157 ruleswidgetbase.ui:2207
-#: ruleswidgetbase.ui:2351 ruleswidgetbase.ui:2405 ruleswidgetbase.ui:2427
-#: ruleswidgetbase.ui:2477
+#: ruleswidgetbase.ui:1919 ruleswidgetbase.ui:1970 ruleswidgetbase.ui:2006
+#: ruleswidgetbase.ui:2058 ruleswidgetbase.ui:2162 ruleswidgetbase.ui:2243
+#: ruleswidgetbase.ui:2309 ruleswidgetbase.ui:2358 ruleswidgetbase.ui:2401
+#: ruleswidgetbase.ui:2437 ruleswidgetbase.ui:2525
 msgid "Do Not Affect"
 msgstr "بدون تأثیر"
 
@@ -630,7 +631,7 @@ msgstr "بدون تأثیر"
 #: ruleswidgetbase.ui:886 ruleswidgetbase.ui:937 ruleswidgetbase.ui:988
 #: ruleswidgetbase.ui:1141 ruleswidgetbase.ui:1341 ruleswidgetbase.ui:1392
 #: ruleswidgetbase.ui:1439 ruleswidgetbase.ui:1562 ruleswidgetbase.ui:1646
-#: ruleswidgetbase.ui:1683 ruleswidgetbase.ui:1866 ruleswidgetbase.ui:1960
+#: ruleswidgetbase.ui:1683 ruleswidgetbase.ui:1866 ruleswidgetbase.ui:1924
 msgid "Apply Initially"
 msgstr "اعمال در آغاز"
 
@@ -657,7 +658,7 @@ msgstr "اعمال در آغاز"
 #: ruleswidgetbase.ui:891 ruleswidgetbase.ui:942 ruleswidgetbase.ui:993
 #: ruleswidgetbase.ui:1146 ruleswidgetbase.ui:1346 ruleswidgetbase.ui:1397
 #: ruleswidgetbase.ui:1444 ruleswidgetbase.ui:1567 ruleswidgetbase.ui:1651
-#: ruleswidgetbase.ui:1688 ruleswidgetbase.ui:1871 ruleswidgetbase.ui:1965
+#: ruleswidgetbase.ui:1688 ruleswidgetbase.ui:1871 ruleswidgetbase.ui:1929
 msgid "Remember"
 msgstr "یادآوری"
 
@@ -685,16 +686,17 @@ msgstr "یادآوری"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_autogroupfg)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_autogroupid)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_above)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityactive)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_noborder)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_decocolor)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityactive)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityinactive)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_fsplevel)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_fpplevel)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_acceptfocus)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_disableglobalshortcuts)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_closeable)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_blockcompositing)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_fsplevel)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_decocolor)
 #: ruleswidgetbase.ui:521 ruleswidgetbase.ui:578 ruleswidgetbase.ui:642
 #: ruleswidgetbase.ui:693 ruleswidgetbase.ui:764 ruleswidgetbase.ui:828
 #: ruleswidgetbase.ui:896 ruleswidgetbase.ui:947 ruleswidgetbase.ui:998
@@ -703,10 +705,10 @@ msgstr "یادآوری"
 #: ruleswidgetbase.ui:1402 ruleswidgetbase.ui:1449 ruleswidgetbase.ui:1540
 #: ruleswidgetbase.ui:1572 ruleswidgetbase.ui:1656 ruleswidgetbase.ui:1693
 #: ruleswidgetbase.ui:1761 ruleswidgetbase.ui:1817 ruleswidgetbase.ui:1876
-#: ruleswidgetbase.ui:1924 ruleswidgetbase.ui:1970 ruleswidgetbase.ui:2047
-#: ruleswidgetbase.ui:2113 ruleswidgetbase.ui:2162 ruleswidgetbase.ui:2212
-#: ruleswidgetbase.ui:2356 ruleswidgetbase.ui:2410 ruleswidgetbase.ui:2432
-#: ruleswidgetbase.ui:2482
+#: ruleswidgetbase.ui:1934 ruleswidgetbase.ui:1975 ruleswidgetbase.ui:2011
+#: ruleswidgetbase.ui:2063 ruleswidgetbase.ui:2167 ruleswidgetbase.ui:2248
+#: ruleswidgetbase.ui:2314 ruleswidgetbase.ui:2363 ruleswidgetbase.ui:2406
+#: ruleswidgetbase.ui:2442 ruleswidgetbase.ui:2530
 msgid "Force"
 msgstr "اجبار"
 
@@ -733,7 +735,7 @@ msgstr "اجبار"
 #: ruleswidgetbase.ui:901 ruleswidgetbase.ui:952 ruleswidgetbase.ui:1003
 #: ruleswidgetbase.ui:1156 ruleswidgetbase.ui:1356 ruleswidgetbase.ui:1407
 #: ruleswidgetbase.ui:1454 ruleswidgetbase.ui:1577 ruleswidgetbase.ui:1661
-#: ruleswidgetbase.ui:1698 ruleswidgetbase.ui:1881 ruleswidgetbase.ui:1975
+#: ruleswidgetbase.ui:1698 ruleswidgetbase.ui:1881 ruleswidgetbase.ui:1939
 msgid "Apply Now"
 msgstr "اکنون اعمال شود"
 
@@ -761,16 +763,17 @@ msgstr "اکنون اعمال شود"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_autogroupfg)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_autogroupid)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_above)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityactive)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_noborder)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_decocolor)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityactive)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityinactive)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_fsplevel)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_fpplevel)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_acceptfocus)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_disableglobalshortcuts)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_closeable)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_blockcompositing)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_fsplevel)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_decocolor)
 #: ruleswidgetbase.ui:531 ruleswidgetbase.ui:588 ruleswidgetbase.ui:652
 #: ruleswidgetbase.ui:703 ruleswidgetbase.ui:774 ruleswidgetbase.ui:838
 #: ruleswidgetbase.ui:906 ruleswidgetbase.ui:957 ruleswidgetbase.ui:1008
@@ -779,10 +782,10 @@ msgstr "اکنون اعمال شود"
 #: ruleswidgetbase.ui:1412 ruleswidgetbase.ui:1459 ruleswidgetbase.ui:1545
 #: ruleswidgetbase.ui:1582 ruleswidgetbase.ui:1666 ruleswidgetbase.ui:1703
 #: ruleswidgetbase.ui:1766 ruleswidgetbase.ui:1822 ruleswidgetbase.ui:1886
-#: ruleswidgetbase.ui:1929 ruleswidgetbase.ui:1980 ruleswidgetbase.ui:2052
-#: ruleswidgetbase.ui:2118 ruleswidgetbase.ui:2167 ruleswidgetbase.ui:2217
-#: ruleswidgetbase.ui:2361 ruleswidgetbase.ui:2415 ruleswidgetbase.ui:2437
-#: ruleswidgetbase.ui:2487
+#: ruleswidgetbase.ui:1944 ruleswidgetbase.ui:1980 ruleswidgetbase.ui:2016
+#: ruleswidgetbase.ui:2068 ruleswidgetbase.ui:2172 ruleswidgetbase.ui:2253
+#: ruleswidgetbase.ui:2319 ruleswidgetbase.ui:2368 ruleswidgetbase.ui:2411
+#: ruleswidgetbase.ui:2447 ruleswidgetbase.ui:2535
 msgid "Force Temporarily"
 msgstr "اجبار موقت"
 
@@ -1029,18 +1032,18 @@ msgstr ""
 msgid "Appearance && &Fixes"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, enable_blockcompositing)
-#: ruleswidgetbase.ui:1937
-msgid "Block compositing"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QCheckBox, enable_noborder)
-#: ruleswidgetbase.ui:1944
+#: ruleswidgetbase.ui:1908
 msgid "&No titlebar and frame"
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QCheckBox, enable_decocolor)
+#: ruleswidgetbase.ui:1959
+msgid "Titlebar color &scheme"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityactive)
-#: ruleswidgetbase.ui:1995
+#: ruleswidgetbase.ui:2024
 #, fuzzy
 #| msgid "A&ctive opacity in %"
 msgid "A&ctive opacity"
@@ -1048,20 +1051,85 @@ msgstr "  تاری &فعال به ٪‌"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, opacityactive)
 #. i18n: ectx: property (suffix), widget (QSpinBox, opacityinactive)
-#: ruleswidgetbase.ui:2018 ruleswidgetbase.ui:2063
+#: ruleswidgetbase.ui:2034 ruleswidgetbase.ui:2079
 #, no-c-format
 msgid "%"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityinactive)
-#: ruleswidgetbase.ui:2031
+#: ruleswidgetbase.ui:2047
 #, fuzzy
 #| msgid "I&nactive opacity in %"
 msgid "I&nactive opacity"
 msgstr " تاری &غیرفعال به ٪‌"
 
+#. i18n: ectx: property (toolTip), widget (QCheckBox, enable_fsplevel)
+#: ruleswidgetbase.ui:2148
+msgid ""
+"KWin tries to prevent windows from taking the focus\n"
+"(\"activate\") while you're working in another window,\n"
+"but this may sometimes fail or superact.\n"
+"\"None\" will unconditionally allow this window to get the focus while\n"
+"\"Extreme\" will completely prevent it from taking the focus."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, enable_fsplevel)
+#: ruleswidgetbase.ui:2151
+msgid "&Focus stealing prevention"
+msgstr " پیشگیری از حرکت آهسته &کانون‌"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
+#. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
+#: ruleswidgetbase.ui:2184 ruleswidgetbase.ui:2265
+#, fuzzy
+#| msgid "None"
+msgctxt "no focus stealing prevention"
+msgid "None"
+msgstr "هیچ‌کدام"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
+#. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
+#: ruleswidgetbase.ui:2189 ruleswidgetbase.ui:2270
+msgid "Low"
+msgstr "کم"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
+#. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
+#: ruleswidgetbase.ui:2194 ruleswidgetbase.ui:2275
+msgid "Normal"
+msgstr "عادی"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
+#. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
+#: ruleswidgetbase.ui:2199 ruleswidgetbase.ui:2280
+msgid "High"
+msgstr "زیاد"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
+#. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
+#: ruleswidgetbase.ui:2204 ruleswidgetbase.ui:2285
+msgid "Extreme"
+msgstr "بی‌نهایت"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, enable_fpplevel)
+#: ruleswidgetbase.ui:2229
+msgid ""
+"This controls the focus protection of the currently active window.\n"
+"None will always give the focus away,\n"
+"Extreme will keep it.\n"
+"Otherwise it's interleaved with the stealing prevention\n"
+"assigned to the window that wants the focus."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, enable_fpplevel)
+#: ruleswidgetbase.ui:2232
+#, fuzzy
+#| msgid "&Focus stealing prevention"
+msgid "Focus protection"
+msgstr " پیشگیری از حرکت آهسته &کانون‌"
+
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_acceptfocus)
-#: ruleswidgetbase.ui:2094
+#: ruleswidgetbase.ui:2295
 msgid ""
 "Windows may prevent to get the focus (activate) when being clicked.\n"
 "On the other hand you might wish to prevent a window\n"
@@ -1069,12 +1137,12 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_acceptfocus)
-#: ruleswidgetbase.ui:2097
+#: ruleswidgetbase.ui:2298
 msgid "Accept &focus"
 msgstr "پذیرش &کانون‌"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_disableglobalshortcuts)
-#: ruleswidgetbase.ui:2140
+#: ruleswidgetbase.ui:2341
 msgid ""
 "When used, a window will receive\n"
 "all keyboard inputs while it is active, including Alt+Tab etc.\n"
@@ -1087,68 +1155,25 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_disableglobalshortcuts)
-#: ruleswidgetbase.ui:2143
+#: ruleswidgetbase.ui:2344
 #, fuzzy
 #| msgid "Block global shortcuts"
 msgid "Ignore global shortcuts"
 msgstr "بلوک کردن میان‌برهای سراسری"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_closeable)
-#: ruleswidgetbase.ui:2175
+#: ruleswidgetbase.ui:2390
 msgid "&Closeable"
 msgstr "&قابل بستن‌"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_type)
-#: ruleswidgetbase.ui:2182
+#: ruleswidgetbase.ui:2426
 msgid "Window &type"
 msgstr "&نوع پنجره‌"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
-#: ruleswidgetbase.ui:2373
-#, fuzzy
-#| msgid "None"
-msgctxt "no focus stealing prevention"
-msgid "None"
-msgstr "هیچ‌کدام"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
-#: ruleswidgetbase.ui:2378
-msgid "Low"
-msgstr "کم"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
-#: ruleswidgetbase.ui:2383
-msgid "Normal"
-msgstr "عادی"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
-#: ruleswidgetbase.ui:2388
-msgid "High"
-msgstr "زیاد"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
-#: ruleswidgetbase.ui:2393
-msgid "Extreme"
-msgstr "بی‌نهایت"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, enable_fsplevel)
-#: ruleswidgetbase.ui:2449
-msgid ""
-"KWin tries to prevent windows from taking the focus\n"
-"(\"activate\") while you're working in another window,\n"
-"but this may sometimes fail or superact.\n"
-"\"None\" will unconditionally allow this window to get the focus while\n"
-"\"Extreme\" will completely prevent it from taking the focus."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, enable_fsplevel)
-#: ruleswidgetbase.ui:2452
-msgid "&Focus stealing prevention"
-msgstr " پیشگیری از حرکت آهسته &کانون‌"
-
-#. i18n: ectx: property (text), widget (QCheckBox, enable_decocolor)
-#: ruleswidgetbase.ui:2459
-msgid "Titlebar color &scheme"
+#. i18n: ectx: property (text), widget (QCheckBox, enable_blockcompositing)
+#: ruleswidgetbase.ui:2514
+msgid "Block compositing"
 msgstr ""
 
 #: yesnobox.h:35

@@ -1,9 +1,11 @@
+# Translation of kcmkwinscreenedges to Norwegian Bokmål
+#
 # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2009, 2010, 2012, 2013, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-10-21 08:16+0000\n"
 "PO-Revision-Date: 2014-08-09 12:23+0200\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -30,56 +32,48 @@ msgid "No Action"
 msgstr "Ingen handling"
 
 #: main.cpp:188
-msgid "Show Dashboard"
-msgstr "Vis kontrollpult"
-
-#: main.cpp:189
 msgid "Show Desktop"
 msgstr "Vis skrivebord"
 
-#: main.cpp:190
+#: main.cpp:189
 msgid "Lock Screen"
 msgstr "Lås skjermen"
 
-#: main.cpp:191
-msgid "Prevent Screen Locking"
-msgstr "Hindre skjermlåsing"
-
-#: main.cpp:200
+#: main.cpp:193
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 – Alle skrivebord"
 
-#: main.cpp:201
+#: main.cpp:194
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 – Gjeldende skrivebord"
 
-#: main.cpp:202
+#: main.cpp:195
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 – Gjeldende program"
 
-#: main.cpp:205
+#: main.cpp:198
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 – Terning"
 
-#: main.cpp:206
+#: main.cpp:199
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 – Sylinder"
 
-#: main.cpp:207
+#: main.cpp:200
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 – Kule"
 
-#: main.cpp:209
+#: main.cpp:202
 msgid "Toggle window switching"
 msgstr "Slå på/av vindusbytting"
 
-#: main.cpp:210
+#: main.cpp:203
 msgid "Toggle alternative window switching"
 msgstr "Slå på/av alternativ vindusveksling"
 

@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KWIN_MAIN_WAYLAND_H
 #define KWIN_MAIN_WAYLAND_H
 #include "main.h"
-#include <QtCore/private/qeventdispatcher_unix_p.h>
 #include <QProcessEnvironment>
 
 class QProcess;
@@ -47,8 +46,9 @@ public:
     void setProcessStartupEnvironment(const QProcessEnvironment &environment) {
         m_environment = environment;
     }
-
-    bool notify(QObject *o, QEvent *e) override;
+    void setSessionArgument(const QString &session) {
+        m_sessionArgument = session;
+    }
 
     QProcessEnvironment processStartupEnvironment() const override {
         return m_environment;
@@ -69,18 +69,9 @@ private:
     QStringList m_applicationsToStart;
     QString m_inputMethodServerToStart;
     QProcess *m_xwaylandProcess = nullptr;
+    QMetaObject::Connection m_xwaylandFailConnection;
     QProcessEnvironment m_environment;
-};
-
-class EventDispatcher : public QEventDispatcherUNIX
-{
-    Q_OBJECT
-public:
-    explicit EventDispatcher(QObject *parent = nullptr);
-    virtual ~EventDispatcher();
-
-    bool processEvents(QEventLoop::ProcessEventsFlags flags) override;
-    bool hasPendingEvents() override;
+    QString m_sessionArgument;
 };
 
 }

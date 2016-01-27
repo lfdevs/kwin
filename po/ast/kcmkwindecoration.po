@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2015-05-17 03:13+0100\n"
+"POT-Creation-Date: 2015-10-06 10:22+0000\n"
+"PO-Revision-Date: 2015-10-20 23:42+0100\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
 "Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
 "Language: ast\n"
@@ -43,11 +43,11 @@ msgstr "Zarrar"
 
 #: declarative-plugin/buttonsmodel.cpp:79
 msgid "Context help"
-msgstr ""
+msgstr "Ayuda de contestu"
 
 #: declarative-plugin/buttonsmodel.cpp:81
 msgid "Shade"
-msgstr ""
+msgstr "Solombra"
 
 #: declarative-plugin/buttonsmodel.cpp:83
 msgid "Keep below"
@@ -57,94 +57,104 @@ msgstr "Caltener embaxo"
 msgid "Keep above"
 msgstr "Caltener enriba"
 
-#: kcm.cpp:106
+#: kcm.cpp:128
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
 msgstr ""
 
+#. i18n: ectx: attribute (title), widget (QWidget, theTab)
+#: kcm.ui:21
+msgid "Theme"
+msgstr "Tema"
+
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
-#: kcm.ui:22
+#: kcm.ui:29
 msgid "Search"
 msgstr "Guetar"
 
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
-#: kcm.ui:35
+#: kcm.ui:42
 msgid "Get New Decorations..."
-msgstr ""
+msgstr "Consiguir decoraciones nueves..."
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: kcm.ui:56
+#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
+#: kcm.ui:54
+msgid "Close windows by double clicking &the menu button"
+msgstr "Zarrar les ventanes primiendo dos vegaes nel botón de menú"
+
+#. i18n: ectx: property (text), widget (QLabel, borderSizesLabel)
+#: kcm.ui:95
 msgid "Border si&ze:"
-msgstr ""
+msgstr "Tamañu del &berbesu:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:67
+#: kcm.ui:109
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Ensin berbesos"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:72
+#: kcm.ui:114
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
-msgstr ""
+msgstr "Ensin berbesos a los llaos"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:77
+#: kcm.ui:119
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "Nanu"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:82
+#: kcm.ui:124
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "Normal"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:87
+#: kcm.ui:129
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "Grande"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:92
+#: kcm.ui:134
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "Pergrande"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:97
+#: kcm.ui:139
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "Escomanáu"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:102
+#: kcm.ui:144
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "Perescomanáu"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:107
+#: kcm.ui:149
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
-msgstr ""
+msgstr "Más que perescomanáu"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: kcm.ui:125
-msgid "Close windows by double clicking &the menu button:"
-msgstr ""
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: kcm.ui:160
+msgid "Buttons"
+msgstr "Botones"
 
-#: qml/Buttons.qml:74
+#: qml/Buttons.qml:77
 msgid "Titlebar"
-msgstr ""
+msgstr "Barra de títulu"
 
-#: qml/Buttons.qml:197
+#: qml/Buttons.qml:201
 msgid "Drag buttons between here and the titlebar"
-msgstr ""
+msgstr "Arrastra los botones ente equí y la barra de títulu"
 
-#: qml/Buttons.qml:212
+#: qml/Buttons.qml:216
 msgid "Drop here to remove button"
-msgstr ""
+msgstr "Arrastra haza equí pa desanciar el botón"

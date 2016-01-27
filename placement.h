@@ -37,7 +37,7 @@ namespace KWin
 class AbstractClient;
 class Client;
 
-class Placement
+class KWIN_EXPORT Placement
 {
 public:
     virtual ~Placement();
@@ -92,6 +92,7 @@ private:
     void place(AbstractClient* c, QRect& area, Policy policy, Policy nextPlacement = Unknown);
     void placeUnderMouse(AbstractClient* c, QRect& area, Policy next = Unknown);
     void placeOnMainWindow(AbstractClient* c, QRect& area, Policy next = Unknown);
+    void placeTransient(AbstractClient *c);
     QRect checkArea(const AbstractClient*c, const QRect& area);
 
     //CT needed for cascading+

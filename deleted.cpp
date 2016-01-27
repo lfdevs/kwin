@@ -50,7 +50,9 @@ Deleted::~Deleted()
     if (delete_refcount != 0)
         qCCritical(KWIN_CORE) << "Deleted client has non-zero reference count (" << delete_refcount << ")";
     assert(delete_refcount == 0);
-    workspace()->removeDeleted(this);
+    if (workspace()) {
+        workspace()->removeDeleted(this);
+    }
     deleteEffectWindow();
 }
 
@@ -86,7 +88,6 @@ void Deleted::copyToDeleted(Toplevel* c)
         cinfo->disable();
     Client* client = dynamic_cast<Client*>(c);
     if (client) {
-        m_wasClient = true;
         no_border = client->noBorder();
         if (!no_border) {
             client->layoutDecorationRects(decoration_left,
@@ -100,11 +101,14 @@ void Deleted::copyToDeleted(Toplevel* c)
                 }
             }
         }
+    }
+    if (AbstractClient *client = dynamic_cast<AbstractClient*>(c)) {
+        m_wasClient = true;
         m_minimized = client->isMinimized();
         m_modal = client->isModal();
         m_mainClients = client->mainClients();
-        foreach (Client *c, m_mainClients) {
-            connect(c, SIGNAL(windowClosed(KWin::Toplevel*,KWin::Deleted*)), SLOT(mainClientClosed(KWin::Toplevel*)));
+        foreach (AbstractClient *c, m_mainClients) {
+            connect(c, &AbstractClient::windowClosed, this, &Deleted::mainClientClosed);
         }
     }
 }
@@ -177,7 +181,8 @@ NET::WindowType Deleted::windowType(bool direct, int supportedTypes) const
 
 void Deleted::mainClientClosed(Toplevel *client)
 {
-    m_mainClients.removeAll(static_cast<Client*>(client));
+    if (AbstractClient *c = dynamic_cast<AbstractClient*>(client))
+        m_mainClients.removeAll(c);
 }
 
 xcb_window_t Deleted::frameId() const

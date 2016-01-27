@@ -20,6 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KWIN_ABSTRACT_BACKEND_H
 #define KWIN_ABSTRACT_BACKEND_H
 #include <kwin_export.h>
+#include <epoxy/egl.h>
+#include <fixx11h.h>
 #include <QImage>
 #include <QObject>
 
@@ -44,6 +46,27 @@ public:
     virtual OpenGLBackend *createOpenGLBackend();
     virtual QPainterBackend *createQPainterBackend();
     virtual void warpPointer(const QPointF &globalPos);
+    /**
+     * Whether our Compositing EGL display allows a surface less context
+     * so that a sharing context could be created.
+     **/
+    virtual bool supportsQpaContext() const;
+    /**
+     * The EGLDisplay used by the compositing scene.
+     **/
+    virtual EGLDisplay sceneEglDisplay() const;
+    /**
+     * The EGLContext used by the compositing scene.
+     **/
+    virtual EGLContext sceneEglContext() const;
+
+    /**
+     * Implementing subclasses should provide a size in case the backend represents
+     * a basic screen and uses the BasicScreens.
+     *
+     * Base implementation returns an invalid size.
+     **/
+    virtual QSize screenSize() const;
 
     bool usesSoftwareCursor() const {
         return m_softWareCursor;
@@ -71,6 +94,12 @@ public:
     bool supportsPointerWarping() const {
         return m_pointerWarping;
     }
+    bool areOutputsEnabled() const {
+        return m_outputsEnabled;
+    }
+    void setOutputsEnabled(bool enabled) {
+        m_outputsEnabled = enabled;
+    }
 
 public Q_SLOTS:
     void pointerMotion(const QPointF &position, quint32 time);
@@ -93,6 +122,10 @@ Q_SIGNALS:
     void initFailed();
     void cursorChanged();
     void readyChanged(bool);
+    /**
+     * Emitted by backends using a one screen (nested window) approach and when the size of that changes.
+     **/
+    void screenSizeChanged();
 
 protected:
     explicit AbstractBackend(QObject *parent = nullptr);
@@ -129,6 +162,7 @@ private:
     QSize m_initialWindowSize;
     QByteArray m_deviceIdentifier;
     bool m_pointerWarping = false;
+    bool m_outputsEnabled = true;
 };
 
 }

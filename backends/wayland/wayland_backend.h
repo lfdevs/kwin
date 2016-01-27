@@ -45,16 +45,12 @@ class ShmPool;
 class Compositor;
 class ConnectionThread;
 class EventQueue;
-class FullscreenShell;
 class Keyboard;
-class Output;
 class Pointer;
 class Registry;
 class Seat;
 class Shell;
 class ShellSurface;
-class SubCompositor;
-class SubSurface;
 class Surface;
 class Touch;
 }
@@ -99,30 +95,6 @@ private:
     bool m_installCursor;
 };
 
-class WaylandCursor : public QObject
-{
-    Q_OBJECT
-public:
-    explicit WaylandCursor(KWayland::Client::Surface *parentSurface, WaylandBackend *backend);
-
-    void setHotSpot(const QPoint &pos);
-    const QPoint &hotSpot() const {
-        return m_hotSpot;
-    }
-    void setCursorImage(wl_buffer *image, const QSize &size, const QPoint &hotspot);
-    void setCursorImage(const QImage &image, const QPoint &hotspot);
-    void setCursorImage(Qt::CursorShape shape);
-
-Q_SIGNALS:
-    void hotSpotChanged(const QPoint &);
-
-private:
-    WaylandBackend *m_backend;
-    QPoint m_hotSpot;
-    KWayland::Client::SubSurface *m_subSurface;
-    WaylandCursorTheme *m_theme = nullptr;
-};
-
 /**
 * @brief Class encapsulating all Wayland data structures needed by the Egl backend.
 *
@@ -140,9 +112,7 @@ public:
     void init() override;
     wl_display *display();
     KWayland::Client::Compositor *compositor();
-    const QList<KWayland::Client::Output*> &outputs() const;
     KWayland::Client::ShmPool *shmPool();
-    KWayland::Client::SubCompositor *subCompositor();
 
     KWayland::Client::Surface *surface() const;
     QSize shellSurfaceSize() const;
@@ -153,16 +123,17 @@ public:
     OpenGLBackend *createOpenGLBackend() override;
     QPainterBackend *createQPainterBackend() override;
 
+    QSize screenSize() const override {
+        return shellSurfaceSize();
+    }
+
 Q_SIGNALS:
     void shellSurfaceSizeChanged(const QSize &size);
     void systemCompositorDied();
-    void outputsChanged();
     void connectionFailed();
 private:
     void initConnection();
     void createSurface();
-    void destroyOutputs();
-    void checkBackendReady();
     wl_display *m_display;
     KWayland::Client::EventQueue *m_eventQueue;
     KWayland::Client::Registry *m_registry;
@@ -172,12 +143,8 @@ private:
     KWayland::Client::ShellSurface *m_shellSurface;
     QScopedPointer<WaylandSeat> m_seat;
     KWayland::Client::ShmPool *m_shm;
-    QList<KWayland::Client::Output*> m_outputs;
     KWayland::Client::ConnectionThread *m_connectionThreadObject;
     QThread *m_connectionThread;
-    KWayland::Client::FullscreenShell *m_fullscreenShell;
-    KWayland::Client::SubCompositor *m_subCompositor;
-    WaylandCursor *m_cursor;
 };
 
 inline
@@ -193,12 +160,6 @@ KWayland::Client::Compositor *WaylandBackend::compositor()
 }
 
 inline
-KWayland::Client::SubCompositor *WaylandBackend::subCompositor()
-{
-    return m_subCompositor;
-}
-
-inline
 KWayland::Client::ShmPool* WaylandBackend::shmPool()
 {
     return m_shm;
@@ -208,12 +169,6 @@ inline
 KWayland::Client::Surface *WaylandBackend::surface() const
 {
     return m_surface;
-}
-
-inline
-const QList< KWayland::Client::Output* >& WaylandBackend::outputs() const
-{
-    return m_outputs;
 }
 
 } // namespace Wayland

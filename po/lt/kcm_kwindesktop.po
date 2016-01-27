@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2014-07-04 08:25+0000\n"
 "PO-Revision-Date: 2014-11-05 18:43+0200\n"
 "Last-Translator: liudas@aksioma.lt <liudas@aksioma.lt>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -32,74 +32,74 @@ msgstr "andrius@stikonas.eu, dgvirtual@akl.lt"
 #: desktopnameswidget.cpp:67
 #, kde-format
 msgid "Desktop %1:"
-msgstr "Darbastalis %1:"
+msgstr "Darbalaukis %1:"
 
 #: desktopnameswidget.cpp:69 desktopnameswidget.cpp:70
 #, kde-format
 msgid "Here you can enter the name for desktop %1"
-msgstr "Čia galite įvesti darbastalio %1 pavadinimą"
+msgstr "Čia galite įvesti darbalaukio %1 pavadinimą"
 
 #: desktopnameswidget.cpp:108 main.cpp:226
 #, kde-format
 msgid "Desktop %1"
-msgstr "Darbastalis %1"
+msgstr "Darbalaukis %1"
 
 #: main.cpp:87
 msgid ""
 "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual "
 "desktops you want and how these should be labeled."
 msgstr ""
-"<h1>Daugelis darbastalių</h1>Šiame modulyje galite nustatyti kiek virtualių "
-"darbastalių pageidaujate turėti ir kaip jie bus pavadinti."
+"<h1>Daugelis darbalaukių</h1>Šiame modulyje galite nustatyti kiek virtualių "
+"darbalaukių pageidaujate turėti ir kaip jie bus pavadinti."
 
 #: main.cpp:99
 msgid "Switch to Next Desktop"
-msgstr "Pereiti į kitą darbastalį"
+msgstr "Pereiti į kitą darbalaukį"
 
 #: main.cpp:100
 msgid "Switch to Previous Desktop"
-msgstr "Pereiti į ankstesnį darbastalį"
+msgstr "Pereiti į ankstesnį darbalaukį"
 
 #: main.cpp:101
 msgid "Switch One Desktop to the Right"
-msgstr "Pereiti į darbastalį dešiniau"
+msgstr "Pereiti į darbalaukį dešiniau"
 
 #: main.cpp:102
 msgid "Switch One Desktop to the Left"
-msgstr "Pereiti į darbastalį kairiau"
+msgstr "Pereiti į darbalaukį kairiau"
 
 #: main.cpp:103
 msgid "Switch One Desktop Up"
-msgstr "Pereiti į darbastalį aukščiau"
+msgstr "Pereiti į darbalaukį aukščiau"
 
 #: main.cpp:104
 msgid "Switch One Desktop Down"
-msgstr "Pereiti į darbastalį žemiau"
+msgstr "Pereiti į darbalaukį žemiau"
 
 #: main.cpp:105
 msgid "Walk Through Desktops"
-msgstr "Eiti per darbastalius"
+msgstr "Eiti per darbalaukius"
 
 #: main.cpp:106
 msgid "Walk Through Desktops (Reverse)"
-msgstr "Eiti per darbastalius (atvirkščiai)"
+msgstr "Eiti per darbalaukius (atvirkščiai)"
 
 #: main.cpp:107
 msgid "Walk Through Desktop List"
-msgstr "Eiti per darbastalių sąrašą"
+msgstr "Eiti per darbalaukių sąrašą"
 
 #: main.cpp:108
 msgid "Walk Through Desktop List (Reverse)"
-msgstr "Eiti per darbastalių sąrašą (atvirkščiai)"
+msgstr "Eiti per darbalaukių sąrašą (atvirkščiai)"
 
 #: main.cpp:110 main.cpp:144 main.cpp:509 main.cpp:510
 msgid "Desktop Switching"
-msgstr "Darbastalio keitimas"
+msgstr "Darbalaukio keitimas"
 
 #: main.cpp:122 main.cpp:489
 #, kde-format
 msgid "Switch to Desktop %1"
-msgstr "Pereiti į %1 darbastalį"
+msgstr "Pereiti į %1 darbalaukį"
 
 #: main.cpp:154
 msgid "No Animation"
@@ -108,7 +108,7 @@ msgstr "Be animacijos"
 #: main.cpp:493
 #, kde-format
 msgid "No suitable Shortcut for Desktop %1 found"
-msgstr "Nerastas tinkamas klavišų derinys %1 darbastaliui"
+msgstr "Nerastas tinkamas klavišų derinys %1 darbalaukiui"
 
 #: main.cpp:499
 #, kde-format
@@ -119,7 +119,7 @@ msgstr "%2 priskirta globali klavišų kombinacija „%1“"
 #, kde-format
 msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
 msgstr ""
-"Klavišų derinių konfliktas: nepavyko darbastaliui %2 nustatyti „%1“ derinio"
+"Klavišų derinių konfliktas: nepavyko darbalaukiui %2 nustatyti „%1“ derinio"
 
 #: main.cpp:604
 msgid "KWin development team"
@@ -128,7 +128,7 @@ msgstr "KWin vystymo komanda"
 #. i18n: ectx: attribute (title), widget (QWidget, desktop)
 #: main.ui:33
 msgid "Desktops"
-msgstr "Darbastaliai"
+msgstr "Darbalaukiai"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:39
@@ -140,12 +140,12 @@ msgstr "Išdėstymas"
 #: main.ui:51 main.ui:64
 msgid ""
 "Here you can set how many virtual desktops you want on your KDE desktop."
-msgstr "Čia galite nustatyti kiek pageidaujate turėti virtualių darbastalių."
+msgstr "Čia galite nustatyti kiek pageidaujate turėti virtualių darbalaukių."
 
 #. i18n: ectx: property (text), widget (QLabel, numberLabel)
 #: main.ui:54
 msgid "&Number of desktops:"
-msgstr "&Darbastalių skaičius:"
+msgstr "&Darbalaukių skaičius:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:83
@@ -155,7 +155,7 @@ msgstr "Eilučių skaičius:"
 #. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
 #: main.ui:103
 msgid "Desktop Names"
-msgstr "Darbastalių pavadinimai"
+msgstr "Darbalaukių pavadinimai"
 
 #. i18n: ectx: attribute (title), widget (QWidget, switching)
 #: main.ui:136
@@ -169,18 +169,18 @@ msgid ""
 "beyond the edge of a desktop to take you to the opposite edge of the new "
 "desktop."
 msgstr ""
-"Įjunkite šią parinktį, jei norite, kad klaviatūra arba aktyvaus darbastalio "
-"ribų navigacija už krašto nuvestų jus į priešingą naujo darbastalio pusę."
+"Įjunkite šią parinktį, jei norite, kad klaviatūra arba aktyvaus darbalaukio "
+"ribų navigacija už krašto nuvestų jus į priešingą naujo darbalaukio pusę."
 
 #. i18n: ectx: property (text), widget (QCheckBox, wrapAroundBox)
 #: main.ui:145
 msgid "Desktop navigation wraps around"
-msgstr "Darbastalių navigacija sukasi ratu"
+msgstr "Darbalaukių navigacija sukasi ratu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:152
 msgid "Desktop Effect Animation"
-msgstr "Perėjimų tarp darbastalių animacija"
+msgstr "Perėjimų tarp darbalaukių animacija"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:164
@@ -190,7 +190,7 @@ msgstr "Animacija:"
 #. i18n: ectx: property (title), widget (QGroupBox, popupInfoCheckBox)
 #: main.ui:204
 msgid "Desktop Switch On-Screen Display"
-msgstr "Pranešimo apie darbastalio pakeitimą rodymas ekrane"
+msgstr "Pranešimo apie darbalaukio pakeitimą rodymas ekrane"
 
 #. i18n: ectx: property (text), widget (QLabel, hideLabel)
 #: main.ui:222
@@ -208,13 +208,13 @@ msgid ""
 "Enabling this option will show a small preview of the desktop layout "
 "indicating the selected desktop."
 msgstr ""
-"Įjungus šią parinktį bus rodoma maža darbastalių išdėstymo schema nurodant, "
-"į kurį darbastalį pereita."
+"Įjungus šią parinktį bus rodoma maža darbalaukių išdėstymo schema nurodant, "
+"į kurį darbalaukį pereita."
 
 #. i18n: ectx: property (text), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
 #: main.ui:248
 msgid "Show desktop layout indicators"
-msgstr "Rodyti darbastalio išdėstymo indikatorius"
+msgstr "Rodyti darbalaukio išdėstymo indikatorius"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shortcutsGroupBox)
 #: main.ui:258
@@ -224,4 +224,4 @@ msgstr "Klavišų deriniai:"
 #. i18n: ectx: property (text), widget (QCheckBox, allShortcutsCheckBox)
 #: main.ui:277
 msgid "Show shortcuts for all possible desktops"
-msgstr "Rodyti klavišų derinius visiems galimiems darbastaliams"
+msgstr "Rodyti klavišų derinius visiems galimiems darbalaukiams"

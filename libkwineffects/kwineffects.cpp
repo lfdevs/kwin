@@ -42,6 +42,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <assert.h>
 
+#include <KWayland/Server/surface_interface.h>
+
 #ifdef KWIN_HAVE_XRENDER_COMPOSITING
 #include <xcb/xfixes.h>
 #endif
@@ -685,7 +687,7 @@ bool EffectsHandler::isOpenGLCompositing() const
 KConfigGroup EffectsHandler::effectConfig(const QString& effectname)
 {
     KSharedConfig::Ptr kwinconfig = KSharedConfig::openConfig(QStringLiteral(KWIN_CONFIG), KConfig::NoGlobals);
-    return kwinconfig->group(QStringLiteral("Effect-") + effectname);
+    return kwinconfig->group(QLatin1String("Effect-") + effectname);
 }
 
 EffectsHandler* effects = nullptr;
@@ -744,10 +746,11 @@ WINDOW_HELPER(bool, hasOwnShape, "shaped")
 WINDOW_HELPER(QString, windowRole, "windowRole")
 WINDOW_HELPER(QStringList, activities, "activities")
 WINDOW_HELPER(bool, skipsCloseAnimation, "skipsCloseAnimation")
+WINDOW_HELPER(KWayland::Server::SurfaceInterface *, surface, "surface")
 
 QString EffectWindow::windowClass() const
 {
-    return parent()->property("resourceName").toString() + QStringLiteral(" ") + parent()->property("resourceClass").toString();
+    return parent()->property("resourceName").toString() + QLatin1Char(' ') + parent()->property("resourceClass").toString();
 }
 
 QRect EffectWindow::contentsRect() const

@@ -41,7 +41,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // c++
 #include <functional>
 
-#if HAVE_WAYLAND
+class QOpenGLFramebufferObject;
+
 namespace KWayland
 {
 namespace Server
@@ -49,7 +50,6 @@ namespace Server
 class SurfaceInterface;
 }
 }
-#endif
 
 namespace KWin
 {
@@ -67,7 +67,7 @@ enum class ReleaseReason {
     KWinShutsDown ///< Release on KWin Shutdown (window still valid)
 };
 
-class Toplevel
+class KWIN_EXPORT Toplevel
     : public QObject
 {
     Q_OBJECT
@@ -202,6 +202,13 @@ class Toplevel
      * On X11 only setups the value is @c 0.
      **/
     Q_PROPERTY(quint32 surfaceId READ surfaceId NOTIFY surfaceIdChanged)
+
+    /**
+     * Interface to the Wayland Surface.
+     * Relevant only in Wayland, in X11 it will be nullptr
+     */
+    Q_PROPERTY(KWayland::Server::SurfaceInterface *surface READ surface)
+
 public:
     explicit Toplevel();
     virtual xcb_window_t frameId() const;
@@ -244,6 +251,9 @@ public:
     bool isOnScreenDisplay() const;
     bool isComboBox() const;
     bool isDNDIcon() const;
+
+    virtual bool isLockScreen() const;
+    virtual bool isInputMethod() const;
 
     virtual int desktop() const = 0;
     virtual QStringList activities() const = 0;
@@ -355,10 +365,11 @@ public:
     void setSkipCloseAnimation(bool set);
 
     quint32 surfaceId() const;
-#if HAVE_WAYLAND
     KWayland::Server::SurfaceInterface *surface() const;
     void setSurface(KWayland::Server::SurfaceInterface *surface);
-#endif
+
+    virtual void setInternalFramebufferObject(const QSharedPointer<QOpenGLFramebufferObject> &fbo);
+    const QSharedPointer<QOpenGLFramebufferObject> &internalFramebufferObject() const;
 
     /**
      * @brief Finds the Toplevel matching the condition expressed in @p func in @p list.
@@ -498,9 +509,11 @@ private:
     int m_screen;
     bool m_skipCloseAnimation;
     quint32 m_surfaceId = 0;
-#if HAVE_WAYLAND
     KWayland::Server::SurfaceInterface *m_surface = nullptr;
-#endif
+    /**
+     * An FBO object KWin internal windows might render to.
+     **/
+    QSharedPointer<QOpenGLFramebufferObject> m_internalFBO;
     // when adding new data members, check also copyToDeleted()
 };
 
@@ -640,6 +653,16 @@ inline bool Toplevel::isDNDIcon() const
     return windowType() == NET::DNDIcon;
 }
 
+inline bool Toplevel::isLockScreen() const
+{
+    return false;
+}
+
+inline bool Toplevel::isInputMethod() const
+{
+    return false;
+}
+
 inline QRegion Toplevel::damage() const
 {
     return damage_region;
@@ -732,12 +755,15 @@ inline quint32 Toplevel::surfaceId() const
     return m_surfaceId;
 }
 
-#if HAVE_WAYLAND
 inline KWayland::Server::SurfaceInterface *Toplevel::surface() const
 {
     return m_surface;
 }
-#endif
+
+inline const QSharedPointer<QOpenGLFramebufferObject> &Toplevel::internalFramebufferObject() const
+{
+    return m_internalFBO;
+}
 
 template <class T, class U>
 inline T *Toplevel::findInList(const QList<T*> &list, std::function<bool (const U*)> func)

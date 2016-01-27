@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-11-19 09:30+0000\n"
 "PO-Revision-Date: 2012-06-13 15:34+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer\n"
@@ -30,42 +30,42 @@ msgstr "khoemsokhem@khmeros.info,​​evannak@khmeros.info,piseth_dv@khmeros.in
 #  i18n: file ruleswidgetbase.ui line 335
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:100 ruleswidgetbase.ui:428 ruleswidgetbase.ui:2229
+#: detectwidget.cpp:100 ruleswidgetbase.ui:428 ruleswidgetbase.ui:2459
 msgid "Normal Window"
 msgstr "បង្អួច​ធម្មតា"
 
 #  i18n: file ruleswidgetbase.ui line 370
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:101 ruleswidgetbase.ui:463 ruleswidgetbase.ui:2264
+#: detectwidget.cpp:101 ruleswidgetbase.ui:463 ruleswidgetbase.ui:2494
 msgid "Desktop"
 msgstr "ផ្ទៃ​តុ"
 
 #  i18n: file ruleswidgetbase.ui line 350
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:102 ruleswidgetbase.ui:443 ruleswidgetbase.ui:2244
+#: detectwidget.cpp:102 ruleswidgetbase.ui:443 ruleswidgetbase.ui:2474
 msgid "Dock (panel)"
 msgstr "ចត (បន្ទះ)"
 
 #  i18n: file ruleswidgetbase.ui line 355
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:103 ruleswidgetbase.ui:448 ruleswidgetbase.ui:2249
+#: detectwidget.cpp:103 ruleswidgetbase.ui:448 ruleswidgetbase.ui:2479
 msgid "Toolbar"
 msgstr "របារ​ឧបករណ៍"
 
 #  i18n: file ruleswidgetbase.ui line 360
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:104 ruleswidgetbase.ui:453 ruleswidgetbase.ui:2254
+#: detectwidget.cpp:104 ruleswidgetbase.ui:453 ruleswidgetbase.ui:2484
 msgid "Torn-Off Menu"
 msgstr "បិទ​ម៉ឺនុយ"
 
 #  i18n: file ruleswidgetbase.ui line 340
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:105 ruleswidgetbase.ui:433 ruleswidgetbase.ui:2234
+#: detectwidget.cpp:105 ruleswidgetbase.ui:433 ruleswidgetbase.ui:2464
 msgid "Dialog Window"
 msgstr "ប្រអប់​បង្អួច"
 
@@ -77,21 +77,21 @@ msgstr "បដិសេធ​ប្រភេទ"
 #  i18n: file ruleswidgetbase.ui line 380
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:107 ruleswidgetbase.ui:473 ruleswidgetbase.ui:2269
+#: detectwidget.cpp:107 ruleswidgetbase.ui:473 ruleswidgetbase.ui:2499
 msgid "Standalone Menubar"
 msgstr "របារ​ម៉ឺនុយ​ឈរ​តែ​ឯង"
 
 #  i18n: file ruleswidgetbase.ui line 345
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:108 ruleswidgetbase.ui:438 ruleswidgetbase.ui:2239
+#: detectwidget.cpp:108 ruleswidgetbase.ui:438 ruleswidgetbase.ui:2469
 msgid "Utility Window"
 msgstr "បង្អួច​ឧបករណ៍​ប្រើប្រាស់"
 
 #  i18n: file ruleswidgetbase.ui line 365
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:109 ruleswidgetbase.ui:458 ruleswidgetbase.ui:2259
+#: detectwidget.cpp:109 ruleswidgetbase.ui:458 ruleswidgetbase.ui:2489
 msgid "Splash Screen"
 msgstr "អេក្រង់​ស្វាគមន៍"
 
@@ -380,24 +380,24 @@ msgstr ""
 "បាន​បង្ខំ​ទៅ​តម្លៃ​ដែល​បាន​ផ្ដល់ រហូត​ដល់​វា​ត្រូវ​បាន​លាក់ (​អំពើ​នេះ​នឹង​ត្រូវ​បាន​លុប​ក្រោយ​ពី​បង្អួច​ត្រូវ​បាន​លាក់)</"
 "li></ul>"
 
-#: ruleswidget.cpp:149
+#: ruleswidget.cpp:150
 msgid "All Desktops"
 msgstr "ផ្ទៃតុ​ទាំងអស់"
 
-#: ruleswidget.cpp:327
+#: ruleswidget.cpp:329
 msgid "All Activities"
 msgstr "សកម្មភាព​ទាំងអស់"
 
-#: ruleswidget.cpp:753
+#: ruleswidget.cpp:758
 #, kde-format
 msgid "Settings for %1"
 msgstr "ការ​កំណត់​សម្រាប់ %1"
 
-#: ruleswidget.cpp:755
+#: ruleswidget.cpp:760
 msgid "Unnamed entry"
 msgstr "ធាតុ​គ្មាន​ឈ្មោះ"
 
-#: ruleswidget.cpp:765
+#: ruleswidget.cpp:770
 msgid ""
 "You have specified the window class as unimportant.\n"
 "This means the settings will possibly apply to windows from all "
@@ -410,11 +410,11 @@ msgstr ""
 "ប្រភេទ​​មួយ យើង​សូម​ផ្តល់​អនុសាសន៍​ដល់​អ្នក​ថា យ៉ាង​ហោច​ណាស់ អ្នក​ត្រូវ​កំណត់​ព្រំដែន​របស់​ប្រភេទ​បង្អួច ដើម្បី​ជៀសវាង​"
 "ប្រភេទ​បង្អួច​ពិសេស​ដែរ​ ។"
 
-#: ruleswidget.cpp:795
+#: ruleswidget.cpp:800
 msgid "Edit Window-Specific Settings"
 msgstr "កែ​សម្រួល​ការ​កំណត់​បង្អួច​ជាក់លាក់"
 
-#: ruleswidget.cpp:825
+#: ruleswidget.cpp:830
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
 "window or application. Find the setting you want to affect, enable the "
@@ -425,11 +425,11 @@ msgstr ""
 "រក​ការ​កំណត់​ដែល​អ្នក​ចង់​ដាក់​ឲ្យ​មាន​ឥទ្ធិពល អនុញ្ញាត​ការ​កំណត់​ដោយ​ប្រើ​ប្រអប់​ធីក ជ្រើស​​ថា​តើ​ការ​កំណត់​តាម​វិធី​ណា​"
 "ដែល​គួរ​តែ​​មាន​ឥទ្ធិពល ហើយ​ប្រើ​តម្លៃ​មួយ​ណា ។"
 
-#: ruleswidget.cpp:829
+#: ruleswidget.cpp:834
 msgid "Consult the documentation for more details."
 msgstr "ពិគ្រោះ​យោបល់​អំពី​ឯកសារ​សម្រាប់​សេចក្តី​លម្អិត​បន្ថែម ។"
 
-#: ruleswidget.cpp:868
+#: ruleswidget.cpp:873
 msgid "Edit Shortcut"
 msgstr "កែ​សម្រួល​ផ្លូវកាត់"
 
@@ -589,16 +589,17 @@ msgstr "ទីតាំង"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_autogroupfg)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_autogroupid)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_above)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityactive)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_noborder)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_decocolor)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityactive)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityinactive)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_fsplevel)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_fpplevel)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_acceptfocus)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_disableglobalshortcuts)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_closeable)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_blockcompositing)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_fsplevel)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_decocolor)
 #: ruleswidgetbase.ui:506 ruleswidgetbase.ui:563 ruleswidgetbase.ui:627
 #: ruleswidgetbase.ui:678 ruleswidgetbase.ui:749 ruleswidgetbase.ui:813
 #: ruleswidgetbase.ui:881 ruleswidgetbase.ui:932 ruleswidgetbase.ui:983
@@ -607,10 +608,10 @@ msgstr "ទីតាំង"
 #: ruleswidgetbase.ui:1387 ruleswidgetbase.ui:1434 ruleswidgetbase.ui:1535
 #: ruleswidgetbase.ui:1557 ruleswidgetbase.ui:1641 ruleswidgetbase.ui:1678
 #: ruleswidgetbase.ui:1756 ruleswidgetbase.ui:1812 ruleswidgetbase.ui:1861
-#: ruleswidgetbase.ui:1919 ruleswidgetbase.ui:1955 ruleswidgetbase.ui:2042
-#: ruleswidgetbase.ui:2108 ruleswidgetbase.ui:2157 ruleswidgetbase.ui:2207
-#: ruleswidgetbase.ui:2351 ruleswidgetbase.ui:2405 ruleswidgetbase.ui:2427
-#: ruleswidgetbase.ui:2477
+#: ruleswidgetbase.ui:1919 ruleswidgetbase.ui:1970 ruleswidgetbase.ui:2006
+#: ruleswidgetbase.ui:2058 ruleswidgetbase.ui:2162 ruleswidgetbase.ui:2243
+#: ruleswidgetbase.ui:2309 ruleswidgetbase.ui:2358 ruleswidgetbase.ui:2401
+#: ruleswidgetbase.ui:2437 ruleswidgetbase.ui:2525
 msgid "Do Not Affect"
 msgstr "មិន​មាន​ឥទ្ធិពល"
 
@@ -638,7 +639,7 @@ msgstr "មិន​មាន​ឥទ្ធិពល"
 #: ruleswidgetbase.ui:886 ruleswidgetbase.ui:937 ruleswidgetbase.ui:988
 #: ruleswidgetbase.ui:1141 ruleswidgetbase.ui:1341 ruleswidgetbase.ui:1392
 #: ruleswidgetbase.ui:1439 ruleswidgetbase.ui:1562 ruleswidgetbase.ui:1646
-#: ruleswidgetbase.ui:1683 ruleswidgetbase.ui:1866 ruleswidgetbase.ui:1960
+#: ruleswidgetbase.ui:1683 ruleswidgetbase.ui:1866 ruleswidgetbase.ui:1924
 msgid "Apply Initially"
 msgstr "អនុវត្ត​ពី​ដំបូង"
 
@@ -666,7 +667,7 @@ msgstr "អនុវត្ត​ពី​ដំបូង"
 #: ruleswidgetbase.ui:891 ruleswidgetbase.ui:942 ruleswidgetbase.ui:993
 #: ruleswidgetbase.ui:1146 ruleswidgetbase.ui:1346 ruleswidgetbase.ui:1397
 #: ruleswidgetbase.ui:1444 ruleswidgetbase.ui:1567 ruleswidgetbase.ui:1651
-#: ruleswidgetbase.ui:1688 ruleswidgetbase.ui:1871 ruleswidgetbase.ui:1965
+#: ruleswidgetbase.ui:1688 ruleswidgetbase.ui:1871 ruleswidgetbase.ui:1929
 msgid "Remember"
 msgstr "ចងចាំ"
 
@@ -695,16 +696,17 @@ msgstr "ចងចាំ"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_autogroupfg)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_autogroupid)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_above)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityactive)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_noborder)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_decocolor)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityactive)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityinactive)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_fsplevel)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_fpplevel)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_acceptfocus)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_disableglobalshortcuts)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_closeable)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_blockcompositing)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_fsplevel)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_decocolor)
 #: ruleswidgetbase.ui:521 ruleswidgetbase.ui:578 ruleswidgetbase.ui:642
 #: ruleswidgetbase.ui:693 ruleswidgetbase.ui:764 ruleswidgetbase.ui:828
 #: ruleswidgetbase.ui:896 ruleswidgetbase.ui:947 ruleswidgetbase.ui:998
@@ -713,10 +715,10 @@ msgstr "ចងចាំ"
 #: ruleswidgetbase.ui:1402 ruleswidgetbase.ui:1449 ruleswidgetbase.ui:1540
 #: ruleswidgetbase.ui:1572 ruleswidgetbase.ui:1656 ruleswidgetbase.ui:1693
 #: ruleswidgetbase.ui:1761 ruleswidgetbase.ui:1817 ruleswidgetbase.ui:1876
-#: ruleswidgetbase.ui:1924 ruleswidgetbase.ui:1970 ruleswidgetbase.ui:2047
-#: ruleswidgetbase.ui:2113 ruleswidgetbase.ui:2162 ruleswidgetbase.ui:2212
-#: ruleswidgetbase.ui:2356 ruleswidgetbase.ui:2410 ruleswidgetbase.ui:2432
-#: ruleswidgetbase.ui:2482
+#: ruleswidgetbase.ui:1934 ruleswidgetbase.ui:1975 ruleswidgetbase.ui:2011
+#: ruleswidgetbase.ui:2063 ruleswidgetbase.ui:2167 ruleswidgetbase.ui:2248
+#: ruleswidgetbase.ui:2314 ruleswidgetbase.ui:2363 ruleswidgetbase.ui:2406
+#: ruleswidgetbase.ui:2442 ruleswidgetbase.ui:2530
 msgid "Force"
 msgstr "បង្ខំ"
 
@@ -744,7 +746,7 @@ msgstr "បង្ខំ"
 #: ruleswidgetbase.ui:901 ruleswidgetbase.ui:952 ruleswidgetbase.ui:1003
 #: ruleswidgetbase.ui:1156 ruleswidgetbase.ui:1356 ruleswidgetbase.ui:1407
 #: ruleswidgetbase.ui:1454 ruleswidgetbase.ui:1577 ruleswidgetbase.ui:1661
-#: ruleswidgetbase.ui:1698 ruleswidgetbase.ui:1881 ruleswidgetbase.ui:1975
+#: ruleswidgetbase.ui:1698 ruleswidgetbase.ui:1881 ruleswidgetbase.ui:1939
 msgid "Apply Now"
 msgstr "អនុវត្ត​ឥឡូវ"
 
@@ -773,16 +775,17 @@ msgstr "អនុវត្ត​ឥឡូវ"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_autogroupfg)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_autogroupid)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_above)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityactive)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_noborder)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_decocolor)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityactive)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_opacityinactive)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_fsplevel)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_fpplevel)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_acceptfocus)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_disableglobalshortcuts)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_closeable)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_blockcompositing)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_fsplevel)
-#. i18n: ectx: property (text), item, widget (QComboBox, rule_decocolor)
 #: ruleswidgetbase.ui:531 ruleswidgetbase.ui:588 ruleswidgetbase.ui:652
 #: ruleswidgetbase.ui:703 ruleswidgetbase.ui:774 ruleswidgetbase.ui:838
 #: ruleswidgetbase.ui:906 ruleswidgetbase.ui:957 ruleswidgetbase.ui:1008
@@ -791,10 +794,10 @@ msgstr "អនុវត្ត​ឥឡូវ"
 #: ruleswidgetbase.ui:1412 ruleswidgetbase.ui:1459 ruleswidgetbase.ui:1545
 #: ruleswidgetbase.ui:1582 ruleswidgetbase.ui:1666 ruleswidgetbase.ui:1703
 #: ruleswidgetbase.ui:1766 ruleswidgetbase.ui:1822 ruleswidgetbase.ui:1886
-#: ruleswidgetbase.ui:1929 ruleswidgetbase.ui:1980 ruleswidgetbase.ui:2052
-#: ruleswidgetbase.ui:2118 ruleswidgetbase.ui:2167 ruleswidgetbase.ui:2217
-#: ruleswidgetbase.ui:2361 ruleswidgetbase.ui:2415 ruleswidgetbase.ui:2437
-#: ruleswidgetbase.ui:2487
+#: ruleswidgetbase.ui:1944 ruleswidgetbase.ui:1980 ruleswidgetbase.ui:2016
+#: ruleswidgetbase.ui:2068 ruleswidgetbase.ui:2172 ruleswidgetbase.ui:2253
+#: ruleswidgetbase.ui:2319 ruleswidgetbase.ui:2368 ruleswidgetbase.ui:2411
+#: ruleswidgetbase.ui:2447 ruleswidgetbase.ui:2535
 msgid "Force Temporarily"
 msgstr "បង្ខំ​បណ្ដោះ​អាសន្ន"
 
@@ -1074,37 +1077,112 @@ msgstr "ដាក់​ជា​ក្រុម​ដោយ​ស្វ័យ​
 msgid "Appearance && &Fixes"
 msgstr "រូបរាង​និង​ការ​ជួសជុល"
 
-#. i18n: ectx: property (text), widget (QCheckBox, enable_blockcompositing)
-#: ruleswidgetbase.ui:1937
-msgid "Block compositing"
-msgstr "ប្លុក compositing"
-
 #. i18n: ectx: property (text), widget (QCheckBox, enable_noborder)
-#: ruleswidgetbase.ui:1944
+#: ruleswidgetbase.ui:1908
 msgid "&No titlebar and frame"
 msgstr "គ្មាន​​របារ​ចំណងជើង និង​ស៊ុម"
 
+#. i18n: ectx: property (text), widget (QCheckBox, enable_decocolor)
+#: ruleswidgetbase.ui:1959
+msgid "Titlebar color &scheme"
+msgstr ""
+
 #  i18n: file ruleswidgetbase.ui line 1303
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityactive)
-#: ruleswidgetbase.ui:1995
+#: ruleswidgetbase.ui:2024
 msgid "A&ctive opacity"
 msgstr "ភាព​ស្រអាប់​សកម្ម​"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, opacityactive)
 #. i18n: ectx: property (suffix), widget (QSpinBox, opacityinactive)
-#: ruleswidgetbase.ui:2018 ruleswidgetbase.ui:2063
+#: ruleswidgetbase.ui:2034 ruleswidgetbase.ui:2079
 #, no-c-format
 msgid "%"
 msgstr "%"
 
 #  i18n: file ruleswidgetbase.ui line 1862
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityinactive)
-#: ruleswidgetbase.ui:2031
+#: ruleswidgetbase.ui:2047
 msgid "I&nactive opacity"
 msgstr "ភាព​ស្រអាប់​អសកម្ម​"
 
+#. i18n: ectx: property (toolTip), widget (QCheckBox, enable_fsplevel)
+#: ruleswidgetbase.ui:2148
+msgid ""
+"KWin tries to prevent windows from taking the focus\n"
+"(\"activate\") while you're working in another window,\n"
+"but this may sometimes fail or superact.\n"
+"\"None\" will unconditionally allow this window to get the focus while\n"
+"\"Extreme\" will completely prevent it from taking the focus."
+msgstr ""
+"KWin ព្យាយាម​ការពារ​បង្អួច​ពី​ការ​ផ្ដោត\n"
+"(\"សកម្ម\") ខណៈ​ពេល​អ្នក​កំពុង​ធ្វើ​ការ​ក្នុង​បង្អួច​ផ្សេង\n"
+"ប៉ុន្តែ​ពេល​ខ្លះ​វា​អាច​បរាជ័យ  ។\n"
+"\"គ្មាន\" នឹង​អនុញ្ញាត​​បង្អួច​នេះ​ដោយ​គ្មាន​លក្ខខណ្ឌ​ ដើម្បី​ទទួល​ការ​ផ្ដោត​ខណៈ​ពេល​ដែល\n"
+"\"ខ្លាំង​បំផុត\" នឹង​ការពារ​វា​ទាំង​ស្រុង​ពី​ការ​ផ្ដោត ។"
+
+#  i18n: file ruleswidgetbase.ui line 1948
+#. i18n: ectx: property (text), widget (QCheckBox, enable_fsplevel)
+#: ruleswidgetbase.ui:2151
+msgid "&Focus stealing prevention"
+msgstr "ផ្តោត​លើ​ការ​ការពារ​ការ​លួច"
+
+#  i18n: file ruleswidgetbase.ui line 2115
+#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
+#. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
+#: ruleswidgetbase.ui:2184 ruleswidgetbase.ui:2265
+msgctxt "no focus stealing prevention"
+msgid "None"
+msgstr "គ្មាន"
+
+#  i18n: file ruleswidgetbase.ui line 2120
+#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
+#. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
+#: ruleswidgetbase.ui:2189 ruleswidgetbase.ui:2270
+msgid "Low"
+msgstr "ទាប"
+
+#  i18n: file ruleswidgetbase.ui line 2125
+#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
+#. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
+#: ruleswidgetbase.ui:2194 ruleswidgetbase.ui:2275
+msgid "Normal"
+msgstr "ធម្មតា"
+
+#  i18n: file ruleswidgetbase.ui line 2130
+#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
+#. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
+#: ruleswidgetbase.ui:2199 ruleswidgetbase.ui:2280
+msgid "High"
+msgstr "ខ្ពស់"
+
+#  i18n: file ruleswidgetbase.ui line 2135
+#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
+#. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
+#: ruleswidgetbase.ui:2204 ruleswidgetbase.ui:2285
+msgid "Extreme"
+msgstr "យ៉ាង​ខ្លាំង"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, enable_fpplevel)
+#: ruleswidgetbase.ui:2229
+msgid ""
+"This controls the focus protection of the currently active window.\n"
+"None will always give the focus away,\n"
+"Extreme will keep it.\n"
+"Otherwise it's interleaved with the stealing prevention\n"
+"assigned to the window that wants the focus."
+msgstr ""
+
+#  i18n: file ruleswidgetbase.ui line 1948
+#. i18n: ectx: property (text), widget (QCheckBox, enable_fpplevel)
+#: ruleswidgetbase.ui:2232
+#, fuzzy
+#| msgid "&Focus stealing prevention"
+msgid "Focus protection"
+msgstr "ផ្តោត​លើ​ការ​ការពារ​ការ​លួច"
+
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_acceptfocus)
-#: ruleswidgetbase.ui:2094
+#: ruleswidgetbase.ui:2295
 msgid ""
 "Windows may prevent to get the focus (activate) when being clicked.\n"
 "On the other hand you might wish to prevent a window\n"
@@ -1116,12 +1194,12 @@ msgstr ""
 
 #  i18n: file ruleswidgetbase.ui line 1287
 #. i18n: ectx: property (text), widget (QCheckBox, enable_acceptfocus)
-#: ruleswidgetbase.ui:2097
+#: ruleswidgetbase.ui:2298
 msgid "Accept &focus"
 msgstr "ព្រម​ទទួល​ការ​ផ្តោត"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_disableglobalshortcuts)
-#: ruleswidgetbase.ui:2140
+#: ruleswidgetbase.ui:2341
 msgid ""
 "When used, a window will receive\n"
 "all keyboard inputs while it is active, including Alt+Tab etc.\n"
@@ -1143,78 +1221,26 @@ msgstr ""
 
 #  i18n: file ruleswidgetbase.ui line 2349
 #. i18n: ectx: property (text), widget (QCheckBox, enable_disableglobalshortcuts)
-#: ruleswidgetbase.ui:2143
+#: ruleswidgetbase.ui:2344
 msgid "Ignore global shortcuts"
 msgstr "មិនអើពើ​​ផ្លូវកាត់​សកល"
 
 #  i18n: file ruleswidgetbase.ui line 1295
 #. i18n: ectx: property (text), widget (QCheckBox, enable_closeable)
-#: ruleswidgetbase.ui:2175
+#: ruleswidgetbase.ui:2390
 msgid "&Closeable"
 msgstr "អាច​បិទ"
 
 #  i18n: file ruleswidgetbase.ui line 2055
 #. i18n: ectx: property (text), widget (QCheckBox, enable_type)
-#: ruleswidgetbase.ui:2182
+#: ruleswidgetbase.ui:2426
 msgid "Window &type"
 msgstr "ប្រភេទ​បង្អួច"
 
-#  i18n: file ruleswidgetbase.ui line 2115
-#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
-#: ruleswidgetbase.ui:2373
-msgctxt "no focus stealing prevention"
-msgid "None"
-msgstr "គ្មាន"
-
-#  i18n: file ruleswidgetbase.ui line 2120
-#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
-#: ruleswidgetbase.ui:2378
-msgid "Low"
-msgstr "ទាប"
-
-#  i18n: file ruleswidgetbase.ui line 2125
-#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
-#: ruleswidgetbase.ui:2383
-msgid "Normal"
-msgstr "ធម្មតា"
-
-#  i18n: file ruleswidgetbase.ui line 2130
-#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
-#: ruleswidgetbase.ui:2388
-msgid "High"
-msgstr "ខ្ពស់"
-
-#  i18n: file ruleswidgetbase.ui line 2135
-#. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
-#: ruleswidgetbase.ui:2393
-msgid "Extreme"
-msgstr "យ៉ាង​ខ្លាំង"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, enable_fsplevel)
-#: ruleswidgetbase.ui:2449
-msgid ""
-"KWin tries to prevent windows from taking the focus\n"
-"(\"activate\") while you're working in another window,\n"
-"but this may sometimes fail or superact.\n"
-"\"None\" will unconditionally allow this window to get the focus while\n"
-"\"Extreme\" will completely prevent it from taking the focus."
-msgstr ""
-"KWin ព្យាយាម​ការពារ​បង្អួច​ពី​ការ​ផ្ដោត\n"
-"(\"សកម្ម\") ខណៈ​ពេល​អ្នក​កំពុង​ធ្វើ​ការ​ក្នុង​បង្អួច​ផ្សេង\n"
-"ប៉ុន្តែ​ពេល​ខ្លះ​វា​អាច​បរាជ័យ  ។\n"
-"\"គ្មាន\" នឹង​អនុញ្ញាត​​បង្អួច​នេះ​ដោយ​គ្មាន​លក្ខខណ្ឌ​ ដើម្បី​ទទួល​ការ​ផ្ដោត​ខណៈ​ពេល​ដែល\n"
-"\"ខ្លាំង​បំផុត\" នឹង​ការពារ​វា​ទាំង​ស្រុង​ពី​ការ​ផ្ដោត ។"
-
-#  i18n: file ruleswidgetbase.ui line 1948
-#. i18n: ectx: property (text), widget (QCheckBox, enable_fsplevel)
-#: ruleswidgetbase.ui:2452
-msgid "&Focus stealing prevention"
-msgstr "ផ្តោត​លើ​ការ​ការពារ​ការ​លួច"
-
-#. i18n: ectx: property (text), widget (QCheckBox, enable_decocolor)
-#: ruleswidgetbase.ui:2459
-msgid "Titlebar color &scheme"
-msgstr ""
+#. i18n: ectx: property (text), widget (QCheckBox, enable_blockcompositing)
+#: ruleswidgetbase.ui:2514
+msgid "Block compositing"
+msgstr "ប្លុក compositing"
 
 #: yesnobox.h:35
 msgid "Yes"

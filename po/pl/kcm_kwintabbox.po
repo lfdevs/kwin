@@ -3,21 +3,21 @@
 #
 # Maciej Wikło <maciej.wiklo@wp.pl>, 2009.
 # Marta Rybczyńska <kde-i18n@rybczynska.net>, 2010, 2011.
-# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013.
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2015.
 # krzysztof <x-men@mixbox.pl>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2013-01-03 18:41+0100\n"
+"POT-Creation-Date: 2015-01-22 08:06+0000\n"
+"PO-Revision-Date: 2015-12-12 08:21+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
@@ -48,7 +48,7 @@ msgstr "Zawartość"
 #. i18n: ectx: property (text), widget (QCheckBox, showDesktop)
 #: main.ui:41
 msgid "Include \"Show Desktop\" icon"
-msgstr "Uwzględnij ikonę \"pokaż pulpit\""
+msgstr "Dodaj ikonę \"pokaż pulpit\""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, switchingModeCombo)
 #: main.ui:55
@@ -68,7 +68,7 @@ msgstr "Tylko jedno okno na program"
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: main.ui:78
 msgid "Sort order:"
-msgstr "Sortuj według:"
+msgstr "Uszereguj według:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:104
@@ -78,7 +78,7 @@ msgstr "Odfiltruj okna według"
 #. i18n: ectx: property (text), widget (QCheckBox, filterDesktops)
 #: main.ui:113
 msgid "Virtual desktops"
-msgstr "Pulpity wirtualne"
+msgstr "Pulpitów wirtualnych"
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentDesktop)
 #: main.ui:157
@@ -88,12 +88,12 @@ msgstr "Bieżący pulpit"
 #. i18n: ectx: property (text), widget (QRadioButton, otherDesktops)
 #: main.ui:164
 msgid "All other desktops"
-msgstr "Wszystkie inne pulpity"
+msgstr "Pozostałe pulpity"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterActivities)
 #: main.ui:174
 msgid "Activities"
-msgstr "Działania"
+msgstr "Działań"
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentActivity)
 #: main.ui:218
@@ -103,7 +103,7 @@ msgstr "Bieżące działanie"
 #. i18n: ectx: property (text), widget (QRadioButton, otherActivities)
 #: main.ui:225
 msgid "All other activities"
-msgstr "Wszystkie inne działania"
+msgstr "Pozostałe działania"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterScreens)
 #: main.ui:235
@@ -123,7 +123,7 @@ msgstr "Wszystkie inne ekrany"
 #. i18n: ectx: property (text), widget (QCheckBox, filterMinimization)
 #: main.ui:296
 msgid "Minimization"
-msgstr "Minimalizacja"
+msgstr "Zminimalizowanych"
 
 #. i18n: ectx: property (text), widget (QRadioButton, visibleWindows)
 #: main.ui:340
@@ -144,7 +144,7 @@ msgstr "Skróty"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: main.ui:395 main.ui:438
 msgid "Forward"
-msgstr "Do przodu"
+msgstr "Naprzód"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:418
@@ -155,7 +155,7 @@ msgstr "Wszystkie okna"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: main.ui:428 main.ui:448
 msgid "Reverse"
-msgstr "Do tył"
+msgstr "Wstecz"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:470

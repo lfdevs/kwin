@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "drm_backend.h"
 #include "composite.h"
 #include "cursor.h"
+#include "input.h"
 #include "logging.h"
 #include "logind.h"
 #include "scene_qpainter_drm_backend.h"
@@ -38,6 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KLocalizedString>
 #include <KSharedConfig>
 // Qt
+#include <QCryptographicHash>
 #include <QSocketNotifier>
 #include <QPainter>
 // system
@@ -237,16 +239,6 @@ void DrmBackend::openDrm()
     initCursor();
 }
 
-template <typename Pointer, void (*cleanupFunc)(Pointer*)>
-struct DrmCleanup
-{
-    static inline void cleanup(Pointer *ptr)
-    {
-        cleanupFunc(ptr);
-    }
-};
-template <typename T, void (*cleanupFunc)(T*)> using ScopedDrmPointer = QScopedPointer<T, DrmCleanup<T, cleanupFunc>>;
-
 void DrmBackend::queryResources()
 {
     if (m_fd < 0) {
@@ -285,6 +277,7 @@ void DrmBackend::queryResources()
             continue;
         }
         DrmOutput *drmOutput = new DrmOutput(this);
+        connect(drmOutput, &DrmOutput::dpmsChanged, this, &DrmBackend::outputDpmsChanged);
         drmOutput->m_crtcId = crtcId;
         if (crtc->mode_valid) {
             drmOutput->m_mode = crtc->mode;
@@ -293,8 +286,10 @@ void DrmBackend::queryResources()
         }
         drmOutput->m_connector = connector->connector_id;
         drmOutput->init(connector.data());
+        qCDebug(KWIN_DRM) << "Found new output with uuid" << drmOutput->uuid();
         connectedOutputs << drmOutput;
     }
+    std::sort(connectedOutputs.begin(), connectedOutputs.end(), [] (DrmOutput *a, DrmOutput *b) { return a->m_connector < b->m_connector; });
     // check for outputs which got removed
     auto it = m_outputs.begin();
     while (it != m_outputs.end()) {
@@ -313,8 +308,41 @@ void DrmBackend::queryResources()
         }
     }
     m_outputs = connectedOutputs;
+    readOutputsConfiguration();
     emit screensQueried();
-    // TODO: install global space
+}
+
+void DrmBackend::readOutputsConfiguration()
+{
+    if (m_outputs.isEmpty()) {
+        return;
+    }
+    const QByteArray uuid = generateOutputConfigurationUuid();
+    const auto outputGroup = KSharedConfig::openConfig(KWIN_CONFIG)->group("DrmOutputs");
+    const auto configGroup = outputGroup.group(uuid);
+    qCDebug(KWIN_DRM) << "Reading output configuration for" << uuid;
+    // default position goes from left to right
+    QPoint pos(0, 0);
+    for (auto it = m_outputs.begin(); it != m_outputs.end(); ++it) {
+        const auto outputConfig = configGroup.group((*it)->uuid());
+        (*it)->setGlobalPos(outputConfig.readEntry<QPoint>("Position", pos));
+        // TODO: add mode
+        pos.setX(pos.x() + (*it)->size().width());
+    }
+}
+
+QByteArray DrmBackend::generateOutputConfigurationUuid() const
+{
+    auto it = m_outputs.constBegin();
+    if (m_outputs.size() == 1) {
+        // special case: one output
+        return (*it)->uuid();
+    }
+    QCryptographicHash hash(QCryptographicHash::Md5);
+    for (; it != m_outputs.constEnd(); ++it) {
+        hash.addData((*it)->uuid());
+    }
+    return hash.result().toHex().left(10);
 }
 
 DrmOutput *DrmBackend::findOutput(quint32 connector)
@@ -511,8 +539,21 @@ void DrmBackend::bufferDestroyed(DrmBuffer *b)
     m_buffers.removeAll(b);
 }
 
+void DrmBackend::outputDpmsChanged()
+{
+    if (m_outputs.isEmpty()) {
+        return;
+    }
+    bool enabled = false;
+    for (auto it = m_outputs.constBegin(); it != m_outputs.constEnd(); ++it) {
+        enabled = enabled || (*it)->isDpmsEnabled();
+    }
+    setOutputsEnabled(enabled);
+}
+
 DrmOutput::DrmOutput(DrmBackend *backend)
-    : m_backend(backend)
+    : QObject()
+    , m_backend(backend)
 {
 }
 
@@ -567,10 +608,13 @@ bool DrmOutput::present(DrmBuffer *buffer)
         m_currentBuffer = buffer;
         return false;
     }
+    if (m_dpmsMode != DpmsMode::On) {
+        return false;
+    }
     if (m_currentBuffer) {
         return false;
     }
-    if (m_lastStride != buffer->stride()) {
+    if (m_lastStride != buffer->stride() || m_lastGbm != buffer->isGbm()) {
         // need to set a new mode first
         if (!setMode(buffer)) {
             return false;
@@ -604,11 +648,48 @@ void DrmOutput::cleanupBlackBuffer()
     }
 }
 
+static KWayland::Server::OutputInterface::DpmsMode toWaylandDpmsMode(DrmOutput::DpmsMode mode)
+{
+    using namespace KWayland::Server;
+    switch (mode) {
+    case DrmOutput::DpmsMode::On:
+        return OutputInterface::DpmsMode::On;
+    case DrmOutput::DpmsMode::Standby:
+        return OutputInterface::DpmsMode::Standby;
+    case DrmOutput::DpmsMode::Suspend:
+        return OutputInterface::DpmsMode::Suspend;
+    case DrmOutput::DpmsMode::Off:
+        return OutputInterface::DpmsMode::Off;
+    default:
+        Q_UNREACHABLE();
+    }
+}
+
+static DrmOutput::DpmsMode fromWaylandDpmsMode(KWayland::Server::OutputInterface::DpmsMode wlMode)
+{
+    using namespace KWayland::Server;
+    switch (wlMode) {
+    case OutputInterface::DpmsMode::On:
+        return DrmOutput::DpmsMode::On;
+    case OutputInterface::DpmsMode::Standby:
+        return DrmOutput::DpmsMode::Standby;
+    case OutputInterface::DpmsMode::Suspend:
+        return DrmOutput::DpmsMode::Suspend;
+    case OutputInterface::DpmsMode::Off:
+        return DrmOutput::DpmsMode::Off;
+    default:
+        Q_UNREACHABLE();
+    }
+}
+
 void DrmOutput::init(drmModeConnector *connector)
 {
     initEdid(connector);
+    initDpms(connector);
+    initUuid();
     m_savedCrtc.reset(drmModeGetCrtc(m_backend->fd(), m_crtcId));
     blank();
+    setDpms(DpmsMode::On);
     if (!m_waylandOutput.isNull()) {
         delete m_waylandOutput.data();
         m_waylandOutput.clear();
@@ -673,7 +754,28 @@ void DrmOutput::init(drmModeConnector *connector)
         m_waylandOutput->addMode(QSize(m->hdisplay, m->vdisplay), flags, refreshRate);
     }
 
+    // set dpms
+    if (!m_dpms.isNull()) {
+        m_waylandOutput->setDpmsSupported(true);
+        m_waylandOutput->setDpmsMode(toWaylandDpmsMode(m_dpmsMode));
+        connect(m_waylandOutput.data(), &KWayland::Server::OutputInterface::dpmsModeRequested, this,
+            [this] (KWayland::Server::OutputInterface::DpmsMode mode) {
+                setDpms(fromWaylandDpmsMode(mode));
+            }, Qt::QueuedConnection
+        );
+    }
+
     m_waylandOutput->create();
+}
+
+void DrmOutput::initUuid()
+{
+    QCryptographicHash hash(QCryptographicHash::Md5);
+    hash.addData(QByteArray::number(m_connector));
+    hash.addData(m_edid.eisaId);
+    hash.addData(m_edid.monitorName);
+    hash.addData(m_edid.serialNumber);
+    m_uuid = hash.result().toHex().left(10);
 }
 
 bool DrmOutput::isCurrentMode(const drmModeModeInfo *mode) const
@@ -709,6 +811,7 @@ bool DrmOutput::setMode(DrmBuffer *buffer)
 {
     if (drmModeSetCrtc(m_backend->fd(), m_crtcId, buffer->bufferId(), 0, 0, &m_connector, 1, &m_mode) == 0) {
         m_lastStride = buffer->stride();
+        m_lastGbm = buffer->isGbm();
         return true;
     } else {
         qCWarning(KWIN_DRM) << "Mode setting failed";
@@ -875,6 +978,56 @@ void DrmOutput::initEdid(drmModeConnector *connector)
     m_edid.physicalSize = extractPhysicalSize(edid.data());
 }
 
+void DrmOutput::initDpms(drmModeConnector *connector)
+{
+    for (int i = 0; i < connector->count_props; ++i) {
+        ScopedDrmPointer<_drmModeProperty, &drmModeFreeProperty> property(drmModeGetProperty(m_backend->fd(), connector->props[i]));
+        if (!property) {
+            continue;
+        }
+        if (qstrcmp(property->name, "DPMS") == 0) {
+            m_dpms.swap(property);
+            break;
+        }
+    }
+}
+
+void DrmOutput::setDpms(DrmOutput::DpmsMode mode)
+{
+    if (m_dpms.isNull()) {
+        return;
+    }
+    if (drmModeConnectorSetProperty(m_backend->fd(), m_connector, m_dpms->prop_id, uint64_t(mode)) != 0) {
+        qCWarning(KWIN_DRM) << "Setting DPMS failed";
+        return;
+    }
+    m_dpmsMode = mode;
+    if (m_waylandOutput) {
+        m_waylandOutput->setDpmsMode(toWaylandDpmsMode(m_dpmsMode));
+    }
+    emit dpmsChanged();
+    if (m_dpmsMode != DpmsMode::On) {
+        connect(input(), &InputRedirection::globalPointerChanged, this, &DrmOutput::reenableDpms);
+        connect(input(), &InputRedirection::pointerButtonStateChanged, this, &DrmOutput::reenableDpms);
+        connect(input(), &InputRedirection::pointerAxisChanged, this, &DrmOutput::reenableDpms);
+        connect(input(), &InputRedirection::keyStateChanged, this, &DrmOutput::reenableDpms);
+    } else {
+        disconnect(input(), &InputRedirection::globalPointerChanged, this, &DrmOutput::reenableDpms);
+        disconnect(input(), &InputRedirection::pointerButtonStateChanged, this, &DrmOutput::reenableDpms);
+        disconnect(input(), &InputRedirection::pointerAxisChanged, this, &DrmOutput::reenableDpms);
+        disconnect(input(), &InputRedirection::keyStateChanged, this, &DrmOutput::reenableDpms);
+        blank();
+        if (Compositor *compositor = Compositor::self()) {
+            compositor->addRepaintFull();
+        }
+    }
+}
+
+void DrmOutput::reenableDpms()
+{
+    setDpms(DpmsMode::On);
+}
+
 QString DrmOutput::name() const
 {
     if (!m_waylandOutput) {
@@ -889,6 +1042,14 @@ int DrmOutput::currentRefreshRate() const
         return 60000;
     }
     return m_waylandOutput->refreshRate();
+}
+
+void DrmOutput::setGlobalPos(const QPoint &pos)
+{
+    m_globalPos = pos;
+    if (m_waylandOutput) {
+        m_waylandOutput->setGlobalPosition(pos);
+    }
 }
 
 DrmBuffer::DrmBuffer(DrmBackend *backend, const QSize &size)

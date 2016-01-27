@@ -26,12 +26,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace KWin
 {
 
+class AbstractClient;
+
 namespace Decoration
 {
 class Renderer;
 }
 
-class Deleted
+class KWIN_EXPORT Deleted
     : public Toplevel
 {
     Q_OBJECT
@@ -64,7 +66,7 @@ public:
     bool isModal() const {
         return m_modal;
     }
-    ClientList mainClients() const {
+    QList<AbstractClient*> mainClients() const {
         return m_mainClients;
     }
     NET::WindowType windowType(bool direct = false, int supported_types = 0) const;
@@ -102,7 +104,7 @@ private:
     Layer m_layer;
     bool m_minimized;
     bool m_modal;
-    ClientList m_mainClients;
+    QList<AbstractClient*> m_mainClients;
     bool m_wasClient;
     Decoration::Renderer *m_decorationRenderer;
     double m_opacity;
@@ -116,5 +118,7 @@ inline void Deleted::refWindow()
 }
 
 } // namespace
+
+Q_DECLARE_METATYPE(KWin::Deleted*)
 
 #endif

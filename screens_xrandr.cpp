@@ -38,10 +38,15 @@ void XRandRScreens::update()
     auto fallback = [this]() {
         m_geometries << QRect();
         m_refreshRates << -1.0f;
+        m_names << "Xinerama";
         setCount(1);
     };
     m_geometries.clear();
     m_names.clear();
+    if (!Xcb::Extensions::self()->isRandrAvailable()) {
+        fallback();
+        return;
+    }
     T resources(rootWindow());
     if (resources.isNull()) {
         fallback();
@@ -120,7 +125,8 @@ QRect XRandRScreens::geometry(int screen) const
     if (screen >= m_geometries.size() || screen < 0) {
         return QRect();
     }
-    return m_geometries.at(screen);
+    return m_geometries.at(screen).isValid() ? m_geometries.at(screen) :
+           QRect(0, 0, displayWidth(), displayHeight()); // xinerama, lacks RandR
 }
 
 QString XRandRScreens::name(int screen) const

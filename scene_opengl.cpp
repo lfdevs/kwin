@@ -27,17 +27,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "scene_opengl.h"
-#ifdef KWIN_HAVE_EGL
 #include "eglonxbackend.h"
-#endif // KWIN_HAVE_EGL
-#ifndef KWIN_HAVE_OPENGLES
+#if HAVE_EPOXY_GLX
 #include "glxbackend.h"
-#endif // KWIN_HAVE_OPENGLES
+#endif
 
-#if HAVE_WAYLAND
 #include "abstract_backend.h"
 #include "wayland_server.h"
-#endif // HAVE_WAYLAND
 
 #include <kwinglcolorcorrection.h>
 #include <kwinglplatform.h>
@@ -71,6 +67,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KLocalizedString>
 #include <KNotification>
 #include <KProcess>
+
+// HACK: workaround for libepoxy < 1.3
+#ifndef GL_GUILTY_CONTEXT_RESET
+#define GL_GUILTY_CONTEXT_RESET 0x8253
+#endif
+#ifndef GL_INNOCENT_CONTEXT_RESET
+#define GL_INNOCENT_CONTEXT_RESET 0x8254
+#endif
+#ifndef GL_UNKNOWN_CONTEXT_RESET
+#define GL_UNKNOWN_CONTEXT_RESET 0x8255
+#endif
 
 namespace KWin
 {
@@ -395,22 +402,20 @@ SceneOpenGL::SceneOpenGL(OpenGLBackend *backend, QObject *parent)
 
     // perform Scene specific checks
     GLPlatform *glPlatform = GLPlatform::instance();
-#ifndef KWIN_HAVE_OPENGLES
-    if (!hasGLExtension(QByteArrayLiteral("GL_ARB_texture_non_power_of_two"))
+    if (!glPlatform->isGLES() && !hasGLExtension(QByteArrayLiteral("GL_ARB_texture_non_power_of_two"))
             && !hasGLExtension(QByteArrayLiteral("GL_ARB_texture_rectangle"))) {
         qCCritical(KWIN_CORE) << "GL_ARB_texture_non_power_of_two and GL_ARB_texture_rectangle missing";
         init_ok = false;
         return; // error
     }
-#endif
     if (glPlatform->isMesaDriver() && glPlatform->mesaVersion() < kVersionNumber(8, 0)) {
         qCCritical(KWIN_CORE) << "KWin requires at least Mesa 8.0 for OpenGL compositing.";
         init_ok = false;
         return;
     }
-#ifndef KWIN_HAVE_OPENGLES
-    glDrawBuffer(GL_BACK);
-#endif
+    if (!glPlatform->isGLES() && !m_backend->isSurfaceLessContext()) {
+        glDrawBuffer(GL_BACK);
+    }
 
     m_debug = qstrcmp(qgetenv("KWIN_GL_DEBUG"), "1") == 0;
     initDebugOutput();
@@ -471,8 +476,28 @@ static void scheduleVboReInit()
 void SceneOpenGL::initDebugOutput()
 {
     const bool have_KHR_debug = hasGLExtension(QByteArrayLiteral("GL_KHR_debug"));
-    if (!have_KHR_debug && !hasGLExtension(QByteArrayLiteral("GL_ARB_debug_output")))
+    const bool have_ARB_debug = hasGLExtension(QByteArrayLiteral("GL_ARB_debug_output"));
+    if (!have_KHR_debug && !have_ARB_debug)
         return;
+
+    if (!have_ARB_debug) {
+        // if we don't have ARB debug, but only KHR debug we need to verify whether the context is a debug context
+        // it should work without as well, but empirical tests show: no it doesn't
+        if (GLPlatform::instance()->isGLES()) {
+            if (!hasGLVersion(3, 2)) {
+                // empirical data shows extension doesn't work
+                return;
+            }
+        } else if (!hasGLVersion(3, 0)) {
+            return;
+        }
+        // can only be queried with either OpenGL >= 3.0 or OpenGL ES of at least 3.1
+        GLint value = 0;
+        glGetIntegerv(GL_CONTEXT_FLAGS, &value);
+        if (!(value & GL_CONTEXT_FLAG_DEBUG_BIT)) {
+            return;
+        }
+    }
 
     gs_debuggedScene = this;
 
@@ -510,11 +535,6 @@ void SceneOpenGL::initDebugOutput()
         }
     };
 
-    // Expoxy fails to resolve glDebugMessageCallback on GLES
-    if (!glDebugMessageCallback) {
-        return;
-    }
-
     glDebugMessageCallback(callback, nullptr);
 
     // This state exists only in GL_KHR_debug
@@ -543,21 +563,16 @@ SceneOpenGL *SceneOpenGL::createScene(QObject *parent)
 
     switch (platformInterface) {
     case GlxPlatformInterface:
-#ifndef KWIN_HAVE_OPENGLES
+#if HAVE_EPOXY_GLX
         backend = new GlxBackend();
 #endif
         break;
     case EglPlatformInterface:
-#ifdef KWIN_HAVE_EGL
-#if HAVE_WAYLAND
         if (kwinApp()->shouldUseWaylandForCompositing()) {
             backend = waylandServer()->backend()->createOpenGLBackend();
-        } else
-#endif // HAVE_WAYLAND
-        {
+        } else {
             backend = new EglOnXBackend();
         }
-#endif // KWIN_HAVE_EGL
         break;
     default:
         // no backend available
@@ -617,7 +632,6 @@ bool SceneOpenGL::initFailed() const
     return !init_ok;
 }
 
-#ifndef KWIN_HAVE_OPENGLES
 void SceneOpenGL::copyPixels(const QRegion &region)
 {
     const int height = screens()->size().height();
@@ -630,30 +644,19 @@ void SceneOpenGL::copyPixels(const QRegion &region)
         glBlitFramebuffer(x0, y0, x1, y1, x0, y0, x1, y1, GL_COLOR_BUFFER_BIT, GL_NEAREST);
     }
 }
-#endif
-
-#ifndef KWIN_HAVE_OPENGLES
-#  define GL_GUILTY_CONTEXT_RESET_KWIN    GL_GUILTY_CONTEXT_RESET_ARB
-#  define GL_INNOCENT_CONTEXT_RESET_KWIN  GL_INNOCENT_CONTEXT_RESET_ARB
-#  define GL_UNKNOWN_CONTEXT_RESET_KWIN   GL_UNKNOWN_CONTEXT_RESET_ARB
-#else
-#  define GL_GUILTY_CONTEXT_RESET_KWIN    GL_GUILTY_CONTEXT_RESET_EXT
-#  define GL_INNOCENT_CONTEXT_RESET_KWIN  GL_INNOCENT_CONTEXT_RESET_EXT
-#  define GL_UNKNOWN_CONTEXT_RESET_KWIN   GL_UNKNOWN_CONTEXT_RESET_EXT
-#endif
 
 void SceneOpenGL::handleGraphicsReset(GLenum status)
 {
     switch (status) {
-    case GL_GUILTY_CONTEXT_RESET_KWIN:
+    case GL_GUILTY_CONTEXT_RESET:
         qCDebug(KWIN_CORE) << "A graphics reset attributable to the current GL context occurred.";
         break;
 
-    case GL_INNOCENT_CONTEXT_RESET_KWIN:
+    case GL_INNOCENT_CONTEXT_RESET:
         qCDebug(KWIN_CORE) << "A graphics reset not attributable to the current GL context occurred.";
         break;
 
-    case GL_UNKNOWN_CONTEXT_RESET_KWIN:
+    case GL_UNKNOWN_CONTEXT_RESET:
         qCDebug(KWIN_CORE) << "A graphics reset of an unknown cause occurred.";
         break;
 
@@ -739,20 +742,20 @@ qint64 SceneOpenGL::paint(QRegion damage, ToplevelList toplevels)
         int mask = 0;
         paintScreen(&mask, damage, repaint, &updateRegion, &validRegion);   // call generic implementation
 
-#ifndef KWIN_HAVE_OPENGLES
-        const QSize &screenSize = screens()->size();
-        const QRegion displayRegion(0, 0, screenSize.width(), screenSize.height());
+        if (!GLPlatform::instance()->isGLES()) {
+            const QSize &screenSize = screens()->size();
+            const QRegion displayRegion(0, 0, screenSize.width(), screenSize.height());
 
-        // copy dirty parts from front to backbuffer
-        if (!m_backend->supportsBufferAge() &&
-            options->glPreferBufferSwap() == Options::CopyFrontBuffer &&
-            validRegion != displayRegion) {
-            glReadBuffer(GL_FRONT);
-            copyPixels(displayRegion - validRegion);
-            glReadBuffer(GL_BACK);
-            validRegion = displayRegion;
+            // copy dirty parts from front to backbuffer
+            if (!m_backend->supportsBufferAge() &&
+                options->glPreferBufferSwap() == Options::CopyFrontBuffer &&
+                validRegion != displayRegion) {
+                glReadBuffer(GL_FRONT);
+                copyPixels(displayRegion - validRegion);
+                glReadBuffer(GL_BACK);
+                validRegion = displayRegion;
+            }
         }
-#endif
 
         GLVertexBuffer::streamingBuffer()->endOfFrame();
 
@@ -880,7 +883,7 @@ bool SceneOpenGL::viewportLimitsMatched(const QSize &size) const {
             QDBusInterface dialog( QStringLiteral("org.kde.kwinCompositingDialog"), QStringLiteral("/CompositorSettings"), QStringLiteral("org.kde.kwinCompositingDialog") );
             dialog.asyncCall(QStringLiteral("warn"), message, details, QString());
         } else {
-            const QString args = QStringLiteral("warn ") + QString::fromUtf8(message.toLocal8Bit().toBase64()) + QStringLiteral(" details ") + QString::fromUtf8(details.toLocal8Bit().toBase64());
+            const QString args = QLatin1String("warn ") + QString::fromUtf8(message.toLocal8Bit().toBase64()) + QLatin1String(" details ") + QString::fromUtf8(details.toLocal8Bit().toBase64());
             KProcess::startDetached(QStringLiteral("kcmshell5"), QStringList() << QStringLiteral("kwincompositing") << QStringLiteral("--args") << args);
         }
         QDBusConnection::sessionBus().interface()->setTimeout(oldTimeout);
@@ -911,8 +914,8 @@ bool SceneOpenGL::viewportLimitsMatched(const QSize &size) const {
             QDBusInterface dialog( QStringLiteral("org.kde.kwinCompositingDialog"), QStringLiteral("/CompositorSettings"), QStringLiteral("org.kde.kwinCompositingDialog") );
             dialog.asyncCall(QStringLiteral("warn"), message, details, QStringLiteral("kwin_dialogsrc:max_tex_warning"));
         } else {
-            const QString args = QStringLiteral("warn ") + QString::fromUtf8(message.toLocal8Bit().toBase64()) + QStringLiteral(" details ") +
-                                 QString::fromUtf8(details.toLocal8Bit().toBase64()) + QStringLiteral(" dontagain kwin_dialogsrc:max_tex_warning");
+            const QString args = QLatin1String("warn ") + QString::fromUtf8(message.toLocal8Bit().toBase64()) + QLatin1String(" details ") +
+                                 QString::fromUtf8(details.toLocal8Bit().toBase64()) + QLatin1String(" dontagain kwin_dialogsrc:max_tex_warning");
             KProcess::startDetached(QStringLiteral("kcmshell5"), QStringList() << QStringLiteral("kwincompositing") << QStringLiteral("--args") << args);
         }
         QDBusConnection::sessionBus().interface()->setTimeout(oldTimeout);
@@ -974,7 +977,7 @@ bool SceneOpenGL2::supported(OpenGLBackend *backend)
 {
     const QByteArray forceEnv = qgetenv("KWIN_COMPOSE");
     if (!forceEnv.isEmpty()) {
-        if (qstrcmp(forceEnv, "O2") == 0) {
+        if (qstrcmp(forceEnv, "O2") == 0 || qstrcmp(forceEnv, "O2ES") == 0) {
             qCDebug(KWIN_CORE) << "OpenGL 2 compositing enforced by environment variable";
             return true;
         } else {
@@ -987,9 +990,7 @@ bool SceneOpenGL2::supported(OpenGLBackend *backend)
     }
     if (GLPlatform::instance()->recommendedCompositor() < OpenGL2Compositing) {
         qCDebug(KWIN_CORE) << "Driver does not recommend OpenGL 2 compositing";
-#ifndef KWIN_HAVE_OPENGLES
         return false;
-#endif
     }
     return true;
 }
@@ -1033,13 +1034,11 @@ SceneOpenGL2::SceneOpenGL2(OpenGLBackend *backend, QObject *parent)
         return; // error
     }
 
-#ifndef KWIN_HAVE_OPENGLES
     // It is not legal to not have a vertex array object bound in a core context
-    if (hasGLExtension(QByteArrayLiteral("GL_ARB_vertex_array_object"))) {
+    if (!GLPlatform::instance()->isGLES() && hasGLExtension(QByteArrayLiteral("GL_ARB_vertex_array_object"))) {
         glGenVertexArrays(1, &vao);
         glBindVertexArray(vao);
     }
-#endif
 
     if (!ShaderManager::instance()->selfTest()) {
         qCCritical(KWIN_CORE) << "ShaderManager self test failed";
@@ -1143,6 +1142,9 @@ Scene::Window *SceneOpenGL2::createWindow(Toplevel *t)
 
 void SceneOpenGL2::finalDrawWindow(EffectWindowImpl* w, int mask, QRegion region, WindowPaintData& data)
 {
+    if (waylandServer() && waylandServer()->isScreenLocked() && !w->window()->isLockScreen()) {
+        return;
+    }
     if (!m_colorCorrection.isNull() && m_colorCorrection->isEnabled()) {
         // Split the painting for separate screens
         const int numScreens = screens()->count();
@@ -1395,8 +1397,7 @@ void SceneOpenGL::Window::endRenderWindow()
 
 GLTexture *SceneOpenGL::Window::getDecorationTexture() const
 {
-    if (toplevel->isClient()) {
-        Client *client = static_cast<Client *>(toplevel);
+    if (Client *client = dynamic_cast<Client *>(toplevel)) {
         if (client->noBorder()) {
             return nullptr;
         }
@@ -1680,10 +1681,8 @@ bool OpenGLWindowPixmap::bind()
 {
     if (!m_texture->isNull()) {
         if (!toplevel()->damage().isEmpty()) {
-#if HAVE_WAYLAND
             updateBuffer();
             m_texture->updateFromPixmap(this);
-#endif
             // mipmaps need to be updated
             m_texture->setDirty();
             toplevel()->resetDamage();

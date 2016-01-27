@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
-"PO-Revision-Date: 2015-07-29 15:19+0100\n"
+"POT-Creation-Date: 2015-01-14 07:58+0000\n"
+"PO-Revision-Date: 2015-11-07 02:31+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -331,7 +331,7 @@ msgstr "Canvia l'opacitat"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:413 mouse.ui:156
 msgid "Switch to Window Tab to the Left/Right"
-msgstr "Canvia a una pestanya de finestra a esquerra/dreta"
+msgstr "Canvia a una pestanya de la finestra a esquerra/dreta"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWin1)
 #: actions.ui:445
@@ -412,7 +412,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, inactiveTabsSkipTaskbar)
 #: advanced.ui:55
 msgid "Hide inactive window tabs from the taskbar"
-msgstr "Oculta les pestanyes de finestres inactives a la barra de tasques"
+msgstr "Oculta les pestanyes de les finestres inactives a la barra de tasques"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, autogroupSimilarWindows)
 #: advanced.ui:62
@@ -435,8 +435,8 @@ msgid ""
 "When turned on immediately switch to any new window tabs that were "
 "automatically added to the current group."
 msgstr ""
-"Quan està activat, es canvia immediatament a qualsevol pestanya de finestra "
-"que s'ha afegit automàticament al grup actual."
+"Quan està activat, es canvia immediatament a qualsevol pestanya de la "
+"finestra que s'ha afegit automàticament al grup actual."
 
 #. i18n: ectx: property (text), widget (QCheckBox, autogroupInForeground)
 #: advanced.ui:75
@@ -471,7 +471,7 @@ msgstr ""
 "finestres.</li>\n"
 "<li><em>Maximitzada</em> provarà de maximitzar cada finestra per omplir la "
 "pantalla. Pot ser útil determinar la col·locació d'algunes finestres "
-"selectivament usant els valors específics de finestra.</li>\n"
+"selectivament usant els valors específics de la finestra.</li>\n"
 "<li><em>Cascada</em> posarà les finestres esglaonades</li>\n"
 "<li><em>Aleatòria</em> usarà una posició aleatòria</li>\n"
 "<li><em>Centrada</em> col·locarà la finestra centrada</li>\n"
@@ -538,7 +538,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, shadeHoverOn)
 #: advanced.ui:207
 msgid "&Enable hover"
-msgstr "&Habilita desplegat automàtic"
+msgstr "&Habilita el desplegat automàtic"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, shadeHover)
 #: advanced.ui:214
@@ -583,7 +583,7 @@ msgstr "Oculta les finestres d'utilitat per a les aplicacions inactives"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: focus.ui:30
 msgid "Activating windows"
-msgstr "Activació de finestres"
+msgstr "Activació de les finestres"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: focus.ui:69
@@ -904,7 +904,7 @@ msgstr "Accions de la barra de &títol"
 
 #: main.cpp:88 main.cpp:196
 msgid "Window Actio&ns"
-msgstr "Accio&ns de finestra"
+msgstr "Accio&ns de la finestra"
 
 #: main.cpp:93
 msgid "&Moving"
@@ -1108,7 +1108,7 @@ msgstr "Menú d'operacions"
 #: mouse.ui:272 mouse.ui:345 mouse.ui:416 mouse.ui:489 mouse.ui:560
 #: mouse.ui:633
 msgid "Start Window Tab Drag"
-msgstr "Inicia l'arrossegament d'una pestanya de finestra"
+msgstr "Inicia l'arrossegament d'una pestanya de la finestra"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiInAct1)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiInAct2)
@@ -1280,13 +1280,13 @@ msgid ""
 "corner of the screen is displayed together with its size."
 msgstr ""
 "Habiliteu esta opció si voleu que es mostre la geometria de la finestra "
-"mentre es mou o es dimensiona. Es mostra la posició de finestra relativa al "
-"racó superior esquerre de la pantalla juntament amb la mida."
+"mentre es mou o es dimensiona. Es mostra la posició de la finestra relativa "
+"al racó superior esquerre de la pantalla juntament amb la mida."
 
 #. i18n: ectx: property (text), widget (QCheckBox, geometryTipOn)
 #: moving.ui:175
 msgid "Display window &geometry when moving or resizing"
-msgstr "Mostra la &geometria de finestra en moure o dimensionar"
+msgstr "Mostra la &geometria de la finestra en moure o dimensionar"
 
 #. i18n: ectx: property (text), widget (QLabel, windowSnapLabel)
 #: moving.ui:182

@@ -43,6 +43,8 @@ public:
     bool isVisible() const;
     void show();
     void hide();
+public:
+    EffectWindow *effectWindow;
 Q_SIGNALS:
     void addDesktop();
     void removeDesktop();
@@ -136,6 +138,7 @@ private:
     QRectF moveGeometryToDesktop(int desktop) const;
     void desktopsAdded(int old);
     void desktopsRemoved(int old);
+    QVector<int> desktopList(const EffectWindow *w) const;
 
     QList<ElectricBorder> borderActivate;
     int zoomDuration;
@@ -152,6 +155,7 @@ private:
     bool keyboardGrab;
     bool wasWindowMove, wasDesktopMove, isValidMove;
     EffectWindow* windowMove;
+    EffectWindow* m_highlightWindow;
     QPoint windowMoveDiff;
     QPoint dragStartPos;
 
@@ -178,7 +182,7 @@ private:
     QRect m_windowMoveGeometry;
     QPoint m_windowMoveStartPoint;
 
-    QHash< DesktopButtonsView*, EffectWindow* > m_desktopButtonsViews;
+    QVector<DesktopButtonsView*> m_desktopButtonsViews;
 
 };
 

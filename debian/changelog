@@ -1,7 +1,21 @@
+kwin (4:5.5.4-1) experimental; urgency=medium
+
+  * New upstream release (5.5.0).
+  * Update symbols files from buildds logs (4:5.4.3-1.1).
+  * New upstream release (5.5.1).
+  * Follow upstream soversion bump
+  * Add virtual backend.
+  * New upstream release (5.5.2).
+  * New upstream release (5.5.3).
+  * New upstream release (5.5.4).
+
+ -- Maximiliano Curia <maxy@debian.org>  Wed, 27 Jan 2016 16:48:45 +0100
+
 kwin (4:5.4.3-1.1) unstable; urgency=medium
 
   * Non-maintainer upload.
   * Add mips64 and mips64el into the arch list of libkwinglutils6.
+    (Closes: #801800)
 
  -- YunQiang Su <syq@debian.org>  Thu, 03 Dec 2015 12:37:32 +0800
 

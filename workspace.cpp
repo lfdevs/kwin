@@ -52,10 +52,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "unmanaged.h"
 #include "useractions.h"
 #include "virtualdesktops.h"
-#if HAVE_WAYLAND
 #include "shell_client.h"
 #include "wayland_server.h"
-#endif
 #include "xcbutils.h"
 #include "main.h"
 #include "decorations/decorationbridge.h"
@@ -136,22 +134,16 @@ Workspace::Workspace(const QString &sessionKey)
     Xcb::Extensions::self();
 
     // start the Wayland Backend - will only be created if WAYLAND_DISPLAY is present
-#if HAVE_WAYLAND
     if (kwinApp()->operationMode() != Application::OperationModeX11) {
         connect(this, SIGNAL(stackingOrderChanged()), input(), SLOT(updatePointerWindow()));
     }
-#endif
 
 #ifdef KWIN_BUILD_ACTIVITIES
     Activities *activities = nullptr;
     // HACK: do not use Activities on Wayland as it blocks the startup
-#if HAVE_WAYLAND
     if (kwinApp()->operationMode() == Application::OperationModeX11) {
         activities = Activities::create(this);
     }
-#else
-    activities = Activities::create(this);
-#endif
     if (activities) {
         connect(activities, SIGNAL(currentChanged(QString)), SLOT(updateCurrentActivity(QString)));
     }
@@ -360,7 +352,7 @@ void Workspace::init()
 
     } // End updates blocker block
 
-    Client* new_active_client = NULL;
+    AbstractClient* new_active_client = nullptr;
     if (!qApp->isSessionRestored()) {
         --block_focus;
         new_active_client = findClient(Predicate::WindowMatch, client_info.activeWindow());
@@ -378,15 +370,23 @@ void Workspace::init()
 
     Scripting::create(this);
 
-#if HAVE_WAYLAND
     if (auto w = waylandServer()) {
         connect(w, &WaylandServer::shellClientAdded, this,
             [this] (ShellClient *c) {
+                updateClientLayer(c);
                 if (!c->isInternal()) {
                     QRect area = clientArea(PlacementArea, Screens::self()->current(), c->desktop());
-                    if (!c->isInitialPositionSet()) {
+                    bool placementDone = false;
+                    if (c->isInitialPositionSet()) {
+                        placementDone = true;
+                    }
+                    if (c->isFullScreen()) {
+                        placementDone = true;
+                    }
+                    if (!placementDone) {
                         Placement::self()->place(c, area);
                     }
+                    m_allClients.append(c);
                     if (!unconstrained_stacking_order.contains(c))
                         unconstrained_stacking_order.append(c);   // Raise if it hasn't got any stacking position yet
                     if (!stacking_order.contains(c))    // It'll be updated later, and updateToolWindows() requires
@@ -402,6 +402,7 @@ void Workspace::init()
         );
         connect(w, &WaylandServer::shellClientRemoved, this,
             [this] (ShellClient *c) {
+                m_allClients.removeAll(c);
                 clientHidden(c);
                 emit clientRemoved(c);
                 x_stacking_dirty = true;
@@ -410,7 +411,6 @@ void Workspace::init()
             }
         );
     }
-#endif
 
     // SELI TODO: This won't work with unreasonable focus policies,
     // and maybe in rare cases also if the selected client doesn't
@@ -425,8 +425,6 @@ void Workspace::init()
 
 Workspace::~Workspace()
 {
-    delete m_compositor;
-    m_compositor = NULL;
     blockStackingUpdates(true);
 
     // TODO: grabXServer();
@@ -448,6 +446,7 @@ Workspace::~Workspace()
         // However, remove from some lists to e.g. prevent performTransiencyCheck()
         // from crashing.
         clients.removeAll(c);
+        m_allClients.removeAll(c);
         desktops.removeAll(c);
     }
     for (UnmanagedList::iterator it = unmanaged.begin(), end = unmanaged.end(); it != end; ++it)
@@ -521,6 +520,7 @@ void Workspace::addClient(Client* c)
     } else {
         FocusChain::self()->update(c, FocusChain::Update);
         clients.append(c);
+        m_allClients.append(c);
     }
     if (!unconstrained_stacking_order.contains(c))
         unconstrained_stacking_order.append(c);   // Raise if it hasn't got any stacking position yet
@@ -584,6 +584,7 @@ void Workspace::removeClient(Client* c)
     Q_ASSERT(clients.contains(c) || desktops.contains(c));
     // TODO: if marked client is removed, notify the marked list
     clients.removeAll(c);
+    m_allClients.removeAll(c);
     desktops.removeAll(c);
     x_stacking_dirty = true;
     attention_chain.removeAll(c);
@@ -671,7 +672,7 @@ void Workspace::updateToolWindows(bool also_hide)
             group = client->group();
             break;
         }
-        client = client->transientFor();
+        client = dynamic_cast<const Client*>(client->transientFor());
     }
     // Use stacking order only to reduce flicker, it doesn't matter if block_stacking_updates == 0,
     // I.e. if it's not up to date
@@ -703,12 +704,12 @@ void Workspace::updateToolWindows(bool also_hide)
                     show = false;
             }
             if (!show && also_hide) {
-                const ClientList mainclients = c->mainClients();
+                const auto mainclients = c->mainClients();
                 // Don't hide utility windows which are standalone(?) or
                 // have e.g. kicker as mainwindow
                 if (mainclients.isEmpty())
                     show = true;
-                for (ClientList::ConstIterator it2 = mainclients.constBegin();
+                for (auto it2 = mainclients.constBegin();
                         it2 != mainclients.constEnd();
                         ++it2) {
                     if ((*it2)->isSpecialWindow())
@@ -1154,8 +1155,8 @@ void Workspace::sendClientToDesktop(AbstractClient* c, int desk, bool dont_activ
 
     if (Client *client = dynamic_cast<Client*>(c)) {
         // TODO: adjust transients for non-X11
-        ClientList transients_stacking_order = ensureStackingOrder(client->transients());
-        for (ClientList::ConstIterator it = transients_stacking_order.constBegin();
+        auto transients_stacking_order = ensureStackingOrder(client->transients());
+        for (auto it = transients_stacking_order.constBegin();
                 it != transients_stacking_order.constEnd();
                 ++it)
             sendClientToDesktop(*it, desk, dont_activate);
@@ -1357,30 +1358,6 @@ QString Workspace::supportInformation() const
 #else
     support.append(no);
 #endif
-    support.append(QStringLiteral("HAVE_WAYLAND: "));
-#if HAVE_WAYLAND
-    support.append(yes);
-#else
-    support.append(no);
-#endif
-    support.append(QStringLiteral("HAVE_WAYLAND_EGL: "));
-#if HAVE_WAYLAND_EGL
-    support.append(yes);
-#else
-    support.append(no);
-#endif
-    support.append(QStringLiteral("HAVE_WAYLAND_CURSOR: "));
-#if HAVE_WAYLAND_CURSOR
-    support.append(yes);
-#else
-    support.append(no);
-#endif
-    support.append(QStringLiteral("HAVE_XKB: "));
-#if HAVE_XKB
-    support.append(yes);
-#else
-    support.append(no);
-#endif
     support.append(QStringLiteral("HAVE_INPUT: "));
 #if HAVE_INPUT
     support.append(yes);
@@ -1401,6 +1378,18 @@ QString Workspace::supportInformation() const
 #endif
     support.append(QStringLiteral("HAVE_X11_XCB: "));
 #if HAVE_X11_XCB
+    support.append(yes);
+#else
+    support.append(no);
+#endif
+    support.append(QStringLiteral("HAVE_EPOXY_GLX: "));
+#if HAVE_EPOXY_GLX
+    support.append(yes);
+#else
+    support.append(no);
+#endif
+    support.append(QStringLiteral("HAVE_WAYLAND_EGL: "));
+#if HAVE_WAYLAND_EGL
     support.append(yes);
 #else
     support.append(no);
@@ -1492,13 +1481,12 @@ QString Workspace::supportInformation() const
         switch (effects->compositingType()) {
         case OpenGL2Compositing:
         case OpenGLCompositing: {
-#ifdef KWIN_HAVE_OPENGLES
-            support.append(QStringLiteral("Compositing Type: OpenGL ES 2.0\n"));
-#else
-            support.append(QStringLiteral("Compositing Type: OpenGL\n"));
-#endif
-
             GLPlatform *platform = GLPlatform::instance();
+            if (platform->isGLES()) {
+                support.append(QStringLiteral("Compositing Type: OpenGL ES 2.0\n"));
+            } else {
+                support.append(QStringLiteral("Compositing Type: OpenGL\n"));
+            }
             support.append(QStringLiteral("OpenGL vendor string: ") +   QString::fromUtf8(platform->glVendorString()) + QStringLiteral("\n"));
             support.append(QStringLiteral("OpenGL renderer string: ") + QString::fromUtf8(platform->glRendererString()) + QStringLiteral("\n"));
             support.append(QStringLiteral("OpenGL version string: ") +  QString::fromUtf8(platform->glVersionString()) + QStringLiteral("\n"));

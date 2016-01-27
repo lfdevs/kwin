@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-10-21 08:16+0000\n"
 "PO-Revision-Date: 2014-04-29 20:37+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -29,56 +29,48 @@ msgid "No Action"
 msgstr "Žiadna akcia"
 
 #: main.cpp:188
-msgid "Show Dashboard"
-msgstr "Zobraziť nástenku"
-
-#: main.cpp:189
 msgid "Show Desktop"
 msgstr "Zobraziť plochu"
 
-#: main.cpp:190
+#: main.cpp:189
 msgid "Lock Screen"
 msgstr "Zamknúť obrazovku"
 
-#: main.cpp:191
-msgid "Prevent Screen Locking"
-msgstr "Zabrániť uzamknutiu obrazovky"
-
-#: main.cpp:200
+#: main.cpp:193
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - Všetky plochy"
 
-#: main.cpp:201
+#: main.cpp:194
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - Aktuálna plocha"
 
-#: main.cpp:202
+#: main.cpp:195
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - Aktuálna aplikácia"
 
-#: main.cpp:205
+#: main.cpp:198
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 - Kocka"
 
-#: main.cpp:206
+#: main.cpp:199
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 - Valec"
 
-#: main.cpp:207
+#: main.cpp:200
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 - Guľa"
 
-#: main.cpp:209
+#: main.cpp:202
 msgid "Toggle window switching"
 msgstr "Prepnúť prepínanie okien"
 
-#: main.cpp:210
+#: main.cpp:203
 msgid "Toggle alternative window switching"
 msgstr "Prepnúť alternatívne prepínanie okien"
 

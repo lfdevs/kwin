@@ -46,6 +46,16 @@ class UdevMonitor;
 class DrmBuffer;
 class DrmOutput;
 
+template <typename Pointer, void (*cleanupFunc)(Pointer*)>
+struct DrmCleanup
+{
+    static inline void cleanup(Pointer *ptr)
+    {
+        cleanupFunc(ptr);
+    }
+};
+template <typename T, void (*cleanupFunc)(T*)> using ScopedDrmPointer = QScopedPointer<T, DrmCleanup<T, cleanupFunc>>;
+
 class KWIN_EXPORT DrmBackend : public AbstractBackend
 {
     Q_OBJECT
@@ -96,6 +106,9 @@ private:
     void initCursor();
     quint32 findCrtc(drmModeRes *res, drmModeConnector *connector, bool *ok = nullptr);
     bool crtcIsUsed(quint32 crtc);
+    void outputDpmsChanged();
+    void readOutputsConfiguration();
+    QByteArray generateOutputConfigurationUuid() const;
     DrmOutput *findOutput(quint32 connector);
     QScopedPointer<Udev> m_udev;
     QScopedPointer<UdevMonitor> m_udevMonitor;
@@ -109,8 +122,9 @@ private:
     QVector<DrmBuffer*> m_buffers;
 };
 
-class DrmOutput
+class DrmOutput : public QObject
 {
+    Q_OBJECT
 public:
     struct Edid {
         QByteArray eisaId;
@@ -132,6 +146,23 @@ public:
     QRect geometry() const;
     QString name() const;
     int currentRefreshRate() const;
+    enum class DpmsMode {
+        On = DRM_MODE_DPMS_ON,
+        Standby = DRM_MODE_DPMS_STANDBY,
+        Suspend = DRM_MODE_DPMS_SUSPEND,
+        Off = DRM_MODE_DPMS_OFF
+    };
+    void setDpms(DpmsMode mode);
+    bool isDpmsEnabled() const {
+        return m_dpmsMode == DpmsMode::On;
+    }
+
+    QByteArray uuid() const {
+        return m_uuid;
+    }
+
+Q_SIGNALS:
+    void dpmsChanged();
 
 private:
     friend class DrmBackend;
@@ -139,13 +170,18 @@ private:
     void cleanupBlackBuffer();
     bool setMode(DrmBuffer *buffer);
     void initEdid(drmModeConnector *connector);
+    void initDpms(drmModeConnector *connector);
     bool isCurrentMode(const drmModeModeInfo *mode) const;
+    void reenableDpms();
+    void initUuid();
+    void setGlobalPos(const QPoint &pos);
 
     DrmBackend *m_backend;
     QPoint m_globalPos;
     quint32 m_crtcId = 0;
     quint32 m_connector = 0;
     quint32 m_lastStride = 0;
+    bool m_lastGbm = false;
     drmModeModeInfo m_mode;
     DrmBuffer *m_currentBuffer = nullptr;
     DrmBuffer *m_blackBuffer = nullptr;
@@ -157,6 +193,9 @@ private:
     Edid m_edid;
     QScopedPointer<_drmModeCrtc, CrtcCleanup> m_savedCrtc;
     QPointer<KWayland::Server::OutputInterface> m_waylandOutput;
+    ScopedDrmPointer<_drmModeProperty, &drmModeFreeProperty> m_dpms;
+    DpmsMode m_dpmsMode = DpmsMode::On;
+    QByteArray m_uuid;
 };
 
 class DrmBuffer
@@ -182,6 +221,9 @@ public:
     }
     gbm_bo *gbm() const {
         return m_bo;
+    }
+    bool isGbm() const {
+        return m_bo != nullptr;
     }
     void releaseGbm();
 

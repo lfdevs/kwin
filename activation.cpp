@@ -483,13 +483,11 @@ bool Workspace::activateNextClient(AbstractClient* c)
 
     if (!get_focus) { // no suitable window under the mouse -> find sth. else
         // first try to pass the focus to the (former) active clients leader
-        if (Client *client = qobject_cast<Client*>(c)) {
-            if (client->isTransient()) {
-                ClientList leaders = client->mainClients();
-                if (leaders.count() == 1 && FocusChain::self()->isUsableFocusCandidate(leaders.at(0), c)) {
-                    get_focus = leaders.at(0);
-                    raiseClient(get_focus);   // also raise - we don't know where it came from
-                }
+        if (c && c->isTransient()) {
+            auto leaders = c->mainClients();
+            if (leaders.count() == 1 && FocusChain::self()->isUsableFocusCandidate(leaders.at(0), c)) {
+                get_focus = leaders.at(0);
+                raiseClient(get_focus);   // also raise - we don't know where it came from
             }
         }
         if (!get_focus) {
@@ -543,6 +541,11 @@ void Workspace::setShouldGetFocus(AbstractClient* c)
     updateStackingOrder(); // e.g. fullscreens have different layer when active/not-active
 }
 
+
+namespace FSP {
+    enum Level { None = 0, Low, Medium, High, Extreme };
+}
+
 // focus_in -> the window got FocusIn event
 // ignore_desktop - call comes from _NET_ACTIVE_WINDOW message, don't refuse just because of window
 //     is on a different desktop
@@ -559,7 +562,7 @@ bool Workspace::allowClientActivation(const KWin::AbstractClient *c, xcb_timesta
     if (time == -1U)
         time = c->userTime();
     int level = c->rules()->checkFSP(options->focusStealingPreventionLevel());
-    if (session_saving && level <= 2) { // <= normal
+    if (session_saving && level <= FSP::Medium) { // <= normal
         return true;
     }
     AbstractClient* ac = mostRecentlyActivatedClient();
@@ -574,33 +577,52 @@ bool Workspace::allowClientActivation(const KWin::AbstractClient *c, xcb_timesta
         if (!c->rules()->checkAcceptFocus(false))
             return false;
     }
-    if (level == 0)   // none
+    const int protection = ac ? ac->rules()->checkFPP(2) : 0;
+
+    // stealing is unconditionally allowed (NETWM behavior)
+    if (level == FSP::None || protection == FSP::None)
         return true;
-    if (level == 4)   // extreme
+
+    // The active client "grabs" the focus or stealing is generally forbidden
+    if (level == FSP::Extreme || protection == FSP::Extreme)
         return false;
+
+    // Desktop switching is only allowed in the "no protection" case
     if (!ignore_desktop && !c->isOnCurrentDesktop())
         return false; // allow only with level == 0
+
+    // No active client, it's ok to pass focus
+    // NOTICE that extreme protection needs to be handled before to allow protection on unmanged windows
     if (ac == NULL || ac->isDesktop()) {
         qCDebug(KWIN_CORE) << "Activation: No client active, allowing";
         return true; // no active client -> always allow
     }
+
     // TODO window urgency  -> return true?
-    if (AbstractClient::belongToSameApplication(c, ac, true)) {
+
+    // Unconditionally allow intra-client passing around for lower stealing protections
+    // unless the active client has High interest
+    if (AbstractClient::belongToSameApplication(c, ac, true) && protection < FSP::High) {
         qCDebug(KWIN_CORE) << "Activation: Belongs to active application";
         return true;
     }
-    if (level == 3)   // high
+
+    // High FPS, not intr-client change. Only allow if the active client has only minor interest
+    if (level > FSP::Medium && protection > FSP::Low)
         return false;
+
     if (time == -1U) {  // no time known
         qCDebug(KWIN_CORE) << "Activation: No timestamp at all";
-        if (level == 1)   // low
+        // Only allow for Low protection unless active client has High interest in focus
+        if (level < FSP::Medium && protection < FSP::High)
             return true;
         // no timestamp at all, don't activate - because there's also creation timestamp
         // done on CreateNotify, this case should happen only in case application
         // maps again already used window, i.e. this won't happen after app startup
         return false;
     }
-    // level == 2 // normal
+
+    // Low or medium FSP, usertime comparism is possible
     Time user_time = ac->userTime();
     qCDebug(KWIN_CORE) << "Activation, compared:" << c << ":" << time << ":" << user_time
                  << ":" << (NET::timestampCompare(time, user_time) >= 0);
@@ -730,11 +752,21 @@ xcb_timestamp_t Client::readUserTimeMapTimestamp(const KStartupInfoId *asn_id, c
                         && cl != this && Client::belongToSameApplication(cl, this, true);
             };
             if (isTransient()) {
+                auto clientMainClients = [this] () -> ClientList {
+                    ClientList ret;
+                    const auto mcs = mainClients();
+                    for (auto mc: mcs) {
+                        if (Client *c  = dynamic_cast<Client*>(mc)) {
+                            ret << c;
+                        }
+                    }
+                    return ret;
+                };
                 if (act->hasTransient(this, true))
                     ; // is transient for currently active window, even though it's not
                 // the same app (e.g. kcookiejar dialog) -> allow activation
                 else if (groupTransient() &&
-                        findInList<Client, Client>(mainClients(), sameApplicationActiveHackPredicate) == NULL)
+                        findInList<Client, Client>(clientMainClients(), sameApplicationActiveHackPredicate) == NULL)
                     ; // standalone transient
                 else
                     first_window = false;
@@ -780,15 +812,6 @@ xcb_timestamp_t Client::userTime() const
 
 void Client::doSetActive()
 {
-    StackingUpdatesBlocker blocker(workspace());
-    workspace()->updateClientLayer(this);   // active windows may get different layer
-    ClientList mainclients = mainClients();
-    for (ClientList::ConstIterator it = mainclients.constBegin();
-            it != mainclients.constEnd();
-            ++it)
-        if ((*it)->isFullScreen())  // fullscreens go high even if their transient is active
-            workspace()->updateClientLayer(*it);
-
     updateUrgency(); // demand attention again if it's still urgent
 }
 

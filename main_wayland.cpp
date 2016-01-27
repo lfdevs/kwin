@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config-kwin.h>
 // kwin
 #include "abstract_backend.h"
+#include "effects.h"
 #include "wayland_server.h"
 #include "xcbutils.h"
 
@@ -34,11 +35,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KPluginMetaData>
 // Qt
 #include <qplatformdefs.h>
+#include <QAbstractEventDispatcher>
 #include <QCommandLineParser>
 #include <QtConcurrentRun>
 #include <QFile>
 #include <QFutureWatcher>
-#include <qpa/qwindowsysteminterface.h>
 #include <QProcess>
 #include <QSocketNotifier>
 #include <QThread>
@@ -51,6 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif // HAVE_UNISTD_H
 
 #include <iostream>
+#include <iomanip>
 
 namespace KWin
 {
@@ -73,17 +75,30 @@ ApplicationWayland::ApplicationWayland(int &argc, char **argv)
 
 ApplicationWayland::~ApplicationWayland()
 {
-    destroyCompositor();
+    waylandServer()->backend()->setOutputsEnabled(false);
     destroyWorkspace();
+    waylandServer()->dispatch();
+    // need to unload all effects prior to destroying X connection as they might do X calls
+    if (effects) {
+        static_cast<EffectsHandlerImpl*>(effects)->unloadAllEffects();
+    }
+    disconnect(m_xwaylandFailConnection);
     if (x11Connection()) {
         Xcb::setInputFocus(XCB_INPUT_FOCUS_POINTER_ROOT);
         destroyAtoms();
+        emit x11ConnectionAboutToBeDestroyed();
         xcb_disconnect(x11Connection());
+        setX11Connection(nullptr);
     }
     if (m_xwaylandProcess) {
         m_xwaylandProcess->terminate();
-        m_xwaylandProcess->waitForFinished();
+        while (m_xwaylandProcess->state() != QProcess::NotRunning) {
+            processEvents(QEventLoop::WaitForMoreEvents);
+        }
+        waylandServer()->destroyXWaylandConnection();
     }
+    waylandServer()->terminateClientConnections();
+    destroyCompositor();
 }
 
 void ApplicationWayland::performStartup()
@@ -182,7 +197,17 @@ void ApplicationWayland::continueStartupWithX()
             environment.insert(QStringLiteral("QT_QPA_PLATFORM"), QStringLiteral("wayland"));
             environment.remove("DISPLAY");
             environment.remove("WAYLAND_DISPLAY");
-            QProcess *p = new QProcess(this);
+            QProcess *p = new Process(this);
+            p->setProcessChannelMode(QProcess::ForwardedErrorChannel);
+            auto finishedSignal = static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished);
+            connect(p, finishedSignal, this,
+                [this, p] {
+                    if (waylandServer()) {
+                        waylandServer()->destroyInputMethodConnection();
+                    }
+                    p->deleteLater();
+                }
+            );
             p->setProcessEnvironment(environment);
             p->start(m_inputMethodServerToStart);
             p->waitForStarted();
@@ -190,40 +215,32 @@ void ApplicationWayland::continueStartupWithX()
     }
 
     m_environment.insert(QStringLiteral("DISPLAY"), QString::fromUtf8(qgetenv("DISPLAY")));
+    // start session
+    if (!m_sessionArgument.isEmpty()) {
+        QProcess *p = new Process(this);
+        p->setProcessChannelMode(QProcess::ForwardedErrorChannel);
+        p->setProcessEnvironment(m_environment);
+        auto finishedSignal = static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished);
+        connect(p, finishedSignal, this, &ApplicationWayland::quit);
+        p->start(m_sessionArgument);
+    }
     // start the applications passed to us as command line arguments
     if (!m_applicationsToStart.isEmpty()) {
         for (const QString &application: m_applicationsToStart) {
             // note: this will kill the started process when we exit
             // this is going to happen anyway as we are the wayland and X server the app connects to
-            QProcess *p = new QProcess(this);
+            QProcess *p = new Process(this);
+            p->setProcessChannelMode(QProcess::ForwardedErrorChannel);
             p->setProcessEnvironment(m_environment);
             p->start(application);
         }
     }
 
-    // HACK: create a QWindow in a thread to force QtWayland to create the client buffer integration
-    // this performs an eglInitialize which would block as it does a roundtrip to the Wayland server
-    // in the main thread. By moving into a thread we get the initialize without hitting the problem
-    // This needs to be done before creating the Workspace as from inside Workspace the dangerous code
-    // gets hit in the main thread
-    QFutureWatcher<void> *eglInitWatcher = new QFutureWatcher<void>(this);
-    connect(eglInitWatcher, &QFutureWatcher<void>::finished, this,
-        [this, eglInitWatcher] {
-            eglInitWatcher->deleteLater();
+    createWorkspace();
 
-            createWorkspace();
+    Xcb::sync(); // Trigger possible errors, there's still a chance to abort
 
-            Xcb::sync(); // Trigger possible errors, there's still a chance to abort
-
-            notifyKSplash();
-            waylandServer()->createDummyQtWindow();
-        }
-    );
-    eglInitWatcher->setFuture(QtConcurrent::run([] {
-        QWindow w;
-        w.setSurfaceType(QSurface::RasterGLSurface);
-        w.create();
-    }));
+    notifyKSplash();
 }
 
 void ApplicationWayland::createX11Connection()
@@ -244,29 +261,6 @@ void ApplicationWayland::createX11Connection()
     // we don't support X11 multi-head in Wayland
     setX11ScreenNumber(screenNumber);
     setX11RootWindow(defaultScreen()->root);
-}
-
-bool ApplicationWayland::notify(QObject *o, QEvent *e)
-{
-    if (QWindow *w = qobject_cast< QWindow* >(o)) {
-        if (e->type() == QEvent::Expose) {
-            // ensure all Wayland events both on client and server side are dispatched
-            // otherwise it is possible that Qt starts rendering and blocks the main gui thread
-            // as it waits for the callback of the last frame
-            waylandServer()->dispatch();
-        }
-        if (e->type() == QEvent::Show) {
-            // on QtWayland windows with X11BypassWindowManagerHint are not shown, thus we need to remove it
-            // as the flag is interpreted only before the PlatformWindow is created we need to destroy the window first
-            if (w->flags() & Qt::X11BypassWindowManagerHint) {
-                w->setFlags(w->flags() & ~Qt::X11BypassWindowManagerHint);
-                w->destroy();
-                w->show();
-                return false;
-            }
-        }
-    }
-    return Application::notify(o, e);
 }
 
 void ApplicationWayland::startXwaylandServer()
@@ -305,7 +299,8 @@ void ApplicationWayland::startXwaylandServer()
 
     m_xcbConnectionFd = sx[0];
 
-    m_xwaylandProcess = new QProcess(kwinApp());
+    m_xwaylandProcess = new Process(kwinApp());
+    m_xwaylandProcess->setProcessChannelMode(QProcess::ForwardedErrorChannel);
     m_xwaylandProcess->setProgram(QStringLiteral("Xwayland"));
     QProcessEnvironment env = m_environment;
     env.insert("WAYLAND_SOCKET", QByteArray::number(wlfd));
@@ -315,7 +310,7 @@ void ApplicationWayland::startXwaylandServer()
                            QStringLiteral("-rootless"),
                            QStringLiteral("-wm"),
                            QString::number(fd)});
-    connect(m_xwaylandProcess, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error), this,
+    m_xwaylandFailConnection = connect(m_xwaylandProcess, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error), this,
         [] (QProcess::ProcessError error) {
             if (error == QProcess::FailedToStart) {
                 std::cerr << "FATAL ERROR: failed to start Xwayland" << std::endl;
@@ -357,25 +352,6 @@ static void readDisplay(int pipe)
     close(pipe);
 }
 
-EventDispatcher::EventDispatcher(QObject *parent)
-    : QEventDispatcherUNIX(parent)
-{
-}
-
-EventDispatcher::~EventDispatcher() = default;
-
-bool EventDispatcher::processEvents(QEventLoop::ProcessEventsFlags flags)
-{
-    waylandServer()->dispatch();
-    const bool didSendEvents = QEventDispatcherUNIX::processEvents(flags);
-    return QWindowSystemInterface::sendWindowSystemEvents(flags) || didSendEvents;
-}
-
-bool EventDispatcher::hasPendingEvents()
-{
-    return QEventDispatcherUNIX::hasPendingEvents() || QWindowSystemInterface::windowSystemEventsQueued();
-}
-
 static const QString s_waylandPlugin = QStringLiteral("KWinWaylandWaylandBackend");
 static const QString s_x11Plugin = QStringLiteral("KWinWaylandX11Backend");
 static const QString s_fbdevPlugin = QStringLiteral("KWinWaylandFbdevBackend");
@@ -385,6 +361,7 @@ static const QString s_drmPlugin = QStringLiteral("KWinWaylandDrmBackend");
 #if HAVE_LIBHYBRIS
 static const QString s_hwcomposerPlugin = QStringLiteral("KWinWaylandHwcomposerBackend");
 #endif
+static const QString s_virtualPlugin = QStringLiteral("KWinWaylandVirtualBackend");
 
 static QString automaticBackendSelection()
 {
@@ -409,27 +386,6 @@ static QString automaticBackendSelection()
 
 int main(int argc, char * argv[])
 {
-    // process command line arguments to figure out whether we have to start Xwayland and the Wayland socket
-    QByteArray waylandSocket;
-    for (int i = 1; i < argc; ++i) {
-        QByteArray arg = QByteArray::fromRawData(argv[i], qstrlen(argv[i]));
-        if (arg == "--socket" || arg == "-s") {
-            if (++i < argc) {
-                waylandSocket = QByteArray::fromRawData(argv[i], qstrlen(argv[i]));
-            }
-            continue;
-        }
-        if (arg.startsWith("--socket=")) {
-            waylandSocket = arg.mid(9);
-        }
-    }
-
-    // set our own event dispatcher to be able to dispatch events before the event loop is started
-    QAbstractEventDispatcher *eventDispatcher = new KWin::EventDispatcher();
-    QCoreApplication::setEventDispatcher(eventDispatcher);
-    KWin::WaylandServer *server = KWin::WaylandServer::create(nullptr);
-    server->init(waylandSocket);
-
     KWin::Application::setupMalloc();
     KWin::Application::setupLocalizedString();
 
@@ -447,27 +403,43 @@ int main(int argc, char * argv[])
     pthread_sigmask(SIG_BLOCK, &userSiganls, nullptr);
 
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
-    environment.insert(QStringLiteral("WAYLAND_DISPLAY"), server->display()->socketName());
 
-    // enforce wayland plugin, unfortunately command line switch has precedence
-    setenv("QT_QPA_PLATFORM", "wayland", true);
-#if (QT_VERSION < QT_VERSION_CHECK(5, 4, 2))
-    // TODO: remove warning once we depend on Qt 5.5
-    qWarning() << "QtWayland 5.4.2 required, application might freeze if not present!";
-#endif
+    // enforce our internal qpa plugin, unfortunately command line switch has precedence
+    setenv("QT_QPA_PLATFORM", "wayland-org.kde.kwin.qpa", true);
 
     qunsetenv("QT_DEVICE_PIXEL_RATIO");
     qunsetenv("QT_IM_MODULE");
-    qputenv("WAYLAND_SOCKET", QByteArray::number(server->createQtConnection()));
-    qputenv("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1");
     qputenv("QSG_RENDER_LOOP", "basic");
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
+    QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
+#endif
     KWin::ApplicationWayland a(argc, argv);
     a.setupTranslator();
-    a.setProcessStartupEnvironment(environment);
-
-    server->setParent(&a);
+    // reset QT_QPA_PLATFORM to a sane value for any processes started from KWin
+    setenv("QT_QPA_PLATFORM", "wayland", true);
 
     KWin::Application::createAboutData();
+
+    const auto availablePlugins = KPluginLoader::findPlugins(QStringLiteral("org.kde.kwin.waylandbackends"));
+    auto hasPlugin = [&availablePlugins] (const QString &name) {
+        return std::any_of(availablePlugins.begin(), availablePlugins.end(),
+            [name] (const KPluginMetaData &plugin) {
+                return plugin.pluginId() == name;
+            }
+        );
+    };
+    const bool hasWindowedOption = hasPlugin(KWin::s_x11Plugin) || hasPlugin(KWin::s_waylandPlugin);
+    const bool hasSizeOption = hasPlugin(KWin::s_x11Plugin) || hasPlugin(KWin::s_virtualPlugin);
+    const bool hasX11Option = hasPlugin(KWin::s_x11Plugin);
+    const bool hasVirtualOption = hasPlugin(KWin::s_virtualPlugin);
+    const bool hasWaylandOption = hasPlugin(KWin::s_waylandPlugin);
+    const bool hasFramebufferOption = hasPlugin(KWin::s_fbdevPlugin);
+#if HAVE_DRM
+    const bool hasDrmOption = hasPlugin(KWin::s_drmPlugin);
+#endif
+#if HAVE_LIBHYBRIS
+    const bool hasHwcomposerOption = hasPlugin(KWin::s_hwcomposerPlugin);
+#endif
 
     QCommandLineOption xwaylandOption(QStringLiteral("xwayland"),
                                       i18n("Start a rootless Xwayland server."));
@@ -488,6 +460,7 @@ int main(int argc, char * argv[])
     QCommandLineOption waylandDisplayOption(QStringLiteral("wayland-display"),
                                             i18n("The Wayland Display to use in windowed mode on platform Wayland."),
                                             QStringLiteral("display"));
+    QCommandLineOption virtualFbOption(QStringLiteral("virtual"), i18n("Render to a virtual framebuffer."));
     QCommandLineOption widthOption(QStringLiteral("width"),
                                    i18n("The width for windowed mode. Default width is 1024."),
                                    QStringLiteral("width"));
@@ -501,16 +474,31 @@ int main(int argc, char * argv[])
     a.setupCommandLine(&parser);
     parser.addOption(xwaylandOption);
     parser.addOption(waylandSocketOption);
-    parser.addOption(windowedOption);
-    parser.addOption(x11DisplayOption);
-    parser.addOption(waylandDisplayOption);
-    parser.addOption(framebufferOption);
-    parser.addOption(framebufferDeviceOption);
-    parser.addOption(widthOption);
-    parser.addOption(heightOption);
+    if (hasWindowedOption) {
+        parser.addOption(windowedOption);
+    }
+    if (hasX11Option) {
+        parser.addOption(x11DisplayOption);
+    }
+    if (hasWaylandOption) {
+        parser.addOption(waylandDisplayOption);
+    }
+    if (hasFramebufferOption) {
+        parser.addOption(framebufferOption);
+        parser.addOption(framebufferDeviceOption);
+    }
+    if (hasVirtualOption) {
+        parser.addOption(virtualFbOption);
+    }
+    if (hasSizeOption) {
+        parser.addOption(widthOption);
+        parser.addOption(heightOption);
+    }
 #if HAVE_LIBHYBRIS
     QCommandLineOption hwcomposerOption(QStringLiteral("hwcomposer"), i18n("Use libhybris hwcomposer"));
-    parser.addOption(hwcomposerOption);
+    if (hasHwcomposerOption) {
+        parser.addOption(hwcomposerOption);
+    }
 #endif
 #if HAVE_INPUT
     QCommandLineOption libinputOption(QStringLiteral("libinput"),
@@ -519,13 +507,28 @@ int main(int argc, char * argv[])
 #endif
 #if HAVE_DRM
     QCommandLineOption drmOption(QStringLiteral("drm"), i18n("Render through drm node."));
-    parser.addOption(drmOption);
+    if (hasDrmOption) {
+        parser.addOption(drmOption);
+    }
 #endif
 
     QCommandLineOption inputMethodOption(QStringLiteral("inputmethod"),
                                          i18n("Input method that KWin starts."),
                                          QStringLiteral("path/to/imserver"));
     parser.addOption(inputMethodOption);
+
+    QCommandLineOption listBackendsOption(QStringLiteral("list-backends"),
+                                           i18n("List all available backends and quit."));
+    parser.addOption(listBackendsOption);
+
+    QCommandLineOption screenLockerOption(QStringLiteral("lockscreen"),
+                                          i18n("Starts the session in locked mode."));
+    parser.addOption(screenLockerOption);
+
+    QCommandLineOption exitWithSessionOption(QStringLiteral("exit-with-session"),
+                                             i18n("Exit after the session application, which is started by KWin, closed."),
+                                             QStringLiteral("/path/to/session"));
+    parser.addOption(exitWithSessionOption);
 
     parser.addPositionalArgument(QStringLiteral("applications"),
                                  i18n("Applications to start once Wayland and Xwayland server are started"),
@@ -534,6 +537,17 @@ int main(int argc, char * argv[])
     parser.process(a);
     a.processCommandLine(&parser);
 
+    if (parser.isSet(listBackendsOption)) {
+        for (const auto &plugin: availablePlugins) {
+            std::cout << std::setw(40) << std::left << qPrintable(plugin.name()) << qPrintable(plugin.description()) << std::endl;
+        }
+        return 0;
+    }
+
+    if (parser.isSet(exitWithSessionOption)) {
+        a.setSessionArgument(parser.value(exitWithSessionOption));
+    }
+
 #if HAVE_INPUT
     KWin::Application::setUseLibinput(parser.isSet(libinputOption));
 #endif
@@ -541,46 +555,40 @@ int main(int argc, char * argv[])
     QString pluginName;
     QSize initialWindowSize;
     QByteArray deviceIdentifier;
-    if (parser.isSet(windowedOption) && parser.isSet(framebufferOption)) {
-        std::cerr << "FATAL ERROR Cannot have both --windowed and --framebuffer" << std::endl;
-        return 1;
-    }
+
 #if HAVE_DRM
-    if (parser.isSet(drmOption) && (parser.isSet(windowedOption) || parser.isSet(framebufferOption))) {
-        std::cerr << "FATAL ERROR Cannot have both --windowed/--framebuffer and --drm" << std::endl;
-        return 1;
-    }
-    if (parser.isSet(drmOption)) {
+    if (hasDrmOption && parser.isSet(drmOption)) {
         pluginName = KWin::s_drmPlugin;
     }
 #endif
 
-
-    bool ok = false;
-    const int width = parser.value(widthOption).toInt(&ok);
-    if (!ok) {
-        std::cerr << "FATAL ERROR incorrect value for width" << std::endl;
-        return 1;
+    if (hasSizeOption) {
+        bool ok = false;
+        const int width = parser.value(widthOption).toInt(&ok);
+        if (!ok) {
+            std::cerr << "FATAL ERROR incorrect value for width" << std::endl;
+            return 1;
+        }
+        const int height = parser.value(heightOption).toInt(&ok);
+        if (!ok) {
+            std::cerr << "FATAL ERROR incorrect value for height" << std::endl;
+            return 1;
+        }
+        initialWindowSize = QSize(width, height);
     }
-    const int height = parser.value(heightOption).toInt(&ok);
-    if (!ok) {
-        std::cerr << "FATAL ERROR incorrect value for height" << std::endl;
-        return 1;
-    }
-    initialWindowSize = QSize(width, height);
 
-    if (parser.isSet(windowedOption)) {
-        if (parser.isSet(x11DisplayOption)) {
+    if (hasWindowedOption && parser.isSet(windowedOption)) {
+        if (hasX11Option && parser.isSet(x11DisplayOption)) {
             deviceIdentifier = parser.value(x11DisplayOption).toUtf8();
-        } else if (!parser.isSet(waylandDisplayOption)) {
+        } else if (!(hasWaylandOption && parser.isSet(waylandDisplayOption))) {
             deviceIdentifier = qgetenv("DISPLAY");
         }
         if (!deviceIdentifier.isEmpty()) {
             pluginName = KWin::s_x11Plugin;
-        } else {
+        } else if (hasWaylandOption) {
             if (parser.isSet(waylandDisplayOption)) {
                 deviceIdentifier = parser.value(waylandDisplayOption).toUtf8();
-            } else if (!parser.isSet(x11DisplayOption)) {
+            } else {
                 deviceIdentifier = qgetenv("WAYLAND_DISPLAY");
             }
             if (!deviceIdentifier.isEmpty()) {
@@ -588,47 +596,57 @@ int main(int argc, char * argv[])
             }
         }
     }
-    if (parser.isSet(framebufferOption)) {
+    if (hasFramebufferOption && parser.isSet(framebufferOption)) {
         pluginName = KWin::s_fbdevPlugin;
         deviceIdentifier = parser.value(framebufferDeviceOption).toUtf8();
     }
 #if HAVE_LIBHYBRIS
-    if (parser.isSet(hwcomposerOption)) {
+    if (hasHwcomposerOption && parser.isSet(hwcomposerOption)) {
         pluginName = KWin::s_hwcomposerPlugin;
     }
 #endif
+    if (hasVirtualOption && parser.isSet(virtualFbOption)) {
+        pluginName = KWin::s_virtualPlugin;
+    }
 
     if (pluginName.isEmpty()) {
         std::cerr << "No backend specified through command line argument, trying auto resolution" << std::endl;
         pluginName = KWin::automaticBackendSelection();
     }
 
-    const auto pluginCandidates = KPluginLoader::findPlugins(QStringLiteral("org.kde.kwin.waylandbackends"),
+    auto pluginIt = std::find_if(availablePlugins.begin(), availablePlugins.end(),
         [&pluginName] (const KPluginMetaData &plugin) {
             return plugin.pluginId() == pluginName;
         }
     );
-    if (pluginCandidates.isEmpty()) {
+    if (pluginIt == availablePlugins.end()) {
         std::cerr << "FATAL ERROR: could not find a backend" << std::endl;
         return 1;
     }
-    for (const auto &candidate: pluginCandidates) {
-        if (qobject_cast<KWin::AbstractBackend*>(candidate.instantiate())) {
+
+    // TODO: create backend without having the server running
+    KWin::WaylandServer *server = KWin::WaylandServer::create(&a);
+
+    KWin::WaylandServer::InitalizationFlags flags;
+    if (parser.isSet(screenLockerOption)) {
+        flags = KWin::WaylandServer::InitalizationFlag::LockScreen;
+    }
+    server->init(parser.value(waylandSocketOption).toUtf8(), flags);
+
+    if (qobject_cast<KWin::AbstractBackend*>((*pluginIt).instantiate())) {
 #if HAVE_INPUT
-            // check whether it needs libinput
-            const QJsonObject &metaData = candidate.rawData();
-            auto it = metaData.find(QStringLiteral("input"));
-            if (it != metaData.constEnd()) {
-                if ((*it).isBool()) {
-                    if (!(*it).toBool()) {
-                        std::cerr << "Backend does not support input, enforcing libinput support" << std::endl;
-                        KWin::Application::setUseLibinput(true);
-                    }
+        // check whether it needs libinput
+        const QJsonObject &metaData = (*pluginIt).rawData();
+        auto it = metaData.find(QStringLiteral("input"));
+        if (it != metaData.end()) {
+            if ((*it).isBool()) {
+                if (!(*it).toBool()) {
+                    std::cerr << "Backend does not support input, enforcing libinput support" << std::endl;
+                    KWin::Application::setUseLibinput(true);
                 }
             }
-#endif
-            break;
         }
+#endif
     }
     if (!server->backend()) {
         std::cerr << "FATAL ERROR: could not instantiate a backend" << std::endl;
@@ -643,6 +661,8 @@ int main(int argc, char * argv[])
     }
 
     QObject::connect(&a, &KWin::Application::workspaceCreated, server, &KWin::WaylandServer::initWorkspace);
+    environment.insert(QStringLiteral("WAYLAND_DISPLAY"), server->display()->socketName());
+    a.setProcessStartupEnvironment(environment);
     a.setStartXwayland(parser.isSet(xwaylandOption));
     a.setApplicationsToStart(parser.positionalArguments());
     a.setInputMethodServerToStart(parser.value(inputMethodOption));

@@ -21,6 +21,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KWIN_HWCOMPOSER_BACKEND_H
 #include "abstract_backend.h"
 
+#include <QMutex>
+#include <QWaitCondition>
+
 // libhybris
 #include <hwcomposer_window.h>
 // needed as hwcomposer_window.h includes EGL which on non-arm includes Xlib
@@ -29,8 +32,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 typedef struct hwc_display_contents_1 hwc_display_contents_1_t;
 typedef struct hwc_layer_1 hwc_layer_1_t;
 typedef struct hwc_composer_device_1 hwc_composer_device_1_t;
-struct Event;
-struct AndroidEventListener;
+struct light_device_t;
+
+class HWComposerNativeWindowBuffer;
 
 namespace KWin
 {
@@ -50,6 +54,10 @@ public:
     Screens *createScreens(QObject *parent = nullptr) override;
     OpenGLBackend *createOpenGLBackend() override;
 
+    QSize screenSize() const override {
+        return m_displaySize;
+    }
+
     HwcomposerWindow *createSurface();
 
     QSize size() const {
@@ -62,18 +70,28 @@ public:
     int refreshRate() const {
         return m_refreshRate;
     }
+    void enableVSync(bool enable);
+    void waitVSync();
+    void wakeVSync();
+
+Q_SIGNALS:
+    void outputBlankChanged();
 
 private Q_SLOTS:
     void toggleBlankOutput();
 
 private:
-    static void inputEvent(Event *event, void *context);
-    void initInput();
+    void initLights();
+    void toggleScreenBrightness();
     QSize m_displaySize;
     hwc_composer_device_1_t *m_device = nullptr;
-    AndroidEventListener *m_inputListener = nullptr;
+    light_device_t *m_lights = nullptr;
     bool m_outputBlank = true;
     int m_refreshRate = 60000;
+    int m_vsyncInterval = 16;
+    bool m_hasVsync = false;
+    QMutex m_vsyncMutex;
+    QWaitCondition m_vsyncWaitCondition;
 };
 
 class HwcomposerWindow : public HWComposerNativeWindow
@@ -81,7 +99,7 @@ class HwcomposerWindow : public HWComposerNativeWindow
 public:
     virtual ~HwcomposerWindow();
 
-    void present();
+    void present(HWComposerNativeWindowBuffer *buffer);
 
 private:
     friend HwcomposerBackend;

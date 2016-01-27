@@ -1,3 +1,5 @@
+# Translation of kcmkwindecoration to Norwegian Bokmål
+#
 # Axel Bojer <axel@bojer.no>, 2003.
 # Knut Yrvin <knut.yrvin@gmail.com>, 2003.
 # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2005, 2007, 2008, 2009, 2010, 2012, 2013, 2014, 2015.
@@ -5,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-07 11:20+0000\n"
+"POT-Creation-Date: 2015-10-06 10:22+0000\n"
 "PO-Revision-Date: 2015-04-26 21:29+0200\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -59,7 +61,7 @@ msgstr "Hold under"
 msgid "Keep above"
 msgstr "Hold over"
 
-#: kcm.cpp:106
+#: kcm.cpp:128
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
@@ -67,88 +69,98 @@ msgstr ""
 "Lukk ved å dobbelttrykke.\n"
 " Hvis menyen skal vises igjen så hold knappen nede til den kommer til syne."
 
+#. i18n: ectx: attribute (title), widget (QWidget, theTab)
+#: kcm.ui:21
+msgid "Theme"
+msgstr ""
+
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
-#: kcm.ui:22
+#: kcm.ui:29
 msgid "Search"
 msgstr "Søk"
 
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
-#: kcm.ui:35
+#: kcm.ui:42
 msgid "Get New Decorations..."
 msgstr "Hent nye dekorasjoner …"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: kcm.ui:56
+#. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
+#: kcm.ui:54
+msgid "Close windows by double clicking &the menu button"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, borderSizesLabel)
+#: kcm.ui:95
 msgid "Border si&ze:"
 msgstr "Kantlin&jestørrelse:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:67
+#: kcm.ui:109
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Ingen kantlinjer"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:72
+#: kcm.ui:114
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr "Ingen sidekantlinjer"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:77
+#: kcm.ui:119
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "Bitteliten"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:82
+#: kcm.ui:124
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "Normal"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:87
+#: kcm.ui:129
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "Stor"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:92
+#: kcm.ui:134
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "Svært stor"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:97
+#: kcm.ui:139
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "Enorm"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:102
+#: kcm.ui:144
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "Veldig enorm"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
-#: kcm.ui:107
+#: kcm.ui:149
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "Forstørret"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: kcm.ui:125
-msgid "Close windows by double clicking &the menu button:"
-msgstr "Velg vinduer ved å dobbelt&trykke på menyknappen"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: kcm.ui:160
+msgid "Buttons"
+msgstr "Knapper"
 
-#: qml/Buttons.qml:74
+#: qml/Buttons.qml:77
 msgid "Titlebar"
 msgstr "Tittellinje"
 
-#: qml/Buttons.qml:197
+#: qml/Buttons.qml:201
 msgid "Drag buttons between here and the titlebar"
 msgstr "Dra knapper mellom her og tittellinja"
 
-#: qml/Buttons.qml:212
+#: qml/Buttons.qml:216
 msgid "Drop here to remove button"
 msgstr "Slipp her for å fjerne knapp"

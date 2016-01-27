@@ -39,6 +39,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils.h"
 #include <workspace.h>
 #include "virtualdesktops.h"
+#ifndef KWIN_UNIT_TEST
+#include "wayland_server.h"
+#endif
 // DBus generated
 #include "screenlocker_interface.h"
 // frameworks
@@ -186,12 +189,6 @@ bool Edge::canActivate(const QPoint &cursorPos, const QDateTime &triggerTime)
 
 void Edge::handle(const QPoint &cursorPos)
 {
-    if (m_client) {
-        pushCursorBack(cursorPos);
-        m_client->showOnScreenEdge();
-        unreserve();
-        return;
-    }
     AbstractClient *movingClient = Workspace::self()->getMovingClient();
     bool isResize = false;
     if (Client *movingClientClient = qobject_cast<Client*>(movingClient))
@@ -210,6 +207,14 @@ void Edge::handle(const QPoint &cursorPos)
         // work as we hold a grab.
         return;
     }
+
+    if (m_client) {
+        pushCursorBack(cursorPos);
+        m_client->showOnScreenEdge();
+        unreserve();
+        return;
+    }
+
     if (handleAction() || handleByCallback()) {
         pushCursorBack(cursorPos);
         return;
@@ -223,11 +228,6 @@ void Edge::handle(const QPoint &cursorPos)
 bool Edge::handleAction()
 {
     switch (m_action) {
-    case ElectricActionDashboard: { // Display Plasma dashboard
-        QDBusInterface plasmaApp(QStringLiteral("org.kde.plasmashell"), QStringLiteral("/PlasmaShell"));
-        plasmaApp.asyncCall(QStringLiteral("toggleDashboard"));
-        return true;
-    }
     case ElectricActionShowDesktop: {
         Workspace::self()->setShowingDesktop(!Workspace::self()->showingDesktop());
         return true;
@@ -602,6 +602,11 @@ AreaBasedEdge::~AreaBasedEdge()
 
 void AreaBasedEdge::pointerPosChanged(const QPointF &pos)
 {
+#ifndef KWIN_UNIT_TEST
+    if (waylandServer() && waylandServer()->isScreenLocked()) {
+        return;
+    }
+#endif
     if (!isReserved()) {
         return;
     }
@@ -648,14 +653,12 @@ ScreenEdges::ScreenEdges(QObject *parent)
     QWidget w;
     m_cornerOffset = (w.physicalDpiX() + w.physicalDpiY() + 5) / 6;
 
-    connect(workspace(), &Workspace::clientRemoved, [this](KWin::AbstractClient *c) {
+    connect(workspace(), &Workspace::clientRemoved, this, [this](KWin::AbstractClient *c) {
         Client *client = qobject_cast<Client*>(c);
         if (!client) {
             return;
         }
         deleteEdgeForClient(client);
-        QObject::disconnect(client, &Client::geometryChanged,
-                            ScreenEdges::self(), &ScreenEdges::handleClientGeometryChanged);
     });
 }
 
@@ -673,14 +676,10 @@ void ScreenEdges::init()
 static ElectricBorderAction electricBorderAction(const QString& name)
 {
     QString lowerName = name.toLower();
-    if (lowerName == QStringLiteral("dashboard")) {
-        return ElectricActionDashboard;
-    } else if (lowerName == QStringLiteral("showdesktop")) {
+    if (lowerName == QStringLiteral("showdesktop")) {
         return ElectricActionShowDesktop;
     } else if (lowerName == QStringLiteral("lockscreen")) {
         return ElectricActionLockScreen;
-    } else if (lowerName == QStringLiteral("preventscreenlocking")) {
-        return ElectricActionPreventScreenLocking;
     }
     return ElectricActionNone;
 }
@@ -1087,7 +1086,7 @@ void ScreenEdges::reserve(Client *client, ElectricBorder border)
         if ((*it)->client() == client) {
             hadBorder = true;
             if ((*it)->border() == border) {
-                if (client->isHiddenInternal() && !(*it)->isReserved()) {
+                if (!(*it)->isReserved()) {
                     (*it)->reserve();
                 }
                 return;
@@ -1101,10 +1100,8 @@ void ScreenEdges::reserve(Client *client, ElectricBorder border)
     }
 
     if (border != ElectricNone) {
-        connect(client, &Client::geometryChanged, this, &ScreenEdges::handleClientGeometryChanged, Qt::UniqueConnection);
         createEdgeForClient(client, border);
     } else {
-        disconnect(client, &Client::geometryChanged, this, &ScreenEdges::handleClientGeometryChanged);
         if (hadBorder) // show again
             client->showOnScreenEdge();
     }
@@ -1176,20 +1173,11 @@ void ScreenEdges::createEdgeForClient(Client *client, ElectricBorder border)
         Edge *edge = createEdge(border, x, y, width, height, false);
         edge->setClient(client);
         m_edges.append(edge);
-        if (client->isHiddenInternal()) {
-            edge->reserve();
-        }
+        edge->reserve();
     } else {
         // we could not create an edge window, so don't allow the window to hide
         client->showOnScreenEdge();
     }
-}
-
-void ScreenEdges::handleClientGeometryChanged()
-{
-    Client *c = static_cast<Client*>(sender());
-    deleteEdgeForClient(c);
-    c->showOnScreenEdge();
 }
 
 void ScreenEdges::deleteEdgeForClient(Client* c)

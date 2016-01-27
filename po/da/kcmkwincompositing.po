@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Martin Schlander <mschlander@opensuse.org>, 2008.
-# Martin Schlander <mschlander@opensuse.org>, 2008, 2009, 2010, 2011, 2012, 2013.
+# Martin Schlander <mschlander@opensuse.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-22 12:22+0000\n"
-"PO-Revision-Date: 2013-07-03 19:19+0200\n"
+"POT-Creation-Date: 2015-10-22 08:56+0000\n"
+"PO-Revision-Date: 2015-11-23 20:31+0100\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
 "Language: da\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -42,25 +42,20 @@ msgstr "XRender"
 #: compositing.cpp:488
 msgctxt "OpenGL Platform Interface"
 msgid "EGL"
-msgstr ""
+msgstr "EGL"
 
 #: compositing.cpp:490
 msgctxt "OpenGL Platform Interface"
 msgid "GLX"
-msgstr ""
+msgstr "GLX"
 
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:20
-#, fuzzy
-#| msgctxt "@option:check"
-#| msgid "Enable desktop effects at startup"
 msgid "Enable compositor on startup"
-msgstr "Aktivér skrivebordseffekter ved opstart"
+msgstr "Aktivér compositor ved opstart"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:27
-#, fuzzy
-#| msgid "Animation speed:"
 msgid "Animation speed:"
 msgstr "Animationshastighed:"
 
@@ -71,16 +66,12 @@ msgstr "Øjeblikkelig"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:74
-#, fuzzy
-#| msgid "Very Slow"
 msgid "Very slow"
-msgstr "Meget langsomt"
+msgstr "Meget langsom"
 
 #. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
 #: compositing.ui:85 compositing.ui:111
-#, fuzzy
-#| msgid "Scale method:"
 msgid "Scale method:"
 msgstr "Skaleringsmetode:"
 
@@ -108,30 +99,21 @@ msgstr "Glat (langsommere)"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: compositing.ui:139
 msgid "Rendering backend:"
-msgstr ""
+msgstr "Renderings-backend:"
 
 #. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
 #: compositing.ui:149
-#, fuzzy
-#| msgid "OpenGL mode:"
 msgid "OpenGL interface:"
-msgstr "OpenGL-tilstand:"
+msgstr "OpenGL-grænseflade:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: compositing.ui:159
-#, fuzzy
-#| msgid "Tearing Prevention (VSync)"
 msgid "Tearing prevention (\"vsync\"):"
-msgstr "Forhindring af artefakter (VSync)"
+msgstr "Forhindring af artefakter (\"vsync\"):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:167 compositing.ui:203
-#, fuzzy
-#| msgctxt ""
-#| "Windows are unmapped as they are requested. This can lead to not having "
-#| "updated thumbnials for windows on other desktops."
-#| msgid "Never"
 msgid "Never"
 msgstr "Aldrig"
 
@@ -142,15 +124,11 @@ msgstr "Automatisk"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:177
-#, fuzzy
-#| msgid "Only when Cheap"
 msgid "Only when cheap"
 msgstr "Kun når det er billigt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:182
-#, fuzzy
-#| msgid "Full scene repaints"
 msgid "Full screen repaints"
 msgstr "Hele skærmen gentegnes"
 
@@ -161,18 +139,11 @@ msgstr "Genbrug skærmindhold"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: compositing.ui:195
-#, fuzzy
-#| msgid "Keep window thumbnails:"
 msgid "Keep window thumbnails:"
 msgstr "Behold miniaturer af vinduer:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:208
-#, fuzzy
-#| msgctxt ""
-#| "Windows are not unmapped if the window is somewhere visible on any of the "
-#| "virtual desktops."
-#| msgid "Only for Shown Windows"
 msgid "Only for Shown Windows"
 msgstr "Kun for viste vinduer"
 
@@ -184,26 +155,22 @@ msgstr "Altid"
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: compositing.ui:221
 msgid "Expert:"
-msgstr ""
+msgstr "Ekspert:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
 #: compositing.ui:228
-#, fuzzy
-#| msgid "Suspend desktop effects for fullscreen windows"
 msgid "Suspend compositor for full screen windows"
-msgstr "Suspendér skrivebordseffekter for fuldskærm-vinduer"
+msgstr "Suspendér compositor for fuldskærm-vinduer"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: compositing.ui:235
 msgid "Experimental:"
-msgstr ""
+msgstr "Eksperimentelt:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
 #: compositing.ui:242
-#, fuzzy
-#| msgid "Enable color correction (experimental)"
 msgid "Enable color correction"
-msgstr "Aktivér farvekorrektion (eksperimentelt)"
+msgstr "Aktivér farvekorrektion"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
 #: compositing.ui:262
@@ -215,6 +182,12 @@ msgid ""
 "immediate crash!\n"
 "Alternatively, you might want to use the XRender backend instead."
 msgstr ""
+"OpenGL compositing (standard) har tidligere fået KWin til at bryde sammen.\n"
+"Dette skyldtes sandsynligvis en fejl i driveren.\n"
+"Hvis du tror at du i mellemtiden har opgraderet til en stabil driver,\n"
+"kan du nulstille denne beskyttelse, men vær opmærksom på at dette kan "
+"medføre et øjeblikkeligt sammenbrud!\n"
+"Alternativt kan overveje at bruge XRender-motoren i stedet."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, interfaceWarning)
 #: compositing.ui:278
@@ -222,6 +195,8 @@ msgid ""
 "EGL is not supported by all OpenGL drivers. If not supported the Compositor "
 "will be disabled."
 msgstr ""
+"EGL er ikke understøttet af alle OpenGL-drivere. Hvis det ikke er "
+"understøttet vil compositoren blive deaktiveret."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
 #: compositing.ui:294
@@ -229,6 +204,8 @@ msgid ""
 "Scale method \"Accurate\" is not supported by all hardware and can cause "
 "performance regressions and rendering artifacts."
 msgstr ""
+"Skaleringsmetoden \"Præcis\" understøttes ikke af al hardware og kan give "
+"forringet ydelse og renderingsartefakter."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
 #: compositing.ui:323
@@ -236,6 +213,9 @@ msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
 "windows. This can result in windows not suspending their work when minimized."
 msgstr ""
+"Altid at beholde vinduesminiaturen interfererer med vinduers minimerede "
+"tilstand. Dette kan medføre at vinduer ikke suspenderer deres arbejde når de "
+"minimeres."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, unredirectInformation)
 #: compositing.ui:339
@@ -243,6 +223,8 @@ msgid ""
 "Having full screen windows bypass the compositor is not supported on every "
 "hardware."
 msgstr ""
+"At have vinduer i fuldskærm til at forbigå compositoren er ikke understøttet "
+"på al hardware."
 
 #: main.cpp:82
 msgid "Re-enable OpenGL detection"
@@ -253,47 +235,40 @@ msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
 "video."
 msgstr ""
+"\"Kun når det er billigt\" forhindrer kun tearing ved fuldskærm-ændringer, "
+"såsom en video."
 
 #: main.cpp:143
 msgid "\"Full screen repaints\" can cause performance problems."
-msgstr ""
+msgstr "\"Hele skærmen gentegnes\" kan give problemer med ydelsen."
 
 #: main.cpp:147
 msgid ""
 "\"Re-use screen content\" causes performance severe problems on MESA drivers."
 msgstr ""
+"\"\"Genbrug skærmindhold\" giver alvorlige ydelsesproblemer med MESA-drivere."
 
 #: model.cpp:69
-#, fuzzy
-#| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Tilgængelighed"
 
 #: model.cpp:70
-#, fuzzy
-#| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Udseende"
 
 #: model.cpp:71
-#, fuzzy
-#| msgid "Candy"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Øjeguf"
 
 #: model.cpp:72
-#, fuzzy
-#| msgid "Focus"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Fokus"
 
 #: model.cpp:73
-#, fuzzy
-#| msgid "Tools"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Værktøjer"
@@ -301,18 +276,16 @@ msgstr "Værktøjer"
 #: model.cpp:74
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
-msgstr ""
+msgstr "Animation til skift af virtuelt skrivebord"
 
 #: model.cpp:75
-#, fuzzy
-#| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Vindueshåndtering"
 
 #: model.cpp:231
 msgid "KWin development team"
-msgstr ""
+msgstr "KWins udviklingshold"
 
 #: qml/Effect.qml:118
 #, kde-format
@@ -320,6 +293,8 @@ msgid ""
 "Author: %1\n"
 "License: %2"
 msgstr ""
+"Ophavsmand: %1\n"
+"Licens: %2"
 
 #: qml/EffectView.qml:63
 msgid ""
@@ -331,23 +306,19 @@ msgstr ""
 
 #: qml/EffectView.qml:74
 msgid "Search"
-msgstr ""
+msgstr "Søg"
 
 #: qml/EffectView.qml:81
-#, fuzzy
-#| msgid "Texture filter:"
 msgid "Configure filter"
-msgstr "Teksturfilter"
+msgstr "Indstil filter"
 
 #: qml/EffectView.qml:84
 msgid "Exclude Desktop Effects not supported by the Compositor"
-msgstr ""
+msgstr "Udelad skrivebordseffekter som ikke understøttes af compositoren"
 
 #: qml/EffectView.qml:92
-#, fuzzy
-#| msgid "Suspend Desktop Effects"
 msgid "Exclude internal Desktop Effects"
-msgstr "Suspendér skrivebordseffekter"
+msgstr "Udelad interne skrivebordseffekter"
 
 #: qml/EffectView.qml:104
 msgid "Get New Effects ..."

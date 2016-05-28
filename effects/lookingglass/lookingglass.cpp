@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KGlobalAccel>
 #include <KLocalizedString>
 #include <QVector2D>
+#include <QFile>
 
 #include <kmessagebox.h>
 
@@ -82,7 +83,7 @@ LookingGlassEffect::~LookingGlassEffect()
 
 bool LookingGlassEffect::supported()
 {
-    return effects->compositingType() == OpenGL2Compositing;
+    return effects->compositingType() == OpenGL2Compositing && !GLPlatform::instance()->supports(LimitedNPOT);
 }
 
 void LookingGlassEffect::reconfigure(ReconfigureFlags)
@@ -111,12 +112,7 @@ bool LookingGlassEffect::loadData()
         return false;
     }
 
-    QString shadersDir = QStringLiteral("kwin/shaders/1.10/");
-    const qint64 coreVersionNumber = GLPlatform::instance()->isGLES() ? kVersionNumber(3, 0) : kVersionNumber(1, 40);
-    if (GLPlatform::instance()->glslVersion() >= coreVersionNumber)
-        shadersDir = QStringLiteral("kwin/shaders/1.40/");
-    const QString fragmentshader = QStandardPaths::locate(QStandardPaths::GenericDataLocation, shadersDir + QStringLiteral("lookingglass.frag"));
-    m_shader = ShaderManager::instance()->loadFragmentShader(ShaderManager::SimpleShader, fragmentshader);
+    m_shader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture, QString(), QStringLiteral("lookingglass.frag"));
     if (m_shader->isValid()) {
         ShaderBinder binder(m_shader);
         m_shader->setUniform("u_textureSize", QVector2D(screenSize.width(), screenSize.height()));
@@ -228,10 +224,10 @@ void LookingGlassEffect::slotMouseChanged(const QPoint& pos, const QPoint& old, 
     }
 }
 
-void LookingGlassEffect::postPaintScreen()
+void LookingGlassEffect::paintScreen(int mask, QRegion region, ScreenPaintData &data)
 {
     // Call the next effect.
-    effects->postPaintScreen();
+    effects->paintScreen(mask, region, data);
     if (m_valid && m_enabled) {
         // Disable render texture
         GLRenderTarget* target = GLRenderTarget::popRenderTarget();
@@ -245,6 +241,7 @@ void LookingGlassEffect::postPaintScreen()
         m_shader->setUniform("u_zoom", (float)zoom);
         m_shader->setUniform("u_radius", (float)radius);
         m_shader->setUniform("u_cursor", QVector2D(cursorPos().x(), cursorPos().y()));
+        m_shader->setUniform(GLShader::ModelViewProjectionMatrix, data.projectionMatrix());
         m_vbo->render(GL_TRIANGLES);
         m_texture->unbind();
     }
@@ -257,4 +254,3 @@ bool LookingGlassEffect::isActive() const
 
 } // namespace
 
-#include "lookingglass.moc"

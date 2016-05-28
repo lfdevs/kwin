@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-03 14:08+0000\n"
+"POT-Creation-Date: 2016-03-25 11:33+0000\n"
 "PO-Revision-Date: 2015-12-30 18:09+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: lt <kde-i18n-lt@kde.org>\n"
@@ -51,7 +51,7 @@ msgstr "Stiprus"
 msgid "Save intermediate rendering results."
 msgstr "Išsaugoti tarpinius apdorojimo rezultatus."
 
-#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:950 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Rodyti darbalaukį"
@@ -139,15 +139,15 @@ msgstr "Galinė spalva"
 msgid "Front color"
 msgstr "Priekinė spalva"
 
-#: cube/cube.cpp:197 cube/cube_config.cpp:70
+#: cube/cube.cpp:189 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "Darbalaukio kubas"
 
-#: cube/cube.cpp:205 cube/cube_config.cpp:75
+#: cube/cube.cpp:197 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "Darbalaukio cilindras"
 
-#: cube/cube.cpp:211 cube/cube_config.cpp:79
+#: cube/cube.cpp:203 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "Darbalaukio sfera"
 
@@ -368,7 +368,7 @@ msgstr "Naudoti puslapiuotą išdėstymą animacijai"
 msgid "Start animation when moving windows towards screen edges"
 msgstr "Pradėti animaciją, perkeliant langą šalia ekrano kraštų"
 
-#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Rodyti darbalaukio tinklelį"
 
@@ -968,11 +968,11 @@ msgstr "-90"
 msgid "90"
 msgstr "90"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:52
+#: invert/invert.cpp:45 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "Perjungti invertavimo efektą"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:58
+#: invert/invert.cpp:53 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "Perjungti lango invertavimo efektą"
 
@@ -1146,7 +1146,7 @@ msgstr "Perjungti dabartinių langų efektą (visi darbalaukiai)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Perjungti dabartinių langų efektą (lango klasė)"
 
-#: presentwindows/presentwindows.cpp:1566
+#: presentwindows/presentwindows.cpp:1569
 #, kde-format
 msgid ""
 "Filter:\n"

@@ -106,7 +106,7 @@ Scene::~Scene()
 
 // returns mask and possibly modified region
 void Scene::paintScreen(int* mask, const QRegion &damage, const QRegion &repaint,
-                        QRegion *updateRegion, QRegion *validRegion)
+                        QRegion *updateRegion, QRegion *validRegion, const QMatrix4x4 &projection)
 {
     const QSize &screenSize = screens()->size();
     const QRegion displayRegion(0, 0, screenSize.width(), screenSize.height());
@@ -146,7 +146,7 @@ void Scene::paintScreen(int* mask, const QRegion &damage, const QRegion &repaint
         paintBackground(region);
     }
 
-    ScreenPaintData data;
+    ScreenPaintData data(projection);
     effects->paintScreen(*mask, region, data);
 
     foreach (Window *w, stacking_order) {
@@ -473,7 +473,7 @@ void Scene::paintWindow(Window* w, int mask, QRegion region, WindowQuadList quad
         return;
     }
 
-    WindowPaintData data(w->window()->effectWindow());
+    WindowPaintData data(w->window()->effectWindow(), screenProjectionMatrix());
     data.quads = quads;
     effects->paintWindow(effectWindow(w), mask, region, data);
     // paint thumbnails on top of window
@@ -518,7 +518,7 @@ void Scene::paintWindowThumbnails(Scene::Window *w, QRegion region, qreal opacit
             continue;
         }
         EffectWindowImpl *thumb = it.value().data();
-        WindowPaintData thumbData(thumb);
+        WindowPaintData thumbData(thumb, screenProjectionMatrix());
         thumbData.setOpacity(opacity);
         thumbData.setBrightness(brightness * item->brightness());
         thumbData.setSaturation(saturation * item->saturation());
@@ -609,7 +609,7 @@ void Scene::finalPaintWindow(EffectWindowImpl* w, int mask, QRegion region, Wind
 // will be eventually called from drawWindow()
 void Scene::finalDrawWindow(EffectWindowImpl* w, int mask, QRegion region, WindowPaintData& data)
 {
-    if (waylandServer() && waylandServer()->isScreenLocked() && !w->window()->isLockScreen()) {
+    if (waylandServer() && waylandServer()->isScreenLocked() && !w->window()->isLockScreen() && !w->window()->isInputMethod()) {
         return;
     }
     w->sceneWindow()->performPaint(mask, region, data);
@@ -652,6 +652,11 @@ void Scene::triggerFence()
 {
 }
 
+QMatrix4x4 Scene::screenProjectionMatrix() const
+{
+    return QMatrix4x4();
+}
+
 //****************************************
 // Scene::Window
 //****************************************
@@ -671,7 +676,6 @@ Scene::Window::Window(Toplevel * c)
 
 Scene::Window::~Window()
 {
-    delete cached_quad_list;
     delete m_shadow;
 }
 
@@ -710,8 +714,7 @@ void Scene::Window::discardShape()
     // it is created on-demand and cached, simply
     // reset the flag
     shape_valid = false;
-    delete cached_quad_list;
-    cached_quad_list = NULL;
+    cached_quad_list.reset();
 }
 
 // Find out the shape of the window using the XShape extension
@@ -822,12 +825,11 @@ WindowQuadList Scene::Window::buildQuads(bool force) const
     if (toplevel->clientPos() == QPoint(0, 0) && toplevel->clientSize() == toplevel->decorationRect().size())
         ret = makeQuads(WindowQuadContents, shape());  // has no decoration
     else {
-        Client *client = dynamic_cast<Client*>(toplevel);
+        AbstractClient *client = dynamic_cast<AbstractClient*>(toplevel);
         QRegion contents = clientShape();
         QRegion center = toplevel->transparentRect();
-        QRegion decoration = (client && true ?
-                              QRegion(client->decorationRect()) : shape()) - center;
-        ret = makeQuads(WindowQuadContents, contents);
+        QRegion decoration = (client ? QRegion(client->decorationRect()) : shape()) - center;
+        ret = makeQuads(WindowQuadContents, contents, toplevel->clientContentPos());
 
         QRect rects[4];
         bool isShadedClient = false;
@@ -849,7 +851,7 @@ WindowQuadList Scene::Window::buildQuads(bool force) const
         ret << m_shadow->shadowQuads();
     }
     effects->buildQuads(toplevel->effectWindow(), ret);
-    cached_quad_list = new WindowQuadList(ret);
+    cached_quad_list.reset(new WindowQuadList(ret));
     return ret;
 }
 
@@ -910,16 +912,16 @@ WindowQuadList Scene::Window::makeDecorationQuads(const QRect *rects, const QReg
     return list;
 }
 
-WindowQuadList Scene::Window::makeQuads(WindowQuadType type, const QRegion& reg) const
+WindowQuadList Scene::Window::makeQuads(WindowQuadType type, const QRegion& reg, const QPoint &textureOffset) const
 {
     WindowQuadList ret;
     foreach (const QRect & r, reg.rects()) {
         WindowQuad quad(type);
         // TODO asi mam spatne pravy dolni roh - bud tady, nebo v jinych castech
-        quad[ 0 ] = WindowVertex(r.x(), r.y(), r.x(), r.y());
-        quad[ 1 ] = WindowVertex(r.x() + r.width(), r.y(), r.x() + r.width(), r.y());
-        quad[ 2 ] = WindowVertex(r.x() + r.width(), r.y() + r.height(), r.x() + r.width(), r.y() + r.height());
-        quad[ 3 ] = WindowVertex(r.x(), r.y() + r.height(), r.x(), r.y() + r.height());
+        quad[ 0 ] = WindowVertex(r.x(), r.y(), r.x() + textureOffset.x(), r.y() + textureOffset.y());
+        quad[ 1 ] = WindowVertex(r.x() + r.width(), r.y(), r.x() + r.width() + textureOffset.x(), r.y() + textureOffset.y());
+        quad[ 2 ] = WindowVertex(r.x() + r.width(), r.y() + r.height(), r.x() + r.width() + textureOffset.x(), r.y() + r.height() + textureOffset.y());
+        quad[ 3 ] = WindowVertex(r.x(), r.y() + r.height(), r.x() + textureOffset.x(), r.y() + r.height() + textureOffset.y());
         ret.append(quad);
     }
     return ret;

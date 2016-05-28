@@ -48,6 +48,9 @@ void *NativeInterface::nativeResourceForIntegration(const QByteArray &resource)
 {
     const QByteArray r = resource.toLower();
     if (r == s_displayKey || r == s_wlDisplayKey) {
+        if (!waylandServer() || !waylandServer()->internalClientConection()) {
+            return nullptr;
+        }
         return waylandServer()->internalClientConection()->display();
     }
     if (r == s_compositorKey) {
@@ -60,6 +63,9 @@ void *NativeInterface::nativeResourceForWindow(const QByteArray &resource, QWind
 {
     const QByteArray r = resource.toLower();
     if (r == s_displayKey || r == s_wlDisplayKey) {
+        if (!waylandServer() || !waylandServer()->internalClientConection()) {
+            return nullptr;
+        }
         return waylandServer()->internalClientConection()->display();
     }
     if (r == s_compositorKey) {
@@ -69,6 +75,27 @@ void *NativeInterface::nativeResourceForWindow(const QByteArray &resource, QWind
         if (auto handle = window->handle()) {
             return static_cast<wl_surface*>(*static_cast<Window*>(handle)->surface());
         }
+    }
+    return nullptr;
+}
+
+static void roundtrip()
+{
+    if (!waylandServer()) {
+        return;
+    }
+    auto c = waylandServer()->internalClientConection();
+    if (!c) {
+        return;
+    }
+    c->flush();
+    waylandServer()->dispatch();
+}
+
+QFunctionPointer NativeInterface::platformFunction(const QByteArray &function) const
+{
+    if (qstrcmp(function.toLower(), "roundtrip") == 0) {
+        return &roundtrip;
     }
     return nullptr;
 }

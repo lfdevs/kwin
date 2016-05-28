@@ -6,7 +6,7 @@
 # Nick Shaforostoff <shafff@ukr.net>, 2008, 2009.
 # Nick Shaforostoff <shaforostoff@kde.ru>, 2009, 2011.
 # Andrey Cherepanov <skull@kde.ru>, 2009.
-# Alexander Potashev <aspotashev@gmail.com>, 2009, 2010, 2011, 2014, 2015.
+# Alexander Potashev <aspotashev@gmail.com>, 2009, 2010, 2011, 2014, 2015, 2016.
 # Yuri Efremov <yur.arh@gmail.com>, 2013.
 # Julia Dronova <juliette.tux@gmail.com>, 2013.
 # Alexander Lakhin <exclusion@gmail.com>, 2013.
@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-03 14:08+0000\n"
-"PO-Revision-Date: 2015-09-04 02:46+0300\n"
+"POT-Creation-Date: 2016-03-25 11:33+0000\n"
+"PO-Revision-Date: 2016-03-27 23:46+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -60,7 +60,7 @@ msgstr "Сильнее"
 msgid "Save intermediate rendering results."
 msgstr "Сохранять промежуточные данные рендеринга."
 
-#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:950 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Показать рабочий стол"
@@ -148,15 +148,15 @@ msgstr "Цвет спереди"
 msgid "Front color"
 msgstr "Цвет сзади"
 
-#: cube/cube.cpp:197 cube/cube_config.cpp:70
+#: cube/cube.cpp:189 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "Куб с рабочими столами"
 
-#: cube/cube.cpp:205 cube/cube_config.cpp:75
+#: cube/cube.cpp:197 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "Цилиндр с рабочими столами"
 
-#: cube/cube.cpp:211 cube/cube_config.cpp:79
+#: cube/cube.cpp:203 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "Сфера с рабочими столами"
 
@@ -376,7 +376,7 @@ msgstr "Использовать формат пейджера для анима
 msgid "Start animation when moving windows towards screen edges"
 msgstr "Показывать эффект смены стола при перемещении окна к краям экрана"
 
-#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Показать все рабочие столы"
 
@@ -438,8 +438,6 @@ msgstr "По умолчанию"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: desktopgrid/desktopgrid_config.ui:55
-#, fuzzy
-#| msgid "&Border width:"
 msgid "Border wid&th:"
 msgstr "&Ширина границы:"
 
@@ -470,10 +468,8 @@ msgstr "Пользовательское"
 
 #. i18n: ectx: property (text), widget (QLabel, layoutRowsLabel)
 #: desktopgrid/desktopgrid_config.ui:145
-#, fuzzy
-#| msgid "Number of &rows:"
 msgid "N&umber of rows:"
-msgstr "Количество ря&дов:"
+msgstr "Количество &строк:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PresentWindows)
 #: desktopgrid/desktopgrid_config.ui:190
@@ -483,7 +479,7 @@ msgstr "Использовать эффект «Все окна» для ком�
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAddRemove)
 #: desktopgrid/desktopgrid_config.ui:197
 msgid "Show buttons to alter count of virtual desktops"
-msgstr ""
+msgstr "Показывать кнопки для изменения числа рабочих столов"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimPanels)
 #: diminactive/diminactive_config.ui:17
@@ -968,11 +964,11 @@ msgstr "-90°"
 msgid "90"
 msgstr "90°"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:52
+#: invert/invert.cpp:45 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "Включить или выключить режим инверсии"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:58
+#: invert/invert.cpp:53 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "Включить или выключить режим инверсии окна"
 
@@ -1146,7 +1142,7 @@ msgstr "Показать все окна со всех рабочих столо
 msgid "Toggle Present Windows (Window class)"
 msgstr "Показать окна одного класса"
 
-#: presentwindows/presentwindows.cpp:1566
+#: presentwindows/presentwindows.cpp:1569
 #, kde-format
 msgid ""
 "Filter:\n"

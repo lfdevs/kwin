@@ -1,12 +1,5 @@
 #######################################
 # Effect
-install( FILES
-    shaders/1.10/coverswitch-reflection.glsl
-    DESTINATION ${DATA_INSTALL_DIR}/kwin/shaders/1.10 )
-install( FILES
-    shaders/1.40/coverswitch-reflection.glsl
-    DESTINATION ${DATA_INSTALL_DIR}/kwin/shaders/1.40 )
-
 
 #######################################
 # Config
@@ -24,7 +17,7 @@ target_link_libraries(kwin_coverswitch_config
     KF5::Service
 )
 
-kcoreaddons_desktop_to_json(kwin_coverswitch_config coverswitch_config.desktop)
+kcoreaddons_desktop_to_json(kwin_coverswitch_config coverswitch_config.desktop SERVICE_TYPES kcmodule.desktop)
 
 install(
     TARGETS

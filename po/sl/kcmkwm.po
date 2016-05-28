@@ -1,7 +1,7 @@
 # translation of kcmkwm.po to Slovenian
 # Translation of kcmkwm.po to Slovenian
 # KDEBASE translation to Slovenian language.
-# $Id: kcmkwm.po 1444734 2015-11-19 23:22:28Z ltoscano $
+# $Id: kcmkwm.po 1453980 2016-03-02 23:19:49Z ltoscano $
 # $Source$
 #
 # Copyright (C) 2001, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-14 07:58+0000\n"
+"POT-Creation-Date: 2016-02-02 08:56+0000\n"
 "PO-Revision-Date: 2015-01-18 11:47+0100\n"
 "Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -968,19 +968,19 @@ msgstr ""
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
-#: mouse.cpp:195 mouse.ui:55
+#: mouse.cpp:194 mouse.ui:55
 msgid "Maximize"
 msgstr "Razpni"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
-#: mouse.cpp:196 mouse.ui:60
+#: mouse.cpp:195 mouse.ui:60
 msgid "Maximize (vertical only)"
 msgstr "Razpni (samo navpično)"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
-#: mouse.cpp:197 mouse.ui:65
+#: mouse.cpp:196 mouse.ui:65
 msgid "Maximize (horizontal only)"
 msgstr "Razpni (samo vodoravno)"
 

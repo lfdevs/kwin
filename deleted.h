@@ -39,6 +39,7 @@ class KWIN_EXPORT Deleted
     Q_OBJECT
     Q_PROPERTY(bool minimized READ isMinimized)
     Q_PROPERTY(bool modal READ isModal)
+    Q_PROPERTY(bool fullScreen READ isFullScreen CONSTANT)
 public:
     static Deleted* create(Toplevel* c);
     // used by effects to keep the window around for e.g. fadeout effects when it's destroyed
@@ -49,6 +50,9 @@ public:
     virtual QStringList activities() const;
     virtual QPoint clientPos() const;
     virtual QSize clientSize() const;
+    QPoint clientContentPos() const override {
+        return m_contentPos;
+    }
     virtual QRect transparentRect() const;
     virtual bool isDeleted() const;
     virtual xcb_window_t frameId() const override;
@@ -79,6 +83,10 @@ public:
     const Decoration::Renderer *decorationRenderer() const {
         return m_decorationRenderer;
     }
+
+    bool isFullScreen() const {
+        return m_fullscreen;
+    }
 protected:
     virtual void debug(QDebug& stream) const;
     virtual bool shouldUnredirect() const;
@@ -93,6 +101,7 @@ private:
     int desk;
     QStringList activityList;
     QRect contentsRect; // for clientPos()/clientSize()
+    QPoint m_contentPos;
     QRect transparent_rect;
     xcb_window_t m_frame;
 
@@ -110,6 +119,7 @@ private:
     double m_opacity;
     NET::WindowType m_type = NET::Unknown;
     QByteArray m_windowRole;
+    bool m_fullscreen;
 };
 
 inline void Deleted::refWindow()

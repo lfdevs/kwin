@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/kwin_effects.po\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-03 14:08+0000\n"
+"POT-Creation-Date: 2016-03-25 11:33+0000\n"
 "PO-Revision-Date: 2007-11-14 08:24-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -45,7 +45,7 @@ msgstr "Trom"
 msgid "Save intermediate rendering results."
 msgstr ""
 
-#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:950 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Taispeáin an Deasc"
@@ -134,15 +134,15 @@ msgstr ""
 msgid "Front color"
 msgstr ""
 
-#: cube/cube.cpp:197 cube/cube_config.cpp:70
+#: cube/cube.cpp:189 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "Ciúb Deisce"
 
-#: cube/cube.cpp:205 cube/cube_config.cpp:75
+#: cube/cube.cpp:197 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "Sorcóir Deisce"
 
-#: cube/cube.cpp:211 cube/cube_config.cpp:79
+#: cube/cube.cpp:203 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "Sféar Deisce"
 
@@ -363,7 +363,7 @@ msgstr ""
 msgid "Start animation when moving windows towards screen edges"
 msgstr ""
 
-#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Taispeáin Greille na Deisce"
 
@@ -988,11 +988,11 @@ msgstr "-90"
 msgid "90"
 msgstr "90"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:52
+#: invert/invert.cpp:45 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "Scoránaigh an Mhaisíocht Inbhéartaithe"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:58
+#: invert/invert.cpp:53 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "Scoránaigh an Mhaisíocht Inbhéartaithe ar Fhuinneog"
 
@@ -1175,7 +1175,7 @@ msgstr "Scoránaigh na Fuinneoga atá ann (Gach deasc)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Scoránaigh na Fuinneoga atá ann (Aicme fhuinneoige)"
 
-#: presentwindows/presentwindows.cpp:1566
+#: presentwindows/presentwindows.cpp:1569
 #, kde-format
 msgid ""
 "Filter:\n"

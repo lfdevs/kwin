@@ -133,15 +133,9 @@ Workspace::Workspace(const QString &sessionKey)
     // first initialize the extensions
     Xcb::Extensions::self();
 
-    // start the Wayland Backend - will only be created if WAYLAND_DISPLAY is present
-    if (kwinApp()->operationMode() != Application::OperationModeX11) {
-        connect(this, SIGNAL(stackingOrderChanged()), input(), SLOT(updatePointerWindow()));
-    }
-
 #ifdef KWIN_BUILD_ACTIVITIES
     Activities *activities = nullptr;
-    // HACK: do not use Activities on Wayland as it blocks the startup
-    if (kwinApp()->operationMode() == Application::OperationModeX11) {
+    if (kwinApp()->usesKActivities()) {
         activities = Activities::create(this);
     }
     if (activities) {
@@ -195,6 +189,7 @@ Workspace::Workspace(const QString &sessionKey)
         m_compositor = Compositor::create(this);
     }
     connect(this, &Workspace::currentDesktopChanged, m_compositor, &Compositor::addRepaintFull);
+    connect(m_compositor, &QObject::destroyed, this, [this] { m_compositor = nullptr; });
 
     auto decorationBridge = Decoration::DecorationBridge::create(this);
     decorationBridge->init();
@@ -218,7 +213,7 @@ Workspace::Workspace(const QString &sessionKey)
 void Workspace::init()
 {
     updateXTime(); // Needed for proper initialization of user_time in Client ctor
-    KSharedConfigPtr config = KSharedConfig::openConfig();
+    KSharedConfigPtr config = kwinApp()->config();
     kwinApp()->createScreens();
     Screens *screens = Screens::self();
     // get screen support
@@ -373,6 +368,7 @@ void Workspace::init()
     if (auto w = waylandServer()) {
         connect(w, &WaylandServer::shellClientAdded, this,
             [this] (ShellClient *c) {
+                c->updateDecoration(false);
                 updateClientLayer(c);
                 if (!c->isInternal()) {
                     QRect area = clientArea(PlacementArea, Screens::self()->current(), c->desktop());
@@ -403,6 +399,9 @@ void Workspace::init()
         connect(w, &WaylandServer::shellClientRemoved, this,
             [this] (ShellClient *c) {
                 m_allClients.removeAll(c);
+                if (c == delayfocus_client) {
+                    cancelDelayFocus();
+                }
                 clientHidden(c);
                 emit clientRemoved(c);
                 x_stacking_dirty = true;
@@ -454,7 +453,7 @@ Workspace::~Workspace()
     xcb_delete_property(connection(), rootWindow(), atoms->kwin_running);
 
     delete RuleBook::self();
-    KSharedConfig::openConfig()->sync();
+    kwinApp()->config()->sync();
 
     RootInfo::destroy();
     delete startup;
@@ -788,7 +787,7 @@ void Workspace::slotReconfigure()
 
     bool borderlessMaximizedWindows = options->borderlessMaximizedWindows();
 
-    KSharedConfig::openConfig()->reparseConfiguration();
+    kwinApp()->config()->reparseConfiguration();
     options->updateSettings();
 
     emit configChanged();
@@ -1211,7 +1210,7 @@ void Workspace::delayFocus()
     cancelDelayFocus();
 }
 
-void Workspace::requestDelayFocus(Client* c)
+void Workspace::requestDelayFocus(AbstractClient* c)
 {
     delayfocus_client = c;
     delete delayFocusTimer;
@@ -1616,6 +1615,17 @@ Client *Workspace::findClient(std::function<bool (const Client*)> func) const
     return nullptr;
 }
 
+AbstractClient *Workspace::findAbstractClient(std::function<bool (const AbstractClient*)> func) const
+{
+    if (AbstractClient *ret = Toplevel::findInList(m_allClients, func)) {
+        return ret;
+    }
+    if (Client *ret = Toplevel::findInList(desktops, func)) {
+        return ret;
+    }
+    return nullptr;
+}
+
 Unmanaged *Workspace::findUnmanaged(std::function<bool (const Unmanaged*)> func) const
 {
     return Toplevel::findInList(unmanaged, func);
@@ -1669,11 +1679,31 @@ bool Workspace::hasClient(const AbstractClient *c)
 {
     if (auto cc = dynamic_cast<const Client*>(c)) {
         return hasClient(cc);
+    } else {
+        return findAbstractClient([c](const AbstractClient *test) {
+            return test == c;
+        }) != nullptr;
     }
-    // TODO: test for ShellClient
     return false;
+}
+
+void Workspace::forEachAbstractClient(std::function< void (AbstractClient*) > func)
+{
+    std::for_each(m_allClients.constBegin(), m_allClients.constEnd(), func);
+    std::for_each(desktops.constBegin(), desktops.constEnd(), func);
+}
+
+Toplevel *Workspace::findInternal(QWindow *w) const
+{
+    if (!w) {
+        return nullptr;
+    }
+    if (kwinApp()->operationMode() == Application::OperationModeX11) {
+        return findUnmanaged(w->winId());
+    } else {
+        return waylandServer()->findClient(w);
+    }
 }
 
 } // namespace
 
-#include "workspace.moc"

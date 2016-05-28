@@ -8,13 +8,13 @@
 # Dimitrios Glentadakis <dglent@gmail.com>, 2012.
 # Stelios <sstavra@gmail.com>, 2012.
 # Antonis Geralis <capoiosct@gmail.com>, 2013.
-# Dimitris Kardarakos <dimkard@gmail.com>, 2014, 2015.
+# Dimitris Kardarakos <dimkard@gmail.com>, 2014, 2015, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-03 14:08+0000\n"
-"PO-Revision-Date: 2015-11-18 16:01+0200\n"
+"POT-Creation-Date: 2016-03-25 11:33+0000\n"
+"PO-Revision-Date: 2016-02-07 12:14+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
 "Language: el\n"
@@ -52,7 +52,7 @@ msgstr "Ισχυρό"
 msgid "Save intermediate rendering results."
 msgstr "Αποθήκευση ενδιάμεσων αποτελεσμάτων απεικόνισης."
 
-#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:950 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Εμφάνιση επιφάνειας εργασίας"
@@ -140,15 +140,15 @@ msgstr "Πίσω χρώμα"
 msgid "Front color"
 msgstr "Μπροστά χρώμα"
 
-#: cube/cube.cpp:197 cube/cube_config.cpp:70
+#: cube/cube.cpp:189 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "Κύβος επιφάνειας εργασίας"
 
-#: cube/cube.cpp:205 cube/cube_config.cpp:75
+#: cube/cube.cpp:197 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "Κύλινδρος επιφάνειας εργασίας"
 
-#: cube/cube.cpp:211 cube/cube_config.cpp:79
+#: cube/cube.cpp:203 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "Σφαίρα επιφάνειας εργασίας"
 
@@ -370,7 +370,7 @@ msgstr "Χρήση περιγράμματος χαρτιού για εφέ κί�
 msgid "Start animation when moving windows towards screen edges"
 msgstr "Έναρξη κίνησης όταν τα παράθυρα πλησιάζουν τα άκρα τις οθόνης"
 
-#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Εμφάνιση καννάβου επιφάνειας εργασίας"
 
@@ -474,6 +474,8 @@ msgstr "Χρήση του εφέ παρουσίασης παραθύρων γι�
 #: desktopgrid/desktopgrid_config.ui:197
 msgid "Show buttons to alter count of virtual desktops"
 msgstr ""
+"Εμφάνιση κουμπιών για την τροποποίηση του αριθμού των εικονικών επιφανειών "
+"εργασίας"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimPanels)
 #: diminactive/diminactive_config.ui:17
@@ -968,11 +970,11 @@ msgstr "-90"
 msgid "90"
 msgstr "90"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:52
+#: invert/invert.cpp:45 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "Εναλλαγή εφέ αντιστροφής"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:58
+#: invert/invert.cpp:53 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "Εναλλαγή εφέ αντιστροφής στο παράθυρο"
 
@@ -1143,7 +1145,7 @@ msgstr "Εναλλαγή παρουσίασης παραθύρων (όλες τ�
 msgid "Toggle Present Windows (Window class)"
 msgstr "Εναλλαγή παρουσίασης παραθύρων (κατηγορία παραθύρου)"
 
-#: presentwindows/presentwindows.cpp:1566
+#: presentwindows/presentwindows.cpp:1569
 #, kde-format
 msgid ""
 "Filter:\n"

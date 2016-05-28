@@ -72,7 +72,7 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, theTab)
 #: kcm.ui:21
 msgid "Theme"
-msgstr ""
+msgstr "Motiv"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
 #: kcm.ui:29

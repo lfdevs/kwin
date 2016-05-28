@@ -45,18 +45,8 @@ class KStartupInfoId;
 
 struct xcb_sync_alarm_notify_event_t;
 
-namespace KDecoration2
-{
-class Decoration;
-}
-
 namespace KWin
 {
-
-namespace Decoration
-{
-class DecoratedClientImpl;
-}
 
 
 /**
@@ -71,7 +61,7 @@ enum class Predicate {
     InputIdMatch
 };
 
-class Client
+class KWIN_EXPORT Client
     : public AbstractClient
 {
     Q_OBJECT
@@ -95,11 +85,6 @@ class Client
      **/
     Q_PROPERTY(bool moveableAcrossScreens READ isMovableAcrossScreens)
     /**
-     * Whether the Client provides context help. Mostly needed by decorations to decide whether to
-     * show the help button or not.
-     **/
-    Q_PROPERTY(bool providesContextHelp READ providesContextHelp CONSTANT)
-    /**
      * Whether the Client can be resized. The property is evaluated each time it is invoked.
      * Because of that there is no notify signal.
      **/
@@ -116,13 +101,6 @@ class Client
      **/
     Q_PROPERTY(KWin::TabGroup* tabGroup READ tabGroup NOTIFY tabGroupChanged SCRIPTABLE false)
     /**
-     * Whether the window has a decoration or not.
-     * This property is not allowed to be set by applications themselves.
-     * The decision whether a window has a border or not belongs to the window manager.
-     * If this property gets abused by application developers, it will be removed again.
-     **/
-    Q_PROPERTY(bool noBorder READ noBorder WRITE setNoBorder)
-    /**
      * A client can block compositing. That is while the Client is alive and the state is set,
      * Compositing is suspended and is resumed when there are no Clients blocking compositing any
      * more.
@@ -133,10 +111,6 @@ class Client
      * Use with care!
      **/
     Q_PROPERTY(bool blocksCompositing READ isBlockingCompositing WRITE setBlockingCompositing NOTIFY blockingCompositingChanged)
-    /**
-     * Whether the decoration is currently using an alpha channel.
-     **/
-    Q_PROPERTY(bool decorationHasAlpha READ decorationHasAlpha)
     /**
      * Whether the Client uses client side window decorations.
      * Only GTK+ are detected.
@@ -171,16 +145,12 @@ public:
     QSize minSize() const override;
     QSize maxSize() const override;
     QSize basicUnit() const;
-    virtual QPoint clientPos() const; // Inside of geometry()
     virtual QSize clientSize() const;
     QPoint inputPos() const { return input_offset; } // Inside of geometry()
 
     bool windowEvent(xcb_generic_event_t *e);
     void syncEvent(xcb_sync_alarm_notify_event_t* e);
     NET::WindowType windowType(bool direct = false, int supported_types = 0) const;
-    bool processDecorationButtonPress(QMouseEvent *event);
-    void processDecorationButtonRelease(QMouseEvent *event);
-    void processDecorationMove();
 
     bool manage(xcb_window_t w, bool isMapped);
     void releaseWindow(bool on_shutdown = false);
@@ -239,8 +209,7 @@ public:
 
     void takeFocus() override;
 
-    void updateDecoration(bool check_workspace_pos, bool force = false);
-    void triggerDecorationRepaint();
+    void updateDecoration(bool check_workspace_pos, bool force = false) override;
 
     void updateShape();
 
@@ -256,7 +225,7 @@ public:
     void resizeWithChecks(const QSize& s, xcb_gravity_t gravity, ForceGeometry_t force = NormalGeometrySet);
     QSize sizeForClientSize(const QSize&, Sizemode mode = SizemodeAny, bool noframe = false) const override;
 
-    bool providesContextHelp() const;
+    bool providesContextHelp() const override;
     const QKeySequence &shortcut() const override;
     void setShortcut(const QString& cut) override;
 
@@ -306,7 +275,7 @@ public:
 
     void killWindow();
     void toggleShade();
-    void showContextHelp();
+    void showContextHelp() override;
     void cancelShadeHoverTimer();
     void checkActiveModal();
     StrutRect strutRect(StrutArea area) const;
@@ -346,7 +315,6 @@ public:
     *   to change the visible client it starts to move-resize the new
     *   client, this function stops it.
     */
-    void dontMoveResize();
     bool isCurrentTab() const override;
 
     /**
@@ -356,27 +324,14 @@ public:
     bool hasOffscreenXineramaStrut() const;
 
     // Decorations <-> Effects
-    KDecoration2::Decoration *decoration() {
-        return m_decoration;
-    }
-    const KDecoration2::Decoration *decoration() const {
-        return m_decoration;
-    }
-    QPointer<Decoration::DecoratedClientImpl> decoratedClient() const;
-    bool isDecorated() const override {
-        return m_decoration != nullptr;
-    }
-    void setDecoratedClient(QPointer<Decoration::DecoratedClientImpl> client);
-
     QRect decorationRect() const;
 
     QRect transparentRect() const;
 
-    bool decorationHasAlpha() const;
     bool isClientSideDecorated() const;
     bool wantsShadowToBeRendered() const override;
 
-    void layoutDecorationRects(QRect &left, QRect &top, QRect &right, QRect &bottom) const;
+    void layoutDecorationRects(QRect &left, QRect &top, QRect &right, QRect &bottom) const override;
 
     Xcb::Property fetchFirstInTabBox() const;
     void readFirstInTabBox(Xcb::Property &property);
@@ -413,8 +368,6 @@ private:
     // Use Workspace::createClient()
     virtual ~Client(); ///< Use destroyClient() or releaseWindow()
 
-    Position mousePosition() const override;
-
     // Handlers for X11 events
     bool mapRequestEvent(xcb_map_request_event_t *e);
     void unmapNotifyEvent(xcb_unmap_notify_event_t *e);
@@ -432,8 +385,6 @@ private:
     bool buttonReleaseEvent(xcb_window_t w, int button, int state, int x, int y, int x_root, int y_root);
     bool motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x_root, int y_root);
 
-    bool processDecorationButtonPress(int button, int state, int x, int y, int x_root, int y_root,
-                                      bool ignoreMenu = false);
     Client* findAutogroupCandidate() const;
 
 protected:
@@ -458,6 +409,7 @@ protected:
     bool isWaitingForMoveResizeSync() const override;
     void doResizeSync() override;
     QSize resizeIncrements() const override;
+    bool acceptsFocus() const override;
 
 private Q_SLOTS:
     void delayedSetShortcut();
@@ -499,16 +451,7 @@ Q_SIGNALS:
     void blockingCompositingChanged(KWin::Client *client);
     void clientSideDecoratedChanged();
 
-    void closeableChanged(bool);
-    void minimizeableChanged(bool);
-    void shadeableChanged(bool);
-    void maximizeableChanged(bool);
-
 private:
-    int borderLeft() const override;
-    int borderRight() const override;
-    int borderTop() const override;
-    int borderBottom() const override;
     void exportMappingState(int s);   // ICCCM 4.1.3.1, 4.1.4, NETWM 2.5.1
     bool isManaged() const; ///< Returns false if this client is not yet managed
     void updateAllowedActions(bool force = false);
@@ -543,14 +486,15 @@ private:
     void killProcess(bool ask, xcb_timestamp_t timestamp = XCB_TIME_CURRENT_TIME);
     void updateUrgency();
     static void sendClientMessage(xcb_window_t w, xcb_atom_t a, xcb_atom_t protocol,
-                                  uint32_t data1 = 0, uint32_t data2 = 0, uint32_t data3 = 0);
+                                  uint32_t data1 = 0, uint32_t data2 = 0, uint32_t data3 = 0,
+                                  xcb_timestamp_t timestamp = xTime());
 
     void embedClient(xcb_window_t w, xcb_visualid_t visualid, xcb_colormap_t colormap, uint8_t depth);
     void detectNoBorder();
     Xcb::Property fetchGtkFrameExtents() const;
     void readGtkFrameExtents(Xcb::Property &prop);
     void detectGtkFrameExtents();
-    void destroyDecoration();
+    void destroyDecoration() override;
     void updateFrameExtents();
 
     void internalShow();
@@ -582,9 +526,6 @@ private:
     Xcb::Window m_client;
     Xcb::Window m_wrapper;
     Xcb::Window m_frame;
-    KDecoration2::Decoration *m_decoration;
-    QPointer<Decoration::DecoratedClientImpl> m_decoratedClient;
-    QElapsedTimer m_decorationDoubleClickTimer;
     QStringList activityList;
     int m_activityUpdatesBlocked;
     bool m_blockedActivityUpdatesRequireTransients;
@@ -776,11 +717,6 @@ inline int Client::sessionStackingOrder() const
 inline bool Client::isManaged() const
 {
     return m_managed;
-}
-
-inline QPoint Client::clientPos() const
-{
-    return QPoint(borderLeft(), borderTop());
 }
 
 inline QSize Client::clientSize() const

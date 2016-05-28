@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-03 14:08+0000\n"
+"POT-Creation-Date: 2016-03-25 11:33+0000\n"
 "PO-Revision-Date: 2014-06-26 19:22+0700\n"
 "Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
@@ -45,7 +45,7 @@ msgstr "Kuat"
 msgid "Save intermediate rendering results."
 msgstr "Simpan hasil render antara."
 
-#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:950 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Tampilkan Desktop"
@@ -133,15 +133,15 @@ msgstr "Warna belakang"
 msgid "Front color"
 msgstr "Warna depan"
 
-#: cube/cube.cpp:197 cube/cube_config.cpp:70
+#: cube/cube.cpp:189 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "Kubus Desktop"
 
-#: cube/cube.cpp:205 cube/cube_config.cpp:75
+#: cube/cube.cpp:197 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "Silinder Desktop"
 
-#: cube/cube.cpp:211 cube/cube_config.cpp:79
+#: cube/cube.cpp:203 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "Lingkaran Desktop"
 
@@ -363,7 +363,7 @@ msgstr "Gunakan tata letak pembatas halaman untuk animasi"
 msgid "Start animation when moving windows towards screen edges"
 msgstr "Jalankan animasi ketika memindahkan jendela ke tepi layar"
 
-#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Tampilkan Petak Desktop"
 
@@ -956,11 +956,11 @@ msgstr "-90"
 msgid "90"
 msgstr "90"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:52
+#: invert/invert.cpp:45 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "Ubah Efek Balik"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:58
+#: invert/invert.cpp:53 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "Ubah Efek Balik di Jendela"
 
@@ -1138,7 +1138,7 @@ msgstr "Ubah Jendela Saat Ini (Semua desktop)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Ubah Jendela Saat Ini (Kelas jendela)"
 
-#: presentwindows/presentwindows.cpp:1566
+#: presentwindows/presentwindows.cpp:1569
 #, kde-format
 msgid ""
 "Filter:\n"

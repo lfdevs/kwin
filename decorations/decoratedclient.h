@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace KWin
 {
 
-class Client;
+class AbstractClient;
 
 namespace Decoration
 {
@@ -38,7 +38,7 @@ class DecoratedClientImpl : public QObject, public KDecoration2::DecoratedClient
 {
     Q_OBJECT
 public:
-    explicit DecoratedClientImpl(Client *client, KDecoration2::DecoratedClient *decoratedClient, KDecoration2::Decoration *decoration);
+    explicit DecoratedClientImpl(AbstractClient *client, KDecoration2::DecoratedClient *decoratedClient, KDecoration2::Decoration *decoration);
     virtual ~DecoratedClientImpl();
     QString caption() const override;
     WId decorationId() const override;
@@ -78,7 +78,7 @@ public:
     void requestToggleOnAllDesktops() override;
     void requestToggleShade() override;
 
-    Client *client() {
+    AbstractClient *client() {
         return m_client;
     }
     Renderer *renderer() {
@@ -89,9 +89,11 @@ public:
         return KDecoration2::DecoratedClientPrivate::client();
     }
 
+    void signalShadeChange();
+
 private:
     void createRenderer();
-    Client *m_client;
+    AbstractClient *m_client;
     Renderer *m_renderer;
 };
 

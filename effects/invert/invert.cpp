@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "invert.h"
 
 #include <QAction>
+#include <QFile>
 #include <kwinglutils.h>
 #include <kwinglplatform.h>
 #include <KGlobalAccel>
@@ -56,7 +57,6 @@ InvertEffect::InvertEffect()
     connect(b, SIGNAL(triggered(bool)), this, SLOT(toggleWindow()));
 
     connect(effects, SIGNAL(windowClosed(KWin::EffectWindow*)), this, SLOT(slotWindowClosed(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(screenGeometryChanged(const QSize&)), this, SLOT(resetShader()));
 }
 
 InvertEffect::~InvertEffect()
@@ -73,13 +73,7 @@ bool InvertEffect::loadData()
 {
     m_inited = true;
 
-    QString shadersDir = QStringLiteral("kwin/shaders/1.10/");
-    const qint64 coreVersionNumber = GLPlatform::instance()->isGLES() ? kVersionNumber(3, 0) : kVersionNumber(1, 40);
-    if (GLPlatform::instance()->glslVersion() >= coreVersionNumber)
-        shadersDir = QStringLiteral("kwin/shaders/1.40/");
-    const QString fragmentshader =  QStandardPaths::locate(QStandardPaths::GenericDataLocation, shadersDir + QStringLiteral("invert.frag"));
-
-    m_shader = ShaderManager::instance()->loadFragmentShader(ShaderManager::GenericShader, fragmentshader);
+    m_shader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture, QString(), QStringLiteral("invert.frag"));
     if (!m_shader->isValid()) {
         qCCritical(KWINEFFECTS) << "The shader failed to load!";
         return false;
@@ -110,11 +104,7 @@ void InvertEffect::drawWindow(EffectWindow* w, int mask, QRegion region, WindowP
     bool useShader = m_valid && (m_allWindows != m_windows.contains(w));
     if (useShader) {
         ShaderManager *shaderManager = ShaderManager::instance();
-        GLShader *genericShader = shaderManager->pushShader(ShaderManager::GenericShader);
-        QMatrix4x4 screenTransformation = genericShader->getUniformMatrix4x4("screenTransformation");
-        shaderManager->popShader();
         shaderManager->pushShader(m_shader);
-        m_shader->setUniform("screenTransformation", screenTransformation);
 
         data.shader = m_shader;
     }
@@ -131,8 +121,6 @@ void InvertEffect::paintEffectFrame(KWin::EffectFrame* frame, QRegion region, do
     if (m_valid && m_allWindows) {
         frame->setShader(m_shader);
         ShaderBinder binder(m_shader);
-        m_shader->setUniform("screenTransformation", QMatrix4x4());
-        m_shader->setUniform("windowTransformation", QMatrix4x4());
         effects->paintEffectFrame(frame, region, opacity, frameOpacity);
     } else {
         effects->paintEffectFrame(frame, region, opacity, frameOpacity);
@@ -172,11 +160,5 @@ bool InvertEffect::provides(Feature f)
     return f == ScreenInversion;
 }
 
-void InvertEffect::resetShader()
-{
-    ShaderManager::instance()->resetShader(m_shader, ShaderManager::GenericShader);
-}
-
 } // namespace
 
-#include "invert.moc"

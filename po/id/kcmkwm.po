@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-14 07:58+0000\n"
+"POT-Creation-Date: 2016-02-02 08:56+0000\n"
 "PO-Revision-Date: 2014-06-14 11:48+0700\n"
 "Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
@@ -979,19 +979,19 @@ msgstr ""
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
-#: mouse.cpp:195 mouse.ui:55
+#: mouse.cpp:194 mouse.ui:55
 msgid "Maximize"
 msgstr "Maksimalkan"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
-#: mouse.cpp:196 mouse.ui:60
+#: mouse.cpp:195 mouse.ui:60
 msgid "Maximize (vertical only)"
 msgstr "Maksimalkan (hanya vertikal)"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
-#: mouse.cpp:197 mouse.ui:65
+#: mouse.cpp:196 mouse.ui:65
 msgid "Maximize (horizontal only)"
 msgstr "Maksimalkan (hanya horizontal)"
 

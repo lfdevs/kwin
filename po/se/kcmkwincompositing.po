@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-22 08:56+0000\n"
+"POT-Creation-Date: 2016-02-16 09:05+0000\n"
 "PO-Revision-Date: 2007-12-27 19:05+0100\n"
 "Last-Translator: Børre Gaup <boerre@skolelinux.no>\n"
 "Language-Team: Northern Sami <i18n-sme@lister.ping.uio.no>\n"
@@ -227,7 +227,7 @@ msgstr ""
 
 #: main.cpp:147
 msgid ""
-"\"Re-use screen content\" causes performance severe problems on MESA drivers."
+"\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
 
 #: model.cpp:69

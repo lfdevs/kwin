@@ -43,6 +43,7 @@ class CompositorInterface;
 class Display;
 class ShellInterface;
 class SeatInterface;
+class ServerSideDecorationManagerInterface;
 class SurfaceInterface;
 class OutputInterface;
 class PlasmaShellInterface;
@@ -88,6 +89,9 @@ public:
     }
     KWayland::Server::PlasmaWindowManagementInterface *windowManagement() {
         return m_windowManagement;
+    }
+    KWayland::Server::ServerSideDecorationManagerInterface *decorationManager() const {
+        return m_decorationManager;
     }
     QList<ShellClient*> clients() const {
         return m_clients;
@@ -153,6 +157,7 @@ public:
 Q_SIGNALS:
     void shellClientAdded(KWin::ShellClient*);
     void shellClientRemoved(KWin::ShellClient*);
+    void terminatingInternalClientConnection();
 
 private:
     quint16 createClientId(KWayland::Server::ClientConnection *c);
@@ -164,6 +169,7 @@ private:
     KWayland::Server::PlasmaShellInterface *m_plasmaShell = nullptr;
     KWayland::Server::PlasmaWindowManagementInterface *m_windowManagement = nullptr;
     KWayland::Server::QtSurfaceExtensionInterface *m_qtExtendedSurface = nullptr;
+    KWayland::Server::ServerSideDecorationManagerInterface *m_decorationManager = nullptr;
     struct {
         KWayland::Server::ClientConnection *client = nullptr;
         QMetaObject::Connection destroyConnection;

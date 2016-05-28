@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-11-19 09:30+0000\n"
-"PO-Revision-Date: 2015-11-21 22:56+0100\n"
+"PO-Revision-Date: 2015-11-19 22:06+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -1060,7 +1060,7 @@ msgstr "Prevención de la captura del &foco"
 #: ruleswidgetbase.ui:2184 ruleswidgetbase.ui:2265
 msgctxt "no focus stealing prevention"
 msgid "None"
-msgstr "Ninguno"
+msgstr "Ninguna"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)

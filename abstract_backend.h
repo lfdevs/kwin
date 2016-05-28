@@ -40,8 +40,6 @@ public:
     virtual ~AbstractBackend();
 
     virtual void init() = 0;
-    virtual void installCursorFromServer();
-    virtual void installCursorImage(Qt::CursorShape shape);
     virtual Screens *createScreens(QObject *parent = nullptr);
     virtual OpenGLBackend *createOpenGLBackend();
     virtual QPainterBackend *createQPainterBackend();
@@ -67,16 +65,19 @@ public:
      * Base implementation returns an invalid size.
      **/
     virtual QSize screenSize() const;
+    /**
+     * Implementing subclasses should provide all geometries in case the backend represents
+     * a basic screen and uses the BasicScreens.
+     *
+     * Base implementation returns one QRect positioned at 0/0 with screenSize() as size.
+     **/
+    virtual QVector<QRect> screenGeometries() const;
 
     bool usesSoftwareCursor() const {
         return m_softWareCursor;
     }
-    QImage softwareCursor() const {
-        return m_cursor.image;
-    }
-    QPoint softwareCursorHotspot() const {
-        return m_cursor.hotspot;
-    }
+    QImage softwareCursor() const;
+    QPoint softwareCursorHotspot() const;
     void markCursorAsRendered();
 
     bool handlesOutputs() const {
@@ -99,6 +100,12 @@ public:
     }
     void setOutputsEnabled(bool enabled) {
         m_outputsEnabled = enabled;
+    }
+    int initialOutputCount() const {
+        return m_initialOutputCount;
+    }
+    void setInitialOutputCount(int count) {
+        m_initialOutputCount = count;
     }
 
 public Q_SLOTS:
@@ -130,8 +137,6 @@ Q_SIGNALS:
 protected:
     explicit AbstractBackend(QObject *parent = nullptr);
     void setSoftWareCursor(bool set);
-    void updateCursorFromServer();
-    void updateCursorImage(Qt::CursorShape shape);
     void handleOutputs() {
         m_handlesOutputs = true;
     }
@@ -149,20 +154,17 @@ protected:
 
 private:
     void triggerCursorRepaint();
-    void installThemeCursor(quint32 id, const QPoint &hotspot);
     bool m_softWareCursor = false;
     struct {
-        QPoint hotspot;
-        QImage image;
         QPoint lastRenderedPosition;
     } m_cursor;
-    WaylandCursorTheme *m_cursorTheme = nullptr;
     bool m_handlesOutputs = false;
     bool m_ready = false;
     QSize m_initialWindowSize;
     QByteArray m_deviceIdentifier;
     bool m_pointerWarping = false;
     bool m_outputsEnabled = true;
+    int m_initialOutputCount = 1;
 };
 
 }

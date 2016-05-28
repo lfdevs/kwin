@@ -1,5 +1,5 @@
 project(KWIN)
-set(PROJECT_VERSION "5.5.4")
+set(PROJECT_VERSION "5.6.4")
 set(PROJECT_VERSION_MAJOR 5)
 
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
@@ -41,7 +41,7 @@ endif()
 
 include(KDEInstallDirs)
 include(KDECMakeSettings)
-include(KDECompilerSettings)
+include(KDECompilerSettings NO_POLICY_SCOPE)
 
 include(ECMInstallIcons)
 include(ECMOptionalAddSubdirectory)
@@ -189,6 +189,8 @@ set_package_properties(X11 PROPERTIES DESCRIPTION "X11 libraries"
                         URL "http://www.x.org"
                         TYPE REQUIRED
                     )
+add_feature_info("XInput" X11_Xinput_FOUND "Required for poll-free mouse cursor updates")
+set(HAVE_X11_XINPUT ${X11_Xinput_FOUND})
 
 # All the required XCB components
 find_package(XCB 1.10
@@ -237,6 +239,14 @@ set_package_properties(Fontconfig PROPERTIES DESCRIPTION "Font access configurat
                        PURPOSE "Needed for KWin's QPA plugin."
                       )
 
+find_package(Xwayland)
+set_package_properties(Xwayland PROPERTIES
+    URL "http://x.org"
+    DESCRIPTION "Xwayland X server"
+    TYPE RUNTIME
+    PURPOSE "Needed for running kwin_wayland"
+    )
+
 ########### configure tests ###############
 include(CMakeDependentOption)
 
@@ -245,13 +255,6 @@ option(KWIN_BUILD_KCMS "Enable building of KWin configuration modules." ON)
 option(KWIN_BUILD_TABBOX "Enable building of KWin Tabbox functionality" ON)
 option(KWIN_BUILD_XRENDER_COMPOSITING "Enable building of KWin with XRender Compositing support" ON)
 cmake_dependent_option(KWIN_BUILD_ACTIVITIES "Enable building of KWin with kactivities support" ON "KF5Activities_FOUND" OFF)
-
-option(KWIN_BUILD_COVERAGE "Build KWin with gcov support" OFF)
-
-if(KWIN_BUILD_COVERAGE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lgcov")
-endif()
 
 # Binary name of KWin
 set(KWIN_NAME "kwin")
@@ -274,9 +277,16 @@ configure_file(libkwineffects/kwinconfig.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/lib
 # for kwin internal things
 set(HAVE_X11_XCB ${X11_XCB_FOUND})
 
+include(CheckIncludeFile)
 include(CheckIncludeFiles)
+include(CheckSymbolExists)
 check_include_files(unistd.h HAVE_UNISTD_H)
 check_include_files(malloc.h HAVE_MALLOC_H)
+
+check_include_file("sys/prctl.h" HAVE_SYS_PRCTL_H)
+check_symbol_exists(PR_SET_DUMPABLE "sys/prctl.h" HAVE_PR_SET_DUMPABLE)
+add_feature_info("prctl-dumpable" HAVE_PR_SET_DUMPABLE "Required for disallow ptrace on kwin_wayland process")
+
 configure_file(config-kwin.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kwin.h )
 
 
@@ -322,6 +332,9 @@ set(kwin_KDEINIT_SRCS
    focuschain.cpp
    globalshortcuts.cpp
    input.cpp
+   keyboard_input.cpp
+   pointer_input.cpp
+   touch_input.cpp
    netinfo.cpp
    placement.cpp 
    atoms.cpp 
@@ -481,6 +494,10 @@ set(kwin_XLIB_LIBS
     ${X11_ICE_LIB}
     ${X11_SM_LIB}
 )
+
+if(X11_Xinput_FOUND)
+    set(kwin_XLIB_LIBS ${kwin_XLIB_LIBS} ${X11_Xinput_LIB})
+endif()
 
 set(kwin_XCB_LIBS
     XCB::XCB

@@ -4,13 +4,13 @@
 #
 # Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2008.
 # Andrew Coles <andrew_coles@yahoo.co.uk>, 2009, 2010.
-# Steve Allewell <steve.allewell@gmail.com>, 2014.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-22 08:56+0000\n"
-"PO-Revision-Date: 2014-07-23 17:25+0100\n"
+"POT-Creation-Date: 2016-02-16 09:05+0000\n"
+"PO-Revision-Date: 2016-02-21 10:48+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
 "Language: en_GB\n"
@@ -244,9 +244,9 @@ msgstr "\"Full screen repaints\" can cause performance problems."
 
 #: main.cpp:147
 msgid ""
-"\"Re-use screen content\" causes performance severe problems on MESA drivers."
+"\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
-"\"Re-use screen content\" causes performance severe problems on MESA drivers."
+"\"Re-use screen content\" causes severe performance problems on MESA drivers."
 
 #: model.cpp:69
 msgctxt "Category of Desktop Effects, used as section header"

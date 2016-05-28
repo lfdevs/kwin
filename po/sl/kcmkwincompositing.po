@@ -4,13 +4,13 @@
 #
 # Andrej Vernekar <andrej.vernekar@moj.net>, 2007, 2010, 2012.
 # Jure Repinc <jlp@holodeck1.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013.
-# Andrej Mernik <andrejm@ubuntu.si>, 2013, 2014.
+# Andrej Mernik <andrejm@ubuntu.si>, 2013, 2014, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-22 08:56+0000\n"
-"PO-Revision-Date: 2014-08-05 14:10+0200\n"
+"POT-Creation-Date: 2016-02-16 09:05+0000\n"
+"PO-Revision-Date: 2016-03-08 20:56+0100\n"
 "Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -127,7 +127,7 @@ msgstr "Samodejno"
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:177
 msgid "Only when cheap"
-msgstr "Samo, če je poceni"
+msgstr "Samo, če ne zmanjša hitrosti delovanja"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:182
@@ -236,20 +236,20 @@ msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
 "video."
 msgstr ""
-"\"Samo, če je poceni\" preprečuje trganje samo za celozaslonske spremembe "
-"(npr. ob gledanju videa)."
+"\"Samo, če ne zmanjša hitrosti delovanja\" preprečuje trganje samo za "
+"celozaslonske spremembe (npr. ob gledanju videa)."
 
 #: main.cpp:143
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr ""
-"\"Ponovni izrisi celotnega zaslona\" lahko povzroči težave v hitrosti "
+"»Ponovni izrisi celotnega zaslona« lahko povzroči težave s hitrostjo "
 "delovanja."
 
 #: main.cpp:147
 msgid ""
-"\"Re-use screen content\" causes performance severe problems on MESA drivers."
+"\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
-"\"Znova uporabi vsebino zaslona\" ima velike težave s hitrostjo delovanja na "
+"»Znova uporabi vsebino zaslona« ima velike težave s hitrostjo delovanja na "
 "gonilnikih MESA."
 
 #: model.cpp:69

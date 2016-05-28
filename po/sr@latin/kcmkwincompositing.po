@@ -1,12 +1,12 @@
 # Translation of kcmkwincompositing.po into Serbian.
-# Chusslove Illich <caslav.ilic@gmx.net>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014.
+# Chusslove Illich <caslav.ilic@gmx.net>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016.
 # Dalibor Djuric <daliborddjuric@gmail.com>, 2009, 2010, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-22 08:56+0000\n"
-"PO-Revision-Date: 2014-07-26 20:46+0200\n"
+"POT-Creation-Date: 2016-02-16 09:05+0000\n"
+"PO-Revision-Date: 2016-02-21 00:08+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr@latin\n"
@@ -251,10 +251,10 @@ msgstr "Opcija „iscrtavanje celog ekrana“ može loše da utiče na performan
 
 #: main.cpp:147
 msgid ""
-"\"Re-use screen content\" causes performance severe problems on MESA drivers."
+"\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
-"Opcija „recikliranje sadržaja ekrana“ jako loše utiče na performanse sa "
-"Mesinim drajverima."
+"„recikliranje sadržaja ekrana“ jako loše utiče na performanse sa Mesinim "
+"drajverima."
 
 #: model.cpp:69
 msgctxt "Category of Desktop Effects, used as section header"

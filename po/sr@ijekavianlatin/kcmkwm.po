@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-01-14 07:58+0000\n"
+"POT-Creation-Date: 2016-02-02 08:56+0000\n"
 "PO-Revision-Date: 2015-01-17 13:25+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -948,19 +948,19 @@ msgstr ""
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
-#: mouse.cpp:195 mouse.ui:55
+#: mouse.cpp:194 mouse.ui:55
 msgid "Maximize"
 msgstr "maksimizuj"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
-#: mouse.cpp:196 mouse.ui:60
+#: mouse.cpp:195 mouse.ui:60
 msgid "Maximize (vertical only)"
 msgstr "maksimizuj (samo uspravno)"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
-#: mouse.cpp:197 mouse.ui:65
+#: mouse.cpp:196 mouse.ui:65
 msgid "Maximize (horizontal only)"
 msgstr "maksimizuj (samo vodoravno)"
 
@@ -982,8 +982,8 @@ msgstr "Ponašanje pri <em>dvokliku</em> na naslovnu traku."
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct2)
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct3)
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
-#: mouse.ui:75 mouse.ui:257 mouse.ui:330 mouse.ui:401 mouse.ui:474
-#: mouse.ui:545 mouse.ui:618
+#: mouse.ui:75 mouse.ui:257 mouse.ui:330 mouse.ui:401 mouse.ui:474 mouse.ui:545
+#: mouse.ui:618
 msgid "Shade"
 msgstr "namotaj"
 
@@ -995,8 +995,8 @@ msgstr "namotaj"
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct2)
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct3)
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
-#: mouse.ui:85 mouse.ui:262 mouse.ui:335 mouse.ui:406 mouse.ui:479
-#: mouse.ui:550 mouse.ui:623
+#: mouse.ui:85 mouse.ui:262 mouse.ui:335 mouse.ui:406 mouse.ui:479 mouse.ui:550
+#: mouse.ui:623
 msgid "Close"
 msgstr "zatvori"
 

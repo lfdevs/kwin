@@ -96,6 +96,8 @@ set( kwin4_effect_builtins_sources
     zoom/zoom.cpp
     )
 
+qt5_add_resources( kwin4_effect_builtins_sources shaders.qrc )
+
 kconfig_add_kcfg_files(kwin4_effect_builtins_sources
     blur/blurconfig.kcfgc
     cube/cubeslideconfig.kcfgc
@@ -127,6 +129,7 @@ add_subdirectory( fade )
 add_subdirectory( fadedesktop )
 add_subdirectory( login )
 add_subdirectory( maximize )
+add_subdirectory( morphingpopups )
 add_subdirectory( scalein )
 add_subdirectory( translucency )
 add_subdirectory( windowaperture )

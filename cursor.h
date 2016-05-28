@@ -33,6 +33,8 @@ class QTimer;
 namespace KWin
 {
 
+class XInputEventFilter;
+
 /**
  * @short Replacement for QCursor.
  *
@@ -106,6 +108,10 @@ public:
      * @return QByteArray
      */
     QByteArray cursorName(Qt::CursorShape shape) const;
+    /**
+     * @return list of alternative names for the cursor with @p name
+     **/
+    QVector<QByteArray> cursorAlternativeNames(const QByteArray &name) const;
 
     /**
      * Returns the current cursor position. This method does an update of the mouse position if
@@ -221,6 +227,11 @@ class X11Cursor : public Cursor
     Q_OBJECT
 public:
     virtual ~X11Cursor();
+
+    void schedulePoll() {
+        m_needsPoll = true;
+    }
+
 protected:
     virtual xcb_cursor_t getX11Cursor(Qt::CursorShape shape);
     xcb_cursor_t getX11Cursor(const QByteArray &name) override;
@@ -239,14 +250,22 @@ private Q_SLOTS:
     */
     void resetTimeStamp();
     void mousePolled();
+    void aboutToBlock();
 private:
     X11Cursor(QObject *parent);
+    void initXInput();
     xcb_cursor_t createCursor(const QByteArray &name);
     QHash<QByteArray, xcb_cursor_t > m_cursors;
     xcb_timestamp_t m_timeStamp;
     uint16_t m_buttonMask;
     QTimer *m_resetTimeStampTimer;
     QTimer *m_mousePollingTimer;
+    bool m_hasXInput;
+    int m_xiOpcode;
+    bool m_needsPoll;
+#ifndef KCMRULES
+    QScopedPointer<XInputEventFilter> m_xiEventFilter;
+#endif
     friend class Cursor;
 };
 

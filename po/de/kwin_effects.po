@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-03 14:08+0000\n"
+"POT-Creation-Date: 2016-03-25 11:33+0000\n"
 "PO-Revision-Date: 2015-11-06 02:42+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -48,7 +48,7 @@ msgstr "Stark"
 msgid "Save intermediate rendering results."
 msgstr "Zwischenergebnis des Renderers speichern."
 
-#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:950 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Arbeitsfläche anzeigen"
@@ -136,15 +136,15 @@ msgstr "Hintergrundfarbe"
 msgid "Front color"
 msgstr "Vordergrundfarbe"
 
-#: cube/cube.cpp:197 cube/cube_config.cpp:70
+#: cube/cube.cpp:189 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "Arbeitsflächen-Würfel"
 
-#: cube/cube.cpp:205 cube/cube_config.cpp:75
+#: cube/cube.cpp:197 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "Arbeitsflächen-Zylinder"
 
-#: cube/cube.cpp:211 cube/cube_config.cpp:79
+#: cube/cube.cpp:203 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "Arbeitsflächen-Kugel"
 
@@ -366,7 +366,7 @@ msgstr "Layout des Arbeitsflächen-Umschalters für die Animation verwenden"
 msgid "Start animation when moving windows towards screen edges"
 msgstr "Beim Bewegen der Fenster zu den Bildschirmecken die Animation starten"
 
-#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Arbeitsflächen-Raster anzeigen"
 
@@ -968,11 +968,11 @@ msgstr "-90"
 msgid "90"
 msgstr "90"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:52
+#: invert/invert.cpp:45 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "Invertieren-Effekt umschalten"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:58
+#: invert/invert.cpp:53 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "Invertieren-Effekt für Fenster umschalten"
 
@@ -1145,7 +1145,7 @@ msgstr "Fenster aller Arbeitsflächen anzeigen"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Fenster zeigen umschalten (Fensterklasse)"
 
-#: presentwindows/presentwindows.cpp:1566
+#: presentwindows/presentwindows.cpp:1569
 #, kde-format
 msgid ""
 "Filter:\n"

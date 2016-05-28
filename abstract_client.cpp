@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "abstract_client.h"
+#include "decorations/decoratedclient.h"
 #include "decorations/decorationpalette.h"
 #include "cursor.h"
 #include "effects.h"
@@ -29,10 +30,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 #include "screenedge.h"
 #include "tabgroup.h"
+#include "useractions.h"
 #include "workspace.h"
 
 #include "wayland_server.h"
 #include <KWayland/Server/plasmawindowmanagement_interface.h>
+
+#include <KDecoration2/Decoration>
+
+#include <QMouseEvent>
+#include <QStyleHints>
 
 namespace KWin
 {
@@ -55,11 +62,14 @@ AbstractClient::AbstractClient()
     connect(this, &AbstractClient::clientFinishUserMovedResized, this, &AbstractClient::moveResizedChanged);
     connect(this, &AbstractClient::clientStartUserMovedResized,  this, &AbstractClient::removeCheckScreenConnection);
     connect(this, &AbstractClient::clientFinishUserMovedResized, this, &AbstractClient::setupCheckScreenConnection);
+
+    connect(this, &AbstractClient::paletteChanged, this, &AbstractClient::triggerDecorationRepaint);
 }
 
 AbstractClient::~AbstractClient()
 {
     assert(m_blockGeometryUpdates == 0);
+    Q_ASSERT(m_decoration.decoration == nullptr);
 }
 
 void AbstractClient::updateMouseGrab()
@@ -783,6 +793,13 @@ bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint
         break;
     case Options::MouseLower: {
         workspace()->lowerClient(this);
+        // used to be activateNextClient(this), then topClientOnDesktop
+        // since this is a mouseOp it's however safe to use the client under the mouse instead
+        if (isActive() && options->focusPolicyIsReasonable()) {
+            AbstractClient *next = workspace()->clientUnderMouse(screen());
+            if (next && next != this)
+                workspace()->requestFocus(next, false);
+        }
         break;
     }
     case Options::MouseOperationsMenu:
@@ -795,7 +812,7 @@ bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint
         break;
     case Options::MouseActivateAndRaise: {
         replay = isActive(); // for clickraise mode
-        bool mustReplay = !rules()->checkAcceptFocus(info->input());
+        bool mustReplay = !rules()->checkAcceptFocus(acceptsFocus());
         if (mustReplay) {
             ToplevelList::const_iterator  it = workspace()->stackingOrder().constEnd(),
                                      begin = workspace()->stackingOrder().constBegin();
@@ -815,13 +832,13 @@ bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint
         workspace()->requestFocus(this);
         workspace()->lowerClient(this);
         screens()->setCurrent(globalPos);
-        replay = replay || !rules()->checkAcceptFocus(info->input());
+        replay = replay || !rules()->checkAcceptFocus(acceptsFocus());
         break;
     case Options::MouseActivate:
         replay = isActive(); // for clickraise mode
         workspace()->takeActivity(this, Workspace::ActivityFocus);
         screens()->setCurrent(globalPos);
-        replay = replay || !rules()->checkAcceptFocus(info->input());
+        replay = replay || !rules()->checkAcceptFocus(acceptsFocus());
         break;
     case Options::MouseActivateRaiseAndPassClick:
         workspace()->takeActivity(this, Workspace::ActivityFocus | Workspace::ActivityRaise);
@@ -1048,36 +1065,23 @@ bool AbstractClient::isActiveFullScreen() const
     return ac && (ac == this || ac->screen() != screen());
 }
 
-int AbstractClient::borderBottom() const
-{
-    return 0;
-}
+#define BORDER(which) \
+    int AbstractClient::border##which() const \
+    { \
+        return isDecorated() ? decoration()->border##which() : 0; \
+    }
 
-int AbstractClient::borderLeft() const
-{
-    return 0;
-}
-
-int AbstractClient::borderRight() const
-{
-    return 0;
-}
-
-int AbstractClient::borderTop() const
-{
-    return 0;
-}
+BORDER(Bottom)
+BORDER(Left)
+BORDER(Right)
+BORDER(Top)
+#undef BORDER
 
 QSize AbstractClient::sizeForClientSize(const QSize &wsize, Sizemode mode, bool noframe) const
 {
     Q_UNUSED(mode)
     Q_UNUSED(noframe)
     return wsize;
-}
-
-bool AbstractClient::isDecorated() const
-{
-    return false;
 }
 
 void AbstractClient::addRepaintDuringGeometryUpdates()
@@ -1291,8 +1295,38 @@ QSize AbstractClient::resizeIncrements() const
     return QSize(1, 1);
 }
 
+void AbstractClient::dontMoveResize()
+{
+    setMoveResizePointerButtonDown(false);
+    stopDelayedMoveResize();
+    if (isMoveResize())
+        finishMoveResize(false);
+}
+
 AbstractClient::Position AbstractClient::mousePosition() const
 {
+    if (isDecorated()) {
+        switch (decoration()->sectionUnderMouse()) {
+            case Qt::BottomLeftSection:
+                return PositionBottomLeft;
+            case Qt::BottomRightSection:
+                return PositionBottomRight;
+            case Qt::BottomSection:
+                return PositionBottom;
+            case Qt::LeftSection:
+                return PositionLeft;
+            case Qt::RightSection:
+                return PositionRight;
+            case Qt::TopSection:
+                return PositionTop;
+            case Qt::TopLeftSection:
+                return PositionTopLeft;
+            case Qt::TopRightSection:
+                return PositionTopRight;
+            default:
+                return PositionCenter;
+        }
+    }
     return PositionCenter;
 }
 
@@ -1305,6 +1339,198 @@ void AbstractClient::endMoveResize()
         setMoveResizePointerMode(mousePosition());
     }
     updateCursor();
+}
+
+void AbstractClient::destroyDecoration()
+{
+    delete m_decoration.decoration;
+    m_decoration.decoration = nullptr;
+}
+
+bool AbstractClient::decorationHasAlpha() const
+{
+    if (!isDecorated() || decoration()->isOpaque()) {
+        // either no decoration or decoration has alpha disabled
+        return false;
+    }
+    return true;
+}
+
+void AbstractClient::triggerDecorationRepaint()
+{
+    if (isDecorated()) {
+        decoration()->update();
+    }
+}
+
+void AbstractClient::layoutDecorationRects(QRect &left, QRect &top, QRect &right, QRect &bottom) const
+{
+    if (!isDecorated()) {
+        return;
+    }
+    QRect r = decoration()->rect();
+
+    top = QRect(r.x(), r.y(), r.width(), borderTop());
+    bottom = QRect(r.x(), r.y() + r.height() - borderBottom(),
+                   r.width(), borderBottom());
+    left = QRect(r.x(), r.y() + top.height(),
+                 borderLeft(), r.height() - top.height() - bottom.height());
+    right = QRect(r.x() + r.width() - borderRight(), r.y() + top.height(),
+                  borderRight(), r.height() - top.height() - bottom.height());
+}
+
+void AbstractClient::processDecorationMove(const QPoint &localPos, const QPoint &globalPos)
+{
+    if (isMoveResizePointerButtonDown()) {
+        handleMoveResize(localPos.x(), localPos.y(), globalPos.x(), globalPos.y());
+        return;
+    }
+    // TODO: handle modifiers
+    Position newmode = mousePosition();
+    if (newmode != moveResizePointerMode()) {
+        setMoveResizePointerMode(newmode);
+        updateCursor();
+    }
+}
+
+bool AbstractClient::processDecorationButtonPress(QMouseEvent *event, bool ignoreMenu)
+{
+    Options::MouseCommand com = Options::MouseNothing;
+    bool active = isActive();
+    if (!wantsInput())    // we cannot be active, use it anyway
+        active = true;
+
+    // check whether it is a double click
+    if (event->button() == Qt::LeftButton && decoration()->titleBar().contains(event->x(), event->y())) {
+        if (m_decoration.doubleClickTimer.isValid()) {
+            const quint64 interval = m_decoration.doubleClickTimer.elapsed();
+            m_decoration.doubleClickTimer.invalidate();
+            if (interval > QGuiApplication::styleHints()->mouseDoubleClickInterval()) {
+                m_decoration.doubleClickTimer.invalidate(); // expired -> new first click and pot. init
+            } else {
+                Workspace::self()->performWindowOperation(this, options->operationTitlebarDblClick());
+                dontMoveResize();
+                return false;
+            }
+        }
+         else {
+            m_decoration.doubleClickTimer.start(); // new first click and pot. init, could be invalidated by release - see below
+        }
+    }
+
+    if (event->button() == Qt::LeftButton)
+        com = active ? options->commandActiveTitlebar1() : options->commandInactiveTitlebar1();
+    else if (event->button() == Qt::MidButton)
+        com = active ? options->commandActiveTitlebar2() : options->commandInactiveTitlebar2();
+    else if (event->button() == Qt::RightButton)
+        com = active ? options->commandActiveTitlebar3() : options->commandInactiveTitlebar3();
+    if (event->button() == Qt::LeftButton
+            && com != Options::MouseOperationsMenu // actions where it's not possible to get the matching
+            && com != Options::MouseMinimize  // mouse release event
+            && com != Options::MouseDragTab) {
+        setMoveResizePointerMode(mousePosition());
+        setMoveResizePointerButtonDown(true);
+        setMoveOffset(event->pos());
+        setInvertedMoveOffset(rect().bottomRight() - moveOffset());
+        setUnrestrictedMoveResize(false);
+        startDelayedMoveResize();
+        updateCursor();
+    }
+    // In the new API the decoration may process the menu action to display an inactive tab's menu.
+    // If the event is unhandled then the core will create one for the active window in the group.
+    if (!ignoreMenu || com != Options::MouseOperationsMenu)
+        performMouseCommand(com, event->globalPos());
+    return !( // Return events that should be passed to the decoration in the new API
+               com == Options::MouseRaise ||
+               com == Options::MouseOperationsMenu ||
+               com == Options::MouseActivateAndRaise ||
+               com == Options::MouseActivate ||
+               com == Options::MouseActivateRaiseAndPassClick ||
+               com == Options::MouseActivateAndPassClick ||
+               com == Options::MouseDragTab ||
+               com == Options::MouseNothing);
+}
+
+void AbstractClient::processDecorationButtonRelease(QMouseEvent *event)
+{
+    if (isDecorated()) {
+        if (event->isAccepted() || !decoration()->titleBar().contains(event->pos())) {
+            invalidateDecorationDoubleClickTimer(); // click was for the deco and shall not init a doubleclick
+        }
+    }
+
+    if (event->buttons() == Qt::NoButton) {
+        setMoveResizePointerButtonDown(false);
+        stopDelayedMoveResize();
+        if (isMoveResize()) {
+            finishMoveResize(false);
+            setMoveResizePointerMode(mousePosition());
+        }
+        updateCursor();
+    }
+}
+
+
+void AbstractClient::startDecorationDoubleClickTimer()
+{
+    m_decoration.doubleClickTimer.start();
+}
+
+void AbstractClient::invalidateDecorationDoubleClickTimer()
+{
+    m_decoration.doubleClickTimer.invalidate();
+}
+
+bool AbstractClient::providesContextHelp() const
+{
+    return false;
+}
+
+void AbstractClient::showContextHelp()
+{
+}
+
+QPointer<Decoration::DecoratedClientImpl> AbstractClient::decoratedClient() const
+{
+    return m_decoration.client;
+}
+
+void AbstractClient::setDecoratedClient(QPointer< Decoration::DecoratedClientImpl > client)
+{
+    m_decoration.client = client;
+}
+
+void AbstractClient::enterEvent(const QPoint &globalPos)
+{
+    // TODO: shade hover
+    if (options->focusPolicy() == Options::ClickToFocus || workspace()->userActionsMenu()->isShown())
+        return;
+
+    if (options->isAutoRaise() && !isDesktop() &&
+            !isDock() && workspace()->focusChangeEnabled() &&
+            globalPos != workspace()->focusMousePosition() &&
+            workspace()->topClientOnDesktop(VirtualDesktopManager::self()->current(),
+                                            options->isSeparateScreenFocus() ? screen() : -1) != this) {
+        startAutoRaise();
+    }
+
+    if (isDesktop() || isDock())
+        return;
+    // for FocusFollowsMouse, change focus only if the mouse has actually been moved, not if the focus
+    // change came because of window changes (e.g. closing a window) - #92290
+    if (options->focusPolicy() != Options::FocusFollowsMouse
+            || globalPos != workspace()->focusMousePosition()) {
+        workspace()->requestDelayFocus(this);
+    }
+}
+
+void AbstractClient::leaveEvent()
+{
+    cancelAutoRaise();
+    workspace()->cancelDelayFocus();
+    // TODO: shade hover
+    // TODO: send hover leave to deco
+    // TODO: handle Options::FocusStrictlyUnderMouse
 }
 
 }

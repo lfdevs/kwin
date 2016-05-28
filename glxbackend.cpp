@@ -114,7 +114,6 @@ GlxBackend::GlxBackend()
     , m_bufferAge(0)
     , haveSwapInterval(false)
 {
-    init();
 }
 
 static bool gs_tripleBufferUndetected = true;
@@ -141,6 +140,9 @@ GlxBackend::~GlxBackend()
 
     if (window)
         XDestroyWindow(display(), window);
+
+    qDeleteAll(m_fbconfigHash);
+    m_fbconfigHash.clear();
 
     overlayWindow()->destroy();
     delete m_overlayWindow;
@@ -447,12 +449,13 @@ int GlxBackend::visualDepth(xcb_visualid_t visual) const
 
 FBConfigInfo *GlxBackend::infoForVisual(xcb_visualid_t visual)
 {
-    FBConfigInfo *&info = m_fbconfigHash[visual];
+    auto it = m_fbconfigHash.constFind(visual);
+    if (it != m_fbconfigHash.constEnd()) {
+        return it.value();
+    }
 
-    if (info)
-        return info;
-
-    info = new FBConfigInfo;
+    FBConfigInfo *info = new FBConfigInfo;
+    m_fbconfigHash.insert(visual, info);
     info->fbconfig            = nullptr;
     info->bind_texture_format = 0;
     info->texture_targets     = 0;

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-03 14:08+0000\n"
+"POT-Creation-Date: 2016-03-25 11:33+0000\n"
 "PO-Revision-Date: 2008-11-30 14:57-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Malayalam <smc-discuss@googlegroups.com>\n"
@@ -51,7 +51,7 @@ msgstr "&ശക്തി:"
 msgid "Save intermediate rendering results."
 msgstr ""
 
-#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:950 flipswitch/flipswitch.cpp:933
 #, fuzzy
 #| msgid "Show Desktop Grid"
 msgctxt "Special entry in alt+tab list for minimizing all windows"
@@ -151,17 +151,17 @@ msgstr "ക്യാപ്  നിറം:"
 msgid "Front color"
 msgstr "പശ്ചാത്തല നിറം:"
 
-#: cube/cube.cpp:197 cube/cube_config.cpp:70
+#: cube/cube.cpp:189 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "പണിയിട ക്യൂബ്"
 
-#: cube/cube.cpp:205 cube/cube_config.cpp:75
+#: cube/cube.cpp:197 cube/cube_config.cpp:75
 #, fuzzy
 #| msgid "Desktop Cube"
 msgid "Desktop Cylinder"
 msgstr "പണിയിട ക്യൂബ്"
 
-#: cube/cube.cpp:211 cube/cube_config.cpp:79
+#: cube/cube.cpp:203 cube/cube_config.cpp:79
 #, fuzzy
 #| msgid "Desktop Cube"
 msgid "Desktop Sphere"
@@ -388,7 +388,7 @@ msgstr ""
 msgid "Start animation when moving windows towards screen edges"
 msgstr ""
 
-#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "പണിയിട വിതരണ ശ്രംഖല (ഗ്രിഡ്) കാണിക്കുക"
 
@@ -1023,11 +1023,11 @@ msgstr ""
 msgid "90"
 msgstr ""
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:52
+#: invert/invert.cpp:45 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "മറിക്കല്‍ പ്രഭാവം ടോഗിള്‍ ചെയ്യുക"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:58
+#: invert/invert.cpp:53 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "ജാലകത്തില്‍ മറിക്കല്‍ പ്രഭാവം ടോഗിള്‍ ചെയ്യുക"
 
@@ -1220,7 +1220,7 @@ msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗ�
 msgid "Toggle Present Windows (Window class)"
 msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (എല്ലാ പണിയിടങ്ങള്‍ക്കുമായി)"
 
-#: presentwindows/presentwindows.cpp:1566
+#: presentwindows/presentwindows.cpp:1569
 #, kde-format
 msgid ""
 "Filter:\n"

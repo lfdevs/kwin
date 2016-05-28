@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "main_wayland.h"
+#include "composite.h"
 #include "workspace.h"
 #include <config-kwin.h>
 // kwin
@@ -39,6 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QCommandLineParser>
 #include <QtConcurrentRun>
 #include <QFile>
+#include <QFileInfo>
 #include <QFutureWatcher>
 #include <QProcess>
 #include <QSocketNotifier>
@@ -50,6 +52,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif // HAVE_UNISTD_H
+
+#if HAVE_SYS_PRCTL_H
+#include <sys/prctl.h>
+#endif
 
 #include <iostream>
 #include <iomanip>
@@ -75,6 +81,10 @@ ApplicationWayland::ApplicationWayland(int &argc, char **argv)
 
 ApplicationWayland::~ApplicationWayland()
 {
+    if (!waylandServer()) {
+        return;
+    }
+
     waylandServer()->backend()->setOutputsEnabled(false);
     destroyWorkspace();
     waylandServer()->dispatch();
@@ -113,6 +123,12 @@ void ApplicationWayland::performStartup()
     createBackend();
 }
 
+void ApplicationWayland::setupCrashHandler()
+{
+    // this disables auto-restart of kwin_wayland
+    // do nothing hence allowing OS to create dump and so on
+}
+
 void ApplicationWayland::createBackend()
 {
     AbstractBackend *backend = waylandServer()->backend();
@@ -137,8 +153,7 @@ void ApplicationWayland::continueStartupWithScreens()
         return;
     }
     createCompositor();
-
-    startXwaylandServer();
+    connect(Compositor::self(), &Compositor::sceneCreated, this, &ApplicationWayland::startXwaylandServer);
 }
 
 void ApplicationWayland::continueStartupWithX()
@@ -265,6 +280,7 @@ void ApplicationWayland::createX11Connection()
 
 void ApplicationWayland::startXwaylandServer()
 {
+    disconnect(Compositor::self(), &Compositor::sceneCreated, this, &ApplicationWayland::startXwaylandServer);
     int pipeFds[2];
     if (pipe(pipeFds) != 0) {
         std::cerr << "FATAL ERROR failed to create pipe to start Xwayland " << std::endl;
@@ -382,10 +398,26 @@ static QString automaticBackendSelection()
     return s_fbdevPlugin;
 }
 
+static void disablePtrace()
+{
+#if HAVE_PR_SET_DUMPABLE
+    // check whether we are running under a debugger
+    const QFileInfo parent(QStringLiteral("/proc/%1/exe").arg(getppid()));
+    if (parent.isSymLink() && parent.symLinkTarget().endsWith(QLatin1String("/gdb"))) {
+        // debugger, don't adjust
+        return;
+    }
+
+    // disable ptrace in kwin_wayland
+    prctl(PR_SET_DUMPABLE, 0);
+#endif
+}
+
 } // namespace
 
 int main(int argc, char * argv[])
 {
+    KWin::disablePtrace();
     KWin::Application::setupMalloc();
     KWin::Application::setupLocalizedString();
 
@@ -396,11 +428,11 @@ int main(int argc, char * argv[])
     if (signal(SIGHUP, KWin::sighandler) == SIG_IGN)
         signal(SIGHUP, SIG_IGN);
     // ensure that no thread takes SIGUSR
-    sigset_t userSiganls;
-    sigemptyset(&userSiganls);
-    sigaddset(&userSiganls, SIGUSR1);
-    sigaddset(&userSiganls, SIGUSR2);
-    pthread_sigmask(SIG_BLOCK, &userSiganls, nullptr);
+    sigset_t userSignals;
+    sigemptyset(&userSignals);
+    sigaddset(&userSignals, SIGUSR1);
+    sigaddset(&userSignals, SIGUSR2);
+    pthread_sigmask(SIG_BLOCK, &userSignals, nullptr);
 
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
 
@@ -430,6 +462,7 @@ int main(int argc, char * argv[])
     };
     const bool hasWindowedOption = hasPlugin(KWin::s_x11Plugin) || hasPlugin(KWin::s_waylandPlugin);
     const bool hasSizeOption = hasPlugin(KWin::s_x11Plugin) || hasPlugin(KWin::s_virtualPlugin);
+    const bool hasOutputCountOption = hasPlugin(KWin::s_x11Plugin);
     const bool hasX11Option = hasPlugin(KWin::s_x11Plugin);
     const bool hasVirtualOption = hasPlugin(KWin::s_virtualPlugin);
     const bool hasWaylandOption = hasPlugin(KWin::s_waylandPlugin);
@@ -469,6 +502,10 @@ int main(int argc, char * argv[])
                                     i18n("The height for windowed mode. Default height is 768."),
                                     QStringLiteral("height"));
     heightOption.setDefaultValue(QString::number(768));
+    QCommandLineOption outputCountOption(QStringLiteral("output-count"),
+                                    i18n("The number of windows to open as outputs in windowed mode. Default value is 1"),
+                                    QStringLiteral("height"));
+    outputCountOption.setDefaultValue(QString::number(1));
 
     QCommandLineParser parser;
     a.setupCommandLine(&parser);
@@ -493,6 +530,9 @@ int main(int argc, char * argv[])
     if (hasSizeOption) {
         parser.addOption(widthOption);
         parser.addOption(heightOption);
+    }
+    if (hasOutputCountOption) {
+        parser.addOption(outputCountOption);
     }
 #if HAVE_LIBHYBRIS
     QCommandLineOption hwcomposerOption(QStringLiteral("hwcomposer"), i18n("Use libhybris hwcomposer"));
@@ -530,12 +570,24 @@ int main(int argc, char * argv[])
                                              QStringLiteral("/path/to/session"));
     parser.addOption(exitWithSessionOption);
 
+#ifdef KWIN_BUILD_ACTIVITIES
+    QCommandLineOption noActivitiesOption(QStringLiteral("no-kactivities"),
+                                        i18n("Disable KActivities integration."));
+    parser.addOption(noActivitiesOption);
+#endif
+
     parser.addPositionalArgument(QStringLiteral("applications"),
                                  i18n("Applications to start once Wayland and Xwayland server are started"),
                                  QStringLiteral("[/path/to/application...]"));
 
     parser.process(a);
     a.processCommandLine(&parser);
+
+#ifdef KWIN_BUILD_ACTIVITIES
+    if (parser.isSet(noActivitiesOption)) {
+        a.setUseKActivities(false);
+    }
+#endif
 
     if (parser.isSet(listBackendsOption)) {
         for (const auto &plugin: availablePlugins) {
@@ -555,6 +607,7 @@ int main(int argc, char * argv[])
     QString pluginName;
     QSize initialWindowSize;
     QByteArray deviceIdentifier;
+    int outputCount = 1;
 
 #if HAVE_DRM
     if (hasDrmOption && parser.isSet(drmOption)) {
@@ -575,6 +628,14 @@ int main(int argc, char * argv[])
             return 1;
         }
         initialWindowSize = QSize(width, height);
+    }
+
+    if (hasOutputCountOption) {
+        bool ok = false;
+        const int count = parser.value(outputCountOption).toInt(&ok);
+        if (ok) {
+            outputCount = qMax(1, count);
+        }
     }
 
     if (hasWindowedOption && parser.isSet(windowedOption)) {
@@ -659,6 +720,7 @@ int main(int argc, char * argv[])
     if (initialWindowSize.isValid()) {
         server->backend()->setInitialWindowSize(initialWindowSize);
     }
+    server->backend()->setInitialOutputCount(outputCount);
 
     QObject::connect(&a, &KWin::Application::workspaceCreated, server, &KWin::WaylandServer::initWorkspace);
     environment.insert(QStringLiteral("WAYLAND_DISPLAY"), server->display()->socketName());

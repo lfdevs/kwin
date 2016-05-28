@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-03 14:08+0000\n"
+"POT-Creation-Date: 2016-03-25 11:33+0000\n"
 "PO-Revision-Date: 2011-07-12 17:50+0200\n"
 "Last-Translator: Marko Dimjašević <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -53,7 +53,7 @@ msgstr "Jako"
 msgid "Save intermediate rendering results."
 msgstr ""
 
-#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:950 flipswitch/flipswitch.cpp:933
 #, fuzzy
 #| msgid "Show desktop"
 msgctxt "Special entry in alt+tab list for minimizing all windows"
@@ -146,15 +146,15 @@ msgstr "Pozadinska boja"
 msgid "Front color"
 msgstr "Boja pisma"
 
-#: cube/cube.cpp:197 cube/cube_config.cpp:70
+#: cube/cube.cpp:189 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "Desktop Cube"
 
-#: cube/cube.cpp:205 cube/cube_config.cpp:75
+#: cube/cube.cpp:197 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "Desktop Cylinder"
 
-#: cube/cube.cpp:211 cube/cube_config.cpp:79
+#: cube/cube.cpp:203 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "Desktop Kugla"
 
@@ -375,7 +375,7 @@ msgstr "Koristi pager izgled za animaciju"
 msgid "Start animation when moving windows towards screen edges"
 msgstr "Pokreni animaciju kada se prozor primiče rubovima ekrana"
 
-#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Pokaži mrežu radnih površina"
 
@@ -1002,11 +1002,11 @@ msgstr "-90"
 msgid "90"
 msgstr "90"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:52
+#: invert/invert.cpp:45 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "Uključi obrnuti efekt"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:58
+#: invert/invert.cpp:53 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "Uključi obrnuti efekt na prozoru"
 
@@ -1205,7 +1205,7 @@ msgstr "Uključi prisutne prozore (sve radne površine)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Uključi prisutne prozore (klase prozora)"
 
-#: presentwindows/presentwindows.cpp:1566
+#: presentwindows/presentwindows.cpp:1569
 #, kde-format
 msgid ""
 "Filter:\n"

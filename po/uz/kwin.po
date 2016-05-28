@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-12-15 11:59+0000\n"
+"POT-Creation-Date: 2016-04-14 11:32+0000\n"
 "PO-Revision-Date: 2006-12-17 12:27+0000\n"
 "Last-Translator: Mashrab Kuvatov <kmashrab@uni-bremen.de>\n"
 "Language-Team: Uzbek <floss-uz-l10n@googlegroups.com>\n"
@@ -26,7 +26,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kmashrab@uni-bremen.de,mavnur@gmail.com"
 
-#: composite.cpp:555
+#: composite.cpp:556
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -448,53 +448,53 @@ msgid ""
 "You can select another window manager to run:"
 msgstr ""
 
-#: main.cpp:277 main.cpp:304
+#: main.cpp:278 main.cpp:305
 msgid "KDE window manager"
 msgstr "KDE oyna boshqaruvchisi"
 
-#: main.cpp:282
+#: main.cpp:283
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:286
+#: main.cpp:287
 #, fuzzy
 #| msgid "(c) 1999-2005, The KDE Developers"
 msgid "(c) 1999-2013, The KDE Developers"
 msgstr "(C) 1999 - 2005, KDE tuzuvchilari"
 
-#: main.cpp:288
+#: main.cpp:289
 msgid "Matthias Ettrich"
 msgstr ""
 
-#: main.cpp:289
+#: main.cpp:290
 msgid "Cristian Tibirna"
 msgstr ""
 
-#: main.cpp:290
+#: main.cpp:291
 msgid "Daniel M. Duley"
 msgstr ""
 
-#: main.cpp:291
+#: main.cpp:292
 msgid "Luboš Luňák"
 msgstr ""
 
-#: main.cpp:292
+#: main.cpp:293
 msgid "Martin Gräßlin"
 msgstr ""
 
-#: main.cpp:292
+#: main.cpp:293
 msgid "Maintainer"
 msgstr "Taʼminlovchi"
 
-#: main.cpp:301
+#: main.cpp:302
 msgid "Disable configuration options"
 msgstr "Moslash parametrlarni oʻchirish"
 
-#: main.cpp:302
+#: main.cpp:303
 msgid "Indicate that KWin has recently crashed n times"
 msgstr ""
 
-#: main_wayland.cpp:188
+#: main_wayland.cpp:203
 #, fuzzy
 #| msgid ""
 #| "kwin: unable to claim manager selection, another wm running? (try using --"
@@ -504,82 +504,91 @@ msgstr ""
 "kwin: oyna boshqaruvchisi boʻla olmadi, ehtimol, boshqa oyna boshqaruvchisi "
 "ishga tushirilgan (--replace parametri bilan urinib koʻring)\n"
 
-#: main_wayland.cpp:445
+#: main_wayland.cpp:478
 msgid "Start a rootless Xwayland server."
 msgstr ""
 
-#: main_wayland.cpp:447
+#: main_wayland.cpp:480
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 
-#: main_wayland.cpp:450
+#: main_wayland.cpp:483
 msgid "Use a nested compositor in windowed mode."
 msgstr ""
 
-#: main_wayland.cpp:452
+#: main_wayland.cpp:485
 msgid "Render to framebuffer."
 msgstr ""
 
-#: main_wayland.cpp:454
+#: main_wayland.cpp:487
 msgid "The framebuffer device to render to."
 msgstr ""
 
-#: main_wayland.cpp:458
+#: main_wayland.cpp:491
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr ""
 
-#: main_wayland.cpp:461
+#: main_wayland.cpp:494
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
 
-#: main_wayland.cpp:463
+#: main_wayland.cpp:496
 msgid "Render to a virtual framebuffer."
 msgstr ""
 
-#: main_wayland.cpp:465
+#: main_wayland.cpp:498
 msgid "The width for windowed mode. Default width is 1024."
 msgstr ""
 
-#: main_wayland.cpp:469
+#: main_wayland.cpp:502
 msgid "The height for windowed mode. Default height is 768."
 msgstr ""
 
-#: main_wayland.cpp:498
+#: main_wayland.cpp:506
+msgid ""
+"The number of windows to open as outputs in windowed mode. Default value is 1"
+msgstr ""
+
+#: main_wayland.cpp:538
 msgid "Use libhybris hwcomposer"
 msgstr ""
 
-#: main_wayland.cpp:505
+#: main_wayland.cpp:545
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
 msgstr ""
 
-#: main_wayland.cpp:509
+#: main_wayland.cpp:549
 msgid "Render through drm node."
 msgstr ""
 
-#: main_wayland.cpp:516
+#: main_wayland.cpp:556
 msgid "Input method that KWin starts."
 msgstr ""
 
-#: main_wayland.cpp:521
+#: main_wayland.cpp:561
 msgid "List all available backends and quit."
 msgstr ""
 
-#: main_wayland.cpp:525
+#: main_wayland.cpp:565
 msgid "Starts the session in locked mode."
 msgstr ""
 
-#: main_wayland.cpp:529
+#: main_wayland.cpp:569
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr ""
 
-#: main_wayland.cpp:534
+#: main_wayland.cpp:575 main_x11.cpp:297
+msgid "Disable KActivities integration."
+msgstr ""
+
+#: main_wayland.cpp:580
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr ""
 
-#: main_x11.cpp:158
+#: main_x11.cpp:159
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
@@ -587,7 +596,7 @@ msgstr ""
 "kwin: oyna boshqaruvchisi boʻla olmadi, ehtimol, boshqa oyna boshqaruvchisi "
 "ishga tushirilgan (--replace parametri bilan urinib koʻring)\n"
 
-#: main_x11.cpp:175
+#: main_x11.cpp:176
 #, fuzzy
 #| msgid ""
 #| "kwin: unable to claim manager selection, another wm running? (try using --"
@@ -597,17 +606,17 @@ msgstr ""
 "kwin: oyna boshqaruvchisi boʻla olmadi, ehtimol, boshqa oyna boshqaruvchisi "
 "ishga tushirilgan (--replace parametri bilan urinib koʻring)\n"
 
-#: main_x11.cpp:278
+#: main_x11.cpp:290
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr ""
 "Allaqachon ishlab turgan ICCCM2.0 andozasiga mos keladigan oyna "
 "boshqaruvchisini almashtirish"
 
-#: scene_opengl.cpp:677
+#: scene_opengl.cpp:683
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
 
-#: scene_opengl.cpp:867
+#: scene_opengl.cpp:875
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -617,7 +626,7 @@ msgid ""
 "%2 "
 msgstr ""
 
-#: scene_opengl.cpp:874
+#: scene_opengl.cpp:882
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
 "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
@@ -625,7 +634,7 @@ msgid ""
 "by the hardware limitations that restrict the OpenGL viewport size."
 msgstr ""
 
-#: scene_opengl.cpp:899
+#: scene_opengl.cpp:907
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -634,7 +643,7 @@ msgid ""
 "compositing, switch to the XRender backend or lower the resolution to %1x%1."
 msgstr ""
 
-#: scene_opengl.cpp:905
+#: scene_opengl.cpp:913
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
 "GPU, thus windows of that size cannot be assigned to textures and will be "
@@ -951,7 +960,7 @@ msgstr ""
 msgid "Activate Window (%1)"
 msgstr ""
 
-#: useractions.cpp:1267
+#: useractions.cpp:1256
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
 "as active one.\n"
@@ -993,7 +1002,7 @@ msgstr "Pastdagi ish stoliga oʻtish"
 msgid "Switch to Desktop %1"
 msgstr "1 Ish stoliga oʻtish"
 
-#: workspace.cpp:1306
+#: workspace.cpp:1305
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

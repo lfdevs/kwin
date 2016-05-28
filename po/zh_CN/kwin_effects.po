@@ -13,10 +13,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-03 14:08+0000\n"
+"POT-Creation-Date: 2016-03-25 11:33+0000\n"
 "PO-Revision-Date: 2015-11-25 20:38-0800\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
-"Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
+"Language-Team: Chinese <kde-china@kde.org>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,7 +52,7 @@ msgstr "重"
 msgid "Save intermediate rendering results."
 msgstr "保存中间渲染的结果。"
 
-#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:950 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "显示桌面"
@@ -140,15 +140,15 @@ msgstr "后方颜色"
 msgid "Front color"
 msgstr "前方颜色"
 
-#: cube/cube.cpp:197 cube/cube_config.cpp:70
+#: cube/cube.cpp:189 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "桌面立方"
 
-#: cube/cube.cpp:205 cube/cube_config.cpp:75
+#: cube/cube.cpp:197 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "桌面圆柱"
 
-#: cube/cube.cpp:211 cube/cube_config.cpp:79
+#: cube/cube.cpp:203 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "桌面球体"
 
@@ -369,7 +369,7 @@ msgstr "动画中使用分页布局"
 msgid "Start animation when moving windows towards screen edges"
 msgstr "将窗口移向屏幕边角时以动画呈现"
 
-#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "显示桌面网格"
 
@@ -952,11 +952,11 @@ msgstr "-90"
 msgid "90"
 msgstr "90"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:52
+#: invert/invert.cpp:45 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "切换反白效果"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:58
+#: invert/invert.cpp:53 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "在窗口上切换反白效果"
 
@@ -1126,7 +1126,7 @@ msgstr "切换显示窗口(对全部桌面)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "切换当前窗口分类"
 
-#: presentwindows/presentwindows.cpp:1566
+#: presentwindows/presentwindows.cpp:1569
 #, kde-format
 msgid ""
 "Filter:\n"

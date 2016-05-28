@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "kwin_wayland_test.h"
 #include "../../abstract_backend.h"
+#include "../../composite.h"
 #include "../../effects.h"
 #include "../../wayland_server.h"
 #include "../../workspace.h"
@@ -43,6 +44,9 @@ static void readDisplay(int pipe);
 WaylandTestApplication::WaylandTestApplication(int &argc, char **argv)
     : Application(OperationModeXwayland, argc, argv)
 {
+#ifdef KWIN_BUILD_ACTIVITIES
+    setUseKActivities(false);
+#endif
     qputenv("KWIN_COMPOSE", QByteArrayLiteral("Q"));
     WaylandServer *server = WaylandServer::create(this);
     QPluginLoader loader(QStringLiteral(KWINBACKENDPATH));
@@ -108,8 +112,7 @@ void WaylandTestApplication::continueStartupWithScreens()
     waylandServer()->initOutputs();
 
     createCompositor();
-
-    startXwaylandServer();
+    connect(Compositor::self(), &Compositor::sceneCreated, this, &WaylandTestApplication::startXwaylandServer);
 }
 
 void WaylandTestApplication::continueStartupWithX()
@@ -186,6 +189,7 @@ void WaylandTestApplication::createX11Connection()
 
 void WaylandTestApplication::startXwaylandServer()
 {
+    disconnect(Compositor::self(), &Compositor::sceneCreated, this, &WaylandTestApplication::startXwaylandServer);
     int pipeFds[2];
     if (pipe(pipeFds) != 0) {
         std::cerr << "FATAL ERROR failed to create pipe to start Xwayland " << std::endl;

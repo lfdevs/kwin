@@ -177,19 +177,6 @@ QByteArray Toplevel::sessionId() const
     return result;
 }
 
-/*!
-  Returns command property for this client,
-  taken either from its window or from the leader window.
- */
-QByteArray Toplevel::wmCommand()
-{
-    QByteArray result = Xcb::StringProperty(window(), XCB_ATOM_WM_COMMAND);
-    if (result.isEmpty() && wmClientLeaderWin && wmClientLeaderWin != window())
-        result = Xcb::StringProperty(wmClientLeaderWin, XCB_ATOM_WM_COMMAND);
-    result.replace(0, ' ');
-    return result;
-}
-
 void Toplevel::getWmClientMachine()
 {
     m_clientMachine->resolve(window(), wmClientLeader());
@@ -475,7 +462,6 @@ void Toplevel::addDamage(const QRegion &damage)
 {
     m_isDamaged = true;
     damage_region += damage;
-    repaints_region += damage;
     for (const QRect &r : damage.rects()) {
         emit damaged(this, r);
     }
@@ -517,6 +503,12 @@ void Toplevel::setInternalFramebufferObject(const QSharedPointer<QOpenGLFramebuf
     setDepth(32);
 }
 
+QMatrix4x4 Toplevel::inputTransformation() const
+{
+    QMatrix4x4 m;
+    m.translate(-x(), -y());
+    return m;
+}
+
 } // namespace
 
-#include "toplevel.moc"

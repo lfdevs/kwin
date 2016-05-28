@@ -42,6 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/plasmawindowmanagement_interface.h>
 #include <KWayland/Server/qtsurfaceextension_interface.h>
 #include <KWayland/Server/seat_interface.h>
+#include <KWayland/Server/server_decoration_interface.h>
 #include <KWayland/Server/shadow_interface.h>
 #include <KWayland/Server/blur_interface.h>
 #include <KWayland/Server/shell_interface.h>
@@ -78,6 +79,7 @@ WaylandServer::~WaylandServer()
 
 void WaylandServer::destroyInternalConnection()
 {
+    emit terminatingInternalClientConnection();
     if (m_internalConnection.client) {
         delete m_internalConnection.registry;
         delete m_internalConnection.shm;
@@ -95,9 +97,11 @@ void WaylandServer::terminateClientConnections()
 {
     destroyInternalConnection();
     destroyInputMethodConnection();
-    const auto connections = m_display->connections();
-    for (auto it = connections.begin(); it != connections.end(); ++it) {
-        (*it)->destroy();
+    if (m_display) {
+        const auto connections = m_display->connections();
+        for (auto it = connections.begin(); it != connections.end(); ++it) {
+            (*it)->destroy();
+        }
     }
 }
 
@@ -143,7 +147,7 @@ void WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
                 // skip Xwayland clients, those are created using standard X11 way
                 return;
             }
-            if (surface->client() == m_screenLockerClientConnection && !isScreenLocked()) {
+            if (surface->client() == m_screenLockerClientConnection) {
                 ScreenLocker::KSldApp::self()->lockScreenShown();
             }
             auto client = new ShellClient(surface);
@@ -219,6 +223,16 @@ void WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
     shadowManager->create();
 
     m_display->createDpmsManager(m_display)->create();
+
+    m_decorationManager = m_display->createServerSideDecorationManager(m_display);
+    connect(m_decorationManager, &ServerSideDecorationManagerInterface::decorationCreated, this,
+        [this] (ServerSideDecorationInterface *deco) {
+            if (ShellClient *c = findClient(deco->surface())) {
+                c->installServerSideDecoration(deco);
+            }
+        }
+    );
+    m_decorationManager->create();
 }
 
 void WaylandServer::initWorkspace()
@@ -237,6 +251,7 @@ void WaylandServer::initWorkspace()
 
     ScreenLocker::KSldApp::self();
     ScreenLocker::KSldApp::self()->setWaylandDisplay(m_display);
+    ScreenLocker::KSldApp::self()->setGreeterEnvironment(kwinApp()->processStartupEnvironment());
     ScreenLocker::KSldApp::self()->initialize();
 
     connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::greeterClientConnectionChanged, this,
@@ -265,8 +280,10 @@ void WaylandServer::initOutputs()
     Q_ASSERT(s);
     for (int i = 0; i < s->count(); ++i) {
         OutputInterface *output = m_display->createOutput(m_display);
-        output->setPhysicalSize(s->size(i) / 3.8);
-        output->addMode(s->size(i));
+        const QRect &geo = s->geometry(i);
+        output->setGlobalPosition(geo.topLeft());
+        output->setPhysicalSize(geo.size() / 3.8);
+        output->addMode(geo.size());
         output->create();
     }
 }
@@ -495,7 +512,8 @@ quint16 WaylandServer::createClientId(ClientConnection *c)
 
 bool WaylandServer::isScreenLocked() const
 {
-    return ScreenLocker::KSldApp::self()->lockState() == ScreenLocker::KSldApp::Locked;
+    return ScreenLocker::KSldApp::self()->lockState() == ScreenLocker::KSldApp::Locked ||
+           ScreenLocker::KSldApp::self()->lockState() == ScreenLocker::KSldApp::AcquiringLock;
 }
 
 }

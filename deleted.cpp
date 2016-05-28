@@ -42,6 +42,7 @@ Deleted::Deleted()
     , m_modal(false)
     , m_wasClient(false)
     , m_decorationRenderer(nullptr)
+    , m_fullscreen(false)
 {
 }
 
@@ -78,6 +79,7 @@ void Deleted::copyToDeleted(Toplevel* c)
     desk = c->desktop();
     activityList = c->activities();
     contentsRect = QRect(c->clientPos(), c->clientSize());
+    m_contentPos = c->clientContentPos();
     transparent_rect = c->transparentRect();
     m_layer = c->layer();
     m_frame = c->frameId();
@@ -86,8 +88,7 @@ void Deleted::copyToDeleted(Toplevel* c)
     m_windowRole = c->windowRole();
     if (WinInfo* cinfo = dynamic_cast< WinInfo* >(info))
         cinfo->disable();
-    Client* client = dynamic_cast<Client*>(c);
-    if (client) {
+    if (AbstractClient *client = dynamic_cast<AbstractClient*>(c)) {
         no_border = client->noBorder();
         if (!no_border) {
             client->layoutDecorationRects(decoration_left,
@@ -101,8 +102,6 @@ void Deleted::copyToDeleted(Toplevel* c)
                 }
             }
         }
-    }
-    if (AbstractClient *client = dynamic_cast<AbstractClient*>(c)) {
         m_wasClient = true;
         m_minimized = client->isMinimized();
         m_modal = client->isModal();
@@ -110,6 +109,7 @@ void Deleted::copyToDeleted(Toplevel* c)
         foreach (AbstractClient *c, m_mainClients) {
             connect(c, &AbstractClient::windowClosed, this, &Deleted::mainClientClosed);
         }
+        m_fullscreen = client->isFullScreen();
     }
 }
 
@@ -202,4 +202,3 @@ QByteArray Deleted::windowRole() const
 
 } // namespace
 
-#include "deleted.moc"

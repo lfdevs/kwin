@@ -10,10 +10,13 @@
 #define KWIN_RULES_DIALOG_BIN "${CMAKE_INSTALL_FULL_LIBEXECDIR}/kwin_rules_dialog"
 #cmakedefine01 HAVE_INPUT
 #cmakedefine01 HAVE_X11_XCB
+#cmakedefine01 HAVE_X11_XINPUT
 #cmakedefine01 HAVE_DRM
 #cmakedefine01 HAVE_GBM
 #cmakedefine01 HAVE_LIBHYBRIS
 #cmakedefine01 HAVE_WAYLAND_EGL
+#cmakedefine01 HAVE_SYS_PRCTL_H
+#cmakedefine01 HAVE_PR_SET_DUMPABLE
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #cmakedefine HAVE_UNISTD_H 1

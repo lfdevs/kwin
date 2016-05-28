@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-03 14:08+0000\n"
+"POT-Creation-Date: 2016-03-25 11:33+0000\n"
 "PO-Revision-Date: 2011-01-14 09:24+0100\n"
 "Last-Translator: Jean Cayron <jean.cayron@gmail.com>\n"
 "Language-Team: Walloon <linux@walon.org>\n"
@@ -45,7 +45,7 @@ msgstr "Foite"
 msgid "Save intermediate rendering results."
 msgstr ""
 
-#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:950 flipswitch/flipswitch.cpp:933
 #, fuzzy
 #| msgid "Show desktop"
 msgctxt "Special entry in alt+tab list for minimizing all windows"
@@ -138,15 +138,15 @@ msgstr "Coleur do drî"
 msgid "Front color"
 msgstr "Coleur do dvant"
 
-#: cube/cube.cpp:197 cube/cube_config.cpp:70
+#: cube/cube.cpp:189 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "Cube di scribannes"
 
-#: cube/cube.cpp:205 cube/cube_config.cpp:75
+#: cube/cube.cpp:197 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "Cilinde di scribannes"
 
-#: cube/cube.cpp:211 cube/cube_config.cpp:79
+#: cube/cube.cpp:203 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "Bole di scribannes"
 
@@ -368,7 +368,7 @@ msgstr "Si siervi di l' adjinçmint do pådjeu po l' animåcion"
 msgid "Start animation when moving windows towards screen edges"
 msgstr ""
 
-#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Mostrer grile do scribanne"
 
@@ -995,11 +995,11 @@ msgstr "-90"
 msgid "90"
 msgstr "90"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:52
+#: invert/invert.cpp:45 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "(Dis)mete l' efet Årvier"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:58
+#: invert/invert.cpp:53 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "(Dis)mete l' efet Årvier sol finiesse"
 
@@ -1199,7 +1199,7 @@ msgstr "(Dis)mete les fniesse ki sont la (Tos les scribannes)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "(Dis)mete les fniesses ki sont la (Classe di fniesse)"
 
-#: presentwindows/presentwindows.cpp:1566
+#: presentwindows/presentwindows.cpp:1569
 #, kde-format
 msgid ""
 "Filter:\n"

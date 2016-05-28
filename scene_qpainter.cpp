@@ -280,7 +280,7 @@ void SceneQPainter::Window::performPaint(int mask, QRegion region, WindowPaintDa
     renderWindowDecorations(painter);
 
     // render content
-    const QRect src = QRect(toplevel->clientPos(), toplevel->clientSize());
+    const QRect src = QRect(toplevel->clientPos() + toplevel->clientContentPos(), toplevel->clientSize());
     painter->drawImage(toplevel->clientPos(), pixmap->image(), src);
 
     if (!opaque) {
@@ -356,7 +356,7 @@ void SceneQPainter::Window::renderShadow(QPainter* painter)
 void SceneQPainter::Window::renderWindowDecorations(QPainter *painter)
 {
     // TODO: custom decoration opacity
-    Client *client = dynamic_cast<Client*>(toplevel);
+    AbstractClient *client = dynamic_cast<AbstractClient*>(toplevel);
     Deleted *deleted = dynamic_cast<Deleted*>(toplevel);
     if (!client && !deleted) {
         return;
@@ -571,7 +571,7 @@ bool SceneQPainterShadow::prepareBackend()
 SceneQPainterDecorationRenderer::SceneQPainterDecorationRenderer(Decoration::DecoratedClientImpl *client)
     : Renderer(client)
 {
-    connect(this, &Renderer::renderScheduled, client->client(), static_cast<void (Client::*)(const QRect&)>(&Client::addRepaint));
+    connect(this, &Renderer::renderScheduled, client->client(), static_cast<void (AbstractClient::*)(const QRect&)>(&AbstractClient::addRepaint));
 }
 
 SceneQPainterDecorationRenderer::~SceneQPainterDecorationRenderer() = default;

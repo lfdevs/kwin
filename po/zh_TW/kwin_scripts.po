@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Franklin, 2015.
+# Franklin, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-09-30 08:06+0000\n"
-"PO-Revision-Date: 2015-12-13 12:07+0800\n"
+"PO-Revision-Date: 2016-04-10 22:12+0800\n"
 "Last-Translator: Franklin\n"
 "Language-Team: Chinese Traditional <zh-l10n@linux.org.tw>\n"
 "Language: zh_TW\n"

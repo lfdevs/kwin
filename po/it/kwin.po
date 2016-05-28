@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-12-15 11:59+0000\n"
-"PO-Revision-Date: 2015-11-23 19:58+0100\n"
+"POT-Creation-Date: 2016-04-14 11:32+0000\n"
+"PO-Revision-Date: 2015-12-22 21:35+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128@baslug.org>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -28,7 +28,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "smart2128@baslug.org,,,"
 
-#: composite.cpp:555
+#: composite.cpp:556
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -438,108 +438,115 @@ msgstr ""
 "Sembra che si sia schiantato più volte di seguito.\n"
 "Puoi selezionare un altro gestore di finestre da avviare:"
 
-#: main.cpp:277 main.cpp:304
+#: main.cpp:278 main.cpp:305
 msgid "KDE window manager"
 msgstr "Gestore delle finestre di KDE"
 
-#: main.cpp:282
+#: main.cpp:283
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:286
+#: main.cpp:287
 msgid "(c) 1999-2013, The KDE Developers"
 msgstr "© 1999–2013, gli sviluppatori di KDE"
 
-#: main.cpp:288
+#: main.cpp:289
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:289
+#: main.cpp:290
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:290
+#: main.cpp:291
 msgid "Daniel M. Duley"
 msgstr "Daniel M. Duley"
 
-#: main.cpp:291
+#: main.cpp:292
 msgid "Luboš Luňák"
 msgstr "Luboš Luňák"
 
-#: main.cpp:292
+#: main.cpp:293
 msgid "Martin Gräßlin"
 msgstr "Martin Gräßlin"
 
-#: main.cpp:292
+#: main.cpp:293
 msgid "Maintainer"
 msgstr "Responsabile"
 
-#: main.cpp:301
+#: main.cpp:302
 msgid "Disable configuration options"
 msgstr "Disabilita le opzioni di configurazione"
 
-#: main.cpp:302
+#: main.cpp:303
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Indica che KWin si è schiantato recentemente per n volte"
 
-#: main_wayland.cpp:188
+#: main_wayland.cpp:203
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr ""
 "kwin_wayland: un gestore di finestre X11 in esecuzione sul Display X11.\n"
 
-#: main_wayland.cpp:445
+#: main_wayland.cpp:478
 msgid "Start a rootless Xwayland server."
 msgstr "Avvia un server Xwayland senza radice."
 
-#: main_wayland.cpp:447
+#: main_wayland.cpp:480
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 "Nome del socket Wayland in ascolto. Se non impostato, è utilizzato "
 "«wayland-0»."
 
-#: main_wayland.cpp:450
+#: main_wayland.cpp:483
 msgid "Use a nested compositor in windowed mode."
 msgstr "Utilizza un compositore nidificato nella modalità con finestre."
 
-#: main_wayland.cpp:452
+#: main_wayland.cpp:485
 msgid "Render to framebuffer."
 msgstr "Resa su framebuffer."
 
-#: main_wayland.cpp:454
+#: main_wayland.cpp:487
 msgid "The framebuffer device to render to."
 msgstr "Il dispositivo di framebuffer per la resa."
 
-#: main_wayland.cpp:458
+#: main_wayland.cpp:491
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr ""
 "Il Display X11 da utilizzare nella modalità con finestre su piattaforma X11."
 
-#: main_wayland.cpp:461
+#: main_wayland.cpp:494
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
 "Il Display Wayland da utilizzare nella modalità con finestre su piattaforma "
 "Wayland."
 
-#: main_wayland.cpp:463
+#: main_wayland.cpp:496
 msgid "Render to a virtual framebuffer."
 msgstr "Resa su un framebuffer virtuale."
 
-#: main_wayland.cpp:465
+#: main_wayland.cpp:498
 msgid "The width for windowed mode. Default width is 1024."
 msgstr ""
 "La larghezza per la modalità con finestre. La larghezza predefinita è 1024."
 
-#: main_wayland.cpp:469
+#: main_wayland.cpp:502
 msgid "The height for windowed mode. Default height is 768."
 msgstr ""
 "L'altezza per la modalità con finestre. La larghezza predefinita è 768."
 
-#: main_wayland.cpp:498
+#: main_wayland.cpp:506
+msgid ""
+"The number of windows to open as outputs in windowed mode. Default value is 1"
+msgstr ""
+"Il numero di finestre da aprire come uscite nella modalità con finestre. Il "
+"valore predefinito è 1"
+
+#: main_wayland.cpp:538
 msgid "Use libhybris hwcomposer"
 msgstr "Utilizza hwcomposer libhybris"
 
-#: main_wayland.cpp:505
+#: main_wayland.cpp:545
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
@@ -547,32 +554,36 @@ msgstr ""
 "Abilita il supporto libinput per l'elaborazione degli eventi di immissione. "
 "Nota: da non utilizzare mai in una sessione nidificata."
 
-#: main_wayland.cpp:509
+#: main_wayland.cpp:549
 msgid "Render through drm node."
 msgstr "Resa tramite nodo drm."
 
-#: main_wayland.cpp:516
+#: main_wayland.cpp:556
 msgid "Input method that KWin starts."
 msgstr "Metodo di inserimento che KWin avvia."
 
-#: main_wayland.cpp:521
+#: main_wayland.cpp:561
 msgid "List all available backends and quit."
 msgstr "Elenca tutti i motori disponibili ed esci."
 
-#: main_wayland.cpp:525
+#: main_wayland.cpp:565
 msgid "Starts the session in locked mode."
 msgstr "Avvia la sessione in modalità bloccata."
 
-#: main_wayland.cpp:529
+#: main_wayland.cpp:569
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr ""
 "Esci dopo la chiusura dell'applicazione di sessione, che è avviata da KWin."
 
-#: main_wayland.cpp:534
+#: main_wayland.cpp:575 main_x11.cpp:297
+msgid "Disable KActivities integration."
+msgstr "Disabilita l'integrazione di KActivities."
+
+#: main_wayland.cpp:580
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr "Le applicazioni da eseguire dopo l'avvio di Wayland e Xwayland"
 
-#: main_x11.cpp:158
+#: main_x11.cpp:159
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
@@ -580,25 +591,25 @@ msgstr ""
 "kwin: impossibile ottenere la selezione del gestore, c'è un altro gestore "
 "attivo? (prova a usare --replace)\n"
 
-#: main_x11.cpp:175
+#: main_x11.cpp:176
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "kwin: è in esecuzione un altro gestore di finestre (prova a utilizzare --"
 "replace)\n"
 
-#: main_x11.cpp:278
+#: main_x11.cpp:290
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr ""
 "Sostituisci un gestore delle finestre ICCCM2.0 compatibile che è già in "
 "esecuzione"
 
-#: scene_opengl.cpp:677
+#: scene_opengl.cpp:683
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
 "Gli effetti del desktop saranno riavviati a causa delle reimpostazioni della "
 "grafica"
 
-#: scene_opengl.cpp:867
+#: scene_opengl.cpp:875
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -613,7 +624,7 @@ msgstr ""
 "potrebbe essere molto lento con questa risoluzione..<br>In alternativa, "
 "abbassa la risoluzione combinata di tutti gli schermi a %1×%2"
 
-#: scene_opengl.cpp:874
+#: scene_opengl.cpp:882
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
 "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
@@ -625,7 +636,7 @@ msgstr ""
 "questo limite,ma le performance saranno tipicamente compromesse dalle "
 "limitazioni dell'hardware sulla dimensione della viewport."
 
-#: scene_opengl.cpp:899
+#: scene_opengl.cpp:907
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -640,7 +651,7 @@ msgstr ""
 "composizione, l'uso del backend XRender o l'abbassamento della risoluzione a "
 "%1×%1."
 
-#: scene_opengl.cpp:905
+#: scene_opengl.cpp:913
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
 "GPU, thus windows of that size cannot be assigned to textures and will be "
@@ -936,7 +947,7 @@ msgstr "<b>%1</b> è usato da %2 in %3"
 msgid "Activate Window (%1)"
 msgstr "Attiva finestra (%1)"
 
-#: useractions.cpp:1267
+#: useractions.cpp:1256
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
 "as active one.\n"
@@ -980,7 +991,7 @@ msgstr "Vai al desktop inferiore"
 msgid "Switch to Desktop %1"
 msgstr "Vai al desktop %1"
 
-#: workspace.cpp:1306
+#: workspace.cpp:1305
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

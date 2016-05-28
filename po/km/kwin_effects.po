@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-03 14:08+0000\n"
+"POT-Creation-Date: 2016-03-25 11:33+0000\n"
 "PO-Revision-Date: 2012-06-14 11:20+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer\n"
@@ -45,7 +45,7 @@ msgstr "ខ្លាំង ៖"
 msgid "Save intermediate rendering results."
 msgstr "លទ្ធផល​នៃ​ការ​បង្ហាញ​ភ្លាមៗ​មាន​សុវត្ថិភាព ។"
 
-#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:950 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "បង្ហាញ​ផ្ទៃតុ"
@@ -136,15 +136,15 @@ msgstr "ពណ៌​ខាង​ក្រោយ​"
 msgid "Front color"
 msgstr "ពណ៌​ផ្ទៃ​ខាង​មុខ"
 
-#: cube/cube.cpp:197 cube/cube_config.cpp:70
+#: cube/cube.cpp:189 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "គូប​ផ្ទៃតុ"
 
-#: cube/cube.cpp:205 cube/cube_config.cpp:75
+#: cube/cube.cpp:197 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "ស៊ីឡាំង​ផ្ទៃតុ"
 
-#: cube/cube.cpp:211 cube/cube_config.cpp:79
+#: cube/cube.cpp:203 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "ស្វ៊ែរ​ផ្ទៃតុ"
 
@@ -365,7 +365,7 @@ msgstr "ប្រើ​ប្លង់​ភេយ័រ​សម្រាប់
 msgid "Start animation when moving windows towards screen edges"
 msgstr "ចាប់ផ្ដើម​ចលនា នៅពេល​ផ្លាស់ទី​បង្អួច​ទៅ​គែម​អេក្រង់"
 
-#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "បង្ហាញ​ក្រឡា​ចត្រង្គ"
 
@@ -992,11 +992,11 @@ msgstr "-90"
 msgid "90"
 msgstr "90"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:52
+#: invert/invert.cpp:45 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "បិទបើក​ការងារ​បញ្ច្រាស"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:58
+#: invert/invert.cpp:53 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "បិទ/បើក​កា​របម្លែង​បែបផែន​នៅ​លើ​បង្អួច"
 
@@ -1193,7 +1193,7 @@ msgstr "បិទ/បើក​បង្អួច​បច្ចុប្បប�
 msgid "Toggle Present Windows (Window class)"
 msgstr "បិទ/បើក​បង្អួច​បច្ចុប្បន្ន​ (ថ្នាក់​បង្អួច)"
 
-#: presentwindows/presentwindows.cpp:1566
+#: presentwindows/presentwindows.cpp:1569
 #, kde-format
 msgid ""
 "Filter:\n"

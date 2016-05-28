@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-03 14:08+0000\n"
+"POT-Creation-Date: 2016-03-25 11:33+0000\n"
 "PO-Revision-Date: 2013-02-12 10:55+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -49,7 +49,7 @@ msgstr "मजबूत"
 msgid "Save intermediate rendering results."
 msgstr "सुरक्षित मध्यवर्ती रेंडरींग निकाल"
 
-#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:950 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "डेस्कटॉप दर्शवा"
@@ -137,15 +137,15 @@ msgstr "मागील रंग"
 msgid "Front color"
 msgstr "पुढील रंग"
 
-#: cube/cube.cpp:197 cube/cube_config.cpp:70
+#: cube/cube.cpp:189 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "डेस्कटॉप क्यूब"
 
-#: cube/cube.cpp:205 cube/cube_config.cpp:75
+#: cube/cube.cpp:197 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "डेस्कटॉप सिलिंडर"
 
-#: cube/cube.cpp:211 cube/cube_config.cpp:79
+#: cube/cube.cpp:203 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "डेस्कटॉप स्फिअर"
 
@@ -365,7 +365,7 @@ msgstr "ऍनीमेशन करिता पेजर रचना वा�
 msgid "Start animation when moving windows towards screen edges"
 msgstr "चौकट स्क्रीन किनाऱ्यास हलविताना ऍनीमेशन सुरु करा"
 
-#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "डेस्कटॉप जाळे दर्शवा"
 
@@ -992,11 +992,11 @@ msgstr "-90"
 msgid "90"
 msgstr "90"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:52
+#: invert/invert.cpp:45 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "उलट परिणाम चालू/बंद करा"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:58
+#: invert/invert.cpp:53 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "चौकटीवर उलट परिणाम चालू/बंद करा"
 
@@ -1175,7 +1175,7 @@ msgstr "वर्तमान चौकटी चालू/बंद करा (
 msgid "Toggle Present Windows (Window class)"
 msgstr "वर्तमान चौकटी चालू/बंद करा (चौकट वर्ग)"
 
-#: presentwindows/presentwindows.cpp:1566
+#: presentwindows/presentwindows.cpp:1569
 #, kde-format
 msgid ""
 "Filter:\n"

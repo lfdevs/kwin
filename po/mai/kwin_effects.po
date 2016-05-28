@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-03 14:08+0000\n"
+"POT-Creation-Date: 2016-03-25 11:33+0000\n"
 "PO-Revision-Date: 2010-09-24 21:46+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh672@gmail.com>\n"
 "Language-Team: Maithili <bhashaghar@googlegroups.com>\n"
@@ -57,7 +57,7 @@ msgstr "मजबूत"
 msgid "Save intermediate rendering results."
 msgstr ""
 
-#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:950 flipswitch/flipswitch.cpp:933
 #, fuzzy
 #| msgid "Show Desktop Grid"
 msgctxt "Special entry in alt+tab list for minimizing all windows"
@@ -155,17 +155,17 @@ msgstr "पाठ रंगः"
 msgid "Front color"
 msgstr "पृष्ठभूमि क' रंगः"
 
-#: cube/cube.cpp:197 cube/cube_config.cpp:70
+#: cube/cube.cpp:189 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "डेस्कटाप घन"
 
-#: cube/cube.cpp:205 cube/cube_config.cpp:75
+#: cube/cube.cpp:197 cube/cube_config.cpp:75
 #, fuzzy
 #| msgid "Desktop Cube"
 msgid "Desktop Cylinder"
 msgstr "डेस्कटाप घन"
 
-#: cube/cube.cpp:211 cube/cube_config.cpp:79
+#: cube/cube.cpp:203 cube/cube_config.cpp:79
 #, fuzzy
 #| msgid "Desktop Cube"
 msgid "Desktop Sphere"
@@ -386,7 +386,7 @@ msgstr ""
 msgid "Start animation when moving windows towards screen edges"
 msgstr ""
 
-#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "डेस्कटाप ग्रिड देखाबू"
 
@@ -1009,11 +1009,11 @@ msgstr ""
 msgid "90"
 msgstr ""
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:52
+#: invert/invert.cpp:45 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "इनवर्ट प्रभाव टागल करू"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:58
+#: invert/invert.cpp:53 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr ""
 
@@ -1212,7 +1212,7 @@ msgstr ""
 msgid "Toggle Present Windows (Window class)"
 msgstr ""
 
-#: presentwindows/presentwindows.cpp:1566
+#: presentwindows/presentwindows.cpp:1569
 #, kde-format
 msgid ""
 "Filter:\n"

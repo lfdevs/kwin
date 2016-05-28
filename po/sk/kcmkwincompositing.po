@@ -1,20 +1,20 @@
 # translation of kcmkwincompositing.po to Slovak
 # Richard Fric <Richard.Fric@kdemail.net>, 2007, 2010.
 # Michal Sulek <misurel@gmail.com>, 2009, 2010, 2011.
-# Roman Paholík <wizzardsk@gmail.com>, 2012, 2013, 2014.
+# Roman Paholík <wizzardsk@gmail.com>, 2012, 2013, 2014, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-22 08:56+0000\n"
-"PO-Revision-Date: 2014-07-27 22:47+0200\n"
-"Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
+"POT-Creation-Date: 2016-02-16 09:05+0000\n"
+"PO-Revision-Date: 2016-02-23 18:23+0100\n"
+"Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 msgctxt "NAME OF TRANSLATORS"
@@ -242,7 +242,7 @@ msgstr "\"Prekreslenie celej obrazovky\" môže spôsobiť problémy s výkonom.
 
 #: main.cpp:147
 msgid ""
-"\"Re-use screen content\" causes performance severe problems on MESA drivers."
+"\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
 "\"Znovu použiť obsah obrazovky\" spôsobuje vážne problémy s výkonom na MESA "
 "ovládačoch."

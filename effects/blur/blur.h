@@ -81,13 +81,15 @@ private:
     QRegion blurRegion(const EffectWindow *w) const;
     bool shouldBlur(const EffectWindow *w, int mask, const WindowPaintData &data) const;
     void updateBlurRegion(EffectWindow *w) const;
-    void doBlur(const QRegion &shape, const QRect &screen, const float opacity);
-    void doCachedBlur(EffectWindow *w, const QRegion& region, const float opacity);
+    void doSimpleBlur(EffectWindow *w, const float opacity, const QMatrix4x4 &screenProjection);
+    void doBlur(const QRegion &shape, const QRect &screen, const float opacity, const QMatrix4x4 &screenProjection);
+    void doCachedBlur(EffectWindow *w, const QRegion& region, const float opacity, const QMatrix4x4 &screenProjection);
     void uploadRegion(QVector2D *&map, const QRegion &region);
     void uploadGeometry(GLVertexBuffer *vbo, const QRegion &horizontal, const QRegion &vertical);
 
 private:
     BlurShader *shader;
+    GLShader *m_simpleShader;
     GLRenderTarget *target;
     GLTexture tex;
     long net_wm_blur_region;

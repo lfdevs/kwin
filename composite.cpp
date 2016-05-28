@@ -79,7 +79,7 @@ void CompositorSelectionOwner::looseOwnership()
 
 KWIN_SINGLETON_FACTORY_VARIABLE(Compositor, s_compositor)
 
-static inline qint64 milliToNano(int milli) { return milli * 1000 * 1000; }
+static inline qint64 milliToNano(int milli) { return qint64(milli) * 1000 * 1000; }
 static inline qint64 nanoToMilli(int nano) { return nano / (1000*1000); }
 
 Compositor::Compositor(QObject* workspace)
@@ -206,7 +206,7 @@ void Compositor::slotCompositingOptionsInitialized()
         qCDebug(KWIN_CORE) << "Initializing OpenGL compositing";
 
         // Some broken drivers crash on glXQuery() so to prevent constant KWin crashes:
-        KSharedConfigPtr unsafeConfigPtr = KSharedConfig::openConfig();
+        KSharedConfigPtr unsafeConfigPtr = kwinApp()->config();
         KConfigGroup unsafeConfig(unsafeConfigPtr, "Compositing");
         const QString openGLIsUnsafe = QLatin1String("OpenGLIsUnsafe") + (is_multihead ? QString::number(screen_number) : QString());
         if (unsafeConfig.readEntry(openGLIsUnsafe, false))
@@ -278,6 +278,7 @@ void Compositor::slotCompositingOptionsInitialized()
         }
         return;
     }
+    emit sceneCreated();
 
     if (Workspace::self()) {
         startupWithWorkspace();
@@ -311,7 +312,6 @@ void Compositor::startupWithWorkspace()
     }
     Q_ASSERT(m_scene);
     claimCompositorSelection();
-    connect(Workspace::self(), &Workspace::deletedRemoved, m_scene, &Scene::windowDeleted);
     m_xrrRefreshRate = KWin::currentRefreshRate();
     fpsInterval = options->maxFpsInterval();
     if (m_scene->syncsToVBlank()) {  // if we do vsync, set the fps to the next multiple of the vblank rate
@@ -323,6 +323,7 @@ void Compositor::startupWithWorkspace()
     scheduleRepaint();
     xcb_composite_redirect_subwindows(connection(), rootWindow(), XCB_COMPOSITE_REDIRECT_MANUAL);
     new EffectsHandlerImpl(this, m_scene);   // sets also the 'effects' pointer
+    connect(Workspace::self(), &Workspace::deletedRemoved, m_scene, &Scene::windowDeleted);
     connect(effects, SIGNAL(screenGeometryChanged(QSize)), SLOT(addRepaintFull()));
     addRepaintFull();
     foreach (Client * c, Workspace::self()->clientList()) {
@@ -461,7 +462,7 @@ void Compositor::deleteUnusedSupportProperties()
 void Compositor::fallbackToXRenderCompositing()
 {
     finish();
-    KConfigGroup config(KSharedConfig::openConfig(), "Compositing");
+    KConfigGroup config(kwinApp()->config(), "Compositing");
     config.writeEntry("Backend", "XRender");
     config.sync();
     options->setCompositingMode(XRenderCompositing);
@@ -482,7 +483,7 @@ void Compositor::slotConfigChanged()
 void Compositor::slotReinitialize()
 {
     // Reparse config. Config options will be reloaded by setup()
-    KSharedConfig::openConfig()->reparseConfiguration();
+    kwinApp()->config()->reparseConfiguration();
 
     // Restart compositing
     finish();

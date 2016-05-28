@@ -1,7 +1,7 @@
 # translation of kcmkwindecoration.po to
 # Translation of kcmkwindecoration.po to Slovenian
 # SLOVENIAN TRANSLATION OF K DESKTOP ENVIRONMENT.
-# $Id: kcmkwindecoration.po 1444734 2015-11-19 23:22:28Z ltoscano $
+# $Id: kcmkwindecoration.po 1453980 2016-03-02 23:19:49Z ltoscano $
 # $Source$
 #
 # Copyright (C) 2001, 2003, 2004, 2005, 2007 Free Software Foundation, Inc.

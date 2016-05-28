@@ -23,15 +23,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "decorations_logging.h"
 #include "settings.h"
 // KWin core
-#include "client.h"
+#include "abstract_client.h"
 #include "composite.h"
 #include "scene.h"
+#include "wayland_server.h"
 #include "workspace.h"
 
 // KDecoration
 #include <KDecoration2/Decoration>
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/DecorationSettings>
+
+// KWayland
+#include <KWayland/Server/server_decoration_interface.h>
 
 // Frameworks
 #include <KPluginMetaData>
@@ -67,23 +71,27 @@ DecorationBridge::~DecorationBridge()
 
 static QString readPlugin()
 {
-    return KSharedConfig::openConfig(KWIN_CONFIG)->group(s_pluginName).readEntry("library", s_defaultPlugin);
+    return kwinApp()->config()->group(s_pluginName).readEntry("library", s_defaultPlugin);
 }
 
 static bool readNoPlugin()
 {
-    return KSharedConfig::openConfig(KWIN_CONFIG)->group(s_pluginName).readEntry("NoPlugin", false);
+    return kwinApp()->config()->group(s_pluginName).readEntry("NoPlugin", false);
 }
 
 QString DecorationBridge::readTheme() const
 {
-    return KSharedConfig::openConfig(KWIN_CONFIG)->group(s_pluginName).readEntry("theme", m_defaultTheme);
+    return kwinApp()->config()->group(s_pluginName).readEntry("theme", m_defaultTheme);
 }
 
 void DecorationBridge::init()
 {
+    using namespace KWayland::Server;
     m_noPlugin = readNoPlugin();
     if (m_noPlugin) {
+        if (waylandServer()) {
+            waylandServer()->decorationManager()->setDefaultMode(ServerSideDecorationManagerInterface::Mode::None);
+        }
         return;
     }
     m_plugin = readPlugin();
@@ -100,6 +108,9 @@ void DecorationBridge::init()
             m_plugin = QStringLiteral("org.kde.kwin.aurorae");
             initPlugin();
         }
+    }
+    if (waylandServer()) {
+        waylandServer()->decorationManager()->setDefaultMode(m_factory ? ServerSideDecorationManagerInterface::Mode::Server : ServerSideDecorationManagerInterface::Mode::None);
     }
 }
 
@@ -123,7 +134,7 @@ void DecorationBridge::initPlugin()
 
 static void recreateDecorations()
 {
-    Workspace::self()->forEachClient([](Client *c) { c->updateDecoration(true, true); });
+    Workspace::self()->forEachAbstractClient([](AbstractClient *c) { c->updateDecoration(true, true); });
 }
 
 void DecorationBridge::reconfigure()
@@ -207,7 +218,7 @@ void DecorationBridge::findTheme(const QVariantMap &map)
 
 std::unique_ptr<KDecoration2::DecoratedClientPrivate> DecorationBridge::createClient(KDecoration2::DecoratedClient *client, KDecoration2::Decoration *decoration)
 {
-    return std::unique_ptr<DecoratedClientImpl>(new DecoratedClientImpl(static_cast<Client*>(decoration->parent()), client, decoration));
+    return std::unique_ptr<DecoratedClientImpl>(new DecoratedClientImpl(static_cast<AbstractClient*>(decoration->parent()), client, decoration));
 }
 
 std::unique_ptr<KDecoration2::DecorationSettingsPrivate> DecorationBridge::settings(KDecoration2::DecorationSettings *parent)
@@ -218,14 +229,14 @@ std::unique_ptr<KDecoration2::DecorationSettingsPrivate> DecorationBridge::setti
 void DecorationBridge::update(KDecoration2::Decoration *decoration, const QRect &geometry)
 {
     // TODO: remove check once all compositors implement it
-    if (Client *c = Workspace::self()->findClient([decoration] (const Client *client) { return client->decoration() == decoration; })) {
+    if (AbstractClient *c = Workspace::self()->findAbstractClient([decoration] (const AbstractClient *client) { return client->decoration() == decoration; })) {
         if (Renderer *renderer = c->decoratedClient()->renderer()) {
             renderer->schedule(geometry);
         }
     }
 }
 
-KDecoration2::Decoration *DecorationBridge::createDecoration(Client *client)
+KDecoration2::Decoration *DecorationBridge::createDecoration(AbstractClient *client)
 {
     if (m_noPlugin) {
         return nullptr;

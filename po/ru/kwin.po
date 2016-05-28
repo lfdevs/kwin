@@ -10,7 +10,7 @@
 # Leonid Kanter <leon@asplinux.ru>, 2004, 2005.
 # Gregory Mokhin <mok@kde.ru>, 2005.
 # Andrey Cherepanov <skull@kde.ru>, 2009.
-# Alexander Potashev <aspotashev@gmail.com>, 2009, 2010, 2011, 2014, 2015.
+# Alexander Potashev <aspotashev@gmail.com>, 2009, 2010, 2011, 2014, 2015, 2016.
 # Yuri Efremov <yur.arh@gmail.com>, 2011, 2013.
 # Nick Shaforostoff <shafff@ukr.net>, 2011, 2015.
 # Julia Dronova <juliette.tux@gmail.com>, 2013.
@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-12-15 11:59+0000\n"
-"PO-Revision-Date: 2015-11-14 17:43+0000\n"
-"Last-Translator: Nick Shaforostoff <shafff@ukr.net>\n"
+"POT-Creation-Date: 2016-04-14 11:32+0000\n"
+"PO-Revision-Date: 2016-02-21 22:26+0300\n"
+"Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "asm@som.kiev.ua,mokhin@bog.msu.ru"
 
-#: composite.cpp:555
+#: composite.cpp:556
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -443,132 +443,143 @@ msgstr ""
 "Произошло несколько серьёзных ошибок подряд.\n"
 "Вы можете выбрать другой диспетчер окон:"
 
-#: main.cpp:277 main.cpp:304
+#: main.cpp:278 main.cpp:305
 msgid "KDE window manager"
 msgstr "Диспетчер окон KDE"
 
-#: main.cpp:282
+#: main.cpp:283
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:286
+#: main.cpp:287
 msgid "(c) 1999-2013, The KDE Developers"
 msgstr "© Разработчики KDE, 1999-2013"
 
-#: main.cpp:288
+#: main.cpp:289
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:289
+#: main.cpp:290
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:290
+#: main.cpp:291
 msgid "Daniel M. Duley"
 msgstr "Daniel M. Duley"
 
-#: main.cpp:291
+#: main.cpp:292
 msgid "Luboš Luňák"
 msgstr "Luboš Luňák"
 
-#: main.cpp:292
+#: main.cpp:293
 msgid "Martin Gräßlin"
 msgstr "Martin Gräßlin"
 
-#: main.cpp:292
+#: main.cpp:293
 msgid "Maintainer"
 msgstr "Сопровождающий"
 
-#: main.cpp:301
+#: main.cpp:302
 msgid "Disable configuration options"
 msgstr "Отключить параметры конфигурации"
 
-#: main.cpp:302
+#: main.cpp:303
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Показывает, что сбои KWin происходили n раз"
 
-#: main_wayland.cpp:188
+#: main_wayland.cpp:203
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr "kwin_wayland: диспетчер окон X11 работает на экране X11.\n"
 
-#: main_wayland.cpp:445
+#: main_wayland.cpp:478
 msgid "Start a rootless Xwayland server."
 msgstr "Запустить вложенный сервер Xwayland."
 
-#: main_wayland.cpp:447
+#: main_wayland.cpp:480
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 "Имя сокета Wayland для ожидания подключений. По умолчанию используется "
 "«wayland-0»."
 
-#: main_wayland.cpp:450
+#: main_wayland.cpp:483
 msgid "Use a nested compositor in windowed mode."
 msgstr ""
 
-#: main_wayland.cpp:452
+#: main_wayland.cpp:485
 msgid "Render to framebuffer."
 msgstr "Отрисовка во фреймбуфер."
 
-#: main_wayland.cpp:454
+#: main_wayland.cpp:487
 msgid "The framebuffer device to render to."
 msgstr "Устройство фреймбуфера, в которое следует направить вывод."
 
-#: main_wayland.cpp:458
+#: main_wayland.cpp:491
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "Экран X11, на котором KWin будет запущен в оконном режиме."
 
-#: main_wayland.cpp:461
+#: main_wayland.cpp:494
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr "Экран Wayland, на котором KWin будет запущен в оконном режиме."
 
-#: main_wayland.cpp:463
+#: main_wayland.cpp:496
 msgid "Render to a virtual framebuffer."
 msgstr "Отрисовка в виртуальный фреймбуфер."
 
-#: main_wayland.cpp:465
+#: main_wayland.cpp:498
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "Ширина окна в случае оконного режима. Значение по умолчанию — 1024."
 
-#: main_wayland.cpp:469
+#: main_wayland.cpp:502
 msgid "The height for windowed mode. Default height is 768."
 msgstr "Высота окна в случае оконного режима. Значение по умолчанию — 768."
 
-#: main_wayland.cpp:498
+#: main_wayland.cpp:506
+#, fuzzy
+#| msgid "The width for windowed mode. Default width is 1024."
+msgid ""
+"The number of windows to open as outputs in windowed mode. Default value is 1"
+msgstr "Ширина окна в случае оконного режима. Значение по умолчанию — 1024."
+
+#: main_wayland.cpp:538
 msgid "Use libhybris hwcomposer"
 msgstr ""
 
-#: main_wayland.cpp:505
+#: main_wayland.cpp:545
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
 msgstr ""
 
-#: main_wayland.cpp:509
+#: main_wayland.cpp:549
 msgid "Render through drm node."
 msgstr "Отрисовка через DRM."
 
-#: main_wayland.cpp:516
+#: main_wayland.cpp:556
 msgid "Input method that KWin starts."
 msgstr "Запускаемый сервер методов ввода."
 
-#: main_wayland.cpp:521
+#: main_wayland.cpp:561
 msgid "List all available backends and quit."
 msgstr "Перечислить все доступные модули реализации и завершить работу."
 
-#: main_wayland.cpp:525
+#: main_wayland.cpp:565
 msgid "Starts the session in locked mode."
-msgstr "Запускать сеанс в заблокированном виде."
+msgstr "Запустить сеанс в заблокированном виде."
 
-#: main_wayland.cpp:529
+#: main_wayland.cpp:569
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr ""
 
-#: main_wayland.cpp:534
-msgid "Applications to start once Wayland and Xwayland server are started"
-msgstr "Приложения открываемые после загрузки Wayland и Xwayland"
+#: main_wayland.cpp:575 main_x11.cpp:297
+msgid "Disable KActivities integration."
+msgstr ""
 
-#: main_x11.cpp:158
+#: main_wayland.cpp:580
+msgid "Applications to start once Wayland and Xwayland server are started"
+msgstr "Приложения, открываемые после загрузки Wayland и Xwayland."
+
+#: main_x11.cpp:159
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
@@ -576,20 +587,20 @@ msgstr ""
 "kwin: невозможно использовать как диспетчер окон, возможно, запущен другой "
 "диспетчер окон (попробуйте параметр --replace)\n"
 
-#: main_x11.cpp:175
+#: main_x11.cpp:176
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr "kwin: запущен другой диспетчер окон (попробуйте параметр --replace)\n"
 
-#: main_x11.cpp:278
+#: main_x11.cpp:290
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "Заменить уже запущенный ICCCM2.0-совместимый диспетчер окон"
 
-#: scene_opengl.cpp:677
+#: scene_opengl.cpp:683
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
 "Подсистема эффектов рабочего стола была перезапущена из-за сброса графики"
 
-#: scene_opengl.cpp:867
+#: scene_opengl.cpp:875
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -600,11 +611,11 @@ msgid ""
 msgstr ""
 "<h1>Невозможно включить эффекты OpenGL</h1>Ваша система не  может "
 "воспроизвести эффекты рабочего стола OpenGL с текущим разрешением."
-"<br><br>Попробуйте выбрать драйвер XRender , но с данным разрешением он "
-"также может работать очень медленно . <br>Как вариант, попробуйте снизить "
-"общее разрешение всех дисплеев до %1x%2"
+"<br><br>Попробуйте выбрать драйвер XRender, но с данным разрешением он также "
+"может работать очень медленно. <br>Как вариант, попробуйте снизить общее "
+"разрешение всех дисплеев до %1x%2"
 
-#: scene_opengl.cpp:874
+#: scene_opengl.cpp:882
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
 "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
@@ -616,7 +627,7 @@ msgstr ""
 "драйвера XRender таких ограничений нет, но на производительность влияют "
 "аппаратные ограничения, блокирующие размер окна просмотра OpenGL"
 
-#: scene_opengl.cpp:899
+#: scene_opengl.cpp:907
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -630,7 +641,7 @@ msgstr ""
 "Рассмотрите возможность отключения эффектов, переключения на драйвер "
 "XRender  или уменьшения разрешения до %1x%1."
 
-#: scene_opengl.cpp:905
+#: scene_opengl.cpp:913
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
 "GPU, thus windows of that size cannot be assigned to textures and will be "
@@ -808,7 +819,7 @@ msgstr "&Нет рамки"
 
 #: useractions.cpp:310
 msgid "Window Short&cut..."
-msgstr "Комбинация клавиш для переключения в это окно..."
+msgstr "&Комбинация клавиш для переключения в это окно..."
 
 #: useractions.cpp:315
 msgid "Special &Window Settings..."
@@ -823,7 +834,7 @@ msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
 msgid "Window Manager S&ettings..."
-msgstr "Параметры &диспетчера окон..."
+msgstr "Настроить &диспетчер окон..."
 
 #: useractions.cpp:350
 msgid "Mi&nimize"
@@ -926,7 +937,7 @@ msgstr "<b>%1</b> уже используется для действия «%2»
 msgid "Activate Window (%1)"
 msgstr "Активировать окно (%1)"
 
-#: useractions.cpp:1267
+#: useractions.cpp:1256
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
 "as active one.\n"
@@ -970,7 +981,7 @@ msgstr "Переключиться на один рабочий стол вни�
 msgid "Switch to Desktop %1"
 msgstr "Переключиться на рабочий стол %1"
 
-#: workspace.cpp:1306
+#: workspace.cpp:1305
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

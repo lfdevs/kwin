@@ -377,7 +377,7 @@ msgstr "Visos veiklos"
 #: ruleswidget.cpp:758
 #, kde-format
 msgid "Settings for %1"
-msgstr "%1: nuostatos"
+msgstr "%1: nustatymai"
 
 #: ruleswidget.cpp:760
 msgid "Unnamed entry"

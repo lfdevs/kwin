@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "client.h"
 #include "cursor.h"
 #include "group.h"
+#include "pointer_input.h"
 #include "scene_xrender.h"
 #include "scene_qpainter.h"
 #include "unmanaged.h"
@@ -207,7 +208,7 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
             effectsChanged();
         }
     );
-    m_effectLoader->setConfig(KSharedConfig::openConfig(QStringLiteral(KWIN_CONFIG)));
+    m_effectLoader->setConfig(kwinApp()->config());
     new EffectsAdaptor(this);
     QDBusConnection dbus = QDBusConnection::sessionBus();
     dbus.registerObject(QStringLiteral("/Effects"), this);
@@ -709,9 +710,7 @@ void EffectsHandlerImpl::startMouseInterception(Effect *effect, Qt::CursorShape 
         return;
     }
     if (kwinApp()->operationMode() != Application::OperationModeX11) {
-        if (AbstractBackend *w = waylandServer()->backend()) {
-            w->installCursorImage(shape);
-        }
+        input()->pointer()->setEffectsOverrideCursor(shape);
         return;
     }
     // NOTE: it is intended to not perform an XPointerGrab on X11. See documentation in kwineffects.h
@@ -743,12 +742,18 @@ void EffectsHandlerImpl::stopMouseInterception(Effect *effect)
     }
     m_grabbedMouseEffects.removeAll(effect);
     if (kwinApp()->operationMode() != Application::OperationModeX11) {
+        input()->pointer()->removeEffectsOverrideCursor();
         return;
     }
     if (m_grabbedMouseEffects.isEmpty()) {
         m_mouseInterceptionWindow.unmap();
         Workspace::self()->stackScreenEdgesUnderOverrideRedirect();
     }
+}
+
+bool EffectsHandlerImpl::isMouseInterception() const
+{
+    return m_grabbedMouseEffects.count() > 0;
 }
 
 void EffectsHandlerImpl::registerGlobalShortcut(const QKeySequence &shortcut, QAction *action)
@@ -1225,11 +1230,7 @@ QSize EffectsHandlerImpl::virtualScreenSize() const
 void EffectsHandlerImpl::defineCursor(Qt::CursorShape shape)
 {
     if (!m_mouseInterceptionWindow.isValid()) {
-        if (waylandServer()) {
-            if (AbstractBackend *w = waylandServer()->backend()) {
-                w->installCursorImage(shape);
-            }
-        }
+        input()->pointer()->setEffectsOverrideCursor(shape);
         return;
     }
     const xcb_cursor_t c = Cursor::x11Cursor(shape);
@@ -1274,6 +1275,17 @@ bool EffectsHandlerImpl::checkInputWindowEvent(xcb_motion_notify_event_t *e)
 }
 
 bool EffectsHandlerImpl::checkInputWindowEvent(QMouseEvent *e)
+{
+    if (m_grabbedMouseEffects.isEmpty()) {
+        return false;
+    }
+    foreach (Effect *effect, m_grabbedMouseEffects) {
+        effect->windowInputMouseEvent(e);
+    }
+    return true;
+}
+
+bool EffectsHandlerImpl::checkInputWindowEvent(QWheelEvent *e)
 {
     if (m_grabbedMouseEffects.isEmpty()) {
         return false;
@@ -1417,8 +1429,7 @@ void EffectsHandlerImpl::reconfigureEffect(const QString& name)
 {
     for (QVector< EffectPair >::const_iterator it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it)
         if ((*it).first == name) {
-            KSharedConfig::Ptr config = KSharedConfig::openConfig(QStringLiteral(KWIN_CONFIG));
-            config->reparseConfiguration();
+            kwinApp()->config()->reparseConfiguration();
             makeOpenGLContextCurrent();
             (*it).second->reconfigure(Effect::ReconfigureAll);
             return;
@@ -1930,6 +1941,7 @@ void EffectFrameImpl::render(QRegion region, double opacity, double frameOpacity
         return; // Nothing to display
     }
     m_shader = NULL;
+    setScreenProjectionMatrix(static_cast<EffectsHandlerImpl*>(effects)->scene()->screenProjectionMatrix());
     effects->paintEffectFrame(this, region, opacity, frameOpacity);
 }
 

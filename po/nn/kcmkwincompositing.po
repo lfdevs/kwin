@@ -1,14 +1,14 @@
 # Translation of kcmkwincompositing to Norwegian Nynorsk
 #
-# Karl Ove Hufthammer <karl@huftis.org>, 2007, 2008, 2010, 2015.
+# Karl Ove Hufthammer <karl@huftis.org>, 2007, 2008, 2010, 2015, 2016.
 # Håvard Korsvoll <korsvoll@skulelinux.no>, 2009.
 # Eirik U. Birkeland <eirbir@gmail.com>, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-22 08:56+0000\n"
-"PO-Revision-Date: 2015-09-20 18:24+0100\n"
+"POT-Creation-Date: 2016-02-16 09:05+0000\n"
+"PO-Revision-Date: 2016-03-12 13:39+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
@@ -246,7 +246,7 @@ msgstr "«Nyoppteikning av fullskjerm» kan føra til ytingsproblem."
 
 #: main.cpp:147
 msgid ""
-"\"Re-use screen content\" causes performance severe problems on MESA drivers."
+"\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
 "«Bruk skjerminnhaldet på nytt» gjev kraftig redusert yting på MESA-drivarar."
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-22 08:56+0000\n"
+"POT-Creation-Date: 2016-02-16 09:05+0000\n"
 "PO-Revision-Date: 2014-08-23 23:42+0900\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
@@ -241,8 +241,12 @@ msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "\"전체 화면 다시 그리기\" 옵션은 성능에 영향을 줄 수도 있습니다."
 
 #: main.cpp:147
+#, fuzzy
+#| msgid ""
+#| "\"Re-use screen content\" causes performance severe problems on MESA "
+#| "drivers."
 msgid ""
-"\"Re-use screen content\" causes performance severe problems on MESA drivers."
+"\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
 "\"화면 내용 다시 사용\" 옵션은 MESA 드라이버에서 문제를 발생시킬 수 있습니다."
 

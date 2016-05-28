@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-03 14:08+0000\n"
+"POT-Creation-Date: 2016-03-25 11:33+0000\n"
 "PO-Revision-Date: 2015-02-01 03:27-0600\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@list.sf.net>\n"
@@ -48,7 +48,7 @@ msgstr "ਜ਼ੋਰਦਾਰ"
 msgid "Save intermediate rendering results."
 msgstr "ਸੁਰੱਖਿਅਤ ਠੀਕ-ਠਾਕ ਰੈਡਰਿੰਗ ਨਤੀਜੇ।"
 
-#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:950 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "ਡੈਸਕਟਾਪ ਵੇਖੋ"
@@ -136,15 +136,15 @@ msgstr "ਪਿਛਲਾ ਰੰਗ"
 msgid "Front color"
 msgstr "ਅਗਲਾ ਰੰਗ"
 
-#: cube/cube.cpp:197 cube/cube_config.cpp:70
+#: cube/cube.cpp:189 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "ਡੈਸਕਟਾਪ ਘਣ"
 
-#: cube/cube.cpp:205 cube/cube_config.cpp:75
+#: cube/cube.cpp:197 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "ਡੈਸਕਟਾਪ ਸਿਲੰਡਰ"
 
-#: cube/cube.cpp:211 cube/cube_config.cpp:79
+#: cube/cube.cpp:203 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "ਡੈਸਕਟਾਪ ਗੋਲ੍ਹਾ"
 
@@ -363,7 +363,7 @@ msgstr "ਐਨੀਮੇਸ਼ਨ ਲਈ ਪੇਜ਼ਰ ਲੇਆਉਟ ਵਰ�
 msgid "Start animation when moving windows towards screen edges"
 msgstr "ਜਦੋਂ ਵਿੰਡੋਜ਼ ਸਕਰੀਨ ਕੋਨਿਆਂ ਵੱਲ ਜਾਣ ਤਾਂ ਐਨੀਮੇਸ਼ਨ ਸ਼ੁਰੂ ਕਰੋ"
 
-#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "ਡੈਸਕਟਾਪ ਗਰਿੱਡ  ਵੇਖੋ"
 
@@ -964,11 +964,11 @@ msgstr "-90"
 msgid "90"
 msgstr "90"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:52
+#: invert/invert.cpp:45 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "ਉਲਟ ਪਰਭਾਵ ਬਦਲੋ"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:58
+#: invert/invert.cpp:53 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "ਵਿੰਡੋ ਉੱਤੇ ਉਲਟ ਪਰਭਾਵ ਬਦਲੋ"
 
@@ -1147,7 +1147,7 @@ msgstr "ਮੌਜੂਦਾ ਵਿੰਡੋਜ਼ ਬਦਲੋ (ਸਭ ਡੈਸ�
 msgid "Toggle Present Windows (Window class)"
 msgstr "ਮੌਜੂਦਾ ਵਿੰਡੋਜ਼ ਬਦਲੋ (ਵਿੰਡੋ ਕਲਾਸ)"
 
-#: presentwindows/presentwindows.cpp:1566
+#: presentwindows/presentwindows.cpp:1569
 #, kde-format
 msgid ""
 "Filter:\n"

@@ -1,23 +1,23 @@
 # Translation of kcmkwincompositing.po to Catalan (Valencian)
-# Copyright (C) 2007-2015 This_file_is_part_of_KDE
+# Copyright (C) 2007-2016 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
 # Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
-# Antoni Bella Pérez <antonibella5@yahoo.com>, 2014.
+# Antoni Bella Pérez <antonibella5@yahoo.com>, 2014, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-22 08:56+0000\n"
-"PO-Revision-Date: 2015-09-19 17:08+0200\n"
-"Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
+"POT-Creation-Date: 2016-02-16 09:05+0000\n"
+"PO-Revision-Date: 2016-02-16 14:53+0100\n"
+"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -246,7 +246,7 @@ msgstr "«Repinta tota la pantalla» pot causar problemes de rendiment."
 
 #: main.cpp:147
 msgid ""
-"\"Re-use screen content\" causes performance severe problems on MESA drivers."
+"\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
 "«Reutilitza el contingut de la pantalla» causa greus problemes de rendiment "
 "amb els controladors de MESA."

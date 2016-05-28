@@ -39,6 +39,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QVector>
 #include <QDateTime>
 
+class QMouseEvent;
+
 namespace KWin {
 
 class Client;
@@ -70,6 +72,7 @@ public:
     bool isApproaching() const;
     void setClient(Client *client);
     Client *client() const;
+    const QRect &geometry() const;
 
 public Q_SLOTS:
     void reserve();
@@ -85,7 +88,6 @@ Q_SIGNALS:
 protected:
     ScreenEdges *edges();
     const ScreenEdges *edges() const;
-    const QRect &geometry() const;
     bool isBlocked() const;
     virtual void doGeometryUpdate();
     virtual void activate();
@@ -152,9 +154,6 @@ class AreaBasedEdge : public Edge
 public:
     explicit AreaBasedEdge(ScreenEdges *parent);
     virtual ~AreaBasedEdge();
-
-private Q_SLOTS:
-    void pointerPosChanged(const QPointF &pos);
 };
 
 /**
@@ -199,7 +198,7 @@ private Q_SLOTS:
  *
  * @todo change way how Effects/Scripts can reserve an edge and are notified.
  */
-class ScreenEdges : public QObject
+class KWIN_EXPORT ScreenEdges : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool desktopSwitching READ isDesktopSwitching)
@@ -301,6 +300,7 @@ public:
     bool isEntered(xcb_generic_event_t *e);
     bool isEntered(xcb_enter_notify_event_t *e);
     bool isEntered(xcb_client_message_event_t *e);
+    bool isEntered(QMouseEvent *event);
 
     /**
      * Returns a QVector of all existing screen edge windows

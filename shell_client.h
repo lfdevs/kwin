@@ -27,6 +27,7 @@ namespace KWayland
 namespace Server
 {
 class ShellSurfaceInterface;
+class ServerSideDecorationInterface;
 class PlasmaShellSurfaceInterface;
 class QtExtendedSurfaceInterface;
 }
@@ -43,7 +44,7 @@ public:
     virtual ~ShellClient();
 
     QStringList activities() const override;
-    QPoint clientPos() const override;
+    QPoint clientContentPos() const override;
     QSize clientSize() const override;
     QRect transparentRect() const override;
     bool shouldUnredirect() const override;
@@ -80,6 +81,7 @@ public:
     const WindowRules *rules() const override;
     void setFullScreen(bool set, bool user = true) override;
     void setNoBorder(bool set) override;
+    void updateDecoration(bool check_workspace_pos, bool force = false) override;
     void setOnAllActivities(bool set) override;
     void setShortcut(const QString &cut) override;
     const QKeySequence &shortcut() const override;
@@ -109,12 +111,15 @@ public:
 
     void installPlasmaShellSurface(KWayland::Server::PlasmaShellSurfaceInterface *surface);
     void installQtExtendedSurface(KWayland::Server::QtExtendedSurfaceInterface *surface);
+    void installServerSideDecoration(KWayland::Server::ServerSideDecorationInterface *decoration);
 
     bool isInitialPositionSet() const;
 
     bool isTransient() const override;
     bool hasTransientPlacementHint() const override;
     QPoint transientPlacementHint() const override;
+
+    QMatrix4x4 inputTransformation() const override;
 
 protected:
     void addDamage(const QRegion &damage) override;
@@ -127,6 +132,7 @@ protected:
     }
     void doResizeSync() override;
     bool isWaitingForMoveResizeSync() const override;
+    bool acceptsFocus() const override;
 
 private Q_SLOTS:
     void clientFullScreenChanged(bool fullScreen);
@@ -134,6 +140,7 @@ private Q_SLOTS:
 private:
     void requestGeometry(const QRect &rect);
     void doSetGeometry(const QRect &rect);
+    void createDecoration(const QRect &oldgeom);
     void destroyClient();
     void unmap();
     void createWindowId();
@@ -158,8 +165,12 @@ private:
     NET::WindowType m_windowType = NET::Normal;
     QPointer<KWayland::Server::PlasmaShellSurfaceInterface> m_plasmaShellSurface;
     QPointer<KWayland::Server::QtExtendedSurfaceInterface> m_qtExtendedSurface;
+    KWayland::Server::ServerSideDecorationInterface *m_serverDecoration = nullptr;
+    bool m_userNoBorder = false;
     bool m_fullScreen = false;
     bool m_transient = false;
+    bool m_internal;
+    qreal m_opacity = 1.0;
 };
 
 }

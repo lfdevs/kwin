@@ -207,19 +207,22 @@ bool checkGLError(const char* txt)
     return hasError;
 }
 
+// TODO: Drop for Plasma 6, no longer needed after OpenGL 2.0
 int nearestPowerOfTwo(int x)
 {
-    // This method had been copied from Qt's nearest_gl_texture_size()
-    int n = 0, last = 0;
-    for (int s = 0; s < 32; ++s) {
-        if (((x >> s) & 1) == 1) {
-            ++n;
-            last = s;
-        }
-    }
-    if (n > 1)
-        return 1 << (last + 1);
-    return 1 << last;
+    unsigned y = static_cast<unsigned>(x);
+
+    // From Hank Warren's "Hacker's Delight", clp2() method.
+    // Works for up to 32-bit integers.
+
+    y = y - 1;
+    y = y | (y >>  1);
+    y = y | (y >>  2);
+    y = y | (y >>  4);
+    y = y | (y >>  8);
+    y = y | (y >> 16);
+
+    return static_cast<int>(y + 1);
 }
 
 //****************************************
@@ -359,7 +362,9 @@ bool GLShader::compile(GLuint program, GLenum shaderType, const QByteArray &sour
 bool GLShader::load(const QByteArray &vertexSource, const QByteArray &fragmentSource)
 {
     // Make sure shaders are actually supported
-    if (!GLPlatform::instance()->supports(GLSL) || GLPlatform::instance()->supports(LimitedNPOT)) {
+    if (!(GLPlatform::instance()->supports(GLSL) &&
+        // we lack shader branching for Texture2DRectangle everywhere - and it's probably not worth it
+        GLPlatform::instance()->supports(TextureNPOT))) {
         qCCritical(LIBKWINGLUTILS) << "Shaders are not supported";
         return false;
     }
@@ -623,14 +628,11 @@ QMatrix4x4 GLShader::getUniformMatrix4x4(const char* name)
 // ShaderManager
 //****************************************
 ShaderManager *ShaderManager::s_shaderManager = nullptr;
-QSize ShaderManager::s_virtualScreenSize;
 
 ShaderManager *ShaderManager::instance()
 {
     if (!s_shaderManager) {
         s_shaderManager = new ShaderManager();
-        s_shaderManager->initShaders();
-        s_shaderManager->m_inited = true;
     }
     return s_shaderManager;
 }
@@ -642,13 +644,15 @@ void ShaderManager::cleanup()
 }
 
 ShaderManager::ShaderManager()
-    : m_inited(false)
-    , m_valid(false)
 {
-    for (int i = 0; i < 3; i++)
-       m_shader[i] = 0;
-
     m_debug = qstrcmp(qgetenv("KWIN_GL_DEBUG"), "1") == 0;
+
+    const qint64 coreVersionNumber = GLPlatform::instance()->isGLES() ? kVersionNumber(3, 0) : kVersionNumber(1, 40);
+    if (GLPlatform::instance()->glslVersion() >= coreVersionNumber) {
+        m_resourcePath = QStringLiteral(":/effect-shaders-1.40/");
+    } else {
+        m_resourcePath = QStringLiteral(":/effect-shaders-1.10/");
+    }
 }
 
 ShaderManager::~ShaderManager()
@@ -656,9 +660,6 @@ ShaderManager::~ShaderManager()
     while (!m_boundShaders.isEmpty()) {
         popShader();
     }
-
-    for (int i = 0; i < 3; i++)
-        delete m_shader[i];
 
     qDeleteAll(m_shaderHash);
     m_shaderHash.clear();
@@ -984,8 +985,13 @@ QByteArray ShaderManager::generateFragmentSource(ShaderTraits traits) const
 
 GLShader *ShaderManager::generateShader(ShaderTraits traits)
 {
-    const QByteArray vertex   = generateVertexSource(traits);
-    const QByteArray fragment = generateFragmentSource(traits);
+    return generateCustomShader(traits);
+}
+
+GLShader *ShaderManager::generateCustomShader(ShaderTraits traits, const QByteArray &vertexSource, const QByteArray &fragmentSource)
+{
+    const QByteArray vertex   = vertexSource.isEmpty() ? generateVertexSource(traits) : vertexSource;
+    const QByteArray fragment = fragmentSource.isEmpty() ? generateFragmentSource(traits) : fragmentSource;
 
 #if 0
     qCDebug(LIBKWINGLUTILS) << "**************";
@@ -1004,6 +1010,33 @@ GLShader *ShaderManager::generateShader(ShaderTraits traits)
 
     shader->link();
     return shader;
+}
+
+GLShader *ShaderManager::generateShaderFromResources(ShaderTraits traits, const QString &vertexFile, const QString &fragmentFile)
+{
+    auto loadShaderFile = [this] (const QString &fileName) {
+        QFile file(m_resourcePath + fileName);
+        if (file.open(QIODevice::ReadOnly)) {
+            return file.readAll();
+        }
+        qCCritical(LIBKWINGLUTILS) << "Failed to read shader " << fileName;
+        return QByteArray();
+    };
+    QByteArray vertexSource;
+    QByteArray fragmentSource;
+    if (!vertexFile.isEmpty()) {
+        vertexSource = loadShaderFile(vertexFile);
+        if (vertexSource.isEmpty()) {
+            return new GLShader();
+        }
+    }
+    if (!fragmentFile.isEmpty()) {
+        fragmentSource = loadShaderFile(fragmentFile);
+        if (fragmentSource.isEmpty()) {
+            return new GLShader();
+        }
+    }
+    return generateCustomShader(traits, vertexSource, fragmentSource);
 }
 
 GLShader *ShaderManager::shader(ShaderTraits traits)
@@ -1032,11 +1065,6 @@ bool ShaderManager::isShaderBound() const
     return !m_boundShaders.isEmpty();
 }
 
-bool ShaderManager::isValid() const
-{
-    return m_valid;
-}
-
 bool ShaderManager::isShaderDebug() const
 {
     return m_debug;
@@ -1047,42 +1075,6 @@ GLShader *ShaderManager::pushShader(ShaderTraits traits)
     GLShader *shader = this->shader(traits);
     pushShader(shader);
     return shader;
-}
-
-GLShader *ShaderManager::pushShader(ShaderType type, bool reset)
-{
-    if (m_inited && !m_valid) {
-        return nullptr;
-    }
-
-    pushShader(m_shader[type]);
-    if (reset) {
-        resetShader(type);
-    }
-
-    return m_shader[type];
-}
-
-void ShaderManager::resetAllShaders()
-{
-    if (!m_inited || !m_valid) {
-        return;
-    }
-
-    for (int i = 0; i < 3; i++) {
-        pushShader(ShaderType(i), true);
-        popShader();
-    }
-}
-
-void ShaderManager::resetShader(GLShader *shader, ShaderType type)
-{
-    if (!(shader && shader->isValid()))
-        return;
-
-    pushShader(shader);
-    resetShader(type);
-    popShader();
 }
 
 
@@ -1121,51 +1113,6 @@ void ShaderManager::bindAttributeLocations(GLShader *shader) const
     shader->bindAttributeLocation("texCoord", VA_TexCoord);
 }
 
-GLShader *ShaderManager::loadFragmentShader(ShaderType vertex, const QString &fragmentFile)
-{
-    const char *vertexFile[] = {
-        "scene-vertex.glsl",
-        "scene-generic-vertex.glsl",
-        "scene-color-vertex.glsl"
-    };
-
-    GLShader *shader = new GLShader(QString::fromUtf8(m_shaderDir + vertexFile[vertex]), fragmentFile, GLShader::ExplicitLinking);
-    bindAttributeLocations(shader);
-    bindFragDataLocations(shader);
-    shader->link();
-
-    if (shader->isValid()) {
-        pushShader(shader);
-        resetShader(vertex);
-        popShader();
-    }
-
-    return shader;
-}
-
-GLShader *ShaderManager::loadVertexShader(ShaderType fragment, const QString &vertexFile)
-{
-    // The Simple and Generic shaders use same fragment shader
-    const char *fragmentFile[] = {
-        "scene-fragment.glsl",
-        "scene-fragment.glsl",
-        "scene-color-fragment.glsl"
-    };
-
-    GLShader *shader = new GLShader(vertexFile, QString::fromUtf8(m_shaderDir + fragmentFile[fragment]), GLShader::ExplicitLinking);
-    bindAttributeLocations(shader);
-    bindFragDataLocations(shader);
-    shader->link();
-
-    if (shader->isValid()) {
-        pushShader(shader);
-        resetShader(fragment);
-        popShader();
-    }
-
-    return shader;
-}
-
 GLShader *ShaderManager::loadShaderFromCode(const QByteArray &vertexSource, const QByteArray &fragmentSource)
 {
     GLShader *shader = new GLShader(GLShader::ExplicitLinking);
@@ -1174,108 +1121,6 @@ GLShader *ShaderManager::loadShaderFromCode(const QByteArray &vertexSource, cons
     bindFragDataLocations(shader);
     shader->link();
     return shader;
-}
-
-void ShaderManager::initShaders()
-{
-    const char *vertexFile[] = {
-        "scene-vertex.glsl",
-        "scene-generic-vertex.glsl",
-        "scene-color-vertex.glsl",
-    };
-
-    const char *fragmentFile[] = {
-        "scene-fragment.glsl",
-        "scene-fragment.glsl",
-        "scene-color-fragment.glsl",
-    };
-
-    const qint64 coreVersionNumber = GLPlatform::instance()->isGLES() ? kVersionNumber(3, 0) : kVersionNumber(1, 40);
-    if (GLPlatform::instance()->glslVersion() >= coreVersionNumber)
-        m_shaderDir = ":/resources/shaders/1.40/";
-    else
-        m_shaderDir = ":/resources/shaders/1.10/";
-
-    // Be optimistic
-    m_valid = true;
-
-    for (int i = 0; i < 3; i++) {
-        m_shader[i] = new GLShader(QString::fromUtf8(m_shaderDir + vertexFile[i]),
-                                   QString::fromUtf8(m_shaderDir + fragmentFile[i]),
-                                   GLShader::ExplicitLinking);
-        bindAttributeLocations(m_shader[i]);
-        bindFragDataLocations(m_shader[i]);
-        m_shader[i]->link();
-
-        if (!m_shader[i]->isValid()) {
-            m_valid = false;
-            break;
-        }
-
-        pushShader(m_shader[i]);
-        resetShader(ShaderType(i));
-        popShader();
-    }
-
-    if (!m_valid) {
-        for (int i = 0; i < 3; i++) {
-            delete m_shader[i];
-            m_shader[i] = 0;
-        }
-    }
-}
-
-void ShaderManager::resetShader(ShaderType type)
-{
-    // resetShader is either called from init or from push, we know that a built-in shader is bound
-    const QMatrix4x4 identity;
-
-    QMatrix4x4 projection;
-    QMatrix4x4 modelView;
-
-    GLShader *shader = getBoundShader();
-
-    switch(type) {
-    case SimpleShader:
-        projection.ortho(0, s_virtualScreenSize.width(), s_virtualScreenSize.height(), 0, 0, 65535);
-        break;
-
-    case GenericShader: {
-        // Set up the projection matrix
-        float fovy   = 60.0f;
-        float aspect = 1.0f;
-        float zNear  = 0.1f;
-        float zFar   = 100.0f;
-        float ymax   = zNear * tan(fovy  * M_PI / 360.0f);
-        float ymin   = -ymax;
-        float xmin   =  ymin * aspect;
-        float xmax   = ymax * aspect;
-        projection.frustum(xmin, xmax, ymin, ymax, zNear, zFar);
-
-        // Set up the model-view matrix
-        float scaleFactor = 1.1 * tan(fovy * M_PI / 360.0f) / ymax;
-        modelView.translate(xmin * scaleFactor, ymax * scaleFactor, -1.1);
-        modelView.scale((xmax - xmin)*scaleFactor / s_virtualScreenSize.width(), -(ymax - ymin)*scaleFactor / s_virtualScreenSize.height(), 0.001);
-        break;
-    }
-
-    case ColorShader:
-        projection.ortho(0, s_virtualScreenSize.width(), s_virtualScreenSize.height(), 0, 0, 65535);
-        shader->setUniform("geometryColor", QVector4D(0, 0, 0, 1));
-        break;
-    }
-
-    shader->setUniform("sampler", 0);
-
-    shader->setUniform(GLShader::ProjectionMatrix,     projection);
-    shader->setUniform(GLShader::ModelViewMatrix,      modelView);
-    shader->setUniform(GLShader::ScreenTransformation, identity);
-    shader->setUniform(GLShader::WindowTransformation, identity);
-
-    shader->setUniform(GLShader::Offset, QVector2D(0, 0));
-    shader->setUniform(GLShader::ModulationConstant, QVector4D(1.0, 1.0, 1.0, 1.0));
-
-    shader->setUniform(GLShader::Saturation, 1.0f);
 }
 
 /***  GLRenderTarget  ***/

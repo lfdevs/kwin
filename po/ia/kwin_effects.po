@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-03 14:08+0000\n"
+"POT-Creation-Date: 2016-03-25 11:33+0000\n"
 "PO-Revision-Date: 2014-04-29 15:36+0200\n"
 "Last-Translator: G.Sora <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-l10n-ia@kde.org>\n"
@@ -45,7 +45,7 @@ msgstr "Forte"
 msgid "Save intermediate rendering results."
 msgstr "Salveguarda resultatos de rendition intermediate."
 
-#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:950 flipswitch/flipswitch.cpp:933
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Monstra Scriptorio"
@@ -133,15 +133,15 @@ msgstr "Color de retro"
 msgid "Front color"
 msgstr "Color de fronte"
 
-#: cube/cube.cpp:197 cube/cube_config.cpp:70
+#: cube/cube.cpp:189 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "Scriptorio a Cubo"
 
-#: cube/cube.cpp:205 cube/cube_config.cpp:75
+#: cube/cube.cpp:197 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "Scriptorio a Cylindro"
 
-#: cube/cube.cpp:211 cube/cube_config.cpp:79
+#: cube/cube.cpp:203 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "Sphere de Scriptorio"
 
@@ -362,7 +362,7 @@ msgstr "Usa disposition de paginator pro animation"
 msgid "Start animation when moving windows towards screen edges"
 msgstr "Initia animation quando on move fenestras verso le limites de schermo"
 
-#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Monstra grillia de scriptorio"
 
@@ -970,11 +970,11 @@ msgstr "-90"
 msgid "90"
 msgstr "90"
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:52
+#: invert/invert.cpp:45 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "Commuta effecto de inverte"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:58
+#: invert/invert.cpp:53 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "Commuta effecto de inverte sur fenestra"
 
@@ -1153,7 +1153,7 @@ msgstr "Commuta (Toggle) fenestras presente (Omne scriptorios)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Commuta fenestra presente (classe de fenestra)"
 
-#: presentwindows/presentwindows.cpp:1566
+#: presentwindows/presentwindows.cpp:1569
 #, kde-format
 msgid ""
 "Filter:\n"

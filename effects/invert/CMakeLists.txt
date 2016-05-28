@@ -1,14 +1,6 @@
 #######################################
 # Effect
 
-# Data files
-install( FILES
-    data/1.10/invert.frag
-    DESTINATION ${DATA_INSTALL_DIR}/kwin/shaders/1.10 )
-install( FILES
-    data/1.40/invert.frag
-    DESTINATION ${DATA_INSTALL_DIR}/kwin/shaders/1.40 )
-
 #######################################
 # Config
 set(kwin_invert_config_SRCS invert_config.cpp)
@@ -24,7 +16,7 @@ target_link_libraries(kwin_invert_config
     KF5::XmlGui
 )
 
-kcoreaddons_desktop_to_json(kwin_invert_config invert_config.desktop)
+kcoreaddons_desktop_to_json(kwin_invert_config invert_config.desktop SERVICE_TYPES kcmodule.desktop)
 
 install(
     TARGETS

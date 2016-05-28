@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-03 14:08+0000\n"
+"POT-Creation-Date: 2016-03-25 11:33+0000\n"
 "PO-Revision-Date: 2009-01-04 12:32+0530\n"
 "Last-Translator: Kartik Mistry <kartik.mistry@gmail.com>\n"
 "Language-Team: Gujarati <kde-i18n-doc@lists.kde.org>\n"
@@ -49,7 +49,7 @@ msgstr "મજબૂતાઇ (&S):"
 msgid "Save intermediate rendering results."
 msgstr ""
 
-#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:950 flipswitch/flipswitch.cpp:933
 #, fuzzy
 #| msgid "Show desktop"
 msgctxt "Special entry in alt+tab list for minimizing all windows"
@@ -142,15 +142,15 @@ msgstr "પાછળનો રંગ"
 msgid "Front color"
 msgstr "આગળનો રંગ"
 
-#: cube/cube.cpp:197 cube/cube_config.cpp:70
+#: cube/cube.cpp:189 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "ડેસ્કટોપ ઘન"
 
-#: cube/cube.cpp:205 cube/cube_config.cpp:75
+#: cube/cube.cpp:197 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "ડેસ્કટોપ નળાકાર"
 
-#: cube/cube.cpp:211 cube/cube_config.cpp:79
+#: cube/cube.cpp:203 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "ડેસ્કટોપ ગોળો"
 
@@ -371,7 +371,7 @@ msgstr "એનિમેશન માટે પેજર દેખાવ વા�
 msgid "Start animation when moving windows towards screen edges"
 msgstr ""
 
-#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "ડેસ્કટોપ જાળી બતાવો"
 
@@ -1008,11 +1008,11 @@ msgstr ""
 msgid "90"
 msgstr ""
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:52
+#: invert/invert.cpp:45 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "ઉલ્ટી અસર ચાલુ/બંધ કરો"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:58
+#: invert/invert.cpp:53 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "વિન્ડો પર ઉલ્ટી અસર ચાલુ/બંધ કરો"
 
@@ -1210,7 +1210,7 @@ msgstr "વિન્ડોસની હાજરી બંધ/ચાલુ ક�
 msgid "Toggle Present Windows (Window class)"
 msgstr "વિન્ડોસની હાજરી બંધ/ચાલુ કરો (વિન્ડો વર્ગ)"
 
-#: presentwindows/presentwindows.cpp:1566
+#: presentwindows/presentwindows.cpp:1569
 #, kde-format
 msgid ""
 "Filter:\n"

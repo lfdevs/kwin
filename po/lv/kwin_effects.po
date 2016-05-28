@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-03 14:08+0000\n"
+"POT-Creation-Date: 2016-03-25 11:33+0000\n"
 "PO-Revision-Date: 2010-01-09 20:10+0200\n"
 "Last-Translator: Maris Nartiss <maris.kde@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -54,7 +54,7 @@ msgstr "&Stiprums:"
 msgid "Save intermediate rendering results."
 msgstr ""
 
-#: coverswitch/coverswitch.cpp:957 flipswitch/flipswitch.cpp:933
+#: coverswitch/coverswitch.cpp:950 flipswitch/flipswitch.cpp:933
 #, fuzzy
 #| msgid "Show desktop"
 msgctxt "Special entry in alt+tab list for minimizing all windows"
@@ -147,15 +147,15 @@ msgstr "Aizmugures krāsa"
 msgid "Front color"
 msgstr "Priekšplāna krāsa"
 
-#: cube/cube.cpp:197 cube/cube_config.cpp:70
+#: cube/cube.cpp:189 cube/cube_config.cpp:70
 msgid "Desktop Cube"
 msgstr "Darbvirsmas kubs"
 
-#: cube/cube.cpp:205 cube/cube_config.cpp:75
+#: cube/cube.cpp:197 cube/cube_config.cpp:75
 msgid "Desktop Cylinder"
 msgstr "Darbvirsmas cilindrs"
 
-#: cube/cube.cpp:211 cube/cube_config.cpp:79
+#: cube/cube.cpp:203 cube/cube_config.cpp:79
 msgid "Desktop Sphere"
 msgstr "Darbvirsmas sfēra"
 
@@ -376,7 +376,7 @@ msgstr "Animācijai lietot lapotāja izvietojumu"
 msgid "Start animation when moving windows towards screen edges"
 msgstr ""
 
-#: desktopgrid/desktopgrid.cpp:72 desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
 msgid "Show Desktop Grid"
 msgstr "Parādīt darbvirsmas režģi"
 
@@ -1009,11 +1009,11 @@ msgstr ""
 msgid "90"
 msgstr ""
 
-#: invert/invert.cpp:44 invert/invert_config.cpp:52
+#: invert/invert.cpp:45 invert/invert_config.cpp:52
 msgid "Toggle Invert Effect"
 msgstr "Pārslēgt invertēšanas efektu"
 
-#: invert/invert.cpp:52 invert/invert_config.cpp:58
+#: invert/invert.cpp:53 invert/invert_config.cpp:58
 msgid "Toggle Invert Effect on Window"
 msgstr "Pārslēgt loga invertēšanas efektu"
 
@@ -1212,7 +1212,7 @@ msgstr "Pārslēgt 'Parādīt logus' (Visas darbvirsmas)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Pārslēgt 'Parādīt logus' (Loga klase)"
 
-#: presentwindows/presentwindows.cpp:1566
+#: presentwindows/presentwindows.cpp:1569
 #, kde-format
 msgid ""
 "Filter:\n"

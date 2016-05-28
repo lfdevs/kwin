@@ -7,9 +7,9 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-11-19 09:30+0000\n"
-"PO-Revision-Date: 2015-11-17 00:32+0100\n"
+"PO-Revision-Date: 2015-12-10 01:55+0100\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
-"Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
+"Language-Team: Asturian <>\n"
 "Language: ast\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,14 +28,12 @@ msgstr "alministradores@softastur.org"
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
 #: detectwidget.cpp:100 ruleswidgetbase.ui:428 ruleswidgetbase.ui:2459
-#, fuzzy
 msgid "Normal Window"
 msgstr "Ventana normal"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
 #: detectwidget.cpp:101 ruleswidgetbase.ui:463 ruleswidgetbase.ui:2494
-#, fuzzy
 msgid "Desktop"
 msgstr "Escritoriu"
 
@@ -48,7 +46,6 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
 #: detectwidget.cpp:103 ruleswidgetbase.ui:448 ruleswidgetbase.ui:2479
-#, fuzzy
 msgid "Toolbar"
 msgstr "Barra de ferramientes"
 
@@ -94,13 +91,11 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: detectwidget.ui:17
-#, fuzzy
 msgid "Information About Selected Window"
 msgstr "Información tocante a la ventana esbillada"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: detectwidget.ui:29
-#, fuzzy
 msgid "Class:"
 msgstr "Clas:"
 
@@ -111,19 +106,16 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #: detectwidget.ui:85
-#, fuzzy
 msgid "Type:"
 msgstr "Triba:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel8)
 #: detectwidget.ui:113
-#, fuzzy
 msgid "Title:"
 msgstr "Títlu:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel13)
 #: detectwidget.ui:141
-#, fuzzy
 msgid "Machine:"
 msgstr "Máquina:"
 
@@ -173,7 +165,6 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, pushButton2)
 #: editshortcut.ui:85
-#, fuzzy
 msgid "C&lear"
 msgstr "L&limpiar"
 
@@ -213,7 +204,7 @@ msgstr ""
 #: main.cpp:149
 #, kde-format
 msgid "Application settings for %1"
-msgstr ""
+msgstr "Axustes d'aplicación pa %1"
 
 #: main.cpp:169
 #, kde-format
@@ -329,20 +320,20 @@ msgstr ""
 
 #: ruleswidget.cpp:150
 msgid "All Desktops"
-msgstr ""
+msgstr "Tolos escritorios"
 
 #: ruleswidget.cpp:329
 msgid "All Activities"
-msgstr ""
+msgstr "Toles actividaes"
 
 #: ruleswidget.cpp:758
 #, kde-format
 msgid "Settings for %1"
-msgstr ""
+msgstr "Axustes pa %1"
 
 #: ruleswidget.cpp:760
 msgid "Unnamed entry"
-msgstr ""
+msgstr "Entrada ensin nome"
 
 #: ruleswidget.cpp:770
 msgid ""
@@ -364,10 +355,14 @@ msgid ""
 "setting using the checkbox, select in what way the setting should be "
 "affected and to which value."
 msgstr ""
+"Esti diálogu de configuración permite alteriar los axustes pa namái "
+"l'aplicación o ventana esbillada. Alcuentra l'axuste que quieras influyir "
+"habilitándolu y usando'l caxellu nel mou que debería ser influyíu y a qué "
+"valor."
 
 #: ruleswidget.cpp:834
 msgid "Consult the documentation for more details."
-msgstr ""
+msgstr "Consulta la documentación pa más detalles."
 
 #: ruleswidget.cpp:873
 msgid "Edit Shortcut"
@@ -381,12 +376,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
 msgid "&Description:"
-msgstr ""
+msgstr "&Descripción"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: ruleswidgetbase.ui:46
 msgid "Window &class (application):"
-msgstr ""
+msgstr "&Clas de ventana (aplicación):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, wmclass_match)
 #. i18n: ectx: property (text), item, widget (KComboBox, role_match)
@@ -422,7 +417,7 @@ msgstr ""
 #: ruleswidgetbase.ui:78 ruleswidgetbase.ui:141 ruleswidgetbase.ui:210
 #: ruleswidgetbase.ui:263
 msgid "Regular Expression"
-msgstr ""
+msgstr "Espresión regular"
 
 #. i18n: ectx: property (text), widget (QPushButton, edit_reg_wmclass)
 #. i18n: ectx: property (text), widget (QPushButton, edit_reg_role)
@@ -451,7 +446,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #: ruleswidgetbase.ui:178
 msgid "Window t&itle:"
-msgstr ""
+msgstr "T&ítulu de ventana:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel7)
 #: ruleswidgetbase.ui:231
@@ -461,7 +456,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, detect)
 #: ruleswidgetbase.ui:318
 msgid "&Detect Window Properties"
-msgstr ""
+msgstr "&Deteutar propiedaes de ventana"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, detection_delay)
 #: ruleswidgetbase.ui:325
@@ -476,12 +471,12 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage3)
 #: ruleswidgetbase.ui:489
 msgid "&Size && Position"
-msgstr ""
+msgstr "&Tamañu y posición"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_position)
 #: ruleswidgetbase.ui:495
 msgid "&Position"
-msgstr ""
+msgstr "&Posición"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_position)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_size)
@@ -662,7 +657,7 @@ msgstr ""
 #: ruleswidgetbase.ui:1454 ruleswidgetbase.ui:1577 ruleswidgetbase.ui:1661
 #: ruleswidgetbase.ui:1698 ruleswidgetbase.ui:1881 ruleswidgetbase.ui:1939
 msgid "Apply Now"
-msgstr ""
+msgstr "Aplicar agora"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_position)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_size)
@@ -712,7 +707,7 @@ msgstr ""
 #: ruleswidgetbase.ui:2319 ruleswidgetbase.ui:2368 ruleswidgetbase.ui:2411
 #: ruleswidgetbase.ui:2447 ruleswidgetbase.ui:2535
 msgid "Force Temporarily"
-msgstr ""
+msgstr "Forciar temporalmente"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, position)
 #: ruleswidgetbase.ui:542
@@ -731,7 +726,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_size)
 #: ruleswidgetbase.ui:552
 msgid "&Size"
-msgstr ""
+msgstr "&Tamañu"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, size)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, minsize)
@@ -753,17 +748,17 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_desktop)
 #: ruleswidgetbase.ui:738
 msgid "&Desktop"
-msgstr ""
+msgstr "&Escritoriu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_activity)
 #: ruleswidgetbase.ui:802
 msgid "Activit&y"
-msgstr ""
+msgstr "Activi&dá"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fullscreen)
 #: ruleswidgetbase.ui:870
 msgid "&Fullscreen"
-msgstr ""
+msgstr "&Pantalla completa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_minimize)
 #: ruleswidgetbase.ui:921
@@ -847,12 +842,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_minsize)
 #: ruleswidgetbase.ui:1205
 msgid "M&inimum size"
-msgstr ""
+msgstr "Tamañu mín&imu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_maxsize)
 #: ruleswidgetbase.ui:1225
 msgid "M&aximum size"
-msgstr ""
+msgstr "Tam&añu máximu"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_strictgeometry)
 #: ruleswidgetbase.ui:1271
@@ -872,7 +867,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_screen)
 #: ruleswidgetbase.ui:1369
 msgid "Screen"
-msgstr ""
+msgstr "Pantalla"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage4)
 #: ruleswidgetbase.ui:1377
@@ -947,7 +942,7 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: ruleswidgetbase.ui:1902
 msgid "Appearance && &Fixes"
-msgstr ""
+msgstr "Aspeutu ya &igües"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_noborder)
 #: ruleswidgetbase.ui:1908
@@ -957,12 +952,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_decocolor)
 #: ruleswidgetbase.ui:1959
 msgid "Titlebar color &scheme"
-msgstr ""
+msgstr "&Esquema de color de barra de títulos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityactive)
 #: ruleswidgetbase.ui:2024
 msgid "A&ctive opacity"
-msgstr ""
+msgstr "Opacidá &activa"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, opacityactive)
 #. i18n: ectx: property (suffix), widget (QSpinBox, opacityinactive)
@@ -974,7 +969,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityinactive)
 #: ruleswidgetbase.ui:2047
 msgid "I&nactive opacity"
-msgstr ""
+msgstr "Opacida &inactiva"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_fsplevel)
 #: ruleswidgetbase.ui:2148
@@ -989,7 +984,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fsplevel)
 #: ruleswidgetbase.ui:2151
 msgid "&Focus stealing prevention"
-msgstr ""
+msgstr "Evitar robu de &focu"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
@@ -1035,7 +1030,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fpplevel)
 #: ruleswidgetbase.ui:2232
 msgid "Focus protection"
-msgstr ""
+msgstr "Proteición del focu"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_acceptfocus)
 #: ruleswidgetbase.ui:2295
@@ -1048,7 +1043,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_acceptfocus)
 #: ruleswidgetbase.ui:2298
 msgid "Accept &focus"
-msgstr ""
+msgstr "Aceutar &focu"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_disableglobalshortcuts)
 #: ruleswidgetbase.ui:2341
@@ -1085,8 +1080,8 @@ msgstr ""
 
 #: yesnobox.h:35
 msgid "Yes"
-msgstr ""
+msgstr "Sí"
 
 #: yesnobox.h:36
 msgid "No"
-msgstr ""
+msgstr "Non"

@@ -27,12 +27,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <memory>
 
+#include <QElapsedTimer>
+#include <QPointer>
+
 namespace KWayland
 {
 namespace Server
 {
 class PlasmaWindowInterface;
 }
+}
+
+namespace KDecoration2
+{
+class Decoration;
 }
 
 namespace KWin
@@ -45,6 +53,7 @@ class TabBoxClientImpl;
 
 namespace Decoration
 {
+class DecoratedClientImpl;
 class DecorationPalette;
 }
 
@@ -195,6 +204,22 @@ class KWIN_EXPORT AbstractClient : public Toplevel
      * Notify signal is emitted when the Client starts or ends move/resize mode.
      **/
     Q_PROPERTY(bool resize READ isResize NOTIFY moveResizedChanged)
+    /**
+     * Whether the decoration is currently using an alpha channel.
+     **/
+    Q_PROPERTY(bool decorationHasAlpha READ decorationHasAlpha)
+    /**
+     * Whether the window has a decoration or not.
+     * This property is not allowed to be set by applications themselves.
+     * The decision whether a window has a border or not belongs to the window manager.
+     * If this property gets abused by application developers, it will be removed again.
+     **/
+    Q_PROPERTY(bool noBorder READ noBorder WRITE setNoBorder)
+    /**
+     * Whether the Client provides context help. Mostly needed by decorations to decide whether to
+     * show the help button or not.
+     **/
+    Q_PROPERTY(bool providesContextHelp READ providesContextHelp CONSTANT)
 public:
     virtual ~AbstractClient();
 
@@ -259,6 +284,10 @@ public:
     void cancelAutoRaise();
 
     bool wantsTabFocus() const;
+
+    QPoint clientPos() const override {
+        return QPoint(borderLeft(), borderTop());
+    }
 
     virtual void updateMouseGrab();
     virtual QString caption(bool full = true, bool stripped = false) const = 0;
@@ -331,7 +360,6 @@ public:
     virtual void blockActivityUpdates(bool b = true) = 0;
     QPalette palette() const;
     const Decoration::DecorationPalette *decorationPalette() const;
-    virtual bool isDecorated() const;
     virtual bool isResizable() const = 0;
     virtual bool isMovable() const = 0;
     virtual bool isMovableAcrossScreens() const = 0;
@@ -377,6 +405,9 @@ public:
      **/
     void endMoveResize();
     void keyPressEvent(uint key_code);
+
+    void enterEvent(const QPoint &globalPos);
+    void leaveEvent();
 
     /**
      * These values represent positions inside an area
@@ -477,6 +508,50 @@ public:
     Options::MouseCommand getMouseCommand(Qt::MouseButton button, bool *handled) const;
     Options::MouseCommand getWheelCommand(Qt::Orientation orientation, bool *handled) const;
 
+    // decoration related
+    KDecoration2::Decoration *decoration() {
+        return m_decoration.decoration;
+    }
+    const KDecoration2::Decoration *decoration() const {
+        return m_decoration.decoration;
+    }
+    bool isDecorated() const {
+        return m_decoration.decoration != nullptr;
+    }
+    QPointer<Decoration::DecoratedClientImpl> decoratedClient() const;
+    void setDecoratedClient(QPointer<Decoration::DecoratedClientImpl> client);
+    bool decorationHasAlpha() const;
+    void triggerDecorationRepaint();
+    virtual void layoutDecorationRects(QRect &left, QRect &top, QRect &right, QRect &bottom) const;
+    void processDecorationMove(const QPoint &localPos, const QPoint &globalPos);
+    bool processDecorationButtonPress(QMouseEvent *event, bool ignoreMenu = false);
+    void processDecorationButtonRelease(QMouseEvent *event);
+
+    /**
+     * TODO: fix boolean traps
+     **/
+    virtual void updateDecoration(bool check_workspace_pos, bool force = false) = 0;
+
+    /**
+    * Returns whether the window provides context help or not. If it does,
+    * you should show a help menu item or a help button like '?' and call
+    * contextHelp() if this is invoked.
+    *
+    * Default implementation returns @c false.
+    * @see showContextHelp;
+    */
+    virtual bool providesContextHelp() const;
+
+    /**
+    * Invokes context help on the window. Only works if the window
+    * actually provides context help.
+    *
+    * Default implementation does nothing.
+    *
+    * @see providesContextHelp()
+    */
+    virtual void showContextHelp();
+
     // TODO: remove boolean trap
     static bool belongToSameApplication(const AbstractClient* c1, const AbstractClient* c2, bool active_hack = false);
 
@@ -514,6 +589,10 @@ Q_SIGNALS:
     void clientStartUserMovedResized(KWin::AbstractClient*);
     void clientStepUserMovedResized(KWin::AbstractClient *, const QRect&);
     void clientFinishUserMovedResized(KWin::AbstractClient*);
+    void closeableChanged(bool);
+    void minimizeableChanged(bool);
+    void shadeableChanged(bool);
+    void maximizeableChanged(bool);
 
 protected:
     AbstractClient();
@@ -523,6 +602,12 @@ protected:
     void setIcon(const QIcon &icon);
     void startAutoRaise();
     void autoRaise();
+    /**
+     * Whether the window accepts focus.
+     * The difference to wantsInput is that the implementation should not check rules and return
+     * what the window effectively supports.
+     **/
+    virtual bool acceptsFocus() const = 0;
     /**
      * Called from ::setActive once the active value got updated, but before the changed signal
      * is emitted.
@@ -604,10 +689,10 @@ protected:
 
     // geometry handling
     void checkOffscreenPosition(QRect *geom, const QRect &screenArea);
-    virtual int borderLeft() const;
-    virtual int borderRight() const;
-    virtual int borderTop() const;
-    virtual int borderBottom() const;
+    int borderLeft() const;
+    int borderRight() const;
+    int borderTop() const;
+    int borderBottom() const;
     virtual void changeMaximize(bool horizontal, bool vertical, bool adjust) = 0;
     virtual void setGeometryRestore(const QRect &geo) = 0;
     /**
@@ -761,13 +846,15 @@ protected:
     virtual void doResizeSync();
     void handleMoveResize(int x, int y, int x_root, int y_root);
     void handleMoveResize(const QPoint &local, const QPoint &global);
+    void dontMoveResize();
 
     virtual QSize resizeIncrements() const;
 
     /**
-     * Default implementation returns PositionCenter
+     * Returns the position depending on the Decoration's section under mouse.
+     * If no decoration it returns PositionCenter.
      **/
-    virtual Position mousePosition() const;
+    Position mousePosition() const;
 
     static bool haveResizeEffect() {
         return s_haveResizeEffect;
@@ -776,6 +863,13 @@ protected:
     static void resetHaveResizeEffect() {
         s_haveResizeEffect = false;
     }
+
+    void setDecoration(KDecoration2::Decoration *decoration) {
+        m_decoration.decoration = decoration;
+    }
+    virtual void destroyDecoration();
+    void startDecorationDoubleClickTimer();
+    void invalidateDecorationDoubleClickTimer();
 
 private:
     void handlePaletteChange();
@@ -837,6 +931,12 @@ private:
         int startScreen = 0;
         QTimer *delayedTimer = nullptr;
     } m_moveResize;
+
+    struct {
+        KDecoration2::Decoration *decoration = nullptr;
+        QPointer<Decoration::DecoratedClientImpl> client;
+        QElapsedTimer doubleClickTimer;
+    } m_decoration;
 
 
     static bool s_haveResizeEffect;

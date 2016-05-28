@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "coverswitchconfig.h"
 
 #include <kwinconfig.h>
+#include <QFile>
 #include <QFont>
 #include <QIcon>
 #include <QMatrix4x4>
@@ -60,12 +61,7 @@ CoverSwitchEffect::CoverSwitchEffect()
     captionFont.setPointSize(captionFont.pointSize() * 2);
 
     if (effects->compositingType() == OpenGL2Compositing) {
-        QString shadersDir = QStringLiteral("kwin/shaders/1.10/");
-        const qint64 coreVersionNumber = GLPlatform::instance()->isGLES() ? kVersionNumber(3, 0) : kVersionNumber(1, 40);
-        if (GLPlatform::instance()->glslVersion() >= coreVersionNumber)
-            shadersDir = QStringLiteral("kwin/shaders/1.40/");
-        const QString fragmentshader = QStandardPaths::locate(QStandardPaths::GenericDataLocation, shadersDir + QStringLiteral("coverswitch-reflection.glsl"));
-        m_reflectionShader = ShaderManager::instance()->loadFragmentShader(ShaderManager::GenericShader, fragmentshader);
+        m_reflectionShader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture, QString(), QStringLiteral("coverswitch-reflection.glsl"));
     } else {
         m_reflectionShader = NULL;
     }
@@ -238,9 +234,9 @@ void CoverSwitchEffect::paintScreen(int mask, QRegion region, ScreenPaintData& d
 
             if (m_reflectionShader && m_reflectionShader->isValid()) {
                 ShaderManager::instance()->pushShader(m_reflectionShader);
-                QMatrix4x4 windowTransformation;
+                QMatrix4x4 windowTransformation = data.projectionMatrix();
                 windowTransformation.translate(area.x() + area.width() * 0.5f, 0.0, 0.0);
-                m_reflectionShader->setUniform("windowTransformation", windowTransformation);
+                m_reflectionShader->setUniform(GLShader::ModelViewProjectionMatrix, windowTransformation);
                 m_reflectionShader->setUniform("u_frontColor", QVector4D(mirrorColor[0][0], mirrorColor[0][1], mirrorColor[0][2], mirrorColor[0][3]));
                 m_reflectionShader->setUniform("u_backColor", QVector4D(mirrorColor[1][0], mirrorColor[1][1], mirrorColor[1][2], mirrorColor[1][3]));
                 // TODO: make this one properly
@@ -677,11 +673,10 @@ void CoverSwitchEffect::paintWindowCover(EffectWindow* w, bool reflectedWindow, 
     }
 
     if (reflectedWindow) {
-        GLShader *shader = ShaderManager::instance()->pushShader(ShaderManager::GenericShader);
-        QMatrix4x4 origMatrix = shader->getUniformMatrix4x4("screenTransformation");
         QMatrix4x4 reflectionMatrix;
         reflectionMatrix.scale(1.0, -1.0, 1.0);
-        shader->setUniform("screenTransformation", origMatrix * reflectionMatrix);
+        data.setProjectionMatrix(data.screenProjectionMatrix());
+        data.setModelViewMatrix(reflectionMatrix);
         data.setYTranslation(- area.height() - windowRect.y() - windowRect.height());
         if (start) {
             data.multiplyOpacity(timeLine.currentValue());
@@ -691,8 +686,6 @@ void CoverSwitchEffect::paintWindowCover(EffectWindow* w, bool reflectedWindow, 
         effects->drawWindow(w,
                                 PAINT_WINDOW_TRANSFORMED,
                                 infiniteRegion(), data);
-        shader->setUniform("screenTransformation", origMatrix);
-        ShaderManager::instance()->popShader();
     } else {
         effects->paintWindow(w,
                              PAINT_WINDOW_TRANSFORMED,

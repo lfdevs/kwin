@@ -2,7 +2,7 @@
 #
 # Torstein Dybdahl <torsted@runbox.no>, 2004.
 # Knut Yrvin <knut.yrvin@gmail.com>, 2005.
-# Axel Bojer <axel@bojer.no>, 2005.
+# Axel Bojer <fri_programvare@bojer.no>, 2005.
 # Bjørn Kvisli <bjorn.kvisli@gmail.com>, 2007.
 # Nils Kristian Tomren <slx@nilsk.net>, 2007.
 # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014.

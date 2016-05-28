@@ -1,5 +1,5 @@
 # translation of kwin.po to
-# Version: $Revision: 1447342 $
+# Version: $Revision: 1457665 $
 # translation of kwin.po to Polish
 # translation of kwin.po to
 # Norbert Popiołek <norbert@kde.com.pl>
@@ -10,13 +10,13 @@
 # Marta Rybczyńska <kde-i18n@rybczynska.net>, 2009, 2013.
 # Maciej Wikło <maciej.wiklo@wp.pl>, 2010.
 # Mirek Sabiniewicz <m.sabiniewicz@gmail.com>, 2010.
-# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014, 2015.
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-12-15 11:59+0000\n"
-"PO-Revision-Date: 2015-11-21 07:24+0100\n"
+"POT-Creation-Date: 2016-04-14 11:32+0000\n"
+"PO-Revision-Date: 2016-02-20 08:30+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -44,7 +44,7 @@ msgid "Your emails"
 msgstr ""
 "mrudolf@kdewebdev.org, norbert@kde.com.pl, lukasz.wojnilowicz@gmail.com"
 
-#: composite.cpp:555
+#: composite.cpp:556
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -444,104 +444,111 @@ msgstr ""
 "Wygląda na to, że kilkukrotnie ulegał on awarii.\n"
 "Można wybrać inny program zarządzający oknami:"
 
-#: main.cpp:277 main.cpp:304
+#: main.cpp:278 main.cpp:305
 msgid "KDE window manager"
 msgstr "Zarządzanie oknami KDE"
 
-#: main.cpp:282
+#: main.cpp:283
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:286
+#: main.cpp:287
 msgid "(c) 1999-2013, The KDE Developers"
 msgstr "(c) 1998-2013, Programiści KDE"
 
-#: main.cpp:288
+#: main.cpp:289
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:289
+#: main.cpp:290
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:290
+#: main.cpp:291
 msgid "Daniel M. Duley"
 msgstr "Daniel M. Duley"
 
-#: main.cpp:291
+#: main.cpp:292
 msgid "Luboš Luňák"
 msgstr "Luboš Luňák"
 
-#: main.cpp:292
+#: main.cpp:293
 msgid "Martin Gräßlin"
 msgstr "Martin Gräßlin"
 
-#: main.cpp:292
+#: main.cpp:293
 msgid "Maintainer"
 msgstr "Opiekun"
 
-#: main.cpp:301
+#: main.cpp:302
 msgid "Disable configuration options"
 msgstr "Wyłącz możliwość ustawiania"
 
-#: main.cpp:302
+#: main.cpp:303
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Powiadom, że KWin ostatnio n razy został przerwany z powodu awarii"
 
-#: main_wayland.cpp:188
+#: main_wayland.cpp:203
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr ""
 "kwin_wayland: uruchomiono program X11 do zarządzania oknami na wyświetlaczu "
 "X11.\n"
 
-#: main_wayland.cpp:445
+#: main_wayland.cpp:478
 msgid "Start a rootless Xwayland server."
 msgstr "Uruchom serwer Xwayland bez uprawnień administratora."
 
-#: main_wayland.cpp:447
+#: main_wayland.cpp:480
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 "Nazwa gniazda Waylanda, na którym nasłuchiwać. Jeśli nieustawione, to "
 "używane jest \"wayland-0\"."
 
-#: main_wayland.cpp:450
+#: main_wayland.cpp:483
 msgid "Use a nested compositor in windowed mode."
 msgstr "Użyj zagnieżdżonego kompozytora w trybie okien."
 
-#: main_wayland.cpp:452
+#: main_wayland.cpp:485
 msgid "Render to framebuffer."
 msgstr "Wyświetl w buforze klatek."
 
-#: main_wayland.cpp:454
+#: main_wayland.cpp:487
 msgid "The framebuffer device to render to."
 msgstr "Urządzenie bufora klatek, w którym wyświetlić."
 
-#: main_wayland.cpp:458
+#: main_wayland.cpp:491
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "Wyświetlacz X11 do użycia w trybie okien na platformie X11."
 
-#: main_wayland.cpp:461
+#: main_wayland.cpp:494
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr "Wyświetlacz Wayland do użycia w trybie okien na platformie Wayland."
 
-#: main_wayland.cpp:463
+#: main_wayland.cpp:496
 msgid "Render to a virtual framebuffer."
 msgstr "Wyświetlaj w wirtualnym buforze klatek."
 
-#: main_wayland.cpp:465
+#: main_wayland.cpp:498
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "Szerokość dla trybu okien. Domyślna szerokość to 1024."
 
-#: main_wayland.cpp:469
+#: main_wayland.cpp:502
 msgid "The height for windowed mode. Default height is 768."
 msgstr "Wysokość dla trybu okien. Domyślna wysokość to 768."
 
-#: main_wayland.cpp:498
+#: main_wayland.cpp:506
+msgid ""
+"The number of windows to open as outputs in windowed mode. Default value is 1"
+msgstr ""
+"Liczba okien do otwarcia jako okna wynikowe w trybie okien. Domyślna wartość "
+"to 1"
+
+#: main_wayland.cpp:538
 msgid "Use libhybris hwcomposer"
 msgstr "Użyj libhybris hwcomposer"
 
-#: main_wayland.cpp:505
+#: main_wayland.cpp:545
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
@@ -549,32 +556,36 @@ msgstr ""
 "Włącz obsługę libinput dla przetwarzania zdarzeń wejścia. Uwaga: nie używaj "
 "nigdy w zagnieżdżonych sesjach."
 
-#: main_wayland.cpp:509
+#: main_wayland.cpp:549
 msgid "Render through drm node."
 msgstr "Wyświetl przez węzeł drm."
 
-#: main_wayland.cpp:516
+#: main_wayland.cpp:556
 msgid "Input method that KWin starts."
 msgstr "Metoda wprowadzania, którą uruchamia KWin."
 
-#: main_wayland.cpp:521
+#: main_wayland.cpp:561
 msgid "List all available backends and quit."
 msgstr "Wymień wszystkie dostępne silniki i wyjdź."
 
-#: main_wayland.cpp:525
+#: main_wayland.cpp:565
 msgid "Starts the session in locked mode."
 msgstr "Rozpoczyna sesję w trybie zablokowanym"
 
-#: main_wayland.cpp:529
+#: main_wayland.cpp:569
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr ""
 "Wyjdź po zamknięciu aplikacji sesji, która została uruchomiona przez KWin."
 
-#: main_wayland.cpp:534
+#: main_wayland.cpp:575 main_x11.cpp:297
+msgid "Disable KActivities integration."
+msgstr "Wyłącz integrację KActivities."
+
+#: main_wayland.cpp:580
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr "Aplikacja do uruchomienia po uruchomieniu Waylanda oraz Xwaylanda"
 
-#: main_x11.cpp:158
+#: main_x11.cpp:159
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
@@ -582,22 +593,22 @@ msgstr ""
 "kwin: nie można przejąć zarządzania oknami, być może działa już inny program "
 "zarządzający oknami? (spróbuj użyć --replace)\n"
 
-#: main_x11.cpp:175
+#: main_x11.cpp:176
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "kwin: uruchomiony jest inny program zarządzający oknami? (spróbuj użyć --"
 "replace)\n"
 
-#: main_x11.cpp:278
+#: main_x11.cpp:290
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr ""
 "Zastąp już działający program do zarządzania oknami zgodnego z ICCCM2.0"
 
-#: scene_opengl.cpp:677
+#: scene_opengl.cpp:683
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr "Uruchomiono efekty pulpitu na nowo ze względu na awarię grafiki"
 
-#: scene_opengl.cpp:867
+#: scene_opengl.cpp:875
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -612,7 +623,7 @@ msgstr ""
 "tej rozdzielczości.<br>Alternatywnie, obniż połączoną rozdzielczość dla "
 "wszystkich ekranów do %1x%2 "
 
-#: scene_opengl.cpp:874
+#: scene_opengl.cpp:882
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
 "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
@@ -624,7 +635,7 @@ msgstr ""
 "<br>XRender nie jest związany takim ograniczeniem, ale na jego wydajność na "
 "pewno wpływnie ograniczenie sprzętowe, które ogranicza rozmiar widoku OpenGL."
 
-#: scene_opengl.cpp:899
+#: scene_opengl.cpp:907
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -638,7 +649,7 @@ msgstr ""
 "wstrzymanie kompozycji, przełącz na silnik XRender lub obniż rozdzielczość "
 "do %1x%1."
 
-#: scene_opengl.cpp:905
+#: scene_opengl.cpp:913
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
 "GPU, thus windows of that size cannot be assigned to textures and will be "
@@ -704,52 +715,51 @@ msgstr "Pokaż pulpit"
 
 #: tabbox/tabbox.cpp:514
 msgid "Walk Through Windows"
-msgstr "Przechodzenie między oknami"
+msgstr "Przełączanie okien"
 
 #: tabbox/tabbox.cpp:515
 msgid "Walk Through Windows (Reverse)"
-msgstr "Przechodzenie między oknami (odwrotne)"
+msgstr "Przełączanie okien (odwrotne)"
 
 #: tabbox/tabbox.cpp:516
 msgid "Walk Through Windows Alternative"
-msgstr "Alternatywne przechodzenie między oknami"
+msgstr "Alternatywne przełączanie okien"
 
 #: tabbox/tabbox.cpp:517
 msgid "Walk Through Windows Alternative (Reverse)"
-msgstr "Alternatywne przechodzenie między oknami (odwrotne)"
+msgstr "Alternatywne przełączanie okien (odwrotne)"
 
 #: tabbox/tabbox.cpp:518
 msgid "Walk Through Windows of Current Application"
-msgstr "Przechodzenie pomiędzy oknami bieżącego programu"
+msgstr "Przełączanie okien bieżącego programu"
 
 #: tabbox/tabbox.cpp:519
 msgid "Walk Through Windows of Current Application (Reverse)"
-msgstr "Przechodzenie pomiędzy oknami bieżącego programu (odwrotne)"
+msgstr "Przełączanie okien bieżącego programu (odwrotne)"
 
 #: tabbox/tabbox.cpp:520
 msgid "Walk Through Windows of Current Application Alternative"
-msgstr "Alternatywne przechodzenie pomiędzy oknami bieżącego programu"
+msgstr "Alternatywne przełączanie okien bieżącego programu"
 
 #: tabbox/tabbox.cpp:521
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
-msgstr ""
-"Alternatywne przechodzenie pomiędzy oknami bieżącego programu (odwrotne)"
+msgstr "Alternatywne przełączanie okien bieżącego programu (odwrotne)"
 
 #: tabbox/tabbox.cpp:522
 msgid "Walk Through Desktops"
-msgstr "Przechodzenie między pulpitami"
+msgstr "Przełączanie pulpitów"
 
 #: tabbox/tabbox.cpp:523
 msgid "Walk Through Desktops (Reverse)"
-msgstr "Przechodzenie między pulpitami (odwrotne)"
+msgstr "Przełączanie pulpitów (odwrotne)"
 
 #: tabbox/tabbox.cpp:524
 msgid "Walk Through Desktop List"
-msgstr "Przechodzenie między listą pulpitów"
+msgstr "Przełączanie pulpitów z listy"
 
 #: tabbox/tabbox.cpp:525
 msgid "Walk Through Desktop List (Reverse)"
-msgstr "Przechodzenie między listą pulpitów (odwrotne)"
+msgstr "Przełączanie pulpitów z listy (odwrotne)"
 
 #: tabbox/tabboxhandler.cpp:292
 msgid ""
@@ -933,7 +943,7 @@ msgstr "<b>%1</b> jest używane przez %2 w %3"
 msgid "Activate Window (%1)"
 msgstr "Uaktywnij okno (%1)"
 
-#: useractions.cpp:1267
+#: useractions.cpp:1256
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
 "as active one.\n"
@@ -977,7 +987,7 @@ msgstr "Przełącz jeden pulpit niżej"
 msgid "Switch to Desktop %1"
 msgstr "Przełącz na pulpit %1"
 
-#: workspace.cpp:1306
+#: workspace.cpp:1305
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

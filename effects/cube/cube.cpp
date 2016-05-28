@@ -89,22 +89,15 @@ CubeEffect::CubeEffect()
     , zOrderingFactor(0.0f)
     , mAddedHeightCoeff1(0.0f)
     , mAddedHeightCoeff2(0.0f)
-    , m_shadersDir(QStringLiteral("kwin/shaders/1.10/"))
     , m_cubeCapBuffer(NULL)
     , m_proxy(this)
 {
     desktopNameFont.setBold(true);
     desktopNameFont.setPointSize(14);
 
-    const qint64 coreVersionNumber = GLPlatform::instance()->isGLES() ? kVersionNumber(3, 0) : kVersionNumber(1, 40);
-    if (GLPlatform::instance()->glslVersion() >= coreVersionNumber)
-        m_shadersDir = QStringLiteral("kwin/shaders/1.40/");
-
     if (effects->compositingType() == OpenGL2Compositing) {
-        const QString fragmentshader = QStandardPaths::locate(QStandardPaths::GenericDataLocation, m_shadersDir + QStringLiteral("cube-reflection.glsl"));
-        m_reflectionShader = ShaderManager::instance()->loadFragmentShader(ShaderManager::GenericShader, fragmentshader);
-        const QString capshader = QStandardPaths::locate(QStandardPaths::GenericDataLocation, m_shadersDir + QStringLiteral("cube-cap.glsl"));
-        m_capShader = ShaderManager::instance()->loadFragmentShader(ShaderManager::GenericShader, capshader);
+        m_reflectionShader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture, QString(), QStringLiteral("cube-reflection.glsl"));
+        m_capShader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture, QString(), QStringLiteral("cube-cap.glsl"));
     } else {
         m_reflectionShader = NULL;
         m_capShader = NULL;
@@ -114,7 +107,6 @@ CubeEffect::CubeEffect()
     connect(effects, SIGNAL(tabBoxAdded(int)), this, SLOT(slotTabBoxAdded(int)));
     connect(effects, SIGNAL(tabBoxClosed()), this, SLOT(slotTabBoxClosed()));
     connect(effects, SIGNAL(tabBoxUpdated()), this, SLOT(slotTabBoxUpdated()));
-    connect(effects, SIGNAL(screenGeometryChanged(const QSize&)), this, SLOT(slotResetShaders()));
 
     reconfigure(ReconfigureAll);
 }
@@ -222,7 +214,7 @@ void CubeEffect::reconfigure(ReconfigureFlags)
     // set the cap color on the shader
     if (m_capShader && m_capShader->isValid()) {
         ShaderBinder binder(m_capShader);
-        m_capShader->setUniform("u_capColor", capColor);
+        m_capShader->setUniform(GLShader::Color, capColor);
     }
 }
 
@@ -290,84 +282,31 @@ void CubeEffect::slotWallPaperLoaded()
     watcher->deleteLater();
 }
 
-void CubeEffect::slotResetShaders()
-{
-    ShaderManager::instance()->resetShader(m_capShader,         ShaderManager::GenericShader);
-    ShaderManager::instance()->resetShader(m_reflectionShader,  ShaderManager::GenericShader);
-    ShaderManager::instance()->resetShader(cylinderShader,      ShaderManager::GenericShader);
-    ShaderManager::instance()->resetShader(sphereShader,        ShaderManager::GenericShader);
-}
-
 bool CubeEffect::loadShader()
 {
     effects->makeOpenGLContextCurrent();
     if (!(GLPlatform::instance()->supports(GLSL) &&
             (effects->compositingType() == OpenGL2Compositing)))
         return false;
-    QString cylinderVertexshader =  QStandardPaths::locate(QStandardPaths::GenericDataLocation, m_shadersDir + QStringLiteral("cylinder.vert"));
-    QString sphereVertexshader   = QStandardPaths::locate(QStandardPaths::GenericDataLocation, m_shadersDir + QStringLiteral("sphere.vert"));
-    if (cylinderVertexshader.isEmpty() || sphereVertexshader.isEmpty()) {
-        qCCritical(KWINEFFECTS) << "Couldn't locate shader files";
-        return false;
-    }
 
-    cylinderShader = ShaderManager::instance()->loadVertexShader(ShaderManager::GenericShader, cylinderVertexshader);
+    cylinderShader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture | ShaderTrait::AdjustSaturation | ShaderTrait::Modulate, QStringLiteral("cylinder.vert"), QString());
     if (!cylinderShader->isValid()) {
         qCCritical(KWINEFFECTS) << "The cylinder shader failed to load!";
         return false;
     } else {
         ShaderBinder binder(cylinderShader);
         cylinderShader->setUniform("sampler", 0);
-        QMatrix4x4 projection;
-        float fovy = 60.0f;
-        float aspect = 1.0f;
-        float zNear = 0.1f;
-        float zFar = 100.0f;
-        float ymax = zNear * tan(fovy  * M_PI / 360.0f);
-        float ymin = -ymax;
-        float xmin =  ymin * aspect;
-        float xmax = ymax * aspect;
-        projection.frustum(xmin, xmax, ymin, ymax, zNear, zFar);
-        cylinderShader->setUniform(GLShader::ProjectionMatrix, projection);
-        QMatrix4x4 modelview;
-        float scaleFactor = 1.1 * tan(fovy * M_PI / 360.0f) / ymax;
-        modelview.translate(xmin * scaleFactor, ymax * scaleFactor, -1.1);
-        const QSize screenSize = effects->virtualScreenSize();
-        modelview.scale((xmax - xmin)*scaleFactor / screenSize.width(), -(ymax - ymin)*scaleFactor / screenSize.height(), 0.001);
-        cylinderShader->setUniform(GLShader::ModelViewMatrix, modelview);
-        const QMatrix4x4 identity;
-        cylinderShader->setUniform(GLShader::ScreenTransformation, identity);
-        cylinderShader->setUniform(GLShader::WindowTransformation, identity);
         QRect rect = effects->clientArea(FullArea, activeScreen, effects->currentDesktop());
         cylinderShader->setUniform("width", (float)rect.width() * 0.5f);
     }
-    sphereShader = ShaderManager::instance()->loadVertexShader(ShaderManager::GenericShader, sphereVertexshader);
+
+    sphereShader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture | ShaderTrait::AdjustSaturation | ShaderTrait::Modulate, QStringLiteral("sphere.vert"), QString());
     if (!sphereShader->isValid()) {
         qCCritical(KWINEFFECTS) << "The sphere shader failed to load!";
         return false;
     } else {
         ShaderBinder binder(sphereShader);
         sphereShader->setUniform("sampler", 0);
-        QMatrix4x4 projection;
-        float fovy = 60.0f;
-        float aspect = 1.0f;
-        float zNear = 0.1f;
-        float zFar = 100.0f;
-        float ymax = zNear * tan(fovy  * M_PI / 360.0f);
-        float ymin = -ymax;
-        float xmin =  ymin * aspect;
-        float xmax = ymax * aspect;
-        projection.frustum(xmin, xmax, ymin, ymax, zNear, zFar);
-        sphereShader->setUniform(GLShader::ProjectionMatrix, projection);
-        QMatrix4x4 modelview;
-        float scaleFactor = 1.1 * tan(fovy * M_PI / 360.0f) / ymax;
-        modelview.translate(xmin * scaleFactor, ymax * scaleFactor, -1.1);
-        const QSize screenSize = effects->virtualScreenSize();
-        modelview.scale((xmax - xmin)*scaleFactor / screenSize.width(), -(ymax - ymin)*scaleFactor / screenSize.height(), 0.001);
-        sphereShader->setUniform(GLShader::ModelViewMatrix, modelview);
-        const QMatrix4x4 identity;
-        sphereShader->setUniform(GLShader::ScreenTransformation, identity);
-        sphereShader->setUniform(GLShader::WindowTransformation, identity);
         QRect rect = effects->clientArea(FullArea, activeScreen, effects->currentDesktop());
         sphereShader->setUniform("width", (float)rect.width() * 0.5f);
         sphereShader->setUniform("height", (float)rect.height() * 0.5f);
@@ -407,7 +346,8 @@ void CubeEffect::paintScreen(int mask, QRegion region, ScreenPaintData& data)
 
         // wallpaper
         if (wallpaper) {
-            ShaderBinder binder(ShaderManager::SimpleShader);
+            ShaderBinder binder(ShaderTrait::MapTexture);
+            binder.shader()->setUniform(GLShader::ModelViewProjectionMatrix, data.projectionMatrix());
             wallpaper->bind();
             wallpaper->render(region, rect);
             wallpaper->unbind();
@@ -441,13 +381,9 @@ void CubeEffect::paintScreen(int mask, QRegion region, ScreenPaintData& data)
                 m_reflectionMatrix.translate(0.0, sin(fabs(manualAngle) * M_PI / 360.0f * float(effects->numberOfDesktops())) * addedHeight2 + addedHeight1 - float(rect.height()), 0.0);
             }
 
-            // TODO: find a solution for GLES
-            if (!GLPlatform::instance()->isGLES()) {
-                glEnable(GL_CLIP_PLANE0);
-            }
             reflectionPainting = true;
             glEnable(GL_CULL_FACE);
-            paintCap(true, -point - zTranslate);
+            paintCap(true, -point - zTranslate, data.projectionMatrix());
 
             // cube
             glCullFace(GL_BACK);
@@ -456,13 +392,9 @@ void CubeEffect::paintScreen(int mask, QRegion region, ScreenPaintData& data)
             glCullFace(GL_FRONT);
             paintCube(mask, region, data);
 
-            paintCap(false, -point - zTranslate);
+            paintCap(false, -point - zTranslate, data.projectionMatrix());
             glDisable(GL_CULL_FACE);
             reflectionPainting = false;
-            // TODO: find a solution for GLES
-            if (!GLPlatform::instance()->isGLES()) {
-                glDisable(GL_CLIP_PLANE0);
-            }
 
             const float width = rect.width();
             const float height = rect.height();
@@ -483,9 +415,9 @@ void CubeEffect::paintScreen(int mask, QRegion region, ScreenPaintData& data)
             if (m_reflectionShader && m_reflectionShader->isValid()) {
                 // ensure blending is enabled - no attribute stack
                 ShaderBinder binder(m_reflectionShader);
-                QMatrix4x4 windowTransformation;
+                QMatrix4x4 windowTransformation = data.projectionMatrix();
                 windowTransformation.translate(rect.x() + rect.width() * 0.5f, 0.0, 0.0);
-                m_reflectionShader->setUniform("windowTransformation", windowTransformation);
+                m_reflectionShader->setUniform(GLShader::ModelViewProjectionMatrix, windowTransformation);
                 m_reflectionShader->setUniform("u_alpha", alpha);
                 QVector<float> verts;
                 QVector<float> texcoords;
@@ -512,7 +444,7 @@ void CubeEffect::paintScreen(int mask, QRegion region, ScreenPaintData& data)
         }
         glEnable(GL_CULL_FACE);
         // caps
-        paintCap(false, -point - zTranslate);
+        paintCap(false, -point - zTranslate, data.projectionMatrix());
 
         // cube
         glCullFace(GL_FRONT);
@@ -522,7 +454,7 @@ void CubeEffect::paintScreen(int mask, QRegion region, ScreenPaintData& data)
         paintCube(mask, region, data);
 
         // cap
-        paintCap(true, -point - zTranslate);
+        paintCap(true, -point - zTranslate, data.projectionMatrix());
         glDisable(GL_CULL_FACE);
 
         glDisable(GL_BLEND);
@@ -544,13 +476,6 @@ void CubeEffect::paintScreen(int mask, QRegion region, ScreenPaintData& data)
             desktopNameFrame->setGeometry(frameRect);
             desktopNameFrame->setText(effects->desktopName(frontDesktop));
             desktopNameFrame->render(region, opacity);
-        }
-        // restore the ScreenTransformation after all desktops are painted
-        // if not done GenericShader keeps the rotation data and transforms windows incorrectly in other rendering calls
-        if (effects->compositingType() == OpenGL2Compositing) {
-            GLShader *shader = ShaderManager::instance()->pushShader(KWin::ShaderManager::GenericShader);
-            shader->setUniform(GLShader::ScreenTransformation, QMatrix4x4());
-            ShaderManager::instance()->popShader();
         }
     } else {
         effects->paintScreen(mask, region, data);
@@ -688,18 +613,20 @@ void CubeEffect::paintCube(int mask, QRegion region, ScreenPaintData& data)
         if (painting_desktop == 0) {
             painting_desktop = effects->numberOfDesktops();
         }
-        ScreenPaintData newData = data;
-        newData.setRotationAxis(Qt::YAxis);
-        newData.setRotationAngle(internalCubeAngle * i);
-        newData.setRotationOrigin(QVector3D(rect.width() / 2, 0.0, -point));
-        newData.setZTranslation(-zTranslate);
-        effects->paintScreen(mask, region, newData);
+        QMatrix4x4 matrix;
+        matrix.translate(0, 0, -zTranslate);
+        const QVector3D origin(rect.width() / 2, 0.0, -point);
+        matrix.translate(origin);
+        matrix.rotate(internalCubeAngle * i, 0, 1, 0);
+        matrix.translate(-origin);
+        m_currentFaceMatrix = matrix;
+        effects->paintScreen(mask, region, data);
     }
     cube_painting = false;
     painting_desktop = effects->currentDesktop();
 }
 
-void CubeEffect::paintCap(bool frontFirst, float zOffset)
+void CubeEffect::paintCap(bool frontFirst, float zOffset, const QMatrix4x4 &projection)
 {
     if ((!paintCaps) || effects->numberOfDesktops() <= 2)
         return;
@@ -725,6 +652,7 @@ void CubeEffect::paintCap(bool frontFirst, float zOffset)
         }
     }
 
+    QMatrix4x4 capMvp;
     QMatrix4x4 capMatrix;
     capMatrix.translate(rect.width() / 2, 0.0, zOffset);
     capMatrix.rotate((1 - frontDesktop) * 360.0f / effects->numberOfDesktops(), 0.0, 1.0, 0.0);
@@ -746,11 +674,11 @@ void CubeEffect::paintCap(bool frontFirst, float zOffset)
         m_capShader->setUniform("u_opacity", opacity);
         m_capShader->setUniform("u_mirror", 1);
         if (reflectionPainting) {
-            m_capShader->setUniform(GLShader::ScreenTransformation, m_reflectionMatrix * m_rotationMatrix);
+            capMvp = projection * m_reflectionMatrix * m_rotationMatrix;
         } else {
-            m_capShader->setUniform(GLShader::ScreenTransformation, m_rotationMatrix);
+            capMvp = projection * m_rotationMatrix;
         }
-        m_capShader->setUniform(GLShader::WindowTransformation, capMatrix);
+        m_capShader->setUniform(GLShader::ModelViewProjectionMatrix, capMvp * capMatrix);
         m_capShader->setUniform("u_untextured", texturedCaps ? 0 : 1);
         if (texturedCaps && effects->numberOfDesktops() > 3 && capTexture) {
             capTexture->bind();
@@ -766,7 +694,7 @@ void CubeEffect::paintCap(bool frontFirst, float zOffset)
     }
     capMatrix.translate(0.0, -rect.height(), 0.0);
     if (capShader) {
-        m_capShader->setUniform("windowTransformation", capMatrix);
+        m_capShader->setUniform(GLShader::ModelViewProjectionMatrix, capMvp * capMatrix);
         m_capShader->setUniform("u_mirror", 0);
     }
     glCullFace(secondCull);
@@ -1216,11 +1144,8 @@ void CubeEffect::prePaintWindow(EffectWindow* w, WindowPrePaintData& data, int t
 void CubeEffect::paintWindow(EffectWindow* w, int mask, QRegion region, WindowPaintData& data)
 {
     ShaderManager *shaderManager = ShaderManager::instance();
-    GLShader *shader = NULL;
-    QMatrix4x4 origMatrix;
     if (activated && cube_painting) {
         region= infiniteRegion(); // we need to explicitly prevent any clipping, bug #325432
-        shader = shaderManager->pushShader(ShaderManager::GenericShader);
         //qCDebug(KWINEFFECTS) << w->caption();
         float opacity = cubeOpacity;
         if (start) {
@@ -1338,8 +1263,7 @@ void CubeEffect::paintWindow(EffectWindow* w, int mask, QRegion region, WindowPa
             }
             data.quads = new_quads;
         }
-        origMatrix = shader->getUniformMatrix4x4("screenTransformation");
-        GLShader *currentShader = shader;
+        GLShader *currentShader = nullptr;
         if (mode == Cylinder) {
             shaderManager->pushShader(cylinderShader);
             cylinderShader->setUniform("xCoord", (float)w->x());
@@ -1364,21 +1288,21 @@ void CubeEffect::paintWindow(EffectWindow* w, int mask, QRegion region, WindowPa
             sphereShader->setUniform("timeLine", factor);
             currentShader = sphereShader;
         }
-        if (reflectionPainting) {
-            currentShader->setUniform(GLShader::ScreenTransformation, m_reflectionMatrix * m_rotationMatrix * origMatrix);
-        } else {
-            currentShader->setUniform(GLShader::ScreenTransformation, m_rotationMatrix*origMatrix);
+        if (currentShader) {
+            data.shader = currentShader;
         }
-        data.shader = currentShader;
+        data.setProjectionMatrix(data.screenProjectionMatrix());
+        if (reflectionPainting) {
+            data.setModelViewMatrix(m_reflectionMatrix * m_rotationMatrix * m_currentFaceMatrix);
+        } else {
+            data.setModelViewMatrix(m_rotationMatrix * m_currentFaceMatrix);
+        }
     }
     effects->paintWindow(w, mask, region, data);
     if (activated && cube_painting) {
         if (mode == Cylinder || mode == Sphere) {
             shaderManager->popShader();
-        } else {
-            shader->setUniform(GLShader::ScreenTransformation, origMatrix);
         }
-        shaderManager->popShader();
         if (w->isDesktop() && effects->numScreens() > 1 && paintCaps) {
             QRect rect = effects->clientArea(FullArea, activeScreen, painting_desktop);
             QRegion paint = QRegion(rect);
@@ -1424,12 +1348,13 @@ void CubeEffect::paintWindow(EffectWindow* w, int mask, QRegion region, WindowPa
                     ShaderManager::instance()->pushShader(m_capShader);
                     m_capShader->setUniform("u_mirror", 0);
                     m_capShader->setUniform("u_untextured", 1);
+                    QMatrix4x4 mvp = data.screenProjectionMatrix();
                     if (reflectionPainting) {
-                        m_capShader->setUniform(GLShader::ScreenTransformation, m_reflectionMatrix * m_rotationMatrix * origMatrix);
+                        mvp = mvp * m_reflectionMatrix * m_rotationMatrix * m_currentFaceMatrix;
                     } else {
-                        m_capShader->setUniform(GLShader::ScreenTransformation, m_rotationMatrix * origMatrix);
+                        mvp = mvp * m_rotationMatrix * m_currentFaceMatrix;
                     }
-                    m_capShader->setUniform(GLShader::WindowTransformation, QMatrix4x4());
+                    m_capShader->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
                 }
                 GLVertexBuffer *vbo = GLVertexBuffer::streamingBuffer();
                 vbo->reset();
@@ -1780,14 +1705,6 @@ void CubeEffect::setActive(bool active)
         desktopChangedWhileRotating = false;
         if (reflection) {
             QRect rect = effects->clientArea(FullArea, activeScreen, effects->currentDesktop());
-            // clip parts above the reflection area
-            if (!GLPlatform::instance()->isGLES()) {
-                double eqn[4] = {0.0, 1.0, 0.0, 0.0};
-                glPushMatrix();
-                glTranslatef(0.0, rect.height(), 0.0);
-                glClipPlane(GL_CLIP_PLANE0, eqn);
-                glPopMatrix();
-            }
             float temporaryCoeff = float(rect.width()) / tan(M_PI / float(effects->numberOfDesktops()));
             mAddedHeightCoeff1 = sqrt(float(rect.height()) * float(rect.height()) + temporaryCoeff * temporaryCoeff);
             mAddedHeightCoeff2 = sqrt(float(rect.height()) * float(rect.height()) + float(rect.width()) * float(rect.width()) + temporaryCoeff * temporaryCoeff);

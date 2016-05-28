@@ -1075,7 +1075,7 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
     // because the window already had its position, and if a window
     // with a strut altering the workarea would be managed in initialization
     // after this one, this window would be moved
-    if (workspace()->initializing())
+    if (!workspace() || workspace()->initializing())
         return;
 
     // If the window was touching an edge before but not now move it so it is again.
@@ -1311,7 +1311,7 @@ QSize Client::sizeForClientSize(const QSize& wsize, Sizemode mode, bool noframe)
     // even if they're not set in flags - see getWmNormalHints()
     QSize min_size = tabGroup() ? tabGroup()->minSize() : minSize();
     QSize max_size = tabGroup() ? tabGroup()->maxSize() : maxSize();
-    if (m_decoration != NULL) {
+    if (isDecorated()) {
         QSize decominsize(0, 0);
         QSize border_size(borderLeft() + borderRight(), borderTop() + borderBottom());
         if (border_size.width() > decominsize.width())  // just in case
@@ -2237,9 +2237,9 @@ void Client::changeMaximize(bool vertical, bool horizontal, bool adjust)
     }
 
     // call into decoration update borders
-    if (m_decoration && m_decoration->client() && !(options->borderlessMaximizedWindows() && max_mode == KWin::MaximizeFull)) {
+    if (isDecorated() && decoration()->client() && !(options->borderlessMaximizedWindows() && max_mode == KWin::MaximizeFull)) {
         changeMaximizeRecursion = true;
-        const auto c = m_decoration->client().data();
+        const auto c = decoration()->client().data();
         if ((max_mode & MaximizeVertical) != (old_mode & MaximizeVertical)) {
             emit c->maximizedVerticallyChanged(max_mode & MaximizeVertical);
         }
@@ -2256,11 +2256,11 @@ void Client::changeMaximize(bool vertical, bool horizontal, bool adjust)
         // triggers a maximize change.
         // The next setNoBorder interation will exit since there's no change but the first recursion pullutes the restore geometry
         changeMaximizeRecursion = true;
-        setNoBorder(app_noborder || max_mode == MaximizeFull);
+        setNoBorder(rules()->checkNoBorder(app_noborder || (m_motif.hasDecoration() && m_motif.noBorder()) || max_mode == MaximizeFull));
         changeMaximizeRecursion = false;
     }
 
-    const ForceGeometry_t geom_mode = m_decoration ? ForceGeometrySet : NormalGeometrySet;
+    const ForceGeometry_t geom_mode = isDecorated() ? ForceGeometrySet : NormalGeometrySet;
 
     // Conditional quick tiling exit points
     if (quickTileMode() != QuickTileNone) {
@@ -2618,6 +2618,8 @@ bool AbstractClient::startMoveResize()
     if (!doStartMoveResize()) {
         return false;
     }
+
+    invalidateDecorationDoubleClickTimer();
 
     setMoveResize(true);
     workspace()->setClientIsMoving(this);

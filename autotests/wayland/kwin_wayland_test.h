@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) \
 { \
     setenv("QT_QPA_PLATFORM", "wayland-org.kde.kwin.qpa", true); \
     setenv("QT_QPA_PLATFORM_PLUGIN_PATH", KWINQPAPATH, true); \
-    setenv("KWIN_FOCRE_OWN_QPA", "1", true); \
+    setenv("KWIN_FORCE_OWN_QPA", "1", true); \
     DPI; \
     KWin::WaylandTestApplication app(argc, argv); \
     app.setAttribute(Qt::AA_Use96Dpi, true); \
@@ -66,9 +66,9 @@ int main(int argc, char *argv[]) \
 }
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
-#define WAYLANTEST_MAIN(TestObject) WAYLANDTEST_MAIN_HELPER(TestObject, QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling) )
+#define WAYLANDTEST_MAIN(TestObject) WAYLANDTEST_MAIN_HELPER(TestObject, QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling) )
 #else
-#define WAYLANTEST_MAIN(TestObject) WAYLANDTEST_MAIN_HELPER(TestObject,)
+#define WAYLANDTEST_MAIN(TestObject) WAYLANDTEST_MAIN_HELPER(TestObject,)
 #endif
 
 #endif

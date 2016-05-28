@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <NETWM>
 // Qt
 #include <QObject>
+#include <QMatrix4x4>
 // xcb
 #include <xcb/damage.h>
 #include <xcb/xfixes.h>
@@ -225,6 +226,11 @@ public:
     bool isOnActiveScreen() const;
     int screen() const; // the screen where the center is
     virtual QPoint clientPos() const = 0; // inside of geometry()
+    /**
+     * Describes how the client's content maps to the window geometry including the frame.
+     * The default implementation is a 1:1 mapping meaning the frame is part of the content.
+     **/
+    virtual QPoint clientContentPos() const;
     virtual QSize clientSize() const = 0;
     virtual QRect visibleRect() const; // the area the window occupies on the screen
     virtual QRect decorationRect() const; // rect including the decoration shadows
@@ -268,7 +274,6 @@ public:
     QByteArray sessionId() const;
     QByteArray resourceName() const;
     QByteArray resourceClass() const;
-    QByteArray wmCommand();
     QByteArray wmClientMachine(bool use_localhost) const;
     const ClientMachine *clientMachine() const;
     Window wmClientLeader() const;
@@ -370,6 +375,14 @@ public:
 
     virtual void setInternalFramebufferObject(const QSharedPointer<QOpenGLFramebufferObject> &fbo);
     const QSharedPointer<QOpenGLFramebufferObject> &internalFramebufferObject() const;
+
+    /**
+     * @returns Transformation to map from global to window coordinates.
+     *
+     * Default implementation returns a translation on negative pos().
+     * @see pos
+     **/
+    virtual QMatrix4x4 inputTransformation() const;
 
     /**
      * @brief Finds the Toplevel matching the condition expressed in @p func in @p list.
@@ -763,6 +776,11 @@ inline KWayland::Server::SurfaceInterface *Toplevel::surface() const
 inline const QSharedPointer<QOpenGLFramebufferObject> &Toplevel::internalFramebufferObject() const
 {
     return m_internalFBO;
+}
+
+inline QPoint Toplevel::clientContentPos() const
+{
+    return QPoint(0, 0);
 }
 
 template <class T, class U>

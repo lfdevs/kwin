@@ -1,14 +1,6 @@
 #######################################
 # Effect
 
-# Data files
-install( FILES
-    data/1.10/lookingglass.frag
-    DESTINATION ${DATA_INSTALL_DIR}/kwin/shaders/1.10 )
-install( FILES
-    data/1.40/lookingglass.frag
-    DESTINATION ${DATA_INSTALL_DIR}/kwin/shaders/1.40 )
-
 #######################################
 # Config
 set(kwin_lookingglass_config_SRCS lookingglass_config.cpp)
@@ -26,7 +18,7 @@ target_link_libraries(kwin_lookingglass_config
     KF5::XmlGui
 )
 
-kcoreaddons_desktop_to_json(kwin_lookingglass_config lookingglass_config.desktop)
+kcoreaddons_desktop_to_json(kwin_lookingglass_config lookingglass_config.desktop SERVICE_TYPES kcmodule.desktop)
 
 install(
     TARGETS

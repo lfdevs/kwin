@@ -60,6 +60,7 @@ Build-Depends: cmake (>= 2.8.12),
                libxcb-xtest0-dev,
                libxcb1-dev (>= 1.10~),
                libxcursor-dev,
+               libxi-dev,
                libxkbcommon-dev (>= 0.4.1),
                pkg-config,
                pkg-kde-tools (>= 0.15.18~),
@@ -141,9 +142,11 @@ Description: KDE window manager, X11 version
 
 Package: kwin-wayland
 Architecture: any
-Depends: kwin-common (= ${binary:Version}),
+Depends: kwayland-integration,
+         kwin-common (= ${binary:Version}),
          kwin-wayland-backend-drm (= ${binary:Version}) | kwin-wayland-backend,
          qtwayland5,
+         xwayland,
          ${misc:Depends},
          ${shlibs:Depends}
 Provides: kwin

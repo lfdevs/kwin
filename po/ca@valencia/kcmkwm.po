@@ -1,26 +1,26 @@
 # Translation of kcmkwm.po to Catalan (Valencian)
-# Copyright (C) 1998-2015 This_file_is_part_of_KDE
+# Copyright (C) 1998-2016 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
 # Sebastià Pla i Sanz <sps@sastia.com>, 1998, 1999, 2000, 2001, 2002, 2004, 2005, 2006.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2003, 2011, 2013, 2015.
 # Albert Astals Cid <aacid@kde.org>, 2005.
-# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015.
+# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016.
 # Manuel Tortosa Moreno <manutortosa@chakra-project.org>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-02-02 08:56+0000\n"
-"PO-Revision-Date: 2015-11-07 02:31+0100\n"
-"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
+"PO-Revision-Date: 2016-06-03 22:11+0200\n"
+"Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -531,14 +531,14 @@ msgid ""
 "If Shade Hover is enabled, a shaded window will un-shade automatically when "
 "the mouse pointer has been over the title bar for some time."
 msgstr ""
-"Si el desplegat automàtic està habilitat, una finestra plegada es desplegarà "
+"Si el desplegat automàtic està activat, una finestra plegada es desplegarà "
 "automàticament quan l'apuntador del ratolí estiga a sobre de la barra de "
 "títol durant un temps."
 
 #. i18n: ectx: property (text), widget (QCheckBox, shadeHoverOn)
 #: advanced.ui:207
 msgid "&Enable hover"
-msgstr "&Habilita el desplegat automàtic"
+msgstr "&Activa el desplegat automàtic"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, shadeHover)
 #: advanced.ui:214
@@ -749,8 +749,8 @@ msgstr ""
 "<ul>\n"
 "<li><em>Sense:</em> La prevenció està apagada i les finestres noves sempre "
 "s'activen.</li>\n"
-"<li><em>Baix:</em> La prevenció està activada; quan una certa finestra no "
-"implementa el mecanisme subjacent i KWin no pot decidir de manera fiable si "
+"<li><em>Baix:</em> La prevenció està activada; quan una finestra determinada "
+"no admet el mecanisme subjacent i el KWin no pot decidir de manera fiable si "
 "activar la finestra o no, s'activarà. Este valor pot empitjorar o millorar "
 "els resultats del nivell mitjà, depenent de les aplicacions.</li>\n"
 "<li><em>Mitjà:</em> La prevenció està habilitada.</li>\n"
@@ -822,7 +822,7 @@ msgid ""
 "When this option is enabled, a window in the background will automatically "
 "come to the front when the mouse pointer has been over it for some time."
 msgstr ""
-"Quan esta opció està habilitada, una finestra del fons passarà a primer pla "
+"Quan esta opció està activada, una finestra del fons passarà a primer pla "
 "automàticament quan l'apuntador del ratolí hi estiga a sobre durant un temps."
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoRaiseOn)
@@ -846,7 +846,7 @@ msgid ""
 "when you click somewhere into the window contents. To change it for inactive "
 "windows, you need to change the settings in the Actions tab."
 msgstr ""
-"Quan s'habilita esta opció, la finestra activa es passarà a primer pla quan "
+"Quan s'activa esta opció, la finestra activa es passarà a primer pla quan "
 "cliqueu en qualsevol lloc del contingut de la finestra. Per a canviar-ho per "
 "a finestres inactives, heu de canviar l'arranjament de la pestanya d'accions."
 
@@ -866,7 +866,7 @@ msgid ""
 "When this option is enabled, focus operations are limited only to the active "
 "Xinerama screen"
 msgstr ""
-"Quan esta opció està habilitada, les operacions del focus es limiten a la "
+"Quan esta opció està activada, les operacions del focus es limiten a la "
 "pantalla de Xinerama activa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, separateScreenFocus)
@@ -883,11 +883,11 @@ msgid ""
 "window. By default this option is disabled for Click to focus and enabled "
 "for other focus policies."
 msgstr ""
-"Quan esta opció està habilitada, la pantalla de Xinerama activa (p.ex. a on "
+"Quan esta opció està activada, la pantalla de Xinerama activa (p.ex. a on "
 "apareixen les noves finestres) és la pantalla amb el cursor del ratolí. Quan "
-"està deshabilitada, la pantalla de Xinerama activa és la pantalla amb la "
-"finestra enfocada. Esta opció es deshabilita per defecte en el clic al focus "
-"i s'habilita en altres polítiques de focus."
+"està desactivada, la pantalla de Xinerama activa és la pantalla amb la "
+"finestra enfocada. Esta opció es desactiva per defecte en el clic al focus i "
+"s'activa en altres polítiques de focus."
 
 #. i18n: ectx: property (text), widget (QCheckBox, activeMouseScreen)
 #: focus.ui:542
@@ -1279,9 +1279,9 @@ msgid ""
 "is being moved or resized. The window position relative to the top-left "
 "corner of the screen is displayed together with its size."
 msgstr ""
-"Habiliteu esta opció si voleu que es mostre la geometria de la finestra "
-"mentre es mou o es dimensiona. Es mostra la posició de la finestra relativa "
-"al racó superior esquerre de la pantalla juntament amb la mida."
+"Activeu esta opció si voleu que es mostre la geometria de la finestra mentre "
+"es mou o es dimensiona. Es mostra la posició de la finestra relativa al racó "
+"superior esquerre de la pantalla juntament amb la mida."
 
 #. i18n: ectx: property (text), widget (QCheckBox, geometryTipOn)
 #: moving.ui:175

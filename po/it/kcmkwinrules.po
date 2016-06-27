@@ -3,20 +3,21 @@
 # Andrea RIZZI <arizzi@pi.infn.it>, 2004.
 # Luciano Montanaro <mikelima@cirulla.net>, 2007, 2008, 2010, 2011.
 # Federico Zenith <federico.zenith@member.fsf.org>, 2010, 2012, 2013, 2014, 2015.
+# Paolo Zamponi <zapaolo@email.it>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-11-19 09:30+0000\n"
-"PO-Revision-Date: 2015-04-19 12:26+0200\n"
-"Last-Translator: Federico Zenith <zenith.federico@gmail.com>\n"
+"PO-Revision-Date: 2016-05-12 00:37+0100\n"
+"Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -1091,13 +1092,16 @@ msgid ""
 "Otherwise it's interleaved with the stealing prevention\n"
 "assigned to the window that wants the focus."
 msgstr ""
+"Questo controlla la protezione del fuoco della finestra attualmente attiva.\n"
+"«Nessuno» porterà sempre via il fuoco,\n"
+"«Estremo» lo manterrà.\n"
+"Diversamente sarà alternato con la prevenzione della sottrazione e\n"
+"assegnato alla finestra che richiede il fuoco."
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fpplevel)
 #: ruleswidgetbase.ui:2232
-#, fuzzy
-#| msgid "&Focus stealing prevention"
 msgid "Focus protection"
-msgstr "Prevenzione dell'atti&vazione"
+msgstr "Protezione del fuoco"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_acceptfocus)
 #: ruleswidgetbase.ui:2295

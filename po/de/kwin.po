@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-04-14 11:32+0000\n"
-"PO-Revision-Date: 2016-05-04 20:50+0100\n"
+"PO-Revision-Date: 2016-06-09 19:37+0100\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -90,7 +90,7 @@ msgstr "Rechnername"
 
 #: killer/killer.cpp:53
 msgid "Caption of the window to be terminated"
-msgstr "Titel des Fensters, welches beendet werden soll"
+msgstr "Titel des Fensters, das beendet werden soll"
 
 #: killer/killer.cpp:53
 msgid "caption"
@@ -482,10 +482,8 @@ msgstr ""
 "kwin_wayland: Ein X11-Fensterverwaltungsprogramm läuft auf dem X11-Display.\n"
 
 #: main_wayland.cpp:478
-#, fuzzy
-#| msgid "Start a nested X Server."
 msgid "Start a rootless Xwayland server."
-msgstr "Startet einen eingebetteten X-Server."
+msgstr "Einen Xwayland-Server ohne root-Berechtigungen starten."
 
 #: main_wayland.cpp:480
 msgid ""

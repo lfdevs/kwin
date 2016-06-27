@@ -1,3 +1,9 @@
+kwin (4:5.6.5-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Maximiliano Curia <maxy@debian.org>  Mon, 27 Jun 2016 18:14:24 +0200
+
 kwin (4:5.6.4-3) unstable; urgency=medium
 
   * Add kwayland windowsystem platform plugin dependency

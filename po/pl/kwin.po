@@ -1,5 +1,5 @@
 # translation of kwin.po to
-# Version: $Revision: 1457665 $
+# Version: $Revision: 1461206 $
 # translation of kwin.po to Polish
 # translation of kwin.po to
 # Norbert Popiołek <norbert@kde.com.pl>
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-04-14 11:32+0000\n"
-"PO-Revision-Date: 2016-02-20 08:30+0100\n"
+"PO-Revision-Date: 2016-06-04 07:35+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -1001,12 +1001,10 @@ msgid ""
 "like http://paste.kde.org instead of pasting into support threads.\n"
 msgstr ""
 "Informacje o wsparciu dla KWin:\n"
-"Należy używać następujących informacji przy żądaniu wsparcia na np. http://"
-"forum.kde.org.\n"
-"Dostarczają one informacji o obecnie uruchomionym egzemplarzu, o opcjach, "
+"Pytając  na np. http://forum.kde.orgużyj wyświetlanych tu danych.\n"
+"Dostarczają one informacji o obecnie uruchomionym wystąpieniu, o opcjach, "
 "które są używane,\n"
 "o używanym sterowniku OpenGL i o włączonych efektach.\n"
 "Proszę wysłać te informacje, pod tekstem wprowadzenia, przy użyciu usługi "
 "paste bin\n"
-"takiej jak http://paste.kde.org, żeby nie wklejać tego w wątkach "
-"przeznaczonych do udzielania wsparcia.\n"
+"takiej jak http://paste.kde.org, aby nie zaśmiecać wątku.\n"

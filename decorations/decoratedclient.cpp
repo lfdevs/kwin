@@ -75,12 +75,18 @@ DecoratedClientImpl::DecoratedClientImpl(AbstractClient *client, KDecoration2::D
             &Decoration::DecoratedClientImpl::signalShadeChange);
     connect(client, &AbstractClient::keepAboveChanged, decoratedClient, &KDecoration2::DecoratedClient::keepAboveChanged);
     connect(client, &AbstractClient::keepBelowChanged, decoratedClient, &KDecoration2::DecoratedClient::keepBelowChanged);
-    connect(Compositor::self(), &Compositor::compositingToggled, this,
+    m_compositorToggledConnection = connect(Compositor::self(), &Compositor::compositingToggled, this,
         [this, decoration]() {
             delete m_renderer;
             m_renderer = nullptr;
             createRenderer();
             decoration->update();
+        }
+    );
+    connect(Compositor::self(), &Compositor::aboutToDestroy, this,
+        [this] {
+            disconnect(m_compositorToggledConnection);
+            m_compositorToggledConnection = QMetaObject::Connection();
         }
     );
     connect(client, &AbstractClient::quickTileModeChanged, decoratedClient,
@@ -189,7 +195,12 @@ void DecoratedClientImpl::requestShowWindowMenu()
 
 void DecoratedClientImpl::requestToggleMaximization(Qt::MouseButtons buttons)
 {
-    Workspace::self()->performWindowOperation(m_client, options->operationMaxButtonClick(buttons));
+    QMetaObject::invokeMethod(this, "delayedRequestToggleMaximization", Qt::QueuedConnection, Q_ARG(Options::WindowOperation, options->operationMaxButtonClick(buttons)));
+}
+
+void DecoratedClientImpl::delayedRequestToggleMaximization(Options::WindowOperation operation)
+{
+    Workspace::self()->performWindowOperation(m_client, operation);
 }
 
 int DecoratedClientImpl::width() const

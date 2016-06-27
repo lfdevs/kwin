@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #ifndef KWIN_DECORATED_CLIENT_H
 #define KWIN_DECORATED_CLIENT_H
+#include "options.h"
 
 #include <KDecoration2/Private/DecoratedClientPrivate>
 
@@ -91,10 +92,14 @@ public:
 
     void signalShadeChange();
 
+private Q_SLOTS:
+    void delayedRequestToggleMaximization(Options::WindowOperation operation);
+
 private:
     void createRenderer();
     AbstractClient *m_client;
     Renderer *m_renderer;
+    QMetaObject::Connection m_compositorToggledConnection;
 };
 
 }

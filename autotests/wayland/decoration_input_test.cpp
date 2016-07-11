@@ -18,15 +18,18 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "kwin_wayland_test.h"
-#include "abstract_backend.h"
+#include "platform.h"
 #include "abstract_client.h"
 #include "cursor.h"
+#include "pointer_input.h"
+#include "touch_input.h"
 #include "screenedge.h"
 #include "screens.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "shell_client.h"
 #include <kwineffects.h>
+#include "decorations/decoratedclient.h"
 
 #include <KWayland/Client/connection_thread.h>
 #include <KWayland/Client/compositor.h>
@@ -43,6 +46,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <linux/input.h>
 
+Q_DECLARE_METATYPE(Qt::WindowFrameSection)
+
 namespace KWin
 {
 
@@ -55,11 +60,17 @@ private Q_SLOTS:
     void initTestCase();
     void init();
     void cleanup();
+    void testAxis_data();
     void testAxis();
+    void testDoubleClick_data();
     void testDoubleClick();
+    void testDoubleTap_data();
+    void testDoubleTap();
     void testHover();
     void testPressToMove_data();
     void testPressToMove();
+    void testTapToMove_data();
+    void testTapToMove();
 
 private:
     AbstractClient *showWindow();
@@ -74,13 +85,13 @@ private:
 };
 
 #define MOTION(target) \
-    waylandServer()->backend()->pointerMotion(target, timestamp++)
+    kwinApp()->platform()->pointerMotion(target, timestamp++)
 
 #define PRESS \
-    waylandServer()->backend()->pointerButtonPressed(BTN_LEFT, timestamp++)
+    kwinApp()->platform()->pointerButtonPressed(BTN_LEFT, timestamp++)
 
 #define RELEASE \
-    waylandServer()->backend()->pointerButtonReleased(BTN_LEFT, timestamp++)
+    kwinApp()->platform()->pointerButtonReleased(BTN_LEFT, timestamp++)
 
 AbstractClient *DecorationInputTest::showWindow()
 {
@@ -130,8 +141,8 @@ void DecorationInputTest::initTestCase()
     qRegisterMetaType<KWin::AbstractClient*>();
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
-    waylandServer()->backend()->setInitialWindowSize(QSize(1280, 1024));
-    QMetaObject::invokeMethod(waylandServer()->backend(), "setOutputCount", Qt::DirectConnection, Q_ARG(int, 2));
+    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setOutputCount", Qt::DirectConnection, Q_ARG(int, 2));
     waylandServer()->init(s_socketName.toLocal8Bit());
 
     // change some options
@@ -239,6 +250,16 @@ void DecorationInputTest::cleanup()
     }
 }
 
+void DecorationInputTest::testAxis_data()
+{
+    QTest::addColumn<QPoint>("decoPoint");
+    QTest::addColumn<Qt::WindowFrameSection>("expectedSection");
+
+    QTest::newRow("topLeft") << QPoint(0, 0) << Qt::TopLeftSection;
+    QTest::newRow("top") << QPoint(250, 0) << Qt::TopSection;
+    QTest::newRow("topRight") << QPoint(499, 0) << Qt::TopRightSection;
+}
+
 void DecorationInputTest::testAxis()
 {
     AbstractClient *c = showWindow();
@@ -251,18 +272,41 @@ void DecorationInputTest::testAxis()
 
     quint32 timestamp = 1;
     MOTION(QPoint(c->geometry().center().x(), c->clientPos().y() / 2));
+    QVERIFY(!input()->pointer()->decoration().isNull());
+    QCOMPARE(input()->pointer()->decoration()->decoration()->sectionUnderMouse(), Qt::TitleBarArea);
 
     // TODO: mouse wheel direction looks wrong to me
     // simulate wheel
-    waylandServer()->backend()->pointerAxisVertical(5.0, timestamp++);
+    kwinApp()->platform()->pointerAxisVertical(5.0, timestamp++);
     QVERIFY(c->keepBelow());
     QVERIFY(!c->keepAbove());
-    waylandServer()->backend()->pointerAxisVertical(-5.0, timestamp++);
+    kwinApp()->platform()->pointerAxisVertical(-5.0, timestamp++);
     QVERIFY(!c->keepBelow());
     QVERIFY(!c->keepAbove());
-    waylandServer()->backend()->pointerAxisVertical(-5.0, timestamp++);
+    kwinApp()->platform()->pointerAxisVertical(-5.0, timestamp++);
     QVERIFY(!c->keepBelow());
     QVERIFY(c->keepAbove());
+
+    // test top most deco pixel, BUG: 362860
+    c->move(0, 0);
+    QFETCH(QPoint, decoPoint);
+    MOTION(decoPoint);
+    QVERIFY(!input()->pointer()->decoration().isNull());
+    QCOMPARE(input()->pointer()->decoration()->client(), c);
+    QTEST(input()->pointer()->decoration()->decoration()->sectionUnderMouse(), "expectedSection");
+    kwinApp()->platform()->pointerAxisVertical(5.0, timestamp++);
+    QVERIFY(!c->keepBelow());
+    QVERIFY(!c->keepAbove());
+}
+
+void DecorationInputTest::testDoubleClick_data()
+{
+    QTest::addColumn<QPoint>("decoPoint");
+    QTest::addColumn<Qt::WindowFrameSection>("expectedSection");
+
+    QTest::newRow("topLeft") << QPoint(0, 0) << Qt::TopLeftSection;
+    QTest::newRow("top") << QPoint(250, 0) << Qt::TopSection;
+    QTest::newRow("topRight") << QPoint(499, 0) << Qt::TopRightSection;
 }
 
 void KWin::DecorationInputTest::testDoubleClick()
@@ -288,6 +332,70 @@ void KWin::DecorationInputTest::testDoubleClick()
     PRESS;
     RELEASE;
     QVERIFY(!c->isOnAllDesktops());
+
+    // test top most deco pixel, BUG: 362860
+    c->move(0, 0);
+    QFETCH(QPoint, decoPoint);
+    MOTION(decoPoint);
+    QVERIFY(!input()->pointer()->decoration().isNull());
+    QCOMPARE(input()->pointer()->decoration()->client(), c);
+    QTEST(input()->pointer()->decoration()->decoration()->sectionUnderMouse(), "expectedSection");
+    // double click
+    PRESS;
+    RELEASE;
+    QVERIFY(!c->isOnAllDesktops());
+    PRESS;
+    RELEASE;
+    QVERIFY(c->isOnAllDesktops());
+}
+
+void DecorationInputTest::testDoubleTap_data()
+{
+    QTest::addColumn<QPoint>("decoPoint");
+    QTest::addColumn<Qt::WindowFrameSection>("expectedSection");
+
+    QTest::newRow("topLeft") << QPoint(0, 0) << Qt::TopLeftSection;
+    QTest::newRow("top") << QPoint(250, 0) << Qt::TopSection;
+    QTest::newRow("topRight") << QPoint(499, 0) << Qt::TopRightSection;
+}
+
+void KWin::DecorationInputTest::testDoubleTap()
+{
+    AbstractClient *c = showWindow();
+    QVERIFY(c);
+    QVERIFY(c->isDecorated());
+    QVERIFY(!c->noBorder());
+    QVERIFY(!c->isOnAllDesktops());
+    quint32 timestamp = 1;
+    const QPoint tapPoint(c->geometry().center().x(), c->clientPos().y() / 2);
+
+    // double tap
+    kwinApp()->platform()->touchDown(0, tapPoint, timestamp++);
+    kwinApp()->platform()->touchUp(0, timestamp++);
+    kwinApp()->platform()->touchDown(0, tapPoint, timestamp++);
+    kwinApp()->platform()->touchUp(0, timestamp++);
+    QVERIFY(c->isOnAllDesktops());
+    // double tap again
+    kwinApp()->platform()->touchDown(0, tapPoint, timestamp++);
+    kwinApp()->platform()->touchUp(0, timestamp++);
+    QVERIFY(c->isOnAllDesktops());
+    kwinApp()->platform()->touchDown(0, tapPoint, timestamp++);
+    kwinApp()->platform()->touchUp(0, timestamp++);
+    QVERIFY(!c->isOnAllDesktops());
+
+    // test top most deco pixel, BUG: 362860
+    c->move(0, 0);
+    QFETCH(QPoint, decoPoint);
+    // double click
+    kwinApp()->platform()->touchDown(0, decoPoint, timestamp++);
+    QVERIFY(!input()->touch()->decoration().isNull());
+    QCOMPARE(input()->touch()->decoration()->client(), c);
+    QTEST(input()->touch()->decoration()->decoration()->sectionUnderMouse(), "expectedSection");
+    kwinApp()->platform()->touchUp(0, timestamp++);
+    QVERIFY(!c->isOnAllDesktops());
+    kwinApp()->platform()->touchDown(0, decoPoint, timestamp++);
+    kwinApp()->platform()->touchUp(0, timestamp++);
+    QVERIFY(c->isOnAllDesktops());
 }
 
 void DecorationInputTest::testHover()
@@ -379,6 +487,66 @@ void DecorationInputTest::testPressToMove()
     MOTION(QPoint(c->geometry().center().x(), c->y() + c->clientPos().y() / 2) + offset3);
 
     RELEASE;
+    QTRY_VERIFY(!c->isMove());
+    QCOMPARE(clientFinishUserMovedResizedSpy.count(), 2);
+    // TODO: the offset should also be included
+    QCOMPARE(c->pos(), oldPos + offset2 + offset3);
+}
+
+void DecorationInputTest::testTapToMove_data()
+{
+    QTest::addColumn<QPoint>("offset");
+    QTest::addColumn<QPoint>("offset2");
+    QTest::addColumn<QPoint>("offset3");
+
+    QTest::newRow("To right")  << QPoint(10, 0)  << QPoint(20, 0)  << QPoint(30, 0);
+    QTest::newRow("To left")   << QPoint(-10, 0) << QPoint(-20, 0) << QPoint(-30, 0);
+    QTest::newRow("To bottom") << QPoint(0, 10)  << QPoint(0, 20)  << QPoint(0, 30);
+    QTest::newRow("To top")    << QPoint(0, -10) << QPoint(0, -20) << QPoint(0, -30);
+}
+
+void DecorationInputTest::testTapToMove()
+{
+    AbstractClient *c = showWindow();
+    QVERIFY(c);
+    QVERIFY(c->isDecorated());
+    QVERIFY(!c->noBorder());
+    c->move(screens()->geometry(0).center() - QPoint(c->width()/2, c->height()/2));
+    QSignalSpy startMoveResizedSpy(c, &AbstractClient::clientStartUserMovedResized);
+    QVERIFY(startMoveResizedSpy.isValid());
+    QSignalSpy clientFinishUserMovedResizedSpy(c, &AbstractClient::clientFinishUserMovedResized);
+    QVERIFY(clientFinishUserMovedResizedSpy.isValid());
+
+    quint32 timestamp = 1;
+    QPoint p = QPoint(c->geometry().center().x(), c->y() + c->clientPos().y() / 2);
+
+    kwinApp()->platform()->touchDown(0, p, timestamp++);
+    QVERIFY(!c->isMove());
+    QFETCH(QPoint, offset);
+    QCOMPARE(input()->touch()->decorationPressId(), 0);
+    kwinApp()->platform()->touchMotion(0, p + offset, timestamp++);
+    const QPoint oldPos = c->pos();
+    QVERIFY(c->isMove());
+    QCOMPARE(startMoveResizedSpy.count(), 1);
+
+    kwinApp()->platform()->touchUp(0, timestamp++);
+    QTRY_VERIFY(!c->isMove());
+    QCOMPARE(clientFinishUserMovedResizedSpy.count(), 1);
+    QEXPECT_FAIL("", "Just trigger move doesn't move the window", Continue);
+    QCOMPARE(c->pos(), oldPos + offset);
+
+    // again
+    kwinApp()->platform()->touchDown(1, p + offset, timestamp++);
+    QCOMPARE(input()->touch()->decorationPressId(), 1);
+    QVERIFY(!c->isMove());
+    QFETCH(QPoint, offset2);
+    kwinApp()->platform()->touchMotion(1, QPoint(c->geometry().center().x(), c->y() + c->clientPos().y() / 2) + offset2, timestamp++);
+    QVERIFY(c->isMove());
+    QCOMPARE(startMoveResizedSpy.count(), 2);
+    QFETCH(QPoint, offset3);
+    kwinApp()->platform()->touchMotion(1, QPoint(c->geometry().center().x(), c->y() + c->clientPos().y() / 2) + offset3, timestamp++);
+
+    kwinApp()->platform()->touchUp(1, timestamp++);
     QTRY_VERIFY(!c->isMove());
     QCOMPARE(clientFinishUserMovedResizedSpy.count(), 2);
     // TODO: the offset should also be included

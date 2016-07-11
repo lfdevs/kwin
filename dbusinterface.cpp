@@ -25,9 +25,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // kwin
 #include "atoms.h"
 #include "composite.h"
-#include "compositingprefs.h"
+#include "debug_console.h"
 #include "main.h"
 #include "placement.h"
+#include "platform.h"
 #include "kwinadaptor.h"
 #include "scene.h"
 #include "workspace.h"
@@ -174,6 +175,11 @@ void DBusInterface::previousDesktop()
     VirtualDesktopManager::self()->moveTo<DesktopPrevious>();
 }
 
+void DBusInterface::showDebugConsole()
+{
+    DebugConsole *console = new DebugConsole;
+    console->show();
+}
 
 CompositorDBusInterface::CompositorDBusInterface(Compositor *parent)
     : QObject(parent)
@@ -189,7 +195,7 @@ CompositorDBusInterface::CompositorDBusInterface(Compositor *parent)
 
 QString CompositorDBusInterface::compositingNotPossibleReason() const
 {
-    return CompositingPrefs::compositingNotPossibleReason();
+    return kwinApp()->platform()->compositingNotPossibleReason();
 }
 
 QString CompositorDBusInterface::compositingType() const
@@ -221,12 +227,12 @@ bool CompositorDBusInterface::isActive() const
 
 bool CompositorDBusInterface::isCompositingPossible() const
 {
-    return CompositingPrefs::compositingPossible();
+    return kwinApp()->platform()->compositingPossible();
 }
 
 bool CompositorDBusInterface::isOpenGLBroken() const
 {
-    return CompositingPrefs::openGlIsBroken();
+    return kwinApp()->platform()->openGLCompositingIsBroken();
 }
 
 void CompositorDBusInterface::resume()

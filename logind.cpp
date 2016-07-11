@@ -26,10 +26,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDBusPendingCallWatcher>
 #include <QDBusServiceWatcher>
 #include <QDBusUnixFileDescriptor>
+#include <QDBusMetaType>
 
 #include <sys/stat.h>
 #include <unistd.h>
 #include "utils.h"
+
+struct DBusLogindSeat {
+    QString name;
+    QDBusObjectPath path;
+};
+
+QDBusArgument &operator<<(QDBusArgument &argument, const DBusLogindSeat &seat)
+{
+    argument.beginStructure();
+    argument << seat.name << seat.path ;
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument, DBusLogindSeat &seat)
+{
+    argument.beginStructure();
+    argument >> seat.name >> seat.path;
+    argument.endStructure();
+    return argument;
+}
+
+Q_DECLARE_METATYPE(DBusLogindSeat)
 
 namespace KWin
 {
@@ -101,12 +125,22 @@ LogindIntegration::~LogindIntegration()
 
 void LogindIntegration::logindServiceRegistered()
 {
+    const QByteArray sessionId = qgetenv("XDG_SESSION_ID");
+    QString methodName;
+    QVariantList args;
+    if (sessionId.isEmpty()) {
+        methodName = QStringLiteral("GetSessionByPID");
+        args << (quint32) QCoreApplication::applicationPid();
+    } else {
+        methodName = QStringLiteral("GetSession");
+        args << QString::fromLocal8Bit(sessionId);
+    }
     // get the current session
     QDBusMessage message = QDBusMessage::createMethodCall(s_login1Service,
                                                           s_login1Path,
                                                           s_login1ManagerInterface,
-                                                          QStringLiteral("GetSessionByPID"));
-    message.setArguments(QVariantList() << (quint32) QCoreApplication::applicationPid());
+                                                          methodName);
+    message.setArguments(args);
     QDBusPendingReply<QDBusObjectPath> session = m_bus.asyncCall(message);
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(session, this);
     connect(watcher, &QDBusPendingCallWatcher::finished, this,
@@ -124,6 +158,14 @@ void LogindIntegration::logindServiceRegistered()
             qCDebug(KWIN_CORE) << "Session path:" << m_sessionPath;
             m_connected = true;
             connectSessionPropertiesChanged();
+            // activate the session, in case we are not on it
+            QDBusMessage message = QDBusMessage::createMethodCall(s_login1Service,
+                                                                m_sessionPath,
+                                                                s_login1SessionInterface,
+                                                                QStringLiteral("Activate"));
+            // blocking on purpose
+            m_bus.call(message);
+            getSeat();
             getSessionActive();
             getVirtualTerminal();
 
@@ -303,6 +345,50 @@ void LogindIntegration::pauseDevice(uint devMajor, uint devMinor, const QString 
         message.setArguments(QVariantList({QVariant(devMajor), QVariant(devMinor)}));
         m_bus.asyncCall(message);
     }
+}
+
+void LogindIntegration::getSeat()
+{
+    if (m_sessionPath.isEmpty()) {
+        return;
+    }
+    qDBusRegisterMetaType<DBusLogindSeat>();
+    QDBusMessage message = QDBusMessage::createMethodCall(s_login1Service,
+                                                          m_sessionPath,
+                                                          s_dbusPropertiesInterface,
+                                                          QStringLiteral("Get"));
+    message.setArguments(QVariantList({s_login1SessionInterface, QStringLiteral("Seat")}));
+    QDBusPendingReply<QVariant> reply = m_bus.asyncCall(message);
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
+    connect(watcher, &QDBusPendingCallWatcher::finished, this,
+        [this](QDBusPendingCallWatcher *self) {
+            QDBusPendingReply<QVariant> reply = *self;
+            self->deleteLater();
+            if (!reply.isValid()) {
+                qCDebug(KWIN_CORE) << "Failed to get Seat Property of logind session:" << reply.error().message();
+                return;
+            }
+            DBusLogindSeat seat = qdbus_cast<DBusLogindSeat>(reply.value().value<QDBusArgument>());
+            const QString seatPath = seat.path.path();
+            qCDebug(KWIN_CORE) << "Logind seat:" << seat.name << "/" << seatPath;
+            if (m_seatPath != seatPath) {
+                m_seatPath = seatPath;
+            }
+        }
+    );
+}
+
+void LogindIntegration::switchVirtualTerminal(quint32 vtNr)
+{
+    if (!m_connected || m_seatPath.isEmpty()) {
+        return;
+    }
+    QDBusMessage message = QDBusMessage::createMethodCall(s_login1Service,
+                                                          m_seatPath,
+                                                          QStringLiteral("org.freedesktop.login1.Seat"),
+                                                          QStringLiteral("SwitchTo"));
+    message.setArguments(QVariantList{vtNr});
+    m_bus.asyncCall(message);
 }
 
 } // namespace

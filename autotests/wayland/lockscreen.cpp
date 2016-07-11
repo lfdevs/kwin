@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "kwin_wayland_test.h"
-#include "abstract_backend.h"
+#include "platform.h"
 #include "abstract_client.h"
 #include "cursor.h"
 #include "screenedge.h"
@@ -128,19 +128,19 @@ Q_SIGNALS:
     QVERIFY(!waylandServer()->isScreenLocked());
 
 #define MOTION(target) \
-    waylandServer()->backend()->pointerMotion(target, timestamp++)
+    kwinApp()->platform()->pointerMotion(target, timestamp++)
 
 #define PRESS \
-    waylandServer()->backend()->pointerButtonPressed(BTN_LEFT, timestamp++)
+    kwinApp()->platform()->pointerButtonPressed(BTN_LEFT, timestamp++)
 
 #define RELEASE \
-    waylandServer()->backend()->pointerButtonReleased(BTN_LEFT, timestamp++)
+    kwinApp()->platform()->pointerButtonReleased(BTN_LEFT, timestamp++)
 
 #define KEYPRESS( key ) \
-    waylandServer()->backend()->keyboardKeyPressed(key, timestamp++)
+    kwinApp()->platform()->keyboardKeyPressed(key, timestamp++)
 
 #define KEYRELEASE( key ) \
-    waylandServer()->backend()->keyboardKeyReleased(key, timestamp++)
+    kwinApp()->platform()->keyboardKeyReleased(key, timestamp++)
 
 void LockScreenTest::unlock()
 {
@@ -196,8 +196,8 @@ void LockScreenTest::initTestCase()
     qRegisterMetaType<KWin::AbstractClient*>();
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
-    waylandServer()->backend()->setInitialWindowSize(QSize(1280, 1024));
-    QMetaObject::invokeMethod(waylandServer()->backend(), "setOutputCount", Qt::DirectConnection, Q_ARG(int, 2));
+    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setOutputCount", Qt::DirectConnection, Q_ARG(int, 2));
     waylandServer()->init(s_socketName.toLocal8Bit());
 
     kwinApp()->start();
@@ -206,6 +206,7 @@ void LockScreenTest::initTestCase()
     QCOMPARE(screens()->geometry(0), QRect(0, 0, 1280, 1024));
     QCOMPARE(screens()->geometry(1), QRect(1280, 0, 1280, 1024));
     setenv("QT_QPA_PLATFORM", "wayland", true);
+    setenv("QMLSCENE_DEVICE", "softwarecontext", true);
     waylandServer()->initWorkspace();
 }
 
@@ -390,24 +391,24 @@ void LockScreenTest::testPointerAxis()
     quint32 timestamp = 1;
     MOTION(c->geometry().center());
     // and simulate axis
-    waylandServer()->backend()->pointerAxisHorizontal(5.0, timestamp++);
+    kwinApp()->platform()->pointerAxisHorizontal(5.0, timestamp++);
     QVERIFY(axisChangedSpy.wait());
 
     LOCK
 
     // and simulate axis
-    waylandServer()->backend()->pointerAxisHorizontal(5.0, timestamp++);
+    kwinApp()->platform()->pointerAxisHorizontal(5.0, timestamp++);
     QVERIFY(!axisChangedSpy.wait(100));
-    waylandServer()->backend()->pointerAxisVertical(5.0, timestamp++);
+    kwinApp()->platform()->pointerAxisVertical(5.0, timestamp++);
     QVERIFY(!axisChangedSpy.wait(100));
 
     // and unlock
     UNLOCK
 
     // and move axis again
-    waylandServer()->backend()->pointerAxisHorizontal(5.0, timestamp++);
+    kwinApp()->platform()->pointerAxisHorizontal(5.0, timestamp++);
     QVERIFY(axisChangedSpy.wait());
-    waylandServer()->backend()->pointerAxisVertical(5.0, timestamp++);
+    kwinApp()->platform()->pointerAxisVertical(5.0, timestamp++);
     QVERIFY(axisChangedSpy.wait());
 }
 
@@ -621,32 +622,32 @@ void LockScreenTest::testMoveWindow()
     workspace()->slotWindowMove();
     QCOMPARE(workspace()->getMovingClient(), c);
     QVERIFY(c->isMove());
-    waylandServer()->backend()->keyboardKeyPressed(KEY_RIGHT, timestamp++);
-    waylandServer()->backend()->keyboardKeyReleased(KEY_RIGHT, timestamp++);
+    kwinApp()->platform()->keyboardKeyPressed(KEY_RIGHT, timestamp++);
+    kwinApp()->platform()->keyboardKeyReleased(KEY_RIGHT, timestamp++);
     QEXPECT_FAIL("", "First event is ignored", Continue);
     QCOMPARE(clientStepUserMovedResizedSpy.count(), 1);
 
     // TODO adjust once the expected fail is fixed
-    waylandServer()->backend()->keyboardKeyPressed(KEY_RIGHT, timestamp++);
-    waylandServer()->backend()->keyboardKeyReleased(KEY_RIGHT, timestamp++);
+    kwinApp()->platform()->keyboardKeyPressed(KEY_RIGHT, timestamp++);
+    kwinApp()->platform()->keyboardKeyReleased(KEY_RIGHT, timestamp++);
     QCOMPARE(clientStepUserMovedResizedSpy.count(), 1);
 
     // while locking our window should continue to be in move resize
     LOCK
     QCOMPARE(workspace()->getMovingClient(), c);
     QVERIFY(c->isMove());
-    waylandServer()->backend()->keyboardKeyPressed(KEY_RIGHT, timestamp++);
-    waylandServer()->backend()->keyboardKeyReleased(KEY_RIGHT, timestamp++);
+    kwinApp()->platform()->keyboardKeyPressed(KEY_RIGHT, timestamp++);
+    kwinApp()->platform()->keyboardKeyReleased(KEY_RIGHT, timestamp++);
     QCOMPARE(clientStepUserMovedResizedSpy.count(), 1);
 
     UNLOCK
     QCOMPARE(workspace()->getMovingClient(), c);
     QVERIFY(c->isMove());
-    waylandServer()->backend()->keyboardKeyPressed(KEY_RIGHT, timestamp++);
-    waylandServer()->backend()->keyboardKeyReleased(KEY_RIGHT, timestamp++);
+    kwinApp()->platform()->keyboardKeyPressed(KEY_RIGHT, timestamp++);
+    kwinApp()->platform()->keyboardKeyReleased(KEY_RIGHT, timestamp++);
     QCOMPARE(clientStepUserMovedResizedSpy.count(), 2);
-    waylandServer()->backend()->keyboardKeyPressed(KEY_ESC, timestamp++);
-    waylandServer()->backend()->keyboardKeyReleased(KEY_ESC, timestamp++);
+    kwinApp()->platform()->keyboardKeyPressed(KEY_ESC, timestamp++);
+    kwinApp()->platform()->keyboardKeyReleased(KEY_ESC, timestamp++);
     QVERIFY(!c->isMove());
 }
 
@@ -661,12 +662,12 @@ void LockScreenTest::testPointerShortcut()
     // try to trigger the shortcut
     quint32 timestamp = 1;
 #define PERFORM(expectedCount) \
-    waylandServer()->backend()->keyboardKeyPressed(KEY_LEFTMETA, timestamp++); \
+    kwinApp()->platform()->keyboardKeyPressed(KEY_LEFTMETA, timestamp++); \
     PRESS; \
     QCoreApplication::instance()->processEvents(); \
     QCOMPARE(actionSpy.count(), expectedCount); \
     RELEASE; \
-    waylandServer()->backend()->keyboardKeyReleased(KEY_LEFTMETA, timestamp++); \
+    kwinApp()->platform()->keyboardKeyReleased(KEY_LEFTMETA, timestamp++); \
     QCoreApplication::instance()->processEvents(); \
     QCOMPARE(actionSpy.count(), expectedCount);
 
@@ -713,14 +714,14 @@ void LockScreenTest::testAxisShortcut()
     // try to trigger the shortcut
     quint32 timestamp = 1;
 #define PERFORM(expectedCount) \
-    waylandServer()->backend()->keyboardKeyPressed(KEY_LEFTMETA, timestamp++); \
+    kwinApp()->platform()->keyboardKeyPressed(KEY_LEFTMETA, timestamp++); \
     if (direction == Qt::Vertical) \
-        waylandServer()->backend()->pointerAxisVertical(sign * 5.0, timestamp++); \
+        kwinApp()->platform()->pointerAxisVertical(sign * 5.0, timestamp++); \
     else \
-        waylandServer()->backend()->pointerAxisHorizontal(sign * 5.0, timestamp++); \
+        kwinApp()->platform()->pointerAxisHorizontal(sign * 5.0, timestamp++); \
     QCoreApplication::instance()->processEvents(); \
     QCOMPARE(actionSpy.count(), expectedCount); \
-    waylandServer()->backend()->keyboardKeyReleased(KEY_LEFTMETA, timestamp++); \
+    kwinApp()->platform()->keyboardKeyReleased(KEY_LEFTMETA, timestamp++); \
     QCoreApplication::instance()->processEvents(); \
     QCOMPARE(actionSpy.count(), expectedCount);
 
@@ -792,24 +793,24 @@ void LockScreenTest::testTouch()
     QVERIFY(pointRemovedSpy.isValid());
 
     quint32 timestamp = 1;
-    waylandServer()->backend()->touchDown(1, QPointF(25, 25), timestamp++);
+    kwinApp()->platform()->touchDown(1, QPointF(25, 25), timestamp++);
     QVERIFY(sequenceStartedSpy.wait());
     QCOMPARE(sequenceStartedSpy.count(), 1);
 
     LOCK
     QVERIFY(cancelSpy.wait());
 
-    waylandServer()->backend()->touchUp(1, timestamp++);
+    kwinApp()->platform()->touchUp(1, timestamp++);
     QVERIFY(!pointRemovedSpy.wait(100));
-    waylandServer()->backend()->touchDown(1, QPointF(25, 25), timestamp++);
-    waylandServer()->backend()->touchMotion(1, QPointF(26, 26), timestamp++);
-    waylandServer()->backend()->touchUp(1, timestamp++);
+    kwinApp()->platform()->touchDown(1, QPointF(25, 25), timestamp++);
+    kwinApp()->platform()->touchMotion(1, QPointF(26, 26), timestamp++);
+    kwinApp()->platform()->touchUp(1, timestamp++);
 
     UNLOCK
-    waylandServer()->backend()->touchDown(1, QPointF(25, 25), timestamp++);
+    kwinApp()->platform()->touchDown(1, QPointF(25, 25), timestamp++);
     QVERIFY(sequenceStartedSpy.wait());
     QCOMPARE(sequenceStartedSpy.count(), 2);
-    waylandServer()->backend()->touchUp(1, timestamp++);
+    kwinApp()->platform()->touchUp(1, timestamp++);
     QVERIFY(pointRemovedSpy.wait());
     QCOMPARE(pointRemovedSpy.count(), 1);
 }

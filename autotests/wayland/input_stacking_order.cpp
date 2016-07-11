@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "kwin_wayland_test.h"
-#include "abstract_backend.h"
+#include "platform.h"
 #include "abstract_client.h"
 #include "cursor.h"
 #include "deleted.h"
@@ -73,8 +73,8 @@ void InputStackingOrderTest::initTestCase()
     qRegisterMetaType<KWin::Deleted*>();
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
-    waylandServer()->backend()->setInitialWindowSize(QSize(1280, 1024));
-    QMetaObject::invokeMethod(waylandServer()->backend(), "setOutputCount", Qt::DirectConnection, Q_ARG(int, 2));
+    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setOutputCount", Qt::DirectConnection, Q_ARG(int, 2));
     waylandServer()->init(s_socketName.toLocal8Bit());
 
     kwinApp()->start();
@@ -220,7 +220,7 @@ void InputStackingOrderTest::testPointerFocusUpdatesOnStackingOrderChange()
     QCOMPARE(window1->geometry(), window2->geometry());
 
     // enter
-    waylandServer()->backend()->pointerMotion(QPointF(25, 25), 1);
+    kwinApp()->platform()->pointerMotion(QPointF(25, 25), 1);
     QVERIFY(enteredSpy.wait());
     QCOMPARE(enteredSpy.count(), 1);
     // window 2 should have focus

@@ -1172,7 +1172,7 @@ bool Client::buttonPressEvent(xcb_window_t w, int button, int state, int x, int 
             event.setAccepted(false);
             QCoreApplication::sendEvent(decoration(), &event);
             if (!event.isAccepted() && !hor) {
-                if (decoration()->titleBar().contains(x, y)) {
+                if (titlebarPositionUnderMouse()) {
                     performMouseCommand(options->operationTitlebarMouseWheel(delta), QPoint(x_root, y_root));
                 }
             }
@@ -1204,7 +1204,7 @@ bool Client::buttonReleaseEvent(xcb_window_t w, int button, int state, int x, in
                               x11ToQtKeyboardModifiers(state));
             event.setAccepted(false);
             QCoreApplication::sendEvent(decoration(), &event);
-            if (event.isAccepted() || !decoration()->titleBar().contains(x, y)) {
+            if (event.isAccepted() || !titlebarPositionUnderMouse()) {
                 invalidateDecorationDoubleClickTimer(); // click was for the deco and shall not init a doubleclick
             }
         }
@@ -1340,9 +1340,13 @@ void Client::focusOutEvent(xcb_focus_out_event_t *e)
 // performs _NET_WM_MOVERESIZE
 void Client::NETMoveResize(int x_root, int y_root, NET::Direction direction)
 {
-    if (direction == NET::Move)
+    if (direction == NET::Move) {
+        // move cursor to the provided position to prevent the window jumping there on first movement
+        // the expectation is that the cursor is already at the provided position,
+        // thus it's more a safety measurement
+        Cursor::setPos(QPoint(x_root, y_root));
         performMouseCommand(Options::MouseMove, QPoint(x_root, y_root));
-    else if (isMoveResize() && direction == NET::MoveResizeCancel) {
+    } else if (isMoveResize() && direction == NET::MoveResizeCancel) {
         finishMoveResize(true);
         setMoveResizePointerButtonDown(false);
         updateCursor();
@@ -1521,7 +1525,9 @@ void Toplevel::clientMessageEvent(xcb_client_message_event_t *e)
     if (e->type == atoms->wl_surface_id) {
         m_surfaceId = e->data.data32[0];
         if (auto w = waylandServer()) {
-            m_surface = KWayland::Server::SurfaceInterface::get(m_surfaceId, w->xWaylandConnection());
+            if (auto s = KWayland::Server::SurfaceInterface::get(m_surfaceId, w->xWaylandConnection())) {
+                setSurface(s);
+            }
         }
         emit surfaceIdChanged(m_surfaceId);
     }

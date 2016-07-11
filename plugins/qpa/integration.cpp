@@ -19,13 +19,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #define WL_EGL_PLATFORM 1
 #include "integration.h"
-#include "abstract_backend.h"
+#include "platform.h"
 #include "backingstore.h"
 #include "nativeinterface.h"
 #include "platformcontextwayland.h"
 #include "screen.h"
 #include "sharingplatformcontext.h"
 #include "window.h"
+#include "../../virtualkeyboard.h"
 #include "../../main.h"
 #include "../../wayland_server.h"
 
@@ -41,6 +42,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtConcurrentRun>
 
 #include <qpa/qplatformwindow.h>
+#include <qpa/qplatforminputcontext.h>
+#include <qpa/qplatforminputcontextfactory_p.h>
+#include <qpa/qwindowsysteminterface.h>
 #include <QtCore/private/qeventdispatcher_unix_p.h>
 #include <QtPlatformSupport/private/qgenericunixfontdatabase_p.h>
 #include <QtPlatformSupport/private/qgenericunixthemes_p.h>
@@ -57,6 +61,7 @@ Integration::Integration()
     , QPlatformIntegration()
     , m_fontDb(new QGenericUnixFontDatabase())
     , m_nativeInterface(new NativeInterface(this))
+    , m_inputContext()
 {
 }
 
@@ -90,6 +95,33 @@ void Integration::initialize()
     QPlatformIntegration::initialize();
     m_dummyScreen = new Screen(nullptr);
     screenAdded(m_dummyScreen);
+    m_inputContext.reset(QPlatformInputContextFactory::create(QStringLiteral("qtvirtualkeyboard")));
+    qunsetenv("QT_IM_MODULE");
+    if (!m_inputContext.isNull()) {
+        connect(qApp, &QGuiApplication::focusObjectChanged, this,
+            [this] {
+                if (VirtualKeyboard::self() && qApp->focusObject() != VirtualKeyboard::self()) {
+                    m_inputContext->setFocusObject(VirtualKeyboard::self());
+                }
+            }
+        );
+        connect(kwinApp(), &Application::workspaceCreated, this,
+            [this] {
+                if (VirtualKeyboard::self()) {
+                    m_inputContext->setFocusObject(VirtualKeyboard::self());
+                }
+            }
+        );
+        connect(qApp->inputMethod(), &QInputMethod::visibleChanged, this,
+            [this] {
+                if (qApp->inputMethod()->isVisible()) {
+                    if (QWindow *w = VirtualKeyboard::self()->inputPanel()) {
+                        QWindowSystemInterface::handleWindowActivated(w, Qt::ActiveWindowFocusReason);
+                    }
+                }
+            }
+        );
+    }
 }
 
 QAbstractEventDispatcher *Integration::createEventDispatcher() const
@@ -145,7 +177,7 @@ QPlatformNativeInterface *Integration::nativeInterface() const
 
 QPlatformOpenGLContext *Integration::createPlatformOpenGLContext(QOpenGLContext *context) const
 {
-    if (waylandServer()->backend()->supportsQpaContext()) {
+    if (kwinApp()->platform()->supportsQpaContext()) {
         return new SharingPlatformContext(context, const_cast<Integration*>(this));
     }
     if (m_eglDisplay == EGL_NO_DISPLAY) {
@@ -259,6 +291,11 @@ void Integration::initEgl()
         eglTerminate(m_eglDisplay);
         m_eglDisplay = EGL_NO_DISPLAY;
     }
+}
+
+QPlatformInputContext *Integration::inputContext() const
+{
+    return m_inputContext.data();
 }
 
 }

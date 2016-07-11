@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-06 10:22+0000\n"
+"POT-Creation-Date: 2016-04-12 09:00+0000\n"
 "PO-Revision-Date: 2015-10-06 20:53+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -67,7 +67,7 @@ msgstr "Mantener por debajo"
 msgid "Keep above"
 msgstr "Mantener por encima"
 
-#: kcm.cpp:128
+#: kcm.cpp:135
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."

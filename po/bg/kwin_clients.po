@@ -2,7 +2,7 @@
 # Bulgarian translation of KDE.
 # This file is licensed under the GPL.
 #
-# $Id: kwin_clients.po 1453980 2016-03-02 23:19:49Z ltoscano $
+# $Id: kwin_clients.po 1462113 2016-06-16 19:23:52Z ltoscano $
 #
 # Zlatko Popov <zlatkopopov@fsa-bg.org>, 2007, 2008, 2009.
 # Yasen Pramatarov <yasen@lindeas.com>, 2010, 2011.

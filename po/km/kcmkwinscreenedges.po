@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-21 08:16+0000\n"
+"POT-Creation-Date: 2016-05-09 08:35+0000\n"
 "PO-Revision-Date: 2012-06-13 15:35+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer\n"
@@ -38,47 +38,56 @@ msgstr "បង្ហាញ​ផ្ទៃតុ"
 msgid "Lock Screen"
 msgstr "ចាក់សោ​អេក្រង់"
 
-#: main.cpp:193
+#: main.cpp:190
+msgctxt "Open krunner"
+msgid "Run Command"
+msgstr ""
+
+#: main.cpp:191
+msgid "Activity Manager"
+msgstr ""
+
+#: main.cpp:195
 #, fuzzy, kde-format
 #| msgid "All Desktops"
 msgid "%1 - All Desktops"
 msgstr "ផ្ទៃតុ​ទាំងអស់"
 
-#: main.cpp:194
+#: main.cpp:196
 #, fuzzy, kde-format
 #| msgid "Current Desktop"
 msgid "%1 - Current Desktop"
 msgstr "ផ្ទៃតុ​បច្ចុប្បន្ន"
 
-#: main.cpp:195
+#: main.cpp:197
 #, fuzzy, kde-format
 #| msgid "Current Application"
 msgid "%1 - Current Application"
 msgstr "កម្មវិធី​បច្ចុប្បន្ន"
 
-#: main.cpp:198
+#: main.cpp:200
 #, fuzzy, kde-format
 #| msgid "Cube"
 msgid "%1 - Cube"
 msgstr "គូប"
 
-#: main.cpp:199
+#: main.cpp:201
 #, fuzzy, kde-format
 #| msgid "Cylinder"
 msgid "%1 - Cylinder"
 msgstr "ស៊ីឡាំង"
 
-#: main.cpp:200
+#: main.cpp:202
 #, fuzzy, kde-format
 #| msgid "Sphere"
 msgid "%1 - Sphere"
 msgstr "ស្វ៊ែរ"
 
-#: main.cpp:202
+#: main.cpp:204
 msgid "Toggle window switching"
 msgstr ""
 
-#: main.cpp:203
+#: main.cpp:205
 msgid "Toggle alternative window switching"
 msgstr ""
 

@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-06 10:22+0000\n"
+"POT-Creation-Date: 2016-04-12 09:00+0000\n"
 "PO-Revision-Date: 2016-01-06 05:37+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -71,7 +71,7 @@ msgstr "Поддерживать на заднем плане"
 msgid "Keep above"
 msgstr "Поддерживать поверх других"
 
-#: kcm.cpp:128
+#: kcm.cpp:135
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."

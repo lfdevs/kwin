@@ -38,7 +38,7 @@ class OpenGLBackend;
 class SyncManager;
 class SyncObject;
 
-class SceneOpenGL
+class KWIN_EXPORT SceneOpenGL
     : public Scene
 {
     Q_OBJECT
@@ -274,8 +274,12 @@ public:
     virtual ~OpenGLWindowPixmap();
     SceneOpenGL::Texture *texture() const;
     bool bind();
+protected:
+    WindowPixmap *createChild(const QPointer<KWayland::Server::SubSurfaceInterface> &subSurface) override;
 private:
+    explicit OpenGLWindowPixmap(const QPointer<KWayland::Server::SubSurfaceInterface> &subSurface, WindowPixmap *parent, SceneOpenGL *scene);
     QScopedPointer<SceneOpenGL::Texture> m_texture;
+    SceneOpenGL *m_scene;
 };
 
 class SceneOpenGL::EffectFrame
@@ -343,7 +347,7 @@ private:
  * @short Profiler to detect whether we have triple buffering
  * The strategy is to start setBlocksForRetrace(false) but assume blocking and have the system prove that assumption wrong
  **/
-class SwapProfiler
+class KWIN_EXPORT SwapProfiler
 {
 public:
     SwapProfiler();

@@ -18,12 +18,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "kwin_wayland_test.h"
-#include "../../abstract_backend.h"
+#include "../../platform.h"
 #include "../../composite.h"
 #include "../../effects.h"
 #include "../../wayland_server.h"
 #include "../../workspace.h"
 #include "../../xcbutils.h"
+
+#include <KPluginMetaData>
 
 #include <QAbstractEventDispatcher>
 #include <QPluginLoader>
@@ -48,14 +50,13 @@ WaylandTestApplication::WaylandTestApplication(int &argc, char **argv)
     setUseKActivities(false);
 #endif
     qputenv("KWIN_COMPOSE", QByteArrayLiteral("Q"));
-    WaylandServer *server = WaylandServer::create(this);
-    QPluginLoader loader(QStringLiteral(KWINBACKENDPATH));
-    loader.instance()->setParent(server);
+    initPlatform(KPluginMetaData(QStringLiteral(KWINBACKENDPATH)));
+    WaylandServer::create(this);
 }
 
 WaylandTestApplication::~WaylandTestApplication()
 {
-    waylandServer()->backend()->setOutputsEnabled(false);
+    kwinApp()->platform()->setOutputsEnabled(false);
     destroyWorkspace();
     waylandServer()->dispatch();
     // need to unload all effects prior to destroying X connection as they might do X calls
@@ -94,22 +95,21 @@ void WaylandTestApplication::performStartup()
 
 void WaylandTestApplication::createBackend()
 {
-    AbstractBackend *backend = waylandServer()->backend();
-    connect(backend, &AbstractBackend::screensQueried, this, &WaylandTestApplication::continueStartupWithScreens);
-    connect(backend, &AbstractBackend::initFailed, this,
+    Platform *platform = kwinApp()->platform();
+    connect(platform, &Platform::screensQueried, this, &WaylandTestApplication::continueStartupWithScreens);
+    connect(platform, &Platform::initFailed, this,
         [] () {
             std::cerr <<  "FATAL ERROR: backend failed to initialize, exiting now" << std::endl;
             ::exit(1);
         }
     );
-    backend->init();
+    platform->init();
 }
 
 void WaylandTestApplication::continueStartupWithScreens()
 {
-    disconnect(waylandServer()->backend(), &AbstractBackend::screensQueried, this, &WaylandTestApplication::continueStartupWithScreens);
+    disconnect(kwinApp()->platform(), &Platform::screensQueried, this, &WaylandTestApplication::continueStartupWithScreens);
     createScreens();
-    waylandServer()->initOutputs();
 
     createCompositor();
     connect(Compositor::self(), &Compositor::sceneCreated, this, &WaylandTestApplication::startXwaylandServer);

@@ -1,20 +1,20 @@
 # translation of kwin.po to
 # Translation of kwin.po to Slovenian
 # Copyright (C) 2001, 2003, 2004, 2005, 2007 Free Software Foundation, Inc.
-# $Id: kwin.po 1457665 2016-04-14 12:42:11Z scripty $
+# $Id: kwin.po 1463203 2016-06-29 12:30:19Z scripty $
 # $Source$
 #
 # Roman Maurer <roman.maurer@hermes.si>, 2000.
 # Gregor Rakar <gregor.rakar@kiss.si>, 2003, 2004, 2005.
 # Jure Repinc <jlp@holodeck1.com>, 2005, 2007, 2008, 2009, 2010, 2011, 2012.
 # Andrej Vernekar <andrej.vernekar@moj.net>, 2007, 2012.
-# Andrej Mernik <andrejm@ubuntu.si>, 2013, 2014, 2015.
+# Andrej Mernik <andrejm@ubuntu.si>, 2013, 2014, 2015, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-04-14 11:32+0000\n"
-"PO-Revision-Date: 2015-12-20 12:45+0100\n"
+"POT-Creation-Date: 2016-06-29 10:59+0000\n"
+"PO-Revision-Date: 2016-05-15 10:18+0200\n"
 "Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -35,7 +35,7 @@ msgstr ""
 "roman.maurer@amis.net,gregor.rakar@kiss.si,jlp@holodeck1.com,andrejm@ubuntu."
 "si"
 
-#: composite.cpp:556
+#: composite.cpp:542
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -44,31 +44,468 @@ msgstr ""
 "Nek program je prestavil namizne učinke v pripravljenost.<br/>Da jih spet "
 "vklopite, lahko uporabite bližnjico »%1«."
 
-#: compositingprefs.cpp:102
-msgid ""
-"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
-"b><br>This was most likely due to a driver bug.<p>If you think that you have "
-"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
-"<b>be aware that this might result in an immediate crash!</b></"
-"p><p>Alternatively, you might want to use the XRender backend instead.</p>"
+#: debug_console.cpp:66
+msgid "Timestamp"
+msgstr "Časovni žig"
+
+#: debug_console.cpp:73
+msgctxt "A mouse button"
+msgid "Left"
+msgstr "Levi"
+
+#: debug_console.cpp:75
+msgctxt "A mouse button"
+msgid "Right"
+msgstr "Desni"
+
+#: debug_console.cpp:77
+msgctxt "A mouse button"
+msgid "Middle"
+msgstr "Srednji"
+
+#: debug_console.cpp:79
+msgctxt "A mouse button"
+msgid "Back"
+msgstr "Nazaj"
+
+#: debug_console.cpp:81
+msgctxt "A mouse button"
+msgid "Forward"
+msgstr "Naprej"
+
+#: debug_console.cpp:83
+msgctxt "A mouse button"
+msgid "Task"
+msgstr "Opravilo"
+
+#: debug_console.cpp:85
+msgctxt "A mouse button"
+msgid "Extra Button 4"
+msgstr "Dodatni gumb 4"
+
+#: debug_console.cpp:87
+msgctxt "A mouse button"
+msgid "Extra Button 5"
+msgstr "Dodatni gumb 5"
+
+#: debug_console.cpp:89
+msgctxt "A mouse button"
+msgid "Extra Button 6"
+msgstr "Dodatni gumb 6"
+
+#: debug_console.cpp:91
+msgctxt "A mouse button"
+msgid "Extra Button 7"
+msgstr "Dodatni gumb 7"
+
+#: debug_console.cpp:93
+msgctxt "A mouse button"
+msgid "Extra Button 8"
+msgstr "Dodatni gumb 8"
+
+#: debug_console.cpp:95
+msgctxt "A mouse button"
+msgid "Extra Button 9"
+msgstr "Dodatni gumb 9"
+
+#: debug_console.cpp:97
+msgctxt "A mouse button"
+msgid "Extra Button 10"
+msgstr "Dodatni gumb 10"
+
+#: debug_console.cpp:99
+msgctxt "A mouse button"
+msgid "Extra Button 11"
+msgstr "Dodatni gumb 11"
+
+#: debug_console.cpp:101
+msgctxt "A mouse button"
+msgid "Extra Button 12"
+msgstr "Dodatni gumb 12"
+
+#: debug_console.cpp:103
+msgctxt "A mouse button"
+msgid "Extra Button 13"
+msgstr "Dodatni gumb 13"
+
+#: debug_console.cpp:105
+msgctxt "A mouse button"
+msgid "Extra Button 14"
+msgstr "Dodatni gumb 14"
+
+#: debug_console.cpp:107
+msgctxt "A mouse button"
+msgid "Extra Button 15"
+msgstr "Dodatni gumb 15"
+
+#: debug_console.cpp:109
+msgctxt "A mouse button"
+msgid "Extra Button 16"
+msgstr "Dodatni gumb 16"
+
+#: debug_console.cpp:111
+msgctxt "A mouse button"
+msgid "Extra Button 17"
+msgstr "Dodatni gumb 17"
+
+#: debug_console.cpp:113
+msgctxt "A mouse button"
+msgid "Extra Button 18"
+msgstr "Dodatni gumb 18"
+
+#: debug_console.cpp:115
+msgctxt "A mouse button"
+msgid "Extra Button 19"
+msgstr "Dodatni gumb 19"
+
+#: debug_console.cpp:117
+msgctxt "A mouse button"
+msgid "Extra Button 20"
+msgstr "Dodatni gumb 20"
+
+#: debug_console.cpp:119
+msgctxt "A mouse button"
+msgid "Extra Button 21"
+msgstr "Dodatni gumb 21"
+
+#: debug_console.cpp:121
+msgctxt "A mouse button"
+msgid "Extra Button 22"
+msgstr "Dodatni gumb 22"
+
+#: debug_console.cpp:123
+msgctxt "A mouse button"
+msgid "Extra Button 23"
+msgstr "Dodatni gumb 23"
+
+#: debug_console.cpp:125
+msgctxt "A mouse button"
+msgid "Extra Button 24"
+msgstr "Dodatni gumb 24"
+
+#: debug_console.cpp:135 debug_console.cpp:137
+msgid "Input Device"
 msgstr ""
-"<b>Skladnja 3D OpenGL (privzeta) je v preteklosti povzročila sesutje KWin-a."
-"</b><br>Vzrok je najverjetneje hrošč v gonilniku za grafično kartico.<p>Če "
-"ste med tem nadgradili gonilnik in menite, da je stabilen,<br>lahko "
-"ponastavite to zaščito. Zavedajte se, da <b>to lahko povzroči takojšnje "
-"sesutje!</b></p><p>Druga možnost je uporaba zaledja XRender.</p>"
 
-#: compositingprefs.cpp:109
-msgid "Required X extensions (XComposite and XDamage) are not available."
-msgstr "Zahtevani razširitvi za X (XComposite in XDamage) nista na voljo."
+#: debug_console.cpp:135
+msgctxt "The input device of the event is not known"
+msgid "Unknown"
+msgstr ""
 
-#: compositingprefs.cpp:113
-msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
-msgstr "GLX/OpenGL ni na voljo, prevedena je le podpora za OpenGL."
+#: debug_console.cpp:173
+msgctxt "A mouse pointer motion event"
+msgid "Pointer Motion"
+msgstr "Gibanje miške"
 
-#: compositingprefs.cpp:117
-msgid "GLX/OpenGL and XRender/XFixes are not available."
-msgstr "Niti GLX/OpenGL, niti XRender/XFixes nista na voljo."
+#: debug_console.cpp:178
+msgctxt "The global mouse pointer position"
+msgid "Global Position"
+msgstr "Globalni položaj"
+
+#: debug_console.cpp:181
+msgctxt "A mouse pointer button press event"
+msgid "Pointer Button Press"
+msgstr "Pritisk gumba miške"
+
+#: debug_console.cpp:186 debug_console.cpp:196
+msgctxt "A button in a mouse press/release event"
+msgid "Button"
+msgstr "Gumb"
+
+#: debug_console.cpp:187 debug_console.cpp:197
+msgctxt "A button in a mouse press/release event"
+msgid "Native Button code"
+msgstr "Lastna koda gumba"
+
+#: debug_console.cpp:188 debug_console.cpp:198
+msgctxt "All currently pressed buttons in a mouse press/release event"
+msgid "Pressed Buttons"
+msgstr "Pritisnjeni gumbi"
+
+#: debug_console.cpp:191
+msgctxt "A mouse pointer button release event"
+msgid "Pointer Button Release"
+msgstr "Spust gumba miške"
+
+#: debug_console.cpp:214
+msgctxt "A mouse pointer axis (wheel) event"
+msgid "Pointer Axis"
+msgstr "Os miške"
+
+#: debug_console.cpp:220
+msgctxt "The orientation of a pointer axis event"
+msgid "Orientation"
+msgstr "Usmerjenost"
+
+#: debug_console.cpp:221
+msgctxt "An orientation of a pointer axis event"
+msgid "Horizontal"
+msgstr "Vodoravno"
+
+#: debug_console.cpp:222
+msgctxt "An orientation of a pointer axis event"
+msgid "Vertical"
+msgstr "Navpično"
+
+#: debug_console.cpp:238
+msgctxt "A key press event"
+msgid "Key Press"
+msgstr "Pritisk na tipko"
+
+#: debug_console.cpp:241
+msgctxt "A key release event"
+msgid "Key Release"
+msgstr "Spust tipke"
+
+#: debug_console.cpp:252
+msgctxt "A keyboard modifier"
+msgid "Shift"
+msgstr "Shift"
+
+#: debug_console.cpp:256
+msgctxt "A keyboard modifier"
+msgid "Control"
+msgstr "Control"
+
+#: debug_console.cpp:260
+msgctxt "A keyboard modifier"
+msgid "Alt"
+msgstr "Alt"
+
+#: debug_console.cpp:264
+msgctxt "A keyboard modifier"
+msgid "Meta"
+msgstr "Meta"
+
+#: debug_console.cpp:268
+msgctxt "A keyboard modifier"
+msgid "Keypad"
+msgstr "Številčnica"
+
+#: debug_console.cpp:272
+msgctxt "A keyboard modifier"
+msgid "Group-switch"
+msgstr "Preklop skupine"
+
+#: debug_console.cpp:278
+msgctxt "Whether the event is an automatic key repeat"
+msgid "Repeat"
+msgstr "Ponovitev"
+
+#: debug_console.cpp:279
+msgctxt "The code as read from the input device"
+msgid "Scan code"
+msgstr "Koda dogodka"
+
+#: debug_console.cpp:280
+msgctxt "The translated code to an Xkb symbol"
+msgid "Xkb symbol"
+msgstr "Znak Xkb"
+
+#: debug_console.cpp:281
+msgctxt "The translated code interpreted as text"
+msgid "Utf8"
+msgstr "Utf8"
+
+#: debug_console.cpp:282
+msgctxt "The currently active modifiers"
+msgid "Modifiers"
+msgstr "Spremenilniki"
+
+#: debug_console.cpp:295
+msgctxt "A touch down event"
+msgid "Touch down"
+msgstr "Dotik"
+
+#: debug_console.cpp:297 debug_console.cpp:313 debug_console.cpp:329
+msgctxt "The id of the touch point in the touch event"
+msgid "Point identifier"
+msgstr "Določilnik točke"
+
+#: debug_console.cpp:298 debug_console.cpp:314
+msgctxt "The global position of the touch point"
+msgid "Global position"
+msgstr "Globalni položaj"
+
+#: debug_console.cpp:311
+msgctxt "A touch motion event"
+msgid "Touch Motion"
+msgstr "Poteg"
+
+#: debug_console.cpp:327
+msgctxt "A touch up event"
+msgid "Touch Up"
+msgstr "Odmik prsta"
+
+#: debug_console.cpp:421
+msgid "No Mouse Buttons"
+msgstr "Brez miškinih gumbov"
+
+#: debug_console.cpp:425
+msgctxt "Mouse Button"
+msgid "left"
+msgstr "levi"
+
+#: debug_console.cpp:428
+msgctxt "Mouse Button"
+msgid "right"
+msgstr "desni"
+
+#: debug_console.cpp:431
+msgctxt "Mouse Button"
+msgid "middle"
+msgstr "srednji"
+
+#: debug_console.cpp:434
+msgctxt "Mouse Button"
+msgid "back"
+msgstr "nazaj"
+
+#: debug_console.cpp:437
+msgctxt "Mouse Button"
+msgid "forward"
+msgstr "naprej"
+
+#: debug_console.cpp:440
+msgctxt "Mouse Button"
+msgid "extra 1"
+msgstr "dodatni 1"
+
+#: debug_console.cpp:443
+msgctxt "Mouse Button"
+msgid "extra 2"
+msgstr "dodatni 2"
+
+#: debug_console.cpp:446
+msgctxt "Mouse Button"
+msgid "extra 3"
+msgstr "dodatni 3"
+
+#: debug_console.cpp:449
+msgctxt "Mouse Button"
+msgid "extra 4"
+msgstr "dodatni 4"
+
+#: debug_console.cpp:452
+msgctxt "Mouse Button"
+msgid "extra 5"
+msgstr "dodatni 5"
+
+#: debug_console.cpp:455
+msgctxt "Mouse Button"
+msgid "extra 6"
+msgstr "dodatni 6"
+
+#: debug_console.cpp:458
+msgctxt "Mouse Button"
+msgid "extra 7"
+msgstr "dodatni 7"
+
+#: debug_console.cpp:461
+msgctxt "Mouse Button"
+msgid "extra 8"
+msgstr "dodatni 8"
+
+#: debug_console.cpp:464
+msgctxt "Mouse Button"
+msgid "extra 9"
+msgstr "dodatni 9"
+
+#: debug_console.cpp:467
+msgctxt "Mouse Button"
+msgid "extra 10"
+msgstr "dodatni 10"
+
+#: debug_console.cpp:470
+msgctxt "Mouse Button"
+msgid "extra 11"
+msgstr "dodatni 11"
+
+#: debug_console.cpp:473
+msgctxt "Mouse Button"
+msgid "extra 12"
+msgstr "dodatni 12"
+
+#: debug_console.cpp:476
+msgctxt "Mouse Button"
+msgid "extra 13"
+msgstr "dodatni 13"
+
+#: debug_console.cpp:479
+msgctxt "Mouse Button"
+msgid "extra 14"
+msgstr "dodatni 14"
+
+#: debug_console.cpp:482
+msgctxt "Mouse Button"
+msgid "extra 15"
+msgstr "dodatni 15"
+
+#: debug_console.cpp:485
+msgctxt "Mouse Button"
+msgid "extra 16"
+msgstr "dodatni 16"
+
+#: debug_console.cpp:488
+msgctxt "Mouse Button"
+msgid "extra 17"
+msgstr "dodatni 17"
+
+#: debug_console.cpp:491
+msgctxt "Mouse Button"
+msgid "extra 18"
+msgstr "dodatni 18"
+
+#: debug_console.cpp:494
+msgctxt "Mouse Button"
+msgid "extra 19"
+msgstr "dodatni 19"
+
+#: debug_console.cpp:497
+msgctxt "Mouse Button"
+msgid "extra 20"
+msgstr "dodatni 20"
+
+#: debug_console.cpp:500
+msgctxt "Mouse Button"
+msgid "extra 21"
+msgstr "dodatni 21"
+
+#: debug_console.cpp:503
+msgctxt "Mouse Button"
+msgid "extra 22"
+msgstr "dodatni 22"
+
+#: debug_console.cpp:506
+msgctxt "Mouse Button"
+msgid "extra 23"
+msgstr "dodatni 23"
+
+#: debug_console.cpp:509
+msgctxt "Mouse Button"
+msgid "extra 24"
+msgstr "dodatni 24"
+
+#: debug_console.cpp:512
+msgctxt "Mouse Button"
+msgid "task"
+msgstr "opravilo"
+
+#: debug_console.cpp:853
+msgid "X11 Client Windows"
+msgstr "Okna odjemalca X11"
+
+#: debug_console.cpp:855
+msgid "X11 Unmanaged Windows"
+msgstr "Okna X11, ki niso upravljana"
+
+#: debug_console.cpp:857
+msgid "Wayland Windows"
+msgstr "Okna Wayland"
+
+#: debug_console.cpp:859
+msgid "Internal Windows"
+msgstr "Notranja okna"
 
 #: killer/killer.cpp:44
 msgid "Window Manager"
@@ -423,7 +860,145 @@ msgstr "Skladnja 3D v pripravljenost"
 msgid "Invert Screen Colors"
 msgstr "Obrni barve zaslona"
 
-#: main.cpp:89
+#: main.cpp:169 main.cpp:196
+msgid "KDE window manager"
+msgstr "Upravljalnik oken za KDE"
+
+#: main.cpp:174
+msgid "KWin"
+msgstr "KWin"
+
+#: main.cpp:178
+msgid "(c) 1999-2013, The KDE Developers"
+msgstr "© 1999-2013, razvijalci KDE"
+
+#: main.cpp:180
+msgid "Matthias Ettrich"
+msgstr "Matthias Ettrich"
+
+#: main.cpp:181
+msgid "Cristian Tibirna"
+msgstr "Cristian Tibirna"
+
+#: main.cpp:182
+msgid "Daniel M. Duley"
+msgstr "Daniel M. Duley"
+
+#: main.cpp:183
+msgid "Luboš Luňák"
+msgstr "Luboš Luňák"
+
+#: main.cpp:184
+msgid "Martin Gräßlin"
+msgstr "Martin Gräßlin"
+
+#: main.cpp:184
+msgid "Maintainer"
+msgstr "Vzdrževalec"
+
+#: main.cpp:193
+msgid "Disable configuration options"
+msgstr "Onemogoči nastavitvene možnosti"
+
+#: main.cpp:194
+msgid "Indicate that KWin has recently crashed n times"
+msgstr "Nakaži, da se je KWin nedavno sesul n-krat"
+
+#: main_wayland.cpp:201
+msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+msgstr "kwin_wayland: upravljalnik oken X11 že teče na prikazu X11.\n"
+
+#: main_wayland.cpp:496
+msgid "Start a rootless Xwayland server."
+msgstr "Zaženi neskrbniški strežnik Xwayland."
+
+#: main_wayland.cpp:498
+msgid ""
+"Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
+msgstr ""
+"Ime vtiča Wayland na katerem bo poslušano. Če ni nastavljeno, bo uporabljeno "
+"»wayland-0«."
+
+#: main_wayland.cpp:501
+msgid "Use a nested compositor in windowed mode."
+msgstr "V okenskem načinu uporabi ugnezden upravljalnik skladnje."
+
+#: main_wayland.cpp:503
+msgid "Render to framebuffer."
+msgstr "Izriši v medpomnilnik sličic."
+
+#: main_wayland.cpp:505
+msgid "The framebuffer device to render to."
+msgstr "Naprava z medpomnilnikom sličic za izris."
+
+#: main_wayland.cpp:509
+msgid "The X11 Display to use in windowed mode on platform X11."
+msgstr "Prikaz X11, ki bo uporabljen v okenskem načinu v okolju X11."
+
+#: main_wayland.cpp:512
+msgid "The Wayland Display to use in windowed mode on platform Wayland."
+msgstr "Prikaz Wayland, ki bo uporabljen v okenskem načinu v okolju Wayland."
+
+#: main_wayland.cpp:514
+msgid "Render to a virtual framebuffer."
+msgstr "Izriši v navidezni medpomnilnik sličic."
+
+#: main_wayland.cpp:516
+msgid "The width for windowed mode. Default width is 1024."
+msgstr "Širina okenskega načina. Privzeta širina je 1024."
+
+#: main_wayland.cpp:520
+msgid "The height for windowed mode. Default height is 768."
+msgstr "Višina okenskega načina. Privzeta višina je 768."
+
+#: main_wayland.cpp:524
+msgid ""
+"The number of windows to open as outputs in windowed mode. Default value is 1"
+msgstr ""
+"Število oken, ki bodo odprta kot izhodi v okenskem načinu. Privzeta vrednost "
+"je 1"
+
+#: main_wayland.cpp:556
+msgid "Use libhybris hwcomposer"
+msgstr "Uporabi strojni upravljalnik skladnje libhybris"
+
+#: main_wayland.cpp:563
+msgid ""
+"Enable libinput support for input events processing. Note: never use in a "
+"nested session."
+msgstr ""
+"Omogoči podporo libinput za obdelovanje vnosnih dogodkov. Opomba: nikoli ne "
+"uporabite v gnezdeni seji."
+
+#: main_wayland.cpp:567
+msgid "Render through drm node."
+msgstr "Izriši preko vozlišča drm."
+
+#: main_wayland.cpp:574
+msgid "Input method that KWin starts."
+msgstr "Vnosni način, ki ga zažene KWin."
+
+#: main_wayland.cpp:579
+msgid "List all available backends and quit."
+msgstr "Izpiši vsa razpoložljiva zaledja in končaj."
+
+#: main_wayland.cpp:583
+msgid "Starts the session in locked mode."
+msgstr "Zažene sejo v zaklenjenem načinu."
+
+#: main_wayland.cpp:587
+msgid "Exit after the session application, which is started by KWin, closed."
+msgstr "Končaj zatem, ko se program seje, ki ga zažene KWin, zapre."
+
+#: main_wayland.cpp:593 main_x11.cpp:423
+msgid "Disable KActivities integration."
+msgstr "Onemogoči podporo za KActivities."
+
+#: main_wayland.cpp:598
+msgid "Applications to start once Wayland and Xwayland server are started"
+msgstr "Programi, ki bodo zagnani po zagonu strežnikov Wayland in Xwayland"
+
+#: main_x11.cpp:73
 msgid ""
 "KWin is unstable.\n"
 "It seems to have crashed several times in a row.\n"
@@ -433,145 +1008,7 @@ msgstr ""
 "Videti je, da se je sesul večkrat zaporedoma.\n"
 "Izberete lahko drugega upravljalnika oken:"
 
-#: main.cpp:278 main.cpp:305
-msgid "KDE window manager"
-msgstr "Upravljalnik oken za KDE"
-
-#: main.cpp:283
-msgid "KWin"
-msgstr "KWin"
-
-#: main.cpp:287
-msgid "(c) 1999-2013, The KDE Developers"
-msgstr "© 1999-2013, razvijalci KDE"
-
-#: main.cpp:289
-msgid "Matthias Ettrich"
-msgstr "Matthias Ettrich"
-
-#: main.cpp:290
-msgid "Cristian Tibirna"
-msgstr "Cristian Tibirna"
-
-#: main.cpp:291
-msgid "Daniel M. Duley"
-msgstr "Daniel M. Duley"
-
-#: main.cpp:292
-msgid "Luboš Luňák"
-msgstr "Luboš Luňák"
-
-#: main.cpp:293
-msgid "Martin Gräßlin"
-msgstr "Martin Gräßlin"
-
-#: main.cpp:293
-msgid "Maintainer"
-msgstr "Vzdrževalec"
-
-#: main.cpp:302
-msgid "Disable configuration options"
-msgstr "Onemogoči nastavitvene možnosti"
-
-#: main.cpp:303
-msgid "Indicate that KWin has recently crashed n times"
-msgstr "Nakaži, da se je KWin nedavno sesul n-krat"
-
-#: main_wayland.cpp:203
-msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
-msgstr "kwin_wayland: upravljalnik oken X11 že teče na prikazu X11.\n"
-
-#: main_wayland.cpp:478
-msgid "Start a rootless Xwayland server."
-msgstr "Zaženi neskrbniški strežnik Xwayland."
-
-#: main_wayland.cpp:480
-msgid ""
-"Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
-msgstr ""
-"Ime vtiča Wayland na katerem bo poslušano. Če ni nastavljeno, bo uporabljeno "
-"»wayland-0«."
-
-#: main_wayland.cpp:483
-msgid "Use a nested compositor in windowed mode."
-msgstr "V okenskem načinu uporabi ugnezden upravljalnik skladnje."
-
-#: main_wayland.cpp:485
-msgid "Render to framebuffer."
-msgstr "Izriši v medpomnilnik sličic."
-
-#: main_wayland.cpp:487
-msgid "The framebuffer device to render to."
-msgstr "Naprava z medpomnilnikom sličic za izris."
-
-#: main_wayland.cpp:491
-msgid "The X11 Display to use in windowed mode on platform X11."
-msgstr "Prikaz X11, ki bo uporabljen v okenskem načinu v okolju X11."
-
-#: main_wayland.cpp:494
-msgid "The Wayland Display to use in windowed mode on platform Wayland."
-msgstr "Prikaz Wayland, ki bo uporabljen v okenskem načinu v okolju Wayland."
-
-#: main_wayland.cpp:496
-msgid "Render to a virtual framebuffer."
-msgstr "Izriši v navidezni medpomnilnik sličic."
-
-#: main_wayland.cpp:498
-msgid "The width for windowed mode. Default width is 1024."
-msgstr "Širina okenskega načina. Privzeta širina je 1024."
-
-#: main_wayland.cpp:502
-msgid "The height for windowed mode. Default height is 768."
-msgstr "Višina okenskega načina. Privzeta višina je 768."
-
-#: main_wayland.cpp:506
-msgid ""
-"The number of windows to open as outputs in windowed mode. Default value is 1"
-msgstr ""
-"Število oken, ki bodo odprta kot izhodi v okenskem načinu. Privzeta vrednost "
-"je 1"
-
-#: main_wayland.cpp:538
-msgid "Use libhybris hwcomposer"
-msgstr "Uporabi strojni upravljalnik skladnje libhybris"
-
-#: main_wayland.cpp:545
-msgid ""
-"Enable libinput support for input events processing. Note: never use in a "
-"nested session."
-msgstr ""
-"Omogoči podporo libinput za obdelovanje vnosnih dogodkov. Opomba: nikoli ne "
-"uporabite v gnezdeni seji."
-
-#: main_wayland.cpp:549
-msgid "Render through drm node."
-msgstr "Izriši preko vozlišča drm."
-
-#: main_wayland.cpp:556
-msgid "Input method that KWin starts."
-msgstr "Vnosni način, ki ga zažene KWin."
-
-#: main_wayland.cpp:561
-msgid "List all available backends and quit."
-msgstr "Izpiši vsa razpoložljiva zaledja in končaj."
-
-#: main_wayland.cpp:565
-msgid "Starts the session in locked mode."
-msgstr "Zažene sejo v zaklenjenem načinu."
-
-#: main_wayland.cpp:569
-msgid "Exit after the session application, which is started by KWin, closed."
-msgstr "Končaj zatem, ko se program seje, ki ga zažene KWin, zapre."
-
-#: main_wayland.cpp:575 main_x11.cpp:297
-msgid "Disable KActivities integration."
-msgstr "Onemogoči podporo za KActivities."
-
-#: main_wayland.cpp:580
-msgid "Applications to start once Wayland and Xwayland server are started"
-msgstr "Programi, ki bodo zagnani po zagonu strežnikov Wayland in Xwayland"
-
-#: main_x11.cpp:159
+#: main_x11.cpp:224
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
@@ -579,24 +1016,24 @@ msgstr ""
 "kwin: ni mogoče uveljaviti izbora upravljalnika, mogoče teče kakšen drug? "
 "(poskusite uporabiti --replace)\n"
 
-#: main_x11.cpp:176
+#: main_x11.cpp:241
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "kwin: nek drug upravljalnik oken je že zagnan (poskusite uporabiti --"
 "replace)\n"
 
-#: main_x11.cpp:290
+#: main_x11.cpp:416
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr ""
 "Zamenjaj z že zagnanim upravljalnikom oken, ki je združljiv z ICCCM 2.0"
 
-#: scene_opengl.cpp:683
+#: scene_opengl.cpp:663
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
 "Namizni učinki so bili znova zagnani zaradi ponovnega zagona grafičnega "
 "sistema"
 
-#: scene_opengl.cpp:875
+#: scene_opengl.cpp:855
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -611,7 +1048,7 @@ msgstr ""
 "ločljivost.<br>Lahko pa znižate skupno ločljivost vseh zaslonov na screens "
 "to %1x%2 "
 
-#: scene_opengl.cpp:882
+#: scene_opengl.cpp:862
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
 "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
@@ -623,7 +1060,7 @@ msgstr ""
 "<br>XRender takšne omejitve ne pozna, ampak bodo omejitve strojne opreme, ki "
 "omejujejo velikost vidnega polja OpenGL, vplivale na hitrost delovanja."
 
-#: scene_opengl.cpp:907
+#: scene_opengl.cpp:887
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -637,7 +1074,7 @@ msgstr ""
 "v pripravljenost, preklopu na zaledje XRender ali znižanju ločljivosti na %1x"
 "%1."
 
-#: scene_opengl.cpp:913
+#: scene_opengl.cpp:893
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
 "GPU, thus windows of that size cannot be assigned to textures and will be "
@@ -971,7 +1408,19 @@ msgstr "Preklopi na eno namizje navzdol"
 msgid "Switch to Desktop %1"
 msgstr "Preklopi na namizje %1"
 
-#: workspace.cpp:1305
+#: virtualkeyboard.cpp:92
+msgid "Virtual Keyboard"
+msgstr ""
+
+#: virtualkeyboard.cpp:208
+msgid "Virtual Keyboard is enabled."
+msgstr ""
+
+#: virtualkeyboard.cpp:211
+msgid "Virtual Keyboard is disabled."
+msgstr ""
+
+#: workspace.cpp:1320
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

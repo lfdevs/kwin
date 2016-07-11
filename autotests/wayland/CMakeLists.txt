@@ -1,4 +1,4 @@
-add_definitions(-DKWINBACKENDPATH="${CMAKE_BINARY_DIR}/backends/virtual/KWinWaylandVirtualBackend.so")
+add_definitions(-DKWINBACKENDPATH="${CMAKE_BINARY_DIR}/plugins/platforms/virtual/KWinWaylandVirtualBackend.so")
 add_definitions(-DKWINQPAPATH="${CMAKE_BINARY_DIR}/plugins/qpa/")
 ########################################################
 # Test Start
@@ -30,11 +30,13 @@ ecm_mark_as_test(testQuickTiling)
 ########################################################
 # Move/Resize window test
 ########################################################
-set( testMoveResize_SRCS move_resize_window_test.cpp kwin_wayland_test.cpp )
-add_executable(testMoveResize ${testMoveResize_SRCS})
-target_link_libraries( testMoveResize kwin Qt5::Test)
-add_test(kwin-testMoveResize testMoveResize)
-ecm_mark_as_test(testMoveResize)
+if (XCB_ICCCM_FOUND)
+    set( testMoveResize_SRCS move_resize_window_test.cpp kwin_wayland_test.cpp )
+    add_executable(testMoveResize ${testMoveResize_SRCS})
+    target_link_libraries( testMoveResize kwin Qt5::Test XCB::ICCCM)
+    add_test(kwin-testMoveResize testMoveResize)
+    ecm_mark_as_test(testMoveResize)
+endif()
 
 ########################################################
 # Don't Crash For glxgears
@@ -127,6 +129,37 @@ add_test(kwin-testTransientPlacmenet testTransientPlacmenet)
 ecm_mark_as_test(testTransientPlacmenet)
 
 ########################################################
+# Debug Console Test
+########################################################
+set( testDebugConsole_SRCS debug_console_test.cpp kwin_wayland_test.cpp )
+add_executable(testDebugConsole ${testDebugConsole_SRCS})
+target_link_libraries( testDebugConsole kwin Qt5::Test)
+add_test(kwin-testDebugConsole testDebugConsole)
+ecm_mark_as_test(testDebugConsole)
+
+########################################################
+# Struts Test
+########################################################
+if (XCB_ICCCM_FOUND)
+    set( testStruts_SRCS struts_test.cpp kwin_wayland_test.cpp )
+    add_executable(testStruts ${testStruts_SRCS})
+    target_link_libraries( testStruts kwin Qt5::Test XCB::ICCCM)
+    add_test(kwin-testStruts testStruts)
+    ecm_mark_as_test(testStruts)
+endif()
+
+########################################################
+# Shade Test
+########################################################
+if (XCB_ICCCM_FOUND)
+    set( testShade_SRCS shade_test.cpp kwin_wayland_test.cpp )
+    add_executable(testShade ${testShade_SRCS})
+    target_link_libraries( testShade kwin Qt5::Test XCB::ICCCM)
+    add_test(kwin-testShade testShade)
+    ecm_mark_as_test(testShade)
+endif()
+
+########################################################
 # Dont Crash Empty Deco Test
 ########################################################
 set( testDontCrashEmptyDeco_SRCS dont_crash_empty_deco.cpp kwin_wayland_test.cpp )
@@ -145,3 +178,50 @@ if (XCB_ICCCM_FOUND)
     add_test(kwin-testDontCrashAuroraeDestroyDeco testDontCrashAuroraeDestroyDeco)
     ecm_mark_as_test(testDontCrashAuroraeDestroyDeco)
 endif()
+
+########################################################
+# PlasmaWindow test
+########################################################
+if (XCB_ICCCM_FOUND)
+    set( testPlasmaWindow_SRCS plasmawindow_test.cpp kwin_wayland_test.cpp )
+    add_executable(testPlasmaWindow ${testPlasmaWindow_SRCS})
+    target_link_libraries( testPlasmaWindow kwin Qt5::Test XCB::ICCCM)
+    add_test(kwin-testPlasmaWindow testPlasmaWindow)
+    ecm_mark_as_test(testPlasmaWindow)
+endif()
+
+########################################################
+# Plasma Surface Test
+########################################################
+set( testPlasmaSurface_SRCS plasma_surface_test.cpp kwin_wayland_test.cpp )
+add_executable(testPlasmaSurface ${testPlasmaSurface_SRCS})
+target_link_libraries( testPlasmaSurface kwin Qt5::Test)
+add_test(kwin-testPlasmaSurface testPlasmaSurface)
+ecm_mark_as_test(testPlasmaSurface)
+
+########################################################
+# Maximized Windows Test
+########################################################
+set( testMaximized_SRCS maximize_test.cpp kwin_wayland_test.cpp )
+add_executable(testMaximized ${testMaximized_SRCS})
+target_link_libraries( testMaximized kwin Qt5::Test)
+add_test(kwin-testMaximized testMaximized)
+ecm_mark_as_test(testMaximized)
+
+########################################################
+# Shell Client Test
+########################################################
+set( testShellClient_SRCS shell_client_test.cpp kwin_wayland_test.cpp )
+add_executable(testShellClient ${testShellClient_SRCS})
+target_link_libraries( testShellClient kwin Qt5::Test)
+add_test(kwin-testShellClient testShellClient)
+ecm_mark_as_test(testShellClient)
+
+########################################################
+# DontCrashNoBorder Test
+########################################################
+set( testDontCrashNoBorder_SRCS dont_crash_no_border.cpp kwin_wayland_test.cpp )
+add_executable(testDontCrashNoBorder ${testDontCrashNoBorder_SRCS})
+target_link_libraries( testDontCrashNoBorder kwin Qt5::Test)
+add_test(kwin-testDontCrashNoBorder testDontCrashNoBorder)
+ecm_mark_as_test(testDontCrashNoBorder)

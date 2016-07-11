@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "sharingplatformcontext.h"
 #include "integration.h"
 #include "window.h"
-#include "../../abstract_backend.h"
+#include "../../platform.h"
 #include "../../wayland_server.h"
 #include "../../shell_client.h"
 
@@ -33,7 +33,7 @@ namespace QPA
 {
 
 SharingPlatformContext::SharingPlatformContext(QOpenGLContext *context, Integration *integration)
-    : AbstractPlatformContext(context, integration, waylandServer()->backend()->sceneEglDisplay())
+    : AbstractPlatformContext(context, integration, kwinApp()->platform()->sceneEglDisplay())
 {
     create();
 }
@@ -85,7 +85,7 @@ void SharingPlatformContext::create()
     if (!bindApi()) {
         return;
     }
-    createContext(waylandServer()->backend()->sceneEglContext());
+    createContext(kwinApp()->platform()->sceneEglContext());
 }
 
 }

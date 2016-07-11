@@ -35,6 +35,7 @@ namespace KWayland
 namespace Server
 {
 class BufferInterface;
+class SubSurfaceInterface;
 }
 }
 
@@ -239,7 +240,7 @@ public:
     QRect rect() const;
     // access to the internal window class
     // TODO eventually get rid of this
-    Toplevel* window();
+    Toplevel* window() const;
     // should the window be painted
     bool isPaintingEnabled() const;
     void resetPaintingEnabled();
@@ -390,10 +391,38 @@ public:
      * @brief Returns the Toplevel this WindowPixmap belongs to.
      * Note: the Toplevel can change over the lifetime of the WindowPixmap in case the Toplevel is copied to Deleted.
      */
-    Toplevel *toplevel();
+    Toplevel *toplevel() const;
+
+    /**
+     * @returns the parent WindowPixmap in the sub-surface tree
+     **/
+    WindowPixmap *parent() const {
+        return m_parent;
+    }
+
+    /**
+     * @returns the current sub-surface tree
+     **/
+    QVector<WindowPixmap*> children() const {
+        return m_children;
+    }
+
+    /**
+     * @returns the subsurface this WindowPixmap is for if it is not for a root window
+     **/
+    QPointer<KWayland::Server::SubSurfaceInterface> subSurface() const {
+        return m_subSurface;
+    }
+
+    /**
+     * @returns the surface this WindowPixmap references, might be @c null.
+     **/
+    KWayland::Server::SurfaceInterface *surface() const;
 
 protected:
     explicit WindowPixmap(Scene::Window *window);
+    explicit WindowPixmap(const QPointer<KWayland::Server::SubSurfaceInterface> &subSurface, WindowPixmap *parent);
+    virtual WindowPixmap *createChild(const QPointer<KWayland::Server::SubSurfaceInterface> &subSurface);
     /**
      * @return The Window this WindowPixmap belongs to
      */
@@ -403,7 +432,15 @@ protected:
      * Should be called by the implementing subclasses when the Wayland Buffer changed and needs
      * updating.
      **/
-    void updateBuffer();
+    virtual void updateBuffer();
+
+    /**
+     * Sets the sub-surface tree to @p children.
+     **/
+    void setChildren(const QVector<WindowPixmap*> &children) {
+        m_children = children;
+    }
+
 private:
     Scene::Window *m_window;
     xcb_pixmap_t m_pixmap;
@@ -412,6 +449,9 @@ private:
     QRect m_contentsRect;
     QPointer<KWayland::Server::BufferInterface> m_buffer;
     QSharedPointer<QOpenGLFramebufferObject> m_fbo;
+    WindowPixmap *m_parent = nullptr;
+    QVector<WindowPixmap*> m_children;
+    QPointer<KWayland::Server::SubSurfaceInterface> m_subSurface;
 };
 
 class Scene::EffectFrame
@@ -480,7 +520,7 @@ QRect Scene::Window::rect() const
 }
 
 inline
-Toplevel* Scene::Window::window()
+Toplevel* Scene::Window::window() const
 {
     return toplevel;
 }
@@ -553,7 +593,7 @@ T* Scene::Window::previousWindowPixmap()
 }
 
 inline
-Toplevel* WindowPixmap::toplevel()
+Toplevel* WindowPixmap::toplevel() const
 {
     return m_window->window();
 }

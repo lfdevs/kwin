@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-06 10:22+0000\n"
+"POT-Creation-Date: 2016-04-12 09:00+0000\n"
 "PO-Revision-Date: 2015-10-12 17:00UTC-0800\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese <kde-china@kde.org>\n"
@@ -64,7 +64,7 @@ msgstr "保持在下方"
 msgid "Keep above"
 msgstr "保持在上方"
 
-#: kcm.cpp:128
+#: kcm.cpp:135
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."

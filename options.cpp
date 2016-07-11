@@ -23,12 +23,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "options.h"
 #include "config-kwin.h"
 #include "utils.h"
+#include "platform.h"
 
 #ifndef KCMRULES
 
 #include <QProcess>
 
-#include "compositingprefs.h"
 #include "screens.h"
 #include "settings.h"
 #include "xcbutils.h"
@@ -1155,6 +1155,17 @@ Options::WindowOperation Options::operationMaxButtonClick(Qt::MouseButtons butto
 QStringList Options::modifierOnlyDBusShortcut(Qt::KeyboardModifier mod) const
 {
     return m_modifierOnlyShortcuts.value(mod);
+}
+
+bool Options::isUseCompositing() const
+{
+    return m_useCompositing || kwinApp()->platform()->requiresCompositing();
+}
+
+
+bool Options::isUnredirectFullscreen() const
+{
+    return m_unredirectFullscreen && !kwinApp()->platform()->requiresCompositing();
 }
 
 } // namespace

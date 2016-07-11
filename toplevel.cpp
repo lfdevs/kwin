@@ -177,6 +177,19 @@ QByteArray Toplevel::sessionId() const
     return result;
 }
 
+/*!
+  Returns command property for this client,
+  taken either from its window or from the leader window.
+ */
+QByteArray Toplevel::wmCommand()
+{
+    QByteArray result = Xcb::StringProperty(window(), XCB_ATOM_WM_COMMAND);
+    if (result.isEmpty() && wmClientLeaderWin && wmClientLeaderWin != window())
+        result = Xcb::StringProperty(wmClientLeaderWin, XCB_ATOM_WM_COMMAND);
+    result.replace(0, ' ');
+    return result;
+}
+
 void Toplevel::getWmClientMachine()
 {
     m_clientMachine->resolve(window(), wmClientLeader());
@@ -451,11 +464,21 @@ void Toplevel::setSurface(KWayland::Server::SurfaceInterface *surface)
     }
     m_surface = surface;
     connect(m_surface, &SurfaceInterface::damaged, this, &Toplevel::addDamage);
+    connect(m_surface, &SurfaceInterface::subSurfaceTreeChanged, this,
+        [this] {
+            // TODO improve to only update actual visual area
+            if (ready_for_painting) {
+                addDamageFull();
+                m_isDamaged = true;
+            }
+        }
+    );
     connect(m_surface, &SurfaceInterface::destroyed, this,
         [this] {
             m_surface = nullptr;
         }
     );
+    emit surfaceChanged();
 }
 
 void Toplevel::addDamage(const QRegion &damage)
@@ -508,6 +531,11 @@ QMatrix4x4 Toplevel::inputTransformation() const
     QMatrix4x4 m;
     m.translate(-x(), -y());
     return m;
+}
+
+quint32 Toplevel::windowId() const
+{
+    return window();
 }
 
 } // namespace

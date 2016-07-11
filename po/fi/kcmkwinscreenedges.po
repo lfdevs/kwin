@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-21 08:16+0000\n"
-"PO-Revision-Date: 2014-05-06 13:17+0300\n"
+"POT-Creation-Date: 2016-05-09 08:35+0000\n"
+"PO-Revision-Date: 2016-05-09 15:17+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -43,41 +43,50 @@ msgstr "Näytä työpöytä"
 msgid "Lock Screen"
 msgstr "Lukitse näyttö"
 
-#: main.cpp:193
+#: main.cpp:190
+msgctxt "Open krunner"
+msgid "Run Command"
+msgstr "Suorita komento"
+
+#: main.cpp:191
+msgid "Activity Manager"
+msgstr "Aktiviteettienhallinta"
+
+#: main.cpp:195
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 – Kaikki työpöydät"
 
-#: main.cpp:194
+#: main.cpp:196
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 – Nykyinen työpöytä"
 
-#: main.cpp:195
+#: main.cpp:197
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 – Nykyinen sovellus"
 
-#: main.cpp:198
+#: main.cpp:200
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 – Kuutio"
 
-#: main.cpp:199
+#: main.cpp:201
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 – Sylinteri"
 
-#: main.cpp:200
+#: main.cpp:202
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 – Lieriö"
 
-#: main.cpp:202
+#: main.cpp:204
 msgid "Toggle window switching"
 msgstr "Näytä tai piilota ikkunanvalitsin"
 
-#: main.cpp:203
+#: main.cpp:205
 msgid "Toggle alternative window switching"
 msgstr "Näytä tai piilota vaihtoehtoinen ikkunanvalitsin"
 

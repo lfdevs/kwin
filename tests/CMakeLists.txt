@@ -23,11 +23,13 @@ if (HAVE_INPUT)
             libinputtest.cpp
             ${KWIN_SOURCE_DIR}/libinput/context.cpp
             ${KWIN_SOURCE_DIR}/libinput/connection.cpp
+            ${KWIN_SOURCE_DIR}/libinput/device.cpp
             ${KWIN_SOURCE_DIR}/libinput/events.cpp
             ${KWIN_SOURCE_DIR}/libinput/libinput_logging.cpp
             ${KWIN_SOURCE_DIR}/logind.cpp
             ${KWIN_SOURCE_DIR}/udev.cpp
     )
     add_executable(libinputtest ${libinputtest_SRCS})
-    target_link_libraries(libinputtest Qt5::Core Qt5::DBus Libinput::Libinput ${UDEV_LIBS} KF5::WindowSystem)
+    add_definitions(-DKWIN_BUILD_TESTING)
+    target_link_libraries(libinputtest Qt5::Core Qt5::DBus Libinput::Libinput ${UDEV_LIBS} KF5::ConfigCore KF5::GlobalAccel KF5::WindowSystem)
 endif()

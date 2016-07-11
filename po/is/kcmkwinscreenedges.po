@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-21 08:16+0000\n"
+"POT-Creation-Date: 2016-05-09 08:35+0000\n"
 "PO-Revision-Date: 2010-05-03 11:48+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -41,46 +41,55 @@ msgstr "Sýna skjáborðið"
 msgid "Lock Screen"
 msgstr "Læsa skjánum"
 
-#: main.cpp:193
+#: main.cpp:190
+msgctxt "Open krunner"
+msgid "Run Command"
+msgstr ""
+
+#: main.cpp:191
+msgid "Activity Manager"
+msgstr ""
+
+#: main.cpp:195
 #, fuzzy, kde-format
 #| msgid "All Desktops"
 msgid "%1 - All Desktops"
 msgstr "Öll skjáborð"
 
-#: main.cpp:194
+#: main.cpp:196
 #, fuzzy, kde-format
 #| msgid "Current Desktop"
 msgid "%1 - Current Desktop"
 msgstr "Núverandi skjáborð"
 
-#: main.cpp:195
+#: main.cpp:197
 #, kde-format
 msgid "%1 - Current Application"
 msgstr ""
 
-#: main.cpp:198
+#: main.cpp:200
 #, fuzzy, kde-format
 #| msgid "Cube"
 msgid "%1 - Cube"
 msgstr "Teningur"
 
-#: main.cpp:199
+#: main.cpp:201
 #, fuzzy, kde-format
 #| msgid "Cylinder"
 msgid "%1 - Cylinder"
 msgstr "Hólkur"
 
-#: main.cpp:200
+#: main.cpp:202
 #, fuzzy, kde-format
 #| msgid "Sphere"
 msgid "%1 - Sphere"
 msgstr "Hvolf"
 
-#: main.cpp:202
+#: main.cpp:204
 msgid "Toggle window switching"
 msgstr ""
 
-#: main.cpp:203
+#: main.cpp:205
 msgid "Toggle alternative window switching"
 msgstr ""
 

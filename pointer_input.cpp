@@ -18,8 +18,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "pointer_input.h"
-#include "abstract_backend.h"
+#include "platform.h"
 #include "effects.h"
+#include "input_event.h"
 #include "screens.h"
 #include "shell_client.h"
 #include "wayland_cursor_theme.h"
@@ -108,8 +109,7 @@ static bool screenContainsPos(const QPointF &pos)
 }
 
 PointerInputRedirection::PointerInputRedirection(InputRedirection* parent)
-    : QObject(parent)
-    , m_input(parent)
+    : InputDeviceHandler(parent)
     , m_cursor(nullptr)
     , m_supportsWarping(Application::usesLibinput())
 {
@@ -122,11 +122,13 @@ void PointerInputRedirection::init()
     Q_ASSERT(!m_inited);
     m_cursor = new CursorImage(this);
     m_inited = true;
-    connect(m_cursor, &CursorImage::changed, waylandServer()->backend(), &AbstractBackend::cursorChanged);
+    connect(m_cursor, &CursorImage::changed, kwinApp()->platform(), &Platform::cursorChanged);
     emit m_cursor->changed();
     connect(workspace(), &Workspace::stackingOrderChanged, this, &PointerInputRedirection::update);
     connect(screens(), &Screens::changed, this, &PointerInputRedirection::updateAfterScreenChange);
-    connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::lockStateChanged, this, &PointerInputRedirection::update);
+    if (waylandServer()->hasScreenLockerIntegration()) {
+        connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::lockStateChanged, this, &PointerInputRedirection::update);
+    }
     connect(workspace(), &QObject::destroyed, this, [this] { m_inited = false; });
     connect(waylandServer(), &QObject::destroyed, this, [this] { m_inited = false; });
     connect(waylandServer()->seat(), &KWayland::Server::SeatInterface::dragEnded, this,
@@ -137,21 +139,35 @@ void PointerInputRedirection::init()
             update();
         }
     );
+    connect(this, &PointerInputRedirection::internalWindowChanged, this,
+        [this] {
+            disconnect(m_internalWindowConnection);
+            m_internalWindowConnection = QMetaObject::Connection();
+            if (m_internalWindow) {
+                m_internalWindowConnection = connect(m_internalWindow.data(), &QWindow::visibleChanged, this,
+                    [this] (bool visible) {
+                        if (!visible) {
+                            update();
+                        }
+                    }
+                );
+            }
+        }
+    );
 
     // warp the cursor to center of screen
     warp(screens()->geometry().center());
     updateAfterScreenChange();
 }
 
-void PointerInputRedirection::processMotion(const QPointF &pos, uint32_t time)
+void PointerInputRedirection::processMotion(const QPointF &pos, uint32_t time, LibInput::Device *device)
 {
     if (!m_inited) {
         return;
     }
     updatePosition(pos);
-    QMouseEvent event(QEvent::MouseMove, m_pos.toPoint(), m_pos.toPoint(),
-                      Qt::NoButton, m_qtButtons, m_input->keyboardModifiers());
-    event.setTimestamp(time);
+    MouseEvent event(QEvent::MouseMove, m_pos, Qt::NoButton, m_qtButtons,
+                     m_input->keyboardModifiers(), time, device);
 
     const auto &filters = m_input->filters();
     for (auto it = filters.begin(), end = filters.end(); it != end; it++) {
@@ -161,7 +177,7 @@ void PointerInputRedirection::processMotion(const QPointF &pos, uint32_t time)
     }
 }
 
-void PointerInputRedirection::processButton(uint32_t button, InputRedirection::PointerButtonState state, uint32_t time)
+void PointerInputRedirection::processButton(uint32_t button, InputRedirection::PointerButtonState state, uint32_t time, LibInput::Device *device)
 {
     if (!m_inited) {
         return;
@@ -181,9 +197,8 @@ void PointerInputRedirection::processButton(uint32_t button, InputRedirection::P
         return;
     }
 
-    QMouseEvent event(type, m_pos.toPoint(), m_pos.toPoint(),
-                      buttonToQtMouseButton(button), m_qtButtons, m_input->keyboardModifiers());
-    event.setTimestamp(time);
+    MouseEvent event(type, m_pos, buttonToQtMouseButton(button), m_qtButtons,
+                     m_input->keyboardModifiers(), time, device);
 
     const auto &filters = m_input->filters();
     for (auto it = filters.begin(), end = filters.end(); it != end; it++) {
@@ -193,7 +208,7 @@ void PointerInputRedirection::processButton(uint32_t button, InputRedirection::P
     }
 }
 
-void PointerInputRedirection::processAxis(InputRedirection::PointerAxis axis, qreal delta, uint32_t time)
+void PointerInputRedirection::processAxis(InputRedirection::PointerAxis axis, qreal delta, uint32_t time, LibInput::Device *device)
 {
     if (!m_inited) {
         return;
@@ -204,13 +219,9 @@ void PointerInputRedirection::processAxis(InputRedirection::PointerAxis axis, qr
 
     emit m_input->pointerAxisChanged(axis, delta);
 
-    QWheelEvent wheelEvent(m_pos, m_pos, QPoint(),
-                           (axis == InputRedirection::PointerAxisHorizontal) ? QPoint(delta, 0) : QPoint(0, delta),
-                           delta,
+    WheelEvent wheelEvent(m_pos, delta,
                            (axis == InputRedirection::PointerAxisHorizontal) ? Qt::Horizontal : Qt::Vertical,
-                           m_qtButtons,
-                           m_input->keyboardModifiers());
-    wheelEvent.setTimestamp(time);
+                           m_qtButtons, m_input->keyboardModifiers(), time, device);
 
     const auto &filters = m_input->filters();
     for (auto it = filters.begin(), end = filters.end(); it != end; it++) {
@@ -232,9 +243,9 @@ void PointerInputRedirection::update()
     // TODO: handle pointer grab aka popups
     Toplevel *t = m_input->findToplevel(m_pos.toPoint());
     const auto oldDeco = m_decoration;
-    updateInternalWindow();
+    updateInternalWindow(m_pos);
     if (!m_internalWindow) {
-        updateDecoration(t);
+        updateDecoration(t, m_pos);
     } else {
         // TODO: send hover leave to decoration
         if (m_decoration) {
@@ -295,111 +306,6 @@ void PointerInputRedirection::update()
     }
 }
 
-void PointerInputRedirection::updateInternalWindow()
-{
-    const auto oldInternalWindow = m_internalWindow;
-    bool found = false;
-    // TODO: screen locked check without going through wayland server
-    bool needsReset = waylandServer()->isScreenLocked();
-    const auto &internalClients = waylandServer()->internalClients();
-    const bool change = m_internalWindow.isNull() || !(m_internalWindow->flags().testFlag(Qt::Popup) && m_internalWindow->isVisible());
-    if (!internalClients.isEmpty() && change) {
-        auto it = internalClients.end();
-        do {
-            it--;
-            if (QWindow *w = (*it)->internalWindow()) {
-                if (!w->isVisible()) {
-                    continue;
-                }
-                if (w->geometry().contains(m_pos.toPoint())) {
-                    m_internalWindow = QPointer<QWindow>(w);
-                    found = true;
-                    break;
-                }
-            }
-        } while (it != internalClients.begin());
-        if (!found) {
-            needsReset = true;
-        }
-    }
-    if (needsReset) {
-        m_internalWindow.clear();
-    }
-    if (oldInternalWindow != m_internalWindow) {
-        // changed
-        if (oldInternalWindow) {
-            disconnect(m_internalWindowConnection);
-            m_internalWindowConnection = QMetaObject::Connection();
-            QEvent event(QEvent::Leave);
-            QCoreApplication::sendEvent(oldInternalWindow.data(), &event);
-        }
-        if (m_internalWindow) {
-            m_internalWindowConnection = connect(m_internalWindow.data(), &QWindow::visibleChanged, this,
-                [this] (bool visible) {
-                    if (!visible) {
-                        update();
-                    }
-                });
-            QEnterEvent event(m_pos - m_internalWindow->position(),
-                              m_pos - m_internalWindow->position(),
-                              m_pos);
-            QCoreApplication::sendEvent(m_internalWindow.data(), &event);
-            return;
-        }
-    }
-}
-
-void PointerInputRedirection::updateDecoration(Toplevel *t)
-{
-    const auto oldDeco = m_decoration;
-    bool needsReset = waylandServer()->isScreenLocked();
-    if (AbstractClient *c = dynamic_cast<AbstractClient*>(t)) {
-        // check whether it's on a Decoration
-        if (c->decoratedClient()) {
-            const QRect clientRect = QRect(c->clientPos(), c->clientSize()).translated(c->pos());
-            if (!clientRect.contains(m_pos.toPoint())) {
-                m_decoration = c->decoratedClient();
-            } else {
-                needsReset = true;
-            }
-        } else {
-            needsReset = true;
-        }
-    } else {
-        needsReset = true;
-    }
-    if (needsReset) {
-        m_decoration.clear();
-    }
-
-    bool leftSend = false;
-    auto oldWindow = qobject_cast<AbstractClient*>(m_window.data());
-    if (oldWindow && (m_decoration && m_decoration->client() != oldWindow)) {
-        leftSend = true;
-        oldWindow->leaveEvent();
-    }
-
-    if (oldDeco && oldDeco != m_decoration) {
-        if (oldDeco->client() != t && !leftSend) {
-            leftSend = true;
-            oldDeco->client()->leaveEvent();
-        }
-        // send leave
-        QHoverEvent event(QEvent::HoverLeave, QPointF(), QPointF());
-        QCoreApplication::instance()->sendEvent(oldDeco->decoration(), &event);
-    }
-    if (m_decoration) {
-        if (m_decoration->client() != oldWindow) {
-            m_decoration->client()->enterEvent(m_pos.toPoint());
-            workspace()->updateFocusMousePosition(m_pos.toPoint());
-        }
-        const QPointF p = m_pos - t->pos();
-        QHoverEvent event(QEvent::HoverMove, p, p);
-        QCoreApplication::instance()->sendEvent(m_decoration->decoration(), &event);
-        m_decoration->client()->processDecorationMove(p.toPoint(), m_pos.toPoint());
-    }
-}
-
 void PointerInputRedirection::updatePosition(const QPointF &pos)
 {
     // verify that at least one screen contains the pointer position
@@ -437,7 +343,7 @@ void PointerInputRedirection::updateButton(uint32_t button, InputRedirection::Po
 void PointerInputRedirection::warp(const QPointF &pos)
 {
     if (supportsWarping()) {
-        waylandServer()->backend()->warpPointer(pos);
+        kwinApp()->platform()->warpPointer(pos);
         processMotion(pos, waylandServer()->seat()->timestamp());
     }
 }
@@ -450,7 +356,7 @@ bool PointerInputRedirection::supportsWarping() const
     if (m_supportsWarping) {
         return true;
     }
-    if (waylandServer()->backend()->supportsPointerWarping()) {
+    if (kwinApp()->platform()->supportsPointerWarping()) {
         return true;
     }
     return false;
@@ -527,7 +433,9 @@ CursorImage::CursorImage(PointerInputRedirection *parent)
             reevaluteSource();
         }
     );
-    connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::lockStateChanged, this, &CursorImage::reevaluteSource);
+    if (waylandServer()->hasScreenLockerIntegration()) {
+        connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::lockStateChanged, this, &CursorImage::reevaluteSource);
+    }
     connect(m_pointer, &PointerInputRedirection::decorationChanged, this, &CursorImage::updateDecoration);
     // connect the move resize of all window
     auto setupMoveResizeConnection = [this] (AbstractClient *c) {

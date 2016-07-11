@@ -1,10 +1,10 @@
 project(KWIN)
-set(PROJECT_VERSION "5.6.5")
+set(PROJECT_VERSION "5.7.0")
 set(PROJECT_VERSION_MAJOR 5)
 
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
-set(QT_MIN_VERSION "5.4.0")
-set(KF5_MIN_VERSION "5.12.0")
+set(QT_MIN_VERSION "5.5.0")
+set(KF5_MIN_VERSION "5.23.0")
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH} )
 
@@ -121,6 +121,21 @@ find_package(KScreenLocker CONFIG REQUIRED)
 set_package_properties(KScreenLocker PROPERTIES
                        TYPE REQUIRED
                        PURPOSE "For screenlocker integration in kwin_wayland")
+
+find_package(Breeze ${PROJECT_VERSION} CONFIG)
+set_package_properties(Breeze PROPERTIES
+                       TYPE OPTIONAL
+                       PURPOSE "For setting the default window decoration plugin")
+if(${Breeze_FOUND})
+    if(${BREEZE_WITH_KDECORATION})
+        set(HAVE_BREEZE_DECO true)
+    else()
+        set(HAVE_BREEZE_DECO FALSE)
+    endif()
+else()
+    set(HAVE_BREEZE_DECO FALSE)
+endif()
+add_feature_info("Breeze-Decoration" HAVE_BREEZE_DECO "Default decoration plugin Breeze")
 
 find_package(EGL)
 set_package_properties(EGL PROPERTIES
@@ -285,7 +300,14 @@ check_include_files(malloc.h HAVE_MALLOC_H)
 
 check_include_file("sys/prctl.h" HAVE_SYS_PRCTL_H)
 check_symbol_exists(PR_SET_DUMPABLE "sys/prctl.h" HAVE_PR_SET_DUMPABLE)
-add_feature_info("prctl-dumpable" HAVE_PR_SET_DUMPABLE "Required for disallow ptrace on kwin_wayland process")
+check_include_file("sys/procctl.h" HAVE_SYS_PROCCTL_H)
+check_symbol_exists(PROC_TRACE_CTL "sys/procctl.h" HAVE_PROC_TRACE_CTL)
+if (HAVE_PR_SET_DUMPABLE OR HAVE_PROC_TRACE_CTL)
+    set(CAN_DISABLE_PTRACE TRUE)
+endif()
+add_feature_info("prctl/procctl tracing control"
+                 CAN_DISABLE_PTRACE
+                 "Required for disallowing ptrace on kwin_wayland process")
 
 configure_file(config-kwin.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kwin.h )
 
@@ -307,9 +329,6 @@ if(KWIN_BUILD_KCMS)
     add_subdirectory( kcmkwin )
 endif()
 
-if( KWIN_BUILD_DECORATIONS )
-    add_subdirectory( clients )
-endif()
 add_subdirectory( data )
 
 add_subdirectory( effects )
@@ -328,10 +347,12 @@ set(kwin_KDEINIT_SRCS
    client.cpp 
    client_machine.cpp
    cursor.cpp
+   debug_console.cpp
    tabgroup.cpp
    focuschain.cpp
    globalshortcuts.cpp
    input.cpp
+   input_event.cpp
    keyboard_input.cpp
    pointer_input.cpp
    touch_input.cpp
@@ -347,7 +368,6 @@ set(kwin_KDEINIT_SRCS
    killwindow.cpp 
    geometrytip.cpp 
    screens.cpp
-   screens_xrandr.cpp
    shadow.cpp
    sm.cpp 
    group.cpp 
@@ -369,7 +389,6 @@ set(kwin_KDEINIT_SRCS
    deleted.cpp
    effects.cpp
    effectloader.cpp
-   compositingprefs.cpp
    virtualdesktops.cpp
    xcbutils.cpp
    x11eventfilter.cpp
@@ -392,16 +411,12 @@ set(kwin_KDEINIT_SRCS
     decorations/decorationrenderer.cpp
     decorations/decorations_logging.cpp
     abstract_egl_backend.cpp
-    eglonxbackend.cpp
-    abstract_backend.cpp
+    platform.cpp
     shell_client.cpp
     wayland_server.cpp
     wayland_cursor_theme.cpp
+    virtualkeyboard.cpp
    )
-
-if(HAVE_EPOXY_GLX)
-    set(kwin_KDEINIT_SRCS ${kwin_KDEINIT_SRCS} glxbackend.cpp)
-endif()
 
 if(KWIN_BUILD_TABBOX)
     set(
@@ -436,6 +451,7 @@ if(HAVE_INPUT)
         ${kwin_KDEINIT_SRCS}
         libinput/context.cpp
         libinput/connection.cpp
+        libinput/device.cpp
         libinput/events.cpp
         libinput/libinput_logging.cpp
         virtual_terminal.cpp
@@ -453,6 +469,7 @@ qt5_add_dbus_interface( kwin_KDEINIT_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/org.freede
 qt5_add_resources( kwin_KDEINIT_SRCS resources.qrc )
 
 ki18n_wrap_ui(kwin_KDEINIT_SRCS
+    debug_console.ui
     shortcutdialog.ui
 )
 
@@ -476,7 +493,6 @@ set(kwin_KDE_LIBS
     KF5::ConfigCore
     KF5::CoreAddons
     KF5::ConfigWidgets
-    KF5::Crash
     KF5::GlobalAccel
     KF5::GlobalAccelPrivate
     KF5::I18n
@@ -561,7 +577,7 @@ target_link_libraries(kwin ${DL_LIBRARY})
 endif()
 
 kf5_add_kdeinit_executable(kwin_x11 main_x11.cpp)
-target_link_libraries(kdeinit_kwin_x11 kwin)
+target_link_libraries(kdeinit_kwin_x11 kwin KF5::Crash)
 
 install(TARGETS kwin             ${INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP )
 install(TARGETS kdeinit_kwin_x11 ${INSTALL_TARGETS_DEFAULT_ARGS} )
@@ -572,7 +588,6 @@ target_link_libraries(kwin_wayland kwin)
 
 install(TARGETS kwin_wayland         ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
-add_subdirectory(backends)
 add_subdirectory(plugins)
 
 ########### install files ###############

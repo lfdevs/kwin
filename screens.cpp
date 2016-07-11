@@ -25,8 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "settings.h"
 #include <workspace.h>
 #include <config-kwin.h>
-#include "screens_xrandr.h"
-#include "abstract_backend.h"
+#include "platform.h"
 #include "wayland_server.h"
 #ifdef KWIN_UNIT_TEST
 #include <mock_screens.h>
@@ -42,12 +41,7 @@ Screens *Screens::create(QObject *parent)
 #ifdef KWIN_UNIT_TEST
     s_self = new MockScreens(parent);
 #else
-    if (kwinApp()->shouldUseWaylandForCompositing()) {
-        s_self = waylandServer()->backend()->createScreens(parent);
-    }
-    if (kwinApp()->operationMode() == Application::OperationModeX11) {
-        s_self = new XRandRScreens(parent);
-    }
+    s_self = kwinApp()->platform()->createScreens(parent);
 #endif
     Q_ASSERT(s_self);
     s_self->init();
@@ -184,7 +178,7 @@ int Screens::intersecting(const QRect &r) const
     return cnt;
 }
 
-BasicScreens::BasicScreens(AbstractBackend *backend, QObject *parent)
+BasicScreens::BasicScreens(Platform *backend, QObject *parent)
     : Screens(parent)
     , m_backend(backend)
 {
@@ -196,7 +190,7 @@ void BasicScreens::init()
 {
     KWin::Screens::init();
 #ifndef KWIN_UNIT_TEST
-    connect(m_backend, &AbstractBackend::screenSizeChanged,
+    connect(m_backend, &Platform::screenSizeChanged,
             this, &BasicScreens::startChangedTimer);
 #endif
     updateCount();

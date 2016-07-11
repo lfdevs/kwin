@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-06 10:22+0000\n"
+"POT-Creation-Date: 2016-04-12 09:00+0000\n"
 "PO-Revision-Date: 2010-07-18 20:10+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: Arabic <linuxac-kde-arabic-team@googlegroups.com>\n"
@@ -71,7 +71,7 @@ msgstr "ضعه تحت الآخرين"
 msgid "Keep above"
 msgstr "ضعه فوق الآخرين"
 
-#: kcm.cpp:128
+#: kcm.cpp:135
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."

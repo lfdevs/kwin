@@ -48,6 +48,7 @@ public:
     int vt() const {
         return m_vt;
     }
+    void switchVirtualTerminal(quint32 vtNr);
 
     void takeControl();
     void releaseControl();
@@ -77,6 +78,7 @@ private:
     explicit LogindIntegration(const QDBusConnection &connection, QObject *parent = nullptr);
     void logindServiceRegistered();
     void connectSessionPropertiesChanged();
+    void getSeat();
     QDBusConnection m_bus;
     QDBusServiceWatcher *m_logindServiceWatcher;
     bool m_connected;
@@ -84,6 +86,7 @@ private:
     bool m_sessionControl;
     bool m_sessionActive;
     int m_vt = -1;
+    QString m_seatPath;
     KWIN_SINGLETON(LogindIntegration)
 };
 

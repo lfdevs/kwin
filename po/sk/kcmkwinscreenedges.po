@@ -1,19 +1,19 @@
 # translation of kcmkwinscreenedges.po to Slovak
 # Michal Sulek <misurel@gmail.com>, 2009, 2010.
-# Roman Paholík <wizzardsk@gmail.com>, 2013, 2014.
+# Roman Paholík <wizzardsk@gmail.com>, 2013, 2014, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-21 08:16+0000\n"
-"PO-Revision-Date: 2014-04-29 20:37+0200\n"
-"Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
+"POT-Creation-Date: 2016-05-09 08:35+0000\n"
+"PO-Revision-Date: 2016-06-07 22:10+0100\n"
+"Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 msgctxt "NAME OF TRANSLATORS"
@@ -36,41 +36,50 @@ msgstr "Zobraziť plochu"
 msgid "Lock Screen"
 msgstr "Zamknúť obrazovku"
 
-#: main.cpp:193
+#: main.cpp:190
+msgctxt "Open krunner"
+msgid "Run Command"
+msgstr "Spustiť príkaz"
+
+#: main.cpp:191
+msgid "Activity Manager"
+msgstr "Správca aktivít"
+
+#: main.cpp:195
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - Všetky plochy"
 
-#: main.cpp:194
+#: main.cpp:196
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - Aktuálna plocha"
 
-#: main.cpp:195
+#: main.cpp:197
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - Aktuálna aplikácia"
 
-#: main.cpp:198
+#: main.cpp:200
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 - Kocka"
 
-#: main.cpp:199
+#: main.cpp:201
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 - Valec"
 
-#: main.cpp:200
+#: main.cpp:202
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 - Guľa"
 
-#: main.cpp:202
+#: main.cpp:204
 msgid "Toggle window switching"
 msgstr "Prepnúť prepínanie okien"
 
-#: main.cpp:203
+#: main.cpp:205
 msgid "Toggle alternative window switching"
 msgstr "Prepnúť alternatívne prepínanie okien"
 

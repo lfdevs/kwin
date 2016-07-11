@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-21 08:16+0000\n"
+"POT-Creation-Date: 2016-05-09 08:35+0000\n"
 "PO-Revision-Date: 2014-06-28 18:06+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
@@ -37,41 +37,50 @@ msgstr "Show Desktop"
 msgid "Lock Screen"
 msgstr "Lock Screen"
 
-#: main.cpp:193
+#: main.cpp:190
+msgctxt "Open krunner"
+msgid "Run Command"
+msgstr ""
+
+#: main.cpp:191
+msgid "Activity Manager"
+msgstr ""
+
+#: main.cpp:195
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - All Desktops"
 
-#: main.cpp:194
+#: main.cpp:196
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - Current Desktop"
 
-#: main.cpp:195
+#: main.cpp:197
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - Current Application"
 
-#: main.cpp:198
+#: main.cpp:200
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 - Cube"
 
-#: main.cpp:199
+#: main.cpp:201
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 - Cylinder"
 
-#: main.cpp:200
+#: main.cpp:202
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 - Sphere"
 
-#: main.cpp:202
+#: main.cpp:204
 msgid "Toggle window switching"
 msgstr "Toggle window switching"
 
-#: main.cpp:203
+#: main.cpp:205
 msgid "Toggle alternative window switching"
 msgstr "Toggle alternative window switching"
 

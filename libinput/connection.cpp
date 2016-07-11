@@ -19,11 +19,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "connection.h"
 #include "context.h"
+#include "device.h"
 #include "events.h"
 #include "../logind.h"
 #include "../udev.h"
 #include "libinput_logging.h"
 
+#include <KConfigGroup>
+#include <KGlobalAccel>
+
+#include <QDBusMessage>
+#include <QDBusConnection>
+#include <QDBusPendingCall>
 #include <QMutexLocker>
 #include <QSocketNotifier>
 #include <QThread>
@@ -80,6 +87,8 @@ Connection *Connection::create(QObject *parent)
     return s_self;
 }
 
+static const QString s_touchpadComponent = QStringLiteral("kcm_touchpad");
+
 Connection::Connection(Context *input, QObject *parent)
     : QObject(parent)
     , m_input(input)
@@ -87,6 +96,50 @@ Connection::Connection(Context *input, QObject *parent)
     , m_mutex(QMutex::Recursive)
 {
     Q_ASSERT(m_input);
+
+    // steal touchpad shortcuts
+    QAction *touchpadToggleAction = new QAction(this);
+    QAction *touchpadOnAction = new QAction(this);
+    QAction *touchpadOffAction = new QAction(this);
+
+    touchpadToggleAction->setObjectName(QStringLiteral("Toggle Touchpad"));
+    touchpadToggleAction->setProperty("componentName", s_touchpadComponent);
+    touchpadOnAction->setObjectName(QStringLiteral("Enable Touchpad"));
+    touchpadOnAction->setProperty("componentName", s_touchpadComponent);
+    touchpadOffAction->setObjectName(QStringLiteral("Disable Touchpad"));
+    touchpadOffAction->setProperty("componentName", s_touchpadComponent);
+    KGlobalAccel::self()->setDefaultShortcut(touchpadToggleAction, QList<QKeySequence>{Qt::Key_TouchpadToggle});
+    KGlobalAccel::self()->setShortcut(touchpadToggleAction, QList<QKeySequence>{Qt::Key_TouchpadToggle});
+    KGlobalAccel::self()->setDefaultShortcut(touchpadOnAction, QList<QKeySequence>{Qt::Key_TouchpadOn});
+    KGlobalAccel::self()->setShortcut(touchpadOnAction, QList<QKeySequence>{Qt::Key_TouchpadOn});
+    KGlobalAccel::self()->setDefaultShortcut(touchpadOffAction, QList<QKeySequence>{Qt::Key_TouchpadOff});
+    KGlobalAccel::self()->setShortcut(touchpadOffAction, QList<QKeySequence>{Qt::Key_TouchpadOff});
+#ifndef KWIN_BUILD_TESTING
+    InputRedirection::self()->registerShortcut(Qt::Key_TouchpadToggle, touchpadToggleAction);
+    InputRedirection::self()->registerShortcut(Qt::Key_TouchpadOn, touchpadOnAction);
+    InputRedirection::self()->registerShortcut(Qt::Key_TouchpadOff, touchpadOffAction);
+#endif
+    connect(touchpadToggleAction, &QAction::triggered, this, &Connection::toggleTouchpads);
+    connect(touchpadOnAction, &QAction::triggered, this,
+        [this] {
+            if (m_touchpadsEnabled) {
+                return;
+            }
+            toggleTouchpads();
+        }
+    );
+    connect(touchpadOffAction, &QAction::triggered, this,
+        [this] {
+            if (!m_touchpadsEnabled) {
+                return;
+            }
+            toggleTouchpads();
+        }
+    );
+
+    // need to connect to KGlobalSettings as the mouse KCM does not emit a dedicated signal
+    QDBusConnection::sessionBus().connect(QString(), QStringLiteral("/KGlobalSettings"), QStringLiteral("org.kde.KGlobalSettings"),
+                                          QStringLiteral("notifyChange"), this, SLOT(slotKGlobalSettingsNotifyChange(int,int)));
 }
 
 Connection::~Connection()
@@ -130,6 +183,7 @@ void Connection::deactivate()
         return;
     }
     m_keyboardBeforeSuspend = hasKeyboard();
+    m_alphaNumericKeyboardBeforeSuspend = hasAlphaNumericKeyboard();
     m_pointerBeforeSuspend = hasPointer();
     m_touchBeforeSuspend = hasTouch();
     m_input->suspend();
@@ -159,49 +213,79 @@ void Connection::processEvents()
     while (!m_eventQueue.isEmpty()) {
         QScopedPointer<Event> event(m_eventQueue.takeFirst());
         switch (event->type()) {
-            case LIBINPUT_EVENT_DEVICE_ADDED:
-                if (libinput_device_has_capability(event->device(), LIBINPUT_DEVICE_CAP_KEYBOARD)) {
+            case LIBINPUT_EVENT_DEVICE_ADDED: {
+                auto device = new Device(event->nativeDevice());
+                device->moveToThread(s_thread);
+                device->setParent(this);
+                m_devices << device;
+                if (device->isKeyboard()) {
                     m_keyboard++;
+                    if (device->isAlphaNumericKeyboard()) {
+                        m_alphaNumericKeyboard++;
+                        if (m_alphaNumericKeyboard == 1) {
+                            emit hasAlphaNumericKeyboardChanged(true);
+                        }
+                    }
                     if (m_keyboard == 1) {
                         emit hasKeyboardChanged(true);
                     }
                 }
-                if (libinput_device_has_capability(event->device(), LIBINPUT_DEVICE_CAP_POINTER)) {
+                if (device->isPointer()) {
                     m_pointer++;
                     if (m_pointer == 1) {
                         emit hasPointerChanged(true);
                     }
                 }
-                if (libinput_device_has_capability(event->device(), LIBINPUT_DEVICE_CAP_TOUCH)) {
+                if (device->isTouch()) {
                     m_touch++;
                     if (m_touch == 1) {
                         emit hasTouchChanged(true);
                     }
                 }
+                applyDeviceConfig(device);
+                emit deviceAdded(device);
                 break;
-            case LIBINPUT_EVENT_DEVICE_REMOVED:
-                if (libinput_device_has_capability(event->device(), LIBINPUT_DEVICE_CAP_KEYBOARD)) {
+            }
+            case LIBINPUT_EVENT_DEVICE_REMOVED: {
+                auto it = std::find_if(m_devices.begin(), m_devices.end(), [&event] (Device *d) { return event->device() == d; } );
+                if (it == m_devices.end()) {
+                    // we don't know this device
+                    break;
+                }
+                auto device = *it;
+                m_devices.erase(it);
+                emit deviceRemoved(device);
+
+                if (device->isKeyboard()) {
                     m_keyboard--;
+                    if (device->isAlphaNumericKeyboard()) {
+                        m_alphaNumericKeyboard--;
+                        if (m_alphaNumericKeyboard == 0) {
+                            emit hasAlphaNumericKeyboardChanged(false);
+                        }
+                    }
                     if (m_keyboard == 0) {
                         emit hasKeyboardChanged(false);
                     }
                 }
-                if (libinput_device_has_capability(event->device(), LIBINPUT_DEVICE_CAP_POINTER)) {
+                if (device->isPointer()) {
                     m_pointer--;
                     if (m_pointer == 0) {
                         emit hasPointerChanged(false);
                     }
                 }
-                if (libinput_device_has_capability(event->device(), LIBINPUT_DEVICE_CAP_TOUCH)) {
+                if (device->isTouch()) {
                     m_touch--;
                     if (m_touch == 0) {
                         emit hasTouchChanged(false);
                     }
                 }
+                device->deleteLater();
                 break;
+            }
             case LIBINPUT_EVENT_KEYBOARD_KEY: {
                 KeyEvent *ke = static_cast<KeyEvent*>(event.data());
-                emit keyChanged(ke->key(), ke->state(), ke->time());
+                emit keyChanged(ke->key(), ke->state(), ke->time(), ke->device());
                 break;
             }
             case LIBINPUT_EVENT_POINTER_AXIS: {
@@ -230,13 +314,13 @@ void Connection::processEvents()
                     }
                 }
                 for (auto it = deltas.constBegin(); it != deltas.constEnd(); ++it) {
-                    emit pointerAxisChanged(it.key(), it.value().delta, it.value().time);
+                    emit pointerAxisChanged(it.key(), it.value().delta, it.value().time, pe->device());
                 }
                 break;
             }
             case LIBINPUT_EVENT_POINTER_BUTTON: {
                 PointerEvent *pe = static_cast<PointerEvent*>(event.data());
-                emit pointerButtonChanged(pe->button(), pe->buttonState(), pe->time());
+                emit pointerButtonChanged(pe->button(), pe->buttonState(), pe->time(), pe->device());
                 break;
             }
             case LIBINPUT_EVENT_POINTER_MOTION: {
@@ -254,35 +338,35 @@ void Connection::processEvents()
                         break;
                     }
                 }
-                emit pointerMotion(delta, latestTime);
+                emit pointerMotion(delta, latestTime, pe->device());
                 break;
             }
             case LIBINPUT_EVENT_POINTER_MOTION_ABSOLUTE: {
                 PointerEvent *pe = static_cast<PointerEvent*>(event.data());
-                emit pointerMotionAbsolute(pe->absolutePos(), pe->absolutePos(m_size), pe->time());
+                emit pointerMotionAbsolute(pe->absolutePos(), pe->absolutePos(m_size), pe->time(), pe->device());
                 break;
             }
             case LIBINPUT_EVENT_TOUCH_DOWN: {
                 TouchEvent *te = static_cast<TouchEvent*>(event.data());
-                emit touchDown(te->id(), te->absolutePos(m_size), te->time());
+                emit touchDown(te->id(), te->absolutePos(m_size), te->time(), te->device());
                 break;
             }
             case LIBINPUT_EVENT_TOUCH_UP: {
                 TouchEvent *te = static_cast<TouchEvent*>(event.data());
-                emit touchUp(te->id(), te->time());
+                emit touchUp(te->id(), te->time(), te->device());
                 break;
             }
             case LIBINPUT_EVENT_TOUCH_MOTION: {
                 TouchEvent *te = static_cast<TouchEvent*>(event.data());
-                emit touchMotion(te->id(), te->absolutePos(m_size), te->time());
+                emit touchMotion(te->id(), te->absolutePos(m_size), te->time(), te->device());
                 break;
             }
             case LIBINPUT_EVENT_TOUCH_CANCEL: {
-                emit touchCanceled();
+                emit touchCanceled(event->device());
                 break;
             }
             case LIBINPUT_EVENT_TOUCH_FRAME: {
-                emit touchFrame();
+                emit touchFrame(event->device());
                 break;
             }
             default:
@@ -293,6 +377,9 @@ void Connection::processEvents()
     if (wasSuspended) {
         if (m_keyboardBeforeSuspend && !m_keyboard) {
             emit hasKeyboardChanged(false);
+        }
+        if (m_alphaNumericKeyboardBeforeSuspend && !m_alphaNumericKeyboard) {
+            emit hasAlphaNumericKeyboardChanged(false);
         }
         if (m_pointerBeforeSuspend && !m_pointer) {
             emit hasPointerChanged(false);
@@ -315,6 +402,74 @@ bool Connection::isSuspended() const
         return false;
     }
     return s_context->isSuspended();
+}
+
+void Connection::applyDeviceConfig(Device *device)
+{
+    if (device->isPointer()) {
+        const KConfigGroup group = m_config->group("Mouse");
+        device->setLeftHanded(group.readEntry("MouseButtonMapping", "RightHanded") == QLatin1String("LeftHanded"));
+        qreal accel = group.readEntry("Acceleration", -1.0);
+        if (qFuzzyCompare(accel, -1.0) || qFuzzyCompare(accel, 1.0)) {
+            // default value
+            device->setPointerAcceleration(0.0);
+        } else {
+            // the X11-based config is mapped in [0.1,20.0] with 1.0 being the "normal" setting - we assume that's the default
+            if (accel < 1.0) {
+                device->setPointerAcceleration(-1.0 + ((accel * 10.0) - 1.0) / 9.0);
+            } else {
+                device->setPointerAcceleration((accel -1.0)/19.0);
+            }
+        }
+    }
+}
+
+void Connection::slotKGlobalSettingsNotifyChange(int type, int arg)
+{
+    if (type == 3 /**SettingsChanged**/ && arg == 0 /** SETTINGS_MOUSE **/) {
+        m_config->reparseConfiguration();
+        for (auto it = m_devices.constBegin(), end = m_devices.constEnd(); it != end; ++it) {
+            if ((*it)->isPointer()) {
+                applyDeviceConfig(*it);
+            }
+        }
+    }
+}
+
+void Connection::toggleTouchpads()
+{
+    bool changed = false;
+    m_touchpadsEnabled = !m_touchpadsEnabled;
+    for (auto it = m_devices.constBegin(); it != m_devices.constEnd(); ++it) {
+        auto device = *it;
+        if (!device->isPointer()) {
+            continue;
+        }
+        if (device->isKeyboard() || device->isTouch() || device->isTabletPad() || device->isTabletTool()) {
+            // ignore all combined devices. E.g. a touchpad on a keyboard we don't want to toggle
+            // as that would result in the keyboard going off as well
+            continue;
+        }
+        // is this a touch pad? We don't really know, let's do some assumptions
+        if (device->tapFingerCount() > 0 || device->supportsDisableWhileTyping() || device->supportsDisableEventsOnExternalMouse()) {
+            const bool old = device->isEnabled();
+            device->setEnabled(m_touchpadsEnabled);
+            if (old != device->isEnabled()) {
+                changed = true;
+            }
+        }
+    }
+    if (changed) {
+        // send OSD message
+        QDBusMessage msg = QDBusMessage::createMethodCall(
+            QStringLiteral("org.kde.plasmashell"),
+            QStringLiteral("/org/kde/osdService"),
+            QStringLiteral("org.kde.osdService"),
+            QStringLiteral("touchpadEnabledChanged")
+        );
+        msg.setArguments({m_touchpadsEnabled});
+        QDBusConnection::sessionBus().asyncCall(msg);
+    }
 }
 
 }

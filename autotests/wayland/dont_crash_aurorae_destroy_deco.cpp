@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "kwin_wayland_test.h"
-#include "abstract_backend.h"
+#include "platform.h"
 #include "client.h"
 #include "cursor.h"
 #include "screenedge.h"
@@ -58,8 +58,8 @@ void DontCrashAuroraeDestroyDecoTest::initTestCase()
     qRegisterMetaType<KWin::AbstractClient*>();
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
-    waylandServer()->backend()->setInitialWindowSize(QSize(1280, 1024));
-    QMetaObject::invokeMethod(waylandServer()->backend(), "setOutputCount", Qt::DirectConnection, Q_ARG(int, 2));
+    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setOutputCount", Qt::DirectConnection, Q_ARG(int, 2));
     waylandServer()->init(s_socketName.toLocal8Bit());
 
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
@@ -131,9 +131,9 @@ void DontCrashAuroraeDestroyDecoTest::testBorderlessMaximizedWindows()
     QSignalSpy maximizedStateChangedSpy(client, static_cast<void (AbstractClient::*)(KWin::AbstractClient*, MaximizeMode)>(&AbstractClient::clientMaximizedStateChanged));
     QVERIFY(maximizedStateChangedSpy.isValid());
     quint32 timestamp = 1;
-    waylandServer()->backend()->pointerMotion(client->geometry().topLeft() + scenePoint.toPoint(), timestamp++);
-    waylandServer()->backend()->pointerButtonPressed(BTN_LEFT, timestamp++);
-    waylandServer()->backend()->pointerButtonReleased(BTN_LEFT, timestamp++);
+    kwinApp()->platform()->pointerMotion(client->geometry().topLeft() + scenePoint.toPoint(), timestamp++);
+    kwinApp()->platform()->pointerButtonPressed(BTN_LEFT, timestamp++);
+    kwinApp()->platform()->pointerButtonReleased(BTN_LEFT, timestamp++);
     QVERIFY(maximizedStateChangedSpy.wait());
     QCOMPARE(client->maximizeMode(), MaximizeFull);
     QCOMPARE(client->noBorder(), true);

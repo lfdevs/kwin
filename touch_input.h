@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #ifndef KWIN_TOUCH_INPUT_H
 #define KWIN_TOUCH_INPUT_H
+#include "input.h"
 
 #include <QHash>
 #include <QObject>
@@ -31,7 +32,17 @@ namespace KWin
 class InputRedirection;
 class Toplevel;
 
-class TouchInputRedirection : public QObject
+namespace Decoration
+{
+class DecoratedClientImpl;
+}
+
+namespace LibInput
+{
+class Device;
+}
+
+class TouchInputRedirection : public InputDeviceHandler
 {
     Q_OBJECT
 public:
@@ -41,9 +52,9 @@ public:
     void update(const QPointF &pos = QPointF());
     void init();
 
-    void processDown(qint32 id, const QPointF &pos, quint32 time);
-    void processUp(qint32 id, quint32 time);
-    void processMotion(qint32 id, const QPointF &pos, quint32 time);
+    void processDown(qint32 id, const QPointF &pos, quint32 time, LibInput::Device *device = nullptr);
+    void processUp(qint32 id, quint32 time, LibInput::Device *device = nullptr);
+    void processMotion(qint32 id, const QPointF &pos, quint32 time, LibInput::Device *device = nullptr);
     void cancel();
     void frame();
 
@@ -51,25 +62,29 @@ public:
     void removeId(quint32 internalId);
     qint32 mappedId(quint32 internalId);
 
-    /**
-     * @brief The Toplevel which currently receives touch events
-     */
-    QPointer<Toplevel> window() const {
-        return m_window;
+    void setDecorationPressId(qint32 id) {
+        m_decorationId = id;
+    }
+    qint32 decorationPressId() const {
+        return m_decorationId;
+    }
+    void setInternalPressId(qint32 id) {
+        m_internalId = id;
+    }
+    qint32 internalPressId() const {
+        return m_internalId;
     }
 
 private:
-    InputRedirection *m_input;
     bool m_inited = false;
-    /**
-     * @brief The Toplevel which currently receives touch events
-     */
-    QPointer<Toplevel> m_window;
+    qint32 m_decorationId = -1;
+    qint32 m_internalId = -1;
     /**
      * external/kwayland
      **/
     QHash<qint32, qint32> m_idMapper;
     QMetaObject::Connection m_windowGeometryConnection;
+    bool m_windowUpdatedInCycle = false;
 };
 
 }

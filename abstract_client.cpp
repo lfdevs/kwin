@@ -463,6 +463,31 @@ AbstractClient::Position AbstractClient::titlebarPosition() const
     return PositionTop;
 }
 
+bool AbstractClient::titlebarPositionUnderMouse() const
+{
+    if (!isDecorated()) {
+        return false;
+    }
+    const auto sectionUnderMouse = decoration()->sectionUnderMouse();
+    if (sectionUnderMouse == Qt::TitleBarArea) {
+        return true;
+    }
+    // check other sections based on titlebarPosition
+    switch (titlebarPosition()) {
+    case AbstractClient::PositionTop:
+        return (sectionUnderMouse == Qt::TopLeftSection || sectionUnderMouse == Qt::TopSection || sectionUnderMouse == Qt::TopRightSection);
+    case AbstractClient::PositionLeft:
+        return (sectionUnderMouse == Qt::TopLeftSection || sectionUnderMouse == Qt::LeftSection || sectionUnderMouse == Qt::BottomLeftSection);
+    case AbstractClient::PositionRight:
+        return (sectionUnderMouse == Qt::BottomRightSection || sectionUnderMouse == Qt::RightSection || sectionUnderMouse == Qt::TopRightSection);
+    case AbstractClient::PositionBottom:
+        return (sectionUnderMouse == Qt::BottomLeftSection || sectionUnderMouse == Qt::BottomSection || sectionUnderMouse == Qt::BottomRightSection);
+    default:
+        // nothing
+        return false;
+    }
+}
+
 void AbstractClient::setMinimized(bool set)
 {
     set ? minimize() : unminimize();
@@ -633,7 +658,7 @@ void AbstractClient::setupWindowManagementInterface()
         return;
     }
     using namespace KWayland::Server;
-    auto w = waylandServer()->windowManagement()->createWindow(this);
+    auto w = waylandServer()->windowManagement()->createWindow(waylandServer()->windowManagement());
     w->setTitle(caption());
     w->setVirtualDesktop(isOnAllDesktops() ? 0 : desktop() - 1);
     w->setActive(isActive());
@@ -651,6 +676,11 @@ void AbstractClient::setupWindowManagementInterface()
     w->setThemedIconName(icon().name().isEmpty() ? QStringLiteral("xorg") : icon().name());
     w->setAppId(QString::fromUtf8(resourceName()));
     w->setSkipTaskbar(skipTaskbar());
+    w->setShadeable(isShadeable());
+    w->setShaded(isShade());
+    w->setResizable(isResizable());
+    w->setMovable(isMovable());
+    w->setVirtualDesktopChangeable(true); // FIXME Matches Client::actionSupported(), but both should be implemented.
     connect(this, &AbstractClient::skipTaskbarChanged, w,
         [w, this] {
             w->setSkipTaskbar(skipTaskbar());
@@ -690,7 +720,20 @@ void AbstractClient::setupWindowManagementInterface()
             w->setAppId(QString::fromUtf8(resourceName()));
         }
     );
+    connect(this, &AbstractClient::shadeChanged, w, [w, this] { w->setShaded(isShade()); });
     connect(w, &PlasmaWindowInterface::closeRequested, this, [this] { closeWindow(); });
+    connect(w, &PlasmaWindowInterface::moveRequested, this,
+        [this] {
+            Cursor::setPos(geometry().center());
+            performMouseCommand(Options::MouseMove, Cursor::pos());
+        }
+    );
+    connect(w, &PlasmaWindowInterface::resizeRequested, this,
+        [this] {
+            Cursor::setPos(geometry().bottomRight());
+            performMouseCommand(Options::MouseResize, Cursor::pos());
+        }
+    );
     connect(w, &PlasmaWindowInterface::virtualDesktopRequested, this,
         [this] (quint32 desktop) {
             workspace()->sendClientToDesktop(this, desktop + 1, true);
@@ -737,13 +780,20 @@ void AbstractClient::setupWindowManagementInterface()
             }
         }
     );
+    connect(w, &PlasmaWindowInterface::shadedRequested, this,
+        [this] (bool set) {
+            setShade(set);
+        }
+    );
     m_windowManagementInterface = w;
 }
 
 void AbstractClient::destroyWindowManagementInterface()
 {
-    delete m_windowManagementInterface;
-    m_windowManagementInterface = nullptr;
+    if (m_windowManagementInterface) {
+        m_windowManagementInterface->unmap();
+        m_windowManagementInterface = nullptr;
+    }
 }
 
 Options::MouseCommand AbstractClient::getMouseCommand(Qt::MouseButton button, bool *handled) const
@@ -1404,7 +1454,7 @@ bool AbstractClient::processDecorationButtonPress(QMouseEvent *event, bool ignor
         active = true;
 
     // check whether it is a double click
-    if (event->button() == Qt::LeftButton && decoration()->titleBar().contains(event->x(), event->y())) {
+    if (event->button() == Qt::LeftButton && titlebarPositionUnderMouse()) {
         if (m_decoration.doubleClickTimer.isValid()) {
             const quint64 interval = m_decoration.doubleClickTimer.elapsed();
             m_decoration.doubleClickTimer.invalidate();
@@ -1457,7 +1507,7 @@ bool AbstractClient::processDecorationButtonPress(QMouseEvent *event, bool ignor
 void AbstractClient::processDecorationButtonRelease(QMouseEvent *event)
 {
     if (isDecorated()) {
-        if (event->isAccepted() || !decoration()->titleBar().contains(event->pos())) {
+        if (event->isAccepted() || !titlebarPositionUnderMouse()) {
             invalidateDecorationDoubleClickTimer(); // click was for the deco and shall not init a doubleclick
         }
     }

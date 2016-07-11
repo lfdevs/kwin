@@ -2,20 +2,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Diego Iastrubni <elcuco@kde.org>, 2012, 2013.
+# elkana bardugo <ttv200@gmail.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-08-08 08:31+0000\n"
-"PO-Revision-Date: 2013-11-29 23:51+0200\n"
-"Last-Translator: Diego Iastrubni <elcuco@kde.org>\n"
+"PO-Revision-Date: 2016-06-23 14:56+0200\n"
+"Last-Translator: elkana bardugo <ttv200@gmail.com>\n"
 "Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -27,11 +28,11 @@ msgstr "kde-l10n-he@kde.org"
 
 #: module.cpp:50
 msgid "KWin Scripts"
-msgstr "תסריטי KWin"
+msgstr "סקריפטים של KWin"
 
 #: module.cpp:52
 msgid "Configure KWin scripts"
-msgstr "הגדרה של תסריטי KWin"
+msgstr "הגדרה של סקריפטים של KWin"
 
 #: module.cpp:55
 msgid "Tamás Krutki"
@@ -39,31 +40,31 @@ msgstr "Tamás Krutki"
 
 #: module.cpp:77
 msgid "Import KWin Script"
-msgstr "ייבא תסריט של KWin"
+msgstr "ייבא סקריפט של KWin"
 
 #: module.cpp:78
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
-msgstr "*.kwinscript|KWin תסריטי (*.kwinscript)"
+msgstr "*.kwinscript|KWin תוסף (*.kwinscript)"
 
 #: module.cpp:87
 msgid ""
 "Cannot import selected script: maybe a script already exists with the same "
 "name or there is a permission problem."
 msgstr ""
-"אין אפשרות לייבא את התסריט הנבחר: אולי כבר קיים תסריט בשם דומה או ישנה בעיית "
+"אין אפשרות לייבא את התוסף הנבחר: אולי כבר קיים תוסף בשם דומה או ישנה בעיית "
 "הרשאות."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Module)
 #: module.ui:14
 msgid "KWin script configuration"
-msgstr "הגדרות של תסריטי KWin"
+msgstr "הגדרות של סקריפטים של KWin"
 
 #. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
 #: module.ui:41
 msgid "Import KWin script..."
-msgstr "ייבוא תסריט של KWin.."
+msgstr "ייבוא סקריפט של KWin.."
 
 #. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
 #: module.ui:48
 msgid "Get New Script..."
-msgstr "קבל תסריטים חדש..."
+msgstr "קבל סקריפט חדש..."

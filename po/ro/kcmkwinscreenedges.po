@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-21 08:16+0000\n"
+"POT-Creation-Date: 2016-05-09 08:35+0000\n"
 "PO-Revision-Date: 2013-02-01 00:03+0200\n"
 "Last-Translator: Sergiu Bivol <sergiu@ase.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -40,47 +40,56 @@ msgstr "Arată biroul"
 msgid "Lock Screen"
 msgstr "Blochează ecranul"
 
-#: main.cpp:193
+#: main.cpp:190
+msgctxt "Open krunner"
+msgid "Run Command"
+msgstr ""
+
+#: main.cpp:191
+msgid "Activity Manager"
+msgstr ""
+
+#: main.cpp:195
 #, fuzzy, kde-format
 #| msgid "All Desktops"
 msgid "%1 - All Desktops"
 msgstr "Toate birourile"
 
-#: main.cpp:194
+#: main.cpp:196
 #, fuzzy, kde-format
 #| msgid "Current Desktop"
 msgid "%1 - Current Desktop"
 msgstr "Biroul curent"
 
-#: main.cpp:195
+#: main.cpp:197
 #, fuzzy, kde-format
 #| msgid "Current Application"
 msgid "%1 - Current Application"
 msgstr "Aplicația curentă"
 
-#: main.cpp:198
+#: main.cpp:200
 #, fuzzy, kde-format
 #| msgid "Cube"
 msgid "%1 - Cube"
 msgstr "Cub"
 
-#: main.cpp:199
+#: main.cpp:201
 #, fuzzy, kde-format
 #| msgid "Cylinder"
 msgid "%1 - Cylinder"
 msgstr "Cilindru"
 
-#: main.cpp:200
+#: main.cpp:202
 #, fuzzy, kde-format
 #| msgid "Sphere"
 msgid "%1 - Sphere"
 msgstr "Sferă"
 
-#: main.cpp:202
+#: main.cpp:204
 msgid "Toggle window switching"
 msgstr ""
 
-#: main.cpp:203
+#: main.cpp:205
 msgid "Toggle alternative window switching"
 msgstr ""
 

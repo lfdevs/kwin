@@ -1,13 +1,14 @@
 # Diego Iastrubni <elcuco@kde.org>, 2012.
+# elkana bardugo <ttv200@gmail.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-21 08:16+0000\n"
-"PO-Revision-Date: 2012-05-15 23:20+0300\n"
-"Last-Translator: Diego Iastrubni <elcuco@kde.org>\n"
+"POT-Creation-Date: 2016-05-09 08:35+0000\n"
+"PO-Revision-Date: 2016-06-23 15:07+0200\n"
+"Last-Translator: elkana bardugo <ttv200@gmail.com>\n"
 "Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
-"Language: \n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -15,7 +16,7 @@ msgstr ""
 "X-Poedit-Language: Hebrew\n"
 "X-Poedit-Country: ISRAEL\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Lokalize 1.2\n"
+"X-Generator: Lokalize 2.0\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -37,47 +38,50 @@ msgstr "הצג את שולחן העבודה"
 msgid "Lock Screen"
 msgstr "נעל מסך"
 
-#: main.cpp:193
-#, fuzzy, kde-format
-#| msgid "All Desktops"
-msgid "%1 - All Desktops"
-msgstr "כל שולחנות העבודה"
+#: main.cpp:190
+msgctxt "Open krunner"
+msgid "Run Command"
+msgstr "הרץ פקודה"
 
-#: main.cpp:194
-#, fuzzy, kde-format
-#| msgid "Current Desktop"
-msgid "%1 - Current Desktop"
-msgstr "שולחן עבודה הנוכחי"
+#: main.cpp:191
+msgid "Activity Manager"
+msgstr "מנהל פעילויות"
 
 #: main.cpp:195
-#, fuzzy, kde-format
-#| msgid "Current Application"
+#, kde-format
+msgid "%1 - All Desktops"
+msgstr "%1 - כל שולחנות העבודה"
+
+#: main.cpp:196
+#, kde-format
+msgid "%1 - Current Desktop"
+msgstr "%1 - שולחן העבודה הנוכחי"
+
+#: main.cpp:197
+#, kde-format
 msgid "%1 - Current Application"
-msgstr "יישום נוכחי"
-
-#: main.cpp:198
-#, fuzzy, kde-format
-#| msgid "Cube"
-msgid "%1 - Cube"
-msgstr "קוביה"
-
-#: main.cpp:199
-#, fuzzy, kde-format
-#| msgid "Cylinder"
-msgid "%1 - Cylinder"
-msgstr "גליל"
+msgstr "%1 - היישום הנוכחי"
 
 #: main.cpp:200
-#, fuzzy, kde-format
-#| msgid "Sphere"
-msgid "%1 - Sphere"
-msgstr "ספרה"
+#, kde-format
+msgid "%1 - Cube"
+msgstr "%1 - קוביה"
+
+#: main.cpp:201
+#, kde-format
+msgid "%1 - Cylinder"
+msgstr "%1 - גליל"
 
 #: main.cpp:202
+#, kde-format
+msgid "%1 - Sphere"
+msgstr "%1 - ספרה"
+
+#: main.cpp:204
 msgid "Toggle window switching"
 msgstr ""
 
-#: main.cpp:203
+#: main.cpp:205
 msgid "Toggle alternative window switching"
 msgstr ""
 
@@ -118,12 +122,12 @@ msgstr ""
 #: main.ui:106
 #, no-c-format
 msgid "%"
-msgstr ""
+msgstr "%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: main.ui:122
 msgid "of the screen"
-msgstr ""
+msgstr "של המסך"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:150

@@ -93,6 +93,8 @@ enum ElectricBorderAction {
     ElectricActionNone,          // No special action, not set, desktop switch or an effect
     ElectricActionShowDesktop,   // Show desktop or restore
     ElectricActionLockScreen,   // Lock screen
+    ElectricActionKRunner,       // Open KRunner
+    ElectricActionActivityManager, // Activity Manager
     ELECTRIC_ACTION_COUNT
 };
 
@@ -142,6 +144,7 @@ KWIN_EXPORT xcb_connection_t *connection()
     if (!s_con) {
         s_con = reinterpret_cast<xcb_connection_t*>(qApp->property("x11Connection").value<void*>());
     }
+    Q_ASSERT(qApp);
     return s_con;
 }
 

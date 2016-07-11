@@ -1,7 +1,7 @@
 # translation of kcmkwindecoration.po to
 # Translation of kcmkwindecoration.po to Slovenian
 # SLOVENIAN TRANSLATION OF K DESKTOP ENVIRONMENT.
-# $Id: kcmkwindecoration.po 1453980 2016-03-02 23:19:49Z ltoscano $
+# $Id: kcmkwindecoration.po 1462113 2016-06-16 19:23:52Z ltoscano $
 # $Source$
 #
 # Copyright (C) 2001, 2003, 2004, 2005, 2007 Free Software Foundation, Inc.
@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-06 10:22+0000\n"
+"POT-Creation-Date: 2016-04-12 09:00+0000\n"
 "PO-Revision-Date: 2015-11-10 14:30+0100\n"
 "Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -65,7 +65,7 @@ msgstr "Ohrani pod vsemi"
 msgid "Keep above"
 msgstr "Ohrani nad vsemi"
 
-#: kcm.cpp:128
+#: kcm.cpp:135
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."

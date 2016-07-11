@@ -1,7 +1,7 @@
 # translation of kcmkwm.po to Slovenian
 # Translation of kcmkwm.po to Slovenian
 # KDEBASE translation to Slovenian language.
-# $Id: kcmkwm.po 1453980 2016-03-02 23:19:49Z ltoscano $
+# $Id: kcmkwm.po 1462113 2016-06-16 19:23:52Z ltoscano $
 # $Source$
 #
 # Copyright (C) 2001, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.

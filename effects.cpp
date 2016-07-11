@@ -56,7 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <assert.h>
 #include "composite.h"
 #include "xcbutils.h"
-#include "abstract_backend.h"
+#include "platform.h"
 #include "shell_client.h"
 #include "wayland_server.h"
 
@@ -104,7 +104,7 @@ void ScreenLockerWatcher::serviceOwnerChanged(const QString &serviceName, const 
     m_interface = NULL;
     m_locked = false;
     if (!newOwner.isEmpty()) {
-        m_interface = new OrgFreedesktopScreenSaverInterface(newOwner, QString(), QDBusConnection::sessionBus(), this);
+        m_interface = new OrgFreedesktopScreenSaverInterface(newOwner, QStringLiteral("/ScreenSaver"), QDBusConnection::sessionBus(), this);
         connect(m_interface, SIGNAL(ActiveChanged(bool)), SLOT(setLocked(bool)));
         QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(m_interface->GetActive(), this);
         connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)), SLOT(activeQueried(QDBusPendingCallWatcher*)));
@@ -166,6 +166,9 @@ void ScreenLockerWatcher::setLocked(bool activated)
 
 static QByteArray readWindowProperty(xcb_window_t win, xcb_atom_t atom, xcb_atom_t type, int format)
 {
+    if (win == XCB_WINDOW_NONE) {
+        return QByteArray();
+    }
     uint32_t len = 32768;
     for (;;) {
         Xcb::Property prop(false, win, atom, XCB_ATOM_ANY, 0, len);
@@ -183,6 +186,9 @@ static QByteArray readWindowProperty(xcb_window_t win, xcb_atom_t atom, xcb_atom
 
 static void deleteWindowProperty(Window win, long int atom)
 {
+    if (win == XCB_WINDOW_NONE) {
+        return;
+    }
     xcb_delete_property(connection(), win, atom);
 }
 

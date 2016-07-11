@@ -3,13 +3,13 @@
 #
 # Jure Repinc <jlp@holodeck1.com>, 2009, 2010.
 # Andrej Vernekar <andrej.vernekar@gmail.com>, 2012.
-# Andrej Mernik <andrejm@ubuntu.si>, 2013, 2014.
+# Andrej Mernik <andrejm@ubuntu.si>, 2013, 2014, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-21 08:16+0000\n"
-"PO-Revision-Date: 2014-05-22 11:54+0200\n"
+"POT-Creation-Date: 2016-05-09 08:35+0000\n"
+"PO-Revision-Date: 2016-05-15 10:11+0200\n"
 "Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -40,41 +40,50 @@ msgstr "Pokaži namizje"
 msgid "Lock Screen"
 msgstr "Zakleni zaslon"
 
-#: main.cpp:193
+#: main.cpp:190
+msgctxt "Open krunner"
+msgid "Run Command"
+msgstr "Zaženi ukaz"
+
+#: main.cpp:191
+msgid "Activity Manager"
+msgstr "Upravljalnik dejavnosti"
+
+#: main.cpp:195
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - vsa namizja"
 
-#: main.cpp:194
+#: main.cpp:196
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - trenutno namizje"
 
-#: main.cpp:195
+#: main.cpp:197
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - trenutni program"
 
-#: main.cpp:198
+#: main.cpp:200
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 - kocka"
 
-#: main.cpp:199
+#: main.cpp:201
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 - valj"
 
-#: main.cpp:200
+#: main.cpp:202
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 - krogla"
 
-#: main.cpp:202
+#: main.cpp:204
 msgid "Toggle window switching"
 msgstr "Preklopi preklapljanje oken"
 
-#: main.cpp:203
+#: main.cpp:205
 msgid "Toggle alternative window switching"
 msgstr "Preklopi drugotno preklapljanje oken"
 

@@ -27,12 +27,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "scene_opengl.h"
-#include "eglonxbackend.h"
-#if HAVE_EPOXY_GLX
-#include "glxbackend.h"
-#endif
 
-#include "abstract_backend.h"
+#include "platform.h"
 #include "wayland_server.h"
 
 #include <kwinglcolorcorrection.h>
@@ -48,6 +44,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "overlaywindow.h"
 #include "screens.h"
 #include "decorations/decoratedclient.h"
+
+#include <KWayland/Server/subcompositor_interface.h>
+#include <KWayland/Server/surface_interface.h>
 
 #include <array>
 #include <cmath>
@@ -558,26 +557,7 @@ void SceneOpenGL::initDebugOutput()
 
 SceneOpenGL *SceneOpenGL::createScene(QObject *parent)
 {
-    OpenGLBackend *backend = NULL;
-    OpenGLPlatformInterface platformInterface = options->glPlatformInterface();
-
-    switch (platformInterface) {
-    case GlxPlatformInterface:
-#if HAVE_EPOXY_GLX
-        backend = new GlxBackend();
-#endif
-        break;
-    case EglPlatformInterface:
-        if (kwinApp()->shouldUseWaylandForCompositing()) {
-            backend = waylandServer()->backend()->createOpenGLBackend();
-        } else {
-            backend = new EglOnXBackend();
-        }
-        break;
-    default:
-        // no backend available
-        return NULL;
-    }
+    OpenGLBackend *backend = kwinApp()->platform()->createOpenGLBackend();
     if (!backend) {
         return nullptr;
     }
@@ -1505,6 +1485,29 @@ QMatrix4x4 SceneOpenGL2Window::modelViewProjectionMatrix(int mask, const WindowP
     return scene->projectionMatrix() * mvMatrix;
 }
 
+static void renderSubSurface(GLShader *shader, const QMatrix4x4 &mvp, const QMatrix4x4 &windowMatrix, OpenGLWindowPixmap *pixmap)
+{
+    QMatrix4x4 newWindowMatrix = windowMatrix;
+    newWindowMatrix.translate(pixmap->subSurface()->position().x(), pixmap->subSurface()->position().y());
+
+    if (!pixmap->texture()->isNull()) {
+        // render this texture
+        shader->setUniform(GLShader::ModelViewProjectionMatrix, mvp * newWindowMatrix);
+        auto texture = pixmap->texture();
+        texture->bind();
+        texture->render(QRegion(), QRect(0, 0, texture->width(), texture->height()));
+        texture->unbind();
+    }
+
+    const auto &children = pixmap->children();
+    for (auto pixmap : children) {
+        if (pixmap->subSurface().isNull() || pixmap->subSurface()->surface().isNull() || !pixmap->subSurface()->surface()->isMapped()) {
+            continue;
+        }
+        renderSubSurface(shader, mvp, newWindowMatrix, static_cast<OpenGLWindowPixmap*>(pixmap));
+    }
+}
+
 void SceneOpenGL2Window::performPaint(int mask, QRegion region, WindowPaintData data)
 {
     if (!beginRenderWindow(mask, region, data))
@@ -1512,8 +1515,9 @@ void SceneOpenGL2Window::performPaint(int mask, QRegion region, WindowPaintData 
 
     SceneOpenGL2 *scene = static_cast<SceneOpenGL2 *>(m_scene);
 
-    const QMatrix4x4 windowMatrix = transformation(mask, data);
-    const QMatrix4x4 mvpMatrix = modelViewProjectionMatrix(mask, data) * windowMatrix;
+    QMatrix4x4 windowMatrix = transformation(mask, data);
+    const QMatrix4x4 modelViewProjection = modelViewProjectionMatrix(mask, data);
+    const QMatrix4x4 mvpMatrix = modelViewProjection * windowMatrix;
 
     GLShader *shader = data.shader;
     if (!shader) {
@@ -1641,6 +1645,17 @@ void SceneOpenGL2Window::performPaint(int mask, QRegion region, WindowPaintData 
 
     setBlendEnabled(false);
 
+    // render sub-surfaces
+    auto wp = windowPixmap<OpenGLWindowPixmap>();
+    const auto &children = wp ? wp->children() : QVector<WindowPixmap*>();
+    windowMatrix.translate(toplevel->clientPos().x(), toplevel->clientPos().y());
+    for (auto pixmap : children) {
+        if (pixmap->subSurface().isNull() || pixmap->subSurface()->surface().isNull() || !pixmap->subSurface()->surface()->isMapped()) {
+            continue;
+        }
+        renderSubSurface(shader, modelViewProjection, windowMatrix, static_cast<OpenGLWindowPixmap*>(pixmap));
+    }
+
     if (!data.shader)
         ShaderManager::instance()->popShader();
 
@@ -1655,6 +1670,14 @@ void SceneOpenGL2Window::performPaint(int mask, QRegion region, WindowPaintData 
 OpenGLWindowPixmap::OpenGLWindowPixmap(Scene::Window *window, SceneOpenGL* scene)
     : WindowPixmap(window)
     , m_texture(scene->createTexture())
+    , m_scene(scene)
+{
+}
+
+OpenGLWindowPixmap::OpenGLWindowPixmap(const QPointer<KWayland::Server::SubSurfaceInterface> &subSurface, WindowPixmap *parent, SceneOpenGL *scene)
+    : WindowPixmap(subSurface, parent)
+    , m_texture(scene->createTexture())
+    , m_scene(scene)
 {
 }
 
@@ -1665,14 +1688,32 @@ OpenGLWindowPixmap::~OpenGLWindowPixmap()
 bool OpenGLWindowPixmap::bind()
 {
     if (!m_texture->isNull()) {
-        if (!toplevel()->damage().isEmpty()) {
+        // always call updateBuffer to get the sub-surface tree updated
+        if (subSurface().isNull() && !toplevel()->damage().isEmpty()) {
             updateBuffer();
+        }
+        auto s = surface();
+        if (s && !s->trackedDamage().isEmpty()) {
             m_texture->updateFromPixmap(this);
             // mipmaps need to be updated
             m_texture->setDirty();
+        }
+        if (subSurface().isNull()) {
             toplevel()->resetDamage();
         }
+        // also bind all children
+        for (auto it = children().constBegin(); it != children().constEnd(); ++it) {
+            static_cast<OpenGLWindowPixmap*>(*it)->bind();
+        }
         return true;
+    }
+    // also bind all children, needs to be done before checking isValid
+    // as there might be valid children to render, see https://bugreports.qt.io/browse/QTBUG-52192
+    if (subSurface().isNull()) {
+        updateBuffer();
+    }
+    for (auto it = children().constBegin(); it != children().constEnd(); ++it) {
+        static_cast<OpenGLWindowPixmap*>(*it)->bind();
     }
     if (!isValid()) {
         return false;
@@ -1680,11 +1721,18 @@ bool OpenGLWindowPixmap::bind()
 
     bool success = m_texture->load(this);
 
-    if (success)
-        toplevel()->resetDamage();
-    else
+    if (success) {
+        if (subSurface().isNull()) {
+            toplevel()->resetDamage();
+        }
+    } else
         qCDebug(KWIN_CORE) << "Failed to bind window";
     return success;
+}
+
+WindowPixmap *OpenGLWindowPixmap::createChild(const QPointer<KWayland::Server::SubSurfaceInterface> &subSurface)
+{
+    return new OpenGLWindowPixmap(subSurface, this, m_scene);
 }
 
 //****************************************
@@ -2029,9 +2077,12 @@ void SceneOpenGL::EffectFrame::render(QRegion region, double opacity, double fra
         }
         if (!m_textTexture)   // Lazy creation
             updateTextTexture();
-        m_textTexture->bind();
-        m_textTexture->render(region, m_effectFrame->geometry());
-        m_textTexture->unbind();
+
+        if (m_textTexture) {
+            m_textTexture->bind();
+            m_textTexture->render(region, m_effectFrame->geometry());
+            m_textTexture->unbind();
+        }
     }
 
     if (shader) {
@@ -2226,8 +2277,12 @@ void SceneOpenGLShadow::buildQuads()
     const QRectF outerRect(QPointF(-leftOffset(), -topOffset()),
                            QPointF(topLevel()->width() + rightOffset(), topLevel()->height() + bottomOffset()));
 
-    const qreal width = topLeft.width() + top.width() + topRight.width();
-    const qreal height = topLeft.height() + left.height() + bottomLeft.height();
+    const int width = qMax(topLeft.width(), bottomLeft.width()) +
+                      qMax(top.width(), bottom.width()) +
+                      qMax(topRight.width(), bottomRight.width());
+    const int height = qMax(topLeft.height(), bottomLeft.height()) +
+                       qMax(left.height(), right.height()) +
+                       qMax(bottomLeft.height(), bottomRight.height());
 
     qreal tx1(0.0), tx2(0.0), ty1(0.0), ty2(0.0);
 
@@ -2327,9 +2382,18 @@ bool SceneOpenGLShadow::prepareBackend()
     const QSize bottomLeft(shadowPixmap(ShadowElementBottomLeft).size());
     const QSize left(shadowPixmap(ShadowElementLeft).size());
     const QSize topLeft(shadowPixmap(ShadowElementTopLeft).size());
+    const QSize bottomRight(shadowPixmap(ShadowElementBottomRight).size());
 
-    const int width = topLeft.width() + top.width() + topRight.width();
-    const int height = topLeft.height() + left.height() + bottomLeft.height();
+    const int width = qMax(topLeft.width(), bottomLeft.width()) +
+                      qMax(top.width(), bottom.width()) +
+                      qMax(topRight.width(), bottomRight.width());
+    const int height = qMax(topLeft.height(), bottomLeft.height()) +
+                       qMax(left.height(), right.height()) +
+                       qMax(bottomLeft.height(), bottomRight.height());
+
+    if (width == 0 || height == 0) {
+        return false;
+    }
 
     QImage image(width, height, QImage::Format_ARGB32);
     image.fill(Qt::transparent);

@@ -42,7 +42,12 @@ namespace Decoration
 class DecoratedClientImpl;
 }
 
-class KWIN_EXPORT PointerInputRedirection : public QObject
+namespace LibInput
+{
+class Device;
+}
+
+class KWIN_EXPORT PointerInputRedirection : public InputDeviceHandler
 {
     Q_OBJECT
 public:
@@ -62,15 +67,6 @@ public:
     Qt::MouseButtons buttons() const {
         return m_qtButtons;
     }
-    QPointer<Toplevel> window() const {
-        return m_window;
-    }
-    QPointer<Decoration::DecoratedClientImpl> decoration() const {
-        return m_decoration;
-    }
-    QPointer<QWindow> internalWindow() const {
-        return m_internalWindow;
-    }
 
     QImage cursorImage() const;
     QPoint cursorHotSpot() const;
@@ -81,41 +77,25 @@ public:
     /**
      * @internal
      */
-    void processMotion(const QPointF &pos, uint32_t time);
+    void processMotion(const QPointF &pos, uint32_t time, LibInput::Device *device = nullptr);
     /**
      * @internal
      */
-    void processButton(uint32_t button, InputRedirection::PointerButtonState state, uint32_t time);
+    void processButton(uint32_t button, InputRedirection::PointerButtonState state, uint32_t time, LibInput::Device *device = nullptr);
     /**
      * @internal
      */
-    void processAxis(InputRedirection::PointerAxis axis, qreal delta, uint32_t time);
-
-Q_SIGNALS:
-    void decorationChanged();
+    void processAxis(InputRedirection::PointerAxis axis, qreal delta, uint32_t time, LibInput::Device *device = nullptr);
 
 private:
     void updatePosition(const QPointF &pos);
     void updateButton(uint32_t button, InputRedirection::PointerButtonState state);
-    void updateInternalWindow();
-    void updateDecoration(Toplevel *t);
-    InputRedirection *m_input;
     CursorImage *m_cursor;
     bool m_inited = false;
     bool m_supportsWarping;
     QPointF m_pos;
     QHash<uint32_t, InputRedirection::PointerButtonState> m_buttons;
     Qt::MouseButtons m_qtButtons;
-    /**
-     * @brief The Toplevel which currently receives pointer events
-     */
-    QPointer<Toplevel> m_window;
-    /**
-     * @brief The Decoration which currently receives pointer events.
-     * Decoration belongs to the pointerWindow
-     **/
-    QPointer<Decoration::DecoratedClientImpl> m_decoration;
-    QPointer<QWindow> m_internalWindow;
     QMetaObject::Connection m_windowGeometryConnection;
     QMetaObject::Connection m_internalWindowConnection;
 };

@@ -1,6 +1,10 @@
 add_definitions(-DKWIN_UNIT_TEST)
 remove_definitions(-DQT_USE_QSTRINGBUILDER)
+add_subdirectory(libxrenderutils)
 add_subdirectory(wayland)
+if (HAVE_INPUT)
+    add_subdirectory(libinput)
+endif()
 
 ########################################################
 # Test ScreenPaintData
@@ -237,7 +241,7 @@ set( testXRandRScreens_SRCS
      mock_screens.cpp
      mock_workspace.cpp
      ../screens.cpp
-     ../screens_xrandr.cpp
+     ../plugins/platforms/x11/standalone/screens_xrandr.cpp
      ../xcbutils.cpp # init of extensions
      ../x11eventfilter.cpp
 )
@@ -276,6 +280,7 @@ set( testScreenEdges_SRCS
     ../screenedge.cpp
     ../virtualdesktops.cpp
     ../xcbutils.cpp # init of extensions
+    ../plugins/platforms/x11/standalone/edge.cpp
 )
 kconfig_add_kcfg_files(testScreenEdges_SRCS ../settings.kcfgc)
 qt5_add_dbus_interface( testScreenEdges_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/../org.freedesktop.ScreenSaver.xml screenlocker_interface)

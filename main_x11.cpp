@@ -22,20 +22,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "main_x11.h"
 #include <config-kwin.h>
 // kwin
+#include "platform.h"
 #include "sm.h"
 #include "workspace.h"
 #include "xcbutils.h"
 
 // KDE
+#include <KConfigGroup>
+#include <KCrash>
 #include <KLocalizedString>
+#include <KPluginLoader>
+#include <KPluginMetaData>
 // Qt
 #include <qplatformdefs.h>
+#include <QComboBox>
 #include <QCommandLineParser>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QFile>
+#include <QLabel>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 // system
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif // HAVE_UNISTD_H
+#include <iostream>
+
+Q_LOGGING_CATEGORY(KWIN_CORE, "kwin_core", QtCriticalMsg)
 
 namespace KWin
 {
@@ -44,6 +59,54 @@ static void sighandler(int)
 {
     QApplication::exit();
 }
+
+
+
+class AlternativeWMDialog : public QDialog
+{
+public:
+    AlternativeWMDialog()
+        : QDialog() {
+        QWidget* mainWidget = new QWidget(this);
+        QVBoxLayout* layout = new QVBoxLayout(mainWidget);
+        QString text = i18n(
+                           "KWin is unstable.\n"
+                           "It seems to have crashed several times in a row.\n"
+                           "You can select another window manager to run:");
+        QLabel* textLabel = new QLabel(text, mainWidget);
+        layout->addWidget(textLabel);
+        wmList = new QComboBox(mainWidget);
+        wmList->setEditable(true);
+        layout->addWidget(wmList);
+
+        addWM(QStringLiteral("metacity"));
+        addWM(QStringLiteral("openbox"));
+        addWM(QStringLiteral("fvwm2"));
+        addWM(QStringLiteral(KWIN_INTERNAL_NAME_X11));
+
+        QVBoxLayout *mainLayout = new QVBoxLayout(this);
+        mainLayout->addWidget(mainWidget);
+        QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
+        buttons->button(QDialogButtonBox::Ok)->setDefault(true);
+        connect(buttons, &QDialogButtonBox::accepted, this, &QDialog::accept);
+        connect(buttons, &QDialogButtonBox::rejected, this, &QDialog::reject);
+        mainLayout->addWidget(buttons);
+
+        raise();
+    }
+
+    void addWM(const QString& wm) {
+        // TODO: Check if WM is installed
+        if (!QStandardPaths::findExecutable(wm).isEmpty())
+            wmList->addItem(wm);
+    }
+    QString selectedWM() const {
+        return wmList->currentText();
+    }
+
+private:
+    QComboBox* wmList;
+};
 
 //************************************
 // KWinSelectionOwner
@@ -145,6 +208,8 @@ void ApplicationX11::lostSelection()
 
 void ApplicationX11::performStartup()
 {
+    crashChecking();
+
     if (Application::x11ScreenNumber() == -1) {
         Application::setX11ScreenNumber(QX11Info::appScreen());
     }
@@ -179,11 +244,23 @@ void ApplicationX11::performStartup()
         }
 
         createInput();
-        createWorkspace();
 
-        Xcb::sync(); // Trigger possible errors, there's still a chance to abort
+        connect(platform(), &Platform::screensQueried, this,
+            [this] {
+                createWorkspace();
 
-        notifyKSplash();
+                Xcb::sync(); // Trigger possible errors, there's still a chance to abort
+
+                notifyKSplash();
+            }
+        );
+        connect(platform(), &Platform::initFailed, this,
+            [] () {
+                std::cerr <<  "FATAL ERROR: backend failed to initialize, exiting now" << std::endl;
+                ::exit(1);
+            }
+        );
+        platform()->init();
     });
     // we need to do an XSync here, otherwise the QPA might crash us later on
     Xcb::sync();
@@ -197,6 +274,55 @@ bool ApplicationX11::notify(QObject* o, QEvent* e)
     if (Workspace::self()->workspaceEvent(e))
         return true;
     return QApplication::notify(o, e);
+}
+
+void ApplicationX11::setupCrashHandler()
+{
+    KCrash::setEmergencySaveFunction(ApplicationX11::crashHandler);
+}
+
+void ApplicationX11::crashChecking()
+{
+    setupCrashHandler();
+    if (crashes >= 4) {
+        // Something has gone seriously wrong
+        AlternativeWMDialog dialog;
+        QString cmd = QStringLiteral(KWIN_INTERNAL_NAME_X11);
+        if (dialog.exec() == QDialog::Accepted)
+            cmd = dialog.selectedWM();
+        else
+            ::exit(1);
+        if (cmd.length() > 500) {
+            qCDebug(KWIN_CORE) << "Command is too long, truncating";
+            cmd = cmd.left(500);
+        }
+        qCDebug(KWIN_CORE) << "Starting" << cmd << "and exiting";
+        char buf[1024];
+        sprintf(buf, "%s &", cmd.toAscii().data());
+        system(buf);
+        ::exit(1);
+    }
+    if (crashes >= 2) {
+        // Disable compositing if we have had too many crashes
+        qCDebug(KWIN_CORE) << "Too many crashes recently, disabling compositing";
+        KConfigGroup compgroup(KSharedConfig::openConfig(), "Compositing");
+        compgroup.writeEntry("Enabled", false);
+    }
+    // Reset crashes count if we stay up for more that 15 seconds
+    QTimer::singleShot(15 * 1000, this, SLOT(resetCrashesCount()));
+}
+
+void ApplicationX11::crashHandler(int signal)
+{
+    crashes++;
+
+    fprintf(stderr, "Application::crashHandler() called with signal %d; recent crashes: %d\n", signal, crashes);
+    char cmd[1024];
+    sprintf(cmd, "%s --crashes %d &",
+            QFile::encodeName(QCoreApplication::applicationFilePath()).constData(), crashes);
+
+    sleep(1);
+    system(cmd);
 }
 
 } // namespace
@@ -317,6 +443,19 @@ KWIN_EXPORT int kdemain(int argc, char * argv[])
         fprintf(stderr, "%s: FATAL ERROR KWin requires Xlib support in the xcb plugin. Do not configure Qt with -no-xcb-xlib\n",
                 argv[0]);
         exit(1);
+    }
+
+    // find and load the X11 platform plugin
+    const auto plugins = KPluginLoader::findPluginsById(QStringLiteral("org.kde.kwin.platforms"),
+                                                        QStringLiteral("KWinX11Platform"));
+    if (plugins.isEmpty()) {
+        std::cerr << "FATAL ERROR: KWin could not find the KWinX11Platform plugin" << std::endl;
+        return 1;
+    }
+    a.initPlatform(plugins.first());
+    if (!a.platform()) {
+        std::cerr << "FATAL ERROR: could not instantiate the platform plugin" << std::endl;
+        return 1;
     }
 
     a.start();

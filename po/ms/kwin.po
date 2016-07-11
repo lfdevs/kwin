@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-04-14 11:32+0000\n"
+"POT-Creation-Date: 2016-06-29 10:59+0000\n"
 "PO-Revision-Date: 2010-08-23 19:35+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@gmail.com>\n"
 "Language-Team: Malay <kedidiemas@yahoogroups.com>\n"
@@ -27,33 +27,483 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "md_najmi@yahoo.com, sharuzzaman@myrealbox.com"
 
-#: composite.cpp:556
+#: composite.cpp:542
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
 "resume using the '%1' shortcut."
 msgstr ""
 
-#: compositingprefs.cpp:102
-msgid ""
-"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
-"b><br>This was most likely due to a driver bug.<p>If you think that you have "
-"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
-"<b>be aware that this might result in an immediate crash!</b></"
-"p><p>Alternatively, you might want to use the XRender backend instead.</p>"
+#: debug_console.cpp:66
+msgid "Timestamp"
 msgstr ""
 
-#: compositingprefs.cpp:109
-msgid "Required X extensions (XComposite and XDamage) are not available."
+#: debug_console.cpp:73
+msgctxt "A mouse button"
+msgid "Left"
 msgstr ""
 
-#: compositingprefs.cpp:113
-msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
+#: debug_console.cpp:75
+msgctxt "A mouse button"
+msgid "Right"
 msgstr ""
 
-#: compositingprefs.cpp:117
-msgid "GLX/OpenGL and XRender/XFixes are not available."
+#: debug_console.cpp:77
+msgctxt "A mouse button"
+msgid "Middle"
 msgstr ""
+
+#: debug_console.cpp:79
+msgctxt "A mouse button"
+msgid "Back"
+msgstr ""
+
+#: debug_console.cpp:81
+msgctxt "A mouse button"
+msgid "Forward"
+msgstr ""
+
+#: debug_console.cpp:83
+msgctxt "A mouse button"
+msgid "Task"
+msgstr ""
+
+#: debug_console.cpp:85
+msgctxt "A mouse button"
+msgid "Extra Button 4"
+msgstr ""
+
+#: debug_console.cpp:87
+msgctxt "A mouse button"
+msgid "Extra Button 5"
+msgstr ""
+
+#: debug_console.cpp:89
+msgctxt "A mouse button"
+msgid "Extra Button 6"
+msgstr ""
+
+#: debug_console.cpp:91
+msgctxt "A mouse button"
+msgid "Extra Button 7"
+msgstr ""
+
+#: debug_console.cpp:93
+msgctxt "A mouse button"
+msgid "Extra Button 8"
+msgstr ""
+
+#: debug_console.cpp:95
+msgctxt "A mouse button"
+msgid "Extra Button 9"
+msgstr ""
+
+#: debug_console.cpp:97
+msgctxt "A mouse button"
+msgid "Extra Button 10"
+msgstr ""
+
+#: debug_console.cpp:99
+msgctxt "A mouse button"
+msgid "Extra Button 11"
+msgstr ""
+
+#: debug_console.cpp:101
+msgctxt "A mouse button"
+msgid "Extra Button 12"
+msgstr ""
+
+#: debug_console.cpp:103
+msgctxt "A mouse button"
+msgid "Extra Button 13"
+msgstr ""
+
+#: debug_console.cpp:105
+msgctxt "A mouse button"
+msgid "Extra Button 14"
+msgstr ""
+
+#: debug_console.cpp:107
+msgctxt "A mouse button"
+msgid "Extra Button 15"
+msgstr ""
+
+#: debug_console.cpp:109
+msgctxt "A mouse button"
+msgid "Extra Button 16"
+msgstr ""
+
+#: debug_console.cpp:111
+msgctxt "A mouse button"
+msgid "Extra Button 17"
+msgstr ""
+
+#: debug_console.cpp:113
+msgctxt "A mouse button"
+msgid "Extra Button 18"
+msgstr ""
+
+#: debug_console.cpp:115
+msgctxt "A mouse button"
+msgid "Extra Button 19"
+msgstr ""
+
+#: debug_console.cpp:117
+msgctxt "A mouse button"
+msgid "Extra Button 20"
+msgstr ""
+
+#: debug_console.cpp:119
+msgctxt "A mouse button"
+msgid "Extra Button 21"
+msgstr ""
+
+#: debug_console.cpp:121
+msgctxt "A mouse button"
+msgid "Extra Button 22"
+msgstr ""
+
+#: debug_console.cpp:123
+msgctxt "A mouse button"
+msgid "Extra Button 23"
+msgstr ""
+
+#: debug_console.cpp:125
+msgctxt "A mouse button"
+msgid "Extra Button 24"
+msgstr ""
+
+#: debug_console.cpp:135 debug_console.cpp:137
+msgid "Input Device"
+msgstr ""
+
+#: debug_console.cpp:135
+msgctxt "The input device of the event is not known"
+msgid "Unknown"
+msgstr ""
+
+#: debug_console.cpp:173
+msgctxt "A mouse pointer motion event"
+msgid "Pointer Motion"
+msgstr ""
+
+#: debug_console.cpp:178
+msgctxt "The global mouse pointer position"
+msgid "Global Position"
+msgstr ""
+
+#: debug_console.cpp:181
+msgctxt "A mouse pointer button press event"
+msgid "Pointer Button Press"
+msgstr ""
+
+#: debug_console.cpp:186 debug_console.cpp:196
+msgctxt "A button in a mouse press/release event"
+msgid "Button"
+msgstr ""
+
+#: debug_console.cpp:187 debug_console.cpp:197
+msgctxt "A button in a mouse press/release event"
+msgid "Native Button code"
+msgstr ""
+
+#: debug_console.cpp:188 debug_console.cpp:198
+msgctxt "All currently pressed buttons in a mouse press/release event"
+msgid "Pressed Buttons"
+msgstr ""
+
+#: debug_console.cpp:191
+msgctxt "A mouse pointer button release event"
+msgid "Pointer Button Release"
+msgstr ""
+
+#: debug_console.cpp:214
+msgctxt "A mouse pointer axis (wheel) event"
+msgid "Pointer Axis"
+msgstr ""
+
+#: debug_console.cpp:220
+msgctxt "The orientation of a pointer axis event"
+msgid "Orientation"
+msgstr ""
+
+#: debug_console.cpp:221
+msgctxt "An orientation of a pointer axis event"
+msgid "Horizontal"
+msgstr ""
+
+#: debug_console.cpp:222
+msgctxt "An orientation of a pointer axis event"
+msgid "Vertical"
+msgstr ""
+
+#: debug_console.cpp:238
+msgctxt "A key press event"
+msgid "Key Press"
+msgstr ""
+
+#: debug_console.cpp:241
+msgctxt "A key release event"
+msgid "Key Release"
+msgstr ""
+
+#: debug_console.cpp:252
+msgctxt "A keyboard modifier"
+msgid "Shift"
+msgstr ""
+
+#: debug_console.cpp:256
+msgctxt "A keyboard modifier"
+msgid "Control"
+msgstr ""
+
+#: debug_console.cpp:260
+msgctxt "A keyboard modifier"
+msgid "Alt"
+msgstr ""
+
+#: debug_console.cpp:264
+msgctxt "A keyboard modifier"
+msgid "Meta"
+msgstr ""
+
+#: debug_console.cpp:268
+msgctxt "A keyboard modifier"
+msgid "Keypad"
+msgstr ""
+
+#: debug_console.cpp:272
+msgctxt "A keyboard modifier"
+msgid "Group-switch"
+msgstr ""
+
+#: debug_console.cpp:278
+msgctxt "Whether the event is an automatic key repeat"
+msgid "Repeat"
+msgstr ""
+
+#: debug_console.cpp:279
+msgctxt "The code as read from the input device"
+msgid "Scan code"
+msgstr ""
+
+#: debug_console.cpp:280
+msgctxt "The translated code to an Xkb symbol"
+msgid "Xkb symbol"
+msgstr ""
+
+#: debug_console.cpp:281
+msgctxt "The translated code interpreted as text"
+msgid "Utf8"
+msgstr ""
+
+#: debug_console.cpp:282
+msgctxt "The currently active modifiers"
+msgid "Modifiers"
+msgstr ""
+
+#: debug_console.cpp:295
+msgctxt "A touch down event"
+msgid "Touch down"
+msgstr ""
+
+#: debug_console.cpp:297 debug_console.cpp:313 debug_console.cpp:329
+msgctxt "The id of the touch point in the touch event"
+msgid "Point identifier"
+msgstr ""
+
+#: debug_console.cpp:298 debug_console.cpp:314
+msgctxt "The global position of the touch point"
+msgid "Global position"
+msgstr ""
+
+#: debug_console.cpp:311
+msgctxt "A touch motion event"
+msgid "Touch Motion"
+msgstr ""
+
+#: debug_console.cpp:327
+msgctxt "A touch up event"
+msgid "Touch Up"
+msgstr ""
+
+#: debug_console.cpp:421
+#, fuzzy
+#| msgid "Mouse Emulation"
+msgid "No Mouse Buttons"
+msgstr "Lenggok Tetikus"
+
+#: debug_console.cpp:425
+msgctxt "Mouse Button"
+msgid "left"
+msgstr ""
+
+#: debug_console.cpp:428
+msgctxt "Mouse Button"
+msgid "right"
+msgstr ""
+
+#: debug_console.cpp:431
+msgctxt "Mouse Button"
+msgid "middle"
+msgstr ""
+
+#: debug_console.cpp:434
+msgctxt "Mouse Button"
+msgid "back"
+msgstr ""
+
+#: debug_console.cpp:437
+msgctxt "Mouse Button"
+msgid "forward"
+msgstr ""
+
+#: debug_console.cpp:440
+msgctxt "Mouse Button"
+msgid "extra 1"
+msgstr ""
+
+#: debug_console.cpp:443
+msgctxt "Mouse Button"
+msgid "extra 2"
+msgstr ""
+
+#: debug_console.cpp:446
+msgctxt "Mouse Button"
+msgid "extra 3"
+msgstr ""
+
+#: debug_console.cpp:449
+msgctxt "Mouse Button"
+msgid "extra 4"
+msgstr ""
+
+#: debug_console.cpp:452
+msgctxt "Mouse Button"
+msgid "extra 5"
+msgstr ""
+
+#: debug_console.cpp:455
+msgctxt "Mouse Button"
+msgid "extra 6"
+msgstr ""
+
+#: debug_console.cpp:458
+msgctxt "Mouse Button"
+msgid "extra 7"
+msgstr ""
+
+#: debug_console.cpp:461
+msgctxt "Mouse Button"
+msgid "extra 8"
+msgstr ""
+
+#: debug_console.cpp:464
+msgctxt "Mouse Button"
+msgid "extra 9"
+msgstr ""
+
+#: debug_console.cpp:467
+msgctxt "Mouse Button"
+msgid "extra 10"
+msgstr ""
+
+#: debug_console.cpp:470
+msgctxt "Mouse Button"
+msgid "extra 11"
+msgstr ""
+
+#: debug_console.cpp:473
+msgctxt "Mouse Button"
+msgid "extra 12"
+msgstr ""
+
+#: debug_console.cpp:476
+msgctxt "Mouse Button"
+msgid "extra 13"
+msgstr ""
+
+#: debug_console.cpp:479
+msgctxt "Mouse Button"
+msgid "extra 14"
+msgstr ""
+
+#: debug_console.cpp:482
+msgctxt "Mouse Button"
+msgid "extra 15"
+msgstr ""
+
+#: debug_console.cpp:485
+msgctxt "Mouse Button"
+msgid "extra 16"
+msgstr ""
+
+#: debug_console.cpp:488
+msgctxt "Mouse Button"
+msgid "extra 17"
+msgstr ""
+
+#: debug_console.cpp:491
+msgctxt "Mouse Button"
+msgid "extra 18"
+msgstr ""
+
+#: debug_console.cpp:494
+msgctxt "Mouse Button"
+msgid "extra 19"
+msgstr ""
+
+#: debug_console.cpp:497
+msgctxt "Mouse Button"
+msgid "extra 20"
+msgstr ""
+
+#: debug_console.cpp:500
+msgctxt "Mouse Button"
+msgid "extra 21"
+msgstr ""
+
+#: debug_console.cpp:503
+msgctxt "Mouse Button"
+msgid "extra 22"
+msgstr ""
+
+#: debug_console.cpp:506
+msgctxt "Mouse Button"
+msgid "extra 23"
+msgstr ""
+
+#: debug_console.cpp:509
+msgctxt "Mouse Button"
+msgid "extra 24"
+msgstr ""
+
+#: debug_console.cpp:512
+msgctxt "Mouse Button"
+msgid "task"
+msgstr ""
+
+#: debug_console.cpp:853
+#, fuzzy
+#| msgid "Close Window"
+msgid "X11 Client Windows"
+msgstr "Tutup Tetingkap"
+
+#: debug_console.cpp:855
+msgid "X11 Unmanaged Windows"
+msgstr ""
+
+#: debug_console.cpp:857
+#, fuzzy
+#| msgid "Shade Window"
+msgid "Wayland Windows"
+msgstr "Suram Tetingkap"
+
+#: debug_console.cpp:859
+#, fuzzy
+#| msgid "Lower Window"
+msgid "Internal Windows"
+msgstr "Turunkan Tetingkap"
 
 #: killer/killer.cpp:44
 #, fuzzy
@@ -442,63 +892,56 @@ msgstr ""
 msgid "Invert Screen Colors"
 msgstr ""
 
-#: main.cpp:89
-msgid ""
-"KWin is unstable.\n"
-"It seems to have crashed several times in a row.\n"
-"You can select another window manager to run:"
-msgstr ""
-
-#: main.cpp:278 main.cpp:305
+#: main.cpp:169 main.cpp:196
 msgid "KDE window manager"
 msgstr "Pengurus tetingkap KDE."
 
-#: main.cpp:283
+#: main.cpp:174
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:287
+#: main.cpp:178
 #, fuzzy
 #| msgid "(c) 1999-2008, The KDE Developers"
 msgid "(c) 1999-2013, The KDE Developers"
 msgstr "(c) 1999-2008, Pemaju KDE"
 
-#: main.cpp:289
+#: main.cpp:180
 #, fuzzy
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:290
+#: main.cpp:181
 #, fuzzy
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:291
+#: main.cpp:182
 msgid "Daniel M. Duley"
 msgstr ""
 
-#: main.cpp:292
+#: main.cpp:183
 #, fuzzy
 msgid "Luboš Luňák"
 msgstr "Luboš Luňák"
 
-#: main.cpp:293
+#: main.cpp:184
 msgid "Martin Gräßlin"
 msgstr ""
 
-#: main.cpp:293
+#: main.cpp:184
 msgid "Maintainer"
 msgstr "Penyelenggara"
 
-#: main.cpp:302
+#: main.cpp:193
 msgid "Disable configuration options"
 msgstr "Matikan pilihan tetapan"
 
-#: main.cpp:303
+#: main.cpp:194
 msgid "Indicate that KWin has recently crashed n times"
 msgstr ""
 
-#: main_wayland.cpp:203
+#: main_wayland.cpp:201
 #, fuzzy
 #| msgid ""
 #| "kwin: unable to claim manager selection, another wm running? (try using --"
@@ -508,91 +951,98 @@ msgstr ""
 "kwin: gagal untuk mengisi ruang pengurusan, adakah ada pengurus tetingkap "
 "lain berfungsi? (cuba guna --replace)\n"
 
-#: main_wayland.cpp:478
+#: main_wayland.cpp:496
 msgid "Start a rootless Xwayland server."
 msgstr ""
 
-#: main_wayland.cpp:480
+#: main_wayland.cpp:498
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 
-#: main_wayland.cpp:483
+#: main_wayland.cpp:501
 msgid "Use a nested compositor in windowed mode."
 msgstr ""
 
-#: main_wayland.cpp:485
+#: main_wayland.cpp:503
 msgid "Render to framebuffer."
 msgstr ""
 
-#: main_wayland.cpp:487
+#: main_wayland.cpp:505
 msgid "The framebuffer device to render to."
 msgstr ""
 
-#: main_wayland.cpp:491
+#: main_wayland.cpp:509
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr ""
 
-#: main_wayland.cpp:494
+#: main_wayland.cpp:512
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
 
-#: main_wayland.cpp:496
+#: main_wayland.cpp:514
 msgid "Render to a virtual framebuffer."
 msgstr ""
 
-#: main_wayland.cpp:498
+#: main_wayland.cpp:516
 msgid "The width for windowed mode. Default width is 1024."
 msgstr ""
 
-#: main_wayland.cpp:502
+#: main_wayland.cpp:520
 msgid "The height for windowed mode. Default height is 768."
 msgstr ""
 
-#: main_wayland.cpp:506
+#: main_wayland.cpp:524
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
 msgstr ""
 
-#: main_wayland.cpp:538
+#: main_wayland.cpp:556
 msgid "Use libhybris hwcomposer"
 msgstr ""
 
-#: main_wayland.cpp:545
+#: main_wayland.cpp:563
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
 msgstr ""
 
-#: main_wayland.cpp:549
+#: main_wayland.cpp:567
 msgid "Render through drm node."
 msgstr ""
 
-#: main_wayland.cpp:556
+#: main_wayland.cpp:574
 msgid "Input method that KWin starts."
 msgstr ""
 
-#: main_wayland.cpp:561
+#: main_wayland.cpp:579
 msgid "List all available backends and quit."
 msgstr ""
 
-#: main_wayland.cpp:565
+#: main_wayland.cpp:583
 msgid "Starts the session in locked mode."
 msgstr ""
 
-#: main_wayland.cpp:569
+#: main_wayland.cpp:587
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr ""
 
-#: main_wayland.cpp:575 main_x11.cpp:297
+#: main_wayland.cpp:593 main_x11.cpp:423
 msgid "Disable KActivities integration."
 msgstr ""
 
-#: main_wayland.cpp:580
+#: main_wayland.cpp:598
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr ""
 
-#: main_x11.cpp:159
+#: main_x11.cpp:73
+msgid ""
+"KWin is unstable.\n"
+"It seems to have crashed several times in a row.\n"
+"You can select another window manager to run:"
+msgstr ""
+
+#: main_x11.cpp:224
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
@@ -600,7 +1050,7 @@ msgstr ""
 "kwin: gagal untuk mengisi ruang pengurusan, adakah ada pengurus tetingkap "
 "lain berfungsi? (cuba guna --replace)\n"
 
-#: main_x11.cpp:176
+#: main_x11.cpp:241
 #, fuzzy
 #| msgid ""
 #| "kwin: unable to claim manager selection, another wm running? (try using --"
@@ -610,15 +1060,15 @@ msgstr ""
 "kwin: gagal untuk mengisi ruang pengurusan, adakah ada pengurus tetingkap "
 "lain berfungsi? (cuba guna --replace)\n"
 
-#: main_x11.cpp:290
+#: main_x11.cpp:416
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "Ganti pengurus tetingkap serasi ICCCM2.0 yang sedang dilaksanakan"
 
-#: scene_opengl.cpp:683
+#: scene_opengl.cpp:663
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
 
-#: scene_opengl.cpp:875
+#: scene_opengl.cpp:855
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -628,7 +1078,7 @@ msgid ""
 "%2 "
 msgstr ""
 
-#: scene_opengl.cpp:882
+#: scene_opengl.cpp:862
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
 "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
@@ -636,7 +1086,7 @@ msgid ""
 "by the hardware limitations that restrict the OpenGL viewport size."
 msgstr ""
 
-#: scene_opengl.cpp:907
+#: scene_opengl.cpp:887
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -645,7 +1095,7 @@ msgid ""
 "compositing, switch to the XRender backend or lower the resolution to %1x%1."
 msgstr ""
 
-#: scene_opengl.cpp:913
+#: scene_opengl.cpp:893
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
 "GPU, thus windows of that size cannot be assigned to textures and will be "
@@ -1006,7 +1456,19 @@ msgstr "Tukar Satu Ruang Kerja ke Bawah"
 msgid "Switch to Desktop %1"
 msgstr "Tukar ke Ruang Kerja 1"
 
-#: workspace.cpp:1305
+#: virtualkeyboard.cpp:92
+msgid "Virtual Keyboard"
+msgstr ""
+
+#: virtualkeyboard.cpp:208
+msgid "Virtual Keyboard is enabled."
+msgstr ""
+
+#: virtualkeyboard.cpp:211
+msgid "Virtual Keyboard is disabled."
+msgstr ""
+
+#: workspace.cpp:1320
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

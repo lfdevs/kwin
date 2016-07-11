@@ -31,13 +31,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KWIN_SCREENEDGE_H
 // KWin
 #include "kwinglobals.h"
-#include "xcbutils.h"
 // KDE includes
 #include <KSharedConfig>
 // Qt
 #include <QObject>
 #include <QVector>
 #include <QDateTime>
+#include <QRect>
 
 class QMouseEvent;
 
@@ -46,7 +46,7 @@ namespace KWin {
 class Client;
 class ScreenEdges;
 
-class Edge : public QObject
+class KWIN_EXPORT Edge : public QObject
 {
     Q_OBJECT
 public:
@@ -73,6 +73,19 @@ public:
     void setClient(Client *client);
     Client *client() const;
     const QRect &geometry() const;
+
+    /**
+     * The window id of the native window representing the edge.
+     * Default implementation returns @c 0, which means no window.
+     **/
+    virtual quint32 window() const;
+    /**
+     * The approach window is a special window to notice when get close to the screen border but
+     * not yet triggering the border.
+     *
+     * The default implementation returns @c 0, which means no window.
+     **/
+    virtual quint32 approachWindow() const;
 
 public Q_SLOTS:
     void reserve();
@@ -117,43 +130,6 @@ private:
     bool m_blocked;
     bool m_pushBackBlocked;
     Client *m_client;
-};
-
-class WindowBasedEdge : public Edge
-{
-    Q_OBJECT
-public:
-    explicit WindowBasedEdge(ScreenEdges *parent);
-    virtual ~WindowBasedEdge();
-
-    xcb_window_t window() const;
-    /**
-     * The approach window is a special window to notice when get close to the screen border but
-     * not yet triggering the border.
-     **/
-    xcb_window_t approachWindow() const;
-
-protected:
-    virtual void doGeometryUpdate();
-    virtual void activate();
-    virtual void deactivate();
-    virtual void doStartApproaching();
-    virtual void doStopApproaching();
-    virtual void doUpdateBlocking();
-
-private:
-    void createWindow();
-    void createApproachWindow();
-    Xcb::Window m_window;
-    Xcb::Window m_approachWindow;
-};
-
-class AreaBasedEdge : public Edge
-{
-    Q_OBJECT
-public:
-    explicit AreaBasedEdge(ScreenEdges *parent);
-    virtual ~AreaBasedEdge();
 };
 
 /**
@@ -489,20 +465,6 @@ inline Client *Edge::client() const
 inline bool Edge::isApproaching() const
 {
     return m_approaching;
-}
-
-/**********************************************************
- * Inlines WindowBasedEdge
- *********************************************************/
-
-inline xcb_window_t WindowBasedEdge::window() const
-{
-    return m_window;
-}
-
-inline xcb_window_t WindowBasedEdge::approachWindow() const
-{
-    return m_approachWindow;
 }
 
 /**********************************************************

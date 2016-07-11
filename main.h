@@ -33,10 +33,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QAbstractNativeEventFilter>
 #include <QProcessEnvironment>
 
+class KPluginMetaData;
 class QCommandLineParser;
 
 namespace KWin
 {
+
+class Platform;
 
 class XcbEventFilter : public QAbstractNativeEventFilter
 {
@@ -93,7 +96,6 @@ public:
     OperationMode operationMode() const;
     void setOperationMode(OperationMode mode);
     bool shouldUseWaylandForCompositing() const;
-    bool requiresCompositing() const;
 
     void setupTranslator();
     void setupCommandLine(QCommandLineParser *parser);
@@ -161,6 +163,11 @@ public:
 
     virtual QProcessEnvironment processStartupEnvironment() const;
 
+    void initPlatform(const KPluginMetaData &plugin);
+    Platform *platform() const {
+        return m_platform;
+    }
+
     static void setupMalloc();
     static void setupLocalizedString();
 
@@ -177,7 +184,6 @@ Q_SIGNALS:
 protected:
     Application(OperationMode mode, int &argc, char **argv);
     virtual void performStartup() = 0;
-    virtual void setupCrashHandler();
 
     void notifyKSplash();
     void createInput();
@@ -205,16 +211,14 @@ protected:
     }
     void destroyAtoms();
 
-    static void crashHandler(int signal);
-
 protected:
     QString m_originalSessionKey;
+    static int crashes;
 
 private Q_SLOTS:
     void resetCrashesCount();
 
 private:
-    void crashChecking();
     QScopedPointer<XcbEventFilter> m_eventFilter;
     bool m_configLock;
     KSharedConfigPtr m_config;
@@ -225,7 +229,7 @@ private:
 #ifdef KWIN_BUILD_ACTIVITIES
     bool m_useKActivities = true;
 #endif
-    static int crashes;
+    Platform *m_platform = nullptr;
 };
 
 inline static Application *kwinApp()

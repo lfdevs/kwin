@@ -1,15 +1,15 @@
 # Translation of kcmkwinscreenedges.po to Ukrainian
-# Copyright (C) 2009-2014 This_file_is_part_of_KDE
+# Copyright (C) 2009-2016 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Yuri Chornoivan <yurchor@ukr.net>, 2009, 2010, 2012, 2013, 2014.
+# Yuri Chornoivan <yurchor@ukr.net>, 2009, 2010, 2012, 2013, 2014, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-21 08:16+0000\n"
-"PO-Revision-Date: 2014-04-28 21:01+0300\n"
+"POT-Creation-Date: 2016-05-09 08:35+0000\n"
+"PO-Revision-Date: 2016-05-09 14:17+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -40,41 +40,50 @@ msgstr "Показати стільницю"
 msgid "Lock Screen"
 msgstr "Заблокувати екран"
 
-#: main.cpp:193
+#: main.cpp:190
+msgctxt "Open krunner"
+msgid "Run Command"
+msgstr "Виконати команду"
+
+#: main.cpp:191
+msgid "Activity Manager"
+msgstr "Керування просторами дій"
+
+#: main.cpp:195
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 — усі стільниці"
 
-#: main.cpp:194
+#: main.cpp:196
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 — поточна стільниця"
 
-#: main.cpp:195
+#: main.cpp:197
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 — поточна програма"
 
-#: main.cpp:198
+#: main.cpp:200
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 — куб"
 
-#: main.cpp:199
+#: main.cpp:201
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 — циліндр"
 
-#: main.cpp:200
+#: main.cpp:202
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 — куля"
 
-#: main.cpp:202
+#: main.cpp:204
 msgid "Toggle window switching"
 msgstr "Увімкнути/Вимкнути перемикання вікон"
 
-#: main.cpp:203
+#: main.cpp:205
 msgid "Toggle alternative window switching"
 msgstr "Увімкнути/Вимкнути альтернативне перемикання вікон"
 

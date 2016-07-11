@@ -58,14 +58,25 @@ ShellClient::ShellClient(ShellSurfaceInterface *surface)
     , m_internal(surface->client() == waylandServer()->internalConnection())
 {
     setSurface(surface->surface());
+    init();
+}
+
+ShellClient::~ShellClient() = default;
+
+void ShellClient::init()
+{
     findInternalWindow();
     createWindowId();
     setupCompositing();
-    if (surface->surface()->buffer()) {
+    SurfaceInterface *s = surface();
+    Q_ASSERT(s);
+    if (s->buffer()) {
         setReadyForPainting();
-        setupWindowManagementInterface();
+        if (shouldExposeToWindowManagement()) {
+            setupWindowManagementInterface();
+        }
         m_unmapped = false;
-        m_clientSize = surface->surface()->buffer()->size();
+        m_clientSize = s->buffer()->size();
     } else {
         ready_for_painting = false;
     }
@@ -76,94 +87,100 @@ ShellClient::ShellClient(ShellSurfaceInterface *surface)
         doSetGeometry(QRect(QPoint(0, 0), m_clientSize));
         setDesktop(VirtualDesktopManager::self()->current());
     }
-    if (waylandServer()->inputMethodConnection() == m_shellSurface->client()) {
+    if (waylandServer()->inputMethodConnection() == s->client()) {
         m_windowType = NET::OnScreenDisplay;
     }
 
-    connect(surface->surface(), &SurfaceInterface::sizeChanged, this,
+    connect(s, &SurfaceInterface::sizeChanged, this,
         [this] {
-            m_clientSize = m_shellSurface->surface()->buffer()->size();
+            m_clientSize = surface()->buffer()->size();
             doSetGeometry(QRect(geom.topLeft(), m_clientSize + QSize(borderLeft() + borderRight(), borderTop() + borderBottom())));
             discardWindowPixmap();
         }
     );
-    connect(surface, &ShellSurfaceInterface::destroyed, this, &ShellClient::destroyClient);
-    connect(surface->surface(), &SurfaceInterface::unmapped, this, &ShellClient::unmap);
-    connect(surface->surface(), &SurfaceInterface::destroyed, this, &ShellClient::destroyClient);
-    connect(surface, &ShellSurfaceInterface::titleChanged, this, &ShellClient::captionChanged);
+    connect(s, &SurfaceInterface::unmapped, this, &ShellClient::unmap);
+    connect(s, &SurfaceInterface::destroyed, this, &ShellClient::destroyClient);
+    if (m_shellSurface) {
+        m_caption = m_shellSurface->title();
+        connect(m_shellSurface, &ShellSurfaceInterface::destroyed, this, &ShellClient::destroyClient);
+        connect(m_shellSurface, &ShellSurfaceInterface::titleChanged, this,
+            [this] {
+                m_caption = m_shellSurface->title();
+                emit captionChanged();
+            }
+        );
 
-    connect(surface, &ShellSurfaceInterface::fullscreenChanged, this, &ShellClient::clientFullScreenChanged);
-    connect(surface, &ShellSurfaceInterface::maximizedChanged, this,
-        [this] (bool maximized) {
-            maximize(maximized ? MaximizeFull : MaximizeRestore);
-        }
-    );
-    connect(surface, &ShellSurfaceInterface::windowClassChanged, this, &ShellClient::updateIcon);
+        connect(m_shellSurface, &ShellSurfaceInterface::fullscreenChanged, this, &ShellClient::clientFullScreenChanged);
+        connect(m_shellSurface, &ShellSurfaceInterface::maximizedChanged, this,
+            [this] (bool maximized) {
+                maximize(maximized ? MaximizeFull : MaximizeRestore);
+            }
+        );
+        connect(m_shellSurface, &ShellSurfaceInterface::windowClassChanged, this, &ShellClient::updateIcon);
+
+        setResourceClass(m_shellSurface->windowClass());
+        connect(m_shellSurface, &ShellSurfaceInterface::windowClassChanged, this,
+            [this] {
+                setResourceClass(m_shellSurface->windowClass());
+            }
+        );
+        connect(m_shellSurface, &ShellSurfaceInterface::transientForChanged, this, &ShellClient::setTransient);
+        connect(m_shellSurface, &ShellSurfaceInterface::moveRequested, this,
+            [this] {
+                // TODO: check the seat and serial
+                performMouseCommand(Options::MouseMove, Cursor::pos());
+            }
+        );
+        connect(m_shellSurface, &ShellSurfaceInterface::resizeRequested, this,
+            [this] (SeatInterface *seat, quint32 serial, Qt::Edges edges) {
+                // TODO: check the seat and serial
+                Q_UNUSED(seat)
+                Q_UNUSED(serial)
+                if (!isResizable() || isShade()) {
+                    return;
+                }
+                if (isMoveResize()) {
+                    finishMoveResize(false);
+                }
+                setMoveResizePointerButtonDown(true);
+                setMoveOffset(Cursor::pos() - pos());  // map from global
+                setInvertedMoveOffset(rect().bottomRight() - moveOffset());
+                setUnrestrictedMoveResize(false);
+                auto toPosition = [edges] {
+                    Position pos = PositionCenter;
+                    if (edges.testFlag(Qt::TopEdge)) {
+                        pos = PositionTop;
+                    } else if (edges.testFlag(Qt::BottomEdge)) {
+                        pos = PositionBottom;
+                    }
+                    if (edges.testFlag(Qt::LeftEdge)) {
+                        pos = Position(pos | PositionLeft);
+                    } else if (edges.testFlag(Qt::RightEdge)) {
+                        pos = Position(pos | PositionRight);
+                    }
+                    return pos;
+                };
+                setMoveResizePointerMode(toPosition());
+                if (!startMoveResize())
+                    setMoveResizePointerButtonDown(false);
+                updateCursor();
+            }
+        );
+    }
     updateIcon();
 
     // setup shadow integration
     getShadow();
-    connect(surface->surface(), &SurfaceInterface::shadowChanged, this, &Toplevel::getShadow);
-
-    setResourceClass(surface->windowClass());
-    connect(surface, &ShellSurfaceInterface::windowClassChanged, this,
-        [this] {
-            setResourceClass(m_shellSurface->windowClass());
-        }
-    );
+    connect(s, &SurfaceInterface::shadowChanged, this, &Toplevel::getShadow);
 
     setTransient();
-    connect(surface, &ShellSurfaceInterface::transientForChanged, this, &ShellClient::setTransient);
-    connect(surface, &ShellSurfaceInterface::moveRequested, this,
-        [this] {
-            // TODO: check the seat and serial
-            performMouseCommand(Options::MouseMove, Cursor::pos());
-        }
-    );
-    connect(surface, &ShellSurfaceInterface::resizeRequested, this,
-        [this] (SeatInterface *seat, quint32 serial, Qt::Edges edges) {
-            // TODO: check the seat and serial
-            Q_UNUSED(seat)
-            Q_UNUSED(serial)
-            if (!isResizable() || isShade()) {
-                return;
-            }
-            if (isMoveResize()) {
-                finishMoveResize(false);
-            }
-            setMoveResizePointerButtonDown(true);
-            setMoveOffset(Cursor::pos() - pos());  // map from global
-            setInvertedMoveOffset(rect().bottomRight() - moveOffset());
-            setUnrestrictedMoveResize(false);
-            auto toPosition = [edges] {
-                Position pos = PositionCenter;
-                if (edges.testFlag(Qt::TopEdge)) {
-                    pos = PositionTop;
-                } else if (edges.testFlag(Qt::BottomEdge)) {
-                    pos = PositionBottom;
-                }
-                if (edges.testFlag(Qt::LeftEdge)) {
-                    pos = Position(pos | PositionLeft);
-                } else if (edges.testFlag(Qt::RightEdge)) {
-                    pos = Position(pos | PositionRight);
-                }
-                return pos;
-            };
-            setMoveResizePointerMode(toPosition());
-            if (!startMoveResize())
-                setMoveResizePointerButtonDown(false);
-            updateCursor();
-        }
-    );
     // check whether we have a ServerSideDecoration
-    if (ServerSideDecorationInterface *deco = ServerSideDecorationInterface::get(surface->surface())) {
+    if (ServerSideDecorationInterface *deco = ServerSideDecorationInterface::get(s)) {
         installServerSideDecoration(deco);
     }
 
     updateColorScheme(QString());
 }
-
-ShellClient::~ShellClient() = default;
 
 void ShellClient::destroyClient()
 {
@@ -173,6 +190,7 @@ void ShellClient::destroyClient()
         del = Deleted::create(this);
     }
     emit windowClosed(this, del);
+    destroyWindowManagementInterface();
     destroyDecoration();
 
     if (workspace()) {
@@ -284,8 +302,9 @@ void ShellClient::setOpacity(double opacity)
 
 void ShellClient::addDamage(const QRegion &damage)
 {
-    if (m_shellSurface->surface()->buffer()->size().isValid()) {
-        m_clientSize = m_shellSurface->surface()->buffer()->size();
+    auto s = surface();
+    if (s->buffer()->size().isValid()) {
+        m_clientSize = s->buffer()->size();
         QPoint position = geom.topLeft();
         if (m_positionAfterResize.isValid()) {
             addLayerRepaint(geometry());
@@ -295,7 +314,7 @@ void ShellClient::addDamage(const QRegion &damage)
         doSetGeometry(QRect(position, m_clientSize + QSize(borderLeft() + borderRight(), borderTop() + borderBottom())));
     }
     markAsMapped();
-    setDepth(m_shellSurface->surface()->buffer()->hasAlphaChannel() ? 32 : 24);
+    setDepth(s->buffer()->hasAlphaChannel() ? 32 : 24);
     repaints_region += damage.translated(clientPos());
     Toplevel::addDamage(damage);
 }
@@ -321,7 +340,9 @@ void ShellClient::markAsMapped()
 
     m_unmapped = false;
     setReadyForPainting();
-    setupWindowManagementInterface();
+    if (shouldExposeToWindowManagement()) {
+        setupWindowManagementInterface();
+    }
 }
 
 void ShellClient::createDecoration(const QRect &oldGeom)
@@ -333,6 +354,7 @@ void ShellClient::createDecoration(const QRect &oldGeom)
         connect(decoration, &KDecoration2::Decoration::bordersChanged, this,
             [this]() {
                 GeometryUpdatesBlocker blocker(this);
+                RequestGeometryBlocker requestBlocker(this);
                 QRect oldgeom = geometry();
                 if (!isShade())
                     checkWorkspacePosition(oldgeom);
@@ -341,6 +363,9 @@ void ShellClient::createDecoration(const QRect &oldGeom)
         );
     }
     setDecoration(decoration);
+    // TODO: ensure the new geometry still fits into the client area (e.g. maximized windows)
+    doSetGeometry(QRect(oldGeom.topLeft(), m_clientSize + (decoration ? QSize(decoration->borderLeft() + decoration->borderRight(),
+                                                               decoration->borderBottom() + decoration->borderTop()) : QSize())));
 
     emit geometryShapeChanged(this, oldGeom);
 }
@@ -402,6 +427,9 @@ void ShellClient::doSetGeometry(const QRect &rect)
         addWorkspaceRepaint(visibleRect());
     }
     triggerDecorationRepaint();
+    if (hasStrut()) {
+        workspace()->updateClientArea();
+    }
     emit geometryShapeChanged(this, old);
 }
 
@@ -428,7 +456,7 @@ QString ShellClient::caption(bool full, bool stripped) const
 {
     Q_UNUSED(full)
     Q_UNUSED(stripped)
-    return m_shellSurface->title();
+    return m_caption;
 }
 
 void ShellClient::closeWindow()
@@ -536,15 +564,38 @@ void ShellClient::hideClient(bool hide)
     Q_UNUSED(hide)
 }
 
+static bool changeMaximizeRecursion = false;
 void ShellClient::changeMaximize(bool horizontal, bool vertical, bool adjust)
 {
+    if (changeMaximizeRecursion) {
+        return;
+    }
+    MaximizeMode oldMode = m_maximizeMode;
     StackingUpdatesBlocker blocker(workspace());
+    RequestGeometryBlocker geometryBlocker(this);
     // 'adjust == true' means to update the size only, e.g. after changing workspace size
     if (!adjust) {
         if (vertical)
             m_maximizeMode = MaximizeMode(m_maximizeMode ^ MaximizeVertical);
         if (horizontal)
             m_maximizeMode = MaximizeMode(m_maximizeMode ^ MaximizeHorizontal);
+    }
+    // TODO: add more checks as in Client
+
+    // call into decoration update borders
+    if (isDecorated() && decoration()->client() && !(options->borderlessMaximizedWindows() && m_maximizeMode == KWin::MaximizeFull)) {
+        changeMaximizeRecursion = true;
+        const auto c = decoration()->client().data();
+        if ((m_maximizeMode & MaximizeVertical) != (oldMode & MaximizeVertical)) {
+            emit c->maximizedVerticallyChanged(m_maximizeMode & MaximizeVertical);
+        }
+        if ((m_maximizeMode & MaximizeHorizontal) != (oldMode & MaximizeHorizontal)) {
+            emit c->maximizedHorizontallyChanged(m_maximizeMode & MaximizeHorizontal);
+        }
+        if ((m_maximizeMode == MaximizeFull) != (oldMode == MaximizeFull)) {
+            emit c->maximizedChanged(m_maximizeMode & MaximizeFull);
+        }
+        changeMaximizeRecursion = false;
     }
 
     // TODO: check rules
@@ -559,7 +610,6 @@ void ShellClient::changeMaximize(bool horizontal, bool vertical, bool adjust)
             requestGeometry(workspace()->clientArea(PlacementArea, this));
         }
     }
-    // TODO: add more checks as in Client
 }
 
 MaximizeMode ShellClient::maximizeMode() const
@@ -680,14 +730,22 @@ bool ShellClient::acceptsFocus() const
     if (isInternal()) {
         return false;
     }
-    if (waylandServer()->inputMethodConnection() == m_shellSurface->client()) {
+    if (waylandServer()->inputMethodConnection() == surface()->client()) {
         return false;
     }
-    if (m_shellSurface->isPopup()) {
-        return false;
+    if (m_plasmaShellSurface) {
+        if (m_plasmaShellSurface->role() == PlasmaShellSurfaceInterface::Role::OnScreenDisplay) {
+            return false;
+        }
     }
-    // if the window is not visible it doesn't get input
-    return m_shellSurface->acceptsKeyboardFocus() && isShown(true);
+    if (m_shellSurface) {
+        if (m_shellSurface->isPopup()) {
+            return false;
+        }
+        // if the window is not visible it doesn't get input
+        return m_shellSurface->acceptsKeyboardFocus() && isShown(true);
+    }
+    return false;
 }
 
 void ShellClient::createWindowId()
@@ -695,13 +753,13 @@ void ShellClient::createWindowId()
     if (m_internalWindow) {
         m_windowId = m_internalWindow->winId();
     } else {
-        m_windowId = waylandServer()->createWindowId(m_shellSurface->surface());
+        m_windowId = waylandServer()->createWindowId(surface());
     }
 }
 
 void ShellClient::findInternalWindow()
 {
-    if (m_shellSurface->client() != waylandServer()->internalConnection()) {
+    if (surface()->client() != waylandServer()->internalConnection()) {
         return;
     }
     const QWindowList windows = kwinApp()->topLevelWindows();
@@ -743,23 +801,28 @@ bool ShellClient::isInternal() const
 
 bool ShellClient::isLockScreen() const
 {
-    return m_shellSurface->client() == waylandServer()->screenLockerClientConnection();
+    return surface()->client() == waylandServer()->screenLockerClientConnection();
 }
 
 bool ShellClient::isInputMethod() const
 {
-    return m_shellSurface->client() == waylandServer()->inputMethodConnection();
-}
-
-xcb_window_t ShellClient::window() const
-{
-    return windowId();
+    if (m_internal && m_internalWindow) {
+        return m_internalWindow->property("__kwin_input_method").toBool();
+    }
+    return surface()->client() == waylandServer()->inputMethodConnection();
 }
 
 void ShellClient::requestGeometry(const QRect &rect)
 {
+    if (m_requestGeometryBlockCounter != 0) {
+        m_blockedRequestGeometry = rect;
+        return;
+    }
     m_positionAfterResize.setPoint(rect.topLeft());
-    m_shellSurface->requestSize(rect.size() - QSize(borderLeft() + borderRight(), borderTop() + borderBottom()));
+    if (m_shellSurface) {
+        m_shellSurface->requestSize(rect.size() - QSize(borderLeft() + borderRight(), borderTop() + borderBottom()));
+    }
+    m_blockedRequestGeometry = QRect();
 }
 
 void ShellClient::clientFullScreenChanged(bool fullScreen)
@@ -795,7 +858,9 @@ void ShellClient::resizeWithChecks(int w, int h, ForceGeometry_t force)
     if (h > area.height()) {
         h = area.height();
     }
-    m_shellSurface->requestSize(QSize(w, h));
+    if (m_shellSurface) {
+        m_shellSurface->requestSize(QSize(w, h));
+    }
 }
 
 void ShellClient::unmap()
@@ -835,6 +900,9 @@ void ShellClient::installPlasmaShellSurface(PlasmaShellSurfaceInterface *surface
         }
         if (type != m_windowType) {
             m_windowType = type;
+            if (m_windowType == NET::Desktop || type == NET::Dock || type == NET::OnScreenDisplay) {
+                setOnAllDesktops(true);
+            }
             workspace()->updateClientArea();
         }
     };
@@ -890,7 +958,10 @@ bool ShellClient::hasStrut() const
 
 void ShellClient::updateIcon()
 {
-    QString desktopFile = QString::fromUtf8(m_shellSurface->windowClass());
+    QString desktopFile;
+    if (m_shellSurface) {
+        desktopFile = QString::fromUtf8(m_shellSurface->windowClass());
+    }
     if (desktopFile.isEmpty()) {
         setIcon(QIcon());
     }
@@ -908,8 +979,11 @@ bool ShellClient::isTransient() const
 
 void ShellClient::setTransient()
 {
-    const auto s = m_shellSurface->transientFor();
-    auto t = waylandServer()->findClient(s.data());
+    SurfaceInterface *s = nullptr;
+    if (m_shellSurface) {
+        s = m_shellSurface->transientFor().data();
+    }
+    auto t = waylandServer()->findClient(s);
     if (t != transientFor()) {
         // remove from main client
         if (transientFor())
@@ -919,7 +993,7 @@ void ShellClient::setTransient()
             t->addTransient(this);
         }
     }
-    m_transient = !s.isNull();
+    m_transient = (s != nullptr);
 }
 
 bool ShellClient::hasTransientPlacementHint() const
@@ -929,7 +1003,10 @@ bool ShellClient::hasTransientPlacementHint() const
 
 QPoint ShellClient::transientPlacementHint() const
 {
-    return m_shellSurface->transientOffset();
+    if (m_shellSurface) {
+        return m_shellSurface->transientOffset();
+    }
+    return QPoint();
 }
 
 bool ShellClient::isWaitingForMoveResizeSync() const
@@ -958,10 +1035,13 @@ void ShellClient::installServerSideDecoration(KWayland::Server::ServerSideDecora
     connect(m_serverDecoration, &ServerSideDecorationInterface::destroyed, this,
         [this] {
             m_serverDecoration = nullptr;
-            if (!Workspace::self()) {
+            if (m_closing || !Workspace::self()) {
                 return;
             }
-            updateDecoration(true);
+            if (!m_unmapped) {
+                // maybe delay to next event cycle in case the ShellClient is getting destroyed, too
+                updateDecoration(true);
+            }
         }
     );
     if (!m_unmapped) {
@@ -977,6 +1057,22 @@ void ShellClient::installServerSideDecoration(KWayland::Server::ServerSideDecora
             }
         }
     );
+}
+
+bool ShellClient::shouldExposeToWindowManagement()
+{
+    if (isInternal()) {
+        return false;
+    }
+    if (isLockScreen()) {
+        return false;
+    }
+    if (m_shellSurface) {
+        if (m_shellSurface->isTransient() && !m_shellSurface->acceptsKeyboardFocus()) {
+            return false;
+        }
+    }
+    return true;
 }
 
 }

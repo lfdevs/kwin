@@ -27,10 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace KWin {
 
-namespace Xcb {
-    class Shm;
-}
-
 class KWIN_EXPORT QPainterBackend
 {
 public:
@@ -84,7 +80,6 @@ public:
      **/
     virtual QImage *bufferForScreen(int screenId);
     virtual bool needsFullRepaint() const = 0;
-    virtual void renderCursor(QPainter *painter);
     /**
      * Whether the rendering needs to be split per screen.
      * Default implementation returns @c false.
@@ -134,6 +129,7 @@ protected:
 
 private:
     explicit SceneQPainter(QPainterBackend *backend, QObject *parent = nullptr);
+    void paintCursor();
     QScopedPointer<QPainterBackend> m_backend;
     QScopedPointer<QPainter> m_painter;
     class Window;
@@ -160,10 +156,13 @@ public:
     virtual ~QPainterWindowPixmap();
     virtual void create() override;
 
-    bool update(const QRegion &damage);
+    void updateBuffer() override;
     const QImage &image();
+
+protected:
+    WindowPixmap *createChild(const QPointer<KWayland::Server::SubSurfaceInterface> &subSurface) override;
 private:
-    QScopedPointer<Xcb::Shm> m_shm;
+    explicit QPainterWindowPixmap(const QPointer<KWayland::Server::SubSurfaceInterface> &subSurface, WindowPixmap *parent);
     QImage m_image;
 };
 

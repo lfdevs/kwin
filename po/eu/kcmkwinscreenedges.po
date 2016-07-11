@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-10-21 08:16+0000\n"
+"POT-Creation-Date: 2016-05-09 08:35+0000\n"
 "PO-Revision-Date: 2014-02-10 00:44+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
@@ -39,47 +39,56 @@ msgstr "Erakutsi mahaigaina"
 msgid "Lock Screen"
 msgstr "Giltzatu pantaila"
 
-#: main.cpp:193
+#: main.cpp:190
+msgctxt "Open krunner"
+msgid "Run Command"
+msgstr ""
+
+#: main.cpp:191
+msgid "Activity Manager"
+msgstr ""
+
+#: main.cpp:195
 #, fuzzy, kde-format
 #| msgid "All Desktops"
 msgid "%1 - All Desktops"
 msgstr "Mahaigain guztiak"
 
-#: main.cpp:194
+#: main.cpp:196
 #, fuzzy, kde-format
 #| msgid "Current Desktop"
 msgid "%1 - Current Desktop"
 msgstr "Uneko mahaigaina"
 
-#: main.cpp:195
+#: main.cpp:197
 #, fuzzy, kde-format
 #| msgid "Current Application"
 msgid "%1 - Current Application"
 msgstr "Uneko aplikazioa"
 
-#: main.cpp:198
+#: main.cpp:200
 #, fuzzy, kde-format
 #| msgid "Cube"
 msgid "%1 - Cube"
 msgstr "Kuboa"
 
-#: main.cpp:199
+#: main.cpp:201
 #, fuzzy, kde-format
 #| msgid "Cylinder"
 msgid "%1 - Cylinder"
 msgstr "Zilindroa"
 
-#: main.cpp:200
+#: main.cpp:202
 #, fuzzy, kde-format
 #| msgid "Sphere"
 msgid "%1 - Sphere"
 msgstr "Esfera"
 
-#: main.cpp:202
+#: main.cpp:204
 msgid "Toggle window switching"
 msgstr "Aktibatu/desaktibatu leiho-aldatzea"
 
-#: main.cpp:203
+#: main.cpp:205
 msgid "Toggle alternative window switching"
 msgstr "Aktibatu/desaktibatu ordezko leiho-aldatzea"
 

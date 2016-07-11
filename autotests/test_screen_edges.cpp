@@ -94,11 +94,6 @@ void updateXTime()
 {
 }
 
-Application::OperationMode Application::operationMode() const
-{
-    return OperationModeX11;
-}
-
 class TestObject : public QObject
 {
     Q_OBJECT
@@ -306,9 +301,11 @@ void TestScreenEdges::testCreatingInitialEdges()
     s->updateLayout();
     auto edgeWindows = s->windows();
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+#if (QT_VERSION < QT_VERSION_CHECK(5, 6, 1))
     if (!Xcb::Extensions::self()->isRandrAvailable()) {
         QEXPECT_FAIL("", "Broken on no xrandr systems in Qt 5.5", Abort);
     }
+#endif
 #endif
     QCOMPARE(edgeWindows.size(), 12);
 
@@ -429,9 +426,11 @@ void TestScreenEdges::testCallback()
         return e->isScreenEdge() && e->isLeft() && e->approachGeometry().bottom() < 768;
     });
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+#if (QT_VERSION < QT_VERSION_CHECK(5, 6, 1))
     if (!Xcb::Extensions::self()->isRandrAvailable()) {
         QEXPECT_FAIL("", "Broken on no xrandr systems in Qt 5.5", Abort);
     }
+#endif
 #endif
     QVERIFY(it != edges.constEnd());
 
@@ -445,7 +444,7 @@ void TestScreenEdges::testCallback()
     };
     event.root = XCB_WINDOW_NONE;
     event.child = XCB_WINDOW_NONE;
-    event.event = static_cast<WindowBasedEdge*>(*it)->window();
+    event.event = (*it)->window();
     event.same_screen_focus = 1;
     event.time = QDateTime::currentMSecsSinceEpoch();
     setPos(QPoint(0, 50));

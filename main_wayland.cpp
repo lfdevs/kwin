@@ -19,10 +19,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "main_wayland.h"
 #include "composite.h"
+#include "virtualkeyboard.h"
 #include "workspace.h"
 #include <config-kwin.h>
 // kwin
-#include "abstract_backend.h"
+#include "platform.h"
 #include "effects.h"
 #include "wayland_server.h"
 #include "xcbutils.h"
@@ -56,6 +57,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #if HAVE_SYS_PRCTL_H
 #include <sys/prctl.h>
 #endif
+#if HAVE_SYS_PROCCTL_H
+#include <unistd.h>
+#include <sys/procctl.h>
+#endif
 
 #include <iostream>
 #include <iomanip>
@@ -85,13 +90,13 @@ ApplicationWayland::~ApplicationWayland()
         return;
     }
 
-    waylandServer()->backend()->setOutputsEnabled(false);
-    destroyWorkspace();
-    waylandServer()->dispatch();
+    kwinApp()->platform()->setOutputsEnabled(false);
     // need to unload all effects prior to destroying X connection as they might do X calls
     if (effects) {
         static_cast<EffectsHandlerImpl*>(effects)->unloadAllEffects();
     }
+    destroyWorkspace();
+    waylandServer()->dispatch();
     disconnect(m_xwaylandFailConnection);
     if (x11Connection()) {
         Xcb::setInputFocus(XCB_INPUT_FOCUS_POINTER_ROOT);
@@ -120,33 +125,26 @@ void ApplicationWayland::performStartup()
 
     // try creating the Wayland Backend
     createInput();
+    VirtualKeyboard::create(this);
     createBackend();
-}
-
-void ApplicationWayland::setupCrashHandler()
-{
-    // this disables auto-restart of kwin_wayland
-    // do nothing hence allowing OS to create dump and so on
 }
 
 void ApplicationWayland::createBackend()
 {
-    AbstractBackend *backend = waylandServer()->backend();
-    connect(backend, &AbstractBackend::screensQueried, this, &ApplicationWayland::continueStartupWithScreens);
-    connect(backend, &AbstractBackend::initFailed, this,
+    connect(platform(), &Platform::screensQueried, this, &ApplicationWayland::continueStartupWithScreens);
+    connect(platform(), &Platform::initFailed, this,
         [] () {
             std::cerr <<  "FATAL ERROR: backend failed to initialize, exiting now" << std::endl;
             ::exit(1);
         }
     );
-    backend->init();
+    platform()->init();
 }
 
 void ApplicationWayland::continueStartupWithScreens()
 {
-    disconnect(waylandServer()->backend(), &AbstractBackend::screensQueried, this, &ApplicationWayland::continueStartupWithScreens);
+    disconnect(kwinApp()->platform(), &Platform::screensQueried, this, &ApplicationWayland::continueStartupWithScreens);
     createScreens();
-    waylandServer()->initOutputs();
 
     if (!m_startXWayland) {
         continueStartupWithX();
@@ -411,6 +409,24 @@ static void disablePtrace()
     // disable ptrace in kwin_wayland
     prctl(PR_SET_DUMPABLE, 0);
 #endif
+#if HAVE_PROC_TRACE_CTL
+    // FreeBSD's rudimentary procfs does not support /proc/<pid>/exe
+    // We could use the P_TRACED flag of the process to find out
+    // if the process is being debugged ond FreeBSD.
+    int mode = PROC_TRACE_CTL_DISABLE;
+    procctl(P_PID, getpid(), PROC_TRACE_CTL, &mode);
+#endif
+
+}
+
+static void unsetDumpable(int sig)
+{
+#if HAVE_PR_SET_DUMPABLE
+    prctl(PR_SET_DUMPABLE, 1);
+#endif
+    signal(sig, SIG_IGN);
+    raise(sig);
+    return;
 }
 
 } // namespace
@@ -427,6 +443,8 @@ int main(int argc, char * argv[])
         signal(SIGINT, SIG_IGN);
     if (signal(SIGHUP, KWin::sighandler) == SIG_IGN)
         signal(SIGHUP, SIG_IGN);
+    signal(SIGABRT, KWin::unsetDumpable);
+    signal(SIGSEGV, KWin::unsetDumpable);
     // ensure that no thread takes SIGUSR
     sigset_t userSignals;
     sigemptyset(&userSignals);
@@ -440,7 +458,7 @@ int main(int argc, char * argv[])
     setenv("QT_QPA_PLATFORM", "wayland-org.kde.kwin.qpa", true);
 
     qunsetenv("QT_DEVICE_PIXEL_RATIO");
-    qunsetenv("QT_IM_MODULE");
+    qputenv("QT_IM_MODULE", "qtvirtualkeyboard");
     qputenv("QSG_RENDER_LOOP", "basic");
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
     QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
@@ -694,33 +712,18 @@ int main(int argc, char * argv[])
     }
     server->init(parser.value(waylandSocketOption).toUtf8(), flags);
 
-    if (qobject_cast<KWin::AbstractBackend*>((*pluginIt).instantiate())) {
-#if HAVE_INPUT
-        // check whether it needs libinput
-        const QJsonObject &metaData = (*pluginIt).rawData();
-        auto it = metaData.find(QStringLiteral("input"));
-        if (it != metaData.end()) {
-            if ((*it).isBool()) {
-                if (!(*it).toBool()) {
-                    std::cerr << "Backend does not support input, enforcing libinput support" << std::endl;
-                    KWin::Application::setUseLibinput(true);
-                }
-            }
-        }
-#endif
-    }
-    if (!server->backend()) {
+    a.initPlatform(*pluginIt);
+    if (!a.platform()) {
         std::cerr << "FATAL ERROR: could not instantiate a backend" << std::endl;
         return 1;
     }
-    server->backend()->setParent(server);
     if (!deviceIdentifier.isEmpty()) {
-        server->backend()->setDeviceIdentifier(deviceIdentifier);
+        a.platform()->setDeviceIdentifier(deviceIdentifier);
     }
     if (initialWindowSize.isValid()) {
-        server->backend()->setInitialWindowSize(initialWindowSize);
+        a.platform()->setInitialWindowSize(initialWindowSize);
     }
-    server->backend()->setInitialOutputCount(outputCount);
+    a.platform()->setInitialOutputCount(outputCount);
 
     QObject::connect(&a, &KWin::Application::workspaceCreated, server, &KWin::WaylandServer::initWorkspace);
     environment.insert(QStringLiteral("WAYLAND_DISPLAY"), server->display()->socketName());

@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "wayland_server.h"
 #include <KWayland/Server/buffer_interface.h>
 #include <KWayland/Server/display.h>
+#include <KWayland/Server/surface_interface.h>
 // kwin libs
 #include <kwinglplatform.h>
 // Qt
@@ -285,45 +286,17 @@ bool AbstractEglTexture::loadTexture(WindowPixmap *pixmap)
         if (updateFromFBO(pixmap->fbo())) {
             return true;
         }
-        // try X11 loading
-        return loadTexture(pixmap->pixmap(), pixmap->toplevel()->size());
+        return false;
     }
     // try Wayland loading
+    if (auto s = pixmap->surface()) {
+        s->resetTrackedDamage();
+    }
     if (buffer->shmBuffer()) {
         return loadShmTexture(buffer);
     } else {
         return loadEglTexture(buffer);
     }
-}
-
-bool AbstractEglTexture::loadTexture(xcb_pixmap_t pix, const QSize &size)
-{
-    if (pix == XCB_NONE)
-        return false;
-
-    glGenTextures(1, &m_texture);
-    q->setWrapMode(GL_CLAMP_TO_EDGE);
-    q->setFilter(GL_LINEAR);
-    q->bind();
-    const EGLint attribs[] = {
-        EGL_IMAGE_PRESERVED_KHR, EGL_TRUE,
-        EGL_NONE
-    };
-    m_image = eglCreateImageKHR(m_backend->eglDisplay(), EGL_NO_CONTEXT, EGL_NATIVE_PIXMAP_KHR,
-                                          (EGLClientBuffer)pix, attribs);
-
-    if (EGL_NO_IMAGE_KHR == m_image) {
-        qCDebug(KWIN_CORE) << "failed to create egl image";
-        q->unbind();
-        q->discard();
-        return false;
-    }
-    glEGLImageTargetTexture2DOES(GL_TEXTURE_2D, (GLeglImageOES)m_image);
-    q->unbind();
-    q->setYInverted(true);
-    m_size = size;
-    updateMatrix();
-    return true;
 }
 
 void AbstractEglTexture::updateTexture(WindowPixmap *pixmap)
@@ -339,6 +312,7 @@ void AbstractEglTexture::updateTexture(WindowPixmap *pixmap)
         }
         return;
     }
+    auto s = pixmap->surface();
     if (!buffer->shmBuffer()) {
         q->bind();
         EGLImageKHR image = attach(buffer);
@@ -347,16 +321,20 @@ void AbstractEglTexture::updateTexture(WindowPixmap *pixmap)
             eglDestroyImageKHR(m_backend->eglDisplay(), m_image);
             m_image = image;
         }
+        if (s) {
+            s->resetTrackedDamage();
+        }
         return;
     }
     // shm fallback
     const QImage &image = buffer->data();
-    if (image.isNull()) {
+    if (image.isNull() || !s) {
         return;
     }
     Q_ASSERT(image.size() == m_size);
     q->bind();
-    const QRegion &damage = pixmap->toplevel()->damage();
+    const QRegion damage = s->trackedDamage();
+    s->resetTrackedDamage();
 
     // TODO: this should be shared with GLTexture::update
     if (GLPlatform::instance()->isGLES()) {

@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "wayland_server.h"
 #include "client.h"
-#include "abstract_backend.h"
+#include "platform.h"
 #include "composite.h"
 #include "screens.h"
 #include "shell_client.h"
@@ -44,8 +44,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/seat_interface.h>
 #include <KWayland/Server/server_decoration_interface.h>
 #include <KWayland/Server/shadow_interface.h>
+#include <KWayland/Server/subcompositor_interface.h>
 #include <KWayland/Server/blur_interface.h>
 #include <KWayland/Server/shell_interface.h>
+#include <KWayland/Server/outputmanagement_interface.h>
+#include <KWayland/Server/outputconfiguration_interface.h>
 
 // Qt
 #include <QThread>
@@ -70,6 +73,8 @@ WaylandServer::WaylandServer(QObject *parent)
 {
     qRegisterMetaType<KWayland::Server::SurfaceInterface *>("KWayland::Server::SurfaceInterface *");
     qRegisterMetaType<KWayland::Server::OutputInterface::DpmsMode>();
+
+    connect(kwinApp(), &Application::screensCreated, this, &WaylandServer::initOutputs);
 }
 
 WaylandServer::~WaylandServer()
@@ -90,6 +95,7 @@ void WaylandServer::destroyInternalConnection()
         delete m_internalConnection.clientThread;
         m_internalConnection.client = nullptr;
         m_internalConnection.server->destroy();
+        m_internalConnection.server = nullptr;
     }
 }
 
@@ -162,11 +168,7 @@ void WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
             if (client->readyForPainting()) {
                 emit shellClientAdded(client);
             } else {
-                connect(client, &ShellClient::windowShown, this,
-                    [this, client] {
-                        emit shellClientAdded(client);
-                    }
-                );
+                connect(client, &ShellClient::windowShown, this, &WaylandServer::shellClientShown);
             }
         }
     );
@@ -233,6 +235,26 @@ void WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
         }
     );
     m_decorationManager->create();
+
+    m_outputManagement = m_display->createOutputManagement(m_display);
+    connect(m_outputManagement, &OutputManagementInterface::configurationChangeRequested,
+            this, [this](KWayland::Server::OutputConfigurationInterface *config) {
+                kwinApp()->platform()->configurationChangeRequested(config);
+    });
+    m_outputManagement->create();
+
+    m_display->createSubCompositor(m_display)->create();
+}
+
+void WaylandServer::shellClientShown(Toplevel *t)
+{
+    ShellClient *c = dynamic_cast<ShellClient*>(t);
+    if (!c) {
+        qCWarning(KWIN_CORE) << "Failed to cast a Toplevel which is supposed to be a ShellClient to ShellClient";
+        return;
+    }
+    disconnect(c, &ShellClient::windowShown, this, &WaylandServer::shellClientShown);
+    emit shellClientAdded(c);
 }
 
 void WaylandServer::initWorkspace()
@@ -249,31 +271,33 @@ void WaylandServer::initWorkspace()
         );
     }
 
-    ScreenLocker::KSldApp::self();
-    ScreenLocker::KSldApp::self()->setWaylandDisplay(m_display);
-    ScreenLocker::KSldApp::self()->setGreeterEnvironment(kwinApp()->processStartupEnvironment());
-    ScreenLocker::KSldApp::self()->initialize();
+    if (hasScreenLockerIntegration()) {
+        ScreenLocker::KSldApp::self();
+        ScreenLocker::KSldApp::self()->setWaylandDisplay(m_display);
+        ScreenLocker::KSldApp::self()->setGreeterEnvironment(kwinApp()->processStartupEnvironment());
+        ScreenLocker::KSldApp::self()->initialize();
 
-    connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::greeterClientConnectionChanged, this,
-        [this] () {
-            m_screenLockerClientConnection = ScreenLocker::KSldApp::self()->greeterClientConnection();
+        connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::greeterClientConnectionChanged, this,
+            [this] () {
+                m_screenLockerClientConnection = ScreenLocker::KSldApp::self()->greeterClientConnection();
+            }
+        );
+
+        connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::unlocked, this,
+            [this] () {
+                m_screenLockerClientConnection = nullptr;
+            }
+        );
+
+        if (m_initFlags.testFlag(InitalizationFlag::LockScreen)) {
+            ScreenLocker::KSldApp::self()->lock(ScreenLocker::EstablishLock::Immediate);
         }
-    );
-
-    connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::unlocked, this,
-        [this] () {
-            m_screenLockerClientConnection = nullptr;
-        }
-    );
-
-    if (m_initFlags.testFlag(InitalizationFlag::LockScreen)) {
-        ScreenLocker::KSldApp::self()->lock(ScreenLocker::EstablishLock::Immediate);
     }
 }
 
 void WaylandServer::initOutputs()
 {
-    if (m_backend && m_backend->handlesOutputs()) {
+    if (kwinApp()->platform()->handlesOutputs()) {
         return;
     }
     Screens *s = screens();
@@ -366,18 +390,6 @@ void WaylandServer::createInternalConnection()
         }
     );
     m_internalConnection.client->initConnection();
-}
-
-void WaylandServer::installBackend(AbstractBackend *backend)
-{
-    Q_ASSERT(!m_backend);
-    m_backend = backend;
-}
-
-void WaylandServer::uninstallBackend(AbstractBackend *backend)
-{
-    Q_ASSERT(m_backend == backend);
-    m_backend = nullptr;
 }
 
 void WaylandServer::removeClient(ShellClient *c)
@@ -512,8 +524,16 @@ quint16 WaylandServer::createClientId(ClientConnection *c)
 
 bool WaylandServer::isScreenLocked() const
 {
+    if (!hasScreenLockerIntegration()) {
+        return false;
+    }
     return ScreenLocker::KSldApp::self()->lockState() == ScreenLocker::KSldApp::Locked ||
            ScreenLocker::KSldApp::self()->lockState() == ScreenLocker::KSldApp::AcquiringLock;
+}
+
+bool WaylandServer::hasScreenLockerIntegration() const
+{
+    return !m_initFlags.testFlag(InitalizationFlag::NoLockScreenIntegration);
 }
 
 }

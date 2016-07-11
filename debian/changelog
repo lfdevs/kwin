@@ -1,3 +1,14 @@
+kwin (4:5.7.0-1) unstable; urgency=medium
+
+  [ Automatic packaging ]
+  * Update build-deps and deps with the info from cmake
+  * Update symbols files.
+
+  [ Jonathan Riddell ]
+  * add KWinX11Platform.so to kwin-x11
+
+ -- Maximiliano Curia <maxy@debian.org>  Mon, 11 Jul 2016 10:22:59 +0200
+
 kwin (4:5.6.5-1) unstable; urgency=medium
 
   * New upstream release.

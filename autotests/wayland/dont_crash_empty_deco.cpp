@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "kwin_wayland_test.h"
-#include "abstract_backend.h"
+#include "platform.h"
 #include "client.h"
 #include "cursor.h"
 #include "screenedge.h"
@@ -77,8 +77,8 @@ void DontCrashEmptyDecorationTest::initTestCase()
     qRegisterMetaType<KWin::AbstractClient*>();
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
-    waylandServer()->backend()->setInitialWindowSize(QSize(1280, 1024));
-    QMetaObject::invokeMethod(waylandServer()->backend(), "setOutputCount", Qt::DirectConnection, Q_ARG(int, 2));
+    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setOutputCount", Qt::DirectConnection, Q_ARG(int, 2));
     waylandServer()->init(s_socketName.toLocal8Bit());
 
     // this test needs to enforce OpenGL compositing to get into the crashy condition

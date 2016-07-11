@@ -144,6 +144,15 @@ void Workspace::updateClientArea(bool force)
         if (!(*it)->hasStrut())
             continue;
         QRect r = (*it)->adjustedClientArea(desktopArea, desktopArea);
+        // sanity check that a strut doesn't exclude a complete screen geometry
+        // this is a violation to EWMH, as KWin just ignores the strut
+        for (int i = 0; i < Screens::self()->count(); i++) {
+            if (!r.intersects(Screens::self()->geometry(i))) {
+                qCDebug(KWIN_CORE) << "Adjusted client area would exclude a complete screen, ignore";
+                r = desktopArea;
+                break;
+            }
+        }
         StrutRects strutRegion = (*it)->strutRects();
 
         // Ignore offscreen xinerama struts. These interfere with the larger monitors on the setup
@@ -164,8 +173,12 @@ void Workspace::updateClientArea(bool force)
                 for (int iS = 0;
                         iS < nscreens;
                         iS ++) {
-                    new_sareas[ i ][ iS ] = new_sareas[ i ][ iS ].intersected(
+                    const auto geo = new_sareas[ i ][ iS ].intersected(
                                                 (*it)->adjustedClientArea(desktopArea, screens[ iS ]));
+                    // ignore the geometry if it results in the screen getting removed completly
+                    if (!geo.isEmpty()) {
+                        new_sareas[ i ][ iS ] = geo;
+                    }
                 }
             }
         } else {
@@ -176,9 +189,12 @@ void Workspace::updateClientArea(bool force)
                     iS < nscreens;
                     iS ++) {
 //                            qDebug() << "adjusting new_sarea: " << screens[ iS ];
-                new_sareas[(*it)->desktop()][ iS ]
-                = new_sareas[(*it)->desktop()][ iS ].intersected(
+                const auto geo = new_sareas[(*it)->desktop()][ iS ].intersected(
                       (*it)->adjustedClientArea(desktopArea, screens[ iS ]));
+                // ignore the geometry if it results in the screen getting removed completly
+                if (!geo.isEmpty()) {
+                    new_sareas[(*it)->desktop()][ iS ] = geo;
+                }
             }
         }
     }
@@ -188,19 +204,44 @@ void Workspace::updateClientArea(bool force)
             if (!c->hasStrut()) {
                 return;
             }
+            auto margins = [c] (const QRect &geometry) {
+                QMargins margins;
+                if (!geometry.intersects(c->geometry())) {
+                    return margins;
+                }
+                // figure out which areas of the overall screen setup it borders
+                const bool left = c->geometry().left() == geometry.left();
+                const bool right = c->geometry().right() == geometry.right();
+                const bool top = c->geometry().top() == geometry.top();
+                const bool bottom = c->geometry().bottom() == geometry.bottom();
+                const bool horizontal = c->geometry().width() >= c->geometry().height();
+                if (left && ((!top && !bottom) || !horizontal)) {
+                    margins.setLeft(c->geometry().width());
+                }
+                if (right && ((!top && !bottom) || !horizontal)) {
+                    margins.setRight(c->geometry().width());
+                }
+                if (top && ((!left && !right) || horizontal)) {
+                    margins.setTop(c->geometry().height());
+                }
+                if (bottom && ((!left && !right) || horizontal)) {
+                    margins.setBottom(c->geometry().height());
+                }
+                return margins;
+            };
             // TODO: implement restrictedMoveArea adjustments
-            QRegion r = QRegion(desktopArea).subtracted(c->geometry());
+            QRect r = desktopArea - margins(KWin::screens()->geometry());
             if (c->isOnAllDesktops()) {
                 for (int i = 1; i <= numberOfDesktops; ++i) {
-                    new_wareas[ i ] = new_wareas[ i ].intersected(r.boundingRect());
+                    new_wareas[ i ] = new_wareas[ i ].intersected(r);
                     for (int iS = 0; iS < nscreens; ++iS) {
-                        new_sareas[ i ][ iS ] = new_sareas[ i ][ iS ].intersected(QRegion(screens[iS]).subtracted(c->geometry()).boundingRect());
+                        new_sareas[ i ][ iS ] = new_sareas[ i ][ iS ].intersected(screens[iS] - margins(screens[iS]));
                     }
                 }
             } else {
-                new_wareas[c->desktop()] = new_wareas[c->desktop()].intersected(r.boundingRect());
+                new_wareas[c->desktop()] = new_wareas[c->desktop()].intersected(r);
                 for (int iS = 0; iS < nscreens; iS++) {
-                    new_sareas[c->desktop()][ iS ] = new_sareas[c->desktop()][ iS ].intersected(QRegion(screens[iS]).subtracted(c->geometry()).boundingRect());
+                    new_sareas[c->desktop()][ iS ] = new_sareas[c->desktop()][ iS ].intersected(screens[iS] - margins(screens[iS]));
                 }
             }
         };
@@ -926,6 +967,7 @@ QRect Client::adjustedClientArea(const QRect &desktopArea, const QRect& area) co
 //        qDebug() << "Moving bottom of: " << r << " to " << stareaB.top() - 1;
         r . setBottom(stareaB . top() - 1);
     }
+
     return r;
 }
 

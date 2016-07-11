@@ -49,6 +49,8 @@ class OutputInterface;
 class PlasmaShellInterface;
 class PlasmaWindowManagementInterface;
 class QtSurfaceExtensionInterface;
+class OutputManagementInterface;
+class OutputConfigurationInterface;
 }
 }
 
@@ -56,8 +58,8 @@ namespace KWin
 {
 class ShellClient;
 
-class AbstractBackend;
 class AbstractClient;
+class Toplevel;
 
 class KWIN_EXPORT WaylandServer : public QObject
 {
@@ -65,14 +67,14 @@ class KWIN_EXPORT WaylandServer : public QObject
 public:
     enum class InitalizationFlag {
         NoOptions = 0x0,
-        LockScreen = 0x1
+        LockScreen = 0x1,
+        NoLockScreenIntegration = 0x2
     };
 
     Q_DECLARE_FLAGS(InitalizationFlags, InitalizationFlag)
 
     virtual ~WaylandServer();
     void init(const QByteArray &socketName = QByteArray(), InitalizationFlags flags = InitalizationFlag::NoOptions);
-    void initOutputs();
     void terminateClientConnections();
 
     KWayland::Server::Display *display() {
@@ -104,12 +106,6 @@ public:
     ShellClient *findClient(KWayland::Server::SurfaceInterface *surface) const;
     ShellClient *findClient(QWindow *w) const;
 
-    AbstractBackend *backend() const {
-        return m_backend;
-    }
-    void installBackend(AbstractBackend *backend);
-    void uninstallBackend(AbstractBackend *backend);
-
     /**
      * @returns file descriptor for Xwayland to connect to.
      **/
@@ -126,6 +122,10 @@ public:
      * @returns true if screen is locked.
      **/
     bool isScreenLocked() const;
+    /**
+     * @returns whether integration with KScreenLocker is available.
+     **/
+    bool hasScreenLockerIntegration() const;
 
     void createInternalConnection();
     void initWorkspace();
@@ -160,8 +160,11 @@ Q_SIGNALS:
     void terminatingInternalClientConnection();
 
 private:
+    void shellClientShown(Toplevel *t);
+    void initOutputs();
     quint16 createClientId(KWayland::Server::ClientConnection *c);
     void destroyInternalConnection();
+    void configurationChangeRequested(KWayland::Server::OutputConfigurationInterface *config);
     KWayland::Server::Display *m_display = nullptr;
     KWayland::Server::CompositorInterface *m_compositor = nullptr;
     KWayland::Server::SeatInterface *m_seat = nullptr;
@@ -170,6 +173,7 @@ private:
     KWayland::Server::PlasmaWindowManagementInterface *m_windowManagement = nullptr;
     KWayland::Server::QtSurfaceExtensionInterface *m_qtExtendedSurface = nullptr;
     KWayland::Server::ServerSideDecorationManagerInterface *m_decorationManager = nullptr;
+    KWayland::Server::OutputManagementInterface *m_outputManagement = nullptr;
     struct {
         KWayland::Server::ClientConnection *client = nullptr;
         QMetaObject::Connection destroyConnection;
@@ -184,7 +188,6 @@ private:
         KWayland::Client::ShmPool *shm = nullptr;
 
     } m_internalConnection;
-    AbstractBackend *m_backend = nullptr;
     QList<ShellClient*> m_clients;
     QList<ShellClient*> m_internalClients;
     QHash<KWayland::Server::ClientConnection*, quint16> m_clientIds;

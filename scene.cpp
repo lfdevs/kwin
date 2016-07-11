@@ -82,6 +82,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "thumbnailitem.h"
 
 #include <KWayland/Server/buffer_interface.h>
+#include <KWayland/Server/subcompositor_interface.h>
 #include <KWayland/Server/surface_interface.h>
 
 namespace KWin
@@ -937,9 +938,18 @@ WindowPixmap::WindowPixmap(Scene::Window *window)
 {
 }
 
+WindowPixmap::WindowPixmap(const QPointer<KWayland::Server::SubSurfaceInterface> &subSurface, WindowPixmap *parent)
+    : m_window(parent->m_window)
+    , m_pixmap(XCB_PIXMAP_NONE)
+    , m_discarded(false)
+    , m_parent(parent)
+    , m_subSurface(subSurface)
+{
+}
+
 WindowPixmap::~WindowPixmap()
 {
-    if (isValid() && !kwinApp()->shouldUseWaylandForCompositing()) {
+    if (m_pixmap != XCB_WINDOW_NONE) {
         xcb_free_pixmap(connection(), m_pixmap);
     }
     if (m_buffer) {
@@ -954,10 +964,11 @@ void WindowPixmap::create()
     if (isValid() || toplevel()->isDeleted()) {
         return;
     }
+    // always update from Buffer on Wayland, don't try using XPixmap
     if (kwinApp()->shouldUseWaylandForCompositing()) {
         // use Buffer
         updateBuffer();
-        if (m_buffer || !m_fbo.isNull()) {
+        if ((m_buffer || !m_fbo.isNull()) && m_subSurface.isNull()) {
             m_window->unreferencePreviousPixmap();
         }
         return;
@@ -991,19 +1002,52 @@ void WindowPixmap::create()
     m_window->unreferencePreviousPixmap();
 }
 
+WindowPixmap *WindowPixmap::createChild(const QPointer<KWayland::Server::SubSurfaceInterface> &subSurface)
+{
+    Q_UNUSED(subSurface)
+    return nullptr;
+}
+
 bool WindowPixmap::isValid() const
 {
-    if (kwinApp()->shouldUseWaylandForCompositing()) {
-        return !m_buffer.isNull() || !m_fbo.isNull();
+    if (!m_buffer.isNull() || !m_fbo.isNull()) {
+        return true;
     }
     return m_pixmap != XCB_PIXMAP_NONE;
 }
 
 void WindowPixmap::updateBuffer()
 {
-    if (auto s = toplevel()->surface()) {
+    using namespace KWayland::Server;
+    if (SurfaceInterface *s = surface()) {
+        QVector<WindowPixmap*> oldTree = m_children;
+        QVector<WindowPixmap*> children;
         using namespace KWayland::Server;
+        const auto subSurfaces = s->childSubSurfaces();
+        for (const auto &subSurface : subSurfaces) {
+            if (subSurface.isNull()) {
+                continue;
+            }
+            auto it = std::find_if(oldTree.begin(), oldTree.end(), [subSurface] (WindowPixmap *p) { return p->m_subSurface == subSurface; });
+            if (it != oldTree.end()) {
+                children << *it;
+                (*it)->updateBuffer();
+                oldTree.erase(it);
+            } else {
+                WindowPixmap *p = createChild(subSurface);
+                if (p) {
+                    p->create();
+                    children << p;
+                }
+            }
+        }
+        setChildren(children);
+        qDeleteAll(oldTree);
         if (auto b = s->buffer()) {
+            if (b == m_buffer) {
+                // no change
+                return;
+            }
             if (m_buffer) {
                 QObject::disconnect(m_buffer.data(), &BufferInterface::aboutToBeDestroyed, m_buffer.data(), &BufferInterface::unref);
                 m_buffer->unref();
@@ -1011,6 +1055,12 @@ void WindowPixmap::updateBuffer()
             m_buffer = b;
             m_buffer->ref();
             QObject::connect(m_buffer.data(), &BufferInterface::aboutToBeDestroyed, m_buffer.data(), &BufferInterface::unref);
+        } else if (m_subSurface) {
+            if (m_buffer) {
+                QObject::disconnect(m_buffer.data(), &BufferInterface::aboutToBeDestroyed, m_buffer.data(), &BufferInterface::unref);
+                m_buffer->unref();
+                m_buffer.clear();
+            }
         } else {
             // might be an internal window
             const auto &fbo = toplevel()->internalFramebufferObject();
@@ -1018,6 +1068,21 @@ void WindowPixmap::updateBuffer()
                 m_fbo = fbo;
             }
         }
+    } else {
+        if (m_buffer) {
+            QObject::disconnect(m_buffer.data(), &BufferInterface::aboutToBeDestroyed, m_buffer.data(), &BufferInterface::unref);
+            m_buffer->unref();
+            m_buffer.clear();
+        }
+    }
+}
+
+KWayland::Server::SurfaceInterface *WindowPixmap::surface() const
+{
+    if (!m_subSurface.isNull()) {
+        return m_subSurface->surface().data();
+    } else {
+        return toplevel()->surface();
     }
 }
 

@@ -90,7 +90,6 @@ public:
     bool userCanSetFullScreen() const override;
     bool userCanSetNoBorder() const override;
     bool wantsInput() const override;
-    xcb_window_t window() const override;
     using AbstractClient::resizeWithChecks;
     void resizeWithChecks(int w, int h, ForceGeometry_t force = NormalGeometrySet) override;
     using AbstractClient::setGeometry;
@@ -99,7 +98,7 @@ public:
 
     void setInternalFramebufferObject(const QSharedPointer<QOpenGLFramebufferObject> &fbo) override;
 
-    quint32 windowId() const {
+    quint32 windowId() const override {
         return m_windowId;
     }
     bool isInternal() const;
@@ -138,6 +137,7 @@ private Q_SLOTS:
     void clientFullScreenChanged(bool fullScreen);
 
 private:
+    void init();
     void requestGeometry(const QRect &rect);
     void doSetGeometry(const QRect &rect);
     void createDecoration(const QRect &oldgeom);
@@ -149,6 +149,7 @@ private:
     void updateIcon();
     void markAsMapped();
     void setTransient();
+    bool shouldExposeToWindowManagement();
     static void deleteClient(ShellClient *c);
 
     KWayland::Server::ShellSurfaceInterface *m_shellSurface;
@@ -171,6 +172,30 @@ private:
     bool m_transient = false;
     bool m_internal;
     qreal m_opacity = 1.0;
+
+    class RequestGeometryBlocker {
+    public:
+        RequestGeometryBlocker(ShellClient *client)
+            : m_client(client)
+        {
+            m_client->m_requestGeometryBlockCounter++;
+        }
+        ~RequestGeometryBlocker()
+        {
+            m_client->m_requestGeometryBlockCounter--;
+            if (m_client->m_requestGeometryBlockCounter == 0) {
+                if (m_client->m_blockedRequestGeometry.isValid()) {
+                    m_client->requestGeometry(m_client->m_blockedRequestGeometry);
+                }
+            }
+        }
+    private:
+        ShellClient *m_client;
+    };
+    friend class RequestGeometryBlocker;
+    int m_requestGeometryBlockCounter = 0;
+    QRect m_blockedRequestGeometry;
+    QString m_caption;
 };
 
 }

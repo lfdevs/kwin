@@ -394,6 +394,17 @@ void Workspace::init()
                 if (c->wantsInput()) {
                     activateClient(c);
                 }
+                connect(c, &ShellClient::windowShown, this,
+                    [this, c] {
+                        updateClientLayer(c);
+                        x_stacking_dirty = true;
+                        updateStackingOrder(true);
+                        updateClientArea();
+                        if (c->wantsInput()) {
+                            activateClient(c);
+                        }
+                    }
+                );
             }
         );
         connect(w, &WaylandServer::shellClientRemoved, this,
@@ -448,6 +459,7 @@ Workspace::~Workspace()
         m_allClients.removeAll(c);
         desktops.removeAll(c);
     }
+    Client::cleanupX11();
     for (UnmanagedList::iterator it = unmanaged.begin(), end = unmanaged.end(); it != end; ++it)
         (*it)->release(ReleaseReason::KWinShutsDown);
     xcb_delete_property(connection(), rootWindow(), atoms->kwin_running);
@@ -464,6 +476,9 @@ Workspace::~Workspace()
 
     // TODO: ungrabXServer();
 
+    if (kwinApp()->operationMode() == Application::OperationModeX11) {
+        XRenderUtils::cleanup();
+    }
     Xcb::Extensions::destroy();
     _self = 0;
 }

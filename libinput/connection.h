@@ -37,6 +37,7 @@ namespace LibInput
 {
 
 class Event;
+class Device;
 class Context;
 
 class Connection : public QObject
@@ -44,6 +45,10 @@ class Connection : public QObject
     Q_OBJECT
 public:
     ~Connection();
+
+    void setInputConfig(const KSharedConfigPtr &config) {
+        m_config = config;
+    }
 
     void setup();
     /**
@@ -54,6 +59,9 @@ public:
 
     bool hasKeyboard() const {
         return m_keyboard > 0;
+    }
+    bool hasAlphaNumericKeyboard() const {
+        return m_alphaNumericKeyboard > 0;
     }
     bool hasTouch() const {
         return m_touch > 0;
@@ -68,41 +76,57 @@ public:
 
     void processEvents();
 
+    void toggleTouchpads();
+
+    QVector<Device*> devices() const {
+        return m_devices;
+    }
+
 Q_SIGNALS:
-    void keyChanged(quint32 key, KWin::InputRedirection::KeyboardKeyState, quint32 time);
-    void pointerButtonChanged(quint32 button, KWin::InputRedirection::PointerButtonState state, quint32 time);
-    void pointerMotionAbsolute(QPointF orig, QPointF screen, quint32 time);
-    void pointerMotion(QPointF delta, quint32 time);
-    void pointerAxisChanged(KWin::InputRedirection::PointerAxis axis, qreal delta, quint32 time);
-    void touchFrame();
-    void touchCanceled();
-    void touchDown(qint32 id, const QPointF &absolutePos, quint32 time);
-    void touchUp(qint32 id, quint32 time);
-    void touchMotion(qint32 id, const QPointF &absolutePos, quint32 time);
+    void keyChanged(quint32 key, KWin::InputRedirection::KeyboardKeyState, quint32 time, KWin::LibInput::Device *device);
+    void pointerButtonChanged(quint32 button, KWin::InputRedirection::PointerButtonState state, quint32 time, KWin::LibInput::Device *device);
+    void pointerMotionAbsolute(QPointF orig, QPointF screen, quint32 time, KWin::LibInput::Device *device);
+    void pointerMotion(QPointF delta, quint32 time, KWin::LibInput::Device *device);
+    void pointerAxisChanged(KWin::InputRedirection::PointerAxis axis, qreal delta, quint32 time, KWin::LibInput::Device *device);
+    void touchFrame(KWin::LibInput::Device *device);
+    void touchCanceled(KWin::LibInput::Device *device);
+    void touchDown(qint32 id, const QPointF &absolutePos, quint32 time, KWin::LibInput::Device *device);
+    void touchUp(qint32 id, quint32 time, KWin::LibInput::Device *device);
+    void touchMotion(qint32 id, const QPointF &absolutePos, quint32 time, KWin::LibInput::Device *device);
     void hasKeyboardChanged(bool);
+    void hasAlphaNumericKeyboardChanged(bool);
     void hasPointerChanged(bool);
     void hasTouchChanged(bool);
+    void deviceAdded(KWin::LibInput::Device *);
+    void deviceRemoved(KWin::LibInput::Device *);
 
     void eventsRead();
 
 private Q_SLOTS:
     void doSetup();
+    void slotKGlobalSettingsNotifyChange(int type, int arg);
 
 private:
     Connection(Context *input, QObject *parent = nullptr);
     void handleEvent();
+    void applyDeviceConfig(Device *device);
     Context *m_input;
     QSocketNotifier *m_notifier;
     QSize m_size;
     int m_keyboard = 0;
+    int m_alphaNumericKeyboard = 0;
     int m_pointer = 0;
     int m_touch = 0;
     bool m_keyboardBeforeSuspend = false;
+    bool m_alphaNumericKeyboardBeforeSuspend = false;
     bool m_pointerBeforeSuspend = false;
     bool m_touchBeforeSuspend = false;
     QMutex m_mutex;
     QVector<Event*> m_eventQueue;
     bool wasSuspended = false;
+    QVector<Device*> m_devices;
+    KSharedConfigPtr m_config;
+    bool m_touchpadsEnabled = true;
 
     KWIN_SINGLETON(Connection)
     static QThread *s_thread;

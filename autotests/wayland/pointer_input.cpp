@@ -18,11 +18,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "kwin_wayland_test.h"
-#include "abstract_backend.h"
+#include "platform.h"
 #include "abstract_client.h"
 #include "cursor.h"
 #include "deleted.h"
 #include "pointer_input.h"
+#include "options.h"
 #include "screenedge.h"
 #include "screens.h"
 #include "wayland_server.h"
@@ -90,8 +91,8 @@ void PointerInputTest::initTestCase()
     qRegisterMetaType<KWin::Deleted*>();
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
-    waylandServer()->backend()->setInitialWindowSize(QSize(1280, 1024));
-    QMetaObject::invokeMethod(waylandServer()->backend(), "setOutputCount", Qt::DirectConnection, Q_ARG(int, 2));
+    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setOutputCount", Qt::DirectConnection, Q_ARG(int, 2));
     waylandServer()->init(s_socketName.toLocal8Bit());
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
@@ -271,7 +272,7 @@ void PointerInputTest::testWarpingGeneratesPointerMotion()
     QVERIFY(window);
 
     // enter
-    waylandServer()->backend()->pointerMotion(QPointF(25, 25), 1);
+    kwinApp()->platform()->pointerMotion(QPointF(25, 25), 1);
     QVERIFY(enteredSpy.wait());
     // we get a move event together with the enter, that's actually wrong but also shouldn't harm
     QVERIFY(movedSpy.wait());
@@ -316,8 +317,8 @@ void PointerInputTest::testUpdateFocusAfterScreenChange()
     QSignalSpy screensChangedSpy(screens(), &Screens::changed);
     QVERIFY(screensChangedSpy.isValid());
     // now let's remove the screen containing the cursor
-    QMetaObject::invokeMethod(waylandServer()->backend(), "setOutputCount", Qt::DirectConnection, Q_ARG(int, 1));
-    QMetaObject::invokeMethod(waylandServer()->backend(), "sizeChanged", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setOutputCount", Qt::DirectConnection, Q_ARG(int, 1));
+    QMetaObject::invokeMethod(kwinApp()->platform(), "sizeChanged", Qt::QueuedConnection);
     QVERIFY(screensChangedSpy.wait());
     QCOMPARE(screens()->count(), 1);
 
@@ -374,6 +375,10 @@ void PointerInputTest::testModifierClickUnrestrictedMove()
     group.writeEntry("CommandAll3", "Move");
     group.sync();
     workspace()->slotReconfigure();
+    QCOMPARE(options->commandAllModifier(), modKey == QStringLiteral("Alt") ? Qt::AltModifier : Qt::MetaModifier);
+    QCOMPARE(options->commandAll1(), Options::MouseUnrestrictedMove);
+    QCOMPARE(options->commandAll2(), Options::MouseUnrestrictedMove);
+    QCOMPARE(options->commandAll3(), Options::MouseUnrestrictedMove);
 
     // create a window
     QSignalSpy clientAddedSpy(waylandServer(), &WaylandServer::shellClientAdded);
@@ -394,15 +399,15 @@ void PointerInputTest::testModifierClickUnrestrictedMove()
     quint32 timestamp = 1;
     QFETCH(int, modifierKey);
     QFETCH(int, mouseButton);
-    waylandServer()->backend()->keyboardKeyPressed(modifierKey, timestamp++);
+    kwinApp()->platform()->keyboardKeyPressed(modifierKey, timestamp++);
     QVERIFY(!window->isMove());
-    waylandServer()->backend()->pointerButtonPressed(mouseButton, timestamp++);
+    kwinApp()->platform()->pointerButtonPressed(mouseButton, timestamp++);
     QVERIFY(window->isMove());
     // release modifier should not change it
-    waylandServer()->backend()->keyboardKeyReleased(modifierKey, timestamp++);
+    kwinApp()->platform()->keyboardKeyReleased(modifierKey, timestamp++);
     QVERIFY(window->isMove());
     // but releasing the key should end move/resize
-    waylandServer()->backend()->pointerButtonReleased(mouseButton, timestamp++);
+    kwinApp()->platform()->pointerButtonReleased(mouseButton, timestamp++);
     QVERIFY(!window->isMove());
 
     // all of that should not have triggered button events on the surface
@@ -466,12 +471,12 @@ void PointerInputTest::testModifierScrollOpacity()
     // simulate modifier+wheel
     quint32 timestamp = 1;
     QFETCH(int, modifierKey);
-    waylandServer()->backend()->keyboardKeyPressed(modifierKey, timestamp++);
-    waylandServer()->backend()->pointerAxisVertical(-5, timestamp++);
+    kwinApp()->platform()->keyboardKeyPressed(modifierKey, timestamp++);
+    kwinApp()->platform()->pointerAxisVertical(-5, timestamp++);
     QCOMPARE(window->opacity(), 0.6);
-    waylandServer()->backend()->pointerAxisVertical(5, timestamp++);
+    kwinApp()->platform()->pointerAxisVertical(5, timestamp++);
     QCOMPARE(window->opacity(), 0.5);
-    waylandServer()->backend()->keyboardKeyReleased(modifierKey, timestamp++);
+    kwinApp()->platform()->keyboardKeyReleased(modifierKey, timestamp++);
 
     // axis should have been filtered out
     QCOMPARE(axisSpy.count(), 0);
@@ -519,7 +524,7 @@ void  PointerInputTest::testScrollAction()
 
     quint32 timestamp = 1;
     QVERIFY(!window1->isActive());
-    waylandServer()->backend()->pointerAxisVertical(5, timestamp++);
+    kwinApp()->platform()->pointerAxisVertical(5, timestamp++);
     QVERIFY(window1->isActive());
 
     // but also the wheel event should be passed to the window
@@ -684,7 +689,7 @@ void PointerInputTest::testMouseActionInactiveWindow()
     // and click
     quint32 timestamp = 1;
     QFETCH(quint32, button);
-    waylandServer()->backend()->pointerButtonPressed(button, timestamp++);
+    kwinApp()->platform()->pointerButtonPressed(button, timestamp++);
     // should raise window1 and activate it
     QCOMPARE(stackingOrderChangedSpy.count(), 1);
     QVERIFY(!activeWindowChangedSpy.isEmpty());
@@ -693,7 +698,7 @@ void PointerInputTest::testMouseActionInactiveWindow()
     QVERIFY(!window2->isActive());
 
     // release again
-    waylandServer()->backend()->pointerButtonReleased(button, timestamp++);
+    kwinApp()->platform()->pointerButtonReleased(button, timestamp++);
 }
 
 void PointerInputTest::testMouseActionActiveWindow_data()
@@ -772,7 +777,7 @@ void PointerInputTest::testMouseActionActiveWindow()
     // and click
     quint32 timestamp = 1;
     QFETCH(quint32, button);
-    waylandServer()->backend()->pointerButtonPressed(button, timestamp++);
+    kwinApp()->platform()->pointerButtonPressed(button, timestamp++);
     QVERIFY(buttonSpy.wait());
     if (clickRaise) {
         QCOMPARE(stackingOrderChangedSpy.count(), 1);
@@ -784,7 +789,7 @@ void PointerInputTest::testMouseActionActiveWindow()
     }
 
     // release again
-    waylandServer()->backend()->pointerButtonReleased(button, timestamp++);
+    kwinApp()->platform()->pointerButtonReleased(button, timestamp++);
 
     delete surface1;
     QVERIFY(window1DestroyedSpy.wait());

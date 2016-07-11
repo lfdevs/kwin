@@ -34,10 +34,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <client.h>
 #include "cursor.h"
 #include "main.h"
+#include "platform.h"
 #include "screens.h"
 #include "utils.h"
 #include <workspace.h>
 #include "virtualdesktops.h"
+#ifdef KWIN_UNIT_TEST
+#include "plugins/platforms/x11/standalone/edge.h"
+#endif
 // DBus generated
 #include "screenlocker_interface.h"
 // frameworks
@@ -236,6 +240,26 @@ bool Edge::handleAction()
         if (interface.isValid()) {
             interface.Lock();
         }
+        return true;
+    }
+    case ElectricActionKRunner: { // open krunner
+        QDBusConnection::sessionBus().asyncCall(
+            QDBusMessage::createMethodCall(QStringLiteral("org.kde.krunner"),
+                                           QStringLiteral("/App"),
+                                           QStringLiteral("org.kde.krunner.App"),
+                                           QStringLiteral("display")
+            )
+        );
+        return true;
+    }
+    case ElectricActionActivityManager: { // open activity manager
+        QDBusConnection::sessionBus().asyncCall(
+            QDBusMessage::createMethodCall(QStringLiteral("org.kde.plasmashell"),
+                                           QStringLiteral("/PlasmaShell"),
+                                           QStringLiteral("org.kde.PlasmaShell"),
+                                           QStringLiteral("toggleActivityManager")
+            )
+        );
         return true;
     }
     default:
@@ -487,113 +511,14 @@ void Edge::updateApproaching(const QPoint &point)
     }
 }
 
-/**********************************************************
- * ScreenEdges
- *********************************************************/
-WindowBasedEdge::WindowBasedEdge(ScreenEdges *parent)
-    : Edge(parent)
-    , m_window(XCB_WINDOW_NONE)
-    , m_approachWindow(XCB_WINDOW_NONE)
+quint32 Edge::window() const
 {
+    return 0;
 }
 
-WindowBasedEdge::~WindowBasedEdge()
+quint32 Edge::approachWindow() const
 {
-}
-
-void WindowBasedEdge::activate()
-{
-    createWindow();
-    createApproachWindow();
-    doUpdateBlocking();
-}
-
-void WindowBasedEdge::deactivate()
-{
-    m_window.reset();
-    m_approachWindow.reset();
-}
-
-void WindowBasedEdge::createWindow()
-{
-    if (m_window.isValid()) {
-        return;
-    }
-    const uint32_t mask = XCB_CW_OVERRIDE_REDIRECT | XCB_CW_EVENT_MASK;
-    const uint32_t values[] = {
-        true,
-        XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW | XCB_EVENT_MASK_POINTER_MOTION
-    };
-    m_window.create(geometry(), XCB_WINDOW_CLASS_INPUT_ONLY, mask, values);
-    m_window.map();
-    // Set XdndAware on the windows, so that DND enter events are received (#86998)
-    xcb_atom_t version = 4; // XDND version
-    xcb_change_property(connection(), XCB_PROP_MODE_REPLACE, m_window,
-                        atoms->xdnd_aware, XCB_ATOM_ATOM, 32, 1, (unsigned char*)(&version));
-}
-
-void WindowBasedEdge::createApproachWindow()
-{
-    if (m_approachWindow.isValid()) {
-        return;
-    }
-    if (!approachGeometry().isValid()) {
-        return;
-    }
-    const uint32_t mask = XCB_CW_OVERRIDE_REDIRECT | XCB_CW_EVENT_MASK;
-    const uint32_t values[] = {
-        true,
-        XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW | XCB_EVENT_MASK_POINTER_MOTION
-    };
-    m_approachWindow.create(approachGeometry(), XCB_WINDOW_CLASS_INPUT_ONLY, mask, values);
-    m_approachWindow.map();
-}
-
-void WindowBasedEdge::doGeometryUpdate()
-{
-    m_window.setGeometry(geometry());
-    m_approachWindow.setGeometry(approachGeometry());
-}
-
-void WindowBasedEdge::doStartApproaching()
-{
-    m_approachWindow.unmap();
-    Cursor *cursor = Cursor::self();
-    connect(cursor, SIGNAL(posChanged(QPoint)), SLOT(updateApproaching(QPoint)));
-    cursor->startMousePolling();
-}
-
-void WindowBasedEdge::doStopApproaching()
-{
-    Cursor *cursor = Cursor::self();
-    disconnect(cursor, SIGNAL(posChanged(QPoint)), this, SLOT(updateApproaching(QPoint)));
-    cursor->stopMousePolling();
-    m_approachWindow.map();
-}
-
-void WindowBasedEdge::doUpdateBlocking()
-{
-    if (!isReserved()) {
-        return;
-    }
-    if (isBlocked()) {
-        m_window.unmap();
-        m_approachWindow.unmap();
-    } else {
-        m_window.map();
-        m_approachWindow.map();
-    }
-}
-/**********************************************************
- * AreaBasedEdge
- *********************************************************/
-AreaBasedEdge::AreaBasedEdge(ScreenEdges* parent)
-    : Edge(parent)
-{
-}
-
-AreaBasedEdge::~AreaBasedEdge()
-{
+    return 0;
 }
 
 /**********************************************************
@@ -647,6 +572,10 @@ static ElectricBorderAction electricBorderAction(const QString& name)
         return ElectricActionShowDesktop;
     } else if (lowerName == QStringLiteral("lockscreen")) {
         return ElectricActionLockScreen;
+    } else if (lowerName == QLatin1String("krunner")) {
+        return ElectricActionKRunner;
+    } else if (lowerName == QLatin1String("activitymanager")) {
+        return ElectricActionActivityManager;
     }
     return ElectricActionNone;
 }
@@ -948,12 +877,11 @@ void ScreenEdges::createHorizontalEdge(ElectricBorder border, const QRect &scree
 
 Edge *ScreenEdges::createEdge(ElectricBorder border, int x, int y, int width, int height, bool createAction)
 {
-    Edge *edge;
-    if (kwinApp()->operationMode() == Application::OperationModeX11) {
-        edge = new WindowBasedEdge(this);
-    } else {
-        edge = new AreaBasedEdge(this);
-    }
+#ifdef KWIN_UNIT_TEST
+    Edge *edge = new WindowBasedEdge(this);
+#else
+    Edge *edge = kwinApp()->platform()->createScreenEdge(this);
+#endif
     edge->setBorder(border);
     edge->setGeometry(QRect(x, y, width, height));
     if (createAction) {
@@ -1244,8 +1172,8 @@ bool ScreenEdges::handleEnterNotifiy(xcb_window_t window, const QPoint &point, c
     bool activated = false;
     bool activatedForClient = false;
     for (auto it = m_edges.begin(); it != m_edges.end(); ++it) {
-        WindowBasedEdge *edge = dynamic_cast<WindowBasedEdge*>(*it);
-        if (!edge) {
+        Edge *edge = *it;
+        if (!edge || edge->window() == XCB_WINDOW_NONE) {
             continue;
         }
         if (!edge->isReserved()) {
@@ -1279,8 +1207,8 @@ bool ScreenEdges::handleEnterNotifiy(xcb_window_t window, const QPoint &point, c
 bool ScreenEdges::handleDndNotify(xcb_window_t window, const QPoint &point)
 {
     for (auto it = m_edges.begin(); it != m_edges.end(); ++it) {
-        WindowBasedEdge *edge = dynamic_cast<WindowBasedEdge*>(*it);
-        if (!edge) {
+        Edge *edge = *it;
+        if (!edge || edge->window() == XCB_WINDOW_NONE) {
             continue;
         }
         if (edge->isReserved() && edge->window() == window) {
@@ -1303,10 +1231,7 @@ QVector< xcb_window_t > ScreenEdges::windows() const
     for (auto it = m_edges.constBegin();
             it != m_edges.constEnd();
             ++it) {
-        WindowBasedEdge *edge = dynamic_cast<WindowBasedEdge*>(*it);
-        if (!edge) {
-            continue;
-        }
+        Edge *edge = *it;
         xcb_window_t w = edge->window();
         if (w != XCB_WINDOW_NONE) {
             wins.append(w);

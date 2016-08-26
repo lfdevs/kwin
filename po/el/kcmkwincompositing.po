@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-02-16 09:05+0000\n"
+"POT-Creation-Date: 2016-07-21 11:58+0000\n"
 "PO-Revision-Date: 2016-03-26 12:26+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -55,131 +55,8 @@ msgctxt "OpenGL Platform Interface"
 msgid "GLX"
 msgstr "GLX"
 
-#. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
-#: compositing.ui:20
-msgid "Enable compositor on startup"
-msgstr "Ενεργοποίηση του συνθέτη κατά την εκκίνηση"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: compositing.ui:27
-msgid "Animation speed:"
-msgstr "Ταχύτητα κίνησης:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: compositing.ui:54
-msgid "Instant"
-msgstr "Στιγμιαία"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: compositing.ui:74
-msgid "Very slow"
-msgstr "Πολύ αργά"
-
-#. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
-#. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
-#: compositing.ui:85 compositing.ui:111
-msgid "Scale method:"
-msgstr "Μέθοδος κλιμάκωσης:"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:93 compositing.ui:119
-msgid "Crisp"
-msgstr "Απευθείας"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:98
-msgid "Smooth"
-msgstr "Με εξομάλυνση"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:103
-msgid "Accurate"
-msgstr "Ακριβείας"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:124
-msgid "Smooth (slower)"
-msgstr "Με εξομάλυνση (αργό)"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: compositing.ui:139
-msgid "Rendering backend:"
-msgstr "Σύστημα υποστήριξης αποτύπωσης:"
-
-#. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
-#: compositing.ui:149
-msgid "OpenGL interface:"
-msgstr "Διεπαφή OpenGL:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: compositing.ui:159
-msgid "Tearing prevention (\"vsync\"):"
-msgstr "Αποτροπή κοψίματος εικόνας (VSync):"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:167 compositing.ui:203
-msgid "Never"
-msgstr "Ποτέ"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:172
-msgid "Automatic"
-msgstr "Αυτόματα"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:177
-msgid "Only when cheap"
-msgstr "Μόνο όταν είναι φθηνό"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:182
-msgid "Full screen repaints"
-msgstr "Πλήρης ανασχεδίαση οθόνης"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:187
-msgid "Re-use screen content"
-msgstr "Επαναχρησιμοποίηση περιεχομένου οθόνης"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: compositing.ui:195
-msgid "Keep window thumbnails:"
-msgstr "Διατήρηση επισκόπησης παραθύρων:"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:208
-msgid "Only for Shown Windows"
-msgstr "Μόνο για ορατά παράθυρα"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:213
-msgid "Always"
-msgstr "Πάντα"
-
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: compositing.ui:221
-msgid "Expert:"
-msgstr "Για προχωρημένους:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
-#: compositing.ui:228
-msgid "Suspend compositor for full screen windows"
-msgstr "Αναστολή συνθέτη για παράθυρα πλήρους οθόνης"
-
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:235
-msgid "Experimental:"
-msgstr "Πειραματικές:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:242
-msgid "Enable color correction"
-msgstr "Ενεργοποίηση διόρθωσης χρώματος"
-
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
-#: compositing.ui:262
+#: compositing.ui:29
 msgid ""
 "OpenGL compositing (the default) has crashed KWin in the past.\n"
 "This was most likely due to a driver bug.\n"
@@ -196,17 +73,8 @@ msgstr ""
 "θα πρέπει να γνωρίζετε ότι μπορεί να προκαλέσει άμεση κατάρρευση!\n"
 "Εναλλακτικά, μπορείτε να χρησιμοποιήσετε το σύστημα υποστήριξης XRender."
 
-#. i18n: ectx: property (text), widget (KMessageWidget, interfaceWarning)
-#: compositing.ui:278
-msgid ""
-"EGL is not supported by all OpenGL drivers. If not supported the Compositor "
-"will be disabled."
-msgstr ""
-"Το EGL δεν υποστηρίζεται από όλους τους οδηγούς OpenGL. Αν δεν υποστηρίζεται "
-"ο συνθέτης θα απενεργοποιηθεί."
-
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
-#: compositing.ui:294
+#: compositing.ui:45
 msgid ""
 "Scale method \"Accurate\" is not supported by all hardware and can cause "
 "performance regressions and rendering artifacts."
@@ -216,7 +84,7 @@ msgstr ""
 "απεικόνισης."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
-#: compositing.ui:323
+#: compositing.ui:74
 msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
 "windows. This can result in windows not suspending their work when minimized."
@@ -226,7 +94,7 @@ msgstr ""
 "να μην μπαίνουν σε αδράνεια όταν ελαχιστοποιούνται."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, unredirectInformation)
-#: compositing.ui:339
+#: compositing.ui:90
 msgid ""
 "Having full screen windows bypass the compositor is not supported on every "
 "hardware."
@@ -234,11 +102,129 @@ msgstr ""
 "Η παράκαμψη του συνθέτη για τα παράθυρα πλήρους οθόνης δεν υποστηρίζεται από "
 "όλες τις κάρτες γραφικών."
 
+#. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
+#: compositing.ui:105
+msgid "Enable compositor on startup"
+msgstr "Ενεργοποίηση του συνθέτη κατά την εκκίνηση"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: compositing.ui:112
+msgid "Animation speed:"
+msgstr "Ταχύτητα κίνησης:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: compositing.ui:139
+msgid "Instant"
+msgstr "Στιγμιαία"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: compositing.ui:159
+msgid "Very slow"
+msgstr "Πολύ αργά"
+
+#. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
+#. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
+#: compositing.ui:170 compositing.ui:196
+msgid "Scale method:"
+msgstr "Μέθοδος κλιμάκωσης:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
+#: compositing.ui:178 compositing.ui:204
+msgid "Crisp"
+msgstr "Απευθείας"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#: compositing.ui:183
+msgid "Smooth"
+msgstr "Με εξομάλυνση"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#: compositing.ui:188
+msgid "Accurate"
+msgstr "Ακριβείας"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
+#: compositing.ui:209
+msgid "Smooth (slower)"
+msgstr "Με εξομάλυνση (αργό)"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: compositing.ui:224
+msgid "Rendering backend:"
+msgstr "Σύστημα υποστήριξης αποτύπωσης:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: compositing.ui:241
+msgid "Tearing prevention (\"vsync\"):"
+msgstr "Αποτροπή κοψίματος εικόνας (VSync):"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:249 compositing.ui:285
+msgid "Never"
+msgstr "Ποτέ"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:254
+msgid "Automatic"
+msgstr "Αυτόματα"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:259
+msgid "Only when cheap"
+msgstr "Μόνο όταν είναι φθηνό"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:264
+msgid "Full screen repaints"
+msgstr "Πλήρης ανασχεδίαση οθόνης"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:269
+msgid "Re-use screen content"
+msgstr "Επαναχρησιμοποίηση περιεχομένου οθόνης"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: compositing.ui:277
+msgid "Keep window thumbnails:"
+msgstr "Διατήρηση επισκόπησης παραθύρων:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:290
+msgid "Only for Shown Windows"
+msgstr "Μόνο για ορατά παράθυρα"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:295
+msgid "Always"
+msgstr "Πάντα"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: compositing.ui:303
+msgid "Expert:"
+msgstr "Για προχωρημένους:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
+#: compositing.ui:310
+msgid "Suspend compositor for full screen windows"
+msgstr "Αναστολή συνθέτη για παράθυρα πλήρους οθόνης"
+
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#: compositing.ui:317
+msgid "Experimental:"
+msgstr "Πειραματικές:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
+#: compositing.ui:324
+msgid "Enable color correction"
+msgstr "Ενεργοποίηση διόρθωσης χρώματος"
+
 #: main.cpp:82
 msgid "Re-enable OpenGL detection"
 msgstr "Επανενεργοποίηση ανίχνευσης OpenGL"
 
-#: main.cpp:139
+#: main.cpp:138
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
 "video."
@@ -246,12 +232,12 @@ msgstr ""
 "Το \"Μόνο όταν είναι φθηνό\" αποτρέπει τα κοψίματα στην εικόνα μόνο για "
 "αλλαγές πλήρους οθόνης, όπως το βίντεο."
 
-#: main.cpp:143
+#: main.cpp:142
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr ""
 "Η \"Πλήρης ανασχεδίαση οθόνης\" μπορεί να προκαλέσει προβλήματα επιδόσεων."
 
-#: main.cpp:147
+#: main.cpp:146
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""

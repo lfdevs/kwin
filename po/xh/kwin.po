@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-06-29 10:59+0000\n"
+"POT-Creation-Date: 2016-07-21 11:58+0000\n"
 "PO-Revision-Date: 2002-10-26 11:38SAST\n"
 "Last-Translator: Lwandle Mgidlana <lwandle@translate.org.za>\n"
 "Language-Team: Xhosa <xhosa@translate.org.za>\n"
@@ -28,7 +28,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "lwandle@translate.org.za"
 
-#: composite.cpp:542
+#: composite.cpp:549
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "

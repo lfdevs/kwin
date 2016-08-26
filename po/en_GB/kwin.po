@@ -8,16 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-06-29 10:59+0000\n"
-"PO-Revision-Date: 2016-04-24 11:20+0100\n"
+"POT-Creation-Date: 2016-07-21 11:58+0000\n"
+"PO-Revision-Date: 2016-08-05 13:10+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
-"Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
+"Language-Team: English <kde-l10n-en_gb@kde.org>\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -29,7 +29,7 @@ msgstr ""
 "anarchist_tomato@herzeleid.net, dwayne@translate.org.za, steve."
 "allewell@gmail.com"
 
-#: composite.cpp:542
+#: composite.cpp:549
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -179,12 +179,12 @@ msgstr "Extra Button 24"
 
 #: debug_console.cpp:135 debug_console.cpp:137
 msgid "Input Device"
-msgstr ""
+msgstr "Input Device"
 
 #: debug_console.cpp:135
 msgctxt "The input device of the event is not known"
 msgid "Unknown"
-msgstr ""
+msgstr "Unknown"
 
 #: debug_console.cpp:173
 msgctxt "A mouse pointer motion event"
@@ -332,214 +332,158 @@ msgid "Touch Up"
 msgstr "Touch Up"
 
 #: debug_console.cpp:421
-#, fuzzy
-#| msgid "Mouse Emulation"
 msgid "No Mouse Buttons"
-msgstr "Mouse Emulation"
+msgstr "No Mouse Buttons"
 
 #: debug_console.cpp:425
 msgctxt "Mouse Button"
 msgid "left"
-msgstr ""
+msgstr "left"
 
 #: debug_console.cpp:428
-#, fuzzy
-#| msgctxt "A mouse button"
-#| msgid "Right"
 msgctxt "Mouse Button"
 msgid "right"
-msgstr "Right"
+msgstr "right"
 
 #: debug_console.cpp:431
-#, fuzzy
-#| msgctxt "A mouse button"
-#| msgid "Middle"
 msgctxt "Mouse Button"
 msgid "middle"
-msgstr "Middle"
+msgstr "middle"
 
 #: debug_console.cpp:434
 msgctxt "Mouse Button"
 msgid "back"
-msgstr ""
+msgstr "back"
 
 #: debug_console.cpp:437
-#, fuzzy
-#| msgctxt "A mouse button"
-#| msgid "Forward"
 msgctxt "Mouse Button"
 msgid "forward"
-msgstr "Forward"
+msgstr "forward"
 
 #: debug_console.cpp:440
 msgctxt "Mouse Button"
 msgid "extra 1"
-msgstr ""
+msgstr "extra 1"
 
 #: debug_console.cpp:443
 msgctxt "Mouse Button"
 msgid "extra 2"
-msgstr ""
+msgstr "extra 2"
 
 #: debug_console.cpp:446
 msgctxt "Mouse Button"
 msgid "extra 3"
-msgstr ""
+msgstr "extra 3"
 
 #: debug_console.cpp:449
 msgctxt "Mouse Button"
 msgid "extra 4"
-msgstr ""
+msgstr "extra 4"
 
 #: debug_console.cpp:452
 msgctxt "Mouse Button"
 msgid "extra 5"
-msgstr ""
+msgstr "extra 5"
 
 #: debug_console.cpp:455
 msgctxt "Mouse Button"
 msgid "extra 6"
-msgstr ""
+msgstr "extra 6"
 
 #: debug_console.cpp:458
 msgctxt "Mouse Button"
 msgid "extra 7"
-msgstr ""
+msgstr "extra 7"
 
 #: debug_console.cpp:461
 msgctxt "Mouse Button"
 msgid "extra 8"
-msgstr ""
+msgstr "extra 8"
 
 #: debug_console.cpp:464
 msgctxt "Mouse Button"
 msgid "extra 9"
-msgstr ""
+msgstr "extra 9"
 
 #: debug_console.cpp:467
-#, fuzzy
-#| msgctxt "A mouse button"
-#| msgid "Extra Button 10"
 msgctxt "Mouse Button"
 msgid "extra 10"
-msgstr "Extra Button 10"
+msgstr "extra 10"
 
 #: debug_console.cpp:470
-#, fuzzy
-#| msgctxt "A mouse button"
-#| msgid "Extra Button 11"
 msgctxt "Mouse Button"
 msgid "extra 11"
-msgstr "Extra Button 11"
+msgstr "extra 11"
 
 #: debug_console.cpp:473
-#, fuzzy
-#| msgctxt "A mouse button"
-#| msgid "Extra Button 12"
 msgctxt "Mouse Button"
 msgid "extra 12"
-msgstr "Extra Button 12"
+msgstr "extra 12"
 
 #: debug_console.cpp:476
-#, fuzzy
-#| msgctxt "A mouse button"
-#| msgid "Extra Button 13"
 msgctxt "Mouse Button"
 msgid "extra 13"
-msgstr "Extra Button 13"
+msgstr "extra 13"
 
 #: debug_console.cpp:479
-#, fuzzy
-#| msgctxt "A mouse button"
-#| msgid "Extra Button 14"
 msgctxt "Mouse Button"
 msgid "extra 14"
-msgstr "Extra Button 14"
+msgstr "extra 14"
 
 #: debug_console.cpp:482
-#, fuzzy
-#| msgctxt "A mouse button"
-#| msgid "Extra Button 15"
 msgctxt "Mouse Button"
 msgid "extra 15"
-msgstr "Extra Button 15"
+msgstr "extra 15"
 
 #: debug_console.cpp:485
-#, fuzzy
-#| msgctxt "A mouse button"
-#| msgid "Extra Button 16"
 msgctxt "Mouse Button"
 msgid "extra 16"
-msgstr "Extra Button 16"
+msgstr "extra 16"
 
 #: debug_console.cpp:488
-#, fuzzy
-#| msgctxt "A mouse button"
-#| msgid "Extra Button 17"
 msgctxt "Mouse Button"
 msgid "extra 17"
-msgstr "Extra Button 17"
+msgstr "extra 17"
 
 #: debug_console.cpp:491
-#, fuzzy
-#| msgctxt "A mouse button"
-#| msgid "Extra Button 18"
 msgctxt "Mouse Button"
 msgid "extra 18"
-msgstr "Extra Button 18"
+msgstr "extra 18"
 
 #: debug_console.cpp:494
-#, fuzzy
-#| msgctxt "A mouse button"
-#| msgid "Extra Button 19"
 msgctxt "Mouse Button"
 msgid "extra 19"
-msgstr "Extra Button 19"
+msgstr "extra 19"
 
 #: debug_console.cpp:497
-#, fuzzy
-#| msgctxt "A mouse button"
-#| msgid "Extra Button 20"
 msgctxt "Mouse Button"
 msgid "extra 20"
-msgstr "Extra Button 20"
+msgstr "extra 20"
 
 #: debug_console.cpp:500
-#, fuzzy
-#| msgctxt "A mouse button"
-#| msgid "Extra Button 21"
 msgctxt "Mouse Button"
 msgid "extra 21"
-msgstr "Extra Button 21"
+msgstr "extra 21"
 
 #: debug_console.cpp:503
-#, fuzzy
-#| msgctxt "A mouse button"
-#| msgid "Extra Button 22"
 msgctxt "Mouse Button"
 msgid "extra 22"
-msgstr "Extra Button 22"
+msgstr "extra 22"
 
 #: debug_console.cpp:506
-#, fuzzy
-#| msgctxt "A mouse button"
-#| msgid "Extra Button 23"
 msgctxt "Mouse Button"
 msgid "extra 23"
-msgstr "Extra Button 23"
+msgstr "extra 23"
 
 #: debug_console.cpp:509
-#, fuzzy
-#| msgctxt "A mouse button"
-#| msgid "Extra Button 24"
 msgctxt "Mouse Button"
 msgid "extra 24"
-msgstr "Extra Button 24"
+msgstr "extra 24"
 
 #: debug_console.cpp:512
 msgctxt "Mouse Button"
 msgid "task"
-msgstr ""
+msgstr "task"
 
 #: debug_console.cpp:853
 msgid "X11 Client Windows"
@@ -1454,15 +1398,15 @@ msgstr "Switch to Desktop %1"
 
 #: virtualkeyboard.cpp:92
 msgid "Virtual Keyboard"
-msgstr ""
+msgstr "Virtual Keyboard"
 
 #: virtualkeyboard.cpp:208
 msgid "Virtual Keyboard is enabled."
-msgstr ""
+msgstr "Virtual Keyboard is enabled."
 
 #: virtualkeyboard.cpp:211
 msgid "Virtual Keyboard is disabled."
-msgstr ""
+msgstr "Virtual Keyboard is disabled."
 
 #: workspace.cpp:1320
 msgctxt "Introductory text shown in the support information."

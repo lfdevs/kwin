@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-06-29 10:59+0000\n"
-"PO-Revision-Date: 2016-06-30 10:51+0300\n"
+"POT-Creation-Date: 2016-07-21 11:58+0000\n"
+"PO-Revision-Date: 2016-08-23 01:57+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -43,7 +43,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "asm@som.kiev.ua,mokhin@bog.msu.ru"
 
-#: composite.cpp:542
+#: composite.cpp:549
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -52,9 +52,10 @@ msgstr ""
 "Графические эффекты были отключены другим приложением.<br/>Можно их "
 "возобновить комбинацией клавиш «%1»."
 
+# BUGME: strings from kwin.git/debug_console.ui are not translatable --aspotashev
 #: debug_console.cpp:66
 msgid "Timestamp"
-msgstr ""
+msgstr "Временная метка"
 
 #: debug_console.cpp:73
 msgctxt "A mouse button"
@@ -193,22 +194,22 @@ msgstr "Доп. кнопка 24"
 
 #: debug_console.cpp:135 debug_console.cpp:137
 msgid "Input Device"
-msgstr ""
+msgstr "Устройство ввода"
 
 #: debug_console.cpp:135
 msgctxt "The input device of the event is not known"
 msgid "Unknown"
-msgstr ""
+msgstr "Неизвестное"
 
 #: debug_console.cpp:173
 msgctxt "A mouse pointer motion event"
 msgid "Pointer Motion"
-msgstr ""
+msgstr "Движение указателя"
 
 #: debug_console.cpp:178
 msgctxt "The global mouse pointer position"
 msgid "Global Position"
-msgstr ""
+msgstr "Абсолютное положение"
 
 #: debug_console.cpp:181
 msgctxt "A mouse pointer button press event"
@@ -258,12 +259,12 @@ msgstr ""
 #: debug_console.cpp:238
 msgctxt "A key press event"
 msgid "Key Press"
-msgstr ""
+msgstr "Нажатие клавиши"
 
 #: debug_console.cpp:241
 msgctxt "A key release event"
 msgid "Key Release"
-msgstr ""
+msgstr "Отпускание клавиши"
 
 #: debug_console.cpp:252
 msgctxt "A keyboard modifier"
@@ -288,68 +289,66 @@ msgstr "Meta"
 #: debug_console.cpp:268
 msgctxt "A keyboard modifier"
 msgid "Keypad"
-msgstr ""
+msgstr "Дополнительная клавиатура"
 
 #: debug_console.cpp:272
 msgctxt "A keyboard modifier"
 msgid "Group-switch"
-msgstr ""
+msgstr "Групповой переключатель"
 
 #: debug_console.cpp:278
 msgctxt "Whether the event is an automatic key repeat"
 msgid "Repeat"
-msgstr ""
+msgstr "Автоповтор"
 
 #: debug_console.cpp:279
 msgctxt "The code as read from the input device"
 msgid "Scan code"
-msgstr ""
+msgstr "Скан-код"
 
 #: debug_console.cpp:280
 msgctxt "The translated code to an Xkb symbol"
 msgid "Xkb symbol"
-msgstr ""
+msgstr "Символ XKB"
 
 #: debug_console.cpp:281
 msgctxt "The translated code interpreted as text"
 msgid "Utf8"
-msgstr ""
+msgstr "UTF-8"
 
 #: debug_console.cpp:282
 msgctxt "The currently active modifiers"
 msgid "Modifiers"
-msgstr ""
+msgstr "Клавиши-модификаторы"
 
 #: debug_console.cpp:295
 msgctxt "A touch down event"
 msgid "Touch down"
-msgstr ""
+msgstr "Прикосновение"
 
 #: debug_console.cpp:297 debug_console.cpp:313 debug_console.cpp:329
 msgctxt "The id of the touch point in the touch event"
 msgid "Point identifier"
-msgstr ""
+msgstr "Идентификатор точки"
 
 #: debug_console.cpp:298 debug_console.cpp:314
 msgctxt "The global position of the touch point"
 msgid "Global position"
-msgstr ""
+msgstr "Абсолютное положение"
 
 #: debug_console.cpp:311
 msgctxt "A touch motion event"
 msgid "Touch Motion"
-msgstr ""
+msgstr "Движение точки касания"
 
 #: debug_console.cpp:327
 msgctxt "A touch up event"
 msgid "Touch Up"
-msgstr ""
+msgstr "Отпускание панели"
 
 #: debug_console.cpp:421
-#, fuzzy
-#| msgid "Mouse Emulation"
 msgid "No Mouse Buttons"
-msgstr "Эмуляция мыши"
+msgstr "Нет кнопок мыши"
 
 #: debug_console.cpp:425
 msgctxt "Mouse Button"
@@ -502,26 +501,20 @@ msgid "task"
 msgstr "задача"
 
 #: debug_console.cpp:853
-#, fuzzy
-#| msgid "Close Window"
 msgid "X11 Client Windows"
-msgstr "Закрыть окно"
+msgstr "Окна клиентов X11"
 
 #: debug_console.cpp:855
 msgid "X11 Unmanaged Windows"
-msgstr ""
+msgstr "Неуправляемые окна X11"
 
 #: debug_console.cpp:857
-#, fuzzy
-#| msgid "Shade Window"
 msgid "Wayland Windows"
-msgstr "Свернуть окно в заголовок"
+msgstr "Окна Wayland"
 
 #: debug_console.cpp:859
-#, fuzzy
-#| msgid "Lower Window"
 msgid "Internal Windows"
-msgstr "Опустить окно"
+msgstr "Внутренние окна"
 
 #: killer/killer.cpp:44
 msgid "Window Manager"
@@ -1007,7 +1000,7 @@ msgstr ""
 
 #: main_wayland.cpp:593 main_x11.cpp:423
 msgid "Disable KActivities integration."
-msgstr ""
+msgstr "Выключить интеграцию с комнатами KDE."
 
 #: main_wayland.cpp:598
 msgid "Applications to start once Wayland and Xwayland server are started"
@@ -1427,15 +1420,15 @@ msgstr "Переключиться на рабочий стол %1"
 
 #: virtualkeyboard.cpp:92
 msgid "Virtual Keyboard"
-msgstr ""
+msgstr "Виртуальная клавиатура"
 
 #: virtualkeyboard.cpp:208
 msgid "Virtual Keyboard is enabled."
-msgstr ""
+msgstr "Экранная клавиатура включена."
 
 #: virtualkeyboard.cpp:211
 msgid "Virtual Keyboard is disabled."
-msgstr ""
+msgstr "Экранная клавиатура выключена."
 
 #: workspace.cpp:1320
 msgctxt "Introductory text shown in the support information."

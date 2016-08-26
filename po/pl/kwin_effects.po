@@ -5,13 +5,13 @@
 # Marta Rybczyńska <kde-i18n@rybczynska.net>, 2007, 2008, 2009, 2010, 2011, 2012, 2013.
 # Maciej Wikło <maciej.wiklo@wp.pl>, 2008, 2009, 2010.
 # Mirek Sabiniewicz <m.sabiniewicz@gmail.com>, 2010.
-# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014, 2015.
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-03-25 07:58+0000\n"
-"PO-Revision-Date: 2015-10-31 08:37+0100\n"
+"PO-Revision-Date: 2016-07-02 08:19+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -565,7 +565,7 @@ msgstr ""
 #: effect_builtins.cpp:191
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
-msgstr "Przyciemnia nieaktywne"
+msgstr "Przyciemnianie nieaktywnych"
 
 #: effect_builtins.cpp:192
 msgctxt "Comment describing the KWin Effect"
@@ -575,7 +575,7 @@ msgstr "Przyciemnia nieaktywne okna"
 #: effect_builtins.cpp:206
 msgctxt "Name of a KWin Effect"
 msgid "Dim Screen for Administrator Mode"
-msgstr "Przyciemnia ekran w trybie administratora"
+msgstr "Przyciemnianie ekranu w trybie administratora"
 
 #: effect_builtins.cpp:207
 msgctxt "Comment describing the KWin Effect"

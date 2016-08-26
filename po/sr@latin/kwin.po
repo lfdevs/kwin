@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-06-17 11:45+0000\n"
-"PO-Revision-Date: 2016-06-05 12:15+0200\n"
+"POT-Creation-Date: 2016-07-21 11:58+0000\n"
+"PO-Revision-Date: 2016-06-19 15:35+0200\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr@latin\n"
@@ -30,7 +30,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "toptan@kde.org.yu,caslav.ilic@gmx.net"
 
-#: composite.cpp:541
+#: composite.cpp:549
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -969,61 +969,61 @@ msgstr "Upozori da se KWin nedavno srušio n puta"
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr "kwin_wayland: X11 menadžer prozora radi na X11 prikazu.\n"
 
-#: main_wayland.cpp:484
+#: main_wayland.cpp:496
 msgid "Start a rootless Xwayland server."
 msgstr "Pokreni beskoreni XWayland server."
 
 # literal-segment: wayland-0
-#: main_wayland.cpp:486
+#: main_wayland.cpp:498
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 "Ime Wayland soketa na kome se sluša. Ako se ne zada, koristi se „wayland-0“."
 
-#: main_wayland.cpp:489
+#: main_wayland.cpp:501
 msgid "Use a nested compositor in windowed mode."
 msgstr "Koristi ugnežđeni slagač u prozorskom režimu."
 
-#: main_wayland.cpp:491
+#: main_wayland.cpp:503
 msgid "Render to framebuffer."
 msgstr "Renderuj u kadrobafer."
 
-#: main_wayland.cpp:493
+#: main_wayland.cpp:505
 msgid "The framebuffer device to render to."
 msgstr "Kadrobaferski uređaj u koji se renderuje."
 
-#: main_wayland.cpp:497
+#: main_wayland.cpp:509
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "X11 prikaz za prozorski režim na platformi X11."
 
-#: main_wayland.cpp:500
+#: main_wayland.cpp:512
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr "Wayland prikaz za prozorski režim na platformi Wayland."
 
-#: main_wayland.cpp:502
+#: main_wayland.cpp:514
 msgid "Render to a virtual framebuffer."
 msgstr "Renderuj u virtuelni kadrobafer."
 
-#: main_wayland.cpp:504
+#: main_wayland.cpp:516
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "Širina prozorskog režima. Podrazumevana je 1024."
 
-#: main_wayland.cpp:508
+#: main_wayland.cpp:520
 msgid "The height for windowed mode. Default height is 768."
 msgstr "Visina prozorskog režima. Podrazumevana je 768."
 
-#: main_wayland.cpp:512
+#: main_wayland.cpp:524
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
 msgstr ""
 "Broj prozora koji se otvaraju kao izlazi u prozorskom režimu. Podrazumevano "
 "je 1."
 
-#: main_wayland.cpp:544
+#: main_wayland.cpp:556
 msgid "Use libhybris hwcomposer"
 msgstr "Koristi HWcomposer preko libhybris‑a"
 
-#: main_wayland.cpp:551
+#: main_wayland.cpp:563
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
@@ -1031,33 +1031,33 @@ msgstr ""
 "Podrška za obradu ulaznih događaja preko libinputa. Napomena: nikad ne "
 "koristiti u ugnežđenoj sesiji."
 
-#: main_wayland.cpp:555
+#: main_wayland.cpp:567
 msgid "Render through drm node."
 msgstr "Renderuj kroz DRM čvor."
 
-#: main_wayland.cpp:562
+#: main_wayland.cpp:574
 msgid "Input method that KWin starts."
 msgstr "Metod unosa koji KWin pokreće."
 
 # rewrite-msgid: /quit/exit/
-#: main_wayland.cpp:567
+#: main_wayland.cpp:579
 msgid "List all available backends and quit."
 msgstr "Nabroji sve dostupne pozadine i izađi."
 
-#: main_wayland.cpp:571
+#: main_wayland.cpp:583
 msgid "Starts the session in locked mode."
 msgstr "Pokreće sesiju u zaključanom režimu."
 
-#: main_wayland.cpp:575
+#: main_wayland.cpp:587
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr "Izlazak pošto se program sesije, koji pokrene KWin, zatvori."
 
 # rewrite-msgid: /KActivities/activities/
-#: main_wayland.cpp:581 main_x11.cpp:423
+#: main_wayland.cpp:593 main_x11.cpp:423
 msgid "Disable KActivities integration."
 msgstr "Isključi uklapanje sa aktivnostima."
 
-#: main_wayland.cpp:586
+#: main_wayland.cpp:598
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr ""
 "Programi koje treba pokrenuti po pokretanju Waylanda i servera XWaylanda."
@@ -1466,17 +1466,18 @@ msgstr "Na prvu površ ispod"
 msgid "Switch to Desktop %1"
 msgstr "Na površ %1"
 
+# >> @title
 #: virtualkeyboard.cpp:92
 msgid "Virtual Keyboard"
-msgstr ""
+msgstr "Virtuelna tastatura"
 
 #: virtualkeyboard.cpp:208
 msgid "Virtual Keyboard is enabled."
-msgstr ""
+msgstr "Virtuelna tastatura je uključena."
 
 #: virtualkeyboard.cpp:211
 msgid "Virtual Keyboard is disabled."
-msgstr ""
+msgstr "Virtuelna tastatura je isključena."
 
 #: workspace.cpp:1320
 msgctxt "Introductory text shown in the support information."

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-02-16 09:05+0000\n"
+"POT-Creation-Date: 2016-07-21 11:58+0000\n"
 "PO-Revision-Date: 2016-02-16 16:22+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -50,131 +50,8 @@ msgctxt "OpenGL Platform Interface"
 msgid "GLX"
 msgstr "GLX"
 
-#. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
-#: compositing.ui:20
-msgid "Enable compositor on startup"
-msgstr "Aktivera sammansättning vid start"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: compositing.ui:27
-msgid "Animation speed:"
-msgstr "Animeringshastighet:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: compositing.ui:54
-msgid "Instant"
-msgstr "Omedelbar"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: compositing.ui:74
-msgid "Very slow"
-msgstr "Mycket långsam"
-
-#. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
-#. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
-#: compositing.ui:85 compositing.ui:111
-msgid "Scale method:"
-msgstr "Skalningsmetod:"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:93 compositing.ui:119
-msgid "Crisp"
-msgstr "Distinkt"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:98
-msgid "Smooth"
-msgstr "Jämn"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:103
-msgid "Accurate"
-msgstr "Noggrann"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:124
-msgid "Smooth (slower)"
-msgstr "Jämn (långsammare)"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: compositing.ui:139
-msgid "Rendering backend:"
-msgstr "Återgivningsgränssnitt:"
-
-#. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
-#: compositing.ui:149
-msgid "OpenGL interface:"
-msgstr "OpenGL-gränssnitt:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: compositing.ui:159
-msgid "Tearing prevention (\"vsync\"):"
-msgstr "Förhindra sönderrivning (\"vsync\"):"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:167 compositing.ui:203
-msgid "Never"
-msgstr "Aldrig"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:172
-msgid "Automatic"
-msgstr "Automatisk"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:177
-msgid "Only when cheap"
-msgstr "Bara om billigt"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:182
-msgid "Full screen repaints"
-msgstr "Återuppritning av hela skärmen"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:187
-msgid "Re-use screen content"
-msgstr "Återanvänd skärminnehåll"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: compositing.ui:195
-msgid "Keep window thumbnails:"
-msgstr "Behåll miniatyrbilder av fönster:"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:208
-msgid "Only for Shown Windows"
-msgstr "Bara för visade fönster"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:213
-msgid "Always"
-msgstr "Alltid"
-
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: compositing.ui:221
-msgid "Expert:"
-msgstr "Expert:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
-#: compositing.ui:228
-msgid "Suspend compositor for full screen windows"
-msgstr "Stäng av skrivbordseffekter för fullskärmsfönster"
-
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:235
-msgid "Experimental:"
-msgstr "Experimentell:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:242
-msgid "Enable color correction"
-msgstr "Aktivera färgkorrektion"
-
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
-#: compositing.ui:262
+#: compositing.ui:29
 msgid ""
 "OpenGL compositing (the default) has crashed KWin in the past.\n"
 "This was most likely due to a driver bug.\n"
@@ -190,17 +67,8 @@ msgstr ""
 "en krasch.\n"
 "Som alternativ kan du försöka använda gränssnittet XRender istället."
 
-#. i18n: ectx: property (text), widget (KMessageWidget, interfaceWarning)
-#: compositing.ui:278
-msgid ""
-"EGL is not supported by all OpenGL drivers. If not supported the Compositor "
-"will be disabled."
-msgstr ""
-"EGL stöds inte av alla OpenGL-drivrutiner. Om det inte stöds kommer "
-"sammansättning att inaktiveras."
-
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
-#: compositing.ui:294
+#: compositing.ui:45
 msgid ""
 "Scale method \"Accurate\" is not supported by all hardware and can cause "
 "performance regressions and rendering artifacts."
@@ -209,7 +77,7 @@ msgstr ""
 "prestandaförsämringar och återgivningsartefakter."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
-#: compositing.ui:323
+#: compositing.ui:74
 msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
 "windows. This can result in windows not suspending their work when minimized."
@@ -218,7 +86,7 @@ msgstr ""
 "hos fönster. Det kan orsaka att fönster inte slutar arbeta när de minimeras."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, unredirectInformation)
-#: compositing.ui:339
+#: compositing.ui:90
 msgid ""
 "Having full screen windows bypass the compositor is not supported on every "
 "hardware."
@@ -226,11 +94,129 @@ msgstr ""
 "Att låta fullskärmsfönster gå förbi sammansättning stöds inte på alla "
 "sorters hårdvara."
 
+#. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
+#: compositing.ui:105
+msgid "Enable compositor on startup"
+msgstr "Aktivera sammansättning vid start"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: compositing.ui:112
+msgid "Animation speed:"
+msgstr "Animeringshastighet:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: compositing.ui:139
+msgid "Instant"
+msgstr "Omedelbar"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: compositing.ui:159
+msgid "Very slow"
+msgstr "Mycket långsam"
+
+#. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
+#. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
+#: compositing.ui:170 compositing.ui:196
+msgid "Scale method:"
+msgstr "Skalningsmetod:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
+#: compositing.ui:178 compositing.ui:204
+msgid "Crisp"
+msgstr "Distinkt"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#: compositing.ui:183
+msgid "Smooth"
+msgstr "Jämn"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#: compositing.ui:188
+msgid "Accurate"
+msgstr "Noggrann"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
+#: compositing.ui:209
+msgid "Smooth (slower)"
+msgstr "Jämn (långsammare)"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: compositing.ui:224
+msgid "Rendering backend:"
+msgstr "Återgivningsgränssnitt:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: compositing.ui:241
+msgid "Tearing prevention (\"vsync\"):"
+msgstr "Förhindra sönderrivning (\"vsync\"):"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:249 compositing.ui:285
+msgid "Never"
+msgstr "Aldrig"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:254
+msgid "Automatic"
+msgstr "Automatisk"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:259
+msgid "Only when cheap"
+msgstr "Bara om billigt"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:264
+msgid "Full screen repaints"
+msgstr "Återuppritning av hela skärmen"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:269
+msgid "Re-use screen content"
+msgstr "Återanvänd skärminnehåll"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: compositing.ui:277
+msgid "Keep window thumbnails:"
+msgstr "Behåll miniatyrbilder av fönster:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:290
+msgid "Only for Shown Windows"
+msgstr "Bara för visade fönster"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:295
+msgid "Always"
+msgstr "Alltid"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: compositing.ui:303
+msgid "Expert:"
+msgstr "Expert:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
+#: compositing.ui:310
+msgid "Suspend compositor for full screen windows"
+msgstr "Stäng av skrivbordseffekter för fullskärmsfönster"
+
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#: compositing.ui:317
+msgid "Experimental:"
+msgstr "Experimentell:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
+#: compositing.ui:324
+msgid "Enable color correction"
+msgstr "Aktivera färgkorrektion"
+
 #: main.cpp:82
 msgid "Re-enable OpenGL detection"
 msgstr "Aktivera detektering av OpenGL igen"
 
-#: main.cpp:139
+#: main.cpp:138
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
 "video."
@@ -238,11 +224,11 @@ msgstr ""
 "\"Bara om billigt\" förhindrar bara söderrivning för ändringar av hela "
 "skärmen såsom en video."
 
-#: main.cpp:143
+#: main.cpp:142
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "\"Återuppritning av hela skärmen\" kan orsaka prestandaproblem."
 
-#: main.cpp:147
+#: main.cpp:146
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""

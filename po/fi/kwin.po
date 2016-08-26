@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-06-29 10:59+0000\n"
-"PO-Revision-Date: 2016-04-04 19:02+0200\n"
+"POT-Creation-Date: 2016-07-21 11:58+0000\n"
+"PO-Revision-Date: 2016-07-04 22:16+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -38,7 +38,7 @@ msgstr ""
 "kim.enkovaara@iki.fi,eleknader@phnet.fi,teemu.rytilahti@kde-fi.org,ilpo@iki."
 "fi,mikko.piippo@helsinki.fi,lliehu@kolumbus.fi"
 
-#: composite.cpp:542
+#: composite.cpp:549
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -52,162 +52,158 @@ msgid "Timestamp"
 msgstr "Aikaleima"
 
 #: debug_console.cpp:73
-#, fuzzy
-#| msgid "Top-Left"
 msgctxt "A mouse button"
 msgid "Left"
-msgstr "Ylävasen"
+msgstr "Vasen"
 
 #: debug_console.cpp:75
-#, fuzzy
-#| msgid "Top-Right"
 msgctxt "A mouse button"
 msgid "Right"
-msgstr "Yläoikea"
+msgstr "Oikea"
 
 #: debug_console.cpp:77
 msgctxt "A mouse button"
 msgid "Middle"
-msgstr ""
+msgstr "Keskimmäinen"
 
 #: debug_console.cpp:79
 msgctxt "A mouse button"
 msgid "Back"
-msgstr ""
+msgstr "Takaisin"
 
 #: debug_console.cpp:81
 msgctxt "A mouse button"
 msgid "Forward"
-msgstr ""
+msgstr "Eteenpäin"
 
 #: debug_console.cpp:83
 msgctxt "A mouse button"
 msgid "Task"
-msgstr ""
+msgstr "Tehtävä"
 
 #: debug_console.cpp:85
 msgctxt "A mouse button"
 msgid "Extra Button 4"
-msgstr ""
+msgstr "Lisäpainike 4"
 
 #: debug_console.cpp:87
 msgctxt "A mouse button"
 msgid "Extra Button 5"
-msgstr ""
+msgstr "Lisäpainike 5"
 
 #: debug_console.cpp:89
 msgctxt "A mouse button"
 msgid "Extra Button 6"
-msgstr ""
+msgstr "Lisäpainike 6"
 
 #: debug_console.cpp:91
 msgctxt "A mouse button"
 msgid "Extra Button 7"
-msgstr ""
+msgstr "Lisäpainike 7"
 
 #: debug_console.cpp:93
 msgctxt "A mouse button"
 msgid "Extra Button 8"
-msgstr ""
+msgstr "Lisäpainike 8"
 
 #: debug_console.cpp:95
 msgctxt "A mouse button"
 msgid "Extra Button 9"
-msgstr ""
+msgstr "Lisäpainike 9"
 
 #: debug_console.cpp:97
 msgctxt "A mouse button"
 msgid "Extra Button 10"
-msgstr ""
+msgstr "Lisäpainike 10"
 
 #: debug_console.cpp:99
 msgctxt "A mouse button"
 msgid "Extra Button 11"
-msgstr ""
+msgstr "Lisäpainike 11"
 
 #: debug_console.cpp:101
 msgctxt "A mouse button"
 msgid "Extra Button 12"
-msgstr ""
+msgstr "Lisäpainike 12"
 
 #: debug_console.cpp:103
 msgctxt "A mouse button"
 msgid "Extra Button 13"
-msgstr ""
+msgstr "Lisäpainike 13"
 
 #: debug_console.cpp:105
 msgctxt "A mouse button"
 msgid "Extra Button 14"
-msgstr ""
+msgstr "Lisäpainike 14"
 
 #: debug_console.cpp:107
 msgctxt "A mouse button"
 msgid "Extra Button 15"
-msgstr ""
+msgstr "Lisäpainike 15"
 
 #: debug_console.cpp:109
 msgctxt "A mouse button"
 msgid "Extra Button 16"
-msgstr ""
+msgstr "Lisäpainike 16"
 
 #: debug_console.cpp:111
 msgctxt "A mouse button"
 msgid "Extra Button 17"
-msgstr ""
+msgstr "Lisäpainike 17"
 
 #: debug_console.cpp:113
 msgctxt "A mouse button"
 msgid "Extra Button 18"
-msgstr ""
+msgstr "Lisäpainike 18"
 
 #: debug_console.cpp:115
 msgctxt "A mouse button"
 msgid "Extra Button 19"
-msgstr ""
+msgstr "Lisäpainike 19"
 
 #: debug_console.cpp:117
 msgctxt "A mouse button"
 msgid "Extra Button 20"
-msgstr ""
+msgstr "Lisäpainike 20"
 
 #: debug_console.cpp:119
 msgctxt "A mouse button"
 msgid "Extra Button 21"
-msgstr ""
+msgstr "Lisäpainike 21"
 
 #: debug_console.cpp:121
 msgctxt "A mouse button"
 msgid "Extra Button 22"
-msgstr ""
+msgstr "Lisäpainike 22"
 
 #: debug_console.cpp:123
 msgctxt "A mouse button"
 msgid "Extra Button 23"
-msgstr ""
+msgstr "Lisäpainike 23"
 
 #: debug_console.cpp:125
 msgctxt "A mouse button"
 msgid "Extra Button 24"
-msgstr ""
+msgstr "Lisäpainike 24"
 
 #: debug_console.cpp:135 debug_console.cpp:137
 msgid "Input Device"
-msgstr ""
+msgstr "Syöttölaite"
 
 #: debug_console.cpp:135
 msgctxt "The input device of the event is not known"
 msgid "Unknown"
-msgstr ""
+msgstr "Tuntematon"
 
 #: debug_console.cpp:173
 msgctxt "A mouse pointer motion event"
 msgid "Pointer Motion"
-msgstr ""
+msgstr "Osoittimen liike"
 
 #: debug_console.cpp:178
 msgctxt "The global mouse pointer position"
 msgid "Global Position"
-msgstr ""
+msgstr "Globaali sijainti"
 
 #: debug_console.cpp:181
 msgctxt "A mouse pointer button press event"
@@ -217,7 +213,7 @@ msgstr ""
 #: debug_console.cpp:186 debug_console.cpp:196
 msgctxt "A button in a mouse press/release event"
 msgid "Button"
-msgstr ""
+msgstr "Painike"
 
 #: debug_console.cpp:187 debug_console.cpp:197
 msgctxt "A button in a mouse press/release event"
@@ -242,27 +238,27 @@ msgstr ""
 #: debug_console.cpp:220
 msgctxt "The orientation of a pointer axis event"
 msgid "Orientation"
-msgstr ""
+msgstr "Suunta"
 
 #: debug_console.cpp:221
 msgctxt "An orientation of a pointer axis event"
 msgid "Horizontal"
-msgstr ""
+msgstr "Vaakasuuntainen"
 
 #: debug_console.cpp:222
 msgctxt "An orientation of a pointer axis event"
 msgid "Vertical"
-msgstr ""
+msgstr "Pystysuuntainen"
 
 #: debug_console.cpp:238
 msgctxt "A key press event"
 msgid "Key Press"
-msgstr ""
+msgstr "Näppäimen painallus"
 
 #: debug_console.cpp:241
 msgctxt "A key release event"
 msgid "Key Release"
-msgstr ""
+msgstr "Näppäimen vapautus"
 
 #: debug_console.cpp:252
 msgctxt "A keyboard modifier"
@@ -312,7 +308,7 @@ msgstr ""
 #: debug_console.cpp:281
 msgctxt "The translated code interpreted as text"
 msgid "Utf8"
-msgstr ""
+msgstr "UTF-8"
 
 #: debug_console.cpp:282
 msgctxt "The currently active modifiers"
@@ -332,7 +328,7 @@ msgstr ""
 #: debug_console.cpp:298 debug_console.cpp:314
 msgctxt "The global position of the touch point"
 msgid "Global position"
-msgstr ""
+msgstr "Globaali sijainti"
 
 #: debug_console.cpp:311
 msgctxt "A touch motion event"
@@ -353,154 +349,152 @@ msgstr "Hiiren emulointi"
 #: debug_console.cpp:425
 msgctxt "Mouse Button"
 msgid "left"
-msgstr ""
+msgstr "vasen"
 
 #: debug_console.cpp:428
-#, fuzzy
-#| msgid "Top-Right"
 msgctxt "Mouse Button"
 msgid "right"
-msgstr "Yläoikea"
+msgstr "oikea"
 
 #: debug_console.cpp:431
 msgctxt "Mouse Button"
 msgid "middle"
-msgstr ""
+msgstr "keskimmäinen"
 
 #: debug_console.cpp:434
 msgctxt "Mouse Button"
 msgid "back"
-msgstr ""
+msgstr "takaisin"
 
 #: debug_console.cpp:437
 msgctxt "Mouse Button"
 msgid "forward"
-msgstr ""
+msgstr "eteenpäin"
 
 #: debug_console.cpp:440
 msgctxt "Mouse Button"
 msgid "extra 1"
-msgstr ""
+msgstr "lisä 1"
 
 #: debug_console.cpp:443
 msgctxt "Mouse Button"
 msgid "extra 2"
-msgstr ""
+msgstr "lisä 2"
 
 #: debug_console.cpp:446
 msgctxt "Mouse Button"
 msgid "extra 3"
-msgstr ""
+msgstr "lisä 3"
 
 #: debug_console.cpp:449
 msgctxt "Mouse Button"
 msgid "extra 4"
-msgstr ""
+msgstr "lisä 4"
 
 #: debug_console.cpp:452
 msgctxt "Mouse Button"
 msgid "extra 5"
-msgstr ""
+msgstr "lisä 5"
 
 #: debug_console.cpp:455
 msgctxt "Mouse Button"
 msgid "extra 6"
-msgstr ""
+msgstr "lisä 6"
 
 #: debug_console.cpp:458
 msgctxt "Mouse Button"
 msgid "extra 7"
-msgstr ""
+msgstr "lisä 7"
 
 #: debug_console.cpp:461
 msgctxt "Mouse Button"
 msgid "extra 8"
-msgstr ""
+msgstr "lisä 8"
 
 #: debug_console.cpp:464
 msgctxt "Mouse Button"
 msgid "extra 9"
-msgstr ""
+msgstr "lisä 9"
 
 #: debug_console.cpp:467
 msgctxt "Mouse Button"
 msgid "extra 10"
-msgstr ""
+msgstr "lisä 10"
 
 #: debug_console.cpp:470
 msgctxt "Mouse Button"
 msgid "extra 11"
-msgstr ""
+msgstr "lisä 11"
 
 #: debug_console.cpp:473
 msgctxt "Mouse Button"
 msgid "extra 12"
-msgstr ""
+msgstr "lisä 12"
 
 #: debug_console.cpp:476
 msgctxt "Mouse Button"
 msgid "extra 13"
-msgstr ""
+msgstr "lisä 13"
 
 #: debug_console.cpp:479
 msgctxt "Mouse Button"
 msgid "extra 14"
-msgstr ""
+msgstr "lisä 14"
 
 #: debug_console.cpp:482
 msgctxt "Mouse Button"
 msgid "extra 15"
-msgstr ""
+msgstr "lisä 15"
 
 #: debug_console.cpp:485
 msgctxt "Mouse Button"
 msgid "extra 16"
-msgstr ""
+msgstr "lisä 16"
 
 #: debug_console.cpp:488
 msgctxt "Mouse Button"
 msgid "extra 17"
-msgstr ""
+msgstr "lisä 17"
 
 #: debug_console.cpp:491
 msgctxt "Mouse Button"
 msgid "extra 18"
-msgstr ""
+msgstr "lisä 18"
 
 #: debug_console.cpp:494
 msgctxt "Mouse Button"
 msgid "extra 19"
-msgstr ""
+msgstr "lisä 19"
 
 #: debug_console.cpp:497
 msgctxt "Mouse Button"
 msgid "extra 20"
-msgstr ""
+msgstr "lisä 20"
 
 #: debug_console.cpp:500
 msgctxt "Mouse Button"
 msgid "extra 21"
-msgstr ""
+msgstr "lisä 21"
 
 #: debug_console.cpp:503
 msgctxt "Mouse Button"
 msgid "extra 22"
-msgstr ""
+msgstr "lisä 22"
 
 #: debug_console.cpp:506
 msgctxt "Mouse Button"
 msgid "extra 23"
-msgstr ""
+msgstr "lisä 23"
 
 #: debug_console.cpp:509
 msgctxt "Mouse Button"
 msgid "extra 24"
-msgstr ""
+msgstr "lisä 24"
 
 #: debug_console.cpp:512
 msgctxt "Mouse Button"
 msgid "task"
-msgstr ""
+msgstr "tehtävä"
 
 #: debug_console.cpp:853
 msgid "X11 Client Windows"
@@ -1429,15 +1423,15 @@ msgstr "Vaihda työpöydälle %1"
 
 #: virtualkeyboard.cpp:92
 msgid "Virtual Keyboard"
-msgstr ""
+msgstr "Virtuaalinäppäimistö"
 
 #: virtualkeyboard.cpp:208
 msgid "Virtual Keyboard is enabled."
-msgstr ""
+msgstr "Virtuaalinäppäimistö on käytössä."
 
 #: virtualkeyboard.cpp:211
 msgid "Virtual Keyboard is disabled."
-msgstr ""
+msgstr "Virtuaalinäppäimistö ei ole käytössä."
 
 #: workspace.cpp:1320
 msgctxt "Introductory text shown in the support information."

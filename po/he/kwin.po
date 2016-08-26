@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-06-29 10:59+0000\n"
-"PO-Revision-Date: 2016-05-31 14:28+0200\n"
-"Last-Translator: elkana bardugo <ttv200@gmail.com>\n"
+"POT-Creation-Date: 2016-07-21 11:58+0000\n"
+"PO-Revision-Date: 2016-06-30 13:06+0200\n"
+"Last-Translator: Elkana Bardugo <ttv200@gmail.com>\n"
 "Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kde-l10n-he@kde.org"
 
-#: composite.cpp:542
+#: composite.cpp:549
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -185,7 +185,7 @@ msgstr "כפתור נוסף 24"
 
 #: debug_console.cpp:135 debug_console.cpp:137
 msgid "Input Device"
-msgstr ""
+msgstr "התקני קלט"
 
 #: debug_console.cpp:135
 msgctxt "The input device of the event is not known"
@@ -349,11 +349,9 @@ msgid "left"
 msgstr "שמאל"
 
 #: debug_console.cpp:428
-#, fuzzy
-#| msgid "Top-Right"
 msgctxt "Mouse Button"
 msgid "right"
-msgstr "למעלה מימין"
+msgstr "ימין"
 
 #: debug_console.cpp:431
 msgctxt "Mouse Button"
@@ -518,8 +516,6 @@ msgid "Internal Windows"
 msgstr "הבא חלון אחורה"
 
 #: killer/killer.cpp:44
-#, fuzzy
-#| msgid "KDE window manager"
 msgid "Window Manager"
 msgstr "מנהל החלונות של KDE"
 
@@ -1217,8 +1213,6 @@ msgid "&Move"
 msgstr "ה&זז"
 
 #: useractions.cpp:276
-#, fuzzy
-#| msgid "Re&size"
 msgid "&Resize"
 msgstr "&שנה גודל"
 
@@ -1245,14 +1239,10 @@ msgid "&No Border"
 msgstr "&ללא מסגרת"
 
 #: useractions.cpp:310
-#, fuzzy
-#| msgid "Window &Shortcut..."
 msgid "Window Short&cut..."
-msgstr "&קיצור החלון..."
+msgstr "קיצורי דרך של החלון..."
 
 #: useractions.cpp:315
-#, fuzzy
-#| msgid "&Special Window Settings..."
 msgid "Special &Window Settings..."
 msgstr "הגדרות חלון &מיוחדות..."
 
@@ -1261,16 +1251,11 @@ msgid "S&pecial Application Settings..."
 msgstr "הגדרות יישום &מיוחדות..."
 
 #: useractions.cpp:326
-#, fuzzy
-#| msgctxt ""
-#| "Entry in context menu of window decoration to open the configuration "
-#| "module of KWin"
-#| msgid "Window &Manager Settings..."
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
 msgid "Window Manager S&ettings..."
-msgstr "הגדרות מנהל חלונות &מיוחדות..."
+msgstr "הגדרות מנהל חלונות"
 
 #: useractions.cpp:350
 msgid "Mi&nimize"
@@ -1289,8 +1274,6 @@ msgid "Close Entire &Group"
 msgstr "סגור &קבוצה כולה"
 
 #: useractions.cpp:378
-#, fuzzy
-#| msgid "More Actions"
 msgid "&More Actions"
 msgstr "פעולות נוספות"
 
@@ -1322,10 +1305,8 @@ msgid "Switch to Tab"
 msgstr "עבור ללשונית"
 
 #: useractions.cpp:574
-#, fuzzy
-#| msgid "Attach as tab to"
 msgid "&Attach as tab to"
-msgstr "הצמד בתור לשונית אל"
+msgstr "הצמד כלשונית אל"
 
 #: useractions.cpp:597
 msgid "Move To &Desktop"
@@ -1349,14 +1330,12 @@ msgid "&New Desktop"
 msgstr "שולחן עבודה &חדש"
 
 #: useractions.cpp:686
-#, fuzzy, kde-format
-#| msgctxt "@item:inmenu List of all Screens to send a window to"
-#| msgid "Screen &%1"
+#, kde-format
 msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
 "number, second the output identifier. E.g. Screen 1 (HDMI1)"
 msgid "Screen &%1 (%2)"
-msgstr "מסך %1"
+msgstr "מסך &%1 (%2)"
 
 #: useractions.cpp:707
 msgid "&All Activities"
@@ -1422,15 +1401,15 @@ msgstr "עבור לשולחן עבודה %1"
 
 #: virtualkeyboard.cpp:92
 msgid "Virtual Keyboard"
-msgstr ""
+msgstr "מקלדת וירטאלית"
 
 #: virtualkeyboard.cpp:208
 msgid "Virtual Keyboard is enabled."
-msgstr ""
+msgstr "מקלדת וירטאלית מאופשרת."
 
 #: virtualkeyboard.cpp:211
 msgid "Virtual Keyboard is disabled."
-msgstr ""
+msgstr "מקלדת וירטאלית מבוטלת"
 
 #: workspace.cpp:1320
 msgctxt "Introductory text shown in the support information."

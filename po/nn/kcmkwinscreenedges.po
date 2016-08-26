@@ -1,13 +1,13 @@
 # Translation of kcmkwinscreenedges to Norwegian Nynorsk
 #
 # Eirik U. Birkeland <eirbir@gmail.com>, 2009, 2010.
-# Karl Ove Hufthammer <karl@huftis.org>, 2010, 2015.
+# Karl Ove Hufthammer <karl@huftis.org>, 2010, 2015, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-05-09 08:35+0000\n"
-"PO-Revision-Date: 2015-09-20 18:34+0100\n"
+"PO-Revision-Date: 2016-07-20 20:34+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
@@ -43,7 +43,7 @@ msgstr "Lås skjermen"
 #: main.cpp:190
 msgctxt "Open krunner"
 msgid "Run Command"
-msgstr ""
+msgstr "Køyr kommando"
 
 #: main.cpp:191
 msgid "Activity Manager"

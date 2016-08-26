@@ -1,5 +1,5 @@
 # translation of kwin.po to
-# Version: $Revision: 1463203 $
+# Version: $Revision: 1466653 $
 # translation of kwin.po to Polish
 # translation of kwin.po to
 # Norbert Popiołek <norbert@kde.com.pl>
@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-06-29 10:59+0000\n"
-"PO-Revision-Date: 2016-06-04 07:35+0100\n"
+"POT-Creation-Date: 2016-07-21 11:58+0000\n"
+"PO-Revision-Date: 2016-08-06 07:31+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -44,7 +44,7 @@ msgid "Your emails"
 msgstr ""
 "mrudolf@kdewebdev.org, norbert@kde.com.pl, lukasz.wojnilowicz@gmail.com"
 
-#: composite.cpp:542
+#: composite.cpp:549
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -625,11 +625,11 @@ msgstr "Poczekaj dłużej"
 
 #: kwinbindings.cpp:40
 msgid "Walk Through Window Tabs"
-msgstr "Przechodzenie między kartami"
+msgstr "Przełącz kartę okna"
 
 #: kwinbindings.cpp:41
 msgid "Walk Through Window Tabs (Reverse)"
-msgstr "Przechodzenie między kartami (odwrotne)"
+msgstr "Przełącz kartę okna (odwrotnie)"
 
 #: kwinbindings.cpp:42
 msgid "Remove Window From Group"
@@ -693,11 +693,11 @@ msgstr "Ukryj obramowanie okna"
 
 #: kwinbindings.cpp:72
 msgid "Keep Window Above Others"
-msgstr "Zawsze na wierzchu"
+msgstr "Okno zawsze na wierzchu"
 
 #: kwinbindings.cpp:74
 msgid "Keep Window Below Others"
-msgstr "Zawsze pod spodem"
+msgstr "Okno zawsze pod spodem"
 
 #: kwinbindings.cpp:76
 msgid "Activate Window Demanding Attention"
@@ -725,51 +725,51 @@ msgstr "Wyrównaj okno do dołu"
 
 #: kwinbindings.cpp:88
 msgid "Pack Grow Window Horizontally"
-msgstr "Rozwiń okno w prawo"
+msgstr "Rozwiń okno w poziomie"
 
 #: kwinbindings.cpp:90
 msgid "Pack Grow Window Vertically"
-msgstr "Rozwiń okno w dół"
+msgstr "Rozwiń okno w pionie"
 
 #: kwinbindings.cpp:92
 msgid "Pack Shrink Window Horizontally"
-msgstr "Zwiń okno w lewo"
+msgstr "Zwiń okno w poziomie"
 
 #: kwinbindings.cpp:94
 msgid "Pack Shrink Window Vertically"
-msgstr "Zwiń okno w górę"
+msgstr "Zwiń okno w pionie"
 
 #: kwinbindings.cpp:96
 msgid "Quick Tile Window to the Left"
-msgstr "Kafelkuj okna z lewej"
+msgstr "Kafelka z okna na lewej krawędzi"
 
 #: kwinbindings.cpp:98
 msgid "Quick Tile Window to the Right"
-msgstr "Kafelkuj oka z prawej"
+msgstr "Kafelka z okna na prawej krawędzi"
 
 #: kwinbindings.cpp:100
 msgid "Quick Tile Window to the Top"
-msgstr "Szybka kafelka z okna na górnej krawędzi"
+msgstr "Kafelka z okna na górnej krawędzi"
 
 #: kwinbindings.cpp:102
 msgid "Quick Tile Window to the Bottom"
-msgstr "Szybka kafelka z okna na dolnej krawędzi"
+msgstr "Kafelka z okna na dolnej krawędzi"
 
 #: kwinbindings.cpp:104
 msgid "Quick Tile Window to the Top Left"
-msgstr "Szybka kafelka z okna w górnym lewym narożniku"
+msgstr "Kafelka z okna w górnym lewym narożniku"
 
 #: kwinbindings.cpp:106
 msgid "Quick Tile Window to the Bottom Left"
-msgstr "Szybka kafelka z okna w dolnym lewym narożniku"
+msgstr "Kafelka z okna w dolnym lewym narożniku"
 
 #: kwinbindings.cpp:108
 msgid "Quick Tile Window to the Top Right"
-msgstr "Szybka kafelka z okna w górnym prawym narożniku"
+msgstr "Kafelka z okna w górnym prawym narożniku"
 
 #: kwinbindings.cpp:110
 msgid "Quick Tile Window to the Bottom Right"
-msgstr "Szybka kafelka z okna w dolnym prawym narożniku"
+msgstr "Kafelka z okna w dolnym prawym narożniku"
 
 #: kwinbindings.cpp:112
 msgid "Switch to Window Above"

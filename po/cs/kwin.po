@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-06-29 10:59+0000\n"
-"PO-Revision-Date: 2016-05-09 13:54+0100\n"
+"POT-Creation-Date: 2016-07-21 11:58+0000\n"
+"PO-Revision-Date: 2016-08-17 14:27+0100\n"
 "Last-Translator: Vít Pelčák <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -29,7 +29,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "flidr@kky.zcu.cz,lukas@kde.org,jfriedl@suse.cz,david@kolibac.cz"
 
-#: composite.cpp:542
+#: composite.cpp:549
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -45,137 +45,137 @@ msgstr "Časové razítko"
 #: debug_console.cpp:73
 msgctxt "A mouse button"
 msgid "Left"
-msgstr ""
+msgstr "Vlevo"
 
 #: debug_console.cpp:75
 msgctxt "A mouse button"
 msgid "Right"
-msgstr ""
+msgstr "Vpravo"
 
 #: debug_console.cpp:77
 msgctxt "A mouse button"
 msgid "Middle"
-msgstr ""
+msgstr "Uprostřed"
 
 #: debug_console.cpp:79
 msgctxt "A mouse button"
 msgid "Back"
-msgstr ""
+msgstr "Zpět"
 
 #: debug_console.cpp:81
 msgctxt "A mouse button"
 msgid "Forward"
-msgstr ""
+msgstr "Vpřed"
 
 #: debug_console.cpp:83
 msgctxt "A mouse button"
 msgid "Task"
-msgstr ""
+msgstr "Úloha"
 
 #: debug_console.cpp:85
 msgctxt "A mouse button"
 msgid "Extra Button 4"
-msgstr ""
+msgstr "Extra tlačítko 4"
 
 #: debug_console.cpp:87
 msgctxt "A mouse button"
 msgid "Extra Button 5"
-msgstr ""
+msgstr "Extra tlačítko 5"
 
 #: debug_console.cpp:89
 msgctxt "A mouse button"
 msgid "Extra Button 6"
-msgstr ""
+msgstr "Extra tlačítko 6"
 
 #: debug_console.cpp:91
 msgctxt "A mouse button"
 msgid "Extra Button 7"
-msgstr ""
+msgstr "Extra tlačítko 7"
 
 #: debug_console.cpp:93
 msgctxt "A mouse button"
 msgid "Extra Button 8"
-msgstr ""
+msgstr "Extra tlačítko 8"
 
 #: debug_console.cpp:95
 msgctxt "A mouse button"
 msgid "Extra Button 9"
-msgstr ""
+msgstr "Extra tlačítko 9"
 
 #: debug_console.cpp:97
 msgctxt "A mouse button"
 msgid "Extra Button 10"
-msgstr ""
+msgstr "Extra tlačítko 10"
 
 #: debug_console.cpp:99
 msgctxt "A mouse button"
 msgid "Extra Button 11"
-msgstr ""
+msgstr "Extra tlačítko 11"
 
 #: debug_console.cpp:101
 msgctxt "A mouse button"
 msgid "Extra Button 12"
-msgstr ""
+msgstr "Extra tlačítko 12"
 
 #: debug_console.cpp:103
 msgctxt "A mouse button"
 msgid "Extra Button 13"
-msgstr ""
+msgstr "Extra tlačítko 13"
 
 #: debug_console.cpp:105
 msgctxt "A mouse button"
 msgid "Extra Button 14"
-msgstr ""
+msgstr "Extra tlačítko 14"
 
 #: debug_console.cpp:107
 msgctxt "A mouse button"
 msgid "Extra Button 15"
-msgstr ""
+msgstr "Extra tlačítko 15"
 
 #: debug_console.cpp:109
 msgctxt "A mouse button"
 msgid "Extra Button 16"
-msgstr ""
+msgstr "Extra tlačítko 16"
 
 #: debug_console.cpp:111
 msgctxt "A mouse button"
 msgid "Extra Button 17"
-msgstr ""
+msgstr "Extra tlačítko 17"
 
 #: debug_console.cpp:113
 msgctxt "A mouse button"
 msgid "Extra Button 18"
-msgstr ""
+msgstr "Extra tlačítko 18"
 
 #: debug_console.cpp:115
 msgctxt "A mouse button"
 msgid "Extra Button 19"
-msgstr ""
+msgstr "Extra tlačítko 19"
 
 #: debug_console.cpp:117
 msgctxt "A mouse button"
 msgid "Extra Button 20"
-msgstr ""
+msgstr "Extra tlačítko 20"
 
 #: debug_console.cpp:119
 msgctxt "A mouse button"
 msgid "Extra Button 21"
-msgstr ""
+msgstr "Extra tlačítko 21"
 
 #: debug_console.cpp:121
 msgctxt "A mouse button"
 msgid "Extra Button 22"
-msgstr ""
+msgstr "Extra tlačítko 22"
 
 #: debug_console.cpp:123
 msgctxt "A mouse button"
 msgid "Extra Button 23"
-msgstr ""
+msgstr "Extra tlačítko 23"
 
 #: debug_console.cpp:125
 msgctxt "A mouse button"
 msgid "Extra Button 24"
-msgstr ""
+msgstr "Extra tlačítko 24"
 
 #: debug_console.cpp:135 debug_console.cpp:137
 msgid "Input Device"
@@ -184,7 +184,7 @@ msgstr "Vstupní zařízení"
 #: debug_console.cpp:135
 msgctxt "The input device of the event is not known"
 msgid "Unknown"
-msgstr ""
+msgstr "Neznámý"
 
 #: debug_console.cpp:173
 msgctxt "A mouse pointer motion event"
@@ -204,7 +204,7 @@ msgstr ""
 #: debug_console.cpp:186 debug_console.cpp:196
 msgctxt "A button in a mouse press/release event"
 msgid "Button"
-msgstr ""
+msgstr "Tlačítko"
 
 #: debug_console.cpp:187 debug_console.cpp:197
 msgctxt "A button in a mouse press/release event"
@@ -229,47 +229,47 @@ msgstr ""
 #: debug_console.cpp:220
 msgctxt "The orientation of a pointer axis event"
 msgid "Orientation"
-msgstr ""
+msgstr "7Natočení"
 
 #: debug_console.cpp:221
 msgctxt "An orientation of a pointer axis event"
 msgid "Horizontal"
-msgstr ""
+msgstr "Vodorovně"
 
 #: debug_console.cpp:222
 msgctxt "An orientation of a pointer axis event"
 msgid "Vertical"
-msgstr ""
+msgstr "Svisle"
 
 #: debug_console.cpp:238
 msgctxt "A key press event"
 msgid "Key Press"
-msgstr ""
+msgstr "Stisk klávesy"
 
 #: debug_console.cpp:241
 msgctxt "A key release event"
 msgid "Key Release"
-msgstr ""
+msgstr "Uvolnění klávesy"
 
 #: debug_console.cpp:252
 msgctxt "A keyboard modifier"
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #: debug_console.cpp:256
 msgctxt "A keyboard modifier"
 msgid "Control"
-msgstr ""
+msgstr "Control"
 
 #: debug_console.cpp:260
 msgctxt "A keyboard modifier"
 msgid "Alt"
-msgstr ""
+msgstr "Alt"
 
 #: debug_console.cpp:264
 msgctxt "A keyboard modifier"
 msgid "Meta"
-msgstr ""
+msgstr "Meta"
 
 #: debug_console.cpp:268
 msgctxt "A keyboard modifier"
@@ -284,7 +284,7 @@ msgstr ""
 #: debug_console.cpp:278
 msgctxt "Whether the event is an automatic key repeat"
 msgid "Repeat"
-msgstr ""
+msgstr "Opakovat"
 
 #: debug_console.cpp:279
 msgctxt "The code as read from the input device"
@@ -294,17 +294,17 @@ msgstr ""
 #: debug_console.cpp:280
 msgctxt "The translated code to an Xkb symbol"
 msgid "Xkb symbol"
-msgstr ""
+msgstr "Symbol Xkb"
 
 #: debug_console.cpp:281
 msgctxt "The translated code interpreted as text"
 msgid "Utf8"
-msgstr ""
+msgstr "UTF-8"
 
 #: debug_console.cpp:282
 msgctxt "The currently active modifiers"
 msgid "Modifiers"
-msgstr ""
+msgstr "Modifikátory"
 
 #: debug_console.cpp:295
 msgctxt "A touch down event"
@@ -1392,11 +1392,11 @@ msgstr "Virtuální klávesnice"
 
 #: virtualkeyboard.cpp:208
 msgid "Virtual Keyboard is enabled."
-msgstr ""
+msgstr "Virtuální klávesnice je povolena."
 
 #: virtualkeyboard.cpp:211
 msgid "Virtual Keyboard is disabled."
-msgstr ""
+msgstr "Virtuální klávesnice je zakázána."
 
 #: workspace.cpp:1320
 msgctxt "Introductory text shown in the support information."

@@ -1,7 +1,7 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Alexander Potashev <aspotashev@gmail.com>, 2009, 2010, 2014.
+# Alexander Potashev <aspotashev@gmail.com>, 2009, 2010, 2014, 2016.
 # Nick Shaforostoff <shaforostoff@kde.ru>, 2009.
 # Nick Shaforostoff <shafff@ukr.net>, 2009, 2010.
 # Andrey Cherepanov <skull@kde.ru>, 2009.
@@ -12,14 +12,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-05-09 08:35+0000\n"
-"PO-Revision-Date: 2014-08-26 13:20+0400\n"
+"PO-Revision-Date: 2016-08-13 21:48+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Environment: kde\n"
@@ -49,11 +49,11 @@ msgstr "Заблокировать экран"
 #: main.cpp:190
 msgctxt "Open krunner"
 msgid "Run Command"
-msgstr ""
+msgstr "Выполнить команду"
 
 #: main.cpp:191
 msgid "Activity Manager"
-msgstr ""
+msgstr "Диспетчер комнат"
 
 #: main.cpp:195
 #, kde-format

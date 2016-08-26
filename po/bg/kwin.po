@@ -2,7 +2,7 @@
 # Bulgarian translation of KDE.
 # This file is licensed under the GPL.
 #
-# $Id: kwin.po 1463203 2016-06-29 12:30:19Z scripty $
+# $Id: kwin.po 1465027 2016-07-21 13:12:38Z scripty $
 #
 # Zlatko Popov <zlatkopopov@fsa-bg.org>, 2006, 2007, 2008, 2009.
 # Yasen Pramatarov <yasen@lindeas.com>, 2009, 2010.
@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-06-29 10:59+0000\n"
+"POT-Creation-Date: 2016-07-21 11:58+0000\n"
 "PO-Revision-Date: 2010-12-02 00:25+0200\n"
 "Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -29,7 +29,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "radnev@yahoo.com"
 
-#: composite.cpp:542
+#: composite.cpp:549
 #, fuzzy, kde-format
 #| msgid ""
 #| "Compositing has been suspended by another application.<br/>You can resume "

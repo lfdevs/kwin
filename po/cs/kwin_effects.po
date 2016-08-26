@@ -168,7 +168,7 @@ msgstr "Pokročilé"
 #: trackmouse/trackmouse_config.cpp:62
 #: windowgeometry/windowgeometry_config.cpp:54 zoom/zoom_config.cpp:63
 msgid "KWin"
-msgstr ""
+msgstr "KWin"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: cube/cube_config.ui:21

@@ -4,7 +4,7 @@
 # Gregory Mokhin <mok@kde.ru>, 2005.
 # Leonid Kanter <leon@asplinux.ru>, 2005.
 # Andrey Cherepanov <skull@kde.ru>, 2009.
-# Alexander Potashev <aspotashev@gmail.com>, 2010, 2011, 2012, 2014, 2015.
+# Alexander Potashev <aspotashev@gmail.com>, 2010, 2011, 2012, 2014, 2015, 2016.
 # Alexey D. <lq07829icatm@rambler.ru>, 2012.
 # Yuri Efremov <yur.arh@gmail.com>, 2012, 2013.
 # Alexander Lakhin <exclusion@gmail.com>, 2013.
@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-11-19 09:30+0000\n"
-"PO-Revision-Date: 2015-04-18 21:08+0300\n"
+"PO-Revision-Date: 2016-08-13 22:01+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -1093,13 +1093,20 @@ msgid ""
 "Otherwise it's interleaved with the stealing prevention\n"
 "assigned to the window that wants the focus."
 msgstr ""
+"Этот параметр определяет приоритет, с которым текущее окно\n"
+"старается удерживать фокус.\n"
+"\n"
+"«Отключить» позволит отдавать фокус всегда.\n"
+"«Не передавать фокус автоматически» запрещает\n"
+"передачу фокуса другому окну.\n"
+"При промежуточных значениях этого параметра будет\n"
+"также учитываться параметр «Предотвращение похищения\n"
+"фокуса» у окна, которое запрашивает фокус."
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fpplevel)
 #: ruleswidgetbase.ui:2232
-#, fuzzy
-#| msgid "&Focus stealing prevention"
 msgid "Focus protection"
-msgstr "Предотвращение похищения &фокуса"
+msgstr "Защита фокуса"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_acceptfocus)
 #: ruleswidgetbase.ui:2295

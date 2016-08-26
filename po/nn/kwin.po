@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-06-03 07:45+0000\n"
-"PO-Revision-Date: 2016-04-30 10:06+0100\n"
+"POT-Creation-Date: 2016-06-29 10:59+0000\n"
+"PO-Revision-Date: 2016-07-20 20:23+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
@@ -32,7 +32,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "gaute@verdsveven.com,korsvoll@skulelinux.no,karl@huftis.org"
 
-#: composite.cpp:541
+#: composite.cpp:542
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -187,7 +187,7 @@ msgstr "Inneining"
 #: debug_console.cpp:135
 msgctxt "The input device of the event is not known"
 msgid "Unknown"
-msgstr ""
+msgstr "Ukjend"
 
 #: debug_console.cpp:173
 msgctxt "A mouse pointer motion event"
@@ -336,157 +336,157 @@ msgstr "Finger opp"
 
 #: debug_console.cpp:421
 msgid "No Mouse Buttons"
-msgstr ""
+msgstr "Ingen museknappar"
 
 #: debug_console.cpp:425
 msgctxt "Mouse Button"
 msgid "left"
-msgstr ""
+msgstr "venstre"
 
 #: debug_console.cpp:428
 msgctxt "Mouse Button"
 msgid "right"
-msgstr ""
+msgstr "høgre"
 
 #: debug_console.cpp:431
 msgctxt "Mouse Button"
 msgid "middle"
-msgstr ""
+msgstr "midt"
 
 #: debug_console.cpp:434
 msgctxt "Mouse Button"
 msgid "back"
-msgstr ""
+msgstr "tilbake"
 
 #: debug_console.cpp:437
 msgctxt "Mouse Button"
 msgid "forward"
-msgstr ""
+msgstr "fram"
 
 #: debug_console.cpp:440
 msgctxt "Mouse Button"
 msgid "extra 1"
-msgstr ""
+msgstr "ekstra 1"
 
 #: debug_console.cpp:443
 msgctxt "Mouse Button"
 msgid "extra 2"
-msgstr ""
+msgstr "ekstra 2"
 
 #: debug_console.cpp:446
 msgctxt "Mouse Button"
 msgid "extra 3"
-msgstr ""
+msgstr "ekstra 3"
 
 #: debug_console.cpp:449
 msgctxt "Mouse Button"
 msgid "extra 4"
-msgstr ""
+msgstr "ekstra 4"
 
 #: debug_console.cpp:452
 msgctxt "Mouse Button"
 msgid "extra 5"
-msgstr ""
+msgstr "ekstra 5"
 
 #: debug_console.cpp:455
 msgctxt "Mouse Button"
 msgid "extra 6"
-msgstr ""
+msgstr "ekstra 6"
 
 #: debug_console.cpp:458
 msgctxt "Mouse Button"
 msgid "extra 7"
-msgstr ""
+msgstr "ekstra 7"
 
 #: debug_console.cpp:461
 msgctxt "Mouse Button"
 msgid "extra 8"
-msgstr ""
+msgstr "ekstra 8"
 
 #: debug_console.cpp:464
 msgctxt "Mouse Button"
 msgid "extra 9"
-msgstr ""
+msgstr "ekstra 9"
 
 #: debug_console.cpp:467
 msgctxt "Mouse Button"
 msgid "extra 10"
-msgstr ""
+msgstr "ekstra 10"
 
 #: debug_console.cpp:470
 msgctxt "Mouse Button"
 msgid "extra 11"
-msgstr ""
+msgstr "ekstra 11"
 
 #: debug_console.cpp:473
 msgctxt "Mouse Button"
 msgid "extra 12"
-msgstr ""
+msgstr "ekstra 12"
 
 #: debug_console.cpp:476
 msgctxt "Mouse Button"
 msgid "extra 13"
-msgstr ""
+msgstr "ekstra 13"
 
 #: debug_console.cpp:479
 msgctxt "Mouse Button"
 msgid "extra 14"
-msgstr ""
+msgstr "ekstra 14"
 
 #: debug_console.cpp:482
 msgctxt "Mouse Button"
 msgid "extra 15"
-msgstr ""
+msgstr "ekstra 15"
 
 #: debug_console.cpp:485
 msgctxt "Mouse Button"
 msgid "extra 16"
-msgstr ""
+msgstr "ekstra 16"
 
 #: debug_console.cpp:488
 msgctxt "Mouse Button"
 msgid "extra 17"
-msgstr ""
+msgstr "ekstra 17"
 
 #: debug_console.cpp:491
 msgctxt "Mouse Button"
 msgid "extra 18"
-msgstr ""
+msgstr "ekstra 18"
 
 #: debug_console.cpp:494
 msgctxt "Mouse Button"
 msgid "extra 19"
-msgstr ""
+msgstr "ekstra 19"
 
 #: debug_console.cpp:497
 msgctxt "Mouse Button"
 msgid "extra 20"
-msgstr ""
+msgstr "ekstra 20"
 
 #: debug_console.cpp:500
 msgctxt "Mouse Button"
 msgid "extra 21"
-msgstr ""
+msgstr "ekstra 21"
 
 #: debug_console.cpp:503
 msgctxt "Mouse Button"
 msgid "extra 22"
-msgstr ""
+msgstr "ekstra 22"
 
 #: debug_console.cpp:506
 msgctxt "Mouse Button"
 msgid "extra 23"
-msgstr ""
+msgstr "ekstra 23"
 
 #: debug_console.cpp:509
 msgctxt "Mouse Button"
 msgid "extra 24"
-msgstr ""
+msgstr "ekstra 24"
 
 #: debug_console.cpp:512
 msgctxt "Mouse Button"
 msgid "task"
-msgstr ""
+msgstr "oppgåve"
 
 #: debug_console.cpp:853
 msgid "X11 Client Windows"
@@ -905,60 +905,60 @@ msgstr "Viser at KWin nyleg har krasja n gongar"
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr "kwin_wayland: Ein X11-vindaugshandsamar køyrer på X11-oppsettet.\n"
 
-#: main_wayland.cpp:484
+#: main_wayland.cpp:496
 msgid "Start a rootless Xwayland server."
 msgstr "Start ein rotlaus Xwayland-tener."
 
-#: main_wayland.cpp:486
+#: main_wayland.cpp:498
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 "Namn på Wayland-socket-en å lytta på. Viss ikkje noko er valt, vert "
 "«wayland-0» brukt."
 
-#: main_wayland.cpp:489
+#: main_wayland.cpp:501
 msgid "Use a nested compositor in windowed mode."
 msgstr "Bruk ein nøsta samansetjar i vindaugsmodus."
 
-#: main_wayland.cpp:491
+#: main_wayland.cpp:503
 msgid "Render to framebuffer."
 msgstr "Teikn opp til biletbuffer."
 
-#: main_wayland.cpp:493
+#: main_wayland.cpp:505
 msgid "The framebuffer device to render to."
 msgstr "Biletbuffer-eininga det skal verta teikna til."
 
-#: main_wayland.cpp:497
+#: main_wayland.cpp:509
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "X11-skjermbiletet som skal brukast i vindaugsmodus på X11-plattforma."
 
-#: main_wayland.cpp:500
+#: main_wayland.cpp:512
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
 "Wayland-skjermbiletet skal brukast i vindaugsmodus på Wayland-plattforma."
 
-#: main_wayland.cpp:502
+#: main_wayland.cpp:514
 msgid "Render to a virtual framebuffer."
 msgstr "Teikn opp til virtuell biletbuffer."
 
-#: main_wayland.cpp:504
+#: main_wayland.cpp:516
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "Breidda for vindaugsmodus. Standardbreidda er 1024."
 
-#: main_wayland.cpp:508
+#: main_wayland.cpp:520
 msgid "The height for windowed mode. Default height is 768."
 msgstr "Høgda for vindaugsmodus. Standardhøgda er 768."
 
-#: main_wayland.cpp:512
+#: main_wayland.cpp:524
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
 msgstr "Talet på vindauge å opna for utdata i vindaugsmodus. Standard er 1."
 
-#: main_wayland.cpp:544
+#: main_wayland.cpp:556
 msgid "Use libhybris hwcomposer"
 msgstr "Bruk libhybris hwcomposer"
 
-#: main_wayland.cpp:551
+#: main_wayland.cpp:563
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
@@ -966,31 +966,31 @@ msgstr ""
 "Slå på libinput-støtte for handsaming av inndata-hendingar. Merk: bruka "
 "aldri dette i ei nøsta økt."
 
-#: main_wayland.cpp:555
+#: main_wayland.cpp:567
 msgid "Render through drm node."
 msgstr "Teikn opp gjennom drm-node."
 
-#: main_wayland.cpp:562
+#: main_wayland.cpp:574
 msgid "Input method that KWin starts."
 msgstr "Inndata-metode som KWin startar."
 
-#: main_wayland.cpp:567
+#: main_wayland.cpp:579
 msgid "List all available backends and quit."
 msgstr "Vis oversikt over tilgjengelege motorar, og så avslutt."
 
-#: main_wayland.cpp:571
+#: main_wayland.cpp:583
 msgid "Starts the session in locked mode."
 msgstr "Startar økta i låst modus."
 
-#: main_wayland.cpp:575
+#: main_wayland.cpp:587
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr "Avslutt etter at øktprogrammet, som vert starta av KWin, vert lukka."
 
-#: main_wayland.cpp:581 main_x11.cpp:423
+#: main_wayland.cpp:593 main_x11.cpp:423
 msgid "Disable KActivities integration."
 msgstr "Slå av KActivities-integrasjon."
 
-#: main_wayland.cpp:586
+#: main_wayland.cpp:598
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr "Program som skal startast når Wayland og XWayland-tenar vert starta"
 
@@ -1412,13 +1412,13 @@ msgstr "Virtuelt tastatur"
 
 #: virtualkeyboard.cpp:208
 msgid "Virtual Keyboard is enabled."
-msgstr ""
+msgstr "Virtuelt tastatur er tilgjengeleg."
 
 #: virtualkeyboard.cpp:211
 msgid "Virtual Keyboard is disabled."
-msgstr ""
+msgstr "Virtuelt tastatur er ikkje lenger tilgjengeleg."
 
-#: workspace.cpp:1306
+#: workspace.cpp:1320
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"

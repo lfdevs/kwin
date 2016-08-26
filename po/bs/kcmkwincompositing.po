@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-02-16 09:05+0000\n"
+"POT-Creation-Date: 2016-07-21 11:58+0000\n"
 "PO-Revision-Date: 2015-02-04 15:48+0000\n"
 "Last-Translator: Samir Ribić <Unknown>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -53,131 +53,8 @@ msgctxt "OpenGL Platform Interface"
 msgid "GLX"
 msgstr "GLX"
 
-#. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
-#: compositing.ui:20
-msgid "Enable compositor on startup"
-msgstr "Omogući kompozitora pri pokretanju"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: compositing.ui:27
-msgid "Animation speed:"
-msgstr "Brzina animacije:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: compositing.ui:54
-msgid "Instant"
-msgstr "Trenutno"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: compositing.ui:74
-msgid "Very slow"
-msgstr "Veoma sporo"
-
-#. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
-#. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
-#: compositing.ui:85 compositing.ui:111
-msgid "Scale method:"
-msgstr "Način skaliranja:"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:93 compositing.ui:119
-msgid "Crisp"
-msgstr "Diskretno"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:98
-msgid "Smooth"
-msgstr "Glatko"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:103
-msgid "Accurate"
-msgstr "Precizno"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:124
-msgid "Smooth (slower)"
-msgstr "Glatko (sporije)"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: compositing.ui:139
-msgid "Rendering backend:"
-msgstr "Pozadinski softver za obradu:"
-
-#. i18n: ectx: property (text), widget (QLabel, openGLPlatformInterfaceLabel)
-#: compositing.ui:149
-msgid "OpenGL interface:"
-msgstr "OpenGL sučelje:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: compositing.ui:159
-msgid "Tearing prevention (\"vsync\"):"
-msgstr "Prevencija cijepanja (\"vsync\"):"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:167 compositing.ui:203
-msgid "Never"
-msgstr "Nikada"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:172
-msgid "Automatic"
-msgstr "Automatski"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:177
-msgid "Only when cheap"
-msgstr "Samo kada je jeftino"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:182
-msgid "Full screen repaints"
-msgstr "Prefarbavanje cijelog ekrana"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:187
-msgid "Re-use screen content"
-msgstr "Ponovo koristi sadržaj ekrana"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: compositing.ui:195
-msgid "Keep window thumbnails:"
-msgstr "Drži sličice prozora:"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:208
-msgid "Only for Shown Windows"
-msgstr "Samo za prikazane prozore"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:213
-msgid "Always"
-msgstr "Uvijek"
-
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: compositing.ui:221
-msgid "Expert:"
-msgstr "Ekspert:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
-#: compositing.ui:228
-msgid "Suspend compositor for full screen windows"
-msgstr "Obustavi kompozitora za prozore preko cijelog ekrana"
-
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:235
-msgid "Experimental:"
-msgstr "Eksperimentalno:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:242
-msgid "Enable color correction"
-msgstr "Omogući korekciju boje"
-
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
-#: compositing.ui:262
+#: compositing.ui:29
 msgid ""
 "OpenGL compositing (the default) has crashed KWin in the past.\n"
 "This was most likely due to a driver bug.\n"
@@ -193,17 +70,8 @@ msgstr ""
 "krahiranjem!\n"
 "Alternativno, možeš koristiti  XRender pozadinski kraj."
 
-#. i18n: ectx: property (text), widget (KMessageWidget, interfaceWarning)
-#: compositing.ui:278
-msgid ""
-"EGL is not supported by all OpenGL drivers. If not supported the Compositor "
-"will be disabled."
-msgstr ""
-"EGL nije podržan od strane svih OpenGL drajvera.Ako nije podržano Kompozitor "
-"će biti onemogućen."
-
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
-#: compositing.ui:294
+#: compositing.ui:45
 msgid ""
 "Scale method \"Accurate\" is not supported by all hardware and can cause "
 "performance regressions and rendering artifacts."
@@ -212,7 +80,7 @@ msgstr ""
 "uzrokvati regresiju perfomransi i prevođenje artefakata."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
-#: compositing.ui:323
+#: compositing.ui:74
 msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
 "windows. This can result in windows not suspending their work when minimized."
@@ -221,7 +89,7 @@ msgstr ""
 "Ovo može rezultovati da prozor ne obustavlja posao dok je minimiziran."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, unredirectInformation)
-#: compositing.ui:339
+#: compositing.ui:90
 msgid ""
 "Having full screen windows bypass the compositor is not supported on every "
 "hardware."
@@ -229,11 +97,129 @@ msgstr ""
 "Posjedovanje zaobilska cijelog zaslona ekrana kompozitora nije uvijek "
 "podržan na svakom hardveru."
 
+#. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
+#: compositing.ui:105
+msgid "Enable compositor on startup"
+msgstr "Omogući kompozitora pri pokretanju"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: compositing.ui:112
+msgid "Animation speed:"
+msgstr "Brzina animacije:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: compositing.ui:139
+msgid "Instant"
+msgstr "Trenutno"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: compositing.ui:159
+msgid "Very slow"
+msgstr "Veoma sporo"
+
+#. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
+#. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
+#: compositing.ui:170 compositing.ui:196
+msgid "Scale method:"
+msgstr "Način skaliranja:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
+#: compositing.ui:178 compositing.ui:204
+msgid "Crisp"
+msgstr "Diskretno"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#: compositing.ui:183
+msgid "Smooth"
+msgstr "Glatko"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
+#: compositing.ui:188
+msgid "Accurate"
+msgstr "Precizno"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
+#: compositing.ui:209
+msgid "Smooth (slower)"
+msgstr "Glatko (sporije)"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: compositing.ui:224
+msgid "Rendering backend:"
+msgstr "Pozadinski softver za obradu:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: compositing.ui:241
+msgid "Tearing prevention (\"vsync\"):"
+msgstr "Prevencija cijepanja (\"vsync\"):"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:249 compositing.ui:285
+msgid "Never"
+msgstr "Nikada"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:254
+msgid "Automatic"
+msgstr "Automatski"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:259
+msgid "Only when cheap"
+msgstr "Samo kada je jeftino"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:264
+msgid "Full screen repaints"
+msgstr "Prefarbavanje cijelog ekrana"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
+#: compositing.ui:269
+msgid "Re-use screen content"
+msgstr "Ponovo koristi sadržaj ekrana"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: compositing.ui:277
+msgid "Keep window thumbnails:"
+msgstr "Drži sličice prozora:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:290
+msgid "Only for Shown Windows"
+msgstr "Samo za prikazane prozore"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
+#: compositing.ui:295
+msgid "Always"
+msgstr "Uvijek"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: compositing.ui:303
+msgid "Expert:"
+msgstr "Ekspert:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
+#: compositing.ui:310
+msgid "Suspend compositor for full screen windows"
+msgstr "Obustavi kompozitora za prozore preko cijelog ekrana"
+
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#: compositing.ui:317
+msgid "Experimental:"
+msgstr "Eksperimentalno:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
+#: compositing.ui:324
+msgid "Enable color correction"
+msgstr "Omogući korekciju boje"
+
 #: main.cpp:82
 msgid "Re-enable OpenGL detection"
 msgstr "Ponovo omogući detekciju OpenGL"
 
-#: main.cpp:139
+#: main.cpp:138
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
 "video."
@@ -241,12 +227,12 @@ msgstr ""
 "\"Samo kada je jeftino\" samo sprječava cijepanje za promjene cijelog "
 "zaslona, kao što je video."
 
-#: main.cpp:143
+#: main.cpp:142
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr ""
 "\"Prefarbavanje cijelog zaslona\" može uzrokovati probleme u performansama."
 
-#: main.cpp:147
+#: main.cpp:146
 #, fuzzy
 #| msgid ""
 #| "\"Re-use screen content\" causes performance severe problems on MESA "

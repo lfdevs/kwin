@@ -2,7 +2,7 @@
 # Bulgarian translation of KDE.
 # This file is licensed under the GPL.
 #
-# $Id: kcmkwindecoration.po 1462113 2016-06-16 19:23:52Z ltoscano $
+# $Id: kcmkwindecoration.po 1469943 2016-09-15 23:00:38Z ltoscano $
 #
 # Zlatko Popov <zlatkopopov@fsa-bg.org>, 2006, 2007, 2008.
 # Yasen Pramatarov <yasen@lindeas.com>, 2009, 2010.

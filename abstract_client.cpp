@@ -681,6 +681,8 @@ void AbstractClient::setupWindowManagementInterface()
     w->setResizable(isResizable());
     w->setMovable(isMovable());
     w->setVirtualDesktopChangeable(true); // FIXME Matches Client::actionSupported(), but both should be implemented.
+    w->setParentWindow(transientFor() ? transientFor()->windowManagementInterface() : nullptr);
+    w->setGeometry(geom);
     connect(this, &AbstractClient::skipTaskbarChanged, w,
         [w, this] {
             w->setSkipTaskbar(skipTaskbar());
@@ -721,6 +723,16 @@ void AbstractClient::setupWindowManagementInterface()
         }
     );
     connect(this, &AbstractClient::shadeChanged, w, [w, this] { w->setShaded(isShade()); });
+    connect(this, &AbstractClient::transientChanged, w,
+        [w, this] {
+            w->setParentWindow(transientFor() ? transientFor()->windowManagementInterface() : nullptr);
+        }
+    );
+    connect(this, &AbstractClient::geometryChanged, w,
+        [w, this] {
+            w->setGeometry(geom);
+        }
+    );
     connect(w, &PlasmaWindowInterface::closeRequested, this, [this] { closeWindow(); });
     connect(w, &PlasmaWindowInterface::moveRequested, this,
         [this] {
@@ -1456,7 +1468,7 @@ bool AbstractClient::processDecorationButtonPress(QMouseEvent *event, bool ignor
     // check whether it is a double click
     if (event->button() == Qt::LeftButton && titlebarPositionUnderMouse()) {
         if (m_decoration.doubleClickTimer.isValid()) {
-            const quint64 interval = m_decoration.doubleClickTimer.elapsed();
+            const qint64 interval = m_decoration.doubleClickTimer.elapsed();
             m_decoration.doubleClickTimer.invalidate();
             if (interval > QGuiApplication::styleHints()->mouseDoubleClickInterval()) {
                 m_decoration.doubleClickTimer.invalidate(); // expired -> new first click and pot. init
@@ -1584,6 +1596,35 @@ void AbstractClient::leaveEvent()
     // TODO: shade hover
     // TODO: send hover leave to deco
     // TODO: handle Options::FocusStrictlyUnderMouse
+}
+
+QRect AbstractClient::iconGeometry() const
+{
+    if (!windowManagementInterface() || !waylandServer()) {
+        // window management interface is only available if the surface is mapped
+        return QRect();
+    }
+
+    int minDistance = INT_MAX;
+    AbstractClient *candidatePanel = nullptr;
+    QRect candidateGeom;
+
+    for (auto i = windowManagementInterface()->minimizedGeometries().constBegin(), end = windowManagementInterface()->minimizedGeometries().constEnd(); i != end; ++i) {
+        AbstractClient *client = waylandServer()->findAbstractClient(i.key());
+        if (!client) {
+            continue;
+        }
+        const int distance = QPoint(client->pos() - pos()).manhattanLength();
+        if (distance < minDistance) {
+            minDistance = distance;
+            candidatePanel = client;
+            candidateGeom = i.value();
+        }
+    }
+    if (!candidatePanel) {
+        return QRect();
+    }
+    return candidateGeom.translated(candidatePanel->pos());
 }
 
 }

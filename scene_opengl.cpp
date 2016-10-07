@@ -956,6 +956,11 @@ Decoration::Renderer *SceneOpenGL::createDecorationRenderer(Decoration::Decorate
     return new SceneOpenGLDecorationRenderer(impl);
 }
 
+bool SceneOpenGL::animationsSupported() const
+{
+    return !GLPlatform::instance()->isSoftwareEmulation();
+}
+
 //****************************************
 // SceneOpenGL2
 //****************************************
@@ -1733,6 +1738,14 @@ bool OpenGLWindowPixmap::bind()
 WindowPixmap *OpenGLWindowPixmap::createChild(const QPointer<KWayland::Server::SubSurfaceInterface> &subSurface)
 {
     return new OpenGLWindowPixmap(subSurface, this, m_scene);
+}
+
+bool OpenGLWindowPixmap::isValid() const
+{
+    if (!m_texture->isNull()) {
+        return true;
+    }
+    return WindowPixmap::isValid();
 }
 
 //****************************************

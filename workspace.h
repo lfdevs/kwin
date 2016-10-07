@@ -128,6 +128,11 @@ public:
     void forEachUnmanaged(std::function<void (Unmanaged*)> func);
     Toplevel *findToplevel(std::function<bool (const Toplevel*)> func) const;
     /**
+     * Finds the Toplevel for the KWin internal window @p w.
+     * On Wayland this is normally a ShellClient. For X11 an Unmanaged.
+     **/
+    Toplevel *findToplevel(QWindow *w) const;
+    /**
      * @brief Finds a Toplevel for the internal window @p w.
      *
      * Internal window means a window created by KWin itself. On X11 this is an Unmanaged
@@ -512,6 +517,7 @@ private:
 
     /// This is the right way to create a new client
     Client* createClient(xcb_window_t w, bool is_mapped);
+    void setupClientConnections(AbstractClient *client);
     void addClient(Client* c);
     Unmanaged* createUnmanaged(xcb_window_t w);
     void addUnmanaged(Unmanaged* c);

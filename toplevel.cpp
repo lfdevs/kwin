@@ -50,8 +50,6 @@ Toplevel::Toplevel()
     , effect_window(NULL)
     , m_clientMachine(new ClientMachine(this))
     , wmClientLeaderWin(0)
-    , unredirect(false)
-    , unredirectSuspend(false)
     , m_damageReplyPending(false)
     , m_screen(0)
     , m_skipCloseAnimation(false)
@@ -461,9 +459,11 @@ void Toplevel::setSurface(KWayland::Server::SurfaceInterface *surface)
     using namespace KWayland::Server;
     if (m_surface) {
         disconnect(m_surface, &SurfaceInterface::damaged, this, &Toplevel::addDamage);
+        disconnect(m_surface, &SurfaceInterface::sizeChanged, this, &Toplevel::discardWindowPixmap);
     }
     m_surface = surface;
     connect(m_surface, &SurfaceInterface::damaged, this, &Toplevel::addDamage);
+    connect(m_surface, &SurfaceInterface::sizeChanged, this, &Toplevel::discardWindowPixmap);
     connect(m_surface, &SurfaceInterface::subSurfaceTreeChanged, this,
         [this] {
             // TODO improve to only update actual visual area

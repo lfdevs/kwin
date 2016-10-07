@@ -371,5 +371,6 @@ void TestXcbSizeHints::geometryHintsBeforeRead()
     QCOMPARE(hints.windowGravity(), XCB_GRAVITY_NORTH_WEST);
 }
 
-KWIN_TEST_MAIN(TestXcbSizeHints)
+Q_CONSTRUCTOR_FUNCTION(forceXcb)
+QTEST_MAIN(TestXcbSizeHints)
 #include "test_xcb_size_hints.moc"

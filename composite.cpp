@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "composite.h"
 
+#include "abstract_egl_backend.h"
 #include "dbusinterface.h"
 #include "utils.h"
 #include <QTextStream>
@@ -88,7 +89,6 @@ Compositor::Compositor(QObject* workspace)
     , vBlankInterval(0)
     , fpsInterval(0)
     , m_xrrRefreshRate(0)
-    , forceUnredirectCheck(false)
     , m_finishing(false)
     , m_timeSinceLastVBlank(0)
     , m_scene(NULL)
@@ -96,11 +96,8 @@ Compositor::Compositor(QObject* workspace)
     , m_composeAtSwapCompletion(false)
 {
     qRegisterMetaType<Compositor::SuspendReason>("Compositor::SuspendReason");
-    connect(&unredirectTimer, SIGNAL(timeout()), SLOT(delayedCheckUnredirect()));
     connect(&compositeResetTimer, SIGNAL(timeout()), SLOT(restart()));
     connect(options, &Options::configChanged, this, &Compositor::slotConfigChanged);
-    connect(options, SIGNAL(unredirectFullscreenChanged()), SLOT(delayedCheckUnredirect()));
-    unredirectTimer.setSingleShot(true);
     compositeResetTimer.setSingleShot(true);
     nextPaintReference.invalidate(); // Initialize the timer
 
@@ -145,6 +142,7 @@ Compositor::Compositor(QObject* workspace)
 Compositor::~Compositor()
 {
     emit aboutToDestroy();
+    AbstractEglBackend::unbindWaylandDisplay();
     finish();
     deleteUnusedSupportProperties();
     delete cm_selection;
@@ -328,6 +326,11 @@ void Compositor::startupWithWorkspace()
             c->setupCompositing();
             c->getShadow();
         }
+        const auto internalClients = w->internalClients();
+        for (auto c : internalClients) {
+            c->setupCompositing();
+            c->getShadow();
+        }
     }
 
     emit compositingToggled(true);
@@ -371,6 +374,20 @@ void Compositor::finish()
         foreach (Deleted * c, Workspace::self()->deletedList())
         c->finishCompositing();
         xcb_composite_unredirect_subwindows(connection(), rootWindow(), XCB_COMPOSITE_REDIRECT_MANUAL);
+    }
+    if (waylandServer()) {
+        foreach (ShellClient *c, waylandServer()->clients()) {
+            m_scene->windowClosed(c, nullptr);
+        }
+        foreach (ShellClient *c, waylandServer()->internalClients()) {
+            m_scene->windowClosed(c, nullptr);
+        }
+        foreach (ShellClient *c, waylandServer()->clients()) {
+            c->finishCompositing();
+        }
+        foreach (ShellClient *c, waylandServer()->internalClients()) {
+            c->finishCompositing();
+        }
     }
     delete effects;
     effects = NULL;
@@ -758,7 +775,7 @@ bool Compositor::windowRepaintsPending() const
     if (auto w = waylandServer()) {
         const auto &clients = w->clients();
         for (auto c : clients) {
-            if (c->isShown(true) && !c->repaints().isEmpty()) {
+            if (c->readyForPainting() && !c->repaints().isEmpty()) {
                 return true;
             }
         }
@@ -850,54 +867,6 @@ bool Compositor::isActive()
     return !m_finishing && hasScene();
 }
 
-void Compositor::checkUnredirect()
-{
-    checkUnredirect(false);
-}
-
-// force is needed when the list of windows changes (e.g. a window goes away)
-void Compositor::checkUnredirect(bool force)
-{
-    if (!hasScene() || !m_scene->overlayWindow() || m_scene->overlayWindow()->window() == None || !options->isUnredirectFullscreen())
-        return;
-    if (force)
-        forceUnredirectCheck = true;
-    if (!unredirectTimer.isActive())
-        unredirectTimer.start(0);
-}
-
-void Compositor::delayedCheckUnredirect()
-{
-    if (!hasScene() || !m_scene->overlayWindow() || m_scene->overlayWindow()->window() == None || !(options->isUnredirectFullscreen() || sender() == options))
-        return;
-    ToplevelList list;
-    bool changed = forceUnredirectCheck;
-    foreach (Client * c, Workspace::self()->clientList())
-        list.append(c);
-    foreach (Unmanaged * c, Workspace::self()->unmanagedList())
-        list.append(c);
-    foreach (Toplevel * c, list) {
-        if (c->updateUnredirectedState()) {
-            changed = true;
-            break;
-        }
-    }
-    // no desktops, no Deleted ones
-    if (!changed)
-        return;
-    forceUnredirectCheck = false;
-    // Cut out parts from the overlay window where unredirected windows are,
-    // so that they are actually visible.
-    const QSize &s = screens()->size();
-    QRegion reg(0, 0, s.width(), s.height());
-    foreach (Toplevel * c, list) {
-        if (c->unredirected())
-            reg -= c->geometry();
-    }
-    m_scene->overlayWindow()->setShape(reg);
-    addRepaint(reg);
-}
-
 bool Compositor::checkForOverlayWindow(WId w) const
 {
     if (!hasScene()) {
@@ -969,9 +938,7 @@ bool Toplevel::setupCompositing()
 
     damage_region = QRegion(0, 0, width(), height());
     effect_window = new EffectWindowImpl(this);
-    unredirect = false;
 
-    Compositor::self()->checkUnredirect(true);
     Compositor::self()->scene()->windowAdded(this);
 
     // With unmanaged windows there is a race condition between the client painting the window
@@ -988,7 +955,6 @@ void Toplevel::finishCompositing(ReleaseReason releaseReason)
 {
     if (kwinApp()->operationMode() == Application::OperationModeX11 && damage_handle == XCB_NONE)
         return;
-    Compositor::self()->checkUnredirect(true);
     if (effect_window->window() == this) { // otherwise it's already passed to Deleted, don't free data
         discardWindowPixmap();
         delete effect_window;
@@ -1024,6 +990,9 @@ void Toplevel::damageNotifyEvent()
 
 bool Toplevel::compositing() const
 {
+    if (!Workspace::self()) {
+        return false;
+    }
     return Workspace::self()->compositing();
 }
 
@@ -1198,41 +1167,6 @@ void Toplevel::addWorkspaceRepaint(const QRect& r2)
     Compositor::self()->addRepaint(r2);
 }
 
-bool Toplevel::updateUnredirectedState()
-{
-    assert(compositing());
-    bool should = options->isUnredirectFullscreen() && shouldUnredirect() && !unredirectSuspend &&
-                  !shape() && !hasAlpha() && opacity() == 1.0 &&
-                  !static_cast<EffectsHandlerImpl*>(effects)->activeFullScreenEffect();
-    if (should == unredirect)
-        return false;
-    static QElapsedTimer lastUnredirect;
-    static const qint64 msecRedirectInterval = 100;
-    if (!lastUnredirect.hasExpired(msecRedirectInterval)) {
-        QTimer::singleShot(msecRedirectInterval, Compositor::self(), SLOT(checkUnredirect()));
-        return false;
-    }
-    lastUnredirect.start();
-    unredirect = should;
-    if (unredirect) {
-        qCDebug(KWIN_CORE) << "Unredirecting:" << this;
-        xcb_composite_unredirect_window(connection(), frameId(), XCB_COMPOSITE_REDIRECT_MANUAL);
-    } else {
-        qCDebug(KWIN_CORE) << "Redirecting:" << this;
-        xcb_composite_redirect_window(connection(), frameId(), XCB_COMPOSITE_REDIRECT_MANUAL);
-        discardWindowPixmap();
-    }
-    return true;
-}
-
-void Toplevel::suspendUnredirect(bool suspend)
-{
-    if (unredirectSuspend == suspend)
-        return;
-    unredirectSuspend = suspend;
-    Compositor::self()->checkUnredirect();
-}
-
 //****************************************
 // Client
 //****************************************
@@ -1261,66 +1195,5 @@ void Client::finishCompositing(ReleaseReason releaseReason)
     // for safety in case KWin is just resizing the window
     resetHaveResizeEffect();
 }
-
-bool Client::shouldUnredirect() const
-{
-    if (isActiveFullScreen()) {
-        ToplevelList stacking = workspace()->xStackingOrder();
-        for (int pos = stacking.count() - 1;
-                pos >= 0;
-                --pos) {
-            Toplevel* c = stacking.at(pos);
-            if (c == this)   // is not covered by any other window, ok to unredirect
-                return true;
-            if (c->geometry().intersects(geometry()))
-                return false;
-        }
-        abort();
-    }
-    return false;
-}
-
-
-//****************************************
-// Unmanaged
-//****************************************
-
-bool Unmanaged::shouldUnredirect() const
-{
-    // the pixmap is needed for the login effect, a nicer solution would be the login effect increasing
-    // refcount for the window pixmap (which would prevent unredirect), avoiding this hack
-    if (resourceClass() == "ksplashx"
-            || resourceClass() == "ksplashsimple"
-            || resourceClass() == "ksplashqml"
-            )
-        return false;
-// it must cover whole display or one xinerama screen, and be the topmost there
-    const int desktop = VirtualDesktopManager::self()->current();
-    if (geometry() == workspace()->clientArea(FullArea, geometry().center(), desktop)
-            || geometry() == workspace()->clientArea(ScreenArea, geometry().center(), desktop)) {
-        ToplevelList stacking = workspace()->xStackingOrder();
-        for (int pos = stacking.count() - 1;
-                pos >= 0;
-                --pos) {
-            Toplevel* c = stacking.at(pos);
-            if (c == this)   // is not covered by any other window, ok to unredirect
-                return true;
-            if (c->geometry().intersects(geometry()))
-                return false;
-        }
-        abort();
-    }
-    return false;
-}
-
-//****************************************
-// Deleted
-//****************************************
-
-bool Deleted::shouldUnredirect() const
-{
-    return false;
-}
-
 
 } // namespace

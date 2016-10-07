@@ -41,9 +41,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "slide/slide.h"
 #include "slideback/slideback.h"
 #include "thumbnailaside/thumbnailaside.h"
+#include "touchpoints/touchpoints.h"
 #include "windowgeometry/windowgeometry.h"
 #include "zoom/zoom.h"
-#include "logout/logout.h"
 // OpenGL-specific effects for desktop
 #include "coverswitch/coverswitch.h"
 #include "cube/cube.h"
@@ -302,21 +302,6 @@ EFFECT_FALLBACK
         true,
 #ifdef EFFECT_BUILTINS
         &createHelper<KscreenEffect>,
-        nullptr,
-        nullptr
-#endif
-EFFECT_FALLBACK
-    }, {
-        QStringLiteral("logout"),
-        i18ndc("kwin_effects", "Name of a KWin Effect", "Logout"),
-        i18ndc("kwin_effects", "Comment describing the KWin Effect", "Desaturate the desktop when displaying the logout dialog"),
-        QStringLiteral("Appearance"),
-        QString(),
-        QUrl(),
-        true,
-        false,
-#ifdef EFFECT_BUILTINS
-        &createHelper<LogoutEffect>,
         nullptr,
         nullptr
 #endif
@@ -602,6 +587,21 @@ EFFECT_FALLBACK
         false,
 #ifdef EFFECT_BUILTINS
         &createHelper<ThumbnailAsideEffect>,
+        nullptr,
+        nullptr
+#endif
+EFFECT_FALLBACK
+    }, {
+        QStringLiteral("touchpoints"),
+        i18ndc("kwin_effects", "Name of a KWin Effect", "Touch Points"),
+        i18ndc("kwin_effects", "Comment describing the KWin Effect", "Visualize touch points"),
+        QStringLiteral("Appearance"),
+        QString(),
+        QUrl(),
+        false,
+        false,
+#ifdef EFFECT_BUILTINS
+        &createHelper<TouchPointsEffect>,
         nullptr,
         nullptr
 #endif

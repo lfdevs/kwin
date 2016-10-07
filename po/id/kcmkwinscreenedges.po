@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-05-09 08:35+0000\n"
+"POT-Creation-Date: 2016-08-11 07:46+0000\n"
 "PO-Revision-Date: 2014-06-13 21:48+0700\n"
 "Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
@@ -46,41 +46,45 @@ msgstr ""
 msgid "Activity Manager"
 msgstr ""
 
-#: main.cpp:195
+#: main.cpp:192
+msgid "Application Launcher"
+msgstr ""
+
+#: main.cpp:196
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - Semua Desktop"
 
-#: main.cpp:196
+#: main.cpp:197
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - Desktop Saat Ini"
 
-#: main.cpp:197
+#: main.cpp:198
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - Aplikasi Saat Ini"
 
-#: main.cpp:200
+#: main.cpp:201
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 - Kubus"
 
-#: main.cpp:201
+#: main.cpp:202
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 - Silinder"
 
-#: main.cpp:202
+#: main.cpp:203
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 - Lingkaran"
 
-#: main.cpp:204
+#: main.cpp:205
 msgid "Toggle window switching"
 msgstr "Ubah penggantian jendela"
 
-#: main.cpp:205
+#: main.cpp:206
 msgid "Toggle alternative window switching"
 msgstr "Ubah penggantian jendela alternatif"
 

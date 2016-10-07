@@ -25,6 +25,8 @@
 #include <QAbstractItemModel>
 #include <QObject>
 
+class OrgKdeKwinCompositingInterface;
+
 namespace KWin {
 namespace Compositing {
 
@@ -38,13 +40,14 @@ class Compositing : public QObject
     Q_PROPERTY(int windowThumbnail READ windowThumbnail WRITE setWindowThumbnail NOTIFY windowThumbnailChanged)
     Q_PROPERTY(int glScaleFilter READ glScaleFilter WRITE setGlScaleFilter NOTIFY glScaleFilterChanged)
     Q_PROPERTY(bool xrScaleFilter READ xrScaleFilter WRITE setXrScaleFilter NOTIFY xrScaleFilterChanged)
-    Q_PROPERTY(bool unredirectFullscreen READ unredirectFullscreen WRITE setUnredirectFullscreen NOTIFY unredirectFullscreenChanged)
     Q_PROPERTY(int glSwapStrategy READ glSwapStrategy WRITE setGlSwapStrategy NOTIFY glSwapStrategyChanged)
     Q_PROPERTY(bool glColorCorrection READ glColorCorrection WRITE setGlColorCorrection NOTIFY glColorCorrectionChanged)
     Q_PROPERTY(int compositingType READ compositingType WRITE setCompositingType NOTIFY compositingTypeChanged)
-    Q_PROPERTY(bool compositingEnabled READ compositingEnabled WRITE setCompositingEnabled NOTIFY compositingEnabledChanged);
+    Q_PROPERTY(bool compositingEnabled READ compositingEnabled WRITE setCompositingEnabled NOTIFY compositingEnabledChanged)
     Q_PROPERTY(KWin::Compositing::OpenGLPlatformInterfaceModel *openGLPlatformInterfaceModel READ openGLPlatformInterfaceModel CONSTANT)
     Q_PROPERTY(int openGLPlatformInterface READ openGLPlatformInterface WRITE setOpenGLPlatformInterface NOTIFY openGLPlatformInterfaceChanged)
+    Q_PROPERTY(bool windowsBlockCompositing READ windowsBlockCompositing WRITE setWindowsBlockCompositing NOTIFY windowsBlockCompositingChanged)
+    Q_PROPERTY(bool compositingRequired READ compositingRequired CONSTANT)
 public:
     explicit Compositing(QObject *parent = 0);
 
@@ -55,12 +58,13 @@ public:
     int windowThumbnail() const;
     int glScaleFilter() const;
     bool xrScaleFilter() const;
-    bool unredirectFullscreen() const;
     int glSwapStrategy() const;
     bool glColorCorrection() const;
     int compositingType() const;
     bool compositingEnabled() const;
     int openGLPlatformInterface() const;
+    bool windowsBlockCompositing() const;
+    bool compositingRequired() const;
 
     OpenGLPlatformInterfaceModel *openGLPlatformInterfaceModel() const;
 
@@ -68,12 +72,12 @@ public:
     void setWindowThumbnail(int index);
     void setGlScaleFilter(int index);
     void setXrScaleFilter(bool filter);
-    void setUnredirectFullscreen(bool unredirect);
     void setGlSwapStrategy(int strategy);
     void setGlColorCorrection(bool correction);
     void setCompositingType(int index);
     void setCompositingEnabled(bool enalbed);
     void setOpenGLPlatformInterface(int interface);
+    void setWindowsBlockCompositing(bool set);
 
     void save();
 
@@ -87,19 +91,18 @@ Q_SIGNALS:
     void windowThumbnailChanged(int);
     void glScaleFilterChanged(int);
     void xrScaleFilterChanged(int);
-    void unredirectFullscreenChanged(bool);
     void glSwapStrategyChanged(int);
     void glColorCorrectionChanged(bool);
     void compositingTypeChanged(int);
     void compositingEnabledChanged(bool);
     void openGLPlatformInterfaceChanged(int);
+    void windowsBlockCompositingChanged(bool);
 
 private:
     int m_animationSpeed;
     int m_windowThumbnail;
     int m_glScaleFilter;
     bool m_xrScaleFilter;
-    bool m_unredirectFullscreen;
     int m_glSwapStrategy;
     bool m_glColorCorrection;
     int m_compositingType;
@@ -107,6 +110,9 @@ private:
     bool m_changed;
     OpenGLPlatformInterfaceModel *m_openGLPlatformInterfaceModel;
     int m_openGLPlatformInterface;
+    bool m_windowsBlockCompositing;
+    bool m_windowsBlockingCompositing;
+    OrgKdeKwinCompositingInterface *m_compositingInterface;
 };
 
 

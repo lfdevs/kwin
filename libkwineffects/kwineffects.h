@@ -58,7 +58,7 @@ class QMatrix4x4;
  * Logging category to be used inside the KWin effects.
  * Do not use in this library.
  **/
-Q_DECLARE_LOGGING_CATEGORY(KWINEFFECTS);
+Q_DECLARE_LOGGING_CATEGORY(KWINEFFECTS)
 
 namespace KWayland {
     namespace Server {
@@ -353,7 +353,7 @@ public:
     };
 
     enum Feature {
-        Nothing = 0, Resize, GeometryTip, Outline, ScreenInversion, Blur, Contrast
+        Nothing = 0, Resize, GeometryTip, Outline, ScreenInversion, Blur, Contrast, HighlightWindows
     };
 
     /**
@@ -483,6 +483,19 @@ public:
     virtual bool provides(Feature);
 
     /**
+     * Performs the @p feature with the @p arguments.
+     *
+     * This allows to have specific protocols between KWin core and an Effect.
+     *
+     * The method is supposed to return @c true if it performed the features,
+     * @c false otherwise.
+     *
+     * The default implementation returns @c false.
+     * @since 5.8
+     **/
+    virtual bool perform(Feature feature, const QVariantList &arguments);
+
+    /**
      * Can be called to draw multiple copies (e.g. thumbnails) of a window.
      * You can change window's opacity/brightness/etc here, but you can't
      *  do any transformations.
@@ -544,6 +557,67 @@ public:
      * @since 5.0
      **/
     virtual int requestedEffectChainPosition() const;
+
+
+    /**
+     * A touch point was pressed.
+     *
+     * If the effect wants to exclusively use the touch event it should return @c true.
+     * If @c false is returned the touch event is passed to further effects.
+     *
+     * In general an Effect should only return @c true if it is the exclusive effect getting
+     * input events. E.g. has grabbed mouse events.
+     *
+     * Default implementation returns @c false.
+     *
+     * @param id The unique id of the touch point
+     * @param pos The position of the touch point in global coordinates
+     * @param time Timestamp
+     *
+     * @see touchMotion
+     * @see touchUp
+     * @since 5.8
+     **/
+    virtual bool touchDown(quint32 id, const QPointF &pos, quint32 time);
+    /**
+     * A touch point moved.
+     *
+     * If the effect wants to exclusively use the touch event it should return @c true.
+     * If @c false is returned the touch event is passed to further effects.
+     *
+     * In general an Effect should only return @c true if it is the exclusive effect getting
+     * input events. E.g. has grabbed mouse events.
+     *
+     * Default implementation returns @c false.
+     *
+     * @param id The unique id of the touch point
+     * @param pos The position of the touch point in global coordinates
+     * @param time Timestamp
+     *
+     * @see touchDown
+     * @see touchUp
+     * @since 5.8
+     **/
+    virtual bool touchMotion(quint32 id, const QPointF &pos, quint32 time);
+    /**
+     * A touch point was released.
+     *
+     * If the effect wants to exclusively use the touch event it should return @c true.
+     * If @c false is returned the touch event is passed to further effects.
+     *
+     * In general an Effect should only return @c true if it is the exclusive effect getting
+     * input events. E.g. has grabbed mouse events.
+     *
+     * Default implementation returns @c false.
+     *
+     * @param id The unique id of the touch point
+     * @param time Timestamp
+     *
+     * @see touchDown
+     * @see touchMotion
+     * @since 5.8
+     **/
+    virtual bool touchUp(quint32 id, quint32 time);
 
     static QPoint cursorPos();
 
@@ -1102,6 +1176,16 @@ public:
     virtual KWayland::Server::Display *waylandDisplay() const = 0;
 
     /**
+     * Whether animations are supported by the Scene.
+     * If this method returns @c false Effects are supposed to not
+     * animate transitions.
+     *
+     * @returns Whether the Scene can drive animations
+     * @since 5.8
+     **/
+    virtual bool animationsSupported() const = 0;
+
+    /**
      * @return @ref KConfigGroup which holds given effect's config options
      **/
     static KConfigGroup effectConfig(const QString& effectname);
@@ -1429,6 +1513,29 @@ Q_SIGNALS:
      * @since 5.0
      **/
     void virtualScreenGeometryChanged();
+
+    /**
+     * The window @p w gets shown again. The window was previously
+     * initially shown with @link{windowAdded} and hidden with @link{windowHidden}.
+     *
+     * @see windowHidden
+     * @see windowAdded
+     * @since 5.8
+     **/
+    void windowShown(KWin::EffectWindow *w);
+
+    /**
+     * The window @p w got hidden but not yet closed.
+     * This can happen when a window is still being used and is supposed to be shown again
+     * with @link{windowShown}. On X11 an example is autohiding panels. On Wayland every
+     * window first goes through the window hidden state and might get shown again, or might
+     * get closed the normal way.
+     *
+     * @see windowShown
+     * @see windowClosed
+     * @since 5.8
+     **/
+    void windowHidden(KWin::EffectWindow *w);
 
 protected:
     QVector< EffectPair > loaded_effects;

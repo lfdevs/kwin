@@ -5,7 +5,7 @@ ecm_setup_version(${PROJECT_VERSION}
                   VARIABLE_PREFIX KWINEFFECTS
                   VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kwineffects_version.h"
                   PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KWinEffectsConfigVersion.cmake"
-                  SOVERSION 8
+                  SOVERSION 9
 )
 
 ### xrenderutils lib ###
@@ -125,5 +125,3 @@ install( FILES
     ${CMAKE_CURRENT_BINARY_DIR}/kwinglutils_export.h
     ${CMAKE_CURRENT_BINARY_DIR}/kwinxrenderutils_export.h
     DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel)
-
-add_subdirectory(autotests)

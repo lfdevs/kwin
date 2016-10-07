@@ -43,9 +43,11 @@ bool EglHwcomposerBackend::initializeEgl()
 {
     // cannot use initClientExtensions as that crashes in libhybris
     qputenv("EGL_PLATFORM", QByteArrayLiteral("hwcomposer"));
-    EGLDisplay display = EGL_NO_DISPLAY;
+    EGLDisplay display = m_backend->sceneEglDisplay();
 
-    display = eglGetDisplay(nullptr);
+    if (display == EGL_NO_DISPLAY) {
+        display = eglGetDisplay(nullptr);
+    }
     if (display == EGL_NO_DISPLAY) {
         return false;
     }
@@ -75,7 +77,7 @@ bool EglHwcomposerBackend::initBufferConfigs()
         EGL_RED_SIZE,             8,
         EGL_GREEN_SIZE,           8,
         EGL_BLUE_SIZE,            8,
-        EGL_ALPHA_SIZE,           0,
+        EGL_ALPHA_SIZE,           8,
         EGL_RENDERABLE_TYPE,      EGL_OPENGL_ES2_BIT,
         EGL_NONE,
     };

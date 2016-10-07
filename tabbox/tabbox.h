@@ -74,6 +74,7 @@ public:
     virtual QWeakPointer< TabBoxClient > clientToAddToList(KWin::TabBox::TabBoxClient* client, int desktop) const;
     virtual QWeakPointer< TabBoxClient > desktopClient() const;
     virtual void activateAndClose();
+    void highlightWindows(TabBoxClient *window = nullptr, QWindow *controller = nullptr) override;
 
 private:
     bool checkDesktop(TabBoxClient* client, int desktop) const;
@@ -112,7 +113,7 @@ private:
     AbstractClient* m_client;
 };
 
-class TabBox : public QObject
+class KWIN_EXPORT TabBox : public QObject
 {
     Q_OBJECT
 public:
@@ -180,6 +181,7 @@ public:
     int previousDesktopStatic(int iDesktop) const;
     void keyPress(int key);
     void keyRelease(const xcb_key_release_event_t *ev);
+    void modifiersReleased();
 
     bool forcedGlobalMouseGrab() const {
         return m_forcedGlobalMouseGrab;
@@ -242,7 +244,6 @@ private:
 private Q_SLOTS:
     void reconfigure();
     void globalShortcutChanged(QAction *action, const QKeySequence &seq);
-    void modifiersChanged(Qt::KeyboardModifiers mods);
 
 private:
     TabBoxMode m_tabBoxMode;

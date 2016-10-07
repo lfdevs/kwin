@@ -88,6 +88,7 @@ Connection *Connection::create(QObject *parent)
 }
 
 static const QString s_touchpadComponent = QStringLiteral("kcm_touchpad");
+static const QString s_serviceName = QStringLiteral("org.kde.KWin.InputDevice");
 
 Connection::Connection(Context *input, QObject *parent)
     : QObject(parent)
@@ -140,10 +141,13 @@ Connection::Connection(Context *input, QObject *parent)
     // need to connect to KGlobalSettings as the mouse KCM does not emit a dedicated signal
     QDBusConnection::sessionBus().connect(QString(), QStringLiteral("/KGlobalSettings"), QStringLiteral("org.kde.KGlobalSettings"),
                                           QStringLiteral("notifyChange"), this, SLOT(slotKGlobalSettingsNotifyChange(int,int)));
+
+    QDBusConnection::sessionBus().registerService(s_serviceName);
 }
 
 Connection::~Connection()
 {
+    QDBusConnection::sessionBus().unregisterService(s_serviceName);
     s_self = nullptr;
     delete s_context;
     s_context = nullptr;
@@ -216,7 +220,6 @@ void Connection::processEvents()
             case LIBINPUT_EVENT_DEVICE_ADDED: {
                 auto device = new Device(event->nativeDevice());
                 device->moveToThread(s_thread);
-                device->setParent(this);
                 m_devices << device;
                 if (device->isKeyboard()) {
                     m_keyboard++;
@@ -367,6 +370,44 @@ void Connection::processEvents()
             }
             case LIBINPUT_EVENT_TOUCH_FRAME: {
                 emit touchFrame(event->device());
+                break;
+            }
+            case LIBINPUT_EVENT_GESTURE_PINCH_BEGIN: {
+                PinchGestureEvent *pe = static_cast<PinchGestureEvent*>(event.data());
+                emit pinchGestureBegin(pe->fingerCount(), pe->time(), pe->device());
+                break;
+            }
+            case LIBINPUT_EVENT_GESTURE_PINCH_UPDATE: {
+                PinchGestureEvent *pe = static_cast<PinchGestureEvent*>(event.data());
+                emit pinchGestureUpdate(pe->scale(), pe->angleDelta(), pe->delta(), pe->time(), pe->device());
+                break;
+            }
+            case LIBINPUT_EVENT_GESTURE_PINCH_END: {
+                PinchGestureEvent *pe = static_cast<PinchGestureEvent*>(event.data());
+                if (pe->isCancelled()) {
+                    emit pinchGestureCancelled(pe->time(), pe->device());
+                } else {
+                    emit pinchGestureEnd(pe->time(), pe->device());
+                }
+                break;
+            }
+            case LIBINPUT_EVENT_GESTURE_SWIPE_BEGIN: {
+                SwipeGestureEvent *se = static_cast<SwipeGestureEvent*>(event.data());
+                emit swipeGestureBegin(se->fingerCount(), se->time(), se->device());
+                break;
+            }
+            case LIBINPUT_EVENT_GESTURE_SWIPE_UPDATE: {
+                SwipeGestureEvent *se = static_cast<SwipeGestureEvent*>(event.data());
+                emit swipeGestureUpdate(se->delta(), se->time(), se->device());
+                break;
+            }
+            case LIBINPUT_EVENT_GESTURE_SWIPE_END: {
+                SwipeGestureEvent *se = static_cast<SwipeGestureEvent*>(event.data());
+                if (se->isCancelled()) {
+                    emit swipeGestureCancelled(se->time(), se->device());
+                } else {
+                    emit swipeGestureEnd(se->time(), se->device());
+                }
                 break;
             }
             default:

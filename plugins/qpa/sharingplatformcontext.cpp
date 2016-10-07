@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../../platform.h"
 #include "../../wayland_server.h"
 #include "../../shell_client.h"
+#include <logging.h>
 
 #include <QOpenGLFramebufferObject>
 
@@ -33,7 +34,13 @@ namespace QPA
 {
 
 SharingPlatformContext::SharingPlatformContext(QOpenGLContext *context, Integration *integration)
-    : AbstractPlatformContext(context, integration, kwinApp()->platform()->sceneEglDisplay())
+    : SharingPlatformContext(context, integration, EGL_NO_SURFACE)
+{
+}
+
+SharingPlatformContext::SharingPlatformContext(QOpenGLContext *context, Integration *integration, const EGLSurface &surface, EGLConfig config)
+    : AbstractPlatformContext(context, integration, kwinApp()->platform()->sceneEglDisplay(), config)
+    , m_surface(surface)
 {
     create();
 }
@@ -41,10 +48,16 @@ SharingPlatformContext::SharingPlatformContext(QOpenGLContext *context, Integrat
 bool SharingPlatformContext::makeCurrent(QPlatformSurface *surface)
 {
     Window *window = static_cast<Window*>(surface);
-    if (eglMakeCurrent(eglDisplay(), EGL_NO_SURFACE, EGL_NO_SURFACE, context())) {
+    if (eglMakeCurrent(eglDisplay(), m_surface, m_surface, eglContext())) {
         window->bindContentFBO();
         return true;
     }
+    qCWarning(KWIN_QPA) << "Failed to make context current";
+    EGLint error = eglGetError();
+    if (error != EGL_SUCCESS) {
+        qCWarning(KWIN_QPA) << "EGL error code: " << error;
+    }
+
     return false;
 }
 
@@ -58,9 +71,10 @@ void SharingPlatformContext::swapBuffers(QPlatformSurface *surface)
     Window *window = static_cast<Window*>(surface);
     auto c = window->shellClient();
     if (!c) {
+        qCDebug(KWIN_QPA) << "SwapBuffers called but there is no ShellClient";
         return;
     }
-    makeCurrent(surface);
+    context()->makeCurrent(surface->surface());
     glFlush();
     c->setInternalFramebufferObject(window->swapFBO());
     window->bindContentFBO();
@@ -74,15 +88,18 @@ GLuint SharingPlatformContext::defaultFramebufferObject(QPlatformSurface *surfac
             return fbo->handle();
         }
     }
+    qCDebug(KWIN_QPA) << "No default framebuffer object for internal window";
     return 0;
 }
 
 void SharingPlatformContext::create()
 {
     if (config() == 0) {
+        qCWarning(KWIN_QPA) << "Did not get an EGL config";
         return;
     }
     if (!bindApi()) {
+        qCWarning(KWIN_QPA) << "Could not bind API.";
         return;
     }
     createContext(kwinApp()->platform()->sceneEglContext());

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-03-25 07:58+0000\n"
+"POT-Creation-Date: 2016-08-25 07:37+0000\n"
 "PO-Revision-Date: 2014-08-29 14:02+0200\n"
 "Last-Translator: Kristóf Kiszel <ulysses@kubuntu.org>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -647,60 +647,50 @@ msgstr "Segédeffektus a KScreenhez"
 
 #: effect_builtins.cpp:311
 msgctxt "Name of a KWin Effect"
-msgid "Logout"
-msgstr "Kijelentkezés"
-
-#: effect_builtins.cpp:312
-msgctxt "Comment describing the KWin Effect"
-msgid "Desaturate the desktop when displaying the logout dialog"
-msgstr "Csökkentett színek az asztalon a kijelentkezési ablak megjelenítésekor"
-
-#: effect_builtins.cpp:326
-msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
 msgstr "Nagyító"
 
-#: effect_builtins.cpp:327
+#: effect_builtins.cpp:312
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
 msgstr "Halszem-optikájú nagyító"
 
-#: effect_builtins.cpp:341
+#: effect_builtins.cpp:326
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
 msgstr "Varázslámpa"
 
-#: effect_builtins.cpp:342
+#: effect_builtins.cpp:327
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
 msgstr "Az ablakok minimalizálása varázslámpás animáció kíséretében történik"
 
-#: effect_builtins.cpp:356
+#: effect_builtins.cpp:341
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Nagyító"
 
-#: effect_builtins.cpp:357
+#: effect_builtins.cpp:342
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
 msgstr "Felnagyítja az egérmutató alatti területet"
 
-#: effect_builtins.cpp:371
+#: effect_builtins.cpp:356
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Animáció minimalizáláskor"
 
-#: effect_builtins.cpp:372
+#: effect_builtins.cpp:357
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "Az ablakok minimalizálása animáció kíséretében történik"
 
-#: effect_builtins.cpp:386
+#: effect_builtins.cpp:371
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Egérkattintás animáció"
 
-#: effect_builtins.cpp:387
+#: effect_builtins.cpp:372
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Creates an animation whenever a mouse button is clicked. This is useful for "
@@ -709,149 +699,161 @@ msgstr ""
 "Animációt hoz létre, amikor az egérgombbal kattintanak. Ez hasznos a "
 "képernyő felvételekor vagy bemutatónál"
 
-#: effect_builtins.cpp:401
+#: effect_builtins.cpp:386
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Egérnyom"
 
-#: effect_builtins.cpp:402
+#: effect_builtins.cpp:387
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
 msgstr "Vonalakat lehet húzni az asztalon"
 
-#: effect_builtins.cpp:416
+#: effect_builtins.cpp:401
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Ablakáttekintő"
 
-#: effect_builtins.cpp:417
+#: effect_builtins.cpp:402
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
 msgstr ""
 "Kinagyítja a nézetet, hogy az összes megnyitott ablak áttekinthető legyen"
 
-#: effect_builtins.cpp:431
+#: effect_builtins.cpp:416
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Ablak átméretezése"
 
-#: effect_builtins.cpp:432
+#: effect_builtins.cpp:417
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
 msgstr ""
 "Gyors textúraskálázással méretezi át az ablakokat a tartalom frissítése "
 "helyett"
 
-#: effect_builtins.cpp:446
+#: effect_builtins.cpp:431
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr "Képernyőszél"
 
-#: effect_builtins.cpp:447
+#: effect_builtins.cpp:432
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
 msgstr "Kiemeli a képernyő szélét megközelítéskor"
 
-#: effect_builtins.cpp:461
+#: effect_builtins.cpp:446
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
 msgstr "Felvétel"
 
-#: effect_builtins.cpp:462
+#: effect_builtins.cpp:447
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for KSnapshot"
 msgstr "Segédeffektus a KScreenhez"
 
-#: effect_builtins.cpp:476
+#: effect_builtins.cpp:461
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
 msgstr "Munkalap"
 
-#: effect_builtins.cpp:477
+#: effect_builtins.cpp:462
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Make modal dialogs smoothly fly in and out when they are shown or hidden"
 msgstr "Az ablakok folyamatosan áttűnő módon lesznek elrejtve és megjelenítve"
 
-#: effect_builtins.cpp:491
+#: effect_builtins.cpp:476
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
 msgstr "Képkockaszámláló"
 
-#: effect_builtins.cpp:492
+#: effect_builtins.cpp:477
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
 msgstr "A KWin teljesítményének kijelzése a képernyő sarkában"
 
-#: effect_builtins.cpp:506
+#: effect_builtins.cpp:491
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Megmutatja a kirajzolt területeket"
 
-#: effect_builtins.cpp:507
+#: effect_builtins.cpp:492
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
 msgstr "Kiemeli az asztalon az éppen felfrissített területet"
 
-#: effect_builtins.cpp:521
+#: effect_builtins.cpp:506
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
 msgstr "Dia"
 
-#: effect_builtins.cpp:522
+#: effect_builtins.cpp:507
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide windows across the screen when switching virtual desktops"
 msgstr "Más virtuális asztalra történő átváltáskor az ablakok \"elcsúsznak\""
 
-#: effect_builtins.cpp:536
+#: effect_builtins.cpp:521
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
 msgstr "Visszacsúszó ablakok"
 
-#: effect_builtins.cpp:537
+#: effect_builtins.cpp:522
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
 msgstr "Ablakok visszacsúsztatása másik ablak előtérbe hozásakor"
 
-#: effect_builtins.cpp:551
+#: effect_builtins.cpp:536
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
 msgstr "Csúszó felugró ablakok"
 
-#: effect_builtins.cpp:552
+#: effect_builtins.cpp:537
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
 msgstr "Csúszó animáció a felugró Plasma ablakokhoz"
 
-#: effect_builtins.cpp:566
+#: effect_builtins.cpp:551
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
 msgstr "Középpontkereső"
 
-#: effect_builtins.cpp:567
+#: effect_builtins.cpp:552
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
 msgstr "Segít megtalálni az asztal közepét ablak áthelyezésekor"
 
-#: effect_builtins.cpp:581
+#: effect_builtins.cpp:566
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
 msgstr "Alkalmazásindítási effektus"
 
-#: effect_builtins.cpp:582
+#: effect_builtins.cpp:567
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
 msgstr "Segédeffektus alkalmazásindításhoz"
 
-#: effect_builtins.cpp:596
+#: effect_builtins.cpp:581
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Ablakbetekintő oldalt"
 
-#: effect_builtins.cpp:597
+#: effect_builtins.cpp:582
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
 msgstr "A képernyő szélénél megjelennek az ablakok kicsinyített képei"
+
+#: effect_builtins.cpp:596
+#, fuzzy
+#| msgid "Mouse Pointer:"
+msgctxt "Name of a KWin Effect"
+msgid "Touch Points"
+msgstr "Egérmutató:"
+
+#: effect_builtins.cpp:597
+msgctxt "Comment describing the KWin Effect"
+msgid "Visualize touch points"
+msgstr ""
 
 #: effect_builtins.cpp:611
 msgctxt "Name of a KWin Effect"
@@ -1143,7 +1145,7 @@ msgstr "A jelenlegi ablakok átváltása (az összes asztalon)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "A jelenlegi ablakok átváltása (ablak osztály)"
 
-#: presentwindows/presentwindows.cpp:1569
+#: presentwindows/presentwindows.cpp:1620
 #, kde-format
 msgid ""
 "Filter:\n"

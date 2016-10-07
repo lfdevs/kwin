@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-03-25 07:58+0000\n"
+"POT-Creation-Date: 2016-08-25 07:37+0000\n"
 "PO-Revision-Date: 2016-03-20 15:25+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -663,61 +663,51 @@ msgstr "Pomoćni efekat za K‑ekran"
 
 #: effect_builtins.cpp:311
 msgctxt "Name of a KWin Effect"
-msgid "Logout"
-msgstr "Odjavljivanje"
-
-#: effect_builtins.cpp:312
-msgctxt "Comment describing the KWin Effect"
-msgid "Desaturate the desktop when displaying the logout dialog"
-msgstr "Posivljuje površ pri pojavi odjavnog dijaloga"
-
-#: effect_builtins.cpp:326
-msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
 msgstr "Lupa"
 
-#: effect_builtins.cpp:327
+#: effect_builtins.cpp:312
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
 msgstr "Uveličavač ekrana nalik ribljem oku"
 
-#: effect_builtins.cpp:341
+#: effect_builtins.cpp:326
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
 msgstr "Magična lampa"
 
-#: effect_builtins.cpp:342
+#: effect_builtins.cpp:327
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
 msgstr "Simulira magičnu lampu pri minimizovanju prozora"
 
-#: effect_builtins.cpp:356
+#: effect_builtins.cpp:341
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Uveličavač"
 
-#: effect_builtins.cpp:357
+#: effect_builtins.cpp:342
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
 msgstr "Uveličajte dio ekrana u blizini pokazivača miša"
 
-#: effect_builtins.cpp:371
+#: effect_builtins.cpp:356
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Animacija minimizovanja"
 
-#: effect_builtins.cpp:372
+#: effect_builtins.cpp:357
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "Animirano minimizovanje prozora"
 
-#: effect_builtins.cpp:386
+#: effect_builtins.cpp:371
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Animacija na klik mišem"
 
 # rewrite-msgid: /clicked/pressed/
-#: effect_builtins.cpp:387
+#: effect_builtins.cpp:372
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Creates an animation whenever a mouse button is clicked. This is useful for "
@@ -726,150 +716,162 @@ msgstr ""
 "Animacija svaki put kada se pritisne dugme miša. Korisno pri snimanjima "
 "ekrana i izlaganjima"
 
-#: effect_builtins.cpp:401
+#: effect_builtins.cpp:386
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Trag miša"
 
 # skip-rule: t-line
-#: effect_builtins.cpp:402
+#: effect_builtins.cpp:387
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
 msgstr "Omogućava vam crtanje linija na površi"
 
-#: effect_builtins.cpp:416
+#: effect_builtins.cpp:401
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Prisutni prozori"
 
-#: effect_builtins.cpp:417
+#: effect_builtins.cpp:402
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
 msgstr "Umanjite tako da se mogu prikazati svi prozori jedan do drugog"
 
-#: effect_builtins.cpp:431
+#: effect_builtins.cpp:416
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Promena veličine prozora"
 
-#: effect_builtins.cpp:432
+#: effect_builtins.cpp:417
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
 msgstr ""
 "Promena veličine prozora brzim teksturnim skaliranjem umesto ažuriranjem "
 "sadržaja"
 
-#: effect_builtins.cpp:446
+#: effect_builtins.cpp:431
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr "Ivica ekrana"
 
-#: effect_builtins.cpp:447
+#: effect_builtins.cpp:432
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
 msgstr "Ističe ivicu ekrana pri približavanju"
 
-#: effect_builtins.cpp:461
+#: effect_builtins.cpp:446
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
 msgstr "Snimak ekrana"
 
-#: effect_builtins.cpp:462
+#: effect_builtins.cpp:447
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for KSnapshot"
 msgstr "Pomoćni efekat za K‑snimak"
 
-#: effect_builtins.cpp:476
+#: effect_builtins.cpp:461
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
 msgstr "List"
 
-#: effect_builtins.cpp:477
+#: effect_builtins.cpp:462
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Make modal dialogs smoothly fly in and out when they are shown or hidden"
 msgstr ""
 "Modalni dijalozi glatko ulijeću i izleću pri pojavljivanju i sakrivanju"
 
-#: effect_builtins.cpp:491
+#: effect_builtins.cpp:476
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
 msgstr "Kadrovi/sekundi"
 
-#: effect_builtins.cpp:492
+#: effect_builtins.cpp:477
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
 msgstr "Prikazuje performanse KWina u uglu ekrana"
 
-#: effect_builtins.cpp:506
+#: effect_builtins.cpp:491
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Prikaz iscrtavanja"
 
-#: effect_builtins.cpp:507
+#: effect_builtins.cpp:492
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
 msgstr "Ističe dijelove površi koji su nedavno ažurirani"
 
-#: effect_builtins.cpp:521
+#: effect_builtins.cpp:506
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
 msgstr "Klizanje"
 
-#: effect_builtins.cpp:522
+#: effect_builtins.cpp:507
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide windows across the screen when switching virtual desktops"
 msgstr "Kliza prozore preko ekrana pri smjeni virtuelnih površi"
 
-#: effect_builtins.cpp:536
+#: effect_builtins.cpp:521
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
 msgstr "Klizanje unazad"
 
-#: effect_builtins.cpp:537
+#: effect_builtins.cpp:522
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
 msgstr "Kliza unazad prozore kada se podigne drugi prozor"
 
-#: effect_builtins.cpp:551
+#: effect_builtins.cpp:536
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
 msgstr "Klizajući iskakači"
 
-#: effect_builtins.cpp:552
+#: effect_builtins.cpp:537
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
 msgstr "Animirano klizanje za plasma iskakače"
 
-#: effect_builtins.cpp:566
+#: effect_builtins.cpp:551
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
 msgstr "Pomoćnik prijanjanja"
 
-#: effect_builtins.cpp:567
+#: effect_builtins.cpp:552
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
 msgstr "Pomaže vam da uočite središte ekrana pri pomijeranju prozora"
 
-#: effect_builtins.cpp:581
+#: effect_builtins.cpp:566
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
 msgstr "Odziv pri pokretanju"
 
-#: effect_builtins.cpp:582
+#: effect_builtins.cpp:567
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
 msgstr "Pomoćni efekat za odziv pri pokretanju"
 
-#: effect_builtins.cpp:596
+#: effect_builtins.cpp:581
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Sličica postrance"
 
-#: effect_builtins.cpp:597
+#: effect_builtins.cpp:582
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
 msgstr "Sličice prozora pri ivici ekrana"
+
+#: effect_builtins.cpp:596
+#, fuzzy
+#| msgid "Mouse Pointer:"
+msgctxt "Name of a KWin Effect"
+msgid "Touch Points"
+msgstr "Pokazivač miša:"
+
+#: effect_builtins.cpp:597
+msgctxt "Comment describing the KWin Effect"
+msgid "Visualize touch points"
+msgstr ""
 
 #: effect_builtins.cpp:611
 msgctxt "Name of a KWin Effect"
@@ -1171,7 +1173,7 @@ msgstr "Prisutni prozori (sve površi)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Prisutni prozori (klasa prozora)"
 
-#: presentwindows/presentwindows.cpp:1569
+#: presentwindows/presentwindows.cpp:1620
 #, kde-format
 msgid ""
 "Filter:\n"

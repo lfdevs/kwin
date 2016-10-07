@@ -3,21 +3,21 @@
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
+# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2014, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-07-21 11:58+0000\n"
-"PO-Revision-Date: 2016-02-16 14:53+0100\n"
-"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
+"POT-Creation-Date: 2016-09-14 07:14+0000\n"
+"PO-Revision-Date: 2016-09-14 22:07+0200\n"
+"Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -29,24 +29,24 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "txemaq@gmail.com"
 
-#: compositing.cpp:387
+#: compositing.cpp:401
 msgid "OpenGL 3.1"
 msgstr "OpenGL 3.1"
 
-#: compositing.cpp:388
+#: compositing.cpp:402
 msgid "OpenGL 2.0"
 msgstr "OpenGL 2.0"
 
-#: compositing.cpp:389
+#: compositing.cpp:403
 msgid "XRender"
 msgstr "XRender"
 
-#: compositing.cpp:488
+#: compositing.cpp:502
 msgctxt "OpenGL Platform Interface"
 msgid "EGL"
 msgstr "EGL"
 
-#: compositing.cpp:490
+#: compositing.cpp:504
 msgctxt "OpenGL Platform Interface"
 msgid "GLX"
 msgstr "GLX"
@@ -69,7 +69,7 @@ msgstr ""
 "De manera alternativa, en el seu lloc podríeu usar el dorsal XRender."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
-#: compositing.ui:45
+#: compositing.ui:42
 msgid ""
 "Scale method \"Accurate\" is not supported by all hardware and can cause "
 "performance regressions and rendering artifacts."
@@ -78,7 +78,7 @@ msgstr ""
 "regressions al rendiment i objectes a la representació."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
-#: compositing.ui:74
+#: compositing.ui:65
 msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
 "windows. This can result in windows not suspending their work when minimized."
@@ -87,138 +87,136 @@ msgstr ""
 "minimitzat de les finestres. Això pot resultar en finestres que no suspenen "
 "el seu treball quan es minimitzen."
 
-#. i18n: ectx: property (text), widget (KMessageWidget, unredirectInformation)
-#: compositing.ui:90
-msgid ""
-"Having full screen windows bypass the compositor is not supported on every "
-"hardware."
-msgstr ""
-"Tenir les finestres a pantalla completa eludint el compositor no és admès "
-"per tot el maquinari."
-
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
-#: compositing.ui:105
+#: compositing.ui:77
 msgid "Enable compositor on startup"
 msgstr "Activa el compositor en la inicialització"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: compositing.ui:112
+#: compositing.ui:84
 msgid "Animation speed:"
 msgstr "Velocitat de l'animació:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: compositing.ui:139
+#: compositing.ui:111
 msgid "Instant"
 msgstr "Instantània"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: compositing.ui:159
+#: compositing.ui:131
 msgid "Very slow"
 msgstr "Molt lenta"
 
 #. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
-#: compositing.ui:170 compositing.ui:196
+#: compositing.ui:142 compositing.ui:168
 msgid "Scale method:"
 msgstr "Mètode d'escala:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:178 compositing.ui:204
+#: compositing.ui:150 compositing.ui:176
 msgid "Crisp"
 msgstr "Remarcat"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:183
+#: compositing.ui:155
 msgid "Smooth"
 msgstr "Suavitzat"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:188
+#: compositing.ui:160
 msgid "Accurate"
 msgstr "Acurat"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:209
+#: compositing.ui:181
 msgid "Smooth (slower)"
 msgstr "Suau (més lent)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: compositing.ui:224
+#: compositing.ui:196
 msgid "Rendering backend:"
 msgstr "Dorsal de renderització:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: compositing.ui:241
+#: compositing.ui:213
 msgid "Tearing prevention (\"vsync\"):"
 msgstr "Prevenció de l'esquinçament («vsync»):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:249 compositing.ui:285
+#: compositing.ui:221 compositing.ui:257
 msgid "Never"
 msgstr "Mai"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:254
+#: compositing.ui:226
 msgid "Automatic"
 msgstr "Automàtic"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:259
+#: compositing.ui:231
 msgid "Only when cheap"
 msgstr "Només quan sigui econòmic"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:264
+#: compositing.ui:236
 msgid "Full screen repaints"
 msgstr "Repinta tota la pantalla"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:269
+#: compositing.ui:241
 msgid "Re-use screen content"
 msgstr "Reutilitza el contingut de la pantalla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: compositing.ui:277
+#: compositing.ui:249
 msgid "Keep window thumbnails:"
 msgstr "Mantén les miniatures de les finestres:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:290
+#: compositing.ui:262
 msgid "Only for Shown Windows"
 msgstr "Només per a les finestres visualitzades"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:295
+#: compositing.ui:267
 msgid "Always"
 msgstr "Sempre"
 
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: compositing.ui:303
-msgid "Expert:"
-msgstr "Expert:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
-#: compositing.ui:310
-msgid "Suspend compositor for full screen windows"
-msgstr "Suspèn el compositor per a les finestres a pantalla completa"
-
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:317
+#: compositing.ui:275
 msgid "Experimental:"
 msgstr "Experimental:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:324
+#: compositing.ui:282
 msgid "Enable color correction"
 msgstr "Activa la correcció del color"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, windowsBlockCompositing)
+#: compositing.ui:291
+msgid ""
+"Applications can set a hint to block compositing when the window is open.\n"
+" This brings performance improvements for e.g. games.\n"
+" The setting can be overruled by window-specific rules."
+msgstr ""
+"Les aplicacions poden establir un senyal per blocar la composició quan la "
+"finestra és oberta.\n"
+" Això aporta millores de rendiment als jocs, per exemple.\n"
+" El paràmetre es pot sobreescriure amb regles específiques de finestra."
+
+#. i18n: ectx: property (text), widget (QCheckBox, windowsBlockCompositing)
+#: compositing.ui:294
+msgid "Allow applications to block compositing"
+msgstr "Permet que les aplicacions bloquin la composició"
 
 #: main.cpp:82
 msgid "Re-enable OpenGL detection"
 msgstr "Torna a activar la detecció de l'OpenGL"
 
-#: main.cpp:138
+#: main.cpp:140
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
 "video."
@@ -226,11 +224,11 @@ msgstr ""
 "«Només quan sigui econòmic» només prevé el parpelleig dels canvis a pantalla "
 "completa, com un vídeo."
 
-#: main.cpp:142
+#: main.cpp:144
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "«Repinta tota la pantalla» pot causar problemes de rendiment."
 
-#: main.cpp:146
+#: main.cpp:148
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""

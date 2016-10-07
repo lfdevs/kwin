@@ -92,7 +92,7 @@ void X11WindowedBackend::init()
         }
         XRenderUtils::init(m_connection, m_screen->root);
         createWindow();
-        startEventReading();
+        connect(kwinApp(), &Application::workspaceCreated, this, &X11WindowedBackend::startEventReading);
         connect(this, &X11WindowedBackend::cursorChanged, this,
             [this] {
                 createCursor(softwareCursor(), softwareCursorHotspot());
@@ -303,8 +303,26 @@ void X11WindowedBackend::handleClientMessage(xcb_client_message_event_t *event)
     }
     if (event->type == m_protocols && m_protocols != XCB_ATOM_NONE) {
         if (event->data.data32[0] == m_deleteWindowProtocol && m_deleteWindowProtocol != XCB_ATOM_NONE) {
-            qCDebug(KWIN_X11WINDOWED) << "Backend window is going to be closed, shutting down.";
-            QCoreApplication::quit();
+            if (m_windows.count() == 1) {
+                qCDebug(KWIN_X11WINDOWED) << "Backend window is going to be closed, shutting down.";
+                QCoreApplication::quit();
+            } else {
+                // remove the window
+                qCDebug(KWIN_X11WINDOWED) << "Removing one output window.";
+                auto o = *it;
+                it = m_windows.erase(it);
+                xcb_unmap_window(m_connection, o.window);
+                xcb_destroy_window(m_connection, o.window);
+                delete o.winInfo;
+
+                // update the sizes
+                int x = o.internalPosition.x();
+                for (; it != m_windows.end(); ++it) {
+                    (*it).internalPosition.setX(x);
+                    x += (*it).size.width();
+                }
+                QMetaObject::invokeMethod(screens(), "updateCount");
+            }
         }
     }
 }
@@ -371,6 +389,7 @@ void X11WindowedBackend::updateSize(xcb_configure_notify_event_t *event)
     if (s != (*it).size) {
         (*it).size = s;
         int x = (*it).internalPosition.x() + s.width();
+        it++;
         for (; it != m_windows.end(); ++it) {
             (*it).internalPosition.setX(x);
             x += (*it).size.width();

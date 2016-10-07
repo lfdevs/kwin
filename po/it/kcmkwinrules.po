@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-19 09:30+0000\n"
+"POT-Creation-Date: 2016-09-25 10:47+0000\n"
 "PO-Revision-Date: 2016-05-12 00:37+0100\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -370,20 +370,20 @@ msgstr ""
 msgid "All Desktops"
 msgstr "Tutti i desktop"
 
-#: ruleswidget.cpp:329
+#: ruleswidget.cpp:330
 msgid "All Activities"
 msgstr "Tutte le attività"
 
-#: ruleswidget.cpp:758
+#: ruleswidget.cpp:771
 #, kde-format
 msgid "Settings for %1"
 msgstr "Impostazioni per %1"
 
-#: ruleswidget.cpp:760
+#: ruleswidget.cpp:773
 msgid "Unnamed entry"
 msgstr "Voce senza nome"
 
-#: ruleswidget.cpp:770
+#: ruleswidget.cpp:783
 msgid ""
 "You have specified the window class as unimportant.\n"
 "This means the settings will possibly apply to windows from all "
@@ -396,11 +396,11 @@ msgstr ""
 "applicazioni. Se vuoi davvero creare un'impostazione generica ti consigliamo "
 "almeno di limitare i tipi di finestra ed evitare i tipi speciali."
 
-#: ruleswidget.cpp:800
+#: ruleswidget.cpp:813
 msgid "Edit Window-Specific Settings"
 msgstr "Modifica impostazioni specifiche di una finestra"
 
-#: ruleswidget.cpp:830
+#: ruleswidget.cpp:843
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
 "window or application. Find the setting you want to affect, enable the "
@@ -412,11 +412,11 @@ msgstr ""
 "che vuoi cambiare, abilitala marcando la casella e seleziona in che modo "
 "vuoi reimpostare e quale valore utilizzare."
 
-#: ruleswidget.cpp:834
+#: ruleswidget.cpp:847
 msgid "Consult the documentation for more details."
 msgstr "Consulta la documentazione per maggiori dettagli."
 
-#: ruleswidget.cpp:873
+#: ruleswidget.cpp:886
 msgid "Edit Shortcut"
 msgstr "Modifica scorciatoia"
 

@@ -90,6 +90,7 @@ set( kwin4_effect_builtins_sources
     resize/resize.cpp
     showfps/showfps.cpp
     thumbnailaside/thumbnailaside.cpp
+    touchpoints/touchpoints.cpp
     trackmouse/trackmouse.cpp
     windowgeometry/windowgeometry.cpp
     wobblywindows/wobblywindows.cpp
@@ -157,7 +158,6 @@ include( slidingpopups/CMakeLists.txt )
 add_subdirectory( thumbnailaside )
 add_subdirectory( windowgeometry )
 add_subdirectory( zoom )
-include( logout/CMakeLists.txt )
 
 # OpenGL-specific effects
 add_subdirectory( blur )

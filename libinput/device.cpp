@@ -20,7 +20,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "device.h"
 #include <libinput.h>
 
+#include <QDBusConnection>
+
 #include <linux/input.h>
+
+#include <config-kwin.h>
 
 namespace KWin
 {
@@ -73,12 +77,11 @@ Device::Device(libinput_device *device, QObject *parent)
     , m_keyboard(libinput_device_has_capability(m_device, LIBINPUT_DEVICE_CAP_KEYBOARD))
     , m_pointer(libinput_device_has_capability(m_device, LIBINPUT_DEVICE_CAP_POINTER))
     , m_touch(libinput_device_has_capability(m_device, LIBINPUT_DEVICE_CAP_TOUCH))
+    , m_tabletTool(libinput_device_has_capability(m_device, LIBINPUT_DEVICE_CAP_TABLET_TOOL))
 #if 0
     // next libinput version
-    , m_tabletTool(libinput_device_has_capability(m_device, LIBINPUT_DEVICE_CAP_TABLET_TOOL))
     , m_tabletPad(libinput_device_has_capability(m_device, LIBINPUT_DEVICE_CAP_TABLET_PAD))
 #else
-    , m_tabletTool(false)
     , m_tabletPad(false)
 #endif
     , m_supportsGesture(libinput_device_has_capability(m_device, LIBINPUT_DEVICE_CAP_GESTURE))
@@ -88,7 +91,12 @@ Device::Device(libinput_device *device, QObject *parent)
     , m_product(libinput_device_get_id_product(m_device))
     , m_vendor(libinput_device_get_id_vendor(m_device))
     , m_tapFingerCount(libinput_device_config_tap_get_finger_count(m_device))
-    , m_tapEnabledByDefault(libinput_device_config_tap_get_default_enabled(m_device) == LIBINPUT_CONFIG_TAP_ENABLED)
+    , m_tapToClickEnabledByDefault(libinput_device_config_tap_get_default_enabled(m_device) == LIBINPUT_CONFIG_TAP_ENABLED)
+    , m_tapToClick(libinput_device_config_tap_get_enabled(m_device))
+    , m_tapAndDragEnabledByDefault(libinput_device_config_tap_get_default_drag_enabled(m_device))
+    , m_tapAndDrag(libinput_device_config_tap_get_drag_enabled(m_device))
+    , m_tapDragLockEnabledByDefault(libinput_device_config_tap_get_default_drag_lock_enabled(m_device))
+    , m_tapDragLock(libinput_device_config_tap_get_drag_lock_enabled(m_device))
     , m_supportsDisableWhileTyping(libinput_device_config_dwt_is_available(m_device))
     , m_supportsPointerAcceleration(libinput_device_config_accel_is_available(m_device))
     , m_supportsLeftHanded(libinput_device_config_left_handed_is_available(m_device))
@@ -137,11 +145,17 @@ Device::Device(libinput_device *device, QObject *parent)
     }
 
     s_devices << this;
+    QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/kde/KWin/InputDevice/") + m_sysName,
+                                                 QStringLiteral("org.kde.KWin.InputDevice"),
+                                                 this,
+                                                 QDBusConnection::ExportAllProperties
+    );
 }
 
 Device::~Device()
 {
     s_devices.removeOne(this);
+    QDBusConnection::sessionBus().unregisterObject(QStringLiteral("/org/kde/KWin/InputDevice/") + m_sysName);
     libinput_device_unref(m_device);
 }
 
@@ -172,18 +186,26 @@ void Device::setPointerAcceleration(qreal acceleration)
     }
 }
 
-void Device::setEnabled(bool enabled)
-{
-    if (!m_supportsDisableEvents) {
-        return;
-    }
-    if (libinput_device_config_send_events_set_mode(m_device, enabled ? LIBINPUT_CONFIG_SEND_EVENTS_ENABLED  : LIBINPUT_CONFIG_SEND_EVENTS_DISABLED) == LIBINPUT_CONFIG_STATUS_SUCCESS) {
-        if (m_enabled != enabled) {
-            m_enabled = enabled;
-            emit enabledChanged();
-        }
-    }
+#define CONFIG(method, condition, function, enum, variable) \
+void Device::method(bool set) \
+{ \
+    if (condition) { \
+        return; \
+    } \
+    if (libinput_device_config_##function(m_device, set ? LIBINPUT_CONFIG_##enum##_ENABLED : LIBINPUT_CONFIG_##enum##_DISABLED) == LIBINPUT_CONFIG_STATUS_SUCCESS) { \
+        if (m_##variable != set) { \
+            m_##variable = set; \
+            emit variable##Changed(); \
+        }\
+    } \
 }
+
+CONFIG(setEnabled, !m_supportsDisableEvents, send_events_set_mode, SEND_EVENTS, enabled)
+CONFIG(setTapToClick, m_tapFingerCount == 0, tap_set_enabled, TAP, tapToClick)
+CONFIG(setTapAndDrag, false, tap_set_drag_enabled, DRAG, tapAndDrag)
+CONFIG(setTapDragLock, false, tap_set_drag_lock_enabled, DRAG_LOCK, tapDragLock)
+
+#undef CONFIG
 
 }
 }

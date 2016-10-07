@@ -234,9 +234,6 @@ void Scene::paintGenericScreen(int orig_mask, ScreenPaintData)
             continue;
         }
         phase2.append(Phase2Data(w, infiniteRegion(), data.clip, data.mask, data.quads));
-        // transformations require window pixmap
-        w->suspendUnredirect(data.mask
-                             & (PAINT_WINDOW_TRANSLUCENT | PAINT_SCREEN_TRANSFORMED | PAINT_WINDOW_TRANSFORMED));
     }
 
     foreach (const Phase2Data & d, phase2) {
@@ -309,15 +306,12 @@ void Scene::paintSimpleScreen(int orig_mask, QRegion region)
         }
 #endif
         if (!w->isPaintingEnabled()) {
-            w->suspendUnredirect(true);
             continue;
         }
         dirtyArea |= data.paint;
         // Schedule the window for painting
         phase2data.append(QPair< Window*, Phase2Data >(w,Phase2Data(w, data.paint, data.clip,
                                                                     data.mask, data.quads)));
-        // no transformations, but translucency requires window pixmap
-        w->suspendUnredirect(data.mask & PAINT_WINDOW_TRANSLUCENT);
     }
 
     // Save the part of the repaint region that's exclusively rendered to
@@ -800,10 +794,8 @@ void Scene::Window::resetPaintingEnabled()
             disable_painting |= PAINT_DISABLED_BY_MINIMIZE;
         if (c->tabGroup() && c != c->tabGroup()->current())
             disable_painting |= PAINT_DISABLED_BY_TAB_GROUP;
-        if (Client *cc = dynamic_cast<Client*>(c)) {
-            if (cc->isHiddenInternal()) {
-                disable_painting |= PAINT_DISABLED;
-            }
+        if (c->isHiddenInternal()) {
+            disable_painting |= PAINT_DISABLED;
         }
     }
 }

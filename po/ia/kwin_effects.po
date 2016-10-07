@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-03-25 07:58+0000\n"
+"POT-Creation-Date: 2016-08-25 07:37+0000\n"
 "PO-Revision-Date: 2014-04-29 15:36+0200\n"
 "Last-Translator: G.Sora <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-l10n-ia@kde.org>\n"
@@ -650,61 +650,50 @@ msgstr "Effecto de adjutante pro KScreen"
 
 #: effect_builtins.cpp:311
 msgctxt "Name of a KWin Effect"
-msgid "Logout"
-msgstr "Clausura de session"
-
-#: effect_builtins.cpp:312
-msgctxt "Comment describing the KWin Effect"
-msgid "Desaturate the desktop when displaying the logout dialog"
-msgstr ""
-"De-satura le scriptorio quando il monstra le dialogo de clausura de accesso"
-
-#: effect_builtins.cpp:326
-msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
 msgstr "Looking Glass"
 
-#: effect_builtins.cpp:327
+#: effect_builtins.cpp:312
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
 msgstr "Un aggranditor de schermo semblante lentes fisheye"
 
-#: effect_builtins.cpp:341
+#: effect_builtins.cpp:326
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
 msgstr "Lampa Magic"
 
-#: effect_builtins.cpp:342
+#: effect_builtins.cpp:327
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
 msgstr "Simula un lampa magic quando minimisa fenestras"
 
-#: effect_builtins.cpp:356
+#: effect_builtins.cpp:341
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Aggranditor"
 
-#: effect_builtins.cpp:357
+#: effect_builtins.cpp:342
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
 msgstr "Aggrandi le section del schermo que es vicin al cursor del mus"
 
-#: effect_builtins.cpp:371
+#: effect_builtins.cpp:356
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Animation de minimisar"
 
-#: effect_builtins.cpp:372
+#: effect_builtins.cpp:357
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "Anima le minimisation de fenestras"
 
-#: effect_builtins.cpp:386
+#: effect_builtins.cpp:371
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Animation de click de mus"
 
-#: effect_builtins.cpp:387
+#: effect_builtins.cpp:372
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Creates an animation whenever a mouse button is clicked. This is useful for "
@@ -713,65 +702,65 @@ msgstr ""
 "Crea un animation quando un button de mus es pressate. Isto es util pro "
 "registrationes de schermo/presentationes"
 
-#: effect_builtins.cpp:401
+#: effect_builtins.cpp:386
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Marca de mus"
 
-#: effect_builtins.cpp:402
+#: effect_builtins.cpp:387
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
 msgstr "Il permitte te de designar lineas super le scriptorio"
 
-#: effect_builtins.cpp:416
+#: effect_builtins.cpp:401
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Fenestras actual"
 
-#: effect_builtins.cpp:417
+#: effect_builtins.cpp:402
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
 msgstr ""
 "Zoom foras usque omne fenestras aperite pote esser monstrate flanco a flanco"
 
-#: effect_builtins.cpp:431
+#: effect_builtins.cpp:416
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Redimensiona fenestra"
 
-#: effect_builtins.cpp:432
+#: effect_builtins.cpp:417
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
 msgstr ""
 "Redimensiona fenestras con un rapide scala de textura in vice de actualisar "
 "contentos"
 
-#: effect_builtins.cpp:446
+#: effect_builtins.cpp:431
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr "Margines de schermo"
 
-#: effect_builtins.cpp:447
+#: effect_builtins.cpp:432
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
 msgstr "Evidentia un margine de schermo quando on approxima se"
 
-#: effect_builtins.cpp:461
+#: effect_builtins.cpp:446
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
 msgstr "Instantanee de schermo"
 
-#: effect_builtins.cpp:462
+#: effect_builtins.cpp:447
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for KSnapshot"
 msgstr "Effecto adjutante pro KSnapshot"
 
-#: effect_builtins.cpp:476
+#: effect_builtins.cpp:461
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
 msgstr "Folio"
 
-#: effect_builtins.cpp:477
+#: effect_builtins.cpp:462
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Make modal dialogs smoothly fly in and out when they are shown or hidden"
@@ -779,87 +768,99 @@ msgstr ""
 "Face que le dialogos modal pote volar dulcemente  intra e foras quando illes "
 "es monstrate o celate"
 
-#: effect_builtins.cpp:491
+#: effect_builtins.cpp:476
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
 msgstr "Monstra FPS"
 
-#: effect_builtins.cpp:492
+#: effect_builtins.cpp:477
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
 msgstr "Monstra le rendimento de KWin in le angulo del schermo"
 
-#: effect_builtins.cpp:506
+#: effect_builtins.cpp:491
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Monstra pictura"
 
-#: effect_builtins.cpp:507
+#: effect_builtins.cpp:492
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
 msgstr "Evidentia areas del scriptorio que ha essite actualisate recentemente"
 
-#: effect_builtins.cpp:521
+#: effect_builtins.cpp:506
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
 msgstr "Glissar"
 
-#: effect_builtins.cpp:522
+#: effect_builtins.cpp:507
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide windows across the screen when switching virtual desktops"
 msgstr ""
 "Glissa fenestra a transverso de le schermo quando on commuta scriptorios"
 
-#: effect_builtins.cpp:536
+#: effect_builtins.cpp:521
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
 msgstr "Glissa de retro"
 
-#: effect_builtins.cpp:537
+#: effect_builtins.cpp:522
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
 msgstr "Glissa retro fenestras quando un altere fenestra es elevate"
 
-#: effect_builtins.cpp:551
+#: effect_builtins.cpp:536
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
 msgstr "Popups glissante"
 
-#: effect_builtins.cpp:552
+#: effect_builtins.cpp:537
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
 msgstr "Animation glissante pro popups de Plasma"
 
-#: effect_builtins.cpp:566
+#: effect_builtins.cpp:551
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
 msgstr "Adjutante de photo"
 
-#: effect_builtins.cpp:567
+#: effect_builtins.cpp:552
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
 msgstr ""
 "Il adjuta te a localisar le centro del schermo quando tu move un fenestra"
 
-#: effect_builtins.cpp:581
+#: effect_builtins.cpp:566
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
 msgstr "Retorno ab lanceamento"
 
-#: effect_builtins.cpp:582
+#: effect_builtins.cpp:567
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
 msgstr "Effecto de adjutante pro retorno ab lanceamento"
 
-#: effect_builtins.cpp:596
+#: effect_builtins.cpp:581
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Miniatura a parte"
 
-#: effect_builtins.cpp:597
+#: effect_builtins.cpp:582
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
 msgstr "Monstra miniaturas de fenestra al margine del schermo"
+
+#: effect_builtins.cpp:596
+#, fuzzy
+#| msgid "Mouse Pointer:"
+msgctxt "Name of a KWin Effect"
+msgid "Touch Points"
+msgstr "Punctator de mus:"
+
+#: effect_builtins.cpp:597
+msgctxt "Comment describing the KWin Effect"
+msgid "Visualize touch points"
+msgstr ""
 
 #: effect_builtins.cpp:611
 msgctxt "Name of a KWin Effect"
@@ -1153,7 +1154,7 @@ msgstr "Commuta (Toggle) fenestras presente (Omne scriptorios)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Commuta fenestra presente (classe de fenestra)"
 
-#: presentwindows/presentwindows.cpp:1569
+#: presentwindows/presentwindows.cpp:1620
 #, kde-format
 msgid ""
 "Filter:\n"

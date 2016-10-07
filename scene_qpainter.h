@@ -102,7 +102,7 @@ private:
     bool m_failed;
 };
 
-class SceneQPainter : public Scene
+class KWIN_EXPORT SceneQPainter : public Scene
 {
     Q_OBJECT
 
@@ -119,7 +119,15 @@ public:
     Decoration::Renderer *createDecorationRenderer(Decoration::DecoratedClientImpl *impl) override;
     void screenGeometryChanged(const QSize &size) override;
 
+    bool animationsSupported() const override {
+        return false;
+    }
+
     QPainter *painter();
+
+    QPainterBackend *backend() const {
+        return m_backend.data();
+    }
 
     static SceneQPainter *createScene(QObject *parent);
 
@@ -155,6 +163,7 @@ public:
     explicit QPainterWindowPixmap(Scene::Window *window);
     virtual ~QPainterWindowPixmap();
     virtual void create() override;
+    bool isValid() const override;
 
     void updateBuffer() override;
     const QImage &image();

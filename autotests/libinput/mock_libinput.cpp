@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include <libinput.h>
 #include "mock_libinput.h"
+#include <config-kwin.h>
 
 #include <linux/input.h>
 
@@ -38,6 +39,8 @@ int libinput_device_has_capability(struct libinput_device *device, enum libinput
         return device->touch;
     case LIBINPUT_DEVICE_CAP_GESTURE:
         return device->gestureSupported;
+    case LIBINPUT_DEVICE_CAP_TABLET_TOOL:
+        return device->tabletTool;
     default:
         return 0;
     }
@@ -75,7 +78,20 @@ int libinput_device_config_tap_get_finger_count(struct libinput_device *device)
 
 enum libinput_config_tap_state libinput_device_config_tap_get_enabled(struct libinput_device *device)
 {
-    return LIBINPUT_CONFIG_TAP_DISABLED;
+    if (device->tapToClick) {
+        return LIBINPUT_CONFIG_TAP_ENABLED;
+    } else {
+        return LIBINPUT_CONFIG_TAP_DISABLED;
+    }
+}
+
+enum libinput_config_status libinput_device_config_tap_set_enabled(struct libinput_device *device, enum libinput_config_tap_state enable)
+{
+    if (device->setTapToClickReturnValue == 0) {
+        device->tapToClick = (enable == LIBINPUT_CONFIG_TAP_ENABLED);
+        return LIBINPUT_CONFIG_STATUS_SUCCESS;
+    }
+    return LIBINPUT_CONFIG_STATUS_INVALID;
 }
 
 enum libinput_config_tap_state libinput_device_config_tap_get_default_enabled(struct libinput_device *device)
@@ -85,6 +101,60 @@ enum libinput_config_tap_state libinput_device_config_tap_get_default_enabled(st
     } else {
         return LIBINPUT_CONFIG_TAP_DISABLED;
     }
+}
+
+enum libinput_config_drag_state libinput_device_config_tap_get_default_drag_enabled(struct libinput_device *device)
+{
+    if (device->tapAndDragEnabledByDefault) {
+        return LIBINPUT_CONFIG_DRAG_ENABLED;
+    } else {
+        return LIBINPUT_CONFIG_DRAG_DISABLED;
+    }
+}
+
+enum libinput_config_drag_state libinput_device_config_tap_get_drag_enabled(struct libinput_device *device)
+{
+    if (device->tapAndDrag) {
+        return LIBINPUT_CONFIG_DRAG_ENABLED;
+    } else {
+        return LIBINPUT_CONFIG_DRAG_DISABLED;
+    }
+}
+
+enum libinput_config_status libinput_device_config_tap_set_drag_enabled(struct libinput_device *device, enum libinput_config_drag_state enable)
+{
+    if (device->setTapAndDragReturnValue == 0) {
+        device->tapAndDrag = (enable == LIBINPUT_CONFIG_DRAG_ENABLED);
+        return LIBINPUT_CONFIG_STATUS_SUCCESS;
+    }
+    return LIBINPUT_CONFIG_STATUS_INVALID;
+}
+
+enum libinput_config_drag_lock_state libinput_device_config_tap_get_default_drag_lock_enabled(struct libinput_device *device)
+{
+    if (device->tapDragLockEnabledByDefault) {
+        return LIBINPUT_CONFIG_DRAG_LOCK_ENABLED;
+    } else {
+        return LIBINPUT_CONFIG_DRAG_LOCK_DISABLED;
+    }
+}
+
+enum libinput_config_drag_lock_state libinput_device_config_tap_get_drag_lock_enabled(struct libinput_device *device)
+{
+    if (device->tapDragLock) {
+        return LIBINPUT_CONFIG_DRAG_LOCK_ENABLED;
+    } else {
+        return LIBINPUT_CONFIG_DRAG_LOCK_DISABLED;
+    }
+}
+
+enum libinput_config_status libinput_device_config_tap_set_drag_lock_enabled(struct libinput_device *device, enum libinput_config_drag_lock_state enable)
+{
+    if (device->setTapDragLockReturnValue == 0) {
+        device->tapDragLock = (enable == LIBINPUT_CONFIG_DRAG_LOCK_ENABLED);
+        return LIBINPUT_CONFIG_STATUS_SUCCESS;
+    }
+    return LIBINPUT_CONFIG_STATUS_INVALID;
 }
 
 int libinput_device_config_dwt_is_available(struct libinput_device *device)
@@ -259,6 +329,74 @@ struct libinput_event_touch *libinput_event_get_touch_event(struct libinput_even
         return reinterpret_cast<libinput_event_touch *>(event);
     }
     return nullptr;
+}
+
+struct libinput_event_gesture *libinput_event_get_gesture_event(struct libinput_event *event)
+{
+    if (event->type == LIBINPUT_EVENT_GESTURE_PINCH_BEGIN ||
+        event->type == LIBINPUT_EVENT_GESTURE_PINCH_UPDATE ||
+        event->type == LIBINPUT_EVENT_GESTURE_PINCH_END ||
+        event->type == LIBINPUT_EVENT_GESTURE_SWIPE_BEGIN ||
+        event->type == LIBINPUT_EVENT_GESTURE_SWIPE_UPDATE ||
+        event->type == LIBINPUT_EVENT_GESTURE_SWIPE_END) {
+        return reinterpret_cast<libinput_event_gesture *>(event);
+    }
+    return nullptr;
+}
+
+int libinput_event_gesture_get_cancelled(struct libinput_event_gesture *event)
+{
+    if (event->type == LIBINPUT_EVENT_GESTURE_PINCH_END || event->type == LIBINPUT_EVENT_GESTURE_SWIPE_END) {
+        return event->cancelled;
+    }
+    return 0;
+}
+
+uint32_t libinput_event_gesture_get_time(struct libinput_event_gesture *event)
+{
+    return event->time;
+}
+
+int libinput_event_gesture_get_finger_count(struct libinput_event_gesture *event)
+{
+    return event->fingerCount;
+}
+
+double libinput_event_gesture_get_dx(struct libinput_event_gesture *event)
+{
+    if (event->type == LIBINPUT_EVENT_GESTURE_PINCH_UPDATE || event->type == LIBINPUT_EVENT_GESTURE_SWIPE_UPDATE) {
+        return event->delta.width();
+    }
+    return 0.0;
+}
+
+double libinput_event_gesture_get_dy(struct libinput_event_gesture *event)
+{
+    if (event->type == LIBINPUT_EVENT_GESTURE_PINCH_UPDATE || event->type == LIBINPUT_EVENT_GESTURE_SWIPE_UPDATE) {
+        return event->delta.height();
+    }
+    return 0.0;
+}
+
+double libinput_event_gesture_get_scale(struct libinput_event_gesture *event)
+{
+    switch (event->type) {
+    case LIBINPUT_EVENT_GESTURE_PINCH_BEGIN:
+        return 1.0;
+    case LIBINPUT_EVENT_GESTURE_PINCH_UPDATE:
+    case LIBINPUT_EVENT_GESTURE_PINCH_END:
+        return event->scale;
+    default:
+        return 0.0;
+    }
+}
+
+double libinput_event_gesture_get_angle_delta(struct libinput_event_gesture *event)
+{
+    if (event->type == LIBINPUT_EVENT_GESTURE_PINCH_UPDATE) {
+        return event->angleDelta;
+    }
+    return 0.0;
 }
 
 uint32_t libinput_event_keyboard_get_key(struct libinput_event_keyboard *event)

@@ -719,11 +719,10 @@ ToplevelList Workspace::xStackingOrder() const
     if (waylandServer()) {
         const auto clients = waylandServer()->internalClients();
         for (auto c: clients) {
-            x_stacking << c;
+            if (c->isShown(false)) {
+                x_stacking << c;
+            }
         }
-    }
-    if (m_compositor) {
-        const_cast< Workspace* >(this)->m_compositor->checkUnredirect();
     }
     return x_stacking;
 }

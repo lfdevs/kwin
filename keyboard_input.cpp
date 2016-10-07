@@ -22,10 +22,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "abstract_client.h"
 #include "options.h"
 #include "utils.h"
+#include "screenlockerwatcher.h"
 #include "toplevel.h"
 #include "wayland_server.h"
 #include "workspace.h"
 // KWayland
+#include <KWayland/Server/datadevice_interface.h>
 #include <KWayland/Server/seat_interface.h>
 //screenlocker
 #include <KScreenLocker/KsldApp>
@@ -40,12 +42,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QTemporaryFile>
 // xkbcommon
 #include <xkbcommon/xkbcommon.h>
+#include <xkbcommon/xkbcommon-compose.h>
 #include <xkbcommon/xkbcommon-keysyms.h>
 // system
 #include <sys/mman.h>
 #include <unistd.h>
 
-Q_LOGGING_CATEGORY(KWIN_XKB, "kwin_xkbcommon", QtCriticalMsg);
+Q_LOGGING_CATEGORY(KWIN_XKB, "kwin_xkbcommon", QtCriticalMsg)
 
 namespace KWin
 {
@@ -83,21 +86,51 @@ Xkb::Xkb(InputRedirection *input)
     , m_keymap(NULL)
     , m_state(NULL)
     , m_shiftModifier(0)
+    , m_capsModifier(0)
     , m_controlModifier(0)
     , m_altModifier(0)
     , m_metaModifier(0)
     , m_modifiers(Qt::NoModifier)
+    , m_consumedModifiers(Qt::NoModifier)
+    , m_keysym(XKB_KEY_NoSymbol)
 {
     if (!m_context) {
         qCDebug(KWIN_XKB) << "Could not create xkb context";
     } else {
         xkb_context_set_log_level(m_context, XKB_LOG_LEVEL_DEBUG);
         xkb_context_set_log_fn(m_context, &xkbLogHandler);
+
+        // get locale as described in xkbcommon doc
+        // cannot use QLocale as it drops the modifier part
+        QByteArray locale = qgetenv("LC_ALL");
+        if (locale.isEmpty()) {
+            locale = qgetenv("LC_CTYPE");
+        }
+        if (locale.isEmpty()) {
+            locale = qgetenv("LANG");
+        }
+        if (locale.isEmpty()) {
+            locale = QByteArrayLiteral("C");
+        }
+
+        m_compose.table = xkb_compose_table_new_from_locale(m_context, locale.constData(), XKB_COMPOSE_COMPILE_NO_FLAGS);
+        if (m_compose.table) {
+            m_compose.state = xkb_compose_state_new(m_compose.table, XKB_COMPOSE_STATE_NO_FLAGS);
+        }
     }
+
+    auto resetModOnlyShortcut = [this] {
+        m_modOnlyShortcut.modifier = Qt::NoModifier;
+    };
+    QObject::connect(m_input, &InputRedirection::pointerButtonStateChanged, resetModOnlyShortcut);
+    QObject::connect(m_input, &InputRedirection::pointerAxisChanged, resetModOnlyShortcut);
+    QObject::connect(ScreenLockerWatcher::self(), &ScreenLockerWatcher::locked, m_input, resetModOnlyShortcut);
 }
 
 Xkb::~Xkb()
 {
+    xkb_compose_state_unref(m_compose.state);
+    xkb_compose_table_unref(m_compose.table);
     xkb_state_unref(m_state);
     xkb_keymap_unref(m_keymap);
     xkb_context_unref(m_context);
@@ -109,7 +142,10 @@ void Xkb::reconfigure()
         return;
     }
 
-    xkb_keymap *keymap = loadKeymapFromConfig();
+    xkb_keymap *keymap = nullptr;
+    if (!qEnvironmentVariableIsSet("KWIN_XKB_DEFAULT_KEYMAP")) {
+        keymap = loadKeymapFromConfig();
+    }
     if (!keymap) {
         qCDebug(KWIN_XKB) << "Could not create xkb keymap from configuration";
         keymap = loadDefaultKeymap();
@@ -179,6 +215,7 @@ void Xkb::updateKeymap(xkb_keymap *keymap)
     m_state = state;
 
     m_shiftModifier   = xkb_keymap_mod_get_index(m_keymap, XKB_MOD_NAME_SHIFT);
+    m_capsModifier    = xkb_keymap_mod_get_index(m_keymap, XKB_MOD_NAME_CAPS);
     m_controlModifier = xkb_keymap_mod_get_index(m_keymap, XKB_MOD_NAME_CTRL);
     m_altModifier     = xkb_keymap_mod_get_index(m_keymap, XKB_MOD_NAME_ALT);
     m_metaModifier    = xkb_keymap_mod_get_index(m_keymap, XKB_MOD_NAME_LOGO);
@@ -238,19 +275,42 @@ void Xkb::updateKey(uint32_t key, InputRedirection::KeyboardKeyState state)
     if (!m_keymap || !m_state) {
         return;
     }
+    const auto oldMods = m_modifiers;
     xkb_state_update_key(m_state, key + 8, static_cast<xkb_key_direction>(state));
+    if (state == InputRedirection::KeyboardKeyPressed) {
+        const auto sym = toKeysym(key);
+        if (m_compose.state && xkb_compose_state_feed(m_compose.state, sym) == XKB_COMPOSE_FEED_ACCEPTED) {
+            switch (xkb_compose_state_get_status(m_compose.state)) {
+            case XKB_COMPOSE_NOTHING:
+                m_keysym = sym;
+                break;
+            case XKB_COMPOSE_COMPOSED:
+                m_keysym = xkb_compose_state_get_one_sym(m_compose.state);
+                break;
+            default:
+                m_keysym = XKB_KEY_NoSymbol;
+                break;
+            }
+        } else {
+            m_keysym = sym;
+        }
+    }
     updateModifiers();
+    updateConsumedModifiers(key);
     if (state == InputRedirection::KeyboardKeyPressed) {
         m_modOnlyShortcut.pressCount++;
-        if (m_modOnlyShortcut.pressCount == 1) {
+        if (m_modOnlyShortcut.pressCount == 1 &&
+            !ScreenLockerWatcher::self()->isLocked() &&
+            oldMods == Qt::NoModifier &&
+            m_input->qtButtonStates() == Qt::NoButton) {
             m_modOnlyShortcut.modifier = Qt::KeyboardModifier(int(m_modifiers));
         } else {
             m_modOnlyShortcut.modifier = Qt::NoModifier;
         }
     } else {
         m_modOnlyShortcut.pressCount--;
-        // TODO: ignore on lock screen
-        if (m_modOnlyShortcut.pressCount == 0) {
+        if (m_modOnlyShortcut.pressCount == 0 &&
+            m_modifiers == Qt::NoModifier) {
             if (m_modOnlyShortcut.modifier != Qt::NoModifier) {
                 const auto list = options->modifierOnlyDBusShortcut(m_modOnlyShortcut.modifier);
                 if (list.size() >= 4) {
@@ -271,7 +331,8 @@ void Xkb::updateKey(uint32_t key, InputRedirection::KeyboardKeyState state)
 void Xkb::updateModifiers()
 {
     Qt::KeyboardModifiers mods = Qt::NoModifier;
-    if (xkb_state_mod_index_is_active(m_state, m_shiftModifier, XKB_STATE_MODS_EFFECTIVE) == 1) {
+    if (xkb_state_mod_index_is_active(m_state, m_shiftModifier, XKB_STATE_MODS_EFFECTIVE) == 1 ||
+        xkb_state_mod_index_is_active(m_state, m_capsModifier, XKB_STATE_MODS_EFFECTIVE) == 1) {
         mods |= Qt::ShiftModifier;
     }
     if (xkb_state_mod_index_is_active(m_state, m_altModifier, XKB_STATE_MODS_EFFECTIVE) == 1) {
@@ -288,20 +349,61 @@ void Xkb::updateModifiers()
     if (layout != m_currentLayout) {
         m_currentLayout = layout;
         // notify OSD service about the new layout
-        QDBusMessage msg = QDBusMessage::createMethodCall(
-        QStringLiteral("org.kde.plasmashell"),
-        QStringLiteral("/org/kde/osdService"),
-        QStringLiteral("org.kde.osdService"),
-        QStringLiteral("kbdLayoutChanged"));
+        if (kwinApp()->usesLibinput()) {
+            // only if kwin is in charge of keyboard input
+            QDBusMessage msg = QDBusMessage::createMethodCall(
+            QStringLiteral("org.kde.plasmashell"),
+            QStringLiteral("/org/kde/osdService"),
+            QStringLiteral("org.kde.osdService"),
+            QStringLiteral("kbdLayoutChanged"));
 
-        msg << QString::fromLocal8Bit(xkb_keymap_layout_get_name(m_keymap, layout));
+            msg << QString::fromLocal8Bit(xkb_keymap_layout_get_name(m_keymap, layout));
 
-        QDBusConnection::sessionBus().asyncCall(msg);
+            QDBusConnection::sessionBus().asyncCall(msg);
+        }
     }
-    waylandServer()->seat()->updateKeyboardModifiers(xkb_state_serialize_mods(m_state, xkb_state_component(XKB_STATE_MODS_DEPRESSED)),
-                                                     xkb_state_serialize_mods(m_state, xkb_state_component(XKB_STATE_MODS_LATCHED)),
-                                                     xkb_state_serialize_mods(m_state, xkb_state_component(XKB_STATE_MODS_LOCKED)),
-                                                     layout);
+    if (waylandServer()) {
+        waylandServer()->seat()->updateKeyboardModifiers(xkb_state_serialize_mods(m_state, xkb_state_component(XKB_STATE_MODS_DEPRESSED)),
+                                                         xkb_state_serialize_mods(m_state, xkb_state_component(XKB_STATE_MODS_LATCHED)),
+                                                         xkb_state_serialize_mods(m_state, xkb_state_component(XKB_STATE_MODS_LOCKED)),
+                                                         layout);
+    }
+}
+
+void Xkb::updateConsumedModifiers(uint32_t key)
+{
+    Qt::KeyboardModifiers mods = Qt::NoModifier;
+    if (xkb_state_mod_index_is_consumed(m_state, key + 8, m_shiftModifier) == 1) {
+        mods |= Qt::ShiftModifier;
+    }
+    if (xkb_state_mod_index_is_consumed(m_state, key + 8, m_altModifier) == 1) {
+        mods |= Qt::AltModifier;
+    }
+    if (xkb_state_mod_index_is_consumed(m_state, key + 8, m_controlModifier) == 1) {
+        mods |= Qt::ControlModifier;
+    }
+    if (xkb_state_mod_index_is_consumed(m_state, key + 8, m_metaModifier) == 1) {
+        mods |= Qt::MetaModifier;
+    }
+    m_consumedModifiers = mods;
+}
+
+Qt::KeyboardModifiers Xkb::modifiersRelevantForGlobalShortcuts() const
+{
+    Qt::KeyboardModifiers mods = Qt::NoModifier;
+    if (xkb_state_mod_index_is_active(m_state, m_shiftModifier, XKB_STATE_MODS_EFFECTIVE) == 1) {
+        mods |= Qt::ShiftModifier;
+    }
+    if (xkb_state_mod_index_is_active(m_state, m_altModifier, XKB_STATE_MODS_EFFECTIVE) == 1) {
+        mods |= Qt::AltModifier;
+    }
+    if (xkb_state_mod_index_is_active(m_state, m_controlModifier, XKB_STATE_MODS_EFFECTIVE) == 1) {
+        mods |= Qt::ControlModifier;
+    }
+    if (xkb_state_mod_index_is_active(m_state, m_metaModifier, XKB_STATE_MODS_EFFECTIVE) == 1) {
+        mods |= Qt::MetaModifier;
+    }
+    return mods & ~m_consumedModifiers;
 }
 
 xkb_keysym_t Xkb::toKeysym(uint32_t key)
@@ -337,7 +439,7 @@ bool Xkb::shouldKeyRepeat(quint32 key) const
     if (!m_keymap) {
         return false;
     }
-    return xkb_keymap_key_repeats(m_keymap, key) != 0;
+    return xkb_keymap_key_repeats(m_keymap, key + 8) != 0;
 }
 
 void Xkb::switchToNextLayout()
@@ -452,6 +554,19 @@ void KeyboardInputRedirection::update()
     if (found && found->surface()) {
         if (found->surface() != seat->focusedKeyboardSurface()) {
             seat->setFocusedKeyboardSurface(found->surface());
+            auto newKeyboard = seat->focusedKeyboard();
+            if (newKeyboard && newKeyboard->client() == waylandServer()->xWaylandConnection()) {
+                // focus passed to an XWayland surface
+                const auto selection = seat->selection();
+                auto xclipboard = waylandServer()->xclipboardSyncDataDevice();
+                if (xclipboard && selection != xclipboard.data()) {
+                    if (selection) {
+                        xclipboard->sendSelection(selection);
+                    } else {
+                        xclipboard->sendClearSelection();
+                    }
+                }
+            }
         }
     } else {
         seat->setFocusedKeyboardSurface(nullptr);
@@ -488,13 +603,13 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
         }
     }
 
-    const xkb_keysym_t keySym = m_xkb->toKeysym(key);
+    const xkb_keysym_t keySym = m_xkb->currentKeysym();
     KeyEvent event(type,
                    m_xkb->toQtKey(keySym),
                    m_xkb->modifiers(),
                    key,
                    keySym,
-                   m_xkb->toString(m_xkb->toKeysym(key)),
+                   m_xkb->toString(keySym),
                    autoRepeat,
                    time,
                    device);

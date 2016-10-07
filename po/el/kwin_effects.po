@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-03-25 07:58+0000\n"
-"PO-Revision-Date: 2016-02-07 12:14+0200\n"
+"POT-Creation-Date: 2016-08-25 07:37+0000\n"
+"PO-Revision-Date: 2016-09-16 14:11+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
 "Language: el\n"
@@ -515,7 +515,7 @@ msgstr "Θόλωμα του φόντου πίσω από ημιδιαφανή π
 #: effect_builtins.cpp:116
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
-msgstr "Αντίθεση φόντου:"
+msgstr "Αντίθεση φόντου"
 
 #: effect_builtins.cpp:117
 msgctxt "Comment describing the KWin Effect"
@@ -650,62 +650,50 @@ msgstr "Βοηθητικό εφέ για το KScreen"
 
 #: effect_builtins.cpp:311
 msgctxt "Name of a KWin Effect"
-msgid "Logout"
-msgstr "Αποσύνδεση"
-
-#: effect_builtins.cpp:312
-msgctxt "Comment describing the KWin Effect"
-msgid "Desaturate the desktop when displaying the logout dialog"
-msgstr ""
-"Αποχρωματισμός της επιφάνειας εργασίας κατά την εμφάνιση του διαλόγου "
-"αποσύνδεσης"
-
-#: effect_builtins.cpp:326
-msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
 msgstr "Μεγεθυντικός φακός"
 
-#: effect_builtins.cpp:327
+#: effect_builtins.cpp:312
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
 msgstr "Ένας μεγεθυντικός φακός οθόνης με έντονη ευρυγώνια οπτική"
 
-#: effect_builtins.cpp:341
+#: effect_builtins.cpp:326
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
 msgstr "Μαγικό λυχνάρι"
 
-#: effect_builtins.cpp:342
+#: effect_builtins.cpp:327
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
 msgstr "Εξομοίωση ενός μαγικού λυχναριού κατά την ελαχιστοποίηση παραθύρων"
 
-#: effect_builtins.cpp:356
+#: effect_builtins.cpp:341
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Μεγεθυντής"
 
-#: effect_builtins.cpp:357
+#: effect_builtins.cpp:342
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
 msgstr "Μεγέθυνση του τμήματος της οθόνης που βρίσκεται κοντά στο ποντίκι"
 
-#: effect_builtins.cpp:371
+#: effect_builtins.cpp:356
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Κίνηση ελαχιστοποίησης"
 
-#: effect_builtins.cpp:372
+#: effect_builtins.cpp:357
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "Εφέ κίνησης της ελαχιστοποίησης των παραθύρων"
 
-#: effect_builtins.cpp:386
+#: effect_builtins.cpp:371
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Εφέ κίνησης με κλικ του ποντικιού"
 
-#: effect_builtins.cpp:387
+#: effect_builtins.cpp:372
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Creates an animation whenever a mouse button is clicked. This is useful for "
@@ -714,151 +702,161 @@ msgstr ""
 "Σχηματίζει εφέ κίνησης όποτε γίνεται κλικ σε κουμπί του ποντικιού. Αυτό "
 "είναι χρήσιμο για βιντεοσκόπηση οθόνης / παρουσιάσεις"
 
-#: effect_builtins.cpp:401
+#: effect_builtins.cpp:386
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Σήμανση ποντικιού"
 
-#: effect_builtins.cpp:402
+#: effect_builtins.cpp:387
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
 msgstr "Σας επιτρέπει τη σχεδίαση γραμμών στην επιφάνεια εργασίας σας"
 
-#: effect_builtins.cpp:416
+#: effect_builtins.cpp:401
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Παρουσίαση παραθύρων"
 
-#: effect_builtins.cpp:417
+#: effect_builtins.cpp:402
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
 msgstr "Σμίκρυνση έως ότου όλα τα ανοιχτά παράθυρα να εμφανίζονται σε παράθεση"
 
-#: effect_builtins.cpp:431
+#: effect_builtins.cpp:416
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Αλλαγή μεγέθους παραθύρου"
 
-#: effect_builtins.cpp:432
+#: effect_builtins.cpp:417
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
 msgstr ""
 "Αλλάζει το μέγεθος του παραθύρου χρησιμοποιώντας ταχείες υφές αντί να "
 "ανανεώνει τα περιεχόμενα"
 
-#: effect_builtins.cpp:446
+#: effect_builtins.cpp:431
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr "Άκρο οθόνης"
 
-#: effect_builtins.cpp:447
+#: effect_builtins.cpp:432
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
 msgstr "Εμφανίζει τονισμένο το άκρο της οθόνης όταν το πλησιάζετε"
 
-#: effect_builtins.cpp:461
+#: effect_builtins.cpp:446
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
 msgstr "Στιγμιότυπο"
 
-#: effect_builtins.cpp:462
+#: effect_builtins.cpp:447
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for KSnapshot"
 msgstr "Βοηθητικό εφέ για το KScreen"
 
-#: effect_builtins.cpp:476
+#: effect_builtins.cpp:461
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
 msgstr "Φύλλο"
 
-#: effect_builtins.cpp:477
+#: effect_builtins.cpp:462
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Make modal dialogs smoothly fly in and out when they are shown or hidden"
 msgstr "Ομαλή εμφάνιση και απόκρυψη με κίνηση των βοηθητικών παραθύρων"
 
-#: effect_builtins.cpp:491
+#: effect_builtins.cpp:476
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
 msgstr "Εμφάνιση καρέ ανά δευτερόλεπτο"
 
-#: effect_builtins.cpp:492
+#: effect_builtins.cpp:477
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
 msgstr "Εμφάνιση επιδόσεων του KWin στη γωνία της οθόνης"
 
-#: effect_builtins.cpp:506
+#: effect_builtins.cpp:491
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Εμφάνιση σχεδίασης"
 
-#: effect_builtins.cpp:507
+#: effect_builtins.cpp:492
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
 msgstr "Τονισμός περιοχών της επιφάνειας εργασίας που ενημερώθηκαν πρόσφατα"
 
-#: effect_builtins.cpp:521
+#: effect_builtins.cpp:506
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
 msgstr "Κύλιση"
 
-#: effect_builtins.cpp:522
+#: effect_builtins.cpp:507
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide windows across the screen when switching virtual desktops"
 msgstr ""
 "Κύλιση παραθύρων κατά μήκος της οθόνης όταν γίνεται εναλλαγή επιφανειών "
 "εργασίας"
 
-#: effect_builtins.cpp:536
+#: effect_builtins.cpp:521
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
 msgstr "Κύλιση πίσω"
 
-#: effect_builtins.cpp:537
+#: effect_builtins.cpp:522
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
 msgstr "Κύλιση παραθύρων πίσω όταν ανοίξει κάποιο άλλο παράθυρο "
 
-#: effect_builtins.cpp:551
+#: effect_builtins.cpp:536
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
 msgstr "Κύλιση αναδυόμενων"
 
-#: effect_builtins.cpp:552
+#: effect_builtins.cpp:537
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
 msgstr "Γραφικά κύλισης για αναδυόμενα από το χώρο εργασίας Plasma"
 
-#: effect_builtins.cpp:566
+#: effect_builtins.cpp:551
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
-msgstr ""
+msgstr "Βοηθός εντοπισμού θέσης"
 
-#: effect_builtins.cpp:567
+#: effect_builtins.cpp:552
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
 msgstr ""
 "Βοηθά στον εντοπισμό του κέντρου της οθόνης όταν μετακινείτε ένα παράθυρο"
 
-#: effect_builtins.cpp:581
+#: effect_builtins.cpp:566
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
-msgstr ""
+msgstr "Ανατροφοδότηση εκκίνησης"
 
-#: effect_builtins.cpp:582
+#: effect_builtins.cpp:567
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
-msgstr ""
+msgstr "Βοηθητικό εφέ για ανατροφοδότηση εκκίνησης"
 
-#: effect_builtins.cpp:596
+#: effect_builtins.cpp:581
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Εικόνα επισκόπησης στο πλάι"
 
-#: effect_builtins.cpp:597
+#: effect_builtins.cpp:582
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
 msgstr "Εμφανίζει στην άκρη της οθόνης την εικόνα επισκόπησης του παραθύρου"
+
+#: effect_builtins.cpp:596
+msgctxt "Name of a KWin Effect"
+msgid "Touch Points"
+msgstr "Σημεία επαφής"
+
+#: effect_builtins.cpp:597
+msgctxt "Comment describing the KWin Effect"
+msgid "Visualize touch points"
+msgstr "Οπτικοποίηση σημείων επαφής"
 
 #: effect_builtins.cpp:611
 msgctxt "Name of a KWin Effect"
@@ -1145,7 +1143,7 @@ msgstr "Εναλλαγή παρουσίασης παραθύρων (όλες τ�
 msgid "Toggle Present Windows (Window class)"
 msgstr "Εναλλαγή παρουσίασης παραθύρων (κατηγορία παραθύρου)"
 
-#: presentwindows/presentwindows.cpp:1569
+#: presentwindows/presentwindows.cpp:1620
 #, kde-format
 msgid ""
 "Filter:\n"

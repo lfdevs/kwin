@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-19 09:30+0000\n"
+"POT-Creation-Date: 2016-09-25 10:47+0000\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -320,20 +320,20 @@ msgstr ""
 msgid "All Desktops"
 msgstr "بارلىق ئۈستەلئۈستىلىرى"
 
-#: ruleswidget.cpp:329
+#: ruleswidget.cpp:330
 msgid "All Activities"
 msgstr ""
 
-#: ruleswidget.cpp:758
+#: ruleswidget.cpp:771
 #, kde-format
 msgid "Settings for %1"
 msgstr "«%1» نىڭ تەڭشىكى"
 
-#: ruleswidget.cpp:760
+#: ruleswidget.cpp:773
 msgid "Unnamed entry"
 msgstr "نامسىز كىرگۈ"
 
-#: ruleswidget.cpp:770
+#: ruleswidget.cpp:783
 msgid ""
 "You have specified the window class as unimportant.\n"
 "This means the settings will possibly apply to windows from all "
@@ -342,11 +342,11 @@ msgid ""
 "types."
 msgstr ""
 
-#: ruleswidget.cpp:800
+#: ruleswidget.cpp:813
 msgid "Edit Window-Specific Settings"
 msgstr "كۆزنەككە خاس تەڭشەكنى تەھرىرلەش"
 
-#: ruleswidget.cpp:830
+#: ruleswidget.cpp:843
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
 "window or application. Find the setting you want to affect, enable the "
@@ -354,11 +354,11 @@ msgid ""
 "affected and to which value."
 msgstr ""
 
-#: ruleswidget.cpp:834
+#: ruleswidget.cpp:847
 msgid "Consult the documentation for more details."
 msgstr "تېخىمۇ تەپسىلىي ئۇچۇر ئۈچۈن قوللانمىلارغا قاراڭ."
 
-#: ruleswidget.cpp:873
+#: ruleswidget.cpp:886
 msgid "Edit Shortcut"
 msgstr "تېزلەتمە تەھرىرلەش"
 

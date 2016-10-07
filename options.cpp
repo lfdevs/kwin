@@ -114,7 +114,6 @@ Options::Options(QObject *parent)
     , m_useCompositing(Options::defaultUseCompositing())
     , m_compositingInitialized(Options::defaultCompositingInitialized())
     , m_hiddenPreviews(Options::defaultHiddenPreviews())
-    , m_unredirectFullscreen(Options::defaultUnredirectFullscreen())
     , m_glSmoothScale(Options::defaultGlSmoothScale())
     , m_colorCorrected(Options::defaultColorCorrected())
     , m_xrenderSmoothScale(Options::defaultXrenderSmoothScale())
@@ -126,6 +125,7 @@ Options::Options(QObject *parent)
     , m_glCoreProfile(Options::defaultGLCoreProfile())
     , m_glPreferBufferSwap(Options::defaultGlPreferBufferSwap())
     , m_glPlatformInterface(Options::defaultGlPlatformInterface())
+    , m_windowsBlockCompositing(true)
     , OpTitlebarDblClick(Options::defaultOperationTitlebarDblClick())
     , CmdActiveTitlebar1(Options::defaultCommandActiveTitlebar1())
     , CmdActiveTitlebar2(Options::defaultCommandActiveTitlebar2())
@@ -634,20 +634,6 @@ void Options::setHiddenPreviews(int hiddenPreviews)
     emit hiddenPreviewsChanged();
 }
 
-void Options::setUnredirectFullscreen(bool unredirectFullscreen)
-{
-    if (GLPlatform::instance()->driver() == Driver_Intel)
-        unredirectFullscreen = false; // bug #252817
-    if (m_unredirectFullscreen == unredirectFullscreen) {
-        return;
-    }
-    if (GLPlatform::instance()->driver() == Driver_Intel) { // write back the value
-        KConfigGroup(m_settings->config(), "Compositing").writeEntry("UnredirectFullscreen", false);
-    }
-    m_unredirectFullscreen = unredirectFullscreen;
-    emit unredirectFullscreenChanged();
-}
-
 void Options::setGlSmoothScale(int glSmoothScale)
 {
     if (m_glSmoothScale == glSmoothScale) {
@@ -727,6 +713,15 @@ void Options::setGLCoreProfile(bool value)
     }
     m_glCoreProfile = value;
     emit glCoreProfileChanged();
+}
+
+void Options::setWindowsBlockCompositing(bool value)
+{
+    if (m_windowsBlockCompositing == value) {
+        return;
+    }
+    m_windowsBlockCompositing = value;
+    emit windowsBlockCompositingChanged();
 }
 
 void Options::setGlPreferBufferSwap(char glPreferBufferSwap)
@@ -859,9 +854,10 @@ void Options::loadConfig()
     if (config.hasKey("Alt")) {
         m_modifierOnlyShortcuts.insert(Qt::AltModifier, config.readEntry("Alt", QStringList()));
     }
-    if (config.hasKey("Meta")) {
-        m_modifierOnlyShortcuts.insert(Qt::MetaModifier, config.readEntry("Meta", QStringList()));
-    }
+    m_modifierOnlyShortcuts.insert(Qt::MetaModifier, config.readEntry("Meta", QStringList{QStringLiteral("org.kde.plasmashell"),
+                                                                                          QStringLiteral("/PlasmaShell"),
+                                                                                          QStringLiteral("org.kde.PlasmaShell"),
+                                                                                          QStringLiteral("activateLauncherMenu")}));
 }
 
 void Options::syncFromKcfgc()
@@ -900,6 +896,7 @@ void Options::syncFromKcfgc()
     setElectricBorderMaximize(m_settings->electricBorderMaximize());
     setElectricBorderTiling(m_settings->electricBorderTiling());
     setElectricBorderCornerRatio(m_settings->electricBorderCornerRatio());
+    setWindowsBlockCompositing(m_settings->windowsBlockCompositing());
 
 }
 
@@ -970,6 +967,8 @@ void Options::reloadCompositingSettings(bool force)
     if (!loadCompositingConfig(force)) {
         return;
     }
+    m_settings->load();
+    syncFromKcfgc();
     // from now on we've an initial setup and don't have to reload settings on compositing activation
     // see Workspace::setupCompositing(), composite.cpp
     setCompositingInitialized(true);
@@ -1007,7 +1006,6 @@ void Options::reloadCompositingSettings(bool force)
         previews = HiddenPreviewsAlways;
     setHiddenPreviews(previews);
 
-    setUnredirectFullscreen(config.readEntry("UnredirectFullscreen", Options::defaultUnredirectFullscreen()));
     // TOOD: add setter
     animationSpeed = qBound(0, config.readEntry("AnimationSpeed", Options::defaultAnimationSpeed()), 6);
 
@@ -1160,12 +1158,6 @@ QStringList Options::modifierOnlyDBusShortcut(Qt::KeyboardModifier mod) const
 bool Options::isUseCompositing() const
 {
     return m_useCompositing || kwinApp()->platform()->requiresCompositing();
-}
-
-
-bool Options::isUnredirectFullscreen() const
-{
-    return m_unredirectFullscreen && !kwinApp()->platform()->requiresCompositing();
 }
 
 } // namespace

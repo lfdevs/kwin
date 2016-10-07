@@ -169,7 +169,6 @@ class KWIN_EXPORT Options : public QObject
     Q_PROPERTY(bool useCompositing READ isUseCompositing WRITE setUseCompositing NOTIFY useCompositingChanged)
     Q_PROPERTY(bool compositingInitialized READ isCompositingInitialized WRITE setCompositingInitialized NOTIFY compositingInitializedChanged)
     Q_PROPERTY(int hiddenPreviews READ hiddenPreviews WRITE setHiddenPreviews NOTIFY hiddenPreviewsChanged)
-    Q_PROPERTY(bool unredirectFullscreen READ isUnredirectFullscreen WRITE setUnredirectFullscreen NOTIFY unredirectFullscreenChanged)
     /**
      * 0 = no, 1 = yes when transformed,
      * 2 = try trilinear when transformed; else 1,
@@ -191,6 +190,7 @@ class KWIN_EXPORT Options : public QObject
     Q_PROPERTY(bool glCoreProfile READ glCoreProfile WRITE setGLCoreProfile NOTIFY glCoreProfileChanged)
     Q_PROPERTY(GlSwapStrategy glPreferBufferSwap READ glPreferBufferSwap WRITE setGlPreferBufferSwap NOTIFY glPreferBufferSwapChanged)
     Q_PROPERTY(KWin::OpenGLPlatformInterface glPlatformInterface READ glPlatformInterface WRITE setGlPlatformInterface NOTIFY glPlatformInterfaceChanged)
+    Q_PROPERTY(bool windowsBlockCompositing READ windowsBlockCompositing WRITE setWindowsBlockCompositing NOTIFY windowsBlockCompositingChanged)
 public:
 
     explicit Options(QObject *parent = NULL);
@@ -551,7 +551,6 @@ public:
     HiddenPreviews hiddenPreviews() const {
         return m_hiddenPreviews;
     }
-    bool isUnredirectFullscreen() const;
     // OpenGL
     // 0 = no, 1 = yes when transformed,
     // 2 = try trilinear when transformed; else 1,
@@ -593,6 +592,11 @@ public:
     enum GlSwapStrategy { NoSwapEncourage = 0, CopyFrontBuffer = 'c', PaintFullScreen = 'p', ExtendDamage = 'e', AutoSwapStrategy = 'a' };
     GlSwapStrategy glPreferBufferSwap() const {
         return m_glPreferBufferSwap;
+    }
+
+    bool windowsBlockCompositing() const
+    {
+        return m_windowsBlockCompositing;
     }
 
     QStringList modifierOnlyDBusShortcut(Qt::KeyboardModifier mod) const;
@@ -648,7 +652,6 @@ public:
     void setUseCompositing(bool useCompositing);
     void setCompositingInitialized(bool compositingInitialized);
     void setHiddenPreviews(int hiddenPreviews);
-    void setUnredirectFullscreen(bool unredirectFullscreen);
     void setGlSmoothScale(int glSmoothScale);
     void setXrenderSmoothScale(bool xrenderSmoothScale);
     void setMaxFpsInterval(qint64 maxFpsInterval);
@@ -659,6 +662,7 @@ public:
     void setGLCoreProfile(bool glCoreProfile);
     void setGlPreferBufferSwap(char glPreferBufferSwap);
     void setGlPlatformInterface(OpenGLPlatformInterface interface);
+    void setWindowsBlockCompositing(bool set);
 
     // default values
     static WindowOperation defaultOperationTitlebarDblClick() {
@@ -735,9 +739,6 @@ public:
     }
     static HiddenPreviews defaultHiddenPreviews() {
         return HiddenPreviewsShown;
-    }
-    static bool defaultUnredirectFullscreen() {
-        return false;
     }
     static int defaultGlSmoothScale() {
         return 2;
@@ -843,7 +844,6 @@ Q_SIGNALS:
     void useCompositingChanged();
     void compositingInitializedChanged();
     void hiddenPreviewsChanged();
-    void unredirectFullscreenChanged();
     void glSmoothScaleChanged();
     void colorCorrectedChanged();
     void xrenderSmoothScaleChanged();
@@ -855,6 +855,7 @@ Q_SIGNALS:
     void glCoreProfileChanged();
     void glPreferBufferSwapChanged();
     void glPlatformInterfaceChanged();
+    void windowsBlockCompositingChanged();
 
     void configChanged();
 
@@ -892,7 +893,6 @@ private:
     bool m_useCompositing;
     bool m_compositingInitialized;
     HiddenPreviews m_hiddenPreviews;
-    bool m_unredirectFullscreen;
     int m_glSmoothScale;
     bool m_colorCorrected;
     bool m_xrenderSmoothScale;
@@ -905,6 +905,7 @@ private:
     bool m_glCoreProfile;
     GlSwapStrategy m_glPreferBufferSwap;
     OpenGLPlatformInterface m_glPlatformInterface;
+    bool m_windowsBlockCompositing;
 
     WindowOperation OpTitlebarDblClick;
     WindowOperation opMaxButtonRightClick = defaultOperationMaxButtonRightClick();

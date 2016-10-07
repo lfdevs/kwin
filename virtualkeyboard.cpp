@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "virtualkeyboard.h"
+#include "input.h"
 #include "utils.h"
 #include "screens.h"
 #include "wayland_server.h"
@@ -41,6 +42,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QQuickItem>
 #include <QQuickView>
 #include <QQuickWindow>
+// xkbcommon
+#include <xkbcommon/xkbcommon.h>
 
 using namespace KWayland::Server;
 
@@ -64,6 +67,7 @@ void VirtualKeyboard::init()
 {
     // TODO: need a shared Qml engine
     m_inputWindow.reset(new QQuickView(nullptr));
+    m_inputWindow->setFlags(Qt::FramelessWindowHint);
     m_inputWindow->setGeometry(screens()->geometry(screens()->current()));
     m_inputWindow->setResizeMode(QQuickView::SizeRootObjectToView);
     m_inputWindow->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral(KWIN_NAME "/virtualkeyboard/main.qml"))));
@@ -78,10 +82,10 @@ void VirtualKeyboard::init()
     m_inputWindow->setProperty("__kwin_input_method", true);
 
     if (waylandServer()) {
-        m_enabled = !waylandServer()->seat()->hasKeyboard();
-        connect(waylandServer()->seat(), &KWayland::Server::SeatInterface::hasKeyboardChanged, this,
-            [this] {
-                setEnabled(!waylandServer()->seat()->hasKeyboard());
+        m_enabled = !input()->hasAlphaNumericKeyboard();
+        connect(input(), &InputRedirection::hasAlphaNumericKeyboardChanged, this,
+            [this] (bool set) {
+                setEnabled(!set);
             }
         );
     }
@@ -347,6 +351,7 @@ bool VirtualKeyboard::event(QEvent *e)
                     break;
                 case TextInputInterface::ContentPurpose::Url:
                     hints |= Qt::ImhUrlCharactersOnly;
+                    break;
                 case TextInputInterface::ContentPurpose::Email:
                     hints |= Qt::ImhEmailCharactersOnly;
                     break;
@@ -408,8 +413,11 @@ bool VirtualKeyboard::eventFilter(QObject *o, QEvent *e)
         if (event->nativeScanCode() == 0) {
             // this is a key composed by the virtual keyboard - we need to send it to the client
             // TODO: proper xkb support in KWindowSystem needed
-            int sym = 0;
-            KKeyServer::keyQtToSymX(event->key(), &sym);
+            int sym = xkb_keysym_from_name(event->text().toUtf8().constData(), XKB_KEYSYM_NO_FLAGS);
+            if (sym == XKB_KEY_NoSymbol) {
+                // mapping from text failed, try mapping through KKeyServer
+                KKeyServer::keyQtToSymX(event->key(), &sym);
+            }
             if (sym != 0) {
                 if (waylandServer()) {
                     auto t = waylandServer()->seat()->focusedTextInput();

@@ -368,6 +368,7 @@ void Workspace::init()
     if (auto w = waylandServer()) {
         connect(w, &WaylandServer::shellClientAdded, this,
             [this] (ShellClient *c) {
+                setupClientConnections(c);
                 c->updateDecoration(false);
                 updateClientLayer(c);
                 if (!c->isInternal()) {
@@ -380,7 +381,7 @@ void Workspace::init()
                         placementDone = true;
                     }
                     if (!placementDone) {
-                        Placement::self()->place(c, area);
+                        c->placeIn(area);
                     }
                     m_allClients.append(c);
                     if (!unconstrained_stacking_order.contains(c))
@@ -397,12 +398,24 @@ void Workspace::init()
                 connect(c, &ShellClient::windowShown, this,
                     [this, c] {
                         updateClientLayer(c);
+                        // TODO: when else should we send the client through placement?
+                        if (c->hasTransientPlacementHint()) {
+                            QRect area = clientArea(PlacementArea, Screens::self()->current(), c->desktop());
+                            c->placeIn(area);
+                        }
                         x_stacking_dirty = true;
                         updateStackingOrder(true);
                         updateClientArea();
                         if (c->wantsInput()) {
                             activateClient(c);
                         }
+                    }
+                );
+                connect(c, &ShellClient::windowHidden, this,
+                    [this] {
+                        x_stacking_dirty = true;
+                        updateStackingOrder(true);
+                        updateClientArea();
                     }
                 );
             }
@@ -464,6 +477,11 @@ Workspace::~Workspace()
         (*it)->release(ReleaseReason::KWinShutsDown);
     xcb_delete_property(connection(), rootWindow(), atoms->kwin_running);
 
+    for (auto it = deleted.begin(); it != deleted.end();) {
+        emit deletedRemoved(*it);
+        it = deleted.erase(it);
+    }
+
     delete RuleBook::self();
     kwinApp()->config()->sync();
 
@@ -483,18 +501,19 @@ Workspace::~Workspace()
     _self = 0;
 }
 
+void Workspace::setupClientConnections(AbstractClient *c)
+{
+    connect(c, &Toplevel::needsRepaint, m_compositor, &Compositor::scheduleRepaint);
+    connect(c, &AbstractClient::desktopPresenceChanged, this, &Workspace::desktopPresenceChanged);
+}
+
 Client* Workspace::createClient(xcb_window_t w, bool is_mapped)
 {
     StackingUpdatesBlocker blocker(this);
     Client* c = new Client();
-    connect(c, SIGNAL(needsRepaint()), m_compositor, SLOT(scheduleRepaint()));
-    connect(c, &Client::activeChanged, m_compositor, static_cast<void (Compositor::*)()>(&Compositor::checkUnredirect));
-    connect(c, SIGNAL(fullScreenChanged()), m_compositor, SLOT(checkUnredirect()));
-    connect(c, SIGNAL(geometryChanged()), m_compositor, SLOT(checkUnredirect()));
-    connect(c, SIGNAL(geometryShapeChanged(KWin::Toplevel*,QRect)), m_compositor, SLOT(checkUnredirect()));
+    setupClientConnections(c);
     connect(c, SIGNAL(blockingCompositingChanged(KWin::Client*)), m_compositor, SLOT(updateCompositeBlocking(KWin::Client*)));
     connect(c, SIGNAL(clientFullScreenSet(KWin::Client*,bool,bool)), ScreenEdges::self(), SIGNAL(checkBlocking()));
-    connect(c, &Client::desktopPresenceChanged, this, &Workspace::desktopPresenceChanged);
     if (!c->manage(w, is_mapped)) {
         Client::deleteClient(c);
         return NULL;
@@ -1638,6 +1657,11 @@ AbstractClient *Workspace::findAbstractClient(std::function<bool (const Abstract
     if (Client *ret = Toplevel::findInList(desktops, func)) {
         return ret;
     }
+    if (waylandServer()) {
+        if (AbstractClient *ret = Toplevel::findInList(waylandServer()->internalClients(), func)) {
+            return ret;
+        }
+    }
     return nullptr;
 }
 
@@ -1688,6 +1712,19 @@ Toplevel *Workspace::findToplevel(std::function<bool (const Toplevel*)> func) co
         return ret;
     }
     return nullptr;
+}
+
+Toplevel *Workspace::findToplevel(QWindow *w) const
+{
+    if (!w) {
+        return nullptr;
+    }
+    if (waylandServer()) {
+        if (auto c = waylandServer()->findClient(w)) {
+            return c;
+        }
+    }
+    return findUnmanaged(w->winId());
 }
 
 bool Workspace::hasClient(const AbstractClient *c)

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-19 09:30+0000\n"
+"POT-Creation-Date: 2016-09-25 10:47+0000\n"
 "PO-Revision-Date: 2009-12-26 16:19+0100\n"
 "Last-Translator: Jean Cayron <jean.cayron@gmail.com>\n"
 "Language-Team: Walloon <linux-wa@walon.org>\n"
@@ -327,20 +327,20 @@ msgstr ""
 msgid "All Desktops"
 msgstr "Tos les scribannes"
 
-#: ruleswidget.cpp:329
+#: ruleswidget.cpp:330
 msgid "All Activities"
 msgstr ""
 
-#: ruleswidget.cpp:758
+#: ruleswidget.cpp:771
 #, kde-format
 msgid "Settings for %1"
 msgstr "Tchuzes po %1"
 
-#: ruleswidget.cpp:760
+#: ruleswidget.cpp:773
 msgid "Unnamed entry"
 msgstr "Intrêye nén lomêye"
 
-#: ruleswidget.cpp:770
+#: ruleswidget.cpp:783
 msgid ""
 "You have specified the window class as unimportant.\n"
 "This means the settings will possibly apply to windows from all "
@@ -354,11 +354,11 @@ msgstr ""
 "di, pol moens, limiter les sôres di purneas po n' nén aveur des sôres "
 "speciåles di purneas."
 
-#: ruleswidget.cpp:800
+#: ruleswidget.cpp:813
 msgid "Edit Window-Specific Settings"
 msgstr "Aspougnî tchuzes sipecifikes å purnea"
 
-#: ruleswidget.cpp:830
+#: ruleswidget.cpp:843
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
 "window or application. Find the setting you want to affect, enable the "
@@ -366,11 +366,11 @@ msgid ""
 "affected and to which value."
 msgstr ""
 
-#: ruleswidget.cpp:834
+#: ruleswidget.cpp:847
 msgid "Consult the documentation for more details."
 msgstr "Léjhoz l' documintåcion po pus di detays."
 
-#: ruleswidget.cpp:873
+#: ruleswidget.cpp:886
 msgid "Edit Shortcut"
 msgstr "Candjî rascourti"
 

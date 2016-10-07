@@ -63,6 +63,7 @@ public:
     Decoration::Renderer *createDecorationRenderer(Decoration::DecoratedClientImpl *impl) override;
     virtual void triggerFence() override;
     virtual QMatrix4x4 projectionMatrix() const = 0;
+    bool animationsSupported() const override;
 
     void insertWait();
 
@@ -274,6 +275,7 @@ public:
     virtual ~OpenGLWindowPixmap();
     SceneOpenGL::Texture *texture() const;
     bool bind();
+    bool isValid() const override;
 protected:
     WindowPixmap *createChild(const QPointer<KWayland::Server::SubSurfaceInterface> &subSurface) override;
 private:

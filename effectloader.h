@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #ifndef KWIN_EFFECT_LOADER_H
 #define KWIN_EFFECT_LOADER_H
+#include <kwin_export.h>
 // KDE
 #include <KPluginMetaData>
 #include <KSharedConfig>
@@ -47,7 +48,7 @@ enum class LoadEffectFlag {
     Load = 1 << 0, ///< Effect should be loaded
     CheckDefaultFunction = 1 << 2 ///< The Check Default Function needs to be invoked if the Effect provides it
 };
-Q_DECLARE_FLAGS(LoadEffectFlags, LoadEffectFlag);
+Q_DECLARE_FLAGS(LoadEffectFlags, LoadEffectFlag)
 
 /**
  * @brief Interface to describe how an effect loader has to function.
@@ -65,7 +66,7 @@ Q_DECLARE_FLAGS(LoadEffectFlags, LoadEffectFlag);
  * to be queried at the same time. Thus the idea is to have one implementation per type and one
  * implementation which makes use of all of them and combines the loading.
  */
-class AbstractEffectLoader : public QObject
+class KWIN_EXPORT AbstractEffectLoader : public QObject
 {
     Q_OBJECT
 public:
@@ -302,7 +303,7 @@ private:
  * @brief Can load scripted Effects
  *
  */
-class ScriptedEffectLoader : public AbstractEffectLoader
+class KWIN_EXPORT ScriptedEffectLoader : public AbstractEffectLoader
 {
     Q_OBJECT
 public:

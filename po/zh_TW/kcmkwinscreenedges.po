@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-05-09 08:35+0000\n"
-"PO-Revision-Date: 2016-06-25 21:42+0800\n"
+"POT-Creation-Date: 2016-08-11 07:46+0000\n"
+"PO-Revision-Date: 2016-09-20 10:25+0800\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
 "Language: zh_TW\n"
@@ -48,41 +48,45 @@ msgstr "執行指令"
 msgid "Activity Manager"
 msgstr "活動管理員"
 
-#: main.cpp:195
+#: main.cpp:192
+msgid "Application Launcher"
+msgstr "應用程式啟動器"
+
+#: main.cpp:196
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - 所有桌面"
 
-#: main.cpp:196
+#: main.cpp:197
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - 目前的桌面"
 
-#: main.cpp:197
+#: main.cpp:198
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - 目前的應用程式"
 
-#: main.cpp:200
+#: main.cpp:201
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 - 立方體"
 
-#: main.cpp:201
+#: main.cpp:202
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 - 圓柱"
 
-#: main.cpp:202
+#: main.cpp:203
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 - 球體"
 
-#: main.cpp:204
+#: main.cpp:205
 msgid "Toggle window switching"
 msgstr "切換視窗切換設定"
 
-#: main.cpp:205
+#: main.cpp:206
 msgid "Toggle alternative window switching"
 msgstr "切換替代視窗切換設定"
 

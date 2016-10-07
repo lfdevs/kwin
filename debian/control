@@ -6,11 +6,8 @@ Uploaders: Maximiliano Curia <maxy@debian.org>
 Build-Depends: cmake (>= 2.8.12),
                debhelper (>= 9),
                extra-cmake-modules (>= 1.3.0~),
-               kdoctools-dev (>= 5.23.0~),
-               kinit-dev (>= 5.23.0~),
-               kio-dev (>= 5.23.0~),
+               kinit-dev (>= 5.26.0~),
                kscreenlocker-dev,
-               kwayland-dev (>= 5.1.95),
                libdrm-dev,
                libegl1-mesa-dev (>= 1.2~),
                libepoxy-dev (>= 1.2),
@@ -18,27 +15,31 @@ Build-Depends: cmake (>= 2.8.12),
                libfreetype6-dev,
                libgbm-dev,
                libice-dev,
-               libinput-dev (>= 0.10~),
+               libinput-dev (>= 1.2~),
                libkdecorations2-dev,
-               libkf5activities-dev (>= 5.23.0~),
-               libkf5completion-dev (>= 5.23.0~),
-               libkf5config-dev (>= 5.23.0~),
-               libkf5configwidgets-dev (>= 5.23.0~),
-               libkf5coreaddons-dev (>= 5.23.0~),
-               libkf5crash-dev (>= 5.23.0~),
-               libkf5declarative-dev (>= 5.23.0~),
-               libkf5globalaccel-dev (>= 5.23.0~),
-               libkf5i18n-dev (>= 5.23.0~),
-               libkf5iconthemes-dev (>= 5.23.0~),
-               libkf5idletime-dev (>= 5.23.0~),
-               libkf5kcmutils-dev (>= 5.23.0~),
-               libkf5newstuff-dev (>= 5.23.0~),
-               libkf5notifications-dev (>= 5.23.0~),
-               libkf5package-dev (>= 5.23.0~),
-               libkf5service-dev (>= 5.23.0~),
-               libkf5widgetsaddons-dev (>= 5.23.0~),
-               libkf5windowsystem-dev (>= 5.23.0~),
-               libkf5xmlgui-dev (>= 5.23.0~),
+               libkf5activities-dev (>= 5.26.0~),
+               libkf5completion-dev (>= 5.26.0~),
+               libkf5config-dev (>= 5.26.0~),
+               libkf5configwidgets-dev (>= 5.26.0~),
+               libkf5coreaddons-dev (>= 5.26.0~),
+               libkf5crash-dev (>= 5.26.0~),
+               libkf5declarative-dev (>= 5.26.0~),
+               libkf5doctools-dev (>= 5.26.0~),
+               libkf5globalaccel-dev (>= 5.26.0~),
+               libkf5i18n-dev (>= 5.26.0~),
+               libkf5iconthemes-dev (>= 5.26.0~),
+               libkf5idletime-dev (>= 5.26.0~),
+               libkf5kcmutils-dev (>= 5.26.0~),
+               libkf5kio-dev (>= 5.26.0~),
+               libkf5newstuff-dev (>= 5.26.0~),
+               libkf5notifications-dev (>= 5.26.0~),
+               libkf5package-dev (>= 5.26.0~),
+               libkf5plasma-dev (>= 5.26.0~),
+               libkf5service-dev (>= 5.26.0~),
+               libkf5wayland-dev (>= 4:5.26.0~),
+               libkf5widgetsaddons-dev (>= 5.26.0~),
+               libkf5windowsystem-dev (>= 5.26.0~),
+               libkf5xmlgui-dev (>= 5.26.0~),
                libqt5x11extras5-dev (>= 5.5.0~),
                libsm-dev,
                libudev-dev [linux-any],
@@ -61,10 +62,9 @@ Build-Depends: cmake (>= 2.8.12),
                libxcb1-dev (>= 1.10~),
                libxcursor-dev,
                libxi-dev,
-               libxkbcommon-dev (>= 0.4.1),
+               libxkbcommon-dev (>= 0.5.0~),
                pkg-config,
                pkg-kde-tools (>= 0.15.18~),
-               plasma-framework-dev (>= 5.23.0~),
                qtbase5-dev (>= 5.5.0~),
                qtbase5-private-dev (>= 5.4.0~),
                qtdeclarative5-dev (>= 5.5.0~),
@@ -81,8 +81,8 @@ Architecture: any
 Depends: kwin-common (= ${binary:Version}),
          libegl1-mesa-dev (>= 1.2~),
          libepoxy-dev (>= 1.2),
-         libkf5coreaddons-dev (>= 5.23.0~),
-         libkf5windowsystem-dev (>= 5.23.0~),
+         libkf5coreaddons-dev (>= 5.26.0~),
+         libkf5windowsystem-dev (>= 5.26.0~),
          libqt5x11extras5-dev (>= 5.5.0~),
          qtbase5-dev (>= 5.5.0~),
          ${misc:Depends},
@@ -103,7 +103,7 @@ Description: KDE window manager - devel files
 Package: kwin-common
 Architecture: any
 Depends: kwin-data (= ${source:Version}),
-         libkwineffects8 (= ${binary:Version}),
+         libkwineffects9 (= ${binary:Version}),
          qml-module-org-kde-kquickcontrolsaddons,
          qml-module-qtmultimedia,
          ${misc:Depends},
@@ -126,7 +126,7 @@ Description: KDE window manager, common files
 Package: kwin-x11
 Architecture: any
 Depends: kwin-common (= ${binary:Version}), ${misc:Depends}, ${shlibs:Depends}
-Breaks: kde-window-manager (<< 4:5), kwin-addons (<< 4:5.7)
+Breaks: kde-window-manager (<< 4:5), kwin-addons (<< 4:5.8)
 Replaces: kde-window-manager (<< 4:5)
 Provides: kwin
 Description: KDE window manager, X11 version
@@ -160,12 +160,12 @@ Description: KDE window manager, wayland version
  of windows and switching between them.
  .
  This package is part of the KDE base workspace module.
-Breaks: plasma-workspace-wayland (<< 4:5.7)
+Breaks: plasma-workspace-wayland (<< 4:5.8)
 
 Package: libkwin4-effect-builtins1
 Section: libs
 Architecture: any
-Depends: libkwineffects8 (= ${binary:Version}),
+Depends: libkwineffects9 (= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends}
 Description: KDE window manager effect builtins library
@@ -179,7 +179,7 @@ Description: KDE window manager effect builtins library
  .
  This package is part of the KDE base workspace module.
 
-Package: libkwineffects8
+Package: libkwineffects9
 Section: libs
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
@@ -194,7 +194,7 @@ Description: KDE window manager effects library
  .
  This package is part of the KDE base workspace module.
 
-Package: libkwinglutils8
+Package: libkwinglutils9
 Section: libs
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
@@ -210,7 +210,7 @@ Description: KDE window manager gl utils library
  .
  This package is part of the KDE base workspace module.
 
-Package: libkwinxrenderutils8
+Package: libkwinxrenderutils9
 Section: libs
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}

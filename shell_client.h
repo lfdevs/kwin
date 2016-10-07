@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KWIN_SHELL_CLIENT_H
 
 #include "abstract_client.h"
+#include <KWayland/Server/xdgshell_interface.h>
 
 namespace KWayland
 {
@@ -41,13 +42,14 @@ class KWIN_EXPORT ShellClient : public AbstractClient
     Q_OBJECT
 public:
     ShellClient(KWayland::Server::ShellSurfaceInterface *surface);
+    ShellClient(KWayland::Server::XdgShellSurfaceInterface *surface);
+    ShellClient(KWayland::Server::XdgShellPopupInterface *surface);
     virtual ~ShellClient();
 
     QStringList activities() const override;
     QPoint clientContentPos() const override;
     QSize clientSize() const override;
     QRect transparentRect() const override;
-    bool shouldUnredirect() const override;
     NET::WindowType windowType(bool direct = false, int supported_types = 0) const override;
     void debug(QDebug &stream) const override;
     double opacity() const override;
@@ -67,11 +69,13 @@ public:
     bool isFullScreen() const override;
     bool isMaximizable() const override;
     bool isMinimizable() const override;
-    QRect iconGeometry() const override;
     bool isMovable() const override;
     bool isMovableAcrossScreens() const override;
     bool isResizable() const override;
     bool isShown(bool shaded_is_shown) const override;
+    bool isHiddenInternal() const override {
+        return m_unmapped;
+    }
     void hideClient(bool hide) override;
     MaximizeMode maximizeMode() const override;
     QRect geometryRestore() const override {
@@ -120,6 +124,12 @@ public:
 
     QMatrix4x4 inputTransformation() const override;
 
+    bool setupCompositing() override;
+    void finishCompositing(ReleaseReason releaseReason = ReleaseReason::Release) override;
+
+    // TODO: const-ref
+    void placeIn(QRect &area);
+
 protected:
     void addDamage(const QRegion &damage) override;
     bool belongsToSameApplication(const AbstractClient *other, bool active_hack) const override;
@@ -132,12 +142,15 @@ protected:
     void doResizeSync() override;
     bool isWaitingForMoveResizeSync() const override;
     bool acceptsFocus() const override;
+    void doMinimize() override;
 
 private Q_SLOTS:
     void clientFullScreenChanged(bool fullScreen);
 
 private:
     void init();
+    template <class T>
+    void initSurface(T *shellSurface);
     void requestGeometry(const QRect &rect);
     void doSetGeometry(const QRect &rect);
     void createDecoration(const QRect &oldgeom);
@@ -150,9 +163,12 @@ private:
     void markAsMapped();
     void setTransient();
     bool shouldExposeToWindowManagement();
+    KWayland::Server::XdgShellSurfaceInterface::States xdgSurfaceStates() const;
     static void deleteClient(ShellClient *c);
 
     KWayland::Server::ShellSurfaceInterface *m_shellSurface;
+    KWayland::Server::XdgShellSurfaceInterface *m_xdgShellSurface;
+    KWayland::Server::XdgShellPopupInterface *m_xdgShellPopup;
     QSize m_clientSize;
 
     ClearablePoint m_positionAfterResize; // co-ordinates saved from a requestGeometry call, real geometry will be updated after the next damage event when the client has resized
@@ -160,6 +176,7 @@ private:
     bool m_closing = false;
     quint32 m_windowId = 0;
     QWindow *m_internalWindow = nullptr;
+    Qt::WindowFlags m_internalWindowFlags = Qt::WindowFlags();
     bool m_unmapped = true;
     MaximizeMode m_maximizeMode = MaximizeRestore;
     QRect m_geomMaximizeRestore; // size and position of the window before it was set to maximize
@@ -196,6 +213,8 @@ private:
     int m_requestGeometryBlockCounter = 0;
     QRect m_blockedRequestGeometry;
     QString m_caption;
+
+    bool m_compositingSetup = false;
 };
 
 }

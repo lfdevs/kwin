@@ -106,6 +106,78 @@ bool InputEventFilter::touchUp(quint32 id, quint32 time)
     return false;
 }
 
+bool InputEventFilter::pinchGestureBegin(int fingerCount, quint32 time)
+{
+    Q_UNUSED(fingerCount)
+    Q_UNUSED(time)
+    return false;
+}
+
+bool InputEventFilter::pinchGestureUpdate(qreal scale, qreal angleDelta, const QSizeF &delta, quint32 time)
+{
+    Q_UNUSED(scale)
+    Q_UNUSED(angleDelta)
+    Q_UNUSED(delta)
+    Q_UNUSED(time)
+    return false;
+}
+
+bool InputEventFilter::pinchGestureEnd(quint32 time)
+{
+    Q_UNUSED(time)
+    return false;
+}
+
+bool InputEventFilter::pinchGestureCancelled(quint32 time)
+{
+    Q_UNUSED(time)
+    return false;
+}
+
+bool InputEventFilter::swipeGestureBegin(int fingerCount, quint32 time)
+{
+    Q_UNUSED(fingerCount)
+    Q_UNUSED(time)
+    return false;
+}
+
+bool InputEventFilter::swipeGestureUpdate(const QSizeF &delta, quint32 time)
+{
+    Q_UNUSED(delta)
+    Q_UNUSED(time)
+    return false;
+}
+
+bool InputEventFilter::swipeGestureEnd(quint32 time)
+{
+    Q_UNUSED(time)
+    return false;
+}
+
+bool InputEventFilter::swipeGestureCancelled(quint32 time)
+{
+    Q_UNUSED(time)
+    return false;
+}
+
+void InputEventFilter::passToWaylandServer(QKeyEvent *event)
+{
+    Q_ASSERT(waylandServer());
+    if (event->isAutoRepeat()) {
+        return;
+    }
+    switch (event->type()) {
+    case QEvent::KeyPress:
+        waylandServer()->seat()->keyPressed(event->nativeScanCode());
+        break;
+    case QEvent::KeyRelease:
+        waylandServer()->seat()->keyReleased(event->nativeScanCode());
+        break;
+    default:
+        break;
+    }
+}
+
 #if HAVE_INPUT
 class VirtualTerminalFilter : public InputEventFilter {
 public:
@@ -286,8 +358,28 @@ public:
         if (!effects || !static_cast< EffectsHandlerImpl* >(effects)->hasKeyboardGrab()) {
             return false;
         }
+        waylandServer()->seat()->setFocusedKeyboardSurface(nullptr);
+        passToWaylandServer(event);
         static_cast< EffectsHandlerImpl* >(effects)->grabbedKeyboardEvent(event);
         return true;
+    }
+    bool touchDown(quint32 id, const QPointF &pos, quint32 time) override {
+        if (!effects) {
+            return false;
+        }
+        return static_cast< EffectsHandlerImpl* >(effects)->touchDown(id, pos, time);
+    }
+    bool touchMotion(quint32 id, const QPointF &pos, quint32 time) override {
+        if (!effects) {
+            return false;
+        }
+        return static_cast< EffectsHandlerImpl* >(effects)->touchMotion(id, pos, time);
+    }
+    bool touchUp(quint32 id, quint32 time) override {
+        if (!effects) {
+            return false;
+        }
+        return static_cast< EffectsHandlerImpl* >(effects)->touchUp(id, time);
     }
 };
 
@@ -362,8 +454,8 @@ public:
         return input()->shortcuts()->processAxis(event->modifiers(), direction);
     }
     bool keyEvent(QKeyEvent *event) override {
-        if (event->type() == QEvent::KeyPress && !event->isAutoRepeat()) {
-            return input()->shortcuts()->processKey(event->modifiers(), event->nativeVirtualKey());
+        if (event->type() == QEvent::KeyPress) {
+            return input()->shortcuts()->processKey(input()->keyboard()->xkb()->modifiersRelevantForGlobalShortcuts(), event->nativeVirtualKey(), event->key());
         }
         return false;
     }
@@ -373,6 +465,13 @@ class InternalWindowEventFilter : public InputEventFilter {
     bool pointerEvent(QMouseEvent *event, quint32 nativeButton) override {
         Q_UNUSED(nativeButton)
         auto internal = input()->pointer()->internalWindow();
+        if (!internal) {
+            return false;
+        }
+        if (event->buttons() == Qt::NoButton) {
+            // update pointer window only if no button is pressed
+            input()->pointer()->update();
+        }
         if (!internal) {
             return false;
         }
@@ -418,6 +517,9 @@ class InternalWindowEventFilter : public InputEventFilter {
                 if (!screens()->geometry().contains(w->geometry())) {
                     continue;
                 }
+                if (w->property("_q_showWithoutActivating").toBool()) {
+                    continue;
+                }
                 found = w;
                 break;
             }
@@ -426,7 +528,12 @@ class InternalWindowEventFilter : public InputEventFilter {
             return false;
         }
         event->setAccepted(false);
-        return QCoreApplication::sendEvent(found, event);
+        if (QCoreApplication::sendEvent(found, event)) {
+            waylandServer()->seat()->setFocusedKeyboardSurface(nullptr);
+            passToWaylandServer(event);
+            return true;
+        }
+        return false;
     }
 
     bool touchDown(quint32 id, const QPointF &pos, quint32 time) override {
@@ -602,7 +709,7 @@ public:
         if (input()->touch()->decorationPressId() == -1) {
             return false;
         }
-        if (input()->touch()->decorationPressId() != id) {
+        if (input()->touch()->decorationPressId() != qint32(id)) {
             // ignore, but filter out
             return true;
         }
@@ -622,7 +729,7 @@ public:
         if (input()->touch()->decorationPressId() == -1) {
             return false;
         }
-        if (input()->touch()->decorationPressId() != id) {
+        if (input()->touch()->decorationPressId() != qint32(id)) {
             // ignore, but filter out
             return true;
         }
@@ -657,8 +764,17 @@ public:
         if (!TabBox::TabBox::self() || !TabBox::TabBox::self()->isGrabbed()) {
             return false;
         }
-        if (event->type() == QEvent::KeyPress)
+        auto seat = waylandServer()->seat();
+        seat->setFocusedKeyboardSurface(nullptr);
+        // pass the key event to the seat, so that it has a proper model of the currently hold keys
+        // this is important for combinations like alt+shift to ensure that shift is not considered pressed
+        passToWaylandServer(event);
+
+        if (event->type() == QEvent::KeyPress) {
             TabBox::TabBox::self()->keyPress(event->modifiers() | event->key());
+        } else if (input()->keyboard()->xkb()->modifiersRelevantForGlobalShortcuts() == Qt::NoModifier) {
+            TabBox::TabBox::self()->modifiersReleased();
+        }
         return true;
     }
     bool wheelEvent(QWheelEvent *event) override {
@@ -815,16 +931,7 @@ public:
         auto seat = waylandServer()->seat();
         input()->keyboard()->update();
         seat->setTimestamp(event->timestamp());
-        switch (event->type()) {
-        case QEvent::KeyPress:
-            seat->keyPressed(event->nativeScanCode());
-            break;
-        case QEvent::KeyRelease:
-            seat->keyReleased(event->nativeScanCode());
-            break;
-        default:
-            break;
-        }
+        passToWaylandServer(event);
         return true;
     }
     bool touchDown(quint32 id, const QPointF &pos, quint32 time) override {
@@ -980,6 +1087,8 @@ void InputRedirection::setupWorkspace()
             [this] (FakeInputDevice *device) {
                 connect(device, &FakeInputDevice::authenticationRequested, this,
                     [this, device] (const QString &application, const QString &reason) {
+                        Q_UNUSED(application)
+                        Q_UNUSED(reason)
                         // TODO: make secure
                         device->setAuthentication(true);
                     }
@@ -1132,6 +1241,14 @@ void InputRedirection::setupLibInput()
         );
         connect(conn, &LibInput::Connection::pointerButtonChanged, m_pointer, &PointerInputRedirection::processButton);
         connect(conn, &LibInput::Connection::pointerAxisChanged, m_pointer, &PointerInputRedirection::processAxis);
+        connect(conn, &LibInput::Connection::pinchGestureBegin, m_pointer, &PointerInputRedirection::processPinchGestureBegin);
+        connect(conn, &LibInput::Connection::pinchGestureUpdate, m_pointer, &PointerInputRedirection::processPinchGestureUpdate);
+        connect(conn, &LibInput::Connection::pinchGestureEnd, m_pointer, &PointerInputRedirection::processPinchGestureEnd);
+        connect(conn, &LibInput::Connection::pinchGestureCancelled, m_pointer, &PointerInputRedirection::processPinchGestureCancelled);
+        connect(conn, &LibInput::Connection::swipeGestureBegin, m_pointer, &PointerInputRedirection::processSwipeGestureBegin);
+        connect(conn, &LibInput::Connection::swipeGestureUpdate, m_pointer, &PointerInputRedirection::processSwipeGestureUpdate);
+        connect(conn, &LibInput::Connection::swipeGestureEnd, m_pointer, &PointerInputRedirection::processSwipeGestureEnd);
+        connect(conn, &LibInput::Connection::swipeGestureCancelled, m_pointer, &PointerInputRedirection::processSwipeGestureCancelled);
         connect(conn, &LibInput::Connection::keyChanged, m_keyboard, &KeyboardInputRedirection::processKey);
         connect(conn, &LibInput::Connection::pointerMotion, this,
             [this] (QPointF delta, uint32_t time, LibInput::Device *device) {
@@ -1155,15 +1272,17 @@ void InputRedirection::setupLibInput()
             connect(kwinApp(), &Application::screensCreated, this, &InputRedirection::setupLibInputWithScreens);
         }
         if (auto s = findSeat()) {
-            s->setHasKeyboard(conn->hasAlphaNumericKeyboard());
+            // Workaround for QTBUG-54371: if there is no real keyboard Qt doesn't request virtual keyboard
+            s->setHasKeyboard(true);
             s->setHasPointer(conn->hasPointer());
             s->setHasTouch(conn->hasTouch());
             connect(conn, &LibInput::Connection::hasAlphaNumericKeyboardChanged, this,
-                [this, s] (bool set) {
+                [this] (bool set) {
                     if (m_libInput->isSuspended()) {
                         return;
                     }
-                    s->setHasKeyboard(set);
+                    // TODO: this should update the seat, only workaround for QTBUG-54371
+                    emit hasAlphaNumericKeyboardChanged(set);
                 }
             );
             connect(conn, &LibInput::Connection::hasPointerChanged, this,
@@ -1192,6 +1311,16 @@ void InputRedirection::setupLibInput()
         );
     }
 #endif
+}
+
+bool InputRedirection::hasAlphaNumericKeyboard()
+{
+#if HAVE_INPUT
+    if (m_libInput) {
+        return m_libInput->hasAlphaNumericKeyboard();
+    }
+#endif
+    return true;
 }
 
 void InputRedirection::setupLibInputWithScreens()
@@ -1310,7 +1439,7 @@ Toplevel *InputRedirection::findToplevel(const QPoint &pos)
             continue;
         }
         if (AbstractClient *c = dynamic_cast<AbstractClient*>(t)) {
-            if (!c->isOnCurrentActivity() || !c->isOnCurrentDesktop() || c->isMinimized() || !c->isCurrentTab()) {
+            if (!c->isOnCurrentActivity() || !c->isOnCurrentDesktop() || c->isMinimized() || !c->isCurrentTab() || c->isHiddenInternal()) {
                 continue;
             }
         }
@@ -1458,7 +1587,7 @@ void InputDeviceHandler::updateInternalWindow(const QPointF &pos)
                 if (!w->isVisible()) {
                     continue;
                 }
-                if (w->geometry().contains(pos.toPoint())) {
+                if ((*it)->geometry().contains(pos.toPoint())) {
                     // check input mask
                     const QRegion mask = w->mask().translated(w->geometry().topLeft());
                     if (!mask.isEmpty() && !mask.contains(pos.toPoint())) {

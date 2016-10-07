@@ -102,6 +102,8 @@ public:
     virtual ~DebugConsole();
 
 private:
+    void initGLTab();
+
     QScopedPointer<Ui::DebugConsole> m_ui;
     QScopedPointer<DebugConsoleFilter> m_inputFilter;
 };
@@ -132,6 +134,16 @@ public:
     bool touchDown(quint32 id, const QPointF &pos, quint32 time) override;
     bool touchMotion(quint32 id, const QPointF &pos, quint32 time) override;
     bool touchUp(quint32 id, quint32 time) override;
+
+    bool pinchGestureBegin(int fingerCount, quint32 time) override;
+    bool pinchGestureUpdate(qreal scale, qreal angleDelta, const QSizeF &delta, quint32 time) override;
+    bool pinchGestureEnd(quint32 time) override;
+    bool pinchGestureCancelled(quint32 time) override;
+
+    bool swipeGestureBegin(int fingerCount, quint32 time) override;
+    bool swipeGestureUpdate(const QSizeF &delta, quint32 time) override;
+    bool swipeGestureEnd(quint32 time) override;
+    bool swipeGestureCancelled(quint32 time) override;
 
 private:
     QTextEdit *m_textEdit;

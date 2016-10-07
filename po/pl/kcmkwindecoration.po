@@ -1,5 +1,5 @@
 # translation of kcmkwindecoration.po to Polish
-# Version: $Revision: 1462113 $
+# Version: $Revision: 1470715 $
 # translation of kcmkwindecoration.po to
 # Norbert Popiołek <norbert@kde.com.pl>\n"
 # Michał Rudolf <mrudolf@kdewebdev.org>, 2002.
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-04-12 09:00+0000\n"
-"PO-Revision-Date: 2016-01-30 08:43+0100\n"
+"PO-Revision-Date: 2016-09-24 09:21+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -76,7 +76,7 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, theTab)
 #: kcm.ui:21
 msgid "Theme"
-msgstr "Wystrój"
+msgstr "Wygląd"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
 #: kcm.ui:29
@@ -86,7 +86,7 @@ msgstr "Znajdź"
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
 #: kcm.ui:42
 msgid "Get New Decorations..."
-msgstr "Pobierz nowe wystroje..."
+msgstr "Pobierz nowy wygląd..."
 
 #. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
 #: kcm.ui:54

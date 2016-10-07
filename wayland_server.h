@@ -23,8 +23,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <kwinglobals.h>
 
 #include <QObject>
+#include <QPointer>
 
 class QThread;
+class QProcess;
 class QWindow;
 
 namespace KWayland
@@ -41,6 +43,7 @@ namespace Server
 class ClientConnection;
 class CompositorInterface;
 class Display;
+class DataDeviceInterface;
 class ShellInterface;
 class SeatInterface;
 class ServerSideDecorationManagerInterface;
@@ -51,6 +54,7 @@ class PlasmaWindowManagementInterface;
 class QtSurfaceExtensionInterface;
 class OutputManagementInterface;
 class OutputConfigurationInterface;
+class XdgShellInterface;
 }
 }
 
@@ -74,7 +78,7 @@ public:
     Q_DECLARE_FLAGS(InitalizationFlags, InitalizationFlag)
 
     virtual ~WaylandServer();
-    void init(const QByteArray &socketName = QByteArray(), InitalizationFlags flags = InitalizationFlag::NoOptions);
+    bool init(const QByteArray &socketName = QByteArray(), InitalizationFlags flags = InitalizationFlag::NoOptions);
     void terminateClientConnections();
 
     KWayland::Server::Display *display() {
@@ -104,6 +108,7 @@ public:
     void removeClient(ShellClient *c);
     ShellClient *findClient(quint32 id) const;
     ShellClient *findClient(KWayland::Server::SurfaceInterface *surface) const;
+    AbstractClient *findAbstractClient(KWayland::Server::SurfaceInterface *surface) const;
     ShellClient *findClient(QWindow *w) const;
 
     /**
@@ -117,6 +122,8 @@ public:
      **/
     int createInputMethodConnection();
     void destroyInputMethodConnection();
+
+    int createXclipboardSyncConnection();
 
     /**
      * @returns true if screen is locked.
@@ -142,6 +149,9 @@ public:
     KWayland::Server::ClientConnection *screenLockerClientConnection() const {
         return m_screenLockerClientConnection;
     }
+    QPointer<KWayland::Server::DataDeviceInterface> xclipboardSyncDataDevice() const {
+        return m_xclipbaordSync.ddi;
+    }
     KWayland::Client::ShmPool *internalShmPool() {
         return m_internalConnection.shm;
     }
@@ -158,17 +168,23 @@ Q_SIGNALS:
     void shellClientAdded(KWin::ShellClient*);
     void shellClientRemoved(KWin::ShellClient*);
     void terminatingInternalClientConnection();
+    void initialized();
 
 private:
+    void setupX11ClipboardSync();
     void shellClientShown(Toplevel *t);
     void initOutputs();
+    void syncOutputsToWayland();
     quint16 createClientId(KWayland::Server::ClientConnection *c);
     void destroyInternalConnection();
     void configurationChangeRequested(KWayland::Server::OutputConfigurationInterface *config);
+    template <class T>
+    void createSurface(T *surface);
     KWayland::Server::Display *m_display = nullptr;
     KWayland::Server::CompositorInterface *m_compositor = nullptr;
     KWayland::Server::SeatInterface *m_seat = nullptr;
     KWayland::Server::ShellInterface *m_shell = nullptr;
+    KWayland::Server::XdgShellInterface *m_xdgShell = nullptr;
     KWayland::Server::PlasmaShellInterface *m_plasmaShell = nullptr;
     KWayland::Server::PlasmaWindowManagementInterface *m_windowManagement = nullptr;
     KWayland::Server::QtSurfaceExtensionInterface *m_qtExtendedSurface = nullptr;
@@ -188,6 +204,11 @@ private:
         KWayland::Client::ShmPool *shm = nullptr;
 
     } m_internalConnection;
+    struct {
+        QProcess *process = nullptr;
+        KWayland::Server::ClientConnection *client = nullptr;
+        QPointer<KWayland::Server::DataDeviceInterface> ddi;
+    } m_xclipbaordSync;
     QList<ShellClient*> m_clients;
     QList<ShellClient*> m_internalClients;
     QHash<KWayland::Server::ClientConnection*, quint16> m_clientIds;

@@ -30,15 +30,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "logind.h"
 #include "options.h"
 #include "screens.h"
+#include "screenlockerwatcher.h"
 #include "sm.h"
 #include "workspace.h"
 #include "xcbutils.h"
+
+#include <kwineffects.h>
 
 // KDE
 #include <KAboutData>
 #include <KLocalizedString>
 #include <KPluginMetaData>
 #include <KSharedConfig>
+#include <KWayland/Server/surface_interface.h>
 // Qt
 #include <qplatformdefs.h>
 #include <qcommandlineparser.h>
@@ -101,6 +105,8 @@ Application::Application(Application::OperationMode mode, int &argc, char **argv
     , m_operationMode(mode)
 {
     qRegisterMetaType<Options::WindowOperation>("Options::WindowOperation");
+    qRegisterMetaType<KWin::EffectWindow*>();
+    qRegisterMetaType<KWayland::Server::SurfaceInterface *>("KWayland::Server::SurfaceInterface *");
 }
 
 void Application::setConfigLock(bool lock)
@@ -268,10 +274,11 @@ void Application::createWorkspace()
 
 void Application::createInput()
 {
+    ScreenLockerWatcher::create(this);
     LogindIntegration::create(this);
     auto input = InputRedirection::create(this);
     input->init();
-    Cursor::create(this);
+    m_platform->createPlatformCursor(this);
 }
 
 void Application::createScreens()

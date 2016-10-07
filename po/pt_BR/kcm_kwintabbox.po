@@ -2,7 +2,7 @@
 # Copyright (C) 2009-2015 This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2009, 2010, 2012.
+# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2009, 2010, 2012, 2016.
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2009, 2010, 2011, 2012, 2014, 2015.
 # Marcus Gama <marcus.gama@gmail.com>, 2012.
 msgid ""
@@ -10,20 +10,20 @@ msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2015-01-22 08:06+0000\n"
-"PO-Revision-Date: 2015-06-28 23:15-0300\n"
-"Last-Translator: André Marcelo Alvarenga <alvarenga@kde.org>\n"
-"Language-Team: Brazilian Portuguese <kde-i18n-pt_br@kde.org>\n"
+"PO-Revision-Date: 2016-08-31 17:56-0300\n"
+"Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
+"Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 #: layoutpreview.cpp:165
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
-msgstr "Área de Trabalho 1"
+msgstr "Área de trabalho 1"
 
 #: main.cpp:73
 msgid "Main"
@@ -192,4 +192,4 @@ msgstr "Mostrar a janela selecionada"
 #. i18n: ectx: property (toolTip), widget (QPushButton, ghns)
 #: main.ui:572
 msgid "Get New Window Switcher Layout"
-msgstr "Obter novo leiaute do seletor de janelas"
+msgstr "Obter novo layout do seletor de janelas"

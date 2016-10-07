@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace KWin
 {
+class XInputIntegration;
 
 class KWIN_EXPORT X11StandalonePlatform : public Platform
 {
@@ -41,6 +42,7 @@ public:
     Screens *createScreens(QObject *parent = nullptr) override;
     OpenGLBackend *createOpenGLBackend() override;
     Edge *createScreenEdge(ScreenEdges *parent) override;
+    void createPlatformCursor(QObject *parent = nullptr) override;
     bool requiresCompositing() const override;
     bool compositingPossible() const override;
     QString compositingNotPossibleReason() const override;
@@ -58,6 +60,8 @@ private:
      * @returns @c true if GLX is available, @c false otherwise and if not build with OpenGL support.
      **/
     static bool hasGlx();
+
+    XInputIntegration *m_xinputIntegration = nullptr;
 
 };
 

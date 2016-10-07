@@ -33,6 +33,8 @@ class QWindow;
 struct xkb_context;
 struct xkb_keymap;
 struct xkb_state;
+struct xkb_compose_table;
+struct xkb_compose_state;
 typedef uint32_t xkb_mod_index_t;
 typedef uint32_t xkb_keysym_t;
 
@@ -47,7 +49,7 @@ namespace LibInput
 class Device;
 }
 
-class Xkb
+class KWIN_EXPORT Xkb
 {
 public:
     Xkb(InputRedirection *input);
@@ -58,9 +60,13 @@ public:
     void updateModifiers(uint32_t modsDepressed, uint32_t modsLatched, uint32_t modsLocked, uint32_t group);
     void updateKey(uint32_t key, InputRedirection::KeyboardKeyState state);
     xkb_keysym_t toKeysym(uint32_t key);
+    xkb_keysym_t currentKeysym() const {
+        return m_keysym;
+    }
     QString toString(xkb_keysym_t keysym);
     Qt::Key toQtKey(xkb_keysym_t keysym);
     Qt::KeyboardModifiers modifiers() const;
+    Qt::KeyboardModifiers modifiersRelevantForGlobalShortcuts() const;
     bool shouldKeyRepeat(quint32 key) const;
 
     void switchToNextLayout();
@@ -71,20 +77,29 @@ private:
     void updateKeymap(xkb_keymap *keymap);
     void createKeymapFile();
     void updateModifiers();
+    void updateConsumedModifiers(uint32_t key);
     InputRedirection *m_input;
     xkb_context *m_context;
     xkb_keymap *m_keymap;
     xkb_state *m_state;
     xkb_mod_index_t m_shiftModifier;
+    xkb_mod_index_t m_capsModifier;
     xkb_mod_index_t m_controlModifier;
     xkb_mod_index_t m_altModifier;
     xkb_mod_index_t m_metaModifier;
     Qt::KeyboardModifiers m_modifiers;
+    Qt::KeyboardModifiers m_consumedModifiers;
+    xkb_keysym_t m_keysym;
     struct {
         uint pressCount = 0;
         Qt::KeyboardModifier modifier = Qt::NoModifier;
     } m_modOnlyShortcut;
     quint32 m_currentLayout = 0;
+
+    struct {
+        xkb_compose_table *table = nullptr;
+        xkb_compose_state *state = nullptr;
+    } m_compose;
 };
 
 class KeyboardInputRedirection : public QObject

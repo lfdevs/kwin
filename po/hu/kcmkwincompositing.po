@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-07-21 11:58+0000\n"
+"POT-Creation-Date: 2016-09-14 07:14+0000\n"
 "PO-Revision-Date: 2014-08-30 11:02+0200\n"
 "Last-Translator: Kristóf Kiszel <ulysses@kubuntu.org>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -27,24 +27,24 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "ulysses@kubuntu.org,tszanto@interware.hu"
 
-#: compositing.cpp:387
+#: compositing.cpp:401
 msgid "OpenGL 3.1"
 msgstr "OpenGL 3.1"
 
-#: compositing.cpp:388
+#: compositing.cpp:402
 msgid "OpenGL 2.0"
 msgstr "OpenGL 2.0"
 
-#: compositing.cpp:389
+#: compositing.cpp:403
 msgid "XRender"
 msgstr "XRender"
 
-#: compositing.cpp:488
+#: compositing.cpp:502
 msgctxt "OpenGL Platform Interface"
 msgid "EGL"
 msgstr "EGL"
 
-#: compositing.cpp:490
+#: compositing.cpp:504
 msgctxt "OpenGL Platform Interface"
 msgid "GLX"
 msgstr "GLX"
@@ -66,7 +66,7 @@ msgstr ""
 "Alternatívaként használhatja az XRender modult is."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
-#: compositing.ui:45
+#: compositing.ui:42
 msgid ""
 "Scale method \"Accurate\" is not supported by all hardware and can cause "
 "performance regressions and rendering artifacts."
@@ -75,7 +75,7 @@ msgstr ""
 "teljesítményproblémákat és renderelési hibákat okozhat."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
-#: compositing.ui:74
+#: compositing.ui:65
 msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
 "windows. This can result in windows not suspending their work when minimized."
@@ -84,138 +84,132 @@ msgstr ""
 "minimalizált állapotával. Ez okozhatja azt, hogy az ablak nem függeszti fel "
 "a működését minimalizált állapotban."
 
-#. i18n: ectx: property (text), widget (KMessageWidget, unredirectInformation)
-#: compositing.ui:90
-msgid ""
-"Having full screen windows bypass the compositor is not supported on every "
-"hardware."
-msgstr ""
-"A kompozitor felfüggesztését teljes képernyős alkalmazásoknál nem minden "
-"hardver támogatja."
-
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
-#: compositing.ui:105
+#: compositing.ui:77
 msgid "Enable compositor on startup"
 msgstr "Kompozitor bekapcsolása induláskor"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: compositing.ui:112
+#: compositing.ui:84
 msgid "Animation speed:"
 msgstr "Animálási sebesség:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: compositing.ui:139
+#: compositing.ui:111
 msgid "Instant"
 msgstr "Azonnali"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: compositing.ui:159
+#: compositing.ui:131
 msgid "Very slow"
 msgstr "Nagyon lassú"
 
 #. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
-#: compositing.ui:170 compositing.ui:196
+#: compositing.ui:142 compositing.ui:168
 msgid "Scale method:"
 msgstr "Nagyítási mód:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:178 compositing.ui:204
+#: compositing.ui:150 compositing.ui:176
 msgid "Crisp"
 msgstr "Gyors"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:183
+#: compositing.ui:155
 msgid "Smooth"
 msgstr "Sima"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:188
+#: compositing.ui:160
 msgid "Accurate"
 msgstr "Pontos"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:209
+#: compositing.ui:181
 msgid "Smooth (slower)"
 msgstr "Sima (lassabb)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: compositing.ui:224
+#: compositing.ui:196
 msgid "Rendering backend:"
 msgstr "Renderelő modul:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: compositing.ui:241
+#: compositing.ui:213
 msgid "Tearing prevention (\"vsync\"):"
 msgstr "Szakadás megelőzés (VSync):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:249 compositing.ui:285
+#: compositing.ui:221 compositing.ui:257
 msgid "Never"
 msgstr "Soha"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:254
+#: compositing.ui:226
 msgid "Automatic"
 msgstr "Automatikus"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:259
+#: compositing.ui:231
 msgid "Only when cheap"
 msgstr "Csak ha olcsó"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:264
+#: compositing.ui:236
 msgid "Full screen repaints"
 msgstr "Teljes színtér újrarajzolása"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:269
+#: compositing.ui:241
 msgid "Re-use screen content"
 msgstr "Képernyőtartalom újrahasználata"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: compositing.ui:277
+#: compositing.ui:249
 msgid "Keep window thumbnails:"
 msgstr "Ablakok bélyegképének megtartása:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:290
+#: compositing.ui:262
 msgid "Only for Shown Windows"
 msgstr "Csak a megjelenített ablakokról"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:295
+#: compositing.ui:267
 msgid "Always"
 msgstr "Mindig"
 
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: compositing.ui:303
-msgid "Expert:"
-msgstr "Szakértői:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
-#: compositing.ui:310
-msgid "Suspend compositor for full screen windows"
-msgstr "Kompozitor felfüggesztése teljes képernyős ablakoknál"
-
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:317
+#: compositing.ui:275
 msgid "Experimental:"
 msgstr "Kísérleti:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:324
+#: compositing.ui:282
 msgid "Enable color correction"
 msgstr "Színjavítás engedélyezése"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, windowsBlockCompositing)
+#: compositing.ui:291
+msgid ""
+"Applications can set a hint to block compositing when the window is open.\n"
+" This brings performance improvements for e.g. games.\n"
+" The setting can be overruled by window-specific rules."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, windowsBlockCompositing)
+#: compositing.ui:294
+msgid "Allow applications to block compositing"
+msgstr ""
 
 #: main.cpp:82
 msgid "Re-enable OpenGL detection"
 msgstr "OpenGL felismerés újra bekapcsolása"
 
-#: main.cpp:138
+#: main.cpp:140
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
 "video."
@@ -223,11 +217,11 @@ msgstr ""
 "A „Csak ha olcsó” csak a teljes képernyős alkalmazásoknál, például "
 "videolejátszásnál akadályozza meg a kép szétesését."
 
-#: main.cpp:142
+#: main.cpp:144
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "A „Teljes színtér újrarajzolása” teljesítményproblémákat okozhat."
 
-#: main.cpp:146
+#: main.cpp:148
 #, fuzzy
 #| msgid ""
 #| "\"Re-use screen content\" causes performance severe problems on MESA "

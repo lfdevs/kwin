@@ -1,3 +1,18 @@
+kwin (4:5.8.0-1) unstable; urgency=medium
+
+  [ Maximiliano Curia ]
+  * New upstream release (5.8.0)
+  * Update symbols files.
+  * Follow upstream soversion bump
+  * Update install files
+  * Replace dbus-launch with dbus-run-session in tests
+  * Bump group breaks (5.8)
+
+  [ Automatic packaging ]
+  * Update build-deps and deps with the info from cmake
+
+ -- Maximiliano Curia <maxy@debian.org>  Fri, 07 Oct 2016 14:08:55 +0200
+
 kwin (4:5.7.4-1) unstable; urgency=medium
 
   [ Pino Toscano ]

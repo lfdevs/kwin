@@ -171,7 +171,7 @@ qint64 SceneQPainter::paint(QRegion damage, ToplevelList toplevels)
         m_painter->setClipRegion(damage);
         if (m_backend->needsFullRepaint()) {
             mask |= Scene::PAINT_SCREEN_BACKGROUND_FIRST;
-            damage = QRegion(0, 0, displayWidth(), displayHeight());
+            damage = screens()->geometry();
         }
         QRegion updateRegion, validRegion;
         paintScreen(&mask, damage, QRegion(), &updateRegion, &validRegion);
@@ -185,6 +185,8 @@ qint64 SceneQPainter::paint(QRegion damage, ToplevelList toplevels)
 
     // do cleanup
     clearStackingOrder();
+
+    emit frameRendered();
 
     return renderTimer.nsecsElapsed();
 }
@@ -486,6 +488,14 @@ void QPainterWindowPixmap::updateBuffer()
     if (auto s = surface()) {
         s->resetTrackedDamage();
     }
+}
+
+bool QPainterWindowPixmap::isValid() const
+{
+    if (!m_image.isNull()) {
+        return true;
+    }
+    return WindowPixmap::isValid();
 }
 
 QPainterEffectFrame::QPainterEffectFrame(EffectFrameImpl *frame, SceneQPainter *scene)

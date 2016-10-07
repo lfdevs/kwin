@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-05-09 08:35+0000\n"
-"PO-Revision-Date: 2016-05-14 07:30+0100\n"
+"POT-Creation-Date: 2016-08-11 07:46+0000\n"
+"PO-Revision-Date: 2016-08-13 08:55+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -48,41 +48,45 @@ msgstr "Wykonaj polecenie"
 msgid "Activity Manager"
 msgstr "Zarządzanie aktywnościami"
 
-#: main.cpp:195
+#: main.cpp:192
+msgid "Application Launcher"
+msgstr "Aktywator programów"
+
+#: main.cpp:196
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - Wszystkie pulpity"
 
-#: main.cpp:196
+#: main.cpp:197
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - Bieżący pulpit"
 
-#: main.cpp:197
+#: main.cpp:198
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - Bieżący program"
 
-#: main.cpp:200
+#: main.cpp:201
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 - Kostka"
 
-#: main.cpp:201
+#: main.cpp:202
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 - Walec"
 
-#: main.cpp:202
+#: main.cpp:203
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 - Kula"
 
-#: main.cpp:204
+#: main.cpp:205
 msgid "Toggle window switching"
 msgstr "Przełącz przełączanie okien"
 
-#: main.cpp:205
+#: main.cpp:206
 msgid "Toggle alternative window switching"
 msgstr "Przełącz alternatywne przełączanie okien"
 

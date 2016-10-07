@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-07-21 11:58+0000\n"
+"POT-Creation-Date: 2016-09-14 07:14+0000\n"
 "PO-Revision-Date: 2014-08-23 23:42+0900\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
@@ -27,24 +27,24 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kde@peremen.name"
 
-#: compositing.cpp:387
+#: compositing.cpp:401
 msgid "OpenGL 3.1"
 msgstr "OpenGL 3.1"
 
-#: compositing.cpp:388
+#: compositing.cpp:402
 msgid "OpenGL 2.0"
 msgstr "OpenGL 2.0"
 
-#: compositing.cpp:389
+#: compositing.cpp:403
 msgid "XRender"
 msgstr "XRender"
 
-#: compositing.cpp:488
+#: compositing.cpp:502
 msgctxt "OpenGL Platform Interface"
 msgid "EGL"
 msgstr "EGL"
 
-#: compositing.cpp:490
+#: compositing.cpp:504
 msgctxt "OpenGL Platform Interface"
 msgid "GLX"
 msgstr "GLX"
@@ -67,7 +67,7 @@ msgstr ""
 "다른 방법으로는 XRender 백엔드를 사용할 수도 있습니다."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
-#: compositing.ui:45
+#: compositing.ui:42
 msgid ""
 "Scale method \"Accurate\" is not supported by all hardware and can cause "
 "performance regressions and rendering artifacts."
@@ -76,7 +76,7 @@ msgstr ""
 "화면 잔상이 생길 수도 있습니다."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
-#: compositing.ui:74
+#: compositing.ui:65
 msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
 "windows. This can result in windows not suspending their work when minimized."
@@ -84,137 +84,132 @@ msgstr ""
 "창 미리 보기 그림을 항상 그리도록 설정하면 창의 최소화 상태에 영향을 줍니다. "
 "창을 최소화해도 진행 중인 작업이 계속될 수도 있습니다."
 
-#. i18n: ectx: property (text), widget (KMessageWidget, unredirectInformation)
-#: compositing.ui:90
-msgid ""
-"Having full screen windows bypass the compositor is not supported on every "
-"hardware."
-msgstr ""
-"전체 화면 창에서 컴포지팅 비활성화는 모든 하드웨어에서 지원하지 않습니다."
-
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
-#: compositing.ui:105
+#: compositing.ui:77
 msgid "Enable compositor on startup"
 msgstr "시작할 때 컴포지팅 사용하기"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: compositing.ui:112
+#: compositing.ui:84
 msgid "Animation speed:"
 msgstr "애니메이션 속도"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: compositing.ui:139
+#: compositing.ui:111
 msgid "Instant"
 msgstr "즉시"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: compositing.ui:159
+#: compositing.ui:131
 msgid "Very slow"
 msgstr "매우 느리게"
 
 #. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
-#: compositing.ui:170 compositing.ui:196
+#: compositing.ui:142 compositing.ui:168
 msgid "Scale method:"
 msgstr "크기 조절 방법:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:178 compositing.ui:204
+#: compositing.ui:150 compositing.ui:176
 msgid "Crisp"
 msgstr "빠르게"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:183
+#: compositing.ui:155
 msgid "Smooth"
 msgstr "부드럽게"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, glScaleFilter)
-#: compositing.ui:188
+#: compositing.ui:160
 msgid "Accurate"
 msgstr "정확하게"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
-#: compositing.ui:209
+#: compositing.ui:181
 msgid "Smooth (slower)"
 msgstr "부드럽게 (느림)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: compositing.ui:224
+#: compositing.ui:196
 msgid "Rendering backend:"
 msgstr "렌더링 백엔드:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: compositing.ui:241
+#: compositing.ui:213
 msgid "Tearing prevention (\"vsync\"):"
 msgstr "티어링 방지(VSync):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:249 compositing.ui:285
+#: compositing.ui:221 compositing.ui:257
 msgid "Never"
 msgstr "하지 않음"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:254
+#: compositing.ui:226
 msgid "Automatic"
 msgstr "자동"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:259
+#: compositing.ui:231
 msgid "Only when cheap"
 msgstr "부담되지 않는 경우에만"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:264
+#: compositing.ui:236
 msgid "Full screen repaints"
 msgstr "전체 화면 다시 그리기"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
-#: compositing.ui:269
+#: compositing.ui:241
 msgid "Re-use screen content"
 msgstr "화면 내용 다시 사용"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: compositing.ui:277
+#: compositing.ui:249
 msgid "Keep window thumbnails:"
 msgstr "창 미리 보기 그림 계속 그리기:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:290
+#: compositing.ui:262
 msgid "Only for Shown Windows"
 msgstr "보이는 창만"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
-#: compositing.ui:295
+#: compositing.ui:267
 msgid "Always"
 msgstr "항상"
 
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: compositing.ui:303
-msgid "Expert:"
-msgstr "전문가:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, unredirectFullscreen)
-#: compositing.ui:310
-msgid "Suspend compositor for full screen windows"
-msgstr "전체 화면 창의 데스크톱 효과 중단하기"
-
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:317
+#: compositing.ui:275
 msgid "Experimental:"
 msgstr "실험실:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:324
+#: compositing.ui:282
 msgid "Enable color correction"
 msgstr "색 보정 사용"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, windowsBlockCompositing)
+#: compositing.ui:291
+msgid ""
+"Applications can set a hint to block compositing when the window is open.\n"
+" This brings performance improvements for e.g. games.\n"
+" The setting can be overruled by window-specific rules."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, windowsBlockCompositing)
+#: compositing.ui:294
+msgid "Allow applications to block compositing"
+msgstr ""
 
 #: main.cpp:82
 msgid "Re-enable OpenGL detection"
 msgstr "OpenGL 감지 다시 활성화"
 
-#: main.cpp:138
+#: main.cpp:140
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
 "video."
@@ -222,11 +217,11 @@ msgstr ""
 "\"부담되지 않는 경우에만\" 옵션은 동영상과 같은 전체 화면의 티어링만 방지합니"
 "다."
 
-#: main.cpp:142
+#: main.cpp:144
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "\"전체 화면 다시 그리기\" 옵션은 성능에 영향을 줄 수도 있습니다."
 
-#: main.cpp:146
+#: main.cpp:148
 #, fuzzy
 #| msgid ""
 #| "\"Re-use screen content\" causes performance severe problems on MESA "

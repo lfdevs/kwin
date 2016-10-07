@@ -29,6 +29,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class QWindow;
 
+namespace KWayland
+{
+namespace Server
+{
+class SurfaceInterface;
+}
+}
+
 namespace KWin
 {
 
@@ -86,10 +94,43 @@ public:
      * @internal
      */
     void processAxis(InputRedirection::PointerAxis axis, qreal delta, uint32_t time, LibInput::Device *device = nullptr);
+    /**
+     * @internal
+     */
+    void processSwipeGestureBegin(int fingerCount, quint32 time, KWin::LibInput::Device *device = nullptr);
+    /**
+     * @internal
+     */
+    void processSwipeGestureUpdate(const QSizeF &delta, quint32 time, KWin::LibInput::Device *device = nullptr);
+    /**
+     * @internal
+     */
+    void processSwipeGestureEnd(quint32 time, KWin::LibInput::Device *device = nullptr);
+    /**
+     * @internal
+     */
+    void processSwipeGestureCancelled(quint32 time, KWin::LibInput::Device *device = nullptr);
+    /**
+     * @internal
+     */
+    void processPinchGestureBegin(int fingerCount, quint32 time, KWin::LibInput::Device *device = nullptr);
+    /**
+     * @internal
+     */
+    void processPinchGestureUpdate(qreal scale, qreal angleDelta, const QSizeF &delta, quint32 time, KWin::LibInput::Device *device = nullptr);
+    /**
+     * @internal
+     */
+    void processPinchGestureEnd(quint32 time, KWin::LibInput::Device *device = nullptr);
+    /**
+     * @internal
+     */
+    void processPinchGestureCancelled(quint32 time, KWin::LibInput::Device *device = nullptr);
 
 private:
     void updatePosition(const QPointF &pos);
     void updateButton(uint32_t button, InputRedirection::PointerButtonState state);
+    void warpXcbOnSurfaceLeft(KWayland::Server::SurfaceInterface *surface);
     CursorImage *m_cursor;
     bool m_inited = false;
     bool m_supportsWarping;

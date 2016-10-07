@@ -30,9 +30,10 @@ struct libinput_device {
     bool keyboard = false;
     bool pointer = false;
     bool touch = false;
+    bool tabletTool = false;
     bool gestureSupported = false;
     QByteArray name;
-    QByteArray sysName;
+    QByteArray sysName = QByteArrayLiteral("event0");
     QByteArray outputName;
     quint32 product = 0;
     quint32 vendor = 0;
@@ -40,6 +41,11 @@ struct libinput_device {
     QSizeF deviceSize;
     int deviceSizeReturnValue = 0;
     bool tapEnabledByDefault = false;
+    bool tapToClick = false;
+    bool tapAndDragEnabledByDefault = false;
+    bool tapAndDrag = false;
+    bool tapDragLockEnabledByDefault = false;
+    bool tapDragLock = false;
     bool supportsDisableWhileTyping = false;
     bool supportsPointerAcceleration = false;
     bool supportsLeftHanded = false;
@@ -54,6 +60,9 @@ struct libinput_device {
     QVector<quint32> keys;
     bool enabled = true;
     int setEnableModeReturnValue = 0;
+    int setTapToClickReturnValue = 0;
+    int setTapAndDragReturnValue = 0;
+    int setTapDragLockReturnValue = 0;
 };
 
 struct libinput_event {
@@ -84,6 +93,14 @@ struct libinput_event_pointer : libinput_event {
 struct libinput_event_touch : libinput_event {
     qint32 slot = -1;
     QPointF absolutePos;
+};
+
+struct libinput_event_gesture : libinput_event {
+    int fingerCount = 0;
+    bool cancelled = false;
+    QSizeF delta = QSizeF(0, 0);
+    qreal scale = 0.0;
+    qreal angleDelta = 0.0;
 };
 
 struct libinput {

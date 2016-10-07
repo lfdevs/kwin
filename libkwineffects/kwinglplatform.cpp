@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 
 #include "kwinglplatform.h"
-#include "kwinglutils.h"
+#include <epoxy/gl.h>
 
 #include <QRegExp>
 #include <QStringList>
@@ -27,7 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QOpenGLContext>
 
 #include <sys/utsname.h>
-#include <X11/Xlib.h>
 
 #include <iostream>
 #include <iomanip>
@@ -62,17 +61,19 @@ static qint64 parseVersionString(const QByteArray &version)
 static qint64 getXServerVersion()
 {
     qint64 major, minor, patch;
+    major = 0;
+    minor = 0;
+    patch = 0;
 
-    Display *dpy = display();
-    if (dpy && strstr(ServerVendor(dpy), "X.Org")) {
-        const int release  = VendorRelease(dpy);
-        major = (release / 10000000);
-        minor = (release /   100000) % 100;
-        patch = (release /     1000) % 100;
-    } else {
-        major = 0;
-        minor = 0;
-        patch = 0;
+    if (xcb_connection_t *c = connection()) {
+        auto setup = xcb_get_setup(c);
+        const QByteArray vendorName(xcb_setup_vendor(setup), xcb_setup_vendor_length(setup));
+        if (vendorName.contains("X.Org")) {
+            const int release = setup->release_number;
+            major = (release / 10000000);
+            minor = (release /   100000) % 100;
+            patch = (release /     1000) % 100;
+        }
     }
 
     return kVersionNumber(major, minor, patch);
@@ -393,6 +394,37 @@ static ChipClass detectIntelClass(const QByteArray &chipset)
     return UnknownIntel;
 }
 
+static ChipClass detectQualcommClass(const QByteArray &chipClass)
+{
+    if (!chipClass.contains("Adreno")) {
+        return UnknownChipClass;
+    }
+    const auto parts = chipClass.split(' ');
+    if (parts.count() < 3) {
+        return UnknownAdreno;
+    }
+    bool ok = false;
+    const int value = parts.at(2).toInt(&ok);
+    if (ok) {
+        if (value >= 100 && value < 200) {
+            return Adreno1XX;
+        }
+        if (value >= 200 && value < 300) {
+            return Adreno2XX;
+        }
+        if (value >= 300 && value < 400) {
+            return Adreno3XX;
+        }
+        if (value >= 400 && value < 500) {
+            return Adreno4XX;
+        }
+        if (value >= 500 && value < 600) {
+            return Adreno5XX;
+        }
+    }
+    return UnknownAdreno;
+}
+
 QString GLPlatform::versionToString(qint64 version)
 {
     return QString::fromLatin1(versionToString8(version));
@@ -447,6 +479,8 @@ QByteArray GLPlatform::driverToString8(Driver driver)
         return QByteArrayLiteral("VirtualBox (Chromium)");
     case Driver_VMware:
         return QByteArrayLiteral("VMware (SVGA3D)");
+    case Driver_Qualcomm:
+        return QByteArrayLiteral("Qualcomm");
 
     default:
         return QByteArrayLiteral("Unknown");
@@ -505,6 +539,17 @@ QByteArray GLPlatform::chipClassToString8(ChipClass chipClass)
     case Haswell:
         return QByteArrayLiteral("Haswell");
 
+    case Adreno1XX:
+        return QByteArrayLiteral("Adreno 1xx series");
+    case Adreno2XX:
+        return QByteArrayLiteral("Adreno 2xx series");
+    case Adreno3XX:
+        return QByteArrayLiteral("Adreno 3xx series");
+    case Adreno4XX:
+        return QByteArrayLiteral("Adreno 4xx series");
+    case Adreno5XX:
+        return QByteArrayLiteral("Adreno 5xx series");
+
     default:
         return QByteArrayLiteral("Unknown");
     }
@@ -520,14 +565,20 @@ GLPlatform::GLPlatform()
     : m_driver(Driver_Unknown),
       m_chipClass(UnknownChipClass),
       m_recommendedCompositor(XRenderCompositing),
+      m_glVersion(0),
+      m_glslVersion(0),
       m_mesaVersion(0),
+      m_driverVersion(0),
       m_galliumVersion(0),
+      m_serverVersion(0),
+      m_kernelVersion(0),
       m_looseBinding(false),
       m_supportsGLSL(false),
       m_limitedGLSL(false),
       m_textureNPOT(false),
       m_limitedNPOT(false),
       m_virtualMachine(false),
+      m_preferBufferSubData(false),
       m_platformInterface(NoOpenGLPlatformInterface),
       m_gles(false)
 {
@@ -747,6 +798,11 @@ void GLPlatform::detect(OpenGLPlatformInterface platformInterface)
             m_driverVersion = 0;
     }
 
+    else if (m_vendor == "Qualcomm") {
+        m_driver = Driver_Qualcomm;
+        m_chipClass = detectQualcommClass(m_renderer);
+    }
+
     else if (m_renderer == "Software Rasterizer") {
         m_driver = Driver_Swrast;
     }
@@ -843,15 +899,25 @@ void GLPlatform::detect(OpenGLPlatformInterface platformInterface)
     }
 
     if (isSoftwareEmulation()) {
-        // we recommend XRender
-        m_recommendedCompositor = XRenderCompositing;
         if (m_driver < Driver_Llvmpipe) {
+            // we recommend XRender
+            m_recommendedCompositor = XRenderCompositing;
             // Software emulation does not provide GLSL
             m_limitedGLSL = m_supportsGLSL = false;
         } else {
             // llvmpipe does support GLSL
+            m_recommendedCompositor = OpenGL2Compositing;
             m_limitedGLSL = false;
             m_supportsGLSL = true;
+        }
+    }
+
+    if (m_driver == Driver_Qualcomm) {
+        if (m_chipClass == Adreno1XX) {
+            m_recommendedCompositor = NoCompositing;
+        } else {
+            // all other drivers support at least GLES 2
+            m_recommendedCompositor = OpenGL2Compositing;
         }
     }
 
@@ -1028,6 +1094,11 @@ bool GLPlatform::isVMware() const
 bool GLPlatform::isSoftwareEmulation() const
 {
     return m_driver == Driver_Softpipe || m_driver == Driver_Swrast || m_driver == Driver_Llvmpipe;
+}
+
+bool GLPlatform::isAdreno() const
+{
+    return m_chipClass >= Adreno1XX && m_chipClass <= UnknownAdreno;
 }
 
 const QByteArray &GLPlatform::glRendererString() const

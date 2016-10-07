@@ -22,8 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "window.h"
 #include "../../shell_client.h"
 #include "../../wayland_server.h"
+#include <logging.h>
 
 #include <QOpenGLFramebufferObject>
+#include <qpa/qwindowsysteminterface.h>
 
 #include <KWayland/Client/buffer.h>
 #include <KWayland/Client/connection_thread.h>
@@ -102,6 +104,7 @@ void Window::setGeometry(const QRect &rect)
         wl_egl_window_resize(m_eglWaylandWindow, geometry().width(), geometry().height(), 0, 0);
     }
 #endif
+    QWindowSystemInterface::handleGeometryChange(window(), geometry());
 }
 
 void Window::unmap()
@@ -149,6 +152,9 @@ void Window::createFBO()
 {
     const QRect &r = geometry();
     m_contentFBO.reset(new QOpenGLFramebufferObject(r.width(), r.height(), QOpenGLFramebufferObject::CombinedDepthStencil));
+    if (!m_contentFBO->isValid()) {
+        qCWarning(KWIN_QPA) << "Content FBO is not valid";
+    }
     m_resized = false;
 }
 

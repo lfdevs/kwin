@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-19 09:30+0000\n"
+"POT-Creation-Date: 2016-09-25 10:47+0000\n"
 "PO-Revision-Date: 2010-02-02 21:44+0530\n"
 "Last-Translator: Manilal K M|മണിലാല്‍ കെ എം <libregeek@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ്  <smc-"
@@ -326,20 +326,20 @@ msgstr ""
 msgid "All Desktops"
 msgstr "എല്ലാ പണിയിടങ്ങളും"
 
-#: ruleswidget.cpp:329
+#: ruleswidget.cpp:330
 msgid "All Activities"
 msgstr ""
 
-#: ruleswidget.cpp:758
+#: ruleswidget.cpp:771
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 ന്റെ സജ്ജൂകരണങ്ങള്‍"
 
-#: ruleswidget.cpp:760
+#: ruleswidget.cpp:773
 msgid "Unnamed entry"
 msgstr "പേരില്ലാത്ത ഇനം"
 
-#: ruleswidget.cpp:770
+#: ruleswidget.cpp:783
 msgid ""
 "You have specified the window class as unimportant.\n"
 "This means the settings will possibly apply to windows from all "
@@ -348,11 +348,11 @@ msgid ""
 "types."
 msgstr ""
 
-#: ruleswidget.cpp:800
+#: ruleswidget.cpp:813
 msgid "Edit Window-Specific Settings"
 msgstr "ജാലകത്തിനു പ്രസക്തമായ സജ്ജീകരണങ്ങള്‍ ചിട്ടപ്പെടുത്തുക"
 
-#: ruleswidget.cpp:830
+#: ruleswidget.cpp:843
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
 "window or application. Find the setting you want to affect, enable the "
@@ -360,11 +360,11 @@ msgid ""
 "affected and to which value."
 msgstr ""
 
-#: ruleswidget.cpp:834
+#: ruleswidget.cpp:847
 msgid "Consult the documentation for more details."
 msgstr "കൂടുതല്‍ വിവരങ്ങള്‍ക്ക് ഡോക്യുമെന്റേഷന്‍ നോക്കുക"
 
-#: ruleswidget.cpp:873
+#: ruleswidget.cpp:886
 msgid "Edit Shortcut"
 msgstr "കുറുക്കുവഴി ചിട്ടപ്പെടുത്തുക"
 

@@ -5,6 +5,7 @@
         "Description[ca]": "Renderitza al «framebuffer».", 
         "Description[da]": "Render til framebuffer.", 
         "Description[de]": "In Framebuffer rendern.", 
+        "Description[el]": "Αποτύπωση σε ενδιάμεση μνήμη πλαισίων.", 
         "Description[es]": "Renderizar en el «framebuffer».", 
         "Description[et]": "Renderdamine kaadripuhvris.", 
         "Description[fi]": "Renderöi framebufferiin.", 
@@ -17,6 +18,7 @@
         "Description[pl]": "Wyświetlaj w buforze klatek.", 
         "Description[pt]": "Desenhar no 'framebuffer'.", 
         "Description[pt_BR]": "Renderizar no framebuffer.", 
+        "Description[ru]": "Отрисовка во фреймбуфер", 
         "Description[sk]": "Renderovať do framebuffera.", 
         "Description[sl]": "Izriši v medpomnilnik sličic.", 
         "Description[sr@ijekavian]": "Рендеровање у кадробафер.", 
@@ -27,11 +29,13 @@
         "Description[uk]": "Обробляти до буфера кадрів.", 
         "Description[x-test]": "xxRender to framebuffer.xx", 
         "Description[zh_CN]": "渲染到帧缓冲。", 
+        "Description[zh_TW]": "成像至 framebuffer。", 
         "Id": "KWinWaylandFbdevBackend", 
         "Name": "framebuffer", 
         "Name[ca@valencia]": "Framebuffer", 
         "Name[ca]": "Framebuffer", 
         "Name[de]": "Framebuffer", 
+        "Name[el]": "ενδιάμεση μνήμη πλαισίων", 
         "Name[nn]": "biletbuffer", 
         "Name[pl]": "bufor klatek", 
         "Name[pt]": "'Framebuffer'", 
@@ -41,7 +45,8 @@
         "Name[sr@latin]": "Kadrobafer", 
         "Name[sr]": "Кадробафер", 
         "Name[sv]": "rambuffer", 
-        "Name[x-test]": "xxframebufferxx"
+        "Name[x-test]": "xxframebufferxx", 
+        "Name[zh_TW]": "影格緩衝區（framebuffer）"
     }, 
     "input": false
 }

@@ -56,6 +56,11 @@ public:
      * The default implementation creates a Edge.
      **/
     virtual Edge *createScreenEdge(ScreenEdges *parent);
+    /**
+     * Allows the platform to create a platform specific Cursor.
+     * The default implementation creates an InputRedirectionCursor.
+     **/
+    virtual void createPlatformCursor(QObject *parent = nullptr);
     virtual void warpPointer(const QPointF &globalPos);
     /**
      * Whether our Compositing EGL display allows a surface less context
@@ -65,11 +70,21 @@ public:
     /**
      * The EGLDisplay used by the compositing scene.
      **/
-    virtual EGLDisplay sceneEglDisplay() const;
+    EGLDisplay sceneEglDisplay() const;
+    void setSceneEglDisplay(EGLDisplay display);
     /**
      * The EGLContext used by the compositing scene.
      **/
     virtual EGLContext sceneEglContext() const;
+    /**
+     * The first (in case of multiple) EGLSurface used by the compositing scene.
+     **/
+    EGLSurface sceneEglSurface() const;
+
+    /**
+     * The EglConfig used by the compositing scene.
+     **/
+    EGLConfig sceneEglConfig() const;
 
     /**
      * Implementing subclasses should provide a size in case the backend represents
@@ -231,6 +246,7 @@ private:
     bool m_pointerWarping = false;
     bool m_outputsEnabled = true;
     int m_initialOutputCount = 1;
+    EGLDisplay m_eglDisplay;
 };
 
 }

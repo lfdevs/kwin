@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-19 09:30+0000\n"
+"POT-Creation-Date: 2016-09-25 10:47+0000\n"
 "PO-Revision-Date: 2014-02-04 22:00+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
@@ -373,20 +373,20 @@ msgstr ""
 msgid "All Desktops"
 msgstr "Mahaigain guztiak"
 
-#: ruleswidget.cpp:329
+#: ruleswidget.cpp:330
 msgid "All Activities"
 msgstr "Jarduera guztiak"
 
-#: ruleswidget.cpp:758
+#: ruleswidget.cpp:771
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1(r)en ezarpenak"
 
-#: ruleswidget.cpp:760
+#: ruleswidget.cpp:773
 msgid "Unnamed entry"
 msgstr "Izenik gabeko sarrera"
 
-#: ruleswidget.cpp:770
+#: ruleswidget.cpp:783
 msgid ""
 "You have specified the window class as unimportant.\n"
 "This means the settings will possibly apply to windows from all "
@@ -399,11 +399,11 @@ msgstr ""
 "ezarpenak. Ezarpen generikoa sortu nahi baldin baduzu, gomendagarria da "
 "gutxienez leiho motak mugatzea, leiho mota bereziak saihesteko."
 
-#: ruleswidget.cpp:800
+#: ruleswidget.cpp:813
 msgid "Edit Window-Specific Settings"
 msgstr "Editatu leihoen ezarpen espezifikoak"
 
-#: ruleswidget.cpp:830
+#: ruleswidget.cpp:843
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
 "window or application. Find the setting you want to affect, enable the "
@@ -415,11 +415,11 @@ msgstr ""
 "ezarpena, gaitu kontrol-laukia erabiliz, eta hautatu ezarpena nola aldatu "
 "eta zer balio ezarri."
 
-#: ruleswidget.cpp:834
+#: ruleswidget.cpp:847
 msgid "Consult the documentation for more details."
 msgstr "Begiratu dokumentazioa xehetasun gehiagorako."
 
-#: ruleswidget.cpp:873
+#: ruleswidget.cpp:886
 msgid "Edit Shortcut"
 msgstr "Editatu lasterbidea"
 

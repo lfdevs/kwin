@@ -33,17 +33,21 @@ VirtualScreens::~VirtualScreens() = default;
 
 void VirtualScreens::init()
 {
+    updateCount();
     KWin::Screens::init();
     connect(m_backend, &VirtualBackend::sizeChanged,
             this, &VirtualScreens::startChangedTimer);
     connect(m_backend, &VirtualBackend::outputGeometriesChanged, this,
         [this] (const QVector<QRect> &geometries) {
-            // TODO: update Wayland Output
+            const int oldCount = m_geometries.count();
             m_geometries = geometries;
-            emit changed();
+            if (oldCount != m_geometries.count()) {
+                setCount(m_geometries.count());
+            } else {
+                emit changed();
+            }
         }
     );
-    updateCount();
     emit changed();
 }
 

@@ -64,16 +64,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace KWin
 {
 // Variables
-// GL version, use MAKE_GL_VERSION() macro for comparing with a specific version
-static int glVersion;
 // GLX version, use MAKE_GL_VERSION() macro for comparing with a specific version
 static int glXVersion;
 // EGL version, use MAKE_GL_VERSION() macro for comparing with a specific version
 static int eglVersion;
 // List of all supported GL, EGL and GLX extensions
 static QList<QByteArray> glExtensions;
-static QList<QByteArray> glxExtensions;
-static QList<QByteArray> eglExtensions;
+static QList<QByteArray> s_glxExtensions;
+static QList<QByteArray> s_eglExtensions;
 
 int glTextureUnitsCount;
 
@@ -88,7 +86,7 @@ void initGLX()
     glXVersion = MAKE_GL_VERSION(major, minor, 0);
     // Get list of supported GLX extensions
     const QByteArray string = (const char *) glXQueryExtensionsString(display(), QX11Info::appScreen());
-    glxExtensions = string.split(' ');
+    s_glxExtensions = string.split(' ');
     glxResolveFunctions();
 #endif
 }
@@ -102,27 +100,12 @@ void initEGL()
     eglInitialize(dpy, &major, &minor);
     eglVersion = MAKE_GL_VERSION(major, minor, 0);
     const QByteArray string = eglQueryString(dpy, EGL_EXTENSIONS);
-    eglExtensions = string.split(' ');
+    s_eglExtensions = string.split(' ');
     eglResolveFunctions();
 }
 
 void initGL(OpenGLPlatformInterface platformInterface)
 {
-    // Get OpenGL version
-    const char* glversioncstring = (const char*)glGetString(GL_VERSION);
-    QByteArray glversionstring = QByteArray::fromRawData(glversioncstring, qstrlen(glversioncstring));
-    if (glversionstring.startsWith("OpenGL ES ")) {
-        glversionstring = glversionstring.mid(10);
-    }
-    const int whiteSpaceIndex = glversionstring.indexOf(' ');
-    if (whiteSpaceIndex != -1) {
-        glversionstring.truncate(whiteSpaceIndex);
-    }
-    auto glversioninfo = glversionstring.split('.');
-    while (glversioninfo.count() < 3)
-        glversioninfo << "0";
-    glVersion = MAKE_GL_VERSION(glversioninfo[0].toInt(), glversioninfo[1].toInt(), glversioninfo[2].toInt());
-
     // Get list of supported OpenGL extensions
     if (hasGLVersion(3, 0)) {
         int count;
@@ -152,10 +135,9 @@ void cleanupGL()
     GLPlatform::cleanup();
 
     glExtensions.clear();
-    glxExtensions.clear();
-    eglExtensions.clear();
+    s_glxExtensions.clear();
+    s_eglExtensions.clear();
 
-    glVersion = 0;
     glXVersion = 0;
     eglVersion = 0;
     glTextureUnitsCount = 0;
@@ -163,7 +145,7 @@ void cleanupGL()
 
 bool hasGLVersion(int major, int minor, int release)
 {
-    return glVersion >= MAKE_GL_VERSION(major, minor, release);
+    return GLPlatform::instance()->glVersion() >= kVersionNumber(major, minor, release);
 }
 
 bool hasGLXVersion(int major, int minor, int release)
@@ -178,7 +160,22 @@ bool hasEGLVersion(int major, int minor, int release)
 
 bool hasGLExtension(const QByteArray &extension)
 {
-    return glExtensions.contains(extension) || glxExtensions.contains(extension) || eglExtensions.contains(extension);
+    return glExtensions.contains(extension) || s_glxExtensions.contains(extension) || s_eglExtensions.contains(extension);
+}
+
+QList<QByteArray> eglExtensions()
+{
+    return s_eglExtensions;
+}
+
+QList<QByteArray> glxExtensions()
+{
+    return s_glxExtensions;
+}
+
+QList<QByteArray> openGLExtensions()
+{
+    return glExtensions;
 }
 
 static QString formatGLError(GLenum err)
@@ -704,6 +701,10 @@ bool ShaderManager::selfTest()
 
     if (!GLRenderTarget::supported()) {
         qCWarning(LIBKWINGLUTILS) << "Framebuffer objects not supported - skipping shader tests";
+        return true;
+    }
+    if (GLPlatform::instance()->isNvidia() && GLPlatform::instance()->glRendererString().contains("Quadro")) {
+        qCWarning(LIBKWINGLUTILS) << "Skipping self test as it is reported to return false positive results on Quadro hardware";
         return true;
     }
 

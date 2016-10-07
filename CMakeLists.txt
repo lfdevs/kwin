@@ -1,10 +1,10 @@
 project(KWIN)
-set(PROJECT_VERSION "5.7.4")
+set(PROJECT_VERSION "5.8.0")
 set(PROJECT_VERSION_MAJOR 5)
 
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 set(QT_MIN_VERSION "5.5.0")
-set(KF5_MIN_VERSION "5.23.0")
+set(KF5_MIN_VERSION "5.26.0")
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH} )
 
@@ -78,6 +78,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     WindowSystem
     IconThemes
     IdleTime
+    Wayland
 )
 # required frameworks by config modules
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
@@ -112,10 +113,6 @@ set_package_properties(KF5DocTools PROPERTIES
 add_feature_info("KF5DocTools" KF5DocTools_FOUND "Enable building documentation")
 
 find_package(KDecoration2 CONFIG REQUIRED)
-find_package(KF5Wayland CONFIG REQUIRED)
-set_package_properties(KF5Wayland PROPERTIES
-                       TYPE REQUIRED
-                      )
 
 find_package(KScreenLocker CONFIG REQUIRED)
 set_package_properties(KScreenLocker PROPERTIES
@@ -161,13 +158,13 @@ if(Wayland_Egl_FOUND)
     set(HAVE_WAYLAND_EGL TRUE)
 endif()
 
-find_package(XKB 0.4.1)
+find_package(XKB 0.5.0)
 set_package_properties(XKB PROPERTIES
                        TYPE REQUIRED
                        PURPOSE "Required for building KWin with Wayland support"
                       )
 
-find_package(Libinput 0.10)
+find_package(Libinput 1.2)
 set_package_properties(Libinput PROPERTIES TYPE OPTIONAL PURPOSE "Required for input handling on Wayland.")
 
 find_package(UDev)
@@ -179,6 +176,10 @@ set_package_properties(UDev PROPERTIES  URL "http://www.freedesktop.org/software
 set(HAVE_INPUT FALSE)
 if (Libinput_FOUND AND UDEV_FOUND)
     set(HAVE_INPUT TRUE)
+endif()
+set(HAVE_UDEV FALSE)
+if (UDEV_FOUND)
+    set(HAVE_UDEV TRUE)
 endif()
 
 find_package(Libdrm)
@@ -324,7 +325,6 @@ include_directories(BEFORE
     )
 
 add_subdirectory( libkwineffects )
-add_subdirectory( killer )
 if(KWIN_BUILD_KCMS)
     add_subdirectory( kcmkwin )
 endif()
@@ -335,8 +335,7 @@ add_subdirectory( effects )
 add_subdirectory( scripts )
 add_subdirectory( tabbox )
 add_subdirectory(scripting)
-
-add_definitions(-DKDE_DEFAULT_DEBUG_AREA=1212)
+add_subdirectory(helpers)
 
 ########### next target ###############
 
@@ -384,6 +383,7 @@ set(kwin_KDEINIT_SRCS
    scene_xrender.cpp
    scene_opengl.cpp
    scene_qpainter.cpp
+   screenlockerwatcher.cpp
    thumbnailitem.cpp
    lanczosfilter.cpp
    deleted.cpp
@@ -511,10 +511,6 @@ set(kwin_XLIB_LIBS
     ${X11_SM_LIB}
 )
 
-if(X11_Xinput_FOUND)
-    set(kwin_XLIB_LIBS ${kwin_XLIB_LIBS} ${X11_Xinput_LIB})
-endif()
-
 set(kwin_XCB_LIBS
     XCB::XCB
     XCB::XFIXES
@@ -527,7 +523,6 @@ set(kwin_XCB_LIBS
     XCB::KEYSYMS
     XCB::SHM
     XCB::GLX
-    XCB::CURSOR
 )
 
 set(kwin_WAYLAND_LIBS

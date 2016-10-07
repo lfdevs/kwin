@@ -40,16 +40,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "screenedge.h"
 #include "scripting/scriptedeffect.h"
 #include "screens.h"
+#include "screenlockerwatcher.h"
 #include "thumbnailitem.h"
 #include "virtualdesktops.h"
 #include "workspace.h"
 #include "kwinglutils.h"
 
 #include <QDebug>
-#include <QFutureWatcher>
-#include <QtConcurrentRun>
-#include <QDBusServiceWatcher>
-#include <QDBusPendingCallWatcher>
 
 #include <Plasma/Theme>
 
@@ -63,104 +60,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "decorations/decorationbridge.h"
 #include <KDecoration2/DecorationSettings>
 
-// dbus generated
-#include "screenlocker_interface.h"
-
-
 namespace KWin
 {
-
-static const QString SCREEN_LOCKER_SERVICE_NAME = QStringLiteral("org.freedesktop.ScreenSaver");
-
-ScreenLockerWatcher::ScreenLockerWatcher(QObject *parent)
-    : QObject(parent)
-    , m_interface(NULL)
-    , m_serviceWatcher(new QDBusServiceWatcher(this))
-    , m_locked(false)
-{
-    connect(m_serviceWatcher, SIGNAL(serviceOwnerChanged(QString,QString,QString)), SLOT(serviceOwnerChanged(QString,QString,QString)));
-    m_serviceWatcher->setWatchMode(QDBusServiceWatcher::WatchForOwnerChange);
-    m_serviceWatcher->addWatchedService(SCREEN_LOCKER_SERVICE_NAME);
-    // check whether service is registered
-    QFutureWatcher<QDBusReply<bool> > *watcher = new QFutureWatcher<QDBusReply<bool> >(this);
-    connect(watcher, SIGNAL(finished()), SLOT(serviceRegisteredQueried()));
-    connect(watcher, SIGNAL(canceled()), watcher, SLOT(deleteLater()));
-    watcher->setFuture(QtConcurrent::run(QDBusConnection::sessionBus().interface(),
-                                         &QDBusConnectionInterface::isServiceRegistered,
-                                         SCREEN_LOCKER_SERVICE_NAME));
-}
-
-ScreenLockerWatcher::~ScreenLockerWatcher()
-{
-}
-
-void ScreenLockerWatcher::serviceOwnerChanged(const QString &serviceName, const QString &oldOwner, const QString &newOwner)
-{
-    Q_UNUSED(oldOwner)
-    if (serviceName != SCREEN_LOCKER_SERVICE_NAME) {
-        return;
-    }
-    delete m_interface;
-    m_interface = NULL;
-    m_locked = false;
-    if (!newOwner.isEmpty()) {
-        m_interface = new OrgFreedesktopScreenSaverInterface(newOwner, QStringLiteral("/ScreenSaver"), QDBusConnection::sessionBus(), this);
-        connect(m_interface, SIGNAL(ActiveChanged(bool)), SLOT(setLocked(bool)));
-        QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(m_interface->GetActive(), this);
-        connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)), SLOT(activeQueried(QDBusPendingCallWatcher*)));
-    }
-}
-
-void ScreenLockerWatcher::serviceRegisteredQueried()
-{
-    QFutureWatcher<QDBusReply<bool> > *watcher = dynamic_cast<QFutureWatcher<QDBusReply<bool> > *>(sender());
-    if (!watcher) {
-        return;
-    }
-    const QDBusReply<bool> &reply = watcher->result();
-    if (reply.isValid() && reply.value()) {
-        QFutureWatcher<QDBusReply<QString> > *ownerWatcher = new QFutureWatcher<QDBusReply<QString> >(this);
-        connect(ownerWatcher, SIGNAL(finished()), SLOT(serviceOwnerQueried()));
-        connect(ownerWatcher, SIGNAL(canceled()), ownerWatcher, SLOT(deleteLater()));
-        ownerWatcher->setFuture(QtConcurrent::run(QDBusConnection::sessionBus().interface(),
-                                                  &QDBusConnectionInterface::serviceOwner,
-                                                  SCREEN_LOCKER_SERVICE_NAME));
-    }
-    watcher->deleteLater();
-}
-
-void ScreenLockerWatcher::serviceOwnerQueried()
-{
-    QFutureWatcher<QDBusReply<QString> > *watcher = dynamic_cast<QFutureWatcher<QDBusReply<QString> > *>(sender());
-    if (!watcher) {
-        return;
-    }
-    const QDBusReply<QString> reply = watcher->result();
-    if (reply.isValid()) {
-        serviceOwnerChanged(SCREEN_LOCKER_SERVICE_NAME, QString(), reply.value());
-    }
-
-    watcher->deleteLater();
-}
-
-void ScreenLockerWatcher::activeQueried(QDBusPendingCallWatcher *watcher)
-{
-    QDBusPendingReply<bool> reply = *watcher;
-    if (!reply.isError()) {
-        setLocked(reply.value());
-    }
-    watcher->deleteLater();
-}
-
-void ScreenLockerWatcher::setLocked(bool activated)
-{
-    if (m_locked == activated) {
-        return;
-    }
-    m_locked = activated;
-    emit locked(m_locked);
-}
-
 //---------------------
 // Static
 
@@ -201,12 +102,12 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
     , next_window_quad_type(EFFECT_QUAD_TYPE_START)
     , m_compositor(compositor)
     , m_scene(scene)
-    , m_screenLockerWatcher(new ScreenLockerWatcher(this))
     , m_desktopRendering(false)
     , m_currentRenderedDesktop(0)
     , m_effectLoader(new EffectLoader(this))
     , m_trackingCursorChanges(0)
 {
+    qRegisterMetaType<QVector<KWin::EffectWindow*>>();
     connect(m_effectLoader, &AbstractEffectLoader::effectLoaded, this,
         [this](Effect *effect, const QString &name) {
             effect_order.insert(effect->requestedEffectChainPosition(), EffectPair(name, effect));
@@ -300,7 +201,7 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
     connect(tabBox, &TabBox::TabBox::tabBoxKeyEvent, this, &EffectsHandler::tabBoxKeyEvent);
 #endif
     connect(ScreenEdges::self(), &ScreenEdges::approaching, this, &EffectsHandler::screenEdgeApproaching);
-    connect(m_screenLockerWatcher, &ScreenLockerWatcher::locked, this, &EffectsHandler::screenLockingChanged);
+    connect(ScreenLockerWatcher::self(), &ScreenLockerWatcher::locked, this, &EffectsHandler::screenLockingChanged);
     // connect all clients
     for (Client *c : ws->clientList()) {
         setupClientConnections(c);
@@ -386,6 +287,16 @@ void EffectsHandlerImpl::setupAbstractClientConnections(AbstractClient* c)
     connect(c, &AbstractClient::modalChanged,         this, &EffectsHandlerImpl::slotClientModalityChanged);
     connect(c, &AbstractClient::geometryShapeChanged, this, &EffectsHandlerImpl::slotGeometryShapeChanged);
     connect(c, &AbstractClient::damaged,              this, &EffectsHandlerImpl::slotWindowDamaged);
+    connect(c, &AbstractClient::windowShown, this,
+        [this](Toplevel *c) {
+            emit windowShown(c->effectWindow());
+        }
+    );
+    connect(c, &AbstractClient::windowHidden, this,
+        [this](Toplevel *c) {
+            emit windowHidden(c->effectWindow());
+        }
+    );
 }
 
 void EffectsHandlerImpl::setupClientConnections(Client* c)
@@ -592,6 +503,7 @@ void EffectsHandlerImpl::slotClientShown(KWin::Toplevel *t)
 {
     Q_ASSERT(dynamic_cast<Client*>(t));
     Client *c = static_cast<Client*>(t);
+    disconnect(c, &Toplevel::windowShown, this, &EffectsHandlerImpl::slotClientShown);
     setupClientConnections(c);
     if (!c->tabGroup()) // the "window" has already been there
         emit windowAdded(c->effectWindow());
@@ -670,7 +582,6 @@ void EffectsHandlerImpl::slotPaddingChanged(Toplevel* t, const QRect& old)
 void EffectsHandlerImpl::setActiveFullScreenEffect(Effect* e)
 {
     fullscreen_effect = e;
-    m_compositor->checkUnredirect();
 }
 
 Effect* EffectsHandlerImpl::activeFullScreenEffect() const
@@ -760,6 +671,40 @@ void EffectsHandlerImpl::stopMouseInterception(Effect *effect)
 bool EffectsHandlerImpl::isMouseInterception() const
 {
     return m_grabbedMouseEffects.count() > 0;
+}
+
+
+bool EffectsHandlerImpl::touchDown(quint32 id, const QPointF &pos, quint32 time)
+{
+    // TODO: reverse call order?
+    for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
+        if (it->second->touchDown(id, pos, time)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool EffectsHandlerImpl::touchMotion(quint32 id, const QPointF &pos, quint32 time)
+{
+    // TODO: reverse call order?
+    for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
+        if (it->second->touchMotion(id, pos, time)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool EffectsHandlerImpl::touchUp(quint32 id, quint32 time)
+{
+    // TODO: reverse call order?
+    for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
+        if (it->second->touchUp(id, time)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void EffectsHandlerImpl::registerGlobalShortcut(const QKeySequence &shortcut, QAction *action)
@@ -1571,7 +1516,7 @@ QString EffectsHandlerImpl::supportInformation(const QString &name) const
 
 bool EffectsHandlerImpl::isScreenLocked() const
 {
-    return m_screenLockerWatcher->isLocked();
+    return ScreenLockerWatcher::self()->isLocked();
 }
 
 QString EffectsHandlerImpl::debug(const QString& name, const QString& parameter) const
@@ -1593,6 +1538,25 @@ bool EffectsHandlerImpl::makeOpenGLContextCurrent()
 void EffectsHandlerImpl::doneOpenGLContextCurrent()
 {
     m_scene->doneOpenGLContextCurrent();
+}
+
+bool EffectsHandlerImpl::animationsSupported() const
+{
+    static const QByteArray forceEnvVar = qgetenv("KWIN_EFFECTS_FORCE_ANIMATIONS");
+    if (!forceEnvVar.isEmpty()) {
+        static const int forceValue = forceEnvVar.toInt();
+        return forceValue == 1;
+    }
+    return m_scene->animationsSupported();
+}
+
+void EffectsHandlerImpl::highlightWindows(const QVector<EffectWindow *> &windows)
+{
+    Effect *e = provides(Effect::HighlightWindows);
+    if (!e) {
+        return;
+    }
+    e->perform(Effect::HighlightWindows, QVariantList{QVariant::fromValue(windows)});
 }
 
 //****************************************

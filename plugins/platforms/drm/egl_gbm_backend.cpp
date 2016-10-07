@@ -64,9 +64,6 @@ EglGbmBackend::~EglGbmBackend()
 {
     // TODO: cleanup front buffer?
     cleanup();
-    if (m_device) {
-        gbm_device_destroy(m_device);
-    }
 }
 
 void EglGbmBackend::cleanupSurfaces()
@@ -90,23 +87,26 @@ void EglGbmBackend::cleanupOutput(const Output &o)
 bool EglGbmBackend::initializeEgl()
 {
     initClientExtensions();
-    EGLDisplay display = EGL_NO_DISPLAY;
+    EGLDisplay display = m_backend->sceneEglDisplay();
 
     // Use eglGetPlatformDisplayEXT() to get the display pointer
     // if the implementation supports it.
-    if (!hasClientExtension(QByteArrayLiteral("EGL_EXT_platform_base")) ||
-            !hasClientExtension(QByteArrayLiteral("EGL_MESA_platform_gbm"))) {
-        setFailed("EGL_EXT_platform_base and/or EGL_MESA_platform_gbm missing");
-        return false;
-    }
+    if (display == EGL_NO_DISPLAY) {
+        if (!hasClientExtension(QByteArrayLiteral("EGL_EXT_platform_base")) ||
+                !hasClientExtension(QByteArrayLiteral("EGL_MESA_platform_gbm"))) {
+            setFailed("EGL_EXT_platform_base and/or EGL_MESA_platform_gbm missing");
+            return false;
+        }
 
-    m_device = gbm_create_device(m_backend->fd());
-    if (!m_device) {
-        setFailed("Could not create gbm device");
-        return false;
-    }
+        auto device = gbm_create_device(m_backend->fd());
+        if (!device) {
+            setFailed("Could not create gbm device");
+            return false;
+        }
+        m_backend->setGbmDevice(device);
 
-    display = eglGetPlatformDisplayEXT(EGL_PLATFORM_GBM_MESA, m_device, nullptr);
+        display = eglGetPlatformDisplayEXT(EGL_PLATFORM_GBM_MESA, device, nullptr);
+    }
 
     if (display == EGL_NO_DISPLAY)
         return false;
@@ -156,7 +156,7 @@ void EglGbmBackend::createOutput(DrmOutput *drmOutput)
 {
     Output o;
     o.output = drmOutput;
-    o.gbmSurface = gbm_surface_create(m_device, drmOutput->size().width(), drmOutput->size().height(),
+    o.gbmSurface = gbm_surface_create(m_backend->gbmDevice(), drmOutput->size().width(), drmOutput->size().height(),
                                         GBM_FORMAT_XRGB8888, GBM_BO_USE_SCANOUT | GBM_BO_USE_RENDERING);
     if (!o.gbmSurface) {
         qCCritical(KWIN_DRM) << "Create gbm surface failed";
@@ -234,10 +234,8 @@ void EglGbmBackend::present()
 void EglGbmBackend::presentOnOutput(EglGbmBackend::Output &o)
 {
     eglSwapBuffers(eglDisplay(), o.eglSurface);
-    auto oldBuffer = o.buffer;
     o.buffer = m_backend->createBuffer(o.gbmSurface);
     m_backend->present(o.buffer, o.output);
-    delete oldBuffer;
     if (supportsBufferAge()) {
         eglQuerySurface(eglDisplay(), o.eglSurface, EGL_BUFFER_AGE_EXT, &o.bufferAge);
     }

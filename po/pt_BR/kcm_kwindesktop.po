@@ -4,21 +4,21 @@
 #
 # Diniz Bortolotto <diniz.bortolotto@gmail.com>, 2007.
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2009, 2010, 2013, 2014, 2015.
-# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2009.
+# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2009, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-07-04 08:25+0000\n"
-"PO-Revision-Date: 2015-07-08 22:59-0300\n"
-"Last-Translator: André Marcelo Alvarenga <alvarenga@kde.org>\n"
-"Language-Team: Brazilian Portuguese <kde-i18n-pt_br@kde.org>\n"
+"PO-Revision-Date: 2016-08-31 18:55-0300\n"
+"Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
+"Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -133,7 +133,7 @@ msgstr "Áreas de trabalho"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:39
 msgid "Layout"
-msgstr "Leiaute"
+msgstr "Layout"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, numberLabel)
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, numberSpinBox)
@@ -211,13 +211,13 @@ msgid ""
 "Enabling this option will show a small preview of the desktop layout "
 "indicating the selected desktop."
 msgstr ""
-"A ativação desta opção irá mostrar uma pequena visualização da disposição do "
-"leiaute da área de trabalho, com indicação da área de trabalho selecionada."
+"A ativação desta opção irá mostrar uma pequena visualização do layout da "
+"área de trabalho, com indicação da área de trabalho selecionada."
 
 #. i18n: ectx: property (text), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
 #: main.ui:248
 msgid "Show desktop layout indicators"
-msgstr "Mostrar os indicadores de disposição da área de trabalho"
+msgstr "Mostrar os indicadores de layout da área de trabalho"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shortcutsGroupBox)
 #: main.ui:258

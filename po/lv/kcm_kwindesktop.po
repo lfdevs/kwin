@@ -6,29 +6,30 @@
 # Viesturs Zarins <viesturs.zarins@mii.lu.lv>, 2008.
 # Viesturs Zariņš <viesturs.zarins@mii.lu.lv>, 2009.
 # Rūdofls Mazurs <rudolfs.mazurs@gmail.com>, 2011.
+# Maris Nartiss <maris.kde@gmail.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2014-07-04 08:25+0000\n"
-"PO-Revision-Date: 2011-07-07 23:14+0300\n"
-"Last-Translator: Rūdofls Mazurs <rudolfs.mazurs@gmail.com>\n"
-"Language-Team: Latvian <locale@laka.lv>\n"
+"PO-Revision-Date: 2016-08-05 10:24+0300\n"
+"Last-Translator: Maris Nartiss <maris.kde@gmail.com>\n"
+"Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.1\n"
+"X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Viesturs Zariņš"
+msgstr "Viesturs Zariņš, Māris Nartišs"
 
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "viesturs.zarins@mii.lu.lv"
+msgstr "viesturs.zarins@mii.lu.lv,maris.kde@gmail.com"
 
 #: desktopnameswidget.cpp:67
 #, kde-format
@@ -79,19 +80,19 @@ msgstr "Pārslēgties vienu darbvirsmu uz leju"
 
 #: main.cpp:105
 msgid "Walk Through Desktops"
-msgstr ""
+msgstr "Iet cauri darbvirsmām"
 
 #: main.cpp:106
 msgid "Walk Through Desktops (Reverse)"
-msgstr ""
+msgstr "Iet cauri darbvirsmām (pretēji)"
 
 #: main.cpp:107
 msgid "Walk Through Desktop List"
-msgstr ""
+msgstr "Iet cauri darbvirsmu sarakstam"
 
 #: main.cpp:108
 msgid "Walk Through Desktop List (Reverse)"
-msgstr ""
+msgstr "Iet cauri darbvirsmu sarakstam (pretēji)"
 
 #: main.cpp:110 main.cpp:144 main.cpp:509 main.cpp:510
 msgid "Desktop Switching"
@@ -123,7 +124,7 @@ msgstr "Īsceļu konflikts: Nevar piešķirts īsceļu \"%1\" %2. darbvirsmai"
 
 #: main.cpp:604
 msgid "KWin development team"
-msgstr ""
+msgstr "KWin izstrādes komanda"
 
 #. i18n: ectx: attribute (title), widget (QWidget, desktop)
 #: main.ui:33
@@ -146,17 +147,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, numberLabel)
 #: main.ui:54
-#, fuzzy
-#| msgid "Number of desktops:"
 msgid "&Number of desktops:"
-msgstr "Darbvirsmu skaits:"
+msgstr "Darbvirsmu &skaits:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:83
-#, fuzzy
-#| msgid "Number of rows:"
 msgid "N&umber of rows:"
-msgstr "Rindu skaits:"
+msgstr "Rind&u skaits:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
 #: main.ui:103
@@ -166,7 +163,7 @@ msgstr "Darbvirsmu nosaukumi"
 #. i18n: ectx: attribute (title), widget (QWidget, switching)
 #: main.ui:136
 msgid "Switching"
-msgstr "Pārslēgšaan"
+msgstr "Pārslēgšanās"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, wrapAroundBox)
 #: main.ui:142

@@ -42,6 +42,11 @@ ScriptedEffect *ScriptedEffect::create(const KPluginMetaData&)
     return nullptr;
 }
 
+bool ScriptedEffect::supported()
+{
+    return true;
+}
+
 }
 
 class TestPluginEffectLoader : public QObject
@@ -81,7 +86,6 @@ void TestPluginEffectLoader::testHasEffect_data()
     QTest::newRow("HighlightWindow")   << QStringLiteral("highlightwindow")           << false;
     QTest::newRow("Invert")            << QStringLiteral("invert")                    << false;
     QTest::newRow("Kscreen")           << QStringLiteral("kscreen")                   << false;
-    QTest::newRow("Logout")            << QStringLiteral("logout")                    << false;
     QTest::newRow("LookingGlass")      << QStringLiteral("lookingglass")              << false;
     QTest::newRow("MagicLamp")         << QStringLiteral("magiclamp")                 << false;
     QTest::newRow("Magnifier")         << QStringLiteral("magnifier")                 << false;

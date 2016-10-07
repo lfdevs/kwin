@@ -33,11 +33,15 @@ namespace KWin
 
 Platform::Platform(QObject *parent)
     : QObject(parent)
+    , m_eglDisplay(EGL_NO_DISPLAY)
 {
 }
 
 Platform::~Platform()
 {
+    if (m_eglDisplay != EGL_NO_DISPLAY) {
+        eglTerminate(m_eglDisplay);
+    }
 }
 
 QImage Platform::softwareCursor() const
@@ -69,6 +73,11 @@ QPainterBackend *Platform::createQPainterBackend()
 Edge *Platform::createScreenEdge(ScreenEdges *edges)
 {
     return new Edge(edges);
+}
+
+void Platform::createPlatformCursor(QObject *parent)
+{
+    new InputRedirectionCursor(parent);
 }
 
 void Platform::configurationChangeRequested(KWayland::Server::OutputConfigurationInterface *config)
@@ -250,14 +259,14 @@ bool Platform::supportsQpaContext() const
     return hasGLExtension(QByteArrayLiteral("EGL_KHR_surfaceless_context"));
 }
 
-EGLDisplay Platform::sceneEglDisplay() const
+EGLDisplay KWin::Platform::sceneEglDisplay() const
 {
-    if (Compositor *c = Compositor::self()) {
-        if (SceneOpenGL *s = dynamic_cast<SceneOpenGL*>(c->scene())) {
-            return static_cast<AbstractEglBackend*>(s->backend())->eglDisplay();
-        }
-    }
-    return EGL_NO_DISPLAY;
+    return m_eglDisplay;
+}
+
+void Platform::setSceneEglDisplay(EGLDisplay display)
+{
+    m_eglDisplay = display;
 }
 
 EGLContext Platform::sceneEglContext() const
@@ -268,6 +277,26 @@ EGLContext Platform::sceneEglContext() const
         }
     }
     return EGL_NO_CONTEXT;
+}
+
+EGLSurface Platform::sceneEglSurface() const
+{
+    if (Compositor *c = Compositor::self()) {
+        if (SceneOpenGL *s = dynamic_cast<SceneOpenGL*>(c->scene())) {
+            return static_cast<AbstractEglBackend*>(s->backend())->surface();
+        }
+    }
+    return EGL_NO_SURFACE;
+}
+
+EGLConfig Platform::sceneEglConfig() const
+{
+    if (Compositor *c = Compositor::self()) {
+        if (SceneOpenGL *s = dynamic_cast<SceneOpenGL*>(c->scene())) {
+            return static_cast<AbstractEglBackend*>(s->backend())->config();
+        }
+    }
+    return nullptr;
 }
 
 QSize Platform::screenSize() const

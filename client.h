@@ -66,30 +66,6 @@ class KWIN_EXPORT Client
 {
     Q_OBJECT
     /**
-     * Whether the Client can be maximized both horizontally and vertically.
-     * The property is evaluated each time it is invoked.
-     * Because of that there is no notify signal.
-     **/
-    Q_PROPERTY(bool maximizable READ isMaximizable)
-    /**
-     * Whether the Client is moveable. Even if it is not moveable, it might be possible to move
-     * it to another screen. The property is evaluated each time it is invoked.
-     * Because of that there is no notify signal.
-     * @see moveableAcrossScreens
-     **/
-    Q_PROPERTY(bool moveable READ isMovable)
-    /**
-     * Whether the Client can be moved to another screen. The property is evaluated each time it is invoked.
-     * Because of that there is no notify signal.
-     * @see moveable
-     **/
-    Q_PROPERTY(bool moveableAcrossScreens READ isMovableAcrossScreens)
-    /**
-     * Whether the Client can be resized. The property is evaluated each time it is invoked.
-     * Because of that there is no notify signal.
-     **/
-    Q_PROPERTY(bool resizeable READ isResizable)
-    /**
      * By how much the window wishes to grow/shrink at least. Usually QSize(1,1).
      * MAY BE DISOBEYED BY THE WM! It's only for information, do NOT rely on it at all.
      * The value is evaluated each time the getter is called.
@@ -167,7 +143,7 @@ public:
 
     /// Is not minimized and not hidden. I.e. normally visible on some virtual desktop.
     bool isShown(bool shaded_is_shown) const override;
-    bool isHiddenInternal() const; // For compositing
+    bool isHiddenInternal() const override; // For compositing
 
     ShadeMode shadeMode() const override; // Prefer isShade()
     void setShade(ShadeMode mode) override;
@@ -391,7 +367,6 @@ private:
 
 protected:
     virtual void debug(QDebug& stream) const;
-    virtual bool shouldUnredirect() const;
     void addDamage(const QRegion &damage) override;
     bool belongsToSameApplication(const AbstractClient *other, bool active_hack) const override;
     void doSetActive() override;

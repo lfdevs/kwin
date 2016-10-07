@@ -136,11 +136,17 @@ void TestScriptedEffectLoader::testHasEffect()
     QFETCH(QString, name);
     QFETCH(bool, expected);
 
+    MockEffectsHandler mockHandler(KWin::XRenderCompositing);
     KWin::ScriptedEffectLoader loader;
     QCOMPARE(loader.hasEffect(name), expected);
 
     // each available effect should also be supported
     QCOMPARE(loader.isEffectSupported(name), expected);
+
+    if (expected) {
+        mockHandler.setAnimationsSupported(false);
+        QVERIFY(!loader.isEffectSupported(name));
+    }
 }
 
 void TestScriptedEffectLoader::testKnownEffects()
@@ -376,8 +382,7 @@ void TestScriptedEffectLoader::testLoadAllEffects()
     loader.queryAndLoadAll();
 
     // let's use qWait as we need to wait for two signals to be emitted
-    QTest::qWait(100);
-    QCOMPARE(spy.size(), 2);
+    QTRY_COMPARE(spy.size(), 2);
     QStringList loadedEffects;
     for (auto &list : spy) {
         QCOMPARE(list.size(), 2);

@@ -1,115 +1,115 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 # Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2009.
+# Safa Alfulaij <safa1996alfulaij@gmail.com>, ٢٠١٦.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-05-09 08:35+0000\n"
-"PO-Revision-Date: 2009-07-08 14:31+0400\n"
-"Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
-"Language-Team: Arabic <kde-i18n-doc@kde.org>\n"
+"POT-Creation-Date: 2016-08-11 07:46+0000\n"
+"PO-Revision-Date: ٢٠١٦-٠٩-٠٤ ٢٣:١٠+0300\n"
+"Last-Translator: Safa Alfulaij <safa1996alfulaij@gmail.com>\n"
+"Language-Team: Arabic <doc@arabeyes.org>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: Lokalize 0.3\n"
+"X-Generator: Lokalize 2.0\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "صفا الفليج"
 
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
+msgstr "safa1996alfulaij@gmail.com"
 
 #: main.cpp:187
 msgid "No Action"
-msgstr "بدون إجراء"
+msgstr "لا إجراء"
 
 #: main.cpp:188
 msgid "Show Desktop"
-msgstr ""
+msgstr "أظهر سطح المكتب"
 
 #: main.cpp:189
 msgid "Lock Screen"
-msgstr ""
+msgstr "اقفل الشّاشة"
 
 #: main.cpp:190
 msgctxt "Open krunner"
 msgid "Run Command"
-msgstr ""
+msgstr "شغّل أمرًا"
 
 #: main.cpp:191
 msgid "Activity Manager"
-msgstr ""
+msgstr "مدير الأنشطة"
 
-#: main.cpp:195
-#, fuzzy, kde-format
-#| msgid "All Desktops"
-msgid "%1 - All Desktops"
-msgstr "جميع الأسطح"
+#: main.cpp:192
+msgid "Application Launcher"
+msgstr "مُطلق التّطبيقات"
 
 #: main.cpp:196
-#, fuzzy, kde-format
-#| msgid "Current Desktop"
-msgid "%1 - Current Desktop"
-msgstr "السطح الحالي"
+#, kde-format
+msgid "%1 - All Desktops"
+msgstr "%1 - كلّ أسطح المكتب"
 
 #: main.cpp:197
 #, kde-format
-msgid "%1 - Current Application"
-msgstr ""
+msgid "%1 - Current Desktop"
+msgstr "%1 - سطح المكتب الحاليّ"
 
-#: main.cpp:200
-#, fuzzy, kde-format
-#| msgid "Cube"
-msgid "%1 - Cube"
-msgstr "المعكب"
+#: main.cpp:198
+#, kde-format
+msgid "%1 - Current Application"
+msgstr "%1 - التّطبيق الحاليّ"
 
 #: main.cpp:201
-#, fuzzy, kde-format
-#| msgid "Cylinder"
-msgid "%1 - Cylinder"
-msgstr "الاسطوانة"
+#, kde-format
+msgid "%1 - Cube"
+msgstr "%1 - معكّب"
 
 #: main.cpp:202
-#, fuzzy, kde-format
-#| msgid "Sphere"
-msgid "%1 - Sphere"
-msgstr "الكرة"
+#, kde-format
+msgid "%1 - Cylinder"
+msgstr "%1 - أسطوانة"
 
-#: main.cpp:204
+#: main.cpp:203
+#, kde-format
+msgid "%1 - Sphere"
+msgstr "%1 - كرة"
+
+#: main.cpp:205
 msgid "Toggle window switching"
 msgstr ""
 
-#: main.cpp:205
+#: main.cpp:206
 msgid "Toggle alternative window switching"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
 msgid "Active Screen Edge Actions"
-msgstr "إجراءات حواف الشاشة النشطة"
+msgstr "إجراءات حواف الشّاشة النّشطة"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
 msgid ""
 "To trigger an action push your mouse cursor against the edge of the screen "
 "in the action's direction."
-msgstr "لتطلق إجراء عليك بدفع مؤشر الفأرة إلى حافة الشاشة في اتجاه الإجراء."
+msgstr "لتحفيز إجراء ادفع بمؤشّر الفأرة إلى جانب الشّاشة باتّجاه الإجراء."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
 msgid "Window Management"
-msgstr ""
+msgstr "إدارة النّوافذ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
 msgid "Maximize windows by dragging them to the top of the screen"
-msgstr ""
+msgstr "كبّر النّوافذ بسحبها أعلى الشّاشة"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
@@ -125,71 +125,72 @@ msgstr ""
 #: main.ui:106
 #, no-c-format
 msgid "%"
-msgstr ""
+msgstr "%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: main.ui:122
 msgid "of the screen"
-msgstr ""
+msgstr "من الشّاشة"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:150
 msgid "Other Settings"
-msgstr "الإعدادات الأخرى"
+msgstr "إعدادات أخرى"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, desktopSwitchLabel)
 #: main.ui:162
 msgid ""
 "Change desktop when the mouse cursor is pushed against the edge of the screen"
-msgstr "غير سطح المكتب عندما يدفع مؤشر الفأرة إلى حافة الشاشة"
+msgstr "غيّر سطح المكتب عند الدّفع بمؤشّر الفأرة إلى حافّة الشّاشة"
 
 #. i18n: ectx: property (text), widget (QLabel, desktopSwitchLabel)
 #: main.ui:165
 msgid "&Switch desktop on edge:"
-msgstr "&بدل سطح المكتب عند الحالفة:"
+msgstr "&بدّل سطح المكتب عند الحافّة:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:176
 msgctxt "Switch desktop on edge"
 msgid "Disabled"
-msgstr ""
+msgstr "معطّل"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:181
 msgid "Only When Moving Windows"
-msgstr "فقط عند تحريك النوافذ"
+msgstr "عند تحريك النّوافذ فقط"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:186
 msgid "Always Enabled"
-msgstr "دائما مفعل"
+msgstr "مفعّل دائمًا"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: main.ui:194
 msgid ""
 "Amount of time required for the mouse cursor to be pushed against the edge "
 "of the screen before the action is triggered"
-msgstr "كمية الوقت اللازمة لدفع مؤشر الفأرة إلى حافة الشاشة قبل اطلاق الإجراء"
+msgstr ""
+"كمّ الوقت اللازم قبل تحفيز الإجراء بعد الدّفع بمؤشّر الفأرة إلى حافّة الشّاشة"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:197
 msgid "Activation &delay:"
-msgstr "&مهلة التنشيط:"
+msgstr "&مهلة التّنشيط:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, activationDelaySpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, triggerCooldownSpin)
 #: main.ui:207 main.ui:242
 msgid " ms"
-msgstr "م.ث"
+msgstr " م‌ث"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: main.ui:226
 msgid ""
 "Amount of time required after triggering an action until the next trigger "
 "can occur"
-msgstr "كمية الوقت اللازمة بعد اطلاق إجراء حتى يحدث الاطلاق التالي"
+msgstr "كمّ الوقت اللازم حتّى تحفيز الإجراء التّالي بعد انتهاء الأوّل"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:229
 msgid "&Reactivation delay:"
-msgstr "مهلة إ&عادة التنشيط:"
+msgstr "مهلة إ&عادة التّنشيط:"

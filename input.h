@@ -164,6 +164,8 @@ public:
         return m_touch;
     }
 
+    bool hasAlphaNumericKeyboard();
+
 Q_SIGNALS:
     /**
      * @brief Emitted when the global pointer position changed
@@ -202,6 +204,8 @@ Q_SIGNALS:
      * @param oldMods The new key state
      */
     void keyStateChanged(quint32 keyCode, InputRedirection::KeyboardKeyState state);
+
+    void hasAlphaNumericKeyboardChanged(bool set);
 
 private:
     void setupLibInput();
@@ -284,6 +288,19 @@ public:
     virtual bool touchDown(quint32 id, const QPointF &pos, quint32 time);
     virtual bool touchMotion(quint32 id, const QPointF &pos, quint32 time);
     virtual bool touchUp(quint32 id, quint32 time);
+
+    virtual bool pinchGestureBegin(int fingerCount, quint32 time);
+    virtual bool pinchGestureUpdate(qreal scale, qreal angleDelta, const QSizeF &delta, quint32 time);
+    virtual bool pinchGestureEnd(quint32 time);
+    virtual bool pinchGestureCancelled(quint32 time);
+
+    virtual bool swipeGestureBegin(int fingerCount, quint32 time);
+    virtual bool swipeGestureUpdate(const QSizeF &delta, quint32 time);
+    virtual bool swipeGestureEnd(quint32 time);
+    virtual bool swipeGestureCancelled(quint32 time);
+
+protected:
+    void passToWaylandServer(QKeyEvent *event);
 };
 
 class InputDeviceHandler : public QObject

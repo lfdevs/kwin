@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-05-09 08:35+0000\n"
-"PO-Revision-Date: 2016-06-07 22:10+0100\n"
+"POT-Creation-Date: 2016-08-11 07:46+0000\n"
+"PO-Revision-Date: 2016-08-21 10:29+0100\n"
 "Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
 "Language: sk\n"
@@ -45,41 +45,45 @@ msgstr "Spustiť príkaz"
 msgid "Activity Manager"
 msgstr "Správca aktivít"
 
-#: main.cpp:195
+#: main.cpp:192
+msgid "Application Launcher"
+msgstr "Spúšťač aplikácií"
+
+#: main.cpp:196
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - Všetky plochy"
 
-#: main.cpp:196
+#: main.cpp:197
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - Aktuálna plocha"
 
-#: main.cpp:197
+#: main.cpp:198
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - Aktuálna aplikácia"
 
-#: main.cpp:200
+#: main.cpp:201
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 - Kocka"
 
-#: main.cpp:201
+#: main.cpp:202
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 - Valec"
 
-#: main.cpp:202
+#: main.cpp:203
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 - Guľa"
 
-#: main.cpp:204
+#: main.cpp:205
 msgid "Toggle window switching"
 msgstr "Prepnúť prepínanie okien"
 
-#: main.cpp:205
+#: main.cpp:206
 msgid "Toggle alternative window switching"
 msgstr "Prepnúť alternatívne prepínanie okien"
 

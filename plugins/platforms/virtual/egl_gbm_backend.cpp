@@ -23,10 +23,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "virtual_backend.h"
 #include "options.h"
 #include "screens.h"
+#if HAVE_UDEV
+#include "udev.h"
+#endif
+#include <logging.h>
 // kwin libs
 #include <kwinglplatform.h>
 // Qt
 #include <QOpenGLContext>
+// system
+#include <fcntl.h>
+#include <unistd.h>
+#if HAVE_GBM
+#include <gbm.h>
+#endif
 
 namespace KWin
 {
@@ -50,20 +60,67 @@ EglGbmBackend::~EglGbmBackend()
     cleanup();
 }
 
+void EglGbmBackend::initGbmDevice()
+{
+#if HAVE_UDEV
+    if (m_backend->drmFd() != -1) {
+        // already initialized
+        return;
+    }
+    QScopedPointer<Udev> udev(new Udev);
+    UdevDevice::Ptr device = udev->renderNode();
+    if (!device) {
+        // if we don't have a render node, try to find a virtual (vgem) device
+        qCDebug(KWIN_VIRTUAL) << "No render node, looking for a vgem device";
+        device = udev->virtualGpu();
+    }
+    if (!device) {
+        qCDebug(KWIN_VIRTUAL) << "Neither a render node, nor a vgem device found";
+        return;
+    }
+    qCDebug(KWIN_VIRTUAL) << "Found a device: " << device->devNode();
+    int fd = open(device->devNode(), O_RDWR | O_CLOEXEC);
+    if (fd == -1) {
+        qCWarning(KWIN_VIRTUAL) << "Failed to open: " << device->devNode();
+        return;
+    }
+    m_backend->setDrmFd(fd);
+#if HAVE_GBM
+    auto gbmDevice = gbm_create_device(fd);
+    if (!gbmDevice) {
+        qCWarning(KWIN_VIRTUAL) << "Failed to open gbm device";
+    }
+    m_backend->setGbmDevice(gbmDevice);
+#endif
+#endif
+}
+
 bool EglGbmBackend::initializeEgl()
 {
     initClientExtensions();
-    EGLDisplay display = EGL_NO_DISPLAY;
+    EGLDisplay display = m_backend->sceneEglDisplay();
 
     // Use eglGetPlatformDisplayEXT() to get the display pointer
     // if the implementation supports it.
-    if (!hasClientExtension(QByteArrayLiteral("EGL_EXT_platform_base")) ||
-            !hasClientExtension(QByteArrayLiteral("EGL_MESA_platform_gbm"))) {
-        setFailed("EGL_EXT_platform_base and/or EGL_MESA_platform_gbm missing");
-        return false;
-    }
+    if (display == EGL_NO_DISPLAY) {
+        if (!hasClientExtension(QByteArrayLiteral("EGL_EXT_platform_base")) ||
+                !hasClientExtension(QByteArrayLiteral("EGL_MESA_platform_gbm"))) {
+            setFailed("EGL_EXT_platform_base and/or EGL_MESA_platform_gbm missing");
+            return false;
+        }
 
-    display = eglGetPlatformDisplayEXT(EGL_PLATFORM_GBM_MESA, EGL_DEFAULT_DISPLAY, nullptr);
+#if HAVE_GBM
+        initGbmDevice();
+        if (auto device = m_backend->gbmDevice()) {
+            display = eglGetPlatformDisplayEXT(EGL_PLATFORM_GBM_MESA, device, nullptr);
+        }
+#endif
+
+        if (display == EGL_NO_DISPLAY) {
+            qCWarning(KWIN_VIRTUAL) << "Failed to create EGLDisplay through GBM device, trying with default device";
+            display = eglGetPlatformDisplay(EGL_PLATFORM_GBM_MESA, EGL_DEFAULT_DISPLAY, nullptr);
+        }
+    }
 
     if (display == EGL_NO_DISPLAY)
         return false;

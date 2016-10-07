@@ -179,10 +179,11 @@ void PointerInputRedirection::processMotion(const QPointF &pos, uint32_t time, L
 
 void PointerInputRedirection::processButton(uint32_t button, InputRedirection::PointerButtonState state, uint32_t time, LibInput::Device *device)
 {
+    updateButton(button, state);
+
     if (!m_inited) {
         return;
     }
-    updateButton(button, state);
 
     QEvent::Type type;
     switch (state) {
@@ -210,14 +211,15 @@ void PointerInputRedirection::processButton(uint32_t button, InputRedirection::P
 
 void PointerInputRedirection::processAxis(InputRedirection::PointerAxis axis, qreal delta, uint32_t time, LibInput::Device *device)
 {
-    if (!m_inited) {
-        return;
-    }
     if (delta == 0) {
         return;
     }
 
     emit m_input->pointerAxisChanged(axis, delta);
+
+    if (!m_inited) {
+        return;
+    }
 
     WheelEvent wheelEvent(m_pos, delta,
                            (axis == InputRedirection::PointerAxisHorizontal) ? Qt::Horizontal : Qt::Vertical,
@@ -226,6 +228,126 @@ void PointerInputRedirection::processAxis(InputRedirection::PointerAxis axis, qr
     const auto &filters = m_input->filters();
     for (auto it = filters.begin(), end = filters.end(); it != end; it++) {
         if ((*it)->wheelEvent(&wheelEvent)) {
+            return;
+        }
+    }
+}
+
+void PointerInputRedirection::processSwipeGestureBegin(int fingerCount, quint32 time, KWin::LibInput::Device *device)
+{
+    Q_UNUSED(device)
+    if (!m_inited) {
+        return;
+    }
+
+    const auto &filters = m_input->filters();
+    for (auto it = filters.begin(), end = filters.end(); it != end; it++) {
+        if ((*it)->swipeGestureBegin(fingerCount, time)) {
+            return;
+        }
+    }
+}
+
+void PointerInputRedirection::processSwipeGestureUpdate(const QSizeF &delta, quint32 time, KWin::LibInput::Device *device)
+{
+    Q_UNUSED(device)
+    if (!m_inited) {
+        return;
+    }
+
+    const auto &filters = m_input->filters();
+    for (auto it = filters.begin(), end = filters.end(); it != end; it++) {
+        if ((*it)->swipeGestureUpdate(delta, time)) {
+            return;
+        }
+    }
+}
+
+void PointerInputRedirection::processSwipeGestureEnd(quint32 time, KWin::LibInput::Device *device)
+{
+    Q_UNUSED(device)
+    if (!m_inited) {
+        return;
+    }
+
+    const auto &filters = m_input->filters();
+    for (auto it = filters.begin(), end = filters.end(); it != end; it++) {
+        if ((*it)->swipeGestureEnd(time)) {
+            return;
+        }
+    }
+}
+
+void PointerInputRedirection::processSwipeGestureCancelled(quint32 time, KWin::LibInput::Device *device)
+{
+    Q_UNUSED(device)
+    if (!m_inited) {
+        return;
+    }
+
+    const auto &filters = m_input->filters();
+    for (auto it = filters.begin(), end = filters.end(); it != end; it++) {
+        if ((*it)->swipeGestureCancelled(time)) {
+            return;
+        }
+    }
+}
+
+void PointerInputRedirection::processPinchGestureBegin(int fingerCount, quint32 time, KWin::LibInput::Device *device)
+{
+    Q_UNUSED(device)
+    if (!m_inited) {
+        return;
+    }
+
+    const auto &filters = m_input->filters();
+    for (auto it = filters.begin(), end = filters.end(); it != end; it++) {
+        if ((*it)->pinchGestureBegin(fingerCount, time)) {
+            return;
+        }
+    }
+}
+
+void PointerInputRedirection::processPinchGestureUpdate(qreal scale, qreal angleDelta, const QSizeF &delta, quint32 time, KWin::LibInput::Device *device)
+{
+    Q_UNUSED(device)
+    if (!m_inited) {
+        return;
+    }
+
+    const auto &filters = m_input->filters();
+    for (auto it = filters.begin(), end = filters.end(); it != end; it++) {
+        if ((*it)->pinchGestureUpdate(scale, angleDelta, delta, time)) {
+            return;
+        }
+    }
+}
+
+void PointerInputRedirection::processPinchGestureEnd(quint32 time, KWin::LibInput::Device *device)
+{
+    Q_UNUSED(device)
+    if (!m_inited) {
+        return;
+    }
+
+    const auto &filters = m_input->filters();
+    for (auto it = filters.begin(), end = filters.end(); it != end; it++) {
+        if ((*it)->pinchGestureEnd(time)) {
+            return;
+        }
+    }
+}
+
+void PointerInputRedirection::processPinchGestureCancelled(quint32 time, KWin::LibInput::Device *device)
+{
+    Q_UNUSED(device)
+    if (!m_inited) {
+        return;
+    }
+
+    const auto &filters = m_input->filters();
+    for (auto it = filters.begin(), end = filters.end(); it != end; it++) {
+        if ((*it)->pinchGestureCancelled(time)) {
             return;
         }
     }
@@ -247,11 +369,14 @@ void PointerInputRedirection::update()
     if (!m_internalWindow) {
         updateDecoration(t, m_pos);
     } else {
-        // TODO: send hover leave to decoration
+        updateDecoration(waylandServer()->findClient(m_internalWindow), m_pos);
         if (m_decoration) {
-            m_decoration->client()->leaveEvent();
+            disconnect(m_internalWindowConnection);
+            m_internalWindowConnection = QMetaObject::Connection();
+            QEvent event(QEvent::Leave);
+            QCoreApplication::sendEvent(m_internalWindow.data(), &event);
+            m_internalWindow.clear();
         }
-        m_decoration.clear();
     }
     if (m_decoration || m_internalWindow) {
         t = nullptr;
@@ -282,6 +407,7 @@ void PointerInputRedirection::update()
     if (t && t->surface()) {
         m_window = QPointer<Toplevel>(t);
         // TODO: add convenient API to update global pos together with updating focused surface
+        warpXcbOnSurfaceLeft(t->surface());
         seat->setFocusedPointerSurface(nullptr);
         seat->setPointerPos(m_pos.toPoint());
         seat->setFocusedPointerSurface(t->surface(), t->inputTransformation());
@@ -304,9 +430,38 @@ void PointerInputRedirection::update()
         );
     } else {
         m_window.clear();
+        warpXcbOnSurfaceLeft(nullptr);
         seat->setFocusedPointerSurface(nullptr);
         t = nullptr;
     }
+}
+
+void PointerInputRedirection::warpXcbOnSurfaceLeft(KWayland::Server::SurfaceInterface *newSurface)
+{
+    auto xc = waylandServer()->xWaylandConnection();
+    if (!xc) {
+        // No XWayland, no point in warping the x cursor
+        return;
+    }
+    if (!kwinApp()->x11Connection()) {
+        return;
+    }
+    static bool s_hasXWayland119 = xcb_get_setup(kwinApp()->x11Connection())->release_number >= 11900000;
+    if (s_hasXWayland119) {
+        return;
+    }
+    if (newSurface && newSurface->client() == xc) {
+        // new window is an X window
+        return;
+    }
+    auto s = waylandServer()->seat()->focusedPointerSurface();
+    if (!s || s->client() != xc) {
+        // pointer was not on an X window
+        return;
+    }
+    // warp pointer to 0/0 to trigger leave events on previously focused X window
+    xcb_warp_pointer(connection(), XCB_WINDOW_NONE, rootWindow(), 0, 0, 0, 0, 0, 0),
+    xcb_flush(connection());
 }
 
 void PointerInputRedirection::updatePosition(const QPointF &pos)

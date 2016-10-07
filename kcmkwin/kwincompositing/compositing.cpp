@@ -41,7 +41,6 @@ Compositing::Compositing(QObject *parent)
     , m_windowThumbnail(0)
     , m_glScaleFilter(0)
     , m_xrScaleFilter(false)
-    , m_unredirectFullscreen(false)
     , m_glSwapStrategy(0)
     , m_glColorCorrection(false)
     , m_compositingType(0)
@@ -49,18 +48,20 @@ Compositing::Compositing(QObject *parent)
     , m_changed(false)
     , m_openGLPlatformInterfaceModel(new OpenGLPlatformInterfaceModel(this))
     , m_openGLPlatformInterface(0)
+    , m_windowsBlockCompositing(true)
+    , m_compositingInterface(new OrgKdeKwinCompositingInterface(QStringLiteral("org.kde.KWin"), QStringLiteral("/Compositor"), QDBusConnection::sessionBus(), this))
 {
     reset();
     connect(this, &Compositing::animationSpeedChanged,       this, &Compositing::changed);
     connect(this, &Compositing::windowThumbnailChanged,      this, &Compositing::changed);
     connect(this, &Compositing::glScaleFilterChanged,        this, &Compositing::changed);
     connect(this, &Compositing::xrScaleFilterChanged,        this, &Compositing::changed);
-    connect(this, &Compositing::unredirectFullscreenChanged, this, &Compositing::changed);
     connect(this, &Compositing::glSwapStrategyChanged,       this, &Compositing::changed);
     connect(this, &Compositing::glColorCorrectionChanged,    this, &Compositing::changed);
     connect(this, &Compositing::compositingTypeChanged,      this, &Compositing::changed);
     connect(this, &Compositing::compositingEnabledChanged,   this, &Compositing::changed);
     connect(this, &Compositing::openGLPlatformInterfaceChanged, this, &Compositing::changed);
+    connect(this, &Compositing::windowsBlockCompositingChanged, this, &Compositing::changed);
 
     connect(this, &Compositing::changed, [this]{
         m_changed = true;
@@ -74,7 +75,6 @@ void Compositing::reset()
     setWindowThumbnail(kwinConfig.readEntry("HiddenPreviews", 5) - 4);
     setGlScaleFilter(kwinConfig.readEntry("GLTextureFilter", 2));
     setXrScaleFilter(kwinConfig.readEntry("XRenderSmoothScale", false));
-    setUnredirectFullscreen(kwinConfig.readEntry("UnredirectFullscreen", false));
     setCompositingEnabled(kwinConfig.readEntry("Enabled", true));
 
     auto swapStrategy = [&kwinConfig]() {
@@ -115,6 +115,8 @@ void Compositing::reset()
     const QModelIndex index = m_openGLPlatformInterfaceModel->indexForKey(kwinConfig.readEntry("GLPlatformInterface", "glx"));
     setOpenGLPlatformInterface(index.isValid() ? index.row() : 0);
 
+    setWindowsBlockCompositing(kwinConfig.readEntry("WindowsBlockCompositing", true));
+
     m_changed = false;
 }
 
@@ -124,12 +126,12 @@ void Compositing::defaults()
     setWindowThumbnail(1);
     setGlScaleFilter(2);
     setXrScaleFilter(false);
-    setUnredirectFullscreen(false);
     setGlSwapStrategy(1);
     setGlColorCorrection(false);
     setCompositingType(CompositingType::OPENGL20_INDEX);
     const QModelIndex index = m_openGLPlatformInterfaceModel->indexForKey(QStringLiteral("glx"));
     setOpenGLPlatformInterface(index.isValid() ? index.row() : 0);
+    setWindowsBlockCompositing(true);
     m_changed = true;
 }
 
@@ -141,16 +143,13 @@ bool Compositing::OpenGLIsUnsafe() const
 
 bool Compositing::OpenGLIsBroken()
 {
-    OrgKdeKwinCompositingInterface interface(QStringLiteral("org.kde.KWin"),
-                                             QStringLiteral("/Compositor"),
-                                             QDBusConnection::sessionBus());
     KConfigGroup kwinConfig(KSharedConfig::openConfig("kwinrc"), "Compositing");
 
     QString oldBackend = kwinConfig.readEntry("Backend", "OpenGL");
     kwinConfig.writeEntry("Backend", "OpenGL");
     kwinConfig.sync();
 
-    if (interface.openGLIsBroken()) {
+    if (m_compositingInterface->openGLIsBroken()) {
         kwinConfig.writeEntry("Backend", oldBackend);
         kwinConfig.sync();
         return true;
@@ -186,11 +185,6 @@ int Compositing::glScaleFilter() const
 bool Compositing::xrScaleFilter() const
 {
     return m_xrScaleFilter;
-}
-
-bool Compositing::unredirectFullscreen() const
-{
-    return m_unredirectFullscreen;
 }
 
 int Compositing::glSwapStrategy() const
@@ -249,15 +243,6 @@ void Compositing::setGlSwapStrategy(int strategy)
     emit glSwapStrategyChanged(strategy);
 }
 
-void Compositing::setUnredirectFullscreen(bool unredirect)
-{
-    if (unredirect == m_unredirectFullscreen) {
-        return;
-    }
-    m_unredirectFullscreen = unredirect;
-    emit unredirectFullscreenChanged(unredirect);
-}
-
 void Compositing::setWindowThumbnail(int index)
 {
     if (index == m_windowThumbnail) {
@@ -287,6 +272,9 @@ void Compositing::setCompositingType(int index)
 
 void Compositing::setCompositingEnabled(bool enabled)
 {
+    if (compositingRequired()) {
+        return;
+    }
     if (enabled == m_compositingEnabled) {
         return;
     }
@@ -302,8 +290,9 @@ void Compositing::save()
     kwinConfig.writeEntry("HiddenPreviews", windowThumbnail() + 4);
     kwinConfig.writeEntry("GLTextureFilter", glScaleFilter());
     kwinConfig.writeEntry("XRenderSmoothScale", xrScaleFilter());
-    kwinConfig.writeEntry("UnredirectFullscreen", unredirectFullscreen());
-    kwinConfig.writeEntry("Enabled", compositingEnabled());
+    if (!compositingRequired()) {
+        kwinConfig.writeEntry("Enabled", compositingEnabled());
+    }
     auto swapStrategy = [this] {
         switch (glSwapStrategy()) {
             case 0:
@@ -343,6 +332,9 @@ void Compositing::save()
     if (glIndex.isValid()) {
         kwinConfig.writeEntry("GLPlatformInterface", glIndex.data(Qt::UserRole).toString());
     }
+    if (!compositingRequired()) {
+        kwinConfig.writeEntry("WindowsBlockCompositing", windowsBlockCompositing());
+    }
     kwinConfig.sync();
 
     if (m_changed) {
@@ -372,6 +364,28 @@ void Compositing::setOpenGLPlatformInterface(int interface)
     }
     m_openGLPlatformInterface = interface;
     emit openGLPlatformInterfaceChanged(interface);
+}
+
+bool Compositing::windowsBlockCompositing() const
+{
+    return m_windowsBlockCompositing;
+}
+
+void Compositing::setWindowsBlockCompositing(bool set)
+{
+    if (compositingRequired()) {
+        return;
+    }
+    if (m_windowsBlockCompositing == set) {
+        return;
+    }
+    m_windowsBlockCompositing = set;
+    emit windowsBlockCompositingChanged(set);
+}
+
+bool Compositing::compositingRequired() const
+{
+    return m_compositingInterface->platformRequiresCompositing();
 }
 
 CompositingType::CompositingType(QObject *parent)

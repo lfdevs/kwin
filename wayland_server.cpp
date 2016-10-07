@@ -49,6 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/shell_interface.h>
 #include <KWayland/Server/outputmanagement_interface.h>
 #include <KWayland/Server/outputconfiguration_interface.h>
+#include <KWayland/Server/xdgshell_interface.h>
 
 // Qt
 #include <QThread>
@@ -57,6 +58,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // system
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <unistd.h>
 
 //screenlocker
 #include <KScreenLocker/KsldApp>
@@ -71,10 +73,10 @@ KWIN_SINGLETON_FACTORY(WaylandServer)
 WaylandServer::WaylandServer(QObject *parent)
     : QObject(parent)
 {
-    qRegisterMetaType<KWayland::Server::SurfaceInterface *>("KWayland::Server::SurfaceInterface *");
     qRegisterMetaType<KWayland::Server::OutputInterface::DpmsMode>();
 
     connect(kwinApp(), &Application::screensCreated, this, &WaylandServer::initOutputs);
+    connect(kwinApp(), &Application::x11ConnectionChanged, this, &WaylandServer::setupX11ClipboardSync);
 }
 
 WaylandServer::~WaylandServer()
@@ -111,7 +113,34 @@ void WaylandServer::terminateClientConnections()
     }
 }
 
-void WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
+template <class T>
+void WaylandServer::createSurface(T *surface)
+{
+    if (!Workspace::self()) {
+        // it's possible that a Surface gets created before Workspace is created
+        return;
+    }
+    if (surface->client() == m_xwayland.client) {
+        // skip Xwayland clients, those are created using standard X11 way
+        return;
+    }
+    if (surface->client() == m_screenLockerClientConnection) {
+        ScreenLocker::KSldApp::self()->lockScreenShown();
+    }
+    auto client = new ShellClient(surface);
+    if (client->isInternal()) {
+        m_internalClients << client;
+    } else {
+        m_clients << client;
+    }
+    if (client->readyForPainting()) {
+        emit shellClientAdded(client);
+    } else {
+        connect(client, &ShellClient::windowShown, this, &WaylandServer::shellClientShown);
+    }
+}
+
+bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
 {
     m_initFlags = flags;
     m_display = new KWayland::Server::Display(this);
@@ -119,6 +148,9 @@ void WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
         m_display->setSocketName(QString::fromUtf8(socketName));
     }
     m_display->start();
+    if (!m_display->isRunning()) {
+        return false;
+    }
     m_compositor = m_display->createCompositor(m_display);
     m_compositor->create();
     connect(m_compositor, &CompositorInterface::surfaceCreated, this,
@@ -143,39 +175,34 @@ void WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
     );
     m_shell = m_display->createShell(m_display);
     m_shell->create();
-    connect(m_shell, &ShellInterface::surfaceCreated, this,
-        [this] (ShellSurfaceInterface *surface) {
-            if (!Workspace::self()) {
-                // it's possible that a Surface gets created before Workspace is created
-                return;
-            }
-            if (surface->client() == m_xwayland.client) {
-                // skip Xwayland clients, those are created using standard X11 way
-                return;
-            }
-            if (surface->client() == m_screenLockerClientConnection) {
-                ScreenLocker::KSldApp::self()->lockScreenShown();
-            }
-            auto client = new ShellClient(surface);
-            if (auto c = Compositor::self()) {
-                connect(client, &Toplevel::needsRepaint, c, &Compositor::scheduleRepaint);
-            }
-            if (client->isInternal()) {
-                m_internalClients << client;
-            } else {
-                m_clients << client;
-            }
-            if (client->readyForPainting()) {
-                emit shellClientAdded(client);
-            } else {
-                connect(client, &ShellClient::windowShown, this, &WaylandServer::shellClientShown);
-            }
-        }
-    );
+    connect(m_shell, &ShellInterface::surfaceCreated, this, &WaylandServer::createSurface<ShellSurfaceInterface>);
+    m_xdgShell = m_display->createXdgShell(XdgShellInterfaceVersion::UnstableV5, m_display);
+    m_xdgShell->create();
+    connect(m_xdgShell, &XdgShellInterface::surfaceCreated, this, &WaylandServer::createSurface<XdgShellSurfaceInterface>);
+    // TODO: verify seat and serial
+    connect(m_xdgShell, &XdgShellInterface::popupCreated, this, &WaylandServer::createSurface<XdgShellPopupInterface>);
     m_display->createShm();
     m_seat = m_display->createSeat(m_display);
     m_seat->create();
-    m_display->createDataDeviceManager(m_display)->create();
+    auto ddm = m_display->createDataDeviceManager(m_display);
+    ddm->create();
+    connect(ddm, &DataDeviceManagerInterface::dataDeviceCreated, this,
+        [this] (DataDeviceInterface *ddi) {
+            if (ddi->client() == m_xclipbaordSync.client && m_xclipbaordSync.client != nullptr) {
+                m_xclipbaordSync.ddi = QPointer<DataDeviceInterface>(ddi);
+                connect(m_xclipbaordSync.ddi.data(), &DataDeviceInterface::selectionChanged, this,
+                    [this] {
+                        // testing whether the active client inherits Client
+                        // it would be better to test for the keyboard focus, but we might get a clipboard update
+                        // when the Client is already active, but no Surface is created yet.
+                        if (workspace()->activeClient() && workspace()->activeClient()->inherits("KWin::Client")) {
+                            m_seat->setSelection(m_xclipbaordSync.ddi.data());
+                        }
+                    }
+                );
+            }
+        }
+    );
     m_display->createIdle(m_display)->create();
     m_plasmaShell = m_display->createPlasmaShell(m_display);
     m_plasmaShell->create();
@@ -244,6 +271,8 @@ void WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
     m_outputManagement->create();
 
     m_display->createSubCompositor(m_display)->create();
+
+    return true;
 }
 
 void WaylandServer::shellClientShown(Toplevel *t)
@@ -293,6 +322,7 @@ void WaylandServer::initWorkspace()
             ScreenLocker::KSldApp::self()->lock(ScreenLocker::EstablishLock::Immediate);
         }
     }
+    emit initialized();
 }
 
 void WaylandServer::initOutputs()
@@ -300,6 +330,22 @@ void WaylandServer::initOutputs()
     if (kwinApp()->platform()->handlesOutputs()) {
         return;
     }
+    syncOutputsToWayland();
+    connect(screens(), &Screens::changed, this,
+        [this] {
+            // when screens change we need to sync this to Wayland.
+            // Unfortunately we don't have much information and cannot properly match a KWin screen
+            // to a Wayland screen.
+            // Thus we just recreate all outputs and delete the old ones
+            const auto outputs = m_display->outputs();
+            syncOutputsToWayland();
+            qDeleteAll(outputs);
+        }
+    );
+}
+
+void WaylandServer::syncOutputsToWayland()
+{
     Screens *s = screens();
     Q_ASSERT(s);
     for (int i = 0; i < s->count(); ++i) {
@@ -333,6 +379,10 @@ void WaylandServer::destroyXWaylandConnection()
     if (!m_xwayland.client) {
         return;
     }
+    // first terminate the clipboard sync
+    if (m_xclipbaordSync.process) {
+        m_xclipbaordSync.process->terminate();
+    }
     disconnect(m_xwayland.destroyConnection);
     m_xwayland.client->destroy();
     m_xwayland.client = nullptr;
@@ -356,6 +406,52 @@ void WaylandServer::destroyInputMethodConnection()
     }
     m_inputMethodServerConnection->destroy();
     m_inputMethodServerConnection = nullptr;
+}
+
+int WaylandServer::createXclipboardSyncConnection()
+{
+    int sx[2];
+    if (socketpair(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0, sx) < 0) {
+        qCWarning(KWIN_CORE) << "Could not create socket";
+        return -1;
+    }
+    m_xclipbaordSync.client = m_display->createClient(sx[0]);
+    return sx[1];
+}
+
+void WaylandServer::setupX11ClipboardSync()
+{
+    if (m_xclipbaordSync.process) {
+        return;
+    }
+
+    int socket = dup(createXclipboardSyncConnection());
+    if (socket == -1) {
+        delete m_xclipbaordSync.client;
+        m_xclipbaordSync.client = nullptr;
+        return;
+    }
+    if (socket >= 0) {
+        QProcessEnvironment environment = kwinApp()->processStartupEnvironment();
+        environment.insert(QStringLiteral("WAYLAND_SOCKET"), QByteArray::number(socket));
+        environment.insert(QStringLiteral("DISPLAY"), QString::fromUtf8(qgetenv("DISPLAY")));
+        environment.remove("WAYLAND_DISPLAY");
+        m_xclipbaordSync.process = new Process(this);
+        m_xclipbaordSync.process->setProcessChannelMode(QProcess::ForwardedErrorChannel);
+        auto finishedSignal = static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished);
+        connect(m_xclipbaordSync.process, finishedSignal, this,
+            [this] {
+                m_xclipbaordSync.process->deleteLater();
+                m_xclipbaordSync.process = nullptr;
+                m_xclipbaordSync.ddi.clear();
+                m_xclipbaordSync.client->destroy();
+                m_xclipbaordSync.client = nullptr;
+                // TODO: restart
+            }
+        );
+        m_xclipbaordSync.process->setProcessEnvironment(environment);
+        m_xclipbaordSync.process->start(QStringLiteral(KWIN_XCLIPBOARD_SYNC_BIN));
+    }
 }
 
 void WaylandServer::createInternalConnection()
@@ -462,6 +558,11 @@ ShellClient *WaylandServer::findClient(SurfaceInterface *surface) const
         return c;
     }
     return nullptr;
+}
+
+AbstractClient *WaylandServer::findAbstractClient(SurfaceInterface *surface) const
+{
+    return findClient(surface);
 }
 
 ShellClient *WaylandServer::findClient(QWindow *w) const

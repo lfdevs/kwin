@@ -10,15 +10,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-05-09 08:35+0000\n"
-"PO-Revision-Date: 2016-05-09 23:13+0200\n"
+"POT-Creation-Date: 2016-08-11 07:46+0000\n"
+"PO-Revision-Date: 2016-08-11 14:22+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 msgctxt "NAME OF TRANSLATORS"
@@ -50,41 +50,45 @@ msgstr "Commando uitvoeren"
 msgid "Activity Manager"
 msgstr "Activiteitenbeheerder"
 
-#: main.cpp:195
+#: main.cpp:192
+msgid "Application Launcher"
+msgstr "Programmastarter"
+
+#: main.cpp:196
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - alle bureaubladen"
 
-#: main.cpp:196
+#: main.cpp:197
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - huidig bureaublad"
 
-#: main.cpp:197
+#: main.cpp:198
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - huidige toepassing"
 
-#: main.cpp:200
+#: main.cpp:201
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 - kubus"
 
-#: main.cpp:201
+#: main.cpp:202
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 - cilinder"
 
-#: main.cpp:202
+#: main.cpp:203
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 - bol"
 
-#: main.cpp:204
+#: main.cpp:205
 msgid "Toggle window switching"
 msgstr "Venster omschakelen omschakelen"
 
-#: main.cpp:205
+#: main.cpp:206
 msgid "Toggle alternative window switching"
 msgstr "Alternatief venster omschakelen omschakelen"
 

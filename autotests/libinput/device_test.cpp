@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "mock_libinput.h"
 #include "../../libinput/device.h"
+#include <config-kwin.h>
 
 #include <QtTest/QtTest>
 
@@ -66,6 +67,16 @@ private Q_SLOTS:
     void testAlphaNumericKeyboard();
     void testEnabled_data();
     void testEnabled();
+    void testTapToClick_data();
+    void testTapToClick();
+    void testTapAndDragEnabledByDefault_data();
+    void testTapAndDragEnabledByDefault();
+    void testTapAndDrag_data();
+    void testTapAndDrag();
+    void testTapDragLockEnabledByDefault_data();
+    void testTapDragLockEnabledByDefault();
+    void testTapDragLock_data();
+    void testTapDragLock();
 };
 
 void TestLibinputDevice::testStaticGetter()
@@ -115,14 +126,16 @@ void TestLibinputDevice::testDeviceType_data()
     QTest::addColumn<bool>("keyboard");
     QTest::addColumn<bool>("pointer");
     QTest::addColumn<bool>("touch");
+    QTest::addColumn<bool>("tabletTool");
 
-    QTest::newRow("keyboard") << true << false << false;
-    QTest::newRow("pointer") << false << true << false;
-    QTest::newRow("touch") << false << false << true;
-    QTest::newRow("keyboard/pointer") << true << true << false;
-    QTest::newRow("keyboard/touch") << true << false << true;
-    QTest::newRow("pointer/touch") << false << true << true;
-    QTest::newRow("keyboard/pointer/touch") << true << true << true;
+    QTest::newRow("keyboard") << true << false << false << false;
+    QTest::newRow("pointer") << false << true << false << false;
+    QTest::newRow("touch") << false << false << true << false;
+    QTest::newRow("keyboard/pointer") << true << true << false << false;
+    QTest::newRow("keyboard/touch") << true << false << true << false;
+    QTest::newRow("pointer/touch") << false << true << true << false;
+    QTest::newRow("keyboard/pointer/touch") << true << true << true << false;
+    QTest::newRow("tabletTool") << false << false << false << true;
 }
 
 void TestLibinputDevice::testDeviceType()
@@ -131,11 +144,13 @@ void TestLibinputDevice::testDeviceType()
     QFETCH(bool, keyboard);
     QFETCH(bool, pointer);
     QFETCH(bool, touch);
+    QFETCH(bool, tabletTool);
 
     libinput_device device;
     device.keyboard = keyboard;
     device.pointer = pointer;
     device.touch = touch;
+    device.tabletTool = tabletTool;
 
     Device d(&device);
     QCOMPARE(d.isKeyboard(), keyboard);
@@ -146,8 +161,8 @@ void TestLibinputDevice::testDeviceType()
     QCOMPARE(d.property("touch").toBool(), touch);
     QCOMPARE(d.isTabletPad(), false);
     QCOMPARE(d.property("tabletPad").toBool(), false);
-    QCOMPARE(d.isTabletTool(), false);
-    QCOMPARE(d.property("tabletTool").toBool(), false);
+    QCOMPARE(d.isTabletTool(), tabletTool);
+    QCOMPARE(d.property("tabletTool").toBool(), tabletTool);
 
     QCOMPARE(d.device(), &device);
 }
@@ -178,7 +193,7 @@ void TestLibinputDevice::testNames_data()
     QTest::addColumn<QByteArray>("sysName");
     QTest::addColumn<QByteArray>("outputName");
 
-    QTest::newRow("empty") << QByteArray() << QByteArray() << QByteArray();
+    QTest::newRow("empty") << QByteArray() << QByteArrayLiteral("event1") << QByteArray();
     QTest::newRow("set") << QByteArrayLiteral("awesome test device") << QByteArrayLiteral("event0") << QByteArrayLiteral("hdmi0");
 }
 
@@ -271,8 +286,8 @@ void TestLibinputDevice::testTapEnabledByDefault()
     device.tapEnabledByDefault = enabled;
 
     Device d(&device);
-    QCOMPARE(d.tapEnabledByDefault(), enabled);
-    QCOMPARE(d.property("tapEnabledByDefault").toBool(), enabled);
+    QCOMPARE(d.tapToClickEnabledByDefault(), enabled);
+    QCOMPARE(d.property("tapToClickEnabledByDefault").toBool(), enabled);
 }
 
 void TestLibinputDevice::testSupportsDisableWhileTyping_data()
@@ -599,6 +614,154 @@ void TestLibinputDevice::testEnabled()
     d.setEnabled(setValue);
     QFETCH(bool, expectedValue);
     QCOMPARE(d.isEnabled(), expectedValue);
+}
+
+void TestLibinputDevice::testTapToClick_data()
+{
+    QTest::addColumn<int>("fingerCount");
+    QTest::addColumn<bool>("initValue");
+    QTest::addColumn<bool>("setValue");
+    QTest::addColumn<bool>("setShouldFail");
+    QTest::addColumn<bool>("expectedValue");
+
+    QTest::newRow("unsupported") << 0 << false << true << true << false;
+    QTest::newRow("true -> false") << 1 << true << false << false << false;
+    QTest::newRow("false -> true") << 2 << false << true << false << true;
+    QTest::newRow("set fails") << 3 << true << false << true << true;
+    QTest::newRow("true -> true") << 2 << true << true << false << true;
+    QTest::newRow("false -> false") << 1 << false << false << false << false;
+}
+
+void TestLibinputDevice::testTapToClick()
+{
+    libinput_device device;
+    QFETCH(int, fingerCount);
+    QFETCH(bool, initValue);
+    QFETCH(bool, setShouldFail);
+    device.tapFingerCount = fingerCount;
+    device.tapToClick = initValue;
+    device.setTapToClickReturnValue = setShouldFail;
+
+    Device d(&device);
+    QCOMPARE(d.tapFingerCount(), fingerCount);
+    QCOMPARE(d.isTapToClick(), initValue);
+    QCOMPARE(d.property("tapToClick").toBool(), initValue);
+
+    QSignalSpy tapToClickChangedSpy(&d, &Device::tapToClickChanged);
+    QVERIFY(tapToClickChangedSpy.isValid());
+    QFETCH(bool, setValue);
+    d.setTapToClick(setValue);
+    QFETCH(bool, expectedValue);
+    QCOMPARE(d.isTapToClick(), expectedValue);
+    QCOMPARE(tapToClickChangedSpy.isEmpty(), initValue == expectedValue);
+}
+
+void TestLibinputDevice::testTapAndDragEnabledByDefault_data()
+{
+    QTest::addColumn<bool>("enabled");
+
+    QTest::newRow("enabled") << true;
+    QTest::newRow("disabled") << false;
+}
+
+void TestLibinputDevice::testTapAndDragEnabledByDefault()
+{
+    QFETCH(bool, enabled);
+    libinput_device device;
+    device.tapAndDragEnabledByDefault = enabled;
+
+    Device d(&device);
+    QCOMPARE(d.tapAndDragEnabledByDefault(), enabled);
+    QCOMPARE(d.property("tapAndDragEnabledByDefault").toBool(), enabled);
+}
+
+void TestLibinputDevice::testTapAndDrag_data()
+{
+    QTest::addColumn<bool>("initValue");
+    QTest::addColumn<bool>("setValue");
+    QTest::addColumn<bool>("setShouldFail");
+    QTest::addColumn<bool>("expectedValue");
+
+    QTest::newRow("true -> false") << true << false << false << false;
+    QTest::newRow("false -> true") << false << true << false << true;
+    QTest::newRow("set fails") << true << false << true << true;
+    QTest::newRow("true -> true") << true << true << false << true;
+    QTest::newRow("false -> false") << false << false << false << false;
+}
+
+void TestLibinputDevice::testTapAndDrag()
+{
+    libinput_device device;
+    QFETCH(bool, initValue);
+    QFETCH(bool, setShouldFail);
+    device.tapAndDrag = initValue;
+    device.setTapAndDragReturnValue = setShouldFail;
+
+    Device d(&device);
+    QCOMPARE(d.isTapAndDrag(), initValue);
+    QCOMPARE(d.property("tapAndDrag").toBool(), initValue);
+
+    QSignalSpy tapAndDragChangedSpy(&d, &Device::tapAndDragChanged);
+    QVERIFY(tapAndDragChangedSpy.isValid());
+    QFETCH(bool, setValue);
+    d.setTapAndDrag(setValue);
+    QFETCH(bool, expectedValue);
+    QCOMPARE(d.isTapAndDrag(), expectedValue);
+    QCOMPARE(tapAndDragChangedSpy.isEmpty(), initValue == expectedValue);
+}
+
+void TestLibinputDevice::testTapDragLockEnabledByDefault_data()
+{
+    QTest::addColumn<bool>("enabled");
+
+    QTest::newRow("enabled") << true;
+    QTest::newRow("disabled") << false;
+}
+
+void TestLibinputDevice::testTapDragLockEnabledByDefault()
+{
+    QFETCH(bool, enabled);
+    libinput_device device;
+    device.tapDragLockEnabledByDefault = enabled;
+
+    Device d(&device);
+    QCOMPARE(d.tapDragLockEnabledByDefault(), enabled);
+    QCOMPARE(d.property("tapDragLockEnabledByDefault").toBool(), enabled);
+}
+
+void TestLibinputDevice::testTapDragLock_data()
+{
+    QTest::addColumn<bool>("initValue");
+    QTest::addColumn<bool>("setValue");
+    QTest::addColumn<bool>("setShouldFail");
+    QTest::addColumn<bool>("expectedValue");
+
+    QTest::newRow("true -> false") << true << false << false << false;
+    QTest::newRow("false -> true") << false << true << false << true;
+    QTest::newRow("set fails") << true << false << true << true;
+    QTest::newRow("true -> true") << true << true << false << true;
+    QTest::newRow("false -> false") << false << false << false << false;
+}
+
+void TestLibinputDevice::testTapDragLock()
+{
+    libinput_device device;
+    QFETCH(bool, initValue);
+    QFETCH(bool, setShouldFail);
+    device.tapDragLock = initValue;
+    device.setTapDragLockReturnValue = setShouldFail;
+
+    Device d(&device);
+    QCOMPARE(d.isTapDragLock(), initValue);
+    QCOMPARE(d.property("tapDragLock").toBool(), initValue);
+
+    QSignalSpy tapDragLockChangedSpy(&d, &Device::tapDragLockChanged);
+    QVERIFY(tapDragLockChangedSpy.isValid());
+    QFETCH(bool, setValue);
+    d.setTapDragLock(setValue);
+    QFETCH(bool, expectedValue);
+    QCOMPARE(d.isTapDragLock(), expectedValue);
+    QCOMPARE(tapDragLockChangedSpy.isEmpty(), initValue == expectedValue);
 }
 
 QTEST_GUILESS_MAIN(TestLibinputDevice)

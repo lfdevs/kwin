@@ -737,7 +737,7 @@ QRect Client::iconGeometry() const
                 return geom;
         }
         // No mainwindow (or their parents) with icon geometry was found
-        return QRect();
+        return AbstractClient::iconGeometry();
     }
 }
 
@@ -944,9 +944,7 @@ void Client::internalShow()
         m_decoInputExtent.map();
         updateHiddenPreview();
     }
-    if (Compositor::isCreated()) {
-        Compositor::self()->checkUnredirect();
-    }
+    emit windowShown(this);
 }
 
 void Client::internalHide()
@@ -961,9 +959,7 @@ void Client::internalHide()
         updateHiddenPreview();
     addWorkspaceRepaint(visibleRect());
     workspace()->clientHidden(this);
-    if (Compositor::isCreated()) {
-        Compositor::self()->checkUnredirect();
-    }
+    emit windowHidden(this);
 }
 
 void Client::internalKeep()
@@ -981,9 +977,6 @@ void Client::internalKeep()
     updateHiddenPreview();
     addWorkspaceRepaint(visibleRect());
     workspace()->clientHidden(this);
-    if (Compositor::isCreated()) {
-        Compositor::self()->checkUnredirect();
-    }
 }
 
 /**
@@ -1247,6 +1240,16 @@ void Client::setOnActivities(QStringList newActivitiesList)
     newActivitiesList = joinedActivitiesList.split(u',', QString::SkipEmptyParts);
 
     QStringList allActivities = Activities::self()->all();
+
+    auto it = newActivitiesList.begin();
+    while (it != newActivitiesList.end()) {
+        if (! allActivities.contains(*it)) {
+            it = newActivitiesList.erase(it);
+        } else {
+            it++;
+        }
+    }
+
     if (// If we got the request to be on all activities explicitly
         newActivitiesList.isEmpty() || joinedActivitiesList == Activities::nullUuid() ||
         // If we got a list of activities that covers all activities
@@ -1352,19 +1355,6 @@ void Client::setOnAllActivities(bool on)
  */
 void Client::takeFocus()
 {
-#ifndef NDEBUG
-    static Time previous_focus_timestamp;
-    static Client* previous_client;
-
-    //if ( previous_focus_timestamp == xTime() && previous_client != this )
-    //    {
-    //    qDebug() << "Repeated use of the same X timestamp for focus";
-    //    qDebug() << kBacktrace();
-    //    }
-
-    previous_focus_timestamp = xTime();
-    previous_client = this;
-#endif
     if (rules()->checkAcceptFocus(info->input()))
         m_client.focus();
     else
@@ -1832,7 +1822,7 @@ bool Client::acceptsFocus() const
 void Client::setBlockingCompositing(bool block)
 {
     const bool usedToBlock = blocks_compositing;
-    blocks_compositing = rules()->checkBlockCompositing(block);
+    blocks_compositing = rules()->checkBlockCompositing(block && options->windowsBlockCompositing());
     if (usedToBlock != blocks_compositing) {
         emit blockingCompositingChanged(blocks_compositing ? this : 0);
     }

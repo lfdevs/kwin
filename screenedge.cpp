@@ -262,6 +262,16 @@ bool Edge::handleAction()
         );
         return true;
     }
+    case ElectricActionApplicationLauncher: {
+        QDBusConnection::sessionBus().asyncCall(
+            QDBusMessage::createMethodCall(QStringLiteral("org.kde.plasmashell"),
+                                           QStringLiteral("/PlasmaShell"),
+                                           QStringLiteral("org.kde.PlasmaShell"),
+                                           QStringLiteral("activateLauncherMenu")
+            )
+        );
+        return true;
+    }
     default:
         return false;
     }
@@ -576,6 +586,8 @@ static ElectricBorderAction electricBorderAction(const QString& name)
         return ElectricActionKRunner;
     } else if (lowerName == QLatin1String("activitymanager")) {
         return ElectricActionActivityManager;
+    } else if (lowerName == QLatin1String("applicationlauncher")) {
+        return ElectricActionApplicationLauncher;
     }
     return ElectricActionNone;
 }
@@ -778,7 +790,7 @@ void ScreenEdges::recreateEdges()
 {
     QList<Edge*> oldEdges(m_edges);
     m_edges.clear();
-    const QRect fullArea(0, 0, displayWidth(), displayHeight());
+    const QRect fullArea = screens()->geometry();
     QRegion processedRegion;
     for (int i=0; i<screens()->count(); ++i) {
         const QRegion screen = QRegion(screens()->geometry(i)).subtracted(processedRegion);

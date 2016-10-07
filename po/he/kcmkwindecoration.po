@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-04-12 09:00+0000\n"
-"PO-Revision-Date: 2016-05-30 16:59+0200\n"
-"Last-Translator: elkana bardugo <ttv200@gmail.com>\n"
+"PO-Revision-Date: 2016-09-18 21:50+0200\n"
+"Last-Translator: Elkana Bardugo <ttv200@gmail.com>\n"
 "Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -32,15 +32,10 @@ msgid "Menu"
 msgstr "תפריט"
 
 #: declarative-plugin/buttonsmodel.cpp:69
-#, fuzzy
-#| msgctxt "Button showing application menu imported from dbusmenu"
-#| msgid "Application Menu"
 msgid "Application menu"
-msgstr "תפריט היישום"
+msgstr "תפריט יישום"
 
 #: declarative-plugin/buttonsmodel.cpp:71
-#, fuzzy
-#| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "בכל השולחנות עבודה"
 
@@ -58,23 +53,19 @@ msgstr "סגור"
 
 #: declarative-plugin/buttonsmodel.cpp:79
 msgid "Context help"
-msgstr ""
+msgstr "לחצן עזרה"
 
 #: declarative-plugin/buttonsmodel.cpp:81
 msgid "Shade"
 msgstr "גלול"
 
 #: declarative-plugin/buttonsmodel.cpp:83
-#, fuzzy
-#| msgid "Keep Below Others"
 msgid "Keep below"
-msgstr "השאר מתחת לאחרים"
+msgstr "שמור תמיד מתחת לאחרים"
 
 #: declarative-plugin/buttonsmodel.cpp:85
-#, fuzzy
-#| msgid "Keep Above Others"
 msgid "Keep above"
-msgstr "השאר מעל לאחרים"
+msgstr "שמור מעל אחרים"
 
 #: kcm.cpp:135
 msgid ""
@@ -101,35 +92,25 @@ msgstr "קבל קישוטים חדשים..."
 
 #. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
 #: kcm.ui:54
-#, fuzzy
-#| msgid "Close windows by double clicking the menu button"
 msgid "Close windows by double clicking &the menu button"
-msgstr "סגור את החלון באמצעות לחיצה כפולה על תפריט החלון"
+msgstr "סגור חלונות על ידי לחיצה כפולה על תפריט החלון"
 
 #. i18n: ectx: property (text), widget (QLabel, borderSizesLabel)
 #: kcm.ui:95
-#, fuzzy
-#| msgid "Border size:"
 msgid "Border si&ze:"
 msgstr "גודל מסגרת: "
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:109
-#, fuzzy
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "No Border"
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "ללא מסגרת"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:114
-#, fuzzy
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "No Side Border"
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
-msgstr "ללא מסגרת בצצדים"
+msgstr "ללא גבולות צד"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:119

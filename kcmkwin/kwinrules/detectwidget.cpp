@@ -17,7 +17,7 @@
  */
 
 #include "detectwidget.h"
-#include "../../cursor.h"
+#include "../../plugins/platforms/x11/standalone/x11cursor.h"
 
 #include <KLocalizedString>
 #include <QDebug>
@@ -173,7 +173,7 @@ void DetectDialog::selectWindow()
     if (!KWin::Cursor::self()) {
         qApp->setProperty("x11Connection", QVariant::fromValue<void*>(QX11Info::connection()));
         qApp->setProperty("x11RootWindow", QVariant::fromValue(QX11Info::appRootWindow()));
-        KWin::Cursor::create(this);
+        new X11Cursor(this);
     }
     // use a dialog, so that all user input is blocked
     // use WX11BypassWM and moving away so that it's not actually visible

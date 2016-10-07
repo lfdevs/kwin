@@ -57,7 +57,7 @@ class Shadow;
 class WindowPixmap;
 
 // The base class for compositing backends.
-class Scene : public QObject
+class KWIN_EXPORT Scene : public QObject
 {
     Q_OBJECT
 public:
@@ -148,6 +148,17 @@ public:
     virtual void triggerFence();
 
     virtual Decoration::Renderer *createDecorationRenderer(Decoration::DecoratedClientImpl *) = 0;
+
+    /**
+     * Whether the Scene is able to drive animations.
+     * This is used as a hint to the effects system which effects can be supported.
+     * If the Scene performs software rendering it is supposed to return @c false,
+     * if rendering is hardware accelerated it should return @c true.
+     **/
+    virtual bool animationsSupported() const = 0;
+
+Q_SIGNALS:
+    void frameRendered();
 
 public Q_SLOTS:
     // a window has been destroyed
@@ -272,7 +283,6 @@ public:
     void updateToplevel(Toplevel* c);
     // creates initial quad list for the window
     virtual WindowQuadList buildQuads(bool force = false) const;
-    void suspendUnredirect(bool suspend);
     void updateShadow(Shadow* shadow);
     const Shadow* shadow() const;
     Shadow* shadow();
@@ -352,7 +362,7 @@ public:
     /**
      * @return @c true if the pixmap has been created and is valid, @c false otherwise
      */
-    bool isValid() const;
+    virtual bool isValid() const;
     /**
      * @return The native X11 pixmap handle
      */
@@ -529,12 +539,6 @@ inline
 void Scene::Window::updateToplevel(Toplevel* c)
 {
     toplevel = c;
-}
-
-inline
-void Scene::Window::suspendUnredirect(bool suspend)
-{
-    toplevel->suspendUnredirect(suspend);
 }
 
 inline

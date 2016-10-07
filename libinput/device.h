@@ -34,6 +34,7 @@ namespace LibInput
 class Device : public QObject
 {
     Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.KWin.InputDevice")
     Q_PROPERTY(bool keyboard READ isKeyboard CONSTANT)
     Q_PROPERTY(bool alphaNumericKeyboard READ isAlphaNumericKeyboard CONSTANT)
     Q_PROPERTY(bool pointer READ isPointer CONSTANT)
@@ -49,7 +50,7 @@ class Device : public QObject
     Q_PROPERTY(quint32 vendor READ vendor CONSTANT)
     Q_PROPERTY(Qt::MouseButtons supportedButtons READ supportedButtons CONSTANT)
     Q_PROPERTY(int tapFingerCount READ tapFingerCount CONSTANT)
-    Q_PROPERTY(bool tapEnabledByDefault READ tapEnabledByDefault CONSTANT)
+    Q_PROPERTY(bool tapToClickEnabledByDefault READ tapToClickEnabledByDefault CONSTANT)
     Q_PROPERTY(bool supportsDisableWhileTyping READ supportsDisableWhileTyping CONSTANT)
     Q_PROPERTY(bool supportsPointerAcceleration READ supportsPointerAcceleration CONSTANT)
     Q_PROPERTY(bool supportsLeftHanded READ supportsLeftHanded CONSTANT)
@@ -58,6 +59,11 @@ class Device : public QObject
     Q_PROPERTY(bool supportsDisableEventsOnExternalMouse READ supportsDisableEventsOnExternalMouse CONSTANT)
     Q_PROPERTY(bool leftHanded READ isLeftHanded WRITE setLeftHanded NOTIFY leftHandedChanged)
     Q_PROPERTY(qreal pointerAcceleration READ pointerAcceleration WRITE setPointerAcceleration NOTIFY pointerAccelerationChanged)
+    Q_PROPERTY(bool tapToClick READ isTapToClick WRITE setTapToClick NOTIFY tapToClickChanged)
+    Q_PROPERTY(bool tapAndDragEnabledByDefault READ tapAndDragEnabledByDefault CONSTANT)
+    Q_PROPERTY(bool tapAndDrag READ isTapAndDrag WRITE setTapAndDrag NOTIFY tapAndDragChanged)
+    Q_PROPERTY(bool tapDragLockEnabledByDefault READ tapDragLockEnabledByDefault CONSTANT)
+    Q_PROPERTY(bool tapDragLock READ isTapDragLock WRITE setTapDragLock NOTIFY tapDragLockChanged)
     Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled NOTIFY enabledChanged)
 public:
     explicit Device(libinput_device *device, QObject *parent = nullptr);
@@ -108,9 +114,30 @@ public:
     int tapFingerCount() const {
         return m_tapFingerCount;
     }
-    bool tapEnabledByDefault() const {
-        return m_tapEnabledByDefault;
+    bool tapToClickEnabledByDefault() const {
+        return m_tapToClickEnabledByDefault;
     }
+    bool isTapToClick() const {
+        return m_tapToClick;
+    }
+    /**
+     * Set the Device to tap to click if @p set is @c true.
+     **/
+    void setTapToClick(bool set);
+    bool tapAndDragEnabledByDefault() const {
+        return m_tapAndDragEnabledByDefault;
+    }
+    bool isTapAndDrag() const {
+        return m_tapAndDrag;
+    }
+    void setTapAndDrag(bool set);
+    bool tapDragLockEnabledByDefault() const {
+        return m_tapDragLockEnabledByDefault;
+    }
+    bool isTapDragLock() const {
+        return m_tapDragLock;
+    }
+    void setTapDragLock(bool set);
     bool supportsDisableWhileTyping() const {
         return m_supportsDisableWhileTyping;
     }
@@ -171,6 +198,9 @@ Q_SIGNALS:
     void leftHandedChanged();
     void pointerAccelerationChanged();
     void enabledChanged();
+    void tapToClickChanged();
+    void tapAndDragChanged();
+    void tapDragLockChanged();
 
 private:
     libinput_device *m_device;
@@ -189,7 +219,12 @@ private:
     quint32 m_vendor;
     Qt::MouseButtons m_supportedButtons = Qt::NoButton;
     int m_tapFingerCount;
-    bool m_tapEnabledByDefault;
+    bool m_tapToClickEnabledByDefault;
+    bool m_tapToClick;
+    bool m_tapAndDragEnabledByDefault;
+    bool m_tapAndDrag;
+    bool m_tapDragLockEnabledByDefault;
+    bool m_tapDragLock;
     bool m_supportsDisableWhileTyping;
     bool m_supportsPointerAcceleration;
     bool m_supportsLeftHanded;

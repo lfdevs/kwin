@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-11-19 09:30+0000\n"
-"PO-Revision-Date: 2016-05-30 17:02+0200\n"
-"Last-Translator: elkana bardugo <ttv200@gmail.com>\n"
+"POT-Creation-Date: 2016-09-25 10:47+0000\n"
+"PO-Revision-Date: 2016-09-18 21:52+0200\n"
+"Last-Translator: Elkana Bardugo <ttv200@gmail.com>\n"
 "Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -131,18 +131,18 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, match_role)
 #: detectwidget.ui:188
 msgid "Window role (can be used to select windows by function)"
-msgstr ""
+msgstr "כלל חלון (יכול לשמש לבחירת חלונות על ידי פונקציה)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, match_type)
 #: detectwidget.ui:195
 msgid "Window type (eg. all dialogs, but not the main windows)"
-msgstr ""
+msgstr "סוג חלון (לדוג: כל הדו־שיח חוץ מהחלון הראשי)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, match_title)
 #: detectwidget.ui:202
 msgid ""
 "Window title (very specific, can fail due to content changes or translation)"
-msgstr ""
+msgstr "כותרת החלון (מאוד ספציפי יכול להכשל בגלל תרגומים)"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: editshortcut.ui:18
@@ -327,20 +327,20 @@ msgstr ""
 msgid "All Desktops"
 msgstr "בכל השולחנות עבודה"
 
-#: ruleswidget.cpp:329
+#: ruleswidget.cpp:330
 msgid "All Activities"
 msgstr "כל הפעילויות"
 
-#: ruleswidget.cpp:758
+#: ruleswidget.cpp:771
 #, kde-format
 msgid "Settings for %1"
 msgstr "הגדרות עבור %1"
 
-#: ruleswidget.cpp:760
+#: ruleswidget.cpp:773
 msgid "Unnamed entry"
 msgstr "כניסה ללא שם"
 
-#: ruleswidget.cpp:770
+#: ruleswidget.cpp:783
 msgid ""
 "You have specified the window class as unimportant.\n"
 "This means the settings will possibly apply to windows from all "
@@ -349,11 +349,11 @@ msgid ""
 "types."
 msgstr ""
 
-#: ruleswidget.cpp:800
+#: ruleswidget.cpp:813
 msgid "Edit Window-Specific Settings"
 msgstr "ערוך הגדרות לחלונות ספציפיים"
 
-#: ruleswidget.cpp:830
+#: ruleswidget.cpp:843
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
 "window or application. Find the setting you want to affect, enable the "
@@ -361,11 +361,11 @@ msgid ""
 "affected and to which value."
 msgstr ""
 
-#: ruleswidget.cpp:834
+#: ruleswidget.cpp:847
 msgid "Consult the documentation for more details."
 msgstr "פנה אל התיעוד לפרטים נוספים."
 
-#: ruleswidget.cpp:873
+#: ruleswidget.cpp:886
 msgid "Edit Shortcut"
 msgstr "ערוך קיצור דרך"
 
@@ -377,7 +377,6 @@ msgstr "התאמה של &חלון"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
 #, fuzzy
-#| msgid "De&scription:"
 msgid "&Description:"
 msgstr "&תיאור:"
 
@@ -439,7 +438,6 @@ msgstr "התאם את &כל המחלקה"
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: ruleswidgetbase.ui:109
 #, fuzzy
-#| msgid "Window &role:"
 msgid "Window ro&le:"
 msgstr "&תפקיד החלון:"
 
@@ -1043,7 +1041,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fpplevel)
 #: ruleswidgetbase.ui:2232
 #, fuzzy
-#| msgid "&Focus stealing prevention"
 msgid "Focus protection"
 msgstr "מניעת גנבת &פוקוס"
 

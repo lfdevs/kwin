@@ -84,9 +84,6 @@ void Workspace::desktopResized()
     if (effects) {
         static_cast<EffectsHandlerImpl*>(effects)->desktopResized(geom.size());
     }
-
-    //Update the shape of the overlay window to fix redrawing of unredirected windows. bug#305781
-    m_compositor->checkUnredirect(true);
 }
 
 void Workspace::saveOldScreenSizes()
@@ -116,7 +113,6 @@ void Workspace::updateClientArea(bool force)
     const Screens *s = Screens::self();
     int nscreens = s->count();
     const int numberOfDesktops = VirtualDesktopManager::self()->count();
-    qCDebug(KWIN_CORE) << "screens: " << nscreens << "desktops: " << numberOfDesktops;
     QVector< QRect > new_wareas(numberOfDesktops + 1);
     QVector< StrutRects > new_rmoveareas(numberOfDesktops + 1);
     QVector< QVector< QRect > > new_sareas(numberOfDesktops + 1);
@@ -311,8 +307,6 @@ void Workspace::updateClientArea(bool force)
 
         oldrestrictedmovearea.clear(); // reset, no longer valid or needed
     }
-
-    qCDebug(KWIN_CORE) << "Done.";
 }
 
 void Workspace::updateClientArea()
@@ -2111,10 +2105,6 @@ void AbstractClient::move(int x, int y, ForceGeometry_t force)
     updateWindowRules(Rules::Position);
     screens()->setCurrent(this);
     workspace()->updateStackingOrder();
-    if (Compositor::isCreated()) {
-        // TODO: move out of geometry.cpp, is this really needed here?
-        Compositor::self()->checkUnredirect();
-    }
     // client itself is not damaged
     addRepaintDuringGeometryUpdates();
     updateGeometryBeforeUpdateBlocking();

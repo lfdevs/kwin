@@ -45,7 +45,6 @@ class Display;
 
 class QDBusPendingCallWatcher;
 class QDBusServiceWatcher;
-class OrgFreedesktopScreenSaverInterface;
 
 
 namespace KWin
@@ -60,7 +59,6 @@ class Compositor;
 class Deleted;
 class EffectLoader;
 class Unmanaged;
-class ScreenLockerWatcher;
 
 class KWIN_EXPORT EffectsHandlerImpl : public EffectsHandler
 {
@@ -228,9 +226,17 @@ public:
 
     KWayland::Server::Display *waylandDisplay() const override;
 
+    bool animationsSupported() const override;
+
     Scene *scene() const {
         return m_scene;
     }
+
+    bool touchDown(quint32 id, const QPointF &pos, quint32 time);
+    bool touchMotion(quint32 id, const QPointF &pos, quint32 time);
+    bool touchUp(quint32 id, quint32 time);
+
+    void highlightWindows(const QVector<EffectWindow *> &windows);
 
 public Q_SLOTS:
     void slotCurrentTabAboutToChange(EffectWindow* from, EffectWindow* to);
@@ -290,7 +296,6 @@ private:
     QHash<QByteArray, qulonglong> m_managedProperties;
     Compositor *m_compositor;
     Scene *m_scene;
-    ScreenLockerWatcher *m_screenLockerWatcher;
     bool m_desktopRendering;
     int m_currentRenderedDesktop;
     Xcb::Window m_mouseInterceptionWindow;
@@ -452,29 +457,6 @@ private:
     GLShader* m_shader;
 
     Plasma::Theme *m_theme;
-};
-
-class ScreenLockerWatcher : public QObject
-{
-    Q_OBJECT
-public:
-    explicit ScreenLockerWatcher(QObject *parent = 0);
-    virtual ~ScreenLockerWatcher();
-    bool isLocked() const {
-        return m_locked;
-    }
-Q_SIGNALS:
-    void locked(bool locked);
-private Q_SLOTS:
-    void setLocked(bool activated);
-    void activeQueried(QDBusPendingCallWatcher *watcher);
-    void serviceOwnerChanged(const QString &serviceName, const QString &oldOwner, const QString &newOwner);
-    void serviceRegisteredQueried();
-    void serviceOwnerQueried();
-private:
-    OrgFreedesktopScreenSaverInterface *m_interface;
-    QDBusServiceWatcher *m_serviceWatcher;
-    bool m_locked;
 };
 
 inline

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-09-15 07:38+0000\n"
+"POT-Creation-Date: 2016-10-05 10:46+0000\n"
 "PO-Revision-Date: 2016-04-01 00:51+0100\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
 "Language-Team: Asturian <>\n"
@@ -405,81 +405,81 @@ msgctxt "A swipe gesture got cancelled"
 msgid "Swipe cancelled"
 msgstr ""
 
-#: debug_console.cpp:580
+#: debug_console.cpp:596
 msgid "No Mouse Buttons"
 msgstr ""
 
-#: debug_console.cpp:584
+#: debug_console.cpp:600
 msgctxt "Mouse Button"
 msgid "left"
 msgstr ""
 
-#: debug_console.cpp:587
+#: debug_console.cpp:603
 msgctxt "Mouse Button"
 msgid "right"
 msgstr ""
 
-#: debug_console.cpp:590
+#: debug_console.cpp:606
 msgctxt "Mouse Button"
 msgid "middle"
 msgstr ""
 
-#: debug_console.cpp:593
+#: debug_console.cpp:609
 msgctxt "Mouse Button"
 msgid "back"
 msgstr ""
 
-#: debug_console.cpp:596
+#: debug_console.cpp:612
 msgctxt "Mouse Button"
 msgid "forward"
 msgstr ""
 
-#: debug_console.cpp:599
+#: debug_console.cpp:615
 msgctxt "Mouse Button"
 msgid "extra 1"
 msgstr ""
 
-#: debug_console.cpp:602
+#: debug_console.cpp:618
 msgctxt "Mouse Button"
 msgid "extra 2"
 msgstr ""
 
-#: debug_console.cpp:605
+#: debug_console.cpp:621
 msgctxt "Mouse Button"
 msgid "extra 3"
 msgstr ""
 
-#: debug_console.cpp:608
+#: debug_console.cpp:624
 msgctxt "Mouse Button"
 msgid "extra 4"
 msgstr ""
 
-#: debug_console.cpp:611
+#: debug_console.cpp:627
 msgctxt "Mouse Button"
 msgid "extra 5"
 msgstr ""
 
-#: debug_console.cpp:614
+#: debug_console.cpp:630
 msgctxt "Mouse Button"
 msgid "extra 6"
 msgstr ""
 
-#: debug_console.cpp:617
+#: debug_console.cpp:633
 msgctxt "Mouse Button"
 msgid "extra 7"
 msgstr ""
 
-#: debug_console.cpp:620
+#: debug_console.cpp:636
 msgctxt "Mouse Button"
 msgid "extra 8"
 msgstr ""
 
-#: debug_console.cpp:623
+#: debug_console.cpp:639
 msgctxt "Mouse Button"
 msgid "extra 9"
 msgstr ""
 
-#: debug_console.cpp:626
+#: debug_console.cpp:642
 #, fuzzy
 #| msgctxt "A mouse button"
 #| msgid "Extra Button 10"
@@ -487,7 +487,7 @@ msgctxt "Mouse Button"
 msgid "extra 10"
 msgstr "Botón estra 10"
 
-#: debug_console.cpp:629
+#: debug_console.cpp:645
 #, fuzzy
 #| msgctxt "A mouse button"
 #| msgid "Extra Button 11"
@@ -495,7 +495,7 @@ msgctxt "Mouse Button"
 msgid "extra 11"
 msgstr "Botón estra 11"
 
-#: debug_console.cpp:632
+#: debug_console.cpp:648
 #, fuzzy
 #| msgctxt "A mouse button"
 #| msgid "Extra Button 12"
@@ -503,7 +503,7 @@ msgctxt "Mouse Button"
 msgid "extra 12"
 msgstr "Botón estra 12"
 
-#: debug_console.cpp:635
+#: debug_console.cpp:651
 #, fuzzy
 #| msgctxt "A mouse button"
 #| msgid "Extra Button 13"
@@ -511,7 +511,7 @@ msgctxt "Mouse Button"
 msgid "extra 13"
 msgstr "Botón estra 13"
 
-#: debug_console.cpp:638
+#: debug_console.cpp:654
 #, fuzzy
 #| msgctxt "A mouse button"
 #| msgid "Extra Button 14"
@@ -519,7 +519,7 @@ msgctxt "Mouse Button"
 msgid "extra 14"
 msgstr "Botón estra 14"
 
-#: debug_console.cpp:641
+#: debug_console.cpp:657
 #, fuzzy
 #| msgctxt "A mouse button"
 #| msgid "Extra Button 15"
@@ -527,7 +527,7 @@ msgctxt "Mouse Button"
 msgid "extra 15"
 msgstr "Botón estra 15"
 
-#: debug_console.cpp:644
+#: debug_console.cpp:660
 #, fuzzy
 #| msgctxt "A mouse button"
 #| msgid "Extra Button 16"
@@ -535,7 +535,7 @@ msgctxt "Mouse Button"
 msgid "extra 16"
 msgstr "Botón estra 16"
 
-#: debug_console.cpp:647
+#: debug_console.cpp:663
 #, fuzzy
 #| msgctxt "A mouse button"
 #| msgid "Extra Button 17"
@@ -543,7 +543,7 @@ msgctxt "Mouse Button"
 msgid "extra 17"
 msgstr "Botón estra 17"
 
-#: debug_console.cpp:650
+#: debug_console.cpp:666
 #, fuzzy
 #| msgctxt "A mouse button"
 #| msgid "Extra Button 18"
@@ -551,7 +551,7 @@ msgctxt "Mouse Button"
 msgid "extra 18"
 msgstr "Botón estra 18"
 
-#: debug_console.cpp:653
+#: debug_console.cpp:669
 #, fuzzy
 #| msgctxt "A mouse button"
 #| msgid "Extra Button 19"
@@ -559,7 +559,7 @@ msgctxt "Mouse Button"
 msgid "extra 19"
 msgstr "Botón estra 19"
 
-#: debug_console.cpp:656
+#: debug_console.cpp:672
 #, fuzzy
 #| msgctxt "A mouse button"
 #| msgid "Extra Button 20"
@@ -567,7 +567,7 @@ msgctxt "Mouse Button"
 msgid "extra 20"
 msgstr "Botón estra 20"
 
-#: debug_console.cpp:659
+#: debug_console.cpp:675
 #, fuzzy
 #| msgctxt "A mouse button"
 #| msgid "Extra Button 21"
@@ -575,7 +575,7 @@ msgctxt "Mouse Button"
 msgid "extra 21"
 msgstr "Botón estra 21"
 
-#: debug_console.cpp:662
+#: debug_console.cpp:678
 #, fuzzy
 #| msgctxt "A mouse button"
 #| msgid "Extra Button 22"
@@ -583,7 +583,7 @@ msgctxt "Mouse Button"
 msgid "extra 22"
 msgstr "Botón estra 22"
 
-#: debug_console.cpp:665
+#: debug_console.cpp:681
 #, fuzzy
 #| msgctxt "A mouse button"
 #| msgid "Extra Button 23"
@@ -591,7 +591,7 @@ msgctxt "Mouse Button"
 msgid "extra 23"
 msgstr "Botón estra 23"
 
-#: debug_console.cpp:668
+#: debug_console.cpp:684
 #, fuzzy
 #| msgctxt "A mouse button"
 #| msgid "Extra Button 24"
@@ -599,24 +599,24 @@ msgctxt "Mouse Button"
 msgid "extra 24"
 msgstr "Botón estra 24"
 
-#: debug_console.cpp:671
+#: debug_console.cpp:687
 msgctxt "Mouse Button"
 msgid "task"
 msgstr ""
 
-#: debug_console.cpp:1012
+#: debug_console.cpp:1028
 msgid "X11 Client Windows"
 msgstr ""
 
-#: debug_console.cpp:1014
+#: debug_console.cpp:1030
 msgid "X11 Unmanaged Windows"
 msgstr ""
 
-#: debug_console.cpp:1016
+#: debug_console.cpp:1032
 msgid "Wayland Windows"
 msgstr ""
 
-#: debug_console.cpp:1018
+#: debug_console.cpp:1034
 msgid "Internal Windows"
 msgstr ""
 

@@ -845,7 +845,6 @@ msgid "Display window thumbnails on the edge of the screen"
 msgstr "Добавляет миниатюры окон на краю экрана"
 
 #: effect_builtins.cpp:596
-#| msgid "Mouse Pointer:"
 msgctxt "Name of a KWin Effect"
 msgid "Touch Points"
 msgstr "Точки прикосновения"

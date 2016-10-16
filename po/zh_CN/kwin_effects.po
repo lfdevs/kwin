@@ -7,14 +7,14 @@
 # Lie Ex <lilith.ex@gmail.com>, 2007-2009.
 # Ni Hui <shuizhuyuanluo@126.com>, 2010, 2012.
 # Feng Chao <rainofchaos@gmail.com>, 2010, 2011, 2013.
-# Weng Xuetian <wengxt@gmail.com>, 2011, 2012, 2015.
+# Weng Xuetian <wengxt@gmail.com>, 2011, 2012, 2015, 2016.
 # Xuetian Weng <xweng@cs.stonybrook.edu>, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-08-25 07:37+0000\n"
-"PO-Revision-Date: 2015-11-25 20:38-0800\n"
+"PO-Revision-Date: 2016-10-04 11:45-0800\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese <kde-china@kde.org>\n"
 "Language: zh_CN\n"
@@ -834,16 +834,14 @@ msgid "Display window thumbnails on the edge of the screen"
 msgstr "在屏幕边缘显示窗口的缩略图"
 
 #: effect_builtins.cpp:596
-#, fuzzy
-#| msgid "Mouse Pointer:"
 msgctxt "Name of a KWin Effect"
 msgid "Touch Points"
-msgstr "鼠标光标："
+msgstr "触摸点"
 
 #: effect_builtins.cpp:597
 msgctxt "Comment describing the KWin Effect"
 msgid "Visualize touch points"
-msgstr ""
+msgstr "显示触摸点"
 
 #: effect_builtins.cpp:611
 msgctxt "Name of a KWin Effect"

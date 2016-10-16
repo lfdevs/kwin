@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdelibs\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-09-14 07:14+0000\n"
-"PO-Revision-Date: 2016-02-19 12:12-0800\n"
+"PO-Revision-Date: 2016-10-04 11:53-0800\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
 "Language: zh_CN\n"
@@ -197,11 +197,14 @@ msgid ""
 " This brings performance improvements for e.g. games.\n"
 " The setting can be overruled by window-specific rules."
 msgstr ""
+"应用程序可以设置一个提示在窗口打开时来阻止混成。\n"
+"这会改善性能，例如游戏。\n"
+"这个设置可以被窗口特定规则覆盖。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, windowsBlockCompositing)
 #: compositing.ui:294
 msgid "Allow applications to block compositing"
-msgstr ""
+msgstr "允许应用程序阻止混成"
 
 #: main.cpp:82
 msgid "Re-enable OpenGL detection"

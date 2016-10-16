@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-09-15 07:38+0000\n"
+"POT-Creation-Date: 2016-10-05 10:46+0000\n"
 "PO-Revision-Date: 2016-09-12 22:14+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -417,173 +417,173 @@ msgctxt "A swipe gesture got cancelled"
 msgid "Swipe cancelled"
 msgstr ""
 
-#: debug_console.cpp:580
+#: debug_console.cpp:596
 msgid "No Mouse Buttons"
 msgstr "Χωρίς κουμπιά ποντικιού"
 
-#: debug_console.cpp:584
+#: debug_console.cpp:600
 msgctxt "Mouse Button"
 msgid "left"
 msgstr "αριστερό"
 
-#: debug_console.cpp:587
+#: debug_console.cpp:603
 msgctxt "Mouse Button"
 msgid "right"
 msgstr "δεξί"
 
-#: debug_console.cpp:590
+#: debug_console.cpp:606
 msgctxt "Mouse Button"
 msgid "middle"
 msgstr "μεσαίο"
 
-#: debug_console.cpp:593
+#: debug_console.cpp:609
 msgctxt "Mouse Button"
 msgid "back"
 msgstr "πίσω"
 
-#: debug_console.cpp:596
+#: debug_console.cpp:612
 msgctxt "Mouse Button"
 msgid "forward"
 msgstr "εμπρός"
 
-#: debug_console.cpp:599
+#: debug_console.cpp:615
 msgctxt "Mouse Button"
 msgid "extra 1"
 msgstr "επιπλέον 1"
 
-#: debug_console.cpp:602
+#: debug_console.cpp:618
 msgctxt "Mouse Button"
 msgid "extra 2"
 msgstr "επιπλέον 2"
 
-#: debug_console.cpp:605
+#: debug_console.cpp:621
 msgctxt "Mouse Button"
 msgid "extra 3"
 msgstr "επιπλέον 3"
 
-#: debug_console.cpp:608
+#: debug_console.cpp:624
 msgctxt "Mouse Button"
 msgid "extra 4"
 msgstr "επιπλέον 4"
 
-#: debug_console.cpp:611
+#: debug_console.cpp:627
 msgctxt "Mouse Button"
 msgid "extra 5"
 msgstr "επιπλέον 5"
 
-#: debug_console.cpp:614
+#: debug_console.cpp:630
 msgctxt "Mouse Button"
 msgid "extra 6"
 msgstr "επιπλέον 6"
 
-#: debug_console.cpp:617
+#: debug_console.cpp:633
 msgctxt "Mouse Button"
 msgid "extra 7"
 msgstr "επιπλέον 7"
 
-#: debug_console.cpp:620
+#: debug_console.cpp:636
 msgctxt "Mouse Button"
 msgid "extra 8"
 msgstr "επιπλέον 8"
 
-#: debug_console.cpp:623
+#: debug_console.cpp:639
 msgctxt "Mouse Button"
 msgid "extra 9"
 msgstr "επιπλέον 9"
 
-#: debug_console.cpp:626
+#: debug_console.cpp:642
 msgctxt "Mouse Button"
 msgid "extra 10"
 msgstr "επιπλέον 10"
 
-#: debug_console.cpp:629
+#: debug_console.cpp:645
 msgctxt "Mouse Button"
 msgid "extra 11"
 msgstr "επιπλέον 11"
 
-#: debug_console.cpp:632
+#: debug_console.cpp:648
 msgctxt "Mouse Button"
 msgid "extra 12"
 msgstr "επιπλέον 12"
 
-#: debug_console.cpp:635
+#: debug_console.cpp:651
 msgctxt "Mouse Button"
 msgid "extra 13"
 msgstr "επιπλέον 13"
 
-#: debug_console.cpp:638
+#: debug_console.cpp:654
 msgctxt "Mouse Button"
 msgid "extra 14"
 msgstr "Επιπρόσθετα 14"
 
-#: debug_console.cpp:641
+#: debug_console.cpp:657
 msgctxt "Mouse Button"
 msgid "extra 15"
 msgstr "επιπλέον 15"
 
-#: debug_console.cpp:644
+#: debug_console.cpp:660
 msgctxt "Mouse Button"
 msgid "extra 16"
 msgstr "επιπλέον 16"
 
-#: debug_console.cpp:647
+#: debug_console.cpp:663
 msgctxt "Mouse Button"
 msgid "extra 17"
 msgstr "επιπλέον 17"
 
-#: debug_console.cpp:650
+#: debug_console.cpp:666
 msgctxt "Mouse Button"
 msgid "extra 18"
 msgstr "επιπλέον 18"
 
-#: debug_console.cpp:653
+#: debug_console.cpp:669
 msgctxt "Mouse Button"
 msgid "extra 19"
 msgstr "επιπλέον 19"
 
-#: debug_console.cpp:656
+#: debug_console.cpp:672
 msgctxt "Mouse Button"
 msgid "extra 20"
 msgstr "επιπλέον 20"
 
-#: debug_console.cpp:659
+#: debug_console.cpp:675
 msgctxt "Mouse Button"
 msgid "extra 21"
 msgstr "επιπλέον 21"
 
-#: debug_console.cpp:662
+#: debug_console.cpp:678
 msgctxt "Mouse Button"
 msgid "extra 22"
 msgstr "επιπλέον 22"
 
-#: debug_console.cpp:665
+#: debug_console.cpp:681
 msgctxt "Mouse Button"
 msgid "extra 23"
 msgstr "επιπλέον 23"
 
-#: debug_console.cpp:668
+#: debug_console.cpp:684
 msgctxt "Mouse Button"
 msgid "extra 24"
 msgstr "επιπλέον 24"
 
-#: debug_console.cpp:671
+#: debug_console.cpp:687
 msgctxt "Mouse Button"
 msgid "task"
 msgstr "εργασία"
 
-#: debug_console.cpp:1012
+#: debug_console.cpp:1028
 msgid "X11 Client Windows"
 msgstr "Παράθυρα πελατών X11"
 
-#: debug_console.cpp:1014
+#: debug_console.cpp:1030
 msgid "X11 Unmanaged Windows"
 msgstr "Παράθυρα X11 χωρίς διαχείριση"
 
-#: debug_console.cpp:1016
+#: debug_console.cpp:1032
 msgid "Wayland Windows"
 msgstr "Παράθυρα Wayland"
 
-#: debug_console.cpp:1018
+#: debug_console.cpp:1034
 msgid "Internal Windows"
 msgstr "Εσωτερικά παράθυρα"
 

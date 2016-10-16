@@ -152,7 +152,7 @@ msgstr "特大"
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: kcm.ui:160
 msgid "Buttons"
-msgstr ""
+msgstr "ボタン"
 
 #: qml/Buttons.qml:77
 msgid "Titlebar"

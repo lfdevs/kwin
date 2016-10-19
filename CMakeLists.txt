@@ -1,5 +1,5 @@
 project(KWIN)
-set(PROJECT_VERSION "5.8.1")
+set(PROJECT_VERSION "5.8.2")
 set(PROJECT_VERSION_MAJOR 5)
 
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
@@ -182,7 +182,7 @@ if (UDEV_FOUND)
     set(HAVE_UDEV TRUE)
 endif()
 
-find_package(Libdrm)
+find_package(Libdrm 2.4.62)
 set_package_properties(Libdrm PROPERTIES TYPE OPTIONAL PURPOSE "Required for drm output on Wayland.")
 set(HAVE_DRM FALSE)
 if(Libdrm_FOUND AND UDEV_FOUND)

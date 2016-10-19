@@ -1,5 +1,5 @@
 # translation of kwin.po to
-# Version: $Revision: 1471412 $
+# Version: $Revision: 1472320 $
 # translation of kwin.po to Polish
 # translation of kwin.po to
 # Norbert Popiołek <norbert@kde.com.pl>
@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-10-05 10:46+0000\n"
+"POT-Creation-Date: 2016-10-17 10:53+0000\n"
 "PO-Revision-Date: 2016-08-13 08:57+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -1277,7 +1277,7 @@ msgstr "Przełączanie pulpitów z listy"
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Przełączanie pulpitów z listy (odwrotne)"
 
-#: tabbox/tabboxhandler.cpp:282
+#: tabbox/tabboxhandler.cpp:283
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."

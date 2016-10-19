@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-09-25 10:47+0000\n"
+"POT-Creation-Date: 2016-10-17 10:53+0000\n"
 "PO-Revision-Date: 2016-09-20 10:24+0800\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
@@ -348,20 +348,20 @@ msgstr ""
 msgid "All Desktops"
 msgstr "所有桌面"
 
-#: ruleswidget.cpp:330
+#: ruleswidget.cpp:343
 msgid "All Activities"
 msgstr "所有的活動"
 
-#: ruleswidget.cpp:771
+#: ruleswidget.cpp:784
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 的設定"
 
-#: ruleswidget.cpp:773
+#: ruleswidget.cpp:786
 msgid "Unnamed entry"
 msgstr "未命名的項目"
 
-#: ruleswidget.cpp:783
+#: ruleswidget.cpp:796
 msgid ""
 "You have specified the window class as unimportant.\n"
 "This means the settings will possibly apply to windows from all "
@@ -373,11 +373,11 @@ msgstr ""
 "這表示這個設定會套用至所有應用程式的所有視窗。如果您是希望這樣做來建立一個通"
 "用設定，我們建議您至少要限制視窗類型，來避免特殊的視窗類型。"
 
-#: ruleswidget.cpp:813
+#: ruleswidget.cpp:826
 msgid "Edit Window-Specific Settings"
 msgstr "編輯特定視窗的設定"
 
-#: ruleswidget.cpp:843
+#: ruleswidget.cpp:856
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
 "window or application. Find the setting you want to affect, enable the "
@@ -387,11 +387,11 @@ msgstr ""
 "這個組態對話盒允許只針對選擇的視窗或應用程式的特別設定。找到您想用的設定值，"
 "使用核取方塊啟用此設定值，選擇設定值要以何種方式生效、要影響哪個數值。"
 
-#: ruleswidget.cpp:847
+#: ruleswidget.cpp:860
 msgid "Consult the documentation for more details."
 msgstr "查閱文件以獲得詳細資訊。"
 
-#: ruleswidget.cpp:886
+#: ruleswidget.cpp:899
 msgid "Edit Shortcut"
 msgstr "編輯捷徑"
 

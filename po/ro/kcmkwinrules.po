@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-09-25 10:47+0000\n"
+"POT-Creation-Date: 2016-10-17 10:53+0000\n"
 "PO-Revision-Date: 2013-01-11 11:13+0200\n"
 "Last-Translator: Sergiu Bivol <sergiu@ase.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -378,20 +378,20 @@ msgstr ""
 msgid "All Desktops"
 msgstr "Toate birourile"
 
-#: ruleswidget.cpp:330
+#: ruleswidget.cpp:343
 msgid "All Activities"
 msgstr "Toate activitățile"
 
-#: ruleswidget.cpp:771
+#: ruleswidget.cpp:784
 #, kde-format
 msgid "Settings for %1"
 msgstr "Configurări pentru %1"
 
-#: ruleswidget.cpp:773
+#: ruleswidget.cpp:786
 msgid "Unnamed entry"
 msgstr "Înregistrare fără nume"
 
-#: ruleswidget.cpp:783
+#: ruleswidget.cpp:796
 msgid ""
 "You have specified the window class as unimportant.\n"
 "This means the settings will possibly apply to windows from all "
@@ -405,11 +405,11 @@ msgstr ""
 "generică, este recomandabil să limitați tipurile de ferestre pentru a evita "
 "tipurile speciale de ferestre."
 
-#: ruleswidget.cpp:813
+#: ruleswidget.cpp:826
 msgid "Edit Window-Specific Settings"
 msgstr "Editează configurări specifice ferestrei"
 
-#: ruleswidget.cpp:843
+#: ruleswidget.cpp:856
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
 "window or application. Find the setting you want to affect, enable the "
@@ -421,11 +421,11 @@ msgstr ""
 "modificați, activați-o prin bifare și alegeți modul în care configurarea "
 "trebuie afectată și la ce valoare."
 
-#: ruleswidget.cpp:847
+#: ruleswidget.cpp:860
 msgid "Consult the documentation for more details."
 msgstr "Consultați documentația pentru mai multe detalii."
 
-#: ruleswidget.cpp:886
+#: ruleswidget.cpp:899
 msgid "Edit Shortcut"
 msgstr "Editează scurtătură"
 

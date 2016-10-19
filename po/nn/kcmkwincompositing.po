@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-09-14 07:14+0000\n"
-"PO-Revision-Date: 2016-03-12 13:39+0100\n"
+"PO-Revision-Date: 2016-10-13 21:08+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
@@ -202,11 +202,15 @@ msgid ""
 " This brings performance improvements for e.g. games.\n"
 " The setting can be overruled by window-specific rules."
 msgstr ""
+"Program kan oppgje eit hint for å blokkera samansetjing når vindauga deira "
+"er opne.\n"
+" Dette gjer at for eksempel spel kan køyra raskare.\n"
+" Innstillinga kan overstyrast av vindaugsspesifikke reglar."
 
 #. i18n: ectx: property (text), widget (QCheckBox, windowsBlockCompositing)
 #: compositing.ui:294
 msgid "Allow applications to block compositing"
-msgstr ""
+msgstr "Tillat program å blokkera samansetjing"
 
 #: main.cpp:82
 msgid "Re-enable OpenGL detection"

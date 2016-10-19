@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-10-05 10:46+0000\n"
+"POT-Creation-Date: 2016-10-17 10:53+0000\n"
 "PO-Revision-Date: 2005-03-15 02:55-0800\n"
 "Last-Translator: Tamil PC <tamilpc@ambalam.com>\n"
 "Language-Team:  <ta@li.org>\n"
@@ -1291,7 +1291,7 @@ msgstr "மேசைப்பட்டியலிடையே செல்"
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "மேசைப்பட்டியலிடையே செல்(பின்னோக்கு)"
 
-#: tabbox/tabboxhandler.cpp:282
+#: tabbox/tabboxhandler.cpp:283
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-10-05 10:46+0000\n"
+"POT-Creation-Date: 2016-10-17 10:53+0000\n"
 "PO-Revision-Date: 2016-01-24 22:45+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
@@ -1254,7 +1254,7 @@ msgstr "데스크톱 목록을 따라 옮겨 다니기"
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "데스크톱 목록을 거꾸로 옮겨 다니기"
 
-#: tabbox/tabboxhandler.cpp:282
+#: tabbox/tabboxhandler.cpp:283
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."

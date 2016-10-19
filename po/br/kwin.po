@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-10-05 10:46+0000\n"
+"POT-Creation-Date: 2016-10-17 10:53+0000\n"
 "PO-Revision-Date: 2004-07-08 17:18+0200\n"
 "Last-Translator: Thierry Vignaud <tvignaud.com>\n"
 "Language-Team: Brezhoneg <Suav.Icb.fr>\n"
@@ -1275,7 +1275,7 @@ msgstr "Mont-dont e roll ar burevioù"
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Mont-dont e roll ar burevioù (urzh eilpennet)"
 
-#: tabbox/tabboxhandler.cpp:282
+#: tabbox/tabboxhandler.cpp:283
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."

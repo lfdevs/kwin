@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-10-05 10:46+0000\n"
+"POT-Creation-Date: 2016-10-17 10:53+0000\n"
 "PO-Revision-Date: 2011-07-11 12:17+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: Kannada <kde-l10n-kn@kde.org>\n"
@@ -1273,7 +1273,7 @@ msgstr "ಗಣಕತೆರೆಗಳ ಪಟ್ಟಿಯನ್ನು ಅವಲೋ�
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "ಗಣಕತೆರೆಗಳ ಪಟ್ಟಿಯನ್ನು ಅವಲೋಕಿಸಿ ( ಹಿಮ್ಮುಖ )"
 
-#: tabbox/tabboxhandler.cpp:282
+#: tabbox/tabboxhandler.cpp:283
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."

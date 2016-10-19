@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-10-05 10:46+0000\n"
-"PO-Revision-Date: 2016-09-24 18:57+0300\n"
-"Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
+"POT-Creation-Date: 2016-10-17 10:53+0000\n"
+"PO-Revision-Date: 2016-10-15 15:10+0200\n"
+"Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-POT-Import-Date: 2012-12-01 22:22:29+0000\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -209,7 +209,7 @@ msgstr "Globaali sijainti"
 #: debug_console.cpp:183
 msgctxt "A mouse pointer button press event"
 msgid "Pointer Button Press"
-msgstr "Kohdistimen painikkeen painallus"
+msgstr "Osoitinpainikkeen painallus"
 
 #: debug_console.cpp:188 debug_console.cpp:198
 msgctxt "A button in a mouse press/release event"
@@ -281,10 +281,11 @@ msgctxt "A keyboard modifier"
 msgid "Meta"
 msgstr "Meta"
 
+# ** TARKISTA: Kommenttikaan ei auta ymmärtämään, mistä oikein on kyse
 #: debug_console.cpp:270
 msgctxt "A keyboard modifier"
 msgid "Keypad"
-msgstr ""
+msgstr "Numeronäppäimistö"
 
 #: debug_console.cpp:274
 msgctxt "A keyboard modifier"
@@ -425,7 +426,7 @@ msgstr "Pyyhkäisy peruttu"
 
 #: debug_console.cpp:596
 msgid "No Mouse Buttons"
-msgstr "Ei enempää painikkeita"
+msgstr "Ei hiiren painikkeita"
 
 #: debug_console.cpp:600
 msgctxt "Mouse Button"
@@ -1275,7 +1276,7 @@ msgstr "Selaa työpöytäluetteloa"
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Selaa työpöytäluetteloa taaksepäin"
 
-#: tabbox/tabboxhandler.cpp:282
+#: tabbox/tabboxhandler.cpp:283
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
@@ -1358,7 +1359,7 @@ msgstr "Ikkunointi&ohjelman asetukset…"
 
 #: useractions.cpp:350
 msgid "Mi&nimize"
-msgstr "&Pienennä"
+msgstr "P&ienennä"
 
 #: useractions.cpp:354
 msgid "Ma&ximize"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-09-25 10:47+0000\n"
+"POT-Creation-Date: 2016-10-17 10:53+0000\n"
 "PO-Revision-Date: 2007-06-23 20:46+0930\n"
 "Last-Translator: Trần Thế Trung <tttrung@hotmail.com>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -390,20 +390,20 @@ msgstr ""
 msgid "All Desktops"
 msgstr "Cho mọi màn hình nền"
 
-#: ruleswidget.cpp:330
+#: ruleswidget.cpp:343
 msgid "All Activities"
 msgstr ""
 
-#: ruleswidget.cpp:771
+#: ruleswidget.cpp:784
 #, kde-format
 msgid "Settings for %1"
 msgstr "Thiết lập cho %1"
 
-#: ruleswidget.cpp:773
+#: ruleswidget.cpp:786
 msgid "Unnamed entry"
 msgstr "Mục nhập không tên"
 
-#: ruleswidget.cpp:783
+#: ruleswidget.cpp:796
 msgid ""
 "You have specified the window class as unimportant.\n"
 "This means the settings will possibly apply to windows from all "
@@ -416,11 +416,11 @@ msgstr ""
 "thực sự muốn tạo ra cài đặt chung, bạn nên ít nhất là giới hạn kiểu cửa sổ "
 "để tránh kiểu cửa sổ đặc biệt."
 
-#: ruleswidget.cpp:813
+#: ruleswidget.cpp:826
 msgid "Edit Window-Specific Settings"
 msgstr "Sửa thiết lập cửa sổ đặc dụng"
 
-#: ruleswidget.cpp:843
+#: ruleswidget.cpp:856
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
 "window or application. Find the setting you want to affect, enable the "
@@ -431,11 +431,11 @@ msgstr ""
 "dụng đã chọn. Hãy tìm cài đặt bạn muốn thay đổi, kích hoạt cài đặt bằng cách "
 "ấn vào hộp đánh dấu, chọn cách thay đổi và các giá trị mới."
 
-#: ruleswidget.cpp:847
+#: ruleswidget.cpp:860
 msgid "Consult the documentation for more details."
 msgstr "Xem thêm các tài liệu hướng dẫn để biết thêm chi tiết."
 
-#: ruleswidget.cpp:886
+#: ruleswidget.cpp:899
 msgid "Edit Shortcut"
 msgstr "Sửa Gõ tắt"
 

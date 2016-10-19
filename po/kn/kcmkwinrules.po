@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-09-25 10:47+0000\n"
+"POT-Creation-Date: 2016-10-17 10:53+0000\n"
 "PO-Revision-Date: 2008-07-06 23:45+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: Kannada <en@li.org>\n"
@@ -387,20 +387,20 @@ msgstr ""
 msgid "All Desktops"
 msgstr "ಎಲ್ಲಾ ಗಣಕತೆರೆಗಳು"
 
-#: ruleswidget.cpp:330
+#: ruleswidget.cpp:343
 msgid "All Activities"
 msgstr ""
 
-#: ruleswidget.cpp:771
+#: ruleswidget.cpp:784
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 ಗಾಗಿ ಹೊಂದಾಣಿಕೆಗಳು"
 
-#: ruleswidget.cpp:773
+#: ruleswidget.cpp:786
 msgid "Unnamed entry"
 msgstr "ಹೆಸರಿಸದೆ ಇರುವ ನಮೂದು"
 
-#: ruleswidget.cpp:783
+#: ruleswidget.cpp:796
 msgid ""
 "You have specified the window class as unimportant.\n"
 "This means the settings will possibly apply to windows from all "
@@ -413,11 +413,11 @@ msgstr ""
 "ನೀವು ನಿಜವಾಗಲೂ ಒಂದು ವಿಶಿಷ್ಟ ಸಂಯೋಜನೆಯನ್ನು ನಿರ್ಮಿಸಲು ಬಳಸಿದ್ದರೆ, ವಿಶೇಷ ವಿಂಡೋ "
 "ಪ್ರಕಾರಗಳನ್ನು ತಪ್ಪಿಸಲು ನೀವು ಕನಿಷ್ಟ ವಿಂಡೋ ಬಗೆಗಳಿಗಾದರೂ ಮಿತಿಗೊಳಿಸಲು ಸೂಚಿಸಲಾಗುತ್ತದೆ."
 
-#: ruleswidget.cpp:813
+#: ruleswidget.cpp:826
 msgid "Edit Window-Specific Settings"
 msgstr "ವಿಂಡೋ-ನಿಶ್ಚಿತ ಸಂಯೋಜನೆಗಳನ್ನು ಸಂಪಾದಿಸಿ"
 
-#: ruleswidget.cpp:843
+#: ruleswidget.cpp:856
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
 "window or application. Find the setting you want to affect, enable the "
@@ -429,11 +429,11 @@ msgstr ""
 "ಪೆಟ್ಟಿಗೆಯನ್ನು ಬಳಸಿಕೊಂಡು ಅದನ್ನು ಶಕ್ತಗೊಳಿಸಿ, ಯಾವ ಬಗೆಯಲ್ಲಿಹಾಗು ಯಾವ ಮೌಲ್ಯಕ್ಕೆ ಸಂಯೋಜನೆಗೆ "
 "ಪರಿಣಾಮ ಬೀರಬೇಕೆನ್ನುವುದನ್ನು ಆರಿಸಿ."
 
-#: ruleswidget.cpp:847
+#: ruleswidget.cpp:860
 msgid "Consult the documentation for more details."
 msgstr "ಹೆಚ್ಚಿನ ಮಾಹಿತಿಗಳಿಗಾಗಿ ದಸ್ತಾವೇಜನ್ನು ನೋಡಿ."
 
-#: ruleswidget.cpp:886
+#: ruleswidget.cpp:899
 msgid "Edit Shortcut"
 msgstr "ಶಾರ್ಟ್-ಕಟ್‍ಗಳನ್ನು ಸಂಪಾದಿಸು"
 

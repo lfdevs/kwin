@@ -1,7 +1,7 @@
 # translation of kwin.po to
 # Translation of kwin.po to Slovenian
 # Copyright (C) 2001, 2003, 2004, 2005, 2007 Free Software Foundation, Inc.
-# $Id: kwin.po 1471412 2016-10-05 11:45:26Z scripty $
+# $Id: kwin.po 1472320 2016-10-17 11:52:55Z scripty $
 # $Source$
 #
 # Roman Maurer <roman.maurer@hermes.si>, 2000.
@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-10-05 10:46+0000\n"
+"POT-Creation-Date: 2016-10-17 10:53+0000\n"
 "PO-Revision-Date: 2016-08-18 10:23+0200\n"
 "Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -1263,7 +1263,7 @@ msgstr "Sprehod skozi seznam namizij"
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Sprehod skozi seznam namizij (obratno) "
 
-#: tabbox/tabboxhandler.cpp:282
+#: tabbox/tabboxhandler.cpp:283
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."

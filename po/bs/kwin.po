@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-10-05 10:46+0000\n"
+"POT-Creation-Date: 2016-10-17 10:53+0000\n"
 "PO-Revision-Date: 2014-10-20 20:21+0000\n"
 "Last-Translator: Lejla Agic <lagic1@etf.unsa.ba>\n"
 "Language-Team: bosanski <bs@li.org>\n"
@@ -1256,7 +1256,7 @@ msgstr "Mijenjaj površi po spisku"
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Mijenjaj površi po spisku (obratno)"
 
-#: tabbox/tabboxhandler.cpp:282
+#: tabbox/tabboxhandler.cpp:283
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-09-15 07:38+0000\n"
-"PO-Revision-Date: 2016-07-20 20:23+0100\n"
+"POT-Creation-Date: 2016-10-05 10:46+0000\n"
+"PO-Revision-Date: 2016-10-13 21:01+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
@@ -337,250 +337,250 @@ msgstr "Finger opp"
 #: debug_console.cpp:343
 msgctxt "A pinch gesture is started"
 msgid "Pinch start"
-msgstr ""
+msgstr "Kniping start"
 
 #: debug_console.cpp:345
 msgctxt "Number of fingers in this pinch gesture"
 msgid "Finger count"
-msgstr ""
+msgstr "Fingertal"
 
 #: debug_console.cpp:357
 msgctxt "A pinch gesture is updated"
 msgid "Pinch update"
-msgstr ""
+msgstr "Kniping oppdatering"
 
 #: debug_console.cpp:359
 msgctxt "Current scale in pinch gesture"
 msgid "Scale"
-msgstr ""
+msgstr "Skala"
 
 #: debug_console.cpp:360
 msgctxt "Current angle in pinch gesture"
 msgid "Angle delta"
-msgstr ""
+msgstr "Vinkeldelta"
 
 #: debug_console.cpp:361
 msgctxt "Current delta in pinch gesture"
 msgid "Delta x"
-msgstr ""
+msgstr "Delta x"
 
 #: debug_console.cpp:362
 msgctxt "Current delta in pinch gesture"
 msgid "Delta y"
-msgstr ""
+msgstr "Delta y"
 
 #: debug_console.cpp:374
 msgctxt "A pinch gesture ended"
 msgid "Pinch end"
-msgstr ""
+msgstr "Kniping slutt"
 
 #: debug_console.cpp:387
 msgctxt "A pinch gesture got cancelled"
 msgid "Pinch cancelled"
-msgstr ""
+msgstr "Kniping avbroten"
 
 #: debug_console.cpp:400
 msgctxt "A swipe gesture is started"
 msgid "Swipe start"
-msgstr ""
+msgstr "Draging start"
 
 #: debug_console.cpp:402
 msgctxt "Number of fingers in this swipe gesture"
 msgid "Finger count"
-msgstr ""
+msgstr "Fingertal"
 
 #: debug_console.cpp:414
 msgctxt "A swipe gesture is updated"
 msgid "Swipe update"
-msgstr ""
+msgstr "Dra oppdatering"
 
 #: debug_console.cpp:416
 msgctxt "Current delta in swipe gesture"
 msgid "Delta x"
-msgstr ""
+msgstr "Delta x"
 
 #: debug_console.cpp:417
 msgctxt "Current delta in swipe gesture"
 msgid "Delta y"
-msgstr ""
+msgstr "Delta y"
 
 #: debug_console.cpp:429
 msgctxt "A swipe gesture ended"
 msgid "Swipe end"
-msgstr ""
+msgstr "Draging slutt"
 
 #: debug_console.cpp:442
 msgctxt "A swipe gesture got cancelled"
 msgid "Swipe cancelled"
-msgstr ""
+msgstr "Draging avbroten"
 
-#: debug_console.cpp:580
+#: debug_console.cpp:596
 msgid "No Mouse Buttons"
 msgstr "Ingen museknappar"
 
-#: debug_console.cpp:584
+#: debug_console.cpp:600
 msgctxt "Mouse Button"
 msgid "left"
 msgstr "venstre"
 
-#: debug_console.cpp:587
+#: debug_console.cpp:603
 msgctxt "Mouse Button"
 msgid "right"
 msgstr "høgre"
 
-#: debug_console.cpp:590
+#: debug_console.cpp:606
 msgctxt "Mouse Button"
 msgid "middle"
 msgstr "midt"
 
-#: debug_console.cpp:593
+#: debug_console.cpp:609
 msgctxt "Mouse Button"
 msgid "back"
 msgstr "tilbake"
 
-#: debug_console.cpp:596
+#: debug_console.cpp:612
 msgctxt "Mouse Button"
 msgid "forward"
 msgstr "fram"
 
-#: debug_console.cpp:599
+#: debug_console.cpp:615
 msgctxt "Mouse Button"
 msgid "extra 1"
 msgstr "ekstra 1"
 
-#: debug_console.cpp:602
+#: debug_console.cpp:618
 msgctxt "Mouse Button"
 msgid "extra 2"
 msgstr "ekstra 2"
 
-#: debug_console.cpp:605
+#: debug_console.cpp:621
 msgctxt "Mouse Button"
 msgid "extra 3"
 msgstr "ekstra 3"
 
-#: debug_console.cpp:608
+#: debug_console.cpp:624
 msgctxt "Mouse Button"
 msgid "extra 4"
 msgstr "ekstra 4"
 
-#: debug_console.cpp:611
+#: debug_console.cpp:627
 msgctxt "Mouse Button"
 msgid "extra 5"
 msgstr "ekstra 5"
 
-#: debug_console.cpp:614
+#: debug_console.cpp:630
 msgctxt "Mouse Button"
 msgid "extra 6"
 msgstr "ekstra 6"
 
-#: debug_console.cpp:617
+#: debug_console.cpp:633
 msgctxt "Mouse Button"
 msgid "extra 7"
 msgstr "ekstra 7"
 
-#: debug_console.cpp:620
+#: debug_console.cpp:636
 msgctxt "Mouse Button"
 msgid "extra 8"
 msgstr "ekstra 8"
 
-#: debug_console.cpp:623
+#: debug_console.cpp:639
 msgctxt "Mouse Button"
 msgid "extra 9"
 msgstr "ekstra 9"
 
-#: debug_console.cpp:626
+#: debug_console.cpp:642
 msgctxt "Mouse Button"
 msgid "extra 10"
 msgstr "ekstra 10"
 
-#: debug_console.cpp:629
+#: debug_console.cpp:645
 msgctxt "Mouse Button"
 msgid "extra 11"
 msgstr "ekstra 11"
 
-#: debug_console.cpp:632
+#: debug_console.cpp:648
 msgctxt "Mouse Button"
 msgid "extra 12"
 msgstr "ekstra 12"
 
-#: debug_console.cpp:635
+#: debug_console.cpp:651
 msgctxt "Mouse Button"
 msgid "extra 13"
 msgstr "ekstra 13"
 
-#: debug_console.cpp:638
+#: debug_console.cpp:654
 msgctxt "Mouse Button"
 msgid "extra 14"
 msgstr "ekstra 14"
 
-#: debug_console.cpp:641
+#: debug_console.cpp:657
 msgctxt "Mouse Button"
 msgid "extra 15"
 msgstr "ekstra 15"
 
-#: debug_console.cpp:644
+#: debug_console.cpp:660
 msgctxt "Mouse Button"
 msgid "extra 16"
 msgstr "ekstra 16"
 
-#: debug_console.cpp:647
+#: debug_console.cpp:663
 msgctxt "Mouse Button"
 msgid "extra 17"
 msgstr "ekstra 17"
 
-#: debug_console.cpp:650
+#: debug_console.cpp:666
 msgctxt "Mouse Button"
 msgid "extra 18"
 msgstr "ekstra 18"
 
-#: debug_console.cpp:653
+#: debug_console.cpp:669
 msgctxt "Mouse Button"
 msgid "extra 19"
 msgstr "ekstra 19"
 
-#: debug_console.cpp:656
+#: debug_console.cpp:672
 msgctxt "Mouse Button"
 msgid "extra 20"
 msgstr "ekstra 20"
 
-#: debug_console.cpp:659
+#: debug_console.cpp:675
 msgctxt "Mouse Button"
 msgid "extra 21"
 msgstr "ekstra 21"
 
-#: debug_console.cpp:662
+#: debug_console.cpp:678
 msgctxt "Mouse Button"
 msgid "extra 22"
 msgstr "ekstra 22"
 
-#: debug_console.cpp:665
+#: debug_console.cpp:681
 msgctxt "Mouse Button"
 msgid "extra 23"
 msgstr "ekstra 23"
 
-#: debug_console.cpp:668
+#: debug_console.cpp:684
 msgctxt "Mouse Button"
 msgid "extra 24"
 msgstr "ekstra 24"
 
-#: debug_console.cpp:671
+#: debug_console.cpp:687
 msgctxt "Mouse Button"
 msgid "task"
 msgstr "oppgåve"
 
-#: debug_console.cpp:1012
+#: debug_console.cpp:1028
 msgid "X11 Client Windows"
 msgstr "X11-klientvindauge"
 
-#: debug_console.cpp:1014
+#: debug_console.cpp:1030
 msgid "X11 Unmanaged Windows"
 msgstr "Uhandsama X11-vindauge"
 
-#: debug_console.cpp:1016
+#: debug_console.cpp:1032
 msgid "Wayland Windows"
 msgstr "Wayland-vindauge"
 
-#: debug_console.cpp:1018
+#: debug_console.cpp:1034
 msgid "Internal Windows"
 msgstr "Interne vindauge"
 

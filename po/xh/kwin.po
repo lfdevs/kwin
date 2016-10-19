@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-10-05 10:46+0000\n"
+"POT-Creation-Date: 2016-10-17 10:53+0000\n"
 "PO-Revision-Date: 2002-10-26 11:38SAST\n"
 "Last-Translator: Lwandle Mgidlana <lwandle@translate.org.za>\n"
 "Language-Team: Xhosa <xhosa@translate.org.za>\n"
@@ -1291,7 +1291,7 @@ msgstr "Dlula Kwi Uluhlu lwedesktop"
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Dlula Kwi Uluhlu lwedesktop (Yiza ngomuva)"
 
-#: tabbox/tabboxhandler.cpp:282
+#: tabbox/tabboxhandler.cpp:283
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."

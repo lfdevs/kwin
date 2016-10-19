@@ -2,7 +2,7 @@
 # Bulgarian translation of KDE.
 # This file is licensed under the GPL.
 #
-# $Id: kwin.po 1471412 2016-10-05 11:45:26Z scripty $
+# $Id: kwin.po 1472320 2016-10-17 11:52:55Z scripty $
 #
 # Zlatko Popov <zlatkopopov@fsa-bg.org>, 2006, 2007, 2008, 2009.
 # Yasen Pramatarov <yasen@lindeas.com>, 2009, 2010.
@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-10-05 10:46+0000\n"
+"POT-Creation-Date: 2016-10-17 10:53+0000\n"
 "PO-Revision-Date: 2010-12-02 00:25+0200\n"
 "Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -1274,7 +1274,7 @@ msgstr "Преминаване през списъка на работните �
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Преминаване през списъка на работните плотове (обратно)"
 
-#: tabbox/tabboxhandler.cpp:282
+#: tabbox/tabboxhandler.cpp:283
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-07-04 08:25+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2014-02-10 00:02+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
@@ -20,12 +20,14 @@ msgstr ""
 "X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 "Marcos Goyeneche,Iñigo Salvador Azurmendi,Hizkuntza Politikarako "
 "Sailburuordetza"
 
+#, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "marcos@euskalgnu.org,xalba@euskalnet.net,hizpol@ej-gv.es"
@@ -46,6 +48,7 @@ msgid "Desktop %1"
 msgstr "%1 mahaigaina"
 
 #: main.cpp:87
+#, kde-format
 msgid ""
 "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual "
 "desktops you want and how these should be labeled."
@@ -54,46 +57,57 @@ msgstr ""
 "izango dituzun eta nola izendatuko diren konfigura dezakezu."
 
 #: main.cpp:99
+#, kde-format
 msgid "Switch to Next Desktop"
 msgstr "Aldatu hurrengo mahaigainera"
 
 #: main.cpp:100
+#, kde-format
 msgid "Switch to Previous Desktop"
 msgstr "Aldatu aurreko mahaigainera"
 
 #: main.cpp:101
+#, kde-format
 msgid "Switch One Desktop to the Right"
 msgstr "Aldatu mahaigain bat eskuinera"
 
 #: main.cpp:102
+#, kde-format
 msgid "Switch One Desktop to the Left"
 msgstr "Aldatu mahaigain bat ezkerrera"
 
 #: main.cpp:103
+#, kde-format
 msgid "Switch One Desktop Up"
 msgstr "Aldatu mahaigain bat gora"
 
 #: main.cpp:104
+#, kde-format
 msgid "Switch One Desktop Down"
 msgstr "Aldatu mahaigain bat behera"
 
 #: main.cpp:105
+#, kde-format
 msgid "Walk Through Desktops"
 msgstr "Pasatu mahaigain batetik bestera"
 
 #: main.cpp:106
+#, kde-format
 msgid "Walk Through Desktops (Reverse)"
 msgstr "Pasatu mahaigain batetik bestera (alderantziz)"
 
 #: main.cpp:107
+#, kde-format
 msgid "Walk Through Desktop List"
 msgstr "Pasatu mahaigain-zerrenda batetik bestera"
 
 #: main.cpp:108
+#, kde-format
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Pasatu mahaigain-zerrenda batetik bestera (alderantziz)"
 
 #: main.cpp:110 main.cpp:144 main.cpp:509 main.cpp:510
+#, kde-format
 msgid "Desktop Switching"
 msgstr "Mahaigain-aldaketa"
 
@@ -103,6 +117,7 @@ msgid "Switch to Desktop %1"
 msgstr "Aldatu %1 mahaigainera"
 
 #: main.cpp:154
+#, kde-format
 msgid "No Animation"
 msgstr "Animaziorik gabe"
 
@@ -123,22 +138,26 @@ msgstr ""
 "Lasterbide-gatazka: %1 lasterbidea ezin izan zaio esleitu %2 mahaigainari"
 
 #: main.cpp:604
+#, kde-format
 msgid "KWin development team"
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, desktop)
 #: main.ui:33
+#, kde-format
 msgid "Desktops"
 msgstr "Mahaigainak"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:39
+#, kde-format
 msgid "Layout"
 msgstr "Diseinua"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, numberLabel)
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, numberSpinBox)
 #: main.ui:51 main.ui:64
+#, kde-format
 msgid ""
 "Here you can set how many virtual desktops you want on your KDE desktop."
 msgstr ""
@@ -147,30 +166,33 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, numberLabel)
 #: main.ui:54
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Number of desktops:"
 msgid "&Number of desktops:"
 msgstr "Mahaigain kopurua:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:83
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Number of rows:"
 msgid "N&umber of rows:"
 msgstr "Errenkada kopurua:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
 #: main.ui:103
+#, kde-format
 msgid "Desktop Names"
 msgstr "Mahaigainen izenak"
 
 #. i18n: ectx: attribute (title), widget (QWidget, switching)
 #: main.ui:136
+#, kde-format
 msgid "Switching"
 msgstr "Aldaketa"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, wrapAroundBox)
 #: main.ui:142
+#, kde-format
 msgid ""
 "Enable this option if you want keyboard or active desktop border navigation "
 "beyond the edge of a desktop to take you to the opposite edge of the new "
@@ -182,36 +204,43 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, wrapAroundBox)
 #: main.ui:145
+#, kde-format
 msgid "Desktop navigation wraps around"
 msgstr "Mahaigain batetik besterako nabigazio zirkularra"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:152
+#, kde-format
 msgid "Desktop Effect Animation"
 msgstr "Mahaigaineko animazio-efektua"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:164
+#, kde-format
 msgid "Animation:"
 msgstr "Animazioa:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, popupInfoCheckBox)
 #: main.ui:204
+#, kde-format
 msgid "Desktop Switch On-Screen Display"
 msgstr "Mahaigain-aldaketa pantailan bistaratzea"
 
 #. i18n: ectx: property (text), widget (QLabel, hideLabel)
 #: main.ui:222
+#, kde-format
 msgid "Duration:"
 msgstr "Iraupena:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, popupHideSpinBox)
 #: main.ui:232
+#, kde-format
 msgid " msec"
 msgstr " ms"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
 #: main.ui:245
+#, kde-format
 msgid ""
 "Enabling this option will show a small preview of the desktop layout "
 "indicating the selected desktop."
@@ -221,15 +250,18 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
 #: main.ui:248
+#, kde-format
 msgid "Show desktop layout indicators"
 msgstr "Erakutsi mahaigain-diseinuaren adierazleak"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shortcutsGroupBox)
 #: main.ui:258
+#, kde-format
 msgid "Shortcuts"
 msgstr "Lasterbideak"
 
 #. i18n: ectx: property (text), widget (QCheckBox, allShortcutsCheckBox)
 #: main.ui:277
+#, kde-format
 msgid "Show shortcuts for all possible desktops"
 msgstr "Erakutsi izan daitezkeen mahaigain guztien lasterbideak"

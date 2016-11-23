@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-10-17 10:53+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2014-02-04 22:00+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
@@ -22,12 +22,14 @@ msgstr ""
 "X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 "Juan Irigoien,Asier Urio Larrea,Marcos Goyeneche,Iñigo Salvador Azurmendi,"
 "Hizkuntza Politikarako Sailburuordetza"
 
+#, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
@@ -37,119 +39,141 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
 #: detectwidget.cpp:100 ruleswidgetbase.ui:428 ruleswidgetbase.ui:2459
+#, kde-format
 msgid "Normal Window"
 msgstr "Leiho normala"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
 #: detectwidget.cpp:101 ruleswidgetbase.ui:463 ruleswidgetbase.ui:2494
+#, kde-format
 msgid "Desktop"
 msgstr "Mahaigaina"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
 #: detectwidget.cpp:102 ruleswidgetbase.ui:443 ruleswidgetbase.ui:2474
+#, kde-format
 msgid "Dock (panel)"
 msgstr "Atrakatu (panela)"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
 #: detectwidget.cpp:103 ruleswidgetbase.ui:448 ruleswidgetbase.ui:2479
+#, kde-format
 msgid "Toolbar"
 msgstr "Tresna-barra"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
 #: detectwidget.cpp:104 ruleswidgetbase.ui:453 ruleswidgetbase.ui:2484
+#, kde-format
 msgid "Torn-Off Menu"
 msgstr "Goitik beherako menua"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
 #: detectwidget.cpp:105 ruleswidgetbase.ui:433 ruleswidgetbase.ui:2464
+#, kde-format
 msgid "Dialog Window"
 msgstr "Elkarrizketa-leihoa"
 
 #: detectwidget.cpp:106
+#, kde-format
 msgid "Override Type"
 msgstr "Gainidatzi mota"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
 #: detectwidget.cpp:107 ruleswidgetbase.ui:473 ruleswidgetbase.ui:2499
+#, kde-format
 msgid "Standalone Menubar"
 msgstr "Menu-barra autonomoa"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
 #: detectwidget.cpp:108 ruleswidgetbase.ui:438 ruleswidgetbase.ui:2469
+#, kde-format
 msgid "Utility Window"
 msgstr "Utilitate-leihoa"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
 #: detectwidget.cpp:109 ruleswidgetbase.ui:458 ruleswidgetbase.ui:2489
+#, kde-format
 msgid "Splash Screen"
 msgstr "Harrerako pantaila"
 
 #: detectwidget.cpp:115
+#, kde-format
 msgid "Unknown - will be treated as Normal Window"
 msgstr "Ezezaguna; leiho normaltzat joko da"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: detectwidget.ui:17
+#, kde-format
 msgid "Information About Selected Window"
 msgstr "Hautatutako leihoari buruzko informazioa"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: detectwidget.ui:29
+#, kde-format
 msgid "Class:"
 msgstr "Klasea:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: detectwidget.ui:57
+#, kde-format
 msgid "Role:"
 msgstr "Funtzioa:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #: detectwidget.ui:85
+#, kde-format
 msgid "Type:"
 msgstr "Mota:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel8)
 #: detectwidget.ui:113
+#, kde-format
 msgid "Title:"
 msgstr "Titulua:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel13)
 #: detectwidget.ui:141
+#, kde-format
 msgid "Machine:"
 msgstr "Makina:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: detectwidget.ui:172
+#, kde-format
 msgid "Match by primary class name and"
 msgstr "Bat dator lehen mailako klase-izenarekin eta hauekin:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, match_whole_class)
 #: detectwidget.ui:181
+#, kde-format
 msgid "Secondary class name  (resulting in term in brackets)"
 msgstr "Bigarren mailako klase-izena (emaitza parentesi artean)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, match_role)
 #: detectwidget.ui:188
+#, kde-format
 msgid "Window role (can be used to select windows by function)"
 msgstr ""
 "Leihoaren funtzioa (leihoa funtzioaren arabera hautatzeko erabil daiteke)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, match_type)
 #: detectwidget.ui:195
+#, kde-format
 msgid "Window type (eg. all dialogs, but not the main windows)"
 msgstr ""
 "Leiho mota (adibidez, elkarrizketa-koadro guztiak, baina leiho nagusiak ez)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, match_title)
 #: detectwidget.ui:202
+#, kde-format
 msgid ""
 "Window title (very specific, can fail due to content changes or translation)"
 msgstr ""
@@ -158,6 +182,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: editshortcut.ui:18
+#, kde-format
 msgid ""
 "A single shortcut can be easily assigned or cleared using the two buttons. "
 "Only shortcuts with modifiers can be used.<p>\n"
@@ -181,27 +206,33 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, pushButton1)
 #: editshortcut.ui:62
+#, kde-format
 msgid "&Single Shortcut"
 msgstr "Lasterbide &bakuna"
 
 #. i18n: ectx: property (text), widget (QPushButton, pushButton2)
 #: editshortcut.ui:85
+#, kde-format
 msgid "C&lear"
 msgstr "&Garbitu"
 
 #: kcm.cpp:51
+#, kde-format
 msgid "Window-Specific Settings Configuration Module"
 msgstr "Leihoen ezarpen espezifikoak konfiguratzeko modulua"
 
 #: kcm.cpp:52
+#, kde-format
 msgid "(c) 2004 KWin and KControl Authors"
 msgstr "(c) 2004 KWin-en eta KControl-en egileak"
 
 #: kcm.cpp:53
+#, kde-format
 msgid "Lubos Lunak"
 msgstr "Lubos Lunak"
 
 #: kcm.cpp:84
+#, kde-format
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -217,14 +248,17 @@ msgstr ""
 "jakiteko.</p>"
 
 #: kcm.cpp:100
+#, kde-format
 msgid "Remember settings separately for every window"
 msgstr "Banan-banan gogorarazi leiho bakoitzari dagozkion ezarpenak"
 
 #: kcm.cpp:101
+#, kde-format
 msgid "Show internal settings for remembering"
 msgstr "Erakutsi barne-ezarpenak gogorarazteko"
 
 #: kcm.cpp:102
+#, kde-format
 msgid "Internal setting for remembering"
 msgstr "Barne-ezarpenak gogorarazteko"
 
@@ -239,86 +273,104 @@ msgid "Window settings for %1"
 msgstr "%1(r)entzako leiho-ezarpenak"
 
 #: main.cpp:221
+#, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Editatu aplikazioaren ezarpen espezifikoak"
 
 #: main.cpp:251
+#, kde-format
 msgid "KWin"
 msgstr "KWin"
 
 #: main.cpp:259
+#, kde-format
 msgid "KWin helper utility"
 msgstr "KWin-en laguntza-utilitatea"
 
 #: main.cpp:260
+#, kde-format
 msgid "WId of the window for special window settings."
 msgstr "Leiho-ezarpen berezietako leihoaren WIDa"
 
 #: main.cpp:261
+#, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Ezarpenek aplikazioaren leiho guztiei eragingo dien ala ez."
 
 #: main.cpp:269
+#, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Laguntza-utilitate honi ez litzaioke zuzenean deitu behar."
 
 #: ruleslist.cpp:153
+#, kde-format
 msgid "Export Rule"
 msgstr "Esportatu araua"
 
 #: ruleslist.cpp:154 ruleslist.cpp:166
+#, kde-format
 msgid "KWin Rule (*.kwinrule)"
 msgstr "Kwin-eren araua (*.kwinrule)"
 
 #: ruleslist.cpp:165
+#, kde-format
 msgid "Import Rules"
 msgstr "Inportatu arauak"
 
 #. i18n: ectx: property (text), widget (QPushButton, new_button)
 #: ruleslist.ui:32
+#, kde-format
 msgid "&New..."
 msgstr "&Berria..."
 
 #. i18n: ectx: property (text), widget (QPushButton, modify_button)
 #: ruleslist.ui:39
+#, kde-format
 msgid "&Modify..."
 msgstr "&Aldatu..."
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_button)
 #: ruleslist.ui:46
+#, kde-format
 msgid "Delete"
 msgstr "Ezabatu"
 
 #. i18n: ectx: property (text), widget (QPushButton, moveup_button)
 #: ruleslist.ui:56
+#, kde-format
 msgid "Move &Up"
 msgstr "Eraman &gora"
 
 #. i18n: ectx: property (text), widget (QPushButton, movedown_button)
 #: ruleslist.ui:63
+#, kde-format
 msgid "Move &Down"
 msgstr "Eraman &behera"
 
 #. i18n: ectx: property (text), widget (QPushButton, import_button)
 #: ruleslist.ui:100
+#, kde-format
 msgid "&Import"
 msgstr "&Inportatu"
 
 #. i18n: ectx: property (text), widget (QPushButton, export_button)
 #: ruleslist.ui:107
+#, kde-format
 msgid "&Export"
 msgstr "&Esportatu"
 
 #: ruleswidget.cpp:66
+#, kde-format
 msgid ""
-"Enable this checkbox to alter this window property for the specified window"
-"(s)."
+"Enable this checkbox to alter this window property for the specified "
+"window(s)."
 msgstr ""
 "Gaitu kontrol-lauki hau, leiho-propietate hau zehaztutako leiho(et)an "
 "aldatzeko."
 
 #: ruleswidget.cpp:68
+#, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
 "</em> The window property will not be affected and therefore the default "
@@ -351,6 +403,7 @@ msgstr ""
 "egingo da leihoa ezkutatutakoan).</li></ul>"
 
 #: ruleswidget.cpp:83
+#, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
 "</em> The window property will not be affected and therefore the default "
@@ -370,10 +423,12 @@ msgstr ""
 "ul>"
 
 #: ruleswidget.cpp:150
+#, kde-format
 msgid "All Desktops"
 msgstr "Mahaigain guztiak"
 
 #: ruleswidget.cpp:343
+#, kde-format
 msgid "All Activities"
 msgstr "Jarduera guztiak"
 
@@ -383,10 +438,12 @@ msgid "Settings for %1"
 msgstr "%1(r)en ezarpenak"
 
 #: ruleswidget.cpp:786
+#, kde-format
 msgid "Unnamed entry"
 msgstr "Izenik gabeko sarrera"
 
 #: ruleswidget.cpp:796
+#, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
 "This means the settings will possibly apply to windows from all "
@@ -400,10 +457,12 @@ msgstr ""
 "gutxienez leiho motak mugatzea, leiho mota bereziak saihesteko."
 
 #: ruleswidget.cpp:826
+#, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Editatu leihoen ezarpen espezifikoak"
 
 #: ruleswidget.cpp:856
+#, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
 "window or application. Find the setting you want to affect, enable the "
@@ -416,25 +475,30 @@ msgstr ""
 "eta zer balio ezarri."
 
 #: ruleswidget.cpp:860
+#, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Begiratu dokumentazioa xehetasun gehiagorako."
 
 #: ruleswidget.cpp:899
+#, kde-format
 msgid "Edit Shortcut"
 msgstr "Editatu lasterbidea"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage1)
 #: ruleswidgetbase.ui:21
+#, kde-format
 msgid "&Window matching"
 msgstr "&Leihoaren bat-etortzea"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
+#, kde-format
 msgid "&Description:"
 msgstr "&Deskribapena:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: ruleswidgetbase.ui:46
+#, kde-format
 msgid "Window &class (application):"
 msgstr "Leiho kl&asea (aplikazioa):"
 
@@ -444,6 +508,7 @@ msgstr "Leiho kl&asea (aplikazioa):"
 #. i18n: ectx: property (text), item, widget (KComboBox, machine_match)
 #: ruleswidgetbase.ui:63 ruleswidgetbase.ui:126 ruleswidgetbase.ui:195
 #: ruleswidgetbase.ui:248
+#, kde-format
 msgid "Unimportant"
 msgstr "Garrantzirik gabekoa"
 
@@ -453,6 +518,7 @@ msgstr "Garrantzirik gabekoa"
 #. i18n: ectx: property (text), item, widget (KComboBox, machine_match)
 #: ruleswidgetbase.ui:68 ruleswidgetbase.ui:131 ruleswidgetbase.ui:200
 #: ruleswidgetbase.ui:253
+#, kde-format
 msgid "Exact Match"
 msgstr "Bat-etortze zehatza"
 
@@ -462,6 +528,7 @@ msgstr "Bat-etortze zehatza"
 #. i18n: ectx: property (text), item, widget (KComboBox, machine_match)
 #: ruleswidgetbase.ui:73 ruleswidgetbase.ui:136 ruleswidgetbase.ui:205
 #: ruleswidgetbase.ui:258
+#, kde-format
 msgid "Substring Match"
 msgstr "Azpikateen bat-etortzea"
 
@@ -471,6 +538,7 @@ msgstr "Azpikateen bat-etortzea"
 #. i18n: ectx: property (text), item, widget (KComboBox, machine_match)
 #: ruleswidgetbase.ui:78 ruleswidgetbase.ui:141 ruleswidgetbase.ui:210
 #: ruleswidgetbase.ui:263
+#, kde-format
 msgid "Regular Expression"
 msgstr "Adierazpen erregularra"
 
@@ -480,56 +548,67 @@ msgstr "Adierazpen erregularra"
 #. i18n: ectx: property (text), widget (QPushButton, edit_reg_machine)
 #: ruleswidgetbase.ui:92 ruleswidgetbase.ui:155 ruleswidgetbase.ui:221
 #: ruleswidgetbase.ui:274
+#, kde-format
 msgid "Edit"
 msgstr "Editatu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, whole_wmclass)
 #: ruleswidgetbase.ui:102
+#, kde-format
 msgid "Match w&hole window class"
 msgstr "Bat etorrarazi leiho klase &osoarekin"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: ruleswidgetbase.ui:109
+#, kde-format
 msgid "Window ro&le:"
 msgstr "Leihoren &funtzioa"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #: ruleswidgetbase.ui:162
+#, kde-format
 msgid "Window &types:"
 msgstr "Leiho &motak:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #: ruleswidgetbase.ui:178
+#, kde-format
 msgid "Window t&itle:"
 msgstr "Leihoaren i&zenburua:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel7)
 #: ruleswidgetbase.ui:231
+#, kde-format
 msgid "&Machine (hostname):"
 msgstr "&Makina (ostalari-izena):"
 
 #. i18n: ectx: property (text), widget (QPushButton, detect)
 #: ruleswidgetbase.ui:318
+#, kde-format
 msgid "&Detect Window Properties"
 msgstr "&Detektatu leihoaren propietateak"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, detection_delay)
 #: ruleswidgetbase.ui:325
+#, kde-format
 msgid "s delay"
 msgstr "s-ko atzerapena"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #: ruleswidgetbase.ui:468
+#, kde-format
 msgid "Unmanaged Window"
 msgstr "Kudeatu gabeko leihoa"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage3)
 #: ruleswidgetbase.ui:489
+#, kde-format
 msgid "&Size && Position"
 msgstr "&Neurria eta kokalekua"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_position)
 #: ruleswidgetbase.ui:495
+#, kde-format
 msgid "&Position"
 msgstr "&Kokalekua"
 
@@ -580,6 +659,7 @@ msgstr "&Kokalekua"
 #: ruleswidgetbase.ui:2058 ruleswidgetbase.ui:2162 ruleswidgetbase.ui:2243
 #: ruleswidgetbase.ui:2309 ruleswidgetbase.ui:2358 ruleswidgetbase.ui:2401
 #: ruleswidgetbase.ui:2437 ruleswidgetbase.ui:2525
+#, kde-format
 msgid "Do Not Affect"
 msgstr "Eraginik ez"
 
@@ -607,6 +687,7 @@ msgstr "Eraginik ez"
 #: ruleswidgetbase.ui:1141 ruleswidgetbase.ui:1341 ruleswidgetbase.ui:1392
 #: ruleswidgetbase.ui:1439 ruleswidgetbase.ui:1562 ruleswidgetbase.ui:1646
 #: ruleswidgetbase.ui:1683 ruleswidgetbase.ui:1866 ruleswidgetbase.ui:1924
+#, kde-format
 msgid "Apply Initially"
 msgstr "Aplikatu hasieran"
 
@@ -634,6 +715,7 @@ msgstr "Aplikatu hasieran"
 #: ruleswidgetbase.ui:1146 ruleswidgetbase.ui:1346 ruleswidgetbase.ui:1397
 #: ruleswidgetbase.ui:1444 ruleswidgetbase.ui:1567 ruleswidgetbase.ui:1651
 #: ruleswidgetbase.ui:1688 ruleswidgetbase.ui:1871 ruleswidgetbase.ui:1929
+#, kde-format
 msgid "Remember"
 msgstr "Gogorarazi"
 
@@ -684,6 +766,7 @@ msgstr "Gogorarazi"
 #: ruleswidgetbase.ui:2063 ruleswidgetbase.ui:2167 ruleswidgetbase.ui:2248
 #: ruleswidgetbase.ui:2314 ruleswidgetbase.ui:2363 ruleswidgetbase.ui:2406
 #: ruleswidgetbase.ui:2442 ruleswidgetbase.ui:2530
+#, kde-format
 msgid "Force"
 msgstr "Behartu"
 
@@ -711,6 +794,7 @@ msgstr "Behartu"
 #: ruleswidgetbase.ui:1156 ruleswidgetbase.ui:1356 ruleswidgetbase.ui:1407
 #: ruleswidgetbase.ui:1454 ruleswidgetbase.ui:1577 ruleswidgetbase.ui:1661
 #: ruleswidgetbase.ui:1698 ruleswidgetbase.ui:1881 ruleswidgetbase.ui:1939
+#, kde-format
 msgid "Apply Now"
 msgstr "Aplikatu orain"
 
@@ -761,11 +845,13 @@ msgstr "Aplikatu orain"
 #: ruleswidgetbase.ui:2068 ruleswidgetbase.ui:2172 ruleswidgetbase.ui:2253
 #: ruleswidgetbase.ui:2319 ruleswidgetbase.ui:2368 ruleswidgetbase.ui:2411
 #: ruleswidgetbase.ui:2447 ruleswidgetbase.ui:2535
+#, kde-format
 msgid "Force Temporarily"
 msgstr "Behartu aldi baterako"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, position)
 #: ruleswidgetbase.ui:542
+#, kde-format
 msgid "x,y"
 msgstr "x,y"
 
@@ -775,11 +861,13 @@ msgstr "x,y"
 #. i18n: ectx: property (validChars), widget (QLineEdit, maxsize)
 #: ruleswidgetbase.ui:545 ruleswidgetbase.ui:602 ruleswidgetbase.ui:1218
 #: ruleswidgetbase.ui:1260
+#, kde-format
 msgid "0123456789-+,xX:"
 msgstr "0123456789-+,xX:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_size)
 #: ruleswidgetbase.ui:552
+#, kde-format
 msgid "&Size"
 msgstr "&Tamaina"
 
@@ -787,101 +875,121 @@ msgstr "&Tamaina"
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, minsize)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, maxsize)
 #: ruleswidgetbase.ui:599 ruleswidgetbase.ui:1215 ruleswidgetbase.ui:1257
+#, kde-format
 msgid "width,height"
 msgstr "zabalera,altuera"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_maximizehoriz)
 #: ruleswidgetbase.ui:616
+#, kde-format
 msgid "Maximized &horizontally"
 msgstr "&Horizontalki maximizatuta"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_maximizevert)
 #: ruleswidgetbase.ui:667
+#, kde-format
 msgid "Maximized &vertically"
 msgstr "Be&rtikalki maximizatuta"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_desktop)
 #: ruleswidgetbase.ui:738
+#, kde-format
 msgid "&Desktop"
 msgstr "&Mahaigaina"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_activity)
 #: ruleswidgetbase.ui:802
+#, kde-format
 msgid "Activit&y"
 msgstr "Jardu&era"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fullscreen)
 #: ruleswidgetbase.ui:870
+#, kde-format
 msgid "&Fullscreen"
 msgstr "&Pantaila osoa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_minimize)
 #: ruleswidgetbase.ui:921
+#, kde-format
 msgid "M&inimized"
 msgstr "M&inimizatuta"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_shade)
 #: ruleswidgetbase.ui:972
+#, kde-format
 msgid "Sh&aded"
 msgstr "Itz&aldurarekin"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1056
+#, kde-format
 msgid "Default"
 msgstr "Lehenetsia"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1061
+#, kde-format
 msgid "No Placement"
 msgstr "Kokapenik gabe"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1066
+#, kde-format
 msgid "Smart"
 msgstr "Adimenduna"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1071
+#, kde-format
 msgid "Maximizing"
 msgstr "Maximizatu"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1076
+#, kde-format
 msgid "Cascade"
 msgstr "Turrustan"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1081
+#, kde-format
 msgid "Centered"
 msgstr "Erdiratuta"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1086
+#, kde-format
 msgid "Random"
 msgstr "Ausazkoa"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1091
+#, kde-format
 msgid "Top-Left Corner"
 msgstr "Goi-ezkerreko izkina"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1096
+#, kde-format
 msgid "Under Mouse"
 msgstr "Saguaren azpian"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1101
+#, kde-format
 msgid "On Main Window"
 msgstr "Leiho nagusiaren gainean"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_placement)
 #: ruleswidgetbase.ui:1112
+#, kde-format
 msgid "Initial p&lacement"
 msgstr "Hasierako &kokapena"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_ignoregeometry)
 #: ruleswidgetbase.ui:1122
+#, kde-format
 msgid ""
 "Windows can ask to appear in a certain position.\n"
 "By default this overrides the placement strategy\n"
@@ -895,21 +1003,25 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_ignoregeometry)
 #: ruleswidgetbase.ui:1125
+#, kde-format
 msgid "Ignore requested &geometry"
 msgstr "Ez ikusi egin eskatutako &geometriari"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_minsize)
 #: ruleswidgetbase.ui:1205
+#, kde-format
 msgid "M&inimum size"
 msgstr "&Gutxieneko tamaina"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_maxsize)
 #: ruleswidgetbase.ui:1225
+#, kde-format
 msgid "M&aximum size"
 msgstr "G&ehieneko tamaina"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_strictgeometry)
 #: ruleswidgetbase.ui:1271
+#, kde-format
 msgid ""
 "Eg. terminals or video players can ask to keep a certain aspect ratio\n"
 "or only grow by values larger than one\n"
@@ -926,21 +1038,25 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_strictgeometry)
 #: ruleswidgetbase.ui:1277
+#, kde-format
 msgid "Obey geometry restrictions"
 msgstr "Obeditu geometria murrizpenei"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_screen)
 #: ruleswidgetbase.ui:1369
+#, kde-format
 msgid "Screen"
 msgstr "Pantaila"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage4)
 #: ruleswidgetbase.ui:1377
+#, kde-format
 msgid "&Arrangement && Access"
 msgstr "&Antolamendua eta sarbidea"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_skippager)
 #: ruleswidgetbase.ui:1420
+#, kde-format
 msgid "Window shall (not) appear in the manager for virtual desktops"
 msgstr ""
 "Leihoak alegiazko mahaigainetarako kudeatzailean agertu beharko luke (ez "
@@ -948,99 +1064,117 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_skippager)
 #: ruleswidgetbase.ui:1423
+#, kde-format
 msgid "Skip pa&ger"
 msgstr "Saltatu &orrialdekatzailea"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_skiptaskbar)
 #: ruleswidgetbase.ui:1481
+#, kde-format
 msgid "Window shall (not) appear in the taskbar."
 msgstr "Leihoak ataza-barran agertu beharko luke (edo ez luke agertu beharko)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_skiptaskbar)
 #: ruleswidgetbase.ui:1484
+#, kde-format
 msgid "Skip &taskbar"
 msgstr "Saltatu a&taza-barra"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_skipswitcher)
 #: ruleswidgetbase.ui:1498
+#, kde-format
 msgid "Window shall (not) appear in the Alt+Tab list"
 msgstr ""
 "Leihoak Alt+Tab zerrendan agertu beharko luke (edo ez luke agertu beharko)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_skipswitcher)
 #: ruleswidgetbase.ui:1501
+#, kde-format
 msgid "Skip &switcher"
 msgstr "Saltatu &aldatzailea"
 
 #. i18n: ectx: property (text), widget (QPushButton, shortcut_edit)
 #: ruleswidgetbase.ui:1511
+#, kde-format
 msgid "Edit..."
 msgstr "Editatu..."
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_shortcut)
 #: ruleswidgetbase.ui:1627
+#, kde-format
 msgid "Shortcut"
 msgstr "Lasterbidea"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_above)
 #: ruleswidgetbase.ui:1725
+#, kde-format
 msgid "Keep &above"
 msgstr "Mantendu &gainean"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_autogroupfg)
 #: ruleswidgetbase.ui:1745
+#, kde-format
 msgid "Autog&roup in foreground"
 msgstr "Taldekatu automatikoki aurreko planoan"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_below)
 #: ruleswidgetbase.ui:1788
+#, kde-format
 msgid "Keep &below"
 msgstr "Mantendu &azpian"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_autogroupid)
 #: ruleswidgetbase.ui:1843
+#, kde-format
 msgid "Autogroup by I&D"
 msgstr "Taldekatu automatikoki I&Daren arabera"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_autogroup)
 #: ruleswidgetbase.ui:1850
+#, kde-format
 msgid "Autogroup with &identical"
 msgstr "Taldekatu automatikoki berd&in-berdinekin"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: ruleswidgetbase.ui:1902
+#, kde-format
 msgid "Appearance && &Fixes"
 msgstr "Itxura eta &konponketak"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_noborder)
 #: ruleswidgetbase.ui:1908
+#, kde-format
 msgid "&No titlebar and frame"
 msgstr "Titulu-barrarik eta markorik &ez"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_decocolor)
 #: ruleswidgetbase.ui:1959
+#, kde-format
 msgid "Titlebar color &scheme"
 msgstr "Titulu-barraren kolore-antolaera"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityactive)
 #: ruleswidgetbase.ui:2024
+#, kde-format
 msgid "A&ctive opacity"
 msgstr "Opakutasuna a&ktibo"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, opacityactive)
 #. i18n: ectx: property (suffix), widget (QSpinBox, opacityinactive)
 #: ruleswidgetbase.ui:2034 ruleswidgetbase.ui:2079
-#, no-c-format
+#, no-c-format, kde-format
 msgid "%"
 msgstr "%"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityinactive)
 #: ruleswidgetbase.ui:2047
+#, kde-format
 msgid "I&nactive opacity"
 msgstr "Opakutasuna i&naktibo"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_fsplevel)
 #: ruleswidgetbase.ui:2148
+#, kde-format
 msgid ""
 "KWin tries to prevent windows from taking the focus\n"
 "(\"activate\") while you're working in another window,\n"
@@ -1056,12 +1190,14 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fsplevel)
 #: ruleswidgetbase.ui:2151
+#, kde-format
 msgid "&Focus stealing prevention"
 msgstr "&Fokua hartzearen prebentzioa"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
 #: ruleswidgetbase.ui:2184 ruleswidgetbase.ui:2265
+#, kde-format
 msgctxt "no focus stealing prevention"
 msgid "None"
 msgstr "Bat ere ez"
@@ -1069,29 +1205,34 @@ msgstr "Bat ere ez"
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
 #: ruleswidgetbase.ui:2189 ruleswidgetbase.ui:2270
+#, kde-format
 msgid "Low"
 msgstr "Txikia"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
 #: ruleswidgetbase.ui:2194 ruleswidgetbase.ui:2275
+#, kde-format
 msgid "Normal"
 msgstr "Arrunta"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
 #: ruleswidgetbase.ui:2199 ruleswidgetbase.ui:2280
+#, kde-format
 msgid "High"
 msgstr "Altua"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
 #: ruleswidgetbase.ui:2204 ruleswidgetbase.ui:2285
+#, kde-format
 msgid "Extreme"
 msgstr "Muturrekoa"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_fpplevel)
 #: ruleswidgetbase.ui:2229
+#, kde-format
 msgid ""
 "This controls the focus protection of the currently active window.\n"
 "None will always give the focus away,\n"
@@ -1102,13 +1243,14 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fpplevel)
 #: ruleswidgetbase.ui:2232
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "&Focus stealing prevention"
 msgid "Focus protection"
 msgstr "&Fokua hartzearen prebentzioa"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_acceptfocus)
 #: ruleswidgetbase.ui:2295
+#, kde-format
 msgid ""
 "Windows may prevent to get the focus (activate) when being clicked.\n"
 "On the other hand you might wish to prevent a window\n"
@@ -1121,11 +1263,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_acceptfocus)
 #: ruleswidgetbase.ui:2298
+#, kde-format
 msgid "Accept &focus"
 msgstr "Onartu &fokua"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_disableglobalshortcuts)
 #: ruleswidgetbase.ui:2341
+#, kde-format
 msgid ""
 "When used, a window will receive\n"
 "all keyboard inputs while it is active, including Alt+Tab etc.\n"
@@ -1147,30 +1291,35 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_disableglobalshortcuts)
 #: ruleswidgetbase.ui:2344
+#, kde-format
 msgid "Ignore global shortcuts"
 msgstr "Ez ikusi egin lasterbide orokorrei"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_closeable)
 #: ruleswidgetbase.ui:2390
+#, kde-format
 msgid "&Closeable"
 msgstr "&Itxi daitekeena"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_type)
 #: ruleswidgetbase.ui:2426
+#, kde-format
 msgid "Window &type"
 msgstr "Leiho &mota"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_blockcompositing)
 #: ruleswidgetbase.ui:2514
+#, kde-format
 msgid "Block compositing"
 msgstr "Bloke-konposizioa"
 
 #: yesnobox.h:35
+#, kde-format
 msgid "Yes"
 msgstr ""
 
 #: yesnobox.h:36
-#, fuzzy
+#, fuzzy, kde-format
 #| msgctxt "no focus stealing prevention"
 #| msgid "None"
 msgid "No"

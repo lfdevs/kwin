@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_scripting\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-01 09:10+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2013-09-25 07:13+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -20,31 +20,36 @@ msgstr ""
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Lokalize 1.5\n"
 
+#, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Юрій Чорноіван"
 
+#, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "yurchor@ukr.net"
 
 #: genericscriptedconfig.cpp:81
+#, kde-format
 msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
 msgstr "Додатком не надано файла налаштувань за очікуваною адресою"
 
-#: scripting.cpp:127
+#: scripting.cpp:128
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
 msgstr "Помилка під час перевірки умови: %1 не є порожнім"
 
-#: scripting.cpp:145
+#: scripting.cpp:146
+#, kde-format
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
 msgstr "Помилка під час перевірки умови: аргумент є порожнім"
 
-#: scripting.cpp:172
+#: scripting.cpp:173
+#, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
 "Invalid number of arguments. At least service, path, interface and method "
@@ -53,7 +58,8 @@ msgstr ""
 "Некоректна кількість параметрів. Слід надати принаймні запис служби, шляху, "
 "інтерфейсу та методу."
 
-#: scripting.cpp:178
+#: scripting.cpp:179
+#, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
 "Invalid type. Service, path, interface and method need to be string values"
@@ -62,6 +68,7 @@ msgstr ""
 "рядковими значеннями."
 
 #: scriptingutils.cpp:28
+#, kde-format
 msgctxt "syntax error in KWin script"
 msgid "Invalid number of arguments"
 msgstr "Некоректна кількість параметрів"
@@ -79,11 +86,13 @@ msgid "%1 is not of required type"
 msgstr "%1 не належить до потрібного типу"
 
 #: scriptingutils.h:158
+#, kde-format
 msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Second argument to registerScreenEdge needs to be a callback"
 msgstr "Другим аргументом registerScreenEdge має бути зворотний виклик"
 
 #: scriptingutils.h:185
+#, kde-format
 msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Argument for registerUserActionsMenu needs to be a callback"
 msgstr "Аргументом registerUserActionsMenu має бути зворотний виклик"

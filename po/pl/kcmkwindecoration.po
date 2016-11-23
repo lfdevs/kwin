@@ -1,5 +1,5 @@
 # translation of kcmkwindecoration.po to Polish
-# Version: $Revision: 1470715 $
+# Version: $Revision: 1475203 $
 # translation of kcmkwindecoration.po to
 # Norbert Popiołek <norbert@kde.com.pl>\n"
 # Michał Rudolf <mrudolf@kdewebdev.org>, 2002.
@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-04-12 09:00+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2016-09-24 09:21+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -25,46 +25,57 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 
 #: declarative-plugin/buttonsmodel.cpp:67
+#, kde-format
 msgid "Menu"
 msgstr "Menu"
 
 #: declarative-plugin/buttonsmodel.cpp:69
+#, kde-format
 msgid "Application menu"
 msgstr "Menu programów"
 
 #: declarative-plugin/buttonsmodel.cpp:71
+#, kde-format
 msgid "On all desktops"
 msgstr "Na wszystkich pulpitach"
 
 #: declarative-plugin/buttonsmodel.cpp:73
+#, kde-format
 msgid "Minimize"
 msgstr "Minimalizuj"
 
 #: declarative-plugin/buttonsmodel.cpp:75
+#, kde-format
 msgid "Maximize"
 msgstr "Maksymalizuj"
 
 #: declarative-plugin/buttonsmodel.cpp:77
+#, kde-format
 msgid "Close"
 msgstr "Zamknij"
 
 #: declarative-plugin/buttonsmodel.cpp:79
+#, kde-format
 msgid "Context help"
 msgstr "Pomoc podręczna"
 
 #: declarative-plugin/buttonsmodel.cpp:81
+#, kde-format
 msgid "Shade"
 msgstr "Zwiń"
 
 #: declarative-plugin/buttonsmodel.cpp:83
+#, kde-format
 msgid "Keep below"
 msgstr "Zawsze pod spodem"
 
 #: declarative-plugin/buttonsmodel.cpp:85
+#, kde-format
 msgid "Keep above"
 msgstr "Zawsze na wierzchu"
 
 #: kcm.cpp:135
+#, kde-format
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
@@ -75,96 +86,114 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, theTab)
 #: kcm.ui:21
+#, kde-format
 msgid "Theme"
 msgstr "Wygląd"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
 #: kcm.ui:29
+#, kde-format
 msgid "Search"
 msgstr "Znajdź"
 
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
 #: kcm.ui:42
+#, kde-format
 msgid "Get New Decorations..."
 msgstr "Pobierz nowy wygląd..."
 
 #. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
 #: kcm.ui:54
+#, kde-format
 msgid "Close windows by double clicking &the menu button"
 msgstr "Zamykaj okna po dwukro&tnym kliknięciu na ich przycisku menu"
 
 #. i18n: ectx: property (text), widget (QLabel, borderSizesLabel)
 #: kcm.ui:95
+#, kde-format
 msgid "Border si&ze:"
 msgstr "Ro&zmiar obramowania:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:109
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Bez obramowań"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:114
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr "Bez obramowania z boku"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:119
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "Mały"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:124
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "Zwykły"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:129
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "Duży"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:134
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "Bardzo duży"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:139
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "Wielki"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:144
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "Bardzo wielki"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:149
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "Olbrzymi"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: kcm.ui:160
+#, kde-format
 msgid "Buttons"
 msgstr "Przyciski"
 
 #: qml/Buttons.qml:77
+#, kde-format
 msgid "Titlebar"
 msgstr "Pasek tytułu"
 
 #: qml/Buttons.qml:201
+#, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Wybierz żądany przycisk i upuść go na pasku tytułu"
 
 #: qml/Buttons.qml:216
+#, kde-format
 msgid "Drop here to remove button"
 msgstr "Upuść tutaj, aby usunąć przycisk"

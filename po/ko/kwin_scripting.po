@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-01 09:10+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2014-03-03 02:04+0900\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
@@ -16,31 +16,36 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Shinjo Park"
 
+#, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kde@peremen.name"
 
 #: genericscriptedconfig.cpp:81
+#, kde-format
 msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
 msgstr "플러그인의 설정 파일이 예상한 위치에 없음"
 
-#: scripting.cpp:127
+#: scripting.cpp:128
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
 msgstr "가정 실패: %1이(가) null이 아님"
 
-#: scripting.cpp:145
+#: scripting.cpp:146
+#, kde-format
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
 msgstr "가정 실패: 인자가 null임"
 
-#: scripting.cpp:172
+#: scripting.cpp:173
+#, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
 "Invalid number of arguments. At least service, path, interface and method "
@@ -48,13 +53,15 @@ msgid ""
 msgstr ""
 "인자 개수가 잘못됨. 최소한 service, path, interface, method를 지정해야 함"
 
-#: scripting.cpp:178
+#: scripting.cpp:179
+#, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
 "Invalid type. Service, path, interface and method need to be string values"
 msgstr "형식이 잘못됨. service, path, interface, method는 문자열 값이어야 함"
 
 #: scriptingutils.cpp:28
+#, kde-format
 msgctxt "syntax error in KWin script"
 msgid "Invalid number of arguments"
 msgstr "인자 개수가 잘못됨"
@@ -72,11 +79,13 @@ msgid "%1 is not of required type"
 msgstr "%1이(가) 필요한 형식이 아님"
 
 #: scriptingutils.h:158
+#, kde-format
 msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Second argument to registerScreenEdge needs to be a callback"
 msgstr "registerScreenEdge의 두 번째 인자는 callback이어야 함"
 
 #: scriptingutils.h:185
+#, kde-format
 msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Argument for registerUserActionsMenu needs to be a callback"
 msgstr "registerUserActionsMenu의 두 번째 인자는 callback이어야 함"

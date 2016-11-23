@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-07-07 12:09+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2013-12-29 22:37+0000\n"
 "Last-Translator: Samir Ribić <Unknown>\n"
 "Language-Team: bosanski <bs@li.org>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: aurorae/src/aurorae.cpp:706
-#, fuzzy
+#, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Tiny"
 msgctxt "@item:inlistbox Button size:"
@@ -33,27 +33,31 @@ msgid "Tiny"
 msgstr "sićušne"
 
 #: aurorae/src/aurorae.cpp:707
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "normalna"
 
 #: aurorae/src/aurorae.cpp:708
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "velika"
 
 #: aurorae/src/aurorae.cpp:709
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "vrlo velika"
 
 #: aurorae/src/aurorae.cpp:710
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "ogromna"
 
 #: aurorae/src/aurorae.cpp:711
-#, fuzzy
+#, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Very Huge"
 msgctxt "@item:inlistbox Button size:"
@@ -61,7 +65,7 @@ msgid "Very Huge"
 msgstr "vrlo ogromne"
 
 #: aurorae/src/aurorae.cpp:712
-#, fuzzy
+#, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Oversized"
 msgctxt "@item:inlistbox Button size:"
@@ -69,41 +73,48 @@ msgid "Oversized"
 msgstr "neizmijerne"
 
 #: aurorae/src/aurorae.cpp:715
+#, kde-format
 msgid "Button size:"
 msgstr "Veličina dugmadi:"
 
 # >> @title:window
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlastikConfigDialog)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14
+#, kde-format
 msgid "Config Dialog"
 msgstr "Dijalog za podešavanje"
 
 # >> @title:group
 #. i18n: ectx: property (title), widget (KButtonGroup, titleAlign)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:23
+#, kde-format
 msgid "Title &Alignment"
 msgstr "&Ravnanje naslova"
 
 # >> @option:radio
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignLeft)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:29
+#, kde-format
 msgid "Left"
 msgstr "lijevo"
 
 # >> @option:radio
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignCenter)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:36
+#, kde-format
 msgid "Center"
 msgstr "sredina"
 
 # >> @option:radio
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignRight)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:43
+#, kde-format
 msgid "Right"
 msgstr "desno"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_coloredBorder)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:53
+#, kde-format
 msgid ""
 "Check this option if the window border should be painted in the titlebar "
 "color. Otherwise it will be painted in the background color."
@@ -114,11 +125,13 @@ msgstr ""
 # >> @option:check
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_coloredBorder)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:56
+#, kde-format
 msgid "Colored window border"
 msgstr "Obojena ivica prozora"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_titleShadow)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:66
+#, kde-format
 msgid ""
 "Check this option if you want the titlebar text to have a 3D look with a "
 "shadow behind it."
@@ -129,11 +142,13 @@ msgstr ""
 # >> @option:check
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_titleShadow)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:69
+#, kde-format
 msgid "Use shadowed &text"
 msgstr "&Zasijenčeni tekst"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_animateButtons)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:76
+#, kde-format
 msgid ""
 "Check this option if you want the buttons to fade in when the mouse pointer "
 "hovers over them and fade out again when it moves away."
@@ -143,6 +158,7 @@ msgstr ""
 # >> @option:check
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:79
+#, kde-format
 msgid "Animate buttons"
 msgstr "Animirana dugmad"
 

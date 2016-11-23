@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-01 09:10+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2014-09-22 15:29+0200\n"
 "Last-Translator: Vít Pelčák <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -19,31 +19,36 @@ msgstr ""
 "X-Language: cs_CZ\n"
 "X-Source-Language: en_US\n"
 
+#, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Vít Pelčák"
 
+#, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "vit@pelcak.org"
 
 #: genericscriptedconfig.cpp:81
+#, kde-format
 msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
 msgstr "Modul neposkytuje soubor s nastavením na obvyklém místě"
 
-#: scripting.cpp:127
+#: scripting.cpp:128
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
 msgstr "Podmínka nesplněna: %1 je nenulový"
 
-#: scripting.cpp:145
+#: scripting.cpp:146
+#, kde-format
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
 msgstr "Podmínka nesplněna: Argument je nenulový"
 
-#: scripting.cpp:172
+#: scripting.cpp:173
+#, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
 "Invalid number of arguments. At least service, path, interface and method "
@@ -52,13 +57,15 @@ msgstr ""
 "Neplatný počet argumentů. Je potřeba poskytnout alespoň službu, cestu, "
 "rozhraní a metodu"
 
-#: scripting.cpp:178
+#: scripting.cpp:179
+#, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
 "Invalid type. Service, path, interface and method need to be string values"
 msgstr "Neplatný typ. Služba, cesta, rozhraní a metoda musí být řetězce"
 
 #: scriptingutils.cpp:28
+#, kde-format
 msgctxt "syntax error in KWin script"
 msgid "Invalid number of arguments"
 msgstr "Neplatný počet argumentů"
@@ -76,11 +83,13 @@ msgid "%1 is not of required type"
 msgstr "%1 není požadovaného typu"
 
 #: scriptingutils.h:158
+#, kde-format
 msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Second argument to registerScreenEdge needs to be a callback"
 msgstr ""
 
 #: scriptingutils.h:185
+#, kde-format
 msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Argument for registerUserActionsMenu needs to be a callback"
 msgstr ""

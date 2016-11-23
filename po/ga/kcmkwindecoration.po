@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-04-12 09:00+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -19,55 +19,62 @@ msgstr ""
 "3 : 4\n"
 
 #: declarative-plugin/buttonsmodel.cpp:67
+#, kde-format
 msgid "Menu"
 msgstr "Roghchlár"
 
 #: declarative-plugin/buttonsmodel.cpp:69
-#, fuzzy
+#, fuzzy, kde-format
 #| msgctxt "Button showing application menu imported from dbusmenu"
 #| msgid "Application Menu"
 msgid "Application menu"
 msgstr "Roghchlár Feidhmchlár"
 
 #: declarative-plugin/buttonsmodel.cpp:71
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "Ar Gach Deasc"
 
 #: declarative-plugin/buttonsmodel.cpp:73
+#, kde-format
 msgid "Minimize"
 msgstr "Íoslaghdaigh"
 
 #: declarative-plugin/buttonsmodel.cpp:75
+#, kde-format
 msgid "Maximize"
 msgstr "Uasmhéadaigh"
 
 #: declarative-plugin/buttonsmodel.cpp:77
+#, kde-format
 msgid "Close"
 msgstr "Dún"
 
 #: declarative-plugin/buttonsmodel.cpp:79
+#, kde-format
 msgid "Context help"
 msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:81
+#, kde-format
 msgid "Shade"
 msgstr "Scáthaigh"
 
 #: declarative-plugin/buttonsmodel.cpp:83
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Keep Below Others"
 msgid "Keep below"
 msgstr "Coimeád Faoi Chinn Eile"
 
 #: declarative-plugin/buttonsmodel.cpp:85
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Keep Above Others"
 msgid "Keep above"
 msgstr "Coimeád Os Cionn"
 
 #: kcm.cpp:135
+#, kde-format
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
@@ -75,36 +82,39 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, theTab)
 #: kcm.ui:21
+#, kde-format
 msgid "Theme"
 msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
 #: kcm.ui:29
+#, kde-format
 msgid "Search"
 msgstr "Cuardaigh"
 
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
 #: kcm.ui:42
+#, kde-format
 msgid "Get New Decorations..."
 msgstr "Faigh Maisiúcháin Nua..."
 
 #. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
 #: kcm.ui:54
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Close windows by double clicking the menu button"
 msgid "Close windows by double clicking &the menu button"
 msgstr "Dún fuinneoga trí dhéchliceáil ar an gcnaipe roghchláir"
 
 #. i18n: ectx: property (text), widget (QLabel, borderSizesLabel)
 #: kcm.ui:95
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Border size:"
 msgid "Border si&ze:"
 msgstr "Méid na himlíne:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:109
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Border size:"
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
@@ -112,65 +122,77 @@ msgstr "Méid na himlíne:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:114
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:119
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "An-bheag"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:124
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "Gnáthmhéid"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:129
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "Mór"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:134
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "An-Mhór"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:139
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "Ollmhór"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:144
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "Fíor-ollmhór"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:149
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "Fíor-mhórthomhais"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: kcm.ui:160
+#, kde-format
 msgid "Buttons"
 msgstr "Cnaipí"
 
 #: qml/Buttons.qml:77
+#, kde-format
 msgid "Titlebar"
 msgstr ""
 
 #: qml/Buttons.qml:201
+#, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr ""
 
 #: qml/Buttons.qml:216
+#, kde-format
 msgid "Drop here to remove button"
 msgstr ""

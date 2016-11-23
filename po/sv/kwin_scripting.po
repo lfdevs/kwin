@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-01 09:10+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2013-09-25 20:45+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -17,32 +17,37 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 1.4\n"
 
+#, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Stefan Asserhäll"
 
+#, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "stefan.asserhall@bredband.net"
 
 #: genericscriptedconfig.cpp:81
+#, kde-format
 msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
 msgstr ""
 "Insticksprogrammet tillhandahåller inte en inställningsfil på förväntad plats"
 
-#: scripting.cpp:127
+#: scripting.cpp:128
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
 msgstr "Kontroll misslyckades: %1 är inte null"
 
-#: scripting.cpp:145
+#: scripting.cpp:146
+#, kde-format
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
 msgstr "Kontroll misslyckades: argumentet är null"
 
-#: scripting.cpp:172
+#: scripting.cpp:173
+#, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
 "Invalid number of arguments. At least service, path, interface and method "
@@ -51,7 +56,8 @@ msgstr ""
 "Ogiltigt antal argument. Åtminstone tjänst, sökväg, gränssnitt och metod "
 "måste anges"
 
-#: scripting.cpp:178
+#: scripting.cpp:179
+#, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
 "Invalid type. Service, path, interface and method need to be string values"
@@ -59,6 +65,7 @@ msgstr ""
 "Ogiltigt typ. Tjänst, sökväg, gränssnitt och metod måste vara strängvärden"
 
 #: scriptingutils.cpp:28
+#, kde-format
 msgctxt "syntax error in KWin script"
 msgid "Invalid number of arguments"
 msgstr "Ogiltigt antal argument"
@@ -76,11 +83,13 @@ msgid "%1 is not of required type"
 msgstr "%1 har inte nödvändig typ"
 
 #: scriptingutils.h:158
+#, kde-format
 msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Second argument to registerScreenEdge needs to be a callback"
 msgstr "Andra argumentet till registerScreenEdge måste vara återanrop"
 
 #: scriptingutils.h:185
+#, kde-format
 msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Argument for registerUserActionsMenu needs to be a callback"
 msgstr "Argumentet till registerUserActionsMenu måste vara återanrop"

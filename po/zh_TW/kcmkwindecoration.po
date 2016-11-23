@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-04-12 09:00+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2016-09-20 10:24+0800\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
@@ -21,46 +21,57 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: declarative-plugin/buttonsmodel.cpp:67
+#, kde-format
 msgid "Menu"
 msgstr "選單"
 
 #: declarative-plugin/buttonsmodel.cpp:69
+#, kde-format
 msgid "Application menu"
 msgstr "應用程式選單"
 
 #: declarative-plugin/buttonsmodel.cpp:71
+#, kde-format
 msgid "On all desktops"
 msgstr "在所有桌面"
 
 #: declarative-plugin/buttonsmodel.cpp:73
+#, kde-format
 msgid "Minimize"
 msgstr "最小化"
 
 #: declarative-plugin/buttonsmodel.cpp:75
+#, kde-format
 msgid "Maximize"
 msgstr "最大化"
 
 #: declarative-plugin/buttonsmodel.cpp:77
+#, kde-format
 msgid "Close"
 msgstr "關閉"
 
 #: declarative-plugin/buttonsmodel.cpp:79
+#, kde-format
 msgid "Context help"
 msgstr "內容說明"
 
 #: declarative-plugin/buttonsmodel.cpp:81
+#, kde-format
 msgid "Shade"
 msgstr "陰影"
 
 #: declarative-plugin/buttonsmodel.cpp:83
+#, kde-format
 msgid "Keep below"
 msgstr "保持在下"
 
 #: declarative-plugin/buttonsmodel.cpp:85
+#, kde-format
 msgid "Keep above"
 msgstr "保持在上"
 
 #: kcm.cpp:135
+#, kde-format
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
@@ -70,96 +81,114 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, theTab)
 #: kcm.ui:21
+#, kde-format
 msgid "Theme"
 msgstr "主題"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
 #: kcm.ui:29
+#, kde-format
 msgid "Search"
 msgstr "搜尋"
 
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
 #: kcm.ui:42
+#, kde-format
 msgid "Get New Decorations..."
 msgstr "取得新裝飾..."
 
 #. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
 #: kcm.ui:54
+#, kde-format
 msgid "Close windows by double clicking &the menu button"
 msgstr "雙擊視窗選單按鈕時關閉視窗(&T)"
 
 #. i18n: ectx: property (text), widget (QLabel, borderSizesLabel)
 #: kcm.ui:95
+#, kde-format
 msgid "Border si&ze:"
 msgstr "邊界大小(&Z)："
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:109
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "沒有外框"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:114
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr "沒有邊框"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:119
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "極小"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:124
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "普通"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:129
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "大"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:134
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "非常大"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:139
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "巨大"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:144
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "非常巨大"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:149
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "超過大小"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: kcm.ui:160
+#, kde-format
 msgid "Buttons"
 msgstr "按鈕"
 
 #: qml/Buttons.qml:77
+#, kde-format
 msgid "Titlebar"
 msgstr "標題列"
 
 #: qml/Buttons.qml:201
+#, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "在這裡跟標題列間拖曳按鈕"
 
 #: qml/Buttons.qml:216
+#, kde-format
 msgid "Drop here to remove button"
 msgstr "丟在這裡以移除按鈕"

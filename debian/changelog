@@ -1,3 +1,17 @@
+kwin (4:5.8.4-1) unstable; urgency=medium
+
+  [ Maximiliano Curia ]
+  * New upstream release (5.8.4)
+  * Add breeze-dev build dependency.
+    Thanks to Martin Graesslin for the report (Closes: 842912)
+  * Bump qt buid deps and deps to 5.7
+  * kwin-x11: Add provides x-window-manager
+
+  [ Automatic packaging ]
+  * Update build-deps and deps with the info from cmake
+
+ -- Maximiliano Curia <maxy@debian.org>  Wed, 23 Nov 2016 18:36:53 +0100
+
 kwin (4:5.8.2-1) unstable; urgency=medium
 
   [ Automatic packaging ]

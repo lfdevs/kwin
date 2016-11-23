@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-04-12 09:00+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2015-10-06 21:21+0200\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -23,46 +23,57 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 
 #: declarative-plugin/buttonsmodel.cpp:67
+#, kde-format
 msgid "Menu"
 msgstr "Menú"
 
 #: declarative-plugin/buttonsmodel.cpp:69
+#, kde-format
 msgid "Application menu"
 msgstr "Menú d'aplicació"
 
 #: declarative-plugin/buttonsmodel.cpp:71
+#, kde-format
 msgid "On all desktops"
 msgstr "A tots els escriptoris"
 
 #: declarative-plugin/buttonsmodel.cpp:73
+#, kde-format
 msgid "Minimize"
 msgstr "Minimitza"
 
 #: declarative-plugin/buttonsmodel.cpp:75
+#, kde-format
 msgid "Maximize"
 msgstr "Maximitza"
 
 #: declarative-plugin/buttonsmodel.cpp:77
+#, kde-format
 msgid "Close"
 msgstr "Tanca"
 
 #: declarative-plugin/buttonsmodel.cpp:79
+#, kde-format
 msgid "Context help"
 msgstr "Ajuda contextual"
 
 #: declarative-plugin/buttonsmodel.cpp:81
+#, kde-format
 msgid "Shade"
 msgstr "Plega"
 
 #: declarative-plugin/buttonsmodel.cpp:83
+#, kde-format
 msgid "Keep below"
 msgstr "Mantén per sota"
 
 #: declarative-plugin/buttonsmodel.cpp:85
+#, kde-format
 msgid "Keep above"
 msgstr "Mantén al damunt"
 
 #: kcm.cpp:135
+#, kde-format
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
@@ -72,96 +83,114 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, theTab)
 #: kcm.ui:21
+#, kde-format
 msgid "Theme"
 msgstr "Tema"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
 #: kcm.ui:29
+#, kde-format
 msgid "Search"
 msgstr "Cerca"
 
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
 #: kcm.ui:42
+#, kde-format
 msgid "Get New Decorations..."
 msgstr "Obtén decoracions noves..."
 
 #. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
 #: kcm.ui:54
+#, kde-format
 msgid "Close windows by double clicking &the menu button"
 msgstr "&Tanca les finestres amb doble clic al botó menú"
 
 #. i18n: ectx: property (text), widget (QLabel, borderSizesLabel)
 #: kcm.ui:95
+#, kde-format
 msgid "Border si&ze:"
 msgstr "Mida de la &vora:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:109
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Sense vores"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:114
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr "Sense vores laterals"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:119
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "Minúscul"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:124
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "Normal"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:129
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "Gran"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:134
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "Molt gran"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:139
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "Enorme"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:144
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "Molt enorme"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:149
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "Fora de mida"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: kcm.ui:160
+#, kde-format
 msgid "Buttons"
 msgstr "Botons"
 
 #: qml/Buttons.qml:77
+#, kde-format
 msgid "Titlebar"
 msgstr "Barra de títol"
 
 #: qml/Buttons.qml:201
+#, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Arrossegueu els botons entre ací i la barra de títol"
 
 #: qml/Buttons.qml:216
+#, kde-format
 msgid "Drop here to remove button"
 msgstr "Deixeu anar ací per eliminar el botó"

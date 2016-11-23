@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-08-11 07:46+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2016-08-11 14:44+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -21,36 +21,44 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
+#, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Josep Ma. Ferrer"
 
+#, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "txemaq@gmail.com"
 
 #: main.cpp:187
+#, kde-format
 msgid "No Action"
 msgstr "Cap acció"
 
 #: main.cpp:188
+#, kde-format
 msgid "Show Desktop"
 msgstr "Mostra l'escriptori"
 
 #: main.cpp:189
+#, kde-format
 msgid "Lock Screen"
 msgstr "Bloqueig de la pantalla"
 
 #: main.cpp:190
+#, kde-format
 msgctxt "Open krunner"
 msgid "Run Command"
 msgstr "Executa una ordre"
 
 #: main.cpp:191
+#, kde-format
 msgid "Activity Manager"
 msgstr "Gestor d'activitats"
 
 #: main.cpp:192
+#, kde-format
 msgid "Application Launcher"
 msgstr "Llançador d'aplicacions"
 
@@ -85,20 +93,24 @@ msgid "%1 - Sphere"
 msgstr "%1 - Esfera"
 
 #: main.cpp:205
+#, kde-format
 msgid "Toggle window switching"
 msgstr "Commutar el canvi de finestres"
 
 #: main.cpp:206
+#, kde-format
 msgid "Toggle alternative window switching"
 msgstr "Commutar a un canvi de finestres alternatiu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
+#, kde-format
 msgid "Active Screen Edge Actions"
 msgstr "Accions per a les vores actives de la pantalla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
+#, kde-format
 msgid ""
 "To trigger an action push your mouse cursor against the edge of the screen "
 "in the action's direction."
@@ -108,43 +120,50 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
+#, kde-format
 msgid "Window Management"
 msgstr "Gestió de les finestres"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
+#, kde-format
 msgid "Maximize windows by dragging them to the top of the screen"
 msgstr ""
 "Maximitza les finestres arrossegant-les a la part superior de la pantalla"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
+#, kde-format
 msgid "Tile windows by dragging them to the side of the screen"
 msgstr "Posa les finestres en mosaic arrossegant-les al costat de la pantalla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
+#, kde-format
 msgid "Quarter tiling triggered in the outer"
 msgstr "La disposició en mosaic de quarts s'activa en el"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, electricBorderCornerRatio)
 #: main.ui:106
-#, no-c-format
+#, no-c-format, kde-format
 msgid "%"
 msgstr "%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: main.ui:122
+#, kde-format
 msgid "of the screen"
 msgstr "exterior de la pantalla"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:150
+#, kde-format
 msgid "Other Settings"
 msgstr "Altres arranjaments"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, desktopSwitchLabel)
 #: main.ui:162
+#, kde-format
 msgid ""
 "Change desktop when the mouse cursor is pushed against the edge of the screen"
 msgstr ""
@@ -153,27 +172,32 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, desktopSwitchLabel)
 #: main.ui:165
+#, kde-format
 msgid "&Switch desktop on edge:"
 msgstr "&Canvia d'escriptori a la vora:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:176
+#, kde-format
 msgctxt "Switch desktop on edge"
 msgid "Disabled"
 msgstr "Desactivat"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:181
+#, kde-format
 msgid "Only When Moving Windows"
 msgstr "Només en moure finestres"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:186
+#, kde-format
 msgid "Always Enabled"
 msgstr "Sempre activat"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: main.ui:194
+#, kde-format
 msgid ""
 "Amount of time required for the mouse cursor to be pushed against the edge "
 "of the screen before the action is triggered"
@@ -183,17 +207,20 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:197
+#, kde-format
 msgid "Activation &delay:"
 msgstr "Retar&d de l'activació:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, activationDelaySpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, triggerCooldownSpin)
 #: main.ui:207 main.ui:242
+#, kde-format
 msgid " ms"
 msgstr " ms"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: main.ui:226
+#, kde-format
 msgid ""
 "Amount of time required after triggering an action until the next trigger "
 "can occur"
@@ -203,5 +230,6 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:229
+#, kde-format
 msgid "&Reactivation delay:"
 msgstr "Retard de la &reactivació:"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-07-04 08:25+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2016-01-17 10:05+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -21,10 +21,12 @@ msgstr ""
 "\n"
 "\n"
 
+#, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Sveinn í Felli"
 
+#, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "sv1@fellsnet.is"
@@ -45,6 +47,7 @@ msgid "Desktop %1"
 msgstr "Skjáborð %1"
 
 #: main.cpp:87
+#, kde-format
 msgid ""
 "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual "
 "desktops you want and how these should be labeled."
@@ -53,46 +56,57 @@ msgstr ""
 "mörg sýndarskjáborð þú notar og hvernig þau eru merkt."
 
 #: main.cpp:99
+#, kde-format
 msgid "Switch to Next Desktop"
 msgstr "Á næsta skjáborð"
 
 #: main.cpp:100
+#, kde-format
 msgid "Switch to Previous Desktop"
 msgstr "Á fyrra skjáborð"
 
 #: main.cpp:101
+#, kde-format
 msgid "Switch One Desktop to the Right"
 msgstr "Eitt skjáborð til hægri"
 
 #: main.cpp:102
+#, kde-format
 msgid "Switch One Desktop to the Left"
 msgstr "Eitt skjáborð til vinstri"
 
 #: main.cpp:103
+#, kde-format
 msgid "Switch One Desktop Up"
 msgstr "Eitt skjáborð upp"
 
 #: main.cpp:104
+#, kde-format
 msgid "Switch One Desktop Down"
 msgstr "Eitt skjáborð niður"
 
 #: main.cpp:105
+#, kde-format
 msgid "Walk Through Desktops"
 msgstr ""
 
 #: main.cpp:106
+#, kde-format
 msgid "Walk Through Desktops (Reverse)"
 msgstr ""
 
 #: main.cpp:107
+#, kde-format
 msgid "Walk Through Desktop List"
 msgstr ""
 
 #: main.cpp:108
+#, kde-format
 msgid "Walk Through Desktop List (Reverse)"
 msgstr ""
 
 #: main.cpp:110 main.cpp:144 main.cpp:509 main.cpp:510
+#, kde-format
 msgid "Desktop Switching"
 msgstr "Skjáborðaskipting"
 
@@ -102,6 +116,7 @@ msgid "Switch to Desktop %1"
 msgstr "Skipta á skjáborð %1"
 
 #: main.cpp:154
+#, kde-format
 msgid "No Animation"
 msgstr "Engar hreyfingar"
 
@@ -121,52 +136,59 @@ msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
 msgstr ""
 
 #: main.cpp:604
+#, kde-format
 msgid "KWin development team"
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, desktop)
 #: main.ui:33
+#, kde-format
 msgid "Desktops"
 msgstr "Skjáborð"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:39
+#, kde-format
 msgid "Layout"
 msgstr "Framsetning"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, numberLabel)
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, numberSpinBox)
 #: main.ui:51 main.ui:64
+#, kde-format
 msgid ""
 "Here you can set how many virtual desktops you want on your KDE desktop."
 msgstr "Hér getur þú stillt hversu mörg sýndarskjáborð KDE notar."
 
 #. i18n: ectx: property (text), widget (QLabel, numberLabel)
 #: main.ui:54
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Number of desktops:"
 msgid "&Number of desktops:"
 msgstr "Fjöldi skjáborða:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:83
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Number of rows:"
 msgid "N&umber of rows:"
 msgstr "Fjöldi raða:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
 #: main.ui:103
+#, kde-format
 msgid "Desktop Names"
 msgstr "Nöfn skjáborða"
 
 #. i18n: ectx: attribute (title), widget (QWidget, switching)
 #: main.ui:136
+#, kde-format
 msgid "Switching"
 msgstr "Skipting"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, wrapAroundBox)
 #: main.ui:142
+#, kde-format
 msgid ""
 "Enable this option if you want keyboard or active desktop border navigation "
 "beyond the edge of a desktop to take you to the opposite edge of the new "
@@ -177,36 +199,43 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, wrapAroundBox)
 #: main.ui:145
+#, kde-format
 msgid "Desktop navigation wraps around"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:152
+#, kde-format
 msgid "Desktop Effect Animation"
 msgstr "Hreyfingaráhrif á skjáborði"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:164
+#, kde-format
 msgid "Animation:"
 msgstr "Hreyfingar:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, popupInfoCheckBox)
 #: main.ui:204
+#, kde-format
 msgid "Desktop Switch On-Screen Display"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, hideLabel)
 #: main.ui:222
+#, kde-format
 msgid "Duration:"
 msgstr "Tímalengd:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, popupHideSpinBox)
 #: main.ui:232
+#, kde-format
 msgid " msec"
 msgstr " msek"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
 #: main.ui:245
+#, kde-format
 msgid ""
 "Enabling this option will show a small preview of the desktop layout "
 "indicating the selected desktop."
@@ -214,15 +243,18 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
 #: main.ui:248
+#, kde-format
 msgid "Show desktop layout indicators"
 msgstr "Sýna tákn fyrir skjáborðauppsetningu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shortcutsGroupBox)
 #: main.ui:258
+#, kde-format
 msgid "Shortcuts"
 msgstr "Flýtilyklar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, allShortcutsCheckBox)
 #: main.ui:277
+#, kde-format
 msgid "Show shortcuts for all possible desktops"
 msgstr "Birta flýtilykla fyrir öll möguleg skjáborð"

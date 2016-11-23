@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-02-02 08:56+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2015-12-29 20:05+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: lt <kde-i18n-lt@kde.org>\n"
@@ -20,22 +20,26 @@ msgstr ""
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
 "X-Generator: Lokalize 1.5\n"
 
+#, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Eugenijus Paulauskas, Donatas Glodenis"
 
+#, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "eugenijus@agvila.lt, dgvirtual@akl.lt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: actions.ui:32
+#, kde-format
 msgid "M&ouse wheel:"
 msgstr "&Pelės ratukas:"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_4)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAll2)
 #: actions.ui:51 mouse.ui:358
+#, kde-format
 msgid ""
 "In this row you can customize middle click behavior when clicking into the "
 "titlebar or the frame."
@@ -47,6 +51,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:55 actions.ui:157 actions.ui:320
+#, kde-format
 msgid "Move"
 msgstr "Perkelti"
 
@@ -54,6 +59,7 @@ msgstr "Perkelti"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:60 actions.ui:162 actions.ui:325
+#, kde-format
 msgid "Activate, Raise & Move"
 msgstr "Suaktyvinti, iškelti į pirmą planą ir perkelti"
 
@@ -68,6 +74,7 @@ msgstr "Suaktyvinti, iškelti į pirmą planą ir perkelti"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:65 actions.ui:167 actions.ui:330 mouse.ui:247 mouse.ui:320
 #: mouse.ui:391 mouse.ui:464 mouse.ui:535 mouse.ui:608
+#, kde-format
 msgid "Toggle Raise & Lower"
 msgstr "Perjungti pirmą ir antrą planą"
 
@@ -75,6 +82,7 @@ msgstr "Perjungti pirmą ir antrą planą"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:70 actions.ui:172 actions.ui:335
+#, kde-format
 msgid "Resize"
 msgstr "Keisti dydį"
 
@@ -89,6 +97,7 @@ msgstr "Keisti dydį"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:75 actions.ui:177 actions.ui:340 mouse.ui:237 mouse.ui:310
 #: mouse.ui:381 mouse.ui:454 mouse.ui:525 mouse.ui:598
+#, kde-format
 msgid "Raise"
 msgstr "Į pirmą planą"
 
@@ -105,6 +114,7 @@ msgstr "Į pirmą planą"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:80 actions.ui:182 actions.ui:345 mouse.ui:80 mouse.ui:242
 #: mouse.ui:315 mouse.ui:386 mouse.ui:459 mouse.ui:530 mouse.ui:603
+#, kde-format
 msgid "Lower"
 msgstr "Žemesnis"
 
@@ -121,6 +131,7 @@ msgstr "Žemesnis"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:85 actions.ui:187 actions.ui:350 mouse.ui:70 mouse.ui:252
 #: mouse.ui:325 mouse.ui:396 mouse.ui:469 mouse.ui:540 mouse.ui:613
+#, kde-format
 msgid "Minimize"
 msgstr "Sumažinti"
 
@@ -128,6 +139,7 @@ msgstr "Sumažinti"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:90 actions.ui:192 actions.ui:355
+#, kde-format
 msgid "Decrease Opacity"
 msgstr "Sumažinti nepermatomumą"
 
@@ -135,6 +147,7 @@ msgstr "Sumažinti nepermatomumą"
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
 #: actions.ui:95 actions.ui:197 actions.ui:360
+#, kde-format
 msgid "Increase Opacity"
 msgstr "Padidinti nepermatomumą"
 
@@ -154,27 +167,32 @@ msgstr "Padidinti nepermatomumą"
 #: actions.ui:100 actions.ui:202 actions.ui:365 actions.ui:418 mouse.ui:95
 #: mouse.ui:161 mouse.ui:277 mouse.ui:350 mouse.ui:421 mouse.ui:494
 #: mouse.ui:565 mouse.ui:638
+#, kde-format
 msgid "Nothing"
 msgstr "Nieko"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: actions.ui:108
+#, kde-format
 msgid "Ri&ght button:"
 msgstr "Dešinysis klavišas:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: actions.ui:121
+#, kde-format
 msgid "&Wheel"
 msgstr "&Pelės ratukas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:134
+#, kde-format
 msgid "Middle b&utton:"
 msgstr "Vidurinis klavišas:"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_5)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAll3)
 #: actions.ui:153 mouse.ui:502
+#, kde-format
 msgid ""
 "In this row you can customize right click behavior when clicking into the "
 "titlebar or the frame."
@@ -184,16 +202,19 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: actions.ui:210
+#, kde-format
 msgid "&Left button:"
 msgstr "&Kairysis klavišas:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: actions.ui:229
+#, kde-format
 msgid "Inner Window, Titlebar & Frame"
 msgstr "Vidinis langas, antraštės juosta ir rėmelis"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWin2)
 #: actions.ui:242
+#, kde-format
 msgid ""
 "In this row you can customize middle click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
@@ -206,6 +227,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coWin1)
 #. i18n: ectx: property (text), item, widget (KComboBox, coWin3)
 #: actions.ui:246 actions.ui:449 actions.ui:482
+#, kde-format
 msgid "Activate, Raise & Pass Click"
 msgstr ""
 "Suaktyvinti, perkelti į pirmą planą ir perduoti pelės paspaudimą toliau"
@@ -214,6 +236,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coWin1)
 #. i18n: ectx: property (text), item, widget (KComboBox, coWin3)
 #: actions.ui:251 actions.ui:454 actions.ui:487
+#, kde-format
 msgid "Activate & Pass Click"
 msgstr "Suaktyvinti ir perduoti pelės paspaudimą toliau"
 
@@ -225,6 +248,7 @@ msgstr "Suaktyvinti ir perduoti pelės paspaudimą toliau"
 #. i18n: ectx: property (text), item, widget (KComboBox, coWin3)
 #: actions.ui:256 actions.ui:459 actions.ui:492 mouse.ui:305 mouse.ui:449
 #: mouse.ui:593
+#, kde-format
 msgid "Activate"
 msgstr "Suaktyvinti"
 
@@ -236,16 +260,19 @@ msgstr "Suaktyvinti"
 #. i18n: ectx: property (text), item, widget (KComboBox, coWin3)
 #: actions.ui:261 actions.ui:464 actions.ui:497 mouse.ui:295 mouse.ui:439
 #: mouse.ui:583
+#, kde-format
 msgid "Activate & Raise"
 msgstr "Suaktyvinti ir perkelti į pirmą planą"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: actions.ui:269
+#, kde-format
 msgid "&Right button:"
 msgstr "&Dešinysis klavišas:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWinWheel)
 #: actions.ui:288
+#, kde-format
 msgid ""
 "In this row you can customize behavior when scrolling into an inactive inner "
 "window ('inner' means: not titlebar, not frame)."
@@ -255,22 +282,26 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:292
+#, kde-format
 msgid "Scroll"
 msgstr "Sukti"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:297
+#, kde-format
 msgid "Activate & Scroll"
 msgstr "Suaktyvinti ir slinkti"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
 #: actions.ui:302
+#, kde-format
 msgid "Activate, Raise & Scroll"
 msgstr "Suaktyvinti, iškelti į pirmą planą ir slinkti"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_3)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAll1)
 #: actions.ui:316 mouse.ui:214
+#, kde-format
 msgid ""
 "In this row you can customize left click behavior when clicking into the "
 "titlebar or the frame."
@@ -280,6 +311,7 @@ msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAllW)
 #: actions.ui:379
+#, kde-format
 msgid ""
 "Here you can customize KDE's behavior when scrolling with the mouse wheel in "
 "a window while pressing the modifier key."
@@ -290,47 +322,55 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:383 mouse.ui:126
+#, kde-format
 msgid "Raise/Lower"
 msgstr "Pakelti/Nuleisti"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:388 mouse.ui:131
+#, kde-format
 msgid "Shade/Unshade"
 msgstr "Sutraukti/Išdidinti"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:393 mouse.ui:136
+#, kde-format
 msgid "Maximize/Restore"
 msgstr "Išdidinti/Atstatyti"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:398 mouse.ui:141
+#, kde-format
 msgid "Keep Above/Below"
 msgstr "Laikyti viršuje/apačioje"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:403 mouse.ui:146
+#, kde-format
 msgid "Move to Previous/Next Desktop"
 msgstr "Perkelti į ankstesnį/kitą darbalaukį"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:408 mouse.ui:151
+#, kde-format
 msgid "Change Opacity"
 msgstr "Keisti nepermatomumą"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
 #: actions.ui:413 mouse.ui:156
+#, kde-format
 msgid "Switch to Window Tab to the Left/Right"
 msgstr "Pereiti į lango kortelę dešiniau/kairiau"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWin1)
 #: actions.ui:445
+#, kde-format
 msgid ""
 "In this row you can customize left click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
@@ -341,6 +381,7 @@ msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coWin3)
 #: actions.ui:478
+#, kde-format
 msgid ""
 "In this row you can customize right click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
@@ -351,26 +392,31 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: actions.ui:505
+#, kde-format
 msgid "M&iddle button:"
 msgstr "V&idurinis klavišas:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: actions.ui:524
+#, kde-format
 msgid "Inactive Inner Window"
 msgstr "Neaktyvus vidinis langas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:531
+#, kde-format
 msgid "Left &button"
 msgstr "&Kairysis klavišas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:561
+#, kde-format
 msgid "Modifier &key:"
 msgstr "Modifikavimo &klavišas:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAllKey)
 #: actions.ui:571
+#, kde-format
 msgid ""
 "Here you select whether holding the Meta key or Alt key will allow you to "
 "perform the following actions."
@@ -380,36 +426,43 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllKey)
 #: actions.ui:575
+#, kde-format
 msgid "Meta"
 msgstr "Meta"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllKey)
 #: actions.ui:580
+#, kde-format
 msgid "Alt"
 msgstr "Alt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: actions.ui:603
+#, kde-format
 msgid "   + "
 msgstr "   + "
 
 #. i18n: ectx: property (title), widget (QGroupBox, wtBox)
 #: advanced.ui:43
+#, kde-format
 msgid "Window Tabbing"
 msgstr "Langų kortelės"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, inactiveTabsSkipTaskbar)
 #: advanced.ui:52
+#, kde-format
 msgid "When turned on hide all tabs that are not active from the taskbar."
 msgstr "Įjungus slepia visas neaktyvias korteles užduočių juostoje."
 
 #. i18n: ectx: property (text), widget (QCheckBox, inactiveTabsSkipTaskbar)
 #: advanced.ui:55
+#, kde-format
 msgid "Hide inactive window tabs from the taskbar"
 msgstr "Slėpti neaktyvias langų korteles užduočių juostoje"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, autogroupSimilarWindows)
 #: advanced.ui:62
+#, kde-format
 msgid ""
 "When turned on attempt to automatically detect when a newly opened window is "
 "related to an existing one and place them in the same window group."
@@ -419,11 +472,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, autogroupSimilarWindows)
 #: advanced.ui:65
+#, kde-format
 msgid "Automatically group similar windows"
 msgstr "Automatiškai rodyti panašius langus"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, autogroupInForeground)
 #: advanced.ui:72
+#, kde-format
 msgid ""
 "When turned on immediately switch to any new window tabs that were "
 "automatically added to the current group."
@@ -433,17 +488,19 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, autogroupInForeground)
 #: advanced.ui:75
+#, kde-format
 msgid "Switch to automatically grouped windows immediately"
 msgstr "Iškart perjungti į automatiškai sugrupuotus langus"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: advanced.ui:98
+#, kde-format
 msgid "&Placement:"
 msgstr "&Dėliojimas:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, placementCombo)
 #: advanced.ui:121
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid ""
 #| "The placement policy determines where a new window will appear on the "
 #| "desktop. <ul> <li><em>Smart</em> will try to achieve a minimum overlap of "
@@ -481,51 +538,61 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:125
+#, kde-format
 msgid "Smart"
 msgstr "Išradingai"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:130
+#, kde-format
 msgid "Maximizing"
 msgstr "Išdidinama"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:135
+#, kde-format
 msgid "Cascade"
 msgstr "Laiptuotai"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:140
+#, kde-format
 msgid "Random"
 msgstr "Atsitiktinai"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:145
+#, kde-format
 msgid "Centered"
 msgstr "Centre"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:150
+#, kde-format
 msgid "Zero-Cornered"
 msgstr "Zero-Cornered"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:155
+#, kde-format
 msgid "Under Mouse"
 msgstr "Po pele"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shBox)
 #: advanced.ui:166
+#, kde-format
 msgid "Shading"
 msgstr "Užtemdymas"
 
 #. i18n: ectx: property (text), widget (QLabel, shadeHoverLabel)
 #: advanced.ui:175
+#, kde-format
 msgid "Dela&y:"
 msgstr "Del&sa:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, shadeHoverOn)
 #: advanced.ui:204
+#, kde-format
 msgid ""
 "If Shade Hover is enabled, a shaded window will un-shade automatically when "
 "the mouse pointer has been over the title bar for some time."
@@ -536,11 +603,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, shadeHoverOn)
 #: advanced.ui:207
+#, kde-format
 msgid "&Enable hover"
 msgstr "&Įjungti virpėjimą"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, shadeHover)
 #: advanced.ui:214
+#, kde-format
 msgid ""
 "Sets the time in milliseconds before the window unshades when the mouse "
 "pointer goes over the shaded window."
@@ -548,20 +617,23 @@ msgstr ""
 "Nustatykite laiką, per kurį langas pradedamas rodyti pilnai, kai pelės "
 "žymeklis patenka ant lango, sudaryto tik iš antraštės juostos."
 
+#. i18n: ectx: property (suffix), widget (QSpinBox, shadeHover)
 #. i18n: ectx: property (suffix), widget (QSpinBox, delayFocus)
 #. i18n: ectx: property (suffix), widget (QSpinBox, autoRaise)
-#. i18n: ectx: property (suffix), widget (QSpinBox, shadeHover)
 #: advanced.ui:229 focus.ui:250 focus.ui:475
+#, kde-format
 msgid " ms"
 msgstr " ms"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: advanced.ui:239
+#, kde-format
 msgid "Special Windows"
 msgstr "Specialieji langai"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, hideUtilityWindowsForInactive)
 #: advanced.ui:248
+#, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
 "inactive applications will be hidden and will be shown only when the "
@@ -575,16 +647,19 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, hideUtilityWindowsForInactive)
 #: advanced.ui:251
+#, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Slėpti neaktyvių programų parankinių langus"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: focus.ui:30
+#, kde-format
 msgid "Activating windows"
 msgstr "Langų aktyvavimas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: focus.ui:69
+#, kde-format
 msgid ""
 "<b>Click To Focus</b><br>\n"
 "A window becomes active when you click into it.<br><br>\n"
@@ -598,6 +673,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: focus.ui:91
+#, kde-format
 msgid ""
 "<b>Click To Focus - Mouse Precedence</b><br>\n"
 "This is mostly the same as <i>Click To Focus</i><br><br>\n"
@@ -609,6 +685,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: focus.ui:112
+#, kde-format
 msgid ""
 "<b>Focus Follows Mouse</b><br>\n"
 "Moving the mouse onto a window will activate it.<br><br>\n"
@@ -619,6 +696,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: focus.ui:134
+#, kde-format
 msgid ""
 "<b>Focus Follows Mouse - Mouse Precedence</b><br>\n"
 "This is mostly the same as <i>Focus Follows Mouse</i><br><br>\n"
@@ -630,6 +708,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: focus.ui:158
+#, kde-format
 msgid ""
 "<b>Focus Under Mouse</b><br>\n"
 "The focus always remains on the window under the mouse.<br><br>\n"
@@ -643,6 +722,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: focus.ui:183
+#, kde-format
 msgid ""
 "<b>Focus Strictly Under Mouse</b><br>\n"
 "The focus is always on the window under the mouse - in doubt nowhere -<br>\n"
@@ -658,11 +738,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, delayFocusOnLabel)
 #: focus.ui:228
+#, kde-format
 msgid "&Delay focus by"
 msgstr "Uždelsti fokusavimą"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, delayFocus)
 #: focus.ui:247
+#, kde-format
 msgid ""
 "This is the delay after which the window the mouse pointer is over will "
 "automatically receive focus."
@@ -672,12 +754,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusStealingLabel)
 #: focus.ui:273
+#, kde-format
 msgid "Focus &stealing prevention"
 msgstr "Fokuso pavogimo prevencija"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, focusStealing)
 #: focus.ui:300
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid ""
 #| "<p>This option specifies how much KWin will try to prevent unwanted focus "
 #| "stealing caused by unexpected activation of new windows. (Note: This "
@@ -722,8 +805,8 @@ msgid ""
 msgstr ""
 "<p>Ši parinktis nurodo, kiek KWin stengsis neleisti pavogti fokuso netikėtai "
 "suaktyvinus kažkokiam langui. (Pastaba: ši parinktis neveikia nurodžius "
-"pirmojo plano taisykles „Fokusas ties pele“ ir „Fokusas griežtai ties pele“.)"
-"<ul><li><em>Jokio:</em> Prevencija neveikia, naujas langas iškart "
+"pirmojo plano taisykles „Fokusas ties pele“ ir „Fokusas griežtai ties "
+"pele“.)<ul><li><em>Jokio:</em> Prevencija neveikia, naujas langas iškart "
 "aktyvuojamas.</li> <li><em>Žemas:</em> Prevencija įjungta; kai kažkuris "
 "langas nėra pritaikytas prevencijos mechanizmui ir KWin negali patikimai "
 "nuspręsti, ar langas turi būti aktyvuotas, ar ne, langas bus aktyvuotas. Ši "
@@ -742,55 +825,65 @@ msgstr ""
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:304
+#, kde-format
 msgid "None"
 msgstr "Joks"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:309
+#, kde-format
 msgid "Low"
 msgstr "Žemas"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:314
+#, kde-format
 msgid "Medium"
 msgstr "Vidutinis"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:319
+#, kde-format
 msgid "High"
 msgstr "Aukštas"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:324
+#, kde-format
 msgid "Extreme"
 msgstr "Ekstremalus"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: focus.ui:364
+#, kde-format
 msgid "Policy"
 msgstr "Taisyklė"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: focus.ui:377
+#, kde-format
 msgid "Click"
 msgstr "Spustelėti"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: focus.ui:409
+#, kde-format
 msgid "Hover"
 msgstr "Užvesti kursorių"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: focus.ui:434
+#, kde-format
 msgid "Raising windows"
 msgstr "Langų pakėlimas"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, autoRaiseOn)
 #: focus.ui:443
+#, kde-format
 msgid ""
 "When this option is enabled, a window in the background will automatically "
 "come to the front when the mouse pointer has been over it for some time."
@@ -800,11 +893,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoRaiseOn)
 #: focus.ui:446
+#, kde-format
 msgid "&Raise on hover, delayed by"
 msgstr "&Pakelti užvedus kursorių, palaukus"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, autoRaise)
 #: focus.ui:472
+#, kde-format
 msgid ""
 "This is the delay after which the window that the mouse pointer is over will "
 "automatically come to the front."
@@ -814,6 +909,7 @@ msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, clickRaiseOn)
 #: focus.ui:494
+#, kde-format
 msgid ""
 "When this option is enabled, the active window will be brought to the front "
 "when you click somewhere into the window contents. To change it for inactive "
@@ -825,16 +921,19 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, clickRaiseOn)
 #: focus.ui:497
+#, kde-format
 msgid "C&lick raises active window"
 msgstr "Spragte&lėjimas pakelia aktyvų langą"
 
 #. i18n: ectx: property (title), widget (QGroupBox, multiscreenBox)
 #: focus.ui:520
+#, kde-format
 msgid "Multiscreen behaviour"
 msgstr "Kelių ekranų elgsena"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, separateScreenFocus)
 #: focus.ui:529
+#, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
 "Xinerama screen"
@@ -844,12 +943,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, separateScreenFocus)
 #: focus.ui:532
+#, kde-format
 msgid "S&eparate screen focus"
 msgstr "F&okusavimas ekranuose atskirai"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, activeMouseScreen)
 #: focus.ui:539
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid ""
 #| "When this option is enabled, the active Xinerama screen (where new "
 #| "windows appear, for example) is the screen containing the mouse pointer. "
@@ -872,74 +972,92 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, activeMouseScreen)
 #: focus.ui:542
+#, kde-format
 msgid "Active screen follows &mouse"
 msgstr "Aktyvus ekranas seka &pelę"
 
 #: main.cpp:78
+#, kde-format
 msgid "&Focus"
 msgstr "&Fokusas"
 
 #: main.cpp:83 main.cpp:191
+#, kde-format
 msgid "&Titlebar Actions"
 msgstr "An&traštės juostos veiksmai"
 
 #: main.cpp:88 main.cpp:196
+#, kde-format
 msgid "Window Actio&ns"
 msgstr "Lango &veiksmai"
 
 #: main.cpp:93
+#, kde-format
 msgid "&Moving"
 msgstr "Perkėli&mas"
 
 #: main.cpp:98
+#, kde-format
 msgid "Ad&vanced"
 msgstr "Pa&pildomai"
 
 #: main.cpp:102
+#, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "Langų elgsenos konfigūravimo modulis"
 
 #: main.cpp:104
+#, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "(c) 1997 - 2002 KWin ir KControl autoriai"
 
 #: main.cpp:106
+#, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
 #: main.cpp:107
+#, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
 #: main.cpp:108
+#, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
 #: main.cpp:109
+#, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
 #: main.cpp:110
+#, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
 #: main.cpp:111
+#, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
 #: main.cpp:112
+#, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
 #: main.cpp:113
+#, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
 #: main.cpp:114
+#, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
 #: main.cpp:166
+#, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
 "when being moved, resized or clicked on. You can also specify a focus policy "
@@ -958,28 +1076,33 @@ msgstr ""
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.cpp:194 mouse.ui:55
+#, kde-format
 msgid "Maximize"
 msgstr "Išdidinti"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.cpp:195 mouse.ui:60
+#, kde-format
 msgid "Maximize (vertical only)"
 msgstr "Išdidinti (tik vertikaliai)"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.cpp:196 mouse.ui:65
+#, kde-format
 msgid "Maximize (horizontal only)"
 msgstr "Išdidinti (tik horizontaliai)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: mouse.ui:32
+#, kde-format
 msgid "&Double-click:"
 msgstr "&Dvigubas spustelėjimas:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiDbl)
 #: mouse.ui:51
+#, kde-format
 msgid "Behavior on <em>double</em> click into the titlebar."
 msgstr "<em>Dvigubo</em> paspaudimo poveikis antraštės juostai."
 
@@ -991,8 +1114,9 @@ msgstr "<em>Dvigubo</em> paspaudimo poveikis antraštės juostai."
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct2)
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct3)
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
-#: mouse.ui:75 mouse.ui:257 mouse.ui:330 mouse.ui:401 mouse.ui:474
-#: mouse.ui:545 mouse.ui:618
+#: mouse.ui:75 mouse.ui:257 mouse.ui:330 mouse.ui:401 mouse.ui:474 mouse.ui:545
+#: mouse.ui:618
+#, kde-format
 msgid "Shade"
 msgstr "Užtemdyti"
 
@@ -1004,29 +1128,34 @@ msgstr "Užtemdyti"
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct2)
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct3)
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
-#: mouse.ui:85 mouse.ui:262 mouse.ui:335 mouse.ui:406 mouse.ui:479
-#: mouse.ui:550 mouse.ui:623
+#: mouse.ui:85 mouse.ui:262 mouse.ui:335 mouse.ui:406 mouse.ui:479 mouse.ui:550
+#: mouse.ui:623
+#, kde-format
 msgid "Close"
 msgstr "Užverti"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
 #: mouse.ui:90
+#, kde-format
 msgid "On All Desktops"
 msgstr "Visuose darbalaukiuose"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mouse.ui:103
+#, kde-format
 msgid "Wheel event:"
 msgstr "Ratuko įvykis:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct4)
 #: mouse.ui:122
+#, kde-format
 msgid "Handle mouse wheel events"
 msgstr "Tvarkyti pelės ratuko įvykius"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_6)
 #: mouse.ui:182
+#, kde-format
 msgid ""
 "In this column you can customize mouse clicks into the titlebar or the frame "
 "of an active window."
@@ -1036,11 +1165,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: mouse.ui:185
+#, kde-format
 msgid "Active"
 msgstr "Aktyvi"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_7)
 #: mouse.ui:201
+#, kde-format
 msgid ""
 "In this column you can customize mouse clicks into the titlebar or the frame "
 "of an inactive window."
@@ -1050,17 +1181,20 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: mouse.ui:204
+#, kde-format
 msgid "Inactive"
 msgstr "Neaktyvus"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: mouse.ui:217 mouse.ui:658
+#, kde-format
 msgid "Left button:"
 msgstr "Kairysis klavišas:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct1)
 #: mouse.ui:233
+#, kde-format
 msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an <em>active</"
 "em> window."
@@ -1076,6 +1210,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
 #: mouse.ui:267 mouse.ui:340 mouse.ui:411 mouse.ui:484 mouse.ui:555
 #: mouse.ui:628
+#, kde-format
 msgid "Operations Menu"
 msgstr "Operacijų meniu"
 
@@ -1087,6 +1222,7 @@ msgstr "Operacijų meniu"
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
 #: mouse.ui:272 mouse.ui:345 mouse.ui:416 mouse.ui:489 mouse.ui:560
 #: mouse.ui:633
+#, kde-format
 msgid "Start Window Tab Drag"
 msgstr "Pradėti lango kortelės pertempimą"
 
@@ -1094,6 +1230,7 @@ msgstr "Pradėti lango kortelės pertempimą"
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiInAct2)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiInAct3)
 #: mouse.ui:291 mouse.ui:435 mouse.ui:579
+#, kde-format
 msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an "
 "<em>inactive</em> window."
@@ -1105,17 +1242,20 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct2)
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
 #: mouse.ui:300 mouse.ui:444 mouse.ui:588
+#, kde-format
 msgid "Activate & Lower"
 msgstr "Suaktyvinti ir pašalinti iš pirmo plano"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: mouse.ui:361 mouse.ui:674
+#, kde-format
 msgid "Middle button:"
 msgstr "Vidurinis klavišas:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct2)
 #: mouse.ui:377
+#, kde-format
 msgid ""
 "Behavior on <em>middle</em> click into the titlebar or frame of an "
 "<em>active</em> window."
@@ -1126,11 +1266,13 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: mouse.ui:505 mouse.ui:690
+#, kde-format
 msgid "Right button:"
 msgstr "Dešinysis klavišas:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct3)
 #: mouse.ui:521
+#, kde-format
 msgid ""
 "Behavior on <em>right</em> click into the titlebar or frame of an "
 "<em>active</em> window."
@@ -1141,38 +1283,45 @@ msgstr ""
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_10)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, leftClickMaximizeButton)
 #: mouse.ui:655 mouse.ui:709
+#, kde-format
 msgid "Behavior on <em>left</em> click onto the maximize button."
 msgstr "<em>Kairiojo</em> paspaudimo poveikis paspaudus išdidinimo mygtuką."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_9)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, middleClickMaximizeButton)
 #: mouse.ui:671 mouse.ui:722
+#, kde-format
 msgid "Behavior on <em>middle</em> click onto the maximize button."
 msgstr "<em>Viduriniojo</em> paspaudimo poveikis paspaudus išdidinimo mygtuką."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_8)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, rightClickMaximizeButton)
 #: mouse.ui:687 mouse.ui:735
+#, kde-format
 msgid "Behavior on <em>right</em> click onto the maximize button."
 msgstr "<em>Dešiniojo</em> paspaudimo poveikis paspaudus išdidinimo mygtuką."
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: mouse.ui:770
+#, kde-format
 msgid "Titlebar & Frame"
 msgstr "Antraštės juosta ir rėmelis"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: mouse.ui:783
+#, kde-format
 msgid "Titlebar"
 msgstr "Antraštės juosta"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: mouse.ui:796
+#, kde-format
 msgid "Maximize Button"
 msgstr "Išdidinimo mygtukas"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, OverlapSnap)
 #: moving.ui:32
+#, kde-format
 msgid ""
 "Here you can set that windows will be only snapped if you try to overlap "
 "them, i.e. they will not be snapped if the windows comes only near another "
@@ -1184,11 +1333,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, OverlapSnap)
 #: moving.ui:35
+#, kde-format
 msgid "Snap windows onl&y when overlapping"
 msgstr "Pritraukti langus tik kai jie persi&dengia"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, centerSnap)
 #: moving.ui:55
+#, kde-format
 msgid ""
 "Here you can set the snap zone for the screen center, i.e. the 'strength' of "
 "the magnetic field which will make windows snap to the center of the screen "
@@ -1202,26 +1353,31 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, windowSnap)
 #. i18n: ectx: property (suffix), widget (QSpinBox, borderSnap)
 #: moving.ui:67 moving.ui:134 moving.ui:162
+#, kde-format
 msgid " pixel"
 msgstr " pikselis"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, centerSnap)
 #: moving.ui:70
+#, kde-format
 msgid "no center snap zone"
 msgstr "ne centrinės pritraukimo zonos"
 
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
 #: moving.ui:90
+#, kde-format
 msgid "&Border snap zone:"
 msgstr "&Rėmelio traukos zona:"
 
 #. i18n: ectx: property (text), widget (QLabel, centerSnapLabel)
 #: moving.ui:103
+#, kde-format
 msgid "&Center snap zone:"
 msgstr "&Centruoti traukos zoną:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, windowSnap)
 #: moving.ui:122
+#, kde-format
 msgid ""
 "Here you can set the snap zone for windows, i.e. the 'strength' of the "
 "magnetic field which will make windows snap to each other when they are "
@@ -1232,11 +1388,13 @@ msgstr ""
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, windowSnap)
 #: moving.ui:137
+#, kde-format
 msgid "no window snap zone"
 msgstr "be lango pritraukimo zonos"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, borderSnap)
 #: moving.ui:150
+#, kde-format
 msgid ""
 "Here you can set the snap zone for screen borders, i.e. the 'strength' of "
 "the magnetic field which will make windows snap to the border when moved "
@@ -1247,11 +1405,13 @@ msgstr ""
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, borderSnap)
 #: moving.ui:165
+#, kde-format
 msgid "no border snap zone"
 msgstr "be rėmo pritraukimo zonos"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, geometryTipOn)
 #: moving.ui:172
+#, kde-format
 msgid ""
 "Enable this option if you want a window's geometry to be displayed while it "
 "is being moved or resized. The window position relative to the top-left "
@@ -1263,20 +1423,24 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, geometryTipOn)
 #: moving.ui:175
+#, kde-format
 msgid "Display window &geometry when moving or resizing"
 msgstr "Rodyti lango &geometriją langus perstumiant ar keičiant jų dydį"
 
 #. i18n: ectx: property (text), widget (QLabel, windowSnapLabel)
 #: moving.ui:182
+#, kde-format
 msgid "&Window snap zone:"
 msgstr "&Lango traukos zona:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: moving.ui:221
+#, kde-format
 msgid "Windows"
 msgstr "Langai"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: moving.ui:234
+#, kde-format
 msgid "Snap Zones"
 msgstr "Traukos zonos"

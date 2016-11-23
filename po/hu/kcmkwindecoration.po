@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-04-12 09:00+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2015-04-15 09:39+0200\n"
 "Last-Translator: Kristóf Kiszel <ulysses@kubuntu.org>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -19,46 +19,57 @@ msgstr ""
 "X-Generator: Lokalize 1.5\n"
 
 #: declarative-plugin/buttonsmodel.cpp:67
+#, kde-format
 msgid "Menu"
 msgstr "Menü"
 
 #: declarative-plugin/buttonsmodel.cpp:69
+#, kde-format
 msgid "Application menu"
 msgstr "Alkalmazásmenü"
 
 #: declarative-plugin/buttonsmodel.cpp:71
+#, kde-format
 msgid "On all desktops"
 msgstr "Az összes asztalra"
 
 #: declarative-plugin/buttonsmodel.cpp:73
+#, kde-format
 msgid "Minimize"
 msgstr "Minimalizálás"
 
 #: declarative-plugin/buttonsmodel.cpp:75
+#, kde-format
 msgid "Maximize"
 msgstr "Maximalizálás"
 
 #: declarative-plugin/buttonsmodel.cpp:77
+#, kde-format
 msgid "Close"
 msgstr "Bezárás"
 
 #: declarative-plugin/buttonsmodel.cpp:79
+#, kde-format
 msgid "Context help"
 msgstr "Helyi súgó"
 
 #: declarative-plugin/buttonsmodel.cpp:81
+#, kde-format
 msgid "Shade"
 msgstr "Felgördítés"
 
 #: declarative-plugin/buttonsmodel.cpp:83
+#, kde-format
 msgid "Keep below"
 msgstr "Mindig alul"
 
 #: declarative-plugin/buttonsmodel.cpp:85
+#, kde-format
 msgid "Keep above"
 msgstr "Mindig felül"
 
 #: kcm.cpp:135
+#, kde-format
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
@@ -68,22 +79,25 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, theTab)
 #: kcm.ui:21
+#, kde-format
 msgid "Theme"
 msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
 #: kcm.ui:29
+#, kde-format
 msgid "Search"
 msgstr "Keresés"
 
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
 #: kcm.ui:42
+#, kde-format
 msgid "Get New Decorations..."
 msgstr "Új dekorációk letöltése…"
 
 #. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
 #: kcm.ui:54
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Close windows by double clicking &the menu button:"
 msgid "Close windows by double clicking &the menu button"
 msgstr ""
@@ -91,76 +105,90 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, borderSizesLabel)
 #: kcm.ui:95
+#, kde-format
 msgid "Border si&ze:"
 msgstr "S&zegélyméret:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:109
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Nincsenek szegélyek"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:114
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr "Nincsenek oldalszegélyek"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:119
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
 msgstr "Kicsi"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:124
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "Normál"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:129
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
 msgstr "Nagy"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:134
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "Nagyon nagy"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:139
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
 msgstr "Hatalmas"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:144
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "Óriási"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:149
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "Túlméretezett"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: kcm.ui:160
+#, kde-format
 msgid "Buttons"
 msgstr "Nyomógombok"
 
 #: qml/Buttons.qml:77
+#, kde-format
 msgid "Titlebar"
 msgstr "Címsor"
 
 #: qml/Buttons.qml:201
+#, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Húzza a gombokat a itt és a címsor között"
 
 #: qml/Buttons.qml:216
+#, kde-format
 msgid "Drop here to remove button"
 msgstr "Ejtse ide a gomb eltávolításához"

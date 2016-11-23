@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-04-12 09:00+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2004-07-03 22:37+0100\n"
 "Last-Translator: KD at KGyfieithu <kyfieithu@dotmon.com>\n"
 "Language-Team: Cymraeg <cy@li.org>\n"
@@ -19,52 +19,60 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: declarative-plugin/buttonsmodel.cpp:67
+#, kde-format
 msgid "Menu"
 msgstr "Dewislen"
 
 #: declarative-plugin/buttonsmodel.cpp:69
+#, kde-format
 msgid "Application menu"
 msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:71
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "Ar Bob Penbwrdd"
 
 #: declarative-plugin/buttonsmodel.cpp:73
+#, kde-format
 msgid "Minimize"
 msgstr "Lleihau"
 
 #: declarative-plugin/buttonsmodel.cpp:75
+#, kde-format
 msgid "Maximize"
 msgstr "Ehangu"
 
 #: declarative-plugin/buttonsmodel.cpp:77
+#, kde-format
 msgid "Close"
 msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:79
+#, kde-format
 msgid "Context help"
 msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:81
+#, kde-format
 msgid "Shade"
 msgstr "Rholio"
 
 #: declarative-plugin/buttonsmodel.cpp:83
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Keep Below Others"
 msgid "Keep below"
 msgstr "Cadw Dan y Lleill"
 
 #: declarative-plugin/buttonsmodel.cpp:85
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Keep Above Others"
 msgid "Keep above"
 msgstr "Cadw Uwchben y Lleill"
 
 #: kcm.cpp:135
+#, kde-format
 msgid ""
 "Close by double clicking:\n"
 " To open the menu, keep the button pressed until it appears."
@@ -72,48 +80,52 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, theTab)
 #: kcm.ui:21
+#, kde-format
 msgid "Theme"
 msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
 #: kcm.ui:29
+#, kde-format
 msgid "Search"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
 #: kcm.ui:42
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "&Window Decoration"
 msgid "Get New Decorations..."
 msgstr "Addurniad &Ffenestr"
 
 #. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
 #: kcm.ui:54
+#, kde-format
 msgid "Close windows by double clicking &the menu button"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, borderSizesLabel)
 #: kcm.ui:95
-#, fuzzy
+#, fuzzy, kde-format
 msgid "Border si&ze:"
 msgstr "Maint ffin: Bach Iawn"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:109
-#, fuzzy
+#, fuzzy, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
 msgstr "Maint ffin: Bach Iawn"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:114
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:119
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Tiny"
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
@@ -121,7 +133,7 @@ msgstr "Pitw"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:124
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Normal"
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
@@ -129,7 +141,7 @@ msgstr "Arferol"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:129
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Large"
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
@@ -137,14 +149,14 @@ msgstr "Mawr"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:134
-#, fuzzy
+#, fuzzy, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
 msgstr "Maint ffin: Mawr Iawn"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:139
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Huge"
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
@@ -152,31 +164,35 @@ msgstr "Anferth"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:144
-#, fuzzy
+#, fuzzy, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "Maint ffin: Mawr Iawn"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:149
-#, fuzzy
+#, fuzzy, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
 msgstr "Newid maint"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: kcm.ui:160
+#, kde-format
 msgid "Buttons"
 msgstr "Botymau"
 
 #: qml/Buttons.qml:77
+#, kde-format
 msgid "Titlebar"
 msgstr ""
 
 #: qml/Buttons.qml:201
+#, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr ""
 
 #: qml/Buttons.qml:216
+#, kde-format
 msgid "Drop here to remove button"
 msgstr ""

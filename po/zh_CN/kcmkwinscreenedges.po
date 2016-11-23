@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-08-11 07:46+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2016-10-04 11:50-0800\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
@@ -23,36 +23,44 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Lokalize 2.0\n"
 
+#, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "KDE 中国, Feng Chao"
 
+#, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kde-china@kde.org, chaofeng111@gmail.com"
 
 #: main.cpp:187
+#, kde-format
 msgid "No Action"
 msgstr "无动作"
 
 #: main.cpp:188
+#, kde-format
 msgid "Show Desktop"
 msgstr "显示桌面"
 
 #: main.cpp:189
+#, kde-format
 msgid "Lock Screen"
 msgstr "锁定屏幕"
 
 #: main.cpp:190
+#, kde-format
 msgctxt "Open krunner"
 msgid "Run Command"
 msgstr "运行命令"
 
 #: main.cpp:191
+#, kde-format
 msgid "Activity Manager"
 msgstr "活动管理器"
 
 #: main.cpp:192
+#, kde-format
 msgid "Application Launcher"
 msgstr "程序启动器"
 
@@ -87,20 +95,24 @@ msgid "%1 - Sphere"
 msgstr "%1 - 球体"
 
 #: main.cpp:205
+#, kde-format
 msgid "Toggle window switching"
 msgstr "触发窗口切换"
 
 #: main.cpp:206
+#, kde-format
 msgid "Toggle alternative window switching"
 msgstr "触发额外窗口切换"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
+#, kde-format
 msgid "Active Screen Edge Actions"
 msgstr "触发屏幕边缘动作"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
+#, kde-format
 msgid ""
 "To trigger an action push your mouse cursor against the edge of the screen "
 "in the action's direction."
@@ -108,69 +120,81 @@ msgstr "要触发动作，请将您的鼠标光标放置到屏幕边缘。"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
+#, kde-format
 msgid "Window Management"
 msgstr "窗口管理"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
+#, kde-format
 msgid "Maximize windows by dragging them to the top of the screen"
 msgstr "将窗口拖曳到屏幕上方即可最大化"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
+#, kde-format
 msgid "Tile windows by dragging them to the side of the screen"
 msgstr "将窗口拖曳到屏幕侧边即可平铺"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
+#, kde-format
 msgid "Quarter tiling triggered in the outer"
 msgstr "触发四分之一平铺在屏幕外部"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, electricBorderCornerRatio)
 #: main.ui:106
-#, no-c-format
+#, no-c-format, kde-format
 msgid "%"
 msgstr "%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: main.ui:122
+#, kde-format
 msgid "of the screen"
 msgstr "的部分"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:150
+#, kde-format
 msgid "Other Settings"
 msgstr "其它设置"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, desktopSwitchLabel)
 #: main.ui:162
+#, kde-format
 msgid ""
 "Change desktop when the mouse cursor is pushed against the edge of the screen"
 msgstr "当鼠标光标放置在屏幕边缘时切换桌面"
 
 #. i18n: ectx: property (text), widget (QLabel, desktopSwitchLabel)
 #: main.ui:165
+#, kde-format
 msgid "&Switch desktop on edge:"
 msgstr "在屏幕边缘时切换桌面(&S)："
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:176
+#, kde-format
 msgctxt "Switch desktop on edge"
 msgid "Disabled"
 msgstr "已禁用"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:181
+#, kde-format
 msgid "Only When Moving Windows"
 msgstr "仅当移动窗口时"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:186
+#, kde-format
 msgid "Always Enabled"
 msgstr "总是启用"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: main.ui:194
+#, kde-format
 msgid ""
 "Amount of time required for the mouse cursor to be pushed against the edge "
 "of the screen before the action is triggered"
@@ -178,17 +202,20 @@ msgstr "当鼠标在屏幕边缘处驻留时，触发动作前应等待的时间
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:197
+#, kde-format
 msgid "Activation &delay:"
 msgstr "触发延迟(&D)："
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, activationDelaySpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, triggerCooldownSpin)
 #: main.ui:207 main.ui:242
+#, kde-format
 msgid " ms"
 msgstr " 毫秒"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: main.ui:226
+#, kde-format
 msgid ""
 "Amount of time required after triggering an action until the next trigger "
 "can occur"
@@ -196,5 +223,6 @@ msgstr "在一个动作被触发后，允许触发下一个动作前的等待时
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:229
+#, kde-format
 msgid "&Reactivation delay:"
 msgstr "重新触发延迟(&R)："

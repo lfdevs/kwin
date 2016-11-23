@@ -410,6 +410,8 @@ void Client::createDecoration(const QRect& oldgeom)
                 emit geometryShapeChanged(this, oldgeom);
             }
         );
+        connect(decoratedClient()->decoratedClient(), &KDecoration2::DecoratedClient::widthChanged, this, &Client::updateInputWindow);
+        connect(decoratedClient()->decoratedClient(), &KDecoration2::DecoratedClient::heightChanged, this, &Client::updateInputWindow);
     }
     setDecoration(decoration);
 
@@ -1415,9 +1417,9 @@ void Client::fetchName()
 QString Client::readName() const
 {
     if (info->name() && info->name()[0] != '\0')
-        return QString::fromUtf8(info->name());
+        return QString::fromUtf8(info->name()).simplified();
     else
-        return KWindowSystem::readNameProperty(window(), XCB_ATOM_WM_NAME);
+        return KWindowSystem::readNameProperty(window(), XCB_ATOM_WM_NAME).simplified();
 }
 
 // The list is taken from http://www.unicode.org/reports/tr9/ (#154840)

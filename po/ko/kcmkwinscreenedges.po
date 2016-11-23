@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
+# Shinjo Park <kde@peremen.name>, 2009, 2010, 2012, 2013, 2014, 2016.
 #
-# Shinjo Park <kde@peremen.name>, 2009, 2010, 2012, 2013, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-08-11 07:46+0000\n"
-"PO-Revision-Date: 2014-08-23 23:42+0900\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
+"PO-Revision-Date: 2016-10-20 21:05+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
 "Language: ko\n"
@@ -15,40 +15,48 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
+#, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Shinjo Park"
 
+#, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kde@peremen.name"
 
 #: main.cpp:187
+#, kde-format
 msgid "No Action"
 msgstr "동작 없음"
 
 #: main.cpp:188
+#, kde-format
 msgid "Show Desktop"
 msgstr "데스크톱 보이기"
 
 #: main.cpp:189
+#, kde-format
 msgid "Lock Screen"
 msgstr "잠금 화면"
 
 #: main.cpp:190
+#, kde-format
 msgctxt "Open krunner"
 msgid "Run Command"
-msgstr ""
+msgstr "명령 실행"
 
 #: main.cpp:191
+#, kde-format
 msgid "Activity Manager"
-msgstr ""
+msgstr "활동 관리자"
 
 #: main.cpp:192
+#, kde-format
 msgid "Application Launcher"
-msgstr ""
+msgstr "프로그램 실행기"
 
 #: main.cpp:196
 #, kde-format
@@ -81,20 +89,24 @@ msgid "%1 - Sphere"
 msgstr "%1 - 구"
 
 #: main.cpp:205
+#, kde-format
 msgid "Toggle window switching"
 msgstr "창 전환 사용/사용 안 함"
 
 #: main.cpp:206
+#, kde-format
 msgid "Toggle alternative window switching"
 msgstr "대체 창 전환 사용/사용 안 함"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
+#, kde-format
 msgid "Active Screen Edge Actions"
 msgstr "활성 화면 경계 동작"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
+#, kde-format
 msgid ""
 "To trigger an action push your mouse cursor against the edge of the screen "
 "in the action's direction."
@@ -102,69 +114,81 @@ msgstr "동작을 실행하려면 화면의 원하는 쪽 경계로 마우스를
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
+#, kde-format
 msgid "Window Management"
 msgstr "창 관리"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
+#, kde-format
 msgid "Maximize windows by dragging them to the top of the screen"
 msgstr "화면 위로 창을 끌어서 최대화하기"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
+#, kde-format
 msgid "Tile windows by dragging them to the side of the screen"
 msgstr "화면 옆쪽으로 창을 끌어서 바둑판식으로 배열하기"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
+#, kde-format
 msgid "Quarter tiling triggered in the outer"
 msgstr "화면 외부의"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, electricBorderCornerRatio)
 #: main.ui:106
-#, no-c-format
+#, no-c-format, kde-format
 msgid "%"
 msgstr "%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: main.ui:122
+#, kde-format
 msgid "of the screen"
 msgstr "다음 비율에서 사각형 타일 트리거됨"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:150
+#, kde-format
 msgid "Other Settings"
 msgstr "기타 설정"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, desktopSwitchLabel)
 #: main.ui:162
+#, kde-format
 msgid ""
 "Change desktop when the mouse cursor is pushed against the edge of the screen"
 msgstr "화면 경계선 쪽으로 마우스 커서를 밀 때 데스크톱 바꾸기"
 
 #. i18n: ectx: property (text), widget (QLabel, desktopSwitchLabel)
 #: main.ui:165
+#, kde-format
 msgid "&Switch desktop on edge:"
 msgstr "경계면에서 데스크톱 바꾸기(&S):"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:176
+#, kde-format
 msgctxt "Switch desktop on edge"
 msgid "Disabled"
 msgstr "사용 안 함"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:181
+#, kde-format
 msgid "Only When Moving Windows"
 msgstr "창을 이동할 때만"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:186
+#, kde-format
 msgid "Always Enabled"
 msgstr "항상 사용함"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: main.ui:194
+#, kde-format
 msgid ""
 "Amount of time required for the mouse cursor to be pushed against the edge "
 "of the screen before the action is triggered"
@@ -172,17 +196,20 @@ msgstr "마우스 커서를 다음 시간 이상 밀고 있으면 동작이 활�
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:197
+#, kde-format
 msgid "Activation &delay:"
 msgstr "지연 시간(&D):"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, activationDelaySpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, triggerCooldownSpin)
 #: main.ui:207 main.ui:242
+#, kde-format
 msgid " ms"
 msgstr " 밀리초"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: main.ui:226
+#, kde-format
 msgid ""
 "Amount of time required after triggering an action until the next trigger "
 "can occur"
@@ -190,5 +217,6 @@ msgstr "동작이 실행된 이후 다음 동작이 실행될 때까지 기다�
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:229
+#, kde-format
 msgid "&Reactivation delay:"
 msgstr "재활성화 지연 시간(&D):"

@@ -60,6 +60,7 @@ private Q_SLOTS:
     void testMaximizedToFullscreen();
     void testWindowOpensLargerThanScreen_data();
     void testWindowOpensLargerThanScreen();
+    void testCaptionSimplified();
 };
 
 void TestShellClient::initTestCase()
@@ -333,6 +334,7 @@ void TestShellClient::testFullscreen()
     QVERIFY(!c->isFullScreen());
     QCOMPARE(c->clientSize(), QSize(100, 50));
     QCOMPARE(c->isDecorated(), decoMode == ServerSideDecoration::Mode::Server);
+    QCOMPARE(c->sizeForClientSize(c->clientSize()), c->geometry().size());
     QSignalSpy fullscreenChangedSpy(c, &ShellClient::fullScreenChanged);
     QVERIFY(fullscreenChangedSpy.isValid());
     QSignalSpy geometryChangedSpy(c, &ShellClient::geometryChanged);
@@ -542,6 +544,21 @@ void TestShellClient::testWindowOpensLargerThanScreen()
     QVERIFY(c->isDecorated());
     QEXPECT_FAIL("", "BUG 366632", Continue);
     QVERIFY(sizeChangeRequestedSpy.wait());
+}
+
+void TestShellClient::testCaptionSimplified()
+{
+    // this test verifies that caption is properly trimmed
+    // see BUG 323798 comment #12
+    QScopedPointer<Surface> surface(Test::createSurface());
+    // only done for xdg-shell as ShellSurface misses the setter
+    QScopedPointer<XdgShellSurface> shellSurface(qobject_cast<XdgShellSurface*>(Test::createShellSurface(Test::ShellSurfaceType::XdgShellV5, surface.data())));
+    const QString origTitle = QString::fromUtf8(QByteArrayLiteral("Was tun, wenn Schüler Autismus haben?\342\200\250\342\200\250\342\200\250 – Marlies Hübner - Mozilla Firefox"));
+    shellSurface->setTitle(origTitle);
+    auto c = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
+    QVERIFY(c);
+    QVERIFY(c->caption() != origTitle);
+    QCOMPARE(c->caption(), origTitle.simplified());
 }
 
 WAYLANDTEST_MAIN(TestShellClient)

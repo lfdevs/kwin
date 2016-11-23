@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-08-25 07:37+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2016-09-16 14:11+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -24,35 +24,42 @@ msgstr ""
 "X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
+#, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Antonis Geralis"
 
+#, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "capoiosct@gmail.com"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: blur/blur_config.ui:17
+#, kde-format
 msgid "Strength of the effect:"
 msgstr "Ένταση του εφέ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: blur/blur_config.ui:42
+#, kde-format
 msgid "Light"
 msgstr "Ελαφρύ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: blur/blur_config.ui:74
+#, kde-format
 msgid "Strong"
 msgstr "Ισχυρό"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_CacheTexture)
 #: blur/blur_config.ui:86
+#, kde-format
 msgid "Save intermediate rendering results."
 msgstr "Αποθήκευση ενδιάμεσων αποτελεσμάτων απεικόνισης."
 
 #: coverswitch/coverswitch.cpp:950 flipswitch/flipswitch.cpp:933
+#, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Εμφάνιση επιφάνειας εργασίας"
@@ -61,103 +68,123 @@ msgstr "Εμφάνιση επιφάνειας εργασίας"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_WindowTitle)
 #: coverswitch/coverswitch_config.ui:17 flipswitch/flipswitch_config.ui:191
 #: presentwindows/presentwindows_config.ui:396
+#, kde-format
 msgid "Display window &titles"
 msgstr "Εμφάνιση &τίτλων παραθύρων"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: coverswitch/coverswitch_config.ui:29 cube/cube_config.ui:344
+#, kde-format
 msgid "Zoom"
 msgstr "Εστίαση"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, kcfg_zPosition)
 #: coverswitch/coverswitch_config.ui:39
+#, kde-format
 msgid "Define how far away the windows should appear"
 msgstr "Ορίστε την απόσταση εμφάνισης των παραθύρων"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: coverswitch/coverswitch_config.ui:66 cube/cube_config.ui:350
+#, kde-format
 msgid "Near"
 msgstr "Κοντά"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: coverswitch/coverswitch_config.ui:86 cube/cube_config.ui:357
+#, kde-format
 msgid "Far"
 msgstr "Μακριά"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: coverswitch/coverswitch_config.ui:110
+#, kde-format
 msgid "Animation"
 msgstr "Κίνηση"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnimateSwitch)
 #: coverswitch/coverswitch_config.ui:116
+#, kde-format
 msgid "Animate switch"
 msgstr "Εναλλαγή με κίνηση"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnimateStart)
 #: coverswitch/coverswitch_config.ui:123
+#, kde-format
 msgid "Animation on tab box open"
 msgstr "Κίνηση κατά το άνοιγμα καρτέλας"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnimateStop)
 #: coverswitch/coverswitch_config.ui:130
+#, kde-format
 msgid "Animation on tab box close"
 msgstr "Κίνηση κατά το κλείσιμο καρτέλας"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: coverswitch/coverswitch_config.ui:139 magiclamp/magiclamp_config.ui:17
+#, kde-format
 msgid "Animation duration:"
 msgstr "Διάρκεια κίνησης:"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_RotationDuration)
-#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_AnimationDuration)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_AnimationDuration)
 #: coverswitch/coverswitch_config.ui:158 cube/cube_config.ui:149
 #: cube/cubeslide_config.ui:49 magiclamp/magiclamp_config.ui:36
+#, kde-format
 msgctxt "Duration of rotation"
 msgid "Default"
 msgstr "Προκαθορισμένο"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
 #: coverswitch/coverswitch_config.ui:161
+#, kde-format
 msgid " milliseconds"
 msgstr " milliseconds"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Reflection)
 #: coverswitch/coverswitch_config.ui:177 coverswitch/coverswitch_config.ui:183
+#, kde-format
 msgid "Reflections"
 msgstr "Ανακλάσεις"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: coverswitch/coverswitch_config.ui:195
+#, kde-format
 msgid "Rear color"
 msgstr "Πίσω χρώμα"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: coverswitch/coverswitch_config.ui:205
+#, kde-format
 msgid "Front color"
 msgstr "Μπροστά χρώμα"
 
 #: cube/cube.cpp:189 cube/cube_config.cpp:70
+#, kde-format
 msgid "Desktop Cube"
 msgstr "Κύβος επιφάνειας εργασίας"
 
 #: cube/cube.cpp:197 cube/cube_config.cpp:75
+#, kde-format
 msgid "Desktop Cylinder"
 msgstr "Κύλινδρος επιφάνειας εργασίας"
 
 #: cube/cube.cpp:203 cube/cube_config.cpp:79
+#, kde-format
 msgid "Desktop Sphere"
 msgstr "Σφαίρα επιφάνειας εργασίας"
 
 #: cube/cube_config.cpp:59
+#, kde-format
 msgctxt "@title:tab Basic Settings"
 msgid "Basic"
 msgstr "Βασικά"
 
 #: cube/cube_config.cpp:60
+#, kde-format
 msgctxt "@title:tab Advanced Settings"
 msgid "Advanced"
 msgstr "Για προχωρημένους"
@@ -170,26 +197,31 @@ msgstr "Για προχωρημένους"
 #: thumbnailaside/thumbnailaside_config.cpp:66
 #: trackmouse/trackmouse_config.cpp:62
 #: windowgeometry/windowgeometry_config.cpp:54 zoom/zoom_config.cpp:63
+#, kde-format
 msgid "KWin"
 msgstr "KWin"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: cube/cube_config.ui:21
+#, kde-format
 msgid "Tab 1"
 msgstr "Καρτέλα 1"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
 #: cube/cube_config.ui:27
+#, kde-format
 msgid "Background"
 msgstr "Φόντο"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: cube/cube_config.ui:33
+#, kde-format
 msgid "Background color:"
 msgstr "Χρώμα φόντου:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: cube/cube_config.ui:56
+#, kde-format
 msgid "Wallpaper:"
 msgstr "Ταπετσαρία:"
 
@@ -198,6 +230,7 @@ msgstr "Ταπετσαρία:"
 #: cube/cube_config.ui:82 desktopgrid/desktopgrid_config.ui:207
 #: flipswitch/flipswitch_config.ui:204
 #: presentwindows/presentwindows_config.ui:17
+#, kde-format
 msgid "Activation"
 msgstr "Ενεργοποίηση"
 
@@ -207,38 +240,44 @@ msgstr "Ενεργοποίηση"
 #: flipswitch/flipswitch_config.ui:17 mousemark/mousemark_config.ui:17
 #: presentwindows/presentwindows_config.ui:377
 #: thumbnailaside/thumbnailaside_config.ui:17
+#, kde-format
 msgid "Appearance"
 msgstr "Εμφάνιση"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DisplayDesktopName)
 #: cube/cube_config.ui:110
+#, kde-format
 msgid "Display desktop name"
 msgstr "Εμφάνιση ονόματος επιφάνειας εργασίας"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Reflection)
 #: cube/cube_config.ui:117
+#, kde-format
 msgid "Reflection"
 msgstr "Αντανάκλαση"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: cube/cube_config.ui:124 cube/cubeslide_config.ui:72
+#, kde-format
 msgid "Rotation duration:"
 msgstr "Διάρκεια περιστροφής:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ZOrdering)
 #: cube/cube_config.ui:175
+#, kde-format
 msgid "Windows hover above cube"
 msgstr "Παράθυρα σε ανώτερο επίπεδο από τον κύβο"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: cube/cube_config.ui:185
+#, kde-format
 msgid "Opacity"
 msgstr "Αδιαφάνεια"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_OpacitySpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Opacity)
 #: cube/cube_config.ui:225 thumbnailaside/thumbnailaside_config.ui:87
-#, no-c-format
+#, no-c-format, kde-format
 msgid " %"
 msgstr " %"
 
@@ -247,6 +286,7 @@ msgstr " %"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: cube/cube_config.ui:238 translucency/package/contents/ui/config.ui:156
 #: translucency/package/contents/ui/config.ui:418
+#, kde-format
 msgid "Transparent"
 msgstr "Διαφανές"
 
@@ -255,51 +295,61 @@ msgstr "Διαφανές"
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: cube/cube_config.ui:245 translucency/package/contents/ui/config.ui:121
 #: translucency/package/contents/ui/config.ui:431
+#, kde-format
 msgid "Opaque"
 msgstr "Αδιαφανές"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_OpacityDesktopOnly)
 #: cube/cube_config.ui:255
+#, kde-format
 msgid "Do not change opacity of windows"
 msgstr "Χωρίς τροποποίηση της αδιαφάνειας των παραθύρων"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: cube/cube_config.ui:279
+#, kde-format
 msgid "Tab 2"
 msgstr "Καρτέλα 2"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: cube/cube_config.ui:285
+#, kde-format
 msgid "Caps"
 msgstr "Κάλυψη άκρων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Caps)
 #: cube/cube_config.ui:291
+#, kde-format
 msgid "Show caps"
 msgstr "Εμφάνιση άκρων"
 
 #. i18n: ectx: property (text), widget (QLabel, capColorLabel)
 #: cube/cube_config.ui:298
+#, kde-format
 msgid "Cap color:"
 msgstr "Χρώμα άκρων:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TexturedCaps)
 #: cube/cube_config.ui:321
+#, kde-format
 msgid "Display image on caps"
 msgstr "Εμφάνιση εικόνας στα άκρα"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, kcfg_ZPosition)
 #: cube/cube_config.ui:367
+#, kde-format
 msgid "Define how far away the object should appear"
 msgstr "Ορίστε την απόσταση εμφάνισης του αντικειμένου"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_9)
 #: cube/cube_config.ui:408
+#, kde-format
 msgid "Additional Options"
 msgstr "Πρόσθετες επιλογές"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_CloseOnMouseRelease)
 #: cube/cube_config.ui:415
+#, kde-format
 msgid ""
 "If enabled the effect will be deactivated after rotating the cube with the "
 "mouse,\n"
@@ -311,167 +361,201 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_CloseOnMouseRelease)
 #: cube/cube_config.ui:418
+#, kde-format
 msgid "Close after mouse dragging"
 msgstr "Κλείσιμο μετά το σύρσιμο του ποντικιού"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TabBox)
 #: cube/cube_config.ui:425
+#, kde-format
 msgid "Use this effect for walking through the desktops"
 msgstr "Χρήση αυτού του εφέ για την περιήγηση στις επιφάνειες εργασίας"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_InvertKeys)
 #: cube/cube_config.ui:432
+#, kde-format
 msgid "Invert cursor keys"
 msgstr "Αντιστροφή πλήκτρων δρομέα"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_InvertMouse)
 #: cube/cube_config.ui:439
+#, kde-format
 msgid "Invert mouse"
 msgstr "Αντιστροφή ποντικιού"
 
 #. i18n: ectx: property (title), widget (QGroupBox, capDeformationGroupBox)
 #: cube/cube_config.ui:449
+#, kde-format
 msgid "Sphere Cap Deformation"
 msgstr "Παραμόρφωση άκρου σφαίρας"
 
 #. i18n: ectx: property (text), widget (QLabel, capDeformationSphereLabel)
 #: cube/cube_config.ui:471
+#, kde-format
 msgid "Sphere"
 msgstr "Σφαίρα"
 
 #. i18n: ectx: property (text), widget (QLabel, capDeformationPlaneLabel)
 #: cube/cube_config.ui:478
+#, kde-format
 msgid "Plane"
 msgstr "Επίπεδο"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSlideStickyWindows)
 #: cube/cubeslide_config.ui:17
+#, kde-format
 msgid "Do not animate windows on all desktops"
 msgstr "Χωρίς εφέ κίνησης παραθύρων σε όλες τις επιφάνειες εργασίας"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RotationDuration)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingLife)
 #: cube/cubeslide_config.ui:52 mouseclick/mouseclick_config.ui:132
+#, kde-format
 msgid " msec"
 msgstr " msec"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSlidePanels)
 #: cube/cubeslide_config.ui:65
+#, kde-format
 msgid "Do not animate panels"
 msgstr "Χωρίς εφέ κίνησης πινάκων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UsePagerLayout)
 #: cube/cubeslide_config.ui:85
+#, kde-format
 msgid "Use pager layout for animation"
 msgstr "Χρήση περιγράμματος χαρτιού για εφέ κίνησης"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseWindowMoving)
 #: cube/cubeslide_config.ui:92
+#, kde-format
 msgid "Start animation when moving windows towards screen edges"
 msgstr "Έναρξη κίνησης όταν τα παράθυρα πλησιάζουν τα άκρα τις οθόνης"
 
 #: desktopgrid/desktopgrid.cpp:71 desktopgrid/desktopgrid_config.cpp:67
+#, kde-format
 msgid "Show Desktop Grid"
 msgstr "Εμφάνιση καννάβου επιφάνειας εργασίας"
 
 #: desktopgrid/desktopgrid_config.cpp:75
+#, kde-format
 msgctxt "Desktop name alignment:"
 msgid "Disabled"
 msgstr "Ανενεργό"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: desktopgrid/desktopgrid_config.cpp:76 flipswitch/flipswitch_config.ui:160
+#, kde-format
 msgid "Top"
 msgstr "Πάνω"
 
 #: desktopgrid/desktopgrid_config.cpp:77
+#, kde-format
 msgid "Top-Right"
 msgstr "Πάνω-δεξιά"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: desktopgrid/desktopgrid_config.cpp:78 flipswitch/flipswitch_config.ui:125
+#, kde-format
 msgid "Right"
 msgstr "Δεξιά"
 
 #: desktopgrid/desktopgrid_config.cpp:79
+#, kde-format
 msgid "Bottom-Right"
 msgstr "Κάτω-δεξιά"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: desktopgrid/desktopgrid_config.cpp:80 flipswitch/flipswitch_config.ui:180
+#, kde-format
 msgid "Bottom"
 msgstr "Κάτω"
 
 #: desktopgrid/desktopgrid_config.cpp:81
+#, kde-format
 msgid "Bottom-Left"
 msgstr "Κάτω-αριστερά"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: desktopgrid/desktopgrid_config.cpp:82 flipswitch/flipswitch_config.ui:105
+#, kde-format
 msgid "Left"
 msgstr "Αριστερά"
 
 #: desktopgrid/desktopgrid_config.cpp:83
+#, kde-format
 msgid "Top-Left"
 msgstr "Πάνω-αριστερά"
 
 #: desktopgrid/desktopgrid_config.cpp:84
+#, kde-format
 msgid "Center"
 msgstr "Κέντρο"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: desktopgrid/desktopgrid_config.ui:23
+#, kde-format
 msgid "Zoom &duration:"
 msgstr "&Διάρκεια εστίασης:"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_ZoomDuration)
 #: desktopgrid/desktopgrid_config.ui:42
+#, kde-format
 msgctxt "Duration of zoom"
 msgid "Default"
 msgstr "Προκαθορισμένο"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: desktopgrid/desktopgrid_config.ui:55
+#, kde-format
 msgid "Border wid&th:"
 msgstr "Πλάτος &περιγράμματος:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: desktopgrid/desktopgrid_config.ui:84
+#, kde-format
 msgid "Desktop &name alignment:"
 msgstr "Στοίχιση ο&νόματος επιφάνειας εργασίας:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: desktopgrid/desktopgrid_config.ui:107
+#, kde-format
 msgid "&Layout mode:"
 msgstr "Λειτουργία &διάταξης:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
 #: desktopgrid/desktopgrid_config.ui:127
+#, kde-format
 msgid "Pager"
 msgstr "Πίνακας σελίδων"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
 #: desktopgrid/desktopgrid_config.ui:132
+#, kde-format
 msgid "Automatic"
 msgstr "Αυτόματο"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
 #: desktopgrid/desktopgrid_config.ui:137
+#, kde-format
 msgid "Custom"
 msgstr "Προσαρμοσμένο"
 
 #. i18n: ectx: property (text), widget (QLabel, layoutRowsLabel)
 #: desktopgrid/desktopgrid_config.ui:145
+#, kde-format
 msgid "N&umber of rows:"
 msgstr "Αριθμός &γραμμών:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PresentWindows)
 #: desktopgrid/desktopgrid_config.ui:190
+#, kde-format
 msgid "Use Present Windows effect to layout the windows"
 msgstr "Χρήση του εφέ παρουσίασης παραθύρων για τον σχηματισμό των παραθύρων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAddRemove)
 #: desktopgrid/desktopgrid_config.ui:197
+#, kde-format
 msgid "Show buttons to alter count of virtual desktops"
 msgstr ""
 "Εμφάνιση κουμπιών για την τροποποίηση του αριθμού των εικονικών επιφανειών "
@@ -479,85 +563,102 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimPanels)
 #: diminactive/diminactive_config.ui:17
+#, kde-format
 msgid "Apply effect to &panels"
 msgstr "Εφαρμογή εφέ στους &πίνακες"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimDesktop)
 #: diminactive/diminactive_config.ui:24
+#, kde-format
 msgid "Apply effect to the desk&top"
 msgstr "Εφαρμογή εφέ στην &επιφάνεια εργασίας"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimKeepAbove)
 #: diminactive/diminactive_config.ui:31
+#, kde-format
 msgid "Apply effect to &keep-above windows"
 msgstr "Εφαρμογή εφέ στα παράθυρα που &διατηρούνται πάνω"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimByGroup)
 #: diminactive/diminactive_config.ui:38
+#, kde-format
 msgid "Apply effect to &groups"
 msgstr "Εφαρμογή εφέ στις &ομάδες"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: diminactive/diminactive_config.ui:45
+#, kde-format
 msgid "&Strength:"
 msgstr "&Ισχύς:"
 
 #: effect_builtins.cpp:101
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
 msgstr "Θόλωμα"
 
 #: effect_builtins.cpp:102
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
 msgstr "Θόλωμα του φόντου πίσω από ημιδιαφανή παράθυρα"
 
 #: effect_builtins.cpp:116
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Αντίθεση φόντου"
 
 #: effect_builtins.cpp:117
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
 msgstr "Βελτίωση φόντου και αναγνωσιμότητας πίσω από ημιδιαφανή παράθυρα"
 
 #: effect_builtins.cpp:131
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Cover Switch"
 msgstr "Εναλλαγή εξωφύλλου"
 
 #: effect_builtins.cpp:132
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a Cover Flow effect for the alt+tab window switcher"
 msgstr "Εμφάνιση ενός εφέ ροής εξωφύλλου για την εναλλαγή παραθύρων με alt+tab"
 
 #: effect_builtins.cpp:146
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Κύβος επιφάνειας εργασίας"
 
 #: effect_builtins.cpp:147
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display each virtual desktop on a side of a cube"
 msgstr "Εμφάνιση κάθε εικονικής επιφάνειας εργασίας σε μια πλευρά ενός κύβου"
 
 #: effect_builtins.cpp:161
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Εφέ κύβου επιφάνειας εργασίας"
 
 #: effect_builtins.cpp:162
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate desktop switching with a cube"
 msgstr "Εφέ εναλλαγής επιφάνειας εργασίας με έναν κύβο"
 
 #: effect_builtins.cpp:176
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Κάνναβος επιφάνειας εργασίας"
 
 #: effect_builtins.cpp:177
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
 msgstr ""
@@ -565,41 +666,49 @@ msgstr ""
 "κάνναβο"
 
 #: effect_builtins.cpp:191
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
 msgstr "Σκίαση ανενεργού"
 
 #: effect_builtins.cpp:192
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Σκίαση μη ενεργών παραθύρων"
 
 #: effect_builtins.cpp:206
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Dim Screen for Administrator Mode"
 msgstr "Σκίαση οθόνης στη λειτουργία διαχειριστή"
 
 #: effect_builtins.cpp:207
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Darkens the entire screen when requesting root privileges"
 msgstr "Σκίαση ολόκληρης της οθόνης όταν απαιτούνται διακαιώματα χρήστη root"
 
 #: effect_builtins.cpp:221
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Fall Apart"
 msgstr "Διάλυση"
 
 #: effect_builtins.cpp:222
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "Τα παράθυρα που κλείνουν διαλύονται"
 
 #: effect_builtins.cpp:236
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Flip Switch"
 msgstr "Εναλλαγή στοίβας"
 
 #: effect_builtins.cpp:237
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Flip through windows that are in a stack for the alt+tab window switcher"
@@ -607,21 +716,25 @@ msgstr ""
 "Εναλλαγή μεταξύ των παραθύρων στη στοίβα εναλλαγής παραθύρων με το alt+tab"
 
 #: effect_builtins.cpp:251
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Glide"
 msgstr "Ολίσθηση"
 
 #: effect_builtins.cpp:252
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Windows Glide Effect as they are open and closed"
 msgstr "Εφέ ολίσθησης παραθύρων κατά το άνοιγμα και το κλείσιμο"
 
 #: effect_builtins.cpp:266
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Highlight Window"
 msgstr "Τονισμός παραθύρου"
 
 #: effect_builtins.cpp:267
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight the appropriate window when hovering over taskbar entries"
 msgstr ""
@@ -629,71 +742,85 @@ msgstr ""
 "γραμμή εργασιών"
 
 #: effect_builtins.cpp:281
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Αντιστροφή"
 
 #: effect_builtins.cpp:282
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
 msgstr "Αντιστροφή του χρώματος της επιφάνειας εργασίας και των παραθύρων"
 
 #: effect_builtins.cpp:296
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
 msgstr "Kscreen"
 
 #: effect_builtins.cpp:297
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper Effect for KScreen"
 msgstr "Βοηθητικό εφέ για το KScreen"
 
 #: effect_builtins.cpp:311
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
 msgstr "Μεγεθυντικός φακός"
 
 #: effect_builtins.cpp:312
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
 msgstr "Ένας μεγεθυντικός φακός οθόνης με έντονη ευρυγώνια οπτική"
 
 #: effect_builtins.cpp:326
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
 msgstr "Μαγικό λυχνάρι"
 
 #: effect_builtins.cpp:327
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
 msgstr "Εξομοίωση ενός μαγικού λυχναριού κατά την ελαχιστοποίηση παραθύρων"
 
 #: effect_builtins.cpp:341
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Μεγεθυντής"
 
 #: effect_builtins.cpp:342
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
 msgstr "Μεγέθυνση του τμήματος της οθόνης που βρίσκεται κοντά στο ποντίκι"
 
 #: effect_builtins.cpp:356
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Κίνηση ελαχιστοποίησης"
 
 #: effect_builtins.cpp:357
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "Εφέ κίνησης της ελαχιστοποίησης των παραθύρων"
 
 #: effect_builtins.cpp:371
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Εφέ κίνησης με κλικ του ποντικιού"
 
 #: effect_builtins.cpp:372
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Creates an animation whenever a mouse button is clicked. This is useful for "
@@ -703,31 +830,37 @@ msgstr ""
 "είναι χρήσιμο για βιντεοσκόπηση οθόνης / παρουσιάσεις"
 
 #: effect_builtins.cpp:386
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Σήμανση ποντικιού"
 
 #: effect_builtins.cpp:387
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
 msgstr "Σας επιτρέπει τη σχεδίαση γραμμών στην επιφάνεια εργασίας σας"
 
 #: effect_builtins.cpp:401
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Παρουσίαση παραθύρων"
 
 #: effect_builtins.cpp:402
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
 msgstr "Σμίκρυνση έως ότου όλα τα ανοιχτά παράθυρα να εμφανίζονται σε παράθεση"
 
 #: effect_builtins.cpp:416
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Αλλαγή μεγέθους παραθύρου"
 
 #: effect_builtins.cpp:417
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
 msgstr ""
@@ -735,62 +868,74 @@ msgstr ""
 "ανανεώνει τα περιεχόμενα"
 
 #: effect_builtins.cpp:431
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr "Άκρο οθόνης"
 
 #: effect_builtins.cpp:432
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
 msgstr "Εμφανίζει τονισμένο το άκρο της οθόνης όταν το πλησιάζετε"
 
 #: effect_builtins.cpp:446
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
 msgstr "Στιγμιότυπο"
 
 #: effect_builtins.cpp:447
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for KSnapshot"
 msgstr "Βοηθητικό εφέ για το KScreen"
 
 #: effect_builtins.cpp:461
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
 msgstr "Φύλλο"
 
 #: effect_builtins.cpp:462
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Make modal dialogs smoothly fly in and out when they are shown or hidden"
 msgstr "Ομαλή εμφάνιση και απόκρυψη με κίνηση των βοηθητικών παραθύρων"
 
 #: effect_builtins.cpp:476
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
 msgstr "Εμφάνιση καρέ ανά δευτερόλεπτο"
 
 #: effect_builtins.cpp:477
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
 msgstr "Εμφάνιση επιδόσεων του KWin στη γωνία της οθόνης"
 
 #: effect_builtins.cpp:491
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Εμφάνιση σχεδίασης"
 
 #: effect_builtins.cpp:492
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
 msgstr "Τονισμός περιοχών της επιφάνειας εργασίας που ενημερώθηκαν πρόσφατα"
 
 #: effect_builtins.cpp:506
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
 msgstr "Κύλιση"
 
 #: effect_builtins.cpp:507
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide windows across the screen when switching virtual desktops"
 msgstr ""
@@ -798,271 +943,325 @@ msgstr ""
 "εργασίας"
 
 #: effect_builtins.cpp:521
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
 msgstr "Κύλιση πίσω"
 
 #: effect_builtins.cpp:522
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
 msgstr "Κύλιση παραθύρων πίσω όταν ανοίξει κάποιο άλλο παράθυρο "
 
 #: effect_builtins.cpp:536
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
 msgstr "Κύλιση αναδυόμενων"
 
 #: effect_builtins.cpp:537
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
 msgstr "Γραφικά κύλισης για αναδυόμενα από το χώρο εργασίας Plasma"
 
 #: effect_builtins.cpp:551
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
 msgstr "Βοηθός εντοπισμού θέσης"
 
 #: effect_builtins.cpp:552
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
 msgstr ""
 "Βοηθά στον εντοπισμό του κέντρου της οθόνης όταν μετακινείτε ένα παράθυρο"
 
 #: effect_builtins.cpp:566
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
 msgstr "Ανατροφοδότηση εκκίνησης"
 
 #: effect_builtins.cpp:567
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
 msgstr "Βοηθητικό εφέ για ανατροφοδότηση εκκίνησης"
 
 #: effect_builtins.cpp:581
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Εικόνα επισκόπησης στο πλάι"
 
 #: effect_builtins.cpp:582
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
 msgstr "Εμφανίζει στην άκρη της οθόνης την εικόνα επισκόπησης του παραθύρου"
 
 #: effect_builtins.cpp:596
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Touch Points"
 msgstr "Σημεία επαφής"
 
 #: effect_builtins.cpp:597
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Visualize touch points"
 msgstr "Οπτικοποίηση σημείων επαφής"
 
 #: effect_builtins.cpp:611
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Ανίχνευση ποντικιού"
 
 #: effect_builtins.cpp:612
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a mouse cursor locating effect when activated"
 msgstr "Εμφάνιση εφέ υπόδειξης της θέσης του ποντικιού όταν ενεργοποιηθεί"
 
 #: effect_builtins.cpp:626
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Window Geometry"
 msgstr "Γεωμετρία παραθύρου"
 
 #: effect_builtins.cpp:627
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr ""
 "Εμφανίζει τη γεωμετρία του παραθύρου κατά τη μετακίνηση/αλλαγή μεγέθους"
 
 #: effect_builtins.cpp:641
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Ταλαντευόμενα παράθυρα"
 
 #: effect_builtins.cpp:642
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "Παραμόρφωση παραθύρων κατά τη μετακίνησή τους"
 
 #: effect_builtins.cpp:656
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Εστίαση"
 
 #: effect_builtins.cpp:657
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
 msgstr "Μεγεθύνει ολόκληρη την επιφάνεια εργασίας"
 
 #: flipswitch/flipswitch.cpp:58 flipswitch/flipswitch_config.cpp:60
+#, kde-format
 msgid "Toggle Flip Switch (Current desktop)"
 msgstr "Εναλλαγή στοίβας (η τρέχουσα επιφάνεια εργασίας)"
 
 #: flipswitch/flipswitch.cpp:65 flipswitch/flipswitch_config.cpp:63
+#, kde-format
 msgid "Toggle Flip Switch (All desktops)"
 msgstr "Εναλλαγή στοίβας (όλες οι επιφάνειες εργασίας)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: flipswitch/flipswitch_config.ui:23
+#, kde-format
 msgid "Flip animation duration:"
 msgstr "Αλλαγή διάρκειας εφέ κίνησης:"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
 #: flipswitch/flipswitch_config.ui:42
+#, kde-format
 msgctxt "Duration of flip animation"
 msgid "Default"
 msgstr "Προκαθορισμένο"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: flipswitch/flipswitch_config.ui:55
+#, kde-format
 msgid "Angle:"
 msgstr "Γωνία:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Angle)
 #: flipswitch/flipswitch_config.ui:71
+#, kde-format
 msgid " °"
 msgstr " °"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: flipswitch/flipswitch_config.ui:81
+#, kde-format
 msgid "Horizontal position of front:"
 msgstr "Οριζόντια τοποθέτηση μπροστινού μέρους:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: flipswitch/flipswitch_config.ui:136
+#, kde-format
 msgid "Vertical position of front:"
 msgstr "Κάθετη τοποθέτηση μπροστινού μέρους:"
 
 #. i18n: ectx: property (text), widget (QLabel, glideEffectLabel)
 #: glide/glide_config.ui:17
+#, kde-format
 msgid "Glide Effect:"
 msgstr "Εφέ ολίσθησης:"
 
 #. i18n: ectx: property (text), widget (QLabel, inGlideEffectLabel)
 #: glide/glide_config.ui:42
+#, kde-format
 msgid "In"
 msgstr "Μέσα"
 
 #. i18n: ectx: property (text), widget (QLabel, outGlideEffectLabel)
 #: glide/glide_config.ui:71
+#, kde-format
 msgid "Out"
 msgstr "Έξω"
 
 #. i18n: ectx: property (text), widget (QLabel, glideAngleLabel)
 #: glide/glide_config.ui:93
+#, kde-format
 msgid "Glide Angle:"
 msgstr "Γωνία ολίσθησης:"
 
 #. i18n: ectx: property (text), widget (QLabel, glideAnglenegLabel)
 #: glide/glide_config.ui:118
+#, kde-format
 msgid "-90"
 msgstr "-90"
 
 #. i18n: ectx: property (text), widget (QLabel, glideAngleposLabel)
 #: glide/glide_config.ui:147
+#, kde-format
 msgid "90"
 msgstr "90"
 
 #: invert/invert.cpp:45 invert/invert_config.cpp:52
+#, kde-format
 msgid "Toggle Invert Effect"
 msgstr "Εναλλαγή εφέ αντιστροφής"
 
 #: invert/invert.cpp:53 invert/invert_config.cpp:58
+#, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "Εναλλαγή εφέ αντιστροφής στο παράθυρο"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
+#, kde-format
 msgid "Fade to black (fullscreen splash screens only)"
 msgstr "Ομαλή μετάβαση σε μαύρο (μόνο αρχικές οθόνες πλήρους οθόνης)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: lookingglass/lookingglass_config.ui:24
+#, kde-format
 msgid "&Radius:"
 msgstr "&Ακτίνα:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AnimationDuration)
 #: magiclamp/magiclamp_config.ui:39
+#, kde-format
 msgid "milliseconds"
 msgstr "milliseconds"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupSize)
 #: magnifier/magnifier_config.ui:17
+#, kde-format
 msgid "Size"
 msgstr "Μέγεθος"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: magnifier/magnifier_config.ui:23 mousemark/mousemark_config.ui:23
+#: magnifier/magnifier_config.ui:23
+#, kde-format
 msgid "&Width:"
 msgstr "Π&λάτος:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Width)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Height)
 #: magnifier/magnifier_config.ui:42 magnifier/magnifier_config.ui:74
+#, kde-format
 msgid " px"
 msgstr " εικ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: magnifier/magnifier_config.ui:55
+#, kde-format
 msgid "&Height:"
 msgstr "Ύ&ψος:"
 
 #: mouseclick/mouseclick.cpp:50 mouseclick/mouseclick_config.cpp:63
+#, kde-format
 msgid "Toggle Mouse Click Effect"
 msgstr "Εναλλαγή εφέ ποντικιού"
 
 #: mouseclick/mouseclick.cpp:58
+#, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Αριστερό"
 
 #: mouseclick/mouseclick.cpp:59
+#, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Μεσαίο"
 
 #: mouseclick/mouseclick.cpp:60
+#, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Δεξιό"
 
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
+#, kde-format
 msgid "Basic Settings"
 msgstr "Βασικές ρυθμίσεις"
 
 #. i18n: ectx: property (text), widget (QLabel, button1_label)
 #: mouseclick/mouseclick_config.ui:37
+#, kde-format
 msgid "Left Mouse Button Color:"
 msgstr "Χρώμα αριστερού πλήκτρου ποντικιού:"
 
 #. i18n: ectx: property (text), widget (QLabel, button2_label)
 #: mouseclick/mouseclick_config.ui:50
+#, kde-format
 msgid "Middle Mouse Button Color:"
 msgstr "Χρώμα μεσαίου πλήκτρου ποντικιού:"
 
 #. i18n: ectx: property (text), widget (QLabel, button3_label)
 #: mouseclick/mouseclick_config.ui:70
+#, kde-format
 msgid "Right Mouse Button Color:"
 msgstr "Χρώμα δεξιού πλήκτρου ποντικιού:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, advanced_tab)
 #: mouseclick/mouseclick_config.ui:91
+#, kde-format
 msgid "Advanced Settings"
 msgstr "Ρυθμίσεις για προχωρημένους"
 
 #. i18n: ectx: property (title), widget (QGroupBox, rings)
 #: mouseclick/mouseclick_config.ui:97
+#, kde-format
 msgid "Rings"
 msgstr "Δαχτυλίδια"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_line_width_label)
 #: mouseclick/mouseclick_config.ui:103
+#, kde-format
 msgid "Line Width:"
 msgstr "Πλάτος γραμμής:"
 
@@ -1070,6 +1269,7 @@ msgstr "Πλάτος γραμμής:"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingSize)
 #: mouseclick/mouseclick_config.ui:119 mouseclick/mouseclick_config.ui:171
 #: mousemark/mousemark_config.cpp:55
+#, kde-format
 msgid " pixel"
 msgid_plural " pixels"
 msgstr[0] " εικονοστοιχείο"
@@ -1077,69 +1277,89 @@ msgstr[1] " εικονοστοιχεία"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_duration_label)
 #: mouseclick/mouseclick_config.ui:145
+#, kde-format
 msgid "Ring Duration:"
 msgstr "Διάρκεια δαχτυλιδιού:"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_radius_label)
 #: mouseclick/mouseclick_config.ui:155
+#, kde-format
 msgid "Ring Radius:"
 msgstr "Ακτίνα δαχτυλιδιού:"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_count_label)
 #: mouseclick/mouseclick_config.ui:184
+#, kde-format
 msgid "Ring Count:"
 msgstr "Αριθμός δαχτυλιδιών:"
 
-#. i18n: ectx: property (title), widget (QGroupBox, font)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#. i18n: ectx: property (title), widget (QGroupBox, font)
 #: mouseclick/mouseclick_config.ui:210 showfps/showfps_config.ui:17
+#, kde-format
 msgid "Text"
 msgstr "Κείμενο"
 
 #. i18n: ectx: property (text), widget (QLabel, font_label)
 #: mouseclick/mouseclick_config.ui:216
+#, kde-format
 msgid "Font:"
 msgstr "Γραμματοσειρά:"
 
 #. i18n: ectx: property (text), widget (QLabel, showtext_label)
 #: mouseclick/mouseclick_config.ui:233
+#, kde-format
 msgid "Show Text:"
 msgstr "Εμφάνιση κειμένου:"
 
 #: mousemark/mousemark.cpp:51
+#, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "Καθαρισμός σημαδιών του ποντικιού"
 
 #: mousemark/mousemark.cpp:58 mousemark/mousemark_config.cpp:74
+#, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Καθαρισμός τελευταίου σημαδιού του ποντικιού"
 
 #: mousemark/mousemark_config.cpp:68
+#, kde-format
 msgid "Clear Mouse Marks"
 msgstr "Καθαρισμός σημαδιών του ποντικιού"
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: mousemark/mousemark_config.ui:23
+#, kde-format
+msgid "Wid&th:"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: mousemark/mousemark_config.ui:55
+#: mousemark/mousemark_config.ui:36
+#, kde-format
 msgid "&Color:"
 msgstr "&Χρώμα:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: mousemark/mousemark_config.ui:88
+#: mousemark/mousemark_config.ui:78
+#, kde-format
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Σχεδιάστε μα το ποντίκι κρατώντας πατημένα τα πλήκτρα Shift+Meta."
 
 #: presentwindows/presentwindows.cpp:70
 #: presentwindows/presentwindows_config.cpp:72
+#, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Εναλλαγή παρουσίασης παραθύρων (τρέχουσα επιφάνεια)"
 
 #: presentwindows/presentwindows.cpp:78
 #: presentwindows/presentwindows_config.cpp:66
+#, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Εναλλαγή παρουσίασης παραθύρων (όλες τις επιφάνειες)"
 
 #: presentwindows/presentwindows.cpp:86
 #: presentwindows/presentwindows_config.cpp:78
+#, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Εναλλαγή παρουσίασης παραθύρων (κατηγορία παραθύρου)"
 
@@ -1154,26 +1374,31 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: presentwindows/presentwindows_config.ui:39
+#, kde-format
 msgid "Natural Layout Settings"
 msgstr "Ρυθμίσεις φυσικής διάταξης"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FillGaps)
 #: presentwindows/presentwindows_config.ui:45
+#, kde-format
 msgid "Fill &gaps"
 msgstr "Συμπλήρωση &κενών"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: presentwindows/presentwindows_config.ui:65
+#, kde-format
 msgid "Faster"
 msgstr "Γρήγορο"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: presentwindows/presentwindows_config.ui:112
+#, kde-format
 msgid "Nicer"
 msgstr "Όμορφο"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: presentwindows/presentwindows_config.ui:122
+#, kde-format
 msgid "Windows"
 msgstr "Παράθυρα"
 
@@ -1181,6 +1406,7 @@ msgstr "Παράθυρα"
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: presentwindows/presentwindows_config.ui:128
 #: presentwindows/presentwindows_config.ui:272
+#, kde-format
 msgid "Left button:"
 msgstr "Αριστερό πλήκτρο:"
 
@@ -1196,6 +1422,7 @@ msgstr "Αριστερό πλήκτρο:"
 #: presentwindows/presentwindows_config.ui:283
 #: presentwindows/presentwindows_config.ui:317
 #: presentwindows/presentwindows_config.ui:351
+#, kde-format
 msgid "No action"
 msgstr "Καμία ενέργεια"
 
@@ -1211,6 +1438,7 @@ msgstr "Καμία ενέργεια"
 #: presentwindows/presentwindows_config.ui:288
 #: presentwindows/presentwindows_config.ui:322
 #: presentwindows/presentwindows_config.ui:356
+#, kde-format
 msgid "Activate window"
 msgstr "Ενεργοποίηση παραθύρου"
 
@@ -1226,6 +1454,7 @@ msgstr "Ενεργοποίηση παραθύρου"
 #: presentwindows/presentwindows_config.ui:293
 #: presentwindows/presentwindows_config.ui:327
 #: presentwindows/presentwindows_config.ui:361
+#, kde-format
 msgid "End effect"
 msgstr "Εφέ τέλους"
 
@@ -1235,6 +1464,7 @@ msgstr "Εφέ τέλους"
 #: presentwindows/presentwindows_config.ui:154
 #: presentwindows/presentwindows_config.ui:198
 #: presentwindows/presentwindows_config.ui:242
+#, kde-format
 msgid "Bring window to current desktop"
 msgstr "Μεταφορά παραθύρου στην τρέχουσα επιφάνεια εργασίας"
 
@@ -1244,6 +1474,7 @@ msgstr "Μεταφορά παραθύρου στην τρέχουσα επιφά
 #: presentwindows/presentwindows_config.ui:159
 #: presentwindows/presentwindows_config.ui:203
 #: presentwindows/presentwindows_config.ui:247
+#, kde-format
 msgid "Send window to all desktops"
 msgstr "Αποστολή παραθύρου σε όλες τις επιφάνειες εργασίας"
 
@@ -1253,6 +1484,7 @@ msgstr "Αποστολή παραθύρου σε όλες τις επιφάνε�
 #: presentwindows/presentwindows_config.ui:164
 #: presentwindows/presentwindows_config.ui:208
 #: presentwindows/presentwindows_config.ui:252
+#, kde-format
 msgid "(Un-)Minimize window"
 msgstr "Ελαχιστοποίηση/Μεγιστοποίηση παραθύρου"
 
@@ -1260,6 +1492,7 @@ msgstr "Ελαχιστοποίηση/Μεγιστοποίηση παραθύρο
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: presentwindows/presentwindows_config.ui:172
 #: presentwindows/presentwindows_config.ui:306
+#, kde-format
 msgid "Middle button:"
 msgstr "Μεσαίο πλήκτρο:"
 
@@ -1267,11 +1500,13 @@ msgstr "Μεσαίο πλήκτρο:"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: presentwindows/presentwindows_config.ui:216
 #: presentwindows/presentwindows_config.ui:340
+#, kde-format
 msgid "Right button:"
 msgstr "Δεξί πλήκτρο:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
 #: presentwindows/presentwindows_config.ui:263
+#, kde-format
 msgctxt "@title:group actions when clicking on desktop"
 msgid "Desktop"
 msgstr "Επιφάνεια εργασίας"
@@ -1282,125 +1517,150 @@ msgstr "Επιφάνεια εργασίας"
 #: presentwindows/presentwindows_config.ui:298
 #: presentwindows/presentwindows_config.ui:332
 #: presentwindows/presentwindows_config.ui:366
+#, kde-format
 msgid "Show desktop"
 msgstr "Εμφάνιση επιφάνειας εργασίας"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: presentwindows/presentwindows_config.ui:383
+#, kde-format
 msgid "Layout mode:"
 msgstr "Λειτουργία διάταξης:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowIcons)
 #: presentwindows/presentwindows_config.ui:403
+#, kde-format
 msgid "Display window &icons"
 msgstr "Εμφάνιση &εικονιδίων παραθύρων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
 #: presentwindows/presentwindows_config.ui:410
+#, kde-format
 msgid "Ignore &minimized windows"
 msgstr "Αγνόηση &ελαχιστοποιημένων παραθύρων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowPanel)
 #: presentwindows/presentwindows_config.ui:417
+#, kde-format
 msgid "Show &panels"
 msgstr "Εμφάνιση &πινάκων"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
 #: presentwindows/presentwindows_config.ui:431
+#, kde-format
 msgid "Natural"
 msgstr "Φυσική"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
 #: presentwindows/presentwindows_config.ui:436
+#, kde-format
 msgid "Regular Grid"
 msgstr "Κανονικός κάνναβος"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
 #: presentwindows/presentwindows_config.ui:441
+#, kde-format
 msgid "Flexible Grid"
 msgstr "Ευέλικτος κάνναβος"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowClosingWindows)
 #: presentwindows/presentwindows_config.ui:449
+#, kde-format
 msgid "Provide buttons to close the windows"
 msgstr "Παροχή κουμπιών για το κλείσιμο των παραθύρων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TextureScale)
 #: resize/resize_config.ui:17
+#, kde-format
 msgid "Scale window"
 msgstr "Κλιμάκωση παραθύρου"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Outline)
 #: resize/resize_config.ui:24
+#, kde-format
 msgid "Show outline"
 msgstr "Εμφάνιση περιμέτρου"
 
 #: showfps/showfps.cpp:61
+#, kde-format
 msgid "This effect is not a benchmark"
 msgstr "Δεν είναι συγκριτική αξιολόγηση των επιδόσεων"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: showfps/showfps_config.ui:23
+#, kde-format
 msgid "Text position:"
 msgstr "Θέση κειμένου:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:43
+#, kde-format
 msgid "Inside Graph"
 msgstr "Εσωτερικό γραφικό"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:48
+#, kde-format
 msgid "Nowhere"
 msgstr "Πουθενά"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:53
+#, kde-format
 msgid "Top Left"
 msgstr "Πάνω αριστερά"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:58
+#, kde-format
 msgid "Top Right"
 msgstr "Πάνω δεξιά"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:63
+#, kde-format
 msgid "Bottom Left"
 msgstr "Κάτω αριστερά"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:68
+#, kde-format
 msgid "Bottom Right"
 msgstr "Κάτω δεξιά"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: showfps/showfps_config.ui:76
+#, kde-format
 msgid "Text font:"
 msgstr "Γραμματοσειρά κειμένου:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: showfps/showfps_config.ui:96
+#, kde-format
 msgid "Text color:"
 msgstr "Χρώμα κειμένου:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: showfps/showfps_config.ui:119
+#, kde-format
 msgid "Text alpha:"
 msgstr "Άλφα κειμένου:"
 
 #: thumbnailaside/thumbnailaside.cpp:37
 #: thumbnailaside/thumbnailaside_config.cpp:71
+#, kde-format
 msgid "Toggle Thumbnail for Current Window"
 msgstr "Εναλλαγή εικόνας επισκόπησης για το τρέχον παράθυρο"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: thumbnailaside/thumbnailaside_config.ui:23
+#, kde-format
 msgid "Maximum &width:"
 msgstr "Μέγιστο &πλάτος:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: thumbnailaside/thumbnailaside_config.ui:36
+#, kde-format
 msgid "&Spacing:"
 msgstr "Α&πόσταση:"
 
@@ -1408,220 +1668,265 @@ msgstr "Α&πόσταση:"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_MaxWidth)
 #: thumbnailaside/thumbnailaside_config.ui:55
 #: thumbnailaside/thumbnailaside_config.ui:106
+#, kde-format
 msgid " pixels"
 msgstr " εικονοστοιχεία"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: thumbnailaside/thumbnailaside_config.ui:68
+#, kde-format
 msgid "&Opacity:"
 msgstr "&Αδιαφάνεια:"
 
 #: trackmouse/trackmouse.cpp:60 trackmouse/trackmouse_config.cpp:67
+#, kde-format
 msgid "Track mouse"
 msgstr "Εντοπισμός ποντικιού"
 
 #. i18n: ectx: property (text), widget (KTitleWidget, ktitlewidget)
 #: trackmouse/trackmouse_config.ui:20
+#, kde-format
 msgid "Trigger on"
 msgstr "Ενεργοποίηση με"
 
 #. i18n: ectx: property (text), widget (QRadioButton, modifierRadio)
 #: trackmouse/trackmouse_config.ui:27
+#, kde-format
 msgid "Modifiers"
 msgstr "Τροποποιητές"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Alt)
 #: trackmouse/trackmouse_config.ui:43
+#, kde-format
 msgid "Alt"
 msgstr "Alt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Control)
 #: trackmouse/trackmouse_config.ui:50
+#, kde-format
 msgid "Ctrl"
 msgstr "Ctrl"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Shift)
 #: trackmouse/trackmouse_config.ui:57
+#, kde-format
 msgid "Shift"
 msgstr "Shift"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Meta)
 #: trackmouse/trackmouse_config.ui:64
+#, kde-format
 msgid "Meta"
 msgstr "Meta"
 
 #. i18n: ectx: property (text), widget (QRadioButton, shortcutRadio)
 #: trackmouse/trackmouse_config.ui:74
+#, kde-format
 msgid "Shortcut"
 msgstr "Συντόμευση"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KWin::TranslucencyEffectConfigForm)
 #: translucency/package/contents/ui/config.ui:14
+#, kde-format
 msgid "Translucency"
 msgstr "Διαφάνεια"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_opacityGroupBox)
 #: translucency/package/contents/ui/config.ui:20
+#, kde-format
 msgid "General Translucency Settings"
 msgstr "Γενικές ρυθμίσεις διαφάνειας"
 
 #. i18n: ectx: property (text), widget (QLabel, comboboxpopup_label)
 #: translucency/package/contents/ui/config.ui:64
+#, kde-format
 msgid "Combobox popups:"
 msgstr "Αναδυόμενα πλαίσια συνδυασμών:"
 
 #. i18n: ectx: property (text), widget (QLabel, dialogs_label)
 #: translucency/package/contents/ui/config.ui:137
+#, kde-format
 msgid "Dialogs:"
 msgstr "Διάλογοι:"
 
 #. i18n: ectx: property (text), widget (QLabel, menus_label)
 #: translucency/package/contents/ui/config.ui:188
+#, kde-format
 msgid "Menus:"
 msgstr "Μενού:"
 
 #. i18n: ectx: property (text), widget (QLabel, moveresize_label)
 #: translucency/package/contents/ui/config.ui:207
+#, kde-format
 msgid "Moving windows:"
 msgstr "Μετακίνηση παραθύρων:"
 
 #. i18n: ectx: property (text), widget (QLabel, inactive_label)
 #: translucency/package/contents/ui/config.ui:226
+#, kde-format
 msgid "Inactive windows:"
 msgstr "Ανενεργά παράθυρα:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_IndividualMenuConfig)
 #: translucency/package/contents/ui/config.ui:267
+#, kde-format
 msgid "Set menu translucency independently"
 msgstr "Ορισμός διαφάνειας μενού ανεξάρτητα"
 
 #. i18n: ectx: property (text), widget (QLabel, dropdownmenus_label)
 #: translucency/package/contents/ui/config.ui:285
+#, kde-format
 msgid "Dropdown menus:"
 msgstr "Κυλιόμενα μενού:"
 
 #. i18n: ectx: property (text), widget (QLabel, popupmenus_label)
 #: translucency/package/contents/ui/config.ui:329
+#, kde-format
 msgid "Popup menus:"
 msgstr "Αναδυόμενα μενού:"
 
 #. i18n: ectx: property (text), widget (QLabel, tornoffmenus_label)
 #: translucency/package/contents/ui/config.ui:367
-#, fuzzy
+#, fuzzy, kde-format
 msgid "Torn-off menus:"
 msgstr "Στροφή μενού:"
 
 #: windowgeometry/windowgeometry.cpp:61
+#, kde-format
 msgid "Toggle window geometry display (effect only)"
 msgstr "Εναλλαγή εμφάνισης γεωμετρίας παραθύρου (εφέ μόνο)"
 
 #: windowgeometry/windowgeometry_config.cpp:56
+#, kde-format
 msgid "Toggle KWin composited geometry display"
 msgstr "Εναλλαγή της γεωμετρίας παραθύρου που συνθέτεται από το KWin"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Move)
 #: windowgeometry/windowgeometry_config.ui:17
+#, kde-format
 msgid "Display for moving windows"
 msgstr "Οθόνη για κινούμενα παράθυρα"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Resize)
 #: windowgeometry/windowgeometry_config.ui:24
+#, kde-format
 msgid "Display for resizing windows"
 msgstr "Οθόνη για παράθυρα εναλλασσόμενου μεγέθους"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
+#, kde-format
 msgid "Advanced"
 msgstr "Για προχωρημένους"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: wobblywindows/wobblywindows_config.ui:26
+#, kde-format
 msgid "&Stiffness:"
 msgstr "&Δυσκαμψία:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: wobblywindows/wobblywindows_config.ui:68
+#, kde-format
 msgid "Dra&g:"
 msgstr "Βραδύ&τητα:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: wobblywindows/wobblywindows_config.ui:81
+#, kde-format
 msgid "&Move factor:"
 msgstr "Συντελεστής &κίνησης:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MoveWobble)
 #: wobblywindows/wobblywindows_config.ui:155
+#, kde-format
 msgid "Wo&bble when moving"
 msgstr "Ταλάντευση κατά την &κίνηση"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResizeWobble)
 #: wobblywindows/wobblywindows_config.ui:162
+#, kde-format
 msgid "Wobble when &resizing"
 msgstr "Ταλάντευση κατά την α&λλαγή μεγέθους"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AdvancedMode)
 #: wobblywindows/wobblywindows_config.ui:182
+#, kde-format
 msgid "Enable &advanced mode"
 msgstr "Ενεργοποίηση &προχωρημένης λειτουργίας"
 
 #. i18n: ectx: property (title), widget (QGroupBox, basicGroup)
 #: wobblywindows/wobblywindows_config.ui:192
+#, kde-format
 msgid "&Wobbliness"
 msgstr "&Ταλάντευση"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: wobblywindows/wobblywindows_config.ui:201
+#, kde-format
 msgid "Less"
 msgstr "Λιγότερη"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: wobblywindows/wobblywindows_config.ui:224
+#, kde-format
 msgid "More"
 msgstr "Περισσότερη"
 
 #: zoom/zoom.cpp:84
+#, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Μετακίνηση εστιασμένης περιοχής προς τα αριστερά"
 
 #: zoom/zoom.cpp:92
+#, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Μετακίνηση εστιασμένης περιοχής προς τα δεξιά"
 
 #: zoom/zoom.cpp:100
+#, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Μετακίνηση εστιασμένης περιοχής προς τα επάνω"
 
 #: zoom/zoom.cpp:108
+#, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Μετακίνηση εστιασμένης περιοχής προς τα κάτω"
 
 #: zoom/zoom.cpp:117 zoom/zoom_config.cpp:113
+#, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Μετακίνηση ποντικιού στην εστίαση"
 
 #: zoom/zoom.cpp:125 zoom/zoom_config.cpp:120
+#, kde-format
 msgid "Move Mouse to Center"
 msgstr "Μετακίνηση ποντικιού στο κέντρο"
 
 #: zoom/zoom_config.cpp:85
+#, kde-format
 msgid "Move Left"
 msgstr "Μετακίνηση αριστερά"
 
 #: zoom/zoom_config.cpp:92
+#, kde-format
 msgid "Move Right"
 msgstr "Μετακίνηση δεξιά"
 
 #: zoom/zoom_config.cpp:99
+#, kde-format
 msgid "Move Up"
 msgstr "Μετακίνηση πάνω"
 
 #: zoom/zoom_config.cpp:106
+#, kde-format
 msgid "Move Down"
 msgstr "Μετακίνηση κάτω"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label)
 #. i18n: ectx: property (whatsThis), widget (QDoubleSpinBox, kcfg_ZoomFactor)
 #: zoom/zoom_config.ui:25 zoom/zoom_config.ui:41
+#, kde-format
 msgid "On zoom-in and zoom-out change the zoom by the defined zoom-factor."
 msgstr ""
 "Στο πλησίασμα και στην απομάκρυνση να αλλάζει το ζουμάρισμα με βάση το "
@@ -1629,11 +1934,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: zoom/zoom_config.ui:28
+#, kde-format
 msgid "Zoom Factor:"
 msgstr "Παράγοντας εστίασης:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_EnableFocusTracking)
 #: zoom/zoom_config.ui:66
+#, kde-format
 msgid ""
 "Enable tracking of the focused location. This needs QAccessible to be "
 "enabled per application (\"export QT_ACCESSIBILITY=1\")."
@@ -1643,11 +1950,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_EnableFocusTracking)
 #: zoom/zoom_config.ui:69
+#, kde-format
 msgid "Enable Focus Tracking"
 msgstr "Ενεργοποίηση εντοπισμού εστίασης"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_EnableFollowFocus)
 #: zoom/zoom_config.ui:79
+#, kde-format
 msgid "When the focus changes, move the zoom area to the focused location."
 msgstr ""
 "Όταν η εστίαση αλλάζει, να μετακινείται η ζουμαρισμένη περιοχή στην "
@@ -1655,60 +1964,72 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_EnableFollowFocus)
 #: zoom/zoom_config.ui:82
+#, kde-format
 msgid "Follow Focus"
 msgstr "Να ακολουθείται η εστίαση"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: zoom/zoom_config.ui:89
+#, kde-format
 msgid "Mouse Pointer:"
 msgstr "Δείκτης ποντικιού:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_MousePointer)
 #: zoom/zoom_config.ui:102
+#, kde-format
 msgid "Visibility of the mouse-pointer."
 msgstr "Ορατότητα του δείκτη ποντικιού."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
 #: zoom/zoom_config.ui:106
+#, kde-format
 msgid "Scale"
 msgstr "Κλιμάκωση"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
 #: zoom/zoom_config.ui:111
+#, kde-format
 msgid "Keep"
 msgstr "Διατήρηση"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
 #: zoom/zoom_config.ui:116
+#, kde-format
 msgid "Hide"
 msgstr "Απόκρυψη"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:124
+#, kde-format
 msgid "Track moving of the mouse."
 msgstr "Εντοπισμός κίνησης ποντικιού."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:128
+#, kde-format
 msgid "Proportional"
 msgstr "Αναλογικό"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:133
+#, kde-format
 msgid "Centered"
 msgstr "Κεντρικό"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:138
+#, kde-format
 msgid "Push"
 msgstr "Ώθηση"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:143
+#, kde-format
 msgid "Disabled"
 msgstr "Ανενεργό"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: zoom/zoom_config.ui:151
+#, kde-format
 msgid "Mouse Tracking:"
 msgstr "Εντοπισμός ποντικιού:"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/kwin_clients.po\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-07-07 12:09+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -18,85 +18,92 @@ msgstr ""
 "3 : 4\n"
 
 #: aurorae/src/aurorae.cpp:706
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Tiny"
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "An-bheag"
 
 #: aurorae/src/aurorae.cpp:707
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Normal"
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "Gnáthmhéid"
 
 #: aurorae/src/aurorae.cpp:708
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "Mór"
 
 #: aurorae/src/aurorae.cpp:709
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Very Large"
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "An-Mhór"
 
 #: aurorae/src/aurorae.cpp:710
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Huge"
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "Ollmhór"
 
 #: aurorae/src/aurorae.cpp:711
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Very Huge"
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "Fíor-ollmhór"
 
 #: aurorae/src/aurorae.cpp:712
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Oversized"
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "Fíor-mhórthomhais"
 
 #: aurorae/src/aurorae.cpp:715
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Button size:"
 msgid "Button size:"
 msgstr "Méid na gcnaipí:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlastikConfigDialog)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14
+#, kde-format
 msgid "Config Dialog"
 msgstr "Dialóg Chumraíochta"
 
 #. i18n: ectx: property (title), widget (KButtonGroup, titleAlign)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:23
+#, kde-format
 msgid "Title &Alignment"
 msgstr "&Ailíniú Teidil"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignLeft)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:29
+#, kde-format
 msgid "Left"
 msgstr "Ar Chlé"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignCenter)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:36
+#, kde-format
 msgid "Center"
 msgstr "Lár"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignRight)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:43
+#, kde-format
 msgid "Right"
 msgstr "Ar Dheis"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_coloredBorder)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:53
+#, kde-format
 msgid ""
 "Check this option if the window border should be painted in the titlebar "
 "color. Otherwise it will be painted in the background color."
@@ -106,11 +113,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_coloredBorder)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:56
+#, kde-format
 msgid "Colored window border"
 msgstr "Imlíne dhathaithe fhuinneoige"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_titleShadow)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:66
+#, kde-format
 msgid ""
 "Check this option if you want the titlebar text to have a 3D look with a "
 "shadow behind it."
@@ -120,11 +129,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_titleShadow)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:69
+#, kde-format
 msgid "Use shadowed &text"
 msgstr "Úsáid &téacs scáthaithe"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_animateButtons)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:76
+#, kde-format
 msgid ""
 "Check this option if you want the buttons to fade in when the mouse pointer "
 "hovers over them and fade out again when it moves away."
@@ -134,6 +145,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:79
+#, kde-format
 msgid "Animate buttons"
 msgstr "Beoigh cnaipí"
 

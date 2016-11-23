@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-07-04 08:25+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2009-10-31 14:32+0530\n"
 "Last-Translator: gayankalhara <gkgkalhara@gmail.com>\n"
 "Language-Team: Sinhala <kde-i18n-doc@kde.org>\n"
@@ -17,10 +17,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "ඩනිෂ්ක නවින්"
 
+#, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "danishka@gmail.com"
@@ -41,6 +43,7 @@ msgid "Desktop %1"
 msgstr "වැඩතලය %1"
 
 #: main.cpp:87
+#, kde-format
 msgid ""
 "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual "
 "desktops you want and how these should be labeled."
@@ -49,46 +52,57 @@ msgstr ""
 "ආකාරය සැකසිය හැක."
 
 #: main.cpp:99
+#, kde-format
 msgid "Switch to Next Desktop"
 msgstr "ඊලහ වැඩතලයට මාරුවෙන්න"
 
 #: main.cpp:100
+#, kde-format
 msgid "Switch to Previous Desktop"
 msgstr "පෙර වැඩතලයට මාරුවෙන්න"
 
 #: main.cpp:101
+#, kde-format
 msgid "Switch One Desktop to the Right"
 msgstr "දකුණට වැඩතල එකක් මාරුවෙන්න"
 
 #: main.cpp:102
+#, kde-format
 msgid "Switch One Desktop to the Left"
 msgstr "වමට වැඩතල එකක් මාරුවෙන්න"
 
 #: main.cpp:103
+#, kde-format
 msgid "Switch One Desktop Up"
 msgstr "ඉහළට වැඩතල එකක් මාරුවෙන්න"
 
 #: main.cpp:104
+#, kde-format
 msgid "Switch One Desktop Down"
 msgstr "පහළට වැඩතල එකක් මාරුවෙන්න"
 
 #: main.cpp:105
+#, kde-format
 msgid "Walk Through Desktops"
 msgstr ""
 
 #: main.cpp:106
+#, kde-format
 msgid "Walk Through Desktops (Reverse)"
 msgstr ""
 
 #: main.cpp:107
+#, kde-format
 msgid "Walk Through Desktop List"
 msgstr ""
 
 #: main.cpp:108
+#, kde-format
 msgid "Walk Through Desktop List (Reverse)"
 msgstr ""
 
 #: main.cpp:110 main.cpp:144 main.cpp:509 main.cpp:510
+#, kde-format
 msgid "Desktop Switching"
 msgstr "වැඩතල මාරුවීම"
 
@@ -98,6 +112,7 @@ msgid "Switch to Desktop %1"
 msgstr "%1 වැඩතලයට මාරුවෙන්න"
 
 #: main.cpp:154
+#, kde-format
 msgid "No Animation"
 msgstr "සජීවීකරණ නොමැත"
 
@@ -117,23 +132,26 @@ msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
 msgstr "කෙට්මං ගැටුමක්: %2  වැඩතලය සඳහා %1 කෙටිමඟ සැකසිය නොහැක"
 
 #: main.cpp:604
+#, kde-format
 msgid "KWin development team"
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, desktop)
 #: main.ui:33
+#, kde-format
 msgid "Desktops"
 msgstr "වැඩතල"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:39
+#, kde-format
 msgid "Layout"
 msgstr "සැකැස්ම"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, numberLabel)
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, numberSpinBox)
 #: main.ui:51 main.ui:64
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid ""
 #| "Here you can set how many virtual desktops you want on your KDE desktop. "
 #| "Move the slider to change the value."
@@ -145,30 +163,33 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, numberLabel)
 #: main.ui:54
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Number of desktops:"
 msgid "&Number of desktops:"
 msgstr "වැඩතල ගණන:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:83
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Number of rows:"
 msgid "N&umber of rows:"
 msgstr "පේලි ගණන:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
 #: main.ui:103
+#, kde-format
 msgid "Desktop Names"
 msgstr "වැඩතල නාම"
 
 #. i18n: ectx: attribute (title), widget (QWidget, switching)
 #: main.ui:136
+#, kde-format
 msgid "Switching"
 msgstr "මාරුවීම"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, wrapAroundBox)
 #: main.ui:142
+#, kde-format
 msgid ""
 "Enable this option if you want keyboard or active desktop border navigation "
 "beyond the edge of a desktop to take you to the opposite edge of the new "
@@ -177,36 +198,43 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, wrapAroundBox)
 #: main.ui:145
+#, kde-format
 msgid "Desktop navigation wraps around"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:152
+#, kde-format
 msgid "Desktop Effect Animation"
 msgstr "වැඩතල අලංකරණ සජීවීකරණ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:164
+#, kde-format
 msgid "Animation:"
 msgstr "සජීවීකරණ:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, popupInfoCheckBox)
 #: main.ui:204
+#, kde-format
 msgid "Desktop Switch On-Screen Display"
 msgstr "වැඩතල මාරුව තිරය මත දර්ශනය"
 
 #. i18n: ectx: property (text), widget (QLabel, hideLabel)
 #: main.ui:222
+#, kde-format
 msgid "Duration:"
 msgstr "කාල සීමාව:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, popupHideSpinBox)
 #: main.ui:232
+#, kde-format
 msgid " msec"
 msgstr " msec"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
 #: main.ui:245
+#, kde-format
 msgid ""
 "Enabling this option will show a small preview of the desktop layout "
 "indicating the selected desktop."
@@ -214,15 +242,18 @@ msgstr "මෙම විකල්පය තෝරාගැනීමෙන් ඔ
 
 #. i18n: ectx: property (text), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
 #: main.ui:248
+#, kde-format
 msgid "Show desktop layout indicators"
 msgstr "වැඩතල ආකෘති දර්ශක පෙන්වන්න"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shortcutsGroupBox)
 #: main.ui:258
+#, kde-format
 msgid "Shortcuts"
 msgstr "කෙටිමං"
 
 #. i18n: ectx: property (text), widget (QCheckBox, allShortcutsCheckBox)
 #: main.ui:277
+#, kde-format
 msgid "Show shortcuts for all possible desktops"
 msgstr "හැකි සියළුම වැඩතල සඳහා කෙටිමං පෙන්වන්න"

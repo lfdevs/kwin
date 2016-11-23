@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm-kwin-scripts\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2014-08-08 08:31+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2013-11-03 16:56+0100\n"
 "Last-Translator: Sebastien Renard <renard@kde.org>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -23,35 +23,43 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 
+#, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Joëlle Cornavin, Sébastien Renard"
 
+#, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "jcorn@free.fr,renard@kde.org"
 
 #: module.cpp:50
+#, kde-format
 msgid "KWin Scripts"
 msgstr "Scripts KWin"
 
 #: module.cpp:52
+#, kde-format
 msgid "Configure KWin scripts"
 msgstr "Configurer des scripts KWin"
 
 #: module.cpp:55
+#, kde-format
 msgid "Tamás Krutki"
 msgstr "Tamas Krutki"
 
 #: module.cpp:77
+#, kde-format
 msgid "Import KWin Script"
 msgstr "Importer un script KWin"
 
 #: module.cpp:78
+#, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|scripts KWin (*.kwinscript)"
 
 #: module.cpp:87
+#, kde-format
 msgid ""
 "Cannot import selected script: maybe a script already exists with the same "
 "name or there is a permission problem."
@@ -61,15 +69,18 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Module)
 #: module.ui:14
+#, kde-format
 msgid "KWin script configuration"
 msgstr "Configuration du script KWin"
 
 #. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
 #: module.ui:41
+#, kde-format
 msgid "Import KWin script..."
 msgstr "Importer un script KWin..."
 
 #. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
 #: module.ui:48
+#, kde-format
 msgid "Get New Script..."
 msgstr "Obtenir un nouveau script..."

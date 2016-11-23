@@ -1,5 +1,5 @@
 project(KWIN)
-set(PROJECT_VERSION "5.8.2")
+set(PROJECT_VERSION "5.8.4")
 set(PROJECT_VERSION_MAJOR 5)
 
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
@@ -86,6 +86,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     Declarative
     KCMUtils
     KIO
+    TextWidgets
     NewStuff
     Service
     XmlGui
@@ -340,10 +341,10 @@ add_subdirectory(helpers)
 ########### next target ###############
 
 set(kwin_KDEINIT_SRCS
-   workspace.cpp 
+   workspace.cpp
    dbusinterface.cpp
    abstract_client.cpp
-   client.cpp 
+   client.cpp
    client_machine.cpp
    cursor.cpp
    debug_console.cpp
@@ -356,25 +357,25 @@ set(kwin_KDEINIT_SRCS
    pointer_input.cpp
    touch_input.cpp
    netinfo.cpp
-   placement.cpp 
-   atoms.cpp 
-   utils.cpp 
-   layers.cpp 
-   main.cpp 
-   options.cpp 
+   placement.cpp
+   atoms.cpp
+   utils.cpp
+   layers.cpp
+   main.cpp
+   options.cpp
    outline.cpp
-   events.cpp 
-   killwindow.cpp 
-   geometrytip.cpp 
+   events.cpp
+   killwindow.cpp
+   geometrytip.cpp
    screens.cpp
    shadow.cpp
-   sm.cpp 
-   group.cpp 
-   manage.cpp 
+   sm.cpp
+   group.cpp
+   manage.cpp
    overlaywindow.cpp
-   activation.cpp 
-   useractions.cpp 
-   geometry.cpp 
+   activation.cpp
+   useractions.cpp
+   geometry.cpp
    rules.cpp
    composite.cpp
    toplevel.cpp

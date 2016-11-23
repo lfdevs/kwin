@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-07-07 12:09+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2010-05-31 10:30+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -24,83 +24,89 @@ msgstr ""
 "\n"
 
 #: aurorae/src/aurorae.cpp:706
-#, fuzzy
+#, fuzzy, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "Örsmátt"
 
 #: aurorae/src/aurorae.cpp:707
-#, fuzzy
+#, fuzzy, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "Venjulegt"
 
 #: aurorae/src/aurorae.cpp:708
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Large"
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "Stórt"
 
 #: aurorae/src/aurorae.cpp:709
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Large"
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "Stórt"
 
 #: aurorae/src/aurorae.cpp:710
-#, fuzzy
+#, fuzzy, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "Stór"
 
 #: aurorae/src/aurorae.cpp:711
-#, fuzzy
+#, fuzzy, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "Hrikalega stórt"
 
 #: aurorae/src/aurorae.cpp:712
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Resize"
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "Breyta stærð"
 
 #: aurorae/src/aurorae.cpp:715
-#, fuzzy
+#, fuzzy, kde-format
 #| msgid "Button size:"
 msgid "Button size:"
 msgstr "Stærð hnappa:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlastikConfigDialog)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14
+#, kde-format
 msgid "Config Dialog"
 msgstr "Stillingagluggi"
 
 #. i18n: ectx: property (title), widget (KButtonGroup, titleAlign)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:23
+#, kde-format
 msgid "Title &Alignment"
 msgstr "Titill og st&aðsetning"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignLeft)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:29
+#, kde-format
 msgid "Left"
 msgstr "Vinstri"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignCenter)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:36
+#, kde-format
 msgid "Center"
 msgstr "Miðja"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignRight)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:43
+#, kde-format
 msgid "Right"
 msgstr "Hægri"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_coloredBorder)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:53
+#, kde-format
 msgid ""
 "Check this option if the window border should be painted in the titlebar "
 "color. Otherwise it will be painted in the background color."
@@ -110,11 +116,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_coloredBorder)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:56
+#, kde-format
 msgid "Colored window border"
 msgstr "Litaðir gluggarammar"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_titleShadow)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:66
+#, kde-format
 msgid ""
 "Check this option if you want the titlebar text to have a 3D look with a "
 "shadow behind it."
@@ -124,11 +132,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_titleShadow)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:69
+#, kde-format
 msgid "Use shadowed &text"
 msgstr "Nota skyggðan &texta"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_animateButtons)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:76
+#, kde-format
 msgid ""
 "Check this option if you want the buttons to fade in when the mouse pointer "
 "hovers over them and fade out again when it moves away."
@@ -138,5 +148,6 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:79
+#, kde-format
 msgid "Animate buttons"
 msgstr "Hreyfa hnappa"

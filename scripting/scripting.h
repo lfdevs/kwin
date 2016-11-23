@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QHash>
 #include <QStringList>
 #include <QtScript/QScriptEngineAgent>
+#include <QtQml/QJSValue>
 
 class QQmlComponent;
 class QQmlContext;
@@ -50,7 +51,7 @@ namespace KWin
 class AbstractClient;
 class Client;
 class ScriptUnloaderAgent;
-class WorkspaceWrapper;
+class QtScriptWorkspaceWrapper;
 
 class KWIN_EXPORT AbstractScript : public QObject
 {
@@ -318,6 +319,7 @@ public:
 public Q_SLOTS:
     QVariant readConfig(const QString &key, QVariant defaultValue = QVariant());
     void registerWindow(QQuickWindow *window);
+    bool registerShortcut(const QString &name, const QString &text, const QKeySequence& keys, QJSValue function);
 
 private:
     DeclarativeScript *m_script;
@@ -360,7 +362,9 @@ public:
 
     QQmlEngine *qmlEngine() const;
     QQmlEngine *qmlEngine();
-    WorkspaceWrapper *workspaceWrapper() const;
+    QQmlContext *declarativeScriptSharedContext() const;
+    QQmlContext *declarativeScriptSharedContext();
+    QtScriptWorkspaceWrapper *workspaceWrapper() const;
 
     AbstractScript *findScript(const QString &pluginName) const;
 
@@ -379,7 +383,8 @@ private:
     LoadScriptList queryScriptsToLoad();
     static Scripting *s_self;
     QQmlEngine *m_qmlEngine;
-    WorkspaceWrapper *m_workspaceWrapper;
+    QQmlContext *m_declarativeScriptSharedContext;
+    QtScriptWorkspaceWrapper *m_workspaceWrapper;
 };
 
 inline
@@ -395,7 +400,19 @@ QQmlEngine *Scripting::qmlEngine()
 }
 
 inline
-WorkspaceWrapper *Scripting::workspaceWrapper() const
+QQmlContext *Scripting::declarativeScriptSharedContext() const
+{
+    return m_declarativeScriptSharedContext;
+}
+
+inline
+QQmlContext *Scripting::declarativeScriptSharedContext()
+{
+    return m_declarativeScriptSharedContext;
+}
+
+inline
+QtScriptWorkspaceWrapper *Scripting::workspaceWrapper() const
 {
     return m_workspaceWrapper;
 }

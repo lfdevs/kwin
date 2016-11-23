@@ -46,6 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMenu>
 #include <QQmlContext>
 #include <QQmlEngine>
+#include <QQmlExpression>
 #include <QtScript/QScriptEngine>
 #include <QtScript/QScriptValue>
 #include <QtCore/QStandardPaths>
@@ -293,9 +294,9 @@ void KWin::Script::installScriptFunctions(QScriptEngine* engine)
     QScriptValue assertNotNullFunc = engine->newFunction(kwinAssertNotNull);
     engine->globalObject().setProperty(QStringLiteral("assertNotNull"), assertNotNullFunc);
     // global properties
-    engine->globalObject().setProperty(QStringLiteral("KWin"), engine->newQMetaObject(&WorkspaceWrapper::staticMetaObject));
+    engine->globalObject().setProperty(QStringLiteral("KWin"), engine->newQMetaObject(&QtScriptWorkspaceWrapper::staticMetaObject));
     QScriptValue workspace = engine->newQObject(Scripting::self()->workspaceWrapper(), QScriptEngine::QtOwnership,
-                                                QScriptEngine::ExcludeSuperClassContents | QScriptEngine::ExcludeDeleteLater);
+                                                QScriptEngine::ExcludeDeleteLater);
     engine->globalObject().setProperty(QStringLiteral("workspace"), workspace, QScriptValue::Undeletable);
     // install meta functions
     KWin::MetaScripting::registration(engine);
@@ -527,7 +528,7 @@ void KWin::ScriptUnloaderAgent::scriptUnload(qint64 id)
 
 KWin::DeclarativeScript::DeclarativeScript(int id, QString scriptName, QString pluginName, QObject* parent)
     : AbstractScript(id, scriptName, pluginName, parent)
-    , m_context(new QQmlContext(Scripting::self()->qmlEngine(), this))
+    , m_context(new QQmlContext(Scripting::self()->declarativeScriptSharedContext(), this))
     , m_component(new QQmlComponent(Scripting::self()->qmlEngine(), this))
 {
     m_context->setContextProperty(QStringLiteral("KWin"), new JSEngineGlobalMethodsWrapper(this));
@@ -587,6 +588,28 @@ void KWin::JSEngineGlobalMethodsWrapper::registerWindow(QQuickWindow *window)
     });
 }
 
+bool KWin::JSEngineGlobalMethodsWrapper::registerShortcut(const QString &name, const QString &text, const QKeySequence& keys, QJSValue function)
+{
+    if (!function.isCallable()) {
+        qCDebug(KWIN_SCRIPTING) << "Fourth and final argument must be a javascript function";
+        return false;
+    }
+
+    QAction *a = new QAction(this);
+    a->setObjectName(name);
+    a->setText(text);
+    const QKeySequence shortcut = QKeySequence(keys);
+    KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>{shortcut});
+    KWin::input()->registerShortcut(shortcut, a);
+
+    connect(a, &QAction::triggered, this, [=]() mutable {
+        QJSValueList arguments;
+        arguments << Scripting::self()->qmlEngine()->toScriptValue(a);
+        function.call(arguments);
+    });
+    return true;
+}
+
 KWin::Scripting *KWin::Scripting::s_self = nullptr;
 
 KWin::Scripting *KWin::Scripting::create(QObject *parent)
@@ -600,7 +623,8 @@ KWin::Scripting::Scripting(QObject *parent)
     : QObject(parent)
     , m_scriptsLock(new QMutex(QMutex::Recursive))
     , m_qmlEngine(new QQmlEngine(this))
-    , m_workspaceWrapper(new WorkspaceWrapper(this))
+    , m_declarativeScriptSharedContext(new QQmlContext(m_qmlEngine, this))
+    , m_workspaceWrapper(new QtScriptWorkspaceWrapper(this))
 {
     init();
     QDBusConnection::sessionBus().registerObject(QStringLiteral("/Scripting"), this, QDBusConnection::ExportScriptableContents | QDBusConnection::ExportScriptableInvokables);
@@ -625,6 +649,11 @@ void KWin::Scripting::init()
 
     m_qmlEngine->rootContext()->setContextProperty(QStringLiteral("workspace"), m_workspaceWrapper);
     m_qmlEngine->rootContext()->setContextProperty(QStringLiteral("options"), options);
+
+    m_declarativeScriptSharedContext->setContextProperty(QStringLiteral("workspace"), new DeclarativeScriptWorkspaceWrapper(this));
+    // QQmlListProperty interfaces only work via properties, rebind them as functions here
+    QQmlExpression expr(m_declarativeScriptSharedContext, nullptr, "workspace.clientList = function() { return workspace.clients }");
+    expr.evaluate();
 }
 
 void KWin::Scripting::start()

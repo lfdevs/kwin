@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 22:52+0100\n"
-"PO-Revision-Date: 2016-09-16 14:11+0200\n"
+"PO-Revision-Date: 2016-12-13 17:03+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
 "Language: el\n"
@@ -1331,7 +1331,7 @@ msgstr "Καθαρισμός σημαδιών του ποντικιού"
 #: mousemark/mousemark_config.ui:23
 #, kde-format
 msgid "Wid&th:"
-msgstr ""
+msgstr "Π&λάτος:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mousemark/mousemark_config.ui:36

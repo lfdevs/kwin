@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 22:52+0100\n"
-"PO-Revision-Date: 2016-10-20 21:52+0100\n"
+"PO-Revision-Date: 2016-12-05 21:31+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
 "Language: ko\n"
@@ -1311,7 +1311,7 @@ msgstr "마우스 자취 지우기"
 #: mousemark/mousemark_config.ui:23
 #, kde-format
 msgid "Wid&th:"
-msgstr ""
+msgstr "폭(&W):"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mousemark/mousemark_config.ui:36

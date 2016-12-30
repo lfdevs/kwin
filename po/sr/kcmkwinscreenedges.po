@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-08-11 07:46+0000\n"
-"PO-Revision-Date: 2016-05-17 01:39+0200\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
+"PO-Revision-Date: 2016-09-25 23:35+0200\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr\n"
@@ -19,43 +19,52 @@ msgstr ""
 "X-Text-Markup: kde4\n"
 "X-Environment: kde\n"
 
+#, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Часлав Илић"
 
+#, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "caslav.ilic@gmx.net"
 
 # >> @option:check Screen edge action
 #: main.cpp:187
+#, kde-format
 msgid "No Action"
 msgstr "без радње"
 
 # >> @option:check Screen edge action
 #: main.cpp:188
+#, kde-format
 msgid "Show Desktop"
 msgstr "прикажи површ"
 
 # >> @option:check Screen edge action
 #: main.cpp:189
+#, kde-format
 msgid "Lock Screen"
 msgstr "закључај екран"
 
 # >> @option:check Screen edge action
 #: main.cpp:190
+#, kde-format
 msgctxt "Open krunner"
 msgid "Run Command"
 msgstr "изврши наредбу"
 
 # >> @option:check Screen edge action
 #: main.cpp:191
+#, kde-format
 msgid "Activity Manager"
 msgstr "менаџер активности"
 
+# >> @option:check Screen edge action
 #: main.cpp:192
+#, kde-format
 msgid "Application Launcher"
-msgstr ""
+msgstr "покретач програма"
 
 # >> @option:check Screen edge action
 #: main.cpp:196
@@ -95,21 +104,25 @@ msgstr "%1 — сфера"
 
 # >> @option:check Screen edge action
 #: main.cpp:205
+#, kde-format
 msgid "Toggle window switching"
 msgstr "обрни мењање прозора"
 
 # >> @option:check Screen edge action
 #: main.cpp:206
+#, kde-format
 msgid "Toggle alternative window switching"
 msgstr "обрни алтернативно мењање прозора"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
+#, kde-format
 msgid "Active Screen Edge Actions"
 msgstr "Радње активне ивице екрана"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
+#, kde-format
 msgid ""
 "To trigger an action push your mouse cursor against the edge of the screen "
 "in the action's direction."
@@ -117,69 +130,81 @@ msgstr "За окидање радње гурните показивач миш�
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
+#, kde-format
 msgid "Window Management"
 msgstr "Управљање прозорима"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
+#, kde-format
 msgid "Maximize windows by dragging them to the top of the screen"
 msgstr "Максимизуј прозоре превучене на врх екрана"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
+#, kde-format
 msgid "Tile windows by dragging them to the side of the screen"
 msgstr "Поплочај прозоре превучене уз стране екрана"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
+#, kde-format
 msgid "Quarter tiling triggered in the outer"
 msgstr "Четвртно поплочавање окида се у спољашњих"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, electricBorderCornerRatio)
 #: main.ui:106
-#, no-c-format
+#, no-c-format, kde-format
 msgid "%"
 msgstr "%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: main.ui:122
+#, kde-format
 msgid "of the screen"
 msgstr "екрана"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:150
+#, kde-format
 msgid "Other Settings"
 msgstr "Остале поставке"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, desktopSwitchLabel)
 #: main.ui:162
+#, kde-format
 msgid ""
 "Change desktop when the mouse cursor is pushed against the edge of the screen"
 msgstr "Промени површ када се показивач миша гурне уз ивицу екрана"
 
 #. i18n: ectx: property (text), widget (QLabel, desktopSwitchLabel)
 #: main.ui:165
+#, kde-format
 msgid "&Switch desktop on edge:"
 msgstr "&Пребаци површ на ивици:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:176
+#, kde-format
 msgctxt "Switch desktop on edge"
 msgid "Disabled"
 msgstr "искључено"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:181
+#, kde-format
 msgid "Only When Moving Windows"
 msgstr "само при померању прозора"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:186
+#, kde-format
 msgid "Always Enabled"
 msgstr "увек укључено"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: main.ui:194
+#, kde-format
 msgid ""
 "Amount of time required for the mouse cursor to be pushed against the edge "
 "of the screen before the action is triggered"
@@ -189,17 +214,20 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:197
+#, kde-format
 msgid "Activation &delay:"
 msgstr "&Застој активирања:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, activationDelaySpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, triggerCooldownSpin)
 #: main.ui:207 main.ui:242
+#, kde-format
 msgid " ms"
 msgstr " ms"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: main.ui:226
+#, kde-format
 msgid ""
 "Amount of time required after triggering an action until the next trigger "
 "can occur"
@@ -207,5 +235,6 @@ msgstr "Најмање време које мора да прође између
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:229
+#, kde-format
 msgid "&Reactivation delay:"
 msgstr "Застој &поновног активирања:"

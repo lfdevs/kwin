@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 22:52+0100\n"
-"PO-Revision-Date: 2016-11-05 07:11+0100\n"
+"PO-Revision-Date: 2016-12-04 10:41+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -641,7 +641,7 @@ msgstr "Wyświetla wirtualne pulpity na ścianach sześcianu"
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
-msgstr "Animacja sześcianu pulpitu"
+msgstr "Animacja sześcianu pulpitów"
 
 #: effect_builtins.cpp:162
 #, kde-format
@@ -823,7 +823,7 @@ msgid ""
 "Creates an animation whenever a mouse button is clicked. This is useful for "
 "screenrecordings/presentations"
 msgstr ""
-"Tworzy animację przy każdym naciśnięciu klawiszem myszy. Jest to użyteczne "
+"Tworzy animację przy każdym kliknięciu klawiszem myszy. Jest to użyteczne "
 "przy nagrywaniu ekranu/prezentacjach"
 
 #: effect_builtins.cpp:386
@@ -1010,7 +1010,7 @@ msgstr "Punkty dotyku"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Visualize touch points"
-msgstr "Uwidocznienie punktów dotyku"
+msgstr "Uwidacznia punkty dotyku"
 
 #: effect_builtins.cpp:611
 #, kde-format

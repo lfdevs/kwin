@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 22:52+0100\n"
-"PO-Revision-Date: 2016-08-20 14:11+0100\n"
+"PO-Revision-Date: 2016-11-22 20:46+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -1330,7 +1330,7 @@ msgstr "Mausspuren entfernen"
 #: mousemark/mousemark_config.ui:23
 #, kde-format
 msgid "Wid&th:"
-msgstr ""
+msgstr "&Breite:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mousemark/mousemark_config.ui:36

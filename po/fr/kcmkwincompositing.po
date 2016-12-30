@@ -6,21 +6,22 @@
 # Sébastien Renard <Sebastien.Renard@digitalfox.org>, 2008, 2011.
 # xavier <ktranslator31@yahoo.fr>, 2013.
 # Sebastien Renard <renard@kde.org>, 2015.
+# Vincent Pinon <vpinon@kde.org>, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 22:52+0100\n"
-"PO-Revision-Date: 2013-05-13 20:13+0200\n"
-"Last-Translator: xavier <xavier.besnard@neuf.fr>\n"
-"Language-Team: French <kde-francophone@kde.org>\n"
+"PO-Revision-Date: 2016-11-23 18:25+0100\n"
+"Last-Translator: Vincent Pinon <vpinon@kde.org>\n"
+"Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -28,12 +29,12 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Bruno Patri"
+msgstr "Bruno Patri, Vincent Pinon"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "bruno.patri@gmail.com"
+msgstr "bruno.patri@gmail.com, vpinon@kde.org"
 
 #: compositing.cpp:401
 #, kde-format
@@ -54,13 +55,13 @@ msgstr "XRender"
 #, kde-format
 msgctxt "OpenGL Platform Interface"
 msgid "EGL"
-msgstr ""
+msgstr "EGL"
 
 #: compositing.cpp:504
 #, kde-format
 msgctxt "OpenGL Platform Interface"
 msgid "GLX"
-msgstr ""
+msgstr "GLX"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
 #: compositing.ui:29
@@ -73,6 +74,13 @@ msgid ""
 "immediate crash!\n"
 "Alternatively, you might want to use the XRender backend instead."
 msgstr ""
+"Le compositeur OpenGL (par défaut) a rendu KWin instable par le passé.\n"
+"Ceci était très probablement dû à un bogue dans le pilote graphique.\n"
+"Si vous pensez avoir entre temps effectué une mise à jour vers un pilote "
+"stable,\n"
+"vous pouvez réinitialiser cette protection, mais soyez conscient que cela "
+"peut aboutir à un plantage immédiat !\n"
+"Sinon, vous pouvez utiliser plutôt le moteur Xrender."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
 #: compositing.ui:42
@@ -81,6 +89,9 @@ msgid ""
 "Scale method \"Accurate\" is not supported by all hardware and can cause "
 "performance regressions and rendering artifacts."
 msgstr ""
+"La méthode de mise à l'échelle « précise » n'est pas prise en charge par "
+"tous les matériels et peut provoquer des dégradations de performances et des "
+"artefacts de rendu."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
 #: compositing.ui:65
@@ -89,14 +100,15 @@ msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
 "windows. This can result in windows not suspending their work when minimized."
 msgstr ""
+"Conserver les miniatures des fenêtres interfère toujours avec l'état "
+"minimisé des fenêtres. Ceci peut mener les fenêtres à ne pas arrêter leur "
+"travail même à l'état minimisé."
 
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:77
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Enable desktop effects at startup"
+#, kde-format
 msgid "Enable compositor on startup"
-msgstr "Activer les effets de bureau au démarrage"
+msgstr "Activer le compositeur au démarrage"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:84
@@ -112,8 +124,7 @@ msgstr "Ultra-rapide"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:131
-#, fuzzy, kde-format
-#| msgid "Very Slow"
+#, kde-format
 msgid "Very slow"
 msgstr "Très lente"
 
@@ -153,23 +164,18 @@ msgstr "Avec lissage (plus lent)"
 #: compositing.ui:196
 #, kde-format
 msgid "Rendering backend:"
-msgstr ""
+msgstr "Moteur de rendu :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: compositing.ui:213
-#, fuzzy, kde-format
-#| msgid "Tearing Prevention (VSync)"
+#, kde-format
 msgid "Tearing prevention (\"vsync\"):"
-msgstr "Prévention de déchirement (Vsync)"
+msgstr "Prévention de déchirement (« vsync ») :"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:221 compositing.ui:257
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Windows are unmapped as they are requested. This can lead to not having "
-#| "updated thumbnials for windows on other desktops."
-#| msgid "Never"
+#, kde-format
 msgid "Never"
 msgstr "Jamais"
 
@@ -181,17 +187,15 @@ msgstr "Automatique"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:231
-#, fuzzy, kde-format
-#| msgid "Only when Cheap"
+#, kde-format
 msgid "Only when cheap"
 msgstr "Seulement lorsque peu coûteux"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:236
-#, fuzzy, kde-format
-#| msgid "Full scene repaints"
+#, kde-format
 msgid "Full screen repaints"
-msgstr "Rafraîchissement de larges zones"
+msgstr "Rafraîchissement de tout l'écran"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:241
@@ -203,21 +207,17 @@ msgstr "Ré-utiliser le contenu de l'écran"
 #: compositing.ui:249
 #, kde-format
 msgid "Keep window thumbnails:"
-msgstr "Conserver les miniatures des fenêtres :"
+msgstr "Conserver les vignettes des fenêtres :"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:262
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Windows are not unmapped if the window is somewhere visible on any of the "
-#| "virtual desktops."
-#| msgid "Only for Shown Windows"
+#, kde-format
 msgid "Only for Shown Windows"
 msgstr "Seulement pour les fenêtres affichées"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:267
-#, fuzzy, kde-format
+#, kde-format
 msgid "Always"
 msgstr "Toujours"
 
@@ -225,14 +225,13 @@ msgstr "Toujours"
 #: compositing.ui:275
 #, kde-format
 msgid "Experimental:"
-msgstr ""
+msgstr "Expérimental :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
 #: compositing.ui:282
-#, fuzzy, kde-format
-#| msgid "Enable color correction (experimental)"
+#, kde-format
 msgid "Enable color correction"
-msgstr "Activer la correction de couleurs (expérimental)"
+msgstr "Activer la correction de couleurs"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, windowsBlockCompositing)
 #: compositing.ui:291
@@ -242,12 +241,16 @@ msgid ""
 " This brings performance improvements for e.g. games.\n"
 " The setting can be overruled by window-specific rules."
 msgstr ""
+"Les applications peuvent utiliser une astuce pour empêcher la composition "
+"quand la fenêtre est ouvert.\n"
+"Ceci améliore les performances par exemple dans les jeux.\n"
+"Ce réglage peut être forcé par des règles spécifiques à chaque fenêtre."
 
 #. i18n: ectx: property (text), widget (QCheckBox, windowsBlockCompositing)
 #: compositing.ui:294
 #, kde-format
 msgid "Allow applications to block compositing"
-msgstr ""
+msgstr "Permettre aux applications de bloquer la composition"
 
 #: main.cpp:82
 #, kde-format
@@ -260,49 +263,50 @@ msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
 "video."
 msgstr ""
+"« Seulement lorsque peu coûteux » prévient le déchirement uniquement pour "
+"les changements de l'écran complet comme dans une vidéo."
 
 #: main.cpp:144
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr ""
+"« Rafraîchissement de tout l'écran » peut provoquer des problèmes de "
+"performances."
 
 #: main.cpp:148
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
+"« Ré-utiliser le contenu de l'écran » peut provoquer de sérieux problèmes de "
+"performances avec les pilotes MESA."
 
 #: model.cpp:69
-#, fuzzy, kde-format
-#| msgid "Accessibility"
+#, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Accessibilité"
 
 #: model.cpp:70
-#, fuzzy, kde-format
-#| msgid "Appearance"
+#, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Apparence"
 
 #: model.cpp:71
-#, fuzzy, kde-format
-#| msgid "Candy"
+#, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Ornements"
 
 #: model.cpp:72
-#, fuzzy, kde-format
-#| msgid "Focus"
+#, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Focus"
 
 #: model.cpp:73
-#, fuzzy, kde-format
-#| msgid "Tools"
+#, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Outils"
@@ -311,11 +315,10 @@ msgstr "Outils"
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
-msgstr ""
+msgstr "Animation de changement de bureau virtuel"
 
 #: model.cpp:75
-#, fuzzy, kde-format
-#| msgid "Window Management"
+#, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Gestion des fenêtres"
@@ -323,7 +326,7 @@ msgstr "Gestion des fenêtres"
 #: model.cpp:231
 #, kde-format
 msgid "KWin development team"
-msgstr ""
+msgstr "L'équipe de développement de KWin"
 
 #: qml/Effect.qml:118
 #, kde-format
@@ -331,6 +334,8 @@ msgid ""
 "Author: %1\n"
 "License: %2"
 msgstr ""
+"Auteur : %1\n"
+"Licence : %2"
 
 #: qml/EffectView.qml:63
 #, kde-format
@@ -344,24 +349,24 @@ msgstr ""
 #: qml/EffectView.qml:74
 #, kde-format
 msgid "Search"
-msgstr ""
+msgstr "Rechercher"
 
 #: qml/EffectView.qml:81
-#, fuzzy, kde-format
-#| msgid "Texture filter:"
+#, kde-format
 msgid "Configure filter"
-msgstr "Filtre de texture :"
+msgstr "Configurer le filtre"
 
 #: qml/EffectView.qml:84
 #, kde-format
 msgid "Exclude Desktop Effects not supported by the Compositor"
 msgstr ""
+"Exclure les effets de bureau qui ne sont pas pris en charge par le "
+"compositeur"
 
 #: qml/EffectView.qml:92
-#, fuzzy, kde-format
-#| msgid "Suspend Desktop Effects"
+#, kde-format
 msgid "Exclude internal Desktop Effects"
-msgstr "Désactiver les effets de bureau"
+msgstr "Exclure les effets de bureau internes"
 
 #: qml/EffectView.qml:104
 #, kde-format

@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 22:52+0100\n"
-"PO-Revision-Date: 2016-10-04 11:45-0800\n"
+"PO-Revision-Date: 2016-12-15 17:42-0800\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese <kde-china@kde.org>\n"
 "Language: zh_CN\n"
@@ -1314,7 +1314,7 @@ msgstr "清除鼠标标记"
 #: mousemark/mousemark_config.ui:23
 #, kde-format
 msgid "Wid&th:"
-msgstr ""
+msgstr "宽度(&T)："
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mousemark/mousemark_config.ui:36

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 22:52+0100\n"
-"PO-Revision-Date: 2016-10-20 22:02+0100\n"
+"PO-Revision-Date: 2016-12-11 21:01+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
 "Language: ko\n"
@@ -397,7 +397,7 @@ msgstr "터치 놓음"
 #, kde-format
 msgctxt "A pinch gesture is started"
 msgid "Pinch start"
-msgstr ""
+msgstr "핀치 시작"
 
 #: debug_console.cpp:345
 #, kde-format
@@ -409,7 +409,7 @@ msgstr "손가락 개수"
 #, kde-format
 msgctxt "A pinch gesture is updated"
 msgid "Pinch update"
-msgstr ""
+msgstr "핀치 업데이트"
 
 #: debug_console.cpp:359
 #, kde-format
@@ -421,37 +421,37 @@ msgstr "크기"
 #, kde-format
 msgctxt "Current angle in pinch gesture"
 msgid "Angle delta"
-msgstr ""
+msgstr "각도 차이"
 
 #: debug_console.cpp:361
 #, kde-format
 msgctxt "Current delta in pinch gesture"
 msgid "Delta x"
-msgstr ""
+msgstr "x 차이"
 
 #: debug_console.cpp:362
 #, kde-format
 msgctxt "Current delta in pinch gesture"
 msgid "Delta y"
-msgstr ""
+msgstr "y 차이"
 
 #: debug_console.cpp:374
 #, kde-format
 msgctxt "A pinch gesture ended"
 msgid "Pinch end"
-msgstr ""
+msgstr "핀치 끝"
 
 #: debug_console.cpp:387
 #, kde-format
 msgctxt "A pinch gesture got cancelled"
 msgid "Pinch cancelled"
-msgstr ""
+msgstr "핀치 취소됨"
 
 #: debug_console.cpp:400
 #, kde-format
 msgctxt "A swipe gesture is started"
 msgid "Swipe start"
-msgstr ""
+msgstr "문지르기 시작"
 
 #: debug_console.cpp:402
 #, kde-format
@@ -463,31 +463,31 @@ msgstr "손가락 개수"
 #, kde-format
 msgctxt "A swipe gesture is updated"
 msgid "Swipe update"
-msgstr ""
+msgstr "문지르기 업데이트"
 
 #: debug_console.cpp:416
 #, kde-format
 msgctxt "Current delta in swipe gesture"
 msgid "Delta x"
-msgstr ""
+msgstr "x 차이"
 
 #: debug_console.cpp:417
 #, kde-format
 msgctxt "Current delta in swipe gesture"
 msgid "Delta y"
-msgstr ""
+msgstr "y 차이"
 
 #: debug_console.cpp:429
 #, kde-format
 msgctxt "A swipe gesture ended"
 msgid "Swipe end"
-msgstr ""
+msgstr "문지르기 끝"
 
 #: debug_console.cpp:442
 #, kde-format
 msgctxt "A swipe gesture got cancelled"
 msgid "Swipe cancelled"
-msgstr ""
+msgstr "문지르기 취소됨"
 
 #: debug_console.cpp:596
 #, kde-format

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 22:52+0100\n"
-"PO-Revision-Date: 2016-09-24 21:48+0100\n"
+"PO-Revision-Date: 2016-12-15 20:34+0100\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
 "Language: da\n"
@@ -393,19 +393,19 @@ msgstr "Berøring op"
 #, kde-format
 msgctxt "A pinch gesture is started"
 msgid "Pinch start"
-msgstr ""
+msgstr "knib startet"
 
 #: debug_console.cpp:345
 #, kde-format
 msgctxt "Number of fingers in this pinch gesture"
 msgid "Finger count"
-msgstr ""
+msgstr "Fingerantal"
 
 #: debug_console.cpp:357
 #, kde-format
 msgctxt "A pinch gesture is updated"
 msgid "Pinch update"
-msgstr ""
+msgstr "knib opdateret"
 
 #: debug_console.cpp:359
 #, kde-format
@@ -417,73 +417,73 @@ msgstr "Skalér"
 #, kde-format
 msgctxt "Current angle in pinch gesture"
 msgid "Angle delta"
-msgstr ""
+msgstr "Vinkeldelta"
 
 #: debug_console.cpp:361
 #, kde-format
 msgctxt "Current delta in pinch gesture"
 msgid "Delta x"
-msgstr ""
+msgstr "Delta x"
 
 #: debug_console.cpp:362
 #, kde-format
 msgctxt "Current delta in pinch gesture"
 msgid "Delta y"
-msgstr ""
+msgstr "Delta y"
 
 #: debug_console.cpp:374
 #, kde-format
 msgctxt "A pinch gesture ended"
 msgid "Pinch end"
-msgstr ""
+msgstr "Knib sluttet"
 
 #: debug_console.cpp:387
 #, kde-format
 msgctxt "A pinch gesture got cancelled"
 msgid "Pinch cancelled"
-msgstr ""
+msgstr "Knib annulleret"
 
 #: debug_console.cpp:400
 #, kde-format
 msgctxt "A swipe gesture is started"
 msgid "Swipe start"
-msgstr ""
+msgstr "Stryg startet"
 
 #: debug_console.cpp:402
 #, kde-format
 msgctxt "Number of fingers in this swipe gesture"
 msgid "Finger count"
-msgstr ""
+msgstr "Fingerantal"
 
 #: debug_console.cpp:414
 #, kde-format
 msgctxt "A swipe gesture is updated"
 msgid "Swipe update"
-msgstr ""
+msgstr "Stryg opdateret"
 
 #: debug_console.cpp:416
 #, kde-format
 msgctxt "Current delta in swipe gesture"
 msgid "Delta x"
-msgstr ""
+msgstr "Delta x"
 
 #: debug_console.cpp:417
 #, kde-format
 msgctxt "Current delta in swipe gesture"
 msgid "Delta y"
-msgstr ""
+msgstr "Delta y"
 
 #: debug_console.cpp:429
 #, kde-format
 msgctxt "A swipe gesture ended"
 msgid "Swipe end"
-msgstr ""
+msgstr "Stryg sluttet"
 
 #: debug_console.cpp:442
 #, kde-format
 msgctxt "A swipe gesture got cancelled"
 msgid "Swipe cancelled"
-msgstr ""
+msgstr "Stryg annulleret"
 
 #: debug_console.cpp:596
 #, kde-format

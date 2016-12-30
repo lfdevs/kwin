@@ -4,21 +4,21 @@
 #
 # Diniz Bortolotto <diniz.bortolotto@gmail.com>, 2007, 2008.
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
-# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2012.
+# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2012, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 22:52+0100\n"
-"PO-Revision-Date: 2015-10-30 09:54-0200\n"
-"Last-Translator: André Marcelo Alvarenga <alvarenga@kde.org>\n"
-"Language-Team: Brazilian Portuguese <kde-i18n-pt_br@kde.org>\n"
+"PO-Revision-Date: 2016-12-20 22:03-0300\n"
+"Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
+"Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1327,7 +1327,7 @@ msgstr "Limpar as marcas do mouse"
 #: mousemark/mousemark_config.ui:23
 #, kde-format
 msgid "Wid&th:"
-msgstr ""
+msgstr "Lar&gura:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mousemark/mousemark_config.ui:36

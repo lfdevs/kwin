@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_scripting\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-08-01 09:10+0000\n"
+"POT-Creation-Date: 2016-11-19 22:52+0100\n"
 "PO-Revision-Date: 2013-09-29 16:31+0200\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -18,31 +18,36 @@ msgstr ""
 "X-Text-Markup: kde4\n"
 "X-Environment: kde\n"
 
+#, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Часлав Илић"
 
+#, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "caslav.ilic@gmx.net"
 
 #: genericscriptedconfig.cpp:81
+#, kde-format
 msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
 msgstr "Прикључак не даје поставни фајл на очекиваној локацији"
 
-#: scripting.cpp:127
+#: scripting.cpp:128
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
 msgstr "Тврдња пропала: %1 није нулто."
 
-#: scripting.cpp:145
+#: scripting.cpp:146
+#, kde-format
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
 msgstr "Тврдња пропала: аргумент није нулти."
 
-#: scripting.cpp:172
+#: scripting.cpp:173
+#, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
 "Invalid number of arguments. At least service, path, interface and method "
@@ -50,13 +55,15 @@ msgid ""
 msgstr ""
 "Лош број аргумената. Мора се задати бар сервис, путања, сучеље и метод."
 
-#: scripting.cpp:178
+#: scripting.cpp:179
+#, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
 "Invalid type. Service, path, interface and method need to be string values"
 msgstr "Лош тип. Сервис, путања, сучеље и метод морају бити ниске."
 
 #: scriptingutils.cpp:28
+#, kde-format
 msgctxt "syntax error in KWin script"
 msgid "Invalid number of arguments"
 msgstr "Лош број аргумената."
@@ -74,11 +81,13 @@ msgid "%1 is not of required type"
 msgstr "%1 није траженог типа."
 
 #: scriptingutils.h:158
+#, kde-format
 msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Second argument to registerScreenEdge needs to be a callback"
 msgstr "Други аргумент у registerScreenEdge мора бити контрапозив."
 
 #: scriptingutils.h:185
+#, kde-format
 msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Argument for registerUserActionsMenu needs to be a callback"
 msgstr "Аргумент у registerUserActionsMenu мора бити контрапозив."

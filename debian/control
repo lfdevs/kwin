@@ -127,7 +127,11 @@ Description: KDE window manager, common files
 
 Package: kwin-x11
 Architecture: any
-Depends: kwin-common (= ${binary:Version}), ${misc:Depends}, ${shlibs:Depends}
+Depends: kwin-common (= ${binary:Version}),
+         libkwinglutils9 (= ${binary:Version}),
+         libkwinxrenderutils9 (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
 Breaks: kde-window-manager (<< 4:5), kwin-addons (<< 4:5.8)
 Replaces: kde-window-manager (<< 4:5)
 Provides: kwin, x-window-manager
@@ -146,13 +150,12 @@ Package: kwin-wayland
 Architecture: any
 Depends: kwayland-integration,
          kwin-common (= ${binary:Version}),
-         kwin-wayland-backend-drm (= ${binary:Version}) | kwin-wayland-backend,
-         qtwayland5,
+         kwin-wayland-backend-drm (= ${binary:Version}) | kwin-wayland-backend-fbdev (= ${binary:Version}) | kwin-wayland-backend-x11 (= ${binary:Version}) | kwin-wayland-backend-virtual (= ${binary:Version}) | kwin-wayland-backend-wayland (= ${binary:Version}),
          xwayland,
          ${misc:Depends},
          ${shlibs:Depends}
 Provides: kwin
-Description: KDE window manager, wayland version
+Description: KDE window manager, wayland version, PREVIEW release
  KWin (pronounced as one syllable "kwin") is the window
  manager for the KDE Plasma Desktop. It gives you complete
  control over your windows, making sure they're not in the way
@@ -161,7 +164,9 @@ Description: KDE window manager, wayland version
  like close, maximize and minimize. It also handles placing
  of windows and switching between them.
  .
- This package is part of the KDE base workspace module.
+ This package provides the wayland version, which is still a work in progress
+ project, and is available as a PREVIEW release. Don't expect the same
+ stability as with the x11 version.
 Breaks: plasma-workspace-wayland (<< 4:5.8)
 
 Package: libkwin4-effect-builtins1

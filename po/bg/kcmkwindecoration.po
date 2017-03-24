@@ -2,7 +2,7 @@
 # Bulgarian translation of KDE.
 # This file is licensed under the GPL.
 #
-# $Id: kcmkwindecoration.po 1475203 2016-11-19 22:43:57Z scripty $
+# $Id: kcmkwindecoration.po 1482400 2017-02-11 07:25:34Z scripty $
 #
 # Zlatko Popov <zlatkopopov@fsa-bg.org>, 2006, 2007, 2008.
 # Yasen Pramatarov <yasen@lindeas.com>, 2009, 2010.
@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 22:52+0100\n"
+"POT-Creation-Date: 2017-02-11 08:15+0100\n"
 "PO-Revision-Date: 2010-10-05 23:36+0300\n"
 "Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -74,7 +74,7 @@ msgstr "На заден план"
 msgid "Keep above"
 msgstr "На преден план"
 
-#: kcm.cpp:135
+#: kcm.cpp:138
 #, kde-format
 msgid ""
 "Close by double clicking:\n"

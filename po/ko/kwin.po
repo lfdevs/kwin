@@ -4,7 +4,7 @@
 # Yeo SunHwa <sunwt@mizi.com>, 2001.
 # Shinjo Park <kde@peremen.name>, 2007, 2008, 2009, 2010.
 # Shinjo Park <kde@peremen.name>, 2011, 2012, 2013, 2014, 2015.
-# Shinjo Park <kde@peremen.name>, 2015, 2016.
+# Shinjo Park <kde@peremen.name>, 2015, 2016, 2017.
 #
 #
 msgid ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 22:52+0100\n"
+"POT-Creation-Date: 2017-02-11 08:15+0100\n"
 "PO-Revision-Date: 2011-07-17 15:45+0200\n"
 "Last-Translator: Jean Cayron <jean.cayron@base.be>\n"
 "Language-Team: Walloon <linux@walon.org>\n"
@@ -72,7 +72,7 @@ msgstr "Mete pa dzo les ôtes"
 msgid "Keep above"
 msgstr "Mete pa dzeu les ôtes"
 
-#: kcm.cpp:135
+#: kcm.cpp:138
 #, kde-format
 msgid ""
 "Close by double clicking:\n"

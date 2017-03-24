@@ -1,5 +1,5 @@
 # translation of kcmkwindecoration.po to Polish
-# Version: $Revision: 1475203 $
+# Version: $Revision: 1482400 $
 # translation of kcmkwindecoration.po to
 # Norbert Popiołek <norbert@kde.com.pl>\n"
 # Michał Rudolf <mrudolf@kdewebdev.org>, 2002.
@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 22:52+0100\n"
+"POT-Creation-Date: 2017-02-11 08:15+0100\n"
 "PO-Revision-Date: 2016-09-24 09:21+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -74,7 +74,7 @@ msgstr "Zawsze pod spodem"
 msgid "Keep above"
 msgstr "Zawsze na wierzchu"
 
-#: kcm.cpp:135
+#: kcm.cpp:138
 #, kde-format
 msgid ""
 "Close by double clicking:\n"

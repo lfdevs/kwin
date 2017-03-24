@@ -2,15 +2,15 @@
 # Stephan Johach <hunsum@gmx.de>, 2005.
 # Thomas Reitelbach <tr@erdfunkstelle.de>, 2005, 2006, 2007, 2008, 2010.
 # Frederik Schwarzer <schwarzer@kde.org>, 2009, 2010, 2011, 2012, 2016.
-# Burkhard Lück <lueck@hube-lueck.de>, 2011, 2012, 2013, 2014, 2015.
+# Burkhard Lück <lueck@hube-lueck.de>, 2011, 2012, 2013, 2014, 2015, 2017.
 # Frank Steinmetzger <Warp_7@gmx.de>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 22:52+0100\n"
-"PO-Revision-Date: 2016-04-15 11:16+0100\n"
-"Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
+"PO-Revision-Date: 2017-01-21 16:55+0100\n"
+"Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -235,7 +235,7 @@ msgid ""
 msgstr ""
 "<p><h1>Fensterspezifische Einstellungen</h1> Hier können Sie Festlegungen "
 "für bestimmte Fenster treffen. </p><p>Bitte beachten Sie, dass diese "
-"Einstellungen ohne Effekt bleiben, wenn Sie nicht KWin als Fenstermanager "
+"Einstellungen ohne Effekt bleiben, wenn Sie nicht KWin als Fensterverwaltung "
 "verwenden. In solchen Fällen schlagen Sie bitte in der jeweiligen "
 "Dokumentation nach, wie sich das Fensterverhalten anpassen lässt.</p>"
 
@@ -1234,6 +1234,11 @@ msgid ""
 "Otherwise it's interleaved with the stealing prevention\n"
 "assigned to the window that wants the focus."
 msgstr ""
+"Dies regelt die Übernahme der Aktivierung des zurzeit aktiven Fensters,\n"
+"Keine verhindert die Übernahme der Aktivierung nicht,\n"
+"Extreme verhindert die Übernahme der Aktivierung immer.\n"
+"Ansonsten wird die Regelung zur Vorbeugung gegen Übernahmeder Aktivierung "
+"des anderen Fensters verwendet."
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fpplevel)
 #: ruleswidgetbase.ui:2232

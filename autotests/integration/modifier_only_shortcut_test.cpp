@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kwin_wayland_test.h"
 #include "cursor.h"
 #include "input.h"
+#include "keyboard_input.h"
 #include "platform.h"
 #include "screens.h"
 #include "wayland_server.h"
@@ -250,7 +251,7 @@ void ModifierOnlyShortcutTest::testTrigger()
 void ModifierOnlyShortcutTest::testCapsLock()
 {
     // this test verifies that Capslock does not trigger the shift shortcut
-    // and that the shift modifier on capslock does not trigger either
+    // but other shortcuts still trigger even when Capslock is on
     Target target;
     QSignalSpy triggeredSpy(&target, &Target::shortcutTriggered);
     QVERIFY(triggeredSpy.isValid());
@@ -277,17 +278,38 @@ void ModifierOnlyShortcutTest::testCapsLock()
     QCOMPARE(triggeredSpy.count(), 1);
 
     // currently caps lock is on
-    // shift is ignored
+    // shift still triggers
     kwinApp()->platform()->keyboardKeyPressed(modifier, timestamp++);
     kwinApp()->platform()->keyboardKeyReleased(modifier, timestamp++);
     QCOMPARE(input()->keyboardModifiers(), Qt::ShiftModifier);
-    QCOMPARE(triggeredSpy.count(), 1);
+    QCOMPARE(triggeredSpy.count(), 2);
+
+    // meta should also trigger
+    group.writeEntry("Meta", QStringList{s_serviceName, s_path, s_serviceName, QStringLiteral("shortcut")});
+    group.writeEntry("Alt", QStringList());
+    group.writeEntry("Shift", QStringList{});
+    group.writeEntry("Control", QStringList());
+    group.sync();
+    workspace()->slotReconfigure();
+    kwinApp()->platform()->keyboardKeyPressed(KEY_LEFTMETA, timestamp++);
+    QCOMPARE(input()->keyboardModifiers(), Qt::ShiftModifier | Qt::MetaModifier);
+    QCOMPARE(input()->keyboard()->xkb()->modifiersRelevantForGlobalShortcuts(), Qt::MetaModifier);
+    kwinApp()->platform()->keyboardKeyReleased(KEY_LEFTMETA, timestamp++);
+    QCOMPARE(triggeredSpy.count(), 3);
+
+    // set back to shift to ensure we don't trigger with capslock
+    group.writeEntry("Meta", QStringList());
+    group.writeEntry("Alt", QStringList());
+    group.writeEntry("Shift", QStringList{s_serviceName, s_path, s_serviceName, QStringLiteral("shortcut")});
+    group.writeEntry("Control", QStringList());
+    group.sync();
+    workspace()->slotReconfigure();
 
     // release caps lock
     kwinApp()->platform()->keyboardKeyPressed(KEY_CAPSLOCK, timestamp++);
     kwinApp()->platform()->keyboardKeyReleased(KEY_CAPSLOCK, timestamp++);
     QCOMPARE(input()->keyboardModifiers(), Qt::NoModifier);
-    QCOMPARE(triggeredSpy.count(), 1);
+    QCOMPARE(triggeredSpy.count(), 3);
 }
 
 void ModifierOnlyShortcutTest::testGlobalShortcutsDisabled_data()

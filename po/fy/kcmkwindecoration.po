@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 22:52+0100\n"
+"POT-Creation-Date: 2017-02-11 08:15+0100\n"
 "PO-Revision-Date: 2010-07-11 13:38+0100\n"
 "Last-Translator: Berend Ytsma <berendy@gmail.com>\n"
 "Language-Team: Frysk <kde-i18n-fry@kde.org>\n"
@@ -72,7 +72,7 @@ msgstr "Op eftergrûn hâlde"
 msgid "Keep above"
 msgstr "Op foargrûn hâlde"
 
-#: kcm.cpp:135
+#: kcm.cpp:138
 #, kde-format
 msgid ""
 "Close by double clicking:\n"

@@ -5,7 +5,7 @@
 # Nick Shaforostoff <shaforostoff@kde.ru>, 2007, 2008.
 # Leonid Kanter <leon@asplinux.ru>, 2008.
 # Andrey Cherepanov <skull@kde.ru>, 2009.
-# Alexander Potashev <aspotashev@gmail.com>, 2010, 2011, 2014, 2016.
+# Alexander Potashev <aspotashev@gmail.com>, 2010, 2011, 2014, 2016, 2017.
 # Yuri Efremov <yur.arh@gmail.com>, 2010, 2012, 2013.
 # Julia Dronova <juliette.tux@gmail.com>, 2012.
 # Alexander Lakhin <exclusion@gmail.com>, 2013.
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 22:52+0100\n"
-"PO-Revision-Date: 2016-09-29 04:58+0300\n"
+"PO-Revision-Date: 2017-02-11 20:31+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -242,6 +242,10 @@ msgid ""
 " This brings performance improvements for e.g. games.\n"
 " The setting can be overruled by window-specific rules."
 msgstr ""
+"Приложения могут рекомендовать выключать графические эффекты,\n"
+"когда открыто их окно. Это помогает улучшить производительность,\n"
+"например, в играх. Этот параметр может быть переопределён отдельно\n"
+"для конкретных окон."
 
 #. i18n: ectx: property (text), widget (QCheckBox, windowsBlockCompositing)
 #: compositing.ui:294

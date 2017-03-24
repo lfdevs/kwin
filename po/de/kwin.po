@@ -3,14 +3,14 @@
 # Thomas Reitelbach <tr@erdfunkstelle.de>, 2005, 2006, 2007, 2008, 2009, 2010.
 # Johannes Obermayr <johannesobermayr@gmx.de>, 2010.
 # Frederik Schwarzer <schwarzer@kde.org>, 2010, 2011, 2012, 2013, 2015, 2016.
-# Burkhard Lück <lueck@hube-lueck.de>, 2010, 2012, 2013, 2014, 2015, 2016.
+# Burkhard Lück <lueck@hube-lueck.de>, 2010, 2012, 2013, 2014, 2015, 2016, 2017.
 # Frank Steinmetzger <Warp_7@gmx.de>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 22:52+0100\n"
-"PO-Revision-Date: 2016-06-09 19:37+0100\n"
+"PO-Revision-Date: 2017-01-21 16:59+0100\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -233,7 +233,7 @@ msgstr "Globale Position"
 #, kde-format
 msgctxt "A mouse pointer button press event"
 msgid "Pointer Button Press"
-msgstr ""
+msgstr "Zeigerknopfdruck"
 
 #: debug_console.cpp:188 debug_console.cpp:198
 #, kde-format
@@ -263,7 +263,7 @@ msgstr ""
 #, kde-format
 msgctxt "A mouse pointer axis (wheel) event"
 msgid "Pointer Axis"
-msgstr ""
+msgstr "Zeigerachsen"
 
 #: debug_console.cpp:222
 #, kde-format
@@ -681,7 +681,7 @@ msgstr "Fenster schließen"
 #: debug_console.cpp:1030
 #, kde-format
 msgid "X11 Unmanaged Windows"
-msgstr ""
+msgstr "Nicht verwaltete X11-Fenster"
 
 #: debug_console.cpp:1032
 #, kde-format
@@ -1125,7 +1125,7 @@ msgstr "Bildschirmfarben umkehren"
 #: main.cpp:175 main.cpp:202
 #, kde-format
 msgid "KDE window manager"
-msgstr "Der KDE-Fenstermanager"
+msgstr "Die KDE-Fensterverwaltung"
 
 #: main.cpp:180
 #, kde-format
@@ -1310,7 +1310,7 @@ msgid ""
 msgstr ""
 "KWin ist instabil.\n"
 "Es scheint mehrfach hintereinander abgestürzt zu sein.\n"
-"Sie können einen anderen Fenstermanager auswählen:"
+"Sie können eine andere Fensterverwaltung auswählen:"
 
 #: main_x11.cpp:224
 #, kde-format
@@ -1318,8 +1318,8 @@ msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
 msgstr ""
-"KWin: Manager-Auswahl nicht möglich. Läuft ein anderer Fenstermanager? "
-"(Versuchen Sie es mit --replace)\n"
+"KWin: Verwaltungs-Auswahl nicht möglich. Läuft eine andere "
+"Fensterverwaltung? (Versuchen Sie es mit --replace)\n"
 
 #: main_x11.cpp:241
 #, kde-format
@@ -1331,7 +1331,7 @@ msgstr ""
 #: main_x11.cpp:416
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
-msgstr "Bereits laufenden ICCCM2.0-kompatiblen Fenstermanager ersetzen"
+msgstr "Bereits laufende ICCCM2.0-kompatible Fensterverwaltung ersetzen"
 
 #: scene_opengl.cpp:663
 #, kde-format
@@ -1818,7 +1818,7 @@ msgstr ""
 "Sie enthalten Informationen über die momentan laufende Instanz, welche "
 "Optionen verwendet werden,\n"
 "welcher OpenGL-Treiber verwendet wird und welche Effekte laufen.\n"
-"Bitte geben Sie die untenstehenden Informationen bei einem Pastebin-Dienst "
+"Bitte geben Sie die unten stehenden Informationen bei einem Pastebin-Dienst "
 "wie http://paste.kde.org ein, anstatt sie direkt in die Hilfediskussionen zu "
 "schreiben.\n"
 

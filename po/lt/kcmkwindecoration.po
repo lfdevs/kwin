@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 22:52+0100\n"
+"POT-Creation-Date: 2017-02-11 08:15+0100\n"
 "PO-Revision-Date: 2015-01-25 12:14+0200\n"
 "Last-Translator: Liudas Ališauskas <liudas@akmc.lt>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -71,7 +71,7 @@ msgstr "Laikyti apačioje"
 msgid "Keep above"
 msgstr "Laikyti viršuje"
 
-#: kcm.cpp:135
+#: kcm.cpp:138
 #, kde-format
 msgid ""
 "Close by double clicking:\n"

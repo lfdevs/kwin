@@ -1,5 +1,5 @@
 project(KWIN)
-set(PROJECT_VERSION "5.8.5")
+set(PROJECT_VERSION "5.8.6")
 set(PROJECT_VERSION_MAJOR 5)
 
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
@@ -120,7 +120,7 @@ set_package_properties(KScreenLocker PROPERTIES
                        TYPE REQUIRED
                        PURPOSE "For screenlocker integration in kwin_wayland")
 
-find_package(Breeze ${PROJECT_VERSION} CONFIG)
+find_package(Breeze 5.8.0 CONFIG)
 set_package_properties(Breeze PROPERTIES
                        TYPE OPTIONAL
                        PURPOSE "For setting the default window decoration plugin")

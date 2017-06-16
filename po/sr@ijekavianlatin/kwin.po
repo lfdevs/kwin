@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 22:52+0100\n"
-"PO-Revision-Date: 2016-11-28 01:32+0100\n"
+"POT-Creation-Date: 2017-04-13 05:19+0200\n"
+"PO-Revision-Date: 2017-05-07 21:01+0200\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr@ijekavianlatin\n"
@@ -520,7 +520,7 @@ msgstr "uštip otkazan"
 #, kde-format
 msgctxt "A swipe gesture is started"
 msgid "Swipe start"
-msgstr "prebris započet"
+msgstr "zamah započet"
 
 # >> @item
 #: debug_console.cpp:402
@@ -534,7 +534,7 @@ msgstr "broj prstiju"
 #, kde-format
 msgctxt "A swipe gesture is updated"
 msgid "Swipe update"
-msgstr "prebris ažuriran"
+msgstr "zamah ažuriran"
 
 # >> @item
 #: debug_console.cpp:416
@@ -555,14 +555,14 @@ msgstr "promena po y"
 #, kde-format
 msgctxt "A swipe gesture ended"
 msgid "Swipe end"
-msgstr "prebris završen"
+msgstr "zamah završen"
 
 # >> @item
 #: debug_console.cpp:442
 #, kde-format
 msgctxt "A swipe gesture got cancelled"
 msgid "Swipe cancelled"
-msgstr "prebris otkazan"
+msgstr "zamah otkazan"
 
 # >> @item
 #: debug_console.cpp:596

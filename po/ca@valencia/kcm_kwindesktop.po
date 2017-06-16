@@ -227,7 +227,7 @@ msgstr "Visor en pantalla del canvi d'escriptori"
 #: main.ui:222
 #, kde-format
 msgid "Duration:"
-msgstr "Durada:"
+msgstr "Duració:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, popupHideSpinBox)
 #: main.ui:232

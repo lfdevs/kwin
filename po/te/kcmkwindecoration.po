@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-02-11 08:15+0100\n"
+"POT-Creation-Date: 2017-04-14 05:12+0200\n"
 "PO-Revision-Date: 2009-01-16 22:16+0530\n"
 "Last-Translator: Krishna Babu K <kkrothap@redhat.com>\n"
 "Language-Team: Telugu <en@li.org>\n"
@@ -70,7 +70,7 @@ msgstr ""
 msgid "Keep above"
 msgstr ""
 
-#: kcm.cpp:138
+#: kcm.cpp:140
 #, kde-format
 msgid ""
 "Close by double clicking:\n"

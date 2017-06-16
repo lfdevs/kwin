@@ -83,6 +83,8 @@ ConfigurationModule::ConfigurationModule(QWidget *parent, const QVariantList &ar
 {
     m_proxyModel->setSourceModel(m_model);
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
+    m_proxyModel->sort(0);
     connect(m_ui->filter, &QLineEdit::textChanged, m_proxyModel, &QSortFilterProxyModel::setFilterFixedString);
 
     m_quickView = new QQuickView(0);
@@ -305,13 +307,12 @@ void ConfigurationModule::load()
     const KConfigGroup config = KSharedConfig::openConfig("kwinrc")->group(s_pluginName);
     const QString plugin = config.readEntry("library", s_defaultPlugin);
     const QString theme = config.readEntry("theme", s_defaultTheme);
-    const QModelIndex index = m_proxyModel->mapFromSource(m_model->findDecoration(plugin, theme));
-    if (auto listView = m_quickView->rootObject()->findChild<QQuickItem*>("listView")) {
-        listView->setProperty("currentIndex", index.isValid() ? index.row() : -1);
-    }
     m_ui->closeWindowsDoubleClick->setChecked(config.readEntry("CloseOnDoubleClickOnMenu", false));
     const QVariant border = QVariant::fromValue(stringToSize(config.readEntry("BorderSize", s_borderSizeNormal)));
     m_ui->borderSizesCombo->setCurrentIndex(m_ui->borderSizesCombo->findData(border));
+
+    int themeIndex = m_proxyModel->mapFromSource(m_model->findDecoration(plugin, theme)).row();
+    m_quickView->rootContext()->setContextProperty("savedIndex", themeIndex);
 
     // buttons
     const auto &left = readDecorationButtons(config, "ButtonsOnLeft", QVector<KDecoration2::DecorationButtonType >{

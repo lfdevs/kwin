@@ -349,7 +349,7 @@ msgstr "Maximitza/Restaura"
 #: actions.ui:398 mouse.ui:141
 #, kde-format
 msgid "Keep Above/Below"
-msgstr "Mantén a sobre/a sota"
+msgstr "Mantén damunt/a sota"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
@@ -600,7 +600,7 @@ msgid ""
 "the mouse pointer has been over the title bar for some time."
 msgstr ""
 "Si el desplegat automàtic està activat, una finestra plegada es desplegarà "
-"automàticament quan l'apuntador del ratolí estiga a sobre de la barra de "
+"automàticament quan l'apuntador del ratolí estiga damunt de la barra de "
 "títol durant un temps."
 
 #. i18n: ectx: property (text), widget (QCheckBox, shadeHoverOn)
@@ -918,7 +918,7 @@ msgid ""
 "come to the front when the mouse pointer has been over it for some time."
 msgstr ""
 "Quan esta opció està activada, una finestra del fons passarà a primer pla "
-"automàticament quan l'apuntador del ratolí hi estiga a sobre durant un temps."
+"automàticament quan l'apuntador del ratolí hi estiga damunt durant un temps."
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoRaiseOn)
 #: focus.ui:446
@@ -1089,8 +1089,8 @@ msgid ""
 "documentation for how to customize window behavior.</p>"
 msgstr ""
 "<p><h1>Comportament de la finestra</h1> Ací podeu personalitzar la manera "
-"com es comporten les finestres en moure-les, dimensionar-les o clicar a "
-"sobre. També podeu especificar una política de focus i una política de "
+"com es comporten les finestres en moure-les, dimensionar-les o clicar "
+"damunt. També podeu especificar una política de focus i una política de "
 "col·locació per a les finestres noves.</p><p>Tingueu present que esta "
 "configuració no tindrà cap efecte si no feu servir KWin com a gestor de "
 "finestres. Si useu un gestor de finestres diferent, consulteu la seua "

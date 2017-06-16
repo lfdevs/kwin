@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 22:52+0100\n"
-"PO-Revision-Date: 2017-01-21 16:59+0100\n"
+"POT-Creation-Date: 2017-04-13 05:19+0200\n"
+"PO-Revision-Date: 2017-05-15 12:29+0100\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -401,7 +401,7 @@ msgstr ""
 #, kde-format
 msgctxt "Number of fingers in this pinch gesture"
 msgid "Finger count"
-msgstr ""
+msgstr "Fingeranzahl"
 
 #: debug_console.cpp:357
 #, kde-format
@@ -455,7 +455,7 @@ msgstr ""
 #, kde-format
 msgctxt "Number of fingers in this swipe gesture"
 msgid "Finger count"
-msgstr ""
+msgstr "Fingeranzahl"
 
 #: debug_console.cpp:414
 #, kde-format
@@ -805,12 +805,12 @@ msgid ""
 msgstr ""
 "<para>Möchten Sie diese Anwendung beenden?</para><para><warning>Beim Beenden "
 "der Anwendung werden alle zur Anwendung gehörenden Fenster geschlossen und "
-"ungespeicherte Daten gehen verloren.</warning></para>"
+"alle  nicht gespeicherten Daten gehen verloren.</warning></para>"
 
 #: helpers/killer/killer.cpp:107
 #, kde-format
 msgid "&Terminate Application %1"
-msgstr "Prozess %1 &beenden"
+msgstr "Programm %1 &beenden"
 
 #: helpers/killer/killer.cpp:108
 #, kde-format
@@ -1238,7 +1238,7 @@ msgstr "Die Breite im Fenstermodus, Die Voreinstellung beträgt 1024 Pixel."
 #: main_wayland.cpp:526
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
-msgstr "Die Höhe im Fenstermodus, Die Voreinstellung beträgt 768 Pixel."
+msgstr "Die Höhe im Fenstermodus. Die Voreinstellung beträgt 768 Pixel."
 
 #: main_wayland.cpp:530
 #, kde-format
@@ -1821,6 +1821,17 @@ msgstr ""
 "Bitte geben Sie die unten stehenden Informationen bei einem Pastebin-Dienst "
 "wie http://paste.kde.org ein, anstatt sie direkt in die Hilfediskussionen zu "
 "schreiben.\n"
+
+
+
+
+
+
+
+
+
+
+
 
 
 

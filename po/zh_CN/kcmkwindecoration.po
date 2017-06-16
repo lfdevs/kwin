@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-02-11 08:15+0100\n"
+"POT-Creation-Date: 2017-04-14 05:12+0200\n"
 "PO-Revision-Date: 2015-10-12 17:00UTC-0800\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese <kde-china@kde.org>\n"
@@ -74,7 +74,7 @@ msgstr "保持在下方"
 msgid "Keep above"
 msgstr "保持在上方"
 
-#: kcm.cpp:138
+#: kcm.cpp:140
 #, kde-format
 msgid ""
 "Close by double clicking:\n"

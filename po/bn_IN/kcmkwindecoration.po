@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-02-11 08:15+0100\n"
+"POT-Creation-Date: 2017-04-14 05:12+0200\n"
 "PO-Revision-Date: 2009-01-13 17:22+0530\n"
 "Last-Translator: Runa Bhattacharjee <runab@redhat.com>\n"
 "Language-Team: Bengali INDIA <fedora-trans-bn_IN@redhat.com>\n"
@@ -71,7 +71,7 @@ msgstr "অন্যান্যগুলির নীচে স্থাপন 
 msgid "Keep above"
 msgstr "অন্যান্যগুলির উপরে স্থাপন করা হবে"
 
-#: kcm.cpp:138
+#: kcm.cpp:140
 #, kde-format
 msgid ""
 "Close by double clicking:\n"

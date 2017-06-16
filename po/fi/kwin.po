@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 22:52+0100\n"
-"PO-Revision-Date: 2016-10-15 15:10+0200\n"
+"POT-Creation-Date: 2017-04-13 05:19+0200\n"
+"PO-Revision-Date: 2016-11-22 01:06+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -1821,6 +1821,16 @@ msgstr ""
 "Liitä alla olevat tiedot pastebin-palveluun, esimerkiksi osoitteeseen\n"
 "http://paste.kde.org, sen sijaan että liittäisit kyseiset tiedot "
 "keskustelupalstalle.\n"
+
+
+
+
+
+
+
+
+
+
 
 # En pidä sanan ”backend” suomentamisesta tässä. Koostamistyyppi löytyy työpöytätehosteiden lisäasetuksista, vaikka ”koostamistapa” voisi olla vielä parempi.
 

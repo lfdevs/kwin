@@ -14,14 +14,14 @@
 # Anne-Marie Mahfouf <annemarie.mahfouf@free.fr>, 2009, 2011, 2012.
 # xavier <ktranslator31@yahoo.fr>, 2013.
 # Sebastien Renard <renard@kde.org>, 2013, 2014, 2015.
-# Vincent Pinon <vpinon@kde.org>, 2016.
+# Vincent Pinon <vpinon@kde.org>, 2016, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 22:52+0100\n"
-"PO-Revision-Date: 2016-11-23 18:22+0100\n"
+"POT-Creation-Date: 2017-04-13 05:19+0200\n"
+"PO-Revision-Date: 2017-01-15 08:20+0100\n"
 "Last-Translator: Vincent Pinon <vpinon@kde.org>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr\n"

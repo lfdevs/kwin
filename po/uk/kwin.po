@@ -7,15 +7,15 @@
 # Eugene Onischenko <oneugene@ukr.net>, 2002, 2004, 2005.
 # Andriy Rysin <rysin@kde.org>, 2002, 2003, 2004.
 # Ivan Petrouchtchak <fr.ivan@ukrainian-orthodox.org>, 2004, 2005, 2006, 2007, 2008.
-# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
+# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 22:52+0100\n"
-"PO-Revision-Date: 2016-08-09 19:32+0300\n"
+"POT-Creation-Date: 2017-04-13 05:19+0200\n"
+"PO-Revision-Date: 2017-03-23 09:40+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
+"Language-Team: Ukrainian <kde-i18n-doc@kde.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -778,39 +778,50 @@ msgid "<b>Application \"%1\" is not responding</b>"
 msgstr "<b>Програма «%1» не відповідає на запити</b>"
 
 #: helpers/killer/killer.cpp:98
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "<p>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+#| "%3) but the application is not responding.</p>"
 msgctxt "@info"
 msgid ""
 "<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
 "%3) but the application is not responding.</para>"
 msgstr ""
-"<para>Ви намагалися закрити вікно «%1», що належить програмі "
-"«%2» (ідентифікатор процесу: %3), але програма не відповідає на запити.</"
-"para>"
+"<p>Ви намагалися закрити вікно «%1», що належить програмі "
+"«%2» (ідентифікатор процесу: %3), але програма не відповідає на запити.</p>"
 
 #: helpers/killer/killer.cpp:100
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "<p>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+#| "%3), running on host \"%4\", but the application is not responding.</p>"
 msgctxt "@info"
 msgid ""
 "<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
 "%3), running on host \"%4\", but the application is not responding.</para>"
 msgstr ""
-"<para>Ви намагалися закрити вікно «%1», що належить програмі "
+"<p>Ви намагалися закрити вікно «%1», що належить програмі "
 "«%2» (ідентифікатор процесу: %3), запущеній на вузлі «%4», але програма не "
-"відповідає на запити.</para>"
+"відповідає на запити.</p>"
 
 #: helpers/killer/killer.cpp:103
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "<p>Do you want to terminate this application?</p><p><warning>Terminating "
+#| "the application will close all of its child windows. Any unsaved data "
+#| "will be lost.</warning></p>"
 msgctxt "@info"
 msgid ""
 "<para>Do you want to terminate this application?</"
 "para><para><warning>Terminating the application will close all of its child "
 "windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
-"<para>Хочете перервати роботу цієї програми?</"
-"para><para><warning>Переривання роботи програми призведе до закриття всіх її "
-"дочірніх вікон. Всі дані, які не було збережено, буде втрачено.</warning></"
-"para>"
+"<p>Хочете перервати роботу цієї програми?</p><p><warning>Переривання роботи "
+"програми призведе до закриття всіх її дочірніх вікон. Всі дані, які не було "
+"збережено, буде втрачено.</warning></p>"
 
 #: helpers/killer/killer.cpp:107
 #, kde-format

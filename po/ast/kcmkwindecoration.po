@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-02-11 08:15+0100\n"
+"POT-Creation-Date: 2017-04-14 05:12+0200\n"
 "PO-Revision-Date: 2015-10-20 23:42+0100\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
 "Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
@@ -67,7 +67,7 @@ msgstr "Caltener embaxo"
 msgid "Keep above"
 msgstr "Caltener enriba"
 
-#: kcm.cpp:138
+#: kcm.cpp:140
 #, kde-format
 msgid ""
 "Close by double clicking:\n"

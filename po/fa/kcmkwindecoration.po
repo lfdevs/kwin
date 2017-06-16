@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-02-11 08:15+0100\n"
+"POT-Creation-Date: 2017-04-14 05:12+0200\n"
 "PO-Revision-Date: 2007-06-24 11:06+0330\n"
 "Last-Translator: Nazanin Kazemi <kazemi@itland.ir>\n"
 "Language-Team: Persian <kde-i18n-fa@kde.org>\n"
@@ -71,7 +71,7 @@ msgstr "نگه‌ داشتن زیر پنجره‌های دیگر"
 msgid "Keep above"
 msgstr "نگه ‌داشتن روی پنجره‌های دیگر"
 
-#: kcm.cpp:138
+#: kcm.cpp:140
 #, kde-format
 msgid ""
 "Close by double clicking:\n"

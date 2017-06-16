@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 22:52+0100\n"
+"POT-Creation-Date: 2017-04-13 05:19+0200\n"
 "PO-Revision-Date: 2015-01-22 02:22+0300\n"
 "Last-Translator: Safa Alfulaij <safa1996alfulaij@gmail.com>\n"
 "Language-Team: Arabic <doc@arabeyes.org>\n"
@@ -788,7 +788,11 @@ msgid "<b>Application \"%1\" is not responding</b>"
 msgstr "<b>التّطبيق \"%1\" لا يستجيب</b>"
 
 #: helpers/killer/killer.cpp:98
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "<para>You tried to close window \"%1\" from application \"%2\" (Process "
+#| "ID: %3) but the application is not responding.</para>"
 msgctxt "@info"
 msgid ""
 "<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
@@ -798,7 +802,12 @@ msgstr ""
 "التّطبيق لا يستجيب.</para>"
 
 #: helpers/killer/killer.cpp:100
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "<para>You tried to close window \"%1\" from application \"%2\" (Process "
+#| "ID: %3), running on host \"%4\", but the application is not responding.</"
+#| "para>"
 msgctxt "@info"
 msgid ""
 "<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
@@ -808,7 +817,12 @@ msgstr ""
 "تعمل على المضيف \"%4، لكنّ التّطبيق لا يستجيب.</para>"
 
 #: helpers/killer/killer.cpp:103
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "<para>Do you want to terminate this application?</"
+#| "para><para><warning>Terminating the application will close all of its "
+#| "child windows. Any unsaved data will be lost.</warning></para>"
 msgctxt "@info"
 msgid ""
 "<para>Do you want to terminate this application?</"

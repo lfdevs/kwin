@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 22:52+0100\n"
+"POT-Creation-Date: 2017-04-13 05:19+0200\n"
 "PO-Revision-Date: 2016-09-03 22:54+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -791,7 +791,11 @@ msgid "<b>Application \"%1\" is not responding</b>"
 msgstr "<b>Приложение «%1» не отвечает</b>"
 
 #: helpers/killer/killer.cpp:98
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "<para>You tried to close window \"%1\" from application \"%2\" (Process "
+#| "ID: %3) but the application is not responding.</para>"
 msgctxt "@info"
 msgid ""
 "<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
@@ -801,7 +805,12 @@ msgstr ""
 "это приложение не отвечает.</para>"
 
 #: helpers/killer/killer.cpp:100
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "<para>You tried to close window \"%1\" from application \"%2\" (Process "
+#| "ID: %3), running on host \"%4\", but the application is not responding.</"
+#| "para>"
 msgctxt "@info"
 msgid ""
 "<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
@@ -811,7 +820,12 @@ msgstr ""
 "работающего на компьютере «%4», но это приложение не отвечает.</para>"
 
 #: helpers/killer/killer.cpp:103
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "<para>Do you want to terminate this application?</"
+#| "para><para><warning>Terminating the application will close all of its "
+#| "child windows. Any unsaved data will be lost.</warning></para>"
 msgctxt "@info"
 msgid ""
 "<para>Do you want to terminate this application?</"
@@ -1817,3 +1831,5 @@ msgstr ""
 "какой OpenGL драйвер и эффекты запущены.\n"
 "Пожалуйста, размещайте информацию, приведенную ниже , в сервис Pastebin,\n"
 "например, на http://paste.kde.org вместо вставки напрямую в темы форума .\n"
+
+# BUGME: strings from kwin.git/debug_console.ui are not translatable --aspotashev

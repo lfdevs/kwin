@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 22:52+0100\n"
+"POT-Creation-Date: 2017-04-13 05:19+0200\n"
 "PO-Revision-Date: 2016-11-03 21:33+0100\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -122,7 +122,7 @@ msgstr "Animació en tancar un quadre de pestanyes"
 #: coverswitch/coverswitch_config.ui:139 magiclamp/magiclamp_config.ui:17
 #, kde-format
 msgid "Animation duration:"
-msgstr "Durada de l'animació:"
+msgstr "Duració de l'animació:"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_RotationDuration)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
@@ -257,7 +257,7 @@ msgstr "Reflexió"
 #: cube/cube_config.ui:124 cube/cubeslide_config.ui:72
 #, kde-format
 msgid "Rotation duration:"
-msgstr "Durada del gir:"
+msgstr "Duració del gir:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ZOrdering)
 #: cube/cube_config.ui:175
@@ -507,7 +507,7 @@ msgstr "Omissió"
 #: desktopgrid/desktopgrid_config.ui:55
 #, kde-format
 msgid "Border wid&th:"
-msgstr "Amplada de la &vora:"
+msgstr "Amplària de la &vora:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: desktopgrid/desktopgrid_config.ui:84
@@ -574,7 +574,7 @@ msgstr "Aplica l'efecte als escrip&toris"
 #: diminactive/diminactive_config.ui:31
 #, kde-format
 msgid "Apply effect to &keep-above windows"
-msgstr "Aplica l'efecte de &mantindre les finestres a sobre"
+msgstr "Aplica l'efecte de &mantindre les finestres damunt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimByGroup)
 #: diminactive/diminactive_config.ui:38
@@ -827,7 +827,7 @@ msgid ""
 "screenrecordings/presentations"
 msgstr ""
 "Crea una animació quan es fa clic amb un botó del ratolí. Això és útil per "
-"enregistrar la pantalla o en presentacions"
+"gravar la pantalla o en presentacions"
 
 #: effect_builtins.cpp:386
 #, kde-format
@@ -1078,7 +1078,7 @@ msgstr "Commuta les finestres en roda (tots els escriptoris)"
 #: flipswitch/flipswitch_config.ui:23
 #, kde-format
 msgid "Flip animation duration:"
-msgstr "Durada de l'animació de la roda:"
+msgstr "Duració de l'animació de la roda:"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
 #: flipswitch/flipswitch_config.ui:42
@@ -1186,7 +1186,7 @@ msgstr "Mida"
 #: magnifier/magnifier_config.ui:23
 #, kde-format
 msgid "&Width:"
-msgstr "&Amplada:"
+msgstr "&Amplària:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Width)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Height)
@@ -1264,7 +1264,7 @@ msgstr "Cèrcols"
 #: mouseclick/mouseclick_config.ui:103
 #, kde-format
 msgid "Line Width:"
-msgstr "Amplada de la línia:"
+msgstr "Amplària de la línia:"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_LineWidth)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingSize)
@@ -1280,7 +1280,7 @@ msgstr[1] " píxels"
 #: mouseclick/mouseclick_config.ui:145
 #, kde-format
 msgid "Ring Duration:"
-msgstr "Durada del cèrcol:"
+msgstr "Duració del cèrcol:"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_radius_label)
 #: mouseclick/mouseclick_config.ui:155
@@ -1332,7 +1332,7 @@ msgstr "Neteja les marques del ratolí"
 #: mousemark/mousemark_config.ui:23
 #, kde-format
 msgid "Wid&th:"
-msgstr "&Amplada:"
+msgstr "&Amplària:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mousemark/mousemark_config.ui:36

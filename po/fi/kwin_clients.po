@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 22:52+0100\n"
+"POT-Creation-Date: 2017-07-18 05:21+0200\n"
 "PO-Revision-Date: 2015-01-16 12:58+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -27,49 +27,49 @@ msgstr ""
 "X-POT-Import-Date: 2012-12-01 22:22:29+0000\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: aurorae/src/aurorae.cpp:706
+#: aurorae/src/aurorae.cpp:712
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "Pikkuruinen"
 
-#: aurorae/src/aurorae.cpp:707
+#: aurorae/src/aurorae.cpp:713
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "Tavallinen"
 
-#: aurorae/src/aurorae.cpp:708
+#: aurorae/src/aurorae.cpp:714
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "Suuri"
 
-#: aurorae/src/aurorae.cpp:709
+#: aurorae/src/aurorae.cpp:715
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "Hyvin suuri"
 
-#: aurorae/src/aurorae.cpp:710
+#: aurorae/src/aurorae.cpp:716
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "Valtava"
 
-#: aurorae/src/aurorae.cpp:711
+#: aurorae/src/aurorae.cpp:717
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "Hyvin valtava"
 
-#: aurorae/src/aurorae.cpp:712
+#: aurorae/src/aurorae.cpp:718
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "Ylikokoinen"
 
-#: aurorae/src/aurorae.cpp:715
+#: aurorae/src/aurorae.cpp:721
 #, kde-format
 msgid "Button size:"
 msgstr "Painikkeen koko:"

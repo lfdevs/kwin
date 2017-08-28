@@ -5,7 +5,7 @@ ecm_setup_version(${PROJECT_VERSION}
                   VARIABLE_PREFIX KWINEFFECTS
                   VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kwineffects_version.h"
                   PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KWinEffectsConfigVersion.cmake"
-                  SOVERSION 9
+                  SOVERSION 11
 )
 
 ### xrenderutils lib ###
@@ -45,7 +45,6 @@ set(kwin_EFFECTSLIB_SRCS
 set(kwineffects_QT_LIBS
     Qt5::DBus
     Qt5::Widgets
-    Qt5::X11Extras
 )
 
 set(kwineffects_KDE_LIBS
@@ -83,7 +82,6 @@ set(kwin_GLUTILSLIB_SRCS
     kwingltexture.cpp
     kwinglutils_funcs.cpp
     kwinglplatform.cpp
-    kwinglcolorcorrection.cpp
     logging.cpp
     )
 
@@ -91,7 +89,7 @@ macro( KWIN4_ADD_GLUTILS_BACKEND name glinclude )
     include_directories(${glinclude})
     add_library(${name} SHARED ${kwin_GLUTILSLIB_SRCS})
     generate_export_header(${name} BASE_NAME kwinglutils EXPORT_FILE_NAME kwinglutils_export.h)
-    target_link_libraries(${name} PUBLIC Qt5::DBus Qt5::X11Extras XCB::XCB KF5::CoreAddons KF5::WindowSystem)
+    target_link_libraries(${name} PUBLIC XCB::XCB KF5::CoreAddons KF5::ConfigCore KF5::WindowSystem)
     set_target_properties(${name} PROPERTIES
         VERSION ${KWINEFFECTS_VERSION_STRING}
         SOVERSION ${KWINEFFECTS_SOVERSION}
@@ -105,11 +103,6 @@ kwin4_add_glutils_backend(kwinglutils ${epoxy_INCLUDE_DIR} ${epoxy_LIBRARY})
 set_target_properties(kwinglutils PROPERTIES OUTPUT_NAME ${KWIN_NAME}glutils)
 
 target_link_libraries(kwinglutils PUBLIC ${epoxy_LIBRARY})
-# -ldl used by OpenGL code
-find_library(DL_LIBRARY dl)
-if (DL_LIBRARY)
-    target_link_libraries(kwinglutils PRIVATE ${DL_LIBRARY})
-endif()
 
 install( FILES
     kwinglobals.h

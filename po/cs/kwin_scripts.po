@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-# Vít Pelčák <vit@pelcak.org>, 2015.
+# Vít Pelčák <vit@pelcak.org>, 2015, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 22:52+0100\n"
-"PO-Revision-Date: 2015-10-01 14:55+0100\n"
+"POT-Creation-Date: 2016-11-19 20:21+0100\n"
+"PO-Revision-Date: 2017-02-24 09:52+0100\n"
 "Last-Translator: Vít Pelčák <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -40,7 +40,7 @@ msgstr "vlc, xv, vdpau, smplayer, dragon, xine, ffplay"
 #: videowall/contents/ui/config.ui:35 videowall/contents/ui/config.ui:66
 #, kde-format
 msgid "Comma separated list of window classes"
-msgstr ""
+msgstr "Čárkou oddělený seznam tříd okna"
 
 #. i18n: ectx: property (text), widget (QLabel, applyLabel)
 #: videowall/contents/ui/config.ui:45

@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace KWin
 {
 class XInputIntegration;
+class WindowSelector;
 
 class KWIN_EXPORT X11StandalonePlatform : public Platform
 {
@@ -48,6 +49,15 @@ public:
     QString compositingNotPossibleReason() const override;
     bool openGLCompositingIsBroken() const override;
     void createOpenGLSafePoint(OpenGLSafePoint safePoint) override;
+    void startInteractiveWindowSelection(std::function<void (KWin::Toplevel *)> callback, const QByteArray &cursorName = QByteArray()) override;
+
+    PlatformCursorImage cursorImage() const override;
+
+    void setupActionForGlobalAccel(QAction *action) override;
+
+protected:
+    void doHideCursor() override;
+    void doShowCursor() override;
 
 private:
     /**
@@ -64,6 +74,8 @@ private:
     XInputIntegration *m_xinputIntegration = nullptr;
     QThread *m_openGLFreezeProtectionThread = nullptr;
     QTimer *m_openGLFreezeProtection = nullptr;
+    Display *m_x11Display;
+    QScopedPointer<WindowSelector> m_windowSelector;
 
 };
 

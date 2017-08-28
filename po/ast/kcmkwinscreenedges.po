@@ -1,15 +1,15 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# enolp <enolp@softastur.org>, 2015.
+# enolp <enolp@softastur.org>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
-"PO-Revision-Date: 2015-12-05 16:20+0100\n"
+"POT-Creation-Date: 2017-04-08 03:04+0200\n"
+"PO-Revision-Date: 2016-12-21 16:34+0100\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
-"Language-Team: Asturian <>\n"
+"Language-Team: Asturian <alministradores@softastur.org>\n"
 "Language: ast\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,73 +27,73 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "alministradores@softastur.org"
 
-#: main.cpp:187
+#: main.cpp:190 touch.cpp:131
 #, kde-format
 msgid "No Action"
-msgstr "Ensin aición"
+msgstr ""
 
-#: main.cpp:188
+#: main.cpp:191 touch.cpp:132
 #, kde-format
 msgid "Show Desktop"
-msgstr "Amosar escritoriu"
+msgstr ""
 
-#: main.cpp:189
+#: main.cpp:192 touch.cpp:133
 #, kde-format
 msgid "Lock Screen"
-msgstr "Bloquiar pantalla"
+msgstr ""
 
-#: main.cpp:190
+#: main.cpp:193 touch.cpp:134
 #, kde-format
 msgctxt "Open krunner"
 msgid "Run Command"
 msgstr ""
 
-#: main.cpp:191
+#: main.cpp:194 touch.cpp:135
 #, kde-format
 msgid "Activity Manager"
 msgstr ""
 
-#: main.cpp:192
+#: main.cpp:195 touch.cpp:136
 #, kde-format
 msgid "Application Launcher"
 msgstr ""
 
-#: main.cpp:196
+#: main.cpp:199 touch.cpp:140
 #, kde-format
 msgid "%1 - All Desktops"
-msgstr "%1 - Tolos escritorios"
+msgstr ""
 
-#: main.cpp:197
+#: main.cpp:200 touch.cpp:141
 #, kde-format
 msgid "%1 - Current Desktop"
-msgstr "%1 - Escritoriu actual"
+msgstr ""
 
-#: main.cpp:198
+#: main.cpp:201 touch.cpp:142
 #, kde-format
 msgid "%1 - Current Application"
-msgstr "%1 - Aplicación actual"
+msgstr ""
 
-#: main.cpp:201
+#: main.cpp:204 touch.cpp:145
 #, kde-format
 msgid "%1 - Cube"
-msgstr "%1 - Cubu"
+msgstr ""
 
-#: main.cpp:202
+#: main.cpp:205 touch.cpp:146
 #, kde-format
 msgid "%1 - Cylinder"
-msgstr "%1 - Cilindru"
+msgstr ""
 
-#: main.cpp:203
+#: main.cpp:206 touch.cpp:147
 #, kde-format
 msgid "%1 - Sphere"
-msgstr "%1 - Esfera"
+msgstr ""
 
-#: main.cpp:205
+#: main.cpp:208 touch.cpp:149
 #, kde-format
 msgid "Toggle window switching"
-msgstr "Alternar camudancia de ventanes"
+msgstr ""
 
-#: main.cpp:206
+#: main.cpp:209 touch.cpp:150
 #, kde-format
 msgid "Toggle alternative window switching"
 msgstr ""
@@ -102,7 +102,7 @@ msgstr ""
 #: main.ui:17
 #, kde-format
 msgid "Active Screen Edge Actions"
-msgstr "Aiciones de berbesos de pantalla activos"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
@@ -111,20 +111,18 @@ msgid ""
 "To trigger an action push your mouse cursor against the edge of the screen "
 "in the action's direction."
 msgstr ""
-"P'aicionar una aición emburria'l cursor del mur escontra'l berbesu de la "
-"pantalla na direición de l'aición."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
 #, kde-format
 msgid "Window Management"
-msgstr "Xestión de ventanes"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
 #, kde-format
 msgid "Maximize windows by dragging them to the top of the screen"
-msgstr "Maximizar ventanes arrastrándoles a lo cimero de la pantalla"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
@@ -142,19 +140,19 @@ msgstr ""
 #: main.ui:106
 #, no-c-format, kde-format
 msgid "%"
-msgstr "%"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: main.ui:122
 #, kde-format
 msgid "of the screen"
-msgstr "de la pantalla"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:150
 #, kde-format
 msgid "Other Settings"
-msgstr "Otros axustes"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, desktopSwitchLabel)
 #: main.ui:162
@@ -180,7 +178,7 @@ msgstr ""
 #: main.ui:181
 #, kde-format
 msgid "Only When Moving Windows"
-msgstr "Namái al mover les ventanes"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:186
@@ -200,14 +198,14 @@ msgstr ""
 #: main.ui:197
 #, kde-format
 msgid "Activation &delay:"
-msgstr "Retrasu &d'activación:"
+msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, activationDelaySpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, triggerCooldownSpin)
 #: main.ui:207 main.ui:242
 #, kde-format
 msgid " ms"
-msgstr " ms"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: main.ui:226
@@ -221,4 +219,12 @@ msgstr ""
 #: main.ui:229
 #, kde-format
 msgid "&Reactivation delay:"
-msgstr "&Restrasu de reactivación:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: touch.ui:36
+#, kde-format
+msgid ""
+"To trigger an action swipe from the screen edge towards the center of the "
+"screen."
+msgstr ""

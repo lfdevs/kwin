@@ -37,11 +37,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Qt
 #include <QDebug>
 #include <QOpenGLContext>
+#include <QX11Info>
 // system
 #include <unistd.h>
 
 #include <deque>
 #include <algorithm>
+#if HAVE_DL_LIBRARY
+#include <dlfcn.h>
+#endif
 
 #ifndef XCB_GLX_BUFFER_SWAP_COMPLETE
 #define XCB_GLX_BUFFER_SWAP_COMPLETE 1
@@ -58,6 +62,10 @@ typedef struct xcb_glx_buffer_swap_complete_event_t {
     uint32_t           msc_lo; /**<  */
     uint32_t           sbc; /**<  */
 } xcb_glx_buffer_swap_complete_event_t;
+#endif
+
+#ifndef GLX_GENERATE_RESET_ON_VIDEO_MEMORY_PURGE_NV
+#define GLX_GENERATE_RESET_ON_VIDEO_MEMORY_PURGE_NV 0x20F7
 #endif
 
 #include <tuple>
@@ -104,7 +112,7 @@ bool SwapEventFilter::event(xcb_generic_event_t *event)
 
 
 
-GlxBackend::GlxBackend()
+GlxBackend::GlxBackend(Display *display)
     : OpenGLBackend()
     , m_overlayWindow(new OverlayWindow())
     , window(None)
@@ -113,6 +121,7 @@ GlxBackend::GlxBackend()
     , ctx(nullptr)
     , m_bufferAge(0)
     , haveSwapInterval(false)
+    , m_x11Display(display)
 {
 }
 
@@ -148,14 +157,37 @@ GlxBackend::~GlxBackend()
     delete m_overlayWindow;
 }
 
+typedef void (*glXFuncPtr)();
+
+static glXFuncPtr getProcAddress(const char* name)
+{
+    glXFuncPtr ret = nullptr;
+#if HAVE_EPOXY_GLX
+    ret = glXGetProcAddress((const GLubyte*) name);
+#endif
+#if HAVE_DL_LIBRARY
+    if (ret == nullptr)
+        ret = (glXFuncPtr) dlsym(RTLD_DEFAULT, name);
+#endif
+    return ret;
+}
+glXSwapIntervalMESA_func glXSwapIntervalMESA;
+
 void GlxBackend::init()
 {
-    initGLX();
-
     // Require at least GLX 1.3
-    if (!hasGLXVersion(1, 3)) {
+    if (!checkVersion()) {
         setFailed(QStringLiteral("Requires at least GLX 1.3"));
         return;
+    }
+
+    initExtensions();
+
+    // resolve glXSwapIntervalMESA if available
+    if (hasExtension(QByteArrayLiteral("GLX_MESA_swap_control"))) {
+        glXSwapIntervalMESA = (glXSwapIntervalMESA_func) getProcAddress("glXSwapIntervalMESA");
+    } else {
+        glXSwapIntervalMESA = nullptr;
     }
 
     initVisualDepthHashTable();
@@ -177,15 +209,15 @@ void GlxBackend::init()
     if (options->glPreferBufferSwap() == Options::AutoSwapStrategy)
         options->setGlPreferBufferSwap('e'); // for unknown drivers - should not happen
     glPlatform->printResults();
-    initGL(GlxPlatformInterface);
+    initGL(&getProcAddress);
 
     // Check whether certain features are supported
-    m_haveMESACopySubBuffer = hasGLExtension(QByteArrayLiteral("GLX_MESA_copy_sub_buffer"));
-    m_haveMESASwapControl   = hasGLExtension(QByteArrayLiteral("GLX_MESA_swap_control"));
-    m_haveEXTSwapControl    = hasGLExtension(QByteArrayLiteral("GLX_EXT_swap_control"));
-    m_haveSGISwapControl    = hasGLExtension(QByteArrayLiteral("GLX_SGI_swap_control"));
+    m_haveMESACopySubBuffer = hasExtension(QByteArrayLiteral("GLX_MESA_copy_sub_buffer"));
+    m_haveMESASwapControl   = hasExtension(QByteArrayLiteral("GLX_MESA_swap_control"));
+    m_haveEXTSwapControl    = hasExtension(QByteArrayLiteral("GLX_EXT_swap_control"));
+    m_haveSGISwapControl    = hasExtension(QByteArrayLiteral("GLX_SGI_swap_control"));
     // only enable Intel swap event if env variable is set, see BUG 342582
-    m_haveINTELSwapEvent    = hasGLExtension(QByteArrayLiteral("GLX_INTEL_swap_event"))
+    m_haveINTELSwapEvent    = hasExtension(QByteArrayLiteral("GLX_INTEL_swap_event"))
                                 && qgetenv("KWIN_USE_INTEL_SWAP_EVENT") == QByteArrayLiteral("1");
 
     if (m_haveINTELSwapEvent) {
@@ -197,7 +229,7 @@ void GlxBackend::init()
 
     setSupportsBufferAge(false);
 
-    if (hasGLExtension(QByteArrayLiteral("GLX_EXT_buffer_age"))) {
+    if (hasExtension(QByteArrayLiteral("GLX_EXT_buffer_age"))) {
         const QByteArray useBufferAge = qgetenv("KWIN_USE_BUFFER_AGE");
 
         if (useBufferAge != "0")
@@ -220,7 +252,7 @@ void GlxBackend::init()
                 gs_tripleBufferUndetected = false;
             }
             gs_tripleBufferNeedsDetection = gs_tripleBufferUndetected;
-        } else if (hasGLExtension(QByteArrayLiteral("GLX_SGI_video_sync"))) {
+        } else if (hasExtension(QByteArrayLiteral("GLX_SGI_video_sync"))) {
             unsigned int sync;
             if (glXGetVideoSyncSGI(&sync) == 0 && glXWaitVideoSyncSGI(1, 0, &sync) == 0) {
                 setSyncsToVBlank(true);
@@ -246,12 +278,34 @@ void GlxBackend::init()
     qCDebug(KWIN_X11STANDALONE) << "Direct rendering:" << isDirectRendering();
 }
 
+bool GlxBackend::checkVersion()
+{
+    int major, minor;
+    glXQueryVersion(display(), &major, &minor);
+    return kVersionNumber(major, minor) >= kVersionNumber(1, 3);
+}
+
+void GlxBackend::initExtensions()
+{
+    const QByteArray string = (const char *) glXQueryExtensionsString(display(), QX11Info::appScreen());
+    setExtensions(string.split(' '));
+}
+
 bool GlxBackend::initRenderingContext()
 {
     const bool direct = true;
 
     // Use glXCreateContextAttribsARB() when it's available
-    if (hasGLExtension(QByteArrayLiteral("GLX_ARB_create_context"))) {
+    if (hasExtension(QByteArrayLiteral("GLX_ARB_create_context"))) {
+        const int attribs_31_core_nv_robustness[] = {
+            GLX_CONTEXT_MAJOR_VERSION_ARB,               3,
+            GLX_CONTEXT_MINOR_VERSION_ARB,               1,
+            GLX_CONTEXT_FLAGS_ARB,                       GLX_CONTEXT_ROBUST_ACCESS_BIT_ARB,
+            GLX_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB, GLX_LOSE_CONTEXT_ON_RESET_ARB,
+            GLX_GENERATE_RESET_ON_VIDEO_MEMORY_PURGE_NV, GL_TRUE,
+            0
+        };
+
         const int attribs_31_core_robustness[] = {
             GLX_CONTEXT_MAJOR_VERSION_ARB,               3,
             GLX_CONTEXT_MINOR_VERSION_ARB,               1,
@@ -263,6 +317,13 @@ bool GlxBackend::initRenderingContext()
         const int attribs_31_core[] = {
             GLX_CONTEXT_MAJOR_VERSION_ARB, 3,
             GLX_CONTEXT_MINOR_VERSION_ARB, 1,
+            0
+        };
+
+        const int attribs_legacy_nv_robustness[] = {
+            GLX_CONTEXT_FLAGS_ARB,                       GLX_CONTEXT_ROBUST_ACCESS_BIT_ARB,
+            GLX_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB, GLX_LOSE_CONTEXT_ON_RESET_ARB,
+            GLX_GENERATE_RESET_ON_VIDEO_MEMORY_PURGE_NV, GL_TRUE,
             0
         };
 
@@ -278,19 +339,32 @@ bool GlxBackend::initRenderingContext()
             0
         };
 
-        const bool have_robustness = hasGLExtension(QByteArrayLiteral("GLX_ARB_create_context_robustness"));
+        const bool have_robustness = hasExtension(QByteArrayLiteral("GLX_ARB_create_context_robustness"));
+        const bool haveVideoMemoryPurge = hasExtension(QByteArrayLiteral("GLX_NV_robustness_video_memory_purge"));
 
         // Try to create a 3.1 context first
         if (options->glCoreProfile()) {
-            if (have_robustness)
-                ctx = glXCreateContextAttribsARB(display(), fbconfig, 0, direct, attribs_31_core_robustness);
+            if (have_robustness)  {
+                if (haveVideoMemoryPurge) {
+                    ctx = glXCreateContextAttribsARB(display(), fbconfig, 0, direct, attribs_31_core_nv_robustness);
+                }
+                if (!ctx) {
+                    ctx = glXCreateContextAttribsARB(display(), fbconfig, 0, direct, attribs_31_core_robustness);
+                }
+            }
 
             if (!ctx)
                 ctx = glXCreateContextAttribsARB(display(), fbconfig, 0, direct, attribs_31_core);
         }
 
-        if (!ctx && have_robustness)
-            ctx = glXCreateContextAttribsARB(display(), fbconfig, 0, direct, attribs_legacy_robustness);
+        if (!ctx && have_robustness) {
+            if (haveVideoMemoryPurge) {
+                ctx = glXCreateContextAttribsARB(display(), fbconfig, 0, direct, attribs_legacy_nv_robustness);
+            }
+            if (!ctx) {
+                ctx = glXCreateContextAttribsARB(display(), fbconfig, 0, direct, attribs_legacy_robustness);
+            }
+        }
 
         if (!ctx)
             ctx = glXCreateContextAttribsARB(display(), fbconfig, 0, direct, attribs_legacy);

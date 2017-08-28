@@ -39,12 +39,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDateTime>
 #include <QRect>
 
+class QAction;
 class QMouseEvent;
 
 namespace KWin {
 
-class Client;
+class AbstractClient;
+class GestureRecognizer;
 class ScreenEdges;
+class SwipeGesture;
 
 class KWIN_EXPORT Edge : public QObject
 {
@@ -67,12 +70,21 @@ public:
     ElectricBorder border() const;
     void reserve(QObject *object, const char *slot);
     const QHash<QObject *, QByteArray> &callBacks() const;
+    void reserveTouchCallBack(QAction *action);
+    void unreserveTouchCallBack(QAction *action);
+    QVector<QAction *> touchCallBacks() const {
+        return m_touchActions;
+    }
     void startApproaching();
     void stopApproaching();
     bool isApproaching() const;
-    void setClient(Client *client);
-    Client *client() const;
+    void setClient(AbstractClient *client);
+    AbstractClient *client() const;
     const QRect &geometry() const;
+    void setTouchAction(ElectricBorderAction action);
+
+    bool activatesForPointer() const;
+    bool activatesForTouchGesture() const;
 
     /**
      * The window id of the native window representing the edge.
@@ -98,26 +110,37 @@ public Q_SLOTS:
     void checkBlocking();
 Q_SIGNALS:
     void approaching(ElectricBorder border, qreal factor, const QRect &geometry);
+    void activatesForTouchGestureChanged();
 protected:
     ScreenEdges *edges();
     const ScreenEdges *edges() const;
     bool isBlocked() const;
     virtual void doGeometryUpdate();
-    virtual void activate();
-    virtual void deactivate();
+    virtual void doActivate();
+    virtual void doDeactivate();
     virtual void doStartApproaching();
     virtual void doStopApproaching();
     virtual void doUpdateBlocking();
 private:
+    void activate();
+    void deactivate();
     bool canActivate(const QPoint &cursorPos, const QDateTime &triggerTime);
     void handle(const QPoint &cursorPos);
-    bool handleAction();
+    bool handleAction(ElectricBorderAction action);
+    bool handlePointerAction() {
+        return handleAction(m_action);
+    }
+    bool handleTouchAction() {
+        return handleAction(m_touchAction);
+    }
     bool handleByCallback();
+    void handleTouchCallback();
     void switchDesktop(const QPoint &cursorPos);
     void pushCursorBack(const QPoint &cursorPos);
     ScreenEdges *m_edges;
     ElectricBorder m_border;
     ElectricBorderAction m_action;
+    ElectricBorderAction m_touchAction = ElectricActionNone;
     int m_reserved;
     QRect m_geometry;
     QRect m_approachGeometry;
@@ -129,7 +152,9 @@ private:
     int m_lastApproachingFactor;
     bool m_blocked;
     bool m_pushBackBlocked;
-    Client *m_client;
+    AbstractClient *m_client;
+    SwipeGesture *m_gesture;
+    QVector<QAction *> m_touchActions;
 };
 
 /**
@@ -257,7 +282,26 @@ public:
      * @param client The Client for which an Edge should be reserved
      * @param border The border which the client wants to use, only proper borders are supported (no corners)
      **/
-    void reserve(KWin::Client *client, ElectricBorder border);
+    void reserve(KWin::AbstractClient *client, ElectricBorder border);
+
+    /**
+     * Mark the specified screen edge as reserved for touch gestures. This method is provided for
+     * external activation like effects and scripts.
+     * When the effect/script does no longer need the edge it is supposed
+     * to call @link unreserveTouch.
+     * @param border the screen edge to mark as reserved
+     * @param action The action which gets triggered
+     * @see unreserveTouch
+     * @since 5.10
+     **/
+    void reserveTouch(ElectricBorder border, QAction *action);
+    /**
+     * Unreserves the specified @p border from activating the @p action for touch gestures.
+     * @see reserveTouch
+     * @since 5.10
+     **/
+    void unreserveTouch(ElectricBorder border, QAction *action);
+
     /**
      * Reserve desktop switching for screen edges, if @p isToReserve is @c true. Unreserve otherwise.
      * @param reserve indicated weather desktop switching should be reserved or unreseved
@@ -304,6 +348,10 @@ public:
     ElectricBorderAction actionBottomLeft() const;
     ElectricBorderAction actionLeft() const;
 
+    GestureRecognizer *gestureRecognizer() const {
+        return m_gestureRecognizer;
+    }
+
 public Q_SLOTS:
     void reconfigure();
     /**
@@ -336,11 +384,13 @@ private:
     void createVerticalEdge(ElectricBorder border, const QRect &screen, const QRect &fullArea);
     Edge *createEdge(ElectricBorder border, int x, int y, int width, int height, bool createAction = true);
     void setActionForBorder(ElectricBorder border, ElectricBorderAction *oldValue, ElectricBorderAction newValue);
+    void setActionForTouchBorder(ElectricBorder border, ElectricBorderAction newValue);
     ElectricBorderAction actionForEdge(Edge *edge) const;
+    ElectricBorderAction actionForTouchEdge(Edge *edge) const;
     bool handleEnterNotifiy(xcb_window_t window, const QPoint &point, const QDateTime &timestamp);
     bool handleDndNotify(xcb_window_t window, const QPoint &point);
-    void createEdgeForClient(Client *client, ElectricBorder border);
-    void deleteEdgeForClient(Client *client);
+    void createEdgeForClient(AbstractClient *client, ElectricBorder border);
+    void deleteEdgeForClient(AbstractClient *client);
     bool m_desktopSwitching;
     bool m_desktopSwitchingMovingClients;
     QSize m_cursorPushBackDistance;
@@ -357,7 +407,9 @@ private:
     ElectricBorderAction m_actionBottom;
     ElectricBorderAction m_actionBottomLeft;
     ElectricBorderAction m_actionLeft;
+    QMap<ElectricBorder, ElectricBorderAction> m_touchActions;
     int m_cornerOffset;
+    GestureRecognizer *m_gestureRecognizer;
 
     KWIN_SINGLETON(ScreenEdges)
 };
@@ -412,11 +464,6 @@ inline void Edge::setAction(ElectricBorderAction action)
     m_action = action;
 }
 
-inline void Edge::setBorder(ElectricBorder border)
-{
-    m_border = border;
-}
-
 inline ScreenEdges *Edge::edges()
 {
     return m_edges;
@@ -452,12 +499,7 @@ inline bool Edge::isBlocked() const
     return m_blocked;
 }
 
-inline void Edge::setClient(Client *client)
-{
-    m_client = client;
-}
-
-inline Client *Edge::client() const
+inline AbstractClient *Edge::client() const
 {
     return m_client;
 }

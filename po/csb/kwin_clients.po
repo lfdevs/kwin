@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 22:52+0100\n"
+"POT-Creation-Date: 2017-07-18 05:21+0200\n"
 "PO-Revision-Date: 2009-12-15 21:57+0100\n"
 "Last-Translator: Mark Kwidzińśczi <mark@linuxcsb.org>\n"
 "Language-Team: Kaszëbsczi <i18n-csb@linuxcsb.org>\n"
@@ -19,56 +19,56 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2)\n"
 
-#: aurorae/src/aurorae.cpp:706
+#: aurorae/src/aurorae.cpp:712
 #, fuzzy, kde-format
 #| msgid "Tiny"
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "Wąsczi"
 
-#: aurorae/src/aurorae.cpp:707
+#: aurorae/src/aurorae.cpp:713
 #, fuzzy, kde-format
 #| msgid "Normal"
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "Zwëczajny"
 
-#: aurorae/src/aurorae.cpp:708
+#: aurorae/src/aurorae.cpp:714
 #, fuzzy, kde-format
 #| msgid "Large"
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "Wiôldżi"
 
-#: aurorae/src/aurorae.cpp:709
+#: aurorae/src/aurorae.cpp:715
 #, fuzzy, kde-format
 #| msgid "Very Large"
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "Baro wiôldżi"
 
-#: aurorae/src/aurorae.cpp:710
+#: aurorae/src/aurorae.cpp:716
 #, fuzzy, kde-format
 #| msgid "Huge"
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "Stolemny"
 
-#: aurorae/src/aurorae.cpp:711
+#: aurorae/src/aurorae.cpp:717
 #, fuzzy, kde-format
 #| msgid "Very Huge"
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "Jesz barżi stolemny"
 
-#: aurorae/src/aurorae.cpp:712
+#: aurorae/src/aurorae.cpp:718
 #, fuzzy, kde-format
 #| msgid "Oversized"
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "Pònôd miarã"
 
-#: aurorae/src/aurorae.cpp:715
+#: aurorae/src/aurorae.cpp:721
 #, fuzzy, kde-format
 #| msgid "Button size:"
 msgid "Button size:"

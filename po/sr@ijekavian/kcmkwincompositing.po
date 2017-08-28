@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
+"POT-Creation-Date: 2017-04-05 02:49+0200\n"
 "PO-Revision-Date: 2016-11-23 19:26+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -30,28 +30,28 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "caslav.ilic@gmx.net"
 
-#: compositing.cpp:401
+#: compositing.cpp:378
 #, kde-format
 msgid "OpenGL 3.1"
 msgstr "опенГЛ 3.1"
 
-#: compositing.cpp:402
+#: compositing.cpp:379
 #, kde-format
 msgid "OpenGL 2.0"
 msgstr "опенГЛ 2.0"
 
-#: compositing.cpp:403
+#: compositing.cpp:380
 #, kde-format
 msgid "XRender"
 msgstr "Икс‑рендер"
 
-#: compositing.cpp:502
+#: compositing.cpp:479
 #, kde-format
 msgctxt "OpenGL Platform Interface"
 msgid "EGL"
 msgstr "ЕГЛ"
 
-#: compositing.cpp:504
+#: compositing.cpp:481
 #, kde-format
 msgctxt "OpenGL Platform Interface"
 msgid "GLX"
@@ -219,20 +219,8 @@ msgstr "само за приказане прозоре"
 msgid "Always"
 msgstr "увијек"
 
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:275
-#, kde-format
-msgid "Experimental:"
-msgstr "Експериментално:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:282
-#, kde-format
-msgid "Enable color correction"
-msgstr "Поправка боја"
-
 #. i18n: ectx: property (toolTip), widget (QCheckBox, windowsBlockCompositing)
-#: compositing.ui:291
+#: compositing.ui:277
 #, kde-format
 msgid ""
 "Applications can set a hint to block compositing when the window is open.\n"
@@ -245,7 +233,7 @@ msgstr ""
 "Поставка може да се потисне посебним правилима по прозору."
 
 #. i18n: ectx: property (text), widget (QCheckBox, windowsBlockCompositing)
-#: compositing.ui:294
+#: compositing.ui:280
 #, kde-format
 msgid "Allow applications to block compositing"
 msgstr "Програми могу да блокирају слагање"

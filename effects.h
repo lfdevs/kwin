@@ -125,6 +125,7 @@ public:
     void registerGlobalShortcut(const QKeySequence &shortcut, QAction *action) override;
     void registerPointerShortcut(Qt::KeyboardModifiers modifiers, Qt::MouseButton pointerButtons, QAction *action) override;
     void registerAxisShortcut(Qt::KeyboardModifiers modifiers, PointerAxisDirection axis, QAction *action) override;
+    void registerTouchpadSwipeShortcut(SwipeDirection direction, QAction *action) override;
     void* getProxy(QString name) override;
     void startMousePolling() override;
     void stopMousePolling() override;
@@ -171,12 +172,13 @@ public:
     void reserveElectricBorder(ElectricBorder border, Effect *effect) override;
     void unreserveElectricBorder(ElectricBorder border, Effect *effect) override;
 
+    void registerTouchBorder(ElectricBorder border, QAction *action) override;
+    void unregisterTouchBorder(ElectricBorder border, QAction *action) override;
+
     unsigned long xrenderBufferPicture() override;
     QPainter* scenePainter() override;
     void reconfigure() override;
-    void registerPropertyType(long atom, bool reg) override;
     QByteArray readRootProperty(long atom, long type, int format) const override;
-    void deleteRootProperty(long atom) const override;
     xcb_atom_t announceSupportProperty(const QByteArray& propertyName, Effect* effect) override;
     void removeSupportProperty(const QByteArray& propertyName, Effect* effect) override;
 
@@ -227,6 +229,20 @@ public:
     KWayland::Server::Display *waylandDisplay() const override;
 
     bool animationsSupported() const override;
+
+    PlatformCursorImage cursorImage() const override;
+
+    void hideCursor() override;
+    void showCursor() override;
+
+    void startInteractiveWindowSelection(std::function<void(KWin::EffectWindow*)> callback) override;
+    void startInteractivePositionSelection(std::function<void(const QPoint &)> callback) override;
+
+    void showOnScreenMessage(const QString &message, const QString &iconName = QString()) override;
+    void hideOnScreenMessage(OnScreenMessageHideFlags flags = OnScreenMessageHideFlags()) override;
+
+    KSharedConfigPtr config() const override;
+    KSharedConfigPtr inputConfig() const override;
 
     Scene *scene() const {
         return m_scene;
@@ -283,6 +299,7 @@ protected:
     int next_window_quad_type;
 
 private:
+    void registerPropertyType(long atom, bool reg);
     typedef QVector< Effect*> EffectsList;
     typedef EffectsList::const_iterator EffectsIterator;
     EffectsList m_activeEffects;

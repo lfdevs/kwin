@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-14 05:12+0200\n"
+"POT-Creation-Date: 2017-04-14 02:49+0200\n"
 "PO-Revision-Date: 2015-11-18 16:23+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -27,52 +27,52 @@ msgstr ""
 "X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Menu"
 msgstr "Μενού"
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Application menu"
 msgstr "Μενού εφαρμογών"
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "On all desktops"
 msgstr "Σε όλες τις επιφάνειες εργασίας"
 
-#: declarative-plugin/buttonsmodel.cpp:73
+#: declarative-plugin/buttonsmodel.cpp:74
 #, kde-format
 msgid "Minimize"
 msgstr "Ελαχιστοποίηση"
 
-#: declarative-plugin/buttonsmodel.cpp:75
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
 msgid "Maximize"
 msgstr "Μεγιστοποίηση"
 
-#: declarative-plugin/buttonsmodel.cpp:77
+#: declarative-plugin/buttonsmodel.cpp:78
 #, kde-format
 msgid "Close"
 msgstr "Κλείσιμο"
 
-#: declarative-plugin/buttonsmodel.cpp:79
+#: declarative-plugin/buttonsmodel.cpp:80
 #, kde-format
 msgid "Context help"
 msgstr "Πλαίσιο βοήθειας"
 
-#: declarative-plugin/buttonsmodel.cpp:81
+#: declarative-plugin/buttonsmodel.cpp:82
 #, kde-format
 msgid "Shade"
 msgstr "Τύλιγμα"
 
-#: declarative-plugin/buttonsmodel.cpp:83
+#: declarative-plugin/buttonsmodel.cpp:84
 #, kde-format
 msgid "Keep below"
 msgstr "Διατήρηση από κάτω"
 
-#: declarative-plugin/buttonsmodel.cpp:85
+#: declarative-plugin/buttonsmodel.cpp:86
 #, kde-format
 msgid "Keep above"
 msgstr "Διατήρηση από πάνω"

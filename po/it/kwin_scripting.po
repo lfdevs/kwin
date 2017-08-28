@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_scripting\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
+"POT-Creation-Date: 2017-04-08 03:04+0200\n"
 "PO-Revision-Date: 2017-05-09 09:33+0100\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -47,7 +47,7 @@ msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
 msgstr "Assertion non riuscita: argomento nullo"
 
-#: scripting.cpp:173
+#: scripting.cpp:188
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
@@ -57,7 +57,7 @@ msgstr ""
 "Numero di argomenti non valido. Devono essere specificati almeno il "
 "servizio, il percorso, l'interfaccia ed il metodo"
 
-#: scripting.cpp:179
+#: scripting.cpp:194
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
@@ -90,19 +90,26 @@ msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Second argument to registerScreenEdge needs to be a callback"
 msgstr "Il secondo argomento per registerScreenEdge deve essere una callback"
 
-#: scriptingutils.h:185
+#: scriptingutils.h:213
+#, kde-format
+msgctxt "KWin Scripting error thrown due to incorrect argument"
+msgid "Second argument to registerTouchScreenEdge needs to be a callback"
+msgstr ""
+"Il secondo argomento per registerTouchScreenEdge deve essere una callback"
+
+#: scriptingutils.h:250
 #, kde-format
 msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Argument for registerUserActionsMenu needs to be a callback"
 msgstr "L'argomento per registerUserActionsMenu deve essere una callback"
 
-#: scriptingutils.h:240
+#: scriptingutils.h:305
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1"
 msgstr "Assertion non riuscita: %1"
 
-#: scriptingutils.h:251
+#: scriptingutils.h:316
 #, kde-format
 msgctxt "Assertion failed in KWin script with expected value and actual value"
 msgid "Assertion failed: Expected %1, got %2"

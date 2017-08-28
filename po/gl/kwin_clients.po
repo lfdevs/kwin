@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 22:52+0100\n"
+"POT-Creation-Date: 2017-07-18 05:21+0200\n"
 "PO-Revision-Date: 2015-03-15 11:18+0100\n"
 "Last-Translator: Adrián Chaves Fernández <adriyetichaves@gmail.com>\n"
 "Language-Team: Galician <kde-i18n-doc@kde.org>\n"
@@ -25,49 +25,49 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 
-#: aurorae/src/aurorae.cpp:706
+#: aurorae/src/aurorae.cpp:712
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "Pequerrecha"
 
-#: aurorae/src/aurorae.cpp:707
+#: aurorae/src/aurorae.cpp:713
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "Normal"
 
-#: aurorae/src/aurorae.cpp:708
+#: aurorae/src/aurorae.cpp:714
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "Grande"
 
-#: aurorae/src/aurorae.cpp:709
+#: aurorae/src/aurorae.cpp:715
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "Moi grande"
 
-#: aurorae/src/aurorae.cpp:710
+#: aurorae/src/aurorae.cpp:716
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "Enorme"
 
-#: aurorae/src/aurorae.cpp:711
+#: aurorae/src/aurorae.cpp:717
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "Descomunal"
 
-#: aurorae/src/aurorae.cpp:712
+#: aurorae/src/aurorae.cpp:718
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "Sobredimensionada"
 
-#: aurorae/src/aurorae.cpp:715
+#: aurorae/src/aurorae.cpp:721
 #, kde-format
 msgid "Button size:"
 msgstr "Tamaño dos botóns:"
@@ -109,8 +109,8 @@ msgid ""
 "Check this option if the window border should be painted in the titlebar "
 "color. Otherwise it will be painted in the background color."
 msgstr ""
-"Sinale esta opción se desexa que a moldura da xanela se pinte da cor da "
-"Barra de título. Caso contrario pintarase na cor do fondo."
+"Marque esta opción se desexa que a moldura da xanela se pinte da cor da "
+"Barra de título. En caso contrario pintarase na cor do fondo."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_coloredBorder)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:56
@@ -125,7 +125,7 @@ msgid ""
 "Check this option if you want the titlebar text to have a 3D look with a "
 "shadow behind it."
 msgstr ""
-"Sinale esta opción se quere que o texto da barra de título teña un aspecto "
+"Marque esta opción se quere que o texto da barra de título teña un aspecto "
 "3D cunha sombra detrás."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_titleShadow)
@@ -141,7 +141,7 @@ msgid ""
 "Check this option if you want the buttons to fade in when the mouse pointer "
 "hovers over them and fade out again when it moves away."
 msgstr ""
-"Sinale esta opción se desexa que os botóns resalten cando o rato pase por "
+"Sinale esta opción se quere que os botóns resalten cando o rato pase por "
 "riba e se volvan normais cando o rato se aparte."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)

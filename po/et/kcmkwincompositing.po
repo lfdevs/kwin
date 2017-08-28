@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
+"POT-Creation-Date: 2017-04-05 02:49+0200\n"
 "PO-Revision-Date: 2016-12-09 00:21+0200\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
-"Language-Team: Estonian <kde-i18n-doc@kde.org>\n"
+"Language-Team: Estonian <kde-et@linux.ee>\n"
 "Language: et\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,28 +29,28 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "qiilaq69@gmail.com"
 
-#: compositing.cpp:401
+#: compositing.cpp:378
 #, kde-format
 msgid "OpenGL 3.1"
 msgstr "OpenGL 3.1"
 
-#: compositing.cpp:402
+#: compositing.cpp:379
 #, kde-format
 msgid "OpenGL 2.0"
 msgstr "OpenGL 2.0"
 
-#: compositing.cpp:403
+#: compositing.cpp:380
 #, kde-format
 msgid "XRender"
 msgstr "XRender"
 
-#: compositing.cpp:502
+#: compositing.cpp:479
 #, kde-format
 msgctxt "OpenGL Platform Interface"
 msgid "EGL"
 msgstr "EGL"
 
-#: compositing.cpp:504
+#: compositing.cpp:481
 #, kde-format
 msgctxt "OpenGL Platform Interface"
 msgid "GLX"
@@ -211,20 +211,8 @@ msgstr "Ainult kuvatavate akende puhul"
 msgid "Always"
 msgstr "Alati"
 
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:275
-#, kde-format
-msgid "Experimental:"
-msgstr "Eksperimentaalne:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:282
-#, kde-format
-msgid "Enable color correction"
-msgstr "Värviparanduse lubamine"
-
 #. i18n: ectx: property (toolTip), widget (QCheckBox, windowsBlockCompositing)
-#: compositing.ui:291
+#: compositing.ui:277
 #, kde-format
 msgid ""
 "Applications can set a hint to block compositing when the window is open.\n"
@@ -236,7 +224,7 @@ msgstr ""
 "Seda määratlust võib tühistada aknaspetsiifilise määratlusega."
 
 #. i18n: ectx: property (text), widget (QCheckBox, windowsBlockCompositing)
-#: compositing.ui:294
+#: compositing.ui:280
 #, kde-format
 msgid "Allow applications to block compositing"
 msgstr "Rakendused võivad komposiiti blokeerida"

@@ -26,7 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "libinput_logging.h"
 
 #include <KConfigGroup>
-#include <KGlobalAccel>
 
 #include <QDBusMessage>
 #include <QDBusConnection>
@@ -42,9 +41,49 @@ namespace KWin
 namespace LibInput
 {
 
+class ConnectionAdaptor : public QObject
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.KWin.InputDeviceManager")
+    Q_PROPERTY(QStringList devicesSysNames READ devicesSysNames CONSTANT)
+
+private:
+    Connection *m_con;
+
+public:
+    ConnectionAdaptor(Connection *con)
+        : m_con(con)
+    {
+        connect(con, &Connection::deviceAddedSysName, this, &ConnectionAdaptor::deviceAdded, Qt::QueuedConnection);
+        connect(con, &Connection::deviceRemovedSysName, this, &ConnectionAdaptor::deviceRemoved, Qt::QueuedConnection);
+
+        QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/kde/KWin/InputDevice"),
+                                                     QStringLiteral("org.kde.KWin.InputDeviceManager"),
+                                                     this,
+                                                     QDBusConnection::ExportAllProperties | QDBusConnection::ExportAllSignals
+        );
+    }
+
+    ~ConnectionAdaptor() {
+        QDBusConnection::sessionBus().unregisterObject(QStringLiteral("/org/kde/KWin/InputDeviceManager"));
+    }
+
+    QStringList devicesSysNames() {
+        // TODO: is this allowed? directly calling function of object in another thread!?
+        //       otherwise use signal-slot mechanism
+        return m_con->devicesSysNames();
+    }
+
+Q_SIGNALS:
+    void deviceAdded(QString sysName);
+    void deviceRemoved(QString sysName);
+
+};
+
 Connection *Connection::s_self = nullptr;
 QThread *Connection::s_thread = nullptr;
 
+static ConnectionAdaptor *s_adaptor = nullptr;
 static Context *s_context = nullptr;
 
 static quint32 toLibinputLEDS(Xkb::LEDs leds)
@@ -99,11 +138,13 @@ Connection *Connection::create(QObject *parent)
     QObject::connect(s_thread, &QThread::finished, s_self, &QObject::deleteLater);
     QObject::connect(s_thread, &QThread::finished, s_thread, &QObject::deleteLater);
     QObject::connect(parent, &QObject::destroyed, s_thread, &QThread::quit);
+    if (!s_adaptor) {
+        s_adaptor = new ConnectionAdaptor(s_self);
+    }
+
     return s_self;
 }
 
-static const QString s_touchpadComponent = QStringLiteral("kcm_touchpad");
-static const QString s_serviceName = QStringLiteral("org.kde.KWin.InputDevice");
 
 Connection::Connection(Context *input, QObject *parent)
     : QObject(parent)
@@ -113,57 +154,15 @@ Connection::Connection(Context *input, QObject *parent)
     , m_leds()
 {
     Q_ASSERT(m_input);
-
-    // steal touchpad shortcuts
-    QAction *touchpadToggleAction = new QAction(this);
-    QAction *touchpadOnAction = new QAction(this);
-    QAction *touchpadOffAction = new QAction(this);
-
-    touchpadToggleAction->setObjectName(QStringLiteral("Toggle Touchpad"));
-    touchpadToggleAction->setProperty("componentName", s_touchpadComponent);
-    touchpadOnAction->setObjectName(QStringLiteral("Enable Touchpad"));
-    touchpadOnAction->setProperty("componentName", s_touchpadComponent);
-    touchpadOffAction->setObjectName(QStringLiteral("Disable Touchpad"));
-    touchpadOffAction->setProperty("componentName", s_touchpadComponent);
-    KGlobalAccel::self()->setDefaultShortcut(touchpadToggleAction, QList<QKeySequence>{Qt::Key_TouchpadToggle});
-    KGlobalAccel::self()->setShortcut(touchpadToggleAction, QList<QKeySequence>{Qt::Key_TouchpadToggle});
-    KGlobalAccel::self()->setDefaultShortcut(touchpadOnAction, QList<QKeySequence>{Qt::Key_TouchpadOn});
-    KGlobalAccel::self()->setShortcut(touchpadOnAction, QList<QKeySequence>{Qt::Key_TouchpadOn});
-    KGlobalAccel::self()->setDefaultShortcut(touchpadOffAction, QList<QKeySequence>{Qt::Key_TouchpadOff});
-    KGlobalAccel::self()->setShortcut(touchpadOffAction, QList<QKeySequence>{Qt::Key_TouchpadOff});
-#ifndef KWIN_BUILD_TESTING
-    InputRedirection::self()->registerShortcut(Qt::Key_TouchpadToggle, touchpadToggleAction);
-    InputRedirection::self()->registerShortcut(Qt::Key_TouchpadOn, touchpadOnAction);
-    InputRedirection::self()->registerShortcut(Qt::Key_TouchpadOff, touchpadOffAction);
-#endif
-    connect(touchpadToggleAction, &QAction::triggered, this, &Connection::toggleTouchpads);
-    connect(touchpadOnAction, &QAction::triggered, this,
-        [this] {
-            if (m_touchpadsEnabled) {
-                return;
-            }
-            toggleTouchpads();
-        }
-    );
-    connect(touchpadOffAction, &QAction::triggered, this,
-        [this] {
-            if (!m_touchpadsEnabled) {
-                return;
-            }
-            toggleTouchpads();
-        }
-    );
-
     // need to connect to KGlobalSettings as the mouse KCM does not emit a dedicated signal
     QDBusConnection::sessionBus().connect(QString(), QStringLiteral("/KGlobalSettings"), QStringLiteral("org.kde.KGlobalSettings"),
                                           QStringLiteral("notifyChange"), this, SLOT(slotKGlobalSettingsNotifyChange(int,int)));
-
-    QDBusConnection::sessionBus().registerService(s_serviceName);
 }
 
 Connection::~Connection()
 {
-    QDBusConnection::sessionBus().unregisterService(s_serviceName);
+    delete s_adaptor;
+    s_adaptor = nullptr;
     s_self = nullptr;
     delete s_context;
     s_context = nullptr;
@@ -176,6 +175,13 @@ void Connection::setup()
 
 void Connection::doSetup()
 {
+    connect(s_self, &Connection::deviceAdded, s_self, [](Device* device) {
+                emit s_self->deviceAddedSysName(device->sysName());
+            });
+    connect(s_self, &Connection::deviceRemoved, s_self, [](Device* device) {
+                emit s_self->deviceRemovedSysName(device->sysName());
+            });
+
     Q_ASSERT(!m_notifier);
     m_notifier = new QSocketNotifier(m_input->fileDescriptor(), QSocketNotifier::Read, this);
     connect(m_notifier, &QSocketNotifier::activated, this, &Connection::handleEvent);
@@ -348,20 +354,24 @@ void Connection::processEvents()
             }
             case LIBINPUT_EVENT_POINTER_MOTION: {
                 PointerEvent *pe = static_cast<PointerEvent*>(event.data());
-                QPointF delta = pe->delta();
+                auto delta = pe->delta();
+                auto deltaNonAccel = pe->deltaUnaccelerated();
                 quint32 latestTime = pe->time();
+                quint64 latestTimeUsec = pe->timeMicroseconds();
                 auto it = m_eventQueue.begin();
                 while (it != m_eventQueue.end()) {
                     if ((*it)->type() == LIBINPUT_EVENT_POINTER_MOTION) {
                         QScopedPointer<PointerEvent> p(static_cast<PointerEvent*>(*it));
                         delta += p->delta();
+                        deltaNonAccel += p->deltaUnaccelerated();
                         latestTime = p->time();
+                        latestTimeUsec = p->timeMicroseconds();
                         it = m_eventQueue.erase(it);
                     } else {
                         break;
                     }
                 }
-                emit pointerMotion(delta, latestTime, pe->device());
+                emit pointerMotion(delta, deltaNonAccel, latestTime, latestTimeUsec, pe->device());
                 break;
             }
             case LIBINPUT_EVENT_POINTER_MOTION_ABSOLUTE: {
@@ -467,7 +477,11 @@ bool Connection::isSuspended() const
 
 void Connection::applyDeviceConfig(Device *device)
 {
-    if (device->isPointer()) {
+    // pass configuration to Device
+    device->setConfig(m_config->group("Libinput").group(QString::number(device->vendor())).group(QString::number(device->product())).group(device->name()));
+    device->loadConfiguration();
+
+    if (device->isPointer() && !device->isTouchpad()) {
         const KConfigGroup group = m_config->group("Mouse");
         device->setLeftHanded(group.readEntry("MouseButtonMapping", "RightHanded") == QLatin1String("LeftHanded"));
         qreal accel = group.readEntry("Acceleration", -1.0);
@@ -503,21 +517,13 @@ void Connection::toggleTouchpads()
     m_touchpadsEnabled = !m_touchpadsEnabled;
     for (auto it = m_devices.constBegin(); it != m_devices.constEnd(); ++it) {
         auto device = *it;
-        if (!device->isPointer()) {
+        if (!device->isTouchpad()) {
             continue;
         }
-        if (device->isKeyboard() || device->isTouch() || device->isTabletPad() || device->isTabletTool()) {
-            // ignore all combined devices. E.g. a touchpad on a keyboard we don't want to toggle
-            // as that would result in the keyboard going off as well
-            continue;
-        }
-        // is this a touch pad? We don't really know, let's do some assumptions
-        if (device->tapFingerCount() > 0 || device->supportsDisableWhileTyping() || device->supportsDisableEventsOnExternalMouse()) {
-            const bool old = device->isEnabled();
-            device->setEnabled(m_touchpadsEnabled);
-            if (old != device->isEnabled()) {
-                changed = true;
-            }
+        const bool old = device->isEnabled();
+        device->setEnabled(m_touchpadsEnabled);
+        if (old != device->isEnabled()) {
+            changed = true;
         }
     }
     if (changed) {
@@ -533,6 +539,22 @@ void Connection::toggleTouchpads()
     }
 }
 
+void Connection::enableTouchpads()
+{
+    if (m_touchpadsEnabled) {
+        return;
+    }
+    toggleTouchpads();
+}
+
+void Connection::disableTouchpads()
+{
+    if (!m_touchpadsEnabled) {
+        return;
+    }
+    toggleTouchpads();
+}
+
 void Connection::updateLEDs(Xkb::LEDs leds)
 {
     if (m_leds == leds) {
@@ -546,5 +568,15 @@ void Connection::updateLEDs(Xkb::LEDs leds)
     }
 }
 
+QStringList Connection::devicesSysNames() const {
+    QStringList sl;
+    foreach (Device *d, m_devices) {
+        sl.append(d->sysName());
+    }
+    return sl;
+}
+
 }
 }
+
+#include "connection.moc"

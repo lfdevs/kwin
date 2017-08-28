@@ -88,7 +88,7 @@ void ContrastEffect::reconfigure(ReconfigureFlags flags)
     }
 }
 
-void ContrastEffect::updateContrastRegion(EffectWindow *w) const
+void ContrastEffect::updateContrastRegion(EffectWindow *w)
 {
     QRegion region;
     float colorTransform[16];
@@ -112,14 +112,14 @@ void ContrastEffect::updateContrastRegion(EffectWindow *w) const
         }
 
         QMatrix4x4 colorMatrix(colorTransform);
-        shader->setColorMatrix(colorMatrix);
+        m_colorMatrices[w] = colorMatrix;
     }
 
     KWayland::Server::SurfaceInterface *surf = w->surface();
 
     if (surf && surf->contrast()) {
         region = surf->contrast()->region();
-        shader->setColorMatrix(colorMatrix(surf->contrast()->contrast(), surf->contrast()->intensity(), surf->contrast()->saturation()));
+        m_colorMatrices[w] = colorMatrix(surf->contrast()->contrast(), surf->contrast()->intensity(), surf->contrast()->saturation());
     }
 
     //!value.isNull() full window in X11 case, surf->contrast()
@@ -153,6 +153,7 @@ void ContrastEffect::slotWindowDeleted(EffectWindow *w)
     if (m_contrastChangedConnections.contains(w)) {
         disconnect(m_contrastChangedConnections[w]);
         m_contrastChangedConnections.remove(w);
+        m_colorMatrices.remove(w);
     }
 }
 
@@ -370,7 +371,7 @@ bool ContrastEffect::shouldContrast(const EffectWindow *w, int mask, const Windo
 
 void ContrastEffect::drawWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
 {
-    const QRect screen = effects->virtualScreenGeometry();
+    const QRect screen = GLRenderTarget::virtualScreenGeometry();
     if (shouldContrast(w, mask, data)) {
         QRegion shape = region & contrastRegion(w).translated(w->pos()) & screen;
 
@@ -397,7 +398,7 @@ void ContrastEffect::drawWindow(EffectWindow *w, int mask, QRegion region, Windo
         }
 
         if (!shape.isEmpty()) {
-            doContrast(shape, screen, data.opacity());
+            doContrast(w, shape, screen, data.opacity(), data.screenProjectionMatrix());
         }
     }
 
@@ -411,10 +412,12 @@ void ContrastEffect::paintEffectFrame(EffectFrame *frame, QRegion region, double
     effects->paintEffectFrame(frame, region, opacity, frameOpacity);
 }
 
-void ContrastEffect::doContrast(const QRegion& shape, const QRect& screen, const float opacity)
+void ContrastEffect::doContrast(EffectWindow *w, const QRegion& shape, const QRect& screen, const float opacity, const QMatrix4x4 &screenProjection)
 {
     const QRegion actualShape = shape & screen;
     const QRect r = actualShape.boundingRect();
+
+    qreal scale = GLRenderTarget::virtualScreenScale();
 
     // Upload geometry for the horizontal and vertical passes
     GLVertexBuffer *vbo = GLVertexBuffer::streamingBuffer();
@@ -423,16 +426,18 @@ void ContrastEffect::doContrast(const QRegion& shape, const QRect& screen, const
 
     // Create a scratch texture and copy the area in the back buffer that we're
     // going to blur into it
-    GLTexture scratch(GL_RGBA8, r.width(), r.height());
+    GLTexture scratch(GL_RGBA8, r.width() * scale, r.height() * scale);
     scratch.setFilter(GL_LINEAR);
     scratch.setWrapMode(GL_CLAMP_TO_EDGE);
     scratch.bind();
 
-    glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, r.x(), effects->virtualScreenSize().height() - r.y() - r.height(),
-                        r.width(), r.height());
+    const QRect sg = GLRenderTarget::virtualScreenGeometry();
+    glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, (r.x() - sg.x()) * scale, (sg.height() - sg.y() - r.y() - r.height()) * scale,
+                        scratch.width(), scratch.height());
 
     // Draw the texture on the offscreen framebuffer object, while blurring it horizontally
 
+    shader->setColorMatrix(m_colorMatrices.value(w));
     shader->bind();
 
 
@@ -440,9 +445,10 @@ void ContrastEffect::doContrast(const QRegion& shape, const QRect& screen, const
     // Set up the texture matrix to transform from screen coordinates
     // to texture coordinates.
     QMatrix4x4 textureMatrix;
-    textureMatrix.scale(1.0 / scratch.width(), -1.0 / scratch.height(), 1);
-    textureMatrix.translate(-r.x(), -scratch.height() - r.y(), 0);
+    textureMatrix.scale(1.0 / r.width(), -1.0 / r.height(), 1);
+    textureMatrix.translate(-r.x(), -r.height() - r.y(), 0);
     shader->setTextureMatrix(textureMatrix);
+    shader->setModelViewProjectionMatrix(screenProjection);
 
     vbo->draw(GL_TRIANGLES, 0, actualShape.rectCount() * 6);
 

@@ -1,15 +1,15 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# enolp <enolp@softastur.org>, 2015.
+# enolp <enolp@softastur.org>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
-"PO-Revision-Date: 2015-12-10 01:55+0100\n"
+"POT-Creation-Date: 2016-11-19 20:21+0100\n"
+"PO-Revision-Date: 2016-12-21 16:34+0100\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
-"Language-Team: Asturian <>\n"
+"Language-Team: Asturian <alministradores@softastur.org>\n"
 "Language: ast\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,14 +32,14 @@ msgstr "alministradores@softastur.org"
 #: detectwidget.cpp:100 ruleswidgetbase.ui:428 ruleswidgetbase.ui:2459
 #, kde-format
 msgid "Normal Window"
-msgstr "Ventana normal"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
 #: detectwidget.cpp:101 ruleswidgetbase.ui:463 ruleswidgetbase.ui:2494
 #, kde-format
 msgid "Desktop"
-msgstr "Escritoriu"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
@@ -53,7 +53,7 @@ msgstr ""
 #: detectwidget.cpp:103 ruleswidgetbase.ui:448 ruleswidgetbase.ui:2479
 #, kde-format
 msgid "Toolbar"
-msgstr "Barra de ferramientes"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
@@ -65,9 +65,9 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
 #: detectwidget.cpp:105 ruleswidgetbase.ui:433 ruleswidgetbase.ui:2464
-#, fuzzy, kde-format
+#, kde-format
 msgid "Dialog Window"
-msgstr "Ventana de diálogu"
+msgstr ""
 
 #: detectwidget.cpp:106
 #, kde-format
@@ -84,16 +84,16 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
 #: detectwidget.cpp:108 ruleswidgetbase.ui:438 ruleswidgetbase.ui:2469
-#, fuzzy, kde-format
+#, kde-format
 msgid "Utility Window"
-msgstr "Ventana d'utilidá"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
 #: detectwidget.cpp:109 ruleswidgetbase.ui:458 ruleswidgetbase.ui:2489
 #, kde-format
 msgid "Splash Screen"
-msgstr "Pantalla chiscadora"
+msgstr ""
 
 #: detectwidget.cpp:115
 #, kde-format
@@ -104,13 +104,13 @@ msgstr ""
 #: detectwidget.ui:17
 #, kde-format
 msgid "Information About Selected Window"
-msgstr "Información tocante a la ventana esbillada"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: detectwidget.ui:29
 #, kde-format
 msgid "Class:"
-msgstr "Clas:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: detectwidget.ui:57
@@ -122,19 +122,19 @@ msgstr ""
 #: detectwidget.ui:85
 #, kde-format
 msgid "Type:"
-msgstr "Triba:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel8)
 #: detectwidget.ui:113
 #, kde-format
 msgid "Title:"
-msgstr "Títlu:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel13)
 #: detectwidget.ui:141
 #, kde-format
 msgid "Machine:"
-msgstr "Máquina:"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: detectwidget.ui:172
@@ -191,7 +191,7 @@ msgstr ""
 #: editshortcut.ui:85
 #, kde-format
 msgid "C&lear"
-msgstr "L&limpiar"
+msgstr ""
 
 #: kcm.cpp:51
 #, kde-format
@@ -233,43 +233,43 @@ msgstr ""
 msgid "Internal setting for remembering"
 msgstr ""
 
-#: main.cpp:149
+#: main.cpp:150
 #, kde-format
 msgid "Application settings for %1"
-msgstr "Axustes d'aplicación pa %1"
+msgstr ""
 
-#: main.cpp:169
+#: main.cpp:170
 #, kde-format
 msgid "Window settings for %1"
 msgstr ""
 
-#: main.cpp:221
+#: main.cpp:222
 #, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr ""
 
-#: main.cpp:251
+#: main.cpp:252
 #, kde-format
 msgid "KWin"
 msgstr ""
 
-#: main.cpp:259
+#: main.cpp:260
 #, kde-format
 msgid "KWin helper utility"
 msgstr ""
 
-#: main.cpp:260
+#: main.cpp:261
 #, kde-format
 msgid "WId of the window for special window settings."
 msgstr ""
 
-#: main.cpp:261
+#: main.cpp:262
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr ""
 
-#: main.cpp:269
+#: main.cpp:270
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr ""
@@ -372,22 +372,22 @@ msgstr ""
 #: ruleswidget.cpp:150
 #, kde-format
 msgid "All Desktops"
-msgstr "Tolos escritorios"
+msgstr ""
 
 #: ruleswidget.cpp:343
 #, kde-format
 msgid "All Activities"
-msgstr "Toles actividaes"
+msgstr ""
 
 #: ruleswidget.cpp:784
 #, kde-format
 msgid "Settings for %1"
-msgstr "Axustes pa %1"
+msgstr ""
 
 #: ruleswidget.cpp:786
 #, kde-format
 msgid "Unnamed entry"
-msgstr "Entrada ensin nome"
+msgstr ""
 
 #: ruleswidget.cpp:796
 #, kde-format
@@ -412,15 +412,11 @@ msgid ""
 "setting using the checkbox, select in what way the setting should be "
 "affected and to which value."
 msgstr ""
-"Esti diálogu de configuración permite alteriar los axustes pa namái "
-"l'aplicación o ventana esbillada. Alcuentra l'axuste que quieras influyir "
-"habilitándolu y usando'l caxellu nel mou que debería ser influyíu y a qué "
-"valor."
 
 #: ruleswidget.cpp:860
 #, kde-format
 msgid "Consult the documentation for more details."
-msgstr "Consulta la documentación pa más detalles."
+msgstr ""
 
 #: ruleswidget.cpp:899
 #, kde-format
@@ -437,13 +433,13 @@ msgstr ""
 #: ruleswidgetbase.ui:27
 #, kde-format
 msgid "&Description:"
-msgstr "&Descripción"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: ruleswidgetbase.ui:46
 #, kde-format
 msgid "Window &class (application):"
-msgstr "&Clas de ventana (aplicación):"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, wmclass_match)
 #. i18n: ectx: property (text), item, widget (KComboBox, role_match)
@@ -483,7 +479,7 @@ msgstr ""
 #: ruleswidgetbase.ui:263
 #, kde-format
 msgid "Regular Expression"
-msgstr "Espresión regular"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, edit_reg_wmclass)
 #. i18n: ectx: property (text), widget (QPushButton, edit_reg_role)
@@ -517,7 +513,7 @@ msgstr ""
 #: ruleswidgetbase.ui:178
 #, kde-format
 msgid "Window t&itle:"
-msgstr "T&ítulu de ventana:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel7)
 #: ruleswidgetbase.ui:231
@@ -529,7 +525,7 @@ msgstr ""
 #: ruleswidgetbase.ui:318
 #, kde-format
 msgid "&Detect Window Properties"
-msgstr "&Deteutar propiedaes de ventana"
+msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, detection_delay)
 #: ruleswidgetbase.ui:325
@@ -547,13 +543,13 @@ msgstr ""
 #: ruleswidgetbase.ui:489
 #, kde-format
 msgid "&Size && Position"
-msgstr "&Tamañu y posición"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_position)
 #: ruleswidgetbase.ui:495
 #, kde-format
 msgid "&Position"
-msgstr "&Posición"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_position)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_size)
@@ -739,7 +735,7 @@ msgstr ""
 #: ruleswidgetbase.ui:1698 ruleswidgetbase.ui:1881 ruleswidgetbase.ui:1939
 #, kde-format
 msgid "Apply Now"
-msgstr "Aplicar agora"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_position)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_size)
@@ -790,7 +786,7 @@ msgstr "Aplicar agora"
 #: ruleswidgetbase.ui:2447 ruleswidgetbase.ui:2535
 #, kde-format
 msgid "Force Temporarily"
-msgstr "Forciar temporalmente"
+msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, position)
 #: ruleswidgetbase.ui:542
@@ -812,7 +808,7 @@ msgstr ""
 #: ruleswidgetbase.ui:552
 #, kde-format
 msgid "&Size"
-msgstr "&Tamañu"
+msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, size)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, minsize)
@@ -838,19 +834,19 @@ msgstr ""
 #: ruleswidgetbase.ui:738
 #, kde-format
 msgid "&Desktop"
-msgstr "&Escritoriu"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_activity)
 #: ruleswidgetbase.ui:802
 #, kde-format
 msgid "Activit&y"
-msgstr "Activi&dá"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fullscreen)
 #: ruleswidgetbase.ui:870
 #, kde-format
 msgid "&Fullscreen"
-msgstr "&Pantalla completa"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_minimize)
 #: ruleswidgetbase.ui:921
@@ -950,13 +946,13 @@ msgstr ""
 #: ruleswidgetbase.ui:1205
 #, kde-format
 msgid "M&inimum size"
-msgstr "Tamañu mín&imu"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_maxsize)
 #: ruleswidgetbase.ui:1225
 #, kde-format
 msgid "M&aximum size"
-msgstr "Tam&añu máximu"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_strictgeometry)
 #: ruleswidgetbase.ui:1271
@@ -979,7 +975,7 @@ msgstr ""
 #: ruleswidgetbase.ui:1369
 #, kde-format
 msgid "Screen"
-msgstr "Pantalla"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage4)
 #: ruleswidgetbase.ui:1377
@@ -1069,7 +1065,7 @@ msgstr ""
 #: ruleswidgetbase.ui:1902
 #, kde-format
 msgid "Appearance && &Fixes"
-msgstr "Aspeutu ya &igües"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_noborder)
 #: ruleswidgetbase.ui:1908
@@ -1081,13 +1077,13 @@ msgstr ""
 #: ruleswidgetbase.ui:1959
 #, kde-format
 msgid "Titlebar color &scheme"
-msgstr "&Esquema de color de barra de títulos"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_opacityactive)
 #: ruleswidgetbase.ui:2024
 #, kde-format
 msgid "A&ctive opacity"
-msgstr "Opacidá &activa"
+msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, opacityactive)
 #. i18n: ectx: property (suffix), widget (QSpinBox, opacityinactive)
@@ -1100,7 +1096,7 @@ msgstr ""
 #: ruleswidgetbase.ui:2047
 #, kde-format
 msgid "I&nactive opacity"
-msgstr "Opacida &inactiva"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_fsplevel)
 #: ruleswidgetbase.ui:2148
@@ -1117,7 +1113,7 @@ msgstr ""
 #: ruleswidgetbase.ui:2151
 #, kde-format
 msgid "&Focus stealing prevention"
-msgstr "Evitar robu de &focu"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
@@ -1170,7 +1166,7 @@ msgstr ""
 #: ruleswidgetbase.ui:2232
 #, kde-format
 msgid "Focus protection"
-msgstr "Proteición del focu"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_acceptfocus)
 #: ruleswidgetbase.ui:2295
@@ -1185,7 +1181,7 @@ msgstr ""
 #: ruleswidgetbase.ui:2298
 #, kde-format
 msgid "Accept &focus"
-msgstr "Aceutar &focu"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_disableglobalshortcuts)
 #: ruleswidgetbase.ui:2341
@@ -1228,9 +1224,9 @@ msgstr ""
 #: yesnobox.h:35
 #, kde-format
 msgid "Yes"
-msgstr "Sí"
+msgstr ""
 
 #: yesnobox.h:36
 #, kde-format
 msgid "No"
-msgstr "Non"
+msgstr ""

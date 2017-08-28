@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-14 05:12+0200\n"
+"POT-Creation-Date: 2017-04-14 02:49+0200\n"
 "PO-Revision-Date: 2015-10-17 21:16+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
@@ -19,52 +19,52 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Menu"
 msgstr "메뉴"
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Application menu"
 msgstr "프로그램 메뉴"
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "On all desktops"
 msgstr "모든 데스크톱에 두기"
 
-#: declarative-plugin/buttonsmodel.cpp:73
+#: declarative-plugin/buttonsmodel.cpp:74
 #, kde-format
 msgid "Minimize"
 msgstr "최소화"
 
-#: declarative-plugin/buttonsmodel.cpp:75
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
 msgid "Maximize"
 msgstr "최대화"
 
-#: declarative-plugin/buttonsmodel.cpp:77
+#: declarative-plugin/buttonsmodel.cpp:78
 #, kde-format
 msgid "Close"
 msgstr "닫기"
 
-#: declarative-plugin/buttonsmodel.cpp:79
+#: declarative-plugin/buttonsmodel.cpp:80
 #, kde-format
 msgid "Context help"
 msgstr "문맥 도움말"
 
-#: declarative-plugin/buttonsmodel.cpp:81
+#: declarative-plugin/buttonsmodel.cpp:82
 #, kde-format
 msgid "Shade"
 msgstr "말아 올리기"
 
-#: declarative-plugin/buttonsmodel.cpp:83
+#: declarative-plugin/buttonsmodel.cpp:84
 #, kde-format
 msgid "Keep below"
 msgstr "아래에 두기"
 
-#: declarative-plugin/buttonsmodel.cpp:85
+#: declarative-plugin/buttonsmodel.cpp:86
 #, kde-format
 msgid "Keep above"
 msgstr "위에 두기"

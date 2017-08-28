@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
+"POT-Creation-Date: 2017-04-27 02:56+0200\n"
 "PO-Revision-Date: 2014-03-03 02:00+0900\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
@@ -26,39 +26,44 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kde@peremen.name"
 
-#: module.cpp:50
+#: module.cpp:51
 #, kde-format
 msgid "KWin Scripts"
 msgstr "KWin 스크립트"
 
-#: module.cpp:52
+#: module.cpp:53
 #, kde-format
 msgid "Configure KWin scripts"
 msgstr "KWin 스크립트 설정"
 
-#: module.cpp:55
+#: module.cpp:56
 #, kde-format
 msgid "Tamás Krutki"
 msgstr "Tamás Krutki"
 
-#: module.cpp:77
+#: module.cpp:85
 #, kde-format
 msgid "Import KWin Script"
 msgstr "KWin 스크립트 가져오기"
 
-#: module.cpp:78
+#: module.cpp:86
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|KWin 스크립트 (*.kwinscript)"
 
-#: module.cpp:87
+#: module.cpp:105
 #, kde-format
+msgctxt "Placeholder is error message returned from the install service"
 msgid ""
-"Cannot import selected script: maybe a script already exists with the same "
-"name or there is a permission problem."
+"Cannot import selected script.\n"
+"%1"
 msgstr ""
-"선택한 스크립트를 가져올 수 없습니다: 이름이 같은 스크립트가 이미 존재하거나 "
-"권한 문제가 있을 수 있습니다."
+
+#: module.cpp:119
+#, kde-format
+msgctxt "Placeholder is name of the script that was imported"
+msgid "The script \"%1\" was successfully imported."
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Module)
 #: module.ui:14
@@ -67,13 +72,13 @@ msgid "KWin script configuration"
 msgstr "KWin 스크립트 설정"
 
 #. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
-#: module.ui:41
+#: module.ui:44
 #, kde-format
 msgid "Import KWin script..."
 msgstr "KWin 스크립트 가져오는 중..."
 
-#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
-#: module.ui:48
+#. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
+#: module.ui:51
 #, kde-format
 msgid "Get New Script..."
 msgstr "새 스크립트 가져오기..."

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_scripts\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 22:52+0100\n"
-"PO-Revision-Date: 2016-09-23 10:30+0800\n"
+"POT-Creation-Date: 2016-11-19 20:21+0100\n"
+"PO-Revision-Date: 2016-11-03 18:34+0800\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
 "Language: Traditional Chinese\n"
@@ -21,13 +21,13 @@ msgstr ""
 #: videowall/contents/ui/config.ui:14
 #, kde-format
 msgid "Video Wall"
-msgstr "電視牆"
+msgstr "影像牆"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ApplyTo)
 #: videowall/contents/ui/config.ui:20
 #, kde-format
 msgid "Apply to"
-msgstr "套用到"
+msgstr "回覆給"
 
 #. i18n: ectx: property (text), widget (QLineEdit, kcfg_Whitelist)
 #: videowall/contents/ui/config.ui:32

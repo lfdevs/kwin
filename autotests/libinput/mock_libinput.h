@@ -57,8 +57,16 @@ struct libinput_device {
     quint32 supportedScrollMethods = 0;
     bool middleEmulationEnabledByDefault = false;
     bool middleEmulation = false;
+    enum libinput_config_tap_button_map defaultTapButtonMap = LIBINPUT_CONFIG_TAP_MAP_LRM;
+    enum libinput_config_tap_button_map tapButtonMap = LIBINPUT_CONFIG_TAP_MAP_LRM;
+    int setTapButtonMapReturnValue = 0;
+    enum libinput_config_dwt_state disableWhileTypingEnabledByDefault = LIBINPUT_CONFIG_DWT_DISABLED;
+    enum libinput_config_dwt_state disableWhileTyping = LIBINPUT_CONFIG_DWT_DISABLED;
+    int setDisableWhileTypingReturnValue = 0;
+    qreal defaultPointerAcceleration = 0.0;
     qreal pointerAcceleration = 0.0;
     int setPointerAccelerationReturnValue = 0;
+    bool leftHandedEnabledByDefault = false;
     bool leftHanded = false;
     int setLeftHandedReturnValue = 0;
     bool naturalScrollEnabledByDefault = false;
@@ -78,6 +86,10 @@ struct libinput_device {
     int setTapAndDragReturnValue = 0;
     int setTapDragLockReturnValue = 0;
     int setMiddleEmulationReturnValue = 0;
+    quint32 supportedPointerAccelerationProfiles = 0;
+    enum libinput_config_accel_profile defaultPointerAccelerationProfile = LIBINPUT_CONFIG_ACCEL_PROFILE_NONE;
+    enum libinput_config_accel_profile pointerAccelerationProfile = LIBINPUT_CONFIG_ACCEL_PROFILE_NONE;
+    bool setPointerAccelerationProfileReturnValue = 0;
 };
 
 struct libinput_event {

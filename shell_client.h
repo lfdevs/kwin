@@ -46,6 +46,8 @@ public:
     ShellClient(KWayland::Server::XdgShellPopupInterface *surface);
     virtual ~ShellClient();
 
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
     QStringList activities() const override;
     QPoint clientContentPos() const override;
     QSize clientSize() const override;
@@ -74,7 +76,7 @@ public:
     bool isResizable() const override;
     bool isShown(bool shaded_is_shown) const override;
     bool isHiddenInternal() const override {
-        return m_unmapped;
+        return m_unmapped || m_hidden;
     }
     void hideClient(bool hide) override;
     MaximizeMode maximizeMode() const override;
@@ -94,6 +96,7 @@ public:
     bool userCanSetFullScreen() const override;
     bool userCanSetNoBorder() const override;
     bool wantsInput() const override;
+    bool dockWantsInput() const override;
     using AbstractClient::resizeWithChecks;
     void resizeWithChecks(int w, int h, ForceGeometry_t force = NormalGeometrySet) override;
     using AbstractClient::setGeometry;
@@ -127,8 +130,17 @@ public:
     bool setupCompositing() override;
     void finishCompositing(ReleaseReason releaseReason = ReleaseReason::Release) override;
 
+    void showOnScreenEdge() override;
+
+    void killWindow() override;
+
     // TODO: const-ref
     void placeIn(QRect &area);
+
+    void updateApplicationMenu();
+
+    bool hasPopupGrab() const override;
+    void popupDone() override;
 
 protected:
     void addDamage(const QRegion &damage) override;
@@ -143,6 +155,7 @@ protected:
     bool isWaitingForMoveResizeSync() const override;
     bool acceptsFocus() const override;
     void doMinimize() override;
+    void doMove(int x, int y) override;
 
 private Q_SLOTS:
     void clientFullScreenChanged(bool fullScreen);
@@ -159,11 +172,13 @@ private:
     void createWindowId();
     void findInternalWindow();
     void updateInternalWindowGeometry();
+    void syncGeometryToInternalWindow();
     void updateIcon();
     void markAsMapped();
     void setTransient();
     bool shouldExposeToWindowManagement();
     KWayland::Server::XdgShellSurfaceInterface::States xdgSurfaceStates() const;
+    void updateShowOnScreenEdge();
     static void deleteClient(ShellClient *c);
 
     KWayland::Server::ShellSurfaceInterface *m_shellSurface;
@@ -187,6 +202,7 @@ private:
     bool m_userNoBorder = false;
     bool m_fullScreen = false;
     bool m_transient = false;
+    bool m_hidden = false;
     bool m_internal;
     qreal m_opacity = 1.0;
 

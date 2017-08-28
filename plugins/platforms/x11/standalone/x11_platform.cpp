@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "x11_platform.h"
 #include "x11cursor.h"
 #include "edge.h"
+#include "windowselector.h"
 #include <config-kwin.h>
 #include <kwinconfig.h>
 #if HAVE_EPOXY_GLX
@@ -46,10 +47,11 @@ namespace KWin
 
 X11StandalonePlatform::X11StandalonePlatform(QObject *parent)
     : Platform(parent)
+    , m_x11Display(QX11Info::display())
 {
 #if HAVE_X11_XINPUT
     if (!qEnvironmentVariableIsSet("KWIN_NO_XI2")) {
-        m_xinputIntegration = new XInputIntegration(this);
+        m_xinputIntegration = new XInputIntegration(m_x11Display, this);
         m_xinputIntegration->init();
         if (!m_xinputIntegration->hasXinput()) {
             delete m_xinputIntegration;
@@ -61,7 +63,14 @@ X11StandalonePlatform::X11StandalonePlatform(QObject *parent)
 #endif
 }
 
-X11StandalonePlatform::~X11StandalonePlatform() = default;
+X11StandalonePlatform::~X11StandalonePlatform()
+{
+    if (m_openGLFreezeProtectionThread) {
+        m_openGLFreezeProtectionThread->quit();
+        m_openGLFreezeProtectionThread->wait();
+        delete m_openGLFreezeProtectionThread;
+    }
+}
 
 void X11StandalonePlatform::init()
 {
@@ -84,14 +93,14 @@ OpenGLBackend *X11StandalonePlatform::createOpenGLBackend()
 #if HAVE_EPOXY_GLX
     case GlxPlatformInterface:
         if (hasGlx()) {
-            return new GlxBackend();
+            return new GlxBackend(m_x11Display);
         } else {
             qCWarning(KWIN_X11STANDALONE) << "Glx not available, trying EGL instead.";
             // no break, needs fall-through
         }
 #endif
     case EglPlatformInterface:
-        return new EglOnXBackend();
+        return new EglOnXBackend(m_x11Display);
     default:
         // no backend available
         return nullptr;
@@ -111,7 +120,6 @@ void X11StandalonePlatform::createPlatformCursor(QObject *parent)
         m_xinputIntegration->setCursor(c);
         // we know we have xkb already
         auto xkb = input()->keyboard()->xkb();
-        m_xinputIntegration->setXkb(xkb);
         xkb->reconfigure();
     }
 #endif
@@ -243,6 +251,53 @@ void X11StandalonePlatform::createOpenGLSafePoint(OpenGLSafePoint safePoint)
         m_openGLFreezeProtectionThread = nullptr;
         break;
     }
+}
+
+PlatformCursorImage X11StandalonePlatform::cursorImage() const
+{
+    auto c = kwinApp()->x11Connection();
+    QScopedPointer<xcb_xfixes_get_cursor_image_reply_t, QScopedPointerPodDeleter> cursor(
+        xcb_xfixes_get_cursor_image_reply(c,
+                                          xcb_xfixes_get_cursor_image_unchecked(c),
+                                          nullptr));
+    if (cursor.isNull()) {
+        return PlatformCursorImage();
+    }
+
+    QImage qcursorimg((uchar *) xcb_xfixes_get_cursor_image_cursor_image(cursor.data()), cursor->width, cursor->height,
+                      QImage::Format_ARGB32_Premultiplied);
+    // deep copy of image as the data is going to be freed
+    return PlatformCursorImage(qcursorimg.copy(), QPoint(cursor->xhot, cursor->yhot));
+}
+
+void X11StandalonePlatform::doHideCursor()
+{
+    xcb_xfixes_hide_cursor(kwinApp()->x11Connection(), kwinApp()->x11RootWindow());
+}
+
+void X11StandalonePlatform::doShowCursor()
+{
+    xcb_xfixes_show_cursor(kwinApp()->x11Connection(), kwinApp()->x11RootWindow());
+}
+
+void X11StandalonePlatform::startInteractiveWindowSelection(std::function<void(KWin::Toplevel*)> callback, const QByteArray &cursorName)
+{
+    if (m_windowSelector.isNull()) {
+        m_windowSelector.reset(new WindowSelector);
+    }
+    m_windowSelector->start(callback, cursorName);
+}
+
+void X11StandalonePlatform::setupActionForGlobalAccel(QAction *action)
+{
+    connect(action, &QAction::triggered, kwinApp(), [action] {
+        QVariant timestamp = action->property("org.kde.kglobalaccel.activationTimestamp");
+        bool ok = false;
+        const quint32 t = timestamp.toULongLong(&ok);
+        if (ok) {
+            kwinApp()->setX11Time(t);
+        }
+    });
 }
 
 }

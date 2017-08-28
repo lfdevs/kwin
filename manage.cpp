@@ -93,7 +93,8 @@ bool Client::manage(xcb_window_t w, bool isMapped)
         NET::WM2Protocols |
         NET::WM2InitialMappingState |
         NET::WM2IconPixmap |
-        NET::WM2OpaqueRegion;
+        NET::WM2OpaqueRegion |
+        NET::WM2DesktopFileName;
 
     auto wmClientLeaderCookie = fetchWmClientLeader();
     auto skipCloseAnimationCookie = fetchSkipCloseAnimation();
@@ -103,6 +104,9 @@ bool Client::manage(xcb_window_t w, bool isMapped)
     auto firstInTabBoxCookie = fetchFirstInTabBox();
     auto transientCookie = fetchTransient();
     auto activitiesCookie = fetchActivities();
+    auto applicationMenuServiceNameCookie = fetchApplicationMenuServiceName();
+    auto applicationMenuObjectPathCookie = fetchApplicationMenuObjectPath();
+
     m_geometryHints.init(window());
     m_motif.init(window());
     info = new WinInfo(this, m_client, rootWindow(), properties, properties2);
@@ -142,7 +146,10 @@ bool Client::manage(xcb_window_t w, bool isMapped)
 
     setModal((info->state() & NET::Modal) != 0);   // Needs to be valid before handling groups
     readTransientProperty(transientCookie);
+    setDesktopFileName(QByteArray(info->desktopFileName()));
     getIcons();
+    connect(this, &Client::desktopFileNameChanged, this, &Client::getIcons);
+
     m_geometryHints.read();
     getMotifHints();
     getWmOpaqueRegion();
@@ -387,6 +394,9 @@ bool Client::manage(xcb_window_t w, bool isMapped)
 
     readColorScheme(colorSchemeCookie);
 
+    readApplicationMenuServiceName(applicationMenuServiceNameCookie);
+    readApplicationMenuObjectPath(applicationMenuObjectPathCookie);
+
     updateDecoration(false);   // Also gravitates
     // TODO: Is CentralGravity right here, when resizing is done after gravitating?
     plainResize(rules()->checkSize(sizeForClientSize(geom.size()), !isMapped));
@@ -586,33 +596,18 @@ bool Client::manage(xcb_window_t w, bool isMapped)
         else
             allow = workspace()->allowClientActivation(this, userTime(), false);
 
-        if (!(isMapped || session)) {
-            if (workspace()->sessionSaving()) {
-                /*
-                 * If we get a new window during session saving, we assume it's some 'save file?' dialog
-                 * which the user really needs to see (to know why logout's stalled).
-                 *
-                 * Given the current session management protocol, I can't see a nicer way of doing this.
-                 * Someday I'd like to see a protocol that tells the windowmanager who's doing SessionInteract.
-                 */
-                needsSessionInteract = true;
-                //show the parent too
-                auto mainclients = mainClients();
-                for (auto it = mainclients.constBegin();
-                        it != mainclients.constEnd(); ++it) {
-                    if (Client *mc = dynamic_cast<Client*>((*it))) {
-                        mc->setSessionInteract(true);
-                    }
-                    (*it)->unminimize();
+        // If session saving, force showing new windows (i.e. "save file?" dialogs etc.)
+        // also force if activation is allowed
+        if( !isOnCurrentDesktop() && !isMapped && !session && ( allow || workspace()->sessionSaving() ))
+            VirtualDesktopManager::self()->setCurrent( desktop());
+
+        // If the window is on an inactive activity during session saving, temporarily force it to show.
+        if( !isMapped && !session && workspace()->sessionSaving() && !isOnCurrentActivity()) {
+            setSessionActivityOverride( true );
+            foreach( AbstractClient* c, mainClients()) {
+                if (Client *mc = dynamic_cast<Client*>(c)) {
+                    mc->setSessionActivityOverride(true);
                 }
-            } else if (allow) {
-                // also force if activation is allowed
-                if (!isOnCurrentDesktop() && options->focusPolicyIsReasonable()) {
-                    VirtualDesktopManager::self()->setCurrent(desktop());
-                }
-                /*if (!isOnCurrentActivity()) {
-                    workspace()->setCurrentActivity( activities().first() );
-                } FIXME no such method*/
             }
         }
 

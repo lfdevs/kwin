@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-14 05:12+0200\n"
+"POT-Creation-Date: 2017-04-14 02:49+0200\n"
 "PO-Revision-Date: 2015-01-25 12:14+0200\n"
 "Last-Translator: Liudas Ališauskas <liudas@akmc.lt>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -21,52 +21,52 @@ msgstr ""
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Menu"
 msgstr "Meniu"
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Application menu"
 msgstr "Programos meniu"
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "On all desktops"
 msgstr "Visuose darbalaukiuose"
 
-#: declarative-plugin/buttonsmodel.cpp:73
+#: declarative-plugin/buttonsmodel.cpp:74
 #, kde-format
 msgid "Minimize"
 msgstr "Sumažinti"
 
-#: declarative-plugin/buttonsmodel.cpp:75
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
 msgid "Maximize"
 msgstr "Išdidinti"
 
-#: declarative-plugin/buttonsmodel.cpp:77
+#: declarative-plugin/buttonsmodel.cpp:78
 #, kde-format
 msgid "Close"
 msgstr "Užverti"
 
-#: declarative-plugin/buttonsmodel.cpp:79
+#: declarative-plugin/buttonsmodel.cpp:80
 #, kde-format
 msgid "Context help"
 msgstr "Kontekstinė pagalba"
 
-#: declarative-plugin/buttonsmodel.cpp:81
+#: declarative-plugin/buttonsmodel.cpp:82
 #, kde-format
 msgid "Shade"
 msgstr "Šešėlis"
 
-#: declarative-plugin/buttonsmodel.cpp:83
+#: declarative-plugin/buttonsmodel.cpp:84
 #, kde-format
 msgid "Keep below"
 msgstr "Laikyti apačioje"
 
-#: declarative-plugin/buttonsmodel.cpp:85
+#: declarative-plugin/buttonsmodel.cpp:86
 #, kde-format
 msgid "Keep above"
 msgstr "Laikyti viršuje"

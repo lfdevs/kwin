@@ -43,10 +43,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QScopedPointer>
 
 #include <KPluginFactory>
+#include <KSharedConfig>
 
 #include <assert.h>
 #include <limits.h>
 #include <netwm.h>
+
+#include <functional>
 
 class KConfigGroup;
 class QFont;
@@ -663,6 +666,14 @@ public Q_SLOTS:
 protected:
     xcb_connection_t *xcbConnection() const;
     xcb_window_t x11RootWindow() const;
+
+    /**
+     * An implementing class can call this with it's kconfig compiled singleton class.
+     * This method will perform the instance on the class.
+     * @since 5.9
+     **/
+    template <typename T>
+    void initConfig();
 };
 
 
@@ -874,6 +885,15 @@ public:
     virtual void registerAxisShortcut(Qt::KeyboardModifiers modifiers, PointerAxisDirection axis, QAction *action) = 0;
 
     /**
+     * @brief Registers a global touchpad swipe gesture shortcut with the provided @p action.
+     *
+     * @param direction The direction for the swipe
+     * @param action The action which gets triggered when the gesture triggers
+     * @since 5.10
+     **/
+    virtual void registerTouchpadSwipeShortcut(SwipeDirection direction, QAction *action) = 0;
+
+    /**
      * Retrieve the proxy class for an effect if it has one. Will return NULL if
      * the effect isn't loaded or doesn't have a proxy class.
      */
@@ -885,6 +905,28 @@ public:
 
     virtual void reserveElectricBorder(ElectricBorder border, Effect *effect) = 0;
     virtual void unreserveElectricBorder(ElectricBorder border, Effect *effect) = 0;
+
+    /**
+     * Registers the given @p action for the given @p border to be activated through
+     * a touch swipe gesture.
+     *
+     * If the @p border gets triggered through a touch swipe gesture the @link{QAction::triggered}
+     * signal gets invoked.
+     *
+     * To unregister the touch screen action either delete the @p action or
+     * invoke @link{unregisterTouchBorder}.
+     *
+     * @see unregisterTouchBorder
+     * @since 5.10
+     **/
+    virtual void registerTouchBorder(ElectricBorder border, QAction *action) = 0;
+    /**
+     * Unregisters the given @p action for the given touch @p border.
+     *
+     * @see registerTouchBorder
+     * @since 5.10
+     **/
+    virtual void unregisterTouchBorder(ElectricBorder border, QAction *action) = 0;
 
     // functions that allow controlling windows/desktop
     virtual void activateWindow(KWin::EffectWindow* c) = 0;
@@ -1056,15 +1098,7 @@ public:
     virtual QPainter *scenePainter() = 0;
     virtual void reconfigure() = 0;
 
-    /**
-     Makes KWin core watch PropertyNotify events for the given atom,
-     or stops watching if reg is false (must be called the same number
-     of times as registering). Events are sent using Effect::propertyNotify().
-     Note that even events that haven't been registered for can be received.
-    */
-    virtual void registerPropertyType(long atom, bool reg) = 0;
     virtual QByteArray readRootProperty(long atom, long type, int format) const = 0;
-    virtual void deleteRootProperty(long atom) const = 0;
     /**
      * @brief Announces support for the feature with the given name. If no other Effect
      * has announced support for this feature yet, an X11 property will be installed on
@@ -1186,9 +1220,97 @@ public:
     virtual bool animationsSupported() const = 0;
 
     /**
-     * @return @ref KConfigGroup which holds given effect's config options
+     * The current cursor image of the Platform.
+     * @see cursorPos
+     * @since 5.9
      **/
-    static KConfigGroup effectConfig(const QString& effectname);
+    virtual PlatformCursorImage cursorImage() const = 0;
+
+    /**
+     * The cursor image should be hidden.
+     * @see showCursor
+     * @since 5.9
+     **/
+    virtual void hideCursor() = 0;
+
+    /**
+     * The cursor image should be shown again after having been hidden..
+     * @see hideCursor
+     * @since 5.9
+     **/
+    virtual void showCursor() = 0;
+
+    /**
+     * Starts an interactive window selection process.
+     *
+     * Once the user selected a window the @p callback is invoked with the selected EffectWindow as
+     * argument. In case the user cancels the interactive window selection or selecting a window is currently
+     * not possible (e.g. screen locked) the @p callback is invoked with a @c nullptr argument.
+     *
+     * During the interactive window selection the cursor is turned into a crosshair cursor.
+     *
+     * @param callback The function to invoke once the interactive window selection ends
+     * @since 5.9
+     **/
+    virtual void startInteractiveWindowSelection(std::function<void(KWin::EffectWindow*)> callback) = 0;
+
+    /**
+     * Starts an interactive position selection process.
+     *
+     * Once the user selected a position on the screen the @p callback is invoked with
+     * the selected point as argument. In case the user cancels the interactive position selection
+     * or selecting a position is currently not possible (e.g. screen locked) the @p callback
+     * is invoked with a point at @c -1 as x and y argument.
+     *
+     * During the interactive window selection the cursor is turned into a crosshair cursor.
+     *
+     * @param callback The function to invoke once the interactive position selection ends
+     * @since 5.9
+     **/
+    virtual void startInteractivePositionSelection(std::function<void(const QPoint &)> callback) = 0;
+
+    /**
+     * Shows an on-screen-message. To hide it again use @link{hideOnScreenMessage}.
+     *
+     * @param message The message to show
+     * @param iconName The optional themed icon name
+     * @see hideOnScreenMessage
+     * @since 5.9
+     **/
+    virtual void showOnScreenMessage(const QString &message, const QString &iconName = QString()) = 0;
+
+    /**
+     * Flags for how to hide a shown on-screen-message
+     * @see hideOnScreenMessage
+     * @since 5.9
+     **/
+    enum class OnScreenMessageHideFlag {
+        /**
+         * The on-screen-message should skip the close window animation.
+         * @see EffectWindow::skipsCloseAnimation
+         **/
+        SkipsCloseAnimation = 1
+    };
+    Q_DECLARE_FLAGS(OnScreenMessageHideFlags, OnScreenMessageHideFlag)
+    /**
+     * Hides a previously shown on-screen-message again.
+     * @param flags The flags for how to hide the message
+     * @see showOnScreenMessage
+     * @since 5.9
+     **/
+    virtual void hideOnScreenMessage(OnScreenMessageHideFlags flags = OnScreenMessageHideFlags()) = 0;
+
+    /*
+     * @returns The configuration used by the EffectsHandler.
+     * @since 5.10
+     **/
+    virtual KSharedConfigPtr config() const = 0;
+
+    /**
+     * @returns The global input configuration (kcminputrc)
+     * @since 5.10
+     **/
+    virtual KSharedConfigPtr inputConfig() const = 0;
 
 Q_SIGNALS:
     /**
@@ -1363,6 +1485,14 @@ Q_SIGNALS:
      * @since 4.11
      **/
     void windowModalityChanged(KWin::EffectWindow *w);
+    /**
+     * Signal emitted when a window either became unresponsive (eg. app froze or crashed)
+     * or respoonsive
+     * @param w The window that became (un)responsive
+     * @param unresponsive Whether the window is responsive or unresponsive
+     * @since 5.10
+     */
+    void windowUnresponsiveChanged(KWin::EffectWindow *w, bool unresponsive);
     /**
      * Signal emitted when an area of a window is scheduled for repainting.
      * Use this signal in an effect if another area needs to be synced as well.
@@ -1788,6 +1918,16 @@ class KWINEFFECTS_EXPORT EffectWindow : public QObject
      * @since 5.6
      **/
     Q_PROPERTY(bool fullScreen READ isFullScreen)
+
+    /**
+     * Whether this client is unresponsive.
+     *
+     * When an application failed to react on a ping request in time, it is
+     * considered unresponsive. This usually indicates that the application froze or crashed.
+     *
+     * @since 5.10
+     */
+    Q_PROPERTY(bool unresponsive READ isUnresponsive)
 public:
     /**  Flags explaining why painting should be disabled  */
     enum {
@@ -2031,6 +2171,11 @@ public:
     bool isFullScreen() const;
 
     /**
+     * @since 5.10
+     */
+    bool isUnresponsive() const;
+
+    /**
      * Can be used to by effects to store arbitrary data in the EffectWindow.
      *
      * Invoking this method will emit the signal EffectsHandler::windowDataChanged.
@@ -2100,6 +2245,7 @@ class KWINEFFECTS_EXPORT WindowVertex
 {
 public:
     WindowVertex();
+    WindowVertex(const QPointF &position, const QPointF &textureCoordinate);
     WindowVertex(double x, double y, double tx, double ty);
 
     double x() const { return px; }
@@ -2565,7 +2711,7 @@ class KWINEFFECTS_EXPORT ScreenPaintData : public PaintData
 {
 public:
     ScreenPaintData();
-    ScreenPaintData(const QMatrix4x4 &projectionMatrix);
+    ScreenPaintData(const QMatrix4x4 &projectionMatrix, const QRect &outputGeometry = QRect());
     ScreenPaintData(const ScreenPaintData &other);
     virtual ~ScreenPaintData();
     /**
@@ -2617,6 +2763,16 @@ public:
      * @since 5.6
      **/
     QMatrix4x4 projectionMatrix() const;
+
+    /**
+     * The geometry of the currently rendered output.
+     * Only set for per-output rendering (e.g. Wayland).
+     *
+     * This geometry can be used as a hint about the native window the OpenGL context
+     * is bound. OpenGL calls need to be translated to this geometry.
+     * @since 5.9
+     **/
+    QRect outputGeometry() const;
 private:
     class Private;
     QScopedPointer<Private> d;
@@ -3104,13 +3260,20 @@ extern KWINEFFECTS_EXPORT EffectsHandler* effects;
 
 inline
 WindowVertex::WindowVertex()
-    : px(0), py(0), tx(0), ty(0)
+    : px(0), py(0), ox(0), oy(0), tx(0), ty(0)
 {
 }
 
 inline
 WindowVertex::WindowVertex(double _x, double _y, double _tx, double _ty)
     : px(_x), py(_y), ox(_x), oy(_y), tx(_tx), ty(_ty)
+{
+}
+
+
+inline
+WindowVertex::WindowVertex(const QPointF &position, const QPointF &texturePosition)
+    : px(position.x()), py(position.y()), ox(position.x()), oy(position.y()), tx(texturePosition.x()), ty(texturePosition.y())
 {
 }
 
@@ -3304,6 +3467,12 @@ template <typename T>
 int Effect::animationTime(int defaultDuration)
 {
     return animationTime(T::duration() != 0 ? T::duration() : defaultDuration);
+}
+
+template <typename T>
+void Effect::initConfig()
+{
+    T::instance(effects->config());
 }
 
 } // namespace

@@ -23,10 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KWIN_KILLWINDOW_H
 #define KWIN_KILLWINDOW_H
 
-#include <xcb/xcb.h>
-
-typedef union  _XEvent XEvent;
-
 namespace KWin
 {
 
@@ -38,22 +34,6 @@ public:
     ~KillWindow();
 
     void start();
-    bool isActive() const {
-        return m_active;
-    }
-    bool isResponsibleForEvent(int eventType) const;
-    // TODO: remove once event handling is ported to XCB
-    void processEvent(XEvent *event);
-    void processEvent(xcb_generic_event_t *event);
-
-private:
-    xcb_cursor_t createCursor();
-    void release();
-    void performKill();
-    void handleKeyPress(xcb_keycode_t keycode, uint16_t state);
-    void handleButtonRelease(xcb_button_t button, xcb_window_t window);
-    void killWindowId(xcb_window_t window_to_kill);
-    bool m_active;
 };
 
 } // namespace

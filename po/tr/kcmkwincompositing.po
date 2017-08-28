@@ -5,54 +5,54 @@
 #
 # Serdar Soytetir <tulliana@gmail.com>, 2007, 2008, 2009, 2011.
 # Serdar SOYTETİR <tulliana@gmail.com>, 2010, 2012.
-# Volkan Gezer <volkangezer@gmail.com>, 2013, 2014.
+# Volkan Gezer <volkangezer@gmail.com>, 2013, 2014, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
-"PO-Revision-Date: 2014-10-21 09:49+0000\n"
-"Last-Translator: Necdet <necdetyucel@gmail.com>\n"
+"POT-Creation-Date: 2017-04-05 02:49+0200\n"
+"PO-Revision-Date: 2017-04-24 16:34+0100\n"
+"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Serdar Soytetir"
+msgstr "Serdar Soytetir, Volkan Gezer"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "tulliana@gmail.com"
+msgstr "tulliana@gmail.com, volkangezer@gmail.com"
 
-#: compositing.cpp:401
+#: compositing.cpp:378
 #, kde-format
 msgid "OpenGL 3.1"
 msgstr "OpenGL 3.1"
 
-#: compositing.cpp:402
+#: compositing.cpp:379
 #, kde-format
 msgid "OpenGL 2.0"
 msgstr "OpenGL 2.0"
 
-#: compositing.cpp:403
+#: compositing.cpp:380
 #, kde-format
 msgid "XRender"
 msgstr "XRender"
 
-#: compositing.cpp:502
+#: compositing.cpp:479
 #, kde-format
 msgctxt "OpenGL Platform Interface"
 msgid "EGL"
 msgstr "EGL"
 
-#: compositing.cpp:504
+#: compositing.cpp:481
 #, kde-format
 msgctxt "OpenGL Platform Interface"
 msgid "GLX"
@@ -215,32 +215,24 @@ msgstr "Sadece Gösterilen Pencereler için"
 msgid "Always"
 msgstr "Her zaman"
 
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:275
-#, kde-format
-msgid "Experimental:"
-msgstr "Deneysel:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:282
-#, kde-format
-msgid "Enable color correction"
-msgstr "Renk düzeltmeyi etkinleştir"
-
 #. i18n: ectx: property (toolTip), widget (QCheckBox, windowsBlockCompositing)
-#: compositing.ui:291
+#: compositing.ui:277
 #, kde-format
 msgid ""
 "Applications can set a hint to block compositing when the window is open.\n"
 " This brings performance improvements for e.g. games.\n"
 " The setting can be overruled by window-specific rules."
 msgstr ""
+"Uygulamalar, pencere açıkken birleşimi engellemek için bir ipucu "
+"belirleyebilir.\n"
+"Bu, örneğin; oyunlar için performans iyileştirmeleri getirebilir.\n"
+"Ayar, pencereye özgü kurallar tarafından geçersiz kılınabilir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, windowsBlockCompositing)
-#: compositing.ui:294
+#: compositing.ui:280
 #, kde-format
 msgid "Allow applications to block compositing"
-msgstr ""
+msgstr "Uygulamaların, birleştirmeyi engellemesine izin ver"
 
 #: main.cpp:82
 #, kde-format
@@ -262,10 +254,7 @@ msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "\"Tam ekran onarumı\" performans sorunlarına yok açabilir."
 
 #: main.cpp:148
-#, fuzzy, kde-format
-#| msgid ""
-#| "\"Re-use screen content\" causes performance severe problems on MESA "
-#| "drivers."
+#, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""

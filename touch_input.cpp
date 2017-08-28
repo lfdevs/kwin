@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "touch_input.h"
 #include "abstract_client.h"
 #include "input.h"
+#include "input_event_spy.h"
 #include "toplevel.h"
 #include "wayland_server.h"
 #include "workspace.h"
@@ -101,7 +102,8 @@ void TouchInputRedirection::update(const QPointF &pos)
         m_windowGeometryConnection = QMetaObject::Connection();
     }
     if (t && t->surface()) {
-        seat->setFocusedTouchSurface(t->surface(), t->pos());
+        // FIXME: add input transformation API to KWayland::Server::SeatInterface for touch input
+        seat->setFocusedTouchSurface(t->surface(), -1 * t->inputTransformation().map(t->pos()) + t->pos());
         m_windowGeometryConnection = connect(t, &Toplevel::geometryChanged, this,
             [this] {
                 if (m_window.isNull()) {
@@ -111,7 +113,8 @@ void TouchInputRedirection::update(const QPointF &pos)
                 if (m_window.data()->surface() != seat->focusedTouchSurface()) {
                     return;
                 }
-                seat->setFocusedTouchSurfacePosition(m_window.data()->pos());
+                auto t = m_window.data();
+                seat->setFocusedTouchSurfacePosition(-1 * t->inputTransformation().map(t->pos()) + t->pos());
             }
         );
     } else {
@@ -151,12 +154,8 @@ void TouchInputRedirection::processDown(qint32 id, const QPointF &pos, quint32 t
         return;
     }
     m_windowUpdatedInCycle = false;
-    const auto &filters = m_input->filters();
-    for (auto it = filters.begin(), end = filters.end(); it != end; it++) {
-        if ((*it)->touchDown(id, pos, time)) {
-            return;
-        }
-    }
+    m_input->processSpies(std::bind(&InputEventSpy::touchDown, std::placeholders::_1, id, pos, time));
+    m_input->processFilters(std::bind(&InputEventFilter::touchDown, std::placeholders::_1, id, pos, time));
     m_windowUpdatedInCycle = false;
 }
 
@@ -167,12 +166,8 @@ void TouchInputRedirection::processUp(qint32 id, quint32 time, LibInput::Device 
         return;
     }
     m_windowUpdatedInCycle = false;
-    const auto &filters = m_input->filters();
-    for (auto it = filters.begin(), end = filters.end(); it != end; it++) {
-        if ((*it)->touchUp(id, time)) {
-            return;
-        }
-    }
+    m_input->processSpies(std::bind(&InputEventSpy::touchUp, std::placeholders::_1, id, time));
+    m_input->processFilters(std::bind(&InputEventFilter::touchUp, std::placeholders::_1, id, time));
     m_windowUpdatedInCycle = false;
 }
 
@@ -183,12 +178,8 @@ void TouchInputRedirection::processMotion(qint32 id, const QPointF &pos, quint32
         return;
     }
     m_windowUpdatedInCycle = false;
-    const auto &filters = m_input->filters();
-    for (auto it = filters.begin(), end = filters.end(); it != end; it++) {
-        if ((*it)->touchMotion(id, pos, time)) {
-            return;
-        }
-    }
+    m_input->processSpies(std::bind(&InputEventSpy::touchMotion, std::placeholders::_1, id, pos, time));
+    m_input->processFilters(std::bind(&InputEventFilter::touchMotion, std::placeholders::_1, id, pos, time));
     m_windowUpdatedInCycle = false;
 }
 

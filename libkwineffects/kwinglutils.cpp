@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // need to call GLTexturePrivate::initStatic()
 #include "kwingltexture_p.h"
 
-#include "kwinglcolorcorrection.h"
 #include "kwineffects.h"
 #include "kwinglplatform.h"
 #include "logging_p.h"
@@ -45,13 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <math.h>
 
-#if HAVE_EPOXY_GLX
-#include <epoxy/glx.h>
-#endif
-
 #define DEBUG_GLRENDERTARGET 0
-
-#define MAKE_GL_VERSION(major, minor, release)  ( ((major) << 16) | ((minor) << 8) | (release) )
 
 #ifdef __GNUC__
 #  define likely(x)   __builtin_expect(!!(x), 1)
@@ -64,47 +57,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace KWin
 {
 // Variables
-// GLX version, use MAKE_GL_VERSION() macro for comparing with a specific version
-static int glXVersion;
-// EGL version, use MAKE_GL_VERSION() macro for comparing with a specific version
-static int eglVersion;
-// List of all supported GL, EGL and GLX extensions
+// List of all supported GL extensions
 static QList<QByteArray> glExtensions;
-static QList<QByteArray> s_glxExtensions;
-static QList<QByteArray> s_eglExtensions;
-
-int glTextureUnitsCount;
 
 
 // Functions
-void initGLX()
-{
-#if HAVE_EPOXY_GLX
-    // Get GLX version
-    int major, minor;
-    glXQueryVersion(display(), &major, &minor);
-    glXVersion = MAKE_GL_VERSION(major, minor, 0);
-    // Get list of supported GLX extensions
-    const QByteArray string = (const char *) glXQueryExtensionsString(display(), QX11Info::appScreen());
-    s_glxExtensions = string.split(' ');
-    glxResolveFunctions();
-#endif
-}
 
-void initEGL()
-{
-    EGLDisplay dpy = eglGetCurrentDisplay();
-    if (dpy == EGL_NO_DISPLAY)
-        dpy = eglGetDisplay(EGL_DEFAULT_DISPLAY);
-    int major, minor;
-    eglInitialize(dpy, &major, &minor);
-    eglVersion = MAKE_GL_VERSION(major, minor, 0);
-    const QByteArray string = eglQueryString(dpy, EGL_EXTENSIONS);
-    s_eglExtensions = string.split(' ');
-    eglResolveFunctions();
-}
-
-void initGL(OpenGLPlatformInterface platformInterface)
+void initGL(std::function<resolveFuncPtr(const char*)> resolveFunction)
 {
     // Get list of supported OpenGL extensions
     if (hasGLVersion(3, 0)) {
@@ -119,7 +78,7 @@ void initGL(OpenGLPlatformInterface platformInterface)
         glExtensions = QByteArray((const char*)glGetString(GL_EXTENSIONS)).split(' ');
 
     // handle OpenGL extensions functions
-    glResolveFunctions(platformInterface);
+    glResolveFunctions(resolveFunction);
 
     GLTexturePrivate::initStatic();
     GLRenderTarget::initStatic();
@@ -135,12 +94,6 @@ void cleanupGL()
     GLPlatform::cleanup();
 
     glExtensions.clear();
-    s_glxExtensions.clear();
-    s_eglExtensions.clear();
-
-    glXVersion = 0;
-    eglVersion = 0;
-    glTextureUnitsCount = 0;
 }
 
 bool hasGLVersion(int major, int minor, int release)
@@ -148,29 +101,9 @@ bool hasGLVersion(int major, int minor, int release)
     return GLPlatform::instance()->glVersion() >= kVersionNumber(major, minor, release);
 }
 
-bool hasGLXVersion(int major, int minor, int release)
-{
-    return glXVersion >= MAKE_GL_VERSION(major, minor, release);
-}
-
-bool hasEGLVersion(int major, int minor, int release)
-{
-    return eglVersion >= MAKE_GL_VERSION(major, minor, release);
-}
-
 bool hasGLExtension(const QByteArray &extension)
 {
-    return glExtensions.contains(extension) || s_glxExtensions.contains(extension) || s_eglExtensions.contains(extension);
-}
-
-QList<QByteArray> eglExtensions()
-{
-    return s_eglExtensions;
-}
-
-QList<QByteArray> glxExtensions()
-{
-    return s_glxExtensions;
+    return glExtensions.contains(extension);
 }
 
 QList<QByteArray> openGLExtensions()
@@ -195,38 +128,26 @@ static QString formatGLError(GLenum err)
 bool checkGLError(const char* txt)
 {
     GLenum err = glGetError();
+    if (err == GL_CONTEXT_LOST) {
+        qCWarning(LIBKWINGLUTILS) << "GL error: context lost";
+        return true;
+    }
     bool hasError = false;
     while (err != GL_NO_ERROR) {
         qCWarning(LIBKWINGLUTILS) << "GL error (" << txt << "): " << formatGLError(err);
         hasError = true;
         err = glGetError();
+        if (err == GL_CONTEXT_LOST) {
+            qCWarning(LIBKWINGLUTILS) << "GL error: context lost";
+            break;
+        }
     }
     return hasError;
-}
-
-// TODO: Drop for Plasma 6, no longer needed after OpenGL 2.0
-int nearestPowerOfTwo(int x)
-{
-    unsigned y = static_cast<unsigned>(x);
-
-    // From Hank Warren's "Hacker's Delight", clp2() method.
-    // Works for up to 32-bit integers.
-
-    y = y - 1;
-    y = y | (y >>  1);
-    y = y | (y >>  2);
-    y = y | (y >>  4);
-    y = y | (y >>  8);
-    y = y | (y >> 16);
-
-    return static_cast<int>(y + 1);
 }
 
 //****************************************
 // GLShader
 //****************************************
-
-bool GLShader::sColorCorrect = false;
 
 GLShader::GLShader(unsigned int flags)
     : mValid(false)
@@ -313,10 +234,6 @@ const QByteArray GLShader::prepareSource(GLenum shaderType, const QByteArray &so
     if (GLPlatform::instance()->isGLES() && GLPlatform::instance()->glslVersion() >= kVersionNumber(3, 0)) {
         ba.replace("#version 140", "#version 300 es\n\nprecision highp float;\n");
     }
-
-    // Inject color correction code for fragment shaders, if possible
-    if (shaderType == GL_FRAGMENT_SHADER && sColorCorrect)
-        ba = ColorCorrection::prepareFragmentShader(ba);
 
     return ba;
 }
@@ -429,8 +346,6 @@ void GLShader::resolveLocations()
     mVec4Location[ModulationConstant] = uniformLocation("modulation");
 
     mFloatLocation[Saturation]    = uniformLocation("saturation");
-
-    mIntLocation[ColorCorrectionLookupTextureUnit] = uniformLocation("u_ccLookupTexture");
 
     mColorLocation[Color] = uniformLocation("geometryColor");
 
@@ -705,6 +620,10 @@ bool ShaderManager::selfTest()
     }
     if (GLPlatform::instance()->isNvidia() && GLPlatform::instance()->glRendererString().contains("Quadro")) {
         qCWarning(LIBKWINGLUTILS) << "Skipping self test as it is reported to return false positive results on Quadro hardware";
+        return true;
+    }
+    if (GLPlatform::instance()->isMesaDriver() && GLPlatform::instance()->mesaVersion() >= kVersionNumber(17, 0)) {
+        qCWarning(LIBKWINGLUTILS) << "Skipping self test as it is reported to return false positive results on Mesa drivers";
         return true;
     }
 
@@ -1129,6 +1048,9 @@ bool GLRenderTarget::sSupported = false;
 bool GLRenderTarget::s_blitSupported = false;
 QStack<GLRenderTarget*> GLRenderTarget::s_renderTargets = QStack<GLRenderTarget*>();
 QSize GLRenderTarget::s_virtualScreenSize;
+QRect GLRenderTarget::s_virtualScreenGeometry;
+qreal GLRenderTarget::s_virtualScreenScale = 1.0;
+GLint GLRenderTarget::s_virtualScreenViewport[4];
 
 void GLRenderTarget::initStatic()
 {
@@ -1165,6 +1087,9 @@ bool GLRenderTarget::blitSupported()
 
 void GLRenderTarget::pushRenderTarget(GLRenderTarget* target)
 {
+    if (s_renderTargets.isEmpty()) {
+        glGetIntegerv(GL_VIEWPORT, s_virtualScreenViewport);
+    }
     target->enable();
     s_renderTargets.push(target);
 }
@@ -1177,9 +1102,8 @@ GLRenderTarget* GLRenderTarget::popRenderTarget()
     if (!s_renderTargets.isEmpty()) {
         s_renderTargets.top()->enable();
     } else {
-        glViewport (0, 0, s_virtualScreenSize.width(), s_virtualScreenSize.height());
+        glViewport (s_virtualScreenViewport[0], s_virtualScreenViewport[1], s_virtualScreenViewport[2], s_virtualScreenViewport[3]);
     }
-
     return ret;
 }
 
@@ -1327,10 +1251,13 @@ void GLRenderTarget::blitFromFramebuffer(const QRect &source, const QRect &desti
     GLRenderTarget::pushRenderTarget(this);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mFramebuffer);
     glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
-    const QRect s = source.isNull() ? QRect(0, 0, s_virtualScreenSize.width(), s_virtualScreenSize.height()) : source;
+    const QRect s = source.isNull() ? s_virtualScreenGeometry : source;
     const QRect d = destination.isNull() ? QRect(0, 0, mTexture.width(), mTexture.height()) : destination;
 
-    glBlitFramebuffer(s.x(), s_virtualScreenSize.height() - s.y() - s.height(), s.x() + s.width(), s_virtualScreenSize.height() - s.y(),
+    glBlitFramebuffer((s.x() - s_virtualScreenGeometry.x()) * s_virtualScreenScale,
+                      (s_virtualScreenGeometry.height() - s_virtualScreenGeometry.y() - s.y() - s.height()) * s_virtualScreenScale,
+                      (s.x() - s_virtualScreenGeometry.x() + s.width()) * s_virtualScreenScale,
+                      (s_virtualScreenGeometry.height() - s_virtualScreenGeometry.y() - s.y()) * s_virtualScreenScale,
                       d.x(), mTexture.height() - d.y() - d.height(), d.x() + d.width(), mTexture.height() - d.y(),
                       GL_COLOR_BUFFER_BIT, filter);
     GLRenderTarget::popRenderTarget();
@@ -2021,7 +1948,7 @@ GLvoid *GLVertexBufferPrivate::mapNextFreeRange(size_t size)
 //*********************************
 // GLVertexBuffer
 //*********************************
-QSize GLVertexBuffer::s_virtualScreenSize;
+QRect GLVertexBuffer::s_virtualScreenGeometry;
 
 GLVertexBuffer::GLVertexBuffer(UsageHint hint)
     : d(new GLVertexBufferPrivate(hint))
@@ -2195,7 +2122,7 @@ void GLVertexBuffer::draw(const QRegion &region, GLenum primitiveMode, int first
         } else {
             // Clip using scissoring
             foreach (const QRect &r, region.rects()) {
-                glScissor(r.x(), s_virtualScreenSize.height() - r.y() - r.height(), r.width(), r.height());
+                glScissor(r.x() - s_virtualScreenGeometry.x(), s_virtualScreenGeometry.height() - s_virtualScreenGeometry.y() - r.y() - r.height(), r.width(), r.height());
                 glDrawElementsBaseVertex(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, nullptr, first);
             }
         }
@@ -2207,7 +2134,7 @@ void GLVertexBuffer::draw(const QRegion &region, GLenum primitiveMode, int first
     } else {
         // Clip using scissoring
         foreach (const QRect &r, region.rects()) {
-            glScissor(r.x(), s_virtualScreenSize.height() - r.y() - r.height(), r.width(), r.height());
+            glScissor(r.x() - s_virtualScreenGeometry.x(), s_virtualScreenGeometry.height()  - s_virtualScreenGeometry.y() - r.y() - r.height(), r.width(), r.height());
             glDrawArrays(primitiveMode, first, count);
         }
     }

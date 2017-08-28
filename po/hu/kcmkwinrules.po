@@ -1,19 +1,20 @@
 # Kristóf Kiszel <ulysses@kubuntu.org>, 2010, 2012.
 # Balázs Úr <urbalazs@gmail.com>, 2012, 2013, 2014.
+# Kiszel Kristóf <kiszel.kristof@gmail.com>, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.1\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
-"PO-Revision-Date: 2014-01-20 21:20+0100\n"
-"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"POT-Creation-Date: 2016-11-19 20:21+0100\n"
+"PO-Revision-Date: 2017-02-14 22:59+0100\n"
+"Last-Translator: Kiszel Kristóf <kiszel.kristof@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -249,45 +250,45 @@ msgstr "Az egyenkénti megjegyzés beállításainak megjelenítése"
 msgid "Internal setting for remembering"
 msgstr "Az egyenkénti megjegyzés beállításai"
 
-#: main.cpp:149
+#: main.cpp:150
 #, kde-format
 msgid "Application settings for %1"
 msgstr "%1 alkalmazásbeállításai"
 
-#: main.cpp:169
+#: main.cpp:170
 #, kde-format
 msgid "Window settings for %1"
 msgstr "%1 ablakbeállításai"
 
-#: main.cpp:221
+#: main.cpp:222
 #, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Egyedi alkalmazásbeállítások módosítása"
 
-#: main.cpp:251
+#: main.cpp:252
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:259
+#: main.cpp:260
 #, kde-format
 msgid "KWin helper utility"
 msgstr "KWin-segédprogram"
 
-#: main.cpp:260
+#: main.cpp:261
 #, kde-format
 msgid "WId of the window for special window settings."
 msgstr "A beállítandó ablak azonosítója."
 
-#: main.cpp:261
+#: main.cpp:262
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr ""
 "Ez határozza meg, hogy az alkalmazás összes ablakára érvényes legyen-e a "
 "beállítás."
 
-#: main.cpp:269
+#: main.cpp:270
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Ezt a segédprogramot nem közvetlenül kell elindítani."
@@ -1227,10 +1228,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fpplevel)
 #: ruleswidgetbase.ui:2232
-#, fuzzy, kde-format
-#| msgid "&Focus stealing prevention"
+#, kde-format
 msgid "Focus protection"
-msgstr "A fókuszel&vétel megakadályozása"
+msgstr "Fókuszvédelem"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_acceptfocus)
 #: ruleswidgetbase.ui:2295
@@ -1299,11 +1299,9 @@ msgstr "Kompozitálás blokkolása"
 #: yesnobox.h:35
 #, kde-format
 msgid "Yes"
-msgstr ""
+msgstr "Igen"
 
 #: yesnobox.h:36
-#, fuzzy, kde-format
-#| msgctxt "no focus stealing prevention"
-#| msgid "None"
+#, kde-format
 msgid "No"
-msgstr "Nincs"
+msgstr "Nem"

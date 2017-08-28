@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef KWIN_BUILD_ACTIVITIES
 #include "activities.h"
 #endif
+#include "appmenu.h"
 #include "atoms.h"
 #include "client.h"
 #include "composite.h"
@@ -127,6 +128,8 @@ Workspace::Workspace(const QString &sessionKey)
 {
     // If KWin was already running it saved its configuration after loosing the selection -> Reread
     QFuture<void> reparseConfigFuture = QtConcurrent::run(options, &Options::reparseConfiguration);
+
+    ApplicationMenu::create(this);
 
     _self = this;
 
@@ -1304,8 +1307,14 @@ void Workspace::setShowingDesktop(bool showing)
     }
     } // ~StackingUpdatesBlocker
 
-    if (showing_desktop && topDesk)
+    if (showing_desktop && topDesk) {
         requestFocus(topDesk);
+    } else if (!showing_desktop && changed) {
+        const auto client = FocusChain::self()->getForActivation(VirtualDesktopManager::self()->current());
+        if (client) {
+            activateClient(client);
+        }
+    }
     if (changed)
         emit showingDesktopChanged(showing);
 }

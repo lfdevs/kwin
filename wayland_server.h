@@ -50,6 +50,7 @@ class ServerSideDecorationManagerInterface;
 class SurfaceInterface;
 class OutputInterface;
 class PlasmaShellInterface;
+class PlasmaShellSurfaceInterface;
 class PlasmaWindowManagementInterface;
 class QtSurfaceExtensionInterface;
 class OutputManagementInterface;
@@ -164,6 +165,25 @@ public:
     void dispatch();
     quint32 createWindowId(KWayland::Server::SurfaceInterface *surface);
 
+    /**
+     * Struct containing information for a created Wayland connection through a
+     * socketpair.
+     **/
+    struct SocketPairConnection {
+        /**
+         * ServerSide Connection
+         **/
+        KWayland::Server::ClientConnection *connection = nullptr;
+        /**
+         * client-side file descriptor for the socket
+         **/
+        int fd = -1;
+    };
+    /**
+     * Creates a Wayland connection using a socket pair.
+     **/
+    SocketPairConnection createConnection();
+
 Q_SIGNALS:
     void shellClientAdded(KWin::ShellClient*);
     void shellClientRemoved(KWin::ShellClient*);
@@ -213,6 +233,7 @@ private:
     QList<ShellClient*> m_internalClients;
     QHash<KWayland::Server::ClientConnection*, quint16> m_clientIds;
     InitalizationFlags m_initFlags;
+    QVector<KWayland::Server::PlasmaShellSurfaceInterface*> m_plasmaShellSurfaces;
     KWIN_SINGLETON(WaylandServer)
 };
 

@@ -18,6 +18,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "abstract_client.h"
+
+#include "appmenu.h"
 #include "decorations/decoratedclient.h"
 #include "decorations/decorationpalette.h"
 #include "decorations/decorationbridge.h"
@@ -38,6 +40,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/plasmawindowmanagement_interface.h>
 
 #include <KDecoration2/Decoration>
+
+#include <KDesktopFile>
 
 #include <QMouseEvent>
 #include <QStyleHints>
@@ -67,6 +71,27 @@ AbstractClient::AbstractClient()
     connect(this, &AbstractClient::paletteChanged, this, &AbstractClient::triggerDecorationRepaint);
 
     connect(Decoration::DecorationBridge::self(), &QObject::destroyed, this, &AbstractClient::destroyDecoration);
+
+    // replace on-screen-display on size changes
+    connect(this, &AbstractClient::geometryShapeChanged, this,
+        [this] (Toplevel *c, const QRect &old) {
+            Q_UNUSED(c)
+            if (isOnScreenDisplay() && !geometry().isEmpty() && old.size() != geometry().size()) {
+                GeometryUpdatesBlocker blocker(this);
+                QRect area = workspace()->clientArea(PlacementArea, Screens::self()->current(), desktop());
+                Placement::self()->place(this, area);
+                setGeometryRestore(geometry());
+            }
+        }
+    );
+
+    connect(this, &AbstractClient::paddingChanged, this, [this]() {
+        m_visibleRectBeforeGeometryUpdate = visibleRect();
+    });
+
+    connect(ApplicationMenu::self(), &ApplicationMenu::applicationMenuEnabledChanged, this, [this] {
+        emit hasApplicationMenuChanged(hasApplicationMenu());
+    });
 }
 
 AbstractClient::~AbstractClient()
@@ -673,8 +698,11 @@ void AbstractClient::setupWindowManagementInterface()
     w->setMaximizeable(isMaximizable());
     w->setMinimizeable(isMinimizable());
     w->setFullscreenable(isFullScreenable());
-    w->setThemedIconName(icon().name().isEmpty() ? QStringLiteral("xorg") : icon().name());
-    w->setAppId(QString::fromUtf8(resourceName()));
+    w->setIcon(icon());
+    auto updateAppId = [this, w] {
+        w->setAppId(QString::fromUtf8(m_desktopFileName.isEmpty() ? resourceClass() : m_desktopFileName));
+    };
+    updateAppId();
     w->setSkipTaskbar(skipTaskbar());
     w->setShadeable(isShadeable());
     w->setShaded(isShade());
@@ -713,15 +741,11 @@ void AbstractClient::setupWindowManagementInterface()
     connect(this, &AbstractClient::demandsAttentionChanged, w, [w, this] { w->setDemandsAttention(isDemandingAttention()); });
     connect(this, &AbstractClient::iconChanged, w,
         [w, this] {
-            const QIcon i = icon();
-            w->setThemedIconName(i.name().isEmpty() ? QStringLiteral("xorg") : i.name());
+            w->setIcon(icon());
         }
     );
-    connect(this, &AbstractClient::windowClassChanged, w,
-        [w, this] {
-            w->setAppId(QString::fromUtf8(resourceName()));
-        }
-    );
+    connect(this, &AbstractClient::windowClassChanged, w, updateAppId);
+    connect(this, &AbstractClient::desktopFileNameChanged, w, updateAppId);
     connect(this, &AbstractClient::shadeChanged, w, [w, this] { w->setShaded(isShade()); });
     connect(this, &AbstractClient::transientChanged, w,
         [w, this] {
@@ -1471,7 +1495,7 @@ bool AbstractClient::processDecorationButtonPress(QMouseEvent *event, bool ignor
             const qint64 interval = m_decoration.doubleClickTimer.elapsed();
             m_decoration.doubleClickTimer.invalidate();
             if (interval > QGuiApplication::styleHints()->mouseDoubleClickInterval()) {
-                m_decoration.doubleClickTimer.invalidate(); // expired -> new first click and pot. init
+                m_decoration.doubleClickTimer.start(); // expired -> new first click and pot. init
             } else {
                 Workspace::self()->performWindowOperation(this, options->operationTitlebarDblClick());
                 dontMoveResize();
@@ -1633,6 +1657,96 @@ QRect AbstractClient::inputGeometry() const
         return Toplevel::inputGeometry() + decoration()->resizeOnlyBorders();
     }
     return Toplevel::inputGeometry();
+}
+
+bool AbstractClient::dockWantsInput() const
+{
+    return false;
+}
+
+void AbstractClient::setDesktopFileName(const QByteArray &name)
+{
+    if (name == m_desktopFileName) {
+        return;
+    }
+    m_desktopFileName = name;
+    emit desktopFileNameChanged();
+}
+
+QString AbstractClient::iconFromDesktopFile() const
+{
+    if (m_desktopFileName.isEmpty()) {
+        return QString();
+    }
+    QString desktopFile = QString::fromUtf8(m_desktopFileName);
+    if (!desktopFile.endsWith(QLatin1String(".desktop"))) {
+        desktopFile.append(QLatin1String(".desktop"));
+    }
+    KDesktopFile df(desktopFile);
+    return df.readIcon();
+}
+
+bool AbstractClient::hasApplicationMenu() const
+{
+    return ApplicationMenu::self()->applicationMenuEnabled() && !m_applicationMenuServiceName.isEmpty() && !m_applicationMenuObjectPath.isEmpty();
+}
+
+void AbstractClient::updateApplicationMenuServiceName(const QString &serviceName)
+{
+    const bool old_hasApplicationMenu = hasApplicationMenu();
+
+    m_applicationMenuServiceName = serviceName;
+
+    const bool new_hasApplicationMenu = hasApplicationMenu();
+
+    if (old_hasApplicationMenu != new_hasApplicationMenu) {
+        emit hasApplicationMenuChanged(new_hasApplicationMenu);
+    }
+}
+
+void AbstractClient::updateApplicationMenuObjectPath(const QString &objectPath)
+{
+    const bool old_hasApplicationMenu = hasApplicationMenu();
+
+    m_applicationMenuObjectPath = objectPath;
+
+    const bool new_hasApplicationMenu = hasApplicationMenu();
+
+    if (old_hasApplicationMenu != new_hasApplicationMenu) {
+        emit hasApplicationMenuChanged(new_hasApplicationMenu);
+    }
+}
+
+void AbstractClient::setApplicationMenuActive(bool applicationMenuActive)
+{
+    if (m_applicationMenuActive != applicationMenuActive) {
+        m_applicationMenuActive = applicationMenuActive;
+        emit applicationMenuActiveChanged(applicationMenuActive);
+    }
+}
+
+void AbstractClient::showApplicationMenu(int actionId)
+{
+    if (isDecorated()) {
+        decoration()->showApplicationMenu(actionId);
+    } else {
+        // we don't know where the application menu button will be, show it in the top left corner instead
+        Workspace::self()->showApplicationMenu(QRect(), this, actionId);
+    }
+}
+
+bool AbstractClient::unresponsive() const
+{
+    return m_unresponsive;
+}
+
+void AbstractClient::setUnresponsive(bool unresponsive)
+{
+    if (m_unresponsive != unresponsive) {
+        m_unresponsive = unresponsive;
+        emit unresponsiveChanged(m_unresponsive);
+        emit captionChanged();
+    }
 }
 
 }

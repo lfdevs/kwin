@@ -1,24 +1,20 @@
-#
-# Funda Wang <fundawang@linux.net.cn>, 2004,2005.
-# Lie Ex <lilith.ex@gmail.com>, 2008, 2009.
-# Ni Hui <shuizhuyuanluo@126.com>, 2010.
-# FengChao <rainofchaos@gmail.com>, 2011, 2013.
-# Weng Xuetian <wengxt@gmail.com>, 2011, 2012, 2015.
-# Feng Chao <chaofeng111@gmail.com>, 2014.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcmkwinrules\n"
+"Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
-"PO-Revision-Date: 2015-11-25 20:45-0800\n"
-"Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
-"Language-Team: Chinese <kde-china@kde.org>\n"
+"POT-Creation-Date: 2016-11-19 20:21+0100\n"
+"PO-Revision-Date: 2017-08-14 08:05-0400\n"
+"Last-Translator: guoyunhebrave <guoyunhebrave@gmail.com>\n"
+"Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: crowdin.com\n"
+"X-Crowdin-Project: kdeorg\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /kf5-stable/messages/kde-workspace/kcmkwinrules.pot\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -245,43 +241,43 @@ msgstr "显示要记住的内部设置"
 msgid "Internal setting for remembering"
 msgstr "要记住的内部设置"
 
-#: main.cpp:149
+#: main.cpp:150
 #, kde-format
 msgid "Application settings for %1"
 msgstr "%1 的应用程序设置"
 
-#: main.cpp:169
+#: main.cpp:170
 #, kde-format
 msgid "Window settings for %1"
 msgstr "%1 的窗口设置"
 
-#: main.cpp:221
+#: main.cpp:222
 #, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "编辑程序的特定设置"
 
-#: main.cpp:251
+#: main.cpp:252
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:259
+#: main.cpp:260
 #, kde-format
 msgid "KWin helper utility"
 msgstr "KWin 助手工具"
 
-#: main.cpp:260
+#: main.cpp:261
 #, kde-format
 msgid "WId of the window for special window settings."
 msgstr "窗口特定设置的窗口编号(WId)。"
 
-#: main.cpp:261
+#: main.cpp:262
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "此设置是否应用到该应用程序的所有窗口。"
 
-#: main.cpp:269
+#: main.cpp:270
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "此助手工具不应直接调用。"

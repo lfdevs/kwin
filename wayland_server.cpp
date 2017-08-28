@@ -40,6 +40,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/output_interface.h>
 #include <KWayland/Server/plasmashell_interface.h>
 #include <KWayland/Server/plasmawindowmanagement_interface.h>
+#include <KWayland/Server/pointerconstraints_interface.h>
+#include <KWayland/Server/pointergestures_interface.h>
 #include <KWayland/Server/qtsurfaceextension_interface.h>
 #include <KWayland/Server/seat_interface.h>
 #include <KWayland/Server/server_decoration_interface.h>
@@ -128,6 +130,15 @@ void WaylandServer::createSurface(T *surface)
         ScreenLocker::KSldApp::self()->lockScreenShown();
     }
     auto client = new ShellClient(surface);
+    auto it = std::find_if(m_plasmaShellSurfaces.begin(), m_plasmaShellSurfaces.end(),
+        [client] (PlasmaShellSurfaceInterface *surface) {
+            return client->surface() == surface->surface();
+        }
+    );
+    if (it != m_plasmaShellSurfaces.end()) {
+        client->installPlasmaShellSurface(*it);
+        m_plasmaShellSurfaces.erase(it);
+    }
     if (client->isInternal()) {
         m_internalClients << client;
     } else {
@@ -184,6 +195,8 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
     m_display->createShm();
     m_seat = m_display->createSeat(m_display);
     m_seat->create();
+    m_display->createPointerGestures(PointerGesturesInterfaceVersion::UnstableV1, m_display)->create();
+    m_display->createPointerConstraints(PointerConstraintsInterfaceVersion::UnstableV1, m_display)->create();
     auto ddm = m_display->createDataDeviceManager(m_display);
     ddm->create();
     connect(ddm, &DataDeviceManagerInterface::dataDeviceCreated, this,
@@ -210,6 +223,13 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
         [this] (PlasmaShellSurfaceInterface *surface) {
             if (ShellClient *client = findClient(surface->surface())) {
                 client->installPlasmaShellSurface(surface);
+            } else {
+                m_plasmaShellSurfaces << surface;
+                connect(surface, &QObject::destroyed, this,
+                    [this, surface] {
+                        m_plasmaShellSurfaces.removeOne(surface);
+                    }
+                );
             }
         }
     );
@@ -350,6 +370,7 @@ void WaylandServer::syncOutputsToWayland()
     Q_ASSERT(s);
     for (int i = 0; i < s->count(); ++i) {
         OutputInterface *output = m_display->createOutput(m_display);
+        output->setScale(s->scale(i));
         const QRect &geo = s->geometry(i);
         output->setGlobalPosition(geo.topLeft());
         output->setPhysicalSize(geo.size() / 3.8);
@@ -358,20 +379,32 @@ void WaylandServer::syncOutputsToWayland()
     }
 }
 
-int WaylandServer::createXWaylandConnection()
+WaylandServer::SocketPairConnection WaylandServer::createConnection()
 {
+    SocketPairConnection ret;
     int sx[2];
     if (socketpair(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0, sx) < 0) {
         qCWarning(KWIN_CORE) << "Could not create socket";
+        return ret;
+    }
+    ret.connection = m_display->createClient(sx[0]);
+    ret.fd = sx[1];
+    return ret;
+}
+
+int WaylandServer::createXWaylandConnection()
+{
+    const auto socket = createConnection();
+    if (!socket.connection) {
         return -1;
     }
-    m_xwayland.client = m_display->createClient(sx[0]);
+    m_xwayland.client = socket.connection;
     m_xwayland.destroyConnection = connect(m_xwayland.client, &KWayland::Server::ClientConnection::disconnected, this,
         [] {
             qFatal("Xwayland Connection died");
         }
     );
-    return sx[1];
+    return socket.fd;
 }
 
 void WaylandServer::destroyXWaylandConnection()
@@ -390,13 +423,12 @@ void WaylandServer::destroyXWaylandConnection()
 
 int WaylandServer::createInputMethodConnection()
 {
-    int sx[2];
-    if (socketpair(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0, sx) < 0) {
-        qCWarning(KWIN_CORE) << "Could not create socket";
+    const auto socket = createConnection();
+    if (!socket.connection) {
         return -1;
     }
-    m_inputMethodServerConnection = m_display->createClient(sx[0]);
-    return sx[1];
+    m_inputMethodServerConnection = socket.connection;
+    return socket.fd;
 }
 
 void WaylandServer::destroyInputMethodConnection()
@@ -410,13 +442,12 @@ void WaylandServer::destroyInputMethodConnection()
 
 int WaylandServer::createXclipboardSyncConnection()
 {
-    int sx[2];
-    if (socketpair(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0, sx) < 0) {
-        qCWarning(KWIN_CORE) << "Could not create socket";
+    const auto socket = createConnection();
+    if (!socket.connection) {
         return -1;
     }
-    m_xclipbaordSync.client = m_display->createClient(sx[0]);
-    return sx[1];
+    m_xclipbaordSync.client = socket.connection;
+    return socket.fd;
 }
 
 void WaylandServer::setupX11ClipboardSync()
@@ -456,15 +487,14 @@ void WaylandServer::setupX11ClipboardSync()
 
 void WaylandServer::createInternalConnection()
 {
-    int sx[2];
-    if (socketpair(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0, sx) < 0) {
-        qCWarning(KWIN_CORE) << "Could not create socket";
+    const auto socket = createConnection();
+    if (!socket.connection) {
         return;
     }
-    m_internalConnection.server = m_display->createClient(sx[0]);
+    m_internalConnection.server = socket.connection;
     using namespace KWayland::Client;
     m_internalConnection.client = new ConnectionThread();
-    m_internalConnection.client->setSocketFd(sx[1]);
+    m_internalConnection.client->setSocketFd(socket.fd);
     m_internalConnection.clientThread = new QThread;
     m_internalConnection.client->moveToThread(m_internalConnection.clientThread);
     m_internalConnection.clientThread->start();

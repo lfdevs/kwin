@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
+"POT-Creation-Date: 2017-04-05 02:49+0200\n"
 "PO-Revision-Date: 2013-03-28 16:35+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -33,30 +33,30 @@ msgstr ""
 "sandeep.shedmake@gmail.com, \n"
 "chetan@kompkin.com"
 
-#: compositing.cpp:401
+#: compositing.cpp:378
 #, fuzzy, kde-format
 #| msgid "OpenGL"
 msgid "OpenGL 3.1"
 msgstr "ओपन GL"
 
-#: compositing.cpp:402
+#: compositing.cpp:379
 #, fuzzy, kde-format
 #| msgid "OpenGL"
 msgid "OpenGL 2.0"
 msgstr "ओपन GL"
 
-#: compositing.cpp:403
+#: compositing.cpp:380
 #, kde-format
 msgid "XRender"
 msgstr "X रेंडर"
 
-#: compositing.cpp:502
+#: compositing.cpp:479
 #, kde-format
 msgctxt "OpenGL Platform Interface"
 msgid "EGL"
 msgstr ""
 
-#: compositing.cpp:504
+#: compositing.cpp:481
 #, kde-format
 msgctxt "OpenGL Platform Interface"
 msgid "GLX"
@@ -223,21 +223,8 @@ msgstr "फक्त दर्शविलेल्या चौकटीं क
 msgid "Always"
 msgstr "नेहमी"
 
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:275
-#, kde-format
-msgid "Experimental:"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:282
-#, fuzzy, kde-format
-#| msgid "Enable color correction (experimental)"
-msgid "Enable color correction"
-msgstr "रंग सूसुत्रता कार्यान्वित करा (प्रायोगिक)"
-
 #. i18n: ectx: property (toolTip), widget (QCheckBox, windowsBlockCompositing)
-#: compositing.ui:291
+#: compositing.ui:277
 #, kde-format
 msgid ""
 "Applications can set a hint to block compositing when the window is open.\n"
@@ -246,7 +233,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, windowsBlockCompositing)
-#: compositing.ui:294
+#: compositing.ui:280
 #, kde-format
 msgid "Allow applications to block compositing"
 msgstr ""

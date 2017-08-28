@@ -272,6 +272,12 @@ public:
     virtual bool isLockScreen() const;
     virtual bool isInputMethod() const;
 
+    /**
+     * Returns the virtual desktop within the workspace() the client window
+     * is located in, 0 if it isn't located on any special desktop (not mapped yet),
+     * or NET::OnAllDesktops. Do not use desktop() directly, use
+     * isOnDesktop() instead.
+     */
     virtual int desktop() const = 0;
     virtual QStringList activities() const = 0;
     bool isOnDesktop(int d) const;
@@ -392,6 +398,32 @@ public:
      * @see pos
      **/
     virtual QMatrix4x4 inputTransformation() const;
+
+    /**
+     * The window has a popup grab. This means that when it got mapped the
+     * parent window had an implicit (pointer) grab.
+     *
+     * Normally this is only relevant for transient windows.
+     *
+     * Once the popup grab ends (e.g. pointer press outside of any Toplevel of
+     * the client), the method popupDone should be invoked.
+     *
+     * The default implementation returns @c false.
+     * @see popupDone
+     * @since 5.10
+     **/
+    virtual bool hasPopupGrab() const {
+        return false;
+    }
+    /**
+     * This method should be invoked for Toplevels with a popup grab when
+     * the grab ends.
+     *
+     * The default implementation does nothing.
+     * @see hasPopupGrab
+     * @since 5.10
+     **/
+    virtual void popupDone() {};
 
     /**
      * @brief Finds the Toplevel matching the condition expressed in @p func in @p list.

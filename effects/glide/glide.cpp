@@ -35,23 +35,18 @@ static const int IsGlideWindow = 0x22A982D4;
 
 GlideEffect::GlideEffect()
     : Effect()
-    , m_atom(QByteArrayLiteral("_KDE_SLIDE"))
 {
-    if (m_atom.isValid()) {
-        effects->registerPropertyType( m_atom, true );
-    }
+    initConfig<GlideConfig>();
     reconfigure(ReconfigureAll);
     connect(effects, SIGNAL(windowAdded(KWin::EffectWindow*)), this, SLOT(slotWindowAdded(KWin::EffectWindow*)));
     connect(effects, SIGNAL(windowClosed(KWin::EffectWindow*)), this, SLOT(slotWindowClosed(KWin::EffectWindow*)));
     connect(effects, SIGNAL(windowDeleted(KWin::EffectWindow*)), this, SLOT(slotWindowDeleted(KWin::EffectWindow*)));
+
+
+    connect(effects, &EffectsHandler::windowDataChanged, this, &GlideEffect::cancelWindowGrab);
 }
 
-GlideEffect::~GlideEffect()
-{
-    if (m_atom.isValid()) {
-        effects->registerPropertyType( m_atom, false );
-    }
-}
+GlideEffect::~GlideEffect() = default;
 
 bool GlideEffect::supported()
 {
@@ -212,10 +207,10 @@ bool GlideEffect::isGlideWindow(EffectWindow* w)
 {
     if (effects->activeFullScreenEffect())
         return false;
+    if (!w->isVisible())
+        return false;
     if (w->data(IsGlideWindow).toBool())
         return true;
-    if (m_atom.isValid() && !w->readProperty( m_atom, m_atom, 32 ).isNull())
-        return false;
     if (w->hasDecoration())
         return true;
     if (!w->isManaged() || w->isMenu() ||  w->isNotification() || w->isDesktop() ||
@@ -227,6 +222,20 @@ bool GlideEffect::isGlideWindow(EffectWindow* w)
 bool GlideEffect::isActive() const
 {
     return !windows.isEmpty();
+}
+
+void GlideEffect::cancelWindowGrab(EffectWindow *w, int grabRole)
+{
+    if (grabRole != WindowAddedGrabRole && grabRole != WindowClosedGrabRole) {
+        return;
+    }
+    if (!w->data(IsGlideWindow).toBool()) {
+        return;
+    }
+    if (w->data(grabRole).value<void*>() != this) {
+        windows.remove(w);
+        w->setData(IsGlideWindow, false);
+    }
 }
 
 GlideEffect::WindowInfo::WindowInfo()

@@ -18,21 +18,27 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "drm_object_crtc.h"
+#include "drm_backend.h"
+#include "drm_output.h"
+#include "drm_buffer.h"
 #include "logging.h"
 
 namespace KWin
 {
 
-DrmCrtc::DrmCrtc(uint32_t crtc_id, int fd)
-    : DrmObject(crtc_id, fd)
+DrmCrtc::DrmCrtc(uint32_t crtc_id, DrmBackend *backend, int resIndex)
+    : DrmObject(crtc_id, backend),
+      m_resIndex(resIndex)
 {
 }
 
-DrmCrtc::~DrmCrtc() = default;
-
-bool DrmCrtc::init()
+DrmCrtc::~DrmCrtc()
 {
-    qCDebug(KWIN_DRM) << "Creating CRTC" << m_id;
+}
+
+bool DrmCrtc::atomicInit()
+{
+    qCDebug(KWIN_DRM) << "Atomic init for CRTC:" << resIndex() << "id:" << m_id;
 
     if (!initProps()) {
         return false;
@@ -47,7 +53,7 @@ bool DrmCrtc::initProps()
         QByteArrayLiteral("ACTIVE"),
     };
 
-    drmModeObjectProperties *properties = drmModeObjectGetProperties(m_fd, m_id, DRM_MODE_OBJECT_CRTC);
+    drmModeObjectProperties *properties = drmModeObjectGetProperties(m_backend->fd(), m_id, DRM_MODE_OBJECT_CRTC);
     if (!properties) {
         qCWarning(KWIN_DRM) << "Failed to get properties for crtc " << m_id ;
         return false;
@@ -59,6 +65,42 @@ bool DrmCrtc::initProps()
     }
     drmModeFreeObjectProperties(properties);
     return true;
+}
+
+void DrmCrtc::flipBuffer()
+{
+    if (m_currentBuffer && m_backend->deleteBufferAfterPageFlip() && m_currentBuffer != m_nextBuffer) {
+        delete m_currentBuffer;
+    }
+    m_currentBuffer = m_nextBuffer;
+    m_nextBuffer = nullptr;
+
+    delete m_blackBuffer;
+    m_blackBuffer = nullptr;
+}
+
+bool DrmCrtc::blank()
+{
+    if (!m_blackBuffer) {
+        DrmDumbBuffer *blackBuffer = m_backend->createBuffer(m_output->pixelSize());
+        if (!blackBuffer->map()) {
+            delete blackBuffer;
+            return false;
+        }
+        blackBuffer->image()->fill(Qt::black);
+        m_blackBuffer = blackBuffer;
+    }
+
+    if (m_output->setModeLegacy(m_blackBuffer)) {
+        if (m_currentBuffer && m_backend->deleteBufferAfterPageFlip()) {
+            delete m_currentBuffer;
+            delete m_nextBuffer;
+        }
+        m_currentBuffer = nullptr;
+        m_nextBuffer = nullptr;
+        return true;
+    }
+    return false;
 }
 
 }

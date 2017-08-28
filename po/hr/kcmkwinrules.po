@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
+"POT-Creation-Date: 2016-11-19 20:21+0100\n"
 "PO-Revision-Date: 2011-07-29 16:56+0200\n"
 "Last-Translator: Marko Dimjašević <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -266,44 +266,44 @@ msgstr "Pokaži interne postavke za pamćenje"
 msgid "Internal setting for remembering"
 msgstr "Interne postavke za pamćenje"
 
-#: main.cpp:149
+#: main.cpp:150
 #, kde-format
 msgid "Application settings for %1"
 msgstr "Postavke aplikacije za %1"
 
-#: main.cpp:169
+#: main.cpp:170
 #, kde-format
 msgid "Window settings for %1"
 msgstr "Postavke prozora za %1"
 
-#: main.cpp:221
+#: main.cpp:222
 #, fuzzy, kde-format
 #| msgid "Edit Window-Specific Settings"
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Uredi posebne postavke prozora"
 
-#: main.cpp:251
+#: main.cpp:252
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:259
+#: main.cpp:260
 #, kde-format
 msgid "KWin helper utility"
 msgstr "KWin alat za pomoć"
 
-#: main.cpp:260
+#: main.cpp:261
 #, kde-format
 msgid "WId of the window for special window settings."
 msgstr "Wld prozora za posebne postavke prozora."
 
-#: main.cpp:261
+#: main.cpp:262
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Bilo koje postavke će utjecati na sve prozore u aplikaciji."
 
-#: main.cpp:269
+#: main.cpp:270
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Ovaj pomoćni alat nije namijenjena za direktno pozivanje."

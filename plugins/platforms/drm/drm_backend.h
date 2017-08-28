@@ -23,6 +23,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "input.h"
 
 #include "drm_buffer.h"
+#if HAVE_GBM
+#include "drm_buffer_gbm.h"
+#endif
 #include "drm_inputeventfilter.h"
 #include "drm_pointer.h"
 
@@ -55,6 +58,8 @@ class UdevMonitor;
 
 class DrmOutput;
 class DrmPlane;
+class DrmCrtc;
+class DrmConnector;
 
 
 class KWIN_EXPORT DrmBackend : public Platform
@@ -72,28 +77,32 @@ public:
     OpenGLBackend* createOpenGLBackend() override;
 
     void init() override;
-    DrmBuffer *createBuffer(const QSize &size);
-    DrmBuffer *createBuffer(gbm_surface *surface);
+    DrmDumbBuffer *createBuffer(const QSize &size);
+#if HAVE_GBM
+    DrmSurfaceBuffer *createBuffer(gbm_surface *surface);
+#endif
     void present(DrmBuffer *buffer, DrmOutput *output);
 
-    QSize size() const;
     int fd() const {
         return m_fd;
     }
     QVector<DrmOutput*> outputs() const {
         return m_outputs;
     }
-    QVector<DrmBuffer*> buffers() const {
-        return m_buffers;
-    }
     QVector<DrmPlane*> planes() const {
         return m_planes;
     }
-    void bufferDestroyed(DrmBuffer *b);
+    QVector<DrmPlane*> overlayPlanes() const {
+        return m_overlayPlanes;
+    }
 
     void outputWentOff();
     void checkOutputsAreOn();
 
+    // QPainter reuses buffers
+    bool deleteBufferAfterPageFlip() const {
+        return m_deleteBufferAfterPageFlip;
+    }
     // returns use of AMS, default is not/legacy
     bool atomicModeSetting() const {
         return m_atomicModeSetting;
@@ -113,20 +122,22 @@ Q_SIGNALS:
     void outputRemoved(KWin::DrmOutput *output);
     void outputAdded(KWin::DrmOutput *output);
 
+protected:
+
+    void doHideCursor() override;
+    void doShowCursor() override;
+
 private:
     static void pageFlipHandler(int fd, unsigned int frame, unsigned int sec, unsigned int usec, void *data);
     void openDrm();
     void activate(bool active);
     void reactivate();
     void deactivate();
-    void queryResources();
+    void updateOutputs();
     void setCursor();
     void updateCursor();
-    void hideCursor();
     void moveCursor();
     void initCursor();
-    quint32 findCrtc(drmModeRes *res, drmModeConnector *connector, bool *ok = nullptr);
-    bool crtcIsUsed(quint32 crtc);
     void outputDpmsChanged();
     void readOutputsConfiguration();
     QByteArray generateOutputConfigurationUuid() const;
@@ -136,16 +147,22 @@ private:
     QScopedPointer<UdevMonitor> m_udevMonitor;
     int m_fd = -1;
     int m_drmId = 0;
+    // all crtcs
+    QVector<DrmCrtc*> m_crtcs;
+    // all connectors
+    QVector<DrmConnector*> m_connectors;
+    // currently active output pipelines (planes + crtc + encoder + connector)
     QVector<DrmOutput*> m_outputs;
-    DrmBuffer *m_cursor[2];
+    DrmDumbBuffer *m_cursor[2];
+    bool m_deleteBufferAfterPageFlip;
     bool m_atomicModeSetting = false;
     bool m_cursorEnabled = false;
     int m_cursorIndex = 0;
     int m_pageFlipsPending = 0;
     bool m_active = false;
-    QVector<DrmBuffer*> m_buffers;
     // all available planes: primarys, cursors and overlays
     QVector<DrmPlane*> m_planes;
+    QVector<DrmPlane*> m_overlayPlanes;
     QScopedPointer<DpmsInputEventFilter> m_dpmsFilter;
     KWayland::Server::OutputManagementInterface *m_outputManagement = nullptr;
     gbm_device *m_gbmDevice = nullptr;

@@ -50,6 +50,7 @@ MagnifierEffect::MagnifierEffect()
     , m_pixmap(XCB_PIXMAP_NONE)
 #endif
 {
+    initConfig<MagnifierConfig>();
     QAction* a;
     a = KStandardAction::zoomIn(this, SLOT(zoomIn()), this);
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << Qt::META + Qt::Key_Equal);
@@ -77,9 +78,8 @@ MagnifierEffect::~MagnifierEffect()
     delete m_texture;
     destroyPixmap();
     // Save the zoom value.
-    KConfigGroup conf = EffectsHandler::effectConfig(QStringLiteral("Magnifier"));
-    conf.writeEntry("InitialZoom", target_zoom);
-    conf.sync();
+    MagnifierConfig::setInitialZoom(target_zoom);
+    MagnifierConfig::self()->save();
 }
 
 void MagnifierEffect::destroyPixmap()

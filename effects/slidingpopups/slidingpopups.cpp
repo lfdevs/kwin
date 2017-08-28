@@ -19,8 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 
 #include "slidingpopups.h"
+#include "slidingpopupsconfig.h"
 
-#include <KConfigGroup>
 #include <QTimeLine>
 #include <QApplication>
 
@@ -33,6 +33,7 @@ namespace KWin
 
 SlidingPopupsEffect::SlidingPopupsEffect()
 {
+    initConfig<SlidingPopupsConfig>();
     KWayland::Server::Display *display = effects->waylandDisplay();
     if (display) {
         display->createSlideManager(this)->create();
@@ -57,9 +58,9 @@ SlidingPopupsEffect::~SlidingPopupsEffect()
 void SlidingPopupsEffect::reconfigure(ReconfigureFlags flags)
 {
     Q_UNUSED(flags)
-    KConfigGroup conf = effects->effectConfig(QStringLiteral("SlidingPopups"));
-    mFadeInTime = animationTime(conf, QStringLiteral("SlideInTime"), 150);
-    mFadeOutTime = animationTime(conf, QStringLiteral("SlideOutTime"), 250);
+    SlidingPopupsConfig::self()->read();
+    mFadeInTime = animationTime(SlidingPopupsConfig::slideInTime() != 0 ? SlidingPopupsConfig::slideInTime() : 150);
+    mFadeOutTime = animationTime(SlidingPopupsConfig::slideOutTime() != 0 ? SlidingPopupsConfig::slideOutTime() : 250);
     QHash< const EffectWindow*, QTimeLine* >::iterator it = mAppearingWindows.begin();
     while (it != mAppearingWindows.end()) {
         it.value()->setDuration(animationTime(mFadeInTime));
@@ -360,7 +361,9 @@ void SlidingPopupsEffect::slotPropertyNotify(EffectWindow* w, long a)
 
     if (data.length() < 1) {
         // Property was removed, thus also remove the effect for window
-        w->setData(WindowClosedGrabRole, QVariant());
+        if (w->data(WindowClosedGrabRole).value<void *>() == this) {
+            w->setData(WindowClosedGrabRole, QVariant());
+        }
         delete mAppearingWindows.take(w);
         delete mDisappearingWindows.take(w);
         mWindowsData.remove(w);

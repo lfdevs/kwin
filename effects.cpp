@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "client.h"
 #include "cursor.h"
 #include "group.h"
+#include "osd.h"
 #include "pointer_input.h"
 #include "scene_xrender.h"
 #include "scene_qpainter.h"
@@ -47,6 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kwinglutils.h"
 
 #include <QDebug>
+#include <QDesktopWidget>
 
 #include <Plasma/Theme>
 
@@ -283,6 +285,11 @@ void EffectsHandlerImpl::setupAbstractClientConnections(AbstractClient* c)
     connect(c, &AbstractClient::modalChanged,         this, &EffectsHandlerImpl::slotClientModalityChanged);
     connect(c, &AbstractClient::geometryShapeChanged, this, &EffectsHandlerImpl::slotGeometryShapeChanged);
     connect(c, &AbstractClient::damaged,              this, &EffectsHandlerImpl::slotWindowDamaged);
+    connect(c, &AbstractClient::unresponsiveChanged, this,
+        [this, c](bool unresponsive) {
+            emit windowUnresponsiveChanged(c->effectWindow(), unresponsive);
+        }
+    );
     connect(c, &AbstractClient::windowShown, this,
         [this](Toplevel *c) {
             emit windowShown(c->effectWindow());
@@ -593,6 +600,11 @@ bool EffectsHandlerImpl::grabKeyboard(Effect* effect)
         bool ret = grabXKeyboard();
         if (!ret)
             return false;
+        // Workaround for Qt 5.9 regression introduced with 2b34aefcf02f09253473b096eb4faffd3e62b5f4
+        // we no longer get any events for the root window, one needs to call winId() on the desktop window
+        // TODO: change effects event handling to create the appropriate QKeyEvent without relying on Qt
+        // as it's done already in the Wayland case.
+        qApp->desktop()->winId();
     }
     keyboard_grab_effect = effect;
     return true;
@@ -718,6 +730,11 @@ void EffectsHandlerImpl::registerAxisShortcut(Qt::KeyboardModifiers modifiers, P
     input()->registerAxisShortcut(modifiers, axis, action);
 }
 
+void EffectsHandlerImpl::registerTouchpadSwipeShortcut(SwipeDirection direction, QAction *action)
+{
+    input()->registerTouchpadSwipeShortcut(direction, action);
+}
+
 void* EffectsHandlerImpl::getProxy(QString name)
 {
     for (QVector< EffectPair >::const_iterator it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it)
@@ -826,11 +843,6 @@ QByteArray EffectsHandlerImpl::readRootProperty(long atom, long type, int format
     return readWindowProperty(rootWindow(), atom, type, format);
 }
 
-void EffectsHandlerImpl::deleteRootProperty(long atom) const
-{
-    deleteWindowProperty(rootWindow(), atom);
-}
-
 void EffectsHandlerImpl::activateWindow(EffectWindow* c)
 {
     if (AbstractClient* cl = dynamic_cast< AbstractClient* >(static_cast<EffectWindowImpl*>(c)->window()))
@@ -932,7 +944,10 @@ int EffectsHandlerImpl::workspaceHeight() const
 
 int EffectsHandlerImpl::desktopAtCoords(QPoint coords) const
 {
-    return VirtualDesktopManager::self()->grid().at(coords);
+    if (auto vd = VirtualDesktopManager::self()->grid().at(coords)) {
+        return vd->x11DesktopNumber();
+    }
+    return 0;
 }
 
 QPoint EffectsHandlerImpl::desktopGridCoords(int id) const
@@ -1297,6 +1312,16 @@ void EffectsHandlerImpl::unreserveElectricBorder(ElectricBorder border, Effect *
     ScreenEdges::self()->unreserve(border, effect);
 }
 
+void EffectsHandlerImpl::registerTouchBorder(ElectricBorder border, QAction *action)
+{
+    ScreenEdges::self()->reserveTouch(border, action);
+}
+
+void EffectsHandlerImpl::unregisterTouchBorder(ElectricBorder border, QAction *action)
+{
+    ScreenEdges::self()->unreserveTouch(border, action);
+}
+
 unsigned long EffectsHandlerImpl::xrenderBufferPicture()
 {
 #ifdef KWIN_HAVE_XRENDER_COMPOSITING
@@ -1553,6 +1578,63 @@ void EffectsHandlerImpl::highlightWindows(const QVector<EffectWindow *> &windows
         return;
     }
     e->perform(Effect::HighlightWindows, QVariantList{QVariant::fromValue(windows)});
+}
+
+PlatformCursorImage EffectsHandlerImpl::cursorImage() const
+{
+    return kwinApp()->platform()->cursorImage();
+}
+
+void EffectsHandlerImpl::hideCursor()
+{
+    kwinApp()->platform()->hideCursor();
+}
+
+void EffectsHandlerImpl::showCursor()
+{
+    kwinApp()->platform()->showCursor();
+}
+
+void EffectsHandlerImpl::startInteractiveWindowSelection(std::function<void(KWin::EffectWindow*)> callback)
+{
+    kwinApp()->platform()->startInteractiveWindowSelection(
+        [callback] (KWin::Toplevel *t) {
+            if (t && t->effectWindow()) {
+                callback(t->effectWindow());
+            } else {
+                callback(nullptr);
+            }
+        }
+    );
+}
+
+void EffectsHandlerImpl::startInteractivePositionSelection(std::function<void(const QPoint&)> callback)
+{
+    kwinApp()->platform()->startInteractivePositionSelection(callback);
+}
+
+void EffectsHandlerImpl::showOnScreenMessage(const QString &message, const QString &iconName)
+{
+    OSD::show(message, iconName);
+}
+
+void EffectsHandlerImpl::hideOnScreenMessage(OnScreenMessageHideFlags flags)
+{
+    OSD::HideFlags osdFlags;
+    if (flags.testFlag(OnScreenMessageHideFlag::SkipsCloseAnimation)) {
+        osdFlags |= OSD::HideFlag::SkipCloseAnimation;
+    }
+    OSD::hide(osdFlags);
+}
+
+KSharedConfigPtr EffectsHandlerImpl::config() const
+{
+    return kwinApp()->config();
+}
+
+KSharedConfigPtr EffectsHandlerImpl::inputConfig() const
+{
+    return kwinApp()->inputConfig();
 }
 
 //****************************************

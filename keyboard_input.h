@@ -21,13 +21,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KWIN_KEYBOARD_INPUT_H
 
 #include "input.h"
+#include "xkb.h"
 
 #include <QObject>
 #include <QPointer>
 #include <QPointF>
 
-#include <QLoggingCategory>
-Q_DECLARE_LOGGING_CATEGORY(KWIN_XKB)
+#include <KSharedConfig>
 
 class QWindow;
 struct xkb_context;
@@ -38,11 +38,14 @@ struct xkb_compose_state;
 typedef uint32_t xkb_mod_index_t;
 typedef uint32_t xkb_led_index_t;
 typedef uint32_t xkb_keysym_t;
+typedef uint32_t xkb_layout_index_t;
 
 namespace KWin
 {
 
 class InputRedirection;
+class KeyboardLayout;
+class ModifiersChangedSpy;
 class Toplevel;
 
 namespace LibInput
@@ -50,74 +53,7 @@ namespace LibInput
 class Device;
 }
 
-class KWIN_EXPORT Xkb
-{
-public:
-    Xkb(InputRedirection *input);
-    ~Xkb();
-    void reconfigure();
-
-    void installKeymap(int fd, uint32_t size);
-    void updateModifiers(uint32_t modsDepressed, uint32_t modsLatched, uint32_t modsLocked, uint32_t group);
-    void updateKey(uint32_t key, InputRedirection::KeyboardKeyState state);
-    xkb_keysym_t toKeysym(uint32_t key);
-    xkb_keysym_t currentKeysym() const {
-        return m_keysym;
-    }
-    QString toString(xkb_keysym_t keysym);
-    Qt::Key toQtKey(xkb_keysym_t keysym) const;
-    Qt::KeyboardModifiers modifiers() const;
-    Qt::KeyboardModifiers modifiersRelevantForGlobalShortcuts() const;
-    bool shouldKeyRepeat(quint32 key) const;
-
-    void switchToNextLayout();
-
-    enum class LED {
-        NumLock = 1 << 0,
-        CapsLock = 1 << 1,
-        ScrollLock = 1 << 2
-    };
-    Q_DECLARE_FLAGS(LEDs, LED)
-    LEDs leds() const {
-        return m_leds;
-    }
-
-private:
-    xkb_keymap *loadKeymapFromConfig();
-    xkb_keymap *loadDefaultKeymap();
-    void updateKeymap(xkb_keymap *keymap);
-    void createKeymapFile();
-    void updateModifiers();
-    void updateConsumedModifiers(uint32_t key);
-    InputRedirection *m_input;
-    xkb_context *m_context;
-    xkb_keymap *m_keymap;
-    xkb_state *m_state;
-    xkb_mod_index_t m_shiftModifier;
-    xkb_mod_index_t m_capsModifier;
-    xkb_mod_index_t m_controlModifier;
-    xkb_mod_index_t m_altModifier;
-    xkb_mod_index_t m_metaModifier;
-    xkb_led_index_t m_numLock;
-    xkb_led_index_t m_capsLock;
-    xkb_led_index_t m_scrollLock;
-    Qt::KeyboardModifiers m_modifiers;
-    Qt::KeyboardModifiers m_consumedModifiers;
-    xkb_keysym_t m_keysym;
-    struct {
-        uint pressCount = 0;
-        Qt::KeyboardModifier modifier = Qt::NoModifier;
-    } m_modOnlyShortcut;
-    quint32 m_currentLayout = 0;
-
-    struct {
-        xkb_compose_table *table = nullptr;
-        xkb_compose_state *state = nullptr;
-    } m_compose;
-    LEDs m_leds;
-};
-
-class KeyboardInputRedirection : public QObject
+class KWIN_EXPORT KeyboardInputRedirection : public QObject
 {
     Q_OBJECT
 public:
@@ -147,34 +83,22 @@ public:
     Qt::KeyboardModifiers modifiers() const {
         return m_xkb->modifiers();
     }
+    Qt::KeyboardModifiers modifiersRelevantForGlobalShortcuts() const {
+        return m_xkb->modifiersRelevantForGlobalShortcuts();
+    }
 
 Q_SIGNALS:
     void ledsChanged(KWin::Xkb::LEDs);
-
-private Q_SLOTS:
-    void reconfigure();
 
 private:
     InputRedirection *m_input;
     bool m_inited = false;
     QScopedPointer<Xkb> m_xkb;
     QMetaObject::Connection m_activeClientSurfaceChangedConnection;
-    struct {
-        quint32 key = 0;
-        quint32 time = 0;
-        QTimer *timer = nullptr;
-    } m_keyRepeat;
+    ModifiersChangedSpy *m_modifiersChangedSpy = nullptr;
+    KeyboardLayout *m_keyboardLayout = nullptr;
 };
 
-inline
-Qt::KeyboardModifiers Xkb::modifiers() const
-{
-    return m_modifiers;
 }
-
-}
-
-Q_DECLARE_METATYPE(KWin::Xkb::LED)
-Q_DECLARE_METATYPE(KWin::Xkb::LEDs)
 
 #endif

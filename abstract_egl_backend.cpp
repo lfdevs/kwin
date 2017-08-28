@@ -104,26 +104,33 @@ bool AbstractEglBackend::initEglAPI()
         return false;
     }
     qCDebug(KWIN_CORE) << "EGL version: " << major << "." << minor;
+    const QByteArray eglExtensions = eglQueryString(m_display, EGL_EXTENSIONS);
+    setExtensions(eglExtensions.split(' '));
     return true;
+}
+
+typedef void (*eglFuncPtr)();
+static eglFuncPtr getProcAddress(const char* name)
+{
+    return eglGetProcAddress(name);
 }
 
 void AbstractEglBackend::initKWinGL()
 {
-    initEGL();
     GLPlatform *glPlatform = GLPlatform::instance();
     glPlatform->detect(EglPlatformInterface);
     options->setGlPreferBufferSwap(options->glPreferBufferSwap()); // resolve autosetting
     if (options->glPreferBufferSwap() == Options::AutoSwapStrategy)
         options->setGlPreferBufferSwap('e'); // for unknown drivers - should not happen
     glPlatform->printResults();
-    initGL(EglPlatformInterface);
+    initGL(&getProcAddress);
 }
 
 void AbstractEglBackend::initBufferAge()
 {
     setSupportsBufferAge(false);
 
-    if (hasGLExtension(QByteArrayLiteral("EGL_EXT_buffer_age"))) {
+    if (hasExtension(QByteArrayLiteral("EGL_EXT_buffer_age"))) {
         const QByteArray useBufferAge = qgetenv("KWIN_USE_BUFFER_AGE");
 
         if (useBufferAge != "0")
@@ -136,7 +143,7 @@ void AbstractEglBackend::initWayland()
     if (!WaylandServer::self()) {
         return;
     }
-    if (hasGLExtension(QByteArrayLiteral("EGL_WL_bind_wayland_display"))) {
+    if (hasExtension(QByteArrayLiteral("EGL_WL_bind_wayland_display"))) {
         eglBindWaylandDisplayWL = (eglBindWaylandDisplayWL_func)eglGetProcAddress("eglBindWaylandDisplayWL");
         eglUnbindWaylandDisplayWL = (eglUnbindWaylandDisplayWL_func)eglGetProcAddress("eglUnbindWaylandDisplayWL");
         eglQueryWaylandBufferWL = (eglQueryWaylandBufferWL_func)eglGetProcAddress("eglQueryWaylandBufferWL");
@@ -196,10 +203,8 @@ bool AbstractEglBackend::isOpenGLES() const
 
 bool AbstractEglBackend::createContext()
 {
-    const QByteArray eglExtensions = eglQueryString(m_display, EGL_EXTENSIONS);
-    const QList<QByteArray> extensions = eglExtensions.split(' ');
-    const bool haveRobustness = extensions.contains(QByteArrayLiteral("EGL_EXT_create_context_robustness"));
-    const bool haveCreateContext = extensions.contains(QByteArrayLiteral("EGL_KHR_create_context"));
+    const bool haveRobustness = hasExtension(QByteArrayLiteral("EGL_EXT_create_context_robustness"));
+    const bool haveCreateContext = hasExtension(QByteArrayLiteral("EGL_KHR_create_context"));
 
     EGLContext ctx = EGL_NO_CONTEXT;
     if (isOpenGLES()) {
@@ -351,27 +356,31 @@ void AbstractEglTexture::updateTexture(WindowPixmap *pixmap)
     q->bind();
     const QRegion damage = s->trackedDamage();
     s->resetTrackedDamage();
+    auto scale = s->scale(); //damage is normalised, so needs converting up to match texture
 
     // TODO: this should be shared with GLTexture::update
     if (GLPlatform::instance()->isGLES()) {
         if (s_supportsARGB32 && (image.format() == QImage::Format_ARGB32 || image.format() == QImage::Format_ARGB32_Premultiplied)) {
             const QImage im = image.convertToFormat(QImage::Format_ARGB32_Premultiplied);
             for (const QRect &rect : damage.rects()) {
-                glTexSubImage2D(m_target, 0, rect.x(), rect.y(), rect.width(), rect.height(),
-                                GL_BGRA_EXT, GL_UNSIGNED_BYTE, im.copy(rect).bits());
+                auto scaledRect = QRect(rect.x() * scale, rect.y() * scale, rect.width() * scale, rect.height() * scale);
+                glTexSubImage2D(m_target, 0, scaledRect.x(), scaledRect.y(), scaledRect.width(), scaledRect.height(),
+                                GL_BGRA_EXT, GL_UNSIGNED_BYTE, im.copy(scaledRect).bits());
             }
         } else {
             const QImage im = image.convertToFormat(QImage::Format_RGBA8888_Premultiplied);
             for (const QRect &rect : damage.rects()) {
-                glTexSubImage2D(m_target, 0, rect.x(), rect.y(), rect.width(), rect.height(),
-                                GL_RGBA, GL_UNSIGNED_BYTE, im.copy(rect).bits());
+                auto scaledRect = QRect(rect.x() * scale, rect.y() * scale, rect.width() * scale, rect.height() * scale);
+                glTexSubImage2D(m_target, 0, scaledRect.x(), scaledRect.y(), scaledRect.width(), scaledRect.height(),
+                                GL_RGBA, GL_UNSIGNED_BYTE, im.copy(scaledRect).bits());
             }
         }
     } else {
         const QImage im = image.convertToFormat(QImage::Format_ARGB32_Premultiplied);
         for (const QRect &rect : damage.rects()) {
-            glTexSubImage2D(m_target, 0, rect.x(), rect.y(), rect.width(), rect.height(),
-                            GL_BGRA, GL_UNSIGNED_BYTE, im.copy(rect).bits());
+            auto scaledRect = QRect(rect.x() * scale, rect.y() * scale, rect.width() * scale, rect.height() * scale);
+            glTexSubImage2D(m_target, 0, scaledRect.x(), scaledRect.y(), scaledRect.width(), scaledRect.height(),
+                            GL_BGRA, GL_UNSIGNED_BYTE, im.copy(scaledRect).bits());
         }
     }
     q->unbind();

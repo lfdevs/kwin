@@ -1,8 +1,5 @@
-# translation of kwin_clients.po to Bulgarian
-# Bulgarian translation of KDE.
-# This file is licensed under the GPL.
-#
-# $Id: kwin_clients.po 1475203 2016-11-19 22:43:57Z scripty $
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
 #
 # Zlatko Popov <zlatkopopov@fsa-bg.org>, 2007, 2008, 2009.
 # Yasen Pramatarov <yasen@lindeas.com>, 2010, 2011.
@@ -10,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 22:52+0100\n"
+"POT-Creation-Date: 2017-07-18 05:21+0200\n"
 "PO-Revision-Date: 2011-07-24 16:47+0300\n"
 "Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -21,7 +18,7 @@ msgstr ""
 "X-Generator: Lokalize 1.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: aurorae/src/aurorae.cpp:706
+#: aurorae/src/aurorae.cpp:712
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Tiny"
@@ -29,7 +26,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "Малък"
 
-#: aurorae/src/aurorae.cpp:707
+#: aurorae/src/aurorae.cpp:713
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Button size:"
 #| msgid "Normal"
@@ -37,13 +34,13 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "Нормален"
 
-#: aurorae/src/aurorae.cpp:708
+#: aurorae/src/aurorae.cpp:714
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "Голям"
 
-#: aurorae/src/aurorae.cpp:709
+#: aurorae/src/aurorae.cpp:715
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Button size:"
 #| msgid "Very Large"
@@ -51,7 +48,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "Много голям"
 
-#: aurorae/src/aurorae.cpp:710
+#: aurorae/src/aurorae.cpp:716
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Button size:"
 #| msgid "Huge"
@@ -59,7 +56,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "Огромен"
 
-#: aurorae/src/aurorae.cpp:711
+#: aurorae/src/aurorae.cpp:717
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Very Huge"
@@ -67,7 +64,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "Грамаден"
 
-#: aurorae/src/aurorae.cpp:712
+#: aurorae/src/aurorae.cpp:718
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Oversized"
@@ -75,7 +72,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "Свръх огромен"
 
-#: aurorae/src/aurorae.cpp:715
+#: aurorae/src/aurorae.cpp:721
 #, fuzzy, kde-format
 #| msgid "Button size:"
 msgid "Button size:"

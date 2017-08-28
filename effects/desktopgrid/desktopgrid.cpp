@@ -64,15 +64,18 @@ DesktopGridEffect::DesktopGridEffect()
     , scaledSize()
     , scaledOffset()
     , m_proxy(0)
+    , m_activateAction(new QAction(this))
 {
+    initConfig<DesktopGridConfig>();
     // Load shortcuts
-    QAction* a = new QAction(this);
+    QAction* a = m_activateAction;
     a->setObjectName(QStringLiteral("ShowDesktopGrid"));
     a->setText(i18n("Show Desktop Grid"));
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << Qt::CTRL + Qt::Key_F8);
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << Qt::CTRL + Qt::Key_F8);
     shortcut = KGlobalAccel::self()->shortcut(a);
     effects->registerGlobalShortcut(Qt::CTRL + Qt::Key_F8, a);
+    effects->registerTouchpadSwipeShortcut(SwipeDirection::Up, a);
     connect(a, SIGNAL(triggered(bool)), this, SLOT(toggle()));
     connect(KGlobalAccel::self(), &KGlobalAccel::globalShortcutChanged, this, &DesktopGridEffect::globalShortcutChanged);
     connect(effects, SIGNAL(windowAdded(KWin::EffectWindow*)), this, SLOT(slotWindowAdded(KWin::EffectWindow*)));
@@ -116,6 +119,16 @@ void DesktopGridEffect::reconfigure(ReconfigureFlags)
     layoutMode = DesktopGridConfig::layoutMode();
     customLayoutRows = DesktopGridConfig::customLayoutRows();
     m_usePresentWindows = DesktopGridConfig::presentWindows();
+
+    // deactivate and activate all touch border
+    const QVector<ElectricBorder> relevantBorders{ElectricLeft, ElectricTop, ElectricRight, ElectricBottom};
+    for (auto e : relevantBorders) {
+        effects->unregisterTouchBorder(e, m_activateAction);
+    }
+    const auto touchBorders = DesktopGridConfig::touchBorderActivate();
+    for (int i : touchBorders) {
+        effects->registerTouchBorder(ElectricBorder(i), m_activateAction);
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -1366,7 +1379,7 @@ bool DesktopGridEffect::isActive() const
 
 bool DesktopGridEffect::isRelevantWithPresentWindows(EffectWindow *w) const
 {
-    return !(w->isDesktop() || w->isDock() || w->isSkipSwitcher()) &&
+    return !(w->isDesktop() || w->isDock() || w->isSkipSwitcher() || w->isOnScreenDisplay()) &&
             w->isCurrentTab() && w->isOnCurrentActivity();
 }
 

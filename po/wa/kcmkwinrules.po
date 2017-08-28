@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
+"POT-Creation-Date: 2016-11-19 20:21+0100\n"
 "PO-Revision-Date: 2009-12-26 16:19+0100\n"
 "Last-Translator: Jean Cayron <jean.cayron@gmail.com>\n"
 "Language-Team: Walloon <linux-wa@walon.org>\n"
@@ -235,44 +235,44 @@ msgstr "Mostrer les dvintrinnès tchuzes po rimimbrer"
 msgid "Internal setting for remembering"
 msgstr "Divintrinnès tchuzes po rimimbrer"
 
-#: main.cpp:149
+#: main.cpp:150
 #, kde-format
 msgid "Application settings for %1"
 msgstr "Tchuzes di programe po %1"
 
-#: main.cpp:169
+#: main.cpp:170
 #, kde-format
 msgid "Window settings for %1"
 msgstr "Tchuzes di purnea po %1"
 
-#: main.cpp:221
+#: main.cpp:222
 #, fuzzy, kde-format
 #| msgid "Edit Window-Specific Settings"
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Aspougnî tchuzes sipecifikes å purnea"
 
-#: main.cpp:251
+#: main.cpp:252
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:259
+#: main.cpp:260
 #, kde-format
 msgid "KWin helper utility"
 msgstr "Usteye d' aidance di KWin"
 
-#: main.cpp:260
+#: main.cpp:261
 #, kde-format
 msgid "WId of the window for special window settings."
 msgstr "Wld do purnea po speciålès tchuzes di purnea"
 
-#: main.cpp:261
+#: main.cpp:262
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Si les tchuzes duvrént aler po tos les purneas do programe."
 
-#: main.cpp:269
+#: main.cpp:270
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr ""

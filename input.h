@@ -28,6 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KSharedConfig>
 
+#include <functional>
+
 class KGlobalAccelInterface;
 class QKeySequence;
 class QMouseEvent;
@@ -39,9 +41,12 @@ namespace KWin
 class GlobalShortcutsManager;
 class Toplevel;
 class InputEventFilter;
+class InputEventSpy;
 class KeyboardInputRedirection;
+class PointerConstraintsFilter;
 class PointerInputRedirection;
 class TouchInputRedirection;
+class WindowSelectorFilter;
 
 namespace Decoration
 {
@@ -88,6 +93,7 @@ public:
     QPointF globalPointer() const;
     Qt::MouseButtons qtButtonStates() const;
     Qt::KeyboardModifiers keyboardModifiers() const;
+    Qt::KeyboardModifiers modifiersRelevantForGlobalShortcuts() const;
 
     void registerShortcut(const QKeySequence &shortcut, QAction *action);
     /**
@@ -102,6 +108,7 @@ public:
     void registerShortcut(const QKeySequence &shortcut, QAction *action, T *receiver, void (T::*slot)());
     void registerPointerShortcut(Qt::KeyboardModifiers modifiers, Qt::MouseButton pointerButtons, QAction *action);
     void registerAxisShortcut(Qt::KeyboardModifiers modifiers, PointerAxisDirection axis, QAction *action);
+    void registerTouchpadSwipeShortcut(SwipeDirection direction, QAction *action);
     void registerGlobalAccel(KGlobalAccelInterface *interface);
 
     /**
@@ -144,16 +151,61 @@ public:
      * Note: the event filter will get events before the lock screen can get them, thus
      * this is a security relevant method.
      **/
-    void prepandInputEventFilter(InputEventFilter *filter);
+    void prependInputEventFilter(InputEventFilter *filter);
     void uninstallInputEventFilter(InputEventFilter *filter);
+
+    /**
+     * Installs the @p spy for spying on events.
+     **/
+    void installInputEventSpy(InputEventSpy *spy);
+
+    /**
+     * Uninstalls the @p spy. This happens automatically when deleting an InputEventSpy.
+     **/
+    void uninstallInputEventSpy(InputEventSpy *spy);
+
     Toplevel *findToplevel(const QPoint &pos);
     GlobalShortcutsManager *shortcuts() const {
         return m_shortcuts;
     }
 
-    QVector<InputEventFilter*> filters() const {
-        return m_filters;
+    /**
+     * Sends an event through all InputFilters.
+     * The method @p function is invoked on each input filter. Processing is stopped if
+     * a filter returns @c true for @p function.
+     *
+     * The UnaryPredicate is defined like the UnaryPredicate of std::any_of.
+     * The signature of the function should be equivalent to the following:
+     * @code
+     * bool function(const InputEventFilter *spy);
+     * @endcode
+     *
+     * The intended usage is to std::bind the method to invoke on the filter with all arguments
+     * bind.
+     **/
+    template <class UnaryPredicate>
+    void processFilters(UnaryPredicate function) {
+        std::any_of(m_filters.constBegin(), m_filters.constEnd(), function);
     }
+
+    /**
+     * Sends an event through all input event spies.
+     * The @p function is invoked on each InputEventSpy.
+     *
+     * The UnaryFunction is defined like the UnaryFunction of std::for_each.
+     * The signature of the function should be equivalent to the following:
+     * @code
+     * void function(const InputEventSpy *spy);
+     * @endcode
+     *
+     * The intended usage is to std::bind the method to invoke on the spies with all arguments
+     * bind.
+     **/
+    template <class UnaryFunction>
+    void processSpies(UnaryFunction function) {
+        std::for_each(m_spies.constBegin(), m_spies.constEnd(), function);
+    }
+
     KeyboardInputRedirection *keyboard() const {
         return m_keyboard;
     }
@@ -165,6 +217,12 @@ public:
     }
 
     bool hasAlphaNumericKeyboard();
+
+    void startInteractiveWindowSelection(std::function<void(KWin::Toplevel*)> callback, const QByteArray &cursorName);
+    void startInteractivePositionSelection(std::function<void(const QPoint &)> callback);
+    bool isSelectingWindow() const;
+
+    bool isBreakingPointerConstraints() const;
 
 Q_SIGNALS:
     /**
@@ -209,8 +267,8 @@ Q_SIGNALS:
 
 private:
     void setupLibInput();
+    void setupTouchpadShortcuts();
     void setupLibInputWithScreens();
-    void registerShortcutForGlobalAccelTimestamp(QAction *action);
     void setupWorkspace();
     void reconfigure();
     void setupInputFilters();
@@ -223,8 +281,11 @@ private:
 
     LibInput::Connection *m_libInput = nullptr;
 
+    WindowSelectorFilter *m_windowSelector = nullptr;
+    PointerConstraintsFilter *m_pointerConstraintsFilter = nullptr;
+
     QVector<InputEventFilter*> m_filters;
-    KSharedConfigPtr m_inputConfig;
+    QVector<InputEventSpy*> m_spies;
 
     KWIN_SINGLETON(InputRedirection)
     friend InputRedirection *input();

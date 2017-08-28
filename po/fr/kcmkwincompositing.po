@@ -6,16 +6,16 @@
 # Sébastien Renard <Sebastien.Renard@digitalfox.org>, 2008, 2011.
 # xavier <ktranslator31@yahoo.fr>, 2013.
 # Sebastien Renard <renard@kde.org>, 2015.
-# Vincent Pinon <vpinon@kde.org>, 2016.
+# Vincent Pinon <vpinon@kde.org>, 2016, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
-"PO-Revision-Date: 2016-11-23 18:25+0100\n"
+"POT-Creation-Date: 2017-04-05 02:49+0200\n"
+"PO-Revision-Date: 2017-07-03 17:49+0100\n"
 "Last-Translator: Vincent Pinon <vpinon@kde.org>\n"
-"Language-Team: French <kde-i18n-doc@kde.org>\n"
+"Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,28 +36,28 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "bruno.patri@gmail.com, vpinon@kde.org"
 
-#: compositing.cpp:401
+#: compositing.cpp:378
 #, kde-format
 msgid "OpenGL 3.1"
 msgstr "OpenGL 3.1"
 
-#: compositing.cpp:402
+#: compositing.cpp:379
 #, kde-format
 msgid "OpenGL 2.0"
 msgstr "OpenGL 2.0"
 
-#: compositing.cpp:403
+#: compositing.cpp:380
 #, kde-format
 msgid "XRender"
 msgstr "XRender"
 
-#: compositing.cpp:502
+#: compositing.cpp:479
 #, kde-format
 msgctxt "OpenGL Platform Interface"
 msgid "EGL"
 msgstr "EGL"
 
-#: compositing.cpp:504
+#: compositing.cpp:481
 #, kde-format
 msgctxt "OpenGL Platform Interface"
 msgid "GLX"
@@ -100,9 +100,9 @@ msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
 "windows. This can result in windows not suspending their work when minimized."
 msgstr ""
-"Conserver les miniatures des fenêtres interfère toujours avec l'état "
-"minimisé des fenêtres. Ceci peut mener les fenêtres à ne pas arrêter leur "
-"travail même à l'état minimisé."
+"Conserver les vignettes des fenêtres interfère toujours avec l'état minimisé "
+"des fenêtres. Ceci peut mener les fenêtres à ne pas arrêter leur travail "
+"même à l'état minimisé."
 
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:77
@@ -221,20 +221,8 @@ msgstr "Seulement pour les fenêtres affichées"
 msgid "Always"
 msgstr "Toujours"
 
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:275
-#, kde-format
-msgid "Experimental:"
-msgstr "Expérimental :"
-
-#. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:282
-#, kde-format
-msgid "Enable color correction"
-msgstr "Activer la correction de couleurs"
-
 #. i18n: ectx: property (toolTip), widget (QCheckBox, windowsBlockCompositing)
-#: compositing.ui:291
+#: compositing.ui:277
 #, kde-format
 msgid ""
 "Applications can set a hint to block compositing when the window is open.\n"
@@ -247,7 +235,7 @@ msgstr ""
 "Ce réglage peut être forcé par des règles spécifiques à chaque fenêtre."
 
 #. i18n: ectx: property (text), widget (QCheckBox, windowsBlockCompositing)
-#: compositing.ui:294
+#: compositing.ui:280
 #, kde-format
 msgid "Allow applications to block compositing"
 msgstr "Permettre aux applications de bloquer la composition"
@@ -372,6 +360,10 @@ msgstr "Exclure les effets de bureau internes"
 #, kde-format
 msgid "Get New Effects ..."
 msgstr "Obtenir de nouveaux effets..."
+
+
+
+
 
 
 

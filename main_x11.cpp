@@ -43,6 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QX11Info>
 
 // system
 #ifdef HAVE_UNISTD_H
@@ -395,6 +396,7 @@ KWIN_EXPORT int kdemain(int argc, char * argv[])
         signal(SIGINT, SIG_IGN);
     if (signal(SIGHUP, KWin::sighandler) == SIG_IGN)
         signal(SIGHUP, SIG_IGN);
+    signal(SIGPIPE, SIG_IGN);
 
     // Disable the glib event loop integration, since it seems to be responsible
     // for several bug reports about high CPU usage (bug #239963)
@@ -404,9 +406,7 @@ KWIN_EXPORT int kdemain(int argc, char * argv[])
     setenv("QT_QPA_PLATFORM", "xcb", true);
 
     qunsetenv("QT_DEVICE_PIXEL_RATIO");
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
     QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
-#endif
 
     KWin::ApplicationX11 a(argc, argv);
     a.setupTranslator();
@@ -439,7 +439,7 @@ KWIN_EXPORT int kdemain(int argc, char * argv[])
                 argv[0], qPrintable(a.platformName()));
         exit(1);
     }
-    if (!KWin::display()) {
+    if (!QX11Info::display()) {
         fprintf(stderr, "%s: FATAL ERROR KWin requires Xlib support in the xcb plugin. Do not configure Qt with -no-xcb-xlib\n",
                 argv[0]);
         exit(1);

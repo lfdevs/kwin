@@ -244,6 +244,35 @@ class KWIN_EXPORT AbstractClient : public Toplevel
      * Because of that there is no notify signal.
      **/
     Q_PROPERTY(bool resizeable READ isResizable)
+
+    /**
+     * The desktop file name of the application this AbstractClient belongs to.
+     *
+     * This is either the base name without full path and without file extension of the
+     * desktop file for the window's application (e.g. "org.kde.foo").
+     *
+     * The application's desktop file name can also be the full path to the desktop file
+     * (e.g. "/opt/kde/share/org.kde.foo.desktop") in case it's not in a standard location.
+     **/
+    Q_PROPERTY(QByteArray desktopFileName READ desktopFileName NOTIFY desktopFileNameChanged)
+
+    /**
+     * Whether an application menu is available for this Client
+     */
+    Q_PROPERTY(bool hasApplicationMenu READ hasApplicationMenu NOTIFY hasApplicationMenuChanged)
+    /**
+     * Whether the application menu for this Client is currently opened
+     */
+    Q_PROPERTY(bool applicationMenuActive READ applicationMenuActive NOTIFY applicationMenuActiveChanged)
+
+    /**
+     * Whether this client is unresponsive.
+     *
+     * When an application failed to react on a ping request in time, it is
+     * considered unresponsive. This usually indicates that the application froze or crashed.
+     */
+    Q_PROPERTY(bool unresponsive READ unresponsive NOTIFY unresponsiveChanged)
+
 public:
     virtual ~AbstractClient();
 
@@ -416,6 +445,18 @@ public:
     virtual const WindowRules* rules() const = 0;
     virtual void takeFocus() = 0;
     virtual bool wantsInput() const = 0;
+    /**
+     * Whether a dock window wants input.
+     *
+     * By default KWin doesn't pass focus to a dock window unless a force activate
+     * request is provided.
+     *
+     * This method allows to have dock windows take focus also through flags set on
+     * the window.
+     *
+     * The default implementation returns @c false.
+     **/
+    virtual bool dockWantsInput() const;
     void checkWorkspacePosition(QRect oldGeometry = QRect(), int oldDesktop = -2,  QRect oldClientGeometry = QRect());
     virtual xcb_timestamp_t userTime() const;
     virtual void updateWindowRules(Rules::Types selection) = 0;
@@ -580,8 +621,47 @@ public:
 
     QRect inputGeometry() const override;
 
+    /**
+     * Restores the AbstractClient after it had been hidden due to show on screen edge functionality.
+     * The AbstractClient also gets raised (e.g. Panel mode windows can cover) and the AbstractClient
+     * gets informed in a window specific way that it is shown and raised again.
+     **/
+    virtual void showOnScreenEdge() = 0;
+
+    QByteArray desktopFileName() const {
+        return m_desktopFileName;
+    }
+
+    /**
+     * Tries to terminate the process of this AbstractClient.
+     *
+     * Implementing subclasses can perform a windowing system solution for terminating.
+     **/
+    virtual void killWindow() = 0;
+
     // TODO: remove boolean trap
     static bool belongToSameApplication(const AbstractClient* c1, const AbstractClient* c2, bool active_hack = false);
+
+    bool hasApplicationMenu() const;
+    bool applicationMenuActive() const {
+        return m_applicationMenuActive;
+    }
+    void setApplicationMenuActive(bool applicationMenuActive);
+
+    QString applicationMenuServiceName() const {
+        return m_applicationMenuServiceName;
+    }
+    QString applicationMenuObjectPath() const {
+        return m_applicationMenuObjectPath;
+    }
+
+    /**
+     * Request showing the application menu bar
+     * @param actionId The DBus menu ID of the action that should be highlighted, 0 for the root menu
+     */
+    void showApplicationMenu(int actionId);
+
+    bool unresponsive() const;
 
 public Q_SLOTS:
     virtual void closeWindow() = 0;
@@ -621,6 +701,10 @@ Q_SIGNALS:
     void minimizeableChanged(bool);
     void shadeableChanged(bool);
     void maximizeableChanged(bool);
+    void desktopFileNameChanged();
+    void hasApplicationMenuChanged(bool);
+    void applicationMenuActiveChanged(bool);
+    void unresponsiveChanged(bool);
 
 protected:
     AbstractClient();
@@ -899,6 +983,14 @@ protected:
     void startDecorationDoubleClickTimer();
     void invalidateDecorationDoubleClickTimer();
 
+    void setDesktopFileName(const QByteArray &name);
+    QString iconFromDesktopFile() const;
+
+    void updateApplicationMenuServiceName(const QString &serviceName);
+    void updateApplicationMenuObjectPath(const QString &objectPath);
+
+    void setUnresponsive(bool unresponsive);
+
 private:
     void handlePaletteChange();
     QSharedPointer<TabBox::TabBoxClientImpl> m_tabBoxClient;
@@ -965,7 +1057,13 @@ private:
         QPointer<Decoration::DecoratedClientImpl> client;
         QElapsedTimer doubleClickTimer;
     } m_decoration;
+    QByteArray m_desktopFileName;
 
+    bool m_applicationMenuActive = false;
+    QString m_applicationMenuServiceName;
+    QString m_applicationMenuObjectPath;
+
+    bool m_unresponsive = false;
 
     static bool s_haveResizeEffect;
 };

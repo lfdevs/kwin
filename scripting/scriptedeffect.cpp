@@ -36,6 +36,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 typedef KWin::EffectWindow* KEffectWindowRef;
 
+Q_DECLARE_METATYPE(KSharedConfigPtr)
+
 namespace KWin
 {
 
@@ -87,6 +89,16 @@ QScriptValue kwinScriptGlobalShortcut(QScriptContext *context, QScriptEngine *en
 QScriptValue kwinScriptScreenEdge(QScriptContext *context, QScriptEngine *engine)
 {
     return registerScreenEdge<KWin::ScriptedEffect*>(context, engine);
+}
+
+QScriptValue kwinRegisterTouchScreenEdge(QScriptContext *context, QScriptEngine *engine)
+{
+    return registerTouchScreenEdge<KWin::ScriptedEffect*>(context, engine);
+}
+
+QScriptValue kwinUnregisterTouchScreenEdge(QScriptContext *context, QScriptEngine *engine)
+{
+    return unregisterTouchScreenEdge<KWin::ScriptedEffect*>(context, engine);
 }
 
 struct AnimationSettings {
@@ -482,7 +494,7 @@ bool ScriptedEffect::init(const QString &effectName, const QString &pathToScript
     // does the effect contain an KConfigXT file?
     const QString kconfigXTFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String(KWIN_NAME "/effects/") + m_effectName + QLatin1String("/contents/config/main.xml"));
     if (!kconfigXTFile.isNull()) {
-        KConfigGroup cg = effects->effectConfig(m_effectName);
+        KConfigGroup cg = QCoreApplication::instance()->property("config").value<KSharedConfigPtr>()->group(QStringLiteral("Effect-%1").arg(m_effectName));
         QFile xmlFile(kconfigXTFile);
         m_config = new KConfigLoader(cg, &xmlFile, this);
         m_config->load();
@@ -516,6 +528,8 @@ bool ScriptedEffect::init(const QString &effectName, const QString &pathToScript
     // add global Shortcut
     registerGlobalShortcutFunction(this, m_engine, kwinScriptGlobalShortcut);
     registerScreenEdgeFunction(this, m_engine, kwinScriptScreenEdge);
+    registerTouchScreenEdgeFunction(this, m_engine, kwinRegisterTouchScreenEdge);
+    unregisterTouchScreenEdgeFunction(this, m_engine, kwinUnregisterTouchScreenEdge);
     // add the animate method
     QScriptValue animateFunc = m_engine->newFunction(kwinEffectAnimate);
     animateFunc.setData(m_engine->newQObject(this));
@@ -633,6 +647,34 @@ QVariant ScriptedEffect::readConfig(const QString &key, const QVariant defaultVa
         return defaultValue;
     }
     return m_config->property(key);
+}
+
+bool ScriptedEffect::registerTouchScreenCallback(int edge, QScriptValue callback)
+{
+    if (m_touchScreenEdgeCallbacks.constFind(edge) != m_touchScreenEdgeCallbacks.constEnd()) {
+        return false;
+    }
+    QAction *action = new QAction(this);
+    connect(action, &QAction::triggered, this,
+        [callback] {
+            QScriptValue invoke(callback);
+            invoke.call();
+        }
+    );
+    ScreenEdges::self()->reserveTouch(KWin::ElectricBorder(edge), action);
+    m_touchScreenEdgeCallbacks.insert(edge, action);
+    return true;
+}
+
+bool ScriptedEffect::unregisterTouchScreenCallback(int edge)
+{
+    auto it = m_touchScreenEdgeCallbacks.find(edge);
+    if (it == m_touchScreenEdgeCallbacks.end()) {
+        return false;
+    }
+    delete it.value();
+    m_touchScreenEdgeCallbacks.erase(it);
+    return true;
 }
 
 } // namespace

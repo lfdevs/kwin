@@ -25,16 +25,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace KWin
 {
 
+class DrmBackend;
 class DrmBuffer;
+class DrmDumbBuffer;
 
 class DrmCrtc : public DrmObject
 {
 public:
-    DrmCrtc(uint32_t crtc_id, int fd);
+    DrmCrtc(uint32_t crtc_id, DrmBackend *backend, int resIndex);
 
     virtual ~DrmCrtc();
 
-    bool init();
+    bool atomicInit();
 
     enum class PropertyIndex {
         ModeId = 0,
@@ -43,6 +45,30 @@ public:
     };
     
     bool initProps();
+
+    int resIndex() const {
+        return m_resIndex;
+    }
+
+    DrmBuffer *current() {
+        return m_currentBuffer;
+    }
+    DrmBuffer *next() {
+        return m_nextBuffer;
+    }
+    void setNext(DrmBuffer *buffer) {
+        m_nextBuffer = buffer;
+    }
+
+    void flipBuffer();
+    bool blank();
+
+private:
+    int m_resIndex;
+
+    DrmBuffer *m_currentBuffer = nullptr;
+    DrmBuffer *m_nextBuffer = nullptr;
+    DrmDumbBuffer *m_blackBuffer = nullptr;
 };
 
 }

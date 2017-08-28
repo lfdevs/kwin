@@ -20,10 +20,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KWIN_PLATFORM_H
 #define KWIN_PLATFORM_H
 #include <kwin_export.h>
+#include <kwinglobals.h>
 #include <epoxy/egl.h>
 #include <fixx11h.h>
 #include <QImage>
 #include <QObject>
+
+#include <functional>
+
+class QAction;
 
 namespace KWayland {
     namespace Server {
@@ -39,6 +44,7 @@ class OpenGLBackend;
 class QPainterBackend;
 class Screens;
 class ScreenEdges;
+class Toplevel;
 class WaylandCursorTheme;
 
 class KWIN_EXPORT Platform : public QObject
@@ -100,6 +106,14 @@ public:
      * Base implementation returns one QRect positioned at 0/0 with screenSize() as size.
      **/
     virtual QVector<QRect> screenGeometries() const;
+
+    /**
+     * Implementing subclasses should provide all geometries in case the backend represents
+     * a basic screen and uses the BasicScreens.
+     *
+     * Base implementation returns a screen with a scale of 1.
+     **/
+    virtual QVector<qreal> screenScales() const;
     /**
      * Implement this method to receive configuration change requests through KWayland's
      * OutputManagement interface.
@@ -157,12 +171,101 @@ public:
      **/
     virtual void createOpenGLSafePoint(OpenGLSafePoint safePoint);
 
+    /**
+     * Starts an interactive window selection process.
+     *
+     * Once the user selected a window the @p callback is invoked with the selected Toplevel as
+     * argument. In case the user cancels the interactive window selection or selecting a window is currently
+     * not possible (e.g. screen locked) the @p callback is invoked with a @c nullptr argument.
+     *
+     * During the interactive window selection the cursor is turned into a crosshair cursor unless
+     * @p cursorName is provided. The argument @p cursorName is a QByteArray instead of Qt::CursorShape
+     * to support the "pirate" cursor for kill window which is not wrapped by Qt::CursorShape.
+     *
+     * The default implementation forwards to InputRedirection.
+     *
+     * @param callback The function to invoke once the interactive window selection ends
+     * @param cursorName The optional name of the cursor shape to use, default is crosshair
+     **/
+    virtual void startInteractiveWindowSelection(std::function<void(KWin::Toplevel*)> callback, const QByteArray &cursorName = QByteArray());
+
+    /**
+     * Starts an interactive position selection process.
+     *
+     * Once the user selected a position on the screen the @p callback is invoked with
+     * the selected point as argument. In case the user cancels the interactive position selection
+     * or selecting a position is currently not possible (e.g. screen locked) the @p callback
+     * is invoked with a point at @c -1 as x and y argument.
+     *
+     * During the interactive window selection the cursor is turned into a crosshair cursor.
+     *
+     * The default implementation forwards to InputRedirection.
+     *
+     * @param callback The function to invoke once the interactive position selection ends
+     **/
+    virtual void startInteractivePositionSelection(std::function<void(const QPoint &)> callback);
+
+    /**
+     * Platform specific preparation for an @p action which is used for KGlobalAccel.
+     *
+     * A platform might need to do preparation for an @p action before
+     * it can be used with KGlobalAccel.
+     *
+     * Code using KGlobalAccel should invoke this method for the @p action
+     * prior to setting up any shortcuts and connections.
+     *
+     * The default implementation does nothing.
+     *
+     * @param action The action which will be used with KGlobalAccel.
+     * @since 5.10
+     **/
+    virtual void setupActionForGlobalAccel(QAction *action);
+
     bool usesSoftwareCursor() const {
         return m_softWareCursor;
     }
     QImage softwareCursor() const;
     QPoint softwareCursorHotspot() const;
     void markCursorAsRendered();
+
+    /**
+     * Returns a PlatformCursorImage. By default this is created by softwareCursor and
+     * softwareCursorHotspot. An implementing subclass can use this to provide a better
+     * suited PlatformCursorImage.
+     *
+     * @see softwareCursor
+     * @see softwareCursorHotspot
+     * @since 5.9
+     **/
+    virtual PlatformCursorImage cursorImage() const;
+
+    /**
+     * The Platform cursor image should be hidden.
+     * @see showCursor
+     * @see doHideCursor
+     * @see isCursorHidden
+     * @since 5.9
+     **/
+    void hideCursor();
+
+    /**
+     * The Platform cursor image should be shown again.
+     * @see hideCursor
+     * @see doShowCursor
+     * @see isCursorHidden
+     * @since 5.9
+     **/
+    void showCursor();
+
+    /**
+     * Whether the cursor is currently hidden.
+     * @see showCursor
+     * @see hideCursor
+     * @since 5.9
+     **/
+    bool isCursorHidden() const {
+        return m_hideCursorCounter > 0;
+    }
 
     bool handlesOutputs() const {
         return m_handlesOutputs;
@@ -191,6 +294,12 @@ public:
     void setInitialOutputCount(int count) {
         m_initialOutputCount = count;
     }
+    qreal initialOutputScale() const {
+        return m_initialOutputScale;
+    }
+    void setInitialOutputScale(qreal scale) {
+        m_initialOutputScale = scale;
+    }
 
 public Q_SLOTS:
     void pointerMotion(const QPointF &position, quint32 time);
@@ -207,6 +316,15 @@ public Q_SLOTS:
     void touchMotion(qint32 id, const QPointF &pos, quint32 time);
     void touchCancel();
     void touchFrame();
+
+    void processSwipeGestureBegin(int fingerCount, quint32 time);
+    void processSwipeGestureUpdate(const QSizeF &delta, quint32 time);
+    void processSwipeGestureEnd(quint32 time);
+    void processSwipeGestureCancelled(quint32 time);
+    void processPinchGestureBegin(int fingerCount, quint32 time);
+    void processPinchGestureUpdate(qreal scale, qreal angleDelta, const QSizeF &delta, quint32 time);
+    void processPinchGestureEnd(quint32 time);
+    void processPinchGestureCancelled(quint32 time);
 
 Q_SIGNALS:
     void screensQueried();
@@ -236,6 +354,30 @@ protected:
         m_pointerWarping = set;
     }
 
+    /**
+     * Actual platform specific way to hide the cursor.
+     * Sub-classes need to implement if they support hiding the cursor.
+     *
+     * This method is invoked by hideCursor if the cursor needs to be hidden.
+     * The default implementation does nothing.
+     *
+     * @see doShowCursor
+     * @see hideCursor
+     * @see showCursor
+     **/
+    virtual void doHideCursor();
+    /**
+     * Actual platform specific way to show the cursor.
+     * Sub-classes need to implement if they support showing the cursor.
+     *
+     * This method is invoked by showCursor if the cursor needs to be shown again.
+     *
+     * @see doShowCursor
+     * @see hideCursor
+     * @see showCursor
+     **/
+    virtual void doShowCursor();
+
 private:
     void triggerCursorRepaint();
     bool m_softWareCursor = false;
@@ -249,7 +391,9 @@ private:
     bool m_pointerWarping = false;
     bool m_outputsEnabled = true;
     int m_initialOutputCount = 1;
+    qreal m_initialOutputScale = 1;
     EGLDisplay m_eglDisplay;
+    int m_hideCursorCounter = 0;
 };
 
 }

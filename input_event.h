@@ -33,14 +33,49 @@ class MouseEvent : public QMouseEvent
 {
 public:
     explicit MouseEvent(QEvent::Type type, const QPointF &pos, Qt::MouseButton button, Qt::MouseButtons buttons,
-                        Qt::KeyboardModifiers modifiers, quint32 timestamp, LibInput::Device *device);
+                        Qt::KeyboardModifiers modifiers, quint32 timestamp,
+                        const QSizeF &delta, const QSizeF &deltaNonAccelerated, quint64 timestampMicroseconds,
+                        LibInput::Device *device);
+
+    QSizeF delta() const {
+        return m_delta;
+    }
+
+    QSizeF deltaUnaccelerated() const {
+        return m_deltaUnccelerated;
+    }
+
+    quint64 timestampMicroseconds() const {
+        return m_timestampMicroseconds;
+    }
 
     LibInput::Device *device() const {
         return m_device;
     }
 
+    Qt::KeyboardModifiers modifiersRelevantForGlobalShortcuts() const {
+        return m_modifiersRelevantForShortcuts;
+    }
+
+    void setModifiersRelevantForGlobalShortcuts(const Qt::KeyboardModifiers &mods) {
+        m_modifiersRelevantForShortcuts = mods;
+    }
+
+    quint32 nativeButton() const {
+        return m_nativeButton;
+    }
+
+    void setNativeButton(quint32 button) {
+        m_nativeButton = button;
+    }
+
 private:
+    QSizeF m_delta;
+    QSizeF m_deltaUnccelerated;
+    quint64 m_timestampMicroseconds;
     LibInput::Device *m_device;
+    Qt::KeyboardModifiers m_modifiersRelevantForShortcuts = Qt::KeyboardModifiers();
+    quint32 m_nativeButton = 0;
 };
 
 class WheelEvent : public QWheelEvent
@@ -53,8 +88,17 @@ public:
         return m_device;
     }
 
+    Qt::KeyboardModifiers modifiersRelevantForGlobalShortcuts() const {
+        return m_modifiersRelevantForShortcuts;
+    }
+
+    void setModifiersRelevantForGlobalShortcuts(const Qt::KeyboardModifiers &mods) {
+        m_modifiersRelevantForShortcuts = mods;
+    }
+
 private:
     LibInput::Device *m_device;
+    Qt::KeyboardModifiers m_modifiersRelevantForShortcuts = Qt::KeyboardModifiers();
 };
 
 class KeyEvent : public QKeyEvent
@@ -67,8 +111,17 @@ public:
         return m_device;
     }
 
+    Qt::KeyboardModifiers modifiersRelevantForGlobalShortcuts() const {
+        return m_modifiersRelevantForShortcuts;
+    }
+
+    void setModifiersRelevantForGlobalShortcuts(const Qt::KeyboardModifiers &mods) {
+        m_modifiersRelevantForShortcuts = mods;
+    }
+
 private:
     LibInput::Device *m_device;
+    Qt::KeyboardModifiers m_modifiersRelevantForShortcuts = Qt::KeyboardModifiers();
 };
 
 }

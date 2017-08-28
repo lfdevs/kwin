@@ -1,10 +1,10 @@
 project(KWIN)
-set(PROJECT_VERSION "5.8.7")
+set(PROJECT_VERSION "5.10.5")
 set(PROJECT_VERSION_MAJOR 5)
 
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
-set(QT_MIN_VERSION "5.5.0")
-set(KF5_MIN_VERSION "5.26.0")
+set(QT_MIN_VERSION "5.7.0")
+set(KF5_MIN_VERSION "5.34.0")
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH} )
 
@@ -48,12 +48,8 @@ include(ECMOptionalAddSubdirectory)
 
 add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0 -DQT_USE_QSTRINGBUILDER)
 
-# require at least gcc 4.8
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    if ("${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS "4.8")
-        message(SEND_ERROR "Version ${CMAKE_CXX_COMPILER_VERSION} of the ${CMAKE_CXX_COMPILER_ID} C++ compiler is not supported. Please use version 4.8 or later.")
-    endif()
-endif()
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt5Multimedia QUIET)
 set_package_properties(Qt5Multimedia PROPERTIES
@@ -120,7 +116,7 @@ set_package_properties(KScreenLocker PROPERTIES
                        TYPE REQUIRED
                        PURPOSE "For screenlocker integration in kwin_wayland")
 
-find_package(Breeze 5.8.0 CONFIG)
+find_package(Breeze 5.9.0 CONFIG)
 set_package_properties(Breeze PROPERTIES
                        TYPE OPTIONAL
                        PURPOSE "For setting the default window decoration plugin")
@@ -148,6 +144,14 @@ set_package_properties(epoxy PROPERTIES DESCRIPTION "libepoxy"
                        PURPOSE "OpenGL dispatch library"
                       )
 
+set(HAVE_DL_LIBRARY FALSE)
+if(epoxy_HAS_GLX)
+    find_library(DL_LIBRARY dl)
+    if(DL_LIBRARY)
+        set(HAVE_DL_LIBRARY TRUE)
+    endif()
+endif()
+
 find_package(Wayland 1.2 REQUIRED COMPONENTS Cursor OPTIONAL_COMPONENTS Egl)
 set_package_properties(Wayland PROPERTIES
                        TYPE REQUIRED
@@ -159,13 +163,13 @@ if(Wayland_Egl_FOUND)
     set(HAVE_WAYLAND_EGL TRUE)
 endif()
 
-find_package(XKB 0.5.0)
+find_package(XKB 0.7.0)
 set_package_properties(XKB PROPERTIES
                        TYPE REQUIRED
                        PURPOSE "Required for building KWin with Wayland support"
                       )
 
-find_package(Libinput 1.2)
+find_package(Libinput 1.5)
 set_package_properties(Libinput PROPERTIES TYPE OPTIONAL PURPOSE "Required for input handling on Wayland.")
 
 find_package(UDev)
@@ -242,7 +246,14 @@ set_package_properties(X11_XCB PROPERTIES
                        TYPE OPTIONAL)
 
 # dependencies for QPA plugin
-find_package(Qt5PlatformSupport REQUIRED)
+if(Qt5Core_VERSION VERSION_LESS "5.8.0")
+    find_package(Qt5PlatformSupport REQUIRED)
+else()
+    find_package(Qt5FontDatabaseSupport REQUIRED)
+    find_package(Qt5ThemeSupport REQUIRED)
+    find_package(Qt5EventDispatcherSupport REQUIRED)
+endif()
+
 find_package(Freetype REQUIRED)
 set_package_properties(Freetype PROPERTIES DESCRIPTION "A font rendering engine"
                        URL "http://www.freetype.org"
@@ -302,6 +313,7 @@ check_include_files(malloc.h HAVE_MALLOC_H)
 
 check_include_file("sys/prctl.h" HAVE_SYS_PRCTL_H)
 check_symbol_exists(PR_SET_DUMPABLE "sys/prctl.h" HAVE_PR_SET_DUMPABLE)
+check_symbol_exists(PR_SET_PDEATHSIG "sys/prctl.h" HAVE_PR_SET_PDEATHSIG)
 check_include_file("sys/procctl.h" HAVE_SYS_PROCCTL_H)
 check_symbol_exists(PROC_TRACE_CTL "sys/procctl.h" HAVE_PROC_TRACE_CTL)
 if (HAVE_PR_SET_DUMPABLE OR HAVE_PROC_TRACE_CTL)
@@ -353,7 +365,11 @@ set(kwin_KDEINIT_SRCS
    globalshortcuts.cpp
    input.cpp
    input_event.cpp
+   input_event_spy.cpp
    keyboard_input.cpp
+   keyboard_layout.cpp
+   keyboard_layout_switching.cpp
+   keyboard_repeat.cpp
    pointer_input.cpp
    touch_input.cpp
    netinfo.cpp
@@ -394,6 +410,8 @@ set(kwin_KDEINIT_SRCS
    xcbutils.cpp
    x11eventfilter.cpp
    logind.cpp
+   onscreennotification.cpp
+   osd.cpp
     screenedge.cpp
     scripting/scripting.cpp
     scripting/workspace_wrapper.cpp
@@ -417,6 +435,11 @@ set(kwin_KDEINIT_SRCS
     wayland_server.cpp
     wayland_cursor_theme.cpp
     virtualkeyboard.cpp
+    appmenu.cpp
+    modifier_only_shortcuts.cpp
+    xkb.cpp
+    gestures.cpp
+    popup_input_filter.cpp
    )
 
 if(KWIN_BUILD_TABBOX)
@@ -466,6 +489,8 @@ qt5_add_dbus_adaptor( kwin_KDEINIT_SRCS org.kde.kwin.Compositing.xml dbusinterfa
 qt5_add_dbus_adaptor( kwin_KDEINIT_SRCS ${kwin_effects_dbus_xml} effects.h KWin::EffectsHandlerImpl )
 
 qt5_add_dbus_interface( kwin_KDEINIT_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/org.freedesktop.ScreenSaver.xml screenlocker_interface)
+
+qt5_add_dbus_interface( kwin_KDEINIT_SRCS org.kde.kappmenu.xml appmenu_interface )
 
 qt5_add_resources( kwin_KDEINIT_SRCS resources.qrc )
 
@@ -566,11 +591,6 @@ target_link_libraries(kwin ${kwinLibs})
 generate_export_header(kwin EXPORT_FILE_NAME kwin_export.h)
 
 target_link_libraries(kwin kwinglutils ${epoxy_LIBRARY})
-# -ldl used by OpenGL code
-find_library(DL_LIBRARY dl)
-if (DL_LIBRARY)
-target_link_libraries(kwin ${DL_LIBRARY})
-endif()
 
 kf5_add_kdeinit_executable(kwin_x11 main_x11.cpp)
 target_link_libraries(kdeinit_kwin_x11 kwin KF5::Crash)
@@ -618,6 +638,7 @@ ecm_install_icons(
 add_subdirectory(qml)
 add_subdirectory(autotests)
 add_subdirectory(tests)
+add_subdirectory(packageplugins)
 
 if (KF5DocTools_FOUND)
     add_subdirectory(doc)

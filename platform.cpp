@@ -54,6 +54,35 @@ QPoint Platform::softwareCursorHotspot() const
     return input()->pointer()->cursorHotSpot();
 }
 
+PlatformCursorImage Platform::cursorImage() const
+{
+    return PlatformCursorImage(softwareCursor(), softwareCursorHotspot());
+}
+
+void Platform::hideCursor()
+{
+    m_hideCursorCounter++;
+    if (m_hideCursorCounter == 1) {
+        doHideCursor();
+    }
+}
+
+void Platform::doHideCursor()
+{
+}
+
+void Platform::showCursor()
+{
+    m_hideCursorCounter--;
+    if (m_hideCursorCounter == 0) {
+        doShowCursor();
+    }
+}
+
+void Platform::doShowCursor()
+{
+}
+
 Screens *Platform::createScreens(QObject *parent)
 {
     Q_UNUSED(parent)
@@ -232,6 +261,70 @@ void Platform::touchUp(qint32 id, quint32 time)
     input()->processTouchUp(id, time);
 }
 
+void Platform::processSwipeGestureBegin(int fingerCount, quint32 time)
+{
+    if (!input()) {
+        return;
+    }
+    input()->pointer()->processSwipeGestureBegin(fingerCount, time);
+}
+
+void Platform::processSwipeGestureUpdate(const QSizeF &delta, quint32 time)
+{
+    if (!input()) {
+        return;
+    }
+    input()->pointer()->processSwipeGestureUpdate(delta, time);
+}
+
+void Platform::processSwipeGestureEnd(quint32 time)
+{
+    if (!input()) {
+        return;
+    }
+    input()->pointer()->processSwipeGestureEnd(time);
+}
+
+void Platform::processSwipeGestureCancelled(quint32 time)
+{
+    if (!input()) {
+        return;
+    }
+    input()->pointer()->processSwipeGestureCancelled(time);
+}
+
+void Platform::processPinchGestureBegin(int fingerCount, quint32 time)
+{
+    if (!input()) {
+        return;
+    }
+    input()->pointer()->processPinchGestureBegin(fingerCount, time);
+}
+
+void Platform::processPinchGestureUpdate(qreal scale, qreal angleDelta, const QSizeF &delta, quint32 time)
+{
+    if (!input()) {
+        return;
+    }
+    input()->pointer()->processPinchGestureUpdate(scale, angleDelta, delta, time);
+}
+
+void Platform::processPinchGestureEnd(quint32 time)
+{
+    if (!input()) {
+        return;
+    }
+    input()->pointer()->processPinchGestureEnd(time);
+}
+
+void Platform::processPinchGestureCancelled(quint32 time)
+{
+    if (!input()) {
+        return;
+    }
+    input()->pointer()->processPinchGestureCancelled(time);
+}
+
 void Platform::repaint(const QRect &rect)
 {
     if (!Compositor::self()) {
@@ -256,7 +349,12 @@ void Platform::warpPointer(const QPointF &globalPos)
 
 bool Platform::supportsQpaContext() const
 {
-    return hasGLExtension(QByteArrayLiteral("EGL_KHR_surfaceless_context"));
+    if (Compositor *c = Compositor::self()) {
+        if (SceneOpenGL *s = dynamic_cast<SceneOpenGL*>(c->scene())) {
+            return s->backend()->hasExtension(QByteArrayLiteral("EGL_KHR_surfaceless_context"));
+        }
+    }
+    return false;
 }
 
 EGLDisplay KWin::Platform::sceneEglDisplay() const
@@ -309,6 +407,11 @@ QVector<QRect> Platform::screenGeometries() const
     return QVector<QRect>({QRect(QPoint(0, 0), screenSize())});
 }
 
+QVector<qreal> Platform::screenScales() const
+{
+    return QVector<qreal>({1});
+}
+
 bool Platform::requiresCompositing() const
 {
     return true;
@@ -332,6 +435,29 @@ bool Platform::openGLCompositingIsBroken() const
 void Platform::createOpenGLSafePoint(OpenGLSafePoint safePoint)
 {
     Q_UNUSED(safePoint)
+}
+
+void Platform::startInteractiveWindowSelection(std::function<void(KWin::Toplevel*)> callback, const QByteArray &cursorName)
+{
+    if (!input()) {
+        callback(nullptr);
+        return;
+    }
+    input()->startInteractiveWindowSelection(callback, cursorName);
+}
+
+void Platform::startInteractivePositionSelection(std::function<void(const QPoint &)> callback)
+{
+    if (!input()) {
+        callback(QPoint(-1, -1));
+        return;
+    }
+    input()->startInteractivePositionSelection(callback);
+}
+
+void Platform::setupActionForGlobalAccel(QAction *action)
+{
+    Q_UNUSED(action)
 }
 
 }

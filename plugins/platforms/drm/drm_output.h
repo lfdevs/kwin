@@ -46,6 +46,7 @@ namespace KWin
 
 class DrmBackend;
 class DrmBuffer;
+class DrmDumbBuffer;
 class DrmPlane;
 class DrmConnector;
 class DrmCrtc;
@@ -61,14 +62,13 @@ public:
         QSize physicalSize;
     };
     virtual ~DrmOutput();
-    void showCursor(DrmBuffer *buffer);
+    void releaseGbm();
+    void showCursor(DrmDumbBuffer *buffer);
     void hideCursor();
     void moveCursor(const QPoint &globalPos);
     bool init(drmModeConnector *connector);
     bool present(DrmBuffer *buffer);
     void pageFlipped();
-    void restoreSaved();
-    bool blank();
 
     /**
      * This sets the changes and tests them against the DRM output
@@ -76,8 +76,14 @@ public:
     void setChanges(KWayland::Server::OutputChangeSet *changeset);
     bool commitChanges();
 
-    QSize size() const;
+    QSize pixelSize() const;
+    qreal scale() const;
+
+    /*
+     * The geometry of this output in global compositor co-ordinates (i.e scaled)
+     */
     QRect geometry() const;
+
     QString name() const;
     int currentRefreshRate() const;
     // These values are defined by the kernel
@@ -89,7 +95,8 @@ public:
     };
     void setDpms(DpmsMode mode);
     bool isDpmsEnabled() const {
-        return m_dpmsMode == DpmsMode::On;
+        // We care for current as well as pending mode in order to allow first present in AMS.
+        return m_dpmsModePending == DpmsMode::On;
     }
 
     QByteArray uuid() const {
@@ -101,9 +108,17 @@ Q_SIGNALS:
 
 private:
     friend class DrmBackend;
+    friend class DrmCrtc;   // TODO: For use of setModeLegacy. Remove later when we allow multiple connectors per crtc
+                            //       and save the connector ids in the DrmCrtc instance.
     DrmOutput(DrmBackend *backend);
-    void cleanupBlackBuffer();
     bool presentAtomically(DrmBuffer *buffer);
+
+    enum class AtomicCommitMode {
+        Test,
+        Real
+    };
+    bool doAtomicCommit(AtomicCommitMode mode);
+
     bool presentLegacy(DrmBuffer *buffer);
     bool setModeLegacy(DrmBuffer *buffer);
     void initEdid(drmModeConnector *connector);
@@ -111,42 +126,39 @@ private:
     bool isCurrentMode(const drmModeModeInfo *mode) const;
     void initUuid();
     void setGlobalPos(const QPoint &pos);
+    void setScale(qreal scale);
 
-    void pageFlippedBufferRemover(DrmBuffer *oldbuffer, DrmBuffer *newbuffer);
     bool initPrimaryPlane();
     bool initCursorPlane();
-    DrmObject::AtomicReturn atomicReqModesetPopulate(drmModeAtomicReq *req, bool enable);
+
+    void dpmsOnHandler();
+    void dpmsOffHandler();
+    bool dpmsAtomicOff();
+    bool atomicReqModesetPopulate(drmModeAtomicReq *req, bool enable);
 
     DrmBackend *m_backend;
+    DrmConnector *m_conn = nullptr;
+    DrmCrtc *m_crtc = nullptr;
     QPoint m_globalPos;
-    quint32 m_crtcId = 0;
-    quint32 m_connector = 0;
-    quint32 m_lastStride = 0;
+    qreal m_scale = 1;
     bool m_lastGbm = false;
     drmModeModeInfo m_mode;
-    DrmBuffer *m_currentBuffer = nullptr;
-    DrmBuffer *m_nextBuffer = nullptr;
-    DrmBuffer *m_blackBuffer = nullptr;
-    struct CrtcCleanup {
-        static void inline cleanup(_drmModeCrtc *ptr) {
-            drmModeFreeCrtc(ptr);       // TODO: Atomically? See compositor-drm.c l.3670
-        }
-    };
     Edid m_edid;
-    QScopedPointer<_drmModeCrtc, CrtcCleanup> m_savedCrtc;
     QPointer<KWayland::Server::OutputInterface> m_waylandOutput;
     QPointer<KWayland::Server::OutputDeviceInterface> m_waylandOutputDevice;
     QPointer<KWayland::Server::OutputChangeSet> m_changeset;
     KWin::ScopedDrmPointer<_drmModeProperty, &drmModeFreeProperty> m_dpms;
     DpmsMode m_dpmsMode = DpmsMode::On;
+    DpmsMode m_dpmsModePending = DpmsMode::On;
     QByteArray m_uuid;
 
-    DrmConnector *m_conn = nullptr;
-    DrmCrtc *m_crtc = nullptr;
     uint32_t m_blobId = 0;
     DrmPlane* m_primaryPlane = nullptr;
     DrmPlane* m_cursorPlane = nullptr;
-    QVector<DrmPlane*> m_planesFlipList;
+    QVector<DrmPlane*> m_nextPlanesFlipList;
+    bool m_pageFlipPending = false;
+    bool m_dpmsAtomicOffPending = false;
+    bool m_modesetRequested = true;
 };
 
 }

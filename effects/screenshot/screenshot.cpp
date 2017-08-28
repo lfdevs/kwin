@@ -22,6 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <kwinglplatform.h>
 #include <kwinglutils.h>
 #include <kwinxrenderutils.h>
+#include <QtConcurrentRun>
+#include <QDataStream>
 #include <QtCore/QTemporaryFile>
 #include <QtCore/QDir>
 #include <QtDBus/QDBusConnection>
@@ -30,8 +32,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMatrix4x4>
 #include <xcb/xcb_image.h>
 
+#include <KLocalizedString>
+#include <KNotification>
+
+#include <unistd.h>
+
 namespace KWin
 {
+
+const static QString s_errorAlreadyTaking = QStringLiteral("org.kde.kwin.Screenshot.Error.AlreadyTaking");
+const static QString s_errorAlreadyTakingMsg = QStringLiteral("A screenshot is already been taken");
+const static QString s_errorFd = QStringLiteral("org.kde.kwin.Screenshot.Error.FileDescriptor");
+const static QString s_errorFdMsg = QStringLiteral("No valid file descriptor");
+const static QString s_errorCancelled = QStringLiteral("org.kde.kwin.Screenshot.Error.Cancelled");
+const static QString s_errorCancelledMsg = QStringLiteral("Screenshot got cancelled");
+const static QString s_errorInvalidArea = QStringLiteral("org.kde.kwin.Screenshot.Error.InvalidArea");
+const static QString s_errorInvalidAreaMsg = QStringLiteral("Invalid area requested");
+const static QString s_errorInvalidScreen = QStringLiteral("org.kde.kwin.Screenshot.Error.InvalidScreen");
+const static QString s_errorInvalidScreenMsg = QStringLiteral("Invalid screen requested");
 
 bool ScreenShotEffect::supported()
 {
@@ -44,13 +62,11 @@ ScreenShotEffect::ScreenShotEffect()
 {
     connect ( effects, SIGNAL(windowClosed(KWin::EffectWindow*)), SLOT(windowClosed(KWin::EffectWindow*)) );
     QDBusConnection::sessionBus().registerObject(QStringLiteral("/Screenshot"), this, QDBusConnection::ExportScriptableContents);
-    QDBusConnection::sessionBus().registerService(QStringLiteral("org.kde.kwin.Screenshot"));
 }
 
 ScreenShotEffect::~ScreenShotEffect()
 {
     QDBusConnection::sessionBus().unregisterObject(QStringLiteral("/Screenshot"));
-    QDBusConnection::sessionBus().unregisterService(QStringLiteral("org.kde.kwin.Screenshot"));
 }
 
 #ifdef KWIN_HAVE_XRENDER_COMPOSITING
@@ -67,9 +83,15 @@ static QImage xPictureToImage(xcb_render_picture_t srcPic, const QRect &geometry
     QImage img((*xImage)->data, (*xImage)->width, (*xImage)->height, (*xImage)->stride, QImage::Format_ARGB32_Premultiplied);
     // TODO: byte order might need swapping
     xcb_free_pixmap(c, xpix);
-    return img;
+    return img.copy();
 }
 #endif
+
+void ScreenShotEffect::paintScreen(int mask, QRegion region, ScreenPaintData &data)
+{
+    m_cachedOutputGeometry = data.outputGeometry();
+    effects->paintScreen(mask, region, data);
+}
 
 void ScreenShotEffect::postPaintScreen()
 {
@@ -158,17 +180,36 @@ void ScreenShotEffect::postPaintScreen()
                 grabPointerImage(img, m_scheduledScreenshot->x() + left, m_scheduledScreenshot->y() + top);
             }
 
-            const int depth = img.depth();
-            xcb_pixmap_t xpix = xcb_generate_id(xcbConnection());
-            xcb_create_pixmap(xcbConnection(), depth, xpix, x11RootWindow(), img.width(), img.height());
+            if (m_windowMode == WindowMode::Xpixmap) {
+                const int depth = img.depth();
+                xcb_pixmap_t xpix = xcb_generate_id(xcbConnection());
+                xcb_create_pixmap(xcbConnection(), depth, xpix, x11RootWindow(), img.width(), img.height());
 
-            xcb_gcontext_t cid = xcb_generate_id(xcbConnection());
-            xcb_create_gc(xcbConnection(), cid, xpix, 0, NULL);
-            xcb_put_image(xcbConnection(), XCB_IMAGE_FORMAT_Z_PIXMAP, xpix, cid, img.width(), img.height(),
-                        0, 0, 0, depth, img.byteCount(), img.constBits());
-            xcb_free_gc(xcbConnection(), cid);
-            xcb_flush(xcbConnection());
-            emit screenshotCreated(xpix);
+                xcb_gcontext_t cid = xcb_generate_id(xcbConnection());
+                xcb_create_gc(xcbConnection(), cid, xpix, 0, NULL);
+                xcb_put_image(xcbConnection(), XCB_IMAGE_FORMAT_Z_PIXMAP, xpix, cid, img.width(), img.height(),
+                            0, 0, 0, depth, img.byteCount(), img.constBits());
+                xcb_free_gc(xcbConnection(), cid);
+                xcb_flush(xcbConnection());
+                emit screenshotCreated(xpix);
+                m_windowMode = WindowMode::NoCapture;
+            } else if (m_windowMode == WindowMode::File) {
+                sendReplyImage(img);
+            } else if (m_windowMode == WindowMode::FileDescriptor) {
+                QtConcurrent::run(
+                    [] (int fd, const QImage &img) {
+                        QFile file;
+                        if (file.open(fd, QIODevice::WriteOnly, QFileDevice::AutoCloseHandle)) {
+                            QDataStream ds(&file);
+                            ds << img;
+                            file.close();
+                        } else {
+                            close(fd);
+                        }
+                    }, m_fd, img);
+                m_windowMode = WindowMode::NoCapture;
+                m_fd = -1;
+            }
 #ifdef KWIN_HAVE_XRENDER_COMPOSITING
             if (xImage) {
                 xcb_image_destroy(xImage);
@@ -177,10 +218,91 @@ void ScreenShotEffect::postPaintScreen()
         }
         m_scheduledScreenshot = NULL;
     }
+
+    if (!m_scheduledGeometry.isNull()) {
+        if (!m_cachedOutputGeometry.isNull()) {
+            // special handling for per-output geometry rendering
+            const QRect intersection = m_scheduledGeometry.intersected(m_cachedOutputGeometry);
+            if (intersection.isEmpty()) {
+                // doesn't intersect, not going onto this screenshot
+                return;
+            }
+            const QImage img = blitScreenshot(intersection);
+            if (img.size() == m_scheduledGeometry.size()) {
+                // we are done
+                sendReplyImage(img);
+                return;
+            }
+            if (m_multipleOutputsImage.isNull()) {
+                m_multipleOutputsImage = QImage(m_scheduledGeometry.size(), QImage::Format_ARGB32);
+                m_multipleOutputsImage.fill(Qt::transparent);
+            }
+            QPainter p;
+            p.begin(&m_multipleOutputsImage);
+            p.drawImage(intersection.topLeft() - m_scheduledGeometry.topLeft(), img);
+            p.end();
+            m_multipleOutputsRendered = m_multipleOutputsRendered.united(intersection);
+            if (m_multipleOutputsRendered.boundingRect() == m_scheduledGeometry) {
+                sendReplyImage(m_multipleOutputsImage);
+            }
+
+        } else {
+            const QImage img = blitScreenshot(m_scheduledGeometry);
+            sendReplyImage(img);
+        }
+    }
+}
+
+void ScreenShotEffect::sendReplyImage(const QImage &img)
+{
+    if (m_fd != -1) {
+        QtConcurrent::run(
+            [] (int fd, const QImage &img) {
+                QFile file;
+                if (file.open(fd, QIODevice::WriteOnly, QFileDevice::AutoCloseHandle)) {
+                    QDataStream ds(&file);
+                    ds << img;
+                    file.close();
+                } else {
+                    close(fd);
+                }
+            }, m_fd, img);
+        m_fd = -1;
+    } else {
+        QDBusConnection::sessionBus().send(m_replyMessage.createReply(saveTempImage(img)));
+    }
+    m_scheduledGeometry = QRect();
+    m_multipleOutputsImage = QImage();
+    m_multipleOutputsRendered = QRegion();
+    m_captureCursor = false;
+    m_windowMode = WindowMode::NoCapture;
+}
+
+QString ScreenShotEffect::saveTempImage(const QImage &img)
+{
+    if (img.isNull()) {
+        return QString();
+    }
+    QTemporaryFile temp(QDir::tempPath() + QDir::separator() + QLatin1String("kwin_screenshot_XXXXXX.png"));
+    temp.setAutoRemove(false);
+    if (!temp.open()) {
+        return QString();
+    }
+    img.save(&temp);
+    temp.close();
+    KNotification::event(KNotification::Notification,
+                        i18nc("Notification caption that a screenshot got saved to file", "Screenshot"),
+                        i18nc("Notification with path to screenshot file", "Screenshot saved to %1", temp.fileName()),
+                        QStringLiteral("spectacle"));
+    return temp.fileName();
 }
 
 void ScreenShotEffect::screenshotWindowUnderCursor(int mask)
 {
+    if (isTakingScreenshot()) {
+        sendErrorReply(s_errorAlreadyTaking, s_errorAlreadyTakingMsg);
+        return;
+    }
     m_type = (ScreenShotType)mask;
     const QPoint cursor = effects->cursorPos();
     EffectWindowList order = effects->stackingOrder();
@@ -203,34 +325,232 @@ void ScreenShotEffect::screenshotForWindow(qulonglong winid, int mask)
     m_type = (ScreenShotType) mask;
     EffectWindow* w = effects->findWindow(winid);
     if(w && !w->isMinimized() && !w->isDeleted()) {
+        m_windowMode = WindowMode::Xpixmap;
         m_scheduledScreenshot = w;
         m_scheduledScreenshot->addRepaintFull();
     }
 }
 
-QString ScreenShotEffect::screenshotFullscreen()
+QString ScreenShotEffect::interactive(int mask)
 {
-    return blitScreenshot(effects->virtualScreenGeometry());
+    if (!calledFromDBus()) {
+        return QString();
+    }
+    if (isTakingScreenshot()) {
+        sendErrorReply(s_errorAlreadyTaking, s_errorAlreadyTakingMsg);
+        return QString();
+    }
+    m_type = (ScreenShotType) mask;
+    m_windowMode = WindowMode::File;
+    m_replyMessage = message();
+    setDelayedReply(true);
+    effects->startInteractiveWindowSelection(
+        [this] (EffectWindow *w) {
+            hideInfoMessage();
+            if (!w) {
+                QDBusConnection::sessionBus().send(m_replyMessage.createErrorReply(s_errorCancelled, s_errorCancelledMsg));
+                m_windowMode = WindowMode::NoCapture;
+                return;
+            } else {
+                m_scheduledScreenshot = w;
+                m_scheduledScreenshot->addRepaintFull();
+            }
+    });
+
+    showInfoMessage(InfoMessageMode::Window);
+    return QString();
 }
 
-QString ScreenShotEffect::screenshotScreen(int screen)
+void ScreenShotEffect::interactive(QDBusUnixFileDescriptor fd, int mask)
 {
-    return blitScreenshot(effects->clientArea(FullScreenArea, screen, 0));
+    if (!calledFromDBus()) {
+        return;
+    }
+    if (isTakingScreenshot()) {
+        sendErrorReply(s_errorAlreadyTaking, s_errorAlreadyTakingMsg);
+        return;
+    }
+    m_fd = dup(fd.fileDescriptor());
+    if (m_fd == -1) {
+        sendErrorReply(s_errorFd, s_errorFdMsg);
+        return;
+    }
+    m_type = (ScreenShotType) mask;
+    m_windowMode = WindowMode::FileDescriptor;
+
+    effects->startInteractiveWindowSelection(
+        [this] (EffectWindow *w) {
+            hideInfoMessage();
+            if (!w) {
+                close(m_fd);
+                m_fd = -1;
+                m_windowMode = WindowMode::NoCapture;
+                return;
+            } else {
+                m_scheduledScreenshot = w;
+                m_scheduledScreenshot->addRepaintFull();
+            }
+    });
+
+    showInfoMessage(InfoMessageMode::Window);
 }
 
-QString ScreenShotEffect::screenshotArea(int x, int y, int width, int height)
+void ScreenShotEffect::showInfoMessage(InfoMessageMode mode)
 {
-    return blitScreenshot(QRect(x, y, width, height));
+    QString text;
+    switch (mode) {
+    case InfoMessageMode::Window:
+        text = i18n("Select window to screen shot with left click or enter.\nEscape or right click to cancel.");
+        break;
+    case InfoMessageMode::Screen:
+        text = i18n("Create screen shot with left click or enter.\nEscape or right click to cancel.");
+        break;
+    }
+    effects->showOnScreenMessage(text, QStringLiteral("spectacle"));
 }
 
-QString ScreenShotEffect::blitScreenshot(const QRect &geometry)
+void ScreenShotEffect::hideInfoMessage()
+{
+    effects->hideOnScreenMessage(EffectsHandler::OnScreenMessageHideFlag::SkipsCloseAnimation);
+}
+
+QString ScreenShotEffect::screenshotFullscreen(bool captureCursor)
+{
+    if (!calledFromDBus()) {
+        return QString();
+    }
+    if (isTakingScreenshot()) {
+        sendErrorReply(s_errorAlreadyTaking, s_errorAlreadyTakingMsg);
+        return QString();
+    }
+    m_replyMessage = message();
+    setDelayedReply(true);
+    m_scheduledGeometry = effects->virtualScreenGeometry();
+    m_captureCursor = captureCursor;
+    effects->addRepaintFull();
+    return QString();
+}
+
+void ScreenShotEffect::screenshotFullscreen(QDBusUnixFileDescriptor fd, bool captureCursor)
+{
+    if (!calledFromDBus()) {
+        return;
+    }
+    if (isTakingScreenshot()) {
+        sendErrorReply(s_errorAlreadyTaking, s_errorAlreadyTakingMsg);
+        return;
+    }
+    m_fd = dup(fd.fileDescriptor());
+    if (m_fd == -1) {
+        sendErrorReply(s_errorFd, s_errorFdMsg);
+        return;
+    }
+    m_captureCursor = captureCursor;
+
+    showInfoMessage(InfoMessageMode::Screen);
+    effects->startInteractivePositionSelection(
+        [this] (const QPoint &p) {
+            hideInfoMessage();
+            if (p == QPoint(-1, -1)) {
+                // error condition
+                close(m_fd);
+                m_fd = -1;
+            } else {
+                m_scheduledGeometry = effects->virtualScreenGeometry();
+                effects->addRepaint(m_scheduledGeometry);
+            }
+        }
+    );
+}
+
+QString ScreenShotEffect::screenshotScreen(int screen, bool captureCursor)
+{
+    if (!calledFromDBus()) {
+        return QString();
+    }
+    if (isTakingScreenshot()) {
+        sendErrorReply(s_errorAlreadyTaking, s_errorAlreadyTakingMsg);
+        return QString();
+    }
+    m_scheduledGeometry = effects->clientArea(FullScreenArea, screen, 0);
+    if (m_scheduledGeometry.isNull()) {
+        sendErrorReply(s_errorInvalidScreen, s_errorInvalidScreenMsg);
+        return QString();
+    }
+    m_captureCursor = captureCursor;
+    m_replyMessage = message();
+    setDelayedReply(true);
+    effects->addRepaint(m_scheduledGeometry);
+    return QString();
+}
+
+void ScreenShotEffect::screenshotScreen(QDBusUnixFileDescriptor fd, bool captureCursor)
+{
+    if (!calledFromDBus()) {
+        return;
+    }
+    if (isTakingScreenshot()) {
+        sendErrorReply(s_errorAlreadyTaking, s_errorAlreadyTakingMsg);
+        return;
+    }
+    m_fd = dup(fd.fileDescriptor());
+    if (m_fd == -1) {
+        sendErrorReply(s_errorFd, s_errorFdMsg);
+        return;
+    }
+    m_captureCursor = captureCursor;
+
+    showInfoMessage(InfoMessageMode::Screen);
+    effects->startInteractivePositionSelection(
+        [this] (const QPoint &p) {
+            hideInfoMessage();
+            if (p == QPoint(-1, -1)) {
+                // error condition
+                close(m_fd);
+                m_fd = -1;
+            } else {
+                m_scheduledGeometry = effects->clientArea(FullScreenArea, effects->screenNumber(p), 0);
+                if (m_scheduledGeometry.isNull()) {
+                    close(m_fd);
+                    m_fd = -1;
+                    return;
+                }
+                effects->addRepaint(m_scheduledGeometry);
+            }
+        }
+    );
+}
+
+QString ScreenShotEffect::screenshotArea(int x, int y, int width, int height, bool captureCursor)
+{
+    if (!calledFromDBus()) {
+        return QString();
+    }
+    if (isTakingScreenshot()) {
+        sendErrorReply(s_errorAlreadyTaking, s_errorAlreadyTakingMsg);
+        return QString();
+    }
+    m_scheduledGeometry = QRect(x, y, width, height);
+    if (m_scheduledGeometry.isNull() || m_scheduledGeometry.isEmpty()) {
+        m_scheduledGeometry = QRect();
+        sendErrorReply(s_errorInvalidArea, s_errorInvalidAreaMsg);
+        return QString();
+    }
+    m_captureCursor = captureCursor;
+    m_replyMessage = message();
+    setDelayedReply(true);
+    effects->addRepaint(m_scheduledGeometry);
+    return QString();
+}
+
+QImage ScreenShotEffect::blitScreenshot(const QRect &geometry)
 {
     QImage img;
     if (effects->isOpenGLCompositing())
     {
         if (!GLRenderTarget::blitSupported()) {
             qCDebug(KWINEFFECTS) << "Framebuffer Blit not supported";
-            return QString();
+            return img;
         }
         GLTexture tex(GL_RGBA8, geometry.width(), geometry.height());
         GLRenderTarget target(tex);
@@ -248,44 +568,30 @@ QString ScreenShotEffect::blitScreenshot(const QRect &geometry)
     }
 
 #ifdef KWIN_HAVE_XRENDER_COMPOSITING
-    xcb_image_t *xImage = NULL;
-#endif
     if (effects->compositingType() == XRenderCompositing) {
-#ifdef KWIN_HAVE_XRENDER_COMPOSITING
+    xcb_image_t *xImage = NULL;
         img = xPictureToImage(effects->xrenderBufferPicture(), geometry, &xImage);
+        if (xImage) {
+            xcb_image_destroy(xImage);
+        }
+    }
 #endif
+
+    if (m_captureCursor) {
+        grabPointerImage(img, geometry.x(), geometry.y());
     }
 
-    QTemporaryFile temp(QDir::tempPath() + QDir::separator() + QLatin1String("kwin_screenshot_XXXXXX.png"));
-    temp.setAutoRemove(false);
-    if (!temp.open()) {
-        return QString();
-    }
-    img.save(&temp);
-#ifdef KWIN_HAVE_XRENDER_COMPOSITING
-    if (xImage) {
-        xcb_image_destroy(xImage);
-    }
-#endif
-    temp.close();
-    return temp.fileName();
+    return img;
 }
 
 void ScreenShotEffect::grabPointerImage(QImage& snapshot, int offsetx, int offsety)
-// Uses the X11_EXTENSIONS_XFIXES_H extension to grab the pointer image, and overlays it onto the snapshot.
 {
-    QScopedPointer<xcb_xfixes_get_cursor_image_reply_t, QScopedPointerPodDeleter> cursor(
-        xcb_xfixes_get_cursor_image_reply(xcbConnection(),
-                                          xcb_xfixes_get_cursor_image_unchecked(xcbConnection()),
-                                          NULL));
-    if (cursor.isNull())
+    const auto cursor = effects->cursorImage();
+    if (cursor.image().isNull())
         return;
 
-    QImage qcursorimg((uchar *) xcb_xfixes_get_cursor_image_cursor_image(cursor.data()), cursor->width, cursor->height,
-                      QImage::Format_ARGB32_Premultiplied);
-
     QPainter painter(&snapshot);
-    painter.drawImage(QPointF(cursor->x - cursor->xhot - offsetx, cursor->y - cursor ->yhot - offsety), qcursorimg);
+    painter.drawImage(effects->cursorPos() - cursor.hotSpot() - QPoint(offsetx, offsety), cursor.image());
 }
 
 void ScreenShotEffect::convertFromGLImage(QImage &img, int w, int h)
@@ -321,7 +627,7 @@ void ScreenShotEffect::convertFromGLImage(QImage &img, int w, int h)
 
 bool ScreenShotEffect::isActive() const
 {
-    return m_scheduledScreenshot != NULL && !effects->isScreenLocked();
+    return (m_scheduledScreenshot != NULL || !m_scheduledGeometry.isNull()) && !effects->isScreenLocked();
 }
 
 void ScreenShotEffect::windowClosed( EffectWindow* w )
@@ -330,6 +636,20 @@ void ScreenShotEffect::windowClosed( EffectWindow* w )
         m_scheduledScreenshot = NULL;
         screenshotWindowUnderCursor(m_type);
     }
+}
+
+bool ScreenShotEffect::isTakingScreenshot() const
+{
+    if (!m_scheduledGeometry.isNull()) {
+        return true;
+    }
+    if (m_windowMode != WindowMode::NoCapture) {
+        return true;
+    }
+    if (m_fd != -1) {
+        return true;
+    }
+    return false;
 }
 
 } // namespace

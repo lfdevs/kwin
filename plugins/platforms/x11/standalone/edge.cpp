@@ -44,14 +44,14 @@ WindowBasedEdge::~WindowBasedEdge()
 {
 }
 
-void WindowBasedEdge::activate()
+void WindowBasedEdge::doActivate()
 {
     createWindow();
     createApproachWindow();
     doUpdateBlocking();
 }
 
-void WindowBasedEdge::deactivate()
+void WindowBasedEdge::doDeactivate()
 {
     m_window.reset();
     m_approachWindow.reset();
@@ -77,6 +77,9 @@ void WindowBasedEdge::createWindow()
 
 void WindowBasedEdge::createApproachWindow()
 {
+    if (!activatesForPointer()) {
+        return;
+    }
     if (m_approachWindow.isValid()) {
         return;
     }
@@ -95,22 +98,32 @@ void WindowBasedEdge::createApproachWindow()
 void WindowBasedEdge::doGeometryUpdate()
 {
     m_window.setGeometry(geometry());
-    m_approachWindow.setGeometry(approachGeometry());
+    if (m_approachWindow.isValid()) {
+        m_approachWindow.setGeometry(approachGeometry());
+    }
 }
 
 void WindowBasedEdge::doStartApproaching()
 {
+    if (!activatesForPointer()) {
+        return;
+    }
     m_approachWindow.unmap();
     Cursor *cursor = Cursor::self();
-    connect(cursor, SIGNAL(posChanged(QPoint)), SLOT(updateApproaching(QPoint)));
+#ifndef KWIN_UNIT_TEST
+    m_cursorPollingConnection = connect(cursor, &Cursor::posChanged, this, &WindowBasedEdge::updateApproaching);
+#endif
     cursor->startMousePolling();
 }
 
 void WindowBasedEdge::doStopApproaching()
 {
-    Cursor *cursor = Cursor::self();
-    disconnect(cursor, SIGNAL(posChanged(QPoint)), this, SLOT(updateApproaching(QPoint)));
-    cursor->stopMousePolling();
+    if (!m_cursorPollingConnection) {
+        return;
+    }
+    disconnect(m_cursorPollingConnection);
+    m_cursorPollingConnection = QMetaObject::Connection();
+    Cursor::self()->stopMousePolling();
     m_approachWindow.map();
 }
 

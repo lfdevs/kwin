@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 Q_DECLARE_METATYPE(KWin::LoadEffectFlag)
 Q_DECLARE_METATYPE(KWin::LoadEffectFlags)
 Q_DECLARE_METATYPE(KWin::Effect*)
+Q_DECLARE_METATYPE(KSharedConfigPtr)
 
 Q_LOGGING_CATEGORY(KWIN_CORE, "kwin_core")
 
@@ -42,6 +43,10 @@ namespace KWin
 ScreenEdges *ScreenEdges::s_self = nullptr;
 
 void ScreenEdges::reserve(ElectricBorder, QObject *, const char *)
+{
+}
+
+void ScreenEdges::reserveTouch(ElectricBorder, QAction *)
 {
 }
 
@@ -64,6 +69,7 @@ class TestScriptedEffectLoader : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
+    void initTestCase();
     void testHasEffect_data();
     void testHasEffect();
     void testKnownEffects();
@@ -75,6 +81,12 @@ private Q_SLOTS:
     void testCancelLoadAllEffects();
 };
 
+void TestScriptedEffectLoader::initTestCase()
+{
+    auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
+    QCoreApplication::instance()->setProperty("config", QVariant::fromValue(config));
+}
+
 void TestScriptedEffectLoader::testHasEffect_data()
 {
     QTest::addColumn<QString>("name");
@@ -82,6 +94,7 @@ void TestScriptedEffectLoader::testHasEffect_data()
 
     // all the built-in effects should fail
     QTest::newRow("blur")                        << QStringLiteral("blur")                      << false;
+    QTest::newRow("Colorpicker")                 << QStringLiteral("colorpicker")               << false;
     QTest::newRow("Contrast")                    << QStringLiteral("contrast")                  << false;
     QTest::newRow("CoverSwitch")                 << QStringLiteral("coverswitch")               << false;
     QTest::newRow("Cube")                        << QStringLiteral("cube")                      << false;
@@ -124,8 +137,10 @@ void TestScriptedEffectLoader::testHasEffect_data()
     QTest::newRow("Fade + kwin4_effect")         << QStringLiteral("kwin4_effect_fade")         << true;
     QTest::newRow("Fade + kwin4_effect + CS")    << QStringLiteral("kwin4_eFfect_fAde")         << true;
     QTest::newRow("FadeDesktop")                 << QStringLiteral("kwin4_effect_fadedesktop")  << true;
+    QTest::newRow("FrozenApp")                   << QStringLiteral("kwin4_effect_frozenapp")    << true;
     QTest::newRow("DialogParent")                << QStringLiteral("kwin4_effect_dialogparent") << true;
     QTest::newRow("Login")                       << QStringLiteral("kwin4_effect_login")        << true;
+    QTest::newRow("Logout")                      << QStringLiteral("kwin4_effect_logout")       << true;
     QTest::newRow("Maximize")                    << QStringLiteral("kwin4_effect_maximize")     << true;
     QTest::newRow("ScaleIn")                     << QStringLiteral("kwin4_effect_scalein")      << true;
     QTest::newRow("Translucency")                << QStringLiteral("kwin4_effect_translucency") << true;
@@ -155,7 +170,9 @@ void TestScriptedEffectLoader::testKnownEffects()
     expectedEffects << QStringLiteral("kwin4_effect_dialogparent")
                     << QStringLiteral("kwin4_effect_fade")
                     << QStringLiteral("kwin4_effect_fadedesktop")
+                    << QStringLiteral("kwin4_effect_frozenapp")
                     << QStringLiteral("kwin4_effect_login")
+                    << QStringLiteral("kwin4_effect_logout")
                     << QStringLiteral("kwin4_effect_maximize")
                     << QStringLiteral("kwin4_effect_scalein")
                     << QStringLiteral("kwin4_effect_translucency");
@@ -179,8 +196,10 @@ void TestScriptedEffectLoader::testLoadEffect_data()
     QTest::newRow("Fade + kwin4_effect")         << QStringLiteral("kwin4_effect_fade")         << true;
     QTest::newRow("Fade + kwin4_effect + CS")    << QStringLiteral("kwin4_eFfect_fAde")         << true;
     QTest::newRow("FadeDesktop")                 << QStringLiteral("kwin4_effect_fadedesktop")  << true;
+    QTest::newRow("FrozenApp")                   << QStringLiteral("kwin4_effect_frozenapp")    << true;
     QTest::newRow("DialogParent")                << QStringLiteral("kwin4_effect_dialogparent") << true;
     QTest::newRow("Login")                       << QStringLiteral("kwin4_effect_login")        << true;
+    QTest::newRow("Logout")                      << QStringLiteral("kwin4_effect_logout")        << true;
     QTest::newRow("Maximize")                    << QStringLiteral("kwin4_effect_maximize")     << true;
     QTest::newRow("ScaleIn")                     << QStringLiteral("kwin4_effect_scalein")      << true;
     QTest::newRow("Translucency")                << QStringLiteral("kwin4_effect_translucency") << true;
@@ -330,7 +349,9 @@ void TestScriptedEffectLoader::testLoadAllEffects()
     plugins.writeEntry(kwin4 + QStringLiteral("dialogparentEnabled"), false);
     plugins.writeEntry(kwin4 + QStringLiteral("fadeEnabled"), false);
     plugins.writeEntry(kwin4 + QStringLiteral("fadedesktopEnabled"), false);
+    plugins.writeEntry(kwin4 + QStringLiteral("frozenappEnabled"), false);
     plugins.writeEntry(kwin4 + QStringLiteral("loginEnabled"), false);
+    plugins.writeEntry(kwin4 + QStringLiteral("logoutEnabled"), false);
     plugins.writeEntry(kwin4 + QStringLiteral("maximizeEnabled"), false);
     plugins.writeEntry(kwin4 + QStringLiteral("minimizeanimationEnabled"), false);
     plugins.writeEntry(kwin4 + QStringLiteral("scaleinEnabled"), false);

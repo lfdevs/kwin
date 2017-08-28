@@ -57,6 +57,10 @@ private Q_SLOTS:
     void testKeyboardShowWithoutActivating();
     void testKeyboardTriggersLeave();
     void testTouch();
+    void testOpacity();
+    void testMove();
+    void testSkipCloseAnimation_data();
+    void testSkipCloseAnimation();
 };
 
 class HelperWindow : public QRasterWindow
@@ -183,7 +187,7 @@ void InternalWindowTest::initTestCase()
 void InternalWindowTest::init()
 {
     Cursor::setPos(QPoint(1280, 512));
-    QVERIFY(Test::setupWaylandConnection(s_socketName, Test::AdditionalWaylandInterface::Seat));
+    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::Seat));
     QVERIFY(Test::waitForWaylandKeyboard());
 }
 
@@ -492,6 +496,96 @@ void InternalWindowTest::testTouch()
     QCOMPARE(moveSpy.count(), 1);
     QCOMPARE(win.latestGlobalMousePos(), QPoint(80, 90));
     QCOMPARE(win.pressedButtons(), Qt::MouseButtons());
+}
+
+void InternalWindowTest::testOpacity()
+{
+    // this test verifies that opacity is properly synced from QWindow to ShellClient
+    QSignalSpy clientAddedSpy(waylandServer(), &WaylandServer::shellClientAdded);
+    QVERIFY(clientAddedSpy.isValid());
+    HelperWindow win;
+    win.setOpacity(0.5);
+    win.setGeometry(0, 0, 100, 100);
+    win.show();
+    QVERIFY(clientAddedSpy.wait());
+    QCOMPARE(clientAddedSpy.count(), 1);
+    auto internalClient = clientAddedSpy.first().first().value<ShellClient*>();
+    QVERIFY(internalClient);
+    QVERIFY(internalClient->isInternal());
+    QCOMPARE(internalClient->opacity(), 0.5);
+
+    QSignalSpy opacityChangedSpy(internalClient, &ShellClient::opacityChanged);
+    QVERIFY(opacityChangedSpy.isValid());
+    win.setOpacity(0.75);
+    QCOMPARE(opacityChangedSpy.count(), 1);
+    QCOMPARE(internalClient->opacity(), 0.75);
+}
+
+void InternalWindowTest::testMove()
+{
+    QSignalSpy clientAddedSpy(waylandServer(), &WaylandServer::shellClientAdded);
+    QVERIFY(clientAddedSpy.isValid());
+    HelperWindow win;
+    win.setOpacity(0.5);
+    win.setGeometry(0, 0, 100, 100);
+    win.show();
+    QVERIFY(clientAddedSpy.wait());
+    QCOMPARE(clientAddedSpy.count(), 1);
+    auto internalClient = clientAddedSpy.first().first().value<ShellClient*>();
+    QVERIFY(internalClient);
+    QCOMPARE(internalClient->geometry(), QRect(0, 0, 100, 100));
+
+    // normal move should be synced
+    internalClient->move(5, 10);
+    QCOMPARE(internalClient->geometry(), QRect(5, 10, 100, 100));
+    QCOMPARE(win.geometry(), QRect(5, 10, 100, 100));
+    // another move should also be synced
+    internalClient->move(10, 20);
+    QCOMPARE(internalClient->geometry(), QRect(10, 20, 100, 100));
+    QCOMPARE(win.geometry(), QRect(10, 20, 100, 100));
+
+    // now move with a Geometry update blocker
+    {
+        GeometryUpdatesBlocker blocker(internalClient);
+        internalClient->move(5, 10);
+        // not synced!
+        QCOMPARE(win.geometry(), QRect(10, 20, 100, 100));
+    }
+    // after destroying the blocker it should be synced
+    QCOMPARE(win.geometry(), QRect(5, 10, 100, 100));
+}
+
+void InternalWindowTest::testSkipCloseAnimation_data()
+{
+    QTest::addColumn<bool>("initial");
+
+    QTest::newRow("set") << true;
+    QTest::newRow("not set") << false;
+}
+
+void InternalWindowTest::testSkipCloseAnimation()
+{
+    QSignalSpy clientAddedSpy(waylandServer(), &WaylandServer::shellClientAdded);
+    QVERIFY(clientAddedSpy.isValid());
+    HelperWindow win;
+    win.setOpacity(0.5);
+    win.setGeometry(0, 0, 100, 100);
+    QFETCH(bool, initial);
+    win.setProperty("KWIN_SKIP_CLOSE_ANIMATION", initial);
+    win.show();
+    QVERIFY(clientAddedSpy.wait());
+    QCOMPARE(clientAddedSpy.count(), 1);
+    auto internalClient = clientAddedSpy.first().first().value<ShellClient*>();
+    QVERIFY(internalClient);
+    QCOMPARE(internalClient->skipsCloseAnimation(), initial);
+    QSignalSpy skipCloseChangedSpy(internalClient, &Toplevel::skipCloseAnimationChanged);
+    QVERIFY(skipCloseChangedSpy.isValid());
+    win.setProperty("KWIN_SKIP_CLOSE_ANIMATION", !initial);
+    QCOMPARE(skipCloseChangedSpy.count(), 1);
+    QCOMPARE(internalClient->skipsCloseAnimation(), !initial);
+    win.setProperty("KWIN_SKIP_CLOSE_ANIMATION", initial);
+    QCOMPARE(skipCloseChangedSpy.count(), 2);
+    QCOMPARE(internalClient->skipsCloseAnimation(), initial);
 }
 
 }

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
+"POT-Creation-Date: 2017-04-08 03:04+0200\n"
 "PO-Revision-Date: 2014-08-09 12:23+0200\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -29,73 +29,73 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "bjornst@skogkatt.homelinux.org"
 
-#: main.cpp:187
+#: main.cpp:190 touch.cpp:131
 #, kde-format
 msgid "No Action"
 msgstr "Ingen handling"
 
-#: main.cpp:188
+#: main.cpp:191 touch.cpp:132
 #, kde-format
 msgid "Show Desktop"
 msgstr "Vis skrivebord"
 
-#: main.cpp:189
+#: main.cpp:192 touch.cpp:133
 #, kde-format
 msgid "Lock Screen"
 msgstr "Lås skjermen"
 
-#: main.cpp:190
+#: main.cpp:193 touch.cpp:134
 #, kde-format
 msgctxt "Open krunner"
 msgid "Run Command"
 msgstr ""
 
-#: main.cpp:191
+#: main.cpp:194 touch.cpp:135
 #, kde-format
 msgid "Activity Manager"
 msgstr "Aktivitetsbehandler"
 
-#: main.cpp:192
+#: main.cpp:195 touch.cpp:136
 #, kde-format
 msgid "Application Launcher"
 msgstr "Programstarter"
 
-#: main.cpp:196
+#: main.cpp:199 touch.cpp:140
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 – Alle skrivebord"
 
-#: main.cpp:197
+#: main.cpp:200 touch.cpp:141
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 – Gjeldende skrivebord"
 
-#: main.cpp:198
+#: main.cpp:201 touch.cpp:142
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 – Gjeldende program"
 
-#: main.cpp:201
+#: main.cpp:204 touch.cpp:145
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 – Terning"
 
-#: main.cpp:202
+#: main.cpp:205 touch.cpp:146
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 – Sylinder"
 
-#: main.cpp:203
+#: main.cpp:206 touch.cpp:147
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 – Kule"
 
-#: main.cpp:205
+#: main.cpp:208 touch.cpp:149
 #, kde-format
 msgid "Toggle window switching"
 msgstr "Slå på/av vindusbytting"
 
-#: main.cpp:206
+#: main.cpp:209 touch.cpp:150
 #, kde-format
 msgid "Toggle alternative window switching"
 msgstr "Slå på/av alternativ vindusveksling"
@@ -227,3 +227,11 @@ msgstr ""
 #, kde-format
 msgid "&Reactivation delay:"
 msgstr "Forsinkelse for &reaktivering:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: touch.ui:36
+#, kde-format
+msgid ""
+"To trigger an action swipe from the screen edge towards the center of the "
+"screen."
+msgstr ""

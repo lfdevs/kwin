@@ -3,11 +3,11 @@ Section: kde
 Priority: optional
 Maintainer: Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
 Uploaders: Maximiliano Curia <maxy@debian.org>
-Build-Depends: breeze-dev (>= 4:5.8.4~),
+Build-Depends: breeze-dev (>= 4:5.9.0~),
                cmake (>= 2.8.12),
                debhelper (>= 9),
                extra-cmake-modules (>= 1.3.0~),
-               kinit-dev (>= 5.26.0~),
+               kinit-dev (>= 5.34.0~),
                kscreenlocker-dev,
                libdrm-dev (>= 2.4.62~),
                libegl1-mesa-dev (>= 1.2~),
@@ -16,32 +16,32 @@ Build-Depends: breeze-dev (>= 4:5.8.4~),
                libfreetype6-dev,
                libgbm-dev,
                libice-dev,
-               libinput-dev (>= 1.2~),
-               libkdecorations2-dev,
-               libkf5activities-dev (>= 5.26.0~),
-               libkf5completion-dev (>= 5.26.0~),
-               libkf5config-dev (>= 5.26.0~),
-               libkf5configwidgets-dev (>= 5.26.0~),
-               libkf5coreaddons-dev (>= 5.26.0~),
-               libkf5crash-dev (>= 5.26.0~),
-               libkf5declarative-dev (>= 5.26.0~),
-               libkf5doctools-dev (>= 5.26.0~),
-               libkf5globalaccel-dev (>= 5.26.0~),
-               libkf5i18n-dev (>= 5.26.0~),
-               libkf5iconthemes-dev (>= 5.26.0~),
-               libkf5idletime-dev (>= 5.26.0~),
-               libkf5kcmutils-dev (>= 5.26.0~),
-               libkf5kio-dev (>= 5.26.0~),
-               libkf5newstuff-dev (>= 5.26.0~),
-               libkf5notifications-dev (>= 5.26.0~),
-               libkf5package-dev (>= 5.26.0~),
-               libkf5plasma-dev (>= 5.26.0~),
-               libkf5service-dev (>= 5.26.0~),
-               libkf5textwidgets-dev (>= 5.26.0~),
-               libkf5wayland-dev (>= 4:5.26.0~),
-               libkf5widgetsaddons-dev (>= 5.26.0~),
-               libkf5windowsystem-dev (>= 5.26.0~),
-               libkf5xmlgui-dev (>= 5.26.0~),
+               libinput-dev (>= 1.5~),
+               libkdecorations2-dev (>= 4:5.10),
+               libkf5activities-dev (>= 5.34.0~),
+               libkf5completion-dev (>= 5.34.0~),
+               libkf5config-dev (>= 5.34.0~),
+               libkf5configwidgets-dev (>= 5.34.0~),
+               libkf5coreaddons-dev (>= 5.34.0~),
+               libkf5crash-dev (>= 5.34.0~),
+               libkf5declarative-dev (>= 5.34.0~),
+               libkf5doctools-dev (>= 5.34.0~),
+               libkf5globalaccel-dev (>= 5.34.0~),
+               libkf5i18n-dev (>= 5.34.0~),
+               libkf5iconthemes-dev (>= 5.34.0~),
+               libkf5idletime-dev (>= 5.34.0~),
+               libkf5kcmutils-dev (>= 5.34.0~),
+               libkf5kio-dev (>= 5.34.0~),
+               libkf5newstuff-dev (>= 5.34.0~),
+               libkf5notifications-dev (>= 5.34.0~),
+               libkf5package-dev (>= 5.34.0~),
+               libkf5plasma-dev (>= 5.34.0~),
+               libkf5service-dev (>= 5.34.0~),
+               libkf5textwidgets-dev (>= 5.34.0~),
+               libkf5wayland-dev (>= 4:5.34.0~),
+               libkf5widgetsaddons-dev (>= 5.34.0~),
+               libkf5windowsystem-dev (>= 5.34.0~),
+               libkf5xmlgui-dev (>= 5.34.0~),
                libqt5x11extras5-dev (>= 5.7.0~),
                libsm-dev,
                libudev-dev [linux-any],
@@ -64,52 +64,38 @@ Build-Depends: breeze-dev (>= 4:5.8.4~),
                libxcb1-dev (>= 1.10~),
                libxcursor-dev,
                libxi-dev,
-               libxkbcommon-dev (>= 0.5.0~),
+               libxkbcommon-dev (>= 0.7.0~),
                pkg-config,
                pkg-kde-tools (>= 0.15.18~),
                qtbase5-dev (>= 5.7.0~),
                qtbase5-private-dev (>= 5.7.0~),
                qtdeclarative5-dev (>= 5.7.0~),
                qtscript5-dev (>= 5.7.0~),
-               qttools5-dev (>= 5.7.0~)
-Standards-Version: 3.9.8
+               qttools5-dev (>= 5.7.0~),
+Standards-Version: 4.0.0
 Homepage: https://projects.kde.org/projects/kde/workspace/kwin
 Vcs-Browser: https://anonscm.debian.org/git/pkg-kde/plasma/kwin.git
 Vcs-Git: https://anonscm.debian.org/git/pkg-kde/plasma/kwin.git
 
-Package: kwin-dev
-Section: libdevel
-Architecture: any
-Depends: kwin-common (= ${binary:Version}),
-         libegl1-mesa-dev (>= 1.2~),
-         libepoxy-dev (>= 1.2),
-         libkf5coreaddons-dev (>= 5.26.0~),
-         libkf5windowsystem-dev (>= 5.26.0~),
-         libqt5x11extras5-dev (>= 5.7.0~),
-         qtbase5-dev (>= 5.7.0~),
-         ${misc:Depends},
-         ${shlibs:Depends}
-Breaks: kde-workspace-dev
-Replaces: kde-workspace-dev
-Description: KDE window manager - devel files
- KWin (pronounced as one syllable "kwin") is the window
- manager for the KDE Plasma Desktop. It gives you complete
- control over your windows, making sure they're not in the way
- but aid you in your task. It paints the window decoration,
- the bar on top of every window with (configurable) buttons
- like close, maximize and minimize. It also handles placing
- of windows and switching between them.
+Package: kde-window-manager
+Section: oldlibs
+Priority: optional
+Architecture: all
+Depends: kwin-x11 (>= 4:5.3.2-4~)
+Description: transitional package for kwin-x11
+ This transitional package allows one to migrate to the packages providing
+ the X11 version of the KDE window manager.
  .
- This package is part of the KDE base workspace module.
+ It can be safely removed after the installation.
 
 Package: kwin-common
 Architecture: any
 Depends: kwin-data (= ${source:Version}),
-         libkwineffects9 (= ${binary:Version}),
+         libkwineffects11 (= ${binary:Version}),
          qml-module-org-kde-kquickcontrolsaddons,
          qml-module-qtmultimedia,
          ${misc:Depends},
-         ${shlibs:Depends}
+         ${shlibs:Depends},
 Recommends: libqt5multimedia5-plugins, plasma-desktop
 Suggests: kwin-addons
 Breaks: kwin (<= 4:5.3.1-0ubuntu3)
@@ -125,17 +111,42 @@ Description: KDE window manager, common files
  .
  This package is part of the KDE base workspace module.
 
-Package: kwin-x11
+Package: kwin-data
+Architecture: all
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Recommends: plasma-framework,
+            qml-module-qtmultimedia,
+            qml-module-qtquick-layouts,
+            qml-module-qtquick-window2,
+            qml-module-qtquick2,
+Breaks: ${kde-l10n:all}
+Replaces: ${kde-l10n:all}
+Description: KDE window manager data files
+ KWin (pronounced as one syllable "kwin") is the window
+ manager for the KDE Plasma Desktop. It gives you complete
+ control over your windows, making sure they're not in the way
+ but aid you in your task. It paints the window decoration,
+ the bar on top of every window with (configurable) buttons
+ like close, maximize and minimize. It also handles placing
+ of windows and switching between them.
+ .
+ This package contains the data files
+
+Package: kwin-dev
+Section: libdevel
 Architecture: any
 Depends: kwin-common (= ${binary:Version}),
-         libkwinglutils9 (= ${binary:Version}),
-         libkwinxrenderutils9 (= ${binary:Version}),
+         libegl1-mesa-dev (>= 1.2~),
+         libepoxy-dev (>= 1.2),
+         libkf5coreaddons-dev (>= 5.34.0~),
+         libkf5windowsystem-dev (>= 5.34.0~),
+         libqt5x11extras5-dev (>= 5.7.0~),
+         qtbase5-dev (>= 5.7.0~),
          ${misc:Depends},
-         ${shlibs:Depends}
-Breaks: kde-window-manager (<< 4:5), kwin-addons (<< 4:5.8)
-Replaces: kde-window-manager (<< 4:5)
-Provides: kwin, x-window-manager
-Description: KDE window manager, X11 version
+         ${shlibs:Depends},
+Breaks: kde-workspace-dev
+Replaces: kde-workspace-dev
+Description: KDE window manager - devel files
  KWin (pronounced as one syllable "kwin") is the window
  manager for the KDE Plasma Desktop. It gives you complete
  control over your windows, making sure they're not in the way
@@ -153,7 +164,7 @@ Depends: kwayland-integration,
          kwin-wayland-backend-drm (= ${binary:Version}) | kwin-wayland-backend-fbdev (= ${binary:Version}) | kwin-wayland-backend-x11 (= ${binary:Version}) | kwin-wayland-backend-virtual (= ${binary:Version}) | kwin-wayland-backend-wayland (= ${binary:Version}),
          xwayland,
          ${misc:Depends},
-         ${shlibs:Depends}
+         ${shlibs:Depends},
 Provides: kwin
 Description: KDE window manager, wayland version, PREVIEW release
  KWin (pronounced as one syllable "kwin") is the window
@@ -167,70 +178,7 @@ Description: KDE window manager, wayland version, PREVIEW release
  This package provides the wayland version, which is still a work in progress
  project, and is available as a PREVIEW release. Don't expect the same
  stability as with the x11 version.
-Breaks: plasma-workspace-wayland (<< 4:5.8)
-
-Package: libkwin4-effect-builtins1
-Section: libs
-Architecture: any
-Depends: libkwineffects9 (= ${binary:Version}),
-         ${misc:Depends},
-         ${shlibs:Depends}
-Description: KDE window manager effect builtins library
- KWin (pronounced as one syllable "kwin") is the window
- manager for the KDE Plasma Desktop. It gives you complete
- control over your windows, making sure they're not in the way
- but aid you in your task. It paints the window decoration,
- the bar on top of every window with (configurable) buttons
- like close, maximize and minimize. It also handles placing
- of windows and switching between them.
- .
- This package is part of the KDE base workspace module.
-
-Package: libkwineffects9
-Section: libs
-Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}
-Description: KDE window manager effects library
- KWin (pronounced as one syllable "kwin") is the window
- manager for the KDE Plasma Desktop. It gives you complete
- control over your windows, making sure they're not in the way
- but aid you in your task. It paints the window decoration,
- the bar on top of every window with (configurable) buttons
- like close, maximize and minimize. It also handles placing
- of windows and switching between them.
- .
- This package is part of the KDE base workspace module.
-
-Package: libkwinglutils9
-Section: libs
-Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}
-Breaks: kwin-common (<< 4:5.4), libkwin4-effect-builtins1 (<< 4:5.4)
-Description: KDE window manager gl utils library
- KWin (pronounced as one syllable "kwin") is the window
- manager for the KDE Plasma Desktop. It gives you complete
- control over your windows, making sure they're not in the way
- but aid you in your task. It paints the window decoration,
- the bar on top of every window with (configurable) buttons
- like close, maximize and minimize. It also handles placing
- of windows and switching between them.
- .
- This package is part of the KDE base workspace module.
-
-Package: libkwinxrenderutils9
-Section: libs
-Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}
-Description: KDE window manager render utils library
- KWin (pronounced as one syllable "kwin") is the window
- manager for the KDE Plasma Desktop. It gives you complete
- control over your windows, making sure they're not in the way
- but aid you in your task. It paints the window decoration,
- the bar on top of every window with (configurable) buttons
- like close, maximize and minimize. It also handles placing
- of windows and switching between them.
- .
- This package is part of the KDE base workspace module.
+Breaks: plasma-workspace-wayland (<< 4:5.10)
 
 Package: kwin-wayland-backend-drm
 Section: libs
@@ -254,22 +202,6 @@ Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Provides: kwin-wayland-backend
 Description: KDE window manager fbdev plugin
- KWin (pronounced as one syllable "kwin") is the window
- manager for the KDE Plasma Desktop. It gives you complete
- control over your windows, making sure they're not in the way
- but aid you in your task. It paints the window decoration,
- the bar on top of every window with (configurable) buttons
- like close, maximize and minimize. It also handles placing
- of windows and switching between them.
- .
- This package is part of the KDE base workspace module
-
-Package: kwin-wayland-backend-x11
-Section: libs
-Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}
-Provides: kwin-wayland-backend
-Description: KDE window manager x11 plugin
  KWin (pronounced as one syllable "kwin") is the window
  manager for the KDE Plasma Desktop. It gives you complete
  control over your windows, making sure they're not in the way
@@ -313,17 +245,12 @@ Description: KDE window manager nested wayland plugin
  .
  This package is part of the KDE base workspace module
 
-Package: kwin-data
-Architecture: all
+Package: kwin-wayland-backend-x11
+Section: libs
+Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
-Recommends: plasma-framework,
-            qml-module-qtmultimedia,
-            qml-module-qtquick-layouts,
-            qml-module-qtquick-window2,
-            qml-module-qtquick2
-Breaks: ${kde-l10n:all}
-Replaces: ${kde-l10n:all}
-Description: KDE window manager data files
+Provides: kwin-wayland-backend
+Description: KDE window manager x11 plugin
  KWin (pronounced as one syllable "kwin") is the window
  manager for the KDE Plasma Desktop. It gives you complete
  control over your windows, making sure they're not in the way
@@ -332,15 +259,125 @@ Description: KDE window manager data files
  like close, maximize and minimize. It also handles placing
  of windows and switching between them.
  .
- This package contains the data files
+ This package is part of the KDE base workspace module
 
-Package: kde-window-manager
-Section: oldlibs
-Priority: extra
-Architecture: all
-Depends: kwin-x11 (>= 4:5.3.2-4~)
-Description: transitional package for kwin-x11
- This transitional package allows one to migrate to the packages providing
- the X11 version of the KDE window manager.
+Package: kwin-x11
+Architecture: any
+Depends: kwin-common (= ${binary:Version}),
+         libkwinglutils11 (= ${binary:Version}),
+         libkwinxrenderutils11 (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends},
+Breaks: kde-window-manager (<< 4:5), kwin-addons (<< 4:5.10)
+Replaces: kde-window-manager (<< 4:5)
+Provides: kwin, x-window-manager
+Description: KDE window manager, X11 version
+ KWin (pronounced as one syllable "kwin") is the window
+ manager for the KDE Plasma Desktop. It gives you complete
+ control over your windows, making sure they're not in the way
+ but aid you in your task. It paints the window decoration,
+ the bar on top of every window with (configurable) buttons
+ like close, maximize and minimize. It also handles placing
+ of windows and switching between them.
  .
- It can be safely removed after the installation.
+ This package is part of the KDE base workspace module.
+
+Package: libkwin4-effect-builtins1
+Section: libs
+Architecture: any
+Depends: libkwineffects11 (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends},
+Description: KDE window manager effect builtins library
+ KWin (pronounced as one syllable "kwin") is the window
+ manager for the KDE Plasma Desktop. It gives you complete
+ control over your windows, making sure they're not in the way
+ but aid you in your task. It paints the window decoration,
+ the bar on top of every window with (configurable) buttons
+ like close, maximize and minimize. It also handles placing
+ of windows and switching between them.
+ .
+ This package is part of the KDE base workspace module.
+
+Package: libkwineffects11
+Section: libs
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Breaks: libkwineffects10,
+        libkwineffects5 (<< 4:5.2.0),
+        libkwineffects6 (<< 4:5.4.1+git20150907),
+        libkwineffects7 (<< 4:5.5.80+git20160203),
+        libkwineffects8,
+        libkwineffects9,
+Replaces: libkwineffects10,
+          libkwineffects5 (<< 4:5.2.0),
+          libkwineffects6 (<< 4:5.4.1+git20150907),
+          libkwineffects7 (<< 4:5.5.80+git20160203),
+          libkwineffects8,
+          libkwineffects9,
+Description: KDE window manager effects library
+ KWin (pronounced as one syllable "kwin") is the window
+ manager for the KDE Plasma Desktop. It gives you complete
+ control over your windows, making sure they're not in the way
+ but aid you in your task. It paints the window decoration,
+ the bar on top of every window with (configurable) buttons
+ like close, maximize and minimize. It also handles placing
+ of windows and switching between them.
+ .
+ This package is part of the KDE base workspace module.
+
+Package: libkwinglutils11
+Section: libs
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Breaks: kwin-common (<< 4:5.4),
+        libkwin4-effect-builtins1 (<< 4:5.4),
+        libkwinglutils10,
+        libkwinglutils5 (<< 4:5.2.0),
+        libkwinglutils6 (<< 4:5.4.1+git20150907),
+        libkwinglutils7 (<< 4.5.5.80+git20160203),
+        libkwinglutils8,
+        libkwinglutils9,
+Replaces: libkwinglutils10,
+          libkwinglutils5 (<< 4:5.2.0),
+          libkwinglutils6 (<< 4:5.4.1+git20150907),
+          libkwinglutils7 (<< 4:5.5.80+git20160203),
+          libkwinglutils8,
+          libkwinglutils9,
+Description: KDE window manager gl utils library
+ KWin (pronounced as one syllable "kwin") is the window
+ manager for the KDE Plasma Desktop. It gives you complete
+ control over your windows, making sure they're not in the way
+ but aid you in your task. It paints the window decoration,
+ the bar on top of every window with (configurable) buttons
+ like close, maximize and minimize. It also handles placing
+ of windows and switching between them.
+ .
+ This package is part of the KDE base workspace module.
+
+Package: libkwinxrenderutils11
+Section: libs
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Breaks: libkwinxrenderutils10,
+        libkwinxrenderutils5 (<< 4:5.2.0),
+        libkwinxrenderutils6 (<< 4:5.4.1+git20150907),
+        libkwinxrenderutils7 (<< 4:5.5.80+git20160203),
+        libkwinxrenderutils8,
+        libkwinxrenderutils9,
+Replaces: libkwinxrenderutils10,
+          libkwinxrenderutils5 (<< 4:5.2.0),
+          libkwinxrenderutils6 (<< 4:5.4.1+git20150907),
+          libkwinxrenderutils7 (<< 4:5.5.80+git20160203),
+          libkwinxrenderutils8,
+          libkwinxrenderutils9,
+Description: KDE window manager render utils library
+ KWin (pronounced as one syllable "kwin") is the window
+ manager for the KDE Plasma Desktop. It gives you complete
+ control over your windows, making sure they're not in the way
+ but aid you in your task. It paints the window decoration,
+ the bar on top of every window with (configurable) buttons
+ like close, maximize and minimize. It also handles placing
+ of windows and switching between them.
+ .
+ This package is part of the KDE base workspace module.

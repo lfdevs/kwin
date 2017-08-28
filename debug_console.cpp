@@ -18,13 +18,16 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "debug_console.h"
+#include "composite.h"
 #include "client.h"
 #include "input_event.h"
 #include "main.h"
+#include "scene_opengl.h"
 #include "shell_client.h"
 #include "unmanaged.h"
 #include "wayland_server.h"
 #include "workspace.h"
+#include "keyboard_input.h"
 #if HAVE_INPUT
 #include "libinput/connection.h"
 #include "libinput/device.h"
@@ -47,6 +50,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMetaProperty>
 #include <QMetaType>
 
+// xkb
+#include <xkbcommon/xkbcommon.h>
+
+#include <functional>
+
 namespace KWin
 {
 
@@ -66,6 +74,11 @@ QString tableRow(const QString &title, const T &argument)
 static QString timestampRow(quint32 timestamp)
 {
     return tableRow(i18n("Timestamp"), timestamp);
+}
+
+static QString timestampRowUsec(quint64 timestamp)
+{
+    return tableRow(i18n("Timestamp (µsec)"), timestamp);
 }
 
 static QString buttonToString(Qt::MouseButton button)
@@ -157,46 +170,58 @@ static const QString s_tableStart = QStringLiteral("<table>");
 static const QString s_tableEnd = QStringLiteral("</table>");
 
 DebugConsoleFilter::DebugConsoleFilter(QTextEdit *textEdit)
-    : InputEventFilter()
+    : InputEventSpy()
     , m_textEdit(textEdit)
 {
 }
 
 DebugConsoleFilter::~DebugConsoleFilter() = default;
 
-bool DebugConsoleFilter::pointerEvent(QMouseEvent *event, quint32 nativeButton)
+void DebugConsoleFilter::pointerEvent(MouseEvent *event)
 {
     QString text = s_hr;
     const QString timestamp = timestampRow(event->timestamp());
 
     text.append(s_tableStart);
     switch (event->type()) {
-    case QEvent::MouseMove:
+    case QEvent::MouseMove: {
         text.append(tableHeaderRow(i18nc("A mouse pointer motion event", "Pointer Motion")));
 #if HAVE_INPUT
-        text.append(deviceRow(static_cast<MouseEvent*>(event)->device()));
+        text.append(deviceRow(event->device()));
 #endif
         text.append(timestamp);
+        if (event->timestampMicroseconds() != 0) {
+            text.append(timestampRowUsec(event->timestampMicroseconds()));
+        }
+        if (event->delta() != QSizeF()) {
+            text.append(tableRow(i18nc("The relative mouse movement", "Delta"),
+                                 QStringLiteral("%1/%2").arg(event->delta().width()).arg(event->delta().height())));
+        }
+        if (event->deltaUnaccelerated() != QSizeF()) {
+            text.append(tableRow(i18nc("The relative mouse movement", "Delta (not accelerated)"),
+                                 QStringLiteral("%1/%2").arg(event->deltaUnaccelerated().width()).arg(event->deltaUnaccelerated().height())));
+        }
         text.append(tableRow(i18nc("The global mouse pointer position", "Global Position"), QStringLiteral("%1/%2").arg(event->pos().x()).arg(event->pos().y())));
         break;
+    }
     case QEvent::MouseButtonPress:
         text.append(tableHeaderRow(i18nc("A mouse pointer button press event", "Pointer Button Press")));
 #if HAVE_INPUT
-        text.append(deviceRow(static_cast<MouseEvent*>(event)->device()));
+        text.append(deviceRow(event->device()));
 #endif
         text.append(timestamp);
         text.append(tableRow(i18nc("A button in a mouse press/release event", "Button"), buttonToString(event->button())));
-        text.append(tableRow(i18nc("A button in a mouse press/release event",  "Native Button code"), nativeButton));
+        text.append(tableRow(i18nc("A button in a mouse press/release event",  "Native Button code"), event->nativeButton()));
         text.append(tableRow(i18nc("All currently pressed buttons in a mouse press/release event", "Pressed Buttons"), buttonsToString(event->buttons())));
         break;
     case QEvent::MouseButtonRelease:
         text.append(tableHeaderRow(i18nc("A mouse pointer button release event", "Pointer Button Release")));
 #if HAVE_INPUT
-        text.append(deviceRow(static_cast<MouseEvent*>(event)->device()));
+        text.append(deviceRow(event->device()));
 #endif
         text.append(timestamp);
         text.append(tableRow(i18nc("A button in a mouse press/release event", "Button"), buttonToString(event->button())));
-        text.append(tableRow(i18nc("A button in a mouse press/release event", "Native Button code"), nativeButton));
+        text.append(tableRow(i18nc("A button in a mouse press/release event", "Native Button code"), event->nativeButton()));
         text.append(tableRow(i18nc("All currently pressed buttons in a mouse press/release event", "Pressed Buttons"), buttonsToString(event->buttons())));
         break;
     default:
@@ -206,16 +231,15 @@ bool DebugConsoleFilter::pointerEvent(QMouseEvent *event, quint32 nativeButton)
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
-    return false;
 }
 
-bool DebugConsoleFilter::wheelEvent(QWheelEvent *event)
+void DebugConsoleFilter::wheelEvent(WheelEvent *event)
 {
     QString text = s_hr;
     text.append(s_tableStart);
     text.append(tableHeaderRow(i18nc("A mouse pointer axis (wheel) event", "Pointer Axis")));
 #if HAVE_INPUT
-        text.append(deviceRow(static_cast<WheelEvent*>(event)->device()));
+        text.append(deviceRow(event->device()));
 #endif
     text.append(timestampRow(event->timestamp()));
     const Qt::Orientation orientation = event->angleDelta().x() == 0 ? Qt::Vertical : Qt::Horizontal;
@@ -227,10 +251,9 @@ bool DebugConsoleFilter::wheelEvent(QWheelEvent *event)
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
-    return false;
 }
 
-bool DebugConsoleFilter::keyEvent(QKeyEvent *event)
+void DebugConsoleFilter::keyEvent(KeyEvent *event)
 {
     QString text = s_hr;
     text.append(s_tableStart);
@@ -246,7 +269,7 @@ bool DebugConsoleFilter::keyEvent(QKeyEvent *event)
         break;
     }
 #if HAVE_INPUT
-        text.append(deviceRow(static_cast<KeyEvent*>(event)->device()));
+        text.append(deviceRow(event->device()));
 #endif
     auto modifiersToString = [event] {
         QString ret;
@@ -287,10 +310,9 @@ bool DebugConsoleFilter::keyEvent(QKeyEvent *event)
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
-    return false;
 }
 
-bool DebugConsoleFilter::touchDown(quint32 id, const QPointF &pos, quint32 time)
+void DebugConsoleFilter::touchDown(quint32 id, const QPointF &pos, quint32 time)
 {
     QString text = s_hr;
     text.append(s_tableStart);
@@ -303,10 +325,9 @@ bool DebugConsoleFilter::touchDown(quint32 id, const QPointF &pos, quint32 time)
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
-    return false;
 }
 
-bool DebugConsoleFilter::touchMotion(quint32 id, const QPointF &pos, quint32 time)
+void DebugConsoleFilter::touchMotion(quint32 id, const QPointF &pos, quint32 time)
 {
     QString text = s_hr;
     text.append(s_tableStart);
@@ -319,10 +340,9 @@ bool DebugConsoleFilter::touchMotion(quint32 id, const QPointF &pos, quint32 tim
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
-    return false;
 }
 
-bool DebugConsoleFilter::touchUp(quint32 id, quint32 time)
+void DebugConsoleFilter::touchUp(quint32 id, quint32 time)
 {
     QString text = s_hr;
     text.append(s_tableStart);
@@ -333,10 +353,9 @@ bool DebugConsoleFilter::touchUp(quint32 id, quint32 time)
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
-    return false;
 }
 
-bool DebugConsoleFilter::pinchGestureBegin(int fingerCount, quint32 time)
+void DebugConsoleFilter::pinchGestureBegin(int fingerCount, quint32 time)
 {
     QString text = s_hr;
     text.append(s_tableStart);
@@ -347,10 +366,9 @@ bool DebugConsoleFilter::pinchGestureBegin(int fingerCount, quint32 time)
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
-    return false;
 }
 
-bool DebugConsoleFilter::pinchGestureUpdate(qreal scale, qreal angleDelta, const QSizeF &delta, quint32 time)
+void DebugConsoleFilter::pinchGestureUpdate(qreal scale, qreal angleDelta, const QSizeF &delta, quint32 time)
 {
     QString text = s_hr;
     text.append(s_tableStart);
@@ -364,10 +382,9 @@ bool DebugConsoleFilter::pinchGestureUpdate(qreal scale, qreal angleDelta, const
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
-    return false;
 }
 
-bool DebugConsoleFilter::pinchGestureEnd(quint32 time)
+void DebugConsoleFilter::pinchGestureEnd(quint32 time)
 {
     QString text = s_hr;
     text.append(s_tableStart);
@@ -377,10 +394,9 @@ bool DebugConsoleFilter::pinchGestureEnd(quint32 time)
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
-    return false;
 }
 
-bool DebugConsoleFilter::pinchGestureCancelled(quint32 time)
+void DebugConsoleFilter::pinchGestureCancelled(quint32 time)
 {
     QString text = s_hr;
     text.append(s_tableStart);
@@ -390,10 +406,9 @@ bool DebugConsoleFilter::pinchGestureCancelled(quint32 time)
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
-    return false;
 }
 
-bool DebugConsoleFilter::swipeGestureBegin(int fingerCount, quint32 time)
+void DebugConsoleFilter::swipeGestureBegin(int fingerCount, quint32 time)
 {
     QString text = s_hr;
     text.append(s_tableStart);
@@ -404,10 +419,9 @@ bool DebugConsoleFilter::swipeGestureBegin(int fingerCount, quint32 time)
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
-    return false;
 }
 
-bool DebugConsoleFilter::swipeGestureUpdate(const QSizeF &delta, quint32 time)
+void DebugConsoleFilter::swipeGestureUpdate(const QSizeF &delta, quint32 time)
 {
     QString text = s_hr;
     text.append(s_tableStart);
@@ -419,10 +433,9 @@ bool DebugConsoleFilter::swipeGestureUpdate(const QSizeF &delta, quint32 time)
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
-    return false;
 }
 
-bool DebugConsoleFilter::swipeGestureEnd(quint32 time)
+void DebugConsoleFilter::swipeGestureEnd(quint32 time)
 {
     QString text = s_hr;
     text.append(s_tableStart);
@@ -432,10 +445,9 @@ bool DebugConsoleFilter::swipeGestureEnd(quint32 time)
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
-    return false;
 }
 
-bool DebugConsoleFilter::swipeGestureCancelled(quint32 time)
+void DebugConsoleFilter::swipeGestureCancelled(quint32 time)
 {
     QString text = s_hr;
     text.append(s_tableStart);
@@ -445,7 +457,6 @@ bool DebugConsoleFilter::swipeGestureCancelled(quint32 time)
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
-    return false;
 }
 
 DebugConsole::DebugConsole()
@@ -481,7 +492,11 @@ DebugConsole::DebugConsole()
             // delay creation of input event filter until the tab is selected
             if (index == 2 && m_inputFilter.isNull()) {
                 m_inputFilter.reset(new DebugConsoleFilter(m_ui->inputTextEdit));
-                input()->prepandInputEventFilter(m_inputFilter.data());
+                input()->installInputEventSpy(m_inputFilter.data());
+            }
+            if (index == 5) {
+                updateKeyboardTab();
+                connect(input(), &InputRedirection::keyStateChanged, this, &DebugConsole::updateKeyboardTab);
             }
         }
     );
@@ -496,12 +511,12 @@ DebugConsole::~DebugConsole() = default;
 
 void DebugConsole::initGLTab()
 {
-    GLPlatform *gl = GLPlatform::instance();
-    if (!gl) {
+    if (!effects || !effects->isOpenGLCompositing()) {
         m_ui->noOpenGLLabel->setVisible(true);
         m_ui->glInfoScrollArea->setVisible(false);
         return;
     }
+    GLPlatform *gl = GLPlatform::instance();
     m_ui->noOpenGLLabel->setVisible(false);
     m_ui->glInfoScrollArea->setVisible(true);
     m_ui->glVendorStringLabel->setText(QString::fromLocal8Bit(gl->glVendorString()));
@@ -521,19 +536,50 @@ void DebugConsole::initGLTab()
         text.append(QStringLiteral("</ul>"));
         return text;
     };
-    if (gl->platformInterface() == EglPlatformInterface) {
-        m_ui->eglExtensionsBox->setVisible(true);
-        m_ui->glxExtensionsBox->setVisible(false);
 
-        m_ui->eglExtensionsLabel->setText(extensionsString(eglExtensions()));
-    } else {
-        m_ui->eglExtensionsBox->setVisible(false);
-        m_ui->glxExtensionsBox->setVisible(true);
-
-        m_ui->glxExtensionsLabel->setText(extensionsString(glxExtensions()));
-    }
-
+    m_ui->platformExtensionsLabel->setText(extensionsString(static_cast<SceneOpenGL*>(Compositor::self()->scene())->backend()->extensions()));
     m_ui->openGLExtensionsLabel->setText(extensionsString(openGLExtensions()));
+}
+
+template <typename T>
+QString keymapComponentToString(xkb_keymap *map, const T &count, std::function<const char*(xkb_keymap*,T)> f)
+{
+    QString text = QStringLiteral("<ul>");
+    for (T i = 0; i < count; i++) {
+        text.append(QStringLiteral("<li>%1</li>").arg(QString::fromLocal8Bit(f(map, i))));
+    }
+    text.append(QStringLiteral("</ul>"));
+    return text;
+}
+
+template <typename T>
+QString stateActiveComponents(xkb_state *state, const T &count, std::function<int(xkb_state*,T)> f, std::function<const char*(xkb_keymap*,T)> name)
+{
+    QString text = QStringLiteral("<ul>");
+    xkb_keymap *map = xkb_state_get_keymap(state);
+    for (T i = 0; i < count; i++) {
+        if (f(state, i) == 1) {
+            text.append(QStringLiteral("<li>%1</li>").arg(QString::fromLocal8Bit(name(map, i))));
+        }
+    }
+    text.append(QStringLiteral("</ul>"));
+    return text;
+}
+
+void DebugConsole::updateKeyboardTab()
+{
+    auto xkb = input()->keyboard()->xkb();
+    xkb_keymap *map = xkb->keymap();
+    xkb_state *state = xkb->state();
+    m_ui->layoutsLabel->setText(keymapComponentToString<xkb_layout_index_t>(map, xkb_keymap_num_layouts(map), &xkb_keymap_layout_get_name));
+    m_ui->currentLayoutLabel->setText(xkb_keymap_layout_get_name(map, xkb->currentLayout()));
+    m_ui->modifiersLabel->setText(keymapComponentToString<xkb_mod_index_t>(map, xkb_keymap_num_mods(map), &xkb_keymap_mod_get_name));
+    m_ui->ledsLabel->setText(keymapComponentToString<xkb_led_index_t>(map, xkb_keymap_num_leds(map), &xkb_keymap_led_get_name));
+    m_ui->activeLedsLabel->setText(stateActiveComponents<xkb_led_index_t>(state, xkb_keymap_num_leds(map), &xkb_state_led_index_is_active, &xkb_keymap_led_get_name));
+
+    using namespace std::placeholders;
+    auto modActive = std::bind(xkb_state_mod_index_is_active, _1, _2, XKB_STATE_MODS_EFFECTIVE);
+    m_ui->activeModifiersLabel->setText(stateActiveComponents<xkb_mod_index_t>(state, xkb_keymap_num_mods(map), modActive, &xkb_keymap_mod_get_name));
 }
 
 void DebugConsole::showEvent(QShowEvent *event)

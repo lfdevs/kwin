@@ -1,15 +1,15 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# enolp <enolp@softastur.org>, 2015.
+# enolp <enolp@softastur.org>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-14 05:12+0200\n"
-"PO-Revision-Date: 2015-10-20 23:42+0100\n"
+"POT-Creation-Date: 2017-04-14 02:49+0200\n"
+"PO-Revision-Date: 2016-12-19 04:07+0100\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
-"Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
+"Language-Team: Asturian <alministradores@softastur.org>\n"
 "Language: ast\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,55 +17,55 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 2.0\n"
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Menu"
-msgstr "Menú"
+msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Application menu"
-msgstr "Menú d'aplicaciones"
+msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "On all desktops"
 msgstr "En tolos escritorios"
 
-#: declarative-plugin/buttonsmodel.cpp:73
+#: declarative-plugin/buttonsmodel.cpp:74
 #, kde-format
 msgid "Minimize"
-msgstr "Minimizar"
+msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:75
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
 msgid "Maximize"
-msgstr "Maximizar"
+msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:77
+#: declarative-plugin/buttonsmodel.cpp:78
 #, kde-format
 msgid "Close"
-msgstr "Zarrar"
+msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:79
+#: declarative-plugin/buttonsmodel.cpp:80
 #, kde-format
 msgid "Context help"
-msgstr "Ayuda de contestu"
+msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:81
+#: declarative-plugin/buttonsmodel.cpp:82
 #, kde-format
 msgid "Shade"
-msgstr "Solombra"
+msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:83
+#: declarative-plugin/buttonsmodel.cpp:84
 #, kde-format
 msgid "Keep below"
-msgstr "Caltener embaxo"
+msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:85
+#: declarative-plugin/buttonsmodel.cpp:86
 #, kde-format
 msgid "Keep above"
-msgstr "Caltener enriba"
+msgstr ""
 
 #: kcm.cpp:140
 #, kde-format
@@ -78,112 +78,112 @@ msgstr ""
 #: kcm.ui:21
 #, kde-format
 msgid "Theme"
-msgstr "Tema"
+msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
 #: kcm.ui:29
 #, kde-format
 msgid "Search"
-msgstr "Guetar"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
 #: kcm.ui:42
 #, kde-format
 msgid "Get New Decorations..."
-msgstr "Consiguir decoraciones nueves..."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
 #: kcm.ui:54
 #, kde-format
 msgid "Close windows by double clicking &the menu button"
-msgstr "Zarrar les ventanes primiendo dos vegaes nel botón de menú"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, borderSizesLabel)
 #: kcm.ui:95
 #, kde-format
 msgid "Border si&ze:"
-msgstr "Tamañu del &berbesu:"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:109
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
-msgstr "Ensin berbesos"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:114
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
-msgstr "Ensin berbesos a los llaos"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:119
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
-msgstr "Nanu"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:124
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
-msgstr "Normal"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:129
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
-msgstr "Grande"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:134
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
-msgstr "Pergrande"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:139
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
-msgstr "Escomanáu"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:144
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
-msgstr "Perescomanáu"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:149
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
-msgstr "Más que perescomanáu"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: kcm.ui:160
 #, kde-format
 msgid "Buttons"
-msgstr "Botones"
+msgstr ""
 
 #: qml/Buttons.qml:77
 #, kde-format
 msgid "Titlebar"
-msgstr "Barra de títulu"
+msgstr ""
 
 #: qml/Buttons.qml:201
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
-msgstr "Arrastra los botones ente equí y la barra de títulu"
+msgstr ""
 
 #: qml/Buttons.qml:216
 #, kde-format
 msgid "Drop here to remove button"
-msgstr "Arrastra haza equí pa desanciar el botón"
+msgstr ""

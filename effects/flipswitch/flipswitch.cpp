@@ -39,7 +39,8 @@ namespace KWin
 {
 
 FlipSwitchEffect::FlipSwitchEffect()
-    : m_currentAnimationShape(QTimeLine::EaseInOutCurve)
+    : m_selectedWindow(nullptr)
+    , m_currentAnimationShape(QTimeLine::EaseInOutCurve)
     , m_active(false)
     , m_start(false)
     , m_stop(false)
@@ -47,6 +48,7 @@ FlipSwitchEffect::FlipSwitchEffect()
     , m_hasKeyboardGrab(false)
     , m_captionFrame(NULL)
 {
+    initConfig<FlipSwitchConfig>();
     reconfigure(ReconfigureAll);
 
     // Caption frame

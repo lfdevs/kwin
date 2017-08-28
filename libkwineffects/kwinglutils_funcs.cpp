@@ -21,26 +21,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kwinglutils.h"
 #include "kwinglplatform.h"
 
-#include <dlfcn.h>
-#if HAVE_EPOXY_GLX
-#include <epoxy/glx.h>
-#endif
-
 
 // Resolves given function, using getProcAddress
-#define GL_RESOLVE( function ) \
-    if (platformInterface == GlxPlatformInterface) \
-        function = (function ## _func)getProcAddress( #function ); \
-    else if (platformInterface == EglPlatformInterface) \
-        function = (function ## _func)eglGetProcAddress( #function );
-// Same as above but tries to use function "symbolName"
 // Useful when functionality is defined in an extension with a different name
 #define GL_RESOLVE_WITH_EXT( function, symbolName ) \
-    if (platformInterface == GlxPlatformInterface) { \
-        function = (function ## _func)getProcAddress( #symbolName ); \
-    } else if (platformInterface == EglPlatformInterface) { \
-        function = (function ## _func)eglGetProcAddress( #symbolName ); \
-    }
+        function = (function ## _func)resolveFunction( #symbolName );
 
 namespace KWin
 {
@@ -50,40 +35,12 @@ static void ReadnPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum 
                         GLenum type, GLsizei bufSize, GLvoid *data);
 static void GetnUniformfv(GLuint program, GLint location, GLsizei bufSize, GLfloat *params);
 
-// GL_MESA_swap_control
-glXSwapIntervalMESA_func glXSwapIntervalMESA;
-
 // GL_ARB_robustness / GL_EXT_robustness
 glGetGraphicsResetStatus_func glGetGraphicsResetStatus;
 glReadnPixels_func            glReadnPixels;
 glGetnUniformfv_func          glGetnUniformfv;
 
-typedef void (*glXFuncPtr)();
-
-static glXFuncPtr getProcAddress(const char* name)
-{
-    glXFuncPtr ret = nullptr;
-#if HAVE_EPOXY_GLX
-    ret = glXGetProcAddress((const GLubyte*) name);
-#endif
-    if (ret == nullptr)
-        ret = (glXFuncPtr) dlsym(RTLD_DEFAULT, name);
-    return ret;
-}
-
-void glxResolveFunctions()
-{
-    if (hasGLExtension(QByteArrayLiteral("GLX_MESA_swap_control")))
-        glXSwapIntervalMESA = (glXSwapIntervalMESA_func) getProcAddress("glXSwapIntervalMESA");
-    else
-        glXSwapIntervalMESA = nullptr;
-}
-
-void eglResolveFunctions()
-{
-}
-
-void glResolveFunctions(OpenGLPlatformInterface platformInterface)
+void glResolveFunctions(std::function<resolveFuncPtr(const char*)> resolveFunction)
 {
     const bool haveArbRobustness = hasGLExtension(QByteArrayLiteral("GL_ARB_robustness"));
     const bool haveExtRobustness = hasGLExtension(QByteArrayLiteral("GL_EXT_robustness"));
@@ -114,9 +71,9 @@ void glResolveFunctions(OpenGLPlatformInterface platformInterface)
         GL_RESOLVE_WITH_EXT(glGetnUniformfv,          glGetnUniformfvARB);
     } else if (robustContext && haveExtRobustness) {
         // See http://www.khronos.org/registry/gles/extensions/EXT/EXT_robustness.txt
-        glGetGraphicsResetStatus = (glGetGraphicsResetStatus_func) eglGetProcAddress("glGetGraphicsResetStatusEXT");
-        glReadnPixels            = (glReadnPixels_func)            eglGetProcAddress("glReadnPixelsEXT");
-        glGetnUniformfv          = (glGetnUniformfv_func)          eglGetProcAddress("glGetnUniformfvEXT");
+        glGetGraphicsResetStatus = (glGetGraphicsResetStatus_func) resolveFunction("glGetGraphicsResetStatusEXT");
+        glReadnPixels            = (glReadnPixels_func)            resolveFunction("glReadnPixelsEXT");
+        glGetnUniformfv          = (glGetnUniformfv_func)          resolveFunction("glGetnUniformfvEXT");
     } else {
         glGetGraphicsResetStatus = KWin::GetGraphicsResetStatus;
         glReadnPixels            = KWin::ReadnPixels;

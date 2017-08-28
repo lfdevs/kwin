@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
+"POT-Creation-Date: 2017-04-27 02:56+0200\n"
 "PO-Revision-Date: ۲۰۱۶-۰۸-۲۰ ۱۶:۵۲+0330\n"
 "Last-Translator: Mohi Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Persian <kde-i18n-fa@kde.org>\n"
@@ -29,39 +29,44 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "mohi@ubuntu.ir, ehsan.abdolahy@gmail.com"
 
-#: module.cpp:50
+#: module.cpp:51
 #, kde-format
 msgid "KWin Scripts"
 msgstr "دست نوشته‌های KWin"
 
-#: module.cpp:52
+#: module.cpp:53
 #, kde-format
 msgid "Configure KWin scripts"
 msgstr "پیکربندی دست‌نوشته‌های KWin"
 
-#: module.cpp:55
+#: module.cpp:56
 #, kde-format
 msgid "Tamás Krutki"
 msgstr "Tamás Krutki"
 
-#: module.cpp:77
+#: module.cpp:85
 #, kde-format
 msgid "Import KWin Script"
 msgstr "وارد کردن دست‌نوشته‌ی KWin..."
 
-#: module.cpp:78
+#: module.cpp:86
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|KWin دست‌نوشته‌ها (*.kwinscript)"
 
-#: module.cpp:87
+#: module.cpp:105
 #, kde-format
+msgctxt "Placeholder is error message returned from the install service"
 msgid ""
-"Cannot import selected script: maybe a script already exists with the same "
-"name or there is a permission problem."
+"Cannot import selected script.\n"
+"%1"
 msgstr ""
-"نمی‌توانید دست‌نوشته‌ی انتخاب شده را وارد کنید: شاید یک دست‌نوشته از قبل با همین "
-"نام وارده کرده‌اید یا یک مشکل مجوز دارید."
+
+#: module.cpp:119
+#, kde-format
+msgctxt "Placeholder is name of the script that was imported"
+msgid "The script \"%1\" was successfully imported."
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Module)
 #: module.ui:14
@@ -70,13 +75,13 @@ msgid "KWin script configuration"
 msgstr "پیکربندی دست‌نوشته‌ی KWin"
 
 #. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
-#: module.ui:41
+#: module.ui:44
 #, kde-format
 msgid "Import KWin script..."
 msgstr "واردات دست‌نوشته‌ی KWin..."
 
-#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
-#: module.ui:48
+#. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
+#: module.ui:51
 #, kde-format
 msgid "Get New Script..."
 msgstr "دریافت دست‌نوشته جدید..."

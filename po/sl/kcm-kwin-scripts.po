@@ -3,13 +3,13 @@
 #
 # Andrej Vernekar <andrej.vernekar@gmail.com>, 2012.
 # Jure Repinc <jlp@holodeck1.com>, 2012.
-# Andrej Mernik <andrejm@ubuntu.si>, 2013.
+# Andrej Mernik <andrejm@ubuntu.si>, 2013, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
-"PO-Revision-Date: 2013-10-05 12:58+0200\n"
+"POT-Creation-Date: 2017-04-27 02:56+0200\n"
+"PO-Revision-Date: 2017-06-04 13:35+0100\n"
 "Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -18,51 +18,58 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Andrej Vernekar"
+msgstr "Andrej Vernekar,Andrej Mernik"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "andrej.vernekar@gmail.com"
+msgstr "andrej.vernekar@gmail.com,andrejm@ubuntu.si"
 
-#: module.cpp:50
+#: module.cpp:51
 #, kde-format
 msgid "KWin Scripts"
 msgstr "Skripti KWin"
 
-#: module.cpp:52
+#: module.cpp:53
 #, kde-format
 msgid "Configure KWin scripts"
 msgstr "Nastavi skripte KWin"
 
-#: module.cpp:55
+#: module.cpp:56
 #, kde-format
 msgid "Tamás Krutki"
 msgstr "Tamás Krutki"
 
-#: module.cpp:77
+#: module.cpp:85
 #, kde-format
 msgid "Import KWin Script"
 msgstr "Uvozi skript KWin"
 
-#: module.cpp:78
+#: module.cpp:86
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|Skripti KWin (*.kwinscript)"
 
-#: module.cpp:87
+#: module.cpp:105
 #, kde-format
+msgctxt "Placeholder is error message returned from the install service"
 msgid ""
-"Cannot import selected script: maybe a script already exists with the same "
-"name or there is a permission problem."
+"Cannot import selected script.\n"
+"%1"
 msgstr ""
-"Izbranega skripta ni mogoče uvoziti: morda skript z enakim imenom že obstaja "
-"ali pa obstaja težava glede dovoljenj."
+"Ni mogoče uvoziti izbranega skripta.\n"
+"%1"
+
+#: module.cpp:119
+#, kde-format
+msgctxt "Placeholder is name of the script that was imported"
+msgid "The script \"%1\" was successfully imported."
+msgstr "Skript »%1« je bil uspešno uvožen."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Module)
 #: module.ui:14
@@ -71,13 +78,13 @@ msgid "KWin script configuration"
 msgstr "Nastavitev skripta KWin"
 
 #. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
-#: module.ui:41
+#: module.ui:44
 #, kde-format
 msgid "Import KWin script..."
 msgstr "Uvozi skript KWin ..."
 
-#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
-#: module.ui:48
+#. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
+#: module.ui:51
 #, kde-format
 msgid "Get New Script..."
 msgstr "Dobi nov skript ..."

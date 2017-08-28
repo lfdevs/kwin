@@ -1,11 +1,11 @@
-# Burkhard Lück <lueck@hube-lueck.de>, 2013.
+# Burkhard Lück <lueck@hube-lueck.de>, 2013, 2017.
 # Frederik Schwarzer <schwarzer@kde.org>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
-"PO-Revision-Date: 2013-10-01 06:28+0200\n"
+"POT-Creation-Date: 2017-04-08 03:04+0200\n"
+"PO-Revision-Date: 2017-05-12 20:43+0100\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -43,7 +43,7 @@ msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
 msgstr "Assertion fehlgeschlagen: Argument ist Null"
 
-#: scripting.cpp:173
+#: scripting.cpp:188
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
@@ -53,7 +53,7 @@ msgstr ""
 "Ungültige Anzahl von Argumenten. Mindestens „Service“, „Pfad“, „Interface“ "
 "und „Methode“ müssen angegeben werden"
 
-#: scripting.cpp:179
+#: scripting.cpp:194
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
@@ -87,20 +87,28 @@ msgid "Second argument to registerScreenEdge needs to be a callback"
 msgstr ""
 "Das zweite Argument für registerScreenEdge muss eine Rückruffunktion sein"
 
-#: scriptingutils.h:185
+#: scriptingutils.h:213
+#, kde-format
+msgctxt "KWin Scripting error thrown due to incorrect argument"
+msgid "Second argument to registerTouchScreenEdge needs to be a callback"
+msgstr ""
+"Das zweite Argument für registerTouchScreenEdge muss eine Rückruffunktion "
+"sein"
+
+#: scriptingutils.h:250
 #, kde-format
 msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Argument for registerUserActionsMenu needs to be a callback"
 msgstr ""
 "Das Argument für registerUserActionsMenu muss eine Rückruffunktion sein"
 
-#: scriptingutils.h:240
+#: scriptingutils.h:305
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1"
 msgstr "Assertion fehlgeschlagen: %1"
 
-#: scriptingutils.h:251
+#: scriptingutils.h:316
 #, kde-format
 msgctxt "Assertion failed in KWin script with expected value and actual value"
 msgid "Assertion failed: Expected %1, got %2"

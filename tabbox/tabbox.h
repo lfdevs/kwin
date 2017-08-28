@@ -75,6 +75,7 @@ public:
     virtual QWeakPointer< TabBoxClient > desktopClient() const;
     virtual void activateAndClose();
     void highlightWindows(TabBoxClient *window = nullptr, QWindow *controller = nullptr) override;
+    bool noModifierGrab() const override;
 
 private:
     bool checkDesktop(TabBoxClient* client, int desktop) const;
@@ -175,8 +176,8 @@ public:
 
     void initShortcuts();
 
-    Client* nextClientStatic(Client*) const;
-    Client* previousClientStatic(Client*) const;
+    AbstractClient* nextClientStatic(AbstractClient*) const;
+    AbstractClient* previousClientStatic(AbstractClient*) const;
     int nextDesktopStatic(int iDesktop) const;
     int previousDesktopStatic(int iDesktop) const;
     void keyPress(int key);
@@ -185,6 +186,10 @@ public:
 
     bool forcedGlobalMouseGrab() const {
         return m_forcedGlobalMouseGrab;
+    }
+
+    bool noModifierGrab() const {
+        return m_noModifierGrab;
     }
 
     static TabBox *self();
@@ -241,6 +246,8 @@ private:
 
     void shadeActivate(AbstractClient *c);
 
+    bool toggleMode(TabBoxMode mode);
+
 private Q_SLOTS:
     void reconfigure();
     void globalShortcutChanged(QAction *action, const QKeySequence &seq);
@@ -276,6 +283,8 @@ private:
     bool m_forcedGlobalMouseGrab;
     bool m_ready; // indicates whether the config is completely loaded
     QList<ElectricBorder> m_borderActivate, m_borderAlternativeActivate;
+    QHash<ElectricBorder, QAction *> m_touchActivate;
+    QHash<ElectricBorder, QAction *> m_touchAlternativeActivate;
 
     static TabBox *s_self;
 };

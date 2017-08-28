@@ -44,9 +44,8 @@ void InputRedirection::registerAxisShortcut(Qt::KeyboardModifiers modifiers, Poi
    Q_UNUSED(action)
 }
 
-void InputRedirection::registerShortcutForGlobalAccelTimestamp(QAction *action)
+void InputRedirection::registerTouchpadSwipeShortcut(SwipeDirection, QAction*)
 {
-    Q_UNUSED(action)
 }
 
 }
@@ -291,7 +290,7 @@ void TestVirtualDesktops::testDirection(const QString &actionName)
     QFETCH(bool, wrap);
     QFETCH(uint, result);
     T functor;
-    QCOMPARE(functor(0, wrap), result);
+    QCOMPARE(functor(nullptr, wrap)->x11DesktopNumber(), result);
 
     vds->setNavigationWrappingAround(wrap);
     vds->initShortcuts();
@@ -484,13 +483,14 @@ void TestVirtualDesktops::updateGrid()
 
     QFETCH(QSize, size);
     QFETCH(Qt::Orientation, orientation);
-    grid.update(size, orientation);
+    QCOMPARE(vds->desktops().count(), int(initCount));
+    grid.update(size, orientation, vds->desktops());
     QCOMPARE(grid.size(), size);
     QCOMPARE(grid.width(), size.width());
     QCOMPARE(grid.height(), size.height());
     QFETCH(QPoint, coords);
     QFETCH(uint, desktop);
-    QCOMPARE(grid.at(coords), desktop);
+    QCOMPARE(grid.at(coords), vds->desktopForX11Id(desktop));
     if (desktop != 0) {
         QCOMPARE(grid.gridCoords(desktop), coords);
     }

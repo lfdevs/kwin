@@ -1,4 +1,4 @@
-# Burkhard Lück <lueck@hube-lueck.de>, 2009, 2013, 2014, 2015.
+# Burkhard Lück <lueck@hube-lueck.de>, 2009, 2013, 2014, 2015, 2017.
 # Thomas Reitelbach <tr@erdfunkstelle.de>, 2009.
 # Johannes Obermayr <johannesobermayr@gmx.de>, 2009, 2010.
 # Frederik Schwarzer <schwarzer@kde.org>, 2012, 2016.
@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
-"PO-Revision-Date: 2016-08-12 12:58+0100\n"
-"Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
+"POT-Creation-Date: 2017-04-08 03:04+0200\n"
+"PO-Revision-Date: 2017-05-12 20:29+0100\n"
+"Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -27,73 +27,73 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "lueck@hube-lueck.de"
 
-#: main.cpp:187
+#: main.cpp:190 touch.cpp:131
 #, kde-format
 msgid "No Action"
 msgstr "Keine Aktion"
 
-#: main.cpp:188
+#: main.cpp:191 touch.cpp:132
 #, kde-format
 msgid "Show Desktop"
 msgstr "Arbeitsfläche anzeigen"
 
-#: main.cpp:189
+#: main.cpp:192 touch.cpp:133
 #, kde-format
 msgid "Lock Screen"
 msgstr "Bildschirm sperren"
 
-#: main.cpp:190
+#: main.cpp:193 touch.cpp:134
 #, kde-format
 msgctxt "Open krunner"
 msgid "Run Command"
 msgstr "Befehl ausführen"
 
-#: main.cpp:191
+#: main.cpp:194 touch.cpp:135
 #, kde-format
 msgid "Activity Manager"
 msgstr "Aktivitätenverwaltung"
 
-#: main.cpp:192
+#: main.cpp:195 touch.cpp:136
 #, kde-format
 msgid "Application Launcher"
 msgstr "Anwendungsstarter"
 
-#: main.cpp:196
+#: main.cpp:199 touch.cpp:140
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - Alle Arbeitsflächen"
 
-#: main.cpp:197
+#: main.cpp:200 touch.cpp:141
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - Aktuelle Arbeitsfläche"
 
-#: main.cpp:198
+#: main.cpp:201 touch.cpp:142
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - Aktuelle Anwendung"
 
-#: main.cpp:201
+#: main.cpp:204 touch.cpp:145
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 - Würfel"
 
-#: main.cpp:202
+#: main.cpp:205 touch.cpp:146
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 - Zylinder"
 
-#: main.cpp:203
+#: main.cpp:206 touch.cpp:147
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 - Kugel"
 
-#: main.cpp:205
+#: main.cpp:208 touch.cpp:149
 #, kde-format
 msgid "Toggle window switching"
 msgstr "Fensterwechsel umschalten"
 
-#: main.cpp:206
+#: main.cpp:209 touch.cpp:150
 #, kde-format
 msgid "Toggle alternative window switching"
 msgstr "Alternativen Fensterwechsel umschalten"
@@ -227,3 +227,13 @@ msgstr ""
 #, kde-format
 msgid "&Reactivation delay:"
 msgstr "&Reaktivierungsverzögerung:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: touch.ui:36
+#, kde-format
+msgid ""
+"To trigger an action swipe from the screen edge towards the center of the "
+"screen."
+msgstr ""
+"Um eine Aktion auszulösen, wischen Sie vom Bildschirmrand in die Mitte des "
+"Bildschirms."

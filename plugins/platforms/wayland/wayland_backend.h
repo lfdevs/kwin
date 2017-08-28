@@ -43,10 +43,15 @@ namespace Client
 class Buffer;
 class ShmPool;
 class Compositor;
+class ConfinedPointer;
 class ConnectionThread;
 class EventQueue;
 class Keyboard;
 class Pointer;
+class PointerConstraints;
+class PointerGestures;
+class PointerSwipeGesture;
+class PointerPinchGesture;
 class Registry;
 class Seat;
 class Shell;
@@ -81,15 +86,29 @@ public:
     bool isInstallCursor() const {
         return m_installCursor;
     }
+
+    KWayland::Client::Pointer *pointer() const {
+        return m_pointer;
+    }
+
+    void installGesturesInterface(KWayland::Client::PointerGestures *gesturesInterface) {
+        m_gesturesInterface = gesturesInterface;
+        setupPointerGestures();
+    }
+
 private:
     void destroyPointer();
     void destroyKeyboard();
     void destroyTouch();
+    void setupPointerGestures();
     KWayland::Client::Seat *m_seat;
     KWayland::Client::Pointer *m_pointer;
     KWayland::Client::Keyboard *m_keyboard;
     KWayland::Client::Touch *m_touch;
     KWayland::Client::Surface *m_cursor;
+    KWayland::Client::PointerGestures *m_gesturesInterface = nullptr;
+    KWayland::Client::PointerPinchGesture *m_pinchGesture = nullptr;
+    KWayland::Client::PointerSwipeGesture *m_swipeGesture = nullptr;
     uint32_t m_enteredSerial;
     WaylandBackend *m_backend;
     bool m_installCursor;
@@ -127,6 +146,8 @@ public:
 
     void flush();
 
+    void togglePointerConfinement();
+
 Q_SIGNALS:
     void shellSurfaceSizeChanged(const QSize &size);
     void systemCompositorDied();
@@ -136,6 +157,7 @@ private:
     void createSurface();
     template <class T>
     void setupSurface(T *surface);
+    void updateWindowTitle();
     wl_display *m_display;
     KWayland::Client::EventQueue *m_eventQueue;
     KWayland::Client::Registry *m_registry;
@@ -148,7 +170,10 @@ private:
     QScopedPointer<WaylandSeat> m_seat;
     KWayland::Client::ShmPool *m_shm;
     KWayland::Client::ConnectionThread *m_connectionThreadObject;
+    KWayland::Client::PointerConstraints *m_pointerConstraints = nullptr;
+    KWayland::Client::ConfinedPointer *m_pointerConfinement = nullptr;
     QThread *m_connectionThread;
+    bool m_isPointerConfined = false;
 };
 
 inline

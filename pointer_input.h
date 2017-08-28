@@ -81,11 +81,27 @@ public:
     void markCursorAsRendered();
     void setEffectsOverrideCursor(Qt::CursorShape shape);
     void removeEffectsOverrideCursor();
+    void setWindowSelectionCursor(const QByteArray &shape);
+    void removeWindowSelectionCursor();
+
+    void enablePointerConstraints();
+    void breakPointerConstraints();
+    void blockPointerConstraints() {
+        m_blockConstraint = true;
+    }
+
+    bool isConstrained() const {
+        return m_confined || m_locked;
+    }
 
     /**
      * @internal
      */
     void processMotion(const QPointF &pos, uint32_t time, LibInput::Device *device = nullptr);
+    /**
+     * @internal
+     **/
+    void processMotion(const QPointF &pos, const QSizeF &delta, const QSizeF &deltaNonAccelerated, uint32_t time, quint64 timeUsec, LibInput::Device *device);
     /**
      * @internal
      */
@@ -129,9 +145,14 @@ public:
 
 private:
     void updateOnStartMoveResize();
+    void updateToReset();
     void updatePosition(const QPointF &pos);
     void updateButton(uint32_t button, InputRedirection::PointerButtonState state);
     void warpXcbOnSurfaceLeft(KWayland::Server::SurfaceInterface *surface);
+    QPointF applyPointerConfinement(const QPointF &pos) const;
+    void disconnectConfinedPointerRegionConnection();
+    void disconnectPointerConstraintsConnection();
+    void breakPointerConstraints(KWayland::Server::SurfaceInterface *surface);
     CursorImage *m_cursor;
     bool m_inited = false;
     bool m_supportsWarping;
@@ -140,6 +161,11 @@ private:
     Qt::MouseButtons m_qtButtons;
     QMetaObject::Connection m_windowGeometryConnection;
     QMetaObject::Connection m_internalWindowConnection;
+    QMetaObject::Connection m_constraintsConnection;
+    QMetaObject::Connection m_confinedPointerRegionConnection;
+    bool m_confined = false;
+    bool m_locked = false;
+    bool m_blockConstraint = false;
 };
 
 class CursorImage : public QObject
@@ -151,6 +177,8 @@ public:
 
     void setEffectsOverrideCursor(Qt::CursorShape shape);
     void removeEffectsOverrideCursor();
+    void setWindowSelectionCursor(const QByteArray &shape);
+    void removeWindowSelectionCursor();
 
     QImage image() const;
     QPoint hotSpot() const;
@@ -174,6 +202,9 @@ private:
         QPoint hotSpot;
     };
     void loadThemeCursor(Qt::CursorShape shape, Image *image);
+    void loadThemeCursor(const QByteArray &shape, Image *image);
+    template <typename T>
+    void loadThemeCursor(const T &shape, QHash<T, Image> &cursors, Image *image);
 
     enum class CursorSource {
         LockScreen,
@@ -182,7 +213,8 @@ private:
         PointerSurface,
         Decoration,
         DragAndDrop,
-        Fallback
+        Fallback,
+        WindowSelector
     };
     void setSource(CursorSource source);
 
@@ -200,7 +232,9 @@ private:
     QMetaObject::Connection m_decorationConnection;
     Image m_fallbackCursor;
     Image m_moveResizeCursor;
+    Image m_windowSelectionCursor;
     QHash<Qt::CursorShape, Image> m_cursors;
+    QHash<QByteArray, Image> m_cursorsByName;
     QElapsedTimer m_surfaceRenderedTimer;
     struct {
         Image cursor;

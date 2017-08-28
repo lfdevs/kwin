@@ -63,7 +63,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #include "composite.h"
-#include "killwindow.h"
 #include "x11eventfilter.h"
 
 #include "wayland_server.h"
@@ -182,7 +181,7 @@ QVector<QByteArray> s_xcbEerrors({
 
 void Workspace::registerEventFilter(X11EventFilter *filter)
 {
-    if (filter->eventType() == XCB_GE_GENERIC)
+    if (filter->isGenericEvent())
         m_genericEventFilters.append(filter);
     else
         m_eventFilters.append(filter);
@@ -190,7 +189,7 @@ void Workspace::registerEventFilter(X11EventFilter *filter)
 
 void Workspace::unregisterEventFilter(X11EventFilter *filter)
 {
-    if (filter->eventType() == XCB_GE_GENERIC)
+    if (filter->isGenericEvent())
         m_genericEventFilters.removeOne(filter);
     else
         m_eventFilters.removeOne(filter);
@@ -243,7 +242,7 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
         }
     } else {
         foreach (X11EventFilter *filter, m_eventFilters) {
-            if (filter->eventType() == eventType && filter->event(e)) {
+            if (filter->eventTypes().contains(eventType) && filter->event(e)) {
                 return true;
             }
         }
@@ -252,12 +251,6 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
     if (effects && static_cast< EffectsHandlerImpl* >(effects)->hasKeyboardGrab()
             && (eventType == XCB_KEY_PRESS || eventType == XCB_KEY_RELEASE))
         return false; // let Qt process it, it'll be intercepted again in eventFilter()
-
-    if (!m_windowKiller.isNull() && m_windowKiller->isActive() && m_windowKiller->isResponsibleForEvent(eventType)) {
-        m_windowKiller->processEvent(e);
-        // filter out the event
-        return true;
-    }
 
     if (eventType == XCB_PROPERTY_NOTIFY || eventType == XCB_CLIENT_MESSAGE) {
         NET::Properties dirtyProtocols;
@@ -651,6 +644,9 @@ bool Client::windowEvent(xcb_generic_event_t *e)
         if (dirtyProperties2 & NET::WM2OpaqueRegion) {
             getWmOpaqueRegion();
         }
+        if (dirtyProperties2 & NET::WM2DesktopFileName) {
+            setDesktopFileName(QByteArray(info->desktopFileName()));
+        }
     }
 
     const uint8_t eventType = e->response_type & ~0x80;
@@ -927,6 +923,10 @@ void Client::propertyNotifyEvent(xcb_property_notify_event_t *e)
             updateShowOnScreenEdge();
         else if (e->atom == atoms->gtk_frame_extents)
             detectGtkFrameExtents();
+        else if (e->atom == atoms->kde_net_wm_appmenu_service_name)
+            checkApplicationMenuServiceName();
+        else if (e->atom == atoms->kde_net_wm_appmenu_object_path)
+            checkApplicationMenuObjectPath();
         break;
     }
 }

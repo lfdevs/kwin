@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
+"POT-Creation-Date: 2017-04-27 02:56+0200\n"
 "PO-Revision-Date: 2015-04-20 13:25+0300\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -29,39 +29,44 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "onet.cristian@gmail.com"
 
-#: module.cpp:50
+#: module.cpp:51
 #, kde-format
 msgid "KWin Scripts"
 msgstr "Scripturi KWin"
 
-#: module.cpp:52
+#: module.cpp:53
 #, kde-format
 msgid "Configure KWin scripts"
 msgstr "Configurează scripturi KWin"
 
-#: module.cpp:55
+#: module.cpp:56
 #, kde-format
 msgid "Tamás Krutki"
 msgstr "Tamás Krutki"
 
-#: module.cpp:77
+#: module.cpp:85
 #, kde-format
 msgid "Import KWin Script"
 msgstr "Importă script KWin"
 
-#: module.cpp:78
+#: module.cpp:86
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|Scripturi KWin (*.kwinscript)"
 
-#: module.cpp:87
+#: module.cpp:105
 #, kde-format
+msgctxt "Placeholder is error message returned from the install service"
 msgid ""
-"Cannot import selected script: maybe a script already exists with the same "
-"name or there is a permission problem."
+"Cannot import selected script.\n"
+"%1"
 msgstr ""
-"Nu s-a putut importa scriptul selectat: este posibil să existe deja un "
-"script cu același nume sau este o problemă de acces."
+
+#: module.cpp:119
+#, kde-format
+msgctxt "Placeholder is name of the script that was imported"
+msgid "The script \"%1\" was successfully imported."
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Module)
 #: module.ui:14
@@ -70,13 +75,13 @@ msgid "KWin script configuration"
 msgstr "Configurație script KWin"
 
 #. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
-#: module.ui:41
+#: module.ui:44
 #, kde-format
 msgid "Import KWin script..."
 msgstr "Importă script KWin..."
 
-#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
-#: module.ui:48
+#. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
+#: module.ui:51
 #, kde-format
 msgid "Get New Script..."
 msgstr "Obține script nou..."

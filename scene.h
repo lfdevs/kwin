@@ -173,7 +173,7 @@ protected:
     void clearStackingOrder();
     // shared implementation, starts painting the screen
     void paintScreen(int *mask, const QRegion &damage, const QRegion &repaint,
-                     QRegion *updateRegion, QRegion *validRegion, const QMatrix4x4 &projection = QMatrix4x4());
+                     QRegion *updateRegion, QRegion *validRegion, const QMatrix4x4 &projection = QMatrix4x4(), const QRect &outputGeometry = QRect());
     friend class EffectsHandlerImpl;
     // called after all effects had their paintScreen() called
     void finalPaintScreen(int mask, QRegion region, ScreenPaintData& data);
@@ -289,7 +289,7 @@ public:
     void referencePreviousPixmap();
     void unreferencePreviousPixmap();
 protected:
-    WindowQuadList makeQuads(WindowQuadType type, const QRegion& reg, const QPoint &textureOffset = QPoint(0, 0)) const;
+    WindowQuadList makeQuads(WindowQuadType type, const QRegion& reg, const QPoint &textureOffset = QPoint(0, 0), qreal textureScale = 1.0) const;
     WindowQuadList makeDecorationQuads(const QRect *rects, const QRegion &region) const;
     /**
      * @brief Returns the WindowPixmap for this Window.

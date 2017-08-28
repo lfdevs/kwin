@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../atoms.h"
 #include "../cursor.h"
 #include "../input.h"
+#include "../gestures.h"
 #include "../main.h"
 #include "../screenedge.h"
 #include "../screens.h"
@@ -35,6 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KConfigGroup>
 // Qt
 #include <QtTest/QtTest>
+#include <QX11Info>
 // xcb
 #include <xcb/xcb.h>
 Q_DECLARE_METATYPE(KWin::ElectricBorder)
@@ -86,9 +88,8 @@ void InputRedirection::registerAxisShortcut(Qt::KeyboardModifiers modifiers, Poi
    Q_UNUSED(action)
 }
 
-void InputRedirection::registerShortcutForGlobalAccelTimestamp(QAction *action)
+void InputRedirection::registerTouchpadSwipeShortcut(SwipeDirection, QAction*)
 {
-    Q_UNUSED(action)
 }
 
 void updateXTime()
@@ -128,6 +129,9 @@ private Q_SLOTS:
     void testPushBack();
     void testFullScreenBlocking();
     void testClientEdge();
+    void testTouchEdge();
+    void testTouchCallback_data();
+    void testTouchCallback();
 };
 
 void TestScreenEdges::initTestCase()
@@ -301,13 +305,6 @@ void TestScreenEdges::testCreatingInitialEdges()
     // approach windows for edges not created as screen too small
     s->updateLayout();
     auto edgeWindows = s->windows();
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
-#if (QT_VERSION < QT_VERSION_CHECK(5, 6, 1))
-    if (!Xcb::Extensions::self()->isRandrAvailable()) {
-        QEXPECT_FAIL("", "Broken on no xrandr systems in Qt 5.5", Abort);
-    }
-#endif
-#endif
     QCOMPARE(edgeWindows.size(), 12);
 
     auto testWindowGeometry = [&](int index) {
@@ -341,6 +338,8 @@ void TestScreenEdges::testCreatingInitialEdges()
     QCOMPARE(edges.size(), 8);
     for (auto e : edges) {
         QVERIFY(e->isReserved());
+        QCOMPARE(e->activatesForPointer(), true);
+        QCOMPARE(e->activatesForTouchGesture(), false);
     }
 
     static_cast<MockScreens*>(screens())->setGeometries(QList<QRect>{QRect{0, 0, 1024, 768}});
@@ -389,8 +388,31 @@ void TestScreenEdges::testCreatingInitialEdges()
     for (int i = 0; i < 8; ++i) {
         auto e = edges.at(i);
         QVERIFY(!e->isReserved());
+        QCOMPARE(e->activatesForPointer(), false);
+        QCOMPARE(e->activatesForTouchGesture(), false);
         QCOMPARE(e->approachGeometry(), expectedGeometries.at(i*2+1));
     }
+
+    // let's start a move of window.
+    Client client(workspace());
+    workspace()->setMovingClient(&client);
+    for (int i = 0; i < 8; ++i) {
+        auto e = edges.at(i);
+        QVERIFY(!e->isReserved());
+        QCOMPARE(e->activatesForPointer(), true);
+        QCOMPARE(e->activatesForTouchGesture(), false);
+        QCOMPARE(e->approachGeometry(), expectedGeometries.at(i*2+1));
+    }
+    // not for resize
+    client.setResize(true);
+    for (int i = 0; i < 8; ++i) {
+        auto e = edges.at(i);
+        QVERIFY(!e->isReserved());
+        QCOMPARE(e->activatesForPointer(), false);
+        QCOMPARE(e->activatesForTouchGesture(), false);
+        QCOMPARE(e->approachGeometry(), expectedGeometries.at(i*2+1));
+    }
+    workspace()->setMovingClient(nullptr);
 }
 
 void TestScreenEdges::testCallback()
@@ -422,17 +444,12 @@ void TestScreenEdges::testCallback()
     QCOMPARE(edges.size(), 10);
     for (auto e: edges) {
         QVERIFY(e->isReserved());
+        QCOMPARE(e->activatesForPointer(), true);
+        QCOMPARE(e->activatesForTouchGesture(), false);
     }
     auto it = std::find_if(edges.constBegin(), edges.constEnd(), [](Edge *e) {
         return e->isScreenEdge() && e->isLeft() && e->approachGeometry().bottom() < 768;
     });
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
-#if (QT_VERSION < QT_VERSION_CHECK(5, 6, 1))
-    if (!Xcb::Extensions::self()->isRandrAvailable()) {
-        QEXPECT_FAIL("", "Broken on no xrandr systems in Qt 5.5", Abort);
-    }
-#endif
-#endif
     QVERIFY(it != edges.constEnd());
 
     xcb_enter_notify_event_t event;
@@ -537,6 +554,8 @@ void TestScreenEdges::testCallback()
     s->unreserve(ElectricLeft, &callback);
     for (auto e: s->findChildren<Edge*>(QString(), Qt::FindDirectChildrenOnly)) {
         QVERIFY(!e->isReserved());
+        QCOMPARE(e->activatesForPointer(), false);
+        QCOMPARE(e->activatesForTouchGesture(), false);
     }
 }
 
@@ -654,8 +673,13 @@ void TestScreenEdges::testFullScreenBlocking()
     QVERIFY(spy.isValid());
     s->reserve(KWin::ElectricLeft, &callback, "callback");
     s->reserve(KWin::ElectricBottomRight, &callback, "callback");
+    QAction action;
+    s->reserveTouch(KWin::ElectricRight, &action);
     // currently there is no active client yet, so check blocking shouldn't do anything
     emit s->checkBlocking();
+    for (auto e: s->findChildren<Edge*>()) {
+        QCOMPARE(e->activatesForTouchGesture(), e->border() == KWin::ElectricRight);
+    }
 
     xcb_enter_notify_event_t event;
     Cursor::setPos(0, 50);
@@ -680,6 +704,7 @@ void TestScreenEdges::testFullScreenBlocking()
     // the signal doesn't trigger for corners, let's go over all windows just to be sure that it doesn't call for corners
     for (auto e: s->findChildren<Edge*>()) {
         e->checkBlocking();
+        QCOMPARE(e->activatesForTouchGesture(), false);
     }
     // calling again should not trigger
     QTest::qWait(160);
@@ -693,6 +718,9 @@ void TestScreenEdges::testFullScreenBlocking()
     // let's make the client not fullscreen, which should trigger
     client.setFullScreen(false);
     emit s->checkBlocking();
+    for (auto e: s->findChildren<Edge*>()) {
+        QCOMPARE(e->activatesForTouchGesture(), e->border() == KWin::ElectricRight);
+    }
     event.time = QDateTime::currentMSecsSinceEpoch();
     QVERIFY(s->isEntered(&event));
     QVERIFY(!spy.isEmpty());
@@ -750,13 +778,11 @@ void TestScreenEdges::testClientEdge()
 
     s->reserve(&client, KWin::ElectricBottom);
 
-    // let's set the client to be hidden
-    client.setHiddenInternal(true);
     QPointer<Edge> edge = s->findChildren<Edge*>().last();
 
-    s->reserve(&client, KWin::ElectricBottom);
-    QCOMPARE(edge.data(), s->findChildren<Edge*>().last());
     QCOMPARE(edge->isReserved(), true);
+    QCOMPARE(edge->activatesForPointer(), true);
+    QCOMPARE(edge->activatesForTouchGesture(), true);
 
     //remove old reserves and resize to be in the middle of the screen
     s->reserve(&client, KWin::ElectricNone);
@@ -860,6 +886,185 @@ void TestScreenEdges::testClientEdge()
     QCOMPARE(client.keepBelow(), false);
     QCOMPARE(client.isHiddenInternal(), false);
     QCOMPARE(Cursor::pos(), QPoint(1, 50));
+}
+
+void TestScreenEdges::testTouchEdge()
+{
+    qRegisterMetaType<KWin::ElectricBorder>("ElectricBorder");
+    using namespace KWin;
+    auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
+    auto group = config->group("TouchEdges");
+    group.writeEntry("Top", "krunner");
+    group.writeEntry("Left", "krunner");
+    group.writeEntry("Bottom", "krunner");
+    group.writeEntry("Right", "krunner");
+    config->sync();
+
+    auto s = ScreenEdges::self();
+    s->setConfig(config);
+    s->init();
+    // we don't have multiple desktops, so it's returning false
+    QCOMPARE(s->isDesktopSwitching(), false);
+    QCOMPARE(s->isDesktopSwitchingMovingClients(), false);
+    QCOMPARE(s->actionTopLeft(), ElectricBorderAction::ElectricActionNone);
+    QCOMPARE(s->actionTop(), ElectricBorderAction::ElectricActionNone);
+    QCOMPARE(s->actionTopRight(), ElectricBorderAction::ElectricActionNone);
+    QCOMPARE(s->actionRight(), ElectricBorderAction::ElectricActionNone);
+    QCOMPARE(s->actionBottomRight(), ElectricBorderAction::ElectricActionNone);
+    QCOMPARE(s->actionBottom(), ElectricBorderAction::ElectricActionNone);
+    QCOMPARE(s->actionBottomLeft(), ElectricBorderAction::ElectricActionNone);
+    QCOMPARE(s->actionLeft(), ElectricBorderAction::ElectricActionNone);
+
+    QList<Edge*> edges = s->findChildren<Edge*>(QString(), Qt::FindDirectChildrenOnly);
+    QCOMPARE(edges.size(), 8);
+    for (auto e : edges) {
+        QCOMPARE(e->isReserved(), e->isScreenEdge());
+        QCOMPARE(e->activatesForPointer(), false);
+        QCOMPARE(e->activatesForTouchGesture(), e->isScreenEdge());
+    }
+
+    // try to activate the edge through pointer, should not be possible
+    auto it = std::find_if(edges.constBegin(), edges.constEnd(), [](Edge *e) {
+        return e->isScreenEdge() && e->isLeft();
+    });
+    QVERIFY(it != edges.constEnd());
+
+    QSignalSpy approachingSpy(s, &ScreenEdges::approaching);
+    QVERIFY(approachingSpy.isValid());
+
+    xcb_enter_notify_event_t event;
+    auto setPos = [&event] (const QPoint &pos) {
+        Cursor::setPos(pos);
+        event.root_x = pos.x();
+        event.root_y = pos.y();
+        event.event_x = pos.x();
+        event.event_y = pos.y();
+    };
+    event.root = XCB_WINDOW_NONE;
+    event.child = XCB_WINDOW_NONE;
+    event.event = (*it)->window();
+    event.same_screen_focus = 1;
+    event.time = QDateTime::currentMSecsSinceEpoch();
+    setPos(QPoint(0, 50));
+    QCOMPARE(s->isEntered(&event), false);
+    QVERIFY(approachingSpy.isEmpty());
+    // let's also verify the check
+    s->check(QPoint(0, 50), QDateTime::currentDateTime(), false);
+    QVERIFY(approachingSpy.isEmpty());
+
+    s->gestureRecognizer()->startSwipeGesture(QPoint(0, 50));
+    QCOMPARE(approachingSpy.count(), 1);
+    s->gestureRecognizer()->cancelSwipeGesture();
+    QCOMPARE(approachingSpy.count(), 2);
+
+    // let's reconfigure
+    group.writeEntry("Top", "none");
+    group.writeEntry("Left", "none");
+    group.writeEntry("Bottom", "none");
+    group.writeEntry("Right", "none");
+    config->sync();
+    s->reconfigure();
+
+    edges = s->findChildren<Edge*>(QString(), Qt::FindDirectChildrenOnly);
+    QCOMPARE(edges.size(), 8);
+    for (auto e : edges) {
+        QCOMPARE(e->isReserved(), false);
+        QCOMPARE(e->activatesForPointer(), false);
+        QCOMPARE(e->activatesForTouchGesture(), false);
+    }
+
+}
+
+void TestScreenEdges::testTouchCallback_data()
+{
+    QTest::addColumn<KWin::ElectricBorder>("border");
+    QTest::addColumn<QPoint>("startPos");
+    QTest::addColumn<QSizeF>("delta");
+
+    QTest::newRow("left") << KWin::ElectricLeft << QPoint(0, 50) << QSizeF(250, 20);
+    QTest::newRow("top") << KWin::ElectricTop << QPoint(50, 0) << QSizeF(20, 250);
+    QTest::newRow("right") << KWin::ElectricRight << QPoint(99, 50) << QSizeF(-200, 0);
+    QTest::newRow("bottom") << KWin::ElectricBottom << QPoint(50, 99) << QSizeF(0, -200);
+}
+
+void TestScreenEdges::testTouchCallback()
+{
+    qRegisterMetaType<KWin::ElectricBorder>("ElectricBorder");
+    using namespace KWin;
+    auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
+    auto group = config->group("TouchEdges");
+    group.writeEntry("Top", "none");
+    group.writeEntry("Left", "none");
+    group.writeEntry("Bottom", "none");
+    group.writeEntry("Right", "none");
+    config->sync();
+
+    auto s = ScreenEdges::self();
+    s->setConfig(config);
+    s->init();
+
+    // none of our actions should be reserved
+    const QList<Edge*> edges = s->findChildren<Edge*>(QString(), Qt::FindDirectChildrenOnly);
+    QCOMPARE(edges.size(), 8);
+    for (auto e : edges) {
+        QCOMPARE(e->isReserved(), false);
+        QCOMPARE(e->activatesForPointer(), false);
+        QCOMPARE(e->activatesForTouchGesture(), false);
+    }
+
+    // let's reserve an action
+    QAction action;
+    QSignalSpy actionTriggeredSpy(&action, &QAction::triggered);
+    QVERIFY(actionTriggeredSpy.isValid());
+    QSignalSpy approachingSpy(s, &ScreenEdges::approaching);
+    QVERIFY(approachingSpy.isValid());
+
+    // reserve on edge
+    QFETCH(KWin::ElectricBorder, border);
+    s->reserveTouch(border, &action);
+    for (auto e : edges) {
+        QCOMPARE(e->isReserved(), e->border() == border);
+        QCOMPARE(e->activatesForPointer(), false);
+        QCOMPARE(e->activatesForTouchGesture(), e->border() == border);
+    }
+
+    QVERIFY(approachingSpy.isEmpty());
+    QFETCH(QPoint, startPos);
+    QCOMPARE(s->gestureRecognizer()->startSwipeGesture(startPos), 1);
+    QVERIFY(actionTriggeredSpy.isEmpty());
+    QCOMPARE(approachingSpy.count(), 1);
+    QFETCH(QSizeF, delta);
+    s->gestureRecognizer()->updateSwipeGesture(delta);
+    QCOMPARE(approachingSpy.count(), 2);
+    QVERIFY(actionTriggeredSpy.isEmpty());
+    s->gestureRecognizer()->endSwipeGesture();
+    QVERIFY(actionTriggeredSpy.wait());
+    QCOMPARE(actionTriggeredSpy.count(), 1);
+    QCOMPARE(approachingSpy.count(), 3);
+
+    // unreserve again
+    s->unreserveTouch(border, &action);
+    for (auto e : edges) {
+        QCOMPARE(e->isReserved(), false);
+        QCOMPARE(e->activatesForPointer(), false);
+        QCOMPARE(e->activatesForTouchGesture(), false);
+    }
+
+    // reserve another action
+    QScopedPointer<QAction> action2(new QAction);
+    s->reserveTouch(border, action2.data());
+    for (auto e : edges) {
+        QCOMPARE(e->isReserved(), e->border() == border);
+        QCOMPARE(e->activatesForPointer(), false);
+        QCOMPARE(e->activatesForTouchGesture(), e->border() == border);
+    }
+    // and unreserve by destroying
+    action2.reset();
+    for (auto e : edges) {
+        QCOMPARE(e->isReserved(), false);
+        QCOMPARE(e->activatesForPointer(), false);
+        QCOMPARE(e->activatesForTouchGesture(), false);
+    }
 }
 
 Q_CONSTRUCTOR_FUNCTION(forceXcb)

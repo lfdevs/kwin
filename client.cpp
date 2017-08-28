@@ -39,6 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KDecoration2/Decoration>
 #include <KDecoration2/DecoratedClient>
 // KDE
+#include <KLocalizedString>
 #include <KWindowSystem>
 #include <KColorScheme>
 // Qt
@@ -119,7 +120,7 @@ Client::Client()
     , shade_geometry_change(false)
     , sm_stacking_order(-1)
     , activitiesDefined(false)
-    , needsSessionInteract(false)
+    , sessionActivityOverride(false)
     , needsXWindowMove(false)
     , m_decoInputExtent()
     , m_focusOutTimer(nullptr)
@@ -1124,14 +1125,24 @@ void Client::pingWindow()
     ping_timer = new QTimer(this);
     connect(ping_timer, &QTimer::timeout, this,
         [this]() {
-            qCDebug(KWIN_CORE) << "Ping timeout:" << caption();
-            ping_timer->deleteLater();
-            ping_timer = nullptr;
-            killProcess(true, m_pingTimestamp);
+            if (unresponsive()) {
+                qCDebug(KWIN_CORE) << "Final ping timeout, asking to kill:" << caption();
+                ping_timer->deleteLater();
+                ping_timer = nullptr;
+                killProcess(true, m_pingTimestamp);
+                return;
+            }
+
+            qCDebug(KWIN_CORE) << "First ping timeout:" << caption();
+
+            setUnresponsive(true);
+            ping_timer->start();
         }
     );
     ping_timer->setSingleShot(true);
-    ping_timer->start(options->killPingTimeout());
+    // we'll run the timer twice, at first we'll desaturate the window
+    // and the second time we'll show the "do you want to kill" prompt
+    ping_timer->start(options->killPingTimeout() / 2);
     m_pingTimestamp = xTime();
     workspace()->sendPingToWindow(window(), m_pingTimestamp);
 }
@@ -1143,6 +1154,9 @@ void Client::gotPing(xcb_timestamp_t timestamp)
         return;
     delete ping_timer;
     ping_timer = NULL;
+
+    setUnresponsive(false);
+
     if (m_killHelperPID && !::kill(m_killHelperPID, 0)) { // means the process is alive
         ::kill(m_killHelperPID, SIGTERM);
         m_killHelperPID = 0;
@@ -1169,7 +1183,7 @@ void Client::killProcess(bool ask, xcb_timestamp_t timestamp)
         QString hostname = clientMachine()->isLocal() ? QStringLiteral("localhost") : QString::fromUtf8(clientMachine()->hostName());
         QProcess::startDetached(QStringLiteral(KWIN_KILLER_BIN),
                                 QStringList() << QStringLiteral("--pid") << QString::number(unsigned(pid)) << QStringLiteral("--hostname") << hostname
-                                << QStringLiteral("--windowname") << caption()
+                                << QStringLiteral("--windowname") << caption(false /*full*/)
                                 << QStringLiteral("--applicationname") << QString::fromUtf8(resourceClass())
                                 << QStringLiteral("--wid") << QString::number(window())
                                 << QStringLiteral("--timestamp") << QString::number(timestamp),
@@ -1306,27 +1320,13 @@ void Client::updateActivities(bool includeTransients)
 }
 
 /**
- * Returns the virtual desktop within the workspace() the client window
- * is located in, 0 if it isn't located on any special desktop (not mapped yet),
- * or NET::OnAllDesktops. Do not use desktop() directly, use
- * isOnDesktop() instead.
- */
-int Client::desktop() const
-{
-    if (needsSessionInteract) {
-        return NET::OnAllDesktops;
-    }
-    return AbstractClient::desktop();
-}
-
-/**
  * Returns the list of activities the client window is on.
  * if it's on all activities, the list will be empty.
  * Don't use this, use isOnActivity() and friends (from class Toplevel)
  */
 QStringList Client::activities() const
 {
-    if (needsSessionInteract) {
+    if (sessionActivityOverride) {
         return QStringList();
     }
     return activityList;
@@ -1536,8 +1536,13 @@ void Client::fetchIconicName()
 QString Client::caption(bool full, bool stripped) const
 {
     QString cap = stripped ? cap_deco : cap_normal;
-    if (full)
+    if (full) {
         cap += cap_suffix;
+        if (unresponsive()) {
+            cap += QLatin1String(" ");
+            cap += i18nc("Application is not responding, appended to window title", "(Not Responding)");
+        }
+    }
     return cap;
 }
 
@@ -1683,6 +1688,11 @@ void Client::getMotifHints()
 void Client::getIcons()
 {
     // First read icons from the window itself
+    const QString themedIconName = iconFromDesktopFile();
+    if (!themedIconName.isEmpty()) {
+        setIcon(QIcon::fromTheme(themedIconName));
+        return;
+    }
     QIcon icon;
     auto readIcon = [this, &icon](int size, bool scale = true) {
         const QPixmap pix = KWindowSystem::icon(window(), size, size, scale, KWindowSystem::NETWM | KWindowSystem::WMHints, info);
@@ -1949,9 +1959,10 @@ void Client::checkActivities()
 #endif
 }
 
-void Client::setSessionInteract(bool needed)
+void Client::setSessionActivityOverride(bool needed)
 {
-    needsSessionInteract = needed;
+    sessionActivityOverride = needed;
+    updateActivities(false);
 }
 
 QRect Client::decorationRect() const
@@ -2061,6 +2072,7 @@ void Client::readShowOnScreenEdge(Xcb::Property &property)
     }
     if (border != ElectricNone) {
         disconnect(m_edgeRemoveConnection);
+        disconnect(m_edgeGeometryTrackingConnection);
         bool successfullyHidden = false;
 
         if (((value >> 8) & 0xFF) == 1) {
@@ -2076,8 +2088,9 @@ void Client::readShowOnScreenEdge(Xcb::Property &property)
             hideClient(true);
             successfullyHidden = isHiddenInternal();
 
-            m_edgeRemoveConnection = connect(this, &Client::geometryChanged, this, [this](){
-                ScreenEdges::self()->reserve(this, ElectricNone);
+            m_edgeGeometryTrackingConnection = connect(this, &Client::geometryChanged, this, [this, border](){
+                hideClient(true);
+                ScreenEdges::self()->reserve(this, border);
             });
         }
 
@@ -2095,6 +2108,7 @@ void Client::readShowOnScreenEdge(Xcb::Property &property)
         // TODO: add proper unreserve
 
         //this will call showOnScreenEdge to reset the state
+        disconnect(m_edgeGeometryTrackingConnection);
         ScreenEdges::self()->reserve(this, ElectricNone);
     }
 }
@@ -2145,6 +2159,38 @@ void Client::updateTabGroupStates(TabGroup::States states)
 QSize Client::resizeIncrements() const
 {
     return m_geometryHints.resizeIncrements();
+}
+
+Xcb::StringProperty Client::fetchApplicationMenuServiceName() const
+{
+    return Xcb::StringProperty(m_client, atoms->kde_net_wm_appmenu_service_name);
+}
+
+void Client::readApplicationMenuServiceName(Xcb::StringProperty &property)
+{
+    updateApplicationMenuServiceName(QString::fromUtf8(property));
+}
+
+void Client::checkApplicationMenuServiceName()
+{
+    Xcb::StringProperty property = fetchApplicationMenuServiceName();
+    readApplicationMenuServiceName(property);
+}
+
+Xcb::StringProperty Client::fetchApplicationMenuObjectPath() const
+{
+    return Xcb::StringProperty(m_client, atoms->kde_net_wm_appmenu_object_path);
+}
+
+void Client::readApplicationMenuObjectPath(Xcb::StringProperty &property)
+{
+    updateApplicationMenuObjectPath(QString::fromUtf8(property));
+}
+
+void Client::checkApplicationMenuObjectPath()
+{
+    Xcb::StringProperty property = fetchApplicationMenuObjectPath();
+    readApplicationMenuObjectPath(property);
 }
 
 } // namespace

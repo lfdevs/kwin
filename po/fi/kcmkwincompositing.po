@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
+"POT-Creation-Date: 2017-04-05 02:49+0200\n"
 "PO-Revision-Date: 2016-10-02 13:56+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -41,28 +41,28 @@ msgstr ""
 "tpr@d5k.net, mikko.piippo@helsinki.fi, translator@legisign.org, karvonen."
 "jorma@gmail.com"
 
-#: compositing.cpp:401
+#: compositing.cpp:378
 #, kde-format
 msgid "OpenGL 3.1"
 msgstr "OpenGL 3.1"
 
-#: compositing.cpp:402
+#: compositing.cpp:379
 #, kde-format
 msgid "OpenGL 2.0"
 msgstr "OpenGL 2.0"
 
-#: compositing.cpp:403
+#: compositing.cpp:380
 #, kde-format
 msgid "XRender"
 msgstr "XRender"
 
-#: compositing.cpp:502
+#: compositing.cpp:479
 #, kde-format
 msgctxt "OpenGL Platform Interface"
 msgid "EGL"
 msgstr "EGL"
 
-#: compositing.cpp:504
+#: compositing.cpp:481
 #, kde-format
 msgctxt "OpenGL Platform Interface"
 msgid "GLX"
@@ -224,20 +224,8 @@ msgstr "Vain näytetyille ikkunoille"
 msgid "Always"
 msgstr "Aina"
 
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:275
-#, kde-format
-msgid "Experimental:"
-msgstr "Kokeellinen:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:282
-#, kde-format
-msgid "Enable color correction"
-msgstr "Käytä värinkorjausta"
-
 #. i18n: ectx: property (toolTip), widget (QCheckBox, windowsBlockCompositing)
-#: compositing.ui:291
+#: compositing.ui:277
 #, kde-format
 msgid ""
 "Applications can set a hint to block compositing when the window is open.\n"
@@ -249,7 +237,7 @@ msgstr ""
 " Asetuksen voi kiertää ikkunakohtaisella säännöllä."
 
 #. i18n: ectx: property (text), widget (QCheckBox, windowsBlockCompositing)
-#: compositing.ui:294
+#: compositing.ui:280
 #, kde-format
 msgid "Allow applications to block compositing"
 msgstr "Salli sovellusten estää koostaminen"
@@ -369,6 +357,12 @@ msgstr "Ohita sisäiset työpöytätehosteet"
 #, kde-format
 msgid "Get New Effects ..."
 msgstr "Hae uusia tehosteita…"
+
+
+
+
+
+
 
 
 

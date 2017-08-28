@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
-"PO-Revision-Date: 2014-02-11 11:31+0100\n"
+"POT-Creation-Date: 2017-04-05 02:49+0200\n"
+"PO-Revision-Date: 2017-08-18 18:09+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
 "Language: eu\n"
@@ -34,28 +34,28 @@ msgid "Your emails"
 msgstr ""
 "marcos@euskalgnu.org,asieriko@gmail.com,xalba@euskalnet.net,hizpol@ej-gv.es"
 
-#: compositing.cpp:401
+#: compositing.cpp:378
 #, kde-format
 msgid "OpenGL 3.1"
 msgstr "OpenGL 3.1"
 
-#: compositing.cpp:402
+#: compositing.cpp:379
 #, kde-format
 msgid "OpenGL 2.0"
 msgstr "OpenGL 2.0"
 
-#: compositing.cpp:403
+#: compositing.cpp:380
 #, kde-format
 msgid "XRender"
 msgstr "XRender"
 
-#: compositing.cpp:502
+#: compositing.cpp:479
 #, kde-format
 msgctxt "OpenGL Platform Interface"
 msgid "EGL"
 msgstr ""
 
-#: compositing.cpp:504
+#: compositing.cpp:481
 #, kde-format
 msgctxt "OpenGL Platform Interface"
 msgid "GLX"
@@ -221,21 +221,8 @@ msgstr "Soilik bistaratzen diren leihoetarako"
 msgid "Always"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#: compositing.ui:275
-#, kde-format
-msgid "Experimental:"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, colorCorrection)
-#: compositing.ui:282
-#, fuzzy, kde-format
-#| msgid "Enable color correction (experimental)"
-msgid "Enable color correction"
-msgstr "Gaitu kolore-zuzenketa (esperimentala)"
-
 #. i18n: ectx: property (toolTip), widget (QCheckBox, windowsBlockCompositing)
-#: compositing.ui:291
+#: compositing.ui:277
 #, kde-format
 msgid ""
 "Applications can set a hint to block compositing when the window is open.\n"
@@ -244,7 +231,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, windowsBlockCompositing)
-#: compositing.ui:294
+#: compositing.ui:280
 #, kde-format
 msgid "Allow applications to block compositing"
 msgstr ""
@@ -277,7 +264,7 @@ msgstr ""
 #| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
-msgstr "Erabilerraztasuna"
+msgstr "Irisgarritasuna"
 
 #: model.cpp:70
 #, fuzzy, kde-format

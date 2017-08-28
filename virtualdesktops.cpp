@@ -28,47 +28,79 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Qt
 #include <QAction>
 
+#include <algorithm>
+
 namespace KWin {
 
 extern int screen_number;
 
+VirtualDesktop::VirtualDesktop(QObject *parent)
+    : QObject(parent)
+{
+}
+
+VirtualDesktop::~VirtualDesktop()
+{
+    emit aboutToBeDestroyed();
+}
+
+void VirtualDesktop::setId(const QByteArray &id)
+{
+    Q_ASSERT(m_id.isEmpty());
+    m_id = id;
+}
+
+void VirtualDesktop::setX11DesktopNumber(uint number)
+{
+    Q_ASSERT(m_x11DesktopNumber == 0);
+    m_x11DesktopNumber = number;
+}
+
+void VirtualDesktop::setName(const QString &name)
+{
+    if (m_name == name) {
+        return;
+    }
+    m_name = name;
+    emit nameChanged();
+}
+
 VirtualDesktopGrid::VirtualDesktopGrid()
     : m_size(1, 2) // Default to tow rows
-    , m_grid(new uint[2])
+    , m_grid(QVector<QVector<VirtualDesktop*>>{QVector<VirtualDesktop*>{}, QVector<VirtualDesktop*>{}})
 {
-    // Initializing grid array
-    m_grid[0] = 0;
-    m_grid[1] = 0;
 }
 
-VirtualDesktopGrid::~VirtualDesktopGrid()
-{
-    delete[] m_grid;
-}
+VirtualDesktopGrid::~VirtualDesktopGrid() = default;
 
-void VirtualDesktopGrid::update(const QSize &size, Qt::Orientation orientation)
+void VirtualDesktopGrid::update(const QSize &size, Qt::Orientation orientation, const QVector<VirtualDesktop*> &desktops)
 {
     // Set private variables
-    delete[] m_grid;
     m_size = size;
     const uint width = size.width();
     const uint height = size.height();
-    const uint length = width * height;
-    const uint desktopCount = VirtualDesktopManager::self()->count();
-    m_grid = new uint[length];
 
-    // Populate grid
-    uint desktop = 1;
+    m_grid.clear();
+    auto it = desktops.begin();
+    auto end = desktops.end();
     if (orientation == Qt::Horizontal) {
         for (uint y = 0; y < height; ++y) {
-            for (uint x = 0; x < width; ++x) {
-                m_grid[y * width + x] = (desktop <= desktopCount ? desktop++ : 0);
+            QVector<VirtualDesktop*> row;
+            for (uint x = 0; x < width && it != end; ++x) {
+                row << *it;
+                it++;
             }
+            m_grid << row;
         }
     } else {
+        for (uint y = 0; y < height; ++y) {
+            m_grid << QVector<VirtualDesktop*>();
+        }
         for (uint x = 0; x < width; ++x) {
-            for (uint y = 0; y < height; ++y) {
-                m_grid[y * width + x] = (desktop <= desktopCount ? desktop++ : 0);
+            for (uint y = 0; y < height && it != end; ++y) {
+                auto &row = m_grid[y];
+                row << *it;
+                it++;
             }
         }
     }
@@ -76,9 +108,15 @@ void VirtualDesktopGrid::update(const QSize &size, Qt::Orientation orientation)
 
 QPoint VirtualDesktopGrid::gridCoords(uint id) const
 {
-    for (int y = 0; y < m_size.height(); ++y) {
-        for (int x = 0; x < m_size.width(); ++x) {
-            if (m_grid[y * m_size.width() + x] == id) {
+    return gridCoords(VirtualDesktopManager::self()->desktopForX11Id(id));
+}
+
+QPoint VirtualDesktopGrid::gridCoords(VirtualDesktop *vd) const
+{
+    for (int y = 0; y < m_grid.count(); ++y) {
+        const auto &row = m_grid.at(y);
+        for (int x = 0; x < row.count(); ++x) {
+            if (row.at(x) == vd) {
                 return QPoint(x, y);
             }
         }
@@ -86,12 +124,22 @@ QPoint VirtualDesktopGrid::gridCoords(uint id) const
     return QPoint(-1, -1);
 }
 
+VirtualDesktop *VirtualDesktopGrid::at(const QPoint &coords) const
+{
+    if (coords.y() >= m_grid.count()) {
+        return nullptr;
+    }
+    const auto &row = m_grid.at(coords.y());
+    if (coords.x() >= row.count()) {
+        return nullptr;
+    }
+    return row.at(coords.x());
+}
+
 KWIN_SINGLETON_FACTORY_VARIABLE(VirtualDesktopManager, s_manager)
 
 VirtualDesktopManager::VirtualDesktopManager(QObject *parent)
     : QObject(parent)
-    , m_current(0)
-    , m_count(0)
     , m_navigationWrapsAround(false)
     , m_rootInfo(NULL)
 {
@@ -112,10 +160,17 @@ QString VirtualDesktopManager::name(uint desktop) const
 
 uint VirtualDesktopManager::above(uint id, bool wrap) const
 {
-    if (id == 0) {
-        id = current();
+    auto vd = above(desktopForX11Id(id), wrap);
+    return vd ? vd->x11DesktopNumber() : 0;
+}
+
+VirtualDesktop *VirtualDesktopManager::above(VirtualDesktop *desktop, bool wrap) const
+{
+    Q_ASSERT(m_current);
+    if (!desktop) {
+        desktop = m_current;
     }
-    QPoint coords = m_grid.gridCoords(id);
+    QPoint coords = m_grid.gridCoords(desktop);
     Q_ASSERT(coords.x() >= 0);
     while (true) {
         coords.ry()--;
@@ -123,22 +178,29 @@ uint VirtualDesktopManager::above(uint id, bool wrap) const
             if (wrap) {
                 coords.setY(m_grid.height() - 1);
             } else {
-                return id; // Already at the top-most desktop
+                return desktop; // Already at the top-most desktop
             }
         }
-        const uint desktop = m_grid.at(coords);
-        if (desktop > 0) {
-            return desktop;
+        if (VirtualDesktop *vd = m_grid.at(coords)) {
+            return vd;
         }
     }
+    return nullptr;
 }
 
 uint VirtualDesktopManager::toRight(uint id, bool wrap) const
 {
-    if (id == 0) {
-        id = current();
+    auto vd = toRight(desktopForX11Id(id), wrap);
+    return vd ? vd->x11DesktopNumber() : 0;
+}
+
+VirtualDesktop *VirtualDesktopManager::toRight(VirtualDesktop *desktop, bool wrap) const
+{
+    Q_ASSERT(m_current);
+    if (!desktop) {
+        desktop = m_current;
     }
-    QPoint coords = m_grid.gridCoords(id);
+    QPoint coords = m_grid.gridCoords(desktop);
     Q_ASSERT(coords.x() >= 0);
     while (true) {
         coords.rx()++;
@@ -146,22 +208,29 @@ uint VirtualDesktopManager::toRight(uint id, bool wrap) const
             if (wrap) {
                 coords.setX(0);
             } else {
-                return id; // Already at the right-most desktop
+                return desktop; // Already at the right-most desktop
             }
         }
-        const uint desktop = m_grid.at(coords);
-        if (desktop > 0) {
-            return desktop;
+        if (VirtualDesktop *vd = m_grid.at(coords)) {
+            return vd;
         }
     }
+    return nullptr;
 }
 
 uint VirtualDesktopManager::below(uint id, bool wrap) const
 {
-    if (id == 0) {
-        id = current();
+    auto vd = below(desktopForX11Id(id), wrap);
+    return vd ? vd->x11DesktopNumber() : 0;
+}
+
+VirtualDesktop *VirtualDesktopManager::below(VirtualDesktop *desktop, bool wrap) const
+{
+    Q_ASSERT(m_current);
+    if (!desktop) {
+        desktop = m_current;
     }
-    QPoint coords = m_grid.gridCoords(id);
+    QPoint coords = m_grid.gridCoords(desktop);
     Q_ASSERT(coords.x() >= 0);
     while (true) {
         coords.ry()++;
@@ -170,22 +239,29 @@ uint VirtualDesktopManager::below(uint id, bool wrap) const
                 coords.setY(0);
             } else {
                 // Already at the bottom-most desktop
-                return id;
+                return desktop;
             }
         }
-        const uint desktop = m_grid.at(coords);
-        if (desktop > 0) {
-            return desktop;
+        if (VirtualDesktop *vd = m_grid.at(coords)) {
+            return vd;
         }
     }
+    return nullptr;
 }
 
 uint VirtualDesktopManager::toLeft(uint id, bool wrap) const
 {
-    if (id == 0) {
-        id = current();
+    auto vd = toLeft(desktopForX11Id(id), wrap);
+    return vd ? vd->x11DesktopNumber() : 0;
+}
+
+VirtualDesktop *VirtualDesktopManager::toLeft(VirtualDesktop *desktop, bool wrap) const
+{
+    Q_ASSERT(m_current);
+    if (!desktop) {
+        desktop = m_current;
     }
-    QPoint coords = m_grid.gridCoords(id);
+    QPoint coords = m_grid.gridCoords(desktop);
     Q_ASSERT(coords.x() >= 0);
     while (true) {
         coords.rx()--;
@@ -193,85 +269,126 @@ uint VirtualDesktopManager::toLeft(uint id, bool wrap) const
             if (wrap) {
                 coords.setX(m_grid.width() - 1);
             } else {
-                return id; // Already at the left-most desktop
+                return desktop; // Already at the left-most desktop
             }
         }
-        const uint desktop = m_grid.at(coords);
-        if (desktop > 0) {
+        if (VirtualDesktop *vd = m_grid.at(coords)) {
+            return vd;
+        }
+    }
+    return nullptr;
+}
+
+VirtualDesktop *VirtualDesktopManager::next(VirtualDesktop *desktop, bool wrap) const
+{
+    Q_ASSERT(m_current);
+    if (!desktop) {
+        desktop = m_current;
+    }
+    auto it = std::find(m_desktops.begin(), m_desktops.end(), desktop);
+    Q_ASSERT(it != m_desktops.end());
+    it++;
+    if (it == m_desktops.end()) {
+        if (wrap) {
+            return m_desktops.first();
+        } else {
             return desktop;
         }
     }
+    return *it;
 }
 
-uint VirtualDesktopManager::next(uint id, bool wrap) const
+VirtualDesktop *VirtualDesktopManager::previous(VirtualDesktop *desktop, bool wrap) const
 {
-    if (id == 0) {
-        id = current();
+    Q_ASSERT(m_current);
+    if (!desktop) {
+        desktop = m_current;
     }
-    const uint desktop = id + 1;
-    if (desktop > count()) {
+    auto it = std::find(m_desktops.begin(), m_desktops.end(), desktop);
+    Q_ASSERT(it != m_desktops.end());
+    if (it == m_desktops.begin()) {
         if (wrap) {
-            return 1;
+            return m_desktops.last();
         } else {
-            // are at the last desktop, without wrap return current
-            return id;
+            return desktop;
         }
     }
-    return desktop;
+    it--;
+    return *it;
 }
 
-uint VirtualDesktopManager::previous(uint id, bool wrap) const
+VirtualDesktop *VirtualDesktopManager::desktopForX11Id(uint id) const
 {
-    if (id == 0) {
-        id = current();
+    if (id == 0 || id > count()) {
+        return nullptr;
     }
-    const uint desktop = id - 1;
-    if (desktop == 0) {
-        if (wrap) {
-            return count();
-        } else {
-            // are at the first desktop, without wrap return current
-            return id;
-        }
-    }
-    return desktop;
+    return m_desktops.at(id - 1);
+}
+
+uint VirtualDesktopManager::current() const
+{
+    return m_current ? m_current->x11DesktopNumber() : 0;
+}
+
+VirtualDesktop *VirtualDesktopManager::currentDesktop() const
+{
+    return m_current;
 }
 
 bool VirtualDesktopManager::setCurrent(uint newDesktop)
 {
-    if (newDesktop < 1 || newDesktop > count() || newDesktop == m_current) {
+    if (newDesktop < 1 || newDesktop > count() || newDesktop == current()) {
         return false;
     }
-    const uint oldDesktop = m_current;
-    // change the desktop
+    auto d = desktopForX11Id(newDesktop);
+    Q_ASSERT(d);
+    return setCurrent(d);
+}
+
+bool VirtualDesktopManager::setCurrent(VirtualDesktop *newDesktop)
+{
+    Q_ASSERT(newDesktop);
+    if (m_current == newDesktop) {
+        return false;
+    }
+    const uint oldDesktop = current();
     m_current = newDesktop;
-    emit currentChanged(oldDesktop, newDesktop);
+    emit currentChanged(oldDesktop, newDesktop->x11DesktopNumber());
     return true;
 }
 
 void VirtualDesktopManager::setCount(uint count)
 {
     count = qBound<uint>(1, count, VirtualDesktopManager::maximum());
-    if (count == m_count) {
+    if (count == uint(m_desktops.count())) {
         // nothing to change
         return;
     }
-    const uint oldCount = m_count;
-    m_count = count;
-
-    if (oldCount > m_count) {
-        handleDesktopsRemoved(oldCount);
+    const uint oldCount = m_desktops.count();
+    const uint oldCurrent = current();
+    while (uint(m_desktops.count()) > count) {
+        delete m_desktops.takeLast();
     }
+    while (uint(m_desktops.count()) < count) {
+        auto vd = new VirtualDesktop(this);
+        vd->setX11DesktopNumber(m_desktops.count() + 1);
+        m_desktops << vd;
+    }
+    if (oldCount > count) {
+        handleDesktopsRemoved(oldCount, oldCurrent);
+    }
+
     updateRootInfo();
 
     save();
-    emit countChanged(oldCount, m_count);
+    emit countChanged(oldCount, m_desktops.count());
 }
 
-void VirtualDesktopManager::handleDesktopsRemoved(uint previousCount)
+void VirtualDesktopManager::handleDesktopsRemoved(uint previousCount, uint previousCurrent)
 {
-    if (current() > count()) {
-        setCurrent(count());
+    if (!m_current) {
+        m_current = m_desktops.last();
+        emit currentChanged(previousCurrent, m_current->x11DesktopNumber());
     }
     emit desktopsRemoved(previousCount);
 }
@@ -399,15 +516,16 @@ QString VirtualDesktopManager::defaultName(int desktop) const
 void VirtualDesktopManager::setNETDesktopLayout(Qt::Orientation orientation, uint width, uint height, int startingCorner)
 {
     Q_UNUSED(startingCorner);   // Not really worth implementing right now.
+    const uint count = m_desktops.count();
 
     // Calculate valid grid size
     Q_ASSERT(width > 0 || height > 0);
     if ((width <= 0) && (height > 0)) {
-        width = (m_count + height - 1) / height;
+        width = (count + height - 1) / height;
     } else if ((height <= 0) && (width > 0)) {
-        height = (m_count + width - 1) / width;
+        height = (count + width - 1) / width;
     }
-    while (width * height < m_count) {
+    while (width * height < count) {
         if (orientation == Qt::Horizontal) {
             ++width;
         } else {
@@ -415,7 +533,7 @@ void VirtualDesktopManager::setNETDesktopLayout(Qt::Orientation orientation, uin
         }
     }
 
-    m_grid.update(QSize(width, height), orientation);
+    m_grid.update(QSize(width, height), orientation, m_desktops);
     // TODO: why is there no call to m_rootInfo->setDesktopLayout?
     emit layoutChanged(width, height);
 }
@@ -424,8 +542,10 @@ void VirtualDesktopManager::initShortcuts()
 {
     initSwitchToShortcuts();
 
-    addAction(QStringLiteral("Switch to Next Desktop"), i18n("Switch to Next Desktop"), &VirtualDesktopManager::slotNext);
-    addAction(QStringLiteral("Switch to Previous Desktop"), i18n("Switch to Previous Desktop"), &VirtualDesktopManager::slotPrevious);
+    QAction *nextAction = addAction(QStringLiteral("Switch to Next Desktop"), i18n("Switch to Next Desktop"), &VirtualDesktopManager::slotNext);
+    input()->registerTouchpadSwipeShortcut(SwipeDirection::Right, nextAction);
+    QAction *previousAction = addAction(QStringLiteral("Switch to Previous Desktop"), i18n("Switch to Previous Desktop"), &VirtualDesktopManager::slotPrevious);
+    input()->registerTouchpadSwipeShortcut(SwipeDirection::Left, previousAction);
     addAction(QStringLiteral("Switch One Desktop to the Right"), i18n("Switch One Desktop to the Right"), &VirtualDesktopManager::slotRight);
     addAction(QStringLiteral("Switch One Desktop to the Left"), i18n("Switch One Desktop to the Left"), &VirtualDesktopManager::slotLeft);
     addAction(QStringLiteral("Switch One Desktop Up"), i18n("Switch One Desktop Up"), &VirtualDesktopManager::slotUp);
@@ -452,7 +572,7 @@ void VirtualDesktopManager::initSwitchToShortcuts()
     }
 }
 
-void VirtualDesktopManager::addAction(const QString &name, const KLocalizedString &label, uint value, const QKeySequence &key, void (VirtualDesktopManager::*slot)())
+QAction *VirtualDesktopManager::addAction(const QString &name, const KLocalizedString &label, uint value, const QKeySequence &key, void (VirtualDesktopManager::*slot)())
 {
     QAction *a = new QAction(this);
     a->setProperty("componentName", QStringLiteral(KWIN_NAME));
@@ -461,9 +581,10 @@ void VirtualDesktopManager::addAction(const QString &name, const KLocalizedStrin
     a->setData(value);
     KGlobalAccel::setGlobalShortcut(a, key);
     input()->registerShortcut(key, a, this, slot);
+    return a;
 }
 
-void VirtualDesktopManager::addAction(const QString &name, const QString &label, void (VirtualDesktopManager::*slot)())
+QAction *VirtualDesktopManager::addAction(const QString &name, const QString &label, void (VirtualDesktopManager::*slot)())
 {
     QAction *a = new QAction(this);
     a->setProperty("componentName", QStringLiteral(KWIN_NAME));
@@ -471,6 +592,7 @@ void VirtualDesktopManager::addAction(const QString &name, const QString &label,
     a->setText(label);
     KGlobalAccel::setGlobalShortcut(a, QKeySequence());
     input()->registerShortcut(QKeySequence(), a, this, slot);
+    return a;
 }
 
 void VirtualDesktopManager::slotSwitchTo()

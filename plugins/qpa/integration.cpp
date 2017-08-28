@@ -46,9 +46,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <qpa/qplatforminputcontextfactory_p.h>
 #include <qpa/qwindowsysteminterface.h>
 #include <QtCore/private/qeventdispatcher_unix_p.h>
+
+#if QT_VERSION >= 0x050800
+#include <QtFontDatabaseSupport/private/qgenericunixfontdatabase_p.h>
+#include <QtThemeSupport/private/qgenericunixthemes_p.h>
+#include <QtEventDispatcherSupport/private/qunixeventdispatcher_qpa_p.h>
+#else
 #include <QtPlatformSupport/private/qgenericunixfontdatabase_p.h>
 #include <QtPlatformSupport/private/qgenericunixthemes_p.h>
 #include <QtPlatformSupport/private/qunixeventdispatcher_qpa_p.h>
+#endif
 
 namespace KWin
 {
@@ -220,9 +227,7 @@ void Integration::initializeWayland()
 void Integration::createWaylandOutput(quint32 name, quint32 version)
 {
     if (m_dummyScreen) {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
         destroyScreen(m_dummyScreen);
-#endif
         m_dummyScreen = nullptr;
     }
     using namespace KWayland::Client;

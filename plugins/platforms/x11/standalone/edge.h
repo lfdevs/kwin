@@ -50,8 +50,8 @@ public:
 
 protected:
     virtual void doGeometryUpdate();
-    virtual void activate();
-    virtual void deactivate();
+    virtual void doActivate() override;
+    virtual void doDeactivate() override;
     virtual void doStartApproaching();
     virtual void doStopApproaching();
     virtual void doUpdateBlocking();
@@ -61,6 +61,7 @@ private:
     void createApproachWindow();
     Xcb::Window m_window;
     Xcb::Window m_approachWindow;
+    QMetaObject::Connection m_cursorPollingConnection;
 };
 
 inline quint32 WindowBasedEdge::window() const

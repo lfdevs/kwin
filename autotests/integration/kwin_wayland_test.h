@@ -33,6 +33,7 @@ class ConnectionThread;
 class Compositor;
 class PlasmaShell;
 class PlasmaWindowManagement;
+class PointerConstraints;
 class Seat;
 class ServerSideDecorationManager;
 class Shell;
@@ -78,17 +79,17 @@ enum class AdditionalWaylandInterface {
     Seat = 1 << 0,
     Decoration = 1 << 1,
     PlasmaShell = 1 << 2,
-    WindowManagement = 1 << 3
+    WindowManagement = 1 << 3,
+    PointerConstraints = 1 << 4
 };
 Q_DECLARE_FLAGS(AdditionalWaylandInterfaces, AdditionalWaylandInterface)
 /**
  * Creates a Wayland Connection in a dedicated thread and creates various
  * client side objects which can be used to create windows.
- * @param socketName The name of the Wayland socket to connect to.
  * @returns @c true if created successfully, @c false if there was an error
  * @see destroyWaylandConnection
  **/
-bool setupWaylandConnection(const QString &socketName, AdditionalWaylandInterfaces flags = AdditionalWaylandInterfaces());
+bool setupWaylandConnection(AdditionalWaylandInterfaces flags = AdditionalWaylandInterfaces());
 
 /**
  * Destroys the Wayland Connection created with @link{setupWaylandConnection}.
@@ -106,6 +107,7 @@ KWayland::Client::Seat *waylandSeat();
 KWayland::Client::ServerSideDecorationManager *waylandServerSideDecoration();
 KWayland::Client::PlasmaShell *waylandPlasmaShell();
 KWayland::Client::PlasmaWindowManagement *waylandWindowManagement();
+KWayland::Client::PointerConstraints *waylandPointerConstraints();
 
 bool waitForWaylandPointer();
 bool waitForWaylandTouch();
@@ -175,10 +177,6 @@ int main(int argc, char *argv[]) \
     return QTest::qExec(&tc, argc, argv); \
 }
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
 #define WAYLANDTEST_MAIN(TestObject) WAYLANDTEST_MAIN_HELPER(TestObject, QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling) )
-#else
-#define WAYLANDTEST_MAIN(TestObject) WAYLANDTEST_MAIN_HELPER(TestObject,)
-#endif
 
 #endif

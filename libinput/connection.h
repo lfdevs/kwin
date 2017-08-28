@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QSize>
 #include <QMutex>
 #include <QVector>
+#include <QStringList>
 
 class QSocketNotifier;
 class QThread;
@@ -44,6 +45,7 @@ class Context;
 class Connection : public QObject
 {
     Q_OBJECT
+
 public:
     ~Connection();
 
@@ -78,10 +80,14 @@ public:
     void processEvents();
 
     void toggleTouchpads();
+    void enableTouchpads();
+    void disableTouchpads();
 
     QVector<Device*> devices() const {
         return m_devices;
     }
+
+    QStringList devicesSysNames() const;
 
     void updateLEDs(KWin::Xkb::LEDs leds);
 
@@ -89,7 +95,7 @@ Q_SIGNALS:
     void keyChanged(quint32 key, KWin::InputRedirection::KeyboardKeyState, quint32 time, KWin::LibInput::Device *device);
     void pointerButtonChanged(quint32 button, KWin::InputRedirection::PointerButtonState state, quint32 time, KWin::LibInput::Device *device);
     void pointerMotionAbsolute(QPointF orig, QPointF screen, quint32 time, KWin::LibInput::Device *device);
-    void pointerMotion(QPointF delta, quint32 time, KWin::LibInput::Device *device);
+    void pointerMotion(const QSizeF &delta, const QSizeF &deltaNonAccelerated, quint32 time, quint64 timeMicroseconds, KWin::LibInput::Device *device);
     void pointerAxisChanged(KWin::InputRedirection::PointerAxis axis, qreal delta, quint32 time, KWin::LibInput::Device *device);
     void touchFrame(KWin::LibInput::Device *device);
     void touchCanceled(KWin::LibInput::Device *device);
@@ -102,6 +108,8 @@ Q_SIGNALS:
     void hasTouchChanged(bool);
     void deviceAdded(KWin::LibInput::Device *);
     void deviceRemoved(KWin::LibInput::Device *);
+    void deviceAddedSysName(QString);
+    void deviceRemovedSysName(QString);
     void swipeGestureBegin(int fingerCount, quint32 time, KWin::LibInput::Device *device);
     void swipeGestureUpdate(const QSizeF &delta, quint32 time, KWin::LibInput::Device *device);
     void swipeGestureEnd(quint32 time, KWin::LibInput::Device *device);

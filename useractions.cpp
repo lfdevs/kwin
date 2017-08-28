@@ -37,6 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "input.h"
 #include "workspace.h"
 #include "effects.h"
+#include "platform.h"
 #include "screens.h"
 #include "virtualdesktops.h"
 #include "scripting/scripting.h"
@@ -45,6 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "activities.h"
 #include <kactivities/info.h>
 #endif
+#include "appmenu.h"
 
 #include <KProcess>
 
@@ -329,7 +331,13 @@ void UserActionsMenu::init()
             [this]() {
                 // opens the KWin configuration
                 QStringList args;
-                args << QStringLiteral("--icon") << QStringLiteral("preferences-system-windows") << configModules(false);
+                args << QStringLiteral("--icon") << QStringLiteral("preferences-system-windows");
+                const QString path = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                                            QStringLiteral("kservices5/kwinfocus.desktop"));
+                if (!path.isEmpty()) {
+                    args << QStringLiteral("--desktopfile") << path;
+                }
+                args << configModules(false);
                 QProcess *p = new Process(this);
                 p->setArguments(args);
                 p->setProcessEnvironment(kwinApp()->processStartupEnvironment());
@@ -1043,6 +1051,7 @@ void Workspace::clientShortcutUpdated(Client* c)
     if (!c->shortcut().isEmpty()) {
         if (action == NULL) { // new shortcut
             action = new QAction(this);
+            kwinApp()->platform()->setupActionForGlobalAccel(action);
             action->setProperty("componentName", QStringLiteral(KWIN_NAME));
             action->setObjectName(key);
             action->setText(i18n("Activate Window (%1)", c->caption()));
@@ -1444,7 +1453,7 @@ void windowToDesktop(AbstractClient *c)
     Workspace *ws = Workspace::self();
     Direction functor;
     // TODO: why is options->isRollOverDesktops() not honored?
-    const int desktop = functor(0, true);
+    const auto desktop = functor(nullptr, true);
     if (c && !c->isDesktop()
             && !c->isDock()) {
         ws->setClientIsMoving(c);
@@ -1562,12 +1571,36 @@ void Workspace::switchWindow(Direction direction)
     if (!active_client)
         return;
     AbstractClient *c = active_client;
-    Client *switchTo = 0;
-    int bestScore = 0;
-    int d = c->isOnAllDesktops() ? VirtualDesktopManager::self()->current() : c->desktop();
+    int desktopNumber = c->isOnAllDesktops() ? VirtualDesktopManager::self()->current() : c->desktop();
+
     // Centre of the active window
     QPoint curPos(c->pos().x() + c->geometry().width() / 2,
                   c->pos().y() + c->geometry().height() / 2);
+
+    if (!switchWindow(c, direction, curPos, desktopNumber)) {
+        auto opposite = [&] {
+            switch(direction) {
+            case DirectionNorth:
+                return QPoint(curPos.x(), screens()->geometry().height());
+            case DirectionSouth:
+                return QPoint(curPos.x(), 0);
+            case DirectionEast:
+                return QPoint(0, curPos.y());
+            case DirectionWest:
+                return QPoint(screens()->geometry().width(), curPos.y());
+            default:
+                Q_UNREACHABLE();
+            }
+        };
+
+        switchWindow(c, direction, opposite(), desktopNumber);
+    }
+}
+
+bool Workspace::switchWindow(AbstractClient *c, Direction direction, QPoint curPos, int d)
+{
+    Client *switchTo = nullptr;
+    int bestScore = 0;
 
     ToplevelList clist = stackingOrder();
     for (ToplevelList::Iterator i = clist.begin(); i != clist.end(); ++i) {
@@ -1620,6 +1653,8 @@ void Workspace::switchWindow(Direction direction)
             switchTo = switchTo->tabGroup()->current();
         activateClient(switchTo);
     }
+
+    return switchTo;
 }
 
 /*!
@@ -1668,6 +1703,11 @@ void Workspace::slotWindowOperations()
 void Workspace::showWindowMenu(const QRect &pos, AbstractClient* cl)
 {
     m_userActionsMenu->show(pos, cl);
+}
+
+void Workspace::showApplicationMenu(const QRect &pos, AbstractClient *c, int actionId)
+{
+    ApplicationMenu::self()->showApplicationMenu(c->geometry().topLeft() + pos.bottomLeft(), c, actionId);
 }
 
 /*!

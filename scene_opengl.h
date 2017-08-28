@@ -32,7 +32,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace KWin
 {
-class ColorCorrection;
 class LanczosFilter;
 class OpenGLBackend;
 class SyncManager;
@@ -128,7 +127,6 @@ public:
 
     static bool supported(OpenGLBackend *backend);
 
-    ColorCorrection *colorCorrection();
     QMatrix4x4 projectionMatrix() const override { return m_projectionMatrix; }
     QMatrix4x4 screenProjectionMatrix() const override { return m_screenProjectionMatrix; }
 
@@ -141,7 +139,6 @@ protected:
     virtual void updateProjectionMatrix() override;
 
 private Q_SLOTS:
-    void slotColorCorrectedChanged(bool recreateShaders = true);
     void resetLanczosFilter();
 
 private:
@@ -150,7 +147,6 @@ private:
 
 private:
     LanczosFilter *m_lanczosFilter;
-    QScopedPointer<ColorCorrection> m_colorCorrection;
     QMatrix4x4 m_projectionMatrix;
     QMatrix4x4 m_screenProjectionMatrix;
     GLuint vao;
@@ -507,6 +503,22 @@ public:
      */
     void addToDamageHistory(const QRegion &region);
 
+    /**
+     * The backend specific extensions (e.g. EGL/GLX extensions).
+     *
+     * Not the OpenGL (ES) extension!
+     **/
+    QList<QByteArray> extensions() const {
+        return m_extensions;
+    }
+
+    /**
+     * @returns whether the backend specific extensions contains @p extension.
+     **/
+    bool hasExtension(const QByteArray &extension) const {
+        return m_extensions.contains(extension);
+    }
+
 protected:
     /**
      * @brief Backend specific flushing of frame to screen.
@@ -583,6 +595,15 @@ protected:
         m_surfaceLessContext = set;
     }
 
+    /**
+     * Sets the platform-specific @p extensions.
+     *
+     * These are the EGL/GLX extensions, not the OpenGL extensions
+     **/
+    void setExtensions(const QList<QByteArray> &extensions) {
+        m_extensions = extensions;
+    }
+
     SwapProfiler m_swapProfiler;
 
 private:
@@ -619,6 +640,8 @@ private:
      **/
     QElapsedTimer m_renderTimer;
     bool m_surfaceLessContext = false;
+
+    QList<QByteArray> m_extensions;
 };
 
 class SceneOpenGLDecorationRenderer : public Decoration::Renderer

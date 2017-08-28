@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "abstract_client.h"
 #include "cursor.h"
 #include "deleted.h"
+#include "effects.h"
 #include "pointer_input.h"
 #include "options.h"
 #include "screenedge.h"
@@ -36,6 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/pointer.h>
 #include <KWayland/Client/shell.h>
 #include <KWayland/Client/seat.h>
+#include <KWayland/Client/server_decoration.h>
 #include <KWayland/Client/shm_pool.h>
 #include <KWayland/Client/surface.h>
 
@@ -57,6 +59,7 @@ private Q_SLOTS:
     void cleanup();
     void testWarpingUpdatesFocus();
     void testWarpingGeneratesPointerMotion();
+    void testWarpingDuringFilter();
     void testUpdateFocusAfterScreenChange();
     void testModifierClickUnrestrictedMove_data();
     void testModifierClickUnrestrictedMove();
@@ -70,6 +73,9 @@ private Q_SLOTS:
     void testMouseActionActiveWindow();
     void testCursorImage();
     void testEffectOverrideCursorImage();
+    void testPopup();
+    void testDecoCancelsPopup();
+    void testWindowUnderCursorWhileButtonPressed();
 
 private:
     void render(KWayland::Client::Surface *surface, const QSize &size = QSize(100, 50));
@@ -105,7 +111,7 @@ void PointerInputTest::initTestCase()
 
 void PointerInputTest::init()
 {
-    QVERIFY(Test::setupWaylandConnection(s_socketName, Test::AdditionalWaylandInterface::Seat));
+    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::Decoration));
     QVERIFY(Test::waitForWaylandPointer());
     m_compositor = Test::waylandCompositor();
     m_shell = Test::waylandShell();
@@ -211,6 +217,50 @@ void PointerInputTest::testWarpingGeneratesPointerMotion()
     QCOMPARE(movedSpy.last().first().toPointF(), QPointF(26, 26));
 }
 
+void PointerInputTest::testWarpingDuringFilter()
+{
+    // this test verifies that pointer motion is handled correctly if
+    // the pointer gets warped during processing of input events
+    using namespace KWayland::Client;
+
+    // create pointer
+    auto pointer = m_seat->createPointer(m_seat);
+    QVERIFY(pointer);
+    QVERIFY(pointer->isValid());
+    QSignalSpy movedSpy(pointer, &Pointer::motion);
+    QVERIFY(movedSpy.isValid());
+
+    // warp cursor into expected geometry
+    Cursor::setPos(10, 10);
+
+    // create a window
+    QSignalSpy clientAddedSpy(waylandServer(), &WaylandServer::shellClientAdded);
+    QVERIFY(clientAddedSpy.isValid());
+    Surface *surface = Test::createSurface(m_compositor);
+    QVERIFY(surface);
+    ShellSurface *shellSurface = Test::createShellSurface(surface, surface);
+    QVERIFY(shellSurface);
+    render(surface);
+    QVERIFY(clientAddedSpy.wait());
+    AbstractClient *window = workspace()->activeClient();
+    QVERIFY(window);
+
+    QCOMPARE(window->pos(), QPoint(0, 0));
+    QVERIFY(window->geometry().contains(Cursor::pos()));
+
+    // is PresentWindows effect for top left screen edge loaded
+    QVERIFY(static_cast<EffectsHandlerImpl*>(effects)->isEffectLoaded("presentwindows"));
+    QVERIFY(movedSpy.isEmpty());
+    quint32 timestamp = 0;
+    kwinApp()->platform()->pointerMotion(QPoint(0, 0), timestamp++);
+    // screen edges push back
+    QCOMPARE(Cursor::pos(), QPoint(1, 1));
+    QVERIFY(movedSpy.wait());
+    QCOMPARE(movedSpy.count(), 2);
+    QCOMPARE(movedSpy.at(0).first().toPoint(), QPoint(0, 0));
+    QCOMPARE(movedSpy.at(1).first().toPoint(), QPoint(1, 1));
+}
+
 void PointerInputTest::testUpdateFocusAfterScreenChange()
 {
     // this test verifies that a pointer enter event is generated when the cursor changes to another
@@ -262,23 +312,39 @@ void PointerInputTest::testModifierClickUnrestrictedMove_data()
     QTest::addColumn<int>("modifierKey");
     QTest::addColumn<int>("mouseButton");
     QTest::addColumn<QString>("modKey");
+    QTest::addColumn<bool>("capsLock");
 
     const QString alt = QStringLiteral("Alt");
     const QString meta = QStringLiteral("Meta");
 
-    QTest::newRow("Left Alt + Left Click")    << KEY_LEFTALT  << BTN_LEFT   << alt;
-    QTest::newRow("Left Alt + Right Click")   << KEY_LEFTALT  << BTN_RIGHT  << alt;
-    QTest::newRow("Left Alt + Middle Click")  << KEY_LEFTALT  << BTN_MIDDLE << alt;
-    QTest::newRow("Right Alt + Left Click")   << KEY_RIGHTALT << BTN_LEFT   << alt;
-    QTest::newRow("Right Alt + Right Click")  << KEY_RIGHTALT << BTN_RIGHT  << alt;
-    QTest::newRow("Right Alt + Middle Click") << KEY_RIGHTALT << BTN_MIDDLE << alt;
+    QTest::newRow("Left Alt + Left Click")    << KEY_LEFTALT  << BTN_LEFT   << alt << false;
+    QTest::newRow("Left Alt + Right Click")   << KEY_LEFTALT  << BTN_RIGHT  << alt << false;
+    QTest::newRow("Left Alt + Middle Click")  << KEY_LEFTALT  << BTN_MIDDLE << alt << false;
+    QTest::newRow("Right Alt + Left Click")   << KEY_RIGHTALT << BTN_LEFT   << alt << false;
+    QTest::newRow("Right Alt + Right Click")  << KEY_RIGHTALT << BTN_RIGHT  << alt << false;
+    QTest::newRow("Right Alt + Middle Click") << KEY_RIGHTALT << BTN_MIDDLE << alt << false;
     // now everything with meta
-    QTest::newRow("Left Meta + Left Click")    << KEY_LEFTMETA  << BTN_LEFT   << meta;
-    QTest::newRow("Left Meta + Right Click")   << KEY_LEFTMETA  << BTN_RIGHT  << meta;
-    QTest::newRow("Left Meta + Middle Click")  << KEY_LEFTMETA  << BTN_MIDDLE << meta;
-    QTest::newRow("Right Meta + Left Click")   << KEY_RIGHTMETA << BTN_LEFT   << meta;
-    QTest::newRow("Right Meta + Right Click")  << KEY_RIGHTMETA << BTN_RIGHT  << meta;
-    QTest::newRow("Right Meta + Middle Click") << KEY_RIGHTMETA << BTN_MIDDLE << meta;
+    QTest::newRow("Left Meta + Left Click")    << KEY_LEFTMETA  << BTN_LEFT   << meta << false;
+    QTest::newRow("Left Meta + Right Click")   << KEY_LEFTMETA  << BTN_RIGHT  << meta << false;
+    QTest::newRow("Left Meta + Middle Click")  << KEY_LEFTMETA  << BTN_MIDDLE << meta << false;
+    QTest::newRow("Right Meta + Left Click")   << KEY_RIGHTMETA << BTN_LEFT   << meta << false;
+    QTest::newRow("Right Meta + Right Click")  << KEY_RIGHTMETA << BTN_RIGHT  << meta << false;
+    QTest::newRow("Right Meta + Middle Click") << KEY_RIGHTMETA << BTN_MIDDLE << meta << false;
+
+    // and with capslock
+    QTest::newRow("Left Alt + Left Click/CapsLock")    << KEY_LEFTALT  << BTN_LEFT   << alt << true;
+    QTest::newRow("Left Alt + Right Click/CapsLock")   << KEY_LEFTALT  << BTN_RIGHT  << alt << true;
+    QTest::newRow("Left Alt + Middle Click/CapsLock")  << KEY_LEFTALT  << BTN_MIDDLE << alt << true;
+    QTest::newRow("Right Alt + Left Click/CapsLock")   << KEY_RIGHTALT << BTN_LEFT   << alt << true;
+    QTest::newRow("Right Alt + Right Click/CapsLock")  << KEY_RIGHTALT << BTN_RIGHT  << alt << true;
+    QTest::newRow("Right Alt + Middle Click/CapsLock") << KEY_RIGHTALT << BTN_MIDDLE << alt << true;
+    // now everything with meta
+    QTest::newRow("Left Meta + Left Click/CapsLock")    << KEY_LEFTMETA  << BTN_LEFT   << meta << true;
+    QTest::newRow("Left Meta + Right Click/CapsLock")   << KEY_LEFTMETA  << BTN_RIGHT  << meta << true;
+    QTest::newRow("Left Meta + Middle Click/CapsLock")  << KEY_LEFTMETA  << BTN_MIDDLE << meta << true;
+    QTest::newRow("Right Meta + Left Click/CapsLock")   << KEY_RIGHTMETA << BTN_LEFT   << meta << true;
+    QTest::newRow("Right Meta + Right Click/CapsLock")  << KEY_RIGHTMETA << BTN_RIGHT  << meta << true;
+    QTest::newRow("Right Meta + Middle Click/CapsLock") << KEY_RIGHTMETA << BTN_MIDDLE << meta << true;
 }
 
 void PointerInputTest::testModifierClickUnrestrictedMove()
@@ -323,6 +389,10 @@ void PointerInputTest::testModifierClickUnrestrictedMove()
 
     // simulate modifier+click
     quint32 timestamp = 1;
+    QFETCH(bool, capsLock);
+    if (capsLock) {
+        kwinApp()->platform()->keyboardKeyPressed(KEY_CAPSLOCK, timestamp++);
+    }
     QFETCH(int, modifierKey);
     QFETCH(int, mouseButton);
     kwinApp()->platform()->keyboardKeyPressed(modifierKey, timestamp++);
@@ -335,6 +405,9 @@ void PointerInputTest::testModifierClickUnrestrictedMove()
     // but releasing the key should end move/resize
     kwinApp()->platform()->pointerButtonReleased(mouseButton, timestamp++);
     QVERIFY(!window->isMove());
+    if (capsLock) {
+        kwinApp()->platform()->keyboardKeyReleased(KEY_CAPSLOCK, timestamp++);
+    }
 
     // all of that should not have triggered button events on the surface
     QCOMPARE(buttonSpy.count(), 0);
@@ -346,14 +419,19 @@ void PointerInputTest::testModifierScrollOpacity_data()
 {
     QTest::addColumn<int>("modifierKey");
     QTest::addColumn<QString>("modKey");
+    QTest::addColumn<bool>("capsLock");
 
     const QString alt = QStringLiteral("Alt");
     const QString meta = QStringLiteral("Meta");
 
-    QTest::newRow("Left Alt")   << KEY_LEFTALT  << alt;
-    QTest::newRow("Right Alt")  << KEY_RIGHTALT << alt;
-    QTest::newRow("Left Meta")  << KEY_LEFTMETA  << meta;
-    QTest::newRow("Right Meta") << KEY_RIGHTMETA << meta;
+    QTest::newRow("Left Alt")   << KEY_LEFTALT  << alt << false;
+    QTest::newRow("Right Alt")  << KEY_RIGHTALT << alt << false;
+    QTest::newRow("Left Meta")  << KEY_LEFTMETA  << meta << false;
+    QTest::newRow("Right Meta") << KEY_RIGHTMETA << meta << false;
+    QTest::newRow("Left Alt/CapsLock")   << KEY_LEFTALT  << alt << true;
+    QTest::newRow("Right Alt/CapsLock")  << KEY_RIGHTALT << alt << true;
+    QTest::newRow("Left Meta/CapsLock")  << KEY_LEFTMETA  << meta << true;
+    QTest::newRow("Right Meta/CapsLock") << KEY_RIGHTMETA << meta << true;
 }
 
 void PointerInputTest::testModifierScrollOpacity()
@@ -396,6 +474,10 @@ void PointerInputTest::testModifierScrollOpacity()
 
     // simulate modifier+wheel
     quint32 timestamp = 1;
+    QFETCH(bool, capsLock);
+    if (capsLock) {
+        kwinApp()->platform()->keyboardKeyPressed(KEY_CAPSLOCK, timestamp++);
+    }
     QFETCH(int, modifierKey);
     kwinApp()->platform()->keyboardKeyPressed(modifierKey, timestamp++);
     kwinApp()->platform()->pointerAxisVertical(-5, timestamp++);
@@ -403,6 +485,9 @@ void PointerInputTest::testModifierScrollOpacity()
     kwinApp()->platform()->pointerAxisVertical(5, timestamp++);
     QCOMPARE(window->opacity(), 0.5);
     kwinApp()->platform()->keyboardKeyReleased(modifierKey, timestamp++);
+    if (capsLock) {
+        kwinApp()->platform()->keyboardKeyReleased(KEY_CAPSLOCK, timestamp++);
+    }
 
     // axis should have been filtered out
     QCOMPARE(axisSpy.count(), 0);
@@ -881,6 +966,221 @@ void PointerInputTest::testEffectOverrideCursorImage()
     effects->stopMouseInterception(effect.data());
     QVERIFY(enteredSpy.wait());
     QVERIFY(p->cursorImage().isNull());
+}
+
+void PointerInputTest::testPopup()
+{
+    // this test validates the basic popup behavior
+    // a button press outside the window should dismiss the popup
+
+    // first create a parent surface
+    using namespace KWayland::Client;
+    auto pointer = m_seat->createPointer(m_seat);
+    QVERIFY(pointer);
+    QVERIFY(pointer->isValid());
+    QSignalSpy enteredSpy(pointer, &Pointer::entered);
+    QVERIFY(enteredSpy.isValid());
+    QSignalSpy leftSpy(pointer, &Pointer::left);
+    QVERIFY(leftSpy.isValid());
+    QSignalSpy buttonStateChangedSpy(pointer, &Pointer::buttonStateChanged);
+    QVERIFY(buttonStateChangedSpy.isValid());
+    QSignalSpy motionSpy(pointer, &Pointer::motion);
+    QVERIFY(motionSpy.isValid());
+
+    Cursor::setPos(800, 800);
+
+    QSignalSpy clientAddedSpy(waylandServer(), &WaylandServer::shellClientAdded);
+    QVERIFY(clientAddedSpy.isValid());
+    Surface *surface = Test::createSurface(m_compositor);
+    QVERIFY(surface);
+    ShellSurface *shellSurface = Test::createShellSurface(surface, surface);
+    QVERIFY(shellSurface);
+    render(surface);
+    QVERIFY(clientAddedSpy.wait());
+    AbstractClient *window = workspace()->activeClient();
+    QVERIFY(window);
+    QCOMPARE(window->hasPopupGrab(), false);
+    // move pointer into window
+    QVERIFY(!window->geometry().contains(QPoint(800, 800)));
+    Cursor::setPos(window->geometry().center());
+    QVERIFY(enteredSpy.wait());
+    // click inside window to create serial
+    quint32 timestamp = 0;
+    kwinApp()->platform()->pointerButtonPressed(BTN_LEFT, timestamp++);
+    kwinApp()->platform()->pointerButtonReleased(BTN_LEFT, timestamp++);
+    QVERIFY(buttonStateChangedSpy.wait());
+
+    // now create the popup surface
+    Surface *popupSurface = Test::createSurface(m_compositor);
+    QVERIFY(popupSurface);
+    ShellSurface *popupShellSurface = Test::createShellSurface(popupSurface, popupSurface);
+    QVERIFY(popupShellSurface);
+    QSignalSpy popupDoneSpy(popupShellSurface, &ShellSurface::popupDone);
+    QVERIFY(popupDoneSpy.isValid());
+    // TODO: proper serial
+    popupShellSurface->setTransientPopup(surface, m_seat, 0, QPoint(80, 20));
+    render(popupSurface);
+    QVERIFY(clientAddedSpy.wait());
+    auto popupClient = clientAddedSpy.last().first().value<ShellClient*>();
+    QVERIFY(popupClient);
+    QVERIFY(popupClient != window);
+    QCOMPARE(window, workspace()->activeClient());
+    QCOMPARE(popupClient->transientFor(), window);
+    QCOMPARE(popupClient->pos(), window->pos() + QPoint(80, 20));
+    QCOMPARE(popupClient->hasPopupGrab(), true);
+
+    // let's move the pointer into the center of the window
+    Cursor::setPos(popupClient->geometry().center());
+    QVERIFY(enteredSpy.wait());
+    QCOMPARE(enteredSpy.count(), 2);
+    QCOMPARE(leftSpy.count(), 1);
+    QCOMPARE(pointer->enteredSurface(), popupSurface);
+
+    // let's move the pointer outside of the popup window
+    // this should not really change anything, it gets a leave event
+    Cursor::setPos(popupClient->geometry().bottomRight() + QPoint(2, 2));
+    QVERIFY(leftSpy.wait());
+    QCOMPARE(leftSpy.count(), 2);
+    QVERIFY(popupDoneSpy.isEmpty());
+    // now click, should trigger popupDone
+    kwinApp()->platform()->pointerButtonPressed(BTN_LEFT, timestamp++);
+    QVERIFY(popupDoneSpy.wait());
+    kwinApp()->platform()->pointerButtonReleased(BTN_LEFT, timestamp++);
+}
+
+void PointerInputTest::testDecoCancelsPopup()
+{
+    // this test verifies that clicking the window decoration of parent window
+    // cancels the popup
+
+    // first create a parent surface
+    using namespace KWayland::Client;
+    auto pointer = m_seat->createPointer(m_seat);
+    QVERIFY(pointer);
+    QVERIFY(pointer->isValid());
+    QSignalSpy enteredSpy(pointer, &Pointer::entered);
+    QVERIFY(enteredSpy.isValid());
+    QSignalSpy leftSpy(pointer, &Pointer::left);
+    QVERIFY(leftSpy.isValid());
+    QSignalSpy buttonStateChangedSpy(pointer, &Pointer::buttonStateChanged);
+    QVERIFY(buttonStateChangedSpy.isValid());
+    QSignalSpy motionSpy(pointer, &Pointer::motion);
+    QVERIFY(motionSpy.isValid());
+
+    Cursor::setPos(800, 800);
+    QSignalSpy clientAddedSpy(waylandServer(), &WaylandServer::shellClientAdded);
+    QVERIFY(clientAddedSpy.isValid());
+    Surface *surface = Test::createSurface(m_compositor);
+    QVERIFY(surface);
+    ShellSurface *shellSurface = Test::createShellSurface(surface, surface);
+    QVERIFY(shellSurface);
+
+    auto deco = Test::waylandServerSideDecoration()->create(surface, surface);
+    QSignalSpy decoSpy(deco, &ServerSideDecoration::modeChanged);
+    QVERIFY(decoSpy.isValid());
+    QVERIFY(decoSpy.wait());
+    deco->requestMode(ServerSideDecoration::Mode::Server);
+    QVERIFY(decoSpy.wait());
+    QCOMPARE(deco->mode(), ServerSideDecoration::Mode::Server);
+    render(surface);
+    QVERIFY(clientAddedSpy.wait());
+    AbstractClient *window = workspace()->activeClient();
+    QVERIFY(window);
+    QCOMPARE(window->hasPopupGrab(), false);
+    QVERIFY(window->isDecorated());
+
+    // move pointer into window
+    QVERIFY(!window->geometry().contains(QPoint(800, 800)));
+    Cursor::setPos(window->geometry().center());
+    QVERIFY(enteredSpy.wait());
+    // click inside window to create serial
+    quint32 timestamp = 0;
+    kwinApp()->platform()->pointerButtonPressed(BTN_LEFT, timestamp++);
+    kwinApp()->platform()->pointerButtonReleased(BTN_LEFT, timestamp++);
+    QVERIFY(buttonStateChangedSpy.wait());
+
+    // now create the popup surface
+    Surface *popupSurface = Test::createSurface(m_compositor);
+    QVERIFY(popupSurface);
+    ShellSurface *popupShellSurface = Test::createShellSurface(popupSurface, popupSurface);
+    QVERIFY(popupShellSurface);
+    QSignalSpy popupDoneSpy(popupShellSurface, &ShellSurface::popupDone);
+    QVERIFY(popupDoneSpy.isValid());
+    // TODO: proper serial
+    popupShellSurface->setTransientPopup(surface, m_seat, 0, QPoint(80, 20));
+    render(popupSurface);
+    QVERIFY(clientAddedSpy.wait());
+    auto popupClient = clientAddedSpy.last().first().value<ShellClient*>();
+    QVERIFY(popupClient);
+    QVERIFY(popupClient != window);
+    QCOMPARE(window, workspace()->activeClient());
+    QCOMPARE(popupClient->transientFor(), window);
+    QCOMPARE(popupClient->pos(), window->pos() + window->clientPos() + QPoint(80, 20));
+    QCOMPARE(popupClient->hasPopupGrab(), true);
+
+    // let's move the pointer into the center of the deco
+    Cursor::setPos(window->geometry().center().x(), window->y() + (window->height() - window->clientSize().height()) / 2);
+
+    kwinApp()->platform()->pointerButtonPressed(BTN_RIGHT, timestamp++);
+    QVERIFY(popupDoneSpy.wait());
+    kwinApp()->platform()->pointerButtonReleased(BTN_RIGHT, timestamp++);
+}
+
+void PointerInputTest::testWindowUnderCursorWhileButtonPressed()
+{
+    // this test verifies that opening a window underneath the mouse cursor does not
+    // trigger a leave event if a button is pressed
+    // see BUG: 372876
+
+    // first create a parent surface
+    using namespace KWayland::Client;
+    auto pointer = m_seat->createPointer(m_seat);
+    QVERIFY(pointer);
+    QVERIFY(pointer->isValid());
+    QSignalSpy enteredSpy(pointer, &Pointer::entered);
+    QVERIFY(enteredSpy.isValid());
+    QSignalSpy leftSpy(pointer, &Pointer::left);
+    QVERIFY(leftSpy.isValid());
+
+    Cursor::setPos(800, 800);
+    QSignalSpy clientAddedSpy(waylandServer(), &WaylandServer::shellClientAdded);
+    QVERIFY(clientAddedSpy.isValid());
+    Surface *surface = Test::createSurface(m_compositor);
+    QVERIFY(surface);
+    ShellSurface *shellSurface = Test::createShellSurface(surface, surface);
+    QVERIFY(shellSurface);
+    render(surface);
+    QVERIFY(clientAddedSpy.wait());
+    AbstractClient *window = workspace()->activeClient();
+    QVERIFY(window);
+
+    // move cursor over window
+    QVERIFY(!window->geometry().contains(QPoint(800, 800)));
+    Cursor::setPos(window->geometry().center());
+    QVERIFY(enteredSpy.wait());
+    // click inside window
+    quint32 timestamp = 0;
+    kwinApp()->platform()->pointerButtonPressed(BTN_LEFT, timestamp++);
+
+    // now create a second window as transient
+    Surface *popupSurface = Test::createSurface(m_compositor);
+    QVERIFY(popupSurface);
+    ShellSurface *popupShellSurface = Test::createShellSurface(popupSurface, popupSurface);
+    QVERIFY(popupShellSurface);
+    popupShellSurface->setTransient(surface, QPoint(0, 0));
+    render(popupSurface);
+    QVERIFY(clientAddedSpy.wait());
+    auto popupClient = clientAddedSpy.last().first().value<ShellClient*>();
+    QVERIFY(popupClient);
+    QVERIFY(popupClient != window);
+    QCOMPARE(window->geometry(), popupClient->geometry());
+    QVERIFY(!leftSpy.wait());
+
+    kwinApp()->platform()->pointerButtonReleased(BTN_LEFT, timestamp++);
+    // now that the button is no longer pressed we should get the leave event
+    QVERIFY(leftSpy.wait());
+    QCOMPARE(leftSpy.count(), 1);
+    QCOMPARE(enteredSpy.count(), 2);
 }
 
 }

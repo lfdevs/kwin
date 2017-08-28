@@ -33,9 +33,10 @@
 #include <KMessageBox>
 #include <KMessageWidget>
 #include <KPluginInfo>
-#include <KServiceTypeTrader>
-#include <Plasma/Package>
-#include <KNewStuff3/KNS3/DownloadDialog>
+#include <KPackage/PackageLoader>
+#include <KPackage/Package>
+
+#include <KNewStuff3/KNS3/Button>
 
 #include "version.h"
 
@@ -56,13 +57,18 @@ Module::Module(QWidget *parent, const QVariantList &args) :
     setAboutData(about);
 
     ui->setupUi(this);
-    ui->ghnsButton->setIcon(QIcon::fromTheme("get-hot-new-stuff"));
+
+    ui->messageWidget->hide();
+
+    ui->ghnsButton->setConfigFile(QStringLiteral("kwinscripts.knsrc"));
+    connect(ui->ghnsButton, &KNS3::Button::dialogFinished, this, [this](const KNS3::Entry::List &changedEntries) {
+        if (!changedEntries.isEmpty()) {
+            updateListViewContents();
+        }
+    });
 
     connect(ui->scriptSelector, SIGNAL(changed(bool)), this, SLOT(changed()));
     connect(ui->importScriptButton, SIGNAL(clicked()), SLOT(importScript()));
-    connect(ui->ghnsButton, SIGNAL(clicked(bool)), SLOT(slotGHNSClicked()));
-
-    ui->importScriptButton->setEnabled(false);
 
     updateListViewContents();
 }
@@ -74,29 +80,65 @@ Module::~Module()
 
 void Module::importScript()
 {
+    ui->messageWidget->animatedHide();
+
     QString path = QFileDialog::getOpenFileName(nullptr, i18n("Import KWin Script"), QDir::homePath(),
                                                 i18n("*.kwinscript|KWin scripts (*.kwinscript)"));
 
     if (path.isNull()) {
         return;
     }
-#warning Needs adjustments to changes in Plasma::Package
-#if 0
-    if (!Plasma::Package::installPackage(path, QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kwin/scripts/", "kwin-script-")) {
-        KMessageWidget* msgWidget = new KMessageWidget;
-        msgWidget->setText(ki18n("Cannot import selected script: maybe a script already exists with the same name or there is a permission problem.").toString());
-        msgWidget->setMessageType(KMessageWidget::Error);
-        ui->verticalLayout2->insertWidget(0, msgWidget);
-        msgWidget->animatedShow();
+
+    using namespace KPackage;
+    PackageStructure *structure = PackageLoader::self()->loadPackageStructure(QStringLiteral("KWin/Script"));
+    Package package(structure);
+
+    KJob *installJob = package.update(path);
+    installJob->setProperty("packagePath", path); // so we can retrieve it later for showing the script's name
+    connect(installJob, &KJob::result, this, &Module::importScriptInstallFinished);
+}
+
+void Module::importScriptInstallFinished(KJob *job)
+{
+    // if the applet is already installed, just add it to the containment
+    if (job->error() != KJob::NoError) {
+        ui->messageWidget->setText(i18nc("Placeholder is error message returned from the install service", "Cannot import selected script.\n%1", job->errorString()));
+        ui->messageWidget->setMessageType(KMessageWidget::Error);
+        ui->messageWidget->animatedShow();
+        return;
     }
-#endif
-    // TODO: reload list after successful import
+
+    using namespace KPackage;
+
+    // so we can show the name of the package we just imported
+    PackageStructure *structure = PackageLoader::self()->loadPackageStructure(QStringLiteral("KWin/Script"));
+    Package package(structure);
+    package.setPath(job->property("packagePath").toString());
+    Q_ASSERT(package.isValid());
+
+    ui->messageWidget->setText(i18nc("Placeholder is name of the script that was imported", "The script \"%1\" was successfully imported.", package.metadata().name()));
+    ui->messageWidget->setMessageType(KMessageWidget::Information);
+    ui->messageWidget->animatedShow();
+
+    updateListViewContents();
+
+    emit changed(true);
 }
 
 void Module::updateListViewContents()
 {
-    KService::List offers = KServiceTypeTrader::self()->query("KWin/Script", "not (exist [X-KWin-Exclude-Listing]) or [X-KWin-Exclude-Listing] == false");
-    QList<KPluginInfo> scriptinfos = KPluginInfo::fromServices(offers);
+    auto filter =  [](const KPluginMetaData &md) {
+        if (md.value(QStringLiteral("X-KWin-Exclude-Listing")) == QLatin1String("true") ) {
+            return false;
+        }
+        return true;
+    };
+
+    const QString scriptFolder = QStringLiteral("kwin/scripts/");
+    const auto scripts = KPackage::PackageLoader::self()->findPackages(QStringLiteral("KWin/Script"), scriptFolder, filter);
+
+    QList<KPluginInfo> scriptinfos = KPluginInfo::fromMetaData(scripts.toVector());
+
     ui->scriptSelector->addPlugins(scriptinfos, KPluginSelector::ReadConfigFile, QString(), QString(), m_kwinConfig);
 }
 
@@ -122,17 +164,6 @@ void Module::save()
     QDBusConnection::sessionBus().asyncCall(message);
 
     emit changed(false);
-}
-
-void Module::slotGHNSClicked()
-{
-    QPointer<KNS3::DownloadDialog> downloadDialog = new KNS3::DownloadDialog("kwinscripts.knsrc", this);
-    if (downloadDialog->exec() == QDialog::Accepted) {
-        if (!downloadDialog->changedEntries().isEmpty()) {
-            updateListViewContents();
-        }
-    }
-    delete downloadDialog;
 }
 
 #include "module.moc"

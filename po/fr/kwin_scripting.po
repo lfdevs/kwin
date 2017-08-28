@@ -1,21 +1,22 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 # Joëlle Cornavin <jcorn@free.fr>, 2013.
+# Yoann Laissus <yoann.laissus@gmail.com>, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
-"PO-Revision-Date: 2013-09-30 20:37+0200\n"
-"Last-Translator: Joëlle Cornavin <jcorn@free.fr>\n"
+"POT-Creation-Date: 2017-04-08 03:04+0200\n"
+"PO-Revision-Date: 2017-05-13 13:13+0100\n"
+"Last-Translator: Yoann Laissus <yoann.laissus@gmail.com>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -50,7 +51,7 @@ msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
 msgstr "Échec de l'assertion : l'argument est nul"
 
-#: scripting.cpp:173
+#: scripting.cpp:188
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
@@ -60,7 +61,7 @@ msgstr ""
 "Nombre incorrect d'arguments. Au moins un service, un emplacement, une "
 "interface et une méthode doivent être fournis"
 
-#: scripting.cpp:179
+#: scripting.cpp:194
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
@@ -93,19 +94,25 @@ msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Second argument to registerScreenEdge needs to be a callback"
 msgstr "Le second argument à « registerScreenEdge » doit être un rappel"
 
-#: scriptingutils.h:185
+#: scriptingutils.h:213
+#, kde-format
+msgctxt "KWin Scripting error thrown due to incorrect argument"
+msgid "Second argument to registerTouchScreenEdge needs to be a callback"
+msgstr "Le second argument à « registerTouchScreenEdge » doit être un rappel"
+
+#: scriptingutils.h:250
 #, kde-format
 msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Argument for registerUserActionsMenu needs to be a callback"
 msgstr "L'argument pour « registerUserActionsMenu » doit être un rappel"
 
-#: scriptingutils.h:240
+#: scriptingutils.h:305
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1"
 msgstr "L'assertion a échoué : %1"
 
-#: scriptingutils.h:251
+#: scriptingutils.h:316
 #, kde-format
 msgctxt "Assertion failed in KWin script with expected value and actual value"
 msgid "Assertion failed: Expected %1, got %2"

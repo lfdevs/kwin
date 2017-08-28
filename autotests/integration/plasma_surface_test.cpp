@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "kwin_wayland_test.h"
 #include "platform.h"
+#include "cursor.h"
 #include "shell_client.h"
 #include "screens.h"
 #include "wayland_server.h"
@@ -53,9 +54,13 @@ private Q_SLOTS:
     void testAcceptsFocus();
 
     void testDesktopIsOpaque();
+    void testPanelWindowsCanCover_data();
+    void testPanelWindowsCanCover();
     void testOSDPlacement();
     void testPanelTypeHasStrut_data();
     void testPanelTypeHasStrut();
+    void testPanelActivate_data();
+    void testPanelActivate();
 
 private:
     ConnectionThread *m_connection = nullptr;
@@ -77,10 +82,12 @@ void PlasmaSurfaceTest::initTestCase()
 
 void PlasmaSurfaceTest::init()
 {
-    QVERIFY(Test::setupWaylandConnection(s_socketName, Test::AdditionalWaylandInterface::PlasmaShell));
+    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::PlasmaShell));
     m_compositor = Test::waylandCompositor();
     m_shell = Test::waylandShell();
     m_plasmaShell = Test::waylandPlasmaShell();
+
+    KWin::Cursor::setPos(640, 512);
 }
 
 void PlasmaSurfaceTest::cleanup()
@@ -137,17 +144,11 @@ void PlasmaSurfaceTest::testRoleOnAllDesktops()
     plasmaSurface2->setRole(role);
     QScopedPointer<ShellSurface> shellSurface2(Test::createShellSurface(surface2.data()));
     QVERIFY(!shellSurface2.isNull());
-    Test::render(surface2.data(), QSize(100, 50), Qt::blue);
-    QVERIFY(Test::waitForWaylandWindowShown());
+    auto c2 = Test::renderAndWaitForShown(surface2.data(), QSize(100, 50), Qt::blue);
+    QVERIFY(c2);
+    QVERIFY(c != c2);
 
-    QVERIFY(workspace()->activeClient() != c);
-    c = workspace()->activeClient();
-    QEXPECT_FAIL("Desktop", "PS before WS not supported", Continue);
-    QEXPECT_FAIL("Panel", "PS before WS not supported", Continue);
-    QEXPECT_FAIL("OSD", "PS before WS not supported", Continue);
-    QEXPECT_FAIL("Notification", "PS before WS not supported", Continue);
-    QEXPECT_FAIL("ToolTip", "PS before WS not supported", Continue);
-    QCOMPARE(c->isOnAllDesktops(), expectedOnAllDesktops);
+    QCOMPARE(c2->isOnAllDesktops(), expectedOnAllDesktops);
 }
 
 void PlasmaSurfaceTest::testAcceptsFocus_data()
@@ -237,6 +238,13 @@ void PlasmaSurfaceTest::testOSDPlacement()
     QCOMPARE(screens()->geometry(1), geometries.at(1));
 
     QCOMPARE(c->geometry(), QRect(590, 649, 100, 50));
+
+    // change size of window
+    QSignalSpy geometryChangedSpy(c, &AbstractClient::geometryShapeChanged);
+    QVERIFY(geometryChangedSpy.isValid());
+    Test::render(surface.data(), QSize(200, 100), Qt::red);
+    QVERIFY(geometryChangedSpy.wait());
+    QCOMPARE(c->geometry(), QRect(540, 616, 200, 100));
 }
 
 void PlasmaSurfaceTest::testPanelTypeHasStrut_data()
@@ -281,6 +289,117 @@ void PlasmaSurfaceTest::testPanelTypeHasStrut()
     QTEST(c->hasStrut(), "expectedStrut");
     QTEST(workspace()->clientArea(MaximizeArea, 0, 0), "expectedMaxArea");
     QTEST(c->layer(), "expectedLayer");
+}
+
+void PlasmaSurfaceTest::testPanelWindowsCanCover_data()
+{
+    QTest::addColumn<QRect>("panelGeometry");
+    QTest::addColumn<QRect>("windowGeometry");
+    QTest::addColumn<QPoint>("triggerPoint");
+
+    QTest::newRow("top-full-edge") << QRect(0, 0, 1280, 30) << QRect(0, 0, 200, 300) << QPoint(100, 0);
+    QTest::newRow("top-left-edge") << QRect(0, 0, 1000, 30) << QRect(0, 0, 200, 300) << QPoint(100, 0);
+    QTest::newRow("top-right-edge") << QRect(280, 0, 1000, 30) << QRect(1000, 0, 200, 300) << QPoint(1000, 0);
+    QTest::newRow("bottom-full-edge") << QRect(0, 994, 1280, 30) << QRect(0, 724, 200, 300) << QPoint(100, 1023);
+    QTest::newRow("bottom-left-edge") << QRect(0, 994, 1000, 30) << QRect(0, 724, 200, 300) << QPoint(100, 1023);
+    QTest::newRow("bottom-right-edge") << QRect(280, 994, 1000, 30) << QRect(1000, 724, 200, 300) << QPoint(1000, 1023);
+    QTest::newRow("left-full-edge") << QRect(0, 0, 30, 1024) << QRect(0, 0, 200, 300) << QPoint(0, 100);
+    QTest::newRow("left-top-edge") << QRect(0, 0, 30, 800) << QRect(0, 0, 200, 300) << QPoint(0, 100);
+    QTest::newRow("left-bottom-edge") << QRect(0, 200, 30, 824) << QRect(0, 0, 200, 300) << QPoint(0, 250);
+    QTest::newRow("right-full-edge") << QRect(1250, 0, 30, 1024) << QRect(1080, 0, 200, 300) << QPoint(1279, 100);
+    QTest::newRow("right-top-edge") << QRect(1250, 0, 30, 800) << QRect(1080, 0, 200, 300) << QPoint(1279, 100);
+    QTest::newRow("right-bottom-edge") << QRect(1250, 200, 30, 824) << QRect(1080, 0, 200, 300) << QPoint(1279, 250);
+}
+
+void PlasmaSurfaceTest::testPanelWindowsCanCover()
+{
+    // this test verifies the behavior of a panel with windows can cover
+    // triggering the screen edge should raise the panel.
+    QScopedPointer<Surface> surface(Test::createSurface());
+    QVERIFY(!surface.isNull());
+    QScopedPointer<QObject> shellSurface(Test::createShellSurface(Test::ShellSurfaceType::WlShell, surface.data()));
+    QVERIFY(!shellSurface.isNull());
+    QScopedPointer<PlasmaShellSurface> plasmaSurface(m_plasmaShell->createSurface(surface.data()));
+    QVERIFY(!plasmaSurface.isNull());
+    plasmaSurface->setRole(PlasmaShellSurface::Role::Panel);
+    QFETCH(QRect, panelGeometry);
+    plasmaSurface->setPosition(panelGeometry.topLeft());
+    plasmaSurface->setPanelBehavior(PlasmaShellSurface::PanelBehavior::WindowsCanCover);
+
+
+    // now render and map the window
+    auto panel = Test::renderAndWaitForShown(surface.data(), panelGeometry.size(), Qt::blue);
+
+    QVERIFY(panel);
+    QCOMPARE(panel->windowType(), NET::Dock);
+    QVERIFY(panel->isDock());
+    QCOMPARE(panel->geometry(), panelGeometry);
+    QCOMPARE(panel->hasStrut(), false);
+    QCOMPARE(workspace()->clientArea(MaximizeArea, 0, 0), QRect(0, 0, 1280, 1024));
+    QCOMPARE(panel->layer(), KWin::NormalLayer);
+
+    // create a Window
+    QScopedPointer<Surface> surface2(Test::createSurface());
+    QVERIFY(!surface2.isNull());
+    QScopedPointer<QObject> shellSurface2(Test::createShellSurface(Test::ShellSurfaceType::WlShell, surface2.data()));
+    QVERIFY(!shellSurface2.isNull());
+
+    QFETCH(QRect, windowGeometry);
+    auto c = Test::renderAndWaitForShown(surface2.data(), windowGeometry.size(), Qt::red);
+
+    QVERIFY(c);
+    QCOMPARE(c->windowType(), NET::Normal);
+    QVERIFY(c->isActive());
+    QCOMPARE(c->layer(), KWin::NormalLayer);
+    c->move(windowGeometry.topLeft());
+    QCOMPARE(c->geometry(), windowGeometry);
+
+    auto stackingOrder = workspace()->stackingOrder();
+    QCOMPARE(stackingOrder.count(), 2);
+    QCOMPARE(stackingOrder.first(), panel);
+    QCOMPARE(stackingOrder.last(), c);
+
+    QSignalSpy stackingOrderChangedSpy(workspace(), &Workspace::stackingOrderChanged);
+    QVERIFY(stackingOrderChangedSpy.isValid());
+    // trigger screenedge
+    QFETCH(QPoint, triggerPoint);
+    KWin::Cursor::setPos(triggerPoint);
+    QCOMPARE(stackingOrderChangedSpy.count(), 1);
+    stackingOrder = workspace()->stackingOrder();
+    QCOMPARE(stackingOrder.count(), 2);
+    QCOMPARE(stackingOrder.first(), c);
+    QCOMPARE(stackingOrder.last(), panel);
+}
+
+void PlasmaSurfaceTest::testPanelActivate_data()
+{
+    QTest::addColumn<bool>("wantsFocus");
+    QTest::addColumn<bool>("active");
+
+    QTest::newRow("no focus") << false << false;
+    QTest::newRow("focus") << true << true;
+}
+
+void PlasmaSurfaceTest::testPanelActivate()
+{
+    QScopedPointer<Surface> surface(Test::createSurface());
+    QVERIFY(!surface.isNull());
+    QScopedPointer<QObject> shellSurface(Test::createShellSurface(Test::ShellSurfaceType::WlShell, surface.data()));
+    QVERIFY(!shellSurface.isNull());
+    QScopedPointer<PlasmaShellSurface> plasmaSurface(m_plasmaShell->createSurface(surface.data()));
+    QVERIFY(!plasmaSurface.isNull());
+    plasmaSurface->setRole(PlasmaShellSurface::Role::Panel);
+    QFETCH(bool, wantsFocus);
+    plasmaSurface->setPanelTakesFocus(wantsFocus);
+
+    auto panel = Test::renderAndWaitForShown(surface.data(), QSize(100, 200), Qt::blue);
+
+    QVERIFY(panel);
+    QCOMPARE(panel->windowType(), NET::Dock);
+    QVERIFY(panel->isDock());
+    QFETCH(bool, active);
+    QCOMPARE(panel->dockWantsInput(), active);
+    QCOMPARE(panel->isActive(), active);
 }
 
 WAYLANDTEST_MAIN(PlasmaSurfaceTest)

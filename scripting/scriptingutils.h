@@ -171,6 +171,71 @@ QScriptValue registerScreenEdge(QScriptContext *context, QScriptEngine *engine)
 }
 
 template<class T>
+QScriptValue unregisterScreenEdge(QScriptContext *context, QScriptEngine *engine)
+{
+    T script = qobject_cast<T>(context->callee().data().toQObject());
+    if (!script) {
+        return engine->undefinedValue();
+    }
+    if (!validateParameters(context, 1, 1)) {
+        return engine->undefinedValue();
+    }
+    if (!validateArgumentType<int>(context)) {
+        return engine->undefinedValue();
+    }
+
+    const int edge = context->argument(0).toVariant().toInt();
+    QHash<int, QList<QScriptValue> >::iterator it = script->screenEdgeCallbacks().find(edge);
+    if (it == script->screenEdgeCallbacks().end()) {
+        //not previously registered
+        return engine->newVariant(false);
+    }
+    ScreenEdges::self()->unreserve(static_cast<KWin::ElectricBorder>(edge), script);
+    script->screenEdgeCallbacks().erase(it);
+    return engine->newVariant(true);
+}
+
+template<class T>
+QScriptValue registerTouchScreenEdge(QScriptContext *context, QScriptEngine *engine)
+{
+    auto script = qobject_cast<T>(context->callee().data().toQObject());
+    if (!script) {
+        return engine->undefinedValue();
+    }
+    if (!validateParameters(context, 2, 2)) {
+        return engine->undefinedValue();
+    }
+    if (!validateArgumentType<int>(context)) {
+        return engine->undefinedValue();
+    }
+    if (!context->argument(1).isFunction()) {
+        context->throwError(QScriptContext::SyntaxError, i18nc("KWin Scripting error thrown due to incorrect argument",
+                                                               "Second argument to registerTouchScreenEdge needs to be a callback"));
+    }
+    const int edge = context->argument(0).toVariant().toInt();
+    const auto ret = script->registerTouchScreenCallback(edge, context->argument(1));
+    return engine->newVariant(ret);
+}
+
+template<class T>
+QScriptValue unregisterTouchScreenEdge(QScriptContext *context, QScriptEngine *engine)
+{
+    auto script = qobject_cast<T>(context->callee().data().toQObject());
+    if (!script) {
+        return engine->undefinedValue();
+    }
+    if (!validateParameters(context, 1, 1)) {
+        return engine->undefinedValue();
+    }
+    if (!validateArgumentType<int>(context)) {
+        return engine->undefinedValue();
+    }
+    const int edge = context->argument(0).toVariant().toInt();
+    const auto ret = script->unregisterTouchScreenCallback(edge);
+    return engine->newVariant(ret);
+}
+
+template<class T>
 QScriptValue registerUserActionsMenu(QScriptContext *context, QScriptEngine *engine)
 {
     T script = qobject_cast<T>(context->callee().data().toQObject());
@@ -271,7 +336,28 @@ inline void registerScreenEdgeFunction(QObject *parent, QScriptEngine *engine, Q
     engine->globalObject().setProperty(QStringLiteral("registerScreenEdge"), shortcutFunc);
 }
 
-inline void regesterUserActionsMenuFunction(QObject *parent, QScriptEngine *engine, QScriptEngine::FunctionSignature function)
+inline void unregisterScreenEdgeFunction(QObject *parent, QScriptEngine *engine, QScriptEngine::FunctionSignature function)
+{
+    QScriptValue shortcutFunc = engine->newFunction(function);
+    shortcutFunc.setData(engine->newQObject(parent));
+    engine->globalObject().setProperty(QStringLiteral("unregisterScreenEdge"), shortcutFunc);
+}
+
+inline void registerTouchScreenEdgeFunction(QObject *parent, QScriptEngine *engine, QScriptEngine::FunctionSignature function)
+{
+    QScriptValue touchScreenFunc = engine->newFunction(function);
+    touchScreenFunc.setData(engine->newQObject(parent));
+    engine->globalObject().setProperty(QStringLiteral("registerTouchScreenEdge"), touchScreenFunc);
+}
+
+inline void unregisterTouchScreenEdgeFunction(QObject *parent, QScriptEngine *engine, QScriptEngine::FunctionSignature function)
+{
+    QScriptValue touchScreenFunc = engine->newFunction(function);
+    touchScreenFunc.setData(engine->newQObject(parent));
+    engine->globalObject().setProperty(QStringLiteral("unregisterTouchScreenEdge"), touchScreenFunc);
+}
+
+inline void registerUserActionsMenuFunction(QObject *parent, QScriptEngine *engine, QScriptEngine::FunctionSignature function)
 {
     QScriptValue shortcutFunc = engine->newFunction(function);
     shortcutFunc.setData(engine->newQObject(parent));

@@ -33,7 +33,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/surface.h>
 #include <KWayland/Client/xdgshell.h>
 
+#include <KWayland/Server/clientconnection.h>
+#include <KWayland/Server/display.h>
 #include <KWayland/Server/shell_interface.h>
+
+// system
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <unistd.h>
 
 using namespace KWin;
 using namespace KWayland::Client;
@@ -60,7 +67,12 @@ private Q_SLOTS:
     void testMaximizedToFullscreen();
     void testWindowOpensLargerThanScreen_data();
     void testWindowOpensLargerThanScreen();
+    void testHidden_data();
+    void testHidden();
+    void testDesktopFileName();
     void testCaptionSimplified();
+    void testKillWindow_data();
+    void testKillWindow();
 };
 
 void TestShellClient::initTestCase()
@@ -83,7 +95,7 @@ void TestShellClient::initTestCase()
 
 void TestShellClient::init()
 {
-    QVERIFY(Test::setupWaylandConnection(s_socketName, Test::AdditionalWaylandInterface::Decoration));
+    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::Decoration));
 
     screens()->setCurrent(0);
     KWin::Cursor::setPos(QPoint(1280, 512));
@@ -208,9 +220,6 @@ void TestShellClient::testDesktopPresenceChanged()
     QCOMPARE(c->desktop(), 2);
     QCOMPARE(desktopPresenceChangedClientSpy.count(), 1);
     QCOMPARE(desktopPresenceChangedWorkspaceSpy.count(), 1);
-    // effects is delayed by one cycle
-    QCOMPARE(desktopPresenceChangedEffectsSpy.count(), 0);
-    QVERIFY(desktopPresenceChangedEffectsSpy.wait());
     QCOMPARE(desktopPresenceChangedEffectsSpy.count(), 1);
 
     // verify the arguments
@@ -546,6 +555,76 @@ void TestShellClient::testWindowOpensLargerThanScreen()
     QVERIFY(sizeChangeRequestedSpy.wait());
 }
 
+void TestShellClient::testHidden_data()
+{
+    QTest::addColumn<Test::ShellSurfaceType>("type");
+
+    QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell;
+    QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5;
+}
+
+void TestShellClient::testHidden()
+{
+    // this test verifies that when hiding window it doesn't get shown
+    QScopedPointer<Surface> surface(Test::createSurface());
+    QFETCH(Test::ShellSurfaceType, type);
+    QScopedPointer<QObject> shellSurface(Test::createShellSurface(type, surface.data()));
+    auto c = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
+    QVERIFY(c);
+    QVERIFY(c->isActive());
+    QCOMPARE(workspace()->activeClient(), c);
+    QVERIFY(c->wantsInput());
+    QVERIFY(c->wantsTabFocus());
+    QVERIFY(c->isShown(true));
+
+    c->hideClient(true);
+    QVERIFY(!c->isShown(true));
+    QVERIFY(!c->isActive());
+    QVERIFY(c->wantsInput());
+    QVERIFY(c->wantsTabFocus());
+
+    // unhide again
+    c->hideClient(false);
+    QVERIFY(c->isShown(true));
+    QVERIFY(c->wantsInput());
+    QVERIFY(c->wantsTabFocus());
+
+    //QCOMPARE(workspace()->activeClient(), c);
+}
+
+void TestShellClient::testDesktopFileName()
+{
+    QIcon::setThemeName(QStringLiteral("breeze"));
+    // this test verifies that desktop file name is passed correctly to the window
+    QScopedPointer<Surface> surface(Test::createSurface());
+    // only xdg-shell as ShellSurface misses the setter
+    QScopedPointer<XdgShellSurface> shellSurface(qobject_cast<XdgShellSurface*>(Test::createShellSurface(Test::ShellSurfaceType::XdgShellV5, surface.data())));
+    shellSurface->setAppId(QByteArrayLiteral("org.kde.foo"));
+    auto c = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
+    QVERIFY(c);
+    QCOMPARE(c->desktopFileName(), QByteArrayLiteral("org.kde.foo"));
+    // the desktop file does not exist, so icon should be generic Wayland
+    QCOMPARE(c->icon().name(), QStringLiteral("wayland"));
+
+    QSignalSpy desktopFileNameChangedSpy(c, &AbstractClient::desktopFileNameChanged);
+    QVERIFY(desktopFileNameChangedSpy.isValid());
+    QSignalSpy iconChangedSpy(c, &ShellClient::iconChanged);
+    QVERIFY(iconChangedSpy.isValid());
+    shellSurface->setAppId(QByteArrayLiteral("org.kde.bar"));
+    QVERIFY(desktopFileNameChangedSpy.wait());
+    QCOMPARE(c->desktopFileName(), QByteArrayLiteral("org.kde.bar"));
+    // icon should still be wayland
+    QCOMPARE(c->icon().name(), QStringLiteral("wayland"));
+    QVERIFY(iconChangedSpy.isEmpty());
+
+    const QString dfPath = QFINDTESTDATA("data/example.desktop");
+    shellSurface->setAppId(dfPath.toUtf8());
+    QVERIFY(desktopFileNameChangedSpy.wait());
+    QCOMPARE(iconChangedSpy.count(), 1);
+    QCOMPARE(QString::fromUtf8(c->desktopFileName()), dfPath);
+    QCOMPARE(c->icon().name(), QStringLiteral("kwin"));
+}
+
 void TestShellClient::testCaptionSimplified()
 {
     // this test verifies that caption is properly trimmed
@@ -559,6 +638,54 @@ void TestShellClient::testCaptionSimplified()
     QVERIFY(c);
     QVERIFY(c->caption() != origTitle);
     QCOMPARE(c->caption(), origTitle.simplified());
+}
+
+void TestShellClient::testKillWindow_data()
+{
+    QTest::addColumn<bool>("socketMode");
+
+    QTest::newRow("display") << false;
+    QTest::newRow("socket") << true;
+}
+
+void TestShellClient::testKillWindow()
+{
+    // this test verifies that killWindow properly terminates a process
+    // for this an external binary is launched
+    const QString kill = QFINDTESTDATA(QStringLiteral("helper/kill"));
+    QVERIFY(!kill.isEmpty());
+    QSignalSpy shellClientAddedSpy(waylandServer(), &WaylandServer::shellClientAdded);
+    QVERIFY(shellClientAddedSpy.isValid());
+
+    QScopedPointer<QProcess> process(new QProcess);
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    QFETCH(bool, socketMode);
+    if (socketMode) {
+        int sx[2];
+        QVERIFY(socketpair(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0, sx) >= 0);
+        waylandServer()->display()->createClient(sx[0]);
+        int socket = dup(sx[1]);
+        QVERIFY(socket != -1);
+        env.insert(QStringLiteral("WAYLAND_SOCKET"), QByteArray::number(socket));
+        env.remove("WAYLAND_DISPLAY");
+    } else {
+        env.insert("WAYLAND_DISPLAY", s_socketName);
+    }
+    process->setProcessEnvironment(env);
+    process->setProcessChannelMode(QProcess::ForwardedChannels);
+    process->setProgram(kill);
+    process->start();
+    QVERIFY(process->waitForStarted());
+
+    AbstractClient *killClient = nullptr;
+    QVERIFY(shellClientAddedSpy.wait());
+    killClient = shellClientAddedSpy.first().first().value<AbstractClient*>();
+    QVERIFY(killClient);
+    QSignalSpy finishedSpy(process.data(), static_cast<void(QProcess::*)(int,QProcess::ExitStatus)>(&QProcess::finished));
+    QVERIFY(finishedSpy.isValid());
+    killClient->killWindow();
+    QVERIFY(finishedSpy.wait());
+    QVERIFY(!finishedSpy.isEmpty());
 }
 
 WAYLANDTEST_MAIN(TestShellClient)

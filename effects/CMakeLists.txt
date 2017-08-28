@@ -20,6 +20,7 @@ set(kwin_effect_KDE_LIBS
     KF5::Plasma # screenedge effect
     KF5::IconThemes
     KF5::Service
+    KF5::Notifications # screenshot effect
 )
 
 set(kwin_effect_QT_LIBS
@@ -71,6 +72,7 @@ set( kwin4_effect_builtins_sources
     effect_builtins.cpp
     blur/blur.cpp
     blur/blurshader.cpp
+    colorpicker/colorpicker.cpp
     cube/cube.cpp
     cube/cube_proxy.cpp
     cube/cubeslide.cpp
@@ -106,6 +108,7 @@ kconfig_add_kcfg_files(kwin4_effect_builtins_sources
     coverswitch/coverswitchconfig.kcfgc
     desktopgrid/desktopgridconfig.kcfgc
     diminactive/diminactiveconfig.kcfgc
+    fallapart/fallapartconfig.kcfgc
     flipswitch/flipswitchconfig.kcfgc
     glide/glideconfig.kcfgc
     lookingglass/lookingglassconfig.kcfgc
@@ -116,6 +119,7 @@ kconfig_add_kcfg_files(kwin4_effect_builtins_sources
     presentwindows/presentwindowsconfig.kcfgc
     resize/resizeconfig.kcfgc
     showfps/showfpsconfig.kcfgc
+    slidingpopups/slidingpopupsconfig.kcfgc
     thumbnailaside/thumbnailasideconfig.kcfgc
     trackmouse/trackmouseconfig.kcfgc
     windowgeometry/windowgeometryconfig.kcfgc
@@ -128,7 +132,9 @@ add_subdirectory( dialogparent )
 add_subdirectory( eyeonscreen )
 add_subdirectory( fade )
 add_subdirectory( fadedesktop )
+add_subdirectory( frozenapp )
 add_subdirectory( login )
+add_subdirectory( logout )
 add_subdirectory( maximize )
 add_subdirectory( morphingpopups )
 add_subdirectory( scalein )

@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KIconLoader>
 #include <KStartupInfo>
 #include <KSelectionOwner>
+#include <KWindowSystem>
 // KWin
 #include <kwinglutils.h>
 
@@ -73,7 +74,7 @@ static const int s_startupDefaultTimeout = 5;
 StartupFeedbackEffect::StartupFeedbackEffect()
     : m_bounceSizesRatio(1.0)
     , m_startupInfo(new KStartupInfo(KStartupInfo::CleanOnCantDetect, this))
-    , m_selection(new KSelectionOwner("_KDE_STARTUP_FEEDBACK", xcbConnection(), x11RootWindow(), this))
+    , m_selection(nullptr)
     , m_active(false)
     , m_frame(0)
     , m_progress(0)
@@ -85,7 +86,10 @@ StartupFeedbackEffect::StartupFeedbackEffect()
     for (int i = 0; i < 5; ++i) {
         m_bouncingTextures[i] = 0;
     }
-    m_selection->claim(true);
+    if (KWindowSystem::isPlatformX11()) {
+        m_selection = new KSelectionOwner("_KDE_STARTUP_FEEDBACK", xcbConnection(), x11RootWindow(), this);
+        m_selection->claim(true);
+    }
     connect(m_startupInfo, SIGNAL(gotNewStartup(KStartupInfoId,KStartupInfoData)), SLOT(gotNewStartup(KStartupInfoId,KStartupInfoData)));
     connect(m_startupInfo, SIGNAL(gotRemoveStartup(KStartupInfoId,KStartupInfoData)), SLOT(gotRemoveStartup(KStartupInfoId,KStartupInfoData)));
     connect(m_startupInfo, SIGNAL(gotStartupChange(KStartupInfoId,KStartupInfoData)), SLOT(gotStartupChange(KStartupInfoId,KStartupInfoData)));
@@ -279,7 +283,7 @@ void StartupFeedbackEffect::start(const QString& icon)
     prepareTextures(iconPixmap);
     auto readCursorSize = []() -> int {
         // read details about the mouse-cursor theme define per default
-        KConfigGroup mousecfg(KSharedConfig::openConfig(QStringLiteral("kcminputrc")), "Mouse");
+        KConfigGroup mousecfg(effects->inputConfig(), "Mouse");
         QString size  = mousecfg.readEntry("cursorSize", QString());
 
         // fetch a reasonable size for the cursor-theme image

@@ -48,44 +48,22 @@ namespace KWin
 class GLVertexBuffer;
 class GLVertexBufferPrivate;
 
-
-// Initializes GLX function pointers
-void KWINGLUTILS_EXPORT initGLX();
 // Initializes OpenGL stuff. This includes resolving function pointers as
 //  well as checking for GL version and extensions
 //  Note that GL context has to be created by the time this function is called
-void KWINGLUTILS_EXPORT initGL(OpenGLPlatformInterface platformInterface);
-// Initializes EGL function pointers
-void KWINGLUTILS_EXPORT initEGL();
+typedef void (*resolveFuncPtr)();
+void KWINGLUTILS_EXPORT initGL(std::function<resolveFuncPtr(const char*)> resolveFunction);
 // Cleans up all resources hold by the GL Context
 void KWINGLUTILS_EXPORT cleanupGL();
 
-// Number of supported texture units
-extern KWINGLUTILS_EXPORT int glTextureUnitsCount;
-
 
 bool KWINGLUTILS_EXPORT hasGLVersion(int major, int minor, int release = 0);
-bool KWINGLUTILS_EXPORT hasGLXVersion(int major, int minor, int release = 0);
-bool KWINGLUTILS_EXPORT hasEGLVersion(int major, int minor, int release = 0);
 // use for both OpenGL and GLX extensions
 bool KWINGLUTILS_EXPORT hasGLExtension(const QByteArray &extension);
 
 // detect OpenGL error (add to various places in code to pinpoint the place)
 bool KWINGLUTILS_EXPORT checkGLError(const char* txt);
 
-inline bool KWINGLUTILS_EXPORT isPowerOfTwo(int x)
-{
-    return ((x & (x - 1)) == 0);
-}
-/**
- * @return power of two integer _greater or equal to_ x.
- *  E.g. nearestPowerOfTwo(513) = nearestPowerOfTwo(800) = 1024
- **/
-// TODO: Drop for Plasma 6, no longer needed after OpenGL 2.0
-int KWINGLUTILS_EXPORT nearestPowerOfTwo(int x);
-
-QList<QByteArray> KWINGLUTILS_EXPORT eglExtensions();
-QList<QByteArray> KWINGLUTILS_EXPORT glxExtensions();
 QList<QByteArray> KWINGLUTILS_EXPORT openGLExtensions();
 
 class KWINGLUTILS_EXPORT GLShader
@@ -161,7 +139,6 @@ public:
 
     enum IntUniform {
         AlphaToOne,     ///< @deprecated no longer used
-        ColorCorrectionLookupTextureUnit,
         IntUniformCount
     };
 
@@ -200,10 +177,6 @@ private:
     int mIntLocation[IntUniformCount];
     int mColorLocation[ColorUniformCount];
 
-    static bool sColorCorrect;
-
-    friend class ColorCorrection;
-    friend class ColorCorrectionPrivate;
     friend class ShaderManager;
 };
 
@@ -511,6 +484,42 @@ public:
         s_virtualScreenSize = s;
     }
 
+    /**
+     * Sets the virtual screen geometry to @p g.
+     * This is the geometry of the OpenGL window currently being rendered to
+     * in the virtual geometry space the rendering geometries use.
+     * @see virtualScreenGeometry
+     * @since 5.9
+     **/
+    static void setVirtualScreenGeometry(const QRect &g) {
+        s_virtualScreenGeometry = g;
+    }
+
+    /**
+     * The geometry of the OpenGL window currently being rendered to
+     * in the virtual geometry space the rendering system uses.
+     * @see setVirtualScreenGeometry
+     * @since 5.9
+     **/
+    static QRect virtualScreenGeometry() {
+        return s_virtualScreenGeometry;
+    }
+
+    /**
+     * The scale of the OpenGL window currently being rendered to
+     *
+     * @returns the ratio between the virtual geometry space the rendering
+     * system uses and the target
+     * @since 5.10
+     */
+    static void setVirtualScreenScale(qreal scale) {
+        s_virtualScreenScale = scale;
+    }
+
+    static qreal virtualScreenScale() {
+        return s_virtualScreenScale;
+    }
+
 
 protected:
     void initFBO();
@@ -523,6 +532,9 @@ private:
     static bool s_blitSupported;
     static QStack<GLRenderTarget*> s_renderTargets;
     static QSize s_virtualScreenSize;
+    static QRect s_virtualScreenGeometry;
+    static qreal s_virtualScreenScale;
+    static GLint s_virtualScreenViewport[4];
 
     GLTexture mTexture;
     bool mValid;
@@ -754,16 +766,18 @@ public:
     static GLVertexBuffer *streamingBuffer();
 
     /**
-     * Sets the virtual screen size to @p s.
-     * @since 5.2
+     * Sets the virtual screen geometry to @p g.
+     * This is the geometry of the OpenGL window currently being rendered to
+     * in the virtual geometry space the rendering geometries use.
+     * @since 5.9
      **/
-    static void setVirtualScreenSize(const QSize &s) {
-        s_virtualScreenSize = s;
+    static void setVirtualScreenGeometry(const QRect &g) {
+        s_virtualScreenGeometry = g;
     }
 
 private:
     GLVertexBufferPrivate* const d;
-    static QSize s_virtualScreenSize;
+    static QRect s_virtualScreenGeometry;
 };
 
 } // namespace

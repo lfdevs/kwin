@@ -21,6 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MOCK_EFFECTS_HANDLER_H
 
 #include <kwineffects.h>
+#include <QX11Info>
+
 class MockEffectsHandler : public KWin::EffectsHandler
 {
     Q_OBJECT
@@ -85,7 +87,6 @@ public:
         return false;
     }
     void defineCursor(Qt::CursorShape) override {}
-    void deleteRootProperty(long int) const override {}
     int desktopAbove(int, bool) const override {
         return 0;
     }
@@ -176,10 +177,12 @@ public:
     void registerAxisShortcut(Qt::KeyboardModifiers, KWin::PointerAxisDirection, QAction *) override {}
     void registerGlobalShortcut(const QKeySequence &, QAction *) override {}
     void registerPointerShortcut(Qt::KeyboardModifiers, Qt::MouseButton, QAction *) override {}
-    void registerPropertyType(long int, bool) override {}
+    void registerTouchpadSwipeShortcut(KWin::SwipeDirection, QAction *) override {}
     void reloadEffect(KWin::Effect *) override {}
     void removeSupportProperty(const QByteArray &, KWin::Effect *) override {}
     void reserveElectricBorder(KWin::ElectricBorder, KWin::Effect *) override {}
+    void registerTouchBorder(KWin::ElectricBorder, QAction *) override {}
+    void unregisterTouchBorder(KWin::ElectricBorder, QAction *) override {}
     QPainter *scenePainter() override {
         return nullptr;
     }
@@ -236,6 +239,29 @@ public:
     void setAnimationsSupported(bool set) {
         m_animationsSuported = set;
     }
+
+    KWin::PlatformCursorImage cursorImage() const override {
+        return KWin::PlatformCursorImage();
+    }
+
+    void hideCursor() override {}
+
+    void showCursor() override {}
+
+    void startInteractiveWindowSelection(std::function<void(KWin::EffectWindow*)> callback) override {
+        callback(nullptr);
+    }
+    void startInteractivePositionSelection(std::function<void (const QPoint &)> callback) override {
+        callback(QPoint(-1, -1));
+    }
+    void showOnScreenMessage(const QString &message, const QString &iconName = QString()) override {
+        Q_UNUSED(message)
+        Q_UNUSED(iconName)
+    }
+    void hideOnScreenMessage(OnScreenMessageHideFlags flags = OnScreenMessageHideFlags()) override { Q_UNUSED(flags)}
+
+    KSharedConfigPtr config() const override;
+    KSharedConfigPtr inputConfig() const override;
 
 private:
     bool m_animationsSuported = true;

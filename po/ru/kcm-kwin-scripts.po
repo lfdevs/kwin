@@ -4,13 +4,13 @@
 #
 # Svetlana Kolyada <kolyadas89@gmail.com>, 2012.
 # Julia Dronova <juliette.tux@gmail.com>, 2012.
-# Alexander Potashev <aspotashev@gmail.com>, 2014, 2016.
+# Alexander Potashev <aspotashev@gmail.com>, 2014, 2016, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
-"PO-Revision-Date: 2016-03-07 12:04+0300\n"
+"POT-Creation-Date: 2017-04-27 02:56+0200\n"
+"PO-Revision-Date: 2017-05-18 03:11+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -34,39 +34,46 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kolyadas89@gmail.com"
 
-#: module.cpp:50
+#: module.cpp:51
 #, kde-format
 msgid "KWin Scripts"
 msgstr "Сценарии KWin"
 
-#: module.cpp:52
+#: module.cpp:53
 #, kde-format
 msgid "Configure KWin scripts"
 msgstr "Параметры сценариев KWin"
 
-#: module.cpp:55
+#: module.cpp:56
 #, kde-format
 msgid "Tamás Krutki"
 msgstr "Тамаш Крутки (Tamás Krutki)"
 
-#: module.cpp:77
+#: module.cpp:85
 #, kde-format
 msgid "Import KWin Script"
 msgstr "Импорт сценария KWin"
 
-#: module.cpp:78
+#: module.cpp:86
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|Сценарии KWin (*.kwinscript)"
 
-#: module.cpp:87
+#: module.cpp:105
 #, kde-format
+msgctxt "Placeholder is error message returned from the install service"
 msgid ""
-"Cannot import selected script: maybe a script already exists with the same "
-"name or there is a permission problem."
+"Cannot import selected script.\n"
+"%1"
 msgstr ""
-"Не удалось импортировать выбранный сценарий: сценарий с таким именем уже "
-"существует или имеются проблемы с правами доступа."
+"Не удалось импортировать выбранный сценарий.\n"
+"%1"
+
+#: module.cpp:119
+#, kde-format
+msgctxt "Placeholder is name of the script that was imported"
+msgid "The script \"%1\" was successfully imported."
+msgstr "Сценарий «%1» успешно импортирован."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Module)
 #: module.ui:14
@@ -75,14 +82,14 @@ msgid "KWin script configuration"
 msgstr "Параметры сценария KWin"
 
 #. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
-#: module.ui:41
+#: module.ui:44
 #, kde-format
 msgid "Import KWin script..."
 msgstr "Импорт сценария KWin..."
 
 # BUGME: please change to "Get New Script_s_..." --aspotashev
-#. i18n: ectx: property (text), widget (QPushButton, ghnsButton)
-#: module.ui:48
+#. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
+#: module.ui:51
 #, kde-format
 msgid "Get New Script..."
 msgstr "Получить новые сценарии..."

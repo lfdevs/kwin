@@ -54,6 +54,9 @@ class KWIN_EXPORT Application : public  QApplication
     Q_PROPERTY(quint32 x11RootWindow READ x11RootWindow CONSTANT)
     Q_PROPERTY(void *x11Connection READ x11Connection NOTIFY x11ConnectionChanged)
     Q_PROPERTY(int x11ScreenNumber READ x11ScreenNumber CONSTANT)
+    Q_PROPERTY(KSharedConfigPtr config READ config WRITE setConfig)
+    Q_PROPERTY(KSharedConfigPtr kxkbConfig READ kxkbConfig WRITE setKxkbConfig)
+    Q_PROPERTY(KSharedConfigPtr inputConfig READ inputConfig WRITE setInputConfig)
 public:
     /**
     * @brief This enum provides the various operation modes of KWin depending on the available
@@ -85,6 +88,20 @@ public:
     }
     void setConfig(KSharedConfigPtr config) {
         m_config = config;
+    }
+
+    KSharedConfigPtr kxkbConfig() const {
+        return m_kxkbConfig;
+    }
+    void setKxkbConfig(KSharedConfigPtr config) {
+        m_kxkbConfig = config;
+    }
+
+    KSharedConfigPtr inputConfig() const {
+        return m_inputConfig;
+    }
+    void setInputConfig(KSharedConfigPtr config) {
+        m_inputConfig = config;
     }
 
     void start();
@@ -226,6 +243,8 @@ private:
     QScopedPointer<XcbEventFilter> m_eventFilter;
     bool m_configLock;
     KSharedConfigPtr m_config;
+    KSharedConfigPtr m_kxkbConfig;
+    KSharedConfigPtr m_inputConfig;
     OperationMode m_operationMode;
     xcb_timestamp_t m_x11Time = XCB_TIME_CURRENT_TIME;
     xcb_window_t m_rootWindow = XCB_WINDOW_NONE;

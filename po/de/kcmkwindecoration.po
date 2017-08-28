@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-14 05:12+0200\n"
+"POT-Creation-Date: 2017-04-14 02:49+0200\n"
 "PO-Revision-Date: 2015-10-25 12:33+0100\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -19,52 +19,52 @@ msgstr ""
 "X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Menu"
 msgstr "Menü"
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Application menu"
 msgstr "Anwendungsmenü"
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "On all desktops"
 msgstr "Auf allen Arbeitsflächen"
 
-#: declarative-plugin/buttonsmodel.cpp:73
+#: declarative-plugin/buttonsmodel.cpp:74
 #, kde-format
 msgid "Minimize"
 msgstr "Minimieren"
 
-#: declarative-plugin/buttonsmodel.cpp:75
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
 msgid "Maximize"
 msgstr "Maximieren"
 
-#: declarative-plugin/buttonsmodel.cpp:77
+#: declarative-plugin/buttonsmodel.cpp:78
 #, kde-format
 msgid "Close"
 msgstr "Schließen"
 
-#: declarative-plugin/buttonsmodel.cpp:79
+#: declarative-plugin/buttonsmodel.cpp:80
 #, kde-format
 msgid "Context help"
 msgstr "Kontexthilfe"
 
-#: declarative-plugin/buttonsmodel.cpp:81
+#: declarative-plugin/buttonsmodel.cpp:82
 #, kde-format
 msgid "Shade"
 msgstr "Einrollen"
 
-#: declarative-plugin/buttonsmodel.cpp:83
+#: declarative-plugin/buttonsmodel.cpp:84
 #, kde-format
 msgid "Keep below"
 msgstr "Im Hintergrund halten"
 
-#: declarative-plugin/buttonsmodel.cpp:85
+#: declarative-plugin/buttonsmodel.cpp:86
 #, kde-format
 msgid "Keep above"
 msgstr "Im Vordergrund halten"

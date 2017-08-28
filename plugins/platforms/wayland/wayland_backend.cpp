@@ -37,6 +37,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/event_queue.h>
 #include <KWayland/Client/keyboard.h>
 #include <KWayland/Client/pointer.h>
+#include <KWayland/Client/pointerconstraints.h>
+#include <KWayland/Client/pointergestures.h>
 #include <KWayland/Client/region.h>
 #include <KWayland/Client/registry.h>
 #include <KWayland/Client/seat.h>
@@ -47,13 +49,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/touch.h>
 #include <KWayland/Client/xdgshell.h>
 #include <KWayland/Server/buffer_interface.h>
+#include <KWayland/Server/display.h>
 #include <KWayland/Server/seat_interface.h>
 #include <KWayland/Server/surface_interface.h>
+
+#include <KLocalizedString>
 // Qt
 #include <QMetaMethod>
 #include <QThread>
 // Wayland
 #include <wayland-cursor.h>
+
+#include <linux/input.h>
 
 namespace KWin
 {
@@ -82,6 +89,9 @@ WaylandSeat::WaylandSeat(wl_seat *seat, WaylandBackend *backend)
                     [this](quint32 key, Keyboard::KeyState state, quint32 time) {
                         switch (state) {
                         case Keyboard::KeyState::Pressed:
+                            if (key == KEY_RIGHTCTRL) {
+                                m_backend->togglePointerConfinement();
+                            }
                             m_backend->keyboardKeyPressed(key, time);
                             break;
                         case Keyboard::KeyState::Released:
@@ -111,6 +121,7 @@ WaylandSeat::WaylandSeat(wl_seat *seat, WaylandBackend *backend)
         [this](bool hasPointer) {
             if (hasPointer && !m_pointer) {
                 m_pointer = m_seat->createPointer(this);
+                setupPointerGestures();
                 connect(m_pointer, &Pointer::entered, this,
                     [this](quint32 serial) {
                         m_enteredSerial = serial;
@@ -210,6 +221,10 @@ WaylandSeat::~WaylandSeat()
 
 void WaylandSeat::destroyPointer()
 {
+    delete m_pinchGesture;
+    m_pinchGesture = nullptr;
+    delete m_swipeGesture;
+    m_swipeGesture = nullptr;
     delete m_pointer;
     m_pointer = nullptr;
 }
@@ -262,6 +277,61 @@ void WaylandSeat::setInstallCursor(bool install)
     m_installCursor = install;
 }
 
+void WaylandSeat::setupPointerGestures()
+{
+    if (!m_pointer || !m_gesturesInterface) {
+        return;
+    }
+    if (m_pinchGesture || m_swipeGesture) {
+        return;
+    }
+    m_pinchGesture = m_gesturesInterface->createPinchGesture(m_pointer, this);
+    m_swipeGesture = m_gesturesInterface->createSwipeGesture(m_pointer, this);
+    connect(m_pinchGesture, &PointerPinchGesture::started, m_backend,
+        [this] (quint32 serial, quint32 time) {
+            Q_UNUSED(serial);
+            m_backend->processPinchGestureBegin(m_pinchGesture->fingerCount(), time);
+        }
+    );
+    connect(m_pinchGesture, &PointerPinchGesture::updated, m_backend,
+        [this] (const QSizeF &delta, qreal scale, qreal rotation, quint32 time) {
+            m_backend->processPinchGestureUpdate(scale, rotation, delta, time);
+        }
+    );
+    connect(m_pinchGesture, &PointerPinchGesture::ended, m_backend,
+        [this] (quint32 serial, quint32 time) {
+            Q_UNUSED(serial)
+            m_backend->processPinchGestureEnd(time);
+        }
+    );
+    connect(m_pinchGesture, &PointerPinchGesture::cancelled, m_backend,
+        [this] (quint32 serial, quint32 time) {
+            Q_UNUSED(serial)
+            m_backend->processPinchGestureCancelled(time);
+        }
+    );
+
+    connect(m_swipeGesture, &PointerSwipeGesture::started, m_backend,
+        [this] (quint32 serial, quint32 time) {
+            Q_UNUSED(serial)
+            m_backend->processSwipeGestureBegin(m_swipeGesture->fingerCount(), time);
+        }
+    );
+    connect(m_swipeGesture, &PointerSwipeGesture::updated, m_backend, &Platform::processSwipeGestureUpdate);
+    connect(m_swipeGesture, &PointerSwipeGesture::ended, m_backend,
+        [this] (quint32 serial, quint32 time) {
+            Q_UNUSED(serial)
+            m_backend->processSwipeGestureEnd(time);
+        }
+    );
+    connect(m_swipeGesture, &PointerSwipeGesture::cancelled, m_backend,
+        [this] (quint32 serial, quint32 time) {
+            Q_UNUSED(serial)
+            m_backend->processSwipeGestureCancelled(time);
+        }
+    );
+}
+
 WaylandBackend::WaylandBackend(QObject *parent)
     : Platform(parent)
     , m_display(nullptr)
@@ -282,6 +352,9 @@ WaylandBackend::WaylandBackend(QObject *parent)
 
 WaylandBackend::~WaylandBackend()
 {
+    if (m_pointerConstraints) {
+        m_pointerConstraints->release();
+    }
     if (m_xdgShellSurface) {
         m_xdgShellSurface->release();
     }
@@ -333,7 +406,29 @@ void WaylandBackend::init()
             m_shm->setup(m_registry->bindShm(name, 1));
         }
     );
+    connect(m_registry, &Registry::pointerConstraintsUnstableV1Announced, this,
+        [this](quint32 name, quint32 version) {
+            if (m_pointerConstraints) {
+                return;
+            }
+            m_pointerConstraints = m_registry->createPointerConstraints(name, version, this);
+            updateWindowTitle();
+        }
+    );
     connect(m_registry, &Registry::interfacesAnnounced, this, &WaylandBackend::createSurface);
+    connect(m_registry, &Registry::interfacesAnnounced, this,
+        [this] {
+            if (!m_seat) {
+                return;
+            }
+            const auto gi = m_registry->interface(Registry::Interface::PointerGesturesUnstableV1);
+            if (gi.name == 0) {
+                return;
+            }
+            auto gesturesInterface = m_registry->createPointerGestures(gi.name, gi.version, m_seat.data());
+            m_seat->installGesturesInterface(gesturesInterface);
+        }
+    );
     if (!deviceIdentifier().isEmpty()) {
         m_connectionThreadObject->setSocketName(deviceIdentifier());
     }
@@ -452,6 +547,7 @@ void WaylandBackend::setupSurface(T *surface)
 {
     connect(surface, &T::sizeChanged, this, &WaylandBackend::shellSurfaceSizeChanged);
     surface->setSize(initialWindowSize());
+    updateWindowTitle();
     setReady(true);
     emit screensQueried();
 }
@@ -490,6 +586,70 @@ void WaylandBackend::flush()
 {
     if (m_connectionThreadObject) {
         m_connectionThreadObject->flush();
+    }
+}
+
+void WaylandBackend::togglePointerConfinement()
+{
+    if (!m_pointerConstraints) {
+        return;
+    }
+    if (!m_seat) {
+        return;
+    }
+    auto p = m_seat->pointer();
+    if (!p) {
+        return;
+    }
+    if (!m_surface) {
+        return;
+    }
+    if (m_pointerConfinement && m_isPointerConfined) {
+        delete m_pointerConfinement;
+        m_pointerConfinement = nullptr;
+        m_isPointerConfined = false;
+        updateWindowTitle();
+        flush();
+        return;
+    } else if (m_pointerConfinement) {
+        return;
+    }
+    m_pointerConfinement = m_pointerConstraints->confinePointer(m_surface, p, nullptr, PointerConstraints::LifeTime::Persistent, this);
+    connect(m_pointerConfinement, &ConfinedPointer::confined, this,
+        [this] {
+            m_isPointerConfined = true;
+            updateWindowTitle();
+        }
+    );
+    connect(m_pointerConfinement, &ConfinedPointer::unconfined, this,
+        [this] {
+            m_isPointerConfined = false;
+            updateWindowTitle();
+        }
+    );
+    updateWindowTitle();
+    flush();
+}
+
+void WaylandBackend::updateWindowTitle()
+{
+    if (!m_xdgShellSurface) {
+        return;
+    }
+    QString grab;
+    if (m_isPointerConfined) {
+        grab = i18n("Press right control to ungrab pointer");
+    } else {
+        if (!m_pointerConfinement && m_pointerConstraints) {
+            grab = i18n("Press right control key to grab pointer");
+        }
+    }
+    const QString title = i18nc("Title of nested KWin Wayland with Wayland socket identifier as argument",
+                                "KDE Wayland Compositor (%1)", waylandServer()->display()->socketName());
+    if (grab.isEmpty()) {
+        m_xdgShellSurface->setTitle(title);
+    } else {
+        m_xdgShellSurface->setTitle(title + QStringLiteral(" - ") + grab);
     }
 }
 

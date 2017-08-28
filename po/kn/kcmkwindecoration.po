@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-14 05:12+0200\n"
+"POT-Creation-Date: 2017-04-14 02:49+0200\n"
 "PO-Revision-Date: 2008-12-25 15:34+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: Kannada <en@li.org>\n"
@@ -20,54 +20,54 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "\n"
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Menu"
 msgstr "ಪರಿವಿಡಿ"
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Application menu"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:72
 #, fuzzy, kde-format
 #| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "ಎಲ್ಲಾ ಗಣಕತೆರೆಗಳ ಮೇಲೆ"
 
-#: declarative-plugin/buttonsmodel.cpp:73
+#: declarative-plugin/buttonsmodel.cpp:74
 #, kde-format
 msgid "Minimize"
 msgstr "ಕನಿಷ್ಠೀಕರಿಸು"
 
-#: declarative-plugin/buttonsmodel.cpp:75
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
 msgid "Maximize"
 msgstr "ಗರಿಷ್ಠೀಕರಿಸು"
 
-#: declarative-plugin/buttonsmodel.cpp:77
+#: declarative-plugin/buttonsmodel.cpp:78
 #, kde-format
 msgid "Close"
 msgstr "ಮುಚ್ಚು"
 
-#: declarative-plugin/buttonsmodel.cpp:79
+#: declarative-plugin/buttonsmodel.cpp:80
 #, kde-format
 msgid "Context help"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:81
+#: declarative-plugin/buttonsmodel.cpp:82
 #, kde-format
 msgid "Shade"
 msgstr "ಛಾಯೆ (ಷೇಡ್)"
 
-#: declarative-plugin/buttonsmodel.cpp:83
+#: declarative-plugin/buttonsmodel.cpp:84
 #, fuzzy, kde-format
 #| msgid "Keep Below Others"
 msgid "Keep below"
 msgstr "ಬೇರೆಯವುಗಳ ಕೆಳಗಿಡು"
 
-#: declarative-plugin/buttonsmodel.cpp:85
+#: declarative-plugin/buttonsmodel.cpp:86
 #, fuzzy, kde-format
 #| msgid "Keep Above Others"
 msgid "Keep above"

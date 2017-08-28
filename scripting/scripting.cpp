@@ -155,6 +155,21 @@ QScriptValue kwinRegisterScreenEdge(QScriptContext *context, QScriptEngine *engi
     return KWin::registerScreenEdge<KWin::AbstractScript*>(context, engine);
 }
 
+QScriptValue kwinUnregisterScreenEdge(QScriptContext *context, QScriptEngine *engine)
+{
+    return KWin::unregisterScreenEdge<KWin::AbstractScript*>(context, engine);
+}
+
+QScriptValue kwinRegisterTouchScreenEdge(QScriptContext *context, QScriptEngine *engine)
+{
+    return KWin::registerTouchScreenEdge<KWin::Script*>(context, engine);
+}
+
+QScriptValue kwinUnregisterTouchScreenEdge(QScriptContext *context, QScriptEngine *engine)
+{
+    return KWin::unregisterTouchScreenEdge<KWin::Script*>(context, engine);
+}
+
 QScriptValue kwinRegisterUserActionsMenu(QScriptContext *context, QScriptEngine *engine)
 {
     return KWin::registerUserActionsMenu<KWin::AbstractScript*>(context, engine);
@@ -278,8 +293,12 @@ void KWin::Script::installScriptFunctions(QScriptEngine* engine)
     registerGlobalShortcutFunction(this, engine, kwinScriptGlobalShortcut);
     // add screen edge
     registerScreenEdgeFunction(this, engine, kwinRegisterScreenEdge);
+    unregisterScreenEdgeFunction(this, engine, kwinUnregisterScreenEdge);
+    registerTouchScreenEdgeFunction(this, engine, kwinRegisterTouchScreenEdge);
+    unregisterTouchScreenEdgeFunction(this, engine, kwinUnregisterTouchScreenEdge);
+
     // add user actions menu register function
-    regesterUserActionsMenuFunction(this, engine, kwinRegisterUserActionsMenu);
+    registerUserActionsMenuFunction(this, engine, kwinRegisterUserActionsMenu);
     // add assertions
     QScriptValue assertTrueFunc = engine->newFunction(kwinAssertTrue);
     engine->globalObject().setProperty(QStringLiteral("assertTrue"), assertTrueFunc);
@@ -511,6 +530,34 @@ void KWin::Script::sigException(const QScriptValue& exception)
     }
     emit printError(exception.toString());
     stop();
+}
+
+bool KWin::Script::registerTouchScreenCallback(int edge, QScriptValue callback)
+{
+    if (m_touchScreenEdgeCallbacks.constFind(edge) != m_touchScreenEdgeCallbacks.constEnd()) {
+        return false;
+    }
+    QAction *action = new QAction(this);
+    connect(action, &QAction::triggered, this,
+        [callback] {
+            QScriptValue invoke(callback);
+            invoke.call();
+        }
+    );
+    ScreenEdges::self()->reserveTouch(KWin::ElectricBorder(edge), action);
+    m_touchScreenEdgeCallbacks.insert(edge, action);
+    return true;
+}
+
+bool KWin::Script::unregisterTouchScreenCallback(int edge)
+{
+    auto it = m_touchScreenEdgeCallbacks.find(edge);
+    if (it == m_touchScreenEdgeCallbacks.end()) {
+        return false;
+    }
+    delete it.value();
+    m_touchScreenEdgeCallbacks.erase(it);
+    return true;
 }
 
 KWin::ScriptUnloaderAgent::ScriptUnloaderAgent(KWin::Script *script)

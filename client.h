@@ -132,8 +132,6 @@ public:
     void releaseWindow(bool on_shutdown = false);
     void destroyClient();
 
-    virtual int desktop() const;
-
     virtual QStringList activities() const;
     void setOnActivity(const QString &activity, bool enable);
     void setOnAllActivities(bool set) override;
@@ -249,7 +247,7 @@ public:
     static bool belongToSameApplication(const Client* c1, const Client* c2, bool active_hack = false);
     static bool sameAppWindowRoleMatch(const Client* c1, const Client* c2, bool active_hack);
 
-    void killWindow();
+    void killWindow() override;
     void toggleShade();
     void showContextHelp() override;
     void cancelShadeHoverTimer();
@@ -316,8 +314,8 @@ public:
     void readColorScheme(Xcb::StringProperty &property);
     void updateColorScheme();
 
-    //sets whether the client should be treated as a SessionInteract window
-    void setSessionInteract(bool needed);
+    //sets whether the client should be faked as being on all activities (and be shown during session save)
+    void setSessionActivityOverride(bool needed);
     virtual bool isClient() const;
 
     template <typename T>
@@ -329,7 +327,15 @@ public:
      * Restores the Client after it had been hidden due to show on screen edge functionality.
      * In addition the property gets deleted so that the Client knows that it is visible again.
      **/
-    void showOnScreenEdge();
+    void showOnScreenEdge() override;
+
+    Xcb::StringProperty fetchApplicationMenuServiceName() const;
+    void readApplicationMenuServiceName(Xcb::StringProperty &property);
+    void checkApplicationMenuServiceName();
+
+    Xcb::StringProperty fetchApplicationMenuObjectPath() const;
+    void readApplicationMenuObjectPath(Xcb::StringProperty &property);
+    void checkApplicationMenuObjectPath();
 
     static void cleanupX11();
 
@@ -584,7 +590,7 @@ private:
     void checkActivities();
     bool activitiesDefined; //whether the x property was actually set
 
-    bool needsSessionInteract;
+    bool sessionActivityOverride;
     bool needsXWindowMove;
 
     Xcb::Window m_decoInputExtent;
@@ -596,6 +602,7 @@ private:
     bool m_clientSideDecorated;
 
     QMetaObject::Connection m_edgeRemoveConnection;
+    QMetaObject::Connection m_edgeGeometryTrackingConnection;
 };
 
 inline xcb_window_t Client::wrapperId() const

@@ -1,22 +1,23 @@
 # Translation of kcmkwinscreenedges.po to Euskara/Basque (eu).
-# Copyright (C) 2010-2014, Free Software Foundation, Inc.
+# Copyright (C) 2010-2017, Free Software Foundation, Inc.
 # This file is distributed under the same license as the kde-workspace package.
-#
-# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2010, 2011, 2014.
+# KDE Euskaratzeko proiektuaren arduraduna <xalba@euskalnet.net>.
+# Translators:
+# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2010, 2011, 2014, 2017.
 # Hizkuntza Politikarako Sailburuordetza <hizpol@ej-gv.es>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
-"PO-Revision-Date: 2014-02-10 00:44+0100\n"
+"POT-Creation-Date: 2017-04-08 03:04+0200\n"
+"PO-Revision-Date: 2017-08-09 02:47+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -29,79 +30,73 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "xalba@euskalnet.net,hizpol@ej-gv.es"
 
-#: main.cpp:187
+#: main.cpp:190 touch.cpp:131
 #, kde-format
 msgid "No Action"
 msgstr "Ekintzarik ez"
 
-#: main.cpp:188
+#: main.cpp:191 touch.cpp:132
 #, kde-format
 msgid "Show Desktop"
 msgstr "Erakutsi mahaigaina"
 
-#: main.cpp:189
+#: main.cpp:192 touch.cpp:133
 #, kde-format
 msgid "Lock Screen"
 msgstr "Giltzatu pantaila"
 
-#: main.cpp:190
+#: main.cpp:193 touch.cpp:134
 #, kde-format
 msgctxt "Open krunner"
 msgid "Run Command"
-msgstr ""
+msgstr "Exekutatu komandoa"
 
-#: main.cpp:191
+#: main.cpp:194 touch.cpp:135
 #, kde-format
 msgid "Activity Manager"
-msgstr ""
+msgstr "Jarduera-kudeatzailea"
 
-#: main.cpp:192
+#: main.cpp:195 touch.cpp:136
 #, kde-format
 msgid "Application Launcher"
-msgstr ""
+msgstr "Aplikazio-abiarazlea"
 
-#: main.cpp:196
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#: main.cpp:199 touch.cpp:140
+#, kde-format
 msgid "%1 - All Desktops"
-msgstr "Mahaigain guztiak"
+msgstr "%1 - Mahaigain guztiak"
 
-#: main.cpp:197
-#, fuzzy, kde-format
-#| msgid "Current Desktop"
+#: main.cpp:200 touch.cpp:141
+#, kde-format
 msgid "%1 - Current Desktop"
-msgstr "Uneko mahaigaina"
+msgstr "%1 - Uneko mahaigaina"
 
-#: main.cpp:198
-#, fuzzy, kde-format
-#| msgid "Current Application"
+#: main.cpp:201 touch.cpp:142
+#, kde-format
 msgid "%1 - Current Application"
-msgstr "Uneko aplikazioa"
+msgstr "%1 - Uneko aplikazioa"
 
-#: main.cpp:201
-#, fuzzy, kde-format
-#| msgid "Cube"
+#: main.cpp:204 touch.cpp:145
+#, kde-format
 msgid "%1 - Cube"
-msgstr "Kuboa"
+msgstr "%1 - Kuboa"
 
-#: main.cpp:202
-#, fuzzy, kde-format
-#| msgid "Cylinder"
+#: main.cpp:205 touch.cpp:146
+#, kde-format
 msgid "%1 - Cylinder"
-msgstr "Zilindroa"
+msgstr "%1 - Zilindroa"
 
-#: main.cpp:203
-#, fuzzy, kde-format
-#| msgid "Sphere"
+#: main.cpp:206 touch.cpp:147
+#, kde-format
 msgid "%1 - Sphere"
-msgstr "Esfera"
+msgstr "%1 - Esfera"
 
-#: main.cpp:205
+#: main.cpp:208 touch.cpp:149
 #, kde-format
 msgid "Toggle window switching"
 msgstr "Aktibatu/desaktibatu leiho-aldatzea"
 
-#: main.cpp:206
+#: main.cpp:209 touch.cpp:150
 #, kde-format
 msgid "Toggle alternative window switching"
 msgstr "Aktibatu/desaktibatu ordezko leiho-aldatzea"
@@ -144,7 +139,7 @@ msgstr "Jarri leihoak lauza moduan, horiek pantailaren albora arrastatuz"
 #: main.ui:93
 #, kde-format
 msgid "Quarter tiling triggered in the outer"
-msgstr ""
+msgstr "Lauza laurdenak kanpoaldean abiarazi"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, electricBorderCornerRatio)
 #: main.ui:106
@@ -236,3 +231,13 @@ msgstr ""
 #, kde-format
 msgid "&Reactivation delay:"
 msgstr "&Berraktibatzeko atzerapena:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: touch.ui:36
+#, kde-format
+msgid ""
+"To trigger an action swipe from the screen edge towards the center of the "
+"screen."
+msgstr ""
+"Ekintza bat abiarazteko, bultzatu saguaren kurtsorea pantailaren ertzetik "
+"erdialderantz."

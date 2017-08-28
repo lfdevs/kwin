@@ -18,20 +18,28 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "drm_object_connector.h"
+#include "drm_backend.h"
+#include "drm_pointer.h"
 #include "logging.h"
 
 namespace KWin
 {
 
-DrmConnector::DrmConnector(uint32_t connector_id, int fd)
-    : DrmObject(connector_id, fd)
+DrmConnector::DrmConnector(uint32_t connector_id, DrmBackend *backend)
+    : DrmObject(connector_id, backend)
 {
-
+    ScopedDrmPointer<_drmModeConnector, &drmModeFreeConnector> con(drmModeGetConnector(backend->fd(), connector_id));
+    if (!con) {
+        return;
+    }
+    for (int i = 0; i < con->count_encoders; ++i) {
+        m_encoders << con->encoders[i];
+    }
 }
 
 DrmConnector::~DrmConnector() = default;
 
-bool DrmConnector::init()
+bool DrmConnector::atomicInit()
 {
     qCDebug(KWIN_DRM) << "Creating connector" << m_id;
 
@@ -47,7 +55,7 @@ bool DrmConnector::initProps()
         QByteArrayLiteral("CRTC_ID"),
     };
 
-    drmModeObjectProperties *properties = drmModeObjectGetProperties(m_fd, m_id, DRM_MODE_OBJECT_CONNECTOR);
+    drmModeObjectProperties *properties = drmModeObjectGetProperties(m_backend->fd(), m_id, DRM_MODE_OBJECT_CONNECTOR);
     if (!properties) {
         qCWarning(KWIN_DRM) << "Failed to get properties for connector " << m_id ;
         return false;
@@ -59,6 +67,15 @@ bool DrmConnector::initProps()
     }
     drmModeFreeObjectProperties(properties);
     return true;
+}
+
+bool DrmConnector::isConnected()
+{
+    ScopedDrmPointer<_drmModeConnector, &drmModeFreeConnector> con(drmModeGetConnector(m_backend->fd(), m_id));
+    if (!con) {
+        return false;
+    }
+    return con->connection == DRM_MODE_CONNECTED;
 }
 
 }

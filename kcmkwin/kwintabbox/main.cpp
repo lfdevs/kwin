@@ -43,8 +43,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KShortcutsEditor>
 #include <KNewStuff3/KNS3/DownloadDialog>
 // Plasma
-#include <Plasma/Package>
-#include <Plasma/PluginLoader>
+#include <KPackage/Package>
+#include <KPackage/PackageLoader>
 
 // own
 #include "tabboxconfig.h"
@@ -162,9 +162,9 @@ KWinTabBoxConfig::~KWinTabBoxConfig()
 }
 
 
-static QList<Plasma::Package> availableLnFPackages()
+static QList<KPackage::Package> availableLnFPackages()
 {
-    QList<Plasma::Package> packages;
+    QList<KPackage::Package> packages;
     QStringList paths;
     const QStringList dataPaths = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
 
@@ -175,9 +175,9 @@ static QList<Plasma::Package> availableLnFPackages()
 
     const auto &p = paths;
     for (const QString &path : p) {
-        Plasma::Package pkg = Plasma::PluginLoader::self()->loadPackage(QStringLiteral("Plasma/LookAndFeel"));
+        KPackage::Package pkg = KPackage::PackageLoader::self()->loadPackage(QStringLiteral("Plasma/LookAndFeel"));
         pkg.setPath(path);
-        pkg.setFallbackPackage(Plasma::Package());
+        pkg.setFallbackPackage(KPackage::Package());
         if (!pkg.filePath("defaults").isEmpty()) {
             KSharedConfigPtr conf = KSharedConfig::openConfig(pkg.filePath("defaults"));
             KConfigGroup cg = KConfigGroup(conf, "kwinrc");
@@ -197,27 +197,27 @@ void KWinTabBoxConfig::initLayoutLists()
     QString coverswitch = BuiltInEffects::effectData(BuiltInEffect::CoverSwitch).displayName;
     QString flipswitch = BuiltInEffects::effectData(BuiltInEffect::FlipSwitch).displayName;
 
-    KServiceTypeTrader* trader = KServiceTypeTrader::self();
-    KService::List offers = trader->query("KWin/WindowSwitcher");
+    QList<KPluginMetaData> offers = KPackage::PackageLoader::self()->listPackages("KWin/WindowSwitcher");
     QStringList layoutNames, layoutPlugins, layoutPaths;
 
     const auto lnfPackages = availableLnFPackages();
     for (const auto &package : lnfPackages) {
         const auto &metaData = package.metadata();
         layoutNames << metaData.name();
-        layoutPlugins << metaData.pluginName();
+        layoutPlugins << metaData.pluginId();
         layoutPaths << package.filePath("windowswitcher", QStringLiteral("WindowSwitcher.qml"));
     }
 
-    foreach (KService::Ptr service, offers) {
-        const QString pluginName = service->property("X-KDE-PluginInfo-Name").toString();
-        if (service->property("X-Plasma-API").toString() != "declarativeappletscript") {
+    for (const auto &offer : offers) {
+        const QString pluginName = offer.pluginId();
+        if (offer.value("X-Plasma-API") != "declarativeappletscript") {
             continue;
         }
-        if (service->property("X-KWin-Exclude-Listing").toBool()) {
+        //we don't have a proper servicetype
+        if (offer.value("X-KWin-Exclude-Listing") == QStringLiteral("true")) {
             continue;
         }
-        const QString scriptName = service->property("X-Plasma-MainScript").toString();
+        const QString scriptName = offer.value("X-Plasma-MainScript");
         const QString scriptFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
                                                           QLatin1String("kwin/tabbox/") + pluginName + QLatin1String("/contents/")
                                                           + scriptName);
@@ -225,7 +225,7 @@ void KWinTabBoxConfig::initLayoutLists()
             continue;
         }
 
-        layoutNames << service->name();
+        layoutNames << offer.name();
         layoutPlugins << pluginName;
         layoutPaths << scriptFile;
     }

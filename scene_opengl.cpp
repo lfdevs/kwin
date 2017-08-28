@@ -31,7 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "platform.h"
 #include "wayland_server.h"
 
-#include <kwinglcolorcorrection.h>
 #include <kwinglplatform.h>
 
 #include "utils.h"
@@ -699,6 +698,9 @@ qint64 SceneOpenGL::paint(QRegion damage, ToplevelList toplevels)
             QRegion valid;
             // prepare rendering makes context current on the output
             QRegion repaint = m_backend->prepareRenderingForScreen(i);
+            GLVertexBuffer::setVirtualScreenGeometry(geo);
+            GLRenderTarget::setVirtualScreenGeometry(geo);
+            GLRenderTarget::setVirtualScreenScale(screens()->scale(i));
 
             const GLenum status = glGetGraphicsResetStatus();
             if (status != GL_NO_ERROR) {
@@ -708,7 +710,7 @@ qint64 SceneOpenGL::paint(QRegion damage, ToplevelList toplevels)
 
             int mask = 0;
             updateProjectionMatrix();
-            paintScreen(&mask, damage.intersected(geo), repaint, &update, &valid, projectionMatrix());   // call generic implementation
+            paintScreen(&mask, damage.intersected(geo), repaint, &update, &valid, projectionMatrix(), geo);   // call generic implementation
 
             GLVertexBuffer::streamingBuffer()->endOfFrame();
 
@@ -725,6 +727,9 @@ qint64 SceneOpenGL::paint(QRegion damage, ToplevelList toplevels)
             handleGraphicsReset(status);
             return 0;
         }
+        GLVertexBuffer::setVirtualScreenGeometry(screens()->geometry());
+        GLRenderTarget::setVirtualScreenGeometry(screens()->geometry());
+        GLRenderTarget::setVirtualScreenScale(1);
 
         int mask = 0;
         updateProjectionMatrix();
@@ -919,7 +924,6 @@ void SceneOpenGL::screenGeometryChanged(const QSize &size)
     glViewport(0,0, size.width(), size.height());
     m_backend->screenGeometryChanged(size);
     GLRenderTarget::setVirtualScreenSize(size);
-    GLVertexBuffer::setVirtualScreenSize(size);
 }
 
 void SceneOpenGL::paintDesktop(int desktop, int mask, const QRegion &region, ScreenPaintData &data)
@@ -989,7 +993,6 @@ bool SceneOpenGL2::supported(OpenGLBackend *backend)
 SceneOpenGL2::SceneOpenGL2(OpenGLBackend *backend, QObject *parent)
     : SceneOpenGL(backend, parent)
     , m_lanczosFilter(NULL)
-    , m_colorCorrection()
 {
     if (!init_ok) {
         // base ctor already failed
@@ -1003,13 +1006,9 @@ SceneOpenGL2::SceneOpenGL2(OpenGLBackend *backend, QObject *parent)
         return;
     }
 
-    // Initialize color correction before the shaders
-    slotColorCorrectedChanged(false);
-    connect(options, SIGNAL(colorCorrectedChanged()), this, SLOT(slotColorCorrectedChanged()), Qt::QueuedConnection);
-
     const QSize &s = screens()->size();
     GLRenderTarget::setVirtualScreenSize(s);
-    GLVertexBuffer::setVirtualScreenSize(s);
+    GLRenderTarget::setVirtualScreenGeometry(screens()->geometry());
 
     // push one shader on the stack so that one is always bound
     ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
@@ -1117,20 +1116,7 @@ void SceneOpenGL2::finalDrawWindow(EffectWindowImpl* w, int mask, QRegion region
     if (waylandServer() && waylandServer()->isScreenLocked() && !w->window()->isLockScreen() && !w->window()->isInputMethod()) {
         return;
     }
-    if (!m_colorCorrection.isNull() && m_colorCorrection->isEnabled()) {
-        // Split the painting for separate screens
-        const int numScreens = screens()->count();
-        for (int screen = 0; screen < numScreens; ++ screen) {
-            QRegion regionForScreen(region);
-            if (numScreens > 1)
-                regionForScreen = region.intersected(screens()->geometry(screen));
-
-            data.setScreen(screen);
-            performPaintWindow(w, mask, regionForScreen, data);
-        }
-    } else {
-        performPaintWindow(w, mask, region, data);
-    }
+    performPaintWindow(w, mask, region, data);
 }
 
 void SceneOpenGL2::performPaintWindow(EffectWindowImpl* w, int mask, QRegion region, WindowPaintData& data)
@@ -1151,33 +1137,6 @@ void SceneOpenGL2::resetLanczosFilter()
     // TODO: Qt5 - replace by a lambda slot
     delete m_lanczosFilter;
     m_lanczosFilter = NULL;
-}
-
-ColorCorrection *SceneOpenGL2::colorCorrection()
-{
-    return m_colorCorrection.data();
-}
-
-void SceneOpenGL2::slotColorCorrectedChanged(bool recreateShaders)
-{
-    qCDebug(KWIN_CORE) << "Color correction:" << options->isColorCorrected();
-    if (options->isColorCorrected() && m_colorCorrection.isNull()) {
-        m_colorCorrection.reset(new ColorCorrection(this));
-        if (!m_colorCorrection->setEnabled(true)) {
-            m_colorCorrection.reset();
-            return;
-        }
-        connect(m_colorCorrection.data(), SIGNAL(changed()), Compositor::self(), SLOT(addRepaintFull()));
-        connect(m_colorCorrection.data(), SIGNAL(errorOccured()), options, SLOT(setColorCorrected()), Qt::QueuedConnection);
-        if (recreateShaders) {
-            // Reload all shaders
-            ShaderManager::cleanup();
-            ShaderManager::instance();
-        }
-    } else {
-        m_colorCorrection.reset();
-    }
-    Compositor::self()->addRepaintFull();
 }
 
 //****************************************
@@ -1495,12 +1454,17 @@ static void renderSubSurface(GLShader *shader, const QMatrix4x4 &mvp, const QMat
     QMatrix4x4 newWindowMatrix = windowMatrix;
     newWindowMatrix.translate(pixmap->subSurface()->position().x(), pixmap->subSurface()->position().y());
 
+    qreal scale = 1.0;
+    if (pixmap->surface()) {
+        scale = pixmap->surface()->scale();
+    }
+
     if (!pixmap->texture()->isNull()) {
         // render this texture
         shader->setUniform(GLShader::ModelViewProjectionMatrix, mvp * newWindowMatrix);
         auto texture = pixmap->texture();
         texture->bind();
-        texture->render(QRegion(), QRect(0, 0, texture->width(), texture->height()));
+        texture->render(QRegion(), QRect(0, 0, texture->width() / scale, texture->height() / scale));
         texture->unbind();
     }
 
@@ -1517,8 +1481,6 @@ void SceneOpenGL2Window::performPaint(int mask, QRegion region, WindowPaintData 
 {
     if (!beginRenderWindow(mask, region, data))
         return;
-
-    SceneOpenGL2 *scene = static_cast<SceneOpenGL2 *>(m_scene);
 
     QMatrix4x4 windowMatrix = transformation(mask, data);
     const QMatrix4x4 modelViewProjection = modelViewProjectionMatrix(mask, data);
@@ -1537,10 +1499,6 @@ void SceneOpenGL2Window::performPaint(int mask, QRegion region, WindowPaintData 
         shader = ShaderManager::instance()->pushShader(traits);
     }
     shader->setUniform(GLShader::ModelViewProjectionMatrix, mvpMatrix);
-
-    if (ColorCorrection *cc = scene->colorCorrection()) {
-        cc->setupForOutput(data.screen());
-    }
 
     shader->setUniform(GLShader::Saturation, data.saturation());
 
@@ -2290,12 +2248,12 @@ void SceneOpenGLShadow::buildQuads()
     const QRectF outerRect(QPointF(-leftOffset(), -topOffset()),
                            QPointF(topLevel()->width() + rightOffset(), topLevel()->height() + bottomOffset()));
 
-    const int width = qMax(topLeft.width(), bottomLeft.width()) +
-                      qMax(top.width(), bottom.width()) +
-                      qMax(topRight.width(), bottomRight.width());
-    const int height = qMax(topLeft.height(), topRight.height()) +
-                       qMax(left.height(), right.height()) +
-                       qMax(bottomLeft.height(), bottomRight.height());
+    const int width = std::max({topLeft.width(), left.width(), bottomLeft.width()}) +
+                      std::max(top.width(), bottom.width()) +
+                      std::max({topRight.width(), right.width(), bottomRight.width()});
+    const int height = std::max({topLeft.height(), top.height(), topRight.height()}) +
+                       std::max(left.height(), right.height()) +
+                       std::max({bottomLeft.height(), bottom.height(), bottomRight.height()});
 
     qreal tx1(0.0), tx2(0.0), ty1(0.0), ty2(0.0);
 
@@ -2397,13 +2355,12 @@ bool SceneOpenGLShadow::prepareBackend()
     const QSize topLeft(shadowPixmap(ShadowElementTopLeft).size());
     const QSize bottomRight(shadowPixmap(ShadowElementBottomRight).size());
 
-    const int width = qMax(topLeft.width(), bottomLeft.width()) +
-                      qMax(top.width(), bottom.width()) +
-                      qMax(topRight.width(), bottomRight.width());
-
-    const int height = qMax(topRight.height(), topLeft.height()) +
-                       qMax(left.height(), right.height()) +
-                       qMax(bottomLeft.height(), bottomRight.height());
+    const int width = std::max({topLeft.width(), left.width(), bottomLeft.width()}) +
+                      std::max(top.width(), bottom.width()) +
+                      std::max({topRight.width(), right.width(), bottomRight.width()});
+    const int height = std::max({topLeft.height(), top.height(), topRight.height()}) +
+                       std::max(left.height(), right.height()) +
+                       std::max({bottomLeft.height(), bottom.height(), bottomRight.height()});
 
     if (width == 0 || height == 0) {
         return false;

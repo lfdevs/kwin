@@ -22,8 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KWIN_LIB_KWINGLOBALS_H
 
 #include <QCoreApplication>
+#include <QImage>
+#include <QPoint>
 #include <QVariant>
-#include <QtX11Extras/QX11Info>
 #include <QCoreApplication>
 #include <QVariant>
 
@@ -128,15 +129,17 @@ enum PointerAxisDirection {
     PointerAxisRight
 };
 
-inline
-KWIN_EXPORT Display* display()
-{
-    static Display *s_display = nullptr;
-    if (!s_display && QX11Info::isPlatformX11()) {
-        s_display = QX11Info::display();
-    }
-    return s_display;
-}
+/**
+ * @brief Directions for swipe gestures
+ * @since 5.10
+ **/
+enum class SwipeDirection {
+    Invalid,
+    Down,
+    Left,
+    Up,
+    Right
+};
 
 inline
 KWIN_EXPORT xcb_connection_t *connection()
@@ -196,6 +199,36 @@ KWIN_EXPORT int displayHeight()
     xcb_screen_t *screen = defaultScreen();
     return screen ? screen->height_in_pixels : 0;
 }
+
+/**
+ * Short wrapper for a cursor image provided by the Platform.
+ * @since 5.9
+ **/
+class PlatformCursorImage {
+public:
+    explicit PlatformCursorImage()
+        : m_image()
+        , m_hotSpot()
+    {
+    }
+    explicit PlatformCursorImage(const QImage &image, const QPoint &hotSpot)
+        : m_image(image)
+        , m_hotSpot(hotSpot)
+    {
+    }
+    virtual ~PlatformCursorImage() = default;
+
+    QImage image() const {
+        return m_image;
+    }
+    QPoint hotSpot() const {
+        return m_hotSpot;
+    }
+
+private:
+    QImage m_image;
+    QPoint m_hotSpot;
+};
 
 } // namespace
 

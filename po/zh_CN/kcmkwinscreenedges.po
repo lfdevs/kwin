@@ -1,27 +1,20 @@
-# translation of kcmkwinscreenedges.po to 简体中文
-# Copyright (C) YEAR This_file_is_part_of_KDE
-# This file is distributed under the same license as the PACKAGE package.
-#
-#
-# Ni Hui <shuizhuyuanluo@126.com>, 2009, 2010.
-# Lie Ex <lilith.ex@gmail.com>, 2009.
-# Weng Xuetian <wengxt@gmail.com>, 2012, 2016.
-# Feng Chao <chaofeng111@gmail.com>, 2014.
-# Xuetian Weng <xweng@cs.stonybrook.edu>, 2014.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcmkwinscreenedges\n"
+"Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-13 05:19+0200\n"
-"PO-Revision-Date: 2016-10-04 11:50-0800\n"
-"Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
-"Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
+"POT-Creation-Date: 2017-04-08 03:04+0200\n"
+"PO-Revision-Date: 2017-08-14 08:05-0400\n"
+"Last-Translator: guoyunhebrave <guoyunhebrave@gmail.com>\n"
+"Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: crowdin.com\n"
+"X-Crowdin-Project: kdeorg\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /kf5-stable/messages/kde-workspace/kcmkwinscreenedges.pot\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -33,73 +26,73 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kde-china@kde.org, chaofeng111@gmail.com"
 
-#: main.cpp:187
+#: main.cpp:190 touch.cpp:131
 #, kde-format
 msgid "No Action"
 msgstr "无动作"
 
-#: main.cpp:188
+#: main.cpp:191 touch.cpp:132
 #, kde-format
 msgid "Show Desktop"
 msgstr "显示桌面"
 
-#: main.cpp:189
+#: main.cpp:192 touch.cpp:133
 #, kde-format
 msgid "Lock Screen"
 msgstr "锁定屏幕"
 
-#: main.cpp:190
+#: main.cpp:193 touch.cpp:134
 #, kde-format
 msgctxt "Open krunner"
 msgid "Run Command"
 msgstr "运行命令"
 
-#: main.cpp:191
+#: main.cpp:194 touch.cpp:135
 #, kde-format
 msgid "Activity Manager"
 msgstr "活动管理器"
 
-#: main.cpp:192
+#: main.cpp:195 touch.cpp:136
 #, kde-format
 msgid "Application Launcher"
 msgstr "程序启动器"
 
-#: main.cpp:196
+#: main.cpp:199 touch.cpp:140
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - 全部桌面"
 
-#: main.cpp:197
+#: main.cpp:200 touch.cpp:141
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - 当前桌面"
 
-#: main.cpp:198
+#: main.cpp:201 touch.cpp:142
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - 当前程序"
 
-#: main.cpp:201
+#: main.cpp:204 touch.cpp:145
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 - 立方"
 
-#: main.cpp:202
+#: main.cpp:205 touch.cpp:146
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 - 圆柱"
 
-#: main.cpp:203
+#: main.cpp:206 touch.cpp:147
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 - 球体"
 
-#: main.cpp:205
+#: main.cpp:208 touch.cpp:149
 #, kde-format
 msgid "Toggle window switching"
 msgstr "触发窗口切换"
 
-#: main.cpp:206
+#: main.cpp:209 touch.cpp:150
 #, kde-format
 msgid "Toggle alternative window switching"
 msgstr "触发额外窗口切换"
@@ -226,3 +219,11 @@ msgstr "在一个动作被触发后，允许触发下一个动作前的等待时
 #, kde-format
 msgid "&Reactivation delay:"
 msgstr "重新触发延迟(&R)："
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: touch.ui:36
+#, kde-format
+msgid ""
+"To trigger an action swipe from the screen edge towards the center of the "
+"screen."
+msgstr "要触发动作，需从屏幕边缘向屏幕中心滑动。"

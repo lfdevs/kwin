@@ -65,6 +65,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define XCB_GE_GENERIC 35
 #endif
 
+Q_DECLARE_METATYPE(KSharedConfigPtr)
+
 namespace KWin
 {
 
@@ -102,11 +104,14 @@ Application::Application(Application::OperationMode mode, int &argc, char **argv
     , m_eventFilter(new XcbEventFilter())
     , m_configLock(false)
     , m_config()
+    , m_kxkbConfig()
+    , m_inputConfig()
     , m_operationMode(mode)
 {
     qRegisterMetaType<Options::WindowOperation>("Options::WindowOperation");
     qRegisterMetaType<KWin::EffectWindow*>();
     qRegisterMetaType<KWayland::Server::SurfaceInterface *>("KWayland::Server::SurfaceInterface *");
+    qRegisterMetaType<KSharedConfigPtr>();
 }
 
 void Application::setConfigLock(bool lock)
@@ -140,6 +145,12 @@ void Application::start()
         // TODO: This shouldn't be necessary
         //config->setReadOnly( true );
         m_config->reparseConfiguration();
+    }
+    if (!m_kxkbConfig) {
+        m_kxkbConfig = KSharedConfig::openConfig(QStringLiteral("kxkbrc"), KConfig::NoGlobals);
+    }
+    if (!m_inputConfig) {
+        m_inputConfig = KSharedConfig::openConfig(QStringLiteral("kcminputrc"), KConfig::NoGlobals);
     }
 
     performStartup();

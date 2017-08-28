@@ -134,6 +134,7 @@ add_executable( testBuiltInEffectLoader ${testBuiltInEffectLoader_SRCS})
 target_link_libraries(testBuiltInEffectLoader
     Qt5::Concurrent
     Qt5::Test
+    Qt5::X11Extras
     KF5::Package
     kwineffects
     kwin4_effect_builtins
@@ -160,6 +161,7 @@ target_link_libraries(testScriptedEffectLoader
     Qt5::Concurrent
     Qt5::Script
     Qt5::Test
+    Qt5::X11Extras
     KF5::ConfigGui
     KF5::GlobalAccel
     KF5::I18n
@@ -184,6 +186,7 @@ add_executable( testPluginEffectLoader ${testPluginEffectLoader_SRCS})
 target_link_libraries(testPluginEffectLoader
     Qt5::Concurrent
     Qt5::Test
+    Qt5::X11Extras
     KF5::Package
     kwineffects
     kwin4_effect_builtins
@@ -278,6 +281,7 @@ set( testScreenEdges_SRCS
     mock_screens.cpp
     mock_workspace.cpp
     ../atoms.cpp
+    ../gestures.cpp
     ../screens.cpp
     ../screenedge.cpp
     ../virtualdesktops.cpp
@@ -310,6 +314,42 @@ target_link_libraries(testScreenEdges
 
 add_test(kwin_testScreenEdges testScreenEdges)
 ecm_mark_as_test(testScreenEdges)
+
+########################################################
+# Test OnScreenNotification
+########################################################
+set( testOnScreenNotification_SRCS
+    onscreennotificationtest.cpp
+    ../onscreennotification.cpp
+    ../input_event_spy.cpp
+)
+add_executable( testOnScreenNotification ${testOnScreenNotification_SRCS})
+
+target_link_libraries(testOnScreenNotification
+    Qt5::Test
+    Qt5::Widgets # QAction include
+    Qt5::Quick
+    KF5::ConfigCore
+)
+
+add_test(kwin-testOnScreenNotification testOnScreenNotification)
+ecm_mark_as_test(testOnScreenNotification)
+
+########################################################
+# Test Gestures
+########################################################
+set( testGestures_SRCS
+    test_gestures.cpp
+    ../gestures.cpp
+)
+add_executable( testGestures ${testGestures_SRCS})
+
+target_link_libraries(testGestures
+    Qt5::Test
+)
+
+add_test(kwin-testGestures testGestures)
+ecm_mark_as_test(testGestures)
 
 ########################################################
 # Test X11 TimestampUpdate

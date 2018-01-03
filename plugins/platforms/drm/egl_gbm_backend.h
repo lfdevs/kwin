@@ -22,6 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "abstract_egl_backend.h"
 #include "scene_opengl.h"
 
+#include <memory>
+
 struct gbm_surface;
 
 namespace KWin
@@ -29,11 +31,12 @@ namespace KWin
 class DrmBackend;
 class DrmBuffer;
 class DrmOutput;
+class GbmSurface;
 
 /**
  * @brief OpenGL Backend using Egl on a GBM surface.
  **/
-class EglGbmBackend : public QObject, public AbstractEglBackend
+class EglGbmBackend : public AbstractEglBackend
 {
     Q_OBJECT
 public:
@@ -60,7 +63,7 @@ private:
     struct Output {
         DrmOutput *output = nullptr;
         DrmBuffer *buffer = nullptr;
-        gbm_surface *gbmSurface = nullptr;
+        std::shared_ptr<GbmSurface> gbmSurface;
         EGLSurface eglSurface = EGL_NO_SURFACE;
         int bufferAge = 0;
         /**

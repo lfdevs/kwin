@@ -261,7 +261,7 @@ void DrmBackend::openDrm()
     m_drmId = device->sysNum();
 
     // trying to activate Atomic Mode Setting (this means also Universal Planes)
-    if (qEnvironmentVariableIsSet("KWIN_DRM_AMS")) {
+    if (!qEnvironmentVariableIsSet("KWIN_DRM_NO_AMS")) {
         if (drmSetClientCap(m_fd, DRM_CLIENT_CAP_ATOMIC, 1) == 0) {
             qCDebug(KWIN_DRM) << "Using Atomic Mode Setting.";
             m_atomicModeSetting = true;
@@ -561,11 +561,20 @@ DrmOutput *DrmBackend::findOutput(const QByteArray &uuid)
 
 void DrmBackend::present(DrmBuffer *buffer, DrmOutput *output)
 {
+    if (!buffer || buffer->bufferId() == 0) {
+        if (m_deleteBufferAfterPageFlip) {
+            delete buffer;
+        }
+        return;
+    }
+
     if (output->present(buffer)) {
         m_pageFlipsPending++;
         if (m_pageFlipsPending == 1 && Compositor::self()) {
             Compositor::self()->aboutToSwapBuffers();
         }
+    } else if (m_deleteBufferAfterPageFlip) {
+        delete buffer;
     }
 }
 
@@ -669,12 +678,11 @@ void DrmBackend::doHideCursor()
 
 void DrmBackend::moveCursor()
 {
-    const QPoint p = Cursor::pos() - softwareCursorHotspot();
     if (!m_cursorEnabled || isCursorHidden()) {
         return;
     }
     for (auto it = m_outputs.constBegin(); it != m_outputs.constEnd(); ++it) {
-        (*it)->moveCursor(p);
+        (*it)->moveCursor(Cursor::pos());
     }
 }
 
@@ -706,11 +714,10 @@ DrmDumbBuffer *DrmBackend::createBuffer(const QSize &size)
 }
 
 #if HAVE_GBM
-DrmSurfaceBuffer *DrmBackend::createBuffer(gbm_surface *surface)
+DrmSurfaceBuffer *DrmBackend::createBuffer(const std::shared_ptr<GbmSurface> &surface)
 {
     DrmSurfaceBuffer *b = new DrmSurfaceBuffer(this, surface);
     return b;
-    return nullptr;
 }
 #endif
 

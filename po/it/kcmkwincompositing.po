@@ -4,7 +4,7 @@
 # Luciano Montanaro <mikelima@cirulla.net>, 2007, 2008, 2010, 2012.
 # Andrea Rizzi <rizzi@sns.it>, 2007.
 # Federico Zenith <federico.zenith@member.fsf.org>, 2009.
-# Vincenzo Reale <smart2128@baslug.org>, 2015.
+# Vincenzo Reale <smart2128@baslug.org>, 2015, 2017.
 #
 msgid ""
 msgstr ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-30 02:59+0200\n"
+"POT-Creation-Date: 2017-11-18 05:40+0100\n"
 "PO-Revision-Date: 2016-12-05 21:31+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
@@ -62,7 +62,7 @@ msgstr ""
 "왼쪽 단추를 누르거나 Enter 키를 눌러서 색상을 가져올 지점을 선택합니다.\n"
 "Esc 키나 오른쪽 단추를 누르면 취소합니다."
 
-#: coverswitch/coverswitch.cpp:951 flipswitch/flipswitch.cpp:935
+#: coverswitch/coverswitch.cpp:952 flipswitch/flipswitch.cpp:935
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -1346,25 +1346,25 @@ msgstr "색(&C):"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Shift+Meta 키를 누르면서 마우스를 움직여서 그림을 그리십시오."
 
-#: presentwindows/presentwindows.cpp:74
+#: presentwindows/presentwindows.cpp:78
 #: presentwindows/presentwindows_config.cpp:73
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "보이는 창 바꾸기 (현재 데스크톱)"
 
-#: presentwindows/presentwindows.cpp:82
+#: presentwindows/presentwindows.cpp:86
 #: presentwindows/presentwindows_config.cpp:67
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "보이는 창 바꾸기 (모든 데스크톱)"
 
-#: presentwindows/presentwindows.cpp:91
+#: presentwindows/presentwindows.cpp:95
 #: presentwindows/presentwindows_config.cpp:79
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "보이는 창 바꾸기 (창 클래스)"
 
-#: presentwindows/presentwindows.cpp:1641
+#: presentwindows/presentwindows.cpp:1651
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1612,7 +1612,7 @@ msgstr ""
 "왼쪽 단추를 누르거나 Enter 키를 누르면 스크린샷을 찍습니다.\n"
 "Esc 키나 오른쪽 단추를 누르면 취소합니다."
 
-#: showfps/showfps.cpp:62
+#: showfps/showfps.cpp:63
 #, kde-format
 msgid "This effect is not a benchmark"
 msgstr "이 효과는 벤치마크가 아닙니다"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-30 02:59+0200\n"
+"POT-Creation-Date: 2017-11-18 05:40+0100\n"
 "PO-Revision-Date: 2009-01-04 12:32+0530\n"
 "Last-Translator: Kartik Mistry <kartik.mistry@gmail.com>\n"
 "Language-Team: Gujarati <kde-i18n-doc@lists.kde.org>\n"
@@ -60,7 +60,7 @@ msgid ""
 "Escape or right click to cancel."
 msgstr ""
 
-#: coverswitch/coverswitch.cpp:951 flipswitch/flipswitch.cpp:935
+#: coverswitch/coverswitch.cpp:952 flipswitch/flipswitch.cpp:935
 #, fuzzy, kde-format
 #| msgid "Show desktop"
 msgctxt "Special entry in alt+tab list for minimizing all windows"
@@ -1388,25 +1388,25 @@ msgstr "રંગ (&C):"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Shift+Meta પકડી રાખીને અને માઉસને હલાવીને માઉસ વડે દોરો."
 
-#: presentwindows/presentwindows.cpp:74
+#: presentwindows/presentwindows.cpp:78
 #: presentwindows/presentwindows_config.cpp:73
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "વિન્ડોસની હાજરી બંધ/ચાલુ કરો (હાલનું ડેસ્કટોપ)"
 
-#: presentwindows/presentwindows.cpp:82
+#: presentwindows/presentwindows.cpp:86
 #: presentwindows/presentwindows_config.cpp:67
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "વિન્ડોસની હાજરી બંધ/ચાલુ કરો (બધાં ડેસ્કટોપ)"
 
-#: presentwindows/presentwindows.cpp:91
+#: presentwindows/presentwindows.cpp:95
 #: presentwindows/presentwindows_config.cpp:79
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "વિન્ડોસની હાજરી બંધ/ચાલુ કરો (વિન્ડો વર્ગ)"
 
-#: presentwindows/presentwindows.cpp:1641
+#: presentwindows/presentwindows.cpp:1651
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1652,7 +1652,7 @@ msgid ""
 "Escape or right click to cancel."
 msgstr ""
 
-#: showfps/showfps.cpp:62
+#: showfps/showfps.cpp:63
 #, kde-format
 msgid "This effect is not a benchmark"
 msgstr ""

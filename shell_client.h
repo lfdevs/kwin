@@ -63,7 +63,12 @@ public:
     }
 
     void blockActivityUpdates(bool b = true) override;
-    QString caption(bool full = true, bool stripped = false) const override;
+    QString captionNormal() const override {
+        return m_caption;
+    }
+    QString captionSuffix() const override {
+        return m_captionSuffix;
+    }
     void closeWindow() override;
     AbstractClient *findModal(bool allow_itself = false) override;
     bool isCloseable() const override;
@@ -89,8 +94,6 @@ public:
     void setNoBorder(bool set) override;
     void updateDecoration(bool check_workspace_pos, bool force = false) override;
     void setOnAllActivities(bool set) override;
-    void setShortcut(const QString &cut) override;
-    const QKeySequence &shortcut() const override;
     void takeFocus() override;
     void updateWindowRules(Rules::Types selection) override;
     bool userCanSetFullScreen() const override;
@@ -108,6 +111,15 @@ public:
     quint32 windowId() const override {
         return m_windowId;
     }
+
+    /**
+     * The process for this client.
+     * Note that processes started by kwin will share its process id.
+     * @since 5.11
+     * @returns the process if for this client.
+     **/
+    pid_t pid() const override;
+
     bool isInternal() const;
     bool isLockScreen() const override;
     bool isInputMethod() const override;
@@ -144,7 +156,7 @@ public:
 
 protected:
     void addDamage(const QRegion &damage) override;
-    bool belongsToSameApplication(const AbstractClient *other, bool active_hack) const override;
+    bool belongsToSameApplication(const AbstractClient *other, SameApplicationChecks checks) const override;
     void doSetActive() override;
     Layer layerForDock() const override;
     void changeMaximize(bool horizontal, bool vertical, bool adjust) override;
@@ -156,6 +168,7 @@ protected:
     bool acceptsFocus() const override;
     void doMinimize() override;
     void doMove(int x, int y) override;
+    void updateCaption() override;
 
 private Q_SLOTS:
     void clientFullScreenChanged(bool fullScreen);
@@ -177,6 +190,7 @@ private:
     void markAsMapped();
     void setTransient();
     bool shouldExposeToWindowManagement();
+    void updateClientOutputs();
     KWayland::Server::XdgShellSurfaceInterface::States xdgSurfaceStates() const;
     void updateShowOnScreenEdge();
     static void deleteClient(ShellClient *c);
@@ -229,6 +243,7 @@ private:
     int m_requestGeometryBlockCounter = 0;
     QRect m_blockedRequestGeometry;
     QString m_caption;
+    QString m_captionSuffix;
 
     bool m_compositingSetup = false;
 };

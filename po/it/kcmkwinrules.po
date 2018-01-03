@@ -3,7 +3,7 @@
 # Andrea RIZZI <arizzi@pi.infn.it>, 2004.
 # Luciano Montanaro <mikelima@cirulla.net>, 2007, 2008, 2010, 2011.
 # Federico Zenith <federico.zenith@member.fsf.org>, 2010, 2012, 2013, 2014, 2015.
-# Paolo Zamponi <zapaolo@email.it>, 2016.
+# Paolo Zamponi <zapaolo@email.it>, 2016, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"

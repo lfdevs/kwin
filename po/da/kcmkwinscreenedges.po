@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Martin Schlander <mschlander@opensuse.org>, 2009, 2010, 2012, 2013, 2014, 2016.
+# Martin Schlander <mschlander@opensuse.org>, 2009, 2010, 2012, 2013, 2014, 2016, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2017-04-08 03:04+0200\n"
-"PO-Revision-Date: 2016-09-24 21:47+0100\n"
+"PO-Revision-Date: 2017-10-28 19:56+0100\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
 "Language: da\n"
@@ -229,13 +229,9 @@ msgstr "Forsinkelse på &genaktivering:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: touch.ui:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "To trigger an action push your mouse cursor against the edge of the "
-#| "screen in the action's direction."
+#, kde-format
 msgid ""
 "To trigger an action swipe from the screen edge towards the center of the "
 "screen."
 msgstr ""
-"Pres musemarkøren mod kanten af skærmen i handlingens retning for at udløse "
-"en handling."
+"Stryg fra kanten af skærmen mod skærmens midte for at udløse en handling."

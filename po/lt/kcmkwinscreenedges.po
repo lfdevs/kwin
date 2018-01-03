@@ -5,13 +5,14 @@
 # Liudas Ališauskas <liudas.alisauskas@gmail.com>, 2012, 2014.
 # Liudas Alisauskas <liudas@akmc.lt>, 2013.
 # liudas@aksioma.lt <liudas@aksioma.lt>, 2014.
+# Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2017-04-08 03:04+0200\n"
-"PO-Revision-Date: 2014-11-05 18:51+0200\n"
-"Last-Translator: liudas@aksioma.lt <liudas@aksioma.lt>\n"
+"PO-Revision-Date: 2017-06-25 01:17+0200\n"
+"Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -50,17 +51,17 @@ msgstr "Užrakinti ekraną"
 #, kde-format
 msgctxt "Open krunner"
 msgid "Run Command"
-msgstr ""
+msgstr "Vykdyti komandą"
 
 #: main.cpp:194 touch.cpp:135
 #, kde-format
 msgid "Activity Manager"
-msgstr ""
+msgstr "Veiklų tvarkytuvė"
 
 #: main.cpp:195 touch.cpp:136
 #, kde-format
 msgid "Application Launcher"
-msgstr ""
+msgstr "Programų paleidiklis"
 
 #: main.cpp:199 touch.cpp:140
 #, kde-format
@@ -233,13 +234,10 @@ msgstr "&Reaktyvavimo uždelsimas:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: touch.ui:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "To trigger an action push your mouse cursor against the edge of the "
-#| "screen in the action's direction."
+#, kde-format
 msgid ""
 "To trigger an action swipe from the screen edge towards the center of the "
 "screen."
 msgstr ""
-"Norėdami iššaukti veiksmą, nustumkite pelės žymeklį prie ekrano krašto "
-"norima veiksmo kryptimi."
+"Norėdami iššaukti veiksmą, nustumkite pelės žymeklį nuo ekrano krašto link "
+"ekrano centro."

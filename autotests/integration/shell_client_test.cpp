@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/connection_thread.h>
 #include <KWayland/Client/compositor.h>
 #include <KWayland/Client/shell.h>
+#include <KWayland/Client/output.h>
 #include <KWayland/Client/server_decoration.h>
 #include <KWayland/Client/surface.h>
 #include <KWayland/Client/xdgshell.h>
@@ -59,6 +60,8 @@ private Q_SLOTS:
     void testMapUnmapMap();
     void testDesktopPresenceChanged();
     void testTransientPositionAfterRemap();
+    void testWindowOutputs_data();
+    void testWindowOutputs();
     void testMinimizeActiveWindow_data();
     void testMinimizeActiveWindow();
     void testFullscreen_data();
@@ -71,14 +74,19 @@ private Q_SLOTS:
     void testHidden();
     void testDesktopFileName();
     void testCaptionSimplified();
+    void testCaptionMultipleWindows();
     void testKillWindow_data();
     void testKillWindow();
+    void testX11WindowId_data();
+    void testX11WindowId();
 };
 
 void TestShellClient::initTestCase()
 {
     qRegisterMetaType<KWin::ShellClient*>();
     qRegisterMetaType<KWin::AbstractClient*>();
+    qRegisterMetaType<KWayland::Client::Output*>();
+
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
@@ -265,6 +273,52 @@ void TestShellClient::testTransientPositionAfterRemap()
     Test::render(transientSurface.data(), QSize(50, 40), Qt::blue);
     QVERIFY(windowShownSpy.wait());
     QCOMPARE(transient->geometry(), QRect(c->geometry().topLeft() + QPoint(5, 10), QSize(50, 40)));
+}
+
+void TestShellClient::testWindowOutputs_data()
+{
+    QTest::addColumn<Test::ShellSurfaceType>("type");
+
+    QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell;
+    QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5;
+}
+
+void TestShellClient::testWindowOutputs()
+{
+    QScopedPointer<Surface> surface(Test::createSurface());
+    QFETCH(Test::ShellSurfaceType, type);
+    QScopedPointer<QObject> shellSurface(Test::createShellSurface(type, surface.data()));
+    auto size = QSize(200,200);
+
+    QSignalSpy outputEnteredSpy(surface.data(), &Surface::outputEntered);
+    QSignalSpy outputLeftSpy(surface.data(), &Surface::outputLeft);
+
+    auto c = Test::renderAndWaitForShown(surface.data(), size, Qt::blue);
+    //move to be in the first screen
+    c->setGeometry(QRect(QPoint(100,100), size));
+    //we don't don't know where the compositor first placed this window,
+    //this might fire, it might not
+    outputEnteredSpy.wait(5);
+    outputEnteredSpy.clear();
+
+    QCOMPARE(surface->outputs().count(), 1);
+    QCOMPARE(surface->outputs().first()->globalPosition(), QPoint(0,0));
+
+    //move to overlapping both first and second screen
+    c->setGeometry(QRect(QPoint(1250,100), size));
+    QVERIFY(outputEnteredSpy.wait());
+    QCOMPARE(outputEnteredSpy.count(), 1);
+    QCOMPARE(outputLeftSpy.count(), 0);
+    QCOMPARE(surface->outputs().count(), 2);
+    QVERIFY(surface->outputs()[0] != surface->outputs()[1]);
+
+    //move entirely into second screen
+    c->setGeometry(QRect(QPoint(1400,100), size));
+    QVERIFY(outputLeftSpy.wait());
+    QCOMPARE(outputEnteredSpy.count(), 1);
+    QCOMPARE(outputLeftSpy.count(), 1);
+    QCOMPARE(surface->outputs().count(), 1);
+    QCOMPARE(surface->outputs().first()->globalPosition(), QPoint(1280,0));
 }
 
 void TestShellClient::testMinimizeActiveWindow_data()
@@ -640,6 +694,53 @@ void TestShellClient::testCaptionSimplified()
     QCOMPARE(c->caption(), origTitle.simplified());
 }
 
+void TestShellClient::testCaptionMultipleWindows()
+{
+    QScopedPointer<Surface> surface(Test::createSurface());
+    QScopedPointer<XdgShellSurface> shellSurface(qobject_cast<XdgShellSurface*>(Test::createShellSurface(Test::ShellSurfaceType::XdgShellV5, surface.data())));
+    shellSurface->setTitle(QStringLiteral("foo"));
+    auto c = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
+    QVERIFY(c);
+    QCOMPARE(c->caption(), QStringLiteral("foo"));
+    QCOMPARE(c->captionNormal(), QStringLiteral("foo"));
+    QCOMPARE(c->captionSuffix(), QString());
+
+    QScopedPointer<Surface> surface2(Test::createSurface());
+    QScopedPointer<XdgShellSurface> shellSurface2(qobject_cast<XdgShellSurface*>(Test::createShellSurface(Test::ShellSurfaceType::XdgShellV5, surface2.data())));
+    shellSurface2->setTitle(QStringLiteral("foo"));
+    auto c2 = Test::renderAndWaitForShown(surface2.data(), QSize(100, 50), Qt::blue);
+    QVERIFY(c2);
+    QCOMPARE(c2->caption(), QStringLiteral("foo <2>"));
+    QCOMPARE(c2->captionNormal(), QStringLiteral("foo"));
+    QCOMPARE(c2->captionSuffix(), QStringLiteral(" <2>"));
+
+    QScopedPointer<Surface> surface3(Test::createSurface());
+    QScopedPointer<XdgShellSurface> shellSurface3(qobject_cast<XdgShellSurface*>(Test::createShellSurface(Test::ShellSurfaceType::XdgShellV5, surface3.data())));
+    shellSurface3->setTitle(QStringLiteral("foo"));
+    auto c3 = Test::renderAndWaitForShown(surface3.data(), QSize(100, 50), Qt::blue);
+    QVERIFY(c3);
+    QCOMPARE(c3->caption(), QStringLiteral("foo <3>"));
+    QCOMPARE(c3->captionNormal(), QStringLiteral("foo"));
+    QCOMPARE(c3->captionSuffix(), QStringLiteral(" <3>"));
+
+    QScopedPointer<Surface> surface4(Test::createSurface());
+    QScopedPointer<XdgShellSurface> shellSurface4(qobject_cast<XdgShellSurface*>(Test::createShellSurface(Test::ShellSurfaceType::XdgShellV5, surface4.data())));
+    shellSurface4->setTitle(QStringLiteral("bar"));
+    auto c4 = Test::renderAndWaitForShown(surface4.data(), QSize(100, 50), Qt::blue);
+    QVERIFY(c4);
+    QCOMPARE(c4->caption(), QStringLiteral("bar"));
+    QCOMPARE(c4->captionNormal(), QStringLiteral("bar"));
+    QCOMPARE(c4->captionSuffix(), QString());
+    QSignalSpy captionChangedSpy(c4, &ShellClient::captionChanged);
+    QVERIFY(captionChangedSpy.isValid());
+    shellSurface4->setTitle(QStringLiteral("foo"));
+    QVERIFY(captionChangedSpy.wait());
+    QCOMPARE(captionChangedSpy.count(), 1);
+    QCOMPARE(c4->caption(), QStringLiteral("foo <4>"));
+    QCOMPARE(c4->captionNormal(), QStringLiteral("foo"));
+    QCOMPARE(c4->captionSuffix(), QStringLiteral(" <4>"));
+}
+
 void TestShellClient::testKillWindow_data()
 {
     QTest::addColumn<bool>("socketMode");
@@ -686,6 +787,25 @@ void TestShellClient::testKillWindow()
     killClient->killWindow();
     QVERIFY(finishedSpy.wait());
     QVERIFY(!finishedSpy.isEmpty());
+}
+
+void TestShellClient::testX11WindowId_data()
+{
+    QTest::addColumn<Test::ShellSurfaceType>("type");
+
+    QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell;
+    QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5;
+}
+
+void TestShellClient::testX11WindowId()
+{
+    QScopedPointer<Surface> surface(Test::createSurface());
+    QFETCH(Test::ShellSurfaceType, type);
+    QScopedPointer<QObject> shellSurface(Test::createShellSurface(type, surface.data()));
+    auto c = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
+    QVERIFY(c);
+    QVERIFY(c->windowId() != 0);
+    QCOMPARE(c->window(), 0u);
 }
 
 WAYLANDTEST_MAIN(TestShellClient)

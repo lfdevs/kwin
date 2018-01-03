@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-07-26 09:38+0200\n"
+"POT-Creation-Date: 2017-10-27 05:24+0200\n"
 "PO-Revision-Date: 2017-04-30 11:15+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -39,13 +39,13 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "morais@kde.org"
 
-#: client.cpp:1543
+#: abstract_client.cpp:1774
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(Não Responde)"
 
-#: composite.cpp:569
+#: composite.cpp:597
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -868,307 +868,307 @@ msgstr ""
 "Seleccione a janela onde forçar o fecho com o botão esquerdo ou o Enter.\n"
 "Carregue em Escape ou no botão direito para cancelar."
 
-#: kwinbindings.cpp:40
+#: kwinbindings.cpp:46
 #, kde-format
 msgid "Walk Through Window Tabs"
 msgstr "Percorrer as Páginas da Janela"
 
-#: kwinbindings.cpp:41
+#: kwinbindings.cpp:47
 #, kde-format
 msgid "Walk Through Window Tabs (Reverse)"
 msgstr "Percorrer as Páginas da Janela (Sentido Inverso)"
 
-#: kwinbindings.cpp:42
+#: kwinbindings.cpp:48
 #, kde-format
 msgid "Remove Window From Group"
 msgstr "Remover a Janela do Grupo"
 
-#: kwinbindings.cpp:44
+#: kwinbindings.cpp:50
 #, kde-format
 msgid "Window Operations Menu"
 msgstr "Menu de Operações da Janela"
 
-#: kwinbindings.cpp:46
+#: kwinbindings.cpp:52
 #, kde-format
 msgid "Close Window"
 msgstr "Fechar a Janela"
 
-#: kwinbindings.cpp:48
+#: kwinbindings.cpp:54
 #, kde-format
 msgid "Maximize Window"
 msgstr "Maximizar a Janela"
 
-#: kwinbindings.cpp:50
+#: kwinbindings.cpp:56
 #, kde-format
 msgid "Maximize Window Vertically"
 msgstr "Maximizar Verticalmente a Janela"
 
-#: kwinbindings.cpp:52
+#: kwinbindings.cpp:58
 #, kde-format
 msgid "Maximize Window Horizontally"
 msgstr "Maximizar Horizontalmente a Janela"
 
-#: kwinbindings.cpp:54
+#: kwinbindings.cpp:60
 #, kde-format
 msgid "Minimize Window"
 msgstr "Minimizar a Janela"
 
-#: kwinbindings.cpp:56
+#: kwinbindings.cpp:62
 #, kde-format
 msgid "Shade Window"
 msgstr "Enrolar a Janela"
 
-#: kwinbindings.cpp:58
+#: kwinbindings.cpp:64
 #, kde-format
 msgid "Move Window"
 msgstr "Mover a Janela"
 
-#: kwinbindings.cpp:60
+#: kwinbindings.cpp:66
 #, kde-format
 msgid "Resize Window"
 msgstr "Redimensionar a Janela"
 
-#: kwinbindings.cpp:62
+#: kwinbindings.cpp:68
 #, kde-format
 msgid "Raise Window"
 msgstr "Elevar a Janela"
 
-#: kwinbindings.cpp:64
+#: kwinbindings.cpp:70
 #, kde-format
 msgid "Lower Window"
 msgstr "Baixar a Janela"
 
-#: kwinbindings.cpp:66
+#: kwinbindings.cpp:72
 #, kde-format
 msgid "Toggle Window Raise/Lower"
 msgstr "Elevar/Baixar a Janela"
 
-#: kwinbindings.cpp:68
+#: kwinbindings.cpp:74
 #, kde-format
 msgid "Make Window Fullscreen"
 msgstr "Janela a Ocupar Todo o Ecrã"
 
-#: kwinbindings.cpp:70
+#: kwinbindings.cpp:76
 #, kde-format
 msgid "Hide Window Border"
 msgstr "Esconder o Contorno da Janela"
 
-#: kwinbindings.cpp:72
+#: kwinbindings.cpp:78
 #, kde-format
 msgid "Keep Window Above Others"
 msgstr "Manter a Janela Acima das Outras"
 
-#: kwinbindings.cpp:74
+#: kwinbindings.cpp:80
 #, kde-format
 msgid "Keep Window Below Others"
 msgstr "Manter a Janela Debaixo das Outras"
 
-#: kwinbindings.cpp:76
+#: kwinbindings.cpp:82
 #, kde-format
 msgid "Activate Window Demanding Attention"
 msgstr "Activar a Janela que Necessita de Atenção"
 
-#: kwinbindings.cpp:78
+#: kwinbindings.cpp:84
 #, kde-format
 msgid "Setup Window Shortcut"
 msgstr "Configurar o Atalho da Janela"
 
-#: kwinbindings.cpp:80
+#: kwinbindings.cpp:86
 #, kde-format
 msgid "Pack Window to the Right"
 msgstr "Encostar a Janela à Direita"
 
-#: kwinbindings.cpp:82
+#: kwinbindings.cpp:88
 #, kde-format
 msgid "Pack Window to the Left"
 msgstr "Encostar a Janela à Esquerda"
 
-#: kwinbindings.cpp:84
+#: kwinbindings.cpp:90
 #, kde-format
 msgid "Pack Window Up"
 msgstr "Encostar a Janela Acima"
 
-#: kwinbindings.cpp:86
+#: kwinbindings.cpp:92
 #, kde-format
 msgid "Pack Window Down"
 msgstr "Encostar a Janela Abaixo"
 
-#: kwinbindings.cpp:88
+#: kwinbindings.cpp:94
 #, kde-format
 msgid "Pack Grow Window Horizontally"
 msgstr "Encostar e Aumentar Horizontalmente a Janela"
 
-#: kwinbindings.cpp:90
+#: kwinbindings.cpp:96
 #, kde-format
 msgid "Pack Grow Window Vertically"
 msgstr "Encostar e Aumentar Verticalmente a Janela"
 
-#: kwinbindings.cpp:92
+#: kwinbindings.cpp:98
 #, kde-format
 msgid "Pack Shrink Window Horizontally"
 msgstr "Encostar e Diminuir Horizontalmente a Janela"
 
-#: kwinbindings.cpp:94
+#: kwinbindings.cpp:100
 #, kde-format
 msgid "Pack Shrink Window Vertically"
 msgstr "Encostar e Diminuir Verticalmente a Janela"
 
-#: kwinbindings.cpp:96
+#: kwinbindings.cpp:102
 #, kde-format
 msgid "Quick Tile Window to the Left"
 msgstr "Colocar a Janela Lado-a-Lado à Esquerda"
 
-#: kwinbindings.cpp:98
+#: kwinbindings.cpp:104
 #, kde-format
 msgid "Quick Tile Window to the Right"
 msgstr "Colocar a Janela Lado-a-Lado à Direita"
 
-#: kwinbindings.cpp:100
+#: kwinbindings.cpp:106
 #, kde-format
 msgid "Quick Tile Window to the Top"
 msgstr "Colocar Rapidamente a Janela Lado-a-Lado no Topo"
 
-#: kwinbindings.cpp:102
+#: kwinbindings.cpp:108
 #, kde-format
 msgid "Quick Tile Window to the Bottom"
 msgstr "Colocar Rapidamente a Janela Lado-a-Lado no Fundo"
 
-#: kwinbindings.cpp:104
+#: kwinbindings.cpp:110
 #, kde-format
 msgid "Quick Tile Window to the Top Left"
 msgstr "Colocar Rapidamente a Janela Lado-a-Lado em Cima-Esquerda"
 
-#: kwinbindings.cpp:106
+#: kwinbindings.cpp:112
 #, kde-format
 msgid "Quick Tile Window to the Bottom Left"
 msgstr "Colocar Rapidamente a Janela Lado-a-Lado em Baixo-Esquerda"
 
-#: kwinbindings.cpp:108
+#: kwinbindings.cpp:114
 #, kde-format
 msgid "Quick Tile Window to the Top Right"
 msgstr "Colocar Rapidamente a Janela Lado-a-Lado em Cima-Direita"
 
-#: kwinbindings.cpp:110
+#: kwinbindings.cpp:116
 #, kde-format
 msgid "Quick Tile Window to the Bottom Right"
 msgstr "Colocar Rapidamente a Janela Lado-a-Lado em Baixo-Direita"
 
-#: kwinbindings.cpp:112
+#: kwinbindings.cpp:118
 #, kde-format
 msgid "Switch to Window Above"
 msgstr "Mudar para a Janela Acima"
 
-#: kwinbindings.cpp:114
+#: kwinbindings.cpp:120
 #, kde-format
 msgid "Switch to Window Below"
 msgstr "Mudar para a Janela Abaixo"
 
-#: kwinbindings.cpp:116
+#: kwinbindings.cpp:122
 #, kde-format
 msgid "Switch to Window to the Right"
 msgstr "Mudar para a Janela à Direita"
 
-#: kwinbindings.cpp:118
+#: kwinbindings.cpp:124
 #, kde-format
 msgid "Switch to Window to the Left"
 msgstr "Mudar para a Janela à Esquerda"
 
-#: kwinbindings.cpp:120
+#: kwinbindings.cpp:126
 #, kde-format
 msgid "Increase Opacity of Active Window by 5 %"
 msgstr "Aumentar a Opacidade da Janela Activa em 5 %"
 
-#: kwinbindings.cpp:122
+#: kwinbindings.cpp:128
 #, kde-format
 msgid "Decrease Opacity of Active Window by 5 %"
 msgstr "Diminuir a Opacidade da Janela Activa em 5 %"
 
-#: kwinbindings.cpp:125
+#: kwinbindings.cpp:131
 #, kde-format
 msgid "Keep Window on All Desktops"
 msgstr "Manter a Janela em Todos os Ecrãs"
 
-#: kwinbindings.cpp:129
+#: kwinbindings.cpp:135
 #, kde-format
 msgid "Window to Desktop %1"
 msgstr "Janela para o Ecrã %1"
 
-#: kwinbindings.cpp:131
+#: kwinbindings.cpp:137
 #, kde-format
 msgid "Window to Next Desktop"
 msgstr "Janela para o Próximo Ecrã"
 
-#: kwinbindings.cpp:132
+#: kwinbindings.cpp:138
 #, kde-format
 msgid "Window to Previous Desktop"
 msgstr "Janela para o Ecrã Anterior"
 
-#: kwinbindings.cpp:133
+#: kwinbindings.cpp:139
 #, kde-format
 msgid "Window One Desktop to the Right"
 msgstr "Janela para um Ecrã à Direita"
 
-#: kwinbindings.cpp:134
+#: kwinbindings.cpp:140
 #, kde-format
 msgid "Window One Desktop to the Left"
 msgstr "Janela para um Ecrã à Esquerda"
 
-#: kwinbindings.cpp:135
+#: kwinbindings.cpp:141
 #, kde-format
 msgid "Window One Desktop Up"
 msgstr "Janela para Um Ecrã Acima"
 
-#: kwinbindings.cpp:136
+#: kwinbindings.cpp:142
 #, kde-format
 msgid "Window One Desktop Down"
 msgstr "Janela para um Ecrã Abaixo"
 
-#: kwinbindings.cpp:139
+#: kwinbindings.cpp:145
 #, kde-format
 msgid "Window to Screen %1"
 msgstr "Janela para o Ecrã %1"
 
-#: kwinbindings.cpp:141
+#: kwinbindings.cpp:147
 #, kde-format
 msgid "Window to Next Screen"
 msgstr "Janela para o Ecrã Seguinte"
 
-#: kwinbindings.cpp:142
+#: kwinbindings.cpp:148
 #, kde-format
 msgid "Window to Previous Screen"
 msgstr "Janela para o Ecrã Anterior"
 
-#: kwinbindings.cpp:143
+#: kwinbindings.cpp:149
 #, kde-format
 msgid "Show Desktop"
 msgstr "Mostrar o Ecrã"
 
-#: kwinbindings.cpp:146
+#: kwinbindings.cpp:152
 #, kde-format
 msgid "Switch to Screen %1"
 msgstr "Mudar para o Ecrã %1"
 
-#: kwinbindings.cpp:149
+#: kwinbindings.cpp:155
 #, kde-format
 msgid "Switch to Next Screen"
 msgstr "Mudar para o Ecrã Seguinte"
 
-#: kwinbindings.cpp:150
+#: kwinbindings.cpp:156
 #, kde-format
 msgid "Switch to Previous Screen"
 msgstr "Mudar para o Ecrã Anterior"
 
-#: kwinbindings.cpp:152
+#: kwinbindings.cpp:158
 #, kde-format
 msgid "Kill Window"
 msgstr "Matar a Janela"
 
-#: kwinbindings.cpp:153
+#: kwinbindings.cpp:159
 #, kde-format
 msgid "Suspend Compositing"
 msgstr "Suspender a Composição"
 
-#: kwinbindings.cpp:154
+#: kwinbindings.cpp:160
 #, kde-format
 msgid "Invert Screen Colors"
 msgstr "Inverter as Cores do Ecrã"
@@ -1234,12 +1234,12 @@ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr ""
 "kwin_wayland: está outro gestor de janelas de X11 a correr no ecrã de X11.\n"
 
-#: main_wayland.cpp:502
+#: main_wayland.cpp:504
 #, kde-format
 msgid "Start a rootless Xwayland server."
 msgstr "Iniciar um servidor de Xwayland sem 'root'."
 
-#: main_wayland.cpp:504
+#: main_wayland.cpp:506
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
@@ -1247,52 +1247,52 @@ msgstr ""
 "Nome do 'socket' do Wayland onde atender pedidos. Se não for definido, será "
 "usado o \"wayland-0\"."
 
-#: main_wayland.cpp:507
+#: main_wayland.cpp:509
 #, kde-format
 msgid "Use a nested compositor in windowed mode."
 msgstr "Usar um compositor encadeado no modo em janelas."
 
-#: main_wayland.cpp:509
+#: main_wayland.cpp:511
 #, kde-format
 msgid "Render to framebuffer."
 msgstr "Desenhar no 'framebuffer'."
 
-#: main_wayland.cpp:511
+#: main_wayland.cpp:513
 #, kde-format
 msgid "The framebuffer device to render to."
 msgstr "O dispositivo do 'framebuffer' onde desenhar."
 
-#: main_wayland.cpp:515
+#: main_wayland.cpp:517
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "O ecrã de X11 a usar no modo em janelas da plataforma X11."
 
-#: main_wayland.cpp:518
+#: main_wayland.cpp:520
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr "O ecrã de Wayland a usar no modo em janelas da plataforma Wayland."
 
-#: main_wayland.cpp:520
+#: main_wayland.cpp:522
 #, kde-format
 msgid "Render to a virtual framebuffer."
 msgstr "Desenhar num 'framebuffer' virtual."
 
-#: main_wayland.cpp:522
+#: main_wayland.cpp:524
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "A largura do modo em janelas. A largura por omissão é 1024."
 
-#: main_wayland.cpp:526
+#: main_wayland.cpp:528
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
 msgstr "A altura do modo em janelas. A altura por omissão é 768."
 
-#: main_wayland.cpp:531
+#: main_wayland.cpp:533
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
 msgstr "A escala do modo em janelas. A altura por omissão é 1."
 
-#: main_wayland.cpp:536
+#: main_wayland.cpp:538
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
@@ -1300,12 +1300,12 @@ msgstr ""
 "O número de janelas a abrir como saídas no modo por janelas. O valor por "
 "omissão é 1"
 
-#: main_wayland.cpp:569
+#: main_wayland.cpp:571
 #, kde-format
 msgid "Use libhybris hwcomposer"
 msgstr "Usar o compositor por HW da 'libhybris'"
 
-#: main_wayland.cpp:576
+#: main_wayland.cpp:578
 #, kde-format
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
@@ -1314,37 +1314,37 @@ msgstr ""
 "Activa o suporte para a 'libinput', que processa os eventos de entrada. "
 "Nota: nunca use numa sessão encadeada."
 
-#: main_wayland.cpp:580
+#: main_wayland.cpp:582
 #, kde-format
 msgid "Render through drm node."
 msgstr "Desenhar pelo nó de DRM."
 
-#: main_wayland.cpp:587
+#: main_wayland.cpp:589
 #, kde-format
 msgid "Input method that KWin starts."
 msgstr "O método de entrada com que o KWin é iniciado."
 
-#: main_wayland.cpp:592
+#: main_wayland.cpp:594
 #, kde-format
 msgid "List all available backends and quit."
 msgstr "Apresenta todas as infra-estruturas disponíveis e sai."
 
-#: main_wayland.cpp:596
+#: main_wayland.cpp:598
 #, kde-format
 msgid "Starts the session in locked mode."
 msgstr "Inicia a sessão no modo bloqueado."
 
-#: main_wayland.cpp:600
+#: main_wayland.cpp:602
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr "Sair após a aplicação de sessões, iniciada pelo KWin, sair."
 
-#: main_wayland.cpp:606 main_x11.cpp:423
+#: main_wayland.cpp:608 main_x11.cpp:423
 #, kde-format
 msgid "Disable KActivities integration."
 msgstr "Desactivar a integração com o KActivities."
 
-#: main_wayland.cpp:611
+#: main_wayland.cpp:613
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr ""
@@ -1382,7 +1382,7 @@ msgstr ""
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "Substituir gestor de janelas (compatível ICCCM2.0) em execução"
 
-#: pointer_input.cpp:624
+#: pointer_input.cpp:647
 #, kde-format
 msgctxt "notification about mouse pointer confined"
 msgid ""
@@ -1392,7 +1392,7 @@ msgstr ""
 "O movimento do cursor está confinado à janela actual.\n"
 "Para libertar o cursor, carregue no Escape durante 3 segundos."
 
-#: pointer_input.cpp:641
+#: pointer_input.cpp:664
 #, kde-format
 msgctxt "notification about mouse pointer locked"
 msgid ""
@@ -1402,12 +1402,12 @@ msgstr ""
 "O movimento do cursor está confinado à posição actual.\n"
 "Para terminar o bloqueio do cursor, carregue no Escape durante 3 segundos."
 
-#: scene_opengl.cpp:662
+#: scene_opengl.cpp:666
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr "Os efeitos do ecrã foram reiniciados devido a um reinício gráfico"
 
-#: scene_opengl.cpp:860
+#: scene_opengl.cpp:918
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -1422,7 +1422,7 @@ msgstr ""
 "também para esta resolução.<br/>Em alternativa, baixe a resolução combinada "
 "de todos os ecrãs para %1x%2 "
 
-#: scene_opengl.cpp:867
+#: scene_opengl.cpp:925
 #, kde-format
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
@@ -1436,7 +1436,7 @@ msgstr ""
 "impacto pelas limitações do 'hardware' que restringem o tamanho da área de "
 "visualização do OpenGL."
 
-#: scene_opengl.cpp:892
+#: scene_opengl.cpp:950
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -1451,7 +1451,7 @@ msgstr ""
 "gráfica, mudar para a infra-estrutura do XRender ou baixar a resolução para "
 "%1x%1."
 
-#: scene_opengl.cpp:898
+#: scene_opengl.cpp:956
 #, kde-format
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
@@ -1516,69 +1516,69 @@ msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
 msgstr "O %1 não é um tipo variante"
 
-#: tabbox/tabbox.cpp:385
+#: tabbox/tabbox.cpp:386
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Mostrar o Ecrã"
 
-#: tabbox/tabbox.cpp:534
+#: tabbox/tabbox.cpp:535
 #, kde-format
 msgid "Walk Through Windows"
 msgstr "Percorrer as Janelas"
 
-#: tabbox/tabbox.cpp:535
+#: tabbox/tabbox.cpp:536
 #, kde-format
 msgid "Walk Through Windows (Reverse)"
 msgstr "Percorrer as Janelas (Sentido Inverso)"
 
-#: tabbox/tabbox.cpp:536
+#: tabbox/tabbox.cpp:537
 #, kde-format
 msgid "Walk Through Windows Alternative"
 msgstr "Percorrer as Janelas em Alternativa"
 
-#: tabbox/tabbox.cpp:537
+#: tabbox/tabbox.cpp:538
 #, kde-format
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Percorrer as Janelas em Alternativa (Sentido Inverso)"
 
-#: tabbox/tabbox.cpp:538
+#: tabbox/tabbox.cpp:539
 #, kde-format
 msgid "Walk Through Windows of Current Application"
 msgstr "Percorrer as Janelas da Aplicação Actual"
 
-#: tabbox/tabbox.cpp:539
+#: tabbox/tabbox.cpp:540
 #, kde-format
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Percorrer as Janelas da Aplicação Actual (Sentido Inverso)"
 
-#: tabbox/tabbox.cpp:540
+#: tabbox/tabbox.cpp:541
 #, kde-format
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Percorrer as Janelas da Aplicação Actual em Alternativa"
 
-#: tabbox/tabbox.cpp:541
+#: tabbox/tabbox.cpp:542
 #, kde-format
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr ""
 "Percorrer as Janelas da Aplicação Actual em Alternativa (Sentido Inverso)"
 
-#: tabbox/tabbox.cpp:542
+#: tabbox/tabbox.cpp:543
 #, kde-format
 msgid "Walk Through Desktops"
 msgstr "Percorrer os Ecrãs"
 
-#: tabbox/tabbox.cpp:543
+#: tabbox/tabbox.cpp:544
 #, kde-format
 msgid "Walk Through Desktops (Reverse)"
 msgstr "Percorrer os Ecrãs (Sentido Inverso)"
 
-#: tabbox/tabbox.cpp:544
+#: tabbox/tabbox.cpp:545
 #, kde-format
 msgid "Walk Through Desktop List"
 msgstr "Percorrer a Lista de Janelas"
 
-#: tabbox/tabbox.cpp:545
+#: tabbox/tabbox.cpp:546
 #, kde-format
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Percorrer a Lista de Janelas (Sentido Inverso)"
@@ -1796,7 +1796,7 @@ msgstr "O <b>%1</b> está em uso por %2 em %3"
 msgid "Activate Window (%1)"
 msgstr "Activar a Janela (%1)"
 
-#: useractions.cpp:1267
+#: useractions.cpp:1262
 #, kde-format
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
@@ -1862,7 +1862,7 @@ msgstr "O Teclado Virtual está activo."
 msgid "Virtual Keyboard is disabled."
 msgstr "O Teclado Virtual está inactivo."
 
-#: workspace.cpp:1348
+#: workspace.cpp:1372
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

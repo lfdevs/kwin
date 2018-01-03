@@ -15,9 +15,11 @@ set( testTabBoxClientModel_SRCS
 )
 
 add_executable( testTabBoxClientModel ${testTabBoxClientModel_SRCS} )
+set_target_properties(testTabBoxClientModel PROPERTIES COMPILE_DEFINITIONS "NO_NONE_WINDOW")
 target_link_libraries( testTabBoxClientModel
     Qt5::Core
-    Qt5::Gui
+    Qt5::Widgets
+    Qt5::Script
     Qt5::Quick
     Qt5::Test
     Qt5::X11Extras
@@ -45,9 +47,11 @@ set( testTabBoxHandler_SRCS
 )
 
 add_executable( testTabBoxHandler ${testTabBoxHandler_SRCS} )
+set_target_properties(testTabBoxHandler PROPERTIES COMPILE_DEFINITIONS "NO_NONE_WINDOW")
 target_link_libraries( testTabBoxHandler
     Qt5::Core
-    Qt5::Gui
+    Qt5::Widgets
+    Qt5::Script
     Qt5::Quick
     Qt5::Test
     Qt5::X11Extras

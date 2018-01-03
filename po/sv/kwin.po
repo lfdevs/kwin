@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-07-26 09:38+0200\n"
-"PO-Revision-Date: 2017-04-30 09:04+0100\n"
+"POT-Creation-Date: 2017-10-27 05:24+0200\n"
+"PO-Revision-Date: 2017-11-26 10:55+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -32,13 +32,13 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "awl@hem.passagen.se,pelinstr@algonet.se,newzella@linux.nu"
 
-#: client.cpp:1543
+#: abstract_client.cpp:1774
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(svarar inte)"
 
-#: composite.cpp:569
+#: composite.cpp:597
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -860,307 +860,307 @@ msgstr ""
 "Välj fönster som ska tvingas att stängas med vänsterklick\n"
 "eller returtangenten. Esc eller högerklick för att avbryta."
 
-#: kwinbindings.cpp:40
+#: kwinbindings.cpp:46
 #, kde-format
 msgid "Walk Through Window Tabs"
 msgstr "Stega genom fönsterflikar"
 
-#: kwinbindings.cpp:41
+#: kwinbindings.cpp:47
 #, kde-format
 msgid "Walk Through Window Tabs (Reverse)"
 msgstr "Stega genom fönsterflikar (omvänd ordning)"
 
-#: kwinbindings.cpp:42
+#: kwinbindings.cpp:48
 #, kde-format
 msgid "Remove Window From Group"
 msgstr "Ta bort fönster från grupp"
 
-#: kwinbindings.cpp:44
+#: kwinbindings.cpp:50
 #, kde-format
 msgid "Window Operations Menu"
 msgstr "Fönsterhanteringsmeny"
 
-#: kwinbindings.cpp:46
+#: kwinbindings.cpp:52
 #, kde-format
 msgid "Close Window"
 msgstr "Stäng fönster"
 
-#: kwinbindings.cpp:48
+#: kwinbindings.cpp:54
 #, kde-format
 msgid "Maximize Window"
 msgstr "Maximera fönster"
 
-#: kwinbindings.cpp:50
+#: kwinbindings.cpp:56
 #, kde-format
 msgid "Maximize Window Vertically"
 msgstr "Maximera fönster vertikalt"
 
-#: kwinbindings.cpp:52
+#: kwinbindings.cpp:58
 #, kde-format
 msgid "Maximize Window Horizontally"
 msgstr "Maximera fönster horisontellt"
 
-#: kwinbindings.cpp:54
+#: kwinbindings.cpp:60
 #, kde-format
 msgid "Minimize Window"
 msgstr "Minimera fönster"
 
-#: kwinbindings.cpp:56
+#: kwinbindings.cpp:62
 #, kde-format
 msgid "Shade Window"
 msgstr "Skugga fönster"
 
-#: kwinbindings.cpp:58
+#: kwinbindings.cpp:64
 #, kde-format
 msgid "Move Window"
 msgstr "Flytta fönster"
 
-#: kwinbindings.cpp:60
+#: kwinbindings.cpp:66
 #, kde-format
 msgid "Resize Window"
 msgstr "Ändra storlek på fönster"
 
-#: kwinbindings.cpp:62
+#: kwinbindings.cpp:68
 #, kde-format
 msgid "Raise Window"
 msgstr "Höj fönster"
 
-#: kwinbindings.cpp:64
+#: kwinbindings.cpp:70
 #, kde-format
 msgid "Lower Window"
 msgstr "Sänk fönster"
 
-#: kwinbindings.cpp:66
+#: kwinbindings.cpp:72
 #, kde-format
 msgid "Toggle Window Raise/Lower"
 msgstr "Sätt på eller stäng av höj och sänk för fönster"
 
-#: kwinbindings.cpp:68
+#: kwinbindings.cpp:74
 #, kde-format
 msgid "Make Window Fullscreen"
 msgstr "Gör fönster fullskärm"
 
-#: kwinbindings.cpp:70
+#: kwinbindings.cpp:76
 #, kde-format
 msgid "Hide Window Border"
 msgstr "Dölj fönsterkant"
 
-#: kwinbindings.cpp:72
+#: kwinbindings.cpp:78
 #, kde-format
 msgid "Keep Window Above Others"
 msgstr "Behåll fönster över andra"
 
-#: kwinbindings.cpp:74
+#: kwinbindings.cpp:80
 #, kde-format
 msgid "Keep Window Below Others"
 msgstr "Behåll fönster under andra"
 
-#: kwinbindings.cpp:76
+#: kwinbindings.cpp:82
 #, kde-format
 msgid "Activate Window Demanding Attention"
 msgstr "Aktivera fönster som kräver uppmärksamhet"
 
-#: kwinbindings.cpp:78
+#: kwinbindings.cpp:84
 #, kde-format
 msgid "Setup Window Shortcut"
 msgstr "Ställ in fönstersnabbtangent"
 
-#: kwinbindings.cpp:80
+#: kwinbindings.cpp:86
 #, kde-format
 msgid "Pack Window to the Right"
 msgstr "Samla fönster till höger"
 
-#: kwinbindings.cpp:82
+#: kwinbindings.cpp:88
 #, kde-format
 msgid "Pack Window to the Left"
 msgstr "Samla fönster till vänster"
 
-#: kwinbindings.cpp:84
+#: kwinbindings.cpp:90
 #, kde-format
 msgid "Pack Window Up"
 msgstr "Samla fönster längst upp"
 
-#: kwinbindings.cpp:86
+#: kwinbindings.cpp:92
 #, kde-format
 msgid "Pack Window Down"
 msgstr "Samla fönster längst ner"
 
-#: kwinbindings.cpp:88
+#: kwinbindings.cpp:94
 #, kde-format
 msgid "Pack Grow Window Horizontally"
 msgstr "Samla och förstora fönster horisontellt"
 
-#: kwinbindings.cpp:90
+#: kwinbindings.cpp:96
 #, kde-format
 msgid "Pack Grow Window Vertically"
 msgstr "Samla och förstora fönster vertikalt"
 
-#: kwinbindings.cpp:92
+#: kwinbindings.cpp:98
 #, kde-format
 msgid "Pack Shrink Window Horizontally"
 msgstr "Samla och förminska fönster horisontellt"
 
-#: kwinbindings.cpp:94
+#: kwinbindings.cpp:100
 #, kde-format
 msgid "Pack Shrink Window Vertically"
 msgstr "Samla och förminska fönster vertikalt"
 
-#: kwinbindings.cpp:96
+#: kwinbindings.cpp:102
 #, kde-format
 msgid "Quick Tile Window to the Left"
 msgstr "Fönster snabbt sida vid sida till vänster"
 
-#: kwinbindings.cpp:98
+#: kwinbindings.cpp:104
 #, kde-format
 msgid "Quick Tile Window to the Right"
 msgstr "Fönster snabbt sida vid sida till höger"
 
-#: kwinbindings.cpp:100
+#: kwinbindings.cpp:106
 #, kde-format
 msgid "Quick Tile Window to the Top"
 msgstr "Fönster snabbt sida vid sida längst upp"
 
-#: kwinbindings.cpp:102
+#: kwinbindings.cpp:108
 #, kde-format
 msgid "Quick Tile Window to the Bottom"
 msgstr "Fönster snabbt sida vid sida längst ner"
 
-#: kwinbindings.cpp:104
+#: kwinbindings.cpp:110
 #, kde-format
 msgid "Quick Tile Window to the Top Left"
 msgstr "Fönster snabbt sida vid sida uppe till vänster"
 
-#: kwinbindings.cpp:106
+#: kwinbindings.cpp:112
 #, kde-format
 msgid "Quick Tile Window to the Bottom Left"
 msgstr "Fönster snabbt sida vid sida nere till vänster"
 
-#: kwinbindings.cpp:108
+#: kwinbindings.cpp:114
 #, kde-format
 msgid "Quick Tile Window to the Top Right"
 msgstr "Fönster snabbt sida vid sida uppe till höger"
 
-#: kwinbindings.cpp:110
+#: kwinbindings.cpp:116
 #, kde-format
 msgid "Quick Tile Window to the Bottom Right"
 msgstr "Fönster snabbt sida vid sida nere till höger"
 
-#: kwinbindings.cpp:112
+#: kwinbindings.cpp:118
 #, kde-format
 msgid "Switch to Window Above"
 msgstr "Byt till fönster ovanför"
 
-#: kwinbindings.cpp:114
+#: kwinbindings.cpp:120
 #, kde-format
 msgid "Switch to Window Below"
 msgstr "Byt till fönster under"
 
-#: kwinbindings.cpp:116
+#: kwinbindings.cpp:122
 #, kde-format
 msgid "Switch to Window to the Right"
 msgstr "Byt till fönster till höger"
 
-#: kwinbindings.cpp:118
+#: kwinbindings.cpp:124
 #, kde-format
 msgid "Switch to Window to the Left"
 msgstr "Byt till fönster till vänster"
 
-#: kwinbindings.cpp:120
+#: kwinbindings.cpp:126
 #, kde-format
 msgid "Increase Opacity of Active Window by 5 %"
 msgstr "Öka ogenomskinlighet för aktivt fönster med 5 %"
 
-#: kwinbindings.cpp:122
+#: kwinbindings.cpp:128
 #, kde-format
 msgid "Decrease Opacity of Active Window by 5 %"
 msgstr "Minska ogenomskinlighet för aktivt fönster med 5 %"
 
-#: kwinbindings.cpp:125
+#: kwinbindings.cpp:131
 #, kde-format
 msgid "Keep Window on All Desktops"
 msgstr "Behåll fönster på alla skrivbord"
 
-#: kwinbindings.cpp:129
+#: kwinbindings.cpp:135
 #, kde-format
 msgid "Window to Desktop %1"
 msgstr "Fönster till skrivbord %1"
 
-#: kwinbindings.cpp:131
+#: kwinbindings.cpp:137
 #, kde-format
 msgid "Window to Next Desktop"
 msgstr "Fönster till nästa skrivbord"
 
-#: kwinbindings.cpp:132
+#: kwinbindings.cpp:138
 #, kde-format
 msgid "Window to Previous Desktop"
 msgstr "Fönster till föregående skrivbord"
 
-#: kwinbindings.cpp:133
+#: kwinbindings.cpp:139
 #, kde-format
 msgid "Window One Desktop to the Right"
 msgstr "Fönster ett skrivbord åt höger"
 
-#: kwinbindings.cpp:134
+#: kwinbindings.cpp:140
 #, kde-format
 msgid "Window One Desktop to the Left"
 msgstr "Fönster ett skrivbord åt vänster"
 
-#: kwinbindings.cpp:135
+#: kwinbindings.cpp:141
 #, kde-format
 msgid "Window One Desktop Up"
 msgstr "Fönster ett skrivbord upp"
 
-#: kwinbindings.cpp:136
+#: kwinbindings.cpp:142
 #, kde-format
 msgid "Window One Desktop Down"
 msgstr "Fönster ett skrivbord ned"
 
-#: kwinbindings.cpp:139
+#: kwinbindings.cpp:145
 #, kde-format
 msgid "Window to Screen %1"
 msgstr "Fönster till skärm %1"
 
-#: kwinbindings.cpp:141
+#: kwinbindings.cpp:147
 #, kde-format
 msgid "Window to Next Screen"
-msgstr "Fönster till nästa skrivbord"
+msgstr "Fönster till nästa skärm"
 
-#: kwinbindings.cpp:142
+#: kwinbindings.cpp:148
 #, kde-format
 msgid "Window to Previous Screen"
 msgstr "Fönster till föregående skärm"
 
-#: kwinbindings.cpp:143
+#: kwinbindings.cpp:149
 #, kde-format
 msgid "Show Desktop"
 msgstr "Visa skrivbord"
 
-#: kwinbindings.cpp:146
+#: kwinbindings.cpp:152
 #, kde-format
 msgid "Switch to Screen %1"
 msgstr "Byt till skärm %1"
 
-#: kwinbindings.cpp:149
+#: kwinbindings.cpp:155
 #, kde-format
 msgid "Switch to Next Screen"
-msgstr "Byt till nästa skrivbord"
+msgstr "Byt till nästa skärm"
 
-#: kwinbindings.cpp:150
+#: kwinbindings.cpp:156
 #, kde-format
 msgid "Switch to Previous Screen"
 msgstr "Byt till föregående skärm"
 
-#: kwinbindings.cpp:152
+#: kwinbindings.cpp:158
 #, kde-format
 msgid "Kill Window"
 msgstr "Terminera fönster"
 
-#: kwinbindings.cpp:153
+#: kwinbindings.cpp:159
 #, kde-format
 msgid "Suspend Compositing"
 msgstr "Stoppa sammansättning"
 
-#: kwinbindings.cpp:154
+#: kwinbindings.cpp:160
 #, kde-format
 msgid "Invert Screen Colors"
 msgstr "Invertera skärmfärger"
@@ -1225,12 +1225,12 @@ msgstr "Anger att Kwin nyligen har kraschat ett antal gånger"
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr "kwin_wayland: en X11-fönsterhanterare kör på X11-skärmen.\n"
 
-#: main_wayland.cpp:502
+#: main_wayland.cpp:504
 #, kde-format
 msgid "Start a rootless Xwayland server."
 msgstr "Starta en Xwayland-server utan rot."
 
-#: main_wayland.cpp:504
+#: main_wayland.cpp:506
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
@@ -1238,63 +1238,63 @@ msgstr ""
 "Namn på Wayland-uttaget att lyssna på. Om den inte är inställd används "
 "\"wayland-0\"."
 
-#: main_wayland.cpp:507
+#: main_wayland.cpp:509
 #, kde-format
 msgid "Use a nested compositor in windowed mode."
 msgstr "Använd nästlad sammansättning i fönsterläge."
 
-#: main_wayland.cpp:509
+#: main_wayland.cpp:511
 #, kde-format
 msgid "Render to framebuffer."
 msgstr "Återge i rambuffer."
 
-#: main_wayland.cpp:511
+#: main_wayland.cpp:513
 #, kde-format
 msgid "The framebuffer device to render to."
 msgstr "Rambufferenhet att återge i."
 
-#: main_wayland.cpp:515
+#: main_wayland.cpp:517
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "X11-skärm att använda i fönsterläge på X11-platform."
 
-#: main_wayland.cpp:518
+#: main_wayland.cpp:520
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr "Wayland-skärm att använda i fönsterläge på Wayland-platform."
 
-#: main_wayland.cpp:520
+#: main_wayland.cpp:522
 #, kde-format
 msgid "Render to a virtual framebuffer."
 msgstr "Återge i en virtuell rambuffer."
 
-#: main_wayland.cpp:522
+#: main_wayland.cpp:524
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "Bredden för fönsterläge. Standardbredd är 1024."
 
-#: main_wayland.cpp:526
+#: main_wayland.cpp:528
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
 msgstr "Höjden för fönsterläge. Standardhöjd är 768."
 
-#: main_wayland.cpp:531
+#: main_wayland.cpp:533
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
 msgstr "Skalan för fönsterläge. Standardvärde är 1."
 
-#: main_wayland.cpp:536
+#: main_wayland.cpp:538
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
 msgstr "Antal fönster att öppna för utdata i fönsterläge. Standardvärdet är 1."
 
-#: main_wayland.cpp:569
+#: main_wayland.cpp:571
 #, kde-format
 msgid "Use libhybris hwcomposer"
 msgstr "Använd libhybris hårdvarusammansättning"
 
-#: main_wayland.cpp:576
+#: main_wayland.cpp:578
 #, kde-format
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
@@ -1303,38 +1303,38 @@ msgstr ""
 "Aktivera stöd för behandling av indatahändelser med libinput. Observera: "
 "Använd aldrig i en nästlad session."
 
-#: main_wayland.cpp:580
+#: main_wayland.cpp:582
 #, kde-format
 msgid "Render through drm node."
 msgstr "Återge via DRM-nod."
 
-#: main_wayland.cpp:587
+#: main_wayland.cpp:589
 #, kde-format
 msgid "Input method that KWin starts."
 msgstr "Inmatningsmetod som Kwin startar."
 
-#: main_wayland.cpp:592
+#: main_wayland.cpp:594
 #, kde-format
 msgid "List all available backends and quit."
 msgstr "Lista alla tillgängliga gränssnitt och avsluta."
 
-#: main_wayland.cpp:596
+#: main_wayland.cpp:598
 #, kde-format
 msgid "Starts the session in locked mode."
 msgstr "Startar sessionen i låst läge."
 
-#: main_wayland.cpp:600
+#: main_wayland.cpp:602
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr ""
 "Avsluta efter att sessionsprogrammet, som startas av Kwin, har stängts."
 
-#: main_wayland.cpp:606 main_x11.cpp:423
+#: main_wayland.cpp:608 main_x11.cpp:423
 #, kde-format
 msgid "Disable KActivities integration."
 msgstr "Inaktivera integration med KActivities."
 
-#: main_wayland.cpp:611
+#: main_wayland.cpp:613
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr "Program att starta när väl Wayland och Xwayland-servern har startats"
@@ -1369,7 +1369,7 @@ msgstr "Kwin: en annan fönsterhanterare kör (försök använda --replace)\n"
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "Ersätt annan fönsterhanterare med stöd för ICCCM 2.0 som redan körs"
 
-#: pointer_input.cpp:624
+#: pointer_input.cpp:647
 #, kde-format
 msgctxt "notification about mouse pointer confined"
 msgid ""
@@ -1379,7 +1379,7 @@ msgstr ""
 "Pekarrörelser begränsade till aktuellt fönster.\n"
 "Håll nere Esc 3 sekunder för att frigöra pekaren."
 
-#: pointer_input.cpp:641
+#: pointer_input.cpp:664
 #, kde-format
 msgctxt "notification about mouse pointer locked"
 msgid ""
@@ -1389,12 +1389,12 @@ msgstr ""
 "Pekaren låst till nuvarande position. Håll nere\n"
 "Esc 3 sekunder för att avsluta pekarlåsning."
 
-#: scene_opengl.cpp:662
+#: scene_opengl.cpp:666
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr "Skrivbordseffekter startades om på grund av grafikåterställning"
 
-#: scene_opengl.cpp:860
+#: scene_opengl.cpp:918
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -1409,7 +1409,7 @@ msgstr ""
 "långsamt med den här upplösningen.<br>Som alternativ, minska den kombinerade "
 "upplösningen av alla skärmar till %1 x %2."
 
-#: scene_opengl.cpp:867
+#: scene_opengl.cpp:925
 #, kde-format
 msgid ""
 "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
@@ -1422,7 +1422,7 @@ msgstr ""
 "<br>XRender har inte någon sådan begränsning, men prestanda påverkas oftast "
 "av hårdvarugränserna som begränsar visningsstorleken för OpenGL."
 
-#: scene_opengl.cpp:892
+#: scene_opengl.cpp:950
 #, kde-format
 msgid ""
 "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -1436,7 +1436,7 @@ msgstr ""
 "stänga av sammansättning, byta till XRender-gränssnittet eller minska "
 "upplösningen till %1 x %1."
 
-#: scene_opengl.cpp:898
+#: scene_opengl.cpp:956
 #, kde-format
 msgid ""
 "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
@@ -1501,69 +1501,69 @@ msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
 msgstr "%1 är inte en varianttyp"
 
-#: tabbox/tabbox.cpp:385
+#: tabbox/tabbox.cpp:386
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Visa skrivbord"
 
-#: tabbox/tabbox.cpp:534
+#: tabbox/tabbox.cpp:535
 #, kde-format
 msgid "Walk Through Windows"
 msgstr "Stega genom fönster"
 
-#: tabbox/tabbox.cpp:535
+#: tabbox/tabbox.cpp:536
 #, kde-format
 msgid "Walk Through Windows (Reverse)"
 msgstr "Stega genom fönster (omvänd ordning)"
 
-#: tabbox/tabbox.cpp:536
+#: tabbox/tabbox.cpp:537
 #, kde-format
 msgid "Walk Through Windows Alternative"
 msgstr "Stega genom fönster alternativt"
 
-#: tabbox/tabbox.cpp:537
+#: tabbox/tabbox.cpp:538
 #, kde-format
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Stega genom fönster alternativt (omvänd ordning)"
 
-#: tabbox/tabbox.cpp:538
+#: tabbox/tabbox.cpp:539
 #, kde-format
 msgid "Walk Through Windows of Current Application"
 msgstr "Stega genom det nuvarande programmets fönster"
 
-#: tabbox/tabbox.cpp:539
+#: tabbox/tabbox.cpp:540
 #, kde-format
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Stega genom det nuvarande programmets fönster (omvänd ordning)"
 
-#: tabbox/tabbox.cpp:540
+#: tabbox/tabbox.cpp:541
 #, kde-format
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Stega genom det nuvarande programmets fönster alternativt"
 
-#: tabbox/tabbox.cpp:541
+#: tabbox/tabbox.cpp:542
 #, kde-format
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr ""
 "Stega genom det nuvarande programmets fönster alternativt (omvänd ordning)"
 
-#: tabbox/tabbox.cpp:542
+#: tabbox/tabbox.cpp:543
 #, kde-format
 msgid "Walk Through Desktops"
 msgstr "Stega genom skrivbord"
 
-#: tabbox/tabbox.cpp:543
+#: tabbox/tabbox.cpp:544
 #, kde-format
 msgid "Walk Through Desktops (Reverse)"
 msgstr "Stega genom skrivbord (omvänd ordning)"
 
-#: tabbox/tabbox.cpp:544
+#: tabbox/tabbox.cpp:545
 #, kde-format
 msgid "Walk Through Desktop List"
 msgstr "Stega genom skrivbordslista"
 
-#: tabbox/tabbox.cpp:545
+#: tabbox/tabbox.cpp:546
 #, kde-format
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Stega genom skrivbordslista (omvänd ordning)"
@@ -1779,7 +1779,7 @@ msgstr "<b>%1</b> används av %2 i %3"
 msgid "Activate Window (%1)"
 msgstr "Aktivera fönster (%1)"
 
-#: useractions.cpp:1267
+#: useractions.cpp:1262
 #, kde-format
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
@@ -1844,7 +1844,7 @@ msgstr "Virtuellt tangentbord aktiverat."
 msgid "Virtual Keyboard is disabled."
 msgstr "Virtuellt tangentbord inaktiverat."
 
-#: workspace.cpp:1348
+#: workspace.cpp:1372
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

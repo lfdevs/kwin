@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-30 02:59+0200\n"
+"POT-Creation-Date: 2017-11-18 05:40+0100\n"
 "PO-Revision-Date: 2016-11-26 22:18+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -66,7 +66,7 @@ msgstr ""
 "Een positie selecteren voor kleurkiezen met links klikken of Enter.\n"
 "Escape of rechts klikken om te annuleren."
 
-#: coverswitch/coverswitch.cpp:951 flipswitch/flipswitch.cpp:935
+#: coverswitch/coverswitch.cpp:952 flipswitch/flipswitch.cpp:935
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -1372,25 +1372,25 @@ msgstr ""
 "Teken met de muis door de toetsen Shift en Meta ingedrukt te houden terwijl "
 "u de muis beweegt."
 
-#: presentwindows/presentwindows.cpp:74
+#: presentwindows/presentwindows.cpp:78
 #: presentwindows/presentwindows_config.cpp:73
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Aanwezige vensters aan/uit (huidig bureaublad)"
 
-#: presentwindows/presentwindows.cpp:82
+#: presentwindows/presentwindows.cpp:86
 #: presentwindows/presentwindows_config.cpp:67
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Aanwezige vensters aan/uit (alle bureaubladen)"
 
-#: presentwindows/presentwindows.cpp:91
+#: presentwindows/presentwindows.cpp:95
 #: presentwindows/presentwindows_config.cpp:79
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Aanwezige vensters aan/uit (vensterklasse)"
 
-#: presentwindows/presentwindows.cpp:1641
+#: presentwindows/presentwindows.cpp:1651
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1638,7 +1638,7 @@ msgstr ""
 "Schermafdruk maken met links klikken of Enter.\n"
 "Escape of rechts klikken om te annuleren."
 
-#: showfps/showfps.cpp:62
+#: showfps/showfps.cpp:63
 #, kde-format
 msgid "This effect is not a benchmark"
 msgstr "Dit effect is geen benchmark"

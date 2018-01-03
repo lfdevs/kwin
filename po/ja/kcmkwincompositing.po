@@ -302,8 +302,7 @@ msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
 "effect's settings."
 msgstr ""
-"<note label='ヒント'>それぞれの効果の使い方については、効果の設定を参照してく"
-"ださい。</note>"
+"【ヒント】 それぞれの効果の使い方については、効果の設定を参照してください。"
 
 #: qml/EffectView.qml:74
 #, kde-format

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-30 02:59+0200\n"
+"POT-Creation-Date: 2017-11-18 05:40+0100\n"
 "PO-Revision-Date: 2017-01-29 22:12+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-it@kde.org>\n"
@@ -60,7 +60,7 @@ msgstr ""
 "Selige un position pro seliger color per cliccar a sinistre o Enter.\n"
 "Escappa o clicca a dextere pro cancellar."
 
-#: coverswitch/coverswitch.cpp:951 flipswitch/flipswitch.cpp:935
+#: coverswitch/coverswitch.cpp:952 flipswitch/flipswitch.cpp:935
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -1362,25 +1362,25 @@ msgstr "&Color:"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Designa con le mus per premer claves Shift+Meta e mover le mus."
 
-#: presentwindows/presentwindows.cpp:74
+#: presentwindows/presentwindows.cpp:78
 #: presentwindows/presentwindows_config.cpp:73
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Commuta fenestras presente (scriptorio currente)"
 
-#: presentwindows/presentwindows.cpp:82
+#: presentwindows/presentwindows.cpp:86
 #: presentwindows/presentwindows_config.cpp:67
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Commuta (Toggle) fenestras presente (Omne scriptorios)"
 
-#: presentwindows/presentwindows.cpp:91
+#: presentwindows/presentwindows.cpp:95
 #: presentwindows/presentwindows_config.cpp:79
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Commuta fenestra presente (classe de fenestra)"
 
-#: presentwindows/presentwindows.cpp:1641
+#: presentwindows/presentwindows.cpp:1651
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1628,7 +1628,7 @@ msgstr ""
 "Crea captura de schermo per cliccar a sinistre o Enter.\n"
 "Escappa o clicca a dextere pro cancellar."
 
-#: showfps/showfps.cpp:62
+#: showfps/showfps.cpp:63
 #, kde-format
 msgid "This effect is not a benchmark"
 msgstr "Iste effecto non es un benchmark"

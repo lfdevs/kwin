@@ -46,14 +46,7 @@ BlurEffect::BlurEffect()
         qCDebug(KWINEFFECTS) << "Simple blur shader failed to load";
     }
 
-    // Offscreen texture that's used as the target for the horizontal blur pass
-    // and the source for the vertical pass.
-    tex = GLTexture(GL_RGBA8, effects->virtualScreenSize());
-    tex.setFilter(GL_LINEAR);
-    tex.setWrapMode(GL_CLAMP_TO_EDGE);
-
-    target = new GLRenderTarget(tex);
-
+    updateTexture();
     reconfigure(ReconfigureAll);
 
     // ### Hackish way to announce support.
@@ -73,6 +66,13 @@ BlurEffect::BlurEffect()
     connect(effects, SIGNAL(windowDeleted(KWin::EffectWindow*)), this, SLOT(slotWindowDeleted(KWin::EffectWindow*)));
     connect(effects, SIGNAL(propertyNotify(KWin::EffectWindow*,long)), this, SLOT(slotPropertyNotify(KWin::EffectWindow*,long)));
     connect(effects, SIGNAL(screenGeometryChanged(QSize)), this, SLOT(slotScreenGeometryChanged()));
+    connect(effects, &EffectsHandler::xcbConnectionChanged, this,
+        [this] {
+            if (shader && shader->isValid() && target->valid()) {
+                net_wm_blur_region = effects->announceSupportProperty(s_blurAtomName, this);
+            }
+        }
+    );
 
     // Fetch the blur regions for all windows
     foreach (EffectWindow *window, effects->stackingOrder())
@@ -90,7 +90,23 @@ BlurEffect::~BlurEffect()
 
 void BlurEffect::slotScreenGeometryChanged()
 {
-    effects->reloadEffect(this);
+    effects->makeOpenGLContextCurrent();
+    updateTexture();
+    // Fetch the blur regions for all windows
+    foreach (EffectWindow *window, effects->stackingOrder())
+        updateBlurRegion(window);
+    effects->doneOpenGLContextCurrent();
+}
+
+void BlurEffect::updateTexture() {
+    delete target;
+    // Offscreen texture that's used as the target for the horizontal blur pass
+    // and the source for the vertical pass.
+    tex = GLTexture(GL_RGBA8, effects->virtualScreenSize());
+    tex.setFilter(GL_LINEAR);
+    tex.setWrapMode(GL_CLAMP_TO_EDGE);
+
+    target = new GLRenderTarget(tex);
 }
 
 void BlurEffect::reconfigure(ReconfigureFlags flags)
@@ -116,16 +132,19 @@ void BlurEffect::reconfigure(ReconfigureFlags flags)
 void BlurEffect::updateBlurRegion(EffectWindow *w) const
 {
     QRegion region;
+    QByteArray value;
 
-    const QByteArray value = w->readProperty(net_wm_blur_region, XCB_ATOM_CARDINAL, 32);
-    if (value.size() > 0 && !(value.size() % (4 * sizeof(uint32_t)))) {
-        const uint32_t *cardinals = reinterpret_cast<const uint32_t*>(value.constData());
-        for (unsigned int i = 0; i < value.size() / sizeof(uint32_t);) {
-            int x = cardinals[i++];
-            int y = cardinals[i++];
-            int w = cardinals[i++];
-            int h = cardinals[i++];
-            region += QRect(x, y, w, h);
+    if (net_wm_blur_region != XCB_ATOM_NONE) {
+        value = w->readProperty(net_wm_blur_region, XCB_ATOM_CARDINAL, 32);
+        if (value.size() > 0 && !(value.size() % (4 * sizeof(uint32_t)))) {
+            const uint32_t *cardinals = reinterpret_cast<const uint32_t*>(value.constData());
+            for (unsigned int i = 0; i < value.size() / sizeof(uint32_t);) {
+                int x = cardinals[i++];
+                int y = cardinals[i++];
+                int w = cardinals[i++];
+                int h = cardinals[i++];
+                region += QRect(x, y, w, h);
+            }
         }
     }
 
@@ -171,7 +190,7 @@ void BlurEffect::slotWindowDeleted(EffectWindow *w)
 
 void BlurEffect::slotPropertyNotify(EffectWindow *w, long atom)
 {
-    if (w && atom == net_wm_blur_region) {
+    if (w && atom == net_wm_blur_region && net_wm_blur_region != XCB_ATOM_NONE) {
         updateBlurRegion(w);
         CacheEntry it = windows.find(w);
         if (it != windows.end()) {

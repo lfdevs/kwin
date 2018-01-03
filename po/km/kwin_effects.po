@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-30 02:59+0200\n"
+"POT-Creation-Date: 2017-11-18 05:40+0100\n"
 "PO-Revision-Date: 2012-06-14 11:20+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer\n"
@@ -57,7 +57,7 @@ msgid ""
 "Escape or right click to cancel."
 msgstr ""
 
-#: coverswitch/coverswitch.cpp:951 flipswitch/flipswitch.cpp:935
+#: coverswitch/coverswitch.cpp:952 flipswitch/flipswitch.cpp:935
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -1380,25 +1380,25 @@ msgstr "ពណ៌ ៖"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "គូរ​ដោយប្រើ​កណ្ដុរ ដោយ​សង្កត់​គ្រាប់ចុច​ប្ដូរ(Shift)+មេតា ហើយ​ផ្លាស់ទី​កណ្ដុរ ។"
 
-#: presentwindows/presentwindows.cpp:74
+#: presentwindows/presentwindows.cpp:78
 #: presentwindows/presentwindows_config.cpp:73
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "បិទ/បើក​បង្អួច​បច្ចុប្បន្ន (ផ្ទៃតុ​បច្ចុប្បន្ន)"
 
-#: presentwindows/presentwindows.cpp:82
+#: presentwindows/presentwindows.cpp:86
 #: presentwindows/presentwindows_config.cpp:67
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "បិទ/បើក​បង្អួច​បច្ចុប្បប្ន (ផ្ទៃតុ​ទាំងអស់)"
 
-#: presentwindows/presentwindows.cpp:91
+#: presentwindows/presentwindows.cpp:95
 #: presentwindows/presentwindows_config.cpp:79
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "បិទ/បើក​បង្អួច​បច្ចុប្បន្ន​ (ថ្នាក់​បង្អួច)"
 
-#: presentwindows/presentwindows.cpp:1641
+#: presentwindows/presentwindows.cpp:1651
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1642,7 +1642,7 @@ msgid ""
 "Escape or right click to cancel."
 msgstr ""
 
-#: showfps/showfps.cpp:62
+#: showfps/showfps.cpp:63
 #, kde-format
 msgid "This effect is not a benchmark"
 msgstr ""

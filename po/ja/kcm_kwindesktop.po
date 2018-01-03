@@ -121,22 +121,19 @@ msgstr "アニメーションなし"
 #: main.cpp:493
 #, kde-format
 msgid "No suitable Shortcut for Desktop %1 found"
-msgstr ""
-"デスクトップ <resource>%1</resource> に適したショートカットが見つかりません"
+msgstr "デスクトップ “%1” に適したショートカットが見つかりません"
 
 #: main.cpp:499
 #, kde-format
 msgid "Assigned global Shortcut \"%1\" to Desktop %2"
-msgstr ""
-"デスクトップ <resource>%2</resource> にグローバルショートカット %1 を割り当て"
-"ました"
+msgstr "デスクトップ “%2” にグローバルショートカット %1 を割り当てました"
 
 #: main.cpp:502
 #, kde-format
 msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
 msgstr ""
-"ショートカットの衝突: デスクトップ <resource>%2</resource> にショートカット "
-"%1 を割り当てられませんでした"
+"ショートカットの衝突: デスクトップ “%2” にショートカット %1 を割り当てられま"
+"せんでした"
 
 #: main.cpp:604
 #, kde-format

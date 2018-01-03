@@ -2,13 +2,13 @@
 # Mikolaj Machowski <mikmach@wp.pl>, 2004, 2005, 2007, 2010.
 # Krzysztof Lichota <lichota@mimuw.edu.pl>, 2005, 2006.
 # Marta Rybczyńska <kde-i18n@rybczynska.net>, 2008, 2010, 2013.
-# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014, 2015.
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2015-12-26 09:31+0100\n"
+"PO-Revision-Date: 2017-11-25 07:16+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -305,7 +305,7 @@ msgstr "Zasada KWin (*.kwinrule)"
 #: ruleslist.cpp:165
 #, kde-format
 msgid "Import Rules"
-msgstr "Zasady importu"
+msgstr "Importuj zasady"
 
 #. i18n: ectx: property (text), widget (QPushButton, new_button)
 #: ruleslist.ui:32

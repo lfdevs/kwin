@@ -13,11 +13,11 @@ set(DRM_SOURCES
 )
 
 if(HAVE_GBM)
-    set(DRM_SOURCES ${DRM_SOURCES} egl_gbm_backend.cpp drm_buffer_gbm.cpp)
+    set(DRM_SOURCES ${DRM_SOURCES} egl_gbm_backend.cpp drm_buffer_gbm.cpp gbm_surface.cpp)
 endif()
 
 add_library(KWinWaylandDrmBackend MODULE ${DRM_SOURCES})
-target_link_libraries(KWinWaylandDrmBackend kwin Libdrm::Libdrm)
+target_link_libraries(KWinWaylandDrmBackend kwin Libdrm::Libdrm SceneQPainterBackend)
 
 if(HAVE_GBM)
     target_link_libraries(KWinWaylandDrmBackend gbm::gbm)

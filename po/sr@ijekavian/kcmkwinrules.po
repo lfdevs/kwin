@@ -1,13 +1,13 @@
 # Translation of kcmkwinrules.po into Serbian.
 # Toplica Tanaskovic <toptan@kde.org.yu>, 2004, 2005.
-# Chusslove Illich <caslav.ilic@gmx.net>, 2005, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015.
+# Chusslove Illich <caslav.ilic@gmx.net>, 2005, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2017.
 # Dalibor Djuric <daliborddjuric@gmail.com>, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2015-11-29 18:06+0100\n"
+"PO-Revision-Date: 2017-10-30 23:08+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr@ijekavian\n"
@@ -188,14 +188,14 @@ msgid ""
 "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try "
 "<b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
 msgstr ""
-"<html><p>Пречица се може лако додијелити или уклонити употребом ова два "
-"дугмета. Дозвољене су само пречице са модификаторима.</p><p>Могуће је задати "
-"неколико пречица, у ком случају ће се користити прва доступна. Пречице се "
-"наводе цртицама раздвојеним скуповима пречица („ - “). Један скуп задаје се "
-"као <i>основа</i>+(<i>списак</i>), где основу чине модификаторски а списак "
-"остали тастери.</p><p>На примјер, <icode>Shift+Alt+(123) Shift+Ctrl+(ABC)</"
-"icode> ће прво испробати <shortcut>Shift+Alt+1</shortcut>, затим остале, "
-"закључно са <shortcut>Shift+Ctrl+C</shortcut>.</p></html>"
+"<p>Пречица се може лако додијелити или уклонити употребом ова два дугмета. "
+"Дозвољене су само пречице са модификаторима.</p><p>Могуће је задати неколико "
+"пречица, у ком случају ће се користити прва доступна. Пречице се наводе "
+"цртицама раздвојеним скуповима пречица („ - “). Један скуп задаје се као "
+"<i>основа</i>+(<i>списак</i>), где основу чине модификаторски а списак "
+"остали тастери.</p><p>На примјер, <tt>Shift+Alt+(123) Shift+Ctrl+(ABC)</tt> "
+"ће прво испробати <b>Shift+Alt+1</b>, затим остале, закључно са <b>Shift+Ctrl"
+"+C</b>.</p>"
 
 #. i18n: ectx: property (text), widget (QPushButton, pushButton1)
 #: editshortcut.ui:62
@@ -302,7 +302,7 @@ msgstr "Ова помоћна алатка не би требало да се п
 #: ruleslist.cpp:153
 #, kde-format
 msgid "Export Rule"
-msgstr "Извор правила"
+msgstr "Извоз правила"
 
 #: ruleslist.cpp:154 ruleslist.cpp:166
 #, kde-format
@@ -1183,9 +1183,8 @@ msgid ""
 msgstr ""
 "<p>К‑вин се труди да спречи прозоре да одузимају фокус („активирају се“) док "
 "радите у другом прозор, али то некада може не успети или претерати. Избор "
-"<interface>никакво</interface> ће овом прозору дозволити да безусловно узима "
-"фокус, док ће га <interface>екстремно</interface> потпуно спречити да то "
-"чини.</p>"
+"<i>никакво</i> ће овом прозору дозволити да безусловно узима фокус, док ће "
+"га <i>екстремно</i> потпуно спречити да то чини.</p>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fsplevel)
 #: ruleswidgetbase.ui:2151

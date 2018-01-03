@@ -6,19 +6,20 @@
 # marce villarino <mvillarino@users.sourceforge.net>, 2009.
 # Marce Villarino <mvillarino@kde-espana.es>, 2009.
 # Marce Villarino <mvillarino@kde-espana.es>, 2011, 2013, 2014.
+# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2014-05-14 22:07+0200\n"
-"Last-Translator: Marce Villarino <mvillarino@kde-espana.org>\n"
+"PO-Revision-Date: 2017-10-04 22:41+0100\n"
+"Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <kde-i18n-doc@kde.org>\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
@@ -42,7 +43,7 @@ msgstr "Escritorio %1:"
 #: desktopnameswidget.cpp:69 desktopnameswidget.cpp:70
 #, kde-format
 msgid "Here you can enter the name for desktop %1"
-msgstr "Aquí pode indicar o nome do escritorio %1"
+msgstr "Aquí pode inserir o nome do escritorio %1"
 
 #: desktopnameswidget.cpp:108 main.cpp:226
 #, kde-format
@@ -111,7 +112,7 @@ msgstr "Percorrer a lista de escritorios (do revés)"
 #: main.cpp:110 main.cpp:144 main.cpp:509 main.cpp:510
 #, kde-format
 msgid "Desktop Switching"
-msgstr "Troco de escritorio"
+msgstr "Cambio de escritorio"
 
 #: main.cpp:122 main.cpp:489
 #, kde-format
@@ -188,7 +189,7 @@ msgstr "Nomes dos escritorios"
 #: main.ui:136
 #, kde-format
 msgid "Switching"
-msgstr "Troco"
+msgstr "Cambio"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, wrapAroundBox)
 #: main.ui:142
@@ -198,8 +199,9 @@ msgid ""
 "beyond the edge of a desktop to take you to the opposite edge of the new "
 "desktop."
 msgstr ""
-"Escolla esta opción se quere navegar alén do borde do escritorio para ir ao "
-"borde contrario do novo escritorio."
+"Active esta opción se quere que a navegación co teclado ou o bordo do "
+"escritorio activo alén do borde do escritorio o leve ao borde contrario do "
+"novo escritorio."
 
 #. i18n: ectx: property (text), widget (QCheckBox, wrapAroundBox)
 #: main.ui:145
@@ -223,7 +225,7 @@ msgstr "Animación:"
 #: main.ui:204
 #, kde-format
 msgid "Desktop Switch On-Screen Display"
-msgstr "Visualización na pantalla do troco de escritorio"
+msgstr "Visualización na pantalla do cambio de escritorio"
 
 #. i18n: ectx: property (text), widget (QLabel, hideLabel)
 #: main.ui:222

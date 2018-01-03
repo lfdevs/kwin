@@ -90,6 +90,15 @@ void WaylandServer::destroyInternalConnection()
 {
     emit terminatingInternalClientConnection();
     if (m_internalConnection.client) {
+        // delete all connections hold by plugins like e.g. widget style
+        const auto connections = KWayland::Client::ConnectionThread::connections();
+        for (auto c : connections) {
+            if (c == m_internalConnection.client) {
+                continue;
+            }
+            emit c->connectionDied();
+        }
+
         delete m_internalConnection.registry;
         delete m_internalConnection.shm;
         dispatch();
@@ -321,26 +330,37 @@ void WaylandServer::initWorkspace()
     }
 
     if (hasScreenLockerIntegration()) {
-        ScreenLocker::KSldApp::self();
-        ScreenLocker::KSldApp::self()->setWaylandDisplay(m_display);
-        ScreenLocker::KSldApp::self()->setGreeterEnvironment(kwinApp()->processStartupEnvironment());
-        ScreenLocker::KSldApp::self()->initialize();
-
-        connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::greeterClientConnectionChanged, this,
-            [this] () {
-                m_screenLockerClientConnection = ScreenLocker::KSldApp::self()->greeterClientConnection();
-            }
-        );
-
-        connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::unlocked, this,
-            [this] () {
-                m_screenLockerClientConnection = nullptr;
-            }
-        );
-
-        if (m_initFlags.testFlag(InitalizationFlag::LockScreen)) {
-            ScreenLocker::KSldApp::self()->lock(ScreenLocker::EstablishLock::Immediate);
+        if (m_internalConnection.interfacesAnnounced) {
+            initScreenLocker();
+        } else {
+            connect(m_internalConnection.registry, &KWayland::Client::Registry::interfacesAnnounced, this, &WaylandServer::initScreenLocker);
         }
+    } else {
+        emit initialized();
+    }
+}
+
+void WaylandServer::initScreenLocker()
+{
+    ScreenLocker::KSldApp::self();
+    ScreenLocker::KSldApp::self()->setWaylandDisplay(m_display);
+    ScreenLocker::KSldApp::self()->setGreeterEnvironment(kwinApp()->processStartupEnvironment());
+    ScreenLocker::KSldApp::self()->initialize();
+
+    connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::greeterClientConnectionChanged, this,
+        [this] () {
+            m_screenLockerClientConnection = ScreenLocker::KSldApp::self()->greeterClientConnection();
+        }
+    );
+
+    connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::unlocked, this,
+        [this] () {
+            m_screenLockerClientConnection = nullptr;
+        }
+    );
+
+    if (m_initFlags.testFlag(InitalizationFlag::LockScreen)) {
+        ScreenLocker::KSldApp::self()->lock(ScreenLocker::EstablishLock::Immediate);
     }
     emit initialized();
 }
@@ -510,6 +530,11 @@ void WaylandServer::createInternalConnection()
             connect(registry, &Registry::shmAnnounced, this,
                 [this] (quint32 name, quint32 version) {
                     m_internalConnection.shm = m_internalConnection.registry->createShmPool(name, version, this);
+                }
+            );
+            connect(registry, &Registry::interfacesAnnounced, this,
+                [this] {
+                    m_internalConnection.interfacesAnnounced = true;
                 }
             );
             registry->setup();

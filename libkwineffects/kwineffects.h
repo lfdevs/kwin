@@ -56,6 +56,7 @@ class QFont;
 class QGraphicsScale;
 class QKeyEvent;
 class QMatrix4x4;
+class QAction;
 
 /**
  * Logging category to be used inside the KWin effects.
@@ -1681,6 +1682,18 @@ Q_SIGNALS:
      * @since 5.8.4
      **/
     void windowDataChanged(KWin::EffectWindow *w, int role);
+
+    /**
+     * The xcb connection changed, either a new xcbConnection got created or the existing one
+     * got destroyed.
+     * Effects can use this to refetch the properties they want to set.
+     *
+     * When the xcbConnection changes also the @link{x11RootWindow} becomes invalid.
+     * @see xcbConnection
+     * @see x11RootWindow
+     * @since 5.11
+     **/
+    void xcbConnectionChanged();
 
 protected:
     QVector< EffectPair > loaded_effects;

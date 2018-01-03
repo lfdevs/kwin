@@ -42,6 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "main.h"
 #include "overlaywindow.h"
 #include "screens.h"
+#include "cursor.h"
 #include "decorations/decoratedclient.h"
 
 #include <KWayland/Server/subcompositor_interface.h>
@@ -406,8 +407,8 @@ SceneOpenGL::SceneOpenGL(OpenGLBackend *backend, QObject *parent)
         init_ok = false;
         return; // error
     }
-    if (glPlatform->isMesaDriver() && glPlatform->mesaVersion() < kVersionNumber(8, 0)) {
-        qCCritical(KWIN_CORE) << "KWin requires at least Mesa 8.0 for OpenGL compositing.";
+    if (glPlatform->isMesaDriver() && glPlatform->mesaVersion() < kVersionNumber(10, 0)) {
+        qCCritical(KWIN_CORE) << "KWin requires at least Mesa 10.0 for OpenGL compositing.";
         init_ok = false;
         return;
     }
@@ -427,7 +428,7 @@ SceneOpenGL::SceneOpenGL(OpenGLBackend *backend, QObject *parent)
         ? hasGLVersion(3, 0)
         : hasGLVersion(3, 2) || hasGLExtension("GL_ARB_sync");
 
-    if (hasGLExtension("GL_EXT_x11_sync_object") && haveSyncObjects) {
+    if (hasGLExtension("GL_EXT_x11_sync_object") && haveSyncObjects && kwinApp()->operationMode() == Application::OperationModeX11) {
         const QByteArray useExplicitSync = qgetenv("KWIN_EXPLICIT_SYNC");
 
         if (useExplicitSync != "0") {
@@ -524,6 +525,9 @@ void SceneOpenGL::initDebugOutput()
             if (strstr(message, "Buffer detailed info:") && strstr(message, "has been updated"))
                 scheduleVboReInit();
             // fall through! for general message printing
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 8, 0))
+            Q_FALLTHROUGH();
+#endif
         case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
         case GL_DEBUG_TYPE_PORTABILITY:
         case GL_DEBUG_TYPE_PERFORMANCE:
@@ -678,6 +682,57 @@ void SceneOpenGL::insertWait()
     }
 }
 
+/**
+ * Render cursor texture in case hardware cursor is disabled.
+ * Useful for screen recording apps or backends that can't do planes.
+ */
+void SceneOpenGL2::paintCursor()
+{
+    // don't paint if we use hardware cursor
+    if (!kwinApp()->platform()->usesSoftwareCursor()) {
+        return;
+    }
+
+    // lazy init texture cursor only in case we need software rendering
+    if (!m_cursorTexture) {
+        auto updateCursorTexture = [this] {
+            // don't paint if no image for cursor is set
+            const QImage img = kwinApp()->platform()->softwareCursor();
+            if (img.isNull()) {
+                return;
+            }
+            m_cursorTexture.reset(new GLTexture(img));
+        };
+
+        // init now
+        updateCursorTexture();
+
+        // handle shape update on case cursor image changed
+        connect(Cursor::self(), &Cursor::cursorChanged, this, updateCursorTexture);
+    }
+
+    // get cursor position in projection coordinates
+    const QPoint cursorPos = Cursor::pos() - kwinApp()->platform()->softwareCursorHotspot();
+    const QRect cursorRect(0, 0, m_cursorTexture->width(), m_cursorTexture->height());
+    QMatrix4x4 mvp = m_projectionMatrix;
+    mvp.translate(cursorPos.x(), cursorPos.y());
+
+    // handle transparence
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // paint texture in cursor offset
+    m_cursorTexture->bind();
+    ShaderBinder binder(ShaderTrait::MapTexture);
+    binder.shader()->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
+    m_cursorTexture->render(QRegion(cursorRect), cursorRect);
+    m_cursorTexture->unbind();
+
+    kwinApp()->platform()->markCursorAsRendered();
+
+    glDisable(GL_BLEND);
+}
+
 qint64 SceneOpenGL::paint(QRegion damage, ToplevelList toplevels)
 {
     // actually paint the frame, flushed with the NEXT frame
@@ -700,6 +755,7 @@ qint64 SceneOpenGL::paint(QRegion damage, ToplevelList toplevels)
             QRegion repaint = m_backend->prepareRenderingForScreen(i);
             GLVertexBuffer::setVirtualScreenGeometry(geo);
             GLRenderTarget::setVirtualScreenGeometry(geo);
+            GLVertexBuffer::setVirtualScreenScale(screens()->scale(i));
             GLRenderTarget::setVirtualScreenScale(screens()->scale(i));
 
             const GLenum status = glGetGraphicsResetStatus();
@@ -711,6 +767,7 @@ qint64 SceneOpenGL::paint(QRegion damage, ToplevelList toplevels)
             int mask = 0;
             updateProjectionMatrix();
             paintScreen(&mask, damage.intersected(geo), repaint, &update, &valid, projectionMatrix(), geo);   // call generic implementation
+            paintCursor();
 
             GLVertexBuffer::streamingBuffer()->endOfFrame();
 
@@ -729,6 +786,7 @@ qint64 SceneOpenGL::paint(QRegion damage, ToplevelList toplevels)
         }
         GLVertexBuffer::setVirtualScreenGeometry(screens()->geometry());
         GLRenderTarget::setVirtualScreenGeometry(screens()->geometry());
+        GLVertexBuffer::setVirtualScreenScale(1);
         GLRenderTarget::setVirtualScreenScale(1);
 
         int mask = 0;
@@ -965,6 +1023,11 @@ bool SceneOpenGL::animationsSupported() const
     return !GLPlatform::instance()->isSoftwareEmulation();
 }
 
+QVector<QByteArray> SceneOpenGL::openGLPlatformInterfaceExtensions() const
+{
+    return m_backend->extensions().toVector();
+}
+
 //****************************************
 // SceneOpenGL2
 //****************************************
@@ -1124,19 +1187,17 @@ void SceneOpenGL2::performPaintWindow(EffectWindowImpl* w, int mask, QRegion reg
     if (mask & PAINT_WINDOW_LANCZOS) {
         if (!m_lanczosFilter) {
             m_lanczosFilter = new LanczosFilter(this);
-            // recreate the lanczos filter when the screen gets resized
-            connect(screens(), SIGNAL(changed()), SLOT(resetLanczosFilter()));
+            // reset the lanczos filter when the screen gets resized
+            // it will get created next paint
+            connect(screens(), &Screens::changed, this, [this]() {
+                makeOpenGLContextCurrent();
+                delete m_lanczosFilter;
+                m_lanczosFilter = NULL;
+            });
         }
         m_lanczosFilter->performPaint(w, mask, region, data);
     } else
         w->sceneWindow()->performPaint(mask, region, data);
-}
-
-void SceneOpenGL2::resetLanczosFilter()
-{
-    // TODO: Qt5 - replace by a lambda slot
-    delete m_lanczosFilter;
-    m_lanczosFilter = NULL;
 }
 
 //****************************************
@@ -1449,7 +1510,7 @@ QMatrix4x4 SceneOpenGL2Window::modelViewProjectionMatrix(int mask, const WindowP
     return scene->projectionMatrix() * mvMatrix;
 }
 
-static void renderSubSurface(GLShader *shader, const QMatrix4x4 &mvp, const QMatrix4x4 &windowMatrix, OpenGLWindowPixmap *pixmap)
+static void renderSubSurface(GLShader *shader, const QMatrix4x4 &mvp, const QMatrix4x4 &windowMatrix, OpenGLWindowPixmap *pixmap, const QRegion &region, bool hardwareClipping)
 {
     QMatrix4x4 newWindowMatrix = windowMatrix;
     newWindowMatrix.translate(pixmap->subSurface()->position().x(), pixmap->subSurface()->position().y());
@@ -1464,7 +1525,7 @@ static void renderSubSurface(GLShader *shader, const QMatrix4x4 &mvp, const QMat
         shader->setUniform(GLShader::ModelViewProjectionMatrix, mvp * newWindowMatrix);
         auto texture = pixmap->texture();
         texture->bind();
-        texture->render(QRegion(), QRect(0, 0, texture->width() / scale, texture->height() / scale));
+        texture->render(region, QRect(0, 0, texture->width() / scale, texture->height() / scale), hardwareClipping);
         texture->unbind();
     }
 
@@ -1473,7 +1534,7 @@ static void renderSubSurface(GLShader *shader, const QMatrix4x4 &mvp, const QMat
         if (pixmap->subSurface().isNull() || pixmap->subSurface()->surface().isNull() || !pixmap->subSurface()->surface()->isMapped()) {
             continue;
         }
-        renderSubSurface(shader, mvp, newWindowMatrix, static_cast<OpenGLWindowPixmap*>(pixmap));
+        renderSubSurface(shader, mvp, newWindowMatrix, static_cast<OpenGLWindowPixmap*>(pixmap), region, hardwareClipping);
     }
 }
 
@@ -1616,7 +1677,7 @@ void SceneOpenGL2Window::performPaint(int mask, QRegion region, WindowPaintData 
         if (pixmap->subSurface().isNull() || pixmap->subSurface()->surface().isNull() || !pixmap->subSurface()->surface()->isMapped()) {
             continue;
         }
-        renderSubSurface(shader, modelViewProjection, windowMatrix, static_cast<OpenGLWindowPixmap*>(pixmap));
+        renderSubSurface(shader, modelViewProjection, windowMatrix, static_cast<OpenGLWindowPixmap*>(pixmap), region, m_hardwareClipping);
     }
 
     if (!data.shader)

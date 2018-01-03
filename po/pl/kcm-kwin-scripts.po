@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2017-04-27 02:56+0200\n"
-"PO-Revision-Date: 2017-05-21 07:17+0100\n"
+"PO-Revision-Date: 2017-10-14 06:33+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -36,7 +36,7 @@ msgstr "Skrypty KWin"
 #: module.cpp:53
 #, kde-format
 msgid "Configure KWin scripts"
-msgstr "Konfiguruj skrypty KWin"
+msgstr "Ustawienia skryptów KWin"
 
 #: module.cpp:56
 #, kde-format

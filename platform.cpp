@@ -19,12 +19,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "platform.h"
 #include <config-kwin.h>
-#include "abstract_egl_backend.h"
 #include "composite.h"
 #include "cursor.h"
+#include "effects.h"
 #include "input.h"
+#include "overlaywindow.h"
+#include "outline.h"
 #include "pointer_input.h"
-#include "scene_opengl.h"
+#include "scene.h"
 #include "screenedge.h"
 #include "wayland_server.h"
 
@@ -350,9 +352,7 @@ void Platform::warpPointer(const QPointF &globalPos)
 bool Platform::supportsQpaContext() const
 {
     if (Compositor *c = Compositor::self()) {
-        if (SceneOpenGL *s = dynamic_cast<SceneOpenGL*>(c->scene())) {
-            return s->backend()->hasExtension(QByteArrayLiteral("EGL_KHR_surfaceless_context"));
-        }
+        return c->scene()->openGLPlatformInterfaceExtensions().contains(QByteArrayLiteral("EGL_KHR_surfaceless_context"));
     }
     return false;
 }
@@ -365,36 +365,6 @@ EGLDisplay KWin::Platform::sceneEglDisplay() const
 void Platform::setSceneEglDisplay(EGLDisplay display)
 {
     m_eglDisplay = display;
-}
-
-EGLContext Platform::sceneEglContext() const
-{
-    if (Compositor *c = Compositor::self()) {
-        if (SceneOpenGL *s = dynamic_cast<SceneOpenGL*>(c->scene())) {
-            return static_cast<AbstractEglBackend*>(s->backend())->context();
-        }
-    }
-    return EGL_NO_CONTEXT;
-}
-
-EGLSurface Platform::sceneEglSurface() const
-{
-    if (Compositor *c = Compositor::self()) {
-        if (SceneOpenGL *s = dynamic_cast<SceneOpenGL*>(c->scene())) {
-            return static_cast<AbstractEglBackend*>(s->backend())->surface();
-        }
-    }
-    return EGL_NO_SURFACE;
-}
-
-EGLConfig Platform::sceneEglConfig() const
-{
-    if (Compositor *c = Compositor::self()) {
-        if (SceneOpenGL *s = dynamic_cast<SceneOpenGL*>(c->scene())) {
-            return static_cast<AbstractEglBackend*>(s->backend())->config();
-        }
-    }
-    return nullptr;
 }
 
 QSize Platform::screenSize() const
@@ -458,6 +428,41 @@ void Platform::startInteractivePositionSelection(std::function<void(const QPoint
 void Platform::setupActionForGlobalAccel(QAction *action)
 {
     Q_UNUSED(action)
+}
+
+OverlayWindow *Platform::createOverlayWindow()
+{
+    return nullptr;
+}
+
+void Platform::updateXTime()
+{
+}
+
+OutlineVisual *Platform::createOutline(Outline *outline)
+{
+    if (Compositor::compositing()) {
+       return new CompositedOutlineVisual(outline);
+    }
+    return nullptr;
+}
+
+Decoration::Renderer *Platform::createDecorationRenderer(Decoration::DecoratedClientImpl *client)
+{
+    if (Compositor::self()->hasScene()) {
+        return Compositor::self()->scene()->createDecorationRenderer(client);
+    }
+    return nullptr;
+}
+
+void Platform::invertScreen()
+{
+    if (effects) {
+        if (Effect *inverter = static_cast<EffectsHandlerImpl*>(effects)->provides(Effect::ScreenInversion)) {
+            qCDebug(KWIN_CORE) << "inverting screen using Effect plugin";
+            QMetaObject::invokeMethod(inverter, "toggleScreenInversion", Qt::DirectConnection);
+        }
+    }
 }
 
 }

@@ -10,7 +10,7 @@
 # Pablo de Vicente <vicnte@oan.es>, 2003.
 # Pablo de Vicente <p.devicente@wanadoo.es>, 2004.
 # Juan Manuel Garcia Molina <juanma@superiodico.net>, 2005.
-# Eloy Cuadra <ecuadra@eloihr.net>, 2005, 2006, 2009, 2010, 2012, 2013, 2015.
+# Eloy Cuadra <ecuadra@eloihr.net>, 2005, 2006, 2009, 2010, 2012, 2013, 2015, %Y.
 # Pablo de Vicente <pablo.devicente@gmail.com>, 2006.
 # Enrique Matias Sanchez (aka Quique) <cronopios@gmail.com>, 2007.
 # Cristina Yenyxe González García <the.blue.valkyrie@gmail.com>, 2010.
@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2015-02-04 19:42+0100\n"
+"PO-Revision-Date: 2017-10-05 18:10+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -96,7 +96,7 @@ msgstr "Alternar pasar al frente y atrás"
 #: actions.ui:70 actions.ui:172 actions.ui:335
 #, kde-format
 msgid "Resize"
-msgstr "Redimensionar"
+msgstr "Cambiar tamaño"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct1)
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
@@ -693,12 +693,12 @@ msgid ""
 "the window under the mouse is the preferred candidate.<br><br>\n"
 "Unusual, but possible variant of <i>Click To Focus</i>."
 msgstr ""
-"<b>Pulse para enfocar: el ratón tiene prioridad</b><br>\n"
+"<b>Pulsar para enfocar: el ratón tiene prioridad</b><br>\n"
 "Es casi lo mismo que <i>Pulsar para enfocar.</i><br><br>\n"
 "Si el sistema tiene que elegir cuál es la ventana activa<br>\n"
-"(por ejemplo, porque se cierra la ventana que estaba activa), <br>\n"
-"la ventana que queda bajo el puntero del ratón es la candidata preferente."
-"<br><br>\n"
+"(por ejemplo, porque se cierra la ventana que estaba<br>\n"
+"activa), la ventana que queda bajo el puntero del ratón<br>\n"
+"es la candidata preferente.<br><br>\n"
 "Es una variante inusual, pero posible de <i>Pulsar para enfocar</i>."
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
@@ -713,9 +713,9 @@ msgid ""
 msgstr ""
 "<b>El foco sigue al ratón</b><br>\n"
 "Al mover el ratón a otra ventana, esta se activa.<br><br>\n"
-"Por ejemplo, las ventanas que aparecen de forma aleatoria bajo el puntero "
-"del ratón, no obtendrán el foco.<br>\n"
-"La prevención del robo del foco tiene lugar como siempre<br><br>\n"
+"Por ejemplo, no obtendrán el foco las ventanas que aparecen de forma<br>\n"
+"aleatoria bajo el puntero del ratón.<br>\n"
+"La prevención del robo del foco tiene lugar como siempre.<br><br>\n"
 "Considérelo como <i>Pulsar para enfocar</i>, pero si tener que hacer clic."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
@@ -730,13 +730,11 @@ msgid ""
 "Choose this, if you want a hover controlled focus."
 msgstr ""
 "<b>El foco sigue al ratón: el ratón tiene prioridad</b><br>\n"
-"Es casi lo mismo que <i>El foco sigue al ratón.</i><br><br>\n"
-"Si el sistema tiene que elegir cuál es la ventana activa<br>\n"
-"(por ejemplo, porque se cierra la que estaba activa), <br>\n"
-"la ventana que queda bajo el puntero del ratón es la candidata preferente."
-"<br><br>\n"
-"Elija esta opción si quiere que el foco se controle dependiendo de por dónde "
-"pase el ratón."
+"Es casi lo mismo que <i>El foco sigue al ratón.</i> Si el sistema<br><br>\n"
+"tiene que elegir cuál es la ventana activa (por ejemplo, porque<br>\n"
+"se cierra la que estaba activa), la ventana que queda bajo el<br>\n"
+"puntero del ratón es la candidata preferente.<br><br>\n"
+"Elija esta opción si quiere controlar el foco por donde pase el ratón."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: focus.ui:158
@@ -756,11 +754,11 @@ msgstr ""
 "<br><br>\n"
 "\n"
 "Advertencia:<br>\n"
-"<b>La prevención de robo del foco</b> y la <b>acción de alternar entre "
-"ventanas («Alt+Tab»)</b><br>\n"
-"contradicen esta política y <b>no funcionarán</b>.<br><br>\n"
-"Es muy probable que prefiera utilizar<br>\n"
-"<i>El foco sigue al ratón: el ratón tiene prioridad</i> en su lugar."
+"La <b>prevención de robo del foco</b> y la <b>acción de alternar entre<br>\n"
+"ventanas («Alt+Tab») contradicen esta política y <b>no funcionarán</b>."
+"<br><br>\n"
+"Es muy probable que prefiera usar <i>El foco sigue al ratón: el ratón<br>\n"
+"tiene prioridad</i> en su lugar."
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: focus.ui:183
@@ -778,17 +776,19 @@ msgid ""
 "<i>Focus Follows Mouse - Mouse Precedence</i> instead!"
 msgstr ""
 "<b>Foco estrictamente bajo el ratón</b><br>\n"
-"El foco siempre está en la ventana que queda bajo el puntero del ratón, en "
-"caso de duda, en ningún sitio.<br>\n"
-"Es casi lo mismo que el comportamiento del foco en un entorno anterior "
-"desatendido X11.<br><br>\n"
+"El foco siempre está en la ventana que queda bajo el puntero del ratón "
+"(en<br>\n"
+"caso de duda, en ningún sitio). Es casi lo mismo que el comportamiento "
+"del<br>\n"
+"foco en un entorno desatendido X11 anterior.<br><br>\n"
 "\n"
 "Advertencia:<br>\n"
-"<b>La prevención de robo del foco</b> y la <b>acción de alternar entre "
-"ventanas («Alt+Tab»)</b><br>\n"
-"contradicen esta política y <b>no funcionarán</b>.<br><br>\n"
-"Es muy probable que prefiera utilizar<br>\n"
-"<i>El foco sigue al ratón: el ratón tiene prioridad</i> en su lugar."
+"La <b>prevención de robo del foco</b> y la <b>acción de alternar entre<br>\n"
+"ventanas («Alt+Tab») contradicen esta política y <b>no funcionarán</b>."
+"<br><br>\n"
+"Es muy probable que prefiera usar <i>El foco sigue al ratón: el ratón "
+"tiene<br>\n"
+"prioridad</i> en su lugar."
 
 #. i18n: ectx: property (text), widget (QLabel, delayFocusOnLabel)
 #: focus.ui:228
@@ -844,19 +844,19 @@ msgstr ""
 "característica no funciona con las políticas de focalización «Foco bajo el "
 "ratón» o «Foco estrictamente bajo el ratón»).\n"
 "<ul>\n"
-"<li><em>Ninguno:</em> se desactiva la prevención y las nuevas ventanas "
+"<li><em>Ninguna:</em> se desactiva la prevención y las nuevas ventanas "
 "siempre están activadas.</li>\n"
-"<li><em>Bajo:</em> prevención activada; cuando alguna ventana no permite el "
+"<li><em>Baja:</em> prevención activada; cuando alguna ventana no permite el "
 "mecanismo subyacente y KWin no es capaz de decidir con fiabilidad si debe "
 "activar o no la ventana, esta será activada. Esta opción puede dar "
 "resultados mejores o peores que el nivel medio, dependiendo de las "
 "aplicaciones.</li>\n"
-"<li><em>Medio:</em> prevención activada.</li>\n"
-"<li><em>Alto:</em> las nuevas ventanas son activadas únicamente si no hay "
+"<li><em>Media:</em> prevención activada.</li>\n"
+"<li><em>Alta:</em> las nuevas ventanas son activadas únicamente si no hay "
 "ninguna ventana activa o si pertenecen a la aplicación activa. Esta opción "
 "no resulta muy útil si no se usa junto a la política de activación con el "
 "ratón.</li>\n"
-"<li><em>Extremo:</em> el usuario debe activar explícitamente todas las "
+"<li><em>Extrema:</em> el usuario debe activar explícitamente todas las "
 "ventanas.</li>\n"
 "</ul></p>\n"
 "<p>Las ventanas a las que se ha impedido obtener el foco se marcan como "
@@ -869,35 +869,35 @@ msgstr ""
 #: focus.ui:304
 #, kde-format
 msgid "None"
-msgstr "Ninguno"
+msgstr "Ninguna"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:309
 #, kde-format
 msgid "Low"
-msgstr "Bajo"
+msgstr "Baja"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:314
 #, kde-format
 msgid "Medium"
-msgstr "Medio"
+msgstr "Media"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:319
 #, kde-format
 msgid "High"
-msgstr "Alto"
+msgstr "Alta"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
 #: focus.ui:324
 #, kde-format
 msgid "Extreme"
-msgstr "Extremo"
+msgstr "Extrema"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: focus.ui:364
@@ -921,7 +921,7 @@ msgstr "Pasar por encima"
 #: focus.ui:434
 #, kde-format
 msgid "Raising windows"
-msgstr "Subir ventanas"
+msgstr "Pasar ventanas al frente"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, autoRaiseOn)
 #: focus.ui:443
@@ -931,14 +931,14 @@ msgid ""
 "come to the front when the mouse pointer has been over it for some time."
 msgstr ""
 "Si se activa esta opción, una ventana que esté en segundo plano pasará "
-"automáticamente al frente cuando el puntero del ratón esté sobre esta "
+"automáticamente al frente cuando el puntero del ratón esté sobre ella "
 "durante un cierto tiempo."
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoRaiseOn)
 #: focus.ui:446
 #, kde-format
 msgid "&Raise on hover, delayed by"
-msgstr "Subi&r al pasar por encima, retrasado en"
+msgstr "Pasa&r al frente al pasar por encima, retrasado en"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, autoRaise)
 #: focus.ui:472
@@ -947,8 +947,8 @@ msgid ""
 "This is the delay after which the window that the mouse pointer is over will "
 "automatically come to the front."
 msgstr ""
-"Este es el retardo después del cual la ventana, sobre la que está el puntero "
-"del ratón, pasará automáticamente al frente."
+"Este es el retardo después del cual la ventana sobre la que está el puntero "
+"del ratón pasará automáticamente al frente."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, clickRaiseOn)
 #: focus.ui:494
@@ -1104,12 +1104,12 @@ msgid ""
 "manager. If you do use a different window manager, please refer to its "
 "documentation for how to customize window behavior.</p>"
 msgstr ""
-"<p><h1>Comportamiento de la ventana</h1> Aquí se puede personalizar la forma "
-"en la que se comportan las ventanas, al moverlas, cambiarlas de tamaño o "
-"pulsar sobre ellas. También puede especificar una política de foco, así como "
-"una política de ubicación para las ventanas nuevas.</p> <p>Tenga en cuenta "
-"que esta configuración no tendrá efecto si no utiliza KWin como gestor de "
-"ventanas. Si utiliza un gestor de ventanas diferente, consulte su "
+"<p><h1>Comportamiento de las ventanas</h1> Aquí se puede personalizar la "
+"forma en la que se comportan las ventanas, al moverlas, cambiarlas de tamaño "
+"o pulsar sobre ellas. También puede especificar una política de foco, así "
+"como una política de ubicación para las ventanas nuevas.</p> <p>Tenga en "
+"cuenta que esta configuración no tendrá efecto si no utiliza KWin como "
+"gestor de ventanas. Si utiliza un gestor de ventanas diferente, consulte su "
 "documentación para saber cómo personalizar el comportamiento de las ventanas."
 "</p>"
 
@@ -1395,25 +1395,25 @@ msgstr ""
 #: moving.ui:67 moving.ui:134 moving.ui:162
 #, kde-format
 msgid " pixel"
-msgstr " píxel"
+msgstr " píxeles"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, centerSnap)
 #: moving.ui:70
 #, kde-format
 msgid "no center snap zone"
-msgstr "sin zona de adhesión al centro"
+msgstr "sin zona de adhesión en el centro"
 
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
 #: moving.ui:90
 #, kde-format
 msgid "&Border snap zone:"
-msgstr "Zona de adhesión de &bordes:"
+msgstr "Zona de adhesión en los &bordes:"
 
 #. i18n: ectx: property (text), widget (QLabel, centerSnapLabel)
 #: moving.ui:103
 #, kde-format
 msgid "&Center snap zone:"
-msgstr "&Centro de la zona de adhesión:"
+msgstr "Zona de adhesión en el &centro:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, windowSnap)
 #: moving.ui:122
@@ -1423,7 +1423,7 @@ msgid ""
 "magnetic field which will make windows snap to each other when they are "
 "moved near another window."
 msgstr ""
-"Aquí puede establecer la zona de adhesión para ventanas, es decir, la "
+"Aquí puede definir la zona de adhesión para las ventanas, es decir, la "
 "«intensidad» del campo magnético que hará que las ventanas se adhieran unas "
 "a otras cuando se mueven cerca de otra ventana."
 
@@ -1441,15 +1441,15 @@ msgid ""
 "the magnetic field which will make windows snap to the border when moved "
 "near it."
 msgstr ""
-"Aquí puede fijar la zona de adhesión para bordes de pantalla, es decir la "
-"«intensidad» del campo magnético que hará que las ventanas se adhieran "
-"contra el borde cuando se muevan cerca de él."
+"Aquí puede fijar la zona de adhesión para los bordes de la pantalla, es "
+"decir la «intensidad» del campo magnético que hará que las ventanas se "
+"adhieran al borde cuando se muevan cerca de él."
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, borderSnap)
 #: moving.ui:165
 #, kde-format
 msgid "no border snap zone"
-msgstr "sin zona de adhesión de bordes"
+msgstr "sin zona de adhesión en los bordes"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, geometryTipOn)
 #: moving.ui:172
@@ -1459,15 +1459,15 @@ msgid ""
 "is being moved or resized. The window position relative to the top-left "
 "corner of the screen is displayed together with its size."
 msgstr ""
-"Habilite esta opción si quiere que aparezca la geometría de la pantalla "
-"mientras se mueve o redimensiona. La posición relativa a la esquina de "
-"arriba a la izquierda se muestra junto con el tamaño."
+"Active esta opción si quiere que se muestre la geometría de la ventana "
+"mientras se mueve o se modifica su tamaño. Se muestran la posición relativa "
+"a la esquina superior izquierda y su tamaño."
 
 #. i18n: ectx: property (text), widget (QCheckBox, geometryTipOn)
 #: moving.ui:175
 #, kde-format
 msgid "Display window &geometry when moving or resizing"
-msgstr "Mostrar la &geometría de la pantalla al mover o redimensionar"
+msgstr "Mostrar la &geometría de la ventana al moverla o al cambiar su tamaño"
 
 #. i18n: ectx: property (text), widget (QLabel, windowSnapLabel)
 #: moving.ui:182

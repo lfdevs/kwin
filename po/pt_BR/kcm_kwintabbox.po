@@ -2,7 +2,7 @@
 # Copyright (C) 2009-2015 This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2009, 2010, 2012, 2016.
+# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2009, 2010, 2012, 2016, 2017.
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2009, 2010, 2011, 2012, 2014, 2015.
 # Marcus Gama <marcus.gama@gmail.com>, 2012.
 msgid ""
@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2016-08-31 17:56-0300\n"
+"PO-Revision-Date: 2017-10-25 11:34-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -225,4 +225,4 @@ msgstr "Mostrar a janela selecionada"
 #: main.ui:572
 #, kde-format
 msgid "Get New Window Switcher Layout"
-msgstr "Obter novo layout do seletor de janelas"
+msgstr "Baixar novo layout do seletor de janelas"

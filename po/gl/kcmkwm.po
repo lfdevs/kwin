@@ -8,14 +8,14 @@
 # Marce Villarino <mvillarino@kde-espana.es>, 2009, 2011.
 # Marce Villarino <mvillarino@kde-espana.es>, 2012, 2013, 2014.
 # Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2015, 2017.
+# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2017-01-14 18:41+0100\n"
-"Last-Translator: Adrián Chaves Fernández (Gallaecio) <adriyetichaves@gmail."
-"com>\n"
+"PO-Revision-Date: 2017-10-23 20:15+0100\n"
+"Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <kde-i18n-doc@kde.org>\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
@@ -148,7 +148,7 @@ msgstr "Minimizar"
 #: actions.ui:90 actions.ui:192 actions.ui:355
 #, kde-format
 msgid "Decrease Opacity"
-msgstr "Diminuir a opacidade"
+msgstr "Diminuír a opacidade"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll2)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
@@ -312,7 +312,7 @@ msgid ""
 "In this row you can customize left click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"Nesta fila pode personalizar o comportamento cando prema co botón primario "
+"Nesta fila pode personalizar o comportamento cando prema co botón esquerdo "
 "na barra de título ou no marco."
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAllW)
@@ -381,7 +381,7 @@ msgid ""
 "In this row you can customize left click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"Nesta fila pode personalizar o comportamento ao premer co botón primario "
+"Nesta fila pode personalizar o comportamento ao premer co botón esquerdo "
 "nunha xanela interna inactiva (interna significa sen barra de título e sen "
 "marco)."
 
@@ -476,13 +476,14 @@ msgid ""
 "related to an existing one and place them in the same window group."
 msgstr ""
 "Se activa esta opción hase intentar detectar automaticamente a relación "
-"entre unha xanela recén aberta e unha xa existente e poraa no mesmo grupo."
+"entre unha xanela que acaba de abrir e unha xa existente e poraa no mesmo "
+"grupo."
 
 #. i18n: ectx: property (text), widget (QCheckBox, autogroupSimilarWindows)
 #: advanced.ui:65
 #, kde-format
 msgid "Automatically group similar windows"
-msgstr "Agrupar automaticamente as xanelas semellantes"
+msgstr "Agrupar automaticamente as xanelas similares"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, autogroupInForeground)
 #: advanced.ui:72
@@ -532,7 +533,7 @@ msgstr ""
 "específica destas.</li><li><em>Solapar</em> porá as xanelas en fervenza,</"
 "li> <li><em>Aleatorio</em> empregará unha posición aleatoria</li> "
 "<li><em>Centrar</em> porá a xanela no medio</li> <li><em>En riba á esquerda</"
-"em> porá a xanela no canto que se indica</li> <li><em>Debaixo do cursor</em> "
+"em> porá a xanela no canto que se indica</li> <li><em>Debaixo do rato</em> "
 "ha pór a xanela debaixo do cursor</li></ul>"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
@@ -575,7 +576,7 @@ msgstr "En riba á esquerda"
 #: advanced.ui:155
 #, kde-format
 msgid "Under Mouse"
-msgstr "Debaixo do cursor"
+msgstr "Debaixo do rato"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shBox)
 #: advanced.ui:166
@@ -596,15 +597,15 @@ msgid ""
 "If Shade Hover is enabled, a shaded window will un-shade automatically when "
 "the mouse pointer has been over the title bar for some time."
 msgstr ""
-"Se escolle «Estender ao sinalar», unha xanela enrolada desenrolarase "
-"automaticamente cando o punteiro se atope sobre a barra de título durante "
-"algún tempo."
+"Se activa «Estender ao sinalar», unha xanela enrolada desenrolarase "
+"automaticamente cando o punteiro do rato se atope sobre a barra de título "
+"durante algún tempo."
 
 #. i18n: ectx: property (text), widget (QCheckBox, shadeHoverOn)
 #: advanced.ui:207
 #, kde-format
 msgid "&Enable hover"
-msgstr "&Estender ao marcar"
+msgstr "&Activar a cubrición"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, shadeHover)
 #: advanced.ui:214
@@ -614,7 +615,7 @@ msgid ""
 "pointer goes over the shaded window."
 msgstr ""
 "Estabelece o tempo en milisegundos antes de que a xanela se desenrole cando "
-"o cursor se pouse sobre a xanela enrolada."
+"o punteiro do rato se pouse sobre a xanela enrolada."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadeHover)
 #. i18n: ectx: property (suffix), widget (QSpinBox, delayFocus)
@@ -681,11 +682,11 @@ msgid ""
 "the window under the mouse is the preferred candidate.<br><br>\n"
 "Unusual, but possible variant of <i>Click To Focus</i>."
 msgstr ""
-"<b>Premer para focalizar, preferir o cursor</b><br>\n"
+"<b>Premer para focalizar, preferir o rato</b><br>\n"
 "Isto é o mesmo que <i>Premer para focalizar</i><br><br>\n"
 "Se o sistema debe escoller unha xanela activa<br>\n"
 "(por ex. porque a actual se pechase) <br>\n"
-"a xanela baixo o cursor é a candidata preferida.<br><br>\n"
+"a xanela baixo o rato é a candidata preferida.<br><br>\n"
 "Atípico, pero unha variante posíbel de <i>Premer para focalizar</i>."
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
@@ -698,9 +699,9 @@ msgid ""
 "Focus stealing prevention takes place as usual.<br><br>\n"
 "Think as <i>Click To Focus</i> just without having to actually click."
 msgstr ""
-"<b>O foco segue o cursor</b><br>\n"
+"<b>O foco segue o rato</b><br>\n"
 "As xanelas actívanse ao mover o cursor sobre unha delas.<br><br>\n"
-"Por ex. as xanelas que aparezan aleatoriamente baixo o cursor non gañarán o "
+"Por ex. as xanelas que aparezan aleatoriamente baixo o rato non gañarán o "
 "foco.<br>\n"
 "A prevención do roubo do foco é a habitual.<br><br>\n"
 "Pense en <i>Premer para focalizar</i> pero sen ter que premer."
@@ -716,8 +717,8 @@ msgid ""
 "the window under the mouse is the preferred candidate.<br><br>\n"
 "Choose this, if you want a hover controlled focus."
 msgstr ""
-"<b>O foco segue o punteiro, preferir o punteiro</b><br>\n"
-"Isto é o mesmo que <i>O foco segue o punteiro</i><br><br>\n"
+"<b>O foco segue o rato, preferir o rato</b><br>\n"
+"Isto é o mesmo que <i>O foco segue o rato</i><br><br>\n"
 "Se o sistema debe escoller unha xanela activa<br>\n"
 "(por ex. porque a actual se pechase) <br>\n"
 "a xanela baixo o punteiro é a candidata preferida.<br><br>\n"
@@ -736,15 +737,15 @@ msgid ""
 "You very likely want to use<br>\n"
 "<i>Focus Follows Mouse - Mouse Precedence</i> instead!"
 msgstr ""
-"<b>Foco baixo o punteiro</b><br>\n"
-"O foco permanece na xanela que haxa baixo o punteiro.<br><br>\n"
+"<b>Foco baixo o rato</b><br>\n"
+"O foco permanece na xanela que haxa baixo o rato.<br><br>\n"
 "\n"
 "Nota:<br>\n"
 "A <b>prevención do roubo do foco</b> e o <b>percorrido de xanelas («Alt"
 "+Tab»)</b><br>\n"
 "contradín a política e <b>non han  funcionar</b>.<br><br>\n"
 "O máis seguro é que prefira empregar <br>\n"
-"<i>O foco segue o punteiro, preferir o punteiro</i> no canto!"
+"<i>O foco segue o rato, preferir o rato</i> no canto!"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: focus.ui:183
@@ -784,7 +785,7 @@ msgid ""
 "This is the delay after which the window the mouse pointer is over will "
 "automatically receive focus."
 msgstr ""
-"Este é o retardo despois do cal a xanela sobre a que está o punteiro "
+"Este é o retardo despois do cal a xanela sobre a que está o punteiro do rato "
 "recibirá automaticamente o foco."
 
 #. i18n: ectx: property (text), widget (QLabel, focusStealingLabel)
@@ -822,12 +823,12 @@ msgid ""
 msgstr ""
 "<p>Esta opción especifica o grao no que KWin intentará evitar outorgar de "
 "xeito non desexado o foco a causa da activación de novas xanelas. (Nota: "
-"Esta funcionalidade non funciona coas políticas de Focalizar baixo o "
-"punteiro nin Focalizar estritamente baixo o punteiro.)\n"
+"Esta funcionalidade non funciona coas políticas de Focalizar baixo o rato "
+"nin Focalizar estritamente baixo o rato.)\n"
 "<ul>\n"
 "<li><em>Ningunha:</em> A prevención está desactivada e as novas xanelas "
 "sempre se activan.</li> <li><em>Baixa:</em> A prevención está activada; "
-"cando algunha xanela non ten soporte para o mecanismo de decisión de KWin, e "
+"cando algunha xanela non é compatíbel co mecanismo de decisión de KWin, e "
 "este non pode decidir o que facer con ela, a xanela activarase. Esta opción "
 "podería ter tanto mellores como peores resultados que o nivel medio, "
 "dependendo dos aplicativos.</li>\n"
@@ -841,7 +842,7 @@ msgstr ""
 "<p>As xanelas ás que non se lles outorga o foco grazas a este sistema han "
 "marcarse como demandantes de atención, o que de xeito predeterminado "
 "significa que se realzará a súa entrada na barra de tarefas. Isto pode ser "
-"modificado no módulo de control de Notificacións.</p>"
+"cambiado no módulo de control de Notificacións.</p>"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
@@ -909,8 +910,8 @@ msgid ""
 "When this option is enabled, a window in the background will automatically "
 "come to the front when the mouse pointer has been over it for some time."
 msgstr ""
-"Se escolle esta opción unha xanela do fondo volverá automaticamente á fronte "
-"cando o punteiro permaneza sobre ela un tempo."
+"Se activa esta opción unha xanela do fondo volverá automaticamente á fronte "
+"cando o punteiro do rato permaneza sobre ela un tempo."
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoRaiseOn)
 #: focus.ui:446
@@ -925,8 +926,8 @@ msgid ""
 "This is the delay after which the window that the mouse pointer is over will "
 "automatically come to the front."
 msgstr ""
-"Este é o retardo despois do cal a xanela sobre a que está o punteiro vén "
-"automaticamente cada diante."
+"Este é o retardo despois do cal a xanela sobre a que está o punteiro do rato "
+"vén automaticamente cada diante."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, clickRaiseOn)
 #: focus.ui:494
@@ -938,7 +939,7 @@ msgid ""
 msgstr ""
 "Se escolle esta opción a xanela activa levarase ao primeiro plano cando "
 "prema calquera lugar do contido da xanela. Para cambialo para as xanelas "
-"inactivas, precise cambiar as opcións na páxina de Accións."
+"inactivas, precise cambiar as opcións na lapela de Accións."
 
 #. i18n: ectx: property (text), widget (QCheckBox, clickRaiseOn)
 #: focus.ui:497
@@ -979,16 +980,16 @@ msgid ""
 "for other focus policies."
 msgstr ""
 "Se escolle esta opción a pantalla activa de Xinerama (onde aparecen as novas "
-"xanelas, por exemplo) será a pantalla co punteiro. Se desmarca esta opción, "
-"a pantalla activa de Xinerama será a pantalla que contén a xanela "
-"focalizada. Por omisión esta opción está desactivada coa política de "
-"focalización Premer para focalizar e activada para as demais."
+"xanelas, por exemplo) será a pantalla co punteiro do rato. Se desmarca esta "
+"opción, a pantalla activa de Xinerama será a pantalla que contén a xanela "
+"focalizada. De maneira predeterminada esta opción está desactivada coa "
+"política de focalización Premer para focalizar e activada para as demais."
 
 #. i18n: ectx: property (text), widget (QCheckBox, activeMouseScreen)
 #: focus.ui:542
 #, kde-format
 msgid "Active screen follows &mouse"
-msgstr "A pantalla activa &segue o punteiro"
+msgstr "A pantalla activa &segue o rato"
 
 #: main.cpp:78
 #, kde-format
@@ -1085,7 +1086,7 @@ msgstr ""
 "Tamén pode especificar a política de focalización así como a política de "
 "posicionamento das novas xanelas.</p> <p>Por favor, lembre que esta "
 "configuración non xurdirá efecto se non emprega KWin como xestor de xanelas. "
-"Se emprega un xestor diferente, diríxase á súa documentación para saber como "
+"Se emprega un xestor distinto, diríxase á súa documentación para saber como "
 "se personaliza o comportamento das xanelas.</p>"
 
 #. i18n: @item:inlistbox behavior on double click
@@ -1176,7 +1177,7 @@ msgid ""
 "of an active window."
 msgstr ""
 "Nesta columna pode personalizar o comportamento da xanela activa cando se "
-"preme a barra de título ou no marco da mesma."
+"preme co rato a barra de título ou no marco da mesma."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: mouse.ui:185
@@ -1205,7 +1206,7 @@ msgstr "Inactiva"
 #: mouse.ui:217 mouse.ui:658
 #, kde-format
 msgid "Left button:"
-msgstr "Botón primario:"
+msgstr "Botón esquerdo:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct1)
 #: mouse.ui:233
@@ -1214,7 +1215,7 @@ msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an <em>active</"
 "em> window."
 msgstr ""
-"Comportamento cando se preme co botón <em>primario</em> na barra de título "
+"Comportamento cando se preme co botón <em>esquerdo</em> na barra de título "
 "ou no marco dunha xanela <em>activa</em>."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct1)
@@ -1250,7 +1251,7 @@ msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an "
 "<em>inactive</em> window."
 msgstr ""
-"Comportamento cando se preme co botón <em>primario</em> na barra de título "
+"Comportamento cando se preme co botón <em>esquerdo</em> na barra de título "
 "ou no marco dunha xanela <em>inactiva</em>."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
@@ -1301,7 +1302,7 @@ msgstr ""
 #, kde-format
 msgid "Behavior on <em>left</em> click onto the maximize button."
 msgstr ""
-"Comportamento cando se preme o botón <em>primario</em> no botón de "
+"Comportamento cando se preme o botón <em>esquerdo</em> no botón de "
 "maximizado."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_9)
@@ -1439,7 +1440,7 @@ msgid ""
 "is being moved or resized. The window position relative to the top-left "
 "corner of the screen is displayed together with its size."
 msgstr ""
-"Marque esta opción se quere que se mostre a xeometría da xanela mentres se "
+"Active esta opción se quere que se mostre a xeometría da xanela mentres se "
 "está a mover ou cambiar de tamaño. A posición da xanela relativa á esquina "
 "superior esquerda da pantalla móstrase xunto co seu tamaño."
 

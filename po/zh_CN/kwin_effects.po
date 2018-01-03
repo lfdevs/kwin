@@ -1,9 +1,21 @@
+# translation of kwin.po to zh_CN
+# Copyright (C) 2003 Free Software Foundation, Inc.
+# Wang Jian <lark@linux.net.cn>, 2000.
+# Xiong Jiang <jxiong@offtopic.org>, 2003.
+# Funda Wang <fundawang@linux.net.cn>, 2004.
+# Wang Jian <lark@linux.net.cn>,2005.
+# Lie Ex <lilith.ex@gmail.com>, 2007-2009.
+# Ni Hui <shuizhuyuanluo@126.com>, 2010, 2012.
+# Feng Chao <rainofchaos@gmail.com>, 2010, 2011, 2013.
+# Weng Xuetian <wengxt@gmail.com>, 2011, 2012, 2015, 2016, 2017.
+# Xuetian Weng <xweng@cs.stonybrook.edu>, 2014, 2015.
+# Guo Yunhe <guoyunhebrave@gmail.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-30 02:59+0200\n"
-"PO-Revision-Date: 2017-08-14 08:05-0400\n"
+"POT-Creation-Date: 2017-11-18 05:40+0100\n"
+"PO-Revision-Date: 2017-11-09 08:39-0500\n"
 "Last-Translator: guoyunhebrave <guoyunhebrave@gmail.com>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -59,7 +71,7 @@ msgstr ""
 "选择位置，点击鼠标左键或 Enter 键拾取颜色。\n"
 "Esc 键或鼠标右键取消。"
 
-#: coverswitch/coverswitch.cpp:951 flipswitch/flipswitch.cpp:935
+#: coverswitch/coverswitch.cpp:952 flipswitch/flipswitch.cpp:935
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -1341,25 +1353,25 @@ msgstr "颜色(&C)："
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "按住 Shift+Meta 键，然后移动鼠标即可用鼠标绘制。"
 
-#: presentwindows/presentwindows.cpp:74
+#: presentwindows/presentwindows.cpp:78
 #: presentwindows/presentwindows_config.cpp:73
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "切换显示窗口(对当前桌面)"
 
-#: presentwindows/presentwindows.cpp:82
+#: presentwindows/presentwindows.cpp:86
 #: presentwindows/presentwindows_config.cpp:67
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "切换显示窗口(对全部桌面)"
 
-#: presentwindows/presentwindows.cpp:91
+#: presentwindows/presentwindows.cpp:95
 #: presentwindows/presentwindows_config.cpp:79
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "切换当前窗口分类"
 
-#: presentwindows/presentwindows.cpp:1641
+#: presentwindows/presentwindows.cpp:1651
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1607,7 +1619,7 @@ msgstr ""
 "按鼠标左键或 Enter 键截图。\n"
 "按 Esc 键或鼠标右键取消。"
 
-#: showfps/showfps.cpp:62
+#: showfps/showfps.cpp:63
 #, kde-format
 msgid "This effect is not a benchmark"
 msgstr "该效果不是一个评测"

@@ -734,7 +734,7 @@ public:
     }
     bool keyEvent(QKeyEvent *event) override {
         if (event->type() == QEvent::KeyPress) {
-            return input()->shortcuts()->processKey(static_cast<KeyEvent*>(event)->modifiersRelevantForGlobalShortcuts(), event->nativeVirtualKey(), event->key());
+            return input()->shortcuts()->processKey(static_cast<KeyEvent*>(event)->modifiersRelevantForGlobalShortcuts(), event->key());
         }
         return false;
     }
@@ -826,8 +826,17 @@ class InternalWindowEventFilter : public InputEventFilter {
         if (!found) {
             return false;
         }
-        event->setAccepted(false);
-        if (QCoreApplication::sendEvent(found, event)) {
+        auto xkb = input()->keyboard()->xkb();
+        Qt::Key key = xkb->toQtKey(xkb->toKeysym(event->nativeScanCode()));
+        if (key == Qt::Key_Super_L || key == Qt::Key_Super_R) {
+            // workaround for QTBUG-62102
+            key = Qt::Key_Meta;
+        }
+        QKeyEvent internalEvent(event->type(), key,
+                                event->modifiers(), event->nativeScanCode(), event->nativeVirtualKey(),
+                                event->nativeModifiers(), event->text());
+        internalEvent.setAccepted(false);
+        if (QCoreApplication::sendEvent(found, &internalEvent)) {
             waylandServer()->seat()->setFocusedKeyboardSurface(nullptr);
             passToWaylandServer(event);
             return true;
@@ -911,6 +920,63 @@ private:
     QPointF m_lastLocalTouchPos;
 };
 
+namespace {
+
+enum class MouseAction {
+    ModifierOnly,
+    ModifierAndWindow
+};
+std::pair<bool, bool> performClientMouseAction(QMouseEvent *event, AbstractClient *client, MouseAction action = MouseAction::ModifierOnly)
+{
+    Options::MouseCommand command = Options::MouseNothing;
+    bool wasAction = false;
+    if (static_cast<MouseEvent*>(event)->modifiersRelevantForGlobalShortcuts() == options->commandAllModifier()) {
+        wasAction = true;
+        switch (event->button()) {
+        case Qt::LeftButton:
+            command = options->commandAll1();
+            break;
+        case Qt::MiddleButton:
+            command = options->commandAll2();
+            break;
+        case Qt::RightButton:
+            command = options->commandAll3();
+            break;
+        default:
+            // nothing
+            break;
+        }
+    } else {
+        if (action == MouseAction::ModifierAndWindow) {
+            command = client->getMouseCommand(event->button(), &wasAction);
+        }
+    }
+    if (wasAction) {
+        return std::make_pair(wasAction, !client->performMouseCommand(command, event->globalPos()));
+    }
+    return std::make_pair(wasAction, false);
+}
+
+std::pair<bool, bool> performClientWheelAction(QWheelEvent *event, AbstractClient *c, MouseAction action = MouseAction::ModifierOnly)
+{
+    bool wasAction = false;
+    Options::MouseCommand command = Options::MouseNothing;
+    if (static_cast<WheelEvent*>(event)->modifiersRelevantForGlobalShortcuts() == options->commandAllModifier()) {
+        wasAction = true;
+        command = options->operationWindowMouseWheel(-1 * event->angleDelta().y());
+    } else {
+        if (action == MouseAction::ModifierAndWindow) {
+            command = c->getWheelCommand(Qt::Vertical, &wasAction);
+        }
+    }
+    if (wasAction) {
+        return std::make_pair(wasAction, !c->performMouseCommand(command, event->globalPos()));
+    }
+    return std::make_pair(wasAction, false);
+}
+
+}
+
 class DecorationEventFilter : public InputEventFilter {
 public:
     bool pointerEvent(QMouseEvent *event, quint32 nativeButton) override {
@@ -932,6 +998,10 @@ public:
         }
         case QEvent::MouseButtonPress:
         case QEvent::MouseButtonRelease: {
+            const auto actionResult = performClientMouseAction(event, decoration->client());
+            if (actionResult.first) {
+                return actionResult.second;
+            }
             QMouseEvent e(event->type(), p, event->globalPos(), event->button(), event->buttons(), event->modifiers());
             e.setAccepted(false);
             QCoreApplication::sendEvent(decoration->decoration(), &e);
@@ -952,6 +1022,13 @@ public:
         auto decoration = input()->pointer()->decoration();
         if (!decoration) {
             return false;
+        }
+        if (event->angleDelta().y() != 0) {
+            // client window action only on vertical scrolling
+            const auto actionResult = performClientWheelAction(event, decoration->client());
+            if (actionResult.first) {
+                return actionResult.second;
+            }
         }
         const QPointF localPos = event->globalPosF() - decoration->client()->pos();
         const Qt::Orientation orientation = (event->angleDelta().x() != 0) ? Qt::Horizontal : Qt::Vertical;
@@ -1152,29 +1229,9 @@ public:
         if (!c) {
             return false;
         }
-        bool wasAction = false;
-        Options::MouseCommand command = Options::MouseNothing;
-        if (static_cast<MouseEvent*>(event)->modifiersRelevantForGlobalShortcuts() == options->commandAllModifier()) {
-            wasAction = true;
-            switch (event->button()) {
-            case Qt::LeftButton:
-                command = options->commandAll1();
-                break;
-            case Qt::MiddleButton:
-                command = options->commandAll2();
-                break;
-            case Qt::RightButton:
-                command = options->commandAll3();
-                break;
-            default:
-                // nothing
-                break;
-            }
-        } else {
-            command = c->getMouseCommand(event->button(), &wasAction);
-        }
-        if (wasAction) {
-            return !c->performMouseCommand(command, event->globalPos());
+        const auto actionResult = performClientMouseAction(event, c, MouseAction::ModifierAndWindow);
+        if (actionResult.first) {
+            return actionResult.second;
         }
         return false;
     }
@@ -1187,16 +1244,9 @@ public:
         if (!c) {
             return false;
         }
-        bool wasAction = false;
-        Options::MouseCommand command = Options::MouseNothing;
-        if (static_cast<WheelEvent*>(event)->modifiersRelevantForGlobalShortcuts() == options->commandAllModifier()) {
-            wasAction = true;
-            command = options->operationWindowMouseWheel(-1 * event->angleDelta().y());
-        } else {
-            command = c->getWheelCommand(Qt::Vertical, &wasAction);
-        }
-        if (wasAction) {
-            return !c->performMouseCommand(command, event->globalPos());
+        const auto actionResult = performClientWheelAction(event, c, MouseAction::ModifierAndWindow);
+        if (actionResult.first) {
+            return actionResult.second;
         }
         return false;
     }
@@ -1678,13 +1728,13 @@ void InputRedirection::setupLibInput()
 
         conn->setInputConfig(kwinApp()->inputConfig());
         conn->updateLEDs(m_keyboard->xkb()->leds());
-        conn->setup();
         connect(m_keyboard, &KeyboardInputRedirection::ledsChanged, conn, &LibInput::Connection::updateLEDs);
         connect(conn, &LibInput::Connection::eventsRead, this,
             [this] {
                 m_libInput->processEvents();
             }, Qt::QueuedConnection
         );
+        conn->setup();
         connect(conn, &LibInput::Connection::pointerButtonChanged, m_pointer, &PointerInputRedirection::processButton);
         connect(conn, &LibInput::Connection::pointerAxisChanged, m_pointer, &PointerInputRedirection::processAxis);
         connect(conn, &LibInput::Connection::pinchGestureBegin, m_pointer, &PointerInputRedirection::processPinchGestureBegin);
@@ -1950,6 +2000,7 @@ Qt::KeyboardModifiers InputRedirection::modifiersRelevantForGlobalShortcuts() co
 
 void InputRedirection::registerShortcut(const QKeySequence &shortcut, QAction *action)
 {
+    Q_UNUSED(shortcut)
     kwinApp()->platform()->setupActionForGlobalAccel(action);
 }
 

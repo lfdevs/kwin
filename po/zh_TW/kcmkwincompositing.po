@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-05 02:49+0200\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
 "PO-Revision-Date: 2016-11-03 16:26+0800\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
@@ -337,6 +337,7 @@ msgid "Exclude internal Desktop Effects"
 msgstr "排除內部桌面效果"
 
 #: qml/EffectView.qml:104
-#, kde-format
-msgid "Get New Effects ..."
+#, fuzzy, kde-format
+#| msgid "Get New Effects ..."
+msgid "Get New Effects..."
 msgstr "取得新效果..."

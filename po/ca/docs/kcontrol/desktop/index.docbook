@@ -48,7 +48,7 @@
 <para
 >El &kde; us ofereix la possibilitat de tenir diversos escriptoris virtuals. En aquesta pestanya podeu configurar el nombre d'escriptoris, el nombre de files a la icona <guilabel
 >Paginador</guilabel
-> així com el seus noms. Simplement utilitzeu el quadre d'entrada per ajustar el nombre d'escriptoris. Els hi podeu assignar noms introduint text en els camps de text a sota.</para
+> així com els seus noms. Simplement utilitzeu el quadre d'entrada per ajustar el nombre d'escriptoris. Els hi podeu assignar noms introduint text en els camps de text a sota.</para
 > 
 <!-- not in 5.3
 <para
@@ -135,7 +135,7 @@ to use independent widgets and wallpapers on each individual desktop.
 <para
 >Desplaçant la roda del ratolí sobre un espai buit a l'escriptori o a la icona <guilabel
 >Paginador</guilabel
-> en el plafó canviareu al següent escriptori virtual numèric, en la direcció en que desplaceu (cap amunt o cap avall).</para>
+> en el plafó canviareu al següent escriptori virtual numèric, en la direcció en què desplaceu (cap amunt o cap avall).</para>
 <para
 >Podeu canviar el comportament per omissió a la pàgina <guilabel
 >Accions del ratolí</guilabel

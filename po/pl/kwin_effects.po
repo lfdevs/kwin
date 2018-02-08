@@ -5,13 +5,13 @@
 # Marta Rybczyńska <kde-i18n@rybczynska.net>, 2007, 2008, 2009, 2010, 2011, 2012, 2013.
 # Maciej Wikło <maciej.wiklo@wp.pl>, 2008, 2009, 2010.
 # Mirek Sabiniewicz <m.sabiniewicz@gmail.com>, 2010.
-# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2016, 2017.
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-11-18 05:40+0100\n"
-"PO-Revision-Date: 2017-06-03 08:19+0100\n"
+"POT-Creation-Date: 2018-01-02 03:18+0100\n"
+"PO-Revision-Date: 2018-01-06 07:01+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -146,7 +146,7 @@ msgid "Default"
 msgstr "Domyślna"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
-#: coverswitch/coverswitch_config.ui:161
+#: coverswitch/coverswitch_config.ui:161 slide/slide_config.ui:39
 #, kde-format
 msgid " milliseconds"
 msgstr " milisekundy"
@@ -1698,6 +1698,19 @@ msgstr "Kolor tekstu:"
 msgid "Text alpha:"
 msgstr "Kanał alfa tekstu:"
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: slide/slide_config.ui:17
+#, kde-format
+msgid "Duration:"
+msgstr "Czas trwania:"
+
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
+#: slide/slide_config.ui:36
+#, kde-format
+msgctxt "Duration of the slide animation"
+msgid "Default"
+msgstr "Domyślna"
+
 #: thumbnailaside/thumbnailaside.cpp:38
 #: thumbnailaside/thumbnailaside_config.cpp:73
 #, kde-format
@@ -1843,7 +1856,7 @@ msgstr "Menu wysuwne:"
 msgid "Torn-off menus:"
 msgstr "Menu odrywane:"
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:53
 #, kde-format
 msgid "Toggle window geometry display (effect only)"
 msgstr "Przełącz wyświetlanie geometrii okna (tylko efekty)"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-08 03:04+0200\n"
+"POT-Creation-Date: 2017-12-30 03:13+0100\n"
 "PO-Revision-Date: 2017-04-11 17:03+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -104,16 +104,20 @@ msgstr "Εναλλακτική εναλλαγή παραθύρων"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
-#, kde-format
-msgid "Active Screen Edge Actions"
+#, fuzzy, kde-format
+#| msgid "Active Screen Edge Actions"
+msgid "Active Screen Corners and Edges"
 msgstr "Ενέργειες άκρων οθόνης"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "To trigger an action push your mouse cursor against the edge of the "
+#| "screen in the action's direction."
 msgid ""
-"To trigger an action push your mouse cursor against the edge of the screen "
-"in the action's direction."
+"Trigger an action by pushing the mouse cursor against the corresponding "
+"screen edge or corner"
 msgstr ""
 "Για την ενεργοποίηση μιας ενέργειας πιέστε το δρομέα του ποντικιού σας στο "
 "άκρο της οθόνης στην κατάλληλη κατεύθυνση."
@@ -126,14 +130,16 @@ msgstr "Διαχείριση παραθύρων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
-#, kde-format
-msgid "Maximize windows by dragging them to the top of the screen"
+#, fuzzy, kde-format
+#| msgid "Maximize windows by dragging them to the top of the screen"
+msgid "Maximize windows by dragging them to the top edge of the screen"
 msgstr "Μεγιστοποίηση παραθύρων με σύρσιμο τους στο άνω άκρο της οθόνης"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
-#, kde-format
-msgid "Tile windows by dragging them to the side of the screen"
+#, fuzzy, kde-format
+#| msgid "Tile windows by dragging them to the side of the screen"
+msgid "Tile windows by dragging them to the left or right edges of the screen"
 msgstr "Παράθεση παραθύρων με σύρσιμο τους στα πλευρικά άκρα της οθόνης"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -235,10 +241,13 @@ msgstr "&Καθυστέρηση επανενεργοποίησης:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: touch.ui:36
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "To trigger an action swipe from the screen edge towards the center of the "
+#| "screen."
 msgid ""
-"To trigger an action swipe from the screen edge towards the center of the "
-"screen."
+"Trigger an action by swiping from the screen edge towards the center of the "
+"screen"
 msgstr ""
 "Για την ενεργοποίηση μιας ενέργειας σύρετε με συνεχή επαφή από το άκρο προς "
 "το κέντρο της οθόνης."

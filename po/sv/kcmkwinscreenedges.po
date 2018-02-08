@@ -2,13 +2,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Stefan Asserhäll <stefan.asserhall@bredband.net>, 2009, 2010, 2012, 2013, 2014, 2016, 2017.
+# Stefan Asserhäll <stefan.asserhall@bredband.net>, 2009, 2010, 2012, 2013, 2014, 2016, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-08 03:04+0200\n"
-"PO-Revision-Date: 2017-04-08 08:55+0100\n"
+"POT-Creation-Date: 2017-12-30 03:13+0100\n"
+"PO-Revision-Date: 2018-01-02 19:01+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -102,18 +102,18 @@ msgstr "Ändra alternativt fönsterbyte"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
 #, kde-format
-msgid "Active Screen Edge Actions"
-msgstr "Åtgärder för aktiva skärmkanter"
+msgid "Active Screen Corners and Edges"
+msgstr "Aktiva skärmhörn och kanter"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
 #, kde-format
 msgid ""
-"To trigger an action push your mouse cursor against the edge of the screen "
-"in the action's direction."
+"Trigger an action by pushing the mouse cursor against the corresponding "
+"screen edge or corner"
 msgstr ""
-"Dra muspekaren till skärmkanten i åtgärdens riktning för att utföra en "
-"åtgärd."
+"Utför en åtgärd genom att trycka muspekaren mot motsvarande skärmkant eller "
+"hörn"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
@@ -124,14 +124,16 @@ msgstr "Fönsterhantering"
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
 #, kde-format
-msgid "Maximize windows by dragging them to the top of the screen"
+msgid "Maximize windows by dragging them to the top edge of the screen"
 msgstr "Maximera fönster genom att dra dem till skärmens överkant"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
 #, kde-format
-msgid "Tile windows by dragging them to the side of the screen"
-msgstr "Lägg fönster sida vid sida genom att dra dem till skärmens sidokanter"
+msgid "Tile windows by dragging them to the left or right edges of the screen"
+msgstr ""
+"Lägg fönster sida vid sida genom att dra dem till skärmens vänster- eller "
+"högerkant"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
@@ -232,6 +234,6 @@ msgstr "Återaktiveringsför&dröjning:"
 #: touch.ui:36
 #, kde-format
 msgid ""
-"To trigger an action swipe from the screen edge towards the center of the "
-"screen."
-msgstr "Dra från skärmkanten mot skärmens mitt för att utföra en åtgärd."
+"Trigger an action by swiping from the screen edge towards the center of the "
+"screen"
+msgstr "Utför en åtgärd genom att svepa från skärmens kant mot mitten"

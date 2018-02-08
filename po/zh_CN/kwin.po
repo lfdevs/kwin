@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-10-27 05:24+0200\n"
-"PO-Revision-Date: 2017-11-09 08:40-0500\n"
+"POT-Creation-Date: 2018-01-15 03:16+0100\n"
+"PO-Revision-Date: 2018-02-02 19:31-0500\n"
 "Last-Translator: guoyunhebrave <guoyunhebrave@gmail.com>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -38,13 +38,13 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kde-china@kde.org"
 
-#: abstract_client.cpp:1774
+#: abstract_client.cpp:1773
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(未响应)"
 
-#: composite.cpp:597
+#: composite.cpp:571
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -516,207 +516,249 @@ msgctxt "A swipe gesture got cancelled"
 msgid "Swipe cancelled"
 msgstr "扫手势取消"
 
-#: debug_console.cpp:642
+#: debug_console.cpp:466
+#, kde-format
+msgctxt "A hardware switch (e.g. notebook lid) got toggled"
+msgid "Switch toggled"
+msgstr "开关已拨动"
+
+#: debug_console.cpp:475
+#, kde-format
+msgctxt "Name of a hardware switch"
+msgid "Notebook lid"
+msgstr "笔记本上盖"
+
+#: debug_console.cpp:477
+#, kde-format
+msgctxt "Name of a hardware switch"
+msgid "Tablet mode"
+msgstr "平板模式"
+
+#: debug_console.cpp:479
+#, kde-format
+msgctxt "A hardware switch"
+msgid "Switch"
+msgstr "切换"
+
+#: debug_console.cpp:484
+#, kde-format
+msgctxt "The hardware switch got turned off"
+msgid "Off"
+msgstr "关闭"
+
+#: debug_console.cpp:487
+#, kde-format
+msgctxt "The hardware switch got turned on"
+msgid "On"
+msgstr "开启"
+
+#: debug_console.cpp:492
+#, kde-format
+msgctxt "State of a hardware switch (on/off)"
+msgid "State"
+msgstr "状态"
+
+#: debug_console.cpp:679
 #, kde-format
 msgid "No Mouse Buttons"
 msgstr "无鼠标按钮"
 
-#: debug_console.cpp:646
+#: debug_console.cpp:683
 #, kde-format
 msgctxt "Mouse Button"
 msgid "left"
 msgstr "左键"
 
-#: debug_console.cpp:649
+#: debug_console.cpp:686
 #, kde-format
 msgctxt "Mouse Button"
 msgid "right"
 msgstr "右键"
 
-#: debug_console.cpp:652
+#: debug_console.cpp:689
 #, kde-format
 msgctxt "Mouse Button"
 msgid "middle"
 msgstr "中键"
 
-#: debug_console.cpp:655
+#: debug_console.cpp:692
 #, kde-format
 msgctxt "Mouse Button"
 msgid "back"
 msgstr "后退"
 
-#: debug_console.cpp:658
+#: debug_console.cpp:695
 #, kde-format
 msgctxt "Mouse Button"
 msgid "forward"
 msgstr "前进"
 
-#: debug_console.cpp:661
+#: debug_console.cpp:698
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 1"
 msgstr "额外按钮 1"
 
-#: debug_console.cpp:664
+#: debug_console.cpp:701
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 2"
 msgstr "额外按钮 2"
 
-#: debug_console.cpp:667
+#: debug_console.cpp:704
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 3"
 msgstr "额外按钮 3"
 
-#: debug_console.cpp:670
+#: debug_console.cpp:707
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 4"
 msgstr "额外按钮 4"
 
-#: debug_console.cpp:673
+#: debug_console.cpp:710
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 5"
 msgstr "额外按钮 5"
 
-#: debug_console.cpp:676
+#: debug_console.cpp:713
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 6"
 msgstr "额外按钮 6"
 
-#: debug_console.cpp:679
+#: debug_console.cpp:716
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 7"
 msgstr "额外按钮 7"
 
-#: debug_console.cpp:682
+#: debug_console.cpp:719
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 8"
 msgstr "额外按钮 8"
 
-#: debug_console.cpp:685
+#: debug_console.cpp:722
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 9"
 msgstr "额外按钮 9"
 
-#: debug_console.cpp:688
+#: debug_console.cpp:725
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 10"
 msgstr "额外按钮 10"
 
-#: debug_console.cpp:691
+#: debug_console.cpp:728
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 11"
 msgstr "额外按钮 11"
 
-#: debug_console.cpp:694
+#: debug_console.cpp:731
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 12"
 msgstr "额外按钮 12"
 
-#: debug_console.cpp:697
+#: debug_console.cpp:734
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 13"
 msgstr "额外按钮 13"
 
-#: debug_console.cpp:700
+#: debug_console.cpp:737
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 14"
 msgstr "额外按钮 14"
 
-#: debug_console.cpp:703
+#: debug_console.cpp:740
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 15"
 msgstr "额外按钮 15"
 
-#: debug_console.cpp:706
+#: debug_console.cpp:743
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 16"
 msgstr "额外按钮 16"
 
-#: debug_console.cpp:709
+#: debug_console.cpp:746
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 17"
 msgstr "额外按钮 17"
 
-#: debug_console.cpp:712
+#: debug_console.cpp:749
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 18"
 msgstr "额外按钮 18"
 
-#: debug_console.cpp:715
+#: debug_console.cpp:752
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 19"
 msgstr "额外按钮 19"
 
-#: debug_console.cpp:718
+#: debug_console.cpp:755
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 20"
 msgstr "额外按钮 20"
 
-#: debug_console.cpp:721
+#: debug_console.cpp:758
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 21"
 msgstr "额外按钮 21"
 
-#: debug_console.cpp:724
+#: debug_console.cpp:761
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 22"
 msgstr "额外按钮 22"
 
-#: debug_console.cpp:727
+#: debug_console.cpp:764
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 23"
 msgstr "额外按钮 23"
 
-#: debug_console.cpp:730
+#: debug_console.cpp:767
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 24"
 msgstr "额外按钮 24"
 
-#: debug_console.cpp:733
+#: debug_console.cpp:770
 #, kde-format
 msgctxt "Mouse Button"
 msgid "task"
 msgstr "任务"
 
-#: debug_console.cpp:1074
+#: debug_console.cpp:1111
 #, kde-format
 msgid "X11 Client Windows"
 msgstr "X11 客户窗口"
 
-#: debug_console.cpp:1076
+#: debug_console.cpp:1113
 #, kde-format
 msgid "X11 Unmanaged Windows"
 msgstr "X11 未管理窗口"
 
-#: debug_console.cpp:1078
+#: debug_console.cpp:1115
 #, kde-format
 msgid "Wayland Windows"
 msgstr "Wayland 窗口"
 
-#: debug_console.cpp:1080
+#: debug_console.cpp:1117
 #, kde-format
 msgid "Internal Windows"
 msgstr "内部窗口"
@@ -863,307 +905,307 @@ msgstr ""
 "选取要强制关闭的窗口，按鼠标左键或 Enter 键关闭。\n"
 "按 Esc 键或鼠标右键取消。"
 
-#: kwinbindings.cpp:46
+#: kwinbindings.cpp:49
 #, kde-format
 msgid "Walk Through Window Tabs"
 msgstr "遍历窗口标签"
 
-#: kwinbindings.cpp:47
+#: kwinbindings.cpp:50
 #, kde-format
 msgid "Walk Through Window Tabs (Reverse)"
 msgstr "遍历窗口标签(反向)"
 
-#: kwinbindings.cpp:48
+#: kwinbindings.cpp:51
 #, kde-format
 msgid "Remove Window From Group"
 msgstr "从分组中移除窗口"
 
-#: kwinbindings.cpp:50
+#: kwinbindings.cpp:53
 #, kde-format
 msgid "Window Operations Menu"
 msgstr "窗口操作菜单"
 
-#: kwinbindings.cpp:52
+#: kwinbindings.cpp:55
 #, kde-format
 msgid "Close Window"
 msgstr "关闭窗口"
 
-#: kwinbindings.cpp:54
+#: kwinbindings.cpp:57
 #, kde-format
 msgid "Maximize Window"
 msgstr "最大化窗口"
 
-#: kwinbindings.cpp:56
+#: kwinbindings.cpp:59
 #, kde-format
 msgid "Maximize Window Vertically"
 msgstr "垂直最大化窗口"
 
-#: kwinbindings.cpp:58
+#: kwinbindings.cpp:61
 #, kde-format
 msgid "Maximize Window Horizontally"
 msgstr "水平最大化窗口"
 
-#: kwinbindings.cpp:60
+#: kwinbindings.cpp:63
 #, kde-format
 msgid "Minimize Window"
 msgstr "最小化窗口"
 
-#: kwinbindings.cpp:62
+#: kwinbindings.cpp:65
 #, kde-format
 msgid "Shade Window"
 msgstr "卷起窗口"
 
-#: kwinbindings.cpp:64
+#: kwinbindings.cpp:67
 #, kde-format
 msgid "Move Window"
 msgstr "移动窗口"
 
-#: kwinbindings.cpp:66
+#: kwinbindings.cpp:69
 #, kde-format
 msgid "Resize Window"
 msgstr "更改窗口大小"
 
-#: kwinbindings.cpp:68
+#: kwinbindings.cpp:71
 #, kde-format
 msgid "Raise Window"
 msgstr "升起窗口"
 
-#: kwinbindings.cpp:70
+#: kwinbindings.cpp:73
 #, kde-format
 msgid "Lower Window"
 msgstr "降低窗口"
 
-#: kwinbindings.cpp:72
+#: kwinbindings.cpp:75
 #, kde-format
 msgid "Toggle Window Raise/Lower"
 msgstr "窗口置前或置后"
 
-#: kwinbindings.cpp:74
+#: kwinbindings.cpp:77
 #, kde-format
 msgid "Make Window Fullscreen"
 msgstr "将窗口放至全屏"
 
-#: kwinbindings.cpp:76
+#: kwinbindings.cpp:79
 #, kde-format
 msgid "Hide Window Border"
 msgstr "隐藏窗口边框"
 
-#: kwinbindings.cpp:78
+#: kwinbindings.cpp:81
 #, kde-format
 msgid "Keep Window Above Others"
 msgstr "让窗口常居顶端"
 
-#: kwinbindings.cpp:80
+#: kwinbindings.cpp:83
 #, kde-format
 msgid "Keep Window Below Others"
 msgstr "让窗口常居底端"
 
-#: kwinbindings.cpp:82
+#: kwinbindings.cpp:85
 #, kde-format
 msgid "Activate Window Demanding Attention"
 msgstr "激活请求注意的窗口"
 
-#: kwinbindings.cpp:84
+#: kwinbindings.cpp:87
 #, kde-format
 msgid "Setup Window Shortcut"
 msgstr "设置窗口快捷键"
 
-#: kwinbindings.cpp:86
+#: kwinbindings.cpp:89
 #, kde-format
 msgid "Pack Window to the Right"
 msgstr "将窗口推至右侧"
 
-#: kwinbindings.cpp:88
+#: kwinbindings.cpp:91
 #, kde-format
 msgid "Pack Window to the Left"
 msgstr "将窗口推至左侧"
 
-#: kwinbindings.cpp:90
+#: kwinbindings.cpp:93
 #, kde-format
 msgid "Pack Window Up"
 msgstr "将窗口推至上侧"
 
-#: kwinbindings.cpp:92
+#: kwinbindings.cpp:95
 #, kde-format
 msgid "Pack Window Down"
 msgstr "将窗口推至下侧"
 
-#: kwinbindings.cpp:94
+#: kwinbindings.cpp:97
 #, kde-format
 msgid "Pack Grow Window Horizontally"
 msgstr "将窗口水平扩展"
 
-#: kwinbindings.cpp:96
+#: kwinbindings.cpp:99
 #, kde-format
 msgid "Pack Grow Window Vertically"
 msgstr "将窗口垂直扩展"
 
-#: kwinbindings.cpp:98
+#: kwinbindings.cpp:101
 #, kde-format
 msgid "Pack Shrink Window Horizontally"
 msgstr "将窗口水平收缩"
 
-#: kwinbindings.cpp:100
+#: kwinbindings.cpp:103
 #, kde-format
 msgid "Pack Shrink Window Vertically"
 msgstr "将窗口垂直收缩"
 
-#: kwinbindings.cpp:102
+#: kwinbindings.cpp:105
 #, kde-format
 msgid "Quick Tile Window to the Left"
 msgstr "将窗口快速铺至左侧"
 
-#: kwinbindings.cpp:104
+#: kwinbindings.cpp:107
 #, kde-format
 msgid "Quick Tile Window to the Right"
 msgstr "将窗口快速铺至右侧"
 
-#: kwinbindings.cpp:106
+#: kwinbindings.cpp:109
 #, kde-format
 msgid "Quick Tile Window to the Top"
 msgstr "将窗口快速铺至上方"
 
-#: kwinbindings.cpp:108
+#: kwinbindings.cpp:111
 #, kde-format
 msgid "Quick Tile Window to the Bottom"
 msgstr "将窗口快速铺至下方"
 
-#: kwinbindings.cpp:110
+#: kwinbindings.cpp:113
 #, kde-format
 msgid "Quick Tile Window to the Top Left"
 msgstr "将窗口快速铺至左上方"
 
-#: kwinbindings.cpp:112
+#: kwinbindings.cpp:115
 #, kde-format
 msgid "Quick Tile Window to the Bottom Left"
 msgstr "将窗口快速铺至左下方"
 
-#: kwinbindings.cpp:114
+#: kwinbindings.cpp:117
 #, kde-format
 msgid "Quick Tile Window to the Top Right"
 msgstr "将窗口快速铺至右上方"
 
-#: kwinbindings.cpp:116
+#: kwinbindings.cpp:119
 #, kde-format
 msgid "Quick Tile Window to the Bottom Right"
 msgstr "将窗口快速铺至右下方"
 
-#: kwinbindings.cpp:118
+#: kwinbindings.cpp:121
 #, kde-format
 msgid "Switch to Window Above"
 msgstr "切换到上方的窗口"
 
-#: kwinbindings.cpp:120
+#: kwinbindings.cpp:123
 #, kde-format
 msgid "Switch to Window Below"
 msgstr "切换到下方的窗口"
 
-#: kwinbindings.cpp:122
+#: kwinbindings.cpp:125
 #, kde-format
 msgid "Switch to Window to the Right"
 msgstr "切换到右边的窗口"
 
-#: kwinbindings.cpp:124
+#: kwinbindings.cpp:127
 #, kde-format
 msgid "Switch to Window to the Left"
 msgstr "切换到左边的窗口"
 
-#: kwinbindings.cpp:126
+#: kwinbindings.cpp:129
 #, kde-format
 msgid "Increase Opacity of Active Window by 5 %"
 msgstr "提高活动窗口不透明度 5 %"
 
-#: kwinbindings.cpp:128
+#: kwinbindings.cpp:131
 #, kde-format
 msgid "Decrease Opacity of Active Window by 5 %"
 msgstr "降低活动窗口不透明度 5 %"
 
-#: kwinbindings.cpp:131
+#: kwinbindings.cpp:134
 #, kde-format
 msgid "Keep Window on All Desktops"
 msgstr "将窗口放到全部桌面"
 
-#: kwinbindings.cpp:135
+#: kwinbindings.cpp:138
 #, kde-format
 msgid "Window to Desktop %1"
 msgstr "窗口到桌面 %1"
 
-#: kwinbindings.cpp:137
+#: kwinbindings.cpp:140
 #, kde-format
 msgid "Window to Next Desktop"
 msgstr "窗口到下一桌面"
 
-#: kwinbindings.cpp:138
+#: kwinbindings.cpp:141
 #, kde-format
 msgid "Window to Previous Desktop"
 msgstr "窗口到前一桌面"
 
-#: kwinbindings.cpp:139
+#: kwinbindings.cpp:142
 #, kde-format
 msgid "Window One Desktop to the Right"
 msgstr "窗口右移一个桌面"
 
-#: kwinbindings.cpp:140
+#: kwinbindings.cpp:143
 #, kde-format
 msgid "Window One Desktop to the Left"
 msgstr "窗口左移一个桌面"
 
-#: kwinbindings.cpp:141
+#: kwinbindings.cpp:144
 #, kde-format
 msgid "Window One Desktop Up"
 msgstr "窗口上移一个桌面"
 
-#: kwinbindings.cpp:142
+#: kwinbindings.cpp:145
 #, kde-format
 msgid "Window One Desktop Down"
 msgstr "窗口下移一个桌面"
 
-#: kwinbindings.cpp:145
+#: kwinbindings.cpp:148
 #, kde-format
 msgid "Window to Screen %1"
 msgstr "窗口到屏幕 %1"
 
-#: kwinbindings.cpp:147
+#: kwinbindings.cpp:150
 #, kde-format
 msgid "Window to Next Screen"
 msgstr "窗口到下一屏幕"
 
-#: kwinbindings.cpp:148
+#: kwinbindings.cpp:151
 #, kde-format
 msgid "Window to Previous Screen"
 msgstr "窗口到前一屏幕"
 
-#: kwinbindings.cpp:149
+#: kwinbindings.cpp:152
 #, kde-format
 msgid "Show Desktop"
 msgstr "显示桌面"
 
-#: kwinbindings.cpp:152
+#: kwinbindings.cpp:155
 #, kde-format
 msgid "Switch to Screen %1"
 msgstr "切换到屏幕 %1"
 
-#: kwinbindings.cpp:155
+#: kwinbindings.cpp:158
 #, kde-format
 msgid "Switch to Next Screen"
 msgstr "切换到下一屏幕"
 
-#: kwinbindings.cpp:156
+#: kwinbindings.cpp:159
 #, kde-format
 msgid "Switch to Previous Screen"
 msgstr "切换到上一个屏幕"
 
-#: kwinbindings.cpp:158
+#: kwinbindings.cpp:161
 #, kde-format
 msgid "Kill Window"
 msgstr "杀死窗口"
 
-#: kwinbindings.cpp:159
+#: kwinbindings.cpp:162
 #, kde-format
 msgid "Suspend Compositing"
 msgstr "挂起混成器"
 
-#: kwinbindings.cpp:160
+#: kwinbindings.cpp:163
 #, kde-format
 msgid "Invert Screen Colors"
 msgstr "屏幕反色"
@@ -1223,121 +1265,116 @@ msgstr "禁用配置选项"
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "情况显示 KWin 近期连续崩溃了多次"
 
-#: main_wayland.cpp:207
+#: main_wayland.cpp:253
 #, kde-format
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr "kwin_wayland：X11 窗口管理器正在 X11 显示上运行。\n"
 
-#: main_wayland.cpp:504
+#: main_wayland.cpp:579
 #, kde-format
 msgid "Start a rootless Xwayland server."
 msgstr "启动rootless Xwayland 服务器。"
 
-#: main_wayland.cpp:506
+#: main_wayland.cpp:581
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr "要监听的 Wayland 套接字名称。如果未设置则使用“wayland-0”。"
 
-#: main_wayland.cpp:509
+#: main_wayland.cpp:584
 #, kde-format
 msgid "Use a nested compositor in windowed mode."
 msgstr "在窗口模式中使用嵌套的混成器。"
 
-#: main_wayland.cpp:511
+#: main_wayland.cpp:586
 #, kde-format
 msgid "Render to framebuffer."
 msgstr "渲染到帧缓冲。"
 
-#: main_wayland.cpp:513
+#: main_wayland.cpp:588
 #, kde-format
 msgid "The framebuffer device to render to."
 msgstr "要渲染到帧缓冲设备。"
 
-#: main_wayland.cpp:517
+#: main_wayland.cpp:592
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "X11 平台上窗口模式要使用的 X11 显示。"
 
-#: main_wayland.cpp:520
+#: main_wayland.cpp:595
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr "Wayland 平台上窗口模式要使用的 Wayland 显示。"
 
-#: main_wayland.cpp:522
+#: main_wayland.cpp:597
 #, kde-format
 msgid "Render to a virtual framebuffer."
 msgstr "渲染到虚拟帧缓冲。"
 
-#: main_wayland.cpp:524
+#: main_wayland.cpp:599
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "窗口模式的宽度。默认宽度为 1024。"
 
-#: main_wayland.cpp:528
+#: main_wayland.cpp:603
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
 msgstr "窗口模式的高度。默认高度为 768。"
 
-#: main_wayland.cpp:533
+#: main_wayland.cpp:608
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
 msgstr "窗口模式下的缩放。默认值是 1。"
 
-#: main_wayland.cpp:538
+#: main_wayland.cpp:613
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
 msgstr "在窗口模式中作为输出打开的窗口数量。默认值为 1。"
 
-#: main_wayland.cpp:571
+#: main_wayland.cpp:646
 #, kde-format
 msgid "Use libhybris hwcomposer"
 msgstr "使用 libhybris hwcomposer"
 
-#: main_wayland.cpp:578
+#: main_wayland.cpp:653
 #, kde-format
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
 msgstr "启用 libinput 的输入事件处理支持。注意：不要在嵌套会话中使用。"
 
-#: main_wayland.cpp:582
+#: main_wayland.cpp:657
 #, kde-format
 msgid "Render through drm node."
 msgstr "通过 drm 结点渲染。"
 
-#: main_wayland.cpp:589
+#: main_wayland.cpp:664
 #, kde-format
 msgid "Input method that KWin starts."
 msgstr "KWin 启动的输入法。"
 
-#: main_wayland.cpp:594
+#: main_wayland.cpp:669
 #, kde-format
 msgid "List all available backends and quit."
 msgstr "列出所有可用后端并退出"
 
-#: main_wayland.cpp:598
+#: main_wayland.cpp:673
 #, kde-format
 msgid "Starts the session in locked mode."
 msgstr "在锁定模式下启动会话。"
 
-#: main_wayland.cpp:602
+#: main_wayland.cpp:677
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr "在由 KWin 启动会话应用程序关闭之后退出。"
 
-#: main_wayland.cpp:608 main_x11.cpp:423
-#, kde-format
-msgid "Disable KActivities integration."
-msgstr "禁用 KActivities 集成。"
-
-#: main_wayland.cpp:613
+#: main_wayland.cpp:682
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr "Wayland 和 Xwayland 服务器启动后要启动的应用程序"
 
-#: main_x11.cpp:74
+#: main_x11.cpp:75
 #, kde-format
 msgid ""
 "KWin is unstable.\n"
@@ -1348,7 +1385,7 @@ msgstr ""
 "似乎它已在短时间内发生过多次崩溃。\n"
 "您可以选用其它窗口管理器："
 
-#: main_x11.cpp:225
+#: main_x11.cpp:226
 #, kde-format
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
@@ -1357,15 +1394,35 @@ msgstr ""
 "kwin：无法声明窗口管理器选择，是否正在运行另外一种窗口管理器？(试着使用 --"
 "replace)\n"
 
-#: main_x11.cpp:242
+#: main_x11.cpp:243
 #, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr "kwin：其他窗口管理器正在运行 (试着使用 --replace)\n"
 
-#: main_x11.cpp:416
+#: main_x11.cpp:418
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "替换已经运行的 ICCCM2.0 兼容的窗口管理器"
+
+#: main_x11.cpp:425
+#, kde-format
+msgid "Disable KActivities integration."
+msgstr "禁用 KActivities 集成。"
+
+#: orientation_sensor.cpp:72
+#, kde-format
+msgid "Automatic screen rotation is enabled"
+msgstr "自动旋转屏幕已启用"
+
+#: orientation_sensor.cpp:74 orientation_sensor.cpp:122
+#, kde-format
+msgid "Automatic screen rotation is disabled"
+msgstr "自动旋转屏幕已禁用"
+
+#: orientation_sensor.cpp:118
+#, kde-format
+msgid "Automatic Screen Rotation"
+msgstr "自动旋转屏幕"
 
 #: pointer_input.cpp:647
 #, kde-format
@@ -1386,61 +1443,6 @@ msgid ""
 msgstr ""
 "指针锁定于当前位置。\n"
 "按住 Escape 键 3 秒结束指针锁定。"
-
-#: scene_opengl.cpp:666
-#, kde-format
-msgid "Desktop effects were restarted due to a graphics reset"
-msgstr "由于图形重置，桌面效果已被重启。"
-
-#: scene_opengl.cpp:918
-#, kde-format
-msgid ""
-"<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
-"OpenGL Desktop Effects at the current resolution<br><br>You can try to "
-"select the XRender backend, but it might be very slow for this resolution as "
-"well.<br>Alternatively, lower the combined resolution of all screens to %1x"
-"%2 "
-msgstr ""
-"<h1>无法使用 OpenGL 桌面效果</h1>您的系统无法在当前分辨率下启动 OpenGL 桌面效"
-"果。<br><br>您可以尝试选择 XRender 后端，但是在此分辨率下同样会比较慢。<br>或"
-"者，降低所有屏幕整合的分辨率到 %1x%2"
-
-#: scene_opengl.cpp:925
-#, kde-format
-msgid ""
-"The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
-"GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
-"does not know such limitation, but the performance will usually be impacted "
-"by the hardware limitations that restrict the OpenGL viewport size."
-msgstr ""
-"要求的分辨率超出了您 GPU 的 GL_MAX_VIEWPORT_DIMS  限制，因此不兼容 OpenGL 混"
-"成。<br>XRender 不会受到此项限制，但是其性能将会被限制 OpenGL viewport 的硬件"
-"限制所影响。"
-
-#: scene_opengl.cpp:950
-#, kde-format
-msgid ""
-"<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
-"the current resolution are supported but might be exceptionally slow."
-"<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
-"compositing, switch to the XRender backend or lower the resolution to %1x%1."
-msgstr ""
-"<h1>OpenGL 桌面效果可能不稳定</h1>OpenGL 桌面效果在当前的分辨率下是受支持的，"
-"但是可能会比较慢。<br>同时大型窗口将会完全变为黑色。<br><br>请考虑停用混成，"
-"切换为 XRender 后端或降低分辨率到 %1x%1。"
-
-#: scene_opengl.cpp:956
-#, kde-format
-msgid ""
-"The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
-"GPU, thus windows of that size cannot be assigned to textures and will be "
-"entirely black.<br>Also this limit will often be a performance level barrier "
-"despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
-"software rendering in this case."
-msgstr ""
-"要求的分辨率超出了您 GPU 的 GL_MAX_TEXTURE_SIZE 限制，因此该大小的窗口无法指"
-"派材质以至于完全变成黑色。<br>同时该限制经常会成为一种性能限制，尽管其低于 "
-"GL_MAX_VIEWPORT_DIMS，因为此种情况下驱动可能会退回软件渲染。"
 
 #: scripting/genericscriptedconfig.cpp:81
 #, kde-format
@@ -1562,7 +1564,7 @@ msgstr ""
 "窗口切换器安装损坏，资源无法找到。\n"
 "请与您的发行版联系。"
 
-#: useractions.cpp:202
+#: useractions.cpp:203
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -1574,7 +1576,7 @@ msgstr ""
 "没有边框的话，您就无法使用鼠标再次启用边框：请使用快捷键 %1 激活窗口的操作菜"
 "单来完成这一任务。"
 
-#: useractions.cpp:210
+#: useractions.cpp:211
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -1586,57 +1588,57 @@ msgstr ""
 "如果应用程序自身没有提供退出全屏模式的选项，您就无法使用鼠标退出全屏模式：请"
 "使用快捷键 %1 激活窗口的操作菜单来完成这一任务。"
 
-#: useractions.cpp:273
+#: useractions.cpp:274
 #, kde-format
 msgid "&Move"
 msgstr "移动(&M)"
 
-#: useractions.cpp:278
+#: useractions.cpp:279
 #, kde-format
 msgid "&Resize"
 msgstr "大小(&R)"
 
-#: useractions.cpp:282
+#: useractions.cpp:283
 #, kde-format
 msgid "Keep &Above Others"
 msgstr "常居顶端(&A)"
 
-#: useractions.cpp:288
+#: useractions.cpp:289
 #, kde-format
 msgid "Keep &Below Others"
 msgstr "常居底端(&B)"
 
-#: useractions.cpp:294
+#: useractions.cpp:295
 #, kde-format
 msgid "&Fullscreen"
 msgstr "全屏(&F)"
 
-#: useractions.cpp:300
+#: useractions.cpp:301
 #, kde-format
 msgid "&Shade"
 msgstr "卷起(&S)"
 
-#: useractions.cpp:305
+#: useractions.cpp:306
 #, kde-format
 msgid "&No Border"
 msgstr "无边框(&N)"
 
-#: useractions.cpp:312
+#: useractions.cpp:313
 #, kde-format
 msgid "Window Short&cut..."
 msgstr "窗口快捷键(&C)..."
 
-#: useractions.cpp:317
+#: useractions.cpp:318
 #, kde-format
 msgid "Special &Window Settings..."
 msgstr "特殊窗口设置(&W)..."
 
-#: useractions.cpp:321
+#: useractions.cpp:322
 #, kde-format
 msgid "S&pecial Application Settings..."
 msgstr "特殊应用程序设置(&P)..."
 
-#: useractions.cpp:328
+#: useractions.cpp:329
 #, kde-format
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
@@ -1644,96 +1646,96 @@ msgctxt ""
 msgid "Window Manager S&ettings..."
 msgstr "窗口管理器设置(&E)..."
 
-#: useractions.cpp:358
+#: useractions.cpp:359
 #, kde-format
 msgid "Mi&nimize"
 msgstr "最小化(&N)"
 
-#: useractions.cpp:362
+#: useractions.cpp:363
 #, kde-format
 msgid "Ma&ximize"
 msgstr "最大化(&X)"
 
-#: useractions.cpp:371
+#: useractions.cpp:372
 #, kde-format
 msgid "&Untab"
 msgstr "解除标签(&U)"
 
-#: useractions.cpp:375
+#: useractions.cpp:376
 #, kde-format
 msgid "Close Entire &Group"
 msgstr "关闭整个组(&G)"
 
-#: useractions.cpp:386
+#: useractions.cpp:387
 #, kde-format
 msgid "&More Actions"
 msgstr "更多动作(&M)"
 
-#: useractions.cpp:390
+#: useractions.cpp:391
 #, kde-format
 msgid "&Close"
 msgstr "关闭(&C)"
 
-#: useractions.cpp:464
+#: useractions.cpp:465
 #, kde-format
 msgid "&Extensions"
 msgstr "扩展(&E)"
 
-#: useractions.cpp:519
+#: useractions.cpp:520
 #, kde-format
 msgctxt "Switch to tab -> Previous"
 msgid "Previous"
 msgstr "上一个"
 
-#: useractions.cpp:520
+#: useractions.cpp:521
 #, kde-format
 msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr "下一个"
 
-#: useractions.cpp:562
+#: useractions.cpp:563
 #, kde-format
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr "无可用项"
 
-#: useractions.cpp:571
+#: useractions.cpp:572
 #, kde-format
 msgid "Switch to Tab"
 msgstr "切换到标签"
 
-#: useractions.cpp:582
+#: useractions.cpp:583
 #, kde-format
 msgid "&Attach as tab to"
 msgstr "作为标签附加到(&A)"
 
-#: useractions.cpp:605
+#: useractions.cpp:606
 #, kde-format
 msgid "Move To &Desktop"
 msgstr "移动到桌面(&D)"
 
-#: useractions.cpp:621
+#: useractions.cpp:622
 #, kde-format
 msgid "Move To &Screen"
 msgstr "移动到屏幕(&S)"
 
-#: useractions.cpp:636
+#: useractions.cpp:637
 #, kde-format
 msgid "Ac&tivities"
 msgstr "活动(&T)"
 
-#: useractions.cpp:648
+#: useractions.cpp:649
 #, kde-format
 msgid "&All Desktops"
 msgstr "全部桌面(&A)"
 
-#: useractions.cpp:674
+#: useractions.cpp:675
 #, kde-format
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "新建桌面(&N)"
 
-#: useractions.cpp:694
+#: useractions.cpp:695
 #, kde-format
 msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
@@ -1741,29 +1743,29 @@ msgctxt ""
 msgid "Screen &%1 (%2)"
 msgstr "屏幕 &%1 (%2)"
 
-#: useractions.cpp:715
+#: useractions.cpp:716
 #, kde-format
 msgid "&All Activities"
 msgstr "全部活动(&A)"
 
-#: useractions.cpp:930
+#: useractions.cpp:931
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "<b>%1</b> 已被使用"
 
-#: useractions.cpp:932
+#: useractions.cpp:933
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "<b>%1</b> 已由 %2 在 %3 中使用"
 
-#: useractions.cpp:1057
+#: useractions.cpp:1064
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "活动窗口(%1)"
 
-#: useractions.cpp:1262
+#: useractions.cpp:1269
 #, kde-format
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
@@ -1813,22 +1815,22 @@ msgstr "切换到下面的桌面"
 msgid "Switch to Desktop %1"
 msgstr "切换到桌面 %1"
 
-#: virtualkeyboard.cpp:93
+#: virtualkeyboard.cpp:95
 #, kde-format
 msgid "Virtual Keyboard"
 msgstr "虚拟键盘"
 
-#: virtualkeyboard.cpp:209
+#: virtualkeyboard.cpp:216
 #, kde-format
 msgid "Virtual Keyboard is enabled."
 msgstr "虚拟键盘已启用。"
 
-#: virtualkeyboard.cpp:212
+#: virtualkeyboard.cpp:219
 #, kde-format
 msgid "Virtual Keyboard is disabled."
 msgstr "虚拟键盘已禁用。"
 
-#: workspace.cpp:1372
+#: workspace.cpp:1314
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

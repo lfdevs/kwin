@@ -263,7 +263,6 @@ void Client::releaseWindow(bool on_shutdown)
         disownDataPassedToDeleted();
         del->unrefWindow();
     }
-    checkNonExistentClients();
     deleteClient(this);
     ungrabXServer();
 }
@@ -303,7 +302,6 @@ void Client::destroyClient()
     unblockGeometryUpdates(); // Don't use GeometryUpdatesBlocker, it would now set the geometry
     disownDataPassedToDeleted();
     del->unrefWindow();
-    checkNonExistentClients();
     deleteClient(this);
 }
 
@@ -1489,12 +1487,6 @@ void Client::updateCaption()
     setCaption(cap_normal, true);
 }
 
-void Client::evaluateWindowRules()
-{
-    setupWindowRules(true);
-    applyWindowRules();
-}
-
 void Client::fetchIconicName()
 {
     QString s;
@@ -1989,7 +1981,7 @@ NET::WindowType Client::windowType(bool direct, int supportedTypes) const
     if (direct) {
         return wt;
     }
-    NET::WindowType wt2 = client_rules.checkType(wt);
+    NET::WindowType wt2 = rules()->checkType(wt);
     if (wt != wt2) {
         wt = wt2;
         info->setWindowType(wt);   // force hint change
@@ -2161,6 +2153,21 @@ void Client::checkApplicationMenuObjectPath()
 {
     Xcb::StringProperty property = fetchApplicationMenuObjectPath();
     readApplicationMenuObjectPath(property);
+}
+
+void Client::handleSync()
+{
+    setReadyForPainting();
+    setupWindowManagementInterface();
+    syncRequest.isPending = false;
+    if (syncRequest.failsafeTimeout)
+        syncRequest.failsafeTimeout->stop();
+    if (isResize()) {
+        if (syncRequest.timeout)
+            syncRequest.timeout->stop();
+        performMoveResize();
+    } else // setReadyForPainting does as well, but there's a small chance for resize syncs after the resize ended
+        addRepaintFull();
 }
 
 } // namespace

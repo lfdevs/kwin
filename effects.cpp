@@ -42,6 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "screenlockerwatcher.h"
 #include "thumbnailitem.h"
 #include "virtualdesktops.h"
+#include "window_property_notify_x11_filter.h"
 #include "workspace.h"
 #include "kwinglutils.h"
 
@@ -191,13 +192,6 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
     );
     connect(vds, &VirtualDesktopManager::countChanged, this, &EffectsHandler::numberDesktopsChanged);
     connect(Cursor::self(), &Cursor::mouseChanged, this, &EffectsHandler::mouseChanged);
-    connect(ws, &Workspace::propertyNotify, this,
-        [this](long int atom) {
-            if (!registered_atoms.contains(atom))
-                return;
-            emit propertyNotify(nullptr, atom);
-        }
-    );
     connect(screens(), &Screens::countChanged,    this, &EffectsHandler::numberScreensChanged);
     connect(screens(), &Screens::sizeChanged,     this, &EffectsHandler::virtualScreenSizeChanged);
     connect(screens(), &Screens::geometryChanged, this, &EffectsHandler::virtualScreenGeometryChanged);
@@ -231,9 +225,18 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
                 m_managedProperties.insert(*it, atom);
                 registerPropertyType(atom, true);
             }
+            if (kwinApp()->x11Connection()) {
+                m_x11WindowPropertyNotify = std::make_unique<WindowPropertyNotifyX11Filter>(this);
+            } else {
+                m_x11WindowPropertyNotify.reset();
+            }
             emit xcbConnectionChanged();
         }
     );
+
+    if (kwinApp()->x11Connection()) {
+        m_x11WindowPropertyNotify = std::make_unique<WindowPropertyNotifyX11Filter>(this);
+    }
 
     // connect all clients
     for (Client *c : ws->clientList()) {
@@ -341,7 +344,6 @@ void EffectsHandlerImpl::setupClientConnections(Client* c)
 {
     setupAbstractClientConnections(c);
     connect(c, &Client::paddingChanged,       this, &EffectsHandlerImpl::slotPaddingChanged);
-    connect(c, &Client::propertyNotify,       this, &EffectsHandlerImpl::slotPropertyNotify);
 }
 
 void EffectsHandlerImpl::setupUnmanagedConnections(Unmanaged* u)
@@ -351,7 +353,6 @@ void EffectsHandlerImpl::setupUnmanagedConnections(Unmanaged* u)
     connect(u, &Unmanaged::geometryShapeChanged, this, &EffectsHandlerImpl::slotGeometryShapeChanged);
     connect(u, &Unmanaged::paddingChanged,       this, &EffectsHandlerImpl::slotPaddingChanged);
     connect(u, &Unmanaged::damaged,              this, &EffectsHandlerImpl::slotWindowDamaged);
-    connect(u, &Unmanaged::propertyNotify,       this, &EffectsHandlerImpl::slotPropertyNotify);
 }
 
 void EffectsHandlerImpl::reconfigure()
@@ -631,27 +632,27 @@ bool EffectsHandlerImpl::grabKeyboard(Effect* effect)
 {
     if (keyboard_grab_effect != NULL)
         return false;
-    if (kwinApp()->operationMode() == Application::OperationModeX11) {
-        bool ret = grabXKeyboard();
-        if (!ret)
-            return false;
-        // Workaround for Qt 5.9 regression introduced with 2b34aefcf02f09253473b096eb4faffd3e62b5f4
-        // we no longer get any events for the root window, one needs to call winId() on the desktop window
-        // TODO: change effects event handling to create the appropriate QKeyEvent without relying on Qt
-        // as it's done already in the Wayland case.
-        qApp->desktop()->winId();
+    if (!doGrabKeyboard()) {
+        return false;
     }
     keyboard_grab_effect = effect;
+    return true;
+}
+
+bool EffectsHandlerImpl::doGrabKeyboard()
+{
     return true;
 }
 
 void EffectsHandlerImpl::ungrabKeyboard()
 {
     assert(keyboard_grab_effect != NULL);
-    if (kwinApp()->operationMode() == Application::OperationModeX11) {
-        ungrabXKeyboard();
-    }
+    doUngrabKeyboard();
     keyboard_grab_effect = NULL;
+}
+
+void EffectsHandlerImpl::doUngrabKeyboard()
+{
 }
 
 void EffectsHandlerImpl::grabbedKeyboardEvent(QKeyEvent* e)
@@ -669,30 +670,12 @@ void EffectsHandlerImpl::startMouseInterception(Effect *effect, Qt::CursorShape 
     if (m_grabbedMouseEffects.size() != 1) {
         return;
     }
-    if (kwinApp()->operationMode() != Application::OperationModeX11) {
-        input()->pointer()->setEffectsOverrideCursor(shape);
-        return;
-    }
-    // NOTE: it is intended to not perform an XPointerGrab on X11. See documentation in kwineffects.h
-    // The mouse grab is implemented by using a full screen input only window
-    if (!m_mouseInterceptionWindow.isValid()) {
-        const QSize &s = screens()->size();
-        const QRect geo(0, 0, s.width(), s.height());
-        const uint32_t mask = XCB_CW_OVERRIDE_REDIRECT | XCB_CW_EVENT_MASK;
-        const uint32_t values[] = {
-            true,
-            XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE | XCB_EVENT_MASK_POINTER_MOTION
-        };
-        m_mouseInterceptionWindow.reset(Xcb::createInputWindow(geo, mask, values));
-        defineCursor(shape);
-    } else {
-        defineCursor(shape);
-    }
-    m_mouseInterceptionWindow.map();
-    m_mouseInterceptionWindow.raise();
-    // Raise electric border windows above the input windows
-    // so they can still be triggered.
-    ScreenEdges::self()->ensureOnTop();
+    doStartMouseInterception(shape);
+}
+
+void EffectsHandlerImpl::doStartMouseInterception(Qt::CursorShape shape)
+{
+    input()->pointer()->setEffectsOverrideCursor(shape);
 }
 
 void EffectsHandlerImpl::stopMouseInterception(Effect *effect)
@@ -701,14 +684,14 @@ void EffectsHandlerImpl::stopMouseInterception(Effect *effect)
         return;
     }
     m_grabbedMouseEffects.removeAll(effect);
-    if (kwinApp()->operationMode() != Application::OperationModeX11) {
-        input()->pointer()->removeEffectsOverrideCursor();
-        return;
-    }
     if (m_grabbedMouseEffects.isEmpty()) {
-        m_mouseInterceptionWindow.unmap();
-        Workspace::self()->stackScreenEdgesUnderOverrideRedirect();
+        doStopMouseInterception();
     }
+}
+
+void EffectsHandlerImpl::doStopMouseInterception()
+{
+    input()->pointer()->removeEffectsOverrideCursor();
 }
 
 bool EffectsHandlerImpl::isMouseInterception() const
@@ -799,17 +782,7 @@ bool EffectsHandlerImpl::hasKeyboardGrab() const
 void EffectsHandlerImpl::desktopResized(const QSize &size)
 {
     m_scene->screenGeometryChanged(size);
-    if (m_mouseInterceptionWindow.isValid()) {
-        m_mouseInterceptionWindow.setGeometry(QRect(0, 0, size.width(), size.height()));
-    }
     emit screenGeometryChanged(size);
-}
-
-void EffectsHandlerImpl::slotPropertyNotify(Toplevel* t, long int atom)
-{
-    if (!registered_atoms.contains(atom))
-        return;
-    emit propertyNotify(t->effectWindow(), atom);
 }
 
 void EffectsHandlerImpl::registerPropertyType(long atom, bool reg)
@@ -1223,49 +1196,7 @@ QSize EffectsHandlerImpl::virtualScreenSize() const
 
 void EffectsHandlerImpl::defineCursor(Qt::CursorShape shape)
 {
-    if (!m_mouseInterceptionWindow.isValid()) {
-        input()->pointer()->setEffectsOverrideCursor(shape);
-        return;
-    }
-    const xcb_cursor_t c = Cursor::x11Cursor(shape);
-    if (c != XCB_CURSOR_NONE) {
-        m_mouseInterceptionWindow.defineCursor(c);
-    }
-}
-
-bool EffectsHandlerImpl::checkInputWindowEvent(xcb_button_press_event_t *e)
-{
-    if (m_grabbedMouseEffects.isEmpty() || m_mouseInterceptionWindow != e->event) {
-        return false;
-    }
-    for (Effect *effect : m_grabbedMouseEffects) {
-        Qt::MouseButton button = x11ToQtMouseButton(e->detail);
-        Qt::MouseButtons buttons = x11ToQtMouseButtons(e->state);
-        const QEvent::Type type = ((e->response_type & ~0x80) == XCB_BUTTON_PRESS) ? QEvent::MouseButtonPress : QEvent::MouseButtonRelease;
-        if (type == QEvent::MouseButtonPress) {
-            buttons |= button;
-        } else {
-            buttons &= ~button;
-        }
-        QMouseEvent ev(type,
-                        QPoint(e->event_x, e->event_y), QPoint(e->root_x, e->root_y),
-                        button, buttons, x11ToQtKeyboardModifiers(e->state));
-        effect->windowInputMouseEvent(&ev);
-    }
-    return true; // eat event
-}
-
-bool EffectsHandlerImpl::checkInputWindowEvent(xcb_motion_notify_event_t *e)
-{
-    if (m_grabbedMouseEffects.isEmpty() || m_mouseInterceptionWindow != e->event) {
-        return false;
-    }
-    for (Effect *effect : m_grabbedMouseEffects) {
-        QMouseEvent ev(QEvent::MouseMove, QPoint(e->event_x, e->event_y), QPoint(e->root_x, e->root_y),
-                        Qt::NoButton, x11ToQtMouseButtons(e->state), x11ToQtKeyboardModifiers(e->state));
-        effect->windowInputMouseEvent(&ev);
-    }
-    return true; // eat event
+    input()->pointer()->setEffectsOverrideCursor(shape);
 }
 
 bool EffectsHandlerImpl::checkInputWindowEvent(QMouseEvent *e)
@@ -1320,13 +1251,11 @@ void EffectsHandlerImpl::checkInputWindowStacking()
     if (m_grabbedMouseEffects.isEmpty()) {
         return;
     }
-    if (kwinApp()->operationMode() != Application::OperationModeX11) {
-        return;
-    }
-    m_mouseInterceptionWindow.raise();
-    // Raise electric border windows above the input windows
-    // so they can still be triggered. TODO: Do both at once.
-    ScreenEdges::self()->ensureOnTop();
+    doCheckInputWindowStacking();
+}
+
+void EffectsHandlerImpl::doCheckInputWindowStacking()
+{
 }
 
 QPoint EffectsHandlerImpl::cursorPos() const

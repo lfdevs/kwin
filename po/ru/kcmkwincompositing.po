@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-05 02:49+0200\n"
-"PO-Revision-Date: 2017-02-02 20:38+0300\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"PO-Revision-Date: 2017-10-17 14:01+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -353,10 +353,9 @@ msgstr "Скрыть неподдерживаемые эффекты"
 msgid "Exclude internal Desktop Effects"
 msgstr "Скрыть внутренние эффекты"
 
-# BUGME: please remove space in front of ellipsis --aspotashev
 #: qml/EffectView.qml:104
 #, kde-format
-msgid "Get New Effects ..."
+msgid "Get New Effects..."
 msgstr "Получить новые эффекты..."
 
 

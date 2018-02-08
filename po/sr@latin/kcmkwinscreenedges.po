@@ -1,12 +1,12 @@
 # Translation of kcmkwinscreenedges.po into Serbian.
-# Chusslove Illich <caslav.ilic@gmx.net>, 2009, 2010, 2012, 2013, 2014, 2016, 2017.
+# Chusslove Illich <caslav.ilic@gmx.net>, 2009, 2010, 2012, 2013, 2014, 2016, 2017, 2018.
 # Dalibor Djuric <daliborddjuric@gmail.com>, 2010, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-08 03:04+0200\n"
-"PO-Revision-Date: 2017-05-01 19:43+0200\n"
+"POT-Creation-Date: 2017-12-30 03:13+0100\n"
+"PO-Revision-Date: 2018-01-06 09:21+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr@latin\n"
@@ -117,17 +117,17 @@ msgstr "obrni alternativno menjanje prozora"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
 #, kde-format
-msgid "Active Screen Edge Actions"
-msgstr "Radnje aktivne ivice ekrana"
+msgid "Active Screen Corners and Edges"
+msgstr "Aktivni uglovi i ivice ekrana"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
 #, kde-format
 msgid ""
-"To trigger an action push your mouse cursor against the edge of the screen "
-"in the action's direction."
+"Trigger an action by pushing the mouse cursor against the corresponding "
+"screen edge or corner"
 msgstr ""
-"Za okidanje radnje gurnite pokazivač miša uz ivicu ekrana u smeru radnje."
+"Okinite radnju gurnuvši pokazivač miša uz odgovarajuću ivicu ili ugao ekrana."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
@@ -138,14 +138,14 @@ msgstr "Upravljanje prozorima"
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
 #, kde-format
-msgid "Maximize windows by dragging them to the top of the screen"
-msgstr "Maksimizuj prozore prevučene na vrh ekrana"
+msgid "Maximize windows by dragging them to the top edge of the screen"
+msgstr "Maksimizuj prozore prevučene uz gornju ivicu ekrana"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
 #, kde-format
-msgid "Tile windows by dragging them to the side of the screen"
-msgstr "Popločaj prozore prevučene uz strane ekrana"
+msgid "Tile windows by dragging them to the left or right edges of the screen"
+msgstr "Popločaj prozore prevučene uz levu ili desnu ivicu ekrana"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
@@ -244,6 +244,6 @@ msgstr "Zastoj &ponovnog aktiviranja:"
 #: touch.ui:36
 #, kde-format
 msgid ""
-"To trigger an action swipe from the screen edge towards the center of the "
-"screen."
-msgstr "Za okidanje radnje zamahnite sa ivice ka središtu ekrana."
+"Trigger an action by swiping from the screen edge towards the center of the "
+"screen"
+msgstr "Okinite radnju zamahnuvši sa centra ka ivici ekrana"

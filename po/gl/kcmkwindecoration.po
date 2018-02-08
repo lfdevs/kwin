@@ -199,4 +199,4 @@ msgstr "Arrastrar botóns entre esta zona e a barra do título."
 #: qml/Buttons.qml:216
 #, kde-format
 msgid "Drop here to remove button"
-msgstr "Solte aquí para eliminar o botón."
+msgstr "Solte aquí para retirar o botón."

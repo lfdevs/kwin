@@ -1,12 +1,12 @@
 # Translation of kwin_effects.po into Serbian.
-# Chusslove Illich <caslav.ilic@gmx.net>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017.
+# Chusslove Illich <caslav.ilic@gmx.net>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018.
 # Dalibor Djuric <daliborddjuric@gmail.com>, 2009, 2010, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-09-13 07:08+0200\n"
-"PO-Revision-Date: 2017-09-28 17:58+0200\n"
+"POT-Creation-Date: 2018-01-02 03:18+0100\n"
+"PO-Revision-Date: 2018-01-06 09:21+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr\n"
@@ -64,7 +64,7 @@ msgstr ""
 "Изаберите положај за хватање боје левим кликом или Enter‑ом.\n"
 "Escape или десни клик за одустајање."
 
-#: coverswitch/coverswitch.cpp:951 flipswitch/flipswitch.cpp:935
+#: coverswitch/coverswitch.cpp:952 flipswitch/flipswitch.cpp:935
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -146,7 +146,7 @@ msgid "Default"
 msgstr "подразумевано"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
-#: coverswitch/coverswitch_config.ui:161
+#: coverswitch/coverswitch_config.ui:161 slide/slide_config.ui:39
 #, kde-format
 msgid " milliseconds"
 msgstr " милисекунди"
@@ -1666,7 +1666,7 @@ msgstr ""
 "Направите снимак екрана левим кликом или Enter‑ом.\n"
 "Escape или десни клик за одустајање."
 
-#: showfps/showfps.cpp:62
+#: showfps/showfps.cpp:63
 #, kde-format
 msgid "This effect is not a benchmark"
 msgstr "Овај ефекат није одмеравање"
@@ -1736,6 +1736,19 @@ msgstr "Боја текста:"
 #, kde-format
 msgid "Text alpha:"
 msgstr "Алфа текста:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: slide/slide_config.ui:17
+#, kde-format
+msgid "Duration:"
+msgstr "Трајање:"
+
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
+#: slide/slide_config.ui:36
+#, kde-format
+msgctxt "Duration of the slide animation"
+msgid "Default"
+msgstr "подразумевано"
 
 #: thumbnailaside/thumbnailaside.cpp:38
 #: thumbnailaside/thumbnailaside_config.cpp:73
@@ -1882,7 +1895,7 @@ msgstr "Искачући менији:"
 msgid "Torn-off menus:"
 msgstr "Отцепљени менији:"
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:53
 #, kde-format
 msgid "Toggle window geometry display (effect only)"
 msgstr "Приказ геометрије прозора (само ефекат)"

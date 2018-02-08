@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
+"POT-Creation-Date: 2017-12-06 05:35+0100\n"
 "PO-Revision-Date: 2013-09-15 06:47+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -175,19 +175,19 @@ msgid "N&umber of rows:"
 msgstr "Бағандар саны: "
 
 #. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
-#: main.ui:103
+#: main.ui:109
 #, kde-format
 msgid "Desktop Names"
 msgstr "Үстел атаулары"
 
 #. i18n: ectx: attribute (title), widget (QWidget, switching)
-#: main.ui:136
+#: main.ui:142
 #, kde-format
 msgid "Switching"
 msgstr "Ауысу"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, wrapAroundBox)
-#: main.ui:142
+#: main.ui:148
 #, kde-format
 msgid ""
 "Enable this option if you want keyboard or active desktop border navigation "
@@ -198,43 +198,43 @@ msgstr ""
 "сыртындағы навигациясы жаңа үстелдің қарсы шетіне шығарады."
 
 #. i18n: ectx: property (text), widget (QCheckBox, wrapAroundBox)
-#: main.ui:145
+#: main.ui:151
 #, kde-format
 msgid "Desktop navigation wraps around"
 msgstr "Тұйық үстел навигациясы"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: main.ui:152
+#: main.ui:158
 #, kde-format
 msgid "Desktop Effect Animation"
 msgstr "Үстел эффект анимациясы"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: main.ui:164
+#: main.ui:170
 #, kde-format
 msgid "Animation:"
 msgstr "Анимация"
 
 #. i18n: ectx: property (title), widget (QGroupBox, popupInfoCheckBox)
-#: main.ui:204
+#: main.ui:210
 #, kde-format
 msgid "Desktop Switch On-Screen Display"
 msgstr "Экрандағы үстелара ауысу панелі"
 
 #. i18n: ectx: property (text), widget (QLabel, hideLabel)
-#: main.ui:222
+#: main.ui:228
 #, kde-format
 msgid "Duration:"
 msgstr "Ұзақтығы:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, popupHideSpinBox)
-#: main.ui:232
+#: main.ui:238
 #, kde-format
 msgid " msec"
 msgstr " мсек"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
-#: main.ui:245
+#: main.ui:251
 #, kde-format
 msgid ""
 "Enabling this option will show a small preview of the desktop layout "
@@ -244,19 +244,19 @@ msgstr ""
 "көрсетіледі."
 
 #. i18n: ectx: property (text), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
-#: main.ui:248
+#: main.ui:254
 #, kde-format
 msgid "Show desktop layout indicators"
 msgstr "Үстелдегінін орналасу индикаторы болсын"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shortcutsGroupBox)
-#: main.ui:258
+#: main.ui:264
 #, kde-format
 msgid "Shortcuts"
 msgstr "Тіркесімдер"
 
 #. i18n: ectx: property (text), widget (QCheckBox, allShortcutsCheckBox)
-#: main.ui:277
+#: main.ui:283
 #, kde-format
 msgid "Show shortcuts for all possible desktops"
 msgstr "Бар және болуға мүмкін үстелдерінің перне тіркесімдері"

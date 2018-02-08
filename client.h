@@ -43,8 +43,6 @@ class QTimer;
 class KStartupInfoData;
 class KStartupInfoId;
 
-struct xcb_sync_alarm_notify_event_t;
-
 namespace KWin
 {
 
@@ -109,10 +107,6 @@ public:
     Group* group();
     void checkGroup(Group* gr = NULL, bool force = false);
     void changeClientLeaderGroup(Group* gr);
-    const WindowRules* rules() const override;
-    void removeRule(Rules* r);
-    void setupWindowRules(bool ignore_temporary);
-    void applyWindowRules();
     void updateWindowRules(Rules::Types selection) override;
     void updateFullscreenMonitors(NETFullscreenMonitors topology);
 
@@ -125,7 +119,6 @@ public:
     QPoint inputPos() const { return input_offset; } // Inside of geometry()
 
     bool windowEvent(xcb_generic_event_t *e);
-    void syncEvent(xcb_sync_alarm_notify_event_t* e);
     NET::WindowType windowType(bool direct = false, int supported_types = 0) const;
 
     bool manage(xcb_window_t w, bool isMapped);
@@ -135,7 +128,7 @@ public:
     virtual QStringList activities() const;
     void setOnActivity(const QString &activity, bool enable);
     void setOnAllActivities(bool set) override;
-    void setOnActivities(QStringList newActivitiesList);
+    void setOnActivities(QStringList newActivitiesList) override;
     void updateActivities(bool includeTransients);
     void blockActivityUpdates(bool b = true) override;
 
@@ -156,8 +149,6 @@ public:
 
     void setFullScreen(bool set, bool user = true) override;
     bool isFullScreen() const override;
-    bool isFullScreenable() const override;
-    bool isFullScreenable(bool fullscreen_hack) const;
     bool userCanSetFullScreen() const override;
     QRect geometryFSRestore() const {
         return geom_fs_restore;    // Only for session saving
@@ -169,7 +160,7 @@ public:
     bool noBorder() const override;
     void setNoBorder(bool set) override;
     bool userCanSetNoBorder() const override;
-    void checkNoBorder();
+    void checkNoBorder() override;
 
     int sessionStackingOrder() const;
 
@@ -315,7 +306,7 @@ public:
     void updateFirstInTabBox();
     Xcb::StringProperty fetchColorScheme() const;
     void readColorScheme(Xcb::StringProperty &property);
-    void updateColorScheme();
+    void updateColorScheme() override;
 
     //sets whether the client should be faked as being on all activities (and be shown during session save)
     void setSessionActivityOverride(bool needed);
@@ -340,12 +331,24 @@ public:
     void readApplicationMenuObjectPath(Xcb::StringProperty &property);
     void checkApplicationMenuObjectPath();
 
+    struct SyncRequest {
+        xcb_sync_counter_t counter;
+        xcb_sync_int64_t value;
+        xcb_sync_alarm_t alarm;
+        xcb_timestamp_t lastTimestamp;
+        QTimer *timeout, *failsafeTimeout;
+        bool isPending;
+    };
+    const SyncRequest &getSyncRequest() const {
+        return syncRequest;
+    }
+    void handleSync();
+
     static void cleanupX11();
 
 public Q_SLOTS:
     void closeWindow() override;
     void updateCaption() override;
-    void evaluateWindowRules();
 
 private Q_SLOTS:
     void shadeHover();
@@ -386,7 +389,6 @@ protected:
     void doSetSkipPager() override;
     void doSetSkipTaskbar() override;
     bool belongsToDesktop() const override;
-    bool isActiveFullScreen() const override;
     void setGeometryRestore(const QRect &geo) override;
     void updateTabGroupStates(TabGroup::States states) override;
     void doMove(int x, int y) override;
@@ -450,7 +452,6 @@ private:
     QString readName() const;
     void setCaption(const QString& s, bool force = false);
     bool hasTransientInternal(const Client* c, bool indirect, ConstClientList& set) const;
-    void finishWindowRules();
     void setShortcutInternal() override;
 
     void configureRequest(int value_mask, int rx, int ry, int rw, int rh, int gravity, bool from_tool);
@@ -547,7 +548,6 @@ private:
     uint app_noborder : 1; ///< App requested no border via window type, shape extension, etc.
     uint ignore_focus_stealing : 1; ///< Don't apply focus stealing prevention to this client
     bool blocks_compositing;
-    WindowRules client_rules;
     // DON'T reorder - Saved to config files !!!
     enum FullScreenMode {
         FullScreenNone,
@@ -570,14 +570,7 @@ private:
     NET::Actions allowed_actions;
     QSize client_size;
     bool shade_geometry_change;
-    struct {
-        xcb_sync_counter_t counter;
-        xcb_sync_int64_t value;
-        xcb_sync_alarm_t alarm;
-        xcb_timestamp_t lastTimestamp;
-        QTimer *timeout, *failsafeTimeout;
-        bool isPending;
-    } syncRequest;
+    SyncRequest syncRequest;
     static bool check_active_modal; ///< \see Client::checkActiveModal()
     int sm_stacking_order;
     friend struct ResetupRulesProcedure;
@@ -727,19 +720,9 @@ inline bool Client::hasUserTimeSupport() const
     return info->userTime() != -1U;
 }
 
-inline const WindowRules* Client::rules() const
-{
-    return &client_rules;
-}
-
 inline xcb_window_t Client::moveResizeGrabWindow() const
 {
     return m_moveResizeGrabWindow;
-}
-
-inline void Client::removeRule(Rules* rule)
-{
-    client_rules.remove(rule);
 }
 
 inline bool Client::hiddenPreview() const

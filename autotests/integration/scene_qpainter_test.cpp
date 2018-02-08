@@ -88,7 +88,12 @@ void SceneQPainterTest::initTestCase()
     config->sync();
     kwinApp()->setConfig(config);
 
-    qputenv("XCURSOR_THEME", QByteArrayLiteral("DMZ-White"));
+    if (!QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("icons/DMZ-White/index.theme")).isEmpty()) {
+        qputenv("XCURSOR_THEME", QByteArrayLiteral("DMZ-White"));
+    } else {
+        // might be vanilla-dmz (e.g. Arch, FreeBSD)
+        qputenv("XCURSOR_THEME", QByteArrayLiteral("Vanilla-DMZ"));
+    }
     qputenv("XCURSOR_SIZE", QByteArrayLiteral("24"));
     qputenv("KWIN_COMPOSE", QByteArrayLiteral("Q"));
 
@@ -151,6 +156,7 @@ void SceneQPainterTest::testWindow_data()
 
     QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell;
     QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5;
+    QTest::newRow("xdgShellV6") << Test::ShellSurfaceType::XdgShellV6;
 }
 
 void SceneQPainterTest::testWindow()
@@ -255,6 +261,7 @@ void SceneQPainterTest::testCompositorRestart_data()
 
     QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell;
     QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5;
+    QTest::newRow("xdgShellV6") << Test::ShellSurfaceType::XdgShellV6;
 }
 
 void SceneQPainterTest::testCompositorRestart()

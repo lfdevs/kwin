@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-05 02:49+0200\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
 "PO-Revision-Date: 2013-12-06 09:20-0600\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
@@ -343,6 +343,7 @@ msgid "Exclude internal Desktop Effects"
 msgstr "ਡੈਸਕਟਾਪ ਪਰਭਾਵ ਸਸਪੈਂਡ"
 
 #: qml/EffectView.qml:104
-#, kde-format
-msgid "Get New Effects ..."
+#, fuzzy, kde-format
+#| msgid "Get New Effects ..."
+msgid "Get New Effects..."
 msgstr "...ਨਵੇਂ ਪਰਭਾਵ ਲਵੋ"

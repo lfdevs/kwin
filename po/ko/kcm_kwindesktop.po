@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
+"POT-Creation-Date: 2017-12-06 05:35+0100\n"
 "PO-Revision-Date: 2014-08-23 23:34+0900\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
@@ -170,19 +170,19 @@ msgid "N&umber of rows:"
 msgstr "줄 개수(&U):"
 
 #. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
-#: main.ui:103
+#: main.ui:109
 #, kde-format
 msgid "Desktop Names"
 msgstr "데스크톱 이름"
 
 #. i18n: ectx: attribute (title), widget (QWidget, switching)
-#: main.ui:136
+#: main.ui:142
 #, kde-format
 msgid "Switching"
 msgstr "전환"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, wrapAroundBox)
-#: main.ui:142
+#: main.ui:148
 #, kde-format
 msgid ""
 "Enable this option if you want keyboard or active desktop border navigation "
@@ -193,43 +193,43 @@ msgstr ""
 "을 넘어서 탐색하면 새 데스크톱의 반대편 경계선으로 갑니다."
 
 #. i18n: ectx: property (text), widget (QCheckBox, wrapAroundBox)
-#: main.ui:145
+#: main.ui:151
 #, kde-format
 msgid "Desktop navigation wraps around"
 msgstr "데스크톱 탐색 둘러싸기"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: main.ui:152
+#: main.ui:158
 #, kde-format
 msgid "Desktop Effect Animation"
 msgstr "데스크톱 전환 애니메이션"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: main.ui:164
+#: main.ui:170
 #, kde-format
 msgid "Animation:"
 msgstr "애니메이션:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, popupInfoCheckBox)
-#: main.ui:204
+#: main.ui:210
 #, kde-format
 msgid "Desktop Switch On-Screen Display"
 msgstr "데스크톱 전환 표시하기"
 
 #. i18n: ectx: property (text), widget (QLabel, hideLabel)
-#: main.ui:222
+#: main.ui:228
 #, kde-format
 msgid "Duration:"
 msgstr "표시 시간:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, popupHideSpinBox)
-#: main.ui:232
+#: main.ui:238
 #, kde-format
 msgid " msec"
 msgstr " 밀리초"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
-#: main.ui:245
+#: main.ui:251
 #, kde-format
 msgid ""
 "Enabling this option will show a small preview of the desktop layout "
@@ -239,19 +239,19 @@ msgstr ""
 "니다."
 
 #. i18n: ectx: property (text), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
-#: main.ui:248
+#: main.ui:254
 #, kde-format
 msgid "Show desktop layout indicators"
 msgstr "데스크톱 레이아웃 표시기 보이기"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shortcutsGroupBox)
-#: main.ui:258
+#: main.ui:264
 #, kde-format
 msgid "Shortcuts"
 msgstr "단축키"
 
 #. i18n: ectx: property (text), widget (QCheckBox, allShortcutsCheckBox)
-#: main.ui:277
+#: main.ui:283
 #, kde-format
 msgid "Show shortcuts for all possible desktops"
 msgstr "모든 데스크톱에 사용 가능한 단축키 보이기"

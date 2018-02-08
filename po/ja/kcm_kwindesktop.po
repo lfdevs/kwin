@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
+"POT-Creation-Date: 2017-12-06 05:35+0100\n"
 "PO-Revision-Date: 2015-05-22 22:20-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -173,19 +173,19 @@ msgid "N&umber of rows:"
 msgstr "段数(&U):"
 
 #. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
-#: main.ui:103
+#: main.ui:109
 #, kde-format
 msgid "Desktop Names"
 msgstr "デスクトップ名"
 
 #. i18n: ectx: attribute (title), widget (QWidget, switching)
-#: main.ui:136
+#: main.ui:142
 #, kde-format
 msgid "Switching"
 msgstr "切り替え"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, wrapAroundBox)
-#: main.ui:142
+#: main.ui:148
 #, kde-format
 msgid ""
 "Enable this option if you want keyboard or active desktop border navigation "
@@ -197,43 +197,43 @@ msgstr ""
 "が最初のデスクトップになります。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, wrapAroundBox)
-#: main.ui:145
+#: main.ui:151
 #, kde-format
 msgid "Desktop navigation wraps around"
 msgstr "デスクトップの循環"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: main.ui:152
+#: main.ui:158
 #, kde-format
 msgid "Desktop Effect Animation"
 msgstr "デスクトップ効果のアニメーション"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: main.ui:164
+#: main.ui:170
 #, kde-format
 msgid "Animation:"
 msgstr "アニメーション:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, popupInfoCheckBox)
-#: main.ui:204
+#: main.ui:210
 #, kde-format
 msgid "Desktop Switch On-Screen Display"
 msgstr "デスクトップ切り替えのオンスクリーンディスプレイ"
 
 #. i18n: ectx: property (text), widget (QLabel, hideLabel)
-#: main.ui:222
+#: main.ui:228
 #, kde-format
 msgid "Duration:"
 msgstr "長さ:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, popupHideSpinBox)
-#: main.ui:232
+#: main.ui:238
 #, kde-format
 msgid " msec"
 msgstr " ミリ秒"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
-#: main.ui:245
+#: main.ui:251
 #, kde-format
 msgid ""
 "Enabling this option will show a small preview of the desktop layout "
@@ -243,19 +243,19 @@ msgstr ""
 "選択されたデスクトップを示す小さなプレビューが表示されます。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
-#: main.ui:248
+#: main.ui:254
 #, kde-format
 msgid "Show desktop layout indicators"
 msgstr "デスクトップ配置インジケータを表示する"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shortcutsGroupBox)
-#: main.ui:258
+#: main.ui:264
 #, kde-format
 msgid "Shortcuts"
 msgstr "ショートカット"
 
 #. i18n: ectx: property (text), widget (QCheckBox, allShortcutsCheckBox)
-#: main.ui:277
+#: main.ui:283
 #, kde-format
 msgid "Show shortcuts for all possible desktops"
 msgstr "可能なすべてのデスクトップのショートカットを表示する"

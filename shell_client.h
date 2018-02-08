@@ -29,6 +29,8 @@ namespace Server
 {
 class ShellSurfaceInterface;
 class ServerSideDecorationInterface;
+class ServerSideDecorationPaletteInterface;
+class AppMenuInterface;
 class PlasmaShellSurfaceInterface;
 class QtExtendedSurfaceInterface;
 }
@@ -37,6 +39,14 @@ class QtExtendedSurfaceInterface;
 namespace KWin
 {
 
+/**
+ * @brief The reason for which the server pinged a client surface
+ */
+enum class PingReason {
+    CloseWindow = 0,
+    FocusWindow
+};
+    
 class KWIN_EXPORT ShellClient : public AbstractClient
 {
     Q_OBJECT
@@ -72,7 +82,6 @@ public:
     void closeWindow() override;
     AbstractClient *findModal(bool allow_itself = false) override;
     bool isCloseable() const override;
-    bool isFullScreenable() const override;
     bool isFullScreen() const override;
     bool isMaximizable() const override;
     bool isMinimizable() const override;
@@ -89,13 +98,11 @@ public:
         return m_geomMaximizeRestore;
     }
     bool noBorder() const override;
-    const WindowRules *rules() const override;
     void setFullScreen(bool set, bool user = true) override;
     void setNoBorder(bool set) override;
     void updateDecoration(bool check_workspace_pos, bool force = false) override;
     void setOnAllActivities(bool set) override;
     void takeFocus() override;
-    void updateWindowRules(Rules::Types selection) override;
     bool userCanSetFullScreen() const override;
     bool userCanSetNoBorder() const override;
     bool wantsInput() const override;
@@ -130,8 +137,10 @@ public:
     void installPlasmaShellSurface(KWayland::Server::PlasmaShellSurfaceInterface *surface);
     void installQtExtendedSurface(KWayland::Server::QtExtendedSurfaceInterface *surface);
     void installServerSideDecoration(KWayland::Server::ServerSideDecorationInterface *decoration);
+    void installAppMenu(KWayland::Server::AppMenuInterface *appmenu);
+    void installPalette(KWayland::Server::ServerSideDecorationPaletteInterface *palette);
 
-    bool isInitialPositionSet() const;
+    bool isInitialPositionSet() const override;
 
     bool isTransient() const override;
     bool hasTransientPlacementHint() const override;
@@ -149,10 +158,10 @@ public:
     // TODO: const-ref
     void placeIn(QRect &area);
 
-    void updateApplicationMenu();
-
     bool hasPopupGrab() const override;
     void popupDone() override;
+
+    void updateColorScheme() override;
 
 protected:
     void addDamage(const QRegion &damage) override;
@@ -212,12 +221,15 @@ private:
     NET::WindowType m_windowType = NET::Normal;
     QPointer<KWayland::Server::PlasmaShellSurfaceInterface> m_plasmaShellSurface;
     QPointer<KWayland::Server::QtExtendedSurfaceInterface> m_qtExtendedSurface;
+    QPointer<KWayland::Server::AppMenuInterface> m_appMenuInterface;
+    QPointer<KWayland::Server::ServerSideDecorationPaletteInterface> m_paletteInterface;
     KWayland::Server::ServerSideDecorationInterface *m_serverDecoration = nullptr;
     bool m_userNoBorder = false;
     bool m_fullScreen = false;
     bool m_transient = false;
     bool m_hidden = false;
     bool m_internal;
+    bool m_hasPopupGrab = false;
     qreal m_opacity = 1.0;
 
     class RequestGeometryBlocker {
@@ -244,6 +256,7 @@ private:
     QRect m_blockedRequestGeometry;
     QString m_caption;
     QString m_captionSuffix;
+    QHash<qint32, PingReason> m_pingSerials;
 
     bool m_compositingSetup = false;
 };

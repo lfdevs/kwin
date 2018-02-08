@@ -26,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "wayland_server.h"
 #include "workspace.h"
 
+#include <QDBusConnection>
+
 #include <KWayland/Client/connection_thread.h>
 #include <KWayland/Client/compositor.h>
 #include <KWayland/Client/shell.h>
@@ -33,10 +35,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/server_decoration.h>
 #include <KWayland/Client/surface.h>
 #include <KWayland/Client/xdgshell.h>
+#include <KWayland/Client/appmenu.h>
 
 #include <KWayland/Server/clientconnection.h>
 #include <KWayland/Server/display.h>
 #include <KWayland/Server/shell_interface.h>
+
 
 // system
 #include <sys/types.h>
@@ -66,6 +70,11 @@ private Q_SLOTS:
     void testMinimizeActiveWindow();
     void testFullscreen_data();
     void testFullscreen();
+    void testUserCanSetFullscreen_data();
+    void testUserCanSetFullscreen();
+    void testUserSetFullscreenWlShell();
+    void testUserSetFullscreenXdgShell_data();
+    void testUserSetFullscreenXdgShell();
     void testMaximizedToFullscreen_data();
     void testMaximizedToFullscreen();
     void testWindowOpensLargerThanScreen_data();
@@ -75,10 +84,11 @@ private Q_SLOTS:
     void testDesktopFileName();
     void testCaptionSimplified();
     void testCaptionMultipleWindows();
-    void testKillWindow_data();
-    void testKillWindow();
+    void testUnresponsiveWindow_data();
+    void testUnresponsiveWindow();
     void testX11WindowId_data();
     void testX11WindowId();
+    void testAppMenu();
 };
 
 void TestShellClient::initTestCase()
@@ -103,7 +113,8 @@ void TestShellClient::initTestCase()
 
 void TestShellClient::init()
 {
-    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::Decoration));
+    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::Decoration |
+                                         Test::AdditionalWaylandInterface::AppMenu));
 
     screens()->setCurrent(0);
     KWin::Cursor::setPos(QPoint(1280, 512));
@@ -120,6 +131,7 @@ void TestShellClient::testMapUnmapMap_data()
 
     QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell;
     QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5;
+    QTest::newRow("xdgShellV6") << Test::ShellSurfaceType::XdgShellV6;
 }
 
 void TestShellClient::testMapUnmapMap()
@@ -281,6 +293,7 @@ void TestShellClient::testWindowOutputs_data()
 
     QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell;
     QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5;
+    QTest::newRow("xdgShellV6") << Test::ShellSurfaceType::XdgShellV6;
 }
 
 void TestShellClient::testWindowOutputs()
@@ -327,6 +340,7 @@ void TestShellClient::testMinimizeActiveWindow_data()
 
     QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell;
     QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5;
+    QTest::newRow("xdgShellV6") << Test::ShellSurfaceType::XdgShellV6;
 }
 
 void TestShellClient::testMinimizeActiveWindow()
@@ -368,9 +382,12 @@ void TestShellClient::testFullscreen_data()
 
     QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell << ServerSideDecoration::Mode::Client;
     QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5 << ServerSideDecoration::Mode::Client;
+    QTest::newRow("xdgShellV6") << Test::ShellSurfaceType::XdgShellV6 << ServerSideDecoration::Mode::Client;
+
 
     QTest::newRow("wlShell - deco") << Test::ShellSurfaceType::WlShell << ServerSideDecoration::Mode::Server;
     QTest::newRow("xdgShellV5 - deco") << Test::ShellSurfaceType::XdgShellV5 << ServerSideDecoration::Mode::Server;
+    QTest::newRow("xdgShellV6 - deco") << Test::ShellSurfaceType::XdgShellV6 << ServerSideDecoration::Mode::Server;
 }
 
 void TestShellClient::testFullscreen()
@@ -411,6 +428,7 @@ void TestShellClient::testFullscreen()
         qobject_cast<ShellSurface*>(shellSurface.data())->setFullscreen();
         break;
     case Test::ShellSurfaceType::XdgShellV5:
+    case Test::ShellSurfaceType::XdgShellV6:
         qobject_cast<XdgShellSurface*>(shellSurface.data())->setFullscreen(true);
         break;
     default:
@@ -441,6 +459,7 @@ void TestShellClient::testFullscreen()
         qobject_cast<ShellSurface*>(shellSurface.data())->setToplevel();
         break;
     case Test::ShellSurfaceType::XdgShellV5:
+    case Test::ShellSurfaceType::XdgShellV6:
         qobject_cast<XdgShellSurface*>(shellSurface.data())->setFullscreen(false);
         break;
     default:
@@ -457,6 +476,97 @@ void TestShellClient::testFullscreen()
     QCOMPARE(c->isDecorated(), decoMode == ServerSideDecoration::Mode::Server);
 }
 
+void TestShellClient::testUserCanSetFullscreen_data()
+{
+    QTest::addColumn<Test::ShellSurfaceType>("type");
+    QTest::addColumn<bool>("expected");
+
+    QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell << false;
+    QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5 << true;
+    QTest::newRow("xdgShellV6") << Test::ShellSurfaceType::XdgShellV6 << true;
+}
+
+void TestShellClient::testUserCanSetFullscreen()
+{
+    QScopedPointer<Surface> surface(Test::createSurface());
+    QFETCH(Test::ShellSurfaceType, type);
+    QScopedPointer<QObject> shellSurface(Test::createShellSurface(type, surface.data()));
+    auto c = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
+    QVERIFY(c);
+    QVERIFY(c->isActive());
+    QVERIFY(!c->isFullScreen());
+    QTEST(c->userCanSetFullScreen(), "expected");
+}
+
+void TestShellClient::testUserSetFullscreenWlShell()
+{
+    // wlshell cannot sync fullscreen to the client
+    QScopedPointer<Surface> surface(Test::createSurface());
+    QScopedPointer<ShellSurface> shellSurface(Test::createShellSurface(surface.data()));
+    auto c = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
+    QVERIFY(c);
+    QVERIFY(c->isActive());
+    QVERIFY(!c->isFullScreen());
+    QSignalSpy fullscreenChangedSpy(c, &AbstractClient::fullScreenChanged);
+    QVERIFY(fullscreenChangedSpy.isValid());
+    c->setFullScreen(true);
+    QCOMPARE(fullscreenChangedSpy.count(), 0);
+    QVERIFY(!c->isFullScreen());
+}
+
+void TestShellClient::testUserSetFullscreenXdgShell_data()
+{
+    QTest::addColumn<Test::ShellSurfaceType>("type");
+
+    QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5;
+    QTest::newRow("xdgShellV6") << Test::ShellSurfaceType::XdgShellV6;
+}
+
+void TestShellClient::testUserSetFullscreenXdgShell()
+{
+    QScopedPointer<Surface> surface(Test::createSurface());
+    QFETCH(Test::ShellSurfaceType, type);
+    QScopedPointer<XdgShellSurface> shellSurface(dynamic_cast<XdgShellSurface*>(Test::createShellSurface(type, surface.data())));
+    QVERIFY(!shellSurface.isNull());
+    QSignalSpy configureRequestedSpy(shellSurface.data(), &XdgShellSurface::configureRequested);
+    QVERIFY(configureRequestedSpy.isValid());
+    auto c = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
+    QVERIFY(c);
+    QVERIFY(c->isActive());
+    QVERIFY(!c->isFullScreen());
+
+    // two, one for initial sync, second as it becomes active
+    QTRY_COMPARE(configureRequestedSpy.count(), 2);
+
+    QSignalSpy fullscreenChangedSpy(c, &AbstractClient::fullScreenChanged);
+    QVERIFY(fullscreenChangedSpy.isValid());
+    c->setFullScreen(true);
+    QCOMPARE(c->isFullScreen(), true);
+    configureRequestedSpy.clear();
+    QVERIFY(configureRequestedSpy.wait());
+    QCOMPARE(configureRequestedSpy.count(), 1);
+    QCOMPARE(configureRequestedSpy.first().at(0).toSize(), screens()->size(0));
+    const auto states = configureRequestedSpy.first().at(1).value<KWayland::Client::XdgShellSurface::States>();
+    QVERIFY(states.testFlag(KWayland::Client::XdgShellSurface::State::Fullscreen));
+    QVERIFY(states.testFlag(KWayland::Client::XdgShellSurface::State::Activated));
+    QVERIFY(!states.testFlag(KWayland::Client::XdgShellSurface::State::Maximized));
+    QVERIFY(!states.testFlag(KWayland::Client::XdgShellSurface::State::Resizing));
+    QCOMPARE(fullscreenChangedSpy.count(), 1);
+    QVERIFY(c->isFullScreen());
+
+    shellSurface->ackConfigure(configureRequestedSpy.first().at(2).value<quint32>());
+
+    // unset fullscreen again
+    c->setFullScreen(false);
+    QCOMPARE(c->isFullScreen(), false);
+    configureRequestedSpy.clear();
+    QVERIFY(configureRequestedSpy.wait());
+    QCOMPARE(configureRequestedSpy.count(), 1);
+    QCOMPARE(configureRequestedSpy.first().at(0).toSize(), QSize(100, 50));
+    QVERIFY(!configureRequestedSpy.first().at(1).value<KWayland::Client::XdgShellSurface::States>().testFlag(KWayland::Client::XdgShellSurface::State::Fullscreen));
+    QCOMPARE(fullscreenChangedSpy.count(), 2);
+    QVERIFY(!c->isFullScreen());
+}
 
 void TestShellClient::testMaximizedToFullscreen_data()
 {
@@ -465,9 +575,11 @@ void TestShellClient::testMaximizedToFullscreen_data()
 
     QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell << ServerSideDecoration::Mode::Client;
     QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5 << ServerSideDecoration::Mode::Client;
+    QTest::newRow("xdgShellV6") << Test::ShellSurfaceType::XdgShellV6 << ServerSideDecoration::Mode::Client;
 
     QTest::newRow("wlShell - deco") << Test::ShellSurfaceType::WlShell << ServerSideDecoration::Mode::Server;
     QTest::newRow("xdgShellV5 - deco") << Test::ShellSurfaceType::XdgShellV5 << ServerSideDecoration::Mode::Server;
+    QTest::newRow("xdgShellV6 - deco") << Test::ShellSurfaceType::XdgShellV6 << ServerSideDecoration::Mode::Server;
 }
 
 void TestShellClient::testMaximizedToFullscreen()
@@ -506,6 +618,7 @@ void TestShellClient::testMaximizedToFullscreen()
         qobject_cast<ShellSurface*>(shellSurface.data())->setMaximized();
         break;
     case Test::ShellSurfaceType::XdgShellV5:
+    case Test::ShellSurfaceType::XdgShellV6:
         qobject_cast<XdgShellSurface*>(shellSurface.data())->setMaximized(true);
         break;
     default:
@@ -524,6 +637,7 @@ void TestShellClient::testMaximizedToFullscreen()
         qobject_cast<ShellSurface*>(shellSurface.data())->setFullscreen();
         break;
     case Test::ShellSurfaceType::XdgShellV5:
+    case Test::ShellSurfaceType::XdgShellV6:
         qobject_cast<XdgShellSurface*>(shellSurface.data())->setFullscreen(true);
         break;
     default:
@@ -556,6 +670,7 @@ void TestShellClient::testMaximizedToFullscreen()
         qobject_cast<ShellSurface*>(shellSurface.data())->setToplevel();
         break;
     case Test::ShellSurfaceType::XdgShellV5:
+    case Test::ShellSurfaceType::XdgShellV6:
         qobject_cast<XdgShellSurface*>(shellSurface.data())->setFullscreen(false);
         break;
     default:
@@ -567,6 +682,7 @@ void TestShellClient::testMaximizedToFullscreen()
     QCOMPARE(sizeChangeRequestedSpy.count(), 1);
     QEXPECT_FAIL("wlShell - deco", "With decoration incorrect geometry requested", Continue);
     QEXPECT_FAIL("xdgShellV5 - deco", "With decoration incorrect geometry requested", Continue);
+    QEXPECT_FAIL("xdgShellV6 - deco", "With decoration incorrect geometry requested", Continue);
     QCOMPARE(sizeChangeRequestedSpy.last().first().toSize(), QSize(100, 50));
     // TODO: should switch to fullscreen once it's updated
     QVERIFY(!c->isFullScreen());
@@ -579,6 +695,7 @@ void TestShellClient::testWindowOpensLargerThanScreen_data()
 
     QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell;
     QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5;
+    QTest::newRow("xdgShellV6") << Test::ShellSurfaceType::XdgShellV6;
 }
 
 void TestShellClient::testWindowOpensLargerThanScreen()
@@ -615,6 +732,7 @@ void TestShellClient::testHidden_data()
 
     QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell;
     QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5;
+    QTest::newRow("xdgShellV6") << Test::ShellSurfaceType::XdgShellV6;
 }
 
 void TestShellClient::testHidden()
@@ -741,26 +859,35 @@ void TestShellClient::testCaptionMultipleWindows()
     QCOMPARE(c4->captionSuffix(), QStringLiteral(" <4>"));
 }
 
-void TestShellClient::testKillWindow_data()
+void TestShellClient::testUnresponsiveWindow_data()
 {
+    QTest::addColumn<QString>("shellInterface");//see env selection in qwaylandintegration.cpp
     QTest::addColumn<bool>("socketMode");
 
-    QTest::newRow("display") << false;
-    QTest::newRow("socket") << true;
+    //wl-shell ping is not implemented
+    //QTest::newRow("wl-shell display") << "wl-shell" << false;
+    //QTest::newRow("wl-shell socket") << "wl-shell" << true;
+    QTest::newRow("xdgv5 display") << "xdg-shell-v5" << false;
+    QTest::newRow("xdgv5 socket") << "xdg-shell-v5" << true;
+    QTest::newRow("xdgv6 display") << "xdg-shell-v6" << false;
+    QTest::newRow("xdgv6 socket") << "xdg-shell-v6" << true;
 }
 
-void TestShellClient::testKillWindow()
+void TestShellClient::testUnresponsiveWindow()
 {
     // this test verifies that killWindow properly terminates a process
     // for this an external binary is launched
-    const QString kill = QFINDTESTDATA(QStringLiteral("helper/kill"));
+    const QString kill = QFINDTESTDATA(QStringLiteral("kill"));
     QVERIFY(!kill.isEmpty());
     QSignalSpy shellClientAddedSpy(waylandServer(), &WaylandServer::shellClientAdded);
     QVERIFY(shellClientAddedSpy.isValid());
 
     QScopedPointer<QProcess> process(new QProcess);
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+
+    QFETCH(QString, shellInterface);
     QFETCH(bool, socketMode);
+    env.insert("QT_WAYLAND_SHELL_INTEGRATION", shellInterface);
     if (socketMode) {
         int sx[2];
         QVERIFY(socketpair(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0, sx) >= 0);
@@ -781,12 +908,37 @@ void TestShellClient::testKillWindow()
     AbstractClient *killClient = nullptr;
     QVERIFY(shellClientAddedSpy.wait());
     killClient = shellClientAddedSpy.first().first().value<AbstractClient*>();
-    QVERIFY(killClient);
-    QSignalSpy finishedSpy(process.data(), static_cast<void(QProcess::*)(int,QProcess::ExitStatus)>(&QProcess::finished));
-    QVERIFY(finishedSpy.isValid());
-    killClient->killWindow();
-    QVERIFY(finishedSpy.wait());
-    QVERIFY(!finishedSpy.isEmpty());
+    QSignalSpy unresponsiveSpy(killClient, &AbstractClient::unresponsiveChanged);
+    QSignalSpy killedSpy(process.data(), static_cast<void(QProcess::*)(int,QProcess::ExitStatus)>(&QProcess::finished));
+    QSignalSpy deletedSpy(killClient, &QObject::destroyed);
+
+    qint64 startTime = QDateTime::currentMSecsSinceEpoch();
+
+    //wait for the process to be frozen
+    QTest::qWait(10);
+
+    //pretend the user clicked the close button
+    killClient->closeWindow();
+
+    //client should not yet be marked unresponsive nor killed
+    QVERIFY(!killClient->unresponsive());
+    QVERIFY(killedSpy.isEmpty());
+
+    QVERIFY(unresponsiveSpy.wait());
+    //client should be marked unresponsive but not killed
+    auto elapsed1 = QDateTime::currentMSecsSinceEpoch() - startTime;
+    QVERIFY(elapsed1 > 900  && elapsed1 < 1200); //ping timer is 1s, but coarse timers on a test across two processes means we need a fuzzy compare
+    QVERIFY(killClient->unresponsive());
+    QVERIFY(killedSpy.isEmpty());
+
+    QVERIFY(deletedSpy.wait());
+    if (!socketMode) {
+        //process was killed - because we're across process this could happen in either order
+        QVERIFY(killedSpy.count() || killedSpy.wait());
+    }
+
+    auto elapsed2 = QDateTime::currentMSecsSinceEpoch() - startTime;
+    QVERIFY(elapsed2 > 1800); //second ping comes in a second later
 }
 
 void TestShellClient::testX11WindowId_data()
@@ -795,6 +947,7 @@ void TestShellClient::testX11WindowId_data()
 
     QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell;
     QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5;
+    QTest::newRow("xdgShellV6") << Test::ShellSurfaceType::XdgShellV6;
 }
 
 void TestShellClient::testX11WindowId()
@@ -807,6 +960,27 @@ void TestShellClient::testX11WindowId()
     QVERIFY(c->windowId() != 0);
     QCOMPARE(c->window(), 0u);
 }
+
+void TestShellClient::testAppMenu()
+{
+    //register a faux appmenu client
+    QVERIFY (QDBusConnection::sessionBus().registerService("org.kde.kappmenu"));
+
+    QScopedPointer<Surface> surface(Test::createSurface());
+    QScopedPointer<QObject> shellSurface(Test::createShellSurface(Test::ShellSurfaceType::XdgShellV6, surface.data()));
+    auto c = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
+    QVERIFY(c);
+    QScopedPointer<AppMenu> menu(Test::waylandAppMenuManager()->create(surface.data()));
+    QSignalSpy spy(c, &ShellClient::hasApplicationMenuChanged);
+    menu->setAddress("service.name", "object/path");
+    spy.wait();
+    QCOMPARE(c->hasApplicationMenu(), true);
+    QCOMPARE(c->applicationMenuServiceName(), QString("service.name"));
+    QCOMPARE(c->applicationMenuObjectPath(), QString("object/path"));
+
+    QVERIFY (QDBusConnection::sessionBus().unregisterService("org.kde.kappmenu"));
+}
+
 
 WAYLANDTEST_MAIN(TestShellClient)
 #include "shell_client_test.moc"

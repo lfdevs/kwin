@@ -4,15 +4,15 @@
 #
 # Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2008.
 # Andrew Coles <andrew_coles@yahoo.co.uk>, 2009, 2010.
-# Steve Allewell <steve.allewell@gmail.com>, 2014, 2016.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2016, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-05 02:49+0200\n"
-"PO-Revision-Date: 2016-09-16 13:02+0000\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"PO-Revision-Date: 2017-11-26 15:35+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
-"Language-Team: English <kde-l10n-en_gb@kde.org>\n"
+"Language-Team: British English <kde-i18n-doc@kde.org>\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -343,5 +343,5 @@ msgstr "Exclude internal Desktop Effects"
 
 #: qml/EffectView.qml:104
 #, kde-format
-msgid "Get New Effects ..."
-msgstr "Get New Effects ..."
+msgid "Get New Effects..."
+msgstr "Get New Effects..."

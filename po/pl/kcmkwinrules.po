@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2017-11-25 07:16+0100\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"PO-Revision-Date: 2017-12-09 07:52+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -294,12 +294,12 @@ msgstr "To narzędzie pomocnicze nie powinno być wywoływane bezpośrednio."
 
 #: ruleslist.cpp:153
 #, kde-format
-msgid "Export Rule"
-msgstr "Zasady eksportu"
+msgid "Export Rules"
+msgstr "Eksportuj zasady"
 
 #: ruleslist.cpp:154 ruleslist.cpp:166
 #, kde-format
-msgid "KWin Rule (*.kwinrule)"
+msgid "KWin Rules (*.kwinrule)"
 msgstr "Zasada KWin (*.kwinrule)"
 
 #: ruleslist.cpp:165
@@ -416,7 +416,7 @@ msgstr "Wszystkie pulpity"
 #: ruleswidget.cpp:343
 #, kde-format
 msgid "All Activities"
-msgstr "Wszystkie działania"
+msgstr "Wszystkie aktywności"
 
 #: ruleswidget.cpp:784
 #, kde-format
@@ -473,7 +473,7 @@ msgstr "Edytuj skrót"
 #: ruleswidgetbase.ui:21
 #, kde-format
 msgid "&Window matching"
-msgstr "Dopaso&wywanie okien"
+msgstr "&Wybór okien"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ruleswidgetbase.ui:27
@@ -886,7 +886,7 @@ msgstr "P&ulpit"
 #: ruleswidgetbase.ui:802
 #, kde-format
 msgid "Activit&y"
-msgstr "Dzi&ałanie"
+msgstr "Akt&ywność"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fullscreen)
 #: ruleswidgetbase.ui:870
@@ -1103,7 +1103,7 @@ msgstr "Pog&rupuj sam na pierwszym planie"
 #: ruleswidgetbase.ui:1788
 #, kde-format
 msgid "Keep &below"
-msgstr "Zawsze pod &spodem"
+msgstr "Zawsze na &spodzie"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_autogroupid)
 #: ruleswidgetbase.ui:1843
@@ -1267,16 +1267,16 @@ msgid ""
 "nor use any other global shortcut (such as Alt+F2 to show KRunner)\n"
 "while it's active!"
 msgstr ""
-"Gdy użyte, to okno otrzyma\n"
-"wszystkie wejścia klawiatury, będąc w stanie uaktywnienia, włączając w to Alt"
-"+Tab itp.\n"
+"Po zaznaczeniu, to okno będzie\n"
+"otrzymywać wszystkie naciśnięcia klawiszy, będąc w stanie uaktywnienia, "
+"włączając w to Alt+Tab itp.\n"
 "Warto się tym zainteresować w przypadku użycia emulatorów lub maszyn "
 "wirtualnych.\n"
 "\n"
-"Wiedz, że:\n"
+"Pamiętaj że:\n"
 "z tego okna nie będzie możliwe przełączenie się przy użyciu Alt+Tab\n"
-",ani użycie jakiegokolwiek innego skrótu globalnego (takiego jak Alt+F2, aby "
-"pokazać KRunner)\n"
+", ani użycie jakiegokolwiek innego skrótu globalnego (takiego jak Alt+F2, "
+"aby pokazać KRunner)\n"
 "podczas jego stanu uaktywnienia!"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_disableglobalshortcuts)

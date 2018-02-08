@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm-kwin-scripts\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-27 02:56+0200\n"
-"PO-Revision-Date: 2017-05-08 17:11+0100\n"
+"POT-Creation-Date: 2017-12-19 03:12+0100\n"
+"PO-Revision-Date: 2017-10-27 21:01+0100\n"
 "Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
 "Language: sk\n"
@@ -26,32 +26,32 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "wizzardsk@gmail.com"
 
-#: module.cpp:51
+#: module.cpp:49
 #, kde-format
 msgid "KWin Scripts"
 msgstr "KWin skripty"
 
-#: module.cpp:53
+#: module.cpp:51
 #, kde-format
 msgid "Configure KWin scripts"
 msgstr "Nastaviť KWin skripty"
 
-#: module.cpp:56
+#: module.cpp:54
 #, kde-format
 msgid "Tamás Krutki"
 msgstr "Tamás Krutki"
 
-#: module.cpp:85
+#: module.cpp:83
 #, kde-format
 msgid "Import KWin Script"
 msgstr "Importovať KWin skript"
 
-#: module.cpp:86
+#: module.cpp:84
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|KWin skripty (*.kwinscript)"
 
-#: module.cpp:105
+#: module.cpp:103
 #, kde-format
 msgctxt "Placeholder is error message returned from the install service"
 msgid ""
@@ -61,7 +61,7 @@ msgstr ""
 "Nemôžem importovať vybraný skript.\n"
 "%1"
 
-#: module.cpp:119
+#: module.cpp:117
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."
@@ -82,5 +82,5 @@ msgstr "Importovať KWin skript..."
 #. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
 #: module.ui:51
 #, kde-format
-msgid "Get New Script..."
-msgstr "Získať nový skript..."
+msgid "Get New Scripts..."
+msgstr "Získať nové skripty..."

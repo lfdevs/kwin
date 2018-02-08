@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
 "PO-Revision-Date: 2013-11-27 14:22+0100\n"
 "Last-Translator: G.Sora <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-l10n-ia@kde.org>\n"
@@ -294,13 +294,15 @@ msgstr ""
 "Iste utilitate de adjuta il non es supponite de esser appellate directemente"
 
 #: ruleslist.cpp:153
-#, kde-format
-msgid "Export Rule"
+#, fuzzy, kde-format
+#| msgid "Export Rule"
+msgid "Export Rules"
 msgstr "Regulas de exportation"
 
 #: ruleslist.cpp:154 ruleslist.cpp:166
-#, kde-format
-msgid "KWin Rule (*.kwinrule)"
+#, fuzzy, kde-format
+#| msgid "KWin Rule (*.kwinrule)"
+msgid "KWin Rules (*.kwinrule)"
 msgstr "Regula de KWin (*.kwinrule)"
 
 #: ruleslist.cpp:165

@@ -2,7 +2,7 @@
 #
 # Gaute Hvoslef Kvalnes <gaute@verdsveven.com>, 1999, 2000, 2001, 2002, 2003, 2004, 2005.
 # Håvard Korsvoll <korsvoll@skulelinux.no>, 2004, 2005.
-# Karl Ove Hufthammer <karl@huftis.org>, 2004, 2007, 2008, 2010, 2014, 2015, 2016, 2017.
+# Karl Ove Hufthammer <karl@huftis.org>, 2004, 2007, 2008, 2010, 2014, 2015, 2016, 2017, 2018.
 # Sven Harald Klein Bakke <sirius@nonline.org>, 2005, 2008.
 # Eirik U. Birkeland <eirbir@gmail.com>, 2008, 2009, 2010.
 # Olav Selseng Vestreim <o.vest@operamail.com>, 2015.
@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-09-02 03:25+0200\n"
-"PO-Revision-Date: 2017-08-06 07:55+0100\n"
+"POT-Creation-Date: 2018-01-15 03:16+0100\n"
+"PO-Revision-Date: 2018-01-22 21:23+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
@@ -34,13 +34,13 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "gaute@verdsveven.com,korsvoll@skulelinux.no,karl@huftis.org"
 
-#: abstract_client.cpp:1774
+#: abstract_client.cpp:1773
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(Svarar ikkje)"
 
-#: composite.cpp:599
+#: composite.cpp:571
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -514,207 +514,249 @@ msgctxt "A swipe gesture got cancelled"
 msgid "Swipe cancelled"
 msgstr "Draging avbroten"
 
-#: debug_console.cpp:642
+#: debug_console.cpp:466
+#, kde-format
+msgctxt "A hardware switch (e.g. notebook lid) got toggled"
+msgid "Switch toggled"
+msgstr "Brytar slått på/av"
+
+#: debug_console.cpp:475
+#, kde-format
+msgctxt "Name of a hardware switch"
+msgid "Notebook lid"
+msgstr "PC-lokk"
+
+#: debug_console.cpp:477
+#, kde-format
+msgctxt "Name of a hardware switch"
+msgid "Tablet mode"
+msgstr "Teikneplate-modus"
+
+#: debug_console.cpp:479
+#, kde-format
+msgctxt "A hardware switch"
+msgid "Switch"
+msgstr "Brytar"
+
+#: debug_console.cpp:484
+#, kde-format
+msgctxt "The hardware switch got turned off"
+msgid "Off"
+msgstr "Av"
+
+#: debug_console.cpp:487
+#, kde-format
+msgctxt "The hardware switch got turned on"
+msgid "On"
+msgstr "På"
+
+#: debug_console.cpp:492
+#, kde-format
+msgctxt "State of a hardware switch (on/off)"
+msgid "State"
+msgstr "Tilstand"
+
+#: debug_console.cpp:679
 #, kde-format
 msgid "No Mouse Buttons"
 msgstr "Ingen museknappar"
 
-#: debug_console.cpp:646
+#: debug_console.cpp:683
 #, kde-format
 msgctxt "Mouse Button"
 msgid "left"
 msgstr "venstre"
 
-#: debug_console.cpp:649
+#: debug_console.cpp:686
 #, kde-format
 msgctxt "Mouse Button"
 msgid "right"
 msgstr "høgre"
 
-#: debug_console.cpp:652
+#: debug_console.cpp:689
 #, kde-format
 msgctxt "Mouse Button"
 msgid "middle"
 msgstr "midt"
 
-#: debug_console.cpp:655
+#: debug_console.cpp:692
 #, kde-format
 msgctxt "Mouse Button"
 msgid "back"
 msgstr "tilbake"
 
-#: debug_console.cpp:658
+#: debug_console.cpp:695
 #, kde-format
 msgctxt "Mouse Button"
 msgid "forward"
 msgstr "fram"
 
-#: debug_console.cpp:661
+#: debug_console.cpp:698
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 1"
 msgstr "ekstra 1"
 
-#: debug_console.cpp:664
+#: debug_console.cpp:701
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 2"
 msgstr "ekstra 2"
 
-#: debug_console.cpp:667
+#: debug_console.cpp:704
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 3"
 msgstr "ekstra 3"
 
-#: debug_console.cpp:670
+#: debug_console.cpp:707
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 4"
 msgstr "ekstra 4"
 
-#: debug_console.cpp:673
+#: debug_console.cpp:710
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 5"
 msgstr "ekstra 5"
 
-#: debug_console.cpp:676
+#: debug_console.cpp:713
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 6"
 msgstr "ekstra 6"
 
-#: debug_console.cpp:679
+#: debug_console.cpp:716
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 7"
 msgstr "ekstra 7"
 
-#: debug_console.cpp:682
+#: debug_console.cpp:719
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 8"
 msgstr "ekstra 8"
 
-#: debug_console.cpp:685
+#: debug_console.cpp:722
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 9"
 msgstr "ekstra 9"
 
-#: debug_console.cpp:688
+#: debug_console.cpp:725
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 10"
 msgstr "ekstra 10"
 
-#: debug_console.cpp:691
+#: debug_console.cpp:728
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 11"
 msgstr "ekstra 11"
 
-#: debug_console.cpp:694
+#: debug_console.cpp:731
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 12"
 msgstr "ekstra 12"
 
-#: debug_console.cpp:697
+#: debug_console.cpp:734
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 13"
 msgstr "ekstra 13"
 
-#: debug_console.cpp:700
+#: debug_console.cpp:737
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 14"
 msgstr "ekstra 14"
 
-#: debug_console.cpp:703
+#: debug_console.cpp:740
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 15"
 msgstr "ekstra 15"
 
-#: debug_console.cpp:706
+#: debug_console.cpp:743
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 16"
 msgstr "ekstra 16"
 
-#: debug_console.cpp:709
+#: debug_console.cpp:746
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 17"
 msgstr "ekstra 17"
 
-#: debug_console.cpp:712
+#: debug_console.cpp:749
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 18"
 msgstr "ekstra 18"
 
-#: debug_console.cpp:715
+#: debug_console.cpp:752
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 19"
 msgstr "ekstra 19"
 
-#: debug_console.cpp:718
+#: debug_console.cpp:755
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 20"
 msgstr "ekstra 20"
 
-#: debug_console.cpp:721
+#: debug_console.cpp:758
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 21"
 msgstr "ekstra 21"
 
-#: debug_console.cpp:724
+#: debug_console.cpp:761
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 22"
 msgstr "ekstra 22"
 
-#: debug_console.cpp:727
+#: debug_console.cpp:764
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 23"
 msgstr "ekstra 23"
 
-#: debug_console.cpp:730
+#: debug_console.cpp:767
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 24"
 msgstr "ekstra 24"
 
-#: debug_console.cpp:733
+#: debug_console.cpp:770
 #, kde-format
 msgctxt "Mouse Button"
 msgid "task"
 msgstr "oppgåve"
 
-#: debug_console.cpp:1074
+#: debug_console.cpp:1111
 #, kde-format
 msgid "X11 Client Windows"
 msgstr "X11-klientvindauge"
 
-#: debug_console.cpp:1076
+#: debug_console.cpp:1113
 #, kde-format
 msgid "X11 Unmanaged Windows"
 msgstr "Uhandsama X11-vindauge"
 
-#: debug_console.cpp:1078
+#: debug_console.cpp:1115
 #, kde-format
 msgid "Wayland Windows"
 msgstr "Wayland-vindauge"
 
-#: debug_console.cpp:1080
+#: debug_console.cpp:1117
 #, kde-format
 msgid "Internal Windows"
 msgstr "Interne vindauge"
@@ -862,307 +904,307 @@ msgstr ""
 "Vel vindauge å ta tvangslukka med klikk eller «Enter».\n"
 "Høgreklikk eller trykk «Escape» for å avbryta."
 
-#: kwinbindings.cpp:46
+#: kwinbindings.cpp:49
 #, kde-format
 msgid "Walk Through Window Tabs"
 msgstr "Bla gjennom vindaugsfaner"
 
-#: kwinbindings.cpp:47
+#: kwinbindings.cpp:50
 #, kde-format
 msgid "Walk Through Window Tabs (Reverse)"
 msgstr "Bla gjennom vindaugsfaner (baklengs)"
 
-#: kwinbindings.cpp:48
+#: kwinbindings.cpp:51
 #, kde-format
 msgid "Remove Window From Group"
 msgstr "Fjern vindauget frå gruppa"
 
-#: kwinbindings.cpp:50
+#: kwinbindings.cpp:53
 #, kde-format
 msgid "Window Operations Menu"
 msgstr "Meny for vindaugsoperasjonar"
 
-#: kwinbindings.cpp:52
+#: kwinbindings.cpp:55
 #, kde-format
 msgid "Close Window"
 msgstr "Lukk vindauget"
 
-#: kwinbindings.cpp:54
+#: kwinbindings.cpp:57
 #, kde-format
 msgid "Maximize Window"
 msgstr "Maksimer vindauget"
 
-#: kwinbindings.cpp:56
+#: kwinbindings.cpp:59
 #, kde-format
 msgid "Maximize Window Vertically"
 msgstr "Maksimer vindauget loddrett"
 
-#: kwinbindings.cpp:58
+#: kwinbindings.cpp:61
 #, kde-format
 msgid "Maximize Window Horizontally"
 msgstr "Maksimer vindauget vassrett"
 
-#: kwinbindings.cpp:60
+#: kwinbindings.cpp:63
 #, kde-format
 msgid "Minimize Window"
 msgstr "Minimer vindauget"
 
-#: kwinbindings.cpp:62
+#: kwinbindings.cpp:65
 #, kde-format
 msgid "Shade Window"
 msgstr "Fald saman vindauget"
 
-#: kwinbindings.cpp:64
+#: kwinbindings.cpp:67
 #, kde-format
 msgid "Move Window"
 msgstr "Flytt vindauget"
 
-#: kwinbindings.cpp:66
+#: kwinbindings.cpp:69
 #, kde-format
 msgid "Resize Window"
 msgstr "Endra storleiken på vindauget"
 
-#: kwinbindings.cpp:68
+#: kwinbindings.cpp:71
 #, kde-format
 msgid "Raise Window"
 msgstr "Hev vindauget"
 
-#: kwinbindings.cpp:70
+#: kwinbindings.cpp:73
 #, kde-format
 msgid "Lower Window"
 msgstr "Senk vindauget"
 
-#: kwinbindings.cpp:72
+#: kwinbindings.cpp:75
 #, kde-format
 msgid "Toggle Window Raise/Lower"
 msgstr "Veksla mellom hev/senk vindauget"
 
-#: kwinbindings.cpp:74
+#: kwinbindings.cpp:77
 #, kde-format
 msgid "Make Window Fullscreen"
 msgstr "Gjer vindauget til fullskjerm"
 
-#: kwinbindings.cpp:76
+#: kwinbindings.cpp:79
 #, kde-format
 msgid "Hide Window Border"
 msgstr "Gøym vindaugsramma"
 
-#: kwinbindings.cpp:78
+#: kwinbindings.cpp:81
 #, kde-format
 msgid "Keep Window Above Others"
 msgstr "Vis vindauget framfor dei andre"
 
-#: kwinbindings.cpp:80
+#: kwinbindings.cpp:83
 #, kde-format
 msgid "Keep Window Below Others"
 msgstr "Vis vindauget bak dei andre"
 
-#: kwinbindings.cpp:82
+#: kwinbindings.cpp:85
 #, kde-format
 msgid "Activate Window Demanding Attention"
 msgstr "Vis vindauge som påkallar merksemd"
 
-#: kwinbindings.cpp:84
+#: kwinbindings.cpp:87
 #, kde-format
 msgid "Setup Window Shortcut"
 msgstr "Set opp vindaugssnøggtast"
 
-#: kwinbindings.cpp:86
+#: kwinbindings.cpp:89
 #, kde-format
 msgid "Pack Window to the Right"
 msgstr "Skaler vindauget til høgre"
 
-#: kwinbindings.cpp:88
+#: kwinbindings.cpp:91
 #, kde-format
 msgid "Pack Window to the Left"
 msgstr "Skaler vindauget til venstre"
 
-#: kwinbindings.cpp:90
+#: kwinbindings.cpp:93
 #, kde-format
 msgid "Pack Window Up"
 msgstr "Skaler vindauget opp"
 
-#: kwinbindings.cpp:92
+#: kwinbindings.cpp:95
 #, kde-format
 msgid "Pack Window Down"
 msgstr "Skaler vindauget ned"
 
-#: kwinbindings.cpp:94
+#: kwinbindings.cpp:97
 #, kde-format
 msgid "Pack Grow Window Horizontally"
 msgstr "Skaler vindauget aukande vassrett"
 
-#: kwinbindings.cpp:96
+#: kwinbindings.cpp:99
 #, kde-format
 msgid "Pack Grow Window Vertically"
 msgstr "Skaler vindauget aukande loddrett"
 
-#: kwinbindings.cpp:98
+#: kwinbindings.cpp:101
 #, kde-format
 msgid "Pack Shrink Window Horizontally"
 msgstr "Skaler vindauget krympande vassrett"
 
-#: kwinbindings.cpp:100
+#: kwinbindings.cpp:103
 #, kde-format
 msgid "Pack Shrink Window Vertically"
 msgstr "Skaler vindauget krympande loddrett"
 
-#: kwinbindings.cpp:102
+#: kwinbindings.cpp:105
 #, kde-format
 msgid "Quick Tile Window to the Left"
 msgstr "Legg vindauget kjapt til venstre"
 
-#: kwinbindings.cpp:104
+#: kwinbindings.cpp:107
 #, kde-format
 msgid "Quick Tile Window to the Right"
 msgstr "Legg vindauget kjapt til høgre"
 
-#: kwinbindings.cpp:106
+#: kwinbindings.cpp:109
 #, kde-format
 msgid "Quick Tile Window to the Top"
 msgstr "Legg vindauget kjapt til oppe"
 
-#: kwinbindings.cpp:108
+#: kwinbindings.cpp:111
 #, kde-format
 msgid "Quick Tile Window to the Bottom"
 msgstr "Legg vindauget kjapt til nede"
 
-#: kwinbindings.cpp:110
+#: kwinbindings.cpp:113
 #, kde-format
 msgid "Quick Tile Window to the Top Left"
 msgstr "Legg vindauget kjapt til oppe til venstre"
 
-#: kwinbindings.cpp:112
+#: kwinbindings.cpp:115
 #, kde-format
 msgid "Quick Tile Window to the Bottom Left"
 msgstr "Legg vindauget kjapt til nede til venstre"
 
-#: kwinbindings.cpp:114
+#: kwinbindings.cpp:117
 #, kde-format
 msgid "Quick Tile Window to the Top Right"
 msgstr "Legg vindauget kjapt til oppe til høgre"
 
-#: kwinbindings.cpp:116
+#: kwinbindings.cpp:119
 #, kde-format
 msgid "Quick Tile Window to the Bottom Right"
 msgstr "Legg vindauget kjapt til nede til høgre"
 
-#: kwinbindings.cpp:118
+#: kwinbindings.cpp:121
 #, kde-format
 msgid "Switch to Window Above"
 msgstr "Byt til vindauget ovanfor"
 
-#: kwinbindings.cpp:120
+#: kwinbindings.cpp:123
 #, kde-format
 msgid "Switch to Window Below"
 msgstr "Byt til vindauget nedanfor"
 
-#: kwinbindings.cpp:122
+#: kwinbindings.cpp:125
 #, kde-format
 msgid "Switch to Window to the Right"
 msgstr "Byt til vindauget til høgre"
 
-#: kwinbindings.cpp:124
+#: kwinbindings.cpp:127
 #, kde-format
 msgid "Switch to Window to the Left"
 msgstr "Byt til vindauget til venstre"
 
-#: kwinbindings.cpp:126
+#: kwinbindings.cpp:129
 #, kde-format
 msgid "Increase Opacity of Active Window by 5 %"
 msgstr "Reduser gjennomsikta til vindauget med 5 %"
 
-#: kwinbindings.cpp:128
+#: kwinbindings.cpp:131
 #, kde-format
 msgid "Decrease Opacity of Active Window by 5 %"
 msgstr "Auk gjennomsikta til vindauget med 5 %"
 
-#: kwinbindings.cpp:131
+#: kwinbindings.cpp:134
 #, kde-format
 msgid "Keep Window on All Desktops"
 msgstr "Vis vindauget på alle skriveborda"
 
-#: kwinbindings.cpp:135
+#: kwinbindings.cpp:138
 #, kde-format
 msgid "Window to Desktop %1"
 msgstr "Vindauge til skrivebord %1"
 
-#: kwinbindings.cpp:137
+#: kwinbindings.cpp:140
 #, kde-format
 msgid "Window to Next Desktop"
 msgstr "Vindauge til neste skrivebord"
 
-#: kwinbindings.cpp:138
+#: kwinbindings.cpp:141
 #, kde-format
 msgid "Window to Previous Desktop"
 msgstr "Vindauge til førre skrivebord"
 
-#: kwinbindings.cpp:139
+#: kwinbindings.cpp:142
 #, kde-format
 msgid "Window One Desktop to the Right"
 msgstr "Flytt vindauget eitt skrivebord til høgre"
 
-#: kwinbindings.cpp:140
+#: kwinbindings.cpp:143
 #, kde-format
 msgid "Window One Desktop to the Left"
 msgstr "Flytt vindauget eitt skrivebord til venstre"
 
-#: kwinbindings.cpp:141
+#: kwinbindings.cpp:144
 #, kde-format
 msgid "Window One Desktop Up"
 msgstr "Flytt vindauget eitt skrivebord opp"
 
-#: kwinbindings.cpp:142
+#: kwinbindings.cpp:145
 #, kde-format
 msgid "Window One Desktop Down"
 msgstr "Flytt vindauget eitt skrivebord ned"
 
-#: kwinbindings.cpp:145
+#: kwinbindings.cpp:148
 #, kde-format
 msgid "Window to Screen %1"
 msgstr "Flytt vindauget til skjerm %1"
 
-#: kwinbindings.cpp:147
+#: kwinbindings.cpp:150
 #, kde-format
 msgid "Window to Next Screen"
 msgstr "Flytt vindauget til neste skjerm"
 
-#: kwinbindings.cpp:148
+#: kwinbindings.cpp:151
 #, kde-format
 msgid "Window to Previous Screen"
 msgstr "Flytt vindauget til førre skjerm"
 
-#: kwinbindings.cpp:149
+#: kwinbindings.cpp:152
 #, kde-format
 msgid "Show Desktop"
 msgstr "Vis skrivebordet"
 
-#: kwinbindings.cpp:152
+#: kwinbindings.cpp:155
 #, kde-format
 msgid "Switch to Screen %1"
 msgstr "Byt til skjerm %1"
 
-#: kwinbindings.cpp:155
+#: kwinbindings.cpp:158
 #, kde-format
 msgid "Switch to Next Screen"
 msgstr "Byt til neste skjerm"
 
-#: kwinbindings.cpp:156
+#: kwinbindings.cpp:159
 #, kde-format
 msgid "Switch to Previous Screen"
 msgstr "Byt til førre skjerm"
 
-#: kwinbindings.cpp:158
+#: kwinbindings.cpp:161
 #, kde-format
 msgid "Kill Window"
 msgstr "Tvangsavslutt vindauge"
 
-#: kwinbindings.cpp:159
+#: kwinbindings.cpp:162
 #, kde-format
 msgid "Suspend Compositing"
 msgstr "Slå av skrivebordseffektar"
 
-#: kwinbindings.cpp:160
+#: kwinbindings.cpp:163
 #, kde-format
 msgid "Invert Screen Colors"
 msgstr "Snu om skjermfargar"
@@ -1222,17 +1264,17 @@ msgstr "Slå av oppsettsval"
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Viser at KWin nyleg har krasja n gongar"
 
-#: main_wayland.cpp:207
+#: main_wayland.cpp:253
 #, kde-format
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr "kwin_wayland: Ein X11-vindaugshandsamar køyrer på X11-oppsettet.\n"
 
-#: main_wayland.cpp:504
+#: main_wayland.cpp:579
 #, kde-format
 msgid "Start a rootless Xwayland server."
 msgstr "Start ein rotlaus Xwayland-tener."
 
-#: main_wayland.cpp:506
+#: main_wayland.cpp:581
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
@@ -1240,64 +1282,64 @@ msgstr ""
 "Namn på Wayland-socket-en å lytta på. Viss ikkje noko er valt, vert "
 "«wayland-0» brukt."
 
-#: main_wayland.cpp:509
+#: main_wayland.cpp:584
 #, kde-format
 msgid "Use a nested compositor in windowed mode."
 msgstr "Bruk ein nøsta samansetjar i vindaugsmodus."
 
-#: main_wayland.cpp:511
+#: main_wayland.cpp:586
 #, kde-format
 msgid "Render to framebuffer."
 msgstr "Teikn opp til biletbuffer."
 
-#: main_wayland.cpp:513
+#: main_wayland.cpp:588
 #, kde-format
 msgid "The framebuffer device to render to."
 msgstr "Biletbuffer-eininga det skal verta teikna til."
 
-#: main_wayland.cpp:517
+#: main_wayland.cpp:592
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "X11-skjermbiletet som skal brukast i vindaugsmodus på X11-plattforma."
 
-#: main_wayland.cpp:520
+#: main_wayland.cpp:595
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
 "Wayland-skjermbiletet skal brukast i vindaugsmodus på Wayland-plattforma."
 
-#: main_wayland.cpp:522
+#: main_wayland.cpp:597
 #, kde-format
 msgid "Render to a virtual framebuffer."
 msgstr "Teikn opp til virtuell biletbuffer."
 
-#: main_wayland.cpp:524
+#: main_wayland.cpp:599
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "Breidda for vindaugsmodus. Standardbreidda er 1024."
 
-#: main_wayland.cpp:528
+#: main_wayland.cpp:603
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
 msgstr "Høgda for vindaugsmodus. Standardhøgda er 768."
 
-#: main_wayland.cpp:533
+#: main_wayland.cpp:608
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
 msgstr "Skala for vindaugsmodus. Standardverdi er 1."
 
-#: main_wayland.cpp:538
+#: main_wayland.cpp:613
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
 msgstr "Talet på vindauge å opna for utdata i vindaugsmodus. Standard er 1."
 
-#: main_wayland.cpp:571
+#: main_wayland.cpp:646
 #, kde-format
 msgid "Use libhybris hwcomposer"
 msgstr "Bruk libhybris hwcomposer"
 
-#: main_wayland.cpp:578
+#: main_wayland.cpp:653
 #, kde-format
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
@@ -1306,42 +1348,37 @@ msgstr ""
 "Slå på libinput-støtte for handsaming av inndata-hendingar. Merk: bruka "
 "aldri dette i ei nøsta økt."
 
-#: main_wayland.cpp:582
+#: main_wayland.cpp:657
 #, kde-format
 msgid "Render through drm node."
 msgstr "Teikn opp gjennom drm-node."
 
-#: main_wayland.cpp:589
+#: main_wayland.cpp:664
 #, kde-format
 msgid "Input method that KWin starts."
 msgstr "Inndata-metode som KWin startar."
 
-#: main_wayland.cpp:594
+#: main_wayland.cpp:669
 #, kde-format
 msgid "List all available backends and quit."
 msgstr "Vis oversikt over tilgjengelege motorar, og så avslutt."
 
-#: main_wayland.cpp:598
+#: main_wayland.cpp:673
 #, kde-format
 msgid "Starts the session in locked mode."
 msgstr "Startar økta i låst modus."
 
-#: main_wayland.cpp:602
+#: main_wayland.cpp:677
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr "Avslutt etter at øktprogrammet, som vert starta av KWin, vert lukka."
 
-#: main_wayland.cpp:608 main_x11.cpp:423
-#, kde-format
-msgid "Disable KActivities integration."
-msgstr "Slå av KActivities-integrasjon."
-
-#: main_wayland.cpp:613
+#: main_wayland.cpp:682
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr "Program som skal startast når Wayland og XWayland-tenar vert starta"
 
-#: main_x11.cpp:74
+#: main_x11.cpp:75
 #, kde-format
 msgid ""
 "KWin is unstable.\n"
@@ -1352,7 +1389,7 @@ msgstr ""
 "Det ser ut til at programmet har krasja fleire gongar på rad.\n"
 "Du kan velja ein annan vindaugshandsamar:"
 
-#: main_x11.cpp:225
+#: main_x11.cpp:226
 #, kde-format
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
@@ -1361,19 +1398,39 @@ msgstr ""
 "KWin: Klarte ikkje ta over som vindaugshandsamar. Køyrer ein annan "
 "vindaugshandsamar? (Du kan prøva med kommandolinjevalet «--replace».)\n"
 
-#: main_x11.cpp:242
+#: main_x11.cpp:243
 #, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "KWin: Ein annan vindaugshandsamar køyrer. (Du kan prøva med "
 "kommandolinjevalet «--replace».)\n"
 
-#: main_x11.cpp:416
+#: main_x11.cpp:418
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "Overta etter ein ICCCM2.0-vindaugshandsamar som køyrer"
 
-#: pointer_input.cpp:624
+#: main_x11.cpp:425
+#, kde-format
+msgid "Disable KActivities integration."
+msgstr "Slå av KActivities-integrasjon."
+
+#: orientation_sensor.cpp:72
+#, kde-format
+msgid "Automatic screen rotation is enabled"
+msgstr "Automatisk skjermretning er slått på"
+
+#: orientation_sensor.cpp:74 orientation_sensor.cpp:122
+#, kde-format
+msgid "Automatic screen rotation is disabled"
+msgstr "Automatisk skjermretning er slått av"
+
+#: orientation_sensor.cpp:118
+#, kde-format
+msgid "Automatic Screen Rotation"
+msgstr "Automatisk skjermretning"
+
+#: pointer_input.cpp:647
 #, kde-format
 msgctxt "notification about mouse pointer confined"
 msgid ""
@@ -1383,7 +1440,7 @@ msgstr ""
 "Peikarrørsle er avgrensa til det gjeldande vindauget.\n"
 "Hald inne «Escape» i tre sekund for å frigjera peikaren."
 
-#: pointer_input.cpp:641
+#: pointer_input.cpp:664
 #, kde-format
 msgctxt "notification about mouse pointer locked"
 msgid ""
@@ -1392,70 +1449,6 @@ msgid ""
 msgstr ""
 "Peikaren er låst til den gjeldande posisjonen.\n"
 "Hald inne «Escape» i tre sekund for å frigjera han."
-
-#: scene_opengl.cpp:666
-#, kde-format
-msgid "Desktop effects were restarted due to a graphics reset"
-msgstr ""
-"Skrivebordseffektane vart starta på nytt, på grunn av ei grafikknullstilling"
-
-#: scene_opengl.cpp:916
-#, kde-format
-msgid ""
-"<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
-"OpenGL Desktop Effects at the current resolution<br><br>You can try to "
-"select the XRender backend, but it might be very slow for this resolution as "
-"well.<br>Alternatively, lower the combined resolution of all screens to %1x"
-"%2 "
-msgstr ""
-"<h1>OpenGL skrivebordseffektar er ikkje moglege</h1>Systemet ditt kan ikkje "
-"utføra OpenGL skrivebordseffekter ved gjeldande oppløysing<br><br>Du kan "
-"prøva å velja XRender-motoren, men han kan òg vera svært treg for denne "
-"oppløysinga.<br>Elles kan du senka den kombinerte oppløysinga for alle "
-"skjermane til %1 × %2 "
-
-#: scene_opengl.cpp:923
-#, kde-format
-msgid ""
-"The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
-"GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
-"does not know such limitation, but the performance will usually be impacted "
-"by the hardware limitations that restrict the OpenGL viewport size."
-msgstr ""
-"Den ønskte oppløysinga går ut over grensa GL_MAX_VIEWPORT_DIMS til "
-"skjermkortet, og passar derfor ikkje saman med OpenGL-samansetjaren."
-"<br>XRender har inga slik avgrensing, men ytinga vil påverkast av "
-"maskinvareavgrensinga, som set grense for storleiken til OpenGL-"
-"skjermbiletet."
-
-#: scene_opengl.cpp:948
-#, kde-format
-msgid ""
-"<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
-"the current resolution are supported but might be exceptionally slow."
-"<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
-"compositing, switch to the XRender backend or lower the resolution to %1x%1."
-msgstr ""
-"<h1>OpenGL-skrivebordseffektar kan vera ubrukelege</h1>OpenGL-"
-"skrivebordseffekter er støtta for den gjeldande skjermoppløysinga, men kan "
-"vera svært trege.<br>Og store vindauge vil verta heilt svarte.<br><br>Du bør "
-"vurdera å slå av samansetjinga, byta til XRender-motoren eller senka "
-"oppløysinga til %1 x %1."
-
-#: scene_opengl.cpp:954
-#, kde-format
-msgid ""
-"The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
-"GPU, thus windows of that size cannot be assigned to textures and will be "
-"entirely black.<br>Also this limit will often be a performance level barrier "
-"despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
-"software rendering in this case."
-msgstr ""
-"Den ønskte oppløysinga går ut over grensa GL_MAX_TEXTURE_SIZE til "
-"skjermkortet. Vindauge med den storleiken kan ikkje tildelast teksturar, og "
-"vil derfor sjå heilt svarte ut.<br>Denne grensa vil òg påverka ytinga for "
-"vindauge mindre en GL_MAX_VIEWPORT_DIMS, sidan drivaren kan falla tilbake "
-"til programvarebasert oppteikning."
 
 #: scripting/genericscriptedconfig.cpp:81
 #, kde-format
@@ -1512,62 +1505,62 @@ msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Vis skrivebordet"
 
-#: tabbox/tabbox.cpp:539
+#: tabbox/tabbox.cpp:535
 #, kde-format
 msgid "Walk Through Windows"
 msgstr "Bla gjennom vindauge"
 
-#: tabbox/tabbox.cpp:540
+#: tabbox/tabbox.cpp:536
 #, kde-format
 msgid "Walk Through Windows (Reverse)"
 msgstr "Bla gjennom vindauge (baklengs)"
 
-#: tabbox/tabbox.cpp:541
+#: tabbox/tabbox.cpp:537
 #, kde-format
 msgid "Walk Through Windows Alternative"
 msgstr "Bla gjennom vindauge (alternativ)"
 
-#: tabbox/tabbox.cpp:542
+#: tabbox/tabbox.cpp:538
 #, kde-format
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Bla gjennom vindauge (alternativ, baklengs)"
 
-#: tabbox/tabbox.cpp:543
+#: tabbox/tabbox.cpp:539
 #, kde-format
 msgid "Walk Through Windows of Current Application"
 msgstr "Bla gjennom vindauge til gjeldande program"
 
-#: tabbox/tabbox.cpp:544
+#: tabbox/tabbox.cpp:540
 #, kde-format
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Bla gjennom vindauge til gjeldande program (baklengs)"
 
-#: tabbox/tabbox.cpp:545
+#: tabbox/tabbox.cpp:541
 #, kde-format
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Bla gjennom vindauge til gjeldande program (alternativ)"
 
-#: tabbox/tabbox.cpp:546
+#: tabbox/tabbox.cpp:542
 #, kde-format
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "Bla gjennom vindauge til gjeldande program (alternativ, baklengs)"
 
-#: tabbox/tabbox.cpp:547
+#: tabbox/tabbox.cpp:543
 #, kde-format
 msgid "Walk Through Desktops"
 msgstr "Bla gjennom skrivebord"
 
-#: tabbox/tabbox.cpp:548
+#: tabbox/tabbox.cpp:544
 #, kde-format
 msgid "Walk Through Desktops (Reverse)"
 msgstr "Bla gjennom skrivebord (baklengs)"
 
-#: tabbox/tabbox.cpp:549
+#: tabbox/tabbox.cpp:545
 #, kde-format
 msgid "Walk Through Desktop List"
 msgstr "Bla gjennom skrivebordsliste"
 
-#: tabbox/tabbox.cpp:550
+#: tabbox/tabbox.cpp:546
 #, kde-format
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Bla gjennom skrivebordsliste (baklengs)"
@@ -1581,7 +1574,7 @@ msgstr ""
 "Vindaugsbytar-installasjonen er øydelagd; det manglar enkelte ressursar.\n"
 "Kontakt distribusjonen din om dette."
 
-#: useractions.cpp:202
+#: useractions.cpp:203
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -1594,7 +1587,7 @@ msgstr ""
 "må i staden bruka menyen for vindaugsoperasjonar, ved hjelp av "
 "snøggtasten «%1»."
 
-#: useractions.cpp:210
+#: useractions.cpp:211
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -1607,57 +1600,57 @@ msgstr ""
 "vil du ikkje kunna gå tilbake ved å bruka musa. Du må i staden bruka menyen "
 "for vindaugsoperasjonar, ved hjelp av snøggtasten «%1»."
 
-#: useractions.cpp:273
+#: useractions.cpp:274
 #, kde-format
 msgid "&Move"
 msgstr "&Flytt"
 
-#: useractions.cpp:278
+#: useractions.cpp:279
 #, kde-format
 msgid "&Resize"
 msgstr "&Endra storleik"
 
-#: useractions.cpp:282
+#: useractions.cpp:283
 #, kde-format
 msgid "Keep &Above Others"
 msgstr "Vis &over andre vindauge"
 
-#: useractions.cpp:288
+#: useractions.cpp:289
 #, kde-format
 msgid "Keep &Below Others"
 msgstr "Vis &under andre vindauge"
 
-#: useractions.cpp:294
+#: useractions.cpp:295
 #, kde-format
 msgid "&Fullscreen"
 msgstr "&Fullskjerm"
 
-#: useractions.cpp:300
+#: useractions.cpp:301
 #, kde-format
 msgid "&Shade"
 msgstr "&Rull opp"
 
-#: useractions.cpp:305
+#: useractions.cpp:306
 #, kde-format
 msgid "&No Border"
 msgstr "&Utan kantlinje"
 
-#: useractions.cpp:312
+#: useractions.cpp:313
 #, kde-format
 msgid "Window Short&cut..."
 msgstr "Vindaugs&snøggtast …"
 
-#: useractions.cpp:317
+#: useractions.cpp:318
 #, kde-format
 msgid "Special &Window Settings..."
 msgstr "Spesielle &vindaugsinnstillingar …"
 
-#: useractions.cpp:321
+#: useractions.cpp:322
 #, kde-format
 msgid "S&pecial Application Settings..."
 msgstr "S&pesielle programinnstillingar …"
 
-#: useractions.cpp:328
+#: useractions.cpp:329
 #, kde-format
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
@@ -1665,96 +1658,96 @@ msgctxt ""
 msgid "Window Manager S&ettings..."
 msgstr "Set opp &vindaugshandsamar …"
 
-#: useractions.cpp:358
+#: useractions.cpp:359
 #, kde-format
 msgid "Mi&nimize"
 msgstr "Mi&nimer"
 
-#: useractions.cpp:362
+#: useractions.cpp:363
 #, kde-format
 msgid "Ma&ximize"
 msgstr "Ma&ksimer"
 
-#: useractions.cpp:371
+#: useractions.cpp:372
 #, kde-format
 msgid "&Untab"
 msgstr "&Ut av fane"
 
-#: useractions.cpp:375
+#: useractions.cpp:376
 #, kde-format
 msgid "Close Entire &Group"
 msgstr "Lukk heile &gruppa"
 
-#: useractions.cpp:386
+#: useractions.cpp:387
 #, kde-format
 msgid "&More Actions"
 msgstr "&Fleire handlingar"
 
-#: useractions.cpp:390
+#: useractions.cpp:391
 #, kde-format
 msgid "&Close"
 msgstr "&Lukk"
 
-#: useractions.cpp:464
+#: useractions.cpp:465
 #, kde-format
 msgid "&Extensions"
 msgstr "&Utvidingar"
 
-#: useractions.cpp:519
+#: useractions.cpp:520
 #, kde-format
 msgctxt "Switch to tab -> Previous"
 msgid "Previous"
 msgstr "Førre"
 
-#: useractions.cpp:520
+#: useractions.cpp:521
 #, kde-format
 msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr "Neste"
 
-#: useractions.cpp:562
+#: useractions.cpp:563
 #, kde-format
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr "Ingen tilgjengelege"
 
-#: useractions.cpp:571
+#: useractions.cpp:572
 #, kde-format
 msgid "Switch to Tab"
 msgstr "Byt til fane"
 
-#: useractions.cpp:582
+#: useractions.cpp:583
 #, kde-format
 msgid "&Attach as tab to"
 msgstr "&Legg til som fane"
 
-#: useractions.cpp:605
+#: useractions.cpp:606
 #, kde-format
 msgid "Move To &Desktop"
 msgstr "Flytt til s&krivebord"
 
-#: useractions.cpp:621
+#: useractions.cpp:622
 #, kde-format
 msgid "Move To &Screen"
 msgstr "Flytt til &skjerm"
 
-#: useractions.cpp:636
+#: useractions.cpp:637
 #, kde-format
 msgid "Ac&tivities"
 msgstr "Ak&tivitetar"
 
-#: useractions.cpp:648
+#: useractions.cpp:649
 #, kde-format
 msgid "&All Desktops"
 msgstr "&Alle skrivebord"
 
-#: useractions.cpp:674
+#: useractions.cpp:675
 #, kde-format
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "&Nytt skrivebord"
 
-#: useractions.cpp:694
+#: useractions.cpp:695
 #, kde-format
 msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
@@ -1762,29 +1755,29 @@ msgctxt ""
 msgid "Screen &%1 (%2)"
 msgstr "Skjerm &%1 (%2)"
 
-#: useractions.cpp:715
+#: useractions.cpp:716
 #, kde-format
 msgid "&All Activities"
 msgstr "&Alle aktivitetar"
 
-#: useractions.cpp:930
+#: useractions.cpp:931
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "<b>%1</b> er alt i bruk"
 
-#: useractions.cpp:932
+#: useractions.cpp:933
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "<b>%1</b> er brukt av %2 i %3"
 
-#: useractions.cpp:1057
+#: useractions.cpp:1064
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Aktiver vindauge (%1)"
 
-#: useractions.cpp:1262
+#: useractions.cpp:1269
 #, kde-format
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
@@ -1835,22 +1828,22 @@ msgstr "Byt til skrivebordet under"
 msgid "Switch to Desktop %1"
 msgstr "Byt til skrivebord %1"
 
-#: virtualkeyboard.cpp:93
+#: virtualkeyboard.cpp:95
 #, kde-format
 msgid "Virtual Keyboard"
 msgstr "Virtuelt tastatur"
 
-#: virtualkeyboard.cpp:209
+#: virtualkeyboard.cpp:216
 #, kde-format
 msgid "Virtual Keyboard is enabled."
 msgstr "Virtuelt tastatur er tilgjengeleg."
 
-#: virtualkeyboard.cpp:212
+#: virtualkeyboard.cpp:219
 #, kde-format
 msgid "Virtual Keyboard is disabled."
 msgstr "Virtuelt tastatur er ikkje lenger tilgjengeleg."
 
-#: workspace.cpp:1371
+#: workspace.cpp:1314
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

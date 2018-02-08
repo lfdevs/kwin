@@ -337,7 +337,7 @@ WaylandBackend::WaylandBackend(QObject *parent)
     , m_display(nullptr)
     , m_eventQueue(new EventQueue(this))
     , m_registry(new Registry(this))
-    , m_compositor(new Compositor(this))
+    , m_compositor(new KWayland::Client::Compositor(this))
     , m_shell(new Shell(this))
     , m_surface(nullptr)
     , m_shellSurface(NULL)
@@ -652,6 +652,16 @@ void WaylandBackend::updateWindowTitle()
         m_xdgShellSurface->setTitle(title + QStringLiteral(" - ") + grab);
     }
 }
+
+QVector<CompositingType> WaylandBackend::supportedCompositors() const
+{
+#if HAVE_WAYLAND_EGL
+    return QVector<CompositingType>{OpenGLCompositing, QPainterCompositing};
+#else
+    return QVector<CompositingType>{QPainterCompositing};
+#endif
+}
+
 
 }
 

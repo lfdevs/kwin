@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
+"POT-Creation-Date: 2017-12-06 05:35+0100\n"
 "PO-Revision-Date: 2010-01-29 13:58+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh672@gmail.com>\n"
 "Language-Team: Maithili <maithili.sf.net>\n"
@@ -174,19 +174,19 @@ msgid "N&umber of rows:"
 msgstr "डेस्कटाप केर सँख्याः "
 
 #. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
-#: main.ui:103
+#: main.ui:109
 #, kde-format
 msgid "Desktop Names"
 msgstr "डेस्कटाप नाम "
 
 #. i18n: ectx: attribute (title), widget (QWidget, switching)
-#: main.ui:136
+#: main.ui:142
 #, kde-format
 msgid "Switching"
 msgstr "स्विचिंग"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, wrapAroundBox)
-#: main.ui:142
+#: main.ui:148
 #, fuzzy, kde-format
 msgid ""
 "Enable this option if you want keyboard or active desktop border navigation "
@@ -195,43 +195,43 @@ msgid ""
 msgstr "सक्रिय करू कीबोर्ड अथवा क्रियाशील क' a मे मे क' नवीन."
 
 #. i18n: ectx: property (text), widget (QCheckBox, wrapAroundBox)
-#: main.ui:145
+#: main.ui:151
 #, fuzzy, kde-format
 msgid "Desktop navigation wraps around"
 msgstr "डेस्कटाप"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: main.ui:152
+#: main.ui:158
 #, kde-format
 msgid "Desktop Effect Animation"
 msgstr "डेस्कटाप प्रभाव संजीवन"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: main.ui:164
+#: main.ui:170
 #, kde-format
 msgid "Animation:"
 msgstr "एनीमेशन:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, popupInfoCheckBox)
-#: main.ui:204
+#: main.ui:210
 #, kde-format
 msgid "Desktop Switch On-Screen Display"
 msgstr "ऑन स्क्रीन प्रदर्शन डेस्कटॉप स्विच"
 
 #. i18n: ectx: property (text), widget (QLabel, hideLabel)
-#: main.ui:222
+#: main.ui:228
 #, kde-format
 msgid "Duration:"
 msgstr "अवधि:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, popupHideSpinBox)
-#: main.ui:232
+#: main.ui:238
 #, kde-format
 msgid " msec"
 msgstr " msec"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
-#: main.ui:245
+#: main.ui:251
 #, fuzzy, kde-format
 msgid ""
 "Enabling this option will show a small preview of the desktop layout "
@@ -239,19 +239,19 @@ msgid ""
 msgstr "a छोट क' चयनित."
 
 #. i18n: ectx: property (text), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
-#: main.ui:248
+#: main.ui:254
 #, fuzzy, kde-format
 msgid "Show desktop layout indicators"
 msgstr "देखाबू"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shortcutsGroupBox)
-#: main.ui:258
+#: main.ui:264
 #, kde-format
 msgid "Shortcuts"
 msgstr "शार्टकटसभ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, allShortcutsCheckBox)
-#: main.ui:277
+#: main.ui:283
 #, fuzzy, kde-format
 msgid "Show shortcuts for all possible desktops"
 msgstr "देखाबू क'लेल सबहि"

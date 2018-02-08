@@ -7,14 +7,15 @@
 # Sebastien Renard <renard@kde.org>, 2013, 2014.
 # Vincent Pinon <vpinon@kde.org>, 2016, 2017.
 # Yoann Laissus <yoann.laissus@gmail.com>, 2017.
+# Simon Depiets <sdepiets@gmail.com>, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-08 03:04+0200\n"
-"PO-Revision-Date: 2017-06-22 22:51+0100\n"
-"Last-Translator: Yoann Laissus <yoann.laissus@gmail.com>\n"
+"POT-Creation-Date: 2017-12-30 03:13+0100\n"
+"PO-Revision-Date: 2018-01-06 20:41+0800\n"
+"Last-Translator: Simon Depiets <sdepiets@gmail.com>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -29,12 +30,12 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Sébastien Renard, Vincent Pinon"
+msgstr "Sébastien Renard, Vincent Pinon, Simon Depiets"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "renard@kde.org, vpinon@kde.org"
+msgstr "renard@kde.org, vpinon@kde.org, sdepiets@gmail.com"
 
 #: main.cpp:190 touch.cpp:131
 #, kde-format
@@ -110,18 +111,18 @@ msgstr "(Dés)Activer le changement de fenêtre alternatif"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
 #, kde-format
-msgid "Active Screen Edge Actions"
-msgstr "Actions sur le bord de l'écran actif"
+msgid "Active Screen Corners and Edges"
+msgstr "Bords et coins actifs de l'écran"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
 #, kde-format
 msgid ""
-"To trigger an action push your mouse cursor against the edge of the screen "
-"in the action's direction."
+"Trigger an action by pushing the mouse cursor against the corresponding "
+"screen edge or corner"
 msgstr ""
-"Pour déclencher une action, poussez le pointeur de votre souris contre le "
-"bord de l'écran dans la direction de l'action."
+"Déclenchez une action en poussant le pointeur de votre souris contre le bord "
+"de l'écran dans la direction de l'action."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
@@ -132,13 +133,16 @@ msgstr "Gestion des fenêtres"
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
 #, kde-format
-msgid "Maximize windows by dragging them to the top of the screen"
-msgstr "Maximiser les fenêtres en les faisant glisser vers le haut de l'écran"
+msgid "Maximize windows by dragging them to the top edge of the screen"
+msgstr ""
+"Maximiser les fenêtres en les faisant glisser vers le bord supérieur de "
+"l'écran"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
-#, kde-format
-msgid "Tile windows by dragging them to the side of the screen"
+#, fuzzy, kde-format
+#| msgid "Tile windows by dragging them to the side of the screen"
+msgid "Tile windows by dragging them to the left or right edges of the screen"
 msgstr ""
 "Disposer les fenêtres en mosaïque en les faisant glisser vers le côté de "
 "l'écran"
@@ -242,10 +246,13 @@ msgstr "Délai de &réactivation :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: touch.ui:36
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "To trigger an action swipe from the screen edge towards the center of the "
+#| "screen."
 msgid ""
-"To trigger an action swipe from the screen edge towards the center of the "
-"screen."
+"Trigger an action by swiping from the screen edge towards the center of the "
+"screen"
 msgstr ""
 "Pour déclencher une action, glissez votre curseur depuis un côté de l'écran "
 "vers le centre."

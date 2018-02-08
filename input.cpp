@@ -167,6 +167,12 @@ bool InputEventFilter::swipeGestureCancelled(quint32 time)
     return false;
 }
 
+bool InputEventFilter::switchEvent(SwitchEvent *event)
+{
+    Q_UNUSED(event)
+    return false;
+}
+
 void InputEventFilter::passToWaylandServer(QKeyEvent *event)
 {
     Q_ASSERT(waylandServer());
@@ -817,6 +823,9 @@ class InternalWindowEventFilter : public InputEventFilter {
                     continue;
                 }
                 if (w->property("_q_showWithoutActivating").toBool()) {
+                    continue;
+                }
+                if (w->property("outputOnly").toBool()) {
                     continue;
                 }
                 found = w;
@@ -1501,6 +1510,7 @@ InputRedirection::InputRedirection(QObject *parent)
         if (LogindIntegration::self()->hasSessionControl()) {
             setupLibInput();
         } else {
+            LibInput::Connection::createThread();
             if (LogindIntegration::self()->isConnected()) {
                 LogindIntegration::self()->takeControl();
             } else {
@@ -1579,18 +1589,21 @@ void InputRedirection::setupWorkspace()
                     [this] (const QSizeF &delta) {
                         // TODO: Fix time
                         m_pointer->processMotion(globalPointer() + QPointF(delta.width(), delta.height()), 0);
+                        waylandServer()->simulateUserActivity();
                     }
                 );
                 connect(device, &FakeInputDevice::pointerButtonPressRequested, this,
                     [this] (quint32 button) {
                         // TODO: Fix time
                         m_pointer->processButton(button, InputRedirection::PointerButtonPressed, 0);
+                        waylandServer()->simulateUserActivity();
                     }
                 );
                 connect(device, &FakeInputDevice::pointerButtonReleaseRequested, this,
                     [this] (quint32 button) {
                         // TODO: Fix time
                         m_pointer->processButton(button, InputRedirection::PointerButtonReleased, 0);
+                        waylandServer()->simulateUserActivity();
                     }
                 );
                 connect(device, &FakeInputDevice::pointerAxisRequested, this,
@@ -1610,24 +1623,28 @@ void InputRedirection::setupWorkspace()
                         }
                         // TODO: Fix time
                         m_pointer->processAxis(axis, delta, 0);
+                        waylandServer()->simulateUserActivity();
                     }
                 );
                 connect(device, &FakeInputDevice::touchDownRequested, this,
                    [this] (quint32 id, const QPointF &pos) {
                        // TODO: Fix time
                        m_touch->processDown(id, pos, 0);
+                        waylandServer()->simulateUserActivity();
                    }
                 );
                 connect(device, &FakeInputDevice::touchMotionRequested, this,
                    [this] (quint32 id, const QPointF &pos) {
                        // TODO: Fix time
                        m_touch->processMotion(id, pos, 0);
+                        waylandServer()->simulateUserActivity();
                    }
                 );
                 connect(device, &FakeInputDevice::touchUpRequested, this,
                     [this] (quint32 id) {
                         // TODO: Fix time
                         m_touch->processUp(id, 0);
+                        waylandServer()->simulateUserActivity();
                     }
                 );
                 connect(device, &FakeInputDevice::touchCancelRequested, this,
@@ -1762,6 +1779,15 @@ void InputRedirection::setupLibInput()
         connect(conn, &LibInput::Connection::touchMotion, m_touch, &TouchInputRedirection::processMotion);
         connect(conn, &LibInput::Connection::touchCanceled, m_touch, &TouchInputRedirection::cancel);
         connect(conn, &LibInput::Connection::touchFrame, m_touch, &TouchInputRedirection::frame);
+        auto handleSwitchEvent = [this] (SwitchEvent::State state, quint32 time, quint64 timeMicroseconds, LibInput::Device *device) {
+            SwitchEvent event(state, time, timeMicroseconds, device);
+            processSpies(std::bind(&InputEventSpy::switchEvent, std::placeholders::_1, &event));
+            processFilters(std::bind(&InputEventFilter::switchEvent, std::placeholders::_1, &event));
+        };
+        connect(conn, &LibInput::Connection::switchToggledOn, this,
+                std::bind(handleSwitchEvent, SwitchEvent::State::On, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+        connect(conn, &LibInput::Connection::switchToggledOff, this,
+                std::bind(handleSwitchEvent, SwitchEvent::State::Off, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
         if (screens()) {
             setupLibInputWithScreens();
         } else {
@@ -1860,11 +1886,13 @@ void InputRedirection::setupLibInputWithScreens()
         return;
     }
     m_libInput->setScreenSize(screens()->size());
+    m_libInput->updateScreens();
     connect(screens(), &Screens::sizeChanged, this,
         [this] {
             m_libInput->setScreenSize(screens()->size());
         }
     );
+    connect(screens(), &Screens::changed, m_libInput, &LibInput::Connection::updateScreens);
 #endif
 }
 
@@ -2148,6 +2176,9 @@ void InputDeviceHandler::updateInternalWindow(const QPointF &pos)
                     // check input mask
                     const QRegion mask = w->mask().translated(w->geometry().topLeft());
                     if (!mask.isEmpty() && !mask.contains(pos.toPoint())) {
+                        continue;
+                    }
+                    if (w->property("outputOnly").toBool()) {
                         continue;
                     }
                     m_internalWindow = QPointer<QWindow>(w);

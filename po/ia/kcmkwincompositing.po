@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-05 02:49+0200\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
 "PO-Revision-Date: 2014-07-25 14:43+0200\n"
 "Last-Translator: Giovanni Sora <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -324,6 +324,7 @@ msgid "Exclude internal Desktop Effects"
 msgstr "Exclude effectos interne de scriptorio"
 
 #: qml/EffectView.qml:104
-#, kde-format
-msgid "Get New Effects ..."
+#, fuzzy, kde-format
+#| msgid "Get New Effects ..."
+msgid "Get New Effects..."
 msgstr "Obtene nove effectos..."

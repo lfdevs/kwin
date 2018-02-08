@@ -46,6 +46,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/server_decoration_interface.h>
 #include <KWayland/Server/qtsurfaceextension_interface.h>
 #include <KWayland/Server/plasmawindowmanagement_interface.h>
+#include <KWayland/Server/appmenu_interface.h>
+#include <KWayland/Server/server_decoration_palette_interface.h>
+
 #include <KDesktopFile>
 
 #include <QOpenGLFramebufferObject>
@@ -57,9 +60,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace KWayland::Server;
 
-static const QByteArray s_schemePropertyName = QByteArrayLiteral("KDE_COLOR_SCHEME_PATH");
-static const QByteArray s_appMenuServiceNamePropertyName = QByteArrayLiteral("KDE_APPMENU_SERVICE_NAME");
-static const QByteArray s_appMenuObjectPathPropertyName = QByteArrayLiteral("KDE_APPMENU_OBJECT_PATH");
 static const QByteArray s_skipClosePropertyName = QByteArrayLiteral("KWIN_SKIP_CLOSE_ANIMATION");
 
 namespace KWin
@@ -185,6 +185,10 @@ void ShellClient::initSurface(T *shellSurface)
 
     connect(this, &ShellClient::geometryChanged, this, &ShellClient::updateClientOutputs);
     connect(screens(), &Screens::changed, this, &ShellClient::updateClientOutputs);
+
+    if (!m_internal) {
+        setupWindowRules(false);
+    }
 }
 
 void ShellClient::init()
@@ -207,11 +211,9 @@ void ShellClient::init()
     }
     if (m_internalWindow) {
         updateInternalWindowGeometry();
-        setOnAllDesktops(true);
         updateDecoration(true);
     } else {
         doSetGeometry(QRect(QPoint(0, 0), m_clientSize));
-        setDesktop(VirtualDesktopManager::self()->current());
     }
     if (waylandServer()->inputMethodConnection() == s->client()) {
         m_windowType = NET::OnScreenDisplay;
@@ -228,8 +230,52 @@ void ShellClient::init()
     connect(s, &SurfaceInterface::destroyed, this, &ShellClient::destroyClient);
     if (m_shellSurface) {
         initSurface(m_shellSurface);
+        auto setPopup = [this] {
+            // TODO: verify grab serial
+            m_hasPopupGrab = m_shellSurface->isPopup();
+        };
+        connect(m_shellSurface, &ShellSurfaceInterface::popupChanged, this, setPopup);
+        setPopup();
     } else if (m_xdgShellSurface) {
         initSurface(m_xdgShellSurface);
+
+        auto global = static_cast<XdgShellInterface *>(m_xdgShellSurface->global());
+        connect(global, &XdgShellInterface::pingDelayed,
+            this, [this](qint32 serial) {
+                auto it = m_pingSerials.find(serial);
+                if (it != m_pingSerials.end()) {
+                    qCDebug(KWIN_CORE) << "First ping timeout:" << caption();
+                    setUnresponsive(true);
+                }
+            });
+
+        connect(global, &XdgShellInterface::pingTimeout,
+            this, [this](qint32 serial) {
+                auto it = m_pingSerials.find(serial);
+                if (it != m_pingSerials.end()) {
+                    if (it.value() == PingReason::CloseWindow) {
+                        qCDebug(KWIN_CORE) << "Final ping timeout on a close attempt, asking to kill:" << caption();
+
+                        //for internal windows, killing the window will delete this
+                        QPointer<QObject> guard(this);
+                        killWindow();
+                        if (!guard) {
+                            return;
+                        }
+                    }
+                    m_pingSerials.erase(it);
+                }
+            });
+
+        connect(global, &XdgShellInterface::pongReceived,
+            this, [this](qint32 serial){
+                auto it = m_pingSerials.find(serial);
+                if (it != m_pingSerials.end()) {
+                    setUnresponsive(false);
+                    m_pingSerials.erase(it);
+                }
+            });
+
         connect(m_xdgShellSurface, &XdgShellSurfaceInterface::windowMenuRequested, this,
             [this] (SeatInterface *seat, quint32 serial, const QPoint &surfacePos) {
                 // TODO: check serial on seat
@@ -249,25 +295,57 @@ void ShellClient::init()
             }
             m_xdgShellSurface->configure(xdgSurfaceStates());
         };
+        configure();
         connect(this, &AbstractClient::activeChanged, this, configure);
         connect(this, &AbstractClient::clientStartUserMovedResized, this, configure);
         connect(this, &AbstractClient::clientFinishUserMovedResized, this, configure);
     } else if (m_xdgShellPopup) {
+        connect(m_xdgShellPopup, &XdgShellPopupInterface::grabRequested, this, [this](SeatInterface *seat, quint32 serial) {
+            Q_UNUSED(seat)
+            Q_UNUSED(serial)
+            //TODO - should check the parent had focus
+            m_hasPopupGrab = true;
+        });
+
+        QRect position = QRect(m_xdgShellPopup->transientOffset(), m_xdgShellPopup->initialSize());
+        m_xdgShellPopup->configure(position);
+
         connect(m_xdgShellPopup, &XdgShellPopupInterface::destroyed, this, &ShellClient::destroyClient);
     }
+
+    // set initial desktop
+    setDesktop(rules()->checkDesktop(m_internal ? int(NET::OnAllDesktops) : VirtualDesktopManager::self()->current(), true));
+    // TODO: merge in checks from Client::manage?
+    if (rules()->checkMinimize(false, true)) {
+        minimize(true);   // No animation
+    }
+    setSkipTaskbar(rules()->checkSkipTaskbar(m_plasmaShellSurface ? m_plasmaShellSurface->skipTaskbar() : false, true));
+    setSkipPager(rules()->checkSkipPager(false, true));
+    setSkipSwitcher(rules()->checkSkipSwitcher(false, true));
 
     // setup shadow integration
     getShadow();
     connect(s, &SurfaceInterface::shadowChanged, this, &Toplevel::getShadow);
 
+    connect(waylandServer(), &WaylandServer::foreignTransientChanged, this, [this](KWayland::Server::SurfaceInterface *child) {
+        if (child == surface()) {
+            setTransient();
+        }
+    });
     setTransient();
     // check whether we have a ServerSideDecoration
     if (ServerSideDecorationInterface *deco = ServerSideDecorationInterface::get(s)) {
         installServerSideDecoration(deco);
     }
 
-    updateColorScheme(QString());
-    updateApplicationMenu();
+    AbstractClient::updateColorScheme(QString());
+
+    if (!m_internal) {
+        discardTemporaryRules();
+        applyWindowRules(); // Just in case
+        RuleBook::self()->discardUsed(this, false);   // Remove ApplyNow rules
+        updateWindowRules(Rules::All); // Was blocked while !isManaged()
+    }
 }
 
 void ShellClient::destroyClient()
@@ -487,9 +565,24 @@ void ShellClient::updateDecoration(bool check_workspace_pos, bool force)
 
 void ShellClient::setGeometry(int x, int y, int w, int h, ForceGeometry_t force)
 {
-    Q_UNUSED(force)
+    if (areGeometryUpdatesBlocked()) {
+        // when the GeometryUpdateBlocker exits the current geom is passed to setGeometry
+        // thus we need to set it here.
+        geom = QRect(x, y, w, h);
+        if (pendingGeometryUpdate() == PendingGeometryForced)
+            {} // maximum, nothing needed
+        else if (force == ForceGeometrySet)
+            setPendingGeometryUpdate(PendingGeometryForced);
+        else
+            setPendingGeometryUpdate(PendingGeometryNormal);
+        return;
+    }
+    if (pendingGeometryUpdate() != PendingGeometryNone) {
+        // reset geometry to the one before blocking, so that we can compare properly
+        geom = geometryBeforeUpdateBlocking();
+    }
     // TODO: better merge with Client's implementation
-    if (QSize(w, h) == geom.size()) {
+    if (QSize(w, h) == geom.size() && !m_positionAfterResize.isValid()) {
         // size didn't change, update directly
         doSetGeometry(QRect(x, y, w, h));
     } else {
@@ -506,7 +599,6 @@ void ShellClient::doSetGeometry(const QRect &rect)
     if (!m_unmapped) {
         addWorkspaceRepaint(visibleRect());
     }
-    const QRect old = geom;
     geom = rect;
 
     if (m_unmapped && m_geomMaximizeRestore.isEmpty() && !geom.isEmpty()) {
@@ -521,6 +613,8 @@ void ShellClient::doSetGeometry(const QRect &rect)
     if (hasStrut()) {
         workspace()->updateClientArea();
     }
+    const auto old = geometryBeforeUpdateBlocking();
+    updateGeometryBeforeUpdateBlocking();
     emit geometryShapeChanged(this, old);
 
     if (isResize()) {
@@ -592,12 +686,11 @@ void ShellClient::closeWindow()
 {
     if (m_xdgShellSurface && isCloseable()) {
         m_xdgShellSurface->close();
-        return;
-    }
-    if (m_qtExtendedSurface && isCloseable()) {
+        const qint32 pingSerial = static_cast<XdgShellInterface *>(m_xdgShellSurface->global())->ping(m_xdgShellSurface);
+        m_pingSerials.insert(pingSerial, PingReason::CloseWindow);
+    } else if (m_qtExtendedSurface && isCloseable()) {
         m_qtExtendedSurface->close();
-    }
-    if (m_internalWindow) {
+    } else if (m_internalWindow) {
         m_internalWindow->hide();
     }
 }
@@ -620,11 +713,6 @@ bool ShellClient::isCloseable() const
         return true;
     }
     return m_qtExtendedSurface ? true : false;
-}
-
-bool ShellClient::isFullScreenable() const
-{
-    return false;
 }
 
 bool ShellClient::isFullScreen() const
@@ -780,7 +868,7 @@ void ShellClient::changeMaximize(bool horizontal, bool vertical, bool adjust)
         if (quickTileMode() != oldQuickTileMode) {
             emit quickTileModeChanged();
         }
-        requestGeometry(workspace()->clientArea(MaximizeArea, this));
+        setGeometry(workspace()->clientArea(MaximizeArea, this));
         workspace()->raiseClient(this);
     } else {
         if (m_maximizeMode == MaximizeRestore) {
@@ -791,9 +879,9 @@ void ShellClient::changeMaximize(bool horizontal, bool vertical, bool adjust)
         }
 
         if (m_geomMaximizeRestore.isValid()) {
-            requestGeometry(m_geomMaximizeRestore);
+            setGeometry(m_geomMaximizeRestore);
         } else {
-            requestGeometry(workspace()->clientArea(PlacementArea, this));
+            setGeometry(workspace()->clientArea(PlacementArea, this));
         }
     }
 }
@@ -816,16 +904,49 @@ bool ShellClient::noBorder() const
     return true;
 }
 
-const WindowRules *ShellClient::rules() const
-{
-    static WindowRules s_rules;
-    return &s_rules;
-}
-
 void ShellClient::setFullScreen(bool set, bool user)
 {
-    Q_UNUSED(set)
-    Q_UNUSED(user)
+    if (!isFullScreen() && !set)
+        return;
+    if (user && !userCanSetFullScreen())
+        return;
+    set = rules()->checkFullScreen(set && !isSpecialWindow());
+    setShade(ShadeNone);
+    bool was_fs = isFullScreen();
+    if (was_fs)
+        workspace()->updateFocusMousePosition(Cursor::pos()); // may cause leave event
+    else
+        m_geomFsRestore = geometry();
+    m_fullScreen = set;
+    if (was_fs == isFullScreen())
+        return;
+    if (set) {
+        untab();
+        workspace()->raiseClient(this);
+    }
+    RequestGeometryBlocker requestBlocker(this);
+    StackingUpdatesBlocker blocker1(workspace());
+    GeometryUpdatesBlocker blocker2(this);
+    workspace()->updateClientLayer(this);   // active fullscreens get different layer
+    updateDecoration(false, false);
+    if (isFullScreen()) {
+        setGeometry(workspace()->clientArea(FullScreenArea, this));
+    } else {
+        if (!m_geomFsRestore.isNull()) {
+            int currentScreen = screen();
+            setGeometry(QRect(m_geomFsRestore.topLeft(), adjustedSize(m_geomFsRestore.size())));
+            if( currentScreen != screen())
+                workspace()->sendClientToScreen( this, currentScreen );
+        } else {
+            // does this ever happen?
+            setGeometry(workspace()->clientArea(MaximizeArea, this));
+        }
+    }
+    updateWindowRules(Rules::Fullscreen|Rules::Position|Rules::Size);
+
+    if (was_fs != isFullScreen()) {
+        emit fullScreenChanged();
+    }
 }
 
 void ShellClient::setNoBorder(bool set)
@@ -850,6 +971,10 @@ void ShellClient::setOnAllActivities(bool set)
 void ShellClient::takeFocus()
 {
     if (rules()->checkAcceptFocus(wantsInput())) {
+        if (m_xdgShellSurface) {
+            const qint32 pingSerial = static_cast<XdgShellInterface *>(m_xdgShellSurface->global())->ping(m_xdgShellSurface);
+            m_pingSerials.insert(pingSerial, PingReason::FocusWindow);
+        }
         setActive(true);
     }
 
@@ -880,13 +1005,11 @@ void ShellClient::doSetActive()
     workspace()->focusToNull();
 }
 
-void ShellClient::updateWindowRules(Rules::Types selection)
-{
-    Q_UNUSED(selection)
-}
-
 bool ShellClient::userCanSetFullScreen() const
 {
+    if (m_xdgShellSurface) {
+        return true;
+    }
     return false;
 }
 
@@ -1036,6 +1159,15 @@ void ShellClient::requestGeometry(const QRect &rect)
     if (m_xdgShellSurface) {
         m_xdgShellSurface->configure(xdgSurfaceStates(), size);
     }
+    if (m_xdgShellPopup) {
+        auto parent = transientFor();
+        if (parent) {
+            const QPoint globalClientContentPos = parent->geometry().topLeft() + parent->clientPos();
+            const QPoint relativeOffset = rect.topLeft() -globalClientContentPos;
+            m_xdgShellPopup->configure(QRect(relativeOffset, rect.size()));
+        }
+    }
+
     m_blockedRequestGeometry = QRect();
     if (m_internal) {
         m_internalWindow->setGeometry(QRect(rect.topLeft() + QPoint(borderLeft(), borderTop()), rect.size() - QSize(borderLeft() + borderRight(), borderTop() + borderBottom())));
@@ -1044,29 +1176,7 @@ void ShellClient::requestGeometry(const QRect &rect)
 
 void ShellClient::clientFullScreenChanged(bool fullScreen)
 {
-    RequestGeometryBlocker requestBlocker(this);
-    StackingUpdatesBlocker blocker(workspace());
-
-    const bool emitSignal = m_fullScreen != fullScreen;
-    m_fullScreen = fullScreen;
-    updateDecoration(false, false);
-
-    workspace()->updateClientLayer(this);   // active fullscreens get different layer
-
-    if (fullScreen) {
-        m_geomFsRestore = geometry();
-        requestGeometry(workspace()->clientArea(FullScreenArea, this));
-        workspace()->raiseClient(this);
-    } else {
-        if (m_geomFsRestore.isValid()) {
-            requestGeometry(m_geomFsRestore);
-        } else {
-            requestGeometry(workspace()->clientArea(MaximizeArea, this));
-        }
-    }
-    if (emitSignal) {
-        emit fullScreenChanged();
-    }
+    setFullScreen(fullScreen, false);
 }
 
 void ShellClient::resizeWithChecks(int w, int h, ForceGeometry_t force)
@@ -1266,18 +1376,39 @@ void ShellClient::installQtExtendedSurface(QtExtendedSurfaceInterface *surface)
     m_qtExtendedSurface->installEventFilter(this);
 }
 
+void ShellClient::installAppMenu(AppMenuInterface *menu)
+{
+    m_appMenuInterface = menu;
+
+    auto updateMenu = [this](AppMenuInterface::InterfaceAddress address) {
+        updateApplicationMenuServiceName(address.serviceName);
+        updateApplicationMenuObjectPath(address.objectPath);
+    };
+    connect(m_appMenuInterface, &AppMenuInterface::addressChanged, this, [=](AppMenuInterface::InterfaceAddress address) {
+        updateMenu(address);
+    });
+    updateMenu(menu->address());
+}
+
+void ShellClient::installPalette(ServerSideDecorationPaletteInterface *palette)
+{
+    m_paletteInterface = palette;
+
+    auto updatePalette = [this](const QString &palette) {
+        AbstractClient::updateColorScheme(rules()->checkDecoColor(palette));
+    };
+    connect(m_paletteInterface, &ServerSideDecorationPaletteInterface::paletteChanged, this, [=](const QString &palette) {
+        updatePalette(palette);
+    });
+    connect(m_paletteInterface, &QObject::destroyed, this, [=]() {
+        updatePalette(QString());
+    });
+    updatePalette(palette->palette());
+}
+
+
 bool ShellClient::eventFilter(QObject *watched, QEvent *event)
 {
-    if (watched == m_qtExtendedSurface.data() && event->type() == QEvent::DynamicPropertyChange) {
-        QDynamicPropertyChangeEvent *pe = static_cast<QDynamicPropertyChangeEvent*>(event);
-        if (pe->propertyName() == s_schemePropertyName) {
-            updateColorScheme(rules()->checkDecoColor(m_qtExtendedSurface->property(pe->propertyName().constData()).toString()));
-        } else if (pe->propertyName() == s_appMenuServiceNamePropertyName) {
-            updateApplicationMenuServiceName(m_qtExtendedSurface->property(pe->propertyName().constData()).toString());
-        } else if (pe->propertyName() == s_appMenuObjectPathPropertyName) {
-            updateApplicationMenuObjectPath(m_qtExtendedSurface->property(pe->propertyName().constData()).toString());
-        }
-    }
     if (watched == m_internalWindow && event->type() == QEvent::DynamicPropertyChange) {
         QDynamicPropertyChangeEvent *pe = static_cast<QDynamicPropertyChangeEvent*>(event);
         if (pe->propertyName() == s_skipClosePropertyName) {
@@ -1285,6 +1416,15 @@ bool ShellClient::eventFilter(QObject *watched, QEvent *event)
         }
     }
     return false;
+}
+
+void ShellClient::updateColorScheme()
+{
+    if (m_paletteInterface) {
+        AbstractClient::updateColorScheme(rules()->checkDecoColor(m_paletteInterface->palette()));
+    } else {
+        AbstractClient::updateColorScheme(rules()->checkDecoColor(QString()));
+    }
 }
 
 bool ShellClient::hasStrut() const
@@ -1330,6 +1470,9 @@ void ShellClient::setTransient()
     }
     if (m_xdgShellPopup) {
         s = m_xdgShellPopup->transientFor().data();
+    }
+    if (!s) {
+        s = waylandServer()->findForeignTransientForSurface(surface());
     }
     auto t = waylandServer()->findClient(s);
     if (t != transientFor()) {
@@ -1401,8 +1544,6 @@ void ShellClient::installServerSideDecoration(KWayland::Server::ServerSideDecora
     connect(m_serverDecoration, &ServerSideDecorationInterface::modeRequested, this,
         [this] (ServerSideDecorationManagerInterface::Mode mode) {
             const bool changed = mode != m_serverDecoration->mode();
-            // always acknowledge the requested mode
-            m_serverDecoration->setMode(mode);
             if (changed && !m_unmapped) {
                 updateDecoration(false);
             }
@@ -1416,6 +1557,9 @@ bool ShellClient::shouldExposeToWindowManagement()
         return false;
     }
     if (isLockScreen()) {
+        return false;
+    }
+    if (m_xdgShellPopup) {
         return false;
     }
     if (m_shellSurface) {
@@ -1514,27 +1658,18 @@ void ShellClient::killWindow()
     QTimer::singleShot(5000, c, &ClientConnection::destroy);
 }
 
-void ShellClient::updateApplicationMenu()
-{
-    if (m_qtExtendedSurface) {
-        updateApplicationMenuServiceName(m_qtExtendedSurface->property(s_appMenuObjectPathPropertyName).toString());
-        updateApplicationMenuObjectPath(m_qtExtendedSurface->property(s_appMenuServiceNamePropertyName).toString());
-    }
-}
-
 bool ShellClient::hasPopupGrab() const
 {
-    if (m_shellSurface) {
-        // TODO: verify grab serial
-        return m_shellSurface->isPopup();
-    }
-    return false;
+    return m_hasPopupGrab;
 }
 
 void ShellClient::popupDone()
 {
     if (m_shellSurface) {
         m_shellSurface->popupDone();
+    }
+    if (m_xdgShellPopup) {
+        m_xdgShellPopup->popupDone();
     }
 }
 

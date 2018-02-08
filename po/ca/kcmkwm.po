@@ -1,26 +1,26 @@
 # Translation of kcmkwm.po to Catalan
-# Copyright (C) 1998-2016 This_file_is_part_of_KDE
+# Copyright (C) 1998-2018 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
 # Sebastià Pla i Sanz <sps@sastia.com>, 1998, 1999, 2000, 2001, 2002, 2004, 2005, 2006.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2003, 2011, 2013, 2015.
 # Albert Astals Cid <aacid@kde.org>, 2005.
-# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016.
+# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018.
 # Manuel Tortosa Moreno <manutortosa@chakra-project.org>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2016-06-03 22:11+0200\n"
+"PO-Revision-Date: 2018-01-03 10:04+0100\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -584,7 +584,7 @@ msgstr "Sota el ratolí"
 #: advanced.ui:166
 #, kde-format
 msgid "Shading"
-msgstr "Ombrejat"
+msgstr "Ombreig"
 
 #. i18n: ectx: property (text), widget (QLabel, shadeHoverLabel)
 #: advanced.ui:175
@@ -688,7 +688,7 @@ msgstr ""
 "<b>Clic al focus - Prioritat al ratolí</b><br>\n"
 "En general, és similar a <i>Clic al focus</i>.<br><br>\n"
 "Si el sistema ha de seleccionar una finestra activa<br>\n"
-"(p.ex. perquè l'actualment activa s'ha tancat) <br>\n"
+"(p. ex. perquè l'activa actualment s'ha tancat) <br>\n"
 "la candidata preferida serà la finestra que hi ha sota el ratolí.<br><br>\n"
 "No és habitual, però és una possible variació de <i>Clic al focus</i>."
 
@@ -723,7 +723,7 @@ msgstr ""
 "<b>El focus segueix el ratolí - Prioritat al ratolí</b><br>\n"
 "En general, és similar a <i>El focus segueix el ratolí</i>.<br><br>\n"
 "Si el sistema ha de seleccionar una finestra activa<br>\n"
-"(p.ex. perquè l'actualment activa s'ha tancat) <br>\n"
+"(p. ex. perquè l'activa actualment s'ha tancat) <br>\n"
 "la candidata preferida serà la finestra que hi ha sota el ratolí.<br><br>\n"
 "Seleccioneu aquesta si voleu un focus controlat en passar-hi per sobre."
 
@@ -987,9 +987,9 @@ msgid ""
 "window. By default this option is disabled for Click to focus and enabled "
 "for other focus policies."
 msgstr ""
-"Quan aquesta opció està activada, la pantalla de Xinerama activa (p.ex. a on "
-"apareixen les noves finestres) és la pantalla amb el cursor del ratolí. Quan "
-"està desactivada, la pantalla de Xinerama activa és la pantalla amb la "
+"Quan aquesta opció està activada, la pantalla de Xinerama activa (p. ex. a "
+"on apareixen les noves finestres) és la pantalla amb el cursor del ratolí. "
+"Quan està desactivada, la pantalla de Xinerama activa és la pantalla amb la "
 "finestra enfocada. Aquesta opció es desactiva per defecte en el clic al "
 "focus i s'activa en altres polítiques de focus."
 
@@ -1351,8 +1351,8 @@ msgid ""
 "them, i.e. they will not be snapped if the windows comes only near another "
 "window or border."
 msgstr ""
-"Aquí podeu establir que les finestres només s'enganxaran si proveu "
-"d'encavallar-les, no s'enganxaran si només estan a prop d'una altra finestra "
+"Aquí podeu establir que les finestres només s'ajustaran si proveu "
+"d'encavallar-les, no s'ajustaran si només estan a prop d'una altra finestra "
 "o vora."
 
 #. i18n: ectx: property (text), widget (QCheckBox, OverlapSnap)

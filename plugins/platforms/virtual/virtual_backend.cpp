@@ -29,9 +29,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // system
 #include <fcntl.h>
 #include <unistd.h>
+#include <config-kwin.h>
 #if HAVE_GBM
 #include <gbm.h>
 #endif
+#include <colorcorrection/manager.h>
 
 namespace KWin
 {
@@ -49,6 +51,7 @@ VirtualBackend::VirtualBackend(QObject *parent)
         }
     }
     setSupportsPointerWarping(true);
+    setSupportsGammaControl(true);
 }
 
 VirtualBackend::~VirtualBackend()
@@ -95,6 +98,15 @@ QPainterBackend *VirtualBackend::createQPainterBackend()
 OpenGLBackend *VirtualBackend::createOpenGLBackend()
 {
     return new EglGbmBackend(this);
+}
+
+int VirtualBackend::gammaRampSize(int screen) const {
+    return m_gammaSizes[screen];
+}
+
+bool VirtualBackend::setGammaRamp(int screen, ColorCorrect::GammaRamp &gamma) {
+    Q_UNUSED(gamma);
+    return m_gammaResults[screen];
 }
 
 }

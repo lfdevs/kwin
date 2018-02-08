@@ -2,20 +2,22 @@
 # Copyright (C) 2010 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kcm_kwintabbox package.
 # Andhika Padmawan <andhika.padmawan@gmail.com>, 2010-2014.
+# Wantoyo <wantoyek@gmail.com>, 2017, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2014-06-14 12:04+0700\n"
-"Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
+"PO-Revision-Date: 2017-12-11 22:01+0700\n"
+"Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 2.0\n"
 
 #: layoutpreview.cpp:165
 #, kde-format
@@ -38,8 +40,7 @@ msgstr "Alternatif"
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""
-"Pengaturan kebijakan fokus membatasi fungsionalitas bernavigasi antar "
-"jendela."
+"Setelan kebijakan fokus membatasi fungsionalitas bernavigasi antar jendela."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
@@ -159,7 +160,7 @@ msgstr "Jendela tersembunyi"
 #: main.ui:386
 #, kde-format
 msgid "Shortcuts"
-msgstr "Jalan Pintas"
+msgstr "Pintasan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_5)

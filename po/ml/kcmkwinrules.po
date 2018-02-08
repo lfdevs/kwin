@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
 "PO-Revision-Date: 2010-02-02 21:44+0530\n"
 "Last-Translator: Manilal K M|മണിലാല്‍ കെ എം <libregeek@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ്  <smc-"
@@ -281,12 +281,12 @@ msgstr "ഈ സഹായ ഉപാധി നേരിട്ടു് വിള�
 
 #: ruleslist.cpp:153
 #, kde-format
-msgid "Export Rule"
+msgid "Export Rules"
 msgstr ""
 
 #: ruleslist.cpp:154 ruleslist.cpp:166
 #, kde-format
-msgid "KWin Rule (*.kwinrule)"
+msgid "KWin Rules (*.kwinrule)"
 msgstr ""
 
 #: ruleslist.cpp:165

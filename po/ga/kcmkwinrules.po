@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/kcmkwinrules.po\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -302,13 +302,14 @@ msgid "This helper utility is not supposed to be called directly."
 msgstr "Ní ceart an uirlis chúntach seo a ghlao go díreach."
 
 #: ruleslist.cpp:153
-#, kde-format
-msgid "Export Rule"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "&Export"
+msgid "Export Rules"
+msgstr "&Easpórtáil"
 
 #: ruleslist.cpp:154 ruleslist.cpp:166
 #, kde-format
-msgid "KWin Rule (*.kwinrule)"
+msgid "KWin Rules (*.kwinrule)"
 msgstr ""
 
 #: ruleslist.cpp:165

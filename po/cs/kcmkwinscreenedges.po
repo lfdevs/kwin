@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-08 03:04+0200\n"
+"POT-Creation-Date: 2017-12-30 03:13+0100\n"
 "PO-Revision-Date: 2017-04-18 13:14+0100\n"
 "Last-Translator: Vít Pelčák <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -104,18 +104,16 @@ msgstr "Zapnout alternativní přepínání oken"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
 #, kde-format
-msgid "Active Screen Edge Actions"
-msgstr "Činnosti aktivního okraje obrazovky"
+msgid "Active Screen Corners and Edges"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
 #, kde-format
 msgid ""
-"To trigger an action push your mouse cursor against the edge of the screen "
-"in the action's direction."
+"Trigger an action by pushing the mouse cursor against the corresponding "
+"screen edge or corner"
 msgstr ""
-"Pro spuštění činnosti posuňte ukazatel myši na aktivní okraj obrazovky "
-"přiřazený dané činnosti."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
@@ -126,14 +124,14 @@ msgstr "Správa oken"
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
 #, kde-format
-msgid "Maximize windows by dragging them to the top of the screen"
-msgstr "Maximalizovat okna jejich přetažením k hornímu okraji obrazovky"
+msgid "Maximize windows by dragging them to the top edge of the screen"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
 #, kde-format
-msgid "Tile windows by dragging them to the side of the screen"
-msgstr "Sesadit okna jako dlaždice jejich přetažením na stranu obrazovky"
+msgid "Tile windows by dragging them to the left or right edges of the screen"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
@@ -234,6 +232,6 @@ msgstr "Prodleva &reaktivace:"
 #: touch.ui:36
 #, kde-format
 msgid ""
-"To trigger an action swipe from the screen edge towards the center of the "
-"screen."
-msgstr "Pro spuštění činnosti táhněte od okraje ke středu obrazovky."
+"Trigger an action by swiping from the screen edge towards the center of the "
+"screen"
+msgstr ""

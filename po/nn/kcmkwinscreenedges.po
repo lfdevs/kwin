@@ -1,13 +1,13 @@
 # Translation of kcmkwinscreenedges to Norwegian Nynorsk
 #
 # Eirik U. Birkeland <eirbir@gmail.com>, 2009, 2010.
-# Karl Ove Hufthammer <karl@huftis.org>, 2010, 2015, 2016, 2017.
+# Karl Ove Hufthammer <karl@huftis.org>, 2010, 2015, 2016, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-08 03:04+0200\n"
-"PO-Revision-Date: 2017-08-06 08:06+0100\n"
+"POT-Creation-Date: 2017-12-30 03:13+0100\n"
+"PO-Revision-Date: 2018-01-24 20:01+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
@@ -104,18 +104,18 @@ msgstr "Slå på/av alternativ vindaugsbyte"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
 #, kde-format
-msgid "Active Screen Edge Actions"
-msgstr "Verksame skjermkanthandlingar"
+msgid "Active Screen Corners and Edges"
+msgstr "Aktive skjermhjørne og skjermkantar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
 #, kde-format
 msgid ""
-"To trigger an action push your mouse cursor against the edge of the screen "
-"in the action's direction."
+"Trigger an action by pushing the mouse cursor against the corresponding "
+"screen edge or corner"
 msgstr ""
-"For å setja i gang ei handling drar du musepeikaren til den kanten av "
-"skjermen der du vil at ho skal skje."
+"Utløys ei handling ved å flytta musepeikaren til tilhøyrande skjermkant "
+"eller skjermhjørne"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
@@ -126,16 +126,16 @@ msgstr "Vindaugshandsaming"
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
 #, kde-format
-msgid "Maximize windows by dragging them to the top of the screen"
+msgid "Maximize windows by dragging them to the top edge of the screen"
 msgstr "Maksimer vindauge ved å dra dei øvst på skjermen"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
 #, kde-format
-msgid "Tile windows by dragging them to the side of the screen"
+msgid "Tile windows by dragging them to the left or right edges of the screen"
 msgstr ""
 "Still vindauge ved sida av eller over/under kvarandre ved å dra dei til "
-"kanten av skjermen"
+"venstre eller høgre på kant kant på skjermen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
@@ -232,8 +232,8 @@ msgstr "Tid før &neste handling:"
 #: touch.ui:36
 #, kde-format
 msgid ""
-"To trigger an action swipe from the screen edge towards the center of the "
-"screen."
+"Trigger an action by swiping from the screen edge towards the center of the "
+"screen"
 msgstr ""
 "For å setja i gang ei handling drar du fingeren frå skjermkanten og mot "
-"midten av skjermen."
+"midten av skjermen"

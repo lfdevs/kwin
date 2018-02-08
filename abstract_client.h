@@ -367,7 +367,8 @@ public:
     virtual bool isHiddenInternal() const = 0;
     // TODO: remove boolean trap
     virtual void hideClient(bool hide) = 0;
-    virtual bool isFullScreenable() const = 0;
+    bool isFullScreenable() const;
+    bool isFullScreenable(bool fullscreen_hack) const;
     virtual bool isFullScreen() const = 0;
     // TODO: remove boolean trap
     virtual AbstractClient *findModal(bool allow_itself = false) = 0;
@@ -460,8 +461,16 @@ public:
     virtual QRect iconGeometry() const;
     virtual bool userCanSetFullScreen() const = 0;
     virtual bool userCanSetNoBorder() const = 0;
+    virtual void checkNoBorder();
+    virtual void setOnActivities(QStringList newActivitiesList);
     virtual void setOnAllActivities(bool set) = 0;
-    virtual const WindowRules* rules() const = 0;
+    const WindowRules* rules() const {
+        return &m_rules;
+    }
+    void removeRule(Rules* r);
+    void setupWindowRules(bool ignore_temporary);
+    void evaluateWindowRules();
+    void applyWindowRules();
     virtual void takeFocus() = 0;
     virtual bool wantsInput() const = 0;
     /**
@@ -478,7 +487,7 @@ public:
     virtual bool dockWantsInput() const;
     void checkWorkspacePosition(QRect oldGeometry = QRect(), int oldDesktop = -2,  QRect oldClientGeometry = QRect());
     virtual xcb_timestamp_t userTime() const;
-    virtual void updateWindowRules(Rules::Types selection) = 0;
+    virtual void updateWindowRules(Rules::Types selection);
 
     void growHorizontal();
     void shrinkHorizontal();
@@ -675,6 +684,10 @@ public:
 
     bool unresponsive() const;
 
+    virtual bool isInitialPositionSet() const {
+        return false;
+    }
+
 public Q_SLOTS:
     virtual void closeWindow() = 0;
 
@@ -778,6 +791,7 @@ protected:
     void destroyWindowManagementInterface();
 
     void updateColorScheme(QString path);
+    virtual void updateColorScheme() = 0;
 
     void setTransientFor(AbstractClient *transientFor);
     virtual void addTransient(AbstractClient* cl);
@@ -789,7 +803,7 @@ protected:
     Layer belongsToLayer() const;
     virtual bool belongsToDesktop() const;
     void invalidateLayer();
-    virtual bool isActiveFullScreen() const;
+    bool isActiveFullScreen() const;
     virtual Layer layerForDock() const;
 
     // electric border / quick tiling
@@ -1012,6 +1026,9 @@ protected:
      **/
     AbstractClient *findClientWithSameCaption() const;
 
+    void finishWindowRules();
+    void discardTemporaryRules();
+
 private:
     void handlePaletteChange();
     QSharedPointer<TabBox::TabBoxClientImpl> m_tabBoxClient;
@@ -1087,6 +1104,8 @@ private:
     bool m_unresponsive = false;
 
     QKeySequence _shortcut;
+
+    WindowRules m_rules;
 
     static bool s_haveResizeEffect;
 };

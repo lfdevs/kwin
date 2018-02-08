@@ -2,14 +2,14 @@
 # Copyright (C) 2007-2008 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kdebase package.
 # Shinjo Park <kde@peremen.name>, 2007, 2008, 2009, 2010, 2012, 2013, 2014.
-# Shinjo Park <kde@peremen.name>, 2015, 2016.
+# Shinjo Park <kde@peremen.name>, 2015, 2016, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2016-01-24 22:43+0100\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"PO-Revision-Date: 2017-12-02 23:22+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
 "Language: ko\n"
@@ -290,12 +290,12 @@ msgstr "이 도우미 유틸리티는 직접 호출되기 위한 것이 아닙�
 
 #: ruleslist.cpp:153
 #, kde-format
-msgid "Export Rule"
+msgid "Export Rules"
 msgstr "규칙 내보내기"
 
 #: ruleslist.cpp:154 ruleslist.cpp:166
 #, kde-format
-msgid "KWin Rule (*.kwinrule)"
+msgid "KWin Rules (*.kwinrule)"
 msgstr "KWin 규칙 (*.kwinrule)"
 
 #: ruleslist.cpp:165

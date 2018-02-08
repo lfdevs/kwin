@@ -1,20 +1,20 @@
-# translation of kcmkwinrules.po to
+# translation of kcmkwinrules.po to Danish
 # Danish translation of kcmkwinrules
 # Erik Kjær Pedersen <erik@binghamton.edu>, 2004, 2005.
 # Martin Schlander <mschlander@opensuse.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
+# scootergrisen, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2015-11-22 21:51+0100\n"
-"Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
-"Language-Team: Danish <kde-i18n-doc@kde.org>\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"PO-Revision-Date: 2017-11-06 18:53+0200\n"
+"Last-Translator: scootergrisen\n"
+"Language-Team: Danish\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -185,9 +185,9 @@ msgstr ""
 "En enkelt genvej kan nemt tilknyttes eller ryddes ved brug af de to knapper. "
 "Kun genvejstaster med modifikatorer kan bruges.<p>\n"
 "Det er muligt at have adskillige genveje, så vil den første tilgængelige "
-"genvej blive brugt. Genvejen bliver angivet ved brug af   genvejssæt "
-"separeret af \" - \". Et sæt angives ved <i>basis</i>+(<i>liste</i>), hvor "
-"basis er modifikatorer og liste er en liste over taster.<br>\n"
+"genvej blive brugt. Genvejen bliver angivet ved brug af genvejssæt separeret "
+"af \" - \". Et sæt angives ved <i>basis</i>+(<i>liste</i>), hvor basis er "
+"modifikatorer og liste er en liste over taster.<br>\n"
 "For eksempel vil \"<b>Skift+Alt+(123) Skift+Ctrl+(ABC)</b>\" først forsøge "
 "<b>Skift+Alt+1</b>, så andre med <b>Skift+Ctrl+C</b> som den sidste."
 
@@ -291,13 +291,13 @@ msgstr "Dette hjælpeværktøj er ikke beregnet til at blive kaldet direkte."
 
 #: ruleslist.cpp:153
 #, kde-format
-msgid "Export Rule"
-msgstr "Eksportér regel"
+msgid "Export Rules"
+msgstr "Eksportér regler"
 
 #: ruleslist.cpp:154 ruleslist.cpp:166
 #, kde-format
-msgid "KWin Rule (*.kwinrule)"
-msgstr "KWin-regel (*.kwinrule)"
+msgid "KWin Rules (*.kwinrule)"
+msgstr "KWin-regler (*.kwinrule)"
 
 #: ruleslist.cpp:165
 #, kde-format
@@ -426,7 +426,7 @@ msgstr "Indstillinger for %1"
 #: ruleswidget.cpp:786
 #, kde-format
 msgid "Unnamed entry"
-msgstr "Unavngiven indgang"
+msgstr "Unavngivet indgang"
 
 #: ruleswidget.cpp:796
 #, kde-format

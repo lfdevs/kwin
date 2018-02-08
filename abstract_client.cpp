@@ -76,7 +76,7 @@ AbstractClient::AbstractClient()
     connect(this, &AbstractClient::geometryShapeChanged, this,
         [this] (Toplevel *c, const QRect &old) {
             Q_UNUSED(c)
-            if (isOnScreenDisplay() && !geometry().isEmpty() && old.size() != geometry().size()) {
+            if (isOnScreenDisplay() && !geometry().isEmpty() && old.size() != geometry().size() && !isInitialPositionSet()) {
                 GeometryUpdatesBlocker blocker(this);
                 QRect area = workspace()->clientArea(PlacementArea, Screens::self()->current(), desktop());
                 Placement::self()->place(this, area);
@@ -153,7 +153,6 @@ void AbstractClient::setSkipPager(bool b)
         return;
     m_skipPager = b;
     doSetSkipPager();
-    info->setState(b ? NET::SkipPager : NET::States(0), NET::SkipPager);
     updateWindowRules(Rules::SkipPager);
     emit skipPagerChanged();
 }
@@ -1152,7 +1151,7 @@ bool AbstractClient::isActiveFullScreen() const
     // according to NETWM spec implementation notes suggests
     // "focused windows having state _NET_WM_STATE_FULLSCREEN" to be on the highest layer.
     // we'll also take the screen into account
-    return ac && (ac == this || ac->screen() != screen());
+    return ac && (ac == this || ac->screen() != screen()|| ac->allMainClients().contains(const_cast<AbstractClient*>(this)));
 }
 
 #define BORDER(which) \
@@ -1774,6 +1773,32 @@ QString AbstractClient::caption() const
         cap += i18nc("Application is not responding, appended to window title", "(Not Responding)");
     }
     return cap;
+}
+
+void AbstractClient::removeRule(Rules* rule)
+{
+    m_rules.remove(rule);
+}
+
+void AbstractClient::discardTemporaryRules()
+{
+    m_rules.discardTemporary();
+}
+
+void AbstractClient::evaluateWindowRules()
+{
+    setupWindowRules(true);
+    applyWindowRules();
+}
+
+void AbstractClient::setOnActivities(QStringList newActivitiesList)
+{
+    Q_UNUSED(newActivitiesList)
+}
+
+void AbstractClient::checkNoBorder()
+{
+    setNoBorder(false);
 }
 
 }

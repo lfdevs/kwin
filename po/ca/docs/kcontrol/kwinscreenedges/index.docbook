@@ -72,9 +72,9 @@
 <para
 ><guilabel
 >Retard de l'activació</guilabel
-> es l'interval de temps requerit quan s'empeny el cursor del ratolí contra la vora de la pantalla abans d'activar l'acció. </para>
+>: és l'interval de temps requerit quan s'empeny el cursor del ratolí contra la vora de la pantalla abans d'activar l'acció. </para>
 <para
 ><guilabel
 >Retard de la reactivació</guilabel
-> és l'interval de temps requerit després d'activar l'acció fins que pugui ocórrer la següent activació. </para>
+>: és l'interval de temps requerit després d'activar l'acció fins que pugui ocórrer la següent activació. </para>
 </article>

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm-kwin-scripts\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-27 02:56+0200\n"
-"PO-Revision-Date: 2017-07-28 11:53-0300\n"
+"POT-Creation-Date: 2017-12-19 03:12+0100\n"
+"PO-Revision-Date: 2017-10-25 12:42-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -29,32 +29,32 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "alvarenga@kde.org"
 
-#: module.cpp:51
+#: module.cpp:49
 #, kde-format
 msgid "KWin Scripts"
 msgstr "Scripts do KWin"
 
-#: module.cpp:53
+#: module.cpp:51
 #, kde-format
 msgid "Configure KWin scripts"
 msgstr "Configurar os scripts do KWin"
 
-#: module.cpp:56
+#: module.cpp:54
 #, kde-format
 msgid "Tamás Krutki"
 msgstr "Tamás Krutki"
 
-#: module.cpp:85
+#: module.cpp:83
 #, kde-format
 msgid "Import KWin Script"
 msgstr "Importar script do KWin"
 
-#: module.cpp:86
+#: module.cpp:84
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|Scripts do KWin (*.kwinscript)"
 
-#: module.cpp:105
+#: module.cpp:103
 #, kde-format
 msgctxt "Placeholder is error message returned from the install service"
 msgid ""
@@ -64,7 +64,7 @@ msgstr ""
 "Não foi possível importar o script selecionado.\n"
 "%1"
 
-#: module.cpp:119
+#: module.cpp:117
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."
@@ -85,5 +85,5 @@ msgstr "Importar script do KWin..."
 #. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
 #: module.ui:51
 #, kde-format
-msgid "Get New Script..."
-msgstr "Obter novo script..."
+msgid "Get New Scripts..."
+msgstr "Baixar novos scripts..."

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-11-18 05:40+0100\n"
+"POT-Creation-Date: 2018-01-02 03:18+0100\n"
 "PO-Revision-Date: 2015-01-02 10:39+0000\n"
 "Last-Translator: Fadil Ademovic <fademovic2@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -147,7 +147,7 @@ msgid "Default"
 msgstr "Podrazumijevano"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
-#: coverswitch/coverswitch_config.ui:161
+#: coverswitch/coverswitch_config.ui:161 slide/slide_config.ui:39
 #, kde-format
 msgid " milliseconds"
 msgstr " milisekunda"
@@ -1736,6 +1736,22 @@ msgstr "Boja teksta:"
 msgid "Text alpha:"
 msgstr "Alfa teksta:"
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: slide/slide_config.ui:17
+#, fuzzy, kde-format
+#| msgid "Ring Duration:"
+msgid "Duration:"
+msgstr "Trajanje prstena:"
+
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
+#: slide/slide_config.ui:36
+#, fuzzy, kde-format
+#| msgctxt "Duration of rotation"
+#| msgid "Default"
+msgctxt "Duration of the slide animation"
+msgid "Default"
+msgstr "Podrazumijevano"
+
 #: thumbnailaside/thumbnailaside.cpp:38
 #: thumbnailaside/thumbnailaside_config.cpp:73
 #, kde-format
@@ -1881,7 +1897,7 @@ msgstr "Iskačući meniji:"
 msgid "Torn-off menus:"
 msgstr "Otcjepljeni meniji:"
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:53
 #, kde-format
 msgid "Toggle window geometry display (effect only)"
 msgstr "Uključi/Isključi geometrijski prikaz (samo efekt)"

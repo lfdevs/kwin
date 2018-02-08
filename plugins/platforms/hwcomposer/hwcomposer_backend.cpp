@@ -27,14 +27,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "wayland_server.h"
 // KWayland
 #include <KWayland/Server/display.h>
-#include <KWayland/Server/output_interface.h>
 #include <KWayland/Server/seat_interface.h>
 // Qt
 #include <QKeyEvent>
 #include <QDBusConnection>
 // hybris/android
 #include <hardware/hardware.h>
-#include <hardware/hwcomposer.h>
 #include <hardware/lights.h>
 // linux
 #include <linux/input.h>
@@ -164,7 +162,7 @@ HwcomposerBackend::~HwcomposerBackend()
     }
 }
 
-static KWayland::Server::OutputInterface *createOutput(hwc_composer_device_1_t *device)
+KWayland::Server::OutputInterface* HwcomposerBackend::createOutput(hwc_composer_device_1_t *device)
 {
     uint32_t configs[5];
     size_t numConfigs = 5;
@@ -194,8 +192,9 @@ static KWayland::Server::OutputInterface *createOutput(hwc_composer_device_1_t *
 
     if (attr_values[2] != 0 && attr_values[3] != 0) {
          static const qreal factor = 25.4;
-         o->setPhysicalSize(QSizeF(qreal(pixel.width() * 1000) / qreal(attr_values[2]) * factor,
-                                   qreal(pixel.height() * 1000) / qreal(attr_values[3]) * factor).toSize());
+         m_physicalSize = QSizeF(qreal(pixel.width() * 1000) / qreal(attr_values[2]) * factor,
+                                 qreal(pixel.height() * 1000) / qreal(attr_values[3]) * factor);
+         o->setPhysicalSize(m_physicalSize.toSize());
     } else {
          // couldn't read physical size, assume 96 dpi
          o->setPhysicalSize(pixel / 3.8);
@@ -395,22 +394,32 @@ void HwcomposerBackend::wakeVSync()
     m_vsyncMutex.unlock();
 }
 
-static void initLayer(hwc_layer_1_t *layer, const hwc_rect_t &rect)
+static void initLayer(hwc_layer_1_t *layer, const hwc_rect_t &rect, int layerCompositionType)
 {
     memset(layer, 0, sizeof(hwc_layer_1_t));
-    layer->compositionType = HWC_FRAMEBUFFER;
+    layer->compositionType = layerCompositionType;
     layer->hints = 0;
     layer->flags = 0;
     layer->handle = 0;
     layer->transform = 0;
     layer->blending = HWC_BLENDING_NONE;
+#ifdef HWC_DEVICE_API_VERSION_1_3
+    layer->sourceCropf.top = 0.0f;
+    layer->sourceCropf.left = 0.0f;
+    layer->sourceCropf.bottom = (float) rect.bottom;
+    layer->sourceCropf.right = (float) rect.right;
+#else
     layer->sourceCrop = rect;
+#endif
     layer->displayFrame = rect;
     layer->visibleRegionScreen.numRects = 1;
     layer->visibleRegionScreen.rects = &layer->displayFrame;
     layer->acquireFenceFd = -1;
     layer->releaseFenceFd = -1;
     layer->planeAlpha = 0xFF;
+#ifdef HWC_DEVICE_API_VERSION_1_5
+    layer->surfaceDamage.numRects = 0;
+#endif
 }
 
 HwcomposerWindow::HwcomposerWindow(HwcomposerBackend *backend)
@@ -435,8 +444,8 @@ HwcomposerWindow::HwcomposerWindow(HwcomposerBackend *backend)
         m_backend->size().width(),
         m_backend->size().height()
     };
-    initLayer(&list->hwLayers[0], rect);
-    initLayer(&list->hwLayers[1], rect);
+    initLayer(&list->hwLayers[0], rect, HWC_FRAMEBUFFER);
+    initLayer(&list->hwLayers[1], rect, HWC_FRAMEBUFFER_TARGET);
 
     list->retireFenceFd = -1;
     list->flags = HWC_GEOMETRY_CHANGED;

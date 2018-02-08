@@ -24,6 +24,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <libinput.h>
 
+#include <config-kwin.h>
+#if !(HAVE_INPUT_1_9)
+struct libinput_event_switch;
+#endif
+
 namespace KWin
 {
 namespace LibInput
@@ -37,9 +42,7 @@ public:
     virtual ~Event();
 
     libinput_event_type type() const;
-    Device *device() const {
-        return m_device;
-    }
+    Device *device() const;
     libinput_device *nativeDevice() const;
 
     operator libinput_event*() {
@@ -57,7 +60,7 @@ protected:
 private:
     libinput_event *m_event;
     libinput_event_type m_type;
-    Device *m_device;
+    mutable Device *m_device;
 };
 
 class KeyEvent : public Event
@@ -170,6 +173,25 @@ class SwipeGestureEvent : public GestureEvent
 public:
     SwipeGestureEvent(libinput_event *event, libinput_event_type type);
     virtual ~SwipeGestureEvent();
+};
+
+class SwitchEvent : public Event
+{
+public:
+    SwitchEvent(libinput_event *event, libinput_event_type type);
+    ~SwitchEvent() override;
+
+    enum class State {
+        Off,
+        On
+    };
+    State state() const;
+
+    quint32 time() const;
+    quint64 timeMicroseconds() const;
+
+private:
+    libinput_event_switch *m_switchEvent;
 };
 
 inline

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-05 02:49+0200\n"
-"PO-Revision-Date: 2017-01-20 22:42+0100\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"PO-Revision-Date: 2017-12-04 17:15+0100\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -348,5 +348,5 @@ msgstr "Interne Arbeitsflächeneffekte aussetzen"
 
 #: qml/EffectView.qml:104
 #, kde-format
-msgid "Get New Effects ..."
+msgid "Get New Effects..."
 msgstr "Neue Effekte herunterladen ..."

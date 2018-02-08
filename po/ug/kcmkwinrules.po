@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -275,13 +275,14 @@ msgid "This helper utility is not supposed to be called directly."
 msgstr "ياردەمچى قورالىنى بىۋاسىتە چاقىرىشقا بولمايتتى."
 
 #: ruleslist.cpp:153
-#, kde-format
-msgid "Export Rule"
+#, fuzzy, kde-format
+#| msgid "Export Rule"
+msgid "Export Rules"
 msgstr "تۈزۈملەرنى ئېكسپورت قىلىش"
 
 #: ruleslist.cpp:154 ruleslist.cpp:166
 #, kde-format
-msgid "KWin Rule (*.kwinrule)"
+msgid "KWin Rules (*.kwinrule)"
 msgstr ""
 
 #: ruleslist.cpp:165

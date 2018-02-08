@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Malayalam\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-05 02:49+0200\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
 "PO-Revision-Date: 2008-07-11 15:31+0530\n"
 "Last-Translator: മണിലാല്‍ കെ.എം|Manilal K M <libregeek@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് "
@@ -329,5 +329,5 @@ msgstr "പണിയിട പ്രഭാവങ്ങള്‍ പ്രാവ�
 #: qml/EffectView.qml:104
 #, fuzzy, kde-format
 #| msgid "All Effects"
-msgid "Get New Effects ..."
+msgid "Get New Effects..."
 msgstr "എല്ലാ പ്രഭാവങ്ങള്‍"

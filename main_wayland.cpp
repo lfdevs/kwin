@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // kwin
 #include "platform.h"
 #include "effects.h"
+#include "tabletmodemanager.h"
 #include "wayland_server.h"
 #include "xcbutils.h"
 
@@ -35,6 +36,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KLocalizedString>
 #include <KPluginLoader>
 #include <KPluginMetaData>
+#include <KQuickAddons/QtQuickSettings>
+
 // Qt
 #include <qplatformdefs.h>
 #include <QAbstractEventDispatcher>
@@ -63,6 +66,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/procctl.h>
 #endif
 
+#if HAVE_LIBCAP
+#include <sys/capability.h>
+#endif
+
+#include <sched.h>
+
 #include <iostream>
 #include <iomanip>
 
@@ -76,12 +85,34 @@ static void sighandler(int)
 
 static void readDisplay(int pipe);
 
+enum class RealTimeFlags
+{
+    DontReset,
+    ResetOnFork
+};
+
+namespace {
+void gainRealTime(RealTimeFlags flags = RealTimeFlags::DontReset)
+{
+#if HAVE_SCHED_RESET_ON_FORK
+    const int minPriority = sched_get_priority_min(SCHED_RR);
+    struct sched_param sp;
+    sp.sched_priority = minPriority;
+    int policy = SCHED_RR;
+    if (flags == RealTimeFlags::ResetOnFork) {
+        policy |= SCHED_RESET_ON_FORK;
+    }
+    sched_setscheduler(0, policy, &sp);
+#endif
+}
+}
+
 //************************************
 // ApplicationWayland
 //************************************
 
 ApplicationWayland::ApplicationWayland(int &argc, char **argv)
-    : Application(OperationModeWaylandAndX11, argc, argv)
+    : Application(OperationModeWaylandOnly, argc, argv)
 {
 }
 
@@ -124,15 +155,21 @@ ApplicationWayland::~ApplicationWayland()
 
 void ApplicationWayland::performStartup()
 {
-    setOperationMode(m_startXWayland ? OperationModeXwayland : OperationModeWaylandAndX11);
+    if (m_startXWayland) {
+        setOperationMode(OperationModeXwayland);
+    }
     // first load options - done internally by a different thread
     createOptions();
     waylandServer()->createInternalConnection();
 
     // try creating the Wayland Backend
     createInput();
+    // now libinput thread has been created, adjust scheduler to not leak into other processes
+    gainRealTime(RealTimeFlags::ResetOnFork);
+
     VirtualKeyboard::create(this);
     createBackend();
+    TabletModeManager::create(this);
 }
 
 void ApplicationWayland::createBackend()
@@ -152,12 +189,21 @@ void ApplicationWayland::continueStartupWithScreens()
     disconnect(kwinApp()->platform(), &Platform::screensQueried, this, &ApplicationWayland::continueStartupWithScreens);
     createScreens();
 
-    if (!m_startXWayland) {
-        continueStartupWithX();
+    if (operationMode() == OperationModeWaylandOnly) {
+        createCompositor();
+        connect(Compositor::self(), &Compositor::sceneCreated, this, &ApplicationWayland::continueStartupWithSceen);
         return;
     }
     createCompositor();
     connect(Compositor::self(), &Compositor::sceneCreated, this, &ApplicationWayland::startXwaylandServer);
+}
+
+void ApplicationWayland::continueStartupWithSceen()
+{
+    disconnect(Compositor::self(), &Compositor::sceneCreated, this, &ApplicationWayland::continueStartupWithSceen);
+    startSession();
+    createWorkspace();
+    notifyKSplash();
 }
 
 void ApplicationWayland::continueStartupWithX()
@@ -208,6 +254,18 @@ void ApplicationWayland::continueStartupWithX()
         ::exit(1);
     }
 
+    m_environment.insert(QStringLiteral("DISPLAY"), QString::fromUtf8(qgetenv("DISPLAY")));
+
+    startSession();
+    createWorkspace();
+
+    Xcb::sync(); // Trigger possible errors, there's still a chance to abort
+
+    notifyKSplash();
+}
+
+void ApplicationWayland::startSession()
+{
     if (!m_inputMethodServerToStart.isEmpty()) {
         int socket = dup(waylandServer()->createInputMethodConnection());
         if (socket >= 0) {
@@ -233,7 +291,6 @@ void ApplicationWayland::continueStartupWithX()
         }
     }
 
-    m_environment.insert(QStringLiteral("DISPLAY"), QString::fromUtf8(qgetenv("DISPLAY")));
     // start session
     if (!m_sessionArgument.isEmpty()) {
         QProcess *p = new Process(this);
@@ -254,12 +311,6 @@ void ApplicationWayland::continueStartupWithX()
             p->start(application);
         }
     }
-
-    createWorkspace();
-
-    Xcb::sync(); // Trigger possible errors, there's still a chance to abort
-
-    notifyKSplash();
 }
 
 void ApplicationWayland::createX11Connection()
@@ -438,6 +489,27 @@ static void unsetDumpable(int sig)
     return;
 }
 
+void dropNiceCapability()
+{
+#if HAVE_LIBCAP
+    cap_t caps = cap_get_proc();
+    if (!caps) {
+        return;
+    }
+    cap_value_t capList[] = { CAP_SYS_NICE };
+    if (cap_set_flag(caps, CAP_PERMITTED, 1, capList, CAP_CLEAR) == -1) {
+        cap_free(caps);
+        return;
+    }
+    if (cap_set_flag(caps, CAP_EFFECTIVE, 1, capList, CAP_CLEAR) == -1) {
+        cap_free(caps);
+        return;
+    }
+    cap_set_proc(caps);
+    cap_free(caps);
+#endif
+}
+
 } // namespace
 
 int main(int argc, char * argv[])
@@ -445,6 +517,8 @@ int main(int argc, char * argv[])
     KWin::disablePtrace();
     KWin::Application::setupMalloc();
     KWin::Application::setupLocalizedString();
+    KWin::gainRealTime();
+    KWin::dropNiceCapability();
 
     if (signal(SIGTERM, KWin::sighandler) == SIG_IGN)
         signal(SIGTERM, SIG_IGN);
@@ -477,6 +551,7 @@ int main(int argc, char * argv[])
     setenv("QT_QPA_PLATFORM", "wayland", true);
 
     KWin::Application::createAboutData();
+    KQuickAddons::QtQuickSettings::init();
 
     const auto availablePlugins = KPluginLoader::findPlugins(QStringLiteral("org.kde.kwin.waylandbackends"));
     auto hasPlugin = [&availablePlugins] (const QString &name) {
@@ -603,12 +678,6 @@ int main(int argc, char * argv[])
                                              QStringLiteral("/path/to/session"));
     parser.addOption(exitWithSessionOption);
 
-#ifdef KWIN_BUILD_ACTIVITIES
-    QCommandLineOption noActivitiesOption(QStringLiteral("no-kactivities"),
-                                        i18n("Disable KActivities integration."));
-    parser.addOption(noActivitiesOption);
-#endif
-
     parser.addPositionalArgument(QStringLiteral("applications"),
                                  i18n("Applications to start once Wayland and Xwayland server are started"),
                                  QStringLiteral("[/path/to/application...]"));
@@ -617,9 +686,7 @@ int main(int argc, char * argv[])
     a.processCommandLine(&parser);
 
 #ifdef KWIN_BUILD_ACTIVITIES
-    if (parser.isSet(noActivitiesOption)) {
-        a.setUseKActivities(false);
-    }
+    a.setUseKActivities(false);
 #endif
 
     if (parser.isSet(listBackendsOption)) {

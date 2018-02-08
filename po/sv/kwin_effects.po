@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Stefan Asserhäll <stefan.asserhall@bredband.net>, 2007, 2008, 2009, 2010.
-# Stefan Asserhall <stefan.asserhall@bredband.net>, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
+# Stefan Asserhall <stefan.asserhall@bredband.net>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-11-18 05:40+0100\n"
-"PO-Revision-Date: 2016-11-26 10:52+0100\n"
+"POT-Creation-Date: 2018-01-02 03:18+0100\n"
+"PO-Revision-Date: 2018-01-02 19:01+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -143,7 +143,7 @@ msgid "Default"
 msgstr "Förval"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
-#: coverswitch/coverswitch_config.ui:161
+#: coverswitch/coverswitch_config.ui:161 slide/slide_config.ui:39
 #, kde-format
 msgid " milliseconds"
 msgstr " millisekunder"
@@ -1684,6 +1684,19 @@ msgstr "Textfärg:"
 msgid "Text alpha:"
 msgstr "Textalfa:"
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: slide/slide_config.ui:17
+#, kde-format
+msgid "Duration:"
+msgstr "Längd:"
+
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
+#: slide/slide_config.ui:36
+#, kde-format
+msgctxt "Duration of the slide animation"
+msgid "Default"
+msgstr "Förval"
+
 #: thumbnailaside/thumbnailaside.cpp:38
 #: thumbnailaside/thumbnailaside_config.cpp:73
 #, kde-format
@@ -1829,7 +1842,7 @@ msgstr "Sammanhangsberoende menyer:"
 msgid "Torn-off menus:"
 msgstr "Avrivna menyer:"
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:53
 #, kde-format
 msgid "Toggle window geometry display (effect only)"
 msgstr "Växla visning av fönstergeometri (bara effekten)"

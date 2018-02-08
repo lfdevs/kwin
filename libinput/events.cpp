@@ -57,6 +57,10 @@ Event *Event::create(libinput_event *event)
     case LIBINPUT_EVENT_GESTURE_PINCH_UPDATE:
     case LIBINPUT_EVENT_GESTURE_PINCH_END:
         return new PinchGestureEvent(event, t);
+#if HAVE_INPUT_1_9
+    case LIBINPUT_EVENT_SWITCH_TOGGLE:
+        return new SwitchEvent(event, t);
+#endif
     default:
         return new Event(event, t);
     }
@@ -65,13 +69,21 @@ Event *Event::create(libinput_event *event)
 Event::Event(libinput_event *event, libinput_event_type type)
     : m_event(event)
     , m_type(type)
-    , m_device(Device::getDevice(libinput_event_get_device(m_event)))
+    , m_device(nullptr)
 {
 }
 
 Event::~Event()
 {
     libinput_event_destroy(m_event);
+}
+
+Device *Event::device() const
+{
+    if (!m_device) {
+        m_device = Device::getDevice(libinput_event_get_device(m_event));
+    }
+    return m_device;
 }
 
 libinput_device *Event::nativeDevice() const
@@ -225,7 +237,10 @@ QPointF TouchEvent::absolutePos(const QSize &size) const
 qint32 TouchEvent::id() const
 {
     Q_ASSERT(type() != LIBINPUT_EVENT_TOUCH_CANCEL && type() != LIBINPUT_EVENT_TOUCH_FRAME);
-    return libinput_event_touch_get_slot(m_touchEvent);
+
+    const qint32 slot = libinput_event_touch_get_slot(m_touchEvent);
+
+    return slot == -1 ? 0 : slot;
 }
 
 GestureEvent::GestureEvent(libinput_event *event, libinput_event_type type)
@@ -280,6 +295,50 @@ SwipeGestureEvent::SwipeGestureEvent(libinput_event *event, libinput_event_type 
 }
 
 SwipeGestureEvent::~SwipeGestureEvent() = default;
+
+SwitchEvent::SwitchEvent(libinput_event *event, libinput_event_type type)
+    : Event(event, type)
+#if HAVE_INPUT_1_9
+    , m_switchEvent(libinput_event_get_switch_event(event))
+#else
+    , m_switchEvent(nullptr)
+#endif
+{
+}
+
+SwitchEvent::~SwitchEvent() = default;
+
+SwitchEvent::State SwitchEvent::state() const
+{
+#if HAVE_INPUT_1_9
+    switch (libinput_event_switch_get_switch_state(m_switchEvent))
+    {
+    case LIBINPUT_SWITCH_STATE_OFF:
+        return State::Off;
+    case LIBINPUT_SWITCH_STATE_ON:
+        return State::On;
+    default:
+        Q_UNREACHABLE();
+    }
+#endif
+    return State::Off;
+}
+
+quint32 SwitchEvent::time() const
+{
+#if HAVE_INPUT_1_9
+    return libinput_event_switch_get_time(m_switchEvent);
+#endif
+    return 0;
+}
+
+quint64 SwitchEvent::timeMicroseconds() const
+{
+#if HAVE_INPUT_1_9
+    return libinput_event_switch_get_time_usec(m_switchEvent);
+#endif
+    return 0;
+}
 
 }
 }

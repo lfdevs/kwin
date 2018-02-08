@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-10-27 05:24+0200\n"
-"PO-Revision-Date: 2017-01-22 20:04+0100\n"
+"POT-Creation-Date: 2018-01-15 03:16+0100\n"
+"PO-Revision-Date: 2017-12-02 23:30+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
 "Language: ko\n"
@@ -32,13 +32,13 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kde@peremen.name"
 
-#: abstract_client.cpp:1774
+#: abstract_client.cpp:1773
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
-msgstr ""
+msgstr "(응답 없음)"
 
-#: composite.cpp:597
+#: composite.cpp:571
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -512,207 +512,251 @@ msgctxt "A swipe gesture got cancelled"
 msgid "Swipe cancelled"
 msgstr "문지르기 취소됨"
 
-#: debug_console.cpp:642
+#: debug_console.cpp:466
+#, fuzzy, kde-format
+#| msgid "Switch to Tab"
+msgctxt "A hardware switch (e.g. notebook lid) got toggled"
+msgid "Switch toggled"
+msgstr "탭으로 전환"
+
+#: debug_console.cpp:475
+#, kde-format
+msgctxt "Name of a hardware switch"
+msgid "Notebook lid"
+msgstr ""
+
+#: debug_console.cpp:477
+#, kde-format
+msgctxt "Name of a hardware switch"
+msgid "Tablet mode"
+msgstr ""
+
+#: debug_console.cpp:479
+#, fuzzy, kde-format
+#| msgid "Switch to Tab"
+msgctxt "A hardware switch"
+msgid "Switch"
+msgstr "탭으로 전환"
+
+#: debug_console.cpp:484
+#, kde-format
+msgctxt "The hardware switch got turned off"
+msgid "Off"
+msgstr ""
+
+#: debug_console.cpp:487
+#, kde-format
+msgctxt "The hardware switch got turned on"
+msgid "On"
+msgstr ""
+
+#: debug_console.cpp:492
+#, kde-format
+msgctxt "State of a hardware switch (on/off)"
+msgid "State"
+msgstr ""
+
+#: debug_console.cpp:679
 #, kde-format
 msgid "No Mouse Buttons"
 msgstr "마우스 단추 없음"
 
-#: debug_console.cpp:646
+#: debug_console.cpp:683
 #, kde-format
 msgctxt "Mouse Button"
 msgid "left"
 msgstr "왼쪽"
 
-#: debug_console.cpp:649
+#: debug_console.cpp:686
 #, kde-format
 msgctxt "Mouse Button"
 msgid "right"
 msgstr "오른쪽"
 
-#: debug_console.cpp:652
+#: debug_console.cpp:689
 #, kde-format
 msgctxt "Mouse Button"
 msgid "middle"
 msgstr "가운데"
 
-#: debug_console.cpp:655
+#: debug_console.cpp:692
 #, kde-format
 msgctxt "Mouse Button"
 msgid "back"
 msgstr "뒤로"
 
-#: debug_console.cpp:658
+#: debug_console.cpp:695
 #, kde-format
 msgctxt "Mouse Button"
 msgid "forward"
 msgstr "앞으로"
 
-#: debug_console.cpp:661
+#: debug_console.cpp:698
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 1"
 msgstr "추가 1"
 
-#: debug_console.cpp:664
+#: debug_console.cpp:701
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 2"
 msgstr "추가 2"
 
-#: debug_console.cpp:667
+#: debug_console.cpp:704
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 3"
 msgstr "추가 3"
 
-#: debug_console.cpp:670
+#: debug_console.cpp:707
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 4"
 msgstr "추가 4"
 
-#: debug_console.cpp:673
+#: debug_console.cpp:710
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 5"
 msgstr "추가 5"
 
-#: debug_console.cpp:676
+#: debug_console.cpp:713
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 6"
 msgstr "추가 6"
 
-#: debug_console.cpp:679
+#: debug_console.cpp:716
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 7"
 msgstr "추가 7"
 
-#: debug_console.cpp:682
+#: debug_console.cpp:719
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 8"
 msgstr "추가 8"
 
-#: debug_console.cpp:685
+#: debug_console.cpp:722
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 9"
 msgstr "추가 9"
 
-#: debug_console.cpp:688
+#: debug_console.cpp:725
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 10"
 msgstr "추가 10"
 
-#: debug_console.cpp:691
+#: debug_console.cpp:728
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 11"
 msgstr "추가 11"
 
-#: debug_console.cpp:694
+#: debug_console.cpp:731
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 12"
 msgstr "추가 12"
 
-#: debug_console.cpp:697
+#: debug_console.cpp:734
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 13"
 msgstr "추가 13"
 
-#: debug_console.cpp:700
+#: debug_console.cpp:737
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 14"
 msgstr "추가 14"
 
-#: debug_console.cpp:703
+#: debug_console.cpp:740
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 15"
 msgstr "추가 15"
 
-#: debug_console.cpp:706
+#: debug_console.cpp:743
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 16"
 msgstr "추가 16"
 
-#: debug_console.cpp:709
+#: debug_console.cpp:746
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 17"
 msgstr "추가 17"
 
-#: debug_console.cpp:712
+#: debug_console.cpp:749
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 18"
 msgstr "추가 18"
 
-#: debug_console.cpp:715
+#: debug_console.cpp:752
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 19"
 msgstr "추가 19"
 
-#: debug_console.cpp:718
+#: debug_console.cpp:755
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 20"
 msgstr "추가 20"
 
-#: debug_console.cpp:721
+#: debug_console.cpp:758
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 21"
 msgstr "추가 21"
 
-#: debug_console.cpp:724
+#: debug_console.cpp:761
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 22"
 msgstr "추가 22"
 
-#: debug_console.cpp:727
+#: debug_console.cpp:764
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 23"
 msgstr "추가 23"
 
-#: debug_console.cpp:730
+#: debug_console.cpp:767
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 24"
 msgstr "추가 24"
 
-#: debug_console.cpp:733
+#: debug_console.cpp:770
 #, kde-format
 msgctxt "Mouse Button"
 msgid "task"
 msgstr "작업"
 
-#: debug_console.cpp:1074
+#: debug_console.cpp:1111
 #, kde-format
 msgid "X11 Client Windows"
 msgstr "X11 클라이언트 창"
 
-#: debug_console.cpp:1076
+#: debug_console.cpp:1113
 #, kde-format
 msgid "X11 Unmanaged Windows"
 msgstr "X11 관리되지 않는 창"
 
-#: debug_console.cpp:1078
+#: debug_console.cpp:1115
 #, kde-format
 msgid "Wayland Windows"
 msgstr "Wayland 창"
 
-#: debug_console.cpp:1080
+#: debug_console.cpp:1117
 #, kde-format
 msgid "Internal Windows"
 msgstr "내부 창"
@@ -805,8 +849,8 @@ msgid ""
 "<p>You tried to close window \"%1\" from application \"%2\" (Process ID: %3) "
 "but the application is not responding.</p>"
 msgstr ""
-"<p>프로그램 \"%2\" (프로세스 ID %3)에서 연 창 \"%1\"을(를) 닫으려고 하였으나 "
-"프로그램이 응답하지 않습니다.</p>"
+"<p>프로그램 \"%2\" (프로세스 ID %3)에서 연 창 \"%1\"을(를) 닫으려고 했으나 프"
+"로그램이 응답하지 않습니다.</p>"
 
 #: helpers/killer/killer.cpp:100
 #, kde-kuit-format
@@ -816,7 +860,7 @@ msgid ""
 "%3), running on host \"%4\", but the application is not responding.</p>"
 msgstr ""
 "<p>호스트 \"%4\"에서 실행 중인 프로그램 \"%2\" (프로세스 ID %3)에서 연 창 "
-"\"%1\"을(를) 닫으려고 하였으나 프로그램이 응답하지 않습니다.</p>"
+"\"%1\"을(를) 닫으려고 했으나 프로그램이 응답하지 않습니다.</p>"
 
 #: helpers/killer/killer.cpp:103
 #, kde-kuit-format
@@ -843,12 +887,12 @@ msgstr "더 기다리기"
 #, kde-format
 msgctxt "tooltip title"
 msgid "Keyboard Layout"
-msgstr ""
+msgstr "키보드 레이아웃"
 
 #: keyboard_layout.cpp:266
 #, kde-format
 msgid "Configure Layouts..."
-msgstr ""
+msgstr "레이아웃 설정..."
 
 #: killwindow.cpp:44
 #, kde-format
@@ -859,307 +903,307 @@ msgstr ""
 "왼쪽 단추를 누르거나 Enter 키를 눌러서 강제로 닫을 창을 선택합니다.\n"
 "Esc 키나 오른쪽 단추를 누르면 취소합니다."
 
-#: kwinbindings.cpp:46
+#: kwinbindings.cpp:49
 #, kde-format
 msgid "Walk Through Window Tabs"
 msgstr "창 탭 사이를 옮겨 다니기"
 
-#: kwinbindings.cpp:47
+#: kwinbindings.cpp:50
 #, kde-format
 msgid "Walk Through Window Tabs (Reverse)"
 msgstr "창 탭 사이를 거꾸로 옮겨 다니기"
 
-#: kwinbindings.cpp:48
+#: kwinbindings.cpp:51
 #, kde-format
 msgid "Remove Window From Group"
 msgstr "그룹에서 창 빼기"
 
-#: kwinbindings.cpp:50
+#: kwinbindings.cpp:53
 #, kde-format
 msgid "Window Operations Menu"
 msgstr "창 동작 메뉴"
 
-#: kwinbindings.cpp:52
+#: kwinbindings.cpp:55
 #, kde-format
 msgid "Close Window"
 msgstr "창 닫기"
 
-#: kwinbindings.cpp:54
+#: kwinbindings.cpp:57
 #, kde-format
 msgid "Maximize Window"
 msgstr "창 최대화"
 
-#: kwinbindings.cpp:56
+#: kwinbindings.cpp:59
 #, kde-format
 msgid "Maximize Window Vertically"
 msgstr "창 수직 최대화"
 
-#: kwinbindings.cpp:58
+#: kwinbindings.cpp:61
 #, kde-format
 msgid "Maximize Window Horizontally"
 msgstr "창 수평 최대화"
 
-#: kwinbindings.cpp:60
+#: kwinbindings.cpp:63
 #, kde-format
 msgid "Minimize Window"
 msgstr "창 최소화"
 
-#: kwinbindings.cpp:62
+#: kwinbindings.cpp:65
 #, kde-format
 msgid "Shade Window"
 msgstr "창 말아 올리기"
 
-#: kwinbindings.cpp:64
+#: kwinbindings.cpp:67
 #, kde-format
 msgid "Move Window"
 msgstr "창 이동"
 
-#: kwinbindings.cpp:66
+#: kwinbindings.cpp:69
 #, kde-format
 msgid "Resize Window"
 msgstr "창 크기 조정"
 
-#: kwinbindings.cpp:68
+#: kwinbindings.cpp:71
 #, kde-format
 msgid "Raise Window"
 msgstr "창 올리기"
 
-#: kwinbindings.cpp:70
+#: kwinbindings.cpp:73
 #, kde-format
 msgid "Lower Window"
 msgstr "창 내리기"
 
-#: kwinbindings.cpp:72
+#: kwinbindings.cpp:75
 #, kde-format
 msgid "Toggle Window Raise/Lower"
 msgstr "창 올리거나 내리기"
 
-#: kwinbindings.cpp:74
+#: kwinbindings.cpp:77
 #, kde-format
 msgid "Make Window Fullscreen"
 msgstr "창을 전체 화면으로"
 
-#: kwinbindings.cpp:76
+#: kwinbindings.cpp:79
 #, kde-format
 msgid "Hide Window Border"
 msgstr "창 테두리 숨기기"
 
-#: kwinbindings.cpp:78
+#: kwinbindings.cpp:81
 #, kde-format
 msgid "Keep Window Above Others"
 msgstr "창을 항상 위에 표시"
 
-#: kwinbindings.cpp:80
+#: kwinbindings.cpp:83
 #, kde-format
 msgid "Keep Window Below Others"
 msgstr "창을 항상 아래에 표시"
 
-#: kwinbindings.cpp:82
+#: kwinbindings.cpp:85
 #, kde-format
 msgid "Activate Window Demanding Attention"
 msgstr "활성 창이 주목을 기다림"
 
-#: kwinbindings.cpp:84
+#: kwinbindings.cpp:87
 #, kde-format
 msgid "Setup Window Shortcut"
 msgstr "창 단축키 설정"
 
-#: kwinbindings.cpp:86
+#: kwinbindings.cpp:89
 #, kde-format
 msgid "Pack Window to the Right"
 msgstr "창을 맨 오른쪽으로 보내기"
 
-#: kwinbindings.cpp:88
+#: kwinbindings.cpp:91
 #, kde-format
 msgid "Pack Window to the Left"
 msgstr "창을 맨 왼쪽으로 보내기"
 
-#: kwinbindings.cpp:90
+#: kwinbindings.cpp:93
 #, kde-format
 msgid "Pack Window Up"
 msgstr "창을 맨 위로 보내기"
 
-#: kwinbindings.cpp:92
+#: kwinbindings.cpp:95
 #, kde-format
 msgid "Pack Window Down"
 msgstr "창을 맨 아래로 보내기"
 
-#: kwinbindings.cpp:94
+#: kwinbindings.cpp:97
 #, kde-format
 msgid "Pack Grow Window Horizontally"
 msgstr "창을 수평으로 늘리기"
 
-#: kwinbindings.cpp:96
+#: kwinbindings.cpp:99
 #, kde-format
 msgid "Pack Grow Window Vertically"
 msgstr "창을 수직으로 늘리기"
 
-#: kwinbindings.cpp:98
+#: kwinbindings.cpp:101
 #, kde-format
 msgid "Pack Shrink Window Horizontally"
 msgstr "창을 수평으로 줄이기"
 
-#: kwinbindings.cpp:100
+#: kwinbindings.cpp:103
 #, kde-format
 msgid "Pack Shrink Window Vertically"
 msgstr "창을 수직으로 줄이기"
 
-#: kwinbindings.cpp:102
+#: kwinbindings.cpp:105
 #, kde-format
 msgid "Quick Tile Window to the Left"
 msgstr "창을 왼쪽 위로 보내기"
 
-#: kwinbindings.cpp:104
+#: kwinbindings.cpp:107
 #, kde-format
 msgid "Quick Tile Window to the Right"
 msgstr "창을 오른쪽 위로 보내기"
 
-#: kwinbindings.cpp:106
+#: kwinbindings.cpp:109
 #, kde-format
 msgid "Quick Tile Window to the Top"
 msgstr "창을 위로 보내기"
 
-#: kwinbindings.cpp:108
+#: kwinbindings.cpp:111
 #, kde-format
 msgid "Quick Tile Window to the Bottom"
 msgstr "창을 아래로 보내기"
 
-#: kwinbindings.cpp:110
+#: kwinbindings.cpp:113
 #, kde-format
 msgid "Quick Tile Window to the Top Left"
 msgstr "창을 왼쪽 위로 보내기"
 
-#: kwinbindings.cpp:112
+#: kwinbindings.cpp:115
 #, kde-format
 msgid "Quick Tile Window to the Bottom Left"
 msgstr "창을 왼쪽 아래로 보내기"
 
-#: kwinbindings.cpp:114
+#: kwinbindings.cpp:117
 #, kde-format
 msgid "Quick Tile Window to the Top Right"
 msgstr "창을 오른쪽 위로 보내기"
 
-#: kwinbindings.cpp:116
+#: kwinbindings.cpp:119
 #, kde-format
 msgid "Quick Tile Window to the Bottom Right"
 msgstr "창을 오른쪽 아래로 보내기"
 
-#: kwinbindings.cpp:118
+#: kwinbindings.cpp:121
 #, kde-format
 msgid "Switch to Window Above"
 msgstr "위쪽 창으로 전환"
 
-#: kwinbindings.cpp:120
+#: kwinbindings.cpp:123
 #, kde-format
 msgid "Switch to Window Below"
 msgstr "아래쪽 창으로 전환"
 
-#: kwinbindings.cpp:122
+#: kwinbindings.cpp:125
 #, kde-format
 msgid "Switch to Window to the Right"
 msgstr "오른쪽 창으로 전환"
 
-#: kwinbindings.cpp:124
+#: kwinbindings.cpp:127
 #, kde-format
 msgid "Switch to Window to the Left"
 msgstr "왼쪽 창으로 전환"
 
-#: kwinbindings.cpp:126
+#: kwinbindings.cpp:129
 #, kde-format
 msgid "Increase Opacity of Active Window by 5 %"
 msgstr "활성 창 투명도 5% 증가"
 
-#: kwinbindings.cpp:128
+#: kwinbindings.cpp:131
 #, kde-format
 msgid "Decrease Opacity of Active Window by 5 %"
 msgstr "활성 창 투명도 5% 감소"
 
-#: kwinbindings.cpp:131
+#: kwinbindings.cpp:134
 #, kde-format
 msgid "Keep Window on All Desktops"
 msgstr "창을 모든 데스크톱에 표시하기"
 
-#: kwinbindings.cpp:135
+#: kwinbindings.cpp:138
 #, kde-format
 msgid "Window to Desktop %1"
 msgstr "창을 데스크톱 %1(으)로 보내기"
 
-#: kwinbindings.cpp:137
+#: kwinbindings.cpp:140
 #, kde-format
 msgid "Window to Next Desktop"
 msgstr "다음 데스크톱으로 창 이동"
 
-#: kwinbindings.cpp:138
+#: kwinbindings.cpp:141
 #, kde-format
 msgid "Window to Previous Desktop"
 msgstr "이전 데스크톱으로 창 이동"
 
-#: kwinbindings.cpp:139
+#: kwinbindings.cpp:142
 #, kde-format
 msgid "Window One Desktop to the Right"
 msgstr "오른쪽 데스크톱으로 창 이동"
 
-#: kwinbindings.cpp:140
+#: kwinbindings.cpp:143
 #, kde-format
 msgid "Window One Desktop to the Left"
 msgstr "왼쪽 데스크톱으로 창 이동"
 
-#: kwinbindings.cpp:141
+#: kwinbindings.cpp:144
 #, kde-format
 msgid "Window One Desktop Up"
 msgstr "위쪽 데스크톱으로 창 이동"
 
-#: kwinbindings.cpp:142
+#: kwinbindings.cpp:145
 #, kde-format
 msgid "Window One Desktop Down"
 msgstr "아래쪽 데스크톱으로 창 이동"
 
-#: kwinbindings.cpp:145
+#: kwinbindings.cpp:148
 #, kde-format
 msgid "Window to Screen %1"
 msgstr "창을 화면 %1(으)로 보내기"
 
-#: kwinbindings.cpp:147
+#: kwinbindings.cpp:150
 #, kde-format
 msgid "Window to Next Screen"
 msgstr "다음 데스크톱으로 창 이동"
 
-#: kwinbindings.cpp:148
+#: kwinbindings.cpp:151
 #, kde-format
 msgid "Window to Previous Screen"
 msgstr "이전 화면으로 창 이동"
 
-#: kwinbindings.cpp:149
+#: kwinbindings.cpp:152
 #, kde-format
 msgid "Show Desktop"
 msgstr "데스크톱 보이기"
 
-#: kwinbindings.cpp:152
+#: kwinbindings.cpp:155
 #, kde-format
 msgid "Switch to Screen %1"
 msgstr "화면 %1(으)로 전환"
 
-#: kwinbindings.cpp:155
+#: kwinbindings.cpp:158
 #, kde-format
 msgid "Switch to Next Screen"
 msgstr "다음 데스크톱으로 전환"
 
-#: kwinbindings.cpp:156
+#: kwinbindings.cpp:159
 #, kde-format
 msgid "Switch to Previous Screen"
 msgstr "이전 화면으로 전환"
 
-#: kwinbindings.cpp:158
+#: kwinbindings.cpp:161
 #, kde-format
 msgid "Kill Window"
 msgstr "창 강제 종료"
 
-#: kwinbindings.cpp:159
+#: kwinbindings.cpp:162
 #, kde-format
 msgid "Suspend Compositing"
 msgstr "컴포지팅 중단하기"
 
-#: kwinbindings.cpp:160
+#: kwinbindings.cpp:163
 #, kde-format
 msgid "Invert Screen Colors"
 msgstr "화면 색 반전"
@@ -1219,81 +1263,80 @@ msgstr "설정 옵션 사용하지 않기"
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "KWin이 최근 n번 충돌했다는 것을 알리기"
 
-#: main_wayland.cpp:207
+#: main_wayland.cpp:253
 #, kde-format
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr "kwin_wayland: X11 창 관리자가 X11 디스플레이에서 실행 중입니다.\n"
 
-#: main_wayland.cpp:504
+#: main_wayland.cpp:579
 #, kde-format
 msgid "Start a rootless Xwayland server."
 msgstr "루트 창이 없는 Xwayland 서버를 시작합니다."
 
-#: main_wayland.cpp:506
+#: main_wayland.cpp:581
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 "들을 Wayland 소켓을 지정합니다. 설정하지 않으면 \"wayland-0\"을 사용합니다."
 
-#: main_wayland.cpp:509
+#: main_wayland.cpp:584
 #, kde-format
 msgid "Use a nested compositor in windowed mode."
 msgstr "창 모드에서 중첩된 컴포지터를 사용합니다."
 
-#: main_wayland.cpp:511
+#: main_wayland.cpp:586
 #, kde-format
 msgid "Render to framebuffer."
 msgstr "프레임버퍼에 렌더링합니다."
 
-#: main_wayland.cpp:513
+#: main_wayland.cpp:588
 #, kde-format
 msgid "The framebuffer device to render to."
 msgstr "렌더링할 프레임버퍼 장치입니다."
 
-#: main_wayland.cpp:517
+#: main_wayland.cpp:592
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "X11 플랫폼의 창 모드에서 사용할 X11 디스플레이입니다."
 
-#: main_wayland.cpp:520
+#: main_wayland.cpp:595
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr "Wayland 플랫폼의 창 모드에서 사용할 Wayland 디스플레이입니다."
 
-#: main_wayland.cpp:522
+#: main_wayland.cpp:597
 #, kde-format
 msgid "Render to a virtual framebuffer."
 msgstr "가상 프레임버퍼에 렌더링합니다."
 
-#: main_wayland.cpp:524
+#: main_wayland.cpp:599
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "창 모드의 폭입니다. 기본 폭은 1024입니다."
 
-#: main_wayland.cpp:528
+#: main_wayland.cpp:603
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
 msgstr "창 모드의 높이입니다. 기본 높이는 768입니다."
 
-#: main_wayland.cpp:533
-#, fuzzy, kde-format
-#| msgid "The height for windowed mode. Default height is 768."
+#: main_wayland.cpp:608
+#, kde-format
 msgid "The scale for windowed mode. Default value is 1."
-msgstr "창 모드의 높이입니다. 기본 높이는 768입니다."
+msgstr "창 모드의 크기 조정 비율입니다. 기본값은 1입니다."
 
-#: main_wayland.cpp:538
+#: main_wayland.cpp:613
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
 msgstr "창 모드에서 출력으로 열 창 개수입니다. 기본값은 1입니다."
 
-#: main_wayland.cpp:571
+#: main_wayland.cpp:646
 #, kde-format
 msgid "Use libhybris hwcomposer"
 msgstr "libhybris hwcomposer 사용"
 
-#: main_wayland.cpp:578
+#: main_wayland.cpp:653
 #, kde-format
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
@@ -1302,42 +1345,37 @@ msgstr ""
 "입력 이벤트 처리에 libinput 지원을 활성화합니다. 메모: 세션 안의 세션에서는 "
 "사용하지 마십시오."
 
-#: main_wayland.cpp:582
+#: main_wayland.cpp:657
 #, kde-format
 msgid "Render through drm node."
 msgstr "DRM 노드로 렌더링합니다."
 
-#: main_wayland.cpp:589
+#: main_wayland.cpp:664
 #, kde-format
 msgid "Input method that KWin starts."
 msgstr "KWin에서 불러오는 입력기입니다."
 
-#: main_wayland.cpp:594
+#: main_wayland.cpp:669
 #, kde-format
 msgid "List all available backends and quit."
 msgstr "사용 가능한 백엔드를 출력하고 끝냅니다."
 
-#: main_wayland.cpp:598
+#: main_wayland.cpp:673
 #, kde-format
 msgid "Starts the session in locked mode."
 msgstr "세션을 잠긴 상태로 시작합니다."
 
-#: main_wayland.cpp:602
+#: main_wayland.cpp:677
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr "KWin에서 시작한 세션 프로그램이 끝난 후에 닫습니다."
 
-#: main_wayland.cpp:608 main_x11.cpp:423
-#, kde-format
-msgid "Disable KActivities integration."
-msgstr "KActivities 통합을 사용하지 않습니다."
-
-#: main_wayland.cpp:613
+#: main_wayland.cpp:682
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr "Wayland 및 Xwayland 서버가 시작되었을 때 시작할 프로그램"
 
-#: main_x11.cpp:74
+#: main_x11.cpp:75
 #, kde-format
 msgid ""
 "KWin is unstable.\n"
@@ -1348,7 +1386,7 @@ msgstr ""
 "연속으로 몇 번 충돌한 것 같습니다.\n"
 "실행할 또 다른 창 관리자를 선택하실 수 있습니다:"
 
-#: main_x11.cpp:225
+#: main_x11.cpp:226
 #, kde-format
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
@@ -1357,16 +1395,36 @@ msgstr ""
 "kwin: 창 관리자 영역을 사용할 수 없습니다. 또 다른 창 관리자가 있습니까? (--"
 "replace 옵션을 사용해 보십시오)\n"
 
-#: main_x11.cpp:242
+#: main_x11.cpp:243
 #, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "kwin: 또 다른 창 관리자가 실행 중입니다 (--replace 옵션을 사용해 보십시오)\n"
 
-#: main_x11.cpp:416
+#: main_x11.cpp:418
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "이미 실행 중인 ICCCM 2.0 호환 창 관리자를 대체하기"
+
+#: main_x11.cpp:425
+#, kde-format
+msgid "Disable KActivities integration."
+msgstr "KActivities 통합을 사용하지 않습니다."
+
+#: orientation_sensor.cpp:72
+#, kde-format
+msgid "Automatic screen rotation is enabled"
+msgstr "자동 화면 회전이 활성화되어 있음"
+
+#: orientation_sensor.cpp:74 orientation_sensor.cpp:122
+#, kde-format
+msgid "Automatic screen rotation is disabled"
+msgstr "자동 화면 회전이 비활성화되어 있음"
+
+#: orientation_sensor.cpp:118
+#, kde-format
+msgid "Automatic Screen Rotation"
+msgstr "자동 화면 회전"
 
 #: pointer_input.cpp:647
 #, kde-format
@@ -1387,66 +1445,6 @@ msgid ""
 msgstr ""
 "포인터를 현재 위치로 고정합니다.\n"
 "고정을 해제하려면 Esc 키를 3초간 누르십시오."
-
-#: scene_opengl.cpp:666
-#, kde-format
-msgid "Desktop effects were restarted due to a graphics reset"
-msgstr "그래픽 초기화로 인하여 데스크톱 효과가 다시 시작됨"
-
-#: scene_opengl.cpp:918
-#, kde-format
-msgid ""
-"<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
-"OpenGL Desktop Effects at the current resolution<br><br>You can try to "
-"select the XRender backend, but it might be very slow for this resolution as "
-"well.<br>Alternatively, lower the combined resolution of all screens to %1x"
-"%2 "
-msgstr ""
-"<h1>OpenGL 데스크톱 효과를 사용할 수 없음</h1>이 시스템은 현재 해상도에서 "
-"OpenGL 데스크톱 효과를 처리할 수 없습니다.<br><br>XRender 백엔드를 사용할 수"
-"도 있으나 현재 해상도에서 매우 느릴 수도 있습니다.<br>또는 모든 화면의 해상"
-"도 합을 최소한 %1x%2까지 낮춰 보십시오."
-
-#: scene_opengl.cpp:925
-#, kde-format
-msgid ""
-"The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
-"GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
-"does not know such limitation, but the performance will usually be impacted "
-"by the hardware limitations that restrict the OpenGL viewport size."
-msgstr ""
-"요청하는 해상도가 GPU의 GL_MAX_VIEWPORT_DIMS 제한을 초과하므로 OpenGL 컴포지"
-"터에서 사용할 수 없습니다.<br>XRender는 이러한 제한의 영향을 받지 않으나 "
-"OpenGL 뷰포트 크기를 제한하는 것과 비슷한 하드웨어 사양 제한 때문에 속도가 느"
-"려질 수도 있습니다."
-
-#: scene_opengl.cpp:950
-#, kde-format
-msgid ""
-"<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
-"the current resolution are supported but might be exceptionally slow."
-"<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
-"compositing, switch to the XRender backend or lower the resolution to %1x%1."
-msgstr ""
-"<h1>OpenGL 데스크톱 효과를 사용할 수 없음</h1>현재 해상도에서 OpenGL 데스크"
-"톱 효과를 사용할 수 있으나 매우 느릴 수도 있습니다.<br>큰 창은 완전히 검은색"
-"으로 나타날 수도 있습니다.<br><br>컴포지팅을 비활성화하거나, XRender 백엔드"
-"로 전환하거나 모든 화면의 해상도 합을 최소한 %1x%1까지 낮춰 보십시오."
-
-#: scene_opengl.cpp:956
-#, kde-format
-msgid ""
-"The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
-"GPU, thus windows of that size cannot be assigned to textures and will be "
-"entirely black.<br>Also this limit will often be a performance level barrier "
-"despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
-"software rendering in this case."
-msgstr ""
-"요청하는 해상도가 GPU의 GL_MAX_TEXTURE_SIZE 제한을 초과하므로 이 제한을 초과"
-"하는 크기의 창을 텍스처에 할당할 수 없어서 완전히 검은색으로 표시될 것입니다."
-"<br>이 상황에서는 그래픽 드라이버가 소프트웨어 렌더링으로 전환할 수도 있으므"
-"로 창 크기가 GL_MAX_VIEWPORT_DIMS 미만이라고 해도 성능에 영향을 줄 수 있습니"
-"다."
 
 #: scripting/genericscriptedconfig.cpp:81
 #, kde-format
@@ -1569,7 +1567,7 @@ msgstr ""
 "창 전환기 설치 상태가 올바르지 않습니다. 자원이 없습니다.\n"
 "배포판 관리자에게 문의하십시오."
 
-#: useractions.cpp:202
+#: useractions.cpp:203
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -1581,7 +1579,7 @@ msgstr ""
 "경계선이 없을 때는 마우스를 사용해서 경계선을 다시 보이게 할 수 없습니다: 키"
 "보드 단축키 %1을(를) 사용하셔서 창 동작 메뉴를 부르십시오."
 
-#: useractions.cpp:210
+#: useractions.cpp:211
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -1594,57 +1592,57 @@ msgstr ""
 "면 모드에서 벗어날 수 없습니다: 키보드 단축키 %1을(를) 사용하셔서 창 동작 메"
 "뉴를 부르십시오."
 
-#: useractions.cpp:273
+#: useractions.cpp:274
 #, kde-format
 msgid "&Move"
 msgstr "이동(&M)"
 
-#: useractions.cpp:278
+#: useractions.cpp:279
 #, kde-format
 msgid "&Resize"
 msgstr "크기 조정(&R)"
 
-#: useractions.cpp:282
+#: useractions.cpp:283
 #, kde-format
 msgid "Keep &Above Others"
 msgstr "항상 위(&A)"
 
-#: useractions.cpp:288
+#: useractions.cpp:289
 #, kde-format
 msgid "Keep &Below Others"
 msgstr "항상 아래(&B)"
 
-#: useractions.cpp:294
+#: useractions.cpp:295
 #, kde-format
 msgid "&Fullscreen"
 msgstr "전체 화면(&F)"
 
-#: useractions.cpp:300
+#: useractions.cpp:301
 #, kde-format
 msgid "&Shade"
 msgstr "말아 올리기(&S)"
 
-#: useractions.cpp:305
+#: useractions.cpp:306
 #, kde-format
 msgid "&No Border"
 msgstr "테두리 없음(&N)"
 
-#: useractions.cpp:312
+#: useractions.cpp:313
 #, kde-format
 msgid "Window Short&cut..."
 msgstr "창 단축키(&C)..."
 
-#: useractions.cpp:317
+#: useractions.cpp:318
 #, kde-format
 msgid "Special &Window Settings..."
 msgstr "창 특별 설정(&W)..."
 
-#: useractions.cpp:321
+#: useractions.cpp:322
 #, kde-format
 msgid "S&pecial Application Settings..."
 msgstr "프로그램 특별 설정(&S)..."
 
-#: useractions.cpp:328
+#: useractions.cpp:329
 #, kde-format
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
@@ -1652,96 +1650,96 @@ msgctxt ""
 msgid "Window Manager S&ettings..."
 msgstr "창 관리자 설정(&E)..."
 
-#: useractions.cpp:358
+#: useractions.cpp:359
 #, kde-format
 msgid "Mi&nimize"
 msgstr "최소화(&N)"
 
-#: useractions.cpp:362
+#: useractions.cpp:363
 #, kde-format
 msgid "Ma&ximize"
 msgstr "최대화(&X)"
 
-#: useractions.cpp:371
+#: useractions.cpp:372
 #, kde-format
 msgid "&Untab"
 msgstr "탭 취소(&U)"
 
-#: useractions.cpp:375
+#: useractions.cpp:376
 #, kde-format
 msgid "Close Entire &Group"
 msgstr "그룹 닫기(&G)"
 
-#: useractions.cpp:386
+#: useractions.cpp:387
 #, kde-format
 msgid "&More Actions"
 msgstr "더 많은 동작(&M)"
 
-#: useractions.cpp:390
+#: useractions.cpp:391
 #, kde-format
 msgid "&Close"
 msgstr "닫기(&C)"
 
-#: useractions.cpp:464
+#: useractions.cpp:465
 #, kde-format
 msgid "&Extensions"
 msgstr "확장(&E)"
 
-#: useractions.cpp:519
+#: useractions.cpp:520
 #, kde-format
 msgctxt "Switch to tab -> Previous"
 msgid "Previous"
 msgstr "이전"
 
-#: useractions.cpp:520
+#: useractions.cpp:521
 #, kde-format
 msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr "다음"
 
-#: useractions.cpp:562
+#: useractions.cpp:563
 #, kde-format
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr "없음"
 
-#: useractions.cpp:571
+#: useractions.cpp:572
 #, kde-format
 msgid "Switch to Tab"
 msgstr "탭으로 전환"
 
-#: useractions.cpp:582
+#: useractions.cpp:583
 #, kde-format
 msgid "&Attach as tab to"
 msgstr "다음에 탭으로 부착(&A)"
 
-#: useractions.cpp:605
+#: useractions.cpp:606
 #, kde-format
 msgid "Move To &Desktop"
 msgstr "다음 데스크톱으로(&D)"
 
-#: useractions.cpp:621
+#: useractions.cpp:622
 #, kde-format
 msgid "Move To &Screen"
 msgstr "다음 화면으로(&S)"
 
-#: useractions.cpp:636
+#: useractions.cpp:637
 #, kde-format
 msgid "Ac&tivities"
 msgstr "활동(&T)"
 
-#: useractions.cpp:648
+#: useractions.cpp:649
 #, kde-format
 msgid "&All Desktops"
 msgstr "모든 데스크톱(&A)"
 
-#: useractions.cpp:674
+#: useractions.cpp:675
 #, kde-format
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "새 데스크톱(&N)"
 
-#: useractions.cpp:694
+#: useractions.cpp:695
 #, kde-format
 msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
@@ -1749,29 +1747,29 @@ msgctxt ""
 msgid "Screen &%1 (%2)"
 msgstr "화면 %1(%2)(&%1)"
 
-#: useractions.cpp:715
+#: useractions.cpp:716
 #, kde-format
 msgid "&All Activities"
 msgstr "모든 활동(&A)"
 
-#: useractions.cpp:930
+#: useractions.cpp:931
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "<b>%1</b>이(가) 이미 사용 중"
 
-#: useractions.cpp:932
+#: useractions.cpp:933
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "<b>%1</b>이(가) %3의 %2에서 사용 중"
 
-#: useractions.cpp:1057
+#: useractions.cpp:1064
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "창 활성화 (%1)"
 
-#: useractions.cpp:1262
+#: useractions.cpp:1269
 #, kde-format
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
@@ -1821,22 +1819,22 @@ msgstr "아래쪽 데스크톱으로 전환"
 msgid "Switch to Desktop %1"
 msgstr "데스크톱 %1(으)로 전환"
 
-#: virtualkeyboard.cpp:93
+#: virtualkeyboard.cpp:95
 #, kde-format
 msgid "Virtual Keyboard"
 msgstr "가상 키보드"
 
-#: virtualkeyboard.cpp:209
+#: virtualkeyboard.cpp:216
 #, kde-format
 msgid "Virtual Keyboard is enabled."
 msgstr "가상 키보드가 활성화되었습니다."
 
-#: virtualkeyboard.cpp:212
+#: virtualkeyboard.cpp:219
 #, kde-format
 msgid "Virtual Keyboard is disabled."
 msgstr "가상 키보드가 비활성화되었습니다."
 
-#: workspace.cpp:1372
+#: workspace.cpp:1314
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

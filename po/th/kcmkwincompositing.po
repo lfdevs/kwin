@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-05 02:49+0200\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
 "PO-Revision-Date: 2010-12-17 21:24+0700\n"
 "Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -341,5 +341,5 @@ msgstr "พักการใช้งานลูกเล่นของพื
 #: qml/EffectView.qml:104
 #, fuzzy, kde-format
 #| msgid "No Effect"
-msgid "Get New Effects ..."
+msgid "Get New Effects..."
 msgstr "ไม่มีลูกเล่น"

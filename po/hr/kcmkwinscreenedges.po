@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-08 03:04+0200\n"
+"POT-Creation-Date: 2017-12-30 03:13+0100\n"
 "PO-Revision-Date: 2010-03-18 11:06+0100\n"
 "Last-Translator: Andrej Dundovic <adundovi@gmail.com>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -110,16 +110,20 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
-#, kde-format
-msgid "Active Screen Edge Actions"
+#, fuzzy, kde-format
+#| msgid "Active Screen Edge Actions"
+msgid "Active Screen Corners and Edges"
 msgstr "Aktivne radnje na rubovima zaslona"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "To trigger an action push your mouse cursor against the edge of the "
+#| "screen in the action's direction."
 msgid ""
-"To trigger an action push your mouse cursor against the edge of the screen "
-"in the action's direction."
+"Trigger an action by pushing the mouse cursor against the corresponding "
+"screen edge or corner"
 msgstr ""
 "Za aktiviranje radnje pomaknite pokazivač miša prema rubu zaslona u smjeru "
 "radnje."
@@ -132,14 +136,16 @@ msgstr "Upravljanje prozorima"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
-#, kde-format
-msgid "Maximize windows by dragging them to the top of the screen"
+#, fuzzy, kde-format
+#| msgid "Maximize windows by dragging them to the top of the screen"
+msgid "Maximize windows by dragging them to the top edge of the screen"
 msgstr "Proširite prozore tako da ih odvučete na vrh ekrana"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
-#, kde-format
-msgid "Tile windows by dragging them to the side of the screen"
+#, fuzzy, kde-format
+#| msgid "Tile windows by dragging them to the side of the screen"
+msgid "Tile windows by dragging them to the left or right edges of the screen"
 msgstr "Poredate prozore tako da ih odvučete na rub ekrana"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -244,8 +250,8 @@ msgstr "Odgoda do &ponovne aktivacije:"
 #| "To trigger an action push your mouse cursor against the edge of the "
 #| "screen in the action's direction."
 msgid ""
-"To trigger an action swipe from the screen edge towards the center of the "
-"screen."
+"Trigger an action by swiping from the screen edge towards the center of the "
+"screen"
 msgstr ""
 "Za aktiviranje radnje pomaknite pokazivač miša prema rubu zaslona u smjeru "
 "radnje."

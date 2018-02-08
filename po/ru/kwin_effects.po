@@ -6,7 +6,7 @@
 # Nick Shaforostoff <shafff@ukr.net>, 2008, 2009.
 # Nick Shaforostoff <shaforostoff@kde.ru>, 2009, 2011.
 # Andrey Cherepanov <skull@kde.ru>, 2009.
-# Alexander Potashev <aspotashev@gmail.com>, 2009, 2010, 2011, 2014, 2015, 2016, 2017.
+# Alexander Potashev <aspotashev@gmail.com>, 2009, 2010, 2011, 2014, 2015, 2016, 2017, 2018.
 # Yuri Efremov <yur.arh@gmail.com>, 2013.
 # Julia Dronova <juliette.tux@gmail.com>, 2013.
 # Alexander Lakhin <exclusion@gmail.com>, 2013.
@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-11-18 05:40+0100\n"
-"PO-Revision-Date: 2017-02-02 20:33+0300\n"
+"POT-Creation-Date: 2018-01-02 03:18+0100\n"
+"PO-Revision-Date: 2018-02-01 10:13+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -156,7 +156,7 @@ msgid "Default"
 msgstr "По умолчанию"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
-#: coverswitch/coverswitch_config.ui:161
+#: coverswitch/coverswitch_config.ui:161 slide/slide_config.ui:39
 #, kde-format
 msgid " milliseconds"
 msgstr " мс"
@@ -1699,6 +1699,19 @@ msgstr "Цвет текста:"
 msgid "Text alpha:"
 msgstr "Непрозрачность текста:"
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: slide/slide_config.ui:17
+#, kde-format
+msgid "Duration:"
+msgstr "Продолжительность:"
+
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
+#: slide/slide_config.ui:36
+#, kde-format
+msgctxt "Duration of the slide animation"
+msgid "Default"
+msgstr "По умолчанию"
+
 #: thumbnailaside/thumbnailaside.cpp:38
 #: thumbnailaside/thumbnailaside_config.cpp:73
 #, kde-format
@@ -1844,7 +1857,7 @@ msgstr "Всплывающие меню:"
 msgid "Torn-off menus:"
 msgstr "Отделяемые меню:"
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:53
 #, kde-format
 msgid "Toggle window geometry display (effect only)"
 msgstr "Включить или отключить показ геометрии окна (только эффект)"

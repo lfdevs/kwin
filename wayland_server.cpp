@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "client.h"
 #include "platform.h"
 #include "composite.h"
+#include "idle_inhibition.h"
 #include "screens.h"
 #include "shell_client.h"
 #include "workspace.h"
@@ -32,11 +33,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/shm_pool.h>
 #include <KWayland/Client/surface.h>
 // Server
+#include <KWayland/Server/appmenu_interface.h>
 #include <KWayland/Server/compositor_interface.h>
 #include <KWayland/Server/datadevicemanager_interface.h>
+#include <KWayland/Server/datasource_interface.h>
 #include <KWayland/Server/display.h>
 #include <KWayland/Server/dpms_interface.h>
 #include <KWayland/Server/idle_interface.h>
+#include <KWayland/Server/idleinhibit_interface.h>
 #include <KWayland/Server/output_interface.h>
 #include <KWayland/Server/plasmashell_interface.h>
 #include <KWayland/Server/plasmawindowmanagement_interface.h>
@@ -45,6 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/qtsurfaceextension_interface.h>
 #include <KWayland/Server/seat_interface.h>
 #include <KWayland/Server/server_decoration_interface.h>
+#include <KWayland/Server/server_decoration_palette_interface.h>
 #include <KWayland/Server/shadow_interface.h>
 #include <KWayland/Server/subcompositor_interface.h>
 #include <KWayland/Server/blur_interface.h>
@@ -52,6 +57,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/outputmanagement_interface.h>
 #include <KWayland/Server/outputconfiguration_interface.h>
 #include <KWayland/Server/xdgshell_interface.h>
+#include <KWayland/Server/xdgforeign_interface.h>
 
 // Qt
 #include <QThread>
@@ -148,6 +154,12 @@ void WaylandServer::createSurface(T *surface)
         client->installPlasmaShellSurface(*it);
         m_plasmaShellSurfaces.erase(it);
     }
+    if (auto menu = m_appMenuManager->appMenuForSurface(surface->surface())) {
+        client->installAppMenu(menu);
+    }
+    if (auto palette = m_paletteManager->paletteForSurface(surface->surface())) {
+        client->installPalette(palette);
+    }
     if (client->isInternal()) {
         m_internalClients << client;
     } else {
@@ -158,6 +170,11 @@ void WaylandServer::createSurface(T *surface)
     } else {
         connect(client, &ShellClient::windowShown, this, &WaylandServer::shellClientShown);
     }
+
+    //not directly connected as the connection is tied to client instead of this
+    connect(m_XdgForeign, &KWayland::Server::XdgForeignInterface::transientChanged, client, [this](KWayland::Server::SurfaceInterface *child) {
+        emit foreignTransientChanged(child);
+    });
 }
 
 bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
@@ -201,6 +218,13 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
     connect(m_xdgShell, &XdgShellInterface::surfaceCreated, this, &WaylandServer::createSurface<XdgShellSurfaceInterface>);
     // TODO: verify seat and serial
     connect(m_xdgShell, &XdgShellInterface::popupCreated, this, &WaylandServer::createSurface<XdgShellPopupInterface>);
+
+    m_xdgShell6 = m_display->createXdgShell(XdgShellInterfaceVersion::UnstableV6, m_display);
+    m_xdgShell6->create();
+    connect(m_xdgShell6, &XdgShellInterface::surfaceCreated, this, &WaylandServer::createSurface<XdgShellSurfaceInterface>);
+    connect(m_xdgShell6, &XdgShellInterface::xdgPopupCreated, this, &WaylandServer::createSurface<XdgShellPopupInterface>);
+
+
     m_display->createShm();
     m_seat = m_display->createSeat(m_display);
     m_seat->create();
@@ -225,7 +249,11 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
             }
         }
     );
-    m_display->createIdle(m_display)->create();
+    m_idle = m_display->createIdle(m_display);
+    m_idle->create();
+    auto idleInhibition = new IdleInhibition(m_idle);
+    connect(this, &WaylandServer::shellClientAdded, idleInhibition, &IdleInhibition::registerShellClient);
+    m_display->createIdleInhibitManager(IdleInhibitManagerInterfaceVersion::UnstableV1, m_display)->create();
     m_plasmaShell = m_display->createPlasmaShell(m_display);
     m_plasmaShell->create();
     connect(m_plasmaShell, &PlasmaShellInterface::surfaceCreated,
@@ -242,6 +270,8 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
             }
         }
     );
+
+
     m_qtExtendedSurface = m_display->createQtSurfaceExtension(m_display);
     m_qtExtendedSurface->create();
     connect(m_qtExtendedSurface, &QtSurfaceExtensionInterface::surfaceCreated,
@@ -251,6 +281,25 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
             }
         }
     );
+    m_appMenuManager = m_display->createAppMenuManagerInterface(m_display);
+    m_appMenuManager->create();
+    connect(m_appMenuManager, &AppMenuManagerInterface::appMenuCreated,
+        [this] (AppMenuInterface *appMenu) {
+            if (ShellClient *client = findClient(appMenu->surface())) {
+                client->installAppMenu(appMenu);
+            }
+        }
+    );
+    m_paletteManager = m_display->createServerSideDecorationPaletteManager(m_display);
+    m_paletteManager->create();
+    connect(m_paletteManager, &ServerSideDecorationPaletteManagerInterface::paletteCreated,
+        [this] (ServerSideDecorationPaletteInterface *palette) {
+            if (ShellClient *client = findClient(palette->surface())) {
+                client->installPalette(palette);
+            }
+        }
+    );
+
     m_windowManagement = m_display->createPlasmaWindowManagement(m_display);
     m_windowManagement->create();
     m_windowManagement->setShowingDesktopState(PlasmaWindowManagementInterface::ShowingDesktopState::Disabled);
@@ -288,6 +337,12 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
             if (ShellClient *c = findClient(deco->surface())) {
                 c->installServerSideDecoration(deco);
             }
+            connect(deco, &ServerSideDecorationInterface::modeRequested, this,
+                [this, deco] (ServerSideDecorationManagerInterface::Mode mode) {
+                    // always acknowledge the requested mode
+                    deco->setMode(mode);
+                }
+            );
         }
     );
     m_decorationManager->create();
@@ -301,7 +356,15 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
 
     m_display->createSubCompositor(m_display)->create();
 
+    m_XdgForeign = m_display->createXdgForeignInterface(m_display);
+    m_XdgForeign->create();
+
     return true;
+}
+
+SurfaceInterface *WaylandServer::findForeignTransientForSurface(SurfaceInterface *surface)
+{
+    return m_XdgForeign->transientFor(surface);
 }
 
 void WaylandServer::shellClientShown(Toplevel *t)
@@ -393,7 +456,7 @@ void WaylandServer::syncOutputsToWayland()
         output->setScale(s->scale(i));
         const QRect &geo = s->geometry(i);
         output->setGlobalPosition(geo.topLeft());
-        output->setPhysicalSize(geo.size() / 3.8);
+        output->setPhysicalSize(s->physicalSize(i).toSize());
         output->addMode(geo.size());
         output->create();
     }
@@ -690,6 +753,13 @@ bool WaylandServer::isScreenLocked() const
 bool WaylandServer::hasScreenLockerIntegration() const
 {
     return !m_initFlags.testFlag(InitalizationFlag::NoLockScreenIntegration);
+}
+
+void WaylandServer::simulateUserActivity()
+{
+    if (m_idle) {
+        m_idle->simulateUserActivity();
+    }
 }
 
 }

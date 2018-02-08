@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
 "PO-Revision-Date: 2014-03-26 11:43-0500\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
@@ -276,13 +276,14 @@ msgid "This helper utility is not supposed to be called directly."
 msgstr "ਇਹ ਸਹਾਇਕ ਸਹੂਲਤ ਸਿੱਧੀ ਉਪਲੱਬਧ ਨਹੀਂ ਹੈ।"
 
 #: ruleslist.cpp:153
-#, kde-format
-msgid "Export Rule"
+#, fuzzy, kde-format
+#| msgid "Export Rule"
+msgid "Export Rules"
 msgstr "ਨਿਯਮ ਐਕਸਪੋਰਟ"
 
 #: ruleslist.cpp:154 ruleslist.cpp:166
 #, kde-format
-msgid "KWin Rule (*.kwinrule)"
+msgid "KWin Rules (*.kwinrule)"
 msgstr ""
 
 #: ruleslist.cpp:165

@@ -50,7 +50,7 @@
 ><para
 >La primera sèrie d'efectes en la pestanya <guilabel
 >Principal</guilabel
-> té dreceres pre-definides. Si voleu utilitzar el segon conjunt d'efectes en la pestanya <guilabel
+> té dreceres predefinides. Si voleu utilitzar el segon conjunt d'efectes en la pestanya <guilabel
 >Alternativa</guilabel
 >, haureu d'establir manualment una drecera per a aquests efectes a l'editor de dreceres.</para
 ></note>
@@ -82,7 +82,7 @@
 <para
 >Si habiliteu <guilabel
 >Mostra la finestra seleccionada</guilabel
-> la finestra actualment seleccionada es realçarà esvaint totes les altres finestres. Aquesta opció requereix que els efectes d'escriptori estiguin actius.</para>
+>, la finestra actualment seleccionada es realçarà esvaint totes les altres finestres. Aquesta opció requereix que els efectes d'escriptori estiguin actius.</para>
 
 <para
 >Els efectes <guilabel
@@ -95,7 +95,7 @@
 >Canvi en roda</guilabel
 > mostra totes les finestres en una pila 3D. La finestra seleccionada resta a la part superior de la pila i en navegar a través de les finestres mourà la pila de manera que la nova finestra seleccionada resti a la part superior. </para>
 <para
->Si l'efecte proporciona ajustaments addicionals el botó configura serà activat. En fer clic sobre aquest botó es mostrarà un diàleg de configuració. </para>
+>Si l'efecte proporciona ajustaments addicionals, el botó configura serà activat. En fer clic sobre aquest botó es mostrarà un diàleg de configuració. </para>
 <note
 ><para
 >Quan la composició no està activa o aquesta s'ha suspès, es mostrarà el llistat de finestres normal. No hi haurà pèrdua de funcionalitat si se selecciona un efecte i la composició no està activa.</para
@@ -106,7 +106,7 @@
 <title
 >Dreceres</title>
 <para
->L'editor de dreceres proporciona la interfície de configuració per a les dreceres de teclat per a navegar a través de les finestres. Cadascun dels dos conjunts d'efectes té dos dreceres: Una per a la direcció cap endavant i una per a la direcció cap enrere. Si us plau, tingueu en compte que la llista de finestres només es pot mostrar si se selecciona una drecera amb un modificador de teclat com les tecles &Alt; o &Ctrl;. Aquest modificador s'ha de mantenir premut mentre es canvia. El seleccionar una drecera sense una tecla modificadora pot trencar el comportament de la navegació a través de les finestres. </para>
+>L'editor de dreceres proporciona la interfície de configuració per a les dreceres de teclat per a navegar a través de les finestres. Cadascun dels dos conjunts d'efectes té dues dreceres: Una per a la direcció cap endavant i una per a la direcció cap enrere. Si us plau, tingueu en compte que la llista de finestres només es pot mostrar si se selecciona una drecera amb un modificador de teclat com les tecles &Alt; o &Ctrl;. Aquest modificador s'ha de mantenir premut mentre es canvia. El fet de seleccionar una drecera sense una tecla modificadora pot trencar el comportament de la navegació a través de les finestres. </para>
 </sect2>
 
 <sect2 id="content-and-sort-order">
@@ -130,7 +130,7 @@
 <para
 >Podeu configurar quines finestres s'han de mostrar en la llista inicial prement <keycombo
 >&Alt;&Tab;</keycombo
-> (pre-definides per a l'ajustament de la pestanya <guilabel
+> (predefinides per a l'ajustament de la pestanya <guilabel
 >Principal</guilabel
 >) o la drecera definida per l'usuari per a l'ajustament de les alternatives. </para>
 <para

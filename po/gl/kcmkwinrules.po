@@ -6,13 +6,13 @@
 # Marce Villarino <mvillarino@kde-espana.es>, 2009, 2011.
 # Marce Villarino <mvillarino@kde-espana.es>, 2012, 2013, 2014.
 # Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2015, 2017.
-# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017.
+# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2017-09-08 20:29+0100\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"PO-Revision-Date: 2018-01-18 21:49+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <kde-i18n-doc@kde.org>\n"
 "Language: gl\n"
@@ -33,9 +33,7 @@ msgstr "Xabier Villar, Marce Villarino"
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
-"xabier.villar@gmail.com, \n"
-"mvillarino@users.sourceforge.net"
+msgstr "xabier.villar@gmail.com, mvillarino@users.sourceforge.net"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
@@ -170,7 +168,7 @@ msgstr ""
 #, kde-format
 msgid "Window type (eg. all dialogs, but not the main windows)"
 msgstr ""
-"Tipo de xanela (por ex. todos os diálogos pero non as xanelas principais)"
+"Tipo de xanela (p.ex. todos os diálogos pero non as xanelas principais)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, match_title)
 #: detectwidget.ui:202
@@ -304,13 +302,13 @@ msgstr "Esta utilidade de axuda non debería ser chamada directamente."
 
 #: ruleslist.cpp:153
 #, kde-format
-msgid "Export Rule"
-msgstr "Exportar a regra"
+msgid "Export Rules"
+msgstr "Exportar as regras"
 
 #: ruleslist.cpp:154 ruleslist.cpp:166
 #, kde-format
-msgid "KWin Rule (*.kwinrule)"
-msgstr "Regra do KWin (*.kwinrule)"
+msgid "KWin Rules (*.kwinrule)"
+msgstr "Regras de KWin (*.kwinrule)"
 
 #: ruleslist.cpp:165
 #, kde-format
@@ -333,7 +331,7 @@ msgstr "&Modificar…"
 #: ruleslist.ui:46
 #, kde-format
 msgid "Delete"
-msgstr "Borrar"
+msgstr "Eliminar"
 
 #. i18n: ectx: property (text), widget (QPushButton, moveup_button)
 #: ruleslist.ui:56
@@ -365,8 +363,8 @@ msgid ""
 "Enable this checkbox to alter this window property for the specified "
 "window(s)."
 msgstr ""
-"Active esta caixa para marcar para alterar esta propriedade da xanela para "
-"as xanelas indicadas."
+"Active esta caixa para marcar para alterar esta propiedade da xanela para as "
+"xanelas indicadas."
 
 #: ruleswidget.cpp:68
 #, kde-format
@@ -418,7 +416,7 @@ msgstr ""
 "preferencias máis xenéricas da xanela bloquearanse.</li><li><em>Forzar:</em> "
 "A propiedade da xanela fixarase co valor dado.</li> <li><em>Forzar "
 "temporalmente:</em> A propiedade da xanela fixarase co valor dado ata que se "
-"agoche (esta acción eliminarase cando a xanela se agoche).</li> </ul> "
+"agoche (esta acción eliminarase cando a xanela se agoche).</li> </ul>"
 
 #: ruleswidget.cpp:150
 #, kde-format
@@ -519,7 +517,7 @@ msgstr "Sen importancia"
 #: ruleswidgetbase.ui:253
 #, kde-format
 msgid "Exact Match"
-msgstr "Coincidencia exacta "
+msgstr "Coincidencia exacta"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, wmclass_match)
 #. i18n: ectx: property (text), item, widget (KComboBox, role_match)
@@ -585,7 +583,7 @@ msgstr "&Máquina (nome do servidor):"
 #: ruleswidgetbase.ui:318
 #, kde-format
 msgid "&Detect Window Properties"
-msgstr "&Detectar as propriedades da xanela"
+msgstr "&Detectar as propiedades da xanela"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, detection_delay)
 #: ruleswidgetbase.ui:325
@@ -1029,10 +1027,10 @@ msgid ""
 "like your complete screen area."
 msgstr ""
 "Por exemplo as terminais ou os reprodutores de vídeo poden pedir manter "
-"unhas proporcións concretas ou aumentar en valores maiores que un\n"
-"(ex. as dimensións dun caracter).\n"
+"unhas proporcións concretas ou aumentar só en valores maiores que un\n"
+"(ex. as dimensións dun carácter).\n"
 "Isto pode non ter sentido e a restrición evitar tamaños arbitrarios como "
-"pode ser toda  superficie da pantalla."
+"pode ser toda superficie da pantalla."
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_strictgeometry)
 #: ruleswidgetbase.ui:1277

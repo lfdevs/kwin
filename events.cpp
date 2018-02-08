@@ -247,37 +247,8 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
             && (eventType == XCB_KEY_PRESS || eventType == XCB_KEY_RELEASE))
         return false; // let Qt process it, it'll be intercepted again in eventFilter()
 
-    if (eventType == XCB_PROPERTY_NOTIFY || eventType == XCB_CLIENT_MESSAGE) {
-        NET::Properties dirtyProtocols;
-        NET::Properties2 dirtyProtocols2;
-        rootInfo()->event(e, &dirtyProtocols, &dirtyProtocols2);
-        if (dirtyProtocols & NET::DesktopNames)
-            VirtualDesktopManager::self()->save();
-        if (dirtyProtocols2 & NET::WM2DesktopLayout)
-            VirtualDesktopManager::self()->updateLayout();
-    }
-
     // events that should be handled before Clients can get them
     switch (eventType) {
-    case XCB_BUTTON_PRESS:
-    case XCB_BUTTON_RELEASE: {
-        auto *mouseEvent = reinterpret_cast<xcb_button_press_event_t*>(e);
-        if (effects && static_cast<EffectsHandlerImpl*>(effects)->checkInputWindowEvent(mouseEvent)) {
-            return true;
-        }
-        break;
-    }
-    case XCB_MOTION_NOTIFY: {
-        if (kwinApp()->operationMode() != Application::OperationModeX11) {
-            // ignore X11 pointer events generated on X windows if we are not on X
-            return true;
-        }
-        auto *mouseEvent = reinterpret_cast<xcb_motion_notify_event_t*>(e);
-        if (effects && static_cast<EffectsHandlerImpl*>(effects)->checkInputWindowEvent(mouseEvent)) {
-            return true;
-        }
-        break;
-    }
     case XCB_CONFIGURE_NOTIFY:
         if (reinterpret_cast<xcb_configure_notify_event_t*>(e)->event == rootWindow())
             markXStackingOrderAsDirty();
@@ -301,14 +272,6 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
         } else if (Unmanaged* c = findUnmanaged(eventWindow)) {
             if (c->windowEvent(e))
                 return true;
-        } else {
-            // We want to pass root window property events to effects
-            if (eventType == XCB_PROPERTY_NOTIFY) {
-                auto *event = reinterpret_cast<xcb_property_notify_event_t*>(e);
-                if (event->window == rootWindow()) {
-                    emit propertyNotify(event->atom);
-                }
-            }
         }
     }
 
@@ -333,9 +296,6 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
         //do not confuse Qt with these events. After all, _we_ are the
         //window manager who does the reparenting.
         return true;
-    }
-    case XCB_DESTROY_NOTIFY: {
-        return false;
     }
     case XCB_MAP_REQUEST: {
         updateXTime();
@@ -426,14 +386,6 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
     case XCB_FOCUS_OUT:
         return true; // always eat these, they would tell Qt that KWin is the active app
     default:
-        if (eventType == Xcb::Extensions::self()->syncAlarmNotifyEvent() && Xcb::Extensions::self()->isSyncAvailable()) {
-            for (Client *c : clients)
-                c->syncEvent(reinterpret_cast< xcb_sync_alarm_notify_event_t* >(e));
-            for (Client *c : desktops)
-                c->syncEvent(reinterpret_cast< xcb_sync_alarm_notify_event_t* >(e));
-        } else if (eventType == Xcb::Extensions::self()->fixesCursorNotifyEvent() && Xcb::Extensions::self()->isFixesAvailable()) {
-            Cursor::self()->notifyCursorChanged(reinterpret_cast<xcb_xfixes_cursor_notify_event_t*>(e)->cursor_serial);
-        }
         break;
     }
     return false;
@@ -1265,23 +1217,6 @@ void Client::keyPressEvent(uint key_code, xcb_timestamp_t time)
     AbstractClient::keyPressEvent(key_code);
 }
 
-void Client::syncEvent(xcb_sync_alarm_notify_event_t* e)
-{
-    if (e->alarm == syncRequest.alarm && e->counter_value.hi == syncRequest.value.hi && e->counter_value.lo == syncRequest.value.lo) {
-        setReadyForPainting();
-        setupWindowManagementInterface();
-        syncRequest.isPending = false;
-        if (syncRequest.failsafeTimeout)
-            syncRequest.failsafeTimeout->stop();
-        if (isResize()) {
-            if (syncRequest.timeout)
-                syncRequest.timeout->stop();
-            performMoveResize();
-        } else // setReadyForPainting does as well, but there's a small chance for resize syncs after the resize ended
-            addRepaintFull();
-    }
-}
-
 // ****************************************
 // Unmanaged
 // ****************************************
@@ -1392,7 +1327,6 @@ void Toplevel::propertyNotifyEvent(xcb_property_notify_event_t *e)
             getSkipCloseAnimation();
         break;
     }
-    emit propertyNotify(this, e->atom);
 }
 
 void Toplevel::clientMessageEvent(xcb_client_message_event_t *e)

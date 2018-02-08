@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-05 02:49+0200\n"
-"PO-Revision-Date: 2016-11-23 19:26+0100\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"PO-Revision-Date: 2017-10-30 23:08+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr@ijekavian\n"
@@ -352,5 +352,5 @@ msgstr "Изостави унутрашње ефекте површи"
 
 #: qml/EffectView.qml:104
 #, kde-format
-msgid "Get New Effects ..."
+msgid "Get New Effects..."
 msgstr "Добави нове ефекте..."

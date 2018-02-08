@@ -1,4 +1,4 @@
-# Burkhard Lück <lueck@hube-lueck.de>, 2009, 2013, 2014, 2015, 2017.
+# Burkhard Lück <lueck@hube-lueck.de>, 2009, 2013, 2014, 2015, 2017, 2018.
 # Thomas Reitelbach <tr@erdfunkstelle.de>, 2009.
 # Johannes Obermayr <johannesobermayr@gmx.de>, 2009, 2010.
 # Frederik Schwarzer <schwarzer@kde.org>, 2012, 2016.
@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-08 03:04+0200\n"
-"PO-Revision-Date: 2017-05-12 20:29+0100\n"
+"POT-Creation-Date: 2017-12-30 03:13+0100\n"
+"PO-Revision-Date: 2018-01-03 20:26+0100\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -101,18 +101,18 @@ msgstr "Alternativen Fensterwechsel umschalten"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
 #, kde-format
-msgid "Active Screen Edge Actions"
-msgstr "Aktionen für aktive Arbeitsflächenränder"
+msgid "Active Screen Corners and Edges"
+msgstr "Aktive Bildschirmränder"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
 #, kde-format
 msgid ""
-"To trigger an action push your mouse cursor against the edge of the screen "
-"in the action's direction."
+"Trigger an action by pushing the mouse cursor against the corresponding "
+"screen edge or corner"
 msgstr ""
 "Um eine Aktion auszulösen, stoßen Sie mit dem Mauszeiger an den "
-"Bildschirmrand in die gewünschte Richtung."
+"zugehörigenBildschirmrand oder die Bildschirmecke"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
@@ -123,14 +123,14 @@ msgstr "Fensterverwaltung"
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
 #, kde-format
-msgid "Maximize windows by dragging them to the top of the screen"
+msgid "Maximize windows by dragging them to the top edge of the screen"
 msgstr "Fenster durch Ziehen zum oberen Bildschirmrand maximieren"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
 #, kde-format
-msgid "Tile windows by dragging them to the side of the screen"
-msgstr "Fenster durch Ziehen zum seitlichen Bildschirmrand anordnen"
+msgid "Tile windows by dragging them to the left or right edges of the screen"
+msgstr "Fenster durch Ziehen zum rechten oder linken Bildschirmrand anordnen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
@@ -232,8 +232,8 @@ msgstr "&Reaktivierungsverzögerung:"
 #: touch.ui:36
 #, kde-format
 msgid ""
-"To trigger an action swipe from the screen edge towards the center of the "
-"screen."
+"Trigger an action by swiping from the screen edge towards the center of the "
+"screen"
 msgstr ""
 "Um eine Aktion auszulösen, wischen Sie vom Bildschirmrand in die Mitte des "
 "Bildschirms."

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2017-09-12 12:26+0100\n"
-"Last-Translator: Vít Pelčák <vit@pelcak.org>\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"PO-Revision-Date: 2017-11-01 12:26+0100\n"
+"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -297,13 +297,13 @@ msgstr "Tento pomocný nástroj není určen k samostatnému spouštění."
 
 #: ruleslist.cpp:153
 #, kde-format
-msgid "Export Rule"
-msgstr "Exportovat pravidlo"
+msgid "Export Rules"
+msgstr "Exportovat pravidla"
 
 #: ruleslist.cpp:154 ruleslist.cpp:166
 #, kde-format
-msgid "KWin Rule (*.kwinrule)"
-msgstr "Role KWinu (*.kwinrule)"
+msgid "KWin Rules (*.kwinrule)"
+msgstr "Pravidla KWinu (*.kwinrule)"
 
 #: ruleslist.cpp:165
 #, kde-format

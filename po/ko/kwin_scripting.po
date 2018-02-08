@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
+# Shinjo Park <kde@peremen.name>, 2013, 2014, 2017.
 #
-# Shinjo Park <kde@peremen.name>, 2013, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2017-04-08 03:04+0200\n"
-"PO-Revision-Date: 2014-03-03 02:04+0900\n"
+"PO-Revision-Date: 2017-12-02 23:27+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
 "Language: ko\n"
@@ -15,6 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 2.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -85,12 +86,10 @@ msgid "Second argument to registerScreenEdge needs to be a callback"
 msgstr "registerScreenEdge의 두 번째 인자는 callback이어야 함"
 
 #: scriptingutils.h:213
-#, fuzzy, kde-format
-#| msgctxt "KWin Scripting error thrown due to incorrect argument"
-#| msgid "Second argument to registerScreenEdge needs to be a callback"
+#, kde-format
 msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Second argument to registerTouchScreenEdge needs to be a callback"
-msgstr "registerScreenEdge의 두 번째 인자는 callback이어야 함"
+msgstr "registerTouchScreenEdge의 두 번째 인자는 callback이어야 함"
 
 #: scriptingutils.h:250
 #, kde-format

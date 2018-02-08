@@ -1,14 +1,14 @@
 # Translation of kcmkwincompositing to Norwegian Nynorsk
 #
-# Karl Ove Hufthammer <karl@huftis.org>, 2007, 2008, 2010, 2015, 2016.
+# Karl Ove Hufthammer <karl@huftis.org>, 2007, 2008, 2010, 2015, 2016, 2018.
 # Håvard Korsvoll <korsvoll@skulelinux.no>, 2009.
 # Eirik U. Birkeland <eirbir@gmail.com>, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-05 02:49+0200\n"
-"PO-Revision-Date: 2016-10-30 16:48+0100\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"PO-Revision-Date: 2018-01-27 12:02+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
@@ -346,5 +346,5 @@ msgstr "Utelat interne skrivebordseffektar"
 
 #: qml/EffectView.qml:104
 #, kde-format
-msgid "Get New Effects ..."
+msgid "Get New Effects..."
 msgstr "Hent nye effektar …"

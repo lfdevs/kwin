@@ -301,7 +301,6 @@ public:
     SessionInfo* takeSessionInfo(Client*);
 
     // D-Bus interface
-    bool waitForCompositingSetup();
     QString supportInformation() const;
 
     void setCurrentScreen(int new_screen);
@@ -443,8 +442,6 @@ public Q_SLOTS:
 
     void slotSetupWindowShortcut();
     void setupWindowShortcutDone(bool);
-    void slotToggleCompositing();
-    void slotInvertScreen();
 
     void updateClientArea();
 
@@ -487,7 +484,6 @@ Q_SIGNALS:
     void unmanagedAdded(KWin::Unmanaged*);
     void unmanagedRemoved(KWin::Unmanaged*);
     void deletedRemoved(KWin::Deleted*);
-    void propertyNotify(long a);
     void configChanged();
     void reinitializeCompositing();
     void showingDesktopChanged(bool showing);
@@ -499,10 +495,13 @@ Q_SIGNALS:
 
 private:
     void init();
+    void initWithX11();
     void initShortcuts();
     template <typename Slot>
     void initShortcut(const QString &actionName, const QString &description, const QKeySequence &shortcut,
                       Slot slot, const QVariant &data = QVariant());
+    template <typename T, typename Slot>
+    void initShortcut(const QString &actionName, const QString &description, const QKeySequence &shortcut, T *receiver, Slot slot, const QVariant &data = QVariant());
     void setupWindowShortcut(AbstractClient* c);
     bool switchWindow(AbstractClient *c, Direction direction, QPoint curPos, int desktop);
 
@@ -529,7 +528,7 @@ private:
     void closeActivePopup();
     void updateClientArea(bool force);
     void resetClientAreas(uint desktopCount);
-    void updateClientVisibilityOnDesktopChange(uint oldDesktop, uint newDesktop);
+    void updateClientVisibilityOnDesktopChange(uint newDesktop);
     void activateClientOnNewDesktop(uint desktop);
     AbstractClient *findClientToActivateOnDesktop(uint desktop);
 
@@ -568,6 +567,7 @@ private:
     bool force_restacking;
     ToplevelList x_stacking; // From XQueryTree()
     std::unique_ptr<Xcb::Tree> m_xStackingQueryTree;
+    bool m_xStackingDirty = false;
     QList<AbstractClient*> should_get_focus; // Last is most recent
     QList<AbstractClient*> attention_chain;
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-07-18 03:21+0200\n"
+"POT-Creation-Date: 2017-11-02 03:16+0100\n"
 "PO-Revision-Date: 2015-03-26 12:35+0100\n"
 "Last-Translator: Kristóf Kiszel <ulysses@kubuntu.org>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -17,49 +17,49 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: aurorae/src/aurorae.cpp:712
+#: aurorae/src/aurorae.cpp:722
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "Apró"
 
-#: aurorae/src/aurorae.cpp:713
+#: aurorae/src/aurorae.cpp:723
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "Normál"
 
-#: aurorae/src/aurorae.cpp:714
+#: aurorae/src/aurorae.cpp:724
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "Nagy"
 
-#: aurorae/src/aurorae.cpp:715
+#: aurorae/src/aurorae.cpp:725
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "Nagyon nagy"
 
-#: aurorae/src/aurorae.cpp:716
+#: aurorae/src/aurorae.cpp:726
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "Hatalmas"
 
-#: aurorae/src/aurorae.cpp:717
+#: aurorae/src/aurorae.cpp:727
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "Óriási"
 
-#: aurorae/src/aurorae.cpp:718
+#: aurorae/src/aurorae.cpp:728
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "Túlméretezett"
 
-#: aurorae/src/aurorae.cpp:721
+#: aurorae/src/aurorae.cpp:731
 #, kde-format
 msgid "Button size:"
 msgstr "Gombméret:"

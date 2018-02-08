@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
 "PO-Revision-Date: 2012-06-13 15:34+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer\n"
@@ -317,13 +317,14 @@ msgid "This helper utility is not supposed to be called directly."
 msgstr "ឧបករណ៍​ប្រើប្រាស់​កម្មវិធី​ជំនួយ​នេះ​ទំនង​ជា​មិន​បាន​ហៅ​ដោយ​ផ្ទាល់ទេ ។"
 
 #: ruleslist.cpp:153
-#, kde-format
-msgid "Export Rule"
+#, fuzzy, kde-format
+#| msgid "Export Rule"
+msgid "Export Rules"
 msgstr "នាំចេញ​បន្ទាត់"
 
 #: ruleslist.cpp:154 ruleslist.cpp:166
 #, kde-format
-msgid "KWin Rule (*.kwinrule)"
+msgid "KWin Rules (*.kwinrule)"
 msgstr ""
 
 #: ruleslist.cpp:165

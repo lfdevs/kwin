@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-05 02:49+0200\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
 "PO-Revision-Date: 2009-02-10 11:58+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -343,5 +343,5 @@ msgstr "डेस्कटाप प्रभाव ल सक्छम कर�
 #: qml/EffectView.qml:104
 #, fuzzy, kde-format
 #| msgid "No Effect"
-msgid "Get New Effects ..."
+msgid "Get New Effects..."
 msgstr "कोनो प्रभाव नइ"

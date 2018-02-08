@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-11-18 05:40+0100\n"
+"POT-Creation-Date: 2018-01-02 03:18+0100\n"
 "PO-Revision-Date: 2017-03-05 16:31+0100\n"
 "Last-Translator: Kiszel Kristóf <kiszel.kristof@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -142,7 +142,7 @@ msgid "Default"
 msgstr "Alapértelmezés"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
-#: coverswitch/coverswitch_config.ui:161
+#: coverswitch/coverswitch_config.ui:161 slide/slide_config.ui:39
 #, kde-format
 msgid " milliseconds"
 msgstr " ezredmásodperc"
@@ -1683,6 +1683,22 @@ msgstr "Betűszín:"
 msgid "Text alpha:"
 msgstr "Szöveg alfa-csatorna:"
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: slide/slide_config.ui:17
+#, fuzzy, kde-format
+#| msgid "Duration"
+msgid "Duration:"
+msgstr "Időtartam"
+
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
+#: slide/slide_config.ui:36
+#, fuzzy, kde-format
+#| msgctxt "Duration of rotation"
+#| msgid "Default"
+msgctxt "Duration of the slide animation"
+msgid "Default"
+msgstr "Alapértelmezés"
+
 #: thumbnailaside/thumbnailaside.cpp:38
 #: thumbnailaside/thumbnailaside_config.cpp:73
 #, kde-format
@@ -1828,7 +1844,7 @@ msgstr "Felbukkanó menük:"
 msgid "Torn-off menus:"
 msgstr "Letéphető menük:"
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:53
 #, kde-format
 msgid "Toggle window geometry display (effect only)"
 msgstr "Ablakgeometria megjelenítésének bekapcsolása (csak effektusok)"

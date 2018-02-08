@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2017-10-15 18:31+0300\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"PO-Revision-Date: 2017-10-17 14:06+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -302,16 +302,14 @@ msgid "This helper utility is not supposed to be called directly."
 msgstr ""
 "Вспомогательная утилита не должна запускаться как самостоятельная программа."
 
-# BUGME: Rule -> Rules? (see also "Import Rules") --aspotashev
 #: ruleslist.cpp:153
 #, kde-format
-msgid "Export Rule"
-msgstr "Экспорт правила"
+msgid "Export Rules"
+msgstr "Экспорт правил"
 
-# BUGME: change to "KWin Rules" --aspotashev
 #: ruleslist.cpp:154 ruleslist.cpp:166
 #, kde-format
-msgid "KWin Rule (*.kwinrule)"
+msgid "KWin Rules (*.kwinrule)"
 msgstr "Правила KWin (*.kwinrule)"
 
 #: ruleslist.cpp:165

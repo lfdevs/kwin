@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
 "PO-Revision-Date: 2017-10-23 11:20+0000\n"
 "Last-Translator: İşbaran <isbaran@gmail.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -192,9 +192,9 @@ msgstr ""
 "özelleştirilmiştir. Bir set <i>taban</i>+(<i>liste</i>) şeklinde "
 "özelleştirilmiştir, Burada taban değiştiricileri ve liste tuşların listesini "
 "belirtir.<br>\n"
-"Örneğin.\"<b>ÜstKrktr+Alt+(123) ÜstKrktr+Ctrl+(ABC)</b>\" önce "
-"<b>ÜstKrktr+Alt+1</b>'i deneyecek sırayla devam edecek en son olarak "
-"<b>ÜstKrktr+Ctrl+C</b>'yi deneyecektir."
+"Örneğin.\"<b>ÜstKrktr+Alt+(123) ÜstKrktr+Ctrl+(ABC)</b>\" önce <b>ÜstKrktr"
+"+Alt+1</b>'i deneyecek sırayla devam edecek en son olarak <b>ÜstKrktr+Ctrl"
+"+C</b>'yi deneyecektir."
 
 #. i18n: ectx: property (text), widget (QPushButton, pushButton1)
 #: editshortcut.ui:62
@@ -298,13 +298,13 @@ msgstr "Bu Yardım uygulaması doğrudan çağrılamaz."
 
 #: ruleslist.cpp:153
 #, kde-format
-msgid "Export Rule"
-msgstr "Kuralı Dışarıya Aktar"
+msgid "Export Rules"
+msgstr "Kuralları Dışa Aktar"
 
 #: ruleslist.cpp:154 ruleslist.cpp:166
 #, kde-format
-msgid "KWin Rule (*.kwinrule)"
-msgstr "KWin Kuralı (*.kwinrule)"
+msgid "KWin Rules (*.kwinrule)"
+msgstr "KWin Kuralları (*.kwinrule)"
 
 #: ruleslist.cpp:165
 #, kde-format
@@ -380,19 +380,18 @@ msgid ""
 "given value until it is hidden (this action will be deleted after the window "
 "is hidden).</li></ul>"
 msgstr ""
-"Pencere özelliğinin nasıl etkileneceğini belirtin:<ul><li><em>Etkilenme:</em>"
-" Pencere özelliği etkilenmeyecektir ve öntanımlı ayarlar kullanılacaktır. "
-"Bunu belirtmek bir çok genel pencerenin etkilenmesini "
-"engelliyeecktir.</li><li><em>İlk Olarak Uygula:</em> Pencere özelliği, "
-"pencere oluşturulduktan sonra verilen değere ayarlanacaktır. Daha başka "
-"değişiklik olmayacaktır.</li><li><em>Hatırla:</em> Pencere özelliğinin "
-"değeri her zaman hatırlanacak ve en son hatırlanan değer "
-"uygulanacaktır.</li><li><em>Zorla:</em> Bu, pencere özelliğini her zaman "
-"verilen değerlere zorlar.</li><li><em>Şimdi Uygula:</em> Pencere özelliğine "
-"verilen değer hemen uygulanacak ve sonra etkilenmeyecektir (bu eylem daha "
-"sonra silinecektir).</li><li><em>Geçici olarak Zorla:</em> Pencere özelliği "
-"gizlenene kadar verilen değere zorlanacaktır (bu eylem pencere gizlendikten "
-"sonra silinecektir).</li></ul>"
+"Pencere özelliğinin nasıl etkileneceğini belirtin:<ul><li><em>Etkilenme:</"
+"em> Pencere özelliği etkilenmeyecektir ve öntanımlı ayarlar kullanılacaktır. "
+"Bunu belirtmek bir çok genel pencerenin etkilenmesini engelliyeecktir.</"
+"li><li><em>İlk Olarak Uygula:</em> Pencere özelliği, pencere oluşturulduktan "
+"sonra verilen değere ayarlanacaktır. Daha başka değişiklik olmayacaktır.</"
+"li><li><em>Hatırla:</em> Pencere özelliğinin değeri her zaman hatırlanacak "
+"ve en son hatırlanan değer uygulanacaktır.</li><li><em>Zorla:</em> Bu, "
+"pencere özelliğini her zaman verilen değerlere zorlar.</li><li><em>Şimdi "
+"Uygula:</em> Pencere özelliğine verilen değer hemen uygulanacak ve sonra "
+"etkilenmeyecektir (bu eylem daha sonra silinecektir).</li><li><em>Geçici "
+"olarak Zorla:</em> Pencere özelliği gizlenene kadar verilen değere "
+"zorlanacaktır (bu eylem pencere gizlendikten sonra silinecektir).</li></ul>"
 
 #: ruleswidget.cpp:83
 #, kde-format
@@ -405,13 +404,13 @@ msgid ""
 "em> The window property will be forced to the given value until it is hidden "
 "(this action will be deleted after the window is hidden).</li></ul>"
 msgstr ""
-"Pencere özelliğinin nasıl etkileneceğini belirtin:<ul><li><em>Etkileme "
-"Yok:</em> Pencere özelliği etkilenmeyecektir ve öntanımlı ayarlar "
-"kullanılacaktır. Bunu belirtmek bir çok genel pencerenin etkilenmesini "
-"engelleyecektir.</li><li><em>Zorla:</em> Bu, pencere özelliğini her zaman "
-"verilen değerlere zorlar.</li><li><em>Geçici olarak Zorla:</em>Bu, pencere "
-"özelliğini pencere gizlenene kadar verilen değerlere zorlar. (bu eylem "
-"pencere gizlenince silinir).</li></ul>"
+"Pencere özelliğinin nasıl etkileneceğini belirtin:<ul><li><em>Etkileme Yok:</"
+"em> Pencere özelliği etkilenmeyecektir ve öntanımlı ayarlar kullanılacaktır. "
+"Bunu belirtmek bir çok genel pencerenin etkilenmesini engelleyecektir.</"
+"li><li><em>Zorla:</em> Bu, pencere özelliğini her zaman verilen değerlere "
+"zorlar.</li><li><em>Geçici olarak Zorla:</em>Bu, pencere özelliğini pencere "
+"gizlenene kadar verilen değerlere zorlar. (bu eylem pencere gizlenince "
+"silinir).</li></ul>"
 
 #: ruleswidget.cpp:150
 #, kde-format

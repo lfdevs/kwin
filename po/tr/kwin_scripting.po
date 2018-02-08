@@ -85,7 +85,8 @@ msgstr "%1 gerekli türde değil"
 #, kde-format
 msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Second argument to registerScreenEdge needs to be a callback"
-msgstr "RegisterScreenEdge'in ikinci argümanının bir geriçağırım olması gerekir"
+msgstr ""
+"RegisterScreenEdge'in ikinci argümanının bir geriçağırım olması gerekir"
 
 #: scriptingutils.h:213
 #, kde-format

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-05 02:49+0200\n"
-"PO-Revision-Date: 2016-09-18 18:36+0200\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"PO-Revision-Date: 2017-10-19 00:06+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128@baslug.org>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -350,5 +350,5 @@ msgstr "Escludi gli effetti del desktop interni"
 
 #: qml/EffectView.qml:104
 #, kde-format
-msgid "Get New Effects ..."
-msgstr "Scarica nuovi effetti..."
+msgid "Get New Effects..."
+msgstr "Ottieni nuovi effetti..."

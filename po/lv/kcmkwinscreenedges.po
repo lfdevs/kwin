@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-08 03:04+0200\n"
+"POT-Creation-Date: 2017-12-30 03:13+0100\n"
 "PO-Revision-Date: 2011-07-07 23:08+0300\n"
 "Last-Translator: Rūdofls Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -107,16 +107,20 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
-#, kde-format
-msgid "Active Screen Edge Actions"
+#, fuzzy, kde-format
+#| msgid "Active Screen Edge Actions"
+msgid "Active Screen Corners and Edges"
 msgstr "Aktīvās ekrāna malas darbības"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "To trigger an action push your mouse cursor against the edge of the "
+#| "screen in the action's direction."
 msgid ""
-"To trigger an action push your mouse cursor against the edge of the screen "
-"in the action's direction."
+"Trigger an action by pushing the mouse cursor against the corresponding "
+"screen edge or corner"
 msgstr ""
 "Darbību iedarbina stumjot peles kursoru pret ekrāna malu darbības virzienā."
 
@@ -128,14 +132,16 @@ msgstr "Logu vadība"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
-#, kde-format
-msgid "Maximize windows by dragging them to the top of the screen"
+#, fuzzy, kde-format
+#| msgid "Maximize windows by dragging them to the top of the screen"
+msgid "Maximize windows by dragging them to the top edge of the screen"
 msgstr "Maksimizēt logus, tos uzvelkot uz ekrāna augšmalas"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
-#, kde-format
-msgid "Tile windows by dragging them to the side of the screen"
+#, fuzzy, kde-format
+#| msgid "Tile windows by dragging them to the side of the screen"
+msgid "Tile windows by dragging them to the left or right edges of the screen"
 msgstr "Flīzēt logus, pievieklot tos pie ekrāna sāna"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -236,7 +242,7 @@ msgstr "At&k. aktivizesanas aizture:"
 #| "To trigger an action push your mouse cursor against the edge of the "
 #| "screen in the action's direction."
 msgid ""
-"To trigger an action swipe from the screen edge towards the center of the "
-"screen."
+"Trigger an action by swiping from the screen edge towards the center of the "
+"screen"
 msgstr ""
 "Darbību iedarbina stumjot peles kursoru pret ekrāna malu darbības virzienā."

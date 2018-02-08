@@ -26,7 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "client.h"
 #include "scene.h"
-#include "xcbutils.h"
 
 #include <QHash>
 #include <Plasma/FrameSvg>
@@ -59,6 +58,7 @@ class Compositor;
 class Deleted;
 class EffectLoader;
 class Unmanaged;
+class WindowPropertyNotifyX11Filter;
 
 class KWIN_EXPORT EffectsHandlerImpl : public EffectsHandler
 {
@@ -163,8 +163,6 @@ public:
     WindowQuadType newWindowQuadType() override;
 
     void defineCursor(Qt::CursorShape shape) override;
-    bool checkInputWindowEvent(xcb_button_press_event_t *e);
-    bool checkInputWindowEvent(xcb_motion_notify_event_t *e);
     bool checkInputWindowEvent(QMouseEvent *e);
     bool checkInputWindowEvent(QWheelEvent *e);
     void checkInputWindowStacking();
@@ -254,6 +252,10 @@ public:
 
     void highlightWindows(const QVector<EffectWindow *> &windows);
 
+    bool isPropertyTypeRegistered(xcb_atom_t atom) const {
+        return registered_atoms.contains(atom);
+    }
+
 public Q_SLOTS:
     void slotCurrentTabAboutToChange(EffectWindow* from, EffectWindow* to);
     void slotTabAdded(EffectWindow* from, EffectWindow* to);
@@ -281,7 +283,6 @@ protected Q_SLOTS:
     void slotGeometryShapeChanged(KWin::Toplevel *t, const QRect &old);
     void slotPaddingChanged(KWin::Toplevel *t, const QRect &old);
     void slotWindowDamaged(KWin::Toplevel *t, const QRect& r);
-    void slotPropertyNotify(KWin::Toplevel *t, long atom);
 
 protected:
     void connectNotify(const QMetaMethod &signal) override;
@@ -290,6 +291,30 @@ protected:
     void setupAbstractClientConnections(KWin::AbstractClient *c);
     void setupClientConnections(KWin::Client *c);
     void setupUnmanagedConnections(KWin::Unmanaged *u);
+
+    /**
+     * Default implementation does nothing and returns @c true.
+     **/
+    virtual bool doGrabKeyboard();
+    /**
+     * Default implementation does nothing.
+     **/
+    virtual void doUngrabKeyboard();
+
+    /**
+     * Default implementation sets Effects override cursor on the PointerInputRedirection.
+     **/
+    virtual void doStartMouseInterception(Qt::CursorShape shape);
+
+    /**
+     * Default implementation removes the Effects override cursor on the PointerInputRedirection.
+     **/
+    virtual void doStopMouseInterception();
+
+    /**
+     * Default implementation does nothing
+     **/
+    virtual void doCheckInputWindowStacking();
 
     Effect* keyboard_grab_effect;
     Effect* fullscreen_effect;
@@ -315,10 +340,10 @@ private:
     Scene *m_scene;
     bool m_desktopRendering;
     int m_currentRenderedDesktop;
-    Xcb::Window m_mouseInterceptionWindow;
     QList<Effect*> m_grabbedMouseEffects;
     EffectLoader *m_effectLoader;
     int m_trackingCursorChanges;
+    std::unique_ptr<WindowPropertyNotifyX11Filter> m_x11WindowPropertyNotify;
 };
 
 class EffectWindowImpl : public EffectWindow

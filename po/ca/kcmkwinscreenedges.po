@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-08 03:04+0200\n"
-"PO-Revision-Date: 2017-04-08 10:58+0100\n"
+"POT-Creation-Date: 2017-12-30 03:13+0100\n"
+"PO-Revision-Date: 2017-12-30 17:20+0100\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -105,18 +105,18 @@ msgstr "Commutar a un canvi de finestres alternatiu"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
 #, kde-format
-msgid "Active Screen Edge Actions"
-msgstr "Accions per a les vores actives de la pantalla"
+msgid "Active Screen Corners and Edges"
+msgstr "Cantonades i vores actives de la pantalla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
 #, kde-format
 msgid ""
-"To trigger an action push your mouse cursor against the edge of the screen "
-"in the action's direction."
+"Trigger an action by pushing the mouse cursor against the corresponding "
+"screen edge or corner"
 msgstr ""
-"Per a activar una acció empenyeu el cursor del ratolí contra la vora de la "
-"pantalla en la direcció de l'acció."
+"Activa una acció empenyent el cursor del ratolí contra la vora corresponent "
+"de la pantalla o de la cantonada"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
@@ -127,15 +127,17 @@ msgstr "Gestió de les finestres"
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
 #, kde-format
-msgid "Maximize windows by dragging them to the top of the screen"
+msgid "Maximize windows by dragging them to the top edge of the screen"
 msgstr ""
-"Maximitza les finestres arrossegant-les a la part superior de la pantalla"
+"Maximitza les finestres arrossegant-les a la vora superior de la pantalla"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
 #, kde-format
-msgid "Tile windows by dragging them to the side of the screen"
-msgstr "Posa les finestres en mosaic arrossegant-les al costat de la pantalla"
+msgid "Tile windows by dragging them to the left or right edges of the screen"
+msgstr ""
+"Posa les finestres en mosaic arrossegant-les a les vora dreta o esquerra de "
+"la pantalla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
@@ -238,8 +240,8 @@ msgstr "Retard de la &reactivació:"
 #: touch.ui:36
 #, kde-format
 msgid ""
-"To trigger an action swipe from the screen edge towards the center of the "
-"screen."
+"Trigger an action by swiping from the screen edge towards the center of the "
+"screen"
 msgstr ""
-"Per activar una acció llisqueu el dit des de la vora de la pantalla cap el "
-"centre de la pantalla."
+"Activar una acció lliscant el dit des de la vora de la pantalla cap al "
+"centre de la pantalla"

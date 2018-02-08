@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-07-18 03:21+0200\n"
+"POT-Creation-Date: 2017-11-02 03:16+0100\n"
 "PO-Revision-Date: 2015-04-25 23:41+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
@@ -20,49 +20,49 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: aurorae/src/aurorae.cpp:712
+#: aurorae/src/aurorae.cpp:722
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "작게"
 
-#: aurorae/src/aurorae.cpp:713
+#: aurorae/src/aurorae.cpp:723
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "일반"
 
-#: aurorae/src/aurorae.cpp:714
+#: aurorae/src/aurorae.cpp:724
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "크게"
 
-#: aurorae/src/aurorae.cpp:715
+#: aurorae/src/aurorae.cpp:725
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "매우 크게"
 
-#: aurorae/src/aurorae.cpp:716
+#: aurorae/src/aurorae.cpp:726
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "상당히 크게"
 
-#: aurorae/src/aurorae.cpp:717
+#: aurorae/src/aurorae.cpp:727
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "매우 매우 매우 크게"
 
-#: aurorae/src/aurorae.cpp:718
+#: aurorae/src/aurorae.cpp:728
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "과다하게 크게"
 
-#: aurorae/src/aurorae.cpp:721
+#: aurorae/src/aurorae.cpp:731
 #, kde-format
 msgid "Button size:"
 msgstr "단추 크기:"

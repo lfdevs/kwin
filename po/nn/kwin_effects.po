@@ -2,15 +2,15 @@
 #
 # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2007.
 # Håvard Korsvoll <korsvoll@skulelinux.no>, 2008.
-# Karl Ove Hufthammer <karl@huftis.org>, 2008, 2010, 2015, 2016.
+# Karl Ove Hufthammer <karl@huftis.org>, 2008, 2010, 2015, 2016, 2018.
 # Eirik U. Birkeland <eirbir@gmail.com>, 2008, 2009, 2010.
 # Sveinung Kvilhaugsvik <sveinung84@users.sourceforge.net>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-08-25 03:24+0200\n"
-"PO-Revision-Date: 2016-12-11 13:32+0100\n"
+"POT-Creation-Date: 2018-01-02 03:18+0100\n"
+"PO-Revision-Date: 2018-01-23 21:18+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
@@ -66,7 +66,7 @@ msgstr ""
 "Vel stad å henta farge frå med venstreklikk eller «Enter».\n"
 "Høgreklikk eller trykk «Escape» for å avbryta."
 
-#: coverswitch/coverswitch.cpp:951 flipswitch/flipswitch.cpp:935
+#: coverswitch/coverswitch.cpp:952 flipswitch/flipswitch.cpp:935
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -146,7 +146,7 @@ msgid "Default"
 msgstr "Standard"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
-#: coverswitch/coverswitch_config.ui:161
+#: coverswitch/coverswitch_config.ui:161 slide/slide_config.ui:39
 #, kde-format
 msgid " milliseconds"
 msgstr " millisekund"
@@ -1357,25 +1357,25 @@ msgstr "&Farge:"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Teikn med musa ved å halda nede «Shift + Meta-tast» og flytta musa."
 
-#: presentwindows/presentwindows.cpp:74
+#: presentwindows/presentwindows.cpp:78
 #: presentwindows/presentwindows_config.cpp:73
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Vis/gøym vindauge (på det gjeldande skrivebordet)"
 
-#: presentwindows/presentwindows.cpp:82
+#: presentwindows/presentwindows.cpp:86
 #: presentwindows/presentwindows_config.cpp:67
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Vis/gøym vindauge (på alle skriveborda)"
 
-#: presentwindows/presentwindows.cpp:91
+#: presentwindows/presentwindows.cpp:95
 #: presentwindows/presentwindows_config.cpp:79
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Vis/gøym vindauge (i vindaugsklassen)"
 
-#: presentwindows/presentwindows.cpp:1644
+#: presentwindows/presentwindows.cpp:1651
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1623,7 +1623,7 @@ msgstr ""
 "Ta skjermbilete med klikk eller «Enter».\n"
 "Høgreklikk eller trykk «Escape» for å avbryta."
 
-#: showfps/showfps.cpp:62
+#: showfps/showfps.cpp:63
 #, kde-format
 msgid "This effect is not a benchmark"
 msgstr "Denne effekten er ikkje ein ytingstest"
@@ -1687,6 +1687,19 @@ msgstr "Tekstfarge:"
 #, kde-format
 msgid "Text alpha:"
 msgstr "Tekstgjennomsikt:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: slide/slide_config.ui:17
+#, kde-format
+msgid "Duration:"
+msgstr "Lengd:"
+
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
+#: slide/slide_config.ui:36
+#, kde-format
+msgctxt "Duration of the slide animation"
+msgid "Default"
+msgstr "Standard"
 
 #: thumbnailaside/thumbnailaside.cpp:38
 #: thumbnailaside/thumbnailaside_config.cpp:73
@@ -1833,7 +1846,7 @@ msgstr "Sprettoppmenyar:"
 msgid "Torn-off menus:"
 msgstr "Avrivne menyar:"
 
-#: windowgeometry/windowgeometry.cpp:62
+#: windowgeometry/windowgeometry.cpp:53
 #, kde-format
 msgid "Toggle window geometry display (effect only)"
 msgstr "Slå på/av vising av vindaugegeometri (berre effekt)"

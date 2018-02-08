@@ -2,20 +2,22 @@
 # Copyright (C) 2010 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kcm_kwindesktop package.
 # Andhika Padmawan <andhika.padmawan@gmail.com>, 2010-2014.
+# Wantoyo <wantoyek@gmail.com>, 2017, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2014-06-16 19:15+0700\n"
-"Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
+"POT-Creation-Date: 2017-12-06 05:35+0100\n"
+"PO-Revision-Date: 2017-12-11 22:03+0700\n"
+"Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 2.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -48,8 +50,9 @@ msgid ""
 "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual "
 "desktops you want and how these should be labeled."
 msgstr ""
-"<h1>Banyak Desktop</h1>Di modul ini, anda dapat mengatur berapa banyak "
-"desktop virtual yang anda inginkan dan bagaimana cara pemberian labelnya."
+"<h1>Banyak Desktop</h1>Di modul ini, anda dapat mengkonfigurasi berapa "
+"banyak desktop virtual yang anda inginkan dan bagaimana cara pemberian "
+"labelnya."
 
 #: main.cpp:99
 #, kde-format
@@ -119,18 +122,17 @@ msgstr "Tanpa Animasi"
 #: main.cpp:493
 #, kde-format
 msgid "No suitable Shortcut for Desktop %1 found"
-msgstr "Tak ada Jalan Pintas yang cocok untuk Desktop %1 yang ditemukan"
+msgstr "Tak ada Pintasan yang cocok untuk Desktop %1 yang ditemukan"
 
 #: main.cpp:499
 #, kde-format
 msgid "Assigned global Shortcut \"%1\" to Desktop %2"
-msgstr "Menugaskan Jalan Pintas \"%1\" ke Desktop %2"
+msgstr "Menugaskan Pintasan \"%1\" ke Desktop %2"
 
 #: main.cpp:502
 #, kde-format
 msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
-msgstr ""
-"Konflik Jalan Pintas: Tak dapat mengatur Jalan Pintas %1 untuk Desktop %2"
+msgstr "Konflik Pintasan: Tak dapat mengatur Pintasan %1 untuk Desktop %2"
 
 #: main.cpp:604
 #, kde-format
@@ -172,89 +174,89 @@ msgid "N&umber of rows:"
 msgstr "J&umlah baris:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
-#: main.ui:103
+#: main.ui:109
 #, kde-format
 msgid "Desktop Names"
 msgstr "Nama Desktop"
 
 #. i18n: ectx: attribute (title), widget (QWidget, switching)
-#: main.ui:136
+#: main.ui:142
 #, kde-format
 msgid "Switching"
 msgstr "Mengganti"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, wrapAroundBox)
-#: main.ui:142
+#: main.ui:148
 #, kde-format
 msgid ""
 "Enable this option if you want keyboard or active desktop border navigation "
 "beyond the edge of a desktop to take you to the opposite edge of the new "
 "desktop."
 msgstr ""
-"Aktifkan opsi ini jika anda ingin papan ketik atau navigasi batas desktop "
-"aktif di luar tepi desktop untuk membawa anda ke sisi yang berlawanan dari "
-"desktop baru."
+"Aktifkan opsi ini jika anda ingin keyboard atau navigasi batas desktop aktif "
+"di luar tepi desktop untuk membawa anda ke sisi yang berlawanan dari desktop "
+"baru."
 
 #. i18n: ectx: property (text), widget (QCheckBox, wrapAroundBox)
-#: main.ui:145
+#: main.ui:151
 #, kde-format
 msgid "Desktop navigation wraps around"
 msgstr "Navigasi desktop menggulung sekitar"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: main.ui:152
+#: main.ui:158
 #, kde-format
 msgid "Desktop Effect Animation"
 msgstr "Animasi Efek Desktop"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: main.ui:164
+#: main.ui:170
 #, kde-format
 msgid "Animation:"
 msgstr "Animasi:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, popupInfoCheckBox)
-#: main.ui:204
+#: main.ui:210
 #, kde-format
 msgid "Desktop Switch On-Screen Display"
 msgstr "Tampilan Di-Layar Ganti Desktop"
 
 #. i18n: ectx: property (text), widget (QLabel, hideLabel)
-#: main.ui:222
+#: main.ui:228
 #, kde-format
 msgid "Duration:"
 msgstr "Durasi:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, popupHideSpinBox)
-#: main.ui:232
+#: main.ui:238
 #, kde-format
 msgid " msec"
 msgstr " mdet"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
-#: main.ui:245
+#: main.ui:251
 #, kde-format
 msgid ""
 "Enabling this option will show a small preview of the desktop layout "
 "indicating the selected desktop."
 msgstr ""
-"Mengaktifkan opsi ini akan menampilkan pratilik kecil dari tata letak "
+"Mengaktifkan opsi ini akan menampilkan pratinjau kecil dari tata letak "
 "desktop yang mengindikasikan desktop terpilih."
 
 #. i18n: ectx: property (text), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
-#: main.ui:248
+#: main.ui:254
 #, kde-format
 msgid "Show desktop layout indicators"
 msgstr "Tampilkan indikator tata letak desktop"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shortcutsGroupBox)
-#: main.ui:258
+#: main.ui:264
 #, kde-format
 msgid "Shortcuts"
-msgstr "Jalan Pintas"
+msgstr "Pintasan"
 
 #. i18n: ectx: property (text), widget (QCheckBox, allShortcutsCheckBox)
-#: main.ui:277
+#: main.ui:283
 #, kde-format
 msgid "Show shortcuts for all possible desktops"
-msgstr "Tampilkan jalan pintas untuk semua desktop yang mungkin"
+msgstr "Tampilkan pintasan untuk semua desktop yang mungkin"

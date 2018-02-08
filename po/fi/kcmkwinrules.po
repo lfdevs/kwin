@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the kde-workspace package.
 # Ilpo Kantonen <ilpo@iki.fi>, 2004, 2005.
 # Teemu Rytilahti <teemu.rytilahti@kde-fi.org>, 2008.
-# Tommi Nieminen <translator@legisign.org>, 2009, 2011, 2012.
+# Tommi Nieminen <translator@legisign.org>, 2009, 2011, 2012, 2017.
 # Jorma Karvonen <karvonen.jorma@gmail.com>, 2010.
 # Lasse Liehu <lliehu@kolumbus.fi>, 2011, 2012, 2013, 2014, 2015, 2016.
 #
@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2016-01-09 22:24+0200\n"
-"Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"PO-Revision-Date: 2017-12-12 18:07+0200\n"
+"Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
@@ -304,13 +304,13 @@ msgstr "Tätä avustajaa ei ole tarkoitettu kutsuttavaksi suoraan."
 
 #: ruleslist.cpp:153
 #, kde-format
-msgid "Export Rule"
-msgstr "Vientisääntö"
+msgid "Export Rules"
+msgstr "Vientisäännöt"
 
 #: ruleslist.cpp:154 ruleslist.cpp:166
 #, kde-format
-msgid "KWin Rule (*.kwinrule)"
-msgstr "KWin-sääntö (*.kwinrule)"
+msgid "KWin Rules (*.kwinrule)"
+msgstr "KWin-säännöt (*.kwinrule)"
 
 #: ruleslist.cpp:165
 #, kde-format

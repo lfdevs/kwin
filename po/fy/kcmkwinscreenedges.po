@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-08 03:04+0200\n"
+"POT-Creation-Date: 2017-12-30 03:13+0100\n"
 "PO-Revision-Date: 2010-07-11 13:48+0100\n"
 "Last-Translator: Berend Ytsma <berendy@gmail.com>\n"
 "Language-Team: Frysk <kde-i18n-fry@kde.org>\n"
@@ -106,16 +106,20 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
-#, kde-format
-msgid "Active Screen Edge Actions"
+#, fuzzy, kde-format
+#| msgid "Active Screen Edge Actions"
+msgid "Active Screen Corners and Edges"
 msgstr "Aktive skermrâne akjses"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "To trigger an action push your mouse cursor against the edge of the "
+#| "screen in the action's direction."
 msgid ""
-"To trigger an action push your mouse cursor against the edge of the screen "
-"in the action's direction."
+"Trigger an action by pushing the mouse cursor against the corresponding "
+"screen edge or corner"
 msgstr ""
 "Om in aksje te setten, druk jo mûs tsjin de râne fan it skerm yn de "
 "rjochting fan de aksje."
@@ -128,15 +132,17 @@ msgstr "Finsterbehear"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
-#, kde-format
-msgid "Maximize windows by dragging them to the top of the screen"
+#, fuzzy, kde-format
+#| msgid "Maximize windows by dragging them to the top of the screen"
+msgid "Maximize windows by dragging them to the top edge of the screen"
 msgstr ""
 "Maksimalisearje finsters troch har te slepen nei de boppekant fan it skerm"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
-#, kde-format
-msgid "Tile windows by dragging them to the side of the screen"
+#, fuzzy, kde-format
+#| msgid "Tile windows by dragging them to the side of the screen"
+msgid "Tile windows by dragging them to the left or right edges of the screen"
 msgstr "Tegelje finsters troch har te slepen nei de side fan it skerm"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -241,8 +247,8 @@ msgstr "Weraktivaasje fert&raging:"
 #| "To trigger an action push your mouse cursor against the edge of the "
 #| "screen in the action's direction."
 msgid ""
-"To trigger an action swipe from the screen edge towards the center of the "
-"screen."
+"Trigger an action by swiping from the screen edge towards the center of the "
+"screen"
 msgstr ""
 "Om in aksje te setten, druk jo mûs tsjin de râne fan it skerm yn de "
 "rjochting fan de aksje."

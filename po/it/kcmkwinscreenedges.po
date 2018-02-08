@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Nicola Ruggero <nicola@nxnt.org>, 2009, 2010, 2012, 2013.
 # Federico Zenith <federico.zenith@member.fsf.org>, 2010.
-# Vincenzo Reale <smart2128@baslug.org>, 2015.
+# Vincenzo Reale <smart2128@baslug.org>, 2015, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-08 03:04+0200\n"
-"PO-Revision-Date: 2017-04-09 14:10+0200\n"
+"POT-Creation-Date: 2017-12-30 03:13+0100\n"
+"PO-Revision-Date: 2018-01-03 09:40+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128@baslug.org>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -104,18 +104,18 @@ msgstr "Attiva scambiafinestre alternativo"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
 #, kde-format
-msgid "Active Screen Edge Actions"
-msgstr "Azioni dei bordi dello schermo attivi"
+msgid "Active Screen Corners and Edges"
+msgstr "Angoli e bordi dello schermo attivi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
 #, kde-format
 msgid ""
-"To trigger an action push your mouse cursor against the edge of the screen "
-"in the action's direction."
+"Trigger an action by pushing the mouse cursor against the corresponding "
+"screen edge or corner"
 msgstr ""
-"Per innescare un'azione sposta il puntatore del mouse contro il bordo dello "
-"schermo nella direzione dell'azione."
+"Per innescare un'azione spostando il puntatore del mouse contro il bordo o "
+"l'angolo dello schermo nella direzione dell'azione."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
@@ -126,14 +126,15 @@ msgstr "Gestione finestra"
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
 #, kde-format
-msgid "Maximize windows by dragging them to the top of the screen"
-msgstr "Massimizza le finestre trascinandole in alto nello schermo"
+msgid "Maximize windows by dragging them to the top edge of the screen"
+msgstr "Massimizza le finestre trascinandole al bordo superiore dello schermo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
 #, kde-format
-msgid "Tile windows by dragging them to the side of the screen"
-msgstr "Affianca le finestre trascinandole nei lati dello schermo"
+msgid "Tile windows by dragging them to the left or right edges of the screen"
+msgstr ""
+"Affianca le finestre trascinandole al bordo destro o sinistro dello schermo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
@@ -236,7 +237,7 @@ msgstr "Ritardo &riattivazione:"
 #: touch.ui:36
 #, kde-format
 msgid ""
-"To trigger an action swipe from the screen edge towards the center of the "
-"screen."
+"Trigger an action by swiping from the screen edge towards the center of the "
+"screen"
 msgstr ""
-"Per innescare un'azione scivola dal bordo dello schermo verso il centro."
+"Per innescare un'azione scivolano dal bordo dello schermo verso il centro"

@@ -7,13 +7,13 @@
 # Marce Villarino <mvillarino@kde-espana.es>, 2009, 2011.
 # Marce Villarino <mvillarino@kde-espana.es>, 2011, 2012, 2013, 2014.
 # Adrián Chaves Fernández (Gallaecio) <adriyetichaves@gmail.com>, 2016, 2017.
-# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017.
+# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-08 03:04+0200\n"
-"PO-Revision-Date: 2017-07-29 09:32+0100\n"
+"POT-Creation-Date: 2017-12-30 03:13+0100\n"
+"PO-Revision-Date: 2018-01-18 21:52+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <kde-i18n-doc@kde.org>\n"
 "Language: gl\n"
@@ -110,18 +110,18 @@ msgstr "Conmutar o cambio alternativo de xanela"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
 #, kde-format
-msgid "Active Screen Edge Actions"
-msgstr "Activar as accións nas esquinas da pantalla"
+msgid "Active Screen Corners and Edges"
+msgstr "Bordos e esquinas activos da pantalla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
 #, kde-format
 msgid ""
-"To trigger an action push your mouse cursor against the edge of the screen "
-"in the action's direction."
+"Trigger an action by pushing the mouse cursor against the corresponding "
+"screen edge or corner"
 msgstr ""
-"Para desencadear unha acción leve o rato ao bordo da pantalla na dirección "
-"da acción."
+"Para desencadear unha acción leve o cursor do rato ao bordo ou esquina de "
+"pantalla correspondente."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
@@ -132,20 +132,22 @@ msgstr "Xestión das xanelas"
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
 #, kde-format
-msgid "Maximize windows by dragging them to the top of the screen"
-msgstr "Maximizar as xanelas arrastrándoas ao bordo superior da pantalla"
+msgid "Maximize windows by dragging them to the top edge of the screen"
+msgstr "Maximizar as xanelas arrastrándoas ao bordo superior da pantalla."
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
 #, kde-format
-msgid "Tile windows by dragging them to the side of the screen"
-msgstr "Dispor as xanelas en mosaico arrastrándoas ao bordo da pantalla"
+msgid "Tile windows by dragging them to the left or right edges of the screen"
+msgstr ""
+"Dispor as xanelas en mosaico arrastrándoas aos bordos esquerdo ou dereito da "
+"pantalla."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
 #, kde-format
 msgid "Quarter tiling triggered in the outer"
-msgstr "A disposición en cuartos actívase no "
+msgstr "A disposición en cuartos actívase no"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, electricBorderCornerRatio)
 #: main.ui:106
@@ -228,7 +230,7 @@ msgid ""
 "can occur"
 msgstr ""
 "A cantidade de tempo requirida tras desencadear unha acción ata se poida "
-"voltar a desencadearse"
+"volver desencadearse"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:229
@@ -240,6 +242,6 @@ msgstr "&Retardo na reactivación:"
 #: touch.ui:36
 #, kde-format
 msgid ""
-"To trigger an action swipe from the screen edge towards the center of the "
-"screen."
+"Trigger an action by swiping from the screen edge towards the center of the "
+"screen"
 msgstr "Para provocar unha acción pase do bordo da pantalla ao centro."

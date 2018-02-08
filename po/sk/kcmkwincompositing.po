@@ -1,13 +1,13 @@
 # translation of kcmkwincompositing.po to Slovak
 # Richard Fric <Richard.Fric@kdemail.net>, 2007, 2010.
 # Michal Sulek <misurel@gmail.com>, 2009, 2010, 2011.
-# Roman Paholík <wizzardsk@gmail.com>, 2012, 2013, 2014, 2016.
+# Roman Paholík <wizzardsk@gmail.com>, 2012, 2013, 2014, 2016, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-05 02:49+0200\n"
-"PO-Revision-Date: 2016-09-15 15:49+0100\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"PO-Revision-Date: 2017-10-27 20:54+0100\n"
 "Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
 "Language: sk\n"
@@ -341,5 +341,5 @@ msgstr "Vylúčiť interné efekty plochy"
 
 #: qml/EffectView.qml:104
 #, kde-format
-msgid "Get New Effects ..."
+msgid "Get New Effects..."
 msgstr "Získať nové efekty..."

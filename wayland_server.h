@@ -40,13 +40,16 @@ class Surface;
 }
 namespace Server
 {
+class AppMenuManagerInterface;
 class ClientConnection;
 class CompositorInterface;
 class Display;
 class DataDeviceInterface;
+class IdleInterface;
 class ShellInterface;
 class SeatInterface;
 class ServerSideDecorationManagerInterface;
+class ServerSideDecorationPaletteManagerInterface;
 class SurfaceInterface;
 class OutputInterface;
 class PlasmaShellInterface;
@@ -56,6 +59,7 @@ class QtSurfaceExtensionInterface;
 class OutputManagementInterface;
 class OutputConfigurationInterface;
 class XdgShellInterface;
+class XdgForeignInterface;
 }
 }
 
@@ -111,6 +115,11 @@ public:
     ShellClient *findClient(KWayland::Server::SurfaceInterface *surface) const;
     AbstractClient *findAbstractClient(KWayland::Server::SurfaceInterface *surface) const;
     ShellClient *findClient(QWindow *w) const;
+
+    /**
+     * return a transient parent of a surface imported with the foreign protocol, if any
+     */
+    KWayland::Server::SurfaceInterface *findForeignTransientForSurface(KWayland::Server::SurfaceInterface *surface);
 
     /**
      * @returns file descriptor for Xwayland to connect to.
@@ -184,11 +193,14 @@ public:
      **/
     SocketPairConnection createConnection();
 
+    void simulateUserActivity();
+
 Q_SIGNALS:
     void shellClientAdded(KWin::ShellClient*);
     void shellClientRemoved(KWin::ShellClient*);
     void terminatingInternalClientConnection();
     void initialized();
+    void foreignTransientChanged(KWayland::Server::SurfaceInterface *child);
 
 private:
     void setupX11ClipboardSync();
@@ -206,11 +218,15 @@ private:
     KWayland::Server::SeatInterface *m_seat = nullptr;
     KWayland::Server::ShellInterface *m_shell = nullptr;
     KWayland::Server::XdgShellInterface *m_xdgShell = nullptr;
+    KWayland::Server::XdgShellInterface *m_xdgShell6 = nullptr;
     KWayland::Server::PlasmaShellInterface *m_plasmaShell = nullptr;
     KWayland::Server::PlasmaWindowManagementInterface *m_windowManagement = nullptr;
     KWayland::Server::QtSurfaceExtensionInterface *m_qtExtendedSurface = nullptr;
     KWayland::Server::ServerSideDecorationManagerInterface *m_decorationManager = nullptr;
     KWayland::Server::OutputManagementInterface *m_outputManagement = nullptr;
+    KWayland::Server::AppMenuManagerInterface *m_appMenuManager = nullptr;
+    KWayland::Server::ServerSideDecorationPaletteManagerInterface *m_paletteManager = nullptr;
+    KWayland::Server::IdleInterface *m_idle = nullptr;
     struct {
         KWayland::Server::ClientConnection *client = nullptr;
         QMetaObject::Connection destroyConnection;
@@ -231,6 +247,7 @@ private:
         KWayland::Server::ClientConnection *client = nullptr;
         QPointer<KWayland::Server::DataDeviceInterface> ddi;
     } m_xclipbaordSync;
+    KWayland::Server::XdgForeignInterface *m_XdgForeign = nullptr;
     QList<ShellClient*> m_clients;
     QList<ShellClient*> m_internalClients;
     QHash<KWayland::Server::ClientConnection*, quint16> m_clientIds;

@@ -1,7 +1,7 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Alexander Potashev <aspotashev@gmail.com>, 2009, 2010, 2014, 2016, 2017.
+# Alexander Potashev <aspotashev@gmail.com>, 2009, 2010, 2014, 2016, 2017, 2018.
 # Nick Shaforostoff <shaforostoff@kde.ru>, 2009.
 # Nick Shaforostoff <shafff@ukr.net>, 2009, 2010.
 # Andrey Cherepanov <skull@kde.ru>, 2009.
@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-08 03:04+0200\n"
-"PO-Revision-Date: 2017-05-18 03:10+0300\n"
+"POT-Creation-Date: 2017-12-30 03:13+0100\n"
+"PO-Revision-Date: 2018-01-31 05:45+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -110,15 +110,15 @@ msgstr "Вызвать альтернативное переключение"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
 #, kde-format
-msgid "Active Screen Edge Actions"
+msgid "Active Screen Corners and Edges"
 msgstr "Действия для краёв экрана"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
 #, kde-format
 msgid ""
-"To trigger an action push your mouse cursor against the edge of the screen "
-"in the action's direction."
+"Trigger an action by pushing the mouse cursor against the corresponding "
+"screen edge or corner"
 msgstr ""
 "Для выбора действия, выполняемого при подведении мыши к какому-либо краю или "
 "углу экрана, нажмите в соответствующем месте мини-экрана."
@@ -132,13 +132,13 @@ msgstr "Управление окнами"
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
 #, kde-format
-msgid "Maximize windows by dragging them to the top of the screen"
+msgid "Maximize windows by dragging them to the top edge of the screen"
 msgstr "Растягивать окно при перемещении его к верхнему краю экрана"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
 #, kde-format
-msgid "Tile windows by dragging them to the side of the screen"
+msgid "Tile windows by dragging them to the left or right edges of the screen"
 msgstr "Растягивать окно наполовину при перемещении его к боковому краю экрана"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -238,8 +238,8 @@ msgstr "&Задержка перед повторной реакцией:"
 #: touch.ui:36
 #, kde-format
 msgid ""
-"To trigger an action swipe from the screen edge towards the center of the "
-"screen."
+"Trigger an action by swiping from the screen edge towards the center of the "
+"screen"
 msgstr ""
 "Для выполнения действия проведите по экрану от соответствующего края к "
 "центру экрана."

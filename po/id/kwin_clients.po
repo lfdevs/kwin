@@ -2,30 +2,30 @@
 # Copyright (C) 2010 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kwin_clients package.
 # Andhika Padmawan <andhika.padmawan@gmail.com>, 2010.
+# Wantoyo <wantoyek@gmail.com>, 2017, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-07-18 03:21+0200\n"
-"PO-Revision-Date: 2010-05-28 05:24-0400\n"
-"Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
-"Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
+"POT-Creation-Date: 2017-11-02 03:16+0100\n"
+"PO-Revision-Date: 2018-01-22 22:53+0700\n"
+"Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
+"Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 2.0\n"
 
-#: aurorae/src/aurorae.cpp:712
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Tiny"
+#: aurorae/src/aurorae.cpp:722
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
-msgstr "Kecil"
+msgstr "Mungil"
 
-#: aurorae/src/aurorae.cpp:713
+#: aurorae/src/aurorae.cpp:723
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Button size:"
 #| msgid "Normal"
@@ -33,13 +33,13 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "Normal"
 
-#: aurorae/src/aurorae.cpp:714
+#: aurorae/src/aurorae.cpp:724
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "Besar"
 
-#: aurorae/src/aurorae.cpp:715
+#: aurorae/src/aurorae.cpp:725
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Button size:"
 #| msgid "Very Large"
@@ -47,7 +47,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "Sangat Besar"
 
-#: aurorae/src/aurorae.cpp:716
+#: aurorae/src/aurorae.cpp:726
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Button size:"
 #| msgid "Huge"
@@ -55,7 +55,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "Sangat Besar"
 
-#: aurorae/src/aurorae.cpp:717
+#: aurorae/src/aurorae.cpp:727
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Very Huge"
@@ -63,7 +63,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "Sangat Besar"
 
-#: aurorae/src/aurorae.cpp:718
+#: aurorae/src/aurorae.cpp:728
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Oversized"
@@ -71,7 +71,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "Terlalu Besar"
 
-#: aurorae/src/aurorae.cpp:721
+#: aurorae/src/aurorae.cpp:731
 #, fuzzy, kde-format
 #| msgid "Button size:"
 msgid "Button size:"
@@ -114,8 +114,8 @@ msgid ""
 "Check this option if the window border should be painted in the titlebar "
 "color. Otherwise it will be painted in the background color."
 msgstr ""
-"Centang opsi ini jika batas jendela harus digambar dengan warna batang "
-"judul. Sebaliknya batas jendela akan digambar dengan warna latar belakang."
+"Centang opsi ini jika batas jendela harus digambar dengan warna bilah judul. "
+"Sebaliknya batas jendela akan digambar dengan warna latar belakang."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_coloredBorder)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:56
@@ -130,7 +130,7 @@ msgid ""
 "Check this option if you want the titlebar text to have a 3D look with a "
 "shadow behind it."
 msgstr ""
-"Centang opsi ini jika anda ingin teks batang judul untuk mempunyai tampilan "
+"Centang opsi ini jika anda ingin teks bilah judul untuk mempunyai tampilan "
 "3D dengan bayangan di belakangnya."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_titleShadow)
@@ -146,8 +146,8 @@ msgid ""
 "Check this option if you want the buttons to fade in when the mouse pointer "
 "hovers over them and fade out again when it moves away."
 msgstr ""
-"Centang opsi ini jika anda ingin agar tombol memudar ketika penunjuk tetikus "
-"melayang di atas tombol dan muncul lagi ketika penunjuk tetikus pindah."
+"Centang opsi ini jika anda ingin agar tombol memudar ketika penunjuk mouse "
+"melayang di atas tombol dan muncul lagi ketika penunjuk mouse pindah."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:79

@@ -1,18 +1,18 @@
 # translation of kcmkwindecoration.po to Polish
-# Version: $Revision: 1487386 $
+# Version: $Revision: 1506119 $
 # translation of kcmkwindecoration.po to
 # Norbert Popiołek <norbert@kde.com.pl>\n"
 # Michał Rudolf <mrudolf@kdewebdev.org>, 2002.
 # Michal Rudolf <mrudolf@kdewebdev.org>, 2002, 2003, 2004, 2005, 2009.
 # Marta Rybczyńska <kde-i18n@rybczynska.net>, 2008, 2009, 2010.
 # Marta Rybczynska <kde-i18n@rybczynska.net>, 2009.
-# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2012, 2013, 2014, 2015, 2016.
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2017-04-14 02:49+0200\n"
-"PO-Revision-Date: 2016-09-24 09:21+0100\n"
+"PO-Revision-Date: 2017-12-09 07:13+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -67,7 +67,7 @@ msgstr "Zwiń"
 #: declarative-plugin/buttonsmodel.cpp:84
 #, kde-format
 msgid "Keep below"
-msgstr "Zawsze pod spodem"
+msgstr "Zawsze na spodzie"
 
 #: declarative-plugin/buttonsmodel.cpp:86
 #, kde-format

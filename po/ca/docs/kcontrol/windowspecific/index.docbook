@@ -77,7 +77,7 @@
 >Modifica...</guibutton
 > o <guibutton
 >Suprimeix</guibutton
-> sobre qualsevol dels perfils d'opcions desats, i tornar a ordenar la llista. El tornar a ordenar la llista utilitzant els botons <guibutton
+> sobre qualsevol dels perfils d'opcions desats, i tornar a ordenar la llista. El fet de tornar a ordenar la llista utilitzant els botons <guibutton
 >Amunt</guibutton
 > i <guibutton
 >Avall</guibutton
@@ -223,7 +223,7 @@
 <para
 ><tip
 ><para
->Podeu ajustar les finestres filles de l'aplicació col·locant primer les regles més restrictives. Veure l'exemple <link linkend="application-on-all-desktops-and-handle-one-child-window-uniquely"
+>Podeu ajustar les finestres filles de l'aplicació col·locant primer les regles més restrictives. Vegeu l'exemple <link linkend="application-on-all-desktops-and-handle-one-child-window-uniquely"
 >Finestra de Kopete i xat del Kopete</link
 >.</para
 ></tip>
@@ -280,7 +280,7 @@
 <para
 >Com el seu nom indica, <guilabel
 >Coincidència de la finestra</guilabel
-> s'utilitza per especificar els criteris per a que coincideixin amb una o més finestres. Les altres tres pestanyes s'utilitzen per modificar els atributs de les finestres coincidents. </para>
+> s'utilitza per especificar els criteris perquè coincideixin amb una o més finestres. Les altres tres pestanyes s'utilitzen per modificar els atributs de les finestres coincidents. </para>
 <para
 ><tip
 ><para
@@ -436,7 +436,7 @@
 ><para
 ><guilabel
 >Expressió regular</guilabel
->: S'apliquen les expressions regulars de &Qt;. Veure <ulink url="http://doc.qt.io/qt-5/qregexp.html"
+>: S'apliquen les expressions regulars de &Qt;. Vegeu <ulink url="http://doc.qt.io/qt-5/qregexp.html"
 >pattern matching using regular expressions</ulink
 >.</para
 ></listitem>
@@ -592,7 +592,7 @@
 ></term>
     <listitem>
     <para
->Assegura que una regla posterior, que coincideix amb la finestra, no afecta a l'atribut.</para>
+>Assegura que una regla posterior, que coincideix amb la finestra, no afectarà l'atribut.</para>
      </listitem>
   </varlistentry>
   <varlistentry
@@ -659,11 +659,11 @@
 ><para
 >El botó <guilabel
 >Detecta les propietats de la finestra</guilabel
-> omplirà els valors específics dels atributs. Per a més informació veure <link linkend="window-matching"
+> omplirà els valors específics dels atributs. Per a més informació, vegeu <link linkend="window-matching"
 >Coincidència de la finestra</link
 >. Per exemple, els valors d'alçada i amplada de l'atribut de <guilabel
 >Mida</guilabel
-> són establerts a l'alçada i amplada detectats a la finestra.</para
+> són establerts a l'alçada i amplada detectades a la finestra.</para
 ></tip>
 </para>
 <para
@@ -671,7 +671,7 @@
 ><para
 >Els arguments <guilabel
 >Sí/No</guilabel
-> s'utilitzen per activar o desactivar els atributs. El ser indulgents amb la gramàtica ens ajuda a comprendre com serà processat un ajustament. <inlinemediaobject
+> s'utilitzen per activar o desactivar els atributs. Ser indulgents amb la gramàtica, ens ajudarà a comprendre com serà processat un ajustament. <inlinemediaobject
 > <imageobject
 > <imagedata fileref="Face-smile.png" format="PNG"/> </imageobject
 ></inlinemediaobject
@@ -762,7 +762,7 @@
 <para
 ><tip
 ><para
->L'atribut maximitzada s'emula mitjançant l'ús de <guilabel
+>L'atribut «maximitzada» s'emula mitjançant l'ús de <guilabel
 >Maximitzada horitzontalment</guilabel
 > i <guilabel
 >Maximitzada verticalment</guilabel
@@ -781,7 +781,7 @@
 ></term>
     <listitem>
     <para
->Solapa l'estratègia de l'emplaçament global de la finestra amb un dels següents:</para>
+>Substitueix l'estratègia de l'emplaçament global de la finestra amb un dels següents:</para>
 <itemizedlist>
 <listitem
 ><para
@@ -1084,9 +1084,9 @@
 <para
 ><tip
 ><para
->Veure <guilabel
+>Vegeu <guilabel
 >Accepta el focus</guilabel
-> per fer una finestra de només lectura -no acceptarà cap entrada del teclat-.</para
+>, per a crear una finestra de només lectura -no acceptarà cap entrada del teclat-.</para
 ></tip>
 </para>
 <variablelist>
@@ -1187,7 +1187,7 @@
 ></listitem>
 <listitem
 ><para
->Barra de menú aïllada</para
+>Barra de menús aïllada</para
 ></listitem>
 </itemizedlist>
 
@@ -1214,7 +1214,7 @@
 >existeix</emphasis
 >. Si està activada la composició i la regla especifica desactiva la composició, mentre no existeixi <emphasis
 >cap</emphasis
-> finestra coincident, la composició romandrà desactivada. La composició es tornarà a activar quan se surti de l'última finestra coincident.</para>
+> finestra coincident, la composició romandrà desactivada. La composició es tornarà a activar quan se surti de l'última finestra coincident.</para>
      </listitem>
   </varlistentry>
 </variablelist>
@@ -1313,7 +1313,7 @@
 ><para
 >Seleccioneu <guilabel
 >Regles de les finestres</guilabel
-> a la columna esquerre i feu clic a <guilabel
+> a la columna esquerra i feu clic a <guilabel
 >Nou...</guilabel
 >: <screenshot>
 <screeninfo
@@ -1356,8 +1356,8 @@
 >Feu clic a <guilabel
 >Detecta les propietats de la finestra</guilabel
 > amb <guilabel
->0s retard</guilabel
-> el cursor es convertirà immediatament en una creueta. Feu clic a (qualsevol lloc) dins de la finestra de &akregator; (però no la barra de títol). Es presentaran els criteris de finestra. Només coincidiran per nom de la classe principal deixant les caselles de selecció sense marcar -per obtenir més informació, veure <link linkend="window-matching"
+>0 s de retard</guilabel
+> el cursor es convertirà immediatament en una creueta. Feu clic a (qualsevol lloc) dins de la finestra de l'&akregator; (però no la barra de títol). Es presentaran els criteris de finestra. Només coincidiran per nom de la classe principal deixant les caselles de selecció sense marcar -per obtenir més informació, vegeu <link linkend="window-matching"
 >Coincidència de la finestra</link
 >-: <screenshot>
 <screeninfo
@@ -1461,13 +1461,13 @@
 ><title
 >Aplicar en tots els escriptoris i manejar únicament una finestra filla</title>
 <para
->Excepte per a les finestres de conversa, es mostra &kopete; i les seves finestres filles en tots els escriptoris, per sobre de la safata del sistema i el paginador. Per a les finestres de conversa filles, es tracten com la finestra pare, desaran la presentació a la safata del sistema. </para>
+>Excepte per a les finestres de conversa, es mostra el &kopete; i les seves finestres filles en tots els escriptoris, per sobre de la safata del sistema i el paginador. Per a les finestres de conversa filles, es tracten com la finestra pare, desaran la presentació a la safata del sistema. </para>
 <para
 >Per a cada atribut, utilitzeu el <link linkend="parameters"
 >paràmetre</link
 > <guilabel
 >Força</guilabel
-> per a que no es pugui substituir. </para>
+> perquè no es pugui substituir. </para>
 <para
 >Per dur a terme tot l'anterior, s'han de crear dues regles: </para>
 <orderedlist>
@@ -1485,13 +1485,13 @@
 <para
 >Els criteris de coincidència de la regla per a <guilabel
 >Xat del Kopete</guilabel
-> són més restrictius que la regla per a <emphasis
+>, són més restrictius que la regla per a <emphasis
 >Kopete</emphasis
 >, ja que han de coincidir amb una regla específica de la finestra: la finestra de xat. A causa del processament de l'<link linkend="rule-evaluation"
 >avaluació de la regla</link
 >, la regla <guilabel
 >Xat del Kopete</guilabel
-> ha de precedir la regla del &kopete; a la <link linkend="kopete-kwin-rule-list"
+>, ha de precedir la regla del &kopete; a la <link linkend="kopete-kwin-rule-list"
 >llista de regles de les finestres per a Kopete</link
 >. </para>
 <sect2 id="kopete-chat-rule"
@@ -1510,7 +1510,7 @@
 >Xat del Kopete</guilabel
 >. Marqueu la casella <guilabel
 >Funció de la finestra</guilabel
-> per restringir els criteris a les finestres de xat -per obtenir més informació, veure <link linkend="window-matching"
+> per restringir els criteris a les finestres de xat -per obtenir més informació, vegeu <link linkend="window-matching"
 >Coincidència de la finestra</link
 >-: <screenshot>
 <screeninfo
@@ -1582,7 +1582,7 @@
 > per mostrar la finestra a la barra de tasques, el qual es tradueix a: <emphasis
 >no</emphasis
 > <emphasis
->no</emphasis
+>no fer</emphasis
 > <emphasis
 >ignora la barra de tasques</emphasis
 > <inlinemediaobject
@@ -1597,13 +1597,13 @@
 ><title
 >Regla per a «Kopete»</title>
 <para
->Suposant que &kopete; és obert: </para>
+>Suposant que el &kopete; està obert: </para>
 <orderedlist>
 <listitem
 ><para
 >Utilitzeu <guilabel
 >Detecta les propietats de la finestra</guilabel
-> i seleccioneu la finestra del &kopete;. Per només coincidir per nom de la classe principal deixeu les caselles de selecció sense marcar -per obtenir més informació, veure <link linkend="window-matching"
+> i seleccioneu la finestra del &kopete;. Per només coincidir per nom de la classe principal deixeu les caselles de selecció sense marcar -per obtenir més informació, vegeu <link linkend="window-matching"
 >Coincidència de finestra</link
 >-: <screenshot>
 <screeninfo
@@ -1670,7 +1670,7 @@
 ><title
 >Llista de regles de les finestres per a Kopete</title>
 <para
->Tal com s'ha mencionat, degut al processament d'<link linkend="rule-evaluation"
+>Tal com s'ha mencionat, a causa del processament d'<link linkend="rule-evaluation"
 >avaluació de la regla</link
 >, la regla <guilabel
 >Xat del Kopete</guilabel
@@ -1708,7 +1708,7 @@
 >Detecta les propietats de la finestra</guilabel
 > i seleccioneu qualsevol finestra de <emphasis
 >nota adhesiva</emphasis
->. Coincidir només per nom de la classe principal deixant les caselles de selecció sense marcar -per obtenir més informació, veure <link linkend="window-matching"
+>. Coincidir només per nom de la classe principal deixant les caselles de selecció sense marcar -per obtenir més informació, vegeu <link linkend="window-matching"
 >Coincidència de la finestra</link
 >-: <screenshot>
 <screeninfo
@@ -1834,7 +1834,7 @@
 ></listitem>
 </itemizedlist>
 <para
->Cada criteri de coincidència de la regla és prou restrictiu com per a que el seu ordre dins de la finestra principal del &kwin; no sigui important per afectar l'<link linkend="rule-evaluation"
+>Cada criteri de coincidència de la regla és prou restrictiu com perquè el seu ordre dins de la finestra principal del &kwin; no sigui important per afectar l'<link linkend="rule-evaluation"
 >avaluació de la regla</link
 >. </para>
 <sect2 id="thunderbird---main"
@@ -1853,7 +1853,7 @@
 >Thunderbird: Principal</guilabel
 >. Marqueu la casella <guilabel
 >Funció de la finestra</guilabel
-> per restringir els criteris a la finestra principal -per obtenir més informació, veure <link linkend="window-matching"
+> per restringir els criteris a la finestra principal -per obtenir més informació, vegeu <link linkend="window-matching"
 >Coincidència de finestra</link
 >-: <screenshot>
 <screeninfo
@@ -1932,7 +1932,7 @@
 >Thunderbird: Editor</guilabel
 >. Marqueu la casella <guilabel
 >Funció de la finestra</guilabel
-> per restringir els criteris a les finestres de l'editor -per obtenir més informació, veure <link linkend="window-matching"
+> per restringir els criteris a les finestres de l'editor -per obtenir més informació, vegeu <link linkend="window-matching"
 >Coincidència de la finestra</link
 >-: <screenshot>
 <screeninfo
@@ -2013,7 +2013,7 @@
 >Nom de classe secundària</guilabel
 > i <guilabel
 >Funció de la finestra</guilabel
-> per restringir els criteris a les finestres dels recordatoris -per obtenir més informació, veure <link linkend="window-matching"
+> per restringir els criteris a les finestres dels recordatoris -per obtenir més informació, vegeu <link linkend="window-matching"
 >Coincidència de finestra</link
 >-: <screenshot>
 <screeninfo
@@ -2087,7 +2087,7 @@
 <para
 ><tip
 ><para
->Si no esteu familiaritzat amb la creació de regles del &kwin;, veure aquest <link linkend="pin-a-window-to-a-desktop-and-set-other-attributes"
+>Si no esteu familiaritzat amb la creació de regles del &kwin;, vegeu aquest <link linkend="pin-a-window-to-a-desktop-and-set-other-attributes"
 >detallat exemple</link
 > sobre el qual basar la nova regla.</para
 ></tip>
@@ -2096,21 +2096,21 @@
 ><title
 >Error en canviar la mida a pantalla completa</title>
 <para
->&Emacs; i <guilabel
+>L'&Emacs; i el <guilabel
 >gVim</guilabel
->, quan es maximitzen (mode de pantalla completa) i sota certes condicions us podeu trobar amb problemes a la mida de la finestra -veure <ulink url="https://bugs.kde.org/show_bug.cgi?id=252314"
+>, quan es maximitzen (mode de pantalla completa) i sota certes condicions us podeu trobar amb problemes a la mida de la finestra -vegeu <ulink url="https://bugs.kde.org/show_bug.cgi?id=252314"
 >Emacs window resizes ...</ulink
->. Una regla del &kwin; evitarà el problema. </para>
+>-. Una regla del &kwin; evitarà el problema. </para>
 <para
->Suposant que hi ha oberta una finestra d'&Emacs;: </para>
+>Suposant que hi ha oberta una finestra de l'&Emacs;: </para>
 <orderedlist>
 <listitem
 ><para
 >Utilitzeu <guilabel
 >Detecta les propietats de la finestra</guilabel
-> i seleccioneu la finestra de &Emacs;. Per només coincidir per <guilabel
+> i seleccioneu la finestra de l'&Emacs;. Per només coincidir per <guilabel
 >nom de la classe principal</guilabel
-> deixeu les caselles de selecció sense marcar -per obtenir més informació, veure <link linkend="window-matching"
+> deixeu les caselles de selecció sense marcar -per obtenir més informació, vegeu <link linkend="window-matching"
 >Coincidència de la finestra</link
 >- <screenshot>
 <screeninfo
@@ -2152,7 +2152,7 @@
 ></listitem>
 <listitem
 ><para
->&Emacs; ignorarà la petició de pantalla completa activant l'atribut <guilabel
+>L'&Emacs; ignorarà la petició de pantalla completa activant l'atribut <guilabel
 >Obeeix les restriccions de geometria</guilabel
 >, desactivant-lo (amb <guilabel
 >No</guilabel
@@ -2188,7 +2188,7 @@
 <title
 >Crèdits i llicència</title>
       <para
->Copyright de la documentació veure la <ulink url="http://userbase.kde.org/index.php?title=KWin Rules&amp;action=history"
+>Copyright de la documentació, vegeu la <ulink url="http://userbase.kde.org/index.php?title=KWin Rules&amp;action=history"
 >pàgina historial «KWin Rules»</ulink
 > d'UserBase.</para>
       <para

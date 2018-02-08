@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-05 02:49+0200\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
 "PO-Revision-Date: 2009-01-16 22:16+0530\n"
 "Last-Translator: Krishna Babu K <kkrothap@redhat.com>\n"
 "Language-Team: Telugu <en@li.org>\n"
@@ -359,5 +359,5 @@ msgstr "రంగస్థల ప్రభావాలను చేతనము�
 #: qml/EffectView.qml:104
 #, fuzzy, kde-format
 #| msgid "No Effect"
-msgid "Get New Effects ..."
+msgid "Get New Effects..."
 msgstr "ప్రభావము లేదు"

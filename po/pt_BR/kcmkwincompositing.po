@@ -4,16 +4,16 @@
 #
 # Diniz Bortolotto <diniz.bortolotto@gmail.com>, 2007, 2008.
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
-# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2009, 2012.
+# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2009, 2012, 2017.
 # Marcus Vinícius de Andrade Gama <marcus.gama@gmail.com>, 2010.
 # Aracele Torres <araceletorres@gmail.com>, 2011, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-05 02:49+0200\n"
-"PO-Revision-Date: 2017-02-17 19:17-0300\n"
-"Last-Translator: Aracele Torres <aracele@kde.org>\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"PO-Revision-Date: 2017-10-25 12:44-0300\n"
+"Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -348,5 +348,5 @@ msgstr "Excluir os efeitos internos da área de trabalho"
 
 #: qml/EffectView.qml:104
 #, kde-format
-msgid "Get New Effects ..."
-msgstr "Obter novos efeitos..."
+msgid "Get New Effects..."
+msgstr "Baixar novos efeitos..."

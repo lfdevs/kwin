@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "x11_platform.h"
 #include "x11cursor.h"
 #include "edge.h"
+#include "sync_filter.h"
 #include "windowselector.h"
 #include <config-kwin.h>
 #include <kwinconfig.h>
@@ -30,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "xinputintegration.h"
 #endif
 #include "abstract_client.h"
+#include "effects_x11.h"
 #include "eglonxbackend.h"
 #include "keyboard_input.h"
 #include "logging.h"
@@ -40,6 +42,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "non_composited_outline.h"
 #include "workspace.h"
 #include "x11_decoration_renderer.h"
+
+#include <kwinxrenderutils.h>
 
 #include <KConfigGroup>
 #include <KLocalizedString>
@@ -68,6 +72,13 @@ X11StandalonePlatform::X11StandalonePlatform(QObject *parent)
         }
     }
 #endif
+    connect(kwinApp(), &Application::workspaceCreated, this,
+        [this] {
+            if (Xcb::Extensions::self()->isSyncAvailable()) {
+                m_syncFilter = std::make_unique<SyncFilter>();
+            }
+        }
+    );
 }
 
 X11StandalonePlatform::~X11StandalonePlatform()
@@ -77,6 +88,9 @@ X11StandalonePlatform::~X11StandalonePlatform()
         m_openGLFreezeProtectionThread->wait();
         delete m_openGLFreezeProtectionThread;
     }
+    if (isReady()) {
+        XRenderUtils::cleanup();
+    }
 }
 
 void X11StandalonePlatform::init()
@@ -85,6 +99,7 @@ void X11StandalonePlatform::init()
         emit initFailed();
         return;
     }
+    XRenderUtils::init(kwinApp()->x11Connection(), kwinApp()->x11RootWindow());
     setReady(true);
     emit screensQueried();
 }
@@ -104,9 +119,7 @@ OpenGLBackend *X11StandalonePlatform::createOpenGLBackend()
         } else {
             qCWarning(KWIN_X11STANDALONE) << "Glx not available, trying EGL instead.";
             // no break, needs fall-through
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 8, 0))
             Q_FALLTHROUGH();
-#endif
         }
 #endif
     case EglPlatformInterface:
@@ -224,9 +237,7 @@ void X11StandalonePlatform::createOpenGLSafePoint(OpenGLSafePoint safePoint)
         group.writeEntry(unsafeKey, true);
         group.sync();
         // Deliberately continue with PreFrame
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 8, 0))
         Q_FALLTHROUGH();
-#endif
     case OpenGLSafePoint::PreFrame:
         if (m_openGLFreezeProtectionThread == nullptr) {
             Q_ASSERT(m_openGLFreezeProtection == nullptr);
@@ -257,9 +268,7 @@ void X11StandalonePlatform::createOpenGLSafePoint(OpenGLSafePoint safePoint)
         group.writeEntry(unsafeKey, false);
         group.sync();
         // Deliberately continue with PostFrame
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 8, 0))
         Q_FALLTHROUGH();
-#endif
     case OpenGLSafePoint::PostFrame:
         QMetaObject::invokeMethod(m_openGLFreezeProtection, "stop", Qt::QueuedConnection);
         break;
@@ -401,6 +410,24 @@ void X11StandalonePlatform::invertScreen()
     if (!succeeded) {
         Platform::invertScreen();
     }
+}
+
+void X11StandalonePlatform::createEffectsHandler(Compositor *compositor, Scene *scene)
+{
+    new EffectsHandlerImplX11(compositor, scene);
+}
+
+QVector<CompositingType> X11StandalonePlatform::supportedCompositors() const
+{
+    QVector<CompositingType> compositors;
+#if HAVE_EPOXY_GLX
+    compositors << OpenGLCompositing;
+#endif
+#ifdef KWIN_HAVE_XRENDER_COMPOSITING
+    compositors << XRenderCompositing;
+#endif
+    compositors << NoCompositing;
+    return compositors;
 }
 
 }

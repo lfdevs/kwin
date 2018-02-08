@@ -57,18 +57,18 @@
 >Avançat</guilabel
 >. A la pestanya <guilabel
 >Focus</guilabel
-> podeu configurar la manera en que les finestres guanyen o perden el focus, &ead;, restar activa o inactives. Utilitzant <guilabel
+> podeu configurar la manera en què les finestres guanyen o perden el focus, &ead;, restar activa o inactives. Utilitzant <guilabel
 >Accions de la barra de títol</guilabel
 > i <guilabel
 >Accions de la finestra</guilabel
-> podreu configurar la manera en que les barres de títol i les finestres reaccionaran als clics del ratolí. <guilabel
+> podreu configurar la manera en què les barres de títol i les finestres reaccionaran als clics del ratolí. <guilabel
 >Moviment</guilabel
 > us permet configurar com es mouen i es col·loquen les finestres una vegada obertes. Les opcions a <guilabel
 >Avançat</guilabel
 > cobreixen algunes opcions especialitzades com <quote
 >pestanyes de finestra</quote
 > i <quote
->ombrejat de la finestra</quote
+>ombreig de la finestra</quote
 >. </para>
 
 <note>
@@ -83,7 +83,7 @@
 <para
 >El <quote
 >focus</quote
-> de l'escriptori es refereix a la finestra amb que l'usuari està treballant actualment. A la finestra amb el focus sovint ens hi referim com a la <quote
+> de l'escriptori es refereix a la finestra amb què l'usuari està treballant actualment. A la finestra amb el focus sovint ens hi referim com a la <quote
 >finestra activa</quote
 >. </para>
 
@@ -297,7 +297,7 @@
 </tip>
 
 <para
->Si preferiu no utilitzar eleva automàticament, assegureu-vos que l'opció <guilabel
+>Si preferiu no utilitzar l'eleva automàticament, assegureu-vos que l'opció <guilabel
 >Eleva la finestra activa amb un clic</guilabel
 > està marcada. No seríeu feliç amb tanta acció, l'efecte net serà que les finestres no seran elevades en absolut. </para>
 
@@ -332,7 +332,7 @@
 <para
 >Seleccionar <guilabel
 >Maximitza</guilabel
-> causa que el &kde; maximitzi la finestra cada vegada que feu doble clic a la barra de títol. A més, podeu optar per maximitzar les finestres només horitzontal o verticalment.</para>
+> causa que el &kde; maximitzi la finestra cada vegada que feu doble clic a la barra de títol. A més, podeu optar per maximitzar les finestres només horitzontalment o verticalment.</para>
 
 <para
 ><guilabel
@@ -427,7 +427,7 @@ Minimize, Shade, Close, Start Window Tab Drag
 ></term>
 <listitem>
 <para
->Obrirà un petit sub-menú, on podeu triar ordres relacionades amb la finestra (&ead;, Maximitza, Minimitza, Tanca, &etc;). </para>
+>Obrirà un petit submenú, on podeu triar ordres relacionades amb la finestra (&ead;, Maximitza, Minimitza, Tanca, &etc;). </para>
 </listitem>
 </varlistentry>
 
@@ -522,7 +522,7 @@ Minimize, Shade, Close, Start Window Tab Drag
 
 <para
 >Un cop més, podeu seleccionar accions per als botons <mousebutton
->Esquerra</mousebutton
+>Esquerre</mousebutton
 >, <mousebutton
 >Mig</mousebutton
 > i <mousebutton
@@ -677,7 +677,7 @@ Nothing
 <listitem>
 
 <para
->Aquí podeu establir la zona d'atracció per a les vores de la pantalla. El moure una finestra dintre de la distància configurada farà que encaixi a la vora de l'escriptori.</para>
+>Aquí podeu establir la zona d'atracció per a les vores de la pantalla. El fet de moure una finestra dintre de la distància configurada farà que encaixi a la vora de l'escriptori.</para>
 </listitem>
 </varlistentry>
 
@@ -689,7 +689,7 @@ Nothing
 <listitem>
 
 <para
->Aquí podeu establir la zona d'atracció per a les finestres. Igual que amb les vores de la pantalla, el moure una finestra prop d'una altra farà que encaixi a la vora, com si les finestres estiguessin magnetitzades.</para>
+>Aquí podeu establir la zona d'atracció per a les finestres. Igual que amb les vores de la pantalla, el fet de moure una finestra prop d'una altra farà que encaixi a la vora, com si les finestres estiguessin magnetitzades.</para>
 </listitem>
 </varlistentry>
 
@@ -735,7 +735,7 @@ Nothing
 
 <variablelist>
 <title
->Ombrejat</title>
+>Ombreig</title>
 
 <varlistentry>
 <term

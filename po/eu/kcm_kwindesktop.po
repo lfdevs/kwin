@@ -1,23 +1,24 @@
 # Translation of kcm_kwindesktop.po to Euskara/Basque (eu).
-# Copyright (C) 2007-2014, Free Software Foundation.
+# Copyright (C) 2007-2018, Free Software Foundation.
 # This file is distributed under the same license as the kde-workspace package.
+# KDE Euskaratzeko proiektuaren arduraduna <xalba@euskalnet.net>.
 #
 # marcos <marcos@euskalgnu.org>, 2007, 2008.
-# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2010, 2011, 2014.
+# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2010, 2011, 2014, 2018.
 # Hizkuntza Politikarako Sailburuordetza <hizpol@ej-gv.es>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2017-12-06 05:35+0100\n"
-"PO-Revision-Date: 2014-02-10 00:02+0100\n"
+"PO-Revision-Date: 2018-02-10 22:14+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -140,7 +141,7 @@ msgstr ""
 #: main.cpp:604
 #, kde-format
 msgid "KWin development team"
-msgstr ""
+msgstr "KWin garatzaile taldea"
 
 #. i18n: ectx: attribute (title), widget (QWidget, desktop)
 #: main.ui:33
@@ -166,17 +167,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, numberLabel)
 #: main.ui:54
-#, fuzzy, kde-format
-#| msgid "Number of desktops:"
+#, kde-format
 msgid "&Number of desktops:"
-msgstr "Mahaigain kopurua:"
+msgstr "Mahaigain &kopurua:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:83
-#, fuzzy, kde-format
-#| msgid "Number of rows:"
+#, kde-format
 msgid "N&umber of rows:"
-msgstr "Errenkada kopurua:"
+msgstr "Errenkada kop&urua:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, nameGroup)
 #: main.ui:109

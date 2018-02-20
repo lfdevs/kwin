@@ -15,15 +15,15 @@
 # xavier <ktranslator31@yahoo.fr>, 2013.
 # Sebastien Renard <renard@kde.org>, 2013, 2014, 2015.
 # Vincent Pinon <vpinon@kde.org>, 2016, 2017.
-# Yoann Laissus <yoann.laissus@gmail.com>, 2017.
+# Yoann Laissus <yoann.laissus@gmail.com>, 2017, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2018-01-15 03:16+0100\n"
-"PO-Revision-Date: 2017-12-15 08:55+0100\n"
-"Last-Translator: Vincent Pinon <vpinon@kde.org>\n"
+"PO-Revision-Date: 2018-01-18 20:00+0100\n"
+"Last-Translator: Yoann Laissus <yoann.laissus@gmail.com>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -531,48 +531,46 @@ msgid "Swipe cancelled"
 msgstr "Frappe annulée"
 
 #: debug_console.cpp:466
-#, fuzzy, kde-format
-#| msgid "Switch to Tab"
+#, kde-format
 msgctxt "A hardware switch (e.g. notebook lid) got toggled"
 msgid "Switch toggled"
-msgstr "Basculer vers l'onglet"
+msgstr "Interrupteur basculé"
 
 #: debug_console.cpp:475
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Notebook lid"
-msgstr ""
+msgstr "Rabattement de l'écran du portable"
 
 #: debug_console.cpp:477
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Tablet mode"
-msgstr ""
+msgstr "Mode tablette"
 
 #: debug_console.cpp:479
-#, fuzzy, kde-format
-#| msgid "Switch to Tab"
+#, kde-format
 msgctxt "A hardware switch"
 msgid "Switch"
-msgstr "Basculer vers l'onglet"
+msgstr "Interrupteur"
 
 #: debug_console.cpp:484
 #, kde-format
 msgctxt "The hardware switch got turned off"
 msgid "Off"
-msgstr ""
+msgstr "Désactivé"
 
 #: debug_console.cpp:487
 #, kde-format
 msgctxt "The hardware switch got turned on"
 msgid "On"
-msgstr ""
+msgstr "Activé"
 
 #: debug_console.cpp:492
 #, kde-format
 msgctxt "State of a hardware switch (on/off)"
 msgid "State"
-msgstr ""
+msgstr "État"
 
 #: debug_console.cpp:679
 #, kde-format

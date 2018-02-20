@@ -6,7 +6,7 @@
 # xavier <xavier.besnard@neuf.fr>, 2013.
 # Sebastien Renard <renard@kde.org>, 2013, 2014.
 # Vincent Pinon <vpinon@kde.org>, 2016, 2017.
-# Yoann Laissus <yoann.laissus@gmail.com>, 2017.
+# Yoann Laissus <yoann.laissus@gmail.com>, 2017, 2018.
 # Simon Depiets <sdepiets@gmail.com>, 2018.
 #
 msgid ""
@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2017-12-30 03:13+0100\n"
-"PO-Revision-Date: 2018-01-06 20:41+0800\n"
-"Last-Translator: Simon Depiets <sdepiets@gmail.com>\n"
+"PO-Revision-Date: 2018-01-18 19:54+0100\n"
+"Last-Translator: Yoann Laissus <yoann.laissus@gmail.com>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -140,12 +140,11 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
-#, fuzzy, kde-format
-#| msgid "Tile windows by dragging them to the side of the screen"
+#, kde-format
 msgid "Tile windows by dragging them to the left or right edges of the screen"
 msgstr ""
-"Disposer les fenêtres en mosaïque en les faisant glisser vers le côté de "
-"l'écran"
+"Disposer les fenêtres en mosaïque en les faisant glisser vers le côté droit "
+"ou le côté gauche de l'écran"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
@@ -246,13 +245,10 @@ msgstr "Délai de &réactivation :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: touch.ui:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "To trigger an action swipe from the screen edge towards the center of the "
-#| "screen."
+#, kde-format
 msgid ""
 "Trigger an action by swiping from the screen edge towards the center of the "
 "screen"
 msgstr ""
-"Pour déclencher une action, glissez votre curseur depuis un côté de l'écran "
-"vers le centre."
+"Déclencher une action en glissant votre curseur depuis un côté de l'écran "
+"vers le centre"

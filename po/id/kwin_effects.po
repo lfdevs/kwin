@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2018-01-02 03:18+0100\n"
-"PO-Revision-Date: 2018-02-01 21:17+0700\n"
+"PO-Revision-Date: 2018-02-10 08:08+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -109,7 +109,7 @@ msgstr "Animasi"
 #: coverswitch/coverswitch_config.ui:116
 #, kde-format
 msgid "Animate switch"
-msgstr "Ganti animasi"
+msgstr "Alih animasi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnimateStart)
 #: coverswitch/coverswitch_config.ui:123
@@ -357,8 +357,8 @@ msgid ""
 "mouse,\n"
 "otherwise it will remain active"
 msgstr ""
-"Jika diaktifkan efek akan dinonaktifkan setelah merotasi kubus dengan mouse,"
-"\n"
+"Jika diaktifkan efek akan dinonaktifkan setelah merotasi kubus dengan "
+"mouse,\n"
 "atau efek akan tetap aktif"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_CloseOnMouseRelease)
@@ -635,13 +635,13 @@ msgstr "Tingkatkan kontras dan keterbacaan di belakang jendela semi transparan"
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Cover Switch"
-msgstr "Ganti Sampul"
+msgstr "Alih Sampul"
 
 #: effect_builtins.cpp:148
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a Cover Flow effect for the alt+tab window switcher"
-msgstr "Tampilkan efek Arus Sampul untuk pengganti jendela alt+tab"
+msgstr "Tayangkan efek Arus Sampul untuk pengalih jendela alt+tab"
 
 #: effect_builtins.cpp:162
 #, kde-format
@@ -665,7 +665,7 @@ msgstr "Animasi Kubus Desktop"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate desktop switching with a cube"
-msgstr "Animasi penggantian desktop dengan kubus"
+msgstr "Animasi pengalihan desktop dengan kubus"
 
 #: effect_builtins.cpp:192
 #, kde-format
@@ -719,14 +719,14 @@ msgstr "Jendela yang ditutup hancur berantakan"
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Flip Switch"
-msgstr "Ganti Balik"
+msgstr "Alih Lipatan"
 
 #: effect_builtins.cpp:253
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Flip through windows that are in a stack for the alt+tab window switcher"
-msgstr "Balik antar jendela yang ditumpuk untuk pengganti jendela alt+tab"
+msgstr "Lipatan antar jendela yang ditumpuk untuk pengalih jendela alt+tab"
 
 #: effect_builtins.cpp:267
 #, kde-format
@@ -951,7 +951,7 @@ msgstr "Geser"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide windows across the screen when switching virtual desktops"
-msgstr "Geser jendela melintasi layar ketika berganti desktop virtual"
+msgstr "Geser jendela melintasi layar ketika beralih desktop virtual"
 
 #: effect_builtins.cpp:537
 #, kde-format
@@ -993,7 +993,7 @@ msgstr "Membantu anda menentukan pusat layar ketika memindahkan jendela"
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
-msgstr "Umpan Balik Startup"
+msgstr "Tanggapan Permulaian"
 
 #: effect_builtins.cpp:583
 #, kde-format
@@ -1077,18 +1077,18 @@ msgstr "Perbesar seluruh desktop"
 #: flipswitch/flipswitch.cpp:60 flipswitch/flipswitch_config.cpp:61
 #, kde-format
 msgid "Toggle Flip Switch (Current desktop)"
-msgstr "Ubah Ganti Balik (Desktop saat ini)"
+msgstr "Jungkitan Alih Lipatan (Desktop saat ini)"
 
 #: flipswitch/flipswitch.cpp:67 flipswitch/flipswitch_config.cpp:64
 #, kde-format
 msgid "Toggle Flip Switch (All desktops)"
-msgstr "Ubah Ganti Balik (Semua desktop)"
+msgstr "Jungkitan Alih Lipatan (Semua desktop)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: flipswitch/flipswitch_config.ui:23
 #, kde-format
 msgid "Flip animation duration:"
-msgstr "Durasi animasi balik:"
+msgstr "Durasi animasi lipatan:"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
 #: flipswitch/flipswitch_config.ui:42

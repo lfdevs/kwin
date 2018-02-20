@@ -32,7 +32,7 @@ msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 "Diniz Bortolotto, Rodrigo Stulzer Lopes, Lisiane Sztoltz Teixeira, André  "
-"Marcelo Alvarenga, Camila Moura, Luiz Fernando Ranghetti"
+"Marcelo Alvarenga, Luiz Fernando Ranghetti"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"

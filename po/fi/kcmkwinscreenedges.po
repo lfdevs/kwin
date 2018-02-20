@@ -1,7 +1,7 @@
 # Finnish messages for kcmkwinscreenedges.
 # Copyright © 2010 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kdebase package.
-# Tommi Nieminen <translator@legisign.org>, 2009, 2016, 2017.
+# Tommi Nieminen <translator@legisign.org>, 2009, 2016, 2017, 2018.
 # Jorma Karvonen <karvonen.jorma@gmail.com>, 2010.
 # Lasse Liehu <lliehu@kolumbus.fi>, 2011, 2013, 2014, 2016.
 #
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2017-12-30 03:13+0100\n"
-"PO-Revision-Date: 2017-06-08 20:59+0200\n"
+"PO-Revision-Date: 2018-01-22 17:28+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -106,23 +106,19 @@ msgstr "Näytä tai piilota vaihtoehtoinen ikkunanvalitsin"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
-#, fuzzy, kde-format
-#| msgid "Active Screen Edge Actions"
+#, kde-format
 msgid "Active Screen Corners and Edges"
-msgstr "Aktiivisten näytön reunojen toiminnot"
+msgstr "Aktiiviset näytön kulmat ja reunat"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "To trigger an action push your mouse cursor against the edge of the "
-#| "screen in the action's direction."
+#, kde-format
 msgid ""
 "Trigger an action by pushing the mouse cursor against the corresponding "
 "screen edge or corner"
 msgstr ""
-"Käynnistä toiminto viemällä hiiriosoitin lähelle toimintoon liitettyä näytön "
-"reunaa."
+"Käynnistä toiminto viemällä hiiriosoitin vasten toimintoon liitettyä näytön "
+"reunaa tai kulmaa"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
@@ -132,17 +128,16 @@ msgstr "Ikkunanhallinta"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
-#, fuzzy, kde-format
-#| msgid "Maximize windows by dragging them to the top of the screen"
+#, kde-format
 msgid "Maximize windows by dragging them to the top edge of the screen"
 msgstr "Suurenna ikkunat vetämällä ne näytön ylälaitaan"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
-#, fuzzy, kde-format
-#| msgid "Tile windows by dragging them to the side of the screen"
+#, kde-format
 msgid "Tile windows by dragging them to the left or right edges of the screen"
-msgstr "Aseta ikkunat rinnakkain vetämällä ne näytön reunaan"
+msgstr ""
+"Aseta ikkunat rinnakkain vetämällä ne näytön vasempaan tai oikeaan reunaan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
@@ -243,11 +238,8 @@ msgstr "&Toistoviive:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: touch.ui:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "To trigger an action swipe from the screen edge towards the center of the "
-#| "screen."
+#, kde-format
 msgid ""
 "Trigger an action by swiping from the screen edge towards the center of the "
 "screen"
-msgstr "Käynnistä toiminto pyyhkäisemällä näytön laidalta sen keskelle."
+msgstr "Käynnistä toiminto pyyhkäisemällä näytön laidalta sen keskelle"

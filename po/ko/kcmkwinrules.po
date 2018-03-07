@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"POT-Creation-Date: 2018-03-05 06:03+0100\n"
 "PO-Revision-Date: 2017-12-02 23:22+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
@@ -263,27 +263,27 @@ msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "프로그램 지정 설정 편집하기"
 
-#: main.cpp:252
+#: main.cpp:253
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:260
+#: main.cpp:261
 #, kde-format
 msgid "KWin helper utility"
 msgstr "KWin 도우미 유틸리티"
 
-#: main.cpp:261
+#: main.cpp:262
 #, kde-format
 msgid "WId of the window for special window settings."
 msgstr "창 지정 설정을 위한 창의 WId."
 
-#: main.cpp:262
+#: main.cpp:263
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "설정이 이 프로그램의 모든 창에 영향을 줄 지 여부."
 
-#: main.cpp:270
+#: main.cpp:271
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "이 도우미 유틸리티는 직접 호출되기 위한 것이 아닙니다."
@@ -345,14 +345,14 @@ msgstr "가져오기(&I)"
 msgid "&Export"
 msgstr "내보내기(&E)"
 
-#: ruleswidget.cpp:66
+#: ruleswidget.cpp:68
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
 "window(s)."
 msgstr "지정한 창에 대해서 창 속성을 변경하려면 이 옵션을 사용하십시오."
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:70
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -381,7 +381,7 @@ msgstr ""
 "li><li><em>임시로 강제하기</em>: 창 속성은 숨겨질 때까지 주어진 값으로 강제됩"
 "니다. 이 동작은 창이 숨겨지면 삭제됩니다.</li></ul>"
 
-#: ruleswidget.cpp:83
+#: ruleswidget.cpp:85
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -399,27 +399,27 @@ msgstr ""
 "강제하기</em>: 창 속성은 숨겨질 때까지 주어진 값으로 강제됩니다. 이 동작은 창"
 "이 숨겨지면 삭제됩니다.</li></ul>"
 
-#: ruleswidget.cpp:150
+#: ruleswidget.cpp:152
 #, kde-format
 msgid "All Desktops"
 msgstr "모든 데스크톱"
 
-#: ruleswidget.cpp:343
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr "모든 활동"
 
-#: ruleswidget.cpp:784
+#: ruleswidget.cpp:786
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1의 설정"
 
-#: ruleswidget.cpp:786
+#: ruleswidget.cpp:788
 #, kde-format
 msgid "Unnamed entry"
 msgstr "이름 없는 항목"
 
-#: ruleswidget.cpp:796
+#: ruleswidget.cpp:798
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -433,12 +433,12 @@ msgstr ""
 "것이라면 최소한 창 종류의 제한을 두어서 특별한 창에 설정이 적용되지 않도록 하"
 "는 것을 권장합니다."
 
-#: ruleswidget.cpp:826
+#: ruleswidget.cpp:828
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "창 지정 설정 편집하기"
 
-#: ruleswidget.cpp:856
+#: ruleswidget.cpp:858
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -450,12 +450,12 @@ msgstr ""
 "을 선택한 다음 설정을 체크 상자를 통해서 활성화시키시고, 어떤 식으로 바꾸고 "
 "싶은지를 결정하십시오."
 
-#: ruleswidget.cpp:860
+#: ruleswidget.cpp:862
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "자세한 정보를 보려면 문서를 참고하십시오."
 
-#: ruleswidget.cpp:899
+#: ruleswidget.cpp:901
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "단축키 편집"

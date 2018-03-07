@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-01-15 03:16+0100\n"
-"PO-Revision-Date: 2018-02-12 05:47-0500\n"
+"POT-Creation-Date: 2018-02-22 06:05+0100\n"
+"PO-Revision-Date: 2018-03-05 17:19-0500\n"
 "Last-Translator: guoyunhebrave <guoyunhebrave@gmail.com>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -1564,7 +1564,7 @@ msgstr ""
 "窗口切换器安装损坏，资源无法找到。\n"
 "请与您的发行版联系。"
 
-#: useractions.cpp:203
+#: useractions.cpp:204
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -1576,7 +1576,7 @@ msgstr ""
 "没有边框的话，您就无法使用鼠标再次启用边框：请使用快捷键 %1 激活窗口的操作菜"
 "单来完成这一任务。"
 
-#: useractions.cpp:211
+#: useractions.cpp:212
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -1588,57 +1588,57 @@ msgstr ""
 "如果应用程序自身没有提供退出全屏模式的选项，您就无法使用鼠标退出全屏模式：请"
 "使用快捷键 %1 激活窗口的操作菜单来完成这一任务。"
 
-#: useractions.cpp:274
+#: useractions.cpp:275
 #, kde-format
 msgid "&Move"
 msgstr "移动(&M)"
 
-#: useractions.cpp:279
+#: useractions.cpp:280
 #, kde-format
 msgid "&Resize"
 msgstr "大小(&R)"
 
-#: useractions.cpp:283
+#: useractions.cpp:284
 #, kde-format
 msgid "Keep &Above Others"
 msgstr "常居顶端(&A)"
 
-#: useractions.cpp:289
+#: useractions.cpp:290
 #, kde-format
 msgid "Keep &Below Others"
 msgstr "常居底端(&B)"
 
-#: useractions.cpp:295
+#: useractions.cpp:296
 #, kde-format
 msgid "&Fullscreen"
 msgstr "全屏(&F)"
 
-#: useractions.cpp:301
+#: useractions.cpp:302
 #, kde-format
 msgid "&Shade"
 msgstr "卷起(&S)"
 
-#: useractions.cpp:306
+#: useractions.cpp:307
 #, kde-format
 msgid "&No Border"
 msgstr "无边框(&N)"
 
-#: useractions.cpp:313
+#: useractions.cpp:314
 #, kde-format
 msgid "Window Short&cut..."
 msgstr "窗口快捷键(&C)..."
 
-#: useractions.cpp:318
+#: useractions.cpp:319
 #, kde-format
 msgid "Special &Window Settings..."
 msgstr "特殊窗口设置(&W)..."
 
-#: useractions.cpp:322
+#: useractions.cpp:324
 #, kde-format
 msgid "S&pecial Application Settings..."
 msgstr "特殊应用程序设置(&P)..."
 
-#: useractions.cpp:329
+#: useractions.cpp:332
 #, kde-format
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
@@ -1646,96 +1646,96 @@ msgctxt ""
 msgid "Window Manager S&ettings..."
 msgstr "窗口管理器设置(&E)..."
 
-#: useractions.cpp:359
+#: useractions.cpp:362
 #, kde-format
 msgid "Mi&nimize"
 msgstr "最小化(&N)"
 
-#: useractions.cpp:363
+#: useractions.cpp:366
 #, kde-format
 msgid "Ma&ximize"
 msgstr "最大化(&X)"
 
-#: useractions.cpp:372
+#: useractions.cpp:375
 #, kde-format
 msgid "&Untab"
 msgstr "解除标签(&U)"
 
-#: useractions.cpp:376
+#: useractions.cpp:379
 #, kde-format
 msgid "Close Entire &Group"
 msgstr "关闭整个组(&G)"
 
-#: useractions.cpp:387
+#: useractions.cpp:390
 #, kde-format
 msgid "&More Actions"
 msgstr "更多动作(&M)"
 
-#: useractions.cpp:391
+#: useractions.cpp:394
 #, kde-format
 msgid "&Close"
 msgstr "关闭(&C)"
 
-#: useractions.cpp:465
+#: useractions.cpp:468
 #, kde-format
 msgid "&Extensions"
 msgstr "扩展(&E)"
 
-#: useractions.cpp:520
+#: useractions.cpp:532
 #, kde-format
 msgctxt "Switch to tab -> Previous"
 msgid "Previous"
 msgstr "上一个"
 
-#: useractions.cpp:521
+#: useractions.cpp:533
 #, kde-format
 msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr "下一个"
 
-#: useractions.cpp:563
+#: useractions.cpp:575
 #, kde-format
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr "无可用项"
 
-#: useractions.cpp:572
+#: useractions.cpp:584
 #, kde-format
 msgid "Switch to Tab"
 msgstr "切换到标签"
 
-#: useractions.cpp:583
+#: useractions.cpp:595
 #, kde-format
 msgid "&Attach as tab to"
 msgstr "作为标签附加到(&A)"
 
-#: useractions.cpp:606
+#: useractions.cpp:618
 #, kde-format
 msgid "Move To &Desktop"
 msgstr "移动到桌面(&D)"
 
-#: useractions.cpp:622
+#: useractions.cpp:634
 #, kde-format
 msgid "Move To &Screen"
 msgstr "移动到屏幕(&S)"
 
-#: useractions.cpp:637
+#: useractions.cpp:649
 #, kde-format
 msgid "Ac&tivities"
 msgstr "活动(&T)"
 
-#: useractions.cpp:649
+#: useractions.cpp:661
 #, kde-format
 msgid "&All Desktops"
 msgstr "全部桌面(&A)"
 
-#: useractions.cpp:675
+#: useractions.cpp:687
 #, kde-format
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "新建桌面(&N)"
 
-#: useractions.cpp:695
+#: useractions.cpp:707
 #, kde-format
 msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
@@ -1743,29 +1743,29 @@ msgctxt ""
 msgid "Screen &%1 (%2)"
 msgstr "屏幕 &%1 (%2)"
 
-#: useractions.cpp:716
+#: useractions.cpp:728
 #, kde-format
 msgid "&All Activities"
 msgstr "全部活动(&A)"
 
-#: useractions.cpp:931
+#: useractions.cpp:943
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "<b>%1</b> 已被使用"
 
-#: useractions.cpp:933
+#: useractions.cpp:945
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "<b>%1</b> 已由 %2 在 %3 中使用"
 
-#: useractions.cpp:1064
+#: useractions.cpp:1076
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "活动窗口(%1)"
 
-#: useractions.cpp:1269
+#: useractions.cpp:1281
 #, kde-format
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"POT-Creation-Date: 2018-03-05 06:03+0100\n"
 "PO-Revision-Date: 2011-08-16 08:17+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -280,27 +280,27 @@ msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Breyta stillingum stakra glugga"
 
-#: main.cpp:252
+#: main.cpp:253
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:260
+#: main.cpp:261
 #, kde-format
 msgid "KWin helper utility"
 msgstr "KWin hjálpartól"
 
-#: main.cpp:261
+#: main.cpp:262
 #, kde-format
 msgid "WId of the window for special window settings."
 msgstr "Auðkenni (w-id) gluggans sem stilla á sérstaklega."
 
-#: main.cpp:262
+#: main.cpp:263
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Hvort stillingarnar eigi að gilda um alla glugga viðkomandi forrits."
 
-#: main.cpp:270
+#: main.cpp:271
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Það á ekki að ræsa þetta hjálpartól handvirkt."
@@ -363,14 +363,14 @@ msgstr "&Flytja inn"
 msgid "&Export"
 msgstr "Flytja ú&t"
 
-#: ruleswidget.cpp:66
+#: ruleswidget.cpp:68
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
 "window(s)."
 msgstr "Hakaðu hér til að breyta gluggaeiginleikum fyrir tiltekna glugga."
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:70
 #, fuzzy, kde-format
 #| msgid ""
 #| "Specify how the window property should be affected:<ul><li><em>Do Not "
@@ -418,7 +418,7 @@ msgstr ""
 "uppgefin gildi þangað til hann er falinn (þessari aðgerð verður eytt eftir "
 "að glugginn er falinn).</li></ul>"
 
-#: ruleswidget.cpp:83
+#: ruleswidget.cpp:85
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -438,27 +438,27 @@ msgstr ""
 "þangað til hann er falinn (þessari aðgerð verður eytt eftir að glugginn er "
 "falinn).</li></ul>"
 
-#: ruleswidget.cpp:150
+#: ruleswidget.cpp:152
 #, kde-format
 msgid "All Desktops"
 msgstr "Öll skjáborð"
 
-#: ruleswidget.cpp:343
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr ""
 
-#: ruleswidget.cpp:784
+#: ruleswidget.cpp:786
 #, kde-format
 msgid "Settings for %1"
 msgstr "Stillingar fyrir %1"
 
-#: ruleswidget.cpp:786
+#: ruleswidget.cpp:788
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Heitislaus færsla"
 
-#: ruleswidget.cpp:796
+#: ruleswidget.cpp:798
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -473,12 +473,12 @@ msgstr ""
 "minsta kosti að takmarka gluggategundirnar þannig að þær innihalda ekki "
 "sérstakar gerðir glugga."
 
-#: ruleswidget.cpp:826
+#: ruleswidget.cpp:828
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Breyta stillingum stakra glugga"
 
-#: ruleswidget.cpp:856
+#: ruleswidget.cpp:858
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -491,12 +491,12 @@ msgstr ""
 "kössunum, veldu á hvaða hátt stillingarnar ættu að hafa áhrif og á hvaða "
 "gildi."
 
-#: ruleswidget.cpp:860
+#: ruleswidget.cpp:862
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Skoðaðu skjölin fyrir nánari lýsingu."
 
-#: ruleswidget.cpp:899
+#: ruleswidget.cpp:901
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Breyta flýtilykli"

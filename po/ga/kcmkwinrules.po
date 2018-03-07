@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/kcmkwinrules.po\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"POT-Creation-Date: 2018-03-05 06:03+0100\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -274,29 +274,29 @@ msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Cuir Socruithe Sainiúil don Fheidhmchlár in Eagar"
 
-#: main.cpp:252
+#: main.cpp:253
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:260
+#: main.cpp:261
 #, kde-format
 msgid "KWin helper utility"
 msgstr "Uirlis chúnta KWin"
 
-#: main.cpp:261
+#: main.cpp:262
 #, kde-format
 msgid "WId of the window for special window settings."
 msgstr "Aitheantas na fuinneoige le haghaidh socruithe speisialta."
 
-#: main.cpp:262
+#: main.cpp:263
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr ""
 "Leis an rogha seo, cuirfear na socruithe i bhfeidhm ar gach fuinneog san "
 "fheidhmchlár."
 
-#: main.cpp:270
+#: main.cpp:271
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Ní ceart an uirlis chúntach seo a ghlao go díreach."
@@ -359,7 +359,7 @@ msgstr "&Iompórtáil"
 msgid "&Export"
 msgstr "&Easpórtáil"
 
-#: ruleswidget.cpp:66
+#: ruleswidget.cpp:68
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
@@ -368,7 +368,7 @@ msgstr ""
 "Cumasaigh an ticbhosca seo chun an airí fhuinneoige seo a athrú le haghaidh "
 "na fuinneoige/bhfuinneog sainithe."
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:70
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -403,7 +403,7 @@ msgstr ""
 "airí fhuinneoige go dtí go gcuirfear í i bhfolach (scriosfar an gníomh seo "
 "nuair a bheidh an fhuinneog folaithe).</li></ul>"
 
-#: ruleswidget.cpp:83
+#: ruleswidget.cpp:85
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -424,27 +424,27 @@ msgstr ""
 "gcuirfear í i bhfolach (scriosfar an gníomh seo nuair a bheidh an fhuinneog "
 "folaithe).</li></ul>"
 
-#: ruleswidget.cpp:150
+#: ruleswidget.cpp:152
 #, kde-format
 msgid "All Desktops"
 msgstr "Gach Deasc"
 
-#: ruleswidget.cpp:343
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr ""
 
-#: ruleswidget.cpp:784
+#: ruleswidget.cpp:786
 #, kde-format
 msgid "Settings for %1"
 msgstr "Socruithe do %1"
 
-#: ruleswidget.cpp:786
+#: ruleswidget.cpp:788
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Iontráil gan ainm"
 
-#: ruleswidget.cpp:796
+#: ruleswidget.cpp:798
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -459,12 +459,12 @@ msgstr ""
 "ndáiríre, moltar duit teorainn a chur le cineálacha na bhfuinneog ar a "
 "laghad, chun cineálacha speisialta a sheachaint."
 
-#: ruleswidget.cpp:826
+#: ruleswidget.cpp:828
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Cuir Socruithe Sainiúil d'Fhuinneog in Eagar"
 
-#: ruleswidget.cpp:856
+#: ruleswidget.cpp:858
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -477,12 +477,12 @@ msgstr ""
 "cumasaigh é leis an ticbhosca, roghnaigh conas ba chóir an socrú a athrú "
 "agus an luach nua."
 
-#: ruleswidget.cpp:860
+#: ruleswidget.cpp:862
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Faigh tuilleadh mionsonraí ón doiciméadú."
 
-#: ruleswidget.cpp:899
+#: ruleswidget.cpp:901
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Cuir Aicearra in Eagar"

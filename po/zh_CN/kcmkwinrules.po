@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-10-17 03:43+0200\n"
-"PO-Revision-Date: 2018-02-12 05:47-0500\n"
+"POT-Creation-Date: 2018-03-05 06:03+0100\n"
+"PO-Revision-Date: 2018-03-05 17:18-0500\n"
 "Last-Translator: guoyunhebrave <guoyunhebrave@gmail.com>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -264,27 +264,27 @@ msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "编辑程序的特定设置"
 
-#: main.cpp:252
+#: main.cpp:253
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:260
+#: main.cpp:261
 #, kde-format
 msgid "KWin helper utility"
 msgstr "KWin 助手工具"
 
-#: main.cpp:261
+#: main.cpp:262
 #, kde-format
 msgid "WId of the window for special window settings."
 msgstr "窗口特定设置的窗口编号(WId)。"
 
-#: main.cpp:262
+#: main.cpp:263
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "此设置是否应用到该应用程序的所有窗口。"
 
-#: main.cpp:270
+#: main.cpp:271
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "此助手工具不应直接调用。"
@@ -346,14 +346,14 @@ msgstr "导入(&I)"
 msgid "&Export"
 msgstr "导出(&E)"
 
-#: ruleswidget.cpp:66
+#: ruleswidget.cpp:68
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
 "window(s)."
 msgstr "启用此框可为特定窗口更换此窗口属性。"
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:70
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -380,7 +380,7 @@ msgstr ""
 "li><li><em>临时强制：</em>窗口属性将被强制设定为给定值，直至隐藏该窗口(隐藏此"
 "窗口后此操作将被删除)。</li></ul>"
 
-#: ruleswidget.cpp:83
+#: ruleswidget.cpp:85
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -396,27 +396,27 @@ msgstr ""
 "em>窗口属性将总是强制为给定值。</li><li><em>临时强制：</em>窗口属性将被强制设"
 "定为给定值，直至隐藏该窗口(隐藏此窗口后此操作将被删除)。</li></ul>"
 
-#: ruleswidget.cpp:150
+#: ruleswidget.cpp:152
 #, kde-format
 msgid "All Desktops"
 msgstr "全部桌面"
 
-#: ruleswidget.cpp:343
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr "全部活动"
 
-#: ruleswidget.cpp:784
+#: ruleswidget.cpp:786
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 的设置"
 
-#: ruleswidget.cpp:786
+#: ruleswidget.cpp:788
 #, kde-format
 msgid "Unnamed entry"
 msgstr "未命名项"
 
-#: ruleswidget.cpp:796
+#: ruleswidget.cpp:798
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -429,12 +429,12 @@ msgstr ""
 "这意味着设置将可能应用到全部应用程序的窗口中。如果您真的想要创建通用设置的"
 "话，推荐您至少限制一种窗口类型，以避免特殊的窗口类型。"
 
-#: ruleswidget.cpp:826
+#: ruleswidget.cpp:828
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "编辑窗口的特定设置"
 
-#: ruleswidget.cpp:856
+#: ruleswidget.cpp:858
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -445,12 +445,12 @@ msgstr ""
 "此配置对话框允许只更改选中窗口或应用程序的设置。查找您想要影响的设置，使用复"
 "选框启用设置，选择设置应影响的方式以及应影响的值。"
 
-#: ruleswidget.cpp:860
+#: ruleswidget.cpp:862
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "请查看文档中的更多信息。"
 
-#: ruleswidget.cpp:899
+#: ruleswidget.cpp:901
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "编辑快捷键"

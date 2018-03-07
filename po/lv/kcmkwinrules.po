@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"POT-Creation-Date: 2018-03-05 06:03+0100\n"
 "PO-Revision-Date: 2011-08-24 09:55+0300\n"
 "Last-Translator: Maris Nartiss <maris.kde@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -279,27 +279,27 @@ msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Labot logiem specifiskos iestatījumus"
 
-#: main.cpp:252
+#: main.cpp:253
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:260
+#: main.cpp:261
 #, kde-format
 msgid "KWin helper utility"
 msgstr "KWin palīdzības utilīta"
 
-#: main.cpp:261
+#: main.cpp:262
 #, kde-format
 msgid "WId of the window for special window settings."
 msgstr "Loga WId speciālo logu iestatījumi."
 
-#: main.cpp:262
+#: main.cpp:263
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Vai iestatījumiem vajadzētu ietekmēt visus programmas logus."
 
-#: main.cpp:270
+#: main.cpp:271
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Šis palīdzības utilīts nav paredzēts lai to izsauktu pa tiešo."
@@ -362,7 +362,7 @@ msgstr "&Importēt"
 msgid "&Export"
 msgstr "&Eksportēt"
 
-#: ruleswidget.cpp:66
+#: ruleswidget.cpp:68
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
@@ -370,7 +370,7 @@ msgid ""
 msgstr ""
 "Ieslēdziet šo izvēles rūtiņu, lai norādītajiem logiem izmainītu šo īpašību."
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:70
 #, fuzzy, kde-format
 #| msgid ""
 #| "Specify how the window property should be affected:<ul><li><em>Do Not "
@@ -417,7 +417,7 @@ msgstr ""
 "īpašības vērtība būs šāda līdz tā noslēpšanai (pēc noslēpšanas šī darbība "
 "tiks izņemta).</li></ul>"
 
-#: ruleswidget.cpp:83
+#: ruleswidget.cpp:85
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -435,27 +435,27 @@ msgstr ""
 "li><li><em>Piespiest uz laiku</em> Loga īpašības vērtība būs šāda līdz tā "
 "noslēpšanai (pēc noslēpšanas šī darbība tiks izņemta).</li></ul>"
 
-#: ruleswidget.cpp:150
+#: ruleswidget.cpp:152
 #, kde-format
 msgid "All Desktops"
 msgstr "Visas darbvirsmas"
 
-#: ruleswidget.cpp:343
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr ""
 
-#: ruleswidget.cpp:784
+#: ruleswidget.cpp:786
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 iestatījumi"
 
-#: ruleswidget.cpp:786
+#: ruleswidget.cpp:788
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Nenosaukts ieraksts"
 
-#: ruleswidget.cpp:796
+#: ruleswidget.cpp:798
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -470,12 +470,12 @@ msgstr ""
 "norādītu vismaz logu tipus, lai izvairītos no tā pielietošanas speciāliem "
 "logiem."
 
-#: ruleswidget.cpp:826
+#: ruleswidget.cpp:828
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Labot logiem specifiskos iestatījumus"
 
-#: ruleswidget.cpp:856
+#: ruleswidget.cpp:858
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -487,12 +487,12 @@ msgstr ""
 "iestatījumus. Atrodiet, kuru iestatījumu vēlaties mainīt, izvēles rūtī "
 "aktivizējiet to un norādiet, kādā veidā to ietekmēt un kādu vērību izmantot."
 
-#: ruleswidget.cpp:860
+#: ruleswidget.cpp:862
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Vairāk informācijas atradīsiet dokumentācijā"
 
-#: ruleswidget.cpp:899
+#: ruleswidget.cpp:901
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Labot īsceļu"

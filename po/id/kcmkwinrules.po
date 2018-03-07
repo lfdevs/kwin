@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-10-17 03:43+0200\n"
-"PO-Revision-Date: 2018-01-23 07:22+0700\n"
+"POT-Creation-Date: 2018-03-05 06:03+0100\n"
+"PO-Revision-Date: 2018-02-16 20:51+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -231,12 +231,12 @@ msgid ""
 "manager. If you do use a different window manager, please refer to its "
 "documentation for how to customize window behavior.</p>"
 msgstr ""
-"<p><h1>Setelan Khusus Jendela</h1> Di sini anda dapat menyesuaikan setelan "
+"<p><h1>Setelan Khusus Jendela</h1> Di sini anda dapat menyesuaiankan setelan "
 "jendela secara khusus hanya untuk beberapa jendela tertentu.</p> <p>Perlu "
 "dicatat bahwa konfigurasi ini tidak akan mempunyai efek jika anda tidak "
 "menggunakan KWin sebagai pengelola jendela anda. Jika anda menggunakan "
 "pengelola jendela yang berbeda, silakan merujuk ke dokumentasi pengelola "
-"jendela tersebut untuk mengetahui bagaimana cara menyesuaikan perilaku "
+"jendela tersebut untuk mengetahui bagaimana cara menyesuaiankan perilaku "
 "jendela.</p>"
 
 #: kcm.cpp:100
@@ -270,27 +270,27 @@ msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Sunting Setelan Khusus Aplikasi"
 
-#: main.cpp:252
+#: main.cpp:253
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:260
+#: main.cpp:261
 #, kde-format
 msgid "KWin helper utility"
 msgstr "Utilitas penolong KWin"
 
-#: main.cpp:261
+#: main.cpp:262
 #, kde-format
 msgid "WId of the window for special window settings."
 msgstr "WId dari jendela untuk setelan jendela spesial."
 
-#: main.cpp:262
+#: main.cpp:263
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Apakah setelan akan mempengaruhi semua jendela aplikasi."
 
-#: main.cpp:270
+#: main.cpp:271
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Utilitas penolong ini tidak seharusnya dipanggil secara langsung."
@@ -354,7 +354,7 @@ msgstr "&Impor"
 msgid "&Export"
 msgstr "&Ekspor"
 
-#: ruleswidget.cpp:66
+#: ruleswidget.cpp:68
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
@@ -363,7 +363,7 @@ msgstr ""
 "Aktifkan kotak cek ini untuk membedakan properti jendela ini untuk jendela "
 "yang ditentukan."
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:70
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -396,7 +396,7 @@ msgstr ""
 "jendela akan dipaksa ke nilai yang diberikan sampai disembunyikan (aksi ini "
 "akan dihapus setelah jendela disembunyikan).</li></ul>"
 
-#: ruleswidget.cpp:83
+#: ruleswidget.cpp:85
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -416,27 +416,27 @@ msgstr ""
 "disembunyikan (aksi ini akan dihapus setelah jendela disembunyikan).</li></"
 "ul>"
 
-#: ruleswidget.cpp:150
+#: ruleswidget.cpp:152
 #, kde-format
 msgid "All Desktops"
 msgstr "Semua Desktop"
 
-#: ruleswidget.cpp:343
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr "Semua Aktivitas"
 
-#: ruleswidget.cpp:784
+#: ruleswidget.cpp:786
 #, kde-format
 msgid "Settings for %1"
 msgstr "Setelan untuk %1"
 
-#: ruleswidget.cpp:786
+#: ruleswidget.cpp:788
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Entri tak bernama"
 
-#: ruleswidget.cpp:796
+#: ruleswidget.cpp:798
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -451,12 +451,12 @@ msgstr ""
 "untuk setidaknya membatasi tipe jendela untuk menghindari tipe jendela "
 "spesial."
 
-#: ruleswidget.cpp:826
+#: ruleswidget.cpp:828
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Sunting Setelan Khusus Jendela"
 
-#: ruleswidget.cpp:856
+#: ruleswidget.cpp:858
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -469,12 +469,12 @@ msgstr ""
 "setelan menggunakan kotak cek, pilih dengan cara bagaimana setelan akan "
 "dipengaruhi dan ke nilai mana."
 
-#: ruleswidget.cpp:860
+#: ruleswidget.cpp:862
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Lihat dokumentasi untuk perincian selebihnya."
 
-#: ruleswidget.cpp:899
+#: ruleswidget.cpp:901
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Sunting Pintasan"

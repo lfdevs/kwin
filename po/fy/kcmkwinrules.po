@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"POT-Creation-Date: 2018-03-05 06:03+0100\n"
 "PO-Revision-Date: 2010-07-11 13:40+0100\n"
 "Last-Translator: Berend Ytsma <berendy@gmail.com>\n"
 "Language-Team: Frysk <kde-i18n-fry@kde.org>\n"
@@ -275,27 +275,27 @@ msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Finsterspesifike ynstellings bewurkje"
 
-#: main.cpp:252
+#: main.cpp:253
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:260
+#: main.cpp:261
 #, kde-format
 msgid "KWin helper utility"
 msgstr "KWin-helperapplikaasje"
 
-#: main.cpp:261
+#: main.cpp:262
 #, kde-format
 msgid "WId of the window for special window settings."
 msgstr "WId fan it finster foar spesjale finsterynstellings."
 
-#: main.cpp:262
+#: main.cpp:263
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Of de ynstellings tapast wurde op alle finsters fan it programma."
 
-#: main.cpp:270
+#: main.cpp:271
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Dizze helperapplikaasje is net bedoeld om direkt oanropt te wurden."
@@ -358,7 +358,7 @@ msgstr ""
 msgid "&Export"
 msgstr ""
 
-#: ruleswidget.cpp:66
+#: ruleswidget.cpp:68
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
@@ -367,7 +367,7 @@ msgstr ""
 "It seleksjefinster ynskeakelje om dit finstereigenskip te feroarjen foar de "
 "oantsjutte finster(s)."
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:70
 #, fuzzy, kde-format
 #| msgid ""
 #| "Specify how the window property should be affected:<ul><li><em>Do Not "
@@ -412,7 +412,7 @@ msgstr ""
 "<li><em>Forsearje:</em> De finstereigenskip sil altyd op de oantsjutte "
 "wearde set wurde.</li></ul>"
 
-#: ruleswidget.cpp:83
+#: ruleswidget.cpp:85
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -429,27 +429,27 @@ msgstr ""
 "algemiene finstersynstellings ward wurde</li><li><em>Forsearje</em>  De "
 "finstereigenskip sil altyd op de oantsjutte wearde set wurde.</li></ul>"
 
-#: ruleswidget.cpp:150
+#: ruleswidget.cpp:152
 #, kde-format
 msgid "All Desktops"
 msgstr "Alle buroblêden"
 
-#: ruleswidget.cpp:343
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr ""
 
-#: ruleswidget.cpp:784
+#: ruleswidget.cpp:786
 #, kde-format
 msgid "Settings for %1"
 msgstr "Ynstellings foar %1"
 
-#: ruleswidget.cpp:786
+#: ruleswidget.cpp:788
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Nammelease ynfier"
 
-#: ruleswidget.cpp:796
+#: ruleswidget.cpp:798
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -464,12 +464,12 @@ msgstr ""
 "oan te riden dat jo yn elts gefal de finstertypen limitearje om spesjale "
 "finstertypen te ûnwiken"
 
-#: ruleswidget.cpp:826
+#: ruleswidget.cpp:828
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Finsterspesifike ynstellings bewurkje"
 
-#: ruleswidget.cpp:856
+#: ruleswidget.cpp:858
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -482,12 +482,12 @@ msgstr ""
 "wolle, aktivearje de ynstellings mei help fan it karfakje en bepaal op "
 "hokker manier de ynstellings effekt ha moat en mei hokker wearde."
 
-#: ruleswidget.cpp:860
+#: ruleswidget.cpp:862
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Gean te riede yn de dokumintaasje foar mear details."
 
-#: ruleswidget.cpp:899
+#: ruleswidget.cpp:901
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Fluchtoets bewurkje"

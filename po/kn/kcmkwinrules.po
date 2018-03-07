@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"POT-Creation-Date: 2018-03-05 06:03+0100\n"
 "PO-Revision-Date: 2008-07-06 23:45+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: Kannada <en@li.org>\n"
@@ -274,27 +274,27 @@ msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "ವಿಂಡೋ-ನಿಶ್ಚಿತ ಸಂಯೋಜನೆಗಳನ್ನು ಸಂಪಾದಿಸಿ"
 
-#: main.cpp:252
+#: main.cpp:253
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:260
+#: main.cpp:261
 #, kde-format
 msgid "KWin helper utility"
 msgstr "KWin ಸಹಾಯಕ ಸವಲತ್ತು"
 
-#: main.cpp:261
+#: main.cpp:262
 #, kde-format
 msgid "WId of the window for special window settings."
 msgstr "ವಿಶೇಷ ವಿಂಡೋ ಸಂಯೋಜನೆಗಳಿಗಾಗಿನ WId ಯ ವಿಂಡೋ."
 
-#: main.cpp:262
+#: main.cpp:263
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "ಅನ್ವಯದ ಎಲ್ಲಾ ವಿಂಡೋಗಳಿಗೂ ಈ ಸಂಯೋಜನೆಗಳು ಅನ್ವಯಿಸಲ್ಪಡಬೇಕೆ ಅಥವ ಬೇಡವೆ."
 
-#: main.cpp:270
+#: main.cpp:271
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "ಈ ಸಹಾಯಕ ಉಪಯುಕ್ತತೆಯನ್ನು ನೇರವಾಗಿ ಕರೆಯುವಂತಿಲ್ಲ."
@@ -356,7 +356,7 @@ msgstr ""
 msgid "&Export"
 msgstr ""
 
-#: ruleswidget.cpp:66
+#: ruleswidget.cpp:68
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
@@ -364,7 +364,7 @@ msgid ""
 msgstr ""
 "ನಿಗದಿತ ವಿಂಡೋ(ಗಳಿ)ಗಾಗಿ ಈ ವಿಂಡೋ ಗುಣಲಕ್ಷಣವನ್ನು ಬದಲಾಯಿಸಲು ಈ ಚೆಕ್‍ಬಾಕ್ಸ್‍ ಅನ್ನು ಶಕ್ತಗೊಳಿಸಿ."
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:70
 #, fuzzy, kde-format
 #| msgid ""
 #| "Specify how the window property should be affected:<ul><li><em>Do Not "
@@ -413,7 +413,7 @@ msgstr ""
 "ಗುಣಲಕ್ಷಣವು ಅದನ್ನು ಅಡಗಿಸುವವರೆಗೆ ದತ್ತ ಮೌಲ್ಯವನ್ನು ತೆಗೆದುಕೊಳ್ಳುವಂತೆ ಒತ್ತಾಯಿಸಲ್ಪಡುತ್ತದೆ "
 "(ವಿಂಡೊ ಅಡಗಿಸಲ್ಪಟ್ಟ ನಂತರ ಈ ಕಾರ್ಯವು ಅಳಿಸಲ್ಪಡುತ್ತದೆ).</li></ul>"
 
-#: ruleswidget.cpp:83
+#: ruleswidget.cpp:85
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -433,27 +433,27 @@ msgstr ""
 "ದತ್ತ ಮೌಲ್ಯವನ್ನು ತೆಗೆದುಕೊಳ್ಳುವಂತೆ ಒತ್ತಾಯಿಸಲ್ಪಡುತ್ತದೆ (ವಿಂಡೊ ಅಡಗಿಸಲ್ಪಟ್ಟ ನಂತರ ಈ ಕಾರ್ಯವು "
 "ಅಳಿಸಲ್ಪಡುತ್ತದೆ).</li></ul>"
 
-#: ruleswidget.cpp:150
+#: ruleswidget.cpp:152
 #, kde-format
 msgid "All Desktops"
 msgstr "ಎಲ್ಲಾ ಗಣಕತೆರೆಗಳು"
 
-#: ruleswidget.cpp:343
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr ""
 
-#: ruleswidget.cpp:784
+#: ruleswidget.cpp:786
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 ಗಾಗಿ ಹೊಂದಾಣಿಕೆಗಳು"
 
-#: ruleswidget.cpp:786
+#: ruleswidget.cpp:788
 #, kde-format
 msgid "Unnamed entry"
 msgstr "ಹೆಸರಿಸದೆ ಇರುವ ನಮೂದು"
 
-#: ruleswidget.cpp:796
+#: ruleswidget.cpp:798
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -467,12 +467,12 @@ msgstr ""
 "ನೀವು ನಿಜವಾಗಲೂ ಒಂದು ವಿಶಿಷ್ಟ ಸಂಯೋಜನೆಯನ್ನು ನಿರ್ಮಿಸಲು ಬಳಸಿದ್ದರೆ, ವಿಶೇಷ ವಿಂಡೋ "
 "ಪ್ರಕಾರಗಳನ್ನು ತಪ್ಪಿಸಲು ನೀವು ಕನಿಷ್ಟ ವಿಂಡೋ ಬಗೆಗಳಿಗಾದರೂ ಮಿತಿಗೊಳಿಸಲು ಸೂಚಿಸಲಾಗುತ್ತದೆ."
 
-#: ruleswidget.cpp:826
+#: ruleswidget.cpp:828
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "ವಿಂಡೋ-ನಿಶ್ಚಿತ ಸಂಯೋಜನೆಗಳನ್ನು ಸಂಪಾದಿಸಿ"
 
-#: ruleswidget.cpp:856
+#: ruleswidget.cpp:858
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -485,12 +485,12 @@ msgstr ""
 "ಪೆಟ್ಟಿಗೆಯನ್ನು ಬಳಸಿಕೊಂಡು ಅದನ್ನು ಶಕ್ತಗೊಳಿಸಿ, ಯಾವ ಬಗೆಯಲ್ಲಿಹಾಗು ಯಾವ ಮೌಲ್ಯಕ್ಕೆ ಸಂಯೋಜನೆಗೆ "
 "ಪರಿಣಾಮ ಬೀರಬೇಕೆನ್ನುವುದನ್ನು ಆರಿಸಿ."
 
-#: ruleswidget.cpp:860
+#: ruleswidget.cpp:862
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "ಹೆಚ್ಚಿನ ಮಾಹಿತಿಗಳಿಗಾಗಿ ದಸ್ತಾವೇಜನ್ನು ನೋಡಿ."
 
-#: ruleswidget.cpp:899
+#: ruleswidget.cpp:901
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "ಶಾರ್ಟ್-ಕಟ್‍ಗಳನ್ನು ಸಂಪಾದಿಸು"

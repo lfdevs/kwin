@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-05 02:49+0200\n"
+"POT-Creation-Date: 2017-10-17 03:43+0200\n"
 "PO-Revision-Date: 2014-08-09 17:52+0200\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -338,5 +338,5 @@ msgstr "Utelat interne skrivebordseffekter"
 
 #: qml/EffectView.qml:104
 #, kde-format
-msgid "Get New Effects ..."
-msgstr "Hent nye effekter …"
+msgid "Get New Effects..."
+msgstr ""

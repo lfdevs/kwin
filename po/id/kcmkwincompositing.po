@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-10-17 03:43+0200\n"
-"PO-Revision-Date: 2018-02-01 20:54+0700\n"
+"POT-Creation-Date: 2018-03-02 06:09+0100\n"
+"PO-Revision-Date: 2018-02-17 19:14+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -72,7 +72,7 @@ msgstr ""
 "Jika anda pikir ada telah memutakhirkan ke penggerak yang stabil,\n"
 "anda dapat mengatur ulang perlindungan ini tapi ingat bahwa ini dapat "
 "menyebabkan kemogokan!\n"
-"Sebagai alternatif, anda dapat menggunakan ujung belakang XRender."
+"Sebagai alternatif, anda dapat menggunakan backend XRender."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
 #: compositing.ui:42
@@ -155,7 +155,7 @@ msgstr "Halus (lebih pelan)"
 #: compositing.ui:196
 #, kde-format
 msgid "Rendering backend:"
-msgstr "Ujung belakang render:"
+msgstr "Backend render:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: compositing.ui:213
@@ -227,12 +227,12 @@ msgstr ""
 msgid "Allow applications to block compositing"
 msgstr ""
 
-#: main.cpp:82
+#: main.cpp:83
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "Aktifkan ulang deteksi OpenGL"
 
-#: main.cpp:140
+#: main.cpp:141
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -241,12 +241,12 @@ msgstr ""
 "\"Hanya jika murah\" hanya mencegah perobekan untuk perubahan layar penuh "
 "seperti video."
 
-#: main.cpp:144
+#: main.cpp:145
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "\"Gambar ulang layar penuh\" dapat menyebabkan masalah performa."
 
-#: main.cpp:148
+#: main.cpp:149
 #, fuzzy, kde-format
 #| msgid ""
 #| "\"Re-use screen content\" causes performance severe problems on MESA "

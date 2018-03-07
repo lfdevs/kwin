@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-01-15 03:16+0100\n"
+"POT-Creation-Date: 2018-02-22 06:05+0100\n"
 "PO-Revision-Date: 2018-01-11 14:44+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -1585,7 +1585,7 @@ msgstr ""
 "hulpbronnenbronnen.\n"
 "Neem hierover contact op met uw distributie."
 
-#: useractions.cpp:203
+#: useractions.cpp:204
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -1597,7 +1597,7 @@ msgstr ""
 "Zonder rand kunt u het venstermenu niet meer met de muis oproepen. U kunt "
 "dit venstermenu wel oproepen met de  sneltoets %1."
 
-#: useractions.cpp:211
+#: useractions.cpp:212
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -1610,57 +1610,57 @@ msgstr ""
 "zult u het venstermenu van de windowmanager moeten gebruiken om deze modus "
 "weer te verlaten. U kunt dit venstermenu oproepen met de  sneltoets %1."
 
-#: useractions.cpp:274
+#: useractions.cpp:275
 #, kde-format
 msgid "&Move"
 msgstr "Ver&plaatsen"
 
-#: useractions.cpp:279
+#: useractions.cpp:280
 #, kde-format
 msgid "&Resize"
 msgstr "G&rootte wijzigen"
 
-#: useractions.cpp:283
+#: useractions.cpp:284
 #, kde-format
 msgid "Keep &Above Others"
 msgstr "Altijd op &voorgrond"
 
-#: useractions.cpp:289
+#: useractions.cpp:290
 #, kde-format
 msgid "Keep &Below Others"
 msgstr "Altijd op &achtergrond"
 
-#: useractions.cpp:295
+#: useractions.cpp:296
 #, kde-format
 msgid "&Fullscreen"
 msgstr "Venster &schermvullend"
 
-#: useractions.cpp:301
+#: useractions.cpp:302
 #, kde-format
 msgid "&Shade"
 msgstr "Op&rollen"
 
-#: useractions.cpp:306
+#: useractions.cpp:307
 #, kde-format
 msgid "&No Border"
 msgstr "Vensterrand ver&bergen"
 
-#: useractions.cpp:313
+#: useractions.cpp:314
 #, kde-format
 msgid "Window Short&cut..."
 msgstr "Venster&sneltoets..."
 
-#: useractions.cpp:318
+#: useractions.cpp:319
 #, kde-format
 msgid "Special &Window Settings..."
 msgstr "Speciale &vensterinstellingen..."
 
-#: useractions.cpp:322
+#: useractions.cpp:324
 #, kde-format
 msgid "S&pecial Application Settings..."
 msgstr "S&peciale programmainstellingen..."
 
-#: useractions.cpp:329
+#: useractions.cpp:332
 #, kde-format
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
@@ -1668,96 +1668,96 @@ msgctxt ""
 msgid "Window Manager S&ettings..."
 msgstr "Instellingen van v&ensterbeheerder..."
 
-#: useractions.cpp:359
+#: useractions.cpp:362
 #, kde-format
 msgid "Mi&nimize"
 msgstr "&Minimaliseren"
 
-#: useractions.cpp:363
+#: useractions.cpp:366
 #, kde-format
 msgid "Ma&ximize"
 msgstr "Ma&ximaliseren"
 
-#: useractions.cpp:372
+#: useractions.cpp:375
 #, kde-format
 msgid "&Untab"
 msgstr "&Tabs verwijderen"
 
-#: useractions.cpp:376
+#: useractions.cpp:379
 #, kde-format
 msgid "Close Entire &Group"
 msgstr "Gehele &groep sluiten"
 
-#: useractions.cpp:387
+#: useractions.cpp:390
 #, kde-format
 msgid "&More Actions"
 msgstr "&Meer acties"
 
-#: useractions.cpp:391
+#: useractions.cpp:394
 #, kde-format
 msgid "&Close"
 msgstr "Sl&uiten"
 
-#: useractions.cpp:465
+#: useractions.cpp:468
 #, kde-format
 msgid "&Extensions"
 msgstr "&Extensies"
 
-#: useractions.cpp:520
+#: useractions.cpp:532
 #, kde-format
 msgctxt "Switch to tab -> Previous"
 msgid "Previous"
 msgstr "Vorige"
 
-#: useractions.cpp:521
+#: useractions.cpp:533
 #, kde-format
 msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr "Volgende"
 
-#: useractions.cpp:563
+#: useractions.cpp:575
 #, kde-format
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr "Geen beschikbaar"
 
-#: useractions.cpp:572
+#: useractions.cpp:584
 #, kde-format
 msgid "Switch to Tab"
 msgstr "Naar tabblad omschakelen"
 
-#: useractions.cpp:583
+#: useractions.cpp:595
 #, kde-format
 msgid "&Attach as tab to"
 msgstr "Als tabblad &vastmaken aan"
 
-#: useractions.cpp:606
+#: useractions.cpp:618
 #, kde-format
 msgid "Move To &Desktop"
 msgstr "Naar bureaubla&d verplaatsen"
 
-#: useractions.cpp:622
+#: useractions.cpp:634
 #, kde-format
 msgid "Move To &Screen"
 msgstr "Naar &scherm verplaatsen"
 
-#: useractions.cpp:637
+#: useractions.cpp:649
 #, kde-format
 msgid "Ac&tivities"
 msgstr "Ac&tiviteiten"
 
-#: useractions.cpp:649
+#: useractions.cpp:661
 #, kde-format
 msgid "&All Desktops"
 msgstr "&Alle bureaubladen"
 
-#: useractions.cpp:675
+#: useractions.cpp:687
 #, kde-format
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "&Nieuw bureaublad"
 
-#: useractions.cpp:695
+#: useractions.cpp:707
 #, kde-format
 msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
@@ -1765,29 +1765,29 @@ msgctxt ""
 msgid "Screen &%1 (%2)"
 msgstr "Scherm &%1 (%2)"
 
-#: useractions.cpp:716
+#: useractions.cpp:728
 #, kde-format
 msgid "&All Activities"
 msgstr "&Alle activiteiten"
 
-#: useractions.cpp:931
+#: useractions.cpp:943
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "<b>%1</b> is al in gebruik"
 
-#: useractions.cpp:933
+#: useractions.cpp:945
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "<b>%1</b> is in gebruik door %2 in %3"
 
-#: useractions.cpp:1064
+#: useractions.cpp:1076
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Venster (%1) activeren"
 
-#: useractions.cpp:1269
+#: useractions.cpp:1281
 #, kde-format
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "

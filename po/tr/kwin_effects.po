@@ -141,7 +141,7 @@ msgstr "Canlandırma süresi:"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_AnimationDuration)
 #: coverswitch/coverswitch_config.ui:158 cube/cube_config.ui:149
 #: cube/cubeslide_config.ui:49 magiclamp/magiclamp_config.ui:36
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "Duration of rotation"
 msgid "Default"
 msgstr "Öntanımlı"

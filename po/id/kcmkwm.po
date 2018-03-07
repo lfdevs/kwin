@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2017-12-24 09:27+0700\n"
+"PO-Revision-Date: 2018-02-16 20:51+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -43,7 +43,7 @@ msgid ""
 "In this row you can customize middle click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"Di baris ini anda dapat menyesuaikan perilaku klik ketika klik di bilah "
+"Di baris ini anda dapat menyesuaiankan perilaku klik ketika klik di bilah "
 "judul atau bingkai."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coAll2)
@@ -196,7 +196,7 @@ msgid ""
 "In this row you can customize right click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"Di baris ini anda dapat menyesuaikan perilaku klik kanan ketika klik di "
+"Di baris ini anda dapat menyesuaiankan perilaku klik kanan ketika klik di "
 "bilah judul atau bingkai."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -218,7 +218,7 @@ msgid ""
 "In this row you can customize middle click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"Di baris ini anda dapat menyesuaikan perilaku klik tengah ketika klik di "
+"Di baris ini anda dapat menyesuaiankan perilaku klik tengah ketika klik di "
 "jendela dalam tidak aktif ('dalam' berarti: bukan bilah judul, bukan "
 "bingkai)."
 
@@ -275,7 +275,7 @@ msgid ""
 "In this row you can customize behavior when scrolling into an inactive inner "
 "window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"Di baris ini anda dapat menyesuaikan perilaku ketika menggulung di jendela "
+"Di baris ini anda dapat menyesuaiankan perilaku ketika menggulung di jendela "
 "dalam tidak aktif ('dalam' berarti: bukan bilah judul, bukan bingkai)."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
@@ -304,8 +304,8 @@ msgid ""
 "In this row you can customize left click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"Di baris ini anda dapat menyesuaikan perilaku klik kiri ketika klik di bilah "
-"judul atau bingkai."
+"Di baris ini anda dapat menyesuaiankan perilaku klik kiri ketika klik di "
+"bilah judul atau bingkai."
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, coAllW)
 #: actions.ui:379
@@ -314,8 +314,8 @@ msgid ""
 "Here you can customize KDE's behavior when scrolling with the mouse wheel in "
 "a window while pressing the modifier key."
 msgstr ""
-"Di sini anda dapat menyesuaikan perilaku ketika menggulung dengan roda mouse "
-"di jendela ketika menekan tombol pengubah."
+"Di sini anda dapat menyesuaiankan perilaku ketika menggulung dengan roda "
+"mouse di jendela ketika menekan tombol pengubah."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
 #. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
@@ -373,7 +373,7 @@ msgid ""
 "In this row you can customize left click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"Di baris ini anda dapat menyesuaikan perilaku klik kiri ketika klik di "
+"Di baris ini anda dapat menyesuaiankan perilaku klik kiri ketika klik di "
 "jendela dalam tidak aktif ('dalam' berarti: bukan bilah judul, bukan "
 "bingkai)."
 
@@ -384,7 +384,7 @@ msgid ""
 "In this row you can customize right click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"Di baris ini anda dapat menyesuaikan perilaku klik kanan ketika klik di "
+"Di baris ini anda dapat menyesuaiankan perilaku klik kanan ketika klik di "
 "jendela dalam tidak aktif ('dalam' berarti: bukan bilah judul, bukan "
 "bingkai)."
 
@@ -1091,13 +1091,13 @@ msgid ""
 "manager. If you do use a different window manager, please refer to its "
 "documentation for how to customize window behavior.</p>"
 msgstr ""
-"<p><h1>Perilaku Jendela</h1> Di sini anda dapat menyesuaikan cara jendela "
+"<p><h1>Perilaku Jendela</h1> Di sini anda dapat menyesuaiankan cara jendela "
 "berperilaku ketika dipindahkan, diubah ukurannya, atau diklik. Anda dapat "
 "juga menentukan kebijakan fokus dan juga kebijakan penempatan untuk jendela "
 "baru.</p> <p>Perlu dicatat bahwa konfigurasi tidak akan mempunyai efek jika "
 "anda tidak menggunakan KWin sebagai pengelola jendela anda. Jika anda "
 "menggunakan pengelola jendela yang berbeda, silakan merujuk ke dokumentasi "
-"pengelola jendela tersebut tentang cara menyesuaikan perilaku jendela.</p>"
+"pengelola jendela tersebut tentang cara menyesuaiankan perilaku jendela.</p>"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
@@ -1186,8 +1186,8 @@ msgid ""
 "In this column you can customize mouse clicks into the titlebar or the frame "
 "of an active window."
 msgstr ""
-"Di kolom ini anda dapat menyesuaikan klik mouse di bilah judul atau bingkai "
-"dari jendela aktif."
+"Di kolom ini anda dapat menyesuaiankan klik mouse di bilah judul atau "
+"bingkai dari jendela aktif."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: mouse.ui:185
@@ -1202,8 +1202,8 @@ msgid ""
 "In this column you can customize mouse clicks into the titlebar or the frame "
 "of an inactive window."
 msgstr ""
-"Di kolom ini anda dapat menyesuaikan klik mouse ke bilah judul atau bingkai "
-"dari jendela tidak aktif."
+"Di kolom ini anda dapat menyesuaiankan klik mouse ke bilah judul atau "
+"bingkai dari jendela tidak aktif."
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: mouse.ui:204

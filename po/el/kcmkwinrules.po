@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"POT-Creation-Date: 2018-03-05 06:03+0100\n"
 "PO-Revision-Date: 2016-01-22 22:58+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -279,27 +279,27 @@ msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Επεξεργασία ρυθμίσεων συγκεκριμένης εφαρμογής"
 
-#: main.cpp:252
+#: main.cpp:253
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:260
+#: main.cpp:261
 #, kde-format
 msgid "KWin helper utility"
 msgstr "Εργαλείο βοήθειας του KWin"
 
-#: main.cpp:261
+#: main.cpp:262
 #, kde-format
 msgid "WId of the window for special window settings."
 msgstr "Το WId του παραθύρου για τις ειδικές ρυθμίσεις παραθύρων."
 
-#: main.cpp:262
+#: main.cpp:263
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Αν θα πρέπει οι ρυθμίσεις να επηρεάσουν όλα τα παράθυρα της εφαρμογής."
 
-#: main.cpp:270
+#: main.cpp:271
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Αυτή η βοηθητική εφαρμογή δεν μπορεί να εκτελεστεί απευθείας."
@@ -363,7 +363,7 @@ msgstr "&Εισαγωγή"
 msgid "&Export"
 msgstr "&Εξαγωγή"
 
-#: ruleswidget.cpp:66
+#: ruleswidget.cpp:68
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
@@ -372,7 +372,7 @@ msgstr ""
 "Ενεργοποιήστε αυτό το κουμπί επιλογής για την αλλαγή αυτής της ιδιότητας "
 "παραθύρου για τα καθορισμένα παράθυρα."
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:70
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -406,7 +406,7 @@ msgstr ""
 "εξαναγκαστεί στη δοσμένη τιμή μέχρι να κλειστεί (αυτή η ενέργεια θα "
 "διαγραφεί όταν το παράθυρο κλειστεί).</li></ul>"
 
-#: ruleswidget.cpp:83
+#: ruleswidget.cpp:85
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -426,27 +426,27 @@ msgstr ""
 "στη δοσμένη τιμή όσο αυτό είναι ορατό (αυτή η ενέργεια θα διαγραφεί όταν το "
 "παράθυρο πάψει να είναι ορατό).</li></ul>"
 
-#: ruleswidget.cpp:150
+#: ruleswidget.cpp:152
 #, kde-format
 msgid "All Desktops"
 msgstr "Όλες οι επιφάνειες εργασίας"
 
-#: ruleswidget.cpp:343
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr "Όλες οι δραστηριότητες"
 
-#: ruleswidget.cpp:784
+#: ruleswidget.cpp:786
 #, kde-format
 msgid "Settings for %1"
 msgstr "Ρυθμίσεις για %1"
 
-#: ruleswidget.cpp:786
+#: ruleswidget.cpp:788
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Ανώνυμη καταχώρηση"
 
-#: ruleswidget.cpp:796
+#: ruleswidget.cpp:798
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -461,12 +461,12 @@ msgstr ""
 "προτείνεται τουλάχιστον ο ορισμός ορίων στους τύπους παραθύρων για την "
 "αποφυγή ειδικών τύπων παραθύρων."
 
-#: ruleswidget.cpp:826
+#: ruleswidget.cpp:828
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Επεξεργασία ρυθμίσεων συγκεκριμένου παραθύρου"
 
-#: ruleswidget.cpp:856
+#: ruleswidget.cpp:858
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -479,12 +479,12 @@ msgstr ""
 "ενεργοποιήστε την, επιλέξτε τον τρόπο με τον οποίο θα αλλαχθεί και σε ποιο "
 "ποσοστό."
 
-#: ruleswidget.cpp:860
+#: ruleswidget.cpp:862
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Συμβουλευτείτε την τεκμηρίωση για περισσότερες λεπτομέρειες."
 
-#: ruleswidget.cpp:899
+#: ruleswidget.cpp:901
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Επεξεργασία συντόμευσης"

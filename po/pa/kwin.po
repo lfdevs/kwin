@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-01-15 03:16+0100\n"
+"POT-Creation-Date: 2018-02-22 06:05+0100\n"
 "PO-Revision-Date: 2015-02-01 03:25-0600\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@list.sf.net>\n"
@@ -1567,7 +1567,7 @@ msgid ""
 "Contact your distribution about this."
 msgstr ""
 
-#: useractions.cpp:203
+#: useractions.cpp:204
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -1579,7 +1579,7 @@ msgstr ""
 "ਹਾਸ਼ੀਏ ਤੋਂ ਬਿਨਾਂ ਤੁਸੀਂ ਮਾਊਸ ਨਾਲ ਮੁੜ ਹਾਸ਼ੀਆ ਨਹੀਂ ਲਿਆ ਸਕਦੇ ਹੋ, ਇਸ ਦੀ ਬਜਾਏ ਕੀ-ਬੋਰਡ %1 "
 "ਸ਼ਾਰਟਕੱਟ ਵਰਤ ਕੇ ਵਿੰਡੋ ਕਾਰਵਾਈ ਮੇਨੂ ਵਰਤੋਂ।"
 
-#: useractions.cpp:211
+#: useractions.cpp:212
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -1591,61 +1591,61 @@ msgstr ""
 "ਜੇਕਰ ਕਾਰਜ ਵਿੱਚ ਪੂਰੀ ਸਕਰੀਨ ਤੋਂ ਵਾਪਿਸ ਆਉਣ ਲਈ ਕੋਈ ਸਹੂਲਤ ਨਾ ਹੋਈ ਤਾਂ ਤੁਸੀਂ ਮਾਊਸ ਦੀ ਵਰਤੋਂ ਕਰਕੇ "
 "ਵਾਪਿਸ ਨਹੀਂ ਆ ਸਕਦੇ ਹੋ। ਇਸ ਕਰਕੇ ਵਿੰਡੋ ਕਾਰਵਾਈ ਮੇਨੂ, ਕੀ-ਬੋਰਡ %1 ਸ਼ਾਰਟਕੱਟ ਵਰਤੋਂ।"
 
-#: useractions.cpp:274
+#: useractions.cpp:275
 #, kde-format
 msgid "&Move"
 msgstr "ਏਧਰ-ਓਧਰ(&M)"
 
-#: useractions.cpp:279
+#: useractions.cpp:280
 #, fuzzy, kde-format
 #| msgid "Re&size"
 msgid "&Resize"
 msgstr "ਮੁੜ-ਆਕਾਰ(&s)"
 
-#: useractions.cpp:283
+#: useractions.cpp:284
 #, kde-format
 msgid "Keep &Above Others"
 msgstr "ਸਭ ਤੋਂ ਉੱਤੇ ਰੱਖੋ(&A)"
 
-#: useractions.cpp:289
+#: useractions.cpp:290
 #, kde-format
 msgid "Keep &Below Others"
 msgstr "ਸਭ ਤੋਂ ਹੇਠਾਂ ਰੱਖੋ(&B)"
 
-#: useractions.cpp:295
+#: useractions.cpp:296
 #, kde-format
 msgid "&Fullscreen"
 msgstr "ਪੂਰੀ ਸਕਰੀਨ(&F)"
 
-#: useractions.cpp:301
+#: useractions.cpp:302
 #, fuzzy, kde-format
 #| msgid "Shade"
 msgid "&Shade"
 msgstr "ਸ਼ੇਡ"
 
-#: useractions.cpp:306
+#: useractions.cpp:307
 #, kde-format
 msgid "&No Border"
 msgstr "ਕੋਈ ਹਾਸ਼ੀਆ ਨਹੀਂ(&N)"
 
-#: useractions.cpp:313
+#: useractions.cpp:314
 #, fuzzy, kde-format
 #| msgid "Window &Shortcut..."
 msgid "Window Short&cut..."
 msgstr "ਵਿੰਡੋ ਸ਼ਾਰਟਕਟ(&S)..."
 
-#: useractions.cpp:318
+#: useractions.cpp:319
 #, fuzzy, kde-format
 #| msgid "&Special Window Settings..."
 msgid "Special &Window Settings..."
 msgstr "ਖਾਸ ਵਿੰਡੋ ਸੈਟਿੰਗ(&S)..."
 
-#: useractions.cpp:322
+#: useractions.cpp:324
 #, kde-format
 msgid "S&pecial Application Settings..."
 msgstr "ਖਾਸ ਐਪਲੀਕੇਸ਼ਨ ਸੈਟਿੰਗ(&p)..."
 
-#: useractions.cpp:329
+#: useractions.cpp:332
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "Entry in context menu of window decoration to open the configuration "
@@ -1657,96 +1657,96 @@ msgctxt ""
 msgid "Window Manager S&ettings..."
 msgstr "ਵਿੰਡੋ ਮੈਨੇਜਰ ਸੈਟਿੰਗ(&M)..."
 
-#: useractions.cpp:359
+#: useractions.cpp:362
 #, kde-format
 msgid "Mi&nimize"
 msgstr "ਘੱਟੋ-ਘੱਟ(&n)"
 
-#: useractions.cpp:363
+#: useractions.cpp:366
 #, kde-format
 msgid "Ma&ximize"
 msgstr "ਵੱਧੋ-ਵੱਧ(&x)"
 
-#: useractions.cpp:372
+#: useractions.cpp:375
 #, kde-format
 msgid "&Untab"
 msgstr "ਅਣ-ਟੈਬ(&U)"
 
-#: useractions.cpp:376
+#: useractions.cpp:379
 #, kde-format
 msgid "Close Entire &Group"
 msgstr "ਪੂਰਾ ਗਰੁੱਪ ਬੰਦ ਕਰੋ(&G)"
 
-#: useractions.cpp:387
+#: useractions.cpp:390
 #, kde-format
 msgid "&More Actions"
 msgstr "ਹੋਰ ਐਕਸ਼ਨ(&M)"
 
-#: useractions.cpp:391
+#: useractions.cpp:394
 #, kde-format
 msgid "&Close"
 msgstr "ਬੰਦ ਕਰੋ(&C)"
 
-#: useractions.cpp:465
+#: useractions.cpp:468
 #, kde-format
 msgid "&Extensions"
 msgstr "ਇਕਸਟੈਨਸ਼ਨ(&E)"
 
-#: useractions.cpp:520
+#: useractions.cpp:532
 #, kde-format
 msgctxt "Switch to tab -> Previous"
 msgid "Previous"
 msgstr "ਪਿੱਛੇ"
 
-#: useractions.cpp:521
+#: useractions.cpp:533
 #, kde-format
 msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr "ਅੱਗੇ"
 
-#: useractions.cpp:563
+#: useractions.cpp:575
 #, kde-format
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr "ਕੋਈ ਉਪਲੱਬਧ ਨਹੀਂ"
 
-#: useractions.cpp:572
+#: useractions.cpp:584
 #, kde-format
 msgid "Switch to Tab"
 msgstr "ਟੈਬ ਲਈ ਬਦਲੋ"
 
-#: useractions.cpp:583
+#: useractions.cpp:595
 #, kde-format
 msgid "&Attach as tab to"
 msgstr "ਟੈਬ ਵਜੋਂ ਅਟੈਚ(&A)"
 
-#: useractions.cpp:606
+#: useractions.cpp:618
 #, kde-format
 msgid "Move To &Desktop"
 msgstr "ਡੈਸਕਟਾਪ ਉੱਤੇ ਜਾਓ(&D)"
 
-#: useractions.cpp:622
+#: useractions.cpp:634
 #, kde-format
 msgid "Move To &Screen"
 msgstr "ਸਕਰੀਨ ਉੱਤੇੇ ਭੇਜੋ(&S)"
 
-#: useractions.cpp:637
+#: useractions.cpp:649
 #, kde-format
 msgid "Ac&tivities"
 msgstr "ਐਕਟਵਿਟੀ(&t)"
 
-#: useractions.cpp:649
+#: useractions.cpp:661
 #, kde-format
 msgid "&All Desktops"
 msgstr "ਸਭ ਡੈਸਕਟਾਪ(&A)"
 
-#: useractions.cpp:675
+#: useractions.cpp:687
 #, kde-format
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "ਨਵਾਂ ਡੈਸਕਟਾਪ(&N)"
 
-#: useractions.cpp:695
+#: useractions.cpp:707
 #, fuzzy, kde-format
 #| msgctxt "@item:inmenu List of all Screens to send a window to"
 #| msgid "Screen &%1"
@@ -1756,29 +1756,29 @@ msgctxt ""
 msgid "Screen &%1 (%2)"
 msgstr "ਸਕਰੀਨ &%1"
 
-#: useractions.cpp:716
+#: useractions.cpp:728
 #, kde-format
 msgid "&All Activities"
 msgstr "ਸਭ ਐਕਟਵਿਟੀਆਂ(&A)"
 
-#: useractions.cpp:931
+#: useractions.cpp:943
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "<b>%1</b> ਪਹਿਲਾਂ ਹੀ ਵਰਤੋਂ ਅਧੀਨ ਹੈ"
 
-#: useractions.cpp:933
+#: useractions.cpp:945
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "<b>%1</b> ਨੂੰ %2 ਵਲੋਂ %3 ਵਿੱਚ ਵਰਤਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: useractions.cpp:1064
+#: useractions.cpp:1076
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "ਵਿੰਡੋ (%1) ਐਕਟੀਵੇਟ"
 
-#: useractions.cpp:1269
+#: useractions.cpp:1281
 #, kde-format
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "

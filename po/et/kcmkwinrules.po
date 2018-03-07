@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"POT-Creation-Date: 2018-03-05 06:03+0100\n"
 "PO-Revision-Date: 2016-01-10 12:46+0200\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@linux.ee>\n"
@@ -265,27 +265,27 @@ msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Rakenduse spetsiifiliste seadistuste muutmine"
 
-#: main.cpp:252
+#: main.cpp:253
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:260
+#: main.cpp:261
 #, kde-format
 msgid "KWin helper utility"
 msgstr "KWin'i abiutiliit"
 
-#: main.cpp:261
+#: main.cpp:262
 #, kde-format
 msgid "WId of the window for special window settings."
 msgstr "Akna WId akende spetsiaalsetele seadistustele."
 
-#: main.cpp:262
+#: main.cpp:263
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Kas seadistused peavad mõjutama rakenduse kõiki aknaid."
 
-#: main.cpp:270
+#: main.cpp:271
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "See abiutiliit ei ole mõeldud otseseks väljakutsumiseks."
@@ -349,7 +349,7 @@ msgstr "&Impordi"
 msgid "&Export"
 msgstr "&Ekspordi"
 
-#: ruleswidget.cpp:66
+#: ruleswidget.cpp:68
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
@@ -357,7 +357,7 @@ msgid ""
 msgstr ""
 "Sisselülitamisel saab muuta akna antud omadust määratud akna/akende puhul."
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:70
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -389,7 +389,7 @@ msgstr ""
 "rakendatakse määratud väärtus seni, kuni seda pole peidetud (toiming "
 "kustutatakse pärast akna peitmist).</li></ul>"
 
-#: ruleswidget.cpp:83
+#: ruleswidget.cpp:85
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -408,27 +408,27 @@ msgstr ""
 "rakendatakse määratud väärtus seni, kuni seda pole peidetud (toiming "
 "kustutatakse pärast akna peitmist).</li></ul>"
 
-#: ruleswidget.cpp:150
+#: ruleswidget.cpp:152
 #, kde-format
 msgid "All Desktops"
 msgstr "Kõik töölauad"
 
-#: ruleswidget.cpp:343
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr "Kõik tegevused"
 
-#: ruleswidget.cpp:784
+#: ruleswidget.cpp:786
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 seadistused"
 
-#: ruleswidget.cpp:786
+#: ruleswidget.cpp:788
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Nimetu kirje"
 
-#: ruleswidget.cpp:796
+#: ruleswidget.cpp:798
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -442,12 +442,12 @@ msgstr ""
 "Kui soovid tõesti luua mingi üldisema seadistuse, oleks soovitav piirata "
 "vähemalt akna tüüpi, et vältida spetsiaalseid akna tüüpe."
 
-#: ruleswidget.cpp:826
+#: ruleswidget.cpp:828
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Akende spetsiifiliste seadistuste muutmine"
 
-#: ruleswidget.cpp:856
+#: ruleswidget.cpp:858
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -459,12 +459,12 @@ msgstr ""
 "seadistusi. Otsi üles seadistus, mida soovid muuta, märgi ära vajalik "
 "kastike ning vali, kuidas ja mida muuta"
 
-#: ruleswidget.cpp:860
+#: ruleswidget.cpp:862
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Täpsemalt räägib sellest dokumentatsioon."
 
-#: ruleswidget.cpp:899
+#: ruleswidget.cpp:901
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Kiirklahvi muutmine"

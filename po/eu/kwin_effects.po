@@ -1,23 +1,25 @@
 # Translation of kwin_effects.po to Euskara/Basque (eu).
-# Copyright (C) 2007-2014, Free Software Foundation, Inc.
+# Copyright (C) 2007-2018, The Free Software Foundation, Inc.
 # This file is distributed under the same license as the kde-workspace package.
+# KDE Euskaratzeko proiektuaren arduraduna <xalba@euskalnet.net>.
 #
+# Translators:
 # marcos <marcos@euskalgnu.org>, 2007, 2010.
-# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2009, 2011, 2014.
+# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2009, 2011, 2014, 2018.
 # Hizkuntza Politikarako Sailburuordetza <hizpol@ej-gv.es>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2018-01-02 03:18+0100\n"
-"PO-Revision-Date: 2014-02-03 00:32+0100\n"
+"PO-Revision-Date: 2018-02-26 00:00+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -60,6 +62,8 @@ msgid ""
 "Select a position for color picking with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
+"Hautatu kokapen bat ezker-klik edo «sartu» bidez kolorea hartzeko.\n"
+" «Ihes» edo eskuin-klik uzteko."
 
 #: coverswitch/coverswitch.cpp:952 flipswitch/flipswitch.cpp:935
 #, kde-format
@@ -202,7 +206,7 @@ msgstr "Aurreratua"
 #: windowgeometry/windowgeometry_config.cpp:56 zoom/zoom_config.cpp:65
 #, kde-format
 msgid "KWin"
-msgstr ""
+msgstr "KWin"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: cube/cube_config.ui:21
@@ -510,10 +514,9 @@ msgstr "Lehenetsia"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: desktopgrid/desktopgrid_config.ui:55
-#, fuzzy, kde-format
-#| msgid "&Border width:"
+#, kde-format
 msgid "Border wid&th:"
-msgstr "&Ertzaren zabalera:"
+msgstr "Ertzen &zabalera:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: desktopgrid/desktopgrid_config.ui:84
@@ -547,10 +550,9 @@ msgstr "Pertsonalizatua"
 
 #. i18n: ectx: property (text), widget (QLabel, layoutRowsLabel)
 #: desktopgrid/desktopgrid_config.ui:145
-#, fuzzy, kde-format
-#| msgid "Number of &rows:"
+#, kde-format
 msgid "N&umber of rows:"
-msgstr "&Errenkada-kopurua:"
+msgstr "Errenkada-&kopurua:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PresentWindows)
 #: desktopgrid/desktopgrid_config.ui:190
@@ -562,7 +564,7 @@ msgstr "Erabili oraingo leihoen efektua, leihoak antolatzeko"
 #: desktopgrid/desktopgrid_config.ui:197
 #, kde-format
 msgid "Show buttons to alter count of virtual desktops"
-msgstr ""
+msgstr "Erakutsi alegiazko-mahaigainen kopurua aldatzeko botoiak"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimPanels)
 #: diminactive/diminactive_config.ui:17
@@ -592,62 +594,59 @@ msgstr "Aplikatu efektua &taldeei"
 #: diminactive/diminactive_config.ui:45
 #, kde-format
 msgid "&Strength:"
-msgstr "&indarra:"
+msgstr "&Sendotasuna:"
 
 #: effect_builtins.cpp:102
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
-msgstr ""
+msgstr "Lauso"
 
 #: effect_builtins.cpp:103
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
-msgstr ""
+msgstr "Leiho erdi-gardenaren atzeko planoa lausotzen du"
 
 #: effect_builtins.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "High saturation"
-#| msgid "Colored"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Color Picker"
-msgstr "Koloretakoak"
+msgstr "Kolore-hautatzailea"
 
 #: effect_builtins.cpp:118
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Supports picking a color"
-msgstr ""
+msgstr "Kolore bat hartzea onartzen du"
 
 #: effect_builtins.cpp:132
-#, fuzzy, kde-format
-#| msgid "Background color:"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
-msgstr "Atzeko planoaren kolorea:"
+msgstr "Atzeko planoaren kontrastea"
 
 #: effect_builtins.cpp:133
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
-msgstr ""
+msgstr "Hobetu kontrastea eta irakurgarritasuna leiho erdi-gardenen atzean"
 
 #: effect_builtins.cpp:147
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Cover Switch"
-msgstr ""
+msgstr "Leiho-argazki aldaketa"
 
 #: effect_builtins.cpp:148
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a Cover Flow effect for the alt+tab window switcher"
 msgstr ""
+"Bistaratu leiho-argazkien jario efektu bat «Alt+Tab» leiho-aldatzailearekin"
 
 #: effect_builtins.cpp:162
-#, fuzzy, kde-format
-#| msgid "Desktop Cube"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Mahaigaineko kuboa"
@@ -656,77 +655,75 @@ msgstr "Mahaigaineko kuboa"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display each virtual desktop on a side of a cube"
-msgstr ""
+msgstr "Bistaratu alegiazko mahaigainetako bakoitza kubo baten albo batean"
 
 #: effect_builtins.cpp:177
-#, fuzzy, kde-format
-#| msgid "Desktop Cube"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
-msgstr "Mahaigaineko kuboa"
+msgstr "Mahaigaineko kubo animazioa"
 
 #: effect_builtins.cpp:178
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate desktop switching with a cube"
-msgstr ""
+msgstr "Animatu mahaigain aldaketa kubo batekin"
 
 #: effect_builtins.cpp:192
-#, fuzzy, kde-format
-#| msgid "Show Desktop Grid"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
-msgstr "Erakutsi mahaigaineko sareta"
+msgstr "Mahaigaineko sareta"
 
 #: effect_builtins.cpp:193
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
 msgstr ""
+"Zooma urrundu mahaigain guztiak sareta batean bata bestearen ondoan ager "
+"daitezen"
 
 #: effect_builtins.cpp:207
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
-msgstr ""
+msgstr "Ilundu ez-aktiboak"
 
 #: effect_builtins.cpp:208
-#, fuzzy, kde-format
-#| msgid "Inactive windows:"
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
-msgstr "Leiho ez-aktiboak:"
+msgstr "Ilundu aktibo ez dauden leihoak"
 
 #: effect_builtins.cpp:222
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Dim Screen for Administrator Mode"
-msgstr ""
+msgstr "Ilundu pantaila administratzaile modurako"
 
 #: effect_builtins.cpp:223
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Darkens the entire screen when requesting root privileges"
-msgstr ""
+msgstr "Pantaila osoa iluntzen du «root» pribilegioak eskatzean"
 
 #: effect_builtins.cpp:237
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Fall Apart"
-msgstr ""
+msgstr "Puskatu"
 
 #: effect_builtins.cpp:238
-#, fuzzy, kde-format
-#| msgid "Send window to all desktops"
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
-msgstr "Bidali leihoa mahaigain guztietara"
+msgstr "Itxitako leihoak puskatan desegiten dira"
 
 #: effect_builtins.cpp:252
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Flip Switch"
-msgstr ""
+msgstr "Biratze aldaketa"
 
 #: effect_builtins.cpp:253
 #, kde-format
@@ -734,113 +731,111 @@ msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Flip through windows that are in a stack for the alt+tab window switcher"
 msgstr ""
+"Biratuta ageri diren pilatutako leihoak pasatu «Alt+Tab» leiho-"
+"aldatzailearekin"
 
 #: effect_builtins.cpp:267
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Glide"
-msgstr ""
+msgstr "Irristatzea"
 
 #: effect_builtins.cpp:268
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Windows Glide Effect as they are open and closed"
-msgstr ""
+msgstr "Leihoen irristatze efektua haiek ireki eta ixten direnean"
 
 #: effect_builtins.cpp:282
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Highlight Window"
-msgstr ""
+msgstr "Nabarmendu leihoa"
 
 #: effect_builtins.cpp:283
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight the appropriate window when hovering over taskbar entries"
 msgstr ""
+"Nabarmendu dagokion leihoa sagua ataza-barraren sarreren gainetik igarotzean"
 
 #: effect_builtins.cpp:297
-#, fuzzy, kde-format
-#| msgid "Invert mouse"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
-msgstr "Alderantzikatu sagua"
+msgstr "Alderantzikatu"
 
 #: effect_builtins.cpp:298
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
-msgstr ""
+msgstr "Mahaigaineko eta leihoetako koloreak alderantzikatzen ditu"
 
 #: effect_builtins.cpp:312
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
-msgstr ""
+msgstr "Kscreen"
 
 #: effect_builtins.cpp:313
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper Effect for KScreen"
-msgstr ""
+msgstr "KScreen-en efektu laguntzailea"
 
 #: effect_builtins.cpp:327
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
-msgstr ""
+msgstr "Pantailako lupa"
 
 #: effect_builtins.cpp:328
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
-msgstr ""
+msgstr "Arrain-begi baten antza duen pantailako lupa bat"
 
 #: effect_builtins.cpp:342
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
-msgstr ""
+msgstr "Lanpara magikoa"
 
 #: effect_builtins.cpp:343
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
-msgstr ""
+msgstr "Lanpa magikoarena egin leihoak ikonotzean"
 
 #: effect_builtins.cpp:357
-#, fuzzy, kde-format
-#| msgid "Modifiers"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
-msgstr "Aldatzaileak"
+msgstr "Lupa"
 
 #: effect_builtins.cpp:358
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
-msgstr ""
+msgstr "Handiagotu sagu-kurtsorearen ondoko pantailaren zatia"
 
 #: effect_builtins.cpp:372
-#, fuzzy, kde-format
-#| msgid "Animation"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
-msgstr "Animazioa"
+msgstr "Ikonotzeko animazioa"
 
 #: effect_builtins.cpp:373
-#, fuzzy, kde-format
-#| msgid "Ignore &minimized windows"
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
-msgstr "Jaramonik ez &minimizatutako leihoei"
+msgstr "Animatu leihoen ikonotzea"
 
 #: effect_builtins.cpp:387
-#, fuzzy, kde-format
-#| msgid "Animation"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
-msgstr "Animazioa"
+msgstr "Saguaren-klik animazioa"
 
 #: effect_builtins.cpp:388
 #, kde-format
@@ -849,75 +844,77 @@ msgid ""
 "Creates an animation whenever a mouse button is clicked. This is useful for "
 "screenrecordings/presentations"
 msgstr ""
+"Animazio bat sortzen du saguaren botoi bati klik egiterakoan. Erabilgarria "
+"da pantaila-grabaketarako/aurkezpenetarako"
 
 #: effect_builtins.cpp:402
-#, fuzzy, kde-format
-#| msgid "Clear Mouse Marks"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
-msgstr "Kendu saguaren markak"
+msgstr "Saguaren arrastoa"
 
 #: effect_builtins.cpp:403
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
-msgstr ""
+msgstr "Mahaigainean marrak marrazteko aukera eskaintzen du"
 
 #: effect_builtins.cpp:417
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
-msgstr "Leihoak"
+msgstr "Aurkeztu leihoak"
 
 #: effect_builtins.cpp:418
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
 msgstr ""
+"Zooma urrundu irekitako leiho guztiak bata bestearen ondoan bistaratu arte"
 
 #: effect_builtins.cpp:432
-#, fuzzy, kde-format
-#| msgid "Close window"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
-msgstr "Itxi leihoa"
+msgstr "Aldatu leihoaren handiera"
 
 #: effect_builtins.cpp:433
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
 msgstr ""
+"Leihoen handiera aldatzen du ehundura eskatze azkar batekin edukia eguneratu "
+"ordez"
 
 #: effect_builtins.cpp:447
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
-msgstr ""
+msgstr "Pantailaren ertza"
 
 #: effect_builtins.cpp:448
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
-msgstr ""
+msgstr "Nabarmendu pantailaren ertz bat hurbiltzerakoan"
 
 #: effect_builtins.cpp:462
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
-msgstr ""
+msgstr "Pantaila-argazkia"
 
 #: effect_builtins.cpp:463
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for KSnapshot"
-msgstr ""
+msgstr "KSnapshot-en efektu laguntzailea"
 
 #: effect_builtins.cpp:477
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
-msgstr ""
+msgstr "Orria"
 
 #: effect_builtins.cpp:478
 #, kde-format
@@ -925,121 +922,119 @@ msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Make modal dialogs smoothly fly in and out when they are shown or hidden"
 msgstr ""
+"Egin elkarrizketa-koadro modalak leunki hegan sartu edo irteten daitezen "
+"haiek erakutsi edo ezkutatzean"
 
 #: effect_builtins.cpp:492
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
-msgstr ""
+msgstr "Erakutsi FPS"
 
 #: effect_builtins.cpp:493
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
-msgstr ""
+msgstr "Erakutsi KWin-en performantzia pantailaren izkinan"
 
 #: effect_builtins.cpp:507
-#, fuzzy, kde-format
-#| msgid "Show &panels"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
-msgstr "Erakutsi &panelak"
+msgstr "Erakutsi margoa"
 
 #: effect_builtins.cpp:508
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
-msgstr ""
+msgstr "Nabarmendu berriki eguneratu diren mahaigaineko eremuak"
 
 #: effect_builtins.cpp:522
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
-msgstr ""
+msgstr "Irristatu"
 
 #: effect_builtins.cpp:523
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide windows across the screen when switching virtual desktops"
-msgstr ""
+msgstr "Irristatu leihoak pantailan zehar alegiazko mahaigaina aldatzean"
 
 #: effect_builtins.cpp:537
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
-msgstr ""
+msgstr "Irristatu atzerantz"
 
 #: effect_builtins.cpp:538
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
-msgstr ""
+msgstr "Irristatu atzerantz beste leiho bat altxatzen denean"
 
 #: effect_builtins.cpp:552
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
-msgstr ""
+msgstr "Garinerakor irristalariak"
 
 #: effect_builtins.cpp:553
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
-msgstr ""
+msgstr "Animazio irristalaria Plasmaren gainerakorrentzat"
 
 #: effect_builtins.cpp:567
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
-msgstr ""
+msgstr "Kokatzeko laguntzailea"
 
 #: effect_builtins.cpp:568
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
-msgstr ""
+msgstr "Leiho bat mugitzerakoan pantailaren erdigunea kokatzen laguntzen dizu"
 
 #: effect_builtins.cpp:582
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
-msgstr ""
+msgstr "Abiatze berrelikadura"
 
 #: effect_builtins.cpp:583
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
-msgstr ""
+msgstr "Abiatze berrelikaduraren efektu laguntzailea"
 
 #: effect_builtins.cpp:597
-#, fuzzy, kde-format
-#| msgid "Thumbnail Bar"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
-msgstr "Atzazal barra"
+msgstr "Koadro txikiak albo batean"
 
 #: effect_builtins.cpp:598
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
-msgstr ""
+msgstr "Bistaratu leihoen koadro txikiak pantailaren ertzean"
 
 #: effect_builtins.cpp:612
-#, fuzzy, kde-format
-#| msgid "Mouse Pointer:"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Touch Points"
-msgstr "Saguaren erakuslea:"
+msgstr "Ukimen puntuak"
 
 #: effect_builtins.cpp:613
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Visualize touch points"
-msgstr ""
+msgstr "Bistaratu ukimen puntuak"
 
 #: effect_builtins.cpp:627
-#, fuzzy, kde-format
-#| msgid "Track mouse"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Jarraitu saguari"
@@ -1048,47 +1043,43 @@ msgstr "Jarraitu saguari"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a mouse cursor locating effect when activated"
-msgstr ""
+msgstr "Bistaratu saguaren kurtsorea kokatzeko efektu bat aktibatuta dagoenean"
 
 #: effect_builtins.cpp:642
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Window Geometry"
-msgstr ""
+msgstr "Leihoaren geometria"
 
 #: effect_builtins.cpp:643
-#, fuzzy, kde-format
-#| msgid "Display window &icons"
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
-msgstr "Bistaratu leihoen &ikonoak"
+msgstr "Bistaratu leihoen geometria mugitzean/handiera aldatzean"
 
 #: effect_builtins.cpp:657
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
-msgstr "Leihoak"
+msgstr "Leiho dardartiak"
 
 #: effect_builtins.cpp:658
-#, fuzzy, kde-format
-#| msgid "Use for window &switching"
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
-msgstr "Erabili leihoak &aldatzeko"
+msgstr "Deformatu leihoak mugitzen ari diren bitartean"
 
 #: effect_builtins.cpp:672
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
-msgstr "Handiagotu"
+msgstr "Zoom"
 
 #: effect_builtins.cpp:673
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
-msgstr ""
+msgstr "Handitu mahaigain osoa"
 
 #: flipswitch/flipswitch.cpp:60 flipswitch/flipswitch_config.cpp:61
 #, kde-format
@@ -1227,31 +1218,27 @@ msgid "&Height:"
 msgstr "Alt&uera:"
 
 #: mouseclick/mouseclick.cpp:51 mouseclick/mouseclick_config.cpp:64
-#, fuzzy, kde-format
-#| msgid "Toggle Effect"
+#, kde-format
 msgid "Toggle Mouse Click Effect"
-msgstr "Aktibatu/desaktibatu efektua"
+msgstr "Aktibatu/desaktibatu Saguaren-klik efektua"
 
 #: mouseclick/mouseclick.cpp:59
-#, fuzzy, kde-format
-#| msgid "Left"
+#, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
-msgstr "Ezkerrean"
+msgstr "Ezkerreko"
 
 #: mouseclick/mouseclick.cpp:60
-#, fuzzy, kde-format
-#| msgid "Middle"
+#, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
-msgstr "Erdikoa"
+msgstr "Erdiko"
 
 #: mouseclick/mouseclick.cpp:61
-#, fuzzy, kde-format
-#| msgid "Right"
+#, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
-msgstr "Eskuinean"
+msgstr "Eskuineko"
 
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
@@ -1361,7 +1348,7 @@ msgstr "Kendu saguaren markak"
 #: mousemark/mousemark_config.ui:23
 #, kde-format
 msgid "Wid&th:"
-msgstr ""
+msgstr "Za&balera:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mousemark/mousemark_config.ui:36
@@ -1616,13 +1603,13 @@ msgstr "Erakutsi eskema"
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
-msgstr ""
+msgstr "Pantaila-argazkia"
 
 #: screenshot/screenshot.cpp:295
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
-msgstr ""
+msgstr "Pantaila-argazkia hona gorde da %1"
 
 #: screenshot/screenshot.cpp:403
 #, kde-format
@@ -1630,6 +1617,9 @@ msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
+"Hautatu pantaila-argazkiratu beharreko leihoa ezker-klik edo «sartu» "
+"erabiliz.\n"
+"«Ihes» edo eskuin-klik uzteko."
 
 #: screenshot/screenshot.cpp:406
 #, kde-format
@@ -1637,6 +1627,8 @@ msgid ""
 "Create screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
+"Sortu pantaila-argazkia ezker-klik edo «sartu» erabiliz.\n"
+"«Ihes» edo eskuin-klik uzteko."
 
 #: showfps/showfps.cpp:63
 #, kde-format
@@ -1705,16 +1697,13 @@ msgstr "Testuaren alfa:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: slide/slide_config.ui:17
-#, fuzzy, kde-format
-#| msgid "Duration"
+#, kde-format
 msgid "Duration:"
-msgstr "Iraupena"
+msgstr "Iraupena:"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
 #: slide/slide_config.ui:36
-#, fuzzy, kde-format
-#| msgctxt "Duration of rotation"
-#| msgid "Default"
+#, kde-format
 msgctxt "Duration of the slide animation"
 msgid "Default"
 msgstr "Lehenetsia"

@@ -766,6 +766,64 @@ public:
     }
 };
 
+
+namespace {
+
+enum class MouseAction {
+    ModifierOnly,
+    ModifierAndWindow
+};
+std::pair<bool, bool> performClientMouseAction(QMouseEvent *event, AbstractClient *client, MouseAction action = MouseAction::ModifierOnly)
+{
+    Options::MouseCommand command = Options::MouseNothing;
+    bool wasAction = false;
+    if (static_cast<MouseEvent*>(event)->modifiersRelevantForGlobalShortcuts() == options->commandAllModifier()) {
+        wasAction = true;
+        switch (event->button()) {
+        case Qt::LeftButton:
+            command = options->commandAll1();
+            break;
+        case Qt::MiddleButton:
+            command = options->commandAll2();
+            break;
+        case Qt::RightButton:
+            command = options->commandAll3();
+            break;
+        default:
+            // nothing
+            break;
+        }
+    } else {
+        if (action == MouseAction::ModifierAndWindow) {
+            command = client->getMouseCommand(event->button(), &wasAction);
+        }
+    }
+    if (wasAction) {
+        return std::make_pair(wasAction, !client->performMouseCommand(command, event->globalPos()));
+    }
+    return std::make_pair(wasAction, false);
+}
+
+std::pair<bool, bool> performClientWheelAction(QWheelEvent *event, AbstractClient *c, MouseAction action = MouseAction::ModifierOnly)
+{
+    bool wasAction = false;
+    Options::MouseCommand command = Options::MouseNothing;
+    if (static_cast<WheelEvent*>(event)->modifiersRelevantForGlobalShortcuts() == options->commandAllModifier()) {
+        wasAction = true;
+        command = options->operationWindowMouseWheel(-1 * event->angleDelta().y());
+    } else {
+        if (action == MouseAction::ModifierAndWindow) {
+            command = c->getWheelCommand(Qt::Vertical, &wasAction);
+        }
+    }
+    if (wasAction) {
+        return std::make_pair(wasAction, !c->performMouseCommand(command, event->globalPos()));
+    }
+    return std::make_pair(wasAction, false);
+}
+
+}
+
 class InternalWindowEventFilter : public InputEventFilter {
     bool pointerEvent(QMouseEvent *event, quint32 nativeButton) override {
         Q_UNUSED(nativeButton)
@@ -780,6 +838,24 @@ class InternalWindowEventFilter : public InputEventFilter {
         if (!internal) {
             return false;
         }
+        // find client
+        switch (event->type())
+        {
+        case QEvent::MouseButtonPress:
+        case QEvent::MouseButtonRelease: {
+            auto s = waylandServer()->findClient(internal);
+            if (s && s->isDecorated()) {
+                // only perform mouse commands on decorated internal windows
+                const auto actionResult = performClientMouseAction(event, s);
+                if (actionResult.first) {
+                    return actionResult.second;
+                }
+            }
+            break;
+        }
+        default:
+            break;
+        }
         QMouseEvent e(event->type(),
                         event->pos() - internal->position(),
                         event->globalPos(),
@@ -792,6 +868,16 @@ class InternalWindowEventFilter : public InputEventFilter {
         auto internal = input()->pointer()->internalWindow();
         if (!internal) {
             return false;
+        }
+        if (event->angleDelta().y() != 0) {
+            auto s = waylandServer()->findClient(internal);
+            if (s && s->isDecorated()) {
+                // client window action only on vertical scrolling
+                const auto actionResult = performClientWheelAction(event, s);
+                if (actionResult.first) {
+                    return actionResult.second;
+                }
+            }
         }
         const QPointF localPos = event->globalPosF() - QPointF(internal->x(), internal->y());
         const Qt::Orientation orientation = (event->angleDelta().x() != 0) ? Qt::Horizontal : Qt::Vertical;
@@ -929,63 +1015,6 @@ private:
     QPointF m_lastLocalTouchPos;
 };
 
-namespace {
-
-enum class MouseAction {
-    ModifierOnly,
-    ModifierAndWindow
-};
-std::pair<bool, bool> performClientMouseAction(QMouseEvent *event, AbstractClient *client, MouseAction action = MouseAction::ModifierOnly)
-{
-    Options::MouseCommand command = Options::MouseNothing;
-    bool wasAction = false;
-    if (static_cast<MouseEvent*>(event)->modifiersRelevantForGlobalShortcuts() == options->commandAllModifier()) {
-        wasAction = true;
-        switch (event->button()) {
-        case Qt::LeftButton:
-            command = options->commandAll1();
-            break;
-        case Qt::MiddleButton:
-            command = options->commandAll2();
-            break;
-        case Qt::RightButton:
-            command = options->commandAll3();
-            break;
-        default:
-            // nothing
-            break;
-        }
-    } else {
-        if (action == MouseAction::ModifierAndWindow) {
-            command = client->getMouseCommand(event->button(), &wasAction);
-        }
-    }
-    if (wasAction) {
-        return std::make_pair(wasAction, !client->performMouseCommand(command, event->globalPos()));
-    }
-    return std::make_pair(wasAction, false);
-}
-
-std::pair<bool, bool> performClientWheelAction(QWheelEvent *event, AbstractClient *c, MouseAction action = MouseAction::ModifierOnly)
-{
-    bool wasAction = false;
-    Options::MouseCommand command = Options::MouseNothing;
-    if (static_cast<WheelEvent*>(event)->modifiersRelevantForGlobalShortcuts() == options->commandAllModifier()) {
-        wasAction = true;
-        command = options->operationWindowMouseWheel(-1 * event->angleDelta().y());
-    } else {
-        if (action == MouseAction::ModifierAndWindow) {
-            command = c->getWheelCommand(Qt::Vertical, &wasAction);
-        }
-    }
-    if (wasAction) {
-        return std::make_pair(wasAction, !c->performMouseCommand(command, event->globalPos()));
-    }
-    return std::make_pair(wasAction, false);
-}
-
-}
-
 class DecorationEventFilter : public InputEventFilter {
 public:
     bool pointerEvent(QMouseEvent *event, quint32 nativeButton) override {
@@ -1100,9 +1129,13 @@ public:
         }
         m_lastGlobalTouchPos = pos;
         m_lastLocalTouchPos = pos - decoration->client()->pos();
-        QHoverEvent e(QEvent::HoverMove, m_lastLocalTouchPos, m_lastLocalTouchPos);
-        QCoreApplication::instance()->sendEvent(decoration->decoration(), &e);
-        decoration->client()->processDecorationMove(m_lastLocalTouchPos.toPoint(), pos.toPoint());
+        if (auto c = workspace()->getMovingClient()) {
+            c->updateMoveResize(pos);
+        } else {
+            QHoverEvent e(QEvent::HoverMove, m_lastLocalTouchPos, m_lastLocalTouchPos);
+            QCoreApplication::instance()->sendEvent(decoration->decoration(), &e);
+            decoration->client()->processDecorationMove(m_lastLocalTouchPos.toPoint(), pos.toPoint());
+        }
         return true;
     }
     bool touchUp(quint32 id, quint32 time) override {
@@ -1119,10 +1152,24 @@ public:
             return true;
         }
         // send mouse up
-        QMouseEvent e(QEvent::MouseButtonRelease, m_lastLocalTouchPos, m_lastGlobalTouchPos, Qt::LeftButton, Qt::MouseButtons(), input()->keyboardModifiers());
-        e.setAccepted(false);
-        QCoreApplication::sendEvent(decoration->decoration(), &e);
-        decoration->client()->processDecorationButtonRelease(&e);
+        if (auto c = workspace()->getMovingClient()) {
+            c->endMoveResize();
+        } else {
+            QMouseEvent e(QEvent::MouseButtonRelease, m_lastLocalTouchPos, m_lastGlobalTouchPos, Qt::LeftButton, Qt::MouseButtons(), input()->keyboardModifiers());
+            e.setAccepted(false);
+            QCoreApplication::sendEvent(decoration->decoration(), &e);
+            decoration->client()->processDecorationButtonRelease(&e);
+            if (input()->pointer()->decoration() == decoration) {
+                // send motion to current pointer position
+                const QPointF p = input()->pointer()->pos() - decoration->client()->pos();
+                QHoverEvent event(QEvent::HoverMove, p, p);
+                QCoreApplication::instance()->sendEvent(decoration->decoration(), &event);
+            } else {
+                // send leave
+                QHoverEvent event(QEvent::HoverLeave, QPointF(), QPointF());
+                QCoreApplication::instance()->sendEvent(decoration->decoration(), &event);
+            }
+        }
 
         m_lastGlobalTouchPos = QPointF();
         m_lastLocalTouchPos = QPointF();

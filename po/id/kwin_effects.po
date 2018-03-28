@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-01-02 03:18+0100\n"
-"PO-Revision-Date: 2018-02-17 19:43+0700\n"
+"POT-Creation-Date: 2018-03-27 06:17+0200\n"
+"PO-Revision-Date: 2018-03-17 20:21+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -59,8 +59,10 @@ msgid ""
 "Select a position for color picking with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
+"Pilih posisi untuk penukilan warna dengan klik kiri atau enter.\n"
+"Escape atau klik kanan untuk membatalkan."
 
-#: coverswitch/coverswitch.cpp:952 flipswitch/flipswitch.cpp:935
+#: coverswitch/coverswitch.cpp:951 flipswitch/flipswitch.cpp:935
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -201,7 +203,7 @@ msgstr "Lanjutan"
 #: windowgeometry/windowgeometry_config.cpp:56 zoom/zoom_config.cpp:65
 #, kde-format
 msgid "KWin"
-msgstr ""
+msgstr "KWin"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: cube/cube_config.ui:21
@@ -509,10 +511,9 @@ msgstr "Baku"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: desktopgrid/desktopgrid_config.ui:55
-#, fuzzy, kde-format
-#| msgid "&Border width:"
+#, kde-format
 msgid "Border wid&th:"
-msgstr "&Lebar batas:"
+msgstr "Lebar tep&i:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: desktopgrid/desktopgrid_config.ui:84
@@ -546,8 +547,7 @@ msgstr "Suaian"
 
 #. i18n: ectx: property (text), widget (QLabel, layoutRowsLabel)
 #: desktopgrid/desktopgrid_config.ui:145
-#, fuzzy, kde-format
-#| msgid "Number of &rows:"
+#, kde-format
 msgid "N&umber of rows:"
 msgstr "Jumlah ba&ris:"
 
@@ -555,13 +555,13 @@ msgstr "Jumlah ba&ris:"
 #: desktopgrid/desktopgrid_config.ui:190
 #, kde-format
 msgid "Use Present Windows effect to layout the windows"
-msgstr "Gunakan efek Jendela Saat Ini untuk menata letak jendela"
+msgstr "Gunakan efek Jendela Hadir untuk menata letak jendela"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAddRemove)
 #: desktopgrid/desktopgrid_config.ui:197
 #, kde-format
 msgid "Show buttons to alter count of virtual desktops"
-msgstr ""
+msgstr "Tampilkan tombol untuk mengubah cacah desktop virtual"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimPanels)
 #: diminactive/diminactive_config.ui:17
@@ -606,18 +606,16 @@ msgid "Blurs the background behind semi-transparent windows"
 msgstr "Kabur latar belakang di belakang jendela semi transparan"
 
 #: effect_builtins.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "High saturation"
-#| msgid "Colored"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Color Picker"
-msgstr "Diwarnai"
+msgstr "Penukil Warna"
 
 #: effect_builtins.cpp:118
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Supports picking a color"
-msgstr ""
+msgstr "Dukungan penukilan warna"
 
 #: effect_builtins.cpp:132
 #, kde-format
@@ -786,7 +784,7 @@ msgstr "Kaca Melihat"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
-msgstr "Pembesar layar yang terlihat seperti lensa fisheye"
+msgstr "Sebuah pembesar layar yang terlihat seperti lensa mata ikan"
 
 #: effect_builtins.cpp:342
 #, kde-format
@@ -999,7 +997,7 @@ msgstr "Tanggapan Permulaian"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
-msgstr "Efek pembantu untuk umpan balik permulaian"
+msgstr "Efek pembantu untuk tanggapan permulaian"
 
 #: effect_builtins.cpp:597
 #, kde-format
@@ -1014,17 +1012,16 @@ msgid "Display window thumbnails on the edge of the screen"
 msgstr "Tampilkan miniatur jendela di tepi layar"
 
 #: effect_builtins.cpp:612
-#, fuzzy, kde-format
-#| msgid "Mouse Pointer:"
+#, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Touch Points"
-msgstr "Penunjuk Tetikus:"
+msgstr "Titik Sentuh"
 
 #: effect_builtins.cpp:613
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Visualize touch points"
-msgstr ""
+msgstr "Visualkan titik sentuh"
 
 #: effect_builtins.cpp:627
 #, kde-format
@@ -1216,22 +1213,19 @@ msgid "Toggle Mouse Click Effect"
 msgstr "Ubah Efek Klik Mouse"
 
 #: mouseclick/mouseclick.cpp:59
-#, fuzzy, kde-format
-#| msgid "Left"
+#, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Kiri"
 
 #: mouseclick/mouseclick.cpp:60
-#, fuzzy, kde-format
-#| msgid "Middle"
+#, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Tengah"
 
 #: mouseclick/mouseclick.cpp:61
-#, fuzzy, kde-format
-#| msgid "Right"
+#, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Kanan"
@@ -1343,7 +1337,7 @@ msgstr "Hapus Tanda Mouse"
 #: mousemark/mousemark_config.ui:23
 #, kde-format
 msgid "Wid&th:"
-msgstr ""
+msgstr "Le&bar:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mousemark/mousemark_config.ui:36
@@ -1596,20 +1590,16 @@ msgid "Show outline"
 msgstr "Tampilkan kerangka"
 
 #: screenshot/screenshot.cpp:294
-#, fuzzy, kde-format
-#| msgctxt "Name of a KWin Effect"
-#| msgid "Screenshot"
+#, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
-msgstr "Cuplikan layar"
+msgstr "Cuplikanlayar"
 
 #: screenshot/screenshot.cpp:295
-#, fuzzy, kde-format
-#| msgctxt "Name of a KWin Effect"
-#| msgid "Screenshot"
+#, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
-msgstr "Cuplikan layar"
+msgstr "Cuplikanlayar disimpan ke %1"
 
 #: screenshot/screenshot.cpp:403
 #, kde-format
@@ -1617,6 +1607,8 @@ msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
+"Pilih jendela untuk mencuplik layar dengan klik kiri atau enter.\n"
+"Escape atau klik kanan untuk membatalkan."
 
 #: screenshot/screenshot.cpp:406
 #, kde-format
@@ -1624,6 +1616,8 @@ msgid ""
 "Create screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
+"Ciptakan cuplikan layar dengan klik kiri atau enter.\n"
+"Escape atau klik kanan untuk membatalkan."
 
 #: showfps/showfps.cpp:63
 #, kde-format
@@ -1692,16 +1686,13 @@ msgstr "Alfa teks:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: slide/slide_config.ui:17
-#, fuzzy, kde-format
-#| msgid "Duration"
+#, kde-format
 msgid "Duration:"
-msgstr "Durasi"
+msgstr "Durasi:"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
 #: slide/slide_config.ui:36
-#, fuzzy, kde-format
-#| msgctxt "Duration of rotation"
-#| msgid "Default"
+#, kde-format
 msgctxt "Duration of the slide animation"
 msgid "Default"
 msgstr "Baku"
@@ -1747,7 +1738,7 @@ msgstr "Lacak mouse"
 #: trackmouse/trackmouse_config.ui:20
 #, kde-format
 msgid "Trigger on"
-msgstr "Nyalakan"
+msgstr "Pemicu nyala"
 
 #. i18n: ectx: property (text), widget (QRadioButton, modifierRadio)
 #: trackmouse/trackmouse_config.ui:27

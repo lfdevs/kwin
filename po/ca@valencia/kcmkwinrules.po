@@ -238,7 +238,7 @@ msgid ""
 msgstr ""
 "<p><h1>Valors específics de la finestra</h1> Ací podeu personalitzar valors "
 "de la finestra específicament per algunes finestres només.</p><p>Tingueu "
-"present que esta configuració no tindrà efecte si no useu el KWin com a "
+"present que aquesta configuració no tindrà efecte si no useu el KWin com a "
 "gestor de finestres. Si useu un gestor de finestres diferent, consulteu a la "
 "documentació la manera de personalitzar el comportament de la finestra.</p>"
 
@@ -286,7 +286,7 @@ msgstr "Utilitat d'ajuda KWin"
 #: main.cpp:262
 #, kde-format
 msgid "WId of the window for special window settings."
-msgstr "Id. de la finestra (WId) per a configuracions especials d'esta."
+msgstr "Id. de la finestra (WId) per a configuracions especials d'aquesta."
 
 #: main.cpp:263
 #, kde-format
@@ -297,7 +297,7 @@ msgstr ""
 #: main.cpp:271
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
-msgstr "Esta utilitat d'ajuda no està pensada per a cridar-se directament."
+msgstr "Aquesta utilitat d'ajuda no està pensada per a cridar-se directament."
 
 #: ruleslist.cpp:153
 #, kde-format
@@ -362,8 +362,8 @@ msgid ""
 "Enable this checkbox to alter this window property for the specified "
 "window(s)."
 msgstr ""
-"Marqueu esta casella de selecció per alterar esta propietat de la finestra "
-"per a la/es finestra/s'especificada/es."
+"Marqueu aquesta casella de selecció per alterar aquesta propietat de la "
+"finestra per a la/es finestra/s'especificada/es."
 
 #: ruleswidget.cpp:70
 #, kde-format
@@ -385,7 +385,7 @@ msgid ""
 msgstr ""
 "Especifica com hauria d'afectar la propietat de la finestra:<ul><li><em>No "
 "afecta:</em> La propietat de la finestra no es veurà afectada i, per tant, "
-"s'usarà la seua gestió per omissió. En triar esta opció s'evitarà que "
+"s'usarà la seua gestió per omissió. En triar aquesta opció s'evitarà que "
 "s'apliquin valors de la finestra més genèrics.</li> <li><em>Aplica "
 "inicialment:</em> Només s'assignarà el valor a la propietat de la finestra "
 "després de crear la finestra. No s'efectuarà cap més canvi.</li> "
@@ -394,9 +394,9 @@ msgstr ""
 "li> <li><em>Força:</em> Sempre es forçarà la propietat de la finestra al "
 "valor donat.</li> <li><em>Aplica ara:</em> La propietat de la finestra "
 "s'establirà al valor donat immediatament i no s'efectuarà més tard (després "
-"se suprimirà esta acció).</li> <li><em>Força temporalment:</em> La propietat "
-"de la finestra es forçarà al valor donat fins que s'oculti (esta acció se "
-"suprimirà després que la finestra s'oculti).</li></ul>"
+"se suprimirà aquesta acció).</li> <li><em>Força temporalment:</em> La "
+"propietat de la finestra es forçarà al valor donat fins que s'oculti "
+"(aquesta acció se suprimirà després que la finestra s'oculti).</li></ul>"
 
 #: ruleswidget.cpp:85
 #, kde-format
@@ -411,11 +411,11 @@ msgid ""
 msgstr ""
 "Especifica com hauria d'afectar la propietat de la finestra: <ul> <li><em>No "
 "afecta:</em> La propietat de la finestra no es veurà afectada i, per tant, "
-"s'usarà la seua gestió per omissió. En triar esta opció s'evitarà que "
+"s'usarà la seua gestió per omissió. En triar aquesta opció s'evitarà que "
 "tinguen efecte valors més genèrics de la finestra.</li> <li><em>Força:</em> "
 "Sempre es forçarà la propietat de la finestra al valor donat.</li> "
 "<li><em>Força temporalment:</em> La propietat de la finestra es forçarà al "
-"valor donat fins que s'oculti (esta acció s'eliminarà després que la "
+"valor donat fins que s'oculti (aquesta acció s'eliminarà després que la "
 "finestra s'oculti).</li></ul>"
 
 #: ruleswidget.cpp:152
@@ -466,7 +466,7 @@ msgid ""
 "setting using the checkbox, select in what way the setting should be "
 "affected and to which value."
 msgstr ""
-"Este diàleg de configuració permet modificar l'arranjament només per a la "
+"Aquest diàleg de configuració permet modificar l'arranjament només per a la "
 "finestra o aplicació seleccionada. Trobeu l'arranjament que voleu afectar, "
 "habiliteu-lo usant la casella de selecció, i seleccioneu de quina manera "
 "s'ha d'afectar l'arranjament i a quin valor."
@@ -1180,7 +1180,7 @@ msgstr ""
 "El KWin intenta evitar que les finestres agafin el focus\n"
 "(«activar») mentre esteu treballant en una altra finestra,\n"
 "però això a vegades pot fallar o sobreactuar.\n"
-"«Cap» permetrà incondicionalment que esta finestra agafi el focus,\n"
+"«Cap» permetrà incondicionalment que aquesta finestra agafi el focus,\n"
 "mentre que «Extrem» evitarà completament que agafi el focus."
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fsplevel)

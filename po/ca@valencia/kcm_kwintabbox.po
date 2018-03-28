@@ -67,7 +67,7 @@ msgstr "Usats recentment"
 #: main.ui:60
 #, kde-format
 msgid "Stacking order"
-msgstr "Orde d'apilament"
+msgstr "Ordre d'apilament"
 
 #. i18n: ectx: property (text), widget (QCheckBox, oneAppWindow)
 #: main.ui:68
@@ -213,7 +213,8 @@ msgid ""
 "windows. This option requires desktop effects to be active."
 msgstr ""
 "La finestra actualment seleccionada es realçarà esvaint totes les altres "
-"finestres. Esta opció requereix que els efectes d'escriptori estiguen actius."
+"finestres. Aquesta opció requereix que els efectes d'escriptori estiguen "
+"actius."
 
 #. i18n: ectx: property (text), widget (QCheckBox, highlightWindowCheck)
 #: main.ui:552

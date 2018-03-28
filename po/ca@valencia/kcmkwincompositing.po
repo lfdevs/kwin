@@ -72,7 +72,7 @@ msgstr ""
 "La composició OpenGL (per defecte) ha trencat el KWin en el passat.\n"
 "Probablement era degut a una fallada en el controlador.\n"
 "Si penseu que mentrestant l'heu actualitzat a un controlador estable, podeu "
-"reiniciar esta protecció però sigueu conscient que podria produir-se una "
+"reiniciar aquesta protecció però sigueu conscient que podria produir-se una "
 "fallada immediata!\n"
 "De manera alternativa, en el seu lloc podríeu usar el dorsal XRender."
 
@@ -328,7 +328,7 @@ msgstr ""
 #: qml/EffectView.qml:74
 #, kde-format
 msgid "Search"
-msgstr "Busca"
+msgstr "Cerca"
 
 #: qml/EffectView.qml:81
 #, kde-format

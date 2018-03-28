@@ -50,7 +50,7 @@ msgstr "Bloqueig de la pantalla"
 #, kde-format
 msgctxt "Open krunner"
 msgid "Run Command"
-msgstr "Executa una orde"
+msgstr "Executa una ordre"
 
 #: main.cpp:194 touch.cpp:135
 #, kde-format

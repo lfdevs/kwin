@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2018-02-16 20:51+0700\n"
+"PO-Revision-Date: 2018-03-16 21:15+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -275,7 +275,7 @@ msgid ""
 "In this row you can customize behavior when scrolling into an inactive inner "
 "window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"Di baris ini anda dapat menyesuaiankan perilaku ketika menggulung di jendela "
+"Di baris ini anda dapat menyesuaiankan perilaku ketika menggulir di jendela "
 "dalam tidak aktif ('dalam' berarti: bukan bilah judul, bukan bingkai)."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
@@ -314,7 +314,7 @@ msgid ""
 "Here you can customize KDE's behavior when scrolling with the mouse wheel in "
 "a window while pressing the modifier key."
 msgstr ""
-"Di sini anda dapat menyesuaiankan perilaku ketika menggulung dengan roda "
+"Di sini anda dapat menyesuaiankan perilaku ketika menggulir dengan roda "
 "mouse di jendela ketika menekan tombol pengubah."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
@@ -852,7 +852,7 @@ msgstr ""
 "</ul></p>\n"
 "<p>Jendela yang dicegah dari mencuri fokus ditandai sebagai meminta "
 "perhatian, yang secara baku berarti entri bilah tugasnya akan disorot. Ini "
-"dapat diubah dalam modul kendali Notifikasi.</p>"
+"dapat diubah dalam modul kendali Pemberitahuan.</p>"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)

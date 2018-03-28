@@ -92,7 +92,7 @@ msgstr "Tema"
 #: kcm.ui:29
 #, kde-format
 msgid "Search"
-msgstr "Busca"
+msgstr "Cerca"
 
 #. i18n: ectx: property (text), widget (QPushButton, knsButton)
 #: kcm.ui:42

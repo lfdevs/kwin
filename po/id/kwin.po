@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2018-02-22 06:05+0100\n"
-"PO-Revision-Date: 2018-01-24 07:23+0700\n"
+"PO-Revision-Date: 2018-03-02 22:16+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -768,7 +768,7 @@ msgstr "Turunkan Jendela"
 #: helpers/killer/killer.cpp:45
 #, kde-format
 msgid "Window Manager"
-msgstr "Manajer Jendela"
+msgstr "Pengelola Jendela"
 
 #: helpers/killer/killer.cpp:50
 #, kde-format
@@ -1211,7 +1211,7 @@ msgstr "Balik Warna Layar"
 #: main.cpp:186 main.cpp:213
 #, kde-format
 msgid "KDE window manager"
-msgstr "Manajer jendela KDE"
+msgstr "Pengelola jendela KDE"
 
 #: main.cpp:191
 #, kde-format
@@ -1251,7 +1251,7 @@ msgstr "Martin Gräßlin"
 #: main.cpp:201
 #, kde-format
 msgid "Maintainer"
-msgstr "Pengelola"
+msgstr "Pemelihara"
 
 #: main.cpp:210
 #, kde-format
@@ -1445,7 +1445,7 @@ msgstr ""
 #, kde-format
 msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
-msgstr "Plugin tidak menyediakan berkas konfigurasi di lokasi yang diharapkan"
+msgstr "Plugin tidak menyediakan fail konfigurasi di lokasi yang diharapkan"
 
 #: scripting/scripting.cpp:128
 #, kde-format
@@ -1783,7 +1783,7 @@ msgid ""
 "as active one.\n"
 "Therefore it is not possible to switch to a screen explicitly."
 msgstr ""
-"Manajer jendela dikonfigurasi untuk mempertimbangkan layar dengan mouse di "
+"Pengelola jendela dikonfigurasi untuk mempertimbangkan layar dengan mouse di "
 "atasnya sebagai yang aktif.\n"
 "Sehingga tidak dimungkinkan untuk mengganti layar secara eksplisit."
 

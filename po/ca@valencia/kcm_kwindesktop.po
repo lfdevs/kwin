@@ -52,7 +52,7 @@ msgid ""
 "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual "
 "desktops you want and how these should be labeled."
 msgstr ""
-"<h1>Escriptoris múltiples</h1>En este mòdul podeu configurar quants "
+"<h1>Escriptoris múltiples</h1>En aquest mòdul podeu configurar quants "
 "escriptoris virtuals voleu i com s'han d'anomenar."
 
 #: main.cpp:99
@@ -195,8 +195,8 @@ msgid ""
 "beyond the edge of a desktop to take you to the opposite edge of the new "
 "desktop."
 msgstr ""
-"Habiliteu esta opció si voleu que la navegació de teclat o vores actives de "
-"l'escriptori més enllà de la vora de l'escriptori vos porti a la vora "
+"Habiliteu aquesta opció si voleu que la navegació de teclat o vores actives "
+"de l'escriptori més enllà de la vora de l'escriptori vos porti a la vora "
 "oposada de l'escriptori nou."
 
 #. i18n: ectx: property (text), widget (QCheckBox, wrapAroundBox)
@@ -227,7 +227,7 @@ msgstr "Visor en pantalla del canvi d'escriptori"
 #: main.ui:228
 #, kde-format
 msgid "Duration:"
-msgstr "Duració:"
+msgstr "Durada:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, popupHideSpinBox)
 #: main.ui:238
@@ -242,8 +242,8 @@ msgid ""
 "Enabling this option will show a small preview of the desktop layout "
 "indicating the selected desktop."
 msgstr ""
-"Activant esta opció es mostrarà una petita vista prèvia de la disposició de "
-"l'escriptori, indicant l'escriptori seleccionat."
+"Activant aquesta opció es mostrarà una petita vista prèvia de la disposició "
+"de l'escriptori, indicant l'escriptori seleccionat."
 
 #. i18n: ectx: property (text), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
 #: main.ui:254

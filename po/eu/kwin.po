@@ -1,5 +1,5 @@
 # Translation of kwin.po to Euskara/Basque (eu).
-# Copyright (C) 2002-2017 Free Software Foundation, Inc.
+# Copyright (C) 2002-2018, The Free Software Foundation, Inc.
 # This file is distributed under the same license as the kde-workspace package.
 # KDE Euskaratzeko proiektuaren arduraduna <xalba@euskalnet.net>.
 #
@@ -8,14 +8,14 @@
 # Marcos  <marcos@euskalgnu.org>, 2002, 2003, 2005, 2006, 2007.
 # Juan Irigoien <juanirigoien@yahoo.es>, 2004.
 # Ion Gaztañaga <igaztanaga@gmail.com>, 2005.
-# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2008, 2009, 2010, 2011, 2014, 2017.
+# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2008, 2009, 2010, 2011, 2014, 2017, 2018.
 # Hizkuntza Politikarako Sailburuordetza <hizpol@ej-gv.es>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2018-02-22 06:05+0100\n"
-"PO-Revision-Date: 2017-08-11 10:43+0100\n"
+"PO-Revision-Date: 2018-03-18 16:43+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
 "Language: eu\n"
@@ -361,7 +361,7 @@ msgstr "Zenbakizko teklatua"
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Group-switch"
-msgstr ""
+msgstr "Talde-aldatzailea"
 
 #: debug_console.cpp:303
 #, kde-format
@@ -373,7 +373,7 @@ msgstr "Errepikatzea"
 #, kde-format
 msgctxt "The code as read from the input device"
 msgid "Scan code"
-msgstr ""
+msgstr "Eskaneatutako kodea"
 
 #: debug_console.cpp:305
 #, kde-format
@@ -397,13 +397,13 @@ msgstr "Aldatzaileak"
 #, kde-format
 msgctxt "A touch down event"
 msgid "Touch down"
-msgstr ""
+msgstr "Ukitu beherantz"
 
 #: debug_console.cpp:321 debug_console.cpp:336 debug_console.cpp:351
 #, kde-format
 msgctxt "The id of the touch point in the touch event"
 msgid "Point identifier"
-msgstr ""
+msgstr "Puntuaren identifikatzailea"
 
 #: debug_console.cpp:322 debug_console.cpp:337
 #, kde-format
@@ -415,19 +415,19 @@ msgstr "Kokapen orokorra"
 #, kde-format
 msgctxt "A touch motion event"
 msgid "Touch Motion"
-msgstr ""
+msgstr "Ukitze higidura"
 
 #: debug_console.cpp:349
 #, kde-format
 msgctxt "A touch up event"
 msgid "Touch Up"
-msgstr ""
+msgstr "Ukitu gorantz"
 
 #: debug_console.cpp:362
 #, kde-format
 msgctxt "A pinch gesture is started"
 msgid "Pinch start"
-msgstr ""
+msgstr "Atximur hasiera"
 
 #: debug_console.cpp:364
 #, kde-format
@@ -439,19 +439,19 @@ msgstr "Hatz kopurua"
 #, kde-format
 msgctxt "A pinch gesture is updated"
 msgid "Pinch update"
-msgstr ""
+msgstr "Atximurra eguneratzea"
 
 #: debug_console.cpp:377
 #, kde-format
 msgctxt "Current scale in pinch gesture"
 msgid "Scale"
-msgstr ""
+msgstr "Eskala"
 
 #: debug_console.cpp:378
 #, kde-format
 msgctxt "Current angle in pinch gesture"
 msgid "Angle delta"
-msgstr ""
+msgstr "Angeluren delta"
 
 #: debug_console.cpp:379
 #, kde-format
@@ -469,13 +469,13 @@ msgstr "Delta y"
 #, kde-format
 msgctxt "A pinch gesture ended"
 msgid "Pinch end"
-msgstr ""
+msgstr "Atximur bukaera"
 
 #: debug_console.cpp:403
 #, kde-format
 msgctxt "A pinch gesture got cancelled"
 msgid "Pinch cancelled"
-msgstr ""
+msgstr "Atximurra utzi"
 
 #: debug_console.cpp:415
 #, kde-format
@@ -520,48 +520,46 @@ msgid "Swipe cancelled"
 msgstr ""
 
 #: debug_console.cpp:466
-#, fuzzy, kde-format
-#| msgid "Switch to Tab"
+#, kde-format
 msgctxt "A hardware switch (e.g. notebook lid) got toggled"
 msgid "Switch toggled"
-msgstr "Aldatu fitxara"
+msgstr "Etengailu bat eragin da"
 
 #: debug_console.cpp:475
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Notebook lid"
-msgstr ""
+msgstr "Notebookaren tapakia"
 
 #: debug_console.cpp:477
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Tablet mode"
-msgstr ""
+msgstr "Tableta modua"
 
 #: debug_console.cpp:479
-#, fuzzy, kde-format
-#| msgid "Switch to Tab"
+#, kde-format
 msgctxt "A hardware switch"
 msgid "Switch"
-msgstr "Aldatu fitxara"
+msgstr "Etengailua"
 
 #: debug_console.cpp:484
 #, kde-format
 msgctxt "The hardware switch got turned off"
 msgid "Off"
-msgstr ""
+msgstr "itzali"
 
 #: debug_console.cpp:487
 #, kde-format
 msgctxt "The hardware switch got turned on"
 msgid "On"
-msgstr ""
+msgstr "Piztu"
 
 #: debug_console.cpp:492
 #, kde-format
 msgctxt "State of a hardware switch (on/off)"
 msgid "State"
-msgstr ""
+msgstr "Egoera"
 
 #: debug_console.cpp:679
 #, kde-format
@@ -908,6 +906,8 @@ msgid ""
 "Select window to force close with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
+"Hautatu ezkerreko klik edo sartu bidez itxiera behartu beharreko leihoa.\n"
+"Ihes edo eskuineko klik uzteko."
 
 #: kwinbindings.cpp:49
 #, kde-format
@@ -1278,18 +1278,20 @@ msgstr ""
 #: main_wayland.cpp:579
 #, kde-format
 msgid "Start a rootless Xwayland server."
-msgstr ""
+msgstr "Abiarazi root gabeko Xwayland zerbitzari bat."
 
 #: main_wayland.cpp:581
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
+"Jaramon egin beharreko Wayland socket-aren izena. Ezartzen ez bada "
+"\"wayland-0\" erabiliko da."
 
 #: main_wayland.cpp:584
 #, kde-format
 msgid "Use a nested compositor in windowed mode."
-msgstr ""
+msgstr "Erabili habiaratutako konposatzaile bat leihodun moduan."
 
 #: main_wayland.cpp:586
 #, kde-format
@@ -1310,6 +1312,8 @@ msgstr "Erabili beharreko X11 bistaratzailea X11 plataformaren leiho-moduan."
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
+"Erabili beharreko Wayland bistaratzailea, leihodun moduan, Wayland "
+"plataforman."
 
 #: main_wayland.cpp:597
 #, kde-format
@@ -1424,17 +1428,17 @@ msgstr "Desgaitu KActivities bateratzea."
 #: orientation_sensor.cpp:72
 #, kde-format
 msgid "Automatic screen rotation is enabled"
-msgstr ""
+msgstr "Pantailaren biraketa automatikoa gaituta dago"
 
 #: orientation_sensor.cpp:74 orientation_sensor.cpp:122
 #, kde-format
 msgid "Automatic screen rotation is disabled"
-msgstr ""
+msgstr "Pantailaren biraketa automatikoa desgaituta dago"
 
 #: orientation_sensor.cpp:118
 #, kde-format
 msgid "Automatic Screen Rotation"
-msgstr ""
+msgstr "Pantailaren biraketa automatikoa"
 
 #: pointer_input.cpp:647
 #, kde-format
@@ -1467,13 +1471,13 @@ msgstr ""
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
-msgstr ""
+msgstr "Baieztapenak huts egin du: %1 ez da null"
 
 #: scripting/scripting.cpp:146
 #, kde-format
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
-msgstr ""
+msgstr "Baieztapenak huts egin du: argumentua ez da null"
 
 #: scripting/scripting.cpp:188
 #, kde-format
@@ -1794,6 +1798,9 @@ msgid ""
 "as active one.\n"
 "Therefore it is not possible to switch to a screen explicitly."
 msgstr ""
+"Leiho kudeatzailea konfiguratuta dago sagua duen pantaila aktibo gisa hartu "
+"dezan.\n"
+"Beraz, ezin da berariaz pantaila batera aldatu."
 
 #: virtualdesktops.cpp:451 virtualdesktops.cpp:513
 #, kde-format

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-10-17 03:43+0200\n"
+"POT-Creation-Date: 2018-03-02 06:09+0100\n"
 "PO-Revision-Date: 2018-01-27 12:02+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -233,12 +233,12 @@ msgstr ""
 msgid "Allow applications to block compositing"
 msgstr "Tillat program å blokkera samansetjing"
 
-#: main.cpp:82
+#: main.cpp:83
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "Slå på OpenGL-oppdaging"
 
-#: main.cpp:140
+#: main.cpp:141
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -247,12 +247,12 @@ msgstr ""
 "«Berre ved låg kostnad» hindrar berre rifting for fullskjermsendringar, for "
 "eksempel for videoar."
 
-#: main.cpp:144
+#: main.cpp:145
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "«Nyoppteikning av fullskjerm» kan føra til ytingsproblem."
 
-#: main.cpp:148
+#: main.cpp:149
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."

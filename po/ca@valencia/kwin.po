@@ -833,7 +833,7 @@ msgstr "Utilitat d'ajuda del KWin"
 #: helpers/killer/killer.cpp:86
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
-msgstr "Esta utilitat d'ajuda no està pensada per a cridar-se directament."
+msgstr "Aquesta utilitat d'ajuda no està pensada per a cridar-se directament."
 
 #: helpers/killer/killer.cpp:96
 #, kde-format
@@ -869,7 +869,7 @@ msgid ""
 "application will close all of its child windows. Any unsaved data will be "
 "lost.</warning></p>"
 msgstr ""
-"<p>Voleu finalitzar esta aplicació?</p><p><warning>En finalitzar-la es "
+"<p>Voleu finalitzar aquesta aplicació?</p><p><warning>En finalitzar-la es "
 "tancaran totes les seues finestres filles. Qualsevol dada no guardada es "
 "perdrà.</warning></p>"
 
@@ -1392,7 +1392,7 @@ msgid ""
 "You can select another window manager to run:"
 msgstr ""
 "El KWin no està estabilitzat.\n"
-"Pareix que ha fallat diverses vegades seguides.\n"
+"Sembla que ha fallat diverses vegades seguides.\n"
 "Podeu seleccionar un altre gestor de finestres a executar:"
 
 #: main_x11.cpp:226
@@ -1874,6 +1874,6 @@ msgstr ""
 "Proporciona informació sobre la instància actual en execució, amb les "
 "opcions que s'utilitzen,\n"
 "quin controlador OpenGL i quins efectes s'estan executant.\n"
-"Per favor, publiqueu la informació que hi ha sota este text introductori en "
-"un servei d'enganxament\n"
+"Per favor, publiqueu la informació que hi ha sota aquest text introductori "
+"en un servei d'enganxament\n"
 "com http://paste.kde.org en lloc d'enganxar-ho en els fils d'ajuda.\n"

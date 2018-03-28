@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-01-02 03:18+0100\n"
-"PO-Revision-Date: 2018-01-02 10:11+0100\n"
+"POT-Creation-Date: 2018-03-27 06:17+0200\n"
+"PO-Revision-Date: 2018-03-16 21:17+0100\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -65,7 +65,7 @@ msgstr ""
 "retorn.\n"
 "Escape o clic dret per cancel·lar."
 
-#: coverswitch/coverswitch.cpp:952 flipswitch/flipswitch.cpp:935
+#: coverswitch/coverswitch.cpp:951 flipswitch/flipswitch.cpp:935
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -132,7 +132,7 @@ msgstr "Animació en tancar un quadre de pestanyes"
 #: coverswitch/coverswitch_config.ui:139 magiclamp/magiclamp_config.ui:17
 #, kde-format
 msgid "Animation duration:"
-msgstr "Duració de l'animació:"
+msgstr "Durada de l'animació:"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_RotationDuration)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
@@ -230,7 +230,7 @@ msgstr "Color de fons:"
 #: cube/cube_config.ui:56
 #, kde-format
 msgid "Wallpaper:"
-msgstr "Fons d'escriptori:"
+msgstr "Fons de pantalla:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
@@ -267,7 +267,7 @@ msgstr "Reflexió"
 #: cube/cube_config.ui:124 cube/cubeslide_config.ui:72
 #, kde-format
 msgid "Rotation duration:"
-msgstr "Duració del gir:"
+msgstr "Durada del gir:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ZOrdering)
 #: cube/cube_config.ui:175
@@ -376,7 +376,7 @@ msgstr "Tanca després d'arrossegar amb el ratolí"
 #: cube/cube_config.ui:425
 #, kde-format
 msgid "Use this effect for walking through the desktops"
-msgstr "Usa este efecte per desplaçar-se entre els escriptoris"
+msgstr "Usa aquest efecte per desplaçar-se entre els escriptoris"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_InvertKeys)
 #: cube/cube_config.ui:432
@@ -547,7 +547,7 @@ msgstr "Automàtic"
 #: desktopgrid/desktopgrid_config.ui:137
 #, kde-format
 msgid "Custom"
-msgstr "A mida"
+msgstr "Personalitzat"
 
 #. i18n: ectx: property (text), widget (QLabel, layoutRowsLabel)
 #: desktopgrid/desktopgrid_config.ui:145
@@ -797,7 +797,7 @@ msgstr "Aparença de vidre"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
-msgstr "Una lupa de pantalla que pareix un objectiu d'ull de peix"
+msgstr "Una lupa de pantalla que sembla un objectiu d'ull de peix"
 
 #: effect_builtins.cpp:342
 #, kde-format
@@ -849,7 +849,7 @@ msgid ""
 "screenrecordings/presentations"
 msgstr ""
 "Crea una animació quan es fa clic amb un botó del ratolí. Això és útil per "
-"gravar la pantalla o en presentacions"
+"enregistrar la pantalla o en presentacions"
 
 #: effect_builtins.cpp:402
 #, kde-format
@@ -1100,7 +1100,7 @@ msgstr "Commuta les finestres en roda (tots els escriptoris)"
 #: flipswitch/flipswitch_config.ui:23
 #, kde-format
 msgid "Flip animation duration:"
-msgstr "Duració de l'animació de la roda:"
+msgstr "Durada de l'animació de la roda:"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
 #: flipswitch/flipswitch_config.ui:42
@@ -1302,7 +1302,7 @@ msgstr[1] " píxels"
 #: mouseclick/mouseclick_config.ui:145
 #, kde-format
 msgid "Ring Duration:"
-msgstr "Duració del cèrcol:"
+msgstr "Durada del cèrcol:"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_radius_label)
 #: mouseclick/mouseclick_config.ui:155
@@ -1637,7 +1637,7 @@ msgstr ""
 #: showfps/showfps.cpp:63
 #, kde-format
 msgid "This effect is not a benchmark"
-msgstr "Este efecte no és cap prova de referència"
+msgstr "Aquest efecte no és cap prova de referència"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: showfps/showfps_config.ui:23
@@ -1703,7 +1703,7 @@ msgstr "Alfa del text:"
 #: slide/slide_config.ui:17
 #, kde-format
 msgid "Duration:"
-msgstr "Duració:"
+msgstr "Durada:"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
 #: slide/slide_config.ui:36

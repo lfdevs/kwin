@@ -1,15 +1,15 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Lukáš Tinkl <lukas@kde.org>, 2010, 2011, 2012.
-# Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017.
+# Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-02-22 06:05+0100\n"
-"PO-Revision-Date: 2017-11-13 14:26+0100\n"
+"POT-Creation-Date: 2018-03-30 06:11+0200\n"
+"PO-Revision-Date: 2018-04-19 15:24+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -512,48 +512,46 @@ msgid "Swipe cancelled"
 msgstr ""
 
 #: debug_console.cpp:466
-#, fuzzy, kde-format
-#| msgid "Switch to Tab"
+#, kde-format
 msgctxt "A hardware switch (e.g. notebook lid) got toggled"
 msgid "Switch toggled"
-msgstr "Přepnout na kartu"
+msgstr ""
 
 #: debug_console.cpp:475
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Notebook lid"
-msgstr ""
+msgstr "Víko notebooku"
 
 #: debug_console.cpp:477
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Tablet mode"
-msgstr ""
+msgstr "Režim tabletu"
 
 #: debug_console.cpp:479
-#, fuzzy, kde-format
-#| msgid "Switch to Tab"
+#, kde-format
 msgctxt "A hardware switch"
 msgid "Switch"
-msgstr "Přepnout na kartu"
+msgstr "Přepnout"
 
 #: debug_console.cpp:484
 #, kde-format
 msgctxt "The hardware switch got turned off"
 msgid "Off"
-msgstr ""
+msgstr "Vypnuto"
 
 #: debug_console.cpp:487
 #, kde-format
 msgctxt "The hardware switch got turned on"
 msgid "On"
-msgstr ""
+msgstr "Zapnuto"
 
 #: debug_console.cpp:492
 #, kde-format
 msgctxt "State of a hardware switch (on/off)"
 msgid "State"
-msgstr ""
+msgstr "Stav"
 
 #: debug_console.cpp:679
 #, kde-format
@@ -1823,7 +1821,7 @@ msgstr "Virtuální klávesnice je povolena."
 msgid "Virtual Keyboard is disabled."
 msgstr "Virtuální klávesnice je zakázána."
 
-#: workspace.cpp:1314
+#: workspace.cpp:1315
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

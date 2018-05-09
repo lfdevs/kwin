@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-02-22 06:05+0100\n"
+"POT-Creation-Date: 2018-03-30 06:11+0200\n"
 "PO-Revision-Date: 2018-01-18 20:00+0100\n"
 "Last-Translator: Yoann Laissus <yoann.laissus@gmail.com>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -1876,7 +1876,7 @@ msgstr "Le clavier virtuel est activé."
 msgid "Virtual Keyboard is disabled."
 msgstr "Le clavier virtuel est désactivé."
 
-#: workspace.cpp:1314
+#: workspace.cpp:1315
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

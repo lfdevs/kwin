@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-02-22 06:05+0100\n"
+"POT-Creation-Date: 2018-03-30 06:11+0200\n"
 "PO-Revision-Date: 2017-02-02 13:56+0100\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
 "Language-Team: Asturian <alministradores@softastur.org>\n"
@@ -1792,7 +1792,7 @@ msgstr ""
 msgid "Virtual Keyboard is disabled."
 msgstr ""
 
-#: workspace.cpp:1314
+#: workspace.cpp:1315
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

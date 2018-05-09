@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-02-22 06:05+0100\n"
-"PO-Revision-Date: 2018-03-02 22:16+0700\n"
+"POT-Creation-Date: 2018-03-30 06:11+0200\n"
+"PO-Revision-Date: 2018-04-03 06:32+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -989,12 +989,12 @@ msgstr "Sembunyikan Batas Jendela"
 #: kwinbindings.cpp:81
 #, kde-format
 msgid "Keep Window Above Others"
-msgstr "Jaga Jendela Di Atas Lainnya"
+msgstr "Jaga Jendela di Atas Lainnya"
 
 #: kwinbindings.cpp:83
 #, kde-format
 msgid "Keep Window Below Others"
-msgstr "Jaga Jendela Di Bawah Lainnya"
+msgstr "Jaga Jendela di Bawah Lainnya"
 
 #: kwinbindings.cpp:85
 #, kde-format
@@ -1445,7 +1445,7 @@ msgstr ""
 #, kde-format
 msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
-msgstr "Plugin tidak menyediakan fail konfigurasi di lokasi yang diharapkan"
+msgstr "Plugin tidak menyediakan file konfigurasi di lokasi yang diharapkan"
 
 #: scripting/scripting.cpp:128
 #, kde-format
@@ -1716,7 +1716,7 @@ msgstr "Ganti ke Tab"
 #: useractions.cpp:595
 #, kde-format
 msgid "&Attach as tab to"
-msgstr "&Tambahkan sebagai tab ke"
+msgstr "&Lampirkan sebagai tab ke"
 
 #: useractions.cpp:618
 #, kde-format
@@ -1842,7 +1842,7 @@ msgstr ""
 msgid "Virtual Keyboard is disabled."
 msgstr ""
 
-#: workspace.cpp:1314
+#: workspace.cpp:1315
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

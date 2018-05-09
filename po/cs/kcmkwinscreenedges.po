@@ -1,15 +1,15 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Lukáš Tinkl <lukas@kde.org>, 2010, 2012, 2013.
-# Vít Pelčák <vit@pelcak.org>, 2014, 2016, 2017.
+# Vít Pelčák <vit@pelcak.org>, 2014, 2016, 2017, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2017-12-30 03:13+0100\n"
-"PO-Revision-Date: 2017-04-18 13:14+0100\n"
-"Last-Translator: Vít Pelčák <vit@pelcak.org>\n"
+"PO-Revision-Date: 2018-04-03 17:10+0100\n"
+"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -105,7 +105,7 @@ msgstr "Zapnout alternativní přepínání oken"
 #: main.ui:17
 #, kde-format
 msgid "Active Screen Corners and Edges"
-msgstr ""
+msgstr "Aktivní rohy a hrany obrazovky"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
@@ -125,7 +125,7 @@ msgstr "Správa oken"
 #: main.ui:58
 #, kde-format
 msgid "Maximize windows by dragging them to the top edge of the screen"
-msgstr ""
+msgstr "Maximalizovat okna jejich přetažením k hornímu okraji obrazovky"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65

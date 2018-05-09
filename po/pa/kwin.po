@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-02-22 06:05+0100\n"
+"POT-Creation-Date: 2018-03-30 06:11+0200\n"
 "PO-Revision-Date: 2015-02-01 03:25-0600\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@list.sf.net>\n"
@@ -1841,7 +1841,7 @@ msgstr ""
 msgid "Virtual Keyboard is disabled."
 msgstr ""
 
-#: workspace.cpp:1314
+#: workspace.cpp:1315
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

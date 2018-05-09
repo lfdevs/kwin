@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2018-03-27 06:17+0200\n"
-"PO-Revision-Date: 2018-03-17 20:21+0700\n"
+"PO-Revision-Date: 2018-03-26 21:27+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -597,13 +597,13 @@ msgstr "&Kekuatan:"
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
-msgstr "Kabur"
+msgstr "Buram"
 
 #: effect_builtins.cpp:103
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
-msgstr "Kabur latar belakang di belakang jendela semi transparan"
+msgstr "Memburamkan latarbelakang di belakang jendela semi transparan"
 
 #: effect_builtins.cpp:117
 #, kde-format

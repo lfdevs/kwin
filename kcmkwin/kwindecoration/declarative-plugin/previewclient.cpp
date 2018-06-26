@@ -353,11 +353,12 @@ void PreviewClient::setBordersTopEdge(bool enabled)
 
 void PreviewClient::requestShowToolTip(const QString &text)
 {
-    Q_UNUSED(text)
+    qDebug() << "tooltip show requested with text:" << text;
 }
 
 void PreviewClient::requestHideToolTip()
 {
+    qDebug() << "tooltip hide requested";
 }
 
 void PreviewClient::requestClose()

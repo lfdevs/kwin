@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-27 06:17+0200\n"
+"POT-Creation-Date: 2018-05-02 03:40+0200\n"
 "PO-Revision-Date: 2018-03-16 21:17+0100\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -31,29 +31,31 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "txemaq@gmail.com"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
 #: blur/blur_config.ui:17
 #, kde-format
-msgid "Strength of the effect:"
-msgstr "Potència de l'efecte:"
+msgid "Blur strength:"
+msgstr "Potència del difuminat:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: blur/blur_config.ui:42
+#. i18n: ectx: property (text), widget (QLabel, labelConstantBlurLight)
+#. i18n: ectx: property (text), widget (QLabel, labelConstantNoiseLight)
+#: blur/blur_config.ui:42 blur/blur_config.ui:108
 #, kde-format
 msgid "Light"
 msgstr "Lleugera"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: blur/blur_config.ui:74
+#. i18n: ectx: property (text), widget (QLabel, labelConstantBlurStrong)
+#. i18n: ectx: property (text), widget (QLabel, labelConstantNoiseStrong)
+#: blur/blur_config.ui:74 blur/blur_config.ui:137
 #, kde-format
 msgid "Strong"
 msgstr "Potent"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_CacheTexture)
-#: blur/blur_config.ui:86
+#. i18n: ectx: property (text), widget (QLabel, labelConstantNoiseDescription)
+#: blur/blur_config.ui:83
 #, kde-format
-msgid "Save intermediate rendering results."
-msgstr "Guarda els resultats de la representació intermèdia."
+msgid "Noise strength:"
+msgstr "Potència del soroll:"
 
 #: colorpicker/colorpicker.cpp:118
 #, kde-format
@@ -145,7 +147,7 @@ msgid "Default"
 msgstr "Omissió"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
-#: coverswitch/coverswitch_config.ui:161 slide/slide_config.ui:39
+#: coverswitch/coverswitch_config.ui:161 slide/slide_config.ui:53
 #, kde-format
 msgid " milliseconds"
 msgstr " mil·lisegons"
@@ -547,7 +549,7 @@ msgstr "Automàtic"
 #: desktopgrid/desktopgrid_config.ui:137
 #, kde-format
 msgid "Custom"
-msgstr "Personalitzat"
+msgstr "A mida"
 
 #. i18n: ectx: property (text), widget (QLabel, layoutRowsLabel)
 #: desktopgrid/desktopgrid_config.ui:145
@@ -962,9 +964,8 @@ msgstr "Diapositiva"
 #: effect_builtins.cpp:523
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
-msgid "Slide windows across the screen when switching virtual desktops"
-msgstr ""
-"Desplaça les finestres per la pantalla en canviar els escriptoris virtuals"
+msgid "Slide desktops when switching virtual desktops"
+msgstr "Llisca els escriptoris en canviar els escriptoris virtuals"
 
 #: effect_builtins.cpp:537
 #, kde-format
@@ -1386,7 +1387,7 @@ msgstr "Commuta les finestres presents (tots els escriptoris)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Commuta les finestres presents (classe finestra)"
 
-#: presentwindows/presentwindows.cpp:1651
+#: presentwindows/presentwindows.cpp:1649
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1699,18 +1700,42 @@ msgstr "Color de text:"
 msgid "Text alpha:"
 msgstr "Alfa del text:"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: slide/slide_config.ui:17
+#. i18n: ectx: property (text), widget (QLabel, label_Duration)
+#: slide/slide_config.ui:25
 #, kde-format
-msgid "Duration:"
-msgstr "Durada:"
+msgid "D&uration:"
+msgstr "D&urada:"
 
+#. i18n: Duration of the slide animation.
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
-#: slide/slide_config.ui:36
+#: slide/slide_config.ui:50
 #, kde-format
-msgctxt "Duration of the slide animation"
 msgid "Default"
-msgstr "Per omissió"
+msgstr "Predeterminada"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupbox_Gaps)
+#: slide/slide_config.ui:71
+#, kde-format
+msgid "Gap between desktops"
+msgstr "Espai entre escriptoris"
+
+#. i18n: ectx: property (text), widget (QLabel, label_HorizontalGap)
+#: slide/slide_config.ui:85
+#, kde-format
+msgid "Hori&zontal:"
+msgstr "Horit&zontal:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_VerticalGap)
+#: slide/slide_config.ui:127
+#, kde-format
+msgid "Ver&tical:"
+msgstr "Ver&tical:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
+#: slide/slide_config.ui:161
+#, kde-format
+msgid "Slide docks"
+msgstr "Llisca els acobladors"
 
 #: thumbnailaside/thumbnailaside.cpp:38
 #: thumbnailaside/thumbnailaside_config.cpp:73

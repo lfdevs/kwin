@@ -9,13 +9,13 @@
 # Diniz Bortolotto <diniz.bortolotto@gmail.com>, 2007.
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2009, 2010, 2012, 2013, 2014, 2015.
 # Marcus Gama <marcus.gama@gmail.com>, 2012.
-# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2017.
+# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-14 02:49+0200\n"
-"PO-Revision-Date: 2017-10-25 11:33-0300\n"
+"POT-Creation-Date: 2018-04-19 03:40+0200\n"
+"PO-Revision-Date: 2018-05-02 00:52-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -183,17 +183,22 @@ msgstr "Ainda maior"
 msgid "Buttons"
 msgstr "Botões"
 
-#: qml/Buttons.qml:77
+#: qml/Buttons.qml:72
 #, kde-format
 msgid "Titlebar"
 msgstr "Barra de título"
 
-#: qml/Buttons.qml:201
+#: qml/Buttons.qml:199
+#, kde-format
+msgid "Drop here to remove button"
+msgstr "Solte aqui para remover o botão"
+
+#: qml/Buttons.qml:223
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Arraste os botões entre a barra de título e aqui"
 
-#: qml/Buttons.qml:216
+#: qml/Previews.qml:138
 #, kde-format
-msgid "Drop here to remove button"
-msgstr "Solte aqui para remover o botão"
+msgid "Configure %1..."
+msgstr "Configurar %1..."

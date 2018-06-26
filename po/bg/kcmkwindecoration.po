@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-14 02:49+0200\n"
+"POT-Creation-Date: 2018-04-19 03:40+0200\n"
 "PO-Revision-Date: 2010-10-05 23:36+0300\n"
 "Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -179,17 +179,23 @@ msgstr "Свръх огромен"
 msgid "Buttons"
 msgstr "Бутони"
 
-#: qml/Buttons.qml:77
+#: qml/Buttons.qml:72
 #, kde-format
 msgid "Titlebar"
 msgstr ""
 
-#: qml/Buttons.qml:201
+#: qml/Buttons.qml:199
+#, kde-format
+msgid "Drop here to remove button"
+msgstr ""
+
+#: qml/Buttons.qml:223
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr ""
 
-#: qml/Buttons.qml:216
-#, kde-format
-msgid "Drop here to remove button"
-msgstr ""
+#: qml/Previews.qml:138
+#, fuzzy, kde-format
+#| msgid "Configure Buttons..."
+msgid "Configure %1..."
+msgstr "Настройки на бутоните..."

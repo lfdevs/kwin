@@ -36,10 +36,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "screenedge.h"
 #include "screens.h"
 #include "workspace.h"
-#if HAVE_INPUT
 #include "libinput/connection.h"
 #include "libinput/device.h"
-#endif
 #include "platform.h"
 #include "popup_input_filter.h"
 #include "shell_client.h"
@@ -191,7 +189,6 @@ void InputEventFilter::passToWaylandServer(QKeyEvent *event)
     }
 }
 
-#if HAVE_INPUT
 class VirtualTerminalFilter : public InputEventFilter {
 public:
     bool keyEvent(QKeyEvent *event) override {
@@ -206,7 +203,6 @@ public:
         return false;
     }
 };
-#endif
 
 class TerminateServerFilter : public InputEventFilter {
 public:
@@ -914,6 +910,9 @@ class InternalWindowEventFilter : public InputEventFilter {
                 if (w->property("outputOnly").toBool()) {
                     continue;
                 }
+                if (w->flags().testFlag(Qt::ToolTip)) {
+                    continue;
+                }
                 found = w;
                 break;
             }
@@ -1552,7 +1551,6 @@ InputRedirection::InputRedirection(QObject *parent)
     qRegisterMetaType<KWin::InputRedirection::KeyboardKeyState>();
     qRegisterMetaType<KWin::InputRedirection::PointerButtonState>();
     qRegisterMetaType<KWin::InputRedirection::PointerAxis>();
-#if HAVE_INPUT
     if (Application::usesLibinput()) {
         if (LogindIntegration::self()->hasSessionControl()) {
             setupLibInput();
@@ -1572,7 +1570,6 @@ InputRedirection::InputRedirection(QObject *parent)
             );
         }
     }
-#endif
     connect(kwinApp(), &Application::workspaceCreated, this, &InputRedirection::setupWorkspace);
     reconfigure();
 }
@@ -1717,11 +1714,9 @@ void InputRedirection::setupWorkspace()
 
 void InputRedirection::setupInputFilters()
 {
-#if HAVE_INPUT
     if (LogindIntegration::self()->hasSessionControl()) {
         installInputEventFilter(new VirtualTerminalFilter);
     }
-#endif
     if (waylandServer()) {
         installInputEventFilter(new TerminateServerFilter);
         installInputEventFilter(new DragAndDropInputFilter);
@@ -1749,7 +1744,6 @@ void InputRedirection::setupInputFilters()
 
 void InputRedirection::reconfigure()
 {
-#if HAVE_INPUT
     if (Application::usesLibinput()) {
         auto inputConfig = kwinApp()->inputConfig();
         inputConfig->reparseConfiguration();
@@ -1760,7 +1754,6 @@ void InputRedirection::reconfigure()
 
         waylandServer()->seat()->setKeyRepeatInfo(enabled ? rate : 0, delay);
     }
-#endif
 }
 
 static KWayland::Server::SeatInterface *findSeat()
@@ -1774,7 +1767,6 @@ static KWayland::Server::SeatInterface *findSeat()
 
 void InputRedirection::setupLibInput()
 {
-#if HAVE_INPUT
     if (!Application::usesLibinput()) {
         return;
     }
@@ -1854,6 +1846,14 @@ void InputRedirection::setupLibInput()
                     emit hasAlphaNumericKeyboardChanged(set);
                 }
             );
+            connect(conn, &LibInput::Connection::hasTabletModeSwitchChanged, this,
+                [this] (bool set) {
+                    if (m_libInput->isSuspended()) {
+                        return;
+                    }
+                    emit hasTabletModeSwitchChanged(set);
+                }
+            );
             connect(conn, &LibInput::Connection::hasPointerChanged, this,
                 [this, s] (bool set) {
                     if (m_libInput->isSuspended()) {
@@ -1880,7 +1880,6 @@ void InputRedirection::setupLibInput()
         );
     }
     setupTouchpadShortcuts();
-#endif
 }
 
 void InputRedirection::setupTouchpadShortcuts()
@@ -1888,7 +1887,6 @@ void InputRedirection::setupTouchpadShortcuts()
     if (!m_libInput) {
         return;
     }
-#if HAVE_INPUT
     QAction *touchpadToggleAction = new QAction(this);
     QAction *touchpadOnAction = new QAction(this);
     QAction *touchpadOffAction = new QAction(this);
@@ -1913,22 +1911,26 @@ void InputRedirection::setupTouchpadShortcuts()
     connect(touchpadToggleAction, &QAction::triggered, m_libInput, &LibInput::Connection::toggleTouchpads);
     connect(touchpadOnAction, &QAction::triggered, m_libInput, &LibInput::Connection::enableTouchpads);
     connect(touchpadOffAction, &QAction::triggered, m_libInput, &LibInput::Connection::disableTouchpads);
-#endif
 }
 
 bool InputRedirection::hasAlphaNumericKeyboard()
 {
-#if HAVE_INPUT
     if (m_libInput) {
         return m_libInput->hasAlphaNumericKeyboard();
     }
-#endif
     return true;
+}
+
+bool InputRedirection::hasTabletModeSwitch()
+{
+    if (m_libInput) {
+        return m_libInput->hasTabletModeSwitch();
+    }
+    return false;
 }
 
 void InputRedirection::setupLibInputWithScreens()
 {
-#if HAVE_INPUT
     if (!screens() || !m_libInput) {
         return;
     }
@@ -1940,7 +1942,6 @@ void InputRedirection::setupLibInputWithScreens()
         }
     );
     connect(screens(), &Screens::changed, m_libInput, &LibInput::Connection::updateScreens);
-#endif
 }
 
 void InputRedirection::processPointerMotion(const QPointF &pos, uint32_t time)

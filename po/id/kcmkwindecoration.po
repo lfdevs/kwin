@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-14 02:49+0200\n"
-"PO-Revision-Date: 2018-01-22 22:53+0700\n"
+"POT-Creation-Date: 2018-04-19 03:40+0200\n"
+"PO-Revision-Date: 2018-06-09 19:50+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -25,17 +25,14 @@ msgid "Menu"
 msgstr "Menu"
 
 #: declarative-plugin/buttonsmodel.cpp:70
-#, fuzzy, kde-format
-#| msgctxt "Button showing application menu imported from dbusmenu"
-#| msgid "Application Menu"
+#, kde-format
 msgid "Application menu"
-msgstr "Menu Aplikasi"
+msgstr "Menu aplikasi"
 
 #: declarative-plugin/buttonsmodel.cpp:72
-#, fuzzy, kde-format
-#| msgid "On All Desktops"
+#, kde-format
 msgid "On all desktops"
-msgstr "Di Semua Desktop"
+msgstr "Pada semua desktop"
 
 #: declarative-plugin/buttonsmodel.cpp:74
 #, kde-format
@@ -55,24 +52,22 @@ msgstr "Tutup"
 #: declarative-plugin/buttonsmodel.cpp:80
 #, kde-format
 msgid "Context help"
-msgstr ""
+msgstr "Bantuan konteks"
 
 #: declarative-plugin/buttonsmodel.cpp:82
 #, kde-format
 msgid "Shade"
-msgstr "Bayang"
+msgstr "Tirai"
 
 #: declarative-plugin/buttonsmodel.cpp:84
-#, fuzzy, kde-format
-#| msgid "Keep Below Others"
+#, kde-format
 msgid "Keep below"
-msgstr "Jaga Di Bawah Lainnya"
+msgstr "Tetap di bawah"
 
 #: declarative-plugin/buttonsmodel.cpp:86
-#, fuzzy, kde-format
-#| msgid "Keep Above Others"
+#, kde-format
 msgid "Keep above"
-msgstr "Jaga Di Atas Lainnya"
+msgstr "Tetap di atas"
 
 #: kcm.cpp:140
 #, kde-format
@@ -87,7 +82,7 @@ msgstr ""
 #: kcm.ui:21
 #, kde-format
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter)
 #: kcm.ui:29
@@ -103,35 +98,29 @@ msgstr "Dapatkan Dekorasi Baru..."
 
 #. i18n: ectx: property (text), widget (QCheckBox, closeWindowsDoubleClick)
 #: kcm.ui:54
-#, fuzzy, kde-format
-#| msgid "Close windows by double clicking the menu button"
+#, kde-format
 msgid "Close windows by double clicking &the menu button"
-msgstr "Tutup jendela dengan klik ganda tombol menu"
+msgstr "Tutup jendela dengan klik ganda &tombol menu"
 
 #. i18n: ectx: property (text), widget (QLabel, borderSizesLabel)
 #: kcm.ui:95
-#, fuzzy, kde-format
-#| msgid "Border size:"
+#, kde-format
 msgid "Border si&ze:"
-msgstr "Ukuran batas:"
+msgstr "Uk&uran batas:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:109
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "No Border"
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Borders"
-msgstr "Tak Ada Batas"
+msgstr "Tiada Tepi"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:114
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "No Side Border"
+#, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
-msgstr "Tak Ada Batas Sisi"
+msgstr "Tiada Tepi Sisi"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:119
@@ -147,26 +136,29 @@ msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
 msgstr "Normal"
 
+# Sengaja diterjemahkan Agak Besar karena tampil satu level dengan tingkat ukuran
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:129
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
-msgstr "Besar"
+msgstr "Agak Besar"
 
+# Sengaja diterjemahkan Besar karena tampil satu level dengan tingkat ukuran
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:134
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
-msgstr "Sangat Besar"
+msgstr "Besar"
 
+# Sengaja diterjemahkan Besar Banget karena tampil satu level dengan tingkat ukuran
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:139
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
-msgstr "Sangat Besar"
+msgstr "Besar Banget"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:144
@@ -175,12 +167,13 @@ msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
 msgstr "Sangat Besar"
 
+# Meski sebenarnya adalah Kebesaran tapi sengaja diterjemahkan Sangat Besar Sekali karena tampil satu level dengan tingkat ukuran
 #. i18n: ectx: property (text), item, widget (KComboBox, borderSizesCombo)
 #: kcm.ui:149
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
-msgstr "Terlalu Besar"
+msgstr "Sangat Besar Sekali"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: kcm.ui:160
@@ -188,17 +181,22 @@ msgstr "Terlalu Besar"
 msgid "Buttons"
 msgstr "Tombol"
 
-#: qml/Buttons.qml:77
+#: qml/Buttons.qml:72
 #, kde-format
 msgid "Titlebar"
-msgstr ""
+msgstr "Bilah Judul"
 
-#: qml/Buttons.qml:201
-#, kde-format
-msgid "Drag buttons between here and the titlebar"
-msgstr ""
-
-#: qml/Buttons.qml:216
+#: qml/Buttons.qml:199
 #, kde-format
 msgid "Drop here to remove button"
-msgstr ""
+msgstr "Taruh sini untuk membuang tombol"
+
+#: qml/Buttons.qml:223
+#, kde-format
+msgid "Drag buttons between here and the titlebar"
+msgstr "Seret tombol antara di sini dan di bilah judul"
+
+#: qml/Previews.qml:138
+#, kde-format
+msgid "Configure %1..."
+msgstr "Konfigurasi %1..."

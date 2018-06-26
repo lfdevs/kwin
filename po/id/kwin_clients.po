@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2017-11-02 03:16+0100\n"
-"PO-Revision-Date: 2018-01-22 22:53+0700\n"
+"PO-Revision-Date: 2018-06-09 19:54+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 2.0\n"
 
 #: aurorae/src/aurorae.cpp:722
 #, kde-format
@@ -25,54 +26,47 @@ msgid "Tiny"
 msgstr "Mungil"
 
 #: aurorae/src/aurorae.cpp:723
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Button size:"
-#| msgid "Normal"
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "Normal"
 
+# Sengaja diterjemahkan Agak Besar karena tampil satu level dengan tingkat ukuran
 #: aurorae/src/aurorae.cpp:724
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
-msgstr "Besar"
+msgstr "Agak Besar"
 
+# Sengaja diterjemahkan Besar karena tampil satu level dengan tingkat ukuran
 #: aurorae/src/aurorae.cpp:725
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Button size:"
-#| msgid "Very Large"
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
-msgstr "Sangat Besar"
+msgstr "Besar"
 
+# Sengaja diterjemahkan Besar Banget karena tampil satu level dengan tingkat ukuran
 #: aurorae/src/aurorae.cpp:726
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Button size:"
-#| msgid "Huge"
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
-msgstr "Sangat Besar"
+msgstr "Besar Banget"
 
 #: aurorae/src/aurorae.cpp:727
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Very Huge"
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "Sangat Besar"
 
+# Meski sebenarnya adalah Kebesaran tapi sengaja diterjemahkan Sangat Besar Sekali karena tampil satu level dengan tingkat ukuran
 #: aurorae/src/aurorae.cpp:728
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Oversized"
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
-msgstr "Terlalu Besar"
+msgstr "Sangat Besar Sekali"
 
 #: aurorae/src/aurorae.cpp:731
-#, fuzzy, kde-format
-#| msgid "Button size:"
+#, kde-format
 msgid "Button size:"
 msgstr "Ukuran tombol:"
 
@@ -86,7 +80,7 @@ msgstr "Dialog Konfigurasi"
 #: aurorae/themes/plastik/package/contents/ui/config.ui:23
 #, kde-format
 msgid "Title &Alignment"
-msgstr "Perataan &Judul"
+msgstr "Penjajaran &Judul"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignLeft)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:29

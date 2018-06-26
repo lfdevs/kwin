@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-27 06:17+0200\n"
-"PO-Revision-Date: 2018-03-26 21:27+0700\n"
+"POT-Creation-Date: 2018-05-02 03:40+0200\n"
+"PO-Revision-Date: 2018-06-16 07:51+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -22,36 +22,40 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Andhika Padmawan"
+msgstr "Andhika Padmawan,Wantoyo"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "andhika.padmawan@gmail.com"
+msgstr "andhika.padmawan@gmail.com,wantoyek@gmail.com"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
 #: blur/blur_config.ui:17
 #, kde-format
-msgid "Strength of the effect:"
-msgstr "Kekuatan efek:"
+msgid "Blur strength:"
+msgstr "Kekuatan buram:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: blur/blur_config.ui:42
+# Lawan kata Kuat
+#. i18n: ectx: property (text), widget (QLabel, labelConstantBlurLight)
+#. i18n: ectx: property (text), widget (QLabel, labelConstantNoiseLight)
+#: blur/blur_config.ui:42 blur/blur_config.ui:108
 #, kde-format
 msgid "Light"
-msgstr "Cahaya"
+msgstr "Lemah"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: blur/blur_config.ui:74
+# Lawan kata Lemah
+#. i18n: ectx: property (text), widget (QLabel, labelConstantBlurStrong)
+#. i18n: ectx: property (text), widget (QLabel, labelConstantNoiseStrong)
+#: blur/blur_config.ui:74 blur/blur_config.ui:137
 #, kde-format
 msgid "Strong"
 msgstr "Kuat"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_CacheTexture)
-#: blur/blur_config.ui:86
+#. i18n: ectx: property (text), widget (QLabel, labelConstantNoiseDescription)
+#: blur/blur_config.ui:83
 #, kde-format
-msgid "Save intermediate rendering results."
-msgstr "Simpan hasil render antara."
+msgid "Noise strength:"
+msgstr "Kekuatan desis:"
 
 #: colorpicker/colorpicker.cpp:118
 #, kde-format
@@ -117,13 +121,13 @@ msgstr "Alih animasi"
 #: coverswitch/coverswitch_config.ui:123
 #, kde-format
 msgid "Animation on tab box open"
-msgstr "Animasi di tab buka kotak"
+msgstr "Animasi saat buka kotak tab"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnimateStop)
 #: coverswitch/coverswitch_config.ui:130
 #, kde-format
 msgid "Animation on tab box close"
-msgstr "Animasi di tab tutup kotak"
+msgstr "Animasi saat tutup kotak tab"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: coverswitch/coverswitch_config.ui:139 magiclamp/magiclamp_config.ui:17
@@ -142,7 +146,7 @@ msgid "Default"
 msgstr "Baku"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
-#: coverswitch/coverswitch_config.ui:161 slide/slide_config.ui:39
+#: coverswitch/coverswitch_config.ui:161 slide/slide_config.ui:53
 #, kde-format
 msgid " milliseconds"
 msgstr " milidetik"
@@ -246,7 +250,7 @@ msgstr "Aktivasi"
 #: thumbnailaside/thumbnailaside_config.ui:17
 #, kde-format
 msgid "Appearance"
-msgstr "Tampilan"
+msgstr "Penampilan"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DisplayDesktopName)
 #: cube/cube_config.ui:110
@@ -319,25 +323,25 @@ msgstr "Tab 2"
 #: cube/cube_config.ui:285
 #, kde-format
 msgid "Caps"
-msgstr "Cap"
+msgstr "Kap"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Caps)
 #: cube/cube_config.ui:291
 #, kde-format
 msgid "Show caps"
-msgstr "Tampilkan cap"
+msgstr "Tampilkan kap"
 
 #. i18n: ectx: property (text), widget (QLabel, capColorLabel)
 #: cube/cube_config.ui:298
 #, kde-format
 msgid "Cap color:"
-msgstr "Warna cap:"
+msgstr "Warna kap:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TexturedCaps)
 #: cube/cube_config.ui:321
 #, kde-format
 msgid "Display image on caps"
-msgstr "Tampilkan gambar di cap"
+msgstr "Tampilkan gambar di kap"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, kcfg_ZPosition)
 #: cube/cube_config.ui:367
@@ -379,19 +383,19 @@ msgstr "Gunakan efek ini untuk berjalan antar desktop"
 #: cube/cube_config.ui:432
 #, kde-format
 msgid "Invert cursor keys"
-msgstr "Balik tombol kursor"
+msgstr "Kebalikan tuts kursor"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_InvertMouse)
 #: cube/cube_config.ui:439
 #, kde-format
 msgid "Invert mouse"
-msgstr "Balik mouse"
+msgstr "Kebalikan mouse"
 
 #. i18n: ectx: property (title), widget (QGroupBox, capDeformationGroupBox)
 #: cube/cube_config.ui:449
 #, kde-format
 msgid "Sphere Cap Deformation"
-msgstr "Deformasi Cap Lingkarap"
+msgstr "Deformasi Kap Lingkaran"
 
 #. i18n: ectx: property (text), widget (QLabel, capDeformationSphereLabel)
 #: cube/cube_config.ui:471
@@ -543,7 +547,7 @@ msgstr "Otomatis"
 #: desktopgrid/desktopgrid_config.ui:137
 #, kde-format
 msgid "Custom"
-msgstr "Suaian"
+msgstr "Kustom"
 
 #. i18n: ectx: property (text), widget (QLabel, layoutRowsLabel)
 #: desktopgrid/desktopgrid_config.ui:145
@@ -639,7 +643,7 @@ msgstr "Alih Sampul"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a Cover Flow effect for the alt+tab window switcher"
-msgstr "Tayangkan efek Arus Sampul untuk pengalih jendela alt+tab"
+msgstr "Tampilkan efek Arus Sampul untuk pengalih jendela alt+tab"
 
 #: effect_builtins.cpp:162
 #, kde-format
@@ -693,7 +697,7 @@ msgstr "Pergelap jendela tidak aktif"
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Dim Screen for Administrator Mode"
-msgstr "Dim Layar untuk Mode Administrator"
+msgstr "Dim Layar untuk Mode Pengurus"
 
 #: effect_builtins.cpp:223
 #, kde-format
@@ -754,13 +758,13 @@ msgstr "Sorot jendela yang tepat ketika melayang di atas entri bilah tugas"
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
-msgstr "Balik"
+msgstr "Kebalikan"
 
 #: effect_builtins.cpp:298
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
-msgstr "Balik warna desktop dan jendela"
+msgstr "Kebalikan warna desktop dan jendela"
 
 #: effect_builtins.cpp:312
 #, kde-format
@@ -778,7 +782,7 @@ msgstr "Efek Pembantu KScreen"
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
-msgstr "Kaca Melihat"
+msgstr "Kaca Pembesar"
 
 #: effect_builtins.cpp:328
 #, kde-format
@@ -912,8 +916,8 @@ msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Make modal dialogs smoothly fly in and out when they are shown or hidden"
 msgstr ""
-"Buat dialog modal terbang masuk dan keluar dengan mulus ketika ditampilkan "
-"atau disembunyikan"
+"Buat dialog yang berbentuk terbang masuk dan keluar dengan mulus ketika "
+"ditampilkan atau disembunyikan"
 
 #: effect_builtins.cpp:492
 #, kde-format
@@ -948,38 +952,38 @@ msgstr "Geser"
 #: effect_builtins.cpp:523
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
-msgid "Slide windows across the screen when switching virtual desktops"
-msgstr "Geser jendela melintasi layar ketika beralih desktop virtual"
+msgid "Slide desktops when switching virtual desktops"
+msgstr "Desktop geser ketika beralih desktop virtual"
 
 #: effect_builtins.cpp:537
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
-msgstr "Geser Mundur"
+msgstr "Mundur Geser"
 
 #: effect_builtins.cpp:538
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
-msgstr "Geser mundur jendela ketika jendela lain dinaikkan"
+msgstr "Mundur geser jendela ketika jendela lain diangkat"
 
 #: effect_builtins.cpp:552
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
-msgstr "Geser sembulan"
+msgstr "Sembulan bergeser"
 
 #: effect_builtins.cpp:553
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
-msgstr "Animasi menggeser untuk sembulan Plasma"
+msgstr "Animasi geser untuk sembulan Plasma"
 
 #: effect_builtins.cpp:567
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
-msgstr "Pembantu Jentikan"
+msgstr "Pembantu Jepretan"
 
 #: effect_builtins.cpp:568
 #, kde-format
@@ -1051,7 +1055,7 @@ msgstr "Tampilkan geometri jendela saat pindah/ubah ukuran"
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
-msgstr "Jendela Gemetar"
+msgstr "Jendela Goyang"
 
 #: effect_builtins.cpp:658
 #, kde-format
@@ -1157,12 +1161,12 @@ msgstr "90"
 #: invert/invert.cpp:45 invert/invert_config.cpp:52
 #, kde-format
 msgid "Toggle Invert Effect"
-msgstr "Ubah Efek Balik"
+msgstr "Jungkitan Efek Kebalikan"
 
 #: invert/invert.cpp:53 invert/invert_config.cpp:58
 #, kde-format
 msgid "Toggle Invert Effect on Window"
-msgstr "Ubah Efek Balik di Jendela"
+msgstr "Jungkitan Efek Kebalikan pada Jendela"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -1270,7 +1274,7 @@ msgstr "Cincin"
 #: mouseclick/mouseclick_config.ui:103
 #, kde-format
 msgid "Line Width:"
-msgstr "Lebar Baris:"
+msgstr "Lebar Garis:"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_LineWidth)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingSize)
@@ -1350,7 +1354,7 @@ msgstr "&Warna:"
 #, kde-format
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr ""
-"Gambar menggunakan mouse dengan menahan tombol Shift+Meta dan memindahkan "
+"Gambar menggunakan mouse dengan menahan tuts Shift+Meta dan memindahkan "
 "mouse."
 
 #: presentwindows/presentwindows.cpp:78
@@ -1371,7 +1375,7 @@ msgstr "Ubah Jendela Saat Ini (Semua desktop)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Ubah Jendela Saat Ini (Kelas jendela)"
 
-#: presentwindows/presentwindows.cpp:1651
+#: presentwindows/presentwindows.cpp:1649
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1684,18 +1688,42 @@ msgstr "Warna teks:"
 msgid "Text alpha:"
 msgstr "Alfa teks:"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: slide/slide_config.ui:17
+#. i18n: ectx: property (text), widget (QLabel, label_Duration)
+#: slide/slide_config.ui:25
 #, kde-format
-msgid "Duration:"
-msgstr "Durasi:"
+msgid "D&uration:"
+msgstr "&Durasi:"
 
+#. i18n: Duration of the slide animation.
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
-#: slide/slide_config.ui:36
+#: slide/slide_config.ui:50
 #, kde-format
-msgctxt "Duration of the slide animation"
 msgid "Default"
 msgstr "Baku"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupbox_Gaps)
+#: slide/slide_config.ui:71
+#, kde-format
+msgid "Gap between desktops"
+msgstr "Celah antara desktop"
+
+#. i18n: ectx: property (text), widget (QLabel, label_HorizontalGap)
+#: slide/slide_config.ui:85
+#, kde-format
+msgid "Hori&zontal:"
+msgstr "Men&datar:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_VerticalGap)
+#: slide/slide_config.ui:127
+#, kde-format
+msgid "Ver&tical:"
+msgstr "Te&gak:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
+#: slide/slide_config.ui:161
+#, kde-format
+msgid "Slide docks"
+msgstr "Dok geser"
 
 #: thumbnailaside/thumbnailaside.cpp:38
 #: thumbnailaside/thumbnailaside_config.cpp:73
@@ -1744,7 +1772,7 @@ msgstr "Pemicu nyala"
 #: trackmouse/trackmouse_config.ui:27
 #, kde-format
 msgid "Modifiers"
-msgstr "Pengubah"
+msgstr "Pemodif"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Alt)
 #: trackmouse/trackmouse_config.ui:43
@@ -1892,13 +1920,13 @@ msgstr "&Faktor pindah:"
 #: wobblywindows/wobblywindows_config.ui:155
 #, kde-format
 msgid "Wo&bble when moving"
-msgstr "Ge&tar ketika memindahkan"
+msgstr "Bergo&yang ketika memindahkan"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResizeWobble)
 #: wobblywindows/wobblywindows_config.ui:162
 #, kde-format
 msgid "Wobble when &resizing"
-msgstr "Getar ketika mengubah uku&ran"
+msgstr "Bergoyang ketika mengubah uku&ran"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AdvancedMode)
 #: wobblywindows/wobblywindows_config.ui:182
@@ -1910,7 +1938,7 @@ msgstr "Aktifkan mode l&anjutan"
 #: wobblywindows/wobblywindows_config.ui:192
 #, kde-format
 msgid "&Wobbliness"
-msgstr "&Kegetaran"
+msgstr "&Kegoyangan"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: wobblywindows/wobblywindows_config.ui:201
@@ -1922,7 +1950,7 @@ msgstr "Kurang"
 #: wobblywindows/wobblywindows_config.ui:224
 #, kde-format
 msgid "More"
-msgstr "Selebihnya"
+msgstr "Lebih"
 
 #: zoom/zoom.cpp:84
 #, kde-format

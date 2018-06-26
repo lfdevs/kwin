@@ -41,6 +41,8 @@
 
 #include "detectwidget.h"
 
+Q_DECLARE_METATYPE(NET::WindowType)
+
 namespace KWin
 {
 
@@ -56,8 +58,6 @@ RulesWidget::RulesWidget(QWidget* parent)
 {
     Q_UNUSED(parent);
     setupUi(this);
-    detect->setVisible(KWindowSystem::isPlatformX11());
-    detection_delay->setVisible(KWindowSystem::isPlatformX11());
     QRegularExpressionValidator* validator = new QRegularExpressionValidator(QRegularExpression("[0-9\\-+,xX:]*"), this);
     maxsize->setValidator(validator);
     minsize->setValidator(validator);
@@ -125,6 +125,7 @@ RulesWidget::RulesWidget(QWidget* parent)
     SETUP(fsplevel, force);
     SETUP(fpplevel, force);
     SETUP(type, force);
+    SETUP(desktopfile, set);
     SETUP(ignoregeometry, set);
     SETUP(minsize, force);
     SETUP(maxsize, force);
@@ -230,6 +231,7 @@ UPDATE_ENABLE_SLOT(maxsize)
 UPDATE_ENABLE_SLOT(strictgeometry)
 UPDATE_ENABLE_SLOT(disableglobalshortcuts)
 UPDATE_ENABLE_SLOT(blockcompositing)
+UPDATE_ENABLE_SLOT(desktopfile)
 
 #undef UPDATE_ENABLE_SLOT
 
@@ -546,6 +548,7 @@ void RulesWidget::setRules(Rules* rules)
     CHECKBOX_FORCE_RULE(strictgeometry,);
     CHECKBOX_FORCE_RULE(disableglobalshortcuts,);
     CHECKBOX_FORCE_RULE(blockcompositing,);
+    LINEEDIT_SET_RULE(desktopfile,)
 }
 
 #undef GENERIC_RULE
@@ -650,6 +653,7 @@ Rules* RulesWidget::rules() const
     CHECKBOX_FORCE_RULE(strictgeometry,);
     CHECKBOX_FORCE_RULE(disableglobalshortcuts,);
     CHECKBOX_FORCE_RULE(blockcompositing,);
+    LINEEDIT_SET_RULE(desktopfile,);
     return rules;
 }
 
@@ -682,7 +686,7 @@ void RulesWidget::detectClicked()
     assert(detect_dlg == nullptr);
     detect_dlg = new DetectDialog;
     connect(detect_dlg, SIGNAL(detectionDone(bool)), this, SLOT(detected(bool)));
-    detect_dlg->detect(0, Ui::RulesWidgetBase::detection_delay->value());
+    detect_dlg->detect(Ui::RulesWidgetBase::detection_delay->value());
 }
 
 void RulesWidget::detected(bool ok)
@@ -716,8 +720,7 @@ void RulesWidget::detected(bool ok)
         machine_match->setCurrentIndex(Rules::UnimportantMatch);
         machineMatchChanged();
         // prefill values from to window to settings which already set
-        const KWindowInfo& info = detect_dlg->windowInfo();
-        prefillUnusedValues(info);
+        prefillUnusedValues(detect_dlg->windowInfo());
     }
     delete detect_dlg;
     detect_dlg = nullptr;
@@ -771,6 +774,46 @@ void RulesWidget::prefillUnusedValues(const KWindowInfo& info)
     //CHECKBOX_PREFILL( strictgeometry, );
     //CHECKBOX_PREFILL( disableglobalshortcuts, );
     //CHECKBOX_PREFILL( blockcompositing, );
+    LINEEDIT_PREFILL(desktopfile, , info.desktopFileName());
+}
+
+void RulesWidget::prefillUnusedValues(const QVariantMap& info)
+{
+    const QSize windowSize{info.value("width").toInt(), info.value("height").toInt()};
+    LINEEDIT_PREFILL(position, positionToStr, QPoint(info.value("x").toInt(), info.value("y").toInt()));
+    LINEEDIT_PREFILL(size, sizeToStr, windowSize);
+    COMBOBOX_PREFILL(desktop, desktopToCombo, info.value("x11DesktopNumber").toInt());
+    // COMBOBOX_PREFILL(activity, activityToCombo, info.activity()); // TODO: ivan
+    CHECKBOX_PREFILL(maximizehoriz, , info.value("maximizeHorizontal").toBool());
+    CHECKBOX_PREFILL(maximizevert, , info.value("maximizeVertical").toBool());
+    CHECKBOX_PREFILL(minimize, , info.value("minimized").toBool());
+    CHECKBOX_PREFILL(shade, , info.value("shaded").toBool());
+    CHECKBOX_PREFILL(fullscreen, , info.value("fullscreen").toBool());
+    //COMBOBOX_PREFILL( placement, placementToCombo );
+    CHECKBOX_PREFILL(above, , info.value("keepAbove").toBool());
+    CHECKBOX_PREFILL(below, , info.value("keepBelow").toBool());
+    CHECKBOX_PREFILL(noborder, , info.value("noBorder").toBool());
+    CHECKBOX_PREFILL(skiptaskbar, , info.value("skipTaskbar").toBool());
+    CHECKBOX_PREFILL(skippager, , info.value("skipPager").toBool());
+    CHECKBOX_PREFILL(skipswitcher, , info.value("skipSwitcher").toBool());
+    //CHECKBOX_PREFILL( acceptfocus, );
+    //CHECKBOX_PREFILL( closeable, );
+    //CHECKBOX_PREFILL( autogroup, );
+    //CHECKBOX_PREFILL( autogroupfg, );
+    //LINEEDIT_PREFILL( autogroupid, );
+    SPINBOX_PREFILL(opacityactive, , 100 /*get the actual opacity somehow*/);
+    SPINBOX_PREFILL(opacityinactive, , 100 /*get the actual opacity somehow*/);
+    //LINEEDIT_PREFILL( shortcut, );
+    //COMBOBOX_PREFILL( fsplevel, );
+    //COMBOBOX_PREFILL( fpplevel, );
+    COMBOBOX_PREFILL(type, typeToCombo, info.value("type").value<NET::WindowType>());
+    //CHECKBOX_PREFILL( ignoregeometry, );
+    LINEEDIT_PREFILL(minsize, sizeToStr, windowSize);
+    LINEEDIT_PREFILL(maxsize, sizeToStr, windowSize);
+    //CHECKBOX_PREFILL( strictgeometry, );
+    //CHECKBOX_PREFILL( disableglobalshortcuts, );
+    //CHECKBOX_PREFILL( blockcompositing, );
+    LINEEDIT_PREFILL(desktopfile, , info.value("desktopFile").toString());
 }
 
 #undef GENERIC_PREFILL
@@ -806,6 +849,7 @@ bool RulesWidget::finalCheck()
 
 void RulesWidget::prepareWindowSpecific(WId window)
 {
+    // TODO: adjust for Wayland
     tabs->setCurrentIndex(1);   // geometry tab, skip tab for window identification
     KWindowInfo info(window, NET::WMAllProperties, NET::WM2AllProperties);   // read everything
     prefillUnusedValues(info);

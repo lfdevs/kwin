@@ -113,6 +113,7 @@ GLTexture::GLTexture(const QImage& image, GLenum target)
             { GL_RGB8,     GL_BGR,  GL_UNSIGNED_SHORT_5_6_5_REV    }, // QImage::Format_RGB16
             { 0,           0,       0                              }, // QImage::Format_ARGB8565_Premultiplied
             { 0,           0,       0                              }, // QImage::Format_RGB666
+            { 0,           0,       0                              }, // QImage::Format_ARGB6666_Premultiplied
             { GL_RGB5,     GL_BGRA, GL_UNSIGNED_SHORT_1_5_5_5_REV  }, // QImage::Format_RGB555
             { 0,           0,       0                              }, // QImage::Format_ARGB8555_Premultiplied
             { GL_RGB8,     GL_RGB,  GL_UNSIGNED_BYTE               }, // QImage::Format_RGB888
@@ -125,6 +126,8 @@ GLTexture::GLTexture(const QImage& image, GLenum target)
             { GL_RGB10_A2, GL_RGBA, GL_UNSIGNED_INT_2_10_10_10_REV }, // QImage::Format_A2BGR30_Premultiplied
             { GL_RGB10,    GL_BGRA, GL_UNSIGNED_INT_2_10_10_10_REV }, // QImage::Format_RGB30
             { GL_RGB10_A2, GL_BGRA, GL_UNSIGNED_INT_2_10_10_10_REV }, // QImage::Format_A2RGB30_Premultiplied
+            { GL_R8,       GL_RED,  GL_UNSIGNED_BYTE               }, // QImage::Format_Alpha8
+            { GL_R8,       GL_RED,  GL_UNSIGNED_BYTE               }, // QImage::Format_Grayscale8
         };
 
         QImage im;
@@ -198,7 +201,6 @@ GLTexture::GLTexture(GLenum internalFormat, int width, int height, int levels)
     d->m_size = QSize(width, height);
     d->m_canUseMipmaps = levels > 1;
     d->m_mipLevels = levels;
-    d->m_canUseMipmaps = true;
     d->m_filter = levels > 1 ? GL_NEAREST_MIPMAP_LINEAR : GL_NEAREST;
 
     d->updateMatrix();

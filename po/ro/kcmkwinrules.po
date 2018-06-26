@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-05 06:03+0100\n"
+"POT-Creation-Date: 2018-03-19 03:31+0100\n"
 "PO-Revision-Date: 2013-01-11 11:13+0200\n"
 "Last-Translator: Sergiu Bivol <sergiu@ase.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -33,73 +33,73 @@ msgstr "claudiuc@kde.org"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:100 ruleswidgetbase.ui:428 ruleswidgetbase.ui:2459
+#: detectwidget.cpp:75 ruleswidgetbase.ui:428 ruleswidgetbase.ui:2459
 #, kde-format
 msgid "Normal Window"
 msgstr "Fereastră normală"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:101 ruleswidgetbase.ui:463 ruleswidgetbase.ui:2494
+#: detectwidget.cpp:76 ruleswidgetbase.ui:463 ruleswidgetbase.ui:2494
 #, kde-format
 msgid "Desktop"
 msgstr "Birou"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:102 ruleswidgetbase.ui:443 ruleswidgetbase.ui:2474
+#: detectwidget.cpp:77 ruleswidgetbase.ui:443 ruleswidgetbase.ui:2474
 #, kde-format
 msgid "Dock (panel)"
 msgstr "Andocat (panou)"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:103 ruleswidgetbase.ui:448 ruleswidgetbase.ui:2479
+#: detectwidget.cpp:78 ruleswidgetbase.ui:448 ruleswidgetbase.ui:2479
 #, kde-format
 msgid "Toolbar"
 msgstr "Bara de unelte"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:104 ruleswidgetbase.ui:453 ruleswidgetbase.ui:2484
+#: detectwidget.cpp:79 ruleswidgetbase.ui:453 ruleswidgetbase.ui:2484
 #, kde-format
 msgid "Torn-Off Menu"
 msgstr "Meniu „rupt”"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:105 ruleswidgetbase.ui:433 ruleswidgetbase.ui:2464
+#: detectwidget.cpp:80 ruleswidgetbase.ui:433 ruleswidgetbase.ui:2464
 #, kde-format
 msgid "Dialog Window"
 msgstr "Fereastră de dialog"
 
-#: detectwidget.cpp:106
+#: detectwidget.cpp:81
 #, kde-format
 msgid "Override Type"
 msgstr "Tip corecție"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:107 ruleswidgetbase.ui:473 ruleswidgetbase.ui:2499
+#: detectwidget.cpp:82 ruleswidgetbase.ui:473 ruleswidgetbase.ui:2499
 #, kde-format
 msgid "Standalone Menubar"
 msgstr "Bară de meniu independentă"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:108 ruleswidgetbase.ui:438 ruleswidgetbase.ui:2469
+#: detectwidget.cpp:83 ruleswidgetbase.ui:438 ruleswidgetbase.ui:2469
 #, kde-format
 msgid "Utility Window"
 msgstr "Fereastră utilitară"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:109 ruleswidgetbase.ui:458 ruleswidgetbase.ui:2489
+#: detectwidget.cpp:84 ruleswidgetbase.ui:458 ruleswidgetbase.ui:2489
 #, kde-format
 msgid "Splash Screen"
 msgstr "Imagine de întâmpinare"
 
-#: detectwidget.cpp:115
+#: detectwidget.cpp:90
 #, kde-format
 msgid "Unknown - will be treated as Normal Window"
 msgstr "Necunoscută - va fi tratată ca fereastră normală"
@@ -427,27 +427,27 @@ msgstr ""
 "valoarea dată numai până la ascundere (această acțiune va fi ștearsă când "
 "fereastra este ascunsă).</li></ul>"
 
-#: ruleswidget.cpp:152
+#: ruleswidget.cpp:153
 #, kde-format
 msgid "All Desktops"
 msgstr "Toate birourile"
 
-#: ruleswidget.cpp:345
+#: ruleswidget.cpp:347
 #, kde-format
 msgid "All Activities"
 msgstr "Toate activitățile"
 
-#: ruleswidget.cpp:786
+#: ruleswidget.cpp:829
 #, kde-format
 msgid "Settings for %1"
 msgstr "Configurări pentru %1"
 
-#: ruleswidget.cpp:788
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Înregistrare fără nume"
 
-#: ruleswidget.cpp:798
+#: ruleswidget.cpp:841
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -462,12 +462,12 @@ msgstr ""
 "generică, este recomandabil să limitați tipurile de ferestre pentru a evita "
 "tipurile speciale de ferestre."
 
-#: ruleswidget.cpp:828
+#: ruleswidget.cpp:872
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Editează configurări specifice ferestrei"
 
-#: ruleswidget.cpp:858
+#: ruleswidget.cpp:902
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -480,12 +480,12 @@ msgstr ""
 "modificați, activați-o prin bifare și alegeți modul în care configurarea "
 "trebuie afectată și la ce valoare."
 
-#: ruleswidget.cpp:862
+#: ruleswidget.cpp:906
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Consultați documentația pentru mai multe detalii."
 
-#: ruleswidget.cpp:901
+#: ruleswidget.cpp:945
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Editează scurtătură"
@@ -654,6 +654,7 @@ msgstr "&Poziție"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_disableglobalshortcuts)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_closeable)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_desktopfile)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_blockcompositing)
 #: ruleswidgetbase.ui:506 ruleswidgetbase.ui:563 ruleswidgetbase.ui:627
 #: ruleswidgetbase.ui:678 ruleswidgetbase.ui:749 ruleswidgetbase.ui:813
@@ -666,7 +667,7 @@ msgstr "&Poziție"
 #: ruleswidgetbase.ui:1919 ruleswidgetbase.ui:1970 ruleswidgetbase.ui:2006
 #: ruleswidgetbase.ui:2058 ruleswidgetbase.ui:2162 ruleswidgetbase.ui:2243
 #: ruleswidgetbase.ui:2309 ruleswidgetbase.ui:2358 ruleswidgetbase.ui:2401
-#: ruleswidgetbase.ui:2437 ruleswidgetbase.ui:2525
+#: ruleswidgetbase.ui:2437 ruleswidgetbase.ui:2521 ruleswidgetbase.ui:2582
 #, kde-format
 msgid "Do Not Affect"
 msgstr "Nu afectează"
@@ -689,12 +690,14 @@ msgstr "Nu afectează"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_skiptaskbar)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_above)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_noborder)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_desktopfile)
 #: ruleswidgetbase.ui:511 ruleswidgetbase.ui:568 ruleswidgetbase.ui:632
 #: ruleswidgetbase.ui:683 ruleswidgetbase.ui:754 ruleswidgetbase.ui:818
 #: ruleswidgetbase.ui:886 ruleswidgetbase.ui:937 ruleswidgetbase.ui:988
 #: ruleswidgetbase.ui:1141 ruleswidgetbase.ui:1341 ruleswidgetbase.ui:1392
 #: ruleswidgetbase.ui:1439 ruleswidgetbase.ui:1562 ruleswidgetbase.ui:1646
 #: ruleswidgetbase.ui:1683 ruleswidgetbase.ui:1866 ruleswidgetbase.ui:1924
+#: ruleswidgetbase.ui:2526
 #, kde-format
 msgid "Apply Initially"
 msgstr "Aplică inițial"
@@ -717,12 +720,14 @@ msgstr "Aplică inițial"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_skiptaskbar)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_above)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_noborder)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_desktopfile)
 #: ruleswidgetbase.ui:516 ruleswidgetbase.ui:573 ruleswidgetbase.ui:637
 #: ruleswidgetbase.ui:688 ruleswidgetbase.ui:759 ruleswidgetbase.ui:823
 #: ruleswidgetbase.ui:891 ruleswidgetbase.ui:942 ruleswidgetbase.ui:993
 #: ruleswidgetbase.ui:1146 ruleswidgetbase.ui:1346 ruleswidgetbase.ui:1397
 #: ruleswidgetbase.ui:1444 ruleswidgetbase.ui:1567 ruleswidgetbase.ui:1651
 #: ruleswidgetbase.ui:1688 ruleswidgetbase.ui:1871 ruleswidgetbase.ui:1929
+#: ruleswidgetbase.ui:2531
 #, kde-format
 msgid "Remember"
 msgstr "Ține minte"
@@ -761,6 +766,7 @@ msgstr "Ține minte"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_disableglobalshortcuts)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_closeable)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_desktopfile)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_blockcompositing)
 #: ruleswidgetbase.ui:521 ruleswidgetbase.ui:578 ruleswidgetbase.ui:642
 #: ruleswidgetbase.ui:693 ruleswidgetbase.ui:764 ruleswidgetbase.ui:828
@@ -773,7 +779,7 @@ msgstr "Ține minte"
 #: ruleswidgetbase.ui:1934 ruleswidgetbase.ui:1975 ruleswidgetbase.ui:2011
 #: ruleswidgetbase.ui:2063 ruleswidgetbase.ui:2167 ruleswidgetbase.ui:2248
 #: ruleswidgetbase.ui:2314 ruleswidgetbase.ui:2363 ruleswidgetbase.ui:2406
-#: ruleswidgetbase.ui:2442 ruleswidgetbase.ui:2530
+#: ruleswidgetbase.ui:2442 ruleswidgetbase.ui:2536 ruleswidgetbase.ui:2587
 #, kde-format
 msgid "Force"
 msgstr "Forțează"
@@ -796,12 +802,14 @@ msgstr "Forțează"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_skiptaskbar)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_above)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_noborder)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_desktopfile)
 #: ruleswidgetbase.ui:526 ruleswidgetbase.ui:583 ruleswidgetbase.ui:647
 #: ruleswidgetbase.ui:698 ruleswidgetbase.ui:769 ruleswidgetbase.ui:833
 #: ruleswidgetbase.ui:901 ruleswidgetbase.ui:952 ruleswidgetbase.ui:1003
 #: ruleswidgetbase.ui:1156 ruleswidgetbase.ui:1356 ruleswidgetbase.ui:1407
 #: ruleswidgetbase.ui:1454 ruleswidgetbase.ui:1577 ruleswidgetbase.ui:1661
 #: ruleswidgetbase.ui:1698 ruleswidgetbase.ui:1881 ruleswidgetbase.ui:1939
+#: ruleswidgetbase.ui:2541
 #, kde-format
 msgid "Apply Now"
 msgstr "Aplică acum"
@@ -840,6 +848,7 @@ msgstr "Aplică acum"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_disableglobalshortcuts)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_closeable)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_desktopfile)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_blockcompositing)
 #: ruleswidgetbase.ui:531 ruleswidgetbase.ui:588 ruleswidgetbase.ui:652
 #: ruleswidgetbase.ui:703 ruleswidgetbase.ui:774 ruleswidgetbase.ui:838
@@ -852,7 +861,7 @@ msgstr "Aplică acum"
 #: ruleswidgetbase.ui:1944 ruleswidgetbase.ui:1980 ruleswidgetbase.ui:2016
 #: ruleswidgetbase.ui:2068 ruleswidgetbase.ui:2172 ruleswidgetbase.ui:2253
 #: ruleswidgetbase.ui:2319 ruleswidgetbase.ui:2368 ruleswidgetbase.ui:2411
-#: ruleswidgetbase.ui:2447 ruleswidgetbase.ui:2535
+#: ruleswidgetbase.ui:2447 ruleswidgetbase.ui:2546 ruleswidgetbase.ui:2592
 #, kde-format
 msgid "Force Temporarily"
 msgstr "Forțează temporar"
@@ -1313,8 +1322,20 @@ msgstr "Poate fi în&chisă"
 msgid "Window &type"
 msgstr "&Tip fereastră"
 
+#. i18n: ectx: property (text), widget (QCheckBox, enable_desktopfile)
+#: ruleswidgetbase.ui:2507
+#, kde-format
+msgid "Desktop file name"
+msgstr ""
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, desktopfile)
+#: ruleswidgetbase.ui:2557
+#, kde-format
+msgid "org.kde.kwin"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QCheckBox, enable_blockcompositing)
-#: ruleswidgetbase.ui:2514
+#: ruleswidgetbase.ui:2571
 #, kde-format
 msgid "Block compositing"
 msgstr "Compoziționare în bloc"

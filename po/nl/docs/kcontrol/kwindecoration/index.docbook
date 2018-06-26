@@ -17,9 +17,9 @@
 </authorgroup>
 
 <date
->2016-04-14</date>
+>2018-03-18</date>
 <releaseinfo
->Plasma 5.6</releaseinfo>
+>Plasma 5.12</releaseinfo>
 
 <keywordset>
 <keyword
@@ -84,7 +84,7 @@
 >U wort aangespoord om met de verscheidene stijlen te experimenteren totdat u vindt welke het beste bij uw werkpatroon past.</para>
 
 <para
->In het voorbeeldpaneel rechts van elke stijl vindt u een <inlinemediaobject
+>In het voorbeeld van elke stijl vindt u een <inlinemediaobject
 ><imageobject
 > <imagedata fileref="configure.png" format="PNG"/></imageobject
 ></inlinemediaobject
@@ -93,9 +93,7 @@
 <para
 >De opties in deze instellingendialoog worden toegepast op alle vensters. Sommige vensterdecoraties (&eg; <quote
 >Breeze</quote
-> of <quote
->Oxygen</quote
->) bieden een tabblad <guilabel
+> bieden een tabblad <guilabel
 >Vensterspecifieke wijzigingen</guilabel
 >. Op dit tabblad kunt u de grootte van de rand en de zichtbaarheid van de titelbalk van het venster voor specifieke vensters wijzigen.</para>
 
@@ -139,7 +137,9 @@
 >Knoppen</title>
 
 <para
->Dit tabblad stelt u in staat de locatie van de knop op de titelbalk aan te passen. U kunt knoppen in de titelbalk slepen, ze verwijderen of verplaatsen totdat u de volgorde heeft die u wilt. </para>
+>Dit tabblad stelt u in staat de locatie van de knop op de titelbalk aan te passen. U kunt knoppen, &eg; het <guilabel
+>Toepassingenmenu</guilabel
+> in de titelbalk slepen, ze verwijderen of verplaatsen totdat u de volgorde heeft die u wilt. </para>
 
 <screenshot>
 <screeninfo

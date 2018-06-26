@@ -49,6 +49,11 @@ public:
     bool hasBo() const {
         return m_bo != nullptr;
     }
+
+    gbm_bo* getBo() const {
+        return m_bo;
+    }
+
     void releaseGbm() override;
 
 private:

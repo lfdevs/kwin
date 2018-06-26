@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-14 02:49+0200\n"
+"POT-Creation-Date: 2018-04-19 03:40+0200\n"
 "PO-Revision-Date: 2007-06-24 11:06+0330\n"
 "Last-Translator: Nazanin Kazemi <kazemi@itland.ir>\n"
 "Language-Team: Persian <kde-i18n-fa@kde.org>\n"
@@ -187,17 +187,23 @@ msgstr "بیش از اندازه"
 msgid "Buttons"
 msgstr "دکمه‌ها"
 
-#: qml/Buttons.qml:77
+#: qml/Buttons.qml:72
 #, kde-format
 msgid "Titlebar"
 msgstr ""
 
-#: qml/Buttons.qml:201
+#: qml/Buttons.qml:199
+#, kde-format
+msgid "Drop here to remove button"
+msgstr ""
+
+#: qml/Buttons.qml:223
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr ""
 
-#: qml/Buttons.qml:216
-#, kde-format
-msgid "Drop here to remove button"
-msgstr ""
+#: qml/Previews.qml:138
+#, fuzzy, kde-format
+#| msgid "&Window Decoration"
+msgid "Configure %1..."
+msgstr "تزئین &پنجره‌"

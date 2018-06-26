@@ -31,6 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KDecoration2/Decoration>
 
 #include <QDebug>
+#include <QStyle>
+#include <QToolTip>
 
 namespace KWin
 {
@@ -113,9 +115,25 @@ DecoratedClientImpl::DecoratedClientImpl(AbstractClient *client, KDecoration2::D
 
     connect(client, &AbstractClient::hasApplicationMenuChanged, decoratedClient, &KDecoration2::DecoratedClient::hasApplicationMenuChanged);
     connect(client, &AbstractClient::applicationMenuActiveChanged, decoratedClient, &KDecoration2::DecoratedClient::applicationMenuActiveChanged);
+
+    m_toolTipWakeUp.setSingleShot(true);
+    connect(&m_toolTipWakeUp, &QTimer::timeout, this,
+            [this]() {
+                int fallAsleepDelay = QApplication::style()->styleHint(QStyle::SH_ToolTip_FallAsleepDelay);
+                this->m_toolTipFallAsleep.setRemainingTime(fallAsleepDelay);
+
+                QToolTip::showText(Cursor::pos(), this->m_toolTipText);
+                m_toolTipShowing = true;
+            }
+    );
 }
 
-DecoratedClientImpl::~DecoratedClientImpl() = default;
+DecoratedClientImpl::~DecoratedClientImpl()
+{
+    if (m_toolTipShowing) {
+        requestHideToolTip();
+    }
+}
 
 void DecoratedClientImpl::signalShadeChange() {
     emit decoratedClient()->shadedChanged(m_client->isShade());
@@ -202,11 +220,17 @@ QColor DecoratedClientImpl::color(KDecoration2::ColorGroup group, KDecoration2::
 
 void DecoratedClientImpl::requestShowToolTip(const QString &text)
 {
-    Q_UNUSED(text)
+    m_toolTipText = text;
+
+    int wakeUpDelay = QApplication::style()->styleHint(QStyle::SH_ToolTip_WakeUpDelay);
+    m_toolTipWakeUp.start(m_toolTipFallAsleep.hasExpired() ? wakeUpDelay : 20);
 }
 
 void DecoratedClientImpl::requestHideToolTip()
 {
+    m_toolTipWakeUp.stop();
+    QToolTip::hideText();
+    m_toolTipShowing = false;
 }
 
 void DecoratedClientImpl::requestShowWindowMenu()

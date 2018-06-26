@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-14 02:49+0200\n"
+"POT-Creation-Date: 2018-04-19 03:40+0200\n"
 "PO-Revision-Date: 2015-10-07 11:23+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -184,20 +184,26 @@ msgstr "Ylisuuri"
 msgid "Buttons"
 msgstr "Painikkeet"
 
-#: qml/Buttons.qml:77
+#: qml/Buttons.qml:72
 #, kde-format
 msgid "Titlebar"
 msgstr "Otsikkopalkki"
 
-#: qml/Buttons.qml:201
+#: qml/Buttons.qml:199
+#, kde-format
+msgid "Drop here to remove button"
+msgstr "Poista painike pudottamalla se tähän"
+
+#: qml/Buttons.qml:223
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Vedä painikkeita tämän alueen ja otsikkopalkin välillä"
 
-#: qml/Buttons.qml:216
-#, kde-format
-msgid "Drop here to remove button"
-msgstr "Poista painike pudottamalla se tähän"
+#: qml/Previews.qml:138
+#, fuzzy, kde-format
+#| msgid "Configure Buttons..."
+msgid "Configure %1..."
+msgstr "Painikkeiden asetukset…"
 
 
 
@@ -268,9 +274,6 @@ msgstr "Poista painike pudottamalla se tähän"
 
 
 # Vanha käännös ”väliviiva”, mutta kyse on painikkeiden väliin tulevasta tyhjästä tilasta
-
-
-
 
 
 

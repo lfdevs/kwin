@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-14 02:49+0200\n"
-"PO-Revision-Date: 2015-10-10 11:23+0200\n"
+"POT-Creation-Date: 2018-04-19 03:40+0200\n"
+"PO-Revision-Date: 2018-03-31 19:56+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128@baslug.org>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -178,20 +178,25 @@ msgstr "Sovradimensionato"
 msgid "Buttons"
 msgstr "Pulsanti"
 
-#: qml/Buttons.qml:77
+#: qml/Buttons.qml:72
 #, kde-format
 msgid "Titlebar"
 msgstr "Barra del titolo"
 
-#: qml/Buttons.qml:201
+#: qml/Buttons.qml:199
+#, kde-format
+msgid "Drop here to remove button"
+msgstr "Rilascia qui per rimuovere il pulsante"
+
+#: qml/Buttons.qml:223
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Trascina i pulsanti tra questo punto e la barra del titolo"
 
-#: qml/Buttons.qml:216
+#: qml/Previews.qml:138
 #, kde-format
-msgid "Drop here to remove button"
-msgstr "Rilascia qui per rimuovere il pulsante"
+msgid "Configure %1..."
+msgstr "Configura %1..."
 
 
 

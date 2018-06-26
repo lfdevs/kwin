@@ -90,9 +90,13 @@ bool EglGbmBackend::initializeEgl()
     // Use eglGetPlatformDisplayEXT() to get the display pointer
     // if the implementation supports it.
     if (display == EGL_NO_DISPLAY) {
+        const bool hasMesaGBM = hasClientExtension(QByteArrayLiteral("EGL_MESA_platform_gbm"));
+        const bool hasKHRGBM = hasClientExtension(QByteArrayLiteral("EGL_KHR_platform_gbm"));
+        const GLenum platform = hasMesaGBM ? EGL_PLATFORM_GBM_MESA : EGL_PLATFORM_GBM_KHR;
+
         if (!hasClientExtension(QByteArrayLiteral("EGL_EXT_platform_base")) ||
-                !hasClientExtension(QByteArrayLiteral("EGL_MESA_platform_gbm"))) {
-            setFailed("EGL_EXT_platform_base and/or EGL_MESA_platform_gbm missing");
+                (!hasMesaGBM && !hasKHRGBM)) {
+            setFailed("missing one or more extensions between EGL_EXT_platform_base,  EGL_MESA_platform_gbm, EGL_KHR_platform_gbm");
             return false;
         }
 
@@ -103,7 +107,7 @@ bool EglGbmBackend::initializeEgl()
         }
         m_backend->setGbmDevice(device);
 
-        display = eglGetPlatformDisplayEXT(EGL_PLATFORM_GBM_MESA, device, nullptr);
+        display = eglGetPlatformDisplayEXT(platform, device, nullptr);
     }
 
     if (display == EGL_NO_DISPLAY)
@@ -126,6 +130,7 @@ void EglGbmBackend::init()
     initKWinGL();
     initBufferAge();
     initWayland();
+    initRemotePresent();
 }
 
 bool EglGbmBackend::initRenderingContext()
@@ -148,6 +153,16 @@ bool EglGbmBackend::initRenderingContext()
     setSurface(m_outputs.first().eglSurface);
 
     return makeContextCurrent(m_outputs.first());
+}
+
+void EglGbmBackend::initRemotePresent()
+{
+    if (qEnvironmentVariableIsSet("KWIN_NO_REMOTE")) {
+        return;
+    }
+
+    qCDebug(KWIN_DRM) << "Support for remote access enabled";
+    m_remoteaccessManager.reset(new RemoteAccessManager);
 }
 
 bool EglGbmBackend::resetOutput(Output &o, DrmOutput *drmOutput)
@@ -292,7 +307,13 @@ void EglGbmBackend::presentOnOutput(EglGbmBackend::Output &o)
 {
     eglSwapBuffers(eglDisplay(), o.eglSurface);
     o.buffer = m_backend->createBuffer(o.gbmSurface);
+    if(m_remoteaccessManager && gbm_surface_has_free_buffers(o.gbmSurface->surface())) {
+        // GBM surface is released on page flip so
+        // we should pass the buffer before it's presented
+        m_remoteaccessManager->passBuffer(o.output, o.buffer);
+    }
     m_backend->present(o.buffer, o.output);
+
     if (supportsBufferAge()) {
         eglQuerySurface(eglDisplay(), o.eglSurface, EGL_BUFFER_AGE_EXT, &o.bufferAge);
     }

@@ -17,9 +17,9 @@
 </authorgroup>
 
 <date
->14 d'abril de 2016</date>
+>18 de març de 2018</date>
 <releaseinfo
->Plasma 5.6</releaseinfo>
+>Plasma 5.12</releaseinfo>
 
 <keywordset>
 <keyword
@@ -86,7 +86,7 @@
 >Us encoratgem a què experimenteu amb els diferents estils fins que en trobeu un que s'ajusti al vostre patró de treball.</para>
 
 <para
->Al plafó de vista prèvia a la dreta de cada estil, trobareu un botó de configuració <inlinemediaobject
+>A la vista prèvia de cada estil, trobareu un botó de configuració <inlinemediaobject
 ><imageobject
 > <imagedata fileref="configure.png" format="PNG"/></imageobject
 ></inlinemediaobject
@@ -95,8 +95,6 @@
 <para
 >Les opcions en aquest diàleg de configuració s'apliquen a totes les finestres. Algunes decoracions de finestra (&pex;, <quote
 >Breeze</quote
-> o <quote
->Oxigen</quote
 >) proporcionen una pestanya <guilabel
 >Substitucions específiques de la finestra</guilabel
 >. En aquesta pestanya podreu canviar la mida de la vora i la visibilitat de la barra de títol per a finestres en particular.</para>
@@ -141,7 +139,9 @@
 >Botons</title>
 
 <para
->Aquesta pestanya permet personalitzar la ubicació del botó a la barra de títol. Podeu arrossegar els botons dins la barra de títol, eliminar-los o arrossegar-los al voltant fins que us resultin més confortables d'emprar. </para>
+>Aquesta pestanya permet personalitzar la ubicació del botó a la barra de títol. Podeu arrossegar els botons, &pex;, el <guilabel
+>Menú d'aplicacions</guilabel
+> dins la barra de títol, eliminar-los o arrossegar-los al voltant fins que us resultin més confortables d'emprar. </para>
 
 <screenshot>
 <screeninfo

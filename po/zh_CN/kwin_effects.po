@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-27 06:17+0200\n"
-"PO-Revision-Date: 2018-04-26 06:06-0400\n"
+"POT-Creation-Date: 2018-05-02 03:40+0200\n"
+"PO-Revision-Date: 2018-06-12 17:52-0400\n"
 "Last-Translator: guoyunhebrave <guoyunhebrave@gmail.com>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -38,29 +38,31 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kde-china@kde.org"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
 #: blur/blur_config.ui:17
 #, kde-format
-msgid "Strength of the effect:"
-msgstr "效果强度："
+msgid "Blur strength:"
+msgstr "模糊强度："
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: blur/blur_config.ui:42
+#. i18n: ectx: property (text), widget (QLabel, labelConstantBlurLight)
+#. i18n: ectx: property (text), widget (QLabel, labelConstantNoiseLight)
+#: blur/blur_config.ui:42 blur/blur_config.ui:108
 #, kde-format
 msgid "Light"
 msgstr "轻"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: blur/blur_config.ui:74
+#. i18n: ectx: property (text), widget (QLabel, labelConstantBlurStrong)
+#. i18n: ectx: property (text), widget (QLabel, labelConstantNoiseStrong)
+#: blur/blur_config.ui:74 blur/blur_config.ui:137
 #, kde-format
 msgid "Strong"
 msgstr "重"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_CacheTexture)
-#: blur/blur_config.ui:86
+#. i18n: ectx: property (text), widget (QLabel, labelConstantNoiseDescription)
+#: blur/blur_config.ui:83
 #, kde-format
-msgid "Save intermediate rendering results."
-msgstr "保存中间渲染的结果。"
+msgid "Noise strength:"
+msgstr "噪点强度："
 
 #: colorpicker/colorpicker.cpp:118
 #, kde-format
@@ -151,7 +153,7 @@ msgid "Default"
 msgstr "默认"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
-#: coverswitch/coverswitch_config.ui:161 slide/slide_config.ui:39
+#: coverswitch/coverswitch_config.ui:161 slide/slide_config.ui:53
 #, kde-format
 msgid " milliseconds"
 msgstr " 毫秒"
@@ -950,8 +952,8 @@ msgstr "滑行"
 #: effect_builtins.cpp:523
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
-msgid "Slide windows across the screen when switching virtual desktops"
-msgstr "当切换虚拟桌面时，让窗口滑行穿过屏幕"
+msgid "Slide desktops when switching virtual desktops"
+msgstr "在切换虚拟桌面时滑动"
 
 #: effect_builtins.cpp:537
 #, kde-format
@@ -1371,7 +1373,7 @@ msgstr "切换显示窗口(对全部桌面)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "切换当前窗口分类"
 
-#: presentwindows/presentwindows.cpp:1651
+#: presentwindows/presentwindows.cpp:1649
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1684,18 +1686,42 @@ msgstr "文字颜色："
 msgid "Text alpha:"
 msgstr "文字字母："
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: slide/slide_config.ui:17
+#. i18n: ectx: property (text), widget (QLabel, label_Duration)
+#: slide/slide_config.ui:25
 #, kde-format
-msgid "Duration:"
-msgstr "间隔："
+msgid "D&uration:"
+msgstr "持续时长(&U)："
 
+#. i18n: Duration of the slide animation.
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
-#: slide/slide_config.ui:36
+#: slide/slide_config.ui:50
 #, kde-format
-msgctxt "Duration of the slide animation"
 msgid "Default"
 msgstr "默认"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupbox_Gaps)
+#: slide/slide_config.ui:71
+#, kde-format
+msgid "Gap between desktops"
+msgstr "桌面间的间距"
+
+#. i18n: ectx: property (text), widget (QLabel, label_HorizontalGap)
+#: slide/slide_config.ui:85
+#, kde-format
+msgid "Hori&zontal:"
+msgstr "水平(&Z)："
+
+#. i18n: ectx: property (text), widget (QLabel, label_VerticalGap)
+#: slide/slide_config.ui:127
+#, kde-format
+msgid "Ver&tical:"
+msgstr "竖直(&T)："
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
+#: slide/slide_config.ui:161
+#, kde-format
+msgid "Slide docks"
+msgstr "滑动停靠"
 
 #: thumbnailaside/thumbnailaside.cpp:38
 #: thumbnailaside/thumbnailaside_config.cpp:73

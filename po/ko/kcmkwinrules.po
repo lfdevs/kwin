@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-05 06:03+0100\n"
+"POT-Creation-Date: 2018-03-19 03:31+0100\n"
 "PO-Revision-Date: 2017-12-02 23:22+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
@@ -31,73 +31,73 @@ msgstr "kde@peremen.name"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:100 ruleswidgetbase.ui:428 ruleswidgetbase.ui:2459
+#: detectwidget.cpp:75 ruleswidgetbase.ui:428 ruleswidgetbase.ui:2459
 #, kde-format
 msgid "Normal Window"
 msgstr "일반 창"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:101 ruleswidgetbase.ui:463 ruleswidgetbase.ui:2494
+#: detectwidget.cpp:76 ruleswidgetbase.ui:463 ruleswidgetbase.ui:2494
 #, kde-format
 msgid "Desktop"
 msgstr "데스크톱"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:102 ruleswidgetbase.ui:443 ruleswidgetbase.ui:2474
+#: detectwidget.cpp:77 ruleswidgetbase.ui:443 ruleswidgetbase.ui:2474
 #, kde-format
 msgid "Dock (panel)"
 msgstr "독 (패널)"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:103 ruleswidgetbase.ui:448 ruleswidgetbase.ui:2479
+#: detectwidget.cpp:78 ruleswidgetbase.ui:448 ruleswidgetbase.ui:2479
 #, kde-format
 msgid "Toolbar"
 msgstr "도구 모음"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:104 ruleswidgetbase.ui:453 ruleswidgetbase.ui:2484
+#: detectwidget.cpp:79 ruleswidgetbase.ui:453 ruleswidgetbase.ui:2484
 #, kde-format
 msgid "Torn-Off Menu"
 msgstr "떼낼 수 있는 메뉴"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:105 ruleswidgetbase.ui:433 ruleswidgetbase.ui:2464
+#: detectwidget.cpp:80 ruleswidgetbase.ui:433 ruleswidgetbase.ui:2464
 #, kde-format
 msgid "Dialog Window"
 msgstr "대화 상자"
 
-#: detectwidget.cpp:106
+#: detectwidget.cpp:81
 #, kde-format
 msgid "Override Type"
 msgstr "종류 재정의"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:107 ruleswidgetbase.ui:473 ruleswidgetbase.ui:2499
+#: detectwidget.cpp:82 ruleswidgetbase.ui:473 ruleswidgetbase.ui:2499
 #, kde-format
 msgid "Standalone Menubar"
 msgstr "단일 메뉴 표시줄"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:108 ruleswidgetbase.ui:438 ruleswidgetbase.ui:2469
+#: detectwidget.cpp:83 ruleswidgetbase.ui:438 ruleswidgetbase.ui:2469
 #, kde-format
 msgid "Utility Window"
 msgstr "유틸리티 창"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
-#: detectwidget.cpp:109 ruleswidgetbase.ui:458 ruleswidgetbase.ui:2489
+#: detectwidget.cpp:84 ruleswidgetbase.ui:458 ruleswidgetbase.ui:2489
 #, kde-format
 msgid "Splash Screen"
 msgstr "시작 화면"
 
-#: detectwidget.cpp:115
+#: detectwidget.cpp:90
 #, kde-format
 msgid "Unknown - will be treated as Normal Window"
 msgstr "알 수 없음 - 일반 창으로 취급함"
@@ -399,27 +399,27 @@ msgstr ""
 "강제하기</em>: 창 속성은 숨겨질 때까지 주어진 값으로 강제됩니다. 이 동작은 창"
 "이 숨겨지면 삭제됩니다.</li></ul>"
 
-#: ruleswidget.cpp:152
+#: ruleswidget.cpp:153
 #, kde-format
 msgid "All Desktops"
 msgstr "모든 데스크톱"
 
-#: ruleswidget.cpp:345
+#: ruleswidget.cpp:347
 #, kde-format
 msgid "All Activities"
 msgstr "모든 활동"
 
-#: ruleswidget.cpp:786
+#: ruleswidget.cpp:829
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1의 설정"
 
-#: ruleswidget.cpp:788
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Unnamed entry"
 msgstr "이름 없는 항목"
 
-#: ruleswidget.cpp:798
+#: ruleswidget.cpp:841
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -433,12 +433,12 @@ msgstr ""
 "것이라면 최소한 창 종류의 제한을 두어서 특별한 창에 설정이 적용되지 않도록 하"
 "는 것을 권장합니다."
 
-#: ruleswidget.cpp:828
+#: ruleswidget.cpp:872
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "창 지정 설정 편집하기"
 
-#: ruleswidget.cpp:858
+#: ruleswidget.cpp:902
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -450,12 +450,12 @@ msgstr ""
 "을 선택한 다음 설정을 체크 상자를 통해서 활성화시키시고, 어떤 식으로 바꾸고 "
 "싶은지를 결정하십시오."
 
-#: ruleswidget.cpp:862
+#: ruleswidget.cpp:906
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "자세한 정보를 보려면 문서를 참고하십시오."
 
-#: ruleswidget.cpp:901
+#: ruleswidget.cpp:945
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "단축키 편집"
@@ -622,6 +622,7 @@ msgstr "위치(&P)"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_disableglobalshortcuts)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_closeable)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_desktopfile)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_blockcompositing)
 #: ruleswidgetbase.ui:506 ruleswidgetbase.ui:563 ruleswidgetbase.ui:627
 #: ruleswidgetbase.ui:678 ruleswidgetbase.ui:749 ruleswidgetbase.ui:813
@@ -634,7 +635,7 @@ msgstr "위치(&P)"
 #: ruleswidgetbase.ui:1919 ruleswidgetbase.ui:1970 ruleswidgetbase.ui:2006
 #: ruleswidgetbase.ui:2058 ruleswidgetbase.ui:2162 ruleswidgetbase.ui:2243
 #: ruleswidgetbase.ui:2309 ruleswidgetbase.ui:2358 ruleswidgetbase.ui:2401
-#: ruleswidgetbase.ui:2437 ruleswidgetbase.ui:2525
+#: ruleswidgetbase.ui:2437 ruleswidgetbase.ui:2521 ruleswidgetbase.ui:2582
 #, kde-format
 msgid "Do Not Affect"
 msgstr "영향 주지 않음"
@@ -657,12 +658,14 @@ msgstr "영향 주지 않음"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_skiptaskbar)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_above)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_noborder)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_desktopfile)
 #: ruleswidgetbase.ui:511 ruleswidgetbase.ui:568 ruleswidgetbase.ui:632
 #: ruleswidgetbase.ui:683 ruleswidgetbase.ui:754 ruleswidgetbase.ui:818
 #: ruleswidgetbase.ui:886 ruleswidgetbase.ui:937 ruleswidgetbase.ui:988
 #: ruleswidgetbase.ui:1141 ruleswidgetbase.ui:1341 ruleswidgetbase.ui:1392
 #: ruleswidgetbase.ui:1439 ruleswidgetbase.ui:1562 ruleswidgetbase.ui:1646
 #: ruleswidgetbase.ui:1683 ruleswidgetbase.ui:1866 ruleswidgetbase.ui:1924
+#: ruleswidgetbase.ui:2526
 #, kde-format
 msgid "Apply Initially"
 msgstr "초기에 적용하기"
@@ -685,12 +688,14 @@ msgstr "초기에 적용하기"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_skiptaskbar)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_above)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_noborder)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_desktopfile)
 #: ruleswidgetbase.ui:516 ruleswidgetbase.ui:573 ruleswidgetbase.ui:637
 #: ruleswidgetbase.ui:688 ruleswidgetbase.ui:759 ruleswidgetbase.ui:823
 #: ruleswidgetbase.ui:891 ruleswidgetbase.ui:942 ruleswidgetbase.ui:993
 #: ruleswidgetbase.ui:1146 ruleswidgetbase.ui:1346 ruleswidgetbase.ui:1397
 #: ruleswidgetbase.ui:1444 ruleswidgetbase.ui:1567 ruleswidgetbase.ui:1651
 #: ruleswidgetbase.ui:1688 ruleswidgetbase.ui:1871 ruleswidgetbase.ui:1929
+#: ruleswidgetbase.ui:2531
 #, kde-format
 msgid "Remember"
 msgstr "기억하기"
@@ -729,6 +734,7 @@ msgstr "기억하기"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_disableglobalshortcuts)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_closeable)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_desktopfile)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_blockcompositing)
 #: ruleswidgetbase.ui:521 ruleswidgetbase.ui:578 ruleswidgetbase.ui:642
 #: ruleswidgetbase.ui:693 ruleswidgetbase.ui:764 ruleswidgetbase.ui:828
@@ -741,7 +747,7 @@ msgstr "기억하기"
 #: ruleswidgetbase.ui:1934 ruleswidgetbase.ui:1975 ruleswidgetbase.ui:2011
 #: ruleswidgetbase.ui:2063 ruleswidgetbase.ui:2167 ruleswidgetbase.ui:2248
 #: ruleswidgetbase.ui:2314 ruleswidgetbase.ui:2363 ruleswidgetbase.ui:2406
-#: ruleswidgetbase.ui:2442 ruleswidgetbase.ui:2530
+#: ruleswidgetbase.ui:2442 ruleswidgetbase.ui:2536 ruleswidgetbase.ui:2587
 #, kde-format
 msgid "Force"
 msgstr "강제"
@@ -764,12 +770,14 @@ msgstr "강제"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_skiptaskbar)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_above)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_noborder)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_desktopfile)
 #: ruleswidgetbase.ui:526 ruleswidgetbase.ui:583 ruleswidgetbase.ui:647
 #: ruleswidgetbase.ui:698 ruleswidgetbase.ui:769 ruleswidgetbase.ui:833
 #: ruleswidgetbase.ui:901 ruleswidgetbase.ui:952 ruleswidgetbase.ui:1003
 #: ruleswidgetbase.ui:1156 ruleswidgetbase.ui:1356 ruleswidgetbase.ui:1407
 #: ruleswidgetbase.ui:1454 ruleswidgetbase.ui:1577 ruleswidgetbase.ui:1661
 #: ruleswidgetbase.ui:1698 ruleswidgetbase.ui:1881 ruleswidgetbase.ui:1939
+#: ruleswidgetbase.ui:2541
 #, kde-format
 msgid "Apply Now"
 msgstr "지금 적용하기"
@@ -808,6 +816,7 @@ msgstr "지금 적용하기"
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_disableglobalshortcuts)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_closeable)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_type)
+#. i18n: ectx: property (text), item, widget (QComboBox, rule_desktopfile)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_blockcompositing)
 #: ruleswidgetbase.ui:531 ruleswidgetbase.ui:588 ruleswidgetbase.ui:652
 #: ruleswidgetbase.ui:703 ruleswidgetbase.ui:774 ruleswidgetbase.ui:838
@@ -820,7 +829,7 @@ msgstr "지금 적용하기"
 #: ruleswidgetbase.ui:1944 ruleswidgetbase.ui:1980 ruleswidgetbase.ui:2016
 #: ruleswidgetbase.ui:2068 ruleswidgetbase.ui:2172 ruleswidgetbase.ui:2253
 #: ruleswidgetbase.ui:2319 ruleswidgetbase.ui:2368 ruleswidgetbase.ui:2411
-#: ruleswidgetbase.ui:2447 ruleswidgetbase.ui:2535
+#: ruleswidgetbase.ui:2447 ruleswidgetbase.ui:2546 ruleswidgetbase.ui:2592
 #, kde-format
 msgid "Force Temporarily"
 msgstr "임시로 강제하기"
@@ -1282,8 +1291,20 @@ msgstr "닫을 수 있음(&C)"
 msgid "Window &type"
 msgstr "창 종류(&T)"
 
+#. i18n: ectx: property (text), widget (QCheckBox, enable_desktopfile)
+#: ruleswidgetbase.ui:2507
+#, kde-format
+msgid "Desktop file name"
+msgstr ""
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, desktopfile)
+#: ruleswidgetbase.ui:2557
+#, kde-format
+msgid "org.kde.kwin"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QCheckBox, enable_blockcompositing)
-#: ruleswidgetbase.ui:2514
+#: ruleswidgetbase.ui:2571
 #, kde-format
 msgid "Block compositing"
 msgstr "컴포지팅 무시"

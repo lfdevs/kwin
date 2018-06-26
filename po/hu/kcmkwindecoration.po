@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-14 02:49+0200\n"
+"POT-Creation-Date: 2018-04-19 03:40+0200\n"
 "PO-Revision-Date: 2017-02-08 16:06+0100\n"
 "Last-Translator: Kiszel Kristóf <kiszel.kristof@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -178,17 +178,23 @@ msgstr "Túlméretezett"
 msgid "Buttons"
 msgstr "Nyomógombok"
 
-#: qml/Buttons.qml:77
+#: qml/Buttons.qml:72
 #, kde-format
 msgid "Titlebar"
 msgstr "Címsor"
 
-#: qml/Buttons.qml:201
+#: qml/Buttons.qml:199
+#, kde-format
+msgid "Drop here to remove button"
+msgstr "Ejtse ide a gomb eltávolításához"
+
+#: qml/Buttons.qml:223
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Húzza a gombokat a itt és a címsor között"
 
-#: qml/Buttons.qml:216
-#, kde-format
-msgid "Drop here to remove button"
-msgstr "Ejtse ide a gomb eltávolításához"
+#: qml/Previews.qml:138
+#, fuzzy, kde-format
+#| msgid "Configure Buttons..."
+msgid "Configure %1..."
+msgstr "A gombok beállítása…"

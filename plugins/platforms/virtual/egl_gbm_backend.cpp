@@ -23,9 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "virtual_backend.h"
 #include "options.h"
 #include "screens.h"
-#if HAVE_UDEV
 #include "udev.h"
-#endif
 #include <logging.h>
 // kwin libs
 #include <kwinglplatform.h>
@@ -62,7 +60,6 @@ EglGbmBackend::~EglGbmBackend()
 
 void EglGbmBackend::initGbmDevice()
 {
-#if HAVE_UDEV
     if (m_backend->drmFd() != -1) {
         // already initialized
         return;
@@ -92,7 +89,6 @@ void EglGbmBackend::initGbmDevice()
     }
     m_backend->setGbmDevice(gbmDevice);
 #endif
-#endif
 }
 
 bool EglGbmBackend::initializeEgl()
@@ -103,22 +99,26 @@ bool EglGbmBackend::initializeEgl()
     // Use eglGetPlatformDisplayEXT() to get the display pointer
     // if the implementation supports it.
     if (display == EGL_NO_DISPLAY) {
+        const bool hasMesaGBM = hasClientExtension(QByteArrayLiteral("EGL_MESA_platform_gbm"));
+        const bool hasKHRGBM = hasClientExtension(QByteArrayLiteral("EGL_KHR_platform_gbm"));
+        const GLenum platform = hasMesaGBM ? EGL_PLATFORM_GBM_MESA : EGL_PLATFORM_GBM_KHR;
+
         if (!hasClientExtension(QByteArrayLiteral("EGL_EXT_platform_base")) ||
-                !hasClientExtension(QByteArrayLiteral("EGL_MESA_platform_gbm"))) {
-            setFailed("EGL_EXT_platform_base and/or EGL_MESA_platform_gbm missing");
+                (!hasMesaGBM && !hasKHRGBM)) {
+            setFailed("missing one or more extensions between EGL_EXT_platform_base,  EGL_MESA_platform_gbm, EGL_KHR_platform_gbm");
             return false;
         }
 
 #if HAVE_GBM
         initGbmDevice();
         if (auto device = m_backend->gbmDevice()) {
-            display = eglGetPlatformDisplayEXT(EGL_PLATFORM_GBM_MESA, device, nullptr);
+            display = eglGetPlatformDisplayEXT(platform, device, nullptr);
         }
 #endif
 
         if (display == EGL_NO_DISPLAY) {
             qCWarning(KWIN_VIRTUAL) << "Failed to create EGLDisplay through GBM device, trying with default device";
-            display = eglGetPlatformDisplay(EGL_PLATFORM_GBM_MESA, EGL_DEFAULT_DISPLAY, nullptr);
+            display = eglGetPlatformDisplayEXT(platform, EGL_DEFAULT_DISPLAY, nullptr);
         }
     }
 

@@ -244,10 +244,8 @@ void PresentWindowsEffect::postPaintScreen()
         m_windowData.clear();
 
         foreach (EffectWindow * w, effects->stackingOrder()) {
-            if (w->isDock()) {
-                w->setData(WindowForceBlurRole, QVariant(false));
-                w->setData(WindowForceBackgroundContrastRole, QVariant(false));
-            }
+            w->setData(WindowForceBlurRole, QVariant(m_windowForceBlurRoleState.value(w, false)));
+            w->setData(WindowForceBackgroundContrastRole, QVariant(false));
         }
         effects->setActiveFullScreenEffect(NULL);
         effects->addRepaintFull();
@@ -967,7 +965,8 @@ void PresentWindowsEffect::rearrangeWindows()
         // Don't rearrange if the grid is the same size as what it was before to prevent
         // windows moving to a better spot if one was filtered out.
         if (m_layoutMode == LayoutRegularGrid &&
-                m_gridSizes[screen].columns * m_gridSizes[screen].rows &&
+                m_gridSizes[screen].columns &&
+                m_gridSizes[screen].rows &&
                 windows.size() < m_gridSizes[screen].columns * m_gridSizes[screen].rows &&
                 windows.size() > (m_gridSizes[screen].columns - 1) * m_gridSizes[screen].rows &&
                 windows.size() > m_gridSizes[screen].columns *(m_gridSizes[screen].rows - 1))
@@ -1585,10 +1584,9 @@ void PresentWindowsEffect::setActive(bool active)
         setHighlightedWindow(effects->activeWindow());
 
         foreach (EffectWindow * w, effects->stackingOrder()) {
-            if (w->isDock()) {
-                w->setData(WindowForceBlurRole, QVariant(true));
-                w->setData(WindowForceBackgroundContrastRole, QVariant(true));
-            }
+            m_windowForceBlurRoleState[w] = w->data(WindowForceBlurRole).toBool();
+            w->setData(WindowForceBlurRole, QVariant(true));
+            w->setData(WindowForceBackgroundContrastRole, QVariant(true));
         }
     } else {
         m_needInitialSelection = false;

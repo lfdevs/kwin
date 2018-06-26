@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-30 06:11+0200\n"
-"PO-Revision-Date: 2018-04-03 06:32+0700\n"
+"POT-Creation-Date: 2018-05-20 06:19+0200\n"
+"PO-Revision-Date: 2018-06-17 21:17+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -22,20 +22,20 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Andhika Padmawan"
+msgstr "Andhika Padmawan,Wantoyo"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "andhika.padmawan@gmail.com"
+msgstr "andhika.padmawan@gmail.com,wantoyek@gmail.com"
 
-#: abstract_client.cpp:1773
+#: abstract_client.cpp:1775
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
-msgstr ""
+msgstr "(Tidak Merespons)"
 
-#: composite.cpp:571
+#: composite.cpp:569
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -44,726 +44,717 @@ msgstr ""
 "Efek desktop telah disuspensi oleh aplikasi lain.<br/>Anda dapat melanjutkan "
 "dengan menggunakan pintasan '%1'."
 
-#: debug_console.cpp:76
+#: debug_console.cpp:74
 #, kde-format
 msgid "Timestamp"
-msgstr ""
+msgstr "Stempel Waktu"
 
-#: debug_console.cpp:81
+#: debug_console.cpp:79
 #, kde-format
 msgid "Timestamp (µsec)"
-msgstr ""
+msgstr "Stempel waktu (µsec)"
 
-#: debug_console.cpp:88
-#, fuzzy, kde-format
-#| msgid "To the left"
+#: debug_console.cpp:86
+#, kde-format
 msgctxt "A mouse button"
 msgid "Left"
-msgstr "Ke kiri"
+msgstr "Kiri"
 
-#: debug_console.cpp:90
-#, fuzzy, kde-format
-#| msgid "To the right"
+#: debug_console.cpp:88
+#, kde-format
 msgctxt "A mouse button"
 msgid "Right"
-msgstr "Ke kanan"
+msgstr "Kanan"
+
+#: debug_console.cpp:90
+#, kde-format
+msgctxt "A mouse button"
+msgid "Middle"
+msgstr "Tengah"
 
 #: debug_console.cpp:92
 #, kde-format
 msgctxt "A mouse button"
-msgid "Middle"
-msgstr ""
+msgid "Back"
+msgstr "Mundur"
 
 #: debug_console.cpp:94
 #, kde-format
 msgctxt "A mouse button"
-msgid "Back"
-msgstr ""
+msgid "Forward"
+msgstr "Maju"
 
 #: debug_console.cpp:96
 #, kde-format
 msgctxt "A mouse button"
-msgid "Forward"
-msgstr ""
+msgid "Task"
+msgstr "Tugas"
 
 #: debug_console.cpp:98
 #, kde-format
 msgctxt "A mouse button"
-msgid "Task"
-msgstr ""
+msgid "Extra Button 4"
+msgstr "Tombol Extra 4"
 
 #: debug_console.cpp:100
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 4"
-msgstr ""
+msgid "Extra Button 5"
+msgstr "Tombol Extra 5"
 
 #: debug_console.cpp:102
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 5"
-msgstr ""
+msgid "Extra Button 6"
+msgstr "Tombol Extra 6"
 
 #: debug_console.cpp:104
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 6"
-msgstr ""
+msgid "Extra Button 7"
+msgstr "Tombol Extra 7"
 
 #: debug_console.cpp:106
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 7"
-msgstr ""
+msgid "Extra Button 8"
+msgstr "Tombol Extra 8"
 
 #: debug_console.cpp:108
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 8"
-msgstr ""
+msgid "Extra Button 9"
+msgstr "Tombol Extra 9"
 
 #: debug_console.cpp:110
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 9"
-msgstr ""
+msgid "Extra Button 10"
+msgstr "Tombol Extra 10"
 
 #: debug_console.cpp:112
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 10"
-msgstr ""
+msgid "Extra Button 11"
+msgstr "Tombol Extra 11"
 
 #: debug_console.cpp:114
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 11"
-msgstr ""
+msgid "Extra Button 12"
+msgstr "Tombol Extra 12"
 
 #: debug_console.cpp:116
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 12"
-msgstr ""
+msgid "Extra Button 13"
+msgstr "Tombol Extra 13"
 
 #: debug_console.cpp:118
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 13"
-msgstr ""
+msgid "Extra Button 14"
+msgstr "Tombol Extra 14"
 
 #: debug_console.cpp:120
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 14"
-msgstr ""
+msgid "Extra Button 15"
+msgstr "Tombol Extra 15"
 
 #: debug_console.cpp:122
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 15"
-msgstr ""
+msgid "Extra Button 16"
+msgstr "Tombol Extra 16"
 
 #: debug_console.cpp:124
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 16"
-msgstr ""
+msgid "Extra Button 17"
+msgstr "Tombol Extra 17"
 
 #: debug_console.cpp:126
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 17"
-msgstr ""
+msgid "Extra Button 18"
+msgstr "Tombol Extra 18"
 
 #: debug_console.cpp:128
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 18"
-msgstr ""
+msgid "Extra Button 19"
+msgstr "Tombol Extra 19"
 
 #: debug_console.cpp:130
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 19"
-msgstr ""
+msgid "Extra Button 20"
+msgstr "Tombol Extra 20"
 
 #: debug_console.cpp:132
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 20"
-msgstr ""
+msgid "Extra Button 21"
+msgstr "Tombol Extra 21"
 
 #: debug_console.cpp:134
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 21"
-msgstr ""
+msgid "Extra Button 22"
+msgstr "Tombol Extra 22"
 
 #: debug_console.cpp:136
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 22"
-msgstr ""
+msgid "Extra Button 23"
+msgstr "Tombol Extra 23"
 
 #: debug_console.cpp:138
 #, kde-format
 msgctxt "A mouse button"
-msgid "Extra Button 23"
-msgstr ""
-
-#: debug_console.cpp:140
-#, kde-format
-msgctxt "A mouse button"
 msgid "Extra Button 24"
-msgstr ""
+msgstr "Tombol Extra 24"
 
-#: debug_console.cpp:150 debug_console.cpp:152
+#: debug_console.cpp:147 debug_console.cpp:149
 #, kde-format
 msgid "Input Device"
-msgstr ""
+msgstr "Perangkat Input"
 
-#: debug_console.cpp:150
+#: debug_console.cpp:147
 #, kde-format
 msgctxt "The input device of the event is not known"
 msgid "Unknown"
-msgstr ""
+msgstr "Tak diketahui"
 
-#: debug_console.cpp:188
+#: debug_console.cpp:184
 #, kde-format
 msgctxt "A mouse pointer motion event"
 msgid "Pointer Motion"
-msgstr ""
+msgstr "Pergerakan Penunjuk"
 
-#: debug_console.cpp:197
+#: debug_console.cpp:191
 #, kde-format
 msgctxt "The relative mouse movement"
 msgid "Delta"
-msgstr ""
+msgstr "Delta"
 
-#: debug_console.cpp:201
+#: debug_console.cpp:195
 #, kde-format
 msgctxt "The relative mouse movement"
 msgid "Delta (not accelerated)"
-msgstr ""
+msgstr "Delta (tidak dipercepat)"
 
-#: debug_console.cpp:204
+#: debug_console.cpp:198
 #, kde-format
 msgctxt "The global mouse pointer position"
 msgid "Global Position"
-msgstr ""
+msgstr "Posisi Global"
 
-#: debug_console.cpp:208
+#: debug_console.cpp:202
 #, kde-format
 msgctxt "A mouse pointer button press event"
 msgid "Pointer Button Press"
-msgstr ""
+msgstr "Tekan Tombol Penunjuk"
 
-#: debug_console.cpp:213 debug_console.cpp:223
+#: debug_console.cpp:205 debug_console.cpp:213
 #, kde-format
 msgctxt "A button in a mouse press/release event"
 msgid "Button"
-msgstr ""
+msgstr "Tombol"
 
-#: debug_console.cpp:214 debug_console.cpp:224
+#: debug_console.cpp:206 debug_console.cpp:214
 #, kde-format
 msgctxt "A button in a mouse press/release event"
 msgid "Native Button code"
-msgstr ""
+msgstr "Kode Tombol Bawaan"
 
-#: debug_console.cpp:215 debug_console.cpp:225
+#: debug_console.cpp:207 debug_console.cpp:215
 #, kde-format
 msgctxt "All currently pressed buttons in a mouse press/release event"
 msgid "Pressed Buttons"
-msgstr ""
+msgstr "Tombol Yang Ditekan"
 
-#: debug_console.cpp:218
+#: debug_console.cpp:210
 #, kde-format
 msgctxt "A mouse pointer button release event"
 msgid "Pointer Button Release"
-msgstr ""
+msgstr "Lepas Tombol Penunjuk"
 
-#: debug_console.cpp:240
+#: debug_console.cpp:230
 #, kde-format
 msgctxt "A mouse pointer axis (wheel) event"
 msgid "Pointer Axis"
-msgstr ""
+msgstr "Poros Penunjuk"
 
-#: debug_console.cpp:246
+#: debug_console.cpp:234
 #, kde-format
 msgctxt "The orientation of a pointer axis event"
 msgid "Orientation"
-msgstr ""
+msgstr "Orientasi"
 
-#: debug_console.cpp:247
+#: debug_console.cpp:235
 #, kde-format
 msgctxt "An orientation of a pointer axis event"
 msgid "Horizontal"
-msgstr ""
+msgstr "Mendatar"
 
-#: debug_console.cpp:248
+#: debug_console.cpp:236
 #, kde-format
 msgctxt "An orientation of a pointer axis event"
 msgid "Vertical"
 msgstr "Tegak"
 
-#: debug_console.cpp:263
+#: debug_console.cpp:251
 #, kde-format
 msgctxt "A key press event"
 msgid "Key Press"
-msgstr ""
+msgstr "Tekan Tuts"
 
-#: debug_console.cpp:266
+#: debug_console.cpp:254
 #, kde-format
 msgctxt "A key release event"
 msgid "Key Release"
-msgstr ""
+msgstr "Lepas Tuts"
 
-#: debug_console.cpp:277
+#: debug_console.cpp:263
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
-#: debug_console.cpp:281
+#: debug_console.cpp:267
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Control"
-msgstr ""
+msgstr "Control"
 
-#: debug_console.cpp:285
+#: debug_console.cpp:271
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Alt"
-msgstr ""
+msgstr "Alt"
 
-#: debug_console.cpp:289
+#: debug_console.cpp:275
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Meta"
-msgstr ""
+msgstr "Meta"
 
-#: debug_console.cpp:293
+#: debug_console.cpp:279
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Keypad"
-msgstr ""
+msgstr "Keypad"
 
-#: debug_console.cpp:297
+#: debug_console.cpp:283
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Group-switch"
-msgstr ""
+msgstr "Group-switch"
 
-#: debug_console.cpp:303
+#: debug_console.cpp:289
 #, kde-format
 msgctxt "Whether the event is an automatic key repeat"
 msgid "Repeat"
-msgstr ""
+msgstr "Ulangi"
 
-#: debug_console.cpp:304
+#: debug_console.cpp:290
 #, kde-format
 msgctxt "The code as read from the input device"
 msgid "Scan code"
-msgstr ""
+msgstr "Kode pemindaian"
 
-#: debug_console.cpp:305
+#: debug_console.cpp:291
 #, kde-format
 msgctxt "The translated code to an Xkb symbol"
 msgid "Xkb symbol"
-msgstr ""
+msgstr "Simbol Xkb"
 
-#: debug_console.cpp:306
+#: debug_console.cpp:292
 #, kde-format
 msgctxt "The translated code interpreted as text"
 msgid "Utf8"
-msgstr ""
+msgstr "Utf8"
 
-#: debug_console.cpp:307
+#: debug_console.cpp:293
 #, kde-format
 msgctxt "The currently active modifiers"
 msgid "Modifiers"
-msgstr ""
+msgstr "Pemodif"
 
-#: debug_console.cpp:319
+#: debug_console.cpp:305
 #, kde-format
 msgctxt "A touch down event"
 msgid "Touch down"
-msgstr ""
+msgstr "Sentuh turun"
 
-#: debug_console.cpp:321 debug_console.cpp:336 debug_console.cpp:351
+#: debug_console.cpp:307 debug_console.cpp:322 debug_console.cpp:337
 #, kde-format
 msgctxt "The id of the touch point in the touch event"
 msgid "Point identifier"
-msgstr ""
+msgstr "Pengidentifikasi titik"
 
-#: debug_console.cpp:322 debug_console.cpp:337
+#: debug_console.cpp:308 debug_console.cpp:323
 #, kde-format
 msgctxt "The global position of the touch point"
 msgid "Global position"
-msgstr ""
+msgstr "Posisi global"
 
-#: debug_console.cpp:334
+#: debug_console.cpp:320
 #, kde-format
 msgctxt "A touch motion event"
 msgid "Touch Motion"
-msgstr ""
+msgstr "Sentuh Pergerakan"
 
-#: debug_console.cpp:349
+#: debug_console.cpp:335
 #, kde-format
 msgctxt "A touch up event"
 msgid "Touch Up"
-msgstr ""
+msgstr "Sentuh Naik"
 
-#: debug_console.cpp:362
+#: debug_console.cpp:348
 #, kde-format
 msgctxt "A pinch gesture is started"
 msgid "Pinch start"
-msgstr ""
+msgstr "Cubit awal"
 
-#: debug_console.cpp:364
+#: debug_console.cpp:350
 #, kde-format
 msgctxt "Number of fingers in this pinch gesture"
 msgid "Finger count"
-msgstr ""
+msgstr "Jumlah jari"
 
-#: debug_console.cpp:375
+#: debug_console.cpp:361
 #, kde-format
 msgctxt "A pinch gesture is updated"
 msgid "Pinch update"
-msgstr ""
+msgstr "Perbarui cubitan"
 
-#: debug_console.cpp:377
+#: debug_console.cpp:363
 #, kde-format
 msgctxt "Current scale in pinch gesture"
 msgid "Scale"
-msgstr ""
+msgstr "Skala"
 
-#: debug_console.cpp:378
+#: debug_console.cpp:364
 #, kde-format
 msgctxt "Current angle in pinch gesture"
 msgid "Angle delta"
-msgstr ""
+msgstr "Delta sudut pandang"
 
-#: debug_console.cpp:379
+#: debug_console.cpp:365
 #, kde-format
 msgctxt "Current delta in pinch gesture"
 msgid "Delta x"
-msgstr ""
+msgstr "Delta x"
 
-#: debug_console.cpp:380
+#: debug_console.cpp:366
 #, kde-format
 msgctxt "Current delta in pinch gesture"
 msgid "Delta y"
-msgstr ""
+msgstr "Delta y"
 
-#: debug_console.cpp:391
+#: debug_console.cpp:377
 #, kde-format
 msgctxt "A pinch gesture ended"
 msgid "Pinch end"
-msgstr ""
+msgstr "Cubit akhir"
 
-#: debug_console.cpp:403
+#: debug_console.cpp:389
 #, kde-format
 msgctxt "A pinch gesture got cancelled"
 msgid "Pinch cancelled"
-msgstr ""
+msgstr "Cubit dibatalkan"
 
-#: debug_console.cpp:415
+#: debug_console.cpp:401
 #, kde-format
 msgctxt "A swipe gesture is started"
 msgid "Swipe start"
-msgstr ""
+msgstr "Usap awal"
 
-#: debug_console.cpp:417
+#: debug_console.cpp:403
 #, kde-format
 msgctxt "Number of fingers in this swipe gesture"
 msgid "Finger count"
-msgstr ""
+msgstr "Jumlah jari"
 
-#: debug_console.cpp:428
+#: debug_console.cpp:414
 #, kde-format
 msgctxt "A swipe gesture is updated"
 msgid "Swipe update"
-msgstr ""
+msgstr "Pembaruan usap"
 
-#: debug_console.cpp:430
+#: debug_console.cpp:416
 #, kde-format
 msgctxt "Current delta in swipe gesture"
 msgid "Delta x"
-msgstr ""
+msgstr "Delta x"
 
-#: debug_console.cpp:431
+#: debug_console.cpp:417
 #, kde-format
 msgctxt "Current delta in swipe gesture"
 msgid "Delta y"
-msgstr ""
+msgstr "Delta y"
 
-#: debug_console.cpp:442
+#: debug_console.cpp:428
 #, kde-format
 msgctxt "A swipe gesture ended"
 msgid "Swipe end"
-msgstr ""
+msgstr "Usap akhir"
 
-#: debug_console.cpp:454
+#: debug_console.cpp:440
 #, kde-format
 msgctxt "A swipe gesture got cancelled"
 msgid "Swipe cancelled"
-msgstr ""
+msgstr "Usap dibatalkan"
 
-#: debug_console.cpp:466
-#, fuzzy, kde-format
-#| msgid "Switch to Tab"
+#: debug_console.cpp:452
+#, kde-format
 msgctxt "A hardware switch (e.g. notebook lid) got toggled"
 msgid "Switch toggled"
-msgstr "Ganti ke Tab"
+msgstr "Alihan dijungkit"
 
-#: debug_console.cpp:475
+#: debug_console.cpp:460
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Notebook lid"
-msgstr ""
+msgstr "Penutup notebook"
 
-#: debug_console.cpp:477
+#: debug_console.cpp:462
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Tablet mode"
-msgstr ""
+msgstr "Mode tablet"
 
-#: debug_console.cpp:479
-#, fuzzy, kde-format
-#| msgid "Switch to Tab"
+#: debug_console.cpp:464
+#, kde-format
 msgctxt "A hardware switch"
 msgid "Switch"
-msgstr "Ganti ke Tab"
+msgstr "Saklar"
 
-#: debug_console.cpp:484
+#: debug_console.cpp:468
 #, kde-format
 msgctxt "The hardware switch got turned off"
 msgid "Off"
-msgstr ""
+msgstr "Padam"
 
-#: debug_console.cpp:487
+#: debug_console.cpp:471
 #, kde-format
 msgctxt "The hardware switch got turned on"
 msgid "On"
-msgstr ""
+msgstr "Nyala"
 
-#: debug_console.cpp:492
+#: debug_console.cpp:476
 #, kde-format
 msgctxt "State of a hardware switch (on/off)"
 msgid "State"
-msgstr ""
+msgstr "Kondisi"
 
-#: debug_console.cpp:679
-#, fuzzy, kde-format
-#| msgid "Mouse Emulation"
+#: debug_console.cpp:661
+#, kde-format
 msgid "No Mouse Buttons"
-msgstr "Emulasi Tetikus"
+msgstr "Tiada Tombol Mouse"
+
+#: debug_console.cpp:665
+#, kde-format
+msgctxt "Mouse Button"
+msgid "left"
+msgstr "kiri"
+
+#: debug_console.cpp:668
+#, kde-format
+msgctxt "Mouse Button"
+msgid "right"
+msgstr "kanan"
+
+#: debug_console.cpp:671
+#, kde-format
+msgctxt "Mouse Button"
+msgid "middle"
+msgstr "tengah"
+
+#: debug_console.cpp:674
+#, kde-format
+msgctxt "Mouse Button"
+msgid "back"
+msgstr "mundur"
+
+#: debug_console.cpp:677
+#, kde-format
+msgctxt "Mouse Button"
+msgid "forward"
+msgstr "maju"
+
+#: debug_console.cpp:680
+#, kde-format
+msgctxt "Mouse Button"
+msgid "extra 1"
+msgstr "extra 1"
 
 #: debug_console.cpp:683
 #, kde-format
 msgctxt "Mouse Button"
-msgid "left"
-msgstr ""
+msgid "extra 2"
+msgstr "extra 2"
 
 #: debug_console.cpp:686
-#, fuzzy, kde-format
-#| msgid "To the right"
+#, kde-format
 msgctxt "Mouse Button"
-msgid "right"
-msgstr "Ke kanan"
+msgid "extra 3"
+msgstr "extra 3"
 
 #: debug_console.cpp:689
 #, kde-format
 msgctxt "Mouse Button"
-msgid "middle"
-msgstr ""
+msgid "extra 4"
+msgstr "extra 4"
 
 #: debug_console.cpp:692
 #, kde-format
 msgctxt "Mouse Button"
-msgid "back"
-msgstr ""
+msgid "extra 5"
+msgstr "extra 5"
 
 #: debug_console.cpp:695
 #, kde-format
 msgctxt "Mouse Button"
-msgid "forward"
-msgstr ""
+msgid "extra 6"
+msgstr "extra 6"
 
 #: debug_console.cpp:698
 #, kde-format
 msgctxt "Mouse Button"
-msgid "extra 1"
-msgstr ""
+msgid "extra 7"
+msgstr "extra 7"
 
 #: debug_console.cpp:701
 #, kde-format
 msgctxt "Mouse Button"
-msgid "extra 2"
-msgstr ""
+msgid "extra 8"
+msgstr "extra 8"
 
 #: debug_console.cpp:704
 #, kde-format
 msgctxt "Mouse Button"
-msgid "extra 3"
-msgstr ""
+msgid "extra 9"
+msgstr "extra 9"
 
 #: debug_console.cpp:707
 #, kde-format
 msgctxt "Mouse Button"
-msgid "extra 4"
-msgstr ""
+msgid "extra 10"
+msgstr "extra 10"
 
 #: debug_console.cpp:710
 #, kde-format
 msgctxt "Mouse Button"
-msgid "extra 5"
-msgstr ""
+msgid "extra 11"
+msgstr "extra 11"
 
 #: debug_console.cpp:713
 #, kde-format
 msgctxt "Mouse Button"
-msgid "extra 6"
-msgstr ""
+msgid "extra 12"
+msgstr "extra 12"
 
 #: debug_console.cpp:716
 #, kde-format
 msgctxt "Mouse Button"
-msgid "extra 7"
-msgstr ""
+msgid "extra 13"
+msgstr "extra 13"
 
 #: debug_console.cpp:719
 #, kde-format
 msgctxt "Mouse Button"
-msgid "extra 8"
-msgstr ""
+msgid "extra 14"
+msgstr "extra 14"
 
 #: debug_console.cpp:722
 #, kde-format
 msgctxt "Mouse Button"
-msgid "extra 9"
-msgstr ""
+msgid "extra 15"
+msgstr "extra 15"
 
 #: debug_console.cpp:725
 #, kde-format
 msgctxt "Mouse Button"
-msgid "extra 10"
-msgstr ""
+msgid "extra 16"
+msgstr "extra 16"
 
 #: debug_console.cpp:728
 #, kde-format
 msgctxt "Mouse Button"
-msgid "extra 11"
-msgstr ""
+msgid "extra 17"
+msgstr "extra 17"
 
 #: debug_console.cpp:731
 #, kde-format
 msgctxt "Mouse Button"
-msgid "extra 12"
-msgstr ""
+msgid "extra 18"
+msgstr "extra 18"
 
 #: debug_console.cpp:734
 #, kde-format
 msgctxt "Mouse Button"
-msgid "extra 13"
-msgstr ""
+msgid "extra 19"
+msgstr "extra 19"
 
 #: debug_console.cpp:737
 #, kde-format
 msgctxt "Mouse Button"
-msgid "extra 14"
-msgstr ""
+msgid "extra 20"
+msgstr "extra 20"
 
 #: debug_console.cpp:740
 #, kde-format
 msgctxt "Mouse Button"
-msgid "extra 15"
-msgstr ""
+msgid "extra 21"
+msgstr "extra 21"
 
 #: debug_console.cpp:743
 #, kde-format
 msgctxt "Mouse Button"
-msgid "extra 16"
-msgstr ""
+msgid "extra 22"
+msgstr "extra 22"
 
 #: debug_console.cpp:746
 #, kde-format
 msgctxt "Mouse Button"
-msgid "extra 17"
-msgstr ""
+msgid "extra 23"
+msgstr "extra 23"
 
 #: debug_console.cpp:749
 #, kde-format
 msgctxt "Mouse Button"
-msgid "extra 18"
-msgstr ""
+msgid "extra 24"
+msgstr "extra 24"
 
 #: debug_console.cpp:752
 #, kde-format
 msgctxt "Mouse Button"
-msgid "extra 19"
-msgstr ""
-
-#: debug_console.cpp:755
-#, kde-format
-msgctxt "Mouse Button"
-msgid "extra 20"
-msgstr ""
-
-#: debug_console.cpp:758
-#, kde-format
-msgctxt "Mouse Button"
-msgid "extra 21"
-msgstr ""
-
-#: debug_console.cpp:761
-#, kde-format
-msgctxt "Mouse Button"
-msgid "extra 22"
-msgstr ""
-
-#: debug_console.cpp:764
-#, kde-format
-msgctxt "Mouse Button"
-msgid "extra 23"
-msgstr ""
-
-#: debug_console.cpp:767
-#, kde-format
-msgctxt "Mouse Button"
-msgid "extra 24"
-msgstr ""
-
-#: debug_console.cpp:770
-#, kde-format
-msgctxt "Mouse Button"
 msgid "task"
-msgstr ""
+msgstr "tugas"
 
-#: debug_console.cpp:1111
-#, fuzzy, kde-format
-#| msgid "Close Window"
+#: debug_console.cpp:1093
+#, kde-format
 msgid "X11 Client Windows"
-msgstr "Tutup Jendela"
+msgstr "Jendela Klien X11"
 
-#: debug_console.cpp:1113
+#: debug_console.cpp:1095
 #, kde-format
 msgid "X11 Unmanaged Windows"
-msgstr ""
+msgstr "Jendela tak dikelola X11"
 
-#: debug_console.cpp:1115
-#, fuzzy, kde-format
-#| msgid "Shade Window"
+#: debug_console.cpp:1097
+#, kde-format
 msgid "Wayland Windows"
-msgstr "Bayang Jendela"
+msgstr "Jendela Wayland"
 
-#: debug_console.cpp:1117
-#, fuzzy, kde-format
-#| msgid "Lower Window"
+#: debug_console.cpp:1099
+#, kde-format
 msgid "Internal Windows"
-msgstr "Turunkan Jendela"
+msgstr "Jendela Internal"
 
 #: helpers/killer/killer.cpp:45
 #, kde-format
@@ -773,7 +764,7 @@ msgstr "Pengelola Jendela"
 #: helpers/killer/killer.cpp:50
 #, kde-format
 msgid "PID of the application to terminate"
-msgstr "PID dari aplikasi yang akan dihentikan"
+msgstr "PID dari aplikasi yang akan diaqiri"
 
 #: helpers/killer/killer.cpp:50
 #, kde-format
@@ -783,7 +774,7 @@ msgstr "pid"
 #: helpers/killer/killer.cpp:52
 #, kde-format
 msgid "Hostname on which the application is running"
-msgstr "Nama host tempat aplikasi berjalan"
+msgstr "Nama host aplikasi mana yang sedang berjalan"
 
 #: helpers/killer/killer.cpp:52
 #, kde-format
@@ -793,17 +784,17 @@ msgstr "nama host"
 #: helpers/killer/killer.cpp:54
 #, kde-format
 msgid "Caption of the window to be terminated"
-msgstr "Inset dari jendela yang akan dihentikan"
+msgstr "Bab dari jendela yang akan diaqiri"
 
 #: helpers/killer/killer.cpp:54
 #, kde-format
 msgid "caption"
-msgstr "inset"
+msgstr "bab"
 
 #: helpers/killer/killer.cpp:56
 #, kde-format
 msgid "Name of the application to be terminated"
-msgstr "Nama aplikasi yang akan dihentikan"
+msgstr "Nama aplikasi yang akan diaqiri"
 
 #: helpers/killer/killer.cpp:56
 #, kde-format
@@ -844,7 +835,7 @@ msgstr "Utilitas penolong ini tidak seharusnya dipanggil secara langsung."
 #, kde-format
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
-msgstr "<b>Aplikasi \"%1\" tidak merespon</b>"
+msgstr "<b>Aplikasi \"%1\" tidak merespons</b>"
 
 #: helpers/killer/killer.cpp:98
 #, kde-kuit-format
@@ -853,6 +844,8 @@ msgid ""
 "<p>You tried to close window \"%1\" from application \"%2\" (Process ID: %3) "
 "but the application is not responding.</p>"
 msgstr ""
+"<p>Kamu mencoba untuk menutup jendela \"%1\" dari aplikasi \"%2\" (Proses "
+"ID: %3) tetapi aplikasi tidaklah merespons.</p>"
 
 #: helpers/killer/killer.cpp:100
 #, kde-kuit-format
@@ -861,6 +854,8 @@ msgid ""
 "<p>You tried to close window \"%1\" from application \"%2\" (Process ID: "
 "%3), running on host \"%4\", but the application is not responding.</p>"
 msgstr ""
+"<p>Kamu mencoba untuk menutup jendela \"%1\" dari aplikasi \"%2\" (Proses "
+"ID: %3), berjalan pada host \"%4\", tetapi aplikasi tidaklah merespons.</p>"
 
 #: helpers/killer/killer.cpp:103
 #, kde-kuit-format
@@ -870,11 +865,14 @@ msgid ""
 "application will close all of its child windows. Any unsaved data will be "
 "lost.</warning></p>"
 msgstr ""
+"<p>Apakah kamu ingin mengaqiri aplikasi ini?</p><p><warning>Mengaqiri "
+"aplikasi akan menutup semua jendela serta anaknya. Data apa pun yang tak "
+"disimpan akan hilang.</warning></p>"
 
 #: helpers/killer/killer.cpp:107
 #, kde-format
 msgid "&Terminate Application %1"
-msgstr "&Hentikan Aplikasi %1"
+msgstr "&Aqiri Aplikasi %1"
 
 #: helpers/killer/killer.cpp:108
 #, kde-format
@@ -882,17 +880,15 @@ msgid "Wait Longer"
 msgstr "Tunggu Lebih Lama"
 
 #: keyboard_layout.cpp:119 keyboard_layout.cpp:120
-#, fuzzy, kde-format
-#| msgid "Next Layout"
+#, kde-format
 msgctxt "tooltip title"
 msgid "Keyboard Layout"
-msgstr "Tata Letak Berikutnya"
+msgstr "Tataletak Keyboard"
 
 #: keyboard_layout.cpp:266
-#, fuzzy, kde-format
-#| msgid "Configur&e Window Behavior..."
+#, kde-format
 msgid "Configure Layouts..."
-msgstr "Atur P&erilaku Jendela..."
+msgstr "Konfigurasi Tataletak..."
 
 #: killwindow.cpp:44
 #, kde-format
@@ -900,6 +896,8 @@ msgid ""
 "Select window to force close with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
+"Pilih jendela untuk memaksa tutup dengan klik kiri atau enter.\n"
+"Escape atau klik kanan untuk membatalkan."
 
 #: kwinbindings.cpp:49
 #, kde-format
@@ -1004,7 +1002,7 @@ msgstr "Aktifkan Jendela Memerlukan Perhatian"
 #: kwinbindings.cpp:87
 #, kde-format
 msgid "Setup Window Shortcut"
-msgstr "Atur Pintasan Jendela"
+msgstr "Siapkan Pintasan Jendela"
 
 #: kwinbindings.cpp:89
 #, kde-format
@@ -1019,12 +1017,12 @@ msgstr "Kemas Jendela ke Kiri"
 #: kwinbindings.cpp:93
 #, kde-format
 msgid "Pack Window Up"
-msgstr "Kemas Jendela ke Atas"
+msgstr "Kemas Jendela Naik"
 
 #: kwinbindings.cpp:95
 #, kde-format
 msgid "Pack Window Down"
-msgstr "Kemas Jendela ke Bawah"
+msgstr "Kemas Jendela Turun"
 
 #: kwinbindings.cpp:97
 #, kde-format
@@ -1057,16 +1055,14 @@ msgid "Quick Tile Window to the Right"
 msgstr "Ubin Jendela Cepat ke Kanan"
 
 #: kwinbindings.cpp:109
-#, fuzzy, kde-format
-#| msgid "Quick Tile Window to the Top Left"
+#, kde-format
 msgid "Quick Tile Window to the Top"
-msgstr "Ubin Jendela Cepat ke Kiri Atas"
+msgstr "Ubin Jendela Cepat ke Atas"
 
 #: kwinbindings.cpp:111
-#, fuzzy, kde-format
-#| msgid "Quick Tile Window to the Bottom Left"
+#, kde-format
 msgid "Quick Tile Window to the Bottom"
-msgstr "Ubin Jendela Cepat ke Kiri Bawah"
+msgstr "Ubin Jendela Cepat ke Bawah"
 
 #: kwinbindings.cpp:113
 #, kde-format
@@ -1091,32 +1087,32 @@ msgstr "Ubin Jendela Cepat ke Kanan Bawah"
 #: kwinbindings.cpp:121
 #, kde-format
 msgid "Switch to Window Above"
-msgstr "Ganti ke Jendela di Atas"
+msgstr "Alihkan ke Jendela di Atas"
 
 #: kwinbindings.cpp:123
 #, kde-format
 msgid "Switch to Window Below"
-msgstr "Ganti ke Jendela di Bawah"
+msgstr "Alihkan ke Jendela di Bawah"
 
 #: kwinbindings.cpp:125
 #, kde-format
 msgid "Switch to Window to the Right"
-msgstr "Ganti ke Jendela di Kanan"
+msgstr "Alihkan ke Jendela di Kanan"
 
 #: kwinbindings.cpp:127
 #, kde-format
 msgid "Switch to Window to the Left"
-msgstr "Ganti ke Jendela di Kiri"
+msgstr "Alihkan ke Jendela di Kiri"
 
 #: kwinbindings.cpp:129
 #, kde-format
 msgid "Increase Opacity of Active Window by 5 %"
-msgstr "Tingkatkan Opasitas Jendela Aktif 5 %"
+msgstr "Naikkan Opasitas Jendela Aktiv dengan 5 %"
 
 #: kwinbindings.cpp:131
 #, kde-format
 msgid "Decrease Opacity of Active Window by 5 %"
-msgstr "Kurangi Opasitas Jendela Aktif 5 %"
+msgstr "Turunkan Opasitas Jendela Aktiv dengan 5 %"
 
 #: kwinbindings.cpp:134
 #, kde-format
@@ -1263,78 +1259,84 @@ msgstr "Nonaktifkan opsi konfigurasi"
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Mengindikasikan bahwa KWin telah mogok dalam akhir-akhir ini"
 
-#: main_wayland.cpp:253
+#: main_wayland.cpp:255
 #, kde-format
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr "kwin_wayland: sebuah pengelola jendela X11 berjalan di Tampilan X11.\n"
 
-#: main_wayland.cpp:579
-#, fuzzy, kde-format
-#| msgid "Start a nested X Server."
-msgid "Start a rootless Xwayland server."
-msgstr "Menjalankan X Server disarangkan."
-
 #: main_wayland.cpp:581
+#, kde-format
+msgid "Start a rootless Xwayland server."
+msgstr "Jalankan sebuah server Xwayland tanpa root."
+
+#: main_wayland.cpp:583
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
-
-#: main_wayland.cpp:584
-#, kde-format
-msgid "Use a nested compositor in windowed mode."
-msgstr ""
+"Nama pada soket Wayland untuk dicantumkan. Jika tidak, set \"wayland-0\" "
+"akan digunakan."
 
 #: main_wayland.cpp:586
 #, kde-format
-msgid "Render to framebuffer."
-msgstr ""
+msgid "Use a nested compositor in windowed mode."
+msgstr "Gunakan sebuah kompositor tersarang dalam mode perjendelaan."
 
 #: main_wayland.cpp:588
 #, kde-format
-msgid "The framebuffer device to render to."
-msgstr ""
+msgid "Render to framebuffer."
+msgstr "Render untuk framebuffer."
 
-#: main_wayland.cpp:592
+#: main_wayland.cpp:590
+#, kde-format
+msgid "The framebuffer device to render to."
+msgstr "Perangkat framebuffer yang dirender."
+
+#: main_wayland.cpp:593
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr ""
+"Display X11 yang akan digunakan dalam mode perjendelaan pada platform X11."
 
-#: main_wayland.cpp:595
+#: main_wayland.cpp:596
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
+"Display Wayland yang akan digunakan dalam mode perjendelaan pada platform "
+"Wayland."
 
-#: main_wayland.cpp:597
+#: main_wayland.cpp:598
 #, kde-format
 msgid "Render to a virtual framebuffer."
-msgstr ""
+msgstr "Render untuk framebuffer virtual."
 
-#: main_wayland.cpp:599
+#: main_wayland.cpp:600
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
-msgstr ""
+msgstr "Lebar untuk mode perjendelaan. Lebar bakunya adalah 1024."
 
-#: main_wayland.cpp:603
+#: main_wayland.cpp:604
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
-msgstr ""
+msgstr "Tinggi untuk mode perjendelaan. Tinggi bakunya adalah 768."
 
-#: main_wayland.cpp:608
+#: main_wayland.cpp:609
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
-msgstr ""
+msgstr "Skala untuk mode perjendelaan. Skala bakunya adalah 1."
 
-#: main_wayland.cpp:613
+#: main_wayland.cpp:614
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
 msgstr ""
+"Jumlah jendela yang akan dibuka sebagai output dalam mode perjendelaan. "
+"Nilai bakunya adalah 1"
 
-#: main_wayland.cpp:646
+#: main_wayland.cpp:647
 #, kde-format
 msgid "Use libhybris hwcomposer"
-msgstr ""
+msgstr "Gunakan libhybris hwcomposer"
 
 #: main_wayland.cpp:653
 #, kde-format
@@ -1342,38 +1344,40 @@ msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
 msgstr ""
-"Aktifkan dukungan libinput untuk pemrosesan even masukan. Catatan: jangan "
+"Aktifkan dukungan libinput untuk pemrosesan even intput. Catatan: jangan "
 "pernah gunakan dalam sesi disarangkan."
 
-#: main_wayland.cpp:657
+#: main_wayland.cpp:656
 #, kde-format
 msgid "Render through drm node."
-msgstr ""
+msgstr "Render melalui node drm."
 
-#: main_wayland.cpp:664
+#: main_wayland.cpp:663
 #, kde-format
 msgid "Input method that KWin starts."
-msgstr ""
+msgstr "Metode input yang menjalankan KWin."
 
-#: main_wayland.cpp:669
+#: main_wayland.cpp:668
 #, kde-format
 msgid "List all available backends and quit."
-msgstr ""
+msgstr "Daftar semua backend yang tersedia dan aqiri."
 
-#: main_wayland.cpp:673
+#: main_wayland.cpp:672
 #, kde-format
 msgid "Starts the session in locked mode."
-msgstr ""
+msgstr "Menjalankan sesi dalam mode tergembok."
 
-#: main_wayland.cpp:677
+#: main_wayland.cpp:676
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr ""
+"Keluarkan sesudah aplikasi sesi, yang dijalankan oleh KWin, yang ditutup."
 
-#: main_wayland.cpp:682
+#: main_wayland.cpp:681
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr ""
+"Aplikasi untuk menjalankan setelah server Wayland dan Xwayland dijalankan"
 
 #: main_x11.cpp:75
 #, kde-format
@@ -1408,38 +1412,42 @@ msgstr "Ganti pengelola jendela sesuai-ICCCM2.0 yang telah berjalan"
 #: main_x11.cpp:425
 #, kde-format
 msgid "Disable KActivities integration."
-msgstr ""
+msgstr "Nonaktifkan integrasi KActivities."
 
 #: orientation_sensor.cpp:72
 #, kde-format
 msgid "Automatic screen rotation is enabled"
-msgstr ""
+msgstr "Putar layar otomatis telah diaktifkan"
 
 #: orientation_sensor.cpp:74 orientation_sensor.cpp:122
 #, kde-format
 msgid "Automatic screen rotation is disabled"
-msgstr ""
+msgstr "Putar layar otomatis telah dinonaktifkan"
 
 #: orientation_sensor.cpp:118
 #, kde-format
 msgid "Automatic Screen Rotation"
-msgstr ""
+msgstr "Putar Layar Otomatis"
 
-#: pointer_input.cpp:647
+#: pointer_input.cpp:651
 #, kde-format
 msgctxt "notification about mouse pointer confined"
 msgid ""
 "Pointer motion confined to the current window.\n"
 "To release pointer hold Escape for 3 seconds."
 msgstr ""
+"Gerakan penunjuk terjepit ke jendela saat ini.\n"
+"Untuk melepas penunjuk, tekan Escape 3 detik."
 
-#: pointer_input.cpp:664
+#: pointer_input.cpp:668
 #, kde-format
 msgctxt "notification about mouse pointer locked"
 msgid ""
 "Pointer locked to current position.\n"
 "To end pointer lock hold Escape for 3 seconds."
 msgstr ""
+"Penunjuk tergembok ke posisi saat ini.\n"
+"Untuk mengaqiri gembok penunjuk, tekan Escape 3 detik.."
 
 #: scripting/genericscriptedconfig.cpp:81
 #, kde-format
@@ -1466,7 +1474,7 @@ msgid ""
 "Invalid number of arguments. At least service, path, interface and method "
 "need to be provided"
 msgstr ""
-"Jumlah argumen tidak sah. Setidaknya layanan, alur, antarmuka dan metode "
+"Jumlah argumen tidak absah. Setidaknya layanan, alur, antarmuka dan metode "
 "harus diberikan"
 
 #: scripting/scripting.cpp:194
@@ -1474,13 +1482,13 @@ msgstr ""
 msgctxt "Error in KWin Script"
 msgid ""
 "Invalid type. Service, path, interface and method need to be string values"
-msgstr "Tipe tidak sah. Layanan, alur, alur dan metode harus nilai tali"
+msgstr "Tipe tidak absah. Layanan, alur, alur dan metode harus nilai tali"
 
 #: scripting/scriptingutils.cpp:28
 #, kde-format
 msgctxt "syntax error in KWin script"
 msgid "Invalid number of arguments"
-msgstr "jumlah argumen tidak sah"
+msgstr "jumlah argumen tidak absah"
 
 #: scripting/scriptingutils.cpp:41
 #, kde-format
@@ -1596,10 +1604,9 @@ msgid "&Move"
 msgstr "&Pindah"
 
 #: useractions.cpp:280
-#, fuzzy, kde-format
-#| msgid "Re&size"
+#, kde-format
 msgid "&Resize"
-msgstr "&Ubah Ukuran"
+msgstr "Ubah U&kuran"
 
 #: useractions.cpp:284
 #, kde-format
@@ -1617,10 +1624,9 @@ msgid "&Fullscreen"
 msgstr "&Layar Penuh"
 
 #: useractions.cpp:302
-#, fuzzy, kde-format
-#| msgid "Shade"
+#, kde-format
 msgid "&Shade"
-msgstr "Bayang"
+msgstr "&Tirai"
 
 #: useractions.cpp:307
 #, kde-format
@@ -1633,10 +1639,9 @@ msgid "Window Short&cut..."
 msgstr "&Pintasan Jendela..."
 
 #: useractions.cpp:319
-#, fuzzy, kde-format
-#| msgid "&Special Window Settings..."
+#, kde-format
 msgid "Special &Window Settings..."
-msgstr "Pengaturan Jendela &Spesial..."
+msgstr "Setelan &Jendela Spesial..."
 
 #: useractions.cpp:324
 #, kde-format
@@ -1644,16 +1649,12 @@ msgid "S&pecial Application Settings..."
 msgstr "Setelan Aplikasi S&pesial..."
 
 #: useractions.cpp:332
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Entry in context menu of window decoration to open the configuration "
-#| "module of KWin"
-#| msgid "Window &Manager Settings..."
+#, kde-format
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
 msgid "Window Manager S&ettings..."
-msgstr "Pengaturan &Manajer Jendela..."
+msgstr "S&etelan Pengelola Jendela..."
 
 #: useractions.cpp:362
 #, kde-format
@@ -1745,14 +1746,12 @@ msgid "&New Desktop"
 msgstr "&Desktop Baru"
 
 #: useractions.cpp:707
-#, fuzzy, kde-format
-#| msgctxt "@item:inmenu List of all Screens to send a window to"
-#| msgid "Screen &%1"
+#, kde-format
 msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
 "number, second the output identifier. E.g. Screen 1 (HDMI1)"
 msgid "Screen &%1 (%2)"
-msgstr "Layar &%1"
+msgstr "Layar &%1 (%2)"
 
 #: useractions.cpp:728
 #, kde-format
@@ -1830,17 +1829,17 @@ msgstr "Ganti ke Desktop %1"
 #: virtualkeyboard.cpp:95
 #, kde-format
 msgid "Virtual Keyboard"
-msgstr ""
+msgstr "Keyboard Virtual"
 
 #: virtualkeyboard.cpp:216
 #, kde-format
 msgid "Virtual Keyboard is enabled."
-msgstr ""
+msgstr "Keyboard Virtual telah diaktifkan."
 
 #: virtualkeyboard.cpp:219
 #, kde-format
 msgid "Virtual Keyboard is disabled."
-msgstr ""
+msgstr "Keyboard Virtual telah dinonaktifkan."
 
 #: workspace.cpp:1315
 #, kde-format

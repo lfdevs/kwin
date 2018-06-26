@@ -3,13 +3,13 @@
 #
 # Stefan Asserhäll <stefan.asserhall@bredband.net>, 2002.
 # Mattias Newzella <newzella@linux.nu>, 2003.
-# Stefan Asserhäll <stefan.asserhall@bredband.net>, 2004, 2005, 2007, 2008, 2009, 2010, 2012, 2013, 2014, 2015.
+# Stefan Asserhäll <stefan.asserhall@bredband.net>, 2004, 2005, 2007, 2008, 2009, 2010, 2012, 2013, 2014, 2015, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-14 02:49+0200\n"
-"PO-Revision-Date: 2015-10-06 18:37+0100\n"
+"POT-Creation-Date: 2018-04-19 03:40+0200\n"
+"PO-Revision-Date: 2018-03-30 14:40+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -177,17 +177,22 @@ msgstr "Förstorad"
 msgid "Buttons"
 msgstr "Knappar"
 
-#: qml/Buttons.qml:77
+#: qml/Buttons.qml:72
 #, kde-format
 msgid "Titlebar"
 msgstr "Namnlist"
 
-#: qml/Buttons.qml:201
+#: qml/Buttons.qml:199
+#, kde-format
+msgid "Drop here to remove button"
+msgstr "Släpp här för att ta bort knapp"
+
+#: qml/Buttons.qml:223
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Dra knappar härifrån till namnlisten"
 
-#: qml/Buttons.qml:216
+#: qml/Previews.qml:138
 #, kde-format
-msgid "Drop here to remove button"
-msgstr "Släpp här för att ta bort knapp"
+msgid "Configure %1..."
+msgstr "Anpassa %1..."

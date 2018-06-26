@@ -89,6 +89,8 @@ private Q_SLOTS:
     void testX11WindowId_data();
     void testX11WindowId();
     void testAppMenu();
+    void testNoDecorationModeRequested_data();
+    void testNoDecorationModeRequested();
 };
 
 void TestShellClient::initTestCase()
@@ -100,7 +102,7 @@ void TestShellClient::initTestCase()
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setOutputCount", Qt::DirectConnection, Q_ARG(int, 2));
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
     QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit()));
 
     kwinApp()->start();
@@ -776,6 +778,8 @@ void TestShellClient::testDesktopFileName()
     auto c = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
     QVERIFY(c);
     QCOMPARE(c->desktopFileName(), QByteArrayLiteral("org.kde.foo"));
+    QCOMPARE(c->resourceClass(), QByteArrayLiteral("org.kde.foo"));
+    QVERIFY(c->resourceName().startsWith("testShellClient"));
     // the desktop file does not exist, so icon should be generic Wayland
     QCOMPARE(c->icon().name(), QStringLiteral("wayland"));
 
@@ -786,6 +790,8 @@ void TestShellClient::testDesktopFileName()
     shellSurface->setAppId(QByteArrayLiteral("org.kde.bar"));
     QVERIFY(desktopFileNameChangedSpy.wait());
     QCOMPARE(c->desktopFileName(), QByteArrayLiteral("org.kde.bar"));
+    QCOMPARE(c->resourceClass(), QByteArrayLiteral("org.kde.bar"));
+    QVERIFY(c->resourceName().startsWith("testShellClient"));
     // icon should still be wayland
     QCOMPARE(c->icon().name(), QStringLiteral("wayland"));
     QVERIFY(iconChangedSpy.isEmpty());
@@ -982,6 +988,33 @@ void TestShellClient::testAppMenu()
     QVERIFY (QDBusConnection::sessionBus().unregisterService("org.kde.kappmenu"));
 }
 
+void TestShellClient::testNoDecorationModeRequested_data()
+{
+    QTest::addColumn<Test::ShellSurfaceType>("type");
+
+    QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell;
+    QTest::newRow("xdgShellV6") << Test::ShellSurfaceType::XdgShellV6;
+}
+
+void TestShellClient::testNoDecorationModeRequested()
+{
+    // this test verifies that the decoration follows the default mode if no mode is explicitly requested
+    QScopedPointer<Surface> surface(Test::createSurface());
+    QFETCH(Test::ShellSurfaceType, type);
+    QScopedPointer<QObject> shellSurface(Test::createShellSurface(type, surface.data()));
+    QScopedPointer<ServerSideDecoration> deco(Test::waylandServerSideDecoration()->create(surface.data()));
+    QSignalSpy decoSpy(deco.data(), &ServerSideDecoration::modeChanged);
+    QVERIFY(decoSpy.isValid());
+    if (deco->mode() != ServerSideDecoration::Mode::Server) {
+        QVERIFY(decoSpy.wait());
+    }
+    QCOMPARE(deco->mode(), ServerSideDecoration::Mode::Server);
+
+    auto c = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
+    QVERIFY(c);
+    QCOMPARE(c->noBorder(), false);
+    QCOMPARE(c->isDecorated(), true);
+}
 
 WAYLANDTEST_MAIN(TestShellClient)
 #include "shell_client_test.moc"

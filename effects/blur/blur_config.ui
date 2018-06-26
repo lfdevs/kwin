@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>396</width>
-    <height>103</height>
+    <width>480</width>
+    <height>184</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="labelConstantBlurDescription">
      <property name="text">
-      <string>Strength of the effect:</string>
+      <string>Blur strength:</string>
      </property>
     </widget>
    </item>
@@ -37,28 +37,28 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="labelConstantBlurLight">
        <property name="text">
         <string>Light</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QSlider" name="kcfg_BlurRadius">
+      <widget class="QSlider" name="kcfg_BlurStrength">
        <property name="minimum">
         <number>1</number>
        </property>
        <property name="maximum">
-        <number>14</number>
+        <number>15</number>
        </property>
        <property name="singleStep">
-        <number>2</number>
+        <number>1</number>
        </property>
        <property name="pageStep">
-        <number>2</number>
+        <number>1</number>
        </property>
        <property name="value">
-        <number>12</number>
+        <number>10</number>
        </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -69,7 +69,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="labelConstantBlurStrong">
        <property name="text">
         <string>Strong</string>
        </property>
@@ -78,14 +78,67 @@
     </layout>
    </item>
    <item>
-    <widget class="QCheckBox" name="kcfg_CacheTexture">
-     <property name="toolTip">
-      <string extracomment="Enables an internal texture cache which saves the background of the blurred area. This results in less repaints and in a slightly higher memory usage."/>
-     </property>
+    <widget class="QLabel" name="labelConstantNoiseDescription">
      <property name="text">
-      <string>Save intermediate rendering results.</string>
+      <string>Noise strength:</string>
      </property>
     </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelConstantNoiseLight">
+       <property name="text">
+        <string>Light</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSlider" name="kcfg_NoiseStrength">
+       <property name="maximum">
+        <number>14</number>
+       </property>
+       <property name="pageStep">
+        <number>5</number>
+       </property>
+       <property name="value">
+        <number>5</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="tickPosition">
+        <enum>QSlider::TicksBelow</enum>
+       </property>
+       <property name="tickInterval">
+        <number>1</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelConstantNoiseStrong">
+       <property name="text">
+        <string>Strong</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <spacer name="verticalSpacer">

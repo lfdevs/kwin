@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2017-12-30 03:13+0100\n"
-"PO-Revision-Date: 2018-04-03 23:33+0700\n"
+"PO-Revision-Date: 2018-06-17 20:50+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -42,23 +42,23 @@ msgstr "Tampilkan Desktop"
 #: main.cpp:192 touch.cpp:133
 #, kde-format
 msgid "Lock Screen"
-msgstr "Kancing Layar"
+msgstr "Layar Lock"
 
 #: main.cpp:193 touch.cpp:134
 #, kde-format
 msgctxt "Open krunner"
 msgid "Run Command"
-msgstr ""
+msgstr "Jalankan Perintah"
 
 #: main.cpp:194 touch.cpp:135
 #, kde-format
 msgid "Activity Manager"
-msgstr ""
+msgstr "Pengelola Aktivitas"
 
 #: main.cpp:195 touch.cpp:136
 #, kde-format
 msgid "Application Launcher"
-msgstr ""
+msgstr "Peluncur Aplikasi"
 
 #: main.cpp:199 touch.cpp:140
 #, kde-format
@@ -102,23 +102,19 @@ msgstr "Ubah penggantian jendela alternatif"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
-#, fuzzy, kde-format
-#| msgid "Active Screen Edge Actions"
+#, kde-format
 msgid "Active Screen Corners and Edges"
-msgstr "Aktifkan Aksi Tepi Layar"
+msgstr "Tepi dan Pojok Layar Aktiv"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "To trigger an action push your mouse cursor against the edge of the "
-#| "screen in the action's direction."
+#, kde-format
 msgid ""
 "Trigger an action by pushing the mouse cursor against the corresponding "
 "screen edge or corner"
 msgstr ""
-"Untuk memicu aksi tekan kursor mouse anda di tepi layar lalu tarik sesuai "
-"dengan arah yang anda kehendaki."
+"Pemicu sebuah tindakan dengan mendorong kursor mouse ke tepi atau pojok "
+"layar yang sesuai"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
@@ -128,17 +124,15 @@ msgstr "Pengelolaan Jendela"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
-#, fuzzy, kde-format
-#| msgid "Maximize windows by dragging them to the top of the screen"
+#, kde-format
 msgid "Maximize windows by dragging them to the top edge of the screen"
-msgstr "Maksimalkan jendela dengan menariknya ke atas layar"
+msgstr "Maksimalkan jendela dengan menyeretnya ke tepi-atas layar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
-#, fuzzy, kde-format
-#| msgid "Tile windows by dragging them to the side of the screen"
+#, kde-format
 msgid "Tile windows by dragging them to the left or right edges of the screen"
-msgstr "Ubin jendela dengan menariknya ke sisi layar"
+msgstr "Ubinkan jendela dengan menyeretnya ke tepi-kiri atau tepi-kanan layar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
@@ -237,13 +231,9 @@ msgstr "Jeda &reaktivasi:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: touch.ui:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "To trigger an action push your mouse cursor against the edge of the "
-#| "screen in the action's direction."
+#, kde-format
 msgid ""
 "Trigger an action by swiping from the screen edge towards the center of the "
 "screen"
 msgstr ""
-"Untuk memicu aksi tekan kursor tetikus anda di tepi layar lalu tarik sesuai "
-"dengan arah yang anda kehendaki."
+"Pemicu sebuah tindakan dengan menggesek dari tepi layar menuju pusat layar"

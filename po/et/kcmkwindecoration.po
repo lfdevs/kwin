@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-14 02:49+0200\n"
+"POT-Creation-Date: 2018-04-19 03:40+0200\n"
 "PO-Revision-Date: 2016-01-10 12:27+0200\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@linux.ee>\n"
@@ -177,17 +177,23 @@ msgstr "Ülemõõduline"
 msgid "Buttons"
 msgstr "Nupud"
 
-#: qml/Buttons.qml:77
+#: qml/Buttons.qml:72
 #, kde-format
 msgid "Titlebar"
 msgstr "Tiitliriba"
 
-#: qml/Buttons.qml:201
+#: qml/Buttons.qml:199
+#, kde-format
+msgid "Drop here to remove button"
+msgstr "Nupu eemaldamiseks lohista see siia"
+
+#: qml/Buttons.qml:223
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Lohista nuppe siit tiitliribale ja tagasi"
 
-#: qml/Buttons.qml:216
-#, kde-format
-msgid "Drop here to remove button"
-msgstr "Nupu eemaldamiseks lohista see siia"
+#: qml/Previews.qml:138
+#, fuzzy, kde-format
+#| msgid "Configure Buttons..."
+msgid "Configure %1..."
+msgstr "Seadista nuppe..."

@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "virtual_backend.h"
+#include "virtual_output.h"
 #include "scene_qpainter_virtual_backend.h"
 #include "screens_virtual.h"
 #include "wayland_server.h"
@@ -33,7 +34,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #if HAVE_GBM
 #include <gbm.h>
 #endif
-#include <colorcorrection/manager.h>
 
 namespace KWin
 {
@@ -68,12 +68,25 @@ VirtualBackend::~VirtualBackend()
 
 void VirtualBackend::init()
 {
+    /*
+     * Some tests currently expect one output present at start,
+     * others set them explicitly.
+     *
+     * TODO: rewrite all tests to explicitly set the outputs.
+     */
+    if (!m_outputs.size()) {
+        VirtualOutput *dummyOutput = new VirtualOutput(this);
+        dummyOutput->m_geo = QRect(QPoint(0, 0), initialWindowSize());
+        m_outputs = { dummyOutput };
+    }
+
+
     setSoftWareCursor(true);
-    m_size = initialWindowSize();
     setReady(true);
     waylandServer()->seat()->setHasPointer(true);
     waylandServer()->seat()->setHasKeyboard(true);
     waylandServer()->seat()->setHasTouch(true);
+
     emit screensQueried();
 }
 
@@ -100,13 +113,36 @@ OpenGLBackend *VirtualBackend::createOpenGLBackend()
     return new EglGbmBackend(this);
 }
 
+void VirtualBackend::setVirtualOutputs(int count, QVector<QRect> geometries)
+{
+    Q_ASSERT(geometries.size() == 0 || geometries.size() == count);
+
+    bool countChanged = m_outputs.size() != count;
+    qDeleteAll(m_outputs.begin(), m_outputs.end());
+    m_outputs.resize(count);
+
+    int sumWidth = 0;
+    for (int i = 0; i < count; i++) {
+        VirtualOutput *vo = new VirtualOutput(this);
+        if (geometries.size()) {
+            vo->m_geo = geometries.at(i);
+        } else if (!vo->m_geo.isValid()) {
+            vo->m_geo = QRect(QPoint(sumWidth, 0), initialWindowSize());
+            sumWidth += vo->m_geo.width();
+        }
+        m_outputs[i] = vo;
+    }
+
+    emit virtualOutputsSet(countChanged);
+}
+
 int VirtualBackend::gammaRampSize(int screen) const {
-    return m_gammaSizes[screen];
+    return m_outputs[screen]->m_gammaSize;
 }
 
 bool VirtualBackend::setGammaRamp(int screen, ColorCorrect::GammaRamp &gamma) {
     Q_UNUSED(gamma);
-    return m_gammaResults[screen];
+    return m_outputs[screen]->m_gammaResult;
 }
 
 }

@@ -101,6 +101,7 @@ private Q_SLOTS:
     void updateEnableshortcut();
     void updateEnabledisableglobalshortcuts();
     void updateEnableblockcompositing();
+    void updateEnabledesktopfile();
     // internal
     void detected(bool);
 private:
@@ -117,6 +118,7 @@ private:
     int inc(int i) const { return i+1; }
     int dec(int i) const { return i-1; }
     void prefillUnusedValues(const KWindowInfo& info);
+    void prefillUnusedValues(const QVariantMap& info);
     DetectDialog* detect_dlg;
     bool detect_dlg_ok;
 };

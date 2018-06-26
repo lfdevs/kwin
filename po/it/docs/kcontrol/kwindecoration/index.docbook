@@ -47,9 +47,9 @@
 </authorgroup>
 
 <date
->2016-04-14</date>
+>2018-03-18</date>
 <releaseinfo
->Plasma 5.6</releaseinfo>
+>Plasma 5.12</releaseinfo>
 
 <keywordset>
 <keyword
@@ -116,7 +116,7 @@
 >Raccomandiamo di sperimentare con diversi stili fino a trovare quello che meglio si adatta a te.</para>
 
 <para
->In un pannello d'anteprima a destra di ogni stile trovi un pulsante di configurazione <inlinemediaobject
+>Nell'anteprima di ogni stile trovi un pulsante di configurazione <inlinemediaobject
 ><imageobject
 ><imagedata fileref="configure.png" format="PNG"/></imageobject
 ></inlinemediaobject
@@ -125,8 +125,6 @@
 <para
 >Le opzioni in questa finestra di configurazione sono applicate a tutte le finestre. Alcune decorazioni di finestre (&eg; <quote
 >Brezza</quote
-> o <quote
->Oxygen</quote
 >) forniscono una scheda <guilabel
 >Ridefinizioni specifiche per finestra</guilabel
 >. In questa scheda si possono cambiare la dimensione del bordo e la visibilità della barra del titolo per finestre specifiche.</para>
@@ -173,7 +171,9 @@
 >Pulsanti</title>
 
 <para
->Questa scheda permette di personalizzare la posizione dei pulsanti sulla barra del titolo. Possono essere trascinati nella barra, rimossi o spostati in giro fino a trovare la disposizione più congeniale. </para>
+>Questa scheda permette di personalizzare la posizione dei pulsanti sulla barra del titolo. I pulsanti (come &eg; il <guilabel
+>menu dell'applicazione</guilabel
+>) possono essere trascinati nella barra, rimossi o spostati in giro fino a trovare la disposizione più congeniale. </para>
 
 <screenshot>
 <screeninfo

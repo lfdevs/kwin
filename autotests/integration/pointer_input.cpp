@@ -92,7 +92,7 @@ void PointerInputTest::initTestCase()
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setOutputCount", Qt::DirectConnection, Q_ARG(int, 2));
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
     QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit()));
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
@@ -298,8 +298,9 @@ void PointerInputTest::testUpdateFocusAfterScreenChange()
     QSignalSpy screensChangedSpy(screens(), &Screens::changed);
     QVERIFY(screensChangedSpy.isValid());
     // now let's remove the screen containing the cursor
-    QMetaObject::invokeMethod(kwinApp()->platform(), "outputGeometriesChanged",
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs",
                               Qt::DirectConnection,
+                              Q_ARG(int, 1),
                               Q_ARG(QVector<QRect>, QVector<QRect>{QRect(0, 0, 1280, 1024)}));
     QVERIFY(screensChangedSpy.wait());
     QCOMPARE(screens()->count(), 1);
@@ -829,7 +830,8 @@ void PointerInputTest::testCursorImage()
     Cursor::setPos(800, 800);
     auto p = input()->pointer();
     // at the moment it should be the fallback cursor
-    QVERIFY(!p->cursorImage().isNull());
+    const QImage fallbackCursor = p->cursorImage();
+    QVERIFY(!fallbackCursor.isNull());
 
     // create a window
     QSignalSpy clientAddedSpy(waylandServer(), &WaylandServer::shellClientAdded);
@@ -843,10 +845,10 @@ void PointerInputTest::testCursorImage()
     AbstractClient *window = workspace()->activeClient();
     QVERIFY(window);
 
-    // move cursor to center of window, this should first set a null pointer
+    // move cursor to center of window, this should first set a null pointer, so we still show old cursor
     Cursor::setPos(window->geometry().center());
     QCOMPARE(p->window().data(), window);
-    QVERIFY(p->cursorImage().isNull());
+    QCOMPARE(p->cursorImage(), fallbackCursor);
     QVERIFY(enteredSpy.wait());
 
     // create a cursor on the pointer
@@ -889,6 +891,7 @@ void PointerInputTest::testCursorImage()
     Cursor::setPos(window->geometry().bottomLeft() + QPoint(20, 20));
     QVERIFY(p->window().isNull());
     QVERIFY(!p->cursorImage().isNull());
+    QCOMPARE(p->cursorImage(), fallbackCursor);
 }
 
 class HelperEffect : public Effect
@@ -934,8 +937,8 @@ void PointerInputTest::testEffectOverrideCursorImage()
     QVERIFY(!window->geometry().contains(QPoint(800, 800)));
     Cursor::setPos(window->geometry().center());
     QVERIFY(enteredSpy.wait());
-    // cursor image should be null
-    QVERIFY(p->cursorImage().isNull());
+    // cursor image should still be fallback
+    QCOMPARE(p->cursorImage(), fallback);
 
     // now create an effect and set an override cursor
     QScopedPointer<HelperEffect> effect(new HelperEffect);

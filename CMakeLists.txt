@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
 project(KWIN)
-set(PROJECT_VERSION "5.12.5")
+set(PROJECT_VERSION "5.13.1")
 set(PROJECT_VERSION_MAJOR 5)
 
 set(QT_MIN_VERSION "5.9.0")
@@ -175,32 +175,20 @@ set_package_properties(XKB PROPERTIES
                        PURPOSE "Required for building KWin with Wayland support"
                       )
 
-find_package(Libinput 1.5)
-set_package_properties(Libinput PROPERTIES TYPE OPTIONAL PURPOSE "Required for input handling on Wayland.")
+find_package(Libinput 1.9)
+set_package_properties(Libinput PROPERTIES TYPE REQUIRED PURPOSE "Required for input handling on Wayland.")
 
 find_package(UDev)
 set_package_properties(UDev PROPERTIES  URL "http://www.freedesktop.org/software/systemd/libudev/"
                                         DESCRIPTION "Linux device library."
-                                        TYPE OPTIONAL
+                                        TYPE REQUIRED
                                         PURPOSE "Required for input handling on Wayland."
                         )
-set(HAVE_INPUT FALSE)
-set(HAVE_INPUT_1_9 FALSE)
-if (Libinput_FOUND AND UDEV_FOUND)
-    set(HAVE_INPUT TRUE)
-    if(${Libinput_VERSION} VERSION_GREATER "1.9.0" OR ${Libinput_VERSION} VERSION_EQUAL "1.9.0")
-        set(HAVE_INPUT_1_9 TRUE)
-    endif()
-endif()
-set(HAVE_UDEV FALSE)
-if (UDEV_FOUND)
-    set(HAVE_UDEV TRUE)
-endif()
 
 find_package(Libdrm 2.4.62)
 set_package_properties(Libdrm PROPERTIES TYPE OPTIONAL PURPOSE "Required for drm output on Wayland.")
 set(HAVE_DRM FALSE)
-if(Libdrm_FOUND AND UDEV_FOUND)
+if(Libdrm_FOUND)
     set(HAVE_DRM TRUE)
 endif()
 
@@ -486,6 +474,12 @@ set(kwin_KDEINIT_SRCS
     rootinfo_filter.cpp
     orientation_sensor.cpp
     idle_inhibition.cpp
+    libinput/context.cpp
+    libinput/connection.cpp
+    libinput/device.cpp
+    libinput/events.cpp
+    libinput/libinput_logging.cpp
+    udev.cpp
    )
 
 include(ECMQtDeclareLoggingCategory)
@@ -522,28 +516,11 @@ if(KWIN_BUILD_ACTIVITIES)
     )
 endif()
 
-if(UDEV_FOUND)
-    set(kwin_KDEINIT_SRCS
-        ${kwin_KDEINIT_SRCS}
-        udev.cpp
-    )
-endif()
-
-if(HAVE_INPUT)
-    set(kwin_KDEINIT_SRCS
-        ${kwin_KDEINIT_SRCS}
-        libinput/context.cpp
-        libinput/connection.cpp
-        libinput/device.cpp
-        libinput/events.cpp
-        libinput/libinput_logging.cpp
-    )
-    if (HAVE_LINUX_VT_H)
-         set(kwin_KDEINIT_SRCS
-             ${kwin_KDEINIT_SRCS}
-             virtual_terminal.cpp
-         )
-    endif()
+if (HAVE_LINUX_VT_H)
+        set(kwin_KDEINIT_SRCS
+            ${kwin_KDEINIT_SRCS}
+            virtual_terminal.cpp
+        )
 endif()
 
 kconfig_add_kcfg_files(kwin_KDEINIT_SRCS settings.kcfgc)
@@ -638,15 +615,9 @@ set(kwinLibs
     ${kwin_XLIB_LIBS}
     ${kwin_XCB_LIBS}
     ${kwin_WAYLAND_LIBS}
+    ${UDEV_LIBS}
+    Libinput::Libinput
 )
-
-if(UDEV_FOUND)
-    set(kwinLibs ${kwinLibs} ${UDEV_LIBS})
-endif()
-
-if(HAVE_INPUT)
-    set(kwinLibs ${kwinLibs} Libinput::Libinput)
-endif()
 
 add_library(kwin SHARED ${kwin_KDEINIT_SRCS})
 

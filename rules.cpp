@@ -82,6 +82,7 @@ Rules::Rules()
     , strictgeometryrule(UnusedForceRule)
     , shortcutrule(UnusedSetRule)
     , disableglobalshortcutsrule(UnusedForceRule)
+    , desktopfilerule(UnusedSetRule)
 {
 }
 
@@ -192,6 +193,7 @@ void Rules::readFromCfg(const KConfigGroup& cfg)
     READ_FORCE_RULE(strictgeometry, , false);
     READ_SET_RULE(shortcut, , QString());
     READ_FORCE_RULE(disableglobalshortcuts, , false);
+    READ_SET_RULE(desktopfile, , QString());
 }
 
 #undef READ_MATCH_STRING
@@ -290,6 +292,7 @@ void Rules::write(KConfigGroup& cfg) const
     WRITE_FORCE_RULE(strictgeometry,);
     WRITE_SET_RULE(shortcut,);
     WRITE_FORCE_RULE(disableglobalshortcuts,);
+    WRITE_SET_RULE(desktopfile,);
 }
 
 #undef WRITE_MATCH_STRING
@@ -333,7 +336,8 @@ bool Rules::isEmpty() const
            && autogroupidrule == UnusedForceRule
            && strictgeometryrule == UnusedForceRule
            && shortcutrule == UnusedSetRule
-           && disableglobalshortcutsrule == UnusedForceRule);
+           && disableglobalshortcutsrule == UnusedForceRule
+           && desktopfilerule == UnusedSetRule);
 }
 
 Rules::SetRule Rules::readSetRule(const KConfigGroup& cfg, const QString& key)
@@ -553,6 +557,10 @@ bool Rules::update(AbstractClient* c, int selection)
         updated = updated || noborder != c->noBorder();
         noborder = c->noBorder();
     }
+    if NOW_REMEMBER(DesktopFile, desktopfile) {
+        updated = updated || desktopfile != c->desktopFileName();
+        desktopfile = c->desktopFileName();
+    }
     return updated;
 }
 
@@ -663,6 +671,7 @@ APPLY_FORCE_RULE(autogroupid, AutogroupById, QString)
 APPLY_FORCE_RULE(strictgeometry, StrictGeometry, bool)
 APPLY_RULE(shortcut, Shortcut, QString)
 APPLY_FORCE_RULE(disableglobalshortcuts, DisableGlobalShortcuts, bool)
+APPLY_RULE(desktopfile, DesktopFile, QString)
 
 
 #undef APPLY_RULE
@@ -686,17 +695,22 @@ bool Rules::discardTemporary(bool force)
 
 #define DISCARD_USED_SET_RULE( var ) \
     do { \
-        if ( var##rule == ( SetRule ) ApplyNow || ( withdrawn && var##rule == ( SetRule ) ForceTemporarily )) \
+        if ( var##rule == ( SetRule ) ApplyNow || ( withdrawn && var##rule == ( SetRule ) ForceTemporarily )) { \
             var##rule = UnusedSetRule; \
+            changed = true; \
+        } \
     } while ( false )
 #define DISCARD_USED_FORCE_RULE( var ) \
     do { \
-        if ( withdrawn && var##rule == ( ForceRule ) ForceTemporarily ) \
+        if ( withdrawn && var##rule == ( ForceRule ) ForceTemporarily ) { \
             var##rule = UnusedForceRule; \
+            changed = true; \
+        } \
     } while ( false )
 
-void Rules::discardUsed(bool withdrawn)
+bool Rules::discardUsed(bool withdrawn)
 {
+    bool changed = false;
     DISCARD_USED_FORCE_RULE(placement);
     DISCARD_USED_SET_RULE(position);
     DISCARD_USED_SET_RULE(size);
@@ -732,6 +746,9 @@ void Rules::discardUsed(bool withdrawn)
     DISCARD_USED_FORCE_RULE(strictgeometry);
     DISCARD_USED_SET_RULE(shortcut);
     DISCARD_USED_FORCE_RULE(disableglobalshortcuts);
+    DISCARD_USED_SET_RULE(desktopfile);
+
+    return changed;
 }
 #undef DISCARD_USED_SET_RULE
 #undef DISCARD_USED_FORCE_RULE
@@ -866,6 +883,7 @@ CHECK_FORCE_RULE(AutogroupById, QString)
 CHECK_FORCE_RULE(StrictGeometry, bool)
 CHECK_RULE(Shortcut, QString)
 CHECK_FORCE_RULE(DisableGlobalShortcuts, bool)
+CHECK_RULE(DesktopFile, QString)
 
 #undef CHECK_RULE
 #undef CHECK_FORCE_RULE
@@ -932,6 +950,7 @@ void AbstractClient::applyWindowRules()
         workspace()->disableGlobalShortcutsForClient(rules()->checkDisableGlobalShortcuts(false));
     } else
         setOpacity(rules()->checkOpacityInactive(qRound(opacity() * 100.0)) / 100.0);
+    setDesktopFileName(rules()->checkDesktopFile(desktopFileName()).toUtf8());
 }
 
 void Client::updateWindowRules(Rules::Types selection)
@@ -1043,12 +1062,16 @@ void RuleBook::edit(AbstractClient* c, bool whole_app)
 void RuleBook::load()
 {
     deleteAll();
-    KConfig cfg(QStringLiteral(KWIN_NAME "rulesrc"), KConfig::NoGlobals);
-    int count = cfg.group("General").readEntry("count", 0);
+    if (!m_config) {
+        m_config = KSharedConfig::openConfig(QStringLiteral(KWIN_NAME "rulesrc"), KConfig::NoGlobals);
+    } else {
+        m_config->reparseConfiguration();
+    }
+    int count = m_config->group("General").readEntry("count", 0);
     for (int i = 1;
             i <= count;
             ++i) {
-        KConfigGroup cg(&cfg, QString::number(i));
+        KConfigGroup cg(m_config, QString::number(i));
         Rules* rule = new Rules(cg);
         m_rules.append(rule);
     }
@@ -1115,8 +1138,9 @@ void RuleBook::discardUsed(AbstractClient* c, bool withdrawn)
             it != m_rules.end();
        ) {
         if (c->rules()->contains(*it)) {
-            updated = true;
-            (*it)->discardUsed(withdrawn);
+            if ((*it)->discardUsed(withdrawn)) {
+                updated = true;
+            }
             if ((*it)->isEmpty()) {
                 c->removeRule(*it);
                 Rules* r = *it;

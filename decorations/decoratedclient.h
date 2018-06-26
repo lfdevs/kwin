@@ -23,7 +23,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KDecoration2/Private/DecoratedClientPrivate>
 
+#include <QDeadlineTimer>
 #include <QObject>
+#include <QTimer>
 
 namespace KWin
 {
@@ -72,8 +74,8 @@ public:
     bool hasApplicationMenu() const override;
     bool isApplicationMenuActive() const override;
 
-    void requestShowToolTip(const QString &text);
-    void requestHideToolTip();
+    void requestShowToolTip(const QString &text) override;
+    void requestHideToolTip() override;
     void requestClose() override;
     void requestContextHelp() override;
     void requestToggleMaximization(Qt::MouseButtons buttons) override;
@@ -109,6 +111,11 @@ private:
     QSize m_clientSize;
     Renderer *m_renderer;
     QMetaObject::Connection m_compositorToggledConnection;
+
+    QString m_toolTipText;
+    QTimer m_toolTipWakeUp;
+    QDeadlineTimer m_toolTipFallAsleep;
+    bool m_toolTipShowing = false;
 };
 
 }

@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "udev.h"
+#include "logind.h"
 // Qt
 #include <QByteArray>
 #include <QScopedPointer>
@@ -106,6 +107,7 @@ UdevDevice::Ptr UdevEnumerate::find(std::function<bool(const UdevDevice::Ptr &de
     if (m_enumerate.isNull()) {
         return UdevDevice::Ptr();
     }
+    QString defaultSeat = QStringLiteral("seat0");
     udev_list_entry *it = udev_enumerate_get_list_entry(m_enumerate.data());
     UdevDevice::Ptr firstFound;
     while (it) {
@@ -113,6 +115,13 @@ UdevDevice::Ptr UdevEnumerate::find(std::function<bool(const UdevDevice::Ptr &de
         it = udev_list_entry_get_next(it);
         auto device = m_udev->deviceFromSyspath(udev_list_entry_get_name(current));
         if (!device) {
+            continue;
+        }
+        QString deviceSeat = device->property("ID_SEAT");
+        if (deviceSeat.isEmpty()) {
+            deviceSeat = defaultSeat;
+        }
+        if (deviceSeat != LogindIntegration::self()->seat()) {
             continue;
         }
         if (test(device)) {
@@ -135,7 +144,6 @@ UdevDevice::Ptr Udev::primaryGpu()
     enumerate.addMatch(UdevEnumerate::Match::SysName, "card[0-9]*");
     enumerate.scan();
     return enumerate.find([](const UdevDevice::Ptr &device) {
-        // TODO: check seat
         auto pci = device->getParentWithSubsystemDevType("pci");
         if (!pci) {
             return false;
@@ -175,6 +183,28 @@ UdevDevice::Ptr Udev::renderNode()
     return enumerate.find([](const UdevDevice::Ptr &device) {
         Q_UNUSED(device)
         return true;
+    });
+}
+
+UdevDevice::Ptr Udev::primaryFramebuffer()
+{
+    if (!m_udev) {
+        return UdevDevice::Ptr();
+    }
+    UdevEnumerate enumerate(this);
+    enumerate.addMatch(UdevEnumerate::Match::SubSystem, "graphics");
+    enumerate.addMatch(UdevEnumerate::Match::SysName, "fb[0-9]*");
+    enumerate.scan();
+    return enumerate.find([](const UdevDevice::Ptr &device) {
+        auto pci = device->getParentWithSubsystemDevType("pci");
+        if (!pci) {
+            return false;
+        }
+        const char *systAttrValue = udev_device_get_sysattr_value(pci, "boot_vga");
+        if (systAttrValue && qstrcmp(systAttrValue, "1") == 0) {
+            return true;
+        }
+        return false;
     });
 }
 

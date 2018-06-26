@@ -24,9 +24,7 @@
 #include "input_event.h"
 #include "input_event_spy.h"
 
-#if HAVE_INPUT
 #include "libinput/device.h"
-#endif
 
 #include <QDBusConnection>
 
@@ -51,11 +49,9 @@ TabletModeInputEventSpy::TabletModeInputEventSpy(TabletModeManager *parent)
 
 void TabletModeInputEventSpy::switchEvent(SwitchEvent *event)
 {
-#if HAVE_INPUT
     if (!event->device()->isTabletModeSwitch()) {
         return;
     }
-#endif
 
     switch (event->state()) {
     case SwitchEvent::State::Off:
@@ -82,6 +78,13 @@ TabletModeManager::TabletModeManager(QObject *parent)
                                                  this,
                                                  QDBusConnection::ExportAllProperties | QDBusConnection::ExportAllSignals
     );
+
+    connect(input(), &InputRedirection::hasTabletModeSwitchChanged, this, &TabletModeManager::tabletModeAvailableChanged);
+}
+
+bool TabletModeManager::isTabletModeAvailable() const
+{
+    return input()->hasTabletModeSwitch();
 }
 
 bool TabletModeManager::isTablet() const

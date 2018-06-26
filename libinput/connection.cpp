@@ -28,8 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../udev.h"
 #include "libinput_logging.h"
 
-#include <KConfigGroup>
-
 #include <QDBusMessage>
 #include <QDBusConnection>
 #include <QDBusPendingCall>
@@ -137,9 +135,8 @@ Connection *Connection::create(QObject *parent)
             s_context = nullptr;
             return nullptr;
         }
-        // TODO: don't hardcode seat name
-        if (!s_context->assignSeat("seat0")) {
-            qCWarning(KWIN_LIBINPUT) << "Failed to assign seat seat0";
+        if (!s_context->assignSeat(LogindIntegration::self()->seat().toUtf8().constData())) {
+            qCWarning(KWIN_LIBINPUT) << "Failed to assign seat" << LogindIntegration::self()->seat();
             delete s_context;
             s_context = nullptr;
             return nullptr;
@@ -225,6 +222,7 @@ void Connection::deactivate()
     m_alphaNumericKeyboardBeforeSuspend = hasAlphaNumericKeyboard();
     m_pointerBeforeSuspend = hasPointer();
     m_touchBeforeSuspend = hasTouch();
+    m_tabletModeSwitchBeforeSuspend = hasTabletModeSwitch();
     m_input->suspend();
     handleEvent();
 }
@@ -280,6 +278,12 @@ void Connection::processEvents()
                         emit hasTouchChanged(true);
                     }
                 }
+                if (device->isTabletModeSwitch()) {
+                    m_tabletModeSwitch++;
+                    if (m_tabletModeSwitch == 1) {
+                        emit hasTabletModeSwitchChanged(true);
+                    }
+                }
                 applyDeviceConfig(device);
                 applyScreenToDevice(device);
 
@@ -321,6 +325,12 @@ void Connection::processEvents()
                     m_touch--;
                     if (m_touch == 0) {
                         emit hasTouchChanged(false);
+                    }
+                }
+                if (device->isTabletModeSwitch()) {
+                    m_tabletModeSwitch--;
+                    if (m_tabletModeSwitch == 0) {
+                        emit hasTabletModeSwitchChanged(false);
                     }
                 }
                 device->deleteLater();
@@ -460,7 +470,6 @@ void Connection::processEvents()
                 }
                 break;
             }
-#if HAVE_INPUT_1_9
             case LIBINPUT_EVENT_SWITCH_TOGGLE: {
                 SwitchEvent *se = static_cast<SwitchEvent*>(event.data());
                 switch (se->state()) {
@@ -475,7 +484,6 @@ void Connection::processEvents()
                 }
                 break;
             }
-#endif
             default:
                 // nothing
                 break;
@@ -493,6 +501,9 @@ void Connection::processEvents()
         }
         if (m_touchBeforeSuspend && !m_touch) {
             emit hasTouchChanged(false);
+        }
+        if (m_tabletModeSwitchBeforeSuspend && !m_tabletModeSwitch) {
+            emit hasTabletModeSwitchChanged(false);
         }
         wasSuspended = false;
     }
@@ -589,23 +600,6 @@ void Connection::applyDeviceConfig(Device *device)
     // pass configuration to Device
     device->setConfig(m_config->group("Libinput").group(QString::number(device->vendor())).group(QString::number(device->product())).group(device->name()));
     device->loadConfiguration();
-
-    if (device->isPointer() && !device->isTouchpad()) {
-        const KConfigGroup group = m_config->group("Mouse");
-        device->setLeftHanded(group.readEntry("MouseButtonMapping", "RightHanded") == QLatin1String("LeftHanded"));
-        qreal accel = group.readEntry("Acceleration", -1.0);
-        if (qFuzzyCompare(accel, -1.0) || qFuzzyCompare(accel, 1.0)) {
-            // default value
-            device->setPointerAcceleration(0.0);
-        } else {
-            // the X11-based config is mapped in [0.1,20.0] with 1.0 being the "normal" setting - we assume that's the default
-            if (accel < 1.0) {
-                device->setPointerAcceleration(-1.0 + ((accel * 10.0) - 1.0) / 9.0);
-            } else {
-                device->setPointerAcceleration((accel -1.0)/19.0);
-            }
-        }
-    }
 }
 
 void Connection::slotKGlobalSettingsNotifyChange(int type, int arg)

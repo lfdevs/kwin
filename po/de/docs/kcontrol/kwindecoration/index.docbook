@@ -31,9 +31,9 @@
 </authorgroup>
 
 <date
->2016-04-14</date>
+>2018-03-18</date>
 <releaseinfo
->Plasma 5.6</releaseinfo>
+>Plasma 5.12</releaseinfo>
 
 <keywordset>
 <keyword
@@ -96,7 +96,7 @@
 >Probieren Sie ruhig mit den verschiedenen Stilen herum, bis Sie einen finden, der Ihnen und Ihrem Arbeitsstil am besten entgegenkommt.</para>
 
 <para
->Im Vorschaubereich rechts neben jedem Stil finden Sie einen Einrichtungsknopf <inlinemediaobject
+>Auf der Vorschau eines Stils finden Sie einen Einrichtungsknopf <inlinemediaobject
 ><imageobject
 > <imagedata fileref="configure.png" format="PNG"/></imageobject
 ></inlinemediaobject
@@ -105,8 +105,6 @@
 <para
 >Die Einstellungen in diesem Modul werden auf alle Fenster angewendet. Für einige Fensterdekorationen wie &eg; <quote
 >Breeze</quote
-> oder <quote
->Oxygen</quote
 > gibt es zusätzlich die Karteikarte <guilabel
 >Fensterspezifische Einstellungen</guilabel
 >. Auf dieser Karteikarte können Sie die Umrandungsgröße und die Anzeige der Titelleiste für bestimmte Fenster ändern.</para>
@@ -153,7 +151,9 @@
 >Knöpfe</title>
 
 <para
->Auf dieser Karteikarte können Sie die Anordnung der Knöpfe in der Titelleiste einstellen. Verschieben Sie die angezeigten Knöpfe so lange, bis Ihnen die Anordnung zusagt. </para>
+>Auf dieser Karteikarte können Sie die Anordnung der Knöpfe in der Titelleiste einstellen. Verschieben Sie die angezeigten Knöpfe wie &eg; das <guilabel
+>Anwendungsmenü</guilabel
+> so lange, bis Ihnen die Anordnung zusagt. </para>
 
 <screenshot>
 <screeninfo

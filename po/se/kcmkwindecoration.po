@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-04-14 02:49+0200\n"
+"POT-Creation-Date: 2018-04-19 03:40+0200\n"
 "PO-Revision-Date: 2007-12-28 23:37+0100\n"
 "Last-Translator: Børre Gaup <boerre@skolelinux.no>\n"
 "Language-Team: Northern Sami <i18n-sme@lister.ping.uio.no>\n"
@@ -175,17 +175,22 @@ msgstr ""
 msgid "Buttons"
 msgstr "Boalut"
 
-#: qml/Buttons.qml:77
+#: qml/Buttons.qml:72
 #, kde-format
 msgid "Titlebar"
 msgstr ""
 
-#: qml/Buttons.qml:201
+#: qml/Buttons.qml:199
+#, kde-format
+msgid "Drop here to remove button"
+msgstr ""
+
+#: qml/Buttons.qml:223
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr ""
 
-#: qml/Buttons.qml:216
+#: qml/Previews.qml:138
 #, kde-format
-msgid "Drop here to remove button"
+msgid "Configure %1..."
 msgstr ""

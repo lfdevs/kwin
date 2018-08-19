@@ -1,26 +1,28 @@
 # Translation of kcmkwm.po to Euskara/Basque (eu).
-# Copyright (C) 2002-2014 Free Software Foundation, Inc.
+# Copyright (C) 2002-2018 Free Software Foundation.
 # This file is distributed under the same license as the kde-workspace package.
+# KDE euskaratzeko proiektuaren arduraduna <xalba@euskalnet.net>.
 #
+# Translators:
 # Marcos  <marcos@euskalgnu.org>, 2002, 2003, 2005, 2006, 2007, 2008.
 # Juan Irigoien <juanirigoien@irakasle.net>, 2004.
 # Ion Gaztañaga <igaztanaga@gmail.com>, 2005.
 # Asier Urio Larrea <asieriko@gmail.com>, 2008.
-# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2011, 2014.
+# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2011, 2014, 2018.
 # Hizkuntza Politikarako Sailburuordetza <hizpol@ej-gv.es>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2014-02-04 10:20+0100\n"
+"PO-Revision-Date: 2018-07-01 11:31+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -505,17 +507,7 @@ msgstr "Kokalek&ua:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, placementCombo)
 #: advanced.ui:121
-#, fuzzy, kde-format
-#| msgid ""
-#| "The placement policy determines where a new window will appear on the "
-#| "desktop. <ul> <li><em>Smart</em> will try to achieve a minimum overlap of "
-#| "windows</li> <li><em>Maximizing</em> will try to maximize every window to "
-#| "fill the whole screen. It might be useful to selectively affect placement "
-#| "of some windows using the window-specific settings.</li> <li><em>Cascade</"
-#| "em> will cascade the windows</li> <li><em>Random</em> will use a random "
-#| "position</li> <li><em>Centered</em> will place the window centered</li> "
-#| "<li><em>Zero-Cornered</em> will place the window in the top-left corner</"
-#| "li></ul>"
+#, kde-format
 msgid ""
 "The placement policy determines where a new window will appear on the "
 "desktop.<br><ul>\n"
@@ -531,14 +523,19 @@ msgid ""
 "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
 "</ul>"
 msgstr ""
-"Kokatze politikek leiho berri bat  mahaigainaren zer tokitan kokatuko den "
-"ezartzen dute.<ul><li><em>Fina</em> Leihoak elkarren gainean ahalik eta "
-"gutxien kokatzen saiatuko da</li> <li><em>Maximizatzen</em> leihoak pantaila "
-"osoa bete daitezen saiatuko da. Lagungarria daiteke leiho batzuen ezarpen "
-"espezifikoak eragiteko.</li><li><em>Kaskada</em> leihoak kaskadan jarriko "
-"ditu</li> <li><em>Ausaz</em> edonon jarriko ditu</li><li><em>Erdiratua</em> "
-"leihoa erdian jarriko du</li> <li><em>Zero-txokoan</em> leihoa goi-ezkerreko "
-"txokoan jarriko du</li> </ul>"
+"Kokatze gidalerroek zehazten dute leiho berri bat  mahaigainean non agertuko "
+"den.<br><ul>\n"
+"<li><em>Adimentsua</em> saiatuko da leihoen arteko gainezartze minimoa "
+"lortzen</li>\n"
+"<li><em>Maximizatzea</em> saiatuko da leiho bakoitza maximizatzen pantaila "
+"osoa betetzeko. Baliagarria izan liteke selektiboki leiho batzuen kokapenari "
+"eragitea leihoen berariazko ezarpenak erabiliz.</li>\n"
+"<li><em>Teilakatuta</em> leihoak teilakatu egingo ditu</li>\n"
+"<li><em>Ausaz</em> ausazko kokapen bat erabiliko du</li>\n"
+"<li><em>Erdiratuta</em> leihoa erdiratuta kokatuko du</li>\n"
+"<li><em>Zero-ertzean</em> leihoa goi-ezker ertzean kokatuko du</li>\n"
+"<li><em>Saguaren azpian</em> leihoa erakuslearen azpian kokatuko du</li>\n"
+"</ul>"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
 #: advanced.ui:125
@@ -669,6 +666,10 @@ msgid ""
 "This behaviour is common on other operating systems and<br>\n"
 "likely what you want."
 msgstr ""
+"<b>Klik egin fokua emateko</b><br>\n"
+"Leiho bat aktibo bilakatzen da bere gainean klik egiten duzunean.<br><br>\n"
+"Jokabide hau arrunta da beste sistema eragile batzuetan eta<br>\n"
+"segur aski zuk nahi duzuna da."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: focus.ui:91
@@ -681,6 +682,12 @@ msgid ""
 "the window under the mouse is the preferred candidate.<br><br>\n"
 "Unusual, but possible variant of <i>Click To Focus</i>."
 msgstr ""
+"<b>Klik egin fokua emateko - Saguak lehentasuna</b><br>\n"
+"Hau nagusiki <i>Klik egin fokua emateko</i> bezalakoa da.<br><br>\n"
+"Sistemak leiho aktibo bat hautatu behar badu<br>\n"
+"(demagun dela aktibo zegoena itxi delako), <br>\n"
+"sagu azpiko leihoa da hautagai hobetsia.<br><br>\n"
+"Ezohikoa, baino <i>Klik egin fokua emateko</i>ren aldaera bat."
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: focus.ui:112
@@ -692,6 +699,12 @@ msgid ""
 "Focus stealing prevention takes place as usual.<br><br>\n"
 "Think as <i>Click To Focus</i> just without having to actually click."
 msgstr ""
+"<b>Fokuak saguari jarraitzen dio</b><br>\n"
+"Sagua leiho baten gainera mugitzean hura aktibatuko du.<br><br>\n"
+"Saguaren azpian ausaz agertzen diren leihoek ez dute fokua bereganatuko."
+"<br>\n"
+"Foku-lapurtze prebentzioa ohi bezala arituko da.<br><br>\n"
+"<i>Klik egin fokua emateko</i> bezalakoa, klik egin behar izan gabe."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: focus.ui:134
@@ -704,6 +717,12 @@ msgid ""
 "the window under the mouse is the preferred candidate.<br><br>\n"
 "Choose this, if you want a hover controlled focus."
 msgstr ""
+"<b>Fokuak saguari jarraitzen dio - Saguak lehentasuna</b><br>\n"
+"Hau nagusiki <i>Fokuak saguari jarraitzen dio</i> bezalakoa da.<br><br>\n"
+"Sistemak leiho aktibo bat hautatu behar badu<br>\n"
+"(demagun dela aktibo zegoena itxi delako), <br>\n"
+"sagu azpiko leihoa da hautagai hobetsia.<br><br>\n"
+"Hautatu hau, pasaerak kontrolatutako fokua nahi baduzu."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: focus.ui:158
@@ -718,6 +737,14 @@ msgid ""
 "You very likely want to use<br>\n"
 "<i>Focus Follows Mouse - Mouse Precedence</i> instead!"
 msgstr ""
+"<b>Fokua sagu azpian</b><br>\n"
+"Fokua beti geratzen da sagu azpiko leihoan.<br><br>\n"
+"\n"
+"Ohartu:<br>\n"
+"<b>Foku-lapurtze prebentzioa</b> eta <b>«tabbox» (\"Alt+Tab\")</b><br>\n"
+"gidalerroarekin kontraesankorrak dira eta <b>ez dira ibiliko</b>.<br><br>\n"
+"Ziur asko, <i>Fokuak saguari jarraitzen dio - Saguak lehentasuna</i><br>\n"
+"erabili nahiko duzu honen ordez."
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: focus.ui:183
@@ -734,13 +761,22 @@ msgid ""
 "You very likely want to use<br>\n"
 "<i>Focus Follows Mouse - Mouse Precedence</i> instead!"
 msgstr ""
+"<b>Fokua zorrozki sagu azpian</b><br>\n"
+"Fokua beti dago sagu azpiko leihoan - zalantzarik balego inon ez -<br>\n"
+"kudeaketa-gabeko X11 ingurune zahar beteko fokuaren jokabidearen oso antzera."
+"<br><br>\n"
+"\n"
+"Ohartu:<br>\n"
+"<b>Foku-lapurtze prebentzioa</b> eta <b>«tabbox» (\"Alt+Tab\")</b><br>\n"
+"gidalerroarekin kontraesankorrak dira eta <b>ez dira ibiliko</b>.<br><br>\n"
+"Ziur asko, <i>Fokuak saguari jarraitzen dio - Saguak lehentasuna</i><br>\n"
+"erabili nahiko duzu honen ordez."
 
 #. i18n: ectx: property (text), widget (QLabel, delayFocusOnLabel)
 #: focus.ui:228
-#, fuzzy, kde-format
-#| msgid "Delay focus by:"
+#, kde-format
 msgid "&Delay focus by"
-msgstr "Atzeratu fokua honela:"
+msgstr "&Atzeratu fokua hainbestean:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, delayFocus)
 #: focus.ui:247
@@ -754,32 +790,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusStealingLabel)
 #: focus.ui:273
-#, fuzzy, kde-format
-#| msgid "Focus stealing prevention level:"
+#, kde-format
 msgid "Focus &stealing prevention"
-msgstr "Fokua hartze eragozte maila:"
+msgstr "Foku-&lapurtze prebentzioa"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, focusStealing)
 #: focus.ui:300
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>This option specifies how much KWin will try to prevent unwanted focus "
-#| "stealing caused by unexpected activation of new windows. (Note: This "
-#| "feature does not work with the Focus Under Mouse or Focus Strictly Under "
-#| "Mouse focus policies.)<ul><li><em>None:</em> Prevention is turned off and "
-#| "new windows always become activated.</li><li><em>Low:</em> Prevention is "
-#| "enabled; when some window does not have support for the underlying "
-#| "mechanism and KWin cannot reliably decide whether to activate the window "
-#| "or not, it will be activated. This setting may have both worse and better "
-#| "results than the medium level, depending on the applications.</"
-#| "li><li><em>Medium:</em> Prevention is enabled.</li><li><em>High:</em> New "
-#| "windows get activated only if no window is currently active or if they "
-#| "belong to the currently active application. This setting is probably not "
-#| "really usable when not using mouse focus policy.</li><li><em>Extreme:</"
-#| "em> All windows must be explicitly activated by the user.</li></ul></"
-#| "p><p>Windows that are prevented from stealing focus are marked as "
-#| "demanding attention, which by default means their taskbar entry will be "
-#| "highlighted. This can be changed in the Notifications control module.</p>"
+#, kde-format
 msgid ""
 "<p>This option specifies how much KWin will try to prevent unwanted focus "
 "stealing caused by unexpected activation of new windows. (Note: This feature "
@@ -804,24 +821,29 @@ msgid ""
 "attention, which by default means their taskbar entry will be highlighted. "
 "This can be changed in the Notifications control module.</p>"
 msgstr ""
-"<p>Aukera honek zehazten du KWin zenbateraino saiatuko den ustekabeko leiho "
-"irekitzeek eragindako fokuaren lapurketa eragozten (Oharra: Ezaugarri hau ez "
-"dabil 'Fokua saguaren azpian' edo 'Fokua saguaren azpian beti' foku "
-"politikekin).<ul> <li><em>Bat ere ez:</em> Ez da ezer eragotziko eta leiho "
-"berriek beti jasoko dute fokua.</li><li><em>Txikia:</em>Eragozpena gaituta "
-"dago; leihoren batek azpian datzan mekanismoaren euskarria ez daukanean eta "
-"KWin-ek ezin duenean modu fidagarrian leihoa aktibatu edo ez erabaki, "
-"aktibatu egingo da. Ezarpen honek erdiko maila baino emaitza hobeak edo "
-"txarragoak izan ditzake, beti ere aplikazioaren arabera.</li><li><em>Ertaina:"
-"</em> Eragozpena aktibatuta dago.</li> <li><em>Handia:</em> Leiho berriak "
-"aktibatuko dira soilik beste leihorik aktibatuta ez badago edo unean aktibo "
-"dagoen aplikazioari badagozkio. Baliteke ezarpen hau guztiz erabilgarria ez "
-"izatea saguaren foku politikak erabiltzen ez direnean.</"
-"li><li><em>Muturrekoa:</em> Leiho guztiak erabiltzaileak era esplizituan "
-"aktibatu behar ditu.</li> </ul></p><p>Fokua lapurtzea eragotzi zaien leihoak "
-"arreta eskatzaile gisa markatzen dira, modu lehenetsian esan nahi du beraien "
-"ataza-barrako sarrera nabarmendu egingo dela. Hau Jakinarazpenak kontrol "
-"moduluan alda daiteke.</p>"
+"<p>Aukera honek zehazten du KWin zenbateraino saiatuko den leiho berrien "
+"ustekabeko aktibazioek eragindako nahi gabeko foku-lapurtzeak saihesten. "
+"(Oharra: eginbide hau ez dabil «Fokua sagu azpian» edo «Fokua zorrozki sagu "
+"azpian» gidalerroekin.)\n"
+"<ul>\n"
+"<li><em>Bat ere ez:</em> Prebentzioa itzaltzen da eta leiho berriak beti "
+"bilakatzen dira aktibo.</li>\n"
+"<li><em>Apala:</em> Prebentzioa gaituta dago; leihoren batek azpian dagoen "
+"mekanismoaren euskarririk ez duenean eta KWin-ek ezin duenean "
+"fidagarritasunez erabaki leihoa aktibatu edo ez, aktibatu egingo da. Ezarpen "
+"honek ondorio biak izan ditzake, maila ertainak baino emaitza okerragoak eta "
+"hobeak, aplikazioaren arabera.</li>\n"
+"<li><em>Ertaina:</em> Prebentzioa aktibatuta dago.</li>\n"
+"<li><em>Altua:</em> Leiho berriak aktibatuko dira soilik une horretan beste "
+"leiho aktiborik ez badago edo une horretan aktibo dagoen aplikazioari "
+"badagozkio. Ezarpen hau ez da erabilgarria segur aski saguaren foku-emate "
+"gidalerrorik erabili ezean.</li>\n"
+"<li><em>Muturrekoa:</em> Leiho guztiak erabiltzaileak esplizituki aktibatu "
+"behar ditu.</li>\n"
+"</ul></p>\n"
+"<p>Fokua lapurtzea eragozten zaien leihoak arreta eskatzaile gisa "
+"nabarmentzen dira, lehenetsian beraien ataza-barrako sarrera nabarmenduko "
+"da. Hau aldatu daiteke Jakinarazpenen aginte moduluan.</p>"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
@@ -862,7 +884,7 @@ msgstr "Muturrekoa"
 #: focus.ui:364
 #, kde-format
 msgid "Policy"
-msgstr "Gidalerroa"
+msgstr "Gidalerroak"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: focus.ui:377
@@ -894,9 +916,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoRaiseOn)
 #: focus.ui:446
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Raise on hover, delayed by"
-msgstr "Goratu gainetik igarotakoan, "
+msgstr "Al&txatu gainetik igarotakoan, atzerapena"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, autoRaise)
 #: focus.ui:472
@@ -916,9 +938,9 @@ msgid ""
 "when you click somewhere into the window contents. To change it for inactive "
 "windows, you need to change the settings in the Actions tab."
 msgstr ""
-"Aukera hau gaituz gero, leihoaren barne aldean klik egitean leiho aktiboa "
-"goratuta izango da. Leiho inaktiboetan ere hala gerta dadin, Ekintzak "
-"fitxako ezarpenetan aldaketak egin beharko dituzu."
+"Aukera hau gaituta dagoenean, leihoaren barne aldean klik egitean leiho "
+"aktiboa goratuta izango da. Leiho inaktiboetan ere hala gerta dadin, "
+"Ekintzak fitxako ezarpenetan aldaketak egin beharko dituzu."
 
 #. i18n: ectx: property (text), widget (QCheckBox, clickRaiseOn)
 #: focus.ui:497
@@ -930,7 +952,7 @@ msgstr "K&likak leiho aktiboa goratzen du"
 #: focus.ui:520
 #, kde-format
 msgid "Multiscreen behaviour"
-msgstr ""
+msgstr "Pantaila-aniztunaren jokabidea"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, separateScreenFocus)
 #: focus.ui:529
@@ -939,8 +961,8 @@ msgid ""
 "When this option is enabled, focus operations are limited only to the active "
 "Xinerama screen"
 msgstr ""
-"Haukera hau gaituta denean, fokuaren eragiketek Xinerama pantaila aktiboan "
-"eragiten dute"
+"Haukera hau gaituta dagoenean, fokuaren eragiketek Xinerama pantaila "
+"aktiboan eragiten dute"
 
 #. i18n: ectx: property (text), widget (QCheckBox, separateScreenFocus)
 #: focus.ui:532
@@ -950,13 +972,7 @@ msgstr "&Bereizi pantailaren fokua"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, activeMouseScreen)
 #: focus.ui:539
-#, fuzzy, kde-format
-#| msgid ""
-#| "When this option is enabled, the active Xinerama screen (where new "
-#| "windows appear, for example) is the screen containing the mouse pointer. "
-#| "When disabled, the active Xinerama screen is the  screen containing the "
-#| "focused window. By default this option is disabled for Click to focus and "
-#| "enabled for other focus policies."
+#, kde-format
 msgid ""
 "When this option is enabled, the active Xinerama screen (where new windows "
 "appear, for example) is the screen containing the mouse pointer. When "
@@ -964,10 +980,11 @@ msgid ""
 "window. By default this option is disabled for Click to focus and enabled "
 "for other focus policies."
 msgstr ""
-"Aukera gaituta denenean, Xinerama pantaila aktiboak (hau da leiho berriak "
-"agertzen diren pantaila) sagua du. Ezgaitzean, Xinerama pantaila aktiboa "
-"fokodun leihoa duena da. Aukera hau desgaituta dago lehenetsiz 'Klik egin "
-"fokua emateko' eta gaituta dago beste foku politiketan."
+"Aukera gaituta dagoenean, Xinerama pantaila aktiboa (Leiho berriak agertzen "
+"diren pantaila, adibidez) saguaren erakuslea duena da. Ezgaitzean, Xinerama "
+"pantaila aktiboa fokua duen leihoa duena da. Lehenetsian aukera hau ezgaitua "
+"dago «Klik egin fokua emateko» gidalerroarekin eta gaitua dago beste foku "
+"gidalerroekin."
 
 #. i18n: ectx: property (text), widget (QCheckBox, activeMouseScreen)
 #: focus.ui:542
@@ -1065,13 +1082,13 @@ msgid ""
 "manager. If you do use a different window manager, please refer to its "
 "documentation for how to customize window behavior.</p>"
 msgstr ""
-"<p><h1>Leihoen portaera</h1> Hemen, leihoen tamaina aldatzean, horiek lekuz "
-"aldatzean eta horietan klik egitean izango duten portaera pertsonaliza "
-"daiteke. Horrez gain, leiho berrien foku- eta kokapen-politikak zehaztu "
-"daitezke.</p><p>Kontuan izan konfigurazio horrek ez duela izango eraginik "
-"leiho-kudeatzaile gisa KWin erabiltzen ez baduzu. Beste leiho-kudeatzaile "
-"bat erabiltzen baduzu, ikusi haren dokumentazioa leihoen portaera nola "
-"pertsonalizatu jakiteko.</p>"
+"<p><h1>Leihoen portaera</h1> Hemen egokitu dezakezu leihoek, haiek "
+"mugitzean, neurria aldatzean edo klik egitean duten jokabidea. Gainera, "
+"fokua emateko gidalerroak ezezik leiho berriak kokatzeko gidalerroak ere "
+"zehaztu ditzakezu.</p> <p>Ohartu konfigurazio honek ez duela eraginik izango "
+"KWin zure leiho kudeatzaile gisa erabiltzen ez baduzu. Beste leiho-"
+"kudeatzaile bat erabiltzen baduzu, ikusi haren dokumentazioan leihoen "
+"jokabidea nola egokitu.</p>"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
@@ -1358,10 +1375,9 @@ msgstr " pixela"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, centerSnap)
 #: moving.ui:70
-#, fuzzy, kde-format
-#| msgid "&Center snap zone:"
+#, kde-format
 msgid "no center snap zone"
-msgstr "E&rdigunearen atxikitze eremua:"
+msgstr "erdiguneko atxikitze eremurik ez"
 
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
 #: moving.ui:90
@@ -1373,7 +1389,7 @@ msgstr "E&rtzen atxikitze eremua:"
 #: moving.ui:103
 #, kde-format
 msgid "&Center snap zone:"
-msgstr "E&rdigunearen atxikitze eremua:"
+msgstr "E&rdiguneko atxikitze eremua:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, windowSnap)
 #: moving.ui:122
@@ -1388,10 +1404,9 @@ msgstr ""
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, windowSnap)
 #: moving.ui:137
-#, fuzzy, kde-format
-#| msgid "&Window snap zone:"
+#, kde-format
 msgid "no window snap zone"
-msgstr "Le&iho atxikitze eremua:"
+msgstr "leiho atxikitze eremurik ez"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, borderSnap)
 #: moving.ui:150
@@ -1406,10 +1421,9 @@ msgstr ""
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, borderSnap)
 #: moving.ui:165
-#, fuzzy, kde-format
-#| msgid "&Border snap zone:"
+#, kde-format
 msgid "no border snap zone"
-msgstr "E&rtzen atxikitze eremua:"
+msgstr "ertzen atxikitze eremurik ez"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, geometryTipOn)
 #: moving.ui:172

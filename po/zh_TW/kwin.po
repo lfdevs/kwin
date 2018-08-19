@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-05-20 06:19+0200\n"
+"POT-Creation-Date: 2018-07-16 06:10+0200\n"
 "PO-Revision-Date: 2018-03-29 13:59+0800\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@linux.org.tw>\n"
@@ -1420,7 +1420,7 @@ msgstr "自動螢幕旋轉已經停用"
 msgid "Automatic Screen Rotation"
 msgstr "自動螢幕旋轉"
 
-#: pointer_input.cpp:651
+#: pointer_input.cpp:659
 #, kde-format
 msgctxt "notification about mouse pointer confined"
 msgid ""
@@ -1430,7 +1430,7 @@ msgstr ""
 "僅限於目前游標動作的視窗。\n"
 "按 Esc 3 秒以退出游標。"
 
-#: pointer_input.cpp:668
+#: pointer_input.cpp:676
 #, kde-format
 msgctxt "notification about mouse pointer locked"
 msgid ""

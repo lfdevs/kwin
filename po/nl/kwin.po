@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-05-20 06:19+0200\n"
+"POT-Creation-Date: 2018-07-16 06:10+0200\n"
 "PO-Revision-Date: 2018-01-11 14:44+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -1440,7 +1440,7 @@ msgstr "Automatische rotatie van het scherm is uitgeschakeld"
 msgid "Automatic Screen Rotation"
 msgstr "Automatische rotatie van het scherm"
 
-#: pointer_input.cpp:651
+#: pointer_input.cpp:659
 #, kde-format
 msgctxt "notification about mouse pointer confined"
 msgid ""
@@ -1450,7 +1450,7 @@ msgstr ""
 "Beweging van aanwijzer beperkt tot het huidige venster.\n"
 "Om de aanwijzer los te laten druk Esc-toets 3 seconden in."
 
-#: pointer_input.cpp:668
+#: pointer_input.cpp:676
 #, kde-format
 msgctxt "notification about mouse pointer locked"
 msgid ""

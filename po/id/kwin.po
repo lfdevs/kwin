@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-05-20 06:19+0200\n"
-"PO-Revision-Date: 2018-06-17 21:17+0700\n"
-"Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
+"POT-Creation-Date: 2018-07-16 06:10+0200\n"
+"PO-Revision-Date: 2018-07-16 22:00+0700\n"
+"Last-Translator: wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
@@ -429,7 +429,7 @@ msgstr "Jumlah jari"
 #, kde-format
 msgctxt "A pinch gesture is updated"
 msgid "Pinch update"
-msgstr "Perbarui cubitan"
+msgstr "Update cubitan"
 
 #: debug_console.cpp:363
 #, kde-format
@@ -513,7 +513,7 @@ msgstr "Usap dibatalkan"
 #, kde-format
 msgctxt "A hardware switch (e.g. notebook lid) got toggled"
 msgid "Switch toggled"
-msgstr "Alihan dijungkit"
+msgstr "Saklar terjungkit"
 
 #: debug_console.cpp:460
 #, kde-format
@@ -1177,17 +1177,17 @@ msgstr "Tampilkan Desktop"
 #: kwinbindings.cpp:155
 #, kde-format
 msgid "Switch to Screen %1"
-msgstr "Ganti ke Layar %1"
+msgstr "Alihkan ke Layar %1"
 
 #: kwinbindings.cpp:158
 #, kde-format
 msgid "Switch to Next Screen"
-msgstr "Ganti ke Layar Berikutnya"
+msgstr "Alihkan ke Layar Berikutnya"
 
 #: kwinbindings.cpp:159
 #, kde-format
 msgid "Switch to Previous Screen"
-msgstr "Ganti ke Layar Sebelumnya"
+msgstr "Alihkan ke Layar Sebelumnya"
 
 #: kwinbindings.cpp:161
 #, kde-format
@@ -1429,7 +1429,7 @@ msgstr "Putar layar otomatis telah dinonaktifkan"
 msgid "Automatic Screen Rotation"
 msgstr "Putar Layar Otomatis"
 
-#: pointer_input.cpp:651
+#: pointer_input.cpp:659
 #, kde-format
 msgctxt "notification about mouse pointer confined"
 msgid ""
@@ -1439,7 +1439,7 @@ msgstr ""
 "Gerakan penunjuk terjepit ke jendela saat ini.\n"
 "Untuk melepas penunjuk, tekan Escape 3 detik."
 
-#: pointer_input.cpp:668
+#: pointer_input.cpp:676
 #, kde-format
 msgctxt "notification about mouse pointer locked"
 msgid ""
@@ -1568,8 +1568,8 @@ msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
 msgstr ""
-"Instalasi Pengganti Jendela rusak, sumber daya hilang.\n"
-"Hubungi distribusi anda tentang hal ini."
+"Pemasangan Window Switcher telah rusak, sumberdaya hilang.\n"
+"Hubungi distribusimu tentang hal ini."
 
 #: useractions.cpp:204
 #, kde-format
@@ -1712,7 +1712,7 @@ msgstr "Tak ada yang tersedia"
 #: useractions.cpp:584
 #, kde-format
 msgid "Switch to Tab"
-msgstr "Ganti ke Tab"
+msgstr "Alihkan ke Tab"
 
 #: useractions.cpp:595
 #, kde-format
@@ -1782,9 +1782,9 @@ msgid ""
 "as active one.\n"
 "Therefore it is not possible to switch to a screen explicitly."
 msgstr ""
-"Pengelola jendela dikonfigurasi untuk mempertimbangkan layar dengan mouse di "
-"atasnya sebagai yang aktif.\n"
-"Sehingga tidak dimungkinkan untuk mengganti layar secara eksplisit."
+"Pengelola jendela telah dikonfigurasi untuk mempertimbangkan layar dengan "
+"mouse di atasnya sebagai yang aktif.\n"
+"Sehingga tidak dimungkinkan untuk mengalihkan layar secara gamblang."
 
 #: virtualdesktops.cpp:451 virtualdesktops.cpp:513
 #, kde-format
@@ -1794,37 +1794,37 @@ msgstr "Desktop %1"
 #: virtualdesktops.cpp:545
 #, kde-format
 msgid "Switch to Next Desktop"
-msgstr "Ganti ke Desktop Berikutnya"
+msgstr "Alihkan ke Desktop Berikutnya"
 
 #: virtualdesktops.cpp:547
 #, kde-format
 msgid "Switch to Previous Desktop"
-msgstr "Ganti ke Desktop Sebelumnya"
+msgstr "Alihkan ke Desktop Sebelumnya"
 
 #: virtualdesktops.cpp:549
 #, kde-format
 msgid "Switch One Desktop to the Right"
-msgstr "Ganti Satu Desktop ke Kanan"
+msgstr "Alihkan Satu Desktop ke Kanan"
 
 #: virtualdesktops.cpp:550
 #, kde-format
 msgid "Switch One Desktop to the Left"
-msgstr "Ganti Satu Desktop ke Kiri"
+msgstr "Alihkan Satu Desktop ke Kiri"
 
 #: virtualdesktops.cpp:551
 #, kde-format
 msgid "Switch One Desktop Up"
-msgstr "Ganti Satu Desktop ke Atas"
+msgstr "Alihkan Satu Desktop ke Atas"
 
 #: virtualdesktops.cpp:552
 #, kde-format
 msgid "Switch One Desktop Down"
-msgstr "Ganti Satu Desktop ke Bawah"
+msgstr "Alihkan Satu Desktop ke Bawah"
 
 #: virtualdesktops.cpp:564
 #, kde-format
 msgid "Switch to Desktop %1"
-msgstr "Ganti ke Desktop %1"
+msgstr "Alihkan ke Desktop %1"
 
 #: virtualkeyboard.cpp:95
 #, kde-format

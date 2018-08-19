@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Martin Schlander <mschlander@opensuse.org>, 2009, 2010, 2012, 2013, 2014, 2016, 2017.
+# Martin Schlander <mschlander@opensuse.org>, 2009, 2010, 2012, 2013, 2014, 2016, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2017-12-30 03:13+0100\n"
-"PO-Revision-Date: 2017-10-28 19:56+0100\n"
+"PO-Revision-Date: 2018-07-12 10:27+0100\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
 "Language: da\n"
@@ -100,23 +100,19 @@ msgstr "Slå alternativt vindueskift til/fra"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
-#, fuzzy, kde-format
-#| msgid "Active Screen Edge Actions"
+#, kde-format
 msgid "Active Screen Corners and Edges"
-msgstr "Handlinger for aktive skærmkanter"
+msgstr "Aktive skærmhjørner og -kanter"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "To trigger an action push your mouse cursor against the edge of the "
-#| "screen in the action's direction."
+#, kde-format
 msgid ""
 "Trigger an action by pushing the mouse cursor against the corresponding "
 "screen edge or corner"
 msgstr ""
-"Pres musemarkøren mod kanten af skærmen i handlingens retning for at udløse "
-"en handling."
+"Udløs en handling ved at presse musemarkøren mod pågældende kant eller "
+"hjørne af skærmen"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
@@ -126,17 +122,17 @@ msgstr "Vindueshåndtering"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
-#, fuzzy, kde-format
-#| msgid "Maximize windows by dragging them to the top of the screen"
+#, kde-format
 msgid "Maximize windows by dragging them to the top edge of the screen"
-msgstr "Maksimér vinduer ved at trække dem til skærmens top"
+msgstr "Maksimér vinduer ved at trække dem til skærmens topkant"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
-#, fuzzy, kde-format
-#| msgid "Tile windows by dragging them to the side of the screen"
+#, kde-format
 msgid "Tile windows by dragging them to the left or right edges of the screen"
-msgstr "Udlæg vinduer som fliser ved at trække dem til skærmens side"
+msgstr ""
+"Udlæg vinduer som fliser ved at trække dem højre eller venstre kant af "
+"skærmens"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
@@ -235,12 +231,9 @@ msgstr "Forsinkelse på &genaktivering:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: touch.ui:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "To trigger an action swipe from the screen edge towards the center of the "
-#| "screen."
+#, kde-format
 msgid ""
 "Trigger an action by swiping from the screen edge towards the center of the "
 "screen"
 msgstr ""
-"Stryg fra kanten af skærmen mod skærmens midte for at udløse en handling."
+"Udløs en handling ved at stryge fra kanten af skærmen mod skærmens midte"

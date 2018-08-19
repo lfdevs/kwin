@@ -1,7 +1,7 @@
 # translation of kwin.po to
 # Translation of kwin.po to Slovenian
 # Copyright (C) 2001, 2003, 2004, 2005, 2007 Free Software Foundation, Inc.
-# $Id: kwin.po 1516081 2018-05-20 05:06:33Z scripty $
+# $Id: kwin.po 1520032 2018-07-16 04:59:55Z scripty $
 # $Source$
 #
 # Roman Maurer <roman.maurer@hermes.si>, 2000.
@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-05-20 06:19+0200\n"
+"POT-Creation-Date: 2018-07-16 06:10+0200\n"
 "PO-Revision-Date: 2018-01-12 17:04+0100\n"
 "Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -1435,7 +1435,7 @@ msgstr "Samodejno vrtenje zaslona onemogočeno"
 msgid "Automatic Screen Rotation"
 msgstr "Samodejno vrtenje zaslona"
 
-#: pointer_input.cpp:651
+#: pointer_input.cpp:659
 #, kde-format
 msgctxt "notification about mouse pointer confined"
 msgid ""
@@ -1445,7 +1445,7 @@ msgstr ""
 "Premikanje miškine kazalke je bilo omejeno na trenutno okno.\n"
 "Da jo sprostite, držite Escape za 3 sekunde."
 
-#: pointer_input.cpp:668
+#: pointer_input.cpp:676
 #, kde-format
 msgctxt "notification about mouse pointer locked"
 msgid ""

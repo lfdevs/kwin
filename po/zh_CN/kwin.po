@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-05-20 06:19+0200\n"
-"PO-Revision-Date: 2018-06-12 17:52-0400\n"
+"POT-Creation-Date: 2018-07-16 06:10+0200\n"
+"PO-Revision-Date: 2018-07-24 08:45\n"
 "Last-Translator: guoyunhebrave <guoyunhebrave@gmail.com>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -1424,7 +1424,7 @@ msgstr "自动旋转屏幕已禁用"
 msgid "Automatic Screen Rotation"
 msgstr "自动旋转屏幕"
 
-#: pointer_input.cpp:651
+#: pointer_input.cpp:659
 #, kde-format
 msgctxt "notification about mouse pointer confined"
 msgid ""
@@ -1434,7 +1434,7 @@ msgstr ""
 "指针运动局限于当前窗口。\n"
 "按住 Escape 键 3 秒释放指针。"
 
-#: pointer_input.cpp:668
+#: pointer_input.cpp:676
 #, kde-format
 msgctxt "notification about mouse pointer locked"
 msgid ""

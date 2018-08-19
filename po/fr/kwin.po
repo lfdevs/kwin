@@ -16,12 +16,13 @@
 # Sebastien Renard <renard@kde.org>, 2013, 2014, 2015.
 # Vincent Pinon <vpinon@kde.org>, 2016, 2017.
 # Yoann Laissus <yoann.laissus@gmail.com>, 2017, 2018.
+# Simon Depiets <sdepiets@gmail.com>, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-05-20 06:19+0200\n"
+"POT-Creation-Date: 2018-07-16 06:10+0200\n"
 "PO-Revision-Date: 2018-01-18 20:00+0100\n"
 "Last-Translator: Yoann Laissus <yoann.laissus@gmail.com>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -1456,7 +1457,7 @@ msgstr "La rotation automatique de l'écran est désactivée"
 msgid "Automatic Screen Rotation"
 msgstr "Rotation automatique de l'écran"
 
-#: pointer_input.cpp:651
+#: pointer_input.cpp:659
 #, kde-format
 msgctxt "notification about mouse pointer confined"
 msgid ""
@@ -1466,7 +1467,7 @@ msgstr ""
 "Mouvements du pointeur confiné à la fenêtre courante.\n"
 "Pour libérer le pointeur maintenir Échap pressé pendant 3 secondes."
 
-#: pointer_input.cpp:668
+#: pointer_input.cpp:676
 #, kde-format
 msgctxt "notification about mouse pointer locked"
 msgid ""

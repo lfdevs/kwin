@@ -1,16 +1,16 @@
 # Translation of kcmkwinscreenedges.po to Catalan (Valencian)
-# Copyright (C) 2009-2017 This_file_is_part_of_KDE
+# Copyright (C) 2009-2018 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Josep Ma. Ferrer <txemaq@gmail.com>, 2009, 2010, 2012, 2013, 2014, 2016, 2017.
+# Josep Ma. Ferrer <txemaq@gmail.com>, 2009, 2010, 2012, 2013, 2014, 2016, 2017, 2018.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2015, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2017-12-30 03:13+0100\n"
-"PO-Revision-Date: 2017-12-30 17:20+0100\n"
+"PO-Revision-Date: 2018-06-30 17:48+0100\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -136,7 +136,7 @@ msgstr ""
 #, kde-format
 msgid "Tile windows by dragging them to the left or right edges of the screen"
 msgstr ""
-"Posa les finestres en mosaic arrossegant-les a les vora dreta o esquerra de "
+"Posa les finestres en mosaic arrossegant-les a la vora dreta o esquerra de "
 "la pantalla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)

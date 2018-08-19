@@ -1,16 +1,17 @@
 # Translation of kcmkwinscreenedges.po to Euskara/Basque (eu).
-# Copyright (C) 2010-2017, Free Software Foundation, Inc.
+# Copyright (C) 2010-2018, Free Software Foundation.
 # This file is distributed under the same license as the kde-workspace package.
 # KDE Euskaratzeko proiektuaren arduraduna <xalba@euskalnet.net>.
+#
 # Translators:
-# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2010, 2011, 2014, 2017.
+# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2010, 2011, 2014, 2017, 2018.
 # Hizkuntza Politikarako Sailburuordetza <hizpol@ej-gv.es>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2017-12-30 03:13+0100\n"
-"PO-Revision-Date: 2017-08-09 02:47+0100\n"
+"PO-Revision-Date: 2018-07-14 20:09+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
 "Language: eu\n"
@@ -103,23 +104,19 @@ msgstr "Aktibatu/desaktibatu ordezko leiho-aldatzea"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:17
-#, fuzzy, kde-format
-#| msgid "Active Screen Edge Actions"
+#, kde-format
 msgid "Active Screen Corners and Edges"
-msgstr "Pantailaren ertz aktiboen ekintzak"
+msgstr "Pantailaren izkin eta ertz aktiboak"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "To trigger an action push your mouse cursor against the edge of the "
-#| "screen in the action's direction."
+#, kde-format
 msgid ""
 "Trigger an action by pushing the mouse cursor against the corresponding "
 "screen edge or corner"
 msgstr ""
-"Ekintza bat abiarazteko, bultzatu saguaren kurtsorea pantailaren ertzaren "
-"aurka, ekintzaren noranzkoan."
+"izkinaEkintza bat eragin saguaren kurtsorea, dagokion pantaila ertz edo "
+"izkinaren aurka bultzatuz"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
@@ -129,23 +126,22 @@ msgstr "Leiho-kudeaketa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
 #: main.ui:58
-#, fuzzy, kde-format
-#| msgid "Maximize windows by dragging them to the top of the screen"
+#, kde-format
 msgid "Maximize windows by dragging them to the top edge of the screen"
-msgstr "Maximizatu leihoak, horiek pantailaren goialdera arrastatuz"
+msgstr "Maximizatu leihoak haiek pantailaren goiko ertzera arrastatuz"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
 #: main.ui:65
-#, fuzzy, kde-format
-#| msgid "Tile windows by dragging them to the side of the screen"
+#, kde-format
 msgid "Tile windows by dragging them to the left or right edges of the screen"
-msgstr "Jarri leihoak lauza moduan, horiek pantailaren albora arrastatuz"
+msgstr ""
+"Teilakatu leihoak haiek pantailaren ezker edo eskuin ertzetara arrastatuz"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
 #, kde-format
 msgid "Quarter tiling triggered in the outer"
-msgstr "Lauza laurdenak kanpoaldean abiarazi"
+msgstr "Laurdeneko lauza eragin pantailaren kanpoko"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, electricBorderCornerRatio)
 #: main.ui:106
@@ -157,7 +153,7 @@ msgstr "%"
 #: main.ui:122
 #, kde-format
 msgid "of the screen"
-msgstr "leihoarena"
+msgstr "-(e)an"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:150
@@ -206,8 +202,8 @@ msgid ""
 "Amount of time required for the mouse cursor to be pushed against the edge "
 "of the screen before the action is triggered"
 msgstr ""
-"Ekintza abiaraz dadin saguaren kurtsoreak leiho ertzaren aurka bultzatzen "
-"eman behar duen denbora-tartea"
+"Ekintza eragiteko saguaren kurtsoreak leiho-ertzaren aurka bultzatzen eman "
+"behar duen denbora-tartea"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:197
@@ -229,8 +225,8 @@ msgid ""
 "Amount of time required after triggering an action until the next trigger "
 "can occur"
 msgstr ""
-"Ekintza bat abiarazi ondoren hurrengo abiarazpena gertatu arte igaro behar "
-"duen denbora-tartea"
+"Ekintza bat eragin ondoren hurrengo eragitea gertatu arte igaro behar duen "
+"denbora-tartea"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:229
@@ -240,13 +236,10 @@ msgstr "&Berraktibatzeko atzerapena:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: touch.ui:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "To trigger an action swipe from the screen edge towards the center of the "
-#| "screen."
+#, kde-format
 msgid ""
 "Trigger an action by swiping from the screen edge towards the center of the "
 "screen"
 msgstr ""
-"Ekintza bat abiarazteko, bultzatu saguaren kurtsorea pantailaren ertzetik "
-"erdialderantz."
+"Ekintza bat eragin hatzarekin pantailaren ertzetik pantailaren erdirantz "
+"kolpe arina emanez"

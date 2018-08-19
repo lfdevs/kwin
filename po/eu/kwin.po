@@ -1,5 +1,5 @@
 # Translation of kwin.po to Euskara/Basque (eu).
-# Copyright (C) 2002-2018, The Free Software Foundation, Inc.
+# Copyright (C) 2002-2018, The Free Software Foundation.
 # This file is distributed under the same license as the kde-workspace package.
 # KDE Euskaratzeko proiektuaren arduraduna <xalba@euskalnet.net>.
 #
@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-05-20 06:19+0200\n"
-"PO-Revision-Date: 2018-03-18 16:43+0100\n"
+"POT-Creation-Date: 2018-07-16 06:10+0200\n"
+"PO-Revision-Date: 2018-07-15 15:51+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
 "Language: eu\n"
@@ -481,7 +481,7 @@ msgstr "Atximurra utzi"
 #, kde-format
 msgctxt "A swipe gesture is started"
 msgid "Swipe start"
-msgstr ""
+msgstr "Hatzen kolpe arinaren hasera"
 
 #: debug_console.cpp:403
 #, kde-format
@@ -493,7 +493,7 @@ msgstr "Hatz kopurua"
 #, kde-format
 msgctxt "A swipe gesture is updated"
 msgid "Swipe update"
-msgstr ""
+msgstr "Hatzen kolpe arina eguneratu"
 
 #: debug_console.cpp:416
 #, kde-format
@@ -511,13 +511,13 @@ msgstr "Delta y"
 #, kde-format
 msgctxt "A swipe gesture ended"
 msgid "Swipe end"
-msgstr ""
+msgstr "Hatzen kolpe arinaren amaiera"
 
 #: debug_console.cpp:440
 #, kde-format
 msgctxt "A swipe gesture got cancelled"
 msgid "Swipe cancelled"
-msgstr ""
+msgstr "Hatzen kolpe arina bertan behera utzia"
 
 #: debug_console.cpp:452
 #, kde-format
@@ -1440,7 +1440,7 @@ msgstr "Pantailaren biraketa automatikoa desgaituta dago"
 msgid "Automatic Screen Rotation"
 msgstr "Pantailaren biraketa automatikoa"
 
-#: pointer_input.cpp:651
+#: pointer_input.cpp:659
 #, kde-format
 msgctxt "notification about mouse pointer confined"
 msgid ""
@@ -1450,7 +1450,7 @@ msgstr ""
 "Erakuslearen higidura uneko leihora mugatuta.\n"
 "Erakuslea askatzeko eutsi Ihes tekla 3 segundoz."
 
-#: pointer_input.cpp:668
+#: pointer_input.cpp:676
 #, kde-format
 msgctxt "notification about mouse pointer locked"
 msgid ""
@@ -1471,13 +1471,13 @@ msgstr ""
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
-msgstr "Baieztapenak huts egin du: %1 ez da null"
+msgstr "Baieztapenak huts egin du: %1 ez da nulua"
 
 #: scripting/scripting.cpp:146
 #, kde-format
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
-msgstr "Baieztapenak huts egin du: argumentua ez da null"
+msgstr "Baieztapenak huts egin du: argumentua ez da nulua"
 
 #: scripting/scripting.cpp:188
 #, kde-format
@@ -1508,7 +1508,7 @@ msgstr "Argumentu kopuru ezegokia"
 #, kde-format
 msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
-msgstr "%1 ez da aldaera mota bat"
+msgstr "%1 ez da «variant» mota bat"
 
 #: tabbox/tabbox.cpp:386
 #, kde-format

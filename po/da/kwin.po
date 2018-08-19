@@ -2,13 +2,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Martin Schlander <mschlander@opensuse.org>, 2008.
-# Martin Schlander <mschlander@opensuse.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017.
+# Martin Schlander <mschlander@opensuse.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-05-20 06:19+0200\n"
-"PO-Revision-Date: 2017-10-28 19:46+0100\n"
+"POT-Creation-Date: 2018-07-16 06:10+0200\n"
+"PO-Revision-Date: 2018-07-12 10:13+0100\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
 "Language: da\n"
@@ -509,48 +509,46 @@ msgid "Swipe cancelled"
 msgstr "Stryg annulleret"
 
 #: debug_console.cpp:452
-#, fuzzy, kde-format
-#| msgid "Switch to Tab"
+#, kde-format
 msgctxt "A hardware switch (e.g. notebook lid) got toggled"
 msgid "Switch toggled"
-msgstr "Skift til faneblad"
+msgstr "Kontakt ændret"
 
 #: debug_console.cpp:460
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Notebook lid"
-msgstr ""
+msgstr "Låg på bærbar"
 
 #: debug_console.cpp:462
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Tablet mode"
-msgstr ""
+msgstr "Tablet-tilstand"
 
 #: debug_console.cpp:464
-#, fuzzy, kde-format
-#| msgid "Switch to Tab"
+#, kde-format
 msgctxt "A hardware switch"
 msgid "Switch"
-msgstr "Skift til faneblad"
+msgstr "Kontakt"
 
 #: debug_console.cpp:468
 #, kde-format
 msgctxt "The hardware switch got turned off"
 msgid "Off"
-msgstr ""
+msgstr "Fra"
 
 #: debug_console.cpp:471
 #, kde-format
 msgctxt "The hardware switch got turned on"
 msgid "On"
-msgstr ""
+msgstr "Til"
 
 #: debug_console.cpp:476
 #, kde-format
 msgctxt "State of a hardware switch (on/off)"
 msgid "State"
-msgstr ""
+msgstr "Tilstand"
 
 #: debug_console.cpp:661
 #, kde-format
@@ -1415,19 +1413,19 @@ msgstr "Deaktivér integration med KActivities."
 #: orientation_sensor.cpp:72
 #, kde-format
 msgid "Automatic screen rotation is enabled"
-msgstr ""
+msgstr "Automatisk skærmrotation er aktiveret"
 
 #: orientation_sensor.cpp:74 orientation_sensor.cpp:122
 #, kde-format
 msgid "Automatic screen rotation is disabled"
-msgstr ""
+msgstr "Automatisk skærmrotation er deaktiveret"
 
 #: orientation_sensor.cpp:118
 #, kde-format
 msgid "Automatic Screen Rotation"
-msgstr ""
+msgstr "Automatisk skærmrotation"
 
-#: pointer_input.cpp:651
+#: pointer_input.cpp:659
 #, kde-format
 msgctxt "notification about mouse pointer confined"
 msgid ""
@@ -1437,7 +1435,7 @@ msgstr ""
 "Markørbevægelse indskrænket til det aktuelle vindue.\n"
 "Hold Esc-tasten nede i tre sekunder for at frigive."
 
-#: pointer_input.cpp:668
+#: pointer_input.cpp:676
 #, kde-format
 msgctxt "notification about mouse pointer locked"
 msgid ""

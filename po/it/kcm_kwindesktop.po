@@ -2,14 +2,14 @@
 # Copyright (C) 2007, 2009 This_file_is_part_of_KDE
 # This file is distributed under the same license as the KdeBase package.
 # Luciano Montanaro <mikelima@cirulla.net>, 2007, 2009, 2010.
-# Vincenzo Reale <smart2128@baslug.org>, 2015.
+# Vincenzo Reale <smart2128@baslug.org>, 2015, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2017-12-06 05:35+0100\n"
-"PO-Revision-Date: 2015-02-15 14:58+0100\n"
+"PO-Revision-Date: 2018-07-17 23:27+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128@baslug.org>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -116,7 +116,7 @@ msgstr "Vai al desktop %1"
 #: main.cpp:154
 #, kde-format
 msgid "No Animation"
-msgstr "Nessun'animazione"
+msgstr "Nessuna animazione"
 
 #: main.cpp:493
 #, kde-format

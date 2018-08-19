@@ -3,13 +3,14 @@
 # Karl Ove Hufthammer <karl@huftis.org>, 2007, 2008, 2010, 2015, 2016, 2018.
 # Håvard Korsvoll <korsvoll@skulelinux.no>, 2009.
 # Eirik U. Birkeland <eirbir@gmail.com>, 2009, 2010.
+# Øystein Steffensen-Alværvik <ystein@posteo.net>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2018-03-01 03:37+0100\n"
-"PO-Revision-Date: 2018-01-27 12:02+0100\n"
-"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
+"PO-Revision-Date: 2018-07-06 21:00+0100\n"
+"Last-Translator: Øystein Steffensen-Alværvik <ystein@posteo.net>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
@@ -93,7 +94,7 @@ msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
 "windows. This can result in windows not suspending their work when minimized."
 msgstr ""
-"Å ta vare miniatyrbilete av vindauge vil alltid øydeleggja for "
+"Å ta vare på miniatyrbilete av vindauge vil alltid øydeleggja for "
 "minimeringstilstanden til vindauga. Dette kan føra til at vindauge ikkje set "
 "arbeidet i pause når dei vert minimerte."
 
@@ -101,7 +102,7 @@ msgstr ""
 #: compositing.ui:77
 #, kde-format
 msgid "Enable compositor on startup"
-msgstr "Slå på sammensetjing ved oppstart"
+msgstr "Slå på samansetjing ved oppstart"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:84

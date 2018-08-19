@@ -1834,7 +1834,7 @@
 ></listitem>
 </itemizedlist>
 <para
->Cada criteri de coincidència de la regla és prou restrictiu com perquè el seu ordre dins de la finestra principal del &kwin; no sigui important per afectar l'<link linkend="rule-evaluation"
+>Cada criteri de coincidència de la regla és prou restrictiu perquè el seu ordre dins de la finestra principal del &kwin; no sigui important per afectar l'<link linkend="rule-evaluation"
 >avaluació de la regla</link
 >. </para>
 <sect2 id="thunderbird---main"

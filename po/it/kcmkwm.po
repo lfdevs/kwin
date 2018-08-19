@@ -4,13 +4,13 @@
 # Pino Toscano <toscano.pino@tiscali.it>, 2006.
 # Luciano Montanaro <mikelima@cirulla.net>, 2007, 2008, 2009, 2010, 2011, 2012.
 # Luigi Toscano <luigi.toscano@tiscali.it>, 2013.
-# Vincenzo Reale <smart2128@baslug.org>, 2015.
+# Vincenzo Reale <smart2128@baslug.org>, 2015, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2016-11-19 20:21+0100\n"
-"PO-Revision-Date: 2015-02-15 15:30+0100\n"
+"PO-Revision-Date: 2018-07-17 23:30+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128@baslug.org>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -686,7 +686,7 @@ msgstr ""
 "Se una finestra attiva deve essere scelta dal sistema<br>\n"
 "(ad es. perché quella attiva è stata chiusa), <br>\n"
 "quella sotto il puntatore è la candidata preferita.<br><br>\n"
-"Variante inconsueta ma possibilie di <i>Clic per il fuoco</i>."
+"Variante inconsueta ma possibile di <i>Clic per il fuoco</i>."
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: focus.ui:112
@@ -957,7 +957,7 @@ msgstr "Il &clic alza la finestra attiva"
 #: focus.ui:520
 #, kde-format
 msgid "Multiscreen behaviour"
-msgstr "Comportamento con motli schermi"
+msgstr "Comportamento con più schermi"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, separateScreenFocus)
 #: focus.ui:529
@@ -1386,7 +1386,7 @@ msgstr " pixel"
 #: moving.ui:70
 #, kde-format
 msgid "no center snap zone"
-msgstr "niente zona di aggancio del centro"
+msgstr "nessuna zona di aggancio del centro"
 
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
 #: moving.ui:90
@@ -1416,7 +1416,7 @@ msgstr ""
 #: moving.ui:137
 #, kde-format
 msgid "no window snap zone"
-msgstr "niente zona di aggancio delle finestre"
+msgstr "nessuna zona di aggancio delle finestre"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, borderSnap)
 #: moving.ui:150
@@ -1434,7 +1434,7 @@ msgstr ""
 #: moving.ui:165
 #, kde-format
 msgid "no border snap zone"
-msgstr "niente zona di aggancio dei bordi"
+msgstr "nessuna zona di aggancio dei bordi"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, geometryTipOn)
 #: moving.ui:172

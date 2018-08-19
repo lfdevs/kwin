@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-05-20 06:19+0200\n"
-"PO-Revision-Date: 2018-03-01 10:05-0300\n"
+"POT-Creation-Date: 2018-07-16 06:10+0200\n"
+"PO-Revision-Date: 2018-07-04 10:43-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -522,11 +522,10 @@ msgid "Swipe cancelled"
 msgstr "Gesto de deslizar cancelado"
 
 #: debug_console.cpp:452
-#, fuzzy, kde-format
-#| msgid "Switch to Tab"
+#, kde-format
 msgctxt "A hardware switch (e.g. notebook lid) got toggled"
 msgid "Switch toggled"
-msgstr "Mudar para a aba"
+msgstr "Interruptor alternado"
 
 #: debug_console.cpp:460
 #, kde-format
@@ -1446,7 +1445,7 @@ msgstr "A rotação automática da tela está desabilitada"
 msgid "Automatic Screen Rotation"
 msgstr "Rotação automática da tela"
 
-#: pointer_input.cpp:651
+#: pointer_input.cpp:659
 #, kde-format
 msgctxt "notification about mouse pointer confined"
 msgid ""
@@ -1456,7 +1455,7 @@ msgstr ""
 "Movimento de ponteiro confinado à janela atual.\n"
 "Para soltar o ponteiro segure a tecla Esc por 3 segundos."
 
-#: pointer_input.cpp:668
+#: pointer_input.cpp:676
 #, kde-format
 msgctxt "notification about mouse pointer locked"
 msgid ""

@@ -1,5 +1,5 @@
 # Translation of kwin_effects.po to Euskara/Basque (eu).
-# Copyright (C) 2007-2018, The Free Software Foundation, Inc.
+# Copyright (C) 2007-2018, The Free Software Foundation.
 # This file is distributed under the same license as the kde-workspace package.
 # KDE Euskaratzeko proiektuaren arduraduna <xalba@euskalnet.net>.
 #
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2018-05-02 03:40+0200\n"
-"PO-Revision-Date: 2018-02-25 23:51+0100\n"
+"PO-Revision-Date: 2018-07-15 14:50+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
 "Language: eu\n"
@@ -1732,7 +1732,7 @@ msgstr "Ber&tikala:"
 #: slide/slide_config.ui:161
 #, kde-format
 msgid "Slide docks"
-msgstr ""
+msgstr "Irristatu nasak"
 
 #: thumbnailaside/thumbnailaside.cpp:38
 #: thumbnailaside/thumbnailaside_config.cpp:73

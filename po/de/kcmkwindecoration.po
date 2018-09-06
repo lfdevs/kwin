@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-04-19 03:40+0200\n"
+"POT-Creation-Date: 2018-08-16 06:20+0200\n"
 "PO-Revision-Date: 2018-04-04 16:07+0100\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -177,17 +177,17 @@ msgstr "Übergroß"
 msgid "Buttons"
 msgstr "Knöpfe"
 
-#: qml/Buttons.qml:72
+#: qml/Buttons.qml:73
 #, kde-format
 msgid "Titlebar"
 msgstr "Titelleiste"
 
-#: qml/Buttons.qml:199
+#: qml/Buttons.qml:200
 #, kde-format
 msgid "Drop here to remove button"
 msgstr "Ziehen Sie hierher, um Knöpfe zu entfernen"
 
-#: qml/Buttons.qml:223
+#: qml/Buttons.qml:224
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Ziehen Sie Knöpfe zwischen hier und der Titelleiste"

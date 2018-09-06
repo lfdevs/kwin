@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Malayalam\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-01 03:37+0100\n"
+"POT-Creation-Date: 2018-08-16 06:20+0200\n"
 "PO-Revision-Date: 2008-07-11 15:31+0530\n"
 "Last-Translator: മണിലാല്‍ കെ.എം|Manilal K M <libregeek@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് "
@@ -289,14 +289,14 @@ msgstr "ജാലകത്തിന്റെ നടത്തിപ്പ്"
 msgid "KWin development team"
 msgstr ""
 
-#: qml/Effect.qml:118
+#: qml/Effect.qml:119
 #, kde-format
 msgid ""
 "Author: %1\n"
 "License: %2"
 msgstr ""
 
-#: qml/EffectView.qml:63
+#: qml/EffectView.qml:64
 #, kde-format
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
@@ -304,29 +304,29 @@ msgid ""
 msgstr ""
 "സൂചന: ഒരു പ്രഭാവം കാണാനോ അല്ലെങ്കില്‍ സജ്ജീകരിക്കാനോ പ്രഭാവത്തിന്റെ ക്രമീകരണത്തില്‍ നോക്കുക"
 
-#: qml/EffectView.qml:74
+#: qml/EffectView.qml:75
 #, kde-format
 msgid "Search"
 msgstr ""
 
-#: qml/EffectView.qml:81
+#: qml/EffectView.qml:82
 #, fuzzy, kde-format
 #| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "ഇഴയടുപ്പത്തിന്റെ ഫില്‍ട്ടര്‍"
 
-#: qml/EffectView.qml:84
+#: qml/EffectView.qml:85
 #, kde-format
 msgid "Exclude Desktop Effects not supported by the Compositor"
 msgstr ""
 
-#: qml/EffectView.qml:92
+#: qml/EffectView.qml:93
 #, fuzzy, kde-format
 #| msgid "Enable desktop effects"
 msgid "Exclude internal Desktop Effects"
 msgstr "പണിയിട പ്രഭാവങ്ങള്‍ പ്രാവര്‍ത്തികമാക്കുക"
 
-#: qml/EffectView.qml:104
+#: qml/EffectView.qml:105
 #, fuzzy, kde-format
 #| msgid "All Effects"
 msgid "Get New Effects..."

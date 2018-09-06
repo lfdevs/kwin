@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-01 03:37+0100\n"
+"POT-Creation-Date: 2018-08-16 06:20+0200\n"
 "PO-Revision-Date: 2017-10-17 10:00+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -312,7 +312,7 @@ msgstr "Vensterbeheer"
 msgid "KWin development team"
 msgstr "Ontwikkelteam van KWin"
 
-#: qml/Effect.qml:118
+#: qml/Effect.qml:119
 #, kde-format
 msgid ""
 "Author: %1\n"
@@ -321,7 +321,7 @@ msgstr ""
 "Auteur: %1\n"
 "Licentie: %2"
 
-#: qml/EffectView.qml:63
+#: qml/EffectView.qml:64
 #, kde-format
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
@@ -330,28 +330,28 @@ msgstr ""
 "Tip: om uit te vinden hoe u een effect kunt activeren of instellen, kijk bij "
 "de instellingen ervan."
 
-#: qml/EffectView.qml:74
+#: qml/EffectView.qml:75
 #, kde-format
 msgid "Search"
 msgstr "Zoeken"
 
-#: qml/EffectView.qml:81
+#: qml/EffectView.qml:82
 #, kde-format
 msgid "Configure filter"
 msgstr "Filter instellen"
 
-#: qml/EffectView.qml:84
+#: qml/EffectView.qml:85
 #, kde-format
 msgid "Exclude Desktop Effects not supported by the Compositor"
 msgstr ""
 "Bureaubladeffecten uitsluiten wordt door de compositor niet ondersteund"
 
-#: qml/EffectView.qml:92
+#: qml/EffectView.qml:93
 #, kde-format
 msgid "Exclude internal Desktop Effects"
 msgstr "Interne bureaublad-effecten uitsluiten"
 
-#: qml/EffectView.qml:104
+#: qml/EffectView.qml:105
 #, kde-format
 msgid "Get New Effects..."
 msgstr "Nieuwe effecten ophalen..."

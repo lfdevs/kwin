@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-04-19 03:40+0200\n"
+"POT-Creation-Date: 2018-08-16 06:20+0200\n"
 "PO-Revision-Date: 2018-03-29 08:21+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -182,17 +182,17 @@ msgstr "Найбільший"
 msgid "Buttons"
 msgstr "Кнопки"
 
-#: qml/Buttons.qml:72
+#: qml/Buttons.qml:73
 #, kde-format
 msgid "Titlebar"
 msgstr "Смужка заголовка"
 
-#: qml/Buttons.qml:199
+#: qml/Buttons.qml:200
 #, kde-format
 msgid "Drop here to remove button"
 msgstr "Перетягніть сюди, щоб вилучити кнопку"
 
-#: qml/Buttons.qml:223
+#: qml/Buttons.qml:224
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Перетягніть кнопки між цією областю і смужкою заголовка"

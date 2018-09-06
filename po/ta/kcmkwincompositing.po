@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-01 03:37+0100\n"
+"POT-Creation-Date: 2018-08-16 06:20+0200\n"
 "PO-Revision-Date: 2008-03-11 17:40+0530\n"
 "Last-Translator: ஆமாச்சு <amachu@ubuntu.com>\n"
 "Language-Team: தமிழ் <https://lists.ubuntu.com/mailman/listinfo/ubuntu-l10n-"
@@ -293,14 +293,14 @@ msgstr "சாளர நிர்வாகம்"
 msgid "KWin development team"
 msgstr ""
 
-#: qml/Effect.qml:118
+#: qml/Effect.qml:119
 #, kde-format
 msgid ""
 "Author: %1\n"
 "License: %2"
 msgstr ""
 
-#: qml/EffectView.qml:63
+#: qml/EffectView.qml:64
 #, fuzzy, kde-format
 #| msgid ""
 #| "Hint: to find out or configure how to activate an effect, look at "
@@ -312,29 +312,29 @@ msgstr ""
 "துப்பு: பண்பொன்றை எவ்வாறு செயற்படுத்த வேண்டும் எனபதை வடிவமைக்க அ தேட, பண்புகளின் "
 "அமைப்பினைக் காண்க"
 
-#: qml/EffectView.qml:74
+#: qml/EffectView.qml:75
 #, kde-format
 msgid "Search"
 msgstr ""
 
-#: qml/EffectView.qml:81
+#: qml/EffectView.qml:82
 #, fuzzy, kde-format
 #| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "சாய வழிகட்டி:"
 
-#: qml/EffectView.qml:84
+#: qml/EffectView.qml:85
 #, kde-format
 msgid "Exclude Desktop Effects not supported by the Compositor"
 msgstr ""
 
-#: qml/EffectView.qml:92
+#: qml/EffectView.qml:93
 #, fuzzy, kde-format
 #| msgid "Enable desktop effects"
 msgid "Exclude internal Desktop Effects"
 msgstr "திரைப்பண்புகளை செயற்படுத்துக"
 
-#: qml/EffectView.qml:104
+#: qml/EffectView.qml:105
 #, fuzzy, kde-format
 #| msgid "All Effects"
 msgid "Get New Effects..."

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-01 03:37+0100\n"
+"POT-Creation-Date: 2018-08-16 06:20+0200\n"
 "PO-Revision-Date: 2017-11-25 07:16+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -309,7 +309,7 @@ msgstr "Zarządzanie oknami"
 msgid "KWin development team"
 msgstr "Zespół programistów KWin"
 
-#: qml/Effect.qml:118
+#: qml/Effect.qml:119
 #, kde-format
 msgid ""
 "Author: %1\n"
@@ -318,7 +318,7 @@ msgstr ""
 "Autor: %1\n"
 "Licencja: %2"
 
-#: qml/EffectView.qml:63
+#: qml/EffectView.qml:64
 #, kde-format
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
@@ -327,27 +327,27 @@ msgstr ""
 "Wskazówka: Ustawienia efektu zwierają informacje o efekcie i sposobach jego "
 "wyzwolenia."
 
-#: qml/EffectView.qml:74
+#: qml/EffectView.qml:75
 #, kde-format
 msgid "Search"
 msgstr "Znajdź"
 
-#: qml/EffectView.qml:81
+#: qml/EffectView.qml:82
 #, kde-format
 msgid "Configure filter"
 msgstr "Ustawienia filtra"
 
-#: qml/EffectView.qml:84
+#: qml/EffectView.qml:85
 #, kde-format
 msgid "Exclude Desktop Effects not supported by the Compositor"
 msgstr "Wyklucz efekty pulpitu nieobsługiwane przez kompozytora"
 
-#: qml/EffectView.qml:92
+#: qml/EffectView.qml:93
 #, kde-format
 msgid "Exclude internal Desktop Effects"
 msgstr "Wyklucz wewnętrzne efekty pulpitu"
 
-#: qml/EffectView.qml:104
+#: qml/EffectView.qml:105
 #, kde-format
 msgid "Get New Effects..."
 msgstr "Pobierz nowe efekty..."

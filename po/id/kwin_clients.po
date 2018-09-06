@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2018-06-25 06:16+0200\n"
-"PO-Revision-Date: 2018-06-09 19:54+0700\n"
+"PO-Revision-Date: 2018-08-11 07:07+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -80,7 +80,7 @@ msgstr "Dialog Konfigurasi"
 #: aurorae/themes/plastik/package/contents/ui/config.ui:23
 #, kde-format
 msgid "Title &Alignment"
-msgstr "Penjajaran &Judul"
+msgstr "Kesejajaran &Judul"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignLeft)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:29
@@ -139,7 +139,7 @@ msgid ""
 "Check this option if you want the buttons to fade in when the mouse pointer "
 "hovers over them and fade out again when it moves away."
 msgstr ""
-"Centang opsi ini jika anda ingin agar tombol memudar ketika penunjuk mouse "
+"Centang opsi ini jika anda ingin agar tombol melesap ketika penunjuk mouse "
 "melayang di atas tombol dan muncul lagi ketika penunjuk mouse pindah."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)

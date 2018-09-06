@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-01 03:37+0100\n"
+"POT-Creation-Date: 2018-08-16 06:20+0200\n"
 "PO-Revision-Date: 2014-07-04 19:16+0300\n"
 "Last-Translator: Abdalrahim G. Fakhouri <abdilra7eem@yahoo.com>\n"
 "Language-Team: Arabic <Arabic <doc@arabeyes.org>>\n"
@@ -299,7 +299,7 @@ msgstr "إدارة النوافذ"
 msgid "KWin development team"
 msgstr "فريق تطوير KWin"
 
-#: qml/Effect.qml:118
+#: qml/Effect.qml:119
 #, kde-format
 msgid ""
 "Author: %1\n"
@@ -308,7 +308,7 @@ msgstr ""
 "المؤلف: %1\n"
 "الترخيص: %2"
 
-#: qml/EffectView.qml:63
+#: qml/EffectView.qml:64
 #, kde-format
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
@@ -316,28 +316,28 @@ msgid ""
 msgstr ""
 "تلميحة: لإيجاد أو لضبط كيفية تفعيل هذا التأثير ، انظر إلى إعدادات التأثير"
 
-#: qml/EffectView.qml:74
+#: qml/EffectView.qml:75
 #, kde-format
 msgid "Search"
 msgstr "بحث"
 
-#: qml/EffectView.qml:81
+#: qml/EffectView.qml:82
 #, fuzzy, kde-format
 #| msgid "Texture filter:"
 msgid "Configure filter"
 msgstr "مرشح النسيج:"
 
-#: qml/EffectView.qml:84
+#: qml/EffectView.qml:85
 #, kde-format
 msgid "Exclude Desktop Effects not supported by the Compositor"
 msgstr "استثنِ مؤثرات سطح المكتب التي لا يدعمها برنامج المؤثرات"
 
-#: qml/EffectView.qml:92
+#: qml/EffectView.qml:93
 #, kde-format
 msgid "Exclude internal Desktop Effects"
 msgstr "استثنِ مؤثرات سطح المكتب الداخلية"
 
-#: qml/EffectView.qml:104
+#: qml/EffectView.qml:105
 #, fuzzy, kde-format
 #| msgid "Get New Effects ..."
 msgid "Get New Effects..."

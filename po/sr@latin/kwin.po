@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-04-29 03:38+0200\n"
+"POT-Creation-Date: 2018-07-16 06:10+0200\n"
 "PO-Revision-Date: 2017-12-03 22:53+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -1517,7 +1517,7 @@ msgstr "Automatsko rotiranje ekrana isključeno"
 msgid "Automatic Screen Rotation"
 msgstr "Automatsko rotiranje ekrana"
 
-#: pointer_input.cpp:647
+#: pointer_input.cpp:659
 #, kde-format
 msgctxt "notification about mouse pointer confined"
 msgid ""
@@ -1527,7 +1527,7 @@ msgstr ""
 "Kretanje pokazivača je ograničeno na trenutni prozor.\n"
 "Držite Escape 3 sekunde da oslobodite pokazivač."
 
-#: pointer_input.cpp:664
+#: pointer_input.cpp:676
 #, kde-format
 msgctxt "notification about mouse pointer locked"
 msgid ""

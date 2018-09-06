@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-04-19 03:40+0200\n"
-"PO-Revision-Date: 2018-07-24 08:45\n"
-"Last-Translator: guoyunhebrave <guoyunhebrave@gmail.com>\n"
+"POT-Creation-Date: 2018-08-16 06:20+0200\n"
+"PO-Revision-Date: 2018-08-30 13:14\n"
+"Last-Translator: guoyunhebrave <yunhe.guo@protonmail.com>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -185,17 +185,17 @@ msgstr "超特大"
 msgid "Buttons"
 msgstr "按钮"
 
-#: qml/Buttons.qml:72
+#: qml/Buttons.qml:73
 #, kde-format
 msgid "Titlebar"
 msgstr "标题栏"
 
-#: qml/Buttons.qml:199
+#: qml/Buttons.qml:200
 #, kde-format
 msgid "Drop here to remove button"
 msgstr "拖拽至此处以删除按钮。"
 
-#: qml/Buttons.qml:223
+#: qml/Buttons.qml:224
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "在此处和标题栏之间拖拽按钮"

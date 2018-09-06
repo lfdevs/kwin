@@ -4,7 +4,7 @@
 # Yeo SunHwa <sunwt@mizi.com>, 2001.
 # Shinjo Park <kde@peremen.name>, 2007, 2008, 2009, 2010.
 # Shinjo Park <kde@peremen.name>, 2011, 2012, 2013, 2014, 2015.
-# Shinjo Park <kde@peremen.name>, 2015, 2016, 2017.
+# Shinjo Park <kde@peremen.name>, 2015, 2016, 2017, 2018.
 #
 #
 msgid ""
@@ -12,9 +12,9 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2018-07-16 06:10+0200\n"
-"PO-Revision-Date: 2017-12-02 23:30+0100\n"
+"PO-Revision-Date: 2018-08-14 14:52+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
-"Language-Team: Korean <kde@peremen.name>\n"
+"Language-Team: Korean <kde-i18n-doc@kde.org>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -513,48 +513,46 @@ msgid "Swipe cancelled"
 msgstr "문지르기 취소됨"
 
 #: debug_console.cpp:452
-#, fuzzy, kde-format
-#| msgid "Switch to Tab"
+#, kde-format
 msgctxt "A hardware switch (e.g. notebook lid) got toggled"
 msgid "Switch toggled"
-msgstr "탭으로 전환"
+msgstr "하드웨어 스위치 전환됨"
 
 #: debug_console.cpp:460
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Notebook lid"
-msgstr ""
+msgstr "노트북 덮개"
 
 #: debug_console.cpp:462
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Tablet mode"
-msgstr ""
+msgstr "태블릿 모드"
 
 #: debug_console.cpp:464
-#, fuzzy, kde-format
-#| msgid "Switch to Tab"
+#, kde-format
 msgctxt "A hardware switch"
 msgid "Switch"
-msgstr "탭으로 전환"
+msgstr "전환"
 
 #: debug_console.cpp:468
 #, kde-format
 msgctxt "The hardware switch got turned off"
 msgid "Off"
-msgstr ""
+msgstr "꺼짐"
 
 #: debug_console.cpp:471
 #, kde-format
 msgctxt "The hardware switch got turned on"
 msgid "On"
-msgstr ""
+msgstr "켜짐"
 
 #: debug_console.cpp:476
 #, kde-format
 msgctxt "State of a hardware switch (on/off)"
 msgid "State"
-msgstr ""
+msgstr "상태"
 
 #: debug_console.cpp:661
 #, kde-format

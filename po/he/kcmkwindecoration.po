@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-04-19 03:40+0200\n"
+"POT-Creation-Date: 2018-08-16 06:20+0200\n"
 "PO-Revision-Date: 2017-05-16 06:53-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
@@ -186,17 +186,17 @@ msgstr "גדול מדי"
 msgid "Buttons"
 msgstr "כפתורים"
 
-#: qml/Buttons.qml:72
+#: qml/Buttons.qml:73
 #, kde-format
 msgid "Titlebar"
 msgstr "שורת הכותרת"
 
-#: qml/Buttons.qml:199
+#: qml/Buttons.qml:200
 #, kde-format
 msgid "Drop here to remove button"
 msgstr "שחרר כאן כדי להסיר כפתור"
 
-#: qml/Buttons.qml:223
+#: qml/Buttons.qml:224
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "גרור בין כאן לשורת הכותרת"

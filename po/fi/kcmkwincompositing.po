@@ -5,7 +5,7 @@
 # Mikko Piippo <piippo@cc.helsinki.fi>, 2008.
 # Teemu Rytilahti <teemu.rytilahti@kde-fi.org>, 2008.
 # Teemu Rytilahti <teemu.rytilahti@d5k.net>, 2008.
-# Tommi Nieminen <translator@legisign.org>, 2009, 2011, 2013, 2014, 2016, 2017.
+# Tommi Nieminen <translator@legisign.org>, 2009, 2011, 2013, 2014, 2016, 2017, 2018.
 # Jorma Karvonen <karvonen.jorma@gmail.com>, 2010.
 # Lasse Liehu <lasse.liehu@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
 #
@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-01 03:37+0100\n"
+"POT-Creation-Date: 2018-08-16 06:20+0200\n"
 "PO-Revision-Date: 2017-12-08 16:11+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -317,7 +317,7 @@ msgstr "Ikkunanhallinta"
 msgid "KWin development team"
 msgstr "KWin-kehitysryhmä"
 
-#: qml/Effect.qml:118
+#: qml/Effect.qml:119
 #, kde-format
 msgid ""
 "Author: %1\n"
@@ -326,34 +326,34 @@ msgstr ""
 "Tekijä: %1\n"
 "Lisenssi: %2"
 
-#: qml/EffectView.qml:63
+#: qml/EffectView.qml:64
 #, kde-format
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
 "effect's settings."
 msgstr "Vihje: tehosteen asetuksista löytyy ohje, kuinka tehoste aktivoidaan."
 
-#: qml/EffectView.qml:74
+#: qml/EffectView.qml:75
 #, kde-format
 msgid "Search"
 msgstr "Hae"
 
-#: qml/EffectView.qml:81
+#: qml/EffectView.qml:82
 #, kde-format
 msgid "Configure filter"
 msgstr "Muokkaa suodatinta"
 
-#: qml/EffectView.qml:84
+#: qml/EffectView.qml:85
 #, kde-format
 msgid "Exclude Desktop Effects not supported by the Compositor"
 msgstr "Ohita työpöytätehosteet, joita koostin ei tue"
 
-#: qml/EffectView.qml:92
+#: qml/EffectView.qml:93
 #, kde-format
 msgid "Exclude internal Desktop Effects"
 msgstr "Ohita sisäiset työpöytätehosteet"
 
-#: qml/EffectView.qml:104
+#: qml/EffectView.qml:105
 #, kde-format
 msgid "Get New Effects..."
 msgstr "Hae uusia tehosteita…"

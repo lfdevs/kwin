@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-08-31 06:40+0200\n"
+"POT-Creation-Date: 2018-10-29 06:48+0100\n"
 "PO-Revision-Date: 2015-12-30 18:09+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: lt <kde-i18n-lt@kde.org>\n"
@@ -68,7 +68,7 @@ msgid ""
 "Escape or right click to cancel."
 msgstr ""
 
-#: coverswitch/coverswitch.cpp:951 flipswitch/flipswitch.cpp:935
+#: coverswitch/coverswitch.cpp:951 flipswitch/flipswitch.cpp:934
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -148,7 +148,8 @@ msgid "Default"
 msgstr "Numatytoji"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
-#: coverswitch/coverswitch_config.ui:161 slide/slide_config.ui:53
+#: coverswitch/coverswitch_config.ui:161 glide/glide_config.ui:35
+#: scale/scale_config.ui:33 slide/slide_config.ui:35
 #, kde-format
 msgid " milliseconds"
 msgstr " milisekundės"
@@ -172,17 +173,17 @@ msgstr "Galinė spalva"
 msgid "Front color"
 msgstr "Priekinė spalva"
 
-#: cube/cube.cpp:193 cube/cube_config.cpp:71
+#: cube/cube.cpp:187 cube/cube_config.cpp:71
 #, kde-format
 msgid "Desktop Cube"
 msgstr "Darbalaukio kubas"
 
-#: cube/cube.cpp:201 cube/cube_config.cpp:76
+#: cube/cube.cpp:195 cube/cube_config.cpp:76
 #, kde-format
 msgid "Desktop Cylinder"
 msgstr "Darbalaukio cilindras"
 
-#: cube/cube.cpp:207 cube/cube_config.cpp:80
+#: cube/cube.cpp:201 cube/cube_config.cpp:80
 #, kde-format
 msgid "Desktop Sphere"
 msgstr "Darbalaukio sfera"
@@ -205,7 +206,7 @@ msgstr "Sudėtingesni"
 #: mouseclick/mouseclick_config.cpp:61 mousemark/mousemark_config.cpp:67
 #: presentwindows/presentwindows_config.cpp:62
 #: thumbnailaside/thumbnailaside_config.cpp:68
-#: trackmouse/trackmouse_config.cpp:63
+#: trackmouse/trackmouse_config.cpp:65
 #: windowgeometry/windowgeometry_config.cpp:56 zoom/zoom_config.cpp:65
 #, kde-format
 msgid "KWin"
@@ -452,8 +453,11 @@ msgctxt "Desktop name alignment:"
 msgid "Disabled"
 msgstr "Išjungtas"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: desktopgrid/desktopgrid_config.cpp:77 flipswitch/flipswitch_config.ui:160
+#: glide/glide_config.ui:70 glide/glide_config.ui:168
 #, kde-format
 msgid "Top"
 msgstr "Viršus"
@@ -463,8 +467,11 @@ msgstr "Viršus"
 msgid "Top-Right"
 msgstr "Viršus dešinė"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: desktopgrid/desktopgrid_config.cpp:79 flipswitch/flipswitch_config.ui:125
+#: glide/glide_config.ui:75 glide/glide_config.ui:173
 #, kde-format
 msgid "Right"
 msgstr "Dešinė"
@@ -474,8 +481,11 @@ msgstr "Dešinė"
 msgid "Bottom-Right"
 msgstr "Apačia dešinė"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: desktopgrid/desktopgrid_config.cpp:81 flipswitch/flipswitch_config.ui:180
+#: glide/glide_config.ui:80 glide/glide_config.ui:178
 #, kde-format
 msgid "Bottom"
 msgstr "Apačia"
@@ -485,8 +495,11 @@ msgstr "Apačia"
 msgid "Bottom-Left"
 msgstr "Apačia kairė"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: desktopgrid/desktopgrid_config.cpp:83 flipswitch/flipswitch_config.ui:105
+#: glide/glide_config.ui:85 glide/glide_config.ui:183
 #, kde-format
 msgid "Left"
 msgstr "Kairė"
@@ -570,49 +583,61 @@ msgstr "Naudoti esamą langų efektą, kad išdėstyti langus"
 msgid "Show buttons to alter count of virtual desktops"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimPanels)
+#. i18n: ectx: property (text), widget (QLabel, label_Strength)
 #: diminactive/diminactive_config.ui:17
-#, kde-format
-msgid "Apply effect to &panels"
-msgstr "Pritaikyti efektus &juostoms"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimDesktop)
-#: diminactive/diminactive_config.ui:24
-#, kde-format
-msgid "Apply effect to the desk&top"
-msgstr "Pritaikyti efektus &darbalaukiui"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimKeepAbove)
-#: diminactive/diminactive_config.ui:31
-#, kde-format
-msgid "Apply effect to &keep-above windows"
-msgstr "Pritaikyti efektus &virš kitų laikomiems langams"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimByGroup)
-#: diminactive/diminactive_config.ui:38
-#, kde-format
-msgid "Apply effect to &groups"
-msgstr "Pritaikyti efektus &grupėms"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: diminactive/diminactive_config.ui:45
-#, kde-format
-msgid "&Strength:"
+#, fuzzy, kde-format
+#| msgid "&Strength:"
+msgid "Strength:"
 msgstr "&Stiprumas"
 
-#: effect_builtins.cpp:104
+#. i18n: ectx: property (text), widget (QLabel, label_Dim)
+#: diminactive/diminactive_config.ui:40
+#, kde-format
+msgid "Dim:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimPanels)
+#: diminactive/diminactive_config.ui:47
+#, fuzzy, kde-format
+#| msgid "Do not animate panels"
+msgid "Docks and panels"
+msgstr "Neanimuoti pultų"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimDesktop)
+#: diminactive/diminactive_config.ui:54
+#, fuzzy, kde-format
+#| msgctxt "@title:group actions when clicking on desktop"
+#| msgid "Desktop"
+msgid "Desktop"
+msgstr "Darbalaukis"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimKeepAbove)
+#: diminactive/diminactive_config.ui:61
+#, fuzzy, kde-format
+#| msgctxt "Comment describing the KWin Effect"
+#| msgid "Darken inactive windows"
+msgid "Keep above windows"
+msgstr "Pritemdo neaktyvius langus"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimByGroup)
+#: diminactive/diminactive_config.ui:68
+#, kde-format
+msgid "By window group"
+msgstr ""
+
+#: effect_builtins.cpp:105
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
 msgstr "Suliejimas"
 
-#: effect_builtins.cpp:105
+#: effect_builtins.cpp:106
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
 msgstr "Sulieja pusiau permatomų langų foną"
 
-#: effect_builtins.cpp:119
+#: effect_builtins.cpp:120
 #, fuzzy, kde-format
 #| msgctxt "High saturation"
 #| msgid "Colored"
@@ -620,67 +645,67 @@ msgctxt "Name of a KWin Effect"
 msgid "Color Picker"
 msgstr "Spalvotas"
 
-#: effect_builtins.cpp:120
+#: effect_builtins.cpp:121
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Supports picking a color"
 msgstr ""
 
-#: effect_builtins.cpp:134
+#: effect_builtins.cpp:135
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Fono kontrastas"
 
-#: effect_builtins.cpp:135
+#: effect_builtins.cpp:136
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
 msgstr "Pagerinti kontrastą ir skaitomumą už pusiau permatomų langų"
 
-#: effect_builtins.cpp:149
+#: effect_builtins.cpp:150
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Cover Switch"
 msgstr "Viršelių keitiklis"
 
-#: effect_builtins.cpp:150
+#: effect_builtins.cpp:151
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a Cover Flow effect for the alt+tab window switcher"
 msgstr "Suteikia viršelių slinkimo efektą naudojant Alt+Tab langų keitimo būdą"
 
-#: effect_builtins.cpp:164
+#: effect_builtins.cpp:165
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Darbalaukio kubas"
 
-#: effect_builtins.cpp:165
+#: effect_builtins.cpp:166
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display each virtual desktop on a side of a cube"
 msgstr "Rodo kiekvieną virtualų darbalaukį ant kubo sienos"
 
-#: effect_builtins.cpp:179
+#: effect_builtins.cpp:180
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Darbalaukio kubo animacija"
 
-#: effect_builtins.cpp:180
+#: effect_builtins.cpp:181
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate desktop switching with a cube"
 msgstr "Animuoti persijungimą tarp ekranų rodant kubą"
 
-#: effect_builtins.cpp:194
+#: effect_builtins.cpp:195
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Darbalaukio tinklelis"
 
-#: effect_builtins.cpp:195
+#: effect_builtins.cpp:196
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
@@ -688,49 +713,49 @@ msgstr ""
 "Atitolinti darbalaukį, kad visi darbalaukiai būtų matomi kaip vienas "
 "tinklelis"
 
-#: effect_builtins.cpp:209
+#: effect_builtins.cpp:210
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
 msgstr "Užtemdomi neaktyvūs langai"
 
-#: effect_builtins.cpp:210
+#: effect_builtins.cpp:211
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Pritemdo neaktyvius langus"
 
-#: effect_builtins.cpp:224
+#: effect_builtins.cpp:225
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Dim Screen for Administrator Mode"
 msgstr "Užtemdomas ekraną administratoriaus veiksenai"
 
-#: effect_builtins.cpp:225
+#: effect_builtins.cpp:226
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Darkens the entire screen when requesting root privileges"
 msgstr "Pritemdo visą ekraną prašant administratoriaus privilegijų"
 
-#: effect_builtins.cpp:239
+#: effect_builtins.cpp:240
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Fall Apart"
 msgstr "Subyrėjimas"
 
-#: effect_builtins.cpp:240
+#: effect_builtins.cpp:241
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "Uždaromi langai subyra į gabalėlius"
 
-#: effect_builtins.cpp:254
+#: effect_builtins.cpp:255
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Flip Switch"
 msgstr "Kartotekos imitacijos keitiklis"
 
-#: effect_builtins.cpp:255
+#: effect_builtins.cpp:256
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -738,110 +763,110 @@ msgid ""
 msgstr ""
 "Rodo langus kaip kartotekos korteles naudojant Alt+Tab langų keitimo būdą"
 
-#: effect_builtins.cpp:269
+#: effect_builtins.cpp:270
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Glide"
 msgstr "Sklendimas"
 
-#: effect_builtins.cpp:270
+#: effect_builtins.cpp:271
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
-msgid "Windows Glide Effect as they are open and closed"
-msgstr "Langų sklendimo efektas juos atidarant ir uždarant"
+msgid "Glide windows as they appear or disappear"
+msgstr ""
 
-#: effect_builtins.cpp:284
+#: effect_builtins.cpp:285
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Highlight Window"
 msgstr "Pažymėti langą"
 
-#: effect_builtins.cpp:285
+#: effect_builtins.cpp:286
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight the appropriate window when hovering over taskbar entries"
 msgstr ""
 "Rodo langų miniatiūras užvedus kursorių virš lango įrašo užduočių juostoje"
 
-#: effect_builtins.cpp:299
+#: effect_builtins.cpp:300
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Invertuoti"
 
-#: effect_builtins.cpp:300
+#: effect_builtins.cpp:301
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
 msgstr "Invertuoja darbalaukio ir langų spalvas"
 
-#: effect_builtins.cpp:314
+#: effect_builtins.cpp:315
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
 msgstr "KScreen"
 
-#: effect_builtins.cpp:315
+#: effect_builtins.cpp:316
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper Effect for KScreen"
 msgstr "Pagalbinis efektas skirtas KScreen"
 
-#: effect_builtins.cpp:329
+#: effect_builtins.cpp:330
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
 msgstr "Didinamasis stiklas"
 
-#: effect_builtins.cpp:330
+#: effect_builtins.cpp:331
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
 msgstr "Ekrano didintuvas, panašus į žuvies akį"
 
-#: effect_builtins.cpp:344
+#: effect_builtins.cpp:345
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
 msgstr "Magiška lempa"
 
-#: effect_builtins.cpp:345
+#: effect_builtins.cpp:346
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
 msgstr "Imituoja magišką lempą sumažinant langus"
 
-#: effect_builtins.cpp:359
+#: effect_builtins.cpp:360
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Didinamasis stiklas"
 
-#: effect_builtins.cpp:360
+#: effect_builtins.cpp:361
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
 msgstr "Padidina ekrano dalį, esančią netoli pelės"
 
-#: effect_builtins.cpp:374
+#: effect_builtins.cpp:375
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Sumažinimo animacija"
 
-#: effect_builtins.cpp:375
+#: effect_builtins.cpp:376
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "Animuoja langų sumažinimą"
 
-#: effect_builtins.cpp:389
+#: effect_builtins.cpp:390
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Spragtelėjimo pele animacija"
 
-#: effect_builtins.cpp:390
+#: effect_builtins.cpp:391
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -851,25 +876,25 @@ msgstr ""
 "Kuria animaciją kai tik pelės mygtukas paspaudžiamas. Tai naudojama ekrano "
 "įrašymams / pristatymams."
 
-#: effect_builtins.cpp:404
+#: effect_builtins.cpp:405
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Piešimas pele"
 
-#: effect_builtins.cpp:405
+#: effect_builtins.cpp:406
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
 msgstr "Leidžia piešti linijas ekrane"
 
-#: effect_builtins.cpp:419
+#: effect_builtins.cpp:420
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Dabar atverti langai"
 
-#: effect_builtins.cpp:420
+#: effect_builtins.cpp:421
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
@@ -877,13 +902,13 @@ msgstr ""
 "Sukuria atsitraukimo efektą ir leidžia pamatyti visus langus vienu metu "
 "greta vienas kito"
 
-#: effect_builtins.cpp:434
+#: effect_builtins.cpp:435
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Keisti lango dydį"
 
-#: effect_builtins.cpp:435
+#: effect_builtins.cpp:436
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
@@ -891,37 +916,55 @@ msgstr ""
 "Keičia langų dydį naudojant greitą tekstūros dydžio pakeitimą, o ne pilnai "
 "atnaujinant turinį"
 
-#: effect_builtins.cpp:449
+#: effect_builtins.cpp:450
+#, fuzzy, kde-format
+#| msgid "Scale"
+msgctxt "Name of a KWin Effect"
+msgid "Scale"
+msgstr "Mastelis"
+
+#: effect_builtins.cpp:451
+#, fuzzy, kde-format
+#| msgctxt "Comment describing the KWin Effect"
+#| msgid ""
+#| "Make modal dialogs smoothly fly in and out when they are shown or hidden"
+msgctxt "Comment describing the KWin Effect"
+msgid "Make windows smoothly scale in and out when they are shown or hidden"
+msgstr ""
+"Dialogai pamažu išnyksta/atsiranda jei juos prašoma parodyti arba jie "
+"slepiami"
+
+#: effect_builtins.cpp:465
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr "Ekrano kraštas"
 
-#: effect_builtins.cpp:450
+#: effect_builtins.cpp:466
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
 msgstr "Paryškina ekrano kraštą kai priartėjama"
 
-#: effect_builtins.cpp:464
+#: effect_builtins.cpp:480
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
 msgstr "Ekranvaizdis"
 
-#: effect_builtins.cpp:465
+#: effect_builtins.cpp:481
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for KSnapshot"
 msgstr "Pagalbinis efektas skirtas KSnapshot"
 
-#: effect_builtins.cpp:479
+#: effect_builtins.cpp:495
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
 msgstr "Lapas"
 
-#: effect_builtins.cpp:480
+#: effect_builtins.cpp:496
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -930,37 +973,37 @@ msgstr ""
 "Dialogai pamažu išnyksta/atsiranda jei juos prašoma parodyti arba jie "
 "slepiami"
 
-#: effect_builtins.cpp:494
+#: effect_builtins.cpp:510
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
 msgstr "FPS rodymas"
 
-#: effect_builtins.cpp:495
+#: effect_builtins.cpp:511
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
 msgstr "Rodo KWin greitaveiką ekrano kampe"
 
-#: effect_builtins.cpp:509
+#: effect_builtins.cpp:525
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Piešimo rodymas"
 
-#: effect_builtins.cpp:510
+#: effect_builtins.cpp:526
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
 msgstr "Paryškina darbalaukio elementus, kurie buvo neseniai atnaujinti"
 
-#: effect_builtins.cpp:524
+#: effect_builtins.cpp:540
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
 msgstr "Slinktis"
 
-#: effect_builtins.cpp:525
+#: effect_builtins.cpp:541
 #, fuzzy, kde-format
 #| msgctxt "Comment describing the KWin Effect"
 #| msgid "Slide windows across the screen when switching virtual desktops"
@@ -968,133 +1011,133 @@ msgctxt "Comment describing the KWin Effect"
 msgid "Slide desktops when switching virtual desktops"
 msgstr "Perslenka langus per ekraną pereinant iš vieno darbalaukio į kitą"
 
-#: effect_builtins.cpp:539
+#: effect_builtins.cpp:555
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
 msgstr "Užkišti po apačia"
 
-#: effect_builtins.cpp:540
+#: effect_builtins.cpp:556
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
 msgstr "Slinkti atgal langus, kai kitas langas yra pakeliamas"
 
-#: effect_builtins.cpp:554
+#: effect_builtins.cpp:570
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
 msgstr "Slystantys elementai"
 
-#: effect_builtins.cpp:555
+#: effect_builtins.cpp:571
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
 msgstr "Slydimo animacija Plasma pasirodantiems elementams"
 
-#: effect_builtins.cpp:569
+#: effect_builtins.cpp:585
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
 msgstr "Prilygiavimo pagalbininkas"
 
-#: effect_builtins.cpp:570
+#: effect_builtins.cpp:586
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
 msgstr "Perkeliant langą padeda atrasti ekrano centrą"
 
-#: effect_builtins.cpp:584
+#: effect_builtins.cpp:600
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
 msgstr "Paleidimo atsakas"
 
-#: effect_builtins.cpp:585
+#: effect_builtins.cpp:601
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
 msgstr "Paleidimo atsako pagalbininko efektas"
 
-#: effect_builtins.cpp:599
+#: effect_builtins.cpp:615
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Miniatiūros pakrašty"
 
-#: effect_builtins.cpp:600
+#: effect_builtins.cpp:616
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
 msgstr "Rodo langų miniatiūras ekrano pakrašty"
 
-#: effect_builtins.cpp:614
+#: effect_builtins.cpp:630
 #, fuzzy, kde-format
 #| msgid "Mouse Pointer:"
 msgctxt "Name of a KWin Effect"
 msgid "Touch Points"
 msgstr "Palės žymeklis:"
 
-#: effect_builtins.cpp:615
+#: effect_builtins.cpp:631
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Visualize touch points"
 msgstr ""
 
-#: effect_builtins.cpp:629
+#: effect_builtins.cpp:645
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Pelės sekimas"
 
-#: effect_builtins.cpp:630
+#: effect_builtins.cpp:646
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a mouse cursor locating effect when activated"
 msgstr "Rodo pelės žymeklio vietos nustatymo efektą"
 
-#: effect_builtins.cpp:644
+#: effect_builtins.cpp:660
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Window Geometry"
 msgstr "Lango geometrija"
 
-#: effect_builtins.cpp:645
+#: effect_builtins.cpp:661
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "Rodyti lango turinį perkeliant ir keičiant dydį"
 
-#: effect_builtins.cpp:659
+#: effect_builtins.cpp:675
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Svirduliuojantys langai"
 
-#: effect_builtins.cpp:660
+#: effect_builtins.cpp:676
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "Deformuoja langus kai šie juda"
 
-#: effect_builtins.cpp:674
+#: effect_builtins.cpp:690
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Mastelis"
 
-#: effect_builtins.cpp:675
+#: effect_builtins.cpp:691
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
 msgstr "Didina visą darbalaukį"
 
-#: flipswitch/flipswitch.cpp:60 flipswitch/flipswitch_config.cpp:61
+#: flipswitch/flipswitch.cpp:59 flipswitch/flipswitch_config.cpp:61
 #, kde-format
 msgid "Toggle Flip Switch (Current desktop)"
 msgstr "Įjungti pakeitimą apverčiant (dabartinis darbalaukis)"
 
-#: flipswitch/flipswitch.cpp:67 flipswitch/flipswitch_config.cpp:64
+#: flipswitch/flipswitch.cpp:66 flipswitch/flipswitch_config.cpp:64
 #, kde-format
 msgid "Toggle Flip Switch (All desktops)"
 msgstr "Įjungti pakeitimą apverčiant (visi darbalaukiai)"
@@ -1136,41 +1179,60 @@ msgstr "Horizontali priekio pozicija:"
 msgid "Vertical position of front:"
 msgstr "Vertikali priekio padėtis:"
 
-#. i18n: ectx: property (text), widget (QLabel, glideEffectLabel)
-#: glide/glide_config.ui:17
-#, kde-format
-msgid "Glide Effect:"
-msgstr "Sklendimo efektas:"
+#. i18n: ectx: property (text), widget (QLabel, label_Duration)
+#: glide/glide_config.ui:19 scale/scale_config.ui:17 slide/slide_config.ui:19
+#, fuzzy, kde-format
+#| msgid "Ring Duration:"
+msgid "Duration:"
+msgstr "Apjuosimo trukmė:"
 
-#. i18n: ectx: property (text), widget (QLabel, inGlideEffectLabel)
-#: glide/glide_config.ui:42
-#, kde-format
-msgid "In"
-msgstr "Į"
+#. i18n: Duration of the slide animation.
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
+#: glide/glide_config.ui:32 scale/scale_config.ui:30 slide/slide_config.ui:32
+#, fuzzy, kde-format
+#| msgctxt "Duration of rotation"
+#| msgid "Default"
+msgid "Default"
+msgstr "Numatytoji"
 
-#. i18n: ectx: property (text), widget (QLabel, outGlideEffectLabel)
-#: glide/glide_config.ui:71
-#, kde-format
-msgid "Out"
-msgstr "Iš"
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_InAnimation)
+#: glide/glide_config.ui:50
+#, fuzzy, kde-format
+#| msgctxt "Name of a KWin Effect"
+#| msgid "Minimize Animation"
+msgid "Window Open Animation"
+msgstr "Sumažinimo animacija"
 
-#. i18n: ectx: property (text), widget (QLabel, glideAngleLabel)
-#: glide/glide_config.ui:93
-#, kde-format
-msgid "Glide Angle:"
-msgstr "Sklendimo kampas:"
+#. i18n: ectx: property (text), widget (QLabel, label_InRotationEdge)
+#. i18n: ectx: property (text), widget (QLabel, label_OutRotationEdge)
+#: glide/glide_config.ui:56 glide/glide_config.ui:154
+#, fuzzy, kde-format
+#| msgid "Rotation duration:"
+msgid "Rotation edge:"
+msgstr "Apsukimo trukmė:"
 
-#. i18n: ectx: property (text), widget (QLabel, glideAnglenegLabel)
-#: glide/glide_config.ui:118
-#, kde-format
-msgid "-90"
-msgstr "-90"
+#. i18n: ectx: property (text), widget (QLabel, label_InRotationAngle)
+#. i18n: ectx: property (text), widget (QLabel, label_OutRotationAngle)
+#: glide/glide_config.ui:93 glide/glide_config.ui:191
+#, fuzzy, kde-format
+#| msgid "Rotation duration:"
+msgid "Rotation angle:"
+msgstr "Apsukimo trukmė:"
 
-#. i18n: ectx: property (text), widget (QLabel, glideAngleposLabel)
-#: glide/glide_config.ui:147
+#. i18n: ectx: property (text), widget (QLabel, label_InDistance)
+#. i18n: ectx: property (text), widget (QLabel, label_OutDistance)
+#: glide/glide_config.ui:119 glide/glide_config.ui:198
 #, kde-format
-msgid "90"
-msgstr "90"
+msgid "Distance:"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_OutAnimation)
+#: glide/glide_config.ui:148
+#, fuzzy, kde-format
+#| msgctxt "Name of a KWin Effect"
+#| msgid "Mouse Click Animation"
+msgid "Window Close Animation"
+msgstr "Spragtelėjimo pele animacija"
 
 #: invert/invert.cpp:45 invert/invert_config.cpp:52
 #, kde-format
@@ -1391,7 +1453,7 @@ msgstr "Perjungti dabartinių langų efektą (visi darbalaukiai)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Perjungti dabartinių langų efektą (lango klasė)"
 
-#: presentwindows/presentwindows.cpp:1649
+#: presentwindows/presentwindows.cpp:1660
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1609,6 +1671,22 @@ msgstr "&Keisti lango mastelį"
 msgid "Show outline"
 msgstr "Rodyti kontūrą"
 
+#. i18n: ectx: property (text), widget (QLabel, label_InScale)
+#: scale/scale_config.ui:46
+#, fuzzy, kde-format
+#| msgctxt "Name of a KWin Effect"
+#| msgid "Minimize Animation"
+msgid "Window open scale:"
+msgstr "Sumažinimo animacija"
+
+#. i18n: ectx: property (text), widget (QLabel, label_OutScale)
+#: scale/scale_config.ui:53
+#, fuzzy, kde-format
+#| msgctxt "Name of a KWin Effect"
+#| msgid "Mouse Click Animation"
+msgid "Window close scale:"
+msgstr "Spragtelėjimo pele animacija"
+
 #: screenshot/screenshot.cpp:294
 #, fuzzy, kde-format
 #| msgctxt "Name of a KWin Effect"
@@ -1704,24 +1782,8 @@ msgstr "Teksto spalva:"
 msgid "Text alpha:"
 msgstr "Teksto alfa:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_Duration)
-#: slide/slide_config.ui:25
-#, fuzzy, kde-format
-#| msgid "Ring Duration:"
-msgid "D&uration:"
-msgstr "Apjuosimo trukmė:"
-
-#. i18n: Duration of the slide animation.
-#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_Gaps)
 #: slide/slide_config.ui:50
-#, fuzzy, kde-format
-#| msgctxt "Duration of rotation"
-#| msgid "Default"
-msgid "Default"
-msgstr "Numatytoji"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupbox_Gaps)
-#: slide/slide_config.ui:71
 #, fuzzy, kde-format
 #| msgctxt "Comment describing the KWin Effect"
 #| msgid "Magnify the entire desktop"
@@ -1729,24 +1791,30 @@ msgid "Gap between desktops"
 msgstr "Didina visą darbalaukį"
 
 #. i18n: ectx: property (text), widget (QLabel, label_HorizontalGap)
-#: slide/slide_config.ui:85
+#: slide/slide_config.ui:56
 #, kde-format
-msgid "Hori&zontal:"
+msgid "Horizontal:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_VerticalGap)
-#: slide/slide_config.ui:127
+#: slide/slide_config.ui:79
 #, kde-format
-msgid "Ver&tical:"
+msgid "Vertical:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:161
+#: slide/slide_config.ui:105
 #, fuzzy, kde-format
 #| msgctxt "Name of a KWin Effect"
 #| msgid "Slide Back"
 msgid "Slide docks"
 msgstr "Užkišti po apačia"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
+#: slide/slide_config.ui:112
+#, kde-format
+msgid "Slide desktop background"
+msgstr ""
 
 #: thumbnailaside/thumbnailaside.cpp:38
 #: thumbnailaside/thumbnailaside_config.cpp:73
@@ -1780,52 +1848,53 @@ msgstr " pikseliai"
 msgid "&Opacity:"
 msgstr "Nepermat&omumas:"
 
-#: trackmouse/trackmouse.cpp:61 trackmouse/trackmouse_config.cpp:68
+#: trackmouse/trackmouse.cpp:61 trackmouse/trackmouse_config.cpp:70
 #, kde-format
 msgid "Track mouse"
 msgstr "Pelės sekimas"
 
-#. i18n: ectx: property (text), widget (KTitleWidget, ktitlewidget)
-#: trackmouse/trackmouse_config.ui:20
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: trackmouse/trackmouse_config.ui:26
 #, kde-format
-msgid "Trigger on"
-msgstr "Vykdyti kai"
+msgid "Trigger effect with:"
+msgstr ""
 
-#. i18n: ectx: property (text), widget (QRadioButton, modifierRadio)
-#: trackmouse/trackmouse_config.ui:27
+#. i18n: ectx: property (text), widget (QLabel, label_KeyboardShortcut)
+#: trackmouse/trackmouse_config.ui:33
 #, kde-format
-msgid "Modifiers"
+msgid "Keyboard shortcut:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_ModifierKeys)
+#: trackmouse/trackmouse_config.ui:43
+#, fuzzy, kde-format
+#| msgid "Modifiers"
+msgid "Modifier keys:"
 msgstr "Keitėjai"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Alt)
-#: trackmouse/trackmouse_config.ui:43
+#: trackmouse/trackmouse_config.ui:65
 #, kde-format
 msgid "Alt"
 msgstr "Alt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Control)
-#: trackmouse/trackmouse_config.ui:50
+#: trackmouse/trackmouse_config.ui:72
 #, kde-format
 msgid "Ctrl"
 msgstr "Vald"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Shift)
-#: trackmouse/trackmouse_config.ui:57
+#: trackmouse/trackmouse_config.ui:79
 #, kde-format
 msgid "Shift"
 msgstr "Lyg2"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Meta)
-#: trackmouse/trackmouse_config.ui:64
+#: trackmouse/trackmouse_config.ui:86
 #, kde-format
 msgid "Meta"
 msgstr "Meta"
-
-#. i18n: ectx: property (text), widget (QRadioButton, shortcutRadio)
-#: trackmouse/trackmouse_config.ui:74
-#, kde-format
-msgid "Shortcut"
-msgstr "Klavišų derinys"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KWin::TranslucencyEffectConfigForm)
 #: translucency/package/contents/ui/config.ui:14

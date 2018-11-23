@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QImage>
 #include <QPointer>
 #include <QSize>
+#include <QVector>
 #include <xf86drmMode.h>
 
 #include <memory>
@@ -54,10 +55,6 @@ class OutputManagementInterface;
 
 namespace KWin
 {
-
-namespace ColorCorrect {
-struct GammaRamp;
-}
 
 class Udev;
 class UdevMonitor;
@@ -93,12 +90,15 @@ public:
     int fd() const {
         return m_fd;
     }
-    QVector<DrmOutput*> outputs() const {
+    Outputs outputs() const override;
+    Outputs enabledOutputs() const override;
+    QVector<DrmOutput*> drmOutputs() const {
         return m_outputs;
     }
-    QVector<DrmOutput*> enabledOutputs() const {
+    QVector<DrmOutput*> drmEnabledOutputs() const {
         return m_enabledOutputs;
     }
+
     QVector<DrmPlane*> planes() const {
         return m_planes;
     }
@@ -124,8 +124,6 @@ public:
     gbm_device *gbmDevice() const {
         return m_gbmDevice;
     }
-    int gammaRampSize(int screen) const override;
-    bool setGammaRamp(int screen, ColorCorrect::GammaRamp &gamma) override;
 
     QVector<CompositingType> supportedCompositors() const override;
 

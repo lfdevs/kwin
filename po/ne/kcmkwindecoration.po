@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-08-16 06:20+0200\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
 "PO-Revision-Date: 2007-08-19 16:35+0545\n"
 "Last-Translator: Nabin Gautam <nabin@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -71,7 +71,7 @@ msgstr "अन्यको तल राख्नुहोस्"
 msgid "Keep above"
 msgstr "अन्यको माथि राख्नुहोस्"
 
-#: kcm.cpp:140
+#: kcm.cpp:141
 #, kde-format
 msgid ""
 "Close by double clicking:\n"

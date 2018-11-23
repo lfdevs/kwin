@@ -16,15 +16,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-07-16 06:10+0200\n"
-"PO-Revision-Date: 2018-03-29 13:59+0800\n"
-"Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
-"Language-Team: Chinese <zh-l10n@linux.org.tw>\n"
+"POT-Creation-Date: 2018-09-19 06:52+0200\n"
+"PO-Revision-Date: 2018-10-31 01:46+0800\n"
+"Last-Translator: pan93412 <pan93412@gmail.com>\n"
+"Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, kde-format
@@ -37,11 +37,16 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kenduest@i18n.linux.org.tw,iitze@hotmail.com, s8321414@gmail.com"
 
-#: abstract_client.cpp:1775
+#: abstract_client.cpp:1868
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "（沒有回應）"
+
+#: abstract_output.cpp:51
+#, kde-format
+msgid "unknown"
+msgstr "未知"
 
 #: composite.cpp:569
 #, kde-format
@@ -762,6 +767,156 @@ msgstr "Wayland 視窗"
 msgid "Internal Windows"
 msgstr "內部視窗"
 
+#. i18n: ectx: property (text), widget (QPushButton, quitButton)
+#: debug_console.ui:32
+#, kde-format
+msgid "Quit Debug Console"
+msgstr "退出偵錯控制台"
+
+#. i18n: ectx: attribute (title), widget (QWidget, windows)
+#: debug_console.ui:45
+#, kde-format
+msgid "Windows"
+msgstr "視窗"
+
+#. i18n: ectx: attribute (title), widget (QWidget, surfaces)
+#: debug_console.ui:59
+#, kde-format
+msgid "Surfaces"
+msgstr "表面"
+
+#. i18n: ectx: attribute (title), widget (QWidget, input)
+#: debug_console.ui:69
+#, kde-format
+msgid "Input Events"
+msgstr "輸入事件"
+
+#. i18n: ectx: attribute (title), widget (QWidget, inputDevices)
+#: debug_console.ui:86
+#, kde-format
+msgid "Input Devices"
+msgstr "輸入裝置"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: debug_console.ui:96
+#, kde-format
+msgid "OpenGL"
+msgstr "OpenGL"
+
+#. i18n: ectx: property (text), widget (QLabel, noOpenGLLabel)
+#: debug_console.ui:102
+#, kde-format
+msgid "No OpenGL compositor running"
+msgstr "沒有執行中的 OpenGL 合成器"
+
+#. i18n: ectx: property (title), widget (QGroupBox, driverInfoBox)
+#: debug_console.ui:130
+#, kde-format
+msgid "OpenGL (ES) driver information"
+msgstr "OpenGL (ES) 驅動資訊"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: debug_console.ui:136
+#, kde-format
+msgid "Vendor:"
+msgstr "供應商："
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: debug_console.ui:143
+#, kde-format
+msgid "Renderer:"
+msgstr "繪製器："
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: debug_console.ui:150
+#, kde-format
+msgid "Version:"
+msgstr "版本："
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: debug_console.ui:157
+#, kde-format
+msgid "Shading Language Version:"
+msgstr "著色器語言版本："
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: debug_console.ui:164
+#, kde-format
+msgid "Driver:"
+msgstr "驅動："
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: debug_console.ui:171
+#, kde-format
+msgid "GPU class:"
+msgstr "GPU 類別："
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: debug_console.ui:178
+#, kde-format
+msgid "OpenGL Version:"
+msgstr "OpenGL 版本："
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: debug_console.ui:185
+#, kde-format
+msgid "GLSL Version:"
+msgstr "GLSL 版本："
+
+#. i18n: ectx: property (title), widget (QGroupBox, platformExtensionsBox)
+#: debug_console.ui:251
+#, kde-format
+msgid "Platform Extensions"
+msgstr "平台延伸功能"
+
+#. i18n: ectx: property (title), widget (QGroupBox, glExtensionsBox)
+#: debug_console.ui:267
+#, kde-format
+msgid "OpenGL (ES) Extensions"
+msgstr "OpenGL (ES) 延伸功能"
+
+#. i18n: ectx: attribute (title), widget (QWidget, keyboard)
+#: debug_console.ui:288
+#, kde-format
+msgid "Keyboard"
+msgstr "鍵盤"
+
+#. i18n: ectx: property (title), widget (QGroupBox, layoutBox)
+#: debug_console.ui:315
+#, kde-format
+msgid "Keymap Layouts"
+msgstr "鍵盤映射佈局"
+
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#: debug_console.ui:337
+#, kde-format
+msgid "Current Layout:"
+msgstr "目前佈局："
+
+#. i18n: ectx: property (title), widget (QGroupBox, modifiersBox)
+#: debug_console.ui:356
+#, kde-format
+msgid "Modifiers"
+msgstr "修飾元"
+
+#. i18n: ectx: property (title), widget (QGroupBox, activeModifiersBox)
+#: debug_console.ui:372
+#, kde-format
+msgid "Active Modifiers"
+msgstr "使用中修飾元"
+
+#. i18n: ectx: property (title), widget (QGroupBox, ledsBox)
+#: debug_console.ui:388
+#, kde-format
+msgid "LEDs"
+msgstr "LED"
+
+#. i18n: ectx: property (title), widget (QGroupBox, activeLedsBox)
+#: debug_console.ui:404
+#, kde-format
+msgid "Active LEDs"
+msgstr "使用中 LED"
+
 #: helpers/killer/killer.cpp:45
 #, kde-format
 msgid "Window Manager"
@@ -1262,111 +1417,106 @@ msgstr "取消設定選項"
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "指出 KWin 最近已經連續當掉數次"
 
-#: main_wayland.cpp:255
+#: main_wayland.cpp:248
 #, kde-format
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr "kwin_wayland: 有一個 X11 視窗管理員正在 X11 顯示中運行。\n"
 
-#: main_wayland.cpp:581
+#: main_wayland.cpp:577
 #, kde-format
 msgid "Start a rootless Xwayland server."
 msgstr "啟動 rootless Xwayland 伺服器。"
 
-#: main_wayland.cpp:583
+#: main_wayland.cpp:579
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr "Wayland 監聽的 socket 名稱。如果沒設定，則使用 \"wayland-0\"。"
 
-#: main_wayland.cpp:586
-#, kde-format
-msgid "Use a nested compositor in windowed mode."
-msgstr "在視窗模式使用巢狀合成器。"
-
-#: main_wayland.cpp:588
+#: main_wayland.cpp:582
 #, kde-format
 msgid "Render to framebuffer."
 msgstr "成像至 framebuffer。"
 
-#: main_wayland.cpp:590
+#: main_wayland.cpp:584
 #, kde-format
 msgid "The framebuffer device to render to."
 msgstr "使用的 framebuffer 裝置。"
 
-#: main_wayland.cpp:593
+#: main_wayland.cpp:587
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "在 X11 平台上的視窗模式要使用的 X11 顯示。"
 
-#: main_wayland.cpp:596
+#: main_wayland.cpp:590
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr "在 Wayland 平台上的視窗模式要使用的 Wayland 顯示。"
 
-#: main_wayland.cpp:598
+#: main_wayland.cpp:592
 #, kde-format
 msgid "Render to a virtual framebuffer."
 msgstr "成像到虛擬影格緩衝區。"
 
-#: main_wayland.cpp:600
+#: main_wayland.cpp:594
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "視窗模式的寬度。預設為 1024。"
 
-#: main_wayland.cpp:604
+#: main_wayland.cpp:598
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
 msgstr "視窗模式的高度。預設為 768。"
 
-#: main_wayland.cpp:609
+#: main_wayland.cpp:603
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
 msgstr "視窗模式的縮放係數。預設為 1。"
 
-#: main_wayland.cpp:614
+#: main_wayland.cpp:608
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
 msgstr "視窗模式輸出要開啟的視窗數。預設為 1"
 
-#: main_wayland.cpp:647
+#: main_wayland.cpp:638
 #, kde-format
 msgid "Use libhybris hwcomposer"
 msgstr "用 libhybris hwcomposer"
 
-#: main_wayland.cpp:653
+#: main_wayland.cpp:644
 #, kde-format
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
 msgstr "開啟 libinput 支援以處理輸入事件。注意：請不要在巢狀的工作階段中使用。"
 
-#: main_wayland.cpp:656
+#: main_wayland.cpp:647
 #, kde-format
 msgid "Render through drm node."
 msgstr "透過 drm 節點成像。"
 
-#: main_wayland.cpp:663
+#: main_wayland.cpp:654
 #, kde-format
 msgid "Input method that KWin starts."
 msgstr "KWin 啟動的輸入法。"
 
-#: main_wayland.cpp:668
+#: main_wayland.cpp:659
 #, kde-format
 msgid "List all available backends and quit."
 msgstr "列出所有可用的後端介面然後離開。"
 
-#: main_wayland.cpp:672
+#: main_wayland.cpp:663
 #, kde-format
 msgid "Starts the session in locked mode."
 msgstr "以鎖定模式啟動工作階段."
 
-#: main_wayland.cpp:676
+#: main_wayland.cpp:667
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr "在由 KWin 啟動的工作階段應用程式關閉後離開。"
 
-#: main_wayland.cpp:681
+#: main_wayland.cpp:672
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr "Wayland 與 Xwayland 伺服器啟動後要執行的應用程式"
@@ -1420,25 +1570,60 @@ msgstr "自動螢幕旋轉已經停用"
 msgid "Automatic Screen Rotation"
 msgstr "自動螢幕旋轉"
 
-#: pointer_input.cpp:659
+#: plugins/scenes/opengl/scene_opengl.cpp:574
 #, kde-format
-msgctxt "notification about mouse pointer confined"
-msgid ""
-"Pointer motion confined to the current window.\n"
-"To release pointer hold Escape for 3 seconds."
-msgstr ""
-"僅限於目前游標動作的視窗。\n"
-"按 Esc 3 秒以退出游標。"
+msgid "Desktop effects were restarted due to a graphics reset"
+msgstr "桌面效果會重新啟動，因為圖形已重置"
 
-#: pointer_input.cpp:676
+#: plugins/scenes/opengl/scene_opengl.cpp:826
 #, kde-format
-msgctxt "notification about mouse pointer locked"
 msgid ""
-"Pointer locked to current position.\n"
-"To end pointer lock hold Escape for 3 seconds."
+"<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
+"OpenGL Desktop Effects at the current resolution<br><br>You can try to "
+"select the XRender backend, but it might be very slow for this resolution as "
+"well.<br>Alternatively, lower the combined resolution of all screens to %1x"
+"%2 "
 msgstr ""
-"游標鎖定目前的位置。\n"
-"要結束游標鎖定按著 Esc 3 秒。"
+"<h1>OpenGL 桌面效果無法使用</h1>您的系統無法在目前的解析度上執行 OpenGL 桌面"
+"特效。<br><br>您可以試著使用 XRender 後端介面，不過它可能在此解析度上也會跑得"
+"很慢。<br>另外，您可以將所有螢幕的解析度降到 %1x%2。"
+
+#: plugins/scenes/opengl/scene_opengl.cpp:833
+#, kde-format
+msgid ""
+"The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+"GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+"does not know such limitation, but the performance will usually be impacted "
+"by the hardware limitations that restrict the OpenGL viewport size."
+msgstr ""
+"請求的解析度超過了您的 GPU 的 GL_MAX_VIEWPORT_DIMS 的限制，因此無法與 OpenGL "
+"相容。<br>XRender 不會去理會這個限制，不過通常它的效能會因為硬體對 OpenGL 檢"
+"視埠大小的限制而不太理想。"
+
+#: plugins/scenes/opengl/scene_opengl.cpp:858
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+"the current resolution are supported but might be exceptionally slow."
+"<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
+"compositing, switch to the XRender backend or lower the resolution to %1x%1."
+msgstr ""
+"<h1>OpenGL 桌面效果可能無法使用</h1>目前的解析度可以使用 OpenGL 桌面效果，但"
+"可能會非常慢。<br>此外大的視窗也會變整片黑。<br><br>請考慮暫停組合，切到 "
+"XRender 後端介面，或是將解析度降到 %1x%1。"
+
+#: plugins/scenes/opengl/scene_opengl.cpp:864
+#, kde-format
+msgid ""
+"The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+"GPU, thus windows of that size cannot be assigned to textures and will be "
+"entirely black.<br>Also this limit will often be a performance level barrier "
+"despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+"software rendering in this case."
+msgstr ""
+"請求的解析度超過了您的 GPU 的 GL_MAX_TEXTURE_SIZE 的限制，因此此大小的視窗會"
+"整個黑掉。<br>另外，此限制通常也是個效能的障礙，即使低於 "
+"GL_MAX_VIEWPORT_DIMS，因為驅動程式可能會在這種狀況下改用軟體成像。"
 
 #: scripting/genericscriptedconfig.cpp:81
 #, kde-format
@@ -1485,68 +1670,80 @@ msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
 msgstr "%1 不是變數型態"
 
-#: tabbox/tabbox.cpp:386
+#. i18n: ectx: property (windowTitle), widget (QDialog, ShortcutDialog)
+#: shortcutdialog.ui:14
+#, kde-format
+msgid "Dialog"
+msgstr "對話框"
+
+#. i18n: ectx: property (text), widget (QToolButton, clearButton)
+#: shortcutdialog.ui:25
+#, kde-format
+msgid "..."
+msgstr "…"
+
+#: tabbox/tabbox.cpp:387
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "顯示桌面"
 
-#: tabbox/tabbox.cpp:535
+#: tabbox/tabbox.cpp:536
 #, kde-format
 msgid "Walk Through Windows"
 msgstr "瀏覽已開啟視窗"
 
-#: tabbox/tabbox.cpp:536
+#: tabbox/tabbox.cpp:537
 #, kde-format
 msgid "Walk Through Windows (Reverse)"
 msgstr "瀏覽已開啟視窗 (反向)"
 
-#: tabbox/tabbox.cpp:537
+#: tabbox/tabbox.cpp:538
 #, kde-format
 msgid "Walk Through Windows Alternative"
 msgstr "瀏覽已開啟視窗（替代按鍵）"
 
-#: tabbox/tabbox.cpp:538
+#: tabbox/tabbox.cpp:539
 #, kde-format
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "瀏覽已開啟視窗（替代按鍵/反向）"
 
-#: tabbox/tabbox.cpp:539
+#: tabbox/tabbox.cpp:540
 #, kde-format
 msgid "Walk Through Windows of Current Application"
 msgstr "瀏覽目前應用程式的視窗"
 
-#: tabbox/tabbox.cpp:540
+#: tabbox/tabbox.cpp:541
 #, kde-format
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "瀏覽目前應用程式的視窗（反向）"
 
-#: tabbox/tabbox.cpp:541
+#: tabbox/tabbox.cpp:542
 #, kde-format
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "瀏覽目前應用程式視窗（替代按鍵）"
 
-#: tabbox/tabbox.cpp:542
+#: tabbox/tabbox.cpp:543
 #, kde-format
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "瀏覽目前應用程式視窗（替代按鍵/反向）"
 
-#: tabbox/tabbox.cpp:543
+#: tabbox/tabbox.cpp:544
 #, kde-format
 msgid "Walk Through Desktops"
 msgstr "瀏覽所有桌面"
 
-#: tabbox/tabbox.cpp:544
+#: tabbox/tabbox.cpp:545
 #, kde-format
 msgid "Walk Through Desktops (Reverse)"
 msgstr "瀏覽所有桌面 (反向)"
 
-#: tabbox/tabbox.cpp:545
+#: tabbox/tabbox.cpp:546
 #, kde-format
 msgid "Walk Through Desktop List"
 msgstr "瀏覽桌面清單項目"
 
-#: tabbox/tabbox.cpp:546
+#: tabbox/tabbox.cpp:547
 #, kde-format
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "瀏覽桌面清單項目（反向）"
@@ -1689,49 +1886,49 @@ msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr "下一個"
 
-#: useractions.cpp:575
+#: useractions.cpp:574
 #, kde-format
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr "沒有可使用的"
 
-#: useractions.cpp:584
+#: useractions.cpp:583
 #, kde-format
 msgid "Switch to Tab"
 msgstr "切換到分頁"
 
-#: useractions.cpp:595
+#: useractions.cpp:594
 #, kde-format
 msgid "&Attach as tab to"
 msgstr "以分頁附加到(&A)"
 
-#: useractions.cpp:618
+#: useractions.cpp:617
 #, kde-format
 msgid "Move To &Desktop"
 msgstr "移動到桌面(&D)"
 
-#: useractions.cpp:634
+#: useractions.cpp:633
 #, kde-format
 msgid "Move To &Screen"
 msgstr "移動到螢幕(&S)"
 
-#: useractions.cpp:649
+#: useractions.cpp:648
 #, kde-format
 msgid "Ac&tivities"
 msgstr "活動(&T)"
 
-#: useractions.cpp:661
+#: useractions.cpp:660
 #, kde-format
 msgid "&All Desktops"
 msgstr "所有的桌面(&A)"
 
-#: useractions.cpp:687
+#: useractions.cpp:686
 #, kde-format
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "新增桌面(&N)"
 
-#: useractions.cpp:707
+#: useractions.cpp:706
 #, kde-format
 msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
@@ -1739,29 +1936,29 @@ msgctxt ""
 msgid "Screen &%1 (%2)"
 msgstr "螢幕 &%1 (%2)"
 
-#: useractions.cpp:728
+#: useractions.cpp:727
 #, kde-format
 msgid "&All Activities"
 msgstr "所有的活動(&A)"
 
-#: useractions.cpp:943
+#: useractions.cpp:942
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "<b>%1</b> 已被使用"
 
-#: useractions.cpp:945
+#: useractions.cpp:944
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "<b>%1</b> 已被 %2 於 %3 使用"
 
-#: useractions.cpp:1076
+#: useractions.cpp:1075
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "作用中視窗（%1）"
 
-#: useractions.cpp:1281
+#: useractions.cpp:1280
 #, kde-format
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration trunk\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-08-16 06:20+0200\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
 "PO-Revision-Date: 2010-06-25 13:41+0530\n"
 "Last-Translator: Ershad K <ershad92@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -72,7 +72,7 @@ msgstr "മറ്റുള്ളവയുടെ താഴെ വെക്കു�
 msgid "Keep above"
 msgstr "മറ്റുള്ളവയ്ക്കു മുകളില്‍ വെക്കുക"
 
-#: kcm.cpp:140
+#: kcm.cpp:141
 #, kde-format
 msgid ""
 "Close by double clicking:\n"

@@ -4,13 +4,13 @@
 # version 3 or later versions approved by the membership of KDE e.V.
 #
 # Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018.
-# Antoni Bella Pérez <antonibella5@yahoo.com>, 2014, 2015, 2016.
+# Antoni Bella Pérez <antonibella5@yahoo.com>, 2014, 2015, 2016, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-08-31 06:40+0200\n"
-"PO-Revision-Date: 2018-06-23 17:51+0100\n"
+"POT-Creation-Date: 2018-10-29 06:48+0100\n"
+"PO-Revision-Date: 2018-10-31 18:29+0100\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -64,10 +64,10 @@ msgid ""
 "Escape or right click to cancel."
 msgstr ""
 "Seleccioneu una posició per a la selecció del color amb el clic esquerre o "
-"retorn.\n"
-"Escape o clic dret per cancel·lar."
+"la tecla de retorn.\n"
+"La tecla d'escapada o clic dret per a cancel·lar."
 
-#: coverswitch/coverswitch.cpp:951 flipswitch/flipswitch.cpp:935
+#: coverswitch/coverswitch.cpp:951 flipswitch/flipswitch.cpp:934
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -122,13 +122,13 @@ msgstr "Anima el canvi"
 #: coverswitch/coverswitch_config.ui:123
 #, kde-format
 msgid "Animation on tab box open"
-msgstr "Animació en obrir un quadre de pestanyes"
+msgstr "Animació en obrir un quadre amb pestanyes"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnimateStop)
 #: coverswitch/coverswitch_config.ui:130
 #, kde-format
 msgid "Animation on tab box close"
-msgstr "Animació en tancar un quadre de pestanyes"
+msgstr "Animació en tancar un quadre amb pestanyes"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: coverswitch/coverswitch_config.ui:139 magiclamp/magiclamp_config.ui:17
@@ -147,7 +147,8 @@ msgid "Default"
 msgstr "Omissió"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
-#: coverswitch/coverswitch_config.ui:161 slide/slide_config.ui:53
+#: coverswitch/coverswitch_config.ui:161 glide/glide_config.ui:35
+#: scale/scale_config.ui:33 slide/slide_config.ui:35
 #, kde-format
 msgid " milliseconds"
 msgstr " mil·lisegons"
@@ -171,20 +172,20 @@ msgstr "Color del darrere"
 msgid "Front color"
 msgstr "Color del davant"
 
-#: cube/cube.cpp:193 cube/cube_config.cpp:71
+#: cube/cube.cpp:187 cube/cube_config.cpp:71
 #, kde-format
 msgid "Desktop Cube"
-msgstr "Cub d'escriptori"
+msgstr "Cub de l'escriptori"
 
-#: cube/cube.cpp:201 cube/cube_config.cpp:76
+#: cube/cube.cpp:195 cube/cube_config.cpp:76
 #, kde-format
 msgid "Desktop Cylinder"
-msgstr "Cilindre d'escriptori"
+msgstr "Cilindre de l'escriptori"
 
-#: cube/cube.cpp:207 cube/cube_config.cpp:80
+#: cube/cube.cpp:201 cube/cube_config.cpp:80
 #, kde-format
 msgid "Desktop Sphere"
-msgstr "Esfera d'escriptori"
+msgstr "Esfera de l'escriptori"
 
 #: cube/cube_config.cpp:60
 #, kde-format
@@ -204,7 +205,7 @@ msgstr "Avançat"
 #: mouseclick/mouseclick_config.cpp:61 mousemark/mousemark_config.cpp:67
 #: presentwindows/presentwindows_config.cpp:62
 #: thumbnailaside/thumbnailaside_config.cpp:68
-#: trackmouse/trackmouse_config.cpp:63
+#: trackmouse/trackmouse_config.cpp:65
 #: windowgeometry/windowgeometry_config.cpp:56 zoom/zoom_config.cpp:65
 #, kde-format
 msgid "KWin"
@@ -275,7 +276,7 @@ msgstr "Durada del gir:"
 #: cube/cube_config.ui:175
 #, kde-format
 msgid "Windows hover above cube"
-msgstr "Les finestres passen per sobre el cub"
+msgstr "Les finestres passen per sobre del cub"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: cube/cube_config.ui:185
@@ -336,7 +337,7 @@ msgstr "Mostra les cares"
 #: cube/cube_config.ui:298
 #, kde-format
 msgid "Cap color:"
-msgstr "Color de cara:"
+msgstr "Color de la cara:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TexturedCaps)
 #: cube/cube_config.ui:321
@@ -378,13 +379,13 @@ msgstr "Tanca després d'arrossegar amb el ratolí"
 #: cube/cube_config.ui:425
 #, kde-format
 msgid "Use this effect for walking through the desktops"
-msgstr "Usa aquest efecte per desplaçar-se entre els escriptoris"
+msgstr "Usa aquest efecte per a desplaçar-se entre els escriptoris"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_InvertKeys)
 #: cube/cube_config.ui:432
 #, kde-format
 msgid "Invert cursor keys"
-msgstr "Inverteix les tecles de cursor"
+msgstr "Inverteix les tecles del cursor"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_InvertMouse)
 #: cube/cube_config.ui:439
@@ -433,14 +434,14 @@ msgstr "No animis els plafons"
 #: cube/cubeslide_config.ui:85
 #, kde-format
 msgid "Use pager layout for animation"
-msgstr "Utilitza la disposició del paginador per a les animacions"
+msgstr "Usa la disposició del paginador per a les animacions"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseWindowMoving)
 #: cube/cubeslide_config.ui:92
 #, kde-format
 msgid "Start animation when moving windows towards screen edges"
 msgstr ""
-"Inicia l'animació en moure les finestres cap a les vores de les pantalles"
+"Inicia l'animació en moure les finestres cap a les vores de la pantalla"
 
 #: desktopgrid/desktopgrid.cpp:73 desktopgrid/desktopgrid_config.cpp:68
 #, kde-format
@@ -453,8 +454,11 @@ msgctxt "Desktop name alignment:"
 msgid "Disabled"
 msgstr "Desactivat"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: desktopgrid/desktopgrid_config.cpp:77 flipswitch/flipswitch_config.ui:160
+#: glide/glide_config.ui:70 glide/glide_config.ui:168
 #, kde-format
 msgid "Top"
 msgstr "Superior"
@@ -464,8 +468,11 @@ msgstr "Superior"
 msgid "Top-Right"
 msgstr "Superior-dreta"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: desktopgrid/desktopgrid_config.cpp:79 flipswitch/flipswitch_config.ui:125
+#: glide/glide_config.ui:75 glide/glide_config.ui:173
 #, kde-format
 msgid "Right"
 msgstr "Dreta"
@@ -475,8 +482,11 @@ msgstr "Dreta"
 msgid "Bottom-Right"
 msgstr "Inferior-dreta"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: desktopgrid/desktopgrid_config.cpp:81 flipswitch/flipswitch_config.ui:180
+#: glide/glide_config.ui:80 glide/glide_config.ui:178
 #, kde-format
 msgid "Bottom"
 msgstr "Inferior"
@@ -486,8 +496,11 @@ msgstr "Inferior"
 msgid "Bottom-Left"
 msgstr "Inferior-esquerra"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: desktopgrid/desktopgrid_config.cpp:83 flipswitch/flipswitch_config.ui:105
+#: glide/glide_config.ui:85 glide/glide_config.ui:183
 #, kde-format
 msgid "Left"
 msgstr "Esquerra"
@@ -561,8 +574,7 @@ msgstr "N&ombre de files:"
 #: desktopgrid/desktopgrid_config.ui:190
 #, kde-format
 msgid "Use Present Windows effect to layout the windows"
-msgstr ""
-"Utilitza l'efecte de presentació de finestres per disposar les finestres"
+msgstr "Usa l'efecte de presentació de finestres per a disposar-les"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAddRemove)
 #: desktopgrid/desktopgrid_config.ui:197
@@ -570,67 +582,73 @@ msgstr ""
 msgid "Show buttons to alter count of virtual desktops"
 msgstr "Mostra els botons per alterar el comptador d'escriptoris virtuals"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimPanels)
+#. i18n: ectx: property (text), widget (QLabel, label_Strength)
 #: diminactive/diminactive_config.ui:17
 #, kde-format
-msgid "Apply effect to &panels"
-msgstr "Aplica l'efecte als &plafons"
+msgid "Strength:"
+msgstr "Intensitat:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_Dim)
+#: diminactive/diminactive_config.ui:40
+#, kde-format
+msgid "Dim:"
+msgstr "Enfosquiment:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimPanels)
+#: diminactive/diminactive_config.ui:47
+#, kde-format
+msgid "Docks and panels"
+msgstr "Acobladors i plafons"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimDesktop)
-#: diminactive/diminactive_config.ui:24
+#: diminactive/diminactive_config.ui:54
 #, kde-format
-msgid "Apply effect to the desk&top"
-msgstr "Aplica l'efecte als escrip&toris"
+msgid "Desktop"
+msgstr "Escriptori"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimKeepAbove)
-#: diminactive/diminactive_config.ui:31
+#: diminactive/diminactive_config.ui:61
 #, kde-format
-msgid "Apply effect to &keep-above windows"
-msgstr "Aplica l'efecte de &mantindre les finestres damunt"
+msgid "Keep above windows"
+msgstr "Mantén les finestres damunt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimByGroup)
-#: diminactive/diminactive_config.ui:38
+#: diminactive/diminactive_config.ui:68
 #, kde-format
-msgid "Apply effect to &groups"
-msgstr "Aplica l'efecte als &grups"
+msgid "By window group"
+msgstr "Per grup de finestres"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: diminactive/diminactive_config.ui:45
-#, kde-format
-msgid "&Strength:"
-msgstr "&Potència:"
-
-#: effect_builtins.cpp:104
+#: effect_builtins.cpp:105
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
 msgstr "Difumina"
 
-#: effect_builtins.cpp:105
+#: effect_builtins.cpp:106
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
 msgstr "Difumina el fons de darrere de les finestres semitransparents"
 
-#: effect_builtins.cpp:119
+#: effect_builtins.cpp:120
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Color Picker"
-msgstr "Selector de color"
+msgstr "Selector del color"
 
-#: effect_builtins.cpp:120
+#: effect_builtins.cpp:121
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Supports picking a color"
 msgstr "Admet la selecció d'un color"
 
-#: effect_builtins.cpp:134
+#: effect_builtins.cpp:135
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Contrast del fons"
 
-#: effect_builtins.cpp:135
+#: effect_builtins.cpp:136
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
@@ -638,49 +656,49 @@ msgstr ""
 "Millora el contrast i la legibilitat darrere de les finestres "
 "semitransparents"
 
-#: effect_builtins.cpp:149
+#: effect_builtins.cpp:150
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Cover Switch"
 msgstr "Canvi de capa"
 
-#: effect_builtins.cpp:150
+#: effect_builtins.cpp:151
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a Cover Flow effect for the alt+tab window switcher"
 msgstr "Mostra un efecte de capes en el commutador de finestres amb Alt+Tab"
 
-#: effect_builtins.cpp:164
+#: effect_builtins.cpp:165
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
-msgstr "Cub d'escriptori"
+msgstr "Cub de l'escriptori"
 
-#: effect_builtins.cpp:165
+#: effect_builtins.cpp:166
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display each virtual desktop on a side of a cube"
 msgstr "Visualitza cada escriptori virtual a la cara d'un cub"
 
-#: effect_builtins.cpp:179
+#: effect_builtins.cpp:180
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Animació de cub per a l'escriptori"
 
-#: effect_builtins.cpp:180
+#: effect_builtins.cpp:181
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate desktop switching with a cube"
 msgstr "Anima el canvi d'escriptori amb un cub"
 
-#: effect_builtins.cpp:194
+#: effect_builtins.cpp:195
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
-msgstr "Quadrícula d'escriptori"
+msgstr "Quadrícula de l'escriptori"
 
-#: effect_builtins.cpp:195
+#: effect_builtins.cpp:196
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
@@ -688,49 +706,49 @@ msgstr ""
 "Redueix tots els escriptoris per a visualitzar-los un al costat de l'altre "
 "en una quadrícula"
 
-#: effect_builtins.cpp:209
+#: effect_builtins.cpp:210
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
 msgstr "Enfosqueix les inactives"
 
-#: effect_builtins.cpp:210
+#: effect_builtins.cpp:211
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Enfosqueix les finestres inactives"
 
-#: effect_builtins.cpp:224
+#: effect_builtins.cpp:225
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Dim Screen for Administrator Mode"
 msgstr "Enfosqueix la pantalla pel mode administrador"
 
-#: effect_builtins.cpp:225
+#: effect_builtins.cpp:226
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Darkens the entire screen when requesting root privileges"
 msgstr "Enfosqueix tota la pantalla en demanar privilegis d'administrador"
 
-#: effect_builtins.cpp:239
+#: effect_builtins.cpp:240
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Fall Apart"
 msgstr "Trencament"
 
-#: effect_builtins.cpp:240
+#: effect_builtins.cpp:241
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "Les finestres tancades es trenquen en peces"
 
-#: effect_builtins.cpp:254
+#: effect_builtins.cpp:255
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Flip Switch"
 msgstr "Canvi en roda"
 
-#: effect_builtins.cpp:255
+#: effect_builtins.cpp:256
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -739,25 +757,25 @@ msgstr ""
 "Roda a través de les finestres que estan en una pila en el commutador de "
 "finestres Alt+Tab"
 
-#: effect_builtins.cpp:269
+#: effect_builtins.cpp:270
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Glide"
 msgstr "Lliscament"
 
-#: effect_builtins.cpp:270
+#: effect_builtins.cpp:271
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
-msgid "Windows Glide Effect as they are open and closed"
-msgstr "Provoca un efecte de lliscament quan s'obren i es tanquen"
+msgid "Glide windows as they appear or disappear"
+msgstr "Les finestres llisquen en aparèixer o desaparèixer"
 
-#: effect_builtins.cpp:284
+#: effect_builtins.cpp:285
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Highlight Window"
 msgstr "Realça la finestra"
 
-#: effect_builtins.cpp:285
+#: effect_builtins.cpp:286
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight the appropriate window when hovering over taskbar entries"
@@ -765,85 +783,85 @@ msgstr ""
 "Realça la finestra apropiada en passar el cursor sobre les entrades de la "
 "barra de tasques"
 
-#: effect_builtins.cpp:299
+#: effect_builtins.cpp:300
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Inverteix"
 
-#: effect_builtins.cpp:300
+#: effect_builtins.cpp:301
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
 msgstr "Inverteix el color de l'escriptori i les finestres"
 
-#: effect_builtins.cpp:314
+#: effect_builtins.cpp:315
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
 msgstr "Kscreen"
 
-#: effect_builtins.cpp:315
+#: effect_builtins.cpp:316
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper Effect for KScreen"
 msgstr "Efecte auxiliar pel KScreen"
 
-#: effect_builtins.cpp:329
+#: effect_builtins.cpp:330
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
-msgstr "Aparença de vidre"
+msgstr "Aspecte de vidre"
 
-#: effect_builtins.cpp:330
+#: effect_builtins.cpp:331
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
-msgstr "Una lupa de pantalla que sembla un objectiu d'ull de peix"
+msgstr "Una lupa de pantalla que sembla una lent amb ull de peix"
 
-#: effect_builtins.cpp:344
+#: effect_builtins.cpp:345
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
 msgstr "Làmpada màgica"
 
-#: effect_builtins.cpp:345
+#: effect_builtins.cpp:346
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
 msgstr "Simula una làmpada màgica en minimitzar les finestres"
 
-#: effect_builtins.cpp:359
+#: effect_builtins.cpp:360
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Lupa"
 
-#: effect_builtins.cpp:360
+#: effect_builtins.cpp:361
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
 msgstr "Amplia la secció de la pantalla que està prop del cursor del ratolí"
 
-#: effect_builtins.cpp:374
+#: effect_builtins.cpp:375
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Animació de minimització"
 
-#: effect_builtins.cpp:375
+#: effect_builtins.cpp:376
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "Anima la minimització de les finestres"
 
-#: effect_builtins.cpp:389
+#: effect_builtins.cpp:390
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
-msgstr "Animació de clic de ratolí"
+msgstr "Animació en fer clic amb el ratolí"
 
-#: effect_builtins.cpp:390
+#: effect_builtins.cpp:391
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -853,25 +871,25 @@ msgstr ""
 "Crea una animació quan es fa clic amb un botó del ratolí. Això és útil per "
 "enregistrar la pantalla o en presentacions"
 
-#: effect_builtins.cpp:404
+#: effect_builtins.cpp:405
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Marca amb el ratolí"
 
-#: effect_builtins.cpp:405
+#: effect_builtins.cpp:406
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
-msgstr "Vos permet dibuixar línies a l'escriptori"
+msgstr "Permet dibuixar línies a l'escriptori"
 
-#: effect_builtins.cpp:419
+#: effect_builtins.cpp:420
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Presenta les finestres"
 
-#: effect_builtins.cpp:420
+#: effect_builtins.cpp:421
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
@@ -879,13 +897,13 @@ msgstr ""
 "Redueix fins que totes les finestres obertes es poden mostrar una al costat "
 "de l'altra"
 
-#: effect_builtins.cpp:434
+#: effect_builtins.cpp:435
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
-msgstr "Dimensiona la finestra"
+msgstr "Redimensiona la finestra"
 
-#: effect_builtins.cpp:435
+#: effect_builtins.cpp:436
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
@@ -893,37 +911,50 @@ msgstr ""
 "Redimensiona les finestres amb un escalat de textura ràpid en lloc "
 "d'actualitzar els continguts"
 
-#: effect_builtins.cpp:449
+#: effect_builtins.cpp:450
+#, kde-format
+msgctxt "Name of a KWin Effect"
+msgid "Scale"
+msgstr "Escala"
+
+#: effect_builtins.cpp:451
+#, kde-format
+msgctxt "Comment describing the KWin Effect"
+msgid "Make windows smoothly scale in and out when they are shown or hidden"
+msgstr ""
+"Fa que les finestres entrin o isquen volant quan es mostren o s'oculten"
+
+#: effect_builtins.cpp:465
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr "Vora de la pantalla"
 
-#: effect_builtins.cpp:450
+#: effect_builtins.cpp:466
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
 msgstr "Ressalta la vora de la pantalla en aproximar-se"
 
-#: effect_builtins.cpp:464
+#: effect_builtins.cpp:480
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
 msgstr "Captura de pantalla"
 
-#: effect_builtins.cpp:465
+#: effect_builtins.cpp:481
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for KSnapshot"
 msgstr "Efecte auxiliar pel KSnapshot"
 
-#: effect_builtins.cpp:479
+#: effect_builtins.cpp:495
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
 msgstr "Full"
 
-#: effect_builtins.cpp:480
+#: effect_builtins.cpp:496
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -931,168 +962,168 @@ msgid ""
 msgstr ""
 "Fa que els diàlegs modals entrin o isquen volant quan es mostren o s'oculten"
 
-#: effect_builtins.cpp:494
+#: effect_builtins.cpp:510
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
 msgstr "Mostra els FPS"
 
-#: effect_builtins.cpp:495
+#: effect_builtins.cpp:511
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
 msgstr "Mostra el rendiment del KWin a la cantonada de la pantalla"
 
-#: effect_builtins.cpp:509
+#: effect_builtins.cpp:525
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Mostra el pintat"
 
-#: effect_builtins.cpp:510
+#: effect_builtins.cpp:526
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
 msgstr "Ressalta les àrees de l'escriptori que s'han actualitzat darrerament"
 
-#: effect_builtins.cpp:524
+#: effect_builtins.cpp:540
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
 msgstr "Diapositiva"
 
-#: effect_builtins.cpp:525
+#: effect_builtins.cpp:541
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide desktops when switching virtual desktops"
 msgstr "Llisca els escriptoris en canviar els escriptoris virtuals"
 
-#: effect_builtins.cpp:539
+#: effect_builtins.cpp:555
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
 msgstr "Llisca cap arrere"
 
-#: effect_builtins.cpp:540
+#: effect_builtins.cpp:556
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
 msgstr "Llisca arrere les finestres quan s'eleva una altra finestra"
 
-#: effect_builtins.cpp:554
+#: effect_builtins.cpp:570
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
 msgstr "Missatges emergents desplaçant-se"
 
-#: effect_builtins.cpp:555
+#: effect_builtins.cpp:571
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
 msgstr "Animació de desplaçament pels missatges emergents del Plasma"
 
-#: effect_builtins.cpp:569
+#: effect_builtins.cpp:585
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
 msgstr "Ajudant de desplaçament"
 
-#: effect_builtins.cpp:570
+#: effect_builtins.cpp:586
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
-msgstr "Vos ajuda a ubicar el centre de la pantalla en moure una finestra"
+msgstr "Ajuda a ubicar el centre de la pantalla en moure una finestra"
 
-#: effect_builtins.cpp:584
+#: effect_builtins.cpp:600
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
 msgstr "Reacció en iniciar"
 
-#: effect_builtins.cpp:585
+#: effect_builtins.cpp:601
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
-msgstr "Efecte auxiliar de reacció en iniciar"
+msgstr "Efecte auxiliar de la reacció en iniciar"
 
-#: effect_builtins.cpp:599
+#: effect_builtins.cpp:615
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
-msgstr "Miniatures de costat"
+msgstr "Miniatures al costat"
 
-#: effect_builtins.cpp:600
+#: effect_builtins.cpp:616
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
 msgstr "Mostra les miniatures de les finestres a la vora de la pantalla"
 
-#: effect_builtins.cpp:614
+#: effect_builtins.cpp:630
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Touch Points"
 msgstr "Punts de contacte"
 
-#: effect_builtins.cpp:615
+#: effect_builtins.cpp:631
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Visualize touch points"
 msgstr "Visualitza els punts de contacte"
 
-#: effect_builtins.cpp:629
+#: effect_builtins.cpp:645
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Seguiment del ratolí"
 
-#: effect_builtins.cpp:630
+#: effect_builtins.cpp:646
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a mouse cursor locating effect when activated"
 msgstr "Mostra un efecte de posició del cursor del ratolí quan està activat"
 
-#: effect_builtins.cpp:644
+#: effect_builtins.cpp:660
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Window Geometry"
 msgstr "Geometria de la finestra"
 
-#: effect_builtins.cpp:645
+#: effect_builtins.cpp:661
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "Mostra la geometria de les finestres en moure/redimensionar"
 
-#: effect_builtins.cpp:659
+#: effect_builtins.cpp:675
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Finestres sacsejades"
 
-#: effect_builtins.cpp:660
+#: effect_builtins.cpp:676
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "Deforma les finestres quan es mouen"
 
-#: effect_builtins.cpp:674
+#: effect_builtins.cpp:690
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Zoom"
 
-#: effect_builtins.cpp:675
+#: effect_builtins.cpp:691
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
-msgstr "Amplia l'escriptori sencer"
+msgstr "Amplia tot l'escriptori"
 
-#: flipswitch/flipswitch.cpp:60 flipswitch/flipswitch_config.cpp:61
+#: flipswitch/flipswitch.cpp:59 flipswitch/flipswitch_config.cpp:61
 #, kde-format
 msgid "Toggle Flip Switch (Current desktop)"
 msgstr "Commuta les finestres en roda (escriptori actual)"
 
-#: flipswitch/flipswitch.cpp:67 flipswitch/flipswitch_config.cpp:64
+#: flipswitch/flipswitch.cpp:66 flipswitch/flipswitch_config.cpp:64
 #, kde-format
 msgid "Toggle Flip Switch (All desktops)"
 msgstr "Commuta les finestres en roda (tots els escriptoris)"
@@ -1134,41 +1165,51 @@ msgstr "Posició horitzontal de la primera:"
 msgid "Vertical position of front:"
 msgstr "Posició vertical de la primera:"
 
-#. i18n: ectx: property (text), widget (QLabel, glideEffectLabel)
-#: glide/glide_config.ui:17
+#. i18n: ectx: property (text), widget (QLabel, label_Duration)
+#: glide/glide_config.ui:19 scale/scale_config.ui:17 slide/slide_config.ui:19
 #, kde-format
-msgid "Glide Effect:"
-msgstr "Efecte lliscant:"
+msgid "Duration:"
+msgstr "Durada:"
 
-#. i18n: ectx: property (text), widget (QLabel, inGlideEffectLabel)
-#: glide/glide_config.ui:42
+#. i18n: Duration of the slide animation.
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
+#: glide/glide_config.ui:32 scale/scale_config.ui:30 slide/slide_config.ui:32
 #, kde-format
-msgid "In"
-msgstr "Entrada"
+msgid "Default"
+msgstr "Predeterminada"
 
-#. i18n: ectx: property (text), widget (QLabel, outGlideEffectLabel)
-#: glide/glide_config.ui:71
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_InAnimation)
+#: glide/glide_config.ui:50
 #, kde-format
-msgid "Out"
-msgstr "Eixida"
+msgid "Window Open Animation"
+msgstr "Animació de l'obertura de la finestra"
 
-#. i18n: ectx: property (text), widget (QLabel, glideAngleLabel)
-#: glide/glide_config.ui:93
+#. i18n: ectx: property (text), widget (QLabel, label_InRotationEdge)
+#. i18n: ectx: property (text), widget (QLabel, label_OutRotationEdge)
+#: glide/glide_config.ui:56 glide/glide_config.ui:154
 #, kde-format
-msgid "Glide Angle:"
-msgstr "Angle de lliscament:"
+msgid "Rotation edge:"
+msgstr "Vora de rotació:"
 
-#. i18n: ectx: property (text), widget (QLabel, glideAnglenegLabel)
-#: glide/glide_config.ui:118
+#. i18n: ectx: property (text), widget (QLabel, label_InRotationAngle)
+#. i18n: ectx: property (text), widget (QLabel, label_OutRotationAngle)
+#: glide/glide_config.ui:93 glide/glide_config.ui:191
 #, kde-format
-msgid "-90"
-msgstr "-90"
+msgid "Rotation angle:"
+msgstr "Angle de rotació:"
 
-#. i18n: ectx: property (text), widget (QLabel, glideAngleposLabel)
-#: glide/glide_config.ui:147
+#. i18n: ectx: property (text), widget (QLabel, label_InDistance)
+#. i18n: ectx: property (text), widget (QLabel, label_OutDistance)
+#: glide/glide_config.ui:119 glide/glide_config.ui:198
 #, kde-format
-msgid "90"
-msgstr "90"
+msgid "Distance:"
+msgstr "Distància:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_OutAnimation)
+#: glide/glide_config.ui:148
+#, kde-format
+msgid "Window Close Animation"
+msgstr "Animació del tancament de la finestra"
 
 #: invert/invert.cpp:45 invert/invert_config.cpp:52
 #, kde-format
@@ -1334,12 +1375,12 @@ msgstr "Tipus de lletra:"
 #: mouseclick/mouseclick_config.ui:233
 #, kde-format
 msgid "Show Text:"
-msgstr "Mostra text:"
+msgstr "Mostra el text:"
 
 #: mousemark/mousemark.cpp:52
 #, kde-format
 msgid "Clear All Mouse Marks"
-msgstr "Neteja totes les marques de ratolí"
+msgstr "Neteja totes les marques del ratolí"
 
 #: mousemark/mousemark.cpp:59 mousemark/mousemark_config.cpp:76
 #, kde-format
@@ -1367,7 +1408,7 @@ msgstr "&Color:"
 #: mousemark/mousemark_config.ui:78
 #, kde-format
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
-msgstr "Dibuixa amb el ratolí prement Maj+tecles Meta i movent el ratolí."
+msgstr "Dibuixa amb el ratolí prement les tecles Maj+Meta i movent el ratolí."
 
 #: presentwindows/presentwindows.cpp:78
 #: presentwindows/presentwindows_config.cpp:73
@@ -1385,9 +1426,9 @@ msgstr "Commuta les finestres presents (tots els escriptoris)"
 #: presentwindows/presentwindows_config.cpp:79
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
-msgstr "Commuta les finestres presents (classe finestra)"
+msgstr "Commuta les finestres presents (classe de finestra)"
 
-#: presentwindows/presentwindows.cpp:1649
+#: presentwindows/presentwindows.cpp:1660
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1591,7 +1632,7 @@ msgstr "Quadrícula flexible"
 #: presentwindows/presentwindows_config.ui:449
 #, kde-format
 msgid "Provide buttons to close the windows"
-msgstr "Proporciona botons per tancar les finestres"
+msgstr "Proporciona botons per a tancar les finestres"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TextureScale)
 #: resize/resize_config.ui:17
@@ -1604,6 +1645,18 @@ msgstr "Redimensiona la finestra"
 #, kde-format
 msgid "Show outline"
 msgstr "Mostra el contorn"
+
+#. i18n: ectx: property (text), widget (QLabel, label_InScale)
+#: scale/scale_config.ui:46
+#, kde-format
+msgid "Window open scale:"
+msgstr "Escala en obrir la finestra:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_OutScale)
+#: scale/scale_config.ui:53
+#, kde-format
+msgid "Window close scale:"
+msgstr "Escala en tancar la finestra:"
 
 #: screenshot/screenshot.cpp:294
 #, kde-format
@@ -1623,8 +1676,9 @@ msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
-"Seleccioneu la finestra a capturar amb el clic esquerre o retorn.\n"
-"Escape o clic dret per cancel·lar."
+"Seleccioneu la finestra a capturar amb el clic esquerre o la tecla de "
+"retorn.\n"
+"La tecla d'escapada o clic dret per a cancel·lar."
 
 #: screenshot/screenshot.cpp:406
 #, kde-format
@@ -1632,8 +1686,8 @@ msgid ""
 "Create screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
-"Creeu una captura de pantalla amb el clic esquerre o retorn.\n"
-"Escape o clic dret per cancel·lar."
+"Creeu una captura de pantalla amb el clic esquerre o la tecla de retorn.\n"
+"La tecla d'escapada o clic dret per a cancel·lar."
 
 #: showfps/showfps.cpp:63
 #, kde-format
@@ -1692,7 +1746,7 @@ msgstr "Tipus de lletra del text:"
 #: showfps/showfps_config.ui:96
 #, kde-format
 msgid "Text color:"
-msgstr "Color de text:"
+msgstr "Color del text:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: showfps/showfps_config.ui:119
@@ -1700,42 +1754,35 @@ msgstr "Color de text:"
 msgid "Text alpha:"
 msgstr "Alfa del text:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_Duration)
-#: slide/slide_config.ui:25
-#, kde-format
-msgid "D&uration:"
-msgstr "D&urada:"
-
-#. i18n: Duration of the slide animation.
-#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_Gaps)
 #: slide/slide_config.ui:50
-#, kde-format
-msgid "Default"
-msgstr "Predeterminada"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupbox_Gaps)
-#: slide/slide_config.ui:71
 #, kde-format
 msgid "Gap between desktops"
 msgstr "Espai entre escriptoris"
 
 #. i18n: ectx: property (text), widget (QLabel, label_HorizontalGap)
-#: slide/slide_config.ui:85
+#: slide/slide_config.ui:56
 #, kde-format
-msgid "Hori&zontal:"
-msgstr "Horit&zontal:"
+msgid "Horizontal:"
+msgstr "Horitzontal:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_VerticalGap)
-#: slide/slide_config.ui:127
+#: slide/slide_config.ui:79
 #, kde-format
-msgid "Ver&tical:"
-msgstr "Ver&tical:"
+msgid "Vertical:"
+msgstr "Vertical:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:161
+#: slide/slide_config.ui:105
 #, kde-format
 msgid "Slide docks"
 msgstr "Llisca els acobladors"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
+#: slide/slide_config.ui:112
+#, kde-format
+msgid "Slide desktop background"
+msgstr "Llisca el fons de l'escriptori"
 
 #: thumbnailaside/thumbnailaside.cpp:38
 #: thumbnailaside/thumbnailaside_config.cpp:73
@@ -1769,52 +1816,52 @@ msgstr " píxels"
 msgid "&Opacity:"
 msgstr "&Opacitat:"
 
-#: trackmouse/trackmouse.cpp:61 trackmouse/trackmouse_config.cpp:68
+#: trackmouse/trackmouse.cpp:61 trackmouse/trackmouse_config.cpp:70
 #, kde-format
 msgid "Track mouse"
 msgstr "Seguiment del ratolí"
 
-#. i18n: ectx: property (text), widget (KTitleWidget, ktitlewidget)
-#: trackmouse/trackmouse_config.ui:20
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: trackmouse/trackmouse_config.ui:26
 #, kde-format
-msgid "Trigger on"
-msgstr "Activa en"
+msgid "Trigger effect with:"
+msgstr "Activa l'efecte amb:"
 
-#. i18n: ectx: property (text), widget (QRadioButton, modifierRadio)
-#: trackmouse/trackmouse_config.ui:27
+#. i18n: ectx: property (text), widget (QLabel, label_KeyboardShortcut)
+#: trackmouse/trackmouse_config.ui:33
 #, kde-format
-msgid "Modifiers"
-msgstr "Modificadors"
+msgid "Keyboard shortcut:"
+msgstr "Drecera del teclat:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_ModifierKeys)
+#: trackmouse/trackmouse_config.ui:43
+#, kde-format
+msgid "Modifier keys:"
+msgstr "Tecles modificadores:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Alt)
-#: trackmouse/trackmouse_config.ui:43
+#: trackmouse/trackmouse_config.ui:65
 #, kde-format
 msgid "Alt"
 msgstr "Alt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Control)
-#: trackmouse/trackmouse_config.ui:50
+#: trackmouse/trackmouse_config.ui:72
 #, kde-format
 msgid "Ctrl"
 msgstr "Ctrl"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Shift)
-#: trackmouse/trackmouse_config.ui:57
+#: trackmouse/trackmouse_config.ui:79
 #, kde-format
 msgid "Shift"
 msgstr "Majúscules"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Meta)
-#: trackmouse/trackmouse_config.ui:64
+#: trackmouse/trackmouse_config.ui:86
 #, kde-format
 msgid "Meta"
 msgstr "Meta"
-
-#. i18n: ectx: property (text), widget (QRadioButton, shortcutRadio)
-#: trackmouse/trackmouse_config.ui:74
-#, kde-format
-msgid "Shortcut"
-msgstr "Drecera"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KWin::TranslucencyEffectConfigForm)
 #: translucency/package/contents/ui/config.ui:14
@@ -1826,7 +1873,7 @@ msgstr "Translucidesa"
 #: translucency/package/contents/ui/config.ui:20
 #, kde-format
 msgid "General Translucency Settings"
-msgstr "Paràmetres generals de translucidesa"
+msgstr "Paràmetres generals de la translucidesa"
 
 #. i18n: ectx: property (text), widget (QLabel, comboboxpopup_label)
 #: translucency/package/contents/ui/config.ui:64
@@ -2019,7 +2066,7 @@ msgstr "Mou avall"
 #: zoom/zoom_config.ui:25 zoom/zoom_config.ui:41
 #, kde-format
 msgid "On zoom-in and zoom-out change the zoom by the defined zoom-factor."
-msgstr "En ampliar i reduir el zoom canvia segons el seu factor definit."
+msgstr "En ampliar i reduir el zoom canviarà segons el seu factor definit."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: zoom/zoom_config.ui:28

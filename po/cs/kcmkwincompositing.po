@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-08-16 06:20+0200\n"
-"PO-Revision-Date: 2017-11-01 12:27+0100\n"
-"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
+"PO-Revision-Date: 2018-08-16 10:39+0100\n"
+"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -252,49 +252,55 @@ msgstr ""
 "\"Znovu využít obsah obrazovky\" způsobuje na ovladačích MESA vážné "
 "výkonnostní problémy."
 
-#: model.cpp:69
+#: model.cpp:70
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Zpřístupnění"
 
-#: model.cpp:70
+#: model.cpp:71
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Vzhled"
 
-#: model.cpp:71
+#: model.cpp:72
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Pastva pro oči"
 
-#: model.cpp:72
+#: model.cpp:73
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Zaměření"
 
-#: model.cpp:73
+#: model.cpp:74
+#, kde-format
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Show Desktop Animation"
+msgstr "Zobrazit animaci pracovní plochy"
+
+#: model.cpp:75
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Nástroje"
 
-#: model.cpp:74
+#: model.cpp:76
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr "Animace při přepínání virtuálních ploch"
 
-#: model.cpp:75
+#: model.cpp:77
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Správa oken"
 
-#: model.cpp:231
+#: model.cpp:233
 #, kde-format
 msgid "KWin development team"
 msgstr "Tým vývojářů KWin"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-19 03:31+0100\n"
+"POT-Creation-Date: 2018-10-13 06:43+0200\n"
 "PO-Revision-Date: 2016-01-10 12:46+0200\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@linux.ee>\n"
@@ -418,17 +418,17 @@ msgstr "Kõik töölauad"
 msgid "All Activities"
 msgstr "Kõik tegevused"
 
-#: ruleswidget.cpp:829
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 seadistused"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:833
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Nimetu kirje"
 
-#: ruleswidget.cpp:841
+#: ruleswidget.cpp:843
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -442,12 +442,12 @@ msgstr ""
 "Kui soovid tõesti luua mingi üldisema seadistuse, oleks soovitav piirata "
 "vähemalt akna tüüpi, et vältida spetsiaalseid akna tüüpe."
 
-#: ruleswidget.cpp:872
+#: ruleswidget.cpp:874
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Akende spetsiifiliste seadistuste muutmine"
 
-#: ruleswidget.cpp:902
+#: ruleswidget.cpp:904
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -459,12 +459,12 @@ msgstr ""
 "seadistusi. Otsi üles seadistus, mida soovid muuta, märgi ära vajalik "
 "kastike ning vali, kuidas ja mida muuta"
 
-#: ruleswidget.cpp:906
+#: ruleswidget.cpp:908
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Täpsemalt räägib sellest dokumentatsioon."
 
-#: ruleswidget.cpp:945
+#: ruleswidget.cpp:947
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Kiirklahvi muutmine"

@@ -26,8 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QAction>
 #include <QApplication>
 #include <QStyle>
-#include <QtGui/QVector2D>
-#include <QtDBus/QDBusConnection>
+#include <QVector2D>
+#include <QDBusConnection>
 #include <kstandardaction.h>
 #include <KConfigGroup>
 #include <KGlobalAccel>
@@ -192,8 +192,10 @@ void ZoomEffect::recreateTexture()
         imageWidth = cursor.image().width();
         imageHeight = cursor.image().height();
         cursorHotSpot = cursor.hotSpot();
-        if (effects->isOpenGLCompositing())
+        if (effects->isOpenGLCompositing()) {
             texture.reset(new GLTexture(cursor.image()));
+            texture->setWrapMode(GL_CLAMP_TO_EDGE);
+        }
 #ifdef KWIN_HAVE_XRENDER_COMPOSITING
         if (effects->compositingType() == XRenderCompositing)
             xrenderPicture.reset(new XRenderPicture(cursor.image()));

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-19 03:31+0100\n"
+"POT-Creation-Date: 2018-10-13 06:43+0200\n"
 "PO-Revision-Date: 2015-12-30 18:09+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: lt <kde-i18n-lt@kde.org>\n"
@@ -429,17 +429,17 @@ msgstr "Visi darbalaukiai"
 msgid "All Activities"
 msgstr "Visos veiklos"
 
-#: ruleswidget.cpp:829
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1: nustatymai"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:833
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Neįvardinta įvestis"
 
-#: ruleswidget.cpp:841
+#: ruleswidget.cpp:843
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -453,12 +453,12 @@ msgstr ""
 "norite turėti bendras nuostatas, patariama bent apriboti specifinių langų "
 "tipų nuostatų keitimą."
 
-#: ruleswidget.cpp:872
+#: ruleswidget.cpp:874
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Redaguoti nuo lango priklausančius nustatymus"
 
-#: ruleswidget.cpp:902
+#: ruleswidget.cpp:904
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -470,12 +470,12 @@ msgstr ""
 "Susiraskite dialoge kokias nuostatas norite naudoti, pažymėkite juos ir "
 "šalia pasirinkite pateikiamas parinktis ar įveskite reikiamas reikšmes."
 
-#: ruleswidget.cpp:906
+#: ruleswidget.cpp:908
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Norėdami sužinoti konkrečiau skaitykite dokumentaciją"
 
-#: ruleswidget.cpp:945
+#: ruleswidget.cpp:947
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Redaguoti derinį"
@@ -772,7 +772,7 @@ msgstr "Prisiminti"
 #: ruleswidgetbase.ui:2442 ruleswidgetbase.ui:2536 ruleswidgetbase.ui:2587
 #, kde-format
 msgid "Force"
-msgstr "Vykdyti"
+msgstr "Priversti"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_position)
 #. i18n: ectx: property (text), item, widget (QComboBox, rule_size)
@@ -1315,13 +1315,13 @@ msgstr "Lango &tipas"
 #: ruleswidgetbase.ui:2507
 #, kde-format
 msgid "Desktop file name"
-msgstr ""
+msgstr "Darbastalio failo pavadinimas"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, desktopfile)
 #: ruleswidgetbase.ui:2557
 #, kde-format
 msgid "org.kde.kwin"
-msgstr ""
+msgstr "org.kde.kwin"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_blockcompositing)
 #: ruleswidgetbase.ui:2571
@@ -1332,11 +1332,9 @@ msgstr "Blokinis komponavimas"
 #: yesnobox.h:35
 #, kde-format
 msgid "Yes"
-msgstr ""
+msgstr "Taip"
 
 #: yesnobox.h:36
-#, fuzzy, kde-format
-#| msgctxt "no focus stealing prevention"
-#| msgid "None"
+#, kde-format
 msgid "No"
-msgstr "Nieko"
+msgstr "Ne"

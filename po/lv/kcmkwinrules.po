@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-19 03:31+0100\n"
+"POT-Creation-Date: 2018-10-13 06:43+0200\n"
 "PO-Revision-Date: 2011-08-24 09:55+0300\n"
 "Last-Translator: Maris Nartiss <maris.kde@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -445,17 +445,17 @@ msgstr "Visas darbvirsmas"
 msgid "All Activities"
 msgstr ""
 
-#: ruleswidget.cpp:829
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 iestatījumi"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:833
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Nenosaukts ieraksts"
 
-#: ruleswidget.cpp:841
+#: ruleswidget.cpp:843
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -470,12 +470,12 @@ msgstr ""
 "norādītu vismaz logu tipus, lai izvairītos no tā pielietošanas speciāliem "
 "logiem."
 
-#: ruleswidget.cpp:872
+#: ruleswidget.cpp:874
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Labot logiem specifiskos iestatījumus"
 
-#: ruleswidget.cpp:902
+#: ruleswidget.cpp:904
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -487,12 +487,12 @@ msgstr ""
 "iestatījumus. Atrodiet, kuru iestatījumu vēlaties mainīt, izvēles rūtī "
 "aktivizējiet to un norādiet, kādā veidā to ietekmēt un kādu vērību izmantot."
 
-#: ruleswidget.cpp:906
+#: ruleswidget.cpp:908
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Vairāk informācijas atradīsiet dokumentācijā"
 
-#: ruleswidget.cpp:945
+#: ruleswidget.cpp:947
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Labot īsceļu"

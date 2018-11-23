@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QEvent>
 #include <QMouseEvent>
 #include <QTimer>
-#include <QtGui/QVector2D>
+#include <QVector2D>
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QQuickItem>
@@ -164,7 +164,6 @@ void DesktopGridEffect::prePaintScreen(ScreenPrePaintData& data, int time)
     }
 
     for (auto const &w : effects->stackingOrder()) {
-        m_windowForceBlurRoleState[w] = w->data(WindowForceBlurRole).toBool();
         w->setData(WindowForceBlurRole, QVariant(true));
     }
 
@@ -203,7 +202,7 @@ void DesktopGridEffect::paintScreen(int mask, QRegion region, ScreenPaintData& d
         // the moving window has to be painted on top of all desktops
         QPoint diff = cursorPos() - m_windowMoveStartPoint;
         QRect geo = m_windowMoveGeometry.translated(diff);
-        WindowPaintData d(windowMove);
+        WindowPaintData d(windowMove, data.projectionMatrix());
         d *= QVector2D((qreal)geo.width() / (qreal)windowMove->width(), (qreal)geo.height() / (qreal)windowMove->height());
         d += QPoint(geo.left() - windowMove->x(), geo.top() - windowMove->y());
         effects->drawWindow(windowMove, PAINT_WINDOW_TRANSFORMED | PAINT_WINDOW_LANCZOS, infiniteRegion(), d);
@@ -257,7 +256,7 @@ void DesktopGridEffect::postPaintScreen()
     }
 
     for (auto &w : effects->stackingOrder()) {
-        w->setData(WindowForceBlurRole, m_windowForceBlurRoleState.value(w, false));
+        w->setData(WindowForceBlurRole, QVariant());
     }
 
     effects->postPaintScreen();
@@ -1393,8 +1392,31 @@ bool DesktopGridEffect::isActive() const
 
 bool DesktopGridEffect::isRelevantWithPresentWindows(EffectWindow *w) const
 {
-    return !(w->isDesktop() || w->isDock() || w->isSkipSwitcher() || w->isOnScreenDisplay()) &&
-            w->isCurrentTab() && w->isOnCurrentActivity();
+    if (w->isSpecialWindow() || w->isUtility()) {
+        return false;
+    }
+
+    if (w->isSkipSwitcher()) {
+        return false;
+    }
+
+    if (w->isDeleted()) {
+        return false;
+    }
+
+    if (!w->acceptsFocus()) {
+        return false;
+    }
+
+    if (!w->isCurrentTab()) {
+        return false;
+    }
+
+    if (!w->isOnCurrentActivity()) {
+        return false;
+    }
+
+    return true;
 }
 
 /************************************************

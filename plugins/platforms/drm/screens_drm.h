@@ -19,33 +19,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #ifndef KWIN_SCREENS_DRM_H
 #define KWIN_SCREENS_DRM_H
-#include "screens.h"
+#include "outputscreens.h"
 
 namespace KWin
 {
 class DrmBackend;
 
-class DrmScreens : public Screens
+class DrmScreens : public OutputScreens
 {
     Q_OBJECT
 public:
     DrmScreens(DrmBackend *backend, QObject *parent = nullptr);
     virtual ~DrmScreens();
-    void init() override;
-    QRect geometry(int screen) const override;
-    int number(const QPoint &pos) const override;
-    qreal scale(int screen) const override;
-    QSize size(int screen) const override;
-    void updateCount() override;
-    QString name(int screen) const override;
+
     float refreshRate(int screen) const override;
-
-    QSizeF physicalSize(int screen) const override;
-    bool isInternal(int screen) const override;
     bool supportsTransformations(int screen) const override;
-    Qt::ScreenOrientation orientation(int screen) const override;
 
-private:
     DrmBackend *m_backend;
 };
 

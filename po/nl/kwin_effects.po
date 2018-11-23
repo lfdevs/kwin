@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-08-31 06:40+0200\n"
-"PO-Revision-Date: 2018-02-17 20:13+0100\n"
+"POT-Creation-Date: 2018-10-29 06:48+0100\n"
+"PO-Revision-Date: 2018-09-13 15:26+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -26,7 +26,7 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Freek de Kruijf"
+msgstr "Freek de Kruijf - t/m 2018"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -68,7 +68,7 @@ msgstr ""
 "Een positie selecteren voor kleurkiezen met links klikken of Enter.\n"
 "Escape of rechts klikken om te annuleren."
 
-#: coverswitch/coverswitch.cpp:951 flipswitch/flipswitch.cpp:935
+#: coverswitch/coverswitch.cpp:951 flipswitch/flipswitch.cpp:934
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -148,7 +148,8 @@ msgid "Default"
 msgstr "Standaard"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
-#: coverswitch/coverswitch_config.ui:161 slide/slide_config.ui:53
+#: coverswitch/coverswitch_config.ui:161 glide/glide_config.ui:35
+#: scale/scale_config.ui:33 slide/slide_config.ui:35
 #, kde-format
 msgid " milliseconds"
 msgstr " milliseconden"
@@ -172,17 +173,17 @@ msgstr "Kleur achterkant"
 msgid "Front color"
 msgstr "Kleur voorkant"
 
-#: cube/cube.cpp:193 cube/cube_config.cpp:71
+#: cube/cube.cpp:187 cube/cube_config.cpp:71
 #, kde-format
 msgid "Desktop Cube"
 msgstr "Bureaubladkubus"
 
-#: cube/cube.cpp:201 cube/cube_config.cpp:76
+#: cube/cube.cpp:195 cube/cube_config.cpp:76
 #, kde-format
 msgid "Desktop Cylinder"
 msgstr "Bureaubladcilinder"
 
-#: cube/cube.cpp:207 cube/cube_config.cpp:80
+#: cube/cube.cpp:201 cube/cube_config.cpp:80
 #, kde-format
 msgid "Desktop Sphere"
 msgstr "Bureaubladbol"
@@ -205,7 +206,7 @@ msgstr "Geavanceerd"
 #: mouseclick/mouseclick_config.cpp:61 mousemark/mousemark_config.cpp:67
 #: presentwindows/presentwindows_config.cpp:62
 #: thumbnailaside/thumbnailaside_config.cpp:68
-#: trackmouse/trackmouse_config.cpp:63
+#: trackmouse/trackmouse_config.cpp:65
 #: windowgeometry/windowgeometry_config.cpp:56 zoom/zoom_config.cpp:65
 #, kde-format
 msgid "KWin"
@@ -453,8 +454,11 @@ msgctxt "Desktop name alignment:"
 msgid "Disabled"
 msgstr "Uitgeschakeld"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: desktopgrid/desktopgrid_config.cpp:77 flipswitch/flipswitch_config.ui:160
+#: glide/glide_config.ui:70 glide/glide_config.ui:168
 #, kde-format
 msgid "Top"
 msgstr "Boven"
@@ -464,8 +468,11 @@ msgstr "Boven"
 msgid "Top-Right"
 msgstr "Rechtsboven"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: desktopgrid/desktopgrid_config.cpp:79 flipswitch/flipswitch_config.ui:125
+#: glide/glide_config.ui:75 glide/glide_config.ui:173
 #, kde-format
 msgid "Right"
 msgstr "Rechts"
@@ -475,8 +482,11 @@ msgstr "Rechts"
 msgid "Bottom-Right"
 msgstr "Rechtsonder"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: desktopgrid/desktopgrid_config.cpp:81 flipswitch/flipswitch_config.ui:180
+#: glide/glide_config.ui:80 glide/glide_config.ui:178
 #, kde-format
 msgid "Bottom"
 msgstr "Onder"
@@ -486,8 +496,11 @@ msgstr "Onder"
 msgid "Bottom-Left"
 msgstr "Linksonder"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: desktopgrid/desktopgrid_config.cpp:83 flipswitch/flipswitch_config.ui:105
+#: glide/glide_config.ui:85 glide/glide_config.ui:183
 #, kde-format
 msgid "Left"
 msgstr "Links"
@@ -569,79 +582,85 @@ msgstr "Huidig venstereffect gebruiken bij het indelen van de vensters"
 msgid "Show buttons to alter count of virtual desktops"
 msgstr "Knoppen tonen om aantal virtuele bureaubladen te wijzigingen"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimPanels)
+#. i18n: ectx: property (text), widget (QLabel, label_Strength)
 #: diminactive/diminactive_config.ui:17
 #, kde-format
-msgid "Apply effect to &panels"
-msgstr "Effecten op &panelen toepassen"
+msgid "Strength:"
+msgstr "Sterkte:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_Dim)
+#: diminactive/diminactive_config.ui:40
+#, kde-format
+msgid "Dim:"
+msgstr "Dim:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimPanels)
+#: diminactive/diminactive_config.ui:47
+#, kde-format
+msgid "Docks and panels"
+msgstr "Verankering en panelen"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimDesktop)
-#: diminactive/diminactive_config.ui:24
+#: diminactive/diminactive_config.ui:54
 #, kde-format
-msgid "Apply effect to the desk&top"
-msgstr "Effect op het bureaublad &toepassen"
+msgid "Desktop"
+msgstr "Bureaublad"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimKeepAbove)
-#: diminactive/diminactive_config.ui:31
+#: diminactive/diminactive_config.ui:61
 #, kde-format
-msgid "Apply effect to &keep-above windows"
-msgstr "Effect &Altijd op voorgrond toepassen"
+msgid "Keep above windows"
+msgstr "Altijd op voorgrond houden"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimByGroup)
-#: diminactive/diminactive_config.ui:38
+#: diminactive/diminactive_config.ui:68
 #, kde-format
-msgid "Apply effect to &groups"
-msgstr "Effecten op &groepen toepassen"
+msgid "By window group"
+msgstr "Per venstergroep"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: diminactive/diminactive_config.ui:45
-#, kde-format
-msgid "&Strength:"
-msgstr "&Sterkte:"
-
-#: effect_builtins.cpp:104
+#: effect_builtins.cpp:105
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
 msgstr "Vervagen"
 
-#: effect_builtins.cpp:105
+#: effect_builtins.cpp:106
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
 msgstr "Vervaagt de achtergrond van halftransparante vensters"
 
-#: effect_builtins.cpp:119
+#: effect_builtins.cpp:120
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Color Picker"
 msgstr "Kleurenkiezer"
 
-#: effect_builtins.cpp:120
+#: effect_builtins.cpp:121
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Supports picking a color"
 msgstr "Ondersteunt een kleur kiezen"
 
-#: effect_builtins.cpp:134
+#: effect_builtins.cpp:135
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Contrast in achtergrond"
 
-#: effect_builtins.cpp:135
+#: effect_builtins.cpp:136
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
 msgstr "Contrast en leesbaarheid verbeteren achter half-transparante vensters"
 
-#: effect_builtins.cpp:149
+#: effect_builtins.cpp:150
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Cover Switch"
 msgstr "Omslagtonen"
 
-#: effect_builtins.cpp:150
+#: effect_builtins.cpp:151
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a Cover Flow effect for the alt+tab window switcher"
@@ -649,37 +668,37 @@ msgstr ""
 "Toont vensters als langskomende albumhoezen tijdens het wandelen door "
 "vensters met Alt+Tab"
 
-#: effect_builtins.cpp:164
+#: effect_builtins.cpp:165
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Bureaubladkubus"
 
-#: effect_builtins.cpp:165
+#: effect_builtins.cpp:166
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display each virtual desktop on a side of a cube"
 msgstr "Toont elk virtueel bureaublad als zijde op een kubus"
 
-#: effect_builtins.cpp:179
+#: effect_builtins.cpp:180
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Animatie met bureaubladkubus"
 
-#: effect_builtins.cpp:180
+#: effect_builtins.cpp:181
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate desktop switching with a cube"
 msgstr "Animeer bureaubladwisseling met een kubus"
 
-#: effect_builtins.cpp:194
+#: effect_builtins.cpp:195
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Bureaubladraster"
 
-#: effect_builtins.cpp:195
+#: effect_builtins.cpp:196
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
@@ -687,25 +706,25 @@ msgstr ""
 "Verkleint alle bureaubladen zodat ze zij-aan-zij in een raster getoond "
 "kunnen worden"
 
-#: effect_builtins.cpp:209
+#: effect_builtins.cpp:210
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
 msgstr "Inactief dimmen"
 
-#: effect_builtins.cpp:210
+#: effect_builtins.cpp:211
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Maakt inactieve vensters donkerder"
 
-#: effect_builtins.cpp:224
+#: effect_builtins.cpp:225
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Dim Screen for Administrator Mode"
 msgstr "Scherm dimmen voor administratormodus"
 
-#: effect_builtins.cpp:225
+#: effect_builtins.cpp:226
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Darkens the entire screen when requesting root privileges"
@@ -713,25 +732,25 @@ msgstr ""
 "Maakt het volledige scherm donker wanneer er om root-privileges wordt "
 "verzocht"
 
-#: effect_builtins.cpp:239
+#: effect_builtins.cpp:240
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Fall Apart"
 msgstr "Uit elkaar vallen"
 
-#: effect_builtins.cpp:240
+#: effect_builtins.cpp:241
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "Gesloten vensters vallen uit elkaar"
 
-#: effect_builtins.cpp:254
+#: effect_builtins.cpp:255
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Flip Switch"
 msgstr "Flip Switch"
 
-#: effect_builtins.cpp:255
+#: effect_builtins.cpp:256
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -740,25 +759,25 @@ msgstr ""
 "Laat de vensters gestapeld zien tijdens het wandelen door de vensters via Alt"
 "+Tab"
 
-#: effect_builtins.cpp:269
+#: effect_builtins.cpp:270
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Glide"
 msgstr "Schuiven"
 
-#: effect_builtins.cpp:270
+#: effect_builtins.cpp:271
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
-msgid "Windows Glide Effect as they are open and closed"
-msgstr "Laat vensters schuiven als ze worden geopend of gesloten"
+msgid "Glide windows as they appear or disappear"
+msgstr "Vensters laten glijden als ze verschijnen of verdwijnen"
 
-#: effect_builtins.cpp:284
+#: effect_builtins.cpp:285
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Highlight Window"
 msgstr "Venster op laten lichten"
 
-#: effect_builtins.cpp:285
+#: effect_builtins.cpp:286
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight the appropriate window when hovering over taskbar entries"
@@ -766,85 +785,85 @@ msgstr ""
 "Laat het betreffende venster oplichten als de muisaanwijzer over "
 "taakbalkitems beweegt"
 
-#: effect_builtins.cpp:299
+#: effect_builtins.cpp:300
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Inverteren"
 
-#: effect_builtins.cpp:300
+#: effect_builtins.cpp:301
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
 msgstr "Draait de kleuren van het bureaublad en de vensters om"
 
-#: effect_builtins.cpp:314
+#: effect_builtins.cpp:315
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
 msgstr "Kscreen"
 
-#: effect_builtins.cpp:315
+#: effect_builtins.cpp:316
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper Effect for KScreen"
 msgstr "Effect van hulp voor KScreen"
 
-#: effect_builtins.cpp:329
+#: effect_builtins.cpp:330
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
 msgstr "Vergrootglas"
 
-#: effect_builtins.cpp:330
+#: effect_builtins.cpp:331
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
 msgstr "Een schermvergrootglas dat er uitziet als een visseooglens"
 
-#: effect_builtins.cpp:344
+#: effect_builtins.cpp:345
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
 msgstr "Magische lamp"
 
-#: effect_builtins.cpp:345
+#: effect_builtins.cpp:346
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
 msgstr "Simuleert een magische lamp tijdens het minimaliseren van vensters"
 
-#: effect_builtins.cpp:359
+#: effect_builtins.cpp:360
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Vergrootglas"
 
-#: effect_builtins.cpp:360
+#: effect_builtins.cpp:361
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
 msgstr "Vergroot het deel van het scherm dat zich onder de muis bevindt"
 
-#: effect_builtins.cpp:374
+#: effect_builtins.cpp:375
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Minimize Animation"
 msgstr "Minimaliseeranimatie"
 
-#: effect_builtins.cpp:375
+#: effect_builtins.cpp:376
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate the minimizing of windows"
 msgstr "Voorziet het minimaliseren van vensters van een animatie"
 
-#: effect_builtins.cpp:389
+#: effect_builtins.cpp:390
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Animatie van muisklik"
 
-#: effect_builtins.cpp:390
+#: effect_builtins.cpp:391
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -854,38 +873,38 @@ msgstr ""
 "Maakt een animatie wanneer op een muisknop wordt geklikt. Dit is nuttig voor "
 "schermopnamen/presentaties"
 
-#: effect_builtins.cpp:404
+#: effect_builtins.cpp:405
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Muismarkering"
 
-#: effect_builtins.cpp:405
+#: effect_builtins.cpp:406
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
 msgstr "Laat u lijnen tekenen op het bureaublad"
 
-#: effect_builtins.cpp:419
+#: effect_builtins.cpp:420
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Vensters presenteren"
 
-#: effect_builtins.cpp:420
+#: effect_builtins.cpp:421
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
 msgstr ""
 "Zoomt uit totdat alle geopende vensters zij-aan-zij kunnen worden getoond"
 
-#: effect_builtins.cpp:434
+#: effect_builtins.cpp:435
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Afmeting venster aanpassen"
 
-#: effect_builtins.cpp:435
+#: effect_builtins.cpp:436
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
@@ -893,37 +912,51 @@ msgstr ""
 "Wijzigt vensterafmetingen met een snelle textuurschaling in plaats van het "
 "bijwerken van de inhoud"
 
-#: effect_builtins.cpp:449
+#: effect_builtins.cpp:450
+#, kde-format
+msgctxt "Name of a KWin Effect"
+msgid "Scale"
+msgstr "Schalen"
+
+#: effect_builtins.cpp:451
+#, kde-format
+msgctxt "Comment describing the KWin Effect"
+msgid "Make windows smoothly scale in and out when they are shown or hidden"
+msgstr ""
+"Laat vensters vloeiend kleiner en groter schalen als ze worden getoond of "
+"verborgen"
+
+#: effect_builtins.cpp:465
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr "Schermrand"
 
-#: effect_builtins.cpp:450
+#: effect_builtins.cpp:466
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
 msgstr "Accentueert een schermrand bij nadering"
 
-#: effect_builtins.cpp:464
+#: effect_builtins.cpp:480
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
 msgstr "Schermafdruk"
 
-#: effect_builtins.cpp:465
+#: effect_builtins.cpp:481
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for KSnapshot"
 msgstr "Effect van hulp voor KSnapshot"
 
-#: effect_builtins.cpp:479
+#: effect_builtins.cpp:495
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
 msgstr "Werkblad"
 
-#: effect_builtins.cpp:480
+#: effect_builtins.cpp:496
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -932,74 +965,74 @@ msgstr ""
 "Laat modale dialogen vloeiend in/uitvliegen als ze worden getoond of "
 "verborgen"
 
-#: effect_builtins.cpp:494
+#: effect_builtins.cpp:510
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
 msgstr "FPS tonen"
 
-#: effect_builtins.cpp:495
+#: effect_builtins.cpp:511
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
 msgstr "Toont de prestaties van KWin in de hoek van het scherm"
 
-#: effect_builtins.cpp:509
+#: effect_builtins.cpp:525
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Intekening tonen"
 
-#: effect_builtins.cpp:510
+#: effect_builtins.cpp:526
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
 msgstr ""
 "Accentueert gebieden van het bureaublad die recentelijk zijn geactualiseerd"
 
-#: effect_builtins.cpp:524
+#: effect_builtins.cpp:540
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
 msgstr "Dia"
 
-#: effect_builtins.cpp:525
+#: effect_builtins.cpp:541
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide desktops when switching virtual desktops"
 msgstr "Schuift vensters tijdens het wisselen van virtuele bureaubladen"
 
-#: effect_builtins.cpp:539
+#: effect_builtins.cpp:555
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
 msgstr "Naar achter bewegen"
 
-#: effect_builtins.cpp:540
+#: effect_builtins.cpp:556
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
 msgstr "Schuif vensters terug wanneer een ander venster omhoog komt"
 
-#: effect_builtins.cpp:554
+#: effect_builtins.cpp:570
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
 msgstr "Schuivende popups"
 
-#: effect_builtins.cpp:555
+#: effect_builtins.cpp:571
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
 msgstr "Schuivende animaties voor Plasma-popups"
 
-#: effect_builtins.cpp:569
+#: effect_builtins.cpp:585
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
 msgstr "Vastpinhulp"
 
-#: effect_builtins.cpp:570
+#: effect_builtins.cpp:586
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
@@ -1007,96 +1040,96 @@ msgstr ""
 "Helpt u om het midden van het venster te bepalen bij het verplaatsen van het "
 "venster"
 
-#: effect_builtins.cpp:584
+#: effect_builtins.cpp:600
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
 msgstr "Terugkoppeling van opstarten"
 
-#: effect_builtins.cpp:585
+#: effect_builtins.cpp:601
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
 msgstr "Effect van hulp bij terugkoppeling van opstarten"
 
-#: effect_builtins.cpp:599
+#: effect_builtins.cpp:615
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Miniatuur ernaast"
 
-#: effect_builtins.cpp:600
+#: effect_builtins.cpp:616
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
 msgstr "Toont vensterminiaturen langs de rand van het scherm"
 
-#: effect_builtins.cpp:614
+#: effect_builtins.cpp:630
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Touch Points"
 msgstr "Aanraakpunten"
 
-#: effect_builtins.cpp:615
+#: effect_builtins.cpp:631
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Visualize touch points"
 msgstr "Aanraakpunten visualiseren"
 
-#: effect_builtins.cpp:629
+#: effect_builtins.cpp:645
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Muis volgen"
 
-#: effect_builtins.cpp:630
+#: effect_builtins.cpp:646
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a mouse cursor locating effect when activated"
 msgstr "Toont de positie van de muisaanwijzer wanneer geactiveerd"
 
-#: effect_builtins.cpp:644
+#: effect_builtins.cpp:660
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Window Geometry"
 msgstr "Geometrie van venster"
 
-#: effect_builtins.cpp:645
+#: effect_builtins.cpp:661
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "Vensterafmetingen tonen bij verplaatsen/herschalen"
 
-#: effect_builtins.cpp:659
+#: effect_builtins.cpp:675
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Wiebelende vensters"
 
-#: effect_builtins.cpp:660
+#: effect_builtins.cpp:676
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "Vervormt vensters wanneer ze verplaatst worden"
 
-#: effect_builtins.cpp:674
+#: effect_builtins.cpp:690
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Zoomen"
 
-#: effect_builtins.cpp:675
+#: effect_builtins.cpp:691
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
 msgstr "Vergroot het gehele bureaublad"
 
-#: flipswitch/flipswitch.cpp:60 flipswitch/flipswitch_config.cpp:61
+#: flipswitch/flipswitch.cpp:59 flipswitch/flipswitch_config.cpp:61
 #, kde-format
 msgid "Toggle Flip Switch (Current desktop)"
 msgstr "Omslaan aan/uit (huidig bureaublad)"
 
-#: flipswitch/flipswitch.cpp:67 flipswitch/flipswitch_config.cpp:64
+#: flipswitch/flipswitch.cpp:66 flipswitch/flipswitch_config.cpp:64
 #, kde-format
 msgid "Toggle Flip Switch (All desktops)"
 msgstr "Omslaan aan/uit (alle bureaubladen)"
@@ -1138,41 +1171,51 @@ msgstr "Horizontale positie van de voorkant:"
 msgid "Vertical position of front:"
 msgstr "Verticale positie van voorkant:"
 
-#. i18n: ectx: property (text), widget (QLabel, glideEffectLabel)
-#: glide/glide_config.ui:17
+#. i18n: ectx: property (text), widget (QLabel, label_Duration)
+#: glide/glide_config.ui:19 scale/scale_config.ui:17 slide/slide_config.ui:19
 #, kde-format
-msgid "Glide Effect:"
-msgstr "Glijeffect:"
+msgid "Duration:"
+msgstr "Tijdsduur:"
 
-#. i18n: ectx: property (text), widget (QLabel, inGlideEffectLabel)
-#: glide/glide_config.ui:42
+#. i18n: Duration of the slide animation.
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
+#: glide/glide_config.ui:32 scale/scale_config.ui:30 slide/slide_config.ui:32
 #, kde-format
-msgid "In"
-msgstr "In"
+msgid "Default"
+msgstr "Standaard"
 
-#. i18n: ectx: property (text), widget (QLabel, outGlideEffectLabel)
-#: glide/glide_config.ui:71
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_InAnimation)
+#: glide/glide_config.ui:50
 #, kde-format
-msgid "Out"
-msgstr "Uit"
+msgid "Window Open Animation"
+msgstr "Animatie van venster openen"
 
-#. i18n: ectx: property (text), widget (QLabel, glideAngleLabel)
-#: glide/glide_config.ui:93
+#. i18n: ectx: property (text), widget (QLabel, label_InRotationEdge)
+#. i18n: ectx: property (text), widget (QLabel, label_OutRotationEdge)
+#: glide/glide_config.ui:56 glide/glide_config.ui:154
 #, kde-format
-msgid "Glide Angle:"
-msgstr "Glijhoek:"
+msgid "Rotation edge:"
+msgstr "Rotatierand:"
 
-#. i18n: ectx: property (text), widget (QLabel, glideAnglenegLabel)
-#: glide/glide_config.ui:118
+#. i18n: ectx: property (text), widget (QLabel, label_InRotationAngle)
+#. i18n: ectx: property (text), widget (QLabel, label_OutRotationAngle)
+#: glide/glide_config.ui:93 glide/glide_config.ui:191
 #, kde-format
-msgid "-90"
-msgstr "-90"
+msgid "Rotation angle:"
+msgstr "Rotatiehoek:"
 
-#. i18n: ectx: property (text), widget (QLabel, glideAngleposLabel)
-#: glide/glide_config.ui:147
+#. i18n: ectx: property (text), widget (QLabel, label_InDistance)
+#. i18n: ectx: property (text), widget (QLabel, label_OutDistance)
+#: glide/glide_config.ui:119 glide/glide_config.ui:198
 #, kde-format
-msgid "90"
-msgstr "90"
+msgid "Distance:"
+msgstr "Afstand:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_OutAnimation)
+#: glide/glide_config.ui:148
+#, kde-format
+msgid "Window Close Animation"
+msgstr "Animatie van venster sluiten"
 
 #: invert/invert.cpp:45 invert/invert_config.cpp:52
 #, kde-format
@@ -1392,7 +1435,7 @@ msgstr "Aanwezige vensters aan/uit (alle bureaubladen)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Aanwezige vensters aan/uit (vensterklasse)"
 
-#: presentwindows/presentwindows.cpp:1649
+#: presentwindows/presentwindows.cpp:1660
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1610,6 +1653,18 @@ msgstr "Venster schalen"
 msgid "Show outline"
 msgstr "Randen tonen"
 
+#. i18n: ectx: property (text), widget (QLabel, label_InScale)
+#: scale/scale_config.ui:46
+#, kde-format
+msgid "Window open scale:"
+msgstr "Venster openen schalen:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_OutScale)
+#: scale/scale_config.ui:53
+#, kde-format
+msgid "Window close scale:"
+msgstr "Venster sluiten schalen:"
+
 #: screenshot/screenshot.cpp:294
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
@@ -1705,42 +1760,35 @@ msgstr "Tekstkleur:"
 msgid "Text alpha:"
 msgstr "Tekst-alfa:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_Duration)
-#: slide/slide_config.ui:25
-#, kde-format
-msgid "D&uration:"
-msgstr "Tijdsd&uur:"
-
-#. i18n: Duration of the slide animation.
-#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_Gaps)
 #: slide/slide_config.ui:50
-#, kde-format
-msgid "Default"
-msgstr "Standaard"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupbox_Gaps)
-#: slide/slide_config.ui:71
 #, kde-format
 msgid "Gap between desktops"
 msgstr "Ruimte tussen bureaubladen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_HorizontalGap)
-#: slide/slide_config.ui:85
+#: slide/slide_config.ui:56
 #, kde-format
-msgid "Hori&zontal:"
-msgstr "Hori&zontaal:"
+msgid "Horizontal:"
+msgstr "Horizontaal:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_VerticalGap)
-#: slide/slide_config.ui:127
+#: slide/slide_config.ui:79
 #, kde-format
-msgid "Ver&tical:"
-msgstr "Ver&ticaal:"
+msgid "Vertical:"
+msgstr "Verticaal:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:161
+#: slide/slide_config.ui:105
 #, kde-format
 msgid "Slide docks"
 msgstr "Docks verschuiven"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
+#: slide/slide_config.ui:112
+#, kde-format
+msgid "Slide desktop background"
+msgstr "Bureaubladachtergrond verschuiven"
 
 #: thumbnailaside/thumbnailaside.cpp:38
 #: thumbnailaside/thumbnailaside_config.cpp:73
@@ -1774,52 +1822,52 @@ msgstr " pixels"
 msgid "&Opacity:"
 msgstr "&Dekking:"
 
-#: trackmouse/trackmouse.cpp:61 trackmouse/trackmouse_config.cpp:68
+#: trackmouse/trackmouse.cpp:61 trackmouse/trackmouse_config.cpp:70
 #, kde-format
 msgid "Track mouse"
 msgstr "Muis volgen"
 
-#. i18n: ectx: property (text), widget (KTitleWidget, ktitlewidget)
-#: trackmouse/trackmouse_config.ui:20
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: trackmouse/trackmouse_config.ui:26
 #, kde-format
-msgid "Trigger on"
-msgstr "Trigger aan"
+msgid "Trigger effect with:"
+msgstr "Effect starten met:"
 
-#. i18n: ectx: property (text), widget (QRadioButton, modifierRadio)
-#: trackmouse/trackmouse_config.ui:27
+#. i18n: ectx: property (text), widget (QLabel, label_KeyboardShortcut)
+#: trackmouse/trackmouse_config.ui:33
 #, kde-format
-msgid "Modifiers"
-msgstr "Modificatietoetsen"
+msgid "Keyboard shortcut:"
+msgstr "Sneltoets:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_ModifierKeys)
+#: trackmouse/trackmouse_config.ui:43
+#, kde-format
+msgid "Modifier keys:"
+msgstr "Modificatietoetsen:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Alt)
-#: trackmouse/trackmouse_config.ui:43
+#: trackmouse/trackmouse_config.ui:65
 #, kde-format
 msgid "Alt"
 msgstr "Alt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Control)
-#: trackmouse/trackmouse_config.ui:50
+#: trackmouse/trackmouse_config.ui:72
 #, kde-format
 msgid "Ctrl"
 msgstr "Ctrl"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Shift)
-#: trackmouse/trackmouse_config.ui:57
+#: trackmouse/trackmouse_config.ui:79
 #, kde-format
 msgid "Shift"
 msgstr "Shift"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Meta)
-#: trackmouse/trackmouse_config.ui:64
+#: trackmouse/trackmouse_config.ui:86
 #, kde-format
 msgid "Meta"
 msgstr "Meta"
-
-#. i18n: ectx: property (text), widget (QRadioButton, shortcutRadio)
-#: trackmouse/trackmouse_config.ui:74
-#, kde-format
-msgid "Shortcut"
-msgstr "Sneltoets"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KWin::TranslucencyEffectConfigForm)
 #: translucency/package/contents/ui/config.ui:14

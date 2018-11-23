@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-19 03:31+0100\n"
-"PO-Revision-Date: 2018-08-26 18:50+0700\n"
+"POT-Creation-Date: 2018-10-13 06:43+0200\n"
+"PO-Revision-Date: 2018-10-25 21:41+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -233,7 +233,7 @@ msgid ""
 msgstr ""
 "<p><h1>Setelan Khusus Jendela</h1> Di sini anda dapat menyesuaiankan setelan "
 "jendela secara khusus hanya untuk beberapa jendela tertentu.</p> <p>Perlu "
-"dicatat bahwa konfigurasi ini tidak akan mempunyai efek jika anda tidak "
+"dicatat bahwa konfigurasi ini tidak akan berpengaruh jika anda tidak "
 "menggunakan KWin sebagai pengelola jendela anda. Jika anda menggunakan "
 "pengelola jendela yang berbeda, silakan merujuk ke dokumentasi pengelola "
 "jendela tersebut untuk mengetahui bagaimana cara menyesuaiankan perilaku "
@@ -424,17 +424,17 @@ msgstr "Semua Desktop"
 msgid "All Activities"
 msgstr "Semua Aktivitas"
 
-#: ruleswidget.cpp:829
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Settings for %1"
 msgstr "Setelan untuk %1"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:833
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Entri tak bernama"
 
-#: ruleswidget.cpp:841
+#: ruleswidget.cpp:843
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -449,12 +449,12 @@ msgstr ""
 "untuk setidaknya membatasi tipe jendela untuk menghindari tipe jendela "
 "spesial."
 
-#: ruleswidget.cpp:872
+#: ruleswidget.cpp:874
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Edit Setelan Khusus Jendela"
 
-#: ruleswidget.cpp:902
+#: ruleswidget.cpp:904
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -467,12 +467,12 @@ msgstr ""
 "setelan menggunakan kotak centang, pilih dengan cara bagaimana setelan akan "
 "dipengaruhi dan ke nilai mana."
 
-#: ruleswidget.cpp:906
+#: ruleswidget.cpp:908
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Lihat dokumentasi untuk perincian selebihnya."
 
-#: ruleswidget.cpp:945
+#: ruleswidget.cpp:947
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Edit Pintasan"
@@ -1183,7 +1183,7 @@ msgstr ""
 "KWin coba mencegah jendela mengambil fokus\n"
 "(\"aktifkan\") ketika anda bekerja di jendela lain,\n"
 "tapi hal ini terkadang gagal atau superaktivitas.\n"
-"\"Tak ada\" tanpa syarat akan mengizinkan jendela ini mendapat fokus\n"
+"\"Nihil\" tanpa syarat akan mengizinkan jendela ini mendapat fokus\n"
 "sedangkan \"Ekstrem\" akan sepenuhnya mencegah ini mengambil fokus."
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fsplevel)
@@ -1198,7 +1198,7 @@ msgstr "Pen&cegahan mencuri fokus"
 #, kde-format
 msgctxt "no focus stealing prevention"
 msgid "None"
-msgstr "Tak ada"
+msgstr "Nihil"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
@@ -1239,7 +1239,7 @@ msgid ""
 "assigned to the window that wants the focus."
 msgstr ""
 "Ini mengendalikan perlindungan fokus dari jendela yang sedang aktif.\n"
-"Tidak ada yang akan selalu memberikan fokus,\n"
+"Nihil yang akan selalu memberikan fokus,\n"
 "Ekstrim akan menjaganya.\n"
 "Sebaliknya disisipkan dengan menentukan pencegahan pencurian\n"
 "terhadap jendela yang ingin fokus."

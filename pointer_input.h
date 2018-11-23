@@ -39,11 +39,11 @@ class SurfaceInterface;
 
 namespace KWin
 {
-
 class CursorImage;
 class InputRedirection;
 class Toplevel;
 class WaylandCursorTheme;
+class CursorShape;
 
 namespace Decoration
 {
@@ -84,11 +84,9 @@ public:
     void setWindowSelectionCursor(const QByteArray &shape);
     void removeWindowSelectionCursor();
 
-    void enablePointerConstraints();
-    void breakPointerConstraints();
-    void blockPointerConstraints() {
-        m_blockConstraint = true;
-    }
+    void updatePointerConstraints();
+
+    void setEnableConstraints(bool set);
 
     bool isConstrained() const {
         return m_confined || m_locked;
@@ -151,6 +149,7 @@ private:
     void warpXcbOnSurfaceLeft(KWayland::Server::SurfaceInterface *surface);
     QPointF applyPointerConfinement(const QPointF &pos) const;
     void disconnectConfinedPointerRegionConnection();
+    void disconnectLockedPointerAboutToBeUnboundConnection();
     void disconnectPointerConstraintsConnection();
     void breakPointerConstraints(KWayland::Server::SurfaceInterface *surface);
     bool areButtonsPressed() const;
@@ -163,11 +162,13 @@ private:
     QMetaObject::Connection m_windowGeometryConnection;
     QMetaObject::Connection m_internalWindowConnection;
     QMetaObject::Connection m_constraintsConnection;
+    QMetaObject::Connection m_constraintsActivatedConnection;
     QMetaObject::Connection m_confinedPointerRegionConnection;
+    QMetaObject::Connection m_lockedPointerAboutToBeUnboundConnection;
     QMetaObject::Connection m_decorationGeometryConnection;
     bool m_confined = false;
     bool m_locked = false;
-    bool m_blockConstraint = false;
+    bool m_enableConstraints = true;
 };
 
 class CursorImage : public QObject
@@ -203,7 +204,7 @@ private:
         QImage image;
         QPoint hotSpot;
     };
-    void loadThemeCursor(Qt::CursorShape shape, Image *image);
+    void loadThemeCursor(CursorShape shape, Image *image);
     void loadThemeCursor(const QByteArray &shape, Image *image);
     template <typename T>
     void loadThemeCursor(const T &shape, QHash<T, Image> &cursors, Image *image);
@@ -235,7 +236,7 @@ private:
     Image m_fallbackCursor;
     Image m_moveResizeCursor;
     Image m_windowSelectionCursor;
-    QHash<Qt::CursorShape, Image> m_cursors;
+    QHash<CursorShape, Image> m_cursors;
     QHash<QByteArray, Image> m_cursorsByName;
     QElapsedTimer m_surfaceRenderedTimer;
     struct {

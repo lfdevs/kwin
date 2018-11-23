@@ -6,13 +6,13 @@
 # Kristof Bal <kristof.bal@gmail.com>, 2008.
 # Freek de Kruijf <f.de.kruijf@hetnet.nl>, 2009.
 # Freek de Kruijf <freekdekruijf@kde.nl>, 2009, 2010.
-# Freek de Kruijf <freekdekruijf@kde.nl>, 2010, 2011, 2012, 2013, 2014, 2016, 2017.
+# Freek de Kruijf <freekdekruijf@kde.nl>, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-08-16 06:20+0200\n"
-"PO-Revision-Date: 2017-10-17 10:00+0100\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
+"PO-Revision-Date: 2018-08-03 09:45+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -265,49 +265,55 @@ msgstr ""
 "\"Scherminhoud hergebruiken\" veroorzaakt ernstige problemen met de "
 "prestatie bij MESA-stuurprogramma's."
 
-#: model.cpp:69
+#: model.cpp:70
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Toegankelijkheid"
 
-#: model.cpp:70
+#: model.cpp:71
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Uiterlijk"
 
-#: model.cpp:71
+#: model.cpp:72
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Oogstreling"
 
-#: model.cpp:72
+#: model.cpp:73
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Focus"
 
-#: model.cpp:73
+#: model.cpp:74
+#, kde-format
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Show Desktop Animation"
+msgstr "Animatie van bureaublad tonen"
+
+#: model.cpp:75
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Hulpmiddelen"
 
-#: model.cpp:74
+#: model.cpp:76
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr "Animatie van wisselen tussen bureaubladen"
 
-#: model.cpp:75
+#: model.cpp:77
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Vensterbeheer"
 
-#: model.cpp:231
+#: model.cpp:233
 #, kde-format
 msgid "KWin development team"
 msgstr "Ontwikkelteam van KWin"

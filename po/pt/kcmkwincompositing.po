@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-08-16 06:20+0200\n"
-"PO-Revision-Date: 2017-10-17 10:22+0100\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
+"PO-Revision-Date: 2018-08-03 09:52+0100\n"
 "Last-Translator: José Nuno Coelho Pires <zepires@gmail.com>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -257,49 +257,55 @@ msgstr ""
 "O \"Reutilizar o conteúdo do ecrã\" causa problemas graves de performance "
 "nos controladores MESA."
 
-#: model.cpp:69
+#: model.cpp:70
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Acessibilidade"
 
-#: model.cpp:70
+#: model.cpp:71
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Aparência"
 
-#: model.cpp:71
+#: model.cpp:72
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Beleza"
 
-#: model.cpp:72
+#: model.cpp:73
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Foco"
 
-#: model.cpp:73
+#: model.cpp:74
+#, kde-format
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Show Desktop Animation"
+msgstr "Mostrar a Animação do Ecrã"
+
+#: model.cpp:75
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Ferramentas"
 
-#: model.cpp:74
+#: model.cpp:76
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr "Animação de Mudança de Ecrã Virtual"
 
-#: model.cpp:75
+#: model.cpp:77
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Gestão de Janelas"
 
-#: model.cpp:231
+#: model.cpp:233
 #, kde-format
 msgid "KWin development team"
 msgstr "Equipa de desenvolvimento do KWin"

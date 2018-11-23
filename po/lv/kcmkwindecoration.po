@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-08-16 06:20+0200\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
 "PO-Revision-Date: 2011-07-09 19:35+0300\n"
 "Last-Translator: Rūdofls Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -75,7 +75,7 @@ msgstr "Turēt zem citiem"
 msgid "Keep above"
 msgstr "Turēt virs citiem"
 
-#: kcm.cpp:140
+#: kcm.cpp:141
 #, kde-format
 msgid ""
 "Close by double clicking:\n"

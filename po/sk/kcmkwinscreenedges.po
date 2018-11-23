@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-12-30 03:13+0100\n"
-"PO-Revision-Date: 2018-09-03 18:37+0100\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
+"PO-Revision-Date: 2018-09-14 11:20+0100\n"
 "Last-Translator: Mthw <jari_45@hotmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: sk\n"
@@ -102,7 +102,7 @@ msgstr "Prepnúť alternatívne prepínanie okien"
 #: main.ui:17
 #, kde-format
 msgid "Active Screen Corners and Edges"
-msgstr "Akcie aktívneho okraja obrazovky a rohov"
+msgstr "Akcie aktívneho okraja obrazovky"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: main.ui:36
@@ -110,7 +110,8 @@ msgstr "Akcie aktívneho okraja obrazovky a rohov"
 msgid ""
 "Trigger an action by pushing the mouse cursor against the corresponding "
 "screen edge or corner"
-msgstr "Pre spustenie akcie presunte myš k určenému kraju alebo rohu obrazovky"
+msgstr ""
+"K spusteniu akcie posuňte kurzor myši za okraj obrazovky v požadovanom smere."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:52
@@ -229,4 +230,4 @@ msgstr "Oneskorenie &reaktivácie:"
 msgid ""
 "Trigger an action by swiping from the screen edge towards the center of the "
 "screen"
-msgstr "Na spustenie akcie posuňte kurzor myši z okraja obrazovky do stredu."
+msgstr "Na spustenie akcie posuňte kurzor myši z okraja obrazovky v do stredu."

@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "kwin_wayland_test.h"
+#include "client.h"
 #include "composite.h"
 #include "effects.h"
 #include "effectloader.h"
@@ -120,8 +121,6 @@ void SlidingPopupsTest::testWithOtherEffect_data()
 {
     QTest::addColumn<QStringList>("effectsToLoad");
 
-    QTest::newRow("scale, slide") << QStringList{QStringLiteral("kwin4_effect_scalein"), QStringLiteral("slidingpopups")};
-    QTest::newRow("slide, scale") << QStringList{QStringLiteral("slidingpopups"), QStringLiteral("kwin4_effect_scalein")};
     QTest::newRow("fade, slide") << QStringList{QStringLiteral("kwin4_effect_fade"), QStringLiteral("slidingpopups")};
     QTest::newRow("slide, fade") << QStringList{QStringLiteral("slidingpopups"), QStringLiteral("kwin4_effect_fade")};
 
@@ -257,8 +256,6 @@ void SlidingPopupsTest::testWithOtherEffectWayland_data()
 {
     QTest::addColumn<QStringList>("effectsToLoad");
 
-    QTest::newRow("scale, slide") << QStringList{QStringLiteral("kwin4_effect_scalein"), QStringLiteral("slidingpopups")};
-    QTest::newRow("slide, scale") << QStringList{QStringLiteral("slidingpopups"), QStringLiteral("kwin4_effect_scalein")};
     QTest::newRow("fade, slide") << QStringList{QStringLiteral("kwin4_effect_fade"), QStringLiteral("slidingpopups")};
     QTest::newRow("slide, fade") << QStringList{QStringLiteral("slidingpopups"), QStringLiteral("kwin4_effect_fade")};
 

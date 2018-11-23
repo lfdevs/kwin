@@ -45,7 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <qpa/qplatforminputcontext.h>
 #include <qpa/qplatforminputcontextfactory_p.h>
 #include <qpa/qwindowsysteminterface.h>
-#include <QtCore/private/qeventdispatcher_unix_p.h>
+#include <private/qeventdispatcher_unix_p.h>
 
 #include <QtFontDatabaseSupport/private/qgenericunixfontdatabase_p.h>
 #include <QtThemeSupport/private/qgenericunixthemes_p.h>
@@ -205,10 +205,16 @@ QPlatformOpenGLContext *Integration::createPlatformOpenGLContext(QOpenGLContext 
 void Integration::initScreens()
 {
     QVector<Screen*> newScreens;
+    newScreens.reserve(qMax(screens()->count(), 1));
     for (int i = 0; i < screens()->count(); i++) {
         auto screen = new Screen(i);
         screenAdded(screen);
         newScreens << screen;
+    }
+    if (newScreens.isEmpty()) {
+        auto dummyScreen = new Screen(-1);
+        screenAdded(dummyScreen);
+        newScreens << dummyScreen;
     }
     while (!m_screens.isEmpty()) {
         destroyScreen(m_screens.takeLast());

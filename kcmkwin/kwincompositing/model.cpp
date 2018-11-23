@@ -60,6 +60,7 @@ static QString translatedCategory(const QString &category)
         QStringLiteral("Appearance"),
         QStringLiteral("Candy"),
         QStringLiteral("Focus"),
+        QStringLiteral("Show Desktop Animation"),
         QStringLiteral("Tools"),
         QStringLiteral("Virtual Desktop Switching Animation"),
         QStringLiteral("Window Management")
@@ -70,6 +71,7 @@ static QString translatedCategory(const QString &category)
         i18nc("Category of Desktop Effects, used as section header", "Appearance"),
         i18nc("Category of Desktop Effects, used as section header", "Candy"),
         i18nc("Category of Desktop Effects, used as section header", "Focus"),
+        i18nc("Category of Desktop Effects, used as section header", "Show Desktop Animation"),
         i18nc("Category of Desktop Effects, used as section header", "Tools"),
         i18nc("Category of Desktop Effects, used as section header", "Virtual Desktop Switching Animation"),
         i18nc("Category of Desktop Effects, used as section header", "Window Management")
@@ -597,7 +599,8 @@ void EffectView::init(ViewType type)
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
     kdeclarative.setTranslationDomain(QStringLiteral(TRANSLATION_DOMAIN));
-    kdeclarative.setupBindings();
+    kdeclarative.setupContext();
+    kdeclarative.setupEngine(engine());
     QString path;
     switch (type) {
     case CompositingSettingsView:

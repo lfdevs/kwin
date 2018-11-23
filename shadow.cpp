@@ -53,22 +53,21 @@ Shadow *Shadow::createShadow(Toplevel *toplevel)
     if (!effects) {
         return NULL;
     }
-    Shadow *shadow = crateShadowFromDecoration(toplevel);
+    Shadow *shadow = createShadowFromDecoration(toplevel);
     if (!shadow && waylandServer()) {
         shadow = createShadowFromWayland(toplevel);
     }
     if (!shadow && kwinApp()->x11Connection()) {
         shadow = createShadowFromX11(toplevel);
     }
-    if (shadow) {
-        if (toplevel->effectWindow() && toplevel->effectWindow()->sceneWindow()) {
-            toplevel->effectWindow()->sceneWindow()->updateShadow(shadow);
-        }
-        if (shadow->hasDecorationShadow()) {
-            if (toplevel->effectWindow()) {
-                toplevel->effectWindow()->buildQuads(true);
-            }
-        }
+    if (!shadow) {
+        return nullptr;
+    }
+    if (toplevel->effectWindow() && toplevel->effectWindow()->sceneWindow()) {
+        toplevel->effectWindow()->sceneWindow()->updateShadow(shadow);
+    }
+    if (toplevel->effectWindow()) {
+        toplevel->effectWindow()->buildQuads(true);
     }
     return shadow;
 }
@@ -89,7 +88,7 @@ Shadow *Shadow::createShadowFromX11(Toplevel *toplevel)
     }
 }
 
-Shadow *Shadow::crateShadowFromDecoration(Toplevel *toplevel)
+Shadow *Shadow::createShadowFromDecoration(Toplevel *toplevel)
 {
     AbstractClient *c = qobject_cast<AbstractClient*>(toplevel);
     if (!c) {

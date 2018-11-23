@@ -9,13 +9,14 @@
 # Yuri Efremov <yur.arh@gmail.com>, 2010, 2012, 2013.
 # Julia Dronova <juliette.tux@gmail.com>, 2012.
 # Alexander Lakhin <exclusion@gmail.com>, 2013.
+# Alexander Yavorsky <kekcuha@gmail.com>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-08-16 06:20+0200\n"
-"PO-Revision-Date: 2017-10-17 14:01+0300\n"
-"Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
+"PO-Revision-Date: 2018-10-06 18:53+0300\n"
+"Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -31,12 +32,12 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Nick Shaforostoff,Leonid Kanter,Андрей Черепанов"
+msgstr "Nick Shaforostoff,Leonid Kanter,Андрей Черепанов,Александр Яворский"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "shaforostoff@kde.ru,leon@asplinux.ru,skull@kde.ru"
+msgstr "shaforostoff@kde.ru,leon@asplinux.ru,skull@kde.ru,kekcuha@gmail.com"
 
 #: compositing.cpp:378
 #, kde-format
@@ -165,7 +166,7 @@ msgstr "Со сглаживанием (медленнее)"
 #: compositing.ui:196
 #, kde-format
 msgid "Rendering backend:"
-msgstr "Движок:"
+msgstr "Механизм отрисовки:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: compositing.ui:213
@@ -269,49 +270,55 @@ msgstr ""
 "Режим «Повторное использование» серьёзно ухудшает производительность при "
 "работе с драйверами MESA."
 
-#: model.cpp:69
+#: model.cpp:70
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Специальные возможности"
 
-#: model.cpp:70
+#: model.cpp:71
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Внешний вид"
 
-#: model.cpp:71
+#: model.cpp:72
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Развлечения"
 
-#: model.cpp:72
+#: model.cpp:73
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Управление фокусом"
 
-#: model.cpp:73
+#: model.cpp:74
+#, kde-format
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Show Desktop Animation"
+msgstr "Обеспечение эффектов"
+
+#: model.cpp:75
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Инструменты"
 
-#: model.cpp:74
+#: model.cpp:76
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr "Анимация переключения рабочих столов"
 
-#: model.cpp:75
+#: model.cpp:77
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Управление окнами"
 
-#: model.cpp:231
+#: model.cpp:233
 #, kde-format
 msgid "KWin development team"
 msgstr "Команда разработчиков KWin"

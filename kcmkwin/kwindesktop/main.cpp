@@ -33,6 +33,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KCModuleProxy>
 #include <KGlobalAccel>
 #include <KLocalizedString>
+#include <KPackage/Package>
+#include <KPackage/PackageLoader>
 #include <KPluginInfo>
 #include <KPluginFactory>
 #include <KPluginTrader>
@@ -521,9 +523,16 @@ void KWinDesktopConfig::slotEffectSelectionChanged(int index)
     if (index != 0)
         enabled = true;
     m_ui->effectInfoButton->setEnabled(enabled);
-    // only cube has config dialog
-    if (index != 2)
+
+    switch (index) {
+    case 1: // Slide
+    case 2: // Cube Slide
+        enabled = true;
+        break;
+    default:
         enabled = false;
+        break;
+    }
     m_ui->effectConfigButton->setEnabled(enabled);
 }
 
@@ -563,12 +572,17 @@ void KWinDesktopConfig::slotAboutEffectClicked()
         delete aboutPlugin;
     };
     if (fromKService) {
-        KServiceTypeTrader* trader = KServiceTypeTrader::self();
-        KService::List services;
-        services = trader->query("KWin/Effect", "[X-KDE-PluginInfo-Name] == 'kwin4_effect_" + effect + '\'');
-        if (services.isEmpty())
+        const QString pluginId = QStringLiteral("kwin4_effect_%1").arg(effect);
+        const auto effectsMetaData = KPackage::PackageLoader::self()->findPackages(
+            QStringLiteral("KWin/Effect"),
+            QStringLiteral("kwin/effects/"),
+            [&pluginId](const KPluginMetaData &meta) {
+                return meta.pluginId() == pluginId;
+            });
+        if (effectsMetaData.isEmpty()) {
             return;
-        KPluginInfo pluginInfo(services.first());
+        }
+        KPluginInfo pluginInfo(effectsMetaData.first());
 
         const QString name    = pluginInfo.name();
         const QString comment = pluginInfo.comment();
@@ -610,6 +624,9 @@ void KWinDesktopConfig::slotConfigureEffectClicked()
 {
     QString effect;
     switch(m_ui->effectComboBox->currentIndex()) {
+    case 1:
+        effect = BuiltInEffects::nameForEffect(BuiltInEffect::Slide);
+        break;
     case 2:
         effect = BuiltInEffects::nameForEffect(BuiltInEffect::CubeSlide);
         break;

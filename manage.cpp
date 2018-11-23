@@ -159,6 +159,7 @@ bool Client::manage(xcb_window_t w, bool isMapped)
 
     setOriginalSkipTaskbar((info->state() & NET::SkipTaskbar) != 0);
     setSkipPager((info->state() & NET::SkipPager) != 0);
+    setSkipSwitcher((info->state() & NET::SkipSwitcher) != 0);
     readFirstInTabBox(firstInTabBoxCookie);
 
     setupCompositing();
@@ -370,7 +371,7 @@ bool Client::manage(xcb_window_t w, bool isMapped)
                 }
             }
         }
-        if (!(tab_group || isMapped || session)) {
+        if (!(tabGroup() || isMapped || session)) {
             // Attempt to automatically group similar windows
             Client* similar = findAutogroupCandidate();
             if (similar && !similar->noBorder()) {
@@ -557,7 +558,7 @@ bool Client::manage(xcb_window_t w, bool isMapped)
         setKeepBelow(rules()->checkKeepBelow(info->state() & NET::KeepBelow, !isMapped));
         setOriginalSkipTaskbar(rules()->checkSkipTaskbar(info->state() & NET::SkipTaskbar, !isMapped));
         setSkipPager(rules()->checkSkipPager(info->state() & NET::SkipPager, !isMapped));
-        setSkipSwitcher(rules()->checkSkipSwitcher(false, !isMapped));
+        setSkipSwitcher(rules()->checkSkipSwitcher(info->state() & NET::SkipSwitcher, !isMapped));
         if (info->state() & NET::DemandsAttention)
             demandAttention();
         if (info->state() & NET::Modal)

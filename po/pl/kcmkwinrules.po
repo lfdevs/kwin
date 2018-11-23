@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-19 03:31+0100\n"
+"POT-Creation-Date: 2018-10-13 06:43+0200\n"
 "PO-Revision-Date: 2018-04-28 06:37+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -418,17 +418,17 @@ msgstr "Wszystkie pulpity"
 msgid "All Activities"
 msgstr "Wszystkie aktywności"
 
-#: ruleswidget.cpp:829
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Settings for %1"
 msgstr "Ustawienia dla %1"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:833
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Wpis nienazwany"
 
-#: ruleswidget.cpp:841
+#: ruleswidget.cpp:843
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -442,12 +442,12 @@ msgstr ""
 "programów. Jeśli naprawdę chcesz stworzyć ustawienie ogólne, zaleca się "
 "przynajmniej ograniczyć rodzaje okien, żeby uniknąć specjalnych typów okien."
 
-#: ruleswidget.cpp:872
+#: ruleswidget.cpp:874
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Edytowanie ustawień wyjątkowych dla okna"
 
-#: ruleswidget.cpp:902
+#: ruleswidget.cpp:904
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -459,12 +459,12 @@ msgstr ""
 "programu. Znajdź ustawienia, które chcesz zmienić, włącz je poprzez pole "
 "zaznaczane, wybierz sposób zastosowania ustawienia, a także jego wartość."
 
-#: ruleswidget.cpp:906
+#: ruleswidget.cpp:908
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Więcej szczegółów w dokumentacji."
 
-#: ruleswidget.cpp:945
+#: ruleswidget.cpp:947
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Edytuj skrót"

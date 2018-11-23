@@ -1,14 +1,14 @@
 # Translation of kcmkwindecoration to Norwegian Nynorsk
 #
 # Gaute Hvoslef Kvalnes <gaute@verdsveven.com>, 1999, 2000, 2001, 2002, 2004, 2005.
-# Karl Ove Hufthammer <karl@huftis.org>, 2004, 2007, 2008, 2010, 2012, 2015, 2016.
+# Karl Ove Hufthammer <karl@huftis.org>, 2004, 2007, 2008, 2010, 2012, 2015, 2016, 2018.
 # Eirik U. Birkeland <eirbir@gmail.com>, 2008, 2010.
 # Øystein Steffensen-Alværvik <ystein@posteo.net>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-08-16 06:20+0200\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
 "PO-Revision-Date: 2018-05-05 20:54+0100\n"
 "Last-Translator: Øystein Steffensen-Alværvik <ystein@posteo.net>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -73,7 +73,7 @@ msgstr "Hald under"
 msgid "Keep above"
 msgstr "Hald over"
 
-#: kcm.cpp:140
+#: kcm.cpp:141
 #, kde-format
 msgid ""
 "Close by double clicking:\n"

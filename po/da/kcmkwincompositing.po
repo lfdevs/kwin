@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-08-16 06:20+0200\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
 "PO-Revision-Date: 2017-11-06 18:52+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -255,49 +255,57 @@ msgid ""
 msgstr ""
 "\"Genbrug skærmindhold\" giver alvorlige ydelsesproblemer med MESA-drivere."
 
-#: model.cpp:69
+#: model.cpp:70
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Tilgængelighed"
 
-#: model.cpp:70
+#: model.cpp:71
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Udseende"
 
-#: model.cpp:71
+#: model.cpp:72
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Øjeguf"
 
-#: model.cpp:72
+#: model.cpp:73
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Fokus"
 
-#: model.cpp:73
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Tools"
-msgstr "Værktøjer"
-
 #: model.cpp:74
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "Category of Desktop Effects, used as section header"
+#| msgid "Virtual Desktop Switching Animation"
 msgctxt "Category of Desktop Effects, used as section header"
-msgid "Virtual Desktop Switching Animation"
+msgid "Show Desktop Animation"
 msgstr "Animation til skift af virtuelt skrivebord"
 
 #: model.cpp:75
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
+msgid "Tools"
+msgstr "Værktøjer"
+
+#: model.cpp:76
+#, kde-format
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Virtual Desktop Switching Animation"
+msgstr "Animation til skift af virtuelt skrivebord"
+
+#: model.cpp:77
+#, kde-format
+msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Vindueshåndtering"
 
-#: model.cpp:231
+#: model.cpp:233
 #, kde-format
 msgid "KWin development team"
 msgstr "KWins udviklingshold"

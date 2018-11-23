@@ -9,15 +9,15 @@
 # Leonid Kanter <leon@asplinux.ru>, 2004, 2005.
 # Andrey Cherepanov <sibskull@mail.ru>, 2005.
 # Andrey Cherepanov <skull@kde.ru>, 2009.
-# Alexander Potashev <aspotashev@gmail.com>, 2010, 2011, 2014, 2015, 2016.
+# Alexander Potashev <aspotashev@gmail.com>, 2010, 2011, 2014, 2015, 2016, 2018.
 # Yuri Efremov <yur.arh@gmail.com>, 2013.
 # Alexander Lakhin <exclusion@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-08-16 06:20+0200\n"
-"PO-Revision-Date: 2016-01-06 05:37+0300\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
+"PO-Revision-Date: 2018-09-15 03:54+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -81,7 +81,7 @@ msgstr "Поддерживать на заднем плане"
 msgid "Keep above"
 msgstr "Поддерживать поверх других"
 
-#: kcm.cpp:140
+#: kcm.cpp:141
 #, kde-format
 msgid ""
 "Close by double clicking:\n"
@@ -206,7 +206,6 @@ msgid "Drag buttons between here and the titlebar"
 msgstr "Перетаскивайте кнопки между этой областью и эскизом заголовка окна"
 
 #: qml/Previews.qml:138
-#, fuzzy, kde-format
-#| msgid "Configure Buttons..."
+#, kde-format
 msgid "Configure %1..."
-msgstr "Настроить кнопки..."
+msgstr "Настроить «%1»..."

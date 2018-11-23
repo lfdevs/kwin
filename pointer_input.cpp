@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "pointer_input.h"
 #include "platform.h"
+#include "client.h"
 #include "effects.h"
 #include "input_event.h"
 #include "input_event_spy.h"
@@ -29,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "wayland_server.h"
 #include "workspace.h"
 #include "decorations/decoratedclient.h"
+#include "screens.h"
 // KDecoration
 #include <KDecoration2/Decoration>
 // KWayland
@@ -550,10 +552,11 @@ void PointerInputRedirection::update()
             }
         );
         m_constraintsConnection = connect(m_window->surface(), &KWayland::Server::SurfaceInterface::pointerConstraintsChanged,
-                                          this, &PointerInputRedirection::enablePointerConstraints);
+                                          this, &PointerInputRedirection::updatePointerConstraints);
+        m_constraintsActivatedConnection = connect(workspace(), &Workspace::clientActivated,
+                                                   this, &PointerInputRedirection::updatePointerConstraints);
         // check whether a pointer confinement/lock fires
-        m_blockConstraint = false;
-        enablePointerConstraints();
+        updatePointerConstraints();
     } else {
         m_window.clear();
         warpXcbOnSurfaceLeft(nullptr);
@@ -580,21 +583,25 @@ void PointerInputRedirection::breakPointerConstraints(KWayland::Server::SurfaceI
     m_locked = false;
 }
 
-void PointerInputRedirection::breakPointerConstraints()
-{
-    breakPointerConstraints(m_window ? m_window->surface() : nullptr);
-}
-
 void PointerInputRedirection::disconnectConfinedPointerRegionConnection()
 {
     disconnect(m_confinedPointerRegionConnection);
     m_confinedPointerRegionConnection = QMetaObject::Connection();
 }
 
+void PointerInputRedirection::disconnectLockedPointerAboutToBeUnboundConnection()
+{
+    disconnect(m_lockedPointerAboutToBeUnboundConnection);
+    m_lockedPointerAboutToBeUnboundConnection = QMetaObject::Connection();
+}
+
 void PointerInputRedirection::disconnectPointerConstraintsConnection()
 {
     disconnect(m_constraintsConnection);
     m_constraintsConnection = QMetaObject::Connection();
+
+    disconnect(m_constraintsActivatedConnection);
+    m_constraintsActivatedConnection = QMetaObject::Connection();
 }
 
 template <typename T>
@@ -606,7 +613,16 @@ static QRegion getConstraintRegion(Toplevel *t, T *constraint)
     return intersected.translated(t->pos() + t->clientPos());
 }
 
-void PointerInputRedirection::enablePointerConstraints()
+void PointerInputRedirection::setEnableConstraints(bool set)
+{
+    if (m_enableConstraints == set) {
+        return;
+    }
+    m_enableConstraints = set;
+    updatePointerConstraints();
+}
+
+void PointerInputRedirection::updatePointerConstraints()
 {
     if (m_window.isNull()) {
         return;
@@ -621,16 +637,19 @@ void PointerInputRedirection::enablePointerConstraints()
     if (!supportsWarping()) {
         return;
     }
-    if (m_blockConstraint) {
-        return;
-    }
+    const bool canConstrain = m_enableConstraints && m_window == workspace()->activeClient();
     const auto cf = s->confinedPointer();
     if (cf) {
         if (cf->isConfined()) {
+            if (!canConstrain) {
+                cf->setConfined(false);
+                m_confined = false;
+                disconnectConfinedPointerRegionConnection();
+            }
             return;
         }
         const QRegion r = getConstraintRegion(m_window.data(), cf.data());
-        if (r.contains(m_pos.toPoint())) {
+        if (canConstrain && r.contains(m_pos.toPoint())) {
             cf->setConfined(true);
             m_confined = true;
             m_confinedPointerRegionConnection = connect(cf.data(), &KWayland::Server::ConfinedPointerInterface::regionChanged, this,
@@ -655,28 +674,53 @@ void PointerInputRedirection::enablePointerConstraints()
                     }
                 }
             );
-            OSD::show(i18nc("notification about mouse pointer confined",
-                            "Pointer motion confined to the current window.\nTo release pointer hold Escape for 3 seconds."),
-                      QStringLiteral("preferences-desktop-mouse"), 5000);
             return;
         }
     } else {
+        m_confined = false;
         disconnectConfinedPointerRegionConnection();
     }
     const auto lock = s->lockedPointer();
     if (lock) {
         if (lock->isLocked()) {
+            if (!canConstrain) {
+                const auto hint = lock->cursorPositionHint();
+                lock->setLocked(false);
+                m_locked = false;
+                disconnectLockedPointerAboutToBeUnboundConnection();
+                if (! (hint.x() < 0 || hint.y() < 0) && m_window) {
+                    processMotion(m_window->pos() - m_window->clientContentPos() + hint, waylandServer()->seat()->timestamp());
+                }
+            }
             return;
         }
         const QRegion r = getConstraintRegion(m_window.data(), lock.data());
-        if (r.contains(m_pos.toPoint())) {
+        if (canConstrain && r.contains(m_pos.toPoint())) {
             lock->setLocked(true);
             m_locked = true;
-            OSD::show(i18nc("notification about mouse pointer locked",
-                            "Pointer locked to current position.\nTo end pointer lock hold Escape for 3 seconds."),
-                      QStringLiteral("preferences-desktop-mouse"), 5000);
+
+            // The client might cancel pointer locking from its side by unbinding the LockedPointerInterface.
+            // In this case the cached cursor position hint must be fetched before the resource goes away
+            m_lockedPointerAboutToBeUnboundConnection = connect(lock.data(), &KWayland::Server::LockedPointerInterface::aboutToBeUnbound, this,
+                [this, lock]() {
+                    const auto hint = lock->cursorPositionHint();
+                    if (hint.x() < 0 || hint.y() < 0 || !m_window) {
+                        return;
+                    }
+                    auto globalHint = m_window->pos() - m_window->clientContentPos() + hint;
+
+                    // When the resource finally goes away, reposition the cursor according to the hint
+                    connect(lock.data(), &KWayland::Server::LockedPointerInterface::unbound, this,
+                        [this, globalHint]() {
+                            processMotion(globalHint, waylandServer()->seat()->timestamp());
+                    });
+                }
+            );
             // TODO: connect to region change - is it needed at all? If the pointer is locked it's always in the region
         }
+    } else {
+        m_locked = false;
+        disconnectLockedPointerAboutToBeUnboundConnection();
     }
 }
 
@@ -1066,6 +1110,7 @@ void CursorImage::updateServerCursor()
     }
     m_serverCursor.hotSpot = c->hotspot();
     m_serverCursor.image = buffer->data().copy();
+    m_serverCursor.image.setDevicePixelRatio(cursorSurface->scale());
     if (needsEmit) {
         emit changed();
     }
@@ -1184,7 +1229,7 @@ void CursorImage::updateDragCursor()
     // TODO: add the cursor image
 }
 
-void CursorImage::loadThemeCursor(Qt::CursorShape shape, Image *image)
+void CursorImage::loadThemeCursor(CursorShape shape, Image *image)
 {
     loadThemeCursor(shape, m_cursors, image);
 }
@@ -1219,7 +1264,12 @@ void CursorImage::loadThemeCursor(const T &shape, QHash<T, Image> &cursors, Imag
         if (!buffer) {
             return;
         }
-        it = decltype(it)(cursors.insert(shape, {buffer->data().copy(), QPoint(cursor->hotspot_x, cursor->hotspot_y)}));
+        auto scale = screens()->maxScale();
+        int hotSpotX = qRound(cursor->hotspot_x / scale);
+        int hotSpotY = qRound(cursor->hotspot_y / scale);
+        QImage img = buffer->data().copy();
+        img.setDevicePixelRatio(scale);
+        it = decltype(it)(cursors.insert(shape, {img, QPoint(hotSpotX, hotSpotY)}));
     }
     image->hotSpot = it.value().hotSpot;
     image->image = it.value().image;

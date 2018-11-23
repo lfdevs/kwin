@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-12-06 05:35+0100\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
 "PO-Revision-Date: 2009-10-31 14:32+0530\n"
 "Last-Translator: gayankalhara <gkgkalhara@gmail.com>\n"
 "Language-Team: Sinhala <kde-i18n-doc@kde.org>\n"
@@ -37,12 +37,12 @@ msgstr "වැඩතලය %1"
 msgid "Here you can enter the name for desktop %1"
 msgstr "මෙහිද් ඔබට %1 වැඩතලය සඳහා නාමයක් ඇතුළත් කල හැක"
 
-#: desktopnameswidget.cpp:108 main.cpp:226
+#: desktopnameswidget.cpp:108 main.cpp:228
 #, kde-format
 msgid "Desktop %1"
 msgstr "වැඩතලය %1"
 
-#: main.cpp:87
+#: main.cpp:89
 #, kde-format
 msgid ""
 "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual "
@@ -51,87 +51,87 @@ msgstr ""
 "<h1>බහු වැඩතල</h1>මෙම මොඩියුලයේ, ඔබට ඇවැසි අතත්‍ය වැඩතල ගණන හා ඒවායේ ලේබල විය යිතු "
 "ආකාරය සැකසිය හැක."
 
-#: main.cpp:99
+#: main.cpp:101
 #, kde-format
 msgid "Switch to Next Desktop"
 msgstr "ඊලහ වැඩතලයට මාරුවෙන්න"
 
-#: main.cpp:100
+#: main.cpp:102
 #, kde-format
 msgid "Switch to Previous Desktop"
 msgstr "පෙර වැඩතලයට මාරුවෙන්න"
 
-#: main.cpp:101
+#: main.cpp:103
 #, kde-format
 msgid "Switch One Desktop to the Right"
 msgstr "දකුණට වැඩතල එකක් මාරුවෙන්න"
 
-#: main.cpp:102
+#: main.cpp:104
 #, kde-format
 msgid "Switch One Desktop to the Left"
 msgstr "වමට වැඩතල එකක් මාරුවෙන්න"
 
-#: main.cpp:103
+#: main.cpp:105
 #, kde-format
 msgid "Switch One Desktop Up"
 msgstr "ඉහළට වැඩතල එකක් මාරුවෙන්න"
 
-#: main.cpp:104
+#: main.cpp:106
 #, kde-format
 msgid "Switch One Desktop Down"
 msgstr "පහළට වැඩතල එකක් මාරුවෙන්න"
 
-#: main.cpp:105
+#: main.cpp:107
 #, kde-format
 msgid "Walk Through Desktops"
 msgstr ""
 
-#: main.cpp:106
+#: main.cpp:108
 #, kde-format
 msgid "Walk Through Desktops (Reverse)"
 msgstr ""
 
-#: main.cpp:107
+#: main.cpp:109
 #, kde-format
 msgid "Walk Through Desktop List"
 msgstr ""
 
-#: main.cpp:108
+#: main.cpp:110
 #, kde-format
 msgid "Walk Through Desktop List (Reverse)"
 msgstr ""
 
-#: main.cpp:110 main.cpp:144 main.cpp:509 main.cpp:510
+#: main.cpp:112 main.cpp:146 main.cpp:511 main.cpp:512
 #, kde-format
 msgid "Desktop Switching"
 msgstr "වැඩතල මාරුවීම"
 
-#: main.cpp:122 main.cpp:489
+#: main.cpp:124 main.cpp:491
 #, kde-format
 msgid "Switch to Desktop %1"
 msgstr "%1 වැඩතලයට මාරුවෙන්න"
 
-#: main.cpp:154
+#: main.cpp:156
 #, kde-format
 msgid "No Animation"
 msgstr "සජීවීකරණ නොමැත"
 
-#: main.cpp:493
+#: main.cpp:495
 #, kde-format
 msgid "No suitable Shortcut for Desktop %1 found"
 msgstr "%1 වැඩතලය සඳහා සුදුසු කෙට මඟක් නොමැත"
 
-#: main.cpp:499
+#: main.cpp:501
 #, kde-format
 msgid "Assigned global Shortcut \"%1\" to Desktop %2"
 msgstr "වැඩතලය %2 සඳහා \"%1\" කෙටිමඟක් සකසන්න"
 
-#: main.cpp:502
+#: main.cpp:504
 #, kde-format
 msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
 msgstr "කෙට්මං ගැටුමක්: %2  වැඩතලය සඳහා %1 කෙටිමඟ සැකසිය නොහැක"
 
-#: main.cpp:604
+#: main.cpp:618
 #, kde-format
 msgid "KWin development team"
 msgstr ""

@@ -37,6 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "magiclamp/magiclamp.h"
 #include "minimizeanimation/minimizeanimation.h"
 #include "resize/resize.h"
+#include "scale/scale.h"
 #include "showfps/showfps.h"
 #include "showpaint/showpaint.h"
 #include "slide/slide.h"
@@ -238,7 +239,7 @@ EFFECT_FALLBACK
         QStringLiteral("fallapart"),
         i18ndc("kwin_effects", "Name of a KWin Effect", "Fall Apart"),
         i18ndc("kwin_effects", "Comment describing the KWin Effect", "Closed windows fall into pieces"),
-        QStringLiteral("Appearance"),
+        QStringLiteral("Candy"),
         QString(),
         QUrl(),
         false,
@@ -267,7 +268,7 @@ EFFECT_FALLBACK
     }, {
         QStringLiteral("glide"),
         i18ndc("kwin_effects", "Name of a KWin Effect", "Glide"),
-        i18ndc("kwin_effects", "Comment describing the KWin Effect", "Windows Glide Effect as they are open and closed"),
+        i18ndc("kwin_effects", "Comment describing the KWin Effect", "Glide windows as they appear or disappear"),
         QStringLiteral("Appearance"),
         QString(),
         QUrl(),
@@ -445,6 +446,21 @@ EFFECT_FALLBACK
 #endif
 EFFECT_FALLBACK
     }, {
+        QStringLiteral("scale"),
+        i18ndc("kwin_effects", "Name of a KWin Effect", "Scale"),
+        i18ndc("kwin_effects", "Comment describing the KWin Effect", "Make windows smoothly scale in and out when they are shown or hidden"),
+        QStringLiteral("Appearance"),
+        QString(),
+        QUrl(),
+        false,
+        false,
+#ifdef EFFECT_BUILTINS
+        &createHelper<ScaleEffect>,
+        &ScaleEffect::supported,
+        nullptr
+#endif
+EFFECT_FALLBACK
+    }, {
         QStringLiteral("screenedge"),
         i18ndc("kwin_effects", "Name of a KWin Effect", "Screen Edge"),
         i18ndc("kwin_effects", "Comment describing the KWin Effect", "Highlights a screen edge when approaching"),
@@ -478,7 +494,7 @@ EFFECT_FALLBACK
         QStringLiteral("sheet"),
         i18ndc("kwin_effects", "Name of a KWin Effect", "Sheet"),
         i18ndc("kwin_effects", "Comment describing the KWin Effect", "Make modal dialogs smoothly fly in and out when they are shown or hidden"),
-        QStringLiteral("Appearance"),
+        QStringLiteral("Candy"),
         QString(),
         QUrl(),
         false,
@@ -658,7 +674,7 @@ EFFECT_FALLBACK
         QStringLiteral("wobblywindows"),
         i18ndc("kwin_effects", "Name of a KWin Effect", "Wobbly Windows"),
         i18ndc("kwin_effects", "Comment describing the KWin Effect", "Deform windows while they are moving"),
-        QStringLiteral("Appearance"),
+        QStringLiteral("Candy"),
         QString(),
         QUrl(QStringLiteral("http://files.kde.org/plasma/kwin/effect-videos/wobbly_windows.ogv")),
         false,

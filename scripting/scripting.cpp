@@ -36,9 +36,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KConfigGroup>
 #include <KPackage/PackageLoader>
 // Qt
-#include <QtDBus/QDBusConnection>
-#include <QtDBus/QDBusMessage>
-#include <QtDBus/QDBusPendingCallWatcher>
+#include <QDBusConnection>
+#include <QDBusMessage>
+#include <QDBusPendingCallWatcher>
 #include <QDebug>
 #include <QFutureWatcher>
 #include <QSettings>
@@ -49,7 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QQmlExpression>
 #include <QtScript/QScriptEngine>
 #include <QtScript/QScriptValue>
-#include <QtCore/QStandardPaths>
+#include <QStandardPaths>
 #include <QQuickWindow>
 
 QScriptValue kwinScriptPrint(QScriptContext *context, QScriptEngine *engine)
@@ -628,11 +628,11 @@ QVariant KWin::JSEngineGlobalMethodsWrapper::readConfig(const QString &key, QVar
 
 void KWin::JSEngineGlobalMethodsWrapper::registerWindow(QQuickWindow *window)
 {
-    connect(window, &QWindow::visibilityChanged, [window](QWindow::Visibility visibility) {
+    connect(window, &QWindow::visibilityChanged, this, [window](QWindow::Visibility visibility) {
         if (visibility == QWindow::Hidden) {
             window->destroy();
         }
-    });
+    }, Qt::QueuedConnection);
 }
 
 bool KWin::JSEngineGlobalMethodsWrapper::registerShortcut(const QString &name, const QString &text, const QKeySequence& keys, QJSValue function)

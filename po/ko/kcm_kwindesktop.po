@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-12-06 05:35+0100\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
 "PO-Revision-Date: 2014-08-23 23:34+0900\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde@peremen.name>\n"
@@ -38,12 +38,12 @@ msgstr "데스크톱 %1:"
 msgid "Here you can enter the name for desktop %1"
 msgstr "데스크톱 %1의 이름을 입력하십시오"
 
-#: desktopnameswidget.cpp:108 main.cpp:226
+#: desktopnameswidget.cpp:108 main.cpp:228
 #, kde-format
 msgid "Desktop %1"
 msgstr "데스크톱 %1"
 
-#: main.cpp:87
+#: main.cpp:89
 #, kde-format
 msgid ""
 "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual "
@@ -52,87 +52,87 @@ msgstr ""
 "<h1>다중 데스크톱</h1> 이 모듈에서는 데스크톱 개수와 이름을 설정할 수 있습니"
 "다."
 
-#: main.cpp:99
+#: main.cpp:101
 #, kde-format
 msgid "Switch to Next Desktop"
 msgstr "다음 데스크톱으로 전환"
 
-#: main.cpp:100
+#: main.cpp:102
 #, kde-format
 msgid "Switch to Previous Desktop"
 msgstr "이전 데스크톱으로 전환"
 
-#: main.cpp:101
+#: main.cpp:103
 #, kde-format
 msgid "Switch One Desktop to the Right"
 msgstr "오른쪽 데스크톱으로 전환"
 
-#: main.cpp:102
+#: main.cpp:104
 #, kde-format
 msgid "Switch One Desktop to the Left"
 msgstr "왼쪽 데스크톱으로 전환"
 
-#: main.cpp:103
+#: main.cpp:105
 #, kde-format
 msgid "Switch One Desktop Up"
 msgstr "위쪽 데스크톱으로 전환"
 
-#: main.cpp:104
+#: main.cpp:106
 #, kde-format
 msgid "Switch One Desktop Down"
 msgstr "아래쪽 데스크톱으로 전환"
 
-#: main.cpp:105
+#: main.cpp:107
 #, kde-format
 msgid "Walk Through Desktops"
 msgstr "데스크톱 사이를 옮겨 다니기"
 
-#: main.cpp:106
+#: main.cpp:108
 #, kde-format
 msgid "Walk Through Desktops (Reverse)"
 msgstr "데스크톱 사이를 거꾸로 옮겨 다니기"
 
-#: main.cpp:107
+#: main.cpp:109
 #, kde-format
 msgid "Walk Through Desktop List"
 msgstr "데스크톱 목록을 옮겨 다니기"
 
-#: main.cpp:108
+#: main.cpp:110
 #, kde-format
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "데스크톱 목록을 거꾸로 옮겨 다니기"
 
-#: main.cpp:110 main.cpp:144 main.cpp:509 main.cpp:510
+#: main.cpp:112 main.cpp:146 main.cpp:511 main.cpp:512
 #, kde-format
 msgid "Desktop Switching"
 msgstr "데스크톱 전환"
 
-#: main.cpp:122 main.cpp:489
+#: main.cpp:124 main.cpp:491
 #, kde-format
 msgid "Switch to Desktop %1"
 msgstr "데스크톱 %1로 전환"
 
-#: main.cpp:154
+#: main.cpp:156
 #, kde-format
 msgid "No Animation"
 msgstr "애니메이션 없음"
 
-#: main.cpp:493
+#: main.cpp:495
 #, kde-format
 msgid "No suitable Shortcut for Desktop %1 found"
 msgstr "데스크톱 %1을(를) 위한 단축키가 없음"
 
-#: main.cpp:499
+#: main.cpp:501
 #, kde-format
 msgid "Assigned global Shortcut \"%1\" to Desktop %2"
 msgstr "전역 단축키 \"%1\"을(를) 데스크톱 %2에 할당함"
 
-#: main.cpp:502
+#: main.cpp:504
 #, kde-format
 msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
 msgstr "단축키 충돌: 데스크톱 %2에 단축키 %1을(를) 할당할 수 없음"
 
-#: main.cpp:604
+#: main.cpp:618
 #, kde-format
 msgid "KWin development team"
 msgstr "KWin 개발 팀"

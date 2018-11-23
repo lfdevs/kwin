@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
 "PO-Revision-Date: 2018-07-01 11:31+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
@@ -724,6 +724,8 @@ msgstr ""
 "sagu azpiko leihoa da hautagai hobetsia.<br><br>\n"
 "Hautatu hau, pasaerak kontrolatutako fokua nahi baduzu."
 
+# xalba 2018-07-01: berrikusteko
+# «tabbox» terminoa ez det itzuli, gainontzeko hizkuntzetan ez dute oraindik itzuli eta testuingurua behar det.
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: focus.ui:158
 #, kde-format
@@ -746,6 +748,8 @@ msgstr ""
 "Ziur asko, <i>Fokuak saguari jarraitzen dio - Saguak lehentasuna</i><br>\n"
 "erabili nahiko duzu honen ordez."
 
+# xalba 2018-07-01: berrikusteko
+# - in doubt nowhere -: beste hizkuntzetan ez da mezu hau itzuli oraindik. Neure interpretazioa zuzena dela egiaztatu.
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: focus.ui:183
 #, kde-format

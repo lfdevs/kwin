@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-19 03:31+0100\n"
+"POT-Creation-Date: 2018-10-13 06:43+0200\n"
 "PO-Revision-Date: 2016-01-22 22:58+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -436,17 +436,17 @@ msgstr "Όλες οι επιφάνειες εργασίας"
 msgid "All Activities"
 msgstr "Όλες οι δραστηριότητες"
 
-#: ruleswidget.cpp:829
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Settings for %1"
 msgstr "Ρυθμίσεις για %1"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:833
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Ανώνυμη καταχώρηση"
 
-#: ruleswidget.cpp:841
+#: ruleswidget.cpp:843
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -461,12 +461,12 @@ msgstr ""
 "προτείνεται τουλάχιστον ο ορισμός ορίων στους τύπους παραθύρων για την "
 "αποφυγή ειδικών τύπων παραθύρων."
 
-#: ruleswidget.cpp:872
+#: ruleswidget.cpp:874
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Επεξεργασία ρυθμίσεων συγκεκριμένου παραθύρου"
 
-#: ruleswidget.cpp:902
+#: ruleswidget.cpp:904
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -479,12 +479,12 @@ msgstr ""
 "ενεργοποιήστε την, επιλέξτε τον τρόπο με τον οποίο θα αλλαχθεί και σε ποιο "
 "ποσοστό."
 
-#: ruleswidget.cpp:906
+#: ruleswidget.cpp:908
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Συμβουλευτείτε την τεκμηρίωση για περισσότερες λεπτομέρειες."
 
-#: ruleswidget.cpp:945
+#: ruleswidget.cpp:947
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Επεξεργασία συντόμευσης"

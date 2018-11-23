@@ -26,7 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QObject>
 #include <QQueue>
 #include <QMatrix4x4>
-#include <QTimeLine>
 #include <QFont>
 #include "cube_inside.h"
 #include "cube_proxy.h"
@@ -94,7 +93,7 @@ public:
         return reflection;
     }
     int configuredRotationDuration() const {
-        return rotationDuration;
+        return rotationDuration.count();
     }
     QColor configuredBackgroundColor() const {
         return backgroundColor;
@@ -142,16 +141,17 @@ private Q_SLOTS:
     void slotCubeCapLoaded();
     void slotWallPaperLoaded();
 private:
-    enum RotationDirection {
+    enum class AnimationState {
+        None,
+        Start,
+        Stop,
         Left,
-        Right,
+        Right
+    };
+    enum class VerticalAnimationState {
+        None,
         Upwards,
         Downwards
-    };
-    enum VerticalRotationPosition {
-        Up,
-        Normal,
-        Down
     };
     enum CubeMode {
         Cube,
@@ -170,6 +170,9 @@ private:
     void setActive(bool active);
     QImage loadCubeCap(const QString &capPath);
     QImage loadWallPaper(const QString &file);
+    void startAnimation(AnimationState state);
+    void startVerticalAnimation(VerticalAnimationState state);
+
     bool activated;
     bool cube_painting;
     bool keyboard_grab;
@@ -189,25 +192,28 @@ private:
     bool verticalRotating;
     bool desktopChangedWhileRotating;
     bool paintCaps;
-    QTimeLine timeLine;
-    QTimeLine verticalTimeLine;
-    RotationDirection rotationDirection;
-    RotationDirection verticalRotationDirection;
-    VerticalRotationPosition verticalPosition;
-    QQueue<RotationDirection> rotations;
-    QQueue<RotationDirection> verticalRotations;
     QColor backgroundColor;
     QColor capColor;
     GLTexture* wallpaper;
     bool texturedCaps;
     GLTexture* capTexture;
-    float manualAngle;
-    float manualVerticalAngle;
-    QTimeLine::CurveShape currentShape;
-    bool start;
-    bool stop;
+    //  animations
+    // Horizontal/start/stop
+    float startAngle;
+    float currentAngle;
+    int startFrontDesktop;
+    AnimationState animationState;
+    TimeLine timeLine;
+    QQueue<AnimationState> animations;
+    // vertical
+    float verticalStartAngle;
+    float verticalCurrentAngle;
+    VerticalAnimationState verticalAnimationState;
+    TimeLine verticalTimeLine;
+    QQueue<VerticalAnimationState> verticalAnimations;
+
     bool reflectionPainting;
-    int rotationDuration;
+    std::chrono::milliseconds rotationDuration;
     int activeScreen;
     bool bottomCap;
     bool closeOnMouseRelease;

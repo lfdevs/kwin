@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../xcbutils.h"
 // Qt
 #include <QApplication>
-#include <QtTest/QtTest>
+#include <QtTest>
 #include <QX11Info>
 #include <netwm.h>
 // xcb
@@ -468,7 +468,7 @@ void TestXcbWrapper::testMotifEmpty()
 void TestXcbWrapper::testMotif_data()
 {
     QTest::addColumn<quint32>("flags");
-    QTest::addColumn<quint32>("funtions");
+    QTest::addColumn<quint32>("functions");
     QTest::addColumn<quint32>("decorations");
 
     QTest::addColumn<bool>("expectedHasDecoration");
@@ -503,11 +503,11 @@ void TestXcbWrapper::testMotif()
 {
     Atom atom(QByteArrayLiteral("_MOTIF_WM_HINTS"));
     QFETCH(quint32, flags);
-    QFETCH(quint32, funtions);
+    QFETCH(quint32, functions);
     QFETCH(quint32, decorations);
     quint32 data[] = {
         flags,
-        funtions,
+        functions,
         decorations,
         0,
         0

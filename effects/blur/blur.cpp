@@ -20,11 +20,11 @@
  */
 
 #include "blur.h"
-#include "effects.h"
 #include "blurshader.h"
 // KConfigSkeleton
 #include "blurconfig.h"
 
+#include <QGuiApplication>
 #include <QMatrix4x4>
 #include <QLinkedList>
 #include <QScreen> // for QGuiApplication
@@ -46,7 +46,7 @@ static const QByteArray s_blurAtomName = QByteArrayLiteral("_KDE_NET_WM_BLUR_BEH
 BlurEffect::BlurEffect()
 {
     initConfig<BlurConfig>();
-    m_shader = BlurShader::create();
+    m_shader = new BlurShader(this);
 
     initBlurStrengthValues();
     reconfigure(ReconfigureAll);
@@ -84,9 +84,6 @@ BlurEffect::BlurEffect()
 BlurEffect::~BlurEffect()
 {
     deleteFBOs();
-
-    delete m_shader;
-    m_shader = nullptr;
 }
 
 void BlurEffect::slotScreenGeometryChanged()
@@ -303,10 +300,12 @@ void BlurEffect::slotWindowAdded(EffectWindow *w)
 
 void BlurEffect::slotWindowDeleted(EffectWindow *w)
 {
-    if (windowBlurChangedConnections.contains(w)) {
-        disconnect(windowBlurChangedConnections[w]);
-        windowBlurChangedConnections.remove(w);
+    auto it = windowBlurChangedConnections.find(w);
+    if (it == windowBlurChangedConnections.end()) {
+        return;
     }
+    disconnect(*it);
+    windowBlurChangedConnections.erase(it);
 }
 
 void BlurEffect::slotPropertyNotify(EffectWindow *w, long atom)

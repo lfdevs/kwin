@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-08-16 06:20+0200\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
 "PO-Revision-Date: 2017-02-24 22:17+0100\n"
 "Last-Translator: Kiszel Kristóf <kiszel.kristof@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -254,49 +254,57 @@ msgstr ""
 "A „Képernyőtartalom újrahasználata” komoly teljesítményproblémákat okozhat "
 "MESA illesztőprogram használata esetén."
 
-#: model.cpp:69
+#: model.cpp:70
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Akadálymentesítés"
 
-#: model.cpp:70
+#: model.cpp:71
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Megjelenés"
 
-#: model.cpp:71
+#: model.cpp:72
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Grafikai kiegészítők"
 
-#: model.cpp:72
+#: model.cpp:73
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Fókusz"
 
-#: model.cpp:73
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Tools"
-msgstr "Eszközök"
-
 #: model.cpp:74
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "Category of Desktop Effects, used as section header"
+#| msgid "Virtual Desktop Switching Animation"
 msgctxt "Category of Desktop Effects, used as section header"
-msgid "Virtual Desktop Switching Animation"
+msgid "Show Desktop Animation"
 msgstr "Virtuális asztalok közti váltás animációja"
 
 #: model.cpp:75
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
+msgid "Tools"
+msgstr "Eszközök"
+
+#: model.cpp:76
+#, kde-format
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Virtual Desktop Switching Animation"
+msgstr "Virtuális asztalok közti váltás animációja"
+
+#: model.cpp:77
+#, kde-format
+msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Ablakkezelés"
 
-#: model.cpp:231
+#: model.cpp:233
 #, kde-format
 msgid "KWin development team"
 msgstr "A KWin fejlesztői"

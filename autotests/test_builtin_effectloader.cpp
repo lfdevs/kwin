@@ -26,8 +26,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KConfig>
 #include <KConfigGroup>
 // Qt
-#include <QtTest/QtTest>
+#include <QtTest>
 #include <QStringList>
+#include <QScopedPointer>
 Q_DECLARE_METATYPE(KWin::CompositingType)
 Q_DECLARE_METATYPE(KWin::LoadEffectFlag)
 Q_DECLARE_METATYPE(KWin::LoadEffectFlags)
@@ -103,6 +104,7 @@ void TestBuiltInEffectLoader::testHasEffect_data()
     QTest::newRow("MouseMark")                      << QStringLiteral("mousemark")         << true;
     QTest::newRow("PresentWindows")                 << QStringLiteral("presentwindows")    << true;
     QTest::newRow("Resize")                         << QStringLiteral("resize")            << true;
+    QTest::newRow("Scale")                          << QStringLiteral("scale")             << true;
     QTest::newRow("ScreenEdge")                     << QStringLiteral("screenedge")        << true;
     QTest::newRow("ScreenShot")                     << QStringLiteral("screenshot")        << true;
     QTest::newRow("Sheet")                          << QStringLiteral("sheet")             << true;
@@ -159,6 +161,7 @@ void TestBuiltInEffectLoader::testKnownEffects()
                     << QStringLiteral("mousemark")
                     << QStringLiteral("presentwindows")
                     << QStringLiteral("resize")
+                    << QStringLiteral("scale")
                     << QStringLiteral("screenedge")
                     << QStringLiteral("screenshot")
                     << QStringLiteral("sheet")
@@ -237,6 +240,7 @@ void TestBuiltInEffectLoader::testSupported_data()
     QTest::newRow("MouseMark")                      << QStringLiteral("mousemark")         << true  << xc << true;
     QTest::newRow("PresentWindows")                 << QStringLiteral("presentwindows")    << true  << xc << true;
     QTest::newRow("Resize")                         << QStringLiteral("resize")            << true  << xc << true;
+    QTest::newRow("Scale")                          << QStringLiteral("scale")             << true  << xc << true;
     QTest::newRow("ScreenEdge")                     << QStringLiteral("screenedge")        << true  << xc << true;
     QTest::newRow("ScreenShot")                     << QStringLiteral("screenshot")        << true  << xc << true;
     QTest::newRow("Sheet")                          << QStringLiteral("sheet")             << false << xc << true;
@@ -325,6 +329,7 @@ void TestBuiltInEffectLoader::testLoadEffect_data()
     QTest::newRow("MouseMark")                      << QStringLiteral("mousemark")         << true  << xc;
     QTest::newRow("PresentWindows")                 << QStringLiteral("presentwindows")    << true  << xc;
     QTest::newRow("Resize")                         << QStringLiteral("resize")            << true  << xc;
+    QTest::newRow("Scale")                          << QStringLiteral("scale")             << true  << xc;
     QTest::newRow("ScreenEdge")                     << QStringLiteral("screenedge")        << true  << xc;
     QTest::newRow("ScreenShot")                     << QStringLiteral("screenshot")        << true  << xc;
     QTest::newRow("Sheet")                          << QStringLiteral("sheet")             << false << xc;
@@ -358,7 +363,7 @@ void TestBuiltInEffectLoader::testLoadEffect()
     QFETCH(bool, expected);
     QFETCH(KWin::CompositingType, type);
 
-    MockEffectsHandler mockHandler(type);
+    QScopedPointer<MockEffectsHandler, QScopedPointerDeleteLater> mockHandler(new MockEffectsHandler(type));
     KWin::BuiltInEffectLoader loader;
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     loader.setConfig(config);
@@ -447,7 +452,7 @@ void TestBuiltInEffectLoader::testLoadBuiltInEffect()
     QFETCH(KWin::CompositingType, type);
     QFETCH(KWin::LoadEffectFlags, loadFlags);
 
-    MockEffectsHandler mockHandler(type);
+    QScopedPointer<MockEffectsHandler, QScopedPointerDeleteLater> mockHandler(new MockEffectsHandler(type));
     KWin::BuiltInEffectLoader loader;
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     loader.setConfig(config);
@@ -494,7 +499,7 @@ void TestBuiltInEffectLoader::testLoadBuiltInEffect()
 
 void TestBuiltInEffectLoader::testLoadAllEffects()
 {
-    MockEffectsHandler mockHandler(KWin::XRenderCompositing);
+    QScopedPointer<MockEffectsHandler, QScopedPointerDeleteLater>mockHandler(new MockEffectsHandler(KWin::XRenderCompositing));
     KWin::BuiltInEffectLoader loader;
 
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);

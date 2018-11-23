@@ -3,14 +3,14 @@
 # Tamas Szanto <tszanto@interware.hu>, 2001.
 # Kristóf Kiszel <ulysses@kubuntu.org>, 2010, 2011, 2012, 2014, 2015.
 # Balázs Úr <urbalazs@gmail.com>, 2012, 2013, 2014.
-# Kiszel Kristóf <kiszel.kristof@gmail.com>, 2017.
+# Kiszel Kristóf <kiszel.kristof@gmail.com>, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-08-16 06:20+0200\n"
-"PO-Revision-Date: 2017-02-08 16:06+0100\n"
-"Last-Translator: Kiszel Kristóf <kiszel.kristof@gmail.com>\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
+"PO-Revision-Date: 2018-10-23 19:35+0200\n"
+"Last-Translator: Kristof Kiszel <kiszel.kristof@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -69,7 +69,7 @@ msgstr "Mindig alul"
 msgid "Keep above"
 msgstr "Mindig felül"
 
-#: kcm.cpp:140
+#: kcm.cpp:141
 #, kde-format
 msgid ""
 "Close by double clicking:\n"
@@ -194,7 +194,6 @@ msgid "Drag buttons between here and the titlebar"
 msgstr "Húzza a gombokat a itt és a címsor között"
 
 #: qml/Previews.qml:138
-#, fuzzy, kde-format
-#| msgid "Configure Buttons..."
+#, kde-format
 msgid "Configure %1..."
-msgstr "A gombok beállítása…"
+msgstr "A(z) %1 beállítása…"

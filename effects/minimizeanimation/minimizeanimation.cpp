@@ -19,18 +19,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 
 #include "minimizeanimation.h"
-#include <QTimeLine>
-#include <QtGui/QVector2D>
+
+#include <QVector2D>
 
 namespace KWin
 {
 
 MinimizeAnimationEffect::MinimizeAnimationEffect()
 {
-    mActiveAnimations = 0;
-    connect(effects, SIGNAL(windowDeleted(KWin::EffectWindow*)), this, SLOT(slotWindowDeleted(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(windowMinimized(KWin::EffectWindow*)), this, SLOT(slotWindowMinimized(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(windowUnminimized(KWin::EffectWindow*)), this, SLOT(slotWindowUnminimized(KWin::EffectWindow*)));
+    reconfigure(ReconfigureAll);
+
+    connect(effects, &EffectsHandler::windowDeleted, this, &MinimizeAnimationEffect::windowDeleted);
+    connect(effects, &EffectsHandler::windowMinimized, this, &MinimizeAnimationEffect::windowMinimized);
+    connect(effects, &EffectsHandler::windowUnminimized, this, &MinimizeAnimationEffect::windowUnminimized);
+}
+
+void MinimizeAnimationEffect::reconfigure(ReconfigureFlags flags)
+{
+    Q_UNUSED(flags)
+
+    m_duration = std::chrono::milliseconds(static_cast<int>(animationTime(250)));
 }
 
 bool MinimizeAnimationEffect::supported()
@@ -38,42 +46,26 @@ bool MinimizeAnimationEffect::supported()
     return effects->animationsSupported();
 }
 
-void MinimizeAnimationEffect::prePaintScreen(ScreenPrePaintData& data, int time)
+void MinimizeAnimationEffect::prePaintScreen(ScreenPrePaintData &data, int time)
 {
+    const std::chrono::milliseconds delta(time);
 
-    QHash< EffectWindow*, QTimeLine* >::iterator entry = mTimeLineWindows.begin();
-    bool erase = false;
-    while (entry != mTimeLineWindows.end()) {
-        QTimeLine *timeline = entry.value();
-        if (entry.key()->isMinimized()) {
-            timeline->setCurrentTime(timeline->currentTime() + time);
-            erase = (timeline->currentValue() >= 1.0f);
-        } else {
-            timeline->setCurrentTime(timeline->currentTime() - time);
-            erase = (timeline->currentValue() <= 0.0f);
-        }
-        if (erase) {
-            delete timeline;
-            entry = mTimeLineWindows.erase(entry);
-        } else
-            ++entry;
+    auto animationIt = m_animations.begin();
+    while (animationIt != m_animations.end()) {
+        (*animationIt).update(delta);
+        ++animationIt;
     }
 
-    mActiveAnimations = mTimeLineWindows.count();
-    if (mActiveAnimations > 0)
-        // We need to mark the screen windows as transformed. Otherwise the
-        //  whole screen won't be repainted, resulting in artefacts
-        data.mask |= PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS;
+    // We need to mark the screen windows as transformed. Otherwise the
+    // whole screen won't be repainted, resulting in artefacts.
+    data.mask |= PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS;
 
     effects->prePaintScreen(data, time);
 }
 
-void MinimizeAnimationEffect::prePaintWindow(EffectWindow* w, WindowPrePaintData& data, int time)
+void MinimizeAnimationEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &data, int time)
 {
-    // Schedule window for transformation if the animation is still in
-    //  progress
-    if (mTimeLineWindows.contains(w)) {
-        // We'll transform this window
+    if (m_animations.contains(w)) {
         data.setTransformed();
         w->enablePainting(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);
     }
@@ -81,75 +73,92 @@ void MinimizeAnimationEffect::prePaintWindow(EffectWindow* w, WindowPrePaintData
     effects->prePaintWindow(w, data, time);
 }
 
-void MinimizeAnimationEffect::paintWindow(EffectWindow* w, int mask, QRegion region, WindowPaintData& data)
+void MinimizeAnimationEffect::paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
 {
-    QHash< EffectWindow*, QTimeLine* >::const_iterator entry = mTimeLineWindows.constFind(w);
-    if (entry != mTimeLineWindows.constEnd()) {
+    const auto animationIt = m_animations.constFind(w);
+    if (animationIt != m_animations.constEnd()) {
         // 0 = not minimized, 1 = fully minimized
-        double progress = entry.value()->currentValue();
+        const qreal progress = (*animationIt).value();
 
         QRect geo = w->geometry();
         QRect icon = w->iconGeometry();
         // If there's no icon geometry, minimize to the center of the screen
-        if (!icon.isValid())
+        if (!icon.isValid()) {
             icon = QRect(effects->virtualScreenGeometry().center(), QSize(0, 0));
+        }
 
         data *= QVector2D(interpolate(1.0, icon.width() / (double)geo.width(), progress),
                           interpolate(1.0, icon.height() / (double)geo.height(), progress));
-        data.setXTranslation((int)interpolate(data.xTranslation(), icon.x() - geo.x(), progress));
-        data.setYTranslation((int)interpolate(data.yTranslation(), icon.y() - geo.y(), progress));
-        data.multiplyOpacity(0.1 + (1 - progress) * 0.9);
+        data.setXTranslation(interpolate(data.xTranslation(), icon.x() - geo.x(), progress));
+        data.setYTranslation(interpolate(data.yTranslation(), icon.y() - geo.y(), progress));
+        data.multiplyOpacity(interpolate(1.0, 0.1, progress));
     }
 
-    // Call the next effect.
     effects->paintWindow(w, mask, region, data);
 }
 
 void MinimizeAnimationEffect::postPaintScreen()
 {
-    if (mActiveAnimations > 0)
-        // Repaint the workspace so that everything would be repainted next time
-        effects->addRepaintFull();
-    mActiveAnimations = mTimeLineWindows.count();
+    auto animationIt = m_animations.begin();
+    while (animationIt != m_animations.end()) {
+        if ((*animationIt).done()) {
+            animationIt = m_animations.erase(animationIt);
+        } else {
+            ++animationIt;
+        }
+    }
 
-    // Call the next effect.
+    effects->addRepaintFull();
+
     effects->postPaintScreen();
 }
 
-void MinimizeAnimationEffect::slotWindowDeleted(EffectWindow* w)
+void MinimizeAnimationEffect::windowDeleted(EffectWindow *w)
 {
-    delete mTimeLineWindows.take(w);
+    m_animations.remove(w);
 }
 
-void MinimizeAnimationEffect::slotWindowMinimized(EffectWindow* w)
+void MinimizeAnimationEffect::windowMinimized(EffectWindow *w)
 {
-    if (effects->activeFullScreenEffect())
+    if (effects->activeFullScreenEffect()) {
         return;
-
-    if (!mTimeLineWindows.contains(w)) {
-        auto *timeline = new QTimeLine(animationTime(250), this);
-        timeline->setCurrentTime(0);
-        timeline->setCurveShape(QTimeLine::EaseInOutCurve);
-        mTimeLineWindows.insert(w, timeline);
     }
+
+    TimeLine &timeLine = m_animations[w];
+
+    if (timeLine.running()) {
+        timeLine.toggleDirection();
+    } else {
+        timeLine.setDirection(TimeLine::Forward);
+        timeLine.setDuration(m_duration);
+        timeLine.setEasingCurve(QEasingCurve::InOutSine);
+    }
+
+    effects->addRepaintFull();
 }
 
-void MinimizeAnimationEffect::slotWindowUnminimized(EffectWindow* w)
+void MinimizeAnimationEffect::windowUnminimized(EffectWindow *w)
 {
-    if (effects->activeFullScreenEffect())
+    if (effects->activeFullScreenEffect()) {
         return;
-
-    if (!mTimeLineWindows.contains(w)) {
-        auto *timeline = new QTimeLine(animationTime(250), this);
-        timeline->setCurrentTime(timeline->duration());
-        timeline->setCurveShape(QTimeLine::EaseInOutCurve);
-        mTimeLineWindows.insert(w, timeline);
     }
+
+    TimeLine &timeLine = m_animations[w];
+
+    if (timeLine.running()) {
+        timeLine.toggleDirection();
+    } else {
+        timeLine.setDirection(TimeLine::Backward);
+        timeLine.setDuration(m_duration);
+        timeLine.setEasingCurve(QEasingCurve::InOutSine);
+    }
+
+    effects->addRepaintFull();
 }
 
 bool MinimizeAnimationEffect::isActive() const
 {
-    return !mTimeLineWindows.isEmpty();
+    return !m_animations.isEmpty();
 }
 
 } // namespace

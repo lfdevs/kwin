@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-19 03:31+0100\n"
+"POT-Creation-Date: 2018-10-13 06:43+0200\n"
 "PO-Revision-Date: 2018-07-11 21:21+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
@@ -432,17 +432,17 @@ msgstr "Mahaigain guztiak"
 msgid "All Activities"
 msgstr "Jarduera guztiak"
 
-#: ruleswidget.cpp:829
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1(r)en ezarpenak"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:833
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Izenik gabeko sarrera"
 
-#: ruleswidget.cpp:841
+#: ruleswidget.cpp:843
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -456,12 +456,12 @@ msgstr ""
 "ezarpenak. Ezarpen generikoa sortu nahi baldin baduzu, gomendagarria da "
 "gutxienez leiho motak mugatzea, leiho mota bereziak saihesteko."
 
-#: ruleswidget.cpp:872
+#: ruleswidget.cpp:874
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Editatu leihoen ezarpen espezifikoak"
 
-#: ruleswidget.cpp:902
+#: ruleswidget.cpp:904
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -474,12 +474,12 @@ msgstr ""
 "ezarpena, gaitu kontrol-laukia erabiliz, eta hautatu ezarpena nola aldatu "
 "eta zer balio ezarri."
 
-#: ruleswidget.cpp:906
+#: ruleswidget.cpp:908
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Begiratu dokumentazioa xehetasun gehiagorako."
 
-#: ruleswidget.cpp:945
+#: ruleswidget.cpp:947
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Editatu lasterbidea"
@@ -1239,6 +1239,9 @@ msgstr "Altua"
 msgid "Extreme"
 msgstr "Muturrekoa"
 
+# xalba 2018-07-11
+#
+# interleave: bateratu itzuli det esaldiaren esanahiari so. Berez "entrelazar" adierazten du, hau da, bien konfigurazioen arteko erlazia zehaztu eta ondorioztatu nagusi/mendekoa zeintzu diren eta horren arabera konfigurazioa ondorioztatu. Horregatik iruditzen zait bien arteko konfigurazioak bateratzen dituela.
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enable_fpplevel)
 #: ruleswidgetbase.ui:2229
 #, kde-format

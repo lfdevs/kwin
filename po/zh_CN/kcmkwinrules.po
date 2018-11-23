@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-19 03:31+0100\n"
-"PO-Revision-Date: 2018-08-30 13:14\n"
-"Last-Translator: guoyunhebrave <yunhe.guo@protonmail.com>\n"
+"POT-Creation-Date: 2018-10-13 06:43+0200\n"
+"PO-Revision-Date: 2018-11-01 23:14\n"
+"Last-Translator: guoyunhe <i@guoyunhe.me>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -406,17 +406,17 @@ msgstr "全部桌面"
 msgid "All Activities"
 msgstr "全部活动"
 
-#: ruleswidget.cpp:829
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 的设置"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:833
 #, kde-format
 msgid "Unnamed entry"
 msgstr "未命名项"
 
-#: ruleswidget.cpp:841
+#: ruleswidget.cpp:843
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -429,12 +429,12 @@ msgstr ""
 "这意味着设置将可能应用到全部应用程序的窗口中。如果您真的想要创建常规设置的"
 "话，推荐您至少限制一种窗口类型，以避免特殊的窗口类型。"
 
-#: ruleswidget.cpp:872
+#: ruleswidget.cpp:874
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "编辑窗口的特定设置"
 
-#: ruleswidget.cpp:902
+#: ruleswidget.cpp:904
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -445,12 +445,12 @@ msgstr ""
 "此配置对话框允许只更改选中窗口或应用程序的设置。查找您想要影响的设置，使用复"
 "选框启用设置，选择设置应影响的方式以及应影响的值。"
 
-#: ruleswidget.cpp:906
+#: ruleswidget.cpp:908
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "请查看文档中的更多信息。"
 
-#: ruleswidget.cpp:945
+#: ruleswidget.cpp:947
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "编辑快捷键"

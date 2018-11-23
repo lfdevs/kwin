@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-08-16 06:20+0200\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
 "PO-Revision-Date: 2017-10-23 11:20+0000\n"
 "Last-Translator: İşbaran <isbaran@gmail.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -261,49 +261,57 @@ msgstr ""
 "\"Ekran içeriğini yeniden kullan\" MESA sürücülerinde şiddetli performans "
 "sorunlarına yol açabilir."
 
-#: model.cpp:69
+#: model.cpp:70
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Erişebilirlik"
 
-#: model.cpp:70
+#: model.cpp:71
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Görünüm"
 
-#: model.cpp:71
+#: model.cpp:72
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Güzelleştirme"
 
-#: model.cpp:72
+#: model.cpp:73
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Odaklama"
 
-#: model.cpp:73
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Tools"
-msgstr "Araçlar"
-
 #: model.cpp:74
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "Category of Desktop Effects, used as section header"
+#| msgid "Virtual Desktop Switching Animation"
 msgctxt "Category of Desktop Effects, used as section header"
-msgid "Virtual Desktop Switching Animation"
+msgid "Show Desktop Animation"
 msgstr "Sanal Masaüstü Değiştirme Animasyonu"
 
 #: model.cpp:75
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
+msgid "Tools"
+msgstr "Araçlar"
+
+#: model.cpp:76
+#, kde-format
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Virtual Desktop Switching Animation"
+msgstr "Sanal Masaüstü Değiştirme Animasyonu"
+
+#: model.cpp:77
+#, kde-format
+msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Pencere Yönetimi"
 
-#: model.cpp:231
+#: model.cpp:233
 #, kde-format
 msgid "KWin development team"
 msgstr "KWin geliştirme takımı"

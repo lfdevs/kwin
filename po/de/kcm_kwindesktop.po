@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-12-06 05:35+0100\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
 "PO-Revision-Date: 2014-04-29 07:47+0200\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -36,12 +36,12 @@ msgstr "Arbeitsfläche %1:"
 msgid "Here you can enter the name for desktop %1"
 msgstr "Hier können Sie den Namen für Arbeitsfläche %1 angeben"
 
-#: desktopnameswidget.cpp:108 main.cpp:226
+#: desktopnameswidget.cpp:108 main.cpp:228
 #, kde-format
 msgid "Desktop %1"
 msgstr "Arbeitsfläche %1"
 
-#: main.cpp:87
+#: main.cpp:89
 #, kde-format
 msgid ""
 "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual "
@@ -51,89 +51,89 @@ msgstr ""
 "viele virtuelle Arbeitsflächen Sie haben möchten und wie sie benannt sein "
 "sollen."
 
-#: main.cpp:99
+#: main.cpp:101
 #, kde-format
 msgid "Switch to Next Desktop"
 msgstr "Zur nächsten Arbeitsfläche umschalten"
 
-#: main.cpp:100
+#: main.cpp:102
 #, kde-format
 msgid "Switch to Previous Desktop"
 msgstr "Zur vorherigen Arbeitsfläche umschalten"
 
-#: main.cpp:101
+#: main.cpp:103
 #, kde-format
 msgid "Switch One Desktop to the Right"
 msgstr "Eine Arbeitsfläche nach rechts"
 
-#: main.cpp:102
+#: main.cpp:104
 #, kde-format
 msgid "Switch One Desktop to the Left"
 msgstr "Eine Arbeitsfläche nach links"
 
-#: main.cpp:103
+#: main.cpp:105
 #, kde-format
 msgid "Switch One Desktop Up"
 msgstr "Eine Arbeitsfläche nach oben"
 
-#: main.cpp:104
+#: main.cpp:106
 #, kde-format
 msgid "Switch One Desktop Down"
 msgstr "Eine Arbeitsfläche nach unten"
 
-#: main.cpp:105
+#: main.cpp:107
 #, kde-format
 msgid "Walk Through Desktops"
 msgstr "Zwischen Arbeitsflächen umschalten"
 
-#: main.cpp:106
+#: main.cpp:108
 #, kde-format
 msgid "Walk Through Desktops (Reverse)"
 msgstr "Zwischen Arbeitsflächen umschalten (Gegenrichtung)"
 
-#: main.cpp:107
+#: main.cpp:109
 #, kde-format
 msgid "Walk Through Desktop List"
 msgstr "Nächster Eintrag in Arbeitsflächenliste"
 
-#: main.cpp:108
+#: main.cpp:110
 #, kde-format
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Nächster Eintrag in Arbeitsflächenliste (Gegenrichtung)"
 
-#: main.cpp:110 main.cpp:144 main.cpp:509 main.cpp:510
+#: main.cpp:112 main.cpp:146 main.cpp:511 main.cpp:512
 #, kde-format
 msgid "Desktop Switching"
 msgstr "Umschalten der Arbeitsfläche"
 
-#: main.cpp:122 main.cpp:489
+#: main.cpp:124 main.cpp:491
 #, kde-format
 msgid "Switch to Desktop %1"
 msgstr "Auf Arbeitsfläche %1 umschalten"
 
-#: main.cpp:154
+#: main.cpp:156
 #, kde-format
 msgid "No Animation"
 msgstr "Keine Animation"
 
-#: main.cpp:493
+#: main.cpp:495
 #, kde-format
 msgid "No suitable Shortcut for Desktop %1 found"
 msgstr "Kein passender Kurzbefehl für Arbeitsfläche %1 gefunden."
 
-#: main.cpp:499
+#: main.cpp:501
 #, kde-format
 msgid "Assigned global Shortcut \"%1\" to Desktop %2"
 msgstr "Der globale Kurzbefehl „%1“ wurde der Arbeitsfläche %2 zugewiesen."
 
-#: main.cpp:502
+#: main.cpp:504
 #, kde-format
 msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
 msgstr ""
 "Kurzbefehlkonflikt: Der Kurzbefehl %1 kann nicht für die Arbeitsfläche %2 "
 "verwendet werden."
 
-#: main.cpp:604
+#: main.cpp:618
 #, kde-format
 msgid "KWin development team"
 msgstr "KWin-Entwicklerteam"

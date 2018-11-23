@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-19 03:31+0100\n"
+"POT-Creation-Date: 2018-10-13 06:43+0200\n"
 "PO-Revision-Date: 2007-11-01 20:28+0545\n"
 "Last-Translator: Shyam Krishna Bal <shyamkrishna_bal@yahoo.com>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -439,17 +439,17 @@ msgstr "सबै डेस्कटप"
 msgid "All Activities"
 msgstr ""
 
-#: ruleswidget.cpp:829
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 का लागि सेटिङ"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:833
 #, kde-format
 msgid "Unnamed entry"
 msgstr "नाम नदिइएको प्रविष्टि"
 
-#: ruleswidget.cpp:841
+#: ruleswidget.cpp:843
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -463,12 +463,12 @@ msgstr ""
 "जेनेरिक सेटिङ प्रयोग गर्न चाहनुहुन्छ भने, यसले तपाईँलाई विशेष सञ्झ्याल प्रकार हटाउन कम्तिमा "
 "सञ्झ्याल प्रकार सीमा तोक्न सिफारिस गर्छ ।"
 
-#: ruleswidget.cpp:872
+#: ruleswidget.cpp:874
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "सञ्झ्याल निर्दिष्ट सेटिङ प्रविष्ट गर्नुहोस्"
 
-#: ruleswidget.cpp:902
+#: ruleswidget.cpp:904
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -480,12 +480,12 @@ msgstr ""
 "दिन्छ । तपाईँले प्रभाव पार्न चाहेको सेटिङ फेला पार्नुहोस्, जाँच बाकस प्रयोग गरेर सेटिङ सक्षम "
 "पार्नुहोस् अनि कुन तरिकाले र कुन मानमा सेटिङ प्रभावकारी हुन्छ चयन गर्नुहोस् ।"
 
-#: ruleswidget.cpp:906
+#: ruleswidget.cpp:908
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "बढी विवरणका लागि मिसिलिकरण परामर्श लिनुहोस्"
 
-#: ruleswidget.cpp:945
+#: ruleswidget.cpp:947
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "सर्टकट सम्पादन गर्नुहोस्"

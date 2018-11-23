@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-12-30 03:13+0100\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
 "PO-Revision-Date: 2018-07-14 20:09+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
@@ -137,18 +137,51 @@ msgid "Tile windows by dragging them to the left or right edges of the screen"
 msgstr ""
 "Teilakatu leihoak haiek pantailaren ezker edo eskuin ertzetara arrastatuz"
 
+# xalba 2018-07-14 lr:
+#
+# 3 itzulgaiekin mezu bakarra osatzen da:
+#
+# 1. Quarter tiling triggered in the outer
+# 2. %
+# 3. Of the screen
+#
+# 1. Laurdeneko lauza eragin pantailaren kanpoko
+# 2. %
+# 3. -(e)an
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
 #, kde-format
 msgid "Quarter tiling triggered in the outer"
 msgstr "Laurdeneko lauza eragin pantailaren kanpoko"
 
+# xalba 2018-07-14 lr:
+#
+# 3 itzulgaiekin mezu bakarra osatzen da:
+#
+# 1. Quarter tiling triggered in the outer
+# 2. %
+# 3. Of the screen
+#
+# 1. Laurdeneko lauza eragin pantailaren kanpoko
+# 2. %
+# 3. -(e)an
 #. i18n: ectx: property (suffix), widget (QSpinBox, electricBorderCornerRatio)
 #: main.ui:106
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
 
+# xalba 2018-07-14 lr:
+#
+# 3 itzulgaiekin mezu bakarra osatzen da:
+#
+# 1. Quarter tiling triggered in the outer
+# 2. %
+# 3. Of the screen
+#
+# 1. Laurdeneko lauza eragin pantailaren kanpoko
+# 2. %
+# 3. -(e)an
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: main.ui:122
 #, kde-format

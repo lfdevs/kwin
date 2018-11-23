@@ -95,8 +95,9 @@ public:
     bool unregisterTouchScreenCallback(int edge);
 
 public Q_SLOTS:
-    quint64 animate(KWin::EffectWindow *w, Attribute a, int ms, KWin::FPx2 to, KWin::FPx2 from = KWin::FPx2(), uint metaData = 0, QEasingCurve::Type curve = QEasingCurve::Linear, int delay = 0);
-    quint64 set(KWin::EffectWindow *w, Attribute a, int ms, KWin::FPx2 to, KWin::FPx2 from = KWin::FPx2(), uint metaData = 0, QEasingCurve::Type curve = QEasingCurve::Linear, int delay = 0);
+    //curve should be of type QEasingCurve::type or ScriptedEffect::EasingCurve
+    quint64 animate(KWin::EffectWindow *w, Attribute a, int ms, KWin::FPx2 to, KWin::FPx2 from = KWin::FPx2(), uint metaData = 0, int curve = QEasingCurve::Linear, int delay = 0);
+    quint64 set(KWin::EffectWindow *w, Attribute a, int ms, KWin::FPx2 to, KWin::FPx2 from = KWin::FPx2(), uint metaData = 0, int curve = QEasingCurve::Linear, int delay = 0);
     bool retarget(quint64 animationId, KWin::FPx2 newTarget, int newRemainingTime = -1);
     bool cancel(quint64 animationId) { return AnimationEffect::cancel(animationId); }
     virtual bool borderActivated(ElectricBorder border);
@@ -109,14 +110,15 @@ Q_SIGNALS:
     void animationEnded(KWin::EffectWindow *w, quint64 animationId);
 
 protected:
+    ScriptedEffect();
+    QScriptEngine *engine() const;
+    bool init(const QString &effectName, const QString &pathToScript);
     void animationEnded(KWin::EffectWindow *w, Attribute a, uint meta);
 
 private Q_SLOTS:
     void signalHandlerException(const QScriptValue &value);
     void globalShortcutTriggered();
 private:
-    ScriptedEffect();
-    bool init(const QString &effectName, const QString &pathToScript);
     QScriptEngine *m_engine;
     QString m_effectName;
     QString m_scriptFile;

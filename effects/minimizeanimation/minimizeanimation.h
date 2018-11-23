@@ -24,26 +24,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Include with base class for effects.
 #include <kwineffects.h>
 
-class QTimeLine;
-
 namespace KWin
 {
 
 /**
  * Animates minimize/unminimize
  **/
-class MinimizeAnimationEffect
-    : public Effect
+class MinimizeAnimationEffect : public Effect
 {
     Q_OBJECT
+
 public:
     MinimizeAnimationEffect();
 
-    virtual void prePaintScreen(ScreenPrePaintData& data, int time);
-    virtual void prePaintWindow(EffectWindow* w, WindowPrePaintData& data, int time);
-    virtual void paintWindow(EffectWindow* w, int mask, QRegion region, WindowPaintData& data);
-    virtual void postPaintScreen();
-    virtual bool isActive() const;
+    void reconfigure(ReconfigureFlags flags) override;
+
+    void prePaintScreen(ScreenPrePaintData &data, int time) override;
+    void prePaintWindow(EffectWindow *w, WindowPrePaintData &data, int time) override;
+    void paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) override;
+    void postPaintScreen() override;
+    bool isActive() const override;
 
     int requestedEffectChainPosition() const override {
         return 50;
@@ -51,14 +51,14 @@ public:
 
     static bool supported();
 
-public Q_SLOTS:
-    void slotWindowDeleted(KWin::EffectWindow *w);
-    void slotWindowMinimized(KWin::EffectWindow *w);
-    void slotWindowUnminimized(KWin::EffectWindow *w);
+private Q_SLOTS:
+    void windowDeleted(EffectWindow *w);
+    void windowMinimized(EffectWindow *w);
+    void windowUnminimized(EffectWindow *w);
 
 private:
-    QHash< EffectWindow*, QTimeLine* > mTimeLineWindows;
-    int mActiveAnimations;
+    std::chrono::milliseconds m_duration;
+    QHash<const EffectWindow*, TimeLine> m_animations;
 };
 
 } // namespace

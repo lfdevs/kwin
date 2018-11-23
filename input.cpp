@@ -398,73 +398,6 @@ private:
     }
 };
 
-class PointerConstraintsFilter : public InputEventFilter {
-public:
-    explicit PointerConstraintsFilter()
-        : InputEventFilter()
-        , m_timer(new QTimer)
-    {
-        QObject::connect(m_timer.data(), &QTimer::timeout,
-            [this] {
-                if (waylandServer()) {
-                    // break keyboard focus, this cancels the pressed ESC
-                    waylandServer()->seat()->setFocusedKeyboardSurface(nullptr);
-                }
-                input()->pointer()->breakPointerConstraints();
-                input()->pointer()->blockPointerConstraints();
-                // TODO: show notification
-                waylandServer()->seat()->keyReleased(m_keyCode);
-                cancel();
-            }
-        );
-    }
-
-    bool keyEvent(QKeyEvent *event) override {
-        if (isActive()) {
-            if (event->type() == QEvent::KeyPress) {
-                // is that another key that gets pressed?
-                if (!event->isAutoRepeat() && event->key() != Qt::Key_Escape) {
-                    cancel();
-                    return false;
-                }
-                if (event->isAutoRepeat() && event->key() == Qt::Key_Escape) {
-                    // filter out
-                    return true;
-                }
-            } else {
-                cancel();
-                return false;
-            }
-        } else if (input()->pointer()->isConstrained()) {
-            if (event->type() == QEvent::KeyPress &&
-                    event->key() == Qt::Key_Escape &&
-                    static_cast<KeyEvent*>(event)->modifiersRelevantForGlobalShortcuts() == Qt::KeyboardModifiers()) {
-                // TODO: don't hard code
-                m_timer->start(3000);
-                m_keyCode = event->nativeScanCode();
-                return false;
-            }
-        }
-        return false;
-    }
-
-    void cancel() {
-        if (!isActive()) {
-            return;
-        }
-        m_timer->stop();
-        input()->keyboard()->update();
-    }
-
-    bool isActive() const {
-        return m_timer->isActive();
-    }
-
-private:
-    QScopedPointer<QTimer> m_timer;
-    int m_keyCode = 0;
-};
-
 class EffectsFilter : public InputEventFilter {
 public:
     bool pointerEvent(QMouseEvent *event, quint32 nativeButton) override {
@@ -1197,6 +1130,7 @@ public:
         }
         auto seat = waylandServer()->seat();
         seat->setFocusedKeyboardSurface(nullptr);
+        input()->pointer()->setEnableConstraints(false);
         // pass the key event to the seat, so that it has a proper model of the currently hold keys
         // this is important for combinations like alt+shift to ensure that shift is not considered pressed
         passToWaylandServer(event);
@@ -1228,7 +1162,7 @@ public:
     }
     bool touchDown(quint32 id, const QPointF &pos, quint32 time) override {
         Q_UNUSED(time)
-        // TODO: better check whether a touch sequence is in progess
+        // TODO: better check whether a touch sequence is in progress
         if (m_touchInProgress || waylandServer()->seat()->isTouchSequence()) {
             // cancel existing touch
             ScreenEdges::self()->gestureRecognizer()->cancelSwipeGesture();
@@ -1340,7 +1274,7 @@ public:
             if (event->buttons() == Qt::NoButton) {
                 // update pointer window only if no button is pressed
                 input()->pointer()->update();
-                input()->pointer()->enablePointerConstraints();
+                input()->pointer()->updatePointerConstraints();
             }
             seat->setPointerPos(event->globalPos());
             MouseEvent *e = static_cast<MouseEvent*>(event);
@@ -1511,7 +1445,7 @@ public:
                 // TODO: consider decorations
                 if (t->surface() != seat->dragSurface()) {
                     if (AbstractClient *c = qobject_cast<AbstractClient*>(t)) {
-                        workspace()->raiseClient(c);
+                        workspace()->activateClient(c);
                     }
                     seat->setPointerPos(event->globalPos());
                     seat->setDragTarget(t->surface(), event->globalPos(), t->inputTransformation());
@@ -1722,8 +1656,6 @@ void InputRedirection::setupInputFilters()
         installInputEventFilter(new DragAndDropInputFilter);
         installInputEventFilter(new LockScreenFilter);
         installInputEventFilter(new PopupInputFilter);
-        m_pointerConstraintsFilter = new PointerConstraintsFilter;
-        installInputEventFilter(m_pointerConstraintsFilter);
         m_windowSelector = new WindowSelectorFilter;
         installInputEventFilter(m_windowSelector);
     }
@@ -2138,11 +2070,6 @@ void InputRedirection::startInteractivePositionSelection(std::function<void(cons
 bool InputRedirection::isSelectingWindow() const
 {
     return m_windowSelector ? m_windowSelector->isActive() : false;
-}
-
-bool InputRedirection::isBreakingPointerConstraints() const
-{
-    return m_pointerConstraintsFilter ? m_pointerConstraintsFilter->isActive() : false;
 }
 
 InputDeviceHandler::InputDeviceHandler(InputRedirection *input)

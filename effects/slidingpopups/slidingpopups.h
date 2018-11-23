@@ -24,26 +24,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Include with base class for effects.
 #include <kwineffects.h>
 
-class QTimeLine;
-
 namespace KWin
 {
 
-class SlidingPopupsEffect
-    : public Effect
+class SlidingPopupsEffect : public Effect
 {
     Q_OBJECT
-    Q_PROPERTY(int fadeInTime READ fadeInTime)
-    Q_PROPERTY(int fadeOutTime READ fadeOutTime)
+    Q_PROPERTY(int slideInDuration READ slideInDuration)
+    Q_PROPERTY(int slideOutDuration READ slideOutDuration)
+
 public:
     SlidingPopupsEffect();
-    ~SlidingPopupsEffect();
-    virtual void prePaintScreen(ScreenPrePaintData& data, int time);
-    virtual void prePaintWindow(EffectWindow* w, WindowPrePaintData& data, int time);
-    virtual void paintWindow(EffectWindow* w, int mask, QRegion region, WindowPaintData& data);
-    virtual void postPaintWindow(EffectWindow* w);
-    virtual void reconfigure(ReconfigureFlags flags);
-    virtual bool isActive() const;
+    ~SlidingPopupsEffect() override;
+
+    void prePaintWindow(EffectWindow *w, WindowPrePaintData &data, int time) override;
+    void paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) override;
+    void postPaintWindow(EffectWindow *w) override;
+    void reconfigure(ReconfigureFlags flags) override;
+    bool isActive() const override;
 
     int requestedEffectChainPosition() const override {
         return 40;
@@ -53,50 +51,64 @@ public:
 
     // TODO react also on virtual desktop changes
 
-    // for properties
-    int fadeInTime() const {
-        return mFadeInTime;
-    }
-    int fadeOutTime() const {
-        return mFadeOutTime;
-    }
-public Q_SLOTS:
-    void slotWindowAdded(KWin::EffectWindow *c);
-    void slotWindowClosed(KWin::EffectWindow *c);
-    void slotWindowDeleted(KWin::EffectWindow *w);
-    void slotPropertyNotify(KWin::EffectWindow *w, long a);
-    void slotWaylandSlideOnShowChanged(EffectWindow* w);
+    int slideInDuration() const;
+    int slideOutDuration() const;
+
+private Q_SLOTS:
+    void slotWindowAdded(EffectWindow *w);
+    void slotWindowDeleted(EffectWindow *w);
+    void slotPropertyNotify(EffectWindow *w, long atom);
+    void slotWaylandSlideOnShowChanged(EffectWindow *w);
+
+    void slideIn(EffectWindow *w);
+    void slideOut(EffectWindow *w);
+
 private:
     void setupAnimData(EffectWindow *w);
-    void startForShow(EffectWindow *w);
 
-    enum Position {
-        West = 0,
-        North = 1,
-        East = 2,
-        South = 3
+    long m_atom;
+
+    int m_slideLength;
+    std::chrono::milliseconds m_slideInDuration;
+    std::chrono::milliseconds m_slideOutDuration;
+
+    enum class AnimationKind {
+        In,
+        Out
     };
-    struct Data {
-        int start; //point in screen coordinates where the window starts
-        //to animate, from decides if this point is an x or an y
-        Position from;
-        int fadeInDuration;
-        int fadeOutDuration;
+
+    struct Animation {
+        AnimationKind kind;
+        TimeLine timeLine;
+    };
+    QHash<const EffectWindow*, Animation> m_animations;
+
+    enum class Location {
+        Left,
+        Top,
+        Right,
+        Bottom
+    };
+
+    struct AnimationData {
+        int offset;
+        Location location;
+        std::chrono::milliseconds slideInDuration;
+        std::chrono::milliseconds slideOutDuration;
         int slideLength;
     };
-    long mAtom;
-
-    // This list is only for appearing windows: we remember that we've enabled the
-    // WindowBackgroundContrastForcedRole flag, so we can remove it later.
-    // It doesn't matter for disappearing windows, they'll be deleted anyway.
-    QList< const EffectWindow* > m_backgroundContrastForced;
-    QHash< const EffectWindow*, QTimeLine* > mAppearingWindows;
-    QHash< const EffectWindow*, QTimeLine* > mDisappearingWindows;
-    QHash< const EffectWindow*, Data > mWindowsData;
-    int mSlideLength;
-    int mFadeInTime;
-    int mFadeOutTime;
+    QHash<const EffectWindow*, AnimationData> m_animationsData;
 };
+
+inline int SlidingPopupsEffect::slideInDuration() const
+{
+    return m_slideInDuration.count();
+}
+
+inline int SlidingPopupsEffect::slideOutDuration() const
+{
+    return m_slideOutDuration.count();
+}
 
 } // namespace
 

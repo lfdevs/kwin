@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KWIN_NIGHTCOLOR_DBUS_INTERFACE_H
 
 #include <QObject>
-#include <QtDBus/QtDBus>
+#include <QtDBus>
 
 namespace KWin
 {
@@ -84,10 +84,10 @@ public Q_SLOTS:
      * - EveningBeginFixed
      * - TransitionTime
      *
-     * It returns true if the configuration change was succesful, otherwise false.
+     * It returns true if the configuration change was successful, otherwise false.
      * A change request for the location or timings needs to provide all relevant fields at the same time
-     * to be succesful. Otherwise the whole change request will get ignored. A change request will be ignored
-     * as a whole as well, if one of the provided informations has been sent in a wrong format.
+     * to be successful. Otherwise the whole change request will get ignored. A change request will be ignored
+     * as a whole as well, if one of the provided information has been sent in a wrong format.
      *
      * @return bool
      * @see nightColorInfo

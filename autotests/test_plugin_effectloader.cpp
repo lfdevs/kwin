@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KConfigGroup>
 #include <KPluginLoader>
 // Qt
-#include <QtTest/QtTest>
+#include <QtTest>
 #include <QStringList>
 Q_DECLARE_METATYPE(KWin::CompositingType)
 Q_DECLARE_METATYPE(KWin::LoadEffectFlag)
@@ -95,6 +95,7 @@ void TestPluginEffectLoader::testHasEffect_data()
     QTest::newRow("MouseMark")         << QStringLiteral("mousemark")                 << false;
     QTest::newRow("PresentWindows")    << QStringLiteral("presentwindows")            << false;
     QTest::newRow("Resize")            << QStringLiteral("resize")                    << false;
+    QTest::newRow("Scale")             << QStringLiteral("scale")                     << false;
     QTest::newRow("ScreenEdge")        << QStringLiteral("screenedge")                << false;
     QTest::newRow("ScreenShot")        << QStringLiteral("screenshot")                << false;
     QTest::newRow("Sheet")             << QStringLiteral("sheet")                     << false;
@@ -118,7 +119,6 @@ void TestPluginEffectLoader::testHasEffect_data()
     QTest::newRow("Login")             << QStringLiteral("kwin4_effect_login")        << false;
     QTest::newRow("Logout")            << QStringLiteral("kwin4_effect_logout")       << false;
     QTest::newRow("Maximize")          << QStringLiteral("kwin4_effect_maximize")     << false;
-    QTest::newRow("ScaleIn")           << QStringLiteral("kwin4_effect_scalein")      << false;
     QTest::newRow("Translucency")      << QStringLiteral("kwin4_effect_translucency") << false;
     // and the fake effects we use here
     QTest::newRow("fakeeffectplugin")    << QStringLiteral("fakeeffectplugin")          << true;
@@ -201,7 +201,7 @@ void TestPluginEffectLoader::testLoadEffect()
     QFETCH(bool, expected);
     QFETCH(KWin::CompositingType, type);
 
-    MockEffectsHandler mockHandler(type);
+    QScopedPointer<MockEffectsHandler, QScopedPointerDeleteLater> mockHandler(new MockEffectsHandler(type));
     KWin::PluginEffectLoader loader;
     loader.setPluginSubDirectory(QString());
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
@@ -285,8 +285,8 @@ void TestPluginEffectLoader::testLoadPluginEffect()
     QFETCH(KWin::LoadEffectFlags, loadFlags);
     QFETCH(bool, enabledByDefault);
 
-    MockEffectsHandler mockHandler(type);
-    mockHandler.setProperty("testEnabledByDefault", enabledByDefault);
+    QScopedPointer<MockEffectsHandler, QScopedPointerDeleteLater> mockHandler(new MockEffectsHandler(type));
+    mockHandler->setProperty("testEnabledByDefault", enabledByDefault);
     KWin::PluginEffectLoader loader;
     loader.setPluginSubDirectory(QString());
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
@@ -341,8 +341,8 @@ void TestPluginEffectLoader::testLoadPluginEffect()
 
 void TestPluginEffectLoader::testLoadAllEffects()
 {
-    MockEffectsHandler mockHandler(KWin::OpenGL2Compositing);
-    mockHandler.setProperty("testEnabledByDefault", true);
+    QScopedPointer<MockEffectsHandler, QScopedPointerDeleteLater> mockHandler(new MockEffectsHandler(KWin::OpenGL2Compositing));
+    mockHandler->setProperty("testEnabledByDefault", true);
     KWin::PluginEffectLoader loader;
     loader.setPluginSubDirectory(QString());
 

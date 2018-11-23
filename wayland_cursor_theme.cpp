@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "wayland_cursor_theme.h"
 #include "cursor.h"
 #include "wayland_server.h"
+#include "screens.h"
 // Qt
 #include <QVector>
 // KWayland
@@ -37,6 +38,7 @@ WaylandCursorTheme::WaylandCursorTheme(KWayland::Client::ShmPool *shm, QObject *
     , m_theme(nullptr)
     , m_shm(shm)
 {
+    connect(screens(), &Screens::maxScaleChanged, this, &WaylandCursorTheme::loadTheme);
 }
 
 WaylandCursorTheme::~WaylandCursorTheme()
@@ -52,20 +54,11 @@ void WaylandCursorTheme::loadTheme()
     Cursor *c = Cursor::self();
     int size = c->themeSize();
     if (size == 0) {
-        // resolution depended
-        // as we don't support per screen cursor sizes yet, we use the first screen
-        KWayland::Server::Display *display = waylandServer()->display();
-        auto output = display->outputs().first();
-        // calculate dots per inch, multiplied with magic constants
-        if (output->physicalSize().height()) {
-            size = qreal(output->pixelSize().height()) / (qreal(output->physicalSize().height()) * 0.0393701) * 16.0 / 72.0;
-        } else {
-            // use sensible default
-            size = 24;
-        }
-        connect(output, &KWayland::Server::OutputInterface::pixelSizeChanged, this, &WaylandCursorTheme::loadTheme, Qt::UniqueConnection);
-        connect(output, &KWayland::Server::OutputInterface::physicalSizeChanged, this, &WaylandCursorTheme::loadTheme, Qt::UniqueConnection);
+        //set a default size
+        size = 24;
     }
+
+    size *= screens()->maxScale();
 
     auto theme = wl_cursor_theme_load(c->themeName().toUtf8().constData(),
                                    size, m_shm->shm());
@@ -90,9 +83,9 @@ void WaylandCursorTheme::destroyTheme()
     m_theme = nullptr;
 }
 
-wl_cursor_image *WaylandCursorTheme::get(Qt::CursorShape shape)
+wl_cursor_image *WaylandCursorTheme::get(CursorShape shape)
 {
-    return get(Cursor::self()->cursorName(shape));
+    return get(shape.name());
 }
 
 wl_cursor_image *WaylandCursorTheme::get(const QByteArray &name)

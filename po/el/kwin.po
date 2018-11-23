@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-07-16 06:10+0200\n"
+"POT-Creation-Date: 2018-09-19 06:52+0200\n"
 "PO-Revision-Date: 2017-06-12 16:22+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -37,11 +37,18 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "sng@hellug.gr, manolis@koppermind.homelinux.org"
 
-#: abstract_client.cpp:1775
+#: abstract_client.cpp:1868
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(δεν ανταποκρίνεται)"
+
+#: abstract_output.cpp:51
+#, fuzzy, kde-format
+#| msgctxt "The input device of the event is not known"
+#| msgid "Unknown"
+msgid "unknown"
+msgstr "Άγνωστη"
 
 #: composite.cpp:569
 #, kde-format
@@ -766,6 +773,169 @@ msgstr "Παράθυρα Wayland"
 msgid "Internal Windows"
 msgstr "Εσωτερικά παράθυρα"
 
+#. i18n: ectx: property (text), widget (QPushButton, quitButton)
+#: debug_console.ui:32
+#, kde-format
+msgid "Quit Debug Console"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, windows)
+#: debug_console.ui:45
+#, kde-format
+msgid "Windows"
+msgstr "Παράθυρα"
+
+#. i18n: ectx: attribute (title), widget (QWidget, surfaces)
+#: debug_console.ui:59
+#, kde-format
+msgid "Surfaces"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, input)
+#: debug_console.ui:69
+#, fuzzy, kde-format
+#| msgid "Input Device"
+msgid "Input Events"
+msgstr "Συσκευή εισόδου"
+
+#. i18n: ectx: attribute (title), widget (QWidget, inputDevices)
+#: debug_console.ui:86
+#, fuzzy, kde-format
+#| msgid "Input Device"
+msgid "Input Devices"
+msgstr "Συσκευή εισόδου"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: debug_console.ui:96
+#, kde-format
+msgid "OpenGL"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, noOpenGLLabel)
+#: debug_console.ui:102
+#, kde-format
+msgid "No OpenGL compositor running"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, driverInfoBox)
+#: debug_console.ui:130
+#, kde-format
+msgid "OpenGL (ES) driver information"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: debug_console.ui:136
+#, kde-format
+msgid "Vendor:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: debug_console.ui:143
+#, kde-format
+msgid "Renderer:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: debug_console.ui:150
+#, kde-format
+msgid "Version:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: debug_console.ui:157
+#, kde-format
+msgid "Shading Language Version:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: debug_console.ui:164
+#, kde-format
+msgid "Driver:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: debug_console.ui:171
+#, kde-format
+msgid "GPU class:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: debug_console.ui:178
+#, kde-format
+msgid "OpenGL Version:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: debug_console.ui:185
+#, kde-format
+msgid "GLSL Version:"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, platformExtensionsBox)
+#: debug_console.ui:251
+#, fuzzy, kde-format
+#| msgid "&Extensions"
+msgid "Platform Extensions"
+msgstr "&Επεκτάσεις"
+
+#. i18n: ectx: property (title), widget (QGroupBox, glExtensionsBox)
+#: debug_console.ui:267
+#, fuzzy, kde-format
+#| msgid "&Extensions"
+msgid "OpenGL (ES) Extensions"
+msgstr "&Επεκτάσεις"
+
+#. i18n: ectx: attribute (title), widget (QWidget, keyboard)
+#: debug_console.ui:288
+#, fuzzy, kde-format
+#| msgctxt "tooltip title"
+#| msgid "Keyboard Layout"
+msgid "Keyboard"
+msgstr "Διάταξη πληκτρολογίου"
+
+#. i18n: ectx: property (title), widget (QGroupBox, layoutBox)
+#: debug_console.ui:315
+#, fuzzy, kde-format
+#| msgctxt "tooltip title"
+#| msgid "Keyboard Layout"
+msgid "Keymap Layouts"
+msgstr "Διάταξη πληκτρολογίου"
+
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#: debug_console.ui:337
+#, fuzzy, kde-format
+#| msgid "Configure Layouts..."
+msgid "Current Layout:"
+msgstr "Διαμόρφωση διατάξεων..."
+
+#. i18n: ectx: property (title), widget (QGroupBox, modifiersBox)
+#: debug_console.ui:356
+#, fuzzy, kde-format
+#| msgctxt "The currently active modifiers"
+#| msgid "Modifiers"
+msgid "Modifiers"
+msgstr "Τροποποιητές"
+
+#. i18n: ectx: property (title), widget (QGroupBox, activeModifiersBox)
+#: debug_console.ui:372
+#, fuzzy, kde-format
+#| msgctxt "The currently active modifiers"
+#| msgid "Modifiers"
+msgid "Active Modifiers"
+msgstr "Τροποποιητές"
+
+#. i18n: ectx: property (title), widget (QGroupBox, ledsBox)
+#: debug_console.ui:388
+#, kde-format
+msgid "LEDs"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, activeLedsBox)
+#: debug_console.ui:404
+#, kde-format
+msgid "Active LEDs"
+msgstr ""
+
 #: helpers/killer/killer.cpp:45
 #, kde-format
 msgid "Window Manager"
@@ -1270,18 +1440,18 @@ msgstr "Απενεργοποίηση επιλογών διαμόρφωσης"
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Υπόδειξη πρόσφατης κατάρρευσης του KWin n φορές στη σειρά"
 
-#: main_wayland.cpp:255
+#: main_wayland.cpp:248
 #, kde-format
 msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 msgstr ""
 "kwin_wayland: κάποιος διαχειριστής παραθύρων X11 εκτελείται στην οθόνη X11\n"
 
-#: main_wayland.cpp:581
+#: main_wayland.cpp:577
 #, kde-format
 msgid "Start a rootless Xwayland server."
 msgstr "Εκκίνηση ενός rootless διακομιστή Xwayland."
 
-#: main_wayland.cpp:583
+#: main_wayland.cpp:579
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
@@ -1289,57 +1459,52 @@ msgstr ""
 "Όνομα της υποδοχής Wayland στην οποία θα ακούει. Αν δεν καθοριστεί, θα "
 "χρησιμοποιηθεί η \"wayland-0\". "
 
-#: main_wayland.cpp:586
-#, kde-format
-msgid "Use a nested compositor in windowed mode."
-msgstr "Χρήση εμφωλευμένου συνθέτη σε παραθυρική λειτουργία."
-
-#: main_wayland.cpp:588
+#: main_wayland.cpp:582
 #, kde-format
 msgid "Render to framebuffer."
 msgstr "Αποτύπωση σε ενδιάμεση μνήμη πλαισίων."
 
-#: main_wayland.cpp:590
+#: main_wayland.cpp:584
 #, kde-format
 msgid "The framebuffer device to render to."
 msgstr "Η συσκευή ενδιάμεσης μνήμης πλαισίων όπου θα γίνει η αποτύπωση."
 
-#: main_wayland.cpp:593
+#: main_wayland.cpp:587
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr ""
 "Η οθόνη X11 που θα χρησιμοποιηθεί σε παραθυρική λειτουργία σε πλατφόρμα X11."
 
-#: main_wayland.cpp:596
+#: main_wayland.cpp:590
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
 "Η οθόνη Wayland που θα χρησιμοποιηθεί σε παραθυρική λειτουργία σε πλατφόρμα "
 "Wayland."
 
-#: main_wayland.cpp:598
+#: main_wayland.cpp:592
 #, kde-format
 msgid "Render to a virtual framebuffer."
 msgstr "Αποτύπωση σε εικονική ενδιάμεση μνήμη πλαισίων."
 
-#: main_wayland.cpp:600
+#: main_wayland.cpp:594
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
 msgstr ""
 "Το πλάτος για τη λειτουργία παραθύρου. Το προκαθορισμένο πλάτος είναι 1024."
 
-#: main_wayland.cpp:604
+#: main_wayland.cpp:598
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
 msgstr "Το ύψος για τη λειτουργία παραθύρου. Το προκαθορισμένο ύψος είναι 768."
 
-#: main_wayland.cpp:609
+#: main_wayland.cpp:603
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
 msgstr ""
 "Η κλιμάκωση για τη λειτουργία παραθύρου. Η προκαθορισμένη τιμή είναι το 1."
 
-#: main_wayland.cpp:614
+#: main_wayland.cpp:608
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
@@ -1347,12 +1512,12 @@ msgstr ""
 "Ο αριθμός των παραθύρων που θα ανοίξουν σαν έξοδοι σε παραθυρική λειτουργία. "
 "Η προκαθορισμένη τιμή είναι 1"
 
-#: main_wayland.cpp:647
+#: main_wayland.cpp:638
 #, kde-format
 msgid "Use libhybris hwcomposer"
 msgstr "Χρήση libhybris hwcomposer"
 
-#: main_wayland.cpp:653
+#: main_wayland.cpp:644
 #, kde-format
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
@@ -1361,34 +1526,34 @@ msgstr ""
 "Ενεργοποίηση υποστήριξης libinput για την επεξεργασία συμβάντων εισόδου. "
 "Σημείωση: να μη χρησιμοποιείται ποτέ σε εμφωλευμένη συνεδρία."
 
-#: main_wayland.cpp:656
+#: main_wayland.cpp:647
 #, kde-format
 msgid "Render through drm node."
 msgstr "Αποτύπωση μέσω λειτουργίας drm."
 
-#: main_wayland.cpp:663
+#: main_wayland.cpp:654
 #, kde-format
 msgid "Input method that KWin starts."
 msgstr "Μέθοδος εισαγωγής που εκκινεί ο KWin."
 
-#: main_wayland.cpp:668
+#: main_wayland.cpp:659
 #, kde-format
 msgid "List all available backends and quit."
 msgstr "Εμφάνιση όλων των διαθέσιμων συστημάτων υποστήριξης και έξοδος."
 
-#: main_wayland.cpp:672
+#: main_wayland.cpp:663
 #, kde-format
 msgid "Starts the session in locked mode."
 msgstr "Εκκινεί τη συνεδρία σε κλειδωμένη λειτουργία."
 
-#: main_wayland.cpp:676
+#: main_wayland.cpp:667
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr ""
 "Έξοδος μετά από το κλείσιμο της εφαρμογής συνεδρίας, που εκκινείται από τον "
 "KWin."
 
-#: main_wayland.cpp:681
+#: main_wayland.cpp:672
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr ""
@@ -1448,25 +1613,70 @@ msgstr ""
 msgid "Automatic Screen Rotation"
 msgstr ""
 
-#: pointer_input.cpp:659
+#: plugins/scenes/opengl/scene_opengl.cpp:574
 #, kde-format
-msgctxt "notification about mouse pointer confined"
-msgid ""
-"Pointer motion confined to the current window.\n"
-"To release pointer hold Escape for 3 seconds."
+msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
-"Η κίνηση του δείκτη περιορίζεται στο τρέχον παράθυρο.\n"
-"Για απελευθέρωση του δείκτη κρατήστε το Esc για 3 δευτερόλεπτα."
+"Τα εφέ επιφάνειας εργασίας επανεκκινήθηκαν λόγω της επαναφοράς γραφικών"
 
-#: pointer_input.cpp:676
+#: plugins/scenes/opengl/scene_opengl.cpp:826
 #, kde-format
-msgctxt "notification about mouse pointer locked"
 msgid ""
-"Pointer locked to current position.\n"
-"To end pointer lock hold Escape for 3 seconds."
+"<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
+"OpenGL Desktop Effects at the current resolution<br><br>You can try to "
+"select the XRender backend, but it might be very slow for this resolution as "
+"well.<br>Alternatively, lower the combined resolution of all screens to %1x"
+"%2 "
 msgstr ""
-"Ο δείκτης κλειδώθηκε στην τρέχουσα θέση.\n"
-"Για τερματισμό του κλειδώματος κρατήστε το Esc για 3 δευτερόλεπτα."
+"<h1>Δεν είναι δυνατή η χρήση των εφέ OpenGL</h1>Το σύστημά σας δεν μπορεί να "
+"εκτελέσει εφέ επιφάνειας εργασίας OpenGL στην τρέχουσα ανάλυση "
+"<br><br>Προσπαθήστε να επιλέξτε το σύστημα υποστήριξης XRender, αλλά "
+"ενδέχεται να είναι επίσης πολύ αργό γι 'αυτή την ανάλυση. <br>Εναλλακτικά, "
+"μειώστε την συνδυασμένη ανάλυση όλων των οθονών σε %1x%2 "
+
+#: plugins/scenes/opengl/scene_opengl.cpp:833
+#, kde-format
+msgid ""
+"The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+"GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+"does not know such limitation, but the performance will usually be impacted "
+"by the hardware limitations that restrict the OpenGL viewport size."
+msgstr ""
+"Η ζητούμενη ανάλυση υπερβαίνει τον περιορισμό GL_MAX_VIEWPORT_DIMS της GPU "
+"σας και συνεπώς δεν είναι συμβατή με τον συνθέτη OpenGL.<br>Το XRender δεν "
+"έχει τέτοιο περιορισμό, αλλά η απόδοση συνήθως επηρεάζεται από τους "
+"περιορισμούς του υλικού που επιβάλλουν το μέγεθος του παραθύρου της προβολής "
+"OpenGL."
+
+#: plugins/scenes/opengl/scene_opengl.cpp:858
+#, kde-format
+msgid ""
+"<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+"the current resolution are supported but might be exceptionally slow."
+"<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
+"compositing, switch to the XRender backend or lower the resolution to %1x%1."
+msgstr ""
+"<h1>Τα εφέ OpenGL ίσως να είναι άχρηστα</h1>Το σύστημά σας υποστηρίζει τα "
+"εφέ επιφάνειας εργασίας OpenGL στην τρέχουσα ανάλυση, αλλά μπορεί να είναι "
+"εξαιρετικά αργά.<br>Επίσης τα μεγιστοποιημένα παράθυρα θα γίνονται εντελώς "
+"μαύρα.<br>Είτε αναστείλετε τα εφέ, είτε αλλάξτε το σύστημα υποστήριξης σε "
+"XRender ή μειώστε την ανάλυση σε %1x%1."
+
+#: plugins/scenes/opengl/scene_opengl.cpp:864
+#, kde-format
+msgid ""
+"The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+"GPU, thus windows of that size cannot be assigned to textures and will be "
+"entirely black.<br>Also this limit will often be a performance level barrier "
+"despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+"software rendering in this case."
+msgstr ""
+"Η ζητούμενη ανάλυση υπερβαίνει τον περιορισμό GL_MAX_TEXTURE_SIZE της GPU "
+"σας και συνεπώς τα παράθυρα αυτού του μεγέθους δεν μπορούν να αποδοθούν σε "
+"υφές και θα είναι εντελώς μαύρα.<br>Επίσης, το όριο αυτό θα είναι συχνά ένα "
+"εμπόδιο στο επίπεδο απόδοσης παρόλο που είναι κατώτερο του "
+"GL_MAX_VIEWPORT_DIMS, επειδή ο οδηγός μπορεί να μεταβεί στην αποτύπωση "
+"λογισμικού σε αυτή την περίπτωση."
 
 #: scripting/genericscriptedconfig.cpp:81
 #, kde-format
@@ -1517,69 +1727,81 @@ msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
 msgstr "το %1 δεν είναι ένας τύπος παραλλαγής"
 
-#: tabbox/tabbox.cpp:386
+#. i18n: ectx: property (windowTitle), widget (QDialog, ShortcutDialog)
+#: shortcutdialog.ui:14
+#, kde-format
+msgid "Dialog"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, clearButton)
+#: shortcutdialog.ui:25
+#, kde-format
+msgid "..."
+msgstr ""
+
+#: tabbox/tabbox.cpp:387
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Εμφάνιση επιφάνειας εργασίας"
 
-#: tabbox/tabbox.cpp:535
+#: tabbox/tabbox.cpp:536
 #, kde-format
 msgid "Walk Through Windows"
 msgstr "Διάσχιση παραθύρων"
 
-#: tabbox/tabbox.cpp:536
+#: tabbox/tabbox.cpp:537
 #, kde-format
 msgid "Walk Through Windows (Reverse)"
 msgstr "Διάσχιση παραθύρων (Αντίστροφη)"
 
-#: tabbox/tabbox.cpp:537
+#: tabbox/tabbox.cpp:538
 #, kde-format
 msgid "Walk Through Windows Alternative"
 msgstr "Εναλλακτική για την διάσχιση παραθύρων"
 
-#: tabbox/tabbox.cpp:538
+#: tabbox/tabbox.cpp:539
 #, kde-format
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Εναλλακτική για την διάσχιση παραθύρων (Αντίστροφη)"
 
-#: tabbox/tabbox.cpp:539
+#: tabbox/tabbox.cpp:540
 #, kde-format
 msgid "Walk Through Windows of Current Application"
 msgstr "Διάσχιση παραθύρων της τρέχουσας εφαρμογής"
 
-#: tabbox/tabbox.cpp:540
+#: tabbox/tabbox.cpp:541
 #, kde-format
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Διάσχιση παραθύρων της τρέχουσας εφαρμογής (Αντίστροφη)"
 
-#: tabbox/tabbox.cpp:541
+#: tabbox/tabbox.cpp:542
 #, kde-format
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Εναλλακτική για την διάσχιση παραθύρων της τρέχουσας εφαρμογής"
 
-#: tabbox/tabbox.cpp:542
+#: tabbox/tabbox.cpp:543
 #, kde-format
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr ""
 "Εναλλακτική για την διάσχιση παραθύρων της τρέχουσας εφαρμογής (Αντίστροφη)"
 
-#: tabbox/tabbox.cpp:543
+#: tabbox/tabbox.cpp:544
 #, kde-format
 msgid "Walk Through Desktops"
 msgstr "Διάσχιση επιφανειών εργασίας"
 
-#: tabbox/tabbox.cpp:544
+#: tabbox/tabbox.cpp:545
 #, kde-format
 msgid "Walk Through Desktops (Reverse)"
 msgstr "Διάσχιση επιφανειών εργασίας (Αντίστροφη)"
 
-#: tabbox/tabbox.cpp:545
+#: tabbox/tabbox.cpp:546
 #, kde-format
 msgid "Walk Through Desktop List"
 msgstr "Διάσχιση λίστας επιφανειών εργασίας"
 
-#: tabbox/tabbox.cpp:546
+#: tabbox/tabbox.cpp:547
 #, kde-format
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Διάσχιση λίστας επιφανειών εργασίας (Αντίστροφη)"
@@ -1726,49 +1948,49 @@ msgctxt "Switch to tab -> Next"
 msgid "Next"
 msgstr "Επόμενη"
 
-#: useractions.cpp:575
+#: useractions.cpp:574
 #, kde-format
 msgctxt "There's no window available to be attached as tab to this one"
 msgid "None available"
 msgstr "Κανένα διαθέσιμο"
 
-#: useractions.cpp:584
+#: useractions.cpp:583
 #, kde-format
 msgid "Switch to Tab"
 msgstr "Εναλλαγή στην καρτέλα"
 
-#: useractions.cpp:595
+#: useractions.cpp:594
 #, kde-format
 msgid "&Attach as tab to"
 msgstr "Επι&σύναψη ως καρτέλα σε"
 
-#: useractions.cpp:618
+#: useractions.cpp:617
 #, kde-format
 msgid "Move To &Desktop"
 msgstr "Στην επι&φάνεια εργασίας"
 
-#: useractions.cpp:634
+#: useractions.cpp:633
 #, kde-format
 msgid "Move To &Screen"
 msgstr "Μετακίνη&ση στην οθόνη"
 
-#: useractions.cpp:649
+#: useractions.cpp:648
 #, kde-format
 msgid "Ac&tivities"
 msgstr "&Δραστηριότητες"
 
-#: useractions.cpp:661
+#: useractions.cpp:660
 #, kde-format
 msgid "&All Desktops"
 msgstr "Ό&λες τις επιφάνειες εργασίας"
 
-#: useractions.cpp:687
+#: useractions.cpp:686
 #, kde-format
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "&Νέα επιφάνεια εργασίας"
 
-#: useractions.cpp:707
+#: useractions.cpp:706
 #, kde-format
 msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
@@ -1776,29 +1998,29 @@ msgctxt ""
 msgid "Screen &%1 (%2)"
 msgstr "Οθόνη &%1 (%2)"
 
-#: useractions.cpp:728
+#: useractions.cpp:727
 #, kde-format
 msgid "&All Activities"
 msgstr "&Όλες οι δραστηριότητες"
 
-#: useractions.cpp:943
+#: useractions.cpp:942
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "<b>%1</b> χρησιμοποιείται ήδη"
 
-#: useractions.cpp:945
+#: useractions.cpp:944
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "<b>%1</b> χρησιμοποιείται από την ενέργεια %2 του %3"
 
-#: useractions.cpp:1076
+#: useractions.cpp:1075
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Ενεργοποίηση παραθύρου (%1)"
 
-#: useractions.cpp:1281
+#: useractions.cpp:1280
 #, kde-format
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "

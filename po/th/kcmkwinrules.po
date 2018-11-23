@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-19 03:31+0100\n"
+"POT-Creation-Date: 2018-10-13 06:43+0200\n"
 "PO-Revision-Date: 2010-07-07 14:59+0700\n"
 "Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -435,17 +435,17 @@ msgstr "พื้นที่ทำงานทั้งหมด"
 msgid "All Activities"
 msgstr ""
 
-#: ruleswidget.cpp:829
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Settings for %1"
 msgstr "ตั้งค่าต่าง ๆ ของ %1"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:833
 #, kde-format
 msgid "Unnamed entry"
 msgstr "รายการที่ยังไม่กำหนดชื่อ"
 
-#: ruleswidget.cpp:841
+#: ruleswidget.cpp:843
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -459,12 +459,12 @@ msgstr ""
 "หากคุณต้องการตั้งค่าหน้าต่างโดยจำเพาะเจาะจงจริง ๆ ขอแนะนำให้คุณทำการจำกัดชนิดของหน้าต่าง "
 "และระบุสิ่งที่ใช้อ้างถึงหน้าต่างที่ต้องการให้มากที่สุด"
 
-#: ruleswidget.cpp:872
+#: ruleswidget.cpp:874
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "แก้ไขการตั้งค่าต่าง ๆ ของหน้าต่างที่เจาะจง"
 
-#: ruleswidget.cpp:902
+#: ruleswidget.cpp:904
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -476,12 +476,12 @@ msgstr ""
 "โดยค้นหาการตั้งค่าที่คุณต้องการ, เปิดใช้งานหรือตั้งค่ามัน, เลือกมันและทำการปรับตั้งค่าต่าง ๆ "
 "ตามที่ต้องการ"
 
-#: ruleswidget.cpp:906
+#: ruleswidget.cpp:908
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "โปรดดูรายละเอียดเพิ่มเติมในเอกสาร"
 
-#: ruleswidget.cpp:945
+#: ruleswidget.cpp:947
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "แก้ไขปุ่มพิมพ์ลัด"

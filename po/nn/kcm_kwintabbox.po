@@ -1,11 +1,11 @@
 # Translation of kcm_kwintabbox to Norwegian Nynorsk
 #
-# Karl Ove Hufthammer <karl@huftis.org>, 2010, 2015.
+# Karl Ove Hufthammer <karl@huftis.org>, 2010, 2015, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2016-11-19 20:21+0100\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
 "PO-Revision-Date: 2015-09-19 14:13+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"

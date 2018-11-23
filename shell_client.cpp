@@ -27,7 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "wayland_server.h"
 #include "workspace.h"
 #include "virtualdesktops.h"
-#include "workspace.h"
 #include "screens.h"
 #include "decorations/decorationbridge.h"
 #include "decorations/decoratedclient.h"
@@ -1235,7 +1234,12 @@ void ShellClient::installPlasmaShellSurface(PlasmaShellSurfaceInterface *surface
 {
     m_plasmaShellSurface = surface;
     auto updatePosition = [this, surface] {
-        doSetGeometry(QRect(surface->position(), m_clientSize + QSize(borderLeft() + borderRight(), borderTop() + borderBottom())));
+        QRect rect = QRect(surface->position(), m_clientSize + QSize(borderLeft() + borderRight(), borderTop() + borderBottom()));
+        // Shell surfaces of internal windows are sometimes desync to current value.
+        // Make sure to not set window geometry of internal windows to invalid values (bug 386304)
+        if (!m_internal || rect.isValid()) {
+            doSetGeometry(rect);
+        }
     };
     auto updateRole = [this, surface] {
         NET::WindowType type = NET::Unknown;
@@ -1298,6 +1302,11 @@ void ShellClient::installPlasmaShellSurface(PlasmaShellSurfaceInterface *surface
     setSkipTaskbar(surface->skipTaskbar());
     connect(surface, &PlasmaShellSurfaceInterface::skipTaskbarChanged, this, [this] {
         setSkipTaskbar(m_plasmaShellSurface->skipTaskbar());
+    });
+
+    setSkipSwitcher(surface->skipSwitcher());
+    connect(surface, &PlasmaShellSurfaceInterface::skipSwitcherChanged, this, [this] {
+        setSkipSwitcher(m_plasmaShellSurface->skipSwitcher());
     });
 }
 

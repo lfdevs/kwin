@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-08-16 06:20+0200\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
 "PO-Revision-Date: 2009-01-15 15:07+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik <>\n"
@@ -247,55 +247,61 @@ msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
 
-#: model.cpp:69
+#: model.cpp:70
 #, fuzzy, kde-format
 #| msgid "Accessibility"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Имкониятҳо"
 
-#: model.cpp:70
+#: model.cpp:71
 #, fuzzy, kde-format
 #| msgid "Appearance"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Намуди зоҳирӣ"
 
-#: model.cpp:71
+#: model.cpp:72
 #, fuzzy, kde-format
 #| msgid "Candy"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Candy"
 msgstr "Веб сайти KDE Eye Candy"
 
-#: model.cpp:72
+#: model.cpp:73
 #, fuzzy, kde-format
 #| msgid "Focus"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Фокус"
 
-#: model.cpp:73
+#: model.cpp:74
+#, kde-format
+msgctxt "Category of Desktop Effects, used as section header"
+msgid "Show Desktop Animation"
+msgstr ""
+
+#: model.cpp:75
 #, fuzzy, kde-format
 #| msgid "Tools"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Асбобҳо"
 
-#: model.cpp:74
+#: model.cpp:76
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr ""
 
-#: model.cpp:75
+#: model.cpp:77
 #, fuzzy, kde-format
 #| msgid "Window Management"
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Управление окнами"
 
-#: model.cpp:231
+#: model.cpp:233
 #, kde-format
 msgid "KWin development team"
 msgstr ""

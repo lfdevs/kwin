@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-12-06 05:35+0100\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
 "PO-Revision-Date: 2014-05-22 22:48+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -40,12 +40,12 @@ msgstr "Escritorio %1:"
 msgid "Here you can enter the name for desktop %1"
 msgstr "Aquí puede introducir el nombre del escritorio %1"
 
-#: desktopnameswidget.cpp:108 main.cpp:226
+#: desktopnameswidget.cpp:108 main.cpp:228
 #, kde-format
 msgid "Desktop %1"
 msgstr "Escritorio %1"
 
-#: main.cpp:87
+#: main.cpp:89
 #, kde-format
 msgid ""
 "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual "
@@ -54,89 +54,89 @@ msgstr ""
 "<h1>Múltiples escritorios</h1>En este módulo, puede configurar el número de "
 "escritorios virtuales que desea y cómo se deberían etiquetar."
 
-#: main.cpp:99
+#: main.cpp:101
 #, kde-format
 msgid "Switch to Next Desktop"
 msgstr "Cambiar a escritorio siguiente"
 
-#: main.cpp:100
+#: main.cpp:102
 #, kde-format
 msgid "Switch to Previous Desktop"
 msgstr "Cambiar a escritorio anterior"
 
-#: main.cpp:101
+#: main.cpp:103
 #, kde-format
 msgid "Switch One Desktop to the Right"
 msgstr "Cambiar a escritorio de la derecha"
 
-#: main.cpp:102
+#: main.cpp:104
 #, kde-format
 msgid "Switch One Desktop to the Left"
 msgstr "Cambiar a escritorio de la izquierda"
 
-#: main.cpp:103
+#: main.cpp:105
 #, kde-format
 msgid "Switch One Desktop Up"
 msgstr "Cambiar al escritorio superior"
 
-#: main.cpp:104
+#: main.cpp:106
 #, kde-format
 msgid "Switch One Desktop Down"
 msgstr "Cambiar al escritorio inferior"
 
-#: main.cpp:105
+#: main.cpp:107
 #, kde-format
 msgid "Walk Through Desktops"
 msgstr "Recorrer los escritorios"
 
-#: main.cpp:106
+#: main.cpp:108
 #, kde-format
 msgid "Walk Through Desktops (Reverse)"
 msgstr "Recorrer los escritorios (en orden inverso)"
 
-#: main.cpp:107
+#: main.cpp:109
 #, kde-format
 msgid "Walk Through Desktop List"
 msgstr "Recorrer la lista de escritorios"
 
-#: main.cpp:108
+#: main.cpp:110
 #, kde-format
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Recorrer la lista de escritorios (en orden inverso)"
 
-#: main.cpp:110 main.cpp:144 main.cpp:509 main.cpp:510
+#: main.cpp:112 main.cpp:146 main.cpp:511 main.cpp:512
 #, kde-format
 msgid "Desktop Switching"
 msgstr "Cambio de escritorio"
 
-#: main.cpp:122 main.cpp:489
+#: main.cpp:124 main.cpp:491
 #, kde-format
 msgid "Switch to Desktop %1"
 msgstr "Cambiar al escritorio %1"
 
-#: main.cpp:154
+#: main.cpp:156
 #, kde-format
 msgid "No Animation"
 msgstr "Sin animación"
 
-#: main.cpp:493
+#: main.cpp:495
 #, kde-format
 msgid "No suitable Shortcut for Desktop %1 found"
 msgstr "No se ha encontrado un acceso rápido adecuado para el escritorio %1"
 
-#: main.cpp:499
+#: main.cpp:501
 #, kde-format
 msgid "Assigned global Shortcut \"%1\" to Desktop %2"
 msgstr "Acceso rápido global «%1» asignado al escritorio %2"
 
-#: main.cpp:502
+#: main.cpp:504
 #, kde-format
 msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
 msgstr ""
 "Conflicto de acceso rápido: No se puede asignar el acceso rápido %1 al "
 "escritorio %2"
 
-#: main.cpp:604
+#: main.cpp:618
 #, kde-format
 msgid "KWin development team"
 msgstr "Equipo de desarrollo de KWin"

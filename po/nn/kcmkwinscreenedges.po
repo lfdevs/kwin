@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2017-12-30 03:13+0100\n"
-"PO-Revision-Date: 2018-01-24 20:01+0100\n"
+"POT-Creation-Date: 2018-09-14 06:48+0200\n"
+"PO-Revision-Date: 2018-11-05 21:44+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
@@ -134,14 +134,14 @@ msgstr "Maksimer vindauge ved å dra dei øvst på skjermen"
 #, kde-format
 msgid "Tile windows by dragging them to the left or right edges of the screen"
 msgstr ""
-"Still vindauge ved sida av eller over/under kvarandre ved å dra dei til "
-"venstre eller høgre på kant kant på skjermen"
+"Still vindauge ved sida av kvarandre ved å dra dei til venstre eller høgre "
+"kant på skjermen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: main.ui:93
 #, kde-format
 msgid "Quarter tiling triggered in the outer"
-msgstr "Kvadrantflislegging utløyst i det ytre"
+msgstr "Bruk kvadrantflislegging i det ytre"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, electricBorderCornerRatio)
 #: main.ui:106
@@ -179,7 +179,7 @@ msgstr "&Byt skrivebord når musa er på kanten:"
 #, kde-format
 msgctxt "Switch desktop on edge"
 msgid "Disabled"
-msgstr "Av"
+msgstr "Aldri"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
 #: main.ui:181
@@ -191,7 +191,7 @@ msgstr "Berre når vindauge vert flytta"
 #: main.ui:186
 #, kde-format
 msgid "Always Enabled"
-msgstr "Alltid på"
+msgstr "Alltid"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: main.ui:194

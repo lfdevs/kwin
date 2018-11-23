@@ -219,15 +219,8 @@ void ApplicationWayland::continueStartupWithX()
     QSocketNotifier *notifier = new QSocketNotifier(xcb_get_file_descriptor(c), QSocketNotifier::Read, this);
     auto processXcbEvents = [this, c] {
         while (auto event = xcb_poll_for_event(c)) {
-            updateX11Time(event);
             long result = 0;
-            if (QThread::currentThread()->eventDispatcher()->filterNativeEvent(QByteArrayLiteral("xcb_generic_event_t"), event, &result)) {
-                free(event);
-                continue;
-            }
-            if (Workspace::self()) {
-                Workspace::self()->workspaceEvent(event);
-            }
+            QThread::currentThread()->eventDispatcher()->filterNativeEvent(QByteArrayLiteral("xcb_generic_event_t"), event, &result);
             free(event);
         }
         xcb_flush(c);
@@ -516,6 +509,10 @@ void dropNiceCapability()
 
 int main(int argc, char * argv[])
 {
+    if (getuid() == 0) {
+        std::cerr << "kwin_wayland does not support running as root." << std::endl;
+        return 1;
+    }
     KWin::disablePtrace();
     KWin::Application::setupMalloc();
     KWin::Application::setupLocalizedString();
@@ -563,7 +560,6 @@ int main(int argc, char * argv[])
             }
         );
     };
-    const bool hasWindowedOption = hasPlugin(KWin::s_x11Plugin) || hasPlugin(KWin::s_waylandPlugin);
     const bool hasSizeOption = hasPlugin(KWin::s_x11Plugin) || hasPlugin(KWin::s_virtualPlugin);
     const bool hasOutputCountOption = hasPlugin(KWin::s_x11Plugin);
     const bool hasX11Option = hasPlugin(KWin::s_x11Plugin);
@@ -582,8 +578,6 @@ int main(int argc, char * argv[])
     QCommandLineOption waylandSocketOption(QStringList{QStringLiteral("s"), QStringLiteral("socket")},
                                            i18n("Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."),
                                            QStringLiteral("socket"));
-    QCommandLineOption windowedOption(QStringLiteral("windowed"),
-                                      i18n("Use a nested compositor in windowed mode."));
     QCommandLineOption framebufferOption(QStringLiteral("framebuffer"),
                                          i18n("Render to framebuffer."));
     QCommandLineOption framebufferDeviceOption(QStringLiteral("fb-device"),
@@ -619,9 +613,6 @@ int main(int argc, char * argv[])
     a.setupCommandLine(&parser);
     parser.addOption(xwaylandOption);
     parser.addOption(waylandSocketOption);
-    if (hasWindowedOption) {
-        parser.addOption(windowedOption);
-    }
     if (hasX11Option) {
         parser.addOption(x11DisplayOption);
     }
@@ -743,25 +734,14 @@ int main(int argc, char * argv[])
         }
     }
 
-    if (hasWindowedOption && parser.isSet(windowedOption)) {
-        if (hasX11Option && parser.isSet(x11DisplayOption)) {
-            deviceIdentifier = parser.value(x11DisplayOption).toUtf8();
-        } else if (!(hasWaylandOption && parser.isSet(waylandDisplayOption))) {
-            deviceIdentifier = qgetenv("DISPLAY");
-        }
-        if (!deviceIdentifier.isEmpty()) {
-            pluginName = KWin::s_x11Plugin;
-        } else if (hasWaylandOption) {
-            if (parser.isSet(waylandDisplayOption)) {
-                deviceIdentifier = parser.value(waylandDisplayOption).toUtf8();
-            } else {
-                deviceIdentifier = qgetenv("WAYLAND_DISPLAY");
-            }
-            if (!deviceIdentifier.isEmpty()) {
-                pluginName = KWin::s_waylandPlugin;
-            }
-        }
+    if (hasX11Option && parser.isSet(x11DisplayOption)) {
+        deviceIdentifier = parser.value(x11DisplayOption).toUtf8();
+        pluginName = KWin::s_x11Plugin;
+    } else if (hasWaylandOption && parser.isSet(waylandDisplayOption)) {
+        deviceIdentifier = parser.value(waylandDisplayOption).toUtf8();
+        pluginName = KWin::s_waylandPlugin;
     }
+
     if (hasFramebufferOption && parser.isSet(framebufferOption)) {
         pluginName = KWin::s_fbdevPlugin;
         deviceIdentifier = parser.value(framebufferDeviceOption).toUtf8();

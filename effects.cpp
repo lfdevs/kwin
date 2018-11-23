@@ -620,7 +620,11 @@ void EffectsHandlerImpl::slotPaddingChanged(Toplevel* t, const QRect& old)
 
 void EffectsHandlerImpl::setActiveFullScreenEffect(Effect* e)
 {
+    if (fullscreen_effect == e) {
+        return;
+    }
     fullscreen_effect = e;
+    emit activeFullScreenEffectChanged();
 }
 
 Effect* EffectsHandlerImpl::activeFullScreenEffect() const
@@ -1074,10 +1078,12 @@ void EffectsHandlerImpl::setTabBoxDesktop(int desktop)
 EffectWindowList EffectsHandlerImpl::currentTabBoxWindowList() const
 {
 #ifdef KWIN_BUILD_TABBOX
-    EffectWindowList ret;
     const auto clients = TabBox::TabBox::self()->currentClientList();
-    for (auto c : clients)
-    ret.append(c->effectWindow());
+    EffectWindowList ret;
+    ret.reserve(clients.size());
+    std::transform(std::cbegin(clients), std::cend(clients),
+        std::back_inserter(ret),
+        [](auto client) { return client->effectWindow(); });
     return ret;
 #else
     return EffectWindowList();
@@ -1304,9 +1310,10 @@ void EffectsHandlerImpl::toggleEffect(const QString& name)
 QStringList EffectsHandlerImpl::loadedEffects() const
 {
     QStringList listModules;
-    for (QVector< EffectPair >::const_iterator it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
-        listModules << (*it).first;
-    }
+    listModules.reserve(loaded_effects.count());
+    std::transform(loaded_effects.constBegin(), loaded_effects.constEnd(),
+        std::back_inserter(listModules),
+        [](const EffectPair &pair) { return pair.first; });
     return listModules;
 }
 
@@ -1363,20 +1370,15 @@ void EffectsHandlerImpl::reconfigureEffect(const QString& name)
 
 bool EffectsHandlerImpl::isEffectLoaded(const QString& name) const
 {
-    for (QVector< EffectPair >::const_iterator it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it)
-        if ((*it).first == name)
-            return true;
-
-    return false;
+    auto it = std::find_if(loaded_effects.constBegin(), loaded_effects.constEnd(),
+        [&name](const EffectPair &pair) { return pair.first == name; });
+    return it != loaded_effects.constEnd();
 }
 
 bool EffectsHandlerImpl::isEffectSupported(const QString &name)
 {
-    // if the effect is loaded, it is obviously supported
-    auto it = std::find_if(loaded_effects.constBegin(), loaded_effects.constEnd(), [name](const EffectPair &pair) {
-        return pair.first == name;
-    });
-    if (it != loaded_effects.constEnd()) {
+    // If the effect is loaded, it is obviously supported.
+    if (isEffectLoaded(name)) {
         return true;
     }
 
@@ -1388,12 +1390,15 @@ bool EffectsHandlerImpl::isEffectSupported(const QString &name)
 
 }
 
-QList< bool > EffectsHandlerImpl::areEffectsSupported(const QStringList &names)
+QList<bool> EffectsHandlerImpl::areEffectsSupported(const QStringList &names)
 {
-    QList< bool > retList;
-    for (const QString &name : names) {
-        retList << isEffectSupported(name);
-    }
+    QList<bool> retList;
+    retList.reserve(names.count());
+    std::transform(names.constBegin(), names.constEnd(),
+        std::back_inserter(retList),
+        [this](const QString &name) {
+            return isEffectSupported(name);
+        });
     return retList;
 }
 
@@ -1416,11 +1421,11 @@ void EffectsHandlerImpl::effectsChanged()
 {
     loaded_effects.clear();
     m_activeEffects.clear(); // it's possible to have a reconfigure and a quad rebuild between two paint cycles - bug #308201
-//    qDebug() << "Recreating effects' list:";
-    for (const EffectPair & effect : effect_order) {
-//        qDebug() << effect.first;
-        loaded_effects.append(effect);
-    }
+
+    loaded_effects.reserve(effect_order.count());
+    std::copy(effect_order.constBegin(), effect_order.constEnd(),
+        std::back_inserter(loaded_effects));
+
     m_activeEffects.reserve(loaded_effects.count());
 }
 
@@ -1467,24 +1472,23 @@ QVariant EffectsHandlerImpl::kwinOption(KWinOption kwopt)
 
 QString EffectsHandlerImpl::supportInformation(const QString &name) const
 {
-    if (!isEffectLoaded(name)) {
+    auto it = std::find_if(loaded_effects.constBegin(), loaded_effects.constEnd(),
+        [name](const EffectPair &pair) { return pair.first == name; });
+    if (it == loaded_effects.constEnd()) {
         return QString();
     }
-    for (QVector< EffectPair >::const_iterator it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
-        if ((*it).first == name) {
-            QString support((*it).first + QLatin1String(":\n"));
-            const QMetaObject *metaOptions = (*it).second->metaObject();
-            for (int i=0; i<metaOptions->propertyCount(); ++i) {
-                const QMetaProperty property = metaOptions->property(i);
-                if (qstrcmp(property.name(), "objectName") == 0) {
-                    continue;
-                }
-                support += QString::fromUtf8(property.name()) + QLatin1String(": ") + (*it).second->property(property.name()).toString() + QLatin1Char('\n');
-            }
-            return support;
+
+    QString support((*it).first + QLatin1String(":\n"));
+    const QMetaObject *metaOptions = (*it).second->metaObject();
+    for (int i=0; i<metaOptions->propertyCount(); ++i) {
+        const QMetaProperty property = metaOptions->property(i);
+        if (qstrcmp(property.name(), "objectName") == 0) {
+            continue;
         }
+        support += QString::fromUtf8(property.name()) + QLatin1String(": ") + (*it).second->property(property.name()).toString() + QLatin1Char('\n');
     }
-    return QString();
+
+    return support;
 }
 
 
@@ -1696,10 +1700,12 @@ template <typename T>
 EffectWindowList getMainWindows(Toplevel *toplevel)
 {
     T *c = static_cast<T*>(toplevel);
-    EffectWindowList ret;
     const auto mainclients = c->mainClients();
-    for (auto tmp : mainclients)
-        ret.append(tmp->effectWindow());
+    EffectWindowList ret;
+    ret.reserve(mainclients.size());
+    std::transform(std::cbegin(mainclients), std::cend(mainclients),
+        std::back_inserter(ret),
+        [](auto client) { return client->effectWindow(); });
     return ret;
 }
 
@@ -1729,9 +1735,7 @@ void EffectWindowImpl::setData(int role, const QVariant &data)
 
 QVariant EffectWindowImpl::data(int role) const
 {
-    if (!dataMap.contains(role))
-        return QVariant();
-    return dataMap[ role ];
+    return dataMap.value(role);
 }
 
 EffectWindow* effectWindow(Toplevel* w)
@@ -1814,9 +1818,12 @@ void EffectWindowImpl::unreferencePreviousWindowPixmap()
 
 EffectWindowList EffectWindowGroupImpl::members() const
 {
+    const auto memberList = group->members();
     EffectWindowList ret;
-    for (Toplevel * c : group->members())
-    ret.append(c->effectWindow());
+    ret.reserve(memberList.size());
+    std::transform(std::cbegin(memberList), std::cend(memberList),
+        std::back_inserter(ret),
+        [](auto toplevel) { return toplevel->effectWindow(); });
     return ret;
 }
 

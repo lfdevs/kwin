@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
 project(KWIN)
-set(PROJECT_VERSION "5.13.5")
+set(PROJECT_VERSION "5.14.3")
 set(PROJECT_VERSION_MAJOR 5)
 
-set(QT_MIN_VERSION "5.9.0")
+set(QT_MIN_VERSION "5.11.0")
 set(KF5_MIN_VERSION "5.42.0")
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH} )
@@ -115,7 +115,7 @@ set_package_properties(KF5DocTools PROPERTIES
          )
 add_feature_info("KF5DocTools" KF5DocTools_FOUND "Enable building documentation")
 
-find_package(KDecoration2 CONFIG REQUIRED)
+find_package(KDecoration2 5.13.0 CONFIG REQUIRED)
 
 find_package(KScreenLocker CONFIG REQUIRED)
 set_package_properties(KScreenLocker PROPERTIES
@@ -193,7 +193,7 @@ if(Libdrm_FOUND)
 endif()
 
 find_package(gbm)
-set_package_properties(gbm PROPERTIES TYPE OPTIONAL PURPOSE "Required for egl ouput of drm backend.")
+set_package_properties(gbm PROPERTIES TYPE OPTIONAL PURPOSE "Required for egl output of drm backend.")
 set(HAVE_GBM FALSE)
 if(HAVE_DRM AND gbm_FOUND)
     set(HAVE_GBM TRUE)
@@ -410,6 +410,7 @@ set(kwin_KDEINIT_SRCS
    killwindow.cpp
    geometrytip.cpp
    screens.cpp
+   outputscreens.cpp
    shadow.cpp
    sm.cpp
    group.cpp
@@ -453,6 +454,7 @@ set(kwin_KDEINIT_SRCS
     decorations/decorationrenderer.cpp
     decorations/decorations_logging.cpp
     platform.cpp
+    abstract_output.cpp
     shell_client.cpp
     wayland_server.cpp
     wayland_cursor_theme.cpp
@@ -690,13 +692,18 @@ ecm_install_icons(
 )
 
 add_subdirectory(qml)
-add_subdirectory(autotests)
-add_subdirectory(tests)
 add_subdirectory(packageplugins)
+
+if (BUILD_TESTING)
+    add_subdirectory(autotests)
+    add_subdirectory(tests)
+endif()
 
 if (KF5DocTools_FOUND)
     add_subdirectory(doc)
 endif()
+
+add_subdirectory(kconf_update)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 

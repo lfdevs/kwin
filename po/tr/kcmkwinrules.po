@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-03-19 03:31+0100\n"
+"POT-Creation-Date: 2018-10-13 06:43+0200\n"
 "PO-Revision-Date: 2017-10-23 11:20+0000\n"
 "Last-Translator: İşbaran <isbaran@gmail.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -422,17 +422,17 @@ msgstr "Tüm Masaüstleri"
 msgid "All Activities"
 msgstr "Tüm Etkinlikler"
 
-#: ruleswidget.cpp:829
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 için ayarlar"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:833
 #, kde-format
 msgid "Unnamed entry"
 msgstr "İsimsiz girdi"
 
-#: ruleswidget.cpp:841
+#: ruleswidget.cpp:843
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -446,12 +446,12 @@ msgstr ""
 "genel bir ayar oluşturmak istiyorsanız, en azından pencere türünü belirterek "
 "özel pencereleri korumanızı öneririz."
 
-#: ruleswidget.cpp:872
+#: ruleswidget.cpp:874
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Pencereye Özel Ayarlarını Yapılandır"
 
-#: ruleswidget.cpp:902
+#: ruleswidget.cpp:904
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -464,12 +464,12 @@ msgstr ""
 "kutusunu kullanarak etkinleştirin. Ayarların hangi yolu izleyerek ve hangi "
 "değerler kullanılarak uygulanacağını seçin."
 
-#: ruleswidget.cpp:906
+#: ruleswidget.cpp:908
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Daha fazla ayrıntı için belgelendirmeye bakın."
 
-#: ruleswidget.cpp:945
+#: ruleswidget.cpp:947
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Kısayolu Düzenle"

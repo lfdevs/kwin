@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2018-09-19 06:52+0200\n"
-"PO-Revision-Date: 2018-10-14 07:52+0700\n"
+"PO-Revision-Date: 2018-11-06 18:43+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -410,7 +410,7 @@ msgstr "Posisi global"
 #, kde-format
 msgctxt "A touch motion event"
 msgid "Touch Motion"
-msgstr "Sentuh Pergerakan"
+msgstr "Pergerakan Sentuh"
 
 #: debug_console.cpp:335
 #, kde-format
@@ -488,7 +488,7 @@ msgstr "Jumlah jari"
 #, kde-format
 msgctxt "A swipe gesture is updated"
 msgid "Swipe update"
-msgstr "Pembaruan usap"
+msgstr "Update usapan"
 
 #: debug_console.cpp:416
 #, kde-format

@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2018-09-19 06:52+0200\n"
-"PO-Revision-Date: 2018-09-27 16:05+0200\n"
+"PO-Revision-Date: 2018-11-22 16:19+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -780,7 +780,7 @@ msgstr "Sisäiset ikkunat"
 #: debug_console.ui:32
 #, kde-format
 msgid "Quit Debug Console"
-msgstr ""
+msgstr "Lopeta virheenpaikannuskonsoli"
 
 #. i18n: ectx: attribute (title), widget (QWidget, windows)
 #: debug_console.ui:45
@@ -796,53 +796,51 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, input)
 #: debug_console.ui:69
-#, fuzzy, kde-format
-#| msgid "Input Device"
+#, kde-format
 msgid "Input Events"
-msgstr "Syöttölaite"
+msgstr "Syötetapahtumat"
 
 #. i18n: ectx: attribute (title), widget (QWidget, inputDevices)
 #: debug_console.ui:86
-#, fuzzy, kde-format
-#| msgid "Input Device"
+#, kde-format
 msgid "Input Devices"
-msgstr "Syöttölaite"
+msgstr "Syöttölaitteet"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: debug_console.ui:96
 #, kde-format
 msgid "OpenGL"
-msgstr ""
+msgstr "OpenGL"
 
 #. i18n: ectx: property (text), widget (QLabel, noOpenGLLabel)
 #: debug_console.ui:102
 #, kde-format
 msgid "No OpenGL compositor running"
-msgstr ""
+msgstr "OpenGL-koostimia ei ole käynnissä"
 
 #. i18n: ectx: property (title), widget (QGroupBox, driverInfoBox)
 #: debug_console.ui:130
 #, kde-format
 msgid "OpenGL (ES) driver information"
-msgstr ""
+msgstr "OpenGL (ES) -ajurin tiedot"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: debug_console.ui:136
 #, kde-format
 msgid "Vendor:"
-msgstr ""
+msgstr "Valmistaja:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: debug_console.ui:143
 #, kde-format
 msgid "Renderer:"
-msgstr ""
+msgstr "Hahmontaja:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: debug_console.ui:150
 #, kde-format
 msgid "Version:"
-msgstr ""
+msgstr "Versio:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: debug_console.ui:157
@@ -854,90 +852,79 @@ msgstr ""
 #: debug_console.ui:164
 #, kde-format
 msgid "Driver:"
-msgstr ""
+msgstr "Ajuri:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: debug_console.ui:171
 #, kde-format
 msgid "GPU class:"
-msgstr ""
+msgstr "GPU-luokka:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: debug_console.ui:178
 #, kde-format
 msgid "OpenGL Version:"
-msgstr ""
+msgstr "OpenGL-versio:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: debug_console.ui:185
 #, kde-format
 msgid "GLSL Version:"
-msgstr ""
+msgstr "GLSL-versio:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, platformExtensionsBox)
 #: debug_console.ui:251
-#, fuzzy, kde-format
-#| msgid "&Extensions"
+#, kde-format
 msgid "Platform Extensions"
-msgstr "&Laajennukset"
+msgstr "Alustalaajennukset"
 
 #. i18n: ectx: property (title), widget (QGroupBox, glExtensionsBox)
 #: debug_console.ui:267
-#, fuzzy, kde-format
-#| msgid "&Extensions"
+#, kde-format
 msgid "OpenGL (ES) Extensions"
-msgstr "&Laajennukset"
+msgstr "OpenGL (ES) -laajennukset"
 
 #. i18n: ectx: attribute (title), widget (QWidget, keyboard)
 #: debug_console.ui:288
-#, fuzzy, kde-format
-#| msgctxt "tooltip title"
-#| msgid "Keyboard Layout"
+#, kde-format
 msgid "Keyboard"
-msgstr "Näppäimistöasettelu"
+msgstr "Näppäimistö"
 
 #. i18n: ectx: property (title), widget (QGroupBox, layoutBox)
 #: debug_console.ui:315
-#, fuzzy, kde-format
-#| msgctxt "tooltip title"
-#| msgid "Keyboard Layout"
+#, kde-format
 msgid "Keymap Layouts"
-msgstr "Näppäimistöasettelu"
+msgstr "Näppäimistöasettelut"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: debug_console.ui:337
-#, fuzzy, kde-format
-#| msgid "Configure Layouts..."
+#, kde-format
 msgid "Current Layout:"
-msgstr "Asetteluasetukset…"
+msgstr "Nykyinen asettelu:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, modifiersBox)
 #: debug_console.ui:356
-#, fuzzy, kde-format
-#| msgctxt "The currently active modifiers"
-#| msgid "Modifiers"
+#, kde-format
 msgid "Modifiers"
 msgstr "Muuntonäppäimet"
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeModifiersBox)
 #: debug_console.ui:372
-#, fuzzy, kde-format
-#| msgctxt "The currently active modifiers"
-#| msgid "Modifiers"
+#, kde-format
 msgid "Active Modifiers"
-msgstr "Muuntonäppäimet"
+msgstr "Aktiiviset muuntonäppäimet"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ledsBox)
 #: debug_console.ui:388
 #, kde-format
 msgid "LEDs"
-msgstr ""
+msgstr "Merkkivalot"
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeLedsBox)
 #: debug_console.ui:404
 #, kde-format
 msgid "Active LEDs"
-msgstr ""
+msgstr "Aktiiviset merkkivalot"
 
 #: helpers/killer/killer.cpp:45
 #, kde-format
@@ -1726,13 +1713,13 @@ msgstr "%1 ei ole variant-tyyppi"
 #: shortcutdialog.ui:14
 #, kde-format
 msgid "Dialog"
-msgstr ""
+msgstr "Valintaikkuna"
 
 #. i18n: ectx: property (text), widget (QToolButton, clearButton)
 #: shortcutdialog.ui:25
 #, kde-format
 msgid "..."
-msgstr ""
+msgstr "…"
 
 #: tabbox/tabbox.cpp:387
 #, kde-format

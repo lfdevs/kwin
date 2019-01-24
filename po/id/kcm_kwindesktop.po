@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2018-10-26 23:39+0700\n"
+"PO-Revision-Date: 2018-11-08 20:22+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -22,12 +22,12 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Andhika Padmawan"
+msgstr "Andhika Padmawan,Wantoyo"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "andhika.padmawan@gmail.com"
+msgstr "andhika.padmawan@gmail.com,wantoyek@gmail.com"
 
 #: desktopnameswidget.cpp:67
 #, kde-format
@@ -37,7 +37,7 @@ msgstr "Desktop %1:"
 #: desktopnameswidget.cpp:69 desktopnameswidget.cpp:70
 #, kde-format
 msgid "Here you can enter the name for desktop %1"
-msgstr "Di sini anda dapat memasukkan nama untuk desktop %1"
+msgstr "Di sini kamu bisa memasukkan nama untuk desktop %1"
 
 #: desktopnameswidget.cpp:108 main.cpp:228
 #, kde-format
@@ -50,39 +50,39 @@ msgid ""
 "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual "
 "desktops you want and how these should be labeled."
 msgstr ""
-"<h1>Banyak Desktop</h1>Di modul ini, anda dapat mengkonfigurasi berapa "
-"banyak desktop virtual yang anda inginkan dan bagaimana cara pemberian "
+"<h1>Multipel Desktop</h1>Di modul ini, kamu bisa mengkonfigurasi berapa "
+"banyak desktop virtual yang kamu inginkan dan bagaimana cara pemberian "
 "labelnya."
 
 #: main.cpp:101
 #, kde-format
 msgid "Switch to Next Desktop"
-msgstr "Ganti ke Desktop Berikutnya"
+msgstr "Alihkan ke Desktop Berikutnya"
 
 #: main.cpp:102
 #, kde-format
 msgid "Switch to Previous Desktop"
-msgstr "Ganti ke Desktop Sebelumnya"
+msgstr "Alihkan ke Desktop Sebelumnya"
 
 #: main.cpp:103
 #, kde-format
 msgid "Switch One Desktop to the Right"
-msgstr "Ganti Satu Desktop ke Kanan"
+msgstr "Alihkan Satu Desktop ke Kanan"
 
 #: main.cpp:104
 #, kde-format
 msgid "Switch One Desktop to the Left"
-msgstr "Ganti Satu Desktop ke Kiri"
+msgstr "Alihkan Satu Desktop ke Kiri"
 
 #: main.cpp:105
 #, kde-format
 msgid "Switch One Desktop Up"
-msgstr "Ganti Satu Desktop ke Atas"
+msgstr "Alihkan Satu Desktop ke Atas"
 
 #: main.cpp:106
 #, kde-format
 msgid "Switch One Desktop Down"
-msgstr "Ganti Satu Desktop ke Bawah"
+msgstr "Alihkan Satu Desktop ke Bawah"
 
 #: main.cpp:107
 #, kde-format
@@ -92,17 +92,17 @@ msgstr "Berjalan Melewati Desktop"
 #: main.cpp:108
 #, kde-format
 msgid "Walk Through Desktops (Reverse)"
-msgstr "Berjalan Melewati Desktop (Mundur)"
+msgstr "Berjalan Melewati Desktop (Kebalikan)"
 
 #: main.cpp:109
 #, kde-format
 msgid "Walk Through Desktop List"
-msgstr "Berjalan Melewati Senarai Desktop"
+msgstr "Berjalan Melewati Daftar Desktop"
 
 #: main.cpp:110
 #, kde-format
 msgid "Walk Through Desktop List (Reverse)"
-msgstr "Berjalan Melewati Senarai Desktop (Mundur))"
+msgstr "Berjalan Melewati Daftar Desktop (Kebalikan)"
 
 #: main.cpp:112 main.cpp:146 main.cpp:511 main.cpp:512
 #, kde-format
@@ -112,7 +112,7 @@ msgstr "Penggantian Desktop"
 #: main.cpp:124 main.cpp:491
 #, kde-format
 msgid "Switch to Desktop %1"
-msgstr "Ganti ke Desktop %1"
+msgstr "Alihkan ke Desktop %1"
 
 #: main.cpp:156
 #, kde-format
@@ -122,7 +122,7 @@ msgstr "Tanpa Animasi"
 #: main.cpp:495
 #, kde-format
 msgid "No suitable Shortcut for Desktop %1 found"
-msgstr "Tak ada Pintasan yang cocok untuk Desktop %1 yang ditemukan"
+msgstr "Tiada Pintasan yang cocok untuk Desktop %1 yang ditemukan"
 
 #: main.cpp:501
 #, kde-format
@@ -132,7 +132,7 @@ msgstr "Menugaskan Pintasan \"%1\" ke Desktop %2"
 #: main.cpp:504
 #, kde-format
 msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
-msgstr "Konflik Pintasan: Tak dapat mengatur Pintasan %1 untuk Desktop %2"
+msgstr "Konflik Pintasan: Tidak dapat mengeset Pintasan %1 untuk Desktop %2"
 
 #: main.cpp:618
 #, kde-format
@@ -201,7 +201,7 @@ msgstr ""
 #: main.ui:151
 #, kde-format
 msgid "Desktop navigation wraps around"
-msgstr "Navigasi desktop menggulung sekitar"
+msgstr "Navigasi desktop membungkus di sekitar"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:158
@@ -219,7 +219,7 @@ msgstr "Animasi:"
 #: main.ui:210
 #, kde-format
 msgid "Desktop Switch On-Screen Display"
-msgstr "Tampilan Di-Layar Ganti Desktop"
+msgstr "OSD Alih Desktop"
 
 #. i18n: ectx: property (text), widget (QLabel, hideLabel)
 #: main.ui:228
@@ -240,14 +240,14 @@ msgid ""
 "Enabling this option will show a small preview of the desktop layout "
 "indicating the selected desktop."
 msgstr ""
-"Mengaktifkan opsi ini akan menampilkan pratinjau kecil dari tata letak "
-"desktop yang mengindikasikan desktop terpilih."
+"Mengaktifkan opsi ini akan menampilkan pratinjau kecil tataletak desktop "
+"yang mengindikasikan desktop yang dipilih."
 
 #. i18n: ectx: property (text), widget (QCheckBox, desktopLayoutIndicatorCheckBox)
 #: main.ui:254
 #, kde-format
 msgid "Show desktop layout indicators"
-msgstr "Tampilkan indikator tata letak desktop"
+msgstr "Tampilkan indikator tataletak desktop"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shortcutsGroupBox)
 #: main.ui:264
@@ -259,4 +259,4 @@ msgstr "Pintasan"
 #: main.ui:283
 #, kde-format
 msgid "Show shortcuts for all possible desktops"
-msgstr "Tampilkan pintasan untuk semua desktop yang mungkin"
+msgstr "Tampilkan pintasan untuk semua desktop yang memungkinkan"

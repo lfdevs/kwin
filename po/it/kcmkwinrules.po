@@ -3,13 +3,13 @@
 # Andrea RIZZI <arizzi@pi.infn.it>, 2004.
 # Luciano Montanaro <mikelima@cirulla.net>, 2007, 2008, 2010, 2011.
 # Federico Zenith <federico.zenith@member.fsf.org>, 2010, 2012, 2013, 2014, 2015.
-# Paolo Zamponi <zapaolo@email.it>, 2016, 2017, 2018.
+# Paolo Zamponi <zapaolo@email.it>, 2016, 2017, 2018, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2018-10-13 06:43+0200\n"
-"PO-Revision-Date: 2018-03-23 09:48+0100\n"
+"PO-Revision-Date: 2019-01-03 15:07+0100\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -172,8 +172,8 @@ msgstr ""
 msgid ""
 "Window title (very specific, can fail due to content changes or translation)"
 msgstr ""
-"Titolo delle finestra (molto specifico, può non riuscire per un cambiamento "
-"del contenuto o per una traduzione)"
+"Titolo delle finestra (molto specifico, può non avere successo per un "
+"cambiamento del contenuto o per una traduzione)"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: editshortcut.ui:18
@@ -190,10 +190,10 @@ msgid ""
 msgstr ""
 "Una scorciatoia singola può essere facilmente assegnata o rimossa con i due "
 "pulsanti. Si possono usare solo le scorciatoie con tasti modificatori.<p>\n"
-"Si possono avere più scorciatoie e usare la prima disponibile. Le "
-"scorciatoie si specificano come serie di scorciatoie separate da « - ». Una "
-"serie si specifica come <i>base</i>+(<i>lista</i>), dove «base» sono i "
-"modificatori e «lista» è una lista di tasti.<br>\n"
+"È possibile avere più scorciatoie, sarà usata la prima disponibile. Le "
+"scorciatoie sono specificate come una serie di scorciatoie separate da « - "
+"». Una serie viene specificata come <i>base</i>+(<i>lista</i>), dove «base» "
+"sono i modificatori e «lista» è un elenco di tasti.<br>\n"
 "Ad esempio «<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>» proverà prima <b>Shift"
 "+Alt+1</b>, poi le altre fino a <b>Shift+Ctrl+C</b>."
 
@@ -235,9 +235,9 @@ msgid ""
 msgstr ""
 "<p><h1>Impostazioni specifiche delle finestre</h1> Qui puoi personalizzare "
 "le impostazioni di alcune specifiche finestre.</p><p>Nota che questa "
-"configurazione non avrà effetto se non usi KWin come window manager. Se "
-"utilizzi un window manager diverso consulta la sua documentazione per sapere "
-"come personalizzare il comportamento delle finestre.</p>"
+"configurazione non avrà effetto se non usi KWin come gestore delle finestre. "
+"Se ne utilizzi uno diverso, consulta la sua documentazione per sapere come "
+"personalizzare il comportamento delle finestre.</p>"
 
 #: kcm.cpp:100
 #, kde-format
@@ -247,7 +247,7 @@ msgstr "Ricorda le impostazioni separatamente per ogni finestra"
 #: kcm.cpp:101
 #, kde-format
 msgid "Show internal settings for remembering"
-msgstr "Mostra impostazioni interne da memorizzare"
+msgstr "Mostra le impostazioni interne da memorizzare"
 
 #: kcm.cpp:102
 #, kde-format
@@ -268,7 +268,7 @@ msgstr "Impostazioni della finestra di %1"
 #, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
-msgstr "Modifica impostazioni specifiche di un'applicazione"
+msgstr "Modifica le impostazioni specifiche di un'applicazione"
 
 #: main.cpp:253
 #, kde-format
@@ -283,7 +283,7 @@ msgstr "Accessorio di supporto di KWin"
 #: main.cpp:262
 #, kde-format
 msgid "WId of the window for special window settings."
-msgstr "WId della finestra per le impostazioni specifiche della finestra."
+msgstr "WId della finestra per le impostazioni speciali della finestra."
 
 #: main.cpp:263
 #, kde-format
@@ -385,19 +385,20 @@ msgid ""
 msgstr ""
 "Specifica come vengono interessate le proprietà della finestra:"
 "<ul><li><em>Non interessata:</em> La proprietà della finestra non sarà "
-"interessata e sarà usata la gestione normale. Specificare questo blocca "
-"molte delle impostazioni generiche della finestra.</li><li><em>Applica "
-"all'inizio:</em> Le proprietà della finestra saranno impostate al valore "
-"dato solo subito dopo che la finestra viene creata. Le modifiche successive "
-"non saranno interessate.</li><li><em>Ricorda:</em> Il valore della proprietà "
-"della finestra sarà ricordato ed ogni volta che viene creata la finestra "
-"l'ultimo valore utilizzato sarà ripristinato.</li><li><em>Imponi:</em> La "
-"proprietà della finestra sarà sempre costretta ad avere il valore dato.</li> "
-"<li><em>Applica ora:</em>la proprietà della finestra sarà impostata al "
-"valore dato immediatamente e non avrà effetti in seguito (questa azione sarà "
-"eliminata)</li> <li><em>Imponi temporaneamente:</em> la proprietà della "
-"finestra sarà impostata al valore dato fino a quando non viene nascosta "
-"(questa azione viene eliminata quando la finestra viene nascosta).</li></ul>"
+"interessata, quindi verrà usata la gestione predefinita. Specificando questo "
+"bloccherai molte delle impostazioni generiche della finestra.</"
+"li><li><em>Applica all'inizio:</em> Le proprietà della finestra saranno "
+"impostate al valore dato solo subito dopo che la finestra viene creata. Le "
+"modifiche successive non saranno interessate.</li><li><em>Ricorda:</em> Il "
+"valore della proprietà della finestra sarà ricordato, ed ogni volta che "
+"viene creata la finestra sarà applicato l'ultimo valore utilizzato.</"
+"li><li><em>Imponi:</em> La proprietà della finestra sarà sempre costretta ad "
+"avere il valore dato.</li> <li><em>Applica adesso:</em>la proprietà della "
+"finestra sarà impostata immediatamente al valore dato, e non avrà effetti in "
+"seguito (questa azione verrà in seguito eliminata)</li> <li><em>Imponi "
+"temporaneamente:</em> la proprietà della finestra sarà impostata al valore "
+"dato fino a quando non viene nascosta (questa azione viene eliminata dopo "
+"che la finestra viene nascosta).</li></ul>"
 
 #: ruleswidget.cpp:85
 #, kde-format
@@ -412,12 +413,13 @@ msgid ""
 msgstr ""
 "Specifica come vengono interessate le proprietà della finestra:"
 "<ul><li><em>Non interessata:</em> La proprietà della finestra non sarà "
-"interessata e sarà usata la gestione normale. Specificare questo blocca "
-"molte delle impostazioni generiche della finestra.</li><li><em>Imponi:</em> "
-"La proprietà della finestra sarà sempre costretta ad avere il valore dato.</"
-"li> <li><em>Imponi temporaneamente:</em> la proprietà della finestra sarà "
-"impostata al valore dato fino a quando non viene nascosta (questa azione "
-"viene eliminata quando la finestra viene nascosta).</li></ul>"
+"interessata, quindi verrà usata la gestione predefinita. Specificando questo "
+"bloccherai molte delle impostazioni generiche della finestra.</"
+"li><li><em>Imponi:</em> La proprietà della finestra sarà sempre costretta ad "
+"avere il valore dato.</li> <li><em>Imponi temporaneamente:</em> la proprietà "
+"della finestra sarà impostata al valore dato fino a quando non viene "
+"nascosta (questa azione viene eliminata dopo che la finestra viene nascosta)."
+"</li></ul>"
 
 #: ruleswidget.cpp:153
 #, kde-format
@@ -448,15 +450,16 @@ msgid ""
 "recommended you at least limit the window types to avoid special window "
 "types."
 msgstr ""
-"Hai specificato che la finestra della classe non è importante.\n"
-"Questo significa che le impostazioni possono essere valide per tutte le "
-"applicazioni. Se vuoi davvero creare un'impostazione generica ti consigliamo "
-"almeno di limitare i tipi di finestra ed evitare i tipi speciali."
+"Hai specificato che la classe della finestra non è importante.\n"
+"Ciò significa che probabilmente le impostazioni si applicheranno alle "
+"finestre di tutte le applicazioni. Se vuoi davvero creare un'impostazione "
+"generica ti consigliamo almeno di limitare i tipi di finestra ed evitare "
+"quelli speciali."
 
 #: ruleswidget.cpp:874
 #, kde-format
 msgid "Edit Window-Specific Settings"
-msgstr "Modifica impostazioni specifiche di una finestra"
+msgstr "Modifica le impostazioni specifiche di una finestra"
 
 #: ruleswidget.cpp:904
 #, kde-format
@@ -467,9 +470,10 @@ msgid ""
 "affected and to which value."
 msgstr ""
 "Questa finestra di configurazione permette di alterare le impostazioni "
-"soltanto per la finestra o applicazione selezionata. Trova l'impostazione "
-"che vuoi cambiare, abilitala marcando la casella e seleziona in che modo "
-"vuoi reimpostare e quale valore utilizzare."
+"soltanto per la finestra o per l'applicazione selezionata. Trova "
+"l'impostazione che vuoi modificare e abilitala spuntando la casella, quindi "
+"seleziona in che modo l'impostazione debba essere interessata e a quale "
+"valore."
 
 #: ruleswidget.cpp:908
 #, kde-format
@@ -497,7 +501,7 @@ msgstr "&Descrizione:"
 #: ruleswidgetbase.ui:46
 #, kde-format
 msgid "Window &class (application):"
-msgstr "&Classe di finestra (applicazione):"
+msgstr "&Classe della finestra (applicazione):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, wmclass_match)
 #. i18n: ectx: property (text), item, widget (KComboBox, role_match)
@@ -553,7 +557,7 @@ msgstr "Modifica"
 #: ruleswidgetbase.ui:102
 #, kde-format
 msgid "Match w&hole window class"
-msgstr "Corrispondenza dell'intera classe della finestra"
+msgstr "Corrispondenza dell'&intera classe della finestra"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: ruleswidgetbase.ui:109
@@ -583,13 +587,13 @@ msgstr "&Macchina (nome host):"
 #: ruleswidgetbase.ui:318
 #, kde-format
 msgid "&Detect Window Properties"
-msgstr "Rileva proprietà &della finestra"
+msgstr "Rileva le proprietà &della finestra"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, detection_delay)
 #: ruleswidgetbase.ui:325
 #, kde-format
 msgid "s delay"
-msgstr " s di ritardo"
+msgstr "s di ritardo"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #: ruleswidgetbase.ui:468
@@ -875,7 +879,7 @@ msgstr "0123456789-+,xX:"
 #: ruleswidgetbase.ui:552
 #, kde-format
 msgid "&Size"
-msgstr "&Dimensioni"
+msgstr "Dimen&sioni"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, size)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, minsize)
@@ -1004,7 +1008,7 @@ msgid ""
 msgstr ""
 "Le finestre possono chiedere di comparire in una certa posizione.\n"
 "Normalmente ciò ha la precedenza sulla strategia di posizionamento,\n"
-"il che può essere fastidioso se il client abusa di questa funzionalità\n"
+"il ché può essere fastidioso se il client abusa di questa funzionalità\n"
 "per comparire incondizionatamente al centro dello schermo."
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_ignoregeometry)
@@ -1035,11 +1039,11 @@ msgid ""
 "This may be pointless and the restriction prevents arbitrary dimensions\n"
 "like your complete screen area."
 msgstr ""
-"Pere esempio, i terminali o riproduttori video possono chiedere di\n"
+"Pere esempio, i terminali o i riproduttori video possono chiedere di\n"
 "mantenere delle certe proporzioni, o di essere ingranditi solo di valori\n"
 "maggiori di uno (per esempio della dimensione di un carattere).\n"
-"Questa restrizione può essere inutile e prevenire l'impostazione di\n"
-"dimensioni arbitrarie, come l'area di tutto lo schermo."
+"Questo potrebbe essere inutile, e la restrizione impedisce dimensioni\n"
+"arbitrarie, come l'area di tutto lo schermo."
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_strictgeometry)
 #: ruleswidgetbase.ui:1277
@@ -1075,7 +1079,7 @@ msgstr "Togli dal &cambiadesktop"
 #: ruleswidgetbase.ui:1481
 #, kde-format
 msgid "Window shall (not) appear in the taskbar."
-msgstr "La finestra (non) deve apparire nella barra delle applicazioni"
+msgstr "La finestra (non) deve apparire nella barra delle applicazioni."
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_skiptaskbar)
 #: ruleswidgetbase.ui:1484
@@ -1117,7 +1121,7 @@ msgstr "Tieni &sopra"
 #: ruleswidgetbase.ui:1745
 #, kde-format
 msgid "Autog&roup in foreground"
-msgstr "&Raggruppa in primo piano"
+msgstr "Ragg&ruppa in primo piano"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_below)
 #: ruleswidgetbase.ui:1788
@@ -1141,7 +1145,7 @@ msgstr "Raggruppa con &identiche"
 #: ruleswidgetbase.ui:1902
 #, kde-format
 msgid "Appearance && &Fixes"
-msgstr "Aspetto e Corre&zioni"
+msgstr "Aspetto e corre&zioni"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_noborder)
 #: ruleswidgetbase.ui:1908
@@ -1159,7 +1163,7 @@ msgstr "&Schema di colori della barra dei titoli"
 #: ruleswidgetbase.ui:2024
 #, kde-format
 msgid "A&ctive opacity"
-msgstr "Opacità a&ttiva"
+msgstr "Opa&cità attiva"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, opacityactive)
 #. i18n: ectx: property (suffix), widget (QSpinBox, opacityinactive)
@@ -1184,7 +1188,7 @@ msgid ""
 "\"None\" will unconditionally allow this window to get the focus while\n"
 "\"Extreme\" will completely prevent it from taking the focus."
 msgstr ""
-"KWin cerca di impedire che le finestre si attivino (ottengano il fuoco)\n"
+"KWin cerca di impedire che le finestre ottengano il fuoco (si \"attivino\")\n"
 "mentre stai lavorando in un'altra finestra, ma a volte non riesce, o "
 "esagera.\n"
 "«Nessuna» permette alla finestra di ottenere incondizionatamente il fuoco\n"
@@ -1242,9 +1246,9 @@ msgid ""
 "Otherwise it's interleaved with the stealing prevention\n"
 "assigned to the window that wants the focus."
 msgstr ""
-"Questo controlla la protezione del fuoco della finestra attualmente attiva.\n"
-"«Nessuno» porterà sempre via il fuoco,\n"
-"«Estremo» lo manterrà.\n"
+"Controlla la protezione del fuoco della finestra attualmente attiva.\n"
+"«Nessuna» porterà sempre via il fuoco,\n"
+"«Estrema» lo manterrà.\n"
 "Diversamente sarà alternato con la prevenzione della sottrazione e\n"
 "assegnato alla finestra che richiede il fuoco."
 
@@ -1262,7 +1266,8 @@ msgid ""
 "On the other hand you might wish to prevent a window\n"
 "from getting focused on a mouse click."
 msgstr ""
-"Le finestre possono impedire di attivarsi quando ci si fa clic.\n"
+"Le finestre possono impedirsi di ottenere il fuoco (di attivarsi) quando ci "
+"si fa clic.\n"
 "D'altra parte, potresti voler impedire l'attivazione di una finestra\n"
 "al clic del mouse."
 
@@ -1290,9 +1295,9 @@ msgstr ""
 "Ciò è interessante specialmente per gli emulatori e le macchine virtuali.\n"
 "\n"
 "Attenzione:\n"
-"Non sarai in grado di cambiare finestra con Alt+Tab né usare scorciatoie "
-"globali (come Alt+F2 per mostrare KRunner)\n"
-"Finché è attiva questa opzione."
+"Non sarai in grado di cambiare finestra con Alt+Tab, né di usare qualsiasi\n"
+"altra scorciatoia globale (come Alt+F2 per mostrare KRunner)\n"
+"finché questa opzione è attiva."
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_disableglobalshortcuts)
 #: ruleswidgetbase.ui:2344

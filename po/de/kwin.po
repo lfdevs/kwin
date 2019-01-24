@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2018-09-19 06:52+0200\n"
-"PO-Revision-Date: 2018-10-10 21:15+0100\n"
+"PO-Revision-Date: 2018-11-16 20:12+0100\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -535,11 +535,10 @@ msgid "Tablet mode"
 msgstr "Tablet-Modus"
 
 #: debug_console.cpp:464
-#, fuzzy, kde-format
-#| msgid "Switch to Tab"
+#, kde-format
 msgctxt "A hardware switch"
 msgid "Switch"
-msgstr "Zum Unterfenster wechseln"
+msgstr "Wechseln"
 
 #: debug_console.cpp:468
 #, kde-format
@@ -742,7 +741,7 @@ msgstr "Extra 24"
 #, kde-format
 msgctxt "Mouse Button"
 msgid "task"
-msgstr ""
+msgstr "Aufgabe"
 
 #: debug_console.cpp:1093
 #, fuzzy, kde-format
@@ -805,7 +804,7 @@ msgstr "OpenGL"
 #: debug_console.ui:102
 #, kde-format
 msgid "No OpenGL compositor running"
-msgstr ""
+msgstr "Es wird kein OpenGL-Compositor ausgeführt"
 
 #. i18n: ectx: property (title), widget (QGroupBox, driverInfoBox)
 #: debug_console.ui:130
@@ -817,13 +816,13 @@ msgstr "Treiber-Informationen über OpenGL (ES)"
 #: debug_console.ui:136
 #, kde-format
 msgid "Vendor:"
-msgstr ""
+msgstr "Hersteller:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: debug_console.ui:143
 #, kde-format
 msgid "Renderer:"
-msgstr ""
+msgstr "Renderer:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: debug_console.ui:150
@@ -847,7 +846,7 @@ msgstr "Treiber:"
 #: debug_console.ui:171
 #, kde-format
 msgid "GPU class:"
-msgstr ""
+msgstr "GPU-Klasse:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: debug_console.ui:178

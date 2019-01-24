@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2018-08-06 18:03+0100\n"
+"PO-Revision-Date: 2018-11-26 02:36+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -116,7 +116,7 @@ msgstr "Velocidad de animación:"
 #: compositing.ui:111
 #, kde-format
 msgid "Instant"
-msgstr "Instante"
+msgstr "Instantánea"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:131
@@ -179,13 +179,13 @@ msgstr "Nunca"
 #: compositing.ui:226
 #, kde-format
 msgid "Automatic"
-msgstr "Automático"
+msgstr "Automática"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:231
 #, kde-format
 msgid "Only when cheap"
-msgstr "Solo cuando sea económico"
+msgstr "Solo cuando resulte económico"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #: compositing.ui:236

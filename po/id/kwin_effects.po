@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2018-10-29 06:48+0100\n"
-"PO-Revision-Date: 2018-10-14 07:36+0700\n"
+"PO-Revision-Date: 2018-11-12 08:21+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -85,7 +85,7 @@ msgstr "Displaikan &judul jendela"
 #: coverswitch/coverswitch_config.ui:29 cube/cube_config.ui:344
 #, kde-format
 msgid "Zoom"
-msgstr "Perbesaran"
+msgstr "Zum "
 
 #. i18n: ectx: property (toolTip), widget (QSlider, kcfg_zPosition)
 #: coverswitch/coverswitch_config.ui:39
@@ -517,7 +517,7 @@ msgstr "Tengah"
 #: desktopgrid/desktopgrid_config.ui:23
 #, kde-format
 msgid "Zoom &duration:"
-msgstr "&Durasi perbesaran:"
+msgstr "&Durasi zum :"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_ZoomDuration)
 #: desktopgrid/desktopgrid_config.ui:42
@@ -698,7 +698,9 @@ msgstr "Desktop Grid"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
-msgstr "Perkecil sehingga semua desktop didisplaikan berdampingan di grid"
+msgstr ""
+"Zum perkecil sehingga semua desktop didisplaikan berdampingan dalam sebuah "
+"grid"
 
 #: effect_builtins.cpp:210
 #, kde-format
@@ -884,7 +886,8 @@ msgstr "Present Windows"
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
 msgstr ""
-"Perkecil hingga semua jendela yang terbuka dapat didisplaikan berdampingan"
+"Zum perkecil hingga semua jendela yang terbuka dapat didisplaikan "
+"berdampingan"
 
 #: effect_builtins.cpp:435
 #, kde-format
@@ -910,7 +913,7 @@ msgstr "Scale"
 msgctxt "Comment describing the KWin Effect"
 msgid "Make windows smoothly scale in and out when they are shown or hidden"
 msgstr ""
-"Buat jendela skala besar atau kecil secara mulus ketika ditampilkan atau "
+"Buat jendela menskala besar atau kecil secara mulus ketika ditampilkan atau "
 "disembunyikan"
 
 #: effect_builtins.cpp:465
@@ -1034,7 +1037,7 @@ msgstr "Startup Feedback"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
-msgstr "Efek pembantu untuk tanggapan permulaian"
+msgstr "Efek pembantu untuk tanggapan startup"
 
 #: effect_builtins.cpp:615
 #, kde-format
@@ -1100,7 +1103,7 @@ msgstr "Deformasi jendela ketika pindah"
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
-msgstr "Zoom"
+msgstr "Zum "
 
 #: effect_builtins.cpp:691
 #, kde-format
@@ -2003,22 +2006,22 @@ msgstr "Lebih"
 #: zoom/zoom.cpp:84
 #, kde-format
 msgid "Move Zoomed Area to Left"
-msgstr "Pindah Area Perbesaran ke Kiri"
+msgstr "Pindah Area Zum ke Kiri"
 
 #: zoom/zoom.cpp:92
 #, kde-format
 msgid "Move Zoomed Area to Right"
-msgstr "Pindah Area Perbesaran ke Kanan"
+msgstr "Pindah Area Zum ke Kanan"
 
 #: zoom/zoom.cpp:100
 #, kde-format
 msgid "Move Zoomed Area Upwards"
-msgstr "Pindah Area Perbesaran ke Atas"
+msgstr "Pindah Area Zum ke Atas"
 
 #: zoom/zoom.cpp:108
 #, kde-format
 msgid "Move Zoomed Area Downwards"
-msgstr "Pindah Area Perbesaran ke Bawah"
+msgstr "Pindah Area Zum ke Bawah"
 
 #: zoom/zoom.cpp:117 zoom/zoom_config.cpp:115
 #, kde-format
@@ -2063,7 +2066,7 @@ msgstr ""
 #: zoom/zoom_config.ui:28
 #, kde-format
 msgid "Zoom Factor:"
-msgstr "Faktor Perbesaran:"
+msgstr "Faktor Zum :"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_EnableFocusTracking)
 #: zoom/zoom_config.ui:66

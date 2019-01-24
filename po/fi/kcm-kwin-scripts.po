@@ -2,7 +2,7 @@
 # Author: Lliehu
 # Author: Niklas Laxström
 # Lasse Liehu <lasse.liehu@gmail.com>, 2013.
-# Tommi Nieminen <translator@legisign.org>, 2017.
+# Tommi Nieminen <translator@legisign.org>, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm-kwin-scripts\n"

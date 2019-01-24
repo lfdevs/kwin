@@ -1,17 +1,16 @@
 # translation of kwin.po to Chinese Traditional
 # Copyright (C) 2001, 2002, 2003, 2007, 2008 Free Software Foundation, Inc.
-#
 # Kenduest Lee <kenduest@i18n.linux.org.tw>, 2001.
 # Yuan-Chen Cheng <ycheng@slat.org>, 2002.
 # Tsung-Chien Ho <iitze@hotmail.com>, 2003.
-# Frank Weng (a.k.a. Franklin) <franklin at goodhorse dot idv dot tw>, 2007, 2008, 2009, 2010.
-# Franklin Weng <franklin at goodhorse dot idv dot tw>, 2007, 2008.
 # Goodhorse <franklin@goodhorse.idv.tw>, 2008.
 # Frank Weng (a.k.a. Franklin) <franklin@goodhorse.idv.tw>, 2009.
-# Franklin Weng <franklin@mail.everfocus.com.tw>, 2010, 2012.
-# Franklin Weng <franklin@goodhorse.idv.tw>, 2011, 2012, 2013, 2014, 2015.
+# Franklin Weng <franklin@goodhorse.idv.tw>, 2010, 2011, 2012, 2013, 2014, 2015.
 # Jeff Huang <s8321414@gmail.com>, 2016, 2017.
 # pan93412 <pan93412@gmail.com>, 2018.
+#
+# Frank Weng (a.k.a. Franklin) <franklin at goodhorse dot idv dot tw>, 2007, 2008, 2009, 2010.
+# Franklin Weng <franklin at goodhorse dot idv dot tw>, 2007, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"

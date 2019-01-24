@@ -1,9 +1,8 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
+# Franklin Weng <franklin@mail.everfocus.com.tw>, 2011, 2012.
 #
 # Frank Weng (a.k.a. Franklin) <franklin at goodhorse dot idv dot tw>, 2009, 2010.
-# Franklin Weng <franklin@goodhorse.idv.tw>, 2011, 2012.
-# Franklin Weng <franklin@mail.everfocus.com.tw>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"

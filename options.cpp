@@ -104,15 +104,10 @@ Options::Options(QObject *parent)
     , m_snapOnlyWhenOverlapping(false)
     , m_rollOverDesktops(false)
     , m_focusStealingPreventionLevel(0)
-    , m_legacyFullscreenSupport(false)
     , m_killPingTimeout(0)
     , m_hideUtilityWindowsForInactive(false)
-    , m_inactiveTabsSkipTaskbar(false)
-    , m_autogroupSimilarWindows(false)
-    , m_autogroupInForeground(false)
     , m_compositingMode(Options::defaultCompositingMode())
     , m_useCompositing(Options::defaultUseCompositing())
-    , m_compositingInitialized(Options::defaultCompositingInitialized())
     , m_hiddenPreviews(Options::defaultHiddenPreviews())
     , m_glSmoothScale(Options::defaultGlSmoothScale())
     , m_xrenderSmoothScale(Options::defaultXrenderSmoothScale())
@@ -325,15 +320,6 @@ void Options::setFocusStealingPreventionLevel(int focusStealingPreventionLevel)
     }
     m_focusStealingPreventionLevel = qMax(0, qMin(4, focusStealingPreventionLevel));
     emit focusStealingPreventionLevelChanged();
-}
-
-void Options::setLegacyFullscreenSupport(bool legacyFullscreenSupport)
-{
-    if (m_legacyFullscreenSupport == legacyFullscreenSupport) {
-        return;
-    }
-    m_legacyFullscreenSupport = legacyFullscreenSupport;
-    emit legacyFullscreenSupportChanged();
 }
 
 void Options::setOperationTitlebarDblClick(WindowOperation operationTitlebarDblClick)
@@ -570,33 +556,6 @@ void Options::setHideUtilityWindowsForInactive(bool hideUtilityWindowsForInactiv
     emit hideUtilityWindowsForInactiveChanged();
 }
 
-void Options::setInactiveTabsSkipTaskbar(bool inactiveTabsSkipTaskbar)
-{
-    if (m_inactiveTabsSkipTaskbar == inactiveTabsSkipTaskbar) {
-        return;
-    }
-    m_inactiveTabsSkipTaskbar = inactiveTabsSkipTaskbar;
-    emit inactiveTabsSkipTaskbarChanged();
-}
-
-void Options::setAutogroupSimilarWindows(bool autogroupSimilarWindows)
-{
-    if (m_autogroupSimilarWindows == autogroupSimilarWindows) {
-        return;
-    }
-    m_autogroupSimilarWindows = autogroupSimilarWindows;
-    emit autogroupSimilarWindowsChanged();
-}
-
-void Options::setAutogroupInForeground(bool autogroupInForeground)
-{
-    if (m_autogroupInForeground == autogroupInForeground) {
-        return;
-    }
-    m_autogroupInForeground = autogroupInForeground;
-    emit autogroupInForegroundChanged();
-}
-
 void Options::setCompositingMode(int compositingMode)
 {
     if (m_compositingMode == static_cast<CompositingType>(compositingMode)) {
@@ -613,15 +572,6 @@ void Options::setUseCompositing(bool useCompositing)
     }
     m_useCompositing = useCompositing;
     emit useCompositingChanged();
-}
-
-void Options::setCompositingInitialized(bool compositingInitialized)
-{
-    if (m_compositingInitialized == compositingInitialized) {
-        return;
-    }
-    m_compositingInitialized = compositingInitialized;
-    emit compositingInitializedChanged();
 }
 
 void Options::setHiddenPreviews(int hiddenPreviews)
@@ -787,7 +737,6 @@ void Options::updateSettings()
 // KDE4 this probably needs to be done manually in clients
 
     // Driver-specific config detection
-    setCompositingInitialized(false);
     reloadCompositingSettings();
 
     emit configChanged();
@@ -809,14 +758,14 @@ void Options::loadConfig()
     // Mouse bindings
     config = KConfigGroup(m_settings->config(), "MouseBindings");
     // TODO: add properties for missing options
-    CmdTitlebarWheel = mouseWheelCommand(config.readEntry("CommandTitlebarWheel", "Switch to Window Tab to the Left/Right"));
+    CmdTitlebarWheel = mouseWheelCommand(config.readEntry("CommandTitlebarWheel", "Nothing"));
     CmdAllModKey = (config.readEntry("CommandAllKey", "Alt") == QStringLiteral("Meta")) ? Qt::Key_Meta : Qt::Key_Alt;
     CmdAllWheel = mouseWheelCommand(config.readEntry("CommandAllWheel", "Nothing"));
     setCommandActiveTitlebar1(mouseCommand(config.readEntry("CommandActiveTitlebar1", "Raise"), true));
-    setCommandActiveTitlebar2(mouseCommand(config.readEntry("CommandActiveTitlebar2", "Start Window Tab Drag"), true));
+    setCommandActiveTitlebar2(mouseCommand(config.readEntry("CommandActiveTitlebar2", "Nothing"), true));
     setCommandActiveTitlebar3(mouseCommand(config.readEntry("CommandActiveTitlebar3", "Operations menu"), true));
     setCommandInactiveTitlebar1(mouseCommand(config.readEntry("CommandInactiveTitlebar1", "Activate and raise"), true));
-    setCommandInactiveTitlebar2(mouseCommand(config.readEntry("CommandInactiveTitlebar2", "Start Window Tab Drag"), true));
+    setCommandInactiveTitlebar2(mouseCommand(config.readEntry("CommandInactiveTitlebar2", "Nothing"), true));
     setCommandInactiveTitlebar3(mouseCommand(config.readEntry("CommandInactiveTitlebar3", "Operations menu"), true));
     setCommandWindow1(mouseCommand(config.readEntry("CommandWindow1", "Activate, raise and pass click"), false));
     setCommandWindow2(mouseCommand(config.readEntry("CommandWindow2", "Activate and pass click"), false));
@@ -858,7 +807,6 @@ void Options::syncFromKcfgc()
     setNextFocusPrefersMouse(m_settings->nextFocusPrefersMouse());
     setSeparateScreenFocus(m_settings->separateScreenFocus());
     setRollOverDesktops(m_settings->rollOverDesktops());
-    setLegacyFullscreenSupport(m_settings->legacyFullscreenSupport());
     setFocusStealingPreventionLevel(m_settings->focusStealingPreventionLevel());
 
 #ifdef KWIN_BUILD_DECORATIONS
@@ -879,9 +827,6 @@ void Options::syncFromKcfgc()
     setSnapOnlyWhenOverlapping(m_settings->snapOnlyWhenOverlapping());
     setKillPingTimeout(m_settings->killPingTimeout());
     setHideUtilityWindowsForInactive(m_settings->hideUtilityWindowsForInactive());
-    setInactiveTabsSkipTaskbar(m_settings->inactiveTabsSkipTaskbar());
-    setAutogroupSimilarWindows(m_settings->autogroupSimilarWindows());
-    setAutogroupInForeground(m_settings->autogroupInForeground());
     setBorderlessMaximizedWindows(m_settings->borderlessMaximizedWindows());
     setElectricBorderMaximize(m_settings->electricBorderMaximize());
     setElectricBorderTiling(m_settings->electricBorderTiling());
@@ -956,9 +901,6 @@ void Options::reloadCompositingSettings(bool force)
     }
     m_settings->load();
     syncFromKcfgc();
-    // from now on we've an initial setup and don't have to reload settings on compositing activation
-    // see Workspace::setupCompositing(), composite.cpp
-    setCompositingInitialized(true);
 
     // Compositing settings
     KConfigGroup config(m_settings->config(), "Compositing");
@@ -973,7 +915,7 @@ void Options::reloadCompositingSettings(bool force)
     char c = 0;
     const QString s = config.readEntry("GLPreferBufferSwap", QString(Options::defaultGlPreferBufferSwap()));
     if (!s.isEmpty())
-        c = s.at(0).toAscii();
+        c = s.at(0).toLatin1();
     if (c != 'a' && c != 'c' && c != 'p' && c != 'e')
         c = 0;
     setGlPreferBufferSwap(c);
@@ -1067,7 +1009,6 @@ Options::MouseCommand Options::mouseCommand(const QString &name, bool restricted
     if (lowerName == QStringLiteral("resize")) return restricted ? MouseResize : MouseUnrestrictedResize;
     if (lowerName == QStringLiteral("shade")) return MouseShade;
     if (lowerName == QStringLiteral("minimize")) return MouseMinimize;
-    if (lowerName == QStringLiteral("start window tab drag")) return MouseDragTab;
     if (lowerName == QStringLiteral("close")) return MouseClose;
     if (lowerName == QStringLiteral("increase opacity")) return MouseOpacityMore;
     if (lowerName == QStringLiteral("decrease opacity")) return MouseOpacityLess;
@@ -1084,9 +1025,8 @@ Options::MouseWheelCommand Options::mouseWheelCommand(const QString &name)
     if (lowerName == QStringLiteral("above/below")) return MouseWheelAboveBelow;
     if (lowerName == QStringLiteral("previous/next desktop")) return MouseWheelPreviousNextDesktop;
     if (lowerName == QStringLiteral("change opacity")) return MouseWheelChangeOpacity;
-    if (lowerName == QStringLiteral("switch to window tab to the left/right")) return MouseWheelChangeCurrentTab;
     if (lowerName == QStringLiteral("nothing")) return MouseWheelNothing;
-    return MouseWheelChangeCurrentTab;
+    return MouseWheelNothing;
 }
 
 bool Options::showGeometryTip() const
@@ -1114,8 +1054,6 @@ Options::MouseCommand Options::wheelToMouseCommand(MouseWheelCommand com, int de
         return delta > 0 ? MousePreviousDesktop : MouseNextDesktop;
     case MouseWheelChangeOpacity:
         return delta > 0 ? MouseOpacityMore : MouseOpacityLess;
-    case MouseWheelChangeCurrentTab:
-        return delta > 0 ? MousePreviousTab : MouseNextTab;
     default:
         return MouseNothing;
     }

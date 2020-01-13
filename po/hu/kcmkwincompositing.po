@@ -2,33 +2,23 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Tamas Szanto <tszanto@interware.hu>, 2007.
-# Kristóf Kiszel <ulysses@kubuntu.org>, 2010, 2011, 2012, 2014.
+# Kristóf Kiszel <ulysses@kubuntu.org>, 2010, 2011, 2012, 2014, 2019.
 # Balázs Úr <urbalazs@gmail.com>, 2012, 2013, 2014.
 # Kiszel Kristóf <kiszel.kristof@gmail.com>, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2017-02-24 22:17+0100\n"
-"Last-Translator: Kiszel Kristóf <kiszel.kristof@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"PO-Revision-Date: 2019-12-08 18:37+0100\n"
+"Last-Translator: Kristóf Kiszel <ulysses@kubuntu.org>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 2.0\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Kiszel Kristóf,Szántó Tamás"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "ulysses@kubuntu.org,tszanto@interware.hu"
+"X-Generator: Lokalize 20.03.70\n"
 
 #: compositing.cpp:378
 #, kde-format
@@ -220,19 +210,23 @@ msgid ""
 " This brings performance improvements for e.g. games.\n"
 " The setting can be overruled by window-specific rules."
 msgstr ""
+"Az alkalmazások javasolhatják a kompozitálás blokkolását, amikor az ablak "
+"meg van nyitva.\n"
+" Ez javíthatja például a játékok teljesítményét.\n"
+" A beállítás felülírható ablakspecifikus szabályokkal."
 
 #. i18n: ectx: property (text), widget (QCheckBox, windowsBlockCompositing)
 #: compositing.ui:280
 #, kde-format
 msgid "Allow applications to block compositing"
-msgstr ""
+msgstr "Az alkalmazások blokkolhatják a kompozitálást"
 
-#: main.cpp:83
+#: main.cpp:55
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "OpenGL felismerés újra bekapcsolása"
 
-#: main.cpp:141
+#: main.cpp:120
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -241,113 +235,15 @@ msgstr ""
 "A „Csak ha olcsó” csak a teljes képernyős alkalmazásoknál, például "
 "videolejátszásnál akadályozza meg a kép szétesését."
 
-#: main.cpp:145
+#: main.cpp:124
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "A „Teljes színtér újrarajzolása” teljesítményproblémákat okozhat."
 
-#: main.cpp:149
+#: main.cpp:128
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
 "A „Képernyőtartalom újrahasználata” komoly teljesítményproblémákat okozhat "
 "MESA illesztőprogram használata esetén."
-
-#: model.cpp:70
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Accessibility"
-msgstr "Akadálymentesítés"
-
-#: model.cpp:71
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Appearance"
-msgstr "Megjelenés"
-
-#: model.cpp:72
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Candy"
-msgstr "Grafikai kiegészítők"
-
-#: model.cpp:73
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Focus"
-msgstr "Fókusz"
-
-#: model.cpp:74
-#, fuzzy, kde-format
-#| msgctxt "Category of Desktop Effects, used as section header"
-#| msgid "Virtual Desktop Switching Animation"
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Show Desktop Animation"
-msgstr "Virtuális asztalok közti váltás animációja"
-
-#: model.cpp:75
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Tools"
-msgstr "Eszközök"
-
-#: model.cpp:76
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Virtual Desktop Switching Animation"
-msgstr "Virtuális asztalok közti váltás animációja"
-
-#: model.cpp:77
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Window Management"
-msgstr "Ablakkezelés"
-
-#: model.cpp:233
-#, kde-format
-msgid "KWin development team"
-msgstr "A KWin fejlesztői"
-
-#: qml/Effect.qml:119
-#, kde-format
-msgid ""
-"Author: %1\n"
-"License: %2"
-msgstr ""
-"Szerző: %1\n"
-"Licenc: %2"
-
-#: qml/EffectView.qml:64
-#, kde-format
-msgid ""
-"Hint: To find out or configure how to activate an effect, look at the "
-"effect's settings."
-msgstr ""
-"Tipp: Az effektusok megértéséhez tekintse át azok beállítási lehetőségeit."
-
-#: qml/EffectView.qml:75
-#, kde-format
-msgid "Search"
-msgstr "Keresés"
-
-#: qml/EffectView.qml:82
-#, kde-format
-msgid "Configure filter"
-msgstr "Szűrőbeállítás"
-
-#: qml/EffectView.qml:85
-#, kde-format
-msgid "Exclude Desktop Effects not supported by the Compositor"
-msgstr "A kompozitor által nem támogatot effektusok kizárása"
-
-#: qml/EffectView.qml:93
-#, kde-format
-msgid "Exclude internal Desktop Effects"
-msgstr "Belső asztali effektusok kizárása"
-
-#: qml/EffectView.qml:105
-#, fuzzy, kde-format
-#| msgid "Get New Effects ..."
-msgid "Get New Effects..."
-msgstr "Új effektusok letöltése…"

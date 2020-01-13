@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2018-08-03 22:57+0100\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"PO-Revision-Date: 2019-01-05 12:50+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
@@ -21,16 +21,6 @@ msgstr ""
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Karl Ove Hufthammer,Håvard Korsvoll"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "karl@huftis.org,korsvoll@skulelinux.no"
 
 #: compositing.cpp:378
 #, kde-format
@@ -234,12 +224,12 @@ msgstr ""
 msgid "Allow applications to block compositing"
 msgstr "Tillat program å blokkera samansetjing"
 
-#: main.cpp:83
+#: main.cpp:55
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "Slå på OpenGL-oppdaging"
 
-#: main.cpp:141
+#: main.cpp:120
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -248,110 +238,14 @@ msgstr ""
 "«Berre ved låg kostnad» hindrar berre rifting for fullskjermsendringar, for "
 "eksempel for videoar."
 
-#: main.cpp:145
+#: main.cpp:124
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "«Nyoppteikning av fullskjerm» kan føra til ytingsproblem."
 
-#: main.cpp:149
+#: main.cpp:128
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
 "«Bruk skjerminnhaldet på nytt» gjev kraftig redusert yting på MESA-drivarar."
-
-#: model.cpp:70
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Accessibility"
-msgstr "Tilgjenge"
-
-#: model.cpp:71
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Appearance"
-msgstr "Utsjånad"
-
-#: model.cpp:72
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Candy"
-msgstr "Godsaker"
-
-#: model.cpp:73
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Focus"
-msgstr "Fokus"
-
-#: model.cpp:74
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Show Desktop Animation"
-msgstr "Vis skrivebordsanimasjonar"
-
-#: model.cpp:75
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Tools"
-msgstr "Verktøy"
-
-#: model.cpp:76
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Virtual Desktop Switching Animation"
-msgstr "Animering ved byte av virtuelt skrivebord"
-
-#: model.cpp:77
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Window Management"
-msgstr "Vindaugshandsaming"
-
-#: model.cpp:233
-#, kde-format
-msgid "KWin development team"
-msgstr "KWin-utviklingslaget"
-
-#: qml/Effect.qml:119
-#, kde-format
-msgid ""
-"Author: %1\n"
-"License: %2"
-msgstr ""
-"Utviklar: %1\n"
-"Lisens: %2: %2"
-
-#: qml/EffectView.qml:64
-#, kde-format
-msgid ""
-"Hint: To find out or configure how to activate an effect, look at the "
-"effect's settings."
-msgstr ""
-"Hint: Sjå på effektinnstillingane for å finna ut korleis du set opp eller "
-"tek effekten i bruk."
-
-#: qml/EffectView.qml:75
-#, kde-format
-msgid "Search"
-msgstr "Søk"
-
-#: qml/EffectView.qml:82
-#, kde-format
-msgid "Configure filter"
-msgstr "Set opp filter"
-
-#: qml/EffectView.qml:85
-#, kde-format
-msgid "Exclude Desktop Effects not supported by the Compositor"
-msgstr "Utelat skrivebordseffektar som samansetjaren ikkje støttar"
-
-#: qml/EffectView.qml:93
-#, kde-format
-msgid "Exclude internal Desktop Effects"
-msgstr "Utelat interne skrivebordseffektar"
-
-#: qml/EffectView.qml:105
-#, kde-format
-msgid "Get New Effects..."
-msgstr "Hent nye effektar …"

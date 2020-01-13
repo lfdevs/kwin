@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-10-13 06:43+0200\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-09-17 03:28+0200\n"
 "PO-Revision-Date: 2009-12-28 17:56+0530\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <danishka@gmail.com>\n"
@@ -253,59 +253,60 @@ msgstr "මතක තබා ගැනීම සඳහා අභ්‍යන්�
 msgid "Internal setting for remembering"
 msgstr "මතක තබා ගැනීම සඳහා අභ්‍යන්තර සැකසුම්"
 
-#: main.cpp:150
+#: main.cpp:138
 #, kde-format
 msgid "Application settings for %1"
 msgstr "%1 සඳහා භාවිතයෙදවුම් සැකසුම් නොමැත"
 
-#: main.cpp:170
+#: main.cpp:158
 #, kde-format
 msgid "Window settings for %1"
 msgstr "%1 සඳහා කවුළු සැකසුම්"
 
-#: main.cpp:222
+#: main.cpp:210
 #, fuzzy, kde-format
 #| msgid "Edit Window-Specific Settings"
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "කවුළු කේන්ද්‍රීය සැකසුම් වෙනස් කරන්න"
 
-#: main.cpp:253
+#: main.cpp:241
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:261
+#: main.cpp:248
 #, kde-format
 msgid "KWin helper utility"
 msgstr "KWin උදව් උපයෝගීතාව"
 
-#: main.cpp:262
-#, kde-format
-msgid "WId of the window for special window settings."
+#: main.cpp:249
+#, fuzzy, kde-format
+#| msgid "WId of the window for special window settings."
+msgid "KWin id of the window for special window settings."
 msgstr "විශේෂිත කවුළු සැකසුම් සඳහා Wld"
 
-#: main.cpp:263
+#: main.cpp:250
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "භාවිත යෙදවුමේ සියලු කවුලු සඳහා මෙම සැකසුම් අදාලද යන බව."
 
-#: main.cpp:271
+#: main.cpp:259
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "මෙම උදව් උපයෝගීතාව කෙලින්ම කැඳවීමට බලාපොරොත්තු නොවේ."
 
-#: ruleslist.cpp:153
+#: ruleslist.cpp:152
 #, kde-format
 msgid "Export Rules"
 msgstr ""
 
-#: ruleslist.cpp:154 ruleslist.cpp:166
+#: ruleslist.cpp:153 ruleslist.cpp:165
 #, kde-format
 msgid "KWin Rules (*.kwinrule)"
 msgstr ""
 
-#: ruleslist.cpp:165
+#: ruleslist.cpp:164
 #, kde-format
 msgid "Import Rules"
 msgstr ""
@@ -352,14 +353,14 @@ msgstr ""
 msgid "&Export"
 msgstr ""
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:66
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
 "window(s)."
 msgstr "නිවේශිත කවුළු(ව) සඳහා මෙම කවුළු වත්කම අතික්‍රමණය කිරීමට මෙම සලකුණු කොටුව සක්‍රීය කරන්න."
 
-#: ruleswidget.cpp:70
+#: ruleswidget.cpp:68
 #, fuzzy, kde-format
 #| msgid ""
 #| "Specify how the window property should be affected:<ul><li><em>Do Not "
@@ -404,7 +405,7 @@ msgstr ""
 "li><li><em>තාවකාලිකව බල කරන්න:</em> සඟවන තෙක් කවුළු වත්කම සඳහා දෙනලද අගයන් යෙදීමට බල "
 "කරයි (කවුළුව සැඟවුනු පසු මෙම ක්‍රියාව මකාදැමේ).</li></ul>"
 
-#: ruleswidget.cpp:85
+#: ruleswidget.cpp:83
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -422,27 +423,27 @@ msgstr ""
 "වත්කම සඳහා දෙනලද අගයන් යෙදීමට බල කරයි (කවුළුව සැඟවුනු පසු මෙම ක්‍රියාව මකාදැමේ).</li></"
 "ul>"
 
-#: ruleswidget.cpp:153
+#: ruleswidget.cpp:151
 #, kde-format
 msgid "All Desktops"
 msgstr "සියළු වැඩතල"
 
-#: ruleswidget.cpp:347
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr ""
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:790
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 සඳහා සැකසුම්"
 
-#: ruleswidget.cpp:833
+#: ruleswidget.cpp:792
 #, kde-format
 msgid "Unnamed entry"
 msgstr "නම් නොකල ඇතුළත් කිරීමක්"
 
-#: ruleswidget.cpp:843
+#: ruleswidget.cpp:802
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -455,12 +456,12 @@ msgstr ""
 "එනම් සැකසුම් සියලුම යෙදුම් සඳහා බොහෝවිට ඇතුළත් වේ. ඔබට ඇත්තෙන්ම සාමාන්‍ය සැකසුමක් නිර්‍මාණයට "
 "ඇවැසි නම්, අවම වශයෙන් විශේෂිත කවුළු වර්‍ග මඟහැරීම සඳහා කවුළු වර්‍ගයවත් නිවේශනය කිරීම නිර්දේශිතයි."
 
-#: ruleswidget.cpp:874
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "කවුළු කේන්ද්‍රීය සැකසුම් වෙනස් කරන්න"
 
-#: ruleswidget.cpp:904
+#: ruleswidget.cpp:863
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -472,12 +473,12 @@ msgstr ""
 "සැකසුම සොයාගෙන, එය සලකුණු කොටුව මගින් සක්‍රීය කර, ඒවා බලපැවැත්විය යුතු ක්‍රමය හා අගය "
 "ලබාදෙන්න."
 
-#: ruleswidget.cpp:908
+#: ruleswidget.cpp:867
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "වැඩි විස්තර සඳහා ලේඛන පරිශීලනය කරන්න"
 
-#: ruleswidget.cpp:947
+#: ruleswidget.cpp:906
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "කෙටිමං සකසන්න"

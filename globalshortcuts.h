@@ -43,13 +43,13 @@ class GestureRecognizer;
  *
  * For internal shortcut handling (those which are delivered inside KWin) QActions are used and
  * triggered if the shortcut matches. For external shortcut handling a DBus interface is used.
- **/
+ */
 class GlobalShortcutsManager : public QObject
 {
     Q_OBJECT
 public:
     explicit GlobalShortcutsManager(QObject *parent = nullptr);
-    virtual ~GlobalShortcutsManager();
+    ~GlobalShortcutsManager() override;
     void init();
 
     /**
@@ -65,7 +65,7 @@ public:
      *
      * @param action The action to trigger if the shortcut is triggered
      * @param modifiers The modifiers which need to be hold to trigger the action
-     * @param pointerButtons The pointer axis
+     * @param axis The pointer axis
      */
     void registerAxisShortcut(QAction *action, Qt::KeyboardModifiers modifiers, PointerAxisDirection axis);
 
@@ -149,7 +149,7 @@ public:
     InternalGlobalShortcut(Qt::KeyboardModifiers pointerButtonModifiers, Qt::MouseButtons pointerButtons, QAction *action);
     InternalGlobalShortcut(Qt::KeyboardModifiers axisModifiers, PointerAxisDirection axis, QAction *action);
     InternalGlobalShortcut(Qt::KeyboardModifiers swipeModifier, SwipeDirection direction, QAction *action);
-    virtual ~InternalGlobalShortcut();
+    ~InternalGlobalShortcut() override;
 
     void invoke() override;
 

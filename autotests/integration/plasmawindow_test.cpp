@@ -75,8 +75,8 @@ void PlasmaWindowTest::initTestCase()
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
     QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit()));
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
 
     kwinApp()->start();
     QVERIFY(workspaceCreatedSpy.wait());
@@ -207,7 +207,7 @@ class HelperWindow : public QRasterWindow
     Q_OBJECT
 public:
     HelperWindow();
-    ~HelperWindow();
+    ~HelperWindow() override;
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -302,9 +302,6 @@ void PlasmaWindowTest::testPopupWindowNoPlasmaWindow()
 
 void PlasmaWindowTest::testLockScreenNoPlasmaWindow()
 {
-    if (!QFile::exists(QStringLiteral("/dev/dri/card0"))) {
-        QSKIP("Needs a dri device");
-    }
     // this test verifies that lock screen windows are not exposed to PlasmaWindow
     QSignalSpy plasmaWindowCreatedSpy(m_windowManagement, &PlasmaWindowManagement::windowCreated);
     QVERIFY(plasmaWindowCreatedSpy.isValid());

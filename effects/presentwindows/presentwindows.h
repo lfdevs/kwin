@@ -36,7 +36,7 @@ class CloseWindowView : public QObject
 {
     Q_OBJECT
 public:
-    explicit CloseWindowView(QObject *parent = 0);
+    explicit CloseWindowView(QObject *parent = nullptr);
     void windowInputMouseEvent(QMouseEvent* e);
     void disarm();
 
@@ -67,7 +67,7 @@ private:
 /**
  * Expose-like effect which shows all windows on current desktop side-by-side,
  *  letting the user select active window.
- **/
+ */
 class PresentWindowsEffect
     : public Effect
 {
@@ -107,29 +107,29 @@ private:
 
 public:
     PresentWindowsEffect();
-    virtual ~PresentWindowsEffect();
+    ~PresentWindowsEffect() override;
 
-    virtual void reconfigure(ReconfigureFlags);
-    virtual void* proxy();
+    void reconfigure(ReconfigureFlags) override;
+    void* proxy() override;
 
     // Screen painting
-    virtual void prePaintScreen(ScreenPrePaintData &data, int time);
-    virtual void paintScreen(int mask, QRegion region, ScreenPaintData &data);
-    virtual void postPaintScreen();
+    void prePaintScreen(ScreenPrePaintData &data, int time) override;
+    void paintScreen(int mask, QRegion region, ScreenPaintData &data) override;
+    void postPaintScreen() override;
 
     // Window painting
-    virtual void prePaintWindow(EffectWindow *w, WindowPrePaintData &data, int time);
-    virtual void paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data);
+    void prePaintWindow(EffectWindow *w, WindowPrePaintData &data, int time) override;
+    void paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) override;
 
     // User interaction
-    virtual bool borderActivated(ElectricBorder border);
-    virtual void windowInputMouseEvent(QEvent *e);
-    virtual void grabbedKeyboardEvent(QKeyEvent *e);
-    virtual bool isActive() const;
+    bool borderActivated(ElectricBorder border) override;
+    void windowInputMouseEvent(QEvent *e) override;
+    void grabbedKeyboardEvent(QKeyEvent *e) override;
+    bool isActive() const override;
 
-    bool touchDown(quint32 id, const QPointF &pos, quint32 time) override;
-    bool touchMotion(quint32 id, const QPointF &pos, quint32 time) override;
-    bool touchUp(quint32 id, quint32 time) override;
+    bool touchDown(qint32 id, const QPointF &pos, quint32 time) override;
+    bool touchMotion(qint32 id, const QPointF &pos, quint32 time) override;
+    bool touchUp(qint32 id, quint32 time) override;
 
     int requestedEffectChainPosition() const override {
         return 70;
@@ -149,7 +149,8 @@ public:
         WindowExitAction = 2, // Deactivates the effect without activating new window
         WindowToCurrentDesktopAction = 3, // Brings window to current desktop
         WindowToAllDesktopsAction = 4, // Brings window to all desktops
-        WindowMinimizeAction = 5 // Minimize the window
+        WindowMinimizeAction = 5, // Minimizes the window
+        WindowCloseAction = 6 // Closes the window
     };
     enum DesktopMouseAction {
         DesktopNoAction = 0, // nothing
@@ -337,7 +338,7 @@ private:
     EffectWindow* m_closeWindow;
     Qt::Corner m_closeButtonCorner;
     struct {
-        quint32 id = 0;
+        qint32 id = 0;
         bool active = false;
     } m_touch;
 

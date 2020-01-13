@@ -17,7 +17,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
-
 #include "toplevel.h"
 
 #ifdef KWIN_BUILD_ACTIVITIES
@@ -26,9 +25,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "atoms.h"
 #include "client.h"
 #include "client_machine.h"
+#include "composite.h"
 #include "effects.h"
 #include "screens.h"
 #include "shadow.h"
+#include "workspace.h"
 #include "xcbutils.h"
 
 #include <KWayland/Server/surface_interface.h>
@@ -41,15 +42,16 @@ namespace KWin
 Toplevel::Toplevel()
     : m_visual(XCB_NONE)
     , bit_depth(24)
-    , info(NULL)
+    , info(nullptr)
     , ready_for_painting(true)
     , m_isDamaged(false)
+    , m_internalId(QUuid::createUuid())
     , m_client()
-    , damage_handle(None)
+    , damage_handle(XCB_NONE)
     , is_shape(false)
-    , effect_window(NULL)
+    , effect_window(nullptr)
     , m_clientMachine(new ClientMachine(this))
-    , wmClientLeaderWin(0)
+    , m_wmClientLeader(XCB_WINDOW_NONE)
     , m_damageReplyPending(false)
     , m_screen(0)
     , m_skipCloseAnimation(false)
@@ -62,13 +64,13 @@ Toplevel::Toplevel()
 
 Toplevel::~Toplevel()
 {
-    assert(damage_handle == None);
+    Q_ASSERT(damage_handle == XCB_NONE);
     delete info;
 }
 
 QDebug& operator<<(QDebug& stream, const Toplevel* cl)
 {
-    if (cl == NULL)
+    if (cl == nullptr)
         return stream << "\'NULL\'";
     cl->debug(stream);
     return stream;
@@ -95,7 +97,7 @@ QRect Toplevel::decorationRect() const
     return rect();
 }
 
-void Toplevel::detectShape(Window id)
+void Toplevel::detectShape(xcb_window_t id)
 {
     const bool wasShape = is_shape;
     is_shape = Xcb::Extensions::self()->hasShape(id);
@@ -107,24 +109,26 @@ void Toplevel::detectShape(Window id)
 // used only by Deleted::copy()
 void Toplevel::copyToDeleted(Toplevel* c)
 {
+    m_internalId = c->internalId();
     geom = c->geom;
     m_visual = c->m_visual;
     bit_depth = c->bit_depth;
     info = c->info;
     m_client.reset(c->m_client, false);
     ready_for_painting = c->ready_for_painting;
-    damage_handle = None;
+    damage_handle = XCB_NONE;
     damage_region = c->damage_region;
     repaints_region = c->repaints_region;
+    layer_repaints_region = c->layer_repaints_region;
     is_shape = c->is_shape;
     effect_window = c->effect_window;
-    if (effect_window != NULL)
+    if (effect_window != nullptr)
         effect_window->setWindow(this);
     resource_name = c->resourceName();
     resource_class = c->resourceClass();
     m_clientMachine = c->m_clientMachine;
     m_clientMachine->setParent(this);
-    wmClientLeaderWin = c->wmClientLeader();
+    m_wmClientLeader = c->wmClientLeader();
     opaque_region = c->opaqueRegion();
     m_screen = c->m_screen;
     m_skipCloseAnimation = c->m_skipCloseAnimation;
@@ -135,7 +139,7 @@ void Toplevel::copyToDeleted(Toplevel* c)
 // owner by Deleted
 void Toplevel::disownDataPassedToDeleted()
 {
-    info = NULL;
+    info = nullptr;
 }
 
 QRect Toplevel::visibleRect() const
@@ -154,7 +158,7 @@ Xcb::Property Toplevel::fetchWmClientLeader() const
 
 void Toplevel::readWmClientLeader(Xcb::Property &prop)
 {
-    wmClientLeaderWin = prop.value<xcb_window_t>(window());
+    m_wmClientLeader = prop.value<xcb_window_t>(window());
 }
 
 void Toplevel::getWmClientLeader()
@@ -163,27 +167,29 @@ void Toplevel::getWmClientLeader()
     readWmClientLeader(prop);
 }
 
-/*!
-  Returns sessionId for this client,
-  taken either from its window or from the leader window.
+/**
+ * Returns sessionId for this client,
+ * taken either from its window or from the leader window.
  */
 QByteArray Toplevel::sessionId() const
 {
     QByteArray result = Xcb::StringProperty(window(), atoms->sm_client_id);
-    if (result.isEmpty() && wmClientLeaderWin && wmClientLeaderWin != window())
-        result = Xcb::StringProperty(wmClientLeaderWin, atoms->sm_client_id);
+    if (result.isEmpty() && m_wmClientLeader && m_wmClientLeader != window()) {
+        result = Xcb::StringProperty(m_wmClientLeader, atoms->sm_client_id);
+    }
     return result;
 }
 
-/*!
-  Returns command property for this client,
-  taken either from its window or from the leader window.
+/**
+ * Returns command property for this client,
+ * taken either from its window or from the leader window.
  */
 QByteArray Toplevel::wmCommand()
 {
     QByteArray result = Xcb::StringProperty(window(), XCB_ATOM_WM_COMMAND);
-    if (result.isEmpty() && wmClientLeaderWin && wmClientLeaderWin != window())
-        result = Xcb::StringProperty(wmClientLeaderWin, XCB_ATOM_WM_COMMAND);
+    if (result.isEmpty() && m_wmClientLeader && m_wmClientLeader != window()) {
+        result = Xcb::StringProperty(m_wmClientLeader, XCB_ATOM_WM_COMMAND);
+    }
     result.replace(0, ' ');
     return result;
 }
@@ -193,10 +199,10 @@ void Toplevel::getWmClientMachine()
     m_clientMachine->resolve(window(), wmClientLeader());
 }
 
-/*!
-  Returns client machine for this client,
-  taken either from its window or from the leader window.
-*/
+/**
+ * Returns client machine for this client,
+ * taken either from its window or from the leader window.
+ */
 QByteArray Toplevel::wmClientMachine(bool use_localhost) const
 {
     if (!m_clientMachine) {
@@ -210,14 +216,15 @@ QByteArray Toplevel::wmClientMachine(bool use_localhost) const
     return m_clientMachine->hostName();
 }
 
-/*!
-  Returns client leader window for this client.
-  Returns the client window itself if no leader window is defined.
-*/
-Window Toplevel::wmClientLeader() const
+/**
+ * Returns client leader window for this client.
+ * Returns the client window itself if no leader window is defined.
+ */
+xcb_window_t Toplevel::wmClientLeader() const
 {
-    if (wmClientLeaderWin)
-        return wmClientLeaderWin;
+    if (m_wmClientLeader != XCB_WINDOW_NONE) {
+        return m_wmClientLeader;
+    }
     return window();
 }
 
@@ -253,6 +260,243 @@ void Toplevel::setOpacity(double new_opacity)
     }
 }
 
+bool Toplevel::setupCompositing()
+{
+    if (!compositing())
+        return false;
+
+    if (damage_handle != XCB_NONE)
+        return false;
+
+    if (kwinApp()->operationMode() == Application::OperationModeX11 && !surface()) {
+        damage_handle = xcb_generate_id(connection());
+        xcb_damage_create(connection(), damage_handle, frameId(), XCB_DAMAGE_REPORT_LEVEL_NON_EMPTY);
+    }
+
+    damage_region = QRegion(0, 0, width(), height());
+    effect_window = new EffectWindowImpl(this);
+
+    Compositor::self()->scene()->addToplevel(this);
+
+    return true;
+}
+
+void Toplevel::finishCompositing(ReleaseReason releaseReason)
+{
+    if (kwinApp()->operationMode() == Application::OperationModeX11 && damage_handle == XCB_NONE)
+        return;
+    if (effect_window->window() == this) { // otherwise it's already passed to Deleted, don't free data
+        discardWindowPixmap();
+        delete effect_window;
+    }
+
+    if (damage_handle != XCB_NONE &&
+            releaseReason != ReleaseReason::Destroyed) {
+        xcb_damage_destroy(connection(), damage_handle);
+    }
+
+    damage_handle = XCB_NONE;
+    damage_region = QRegion();
+    repaints_region = QRegion();
+    effect_window = nullptr;
+}
+
+void Toplevel::discardWindowPixmap()
+{
+    addDamageFull();
+    if (effectWindow() != nullptr && effectWindow()->sceneWindow() != nullptr)
+        effectWindow()->sceneWindow()->pixmapDiscarded();
+}
+
+void Toplevel::damageNotifyEvent()
+{
+    m_isDamaged = true;
+
+    // Note: The rect is supposed to specify the damage extents,
+    //       but we don't know it at this point. No one who connects
+    //       to this signal uses the rect however.
+    emit damaged(this, QRect());
+}
+
+bool Toplevel::compositing() const
+{
+    if (!Workspace::self()) {
+        return false;
+    }
+    return Workspace::self()->compositing();
+}
+
+void Client::damageNotifyEvent()
+{
+    if (syncRequest.isPending && isResize()) {
+        emit damaged(this, QRect());
+        m_isDamaged = true;
+        return;
+    }
+
+    if (!ready_for_painting) { // avoid "setReadyForPainting()" function calling overhead
+        if (syncRequest.counter == XCB_NONE) {  // cannot detect complete redraw, consider done now
+            setReadyForPainting();
+            setupWindowManagementInterface();
+        }
+    }
+
+    Toplevel::damageNotifyEvent();
+}
+
+bool Toplevel::resetAndFetchDamage()
+{
+    if (!m_isDamaged)
+        return false;
+
+    if (damage_handle == XCB_NONE) {
+        m_isDamaged = false;
+        return true;
+    }
+
+    xcb_connection_t *conn = connection();
+
+    // Create a new region and copy the damage region to it,
+    // resetting the damaged state.
+    xcb_xfixes_region_t region = xcb_generate_id(conn);
+    xcb_xfixes_create_region(conn, region, 0, nullptr);
+    xcb_damage_subtract(conn, damage_handle, 0, region);
+
+    // Send a fetch-region request and destroy the region
+    m_regionCookie = xcb_xfixes_fetch_region_unchecked(conn, region);
+    xcb_xfixes_destroy_region(conn, region);
+
+    m_isDamaged = false;
+    m_damageReplyPending = true;
+
+    return m_damageReplyPending;
+}
+
+void Toplevel::getDamageRegionReply()
+{
+    if (!m_damageReplyPending)
+        return;
+
+    m_damageReplyPending = false;
+
+    // Get the fetch-region reply
+    xcb_xfixes_fetch_region_reply_t *reply =
+            xcb_xfixes_fetch_region_reply(connection(), m_regionCookie, nullptr);
+
+    if (!reply)
+        return;
+
+    // Convert the reply to a QRegion
+    int count = xcb_xfixes_fetch_region_rectangles_length(reply);
+    QRegion region;
+
+    if (count > 1 && count < 16) {
+        xcb_rectangle_t *rects = xcb_xfixes_fetch_region_rectangles(reply);
+
+        QVector<QRect> qrects;
+        qrects.reserve(count);
+
+        for (int i = 0; i < count; i++)
+            qrects << QRect(rects[i].x, rects[i].y, rects[i].width, rects[i].height);
+
+        region.setRects(qrects.constData(), count);
+    } else
+        region += QRect(reply->extents.x, reply->extents.y,
+                        reply->extents.width, reply->extents.height);
+
+    damage_region += region;
+    repaints_region += region;
+
+    free(reply);
+}
+
+void Toplevel::addDamageFull()
+{
+    if (!compositing())
+        return;
+
+    damage_region = rect();
+    repaints_region |= rect();
+
+    emit damaged(this, rect());
+}
+
+void Toplevel::resetDamage()
+{
+    damage_region = QRegion();
+}
+
+void Toplevel::addRepaint(const QRect& r)
+{
+    if (!compositing()) {
+        return;
+    }
+    repaints_region += r;
+    emit needsRepaint();
+}
+
+void Toplevel::addRepaint(int x, int y, int w, int h)
+{
+    QRect r(x, y, w, h);
+    addRepaint(r);
+}
+
+void Toplevel::addRepaint(const QRegion& r)
+{
+    if (!compositing()) {
+        return;
+    }
+    repaints_region += r;
+    emit needsRepaint();
+}
+
+void Toplevel::addLayerRepaint(const QRect& r)
+{
+    if (!compositing()) {
+        return;
+    }
+    layer_repaints_region += r;
+    emit needsRepaint();
+}
+
+void Toplevel::addLayerRepaint(int x, int y, int w, int h)
+{
+    QRect r(x, y, w, h);
+    addLayerRepaint(r);
+}
+
+void Toplevel::addLayerRepaint(const QRegion& r)
+{
+    if (!compositing())
+        return;
+    layer_repaints_region += r;
+    emit needsRepaint();
+}
+
+void Toplevel::addRepaintFull()
+{
+    repaints_region = visibleRect().translated(-pos());
+    emit needsRepaint();
+}
+
+void Toplevel::resetRepaints()
+{
+    repaints_region = QRegion();
+    layer_repaints_region = QRegion();
+}
+
+void Toplevel::addWorkspaceRepaint(int x, int y, int w, int h)
+{
+    addWorkspaceRepaint(QRect(x, y, w, h));
+}
+
+void Toplevel::addWorkspaceRepaint(const QRect& r2)
+{
+    if (!compositing())
+        return;
+    Compositor::self()->addRepaint(r2);
+}
+
 void Toplevel::setReadyForPainting()
 {
     if (!ready_for_painting) {
@@ -260,10 +504,6 @@ void Toplevel::setReadyForPainting()
         if (compositing()) {
             addRepaintFull();
             emit windowShown(this);
-            if (Client *cl = dynamic_cast<Client*>(this)) {
-                if (cl->tabGroup() && cl->tabGroup()->current() == cl)
-                    cl->tabGroup()->setCurrent(cl, true);
-            }
         }
     }
 }
@@ -271,7 +511,7 @@ void Toplevel::setReadyForPainting()
 void Toplevel::deleteEffectWindow()
 {
     delete effect_window;
-    effect_window = NULL;
+    effect_window = nullptr;
 }
 
 void Toplevel::checkScreen()
@@ -334,7 +574,10 @@ void Toplevel::getShadow()
     const QRect oldVisibleRect = visibleRect();
     if (hasShadow()) {
         dirtyRect = shadow()->shadowRegion().boundingRect();
-        effectWindow()->sceneWindow()->shadow()->updateShadow();
+        if (!effectWindow()->sceneWindow()->shadow()->updateShadow()) {
+            effectWindow()->sceneWindow()->updateShadow(nullptr);
+        }
+        emit shadowChanged();
     } else {
         Shadow::createShadow(this);
     }
@@ -351,7 +594,7 @@ void Toplevel::getShadow()
 bool Toplevel::hasShadow() const
 {
     if (effectWindow() && effectWindow()->sceneWindow()) {
-        return effectWindow()->sceneWindow()->shadow() != NULL;
+        return effectWindow()->sceneWindow()->shadow() != nullptr;
     }
     return false;
 }
@@ -361,7 +604,7 @@ Shadow *Toplevel::shadow()
     if (effectWindow() && effectWindow()->sceneWindow()) {
         return effectWindow()->sceneWindow()->shadow();
     } else {
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -370,7 +613,7 @@ const Shadow *Toplevel::shadow() const
     if (effectWindow() && effectWindow()->sceneWindow()) {
         return effectWindow()->sceneWindow()->shadow();
     } else {
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -495,7 +738,7 @@ void Toplevel::addDamage(const QRegion &damage)
 {
     m_isDamaged = true;
     damage_region += damage;
-    for (const QRect &r : damage.rects()) {
+    for (const QRect &r : damage) {
         emit damaged(this, r);
     }
 }
@@ -551,6 +794,14 @@ quint32 Toplevel::windowId() const
 QRect Toplevel::inputGeometry() const
 {
     return geometry();
+}
+
+bool Toplevel::isLocalhost() const
+{
+    if (!m_clientMachine) {
+        return true;
+    }
+    return m_clientMachine->isLocal();
 }
 
 } // namespace

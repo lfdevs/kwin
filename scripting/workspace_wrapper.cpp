@@ -23,7 +23,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../client.h"
 #include "../outline.h"
 #include "../screens.h"
+#include "../shell_client.h"
 #include "../virtualdesktops.h"
+#include "../wayland_server.h"
 #include "../workspace.h"
 #ifdef KWIN_BUILD_ACTIVITIES
 #include "../activities.h"
@@ -40,8 +42,8 @@ WorkspaceWrapper::WorkspaceWrapper(QObject* parent) : QObject(parent)
     KWin::VirtualDesktopManager *vds = KWin::VirtualDesktopManager::self();
     connect(ws, &Workspace::desktopPresenceChanged, this, &WorkspaceWrapper::desktopPresenceChanged);
     connect(ws, &Workspace::currentDesktopChanged, this, &WorkspaceWrapper::currentDesktopChanged);
-    connect(ws, SIGNAL(clientAdded(KWin::Client*)), SIGNAL(clientAdded(KWin::Client*)));
-    connect(ws, SIGNAL(clientAdded(KWin::Client*)), SLOT(setupClientConnections(KWin::Client*)));
+    connect(ws, &Workspace::clientAdded, this, &WorkspaceWrapper::clientAdded);
+    connect(ws, &Workspace::clientAdded, this, &WorkspaceWrapper::setupClientConnections);
     connect(ws, &Workspace::clientRemoved, this, &WorkspaceWrapper::clientRemoved);
     connect(ws, &Workspace::clientActivated, this, &WorkspaceWrapper::clientActivated);
     connect(vds, SIGNAL(countChanged(uint,uint)), SIGNAL(numberDesktopsChanged(uint)));
@@ -65,6 +67,10 @@ WorkspaceWrapper::WorkspaceWrapper(QObject* parent) : QObject(parent)
         }
     );
     connect(QApplication::desktop(), SIGNAL(resized(int)), SIGNAL(screenResized(int)));
+    if (waylandServer()) {
+        connect(waylandServer(), &WaylandServer::shellClientAdded, this, &WorkspaceWrapper::clientAdded);
+        connect(waylandServer(), &WaylandServer::shellClientAdded, this, &WorkspaceWrapper::setupAbstractClientConnections);
+    }
     foreach (KWin::Client *client, ws->clientList()) {
         setupClientConnections(client);
     }
@@ -90,14 +96,10 @@ void WorkspaceWrapper::setNumberOfDesktops(int count)
     VirtualDesktopManager::self()->setCount(count);
 }
 
-#define GETTER( klass, rettype, getterName ) \
-rettype klass::getterName( ) const { \
-    return Workspace::self()->getterName(); \
+AbstractClient *WorkspaceWrapper::activeClient() const
+{
+    return workspace()->activeClient();
 }
-GETTER(WorkspaceWrapper, KWin::AbstractClient*, activeClient)
-GETTER(QtScriptWorkspaceWrapper, QList< KWin::Client* >, clientList)
-
-#undef GETTER
 
 QString WorkspaceWrapper::currentActivity() const
 {
@@ -244,7 +246,7 @@ QRect WorkspaceWrapper::clientArea(ClientAreaOption option, const QPoint &p, int
     return Workspace::self()->clientArea(static_cast<clientAreaOption>(option), p, desktop);
 }
 
-QRect WorkspaceWrapper::clientArea(ClientAreaOption option, const KWin::Client *c) const
+QRect WorkspaceWrapper::clientArea(ClientAreaOption option, const KWin::AbstractClient *c) const
 {
     return Workspace::self()->clientArea(static_cast<clientAreaOption>(option), c);
 }
@@ -264,14 +266,20 @@ QString WorkspaceWrapper::supportInformation() const
     return Workspace::self()->supportInformation();
 }
 
-void WorkspaceWrapper::setupClientConnections(KWin::Client *client)
+void WorkspaceWrapper::setupAbstractClientConnections(AbstractClient *client)
 {
-    connect(client, &Client::clientMinimized, this, &WorkspaceWrapper::clientMinimized);
-    connect(client, &Client::clientUnminimized, this, &WorkspaceWrapper::clientUnminimized);
-    connect(client, SIGNAL(clientManaging(KWin::Client*)), SIGNAL(clientManaging(KWin::Client*)));
-    connect(client, SIGNAL(clientFullScreenSet(KWin::Client*,bool,bool)), SIGNAL(clientFullScreenSet(KWin::Client*,bool,bool)));
-    connect(client, static_cast<void (Client::*)(KWin::AbstractClient*, bool, bool)>(&Client::clientMaximizedStateChanged),
+    connect(client, &AbstractClient::clientMinimized, this, &WorkspaceWrapper::clientMinimized);
+    connect(client, &AbstractClient::clientUnminimized, this, &WorkspaceWrapper::clientUnminimized);
+    connect(client, qOverload<AbstractClient *, bool, bool>(&AbstractClient::clientMaximizedStateChanged),
             this, &WorkspaceWrapper::clientMaximizeSet);
+}
+
+void WorkspaceWrapper::setupClientConnections(Client *client)
+{
+    setupAbstractClientConnections(client);
+
+    connect(client, &Client::clientManaging, this, &WorkspaceWrapper::clientManaging);
+    connect(client, &Client::clientFullScreenSet, this, &WorkspaceWrapper::clientFullScreenSet);
 }
 
 void WorkspaceWrapper::showOutline(const QRect &geometry)
@@ -342,22 +350,26 @@ QSize WorkspaceWrapper::virtualScreenSize() const
 QtScriptWorkspaceWrapper::QtScriptWorkspaceWrapper(QObject* parent)
     : WorkspaceWrapper(parent) {}
 
-
-QQmlListProperty<KWin::Client> DeclarativeScriptWorkspaceWrapper::clients()
+QList<KWin::AbstractClient *> QtScriptWorkspaceWrapper::clientList() const
 {
-    return QQmlListProperty<KWin::Client>(this, 0, &DeclarativeScriptWorkspaceWrapper::countClientList, &DeclarativeScriptWorkspaceWrapper::atClientList);
+    return workspace()->allClientList();
 }
 
-int DeclarativeScriptWorkspaceWrapper::countClientList(QQmlListProperty<KWin::Client> *clients)
+QQmlListProperty<KWin::AbstractClient> DeclarativeScriptWorkspaceWrapper::clients()
 {
-    Q_UNUSED(clients)
-    return Workspace::self()->clientList().size();
+    return QQmlListProperty<KWin::AbstractClient>(this, nullptr, &DeclarativeScriptWorkspaceWrapper::countClientList, &DeclarativeScriptWorkspaceWrapper::atClientList);
 }
 
-KWin::Client *DeclarativeScriptWorkspaceWrapper::atClientList(QQmlListProperty<KWin::Client> *clients, int index)
+int DeclarativeScriptWorkspaceWrapper::countClientList(QQmlListProperty<KWin::AbstractClient> *clients)
 {
     Q_UNUSED(clients)
-    return Workspace::self()->clientList().at(index);
+    return workspace()->allClientList().size();
+}
+
+KWin::AbstractClient *DeclarativeScriptWorkspaceWrapper::atClientList(QQmlListProperty<KWin::AbstractClient> *clients, int index)
+{
+    Q_UNUSED(clients)
+    return workspace()->allClientList().at(index);
 }
 
 DeclarativeScriptWorkspaceWrapper::DeclarativeScriptWorkspaceWrapper(QObject* parent)

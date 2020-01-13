@@ -18,11 +18,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "fb_backend.h"
+
 #include "composite.h"
 #include "logging.h"
 #include "logind.h"
 #include "scene_qpainter_fb_backend.h"
-#include "screens.h"
+#include "outputscreens.h"
 #include "virtual_terminal.h"
 #include "udev.h"
 // system
@@ -35,6 +36,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace KWin
 {
+
+void FramebufferOutput::init(const QSize &pixelSize, const QSize &physicalSize)
+{
+    KWayland::Server::OutputDeviceInterface::Mode mode;
+    mode.id = 0;
+    mode.size = pixelSize;
+    mode.flags = KWayland::Server::OutputDeviceInterface::ModeFlag::Current;
+    mode.refreshRate = 60000;  // TODO: get actual refresh rate of fb device?
+    initInterfaces("model_TODO", "manufacturer_TODO", "UUID_TODO", physicalSize, { mode });
+}
 
 FramebufferBackend::FramebufferBackend(QObject *parent)
     : Platform(parent)
@@ -51,7 +62,7 @@ FramebufferBackend::~FramebufferBackend()
 
 Screens *FramebufferBackend::createScreens(QObject *parent)
 {
-    return new BasicScreens(this, parent);
+    return new OutputScreens(this, parent);
 }
 
 QPainterBackend *FramebufferBackend::createQPainterBackend()
@@ -126,20 +137,8 @@ bool FramebufferBackend::handleScreenInfo()
         return false;
     }
 
-    // correct the color info, and try to turn on screens, assuming this is a non-primary framebuffer device
-    varinfo.grayscale = 0;
-    varinfo.transp.offset = 24;
-    varinfo.transp.length = 8;
-    varinfo.transp.msb_right = 0;
-    varinfo.red.offset = 16;
-    varinfo.red.length = 8;
-    varinfo.red.msb_right = 0;
-    varinfo.green.offset = 8;
-    varinfo.green.length = 8;
-    varinfo.green.msb_right = 0;
-    varinfo.blue.offset = 0;
-    varinfo.blue.length = 8;
-    varinfo.blue.msb_right = 0;
+    // Activate the framebuffer device, assuming this is a non-primary framebuffer device
+    varinfo.activate = FB_ACTIVATE_NOW | FB_ACTIVATE_FORCE;
     ioctl(m_fd, FBIOPUT_VSCREENINFO, &varinfo);
 
     // Probe the device for new screen information.
@@ -147,8 +146,10 @@ bool FramebufferBackend::handleScreenInfo()
         return false;
     }
 
-    m_resolution = QSize(varinfo.xres, varinfo.yres);
-    m_physicalSize = QSize(varinfo.width, varinfo.height);
+    auto *output = new FramebufferOutput(this);
+    output->init(QSize(varinfo.xres, varinfo.yres), QSize(varinfo.width, varinfo.height));
+    m_outputs << output;
+
     m_id = QByteArray(fixinfo.id);
     m_red = {varinfo.red.offset, varinfo.red.length};
     m_green = {varinfo.green.offset, varinfo.green.length};
@@ -188,6 +189,14 @@ void FramebufferBackend::unmap()
         qCWarning(KWIN_FB) << "Failed to munmap frame buffer";
     }
     m_memory = nullptr;
+}
+
+QSize FramebufferBackend::screenSize() const
+{
+    if (m_outputs.isEmpty()) {
+        return QSize();
+    }
+    return m_outputs[0]->pixelSize();
 }
 
 QImage::Format FramebufferBackend::imageFormat() const
@@ -255,6 +264,16 @@ void FramebufferBackend::initImageFormat()
     } else {
         qCWarning(KWIN_FB) << "Framebuffer format is unknown";
     }
+}
+
+Outputs FramebufferBackend::outputs() const
+{
+    return m_outputs;
+}
+
+Outputs FramebufferBackend::enabledOutputs() const
+{
+    return m_outputs;
 }
 
 }

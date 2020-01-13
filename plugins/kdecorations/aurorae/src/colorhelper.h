@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * @short Helper to manipulate colors.
  *
  * Exports a few functions from KColorScheme.
- **/
+ */
 class ColorHelper : public QObject
 {
     Q_OBJECT
@@ -33,11 +33,11 @@ class ColorHelper : public QObject
     Q_ENUMS(BackgroundRole)
     /**
      * Same as KGlobalSettings::contrastF.
-     **/
+     */
     Q_PROPERTY(qreal contrast READ contrast CONSTANT)
 public:
     explicit ColorHelper(QObject *parent = nullptr);
-    ~ColorHelper();
+    ~ColorHelper() override;
     /**
      * This enumeration describes the color shade being selected from the given
      * set.
@@ -205,7 +205,8 @@ public:
      * darker than the base color, with light() == mid().
      */
     Q_INVOKABLE QColor shade(const QColor& color, ShadeRole role);
-    Q_INVOKABLE QColor shade(const QColor& color, ShadeRole role, qreal contrast);    /**
+    Q_INVOKABLE QColor shade(const QColor& color, ShadeRole role, qreal contrast);
+    /**
      * Retrieve the requested shade color, using the specified color as the
      * base color and the specified contrast.
      *

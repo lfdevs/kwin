@@ -8,17 +8,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-10-13 06:43+0200\n"
-"PO-Revision-Date: 2019-01-05 20:49\n"
-"Last-Translator: guoyunhe <i@guoyunhe.me>\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-09-17 03:28+0200\n"
+"PO-Revision-Date: 2020-01-04 21:46\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: crowdin.com\n"
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Language: zh-CN\n"
 "X-Crowdin-File: /kf5-stable/messages/kde-workspace/kcmkwinrules.pot\n"
@@ -248,58 +247,58 @@ msgstr "显示要记住的内部设置"
 msgid "Internal setting for remembering"
 msgstr "要记住的内部设置"
 
-#: main.cpp:150
+#: main.cpp:138
 #, kde-format
 msgid "Application settings for %1"
 msgstr "%1 的应用程序设置"
 
-#: main.cpp:170
+#: main.cpp:158
 #, kde-format
 msgid "Window settings for %1"
 msgstr "%1 的窗口设置"
 
-#: main.cpp:222
+#: main.cpp:210
 #, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "编辑程序的特定设置"
 
-#: main.cpp:253
+#: main.cpp:241
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:261
+#: main.cpp:248
 #, kde-format
 msgid "KWin helper utility"
 msgstr "KWin 助手工具"
 
-#: main.cpp:262
+#: main.cpp:249
 #, kde-format
-msgid "WId of the window for special window settings."
-msgstr "窗口特定设置的窗口编号(WId)。"
+msgid "KWin id of the window for special window settings."
+msgstr "窗口特定设置的窗口编号(KWin ID)。"
 
-#: main.cpp:263
+#: main.cpp:250
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "此设置是否应用到该应用程序的所有窗口。"
 
-#: main.cpp:271
+#: main.cpp:259
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "此助手工具不应直接调用。"
 
-#: ruleslist.cpp:153
+#: ruleslist.cpp:152
 #, kde-format
 msgid "Export Rules"
 msgstr "导出规则"
 
-#: ruleslist.cpp:154 ruleslist.cpp:166
+#: ruleslist.cpp:153 ruleslist.cpp:165
 #, kde-format
 msgid "KWin Rules (*.kwinrule)"
 msgstr "KWin 规则 (*.kwinrule)"
 
-#: ruleslist.cpp:165
+#: ruleslist.cpp:164
 #, kde-format
 msgid "Import Rules"
 msgstr "导入规则"
@@ -346,14 +345,14 @@ msgstr "导入(&I)"
 msgid "&Export"
 msgstr "导出(&E)"
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:66
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
 "window(s)."
 msgstr "启用此框可为特定窗口更换此窗口属性。"
 
-#: ruleswidget.cpp:70
+#: ruleswidget.cpp:68
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -380,7 +379,7 @@ msgstr ""
 "li><li><em>临时强制：</em>窗口属性将被强制设定为给定值，直至隐藏该窗口(隐藏此"
 "窗口后此操作将被删除)。</li></ul>"
 
-#: ruleswidget.cpp:85
+#: ruleswidget.cpp:83
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -396,27 +395,27 @@ msgstr ""
 "em>窗口属性将总是强制为给定值。</li><li><em>临时强制：</em>窗口属性将被强制设"
 "定为给定值，直至隐藏该窗口(隐藏此窗口后此操作将被删除)。</li></ul>"
 
-#: ruleswidget.cpp:153
+#: ruleswidget.cpp:151
 #, kde-format
 msgid "All Desktops"
 msgstr "全部桌面"
 
-#: ruleswidget.cpp:347
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr "全部活动"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:790
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 的设置"
 
-#: ruleswidget.cpp:833
+#: ruleswidget.cpp:792
 #, kde-format
 msgid "Unnamed entry"
 msgstr "未命名项"
 
-#: ruleswidget.cpp:843
+#: ruleswidget.cpp:802
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -429,12 +428,12 @@ msgstr ""
 "这意味着设置将可能应用到全部应用程序的窗口中。如果您真的想要创建常规设置的"
 "话，推荐您至少限制一种窗口类型，以避免特殊的窗口类型。"
 
-#: ruleswidget.cpp:874
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "编辑窗口的特定设置"
 
-#: ruleswidget.cpp:904
+#: ruleswidget.cpp:863
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -445,12 +444,12 @@ msgstr ""
 "此配置对话框允许只更改选中窗口或应用程序的设置。查找您想要影响的设置，使用复"
 "选框启用设置，选择设置应影响的方式以及应影响的值。"
 
-#: ruleswidget.cpp:908
+#: ruleswidget.cpp:867
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "请查看文档中的更多信息。"
 
-#: ruleswidget.cpp:947
+#: ruleswidget.cpp:906
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "编辑快捷键"
@@ -881,7 +880,7 @@ msgstr "桌面(&D)"
 #: ruleswidgetbase.ui:802
 #, kde-format
 msgid "Activit&y"
-msgstr "活动(&y)"
+msgstr "活动(&Y)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fullscreen)
 #: ruleswidgetbase.ui:870

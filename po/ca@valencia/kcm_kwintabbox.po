@@ -1,49 +1,60 @@
 # Translation of kcm_kwintabbox.po to Catalan (Valencian)
-# Copyright (C) 2009-2016 This_file_is_part_of_KDE
+# Copyright (C) 2009-2019 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
+# or the same license as the source of its messages in English.
 #
-# Josep Ma. Ferrer <txemaq@gmail.com>, 2009, 2010, 2011, 2012, 2014.
-# Antoni Bella Pérez <antonibella5@yahoo.com>, 2016.
+# Josep Ma. Ferrer <txemaq@gmail.com>, 2009, 2010, 2011, 2012, 2014, 2018.
+# Antoni Bella Pérez <antonibella5@yahoo.com>, 2016, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2016-07-23 06:48+0100\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-07-11 03:14+0200\n"
+"PO-Revision-Date: 2019-07-04 13:04+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
-#: layoutpreview.cpp:165
+#: layoutpreview.cpp:159
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Escriptori 1"
 
-#: main.cpp:73
+#: main.cpp:76
 #, kde-format
 msgid "Main"
 msgstr "Principal"
 
-#: main.cpp:74
+#: main.cpp:77
 #, kde-format
 msgid "Alternative"
 msgstr "Alternativa"
 
-#: main.cpp:77
+#: main.cpp:79
+#, kde-format
+msgid "Get New Task Switchers..."
+msgstr "Obtín commutadors nous de tasques..."
+
+#: main.cpp:89
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""
-"L'arranjament de la política de focus limita la funcionalitat de navegar per "
-"les finestres."
+"La configuració de la política de focus limita la funcionalitat de navegar "
+"per les finestres."
+
+#: main.cpp:107
+#, kde-format
+msgid "KWin"
+msgstr "KWin"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
@@ -61,7 +72,7 @@ msgstr "Inclou la icona «Mostra l'escriptori»"
 #: main.ui:55
 #, kde-format
 msgid "Recently used"
-msgstr "Usats recentment"
+msgstr "Usades recentment"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, switchingModeCombo)
 #: main.ui:60
@@ -212,18 +223,12 @@ msgid ""
 "The currently selected window will be highlighted by fading out all other "
 "windows. This option requires desktop effects to be active."
 msgstr ""
-"La finestra actualment seleccionada es realçarà esvaint totes les altres "
-"finestres. Aquesta opció requereix que els efectes d'escriptori estiguen "
-"actius."
+"La finestra actualment seleccionada es ressaltarà i s'esvairan totes les "
+"altres finestres. Aquesta opció requereix que els efectes d'escriptori "
+"estiguen actius."
 
 #. i18n: ectx: property (text), widget (QCheckBox, highlightWindowCheck)
 #: main.ui:552
 #, kde-format
 msgid "Show selected window"
 msgstr "Mostra la finestra seleccionada"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, ghns)
-#: main.ui:572
-#, kde-format
-msgid "Get New Window Switcher Layout"
-msgstr "Obtén una disposició nova pel commutador de finestres"

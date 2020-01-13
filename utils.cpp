@@ -31,23 +31,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <kkeyserver.h>
 
 #ifndef KCMRULES
-#include <assert.h>
 #include <QApplication>
 #include <QDebug>
-
-#include <X11/Xlib.h>
-
-#include <stdio.h>
 
 #include "atoms.h"
 #include "platform.h"
 #include "workspace.h"
 
-#include <signal.h>
+#include <csignal>
+#include <cstdio>
 
 #endif
 
 Q_LOGGING_CATEGORY(KWIN_CORE, "kwin_core", QtCriticalMsg)
+Q_LOGGING_CATEGORY(KWIN_VIRTUALKEYBOARD, "kwin_virtualkeyboard", QtCriticalMsg)
 namespace KWin
 {
 
@@ -69,6 +66,15 @@ StrutRect::StrutRect(const StrutRect& other)
 {
 }
 
+StrutRect &StrutRect::operator=(const StrutRect &other)
+{
+    if (this != &other) {
+        QRect::operator=(other);
+        m_area = other.area();
+    }
+    return *this;
+}
+
 #endif
 
 #ifndef KCMRULES
@@ -87,7 +93,7 @@ void grabXServer()
 
 void ungrabXServer()
 {
-    assert(server_grab_count > 0);
+    Q_ASSERT(server_grab_count > 0);
     if (--server_grab_count == 0) {
         xcb_ungrab_server(connection());
         xcb_flush(connection());
@@ -98,17 +104,17 @@ static bool keyboard_grabbed = false;
 
 bool grabXKeyboard(xcb_window_t w)
 {
-    if (QWidget::keyboardGrabber() != NULL)
+    if (QWidget::keyboardGrabber() != nullptr)
         return false;
     if (keyboard_grabbed)
         return false;
-    if (qApp->activePopupWidget() != NULL)
+    if (qApp->activePopupWidget() != nullptr)
         return false;
     if (w == XCB_WINDOW_NONE)
         w = rootWindow();
     const xcb_grab_keyboard_cookie_t c = xcb_grab_keyboard_unchecked(connection(), false, w, xTime(),
                                                                      XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC);
-    ScopedCPointer<xcb_grab_keyboard_reply_t> grab(xcb_grab_keyboard_reply(connection(), c, NULL));
+    ScopedCPointer<xcb_grab_keyboard_reply_t> grab(xcb_grab_keyboard_reply(connection(), c, nullptr));
     if (grab.isNull()) {
         return false;
     }
@@ -166,7 +172,7 @@ Qt::MouseButton x11ToQtMouseButton(int button)
 
 Qt::MouseButtons x11ToQtMouseButtons(int state)
 {
-    Qt::MouseButtons ret = 0;
+    Qt::MouseButtons ret = nullptr;
     if (state & XCB_KEY_BUT_MASK_BUTTON_1)
         ret |= Qt::LeftButton;
     if (state & XCB_KEY_BUT_MASK_BUTTON_2)
@@ -182,7 +188,7 @@ Qt::MouseButtons x11ToQtMouseButtons(int state)
 
 Qt::KeyboardModifiers x11ToQtKeyboardModifiers(int state)
 {
-    Qt::KeyboardModifiers ret = 0;
+    Qt::KeyboardModifiers ret = nullptr;
     if (state & XCB_KEY_BUT_MASK_SHIFT)
         ret |= Qt::ShiftModifier;
     if (state & XCB_KEY_BUT_MASK_CONTROL)

@@ -17,9 +17,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
-#define WL_EGL_PLATFORM 1
-#include "integration.h"
 #include "window.h"
+#include "integration.h"
+#include "screens.h"
 #include "../../shell_client.h"
 #include "../../wayland_server.h"
 #include <logging.h>
@@ -44,7 +44,10 @@ Window::Window(QWindow *window, KWayland::Client::Surface *surface, KWayland::Cl
     , m_shellSurface(shellSurface)
     , m_windowId(++s_windowId)
     , m_integration(integration)
+    , m_scale(screens()->maxScale())
 {
+    m_surface->setScale(m_scale);
+
     QObject::connect(m_surface, &QObject::destroyed, window, [this] { m_surface = nullptr;});
     QObject::connect(m_shellSurface, &QObject::destroyed, window, [this] { m_shellSurface = nullptr;});
     waylandServer()->internalClientConection()->flush();
@@ -53,14 +56,6 @@ Window::Window(QWindow *window, KWayland::Client::Surface *surface, KWayland::Cl
 Window::~Window()
 {
     unmap();
-    if (m_eglSurface != EGL_NO_SURFACE) {
-        eglDestroySurface(m_integration->eglDisplay(), m_eglSurface);
-    }
-#if HAVE_WAYLAND_EGL
-    if (m_eglWaylandWindow) {
-        wl_egl_window_destroy(m_eglWaylandWindow);
-    }
-#endif
     delete m_shellSurface;
     delete m_surface;
 }
@@ -94,16 +89,14 @@ void Window::setGeometry(const QRect &rect)
     if (rect.height() != oldRect.height()) {
         emit window()->heightChanged(rect.height());
     }
+
+    const QSize nativeSize = rect.size() * m_scale;
+
     if (m_contentFBO) {
-        if (m_contentFBO->width() != geometry().width() || m_contentFBO->height() != geometry().height()) {
+        if (m_contentFBO->size() != nativeSize) {
             m_resized = true;
         }
     }
-#if HAVE_WAYLAND_EGL
-    if (m_eglWaylandWindow) {
-        wl_egl_window_resize(m_eglWaylandWindow, geometry().width(), geometry().height(), 0, 0);
-    }
-#endif
     QWindowSystemInterface::handleGeometryChange(window(), geometry());
 }
 
@@ -121,21 +114,6 @@ void Window::unmap()
     }
 }
 
-void Window::createEglSurface(EGLDisplay dpy, EGLConfig config)
-{
-#if HAVE_WAYLAND_EGL
-    const QSize size = window()->size();
-    m_eglWaylandWindow = wl_egl_window_create(*m_surface, size.width(), size.height());
-    if (!m_eglWaylandWindow) {
-        return;
-    }
-    m_eglSurface = eglCreateWindowSurface(dpy, config, m_eglWaylandWindow, nullptr);
-#else
-    Q_UNUSED(dpy)
-    Q_UNUSED(config)
-#endif
-}
-
 void Window::bindContentFBO()
 {
     if (m_resized || !m_contentFBO) {
@@ -148,6 +126,7 @@ QSharedPointer<QOpenGLFramebufferObject> Window::swapFBO()
 {
     auto fbo = m_contentFBO;
     m_contentFBO.clear();
+    m_surface->commit(KWayland::Client::Surface::CommitFlag::None);
     return fbo;
 }
 
@@ -157,7 +136,8 @@ void Window::createFBO()
     if (m_contentFBO && r.size().isEmpty()) {
         return;
     }
-    m_contentFBO.reset(new QOpenGLFramebufferObject(r.width(), r.height(), QOpenGLFramebufferObject::CombinedDepthStencil));
+    const QSize nativeSize = r.size() * m_scale;
+    m_contentFBO.reset(new QOpenGLFramebufferObject(nativeSize.width(), nativeSize.height(), QOpenGLFramebufferObject::CombinedDepthStencil));
     if (!m_contentFBO->isValid()) {
         qCWarning(KWIN_QPA) << "Content FBO is not valid";
     }
@@ -171,6 +151,16 @@ ShellClient *Window::shellClient()
         m_shellClient = waylandServer()->findClient(window());
     }
     return m_shellClient;
+}
+
+int Window::scale() const
+{
+    return m_scale;
+}
+
+qreal Window::devicePixelRatio() const
+{
+    return m_scale;
 }
 
 }

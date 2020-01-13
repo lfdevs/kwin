@@ -34,8 +34,8 @@ class GetAddrInfo : public QObject
 {
     Q_OBJECT
 public:
-    explicit GetAddrInfo(const QByteArray &hostName, QObject *parent = NULL);
-    virtual ~GetAddrInfo();
+    explicit GetAddrInfo(const QByteArray &hostName, QObject *parent = nullptr);
+    ~GetAddrInfo() override;
 
     void resolve();
 
@@ -64,8 +64,8 @@ class ClientMachine : public QObject
 {
     Q_OBJECT
 public:
-    explicit ClientMachine(QObject *parent = NULL);
-    virtual ~ClientMachine();
+    explicit ClientMachine(QObject *parent = nullptr);
+    ~ClientMachine() override;
 
     void resolve(xcb_window_t window, xcb_window_t clientLeader);
     const QByteArray &hostName() const;

@@ -64,24 +64,24 @@ private:
 
 /**
  * @brief OpenGL Backend using GLX over an X overlay window.
- **/
+ */
 class GlxBackend : public OpenGLBackend
 {
 public:
     GlxBackend(Display *display);
-    virtual ~GlxBackend();
-    virtual void screenGeometryChanged(const QSize &size);
-    virtual SceneOpenGLTexturePrivate *createBackendTexture(SceneOpenGLTexture *texture) override;
-    virtual QRegion prepareRenderingFrame();
-    virtual void endRenderingFrame(const QRegion &damage, const QRegion &damagedRegion);
-    virtual bool makeCurrent() override;
-    virtual void doneCurrent() override;
-    virtual OverlayWindow* overlayWindow() override;
-    virtual bool usesOverlayWindow() const override;
+    ~GlxBackend() override;
+    void screenGeometryChanged(const QSize &size) override;
+    SceneOpenGLTexturePrivate *createBackendTexture(SceneOpenGLTexture *texture) override;
+    QRegion prepareRenderingFrame() override;
+    void endRenderingFrame(const QRegion &damage, const QRegion &damagedRegion) override;
+    bool makeCurrent() override;
+    void doneCurrent() override;
+    OverlayWindow* overlayWindow() const override;
+    bool usesOverlayWindow() const override;
     void init() override;
 
 protected:
-    virtual void present();
+    void present() override;
 
 private:
     bool initBuffer();
@@ -101,7 +101,7 @@ private:
 
     /**
      * @brief The OverlayWindow used by this Backend.
-     **/
+     */
     OverlayWindow *m_overlayWindow;
     Window window;
     GLXFBConfig fbconfig;
@@ -125,14 +125,14 @@ private:
 
 /**
  * @brief Texture using an GLXPixmap.
- **/
+ */
 class GlxTexture : public SceneOpenGLTexturePrivate
 {
 public:
-    virtual ~GlxTexture();
-    virtual void onDamage();
-    virtual bool loadTexture(WindowPixmap *pixmap) override;
-    virtual OpenGLBackend *backend();
+    ~GlxTexture() override;
+    void onDamage() override;
+    bool loadTexture(WindowPixmap *pixmap) override;
+    OpenGLBackend *backend() override;
 
 private:
     friend class GlxBackend;

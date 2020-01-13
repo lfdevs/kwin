@@ -87,6 +87,7 @@ private Q_SLOTS:
     void name_data();
     void name();
     void switchToShortcuts();
+    void changeRows();
     void load();
     void save();
 
@@ -131,8 +132,10 @@ void TestVirtualDesktops::count()
     // start with a useful desktop count
     vds->setCount(s_countInitValue);
 
-    QSignalSpy spy(vds, SIGNAL(countChanged(uint,uint)));
-    QSignalSpy desktopsRemoved(vds, SIGNAL(desktopsRemoved(uint)));
+    QSignalSpy spy(vds, &VirtualDesktopManager::countChanged);
+    QSignalSpy desktopsRemoved(vds, &VirtualDesktopManager::desktopRemoved);
+
+    auto vdToRemove = vds->desktops().last();
 
     QFETCH(uint, request);
     QFETCH(uint, result);
@@ -153,8 +156,7 @@ void TestVirtualDesktops::count()
     if (!desktopsRemoved.isEmpty()) {
         QList<QVariant> arguments = desktopsRemoved.takeFirst();
         QCOMPARE(arguments.count(), 1);
-        QCOMPARE(arguments.at(0).type(), QVariant::UInt);
-        QCOMPARE(arguments.at(0).toUInt(), s_countInitValue);
+        QCOMPARE(arguments.at(0).value<KWin::VirtualDesktop*>(), vdToRemove);
     }
 }
 
@@ -184,7 +186,7 @@ void TestVirtualDesktops::navigationWrapsAround()
     vds->setNavigationWrappingAround(init);
     QCOMPARE(vds->isNavigationWrappingAround(), init);
 
-    QSignalSpy spy(vds, SIGNAL(navigationWrappingAroundChanged()));
+    QSignalSpy spy(vds, &VirtualDesktopManager::navigationWrappingAroundChanged);
     vds->setNavigationWrappingAround(request);
     QCOMPARE(vds->isNavigationWrappingAround(), result);
     QCOMPARE(spy.isEmpty(), !signal);
@@ -217,7 +219,7 @@ void TestVirtualDesktops::current()
     QVERIFY(vds->setCurrent(init));
     QCOMPARE(vds->current(), init);
 
-    QSignalSpy spy(vds, SIGNAL(currentChanged(uint,uint)));
+    QSignalSpy spy(vds, &VirtualDesktopManager::currentChanged);
 
     QFETCH(uint, request);
     QFETCH(uint, result);
@@ -259,7 +261,7 @@ void TestVirtualDesktops::currentChangeOnCountChange()
     vds->setCount(initCount);
     vds->setCurrent(initCurrent);
 
-    QSignalSpy spy(vds,  SIGNAL(currentChanged(uint,uint)));
+    QSignalSpy spy(vds, &VirtualDesktopManager::currentChanged);
 
     QFETCH(uint, request);
     QFETCH(uint, current);
@@ -526,7 +528,7 @@ void TestVirtualDesktops::updateLayout_data()
 void TestVirtualDesktops::updateLayout()
 {
     VirtualDesktopManager *vds = VirtualDesktopManager::self();
-    QSignalSpy spy(vds, SIGNAL(layoutChanged(int,int)));
+    QSignalSpy spy(vds, &VirtualDesktopManager::layoutChanged);
     // call update layout - implicitly through setCount
     QFETCH(uint, desktop);
     QFETCH(QSize, result);
@@ -587,6 +589,21 @@ void TestVirtualDesktops::switchToShortcuts()
     QMetaObject::invokeMethod(vds, "slotSwitchTo");
     // should still be on max
     QCOMPARE(vds->current(), vds->maximum());
+}
+
+void TestVirtualDesktops::changeRows()
+{
+    VirtualDesktopManager *vds = VirtualDesktopManager::self();
+
+    vds->setCount(4);
+    vds->setRows(4);
+    QCOMPARE(vds->rows(), 4);
+
+    vds->setRows(5);
+    QCOMPARE(vds->rows(), 4);
+
+    vds->setCount(2);
+    QCOMPARE(vds->rows(), 2);
 }
 
 void TestVirtualDesktops::load()

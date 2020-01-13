@@ -7,20 +7,20 @@
 # Franklin Weng <franklin at goodhorse dot idv dot tw>, 2007, 2008.
 # Franklin Weng <franklin@goodhorse.idv.tw>, 2011, 2012, 2013, 2015.
 # Jeff Huang <s8321414@gmail.com>, 2016.
-# pan93412 <pan93412@gmail.com>, 2018.
+# pan93412 <pan93412@gmail.com>, 2018, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-10-13 06:43+0200\n"
-"PO-Revision-Date: 2018-03-25 11:44+0800\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-09-17 03:28+0200\n"
+"PO-Revision-Date: 2019-01-19 19:40+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
-"Language-Team: Chinese <zh-l10n@linux.org.tw>\n"
+"Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 18.12.1\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, kde-format
@@ -190,7 +190,7 @@ msgstr ""
 "可使用。<p>\n"
 "系統是可以對單一快捷鍵指定多個按鈕組合的，但只有最先可用的一個會生效。而每組"
 "快捷鍵的在指定時要以 \" - \" 分隔。格式為：<i>修飾鍵<i>+(<i>按鈕組合</i>)。"
-"<br>\n"
+"<br/>\n"
 "例如 \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\"，會把先試一下<b>Shift+Alt"
 "+1</b>，不可用就試<b>Shift+Alt+2</b>...如此類推，最後是<b>Shift+Alt+C</b>。當"
 "中可用的一個會用作該單一快捷鍵。"
@@ -250,58 +250,58 @@ msgstr "顯示記憶功能的內部設定"
 msgid "Internal setting for remembering"
 msgstr "記憶功能的內部設定"
 
-#: main.cpp:150
+#: main.cpp:138
 #, kde-format
 msgid "Application settings for %1"
 msgstr "%1 的應用程式設定"
 
-#: main.cpp:170
+#: main.cpp:158
 #, kde-format
 msgid "Window settings for %1"
 msgstr "%1 的視窗設定"
 
-#: main.cpp:222
+#: main.cpp:210
 #, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "編輯特定應用程式的設定"
 
-#: main.cpp:253
+#: main.cpp:241
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:261
+#: main.cpp:248
 #, kde-format
 msgid "KWin helper utility"
 msgstr "KWin 協助工具"
 
-#: main.cpp:262
+#: main.cpp:249
 #, kde-format
-msgid "WId of the window for special window settings."
-msgstr "特殊視窗設定的視窗代碼（WID）。"
+msgid "KWin id of the window for special window settings."
+msgstr "用於設定特殊視窗的視窗 KWin ID。"
 
-#: main.cpp:263
+#: main.cpp:250
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "這些設定是否要套用到此應用程式的所有視窗。"
 
-#: main.cpp:271
+#: main.cpp:259
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "這個協助工具不是用來被直接呼叫的。"
 
-#: ruleslist.cpp:153
+#: ruleslist.cpp:152
 #, kde-format
 msgid "Export Rules"
 msgstr "匯出規則"
 
-#: ruleslist.cpp:154 ruleslist.cpp:166
+#: ruleslist.cpp:153 ruleslist.cpp:165
 #, kde-format
 msgid "KWin Rules (*.kwinrule)"
 msgstr "KWin 規則 (*.kwinrule)"
 
-#: ruleslist.cpp:165
+#: ruleslist.cpp:164
 #, kde-format
 msgid "Import Rules"
 msgstr "匯入規則"
@@ -348,14 +348,14 @@ msgstr "匯入(&I)"
 msgid "&Export"
 msgstr "匯出(&E)"
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:66
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
 "window(s)."
 msgstr "開啟這個選項來改變這個視窗屬性(可用於多個指定的視窗)。"
 
-#: ruleswidget.cpp:70
+#: ruleswidget.cpp:68
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -382,7 +382,7 @@ msgstr ""
 "除)。</li><li><em>暫時強制：</em>視窗屬性會被強制設成該值直至它被隱藏。(這個"
 "動作在隱藏後會被刪除)</li></ul>"
 
-#: ruleswidget.cpp:85
+#: ruleswidget.cpp:83
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -398,27 +398,27 @@ msgstr ""
 "屬性何時都會強制設成該值。</li><li><em>暫時強制：</em>視窗屬性會被強制設成該"
 "值直至它被隱藏。(這個動作在隱藏後會被刪除)</li></ul>"
 
-#: ruleswidget.cpp:153
+#: ruleswidget.cpp:151
 #, kde-format
 msgid "All Desktops"
 msgstr "所有桌面"
 
-#: ruleswidget.cpp:347
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr "所有的活動"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:790
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 的設定"
 
-#: ruleswidget.cpp:833
+#: ruleswidget.cpp:792
 #, kde-format
 msgid "Unnamed entry"
 msgstr "未命名的項目"
 
-#: ruleswidget.cpp:843
+#: ruleswidget.cpp:802
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -431,12 +431,12 @@ msgstr ""
 "這表示這個設定會套用至所有應用程式的所有視窗。如果您是希望這樣做來建立一個通"
 "用設定，我們建議您至少要限制視窗類型，來避免特殊的視窗類型。"
 
-#: ruleswidget.cpp:874
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "編輯特定視窗的設定"
 
-#: ruleswidget.cpp:904
+#: ruleswidget.cpp:863
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -447,12 +447,12 @@ msgstr ""
 "這個組態對話盒允許只針對選擇的視窗或應用程式的特別設定。找到您想用的設定值，"
 "使用核取方塊啟用此設定值，選擇設定值要以何種方式生效、要影響哪個數值。"
 
-#: ruleswidget.cpp:908
+#: ruleswidget.cpp:867
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "查閱文件以獲得詳細資訊。"
 
-#: ruleswidget.cpp:947
+#: ruleswidget.cpp:906
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "編輯捷徑"
@@ -513,7 +513,7 @@ msgstr "字串符合"
 #: ruleswidgetbase.ui:263
 #, kde-format
 msgid "Regular Expression"
-msgstr "正規表示式"
+msgstr "正則表達式"
 
 #. i18n: ectx: property (text), widget (QPushButton, edit_reg_wmclass)
 #. i18n: ectx: property (text), widget (QPushButton, edit_reg_role)

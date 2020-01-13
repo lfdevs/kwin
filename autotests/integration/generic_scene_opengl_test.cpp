@@ -49,9 +49,6 @@ void GenericSceneOpenGLTest::cleanup()
 
 void GenericSceneOpenGLTest::initTestCase()
 {
-    if (!QFile::exists(QStringLiteral("/dev/dri/card0"))) {
-        QSKIP("Needs a dri device");
-    }
     qRegisterMetaType<KWin::ShellClient*>();
     qRegisterMetaType<KWin::AbstractClient*>();
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
@@ -78,6 +75,11 @@ void GenericSceneOpenGLTest::initTestCase()
     kwinApp()->start();
     QVERIFY(workspaceCreatedSpy.wait());
     QVERIFY(Compositor::self());
+
+    auto scene = KWin::Compositor::self()->scene();
+    QVERIFY(scene);
+    QCOMPARE(scene->compositingType(), KWin::OpenGL2Compositing);
+    QCOMPARE(kwinApp()->platform()->selectedCompositor(), KWin::OpenGLCompositing);
 }
 
 void GenericSceneOpenGLTest::testRestart_data()
@@ -100,7 +102,7 @@ void GenericSceneOpenGLTest::testRestart()
 
     QSignalSpy sceneCreatedSpy(KWin::Compositor::self(), &Compositor::sceneCreated);
     QVERIFY(sceneCreatedSpy.isValid());
-    KWin::Compositor::self()->slotReinitialize();
+    KWin::Compositor::self()->reinitialize();
     if (sceneCreatedSpy.isEmpty()) {
         QVERIFY(sceneCreatedSpy.wait());
     }
@@ -108,6 +110,7 @@ void GenericSceneOpenGLTest::testRestart()
     auto scene = KWin::Compositor::self()->scene();
     QVERIFY(scene);
     QCOMPARE(scene->compositingType(), KWin::OpenGL2Compositing);
+    QCOMPARE(kwinApp()->platform()->selectedCompositor(), KWin::OpenGLCompositing);
 
     // trigger a repaint
     KWin::Compositor::self()->addRepaintFull();

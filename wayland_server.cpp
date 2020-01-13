@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "platform.h"
 #include "composite.h"
 #include "idle_inhibition.h"
+#include "internal_client.h"
 #include "screens.h"
 #include "shell_client.h"
 #include "workspace.h"
@@ -30,6 +31,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/connection_thread.h>
 #include <KWayland/Client/event_queue.h>
 #include <KWayland/Client/registry.h>
+#include <KWayland/Client/compositor.h>
+#include <KWayland/Client/seat.h>
+#include <KWayland/Client/datadevicemanager.h>
 #include <KWayland/Client/shm_pool.h>
 #include <KWayland/Client/surface.h>
 // Server
@@ -41,8 +45,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/dpms_interface.h>
 #include <KWayland/Server/idle_interface.h>
 #include <KWayland/Server/idleinhibit_interface.h>
+#include <KWayland/Server/linuxdmabuf_v1_interface.h>
 #include <KWayland/Server/output_interface.h>
 #include <KWayland/Server/plasmashell_interface.h>
+#include <KWayland/Server/plasmavirtualdesktop_interface.h>
 #include <KWayland/Server/plasmawindowmanagement_interface.h>
 #include <KWayland/Server/pointerconstraints_interface.h>
 #include <KWayland/Server/pointergestures_interface.h>
@@ -56,12 +62,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/shell_interface.h>
 #include <KWayland/Server/outputmanagement_interface.h>
 #include <KWayland/Server/outputconfiguration_interface.h>
+#include <KWayland/Server/xdgdecoration_interface.h>
 #include <KWayland/Server/xdgshell_interface.h>
 #include <KWayland/Server/xdgforeign_interface.h>
 #include <KWayland/Server/xdgoutput_interface.h>
+#include <KWayland/Server/keystate_interface.h>
+#include <KWayland/Server/filtered_display.h>
 
+// KF
+#include <KServiceTypeTrader>
 
 // Qt
+#include <QCryptographicHash>
+#include <QDir>
+#include <QFileInfo>
 #include <QThread>
 #include <QWindow>
 
@@ -84,9 +98,6 @@ WaylandServer::WaylandServer(QObject *parent)
     : QObject(parent)
 {
     qRegisterMetaType<KWayland::Server::OutputInterface::DpmsMode>();
-
-    connect(kwinApp(), &Application::screensCreated, this, &WaylandServer::initOutputs);
-    connect(kwinApp(), &Application::x11ConnectionChanged, this, &WaylandServer::setupX11ClipboardSync);
 }
 
 WaylandServer::~WaylandServer()
@@ -108,6 +119,9 @@ void WaylandServer::destroyInternalConnection()
         }
 
         delete m_internalConnection.registry;
+        delete m_internalConnection.compositor;
+        delete m_internalConnection.seat;
+        delete m_internalConnection.ddm;
         delete m_internalConnection.shm;
         dispatch();
         m_internalConnection.client->deleteLater();
@@ -146,7 +160,15 @@ void WaylandServer::createSurface(T *surface)
     if (surface->client() == m_screenLockerClientConnection) {
         ScreenLocker::KSldApp::self()->lockScreenShown();
     }
-    auto client = new ShellClient(surface);
+    ShellClient *client;
+    if (surface->client() == waylandServer()->internalConnection()) {
+        client = new InternalClient(surface);
+    } else {
+        client = new ShellClient(surface);
+    }
+    if (ServerSideDecorationInterface *deco = ServerSideDecorationInterface::get(surface->surface())) {
+        client->installServerSideDecoration(deco);
+    }
     auto it = std::find_if(m_plasmaShellSurfaces.begin(), m_plasmaShellSurfaces.end(),
         [client] (PlasmaShellSurfaceInterface *surface) {
             return client->surface() == surface->surface();
@@ -179,12 +201,101 @@ void WaylandServer::createSurface(T *surface)
     });
 }
 
+class KWinDisplay : public KWayland::Server::FilteredDisplay
+{
+public:
+    KWinDisplay(QObject *parent)
+        : KWayland::Server::FilteredDisplay(parent)
+    {}
+
+    static QByteArray sha256(const QString &fileName)
+    {
+        QFile f(fileName);
+        if (f.open(QFile::ReadOnly)) {
+            QCryptographicHash hash(QCryptographicHash::Sha256);
+            if (hash.addData(&f)) {
+                return hash.result();
+            }
+        }
+        return QByteArray();
+    }
+
+    bool isTrustedOrigin(KWayland::Server::ClientConnection *client) const {
+        const auto fullPathSha = sha256(client->executablePath());
+        const auto localSha = sha256(QLatin1String("/proc/") + QString::number(client->processId()) + QLatin1String("/exe"));
+        const bool trusted = !localSha.isEmpty() && fullPathSha == localSha;
+
+        if (!trusted) {
+            qCWarning(KWIN_CORE) << "Could not trust" << client->executablePath() << "sha" << localSha << fullPathSha;
+        }
+
+        return trusted;
+    }
+
+    QStringList fetchRequestedInterfaces(KWayland::Server::ClientConnection *client) const {
+        const auto serviceQuery = QStringLiteral("exist Exec and exist [X-KDE-Wayland-Interfaces] and '%1' =~ Exec").arg(client->executablePath());
+        const auto servicesFound = KServiceTypeTrader::self()->query(QStringLiteral("Application"), serviceQuery);
+
+        if (servicesFound.isEmpty()) {
+            return {};
+        }
+
+        return servicesFound.first()->property("X-KDE-Wayland-Interfaces").toStringList();
+    }
+
+    QSet<QByteArray> interfacesBlackList = {"org_kde_kwin_remote_access_manager", "org_kde_plasma_window_management", "org_kde_kwin_fake_input", "org_kde_kwin_keystate"};
+
+    bool allowInterface(KWayland::Server::ClientConnection *client, const QByteArray &interfaceName) override {
+        if (client->processId() == getpid()) {
+            return true;
+        }
+
+        if (!interfacesBlackList.contains(interfaceName)) {
+            return true;
+        }
+
+        if (client->executablePath().isEmpty()) {
+            qCWarning(KWIN_CORE) << "Could not identify process with pid" << client->processId();
+            return false;
+        }
+
+        {
+            auto requestedInterfaces = client->property("requestedInterfaces");
+            if (requestedInterfaces.isNull()) {
+                requestedInterfaces = fetchRequestedInterfaces(client);
+                client->setProperty("requestedInterfaces", requestedInterfaces);
+            }
+            qCDebug(KWIN_CORE) << "interfaces for" << client->executablePath() << requestedInterfaces << interfaceName << requestedInterfaces.toStringList().contains(QString::fromUtf8(interfaceName));
+            if (!requestedInterfaces.toStringList().contains(QString::fromUtf8(interfaceName))) {
+                qCWarning(KWIN_CORE) << "Did not grant the interface" << interfaceName << "to" << client->executablePath() << ". Please request it under X-KDE-Wayland-Interfaces";
+                return false;
+            }
+        }
+
+        {
+            auto trustedOrigin = client->property("isPrivileged");
+            if (trustedOrigin.isNull()) {
+                trustedOrigin = isTrustedOrigin(client);
+                client->setProperty("isPrivileged", trustedOrigin);
+            }
+
+            if (!trustedOrigin.toBool()) {
+                return false;
+            }
+        }
+        qCDebug(KWIN_CORE) << "authorized" << client->executablePath() << interfaceName;
+        return true;
+    }
+};
+
 bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
 {
     m_initFlags = flags;
-    m_display = new KWayland::Server::Display(this);
+    m_display = new KWinDisplay(this);
     if (!socketName.isNull() && !socketName.isEmpty()) {
         m_display->setSocketName(QString::fromUtf8(socketName));
+    } else {
+        m_display->setAutomaticSocketNaming(true);
     }
     m_display->start();
     if (!m_display->isRunning()) {
@@ -215,42 +326,38 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
     m_shell = m_display->createShell(m_display);
     m_shell->create();
     connect(m_shell, &ShellInterface::surfaceCreated, this, &WaylandServer::createSurface<ShellSurfaceInterface>);
-    m_xdgShell = m_display->createXdgShell(XdgShellInterfaceVersion::UnstableV5, m_display);
-    m_xdgShell->create();
-    connect(m_xdgShell, &XdgShellInterface::surfaceCreated, this, &WaylandServer::createSurface<XdgShellSurfaceInterface>);
+
+    m_xdgShell5 = m_display->createXdgShell(XdgShellInterfaceVersion::UnstableV5, m_display);
+    m_xdgShell5->create();
+    connect(m_xdgShell5, &XdgShellInterface::surfaceCreated, this, &WaylandServer::createSurface<XdgShellSurfaceInterface>);
     // TODO: verify seat and serial
-    connect(m_xdgShell, &XdgShellInterface::popupCreated, this, &WaylandServer::createSurface<XdgShellPopupInterface>);
+    connect(m_xdgShell5, &XdgShellInterface::popupCreated, this, &WaylandServer::createSurface<XdgShellPopupInterface>);
 
     m_xdgShell6 = m_display->createXdgShell(XdgShellInterfaceVersion::UnstableV6, m_display);
     m_xdgShell6->create();
     connect(m_xdgShell6, &XdgShellInterface::surfaceCreated, this, &WaylandServer::createSurface<XdgShellSurfaceInterface>);
     connect(m_xdgShell6, &XdgShellInterface::xdgPopupCreated, this, &WaylandServer::createSurface<XdgShellPopupInterface>);
 
+    m_xdgShell = m_display->createXdgShell(XdgShellInterfaceVersion::Stable, m_display);
+    m_xdgShell->create();
+    connect(m_xdgShell, &XdgShellInterface::surfaceCreated, this, &WaylandServer::createSurface<XdgShellSurfaceInterface>);
+    connect(m_xdgShell, &XdgShellInterface::xdgPopupCreated, this, &WaylandServer::createSurface<XdgShellPopupInterface>);
+
+    m_xdgDecorationManager = m_display->createXdgDecorationManager(m_xdgShell, m_display);
+    m_xdgDecorationManager->create();
+    connect(m_xdgDecorationManager, &XdgDecorationManagerInterface::xdgDecorationInterfaceCreated, this,  [this] (XdgDecorationInterface *deco) {
+        if (ShellClient *client = findClient(deco->surface()->surface())) {
+            client->installXdgDecoration(deco);
+        }
+    });
 
     m_display->createShm();
     m_seat = m_display->createSeat(m_display);
     m_seat->create();
     m_display->createPointerGestures(PointerGesturesInterfaceVersion::UnstableV1, m_display)->create();
     m_display->createPointerConstraints(PointerConstraintsInterfaceVersion::UnstableV1, m_display)->create();
-    auto ddm = m_display->createDataDeviceManager(m_display);
-    ddm->create();
-    connect(ddm, &DataDeviceManagerInterface::dataDeviceCreated, this,
-        [this] (DataDeviceInterface *ddi) {
-            if (ddi->client() == m_xclipbaordSync.client && m_xclipbaordSync.client != nullptr) {
-                m_xclipbaordSync.ddi = QPointer<DataDeviceInterface>(ddi);
-                connect(m_xclipbaordSync.ddi.data(), &DataDeviceInterface::selectionChanged, this,
-                    [this] {
-                        // testing whether the active client inherits Client
-                        // it would be better to test for the keyboard focus, but we might get a clipboard update
-                        // when the Client is already active, but no Surface is created yet.
-                        if (workspace()->activeClient() && workspace()->activeClient()->inherits("KWin::Client")) {
-                            m_seat->setSelection(m_xclipbaordSync.ddi.data());
-                        }
-                    }
-                );
-            }
-        }
-    );
+    m_dataDeviceManager = m_display->createDataDeviceManager(m_display);
+    m_dataDeviceManager->create();
     m_idle = m_display->createIdle(m_display);
     m_idle->create();
     auto idleInhibition = new IdleInhibition(m_idle);
@@ -269,17 +376,6 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
                         m_plasmaShellSurfaces.removeOne(surface);
                     }
                 );
-            }
-        }
-    );
-
-
-    m_qtExtendedSurface = m_display->createQtSurfaceExtension(m_display);
-    m_qtExtendedSurface->create();
-    connect(m_qtExtendedSurface, &QtSurfaceExtensionInterface::surfaceCreated,
-        [this] (QtExtendedSurfaceInterface *surface) {
-            if (ShellClient *client = findClient(surface->surface())) {
-                client->installQtExtendedSurface(surface);
             }
         }
     );
@@ -328,6 +424,12 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
             workspace()->setShowingDesktop(set);
         }
     );
+
+
+    m_virtualDesktopManagement = m_display->createPlasmaVirtualDesktopManagement(m_display);
+    m_virtualDesktopManagement->create();
+    m_windowManagement->setPlasmaVirtualDesktopManagementInterface(m_virtualDesktopManagement);
+
     auto shadowManager = m_display->createShadowManager(m_display);
     shadowManager->create();
 
@@ -352,7 +454,7 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
     m_outputManagement = m_display->createOutputManagement(m_display);
     connect(m_outputManagement, &OutputManagementInterface::configurationChangeRequested,
             this, [this](KWayland::Server::OutputConfigurationInterface *config) {
-                kwinApp()->platform()->configurationChangeRequested(config);
+                kwinApp()->platform()->requestOutputsChange(config);
     });
     m_outputManagement->create();
 
@@ -364,7 +466,19 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
     m_XdgForeign = m_display->createXdgForeignInterface(m_display);
     m_XdgForeign->create();
 
+    m_keyState = m_display->createKeyStateInterface(m_display);
+    m_keyState->create();
+
     return true;
+}
+
+KWayland::Server::LinuxDmabufUnstableV1Interface *WaylandServer::linuxDmabuf()
+{
+    if (!m_linuxDmabuf) {
+        m_linuxDmabuf = m_display->createLinuxDmabufInterface(m_display);
+        m_linuxDmabuf->create();
+    }
+    return m_linuxDmabuf;
 }
 
 SurfaceInterface *WaylandServer::findForeignTransientForSurface(SurfaceInterface *surface)
@@ -385,6 +499,8 @@ void WaylandServer::shellClientShown(Toplevel *t)
 
 void WaylandServer::initWorkspace()
 {
+    VirtualDesktopManager::self()->setVirtualDesktopManagement(m_virtualDesktopManagement);
+
     if (m_windowManagement) {
         connect(workspace(), &Workspace::showingDesktopChanged, this,
             [this] (bool set) {
@@ -433,47 +549,6 @@ void WaylandServer::initScreenLocker()
     emit initialized();
 }
 
-void WaylandServer::initOutputs()
-{
-    if (kwinApp()->platform()->handlesOutputs()) {
-        return;
-    }
-    syncOutputsToWayland();
-    connect(screens(), &Screens::changed, this,
-        [this] {
-            // when screens change we need to sync this to Wayland.
-            // Unfortunately we don't have much information and cannot properly match a KWin screen
-            // to a Wayland screen.
-            // Thus we just recreate all outputs and delete the old ones
-            const auto outputs = m_display->outputs();
-            syncOutputsToWayland();
-            qDeleteAll(outputs);
-        }
-    );
-}
-
-void WaylandServer::syncOutputsToWayland()
-{
-    Screens *s = screens();
-    Q_ASSERT(s);
-    for (int i = 0; i < s->count(); ++i) {
-        OutputInterface *output = m_display->createOutput(m_display);
-        auto xdgOutput = xdgOutputManager()->createXdgOutput(output, output);
-
-        output->setScale(s->scale(i));
-        const QRect &geo = s->geometry(i);
-        output->setGlobalPosition(geo.topLeft());
-        output->setPhysicalSize(s->physicalSize(i).toSize());
-        output->addMode(geo.size());
-
-        xdgOutput->setLogicalPosition(geo.topLeft());
-        xdgOutput->setLogicalSize(geo.size());
-        xdgOutput->done();
-
-        output->create();
-    }
-}
-
 WaylandServer::SocketPairConnection WaylandServer::createConnection()
 {
     SocketPairConnection ret;
@@ -507,10 +582,6 @@ void WaylandServer::destroyXWaylandConnection()
     if (!m_xwayland.client) {
         return;
     }
-    // first terminate the clipboard sync
-    if (m_xclipbaordSync.process) {
-        m_xclipbaordSync.process->terminate();
-    }
     disconnect(m_xwayland.destroyConnection);
     m_xwayland.client->destroy();
     m_xwayland.client = nullptr;
@@ -533,51 +604,6 @@ void WaylandServer::destroyInputMethodConnection()
     }
     m_inputMethodServerConnection->destroy();
     m_inputMethodServerConnection = nullptr;
-}
-
-int WaylandServer::createXclipboardSyncConnection()
-{
-    const auto socket = createConnection();
-    if (!socket.connection) {
-        return -1;
-    }
-    m_xclipbaordSync.client = socket.connection;
-    return socket.fd;
-}
-
-void WaylandServer::setupX11ClipboardSync()
-{
-    if (m_xclipbaordSync.process) {
-        return;
-    }
-
-    int socket = dup(createXclipboardSyncConnection());
-    if (socket == -1) {
-        delete m_xclipbaordSync.client;
-        m_xclipbaordSync.client = nullptr;
-        return;
-    }
-    if (socket >= 0) {
-        QProcessEnvironment environment = kwinApp()->processStartupEnvironment();
-        environment.insert(QStringLiteral("WAYLAND_SOCKET"), QByteArray::number(socket));
-        environment.insert(QStringLiteral("DISPLAY"), QString::fromUtf8(qgetenv("DISPLAY")));
-        environment.remove("WAYLAND_DISPLAY");
-        m_xclipbaordSync.process = new Process(this);
-        m_xclipbaordSync.process->setProcessChannelMode(QProcess::ForwardedErrorChannel);
-        auto finishedSignal = static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished);
-        connect(m_xclipbaordSync.process, finishedSignal, this,
-            [this] {
-                m_xclipbaordSync.process->deleteLater();
-                m_xclipbaordSync.process = nullptr;
-                m_xclipbaordSync.ddi.clear();
-                m_xclipbaordSync.client->destroy();
-                m_xclipbaordSync.client = nullptr;
-                // TODO: restart
-            }
-        );
-        m_xclipbaordSync.process->setProcessEnvironment(environment);
-        m_xclipbaordSync.process->start(QStringLiteral(KWIN_XCLIPBOARD_SYNC_BIN));
-    }
 }
 
 void WaylandServer::createInternalConnection()
@@ -608,8 +634,21 @@ void WaylandServer::createInternalConnection()
                 }
             );
             connect(registry, &Registry::interfacesAnnounced, this,
-                [this] {
+                [this, registry] {
                     m_internalConnection.interfacesAnnounced = true;
+
+                    const auto compInterface = registry->interface(Registry::Interface::Compositor);
+                    if (compInterface.name != 0) {
+                        m_internalConnection.compositor = registry->createCompositor(compInterface.name, compInterface.version, this);
+                    }
+                    const auto seatInterface = registry->interface(Registry::Interface::Seat);
+                    if (seatInterface.name != 0) {
+                        m_internalConnection.seat = registry->createSeat(seatInterface.name, seatInterface.version, this);
+                    }
+                    const auto ddmInterface = registry->interface(Registry::Interface::DataDeviceManager);
+                    if (ddmInterface.name != 0) {
+                        m_internalConnection.ddm = registry->createDataDeviceManager(ddmInterface.name, ddmInterface.version, this);
+                    }
                 }
             );
             registry->setup();
@@ -767,11 +806,26 @@ bool WaylandServer::hasScreenLockerIntegration() const
     return !m_initFlags.testFlag(InitalizationFlag::NoLockScreenIntegration);
 }
 
+bool WaylandServer::hasGlobalShortcutSupport() const
+{
+    return !m_initFlags.testFlag(InitalizationFlag::NoGlobalShortcuts);
+}
+
 void WaylandServer::simulateUserActivity()
 {
     if (m_idle) {
         m_idle->simulateUserActivity();
     }
+}
+
+void WaylandServer::updateKeyState(KWin::Xkb::LEDs leds)
+{
+    if (!m_keyState)
+        return;
+
+    m_keyState->setState(KeyStateInterface::Key::CapsLock, leds & KWin::Xkb::LED::CapsLock ? KeyStateInterface::State::Locked : KeyStateInterface::State::Unlocked);
+    m_keyState->setState(KeyStateInterface::Key::NumLock, leds & KWin::Xkb::LED::NumLock ? KeyStateInterface::State::Locked : KeyStateInterface::State::Unlocked);
+    m_keyState->setState(KeyStateInterface::Key::ScrollLock, leds & KWin::Xkb::LED::ScrollLock ? KeyStateInterface::State::Locked : KeyStateInterface::State::Unlocked);
 }
 
 }

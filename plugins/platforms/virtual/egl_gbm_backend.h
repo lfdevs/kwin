@@ -29,12 +29,12 @@ class GLRenderTarget;
 
 /**
  * @brief OpenGL Backend using Egl on a GBM surface.
- **/
+ */
 class EglGbmBackend : public AbstractEglBackend
 {
 public:
     EglGbmBackend(VirtualBackend *b);
-    virtual ~EglGbmBackend();
+    ~EglGbmBackend() override;
     void screenGeometryChanged(const QSize &size) override;
     SceneOpenGLTexturePrivate *createBackendTexture(SceneOpenGLTexture *texture) override;
     QRegion prepareRenderingFrame() override;
@@ -49,7 +49,6 @@ private:
     bool initializeEgl();
     bool initBufferConfigs();
     bool initRenderingContext();
-    void initGbmDevice();
     VirtualBackend *m_backend;
     GLTexture *m_backBuffer = nullptr;
     GLRenderTarget *m_fbo = nullptr;
@@ -59,11 +58,11 @@ private:
 
 /**
  * @brief Texture using an EGLImageKHR.
- **/
+ */
 class EglGbmTexture : public AbstractEglTexture
 {
 public:
-    virtual ~EglGbmTexture();
+    ~EglGbmTexture() override;
 
 private:
     friend class EglGbmBackend;

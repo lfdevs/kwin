@@ -41,7 +41,7 @@ DecorationPalette::DecorationPalette(const QString &colorScheme)
                     ? colorScheme
                     : QStandardPaths::locate(QStandardPaths::GenericConfigLocation, colorScheme))
 {
-    if (m_colorScheme.isEmpty() && colorScheme == QStringLiteral("kdeglobals")) {
+    if (!m_colorScheme.startsWith(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation)) && colorScheme == QStringLiteral("kdeglobals")) {
         // kdeglobals doesn't exist so create it. This is needed to monitor it using QFileSystemWatcher.
         auto config = KSharedConfig::openConfig(colorScheme, KConfig::SimpleConfig);
         KConfigGroup wmConfig(config, QStringLiteral("WM"));
@@ -122,12 +122,12 @@ void DecorationPalette::update()
 
     m_palette = KColorScheme::createApplicationPalette(config);
 
-    m_activeFrameColor        = wmConfig.readEntry("frame", m_palette.color(QPalette::Active, QPalette::Background));
+    m_activeFrameColor        = wmConfig.readEntry("frame", m_palette.color(QPalette::Active, QPalette::Window));
     m_inactiveFrameColor      = wmConfig.readEntry("inactiveFrame", m_activeFrameColor);
     m_activeTitleBarColor     = wmConfig.readEntry("activeBackground", m_palette.color(QPalette::Active, QPalette::Highlight));
     m_inactiveTitleBarColor   = wmConfig.readEntry("inactiveBackground", m_inactiveFrameColor);
     m_activeForegroundColor   = wmConfig.readEntry("activeForeground", m_palette.color(QPalette::Active, QPalette::HighlightedText));
-    m_inactiveForegroundColor = wmConfig.readEntry("inactiveForeground", m_activeForegroundColor.dark());
+    m_inactiveForegroundColor = wmConfig.readEntry("inactiveForeground", m_activeForegroundColor.darker());
 
     KConfigGroup windowColorsConfig(config, QStringLiteral("Colors:Window"));
     m_warningForegroundColor = windowColorsConfig.readEntry("ForegroundNegative", QColor(237, 21, 2));

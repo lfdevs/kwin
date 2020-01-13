@@ -3,6 +3,8 @@
  This file is part of the KDE project.
 
 Copyright (C) 2013, 2016 Martin Gräßlin <mgraesslin@kde.org>
+Copyright (C) 2018 Roman Gilg <subdiff@gmail.com>
+Copyright (C) 2019 Vlad Zagorodniy <vladzzag@gmail.com>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -60,11 +62,10 @@ class KWIN_EXPORT PointerInputRedirection : public InputDeviceHandler
     Q_OBJECT
 public:
     explicit PointerInputRedirection(InputRedirection *parent);
-    virtual ~PointerInputRedirection();
+    ~PointerInputRedirection() override;
 
-    void init();
+    void init() override;
 
-    void update();
     void updateAfterScreenChange();
     bool supportsWarping() const;
     void warp(const QPointF &pos);
@@ -75,6 +76,7 @@ public:
     Qt::MouseButtons buttons() const {
         return m_qtButtons;
     }
+    bool areButtonsPressed() const;
 
     QImage cursorImage() const;
     QPoint cursorHotSpot() const;
@@ -92,13 +94,15 @@ public:
         return m_confined || m_locked;
     }
 
+    bool focusUpdatesBlocked() override;
+
     /**
      * @internal
      */
     void processMotion(const QPointF &pos, uint32_t time, LibInput::Device *device = nullptr);
     /**
      * @internal
-     **/
+     */
     void processMotion(const QPointF &pos, const QSizeF &delta, const QSizeF &deltaNonAccelerated, uint32_t time, quint64 timeUsec, LibInput::Device *device);
     /**
      * @internal
@@ -107,7 +111,7 @@ public:
     /**
      * @internal
      */
-    void processAxis(InputRedirection::PointerAxis axis, qreal delta, uint32_t time, LibInput::Device *device = nullptr);
+    void processAxis(InputRedirection::PointerAxis axis, qreal delta, qint32 discreteDelta, InputRedirection::PointerAxisSource source, uint32_t time, LibInput::Device *device = nullptr);
     /**
      * @internal
      */
@@ -142,6 +146,13 @@ public:
     void processPinchGestureCancelled(quint32 time, KWin::LibInput::Device *device = nullptr);
 
 private:
+    void cleanupInternalWindow(QWindow *old, QWindow *now) override;
+    void cleanupDecoration(Decoration::DecoratedClientImpl *old, Decoration::DecoratedClientImpl *now) override;
+
+    void focusUpdate(Toplevel *focusOld, Toplevel *focusNow) override;
+
+    QPointF position() const override;
+
     void updateOnStartMoveResize();
     void updateToReset();
     void updatePosition(const QPointF &pos);
@@ -152,14 +163,12 @@ private:
     void disconnectLockedPointerAboutToBeUnboundConnection();
     void disconnectPointerConstraintsConnection();
     void breakPointerConstraints(KWayland::Server::SurfaceInterface *surface);
-    bool areButtonsPressed() const;
     CursorImage *m_cursor;
-    bool m_inited = false;
     bool m_supportsWarping;
     QPointF m_pos;
     QHash<uint32_t, InputRedirection::PointerButtonState> m_buttons;
     Qt::MouseButtons m_qtButtons;
-    QMetaObject::Connection m_windowGeometryConnection;
+    QMetaObject::Connection m_focusGeometryConnection;
     QMetaObject::Connection m_internalWindowConnection;
     QMetaObject::Connection m_constraintsConnection;
     QMetaObject::Connection m_constraintsActivatedConnection;
@@ -176,7 +185,7 @@ class CursorImage : public QObject
     Q_OBJECT
 public:
     explicit CursorImage(PointerInputRedirection *parent = nullptr);
-    virtual ~CursorImage();
+    ~CursorImage() override;
 
     void setEffectsOverrideCursor(Qt::CursorShape shape);
     void removeEffectsOverrideCursor();

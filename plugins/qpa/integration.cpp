@@ -17,18 +17,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
-#define WL_EGL_PLATFORM 1
 #include "integration.h"
-#include "platform.h"
 #include "backingstore.h"
 #include "nativeinterface.h"
-#include "platformcontextwayland.h"
+#include "offscreensurface.h"
 #include "screen.h"
 #include "sharingplatformcontext.h"
 #include "window.h"
-#include "../../virtualkeyboard.h"
 #include "../../main.h"
+#include "../../platform.h"
 #include "../../screens.h"
+#include "../../virtualkeyboard.h"
 #include "../../wayland_server.h"
 
 #include <KWayland/Client/compositor.h>
@@ -41,15 +40,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QCoreApplication>
 #include <QtConcurrentRun>
 
-#include <qpa/qplatformwindow.h>
 #include <qpa/qplatforminputcontext.h>
 #include <qpa/qplatforminputcontextfactory_p.h>
+#include <qpa/qplatformwindow.h>
 #include <qpa/qwindowsysteminterface.h>
-#include <private/qeventdispatcher_unix_p.h>
 
+#include <QtEventDispatcherSupport/private/qunixeventdispatcher_qpa_p.h>
 #include <QtFontDatabaseSupport/private/qgenericunixfontdatabase_p.h>
 #include <QtThemeSupport/private/qgenericunixthemes_p.h>
-#include <QtEventDispatcherSupport/private/qunixeventdispatcher_qpa_p.h>
 
 namespace KWin
 {
@@ -99,7 +97,11 @@ void Integration::initialize()
     );
     QPlatformIntegration::initialize();
     auto dummyScreen = new Screen(-1);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
+    QWindowSystemInterface::handleScreenAdded(dummyScreen);
+#else
     screenAdded(dummyScreen);
+#endif
     m_screens << dummyScreen;
     m_inputContext.reset(QPlatformInputContextFactory::create(QStringLiteral("qtvirtualkeyboard")));
     qunsetenv("QT_IM_MODULE");
@@ -119,7 +121,7 @@ void Integration::initialize()
             }
         );
         connect(qApp->inputMethod(), &QInputMethod::visibleChanged, this,
-            [this] {
+            [] {
                 if (qApp->inputMethod()->isVisible()) {
                     if (QWindow *w = VirtualKeyboard::self()->inputPanel()) {
                         QWindowSystemInterface::handleWindowActivated(w, Qt::ActiveWindowFocusReason);
@@ -158,6 +160,11 @@ QPlatformWindow *Integration::createPlatformWindow(QWindow *window) const
     }
 }
 
+QPlatformOffscreenSurface *Integration::createPlatformOffscreenSurface(QOffscreenSurface *surface) const
+{
+    return new OffscreenSurface(surface);
+}
+
 QPlatformFontDatabase *Integration::fontDatabase() const
 {
     return m_fontDb;
@@ -193,13 +200,7 @@ QPlatformOpenGLContext *Integration::createPlatformOpenGLContext(QOpenGLContext 
             return new SharingPlatformContext(context, s, kwinApp()->platform()->sceneEglConfig());
         }
     }
-    if (m_eglDisplay == EGL_NO_DISPLAY) {
-        const_cast<Integration*>(this)->initEgl();
-    }
-    if (m_eglDisplay == EGL_NO_DISPLAY) {
-        return nullptr;
-    }
-    return new PlatformContextWayland(context, const_cast<Integration*>(this));
+    return nullptr;
 }
 
 void Integration::initScreens()
@@ -208,16 +209,28 @@ void Integration::initScreens()
     newScreens.reserve(qMax(screens()->count(), 1));
     for (int i = 0; i < screens()->count(); i++) {
         auto screen = new Screen(i);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
+        QWindowSystemInterface::handleScreenAdded(screen);
+#else
         screenAdded(screen);
+#endif
         newScreens << screen;
     }
     if (newScreens.isEmpty()) {
         auto dummyScreen = new Screen(-1);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
+        QWindowSystemInterface::handleScreenAdded(dummyScreen);
+#else
         screenAdded(dummyScreen);
+#endif
         newScreens << dummyScreen;
     }
     while (!m_screens.isEmpty()) {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
+        QWindowSystemInterface::handleScreenRemoved(m_screens.takeLast());
+#else
         destroyScreen(m_screens.takeLast());
+#endif
     }
     m_screens = newScreens;
 }
@@ -251,38 +264,6 @@ KWayland::Client::Shell *Integration::shell() const
 EGLDisplay Integration::eglDisplay() const
 {
     return m_eglDisplay;
-}
-
-void Integration::initEgl()
-{
-    Q_ASSERT(m_eglDisplay == EGL_NO_DISPLAY);
-    // This variant uses Wayland as the EGL platform
-    qputenv("EGL_PLATFORM", "wayland");
-    m_eglDisplay = eglGetDisplay(waylandServer()->internalClientConection()->display());
-    if (m_eglDisplay == EGL_NO_DISPLAY) {
-        return;
-    }
-    // call eglInitialize in a thread to not block
-    QFuture<bool> future = QtConcurrent::run([this] () -> bool {
-        EGLint major, minor;
-        if (eglInitialize(m_eglDisplay, &major, &minor) == EGL_FALSE) {
-            return false;
-        }
-        EGLint error = eglGetError();
-        if (error != EGL_SUCCESS) {
-            return false;
-        }
-        return true;
-    });
-    // TODO: make this better
-    while (!future.isFinished()) {
-        waylandServer()->internalClientConection()->flush();
-        QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents);
-    }
-    if (!future.result()) {
-        eglTerminate(m_eglDisplay);
-        m_eglDisplay = EGL_NO_DISPLAY;
-    }
 }
 
 QPlatformInputContext *Integration::inputContext() const

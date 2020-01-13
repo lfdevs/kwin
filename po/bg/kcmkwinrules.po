@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-10-13 06:43+0200\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-09-17 03:28+0200\n"
 "PO-Revision-Date: 2011-07-23 20:59+0300\n"
 "Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -253,60 +253,61 @@ msgstr "Показване на вътрешните настройки за з�
 msgid "Internal setting for remembering"
 msgstr "Вътрешни настройки за запомняне"
 
-#: main.cpp:150
+#: main.cpp:138
 #, kde-format
 msgid "Application settings for %1"
 msgstr "Настройки за %1"
 
-#: main.cpp:170
+#: main.cpp:158
 #, kde-format
 msgid "Window settings for %1"
 msgstr "Настройки за %1"
 
-#: main.cpp:222
+#: main.cpp:210
 #, fuzzy, kde-format
 #| msgid "Edit Window-Specific Settings"
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Редактиране специфичните настройки на прозорците"
 
-#: main.cpp:253
+#: main.cpp:241
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:261
+#: main.cpp:248
 #, kde-format
 msgid "KWin helper utility"
 msgstr "Помощно средство за KWin"
 
-#: main.cpp:262
-#, kde-format
-msgid "WId of the window for special window settings."
+#: main.cpp:249
+#, fuzzy, kde-format
+#| msgid "WId of the window for special window settings."
+msgid "KWin id of the window for special window settings."
 msgstr "WId на прозореца за специалните настройки."
 
-#: main.cpp:263
+#: main.cpp:250
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Дали настройките да важат за всички прозорци на приложението."
 
-#: main.cpp:271
+#: main.cpp:259
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "This helper utility is not supposed to be called directly."
 
-#: ruleslist.cpp:153
+#: ruleslist.cpp:152
 #, fuzzy, kde-format
 #| msgid "Export Rule"
 msgid "Export Rules"
 msgstr "Правило за изнасяне"
 
-#: ruleslist.cpp:154 ruleslist.cpp:166
+#: ruleslist.cpp:153 ruleslist.cpp:165
 #, kde-format
 msgid "KWin Rules (*.kwinrule)"
 msgstr ""
 
-#: ruleslist.cpp:165
+#: ruleslist.cpp:164
 #, kde-format
 msgid "Import Rules"
 msgstr "Правила за внасяне"
@@ -353,14 +354,14 @@ msgstr "&Внасяне"
 msgid "&Export"
 msgstr "&Изнасяне"
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:66
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
 "window(s)."
 msgstr "Прилагане настройката на прозореца за специфичен прозорец(и)."
 
-#: ruleswidget.cpp:70
+#: ruleswidget.cpp:68
 #, fuzzy, kde-format
 #| msgid ""
 #| "Specify how the window property should be affected:<ul><li><em>Do Not "
@@ -410,7 +411,7 @@ msgstr ""
 "запомнени. Операцията ще бъде изтрита веднага след скриването на прозореца.</"
 "li></ul>"
 
-#: ruleswidget.cpp:85
+#: ruleswidget.cpp:83
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -430,27 +431,27 @@ msgstr ""
 "до зададените стойности веднага, но няма да бъдат запомнени. Операцията ще "
 "бъде изтрита веднага след скриването на прозореца.</li></ul>"
 
-#: ruleswidget.cpp:153
+#: ruleswidget.cpp:151
 #, kde-format
 msgid "All Desktops"
 msgstr "Всички работни плотове"
 
-#: ruleswidget.cpp:347
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr ""
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:790
 #, kde-format
 msgid "Settings for %1"
 msgstr "Настройки за %1"
 
-#: ruleswidget.cpp:833
+#: ruleswidget.cpp:792
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Без име"
 
-#: ruleswidget.cpp:843
+#: ruleswidget.cpp:802
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -465,12 +466,12 @@ msgstr ""
 "добре е да ограничите типа на прозореца, за да бъдат избегнати специалните "
 "типове прозорци."
 
-#: ruleswidget.cpp:874
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Редактиране специфичните настройки на прозорците"
 
-#: ruleswidget.cpp:904
+#: ruleswidget.cpp:863
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -481,12 +482,12 @@ msgstr ""
 "Диалогът разрешава промяна на настройките само за избрания прозорец или "
 "програма."
 
-#: ruleswidget.cpp:908
+#: ruleswidget.cpp:867
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "За повече подробности, погледнете в документацията."
 
-#: ruleswidget.cpp:947
+#: ruleswidget.cpp:906
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Редактиране на бърз клавиш"

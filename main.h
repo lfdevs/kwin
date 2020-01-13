@@ -25,8 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <kwinglobals.h>
 #include <config-kwin.h>
 
-#include <KSelectionWatcher>
-#include <KSelectionOwner>
 #include <KSharedConfig>
 // Qt
 #include <QApplication>
@@ -44,7 +42,7 @@ class Platform;
 class XcbEventFilter : public QAbstractNativeEventFilter
 {
 public:
-    virtual bool nativeEventFilter(const QByteArray &eventType, void *message, long int *result) override;
+    bool nativeEventFilter(const QByteArray &eventType, void *message, long int *result) override;
 };
 
 class KWIN_EXPORT Application : public  QApplication
@@ -59,26 +57,26 @@ class KWIN_EXPORT Application : public  QApplication
     Q_PROPERTY(KSharedConfigPtr inputConfig READ inputConfig WRITE setInputConfig)
 public:
     /**
-    * @brief This enum provides the various operation modes of KWin depending on the available
-    * Windowing Systems at startup. For example whether KWin only talks to X11 or also to a Wayland
-    * Compositor.
-    *
-    */
+     * @brief This enum provides the various operation modes of KWin depending on the available
+     * Windowing Systems at startup. For example whether KWin only talks to X11 or also to a Wayland
+     * Compositor.
+     *
+     */
     enum OperationMode {
         /**
-        * @brief KWin uses only X11 for managing windows and compositing
-        */
+         * @brief KWin uses only X11 for managing windows and compositing
+         */
         OperationModeX11,
         /**
          * @brief KWin uses only Wayland
-        */
+         */
         OperationModeWaylandOnly,
         /**
          * @brief KWin uses Wayland and controls a nested Xwayland server.
-         **/
+         */
         OperationModeXwayland
     };
-    virtual ~Application();
+    ~Application() override;
 
     void setConfigLock(bool lock);
 
@@ -105,10 +103,10 @@ public:
 
     void start();
     /**
-    * @brief The operation mode used by KWin.
-    *
-    * @return OperationMode
-    */
+     * @brief The operation mode used by KWin.
+     *
+     * @return OperationMode
+     */
     OperationMode operationMode() const;
     void setOperationMode(OperationMode mode);
     bool shouldUseWaylandForCompositing() const;
@@ -138,20 +136,20 @@ public:
     /**
      * Creates the KAboutData object for the KWin instance and registers it as
      * KAboutData::setApplicationData.
-     **/
+     */
     static void createAboutData();
 
     /**
      * @returns the X11 Screen number. If not applicable it's set to @c -1.
-     **/
+     */
     static int x11ScreenNumber();
     /**
      * Sets the X11 screen number of this KWin instance to @p screenNumber.
-     **/
+     */
     static void setX11ScreenNumber(int screenNumber);
     /**
      * @returns whether this is a multi head setup on X11.
-     **/
+     */
     static bool isX11MultiHead();
     /**
      * Sets whether this is a multi head setup on X11.
@@ -160,14 +158,14 @@ public:
 
     /**
      * @returns the X11 root window.
-     **/
+     */
     xcb_window_t x11RootWindow() const {
         return m_rootWindow;
     }
 
     /**
      * @returns the X11 xcb connection
-     **/
+     */
     xcb_connection_t *x11Connection() const {
         return m_connection;
     }
@@ -186,6 +184,10 @@ public:
     void initPlatform(const KPluginMetaData &plugin);
     Platform *platform() const {
         return m_platform;
+    }
+
+    bool isTerminating() const {
+        return m_terminating;
     }
 
     static void setupMalloc();
@@ -210,26 +212,29 @@ protected:
     void createWorkspace();
     void createAtoms();
     void createOptions();
-    void createCompositor();
     void setupEventFilters();
     void destroyWorkspace();
     void destroyCompositor();
     /**
      * Inheriting classes should use this method to set the X11 root window
      * before accessing any X11 specific code pathes.
-     **/
+     */
     void setX11RootWindow(xcb_window_t root) {
         m_rootWindow = root;
     }
     /**
      * Inheriting classes should use this method to set the xcb connection
      * before accessing any X11 specific code pathes.
-     **/
+     */
     void setX11Connection(xcb_connection_t *c) {
         m_connection = c;
         emit x11ConnectionChanged();
     }
     void destroyAtoms();
+
+    void setTerminating() {
+        m_terminating = true;
+    }
 
 protected:
     QString m_originalSessionKey;
@@ -252,12 +257,34 @@ private:
     bool m_useKActivities = true;
 #endif
     Platform *m_platform = nullptr;
+    bool m_terminating = false;
 };
 
 inline static Application *kwinApp()
 {
     return static_cast<Application*>(QCoreApplication::instance());
 }
+
+namespace Xwl
+{
+class Xwayland;
+}
+
+class KWIN_EXPORT ApplicationWaylandAbstract : public Application
+{
+    Q_OBJECT
+public:
+    ~ApplicationWaylandAbstract() override = 0;
+protected:
+    friend class Xwl::Xwayland;
+
+    ApplicationWaylandAbstract(OperationMode mode, int &argc, char **argv);
+    virtual void setProcessStartupEnvironment(const QProcessEnvironment &environment) {
+        Q_UNUSED(environment);
+    }
+    virtual void startSession() {}
+};
+
 
 } // namespace
 

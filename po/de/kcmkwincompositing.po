@@ -1,14 +1,14 @@
 # Thomas Reitelbach <tr@erdfunkstelle.de>, 2007, 2008, 2009, 2010.
-# Burkhard Lück <lueck@hube-lueck.de>, 2009, 2011, 2012, 2013, 2014, 2016, 2017, 2018.
+# Burkhard Lück <lueck@hube-lueck.de>, 2009, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019.
 # Johannes Obermayr <johannesobermayr@gmx.de>, 2009, 2010.
 # Frederik Schwarzer <schwarzer@kde.org>, 2010, 2011, 2012, 2013, 2014, 2016.
 # Panagiotis Papadopoulos <pano_90@gmx.net>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2018-10-09 06:32+0100\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"PO-Revision-Date: 2019-01-11 12:38+0100\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -17,16 +17,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Thomas Reitelbach"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "tr@erdfunkstelle.de"
 
 #: compositing.cpp:378
 #, kde-format
@@ -232,12 +222,12 @@ msgstr ""
 msgid "Allow applications to block compositing"
 msgstr "Anwendungen erlauben, Compositing zu blockieren"
 
-#: main.cpp:83
+#: main.cpp:55
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "OpenGL-Erkennung wieder aktivieren"
 
-#: main.cpp:141
+#: main.cpp:120
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -246,113 +236,15 @@ msgstr ""
 "„Nur wenn Aufwand vertretbar“ verhindert nur das Zerreißen bei Änderungen im "
 "Vollbildmodus wie zum Beispiel bei einem Video."
 
-#: main.cpp:145
+#: main.cpp:124
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "„Vollständiges Neuzeichnen“ kann zu Leistungsproblemen führen."
 
-#: main.cpp:149
+#: main.cpp:128
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
 "„Bildschirm-Inhalt wiederverwenden“ führt zu erheblichen Leistungsproblemen "
 "bei Mesa-Treibern."
-
-#: model.cpp:70
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Accessibility"
-msgstr "Zugangshilfen"
-
-#: model.cpp:71
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Appearance"
-msgstr "Erscheinungsbild"
-
-#: model.cpp:72
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Candy"
-msgstr "Optik"
-
-#: model.cpp:73
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Focus"
-msgstr "Aktivierung"
-
-#: model.cpp:74
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Show Desktop Animation"
-msgstr "Animation der Arbeitsfläche anzeigen"
-
-#: model.cpp:75
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Tools"
-msgstr "Extras"
-
-#: model.cpp:76
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Virtual Desktop Switching Animation"
-msgstr "Animation beim Wechseln der virtuellen Arbeitsfläche"
-
-#: model.cpp:77
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Window Management"
-msgstr "Fensterverwaltung"
-
-#: model.cpp:233
-#, kde-format
-msgid "KWin development team"
-msgstr "KWin-Entwicklerteam"
-
-#: qml/Effect.qml:119
-#, kde-format
-msgid ""
-"Author: %1\n"
-"License: %2"
-msgstr ""
-"Autor: %1\n"
-"Lizenz: %2"
-
-#: qml/EffectView.qml:64
-#, kde-format
-msgid ""
-"Hint: To find out or configure how to activate an effect, look at the "
-"effect's settings."
-msgstr ""
-"Tipp: Wie ein Effekt ausgelöst und eingerichtet wird, erfahren Sie in den "
-"Effekt-Einstellungen"
-
-#: qml/EffectView.qml:75
-#, kde-format
-msgid "Search"
-msgstr "Suchen"
-
-#: qml/EffectView.qml:82
-#, kde-format
-msgid "Configure filter"
-msgstr "Filter einrichten"
-
-#: qml/EffectView.qml:85
-#, kde-format
-msgid "Exclude Desktop Effects not supported by the Compositor"
-msgstr ""
-"Arbeitsflächen-Effekte ausschließen, die vom Compositor nicht unterstützt "
-"werden"
-
-#: qml/EffectView.qml:93
-#, kde-format
-msgid "Exclude internal Desktop Effects"
-msgstr "Interne Arbeitsflächeneffekte aussetzen"
-
-#: qml/EffectView.qml:105
-#, kde-format
-msgid "Get New Effects..."
-msgstr "Neue Effekte herunterladen ..."

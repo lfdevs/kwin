@@ -32,7 +32,7 @@ class QTimer;
 namespace KWin
 {
 
-class Platform;
+class Workspace;
 
 namespace ColorCorrect
 {
@@ -42,16 +42,50 @@ typedef QPair<QTime,QTime> Times;
 
 class ColorCorrectDBusInterface;
 
-
+/**
+ * This enum type is used to specify operation mode of the night color manager.
+ */
 enum NightColorMode {
-    // timings are based on provided location data
-    Automatic = 0,
-    // timings are based on fixed location data
+    /**
+     * Color temperature is computed based on the current position of the Sun.
+     *
+     * Location of the user is provided by Plasma.
+     */
+    Automatic,
+    /**
+     * Color temperature is computed based on the current position of the Sun.
+     *
+     * Location of the user is provided by themselves.
+     */
     Location,
-    // fixed timings
-    Timings
+    /**
+     * Color temperature is computed based on the current time.
+     *
+     * Sunrise and sunset times have to be specified by the user.
+     */
+    Timings,
+    /**
+     * Color temperature is constant thoughout the day.
+     */
+    Constant,
 };
 
+/**
+ * The night color manager is a blue light filter similar to Redshift.
+ *
+ * There are four modes this manager can operate in: Automatic, Location, Timings,
+ * and Constant. Both Automatic and Location modes derive screen color temperature
+ * from the current position of the Sun, the only difference between two is how
+ * coordinates of the user are specified. If the user is located near the North or
+ * South pole, we can't compute correct position of the Sun, that's why we need
+ * Timings and Constant mode.
+ *
+ * With the Timings mode, screen color temperature is computed based on the clock
+ * time. The user needs to specify timings of the sunset and sunrise as well the
+ * transition time.
+ *
+ * With the Constant mode, screen color temperature is always constant.
+ */
 class KWIN_EXPORT Manager : public QObject
 {
     Q_OBJECT
@@ -64,15 +98,33 @@ public:
      * Get current configuration
      * @see changeConfiguration
      * @since 5.12
-     **/
+     */
     QHash<QString, QVariant> info() const;
     /**
      * Change configuration
      * @see info
      * @since 5.12
-     **/
+     */
     bool changeConfiguration(QHash<QString, QVariant> data);
     void autoLocationUpdate(double latitude, double longitude);
+
+    /**
+     * Toggles the active state of the filter.
+     *
+     * A quick transition will be started if the difference between current screen
+     * color temperature and target screen color temperature is too large. Target
+     * temperature is defined in context of the new active state.
+     *
+     * If the filter becomes inactive after calling this method, the target color
+     * temperature is 6500 K.
+     *
+     * If the filter becomes active after calling this method, the target screen
+     * color temperature is defined by the current operation mode.
+     *
+     * Note that this method is a no-op if the underlying platform doesn't support
+     * adjusting gamma ramps.
+     */
+    void toggle();
 
     // for auto tests
     void reparseConfigAndReset();
@@ -85,6 +137,7 @@ Q_SIGNALS:
     void configChange(QHash<QString, QVariant> data);
 
 private:
+    void initShortcuts();
     void readConfig();
     void hardReset();
     void slowUpdate(int targetTemp);
@@ -93,15 +146,15 @@ private:
     void cancelAllTimers();
     /**
      * Quick shift on manual change to current target Temperature
-     **/
+     */
     void resetQuickAdjustTimer();
     /**
      * Slow shift to daytime target Temperature
-     **/
+     */
     void resetSlowUpdateTimer();
 
     void updateSunTimings(bool force);
-    DateTimes getSunTimings(QDate date, double latitude, double longitude, bool morning) const;
+    DateTimes getSunTimings(const QDateTime &dateTime, double latitude, double longitude, bool morning) const;
     bool checkAutomaticSunTimings() const;
     bool daylight() const;
 
@@ -139,6 +192,9 @@ private:
     int m_nightTargetTemp = DEFAULT_NIGHT_TEMPERATURE;
 
     int m_failedCommitAttempts = 0;
+
+    // The Workspace class needs to call initShortcuts during initialization.
+    friend class KWin::Workspace;
 };
 
 }

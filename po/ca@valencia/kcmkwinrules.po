@@ -1,25 +1,26 @@
 # Translation of kcmkwinrules.po to Catalan (Valencian)
-# Copyright (C) 2004-2018 This_file_is_part_of_KDE
+# Copyright (C) 2004-2019 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
+# or the same license as the source of its messages in English.
 #
 # Sebastià Pla i Sanz <sps@sastia.com>, 2004, 2005, 2006.
 # Albert Astals Cid <aacid@kde.org>, 2005.
-# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2017, 2018.
+# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2017, 2018, 2019.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2012, 2013, 2014, 2015, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-10-13 06:43+0200\n"
-"PO-Revision-Date: 2018-03-19 19:35+0100\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-09-17 03:28+0200\n"
+"PO-Revision-Date: 2019-07-08 09:08+0200\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -78,14 +79,14 @@ msgstr "Finestra de diàleg"
 #: detectwidget.cpp:81
 #, kde-format
 msgid "Override Type"
-msgstr "Rectifica tipus"
+msgstr "Rectifica el tipus"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
 #: detectwidget.cpp:82 ruleswidgetbase.ui:473 ruleswidgetbase.ui:2499
 #, kde-format
 msgid "Standalone Menubar"
-msgstr "Barra de menús aïllada"
+msgstr "Barra de menús independent"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, types)
 #. i18n: ectx: property (text), item, widget (QComboBox, type)
@@ -104,7 +105,7 @@ msgstr "Pantalla de presentació"
 #: detectwidget.cpp:90
 #, kde-format
 msgid "Unknown - will be treated as Normal Window"
-msgstr "Desconeguda - es tractarà com una finestra normal"
+msgstr "Desconeguda - es tractarà com a una finestra normal"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: detectwidget.ui:17
@@ -152,14 +153,14 @@ msgstr "Coincidència per nom de la classe primària i"
 #: detectwidget.ui:181
 #, kde-format
 msgid "Secondary class name  (resulting in term in brackets)"
-msgstr "Nom de classe secundària (resulta en el terme entre parèntesis)"
+msgstr "Nom de classe secundària  (resultat en el terme entre parèntesis)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, match_role)
 #: detectwidget.ui:188
 #, kde-format
 msgid "Window role (can be used to select windows by function)"
 msgstr ""
-"Funció de la finestra (es pot utilitzar per seleccionar finestres per la "
+"Funció de la finestra (es pot utilitzar per a seleccionar finestres per la "
 "seua funció)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, match_type)
@@ -175,8 +176,8 @@ msgstr ""
 msgid ""
 "Window title (very specific, can fail due to content changes or translation)"
 msgstr ""
-"Títol de la finestra (molt específic, pot fallar per canvis de contingut o "
-"traducció)"
+"Títol de la finestra (molt específic, pot fallar a causa de canvis de "
+"contingut o traducció)"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: editshortcut.ui:18
@@ -198,7 +199,7 @@ msgstr ""
 "separats per «-». Un conjunt s'especifica com a <i>base</i>+(<i>llista</i>), "
 "on base són modificadors i llista és una llista de tecles.<br>\n"
 "Per exemple «<b>Maj+Alt+(123) Maj+Ctrl+(ABC)</b>» primer provarà <b>Maj+Alt"
-"+1</b>, després les altres i <b>Maj+Ctrl+C</b> en darrer lloc."
+"+1</b>, després les altres i <b>Maj+Ctrl+C</b> en últim lloc."
 
 #. i18n: ectx: property (text), widget (QPushButton, pushButton1)
 #: editshortcut.ui:62
@@ -237,8 +238,8 @@ msgid ""
 "documentation for how to customize window behavior.</p>"
 msgstr ""
 "<p><h1>Valors específics de la finestra</h1> Ací podeu personalitzar valors "
-"de la finestra específicament per algunes finestres només.</p><p>Tingueu "
-"present que aquesta configuració no tindrà efecte si no useu el KWin com a "
+"de la finestra específicament només per a algunes finestres.</p><p>Tingueu "
+"present que aquesta configuració no tindrà efecte si no useu KWin com a "
 "gestor de finestres. Si useu un gestor de finestres diferent, consulteu a la "
 "documentació la manera de personalitzar el comportament de la finestra.</p>"
 
@@ -257,59 +258,60 @@ msgstr "Mostra els valors interns per a recordar"
 msgid "Internal setting for remembering"
 msgstr "Valor intern per a recordar"
 
-#: main.cpp:150
+#: main.cpp:138
 #, kde-format
 msgid "Application settings for %1"
 msgstr "Valors d'aplicació per a %1"
 
-#: main.cpp:170
+#: main.cpp:158
 #, kde-format
 msgid "Window settings for %1"
 msgstr "Valors de la finestra per a %1"
 
-#: main.cpp:222
+#: main.cpp:210
 #, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
-msgstr "Edita l'arranjament específic d'aplicació"
+msgstr "Edita la configuració específica de l'aplicació"
 
-#: main.cpp:253
+#: main.cpp:241
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:261
+#: main.cpp:248
 #, kde-format
 msgid "KWin helper utility"
 msgstr "Utilitat d'ajuda KWin"
 
-#: main.cpp:262
+#: main.cpp:249
 #, kde-format
-msgid "WId of the window for special window settings."
-msgstr "Id. de la finestra (WId) per a configuracions especials d'aquesta."
+msgid "KWin id of the window for special window settings."
+msgstr "Id. de KWin de la finestra per a configuracions especials d'aquesta."
 
-#: main.cpp:263
+#: main.cpp:250
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr ""
-"Si la configuració hauria d'afectar totes les finestres de l'aplicació."
+"Estableix si la configuració ha d'afectar totes les finestres de l'aplicació."
 
-#: main.cpp:271
+#: main.cpp:259
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
-msgstr "Aquesta utilitat d'ajuda no està pensada per a cridar-se directament."
+msgstr ""
+"Aquesta utilitat d'ajuda no està pensada per a ser cridada directament."
 
-#: ruleslist.cpp:153
+#: ruleslist.cpp:152
 #, kde-format
 msgid "Export Rules"
 msgstr "Exporta regles"
 
-#: ruleslist.cpp:154 ruleslist.cpp:166
+#: ruleslist.cpp:153 ruleslist.cpp:165
 #, kde-format
 msgid "KWin Rules (*.kwinrule)"
-msgstr "Regles del KWin (*.kwinrule)"
+msgstr "Regles de KWin (*.kwinrule)"
 
-#: ruleslist.cpp:165
+#: ruleslist.cpp:164
 #, kde-format
 msgid "Import Rules"
 msgstr "Importa regles"
@@ -356,16 +358,16 @@ msgstr "&Importa"
 msgid "&Export"
 msgstr "&Exporta"
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:66
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
 "window(s)."
 msgstr ""
-"Marqueu aquesta casella de selecció per alterar aquesta propietat de la "
-"finestra per a la/es finestra/s'especificada/es."
+"Marqueu aquesta casella de selecció per a modificar aquesta propietat de "
+"finestra per a les finestres especificades."
 
-#: ruleswidget.cpp:70
+#: ruleswidget.cpp:68
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -385,20 +387,20 @@ msgid ""
 msgstr ""
 "Especifica com hauria d'afectar la propietat de la finestra:<ul><li><em>No "
 "afecta:</em> La propietat de la finestra no es veurà afectada i, per tant, "
-"s'usarà la seua gestió per omissió. En triar aquesta opció s'evitarà que "
-"s'apliquin valors de la finestra més genèrics.</li> <li><em>Aplica "
+"s'usarà la seua gestió per defecte. En triar aquesta opció s'evitarà que "
+"s'apliquen valors de la finestra més genèrics.</li> <li><em>Aplica "
 "inicialment:</em> Només s'assignarà el valor a la propietat de la finestra "
-"després de crear la finestra. No s'efectuarà cap més canvi.</li> "
+"després de crear la finestra. No s'efectuarà cap canvi més.</li> "
 "<li><em>Recorda:</em> Es recordarà el valor de la propietat de la finestra "
-"i, cada cop que es cree la finestra, s'aplicarà el darrer valor recordat.</"
+"i, cada vegada que es cree la finestra, s'aplicarà l'últim valor recordat.</"
 "li> <li><em>Força:</em> Sempre es forçarà la propietat de la finestra al "
 "valor donat.</li> <li><em>Aplica ara:</em> La propietat de la finestra "
-"s'establirà al valor donat immediatament i no s'efectuarà més tard (després "
-"se suprimirà aquesta acció).</li> <li><em>Força temporalment:</em> La "
-"propietat de la finestra es forçarà al valor donat fins que s'oculti "
-"(aquesta acció se suprimirà després que la finestra s'oculti).</li></ul>"
+"s'establirà en el valor donat immediatament i no es modificarà posteriorment "
+"(aquesta acció se suprimirà després).</li> <li><em>Força temporalment:</em> "
+"La propietat de la finestra es forçarà al valor donat fins que s'oculte "
+"(aquesta acció se suprimirà després que la finestra s'oculte).</li></ul>"
 
-#: ruleswidget.cpp:85
+#: ruleswidget.cpp:83
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -409,36 +411,36 @@ msgid ""
 "em> The window property will be forced to the given value until it is hidden "
 "(this action will be deleted after the window is hidden).</li></ul>"
 msgstr ""
-"Especifica com hauria d'afectar la propietat de la finestra: <ul> <li><em>No "
+"Especifica com la propietat de la finestra serà afectada: <ul> <li><em>No "
 "afecta:</em> La propietat de la finestra no es veurà afectada i, per tant, "
-"s'usarà la seua gestió per omissió. En triar aquesta opció s'evitarà que "
+"s'usarà la seua gestió per defecte. En triar aquesta opció s'evitarà que "
 "tinguen efecte valors més genèrics de la finestra.</li> <li><em>Força:</em> "
 "Sempre es forçarà la propietat de la finestra al valor donat.</li> "
 "<li><em>Força temporalment:</em> La propietat de la finestra es forçarà al "
-"valor donat fins que s'oculti (aquesta acció s'eliminarà després que la "
-"finestra s'oculti).</li></ul>"
+"valor donat fins que s'oculte (aquesta acció s'eliminarà després que la "
+"finestra s'oculte).</li></ul>"
 
-#: ruleswidget.cpp:153
+#: ruleswidget.cpp:151
 #, kde-format
 msgid "All Desktops"
 msgstr "Tots els escriptoris"
 
-#: ruleswidget.cpp:347
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr "Totes les activitats"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:790
 #, kde-format
 msgid "Settings for %1"
 msgstr "Valors per a %1"
 
-#: ruleswidget.cpp:833
+#: ruleswidget.cpp:792
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Entrada sense nom"
 
-#: ruleswidget.cpp:843
+#: ruleswidget.cpp:802
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -448,17 +450,17 @@ msgid ""
 "types."
 msgstr ""
 "Heu especificat la classe de finestra com a sense importància.\n"
-"Això significa que els valors possiblement aplicaran a les finestres de "
-"totes les aplicacions. Si realment voleu crear un arranjament genèric, es "
+"Això significa que els valors possiblement s'aplicaran a les finestres de "
+"totes les aplicacions. Si realment voleu crear una configuració genèrica, es "
 "recomana que, com a mínim, limiteu els tipus de finestra per tal d'evitar "
 "tipus de finestra especials."
 
-#: ruleswidget.cpp:874
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Edita els valors específics de la finestra"
 
-#: ruleswidget.cpp:904
+#: ruleswidget.cpp:863
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -466,17 +468,17 @@ msgid ""
 "setting using the checkbox, select in what way the setting should be "
 "affected and to which value."
 msgstr ""
-"Aquest diàleg de configuració permet modificar l'arranjament només per a la "
-"finestra o aplicació seleccionada. Trobeu l'arranjament que voleu afectar, "
-"habiliteu-lo usant la casella de selecció, i seleccioneu de quina manera "
-"s'ha d'afectar l'arranjament i a quin valor."
+"Aquest diàleg de configuració permet modificar la configuració només per a "
+"la finestra o l'aplicació seleccionada. Trobeu el paràmetre que voleu "
+"modificar, habiliteu-lo usant la casella de selecció, i seleccioneu de quina "
+"manera s'ha de modificar el paràmetre i amb quin valor."
 
-#: ruleswidget.cpp:908
+#: ruleswidget.cpp:867
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Consulteu més detalls a la documentació."
 
-#: ruleswidget.cpp:947
+#: ruleswidget.cpp:906
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Edita la drecera"
@@ -925,13 +927,13 @@ msgstr "M&inimitzada"
 #: ruleswidgetbase.ui:972
 #, kde-format
 msgid "Sh&aded"
-msgstr "&Plegada"
+msgstr "&replegada"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1056
 #, kde-format
 msgid "Default"
-msgstr "Omissió"
+msgstr "Per defecte"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1061
@@ -979,7 +981,7 @@ msgstr "Angle superior esquerre"
 #: ruleswidgetbase.ui:1096
 #, kde-format
 msgid "Under Mouse"
-msgstr "Sota el ratolí"
+msgstr "Davall del ratolí"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, placement)
 #: ruleswidgetbase.ui:1101
@@ -1002,7 +1004,7 @@ msgid ""
 "what might be nasty if the client abuses the feature\n"
 "to unconditionally popup in the middle of your screen."
 msgstr ""
-"Les finestres poden sol·licitar que apareguen en una posició determinada.\n"
+"Les finestres poden sol·licitar aparéixer en una posició determinada.\n"
 "Per defecte, això substitueix l'estratègia d'emplaçament\n"
 "que pot ser desagradable si el client abusa de la funcionalitat\n"
 "d'emergir incondicionalment en el mig de la pantalla."
@@ -1037,8 +1039,7 @@ msgid ""
 msgstr ""
 "P. ex. els terminals o els reproductors de vídeo poden sol·licitar "
 "mantindre\n"
-"una certa relació d'aspecte, o créixer només per a valors superiors a un "
-"concret\n"
+"una certa relació d'aspecte, o créixer només per valors superiors a un\n"
 "(p. ex. per les dimensions d'un caràcter).\n"
 "Això pot ser inútil i la restricció evitarà les dimensions arbitràries\n"
 "com l'àrea completa de la pantalla."
@@ -1113,7 +1114,7 @@ msgstr "Drecera"
 #: ruleswidgetbase.ui:1725
 #, kde-format
 msgid "Keep &above"
-msgstr "Mantén al d&amunt"
+msgstr "Mantín al d&amunt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_autogroupfg)
 #: ruleswidgetbase.ui:1745
@@ -1125,7 +1126,7 @@ msgstr "Autoag&rupa en primer pla"
 #: ruleswidgetbase.ui:1788
 #, kde-format
 msgid "Keep &below"
-msgstr "Mantén per &sota"
+msgstr "Mantín per &davall"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_autogroupid)
 #: ruleswidgetbase.ui:1843
@@ -1186,11 +1187,11 @@ msgid ""
 "\"None\" will unconditionally allow this window to get the focus while\n"
 "\"Extreme\" will completely prevent it from taking the focus."
 msgstr ""
-"El KWin intenta evitar que les finestres agafin el focus\n"
-"(«activar») mentre esteu treballant en una altra finestra,\n"
+"KWin intenta evitar que les finestres agafen el focus\n"
+"(«activar») mentre que esteu treballant en una altra finestra,\n"
 "però això a vegades pot fallar o sobreactuar.\n"
-"«Cap» permetrà incondicionalment que aquesta finestra agafi el focus,\n"
-"mentre que «Extrem» evitarà completament que agafi el focus."
+"«Cap» permetrà incondicionalment que aquesta finestra agafe el focus,\n"
+"mentre que «Extrem» evitarà completament que l'agafe."
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fsplevel)
 #: ruleswidgetbase.ui:2151
@@ -1204,7 +1205,7 @@ msgstr "Prevenció de robatori de &focus"
 #, kde-format
 msgctxt "no focus stealing prevention"
 msgid "None"
-msgstr "Sense"
+msgstr "Cap"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, fsplevel)
 #. i18n: ectx: property (text), item, widget (KComboBox, fpplevel)
@@ -1245,10 +1246,10 @@ msgid ""
 "assigned to the window that wants the focus."
 msgstr ""
 "Això controla la protecció del focus de la finestra activa actualment.\n"
-"Sense cedirà sempre el focus,\n"
+"Cap cedirà sempre el focus,\n"
 "Extrema el mantindrà.\n"
-"Altrament està vinculat amb la prevenció de robatori assignada a la finestra "
-"que vol el focus."
+"Altrament està vinculat amb la prevenció de robatori\n"
+"assignada a la finestra que vol el focus."
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fpplevel)
 #: ruleswidgetbase.ui:2232
@@ -1266,8 +1267,8 @@ msgid ""
 msgstr ""
 "Les finestres poden evitar aconseguir el focus (activar-se) en ser "
 "clicades.\n"
-"Per altra banda, podríeu desitjar evitar que una finestra\n"
-"aconseguïsca el focus en un clic de ratolí."
+"Per altra banda, es possible que desitgeu evitar que una finestra\n"
+"aconseguisca el focus en fer clic amb el ratolí."
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_acceptfocus)
 #: ruleswidgetbase.ui:2298
@@ -1290,10 +1291,10 @@ msgid ""
 msgstr ""
 "Quan s'utilitza, una finestra rebrà\n"
 "totes les entrades de teclat mentre siga activa, incloent-hi Alt+Tab, etc.\n"
-"Això és interessant especialment per emuladors o màquines virtuals.\n"
+"Això és interessant especialment per a emuladors o màquines virtuals.\n"
 "\n"
 "Avís:\n"
-"No podreu fer Alt+Tab fora de la finestra\n"
+"No podeu fer Alt+Tab fora de la finestra\n"
 "ni utilitzar cap altra drecera global (com Alt+F2 per mostrar el KRunner)\n"
 "mentre siga actiu!"
 

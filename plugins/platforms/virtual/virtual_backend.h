@@ -28,8 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class QTemporaryDir;
 
-struct gbm_device;
-
 namespace KWin
 {
 class VirtualOutput;
@@ -42,7 +40,7 @@ class KWIN_EXPORT VirtualBackend : public Platform
 
 public:
     VirtualBackend(QObject *parent = nullptr);
-    virtual ~VirtualBackend();
+    ~VirtualBackend() override;
     void init() override;
 
     bool saveFrames() const {
@@ -54,26 +52,15 @@ public:
     QPainterBackend* createQPainterBackend() override;
     OpenGLBackend *createOpenGLBackend() override;
 
-    Q_INVOKABLE void setVirtualOutputs(int count, QVector<QRect> geometries = QVector<QRect>());
+    Q_INVOKABLE void setVirtualOutputs(int count, QVector<QRect> geometries = QVector<QRect>(), QVector<int> scales = QVector<int>());
 
     Outputs outputs() const override;
     Outputs enabledOutputs() const override;
 
-    int drmFd() const {
-        return m_drmFd;
-    }
-    void setDrmFd(int fd) {
-        m_drmFd = fd;
-    }
-
-    gbm_device *gbmDevice() const {
-        return m_gbmDevice;
-    }
-    void setGbmDevice(gbm_device *device) {
-        m_gbmDevice = device;
-    }
-
     QVector<CompositingType> supportedCompositors() const override {
+        if (selectedCompositor() != NoCompositing) {
+            return {selectedCompositor()};
+        }
         return QVector<CompositingType>{OpenGLCompositing, QPainterCompositing};
     }
 
@@ -85,8 +72,6 @@ private:
     QVector<VirtualOutput*> m_enabledOutputs;
 
     QScopedPointer<QTemporaryDir> m_screenshotDir;
-    int m_drmFd = -1;
-    gbm_device *m_gbmDevice = nullptr;
 };
 
 }

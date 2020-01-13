@@ -2,7 +2,8 @@
  KWin - the KDE window manager
  This file is part of the KDE project.
 
-Copyright (C) 2015 Martin Gräßlin <mgraesslin@kde.org>
+Copyright 2015 Martin Gräßlin <mgraesslin@kde.org>
+Copyright 2019 Roman Gilg <subdiff@gmail.com>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #ifndef KWIN_FB_BACKEND_H
 #define KWIN_FB_BACKEND_H
+#include "abstract_wayland_output.h"
 #include "platform.h"
 
 #include <QImage>
@@ -27,6 +29,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace KWin
 {
 
+class FramebufferOutput : public AbstractWaylandOutput
+{
+    Q_OBJECT
+
+public:
+    FramebufferOutput(QObject *parent = nullptr) : AbstractWaylandOutput(parent) {}
+    ~FramebufferOutput() override = default;
+
+    void init(const QSize &pixelSize, const QSize &physicalSize);
+};
+
 class KWIN_EXPORT FramebufferBackend : public Platform
 {
     Q_OBJECT
@@ -34,26 +47,17 @@ class KWIN_EXPORT FramebufferBackend : public Platform
     Q_PLUGIN_METADATA(IID "org.kde.kwin.Platform" FILE "fbdev.json")
 public:
     explicit FramebufferBackend(QObject *parent = nullptr);
-    virtual ~FramebufferBackend();
+    ~FramebufferBackend() override;
 
     Screens *createScreens(QObject *parent = nullptr) override;
     QPainterBackend *createQPainterBackend() override;
 
-    QSize screenSize() const override {
-        return m_resolution;
-    }
+    QSize screenSize() const override;
 
     void init() override;
 
     bool isValid() const {
         return m_fd >= 0;
-    }
-
-    QSize size() const {
-        return m_resolution;
-    }
-    QSize physicalSize() const {
-        return m_physicalSize;
     }
 
     void map();
@@ -73,10 +77,13 @@ public:
     QImage::Format imageFormat() const;
     /**
      * @returns whether the imageFormat is BGR instead of RGB.
-     **/
+     */
     bool isBGR() const {
         return m_bgr;
     }
+
+    Outputs outputs() const override;
+    Outputs enabledOutputs() const override;
 
     QVector<CompositingType> supportedCompositors() const override {
         return QVector<CompositingType>{QPainterCompositing};
@@ -86,8 +93,9 @@ private:
     void openFrameBuffer();
     bool handleScreenInfo();
     void initImageFormat();
-    QSize m_resolution;
-    QSize m_physicalSize;
+
+    QVector<FramebufferOutput*> m_outputs;
+
     QByteArray m_id;
     struct Color {
         quint32 offset;

@@ -13,13 +13,13 @@
 # Bruno Patri <bruno.patri@gmail.com>, 2013.
 # Sebastien Renard <renard@kde.org>, 2015.
 # Vincent Pinon <vpinon@kde.org>, 2016, 2017.
-# Simon Depiets <sdepiets@gmail.com>, 2018.
+# Simon Depiets <sdepiets@gmail.com>, 2018, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-10-13 06:43+0200\n"
-"PO-Revision-Date: 2018-06-14 11:22+0800\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-09-17 03:28+0200\n"
+"PO-Revision-Date: 2019-01-24 18:34+0800\n"
 "Last-Translator: Simon Depiets <sdepiets@gmail.com>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 19.07.70\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -277,61 +277,62 @@ msgstr "Afficher les paramètres internes pour s'en souvenir"
 msgid "Internal setting for remembering"
 msgstr "Paramètres internes pour s'en souvenir"
 
-#: main.cpp:150
+#: main.cpp:138
 #, kde-format
 msgid "Application settings for %1"
 msgstr "Paramètres d'application pour « %1 »"
 
-#: main.cpp:170
+#: main.cpp:158
 #, kde-format
 msgid "Window settings for %1"
 msgstr "Paramètres de fenêtre pour « %1 »"
 
-#: main.cpp:222
+#: main.cpp:210
 #, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Modifier les réglages spécifiques à l'application"
 
-#: main.cpp:253
+#: main.cpp:241
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:261
+#: main.cpp:248
 #, kde-format
 msgid "KWin helper utility"
 msgstr "Assistant de KWin"
 
-#: main.cpp:262
+#: main.cpp:249
 #, kde-format
-msgid "WId of the window for special window settings."
+msgid "KWin id of the window for special window settings."
 msgstr ""
-"Identifiant « Wld » de la fenêtre pour des paramètres spécifiques de fenêtre."
+"Identifiant « Kwin » de la fenêtre pour des paramètres spécifiques de "
+"fenêtre."
 
-#: main.cpp:263
+#: main.cpp:250
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr ""
 "Définit si les paramètres doivent s'appliquer à toutes les fenêtres de "
 "l'application."
 
-#: main.cpp:271
+#: main.cpp:259
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Cet assistant n'est pas censé être appelé directement."
 
-#: ruleslist.cpp:153
+#: ruleslist.cpp:152
 #, kde-format
 msgid "Export Rules"
 msgstr "Exporter les règles"
 
-#: ruleslist.cpp:154 ruleslist.cpp:166
+#: ruleslist.cpp:153 ruleslist.cpp:165
 #, kde-format
 msgid "KWin Rules (*.kwinrule)"
 msgstr "Règles pour KWin (*.kwinrule)"
 
-#: ruleslist.cpp:165
+#: ruleslist.cpp:164
 #, kde-format
 msgid "Import Rules"
 msgstr "Importer des règles"
@@ -378,7 +379,7 @@ msgstr "&Importer"
 msgid "&Export"
 msgstr "&Exporter"
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:66
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
@@ -387,7 +388,7 @@ msgstr ""
 "Cochez cette case pour modifier cette propriété de fenêtre pour la ou les "
 "fenêtre(s) spécifiée(s)."
 
-#: ruleswidget.cpp:70
+#: ruleswidget.cpp:68
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -422,7 +423,7 @@ msgstr ""
 "affectée à la propriété de la fenêtre jusqu'à ce qu'elle soit masquée (cette "
 "action sera supprimée après que la fenêtre soit masquée).</li></ul>"
 
-#: ruleswidget.cpp:85
+#: ruleswidget.cpp:83
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -443,27 +444,27 @@ msgstr ""
 "disparition de la fenêtre (l'action sera effacée après que la fenêtre soit "
 "masquée).</li></ul>"
 
-#: ruleswidget.cpp:153
+#: ruleswidget.cpp:151
 #, kde-format
 msgid "All Desktops"
 msgstr "Tous les bureaux"
 
-#: ruleswidget.cpp:347
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr "Toutes les activités"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:790
 #, kde-format
 msgid "Settings for %1"
 msgstr "Paramètres pour %1"
 
-#: ruleswidget.cpp:833
+#: ruleswidget.cpp:792
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Entrée sans nom"
 
-#: ruleswidget.cpp:843
+#: ruleswidget.cpp:802
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -478,12 +479,12 @@ msgstr ""
 "il est recommandé que vous sélectionniez au moins les types de fenêtres pour "
 "exclure des types spéciaux de fenêtres."
 
-#: ruleswidget.cpp:874
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Modifier les paramètres spécifiques de la fenêtre"
 
-#: ruleswidget.cpp:904
+#: ruleswidget.cpp:863
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -497,12 +498,12 @@ msgstr ""
 "correspondante et indiquez de quelle façon le paramètre doit être modifié et "
 "avec quelle valeur."
 
-#: ruleswidget.cpp:908
+#: ruleswidget.cpp:867
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Consultez la documentation pour plus de détails."
 
-#: ruleswidget.cpp:947
+#: ruleswidget.cpp:906
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Modifier le raccourci"

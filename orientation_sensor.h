@@ -26,7 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <kwin_export.h>
 
 class QOrientationSensor;
-class OrientationSensorAdaptor;
 class KStatusNotifierItem;
 
 namespace KWin
@@ -35,18 +34,17 @@ namespace KWin
 class KWIN_EXPORT OrientationSensor : public QObject
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.kde.kwin.OrientationSensor")
     Q_PROPERTY(bool userEnabled READ isUserEnabled WRITE setUserEnabled NOTIFY userEnabledChanged)
 public:
     explicit OrientationSensor(QObject *parent = nullptr);
-    ~OrientationSensor();
+    ~OrientationSensor() override;
 
     void setEnabled(bool enabled);
 
     /**
      * Just like QOrientationReading::Orientation,
      * copied to not leak the QSensors API into internal API.
-     **/
+     */
     enum class Orientation {
         Undefined,
         TopUp,
@@ -56,6 +54,7 @@ public:
         FaceUp,
         FaceDown
     };
+    Q_ENUM(Orientation)
 
     Orientation orientation() const {
         return m_orientation;
@@ -75,17 +74,18 @@ Q_SIGNALS:
     void userEnabledChanged(bool);
 
 private:
-    void setupStatusNotifier();
     void startStopSensor();
     void loadConfig();
+    void refresh();
+    void activate();
+    void updateState();
+
     QOrientationSensor *m_sensor;
     bool m_enabled = false;
     bool m_userEnabled = true;
     Orientation m_orientation = Orientation::Undefined;
     KStatusNotifierItem *m_sni = nullptr;
     KSharedConfig::Ptr m_config;
-    OrientationSensorAdaptor *m_adaptor = nullptr;
-
 };
 
 }

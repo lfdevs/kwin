@@ -40,7 +40,7 @@ class BackingStore : public QPlatformBackingStore
 {
 public:
     explicit BackingStore(QWindow *w, KWayland::Client::ShmPool *shm);
-    virtual ~BackingStore();
+    ~BackingStore() override;
 
     QPaintDevice *paintDevice() override;
     void flush(QWindow *window, const QRegion &region, const QPoint &offset) override;
@@ -48,6 +48,7 @@ public:
     void beginPaint(const QRegion &) override;
 
 private:
+    int scale() const;
     KWayland::Client::ShmPool *m_shm;
     QWeakPointer<KWayland::Client::Buffer> m_buffer;
     QImage m_backBuffer;

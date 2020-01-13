@@ -7,10 +7,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2014-11-11 07:15+0200\n"
-"Last-Translator: Liudas Ališauskas <liudas@aksioma.lt>\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"PO-Revision-Date: 2019-06-04 22:15+0000\n"
+"Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
@@ -18,35 +18,36 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Liudas Ališauskas"
+msgstr "Liudas Ališauskas, Moo"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "liudas@akmc.lt"
+msgstr "liudas@akmc.lt, <>"
 
 #: genericscriptedconfig.cpp:81
 #, kde-format
 msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
 msgstr ""
+"Priedas nepateikia konfigūracijos failo toje vietoje, kur buvo tikėtasi"
 
 #: scripting.cpp:128
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
-msgstr ""
+msgstr "Teiginys patyrė nesėkmę: %1 nėra nulinis"
 
 #: scripting.cpp:146
 #, kde-format
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
-msgstr ""
+msgstr "Teiginys patyrė nesėkmę: argumentas yra nulinis"
 
 #: scripting.cpp:188
 #, kde-format
@@ -55,6 +56,8 @@ msgid ""
 "Invalid number of arguments. At least service, path, interface and method "
 "need to be provided"
 msgstr ""
+"Neteisingas argumentų skaičius. Turi būti pateikti bent tarnyba, kelias, "
+"sąsaja ir metodas"
 
 #: scripting.cpp:194
 #, kde-format
@@ -62,51 +65,56 @@ msgctxt "Error in KWin Script"
 msgid ""
 "Invalid type. Service, path, interface and method need to be string values"
 msgstr ""
+"Neteisingas tipas. Tarnybos, kelio, sąsajos ir metodo reikšmės turi būti "
+"eilutės"
 
 #: scriptingutils.cpp:28
 #, kde-format
 msgctxt "syntax error in KWin script"
 msgid "Invalid number of arguments"
-msgstr ""
+msgstr "Neteisingas argumentų skaičius"
 
 #: scriptingutils.cpp:41
 #, kde-format
 msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not a variant type"
-msgstr ""
+msgstr "%1 nėra varianto tipas"
 
 #: scriptingutils.h:51
 #, kde-format
 msgctxt "KWin Scripting function received incorrect value for an expected type"
 msgid "%1 is not of required type"
-msgstr ""
+msgstr "%1 nėra reikalingo tipo"
 
 #: scriptingutils.h:158
 #, kde-format
 msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Second argument to registerScreenEdge needs to be a callback"
 msgstr ""
+"Antrasis registerScreenEdge skirtas argumentas turi būti atgalinė iškvieta"
 
 #: scriptingutils.h:213
 #, kde-format
 msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Second argument to registerTouchScreenEdge needs to be a callback"
 msgstr ""
+"Antrasis registerTouchScreenEdge skirtas argumentas turi būti atgalinė "
+"iškvieta"
 
 #: scriptingutils.h:250
 #, kde-format
 msgctxt "KWin Scripting error thrown due to incorrect argument"
 msgid "Argument for registerUserActionsMenu needs to be a callback"
-msgstr ""
+msgstr "registerUserActionsMenu skirtas argumentas turi būti atgalinė iškvieta"
 
 #: scriptingutils.h:305
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1"
-msgstr ""
+msgstr "Teiginys patyrė nesėkmę: %1"
 
 #: scriptingutils.h:316
 #, kde-format
 msgctxt "Assertion failed in KWin script with expected value and actual value"
 msgid "Assertion failed: Expected %1, got %2"
-msgstr ""
+msgstr "Teiginys patyrė nesėkmę: Tikėtasi %1, gauta %2"

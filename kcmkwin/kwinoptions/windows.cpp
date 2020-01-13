@@ -36,10 +36,6 @@
 #include <KConfigGroup>
 #include <KLocalizedString>
 
-#include <X11/X.h>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-
 #include "windows.h"
 #include <effect_builtins.h>
 #include <kwin_effects_interface.h>
@@ -57,8 +53,6 @@
 #define KWIN_FOCUS_STEALING        "FocusStealingPreventionLevel"
 #define KWIN_HIDE_UTILITY          "HideUtilityWindowsForInactive"
 #define KWIN_INACTIVE_SKIP_TASKBAR "InactiveTabsSkipTaskbar"
-#define KWIN_AUTOGROUP_SIMILAR     "AutogroupSimilarWindows"
-#define KWIN_AUTOGROUP_FOREGROUND  "AutogroupInForeground"
 #define KWIN_SEPARATE_SCREEN_FOCUS "SeparateScreenFocus"
 #define KWIN_ACTIVE_MOUSE_SCREEN   "ActiveMouseScreen"
 
@@ -99,10 +93,10 @@ KFocusConfig::KFocusConfig(bool _standAlone, KConfig *_config, QWidget * parent)
     , m_ui(new KWinFocusConfigForm(this))
 {
     connect(m_ui->focusStealing, SIGNAL(activated(int)), SLOT(changed()));
-    connect(m_ui->windowFocusPolicy, SIGNAL(valueChanged(int)), SLOT(changed()));
-    connect(m_ui->windowFocusPolicy, SIGNAL(valueChanged(int)), this, SLOT(focusPolicyChanged()));
-    connect(m_ui->windowFocusPolicy, SIGNAL(valueChanged(int)), this, SLOT(setDelayFocusEnabled()));
-    connect(m_ui->windowFocusPolicy, SIGNAL(valueChanged(int)), this, SLOT(updateActiveMouseScreen()));
+    connect(m_ui->windowFocusPolicyCombo, SIGNAL(currentIndexChanged(int)), SLOT(changed()));
+    connect(m_ui->windowFocusPolicyCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(focusPolicyChanged()));
+    connect(m_ui->windowFocusPolicyCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDelayFocusEnabled()));
+    connect(m_ui->windowFocusPolicyCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateActiveMouseScreen()));
     connect(m_ui->autoRaiseOn, SIGNAL(clicked()), SLOT(changed()));
     connect(m_ui->autoRaiseOn, SIGNAL(toggled(bool)), SLOT(autoRaiseOnTog(bool)));
     connect(m_ui->clickRaiseOn, SIGNAL(clicked()), SLOT(changed()));
@@ -119,13 +113,15 @@ KFocusConfig::KFocusConfig(bool _standAlone, KConfig *_config, QWidget * parent)
 
 void KFocusConfig::updateMultiScreen()
 {
-    m_ui->multiscreenBox->setVisible(QApplication::desktop()->screenCount() > 1);
+    m_ui->multiscreenBehaviorLabel->setVisible(QApplication::screens().count() > 1);
+    m_ui->activeMouseScreen->setVisible(QApplication::screens().count() > 1);
+    m_ui->separateScreenFocus->setVisible(QApplication::screens().count() > 1);
 }
 
 
 int KFocusConfig::getFocus()
 {
-    int policy = m_ui->windowFocusPolicy->value();
+    int policy = m_ui->windowFocusPolicyCombo->currentIndex();
     if (policy == 1 || policy == 3)
         --policy; // fix the NextFocusPrefersMouse condition
     return policy;
@@ -133,7 +129,7 @@ int KFocusConfig::getFocus()
 
 void KFocusConfig::setFocus(int foc)
 {
-    m_ui->windowFocusPolicy->setValue(foc);
+    m_ui->windowFocusPolicyCombo->setCurrentIndex(foc);
 
     // this will disable/hide the auto raise delay widget if focus==click
     focusPolicyChanged();
@@ -171,6 +167,27 @@ void KFocusConfig::setClickRaise(bool on)
 
 void KFocusConfig::focusPolicyChanged()
 {
+    switch (m_ui->windowFocusPolicyCombo->currentIndex()) {
+    case 0:
+        m_ui->windowFocusPolicyDescriptionLabel->setText(i18n("<html><head/><body><p><span style=\" font-style:italic;\">Click to focus:</span> A window becomes active when you click into it. This behavior is common on other operating systems and likely what you want.</p></body></html>"));
+        break;
+    case 1:
+        m_ui->windowFocusPolicyDescriptionLabel->setText(i18n("<html><head/><body><p><span style=\" font-style:italic;\">Click to focus (mouse precedence):</span> Mostly the same as <span style=\" font-style:italic;\">Click to focus</span>. If an active window has to be chosen by the system (eg. because the currently active one was closed) the window under the mouse is the preferred candidate. Unusual, but possible variant of <span style=\" font-style:italic;\">Click to focus</span>.</p></body></html>"));
+        break;
+    case 2:
+        m_ui->windowFocusPolicyDescriptionLabel->setText(i18n("<html><head/><body><p><span style=\" font-style:italic;\">Focus follows mouse:</span> Moving the mouse onto a window will activate it. Eg. windows randomly appearing under the mouse will not gain the focus. <span style=\" font-style:italic;\">Focus stealing prevention</span> takes place as usual. Think as <span style=\" font-style:italic;\">Click to focus</span> just without having to actually click.</p></body></html>"));
+        break;
+    case 3:
+        m_ui->windowFocusPolicyDescriptionLabel->setText(i18n("<html><head/><body><p>This is mostly the same as <span style=\" font-style:italic;\">Focus follows mouse</span>. If an active window has to be chosen by the system (eg. because the currently active one was closed) the window under the mouse is the preferred candidate. Choose this, if you want a hover controlled focus.</p></body></html>"));
+        break;
+    case 4:
+        m_ui->windowFocusPolicyDescriptionLabel->setText(i18n("<html><head/><body><p><span style=\" font-style:italic;\">Focus under mouse:</span> The focus always remains on the window under the mouse.<br/><span style=\" font-weight:600;\">Warning: </span><span style=\" font-style:italic;\">Focus stealing prevention</span> and the <span style=\" font-style:italic;\">tabbox ('Alt+Tab') </span>contradict the activation policy and will not work. You very likely want to use <span style=\" font-style:italic;\">Focus follows mouse (mouse precedence)</span> instead!</p></body></html>"));
+        break;
+    case 5:
+        m_ui->windowFocusPolicyDescriptionLabel->setText(i18n("<html><head/><body><p><span style=\" font-style:italic;\">Focus strictly under mouse:</span> The focus is always on the window under the mouse (in doubt nowhere) very much like the focus behavior in an unmanaged legacy X11 environment.<br/><span style=\" font-weight:600;\">Warning: </span><span style=\" font-style:italic;\">Focus stealing prevention</span> and the <span style=\" font-style:italic;\">tabbox ('Alt+Tab') </span>contradict the activation policy and will not work. You very likely want to use <span style=\" font-style:italic;\">Focus follows mouse (mouse precedence)</span> instead!</p></body></html>"));
+        break;
+    }
+
     int policyIndex = getFocus();
 
     // the auto raise related widgets are: autoRaise
@@ -293,7 +310,7 @@ void KFocusConfig::save(void)
     else
         cg.writeEntry(KWIN_FOCUS, "FocusFollowsMouse");
 
-    cg.writeEntry("NextFocusPrefersMouse", v != m_ui->windowFocusPolicy->value());
+    cg.writeEntry("NextFocusPrefersMouse", v != m_ui->windowFocusPolicyCombo->currentIndex());
 
     v = getAutoRaiseInterval();
     if (v < 0) v = 0;
@@ -370,14 +387,10 @@ KAdvancedConfig::KAdvancedConfig(bool _standAlone, KConfig *_config, QWidget *pa
     m_ui->placementCombo->setItemData(6, "UnderMouse");
 
     connect(m_ui->shadeHoverOn, SIGNAL(toggled(bool)), this, SLOT(shadeHoverChanged(bool)));
-    connect(m_ui->inactiveTabsSkipTaskbar, SIGNAL(toggled(bool)), SLOT(changed()));
-    connect(m_ui->autogroupSimilarWindows, SIGNAL(toggled(bool)), SLOT(changed()));
-    connect(m_ui->autogroupInForeground, SIGNAL(toggled(bool)), SLOT(changed()));
     connect(m_ui->shadeHoverOn, SIGNAL(toggled(bool)), SLOT(changed()));
     connect(m_ui->shadeHover, SIGNAL(valueChanged(int)), SLOT(changed()));
     connect(m_ui->placementCombo, SIGNAL(activated(int)), SLOT(changed()));
     connect(m_ui->hideUtilityWindowsForInactive, SIGNAL(toggled(bool)), SLOT(changed()));
-    m_ui->inactiveTabsSkipTaskbar->setVisible(false);   // TODO: We want translations in case this is fixed...
     load();
 
 }
@@ -385,7 +398,6 @@ KAdvancedConfig::KAdvancedConfig(bool _standAlone, KConfig *_config, QWidget *pa
 void KAdvancedConfig::setShadeHover(bool on)
 {
     m_ui->shadeHoverOn->setChecked(on);
-    m_ui->shadeHoverLabel->setEnabled(on);
     m_ui->shadeHover->setEnabled(on);
 }
 
@@ -402,7 +414,6 @@ int KAdvancedConfig::getShadeHoverInterval()
 
 void KAdvancedConfig::shadeHoverChanged(bool a)
 {
-    m_ui->shadeHoverLabel->setEnabled(a);
     m_ui->shadeHover->setEnabled(a);
 }
 
@@ -430,9 +441,6 @@ void KAdvancedConfig::load(void)
     m_ui->placementCombo->setCurrentIndex(idx);
 
     setHideUtilityWindowsForInactive(cg.readEntry(KWIN_HIDE_UTILITY, true));
-    setInactiveTabsSkipTaskbar(cg.readEntry(KWIN_INACTIVE_SKIP_TASKBAR, false));
-    setAutogroupSimilarWindows(cg.readEntry(KWIN_AUTOGROUP_SIMILAR, false));
-    setAutogroupInForeground(cg.readEntry(KWIN_AUTOGROUP_FOREGROUND, true));
 
     emit KCModule::changed(false);
 }
@@ -447,13 +455,8 @@ void KAdvancedConfig::save(void)
     v = getShadeHoverInterval();
     if (v < 0) v = 0;
     cg.writeEntry(KWIN_SHADEHOVER_INTERVAL, v);
-
     cg.writeEntry(KWIN_PLACEMENT, m_ui->placementCombo->itemData(m_ui->placementCombo->currentIndex()).toString());
-
     cg.writeEntry(KWIN_HIDE_UTILITY, m_ui->hideUtilityWindowsForInactive->isChecked());
-    cg.writeEntry(KWIN_INACTIVE_SKIP_TASKBAR, m_ui->inactiveTabsSkipTaskbar->isChecked());
-    cg.writeEntry(KWIN_AUTOGROUP_SIMILAR, m_ui->autogroupSimilarWindows->isChecked());
-    cg.writeEntry(KWIN_AUTOGROUP_FOREGROUND, m_ui->autogroupInForeground->isChecked());
 
     if (standAlone) {
         config->sync();
@@ -472,9 +475,6 @@ void KAdvancedConfig::defaults()
     setShadeHoverInterval(250);
     m_ui->placementCombo->setCurrentIndex(0); // default to Smart
     setHideUtilityWindowsForInactive(true);
-    setInactiveTabsSkipTaskbar(false);
-    setAutogroupSimilarWindows(false);
-    setAutogroupInForeground(true);
     emit KCModule::changed(true);
 }
 
@@ -482,21 +482,6 @@ void KAdvancedConfig::defaults()
 void KAdvancedConfig::setHideUtilityWindowsForInactive(bool s)
 {
     m_ui->hideUtilityWindowsForInactive->setChecked(s);
-}
-
-void KAdvancedConfig::setInactiveTabsSkipTaskbar(bool s)
-{
-    m_ui->inactiveTabsSkipTaskbar->setChecked(s);
-}
-
-void KAdvancedConfig::setAutogroupSimilarWindows(bool s)
-{
-    m_ui->autogroupSimilarWindows->setChecked(s);
-}
-
-void KAdvancedConfig::setAutogroupInForeground(bool s)
-{
-    m_ui->autogroupInForeground->setChecked(s);
 }
 
 KWinMovingConfigForm::KWinMovingConfigForm(QWidget* parent)

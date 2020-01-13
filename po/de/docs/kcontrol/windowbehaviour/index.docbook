@@ -80,8 +80,6 @@
 > erlaubt die Einstellung, wie Fenster verschoben und wo sie positioniert werden können. Die Karteikarte <guilabel
 >Erweitert</guilabel
 > enthält einige spezielle Einstellungen wie <quote
->Unterfenster</quote
-> und <quote
 >Fensterheber</quote
 >. </para>
 
@@ -357,7 +355,7 @@
 >Ähnliche Einstellungen sind für <guilabel
 >Mausrad</guilabel
 > vorhanden. </para>
-<!--FIXME Raise/Lower Shade/Unshade Maximize/Restore Keep Above/Below Move to Previous/Next Desktop Change Opacity  Switch to Window Tab to the Left/Reght -->
+<!--FIXME Raise/Lower Shade/Unshade Maximize/Restore Keep Above/Below Move to Previous/Next Desktop Change Opacity -->
 
 <tip>
 <para
@@ -420,7 +418,7 @@
 </varlistentry>
 
 <!--FIXME missing:
-Minimize, Shade, Close, Start Window Tab Drag
+Minimize, Shade, Close
 -->
 
 <varlistentry>
@@ -628,7 +626,7 @@ Increase Opacity + Decrease Opacity
 <!--FIXME
 Mouse Wheel has different choices:
 Raise/Lower, Shade/Unshade, Maximize/Restore, Keep Above/Below, 
-Move to Previous/Next Desktop, Change Opacity, Switch to Window Tab to the Left/Right
+Move to Previous/Next Desktop, Change Opacity
 Nothing
 -->
 
@@ -754,30 +752,6 @@ Nothing
 </variablelist>
 
 <variablelist>
-<title
->Unterfenster</title>
-
-<varlistentry>
-<term
-><guilabel
->Ähnliche Fenster automatisch gruppieren</guilabel
-></term>
-<listitem
-><para
->Wenn diese Einstellung aktiviert ist, wird beim Öffnen eines neuen Fensters automatisch geprüft, ob es ähnlich einem vorhandenen Fenster ist, und dann mit diesem gruppiert.</para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><guilabel
->Sofort zu automatisch gruppierten Fenstern wechseln</guilabel
-></term>
-<listitem
-><para
->Wenn diese Einstellung aktiviert ist, wird sofort zu Fenstern gewechselt, die automatisch einer Gruppe hinzugefügt wurden.</para
-></listitem>
-</varlistentry>
 
 <varlistentry>
 <term

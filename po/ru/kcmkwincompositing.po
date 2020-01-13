@@ -5,7 +5,7 @@
 # Nick Shaforostoff <shaforostoff@kde.ru>, 2007, 2008.
 # Leonid Kanter <leon@asplinux.ru>, 2008.
 # Andrey Cherepanov <skull@kde.ru>, 2009.
-# Alexander Potashev <aspotashev@gmail.com>, 2010, 2011, 2014, 2016, 2017.
+# Alexander Potashev <aspotashev@gmail.com>, 2010, 2011, 2014, 2016, 2017, 2018, 2019.
 # Yuri Efremov <yur.arh@gmail.com>, 2010, 2012, 2013.
 # Julia Dronova <juliette.tux@gmail.com>, 2012.
 # Alexander Lakhin <exclusion@gmail.com>, 2013.
@@ -13,10 +13,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2018-10-06 18:53+0300\n"
-"Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"PO-Revision-Date: 2019-01-07 19:36+0300\n"
+"Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -28,16 +28,6 @@ msgstr ""
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Nick Shaforostoff,Leonid Kanter,Андрей Черепанов,Александр Яворский"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "shaforostoff@kde.ru,leon@asplinux.ru,skull@kde.ru,kekcuha@gmail.com"
 
 #: compositing.cpp:378
 #, kde-format
@@ -242,12 +232,12 @@ msgstr ""
 msgid "Allow applications to block compositing"
 msgstr "Разрешать приложениям блокировать режим с графическими эффектами"
 
-#: main.cpp:83
+#: main.cpp:55
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "Попытаться использовать OpenGL"
 
-#: main.cpp:141
+#: main.cpp:120
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -256,13 +246,13 @@ msgstr ""
 "В режиме «При минимуме затрат» разрывы предотвращаются только при "
 "обновлениях всего экрана, например — при просмотре видео."
 
-#: main.cpp:145
+#: main.cpp:124
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr ""
 "Использование режима «Полная перерисовка» может ухудшать производительность."
 
-#: main.cpp:149
+#: main.cpp:128
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
@@ -270,100 +260,81 @@ msgstr ""
 "Режим «Повторное использование» серьёзно ухудшает производительность при "
 "работе с драйверами MESA."
 
-#: model.cpp:70
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Accessibility"
-msgstr "Специальные возможности"
 
-#: model.cpp:71
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Appearance"
-msgstr "Внешний вид"
 
-#: model.cpp:72
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Candy"
-msgstr "Развлечения"
 
-#: model.cpp:73
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Focus"
-msgstr "Управление фокусом"
 
-#: model.cpp:74
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Show Desktop Animation"
-msgstr "Обеспечение эффектов"
 
-#: model.cpp:75
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Tools"
-msgstr "Инструменты"
 
-#: model.cpp:76
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Virtual Desktop Switching Animation"
-msgstr "Анимация переключения рабочих столов"
 
-#: model.cpp:77
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Window Management"
-msgstr "Управление окнами"
 
-#: model.cpp:233
-#, kde-format
-msgid "KWin development team"
-msgstr "Команда разработчиков KWin"
 
-#: qml/Effect.qml:119
-#, kde-format
-msgid ""
-"Author: %1\n"
-"License: %2"
-msgstr ""
-"Автор: %1\n"
-"Лицензия: %2"
 
-#: qml/EffectView.qml:64
-#, kde-format
-msgid ""
-"Hint: To find out or configure how to activate an effect, look at the "
-"effect's settings."
-msgstr "Совет: способ запуска эффекта обычно находится в параметрах эффекта."
 
-#: qml/EffectView.qml:75
-#, kde-format
-msgid "Search"
-msgstr "Поиск"
 
-#: qml/EffectView.qml:82
-#, kde-format
-msgid "Configure filter"
-msgstr "Настроить фильтр"
 
-#: qml/EffectView.qml:85
-#, kde-format
-msgid "Exclude Desktop Effects not supported by the Compositor"
-msgstr "Скрыть неподдерживаемые эффекты"
+
+
+
+
+
+
+
+
 
 # BUGME: TBD: make the translation clearer on what is "internal" --aspotashev
-#: qml/EffectView.qml:93
-#, kde-format
-msgid "Exclude internal Desktop Effects"
-msgstr "Скрыть внутренние эффекты"
 
-#: qml/EffectView.qml:105
-#, kde-format
-msgid "Get New Effects..."
-msgstr "Получить новые эффекты..."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

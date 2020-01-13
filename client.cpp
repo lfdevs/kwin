@@ -32,6 +32,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "focuschain.h"
 #include "group.h"
 #include "shadow.h"
+#ifdef KWIN_BUILD_TABBOX
+#include "tabbox.h"
+#endif
 #include "workspace.h"
 #include "screenedge.h"
 #include "decorations/decorationbridge.h"
@@ -45,16 +48,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Qt
 #include <QApplication>
 #include <QDebug>
+#include <QDir>
 #include <QFile>
+#include <QFileInfo>
 #include <QMouseEvent>
 #include <QProcess>
-// XLib
-#include <X11/Xutil.h>
-#include <fixx11h.h>
+// xcb
 #include <xcb/xcb_icccm.h>
 // system
 #include <unistd.h>
-#include <signal.h>
+// c++
+#include <csignal>
 
 // Put all externs before the namespace statement to allow the linker
 // to resolve them properly
@@ -102,17 +106,17 @@ Client::Client()
     , m_managed(false)
     , m_transientForId(XCB_WINDOW_NONE)
     , m_originalTransientForId(XCB_WINDOW_NONE)
-    , shade_below(NULL)
+    , shade_below(nullptr)
     , m_motif(atoms->motif_wm_hints)
     , blocks_compositing(false)
-    , shadeHoverTimer(NULL)
+    , shadeHoverTimer(nullptr)
     , m_colormap(XCB_COLORMAP_NONE)
-    , in_group(NULL)
-    , ping_timer(NULL)
+    , in_group(nullptr)
+    , ping_timer(nullptr)
     , m_killHelperPID(0)
     , m_pingTimestamp(XCB_TIME_CURRENT_TIME)
     , m_userTime(XCB_TIME_CURRENT_TIME)   // Not known yet
-    , allowed_actions(0)
+    , allowed_actions(nullptr)
     , shade_geometry_change(false)
     , sm_stacking_order(-1)
     , activitiesDefined(false)
@@ -124,18 +128,18 @@ Client::Client()
 {
     // TODO: Do all as initialization
     syncRequest.counter = syncRequest.alarm = XCB_NONE;
-    syncRequest.timeout = syncRequest.failsafeTimeout = NULL;
+    syncRequest.timeout = syncRequest.failsafeTimeout = nullptr;
     syncRequest.lastTimestamp = xTime();
     syncRequest.isPending = false;
 
     // Set the initial mapping state
     mapping_state = Withdrawn;
 
-    info = NULL;
+    info = nullptr;
 
     shade_mode = ShadeNone;
     deleting = false;
-    fullscreen_mode = FullScreenNone;
+    m_fullscreenMode = FullScreenNone;
     hidden = false;
     noborder = false;
     app_noborder = false;
@@ -166,17 +170,6 @@ Client::Client()
         }
     });
 
-    connect(this, &Client::tabGroupChanged, this,
-        [this] {
-            auto group = tabGroup();
-            if (group) {
-                unsigned long data[] = {qHash(group)}; //->id();
-                m_client.changeProperty(atoms->kde_net_wm_tab_group, XCB_ATOM_CARDINAL, 32, 1, data);
-            }
-            else
-                m_client.deleteProperty(atoms->kde_net_wm_tab_group);
-        });
-
     // SELI TODO: Initialize xsizehints??
 }
 
@@ -189,14 +182,13 @@ Client::~Client()
         ::kill(m_killHelperPID, SIGTERM);
         m_killHelperPID = 0;
     }
-    //SWrapper::Client::clientRelease(this);
     if (syncRequest.alarm != XCB_NONE)
         xcb_sync_destroy_alarm(connection(), syncRequest.alarm);
-    assert(!isMoveResize());
-    assert(m_client == XCB_WINDOW_NONE);
-    assert(m_wrapper == XCB_WINDOW_NONE);
-    //assert( frameId() == None );
-    assert(!check_active_modal);
+    Q_ASSERT(!isMoveResize());
+    Q_ASSERT(m_client == XCB_WINDOW_NONE);
+    Q_ASSERT(m_wrapper == XCB_WINDOW_NONE);
+    Q_ASSERT(m_frame == XCB_WINDOW_NONE);
+    Q_ASSERT(!check_active_modal);
     for (auto it = m_connections.constBegin(); it != m_connections.constEnd(); ++it) {
         disconnect(*it);
     }
@@ -213,10 +205,16 @@ void Client::deleteClient(Client* c)
  */
 void Client::releaseWindow(bool on_shutdown)
 {
-    assert(!deleting);
+    Q_ASSERT(!deleting);
     deleting = true;
+#ifdef KWIN_BUILD_TABBOX
+    TabBox::TabBox *tabBox = TabBox::TabBox::self();
+    if (tabBox && tabBox->isDisplayed() && tabBox->currentClient() == this) {
+        tabBox->nextPrev(true);
+    }
+#endif
     destroyWindowManagementInterface();
-    Deleted* del = NULL;
+    Deleted* del = nullptr;
     if (!on_shutdown) {
         del = Deleted::create(this);
     }
@@ -233,9 +231,9 @@ void Client::releaseWindow(bool on_shutdown)
     if (isOnCurrentDesktop() && isShown(true))
         addWorkspaceRepaint(visibleRect());
     // Grab X during the release to make removing of properties, setting to withdrawn state
-    // and repareting to root an atomic operation (http://lists.kde.org/?l=kde-devel&m=116448102901184&w=2)
+    // and repareting to root an atomic operation (https://lists.kde.org/?l=kde-devel&m=116448102901184&w=2)
     grabXServer();
-    exportMappingState(WithdrawnState);
+    exportMappingState(XCB_ICCCM_WM_STATE_WITHDRAWN);
     setModal(false);   // Otherwise its mainwindow wouldn't get focus
     hidden = true; // So that it's not considered visible anymore (can't use hideClient(), it would set flags)
     if (!on_shutdown)
@@ -247,9 +245,8 @@ void Client::releaseWindow(bool on_shutdown)
         workspace()->removeClient(this);
         // Only when the window is being unmapped, not when closing down KWin (NETWM sections 5.5,5.7)
         info->setDesktop(0);
-        info->setState(0, info->state());  // Reset all state flags
-    } else
-        untab();
+        info->setState(NET::States(), info->state());  // Reset all state flags
+    }
     xcb_connection_t *c = connection();
     m_client.deleteProperty(atoms->kde_net_wm_user_creation_time);
     m_client.deleteProperty(atoms->net_frame_extents);
@@ -267,7 +264,6 @@ void Client::releaseWindow(bool on_shutdown)
     m_client.reset();
     m_wrapper.reset();
     m_frame.reset();
-    //frame = None;
     unblockGeometryUpdates(); // Don't use GeometryUpdatesBlocker, it would now set the geometry
     if (!on_shutdown) {
         disownDataPassedToDeleted();
@@ -283,8 +279,14 @@ void Client::releaseWindow(bool on_shutdown)
  */
 void Client::destroyClient()
 {
-    assert(!deleting);
+    Q_ASSERT(!deleting);
     deleting = true;
+#ifdef KWIN_BUILD_TABBOX
+    TabBox::TabBox *tabBox = TabBox::TabBox::self();
+    if (tabBox && tabBox->isDisplayed() && tabBox->currentClient() == this) {
+        tabBox->nextPrev(true);
+    }
+#endif
     destroyWindowManagementInterface();
     Deleted* del = Deleted::create(this);
     if (isMoveResize())
@@ -308,7 +310,6 @@ void Client::destroyClient()
     m_client.reset(); // invalidate
     m_wrapper.reset();
     m_frame.reset();
-    //frame = None;
     unblockGeometryUpdates(); // Don't use GeometryUpdatesBlocker, it would now set the geometry
     disownDataPassedToDeleted();
     del->unrefWindow();
@@ -509,6 +510,7 @@ void Client::detectNoBorder()
     case NET::Splash :
     case NET::Notification :
     case NET::OnScreenDisplay :
+    case NET::CriticalNotification :
         noborder = true;
         app_noborder = true;
         break;
@@ -572,14 +574,35 @@ void Client::resizeDecoration()
     updateInputWindow();
 }
 
+bool Client::userNoBorder() const
+{
+    return noborder;
+}
+
+bool Client::isFullScreenable() const
+{
+    if (!rules()->checkFullScreen(true)) {
+        return false;
+    }
+    if (rules()->checkStrictGeometry(true)) {
+        // check geometry constraints (rule to obey is set)
+        const QRect fsarea = workspace()->clientArea(FullScreenArea, this);
+        if (sizeForClientSize(fsarea.size(), SizemodeAny, true) != fsarea.size()) {
+            return false; // the app wouldn't fit exactly fullscreen geometry due to its strict geometry requirements
+        }
+    }
+    // don't check size constrains - some apps request fullscreen despite requesting fixed size
+    return !isSpecialWindow(); // also better disallow only weird types to go fullscreen
+}
+
 bool Client::noBorder() const
 {
-    return noborder || isFullScreen();
+    return userNoBorder() || isFullScreen();
 }
 
 bool Client::userCanSetNoBorder() const
 {
-    return !isFullScreen() && !isShade() && !tabGroup();
+    return !isFullScreen() && !isShade();
 }
 
 void Client::setNoBorder(bool set)
@@ -681,6 +704,23 @@ void Client::hideClient(bool hide)
     updateVisibility();
 }
 
+bool Client::setupCompositing()
+{
+    if (!Toplevel::setupCompositing()){
+        return false;
+    }
+    updateVisibility(); // for internalKeep()
+    return true;
+}
+
+void Client::finishCompositing(ReleaseReason releaseReason)
+{
+    Toplevel::finishCompositing(releaseReason);
+    updateVisibility();
+    // for safety in case KWin is just resizing the window
+    resetHaveResizeEffect();
+}
+
 /**
  * Returns whether the window is minimizable or not
  */
@@ -722,9 +762,6 @@ void Client::doMinimize()
     updateVisibility();
     updateAllowedActions();
     workspace()->updateMinimizedOfTransients(this);
-    // Update states of all other windows in this group
-    if (tabGroup())
-        tabGroup()->updateStates(this, TabGroup::Minimized);
 }
 
 QRect Client::iconGeometry() const
@@ -774,17 +811,13 @@ void Client::setShade(ShadeMode mode)
         decoration->borders(border_left, border_right, border_top, border_bottom);
 #endif
 
-    // Update states of all other windows in this group
-    if (tabGroup())
-        tabGroup()->updateStates(this, TabGroup::Shaded);
-
     if (was_shade == isShade()) {
         // Decoration may want to update after e.g. hover-shade changes
         emit shadeChanged();
         return; // No real change in shaded state
     }
 
-    assert(isDecorated());   // noborder windows can't be shaded
+    Q_ASSERT(isDecorated());   // noborder windows can't be shaded
     GeometryUpdatesBlocker blocker(this);
 
     // TODO: All this unmapping, resizing etc. feels too much duplicated from elsewhere
@@ -799,7 +832,7 @@ void Client::setShade(ShadeMode mode)
         m_wrapper.unmap();
         m_client.unmap();
         m_wrapper.selectInput(ClientWinMask | XCB_EVENT_MASK_SUBSTRUCTURE_NOTIFY);
-        exportMappingState(IconicState);
+        exportMappingState(XCB_ICCCM_WM_STATE_ICONIC);
         plainResize(s);
         shade_geometry_change = false;
         if (was_shade_mode == ShadeHover) {
@@ -823,7 +856,7 @@ void Client::setShade(ShadeMode mode)
         if (shade_mode == ShadeHover) {
             ToplevelList order = workspace()->stackingOrder();
             // invalidate, since "this" could be the topmost toplevel and shade_below dangeling
-            shade_below = NULL;
+            shade_below = nullptr;
             // this is likely related to the index parameter?!
             for (int idx = order.indexOf(this) + 1; idx < order.count(); ++idx) {
                 shade_below = qobject_cast<Client*>(order.at(idx));
@@ -834,16 +867,16 @@ void Client::setShade(ShadeMode mode)
             if (shade_below && shade_below->isNormalWindow())
                 workspace()->raiseClient(this);
             else
-                shade_below = NULL;
+                shade_below = nullptr;
         }
         m_wrapper.map();
         m_client.map();
-        exportMappingState(NormalState);
+        exportMappingState(XCB_ICCCM_WM_STATE_NORMAL);
         if (isActive())
             workspace()->requestFocus(this);
     }
-    info->setState(isShade() ? NET::Shaded : NET::States(0), NET::Shaded);
-    info->setState(isShown(false) ? NET::States(0) : NET::Hidden, NET::Hidden);
+    info->setState(isShade() ? NET::Shaded : NET::States(), NET::Shaded);
+    info->setState(isShown(false) ? NET::States() : NET::Hidden, NET::Hidden);
     discardWindowPixmap();
     updateVisibility();
     updateAllowedActions();
@@ -860,16 +893,14 @@ void Client::shadeHover()
 
 void Client::shadeUnhover()
 {
-    if (!tabGroup() || tabGroup()->current() == this ||
-        tabGroup()->current()->shadeMode() == ShadeNormal)
-        setShade(ShadeNormal);
+    setShade(ShadeNormal);
     cancelShadeHoverTimer();
 }
 
 void Client::cancelShadeHoverTimer()
 {
     delete shadeHoverTimer;
-    shadeHoverTimer = 0;
+    shadeHoverTimer = nullptr;
 }
 
 void Client::toggleShade()
@@ -882,7 +913,7 @@ void Client::updateVisibility()
 {
     if (deleting)
         return;
-    if (hidden && isCurrentTab()) {
+    if (hidden) {
         info->setState(NET::Hidden, NET::Hidden);
         setSkipTaskbar(true);   // Also hide from taskbar
         if (compositing() && options->hiddenPreviews() == HiddenPreviewsAlways)
@@ -891,8 +922,7 @@ void Client::updateVisibility()
             internalHide();
         return;
     }
-    if (isCurrentTab())
-        setSkipTaskbar(originalSkipTaskbar());   // Reset from 'hidden'
+    setSkipTaskbar(originalSkipTaskbar());   // Reset from 'hidden'
     if (isMinimized()) {
         info->setState(NET::Hidden, NET::Hidden);
         if (compositing() && options->hiddenPreviews() == HiddenPreviewsAlways)
@@ -901,7 +931,7 @@ void Client::updateVisibility()
             internalHide();
         return;
     }
-    info->setState(0, NET::Hidden);
+    info->setState(NET::States(), NET::Hidden);
     if (!isOnCurrentDesktop()) {
         if (compositing() && options->hiddenPreviews() != HiddenPreviewsNever)
             internalKeep();
@@ -926,13 +956,13 @@ void Client::updateVisibility()
  */
 void Client::exportMappingState(int s)
 {
-    assert(m_client != XCB_WINDOW_NONE);
-    assert(!deleting || s == WithdrawnState);
-    if (s == WithdrawnState) {
+    Q_ASSERT(m_client != XCB_WINDOW_NONE);
+    Q_ASSERT(!deleting || s == XCB_ICCCM_WM_STATE_WITHDRAWN);
+    if (s == XCB_ICCCM_WM_STATE_WITHDRAWN) {
         m_client.deleteProperty(atoms->wm_state);
         return;
     }
-    assert(s == NormalState || s == IconicState);
+    Q_ASSERT(s == XCB_ICCCM_WM_STATE_NORMAL || s == XCB_ICCCM_WM_STATE_ICONIC);
 
     int32_t data[2];
     data[0] = s;
@@ -972,7 +1002,7 @@ void Client::internalHide()
 
 void Client::internalKeep()
 {
-    assert(compositing());
+    Q_ASSERT(compositing());
     if (mapping_state == Kept)
         return;
     MappingState old = mapping_state;
@@ -1004,9 +1034,9 @@ void Client::map()
         m_wrapper.map();
         m_client.map();
         m_decoInputExtent.map();
-        exportMappingState(NormalState);
+        exportMappingState(XCB_ICCCM_WM_STATE_NORMAL);
     } else
-        exportMappingState(IconicState);
+        exportMappingState(XCB_ICCCM_WM_STATE_ICONIC);
     addLayerRepaint(visibleRect());
 }
 
@@ -1027,7 +1057,7 @@ void Client::unmap()
     m_client.unmap();
     m_decoInputExtent.unmap();
     m_wrapper.selectInput(ClientWinMask | XCB_EVENT_MASK_SUBSTRUCTURE_NOTIFY);
-    exportMappingState(IconicState);
+    exportMappingState(XCB_ICCCM_WM_STATE_ICONIC);
 }
 
 /**
@@ -1047,7 +1077,7 @@ void Client::updateHiddenPreview()
         workspace()->forceRestacking();
         if (Xcb::Extensions::self()->isShapeInputAvailable()) {
             xcb_shape_rectangles(connection(), XCB_SHAPE_SO_SET, XCB_SHAPE_SK_INPUT,
-                                 XCB_CLIP_ORDERING_UNSORTED, frameId(), 0, 0, 0, NULL);
+                                 XCB_CLIP_ORDERING_UNSORTED, frameId(), 0, 0, 0, nullptr);
         }
     } else {
         workspace()->forceRestacking();
@@ -1125,7 +1155,7 @@ void Client::pingWindow()
         return; // Can't ping :(
     if (options->killPingTimeout() == 0)
         return; // Turned off
-    if (ping_timer != NULL)
+    if (ping_timer != nullptr)
         return; // Pinging already
     ping_timer = new QTimer(this);
     connect(ping_timer, &QTimer::timeout, this,
@@ -1158,7 +1188,7 @@ void Client::gotPing(xcb_timestamp_t timestamp)
     if (NET::timestampCompare(timestamp, m_pingTimestamp) != 0)
         return;
     delete ping_timer;
-    ping_timer = NULL;
+    ping_timer = nullptr;
 
     setUnresponsive(false);
 
@@ -1186,7 +1216,9 @@ void Client::killProcess(bool ask, xcb_timestamp_t timestamp)
             ::kill(pid, SIGTERM);
     } else {
         QString hostname = clientMachine()->isLocal() ? QStringLiteral("localhost") : QString::fromUtf8(clientMachine()->hostName());
-        QProcess::startDetached(QStringLiteral(KWIN_KILLER_BIN),
+        // execute helper from build dir or the system installed one
+        const QFileInfo buildDirBinary{QDir{QCoreApplication::applicationDirPath()}, QStringLiteral("kwin_killer_helper")};
+        QProcess::startDetached(buildDirBinary.exists() ? buildDirBinary.absoluteFilePath() : QStringLiteral(KWIN_KILLER_BIN),
                                 QStringList() << QStringLiteral("--pid") << QString::number(unsigned(pid)) << QStringLiteral("--hostname") << hostname
                                 << QStringLiteral("--windowname") << captionNormal()
                                 << QStringLiteral("--applicationname") << QString::fromUtf8(resourceClass())
@@ -1198,17 +1230,17 @@ void Client::killProcess(bool ask, xcb_timestamp_t timestamp)
 
 void Client::doSetSkipTaskbar()
 {
-    info->setState(skipTaskbar() ? NET::SkipTaskbar : NET::States(0), NET::SkipTaskbar);
+    info->setState(skipTaskbar() ? NET::SkipTaskbar : NET::States(), NET::SkipTaskbar);
 }
 
 void Client::doSetSkipPager()
 {
-    info->setState(skipPager() ? NET::SkipPager : NET::States(0), NET::SkipPager);
+    info->setState(skipPager() ? NET::SkipPager : NET::States(), NET::SkipPager);
 }
 
 void Client::doSetSkipSwitcher()
 {
-    info->setState(skipSwitcher() ? NET::SkipSwitcher : NET::States(0), NET::SkipSwitcher);
+    info->setState(skipSwitcher() ? NET::SkipSwitcher : NET::States(), NET::SkipSwitcher);
 }
 
 void Client::doSetDesktop(int desktop, int was_desk)
@@ -1216,10 +1248,6 @@ void Client::doSetDesktop(int desktop, int was_desk)
     Q_UNUSED(desktop)
     Q_UNUSED(was_desk)
     updateVisibility();
-
-    // Update states of all other windows in this group
-    if (tabGroup())
-        tabGroup()->updateStates(this, TabGroup::Desktop);
 }
 
 /**
@@ -1286,7 +1314,7 @@ void Client::setOnActivities(QStringList newActivitiesList)
         m_client.changeProperty(atoms->activities, XCB_ATOM_STRING, 8, nullUuid.length(), nullUuid.constData());
 
     } else {
-        QByteArray joined = joinedActivitiesList.toAscii();
+        QByteArray joined = joinedActivitiesList.toLatin1();
         activityList = newActivitiesList;
         m_client.changeProperty(atoms->activities, XCB_ATOM_STRING, 8, joined.length(), joined.constData());
     }
@@ -1323,10 +1351,6 @@ void Client::updateActivities(bool includeTransients)
     FocusChain::self()->update(this, FocusChain::MakeFirst);
     updateVisibility();
     updateWindowRules(Rules::Activity);
-
-    // Update states of all other windows in this group
-    if (tabGroup())
-        tabGroup()->updateStates(this, TabGroup::Activity);
 }
 
 /**
@@ -1449,18 +1473,32 @@ QString Client::readName() const
     }
 }
 
-// The list is taken from http://www.unicode.org/reports/tr9/ (#154840)
+// The list is taken from https://www.unicode.org/reports/tr9/ (#154840)
 static const QChar LRM(0x200E);
 
 void Client::setCaption(const QString& _s, bool force)
 {
-    if (!force && _s == cap_normal)
-        return;
     QString s(_s);
-    for (int i = 0; i < s.length(); ++i)
-        if (!s[i].isPrint())
-            s[i] = QChar(u' ');
+    for (int i = 0; i < s.length(); ) {
+        if (!s[i].isPrint()) {
+            if (QChar(s[i]).isHighSurrogate() && i + 1 < s.length() && QChar(s[i + 1]).isLowSurrogate()) {
+                const uint uc = QChar::surrogateToUcs4(s[i], s[i + 1]);
+                if (!QChar::isPrint(uc)) {
+                    s.remove(i, 2);
+                } else {
+                    i += 2;
+                }
+                continue;
+            }
+            s.remove(i, 1);
+            continue;
+        }
+        ++i;
+    }
     const bool changed = (s != cap_normal);
+    if (!force && !changed) {
+        return;
+    }
     cap_normal = s;
     if (!force && !changed) {
         emit captionChanged();
@@ -1528,8 +1566,6 @@ void Client::setClientShown(bool shown)
     if (shown != hidden)
         return; // nothing to change
     hidden = !shown;
-    if (options->isInactiveTabsSkipTaskbar())
-        setSkipTaskbar(hidden); // TODO: Causes reshuffle of the taskbar
     if (shown) {
         map();
         takeFocus();
@@ -1538,8 +1574,7 @@ void Client::setClientShown(bool shown)
     } else {
         unmap();
         // Don't move tabs to the end of the list when another tab get's activated
-        if (isCurrentTab())
-            FocusChain::self()->update(this, FocusChain::MakeLast);
+        FocusChain::self()->update(this, FocusChain::MakeLast);
         addWorkspaceRepaint(visibleRect());
     }
 }
@@ -1724,7 +1759,7 @@ void Client::setBlockingCompositing(bool block)
     const bool usedToBlock = blocks_compositing;
     blocks_compositing = rules()->checkBlockCompositing(block && options->windowsBlockCompositing());
     if (usedToBlock != blocks_compositing) {
-        emit blockingCompositingChanged(blocks_compositing ? this : 0);
+        emit blockingCompositingChanged(blocks_compositing ? this : nullptr);
     }
 }
 
@@ -1733,7 +1768,7 @@ void Client::updateAllowedActions(bool force)
     if (!isManaged() && !force)
         return;
     NET::Actions old_allowed_actions = NET::Actions(allowed_actions);
-    allowed_actions = 0;
+    allowed_actions = nullptr;
     if (isMovable())
         allowed_actions |= NET::ActionMove;
     if (isResizable())
@@ -1772,6 +1807,7 @@ void Client::updateAllowedActions(bool force)
 
 void Client::debug(QDebug& stream) const
 {
+    stream.nospace();
     print<QDebug>(stream);
 }
 
@@ -2035,13 +2071,6 @@ bool Client::belongsToSameApplication(const AbstractClient *other, SameApplicati
         return false;
     }
     return Client::belongToSameApplication(this, c2, checks);
-}
-
-void Client::updateTabGroupStates(TabGroup::States states)
-{
-    if (auto t = tabGroup()) {
-        t->updateStates(this, states);
-    }
 }
 
 QSize Client::resizeIncrements() const

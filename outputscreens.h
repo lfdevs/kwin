@@ -25,29 +25,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace KWin
 {
 
+class AbstractOutput;
+
 /**
  * @brief Implementation for backends with Outputs
- **/
+ */
 class KWIN_EXPORT OutputScreens : public Screens
 {
     Q_OBJECT
 public:
     OutputScreens(Platform *platform, QObject *parent = nullptr);
-    virtual ~OutputScreens();
+    ~OutputScreens() override;
 
     void init() override;
     QString name(int screen) const override;
-    bool isInternal(int screen) const;
-    QSizeF physicalSize(int screen) const;
+    bool isInternal(int screen) const override;
+    QSizeF physicalSize(int screen) const override;
     QRect geometry(int screen) const override;
     QSize size(int screen) const override;
     qreal scale(int screen) const override;
-    Qt::ScreenOrientation orientation(int screen) const;
+    float refreshRate(int screen) const override;
+    Qt::ScreenOrientation orientation(int screen) const override;
     void updateCount() override;
     int number(const QPoint &pos) const override;
 
 protected:
     Platform *m_platform;
+
+private:
+    AbstractOutput *findOutput(int screen) const;
 };
 
 }

@@ -66,8 +66,6 @@
 > us permet configurar com es mouen i es col·loquen les finestres una vegada obertes. Les opcions a <guilabel
 >Avançat</guilabel
 > cobreixen algunes opcions especialitzades com <quote
->pestanyes de finestra</quote
-> i <quote
 >ombreig de la finestra</quote
 >. </para>
 
@@ -343,7 +341,7 @@
 >Hi ha disponibles opcions similars per a <guilabel
 >Esdeveniment en girar la roda</guilabel
 >. </para>
-<!--FIXME Raise/Lower Shade/Unshade Maximize/Restore Keep Above/Below Move to Previous/Next Desktop Change Opacity  Switch to Window Tab to the Left/Reght -->
+<!--FIXME Raise/Lower Shade/Unshade Maximize/Restore Keep Above/Below Move to Previous/Next Desktop Change Opacity -->
 
 <tip>
 <para
@@ -406,7 +404,7 @@
 </varlistentry>
 
 <!--FIXME missing:
-Minimize, Shade, Close, Start Window Tab Drag
+Minimize, Shade, Close
 -->
 
 <varlistentry>
@@ -528,7 +526,7 @@ Minimize, Shade, Close, Start Window Tab Drag
 > i <mousebutton
 >Dret</mousebutton
 > així com la <guilabel
->Rodeta</guilabel
+>roda</guilabel
 > del ratolí. </para>
 
 <para
@@ -622,7 +620,7 @@ Increase Opacity + Decrease Opacity
 <!--FIXME
 Mouse Wheel has different choices:
 Raise/Lower, Shade/Unshade, Maximize/Restore, Keep Above/Below, 
-Move to Previous/Next Desktop, Change Opacity, Switch to Window Tab to the Left/Right
+Move to Previous/Next Desktop, Change Opacity
 Nothing
 -->
 
@@ -750,30 +748,6 @@ Nothing
 </variablelist>
 
 <variablelist>
-<title
->Canvi de finestra per pestanyes</title>
-
-<varlistentry>
-<term
-><guilabel
->Agrupa automàticament les finestres similars</guilabel
-></term>
-<listitem
-><para
->Quan està activat, intenta detectar automàticament quan una finestra oberta recentment està relacionada amb una de les existents i la situa en el mateix grup de finestres.</para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><guilabel
->Canvia immediatament a les finestres agrupades automàticament</guilabel
-></term>
-<listitem
-><para
->Quan està activat, es canvia immediatament a qualsevol pestanya de la finestra que s'ha afegit automàticament al grup actual.</para
-></listitem>
-</varlistentry>
 
 <varlistentry>
 <term

@@ -31,10 +31,10 @@ class BlurEffectConfig : public KCModule
     Q_OBJECT
 
 public:
-    explicit BlurEffectConfig(QWidget *parent = 0, const QVariantList& args = QVariantList());
-    ~BlurEffectConfig();
+    explicit BlurEffectConfig(QWidget *parent = nullptr, const QVariantList& args = QVariantList());
+    ~BlurEffectConfig() override;
 
-    void save();
+    void save() override;
 
 private:
     ::Ui::BlurEffectConfig ui;

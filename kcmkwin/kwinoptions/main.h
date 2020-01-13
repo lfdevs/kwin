@@ -4,7 +4,7 @@
  * Copyright (c) 2001 Waldo Bastian <bastian@kde.org>
  *
  * Requires the Qt widget libraries, available at no cost at
- * http://www.troll.no/
+ * https://www.qt.io/
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -42,12 +42,12 @@ class KWinOptions : public KCModule
 public:
 
     KWinOptions(QWidget *parent, const QVariantList &args);
-    virtual ~KWinOptions();
+    ~KWinOptions() override;
 
-    void load();
-    void save();
-    void defaults();
-    QString quickHelp() const;
+    void load() override;
+    void save() override;
+    void defaults() override;
+    QString quickHelp() const override;
 
 
 protected Q_SLOTS:
@@ -75,11 +75,11 @@ class KActionsOptions : public KCModule
 public:
 
     KActionsOptions(QWidget *parent, const QVariantList &args);
-    virtual ~KActionsOptions();
+    ~KActionsOptions() override;
 
-    void load();
-    void save();
-    void defaults();
+    void load() override;
+    void save() override;
+    void defaults() override;
 
 protected Q_SLOTS:
 

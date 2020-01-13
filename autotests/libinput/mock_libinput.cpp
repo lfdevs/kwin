@@ -276,6 +276,33 @@ enum libinput_config_accel_profile libinput_device_config_accel_get_profile(stru
     return device->pointerAccelerationProfile;
 }
 
+uint32_t libinput_device_config_click_get_methods(struct libinput_device *device)
+{
+    return device->supportedClickMethods;
+}
+
+enum libinput_config_click_method libinput_device_config_click_get_default_method(struct libinput_device *device)
+{
+    return device->defaultClickMethod;
+}
+
+enum libinput_config_click_method libinput_device_config_click_get_method(struct libinput_device *device)
+{
+    return device->clickMethod;
+}
+
+enum libinput_config_status libinput_device_config_click_set_method(struct libinput_device *device, enum libinput_config_click_method method)
+{
+    if (device->setClickMethodReturnValue == 0) {
+        if (!(device->supportedClickMethods & method) && method != LIBINPUT_CONFIG_CLICK_METHOD_NONE) {
+            return LIBINPUT_CONFIG_STATUS_INVALID;
+        }
+        device->clickMethod = method;
+        return LIBINPUT_CONFIG_STATUS_SUCCESS;
+    }
+    return LIBINPUT_CONFIG_STATUS_INVALID;
+}
+
 uint32_t libinput_device_config_send_events_get_mode(struct libinput_device *device)
 {
     if (device->enabled) {
@@ -573,6 +600,20 @@ double libinput_event_pointer_get_axis_value(struct libinput_event_pointer *even
     } else {
         return event->horizontalAxisValue;
     }
+}
+
+double libinput_event_pointer_get_axis_value_discrete(struct libinput_event_pointer *event, enum libinput_pointer_axis axis)
+{
+    if (axis == LIBINPUT_POINTER_AXIS_SCROLL_VERTICAL) {
+        return event->verticalDiscreteAxisValue;
+    } else {
+        return event->horizontalDiscreteAxisValue;
+    }
+}
+
+enum libinput_pointer_axis_source libinput_event_pointer_get_axis_source(struct libinput_event_pointer *event)
+{
+    return event->axisSource;
 }
 
 uint32_t libinput_event_touch_get_time(struct libinput_event_touch *event)

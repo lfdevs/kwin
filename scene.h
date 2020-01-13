@@ -62,7 +62,7 @@ class KWIN_EXPORT Scene : public QObject
     Q_OBJECT
 public:
     explicit Scene(QObject *parent = nullptr);
-    virtual ~Scene() = 0;
+    ~Scene() override = 0;
     class EffectFrame;
     class Window;
 
@@ -78,11 +78,25 @@ public:
     // ie. "what of this frame is lost to painting"
     virtual qint64 paint(QRegion damage, ToplevelList windows) = 0;
 
-    // Notification function - KWin core informs about changes.
-    // Used to mainly discard cached data.
+    /**
+     * Adds the Toplevel to the Scene.
+     *
+     * If the toplevel gets deleted, then the scene will try automatically
+     * to re-bind an underlying scene window to the corresponding Deleted.
+     *
+     * @param toplevel The window to be added.
+     * @note You can add a toplevel to scene only once.
+     */
+    void addToplevel(Toplevel *toplevel);
 
-    // a new window has been created
-    void windowAdded(Toplevel*);
+    /**
+     * Removes the Toplevel from the Scene.
+     *
+     * @param toplevel The window to be removed.
+     * @note You can remove a toplevel from the scene only once.
+     */
+    void removeToplevel(Toplevel *toplevel);
+
     /**
      * @brief Creates the Scene backend of an EffectFrame.
      *
@@ -103,7 +117,7 @@ public:
      * Reimplementing classes should also invoke the parent method
      * as it takes care of resizing the overlay window.
      * @param size The new screen geometry size
-     **/
+     */
     virtual void screenGeometryChanged(const QSize &size);
     // Flags controlling how painting is done.
     enum {
@@ -133,7 +147,7 @@ public:
     virtual void idle();
     virtual bool blocksForRetrace() const;
     virtual bool syncsToVBlank() const;
-    virtual OverlayWindow* overlayWindow() = 0;
+    virtual OverlayWindow* overlayWindow() const = 0;
 
     virtual bool makeOpenGLContextCurrent();
     virtual void doneOpenGLContextCurrent();
@@ -154,25 +168,25 @@ public:
      * This is used as a hint to the effects system which effects can be supported.
      * If the Scene performs software rendering it is supposed to return @c false,
      * if rendering is hardware accelerated it should return @c true.
-     **/
+     */
     virtual bool animationsSupported() const = 0;
 
     /**
      * The render buffer used by an XRender based compositor scene.
      * Default implementation returns XCB_RENDER_PICTURE_NONE
-     **/
+     */
     virtual xcb_render_picture_t xrenderBufferPicture() const;
 
     /**
      * The QPainter used by a QPainter based compositor scene.
      * Default implementation returns @c nullptr;
-     **/
+     */
     virtual QPainter *scenePainter() const;
 
     /**
      * The render buffer used by a QPainter based compositor.
      * Default implementation returns @c nullptr.
-     **/
+     */
     virtual QImage *qpainterRenderBuffer() const;
 
     /**
@@ -181,7 +195,7 @@ public:
      * Not the OpenGL (ES) extension!
      *
      * Default implementation returns empty list
-     **/
+     */
     virtual QVector<QByteArray> openGLPlatformInterfaceExtensions() const;
 
 Q_SIGNALS:
@@ -189,8 +203,6 @@ Q_SIGNALS:
     void resetCompositing();
 
 public Q_SLOTS:
-    // a window has been destroyed
-    void windowDeleted(KWin::Deleted*);
     // shape/size of a window changed
     void windowGeometryShapeChanged(KWin::Toplevel* c);
     // a window has been closed
@@ -228,16 +240,10 @@ protected:
     void updateTimeDiff();
     // saved data for 2nd pass of optimized screen painting
     struct Phase2Data {
-        Phase2Data(Window* w, QRegion r, QRegion c, int m, const WindowQuadList& q)
-            : window(w), region(r), clip(c), mask(m), quads(q) {}
-        Phase2Data()  {
-            window = 0;
-            mask = 0;
-        }
-        Window* window;
+        Window *window = nullptr;
         QRegion region;
         QRegion clip;
-        int mask;
+        int mask = 0;
         WindowQuadList quads;
     };
     // The region which actually has been painted by paintScreen() and should be
@@ -263,16 +269,16 @@ private:
 
 /**
  * Factory class to create a Scene. Needs to be implemented by the plugins.
- **/
+ */
 class KWIN_EXPORT SceneFactory : public QObject
 {
     Q_OBJECT
 public:
-    virtual ~SceneFactory();
+    ~SceneFactory() override;
 
     /**
      * @returns The created Scene, may be @c nullptr.
-     **/
+     */
     virtual Scene *create(QObject *parent = nullptr) const = 0;
 
 protected:
@@ -313,8 +319,6 @@ public:
         PAINT_DISABLED_BY_DESKTOP      = 1 << 2,
         // Window will not be painted because it is minimized
         PAINT_DISABLED_BY_MINIMIZE     = 1 << 3,
-        // Window will not be painted because it is not the active window in a client group
-        PAINT_DISABLED_BY_TAB_GROUP = 1 << 4,
         // Window will not be painted because it's not on the current activity
         PAINT_DISABLED_BY_ACTIVITY     = 1 << 5
     };
@@ -336,17 +340,18 @@ public:
     Shadow* shadow();
     void referencePreviousPixmap();
     void unreferencePreviousPixmap();
+    void invalidateQuadsCache();
 protected:
     WindowQuadList makeQuads(WindowQuadType type, const QRegion& reg, const QPoint &textureOffset = QPoint(0, 0), qreal textureScale = 1.0) const;
     WindowQuadList makeDecorationQuads(const QRect *rects, const QRegion &region, qreal textureScale = 1.0) const;
     /**
      * @brief Returns the WindowPixmap for this Window.
      *
-     * If the WindowPixmap does not yet exist, this method will invoke @link createWindowPixmap.
+     * If the WindowPixmap does not yet exist, this method will invoke createWindowPixmap.
      * If the WindowPixmap is not valid it tries to create it, in case this succeeds the WindowPixmap is
      * returned. In case it fails, the previous (and still valid) WindowPixmap is returned.
      *
-     * Note: this method can return @c NULL as there might neither be a valid previous nor current WindowPixmap
+     * @note This method can return @c NULL as there might neither be a valid previous nor current WindowPixmap
      * around.
      *
      * The WindowPixmap gets casted to the type passed in as a template parameter. That way this class does not
@@ -360,7 +365,7 @@ protected:
      * @brief Factory method to create a WindowPixmap.
      *
      * The inheriting classes need to implement this method to create a new instance of their WindowPixmap subclass.
-     * Note: do not use @link WindowPixmap::create on the created instance. The Scene will take care of that.
+     * @note Do not use WindowPixmap::create on the created instance. The Scene will take care of that.
      */
     virtual WindowPixmap *createWindowPixmap() = 0;
     Toplevel* toplevel;
@@ -378,17 +383,17 @@ private:
 };
 
 /**
- * @brief Wrapper for a pixmap of the @link Scene::Window.
+ * @brief Wrapper for a pixmap of the Scene::Window.
  *
  * This class encapsulates the functionality to get the pixmap for a window. When initialized the pixmap is not yet
- * mapped to the window and @link isValid will return @c false. The pixmap mapping to the window can be established
- * through @link create. If it succeeds @link isValid will return @c true, otherwise it will keep in the non valid
+ * mapped to the window and isValid will return @c false. The pixmap mapping to the window can be established
+ * through @ref create. If it succeeds isValid will return @c true, otherwise it will keep in the non valid
  * state and it can be tried to create the pixmap mapping again (e.g. in the next frame).
  *
  * This class is not intended to be updated when the pixmap is no longer valid due to e.g. resizing the window.
  * Instead a new instance of this class should be instantiated. The idea behind this is that a valid pixmap does not
  * get destroyed, but can continue to be used. To indicate that a newer pixmap should in generally be around, one can
- * use @link markAsDiscarded.
+ * use markAsDiscarded.
  *
  * This class is intended to be inherited for the needs of the compositor backends which need further mapping from
  * the native pixmap to the respective rendering format.
@@ -400,7 +405,7 @@ public:
     /**
      * @brief Tries to create the mapping between the Window and the pixmap.
      *
-     * In case this method succeeds in creating the pixmap for the window, @link isValid will return @c true otherwise
+     * In case this method succeeds in creating the pixmap for the window, isValid will return @c true otherwise
      * @c false.
      *
      * Inheriting classes should re-implement this method in case they need to add further functionality for mapping the
@@ -417,7 +422,7 @@ public:
     xcb_pixmap_t pixmap() const;
     /**
      * @return The Wayland BufferInterface for this WindowPixmap.
-     **/
+     */
     QPointer<KWayland::Server::BufferInterface> buffer() const;
     const QSharedPointer<QOpenGLFramebufferObject> &fbo() const;
     /**
@@ -429,7 +434,7 @@ public:
      */
     bool isDiscarded() const;
     /**
-     * @brief Marks this WindowPixmap as discarded. From now on @link isDiscarded will return @c true. This method should
+     * @brief Marks this WindowPixmap as discarded. From now on isDiscarded will return @c true. This method should
      * only be used by the Window when it changes in a way that a new pixmap is required.
      *
      * @see isDiscarded
@@ -453,28 +458,28 @@ public:
 
     /**
      * @returns the parent WindowPixmap in the sub-surface tree
-     **/
+     */
     WindowPixmap *parent() const {
         return m_parent;
     }
 
     /**
      * @returns the current sub-surface tree
-     **/
+     */
     QVector<WindowPixmap*> children() const {
         return m_children;
     }
 
     /**
      * @returns the subsurface this WindowPixmap is for if it is not for a root window
-     **/
+     */
     QPointer<KWayland::Server::SubSurfaceInterface> subSurface() const {
         return m_subSurface;
     }
 
     /**
      * @returns the surface this WindowPixmap references, might be @c null.
-     **/
+     */
     KWayland::Server::SurfaceInterface *surface() const;
 
 protected:
@@ -489,12 +494,12 @@ protected:
     /**
      * Should be called by the implementing subclasses when the Wayland Buffer changed and needs
      * updating.
-     **/
+     */
     virtual void updateBuffer();
 
     /**
      * Sets the sub-surface tree to @p children.
-     **/
+     */
     void setChildren(const QVector<WindowPixmap*> &children) {
         m_children = children;
     }

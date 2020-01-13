@@ -34,12 +34,24 @@ function isFadeWindow(w) {
     if (blacklist.indexOf(w.windowClass) != -1) {
         return false;
     }
+    if (w.popupWindow) {
+        return false;
+    }
+    if (w.x11Client && !w.managed) {
+        return false;
+    }
+    if (!w.visible) {
+        return false;
+    }
+    if (w.outline) {
+        return false;
+    }
     if (w.deleted && effect.isGrabbed(w, Effect.WindowClosedGrabRole)) {
         return false;
     } else if (!w.deleted && effect.isGrabbed(w, Effect.WindowAddedGrabRole)) {
         return false;
     }
-    return w.onCurrentDesktop && !w.desktopWindow && !w.utility && !w.minimized;
+    return w.normalWindow || w.dialog;
 }
 
 var fadeInTime, fadeOutTime, fadeWindows;
@@ -53,6 +65,9 @@ effect.configChanged.connect(function() {
     loadConfig();
 });
 function fadeInHandler(w) {
+    if (effects.hasActiveFullScreenEffect) {
+        return;
+    }
     if (fadeWindows && isFadeWindow(w)) {
         if (w.fadeOutWindowTypeAnimation !== undefined) {
             cancel(w.fadeOutWindowTypeAnimation);
@@ -62,6 +77,9 @@ function fadeInHandler(w) {
     }
 }
 function fadeOutHandler(w) {
+    if (effects.hasActiveFullScreenEffect) {
+        return;
+    }
     if (fadeWindows && isFadeWindow(w)) {
         if (w.fadeOutWindowTypeAnimation !== undefined) {
             // don't animate again as it was already animated through window hidden

@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 
 #include <kwineffects.h>
+#include "../virtualdesktops.h"
 
 #include <QVector2D>
 #include <QGraphicsRotation>
@@ -28,50 +29,234 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace KWin;
 
-class MockEffectWindowHelper : public QObject
-{
-    Q_OBJECT
-    Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)
-public:
-    MockEffectWindowHelper(QObject *parent = nullptr);
-    double opacity() const {
-        return m_opacity;
-    }
-    void setOpacity(qreal opacity) {
-        m_opacity = opacity;
-    }
-private:
-    qreal m_opacity;
-};
-
-MockEffectWindowHelper::MockEffectWindowHelper(QObject *parent)
-    : QObject(parent)
-    , m_opacity(1.0)
-{
-}
-
 class MockEffectWindow : public EffectWindow
 {
     Q_OBJECT
 public:
     MockEffectWindow(QObject *parent = nullptr);
-    virtual WindowQuadList buildQuads(bool force = false) const;
-    virtual QVariant data(int role) const;
-    virtual QRect decorationInnerRect() const;
-    virtual void deleteProperty(long int atom) const;
-    virtual void disablePainting(int reason);
-    virtual void enablePainting(int reason);
-    virtual EffectWindow *findModal();
-    virtual const EffectWindowGroup *group() const;
-    virtual bool isPaintingEnabled();
-    virtual EffectWindowList mainWindows() const;
-    virtual QByteArray readProperty(long int atom, long int type, int format) const;
-    virtual void refWindow();
-    virtual void unrefWindow();
-    virtual QRegion shape() const;
-    virtual void setData(int role, const QVariant &data);
-    virtual void referencePreviousWindowPixmap() {}
-    virtual void unreferencePreviousWindowPixmap() {}
+    WindowQuadList buildQuads(bool force = false) const override;
+    QVariant data(int role) const override;
+    QRect decorationInnerRect() const override;
+    void deleteProperty(long int atom) const override;
+    void disablePainting(int reason) override;
+    void enablePainting(int reason) override;
+    void addRepaint(const QRect &r) override;
+    void addRepaint(int x, int y, int w, int h) override;
+    void addRepaintFull() override;
+    void addLayerRepaint(const QRect &r) override;
+    void addLayerRepaint(int x, int y, int w, int h) override;
+    EffectWindow *findModal() override;
+    const EffectWindowGroup *group() const override;
+    bool isPaintingEnabled() override;
+    EffectWindowList mainWindows() const override;
+    QByteArray readProperty(long int atom, long int type, int format) const override;
+    void refWindow() override;
+    void unrefWindow() override;
+    QRegion shape() const override;
+    void setData(int role, const QVariant &data) override;
+    void minimize() override;
+    void unminimize() override;
+    void closeWindow() override;
+    void referencePreviousWindowPixmap() override {}
+    void unreferencePreviousWindowPixmap() override {}
+    QWindow *internalWindow() const override {
+        return nullptr;
+    }
+    bool isDeleted() const override {
+        return false;
+    }
+    bool isMinimized() const override {
+        return false;
+    }
+    double opacity() const override {
+        return m_opacity;
+    }
+    void setOpacity(qreal opacity) {
+        m_opacity = opacity;
+    }
+    bool hasAlpha() const override {
+        return true;
+    }
+    QStringList activities() const override {
+        return QStringList();
+    }
+    int desktop() const override {
+        return 0;
+    }
+    QVector<uint> desktops() const override {
+        return {};
+    }
+    int x() const override {
+        return 0;
+    }
+    int y() const override {
+        return 0;
+    }
+    int width() const override {
+        return 100;
+    }
+    int height() const override {
+        return 100;
+    }
+    QSize basicUnit() const override {
+        return QSize();
+    }
+    QRect geometry() const override {
+        return QRect();
+    }
+    QRect expandedGeometry() const override {
+        return QRect();
+    }
+    int screen() const override {
+        return 0;
+    }
+    bool hasOwnShape() const override {
+        return false;
+    }
+    QPoint pos() const override {
+        return QPoint();
+    }
+    QSize size() const override {
+        return QSize(100,100);
+    }
+    QRect rect() const override {
+        return QRect(0,0,100,100);
+    }
+    bool isMovable() const override {
+        return true;
+    }
+    bool isMovableAcrossScreens() const override {
+        return true;
+    }
+    bool isUserMove() const override {
+        return false;
+    }
+    bool isUserResize() const override {
+        return false;
+    }
+    QRect iconGeometry() const override {
+        return QRect();
+    }
+    bool isDesktop() const override {
+        return false;
+    }
+    bool isDock() const override {
+        return false;
+    }
+    bool isToolbar() const override {
+        return false;
+    }
+    bool isMenu() const override {
+        return false;
+    }
+    bool isNormalWindow() const override {
+        return true;
+    }
+    bool isSpecialWindow() const override {
+        return false;
+    }
+    bool isDialog() const override {
+        return false;
+    }
+    bool isSplash() const override {
+        return false;
+    }
+    bool isUtility() const override {
+        return false;
+    }
+    bool isDropdownMenu() const override {
+        return false;
+    }
+    bool isPopupMenu() const override {
+        return false;
+    }
+    bool isTooltip() const override {
+        return false;
+    }
+    bool isNotification() const override {
+        return false;
+    }
+    bool isCriticalNotification() const override {
+        return false;
+    }
+    bool isOnScreenDisplay() const override  {
+        return false;
+    }
+    bool isComboBox() const override {
+        return false;
+    }
+    bool isDNDIcon() const override {
+        return false;
+    }
+    QRect contentsRect() const override {
+        return QRect();
+    }
+    bool decorationHasAlpha() const override {
+        return false;
+    }
+    QString caption() const override {
+        return QString();
+    }
+    QIcon icon() const override {
+        return QIcon();
+    }
+    QString windowClass() const override {
+        return QString();
+    }
+    QString windowRole() const override {
+        return QString();
+    }
+    NET::WindowType windowType() const override {
+        return NET::Normal;
+    }
+    bool acceptsFocus() const override {
+        return true;
+    }
+    bool keepAbove() const override {
+        return false;
+    }
+    bool keepBelow() const override {
+        return false;
+    }
+    bool isModal() const override {
+        return false;
+    }
+    bool isSkipSwitcher() const override {
+        return false;
+    }
+    bool isCurrentTab() const override {
+        return true;
+    }
+    bool skipsCloseAnimation() const override {
+        return false;
+    }
+    KWayland::Server::SurfaceInterface *surface() const override {
+        return nullptr;
+    }
+    bool isFullScreen() const override {
+        return false;
+    }
+    bool isUnresponsive() const override {
+        return false;
+    }
+    bool isPopupWindow() const override {
+        return false;
+    }
+    bool isManaged() const override {
+        return true;
+    }
+    bool isWaylandClient() const override {
+        return true;
+    }
+    bool isX11Client() const override {
+        return false;
+    }
+    bool isOutline() const override {
+        return false;
+    }
+
+private:
+    qreal m_opacity = 1.0;
 };
 
 MockEffectWindow::MockEffectWindow(QObject *parent)
@@ -109,6 +294,36 @@ void MockEffectWindow::disablePainting(int reason)
 void MockEffectWindow::enablePainting(int reason)
 {
     Q_UNUSED(reason)
+}
+
+void MockEffectWindow::addRepaint(const QRect &r)
+{
+    Q_UNUSED(r)
+}
+
+void MockEffectWindow::addRepaint(int x, int y, int w, int h)
+{
+    Q_UNUSED(x)
+    Q_UNUSED(y)
+    Q_UNUSED(w)
+    Q_UNUSED(h)
+}
+
+void MockEffectWindow::addRepaintFull()
+{
+}
+
+void MockEffectWindow::addLayerRepaint(const QRect &r)
+{
+    Q_UNUSED(r)
+}
+
+void MockEffectWindow::addLayerRepaint(int x, int y, int w, int h)
+{
+    Q_UNUSED(x)
+    Q_UNUSED(y)
+    Q_UNUSED(w)
+    Q_UNUSED(h)
 }
 
 EffectWindow *MockEffectWindow::findModal()
@@ -149,6 +364,18 @@ void MockEffectWindow::setData(int role, const QVariant &data)
     Q_UNUSED(data)
 }
 
+void MockEffectWindow::minimize()
+{
+}
+
+void MockEffectWindow::unminimize()
+{
+}
+
+void MockEffectWindow::closeWindow()
+{
+}
+
 QRegion MockEffectWindow::shape() const
 {
     return QRegion();
@@ -173,9 +400,8 @@ private Q_SLOTS:
 
 void TestWindowPaintData::testCtor()
 {
-    MockEffectWindowHelper helper;
-    helper.setOpacity(0.5);
-    MockEffectWindow w(&helper);
+    MockEffectWindow w;
+    w.setOpacity(0.5);
     WindowPaintData data(&w);
     QCOMPARE(data.xScale(), 1.0);
     QCOMPARE(data.yScale(), 1.0);
@@ -194,8 +420,7 @@ void TestWindowPaintData::testCtor()
 
 void TestWindowPaintData::testCopyCtor()
 {
-    MockEffectWindowHelper helper;
-    MockEffectWindow w(&helper);
+    MockEffectWindow w;
     WindowPaintData data(&w);
     WindowPaintData data2(data);
     // no value had been changed
@@ -240,8 +465,7 @@ void TestWindowPaintData::testCopyCtor()
 
 void TestWindowPaintData::testOperatorMultiplyAssign()
 {
-    MockEffectWindowHelper helper;
-    MockEffectWindow w(&helper);
+    MockEffectWindow w;
     WindowPaintData data(&w);
     // without anything set, it's 1.0 on all axis
     QCOMPARE(data.xScale(), 1.0);
@@ -266,8 +490,7 @@ void TestWindowPaintData::testOperatorMultiplyAssign()
 
 void TestWindowPaintData::testOperatorPlus()
 {
-    MockEffectWindowHelper helper;
-    MockEffectWindow w(&helper);
+    MockEffectWindow w;
     WindowPaintData data(&w);
     QCOMPARE(data.xTranslation(), 0.0);
     QCOMPARE(data.yTranslation(), 0.0);
@@ -289,8 +512,7 @@ void TestWindowPaintData::testOperatorPlus()
 
 void TestWindowPaintData::testMultiplyBrightness()
 {
-    MockEffectWindowHelper helper;
-    MockEffectWindow w(&helper);
+    MockEffectWindow w;
     WindowPaintData data(&w);
     QCOMPARE(0.2, data.multiplyBrightness(0.2));
     QCOMPARE(0.2, data.brightness());
@@ -303,8 +525,7 @@ void TestWindowPaintData::testMultiplyBrightness()
 
 void TestWindowPaintData::testMultiplyOpacity()
 {
-    MockEffectWindowHelper helper;
-    MockEffectWindow w(&helper);
+    MockEffectWindow w;
     WindowPaintData data(&w);
     QCOMPARE(0.2, data.multiplyOpacity(0.2));
     QCOMPARE(0.2, data.opacity());
@@ -317,8 +538,7 @@ void TestWindowPaintData::testMultiplyOpacity()
 
 void TestWindowPaintData::testMultiplySaturation()
 {
-    MockEffectWindowHelper helper;
-    MockEffectWindow w(&helper);
+    MockEffectWindow w;
     WindowPaintData data(&w);
     QCOMPARE(0.2, data.multiplySaturation(0.2));
     QCOMPARE(0.2, data.saturation());

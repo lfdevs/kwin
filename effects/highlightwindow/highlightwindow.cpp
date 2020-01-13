@@ -26,13 +26,17 @@ namespace KWin
 HighlightWindowEffect::HighlightWindowEffect()
     : m_finishing(false)
     , m_fadeDuration(float(animationTime(150)))
-    , m_monitorWindow(NULL)
+    , m_monitorWindow(nullptr)
 {
     m_atom = effects->announceSupportProperty("_KDE_WINDOW_HIGHLIGHT", this);
-    connect(effects, SIGNAL(windowAdded(KWin::EffectWindow*)), this, SLOT(slotWindowAdded(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(windowClosed(KWin::EffectWindow*)), this, SLOT(slotWindowClosed(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(windowDeleted(KWin::EffectWindow*)), this, SLOT(slotWindowDeleted(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(propertyNotify(KWin::EffectWindow*,long)), this, SLOT(slotPropertyNotify(KWin::EffectWindow*,long)));
+    connect(effects, &EffectsHandler::windowAdded, this, &HighlightWindowEffect::slotWindowAdded);
+    connect(effects, &EffectsHandler::windowClosed, this, &HighlightWindowEffect::slotWindowClosed);
+    connect(effects, &EffectsHandler::windowDeleted, this, &HighlightWindowEffect::slotWindowDeleted);
+    connect(effects, &EffectsHandler::propertyNotify, this,
+        [this](EffectWindow *w, long atom) {
+            slotPropertyNotify(w, atom, nullptr);
+        }
+    );
     connect(effects, &EffectsHandler::xcbConnectionChanged, this,
         [this] {
             m_atom = effects->announceSupportProperty("_KDE_WINDOW_HIGHLIGHT", this);
@@ -47,7 +51,7 @@ HighlightWindowEffect::~HighlightWindowEffect()
 static bool isInitiallyHidden(EffectWindow* w)
 {
     // Is the window initially hidden until it is highlighted?
-    return w->isMinimized() || !w->isCurrentTab() || !w->isOnCurrentDesktop();
+    return w->isMinimized() || !w->isOnCurrentDesktop();
 }
 
 void HighlightWindowEffect::prePaintWindow(EffectWindow* w, WindowPrePaintData& data, int time)
@@ -93,8 +97,6 @@ void HighlightWindowEffect::prePaintWindow(EffectWindow* w, WindowPrePaintData& 
     if (opacity != m_windowOpacity.end() && *opacity > 0.01) {
         if (w->isMinimized())
             w->enablePainting(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);
-        if (!w->isCurrentTab())
-            w->enablePainting(EffectWindow::PAINT_DISABLED_BY_TAB_GROUP);
         if (!w->isOnCurrentDesktop())
             w->enablePainting(EffectWindow::PAINT_DISABLED_BY_DESKTOP);
     }
@@ -257,7 +259,7 @@ void HighlightWindowEffect::prepareHighlighting()
 void HighlightWindowEffect::finishHighlighting()
 {
     m_finishing = true;
-    m_monitorWindow = NULL;
+    m_monitorWindow = nullptr;
     m_highlightedWindows.clear();
     if (!m_windowOpacity.isEmpty())
         m_windowOpacity.constBegin().key()->addRepaintFull();

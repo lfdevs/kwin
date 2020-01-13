@@ -7,14 +7,14 @@
 # xavier <ktranslator31@yahoo.fr>, 2013.
 # Sebastien Renard <renard@kde.org>, 2015.
 # Vincent Pinon <vpinon@kde.org>, 2016, 2017.
-# Simon Depiets <sdepiets@gmail.com>, 2018.
+# Simon Depiets <sdepiets@gmail.com>, 2018, 2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2018-08-06 10:06+0800\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"PO-Revision-Date: 2019-01-24 18:31+0800\n"
 "Last-Translator: Simon Depiets <sdepiets@gmail.com>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -22,20 +22,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 19.03.70\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Bruno Patri, Vincent Pinon, Simon Depiets"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "bruno.patri@gmail.com, vpinon@kde.org, sdepiets@gmail.com"
 
 #: compositing.cpp:378
 #, kde-format
@@ -241,12 +231,12 @@ msgstr ""
 msgid "Allow applications to block compositing"
 msgstr "Permettre aux applications de bloquer la composition"
 
-#: main.cpp:83
+#: main.cpp:55
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "Activer à nouveau la détection OpenGL"
 
-#: main.cpp:141
+#: main.cpp:120
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -255,14 +245,14 @@ msgstr ""
 "« Seulement lorsque peu coûteux » prévient le déchirement uniquement pour "
 "les changements de l'écran complet comme dans une vidéo."
 
-#: main.cpp:145
+#: main.cpp:124
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr ""
 "« Rafraîchissement de tout l'écran » peut provoquer des problèmes de "
 "performances."
 
-#: main.cpp:149
+#: main.cpp:128
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
@@ -270,103 +260,85 @@ msgstr ""
 "« Ré-utiliser le contenu de l'écran » peut provoquer de sérieux problèmes de "
 "performances avec les pilotes MESA."
 
-#: model.cpp:70
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Accessibility"
-msgstr "Accessibilité"
 
-#: model.cpp:71
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Appearance"
-msgstr "Apparence"
 
-#: model.cpp:72
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Candy"
-msgstr "Ornements"
 
-#: model.cpp:73
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Focus"
-msgstr "Focus"
 
-#: model.cpp:74
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Show Desktop Animation"
-msgstr "Afficher l'animation du bureau"
 
-#: model.cpp:75
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Tools"
-msgstr "Outils"
 
-#: model.cpp:76
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Virtual Desktop Switching Animation"
-msgstr "Animation de changement de bureau virtuel"
 
-#: model.cpp:77
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Window Management"
-msgstr "Gestion des fenêtres"
 
-#: model.cpp:233
-#, kde-format
-msgid "KWin development team"
-msgstr "L'équipe de développement de KWin"
 
-#: qml/Effect.qml:119
-#, kde-format
-msgid ""
-"Author: %1\n"
-"License: %2"
-msgstr ""
-"Auteur : %1\n"
-"Licence : %2"
 
-#: qml/EffectView.qml:64
-#, kde-format
-msgid ""
-"Hint: To find out or configure how to activate an effect, look at the "
-"effect's settings."
-msgstr ""
-"Remarque : pour trouver ou pour savoir comment configurer un effet, veuillez "
-"regarder dans les paramètres de l'effet."
 
-#: qml/EffectView.qml:75
-#, kde-format
-msgid "Search"
-msgstr "Rechercher"
 
-#: qml/EffectView.qml:82
-#, kde-format
-msgid "Configure filter"
-msgstr "Configurer le filtre"
 
-#: qml/EffectView.qml:85
-#, kde-format
-msgid "Exclude Desktop Effects not supported by the Compositor"
-msgstr ""
-"Exclure les effets de bureau qui ne sont pas pris en charge par le "
-"compositeur"
 
-#: qml/EffectView.qml:93
-#, kde-format
-msgid "Exclude internal Desktop Effects"
-msgstr "Exclure les effets de bureau internes"
 
-#: qml/EffectView.qml:105
-#, kde-format
-msgid "Get New Effects..."
-msgstr "Obtenir de nouveaux effets..."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

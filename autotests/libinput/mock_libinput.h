@@ -101,6 +101,10 @@ struct libinput_device {
 
     bool lidSwitch = false;
     bool tabletModeSwitch = false;
+    quint32 supportedClickMethods = 0;
+    enum libinput_config_click_method defaultClickMethod = LIBINPUT_CONFIG_CLICK_METHOD_NONE;
+    enum libinput_config_click_method clickMethod = LIBINPUT_CONFIG_CLICK_METHOD_NONE;
+    bool setClickMethodReturnValue = 0;
 };
 
 struct libinput_event {
@@ -124,6 +128,9 @@ struct libinput_event_pointer : libinput_event {
     bool horizontalAxis = false;
     qreal horizontalAxisValue = 0.0;
     qreal verticalAxisValue = 0.0;
+    qreal horizontalDiscreteAxisValue = 0.0;
+    qreal verticalDiscreteAxisValue = 0.0;
+    libinput_pointer_axis_source axisSource = {};
     QSizeF delta;
     QPointF absolutePos;
 };

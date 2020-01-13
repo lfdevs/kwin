@@ -22,9 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "sm.h"
 
 #include <unistd.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <pwd.h>
-#include <fixx11h.h>
 #include <kconfig.h>
 
 #include "workspace.h"
@@ -54,6 +53,32 @@ static KConfig *sessionConfig(QString id, QString key)
         config = new KConfig(pattern.arg(id).arg(key), KConfig::SimpleConfig);
     }
     return config;
+}
+
+static const char* const window_type_names[] = {
+    "Unknown", "Normal" , "Desktop", "Dock", "Toolbar", "Menu", "Dialog",
+    "Override", "TopMenu", "Utility", "Splash"
+};
+// change also the two functions below when adding new entries
+
+static const char* windowTypeToTxt(NET::WindowType type)
+{
+    if (type >= NET::Unknown && type <= NET::Splash)
+        return window_type_names[ type + 1 ]; // +1 (unknown==-1)
+    if (type == -2)   // undefined (not really part of NET::WindowType)
+        return "Undefined";
+    qFatal("Unknown Window Type");
+    return nullptr;
+}
+
+static NET::WindowType txtToWindowType(const char* txt)
+{
+    for (int i = NET::Unknown;
+            i <= NET::Splash;
+            ++i)
+        if (qstrcmp(txt, window_type_names[ i + 1 ]) == 0)     // +1
+            return static_cast< NET::WindowType >(i);
+    return static_cast< NET::WindowType >(-2);   // undefined
 }
 
 void Workspace::saveState(QSessionManager &sm)
@@ -95,10 +120,10 @@ void Workspace::commitData(QSessionManager &sm)
 
 // Workspace
 
-/*!
-  Stores the current session in the config file
-
-  \sa loadSessionInfo()
+/**
+ * Stores the current session in the config file
+ *
+ * @see loadSessionInfo
  */
 void Workspace::storeSession(KConfig* config, SMSavePhase phase)
 {
@@ -172,12 +197,10 @@ void Workspace::storeClient(KConfigGroup &cg, int num, Client *c)
     cg.writeEntry(QLatin1String("skipPager") + n, c->skipPager());
     cg.writeEntry(QLatin1String("skipSwitcher") + n, c->skipSwitcher());
     // not really just set by user, but name kept for back. comp. reasons
-    cg.writeEntry(QLatin1String("userNoBorder") + n, c->noBorder());
+    cg.writeEntry(QLatin1String("userNoBorder") + n, c->userNoBorder());
     cg.writeEntry(QLatin1String("windowType") + n, windowTypeToTxt(c->windowType()));
     cg.writeEntry(QLatin1String("shortcut") + n, c->shortcut().toString());
     cg.writeEntry(QLatin1String("stackingOrder") + n, unconstrained_stacking_order.indexOf(c));
-    // KConfig doesn't support long so we need to live with less precision on 64-bit systems
-    cg.writeEntry(QLatin1String("tabGroup") + n, static_cast<int>(reinterpret_cast<long>(c->tabGroup())));
     cg.writeEntry(QLatin1String("activities") + n, c->activities());
 }
 
@@ -213,10 +236,10 @@ void Workspace::storeSubSession(const QString &name, QSet<QByteArray> sessionIds
     //cg.writeEntry( "desktop", currentDesktop());
 }
 
-/*!
-  Loads the session information from the config file.
-
-  \sa storeSession()
+/**
+ * Loads the session information from the config file.
+ *
+ * @see storeSession
  */
 void Workspace::loadSessionInfo(const QString &key)
 {
@@ -261,8 +284,6 @@ void Workspace::addSessionInfo(KConfigGroup &cg)
         info->shortcut = cg.readEntry(QLatin1String("shortcut") + n, QString());
         info->active = (active_client == i);
         info->stackingOrder = cg.readEntry(QLatin1String("stackingOrder") + n, -1);
-        info->tabGroup = cg.readEntry(QLatin1String("tabGroup") + n, 0);
-        info->tabGroupClient = NULL;
         info->activities = cg.readEntry(QLatin1String("activities") + n, QStringList());
     }
 }
@@ -273,18 +294,27 @@ void Workspace::loadSubSessionInfo(const QString &name)
     addSessionInfo(cg);
 }
 
-/*!
-  Returns a SessionInfo for client \a c. The returned session
-  info is removed from the storage. It's up to the caller to delete it.
+static bool sessionInfoWindowTypeMatch(Client* c, SessionInfo* info)
+{
+    if (info->windowType == -2) {
+        // undefined (not really part of NET::WindowType)
+        return !c->isSpecialWindow();
+    }
+    return info->windowType == c->windowType();
+}
 
-  This function is called when a new window is mapped and must be managed.
-  We try to find a matching entry in the session.
-
-  May return 0 if there's no session info for the client.
+/**
+ * Returns a SessionInfo for client \a c. The returned session
+ * info is removed from the storage. It's up to the caller to delete it.
+ *
+ * This function is called when a new window is mapped and must be managed.
+ * We try to find a matching entry in the session.
+ *
+ * May return 0 if there's no session info for the client.
  */
 SessionInfo* Workspace::takeSessionInfo(Client* c)
 {
-    SessionInfo *realInfo = 0;
+    SessionInfo *realInfo = nullptr;
     QByteArray sessionId = c->sessionId();
     QByteArray windowRole = c->windowRole();
     QByteArray wmCommand = c->wmCommand();
@@ -328,55 +358,8 @@ SessionInfo* Workspace::takeSessionInfo(Client* c)
             }
         }
     }
-
-    // Set tabGroupClient for other clients in the same group
-    if (realInfo && realInfo->tabGroup) {
-        foreach (SessionInfo * info, session) {
-            if (!info->tabGroupClient && info->tabGroup == realInfo->tabGroup)
-                info->tabGroupClient = c;
-        }
-    }
-
     return realInfo;
 }
-
-bool Workspace::sessionInfoWindowTypeMatch(Client* c, SessionInfo* info)
-{
-    if (info->windowType == -2) {
-        // undefined (not really part of NET::WindowType)
-        return !c->isSpecialWindow();
-    }
-    return info->windowType == c->windowType();
-}
-
-static const char* const window_type_names[] = {
-    "Unknown", "Normal" , "Desktop", "Dock", "Toolbar", "Menu", "Dialog",
-    "Override", "TopMenu", "Utility", "Splash"
-};
-// change also the two functions below when adding new entries
-
-const char* Workspace::windowTypeToTxt(NET::WindowType type)
-{
-    if (type >= NET::Unknown && type <= NET::Splash)
-        return window_type_names[ type + 1 ]; // +1 (unknown==-1)
-    if (type == -2)   // undefined (not really part of NET::WindowType)
-        return "Undefined";
-    qFatal("Unknown Window Type");
-    return NULL;
-}
-
-NET::WindowType Workspace::txtToWindowType(const char* txt)
-{
-    for (int i = NET::Unknown;
-            i <= NET::Splash;
-            ++i)
-        if (qstrcmp(txt, window_type_names[ i + 1 ]) == 0)     // +1
-            return static_cast< NET::WindowType >(i);
-    return static_cast< NET::WindowType >(-2);   // undefined
-}
-
-
-
 
 // KWin's focus stealing prevention causes problems with user interaction
 // during session save, as it prevents possible dialogs from getting focus.
@@ -447,14 +430,14 @@ SessionSaveDoneHelper::SessionSaveDoneHelper()
     calls.save_complete.client_data = reinterpret_cast< SmPointer >(this);
     calls.shutdown_cancelled.callback = shutdown_cancelled;
     calls.shutdown_cancelled.client_data = reinterpret_cast< SmPointer >(this);
-    char* id = NULL;
+    char* id = nullptr;
     char err[ 11 ];
-    conn = SmcOpenConnection(NULL, 0, 1, 0,
+    conn = SmcOpenConnection(nullptr, nullptr, 1, 0,
                              SmcSaveYourselfProcMask | SmcDieProcMask | SmcSaveCompleteProcMask
-                             | SmcShutdownCancelledProcMask, &calls, NULL, &id, 10, err);
-    if (id != NULL)
+                             | SmcShutdownCancelledProcMask, &calls, nullptr, &id, 10, err);
+    if (id != nullptr)
         free(id);
-    if (conn == NULL)
+    if (conn == nullptr)
         return; // no SM
 
     // detect ksmserver
@@ -473,8 +456,8 @@ SessionSaveDoneHelper::SessionSaveDoneHelper()
     props[ 0 ].num_vals = 1;
     props[ 0 ].vals = &propvalue[ 0 ];
     struct passwd* entry = getpwuid(geteuid());
-    propvalue[ 1 ].length = entry != NULL ? strlen(entry->pw_name) : 0;
-    propvalue[ 1 ].value = (SmPointer)(entry != NULL ? entry->pw_name : "");
+    propvalue[ 1 ].length = entry != nullptr ? strlen(entry->pw_name) : 0;
+    propvalue[ 1 ].value = (SmPointer)(entry != nullptr ? entry->pw_name : "");
     props[ 1 ].name = const_cast< char* >(SmUserID);
     props[ 1 ].type = const_cast< char* >(SmARRAY8);
     props[ 1 ].num_vals = 1;
@@ -511,17 +494,17 @@ SessionSaveDoneHelper::~SessionSaveDoneHelper()
 
 void SessionSaveDoneHelper::close()
 {
-    if (conn != NULL) {
+    if (conn != nullptr) {
         delete notifier;
-        SmcCloseConnection(conn, 0, NULL);
+        SmcCloseConnection(conn, 0, nullptr);
     }
-    conn = NULL;
+    conn = nullptr;
 }
 
 void SessionSaveDoneHelper::processData()
 {
-    if (conn != NULL)
-        IceProcessMessages(SmcGetIceConnection(conn), 0, 0);
+    if (conn != nullptr)
+        IceProcessMessages(SmcGetIceConnection(conn), nullptr, nullptr);
 }
 
 void Workspace::sessionSaveDone()

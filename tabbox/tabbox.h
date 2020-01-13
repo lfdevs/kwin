@@ -51,27 +51,27 @@ class TabBoxHandlerImpl : public TabBoxHandler
 {
 public:
     explicit TabBoxHandlerImpl(TabBox* tabBox);
-    virtual ~TabBoxHandlerImpl();
+    ~TabBoxHandlerImpl() override;
 
-    virtual int activeScreen() const;
-    virtual QWeakPointer< TabBoxClient > activeClient() const;
-    virtual int currentDesktop() const;
-    virtual QString desktopName(TabBoxClient* client) const;
-    virtual QString desktopName(int desktop) const;
-    virtual bool isKWinCompositing() const;
-    virtual QWeakPointer< TabBoxClient > nextClientFocusChain(TabBoxClient* client) const;
-    virtual QWeakPointer< TabBoxClient > firstClientFocusChain() const;
-    virtual bool isInFocusChain (TabBoxClient* client) const;
-    virtual int nextDesktopFocusChain(int desktop) const;
-    virtual int numberOfDesktops() const;
-    virtual TabBoxClientList stackingOrder() const;
-    virtual void elevateClient(TabBoxClient* c, QWindow *tabbox, bool elevate) const;
-    virtual void raiseClient(TabBoxClient *client) const;
-    virtual void restack(TabBoxClient *c, TabBoxClient *under);
-    virtual void shadeClient(TabBoxClient *c, bool b) const;
-    virtual QWeakPointer< TabBoxClient > clientToAddToList(KWin::TabBox::TabBoxClient* client, int desktop) const;
-    virtual QWeakPointer< TabBoxClient > desktopClient() const;
-    virtual void activateAndClose();
+    int activeScreen() const override;
+    QWeakPointer< TabBoxClient > activeClient() const override;
+    int currentDesktop() const override;
+    QString desktopName(TabBoxClient* client) const override;
+    QString desktopName(int desktop) const override;
+    bool isKWinCompositing() const override;
+    QWeakPointer< TabBoxClient > nextClientFocusChain(TabBoxClient* client) const override;
+    QWeakPointer< TabBoxClient > firstClientFocusChain() const override;
+    bool isInFocusChain (TabBoxClient* client) const override;
+    int nextDesktopFocusChain(int desktop) const override;
+    int numberOfDesktops() const override;
+    TabBoxClientList stackingOrder() const override;
+    void elevateClient(TabBoxClient* c, QWindow *tabbox, bool elevate) const override;
+    void raiseClient(TabBoxClient *client) const override;
+    void restack(TabBoxClient *c, TabBoxClient *under) override;
+    void shadeClient(TabBoxClient *c, bool b) const override;
+    QWeakPointer< TabBoxClient > clientToAddToList(KWin::TabBox::TabBoxClient* client, int desktop) const override;
+    QWeakPointer< TabBoxClient > desktopClient() const override;
+    void activateAndClose() override;
     void highlightWindows(TabBoxClient *window = nullptr, QWindow *controller = nullptr) override;
     bool noModifierGrab() const override;
 
@@ -90,19 +90,20 @@ class TabBoxClientImpl : public TabBoxClient
 {
 public:
     explicit TabBoxClientImpl(AbstractClient *client);
-    virtual ~TabBoxClientImpl();
+    ~TabBoxClientImpl() override;
 
-    virtual QString caption() const;
-    virtual QIcon icon() const override;
-    virtual WId window() const;
-    virtual bool isMinimized() const;
-    virtual int x() const;
-    virtual int y() const;
-    virtual int width() const;
-    virtual int height() const;
-    virtual bool isCloseable() const;
-    virtual void close();
-    virtual bool isFirstInTabBox() const;
+    QString caption() const override;
+    QIcon icon() const override;
+    WId window() const override;
+    bool isMinimized() const override;
+    int x() const override;
+    int y() const override;
+    int width() const override;
+    int height() const override;
+    bool isCloseable() const override;
+    void close() override;
+    bool isFirstInTabBox() const override;
+    QUuid internalId() const override;
 
     AbstractClient* client() const {
         return m_client;
@@ -116,55 +117,123 @@ class KWIN_EXPORT TabBox : public QObject
 {
     Q_OBJECT
 public:
-    ~TabBox();
+    ~TabBox() override;
 
+    /**
+     * Returns the currently displayed client ( only works in TabBoxWindowsMode ).
+     * Returns 0 if no client is displayed.
+     */
     AbstractClient *currentClient();
+
+    /**
+     * Returns the list of clients potentially displayed ( only works in
+     * TabBoxWindowsMode ).
+     * Returns an empty list if no clients are available.
+     */
     QList<AbstractClient*> currentClientList();
+
+    /**
+     * Returns the currently displayed virtual desktop ( only works in
+     * TabBoxDesktopListMode )
+     * Returns -1 if no desktop is displayed.
+     */
     int currentDesktop();
+
+    /**
+     * Returns the list of desktops potentially displayed ( only works in
+     * TabBoxDesktopListMode )
+     * Returns an empty list if no are available.
+     */
     QList< int > currentDesktopList();
 
+    /**
+     * Change the currently selected client, and notify the effects.
+     *
+     * @see setCurrentDesktop
+     */
     void setCurrentClient(AbstractClient *newClient);
+
+    /**
+     * Change the currently selected desktop, and notify the effects.
+     *
+     * @see setCurrentClient
+     */
     void setCurrentDesktop(int newDesktop);
 
+    /**
+     * Sets the current mode to \a mode, either TabBoxDesktopListMode or TabBoxWindowsMode
+     *
+     * @see mode
+     */
     void setMode(TabBoxMode mode);
     TabBoxMode mode() const {
         return m_tabBoxMode;
     }
 
+    /**
+     * Resets the tab box to display the active client in TabBoxWindowsMode, or the
+     * current desktop in TabBoxDesktopListMode
+     */
     void reset(bool partial_reset = false);
+
+    /**
+     * Shows the next or previous item, depending on \a next
+     */
     void nextPrev(bool next = true);
 
+    /**
+     * Shows the tab box after some delay.
+     *
+     * If the 'ShowDelay' setting is false, show() is simply called.
+     *
+     * Otherwise, we start a timer for the delay given in the settings and only
+     * do a show() when it times out.
+     *
+     * This means that you can alt-tab between windows and you don't see the
+     * tab box immediately. Not only does this make alt-tabbing faster, it gives
+     * less 'flicker' to the eyes. You don't need to see the tab box if you're
+     * just quickly switching between 2 or 3 windows. It seems to work quite
+     * nicely.
+     */
     void delayedShow();
+
+    /**
+     * Notify effects that the tab box is being hidden.
+     */
     void hide(bool abort = false);
 
-    /*!
-    Increase the reference count, preventing the default tabbox from showing.
-
-    \sa unreference(), isDisplayed()
-    */
+    /**
+     * Increases the reference count, preventing the default tabbox from showing.
+     *
+     * @see unreference
+     * @see isDisplayed
+     */
     void reference() {
         ++m_displayRefcount;
     }
-    /*!
-    Decrease the reference count.  Only when the reference count is 0 will
-    the default tab box be shown.
-    */
+
+    /**
+     * Decreases the reference count. Only when the reference count is 0 will
+     * the default tab box be shown.
+     */
     void unreference() {
         --m_displayRefcount;
     }
-    /*!
-    Returns whether the tab box is being displayed, either natively or by an
-    effect.
 
-    \sa reference(), unreference()
-    */
+    /**
+     * Returns whether the tab box is being displayed, either natively or by an
+     * effect.
+     *
+     * @see reference
+     * @see unreference
+     */
     bool isDisplayed() const {
         return m_displayRefcount > 0;
-    };
+    }
 
     /**
      * @returns @c true if TabBox is shown, @c false if replaced by Effect
-     **/
+     */
     bool isShown() const {
         return m_isShown;
     }
@@ -199,6 +268,10 @@ public:
     static TabBox *create(QObject *parent);
 
 public Q_SLOTS:
+    /**
+     * Notify effects that the tab box is being shown, and only display the
+     * default tab box QFrame if no effect has referenced the tab box.
+     */
     void show();
     void close(bool abort = false);
     void accept(bool closeTabBox = true);

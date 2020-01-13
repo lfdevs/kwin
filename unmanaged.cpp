@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QTimer>
 #include <QDebug>
+#include <QWindow>
 
 #include <xcb/shape.h>
 
@@ -46,7 +47,7 @@ Unmanaged::~Unmanaged()
 {
 }
 
-bool Unmanaged::track(Window w)
+bool Unmanaged::track(xcb_window_t w)
 {
     GRAB_SERVER_DURING_CONTEXT
     Xcb::WindowAttributes attr(w);
@@ -81,6 +82,9 @@ bool Unmanaged::track(Window w)
     getWmOpaqueRegion();
     getSkipCloseAnimation();
     setupCompositing();
+    if (QWindow *internalWindow = findInternalWindow()) {
+        m_outline = internalWindow->property("__kwin_outline").toBool();
+    }
     if (effects)
         static_cast<EffectsHandlerImpl*>(effects)->checkInputWindowStacking();
     return true;
@@ -88,7 +92,7 @@ bool Unmanaged::track(Window w)
 
 void Unmanaged::release(ReleaseReason releaseReason)
 {
-    Deleted* del = NULL;
+    Deleted* del = nullptr;
     if (releaseReason != ReleaseReason::KWinShutsDown) {
         del = Deleted::create(this);
     }
@@ -123,6 +127,11 @@ QStringList Unmanaged::activities() const
     return QStringList();
 }
 
+QVector<VirtualDesktop *> Unmanaged::desktops() const
+{
+    return QVector<VirtualDesktop *>();
+}
+
 QPoint Unmanaged::clientPos() const
 {
     return QPoint(0, 0);   // unmanaged windows don't have decorations
@@ -154,10 +163,41 @@ NET::WindowType Unmanaged::windowType(bool direct, int supportedTypes) const
     return info->windowType(NET::WindowTypes(supportedTypes));
 }
 
+bool Unmanaged::isOutline() const
+{
+    return m_outline;
+}
+
 void Unmanaged::addDamage(const QRegion &damage)
 {
     repaints_region += damage;
     Toplevel::addDamage(damage);
+}
+
+QWindow *Unmanaged::findInternalWindow() const
+{
+    const QWindowList windows = kwinApp()->topLevelWindows();
+    for (QWindow *w : windows) {
+        if (w->winId() == window()) {
+            return w;
+        }
+    }
+    return nullptr;
+}
+
+bool Unmanaged::setupCompositing()
+{
+    if (!Toplevel::setupCompositing()) {
+        return false;
+    }
+
+    // With unmanaged windows there is a race condition between the client painting the window
+    // and us setting up damage tracking.  If the client wins we won't get a damage event even
+    // though the window has been painted.  To avoid this we mark the whole window as damaged
+    // and schedule a repaint immediately after creating the damage object.
+    addDamageFull();
+
+    return true;
 }
 
 } // namespace

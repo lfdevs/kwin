@@ -31,9 +31,9 @@ MagicLampEffect::MagicLampEffect()
 {
     initConfig<MagicLampConfig>();
     reconfigure(ReconfigureAll);
-    connect(effects, SIGNAL(windowDeleted(KWin::EffectWindow*)), this, SLOT(slotWindowDeleted(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(windowMinimized(KWin::EffectWindow*)), this, SLOT(slotWindowMinimized(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(windowUnminimized(KWin::EffectWindow*)), this, SLOT(slotWindowUnminimized(KWin::EffectWindow*)));
+    connect(effects, &EffectsHandler::windowDeleted, this, &MagicLampEffect::slotWindowDeleted);
+    connect(effects, &EffectsHandler::windowMinimized, this, &MagicLampEffect::slotWindowMinimized);
+    connect(effects, &EffectsHandler::windowUnminimized, this, &MagicLampEffect::slotWindowUnminimized);
 }
 
 bool MagicLampEffect::supported()
@@ -134,7 +134,7 @@ void MagicLampEffect::paintWindow(EffectWindow* w, int mask, QRegion region, Win
             icon = QRect(pt, QSize(0, 0));
         } else {
             // Assumption: there is a panel containing the icon position
-            EffectWindow* panel = NULL;
+            EffectWindow* panel = nullptr;
             foreach (EffectWindow * window, effects->stackingOrder()) {
                 if (!window->isDock())
                     continue;

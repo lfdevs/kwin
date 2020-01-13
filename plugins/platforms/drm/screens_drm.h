@@ -30,9 +30,8 @@ class DrmScreens : public OutputScreens
     Q_OBJECT
 public:
     DrmScreens(DrmBackend *backend, QObject *parent = nullptr);
-    virtual ~DrmScreens();
+    ~DrmScreens() override;
 
-    float refreshRate(int screen) const override;
     bool supportsTransformations(int screen) const override;
 
     DrmBackend *m_backend;

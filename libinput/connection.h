@@ -43,12 +43,12 @@ class Event;
 class Device;
 class Context;
 
-class Connection : public QObject
+class KWIN_EXPORT Connection : public QObject
 {
     Q_OBJECT
 
 public:
-    ~Connection();
+    ~Connection() override;
 
     void setInputConfig(const KSharedConfigPtr &config) {
         m_config = config;
@@ -58,7 +58,7 @@ public:
     /**
      * Sets the screen @p size. This is needed for mapping absolute pointer events to
      * the screen data.
-     **/
+     */
     void setScreenSize(const QSize &size);
 
     void updateScreens();
@@ -104,7 +104,8 @@ Q_SIGNALS:
     void pointerButtonChanged(quint32 button, KWin::InputRedirection::PointerButtonState state, quint32 time, KWin::LibInput::Device *device);
     void pointerMotionAbsolute(QPointF orig, QPointF screen, quint32 time, KWin::LibInput::Device *device);
     void pointerMotion(const QSizeF &delta, const QSizeF &deltaNonAccelerated, quint32 time, quint64 timeMicroseconds, KWin::LibInput::Device *device);
-    void pointerAxisChanged(KWin::InputRedirection::PointerAxis axis, qreal delta, quint32 time, KWin::LibInput::Device *device);
+    void pointerAxisChanged(KWin::InputRedirection::PointerAxis axis, qreal delta, qint32 discreteDelta,
+        KWin::InputRedirection::PointerAxisSource source, quint32 time, KWin::LibInput::Device *device);
     void touchFrame(KWin::LibInput::Device *device);
     void touchCanceled(KWin::LibInput::Device *device);
     void touchDown(qint32 id, const QPointF &absolutePos, quint32 time, KWin::LibInput::Device *device);

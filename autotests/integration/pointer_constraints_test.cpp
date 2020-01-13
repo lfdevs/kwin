@@ -75,8 +75,8 @@ void TestPointerConstraints::initTestCase()
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
     QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit()));
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
 
     // set custom config which disables the OnScreenNotification
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
@@ -132,6 +132,10 @@ void TestPointerConstraints::testConfinedPointer_data()
     QTest::newRow("XdgShellV6 - bottomRight") << Test::ShellSurfaceType::XdgShellV6 << bottomRight << 1  << 1;
     QTest::newRow("XdgShellV6 - topLeft")     << Test::ShellSurfaceType::XdgShellV6 << topLeft  << -1 << -1;
     QTest::newRow("XdgShellV6 - topRight")    << Test::ShellSurfaceType::XdgShellV6 << topRight << 1  << -1;
+    QTest::newRow("XdgWmBase - bottomLeft")   << Test::ShellSurfaceType::XdgShellStable << bottomLeft  << -1 << 1;
+    QTest::newRow("XdgWmBase - bottomRight")  << Test::ShellSurfaceType::XdgShellStable << bottomRight << 1  << 1;
+    QTest::newRow("XdgWmBase - topLeft")      << Test::ShellSurfaceType::XdgShellStable << topLeft  << -1 << -1;
+    QTest::newRow("XdgWmBase - topRight")     << Test::ShellSurfaceType::XdgShellStable << topRight << 1  << -1;
 }
 
 void TestPointerConstraints::testConfinedPointer()
@@ -186,6 +190,39 @@ void TestPointerConstraints::testConfinedPointer()
     QCOMPARE(pointerPositionChangedSpy.count(), 1);
     QCOMPARE(KWin::Cursor::pos(), position);
 
+    // modifier + click should be ignored
+    // first ensure the settings are ok
+    KConfigGroup group = kwinApp()->config()->group("MouseBindings");
+    group.writeEntry("CommandAllKey", QStringLiteral("Alt"));
+    group.writeEntry("CommandAll1", "Move");
+    group.writeEntry("CommandAll2", "Move");
+    group.writeEntry("CommandAll3", "Move");
+    group.writeEntry("CommandAllWheel", "change opacity");
+    group.sync();
+    workspace()->slotReconfigure();
+    QCOMPARE(options->commandAllModifier(), Qt::AltModifier);
+    QCOMPARE(options->commandAll1(), Options::MouseUnrestrictedMove);
+    QCOMPARE(options->commandAll2(), Options::MouseUnrestrictedMove);
+    QCOMPARE(options->commandAll3(), Options::MouseUnrestrictedMove);
+
+    quint32 timestamp = 1;
+    kwinApp()->platform()->keyboardKeyPressed(KEY_LEFTALT, timestamp++);
+    kwinApp()->platform()->pointerButtonPressed(BTN_LEFT, timestamp++);
+    QVERIFY(!c->isMove());
+    kwinApp()->platform()->pointerButtonReleased(BTN_LEFT, timestamp++);
+
+    // set the opacity to 0.5
+    c->setOpacity(0.5);
+    QCOMPARE(c->opacity(), 0.5);
+
+    // pointer is confined so shortcut should not work
+    kwinApp()->platform()->pointerAxisVertical(-5, timestamp++);
+    QCOMPARE(c->opacity(), 0.5);
+    kwinApp()->platform()->pointerAxisVertical(5, timestamp++);
+    QCOMPARE(c->opacity(), 0.5);
+
+    kwinApp()->platform()->keyboardKeyReleased(KEY_LEFTALT, timestamp++);
+
     // deactivate the client, this should unconfine
     workspace()->activateClient(nullptr);
     QVERIFY(unconfinedSpy.wait());
@@ -199,7 +236,7 @@ void TestPointerConstraints::testConfinedPointer()
     QVERIFY(unconfinedSpy2.isValid());
 
     // activate it again, this confines again
-    workspace()->activateClient(static_cast<AbstractClient*>(input()->pointer()->window().data()));
+    workspace()->activateClient(static_cast<AbstractClient*>(input()->pointer()->focus().data()));
     QVERIFY(confinedSpy2.wait());
     QCOMPARE(input()->pointer()->isConstrained(), true);
 
@@ -208,7 +245,7 @@ void TestPointerConstraints::testConfinedPointer()
     QVERIFY(unconfinedSpy2.wait());
     QCOMPARE(input()->pointer()->isConstrained(), false);
     // activate it again, this confines again
-    workspace()->activateClient(static_cast<AbstractClient*>(input()->pointer()->window().data()));
+    workspace()->activateClient(static_cast<AbstractClient*>(input()->pointer()->focus().data()));
     QVERIFY(confinedSpy2.wait());
     QCOMPARE(input()->pointer()->isConstrained(), true);
 
@@ -239,7 +276,7 @@ void TestPointerConstraints::testConfinedPointer()
     confinedPointer.reset(nullptr);
     Test::flushWaylandConnection();
 
-    QSignalSpy constraintsChangedSpy(input()->pointer()->window()->surface(), &KWayland::Server::SurfaceInterface::pointerConstraintsChanged);
+    QSignalSpy constraintsChangedSpy(input()->pointer()->focus()->surface(), &KWayland::Server::SurfaceInterface::pointerConstraintsChanged);
     QVERIFY(constraintsChangedSpy.isValid());
     QVERIFY(constraintsChangedSpy.wait());
 
@@ -267,6 +304,7 @@ void TestPointerConstraints::testLockedPointer_data()
     QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell;
     QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5;
     QTest::newRow("xdgShellV6") << Test::ShellSurfaceType::XdgShellV6;
+    QTest::newRow("xdgWmBase") << Test::ShellSurfaceType::XdgShellStable;
 }
 
 void TestPointerConstraints::testLockedPointer()
@@ -315,7 +353,7 @@ void TestPointerConstraints::testLockedPointer()
     QVERIFY(lockedSpy2.isValid());
 
     // activate the client again, this should lock again
-    workspace()->activateClient(static_cast<AbstractClient*>(input()->pointer()->window().data()));
+    workspace()->activateClient(static_cast<AbstractClient*>(input()->pointer()->focus().data()));
     QVERIFY(lockedSpy2.wait());
     QCOMPARE(input()->pointer()->isConstrained(), true);
 
@@ -328,7 +366,7 @@ void TestPointerConstraints::testLockedPointer()
     lockedPointer.reset(nullptr);
     Test::flushWaylandConnection();
 
-    QSignalSpy constraintsChangedSpy(input()->pointer()->window()->surface(), &KWayland::Server::SurfaceInterface::pointerConstraintsChanged);
+    QSignalSpy constraintsChangedSpy(input()->pointer()->focus()->surface(), &KWayland::Server::SurfaceInterface::pointerConstraintsChanged);
     QVERIFY(constraintsChangedSpy.isValid());
     QVERIFY(constraintsChangedSpy.wait());
 
@@ -345,6 +383,7 @@ void TestPointerConstraints::testCloseWindowWithLockedPointer_data()
     QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell;
     QTest::newRow("XdgShellV5") << Test::ShellSurfaceType::XdgShellV5;
     QTest::newRow("XdgShellV6") << Test::ShellSurfaceType::XdgShellV6;
+    QTest::newRow("XdgWmBase") << Test::ShellSurfaceType::XdgShellStable;
 }
 
 void TestPointerConstraints::testCloseWindowWithLockedPointer()

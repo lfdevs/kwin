@@ -25,17 +25,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <fixx11h.h>
 #include <qpa/qplatformwindow.h>
-// wayland
-#include <config-kwin.h>
-#if HAVE_WAYLAND_EGL
-#include <wayland-egl.h>
-#endif
 
 class QOpenGLFramebufferObject;
 
-#if HAVE_WAYLAND_EGL
-struct wl_egl_window;
-#endif
 
 namespace KWayland
 {
@@ -60,7 +52,7 @@ class Window : public QPlatformWindow
 {
 public:
     explicit Window(QWindow *window, KWayland::Client::Surface *surface, KWayland::Client::ShellSurface *shellSurface, const Integration *integration);
-    virtual ~Window();
+    ~Window() override;
 
     void setVisible(bool visible) override;
     void setGeometry(const QRect &rect) override;
@@ -69,10 +61,9 @@ public:
     KWayland::Client::Surface *surface() const {
         return m_surface;
     }
-    EGLSurface eglSurface() const {
-        return m_eglSurface;
-    }
-    void createEglSurface(EGLDisplay dpy, EGLConfig config);
+
+    int scale() const;
+    qreal devicePixelRatio() const override;
 
     void bindContentFBO();
     const QSharedPointer<QOpenGLFramebufferObject> &contentFBO() const {
@@ -87,15 +78,12 @@ private:
 
     KWayland::Client::Surface *m_surface;
     KWayland::Client::ShellSurface *m_shellSurface;
-    EGLSurface m_eglSurface = EGL_NO_SURFACE;
     QSharedPointer<QOpenGLFramebufferObject> m_contentFBO;
     bool m_resized = false;
     ShellClient *m_shellClient = nullptr;
-#if HAVE_WAYLAND_EGL
-    wl_egl_window *m_eglWaylandWindow = nullptr;
-#endif
     quint32 m_windowId;
     const Integration *m_integration;
+    int m_scale = 1;
 };
 
 }

@@ -29,13 +29,12 @@ namespace KWin
 {
 namespace QPA
 {
-class Integration;
 
 class AbstractPlatformContext : public QPlatformOpenGLContext
 {
 public:
-    explicit AbstractPlatformContext(QOpenGLContext *context, EGLDisplay display, EGLConfig config = nullptr);
-    virtual ~AbstractPlatformContext();
+    AbstractPlatformContext(QOpenGLContext *context, EGLDisplay display, EGLConfig config = nullptr);
+    ~AbstractPlatformContext() override;
 
     void doneCurrent() override;
     QSurfaceFormat format() const override;

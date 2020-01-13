@@ -62,8 +62,8 @@ void DebugConsoleTest::initTestCase()
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
     QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit()));
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
 
     kwinApp()->start();
     QVERIFY(workspaceCreatedSpy.wait());
@@ -392,7 +392,7 @@ void DebugConsoleTest::testWaylandClient()
     Test::flushWaylandConnection();
     qDebug() << rowsRemovedSpy.count();
     QEXPECT_FAIL("wlShell", "Deleting a ShellSurface does not result in the server removing the ShellClient", Continue);
-    QVERIFY(rowsRemovedSpy.wait());
+    QVERIFY(rowsRemovedSpy.wait(500));
     surface.reset();
 
     if (rowsRemovedSpy.isEmpty()) {
@@ -413,7 +413,7 @@ class HelperWindow : public QRasterWindow
     Q_OBJECT
 public:
     HelperWindow() : QRasterWindow(nullptr) {}
-    ~HelperWindow() = default;
+    ~HelperWindow() override = default;
 
 Q_SIGNALS:
     void entered();
@@ -449,8 +449,7 @@ void DebugConsoleTest::testInternalWindow()
     w->setGeometry(0, 0, 100, 100);
     w->show();
 
-    QVERIFY(rowsInsertedSpy.wait());
-    QCOMPARE(rowsInsertedSpy.count(), 1);
+    QTRY_COMPARE(rowsInsertedSpy.count(), 1);
     QCOMPARE(rowsInsertedSpy.first().first().value<QModelIndex>(), internalTopLevelIndex);
 
     QModelIndex clientIndex = model.index(rowsInsertedSpy.first().last().toInt(), 0, internalTopLevelIndex);

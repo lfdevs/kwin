@@ -31,7 +31,8 @@ static const int NEUTRAL_TEMPERATURE = 6500;
 static const int DEFAULT_NIGHT_TEMPERATURE = 4500;
 static const int FALLBACK_SLOW_UPDATE_TIME = 1800000;   /* 30 minutes */
 
-/* Whitepoint values for temperatures at 100K intervals.
+/**
+ * Whitepoint values for temperatures at 100K intervals.
  * These will be interpolated for the actual temperature.
  * This table was provided by Ingo Thies, 2013.
  * See the following file for more information:

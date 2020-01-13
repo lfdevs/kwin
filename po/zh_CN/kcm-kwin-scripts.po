@@ -7,17 +7,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2019-01-05 20:48\n"
-"Last-Translator: guoyunhe <i@guoyunhe.me>\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"PO-Revision-Date: 2020-01-04 21:46\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: crowdin.com\n"
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Language: zh-CN\n"
 "X-Crowdin-File: /kf5-stable/messages/kde-workspace/kcm-kwin-scripts.pot\n"
@@ -80,13 +79,13 @@ msgid "KWin script configuration"
 msgstr "KWin 脚本配置"
 
 #. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
-#: module.ui:44
+#: module.ui:55
 #, kde-format
-msgid "Import KWin script..."
-msgstr "导入 KWin 脚本..."
+msgid "Install from File..."
+msgstr "从文件安装..."
 
 #. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
-#: module.ui:51
+#: module.ui:67
 #, kde-format
 msgid "Get New Scripts..."
 msgstr "获取新脚本..."

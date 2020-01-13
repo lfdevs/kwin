@@ -76,8 +76,6 @@
 > låter dig ställa in hur fönster flyttas och placeras när de startar. <guilabel
 >Avancerat</guilabel
 > täcker vissa speciella alternativ såsom <quote
->fönsterflikar</quote
-> och att <quote
 >rulla upp</quote
 > fönster. </para>
 
@@ -357,7 +355,7 @@
 >Liknande alternativ är tillgängliga för <guilabel
 >Hjulrörelse</guilabel
 >. </para>
-<!--FIXME Raise/Lower Shade/Unshade Maximize/Restore Keep Above/Below Move to Previous/Next Desktop Change Opacity  Switch to Window Tab to the Left/Reght -->
+<!--FIXME Raise/Lower Shade/Unshade Maximize/Restore Keep Above/Below Move to Previous/Next Desktop Change Opacity -->
 
 <tip>
 <para
@@ -420,7 +418,7 @@
 </varlistentry>
 
 <!--FIXME missing:
-Minimize, Shade, Close, Start Window Tab Drag
+Minimize, Shade, Close
 -->
 
 <varlistentry>
@@ -636,7 +634,7 @@ Increase Opacity + Decrease Opacity
 <!--FIXME
 Mouse Wheel has different choices:
 Raise/Lower, Shade/Unshade, Maximize/Restore, Keep Above/Below, 
-Move to Previous/Next Desktop, Change Opacity, Switch to Window Tab to the Left/Right
+Move to Previous/Next Desktop, Change Opacity
 Nothing
 -->
 
@@ -764,30 +762,6 @@ Nothing
 </variablelist>
 
 <variablelist>
-<title
->Fönsterflikar</title>
-
-<varlistentry>
-<term
-><guilabel
->Gruppera automatiskt liknande fönster</guilabel
-></term>
-<listitem
-><para
->När aktiverad, försök automatiskt detektera när ett nyöppnat fönster hör ihop med ett befintligt, och placera dem i samma fönstergrupp.</para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><guilabel
->Byt till automatiskt grupperade fönster omedelbart</guilabel
-></term>
-<listitem
-><para
->När aktiverat, byt omedelbart till eventuella nya fönsterflikar som automatiskt lagts till i nuvarande grupp.</para
-></listitem>
-</varlistentry>
 
 <varlistentry>
 <term

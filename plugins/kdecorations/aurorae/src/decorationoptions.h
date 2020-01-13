@@ -123,7 +123,7 @@ private:
  *    deco: decoration
  * }
  * @endcode
- **/
+ */
 class DecorationOptions : public QObject
 {
     Q_OBJECT
@@ -135,43 +135,43 @@ class DecorationOptions : public QObject
      * an active or inactive window.
      *
      * Best pass the decoration object available as a context property to this property.
-     **/
+     */
     Q_PROPERTY(KDecoration2::Decoration *deco READ decoration WRITE setDecoration NOTIFY decorationChanged)
     /**
      * The color for the titlebar depending on the decoration's active state.
-     **/
+     */
     Q_PROPERTY(QColor titleBarColor READ titleBarColor NOTIFY colorsChanged)
     /**
      * The blend color for the titlebar depending on the decoration's active state.
-     **/
+     */
     Q_PROPERTY(QColor titleBarBlendColor READ titleBarBlendColor NOTIFY colorsChanged)
     /**
      * The titlebar text color depending on the decoration's active state.
-     **/
+     */
     Q_PROPERTY(QColor fontColor READ fontColor NOTIFY colorsChanged)
     /**
      * The color to use for titlebar buttons depending on the decoration's active state.
-     **/
+     */
     Q_PROPERTY(QColor buttonColor READ buttonColor NOTIFY colorsChanged)
     /**
      * The color for the window frame (border) depending on the decoration's active state.
-     **/
+     */
     Q_PROPERTY(QColor borderColor READ borderColor NOTIFY colorsChanged)
     /**
      * The color for the resize handle depending on the decoration's active state.
-     **/
+     */
     Q_PROPERTY(QColor resizeHandleColor READ resizeHandleColor NOTIFY colorsChanged)
     /**
      * The font to be used for the decoration caption depending on the decoration's active state.
-     **/
+     */
     Q_PROPERTY(QFont titleFont READ titleFont NOTIFY fontChanged)
     /**
      * The buttons to be positioned on the left side of the titlebar from left to right.
-     **/
+     */
     Q_PROPERTY(QList<int> titleButtonsLeft READ titleButtonsLeft NOTIFY titleButtonsChanged)
     /**
      * The buttons to be positioned on the right side of the titlebar from left to right.
-     **/
+     */
     Q_PROPERTY(QList<int> titleButtonsRight READ titleButtonsRight NOTIFY titleButtonsChanged)
     Q_PROPERTY(int mousePressAndHoldInterval READ mousePressAndHoldInterval CONSTANT)
 public:
@@ -215,7 +215,7 @@ public:
         DecorationButtonExplicitSpacer
     };
     explicit DecorationOptions(QObject *parent = nullptr);
-    virtual ~DecorationOptions();
+    ~DecorationOptions() override;
 
     QColor titleBarColor() const;
     QColor titleBarBlendColor() const;
@@ -256,7 +256,7 @@ class Borders : public QObject
     Q_PROPERTY(int bottom READ bottom WRITE setBottom NOTIFY bottomChanged)
 public:
     Borders(QObject *parent = nullptr);
-    virtual ~Borders();
+    ~Borders() override;
     int left() const;
     int right() const;
     int top() const;
@@ -272,20 +272,20 @@ public:
 public Q_SLOTS:
     /**
      * Sets all four borders to @p value.
-     **/
+     */
     void setAllBorders(int value);
     /**
      * Sets all borders except the title border to @p value.
-     **/
+     */
     void setBorders(int value);
     /**
      * Sets the side borders (e.g. if title is on top, the left and right borders)
      * to @p value.
-     **/
+     */
     void setSideBorders(int value);
     /**
      * Sets the title border to @p value.
-     **/
+     */
     void setTitle(int value);
 
 Q_SIGNALS:

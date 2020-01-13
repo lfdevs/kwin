@@ -69,11 +69,11 @@ public:
     int height() const;
     /**
      * @since 4.7
-     **/
+     */
     bool isYInverted() const;
     /**
      * @since 4.8
-     **/
+     */
     void setYInverted(bool inverted);
 
     /**
@@ -108,7 +108,6 @@ public:
 
     /** @short
      * Make the texture fully transparent
-     * Warning: this clobbers the current framebuffer binding except on fglrx
      */
     void clear();
     bool isDirty() const;
@@ -135,7 +134,7 @@ public:
      * This requires OpenGL 3.0, GL_ARB_texture_rg or OpenGL ES 3.0 or GL_EXT_texture_rg.
      *
      * @since 5.2.1
-     **/
+     */
     static bool supportsFormatRG();
 
 protected:

@@ -1,7 +1,7 @@
 {
     "KPlugin": {
         "Description": "Platform plugin for standalone x11 in kwin_x11.",
-        "Description[ca@valencia]": "Connector de plataforma per una X11 autònoma en el kwin_x11.",
+        "Description[ca@valencia]": "Connector de plataforma per a una X11 autònoma en kwin_x11.",
         "Description[ca]": "Connector de plataforma per una X11 autònoma en el kwin_x11.",
         "Description[da]": "Platform-plugin til standalone x11 i kwin_x11.",
         "Description[de]": "Plattform-Modul für ein selbstständiges X11 in kwin_x11.",
@@ -17,6 +17,7 @@
         "Description[id]": "Plugin platform untuk standalone x11 dalam kwin_x11.",
         "Description[it]": "Estensione di piattaforma per x11 autonomo in kwin_x11.",
         "Description[ko]": "kwin_x11의 단독 X11 플러그인입니다.",
+        "Description[lt]": "Platformos priedas, skirtas kwin_x11 viduje esančiam, atskiram x11",
         "Description[nl]": "Platform plug-in voor alleenstaande x11 in kwin_x11.",
         "Description[nn]": "Plattformtillegg for frittståande X11 i kwin_x11.",
         "Description[pl]": "Wtyczka platformy dla wolnostojącego x11 w kwin_x11.",
@@ -53,6 +54,7 @@
         "Name[id]": "x11-standalone",
         "Name[it]": "X11-alone",
         "Name[ko]": "x11-standalone",
+        "Name[lt]": "x11-atskiras",
         "Name[nl]": "x11-alleenstaand",
         "Name[nn]": "X11 frittståande",
         "Name[pl]": "x11-wolnostojący",

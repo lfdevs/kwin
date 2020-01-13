@@ -7,10 +7,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2015-01-28 00:05+0200\n"
-"Last-Translator: Liudas Ališauskas <liudas@akmc.lt>\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"PO-Revision-Date: 2019-06-01 19:23+0000\n"
+"Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
@@ -18,17 +18,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Liudas Ališauskas"
+msgstr "Liudas Ališauskas, Moo"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "liudas@akmc.lt"
+msgstr "liudas@akmc.lt, <>"
 
 #: module.cpp:49
 #, kde-format
@@ -62,12 +62,14 @@ msgid ""
 "Cannot import selected script.\n"
 "%1"
 msgstr ""
+"Nepavyksta importuoti pasirinkto scenarijaus.\n"
+"%1"
 
 #: module.cpp:117
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."
-msgstr ""
+msgstr "Scenarijus \"%1\" buvo sėkmingai importuotas."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Module)
 #: module.ui:14
@@ -76,14 +78,13 @@ msgid "KWin script configuration"
 msgstr "KWin scenarijaus konfigūracija"
 
 #. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
-#: module.ui:44
+#: module.ui:55
 #, kde-format
-msgid "Import KWin script..."
-msgstr "Importuoti KWin scenarijų..."
+msgid "Install from File..."
+msgstr "Įdiegti iš failo..."
 
 #. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
-#: module.ui:51
-#, fuzzy, kde-format
-#| msgid "Get New Script..."
+#: module.ui:67
+#, kde-format
 msgid "Get New Scripts..."
-msgstr "Gauti naują scenarijų..."
+msgstr "Gauti naujų scenarijų..."

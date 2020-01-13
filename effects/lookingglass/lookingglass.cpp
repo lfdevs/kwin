@@ -45,10 +45,10 @@ LookingGlassEffect::LookingGlassEffect()
     : zoom(1.0f)
     , target_zoom(1.0f)
     , polling(false)
-    , m_texture(NULL)
-    , m_fbo(NULL)
-    , m_vbo(NULL)
-    , m_shader(NULL)
+    , m_texture(nullptr)
+    , m_fbo(nullptr)
+    , m_vbo(nullptr)
+    , m_shader(nullptr)
     , m_enabled(false)
     , m_valid(false)
 {
@@ -69,8 +69,8 @@ LookingGlassEffect::LookingGlassEffect()
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << Qt::META + Qt::Key_0);
     effects->registerGlobalShortcut(Qt::META + Qt::Key_0, a);
 
-    connect(effects, SIGNAL(mouseChanged(QPoint,QPoint,Qt::MouseButtons,Qt::MouseButtons,Qt::KeyboardModifiers,Qt::KeyboardModifiers)),
-            this, SLOT(slotMouseChanged(QPoint,QPoint,Qt::MouseButtons,Qt::MouseButtons,Qt::KeyboardModifiers,Qt::KeyboardModifiers)));
+    connect(effects, &EffectsHandler::mouseChanged, this, &LookingGlassEffect::slotMouseChanged);
+
     reconfigure(ReconfigureAll);
 }
 
@@ -232,7 +232,7 @@ void LookingGlassEffect::paintScreen(int mask, QRegion region, ScreenPaintData &
     if (m_valid && m_enabled) {
         // Disable render texture
         GLRenderTarget* target = GLRenderTarget::popRenderTarget();
-        assert(target == m_fbo);
+        Q_ASSERT(target == m_fbo);
         Q_UNUSED(target);
         m_texture->bind();
         m_texture->generateMipmaps();

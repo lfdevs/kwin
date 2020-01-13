@@ -33,7 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QPainter>
 
-#include <math.h>
+#include <cmath>
 
 #ifdef KWIN_HAVE_XRENDER_COMPOSITING
 #include <xcb/render.h>
@@ -53,18 +53,17 @@ MouseMarkEffect::MouseMarkEffect()
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << Qt::SHIFT + Qt::META + Qt::Key_F11);
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << Qt::SHIFT + Qt::META + Qt::Key_F11);
     effects->registerGlobalShortcut(Qt::SHIFT + Qt::META + Qt::Key_F11, a);
-    connect(a, SIGNAL(triggered(bool)), this, SLOT(clear()));
+    connect(a, &QAction::triggered, this, &MouseMarkEffect::clear);
     a = new QAction(this);
     a->setObjectName(QStringLiteral("ClearLastMouseMark"));
     a->setText(i18n("Clear Last Mouse Mark"));
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << Qt::SHIFT + Qt::META + Qt::Key_F12);
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << Qt::SHIFT + Qt::META + Qt::Key_F12);
     effects->registerGlobalShortcut(Qt::SHIFT + Qt::META + Qt::Key_F12, a);
-    connect(a, SIGNAL(triggered(bool)), this, SLOT(clearLast()));
+    connect(a, &QAction::triggered, this, &MouseMarkEffect::clearLast);
 
-    connect(effects, SIGNAL(mouseChanged(QPoint,QPoint,Qt::MouseButtons,Qt::MouseButtons,Qt::KeyboardModifiers,Qt::KeyboardModifiers)),
-            this, SLOT(slotMouseChanged(QPoint,QPoint,Qt::MouseButtons,Qt::MouseButtons,Qt::KeyboardModifiers,Qt::KeyboardModifiers)));
-    connect(effects, SIGNAL(screenLockingChanged(bool)), SLOT(screenLockingChanged(bool)));
+    connect(effects, &EffectsHandler::mouseChanged, this, &MouseMarkEffect::slotMouseChanged);
+    connect(effects, &EffectsHandler::screenLockingChanged, this, &MouseMarkEffect::screenLockingChanged);
     reconfigure(ReconfigureAll);
     arrow_start = NULL_POINT;
     effects->startMousePolling(); // We require it to detect activation as well
@@ -139,7 +138,7 @@ void MouseMarkEffect::paintScreen(int mask, QRegion region, ScreenPaintData& dat
             foreach (const QPoint & p, mark) {
                 verts << p.x() << p.y();
             }
-            vbo->setData(verts.size() / 2, 2, verts.data(), NULL);
+            vbo->setData(verts.size() / 2, 2, verts.data(), nullptr);
             vbo->render(GL_LINE_STRIP);
         }
         if (!drawing.isEmpty()) {
@@ -148,7 +147,7 @@ void MouseMarkEffect::paintScreen(int mask, QRegion region, ScreenPaintData& dat
             foreach (const QPoint & p, drawing) {
                 verts << p.x() << p.y();
             }
-            vbo->setData(verts.size() / 2, 2, verts.data(), NULL);
+            vbo->setData(verts.size() / 2, 2, verts.data(), nullptr);
             vbo->render(GL_LINE_STRIP);
         }
         glLineWidth(1.0);

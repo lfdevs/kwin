@@ -41,7 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QQmlEngine>
 #include <QQuickItem>
 #include <QQuickWindow>
-#include <X11/Xlib.h>
+#include <qpa/qwindowsysteminterface.h>
 // KDE
 #include <KLocalizedString>
 #include <KProcess>
@@ -61,12 +61,12 @@ public:
     ~TabBoxHandlerPrivate();
 
     /**
-    * Updates the current highlight window state
-    */
+     * Updates the current highlight window state
+     */
     void updateHighlightWindows();
     /**
-    * Ends window highlighting
-    */
+     * Ends window highlighting
+     */
     void endHighlightWindows(bool abort = false);
 
     void show();
@@ -88,8 +88,8 @@ public:
     DesktopModel* m_desktopModel;
     QModelIndex index;
     /**
-    * Indicates if the tabbox is shown.
-    */
+     * Indicates if the tabbox is shown.
+     */
     bool isShown;
     TabBoxClient *lastRaisedClient, *lastRaisedClientSucc;
     int wheelAngleDelta = 0;
@@ -246,7 +246,7 @@ QObject *TabBoxHandlerPrivate::createSwitcherItem(bool desktopMode)
             if (offers.isEmpty()) {
                 // load default
                 offers = KPackage::PackageLoader::self()->findPackages(type,  folderName,
-                    [this] (const KPluginMetaData &data) {
+                    [] (const KPluginMetaData &data) {
                         return data.pluginId().compare(QStringLiteral("informative"), Qt::CaseInsensitive) == 0;
                     }
                 );
@@ -265,7 +265,7 @@ QObject *TabBoxHandlerPrivate::createSwitcherItem(bool desktopMode)
             qCDebug(KWIN_TABBOX) << "Window Switcher Layout is no declarativeappletscript";
             return nullptr;
         }
-        auto findScriptFile = [desktopMode, service, folderName] {
+        auto findScriptFile = [service, folderName] {
             const QString pluginName = service.pluginId();
             const QString scriptName = service.value(QStringLiteral("X-Plasma-MainScript"));
             return QStandardPaths::locate(QStandardPaths::GenericDataLocation, folderName + pluginName + QLatin1String("/contents/") + scriptName);
@@ -344,6 +344,8 @@ void TabBoxHandlerPrivate::show()
     if (QWindow *w = window()) {
         wheelAngleDelta = 0;
         w->installEventFilter(q);
+        // pretend to activate the window to enable accessibility notifications
+        QWindowSystemInterface::handleWindowActivated(w, Qt::TabFocusReason);
     }
 #endif
 }
@@ -436,7 +438,7 @@ QModelIndex TabBoxHandler::nextPrev(bool forward) const
         model = d->desktopModel();
         break;
     default:
-        return d->index;
+        Q_UNREACHABLE();
     }
     if (forward) {
         int column = d->index.column() + 1;
@@ -527,13 +529,7 @@ void TabBoxHandler::grabbedKeyEvent(QKeyEvent* event) const
     if (!d->m_mainItem || !d->window()) {
         return;
     }
-    const QList<QQuickItem*> items = d->window()->contentItem()->findChildren<QQuickItem*>(QString(), Qt::FindDirectChildrenOnly);
-    for (QQuickItem *item : items) {
-        d->window()->sendEvent(item, event);
-        if (event->isAccepted()) {
-            break;
-        }
-    }
+    QCoreApplication::sendEvent(d->window(), event);
 }
 
 bool TabBoxHandler::containsPos(const QPoint& pos) const
@@ -613,7 +609,7 @@ QModelIndex TabBoxHandler::first() const
         model = d->desktopModel();
         break;
     default:
-        return QModelIndex();
+        Q_UNREACHABLE();
     }
     return model->index(0, 0);
 }

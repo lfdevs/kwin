@@ -45,23 +45,23 @@ class KWIN_EXPORT Screens : public QObject
     Q_PROPERTY(bool currentFollowsMouse READ isCurrentFollowsMouse WRITE setCurrentFollowsMouse)
 
 public:
-    virtual ~Screens();
+    ~Screens() override;
     /**
      * @internal
-     **/
+     */
     void setConfig(KSharedConfig::Ptr config);
     int count() const;
     int current() const;
     void setCurrent(int current);
     /**
-    * Called e.g. when a user clicks on a window, set current screen to be the screen
-    * where the click occurred
-    */
+     * Called e.g. when a user clicks on a window, set current screen to be the screen
+     * where the click occurred
+     */
     void setCurrent(const QPoint &pos);
     /**
-    * Check whether a client moved completely out of what's considered the current screen,
-    * if yes, set a new active screen.
-    */
+     * Check whether a client moved completely out of what's considered the current screen,
+     * if yes, set a new active screen.
+     */
     void setCurrent(const AbstractClient *c);
     bool isCurrentFollowsMouse() const;
     void setCurrentFollowsMouse(bool follows);
@@ -70,7 +70,7 @@ public:
      * The bounding geometry of all screens combined. Overlapping areas
      * are not counted multiple times.
      * @see geometryChanged()
-     **/
+     */
     QRect geometry() const;
     /**
      * The output name of the screen (usually eg. LVDS-1, VGA-0 or DVI-I-1 etc.)
@@ -78,14 +78,14 @@ public:
     virtual QString name(int screen) const;
     /**
      * @returns current refreshrate of the @p screen.
-     **/
+     */
     virtual float refreshRate(int screen) const;
     /**
      * @returns size of the @p screen.
      *
      * To get the size of all screens combined use size().
      * @see size()
-     **/
+     */
     virtual QSize size(int screen) const = 0;
 
     /**
@@ -96,7 +96,7 @@ public:
      */
     qreal maxScale() const;
 
-    /*
+    /**
      * The output scale for this display, for use by high DPI displays
      */
     virtual qreal scale(int screen) const;
@@ -106,7 +106,7 @@ public:
      *
      * @see geometry()
      * @see sizeChanged()
-     **/
+     */
     QSize size() const;
     virtual int number(const QPoint &pos) const = 0;
 
@@ -116,33 +116,33 @@ public:
 
     /**
      * The virtual bounding size of all screens combined.
-     * The default implementation returns the same as @link{size} and that is the
+     * The default implementation returns the same as @ref size and that is the
      * method which should be preferred.
      *
      * This method is only for cases where the platform specific implementation needs
      * to support different virtual sizes like on X11 with XRandR panning.
      *
      * @see size
-     **/
+     */
     virtual QSize displaySize() const;
 
 
     /**
      * The physical size of @p screen in mm.
      * Default implementation returns a size derived from 96 DPI.
-     **/
+     */
     virtual QSizeF physicalSize(int screen) const;
 
     /**
      * @returns @c true if the @p screen is connected through an internal display (e.g. LVDS).
      * Default implementation returns @c false.
-     **/
+     */
     virtual bool isInternal(int screen) const;
 
     /**
      * @returns @c true if the @p screen can be rotated.
      * Default implementation returns @c false
-     **/
+     */
     virtual bool supportsTransformations(int screen) const;
 
     virtual Qt::ScreenOrientation orientation(int screen) const;
@@ -152,7 +152,7 @@ public:
      * base implementation. The implementing subclass can use this to get notifications about
      * changes of the orientation and current orientation. There is no need to enable/disable it,
      * that is done by the base implementation
-     **/
+     */
     OrientationSensor *orientationSensor() const {
         return m_orientationSensor;
     }
@@ -164,20 +164,20 @@ Q_SIGNALS:
     void countChanged(int previousCount, int newCount);
     /**
      * Emitted whenever the screens are changed either count or geometry.
-     **/
+     */
     void changed();
     void currentChanged();
     /**
      * Emitted when the geometry of all screens combined changes.
      * Not emitted when the geometry of an individual screen changes.
      * @see geometry()
-     **/
+     */
     void geometryChanged();
     /**
      * Emitted when the size of all screens combined changes.
      * Not emitted when the size of an individual screen changes.
      * @see size()
-     **/
+     */
     void sizeChanged();
     /**
      * Emitted when the maximum scale of all attached screens changes
@@ -195,7 +195,7 @@ protected:
      * Called once the singleton instance has been created.
      * Any initialization code should go into this method. Overriding classes have to call
      * the base implementation first.
-     **/
+     */
     virtual void init();
 
 private Q_SLOTS:
@@ -212,29 +212,6 @@ private:
     qreal m_maxScale;
 
     KWIN_SINGLETON(Screens)
-};
-
-/**
- * @brief A base implementation for backends with just a (nested) window
- **/
-class KWIN_EXPORT BasicScreens : public Screens
-{
-    Q_OBJECT
-public:
-    BasicScreens(Platform *backend, QObject *parent = nullptr);
-    virtual ~BasicScreens();
-
-    void init() override;
-    QRect geometry(int screen) const override;
-    int number(const QPoint &pos) const override;
-    QSize size(int screen) const override;
-    qreal scale(int screen) const override;
-    void updateCount() override;
-
-private:
-    Platform *m_backend;
-    QVector<QRect> m_geometries;
-    QVector<qreal> m_scales;
 };
 
 inline

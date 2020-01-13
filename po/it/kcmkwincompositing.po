@@ -9,9 +9,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2018-08-06 08:29+0100\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"PO-Revision-Date: 2019-02-23 09:20+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128@baslug.org>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,17 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 18.12.0\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Vincenzo Reale,Luciano Montanaro"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "smart2128@baslug.org,"
+"X-Generator: Lokalize 18.12.2\n"
 
 #: compositing.cpp:378
 #, kde-format
@@ -69,10 +59,10 @@ msgid ""
 "immediate crash!\n"
 "Alternatively, you might want to use the XRender backend instead."
 msgstr ""
-"La composizione OpenGL (la predefinita) ha causato problemi di stabilità di "
-"KWin nel passato.\n"
+"La composizione OpenGL (quella predefinita) ha causato problemi di stabilità "
+"di KWin nel passato.\n"
 "Ciò era causato per lo più da bug dei driver.\n"
-"Se pensi di aver aggiornato , nel frattempo, a una versione stabile del "
+"Se pensi di aver aggiornato, nel frattempo, a una versione stabile del "
 "driver,\n"
 "puoi rimuovere questa protezione, tenendo presente che ciò potrebbe causare "
 "una chiusura inattesa immediata!\n"
@@ -115,13 +105,13 @@ msgstr "Velocità di animazione:"
 #: compositing.ui:111
 #, kde-format
 msgid "Instant"
-msgstr "Istantaneo"
+msgstr "Istantanea"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: compositing.ui:131
 #, kde-format
 msgid "Very slow"
-msgstr "Lentissimo"
+msgstr "Lentissima"
 
 #. i18n: ectx: property (text), widget (QLabel, glScaleFilterLabel)
 #. i18n: ectx: property (text), widget (QLabel, xrScaleFilterLabel)
@@ -235,12 +225,12 @@ msgstr ""
 msgid "Allow applications to block compositing"
 msgstr "Consenti alle applicazioni di bloccare la composizione"
 
-#: main.cpp:83
+#: main.cpp:55
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "Ri-attiva l'identificazione di OpenGL"
 
-#: main.cpp:141
+#: main.cpp:120
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -249,112 +239,16 @@ msgstr ""
 "«Solo se conveniente» evita solo i disturbi per i cambiamenti a schermo "
 "interno come un video."
 
-#: main.cpp:145
+#: main.cpp:124
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr ""
 "«Ridisegno dell'intero schermo» può causare dei problemi di prestazioni."
 
-#: main.cpp:149
+#: main.cpp:128
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
 "«Riutilizza il contenuto dello schermo» causa gravi problemi di prestazioni "
 "con i driver MESA."
-
-#: model.cpp:70
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Accessibility"
-msgstr "Accessibilità"
-
-#: model.cpp:71
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Appearance"
-msgstr "Aspetto"
-
-#: model.cpp:72
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Candy"
-msgstr "Attrazioni"
-
-#: model.cpp:73
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Focus"
-msgstr "Focus"
-
-#: model.cpp:74
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Show Desktop Animation"
-msgstr "Mostra l'animazione del desktop"
-
-#: model.cpp:75
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Tools"
-msgstr "Strumenti"
-
-#: model.cpp:76
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Virtual Desktop Switching Animation"
-msgstr "Animazione del passaggio tra i desktop virtuali"
-
-#: model.cpp:77
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Window Management"
-msgstr "Gestione delle finestre"
-
-#: model.cpp:233
-#, kde-format
-msgid "KWin development team"
-msgstr "La squadra di sviluppo di KWin"
-
-#: qml/Effect.qml:119
-#, kde-format
-msgid ""
-"Author: %1\n"
-"License: %2"
-msgstr ""
-"Autore: %1\n"
-"Licenza: %2"
-
-#: qml/EffectView.qml:64
-#, kde-format
-msgid ""
-"Hint: To find out or configure how to activate an effect, look at the "
-"effect's settings."
-msgstr ""
-"Suggerimento: per scoprire come configurare e attivare un effetto, esamina "
-"le sue impostazioni."
-
-#: qml/EffectView.qml:75
-#, kde-format
-msgid "Search"
-msgstr "Ricerca"
-
-#: qml/EffectView.qml:82
-#, kde-format
-msgid "Configure filter"
-msgstr "Configura il filtro"
-
-#: qml/EffectView.qml:85
-#, kde-format
-msgid "Exclude Desktop Effects not supported by the Compositor"
-msgstr "Escludi gli efffetti del desktop non supportati dal compositore"
-
-#: qml/EffectView.qml:93
-#, kde-format
-msgid "Exclude internal Desktop Effects"
-msgstr "Escludi gli effetti del desktop interni"
-
-#: qml/EffectView.qml:105
-#, kde-format
-msgid "Get New Effects..."
-msgstr "Ottieni nuovi effetti..."

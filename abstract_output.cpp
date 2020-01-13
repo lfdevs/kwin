@@ -17,21 +17,52 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
+
 #include "abstract_output.h"
-#include "wayland_server.h"
-
-// KWayland
-#include <KWayland/Server/output_interface.h>
-#include <KWayland/Server/outputchangeset.h>
-#include <KWayland/Server/outputdevice_interface.h>
-#include <KWayland/Server/xdgoutput_interface.h>
-// KF5
-#include <KLocalizedString>
-
-#include <cmath>
 
 namespace KWin
 {
+
+GammaRamp::GammaRamp(uint32_t size)
+    : m_table(3 * size)
+    , m_size(size)
+{
+}
+
+uint32_t GammaRamp::size() const
+{
+    return m_size;
+}
+
+uint16_t *GammaRamp::red()
+{
+    return m_table.data();
+}
+
+const uint16_t *GammaRamp::red() const
+{
+    return m_table.data();
+}
+
+uint16_t *GammaRamp::green()
+{
+    return m_table.data() + m_size;
+}
+
+const uint16_t *GammaRamp::green() const
+{
+    return m_table.data() + m_size;
+}
+
+uint16_t *GammaRamp::blue()
+{
+    return m_table.data() + 2 * m_size;
+}
+
+const uint16_t *GammaRamp::blue() const
+{
+    return m_table.data() + 2 * m_size;
+}
 
 AbstractOutput::AbstractOutput(QObject *parent)
     : QObject(parent)
@@ -40,91 +71,52 @@ AbstractOutput::AbstractOutput(QObject *parent)
 
 AbstractOutput::~AbstractOutput()
 {
-    delete m_waylandOutputDevice.data();
-    delete m_xdgOutput.data();
-    delete m_waylandOutput.data();
 }
 
-QString AbstractOutput::name() const
+QByteArray AbstractOutput::uuid() const
 {
-    if (!m_waylandOutput) {
-        return i18n("unknown");
-    }
-    return QStringLiteral("%1 %2").arg(m_waylandOutput->manufacturer()).arg(m_waylandOutput->model());
+    return QByteArray();
 }
 
-QRect AbstractOutput::geometry() const
+void AbstractOutput::setEnabled(bool enable)
 {
-    return QRect(m_globalPos, pixelSize() / scale());
+    Q_UNUSED(enable)
+}
+
+void AbstractOutput::applyChanges(const KWayland::Server::OutputChangeSet *changeSet)
+{
+    Q_UNUSED(changeSet)
+}
+
+bool AbstractOutput::isInternal() const
+{
+    return false;
+}
+
+qreal AbstractOutput::scale() const
+{
+    return 1;
 }
 
 QSize AbstractOutput::physicalSize() const
 {
-    if (m_orientation == Qt::PortraitOrientation || m_orientation == Qt::InvertedPortraitOrientation) {
-        return m_physicalSize.transposed();
-    }
-    return m_physicalSize;
+    return QSize();
 }
 
-void AbstractOutput::setGlobalPos(const QPoint &pos)
+Qt::ScreenOrientation AbstractOutput::orientation() const
 {
-    m_globalPos = pos;
-    if (m_waylandOutput) {
-        m_waylandOutput->setGlobalPosition(pos);
-    }
-    if (m_waylandOutputDevice) {
-        m_waylandOutputDevice->setGlobalPosition(pos);
-    }
-    if (m_xdgOutput) {
-        m_xdgOutput->setLogicalPosition(pos);
-        m_xdgOutput->done();
-    }
+    return Qt::PrimaryOrientation;
 }
 
-void AbstractOutput::setScale(qreal scale)
+int AbstractOutput::gammaRampSize() const
 {
-    m_scale = scale;
-    if (m_waylandOutput) {
-        // this is the scale that clients will ideally use for their buffers
-        // this has to be an int which is fine
-
-        // I don't know whether we want to round or ceil
-        // or maybe even set this to 3 when we're scaling to 1.5
-        // don't treat this like it's chosen deliberately
-        m_waylandOutput->setScale(std::ceil(scale));
-    }
-    if (m_waylandOutputDevice) {
-        m_waylandOutputDevice->setScaleF(scale);
-    }
-    if (m_xdgOutput) {
-        m_xdgOutput->setLogicalSize(pixelSize() / m_scale);
-        m_xdgOutput->done();
-    }
+    return 0;
 }
 
-void AbstractOutput::setChanges(KWayland::Server::OutputChangeSet *changes)
+bool AbstractOutput::setGammaRamp(const GammaRamp &gamma)
 {
-    m_changeset = changes;
-    qCDebug(KWIN_CORE) << "set changes in AbstractOutput";
-    commitChanges();
+    Q_UNUSED(gamma);
+    return false;
 }
 
-void AbstractOutput::setWaylandOutput(KWayland::Server::OutputInterface *set)
-{
-    m_waylandOutput = set;
-}
-
-void AbstractOutput::createXdgOutput()
-{
-    if (!m_waylandOutput || m_xdgOutput) {
-        return;
-    }
-    m_xdgOutput = waylandServer()->xdgOutputManager()->createXdgOutput(m_waylandOutput, m_waylandOutput);
-}
-
-void AbstractOutput::setWaylandOutputDevice(KWayland::Server::OutputDeviceInterface *set)
-{
-    m_waylandOutputDevice = set;
-}
-
-}
+} // namespace KWin

@@ -31,6 +31,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "xcbutils.h"
 #include <kwineffects.h>
 
+#include <QDBusConnection>
+#include <QDBusMessage>
+#include <QDBusPendingCall>
+
 #include <netwm.h>
 #include <xcb/xcb_icccm.h>
 
@@ -60,8 +64,8 @@ void ActivitiesTest::initTestCase()
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
     QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit()));
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
 
     kwinApp()->setUseKActivities(true);
     kwinApp()->start();
@@ -75,7 +79,12 @@ void ActivitiesTest::initTestCase()
 
 void ActivitiesTest::cleanupTestCase()
 {
-    QProcess::execute(QStringLiteral("kactivitymanagerd"), QStringList{QStringLiteral("stop")});
+    // terminate any still running kactivitymanagerd
+    QDBusConnection::sessionBus().asyncCall(QDBusMessage::createMethodCall(
+        QStringLiteral("org.kde.ActivityManager"),
+        QStringLiteral("/ActivityManager"),
+        QStringLiteral("org.qtproject.Qt.QCoreApplication"),
+        QStringLiteral("quit")));
 }
 
 void ActivitiesTest::init()

@@ -36,7 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QPainter>
 
-#include <math.h>
+#include <cmath>
 
 namespace KWin
 {
@@ -52,7 +52,7 @@ MouseClickEffect::MouseClickEffect()
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << Qt::META + Qt::Key_Asterisk);
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << Qt::META + Qt::Key_Asterisk);
     effects->registerGlobalShortcut(Qt::META + Qt::Key_Asterisk, a);
-    connect(a, SIGNAL(triggered(bool)), this, SLOT(toggleEnabled()));
+    connect(a, &QAction::triggered, this, &MouseClickEffect::toggleEnabled);
 
     reconfigure(ReconfigureAll);
 
@@ -164,7 +164,7 @@ void MouseClickEffect::slotMouseChanged(const QPoint& pos, const QPoint&,
     if (buttons == oldButtons)
         return;
 
-    MouseEvent* m = NULL;
+    MouseEvent* m = nullptr;
     int i = BUTTON_COUNT;
     while (--i >= 0) {
         MouseButton* b = m_buttons[i];
@@ -187,7 +187,7 @@ void MouseClickEffect::slotMouseChanged(const QPoint& pos, const QPoint&,
 
 EffectFrame* MouseClickEffect::createEffectFrame(const QPoint& pos, const QString& text) {
     if (!m_showText) {
-        return NULL;
+        return nullptr;
     }
     QPoint point(pos.x() + m_ringMaxSize, pos.y());
     EffectFrame* frame = effects->effectFrame(EffectFrameStyled, false, point, Qt::AlignLeft);
@@ -227,12 +227,10 @@ void MouseClickEffect::toggleEnabled()
     m_enabled = !m_enabled;
 
     if (m_enabled) {
-        connect(effects, SIGNAL(mouseChanged(QPoint,QPoint,Qt::MouseButtons,Qt::MouseButtons,Qt::KeyboardModifiers,Qt::KeyboardModifiers)),
-                         SLOT(slotMouseChanged(QPoint,QPoint,Qt::MouseButtons,Qt::MouseButtons,Qt::KeyboardModifiers,Qt::KeyboardModifiers)));
+        connect(effects, &EffectsHandler::mouseChanged, this, &MouseClickEffect::slotMouseChanged);
         effects->startMousePolling();
     } else {
-        disconnect(effects, SIGNAL(mouseChanged(QPoint,QPoint,Qt::MouseButtons,Qt::MouseButtons,Qt::KeyboardModifiers,Qt::KeyboardModifiers)),
-                   this, SLOT(slotMouseChanged(QPoint,QPoint,Qt::MouseButtons,Qt::MouseButtons,Qt::KeyboardModifiers,Qt::KeyboardModifiers)));
+        disconnect(effects, &EffectsHandler::mouseChanged, this, &MouseClickEffect::slotMouseChanged);
         effects->stopMousePolling();
     }
 
@@ -297,7 +295,7 @@ void MouseClickEffect::drawCircleGl(const QColor& color, float cx, float cy, flo
         x = c * x - s * y;
         y = s * t + c * y;
     }
-    vbo->setData(verts.size() / 2, 2, verts.data(), NULL);
+    vbo->setData(verts.size() / 2, 2, verts.data(), nullptr);
     vbo->render(GL_LINE_LOOP);
 }
 

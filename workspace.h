@@ -24,8 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KWIN_WORKSPACE_H
 
 // kwin
-#include "sm.h"
 #include "options.h"
+#include "sm.h"
 #include "utils.h"
 // Qt
 #include <QTimer>
@@ -34,14 +34,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <functional>
 #include <memory>
 
-// TODO: Cleanup the order of things in this .h file
-
-class QStringList;
 class KConfig;
 class KConfigGroup;
 class KStartupInfo;
-class KStartupInfoId;
 class KStartupInfoData;
+class KStartupInfoId;
+class QStringList;
 
 namespace KWin
 {
@@ -54,10 +52,10 @@ class Window;
 
 class AbstractClient;
 class Client;
+class Compositor;
 class KillWindow;
 class ShortcutDialog;
 class UserActionsMenu;
-class Compositor;
 class X11EventFilter;
 enum class Predicate;
 
@@ -66,7 +64,7 @@ class KWIN_EXPORT Workspace : public QObject
     Q_OBJECT
 public:
     explicit Workspace(const QString &sessionKey = QString());
-    virtual ~Workspace();
+    ~Workspace() override;
 
     static Workspace* self() {
         return _self;
@@ -132,7 +130,7 @@ public:
     /**
      * Finds the Toplevel for the KWin internal window @p w.
      * On Wayland this is normally a ShellClient. For X11 an Unmanaged.
-     **/
+     */
     Toplevel *findToplevel(QWindow *w) const;
     /**
      * @brief Finds a Toplevel for the internal window @p w.
@@ -141,7 +139,7 @@ public:
      * and mapped by the window id, on Wayland a ShellClient mapped on the internal window id.
      *
      * @returns Toplevel
-     **/
+     */
     Toplevel *findInternal(QWindow *w) const;
 
     QRect clientArea(clientAreaOption, const QPoint& p, int desktop) const;
@@ -186,9 +184,9 @@ public:
     }
 
     /**
-     * Indicates that the client c is being moved around by the user.
+     * Indicates that the client c is being moved or resized by the user.
      */
-    void setClientIsMoving(AbstractClient* c);
+    void setMoveResizeClient(AbstractClient* c);
 
     QPoint adjustClientPosition(AbstractClient* c, QPoint pos, bool unrestricted, double snapAdjust = 1.0);
     QRect adjustClientSize(AbstractClient* c, QRect moveResizeGeom, int mode);
@@ -211,31 +209,31 @@ public:
 
     /**
      * @return List of clients currently managed by Workspace
-     **/
+     */
     const ClientList &clientList() const {
         return clients;
     }
     /**
      * @return List of unmanaged "clients" currently registered in Workspace
-     **/
+     */
     const UnmanagedList &unmanagedList() const {
         return unmanaged;
     }
     /**
      * @return List of desktop "clients" currently managed by Workspace
-     **/
+     */
     const ClientList &desktopList() const {
         return desktops;
     }
     /**
      * @return List of deleted "clients" currently managed by Workspace
-     **/
+     */
     const DeletedList &deletedList() const {
         return deleted;
     }
     /**
      * @returns List of all clients (either X11 or Wayland) currently managed by Workspace
-     **/
+     */
     const QList<AbstractClient*> allClientList() const {
         return m_allClients;
     }
@@ -277,6 +275,13 @@ public:
     void windowToPreviousDesktop(AbstractClient* c);
     void windowToNextDesktop(AbstractClient* c);
     void sendClientToScreen(AbstractClient* c, int screen);
+
+    void addManualOverlay(xcb_window_t id) {
+        manual_overlays << id;
+    }
+    void removeManualOverlay(xcb_window_t id) {
+        manual_overlays.removeOne(id);
+    }
 
     /**
      * Shows the menu operations menu for the client and makes it active if
@@ -326,7 +331,7 @@ public:
     void focusToNull(); // SELI TODO: Public?
 
     void clientShortcutUpdated(AbstractClient* c);
-    bool shortcutAvailable(const QKeySequence &cut, AbstractClient* ignore = NULL) const;
+    bool shortcutAvailable(const QKeySequence &cut, AbstractClient* ignore = nullptr) const;
     bool globalShortcutsDisabled() const;
     void disableGlobalShortcutsForClient(bool disable);
 
@@ -345,22 +350,27 @@ public:
     void requestDelayFocus(AbstractClient*);
 
     /**
-    * updates the mouse position to track whether a focus follow mouse focus change was caused by
-    * an actual mouse move
-    * is esp. called on enter/motion events of inactive windows
-    * since an active window doesn't receive mouse events, it must also be invoked if a (potentially)
-    * active window might be moved/resize away from the cursor (causing a leave event)
-    */
+     * updates the mouse position to track whether a focus follow mouse focus change was caused by
+     * an actual mouse move
+     * is esp. called on enter/motion events of inactive windows
+     * since an active window doesn't receive mouse events, it must also be invoked if a (potentially)
+     * active window might be moved/resize away from the cursor (causing a leave event)
+     */
     void updateFocusMousePosition(const QPoint& pos);
     QPoint focusMousePosition() const;
 
-    AbstractClient* getMovingClient() {
+    /**
+     * Returns a client that is currently being moved or resized by the user.
+     *
+     * If none of clients is being moved or resized, @c null will be returned.
+     */
+    AbstractClient* moveResizeClient() {
         return movingClient;
     }
 
     /**
      * @returns Whether we have a Compositor and it is active (Scene created)
-     **/
+     */
     bool compositing() const;
 
     void registerEventFilter(X11EventFilter *filter);
@@ -445,10 +455,6 @@ public Q_SLOTS:
 
     void updateClientArea();
 
-    void slotActivateNextTab(); // Slot to move left the active Client.
-    void slotActivatePrevTab(); // Slot to move right the active Client.
-    void slotUntab(); // Slot to remove the active client from its group.
-
 private Q_SLOTS:
     void desktopResized();
     void selectWmInputEventMask();
@@ -457,7 +463,6 @@ private Q_SLOTS:
     void slotReloadConfig();
     void updateCurrentActivity(const QString &new_activity);
     // virtual desktop handling
-    void moveClientsFromRemovedDesktops();
     void slotDesktopCountChanged(uint previousCount, uint newCount);
     void slotCurrentDesktopChanged(uint oldDesktop, uint newDesktop);
 
@@ -469,7 +474,7 @@ Q_SIGNALS:
     /**
      * Emitted after the Workspace has setup the complete initialization process.
      * This can be used to connect to for performing post-workspace initialization.
-     **/
+     */
     void workspaceInitialized();
 
     //Signals required for the scripting interface
@@ -485,7 +490,6 @@ Q_SIGNALS:
     void unmanagedRemoved(KWin::Unmanaged*);
     void deletedRemoved(KWin::Deleted*);
     void configChanged();
-    void reinitializeCompositing();
     void showingDesktopChanged(bool showing);
     /**
      * This signels is emitted when ever the stacking order is change, ie. a window is risen
@@ -511,6 +515,7 @@ private:
     void lowerClientWithinApplication(AbstractClient* c);
     bool allowFullClientRaising(const AbstractClient* c, xcb_timestamp_t timestamp);
     bool keepTransientAbove(const AbstractClient* mainwindow, const AbstractClient* transient);
+    bool keepDeletedTransientAbove(const Toplevel *mainWindow, const Deleted *transient) const;
     void blockStackingUpdates(bool block);
     void updateToolWindows(bool also_hide);
     void fixPositionAfterCrash(xcb_window_t w, const xcb_get_geometry_reply_t *geom);
@@ -540,11 +545,9 @@ private:
     void addSessionInfo(KConfigGroup &cg);
 
     QList<SessionInfo*> session;
-    static const char* windowTypeToTxt(NET::WindowType type);
-    static NET::WindowType txtToWindowType(const char* txt);
-    static bool sessionInfoWindowTypeMatch(Client* c, SessionInfo* info);
 
     void updateXStackingOrder();
+    void updateTabbox();
 
     AbstractClient* active_client;
     AbstractClient* last_active_client;
@@ -564,6 +567,7 @@ private:
 
     ToplevelList unconstrained_stacking_order; // Topmost last
     ToplevelList stacking_order; // Topmost last
+    QVector<xcb_window_t> manual_overlays; //Topmost last
     bool force_restacking;
     ToplevelList x_stacking; // From XQueryTree()
     std::unique_ptr<Xcb::Tree> m_xStackingQueryTree;
@@ -586,7 +590,7 @@ private:
     /**
      * Holds the menu containing the user actions which is shown
      * on e.g. right click the window decoration.
-     **/
+     */
     UserActionsMenu *m_userActionsMenu;
 
     void modalActionsSwitch(bool enabled);
@@ -655,7 +659,7 @@ class ColorMapper : public QObject
     Q_OBJECT
 public:
     ColorMapper(QObject *parent);
-    virtual ~ColorMapper();
+    ~ColorMapper() override;
 public Q_SLOTS:
     void update();
 private:

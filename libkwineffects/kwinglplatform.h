@@ -102,6 +102,7 @@ enum Driver {
     Driver_VirtualBox,
     Driver_VMware,
     Driver_Qualcomm,
+    Driver_RadeonSI,
     Driver_Unknown
 };
 
@@ -116,6 +117,11 @@ enum ChipClass {
     R700,                   // GL3.3         DX10.1    SM 4.1      2008
     Evergreen,              // GL4.0  CL1.0  DX11      SM 5.0      2009
     NorthernIslands,        // GL4.0  CL1.1  DX11      SM 5.0      2010
+    SouthernIslands,        // GL4.5  CL1.2  DX11.1    SM 5.1      2012
+    SeaIslands,             // GL4.5  CL2.0  DX12      SM 6.0      2013
+    VolcanicIslands,        // GL4.5  CL2.0  DX12      SM 6.0      2015
+    ArcticIslands,          // GL4.5  CL2.0  DX12      SM 6.0      2016
+    Vega,                   // GL4.6  CL2.0  DX12      SM 6.0      2017
     UnknownRadeon = 999,
 
     // NVIDIA
@@ -256,58 +262,58 @@ public:
     /**
      * @returns @c true if the "GPU" is a VirtualBox GPU, and @c false otherwise.
      * @since 4.10
-     **/
+     */
     bool isVirtualBox() const;
 
     /**
      * @returns @c true if the "GPU" is a VMWare GPU, and @c false otherwise.
      * @since 4.10
-     **/
+     */
     bool isVMware() const;
 
     /**
      * @returns @c true if OpenGL is emulated in software.
      * @since 4.7
-     **/
+     */
     bool isSoftwareEmulation() const;
 
     /**
      * @returns @c true if the driver is known to be from a virtual machine.
      * @since 4.10
-     **/
+     */
     bool isVirtualMachine() const;
 
     /**
      * @returns @c true if the GPU is a Qualcomm Adreno GPU, and false otherwise
      * @since 5.8
-     **/
+     */
     bool isAdreno() const;
 
     /**
      * @returns the GL_VERSION string as provided by the driver.
      * @since 4.9
-     **/
+     */
     const QByteArray &glVersionString() const;
     /**
      * @returns the GL_RENDERER string as provided by the driver.
      * @since 4.9
-     **/
+     */
     const QByteArray &glRendererString() const;
     /**
      * @returns the GL_VENDOR string as provided by the driver.
      * @since 4.9
-     **/
+     */
     const QByteArray &glVendorString() const;
     /**
      * @returns the GL_SHADING_LANGUAGE_VERSION string as provided by the driver.
      * If the driver does not support the OpenGL Shading Language a null bytearray is returned.
      * @since 4.9
-     **/
+     */
     const QByteArray &glShadingLanguageVersionString() const;
     /**
      * @returns Whether the driver supports loose texture binding.
      * @since 4.9
-     **/
+     */
     bool isLooseBinding() const;
     /**
      * @returns Whether OpenGL ES is used
@@ -317,7 +323,7 @@ public:
     /**
      * @returns The CompositingType recommended by the driver.
      * @since 4.10
-     **/
+     */
     CompositingType recommendedCompositor() const;
 
     /**
@@ -331,7 +337,7 @@ public:
     /**
      * @returns The OpenGLPlatformInterface currently used
      * @since 5.0
-     **/
+     */
     OpenGLPlatformInterface platformInterface() const;
 
     /**
@@ -344,7 +350,7 @@ public:
      * @see galliumVersion
      * @see kernelVersion
      * @see serverVersion
-     **/
+     */
     static QString versionToString(qint64 version);
     /**
      * @returns a human readable form of the @p version as a QByteArray.
@@ -356,33 +362,33 @@ public:
      * @see galliumVersion
      * @see kernelVersion
      * @see serverVersion
-     **/
+     */
     static QByteArray versionToString8(qint64 version);
 
     /**
      * @returns a human readable form for the @p driver as a QString.
      * @since 4.9
      * @see driver
-     **/
+     */
     static QString driverToString(Driver driver);
     /**
      * @returns a human readable form for the @p driver as a QByteArray.
      * @since 5.5
      * @see driver
-     **/
+     */
     static QByteArray driverToString8(Driver driver);
 
     /**
      * @returns a human readable form for the @p chipClass as a QString.
      * @since 4.9
      * @see chipClass
-     **/
+     */
     static QString chipClassToString(ChipClass chipClass);
     /**
      * @returns a human readable form for the @p chipClass as a QByteArray.
      * @since 5.5
      * @see chipClass
-     **/
+     */
     static QByteArray chipClassToString8(ChipClass chipClass);
 
 private:

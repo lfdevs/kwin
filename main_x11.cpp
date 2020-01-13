@@ -20,21 +20,22 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "main_x11.h"
+
 #include <config-kwin.h>
-// kwin
+
 #include "platform.h"
 #include "sm.h"
 #include "workspace.h"
 #include "xcbutils.h"
 
-// KDE
 #include <KConfigGroup>
 #include <KCrash>
 #include <KLocalizedString>
 #include <KPluginLoader>
 #include <KPluginMetaData>
+#include <KSelectionOwner>
 #include <KQuickAddons/QtQuickSettings>
-// Qt
+
 #include <qplatformdefs.h>
 #include <QComboBox>
 #include <QCommandLineParser>
@@ -43,6 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFile>
 #include <QLabel>
 #include <QPushButton>
+#include <QSurfaceFormat>
 #include <QVBoxLayout>
 #include <QX11Info>
 
@@ -61,8 +63,6 @@ static void sighandler(int)
 {
     QApplication::exit();
 }
-
-
 
 class AlternativeWMDialog : public QDialog
 {
@@ -110,66 +110,64 @@ private:
     QComboBox* wmList;
 };
 
-//************************************
-// KWinSelectionOwner
-//************************************
-
-KWinSelectionOwner::KWinSelectionOwner(int screen_P)
-    : KSelectionOwner(make_selection_atom(screen_P), screen_P)
+class KWinSelectionOwner : public KSelectionOwner
 {
-}
-
-xcb_atom_t KWinSelectionOwner::make_selection_atom(int screen_P)
-{
-    if (screen_P < 0)
-        screen_P = QX11Info::appScreen();
-    QByteArray screen(QByteArrayLiteral("WM_S"));
-    screen.append(QByteArray::number(screen_P));
-    ScopedCPointer<xcb_intern_atom_reply_t> atom(xcb_intern_atom_reply(
-        connection(),
-        xcb_intern_atom_unchecked(connection(), false, screen.length(), screen.constData()),
-        nullptr));
-    if (atom.isNull()) {
-        return XCB_ATOM_NONE;
+    Q_OBJECT
+public:
+    explicit KWinSelectionOwner(int screen)
+        : KSelectionOwner(make_selection_atom(screen), screen)
+    {
     }
-    return atom->atom;
-}
 
-void KWinSelectionOwner::getAtoms()
-{
-    KSelectionOwner::getAtoms();
-    if (xa_version == XCB_ATOM_NONE) {
-        const QByteArray name(QByteArrayLiteral("VERSION"));
-        ScopedCPointer<xcb_intern_atom_reply_t> atom(xcb_intern_atom_reply(
-            connection(),
-            xcb_intern_atom_unchecked(connection(), false, name.length(), name.constData()),
-            nullptr));
-        if (!atom.isNull()) {
-            xa_version = atom->atom;
+private:
+    bool genericReply(xcb_atom_t target_P, xcb_atom_t property_P, xcb_window_t requestor_P) override {
+        if (target_P == xa_version) {
+            int32_t version[] = { 2, 0 };
+            xcb_change_property(connection(), XCB_PROP_MODE_REPLACE, requestor_P,
+                                property_P, XCB_ATOM_INTEGER, 32, 2, version);
+        } else
+            return KSelectionOwner::genericReply(target_P, property_P, requestor_P);
+        return true;
+    }
+
+    void replyTargets(xcb_atom_t property_P, xcb_window_t requestor_P) override {
+        KSelectionOwner::replyTargets(property_P, requestor_P);
+        xcb_atom_t atoms[ 1 ] = { xa_version };
+        // PropModeAppend !
+        xcb_change_property(connection(), XCB_PROP_MODE_APPEND, requestor_P,
+                            property_P, XCB_ATOM_ATOM, 32, 1, atoms);
+    }
+
+    void getAtoms() override {
+        KSelectionOwner::getAtoms();
+        if (xa_version == XCB_ATOM_NONE) {
+            const QByteArray name(QByteArrayLiteral("VERSION"));
+            ScopedCPointer<xcb_intern_atom_reply_t> atom(xcb_intern_atom_reply(
+                connection(),
+                xcb_intern_atom_unchecked(connection(), false, name.length(), name.constData()),
+                nullptr));
+            if (!atom.isNull()) {
+                xa_version = atom->atom;
+            }
         }
     }
-}
 
-void KWinSelectionOwner::replyTargets(xcb_atom_t property_P, xcb_window_t requestor_P)
-{
-    KSelectionOwner::replyTargets(property_P, requestor_P);
-    xcb_atom_t atoms[ 1 ] = { xa_version };
-    // PropModeAppend !
-    xcb_change_property(connection(), XCB_PROP_MODE_APPEND, requestor_P,
-                        property_P, XCB_ATOM_ATOM, 32, 1, atoms);
-}
-
-bool KWinSelectionOwner::genericReply(xcb_atom_t target_P, xcb_atom_t property_P, xcb_window_t requestor_P)
-{
-    if (target_P == xa_version) {
-        int32_t version[] = { 2, 0 };
-        xcb_change_property(connection(), XCB_PROP_MODE_REPLACE, requestor_P,
-                            property_P, XCB_ATOM_INTEGER, 32, 2, version);
-    } else
-        return KSelectionOwner::genericReply(target_P, property_P, requestor_P);
-    return true;
-}
-
+    xcb_atom_t make_selection_atom(int screen_P) {
+        if (screen_P < 0)
+            screen_P = QX11Info::appScreen();
+        QByteArray screen(QByteArrayLiteral("WM_S"));
+        screen.append(QByteArray::number(screen_P));
+        ScopedCPointer<xcb_intern_atom_reply_t> atom(xcb_intern_atom_reply(
+            connection(),
+            xcb_intern_atom_unchecked(connection(), false, screen.length(), screen.constData()),
+            nullptr));
+        if (atom.isNull()) {
+            return XCB_ATOM_NONE;
+        }
+        return atom->atom;
+    }
+    static xcb_atom_t xa_version;
+};
 xcb_atom_t KWinSelectionOwner::xa_version = XCB_ATOM_NONE;
 
 //************************************
@@ -187,6 +185,7 @@ ApplicationX11::ApplicationX11(int &argc, char **argv)
 
 ApplicationX11::~ApplicationX11()
 {
+    setTerminating();
     destroyCompositor();
     destroyWorkspace();
     if (!owner.isNull() && owner->ownerWindow() != XCB_WINDOW_NONE)   // If there was no --replace (no new WM)
@@ -300,7 +299,7 @@ void ApplicationX11::crashChecking()
         }
         qCDebug(KWIN_CORE) << "Starting" << cmd << "and exiting";
         char buf[1024];
-        sprintf(buf, "%s &", cmd.toAscii().data());
+        sprintf(buf, "%s &", cmd.toLatin1().data());
         system(buf);
         ::exit(1);
     }
@@ -364,7 +363,6 @@ KWIN_EXPORT int kdemain(int argc, char * argv[])
         if ((pos = display_name.lastIndexOf('.')) != -1)
             display_name.remove(pos, 10);   // 10 is enough to be sure we removed ".s"
 
-        QString envir;
         for (int i = 0; i < number_of_screens; i++) {
             // If execution doesn't pass by here, then kwin
             // acts exactly as previously
@@ -383,9 +381,11 @@ KWIN_EXPORT int kdemain(int argc, char * argv[])
         }
         // In the next statement, display_name shouldn't contain a screen
         // number. If it had it, it was removed at the "pos" check
-        envir.sprintf("DISPLAY=%s.%d", display_name.data(), KWin::Application::x11ScreenNumber());
+        const QString envir = QStringLiteral("DISPLAY=%1.%2")
+            .arg(display_name.data())
+            .arg(KWin::Application::x11ScreenNumber());
 
-        if (putenv(strdup(envir.toAscii().constData()))) {
+        if (putenv(strdup(envir.toLatin1().constData()))) {
             fprintf(stderr, "%s: WARNING: unable to set DISPLAY environment variable\n", argv[0]);
             perror("putenv()");
         }
@@ -407,6 +407,7 @@ KWIN_EXPORT int kdemain(int argc, char * argv[])
     setenv("QT_QPA_PLATFORM", "xcb", true);
 
     qunsetenv("QT_DEVICE_PIXEL_RATIO");
+    qunsetenv("QT_SCALE_FACTOR");
     QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
 
     KWin::ApplicationX11 a(argc, argv);
@@ -414,6 +415,11 @@ KWIN_EXPORT int kdemain(int argc, char * argv[])
 
     KWin::Application::createAboutData();
     KQuickAddons::QtQuickSettings::init();
+
+    // disables vsync for any QtQuick windows we create (BUG 406180)
+    QSurfaceFormat format = QSurfaceFormat::defaultFormat();
+    format.setSwapInterval(0);
+    QSurfaceFormat::setDefaultFormat(format);
 
     QCommandLineOption replaceOption(QStringLiteral("replace"), i18n("Replace already-running ICCCM2.0-compliant window manager"));
 
@@ -467,3 +473,5 @@ KWIN_EXPORT int kdemain(int argc, char * argv[])
                       // listens for events and talks to it, so it needs to be created.
     return a.exec();
 }
+
+#include "main_x11.moc"

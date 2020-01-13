@@ -3,6 +3,7 @@
  This file is part of the KDE project.
 
 Copyright (C) 2017 Martin Flöser <mgraesslin@kde.org>
+Copyright (C) 2018 Vlad Zagorodniy <vladzzag@gmail.com>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -23,8 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QVector>
 #include <QMap>
 
-#include <algorithm>
-
 namespace KWayland
 {
 namespace Server
@@ -37,6 +36,7 @@ using KWayland::Server::IdleInterface;
 
 namespace KWin
 {
+class AbstractClient;
 class ShellClient;
 
 class IdleInhibition : public QObject
@@ -44,23 +44,28 @@ class IdleInhibition : public QObject
     Q_OBJECT
 public:
     explicit IdleInhibition(IdleInterface *idle);
-    ~IdleInhibition();
+    ~IdleInhibition() override;
 
     void registerShellClient(ShellClient *client);
 
     bool isInhibited() const {
         return !m_idleInhibitors.isEmpty();
     }
-    bool isInhibited(ShellClient *client) const {
-        return std::any_of(m_idleInhibitors.begin(), m_idleInhibitors.end(), [client] (auto c) { return c == client; });
+    bool isInhibited(AbstractClient *client) const {
+        return m_idleInhibitors.contains(client);
     }
 
+private Q_SLOTS:
+    void slotWorkspaceCreated();
+    void slotDesktopChanged();
+
 private:
-    void inhibit(ShellClient *client);
-    void uninhibit(ShellClient *client);
+    void inhibit(AbstractClient *client);
+    void uninhibit(AbstractClient *client);
+    void update(AbstractClient *client);
 
     IdleInterface *m_idle;
-    QVector<ShellClient*> m_idleInhibitors;
-    QMap<ShellClient*, QMetaObject::Connection> m_connections;
+    QVector<AbstractClient *> m_idleInhibitors;
+    QMap<AbstractClient *, QMetaObject::Connection> m_connections;
 };
 }

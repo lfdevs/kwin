@@ -51,7 +51,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #if HAVE_DL_LIBRARY
 #include <dlfcn.h>
 #endif
-#include <assert.h>
 
 #ifndef XCB_GLX_BUFFER_SWAP_COMPLETE
 #define XCB_GLX_BUFFER_SWAP_COMPLETE 1
@@ -108,13 +107,22 @@ GlxBackend::GlxBackend(Display *display)
     : OpenGLBackend()
     , m_overlayWindow(kwinApp()->platform()->createOverlayWindow())
     , window(None)
-    , fbconfig(NULL)
+    , fbconfig(nullptr)
     , glxWindow(None)
     , ctx(nullptr)
     , m_bufferAge(0)
     , haveSwapInterval(false)
     , m_x11Display(display)
 {
+     // Ensures calls to glXSwapBuffers will always block until the next
+     // retrace when using the proprietary NVIDIA driver. This must be
+     // set before libGL.so is loaded.
+     setenv("__GL_MaxFramesAllowed", "1", true);
+
+     // Force initialization of GLX integration in the Qt's xcb backend
+     // to make it call XESetWireToEvent callbacks, which is required
+     // by Mesa when using DRI2.
+     QOpenGLContext::supportsThreadedOpenGL();
 }
 
 static bool gs_tripleBufferUndetected = true;
@@ -262,7 +270,7 @@ void GlxBackend::init()
         // VirtualBox does not support glxQueryDrawable
         // this should actually be in kwinglutils_funcs, but QueryDrawable seems not to be provided by an extension
         // and the GLPlatform has not been initialized at the moment when initGLX() is called.
-        glXQueryDrawable = NULL;
+        glXQueryDrawable = nullptr;
     }
 
     setIsDirectRendering(bool(glXIsDirect(display(), ctx)));
@@ -328,7 +336,7 @@ bool GlxBackend::initRenderingContext()
         }
         for (auto it = candidates.begin(); it != candidates.end(); it++) {
             const auto attribs = it->build();
-            ctx = glXCreateContextAttribsARB(display(), fbconfig, 0, true, attribs.data());
+            ctx = glXCreateContextAttribsARB(display(), fbconfig, nullptr, true, attribs.data());
             if (ctx) {
                 qCDebug(KWIN_X11STANDALONE) << "Created GLX context with attributes:" << &(*it);
                 break;
@@ -337,7 +345,7 @@ bool GlxBackend::initRenderingContext()
     }
 
     if (!ctx)
-        ctx = glXCreateNewContext(display(), fbconfig, GLX_RGBA_TYPE, NULL, direct);
+        ctx = glXCreateNewContext(display(), fbconfig, GLX_RGBA_TYPE, nullptr, direct);
 
     if (!ctx) {
         qCDebug(KWIN_X11STANDALONE) << "Failed to create an OpenGL context.";
@@ -347,7 +355,7 @@ bool GlxBackend::initRenderingContext()
     if (!glXMakeCurrent(display(), glxWindow, ctx)) {
         qCDebug(KWIN_X11STANDALONE) << "Failed to make the OpenGL context current.";
         glXDestroyContext(display(), ctx);
-        ctx = 0;
+        ctx = nullptr;
         return false;
     }
 
@@ -381,7 +389,7 @@ bool GlxBackend::initBuffer()
                           0, 0, size.width(), size.height(), 0, XCB_WINDOW_CLASS_INPUT_OUTPUT,
                           visual, XCB_CW_COLORMAP, &colormap);
 
-        glxWindow = glXCreateWindow(display(), fbconfig, window, NULL);
+        glxWindow = glXCreateWindow(display(), fbconfig, window, nullptr);
         overlayWindow()->setup(window);
     } else {
         qCCritical(KWIN_X11STANDALONE) << "Failed to create overlay window";
@@ -407,9 +415,44 @@ bool GlxBackend::initFbConfig()
         0
     };
 
-    // Try to find a double buffered configuration
+    const int attribs_srgb[] = {
+        GLX_RENDER_TYPE,                  GLX_RGBA_BIT,
+        GLX_DRAWABLE_TYPE,                GLX_WINDOW_BIT,
+        GLX_RED_SIZE,                     1,
+        GLX_GREEN_SIZE,                   1,
+        GLX_BLUE_SIZE,                    1,
+        GLX_ALPHA_SIZE,                   0,
+        GLX_DEPTH_SIZE,                   0,
+        GLX_STENCIL_SIZE,                 0,
+        GLX_CONFIG_CAVEAT,                GLX_NONE,
+        GLX_DOUBLEBUFFER,                 true,
+        GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB, true,
+        0
+    };
+
+    bool llvmpipe = false;
+
+    // Note that we cannot use GLPlatform::driver() here, because it has not been initialized at this point
+    if (hasExtension(QByteArrayLiteral("GLX_MESA_query_renderer"))) {
+        const QByteArray device = glXQueryRendererStringMESA(display(), DefaultScreen(display()), 0, GLX_RENDERER_DEVICE_ID_MESA);
+        if (device.contains(QByteArrayLiteral("llvmpipe"))) {
+            llvmpipe = true;
+        }
+    }
+
+    // Try to find a double buffered sRGB capable configuration
     int count = 0;
-    GLXFBConfig *configs = glXChooseFBConfig(display(), DefaultScreen(display()), attribs, &count);
+    GLXFBConfig *configs = nullptr;
+
+    // Don't request an sRGB configuration with LLVMpipe when the default depth is 16. See bug #408594.
+    if (!llvmpipe || Xcb::defaultDepth() > 16) {
+        configs = glXChooseFBConfig(display(), DefaultScreen(display()), attribs_srgb, &count);
+    }
+
+    if (count == 0) {
+        // Try to find a double buffered non-sRGB capable configuration
+        configs = glXChooseFBConfig(display(), DefaultScreen(display()), attribs, &count);
+    }
 
     struct FBConfig {
         GLXFBConfig config;
@@ -443,7 +486,7 @@ bool GlxBackend::initFbConfig()
     if (candidates.size() > 0) {
         fbconfig = candidates.front().config;
 
-        int fbconfig_id, visual_id, red, green, blue, alpha, depth, stencil;
+        int fbconfig_id, visual_id, red, green, blue, alpha, depth, stencil, srgb;
         glXGetFBConfigAttrib(display(), fbconfig, GLX_FBCONFIG_ID,  &fbconfig_id);
         glXGetFBConfigAttrib(display(), fbconfig, GLX_VISUAL_ID,    &visual_id);
         glXGetFBConfigAttrib(display(), fbconfig, GLX_RED_SIZE,     &red);
@@ -452,9 +495,10 @@ bool GlxBackend::initFbConfig()
         glXGetFBConfigAttrib(display(), fbconfig, GLX_ALPHA_SIZE,   &alpha);
         glXGetFBConfigAttrib(display(), fbconfig, GLX_DEPTH_SIZE,   &depth);
         glXGetFBConfigAttrib(display(), fbconfig, GLX_STENCIL_SIZE, &stencil);
+        glXGetFBConfigAttrib(display(), fbconfig, GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB, &srgb);
 
-        qCDebug(KWIN_X11STANDALONE, "Choosing GLXFBConfig %#x X visual %#x depth %d RGBA %d:%d:%d:%d ZS %d:%d",
-                fbconfig_id, visual_id, visualDepth(visual_id), red, green, blue, alpha, depth, stencil);
+        qCDebug(KWIN_X11STANDALONE, "Choosing GLXFBConfig %#x X visual %#x depth %d RGBA %d:%d:%d:%d ZS %d:%d sRGB: %d",
+                fbconfig_id, visual_id, visualDepth(visual_id), red, green, blue, alpha, depth, stencil, srgb);
     }
 
     if (fbconfig == nullptr) {
@@ -692,25 +736,8 @@ void GlxBackend::present()
                 glXWaitGL();
                 if (char result = m_swapProfiler.end()) {
                     gs_tripleBufferUndetected = gs_tripleBufferNeedsDetection = false;
-                    if (result == 'd' && GLPlatform::instance()->driver() == Driver_NVidia) {
-                        // TODO this is a workaround, we should get __GL_YIELD set before libGL checks it
-                        if (qstrcmp(qgetenv("__GL_YIELD"), "USLEEP")) {
-                            options->setGlPreferBufferSwap(0);
-                            setSwapInterval(0);
-                            result = 0; // hint proper behavior
-                            qCWarning(KWIN_X11STANDALONE) << "\nIt seems you are using the nvidia driver without triple buffering\n"
-                                              "You must export __GL_YIELD=\"USLEEP\" to prevent large CPU overhead on synced swaps\n"
-                                              "Preferably, enable the TripleBuffer Option in the xorg.conf Device\n"
-                                              "For this reason, the tearing prevention has been disabled.\n"
-                                              "See https://bugs.kde.org/show_bug.cgi?id=322060\n";
-                        }
-                    }
                     setBlocksForRetrace(result == 'd');
                 }
-            } else if (blocksForRetrace()) {
-                // at least the nvidia blob manages to swap async, ie. return immediately on double
-                // buffering - what messes our timing calculation and leads to laggy behavior #346275
-                glXWaitGL();
             }
         } else {
             waitSync();
@@ -720,7 +747,7 @@ void GlxBackend::present()
             glXQueryDrawable(display(), glxWindow, GLX_BACK_BUFFER_AGE_EXT, (GLuint *) &m_bufferAge);
         }
     } else if (m_haveMESACopySubBuffer) {
-        foreach (const QRect & r, lastDamage().rects()) {
+        for (const QRect &r : lastDamage()) {
             // convert to OpenGL coordinates
             int y = screenSize.height() - r.y() - r.height();
             glXCopySubBufferMESA(display(), glxWindow, r.x(), y, r.width(), r.height());
@@ -836,7 +863,7 @@ void GlxBackend::doneCurrent()
     glXMakeCurrent(display(), None, nullptr);
 }
 
-OverlayWindow* GlxBackend::overlayWindow()
+OverlayWindow* GlxBackend::overlayWindow() const
 {
     return m_overlayWindow;
 }
@@ -872,7 +899,7 @@ void GlxTexture::onDamage()
 {
     if (options->isGlStrictBinding() && m_glxpixmap) {
         glXReleaseTexImageEXT(display(), m_glxpixmap, GLX_FRONT_LEFT_EXT);
-        glXBindTexImageEXT(display(), m_glxpixmap, GLX_FRONT_LEFT_EXT, NULL);
+        glXBindTexImageEXT(display(), m_glxpixmap, GLX_FRONT_LEFT_EXT, nullptr);
     }
     GLTexturePrivate::onDamage();
 }
@@ -891,7 +918,7 @@ bool GlxTexture::loadTexture(xcb_pixmap_t pixmap, const QSize &size, xcb_visuali
         m_scale.setWidth(1.0f / m_size.width());
         m_scale.setHeight(1.0f / m_size.height());
     } else {
-        assert(info->texture_targets & GLX_TEXTURE_RECTANGLE_BIT_EXT);
+        Q_ASSERT(info->texture_targets & GLX_TEXTURE_RECTANGLE_BIT_EXT);
 
         m_target = GL_TEXTURE_RECTANGLE;
         m_scale.setWidth(1.0f);

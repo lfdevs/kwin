@@ -39,7 +39,7 @@ class ColorCorrectDBusInterface : public QObject
 
 public:
     explicit ColorCorrectDBusInterface(Manager *parent);
-    virtual ~ColorCorrectDBusInterface() = default;
+    ~ColorCorrectDBusInterface() override = default;
 
 public Q_SLOTS:
     /**
@@ -67,7 +67,7 @@ public Q_SLOTS:
      * @see nightColorConfigChange
      * @see signalNightColorConfigChange
      * @since 5.12
-     **/
+     */
     QHash<QString, QVariant> nightColorInfo();
     /**
      * @brief Allows changing the Night Color configuration.
@@ -93,26 +93,26 @@ public Q_SLOTS:
      * @see nightColorInfo
      * @see signalNightColorConfigChange
      * @since 5.12
-     **/
+     */
     bool setNightColorConfig(QHash<QString, QVariant> data);
     /**
      * @brief For receiving auto location updates, primarily through the KDE Daemon
      * @return void
      * @since 5.12
-     **/
+     */
     void nightColorAutoLocationUpdate(double latitude, double longitude);
 
 Q_SIGNALS:
     /**
      * @brief Emits that the Night Color configuration has been changed.
      *
-     * The provided variant hash provides the same fields as @link nightColorInfo
+     * The provided variant hash provides the same fields as nightColorInfo
      *
      * @return void
      * @see nightColorInfo
      * @see nightColorConfigChange
      * @since 5.12
-     **/
+     */
     void nightColorConfigChanged(QHash<QString, QVariant> data);
 
 private:

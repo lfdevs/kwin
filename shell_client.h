@@ -3,6 +3,7 @@
  This file is part of the KDE project.
 
 Copyright (C) 2015 Martin Gräßlin <mgraesslin@kde.org>
+Copyright (C) 2018 David Edmundson <davidedmundson@kde.org>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -32,7 +33,7 @@ class ServerSideDecorationInterface;
 class ServerSideDecorationPaletteInterface;
 class AppMenuInterface;
 class PlasmaShellSurfaceInterface;
-class QtExtendedSurfaceInterface;
+class XdgDecorationInterface;
 }
 }
 
@@ -46,7 +47,7 @@ enum class PingReason {
     CloseWindow = 0,
     FocusWindow
 };
-    
+
 class KWIN_EXPORT ShellClient : public AbstractClient
 {
     Q_OBJECT
@@ -54,9 +55,7 @@ public:
     ShellClient(KWayland::Server::ShellSurfaceInterface *surface);
     ShellClient(KWayland::Server::XdgShellSurfaceInterface *surface);
     ShellClient(KWayland::Server::XdgShellPopupInterface *surface);
-    virtual ~ShellClient();
-
-    bool eventFilter(QObject *watched, QEvent *event) override;
+    ~ShellClient() override;
 
     QStringList activities() const override;
     QPoint clientContentPos() const override;
@@ -68,10 +67,6 @@ public:
     void setOpacity(double opacity) override;
     QByteArray windowRole() const override;
 
-    KWayland::Server::ShellSurfaceInterface *shellSurface() const {
-        return m_shellSurface;
-    }
-
     void blockActivityUpdates(bool b = true) override;
     QString captionNormal() const override {
         return m_caption;
@@ -82,6 +77,7 @@ public:
     void closeWindow() override;
     AbstractClient *findModal(bool allow_itself = false) override;
     bool isCloseable() const override;
+    bool isFullScreenable() const override;
     bool isFullScreen() const override;
     bool isMaximizable() const override;
     bool isMinimizable() const override;
@@ -94,6 +90,8 @@ public:
     }
     void hideClient(bool hide) override;
     MaximizeMode maximizeMode() const override;
+    MaximizeMode requestedMaximizeMode() const override;
+
     QRect geometryRestore() const override {
         return m_geomMaximizeRestore;
     }
@@ -113,8 +111,6 @@ public:
     void setGeometry(int x, int y, int w, int h, ForceGeometry_t force = NormalGeometrySet) override;
     bool hasStrut() const override;
 
-    void setInternalFramebufferObject(const QSharedPointer<QOpenGLFramebufferObject> &fbo) override;
-
     quint32 windowId() const override {
         return m_windowId;
     }
@@ -124,27 +120,24 @@ public:
      * Note that processes started by kwin will share its process id.
      * @since 5.11
      * @returns the process if for this client.
-     **/
+     */
     pid_t pid() const override;
 
-    bool isInternal() const;
     bool isLockScreen() const override;
     bool isInputMethod() const override;
-    QWindow *internalWindow() const {
-        return m_internalWindow;
-    }
+    virtual QWindow *internalWindow() const;
 
     void installPlasmaShellSurface(KWayland::Server::PlasmaShellSurfaceInterface *surface);
-    void installQtExtendedSurface(KWayland::Server::QtExtendedSurfaceInterface *surface);
     void installServerSideDecoration(KWayland::Server::ServerSideDecorationInterface *decoration);
     void installAppMenu(KWayland::Server::AppMenuInterface *appmenu);
     void installPalette(KWayland::Server::ServerSideDecorationPaletteInterface *palette);
+    void installXdgDecoration(KWayland::Server::XdgDecorationInterface *decoration);
 
     bool isInitialPositionSet() const override;
 
     bool isTransient() const override;
     bool hasTransientPlacementHint() const override;
-    QPoint transientPlacementHint() const override;
+    QRect transientPlacement(const QRect &bounds) const override;
 
     QMatrix4x4 inputTransformation() const override;
 
@@ -155,18 +148,27 @@ public:
 
     void killWindow() override;
 
-    // TODO: const-ref
-    void placeIn(QRect &area);
+    void placeIn(const QRect &area);
 
     bool hasPopupGrab() const override;
     void popupDone() override;
 
     void updateColorScheme() override;
 
+    bool isPopupWindow() const override;
+
+    bool isLocalhost() const override
+    {
+        return true;
+    }
+
+    bool supportsWindowRules() const override;
+
 protected:
     void addDamage(const QRegion &damage) override;
     bool belongsToSameApplication(const AbstractClient *other, SameApplicationChecks checks) const override;
     void doSetActive() override;
+    bool belongsToDesktop() const override;
     Layer layerForDock() const override;
     void changeMaximize(bool horizontal, bool vertical, bool adjust) override;
     void setGeometryRestore(const QRect &geo) override {
@@ -176,54 +178,91 @@ protected:
     bool isWaitingForMoveResizeSync() const override;
     bool acceptsFocus() const override;
     void doMinimize() override;
-    void doMove(int x, int y) override;
     void updateCaption() override;
+
+    virtual bool requestGeometry(const QRect &rect);
+    virtual void doSetGeometry(const QRect &rect);
+    void unmap();
+    void markAsMapped();
+
+    void setClientSize(const QSize &size) {
+        m_clientSize = size;
+    }
+
+    bool isUnmapped() const {
+        return m_unmapped;
+    }
 
 private Q_SLOTS:
     void clientFullScreenChanged(bool fullScreen);
 
 private:
+    /**
+     *  Called when the shell is created.
+     */
     void init();
+    /**
+     * Called for the XDG case when the shell surface is committed to the surface.
+     * At this point all initial properties should have been set by the client.
+     */
+    void finishInit();
     template <class T>
     void initSurface(T *shellSurface);
-    void requestGeometry(const QRect &rect);
-    void doSetGeometry(const QRect &rect);
     void createDecoration(const QRect &oldgeom);
     void destroyClient();
-    void unmap();
     void createWindowId();
-    void findInternalWindow();
-    void updateInternalWindowGeometry();
-    void syncGeometryToInternalWindow();
     void updateIcon();
-    void markAsMapped();
     void setTransient();
     bool shouldExposeToWindowManagement();
     void updateClientOutputs();
+    void updateWindowMargins();
     KWayland::Server::XdgShellSurfaceInterface::States xdgSurfaceStates() const;
     void updateShowOnScreenEdge();
+    void updateMaximizeMode(MaximizeMode maximizeMode);
+    // called on surface commit and processes all m_pendingConfigureRequests up to m_lastAckedConfigureReqest
+    void updatePendingGeometry();
+    QPoint popupOffset(const QRect &anchorRect, const Qt::Edges anchorEdge, const Qt::Edges gravity, const QSize popupSize) const;
     static void deleteClient(ShellClient *c);
+
+    QSize toWindowGeometry(const QSize &geometry) const;
 
     KWayland::Server::ShellSurfaceInterface *m_shellSurface;
     KWayland::Server::XdgShellSurfaceInterface *m_xdgShellSurface;
     KWayland::Server::XdgShellPopupInterface *m_xdgShellPopup;
-    QSize m_clientSize;
 
-    ClearablePoint m_positionAfterResize; // co-ordinates saved from a requestGeometry call, real geometry will be updated after the next damage event when the client has resized
+    // size of the last buffer
+    QSize m_clientSize;
+    // last size we requested or empty if we haven't sent an explicit request to the client
+    // if empty the client should choose their own default size
+    QSize m_requestedClientSize = QSize(0, 0);
+
+    struct PendingConfigureRequest {
+        //note for wl_shell we have no serial, so serialId and m_lastAckedConfigureRequest will always be 0
+        //meaning we treat a surface commit as having processed all requests
+        quint32 serialId = 0;
+        // position to apply after a resize operation has been completed
+        QPoint positionAfterResize;
+        MaximizeMode maximizeMode;
+    };
+    QVector<PendingConfigureRequest> m_pendingConfigureRequests;
+    quint32 m_lastAckedConfigureRequest = 0;
+
+    //mode in use by the current buffer
+    MaximizeMode m_maximizeMode = MaximizeRestore;
+    //mode we currently want to be, could be pending on client updating, could be not sent yet
+    MaximizeMode m_requestedMaximizeMode = MaximizeRestore;
+
     QRect m_geomFsRestore; //size and position of the window before it was set to fullscreen
     bool m_closing = false;
     quint32 m_windowId = 0;
-    QWindow *m_internalWindow = nullptr;
-    Qt::WindowFlags m_internalWindowFlags = Qt::WindowFlags();
     bool m_unmapped = true;
-    MaximizeMode m_maximizeMode = MaximizeRestore;
     QRect m_geomMaximizeRestore; // size and position of the window before it was set to maximize
     NET::WindowType m_windowType = NET::Normal;
     QPointer<KWayland::Server::PlasmaShellSurfaceInterface> m_plasmaShellSurface;
-    QPointer<KWayland::Server::QtExtendedSurfaceInterface> m_qtExtendedSurface;
     QPointer<KWayland::Server::AppMenuInterface> m_appMenuInterface;
     QPointer<KWayland::Server::ServerSideDecorationPaletteInterface> m_paletteInterface;
     KWayland::Server::ServerSideDecorationInterface *m_serverDecoration = nullptr;
+    KWayland::Server::XdgDecorationInterface *m_xdgDecoration = nullptr;
     bool m_userNoBorder = false;
     bool m_fullScreen = false;
     bool m_transient = false;
@@ -232,7 +271,7 @@ private:
     bool m_hasPopupGrab = false;
     qreal m_opacity = 1.0;
 
-    class RequestGeometryBlocker {
+    class RequestGeometryBlocker { //TODO rename ConfigureBlocker when this class is Xdg only
     public:
         RequestGeometryBlocker(ShellClient *client)
             : m_client(client)
@@ -243,11 +282,7 @@ private:
         {
             m_client->m_requestGeometryBlockCounter--;
             if (m_client->m_requestGeometryBlockCounter == 0) {
-                if (m_client->m_blockedRequestGeometry.isValid()) {
-                    m_client->requestGeometry(m_client->m_blockedRequestGeometry);
-                } else if (m_client->m_xdgShellSurface) {
-                    m_client->m_xdgShellSurface->configure(m_client->xdgSurfaceStates());
-                }
+                m_client->requestGeometry(m_client->m_blockedRequestGeometry);
             }
         }
     private:
@@ -260,7 +295,12 @@ private:
     QString m_captionSuffix;
     QHash<qint32, PingReason> m_pingSerials;
 
+    QMargins m_windowMargins;
+
     bool m_compositingSetup = false;
+    bool m_isInitialized = false;
+
+    friend class Workspace;
 };
 
 }

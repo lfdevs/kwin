@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-10-13 06:43+0200\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-09-17 03:28+0200\n"
 "PO-Revision-Date: 2007-11-01 20:28+0545\n"
 "Last-Translator: Shyam Krishna Bal <shyamkrishna_bal@yahoo.com>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -257,59 +257,60 @@ msgstr "सम्झनका लागि आन्तरिक सेटिङ
 msgid "Internal setting for remembering"
 msgstr "सम्झनका लागि आन्तरिक सेटिङ"
 
-#: main.cpp:150
+#: main.cpp:138
 #, kde-format
 msgid "Application settings for %1"
 msgstr "%1 का लागि अनुप्रयोग सेटिङ"
 
-#: main.cpp:170
+#: main.cpp:158
 #, kde-format
 msgid "Window settings for %1"
 msgstr "%1 का लागि सञ्झ्याल सेटिङ"
 
-#: main.cpp:222
+#: main.cpp:210
 #, fuzzy, kde-format
 #| msgid "Edit Window-Specific Settings"
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "सञ्झ्याल निर्दिष्ट सेटिङ प्रविष्ट गर्नुहोस्"
 
-#: main.cpp:253
+#: main.cpp:241
 #, kde-format
 msgid "KWin"
 msgstr "केडीई विन"
 
-#: main.cpp:261
+#: main.cpp:248
 #, kde-format
 msgid "KWin helper utility"
 msgstr "केडीई विन मद्दत युटिलिटी"
 
-#: main.cpp:262
-#, kde-format
-msgid "WId of the window for special window settings."
+#: main.cpp:249
+#, fuzzy, kde-format
+#| msgid "WId of the window for special window settings."
+msgid "KWin id of the window for special window settings."
 msgstr "विशेष सञ्झ्याल सेटिङका लागि सञ्झ्यालको WId"
 
-#: main.cpp:263
+#: main.cpp:250
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "सेटिङले अनुप्रयोगको सबै सञ्झ्याललाई असर गर्छ या गर्दैन ।"
 
-#: main.cpp:271
+#: main.cpp:259
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "यो मद्दत युटिलिटीलाई प्रत्यक्ष रूपमा कल गरिदैन ।"
 
-#: ruleslist.cpp:153
+#: ruleslist.cpp:152
 #, kde-format
 msgid "Export Rules"
 msgstr ""
 
-#: ruleslist.cpp:154 ruleslist.cpp:166
+#: ruleslist.cpp:153 ruleslist.cpp:165
 #, kde-format
 msgid "KWin Rules (*.kwinrule)"
 msgstr ""
 
-#: ruleslist.cpp:165
+#: ruleslist.cpp:164
 #, kde-format
 msgid "Import Rules"
 msgstr ""
@@ -356,7 +357,7 @@ msgstr ""
 msgid "&Export"
 msgstr ""
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:66
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
@@ -365,7 +366,7 @@ msgstr ""
 "निर्दिष्ट गरिएका सञ्झ्यालका लागि यो सञ्झ्याल विशेषता परिवर्तन गर्न यो जाँच बाकस सक्षम "
 "पार्नुहोस् ।"
 
-#: ruleswidget.cpp:70
+#: ruleswidget.cpp:68
 #, fuzzy, kde-format
 #| msgid ""
 #| "Specify how the window property should be affected:<ul><li><em>Do Not "
@@ -411,7 +412,7 @@ msgstr ""
 "गर्नुहोस् :</em> सञ्झ्याल गुणले यो नलुके सम्म दिएको मानमा बल गर्नेछ (यो कार्य सञ्झ्याल "
 "लुकाएपछि मेटिने छ) ।</li></ul>"
 
-#: ruleswidget.cpp:85
+#: ruleswidget.cpp:83
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -429,27 +430,27 @@ msgstr ""
 "बल गर्नुहोस्:</em> सञ्झ्याल गुणले यो नलुके सम्म दिएको मानमा बल गर्नेछ (यो कार्य सञ्झ्याल "
 "लुकाएपछि मेटिने छ) ।</li></ul>"
 
-#: ruleswidget.cpp:153
+#: ruleswidget.cpp:151
 #, kde-format
 msgid "All Desktops"
 msgstr "सबै डेस्कटप"
 
-#: ruleswidget.cpp:347
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr ""
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:790
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 का लागि सेटिङ"
 
-#: ruleswidget.cpp:833
+#: ruleswidget.cpp:792
 #, kde-format
 msgid "Unnamed entry"
 msgstr "नाम नदिइएको प्रविष्टि"
 
-#: ruleswidget.cpp:843
+#: ruleswidget.cpp:802
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -463,12 +464,12 @@ msgstr ""
 "जेनेरिक सेटिङ प्रयोग गर्न चाहनुहुन्छ भने, यसले तपाईँलाई विशेष सञ्झ्याल प्रकार हटाउन कम्तिमा "
 "सञ्झ्याल प्रकार सीमा तोक्न सिफारिस गर्छ ।"
 
-#: ruleswidget.cpp:874
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "सञ्झ्याल निर्दिष्ट सेटिङ प्रविष्ट गर्नुहोस्"
 
-#: ruleswidget.cpp:904
+#: ruleswidget.cpp:863
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -480,12 +481,12 @@ msgstr ""
 "दिन्छ । तपाईँले प्रभाव पार्न चाहेको सेटिङ फेला पार्नुहोस्, जाँच बाकस प्रयोग गरेर सेटिङ सक्षम "
 "पार्नुहोस् अनि कुन तरिकाले र कुन मानमा सेटिङ प्रभावकारी हुन्छ चयन गर्नुहोस् ।"
 
-#: ruleswidget.cpp:908
+#: ruleswidget.cpp:867
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "बढी विवरणका लागि मिसिलिकरण परामर्श लिनुहोस्"
 
-#: ruleswidget.cpp:947
+#: ruleswidget.cpp:906
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "सर्टकट सम्पादन गर्नुहोस्"

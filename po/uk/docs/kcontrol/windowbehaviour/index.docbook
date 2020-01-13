@@ -79,7 +79,7 @@
 >Пересування</guilabel
 > надасть вам змогу налаштувати спосіб, у який пересуватимуться вікна і їх розташування одразу після запуску. <guilabel
 >Додаткові</guilabel
-> параметри стосуються деяких окремих параметрів, зокрема вікон у вкладках та згортання вікон. </para>
+> параметри стосуються деяких окремих параметрів, зокрема згортання вікон. </para>
 
 <note>
 <para
@@ -355,7 +355,7 @@
 >Подібні параметри доступні і для <guilabel
 >Події коліщатка</guilabel
 >. </para>
-<!--FIXME Raise/Lower Shade/Unshade Maximize/Restore Keep Above/Below Move to Previous/Next Desktop Change Opacity  Switch to Window Tab to the Left/Reght -->
+<!--FIXME Raise/Lower Shade/Unshade Maximize/Restore Keep Above/Below Move to Previous/Next Desktop Change Opacity -->
 
 <tip>
 <para
@@ -418,7 +418,7 @@
 </varlistentry>
 
 <!--FIXME missing:
-Minimize, Shade, Close, Start Window Tab Drag
+Minimize, Shade, Close
 -->
 
 <varlistentry>
@@ -634,7 +634,7 @@ Increase Opacity + Decrease Opacity
 <!--FIXME
 Mouse Wheel has different choices:
 Raise/Lower, Shade/Unshade, Maximize/Restore, Keep Above/Below, 
-Move to Previous/Next Desktop, Change Opacity, Switch to Window Tab to the Left/Right
+Move to Previous/Next Desktop, Change Opacity
 Nothing
 -->
 
@@ -760,30 +760,6 @@ Nothing
 </variablelist>
 
 <variablelist>
-<title
->Компонування вікон</title>
-
-<varlistentry>
-<term
-><guilabel
->Автоматично групувати подібні вікна</guilabel
-></term>
-<listitem
-><para
->Якщо буде позначено цей пункт, середовище спробує автоматично визначити, чи належить нове вікно до вже існуючого типу і розташує тотожні вікна у одній групі вікон.</para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><guilabel
->Перемикатися на автоматично згруповані вікна негайно</guilabel
-></term>
-<listitem
-><para
->Якщо буде позначено цей пункт, система негайно перемикатиме перегляд до будь-якого нового вікна, яке було додано до поточної групи автоматично.</para
-></listitem>
-</varlistentry>
 
 <varlistentry>
 <term

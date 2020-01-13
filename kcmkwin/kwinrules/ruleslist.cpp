@@ -18,7 +18,6 @@
 
 #include "ruleslist.h"
 
-#include <assert.h>
 #include <QDebug>
 #include <kconfig.h>
 #include <QFileDialog>
@@ -82,7 +81,7 @@ void KCMRulesList::activeChanged()
 void KCMRulesList::newClicked()
 {
     RulesDialog dlg(this);
-    Rules* rule = dlg.edit(nullptr, 0, false);
+    Rules* rule = dlg.edit(nullptr, {}, false);
     if (rule == nullptr)
         return;
     int pos = rules_listbox->currentRow() + 1;
@@ -98,7 +97,7 @@ void KCMRulesList::modifyClicked()
     if (pos == -1)
         return;
     RulesDialog dlg(this);
-    Rules* rule = dlg.edit(rules[ pos ], 0, false);
+    Rules* rule = dlg.edit(rules[ pos ], {}, false);
     if (rule == rules[ pos ])
         return;
     delete rules[ pos ];
@@ -110,7 +109,7 @@ void KCMRulesList::modifyClicked()
 void KCMRulesList::deleteClicked()
 {
     int pos = rules_listbox->currentRow();
-    assert(pos != -1);
+    Q_ASSERT(pos != -1);
     delete rules_listbox->takeItem(pos);
     rules.erase(rules.begin() + pos);
     emit changed(true);
@@ -119,7 +118,7 @@ void KCMRulesList::deleteClicked()
 void KCMRulesList::moveupClicked()
 {
     int pos = rules_listbox->currentRow();
-    assert(pos != -1);
+    Q_ASSERT(pos != -1);
     if (pos > 0) {
         QListWidgetItem * item = rules_listbox->takeItem(pos);
         rules_listbox->insertItem(pos - 1 , item);
@@ -134,7 +133,7 @@ void KCMRulesList::moveupClicked()
 void KCMRulesList::movedownClicked()
 {
     int pos = rules_listbox->currentRow();
-    assert(pos != -1);
+    Q_ASSERT(pos != -1);
     if (pos < int(rules_listbox->count()) - 1) {
         QListWidgetItem * item = rules_listbox->takeItem(pos);
         rules_listbox->insertItem(pos + 1 , item);
@@ -149,7 +148,7 @@ void KCMRulesList::movedownClicked()
 void KCMRulesList::exportClicked()
 {
     int pos = rules_listbox->currentRow();
-    assert(pos != -1);
+    Q_ASSERT(pos != -1);
     QString path = QFileDialog::getSaveFileName(this, i18n("Export Rules"), QDir::home().absolutePath(),
                                                 i18n("KWin Rules (*.kwinrule)"));
     if (path.isEmpty())

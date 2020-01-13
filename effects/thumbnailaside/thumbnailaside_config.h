@@ -41,10 +41,10 @@ class ThumbnailAsideEffectConfig : public KCModule
 {
     Q_OBJECT
 public:
-    explicit ThumbnailAsideEffectConfig(QWidget* parent = 0, const QVariantList& args = QVariantList());
-    virtual ~ThumbnailAsideEffectConfig();
+    explicit ThumbnailAsideEffectConfig(QWidget* parent = nullptr, const QVariantList& args = QVariantList());
+    ~ThumbnailAsideEffectConfig() override;
 
-    virtual void save();
+    void save() override;
 
 private:
     ThumbnailAsideEffectConfigForm* m_ui;

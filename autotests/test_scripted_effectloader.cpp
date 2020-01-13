@@ -38,7 +38,6 @@ Q_DECLARE_METATYPE(KSharedConfigPtr)
 
 Q_LOGGING_CATEGORY(KWIN_CORE, "kwin_core")
 
-
 namespace KWin
 {
 ScreenEdges *ScreenEdges::s_self = nullptr;
@@ -91,6 +90,7 @@ private Q_SLOTS:
 
 void TestScriptedEffectLoader::initTestCase()
 {
+    qputenv("XDG_DATA_DIRS", QCoreApplication::applicationDirPath().toUtf8());
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     QCoreApplication::instance()->setProperty("config", QVariant::fromValue(config));
 }
@@ -109,7 +109,6 @@ void TestScriptedEffectLoader::testHasEffect_data()
     QTest::newRow("CubeSlide")                   << QStringLiteral("cubeslide")                 << false;
     QTest::newRow("DesktopGrid")                 << QStringLiteral("desktopgrid")               << false;
     QTest::newRow("DimInactive")                 << QStringLiteral("diminactive")               << false;
-    QTest::newRow("DimScreen")                   << QStringLiteral("dimscreen")                 << false;
     QTest::newRow("FallApart")                   << QStringLiteral("fallapart")                 << false;
     QTest::newRow("FlipSwitch")                  << QStringLiteral("flipswitch")                << false;
     QTest::newRow("Glide")                       << QStringLiteral("glide")                     << false;
@@ -120,12 +119,10 @@ void TestScriptedEffectLoader::testHasEffect_data()
     QTest::newRow("LookingGlass")                << QStringLiteral("lookingglass")              << false;
     QTest::newRow("MagicLamp")                   << QStringLiteral("magiclamp")                 << false;
     QTest::newRow("Magnifier")                   << QStringLiteral("magnifier")                 << false;
-    QTest::newRow("MinimizeAnimation")           << QStringLiteral("minimizeanimation")         << false;
     QTest::newRow("MouseClick")                  << QStringLiteral("mouseclick")                << false;
     QTest::newRow("MouseMark")                   << QStringLiteral("mousemark")                 << false;
     QTest::newRow("PresentWindows")              << QStringLiteral("presentwindows")            << false;
     QTest::newRow("Resize")                      << QStringLiteral("resize")                    << false;
-    QTest::newRow("Scale")                       << QStringLiteral("scale")                     << false;
     QTest::newRow("ScreenEdge")                  << QStringLiteral("screenedge")                << false;
     QTest::newRow("ScreenShot")                  << QStringLiteral("screenshot")                << false;
     QTest::newRow("Sheet")                       << QStringLiteral("sheet")                     << false;
@@ -143,15 +140,23 @@ void TestScriptedEffectLoader::testHasEffect_data()
     QTest::newRow("Zoom")                        << QStringLiteral("zoom")                      << false;
     QTest::newRow("Non Existing")                << QStringLiteral("InvalidName")               << false;
     QTest::newRow("Fade - without kwin4_effect") << QStringLiteral("fade")                      << false;
-    QTest::newRow("Fade + kwin4_effect")         << QStringLiteral("kwin4_effect_fade")         << true;
-    QTest::newRow("Fade + kwin4_effect + CS")    << QStringLiteral("kwin4_eFfect_fAde")         << true;
-    QTest::newRow("FadeDesktop")                 << QStringLiteral("kwin4_effect_fadedesktop")  << true;
-    QTest::newRow("FrozenApp")                   << QStringLiteral("kwin4_effect_frozenapp")    << true;
-    QTest::newRow("DialogParent")                << QStringLiteral("kwin4_effect_dialogparent") << true;
-    QTest::newRow("Login")                       << QStringLiteral("kwin4_effect_login")        << true;
-    QTest::newRow("Logout")                      << QStringLiteral("kwin4_effect_logout")       << true;
-    QTest::newRow("Maximize")                    << QStringLiteral("kwin4_effect_maximize")     << true;
-    QTest::newRow("Translucency")                << QStringLiteral("kwin4_effect_translucency") << true;
+
+    QTest::newRow("DialogParent")                << QStringLiteral("kwin4_effect_dialogparent")     << true;
+    QTest::newRow("DimScreen")                   << QStringLiteral("kwin4_effect_dimscreen")        << true;
+    QTest::newRow("EyeOnScreen")                 << QStringLiteral("kwin4_effect_eyeonscreen")      << true;
+    QTest::newRow("Fade + kwin4_effect")         << QStringLiteral("kwin4_effect_fade")             << true;
+    QTest::newRow("Fade + kwin4_effect + CS")    << QStringLiteral("kwin4_eFfect_fAde")             << true;
+    QTest::newRow("FadeDesktop")                 << QStringLiteral("kwin4_effect_fadedesktop")      << true;
+    QTest::newRow("FadingPopups")                << QStringLiteral("kwin4_effect_fadingpopups")     << true;
+    QTest::newRow("FrozenApp")                   << QStringLiteral("kwin4_effect_frozenapp")        << true;
+    QTest::newRow("Login")                       << QStringLiteral("kwin4_effect_login")            << true;
+    QTest::newRow("Logout")                      << QStringLiteral("kwin4_effect_logout")           << true;
+    QTest::newRow("Maximize")                    << QStringLiteral("kwin4_effect_maximize")         << true;
+    QTest::newRow("MorphingPopups")              << QStringLiteral("kwin4_effect_morphingpopups")   << true;
+    QTest::newRow("Scale")                       << QStringLiteral("kwin4_effect_scale")            << true;
+    QTest::newRow("Squash")                      << QStringLiteral("kwin4_effect_squash")           << true;
+    QTest::newRow("Translucency")                << QStringLiteral("kwin4_effect_translucency")     << true;
+    QTest::newRow("WindowAperture")              << QStringLiteral("kwin4_effect_windowaperture")   << true;
 }
 
 void TestScriptedEffectLoader::testHasEffect()
@@ -176,13 +181,20 @@ void TestScriptedEffectLoader::testKnownEffects()
 {
     QStringList expectedEffects;
     expectedEffects << QStringLiteral("kwin4_effect_dialogparent")
+                    << QStringLiteral("kwin4_effect_dimscreen")
+                    << QStringLiteral("kwin4_effect_eyeonscreen")
                     << QStringLiteral("kwin4_effect_fade")
                     << QStringLiteral("kwin4_effect_fadedesktop")
+                    << QStringLiteral("kwin4_effect_fadingpopups")
                     << QStringLiteral("kwin4_effect_frozenapp")
                     << QStringLiteral("kwin4_effect_login")
                     << QStringLiteral("kwin4_effect_logout")
                     << QStringLiteral("kwin4_effect_maximize")
-                    << QStringLiteral("kwin4_effect_translucency");
+                    << QStringLiteral("kwin4_effect_morphingpopups")
+                    << QStringLiteral("kwin4_effect_scale")
+                    << QStringLiteral("kwin4_effect_squash")
+                    << QStringLiteral("kwin4_effect_translucency")
+                    << QStringLiteral("kwin4_effect_windowaperture");
 
     KWin::ScriptedEffectLoader loader;
     QStringList result = loader.listOfKnownEffects();
@@ -198,17 +210,24 @@ void TestScriptedEffectLoader::testLoadEffect_data()
     QTest::addColumn<QString>("name");
     QTest::addColumn<bool>("expected");
 
-    QTest::newRow("Non Existing")                << QStringLiteral("InvalidName")               << false;
-    QTest::newRow("Fade - without kwin4_effect") << QStringLiteral("fade")                      << false;
-    QTest::newRow("Fade + kwin4_effect")         << QStringLiteral("kwin4_effect_fade")         << true;
-    QTest::newRow("Fade + kwin4_effect + CS")    << QStringLiteral("kwin4_eFfect_fAde")         << true;
-    QTest::newRow("FadeDesktop")                 << QStringLiteral("kwin4_effect_fadedesktop")  << true;
-    QTest::newRow("FrozenApp")                   << QStringLiteral("kwin4_effect_frozenapp")    << true;
-    QTest::newRow("DialogParent")                << QStringLiteral("kwin4_effect_dialogparent") << true;
-    QTest::newRow("Login")                       << QStringLiteral("kwin4_effect_login")        << true;
-    QTest::newRow("Logout")                      << QStringLiteral("kwin4_effect_logout")        << true;
-    QTest::newRow("Maximize")                    << QStringLiteral("kwin4_effect_maximize")     << true;
-    QTest::newRow("Translucency")                << QStringLiteral("kwin4_effect_translucency") << true;
+    QTest::newRow("Non Existing")                << QStringLiteral("InvalidName")                   << false;
+    QTest::newRow("Fade - without kwin4_effect") << QStringLiteral("fade")                          << false;
+    QTest::newRow("DialogParent")                << QStringLiteral("kwin4_effect_dialogparent")     << true;
+    QTest::newRow("DimScreen")                   << QStringLiteral("kwin4_effect_dimscreen")        << true;
+    QTest::newRow("EyeOnScreen")                 << QStringLiteral("kwin4_effect_eyeonscreen")      << true;
+    QTest::newRow("Fade + kwin4_effect")         << QStringLiteral("kwin4_effect_fade")             << true;
+    QTest::newRow("Fade + kwin4_effect + CS")    << QStringLiteral("kwin4_eFfect_fAde")             << true;
+    QTest::newRow("FadeDesktop")                 << QStringLiteral("kwin4_effect_fadedesktop")      << true;
+    QTest::newRow("FadingPopups")                << QStringLiteral("kwin4_effect_fadingpopups")     << true;
+    QTest::newRow("FrozenApp")                   << QStringLiteral("kwin4_effect_frozenapp")        << true;
+    QTest::newRow("Login")                       << QStringLiteral("kwin4_effect_login")            << true;
+    QTest::newRow("Logout")                      << QStringLiteral("kwin4_effect_logout")           << true;
+    QTest::newRow("Maximize")                    << QStringLiteral("kwin4_effect_maximize")         << true;
+    QTest::newRow("MorphingPopups")              << QStringLiteral("kwin4_effect_morphingpopups")   << true;
+    QTest::newRow("Scale")                       << QStringLiteral("kwin4_effect_scale")            << true;
+    QTest::newRow("Squash")                      << QStringLiteral("kwin4_effect_squash")           << true;
+    QTest::newRow("Translucency")                << QStringLiteral("kwin4_effect_translucency")     << true;
+    QTest::newRow("WindowAperture")              << QStringLiteral("kwin4_effect_windowaperture")   << true;
 }
 
 void TestScriptedEffectLoader::testLoadEffect()
@@ -222,7 +241,7 @@ void TestScriptedEffectLoader::testLoadEffect()
     loader.setConfig(config);
 
     qRegisterMetaType<KWin::Effect*>();
-    QSignalSpy spy(&loader, SIGNAL(effectLoaded(KWin::Effect*,QString)));
+    QSignalSpy spy(&loader, &KWin::ScriptedEffectLoader::effectLoaded);
     // connect to signal to ensure that we delete the Effect again as the Effect doesn't have a parent
     connect(&loader, &KWin::ScriptedEffectLoader::effectLoaded,
         [&name](KWin::Effect *effect, const QString &effectName) {
@@ -302,7 +321,7 @@ void TestScriptedEffectLoader::testLoadScriptedEffect()
     QCOMPARE(services.count(), 1);
 
     qRegisterMetaType<KWin::Effect*>();
-    QSignalSpy spy(&loader, SIGNAL(effectLoaded(KWin::Effect*,QString)));
+    QSignalSpy spy(&loader, &KWin::ScriptedEffectLoader::effectLoaded);
     // connect to signal to ensure that we delete the Effect again as the Effect doesn't have a parent
     connect(&loader, &KWin::ScriptedEffectLoader::effectLoaded,
         [&name](KWin::Effect *effect, const QString &effectName) {
@@ -353,13 +372,16 @@ void TestScriptedEffectLoader::testLoadAllEffects()
     // prepare the configuration to hard enable/disable the effects we want to load
     KConfigGroup plugins = config->group("Plugins");
     plugins.writeEntry(kwin4 + QStringLiteral("dialogparentEnabled"), false);
+    plugins.writeEntry(kwin4 + QStringLiteral("dimscreenEnabled"), false);
     plugins.writeEntry(kwin4 + QStringLiteral("fadeEnabled"), false);
     plugins.writeEntry(kwin4 + QStringLiteral("fadedesktopEnabled"), false);
+    plugins.writeEntry(kwin4 + QStringLiteral("fadingpopupsEnabled"), false);
     plugins.writeEntry(kwin4 + QStringLiteral("frozenappEnabled"), false);
     plugins.writeEntry(kwin4 + QStringLiteral("loginEnabled"), false);
     plugins.writeEntry(kwin4 + QStringLiteral("logoutEnabled"), false);
     plugins.writeEntry(kwin4 + QStringLiteral("maximizeEnabled"), false);
-    plugins.writeEntry(kwin4 + QStringLiteral("minimizeanimationEnabled"), false);
+    plugins.writeEntry(kwin4 + QStringLiteral("scaleEnabled"), false);
+    plugins.writeEntry(kwin4 + QStringLiteral("squashEnabled"), false);
     plugins.writeEntry(kwin4 + QStringLiteral("translucencyEnabled"), false);
     plugins.writeEntry(kwin4 + QStringLiteral("eyeonscreenEnabled"), false);
     plugins.writeEntry(kwin4 + QStringLiteral("windowapertureEnabled"), false);
@@ -369,7 +391,7 @@ void TestScriptedEffectLoader::testLoadAllEffects()
     loader.setConfig(config);
 
     qRegisterMetaType<KWin::Effect*>();
-    QSignalSpy spy(&loader, SIGNAL(effectLoaded(KWin::Effect*,QString)));
+    QSignalSpy spy(&loader, &KWin::ScriptedEffectLoader::effectLoaded);
     // connect to signal to ensure that we delete the Effect again as the Effect doesn't have a parent
     connect(&loader, &KWin::ScriptedEffectLoader::effectLoaded,
         [](KWin::Effect *effect) {
@@ -414,7 +436,7 @@ void TestScriptedEffectLoader::testLoadAllEffects()
         QCOMPARE(list.size(), 2);
         loadedEffects << list.at(1).toString();
     }
-    qSort(loadedEffects);
+    std::sort(loadedEffects.begin(), loadedEffects.end());
     QCOMPARE(loadedEffects.at(0), kwin4 + QStringLiteral("eyeonscreen"));
     QCOMPARE(loadedEffects.at(1), kwin4 + QStringLiteral("fade"));
 }

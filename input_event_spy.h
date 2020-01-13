@@ -43,7 +43,7 @@ class SwitchEvent;
  *
  * Deleting an instance of InputEventSpy automatically uninstalls it from
  * InputRedirection.
- **/
+ */
 class KWIN_EXPORT InputEventSpy
 {
 public:
@@ -54,23 +54,23 @@ public:
      * Event spy for pointer events which can be described by a MouseEvent.
      *
      * @param event The event information about the move or button press/release
-     **/
+     */
     virtual void pointerEvent(MouseEvent *event);
     /**
      * Event spy for pointer axis events.
      *
      * @param event The event information about the axis event
-     **/
+     */
     virtual void wheelEvent(WheelEvent *event);
     /**
      * Event spy for keyboard events.
      *
      * @param event The event information about the key event
-     **/
+     */
     virtual void keyEvent(KeyEvent *event);
-    virtual void touchDown(quint32 id, const QPointF &pos, quint32 time);
-    virtual void touchMotion(quint32 id, const QPointF &pos, quint32 time);
-    virtual void touchUp(quint32 id, quint32 time);
+    virtual void touchDown(qint32 id, const QPointF &pos, quint32 time);
+    virtual void touchMotion(qint32 id, const QPointF &pos, quint32 time);
+    virtual void touchUp(qint32 id, quint32 time);
 
     virtual void pinchGestureBegin(int fingerCount, quint32 time);
     virtual void pinchGestureUpdate(qreal scale, qreal angleDelta, const QSizeF &delta, quint32 time);

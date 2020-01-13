@@ -74,8 +74,8 @@ void StrutsTest::initTestCase()
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
     QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit()));
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
 
     // set custom config which disables the Outline
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
@@ -943,7 +943,7 @@ void StrutsTest::testWindowMoveWithPanelBetweenScreens()
     const QRect origGeo = client2->geometry();
     Cursor::setPos(origGeo.center());
     workspace()->performWindowOperation(client2, Options::MoveOp);
-    QTRY_COMPARE(workspace()->getMovingClient(), client2);
+    QTRY_COMPARE(workspace()->moveResizeClient(), client2);
     QVERIFY(client2->isMove());
     // move to next screen - step is 8 pixel, so 800 pixel
     for (int i = 0; i < 100; i++) {
@@ -952,7 +952,7 @@ void StrutsTest::testWindowMoveWithPanelBetweenScreens()
     }
     client2->keyPressEvent(Qt::Key_Enter);
     QCOMPARE(client2->isMove(), false);
-    QVERIFY(workspace()->getMovingClient() == nullptr);
+    QVERIFY(workspace()->moveResizeClient() == nullptr);
     QCOMPARE(client2->geometry(), QRect(origGeo.translated(-800, 0)));
 }
 

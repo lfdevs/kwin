@@ -22,8 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "workspace.h"
 #include "client.h"
+#include "group.h"
 #include "netinfo.h"
 #include "shadow.h"
+#include "shell_client.h"
 #include "decorations/decoratedclient.h"
 #include "decorations/decorationrenderer.h"
 
@@ -41,11 +43,16 @@ Deleted::Deleted()
     , m_minimized(false)
     , m_modal(false)
     , m_wasClient(false)
-    , m_wasCurrentTab(true)
     , m_decorationRenderer(nullptr)
     , m_fullscreen(false)
     , m_keepAbove(false)
     , m_keepBelow(false)
+    , m_wasActive(false)
+    , m_wasX11Client(false)
+    , m_wasWaylandClient(false)
+    , m_wasGroupTransient(false)
+    , m_wasPopupWindow(false)
+    , m_wasOutline(false)
 {
 }
 
@@ -53,9 +60,17 @@ Deleted::~Deleted()
 {
     if (delete_refcount != 0)
         qCCritical(KWIN_CORE) << "Deleted client has non-zero reference count (" << delete_refcount << ")";
-    assert(delete_refcount == 0);
+    Q_ASSERT(delete_refcount == 0);
     if (workspace()) {
         workspace()->removeDeleted(this);
+    }
+    for (Toplevel *toplevel : qAsConst(m_transientFor)) {
+        if (auto *deleted = qobject_cast<Deleted *>(toplevel)) {
+            deleted->removeTransient(this);
+        }
+    }
+    for (Deleted *transient : qAsConst(m_transients)) {
+        transient->removeTransientFor(this);
     }
     deleteEffectWindow();
 }
@@ -77,9 +92,10 @@ void Deleted::discard()
 
 void Deleted::copyToDeleted(Toplevel* c)
 {
-    assert(dynamic_cast< Deleted* >(c) == NULL);
+    Q_ASSERT(dynamic_cast< Deleted* >(c) == nullptr);
     Toplevel::copyToDeleted(c);
     desk = c->desktop();
+    m_desktops = c->desktops();
     activityList = c->activities();
     contentsRect = QRect(c->clientPos(), c->clientSize());
     m_contentPos = c->clientContentPos();
@@ -87,7 +103,7 @@ void Deleted::copyToDeleted(Toplevel* c)
     m_layer = c->layer();
     m_frame = c->frameId();
     m_opacity = c->opacity();
-    m_type = c->windowType(true);
+    m_type = c->windowType();
     m_windowRole = c->windowRole();
     if (WinInfo* cinfo = dynamic_cast< WinInfo* >(info))
         cinfo->disable();
@@ -110,14 +126,29 @@ void Deleted::copyToDeleted(Toplevel* c)
         m_modal = client->isModal();
         m_mainClients = client->mainClients();
         foreach (AbstractClient *c, m_mainClients) {
+            addTransientFor(c);
             connect(c, &AbstractClient::windowClosed, this, &Deleted::mainClientClosed);
         }
         m_fullscreen = client->isFullScreen();
-        m_wasCurrentTab = client->isCurrentTab();
         m_keepAbove = client->keepAbove();
         m_keepBelow = client->keepBelow();
         m_caption = client->caption();
+
+        m_wasActive = client->isActive();
+
+        m_wasGroupTransient = client->groupTransient();
     }
+
+    for (auto vd : m_desktops) {
+        connect(vd, &QObject::destroyed, this, [=] {
+            m_desktops.removeOne(vd);
+        });
+    }
+
+    m_wasWaylandClient = qobject_cast<ShellClient *>(c) != nullptr;
+    m_wasX11Client = !m_wasWaylandClient;
+    m_wasPopupWindow = c->isPopupWindow();
+    m_wasOutline = c->isOutline();
 }
 
 void Deleted::unrefWindow()
@@ -139,6 +170,11 @@ int Deleted::desktop() const
 QStringList Deleted::activities() const
 {
     return activityList;
+}
+
+QVector<VirtualDesktop *> Deleted::desktops() const
+{
+    return m_desktops;
 }
 
 QPoint Deleted::clientPos() const
@@ -192,6 +228,22 @@ void Deleted::mainClientClosed(Toplevel *client)
         m_mainClients.removeAll(c);
 }
 
+void Deleted::transientForClosed(Toplevel *toplevel, Deleted *deleted)
+{
+    if (deleted == nullptr) {
+        m_transientFor.removeAll(toplevel);
+        return;
+    }
+
+    const int index = m_transientFor.indexOf(toplevel);
+    if (index == -1) {
+        return;
+    }
+
+    m_transientFor[index] = deleted;
+    deleted->addTransient(this);
+}
+
 xcb_window_t Deleted::frameId() const
 {
     return m_frame;
@@ -205,6 +257,41 @@ double Deleted::opacity() const
 QByteArray Deleted::windowRole() const
 {
     return m_windowRole;
+}
+
+QVector<uint> Deleted::x11DesktopIds() const
+{
+    const auto desks = desktops();
+    QVector<uint> x11Ids;
+    x11Ids.reserve(desks.count());
+    std::transform(desks.constBegin(), desks.constEnd(),
+        std::back_inserter(x11Ids),
+        [] (const VirtualDesktop *vd) {
+            return vd->x11DesktopNumber();
+        }
+    );
+    return x11Ids;
+}
+
+void Deleted::addTransient(Deleted *transient)
+{
+    m_transients.append(transient);
+}
+
+void Deleted::removeTransient(Deleted *transient)
+{
+    m_transients.removeAll(transient);
+}
+
+void Deleted::addTransientFor(AbstractClient *parent)
+{
+    m_transientFor.append(parent);
+    connect(parent, &AbstractClient::windowClosed, this, &Deleted::transientForClosed);
+}
+
+void Deleted::removeTransientFor(Deleted *parent)
+{
+    m_transientFor.removeAll(parent);
 }
 
 } // namespace

@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-10-13 06:43+0200\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-09-17 03:28+0200\n"
 "PO-Revision-Date: 2017-10-23 11:20+0000\n"
 "Last-Translator: İşbaran <isbaran@gmail.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -253,60 +253,61 @@ msgstr "Hatırlama için iç ayarları göster"
 msgid "Internal setting for remembering"
 msgstr "Hatırlama için iç ayarlar"
 
-#: main.cpp:150
+#: main.cpp:138
 #, kde-format
 msgid "Application settings for %1"
 msgstr "%1 için uygulama ayarları"
 
-#: main.cpp:170
+#: main.cpp:158
 #, kde-format
 msgid "Window settings for %1"
 msgstr "%1 için pencere ayarları"
 
-#: main.cpp:222
+#: main.cpp:210
 #, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Uygulamaya Özel Ayarları Yapılandır"
 
-#: main.cpp:253
+#: main.cpp:241
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:261
+#: main.cpp:248
 #, kde-format
 msgid "KWin helper utility"
 msgstr "KWin yardımcı uygulaması"
 
-#: main.cpp:262
-#, kde-format
-msgid "WId of the window for special window settings."
+#: main.cpp:249
+#, fuzzy, kde-format
+#| msgid "WId of the window for special window settings."
+msgid "KWin id of the window for special window settings."
 msgstr "Özel pencere ayarları için pencere Wld'si."
 
-#: main.cpp:263
+#: main.cpp:250
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr ""
 "Uygulamanın tüm pencerelerinin pencere ayarları tarafından etkilenip "
 "etkilenmeyeceği."
 
-#: main.cpp:271
+#: main.cpp:259
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Bu Yardım uygulaması doğrudan çağrılamaz."
 
-#: ruleslist.cpp:153
+#: ruleslist.cpp:152
 #, kde-format
 msgid "Export Rules"
 msgstr "Kuralları Dışa Aktar"
 
-#: ruleslist.cpp:154 ruleslist.cpp:166
+#: ruleslist.cpp:153 ruleslist.cpp:165
 #, kde-format
 msgid "KWin Rules (*.kwinrule)"
 msgstr "KWin Kuralları (*.kwinrule)"
 
-#: ruleslist.cpp:165
+#: ruleslist.cpp:164
 #, kde-format
 msgid "Import Rules"
 msgstr "Kuralları İçeriye Aktar"
@@ -353,7 +354,7 @@ msgstr "&İçeriye Aktar"
 msgid "&Export"
 msgstr "&Dışarıya Aktar"
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:66
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
@@ -362,7 +363,7 @@ msgstr ""
 "Bu pencerenin özelliklerini belirtilmiş diğer pencerelere uygulamak için bu "
 "seçim kutusu seçin."
 
-#: ruleswidget.cpp:70
+#: ruleswidget.cpp:68
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -393,7 +394,7 @@ msgstr ""
 "olarak Zorla:</em> Pencere özelliği gizlenene kadar verilen değere "
 "zorlanacaktır (bu eylem pencere gizlendikten sonra silinecektir).</li></ul>"
 
-#: ruleswidget.cpp:85
+#: ruleswidget.cpp:83
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -412,27 +413,27 @@ msgstr ""
 "gizlenene kadar verilen değerlere zorlar. (bu eylem pencere gizlenince "
 "silinir).</li></ul>"
 
-#: ruleswidget.cpp:153
+#: ruleswidget.cpp:151
 #, kde-format
 msgid "All Desktops"
 msgstr "Tüm Masaüstleri"
 
-#: ruleswidget.cpp:347
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr "Tüm Etkinlikler"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:790
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 için ayarlar"
 
-#: ruleswidget.cpp:833
+#: ruleswidget.cpp:792
 #, kde-format
 msgid "Unnamed entry"
 msgstr "İsimsiz girdi"
 
-#: ruleswidget.cpp:843
+#: ruleswidget.cpp:802
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -446,12 +447,12 @@ msgstr ""
 "genel bir ayar oluşturmak istiyorsanız, en azından pencere türünü belirterek "
 "özel pencereleri korumanızı öneririz."
 
-#: ruleswidget.cpp:874
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Pencereye Özel Ayarlarını Yapılandır"
 
-#: ruleswidget.cpp:904
+#: ruleswidget.cpp:863
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -464,12 +465,12 @@ msgstr ""
 "kutusunu kullanarak etkinleştirin. Ayarların hangi yolu izleyerek ve hangi "
 "değerler kullanılarak uygulanacağını seçin."
 
-#: ruleswidget.cpp:908
+#: ruleswidget.cpp:867
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Daha fazla ayrıntı için belgelendirmeye bakın."
 
-#: ruleswidget.cpp:947
+#: ruleswidget.cpp:906
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Kısayolu Düzenle"

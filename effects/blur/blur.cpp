@@ -29,6 +29,7 @@
 #include <QLinkedList>
 #include <QScreen> // for QGuiApplication
 #include <QTime>
+#include <QWindow>
 #include <cmath> // for ceil()
 
 #include <KWayland/Server/surface_interface.h>
@@ -64,10 +65,10 @@ BlurEffect::BlurEffect()
         net_wm_blur_region = 0;
     }
 
-    connect(effects, SIGNAL(windowAdded(KWin::EffectWindow*)), this, SLOT(slotWindowAdded(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(windowDeleted(KWin::EffectWindow*)), this, SLOT(slotWindowDeleted(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(propertyNotify(KWin::EffectWindow*,long)), this, SLOT(slotPropertyNotify(KWin::EffectWindow*,long)));
-    connect(effects, SIGNAL(screenGeometryChanged(QSize)), this, SLOT(slotScreenGeometryChanged()));
+    connect(effects, &EffectsHandler::windowAdded, this, &BlurEffect::slotWindowAdded);
+    connect(effects, &EffectsHandler::windowDeleted, this, &BlurEffect::slotWindowDeleted);
+    connect(effects, &EffectsHandler::propertyNotify, this, &BlurEffect::slotPropertyNotify);
+    connect(effects, &EffectsHandler::screenGeometryChanged, this, &BlurEffect::slotScreenGeometryChanged);
     connect(effects, &EffectsHandler::xcbConnectionChanged, this,
         [this] {
             if (m_shader && m_shader->isValid() && m_renderTargetsValid) {
@@ -125,8 +126,33 @@ void BlurEffect::updateTexture()
     m_renderTargets.reserve(m_downSampleIterations + 2);
     m_renderTextures.reserve(m_downSampleIterations + 2);
 
+    GLenum textureFormat = GL_RGBA8;
+
+    // Check the color encoding of the default framebuffer
+    if (!GLPlatform::instance()->isGLES()) {
+        GLuint prevFbo = 0;
+        glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, reinterpret_cast<GLint *>(&prevFbo));
+
+        if (prevFbo != 0) {
+            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+        }
+
+        GLenum colorEncoding = GL_LINEAR;
+        glGetFramebufferAttachmentParameteriv(GL_DRAW_FRAMEBUFFER, GL_BACK_LEFT,
+                                              GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING,
+                                              reinterpret_cast<GLint *>(&colorEncoding));
+
+        if (prevFbo != 0) {
+            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, prevFbo);
+        }
+
+        if (colorEncoding == GL_SRGB) {
+            textureFormat = GL_SRGB8_ALPHA8;
+        }
+    }
+
     for (int i = 0; i <= m_downSampleIterations; i++) {
-        m_renderTextures.append(GLTexture(GL_RGBA8, effects->virtualScreenSize() / (1 << i)));
+        m_renderTextures.append(GLTexture(textureFormat, effects->virtualScreenSize() / (1 << i)));
         m_renderTextures.last().setFilter(GL_LINEAR);
         m_renderTextures.last().setWrapMode(GL_CLAMP_TO_EDGE);
 
@@ -134,7 +160,7 @@ void BlurEffect::updateTexture()
     }
 
     // This last set is used as a temporary helper texture
-    m_renderTextures.append(GLTexture(GL_RGBA8, effects->virtualScreenSize()));
+    m_renderTextures.append(GLTexture(textureFormat, effects->virtualScreenSize()));
     m_renderTextures.last().setFilter(GL_LINEAR);
     m_renderTextures.last().setWrapMode(GL_CLAMP_TO_EDGE);
 
@@ -272,6 +298,13 @@ void BlurEffect::updateBlurRegion(EffectWindow *w) const
         region = surf->blur()->region();
     }
 
+    if (auto internal = w->internalWindow()) {
+        const auto property = internal->property("kwin_blur");
+        if (property.isValid()) {
+            region = property.value<QRegion>();
+        }
+    }
+
     //!value.isNull() full window in X11 case, surf->blur()
     //valid, full window in wayland case
     if (region.isEmpty() && (!value.isNull() || (surf && surf->blur()))) {
@@ -294,6 +327,9 @@ void BlurEffect::slotWindowAdded(EffectWindow *w)
             }
         });
     }
+    if (auto internal = w->internalWindow()) {
+        internal->installEventFilter(this);
+    }
 
     updateBlurRegion(w);
 }
@@ -313,6 +349,20 @@ void BlurEffect::slotPropertyNotify(EffectWindow *w, long atom)
     if (w && atom == net_wm_blur_region && net_wm_blur_region != XCB_ATOM_NONE) {
         updateBlurRegion(w);
     }
+}
+
+bool BlurEffect::eventFilter(QObject *watched, QEvent *event)
+{
+    auto internal = qobject_cast<QWindow*>(watched);
+    if (internal && event->type() == QEvent::DynamicPropertyChange) {
+        QDynamicPropertyChangeEvent *pe = static_cast<QDynamicPropertyChangeEvent*>(event);
+        if (pe->propertyName() == "kwin_blur") {
+            if (auto w = effects->findWindow(internal)) {
+                updateBlurRegion(w);
+            }
+        }
+    }
+    return false;
 }
 
 bool BlurEffect::enabledByDefault()
@@ -541,16 +591,15 @@ void BlurEffect::drawWindow(EffectWindow *w, int mask, QRegion region, WindowPai
         const bool scaled = data.xScale() != 1 || data.yScale() != 1;
         if (scaled) {
             QPoint pt = shape.boundingRect().topLeft();
-            QVector<QRect> shapeRects = shape.rects();
-            shape = QRegion(); // clear
-            foreach (QRect r, shapeRects) {
+            QRegion scaledShape;
+            for (QRect r : shape) {
                 r.moveTo(pt.x() + (r.x() - pt.x()) * data.xScale() + data.xTranslation(),
                             pt.y() + (r.y() - pt.y()) * data.yScale() + data.yTranslation());
                 r.setWidth(r.width() * data.xScale());
                 r.setHeight(r.height() * data.yScale());
-                shape |= r;
+                scaledShape |= r;
             }
-            shape = shape & region;
+            shape = scaledShape & region;
 
         //Only translated, not scaled
         } else if (translated) {
@@ -616,8 +665,11 @@ void BlurEffect::doBlur(const QRegion& shape, const QRect& screen, const float o
 
     const QRegion expandedBlurRegion = expand(shape) & expand(screen);
 
+    const bool useSRGB = m_renderTextures.first().internalFormat() == GL_SRGB8_ALPHA8;
+
     // Upload geometry for the down and upsample iterations
     GLVertexBuffer *vbo = GLVertexBuffer::streamingBuffer();
+    vbo->reset();
 
     uploadGeometry(vbo, expandedBlurRegion.translated(xTranslate, yTranslate), shape);
     vbo->bindArrays();
@@ -637,9 +689,18 @@ void BlurEffect::doBlur(const QRegion& shape, const QRect& screen, const float o
      */
     if (isDock) {
         m_renderTargets.last()->blitFromFramebuffer(sourceRect, destRect);
+
+        if (useSRGB) {
+            glEnable(GL_FRAMEBUFFER_SRGB);
+        }
+
         copyScreenSampleTexture(vbo, blurRectCount, shape.translated(xTranslate, yTranslate), screenProjection);
     } else {
         m_renderTargets.first()->blitFromFramebuffer(sourceRect, destRect);
+
+        if (useSRGB) {
+            glEnable(GL_FRAMEBUFFER_SRGB);
+        }
 
         // Remove the m_renderTargets[0] from the top of the stack that we will not use
         GLRenderTarget::popRenderTarget();
@@ -663,6 +724,10 @@ void BlurEffect::doBlur(const QRegion& shape, const QRect& screen, const float o
     }
 
     upscaleRenderToScreen(vbo, blurRectCount * (m_downSampleIterations + 1), shape.rectCount() * 6, screenProjection, windowRect.topLeft());
+
+    if (useSRGB) {
+        glDisable(GL_FRAMEBUFFER_SRGB);
+    }
 
     if (opacity < 1.0) {
         glDisable(GL_BLEND);

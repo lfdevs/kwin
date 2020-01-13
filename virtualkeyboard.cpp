@@ -26,10 +26,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "wayland_server.h"
 #include "workspace.h"
 #include "xkb.h"
+#include "shell_client.h"
 
 #include <KWayland/Server/display.h>
 #include <KWayland/Server/seat_interface.h>
 #include <KWayland/Server/textinput_interface.h>
+#include <KWayland/Server/surface_interface.h>
 
 #include <KStatusNotifierItem>
 #include <KLocalizedString>
@@ -44,6 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QQuickItem>
 #include <QQuickView>
 #include <QQuickWindow>
+#include <QTimer>
 // xkbcommon
 #include <xkbcommon/xkbcommon.h>
 
@@ -57,6 +60,9 @@ KWIN_SINGLETON_FACTORY(VirtualKeyboard)
 VirtualKeyboard::VirtualKeyboard(QObject *parent)
     : QObject(parent)
 {
+    m_floodTimer = new QTimer(this);
+    m_floodTimer->setSingleShot(true);
+    m_floodTimer->setInterval(250);
     // this is actually too late. Other processes are started before init,
     // so might miss the availability of text input
     // but without Workspace we don't have the window listed at all
@@ -68,12 +74,14 @@ VirtualKeyboard::~VirtualKeyboard() = default;
 void VirtualKeyboard::init()
 {
     // TODO: need a shared Qml engine
+    qCDebug(KWIN_VIRTUALKEYBOARD) << "Initializing window";
     m_inputWindow.reset(new QQuickView(nullptr));
     m_inputWindow->setFlags(Qt::FramelessWindowHint);
     m_inputWindow->setGeometry(screens()->geometry(screens()->current()));
     m_inputWindow->setResizeMode(QQuickView::SizeRootObjectToView);
     m_inputWindow->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral(KWIN_NAME "/virtualkeyboard/main.qml"))));
     if (m_inputWindow->status() != QQuickView::Status::Ready) {
+        qCWarning(KWIN_VIRTUALKEYBOARD) << "window not ready yet";
         m_inputWindow.reset();
         return;
     }
@@ -81,13 +89,16 @@ void VirtualKeyboard::init()
 
     if (waylandServer()) {
         m_enabled = !input()->hasAlphaNumericKeyboard();
+        qCDebug(KWIN_VIRTUALKEYBOARD) << "enabled by default: " << m_enabled;
         connect(input(), &InputRedirection::hasAlphaNumericKeyboardChanged, this,
             [this] (bool set) {
+                qCDebug(KWIN_VIRTUALKEYBOARD) << "AlphaNumeric Keyboard changed:" << set << "toggling VirtualKeyboard.";
                 setEnabled(!set);
             }
         );
     }
 
+    qCDebug(KWIN_VIRTUALKEYBOARD) << "Registering the SNI";
     m_sni = new KStatusNotifierItem(QStringLiteral("kwin-virtual-keyboard"), this);
     m_sni->setStandardActionsEnabled(false);
     m_sni->setCategory(KStatusNotifierItem::Hardware);
@@ -102,6 +113,7 @@ void VirtualKeyboard::init()
     connect(this, &VirtualKeyboard::enabledChanged, this, &VirtualKeyboard::updateSni);
 
     auto dbus = new VirtualKeyboardDBus(this);
+    qCDebug(KWIN_VIRTUALKEYBOARD) << "Registering the DBus interface";
     dbus->setEnabled(m_enabled);
     connect(dbus, &VirtualKeyboardDBus::activateRequested, this, &VirtualKeyboard::setEnabled);
     connect(this, &VirtualKeyboard::enabledChanged, dbus, &VirtualKeyboardDBus::setEnabled);
@@ -140,8 +152,20 @@ void VirtualKeyboard::init()
                             qApp->inputMethod()->update(Qt::ImQueryAll);
                         }
                     );
-                    // TODO: calculate overlap
-                    t->setInputPanelState(m_inputWindow->isVisible(), QRect(0, 0, 0, 0));
+
+                    auto newClient = waylandServer()->findAbstractClient(waylandServer()->seat()->focusedTextInputSurface());
+                    // Reset the old client virtual keybaord geom if necessary
+                    // Old and new clients could be the same if focus moves between subsurfaces
+                    if (newClient != m_trackedClient) {
+                        if (m_trackedClient) {
+                            m_trackedClient->setVirtualKeyboardGeometry(QRect());
+                        }
+                        m_trackedClient = newClient;
+                    }
+
+                    m_trackedClient = waylandServer()->findAbstractClient(waylandServer()->seat()->focusedTextInputSurface());
+
+                    updateInputPanelState();
                 } else {
                     m_waylandShowConnection = QMetaObject::Connection();
                     m_waylandHideConnection = QMetaObject::Connection();
@@ -170,20 +194,10 @@ void VirtualKeyboard::init()
             m_inputWindow->setMask(m_inputWindow->rootObject()->childrenRect().toRect());
         }
     );
-    connect(qApp->inputMethod(), &QInputMethod::visibleChanged, m_inputWindow.data(),
-        [this] {
-            m_inputWindow->setVisible(qApp->inputMethod()->isVisible());
-            if (qApp->inputMethod()->isVisible()) {
-                m_inputWindow->setMask(m_inputWindow->rootObject()->childrenRect().toRect());
-            }
-            if (waylandServer()) {
-                if (auto t = waylandServer()->seat()->focusedTextInput()) {
-                    // TODO: calculate overlap
-                    t->setInputPanelState(m_inputWindow->isVisible(), QRect(0, 0, 0, 0));
-                }
-            }
-        }
-    );
+
+    connect(qApp->inputMethod(), &QInputMethod::visibleChanged, this, &VirtualKeyboard::updateInputPanelState);
+
+    connect(m_inputWindow->rootObject(), &QQuickItem::childrenRectChanged, this, &VirtualKeyboard::updateInputPanelState);
 }
 
 void VirtualKeyboard::setEnabled(bool enabled)
@@ -213,10 +227,51 @@ void VirtualKeyboard::updateSni()
     }
     if (m_enabled) {
         m_sni->setIconByName(QStringLiteral("input-keyboard-virtual-on"));
-        m_sni->setToolTipTitle(i18n("Virtual Keyboard is enabled."));
+        m_sni->setTitle(i18n("Virtual Keyboard: enabled"));
     } else {
         m_sni->setIconByName(QStringLiteral("input-keyboard-virtual-off"));
-        m_sni->setToolTipTitle(i18n("Virtual Keyboard is disabled."));
+        m_sni->setTitle(i18n("Virtual Keyboard: disabled"));
+    }
+    m_sni->setToolTipTitle(i18n("Whether to show the virtual keyboard on demand."));
+}
+
+void VirtualKeyboard::updateInputPanelState()
+{
+    if (!waylandServer()) {
+        return;
+    }
+
+    auto t = waylandServer()->seat()->focusedTextInput();
+
+    if (!t || !m_inputWindow) {
+        return;
+    }
+
+    const bool inputPanelHasBeenClosed = m_inputWindow->isVisible() && !qApp->inputMethod()->isVisible();
+    if (inputPanelHasBeenClosed && m_floodTimer->isActive()) {
+        return;
+    }
+    m_floodTimer->start();
+
+    m_inputWindow->setVisible(qApp->inputMethod()->isVisible());
+
+    if (qApp->inputMethod()->isVisible()) {
+        m_inputWindow->setMask(m_inputWindow->rootObject()->childrenRect().toRect());
+    }
+
+    if (m_inputWindow->isVisible() && m_trackedClient && m_inputWindow->rootObject()) {
+        const QRect inputPanelGeom = m_inputWindow->rootObject()->childrenRect().toRect().translated(m_inputWindow->geometry().topLeft());
+
+        m_trackedClient->setVirtualKeyboardGeometry(inputPanelGeom);
+
+        t->setInputPanelState(true, QRect(0, 0, 0, 0));
+
+    } else {
+        if (inputPanelHasBeenClosed && m_trackedClient) {
+            m_trackedClient->setVirtualKeyboardGeometry(QRect());
+        }
+
+        t->setInputPanelState(false, QRect(0, 0, 0, 0));
     }
 }
 

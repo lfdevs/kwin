@@ -33,6 +33,7 @@ class SyncFilter;
 class XInputIntegration;
 class WindowSelector;
 class X11EventFilter;
+class X11Output;
 
 class KWIN_EXPORT X11StandalonePlatform : public Platform
 {
@@ -41,7 +42,7 @@ class KWIN_EXPORT X11StandalonePlatform : public Platform
     Q_PLUGIN_METADATA(IID "org.kde.kwin.Platform" FILE "x11.json")
 public:
     X11StandalonePlatform(QObject *parent = nullptr);
-    virtual ~X11StandalonePlatform();
+    ~X11StandalonePlatform() override;
     void init() override;
 
     Screens *createScreens(QObject *parent = nullptr) override;
@@ -71,6 +72,12 @@ public:
     void createEffectsHandler(Compositor *compositor, Scene *scene) override;
     QVector<CompositingType> supportedCompositors() const override;
 
+    void initOutputs();
+    void updateOutputs();
+
+    Outputs outputs() const override;
+    Outputs enabledOutputs() const override;
+
 protected:
     void doHideCursor() override;
     void doShowCursor() override;
@@ -84,8 +91,11 @@ private:
      * If KWin is compiled with OpenGL ES or without OpenGL at
      * all, @c false is returned.
      * @returns @c true if GLX is available, @c false otherwise and if not build with OpenGL support.
-     **/
+     */
     static bool hasGlx();
+
+    template <typename T>
+    void doUpdateOutputs();
 
     XInputIntegration *m_xinputIntegration = nullptr;
     QThread *m_openGLFreezeProtectionThread = nullptr;
@@ -95,6 +105,7 @@ private:
     QScopedPointer<X11EventFilter> m_screenEdgesFilter;
     std::unique_ptr<SyncFilter> m_syncFilter;
 
+    QVector<X11Output*> m_outputs;
 };
 
 }

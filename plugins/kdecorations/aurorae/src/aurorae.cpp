@@ -120,13 +120,13 @@ static const QString s_qmlPackageFolder = QStringLiteral(KWIN_NAME "/decorations
  * KDecoration2::BorderSize doesn't map to the indices used for the Aurorae SVG Button Sizes.
  * BorderSize defines None and NoSideBorder as index 0 and 1. These do not make sense for Button
  * Size, thus we need to perform a mapping between the enum value and the config value.
- **/
+ */
 static const int s_indexMapper = 2;
 
 QQmlComponent *Helper::component(const QString &themeName)
 {
     // maybe it's an SVG theme?
-    if (themeName.startsWith(QLatin1Literal("__aurorae__svg__"))) {
+    if (themeName.startsWith(QLatin1String("__aurorae__svg__"))) {
         if (m_svgComponent.isNull()) {
             /* use logic from KDeclarative::setupBindings():
             "addImportPath adds the path at the beginning, so to honour user's
@@ -262,21 +262,24 @@ Decoration::Decoration(QObject *parent, const QVariantList &args)
 {
     m_themeName = findTheme(args);
     Helper::instance().ref();
+    Helper::instance().rootContext()->setContextProperty(QStringLiteral("decorationSettings"), settings().data());
 }
 
 Decoration::~Decoration()
 {
-    Helper::instance().unref();
     if (m_context) {
         m_context->makeCurrent(m_offscreenSurface.data());
 
         delete m_renderControl;
         delete m_view.data();
         m_fbo.reset();
-        delete m_item;
 
         m_context->doneCurrent();
     }
+    // deleted explicitly before our own qobject destructor as "this" is a context property of m_qmlContext,
+    // and changing contextProperties is a bad idea
+    delete m_qmlContext;
+    Helper::instance().unref();
 }
 
 void Decoration::init()
@@ -285,9 +288,8 @@ void Decoration::init()
     auto s = settings();
     connect(s.data(), &KDecoration2::DecorationSettings::reconfigured, this, &Decoration::configChanged);
 
-    QQmlContext *context = new QQmlContext(Helper::instance().rootContext(), this);
-    context->setContextProperty(QStringLiteral("decoration"), this);
-    context->setContextProperty(QStringLiteral("decorationSettings"), s.data());
+    m_qmlContext = new QQmlContext(Helper::instance().rootContext(), this);
+    m_qmlContext->setContextProperty(QStringLiteral("decoration"), this);
     auto component = Helper::instance().component(m_themeName);
     if (!component) {
         return;
@@ -306,18 +308,23 @@ void Decoration::init()
             const KConfigGroup themeGroup(conf, m_themeName.mid(16));
             theme->setButtonSize((KDecoration2::BorderSize)(themeGroup.readEntry<int>("ButtonSize",
                                                                                       int(KDecoration2::BorderSize::Normal) - s_indexMapper) + s_indexMapper));
-            updateBorders();
         };
         connect(this, &Decoration::configChanged, theme, readButtonSize);
         readButtonSize();
 //         m_theme->setTabDragMimeType(tabDragMimeType());
-        context->setContextProperty(QStringLiteral("auroraeTheme"), theme);
+        m_qmlContext->setContextProperty(QStringLiteral("auroraeTheme"), theme);
     }
-    m_item = qobject_cast< QQuickItem* >(component->create(context));
+    m_item = qobject_cast< QQuickItem* >(component->create(m_qmlContext));
     if (!m_item) {
+        if (component->isError()) {
+            const auto errors = component->errors();
+            for (const auto &error: errors) {
+                qCWarning(AURORAE) << error;
+            }
+        }
         return;
     }
-    m_item->setParent(this);
+    m_item->setParent(m_qmlContext);
 
     QVariant visualParent = property("visualParent");
     if (visualParent.isValid()) {
@@ -326,12 +333,13 @@ void Decoration::init()
     } else {
         m_renderControl = new QQuickRenderControl(this);
         m_view = new QQuickWindow(m_renderControl);
-        bool usingGL = m_view->rendererInterface()->graphicsApi() == QSGRendererInterface::OpenGL;
+        const bool usingGL = m_view->rendererInterface()->graphicsApi() == QSGRendererInterface::OpenGL;
         m_view->setColor(Qt::transparent);
         m_view->setFlags(Qt::FramelessWindowHint);
         if (usingGL) {
             // first create the context
             QSurfaceFormat format;
+            format.setSwapBehavior(QSurfaceFormat::SingleBuffer);
             format.setDepthBufferSize(16);
             format.setStencilBufferSize(8);
             m_context.reset(new QOpenGLContext);
@@ -344,48 +352,12 @@ void Decoration::init()
 
         }
 
-        //workaround for https://codereview.qt-project.org/#/c/207198/
-#if (QT_VERSION < QT_VERSION_CHECK(5, 10, 0))
-        if (!usingGL) {
-            m_renderControl->sync();
-        }
-#endif
         // delay rendering a little bit for better performance
         m_updateTimer.reset(new QTimer);
         m_updateTimer->setSingleShot(true);
         m_updateTimer->setInterval(5);
-        connect(m_updateTimer.data(), &QTimer::timeout, this,
-            [this, usingGL] {
-                if (usingGL) {
-                    if (!m_context->makeCurrent(m_offscreenSurface.data())) {
-                        return;
-                    }
-                    if (m_fbo.isNull() || m_fbo->size() != m_view->size()) {
-                        m_fbo.reset(new QOpenGLFramebufferObject(m_view->size(), QOpenGLFramebufferObject::CombinedDepthStencil));
-                        if (!m_fbo->isValid()) {
-                            qCWarning(AURORAE) << "Creating FBO as render target failed";
-                            m_fbo.reset();
-                            return;
-                        }
-                    }
-                    m_view->setRenderTarget(m_fbo.data());
-                    m_view->resetOpenGLState();
-                }
 
-                m_buffer = m_renderControl->grab();
-
-                m_contentRect = QRect(QPoint(0, 0), m_buffer.size());
-                if (m_padding &&
-                        (m_padding->left() > 0 || m_padding->top() > 0 || m_padding->right() > 0 || m_padding->bottom() > 0) &&
-                        !client().data()->isMaximized()) {
-                    m_contentRect = m_contentRect.adjusted(m_padding->left(), m_padding->top(), -m_padding->right(), -m_padding->bottom());
-                }
-                updateShadow();
-
-                QOpenGLFramebufferObject::bindDefault();
-                update();
-            }
-        );
+        connect(m_updateTimer.data(), &QTimer::timeout, this, &Decoration::updateBuffer);
         auto requestUpdate = [this] {
             if (m_updateTimer->isActive()) {
                 return;
@@ -404,6 +376,18 @@ void Decoration::init()
         }
     }
     setupBorders(m_item);
+    // TODO: Is there a more efficient way to react to border changes?
+    auto trackBorders = [this](KWin::Borders *borders) {
+        if (!borders) {
+            return;
+        }
+        connect(borders, &KWin::Borders::leftChanged, this, &Decoration::updateBorders);
+        connect(borders, &KWin::Borders::rightChanged, this, &Decoration::updateBorders);
+        connect(borders, &KWin::Borders::topChanged, this, &Decoration::updateBorders);
+        connect(borders, &KWin::Borders::bottomChanged, this, &Decoration::updateBorders);
+    };
+    trackBorders(m_borders);
+    trackBorders(m_maximizedBorders);
     if (m_extendedBorders) {
         auto updateExtendedBorders = [this] {
             setResizeOnlyBorders(*m_extendedBorders);
@@ -431,6 +415,7 @@ void Decoration::init()
         connect(client().data(), &KDecoration2::DecoratedClient::maximizedChanged, this, resizeWindow);
         connect(client().data(), &KDecoration2::DecoratedClient::shadedChanged, this, resizeWindow);
         resizeWindow();
+        updateBuffer();
     } else {
         // create a dummy shadow for the configuration interface
         if (m_padding) {
@@ -620,6 +605,41 @@ void Decoration::installTitleItem(QQuickItem *item)
     connect(item, &QQuickItem::heightChanged, this, update);
     connect(item, &QQuickItem::xChanged, this, update);
     connect(item, &QQuickItem::yChanged, this, update);
+}
+
+void Decoration::updateBuffer()
+{
+    Q_ASSERT(m_view);
+    const bool usingGL = m_view->rendererInterface()->graphicsApi() == QSGRendererInterface::OpenGL;
+    if (usingGL) {
+        Q_ASSERT(m_view->size().isValid());
+        if (!m_context->makeCurrent(m_offscreenSurface.data())) {
+            return;
+        }
+        if (m_fbo.isNull() || m_fbo->size() != m_view->size()) {
+            m_fbo.reset(new QOpenGLFramebufferObject(m_view->size(), QOpenGLFramebufferObject::CombinedDepthStencil));
+            if (!m_fbo->isValid()) {
+                qCWarning(AURORAE) << "Creating FBO as render target failed";
+                m_fbo.reset();
+                return;
+            }
+        }
+        m_view->setRenderTarget(m_fbo.data());
+        m_view->resetOpenGLState();
+    }
+
+    m_buffer = m_renderControl->grab();
+
+    m_contentRect = QRect(QPoint(0, 0), m_buffer.size());
+    if (m_padding &&
+            (m_padding->left() > 0 || m_padding->top() > 0 || m_padding->right() > 0 || m_padding->bottom() > 0) &&
+            !client().data()->isMaximized()) {
+        m_contentRect = m_contentRect.adjusted(m_padding->left(), m_padding->top(), -m_padding->right(), -m_padding->bottom());
+    }
+    updateShadow();
+
+    QOpenGLFramebufferObject::bindDefault();
+    update();
 }
 
 KDecoration2::DecoratedClient *Decoration::clientPointer() const

@@ -22,13 +22,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "abstract_client.h"
 #include "client.h"
 #include "cursor.h"
+#include "decorations/decorationbridge.h"
+#include "decorations/settings.h"
 #include "screens.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "shell_client.h"
 #include "scripting/scripting.h"
 
+#include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
+#include <KDecoration2/DecorationSettings>
 
 #include <KWayland/Client/connection_thread.h>
 #include <KWayland/Client/compositor.h>
@@ -98,8 +102,8 @@ void QuickTilingTest::initTestCase()
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
     QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit()));
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
 
     // set custom config which disables the Outline
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
@@ -251,25 +255,18 @@ void QuickTilingTest::testQuickMaximizing()
     QVERIFY(quickTileChangedSpy.isValid());
     QSignalSpy geometryChangedSpy(c, &AbstractClient::geometryChanged);
     QVERIFY(geometryChangedSpy.isValid());
-    QSignalSpy maximizeChangedSpy1(c, SIGNAL(clientMaximizedStateChanged(KWin::AbstractClient*,MaximizeMode)));
+    QSignalSpy maximizeChangedSpy1(c, qOverload<AbstractClient *, MaximizeMode>(&AbstractClient::clientMaximizedStateChanged));
     QVERIFY(maximizeChangedSpy1.isValid());
-    QSignalSpy maximizeChangedSpy2(c, SIGNAL(clientMaximizedStateChanged(KWin::AbstractClient*,bool,bool)));
+    QSignalSpy maximizeChangedSpy2(c, qOverload<AbstractClient *, bool, bool>(&AbstractClient::clientMaximizedStateChanged));
     QVERIFY(maximizeChangedSpy2.isValid());
 
     c->setQuickTileMode(QuickTileFlag::Maximize, true);
     QCOMPARE(quickTileChangedSpy.count(), 1);
-    QCOMPARE(maximizeChangedSpy1.count(), 1);
-    QCOMPARE(maximizeChangedSpy1.first().first().value<KWin::AbstractClient*>(), c);
-    QCOMPARE(maximizeChangedSpy1.first().last().value<KWin::MaximizeMode>(), MaximizeFull);
-    QCOMPARE(maximizeChangedSpy2.count(), 1);
-    QCOMPARE(maximizeChangedSpy2.first().first().value<KWin::AbstractClient*>(), c);
-    QCOMPARE(maximizeChangedSpy2.first().at(1).toBool(), true);
-    QCOMPARE(maximizeChangedSpy2.first().at(2).toBool(), true);
+
     // at this point the geometry did not yet change
     QCOMPARE(c->geometry(), QRect(0, 0, 100, 50));
     // but quick tile mode already changed
     QCOMPARE(c->quickTileMode(), QuickTileFlag::Maximize);
-    QCOMPARE(c->maximizeMode(), MaximizeFull);
     QCOMPARE(c->geometryRestore(), QRect(0, 0, 100, 50));
 
     // but we got requested a new geometry
@@ -286,19 +283,21 @@ void QuickTilingTest::testQuickMaximizing()
     QCOMPARE(c->geometry(), QRect(0, 0, 1280, 1024));
     QCOMPARE(c->geometryRestore(), QRect(0, 0, 100, 50));
 
+    // client is now set to maximised
+    QCOMPARE(maximizeChangedSpy1.count(), 1);
+    QCOMPARE(maximizeChangedSpy1.first().first().value<KWin::AbstractClient*>(), c);
+    QCOMPARE(maximizeChangedSpy1.first().last().value<KWin::MaximizeMode>(), MaximizeFull);
+    QCOMPARE(maximizeChangedSpy2.count(), 1);
+    QCOMPARE(maximizeChangedSpy2.first().first().value<KWin::AbstractClient*>(), c);
+    QCOMPARE(maximizeChangedSpy2.first().at(1).toBool(), true);
+    QCOMPARE(maximizeChangedSpy2.first().at(2).toBool(), true);
+    QCOMPARE(c->maximizeMode(), MaximizeFull);
+
     // go back to quick tile none
     QFETCH(QuickTileMode, mode);
     c->setQuickTileMode(mode, true);
-    QCOMPARE(quickTileChangedSpy.count(), 2);
-    QCOMPARE(maximizeChangedSpy1.count(), 2);
-    QCOMPARE(maximizeChangedSpy1.last().first().value<KWin::AbstractClient*>(), c);
-    QCOMPARE(maximizeChangedSpy1.last().last().value<KWin::MaximizeMode>(), MaximizeRestore);
-    QCOMPARE(maximizeChangedSpy2.count(), 2);
-    QCOMPARE(maximizeChangedSpy2.last().first().value<KWin::AbstractClient*>(), c);
-    QCOMPARE(maximizeChangedSpy2.last().at(1).toBool(), false);
-    QCOMPARE(maximizeChangedSpy2.last().at(2).toBool(), false);
     QCOMPARE(c->quickTileMode(), QuickTileMode(QuickTileFlag::None));
-    QCOMPARE(c->maximizeMode(), MaximizeRestore);
+    QCOMPARE(quickTileChangedSpy.count(), 2);
     // geometry not yet changed
     QCOMPARE(c->geometry(), QRect(0, 0, 1280, 1024));
     QCOMPARE(c->geometryRestore(), QRect(0, 0, 100, 50));
@@ -315,6 +314,13 @@ void QuickTilingTest::testQuickMaximizing()
     QCOMPARE(geometryChangedSpy.count(), 4);
     QCOMPARE(c->geometry(), QRect(0, 0, 100, 50));
     QCOMPARE(c->geometryRestore(), QRect(0, 0, 100, 50));
+    QCOMPARE(maximizeChangedSpy1.count(), 2);
+    QCOMPARE(maximizeChangedSpy1.last().first().value<KWin::AbstractClient*>(), c);
+    QCOMPARE(maximizeChangedSpy1.last().last().value<KWin::MaximizeMode>(), MaximizeRestore);
+    QCOMPARE(maximizeChangedSpy2.count(), 2);
+    QCOMPARE(maximizeChangedSpy2.last().first().value<KWin::AbstractClient*>(), c);
+    QCOMPARE(maximizeChangedSpy2.last().at(1).toBool(), false);
+    QCOMPARE(maximizeChangedSpy2.last().at(2).toBool(), false);
 }
 
 void QuickTilingTest::testQuickTilingKeyboardMove_data()
@@ -354,7 +360,7 @@ void QuickTilingTest::testQuickTilingKeyboardMove()
     QVERIFY(quickTileChangedSpy.isValid());
 
     workspace()->performWindowOperation(c, Options::UnrestrictedMoveOp);
-    QCOMPARE(c, workspace()->getMovingClient());
+    QCOMPARE(c, workspace()->moveResizeClient());
     QCOMPARE(Cursor::pos(), QPoint(49, 24));
 
     QFETCH(QPoint, targetPos);
@@ -380,7 +386,7 @@ void QuickTilingTest::testQuickTilingKeyboardMove()
     kwinApp()->platform()->keyboardKeyPressed(KEY_ENTER, timestamp++);
     kwinApp()->platform()->keyboardKeyReleased(KEY_ENTER, timestamp++);
     QCOMPARE(Cursor::pos(), targetPos);
-    QVERIFY(!workspace()->getMovingClient());
+    QVERIFY(!workspace()->moveResizeClient());
 
     QCOMPARE(quickTileChangedSpy.count(), 1);
     QTEST(c->quickTileMode(), "expectedMode");
@@ -425,7 +431,7 @@ void QuickTilingTest::testQuickTilingPointerMove()
     QVERIFY(quickTileChangedSpy.isValid());
 
     workspace()->performWindowOperation(c, Options::UnrestrictedMoveOp);
-    QCOMPARE(c, workspace()->getMovingClient());
+    QCOMPARE(c, workspace()->moveResizeClient());
     QCOMPARE(Cursor::pos(), QPoint(49, 24));
 
     QFETCH(QPoint, targetPos);
@@ -434,7 +440,7 @@ void QuickTilingTest::testQuickTilingPointerMove()
     kwinApp()->platform()->pointerButtonPressed(BTN_LEFT, timestamp++);
     kwinApp()->platform()->pointerButtonReleased(BTN_LEFT, timestamp++);
     QCOMPARE(Cursor::pos(), targetPos);
-    QVERIFY(!workspace()->getMovingClient());
+    QVERIFY(!workspace()->moveResizeClient());
 
     QCOMPARE(quickTileChangedSpy.count(), 1);
     QTEST(c->quickTileMode(), "expectedMode");
@@ -462,11 +468,19 @@ void QuickTilingTest::testQuickTilingPointerMoveXdgShell()
     QScopedPointer<Surface> surface(Test::createSurface());
     QVERIFY(!surface.isNull());
 
-    QScopedPointer<XdgShellSurface> shellSurface(Test::createXdgShellV6Surface(surface.data()));
+    QScopedPointer<XdgShellSurface> shellSurface(Test::createXdgShellV6Surface(
+        surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
     QVERIFY(!shellSurface.isNull());
+
+    // wait for the initial configure event
     QSignalSpy configureRequestedSpy(shellSurface.data(), &XdgShellSurface::configureRequested);
     QVERIFY(configureRequestedSpy.isValid());
+    surface->commit(Surface::CommitFlag::None);
+    QVERIFY(configureRequestedSpy.wait());
+    QCOMPARE(configureRequestedSpy.count(), 1);
+
     // let's render
+    shellSurface->ackConfigure(configureRequestedSpy.last().at(2).value<quint32>());
     auto c = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
 
     QVERIFY(c);
@@ -474,6 +488,8 @@ void QuickTilingTest::testQuickTilingPointerMoveXdgShell()
     QCOMPARE(c->geometry(), QRect(0, 0, 100, 50));
     QCOMPARE(c->quickTileMode(), QuickTileMode(QuickTileFlag::None));
     QCOMPARE(c->maximizeMode(), MaximizeRestore);
+
+    // we have to receive a configure event when the client becomes active
     QVERIFY(configureRequestedSpy.wait());
     QTRY_COMPARE(configureRequestedSpy.count(), 2);
 
@@ -481,7 +497,7 @@ void QuickTilingTest::testQuickTilingPointerMoveXdgShell()
     QVERIFY(quickTileChangedSpy.isValid());
 
     workspace()->performWindowOperation(c, Options::UnrestrictedMoveOp);
-    QCOMPARE(c, workspace()->getMovingClient());
+    QCOMPARE(c, workspace()->moveResizeClient());
     QCOMPARE(Cursor::pos(), QPoint(49, 24));
     QVERIFY(configureRequestedSpy.wait());
     QCOMPARE(configureRequestedSpy.count(), 3);
@@ -492,7 +508,7 @@ void QuickTilingTest::testQuickTilingPointerMoveXdgShell()
     kwinApp()->platform()->pointerButtonPressed(BTN_LEFT, timestamp++);
     kwinApp()->platform()->pointerButtonReleased(BTN_LEFT, timestamp++);
     QCOMPARE(Cursor::pos(), targetPos);
-    QVERIFY(!workspace()->getMovingClient());
+    QVERIFY(!workspace()->moveResizeClient());
 
     QCOMPARE(quickTileChangedSpy.count(), 1);
     QTEST(c->quickTileMode(), "expectedMode");
@@ -524,11 +540,19 @@ void QuickTilingTest::testQuickTilingTouchMoveXdgShell()
     QVERIFY(!surface.isNull());
     QScopedPointer<ServerSideDecoration> deco(Test::waylandServerSideDecoration()->create(surface.data()));
 
-    QScopedPointer<XdgShellSurface> shellSurface(Test::createXdgShellV6Surface(surface.data()));
+    QScopedPointer<XdgShellSurface> shellSurface(Test::createXdgShellV6Surface(
+        surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
     QVERIFY(!shellSurface.isNull());
+
+    // wait for the initial configure event
     QSignalSpy configureRequestedSpy(shellSurface.data(), &XdgShellSurface::configureRequested);
     QVERIFY(configureRequestedSpy.isValid());
+    surface->commit(Surface::CommitFlag::None);
+    QVERIFY(configureRequestedSpy.wait());
+    QCOMPARE(configureRequestedSpy.count(), 1);
+
     // let's render
+    shellSurface->ackConfigure(configureRequestedSpy.last().at(2).value<quint32>());
     auto c = Test::renderAndWaitForShown(surface.data(), QSize(1000, 50), Qt::blue);
 
     QVERIFY(c);
@@ -540,6 +564,8 @@ void QuickTilingTest::testQuickTilingTouchMoveXdgShell()
                                   50 + decoration->borderTop() + decoration->borderBottom()));
     QCOMPARE(c->quickTileMode(), QuickTileMode(QuickTileFlag::None));
     QCOMPARE(c->maximizeMode(), MaximizeRestore);
+
+    // we have to receive a configure event when the client becomes active
     QVERIFY(configureRequestedSpy.wait());
     QTRY_COMPARE(configureRequestedSpy.count(), 2);
 
@@ -549,18 +575,23 @@ void QuickTilingTest::testQuickTilingTouchMoveXdgShell()
     quint32 timestamp = 1;
     kwinApp()->platform()->touchDown(0, QPointF(c->geometry().center().x(), c->geometry().y() + decoration->borderTop() / 2), timestamp++);
     QVERIFY(configureRequestedSpy.wait());
-    QCOMPARE(c, workspace()->getMovingClient());
+    QCOMPARE(c, workspace()->moveResizeClient());
     QCOMPARE(configureRequestedSpy.count(), 3);
 
     QFETCH(QPoint, targetPos);
     kwinApp()->platform()->touchMotion(0, targetPos, timestamp++);
     kwinApp()->platform()->touchUp(0, timestamp++);
-    QVERIFY(!workspace()->getMovingClient());
+    QVERIFY(!workspace()->moveResizeClient());
+
+
+    // When there are no borders, there is no change to them when quick-tiling.
+    // TODO: we should test both cases with fixed fake decoration for autotests.
+    const bool hasBorders = Decoration::DecorationBridge::self()->settings()->borderSize() != KDecoration2::BorderSize::None;
 
     QCOMPARE(quickTileChangedSpy.count(), 1);
     QTEST(c->quickTileMode(), "expectedMode");
     QVERIFY(configureRequestedSpy.wait());
-    QTRY_COMPARE(configureRequestedSpy.count(), 5);
+    QTRY_COMPARE(configureRequestedSpy.count(), hasBorders ? 5 : 4);
     QCOMPARE(false, configureRequestedSpy.last().first().toSize().isEmpty());
 }
 

@@ -36,12 +36,10 @@ namespace KWin
 
 AbstractThumbnailItem::AbstractThumbnailItem(QQuickItem *parent)
     : QQuickPaintedItem(parent)
-    , m_parent(QWeakPointer<EffectWindowImpl>())
     , m_brightness(1.0)
     , m_saturation(1.0)
     , m_clipToItem()
 {
-    Q_ASSERT(Compositor::isCreated());
     connect(Compositor::self(), SIGNAL(compositingToggled(bool)), SLOT(compositingToggled()));
     compositingToggled();
     QTimer::singleShot(0, this, SLOT(init()));
@@ -64,8 +62,8 @@ void AbstractThumbnailItem::compositingToggled()
 void AbstractThumbnailItem::init()
 {
     findParentEffectWindow();
-    if (!m_parent.isNull()) {
-        m_parent.data()->registerThumbnail(this);
+    if (m_parent) {
+        m_parent->registerThumbnail(this);
     }
 }
 
@@ -77,8 +75,8 @@ void AbstractThumbnailItem::findParentEffectWindow()
             qCDebug(KWIN_CORE) << "No QQuickWindow assigned yet";
             return;
         }
-        if (auto *w = static_cast<EffectWindowImpl*>(effects->findWindow(qw->winId()))) {
-            m_parent = QWeakPointer<EffectWindowImpl>(w);
+        if (auto *w = static_cast<EffectWindowImpl*>(effects->findWindow(qw))) {
+            m_parent = QPointer<EffectWindowImpl>(w);
         }
     }
 }
@@ -89,8 +87,8 @@ void AbstractThumbnailItem::effectWindowAdded()
     // by using this slot we can register the thumbnail when it is finally created
     if (m_parent.isNull()) {
         findParentEffectWindow();
-        if (!m_parent.isNull()) {
-            m_parent.data()->registerThumbnail(this);
+        if (m_parent) {
+            m_parent->registerThumbnail(this);
         }
     }
 }
@@ -123,8 +121,8 @@ void AbstractThumbnailItem::setClipTo(QQuickItem *clip)
 
 WindowThumbnailItem::WindowThumbnailItem(QQuickItem* parent)
     : AbstractThumbnailItem(parent)
-    , m_wId(0)
-    , m_client(NULL)
+    , m_wId(nullptr)
+    , m_client(nullptr)
 {
 }
 
@@ -132,20 +130,16 @@ WindowThumbnailItem::~WindowThumbnailItem()
 {
 }
 
-void WindowThumbnailItem::setWId(qulonglong wId)
+void WindowThumbnailItem::setWId(const QUuid &wId)
 {
     if (m_wId == wId) {
         return;
     }
     m_wId = wId;
-    if (m_wId != 0) {
-        AbstractClient *c = Workspace::self()->findClient(Predicate::WindowMatch, m_wId);
-        if (!c && waylandServer()) {
-            c = waylandServer()->findClient(m_wId);
-        }
-        setClient(c);
+    if (m_wId != nullptr) {
+        setClient(workspace()->findAbstractClient([this] (const AbstractClient *c) { return c->internalId() == m_wId; }));
     } else if (m_client) {
-        m_client = NULL;
+        m_client = nullptr;
         emit clientChanged();
     }
     emit wIdChanged(wId);
@@ -158,9 +152,9 @@ void WindowThumbnailItem::setClient(AbstractClient *client)
     }
     m_client = client;
     if (m_client) {
-        setWId(m_client->windowId());
+        setWId(m_client->internalId());
     } else {
-        setWId(0);
+        setWId({});
     }
     emit clientChanged();
 }
@@ -170,7 +164,7 @@ void WindowThumbnailItem::paint(QPainter *painter)
     if (effects) {
         return;
     }
-    Client *client = Workspace::self()->findClient(Predicate::WindowMatch, m_wId);
+    auto client = workspace()->findAbstractClient([this] (const AbstractClient *c) { return c->internalId() == m_wId; });
     if (!client) {
         return;
     }
@@ -182,7 +176,7 @@ void WindowThumbnailItem::paint(QPainter *painter)
 
 void WindowThumbnailItem::repaint(KWin::EffectWindow *w)
 {
-    if (static_cast<KWin::EffectWindowImpl*>(w)->window()->windowId() == m_wId) {
+    if (static_cast<KWin::EffectWindowImpl*>(w)->window()->internalId() == m_wId) {
         update();
     }
 }

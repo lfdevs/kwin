@@ -20,6 +20,8 @@
 #ifndef KDECORATION_DECORATION_MODEL_H
 #define KDECORATION_DECORATION_MODEL_H
 
+#include "utils.h"
+
 #include <QAbstractListModel>
 
 namespace KDecoration2
@@ -32,8 +34,16 @@ class DecorationsModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
+    enum DecorationRole {
+        PluginNameRole = Qt::UserRole + 1,
+        ThemeNameRole,
+        ConfigurationRole,
+        RecommendedBorderSizeRole,
+    };
+
+public:
     explicit DecorationsModel(QObject *parent = nullptr);
-    virtual ~DecorationsModel();
+    ~DecorationsModel() override;
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -41,8 +51,8 @@ public:
 
     QModelIndex findDecoration(const QString &pluginName, const QString &themeName = QString()) const;
 
-    QMap<QString, QString> knsProviders() const {
-        return m_knsProvides;
+    QStringList knsProviders() const {
+        return m_knsProviders;
     }
 
 public Q_SLOTS:
@@ -54,9 +64,10 @@ private:
         QString themeName;
         QString visibleName;
         bool configuration = false;
+        KDecoration2::BorderSize recommendedBorderSize = KDecoration2::BorderSize::Normal;
     };
     std::vector<Data> m_plugins;
-    QMap<QString, QString> m_knsProvides;
+    QStringList m_knsProviders;
 };
 
 }

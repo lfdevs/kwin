@@ -24,6 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KDecoration2/Private/DecorationBridge>
 
+#include <KSharedConfig>
+
 #include <QObject>
 #include <QSharedPointer>
 
@@ -42,11 +44,11 @@ class AbstractClient;
 namespace Decoration
 {
 
-class DecorationBridge : public KDecoration2::DecorationBridge
+class KWIN_EXPORT DecorationBridge : public KDecoration2::DecorationBridge
 {
     Q_OBJECT
 public:
-    virtual ~DecorationBridge();
+    ~DecorationBridge() override;
 
     void init();
     KDecoration2::Decoration *createDecoration(AbstractClient *client);
@@ -58,6 +60,13 @@ public:
     bool needsBlur() const {
         return m_blur;
     }
+    QString recommendedBorderSize() const {
+        return m_recommendedBorderSize;
+    }
+
+    bool showToolTips() const {
+        return m_showToolTips;
+    }
 
     void reconfigure();
 
@@ -67,13 +76,21 @@ public:
 
     QString supportInformation() const;
 
+Q_SIGNALS:
+    void metaDataLoaded();
+
 private:
+    QString readPlugin();
     void loadMetaData(const QJsonObject &object);
     void findTheme(const QVariantMap &map);
     void initPlugin();
     QString readTheme() const;
+    void readDecorationOptions();
     KPluginFactory *m_factory;
+    KSharedConfig::Ptr m_lnfConfig;
     bool m_blur;
+    bool m_showToolTips;
+    QString m_recommendedBorderSize;
     QString m_plugin;
     QString m_defaultTheme;
     QString m_theme;

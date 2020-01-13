@@ -301,7 +301,8 @@ bool GlideEffect::isGlideWindow(EffectWindow *w) const
     // So, the only way to decide whether a window should be animated is
     // to use a heuristic: if a window has decoration, then it's most
     // likely a dialog or a settings window so we have to animate it.
-    if (w->windowClass() == QLatin1String("plasmashell plasmashell")) {
+    if (w->windowClass() == QLatin1String("plasmashell plasmashell")
+            || w->windowClass() == QLatin1String("plasmashell org.kde.plasmashell")) {
         return w->hasDecoration();
     }
 
@@ -313,7 +314,19 @@ bool GlideEffect::isGlideWindow(EffectWindow *w) const
         return true;
     }
 
-    if (!w->isManaged()) {
+    // Don't animate combobox popups, tooltips, popup menus, etc.
+    if (w->isPopupWindow()) {
+        return false;
+    }
+
+    // Dont't animate the outline because it looks very sick.
+    if (w->isOutline()) {
+        return false;
+    }
+
+    // Override-redirect windows are usually used for user interface
+    // concepts that are not expected to be animated by this effect.
+    if (w->isX11Client() && !w->isManaged()) {
         return false;
     }
 

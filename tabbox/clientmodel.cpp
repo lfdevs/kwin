@@ -25,11 +25,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "tabboxhandler.h"
 // Qt
 #include <QIcon>
+#include <QUuid>
 // TODO: remove with Qt 5, only for HTML escaping the caption
 #include <QTextDocument>
-#include <QTextStream>
 // other
-#include <math.h>
+#include <cmath>
 
 namespace KWin
 {
@@ -39,14 +39,6 @@ namespace TabBox
 ClientModel::ClientModel(QObject* parent)
     : QAbstractItemModel(parent)
 {
-    QHash<int, QByteArray> roles;
-    roles[CaptionRole] = "caption";
-    roles[DesktopNameRole] = "desktopName";
-    roles[MinimizedRole] = "minimized";
-    roles[WIdRole] = "windowId";
-    roles[CloseableRole] = "closeable";
-    roles[IconRole] = "icon";
-    setRoleNames(roles);
 }
 
 ClientModel::~ClientModel()
@@ -74,17 +66,17 @@ QVariant ClientModel::data(const QModelIndex& index, int role) const
     case CaptionRole: {
         QString caption = client->caption();
         if (Qt::mightBeRichText(caption)) {
-            caption = Qt::escape(caption);
+            caption = caption.toHtmlEscaped();
         }
         return caption;
     }
     case ClientRole:
-        return qVariantFromValue((void*)client.data());
+        return QVariant::fromValue<void *>(client.data());
     case DesktopNameRole: {
         return tabBox->desktopName(client.data());
     }
     case WIdRole:
-        return qulonglong(client->window());
+        return client->internalId();
     case MinimizedRole:
         return client->isMinimized();
     case CloseableRole:
@@ -143,6 +135,18 @@ QModelIndex ClientModel::index(int row, int column, const QModelIndex& parent) c
     return createIndex(row, 0);
 }
 
+QHash<int, QByteArray> ClientModel::roleNames() const
+{
+    return {
+        { CaptionRole, QByteArrayLiteral("caption") },
+        { DesktopNameRole, QByteArrayLiteral("desktopName") },
+        { MinimizedRole, QByteArrayLiteral("minimized") },
+        { WIdRole, QByteArrayLiteral("windowId") },
+        { CloseableRole, QByteArrayLiteral("closeable") },
+        { IconRole, QByteArrayLiteral("icon") },
+    };
+}
+
 QModelIndex ClientModel::index(QWeakPointer<TabBoxClient> client) const
 {
     if (!m_clientList.contains(client))
@@ -169,6 +173,7 @@ void ClientModel::createClientList(int desktop, bool partialReset)
         }
     }
 
+    beginResetModel();
     m_clientList.clear();
     QList< QWeakPointer< TabBoxClient > > stickyClients;
 
@@ -234,7 +239,7 @@ void ClientModel::createClientList(int desktop, bool partialReset)
         if (!desktopClient.isNull())
             m_clientList.append(desktopClient);
     }
-    reset();
+    endResetModel();
 }
 
 void ClientModel::close(int i)

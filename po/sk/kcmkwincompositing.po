@@ -2,31 +2,21 @@
 # Richard Fric <Richard.Fric@kdemail.net>, 2007, 2010.
 # Michal Sulek <misurel@gmail.com>, 2009, 2010, 2011.
 # Roman Paholík <wizzardsk@gmail.com>, 2012, 2013, 2014, 2016, 2017.
-# Mthw <jari_45@hotmail.com>, 2018.
+# Mthw <jari_45@hotmail.com>, 2018, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2018-09-14 11:18+0100\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"PO-Revision-Date: 2019-01-16 19:39+0100\n"
 "Last-Translator: Mthw <jari_45@hotmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 18.12.1\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Richard Frič,Michal Šulek,Roman Paholík"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "Richard.Fric@kdemail.net,misurel@gmail.com,wizzardsk@gmail.com"
 
 #: compositing.cpp:378
 #, kde-format
@@ -230,12 +220,12 @@ msgstr ""
 msgid "Allow applications to block compositing"
 msgstr "Umožniť aplikáciám blokovať kompozíciu"
 
-#: main.cpp:83
+#: main.cpp:55
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "Znovu povoliť detekciu OpenGl"
 
-#: main.cpp:141
+#: main.cpp:120
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -244,109 +234,15 @@ msgstr ""
 "\"Iba ak to nie je náročné\" iba zabraňuje trhaniu pre zmeny celej obrazovky "
 "ako video."
 
-#: main.cpp:145
+#: main.cpp:124
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "\"Prekreslenie celej obrazovky\" môže spôsobiť problémy s výkonom."
 
-#: main.cpp:149
+#: main.cpp:128
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
 "\"Znovu použiť obsah obrazovky\" spôsobuje vážne problémy s výkonom na MESA "
 "ovládačoch."
-
-#: model.cpp:70
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Accessibility"
-msgstr "Prístupnosť"
-
-#: model.cpp:71
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Appearance"
-msgstr "Vzhľad"
-
-#: model.cpp:72
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Candy"
-msgstr "Candy"
-
-#: model.cpp:73
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Focus"
-msgstr "Zameranie"
-
-#: model.cpp:74
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Show Desktop Animation"
-msgstr "Zobrazovať animáciu pluchy"
-
-#: model.cpp:75
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Tools"
-msgstr "Nástroje"
-
-#: model.cpp:76
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Virtual Desktop Switching Animation"
-msgstr "Animácia prepínania virtuálnych plôch"
-
-#: model.cpp:77
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Window Management"
-msgstr "Správa okien"
-
-#: model.cpp:233
-#, kde-format
-msgid "KWin development team"
-msgstr "Vývojový tím KWin"
-
-#: qml/Effect.qml:119
-#, kde-format
-msgid ""
-"Author: %1\n"
-"License: %2"
-msgstr ""
-"Autor: %1\n"
-"Licencia: %2"
-
-#: qml/EffectView.qml:64
-#, kde-format
-msgid ""
-"Hint: To find out or configure how to activate an effect, look at the "
-"effect's settings."
-msgstr "Rada: viac informácií o efekte nájdete v jeho nastavení."
-
-#: qml/EffectView.qml:75
-#, kde-format
-msgid "Search"
-msgstr "Hľadať"
-
-#: qml/EffectView.qml:82
-#, kde-format
-msgid "Configure filter"
-msgstr "Nastaviť filter"
-
-#: qml/EffectView.qml:85
-#, kde-format
-msgid "Exclude Desktop Effects not supported by the Compositor"
-msgstr "Vylúčiť efekty plochy nepodporované kompozítorom"
-
-#: qml/EffectView.qml:93
-#, kde-format
-msgid "Exclude internal Desktop Effects"
-msgstr "Vylúčiť interné efekty plochy"
-
-#: qml/EffectView.qml:105
-#, kde-format
-msgid "Get New Effects..."
-msgstr "Získať nové efekty..."

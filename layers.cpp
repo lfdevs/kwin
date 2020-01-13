@@ -40,12 +40,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
  Every window has one layer assigned in which it is. There are 7 layers,
  from bottom : DesktopLayer, BelowLayer, NormalLayer, DockLayer, AboveLayer, NotificationLayer,
- ActiveLayer and OnScreenDisplayLayer (see also NETWM sect.7.10.). The layer a window is in depends
- on the window type, and on other things like whether the window is active. We extend the layers
- provided in NETWM by the NotificationLayer and OnScreenDisplayLayer.
+ ActiveLayer, CriticalNotificationLayer, and OnScreenDisplayLayer (see also NETWM sect.7.10.).
+ The layer a window is in depends on the window type, and on other things like whether the window
+ is active. We extend the layers provided in NETWM by the NotificationLayer, OnScreenDisplayLayer,
+ and CriticalNotificationLayer.
  The NoficationLayer contains notification windows which are kept above all windows except the active
- fullscreen window. The OnScreenDisplayLayer is used for eg. volume and brightness change feedback and
- is kept above all windows since it provides immediate response to a user action.
+ fullscreen window. The CriticalNotificationLayer contains notification windows which are important
+ enough to keep them even above fullscreen windows. The OnScreenDisplayLayer is used for eg. volume
+ and brightness change feedback and is kept above all windows since it provides immediate response
+ to a user action.
 
  NET::Splash clients belong to the Normal layer. NET::TopMenu clients
  belong to Dock layer. Clients that are both NET::Dock and NET::KeepBelow
@@ -75,8 +78,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  and the stacking order will be updated once after it's allowed again.
 
 */
-
-#include <assert.h>
 
 #include "utils.h"
 #include "client.h"
@@ -133,7 +134,7 @@ void Workspace::updateStackingOrder(bool propagate_new_clients)
     }
 }
 
-/*!
+/**
  * Some fullscreen effects have to raise the screenedge on top of an input window, thus all windows
  * this function puts them back where they belong for regular use and is some cheap variant of
  * the regular propagateClients function in that it completely ignores managed clients and everything
@@ -148,9 +149,9 @@ void Workspace::stackScreenEdgesUnderOverrideRedirect()
     Xcb::restackWindows(QVector<xcb_window_t>() << rootInfo()->supportWindow() << ScreenEdges::self()->windows());
 }
 
-/*!
-  Propagates the managed clients to the world.
-  Called ONLY from updateStackingOrder().
+/**
+ * Propagates the managed clients to the world.
+ * Called ONLY from updateStackingOrder().
  */
 void Workspace::propagateClients(bool propagate_new_clients)
 {
@@ -169,6 +170,8 @@ void Workspace::propagateClients(bool propagate_new_clients)
     newWindowStack << rootInfo()->supportWindow();
 
     newWindowStack << ScreenEdges::self()->windows();
+
+    newWindowStack << manual_overlays;
 
     newWindowStack.reserve(newWindowStack.size() + 2*stacking_order.size()); // *2 for inputWindow
 
@@ -196,13 +199,16 @@ void Workspace::propagateClients(bool propagate_new_clients)
     }
     // TODO isn't it too inefficient to restack always all clients?
     // TODO don't restack not visible windows?
-    assert(newWindowStack.at(0) == rootInfo()->supportWindow());
+    Q_ASSERT(newWindowStack.at(0) == rootInfo()->supportWindow());
     Xcb::restackWindows(newWindowStack);
 
     int pos = 0;
     xcb_window_t *cl(nullptr);
     if (propagate_new_clients) {
-        cl = new xcb_window_t[ desktops.count() + clients.count()];
+        cl = new xcb_window_t[ manual_overlays.count() + desktops.count() + clients.count()];
+        for (const auto win : manual_overlays) {
+            cl[pos++] = win;
+        }
         // TODO this is still not completely in the map order
         for (ClientList::ConstIterator it = desktops.constBegin(); it != desktops.constEnd(); ++it)
             cl[pos++] = (*it)->window();
@@ -212,11 +218,14 @@ void Workspace::propagateClients(bool propagate_new_clients)
         delete [] cl;
     }
 
-    cl = new xcb_window_t[ stacking_order.count()];
+    cl = new xcb_window_t[ manual_overlays.count() + stacking_order.count()];
     pos = 0;
     for (ToplevelList::ConstIterator it = stacking_order.constBegin(); it != stacking_order.constEnd(); ++it) {
         if ((*it)->isClient())
             cl[pos++] = (*it)->window();
+    }
+    for (const auto win : manual_overlays) {
+        cl[pos++] = win;
     }
     rootInfo()->setClientListStacking(cl, pos);
     delete [] cl;
@@ -226,10 +235,10 @@ void Workspace::propagateClients(bool propagate_new_clients)
     markXStackingOrderAsDirty();
 }
 
-/*!
-  Returns topmost visible client. Windows on the dock, the desktop
-  or of any other special kind are excluded. Also if the window
-  doesn't accept focus it's excluded.
+/**
+ * Returns topmost visible client. Windows on the dock, the desktop
+ * or of any other special kind are excluded. Also if the window
+ * doesn't accept focus it's excluded.
  */
 // TODO misleading name for this method, too many slightly different ways to use it
 AbstractClient* Workspace::topClientOnDesktop(int desktop, int screen, bool unconstrained, bool only_normal) const
@@ -256,7 +265,7 @@ AbstractClient* Workspace::topClientOnDesktop(int desktop, int screen, bool unco
                 return c;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 AbstractClient* Workspace::findDesktop(bool topmost, int desktop) const
@@ -277,13 +286,13 @@ AbstractClient* Workspace::findDesktop(bool topmost, int desktop) const
                 return client;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void Workspace::raiseOrLowerClient(AbstractClient *c)
 {
     if (!c) return;
-    AbstractClient* topmost = NULL;
+    AbstractClient* topmost = nullptr;
 // TODO    Q_ASSERT( block_stacking_updates == 0 );
     if (most_recently_raised && stacking_order.contains(most_recently_raised) &&
             most_recently_raised->isShown(true) && c->isOnCurrentDesktop())
@@ -313,8 +322,8 @@ void Workspace::lowerClient(AbstractClient* c, bool nogroup)
     if (!nogroup && c->isTransient()) {
         // lower also all windows in the group, in their reversed stacking order
         ClientList wins;
-        if (Client *client = dynamic_cast<Client*>(c)) {
-            wins = ensureStackingOrder(client->group()->members());
+        if (auto group = c->group()) {
+            wins = ensureStackingOrder(group->members());
         }
         for (int i = wins.size() - 1;
                 i >= 0;
@@ -325,7 +334,7 @@ void Workspace::lowerClient(AbstractClient* c, bool nogroup)
     }
 
     if (c == most_recently_raised)
-        most_recently_raised = 0;
+        most_recently_raised = nullptr;
 }
 
 void Workspace::lowerClientWithinApplication(AbstractClient* c)
@@ -439,13 +448,13 @@ void Workspace::lowerClientRequest(KWin::AbstractClient *c)
 
 void Workspace::restack(AbstractClient* c, AbstractClient* under, bool force)
 {
-    assert(unconstrained_stacking_order.contains(under));
+    Q_ASSERT(unconstrained_stacking_order.contains(under));
     if (!force && !AbstractClient::belongToSameApplication(under, c)) {
          // put in the stacking order below _all_ windows belonging to the active application
         for (int i = 0; i < unconstrained_stacking_order.size(); ++i) {
             AbstractClient *other = qobject_cast<AbstractClient*>(unconstrained_stacking_order.at(i));
             if (other && other->layer() == c->layer() && AbstractClient::belongToSameApplication(under, other)) {
-                under = (c == other) ? 0 : other;
+                under = (c == other) ? nullptr : other;
                 break;
             }
         }
@@ -455,7 +464,7 @@ void Workspace::restack(AbstractClient* c, AbstractClient* under, bool force)
         unconstrained_stacking_order.insert(unconstrained_stacking_order.indexOf(under), c);
     }
 
-    assert(unconstrained_stacking_order.contains(c));
+    Q_ASSERT(unconstrained_stacking_order.contains(c));
     FocusChain::self()->moveAfterClient(c, under);
     updateStackingOrder();
 }
@@ -490,8 +499,8 @@ void Workspace::restoreSessionStackingOrder(Client* c)
     unconstrained_stacking_order.append(c);
 }
 
-/*!
-  Returns a stacking order based upon \a list that fulfills certain contained.
+/**
+ * Returns a stacking order based upon \a list that fulfills certain contained.
  */
 ToplevelList Workspace::constrainedStackingOrder()
 {
@@ -505,7 +514,7 @@ ToplevelList Workspace::constrainedStackingOrder()
 
         const int screen = (*it)->screen();
         Client *c = qobject_cast<Client*>(*it);
-        QMap< Group*, Layer >::iterator mLayer = minimum_layer[screen].find(c ? c->group() : NULL);
+        QMap< Group*, Layer >::iterator mLayer = minimum_layer[screen].find(c ? c->group() : nullptr);
         if (mLayer != minimum_layer[screen].end()) {
             // If a window is raised above some other window in the same window group
             // which is in the ActiveLayer (i.e. it's fulscreened), make sure it stays
@@ -519,67 +528,91 @@ ToplevelList Workspace::constrainedStackingOrder()
         layer[ l ].append(*it);
     }
     ToplevelList stacking;
-    for (Layer lay = FirstLayer;
-            lay < NumLayers;
-            ++lay)
-        stacking += layer[ lay ];
+    for (int lay = FirstLayer; lay < NumLayers; ++lay) {
+        stacking += layer[lay];
+    }
     // now keep transients above their mainwindows
     // TODO this could(?) use some optimization
-    for (int i = stacking.size() - 1;
-            i >= 0;
-       ) {
-        AbstractClient *current = qobject_cast<AbstractClient*>(stacking[i]);
-        if (!current || !current->isTransient()) {
-            --i;
-            continue;
-        }
+    for (int i = stacking.size() - 1; i >= 0;) {
+        // Index of the main window for the current transient window.
         int i2 = -1;
-        Client *ccurrent = qobject_cast<Client*>(current);
-        if (ccurrent && ccurrent->groupTransient()) {
-            if (ccurrent->group()->members().count() > 0) {
-                // find topmost client this one is transient for
-                for (i2 = stacking.size() - 1;
-                        i2 >= 0;
-                        --i2) {
-                    if (stacking[ i2 ] == stacking[ i ]) {
-                        i2 = -1; // don't reorder, already the topmost in the group
-                        break;
-                    }
-                    AbstractClient *c2 = qobject_cast<AbstractClient*>(stacking[ i2 ]);
-                    if (!c2) {
-                        continue;
-                    }
-                    if (c2->hasTransient(current, true)
-                            && keepTransientAbove(c2, current))
-                        break;
-                }
-            } // else i2 remains pointing at -1
-        } else {
-            for (i2 = stacking.size() - 1;
-                    i2 >= 0;
-                    --i2) {
-                AbstractClient *c2 = qobject_cast<AbstractClient*>(stacking[ i2 ]);
+
+        // If the current transient has "child" transients, we'd like to restart
+        // construction of the constrained stacking order from the position where
+        // the current transient will be moved.
+        bool hasTransients = false;
+
+        // Find topmost client this one is transient for.
+        if (auto *client = qobject_cast<AbstractClient *>(stacking[i])) {
+            if (!client->isTransient()) {
+                --i;
+                continue;
+            }
+            for (i2 = stacking.size() - 1; i2 >= 0; --i2) {
+                auto *c2 = qobject_cast<AbstractClient *>(stacking[i2]);
                 if (!c2) {
                     continue;
                 }
-                if (c2 == current) {
-                    i2 = -1; // don't reorder, already on top of its mainwindow
+                if (c2 == client) {
+                    i2 = -1; // Don't reorder, already on top of its main window.
                     break;
                 }
-                if (c2 == current->transientFor()
-                        && keepTransientAbove(c2, current))
+                if (c2->hasTransient(client, true)
+                        && keepTransientAbove(c2, client)) {
                     break;
+                }
             }
+
+            hasTransients = !client->transients().isEmpty();
+
+            // If the current transient doesn't have any "alive" transients, check
+            // whether it has deleted transients that have to be raised.
+            const bool searchForDeletedTransients = !hasTransients
+                && !deletedList().isEmpty();
+            if (searchForDeletedTransients) {
+                for (int j = i + 1; j < stacking.count(); ++j) {
+                    auto *deleted = qobject_cast<Deleted *>(stacking[j]);
+                    if (!deleted) {
+                        continue;
+                    }
+                    if (deleted->wasTransientFor(client)) {
+                        hasTransients = true;
+                        break;
+                    }
+                }
+            }
+        } else if (auto *deleted = qobject_cast<Deleted *>(stacking[i])) {
+            if (!deleted->wasTransient()) {
+                --i;
+                continue;
+            }
+            for (i2 = stacking.size() - 1; i2 >= 0; --i2) {
+                Toplevel *c2 = stacking[i2];
+                if (c2 == deleted) {
+                    i2 = -1; // Don't reorder, already on top of its main window.
+                    break;
+                }
+                if (deleted->wasTransientFor(c2)
+                        && keepDeletedTransientAbove(c2, deleted)) {
+                    break;
+                }
+            }
+            hasTransients = !deleted->transients().isEmpty();
         }
+
         if (i2 == -1) {
             --i;
             continue;
         }
+
+        Toplevel *current = stacking[i];
+
         stacking.removeAt(i);
         --i; // move onto the next item (for next for () iteration)
         --i2; // adjust index of the mainwindow after the remove above
-        if (!current->transients().isEmpty())   // this one now can be possibly above its transients,
+        if (hasTransients) {  // this one now can be possibly above its transients,
             i = i2; // so go again higher in the stack order and possibly move those transients again
+        }
         ++i2; // insert after (on top of) the mainwindow, it's ok if it2 is now stacking.end()
         stacking.insert(i2, current);
     }
@@ -647,15 +680,47 @@ bool Workspace::keepTransientAbove(const AbstractClient* mainwindow, const Abstr
     // the mainwindow, but only if they're group transient (since only such dialogs
     // have taskbar entry in Kicker). A proper way of doing this (both kwin and kicker)
     // needs to be found.
-    if (const Client *ct = dynamic_cast<const Client*>(transient)) {
-        if (ct->isDialog() && !ct->isModal() && ct->groupTransient())
-            return false;
-    }
+    if (transient->isDialog() && !transient->isModal() && transient->groupTransient())
+        return false;
     // #63223 - don't keep transients above docks, because the dock is kept high,
     // and e.g. dialogs for them would be too high too
     // ignore this if the transient has a placement hint which indicates it should go above it's parent
     if (mainwindow->isDock() && !transient->hasTransientPlacementHint())
         return false;
+    return true;
+}
+
+bool Workspace::keepDeletedTransientAbove(const Toplevel *mainWindow, const Deleted *transient) const
+{
+    // #93832 - Don't keep splashscreens above dialogs.
+    if (transient->isSplash() && mainWindow->isDialog()) {
+        return false;
+    }
+
+    if (transient->wasX11Client()) {
+        // If a group transient was active, we should keep it above no matter
+        // what, because at the time when the transient was closed, it was above
+        // the main window.
+        if (transient->wasGroupTransient() && transient->wasActive()) {
+            return true;
+        }
+
+        // This is rather a hack for #76026. Don't keep non-modal dialogs above
+        // the mainwindow, but only if they're group transient (since only such
+        // dialogs have taskbar entry in Kicker). A proper way of doing this
+        // (both kwin and kicker) needs to be found.
+        if (transient->wasGroupTransient() && transient->isDialog()
+                && !transient->isModal()) {
+            return false;
+        }
+
+        // #63223 - Don't keep transients above docks, because the dock is kept
+        // high, and e.g. dialogs for them would be too high too.
+        if (mainWindow->isDock()) {
+            return false;
+        }
+    }
+
     return true;
 }
 
@@ -713,7 +778,7 @@ void Workspace::updateXStackingOrder()
 
 void Client::restackWindow(xcb_window_t above, int detail, NET::RequestSource src, xcb_timestamp_t timestamp, bool send_event)
 {
-    Client *other = 0;
+    Client *other = nullptr;
     if (detail == XCB_STACK_MODE_OPPOSITE) {
         other = workspace()->findClient(Predicate::WindowMatch, above);
         if (!other) {
@@ -772,7 +837,7 @@ void Client::restackWindow(xcb_window_t above, int detail, NET::RequestSource sr
         if (it != begin && (*(it - 1) == other))
             other = qobject_cast<Client*>(*it);
         else
-            other = 0;
+            other = nullptr;
     }
 
     if (other)
@@ -788,16 +853,10 @@ void Client::restackWindow(xcb_window_t above, int detail, NET::RequestSource sr
 
 void Client::doSetKeepAbove()
 {
-    // Update states of all other windows in this group
-    if (tabGroup())
-        tabGroup()->updateStates(this, TabGroup::Layer);
 }
 
 void Client::doSetKeepBelow()
 {
-    // Update states of all other windows in this group
-    if (tabGroup())
-        tabGroup()->updateStates(this, TabGroup::Layer);
 }
 
 bool Client::belongsToDesktop() const
@@ -805,16 +864,6 @@ bool Client::belongsToDesktop() const
     foreach (const Client *c, group()->members()) {
         if (c->isDesktop())
             return true;
-    }
-    return false;
-}
-
-bool rec_checkTransientOnTop(const QList<AbstractClient*> &transients, const Client *topmost)
-{
-    foreach (const AbstractClient *transient, transients) {
-        if (transient == topmost || rec_checkTransientOnTop(transient->transients(), topmost)) {
-            return true;
-        }
     }
     return false;
 }

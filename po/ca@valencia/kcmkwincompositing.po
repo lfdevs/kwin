@@ -1,35 +1,26 @@
 # Translation of kcmkwincompositing.po to Catalan (Valencian)
-# Copyright (C) 2007-2018 This_file_is_part_of_KDE
+# Copyright (C) 2007-2019 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
+# or the same license as the source of its messages in English.
 #
-# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018.
+# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2014, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2018-08-03 16:19+0100\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"PO-Revision-Date: 2019-07-05 13:39+0200\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Josep Ma. Ferrer"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "txemaq@gmail.com"
 
 #: compositing.cpp:378
 #, kde-format
@@ -69,12 +60,12 @@ msgid ""
 "immediate crash!\n"
 "Alternatively, you might want to use the XRender backend instead."
 msgstr ""
-"La composició OpenGL (per defecte) ha trencat el KWin en el passat.\n"
+"La composició OpenGL (per defecte) ha trencat KWin en el passat.\n"
 "Probablement era degut a una fallada en el controlador.\n"
 "Si penseu que mentrestant l'heu actualitzat a un controlador estable, podeu "
 "reiniciar aquesta protecció però sigueu conscient que podria produir-se una "
 "fallada immediata!\n"
-"De manera alternativa, en el seu lloc podríeu usar el dorsal XRender."
+"De manera alternativa, en el seu lloc podeu usar el dorsal XRender."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
 #: compositing.ui:42
@@ -84,7 +75,7 @@ msgid ""
 "performance regressions and rendering artifacts."
 msgstr ""
 "El mètode d'escala «Exacta» no és admés per tot el maquinari i pot provocar "
-"regressions al rendiment i objectes a la representació."
+"regressions del rendiment i objectes de renderització."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
 #: compositing.ui:65
@@ -94,8 +85,8 @@ msgid ""
 "windows. This can result in windows not suspending their work when minimized."
 msgstr ""
 "Mantindre la miniatura de la finestra sempre interfereix amb l'estat "
-"minimitzat de les finestres. Això pot resultar en finestres que no suspenen "
-"el seu treball quan es minimitzen."
+"minimitzat de les finestres. Això pot provocar que les finestres no "
+"suspenguen el seu treball quan es minimitzen."
 
 #. i18n: ectx: property (text), widget (QCheckBox, compositingEnabled)
 #: compositing.ui:77
@@ -145,7 +136,7 @@ msgstr "Suavitzat"
 #: compositing.ui:160
 #, kde-format
 msgid "Accurate"
-msgstr "Acurat"
+msgstr "Precís"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, xrScaleFilter)
 #: compositing.ui:181
@@ -163,7 +154,7 @@ msgstr "Dorsal de renderització:"
 #: compositing.ui:213
 #, kde-format
 msgid "Tearing prevention (\"vsync\"):"
-msgstr "Prevenció de l'esquinçament («vsync»):"
+msgstr "Prevenció d'esgarrament («vsync»):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tearingPrevention)
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
@@ -200,7 +191,7 @@ msgstr "Reutilitza el contingut de la pantalla"
 #: compositing.ui:249
 #, kde-format
 msgid "Keep window thumbnails:"
-msgstr "Mantén les miniatures de les finestres:"
+msgstr "Mantín les miniatures de les finestres:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowThumbnail)
 #: compositing.ui:262
@@ -222,136 +213,40 @@ msgid ""
 " This brings performance improvements for e.g. games.\n"
 " The setting can be overruled by window-specific rules."
 msgstr ""
-"Les aplicacions poden establir un senyal per blocar la composició quan la "
+"Les aplicacions poden establir un senyal per a blocar la composició quan la "
 "finestra és oberta.\n"
-" Això aporta millores de rendiment als jocs, per exemple.\n"
+" Això aporta millores de rendiment per als jocs, per exemple.\n"
 " El paràmetre es pot sobreescriure amb regles específiques de finestra."
 
 #. i18n: ectx: property (text), widget (QCheckBox, windowsBlockCompositing)
 #: compositing.ui:280
 #, kde-format
 msgid "Allow applications to block compositing"
-msgstr "Permet que les aplicacions bloquin la composició"
+msgstr "Permet que les aplicacions bloquegen la composició"
 
-#: main.cpp:83
+#: main.cpp:55
 #, kde-format
 msgid "Re-enable OpenGL detection"
-msgstr "Torna a activar la detecció de l'OpenGL"
+msgstr "Torna a activar la detecció d'OpenGL"
 
-#: main.cpp:141
+#: main.cpp:120
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
 "video."
 msgstr ""
-"«Només quan siga econòmic» només prevé el parpelleig dels canvis a pantalla "
-"completa, com un vídeo."
+"«Només quan siga econòmic» només prevé el parpelleig per als canvis a "
+"pantalla completa, com un vídeo."
 
-#: main.cpp:145
+#: main.cpp:124
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "«Repinta tota la pantalla» pot causar problemes de rendiment."
 
-#: main.cpp:149
+#: main.cpp:128
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
 "«Reutilitza el contingut de la pantalla» causa greus problemes de rendiment "
 "amb els controladors de MESA."
-
-#: model.cpp:70
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Accessibility"
-msgstr "Accessibilitat"
-
-#: model.cpp:71
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Appearance"
-msgstr "Aparença"
-
-#: model.cpp:72
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Candy"
-msgstr "Llaminadures"
-
-#: model.cpp:73
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Focus"
-msgstr "Focus"
-
-#: model.cpp:74
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Show Desktop Animation"
-msgstr "Animació per mostrar l'escriptori"
-
-#: model.cpp:75
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Tools"
-msgstr "Eines"
-
-#: model.cpp:76
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Virtual Desktop Switching Animation"
-msgstr "Animació del canvi d'escriptoris virtuals"
-
-#: model.cpp:77
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Window Management"
-msgstr "Gestió de les finestres"
-
-#: model.cpp:233
-#, kde-format
-msgid "KWin development team"
-msgstr "Equip de desenvolupament del KWin"
-
-#: qml/Effect.qml:119
-#, kde-format
-msgid ""
-"Author: %1\n"
-"License: %2"
-msgstr ""
-"Autor: %1\n"
-"Llicència: %2"
-
-#: qml/EffectView.qml:64
-#, kde-format
-msgid ""
-"Hint: To find out or configure how to activate an effect, look at the "
-"effect's settings."
-msgstr ""
-"Consell: per trobar els detalls o configurar la manera d'activar un efecte, "
-"examineu l'arranjament dels efectes."
-
-#: qml/EffectView.qml:75
-#, kde-format
-msgid "Search"
-msgstr "Cerca"
-
-#: qml/EffectView.qml:82
-#, kde-format
-msgid "Configure filter"
-msgstr "Configura el filtre"
-
-#: qml/EffectView.qml:85
-#, kde-format
-msgid "Exclude Desktop Effects not supported by the Compositor"
-msgstr "Exclou els efectes d'escriptori no acceptats pel compositor"
-
-#: qml/EffectView.qml:93
-#, kde-format
-msgid "Exclude internal Desktop Effects"
-msgstr "Exclou els efectes d'escriptori interns"
-
-#: qml/EffectView.qml:105
-#, kde-format
-msgid "Get New Effects..."
-msgstr "Obtén efectes nous..."

@@ -13,7 +13,7 @@
 <author>
 <personname
 ><firstname
->Частину цієї документації було створено на основі сторінки UserBase KDE <ulink url=" http://userbase.kde.org/KWin Rules"
+>Частину цієї документації було створено на основі сторінки UserBase KDE <ulink url="https://userbase.kde.org/KWin Rules"
 >Правила KWin</ulink
 >. Згодом документацію оновлено командою з документування &kde;.</firstname
 > <surname
@@ -450,7 +450,7 @@
 ><para
 ><guilabel
 >Формальний вираз</guilabel
-> — відповідність за формальним виразом Qt, див. <ulink url="http://doc.qt.io/qt-5/qregexp.html"
+> — відповідність за формальним виразом Qt, див. <ulink url="https://doc.qt.io/qt-5/qregexp.html"
 >довідник зі встановлення відповідності за допомогою формальних виразів</ulink
 >.</para
 ></listitem>
@@ -2212,7 +2212,7 @@
 <title
 >Авторські права та ліцензування</title>
       <para
->Список власників авторських прав на документацію до програми можна знайти у <ulink url="http://userbase.kde.org/index.php?title=KWin Rules&amp;action=history"
+>Список власників авторських прав на документацію до програми можна знайти у <ulink url="https://userbase.kde.org/index.php?title=KWin Rules&amp;action=history"
 >журналі сторінки KWin Rules</ulink
 > UserBase.</para>
       <para

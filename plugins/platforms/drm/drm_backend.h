@@ -42,17 +42,6 @@ struct gbm_bo;
 struct gbm_device;
 struct gbm_surface;
 
-namespace KWayland
-{
-namespace Server
-{
-class OutputInterface;
-class OutputDeviceInterface;
-class OutputChangeSet;
-class OutputManagementInterface;
-}
-}
-
 namespace KWin
 {
 
@@ -73,19 +62,20 @@ class KWIN_EXPORT DrmBackend : public Platform
     Q_PLUGIN_METADATA(IID "org.kde.kwin.Platform" FILE "drm.json")
 public:
     explicit DrmBackend(QObject *parent = nullptr);
-    virtual ~DrmBackend();
+    ~DrmBackend() override;
 
-    void configurationChangeRequested(KWayland::Server::OutputConfigurationInterface *config) override;
     Screens *createScreens(QObject *parent = nullptr) override;
     QPainterBackend *createQPainterBackend() override;
     OpenGLBackend* createOpenGLBackend() override;
 
     void init() override;
+    void prepareShutdown() override;
+
     DrmDumbBuffer *createBuffer(const QSize &size);
 #if HAVE_GBM
     DrmSurfaceBuffer *createBuffer(const std::shared_ptr<GbmSurface> &surface);
 #endif
-    void present(DrmBuffer *buffer, DrmOutput *output);
+    bool present(DrmBuffer *buffer, DrmOutput *output);
 
     int fd() const {
         return m_fd;
@@ -99,6 +89,8 @@ public:
         return m_enabledOutputs;
     }
 
+    void enableOutput(DrmOutput *output, bool enable);
+
     QVector<DrmPlane*> planes() const {
         return m_planes;
     }
@@ -106,7 +98,7 @@ public:
         return m_overlayPlanes;
     }
 
-    void outputWentOff();
+    void createDpmsFilter();
     void checkOutputsAreOn();
 
     // QPainter reuses buffers
@@ -124,6 +116,16 @@ public:
     gbm_device *gbmDevice() const {
         return m_gbmDevice;
     }
+
+    QByteArray devNode() const {
+        return m_devNode;
+    }
+
+#if HAVE_EGL_STREAMS
+    bool useEglStreams() const {
+        return m_useEglStreams;
+    }
+#endif
 
     QVector<CompositingType> supportedCompositors() const override;
 
@@ -158,11 +160,11 @@ private:
     void updateCursor();
     void moveCursor();
     void initCursor();
-    void outputDpmsChanged();
     void readOutputsConfiguration();
+    void writeOutputsConfiguration();
     QByteArray generateOutputConfigurationUuid() const;
     DrmOutput *findOutput(quint32 connector);
-    DrmOutput *findOutput(const QByteArray &uuid);
+    void updateOutputsEnabled();
     QScopedPointer<Udev> m_udev;
     QScopedPointer<UdevMonitor> m_udevMonitor;
     int m_fd = -1;
@@ -182,11 +184,14 @@ private:
     QSize m_cursorSize;
     int m_pageFlipsPending = 0;
     bool m_active = false;
+    QByteArray m_devNode;
+#if HAVE_EGL_STREAMS
+    bool m_useEglStreams = false;
+#endif
     // all available planes: primarys, cursors and overlays
     QVector<DrmPlane*> m_planes;
     QVector<DrmPlane*> m_overlayPlanes;
     QScopedPointer<DpmsInputEventFilter> m_dpmsFilter;
-    KWayland::Server::OutputManagementInterface *m_outputManagement = nullptr;
     gbm_device *m_gbmDevice = nullptr;
 };
 

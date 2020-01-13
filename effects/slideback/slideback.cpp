@@ -26,20 +26,14 @@ namespace KWin
 SlideBackEffect::SlideBackEffect()
 {
     m_tabboxActive = 0;
-    m_justMapped = m_upmostWindow = NULL;
-    connect(effects, SIGNAL(windowAdded(KWin::EffectWindow*)), SLOT(slotWindowAdded(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(windowDeleted(KWin::EffectWindow*)), SLOT(slotWindowDeleted(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(windowUnminimized(KWin::EffectWindow*)), SLOT(slotWindowUnminimized(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(tabBoxAdded(int)), SLOT(slotTabBoxAdded()));
-    connect(effects, SIGNAL(stackingOrderChanged()), SLOT(slotStackingOrderChanged()));
-    connect(effects, SIGNAL(tabBoxClosed()), SLOT(slotTabBoxClosed()));
+    m_justMapped = m_upmostWindow = nullptr;
+    connect(effects, &EffectsHandler::windowAdded, this, &SlideBackEffect::slotWindowAdded);
+    connect(effects, &EffectsHandler::windowDeleted, this, &SlideBackEffect::slotWindowDeleted);
+    connect(effects, &EffectsHandler::windowUnminimized, this, &SlideBackEffect::slotWindowUnminimized);
+    connect(effects, &EffectsHandler::tabBoxAdded, this, &SlideBackEffect::slotTabBoxAdded);
+    connect(effects, &EffectsHandler::stackingOrderChanged, this, &SlideBackEffect::slotStackingOrderChanged);
+    connect(effects, &EffectsHandler::tabBoxClosed, this, &SlideBackEffect::slotTabBoxClosed);
 }
-
-static inline bool windowsShareDesktop(EffectWindow *w1, EffectWindow *w2)
-{
-    return w1->isOnAllDesktops() || w2->isOnAllDesktops() || w1->desktop() == w2->desktop();
-}
-
 
 void SlideBackEffect::slotStackingOrderChanged()
 {
@@ -60,7 +54,7 @@ void SlideBackEffect::slotStackingOrderChanged()
     m_upmostWindow = usableNewStackingOrder.last();
 
     if (m_upmostWindow == m_justMapped ) // a window was added, got on top, stacking changed. Nothing impressive
-        m_justMapped = 0;
+        m_justMapped = nullptr;
     else if (!usableOldStackingOrder.isEmpty() && m_upmostWindow != usableOldStackingOrder.last())
         windowRaised(m_upmostWindow);
 
@@ -79,7 +73,7 @@ void SlideBackEffect::windowRaised(EffectWindow *w)
                 currentFound = true;
             }
         } else {
-            if (isWindowUsable(tmp) && windowsShareDesktop(tmp, w)) {
+            if (isWindowUsable(tmp) && tmp->isOnCurrentDesktop() && w->isOnCurrentDesktop()) {
                 // Do we have to move it?
                 if (intersects(w, tmp->geometry())) {
                     QRect slideRect;
@@ -265,9 +259,9 @@ void SlideBackEffect::postPaintWindow(EffectWindow* w)
 void SlideBackEffect::slotWindowDeleted(EffectWindow* w)
 {
     if (w == m_upmostWindow)
-        m_upmostWindow = 0;
+        m_upmostWindow = nullptr;
     if (w == m_justMapped)
-        m_justMapped = 0;
+        m_justMapped = nullptr;
     usableOldStackingOrder.removeAll(w);
     oldStackingOrder.removeAll(w);
     coveringWindows.removeAll(w);
@@ -305,7 +299,7 @@ void SlideBackEffect::slotTabBoxClosed()
 bool SlideBackEffect::isWindowUsable(EffectWindow* w)
 {
     return w && (w->isNormalWindow() || w->isDialog()) && !w->keepAbove() && !w->isDeleted() && !w->isMinimized()
-           && w->isCurrentTab() && w->isPaintingEnabled();
+           && w->isPaintingEnabled();
 }
 
 bool SlideBackEffect::intersects(EffectWindow* windowUnder, const QRect &windowOverGeometry)

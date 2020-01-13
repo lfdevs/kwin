@@ -39,11 +39,13 @@ class BufferInterface;
 namespace KWin
 {
 
+class EglDmabuf;
+
 class KWIN_EXPORT AbstractEglBackend : public QObject, public OpenGLBackend
 {
     Q_OBJECT
 public:
-    virtual ~AbstractEglBackend();
+    ~AbstractEglBackend() override;
     bool makeCurrent() override;
     void doneCurrent() override;
 
@@ -85,12 +87,13 @@ private:
     EGLContext m_context = EGL_NO_CONTEXT;
     EGLConfig m_config = nullptr;
     QList<QByteArray> m_clientExtensions;
+    EglDmabuf *m_dmaBuf = nullptr;
 };
 
 class KWIN_EXPORT AbstractEglTexture : public SceneOpenGLTexturePrivate
 {
 public:
-    virtual ~AbstractEglTexture();
+    ~AbstractEglTexture() override;
     bool loadTexture(WindowPixmap *pixmap) override;
     void updateTexture(WindowPixmap *pixmap) override;
     OpenGLBackend *backend() override;
@@ -110,6 +113,7 @@ protected:
 private:
     bool loadShmTexture(const QPointer<KWayland::Server::BufferInterface> &buffer);
     bool loadEglTexture(const QPointer<KWayland::Server::BufferInterface> &buffer);
+    bool loadDmabufTexture(const QPointer< KWayland::Server::BufferInterface > &buffer);
     EGLImageKHR attach(const QPointer<KWayland::Server::BufferInterface> &buffer);
     bool updateFromFBO(const QSharedPointer<QOpenGLFramebufferObject> &fbo);
     SceneOpenGLTexture *q;

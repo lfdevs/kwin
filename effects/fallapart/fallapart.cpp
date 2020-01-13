@@ -21,8 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "fallapart.h"
 // KConfigSkeleton
 #include "fallapartconfig.h"
-#include <assert.h>
-#include <math.h>
+
+#include <cmath>
 
 namespace KWin
 {
@@ -36,9 +36,9 @@ FallApartEffect::FallApartEffect()
 {
     initConfig<FallApartConfig>();
     reconfigure(ReconfigureAll);
-    connect(effects, SIGNAL(windowClosed(KWin::EffectWindow*)), this, SLOT(slotWindowClosed(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(windowDeleted(KWin::EffectWindow*)), this, SLOT(slotWindowDeleted(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(windowDataChanged(KWin::EffectWindow*,int)), this, SLOT(slotWindowDataChanged(KWin::EffectWindow*,int)));
+    connect(effects, &EffectsHandler::windowClosed, this, &FallApartEffect::slotWindowClosed);
+    connect(effects, &EffectsHandler::windowDeleted, this, &FallApartEffect::slotWindowDeleted);
+    connect(effects, &EffectsHandler::windowDataChanged, this, &FallApartEffect::slotWindowDataChanged);
 }
 
 void FallApartEffect::reconfigure(ReconfigureFlags)
@@ -146,6 +146,12 @@ bool FallApartEffect::isRealWindow(EffectWindow* w)
     qCDebug(KWINEFFECTS) << "Splash:" << w->isSplash();
     qCDebug(KWINEFFECTS) << "Normal:" << w->isNormalWindow();
     */
+    if (w->isPopupWindow()) {
+        return false;
+    }
+    if (w->isX11Client() && !w->isManaged()) {
+        return false;
+    }
     if (!w->isNormalWindow())
         return false;
     return true;

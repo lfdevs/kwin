@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // system
 #include <sys/mman.h>
 #include <unistd.h>
+#include <bitset>
 
 Q_LOGGING_CATEGORY(KWIN_XKB, "kwin_xkbcommon", QtCriticalMsg)
 
@@ -67,14 +68,15 @@ static void xkbLogHandler(xkb_context *context, xkb_log_level priority, const ch
 
 Xkb::Xkb(QObject *parent)
     : QObject(parent)
-    , m_context(xkb_context_new(static_cast<xkb_context_flags>(0)))
-    , m_keymap(NULL)
-    , m_state(NULL)
+    , m_context(xkb_context_new(XKB_CONTEXT_NO_FLAGS))
+    , m_keymap(nullptr)
+    , m_state(nullptr)
     , m_shiftModifier(0)
     , m_capsModifier(0)
     , m_controlModifier(0)
     , m_altModifier(0)
     , m_metaModifier(0)
+    , m_numModifier(0)
     , m_numLock(0)
     , m_capsLock(0)
     , m_scrollLock(0)
@@ -204,7 +206,7 @@ void Xkb::installKeymap(int fd, uint32_t size)
     if (!m_context) {
         return;
     }
-    char *map = reinterpret_cast<char*>(mmap(NULL, size, PROT_READ, MAP_SHARED, fd, 0));
+    char *map = reinterpret_cast<char*>(mmap(nullptr, size, PROT_READ, MAP_SHARED, fd, 0));
     if (map == MAP_FAILED) {
         return;
     }
@@ -214,6 +216,7 @@ void Xkb::installKeymap(int fd, uint32_t size)
         qCDebug(KWIN_XKB) << "Could not map keymap from file";
         return;
     }
+    m_ownership = Ownership::Client;
     updateKeymap(keymap);
 }
 
@@ -238,6 +241,7 @@ void Xkb::updateKeymap(xkb_keymap *keymap)
     m_controlModifier = xkb_keymap_mod_get_index(m_keymap, XKB_MOD_NAME_CTRL);
     m_altModifier     = xkb_keymap_mod_get_index(m_keymap, XKB_MOD_NAME_ALT);
     m_metaModifier    = xkb_keymap_mod_get_index(m_keymap, XKB_MOD_NAME_LOGO);
+    m_numModifier     = xkb_keymap_mod_get_index(m_keymap, XKB_MOD_NAME_NUM);
 
     m_numLock         = xkb_keymap_led_get_index(m_keymap, XKB_LED_NAME_NUM);
     m_capsLock        = xkb_keymap_led_get_index(m_keymap, XKB_LED_NAME_CAPS);
@@ -249,8 +253,29 @@ void Xkb::updateKeymap(xkb_keymap *keymap)
     m_modifierState.latched = xkb_state_serialize_mods(m_state, xkb_state_component(XKB_STATE_MODS_LATCHED));
     m_modifierState.locked = xkb_state_serialize_mods(m_state, xkb_state_component(XKB_STATE_MODS_LOCKED));
 
+    static bool s_startup = true;
+    if (s_startup || qEnvironmentVariableIsSet("KWIN_FORCE_NUM_LOCK_EVALUATION")) {
+        s_startup = false;
+        if (m_ownership == Ownership::Server && m_numModifier != XKB_MOD_INVALID && m_numLockConfig) {
+            const KConfigGroup config = m_numLockConfig->group("Keyboard");
+            // STATE_ON = 0,  STATE_OFF = 1, STATE_UNCHANGED = 2, see plasma-desktop/kcms/keyboard/kcmmisc.h
+            const auto setting = config.readEntry("NumLock", 2);
+            const bool numLockIsOn = xkb_state_mod_index_is_active(m_state, m_numModifier, XKB_STATE_MODS_LOCKED);
+            if ((setting == 0 && !numLockIsOn) || (setting == 1 && numLockIsOn)) {
+                std::bitset<sizeof(xkb_mod_mask_t)*8> mask{m_modifierState.locked};
+                if (mask.size() > m_numModifier) {
+                    mask[m_numModifier] = (setting == 0);
+                    m_modifierState.locked = mask.to_ulong();
+                    xkb_state_update_mask(m_state, m_modifierState.depressed, m_modifierState.latched, m_modifierState.locked, 0, 0, m_currentLayout);
+                    m_modifierState.locked = xkb_state_serialize_mods(m_state, xkb_state_component(XKB_STATE_MODS_LOCKED));
+                }
+            }
+        }
+    }
+
     createKeymapFile();
     forwardModifiers();
+    updateModifiers();
 }
 
 void Xkb::createKeymapFile()
@@ -343,6 +368,9 @@ void Xkb::updateModifiers()
     }
     if (xkb_state_mod_index_is_active(m_state, m_metaModifier, XKB_STATE_MODS_EFFECTIVE) == 1) {
         mods |= Qt::MetaModifier;
+    }
+    if (xkb_state_mod_index_is_active(m_state, m_numModifier, XKB_STATE_MODS_EFFECTIVE) == 1) {
+        mods |= Qt::KeypadModifier;
     }
     m_modifiers = mods;
 

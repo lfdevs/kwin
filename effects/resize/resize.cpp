@@ -38,13 +38,13 @@ namespace KWin
 ResizeEffect::ResizeEffect()
     : AnimationEffect()
     , m_active(false)
-    , m_resizeWindow(0)
+    , m_resizeWindow(nullptr)
 {
     initConfig<ResizeConfig>();
     reconfigure(ReconfigureAll);
-    connect(effects, SIGNAL(windowStartUserMovedResized(KWin::EffectWindow*)), this, SLOT(slotWindowStartUserMovedResized(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(windowStepUserMovedResized(KWin::EffectWindow*,QRect)), this, SLOT(slotWindowStepUserMovedResized(KWin::EffectWindow*,QRect)));
-    connect(effects, SIGNAL(windowFinishUserMovedResized(KWin::EffectWindow*)), this, SLOT(slotWindowFinishUserMovedResized(KWin::EffectWindow*)));
+    connect(effects, &EffectsHandler::windowStartUserMovedResized, this, &ResizeEffect::slotWindowStartUserMovedResized);
+    connect(effects, &EffectsHandler::windowStepUserMovedResized, this, &ResizeEffect::slotWindowStepUserMovedResized);
+    connect(effects, &EffectsHandler::windowFinishUserMovedResized, this, &ResizeEffect::slotWindowFinishUserMovedResized);
 }
 
 ResizeEffect::~ResizeEffect()
@@ -93,8 +93,8 @@ void ResizeEffect::paintWindow(EffectWindow* w, int mask, QRegion region, Window
                 color.setAlphaF(alpha);
                 vbo->setColor(color);
                 QVector<float> verts;
-                verts.reserve(paintRegion.rects().count() * 12);
-                foreach (const QRect & r, paintRegion.rects()) {
+                verts.reserve(paintRegion.rectCount() * 12);
+                for (const QRect &r : paintRegion) {
                     verts << r.x() + r.width() << r.y();
                     verts << r.x() << r.y();
                     verts << r.x() << r.y() + r.height();
@@ -102,7 +102,7 @@ void ResizeEffect::paintWindow(EffectWindow* w, int mask, QRegion region, Window
                     verts << r.x() + r.width() << r.y() + r.height();
                     verts << r.x() + r.width() << r.y();
                 }
-                vbo->setData(verts.count() / 2, 2, verts.data(), NULL);
+                vbo->setData(verts.count() / 2, 2, verts.data(), nullptr);
                 vbo->render(GL_TRIANGLES);
                 glDisable(GL_BLEND);
             }
@@ -110,7 +110,7 @@ void ResizeEffect::paintWindow(EffectWindow* w, int mask, QRegion region, Window
 #ifdef KWIN_HAVE_XRENDER_COMPOSITING
             if (effects->compositingType() == XRenderCompositing) {
                 QVector<xcb_rectangle_t> rects;
-                foreach (const QRect & r, paintRegion.rects()) {
+                for (const QRect &r : paintRegion) {
                     xcb_rectangle_t rect = {int16_t(r.x()), int16_t(r.y()), uint16_t(r.width()), uint16_t(r.height())};
                     rects << rect;
                 }
@@ -123,7 +123,7 @@ void ResizeEffect::paintWindow(EffectWindow* w, int mask, QRegion region, Window
                 QPainter *painter = effects->scenePainter();
                 painter->save();
                 color.setAlphaF(alpha);
-                foreach (const QRect &r, paintRegion.rects()) {
+                for (const QRect &r : paintRegion) {
                     painter->fillRect(r, color);
                 }
                 painter->restore();
@@ -159,7 +159,7 @@ void ResizeEffect::slotWindowFinishUserMovedResized(EffectWindow *w)
 {
     if (m_active && w == m_resizeWindow) {
         m_active = false;
-        m_resizeWindow = NULL;
+        m_resizeWindow = nullptr;
         if (m_features & TextureScale)
             animate(w, CrossFadePrevious, 0, 150, FPx2(1.0));
         effects->addRepaintFull();

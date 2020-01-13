@@ -13,7 +13,7 @@
 <author>
 <personname
 ><firstname
->Delar av den här dokumentationen är konverterat från KDE:s användarbas <ulink url=" http://userbase.kde.org/KWin Rules"
+>Delar av den här dokumentationen är konverterat från KDE:s användarbas <ulink url=" https://userbase.kde.org/KWin Rules"
 >KWin Rules</ulink
 >-sida, och uppdaterad till Plasma 5.8 av &kde;:s dokumentationsgrupp.</firstname
 > <surname
@@ -450,7 +450,7 @@
 ><para
 ><guilabel
 >Reguljärt uttryck</guilabel
->: Qt:s reguljära uttryck är implementerade. Se <ulink url="http://doc.qt.io/qt-5/qregexp.html"
+>: Qt:s reguljära uttryck är implementerade. Se <ulink url="https://doc.qt.io/qt-5/qregexp.html"
 >mönstermatchning med användning av reguljära uttryck</ulink
 >.</para
 ></listitem>
@@ -2224,7 +2224,7 @@
 <title
 >Tack till och licens</title>
       <para
->För dokumentationens upphovsrätts, se <ulink url="http://userbase.kde.org/index.php?title=KWin Rules&amp;action=history"
+>För dokumentationens upphovsrätts, se <ulink url="https://userbase.kde.org/index.php?title=KWin Rules&amp;action=history"
 >KWin-regelsidans historik</ulink
 > på användarbasen</para>
       <para
@@ -2235,7 +2235,6 @@
 >Översättning Arve Eriksson <email
 >031299870@telia.com</email
 ></para
-> 
-&underFDL; </chapter>
+> &underFDL; </chapter>
 &documentation.index;
 </book>

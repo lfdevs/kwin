@@ -27,8 +27,6 @@
 
 namespace KWin {
 
-class TabletModeInputEventSpy;
-
 class TabletModeManager : public QObject
 {
     Q_OBJECT
@@ -38,8 +36,9 @@ class TabletModeManager : public QObject
     Q_PROPERTY(bool tabletMode READ isTablet NOTIFY tabletModeChanged)
 
 public:
-    ~TabletModeManager() = default;
+    ~TabletModeManager() override = default;
 
+    void setTabletModeAvailable(bool detecting);
     bool isTabletModeAvailable() const;
 
     bool isTablet() const;
@@ -50,9 +49,11 @@ Q_SIGNALS:
     void tabletModeChanged(bool tabletMode);
 
 private:
+    void hasTabletModeInputChanged(bool set);
+
     bool m_tabletModeAvailable = false;
     bool m_isTabletMode = false;
-    TabletModeInputEventSpy *m_spy;
+    bool m_detecting = false;
     KWIN_SINGLETON_VARIABLE(TabletModeManager, s_manager)
 };
 }

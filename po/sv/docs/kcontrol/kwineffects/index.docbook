@@ -73,7 +73,7 @@
 <para
 >Normalt finns det ingen anledning för användare att ändra det, men det finns en <inlinemediaobject
 ><imageobject
-><imagedata fileref="configure-filter.png" format="PNG"/> </imageobject
+><imagedata fileref="configure-effects.png" format="PNG"/> </imageobject
 ></inlinemediaobject
 > inställningsknapp för att ändra filtrering av listan för att också visa dessa effekter. </para>
 

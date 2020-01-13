@@ -60,14 +60,15 @@ QVariant DecorationsModel::data(const QModelIndex &index, int role) const
     switch (role) {
     case Qt::DisplayRole:
         return d.visibleName;
-    case Qt::UserRole +4:
+    case PluginNameRole:
         return d.pluginName;
-    case Qt::UserRole +5:
+    case ThemeNameRole:
         return d.themeName;
-    case Qt::UserRole +6:
+    case ConfigurationRole:
         return d.configuration;
+    case RecommendedBorderSizeRole:
+        return Utils::borderSizeToString(d.recommendedBorderSize);
     }
-
     return QVariant();
 }
 
@@ -75,9 +76,10 @@ QHash< int, QByteArray > DecorationsModel::roleNames() const
 {
     QHash<int, QByteArray> roles({
         {Qt::DisplayRole, QByteArrayLiteral("display")},
-        {Qt::UserRole + 4, QByteArrayLiteral("plugin")},
-        {Qt::UserRole + 5, QByteArrayLiteral("theme")},
-        {Qt::UserRole +6, QByteArrayLiteral("configureable")}
+        {PluginNameRole, QByteArrayLiteral("plugin")},
+        {ThemeNameRole, QByteArrayLiteral("theme")},
+        {ConfigurationRole, QByteArrayLiteral("configureable")},
+        {RecommendedBorderSizeRole, QByteArrayLiteral("recommendedbordersize")}
     });
     return roles;
 }
@@ -98,6 +100,15 @@ static bool isConfigureable(const QVariantMap &decoSettingsMap)
         return false;
     }
     return it.value().toBool();
+}
+
+static KDecoration2::BorderSize recommendedBorderSize(const QVariantMap &decoSettingsMap)
+{
+    auto it = decoSettingsMap.find(QStringLiteral("recommendedBorderSize"));
+    if (it == decoSettingsMap.end()) {
+        return KDecoration2::BorderSize::Normal;
+    }
+    return Utils::stringToBorderSize(it.value().toString());
 }
 
 static QString themeListKeyword(const QVariantMap &decoSettingsMap)
@@ -130,12 +141,12 @@ void DecorationsModel::init()
             continue;
         }
         auto metadata = loader.metaData().value(QStringLiteral("MetaData")).toObject().value(s_pluginName);
-        bool config = false;
+        Data data;
         if (!metadata.isUndefined()) {
             const auto decoSettingsMap = metadata.toObject().toVariantMap();
             const QString &kns = findKNewStuff(decoSettingsMap);
-            if (!kns.isEmpty()) {
-                m_knsProvides.insert(kns, info.name().isEmpty() ? info.pluginName() : info.name());
+            if (!kns.isEmpty() && !m_knsProviders.contains(kns)) {
+                m_knsProviders.append(kns);
             }
             if (isThemeEngine(decoSettingsMap)) {
                 const QString keyword = themeListKeyword(decoSettingsMap);
@@ -166,12 +177,12 @@ void DecorationsModel::init()
                 // it's a theme engine, we don't want to show this entry
                 continue;
             }
-            config = isConfigureable(decoSettingsMap);
+            data.configuration = isConfigureable(decoSettingsMap);
+            data.recommendedBorderSize = recommendedBorderSize(decoSettingsMap);
         }
-        Data data;
         data.pluginName = info.pluginName();
         data.visibleName = info.name().isEmpty() ? info.pluginName() : info.name();
-        data.configuration = config;
+        data.themeName = data.visibleName;
 
         m_plugins.emplace_back(std::move(data));
     }

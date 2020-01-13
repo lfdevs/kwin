@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QRect>
 #include <QRegion>
 #include <QSize>
-#include <QTimeLine>
 #include <QFont>
 #include <QQueue>
 
@@ -51,21 +50,21 @@ class CoverSwitchEffect
     // TODO: mirror colors
 public:
     CoverSwitchEffect();
-    ~CoverSwitchEffect();
+    ~CoverSwitchEffect() override;
 
-    virtual void reconfigure(ReconfigureFlags);
-    virtual void prePaintScreen(ScreenPrePaintData& data, int time);
-    virtual void paintScreen(int mask, QRegion region, ScreenPaintData& data);
-    virtual void postPaintScreen();
-    virtual void paintWindow(EffectWindow* w, int mask, QRegion region, WindowPaintData& data);
-    virtual void windowInputMouseEvent(QEvent* e);
-    virtual bool isActive() const;
+    void reconfigure(ReconfigureFlags) override;
+    void prePaintScreen(ScreenPrePaintData &data, int time) override;
+    void paintScreen(int mask, QRegion region, ScreenPaintData &data) override;
+    void postPaintScreen() override;
+    void paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) override;
+    void windowInputMouseEvent(QEvent *e) override;
+    bool isActive() const override;
 
     static bool supported();
 
     // for properties
     int configuredAnimationDuration() const {
-        return animationDuration;
+        return animationDuration.count();
     }
     bool isAnimateSwitch() const {
         return animateSwitch;
@@ -108,7 +107,7 @@ private:
                     bool reflectedWindows = false);
     void paintWindowCover(EffectWindow* w, bool reflectedWindow, WindowPaintData& data);
     void paintFrontWindow(EffectWindow* frontWindow, int width, int leftWindows, int rightWindows, bool reflectedWindow);
-    void paintWindows(const EffectWindowList& windows, bool left, bool reflectedWindows, EffectWindow* additionalWindow = NULL);
+    void paintWindows(const EffectWindowList& windows, bool left, bool reflectedWindows, EffectWindow* additionalWindow = nullptr);
     void selectNextOrPreviousWindow(bool forward);
     inline void selectNextWindow() { selectNextOrPreviousWindow(true); }
     inline void selectPreviousWindow() { selectNextOrPreviousWindow(false); }
@@ -117,7 +116,7 @@ private:
      * Updates the caption of the caption frame.
      * Taking care of rewording the desktop client.
      * As well sets the icon for the caption frame.
-     **/
+     */
     void updateCaption();
 
     bool mActivated;
@@ -131,10 +130,10 @@ private:
     bool reflection;
     float mirrorColor[2][4];
     bool windowTitle;
-    int animationDuration;
+    std::chrono::milliseconds animationDuration;
     bool stopRequested;
     bool startRequested;
-    QTimeLine timeLine;
+    TimeLine timeLine;
     QRect area;
     float zPosition;
     float scaleFactor;

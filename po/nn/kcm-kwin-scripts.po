@@ -4,9 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2018-01-22 21:18+0100\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"PO-Revision-Date: 2018-11-03 10:52+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
@@ -77,13 +77,13 @@ msgid "KWin script configuration"
 msgstr "Opsett av KWin-skript"
 
 #. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
-#: module.ui:44
+#: module.ui:55
 #, kde-format
-msgid "Import KWin script..."
-msgstr "Importer KWin-skript …"
+msgid "Install from File..."
+msgstr "Installer frå fil …"
 
 #. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
-#: module.ui:51
+#: module.ui:67
 #, kde-format
 msgid "Get New Scripts..."
 msgstr "Hent nye skript …"

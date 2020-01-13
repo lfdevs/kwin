@@ -13,7 +13,7 @@
 <author>
 <personname
 ><firstname
->Delen van deze documentatie zijn geconverteerd uit de pagina in de KDE UserBase <ulink url=" http://userbase.kde.org/KWin Rules"
+>Delen van deze documentatie zijn geconverteerd uit de pagina in de KDE UserBase <ulink url=" https://userbase.kde.org/KWin Rules"
 >KWin-regels</ulink
 > en bijgewerkt door het documentatieteam van &kde; naar Plasma 5.8.</firstname
 > <surname
@@ -436,7 +436,7 @@
 ><para
 ><guilabel
 >Reguliere expressie</guilabel
-> - de reguliere expressies van Qt zijn geïmplementeerd - zie <ulink url="http://doc.qt.io/qt-5/qregexp.html"
+> - de reguliere expressies van Qt zijn geïmplementeerd - zie <ulink url="https://doc.qt.io/qt-5/qregexp.html"
 >patroonovereenkomst met reguliere expressies</ulink
 >.</para
 ></listitem>
@@ -2186,10 +2186,9 @@
 <title
 >Dankbetuigingen en licentie</title>
       <para
->Documentatie copyright zie de UserBase <ulink url="http://userbase.kde.org/index.php?title=KWin Rules&amp;action=history"
+>Documentatie copyright zie de UserBase <ulink url="https://userbase.kde.org/index.php?title=KWin Rules&amp;action=history"
 >KWin-regels paginageschiedenis</ulink
 ></para>
-      &meld.fouten;&vertaling.niels;&vertaling.natalie;&vertaling.freek; 
-&underFDL; </chapter>
+      &meld.fouten;&vertaling.niels;&vertaling.natalie;&vertaling.freek; &underFDL; </chapter>
 &documentation.index;
 </book>

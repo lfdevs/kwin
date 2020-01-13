@@ -4,10 +4,11 @@ include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 set(QPA_SOURCES
     abstractplatformcontext.cpp
     backingstore.cpp
+    eglhelpers.cpp
     integration.cpp
     main.cpp
     nativeinterface.cpp
-    platformcontextwayland.cpp
+    offscreensurface.cpp
     platformcursor.cpp
     screen.cpp
     sharingplatformcontext.cpp
@@ -18,29 +19,21 @@ include(ECMQtDeclareLoggingCategory)
 ecm_qt_declare_logging_category(QPA_SOURCES HEADER logging.h IDENTIFIER KWIN_QPA CATEGORY_NAME kwin_qpa_plugin DEFAULT_SEVERITY Critical)
 
 add_library(KWinQpaPlugin MODULE ${QPA_SOURCES})
+set_target_properties(KWinQpaPlugin PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/platforms/")
 
-if(Qt5Core_VERSION VERSION_LESS "5.8.0")
-    add_definitions(-DQ_FONTCONFIGDATABASE)
-    set(QT5PLATFORMSUPPORT_LIBS Qt5PlatformSupport::Qt5PlatformSupport)
-else()
-    set(QT5PLATFORMSUPPORT_LIBS
-        Qt5FontDatabaseSupport::Qt5FontDatabaseSupport
-        Qt5ThemeSupport::Qt5ThemeSupport
-        Qt5EventDispatcherSupport::Qt5EventDispatcherSupport
+set(QT5PLATFORMSUPPORT_LIBS
+    Qt5FontDatabaseSupport::Qt5FontDatabaseSupport
+    Qt5ThemeSupport::Qt5ThemeSupport
+    Qt5EventDispatcherSupport::Qt5EventDispatcherSupport
 )
-endif()
 
 target_link_libraries(KWinQpaPlugin
-    kwin
-    KF5::WaylandClient
     ${QT5PLATFORMSUPPORT_LIBS}
-    ${FONTCONFIG_LIBRARIES}
-    ${FREETYPE_LIBRARIES}
+    ${FREETYPE_LIBRARIES} # Must be after QT5PLATFORMSUPPORT_LIBS
+    Fontconfig::Fontconfig
+    KF5::WaylandClient
+    kwin
 )
-
-if(HAVE_WAYLAND_EGL)
-    target_link_libraries(KWinQpaPlugin Wayland::Egl)
-endif()
 
 install(
     TARGETS

@@ -32,7 +32,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "tabbox.h"
 #endif
 #include "screenedge.h"
-#include "tabgroup.h"
 #include "useractions.h"
 #include "workspace.h"
 
@@ -72,13 +71,24 @@ AbstractClient::AbstractClient()
 
     connect(Decoration::DecorationBridge::self(), &QObject::destroyed, this, &AbstractClient::destroyDecoration);
 
+    // If the user manually moved the window, don't restore it after the keyboard closes
+    connect(this, &AbstractClient::clientFinishUserMovedResized, this, [this] () {
+        m_keyboardGeometryRestore = QRect();
+    });
+    connect(this, qOverload<AbstractClient *, bool, bool>(&AbstractClient::clientMaximizedStateChanged), this, [this] () {
+        m_keyboardGeometryRestore = QRect();
+    });
+    connect(this, &AbstractClient::fullScreenChanged, this, [this] () {
+        m_keyboardGeometryRestore = QRect();
+    });
+
     // replace on-screen-display on size changes
     connect(this, &AbstractClient::geometryShapeChanged, this,
         [this] (Toplevel *c, const QRect &old) {
             Q_UNUSED(c)
             if (isOnScreenDisplay() && !geometry().isEmpty() && old.size() != geometry().size() && !isInitialPositionSet()) {
                 GeometryUpdatesBlocker blocker(this);
-                QRect area = workspace()->clientArea(PlacementArea, Screens::self()->current(), desktop());
+                const QRect area = workspace()->clientArea(PlacementArea, Screens::self()->current(), desktop());
                 Placement::self()->place(this, area);
                 setGeometryRestore(geometry());
             }
@@ -96,7 +106,7 @@ AbstractClient::AbstractClient()
 
 AbstractClient::~AbstractClient()
 {
-    assert(m_blockGeometryUpdates == 0);
+    Q_ASSERT(m_blockGeometryUpdates == 0);
     Q_ASSERT(m_decoration.decoration == nullptr);
 }
 
@@ -114,94 +124,14 @@ bool AbstractClient::isTransient() const
     return false;
 }
 
-void AbstractClient::setTabGroup(TabGroup* group)
-{
-    tab_group = group;
-    emit tabGroupChanged();
-}
-
 void AbstractClient::setClientShown(bool shown)
 {
     Q_UNUSED(shown)
 }
 
-bool AbstractClient::untab(const QRect &toGeometry, bool clientRemoved)
+MaximizeMode AbstractClient::requestedMaximizeMode() const
 {
-    TabGroup *group = tab_group;
-    if (group && group->remove(this)) { // remove sets the tabgroup to "0", therefore the pointer is cached
-        if (group->isEmpty()) {
-            delete group;
-        }
-        if (clientRemoved)
-            return true; // there's been a broadcast signal that this client is now removed - don't touch it
-        setClientShown(!(isMinimized() || isShade()));
-        bool keepSize = toGeometry.size() == size();
-        bool changedSize = false;
-        if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
-            changedSize = true;
-            setQuickTileMode(QuickTileFlag::None); // if we leave a quicktiled group, assume that the user wants to untile
-        }
-        if (toGeometry.isValid()) {
-            if (maximizeMode() != MaximizeRestore) {
-                changedSize = true;
-                maximize(MaximizeRestore); // explicitly calling for a geometry -> unmaximize
-            }
-            if (keepSize && changedSize) {
-                setGeometryRestore(geometry()); // checkWorkspacePosition() invokes it
-                QPoint cpoint = Cursor::pos();
-                QPoint point = cpoint;
-                point.setX((point.x() - toGeometry.x()) * geometryRestore().width() / toGeometry.width());
-                point.setY((point.y() - toGeometry.y()) * geometryRestore().height() / toGeometry.height());
-                auto geometry_restore = geometryRestore();
-                geometry_restore.moveTo(cpoint-point);
-                setGeometryRestore(geometry_restore);
-            } else {
-                setGeometryRestore(toGeometry); // checkWorkspacePosition() invokes it
-            }
-            setGeometry(geometryRestore());
-            checkWorkspacePosition();
-        }
-        return true;
-    }
-    return false;
-}
-
-bool AbstractClient::tabTo(AbstractClient *other, bool behind, bool activate)
-{
-    Q_ASSERT(other && other != this);
-
-    if (tab_group && tab_group == other->tabGroup()) { // special case: move inside group
-        tab_group->move(this, other, behind);
-        return true;
-    }
-
-    GeometryUpdatesBlocker blocker(this);
-    const bool wasBlocking = signalsBlocked();
-    blockSignals(true); // prevent client emitting "retabbed to nowhere" cause it's about to be entabbed the next moment
-    untab();
-    blockSignals(wasBlocking);
-
-    TabGroup *newGroup = other->tabGroup() ? other->tabGroup() : new TabGroup(other);
-
-    if (!newGroup->add(this, other, behind, activate)) {
-        if (newGroup->count() < 2) { // adding "c" to "to" failed for whatever reason
-            newGroup->remove(other);
-            delete newGroup;
-        }
-        return false;
-    }
-    return true;
-}
-
-void AbstractClient::syncTabGroupFor(QString property, bool fromThisClient)
-{
-    if (tab_group)
-        tab_group->sync(property.toAscii().data(), fromThisClient ? this : tab_group->current());
-}
-
-bool AbstractClient::isCurrentTab() const
-{
-    return !tab_group || tab_group->current() == this;
+    return maximizeMode();
 }
 
 xcb_timestamp_t AbstractClient::userTime() const
@@ -281,7 +211,7 @@ void AbstractClient::setActive(bool act)
                              ? rules()->checkOpacityActive(qRound(opacity() * 100.0))
                              : rules()->checkOpacityInactive(qRound(opacity() * 100.0));
     setOpacity(ruledOpacity / 100.0);
-    workspace()->setActiveClient(act ? this : NULL);
+    workspace()->setActiveClient(act ? this : nullptr);
 
     if (!m_active)
         cancelAutoRaise();
@@ -337,6 +267,8 @@ Layer AbstractClient::belongsToLayer() const
     // and the docks move into the NotificationLayer (which is between Above- and
     // ActiveLayer, so that active fullscreen windows will still cover everything)
     // Since the desktop is also activated, nothing should be in the ActiveLayer, though
+    if (isInternal())
+        return UnmanagedLayer;
     if (isDesktop())
         return workspace()->showingDesktop() ? AboveLayer : DesktopLayer;
     if (isSplash())          // no damn annoying splashscreens
@@ -350,6 +282,8 @@ Layer AbstractClient::belongsToLayer() const
         return OnScreenDisplayLayer;
     if (isNotification())
         return NotificationLayer;
+    if (isCriticalNotification())
+        return CriticalNotificationLayer;
     if (workspace()->showingDesktop() && belongsToDesktop()) {
         return AboveLayer;
     }
@@ -388,12 +322,12 @@ void AbstractClient::setKeepAbove(bool b)
     if (b == keepAbove()) {
         // force hint change if different
         if (info && bool(info->state() & NET::KeepAbove) != keepAbove())
-            info->setState(keepAbove() ? NET::KeepAbove : NET::States(0), NET::KeepAbove);
+            info->setState(keepAbove() ? NET::KeepAbove : NET::States(), NET::KeepAbove);
         return;
     }
     m_keepAbove = b;
     if (info) {
-        info->setState(keepAbove() ? NET::KeepAbove : NET::States(0), NET::KeepAbove);
+        info->setState(keepAbove() ? NET::KeepAbove : NET::States(), NET::KeepAbove);
     }
     workspace()->updateClientLayer(this);
     updateWindowRules(Rules::Above);
@@ -414,12 +348,12 @@ void AbstractClient::setKeepBelow(bool b)
     if (b == keepBelow()) {
         // force hint change if different
         if (info && bool(info->state() & NET::KeepBelow) != keepBelow())
-            info->setState(keepBelow() ? NET::KeepBelow : NET::States(0), NET::KeepBelow);
+            info->setState(keepBelow() ? NET::KeepBelow : NET::States(), NET::KeepBelow);
         return;
     }
     m_keepBelow = b;
     if (info) {
-        info->setState(keepBelow() ? NET::KeepBelow : NET::States(0), NET::KeepBelow);
+        info->setState(keepBelow() ? NET::KeepBelow : NET::States(), NET::KeepBelow);
     }
     workspace()->updateClientLayer(this);
     updateWindowRules(Rules::Below);
@@ -461,7 +395,7 @@ bool AbstractClient::wantsTabFocus() const
 bool AbstractClient::isSpecialWindow() const
 {
     // TODO
-    return isDesktop() || isDock() || isSplash() || isToolbar() || isNotification() || isOnScreenDisplay();
+    return isDesktop() || isDock() || isSplash() || isToolbar() || isNotification() || isOnScreenDisplay() || isCriticalNotification();
 }
 
 void AbstractClient::demandAttention(bool set)
@@ -472,7 +406,7 @@ void AbstractClient::demandAttention(bool set)
         return;
     m_demandsAttention = set;
     if (info) {
-        info->setState(set ? NET::DemandsAttention : NET::States(0), NET::DemandsAttention);
+        info->setState(set ? NET::DemandsAttention : NET::States(), NET::DemandsAttention);
     }
     workspace()->clientAttentionChanged(this, set);
     emit demandsAttentionChanged();
@@ -484,17 +418,53 @@ void AbstractClient::setDesktop(int desktop)
     if (desktop != NET::OnAllDesktops)   // Do range check
         desktop = qMax(1, qMin(numberOfDesktops, desktop));
     desktop = qMin(numberOfDesktops, rules()->checkDesktop(desktop));
-    if (m_desktop == desktop)
-        return;
 
-    int was_desk = m_desktop;
-    const bool wasOnCurrentDesktop = isOnCurrentDesktop();
-    m_desktop = desktop;
-
-    if (info) {
-        info->setDesktop(desktop);
+    QVector<VirtualDesktop *> desktops;
+    if (desktop != NET::OnAllDesktops) {
+       desktops << VirtualDesktopManager::self()->desktopForX11Id(desktop);
     }
-    if ((was_desk == NET::OnAllDesktops) != (desktop == NET::OnAllDesktops)) {
+    setDesktops(desktops);
+}
+
+void AbstractClient::setDesktops(QVector<VirtualDesktop*> desktops)
+{
+    //on x11 we can have only one desktop at a time
+    if (kwinApp()->operationMode() == Application::OperationModeX11 && desktops.size() > 1) {
+        desktops = QVector<VirtualDesktop*>({desktops.last()});
+    }
+
+    if (desktops == m_desktops) {
+        return;
+    }
+
+    int was_desk = AbstractClient::desktop();
+    const bool wasOnCurrentDesktop = isOnCurrentDesktop() && was_desk >= 0;
+
+    m_desktops = desktops;
+
+    if (windowManagementInterface()) {
+        if (m_desktops.isEmpty()) {
+            windowManagementInterface()->setOnAllDesktops(true);
+        } else {
+            windowManagementInterface()->setOnAllDesktops(false);
+            auto currentDesktops = windowManagementInterface()->plasmaVirtualDesktops();
+            for (auto desktop: m_desktops) {
+                if (!currentDesktops.contains(desktop->id())) {
+                    windowManagementInterface()->addPlasmaVirtualDesktop(desktop->id());
+                } else {
+                    currentDesktops.removeOne(desktop->id());
+                }
+            }
+            for (auto desktopId: currentDesktops) {
+                windowManagementInterface()->removePlasmaVirtualDesktop(desktopId);
+            }
+        }
+    }
+    if (info) {
+        info->setDesktop(desktop());
+    }
+
+    if ((was_desk == NET::OnAllDesktops) != (desktop() == NET::OnAllDesktops)) {
         // onAllDesktops changed
         workspace()->updateOnAllDesktopsOfTransients(this);
     }
@@ -503,17 +473,17 @@ void AbstractClient::setDesktop(int desktop)
     for (auto it = transients_stacking_order.constBegin();
             it != transients_stacking_order.constEnd();
             ++it)
-        (*it)->setDesktop(desktop);
+        (*it)->setDesktops(desktops);
 
     if (isModal())  // if a modal dialog is moved, move the mainwindow with it as otherwise
         // the (just moved) modal dialog will confusingly return to the mainwindow with
         // the next desktop change
     {
         foreach (AbstractClient * c2, mainClients())
-        c2->setDesktop(desktop);
+        c2->setDesktops(desktops);
     }
 
-    doSetDesktop(desktop, was_desk);
+    doSetDesktop(desktop(), was_desk);
 
     FocusChain::self()->update(this, FocusChain::MakeFirst);
     updateWindowRules(Rules::Desktop);
@@ -521,12 +491,40 @@ void AbstractClient::setDesktop(int desktop)
     emit desktopChanged();
     if (wasOnCurrentDesktop != isOnCurrentDesktop())
         emit desktopPresenceChanged(this, was_desk);
+    emit x11DesktopIdsChanged();
 }
 
 void AbstractClient::doSetDesktop(int desktop, int was_desk)
 {
     Q_UNUSED(desktop)
     Q_UNUSED(was_desk)
+}
+
+void AbstractClient::enterDesktop(VirtualDesktop *virtualDesktop)
+{
+    if (m_desktops.contains(virtualDesktop)) {
+        return;
+    }
+    auto desktops = m_desktops;
+    desktops.append(virtualDesktop);
+    setDesktops(desktops);
+}
+
+void AbstractClient::leaveDesktop(VirtualDesktop *virtualDesktop)
+{
+    QVector<VirtualDesktop*> currentDesktops;
+    if (m_desktops.isEmpty()) {
+        currentDesktops = VirtualDesktopManager::self()->desktops();
+    } else {
+        currentDesktops = m_desktops;
+    }
+
+    if (!currentDesktops.contains(virtualDesktop)) {
+        return;
+    }
+    auto desktops = currentDesktops;
+    desktops.removeOne(virtualDesktop);
+    setDesktops(desktops);
 }
 
 void AbstractClient::setOnAllDesktops(bool b)
@@ -538,6 +536,20 @@ void AbstractClient::setOnAllDesktops(bool b)
         setDesktop(NET::OnAllDesktops);
     else
         setDesktop(VirtualDesktopManager::self()->current());
+}
+
+QVector<uint> AbstractClient::x11DesktopIds() const
+{
+    const auto desks = desktops();
+    QVector<uint> x11Ids;
+    x11Ids.reserve(desks.count());
+    std::transform(desks.constBegin(), desks.constEnd(),
+        std::back_inserter(x11Ids),
+        [] (const VirtualDesktop *vd) {
+            return vd->x11DesktopNumber();
+        }
+    );
+    return x11Ids;
 }
 
 bool AbstractClient::isShadeable() const
@@ -602,7 +614,7 @@ void AbstractClient::minimize(bool avoid_animation)
         return;
 
     if (isShade() && info) // NETWM restriction - KWindowInfo::isMinimized() == Hidden && !Shaded
-        info->setState(0, NET::Shaded);
+        info->setState(NET::States(), NET::Shaded);
 
     m_minimized = true;
 
@@ -691,6 +703,7 @@ void AbstractClient::updateColorScheme(QString path)
         connect(m_palette.get(), &Decoration::DecorationPalette::changed, this, &AbstractClient::handlePaletteChange);
 
         emit paletteChanged(palette());
+        emit colorSchemeChanged();
     }
 }
 
@@ -790,7 +803,7 @@ void AbstractClient::setupWindowManagementInterface()
     w->setMovable(isMovable());
     w->setVirtualDesktopChangeable(true); // FIXME Matches Client::actionSupported(), but both should be implemented.
     w->setParentWindow(transientFor() ? transientFor()->windowManagementInterface() : nullptr);
-    w->setGeometry(geom);
+    w->setGeometry(geometry());
     connect(this, &AbstractClient::skipTaskbarChanged, w,
         [w, this] {
             w->setSkipTaskbar(skipTaskbar());
@@ -802,16 +815,7 @@ void AbstractClient::setupWindowManagementInterface()
         }
     );
     connect(this, &AbstractClient::captionChanged, w, [w, this] { w->setTitle(caption()); });
-    connect(this, &AbstractClient::desktopChanged, w,
-        [w, this] {
-            if (isOnAllDesktops()) {
-                w->setOnAllDesktops(true);
-                return;
-            }
-            w->setVirtualDesktop(desktop() - 1);
-            w->setOnAllDesktops(false);
-        }
-    );
+
     connect(this, &AbstractClient::activeChanged, w, [w, this] { w->setActive(isActive()); });
     connect(this, &AbstractClient::fullScreenChanged, w, [w, this] { w->setFullscreen(isFullScreen()); });
     connect(this, &AbstractClient::keepAboveChanged, w, &PlasmaWindowInterface::setKeepAbove);
@@ -839,7 +843,7 @@ void AbstractClient::setupWindowManagementInterface()
     );
     connect(this, &AbstractClient::geometryChanged, w,
         [w, this] {
-            w->setGeometry(geom);
+            w->setGeometry(geometry());
         }
     );
     connect(w, &PlasmaWindowInterface::closeRequested, this, [this] { closeWindow(); });
@@ -906,6 +910,48 @@ void AbstractClient::setupWindowManagementInterface()
             setShade(set);
         }
     );
+
+    for (const auto vd : m_desktops) {
+        w->addPlasmaVirtualDesktop(vd->id());
+    }
+
+    //this is only for the legacy
+    connect(this, &AbstractClient::desktopChanged, w,
+        [w, this] {
+            if (isOnAllDesktops()) {
+                w->setOnAllDesktops(true);
+                return;
+            }
+            w->setVirtualDesktop(desktop() - 1);
+            w->setOnAllDesktops(false);
+        }
+    );
+
+    //Plasma Virtual desktop management
+    //show/hide when the window enters/exits from desktop
+    connect(w, &PlasmaWindowInterface::enterPlasmaVirtualDesktopRequested, this,
+        [this] (const QString &desktopId) {
+            VirtualDesktop *vd = VirtualDesktopManager::self()->desktopForId(desktopId.toUtf8());
+            if (vd) {
+                enterDesktop(vd);
+            }
+        }
+    );
+    connect(w, &PlasmaWindowInterface::enterNewPlasmaVirtualDesktopRequested, this,
+        [this] () {
+            VirtualDesktopManager::self()->setCount(VirtualDesktopManager::self()->count() + 1);
+            enterDesktop(VirtualDesktopManager::self()->desktops().last());
+        }
+    );
+    connect(w, &PlasmaWindowInterface::leavePlasmaVirtualDesktopRequested, this,
+        [this] (const QString &desktopId) {
+            VirtualDesktop *vd = VirtualDesktopManager::self()->desktopForId(desktopId.toUtf8());
+            if (vd) {
+                leaveDesktop(vd);
+            }
+        }
+    );
+
     m_windowManagementInterface = w;
 }
 
@@ -1063,14 +1109,6 @@ bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint
         if (!isDesktop())   // No point in changing the opacity of the desktop
             setOpacity(qMax(opacity() - 0.1, 0.1));
         break;
-    case Options::MousePreviousTab:
-        if (tabGroup())
-            tabGroup()->activatePrev();
-    break;
-    case Options::MouseNextTab:
-        if (tabGroup())
-            tabGroup()->activateNext();
-    break;
     case Options::MouseClose:
         closeWindow();
         break;
@@ -1126,7 +1164,6 @@ bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint
         updateCursor();
         break;
     }
-    case Options::MouseDragTab:
     case Options::MouseNothing:
     default:
         replay = true;
@@ -1163,9 +1200,11 @@ bool AbstractClient::hasTransientPlacementHint() const
     return false;
 }
 
-QPoint AbstractClient::transientPlacementHint() const
+QRect AbstractClient::transientPlacement(const QRect &bounds) const
 {
-    return QPoint();
+    Q_UNUSED(bounds);
+    Q_UNREACHABLE();
+    return QRect();
 }
 
 bool AbstractClient::hasTransient(const AbstractClient *c, bool indirect) const
@@ -1209,8 +1248,8 @@ bool AbstractClient::isModal() const
 
 void AbstractClient::addTransient(AbstractClient *cl)
 {
-    assert(!m_transients.contains(cl));
-    assert(cl != this);
+    Q_ASSERT(!m_transients.contains(cl));
+    Q_ASSERT(cl != this);
     m_transients.append(cl);
 }
 
@@ -1268,11 +1307,7 @@ void AbstractClient::addRepaintDuringGeometryUpdates()
 
 void AbstractClient::updateGeometryBeforeUpdateBlocking()
 {
-    m_geometryBeforeUpdateBlocking = geom;
-}
-
-void AbstractClient::updateTabGroupStates(TabGroup::States)
-{
+    m_geometryBeforeUpdateBlocking = geometry();
 }
 
 void AbstractClient::doMove(int, int)
@@ -1332,7 +1367,7 @@ void AbstractClient::updateCursor()
 
 void AbstractClient::leaveMoveResize()
 {
-    workspace()->setClientIsMoving(nullptr);
+    workspace()->setMoveResizeClient(nullptr);
     setMoveResize(false);
     if (ScreenEdges::self()->isDesktopSwitchingMovingClients())
         ScreenEdges::self()->reserveDesktopSwitching(false, Qt::Vertical|Qt::Horizontal);
@@ -1608,8 +1643,8 @@ bool AbstractClient::processDecorationButtonPress(QMouseEvent *event, bool ignor
         com = active ? options->commandActiveTitlebar3() : options->commandInactiveTitlebar3();
     if (event->button() == Qt::LeftButton
             && com != Options::MouseOperationsMenu // actions where it's not possible to get the matching
-            && com != Options::MouseMinimize  // mouse release event
-            && com != Options::MouseDragTab) {
+            && com != Options::MouseMinimize)  // mouse release event
+    {
         setMoveResizePointerMode(mousePosition());
         setMoveResizePointerButtonDown(true);
         setMoveOffset(event->pos());
@@ -1629,7 +1664,6 @@ bool AbstractClient::processDecorationButtonPress(QMouseEvent *event, bool ignor
                com == Options::MouseActivate ||
                com == Options::MouseActivateRaiseAndPassClick ||
                com == Options::MouseActivateAndPassClick ||
-               com == Options::MouseDragTab ||
                com == Options::MouseNothing);
 }
 
@@ -1750,6 +1784,43 @@ QRect AbstractClient::inputGeometry() const
         return Toplevel::inputGeometry() + decoration()->resizeOnlyBorders();
     }
     return Toplevel::inputGeometry();
+}
+
+QRect AbstractClient::virtualKeyboardGeometry() const
+{
+    return m_virtualKeyboardGeometry;
+}
+
+void AbstractClient::setVirtualKeyboardGeometry(const QRect &geo)
+{
+    // No keyboard anymore
+    if (geo.isEmpty() && !m_keyboardGeometryRestore.isEmpty()) {
+        setGeometry(m_keyboardGeometryRestore);
+        m_keyboardGeometryRestore = QRect();
+    } else if (geo.isEmpty()) {
+        return;
+    // The keyboard has just been opened (rather than resized) save client geometry for a restore
+    } else if (m_keyboardGeometryRestore.isEmpty()) {
+        m_keyboardGeometryRestore = geometry();
+    }
+
+    m_virtualKeyboardGeometry = geo;
+
+    // Don't resize Desktop and fullscreen windows
+    if (isFullScreen() || isDesktop()) {
+        return;
+    }
+
+    if (!geo.intersects(m_keyboardGeometryRestore)) {
+        return;
+    }
+
+    const QRect availableArea = workspace()->clientArea(MaximizeArea, this);
+    QRect newWindowGeometry = m_keyboardGeometryRestore;
+    newWindowGeometry.moveBottom(geo.top());
+    newWindowGeometry.setTop(qMax(newWindowGeometry.top(), availableArea.top()));
+
+    setGeometry(newWindowGeometry);
 }
 
 bool AbstractClient::dockWantsInput() const
@@ -1894,6 +1965,31 @@ void AbstractClient::setOnActivities(QStringList newActivitiesList)
 void AbstractClient::checkNoBorder()
 {
     setNoBorder(false);
+}
+
+bool AbstractClient::groupTransient() const
+{
+    return false;
+}
+
+const Group *AbstractClient::group() const
+{
+    return nullptr;
+}
+
+Group *AbstractClient::group()
+{
+    return nullptr;
+}
+
+bool AbstractClient::isInternal() const
+{
+    return false;
+}
+
+bool AbstractClient::supportsWindowRules() const
+{
+    return true;
 }
 
 }

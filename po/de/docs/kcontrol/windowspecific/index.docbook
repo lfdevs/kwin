@@ -13,7 +13,7 @@
 <author>
 <personname
 ><firstname
->Ein Teil dieses Handbuchs wurde aus der Webseite <ulink url=" http://userbase.kde.org/KWin Rules"
+>Ein Teil dieses Handbuchs wurde aus der Webseite <ulink url=" https://userbase.kde.org/KWin Rules"
 >KWin-Regeln</ulink
 > der &kde;-Userbase erstellt und vom &kde;-Dokumentationsteam zu Plasma 5.8 aktualisiert.</firstname
 > <surname
@@ -450,7 +450,7 @@
 ><para
 ><guilabel
 >Regulärer Ausdruck</guilabel
-> - Qts reguläre Ausdrücke sind implementiert, siehe <ulink url="http://doc.qt.io/qt-5/qregexp.html"
+> - Qts reguläre Ausdrücke sind implementiert, siehe <ulink url="https://doc.qt.io/qt-5/qregexp.html"
 >Übereinstimmung mit regulären Ausdrücken</ulink
 >.</para
 ></listitem>
@@ -2202,7 +2202,7 @@
 <title
 >Danksagungen und Lizenz</title>
       <para
->Copyright der Dokumentation siehe <ulink url="http://userbase.kde.org/index.php?title=KWin Rules&amp;action=history"
+>Copyright der Dokumentation siehe <ulink url="https://userbase.kde.org/index.php?title=KWin Rules&amp;action=history"
 >Versionsgeschichte der Seite KWin-Regeln</ulink
 ></para>
       <para

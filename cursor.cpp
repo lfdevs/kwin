@@ -36,8 +36,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDBusConnection>
 #include <QScreen>
 #include <QTimer>
-// xcb
-#include <xcb/xfixes.h>
 
 namespace KWin
 {
@@ -58,7 +56,7 @@ Cursor::Cursor(QObject *parent)
 
 Cursor::~Cursor()
 {
-    s_self = NULL;
+    s_self = nullptr;
 }
 
 void Cursor::loadThemeSettings()

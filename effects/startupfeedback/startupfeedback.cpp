@@ -27,8 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPainter>
 // KDE
 #include <KConfigGroup>
-#include <KSharedConfig>
 #include <KIconLoader>
+#include <KSharedConfig>
 #include <KStartupInfo>
 #include <KSelectionOwner>
 #include <KWindowSystem>
@@ -78,23 +78,22 @@ StartupFeedbackEffect::StartupFeedbackEffect()
     , m_active(false)
     , m_frame(0)
     , m_progress(0)
-    , m_texture(0)
+    , m_texture(nullptr)
     , m_type(BouncingFeedback)
-    , m_blinkingShader(0)
+    , m_blinkingShader(nullptr)
     , m_cursorSize(0)
 {
     for (int i = 0; i < 5; ++i) {
-        m_bouncingTextures[i] = 0;
+        m_bouncingTextures[i] = nullptr;
     }
     if (KWindowSystem::isPlatformX11()) {
         m_selection = new KSelectionOwner("_KDE_STARTUP_FEEDBACK", xcbConnection(), x11RootWindow(), this);
         m_selection->claim(true);
     }
-    connect(m_startupInfo, SIGNAL(gotNewStartup(KStartupInfoId,KStartupInfoData)), SLOT(gotNewStartup(KStartupInfoId,KStartupInfoData)));
-    connect(m_startupInfo, SIGNAL(gotRemoveStartup(KStartupInfoId,KStartupInfoData)), SLOT(gotRemoveStartup(KStartupInfoId,KStartupInfoData)));
-    connect(m_startupInfo, SIGNAL(gotStartupChange(KStartupInfoId,KStartupInfoData)), SLOT(gotStartupChange(KStartupInfoId,KStartupInfoData)));
-    connect(effects, SIGNAL(mouseChanged(QPoint,QPoint,Qt::MouseButtons,Qt::MouseButtons,Qt::KeyboardModifiers,Qt::KeyboardModifiers)),
-            this, SLOT(slotMouseChanged(QPoint,QPoint,Qt::MouseButtons,Qt::MouseButtons,Qt::KeyboardModifiers,Qt::KeyboardModifiers)));
+    connect(m_startupInfo, &KStartupInfo::gotNewStartup, this, &StartupFeedbackEffect::gotNewStartup);
+    connect(m_startupInfo, &KStartupInfo::gotRemoveStartup, this, &StartupFeedbackEffect::gotRemoveStartup);
+    connect(m_startupInfo, &KStartupInfo::gotStartupChange, this, &StartupFeedbackEffect::gotStartupChange);
+    connect(effects, &EffectsHandler::mouseChanged, this, &StartupFeedbackEffect::slotMouseChanged);
     reconfigure(ReconfigureAll);
 }
 
@@ -273,14 +272,6 @@ void StartupFeedbackEffect::start(const QString& icon)
     if (!m_active)
         effects->startMousePolling();
     m_active = true;
-    // get ratio for bouncing cursor so we don't need to manually calculate the sizes for each icon size
-    if (m_type == BouncingFeedback)
-        m_bounceSizesRatio = IconSize(KIconLoader::Small) / 16.0;
-    QPixmap iconPixmap = KIconLoader::global()->loadIcon(icon, KIconLoader::Small, 0,
-                         KIconLoader::DefaultState, QStringList(), 0, true);  // return null pixmap if not found
-    if (iconPixmap.isNull())
-        iconPixmap = SmallIcon(QStringLiteral("system-run"));
-    prepareTextures(iconPixmap);
     auto readCursorSize = []() -> int {
         // read details about the mouse-cursor theme define per default
         KConfigGroup mousecfg(effects->inputConfig(), "Mouse");
@@ -294,6 +285,15 @@ void StartupFeedbackEffect::start(const QString& icon)
         return cursorSize;
     };
     m_cursorSize = readCursorSize();
+    int iconSize = m_cursorSize / 1.5;
+    if (!iconSize) {
+        iconSize = IconSize(KIconLoader::Small);
+    }
+    // get ratio for bouncing cursor so we don't need to manually calculate the sizes for each icon size
+    if (m_type == BouncingFeedback)
+        m_bounceSizesRatio = iconSize / 16.0;
+    const QPixmap iconPixmap = QIcon::fromTheme(icon, QIcon::fromTheme(QStringLiteral("system-run"))).pixmap(iconSize);
+    prepareTextures(iconPixmap);
     m_dirtyRect = m_currentGeometry = feedbackRect();
     effects->addRepaint(m_dirtyRect);
 }
@@ -308,13 +308,13 @@ void StartupFeedbackEffect::stop()
     case BouncingFeedback:
         for (int i = 0; i < 5; ++i) {
             delete m_bouncingTextures[i];
-            m_bouncingTextures[i] = 0;
+            m_bouncingTextures[i] = nullptr;
         }
         break;
     case BlinkingFeedback:
     case PassiveFeedback:
         delete m_texture;
-        m_texture = 0;
+        m_texture = nullptr;
         break;
     case NoFeedback:
         return; // don't want the full repaint
@@ -372,7 +372,7 @@ QRect StartupFeedbackEffect::feedbackRect() const
     else
         xDiff = 32 + 7;
     int yDiff = xDiff;
-    GLTexture* texture = 0;
+    GLTexture* texture = nullptr;
     int yOffset = 0;
     switch(m_type) {
     case BouncingFeedback:

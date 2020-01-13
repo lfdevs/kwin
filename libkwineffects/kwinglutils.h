@@ -109,7 +109,7 @@ public:
     /**
      * @return The value of the uniform as a matrix
      * @since 4.7
-     **/
+     */
     QMatrix4x4 getUniformMatrix4x4(const char* name);
 
     enum MatrixUniform {
@@ -201,7 +201,7 @@ Q_DECLARE_FLAGS(ShaderTraits, ShaderTrait)
  *
  * @author Martin Gräßlin <mgraesslin@kde.org>
  * @since 4.7
- **/
+ */
 class KWINGLUTILS_EXPORT ShaderManager
 {
 public:
@@ -212,19 +212,19 @@ public:
 
     /**
      * @return The currently bound shader or @c null if no shader is bound.
-     **/
+     */
     GLShader *getBoundShader() const;
 
     /**
      * @return @c true if a shader is bound, @c false otherwise
-     **/
+     */
     bool isShaderBound() const;
     /**
      * Is @c true if the environment variable KWIN_GL_DEBUG is set to 1.
      * In that case shaders are compiled with KWIN_SHADER_DEBUG defined.
      * @returns @c true if shaders are compiled with debug information
      * @since 4.8
-     **/
+     */
     bool isShaderDebug() const;
 
     /**
@@ -235,11 +235,11 @@ public:
 
     /**
      * Binds the @p shader.
-     * To unbind the shader use @link popShader. A previous bound shader will be rebound.
+     * To unbind the shader use popShader. A previous bound shader will be rebound.
      * To bind a built-in shader use the more specific method.
      * @param shader The shader to be bound
      * @see popShader
-     **/
+     */
     void pushShader(GLShader *shader);
 
     /**
@@ -248,7 +248,7 @@ public:
      * It is not safe to call this method if there is no bound shader.
      * @see pushShader
      * @see getBoundShader
-     **/
+     */
     void popShader();
 
     /**
@@ -257,7 +257,7 @@ public:
      * @param vertexSource The source code of the vertex shader
      * @param fragmentSource The source code of the fragment shader.
      * @return The created shader
-     **/
+     */
     GLShader *loadShaderFromCode(const QByteArray &vertexSource, const QByteArray &fragmentSource);
 
     /**
@@ -271,18 +271,18 @@ public:
      * If neither are provided a new shader following the @p traits is generated.
      *
      * @param traits The shader traits for generating the shader
-     * @param vertesSource optional vertex shader source code to be used instead of shader traits
+     * @param vertexSource optional vertex shader source code to be used instead of shader traits
      * @param fragmentSource optional fragment shader source code to be used instead of shader traits
      * @return new generated shader
      * @since 5.6
-     **/
+     */
     GLShader *generateCustomShader(ShaderTraits traits, const QByteArray &vertexSource = QByteArray(), const QByteArray &fragmentSource = QByteArray());
 
     /**
      * Creates a custom shader with the given @p traits and custom @p vertexFile and or @p fragmentFile.
      * The file names specified in @p vertexFile and @p fragmentFile are relative paths to the shaders
      * resource file shipped together with KWin. This means this method can only be used for built-in
-     * effects, for 3rd party effects @link {generateCustomShader} should be used.
+     * effects, for 3rd party effects generateCustomShader should be used.
      *
      * If the @p vertexFile is empty a vertex shader with the given @p traits is generated.
      * If it is not empty the @p vertexFile is used as the source for the vertex shader.
@@ -298,7 +298,7 @@ public:
      * @return new generated shader
      * @see generateCustomShader
      * @since 5.6
-     **/
+     */
     GLShader *generateShaderFromResources(ShaderTraits traits, const QString &vertexFile = QString(), const QString &fragmentFile = QString());
 
     /**
@@ -309,12 +309,12 @@ public:
 
     /**
      * @return a pointer to the ShaderManager instance
-     **/
+     */
     static ShaderManager *instance();
 
     /**
      * @internal
-     **/
+     */
     static void cleanup();
 
 private:
@@ -350,7 +350,7 @@ private:
  * @endcode
  *
  * @since 4.10
- **/
+ */
 class KWINGLUTILS_EXPORT ShaderBinder
 {
 public:
@@ -359,7 +359,7 @@ public:
      *
      * @param shader The Shader to push on the stack
      * @see ShaderManager::pushShader
-     **/
+     */
     explicit ShaderBinder(GLShader *shader);
     /**
      * @brief Pushes the Shader with the given @p traits to the ShaderManager's stack.
@@ -367,13 +367,13 @@ public:
      * @param traits The traits describing the shader
      * @see ShaderManager::pushShader
      * @since 5.6
-     **/
+     */
     explicit ShaderBinder(ShaderTraits traits);
     ~ShaderBinder();
 
     /**
      * @return The Shader pushed to the Stack.
-     **/
+     */
     GLShader *shader();
 
 private:
@@ -413,20 +413,20 @@ GLShader* ShaderBinder::shader()
  *  later be used to e.g. do post-processing of the scene.
  *
  * @author Rivo Laks <rivolaks@hot.ee>
- **/
+ */
 class KWINGLUTILS_EXPORT GLRenderTarget
 {
 public:
     /**
      * Constructs a GLRenderTarget
      * @since 5.13
-     **/
+     */
     explicit GLRenderTarget();
 
     /**
      * Constructs a GLRenderTarget
      * @param color texture where the scene will be rendered onto
-     **/
+     */
     explicit GLRenderTarget(const GLTexture& color);
     ~GLRenderTarget();
 
@@ -434,25 +434,25 @@ public:
      * Enables this render target.
      * All OpenGL commands from now on affect this render target until the
      *  @ref disable method is called
-     **/
+     */
     bool enable();
     /**
      * Disables this render target, activating whichever target was active
      *  when @ref enable was called.
-     **/
+     */
     bool disable();
 
     /**
      * Sets the target texture
      * @param target texture where the scene will be rendered on
      * @since 4.8
-     **/
+     */
     void attachTexture(const GLTexture& target);
 
     /**
      * Detaches the texture that is currently attached to this framebuffer object.
      * @since 5.13
-     **/
+     */
     void detachTexture();
 
     bool valid() const  {
@@ -472,7 +472,7 @@ public:
      * Pushes the render target stack of the input parameter in reverse order.
      * @param targets The stack of GLRenderTargets
      * @since 5.13
-     **/
+     */
     static void pushRenderTargets(QStack <GLRenderTarget*> targets);
 
     static void pushRenderTarget(GLRenderTarget *target);
@@ -484,26 +484,26 @@ public:
      *
      * @returns whether framebuffer blitting is supported.
      * @since 4.8
-     **/
+     */
     static bool blitSupported();
 
     /**
      * Blits the content of the current draw framebuffer into the texture attached to this FBO.
      *
-     * Be aware that framebuffer blitting may not be supported on all hardware. Use @link blitSupported to check whether
+     * Be aware that framebuffer blitting may not be supported on all hardware. Use blitSupported to check whether
      * it is supported.
      * @param source Geometry in screen coordinates which should be blitted, if not specified complete framebuffer is used
      * @param destination Geometry in attached texture, if not specified complete texture is used as destination
      * @param filter The filter to use if blitted content needs to be scaled.
      * @see blitSupported
      * @since 4.8
-     **/
+     */
     void blitFromFramebuffer(const QRect &source = QRect(), const QRect &destination = QRect(), GLenum filter = GL_LINEAR);
 
     /**
      * Sets the virtual screen size to @p s.
      * @since 5.2
-     **/
+     */
     static void setVirtualScreenSize(const QSize &s) {
         s_virtualScreenSize = s;
     }
@@ -514,7 +514,7 @@ public:
      * in the virtual geometry space the rendering geometries use.
      * @see virtualScreenGeometry
      * @since 5.9
-     **/
+     */
     static void setVirtualScreenGeometry(const QRect &g) {
         s_virtualScreenGeometry = g;
     }
@@ -524,7 +524,7 @@ public:
      * in the virtual geometry space the rendering system uses.
      * @see setVirtualScreenGeometry
      * @since 5.9
-     **/
+     */
     static QRect virtualScreenGeometry() {
         return s_virtualScreenGeometry;
     }
@@ -728,14 +728,14 @@ public:
      * @see setUseColor
      * @see isUseColor
      * @since 4.7
-     **/
+     */
     void setColor(const QColor& color, bool enableColor = true);
     /**
      * @return @c true if geometry will be painted with a color, @c false otherwise
      * @see setUseColor
      * @see setColor
      * @since 4.7
-     **/
+     */
     bool isUseColor() const;
     /**
      * Enables/Disables rendering the geometry with a color.
@@ -744,14 +744,14 @@ public:
      * @see isUseColor
      * @see setColor
      * @since 4.7
-     **/
+     */
     void setUseColor(bool enable);
 
     /**
      * Resets the instance to default values.
      * Useful for shared buffers.
      * @since 4.7
-     **/
+     */
     void reset();
 
     /**
@@ -786,7 +786,7 @@ public:
     /**
      * @return A shared VBO for streaming data
      * @since 4.7
-     **/
+     */
     static GLVertexBuffer *streamingBuffer();
 
     /**
@@ -794,7 +794,7 @@ public:
      * This is the geometry of the OpenGL window currently being rendered to
      * in the virtual geometry space the rendering geometries use.
      * @since 5.9
-     **/
+     */
     static void setVirtualScreenGeometry(const QRect &g) {
         s_virtualScreenGeometry = g;
     }

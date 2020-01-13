@@ -1,19 +1,19 @@
 # Translation of kcmkwinrules.po to Brazilian Portuguese
-# Copyright (C) 2004-2016 This_file_is_part_of_KDE
+# Copyright (C) 2004-2019 This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Marcus Gama <marcus_gama@uol.com.br>, 2004.
 # Lisiane Sztoltz Teixeira <lisiane@kdemail.net>, 2004, 2005.
 # Marcus Gama <marcus.gama@gmail.com>, 2006.
 # Diniz Bortolotto <diniz.bortolotto@gmail.com>, 2007, 2008.
-# André Marcelo Alvarenga <alvarenga@kde.org>, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
-# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2010, 2011, 2012, 2017, 2018.
+# André Marcelo Alvarenga <alvarenga@kde.org>, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2019.
+# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2010, 2011, 2012, 2017, 2018, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-10-13 06:43+0200\n"
-"PO-Revision-Date: 2018-05-02 00:52-0300\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-09-17 03:28+0200\n"
+"PO-Revision-Date: 2019-02-14 11:28-0200\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 18.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -261,58 +261,58 @@ msgstr "Mostrar configurações internas para lembrança"
 msgid "Internal setting for remembering"
 msgstr "Configuração interna para lembrança"
 
-#: main.cpp:150
+#: main.cpp:138
 #, kde-format
 msgid "Application settings for %1"
 msgstr "Configurações de aplicativo para %1"
 
-#: main.cpp:170
+#: main.cpp:158
 #, kde-format
 msgid "Window settings for %1"
 msgstr "Configurações de janela para %1"
 
-#: main.cpp:222
+#: main.cpp:210
 #, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Editar as configurações específicas do aplicativo"
 
-#: main.cpp:253
+#: main.cpp:241
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:261
+#: main.cpp:248
 #, kde-format
 msgid "KWin helper utility"
 msgstr "Utilitário de ajuda do KWin"
 
-#: main.cpp:262
+#: main.cpp:249
 #, kde-format
-msgid "WId of the window for special window settings."
-msgstr "WId da janela para configurações especiais de janela."
+msgid "KWin id of the window for special window settings."
+msgstr "O ID do KWin da janela para configurações especiais de janela."
 
-#: main.cpp:263
+#: main.cpp:250
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Se as configurações deverão afetar todas as janelas de aplicativos."
 
-#: main.cpp:271
+#: main.cpp:259
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Este assistente não pode ser chamado diretamente."
 
-#: ruleslist.cpp:153
+#: ruleslist.cpp:152
 #, kde-format
 msgid "Export Rules"
 msgstr "Exportar regras"
 
-#: ruleslist.cpp:154 ruleslist.cpp:166
+#: ruleslist.cpp:153 ruleslist.cpp:165
 #, kde-format
 msgid "KWin Rules (*.kwinrule)"
 msgstr "Regras do KWin (*.kwinrule)"
 
-#: ruleslist.cpp:165
+#: ruleslist.cpp:164
 #, kde-format
 msgid "Import Rules"
 msgstr "Importar regras"
@@ -359,7 +359,7 @@ msgstr "&Importar"
 msgid "&Export"
 msgstr "&Exportar"
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:66
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
@@ -368,7 +368,7 @@ msgstr ""
 "Habilite esta caixa para alterar esta propriedade da janela para a(s) "
 "janela(s) especificada(s)."
 
-#: ruleswidget.cpp:70
+#: ruleswidget.cpp:68
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -402,7 +402,7 @@ msgstr ""
 "para o valor fornecido, até que ela seja ocultada (esta ação será excluída "
 "após a ocultação da janela).</li></ul>"
 
-#: ruleswidget.cpp:85
+#: ruleswidget.cpp:83
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -422,27 +422,27 @@ msgstr ""
 "para o valor fornecido, até que ela seja ocultada (esta ação será excluída "
 "após a ocultação da janela).</li></ul>"
 
-#: ruleswidget.cpp:153
+#: ruleswidget.cpp:151
 #, kde-format
 msgid "All Desktops"
 msgstr "Todas as áreas de trabalho"
 
-#: ruleswidget.cpp:347
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr "Todas as atividades"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:790
 #, kde-format
 msgid "Settings for %1"
 msgstr "Configurações para %1"
 
-#: ruleswidget.cpp:833
+#: ruleswidget.cpp:792
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Entrada sem nome"
 
-#: ruleswidget.cpp:843
+#: ruleswidget.cpp:802
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -457,12 +457,12 @@ msgstr ""
 "genérica, é recomendável que, no mínimo, limite os tipos de janela, para "
 "evitar tipos de janelas especiais."
 
-#: ruleswidget.cpp:874
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Editar as configurações específicas da janela"
 
-#: ruleswidget.cpp:904
+#: ruleswidget.cpp:863
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -475,12 +475,12 @@ msgstr ""
 "habilite a configuração usando a caixa, selecione a forma que a configuração "
 "deve ser afetada e para qual valor."
 
-#: ruleswidget.cpp:908
+#: ruleswidget.cpp:867
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Consulte a documentação para mais detalhes."
 
-#: ruleswidget.cpp:947
+#: ruleswidget.cpp:906
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Editar atalho"
@@ -531,7 +531,7 @@ msgstr "Coincidência exata"
 #: ruleswidgetbase.ui:258
 #, kde-format
 msgid "Substring Match"
-msgstr "Combina com a substring"
+msgstr "Combina com o subtexto"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, wmclass_match)
 #. i18n: ectx: property (text), item, widget (KComboBox, role_match)

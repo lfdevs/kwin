@@ -21,7 +21,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kwin_wayland_test.h"
 #include "platform.h"
 #include "client.h"
+#include "composite.h"
 #include "cursor.h"
+#include "scene.h"
 #include "screenedge.h"
 #include "screens.h"
 #include "wayland_server.h"
@@ -55,16 +57,13 @@ private Q_SLOTS:
 
 void DontCrashNoBorder::initTestCase()
 {
-    if (!QFile::exists(QStringLiteral("/dev/dri/card0"))) {
-        QSKIP("Needs a dri device");
-    }
     qRegisterMetaType<KWin::ShellClient*>();
     qRegisterMetaType<KWin::AbstractClient*>();
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
     QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit()));
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
 
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     config->group("org.kde.kdecoration2").writeEntry("NoPlugin", true);
@@ -80,6 +79,10 @@ void DontCrashNoBorder::initTestCase()
     QCOMPARE(screens()->geometry(1), QRect(1280, 0, 1280, 1024));
     setenv("QT_QPA_PLATFORM", "wayland", true);
     waylandServer()->initWorkspace();
+
+    auto scene = KWin::Compositor::self()->scene();
+    QVERIFY(scene);
+    QCOMPARE(scene->compositingType(), KWin::OpenGL2Compositing);
 }
 
 void DontCrashNoBorder::init()
@@ -102,6 +105,7 @@ void DontCrashNoBorder::testCreateWindow_data()
     QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell;
     QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5;
     QTest::newRow("xdgShellV6") << Test::ShellSurfaceType::XdgShellV6;
+    QTest::newRow("xdgWmBase") << Test::ShellSurfaceType::XdgShellStable;
 }
 
 void DontCrashNoBorder::testCreateWindow()

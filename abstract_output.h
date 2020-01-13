@@ -2,7 +2,7 @@
  KWin - the KDE window manager
  This file is part of the KDE project.
 
-Copyright 2018 Roman Gilg <subdiff@gmail.com>
+Copyright 2019 Roman Gilg <subdiff@gmail.com>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,15 +17,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
-#ifndef KWIN_OUTPUT_H
-#define KWIN_OUTPUT_H
+#ifndef KWIN_ABSTRACT_OUTPUT_H
+#define KWIN_ABSTRACT_OUTPUT_H
 
-#include <utils.h>
 #include <kwin_export.h>
 
 #include <QObject>
-#include <QPoint>
-#include <QPointer>
 #include <QRect>
 #include <QSize>
 #include <QVector>
@@ -34,125 +31,161 @@ namespace KWayland
 {
 namespace Server
 {
-class OutputInterface;
-class OutputDeviceInterface;
 class OutputChangeSet;
-class OutputManagementInterface;
-class XdgOutputInterface;
 }
 }
 
 namespace KWin
 {
 
-namespace ColorCorrect {
-struct GammaRamp;
-}
+class KWIN_EXPORT GammaRamp
+{
+public:
+    GammaRamp(uint32_t size);
+
+    /**
+     * Returns the size of the gamma ramp.
+     */
+    uint32_t size() const;
+
+    /**
+     * Returns pointer to the first red component in the gamma ramp.
+     *
+     * The returned pointer can be used for altering the red component
+     * in the gamma ramp.
+     */
+    uint16_t *red();
+
+    /**
+     * Returns pointer to the first red component in the gamma ramp.
+     */
+    const uint16_t *red() const;
+
+    /**
+     * Returns pointer to the first green component in the gamma ramp.
+     *
+     * The returned pointer can be used for altering the green component
+     * in the gamma ramp.
+     */
+    uint16_t *green();
+
+    /**
+     * Returns pointer to the first green component in the gamma ramp.
+     */
+    const uint16_t *green() const;
+
+    /**
+     * Returns pointer to the first blue component in the gamma ramp.
+     *
+     * The returned pointer can be used for altering the blue component
+     * in the gamma ramp.
+     */
+    uint16_t *blue();
+
+    /**
+     * Returns pointer to the first blue component in the gamma ramp.
+     */
+    const uint16_t *blue() const;
+
+private:
+    QVector<uint16_t> m_table;
+    uint32_t m_size;
+};
 
 /**
- * Generic output representation in a Wayland session
- **/
+ * Generic output representation.
+ */
 class KWIN_EXPORT AbstractOutput : public QObject
 {
     Q_OBJECT
+
 public:
     explicit AbstractOutput(QObject *parent = nullptr);
-    virtual ~AbstractOutput();
-
-    QString name() const;
-    bool isEnabled() const {
-        return !m_waylandOutput.isNull();
-    }
-
-    virtual QSize pixelSize() const = 0;
-    qreal scale() const {
-        return m_scale;
-    }
-    /*
-     * The geometry of this output in global compositor co-ordinates (i.e scaled)
-     */
-    QRect geometry() const;
-    QSize physicalSize() const;
-    Qt::ScreenOrientation orientation() const {
-        return m_orientation;
-    }
-
-    bool isInternal() const {
-        return m_internal;
-    }
-
-    void setGlobalPos(const QPoint &pos);
-    void setScale(qreal scale);
+    ~AbstractOutput() override;
 
     /**
-     * This sets the changes and tests them against the specific output
+     * Returns the human readable name of this output.
      */
-    void setChanges(KWayland::Server::OutputChangeSet *changeset);
-    virtual bool commitChanges() { return false; }
+    virtual QString name() const = 0;
 
-    QPointer<KWayland::Server::OutputInterface> waylandOutput() const {
-        return m_waylandOutput;
-    }
+    /**
+     * Returns the identifying uuid of this output.
+     *
+     * Default implementation returns an empty byte array.
+     */
+    virtual QByteArray uuid() const;
 
-    virtual int getGammaRampSize() const {
-        return 0;
-    }
-    virtual bool setGammaRamp(const ColorCorrect::GammaRamp &gamma) {
-        Q_UNUSED(gamma);
-        return false;
-    }
+    /**
+     * Enable or disable the output.
+     *
+     * Default implementation does nothing
+     */
+    virtual void setEnabled(bool enable);
 
-protected:
-    QPointer<KWayland::Server::OutputChangeSet> changes() const {
-        return m_changeset;
-    }
+    /**
+     * This sets the changes and tests them against the specific output.
+     *
+     * Default implementation does nothing
+     */
+    virtual void applyChanges(const KWayland::Server::OutputChangeSet *changeSet);
 
-    void setWaylandOutput(KWayland::Server::OutputInterface *set);
+    /**
+     * Returns geometry of this output in device independent pixels.
+     */
+    virtual QRect geometry() const = 0;
 
-    QPointer<KWayland::Server::XdgOutputInterface> xdgOutput() const {
-        return m_xdgOutput;
-    }
-    void createXdgOutput();
+    /**
+     * Returns the approximate vertical refresh rate of this output, in mHz.
+     */
+    virtual int refreshRate() const = 0;
 
-    QPointer<KWayland::Server::OutputDeviceInterface> waylandOutputDevice() const {
-        return m_waylandOutputDevice;
-    }
-    void setWaylandOutputDevice(KWayland::Server::OutputDeviceInterface *set);
+    /**
+     * Returns whether this output is connected through an internal connector,
+     * e.g. LVDS, or eDP.
+     *
+     * Default implementation returns @c false.
+     */
+    virtual bool isInternal() const;
 
-    QPoint globalPos() const {
-        return m_globalPos;
-    }
+    /**
+     * Returns the ratio between physical pixels and logical pixels.
+     *
+     * Default implementation returns 1.
+     */
+    virtual qreal scale() const;
 
-    QSize rawPhysicalSize() const {
-        return m_physicalSize;
-    }
-    void setRawPhysicalSize(const QSize &set) {
-        m_physicalSize = set;
-    }
+    /**
+     * Returns the physical size of this output, in millimeters.
+     *
+     * Default implementation returns an invalid QSize.
+     */
+    virtual QSize physicalSize() const;
 
-    void setOrientation(Qt::ScreenOrientation set) {
-        m_orientation = set;
-    }
-    bool internal() const {
-        return m_internal;
-    }
-    void setInternal(bool set) {
-        m_internal = set;
-    }
+    /**
+     * Returns the orientation of this output.
+     *
+     * Default implementation returns Qt::PrimaryOrientation.
+     */
+    virtual Qt::ScreenOrientation orientation() const;
+
+    /**
+     * Returns the size of the gamma lookup table.
+     *
+     * Default implementation returns 0.
+     */
+    virtual int gammaRampSize() const;
+
+    /**
+     * Sets the gamma ramp of this output.
+     *
+     * Returns @c true if the gamma ramp was successfully set.
+     */
+    virtual bool setGammaRamp(const GammaRamp &gamma);
 
 private:
-    QPointer<KWayland::Server::OutputChangeSet> m_changeset;
-    QPointer<KWayland::Server::OutputInterface> m_waylandOutput;
-    QPointer<KWayland::Server::XdgOutputInterface> m_xdgOutput;
-    QPointer<KWayland::Server::OutputDeviceInterface> m_waylandOutputDevice;
-
-    QPoint m_globalPos;
-    qreal m_scale = 1;
-    QSize m_physicalSize;
-    Qt::ScreenOrientation m_orientation = Qt::PrimaryOrientation;
-    bool m_internal = false;
+    Q_DISABLE_COPY(AbstractOutput)
 };
 
-}
+} // namespace KWin
 
-#endif // KWIN_OUTPUT_H
+#endif

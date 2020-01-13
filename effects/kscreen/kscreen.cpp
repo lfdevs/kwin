@@ -45,7 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 1: fading out
  * 2: faded out
  * 3: fading in
- **/
+ */
 
 namespace KWin
 {
@@ -56,7 +56,7 @@ KscreenEffect::KscreenEffect()
     , m_atom(effects->announceSupportProperty("_KDE_KWIN_KSCREEN_SUPPORT", this))
 {
     initConfig<KscreenConfig>();
-    connect(effects, SIGNAL(propertyNotify(KWin::EffectWindow*,long)), SLOT(propertyNotify(KWin::EffectWindow*,long)));
+    connect(effects, &EffectsHandler::propertyNotify, this, &KscreenEffect::propertyNotify);
     connect(effects, &EffectsHandler::xcbConnectionChanged, this,
         [this] {
             m_atom = effects->announceSupportProperty(QByteArrayLiteral("_KDE_KWIN_KSCREEN_SUPPORT"), this);

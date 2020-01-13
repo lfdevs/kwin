@@ -1,15 +1,15 @@
 # Translation of kcm-kwin-scripts.po to Ukrainian
-# Copyright (C) 2012-2017 This_file_is_part_of_KDE
+# Copyright (C) 2012-2018 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Yuri Chornoivan <yurchor@ukr.net>, 2012, 2013, 2017.
+# Yuri Chornoivan <yurchor@ukr.net>, 2012, 2013, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm-kwin-scripts\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2017-10-13 08:40+0200\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"PO-Revision-Date: 2018-11-01 07:53+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -78,13 +78,13 @@ msgid "KWin script configuration"
 msgstr "Налаштування скриптів KWin"
 
 #. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
-#: module.ui:44
+#: module.ui:55
 #, kde-format
-msgid "Import KWin script..."
-msgstr "Імпортувати скрипт KWin…"
+msgid "Install from File..."
+msgstr "Встановити з файла…"
 
 #. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
-#: module.ui:51
+#: module.ui:67
 #, kde-format
 msgid "Get New Scripts..."
 msgstr "Отримати новий скрипти…"

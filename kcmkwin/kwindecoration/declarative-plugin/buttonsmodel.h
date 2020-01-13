@@ -34,9 +34,9 @@ class ButtonsModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    explicit ButtonsModel(const QVector< DecorationButtonType > &buttons, QObject *parent = 0);
+    explicit ButtonsModel(const QVector< DecorationButtonType > &buttons, QObject *parent = nullptr);
     explicit ButtonsModel(QObject *parent = nullptr);
-    virtual ~ButtonsModel();
+    ~ButtonsModel() override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QHash< int, QByteArray > roleNames() const override;
@@ -45,11 +45,13 @@ public:
         return m_buttons;
     }
 
+    Q_INVOKABLE void clear();
     Q_INVOKABLE void remove(int index);
     Q_INVOKABLE void up(int index);
     Q_INVOKABLE void down(int index);
     Q_INVOKABLE void move(int sourceIndex, int targetIndex);
 
+    void replace(const QVector< DecorationButtonType > &buttons);
     void add(DecorationButtonType type);
     Q_INVOKABLE void add(int index, int type);
 

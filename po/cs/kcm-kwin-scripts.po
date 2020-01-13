@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
 "PO-Revision-Date: 2017-11-01 12:26+0100\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -76,13 +76,13 @@ msgid "KWin script configuration"
 msgstr "Nastavení skriptu KWinu"
 
 #. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
-#: module.ui:44
+#: module.ui:55
 #, kde-format
-msgid "Import KWin script..."
-msgstr "Importovat skript KWinu..."
+msgid "Install from File..."
+msgstr "Instalovat ze souboru..."
 
 #. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
-#: module.ui:51
+#: module.ui:67
 #, kde-format
 msgid "Get New Scripts..."
 msgstr "Získat nové skripty..."

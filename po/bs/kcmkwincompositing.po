@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
 "PO-Revision-Date: 2015-02-04 15:48+0000\n"
 "Last-Translator: Samir Ribić <Unknown>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -22,16 +22,6 @@ msgstr ""
 "X-Environment: kde\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr ""
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr ""
 
 #: compositing.cpp:378
 #, kde-format
@@ -230,12 +220,12 @@ msgstr ""
 msgid "Allow applications to block compositing"
 msgstr ""
 
-#: main.cpp:83
+#: main.cpp:55
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "Ponovo omogući detekciju OpenGL"
 
-#: main.cpp:141
+#: main.cpp:120
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -244,13 +234,13 @@ msgstr ""
 "\"Samo kada je jeftino\" samo sprječava cijepanje za promjene cijelog "
 "zaslona, kao što je video."
 
-#: main.cpp:145
+#: main.cpp:124
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr ""
 "\"Prefarbavanje cijelog zaslona\" može uzrokovati probleme u performansama."
 
-#: main.cpp:149
+#: main.cpp:128
 #, fuzzy, kde-format
 #| msgid ""
 #| "\"Re-use screen content\" causes performance severe problems on MESA "
@@ -260,103 +250,3 @@ msgid ""
 msgstr ""
 "\"Ponovno upotrebljavanje sadržaja ekrana\" uzrokuje ozbiljne probleme "
 "performasni na MESA drajverima."
-
-#: model.cpp:70
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Accessibility"
-msgstr "Pristupačnost"
-
-#: model.cpp:71
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Appearance"
-msgstr "Prikaz"
-
-#: model.cpp:72
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Candy"
-msgstr "Slatkiši"
-
-#: model.cpp:73
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Focus"
-msgstr "Fokus"
-
-#: model.cpp:74
-#, fuzzy, kde-format
-#| msgctxt "Category of Desktop Effects, used as section header"
-#| msgid "Virtual Desktop Switching Animation"
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Show Desktop Animation"
-msgstr "Animacija zamjene virtualne pozadinske površine"
-
-#: model.cpp:75
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Tools"
-msgstr "Alati"
-
-#: model.cpp:76
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Virtual Desktop Switching Animation"
-msgstr "Animacija zamjene virtualne pozadinske površine"
-
-#: model.cpp:77
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Window Management"
-msgstr "Upravljanje prozorima"
-
-#: model.cpp:233
-#, kde-format
-msgid "KWin development team"
-msgstr "KWin razvojni tim"
-
-#: qml/Effect.qml:119
-#, kde-format
-msgid ""
-"Author: %1\n"
-"License: %2"
-msgstr ""
-"Autor: %1\n"
-"Licenca: %2"
-
-#: qml/EffectView.qml:64
-#, kde-format
-msgid ""
-"Hint: To find out or configure how to activate an effect, look at the "
-"effect's settings."
-msgstr ""
-"Savjet: Pogledajte postavke efekta da saznate kako da ga podesite ili "
-"aktivirate."
-
-#: qml/EffectView.qml:75
-#, kde-format
-msgid "Search"
-msgstr "Pretraži"
-
-#: qml/EffectView.qml:82
-#, kde-format
-msgid "Configure filter"
-msgstr "Podesi filter"
-
-#: qml/EffectView.qml:85
-#, kde-format
-msgid "Exclude Desktop Effects not supported by the Compositor"
-msgstr ""
-"Isključivi efekti pozadinske površine nisu pozdržani od strane Kompozitora"
-
-#: qml/EffectView.qml:93
-#, kde-format
-msgid "Exclude internal Desktop Effects"
-msgstr "Isključivi interni efekti pozadinske površine"
-
-#: qml/EffectView.qml:105
-#, fuzzy, kde-format
-#| msgid "Get New Effects ..."
-msgid "Get New Effects..."
-msgstr "Dobavi nove efekte..."

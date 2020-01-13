@@ -23,8 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "drm_object_crtc.h"
 #include "drm_object_connector.h"
 
-#include <errno.h>
-
 #include "composite.h"
 #include "logind.h"
 #include "logging.h"
@@ -33,12 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "screens_drm.h"
 #include "wayland_server.h"
 // KWayland
-#include <KWayland/Server/display.h>
 #include <KWayland/Server/output_interface.h>
-#include <KWayland/Server/outputchangeset.h>
-#include <KWayland/Server/outputmanagement_interface.h>
-#include <KWayland/Server/outputconfiguration_interface.h>
-#include <KWayland/Server/xdgoutput_interface.h>
 // KF5
 #include <KConfigGroup>
 #include <KLocalizedString>
@@ -47,6 +40,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMatrix4x4>
 #include <QCryptographicHash>
 #include <QPainter>
+// c++
+#include <cerrno>
 // drm
 #include <xf86drm.h>
 #include <xf86drmMode.h>
@@ -56,7 +51,7 @@ namespace KWin
 {
 
 DrmOutput::DrmOutput(DrmBackend *backend)
-    : AbstractOutput(backend)
+    : AbstractWaylandOutput(backend)
     , m_backend(backend)
 {
 }
@@ -64,13 +59,14 @@ DrmOutput::DrmOutput(DrmBackend *backend)
 DrmOutput::~DrmOutput()
 {
     Q_ASSERT(!m_pageFlipPending);
-    if (!m_deleted) {
-        teardown();
-    }
+    teardown();
 }
 
 void DrmOutput::teardown()
 {
+    if (m_deleted) {
+        return;
+    }
     m_deleted = true;
     hideCursor();
     m_crtc->blank();
@@ -132,6 +128,38 @@ bool DrmOutput::showCursor()
     return ret;
 }
 
+int orientationToRotation(Qt::ScreenOrientation orientation)
+{
+    switch (orientation) {
+    case Qt::PrimaryOrientation:
+    case Qt::LandscapeOrientation:
+        return 0;
+    case Qt::InvertedPortraitOrientation:
+        return 90;
+    case Qt::InvertedLandscapeOrientation:
+        return 180;
+    case Qt::PortraitOrientation:
+        return 270;
+    }
+    Q_UNREACHABLE();
+    return 0;
+}
+
+QMatrix4x4 DrmOutput::matrixDisplay(const QSize &s) const
+{
+    QMatrix4x4 matrix;
+    const int angle = orientationToRotation(orientation());
+    if (angle) {
+        const QSize center = s / 2;
+
+        matrix.translate(center.width(), center.height());
+        matrix.rotate(angle, 0, 0, 1);
+        matrix.translate(-center.width(), -center.height());
+    }
+    matrix.scale(scale());
+    return matrix;
+}
+
 void DrmOutput::updateCursor()
 {
     QImage cursorImage = m_backend->softwareCursor();
@@ -141,99 +169,36 @@ void DrmOutput::updateCursor()
     m_hasNewCursor = true;
     QImage *c = m_cursor[m_cursorIndex]->image();
     c->fill(Qt::transparent);
-    c->setDevicePixelRatio(scale());
 
     QPainter p;
     p.begin(c);
-    if (orientation() == Qt::InvertedLandscapeOrientation) {
-        QMatrix4x4 matrix;
-        matrix.translate(cursorImage.width() / 2.0, cursorImage.height() / 2.0);
-        matrix.rotate(180.0f, 0.0f, 0.0f, 1.0f);
-        matrix.translate(-cursorImage.width() / 2.0, -cursorImage.height() / 2.0);
-        p.setWorldTransform(matrix.toTransform());
-    }
+    p.setWorldTransform(matrixDisplay(QSize(cursorImage.width(), cursorImage.height())).toTransform());
     p.drawImage(QPoint(0, 0), cursorImage);
     p.end();
 }
 
 void DrmOutput::moveCursor(const QPoint &globalPos)
 {
-    QMatrix4x4 matrix;
-    QMatrix4x4 hotspotMatrix;
-    if (orientation() == Qt::InvertedLandscapeOrientation) {
-        matrix.translate(pixelSize().width() /2.0, pixelSize().height() / 2.0);
-        matrix.rotate(180.0f, 0.0f, 0.0f, 1.0f);
-        matrix.translate(-pixelSize().width() /2.0, -pixelSize().height() / 2.0);
-        const auto cursorSize = m_backend->softwareCursor().size();
-        hotspotMatrix.translate(cursorSize.width()/2.0, cursorSize.height()/2.0);
-        hotspotMatrix.rotate(180.0f, 0.0f, 0.0f, 1.0f);
-        hotspotMatrix.translate(-cursorSize.width()/2.0, -cursorSize.height()/2.0);
+    const QMatrix4x4 hotspotMatrix = matrixDisplay(m_backend->softwareCursor().size());
+
+    QPoint p = globalPos - AbstractWaylandOutput::globalPos();
+    switch (orientation()) {
+    case Qt::PrimaryOrientation:
+    case Qt::LandscapeOrientation:
+        break;
+    case Qt::PortraitOrientation:
+        p = QPoint(p.y(), pixelSize().height() - p.x());
+        break;
+    case Qt::InvertedPortraitOrientation:
+        p = QPoint(pixelSize().width() - p.y(), p.x());
+        break;
+    case Qt::InvertedLandscapeOrientation:
+        p = QPoint(pixelSize().width() - p.x(), pixelSize().height() - p.y());
+        break;
     }
-    hotspotMatrix.scale(scale());
-    matrix.scale(scale());
-    const auto outputGlobalPos = AbstractOutput::globalPos();
-    matrix.translate(-outputGlobalPos.x(), -outputGlobalPos.y());
-    const QPoint p = matrix.map(globalPos) - hotspotMatrix.map(m_backend->softwareCursorHotspot());
+    p *= scale();
+    p -= hotspotMatrix.map(m_backend->softwareCursorHotspot());
     drmModeMoveCursor(m_backend->fd(), m_crtc->id(), p.x(), p.y());
-}
-
-QSize DrmOutput::pixelSize() const
-{
-    auto orient = orientation();
-    if (orient == Qt::PortraitOrientation || orient == Qt::InvertedPortraitOrientation) {
-        return QSize(m_mode.vdisplay, m_mode.hdisplay);
-    }
-    return QSize(m_mode.hdisplay, m_mode.vdisplay);
-}
-
-void DrmOutput::setEnabled(bool enabled)
-{
-    if (enabled == isEnabled()) {
-        return;
-    }
-    if (enabled) {
-        setDpms(DpmsMode::On);
-        initOutput();
-    } else {
-        setDpms(DpmsMode::Off);
-        delete waylandOutput().data();
-    }
-    waylandOutputDevice()->setEnabled(enabled ?
-    KWayland::Server::OutputDeviceInterface::Enablement::Enabled : KWayland::Server::OutputDeviceInterface::Enablement::Disabled);
-}
-
-static KWayland::Server::OutputInterface::DpmsMode toWaylandDpmsMode(DrmOutput::DpmsMode mode)
-{
-    using namespace KWayland::Server;
-    switch (mode) {
-    case DrmOutput::DpmsMode::On:
-        return OutputInterface::DpmsMode::On;
-    case DrmOutput::DpmsMode::Standby:
-        return OutputInterface::DpmsMode::Standby;
-    case DrmOutput::DpmsMode::Suspend:
-        return OutputInterface::DpmsMode::Suspend;
-    case DrmOutput::DpmsMode::Off:
-        return OutputInterface::DpmsMode::Off;
-    default:
-        Q_UNREACHABLE();
-    }
-}
-
-static DrmOutput::DpmsMode fromWaylandDpmsMode(KWayland::Server::OutputInterface::DpmsMode wlMode)
-{
-    using namespace KWayland::Server;
-    switch (wlMode) {
-    case OutputInterface::DpmsMode::On:
-        return DrmOutput::DpmsMode::On;
-    case OutputInterface::DpmsMode::Standby:
-        return DrmOutput::DpmsMode::Standby;
-    case OutputInterface::DpmsMode::Suspend:
-        return DrmOutput::DpmsMode::Suspend;
-    case OutputInterface::DpmsMode::Off:
-        return DrmOutput::DpmsMode::Off;
-    default:
-        Q_UNREACHABLE();
-    }
 }
 
 static QHash<int, QByteArray> s_connectorNames = {
@@ -253,7 +218,10 @@ static QHash<int, QByteArray> s_connectorNames = {
     {DRM_MODE_CONNECTOR_TV, QByteArrayLiteral("TV")},
     {DRM_MODE_CONNECTOR_eDP, QByteArrayLiteral("eDP")},
     {DRM_MODE_CONNECTOR_VIRTUAL, QByteArrayLiteral("Virtual")},
-    {DRM_MODE_CONNECTOR_DSI, QByteArrayLiteral("DSI")}
+    {DRM_MODE_CONNECTOR_DSI, QByteArrayLiteral("DSI")},
+#ifdef DRM_MODE_CONNECTOR_DPI
+    {DRM_MODE_CONNECTOR_DPI, QByteArrayLiteral("DPI")},
+#endif
 };
 
 namespace {
@@ -284,13 +252,12 @@ bool DrmOutput::init(drmModeConnector *connector)
         if (!initPrimaryPlane()) {
             return false;
         }
-    } else if (!m_crtc->blank()) {
-        return false;
     }
 
     setInternal(connector->connector_type == DRM_MODE_CONNECTOR_LVDS || connector->connector_type == DRM_MODE_CONNECTOR_eDP);
+    setDpmsSupported(true);
 
-    if (internal()) {
+    if (isInternal()) {
         connect(kwinApp(), &Application::screensCreated, this,
             [this] {
                 connect(screens()->orientationSensor(), &OrientationSensor::orientationChanged, this, &DrmOutput::automaticRotation);
@@ -298,23 +265,14 @@ bool DrmOutput::init(drmModeConnector *connector)
         );
     }
 
-    QSize physicalSize = !m_edid.physicalSize.isEmpty() ? m_edid.physicalSize : QSize(connector->mmWidth, connector->mmHeight);
-    // the size might be completely borked. E.g. Samsung SyncMaster 2494HS reports 160x90 while in truth it's 520x292
-    // as this information is used to calculate DPI info, it's going to result in everything being huge
-    const QByteArray unknown = QByteArrayLiteral("unknown");
-    KConfigGroup group = kwinApp()->config()->group("EdidOverwrite").group(m_edid.eisaId.isEmpty() ? unknown : m_edid.eisaId)
-                                                       .group(m_edid.monitorName.isEmpty() ? unknown : m_edid.monitorName)
-                                                       .group(m_edid.serialNumber.isEmpty() ? unknown : m_edid.serialNumber);
-    if (group.hasKey("PhysicalSize")) {
-        const QSize overwriteSize = group.readEntry("PhysicalSize", physicalSize);
-        qCWarning(KWIN_DRM) << "Overwriting monitor physical size for" << m_edid.eisaId << "/" << m_edid.monitorName << "/" << m_edid.serialNumber << " from " << physicalSize << "to " << overwriteSize;
-        physicalSize = overwriteSize;
-    }
-    setRawPhysicalSize(physicalSize);
-
     initOutputDevice(connector);
 
-    setEnabled(true);
+    if (!m_backend->atomicModeSetting() && !m_crtc->blank()) {
+        // We use legacy mode and the initial output blank failed.
+        return false;
+    }
+
+    updateDpms(KWayland::Server::OutputInterface::DpmsMode::On);
     return true;
 }
 
@@ -322,106 +280,39 @@ void DrmOutput::initUuid()
 {
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(QByteArray::number(m_conn->id()));
-    hash.addData(m_edid.eisaId);
-    hash.addData(m_edid.monitorName);
-    hash.addData(m_edid.serialNumber);
+    hash.addData(m_edid.eisaId());
+    hash.addData(m_edid.monitorName());
+    hash.addData(m_edid.serialNumber());
     m_uuid = hash.result().toHex().left(10);
-}
-
-void DrmOutput::initOutput()
-{
-    auto wlOutputDevice = waylandOutputDevice();
-    Q_ASSERT(wlOutputDevice);
-
-    auto wlOutput = waylandOutput();
-    if (!wlOutput.isNull()) {
-        delete wlOutput.data();
-        wlOutput.clear();
-    }
-    wlOutput = waylandServer()->display()->createOutput();
-    setWaylandOutput(wlOutput.data());
-    createXdgOutput();
-    connect(this, &DrmOutput::modeChanged, this,
-        [this] {
-            auto wlOutput = waylandOutput();
-            if (wlOutput.isNull()) {
-                return;
-            }
-            wlOutput->setCurrentMode(QSize(m_mode.hdisplay, m_mode.vdisplay),
-                                          refreshRateForMode(&m_mode));
-            auto xdg = xdgOutput();
-            if (xdg) {
-                xdg->setLogicalSize(pixelSize() / scale());
-                xdg->done();
-            }
-        }
-    );
-    wlOutput->setManufacturer(wlOutputDevice->manufacturer());
-    wlOutput->setModel(wlOutputDevice->model());
-    wlOutput->setPhysicalSize(rawPhysicalSize());
-
-    // set dpms
-    if (!m_dpms.isNull()) {
-        wlOutput->setDpmsSupported(true);
-        wlOutput->setDpmsMode(toWaylandDpmsMode(m_dpmsMode));
-        connect(wlOutput.data(), &KWayland::Server::OutputInterface::dpmsModeRequested, this,
-            [this] (KWayland::Server::OutputInterface::DpmsMode mode) {
-                setDpms(fromWaylandDpmsMode(mode));
-            }, Qt::QueuedConnection
-        );
-    }
-
-    for(const auto &mode: wlOutputDevice->modes()) {
-        KWayland::Server::OutputInterface::ModeFlags flags;
-        if (mode.flags & KWayland::Server::OutputDeviceInterface::ModeFlag::Current) {
-            flags |= KWayland::Server::OutputInterface::ModeFlag::Current;
-        }
-        if (mode.flags & KWayland::Server::OutputDeviceInterface::ModeFlag::Preferred) {
-            flags |= KWayland::Server::OutputInterface::ModeFlag::Preferred;
-        }
-        wlOutput->addMode(mode.size, flags, mode.refreshRate);
-    }
-
-    wlOutput->create();
 }
 
 void DrmOutput::initOutputDevice(drmModeConnector *connector)
 {
-    auto wlOutputDevice = waylandOutputDevice();
-    if (!wlOutputDevice.isNull()) {
-        delete wlOutputDevice.data();
-        wlOutputDevice.clear();
-    }
-    wlOutputDevice = waylandServer()->display()->createOutputDevice();
-    wlOutputDevice->setUuid(m_uuid);
-
-    if (!m_edid.eisaId.isEmpty()) {
-        wlOutputDevice->setManufacturer(QString::fromLatin1(m_edid.eisaId));
-    } else {
-        wlOutputDevice->setManufacturer(i18n("unknown"));
+    QString manufacturer;
+    if (!m_edid.eisaId().isEmpty()) {
+        manufacturer = QString::fromLatin1(m_edid.eisaId());
     }
 
     QString connectorName = s_connectorNames.value(connector->connector_type, QByteArrayLiteral("Unknown"));
     QString modelName;
 
-    if (!m_edid.monitorName.isEmpty()) {
-        QString model = QString::fromLatin1(m_edid.monitorName);
-        if (!m_edid.serialNumber.isEmpty()) {
-            model.append('/');
-            model.append(QString::fromLatin1(m_edid.serialNumber));
+    if (!m_edid.monitorName().isEmpty()) {
+        QString m = QString::fromLatin1(m_edid.monitorName());
+        if (!m_edid.serialNumber().isEmpty()) {
+            m.append('/');
+            m.append(QString::fromLatin1(m_edid.serialNumber()));
         }
-        modelName = model;
-    } else if (!m_edid.serialNumber.isEmpty()) {
-        modelName = QString::fromLatin1(m_edid.serialNumber);
+        modelName = m;
+    } else if (!m_edid.serialNumber().isEmpty()) {
+        modelName = QString::fromLatin1(m_edid.serialNumber());
     } else {
         modelName = i18n("unknown");
     }
 
-    wlOutputDevice->setModel(connectorName + QStringLiteral("-") + QString::number(connector->connector_type_id) + QStringLiteral("-") + modelName);
-
-    wlOutputDevice->setPhysicalSize(rawPhysicalSize());
+    const QString model = connectorName + QStringLiteral("-") + QString::number(connector->connector_type_id) + QStringLiteral("-") + modelName;
 
     // read in mode information
+    QVector<KWayland::Server::OutputDeviceInterface::Mode> modes;
     for (int i = 0; i < connector->count_modes; ++i) {
         // TODO: in AMS here we could read and store for later every mode's blob_id
         // would simplify isCurrentMode(..) and presentAtomically(..) in case of mode set
@@ -434,18 +325,28 @@ void DrmOutput::initOutputDevice(drmModeConnector *connector)
             deviceflags |= KWayland::Server::OutputDeviceInterface::ModeFlag::Preferred;
         }
 
-        const auto refreshRate = refreshRateForMode(m);
-
         KWayland::Server::OutputDeviceInterface::Mode mode;
         mode.id = i;
         mode.size = QSize(m->hdisplay, m->vdisplay);
         mode.flags = deviceflags;
-        mode.refreshRate = refreshRate;
-        qCDebug(KWIN_DRM) << "Adding mode: " << i << mode.size;
-        wlOutputDevice->addMode(mode);
+        mode.refreshRate = refreshRateForMode(m);
+        modes << mode;
     }
-    wlOutputDevice->create();
-    setWaylandOutputDevice(wlOutputDevice.data());
+
+    QSize physicalSize = !m_edid.physicalSize().isEmpty() ? m_edid.physicalSize() : QSize(connector->mmWidth, connector->mmHeight);
+    // the size might be completely borked. E.g. Samsung SyncMaster 2494HS reports 160x90 while in truth it's 520x292
+    // as this information is used to calculate DPI info, it's going to result in everything being huge
+    const QByteArray unknown = QByteArrayLiteral("unknown");
+    KConfigGroup group = kwinApp()->config()->group("EdidOverwrite").group(m_edid.eisaId().isEmpty() ? unknown : m_edid.eisaId())
+                                                       .group(m_edid.monitorName().isEmpty() ? unknown : m_edid.monitorName())
+                                                       .group(m_edid.serialNumber().isEmpty() ? unknown : m_edid.serialNumber());
+    if (group.hasKey("PhysicalSize")) {
+        const QSize overwriteSize = group.readEntry("PhysicalSize", physicalSize);
+        qCWarning(KWIN_DRM) << "Overwriting monitor physical size for" << m_edid.eisaId() << "/" << m_edid.monitorName() << "/" << m_edid.serialNumber() << " from " << physicalSize << "to " << overwriteSize;
+        physicalSize = overwriteSize;
+    }
+
+    initInterfaces(model, manufacturer, m_uuid, physicalSize, modes);
 }
 
 bool DrmOutput::isCurrentMode(const drmModeModeInfo *mode) const
@@ -467,138 +368,11 @@ bool DrmOutput::isCurrentMode(const drmModeModeInfo *mode) const
         && qstrcmp(mode->name, m_mode.name) == 0;
 }
 
-static bool verifyEdidHeader(drmModePropertyBlobPtr edid)
-{
-    const uint8_t *data = reinterpret_cast<uint8_t*>(edid->data);
-    if (data[0] != 0x00) {
-        return false;
-    }
-    for (int i = 1; i < 7; ++i) {
-        if (data[i] != 0xFF) {
-            return false;
-        }
-    }
-    if (data[7] != 0x00) {
-        return false;
-    }
-    return true;
-}
-
-static QByteArray extractEisaId(drmModePropertyBlobPtr edid)
-{
-    /*
-     * From EDID standard section 3.4:
-     * The ID Manufacturer Name field, shown in Table 3.5, contains a 2-byte representation of the monitor's
-     * manufacturer. This is the same as the EISA ID. It is based on compressed ASCII, “0001=A” ... “11010=Z”.
-     *
-     * The table:
-     * | Byte |        Bit                    |
-     * |      | 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
-     * ----------------------------------------
-     * |  1   | 0)| (4| 3 | 2 | 1 | 0)| (4| 3 |
-     * |      | * |    Character 1    | Char 2|
-     * ----------------------------------------
-     * |  2   | 2 | 1 | 0)| (4| 3 | 2 | 1 | 0)|
-     * |      | Character2|      Character 3  |
-     * ----------------------------------------
-     **/
-    const uint8_t *data = reinterpret_cast<uint8_t*>(edid->data);
-    static const uint offset = 0x8;
-    char id[4];
-    if (data[offset] >> 7) {
-        // bit at position 7 is not a 0
-        return QByteArray();
-    }
-    // shift two bits to right, and with 7 right most bits
-    id[0] = 'A' + ((data[offset] >> 2) & 0x1f) -1;
-    // for first byte: take last two bits and shift them 3 to left (000xx000)
-    // for second byte: shift 5 bits to right and take 3 right most bits (00000xxx)
-    // or both together
-    id[1] = 'A' + (((data[offset] & 0x3) << 3) | ((data[offset + 1] >> 5) & 0x7)) - 1;
-    // take five right most bits
-    id[2] = 'A' + (data[offset + 1] & 0x1f) - 1;
-    id[3] = '\0';
-    return QByteArray(id);
-}
-
-static void extractMonitorDescriptorDescription(drmModePropertyBlobPtr blob, DrmOutput::Edid &edid)
-{
-    // see section 3.10.3
-    const uint8_t *data = reinterpret_cast<uint8_t*>(blob->data);
-    static const uint offset = 0x36;
-    static const uint blockLength = 18;
-    for (int i = 0; i < 5; ++i) {
-        const uint co = offset + i * blockLength;
-        // Flag = 0000h when block used as descriptor
-        if (data[co] != 0) {
-            continue;
-        }
-        if (data[co + 1] != 0) {
-            continue;
-        }
-        // Reserved = 00h when block used as descriptor
-        if (data[co + 2] != 0) {
-            continue;
-        }
-        /*
-         * FFh: Monitor Serial Number - Stored as ASCII, code page # 437, ≤ 13 bytes.
-         * FEh: ASCII String - Stored as ASCII, code page # 437, ≤ 13 bytes.
-         * FDh: Monitor range limits, binary coded
-         * FCh: Monitor name, stored as ASCII, code page # 437
-         * FBh: Descriptor contains additional color point data
-         * FAh: Descriptor contains additional Standard Timing Identifications
-         * F9h - 11h: Currently undefined
-         * 10h: Dummy descriptor, used to indicate that the descriptor space is unused
-         * 0Fh - 00h: Descriptor defined by manufacturer.
-         */
-        if (data[co + 3] == 0xfc && edid.monitorName.isEmpty()) {
-            edid.monitorName = QByteArray((const char *)(&data[co + 5]), 12).trimmed();
-        }
-        if (data[co + 3] == 0xfe) {
-            const QByteArray id = QByteArray((const char *)(&data[co + 5]), 12).trimmed();
-            if (!id.isEmpty()) {
-                edid.eisaId = id;
-            }
-        }
-        if (data[co + 3] == 0xff) {
-            edid.serialNumber = QByteArray((const char *)(&data[co + 5]), 12).trimmed();
-        }
-    }
-}
-
-static QByteArray extractSerialNumber(drmModePropertyBlobPtr edid)
-{
-    // see section 3.4
-    const uint8_t *data = reinterpret_cast<uint8_t*>(edid->data);
-    static const uint offset = 0x0C;
-    /*
-     * The ID serial number is a 32-bit serial number used to differentiate between individual instances of the same model
-     * of monitor. Its use is optional. When used, the bit order for this field follows that shown in Table 3.6. The EDID
-     * structure Version 1 Revision 1 and later offer a way to represent the serial number of the monitor as an ASCII string
-     * in a separate descriptor block.
-     */
-    uint32_t serialNumber = 0;
-    serialNumber  = (uint32_t) data[offset + 0];
-    serialNumber |= (uint32_t) data[offset + 1] << 8;
-    serialNumber |= (uint32_t) data[offset + 2] << 16;
-    serialNumber |= (uint32_t) data[offset + 3] << 24;
-    if (serialNumber == 0) {
-        return QByteArray();
-    }
-    return QByteArray::number(serialNumber);
-}
-
-static QSize extractPhysicalSize(drmModePropertyBlobPtr edid)
-{
-    const uint8_t *data = reinterpret_cast<uint8_t*>(edid->data);
-    return QSize(data[0x15], data[0x16]) * 10;
-}
-
 void DrmOutput::initEdid(drmModeConnector *connector)
 {
-    ScopedDrmPointer<_drmModePropertyBlob, &drmModeFreePropertyBlob> edid;
+    DrmScopedPointer<drmModePropertyBlobRes> edid;
     for (int i = 0; i < connector->count_props; ++i) {
-        ScopedDrmPointer<_drmModeProperty, &drmModeFreeProperty> property(drmModeGetProperty(m_backend->fd(), connector->props[i]));
+        DrmScopedPointer<drmModePropertyRes> property(drmModeGetProperty(m_backend->fd(), connector->props[i]));
         if (!property) {
             continue;
         }
@@ -610,20 +384,10 @@ void DrmOutput::initEdid(drmModeConnector *connector)
         return;
     }
 
-    // for documentation see: http://read.pudn.com/downloads110/ebook/456020/E-EDID%20Standard.pdf
-    if (edid->length < 128) {
-        return;
+    m_edid = Edid(edid->data, edid->length);
+    if (!m_edid.isValid()) {
+        qCWarning(KWIN_DRM, "Couldn't parse EDID for connector with id %d", m_conn->id());
     }
-    if (!verifyEdidHeader(edid.data())) {
-        return;
-    }
-    m_edid.eisaId = extractEisaId(edid.data());
-    m_edid.serialNumber = extractSerialNumber(edid.data());
-
-    // parse monitor descriptor description
-    extractMonitorDescriptorDescription(edid.data(), m_edid);
-
-    m_edid.physicalSize = extractPhysicalSize(edid.data());
 }
 
 bool DrmOutput::initPrimaryPlane()
@@ -681,10 +445,25 @@ bool DrmOutput::initCursorPlane()       // TODO: Add call in init (but needs lay
     return false;
 }
 
+bool DrmOutput::initCursor(const QSize &cursorSize)
+{
+    auto createCursor = [this, cursorSize] (int index) {
+        m_cursor[index] = m_backend->createBuffer(cursorSize);
+        if (!m_cursor[index]->map(QImage::Format_ARGB32_Premultiplied)) {
+            return false;
+        }
+        return true;
+    };
+    if (!createCursor(0) || !createCursor(1)) {
+        return false;
+    }
+    return true;
+}
+
 void DrmOutput::initDpms(drmModeConnector *connector)
 {
     for (int i = 0; i < connector->count_props; ++i) {
-        ScopedDrmPointer<_drmModeProperty, &drmModeFreeProperty> property(drmModeGetProperty(m_backend->fd(), connector->props[i]));
+        DrmScopedPointer<drmModePropertyRes> property(drmModeGetProperty(m_backend->fd(), connector->props[i]));
         if (!property) {
             continue;
         }
@@ -695,56 +474,132 @@ void DrmOutput::initDpms(drmModeConnector *connector)
     }
 }
 
-void DrmOutput::setDpms(DrmOutput::DpmsMode mode)
+void DrmOutput::updateEnablement(bool enable)
 {
-    if (m_dpms.isNull()) {
+    if (enable) {
+        m_dpmsModePending = DpmsMode::On;
+        if (m_backend->atomicModeSetting()) {
+            atomicEnable();
+        } else {
+            if (dpmsLegacyApply()) {
+                m_backend->enableOutput(this, true);
+            }
+        }
+
+    } else {
+        m_dpmsModePending = DpmsMode::Off;
+        if (m_backend->atomicModeSetting()) {
+            atomicDisable();
+        } else {
+            if (dpmsLegacyApply()) {
+                m_backend->enableOutput(this, false);
+            }
+        }
+    }
+}
+
+void DrmOutput::atomicEnable()
+{
+    m_modesetRequested = true;
+
+    if (m_atomicOffPending) {
+        Q_ASSERT(m_pageFlipPending);
+        m_atomicOffPending = false;
+    }
+    m_backend->enableOutput(this, true);
+
+    if (Compositor *compositor = Compositor::self()) {
+        compositor->addRepaintFull();
+    }
+}
+
+void DrmOutput::atomicDisable()
+{
+    m_modesetRequested = true;
+
+    m_backend->enableOutput(this, false);
+    m_atomicOffPending = true;
+    if (!m_pageFlipPending) {
+        dpmsAtomicOff();
+    }
+}
+
+static DrmOutput::DpmsMode fromWaylandDpmsMode(KWayland::Server::OutputInterface::DpmsMode wlMode)
+{
+    using namespace KWayland::Server;
+    switch (wlMode) {
+    case OutputInterface::DpmsMode::On:
+        return DrmOutput::DpmsMode::On;
+    case OutputInterface::DpmsMode::Standby:
+        return DrmOutput::DpmsMode::Standby;
+    case OutputInterface::DpmsMode::Suspend:
+        return DrmOutput::DpmsMode::Suspend;
+    case OutputInterface::DpmsMode::Off:
+        return DrmOutput::DpmsMode::Off;
+    default:
+        Q_UNREACHABLE();
+    }
+}
+
+static KWayland::Server::OutputInterface::DpmsMode toWaylandDpmsMode(DrmOutput::DpmsMode mode)
+{
+    using namespace KWayland::Server;
+    switch (mode) {
+    case DrmOutput::DpmsMode::On:
+        return OutputInterface::DpmsMode::On;
+    case DrmOutput::DpmsMode::Standby:
+        return OutputInterface::DpmsMode::Standby;
+    case DrmOutput::DpmsMode::Suspend:
+        return OutputInterface::DpmsMode::Suspend;
+    case DrmOutput::DpmsMode::Off:
+        return OutputInterface::DpmsMode::Off;
+    default:
+        Q_UNREACHABLE();
+    }
+}
+
+void DrmOutput::updateDpms(KWayland::Server::OutputInterface::DpmsMode mode)
+{
+    if (m_dpms.isNull() || !isEnabled()) {
         return;
     }
-    if (mode == m_dpmsModePending) {
+
+    const auto drmMode = fromWaylandDpmsMode(mode);
+
+    if (drmMode == m_dpmsModePending) {
         qCDebug(KWIN_DRM) << "New DPMS mode equals old mode. DPMS unchanged.";
         return;
     }
 
-    m_dpmsModePending = mode;
+    m_dpmsModePending = drmMode;
 
     if (m_backend->atomicModeSetting()) {
         m_modesetRequested = true;
-        if (mode == DpmsMode::On) {
-            if (m_pageFlipPending) {
-                m_pageFlipPending = false;
-                Compositor::self()->bufferSwapComplete();
+        if (drmMode == DpmsMode::On) {
+            if (m_atomicOffPending) {
+                Q_ASSERT(m_pageFlipPending);
+                m_atomicOffPending = false;
             }
-            dpmsOnHandler();
+            dpmsFinishOn();
         } else {
-            m_dpmsAtomicOffPending = true;
+            m_atomicOffPending = true;
             if (!m_pageFlipPending) {
                 dpmsAtomicOff();
             }
         }
     } else {
-        if (drmModeConnectorSetProperty(m_backend->fd(), m_conn->id(), m_dpms->prop_id, uint64_t(mode)) < 0) {
-            m_dpmsModePending = m_dpmsMode;
-            qCWarning(KWIN_DRM) << "Setting DPMS failed";
-            return;
-        }
-        if (mode == DpmsMode::On) {
-            dpmsOnHandler();
-        } else {
-            dpmsOffHandler();
-        }
-        m_dpmsMode = m_dpmsModePending;
+       dpmsLegacyApply();
     }
 }
 
-void DrmOutput::dpmsOnHandler()
+void DrmOutput::dpmsFinishOn()
 {
     qCDebug(KWIN_DRM) << "DPMS mode set for output" << m_crtc->id() << "to On.";
 
     auto wlOutput = waylandOutput();
     if (wlOutput) {
-        wlOutput->setDpmsMode(toWaylandDpmsMode(m_dpmsModePending));
+        wlOutput->setDpmsMode(toWaylandDpmsMode(DpmsMode::On));
     }
-    emit dpmsChanged();
 
     m_backend->checkOutputsAreOn();
     if (!m_backend->atomicModeSetting()) {
@@ -755,62 +610,36 @@ void DrmOutput::dpmsOnHandler()
     }
 }
 
-void DrmOutput::dpmsOffHandler()
+void DrmOutput::dpmsFinishOff()
 {
     qCDebug(KWIN_DRM) << "DPMS mode set for output" << m_crtc->id() << "to Off.";
 
-    auto wlOutput = waylandOutput();
-    if (wlOutput) {
-        wlOutput->setDpmsMode(toWaylandDpmsMode(m_dpmsModePending));
+    if (isEnabled()) {
+        waylandOutput()->setDpmsMode(toWaylandDpmsMode(m_dpmsModePending));
+        m_backend->createDpmsFilter();
     }
-    emit dpmsChanged();
-
-    m_backend->outputWentOff();
 }
 
-int DrmOutput::currentRefreshRate() const
+bool DrmOutput::dpmsLegacyApply()
 {
-    auto wlOutput = waylandOutput();
-    if (!wlOutput) {
-        return 60000;
+    if (drmModeConnectorSetProperty(m_backend->fd(), m_conn->id(),
+                                    m_dpms->prop_id, uint64_t(m_dpmsModePending)) < 0) {
+        m_dpmsModePending = m_dpmsMode;
+        qCWarning(KWIN_DRM) << "Setting DPMS failed";
+        return false;
     }
-    return wlOutput->refreshRate();
-}
-
-bool DrmOutput::commitChanges()
-{
-    auto wlOutputDevice = waylandOutputDevice();
-    Q_ASSERT(!wlOutputDevice.isNull());
-
-    auto changeset = changes();
-
-    if (changeset.isNull()) {
-        qCDebug(KWIN_DRM) << "no changes";
-        // No changes to an output is an entirely valid thing
-        return true;
+    if (m_dpmsModePending == DpmsMode::On) {
+        dpmsFinishOn();
+    } else {
+        dpmsFinishOff();
     }
-    //enabledChanged is handled by drmbackend
-    if (changeset->modeChanged()) {
-        qCDebug(KWIN_DRM) << "Setting new mode:" << changeset->mode();
-        wlOutputDevice->setCurrentMode(changeset->mode());
-        updateMode(changeset->mode());
-    }
-    if (changeset->transformChanged()) {
-        qCDebug(KWIN_DRM) << "Server setting transform: " << (int)(changeset->transform());
-        transform(changeset->transform());
-    }
-    if (changeset->positionChanged()) {
-        qCDebug(KWIN_DRM) << "Server setting position: " << changeset->position();
-        setGlobalPos(changeset->position());
-        // may just work already!
-    }
-    if (changeset->scaleChanged()) {
-        qCDebug(KWIN_DRM) << "Setting scale:" << changeset->scale();
-        setScale(changeset->scaleF());
-    }
+    m_dpmsMode = m_dpmsModePending;
     return true;
 }
 
+// TODO: Rotation is currently broken in the DRM backend for 90° and 270°. Disable all rotation for
+// now to not break user setups until it is possible again.
+#if 0
 void DrmOutput::transform(KWayland::Server::OutputDeviceInterface::Transform transform)
 {
     waylandOutputDevice()->setTransform(transform);
@@ -884,13 +713,21 @@ void DrmOutput::transform(KWayland::Server::OutputDeviceInterface::Transform tra
     // the cursor might need to get rotated
     updateCursor();
     showCursor();
-    emit modeChanged();
+
+    // TODO: are these calls not enough in updateMode already?
+    setWaylandMode();
 }
+#else
+void DrmOutput::transform(KWayland::Server::OutputDeviceInterface::Transform transform)
+{
+    Q_UNUSED(transform)
+}
+#endif
 
 void DrmOutput::updateMode(int modeIndex)
 {
     // get all modes on the connector
-    ScopedDrmPointer<_drmModeConnector, &drmModeFreeConnector> connector(drmModeGetConnector(m_backend->fd(), m_conn->id()));
+    DrmScopedPointer<drmModeConnector> connector(drmModeGetConnector(m_backend->fd(), m_conn->id()));
     if (connector->count_modes <= modeIndex) {
         // TODO: error?
         return;
@@ -901,12 +738,21 @@ void DrmOutput::updateMode(int modeIndex)
     }
     m_mode = connector->modes[modeIndex];
     m_modesetRequested = true;
-    emit modeChanged();
+    setWaylandMode();
+}
+
+void DrmOutput::setWaylandMode()
+{
+    AbstractWaylandOutput::setWaylandMode(QSize(m_mode.hdisplay, m_mode.vdisplay),
+                                          refreshRateForMode(&m_mode));
 }
 
 void DrmOutput::pageFlipped()
 {
+    // In legacy mode we might get a page flip through a blank.
+    Q_ASSERT(m_pageFlipPending || !m_backend->atomicModeSetting());
     m_pageFlipPending = false;
+
     if (m_deleted) {
         deleteLater();
         return;
@@ -953,10 +799,17 @@ void DrmOutput::pageFlipped()
         }
         m_crtc->flipBuffer();
     }
+
+    if (m_atomicOffPending) {
+        dpmsAtomicOff();
+    }
 }
 
 bool DrmOutput::present(DrmBuffer *buffer)
 {
+    if (m_dpmsModePending != DpmsMode::On) {
+        return false;
+    }
     if (m_backend->atomicModeSetting()) {
         return presentAtomically(buffer);
     } else {
@@ -966,7 +819,7 @@ bool DrmOutput::present(DrmBuffer *buffer)
 
 bool DrmOutput::dpmsAtomicOff()
 {
-    m_dpmsAtomicOffPending = false;
+    m_atomicOffPending = false;
 
     // TODO: With multiple planes: deactivate all of them here
     delete m_primaryPlane->next();
@@ -982,10 +835,9 @@ bool DrmOutput::dpmsAtomicOff()
         return false;
     }
     m_nextPlanesFlipList.clear();
-    dpmsOffHandler();
+    dpmsFinishOff();
 
     return true;
-
 }
 
 bool DrmOutput::presentAtomically(DrmBuffer *buffer)
@@ -999,6 +851,15 @@ bool DrmOutput::presentAtomically(DrmBuffer *buffer)
         qCWarning(KWIN_DRM) << "Page not yet flipped.";
         return false;
     }
+
+#if HAVE_EGL_STREAMS
+    if (m_backend->useEglStreams() && !m_modesetRequested) {
+        // EglStreamBackend queues normal page flips through EGL,
+        // modesets are still performed through DRM-KMS
+        m_pageFlipPending = true;
+        return true;
+    }
+#endif
 
     m_primaryPlane->setNext(buffer);
     m_nextPlanesFlipList << m_primaryPlane;
@@ -1020,7 +881,7 @@ bool DrmOutput::presentAtomically(DrmBuffer *buffer)
             updateCursor();
             showCursor();
             // TODO: forward to OutputInterface and OutputDeviceInterface
-            emit modeChanged();
+            setWaylandMode();
             emit screens()->changed();
         }
         return false;
@@ -1052,9 +913,6 @@ bool DrmOutput::presentLegacy(DrmBuffer *buffer)
     }
     if (!LogindIntegration::self()->isActiveSession()) {
         m_crtc->setNext(buffer);
-        return false;
-    }
-    if (m_dpmsMode != DpmsMode::On) {
         return false;
     }
 
@@ -1100,7 +958,7 @@ bool DrmOutput::doAtomicCommit(AtomicCommitMode mode)
             qCWarning(KWIN_DRM) << "Setting DPMS failed";
             m_dpmsModePending = m_dpmsMode;
             if (m_dpmsMode != DpmsMode::On) {
-                dpmsOffHandler();
+                dpmsFinishOff();
             }
         }
 
@@ -1143,7 +1001,13 @@ bool DrmOutput::doAtomicCommit(AtomicCommitMode mode)
                 // TODO: Evaluating this condition should only be necessary, as long as we expect older kernels than 4.10.
                 flags |= DRM_MODE_ATOMIC_NONBLOCK;
             }
-            flags |= DRM_MODE_PAGE_FLIP_EVENT;
+
+#if HAVE_EGL_STREAMS
+            if (!m_backend->useEglStreams())
+                // EglStreamBackend uses the NV_output_drm_flip_event EGL extension
+                // to register the flip event through eglStreamConsumerAcquireAttribNV
+#endif
+                flags |= DRM_MODE_PAGE_FLIP_EVENT;
         }
     } else {
         flags |= DRM_MODE_ATOMIC_TEST_ONLY;
@@ -1215,21 +1079,6 @@ bool DrmOutput::atomicReqModesetPopulate(drmModeAtomicReq *req, bool enable)
     return ret;
 }
 
-bool DrmOutput::initCursor(const QSize &cursorSize)
-{
-    auto createCursor = [this, cursorSize] (int index) {
-        m_cursor[index] = m_backend->createBuffer(cursorSize);
-        if (!m_cursor[index]->map(QImage::Format_ARGB32_Premultiplied)) {
-            return false;
-        }
-        return true;
-    };
-    if (!createCursor(0) || !createCursor(1)) {
-        return false;
-    }
-    return true;
-}
-
 bool DrmOutput::supportsTransformations() const
 {
     if (!m_primaryPlane) {
@@ -1282,12 +1131,12 @@ void DrmOutput::automaticRotation()
     emit screens()->changed();
 }
 
-int DrmOutput::getGammaRampSize() const
+int DrmOutput::gammaRampSize() const
 {
-    return m_crtc->getGammaRampSize();
+    return m_crtc->gammaRampSize();
 }
 
-bool DrmOutput::setGammaRamp(const ColorCorrect::GammaRamp &gamma)
+bool DrmOutput::setGammaRamp(const GammaRamp &gamma)
 {
     return m_crtc->setGammaRamp(gamma);
 }

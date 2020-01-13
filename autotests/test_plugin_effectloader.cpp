@@ -80,7 +80,6 @@ void TestPluginEffectLoader::testHasEffect_data()
     QTest::newRow("CubeSlide")         << QStringLiteral("cubeslide")                 << false;
     QTest::newRow("DesktopGrid")       << QStringLiteral("desktopgrid")               << false;
     QTest::newRow("DimInactive")       << QStringLiteral("diminactive")               << false;
-    QTest::newRow("DimScreen")         << QStringLiteral("dimscreen")                 << false;
     QTest::newRow("FallApart")         << QStringLiteral("fallapart")                 << false;
     QTest::newRow("FlipSwitch")        << QStringLiteral("flipswitch")                << false;
     QTest::newRow("Glide")             << QStringLiteral("glide")                     << false;
@@ -90,12 +89,10 @@ void TestPluginEffectLoader::testHasEffect_data()
     QTest::newRow("LookingGlass")      << QStringLiteral("lookingglass")              << false;
     QTest::newRow("MagicLamp")         << QStringLiteral("magiclamp")                 << false;
     QTest::newRow("Magnifier")         << QStringLiteral("magnifier")                 << false;
-    QTest::newRow("MinimizeAnimation") << QStringLiteral("minimizeanimation")         << false;
     QTest::newRow("MouseClick")        << QStringLiteral("mouseclick")                << false;
     QTest::newRow("MouseMark")         << QStringLiteral("mousemark")                 << false;
     QTest::newRow("PresentWindows")    << QStringLiteral("presentwindows")            << false;
     QTest::newRow("Resize")            << QStringLiteral("resize")                    << false;
-    QTest::newRow("Scale")             << QStringLiteral("scale")                     << false;
     QTest::newRow("ScreenEdge")        << QStringLiteral("screenedge")                << false;
     QTest::newRow("ScreenShot")        << QStringLiteral("screenshot")                << false;
     QTest::newRow("Sheet")             << QStringLiteral("sheet")                     << false;
@@ -113,13 +110,21 @@ void TestPluginEffectLoader::testHasEffect_data()
     QTest::newRow("Zoom")              << QStringLiteral("zoom")                      << false;
     QTest::newRow("Non Existing")      << QStringLiteral("InvalidName")               << false;
     // all the scripted effects should fail
-    QTest::newRow("Fade")              << QStringLiteral("kwin4_effect_fade")         << false;
-    QTest::newRow("FadeDesktop")       << QStringLiteral("kwin4_effect_fadedesktop")  << false;
-    QTest::newRow("DialogParent")      << QStringLiteral("kwin4_effect_dialogparent") << false;
-    QTest::newRow("Login")             << QStringLiteral("kwin4_effect_login")        << false;
-    QTest::newRow("Logout")            << QStringLiteral("kwin4_effect_logout")       << false;
-    QTest::newRow("Maximize")          << QStringLiteral("kwin4_effect_maximize")     << false;
-    QTest::newRow("Translucency")      << QStringLiteral("kwin4_effect_translucency") << false;
+    QTest::newRow("DialogParent")      << QStringLiteral("kwin4_effect_dialogparent")   << false;
+    QTest::newRow("DimScreen")         << QStringLiteral("kwin4_effect_dimscreen")      << false;
+    QTest::newRow("EyeOnScreen")       << QStringLiteral("kwin4_effect_eyeonscreen")    << false;
+    QTest::newRow("Fade")              << QStringLiteral("kwin4_effect_fade")           << false;
+    QTest::newRow("FadeDesktop")       << QStringLiteral("kwin4_effect_fadedesktop")    << false;
+    QTest::newRow("FadingPopups")      << QStringLiteral("kwin4_effect_fadingpopups")   << false;
+    QTest::newRow("FrozenApp")         << QStringLiteral("kwin4_effect_frozenapp")      << false;
+    QTest::newRow("Login")             << QStringLiteral("kwin4_effect_login")          << false;
+    QTest::newRow("Logout")            << QStringLiteral("kwin4_effect_logout")         << false;
+    QTest::newRow("Maximize")          << QStringLiteral("kwin4_effect_maximize")       << false;
+    QTest::newRow("MorphingPopups")    << QStringLiteral("kwin4_effect_morphingpopups") << false;
+    QTest::newRow("Scale")             << QStringLiteral("kwin4_effect_scale")          << false;
+    QTest::newRow("Squash")            << QStringLiteral("kwin4_effect_squash")         << false;
+    QTest::newRow("Translucency")      << QStringLiteral("kwin4_effect_translucency")   << false;
+    QTest::newRow("WindowAperture")    << QStringLiteral("kwin4_effect_windowaperture") << false;
     // and the fake effects we use here
     QTest::newRow("fakeeffectplugin")    << QStringLiteral("fakeeffectplugin")          << true;
     QTest::newRow("fakeeffectplugin CS") << QStringLiteral("fakeEffectPlugin")          << true;
@@ -208,7 +213,7 @@ void TestPluginEffectLoader::testLoadEffect()
     loader.setConfig(config);
 
     qRegisterMetaType<KWin::Effect*>();
-    QSignalSpy spy(&loader, SIGNAL(effectLoaded(KWin::Effect*,QString)));
+    QSignalSpy spy(&loader, &KWin::PluginEffectLoader::effectLoaded);
     // connect to signal to ensure that we delete the Effect again as the Effect doesn't have a parent
     connect(&loader, &KWin::PluginEffectLoader::effectLoaded,
         [&name](KWin::Effect *effect, const QString &effectName) {
@@ -300,7 +305,7 @@ void TestPluginEffectLoader::testLoadPluginEffect()
     QCOMPARE(plugins.size(), 1);
 
     qRegisterMetaType<KWin::Effect*>();
-    QSignalSpy spy(&loader, SIGNAL(effectLoaded(KWin::Effect*,QString)));
+    QSignalSpy spy(&loader, &KWin::PluginEffectLoader::effectLoaded);
     // connect to signal to ensure that we delete the Effect again as the Effect doesn't have a parent
     connect(&loader, &KWin::PluginEffectLoader::effectLoaded,
         [&name](KWin::Effect *effect, const QString &effectName) {
@@ -356,7 +361,7 @@ void TestPluginEffectLoader::testLoadAllEffects()
     loader.setConfig(config);
 
     qRegisterMetaType<KWin::Effect*>();
-    QSignalSpy spy(&loader, SIGNAL(effectLoaded(KWin::Effect*,QString)));
+    QSignalSpy spy(&loader, &KWin::PluginEffectLoader::effectLoaded);
     // connect to signal to ensure that we delete the Effect again as the Effect doesn't have a parent
     connect(&loader, &KWin::PluginEffectLoader::effectLoaded,
         [](KWin::Effect *effect) {

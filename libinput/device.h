@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMatrix4x4>
 #include <QSizeF>
 #include <QVector>
+#include "kwin_export.h"
 
 struct libinput_device;
 
@@ -37,7 +38,7 @@ namespace LibInput
 {
 enum class ConfigKey;
 
-class Device : public QObject
+class KWIN_EXPORT Device : public QObject
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.KWin.InputDevice")
@@ -61,7 +62,7 @@ class Device : public QObject
     Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled NOTIFY enabledChanged)
     //
     // advanced
-    Q_PROPERTY(Qt::MouseButtons supportedButtons READ supportedButtons CONSTANT)
+    Q_PROPERTY(int supportedButtons READ supportedButtons CONSTANT)
     Q_PROPERTY(bool supportsCalibrationMatrix READ supportsCalibrationMatrix CONSTANT)
 
     Q_PROPERTY(bool supportsLeftHanded READ supportsLeftHanded CONSTANT)
@@ -129,10 +130,18 @@ class Device : public QObject
     Q_PROPERTY(bool lidSwitch READ isLidSwitch CONSTANT)
     Q_PROPERTY(bool tabletModeSwitch READ isTabletModeSwitch CONSTANT)
 
+    // Click Methods 
+    Q_PROPERTY(bool supportsClickMethodAreas READ supportsClickMethodAreas CONSTANT)
+    Q_PROPERTY(bool defaultClickMethodAreas READ defaultClickMethodAreas CONSTANT)
+    Q_PROPERTY(bool clickMethodAreas READ isClickMethodAreas WRITE setClickMethodAreas NOTIFY clickMethodChanged)
+
+    Q_PROPERTY(bool supportsClickMethodClickfinger READ supportsClickMethodClickfinger CONSTANT)
+    Q_PROPERTY(bool defaultClickMethodClickfinger READ defaultClickMethodClickfinger CONSTANT)
+    Q_PROPERTY(bool clickMethodClickfinger READ isClickMethodClickfinger WRITE setClickMethodClickfinger NOTIFY clickMethodChanged)
 
 public:
     explicit Device(libinput_device *device, QObject *parent = nullptr);
-    virtual ~Device();
+    ~Device() override;
 
     bool isKeyboard() const {
         return m_keyboard;
@@ -195,7 +204,7 @@ public:
     }
     /**
      * Set the Device to tap to click if @p set is @c true.
-     **/
+     */
     void setTapToClick(bool set);
     bool tapAndDragEnabledByDefault() const {
         return m_tapAndDragEnabledByDefault;
@@ -331,7 +340,7 @@ public:
     /**
      * Sets the Device to left handed mode if @p set is @c true.
      * If @p set is @c false the device is set to right handed mode
-     **/
+     */
     void setLeftHanded(bool set);
 
     qreal defaultPointerAcceleration() const {
@@ -342,7 +351,7 @@ public:
     }
     /**
      * @param acceleration mapped to range [-1,1] with -1 being the slowest, 1 being the fastest supported acceleration.
-     **/
+     */
     void setPointerAcceleration(qreal acceleration);
     void setPointerAccelerationFromString(QString acceleration) {
         setPointerAcceleration(acceleration.toDouble());
@@ -381,6 +390,38 @@ public:
     quint32 defaultPointerAccelerationProfileToInt() const {
         return (quint32) m_defaultPointerAccelerationProfile;
     }
+    bool supportsClickMethodAreas() const {
+        return (m_supportedClickMethods & LIBINPUT_CONFIG_CLICK_METHOD_BUTTON_AREAS);
+    }
+    bool defaultClickMethodAreas() const {
+        return (m_defaultClickMethod == LIBINPUT_CONFIG_CLICK_METHOD_BUTTON_AREAS);
+    }
+    bool isClickMethodAreas() const {
+        return (m_clickMethod == LIBINPUT_CONFIG_CLICK_METHOD_BUTTON_AREAS);
+    }
+    bool supportsClickMethodClickfinger() const {
+        return (m_supportedClickMethods & LIBINPUT_CONFIG_CLICK_METHOD_CLICKFINGER);
+    }
+    bool defaultClickMethodClickfinger() const {
+        return (m_defaultClickMethod == LIBINPUT_CONFIG_CLICK_METHOD_CLICKFINGER);
+    }
+    bool isClickMethodClickfinger() const {
+        return (m_clickMethod == LIBINPUT_CONFIG_CLICK_METHOD_CLICKFINGER);
+    }
+    void setClickMethod(bool set, enum libinput_config_click_method method);
+    void setClickMethodAreas(bool set) {
+        setClickMethod(set, LIBINPUT_CONFIG_CLICK_METHOD_BUTTON_AREAS);
+    }
+    void setClickMethodClickfinger(bool set) {
+        setClickMethod(set, LIBINPUT_CONFIG_CLICK_METHOD_CLICKFINGER);
+    }
+    void setClickMethodFromInt(quint32 method) {
+        setClickMethod(true, (libinput_config_click_method) method);
+    }
+    quint32 defaultClickMethodToInt() const {
+        return (quint32) m_defaultClickMethod;
+    }
+
     bool isEnabled() const {
         return m_enabled;
     }
@@ -393,21 +434,21 @@ public:
     /**
      * Sets the @p config to load the Device configuration from and to store each
      * successful Device configuration.
-     **/
+     */
     void setConfig(const KConfigGroup &config) {
         m_config = config;
     }
 
     /**
-     * The id of the screen in KWin identifiers. Set from KWin through @link setScreenId.
-     **/
+     * The id of the screen in KWin identifiers. Set from KWin through setScreenId.
+     */
     int screenId() const {
         return m_screenId;
     }
 
     /**
      * Sets the KWin screen id for the device
-     **/
+     */
     void setScreenId(int screenId) {
         m_screenId = screenId;
     }
@@ -416,7 +457,7 @@ public:
 
     /**
      * Loads the configuration and applies it to the Device
-     **/
+     */
     void loadConfiguration();
 
     bool isSwitch() const {
@@ -433,13 +474,13 @@ public:
 
     /**
      * All created Devices
-     **/
+     */
     static QVector<Device*> devices() {
         return s_devices;
     }
     /**
      * Gets the Device for @p native. @c null if there is no Device for @p native.
-     **/
+     */
     static Device *getDevice(libinput_device *native);
 
 Q_SIGNALS:
@@ -456,6 +497,7 @@ Q_SIGNALS:
     void naturalScrollChanged();
     void scrollMethodChanged();
     void scrollButtonChanged();
+    void clickMethodChanged();
 
 private:
     template <typename T>
@@ -525,6 +567,9 @@ private:
     int m_screenId = 0;
     Qt::ScreenOrientation m_orientation = Qt::PrimaryOrientation;
     QMatrix4x4 m_defaultCalibrationMatrix;
+    quint32 m_supportedClickMethods;
+    enum libinput_config_click_method m_defaultClickMethod;
+    enum libinput_config_click_method m_clickMethod;
 
     static QVector<Device*> s_devices;
 };

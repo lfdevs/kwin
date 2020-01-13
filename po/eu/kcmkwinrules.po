@@ -1,20 +1,23 @@
 # Translation of kcmkwinrules.po to Euskara/Basque (eu).
 # Copyright (C) 2004-2018 Free Software Foundation.
-# This file is distributed under the same license as the kde-workspace package.
+# Copyright (C) 2019, This file is copyright:
+# This file is distributed under the same license as the kwin package.
+# KDE euskaratzeko proiektuaren arduraduna <xalba@euskalnet.net>.
 #
+# Translators:
 # Marcos  <marcos@euskalgnu.org>, 2004, 2005, 2006, 2007.
 # Juan Irigoien <juanirigoien@yahoo.es>, 2004.
 # Asier Urio Larrea <asieriko@gmail.com>, 2008.
-# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2011, 2014, 2018.
+# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2011, 2014, 2018, 2019.
 # Hizkuntza Politikarako Sailburuordetza <hizpol@ej-gv.es>, 2013.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcmkwinrules\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-10-13 06:43+0200\n"
-"PO-Revision-Date: 2018-07-11 21:21+0100\n"
+"Project-Id-Version: kwin\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-09-17 03:28+0200\n"
+"PO-Revision-Date: 2019-06-06 19:51+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
-"Language-Team: Basque <kde-i18n-doc@kde.org>\n"
+"Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -262,58 +265,58 @@ msgstr "Erakutsi barne-ezarpenak gogorarazteko"
 msgid "Internal setting for remembering"
 msgstr "Barne-ezarpenak gogorarazteko"
 
-#: main.cpp:150
+#: main.cpp:138
 #, kde-format
 msgid "Application settings for %1"
 msgstr "%1(r)entzako aplikazio-ezarpenak"
 
-#: main.cpp:170
+#: main.cpp:158
 #, kde-format
 msgid "Window settings for %1"
 msgstr "%1(r)entzako leiho-ezarpenak"
 
-#: main.cpp:222
+#: main.cpp:210
 #, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Editatu aplikazioaren ezarpen espezifikoak"
 
-#: main.cpp:253
+#: main.cpp:241
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:261
+#: main.cpp:248
 #, kde-format
 msgid "KWin helper utility"
 msgstr "KWin-en laguntza-utilitatea"
 
-#: main.cpp:262
+#: main.cpp:249
 #, kde-format
-msgid "WId of the window for special window settings."
-msgstr "Leiho-ezarpen berezietako leihoaren WIDa"
+msgid "KWin id of the window for special window settings."
+msgstr "Leihoaren «Kwin» identifikatzailea leiho ezarpen berezietarako."
 
-#: main.cpp:263
+#: main.cpp:250
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Ezarpenek aplikazioaren leiho guztiei eragingo dien ala ez."
 
-#: main.cpp:271
+#: main.cpp:259
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Laguntza-utilitate honi ez litzaioke zuzenean deitu behar."
 
-#: ruleslist.cpp:153
+#: ruleslist.cpp:152
 #, kde-format
 msgid "Export Rules"
 msgstr "Esportatu arauak"
 
-#: ruleslist.cpp:154 ruleslist.cpp:166
+#: ruleslist.cpp:153 ruleslist.cpp:165
 #, kde-format
 msgid "KWin Rules (*.kwinrule)"
 msgstr "KWin arauak (*.kwinrule)"
 
-#: ruleslist.cpp:165
+#: ruleslist.cpp:164
 #, kde-format
 msgid "Import Rules"
 msgstr "Inportatu arauak"
@@ -360,7 +363,7 @@ msgstr "&Inportatu"
 msgid "&Export"
 msgstr "&Esportatu"
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:66
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
@@ -369,7 +372,7 @@ msgstr ""
 "Gaitu kontrol-lauki hau, leiho-propietate hau zehaztutako leiho(et)an "
 "aldatzeko."
 
-#: ruleswidget.cpp:70
+#: ruleswidget.cpp:68
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -402,7 +405,7 @@ msgstr ""
 "emandako balioa izatera behartuko da, ezkutatu arte (ekintza hori ezabatu "
 "egingo da leihoa ezkutatutakoan).</li></ul>"
 
-#: ruleswidget.cpp:85
+#: ruleswidget.cpp:83
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -422,27 +425,27 @@ msgstr ""
 "ezkutatu arte (ekintza hori ezabatu egingo da leihoa ezkutatutakoan).</li></"
 "ul>"
 
-#: ruleswidget.cpp:153
+#: ruleswidget.cpp:151
 #, kde-format
 msgid "All Desktops"
 msgstr "Mahaigain guztiak"
 
-#: ruleswidget.cpp:347
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr "Jarduera guztiak"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:790
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1(r)en ezarpenak"
 
-#: ruleswidget.cpp:833
+#: ruleswidget.cpp:792
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Izenik gabeko sarrera"
 
-#: ruleswidget.cpp:843
+#: ruleswidget.cpp:802
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -456,12 +459,12 @@ msgstr ""
 "ezarpenak. Ezarpen generikoa sortu nahi baldin baduzu, gomendagarria da "
 "gutxienez leiho motak mugatzea, leiho mota bereziak saihesteko."
 
-#: ruleswidget.cpp:874
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Editatu leihoen ezarpen espezifikoak"
 
-#: ruleswidget.cpp:904
+#: ruleswidget.cpp:863
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -474,12 +477,12 @@ msgstr ""
 "ezarpena, gaitu kontrol-laukia erabiliz, eta hautatu ezarpena nola aldatu "
 "eta zer balio ezarri."
 
-#: ruleswidget.cpp:908
+#: ruleswidget.cpp:867
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Begiratu dokumentazioa xehetasun gehiagorako."
 
-#: ruleswidget.cpp:947
+#: ruleswidget.cpp:906
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Editatu lasterbidea"

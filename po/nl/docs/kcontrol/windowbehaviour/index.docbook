@@ -66,8 +66,6 @@
 > stelt u in staat om te configureren hoe vensters worden verplaatst en zich plaatsen bij het starten. De optie <guilabel
 >Geavanceerd</guilabel
 > dekt sommige gespecialiseerde opties zoals <quote
->vensterwisseling</quote
-> en <quote
 >versterverduistering</quote
 >. </para>
 
@@ -345,7 +343,7 @@
 >Soortgelijke opties zijn beschikbaar voor <guilabel
 >Wielactie</guilabel
 >. </para>
-<!--FIXME Raise/Lower Shade/Unshade Maximize/Restore Keep Above/Below Move to Previous/Next Desktop Change Opacity  Switch to Window Tab to the Left/Reght -->
+<!--FIXME Raise/Lower Shade/Unshade Maximize/Restore Keep Above/Below Move to Previous/Next Desktop Change Opacity -->
 
 <tip>
 <para
@@ -408,7 +406,7 @@
 </varlistentry>
 
 <!--FIXME missing:
-Minimize, Shade, Close, Start Window Tab Drag
+Minimize, Shade, Close
 -->
 
 <varlistentry>
@@ -624,7 +622,7 @@ Increase Opacity + Decrease Opacity
 <!--FIXME
 Mouse Wheel has different choices:
 Raise/Lower, Shade/Unshade, Maximize/Restore, Keep Above/Below, 
-Move to Previous/Next Desktop, Change Opacity, Switch to Window Tab to the Left/Right
+Move to Previous/Next Desktop, Change Opacity
 Nothing
 -->
 
@@ -750,30 +748,6 @@ Nothing
 </variablelist>
 
 <variablelist>
-<title
->Vensterwisseling</title>
-
-<varlistentry>
-<term
-><guilabel
->Automatisch gelijke vensters groeperen</guilabel
-></term>
-<listitem
-><para
->Indien ingeschakeld probeer dan automatisch te detecteren of een nieuw geopend venster gerelateerd is aan een bestaande en plaats deze dan in dezelfde venstergroep.</para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><guilabel
->Onmiddellijk naar automatisch gegroepeerde vensters omschakelen</guilabel
-></term>
-<listitem
-><para
->Indien ingeschakeld onmiddellijk omschakelen naar elk nieuw venstertabblad dat automatisch aan de huidige groep is toegevoegd.</para
-></listitem>
-</varlistentry>
 
 <varlistentry>
 <term

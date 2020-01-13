@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QObject>
 #include <QPixmap>
 #include <kwineffects.h>
-#include <qvarlengtharray.h>
 
 namespace KDecoration2
 {
@@ -48,31 +47,31 @@ class Toplevel;
  *
  * This class holds all information about the Shadow to be rendered together with the
  * window during the Compositing stage. The Shadow consists of several pixmaps and offsets.
- * For a complete description please refer to http://community.kde.org/KWin/Shadow
+ * For a complete description please refer to https://community.kde.org/KWin/Shadow
  *
- * To create a Shadow instance use the static factory method @link createShadow which will
+ * To create a Shadow instance use the static factory method createShadow which will
  * create an instance for the currently used Compositing Backend. It will read the X11 Property
  * and create the Shadow and all required data (such as WindowQuads). If there is no Shadow
  * defined for the Toplevel the factory method returns @c NULL.
  * 
  * @author Martin Gräßlin <mgraesslin@kde.org>
  * @todo React on Toplevel size changes.
- **/
+ */
 class KWIN_EXPORT Shadow : public QObject
 {
     Q_OBJECT
 public:
-    virtual ~Shadow();
+    ~Shadow() override;
 
     /**
      * @return Region of the shadow.
-     **/
+     */
     const QRegion &shadowRegion() const {
         return m_shadowRegion;
     };
     /**
      * @return Cached Shadow Quads
-     **/
+     */
     const WindowQuadList &shadowQuads() const {
         return m_shadowQuads;
     };
@@ -88,7 +87,7 @@ public:
      * been withdrawn the method returns @c false. In that case the owner should
      * delete the Shadow.
      * @returns @c true when the shadow has been updated, @c false if the property is not set anymore.
-     **/
+     */
     virtual bool updateShadow();
 
     /**
@@ -100,14 +99,14 @@ public:
      * will return @c NULL.
      * @param toplevel The Toplevel for which the shadow should be created
      * @return Created Shadow or @c NULL in case there is no shadow defined.
-     **/
+     */
     static Shadow *createShadow(Toplevel *toplevel);
 
     /**
      * Reparents the shadow to @p toplevel.
      * Used when a window is deleted.
      * @param toplevel The new parent
-     **/
+     */
     void setToplevel(Toplevel *toplevel);
 
     bool hasDecorationShadow() const {

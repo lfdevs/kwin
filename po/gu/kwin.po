@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin-gu\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-19 06:52+0200\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-09-27 07:54+0200\n"
 "PO-Revision-Date: 2009-01-04 13:06+0530\n"
 "Last-Translator: Kartik Mistry <kartik.mistry@gmail.com>\n"
 "Language-Team: Gujarati <kde-i18n-doc@kde.org>\n"
@@ -27,18 +27,18 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kartik.mistry@gmail.com"
 
-#: abstract_client.cpp:1868
+#: abstract_client.cpp:1939
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr ""
 
-#: abstract_output.cpp:51
+#: abstract_wayland_output.cpp:247
 #, kde-format
 msgid "unknown"
 msgstr ""
 
-#: composite.cpp:569
+#: composite.cpp:929
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -308,459 +308,465 @@ msgctxt "An orientation of a pointer axis event"
 msgid "Vertical"
 msgstr ""
 
-#: debug_console.cpp:251
+#: debug_console.cpp:237
+#, kde-format
+msgctxt "The angle delta of a pointer axis event"
+msgid "Delta"
+msgstr ""
+
+#: debug_console.cpp:252
 #, kde-format
 msgctxt "A key press event"
 msgid "Key Press"
 msgstr ""
 
-#: debug_console.cpp:254
+#: debug_console.cpp:255
 #, kde-format
 msgctxt "A key release event"
 msgid "Key Release"
 msgstr ""
 
-#: debug_console.cpp:263
+#: debug_console.cpp:264
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Shift"
 msgstr ""
 
-#: debug_console.cpp:267
+#: debug_console.cpp:268
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Control"
 msgstr ""
 
-#: debug_console.cpp:271
+#: debug_console.cpp:272
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Alt"
 msgstr ""
 
-#: debug_console.cpp:275
+#: debug_console.cpp:276
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Meta"
 msgstr ""
 
-#: debug_console.cpp:279
+#: debug_console.cpp:280
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Keypad"
 msgstr ""
 
-#: debug_console.cpp:283
+#: debug_console.cpp:284
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Group-switch"
 msgstr ""
 
-#: debug_console.cpp:289
+#: debug_console.cpp:290
 #, kde-format
 msgctxt "Whether the event is an automatic key repeat"
 msgid "Repeat"
 msgstr ""
 
-#: debug_console.cpp:290
+#: debug_console.cpp:291
 #, kde-format
 msgctxt "The code as read from the input device"
 msgid "Scan code"
 msgstr ""
 
-#: debug_console.cpp:291
+#: debug_console.cpp:292
 #, kde-format
 msgctxt "The translated code to an Xkb symbol"
 msgid "Xkb symbol"
 msgstr ""
 
-#: debug_console.cpp:292
+#: debug_console.cpp:293
 #, kde-format
 msgctxt "The translated code interpreted as text"
 msgid "Utf8"
 msgstr ""
 
-#: debug_console.cpp:293
+#: debug_console.cpp:294
 #, kde-format
 msgctxt "The currently active modifiers"
 msgid "Modifiers"
 msgstr ""
 
-#: debug_console.cpp:305
+#: debug_console.cpp:306
 #, kde-format
 msgctxt "A touch down event"
 msgid "Touch down"
 msgstr ""
 
-#: debug_console.cpp:307 debug_console.cpp:322 debug_console.cpp:337
+#: debug_console.cpp:308 debug_console.cpp:323 debug_console.cpp:338
 #, kde-format
 msgctxt "The id of the touch point in the touch event"
 msgid "Point identifier"
 msgstr ""
 
-#: debug_console.cpp:308 debug_console.cpp:323
+#: debug_console.cpp:309 debug_console.cpp:324
 #, kde-format
 msgctxt "The global position of the touch point"
 msgid "Global position"
 msgstr ""
 
-#: debug_console.cpp:320
+#: debug_console.cpp:321
 #, kde-format
 msgctxt "A touch motion event"
 msgid "Touch Motion"
 msgstr ""
 
-#: debug_console.cpp:335
+#: debug_console.cpp:336
 #, kde-format
 msgctxt "A touch up event"
 msgid "Touch Up"
 msgstr ""
 
-#: debug_console.cpp:348
+#: debug_console.cpp:349
 #, kde-format
 msgctxt "A pinch gesture is started"
 msgid "Pinch start"
 msgstr ""
 
-#: debug_console.cpp:350
+#: debug_console.cpp:351
 #, kde-format
 msgctxt "Number of fingers in this pinch gesture"
 msgid "Finger count"
 msgstr ""
 
-#: debug_console.cpp:361
+#: debug_console.cpp:362
 #, kde-format
 msgctxt "A pinch gesture is updated"
 msgid "Pinch update"
 msgstr ""
 
-#: debug_console.cpp:363
+#: debug_console.cpp:364
 #, kde-format
 msgctxt "Current scale in pinch gesture"
 msgid "Scale"
 msgstr ""
 
-#: debug_console.cpp:364
+#: debug_console.cpp:365
 #, kde-format
 msgctxt "Current angle in pinch gesture"
 msgid "Angle delta"
 msgstr ""
 
-#: debug_console.cpp:365
+#: debug_console.cpp:366
 #, kde-format
 msgctxt "Current delta in pinch gesture"
 msgid "Delta x"
 msgstr ""
 
-#: debug_console.cpp:366
+#: debug_console.cpp:367
 #, kde-format
 msgctxt "Current delta in pinch gesture"
 msgid "Delta y"
 msgstr ""
 
-#: debug_console.cpp:377
+#: debug_console.cpp:378
 #, kde-format
 msgctxt "A pinch gesture ended"
 msgid "Pinch end"
 msgstr ""
 
-#: debug_console.cpp:389
+#: debug_console.cpp:390
 #, kde-format
 msgctxt "A pinch gesture got cancelled"
 msgid "Pinch cancelled"
 msgstr ""
 
-#: debug_console.cpp:401
+#: debug_console.cpp:402
 #, kde-format
 msgctxt "A swipe gesture is started"
 msgid "Swipe start"
 msgstr ""
 
-#: debug_console.cpp:403
+#: debug_console.cpp:404
 #, kde-format
 msgctxt "Number of fingers in this swipe gesture"
 msgid "Finger count"
 msgstr ""
 
-#: debug_console.cpp:414
+#: debug_console.cpp:415
 #, kde-format
 msgctxt "A swipe gesture is updated"
 msgid "Swipe update"
 msgstr ""
 
-#: debug_console.cpp:416
+#: debug_console.cpp:417
 #, kde-format
 msgctxt "Current delta in swipe gesture"
 msgid "Delta x"
 msgstr ""
 
-#: debug_console.cpp:417
+#: debug_console.cpp:418
 #, kde-format
 msgctxt "Current delta in swipe gesture"
 msgid "Delta y"
 msgstr ""
 
-#: debug_console.cpp:428
+#: debug_console.cpp:429
 #, kde-format
 msgctxt "A swipe gesture ended"
 msgid "Swipe end"
 msgstr ""
 
-#: debug_console.cpp:440
+#: debug_console.cpp:441
 #, kde-format
 msgctxt "A swipe gesture got cancelled"
 msgid "Swipe cancelled"
 msgstr ""
 
-#: debug_console.cpp:452
+#: debug_console.cpp:453
 #, fuzzy, kde-format
 #| msgid "Switch to window tab"
 msgctxt "A hardware switch (e.g. notebook lid) got toggled"
 msgid "Switch toggled"
 msgstr "વિન્ડો ટેબ પર જાવ"
 
-#: debug_console.cpp:460
+#: debug_console.cpp:461
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Notebook lid"
 msgstr ""
 
-#: debug_console.cpp:462
+#: debug_console.cpp:463
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Tablet mode"
 msgstr ""
 
-#: debug_console.cpp:464
+#: debug_console.cpp:465
 #, fuzzy, kde-format
 #| msgid "Switch to window tab"
 msgctxt "A hardware switch"
 msgid "Switch"
 msgstr "વિન્ડો ટેબ પર જાવ"
 
-#: debug_console.cpp:468
+#: debug_console.cpp:469
 #, kde-format
 msgctxt "The hardware switch got turned off"
 msgid "Off"
 msgstr ""
 
-#: debug_console.cpp:471
+#: debug_console.cpp:472
 #, kde-format
 msgctxt "The hardware switch got turned on"
 msgid "On"
 msgstr ""
 
-#: debug_console.cpp:476
+#: debug_console.cpp:477
 #, kde-format
 msgctxt "State of a hardware switch (on/off)"
 msgid "State"
 msgstr ""
 
-#: debug_console.cpp:661
+#: debug_console.cpp:662
 #, fuzzy, kde-format
 #| msgid "Mouse Emulation"
 msgid "No Mouse Buttons"
 msgstr "માઉસ અનુકરણ"
 
-#: debug_console.cpp:665
+#: debug_console.cpp:666
 #, kde-format
 msgctxt "Mouse Button"
 msgid "left"
 msgstr ""
 
-#: debug_console.cpp:668
+#: debug_console.cpp:669
 #, fuzzy, kde-format
 #| msgid "Top-Right"
 msgctxt "Mouse Button"
 msgid "right"
 msgstr "ઉપર-જમણે"
 
-#: debug_console.cpp:671
+#: debug_console.cpp:672
 #, kde-format
 msgctxt "Mouse Button"
 msgid "middle"
 msgstr ""
 
-#: debug_console.cpp:674
+#: debug_console.cpp:675
 #, kde-format
 msgctxt "Mouse Button"
 msgid "back"
 msgstr ""
 
-#: debug_console.cpp:677
+#: debug_console.cpp:678
 #, kde-format
 msgctxt "Mouse Button"
 msgid "forward"
 msgstr ""
 
-#: debug_console.cpp:680
+#: debug_console.cpp:681
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 1"
 msgstr ""
 
-#: debug_console.cpp:683
+#: debug_console.cpp:684
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 2"
 msgstr ""
 
-#: debug_console.cpp:686
+#: debug_console.cpp:687
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 3"
 msgstr ""
 
-#: debug_console.cpp:689
+#: debug_console.cpp:690
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 4"
 msgstr ""
 
-#: debug_console.cpp:692
+#: debug_console.cpp:693
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 5"
 msgstr ""
 
-#: debug_console.cpp:695
+#: debug_console.cpp:696
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 6"
 msgstr ""
 
-#: debug_console.cpp:698
+#: debug_console.cpp:699
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 7"
 msgstr ""
 
-#: debug_console.cpp:701
+#: debug_console.cpp:702
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 8"
 msgstr ""
 
-#: debug_console.cpp:704
+#: debug_console.cpp:705
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 9"
 msgstr ""
 
-#: debug_console.cpp:707
+#: debug_console.cpp:708
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 10"
 msgstr ""
 
-#: debug_console.cpp:710
+#: debug_console.cpp:711
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 11"
 msgstr ""
 
-#: debug_console.cpp:713
+#: debug_console.cpp:714
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 12"
 msgstr ""
 
-#: debug_console.cpp:716
+#: debug_console.cpp:717
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 13"
 msgstr ""
 
-#: debug_console.cpp:719
+#: debug_console.cpp:720
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 14"
 msgstr ""
 
-#: debug_console.cpp:722
+#: debug_console.cpp:723
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 15"
 msgstr ""
 
-#: debug_console.cpp:725
+#: debug_console.cpp:726
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 16"
 msgstr ""
 
-#: debug_console.cpp:728
+#: debug_console.cpp:729
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 17"
 msgstr ""
 
-#: debug_console.cpp:731
+#: debug_console.cpp:732
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 18"
 msgstr ""
 
-#: debug_console.cpp:734
+#: debug_console.cpp:735
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 19"
 msgstr ""
 
-#: debug_console.cpp:737
+#: debug_console.cpp:738
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 20"
 msgstr ""
 
-#: debug_console.cpp:740
+#: debug_console.cpp:741
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 21"
 msgstr ""
 
-#: debug_console.cpp:743
+#: debug_console.cpp:744
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 22"
 msgstr ""
 
-#: debug_console.cpp:746
+#: debug_console.cpp:747
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 23"
 msgstr ""
 
-#: debug_console.cpp:749
+#: debug_console.cpp:750
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 24"
 msgstr ""
 
-#: debug_console.cpp:752
+#: debug_console.cpp:753
 #, kde-format
 msgctxt "Mouse Button"
 msgid "task"
 msgstr ""
 
-#: debug_console.cpp:1093
+#: debug_console.cpp:1096
 #, fuzzy, kde-format
 #| msgid "Close Window"
 msgid "X11 Client Windows"
 msgstr "વિન્ડો બંધ કરો"
 
-#: debug_console.cpp:1095
+#: debug_console.cpp:1098
 #, kde-format
 msgid "X11 Unmanaged Windows"
 msgstr ""
 
-#: debug_console.cpp:1097
+#: debug_console.cpp:1100
 #, fuzzy, kde-format
 #| msgid "Shade Window"
 msgid "Wayland Windows"
 msgstr "વિન્ડો ઝાંખી કરો"
 
-#: debug_console.cpp:1099
+#: debug_console.cpp:1102
 #, fuzzy, kde-format
 #| msgid "Lower Window"
 msgid "Internal Windows"
@@ -917,89 +923,89 @@ msgstr ""
 msgid "Active LEDs"
 msgstr ""
 
-#: helpers/killer/killer.cpp:45
+#: helpers/killer/killer.cpp:47
 #, fuzzy, kde-format
 #| msgid "KDE window manager"
 msgid "Window Manager"
 msgstr "KDE વિન્ડો વ્યવસ્થાપક"
 
-#: helpers/killer/killer.cpp:50
+#: helpers/killer/killer.cpp:52
 #, kde-format
 msgid "PID of the application to terminate"
 msgstr "બંધ કરવાના કાર્યક્રમની PID"
 
-#: helpers/killer/killer.cpp:50
+#: helpers/killer/killer.cpp:52
 #, kde-format
 msgid "pid"
 msgstr ""
 
-#: helpers/killer/killer.cpp:52
+#: helpers/killer/killer.cpp:54
 #, kde-format
 msgid "Hostname on which the application is running"
 msgstr "કાર્યક્રમ જેના પર ચાલતો હોય તેનું યજમાનનામ"
 
-#: helpers/killer/killer.cpp:52
+#: helpers/killer/killer.cpp:54
 #, kde-format
 msgid "hostname"
 msgstr ""
 
-#: helpers/killer/killer.cpp:54
+#: helpers/killer/killer.cpp:56
 #, kde-format
 msgid "Caption of the window to be terminated"
 msgstr "બંધ કરવાની વિન્ડોનું કેપ્શન"
 
-#: helpers/killer/killer.cpp:54
+#: helpers/killer/killer.cpp:56
 #, kde-format
 msgid "caption"
 msgstr ""
 
-#: helpers/killer/killer.cpp:56
+#: helpers/killer/killer.cpp:58
 #, kde-format
 msgid "Name of the application to be terminated"
 msgstr "બંધ કરવાના કાર્યક્રમનું નામ"
 
-#: helpers/killer/killer.cpp:56
+#: helpers/killer/killer.cpp:58
 #, kde-format
 msgid "name"
 msgstr ""
 
-#: helpers/killer/killer.cpp:58
+#: helpers/killer/killer.cpp:60
 #, kde-format
 msgid "ID of resource belonging to the application"
 msgstr "આ કાર્યક્રમને લાગતાં સ્ત્રોતની ઓળખ"
 
-#: helpers/killer/killer.cpp:58
+#: helpers/killer/killer.cpp:60
 #, kde-format
 msgid "id"
 msgstr ""
 
-#: helpers/killer/killer.cpp:60
+#: helpers/killer/killer.cpp:62
 #, kde-format
 msgid "Time of user action causing termination"
 msgstr "વપરાશકર્તા ક્રિયાનો સમય બંધ કરવાનું કારણ બને છે"
 
-#: helpers/killer/killer.cpp:60
+#: helpers/killer/killer.cpp:62
 #, kde-format
 msgid "time"
 msgstr ""
 
-#: helpers/killer/killer.cpp:62
+#: helpers/killer/killer.cpp:64
 #, kde-format
 msgid "KWin helper utility"
 msgstr "KWin મદદ સાધન"
 
-#: helpers/killer/killer.cpp:86
+#: helpers/killer/killer.cpp:88
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "આ મદદ સાધન સીધું જ બોલાવવાનું નહોતું."
 
-#: helpers/killer/killer.cpp:96
+#: helpers/killer/killer.cpp:98
 #, kde-format
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
 msgstr ""
 
-#: helpers/killer/killer.cpp:98
+#: helpers/killer/killer.cpp:100
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1007,7 +1013,7 @@ msgid ""
 "but the application is not responding.</p>"
 msgstr ""
 
-#: helpers/killer/killer.cpp:100
+#: helpers/killer/killer.cpp:102
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1015,7 +1021,7 @@ msgid ""
 "%3), running on host \"%4\", but the application is not responding.</p>"
 msgstr ""
 
-#: helpers/killer/killer.cpp:103
+#: helpers/killer/killer.cpp:105
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1024,12 +1030,12 @@ msgid ""
 "lost.</warning></p>"
 msgstr ""
 
-#: helpers/killer/killer.cpp:107
+#: helpers/killer/killer.cpp:109
 #, kde-format
 msgid "&Terminate Application %1"
 msgstr "કાર્યક્રમ %1 બંધ કરો (&T)"
 
-#: helpers/killer/killer.cpp:108
+#: helpers/killer/killer.cpp:110
 #, kde-format
 msgid "Wait Longer"
 msgstr ""
@@ -1040,7 +1046,7 @@ msgctxt "tooltip title"
 msgid "Keyboard Layout"
 msgstr ""
 
-#: keyboard_layout.cpp:266
+#: keyboard_layout.cpp:264
 #, fuzzy, kde-format
 #| msgid "Configur&e Window Behavior..."
 msgid "Configure Layouts..."
@@ -1055,316 +1061,301 @@ msgstr ""
 
 #: kwinbindings.cpp:49
 #, kde-format
-msgid "Walk Through Window Tabs"
-msgstr "વિન્ડોસ ટેબ્સમાંથી પસાર થાવ"
-
-#: kwinbindings.cpp:50
-#, kde-format
-msgid "Walk Through Window Tabs (Reverse)"
-msgstr "વિન્ડો ટેબ્સમાંથી પસાર થાવ (ઉલ્ટું)"
-
-#: kwinbindings.cpp:51
-#, kde-format
-msgid "Remove Window From Group"
-msgstr "વિન્ડોને સમૂહમાંથી દૂર કરો"
-
-#: kwinbindings.cpp:53
-#, kde-format
 msgid "Window Operations Menu"
 msgstr "વિન્ડો પ્રક્રિયાઓ મેનુ"
 
-#: kwinbindings.cpp:55
+#: kwinbindings.cpp:51
 #, kde-format
 msgid "Close Window"
 msgstr "વિન્ડો બંધ કરો"
 
-#: kwinbindings.cpp:57
+#: kwinbindings.cpp:53
 #, kde-format
 msgid "Maximize Window"
 msgstr "વિન્ડો મહત્તમ કરો"
 
-#: kwinbindings.cpp:59
+#: kwinbindings.cpp:55
 #, kde-format
 msgid "Maximize Window Vertically"
 msgstr "વિન્ડોને ઉભી મહત્તમ કરો"
 
-#: kwinbindings.cpp:61
+#: kwinbindings.cpp:57
 #, kde-format
 msgid "Maximize Window Horizontally"
 msgstr "વિન્ડોને આડી મહત્તમ કરો"
 
-#: kwinbindings.cpp:63
+#: kwinbindings.cpp:59
 #, kde-format
 msgid "Minimize Window"
 msgstr "વિન્ડો ન્યૂનત્તમ કરો"
 
-#: kwinbindings.cpp:65
+#: kwinbindings.cpp:61
 #, kde-format
 msgid "Shade Window"
 msgstr "વિન્ડો ઝાંખી કરો"
 
-#: kwinbindings.cpp:67
+#: kwinbindings.cpp:63
 #, kde-format
 msgid "Move Window"
 msgstr "વિન્ડો ખસડો"
 
-#: kwinbindings.cpp:69
+#: kwinbindings.cpp:65
 #, kde-format
 msgid "Resize Window"
 msgstr "વિન્ડોનું માપ બદલો"
 
-#: kwinbindings.cpp:71
+#: kwinbindings.cpp:67
 #, kde-format
 msgid "Raise Window"
 msgstr "વિન્ડો ઉઠાવો"
 
-#: kwinbindings.cpp:73
+#: kwinbindings.cpp:69
 #, kde-format
 msgid "Lower Window"
 msgstr "વિન્ડો નીચી કરો"
 
-#: kwinbindings.cpp:75
+#: kwinbindings.cpp:71
 #, kde-format
 msgid "Toggle Window Raise/Lower"
 msgstr "વિન્ડો ઉપર/નીચે કરવાનું ચાલુ/બંધ કરો"
 
-#: kwinbindings.cpp:77
+#: kwinbindings.cpp:73
 #, kde-format
 msgid "Make Window Fullscreen"
 msgstr "વિન્ડોને પૂર્ણસ્ક્રિન બનાવો"
 
-#: kwinbindings.cpp:79
+#: kwinbindings.cpp:75
 #, kde-format
 msgid "Hide Window Border"
 msgstr "વિન્ડો કિનારી છુપાવો"
 
-#: kwinbindings.cpp:81
+#: kwinbindings.cpp:77
 #, kde-format
 msgid "Keep Window Above Others"
 msgstr "વિન્ડોને બીજાઓની ઉપર રાખો"
 
-#: kwinbindings.cpp:83
+#: kwinbindings.cpp:79
 #, kde-format
 msgid "Keep Window Below Others"
 msgstr "વિન્ડોને બીજાઓની નીચે રાખો"
 
-#: kwinbindings.cpp:85
+#: kwinbindings.cpp:81
 #, kde-format
 msgid "Activate Window Demanding Attention"
 msgstr "ધ્યાન માંગતી વિન્ડો સક્રિય કરો"
 
-#: kwinbindings.cpp:87
+#: kwinbindings.cpp:83
 #, kde-format
 msgid "Setup Window Shortcut"
 msgstr "વિન્ડો ટૂંકાણ ગોઠવો"
 
-#: kwinbindings.cpp:89
+#: kwinbindings.cpp:85
 #, kde-format
 msgid "Pack Window to the Right"
 msgstr "વિન્ડોને જમણી બાજુ બાંધો"
 
-#: kwinbindings.cpp:91
+#: kwinbindings.cpp:87
 #, kde-format
 msgid "Pack Window to the Left"
 msgstr "વિન્ડોને ડાબી બાજુ બાંધો"
 
-#: kwinbindings.cpp:93
+#: kwinbindings.cpp:89
 #, kde-format
 msgid "Pack Window Up"
 msgstr "વિન્ડોને ઉપર બાંધો"
 
-#: kwinbindings.cpp:95
+#: kwinbindings.cpp:91
 #, kde-format
 msgid "Pack Window Down"
 msgstr "વિન્ડોને નીચે બાંધો"
 
-#: kwinbindings.cpp:97
+#: kwinbindings.cpp:93
 #, kde-format
 msgid "Pack Grow Window Horizontally"
 msgstr "વિન્ડોને આડી બાજુ વધતી બાંધો"
 
-#: kwinbindings.cpp:99
+#: kwinbindings.cpp:95
 #, kde-format
 msgid "Pack Grow Window Vertically"
 msgstr "વિન્ડોને ઉભી બાજુ વધતી બાંધો"
 
-#: kwinbindings.cpp:101
+#: kwinbindings.cpp:97
 #, kde-format
 msgid "Pack Shrink Window Horizontally"
 msgstr "વિન્ડોને આડી બાજુ ઘટતી બાંધો"
 
-#: kwinbindings.cpp:103
+#: kwinbindings.cpp:99
 #, kde-format
 msgid "Pack Shrink Window Vertically"
 msgstr "વિન્ડોને આડી બાજુ ઉભી બાંધો"
 
-#: kwinbindings.cpp:105
+#: kwinbindings.cpp:101
 #, kde-format
 msgid "Quick Tile Window to the Left"
 msgstr "વિન્ડોને ડાબી બાજુ ઝડપથી તકતી કરો"
 
-#: kwinbindings.cpp:107
+#: kwinbindings.cpp:103
 #, kde-format
 msgid "Quick Tile Window to the Right"
 msgstr "વિન્ડોને જમણી બાજુ ઝડપથી તકતી કરો"
 
-#: kwinbindings.cpp:109
+#: kwinbindings.cpp:105
 #, fuzzy, kde-format
 #| msgid "Quick Tile Window to the Left"
 msgid "Quick Tile Window to the Top"
 msgstr "વિન્ડોને ડાબી બાજુ ઝડપથી તકતી કરો"
 
-#: kwinbindings.cpp:111
+#: kwinbindings.cpp:107
 #, fuzzy, kde-format
 #| msgid "Quick Tile Window to the Left"
 msgid "Quick Tile Window to the Bottom"
 msgstr "વિન્ડોને ડાબી બાજુ ઝડપથી તકતી કરો"
 
-#: kwinbindings.cpp:113
+#: kwinbindings.cpp:109
 #, fuzzy, kde-format
 #| msgid "Quick Tile Window to the Left"
 msgid "Quick Tile Window to the Top Left"
 msgstr "વિન્ડોને ડાબી બાજુ ઝડપથી તકતી કરો"
 
-#: kwinbindings.cpp:115
+#: kwinbindings.cpp:111
 #, fuzzy, kde-format
 #| msgid "Quick Tile Window to the Left"
 msgid "Quick Tile Window to the Bottom Left"
 msgstr "વિન્ડોને ડાબી બાજુ ઝડપથી તકતી કરો"
 
-#: kwinbindings.cpp:117
+#: kwinbindings.cpp:113
 #, fuzzy, kde-format
 #| msgid "Quick Tile Window to the Right"
 msgid "Quick Tile Window to the Top Right"
 msgstr "વિન્ડોને જમણી બાજુ ઝડપથી તકતી કરો"
 
-#: kwinbindings.cpp:119
+#: kwinbindings.cpp:115
 #, fuzzy, kde-format
 #| msgid "Quick Tile Window to the Right"
 msgid "Quick Tile Window to the Bottom Right"
 msgstr "વિન્ડોને જમણી બાજુ ઝડપથી તકતી કરો"
 
-#: kwinbindings.cpp:121
+#: kwinbindings.cpp:117
 #, kde-format
 msgid "Switch to Window Above"
 msgstr "વિન્ડોને ઉપર ખસેડો"
 
-#: kwinbindings.cpp:123
+#: kwinbindings.cpp:119
 #, kde-format
 msgid "Switch to Window Below"
 msgstr "વિન્ડોને નીચે ખસેડો"
 
-#: kwinbindings.cpp:125
+#: kwinbindings.cpp:121
 #, kde-format
 msgid "Switch to Window to the Right"
 msgstr "વિન્ડોને જમણી બાજુ ખસેડો"
 
-#: kwinbindings.cpp:127
+#: kwinbindings.cpp:123
 #, kde-format
 msgid "Switch to Window to the Left"
 msgstr "વિન્ડોને ડાબી બાજુ ખસેડો"
 
-#: kwinbindings.cpp:129
+#: kwinbindings.cpp:125
 #, kde-format
 msgid "Increase Opacity of Active Window by 5 %"
 msgstr ""
 
-#: kwinbindings.cpp:131
+#: kwinbindings.cpp:127
 #, kde-format
 msgid "Decrease Opacity of Active Window by 5 %"
 msgstr ""
 
-#: kwinbindings.cpp:134
+#: kwinbindings.cpp:130
 #, kde-format
 msgid "Keep Window on All Desktops"
 msgstr "બધા ડેસ્કટોપ્સ પર વિન્ડો રાખો"
 
-#: kwinbindings.cpp:138
+#: kwinbindings.cpp:134
 #, fuzzy, kde-format
 #| msgid "Window to Desktop 1"
 msgid "Window to Desktop %1"
 msgstr "વિન્ડો ડેસ્કટોપ ૧ પર"
 
-#: kwinbindings.cpp:140
+#: kwinbindings.cpp:136
 #, kde-format
 msgid "Window to Next Desktop"
 msgstr "આગળનાં ડેસ્કટોપ પર વિન્ડો"
 
-#: kwinbindings.cpp:141
+#: kwinbindings.cpp:137
 #, kde-format
 msgid "Window to Previous Desktop"
 msgstr "પાછળના ડેસ્કટોપ પર વિન્ડો"
 
-#: kwinbindings.cpp:142
+#: kwinbindings.cpp:138
 #, kde-format
 msgid "Window One Desktop to the Right"
 msgstr "વિન્ડો એક ડેસ્કટોપ જમણે"
 
-#: kwinbindings.cpp:143
+#: kwinbindings.cpp:139
 #, kde-format
 msgid "Window One Desktop to the Left"
 msgstr "વિન્ડો એક ડેસ્કટોપ ડાબે"
 
-#: kwinbindings.cpp:144
+#: kwinbindings.cpp:140
 #, kde-format
 msgid "Window One Desktop Up"
 msgstr "વિન્ડો એક ડેસ્કટોપ ઉપર"
 
-#: kwinbindings.cpp:145
+#: kwinbindings.cpp:141
 #, kde-format
 msgid "Window One Desktop Down"
 msgstr "વિન્ડો એક ડેસ્કટોપ નીચે"
 
-#: kwinbindings.cpp:148
+#: kwinbindings.cpp:144
 #, fuzzy, kde-format
 #| msgid "Window to Screen 1"
 msgid "Window to Screen %1"
 msgstr "વિન્ડો સ્ક્રિન ૧ પર"
 
-#: kwinbindings.cpp:150
+#: kwinbindings.cpp:146
 #, kde-format
 msgid "Window to Next Screen"
 msgstr "વિન્ડો આગળનાં સ્ક્રિન પર"
 
-#: kwinbindings.cpp:151
+#: kwinbindings.cpp:147
 #, fuzzy, kde-format
 #| msgid "Window to Previous Desktop"
 msgid "Window to Previous Screen"
 msgstr "પાછળના ડેસ્કટોપ પર વિન્ડો"
 
-#: kwinbindings.cpp:152
+#: kwinbindings.cpp:148
 #, kde-format
 msgid "Show Desktop"
 msgstr "ડેસ્કટોપ બતાવો"
 
-#: kwinbindings.cpp:155
+#: kwinbindings.cpp:151
 #, fuzzy, kde-format
 #| msgid "Switch to Screen 1"
 msgid "Switch to Screen %1"
 msgstr "સ્ક્રિન ૧ પર જાવ"
 
-#: kwinbindings.cpp:158
+#: kwinbindings.cpp:154
 #, kde-format
 msgid "Switch to Next Screen"
 msgstr "આગળનાં સ્ક્રિન પર જાવ"
 
-#: kwinbindings.cpp:159
+#: kwinbindings.cpp:155
 #, fuzzy, kde-format
 #| msgid "Switch to Previous Desktop"
 msgid "Switch to Previous Screen"
 msgstr "પાછળનાં ડેસ્કટોપ પર જાવ"
 
-#: kwinbindings.cpp:161
+#: kwinbindings.cpp:157
 #, kde-format
 msgid "Kill Window"
 msgstr "વિન્ડો બંધ કરો"
 
-#: kwinbindings.cpp:162
+#: kwinbindings.cpp:158
 #, kde-format
 msgid "Suspend Compositing"
 msgstr "કોમ્પોઝિશન રદ કરો"
 
-#: kwinbindings.cpp:163
+#: kwinbindings.cpp:159
 #, kde-format
 msgid "Invert Screen Colors"
 msgstr ""
@@ -1382,7 +1373,7 @@ msgstr "KWin"
 #: main.cpp:195
 #, fuzzy, kde-format
 #| msgid "(c) 1999-2008, The KDE Developers"
-msgid "(c) 1999-2013, The KDE Developers"
+msgid "(c) 1999-2018, The KDE Developers"
 msgstr "(c) ૧૯૯૯-૨૦૦૮ KDE વિકાસ કરનારાઓ"
 
 #: main.cpp:197
@@ -1407,13 +1398,8 @@ msgstr "લુડોસ લુનાક"
 
 #: main.cpp:201
 #, kde-format
-msgid "Martin Gräßlin"
+msgid "Martin Flöser"
 msgstr ""
-
-#: main.cpp:201
-#, kde-format
-msgid "Maintainer"
-msgstr "જાળવી રાખનાર"
 
 #: main.cpp:210
 #, kde-format
@@ -1425,106 +1411,111 @@ msgstr "રૂપરેખાંકન વિકલ્પો અસક્રિ�
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "બતાવે છે કે KWin હમણાં n વખત પડી ભાંગ્યું હતું"
 
-#: main_wayland.cpp:248
-#, kde-format
-msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
-msgstr ""
-
-#: main_wayland.cpp:577
+#: main_wayland.cpp:434
 #, kde-format
 msgid "Start a rootless Xwayland server."
 msgstr ""
 
-#: main_wayland.cpp:579
+#: main_wayland.cpp:436
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 
-#: main_wayland.cpp:582
+#: main_wayland.cpp:439
 #, kde-format
 msgid "Render to framebuffer."
 msgstr ""
 
-#: main_wayland.cpp:584
+#: main_wayland.cpp:441
 #, kde-format
 msgid "The framebuffer device to render to."
 msgstr ""
 
-#: main_wayland.cpp:587
+#: main_wayland.cpp:444
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr ""
 
-#: main_wayland.cpp:590
+#: main_wayland.cpp:447
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
 
-#: main_wayland.cpp:592
+#: main_wayland.cpp:449
 #, kde-format
 msgid "Render to a virtual framebuffer."
 msgstr ""
 
-#: main_wayland.cpp:594
+#: main_wayland.cpp:451
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
 msgstr ""
 
-#: main_wayland.cpp:598
+#: main_wayland.cpp:455
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
 msgstr ""
 
-#: main_wayland.cpp:603
+#: main_wayland.cpp:460
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
 msgstr ""
 
-#: main_wayland.cpp:608
+#: main_wayland.cpp:465
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
 msgstr ""
 
-#: main_wayland.cpp:638
+#: main_wayland.cpp:495
 #, kde-format
 msgid "Use libhybris hwcomposer"
 msgstr ""
 
-#: main_wayland.cpp:644
+#: main_wayland.cpp:501
 #, kde-format
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session."
 msgstr ""
 
-#: main_wayland.cpp:647
+#: main_wayland.cpp:504
 #, kde-format
 msgid "Render through drm node."
 msgstr ""
 
-#: main_wayland.cpp:654
+#: main_wayland.cpp:511
 #, kde-format
 msgid "Input method that KWin starts."
 msgstr ""
 
-#: main_wayland.cpp:659
+#: main_wayland.cpp:516
 #, kde-format
 msgid "List all available backends and quit."
 msgstr ""
 
-#: main_wayland.cpp:663
+#: main_wayland.cpp:520
 #, kde-format
 msgid "Starts the session in locked mode."
 msgstr ""
 
-#: main_wayland.cpp:667
+#: main_wayland.cpp:524
+#, kde-format
+msgid "Starts the session without lock screen support."
+msgstr ""
+
+#: main_wayland.cpp:528
+#, kde-format
+msgid "Starts the session without global shortcuts support."
+msgstr ""
+
+#: main_wayland.cpp:532
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr ""
 
-#: main_wayland.cpp:672
+#: main_wayland.cpp:537
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr ""
@@ -1537,84 +1528,63 @@ msgid ""
 "You can select another window manager to run:"
 msgstr ""
 
-#: main_x11.cpp:226
+#: main_x11.cpp:225
 #, kde-format
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
 msgstr ""
 
-#: main_x11.cpp:243
+#: main_x11.cpp:242
 #, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 
-#: main_x11.cpp:418
+#: main_x11.cpp:424
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "હાલમાં ચાલતાં ICCCM2.0-અનુરૂપ વિન્ડો વ્યવસ્થાપકને બદલો"
 
-#: main_x11.cpp:425
+#: main_x11.cpp:431
 #, kde-format
 msgid "Disable KActivities integration."
 msgstr ""
 
-#: orientation_sensor.cpp:72
+#: orientation_sensor.cpp:100
+#, kde-format
+msgid "Allow Rotation"
+msgstr ""
+
+#: orientation_sensor.cpp:101
 #, kde-format
 msgid "Automatic screen rotation is enabled"
 msgstr ""
 
-#: orientation_sensor.cpp:74 orientation_sensor.cpp:122
+#: orientation_sensor.cpp:111
+#, kde-format
+msgid "Undefined"
+msgstr ""
+
+#: orientation_sensor.cpp:115
+#, kde-format
+msgctxt "Portrait oriented display"
+msgid "Vertical"
+msgstr ""
+
+#: orientation_sensor.cpp:119
+#, kde-format
+msgctxt "Landscape oriented display"
+msgid "Horizontal"
+msgstr ""
+
+#: orientation_sensor.cpp:123
 #, kde-format
 msgid "Automatic screen rotation is disabled"
 msgstr ""
 
-#: orientation_sensor.cpp:118
-#, kde-format
-msgid "Automatic Screen Rotation"
-msgstr ""
-
-#: plugins/scenes/opengl/scene_opengl.cpp:574
+#: plugins/scenes/opengl/scene_opengl.cpp:577
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
-msgstr ""
-
-#: plugins/scenes/opengl/scene_opengl.cpp:826
-#, kde-format
-msgid ""
-"<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
-"OpenGL Desktop Effects at the current resolution<br><br>You can try to "
-"select the XRender backend, but it might be very slow for this resolution as "
-"well.<br>Alternatively, lower the combined resolution of all screens to %1x"
-"%2 "
-msgstr ""
-
-#: plugins/scenes/opengl/scene_opengl.cpp:833
-#, kde-format
-msgid ""
-"The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
-"GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
-"does not know such limitation, but the performance will usually be impacted "
-"by the hardware limitations that restrict the OpenGL viewport size."
-msgstr ""
-
-#: plugins/scenes/opengl/scene_opengl.cpp:858
-#, kde-format
-msgid ""
-"<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
-"the current resolution are supported but might be exceptionally slow."
-"<br>Also large windows will turn entirely black.<br><br>Consider to suspend "
-"compositing, switch to the XRender backend or lower the resolution to %1x%1."
-msgstr ""
-
-#: plugins/scenes/opengl/scene_opengl.cpp:864
-#, kde-format
-msgid ""
-"The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
-"GPU, thus windows of that size cannot be assigned to textures and will be "
-"entirely black.<br>Also this limit will often be a performance level barrier "
-"despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
-"software rendering in this case."
 msgstr ""
 
 #: scripting/genericscriptedconfig.cpp:81
@@ -1681,66 +1651,66 @@ msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "ડેસ્કટોપ બતાવો"
 
-#: tabbox/tabbox.cpp:536
+#: tabbox/tabbox.cpp:541
 #, kde-format
 msgid "Walk Through Windows"
 msgstr "વિન્ડોસમાં મુલાકાત લો"
 
-#: tabbox/tabbox.cpp:537
+#: tabbox/tabbox.cpp:542
 #, kde-format
 msgid "Walk Through Windows (Reverse)"
 msgstr "વિન્ડોસમાંથી પસાર થાવ (ઉલ્ટું)"
 
-#: tabbox/tabbox.cpp:538
+#: tabbox/tabbox.cpp:543
 #, kde-format
 msgid "Walk Through Windows Alternative"
 msgstr "વિન્ડોસ વૈકલ્પિકમાંથી પસાર થાવ"
 
-#: tabbox/tabbox.cpp:539
+#: tabbox/tabbox.cpp:544
 #, kde-format
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "વિન્ડોસ વૈકલ્પિકમાંથી પસાર થાવ (ઉલ્ટું)"
 
-#: tabbox/tabbox.cpp:540
+#: tabbox/tabbox.cpp:545
 #, fuzzy, kde-format
 #| msgid "Walk Through Windows Alternative"
 msgid "Walk Through Windows of Current Application"
 msgstr "વિન્ડોસ વૈકલ્પિકમાંથી પસાર થાવ"
 
-#: tabbox/tabbox.cpp:541
+#: tabbox/tabbox.cpp:546
 #, fuzzy, kde-format
 #| msgid "Walk Through Windows Alternative (Reverse)"
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "વિન્ડોસ વૈકલ્પિકમાંથી પસાર થાવ (ઉલ્ટું)"
 
-#: tabbox/tabbox.cpp:542
+#: tabbox/tabbox.cpp:547
 #, fuzzy, kde-format
 #| msgid "Walk Through Windows Alternative"
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "વિન્ડોસ વૈકલ્પિકમાંથી પસાર થાવ"
 
-#: tabbox/tabbox.cpp:543
+#: tabbox/tabbox.cpp:548
 #, fuzzy, kde-format
 #| msgid "Walk Through Windows Alternative (Reverse)"
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "વિન્ડોસ વૈકલ્પિકમાંથી પસાર થાવ (ઉલ્ટું)"
 
-#: tabbox/tabbox.cpp:544
+#: tabbox/tabbox.cpp:549
 #, kde-format
 msgid "Walk Through Desktops"
 msgstr "ડેસ્કટોપમાં મુલાકાત લો"
 
-#: tabbox/tabbox.cpp:545
+#: tabbox/tabbox.cpp:550
 #, kde-format
 msgid "Walk Through Desktops (Reverse)"
 msgstr "ડેસ્કટોપ્સમાંથી પસાર થાવ (ઉલ્ટું)"
 
-#: tabbox/tabbox.cpp:546
+#: tabbox/tabbox.cpp:551
 #, kde-format
 msgid "Walk Through Desktop List"
 msgstr "ડેસ્કટોપ યાદીમાંથી પસાર થાવ"
 
-#: tabbox/tabbox.cpp:547
+#: tabbox/tabbox.cpp:552
 #, kde-format
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "ડેસ્કટોપ યાદીમાંથી પસાર થાવ (ઉલ્ટું)"
@@ -1752,7 +1722,7 @@ msgid ""
 "Contact your distribution about this."
 msgstr ""
 
-#: useractions.cpp:204
+#: useractions.cpp:179
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -1761,7 +1731,7 @@ msgid ""
 "keyboard shortcut."
 msgstr ""
 
-#: useractions.cpp:212
+#: useractions.cpp:187
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -1770,165 +1740,131 @@ msgid ""
 "window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
 
-#: useractions.cpp:275
+#: useractions.cpp:252
 #, kde-format
 msgid "&Move"
 msgstr "ખસેડો (&M)"
 
-#: useractions.cpp:280
+#: useractions.cpp:257
 #, fuzzy, kde-format
 #| msgid "Re&size"
 msgid "&Resize"
 msgstr "માપ ફેરફાર (&s)"
 
-#: useractions.cpp:284
+#: useractions.cpp:262
 #, kde-format
 msgid "Keep &Above Others"
 msgstr "બીજાઓની ઉપર રાખો (&A)"
 
-#: useractions.cpp:290
+#: useractions.cpp:268
 #, kde-format
 msgid "Keep &Below Others"
 msgstr "બીજાઓની નીચે રાખો (&B)"
 
-#: useractions.cpp:296
+#: useractions.cpp:274
 #, kde-format
 msgid "&Fullscreen"
 msgstr "પૂર્ણસ્ક્રિન (&F)"
 
-#: useractions.cpp:302
+#: useractions.cpp:280
 #, fuzzy, kde-format
 #| msgid "Shade"
 msgid "&Shade"
 msgstr "છાંયડો"
 
-#: useractions.cpp:307
+#: useractions.cpp:286
 #, kde-format
 msgid "&No Border"
 msgstr "કિનારી નથી (&N)"
 
-#: useractions.cpp:314
+#: useractions.cpp:294
 #, fuzzy, kde-format
 #| msgid "Window &Shortcut..."
-msgid "Window Short&cut..."
+msgid "Set Window Short&cut..."
 msgstr "વિન્ડો ટૂંકાણ (&S)..."
 
-#: useractions.cpp:319
+#: useractions.cpp:299
 #, fuzzy, kde-format
 #| msgid "&Special Window Settings..."
-msgid "Special &Window Settings..."
+msgid "Configure Special &Window Settings..."
 msgstr "ખાસ વિન્ડો ગોઠવણીઓ (&S)..."
 
-#: useractions.cpp:324
+#: useractions.cpp:304
 #, fuzzy, kde-format
 #| msgid "&Special Application Settings..."
-msgid "S&pecial Application Settings..."
+msgid "Configure S&pecial Application Settings..."
 msgstr "ખાસ કાર્યક્રમ ગોઠવણીઓ (&S)..."
 
-#: useractions.cpp:332
+#: useractions.cpp:312
 #, fuzzy, kde-format
-#| msgid "&Special Window Settings..."
+#| msgid "KDE window manager"
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
-msgid "Window Manager S&ettings..."
-msgstr "ખાસ વિન્ડો ગોઠવણીઓ (&S)..."
+msgid "Configure W&indow Manager..."
+msgstr "KDE વિન્ડો વ્યવસ્થાપક"
 
-#: useractions.cpp:362
-#, kde-format
-msgid "Mi&nimize"
-msgstr "ન્યૂનતમ (&n)"
-
-#: useractions.cpp:366
+#: useractions.cpp:342
 #, kde-format
 msgid "Ma&ximize"
 msgstr "મહત્તમ (&x)"
 
-#: useractions.cpp:375
+#: useractions.cpp:348
 #, kde-format
-msgid "&Untab"
-msgstr ""
+msgid "Mi&nimize"
+msgstr "ન્યૂનતમ (&n)"
 
-#: useractions.cpp:379
-#, fuzzy, kde-format
-#| msgid "Close entire &group"
-msgid "Close Entire &Group"
-msgstr "આખા સમૂહને બંધ કરો (&g)"
-
-#: useractions.cpp:390
+#: useractions.cpp:354
 #, kde-format
 msgid "&More Actions"
 msgstr ""
 
-#: useractions.cpp:394
+#: useractions.cpp:357
 #, kde-format
 msgid "&Close"
 msgstr "બંધ (&C)"
 
-#: useractions.cpp:468
+#: useractions.cpp:424
 #, kde-format
 msgid "&Extensions"
 msgstr ""
 
-#: useractions.cpp:532
-#, kde-format
-msgctxt "Switch to tab -> Previous"
-msgid "Previous"
-msgstr ""
-
-#: useractions.cpp:533
-#, kde-format
-msgctxt "Switch to tab -> Next"
-msgid "Next"
-msgstr ""
-
-#: useractions.cpp:574
-#, kde-format
-msgctxt "There's no window available to be attached as tab to this one"
-msgid "None available"
-msgstr ""
-
-#: useractions.cpp:583
+#: useractions.cpp:465
 #, fuzzy, kde-format
-#| msgid "Switch to window tab"
-msgid "Switch to Tab"
-msgstr "વિન્ડો ટેબ પર જાવ"
+#| msgid "&All Desktops"
+msgid "&Desktops"
+msgstr "બધા ડેસ્કટોપ્સ (&A)"
 
-#: useractions.cpp:594
-#, kde-format
-msgid "&Attach as tab to"
-msgstr ""
-
-#: useractions.cpp:617
+#: useractions.cpp:479
 #, fuzzy, kde-format
 #| msgid "To &Desktop"
-msgid "Move To &Desktop"
+msgid "Move to &Desktop"
 msgstr "ડેસ્કટોપ પર (&D)"
 
-#: useractions.cpp:633
+#: useractions.cpp:497
 #, fuzzy, kde-format
 #| msgid "To &Desktop"
-msgid "Move To &Screen"
+msgid "Move to &Screen"
 msgstr "ડેસ્કટોપ પર (&D)"
 
-#: useractions.cpp:648
+#: useractions.cpp:513
 #, kde-format
-msgid "Ac&tivities"
+msgid "Show in &Activities"
 msgstr ""
 
-#: useractions.cpp:660
+#: useractions.cpp:528 useractions.cpp:573
 #, kde-format
 msgid "&All Desktops"
 msgstr "બધા ડેસ્કટોપ્સ (&A)"
 
-#: useractions.cpp:686
+#: useractions.cpp:556 useractions.cpp:609
 #, fuzzy, kde-format
 #| msgid "Show Desktop"
 msgctxt "Create a new desktop and move there the window"
 msgid "&New Desktop"
 msgstr "ડેસ્કટોપ બતાવો"
 
-#: useractions.cpp:706
+#: useractions.cpp:632
 #, fuzzy, kde-format
 #| msgid "Window to Screen 1"
 msgctxt ""
@@ -1937,29 +1873,29 @@ msgctxt ""
 msgid "Screen &%1 (%2)"
 msgstr "વિન્ડો સ્ક્રિન ૧ પર"
 
-#: useractions.cpp:727
+#: useractions.cpp:655
 #, kde-format
 msgid "&All Activities"
 msgstr ""
 
-#: useractions.cpp:942
+#: useractions.cpp:901
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr ""
 
-#: useractions.cpp:944
+#: useractions.cpp:903
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr ""
 
-#: useractions.cpp:1075
+#: useractions.cpp:1035
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "વિન્ડો સક્રિય કરો (%1)"
 
-#: useractions.cpp:1280
+#: useractions.cpp:1221
 #, kde-format
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
@@ -1967,73 +1903,78 @@ msgid ""
 "Therefore it is not possible to switch to a screen explicitly."
 msgstr ""
 
-#: virtualdesktops.cpp:451 virtualdesktops.cpp:513
+#: virtualdesktops.cpp:708 virtualdesktops.cpp:794
 #, kde-format
 msgid "Desktop %1"
 msgstr "ડેસ્કટોપ %1"
 
-#: virtualdesktops.cpp:545
+#: virtualdesktops.cpp:829
 #, kde-format
 msgid "Switch to Next Desktop"
 msgstr "આગળનાં ડેસ્કટોપ પર જાવ"
 
-#: virtualdesktops.cpp:547
+#: virtualdesktops.cpp:831
 #, kde-format
 msgid "Switch to Previous Desktop"
 msgstr "પાછળનાં ડેસ્કટોપ પર જાવ"
 
-#: virtualdesktops.cpp:549
+#: virtualdesktops.cpp:833
 #, kde-format
 msgid "Switch One Desktop to the Right"
 msgstr "એક જમણે ડેસ્કટોપ પર બદલો"
 
-#: virtualdesktops.cpp:550
+#: virtualdesktops.cpp:834
 #, kde-format
 msgid "Switch One Desktop to the Left"
 msgstr "એક ડાબે ડેસ્કટોપ પર બદલો"
 
-#: virtualdesktops.cpp:551
+#: virtualdesktops.cpp:835
 #, kde-format
 msgid "Switch One Desktop Up"
 msgstr "એક ડેસ્કટોપ ઉપર બદલો"
 
-#: virtualdesktops.cpp:552
+#: virtualdesktops.cpp:836
 #, kde-format
 msgid "Switch One Desktop Down"
 msgstr "એક ડેસ્કટોપ નીચે બદલો"
 
-#: virtualdesktops.cpp:564
+#: virtualdesktops.cpp:848
 #, fuzzy, kde-format
 #| msgid "Switch to Desktop 1"
 msgid "Switch to Desktop %1"
 msgstr "ડેસ્કટોપ ૧ માં જાવ"
 
-#: virtualkeyboard.cpp:95
+#: virtualkeyboard.cpp:106
 #, kde-format
 msgid "Virtual Keyboard"
 msgstr ""
 
-#: virtualkeyboard.cpp:216
+#: virtualkeyboard.cpp:230
 #, kde-format
-msgid "Virtual Keyboard is enabled."
+msgid "Virtual Keyboard: enabled"
 msgstr ""
 
-#: virtualkeyboard.cpp:219
+#: virtualkeyboard.cpp:233
 #, kde-format
-msgid "Virtual Keyboard is disabled."
+msgid "Virtual Keyboard: disabled"
 msgstr ""
 
-#: workspace.cpp:1315
+#: virtualkeyboard.cpp:235
+#, kde-format
+msgid "Whether to show the virtual keyboard on demand."
+msgstr ""
+
+#: workspace.cpp:1348
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"
 "The following information should be used when requesting support on e.g. "
-"http://forum.kde.org.\n"
+"https://forum.kde.org.\n"
 "It provides information about the currently running instance, which options "
 "are used,\n"
 "what OpenGL driver and which effects are running.\n"
 "Please post the information provided underneath this introductory text to a "
 "paste bin service\n"
-"like http://paste.kde.org instead of pasting into support threads.\n"
+"like https://paste.kde.org instead of pasting into support threads.\n"
 msgstr ""

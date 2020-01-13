@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KWIN_VIRTUAL_OUTPUT_H
 #define KWIN_VIRTUAL_OUTPUT_H
 
-#include "abstract_output.h"
+#include "abstract_wayland_output.h"
 
 #include <QObject>
 #include <QRect>
@@ -29,22 +29,22 @@ namespace KWin
 {
 class VirtualBackend;
 
-class VirtualOutput : public AbstractOutput
+class VirtualOutput : public AbstractWaylandOutput
 {
     Q_OBJECT
 
 public:
     VirtualOutput(QObject *parent = nullptr);
-    virtual ~VirtualOutput();
+    ~VirtualOutput() override;
 
-    QSize pixelSize() const override;
+    void init(const QPoint &logicalPosition, const QSize &pixelSize);
 
     void setGeometry(const QRect &geo);
 
-    int getGammaRampSize() const override {
+    int gammaRampSize() const override {
         return m_gammaSize;
     }
-    bool setGammaRamp(const ColorCorrect::GammaRamp &gamma) override {
+    bool setGammaRamp(const GammaRamp &gamma) override {
         Q_UNUSED(gamma);
         return m_gammaResult;
     }
@@ -52,8 +52,6 @@ public:
 private:
     Q_DISABLE_COPY(VirtualOutput);
     friend class VirtualBackend;
-
-    QSize m_pixelSize;
 
     int m_gammaSize = 200;
     bool m_gammaResult = true;

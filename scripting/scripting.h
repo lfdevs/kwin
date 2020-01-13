@@ -30,6 +30,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtScript/QScriptEngineAgent>
 #include <QJSValue>
 
+#include <QDBusContext>
+#include <QDBusMessage>
+
 class QQmlComponent;
 class QQmlContext;
 class QQmlEngine;
@@ -58,9 +61,9 @@ class KWIN_EXPORT AbstractScript : public QObject
     Q_OBJECT
 public:
     AbstractScript(int id, QString scriptName, QString pluginName, QObject *parent = nullptr);
-    ~AbstractScript();
+    ~AbstractScript() override;
     QString fileName() const {
-        return m_scriptFile.fileName();
+        return m_fileName;
     }
     const QString &pluginName() {
         return m_pluginName;
@@ -76,7 +79,7 @@ public:
      * @param callback Script method to execute when the UserActionsMenu is about to be shown.
      * @return void
      * @see actionsForUserActionMenu
-     **/
+     */
     void registerUseractionsMenuCallback(QScriptValue callback);
     /**
      * @brief Creates actions for the UserActionsMenu by invoking the registered callbacks.
@@ -119,7 +122,7 @@ public:
      * @param parent The Parent for the created Menus or Actions
      * @return QList< QAction* > List of QActions obtained from asking the registered callbacks
      * @see registerUseractionsMenuCallback
-     **/
+     */
     QList<QAction*> actionsForUserActionMenu(AbstractClient *c, QMenu *parent);
 
     KConfigGroup config() const;
@@ -145,7 +148,7 @@ private Q_SLOTS:
      * from the map of actions.
      *
      * @param object The destroyed action
-     **/
+     */
     void actionDestroyed(QObject *object);
 
 Q_SIGNALS:
@@ -153,9 +156,6 @@ Q_SIGNALS:
     void runningChanged(bool);
 
 protected:
-    QFile &scriptFile() {
-        return m_scriptFile;
-    }
     bool running() const {
         return m_running;
     }
@@ -177,7 +177,7 @@ private:
      * @param value The ScriptValue describing either a menu or action
      * @param parent The parent to use for the created menu or action
      * @return QAction* The parsed action or menu action, if parsing fails returns @c null.
-     **/
+     */
     QAction *scriptValueToAction(QScriptValue &value, QMenu *parent);
     /**
      * @brief Creates a new QAction from the provided data and registers it for invoking the
@@ -192,7 +192,7 @@ private:
      * @param callback The callback to invoke when the action is triggered
      * @param parent The parent to be used for the new created action
      * @return QAction* The created action
-     **/
+     */
     QAction *createAction(const QString &title, bool checkable, bool checked, QScriptValue &callback, QMenu *parent);
     /**
      * @brief Parses the @p items and creates a QMenu from it.
@@ -201,10 +201,10 @@ private:
      * @param items JavaScript Array containing Menu items.
      * @param parent The parent to use for the new created menu
      * @return QAction* The menu action for the new Menu
-     **/
+     */
     QAction *createMenu(const QString &title, QScriptValue &items, QMenu *parent);
     int m_scriptId;
-    QFile m_scriptFile;
+    QString m_fileName;
     QString m_pluginName;
     bool m_running;
     QHash<QAction*, QScriptValue> m_shortcutCallbacks;
@@ -213,18 +213,18 @@ private:
     /**
      * @brief List of registered functions to call when the UserActionsMenu is about to show
      * to add further entries.
-     **/
+     */
     QList<QScriptValue> m_userActionsMenuCallbacks;
 };
 
-class Script : public AbstractScript
+class Script : public AbstractScript, QDBusContext
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kwin.Scripting")
 public:
 
     Script(int id, QString scriptName, QString pluginName, QObject *parent = nullptr);
-    virtual ~Script();
+    ~Script() override;
     QScriptEngine *engine() {
         return m_engine;
     }
@@ -233,20 +233,20 @@ public:
     bool unregisterTouchScreenCallback(int edge);
 
 public Q_SLOTS:
-    Q_SCRIPTABLE void run();
+    Q_SCRIPTABLE void run() override;
 
 Q_SIGNALS:
     Q_SCRIPTABLE void printError(const QString &text);
 
 private Q_SLOTS:
     /**
-      * A nice clean way to handle exceptions in scripting.
-      * TODO: Log to file, show from notifier..
-      */
+     * A nice clean way to handle exceptions in scripting.
+     * TODO: Log to file, show from notifier..
+     */
     void sigException(const QScriptValue &exception);
     /**
      * Callback for when loadScriptFromFile has finished.
-     **/
+     */
     void slotScriptLoadedFromFile();
 
 private:
@@ -254,9 +254,10 @@ private:
     /**
      * Read the script from file into a byte array.
      * If file cannot be read an empty byte array is returned.
-     **/
-    QByteArray loadScriptFromFile();
+     */
+    QByteArray loadScriptFromFile(const QString &fileName);
     QScriptEngine *m_engine;
+    QDBusMessage m_invocationContext;
     bool m_starting;
     QScopedPointer<ScriptUnloaderAgent> m_agent;
     QHash<int, QAction*> m_touchScreenEdgeCallbacks;
@@ -266,7 +267,7 @@ class ScriptUnloaderAgent : public QScriptEngineAgent
 {
 public:
     explicit ScriptUnloaderAgent(Script *script);
-    virtual void scriptUnload(qint64 id);
+    void scriptUnload(qint64 id) override;
 
 private:
     Script *m_script;
@@ -278,10 +279,10 @@ class DeclarativeScript : public AbstractScript
     Q_CLASSINFO("D-Bus Interface", "org.kde.kwin.Scripting")
 public:
     explicit DeclarativeScript(int id, QString scriptName, QString pluginName, QObject *parent = nullptr);
-    virtual ~DeclarativeScript();
+    ~DeclarativeScript() override;
 
 public Q_SLOTS:
-    Q_SCRIPTABLE void run();
+    Q_SCRIPTABLE void run() override;
 
 private Q_SLOTS:
     void createComponent();
@@ -318,7 +319,7 @@ public:
         ScreenArea
     };
     explicit JSEngineGlobalMethodsWrapper(DeclarativeScript *parent);
-    virtual ~JSEngineGlobalMethodsWrapper();
+    ~JSEngineGlobalMethodsWrapper() override;
 
 public Q_SLOTS:
     QVariant readConfig(const QString &key, QVariant defaultValue = QVariant());
@@ -330,8 +331,8 @@ private:
 };
 
 /**
-  * The heart of KWin::Scripting. Infinite power lies beyond
-  */
+ * The heart of KWin::Scripting. Infinite power lies beyond
+ */
 class KWIN_EXPORT Scripting : public QObject
 {
     Q_OBJECT
@@ -342,14 +343,14 @@ private:
     QList<KWin::AbstractScript*> scripts;
     /**
      * Lock to protect the scripts member variable.
-     **/
+     */
     QScopedPointer<QMutex> m_scriptsLock;
 
     // Preferably call ONLY at load time
     void runScripts();
 
 public:
-    ~Scripting();
+    ~Scripting() override;
     Q_SCRIPTABLE Q_INVOKABLE int loadScript(const QString &filePath, const QString &pluginName = QString());
     Q_SCRIPTABLE Q_INVOKABLE int loadDeclarativeScript(const QString &filePath, const QString &pluginName = QString());
     Q_SCRIPTABLE Q_INVOKABLE bool isScriptLoaded(const QString &pluginName) const;
@@ -361,7 +362,7 @@ public:
      * @param c The Client for which the UserActionsMenu is about to be shown
      * @param parent The parent menu to which to add created child menus and items
      * @return QList< QAction* > List of all actions aggregated from all scripts.
-     **/
+     */
     QList<QAction*> actionsForUserActionMenu(AbstractClient *c, QMenu *parent);
 
     QQmlEngine *qmlEngine() const;

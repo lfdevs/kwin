@@ -27,7 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kwinxrenderutils.h"
 #endif
 
-#include <qmath.h>
 #include <QVariant>
 #include <QList>
 #include <QTimeLine>
@@ -37,11 +36,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QVector2D>
 #include <QGraphicsRotation>
 #include <QGraphicsScale>
+#include <QtMath>
 
 #include <ksharedconfig.h>
 #include <kconfiggroup.h>
-
-#include <assert.h>
 
 #include <KWayland/Server/surface_interface.h>
 
@@ -49,19 +47,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <xcb/xfixes.h>
 #endif
 
-#if defined(__GNUC__)
-#  define KWIN_ALIGN(n) __attribute((aligned(n)))
-#  if defined(__SSE2__)
-#    define HAVE_SSE2
-#  endif
-#elif defined(__INTEL_COMPILER)
-#  define KWIN_ALIGN(n) __declspec(align(n))
-#  define HAVE_SSE2
-#else
-#  define KWIN_ALIGN(n)
-#endif
-
-#ifdef HAVE_SSE2
+#if defined(__SSE2__)
 #  include <emmintrin.h>
 #endif
 
@@ -682,7 +668,7 @@ xcb_window_t Effect::x11RootWindow() const
     return effects->x11RootWindow();
 }
 
-bool Effect::touchDown(quint32 id, const QPointF &pos, quint32 time)
+bool Effect::touchDown(qint32 id, const QPointF &pos, quint32 time)
 {
     Q_UNUSED(id)
     Q_UNUSED(pos)
@@ -690,7 +676,7 @@ bool Effect::touchDown(quint32 id, const QPointF &pos, quint32 time)
     return false;
 }
 
-bool Effect::touchMotion(quint32 id, const QPointF &pos, quint32 time)
+bool Effect::touchMotion(qint32 id, const QPointF &pos, quint32 time)
 {
     Q_UNUSED(id)
     Q_UNUSED(pos)
@@ -698,7 +684,7 @@ bool Effect::touchMotion(quint32 id, const QPointF &pos, quint32 time)
     return false;
 }
 
-bool Effect::touchUp(quint32 id, quint32 time)
+bool Effect::touchUp(qint32 id, quint32 time)
 {
     Q_UNUSED(id)
     Q_UNUSED(time)
@@ -748,7 +734,7 @@ EffectsHandler::EffectsHandler(CompositingType type)
 EffectsHandler::~EffectsHandler()
 {
     // All effects should already be unloaded by Impl dtor
-    assert(loaded_effects.count() == 0);
+    Q_ASSERT(loaded_effects.count() == 0);
     KWin::effects = nullptr;
 }
 
@@ -775,7 +761,6 @@ public:
     Private(EffectWindow *q);
 
     EffectWindow *q;
-    bool managed = false;
 };
 
 EffectWindow::Private::Private(EffectWindow *q)
@@ -787,134 +772,22 @@ EffectWindow::EffectWindow(QObject *parent)
     : QObject(parent)
     , d(new Private(this))
 {
-    // Deleted windows are not managed. So, when windowClosed signal is
-    // emitted, effects can't distinguish managed windows from unmanaged
-    // windows(e.g. combo box popups, popup menus, etc). Save value of the
-    // managed property during construction of EffectWindow. At that time,
-    // parent can be Client, ShellClient, or Unmanaged. So, later on, when
-    // an instance of Deleted becomes parent of the EffectWindow, effects
-    // can still figure out whether it is/was a managed window.
-    d->managed = parent->property("managed").value<bool>();
 }
 
 EffectWindow::~EffectWindow()
 {
 }
 
-#define WINDOW_HELPER( rettype, prototype, propertyname ) \
-    rettype EffectWindow::prototype ( ) const \
-    { \
-        return parent()->property( propertyname ).value< rettype >(); \
-    }
-
-WINDOW_HELPER(double, opacity, "opacity")
-WINDOW_HELPER(bool, hasAlpha, "alpha")
-WINDOW_HELPER(int, x, "x")
-WINDOW_HELPER(int, y, "y")
-WINDOW_HELPER(int, width, "width")
-WINDOW_HELPER(int, height, "height")
-WINDOW_HELPER(QPoint, pos, "pos")
-WINDOW_HELPER(QSize, size, "size")
-WINDOW_HELPER(int, screen, "screen")
-WINDOW_HELPER(QRect, geometry, "geometry")
-WINDOW_HELPER(QRect, expandedGeometry, "visibleRect")
-WINDOW_HELPER(QRect, rect, "rect")
-WINDOW_HELPER(int, desktop, "desktop")
-WINDOW_HELPER(bool, isDesktop, "desktopWindow")
-WINDOW_HELPER(bool, isDock, "dock")
-WINDOW_HELPER(bool, isToolbar, "toolbar")
-WINDOW_HELPER(bool, isMenu, "menu")
-WINDOW_HELPER(bool, isNormalWindow, "normalWindow")
-WINDOW_HELPER(bool, isDialog, "dialog")
-WINDOW_HELPER(bool, isSplash, "splash")
-WINDOW_HELPER(bool, isUtility, "utility")
-WINDOW_HELPER(bool, isDropdownMenu, "dropdownMenu")
-WINDOW_HELPER(bool, isPopupMenu, "popupMenu")
-WINDOW_HELPER(bool, isTooltip, "tooltip")
-WINDOW_HELPER(bool, isNotification, "notification")
-WINDOW_HELPER(bool, isOnScreenDisplay, "onScreenDisplay")
-WINDOW_HELPER(bool, isComboBox, "comboBox")
-WINDOW_HELPER(bool, isDNDIcon, "dndIcon")
-WINDOW_HELPER(bool, isDeleted, "deleted")
-WINDOW_HELPER(bool, hasOwnShape, "shaped")
-WINDOW_HELPER(QString, windowRole, "windowRole")
-WINDOW_HELPER(QStringList, activities, "activities")
-WINDOW_HELPER(bool, skipsCloseAnimation, "skipsCloseAnimation")
-WINDOW_HELPER(KWayland::Server::SurfaceInterface *, surface, "surface")
-
-QString EffectWindow::windowClass() const
-{
-    return parent()->property("resourceName").toString() + QLatin1Char(' ') + parent()->property("resourceClass").toString();
-}
-
-QRect EffectWindow::contentsRect() const
-{
-    return QRect(parent()->property("clientPos").toPoint(), parent()->property("clientSize").toSize());
-}
-
-NET::WindowType EffectWindow::windowType() const
-{
-    return static_cast<NET::WindowType>(parent()->property("windowType").toInt());
-}
-
 bool EffectWindow::isOnActivity(QString activity) const
 {
-    const QStringList activities = parent()->property("activities").toStringList();
-    return activities.isEmpty() || activities.contains(activity);
+    const QStringList _activities = activities();
+    return _activities.isEmpty() || _activities.contains(activity);
 }
 
 bool EffectWindow::isOnAllActivities() const
 {
-    return parent()->property("activities").toStringList().isEmpty();
+    return activities().isEmpty();
 }
-
-#undef WINDOW_HELPER
-
-#define WINDOW_HELPER_DEFAULT( rettype, prototype, propertyname, defaultValue ) \
-    rettype EffectWindow::prototype ( ) const \
-    { \
-        const QVariant variant = parent()->property( propertyname ); \
-        if (!variant.isValid()) { \
-            return defaultValue; \
-        } \
-        return variant.value< rettype >(); \
-    }
-
-WINDOW_HELPER_DEFAULT(bool, isMinimized, "minimized", false)
-WINDOW_HELPER_DEFAULT(bool, isMovable, "moveable", false)
-WINDOW_HELPER_DEFAULT(bool, isMovableAcrossScreens, "moveableAcrossScreens", false)
-WINDOW_HELPER_DEFAULT(QString, caption, "caption", QString())
-WINDOW_HELPER_DEFAULT(bool, keepAbove, "keepAbove", true)
-WINDOW_HELPER_DEFAULT(bool, keepBelow, "keepBelow", false)
-WINDOW_HELPER_DEFAULT(bool, isModal, "modal", false)
-WINDOW_HELPER_DEFAULT(QSize, basicUnit, "basicUnit", QSize(1, 1))
-WINDOW_HELPER_DEFAULT(bool, isUserMove, "move", false)
-WINDOW_HELPER_DEFAULT(bool, isUserResize, "resize", false)
-WINDOW_HELPER_DEFAULT(QRect, iconGeometry, "iconGeometry", QRect())
-WINDOW_HELPER_DEFAULT(bool, isSpecialWindow, "specialWindow", true)
-WINDOW_HELPER_DEFAULT(bool, acceptsFocus, "wantsInput", true) // We don't actually know...
-WINDOW_HELPER_DEFAULT(QIcon, icon, "icon", QIcon())
-WINDOW_HELPER_DEFAULT(bool, isSkipSwitcher, "skipSwitcher", false)
-WINDOW_HELPER_DEFAULT(bool, isCurrentTab, "isCurrentTab", true)
-WINDOW_HELPER_DEFAULT(bool, decorationHasAlpha, "decorationHasAlpha", false)
-WINDOW_HELPER_DEFAULT(bool, isFullScreen, "fullScreen", false)
-WINDOW_HELPER_DEFAULT(bool, isUnresponsive, "unresponsive", false)
-
-#undef WINDOW_HELPER_DEFAULT
-
-#define WINDOW_HELPER_SETTER( prototype, propertyname, args, value ) \
-    void EffectWindow::prototype ( args ) \
-    {\
-        const QVariant variant = parent()->property( propertyname ); \
-        if (variant.isValid()) { \
-            parent()->setProperty( propertyname, value ); \
-        } \
-    }
-
-WINDOW_HELPER_SETTER(minimize, "minimized",,true)
-WINDOW_HELPER_SETTER(unminimize, "minimized",,false)
-
-#undef WINDOW_HELPER_SETTER
 
 void EffectWindow::setMinimized(bool min)
 {
@@ -923,36 +796,6 @@ void EffectWindow::setMinimized(bool min)
     } else {
         unminimize();
     }
-}
-
-void EffectWindow::closeWindow() const
-{
-    QMetaObject::invokeMethod(parent(), "closeWindow");
-}
-
-void EffectWindow::addRepaint(int x, int y, int w, int h)
-{
-    QMetaObject::invokeMethod(parent(), "addRepaint", Q_ARG(int, x), Q_ARG(int, y), Q_ARG(int, w), Q_ARG(int, h));
-}
-
-void EffectWindow::addRepaint(const QRect &r)
-{
-    QMetaObject::invokeMethod(parent(), "addRepaint", Q_ARG(const QRect&, r));
-}
-
-void EffectWindow::addRepaintFull()
-{
-    QMetaObject::invokeMethod(parent(), "addRepaintFull");
-}
-
-void EffectWindow::addLayerRepaint(int x, int y, int w, int h)
-{
-    QMetaObject::invokeMethod(parent(), "addLayerRepaint", Q_ARG(int, x), Q_ARG(int, y), Q_ARG(int, w), Q_ARG(int, h));
-}
-
-void EffectWindow::addLayerRepaint(const QRect &r)
-{
-    QMetaObject::invokeMethod(parent(), "addLayerRepaint", Q_ARG(const QRect&, r));
 }
 
 bool EffectWindow::isOnCurrentActivity() const
@@ -967,12 +810,13 @@ bool EffectWindow::isOnCurrentDesktop() const
 
 bool EffectWindow::isOnDesktop(int d) const
 {
-    return desktop() == d || isOnAllDesktops();
+    const QVector<uint> ds = desktops();
+    return ds.isEmpty() || ds.contains(d);
 }
 
 bool EffectWindow::isOnAllDesktops() const
 {
-    return desktop() == NET::OnAllDesktops;
+    return desktops().isEmpty();
 }
 
 bool EffectWindow::hasDecoration() const
@@ -986,12 +830,6 @@ bool EffectWindow::isVisible() const
            && isOnCurrentDesktop()
            && isOnCurrentActivity();
 }
-
-bool EffectWindow::isManaged() const
-{
-    return d->managed;
-}
-
 
 //****************************************
 // EffectWindowGroup
@@ -1007,8 +845,8 @@ EffectWindowGroup::~EffectWindowGroup()
 
 WindowQuad WindowQuad::makeSubQuad(double x1, double y1, double x2, double y2) const
 {
-    assert(x1 < x2 && y1 < y2 && x1 >= left() && x2 <= right() && y1 >= top() && y2 <= bottom());
-#ifndef NDEBUG
+    Q_ASSERT(x1 < x2 && y1 < y2 && x1 >= left() && x2 <= right() && y1 >= top() && y2 <= bottom());
+#if !defined(QT_NO_DEBUG)
     if (isTransformed())
         qFatal("Splitting quads is allowed only in pre-paint calls!");
 #endif
@@ -1095,7 +933,7 @@ WindowQuadList WindowQuadList::splitAtX(double x) const
 {
     WindowQuadList ret;
     foreach (const WindowQuad & quad, *this) {
-#ifndef NDEBUG
+#if !defined(QT_NO_DEBUG)
         if (quad.isTransformed())
             qFatal("Splitting quads is allowed only in pre-paint calls!");
 #endif
@@ -1127,7 +965,7 @@ WindowQuadList WindowQuadList::splitAtY(double y) const
 {
     WindowQuadList ret;
     foreach (const WindowQuad & quad, *this) {
-#ifndef NDEBUG
+#if !defined(QT_NO_DEBUG)
         if (quad.isTransformed())
             qFatal("Splitting quads is allowed only in pre-paint calls!");
 #endif
@@ -1167,7 +1005,7 @@ WindowQuadList WindowQuadList::makeGrid(int maxQuadSize) const
     double bottom = first().bottom();
 
     foreach (const WindowQuad &quad, *this) {
-#ifndef NDEBUG
+#if !defined(QT_NO_DEBUG)
         if (quad.isTransformed())
             qFatal("Splitting quads is allowed only in pre-paint calls!");
 #endif
@@ -1224,7 +1062,7 @@ WindowQuadList WindowQuadList::makeRegularGrid(int xSubdivisions, int ySubdivisi
     double bottom = first().bottom();
 
     foreach (const WindowQuad &quad, *this) {
-#ifndef NDEBUG
+#if !defined(QT_NO_DEBUG)
         if (quad.isTransformed())
             qFatal("Splitting quads is allowed only in pre-paint calls!");
 #endif
@@ -1289,16 +1127,16 @@ void WindowQuadList::makeInterleavedArrays(unsigned int type, GLVertex2D *vertic
 
     GLVertex2D *vertex = vertices;
 
-    assert(type == GL_QUADS || type == GL_TRIANGLES);
+    Q_ASSERT(type == GL_QUADS || type == GL_TRIANGLES);
 
     switch (type)
     {
     case GL_QUADS:
-#ifdef HAVE_SSE2
+#if defined(__SSE2__)
         if (!(intptr_t(vertex) & 0xf)) {
             for (int i = 0; i < count(); i++) {
                 const WindowQuad &quad = at(i);
-                KWIN_ALIGN(16) GLVertex2D v[4];
+                alignas(16) GLVertex2D v[4];
 
                 for (int j = 0; j < 4; j++) {
                     const WindowVertex &wv = quad[j];
@@ -1307,8 +1145,8 @@ void WindowQuadList::makeInterleavedArrays(unsigned int type, GLVertex2D *vertic
                     v[j].texcoord = QVector2D(wv.u(), wv.v()) * coeff + offset;
                 }
 
-                const __m128i *srcP = (const __m128i *) &v;
-                __m128i *dstP = (__m128i *) vertex;
+                const __m128i *srcP = reinterpret_cast<const __m128i *>(&v);
+                __m128i *dstP = reinterpret_cast<__m128i *>(vertex);
 
                 _mm_stream_si128(&dstP[0], _mm_load_si128(&srcP[0])); // Top-left
                 _mm_stream_si128(&dstP[1], _mm_load_si128(&srcP[1])); // Top-right
@@ -1318,7 +1156,7 @@ void WindowQuadList::makeInterleavedArrays(unsigned int type, GLVertex2D *vertic
                 vertex += 4;
             }
         } else
-#endif // HAVE_SSE2
+#endif // __SSE2__
         {
             for (int i = 0; i < count(); i++) {
                 const WindowQuad &quad = at(i);
@@ -1337,11 +1175,11 @@ void WindowQuadList::makeInterleavedArrays(unsigned int type, GLVertex2D *vertic
         break;
 
     case GL_TRIANGLES:
-#ifdef HAVE_SSE2
+#if defined(__SSE2__)
         if (!(intptr_t(vertex) & 0xf)) {
             for (int i = 0; i < count(); i++) {
                 const WindowQuad &quad = at(i);
-                KWIN_ALIGN(16) GLVertex2D v[4];
+                alignas(16) GLVertex2D v[4];
 
                 for (int j = 0; j < 4; j++) {
                     const WindowVertex &wv = quad[j];
@@ -1350,8 +1188,8 @@ void WindowQuadList::makeInterleavedArrays(unsigned int type, GLVertex2D *vertic
                     v[j].texcoord = QVector2D(wv.u(), wv.v()) * coeff + offset;
                 }
 
-                const __m128i *srcP = (const __m128i *) &v;
-                __m128i *dstP = (__m128i *) vertex;
+                const __m128i *srcP = reinterpret_cast<const __m128i *>(&v);
+                __m128i *dstP = reinterpret_cast<__m128i *>(vertex);
 
                 __m128i src[4];
                 src[0] = _mm_load_si128(&srcP[0]); // Top-left
@@ -1372,7 +1210,7 @@ void WindowQuadList::makeInterleavedArrays(unsigned int type, GLVertex2D *vertic
                 vertex += 6;
             }
         } else
-#endif // HAVE_SSE2
+#endif // __SSE2__
         {
             for (int i = 0; i < count(); i++) {
                 const WindowQuad &quad = at(i);
@@ -1521,7 +1359,7 @@ bool PaintClipper::clip()
 
 QRegion PaintClipper::paintArea()
 {
-    assert(areas != nullptr);   // can be called only with clip() == true
+    Q_ASSERT(areas != nullptr);   // can be called only with clip() == true
     const QSize &s = effects->virtualScreenSize();
     QRegion ret = QRegion(0, 0, s.width(), s.height());
     foreach (const QRegion & r, *areas)
@@ -1934,6 +1772,8 @@ public:
 
     std::chrono::milliseconds elapsed = std::chrono::milliseconds::zero();
     bool done = false;
+    RedirectMode sourceRedirectMode = RedirectMode::Relaxed;
+    RedirectMode targetRedirectMode = RedirectMode::Strict;
 };
 
 TimeLine::TimeLine(std::chrono::milliseconds duration, Direction direction)
@@ -2019,10 +1859,21 @@ void TimeLine::setDirection(TimeLine::Direction direction)
     if (d->direction == direction) {
         return;
     }
-    if (d->elapsed > std::chrono::milliseconds::zero()) {
+
+    d->direction = direction;
+
+    if (d->elapsed > std::chrono::milliseconds::zero()
+            || d->sourceRedirectMode == RedirectMode::Strict) {
         d->elapsed = d->duration - d->elapsed;
     }
-    d->direction = direction;
+
+    if (d->done && d->targetRedirectMode == RedirectMode::Relaxed) {
+        d->done = false;
+    }
+
+    if (d->elapsed >= d->duration) {
+        d->done = true;
+    }
 }
 
 void TimeLine::toggleDirection()
@@ -2060,6 +1911,26 @@ void TimeLine::reset()
 {
     d->elapsed = std::chrono::milliseconds::zero();
     d->done = false;
+}
+
+TimeLine::RedirectMode TimeLine::sourceRedirectMode() const
+{
+    return d->sourceRedirectMode;
+}
+
+void TimeLine::setSourceRedirectMode(RedirectMode mode)
+{
+    d->sourceRedirectMode = mode;
+}
+
+TimeLine::RedirectMode TimeLine::targetRedirectMode() const
+{
+    return d->targetRedirectMode;
+}
+
+void TimeLine::setTargetRedirectMode(RedirectMode mode)
+{
+    d->targetRedirectMode = mode;
 }
 
 TimeLine &TimeLine::operator=(const TimeLine &other)

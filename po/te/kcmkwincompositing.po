@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
 "PO-Revision-Date: 2009-01-16 22:16+0530\n"
 "Last-Translator: Krishna Babu K <kkrothap@redhat.com>\n"
 "Language-Team: Telugu <en@li.org>\n"
@@ -15,8 +15,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : "
-"4;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "\n"
 "\n"
 "\n"
@@ -29,20 +28,6 @@ msgstr ""
 "\n"
 "\n"
 "X-Generator: KBabel 1.11.4\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr ""
-"కృష్ణబాబు కె \n"
-" విజయ్ కిరణ్ కముజు"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr ""
-"k.meetme@gmail.com \n"
-"infyquest@gmail.com"
 
 #: compositing.cpp:378
 #, fuzzy, kde-format
@@ -241,129 +226,25 @@ msgstr ""
 msgid "Allow applications to block compositing"
 msgstr ""
 
-#: main.cpp:83
+#: main.cpp:55
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr ""
 
-#: main.cpp:141
+#: main.cpp:120
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
 "video."
 msgstr ""
 
-#: main.cpp:145
+#: main.cpp:124
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr ""
 
-#: main.cpp:149
+#: main.cpp:128
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
-
-#: model.cpp:70
-#, fuzzy, kde-format
-#| msgid "Accessibility"
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Accessibility"
-msgstr "అందుబాటు"
-
-#: model.cpp:71
-#, fuzzy, kde-format
-#| msgid "Appearance"
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Appearance"
-msgstr "కనిపించువిధం"
-
-#: model.cpp:72
-#, fuzzy, kde-format
-#| msgid "Candy"
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Candy"
-msgstr "కాండీ"
-
-#: model.cpp:73
-#, fuzzy, kde-format
-#| msgid "Focus"
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Focus"
-msgstr "దృష్టి"
-
-#: model.cpp:74
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Show Desktop Animation"
-msgstr ""
-
-#: model.cpp:75
-#, fuzzy, kde-format
-#| msgid "Tools"
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Tools"
-msgstr "పనిముట్లు"
-
-#: model.cpp:76
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Virtual Desktop Switching Animation"
-msgstr ""
-
-#: model.cpp:77
-#, fuzzy, kde-format
-#| msgid "Window Management"
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Window Management"
-msgstr "విండో నిర్వహణ"
-
-#: model.cpp:233
-#, kde-format
-msgid "KWin development team"
-msgstr ""
-
-#: qml/Effect.qml:119
-#, kde-format
-msgid ""
-"Author: %1\n"
-"License: %2"
-msgstr ""
-
-#: qml/EffectView.qml:64
-#, kde-format
-msgid ""
-"Hint: To find out or configure how to activate an effect, look at the "
-"effect's settings."
-msgstr ""
-"మెళకువ: ప్రభావాన్ని యెలా క్రియాశీలపరచాలి అనేది కనుగొనుటకు లేదా ఆకృతీకరించుటకు, ప్రభావాల అమర్పులనందు "
-"చూడుము."
-
-#: qml/EffectView.qml:75
-#, kde-format
-msgid "Search"
-msgstr ""
-
-#: qml/EffectView.qml:82
-#, fuzzy, kde-format
-#| msgid "Texture filter:"
-msgid "Configure filter"
-msgstr "టెక్స్‌చెర్ ఫిల్టర్:"
-
-#: qml/EffectView.qml:85
-#, kde-format
-msgid "Exclude Desktop Effects not supported by the Compositor"
-msgstr ""
-
-#: qml/EffectView.qml:93
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Enable desktop effects"
-msgid "Exclude internal Desktop Effects"
-msgstr "రంగస్థల ప్రభావాలను చేతనముచేయుము"
-
-#: qml/EffectView.qml:105
-#, fuzzy, kde-format
-#| msgid "No Effect"
-msgid "Get New Effects..."
-msgstr "ప్రభావము లేదు"

@@ -42,7 +42,7 @@ public:
      * It's the task of the caller to check whether it is @c null.
      *
      * @return :OverlayWindow*
-     **/
+     */
     virtual OverlayWindow *overlayWindow();
     virtual bool usesOverlayWindow() const = 0;
     virtual void prepareRenderingFrame() = 0;
@@ -67,7 +67,7 @@ public:
      * returns @c true, the SceneQPainter should not try to start the rendering.
      *
      * @return bool @c true if the creation of the Backend failed, @c false otherwise.
-     **/
+     */
     bool isFailed() const {
         return m_failed;
     }
@@ -78,13 +78,13 @@ public:
      * Default implementation just calls buffer.
      * @param screenId The id of the screen as used in Screens
      * @todo Get a better identifier for screen then a counter variable
-     **/
+     */
     virtual QImage *bufferForScreen(int screenId);
     virtual bool needsFullRepaint() const = 0;
     /**
      * Whether the rendering needs to be split per screen.
      * Default implementation returns @c false.
-     **/
+     */
     virtual bool perScreenRendering() const;
 
 protected:
@@ -96,7 +96,7 @@ protected:
      * The given @p reason is logged as a warning.
      *
      * @param reason The reason why the initialization failed.
-     **/
+     */
     void setFailed(const QString &reason);
 
 private:

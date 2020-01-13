@@ -39,10 +39,10 @@ ScreenEdgeEffect::ScreenEdgeEffect()
     : Effect()
     , m_cleanupTimer(new QTimer(this))
 {
-    connect(effects, SIGNAL(screenEdgeApproaching(ElectricBorder,qreal,QRect)), SLOT(edgeApproaching(ElectricBorder,qreal,QRect)));
+    connect(effects, &EffectsHandler::screenEdgeApproaching, this, &ScreenEdgeEffect::edgeApproaching);
     m_cleanupTimer->setInterval(5000);
     m_cleanupTimer->setSingleShot(true);
-    connect(m_cleanupTimer, SIGNAL(timeout()), SLOT(cleanup()));
+    connect(m_cleanupTimer, &QTimer::timeout, this, &ScreenEdgeEffect::cleanup);
     connect(effects, &EffectsHandler::screenLockingChanged, this,
         [this] (bool locked) {
             if (locked) {
@@ -102,7 +102,7 @@ void ScreenEdgeEffect::paintScreen(int mask, QRegion region, ScreenPaintData &da
         if (effects->isOpenGLCompositing()) {
             GLTexture *texture = (*it)->texture.data();
             glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
             texture->bind();
             ShaderBinder binder(ShaderTrait::MapTexture | ShaderTrait::Modulate);
             const QVector4D constant(opacity, opacity, opacity, opacity);
@@ -233,7 +233,7 @@ Glow *ScreenEdgeEffect::createGlow(ElectricBorder border, qreal factor, const QR
         }
         if (glow->texture.isNull()) {
             delete glow;
-            return NULL;
+            return nullptr;
         }
     } else if (effects->compositingType() == XRenderCompositing) {
 #ifdef KWIN_HAVE_XRENDER_COMPOSITING
@@ -246,7 +246,7 @@ Glow *ScreenEdgeEffect::createGlow(ElectricBorder border, qreal factor, const QR
         }
         if (glow->picture.isNull()) {
             delete glow;
-            return NULL;
+            return nullptr;
         }
 #endif
     } else if (effects->compositingType() == QPainterCompositing) {
@@ -259,7 +259,7 @@ Glow *ScreenEdgeEffect::createGlow(ElectricBorder border, qreal factor, const QR
         }
         if (glow->image.isNull()) {
             delete glow;
-            return NULL;
+            return nullptr;
         }
     }
 
@@ -281,7 +281,7 @@ T *ScreenEdgeEffect::createCornerGlow(ElectricBorder border)
     case ElectricBottomLeft:
         return new T(m_glow->pixmap(QStringLiteral("topright")).toImage());
     default:
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -307,6 +307,8 @@ template <typename T>
 T *ScreenEdgeEffect::createEdgeGlow(ElectricBorder border, const QSize &size)
 {
     ensureGlowSvg();
+
+    const bool stretchBorder = m_glow->hasElement(QStringLiteral("hint-stretch-borders"));
 
     QPoint pixmapPosition(0, 0);
     QPixmap l, r, c;
@@ -334,7 +336,7 @@ T *ScreenEdgeEffect::createEdgeGlow(ElectricBorder border, const QSize &size)
         pixmapPosition = QPoint(size.width() - c.width(), 0);
         break;
     default:
-        return NULL;
+        return nullptr;
     }
     QPixmap image(size);
     image.fill(Qt::transparent);
@@ -342,11 +344,21 @@ T *ScreenEdgeEffect::createEdgeGlow(ElectricBorder border, const QSize &size)
     p.begin(&image);
     if (border == ElectricBottom || border == ElectricTop) {
         p.drawPixmap(pixmapPosition, l);
-        p.drawTiledPixmap(QRect(l.width(), pixmapPosition.y(), size.width() - l.width() - r.width(), c.height()), c);
+        const QRect cRect(l.width(), pixmapPosition.y(), size.width() - l.width() - r.width(), c.height());
+        if (stretchBorder) {
+            p.drawPixmap(cRect, c);
+        } else {
+            p.drawTiledPixmap(cRect, c);
+        }
         p.drawPixmap(QPoint(size.width() - r.width(), pixmapPosition.y()), r);
     } else {
         p.drawPixmap(pixmapPosition, l);
-        p.drawTiledPixmap(QRect(pixmapPosition.x(), l.height(), c.width(), size.height() - l.height() - r.height()), c);
+        const QRect cRect(pixmapPosition.x(), l.height(), c.width(), size.height() - l.height() - r.height());
+        if (stretchBorder) {
+            p.drawPixmap(cRect, c);
+        } else {
+            p.drawTiledPixmap(cRect, c);
+        }
         p.drawPixmap(QPoint(pixmapPosition.x(), size.height() - r.height()), r);
     }
     p.end();

@@ -43,7 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QDebug>
 #include <QPainter>
-#include <qmath.h>
+#include <QtMath>
 
 namespace KWin
 {
@@ -80,7 +80,7 @@ XRenderBackend::~XRenderBackend()
 
 OverlayWindow* XRenderBackend::overlayWindow()
 {
-    return NULL;
+    return nullptr;
 }
 
 void XRenderBackend::showOverlay()
@@ -146,7 +146,7 @@ void X11XRenderBackend::init(bool createOverlay)
     if (haveOverlay) {
         m_overlayWindow->setup(XCB_WINDOW_NONE);
         ScopedCPointer<xcb_get_window_attributes_reply_t> attribs(xcb_get_window_attributes_reply(connection(),
-            xcb_get_window_attributes_unchecked(connection(), m_overlayWindow->window()), NULL));
+            xcb_get_window_attributes_unchecked(connection(), m_overlayWindow->window()), nullptr));
         if (!attribs) {
             setFailed("Failed getting window attributes for overlay window");
             return;
@@ -157,7 +157,7 @@ void X11XRenderBackend::init(bool createOverlay)
             return;
         }
         m_front = xcb_generate_id(connection());
-        xcb_render_create_picture(connection(), m_front, m_overlayWindow->window(), m_format, 0, NULL);
+        xcb_render_create_picture(connection(), m_front, m_overlayWindow->window(), m_format, 0, nullptr);
     } else {
         // create XRender picture for the root window
         m_format = XRenderUtils::findPictFormat(defaultScreen()->root_visual);
@@ -178,7 +178,7 @@ void X11XRenderBackend::createBuffer()
     const auto displaySize = screens()->displaySize();
     xcb_create_pixmap(connection(), Xcb::defaultDepth(), pixmap, rootWindow(), displaySize.width(), displaySize.height());
     xcb_render_picture_t b = xcb_generate_id(connection());
-    xcb_render_create_picture(connection(), b, pixmap, m_format, 0, NULL);
+    xcb_render_create_picture(connection(), b, pixmap, m_format, 0, nullptr);
     xcb_free_pixmap(connection(), pixmap);   // The picture owns the pixmap now
     setBuffer(b);
 }
@@ -224,7 +224,7 @@ SceneXrender* SceneXrender::createScene(QObject *parent)
     QScopedPointer<XRenderBackend> backend;
     backend.reset(new X11XRenderBackend);
     if (backend->isFailed()) {
-        return NULL;
+        return nullptr;
     }
     return new SceneXrender(backend.take(), parent);
 }
@@ -312,7 +312,7 @@ Decoration::Renderer *SceneXrender::createDecorationRenderer(Decoration::Decorat
 // SceneXrender::Window
 //****************************************
 
-XRenderPicture *SceneXrender::Window::s_tempPicture = 0;
+XRenderPicture *SceneXrender::Window::s_tempPicture = nullptr;
 QRect SceneXrender::Window::temp_visibleRect;
 XRenderPicture *SceneXrender::Window::s_fadeAlphaPicture = nullptr;
 
@@ -331,7 +331,7 @@ SceneXrender::Window::~Window()
 void SceneXrender::Window::cleanup()
 {
     delete s_tempPicture;
-    s_tempPicture = NULL;
+    s_tempPicture = nullptr;
     delete s_fadeAlphaPicture;
     s_fadeAlphaPicture = nullptr;
 }
@@ -392,7 +392,7 @@ void SceneXrender::Window::prepareTempPixmap()
     temp_visibleRect = toplevel->visibleRect().translated(-toplevel->pos());
     if (s_tempPicture && (oldSize.width() < temp_visibleRect.width() || oldSize.height() < temp_visibleRect.height())) {
         delete s_tempPicture;
-        s_tempPicture = NULL;
+        s_tempPicture = nullptr;
         scene_setXRenderOffscreenTarget(0); // invalidate, better crash than cause weird results for developers
     }
     if (!s_tempPicture) {
@@ -494,11 +494,16 @@ void SceneXrender::Window::performPaint(int mask, QRegion region, WindowPaintDat
         xform.matrix22 = DOUBLE_TO_FIXED(1.0 / yscale);
 
         // transform the shape for clipping in paintTransformedScreen()
-        QVector<QRect> rects = transformed_shape.rects();
-        for (int i = 0; i < rects.count(); ++i) {
-            QRect& r = rects[ i ];
-            r.setRect(qRound(r.x() * xscale), qRound(r.y() * yscale),
-                      qRound(r.width() * xscale), qRound(r.height() * yscale));
+        QVector<QRect> rects;
+        rects.reserve(transformed_shape.rectCount());
+        for (const QRect &rect : transformed_shape) {
+            const QRect transformedRect(
+                qRound(rect.x() * xscale),
+                qRound(rect.y() * yscale),
+                qRound(rect.width() * xscale),
+                qRound(rect.height() * yscale)
+            );
+            rects.append(transformedRect);
         }
         transformed_shape.setRects(rects.constData(), rects.count());
     }
@@ -763,7 +768,7 @@ void SceneXrender::Window::setPictureFilter(xcb_render_picture_t pic, Scene::Ima
         filterName = QByteArray("good");
         break;
     }
-    xcb_render_set_picture_filter(connection(), pic, filterName.length(), filterName.constData(), 0, NULL);
+    xcb_render_set_picture_filter(connection(), pic, filterName.length(), filterName.constData(), 0, nullptr);
 }
 
 WindowPixmap* SceneXrender::Window::createWindowPixmap()
@@ -805,22 +810,22 @@ void XRenderWindowPixmap::create()
         return;
     }
     m_picture = xcb_generate_id(connection());
-    xcb_render_create_picture(connection(), m_picture, pixmap(), m_format, 0, NULL);
+    xcb_render_create_picture(connection(), m_picture, pixmap(), m_format, 0, nullptr);
 }
 
 //****************************************
 // SceneXrender::EffectFrame
 //****************************************
 
-XRenderPicture *SceneXrender::EffectFrame::s_effectFrameCircle = NULL;
+XRenderPicture *SceneXrender::EffectFrame::s_effectFrameCircle = nullptr;
 
 SceneXrender::EffectFrame::EffectFrame(EffectFrameImpl* frame)
     : Scene::EffectFrame(frame)
 {
-    m_picture = NULL;
-    m_textPicture = NULL;
-    m_iconPicture = NULL;
-    m_selectionPicture = NULL;
+    m_picture = nullptr;
+    m_textPicture = nullptr;
+    m_iconPicture = nullptr;
+    m_selectionPicture = nullptr;
 }
 
 SceneXrender::EffectFrame::~EffectFrame()
@@ -834,37 +839,37 @@ SceneXrender::EffectFrame::~EffectFrame()
 void SceneXrender::EffectFrame::cleanup()
 {
     delete s_effectFrameCircle;
-    s_effectFrameCircle = NULL;
+    s_effectFrameCircle = nullptr;
 }
 
 void SceneXrender::EffectFrame::free()
 {
     delete m_picture;
-    m_picture = NULL;
+    m_picture = nullptr;
     delete m_textPicture;
-    m_textPicture = NULL;
+    m_textPicture = nullptr;
     delete m_iconPicture;
-    m_iconPicture = NULL;
+    m_iconPicture = nullptr;
     delete m_selectionPicture;
-    m_selectionPicture = NULL;
+    m_selectionPicture = nullptr;
 }
 
 void SceneXrender::EffectFrame::freeIconFrame()
 {
     delete m_iconPicture;
-    m_iconPicture = NULL;
+    m_iconPicture = nullptr;
 }
 
 void SceneXrender::EffectFrame::freeTextFrame()
 {
     delete m_textPicture;
-    m_textPicture = NULL;
+    m_textPicture = nullptr;
 }
 
 void SceneXrender::EffectFrame::freeSelection()
 {
     delete m_selectionPicture;
-    m_selectionPicture = NULL;
+    m_selectionPicture = nullptr;
 }
 
 void SceneXrender::EffectFrame::crossFadeIcon()
@@ -1033,7 +1038,7 @@ xcb_render_composite(connection(), XCB_RENDER_PICT_OP_OVER, *s_effectFrameCircle
 void SceneXrender::EffectFrame::updatePicture()
 {
     delete m_picture;
-    m_picture = 0L;
+    m_picture = nullptr;
     if (m_effectFrame->style() == EffectFrameStyled) {
         const QPixmap pix = m_effectFrame->frame().framePixmap();
         if (!pix.isNull())
@@ -1045,7 +1050,7 @@ void SceneXrender::EffectFrame::updateTextPicture()
 {
     // Mostly copied from SceneOpenGL::EffectFrame::updateTextTexture() above
     delete m_textPicture;
-    m_textPicture = 0L;
+    m_textPicture = nullptr;
 
     if (m_effectFrame->text().isEmpty()) {
         return;
@@ -1083,7 +1088,7 @@ SceneXRenderShadow::SceneXRenderShadow(Toplevel *toplevel)
     :Shadow(toplevel)
 {
     for (int i=0; i<ShadowElementsCount; ++i) {
-        m_pictures[i] = NULL;
+        m_pictures[i] = nullptr;
     }
 }
 
@@ -1226,14 +1231,14 @@ void SceneXRenderDecorationRenderer::render()
         xcb_create_gc(c, m_gc, m_pixmaps[int(DecorationPart::Top)], 0, nullptr);
     }
     auto renderPart = [this, c](const QRect &geo, const QPoint &offset, int index) {
-        if (geo.isNull()) {
+        if (!geo.isValid()) {
             return;
         }
         QImage image = renderToImage(geo);
         Q_ASSERT(image.devicePixelRatio() == 1);
         xcb_put_image(c, XCB_IMAGE_FORMAT_Z_PIXMAP, m_pixmaps[index], m_gc,
                       image.width(), image.height(), geo.x() - offset.x(), geo.y() - offset.y(), 0, 32,
-                      image.byteCount(), image.constBits());
+                      image.sizeInBytes(), image.constBits());
     };
     const QRect geometry = scheduled.boundingRect();
     renderPart(left.intersected(geometry),   left.topLeft(),   int(DecorationPart::Left));

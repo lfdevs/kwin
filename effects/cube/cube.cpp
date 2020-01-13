@@ -39,7 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QVector2D>
 #include <QVector3D>
 
-#include <math.h>
+#include <cmath>
 
 #include <kwinglutils.h>
 #include <kwinglplatform.h>
@@ -56,13 +56,13 @@ CubeEffect::CubeEffect()
     , cubeOpacity(1.0)
     , opacityDesktopOnly(true)
     , displayDesktopName(false)
-    , desktopNameFrame(NULL)
+    , desktopNameFrame(nullptr)
     , reflection(true)
     , desktopChangedWhileRotating(false)
     , paintCaps(true)
-    , wallpaper(NULL)
+    , wallpaper(nullptr)
     , texturedCaps(true)
-    , capTexture(NULL)
+    , capTexture(nullptr)
     , reflectionPainting(false)
     , activeScreen(0)
     , bottomCap(false)
@@ -74,12 +74,12 @@ CubeEffect::CubeEffect()
     , shortcutsRegistered(false)
     , mode(Cube)
     , useShaders(false)
-    , cylinderShader(0)
-    , sphereShader(0)
+    , cylinderShader(nullptr)
+    , sphereShader(nullptr)
     , zOrderingFactor(0.0f)
     , mAddedHeightCoeff1(0.0f)
     , mAddedHeightCoeff2(0.0f)
-    , m_cubeCapBuffer(NULL)
+    , m_cubeCapBuffer(nullptr)
     , m_proxy(this)
     , m_cubeAction(new QAction(this))
     , m_cylinderAction(new QAction(this))
@@ -93,14 +93,24 @@ CubeEffect::CubeEffect()
         m_reflectionShader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture, QString(), QStringLiteral("cube-reflection.glsl"));
         m_capShader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture, QString(), QStringLiteral("cube-cap.glsl"));
     } else {
-        m_reflectionShader = NULL;
-        m_capShader = NULL;
+        m_reflectionShader = nullptr;
+        m_capShader = nullptr;
     }
     m_textureMirrorMatrix.scale(1.0, -1.0, 1.0);
     m_textureMirrorMatrix.translate(0.0, -1.0, 0.0);
-    connect(effects, SIGNAL(tabBoxAdded(int)), this, SLOT(slotTabBoxAdded(int)));
-    connect(effects, SIGNAL(tabBoxClosed()), this, SLOT(slotTabBoxClosed()));
-    connect(effects, SIGNAL(tabBoxUpdated()), this, SLOT(slotTabBoxUpdated()));
+    connect(effects, &EffectsHandler::tabBoxAdded, this, &CubeEffect::slotTabBoxAdded);
+    connect(effects, &EffectsHandler::tabBoxClosed, this, &CubeEffect::slotTabBoxClosed);
+    connect(effects, &EffectsHandler::tabBoxUpdated, this, &CubeEffect::slotTabBoxUpdated);
+    connect(effects, &EffectsHandler::screenAboutToLock, this, [this]() {
+        // Set active(false) does not release key grabs until the animation completes
+        // As we know the lockscreen is trying to grab them, release them early
+        // all other grabs are released in the normal way
+        setActive(false);
+        if (keyboard_grab) {
+            effects->ungrabKeyboard();
+            keyboard_grab = false;
+        }
+    });
 
     reconfigure(ReconfigureAll);
 }
@@ -169,9 +179,9 @@ void CubeEffect::reconfigure(ReconfigureFlags)
     capDeformationFactor = (float)CubeConfig::capDeformation() / 100.0f;
     useZOrdering = CubeConfig::zOrdering();
     delete wallpaper;
-    wallpaper = NULL;
+    wallpaper = nullptr;
     delete capTexture;
-    capTexture = NULL;
+    capTexture = nullptr;
     texturedCaps = CubeConfig::texturedCaps();
 
     timeLine.setEasingCurve(QEasingCurve::InOutSine);
@@ -202,9 +212,9 @@ void CubeEffect::reconfigure(ReconfigureFlags)
         KGlobalAccel::self()->setShortcut(sphereAction, QList<QKeySequence>());
         sphereShortcut = KGlobalAccel::self()->shortcut(sphereAction);
         effects->registerGlobalShortcut(QKeySequence(), sphereAction);
-        connect(cubeAction, SIGNAL(triggered(bool)), this, SLOT(toggleCube()));
-        connect(cylinderAction, SIGNAL(triggered(bool)), this, SLOT(toggleCylinder()));
-        connect(sphereAction, SIGNAL(triggered(bool)), this, SLOT(toggleSphere()));
+        connect(cubeAction, &QAction::triggered, this, &CubeEffect::toggleCube);
+        connect(cylinderAction, &QAction::triggered, this, &CubeEffect::toggleCylinder);
+        connect(sphereAction, &QAction::triggered, this, &CubeEffect::toggleSphere);
         connect(KGlobalAccel::self(), &KGlobalAccel::globalShortcutChanged, this, &CubeEffect::globalShortcutChanged);
         shortcutsRegistered = true;
     }
@@ -272,7 +282,7 @@ void CubeEffect::slotCubeCapLoaded()
         }
         // need to recreate the VBO for the cube cap
         delete m_cubeCapBuffer;
-        m_cubeCapBuffer = NULL;
+        m_cubeCapBuffer = nullptr;
         effects->addRepaintFull();
     }
     watcher->deleteLater();
@@ -834,7 +844,7 @@ void CubeEffect::paintCubeCap()
     }
     delete m_cubeCapBuffer;
     m_cubeCapBuffer = new GLVertexBuffer(GLVertexBuffer::Static);
-    m_cubeCapBuffer->setData(verts.count() / 3, 3, verts.constData(), texture ? texCoords.constData() : NULL);
+    m_cubeCapBuffer->setData(verts.count() / 3, 3, verts.constData(), texture ? texCoords.constData() : nullptr);
 }
 
 void CubeEffect::paintCylinderCap()
@@ -889,7 +899,7 @@ void CubeEffect::paintCylinderCap()
     }
     delete m_cubeCapBuffer;
     m_cubeCapBuffer = new GLVertexBuffer(GLVertexBuffer::Static);
-    m_cubeCapBuffer->setData(verts.count() / 3, 3, verts.constData(), texture ? texCoords.constData() : NULL);
+    m_cubeCapBuffer->setData(verts.count() / 3, 3, verts.constData(), texture ? texCoords.constData() : nullptr);
 }
 
 void CubeEffect::paintSphereCap()
@@ -946,7 +956,7 @@ void CubeEffect::paintSphereCap()
     }
     delete m_cubeCapBuffer;
     m_cubeCapBuffer = new GLVertexBuffer(GLVertexBuffer::Static);
-    m_cubeCapBuffer->setData(verts.count() / 3, 3, verts.constData(), texture ? texCoords.constData() : NULL);
+    m_cubeCapBuffer->setData(verts.count() / 3, 3, verts.constData(), texture ? texCoords.constData() : nullptr);
 }
 
 void CubeEffect::postPaintScreen()
@@ -965,9 +975,9 @@ void CubeEffect::postPaintScreen()
             keyboard_grab = false;
             effects->stopMouseInterception(this);
             effects->setCurrentDesktop(frontDesktop);
-            effects->setActiveFullScreenEffect(0);
+            effects->setActiveFullScreenEffect(nullptr);
             delete m_cubeCapBuffer;
-            m_cubeCapBuffer = NULL;
+            m_cubeCapBuffer = nullptr;
             if (desktopNameFrame)
                 desktopNameFrame->free();
             activated = false;
@@ -1273,7 +1283,7 @@ void CubeEffect::paintWindow(EffectWindow* w, int mask, QRegion region, WindowPa
                     quadSize = 150.0f;
                 else
                     quadSize = 250.0f;
-                foreach (const QRect & paintRect, paint.rects()) {
+                for (const QRect &paintRect : paint) {
                     for (int i = 0; i <= (paintRect.height() / quadSize); i++) {
                         for (int j = 0; j <= (paintRect.width() / quadSize); j++) {
                             verts << qMin(paintRect.x() + (j + 1)*quadSize, (float)paintRect.x() + paintRect.width()) << paintRect.y() + i*quadSize;
@@ -1304,7 +1314,7 @@ void CubeEffect::paintWindow(EffectWindow* w, int mask, QRegion region, WindowPa
                 QColor color = capColor;
                 capColor.setAlphaF(cubeOpacity);
                 vbo->setColor(color);
-                vbo->setData(verts.size() / 2, 2, verts.constData(), NULL);
+                vbo->setData(verts.size() / 2, 2, verts.constData(), nullptr);
                 if (!capShader || mode == Cube) {
                     // TODO: use sphere and cylinder shaders
                     vbo->render(GL_TRIANGLES);
@@ -1537,13 +1547,13 @@ void CubeEffect::setActive(bool active)
         QString capPath = CubeConfig::capPath();
         if (texturedCaps && !capTexture && !capPath.isEmpty()) {
             QFutureWatcher<QImage> *watcher = new QFutureWatcher<QImage>(this);
-            connect(watcher, SIGNAL(finished()), SLOT(slotCubeCapLoaded()));
+            connect(watcher, &QFutureWatcher<QImage>::finished, this, &CubeEffect::slotCubeCapLoaded);
             watcher->setFuture(QtConcurrent::run(this, &CubeEffect::loadCubeCap, capPath));
         }
         QString wallpaperPath = CubeConfig::wallpaper().toLocalFile();
         if (!wallpaper && !wallpaperPath.isEmpty()) {
             QFutureWatcher<QImage> *watcher = new QFutureWatcher<QImage>(this);
-            connect(watcher, SIGNAL(finished()), SLOT(slotWallPaperLoaded()));
+            connect(watcher, &QFutureWatcher<QImage>::finished, this, &CubeEffect::slotWallPaperLoaded);
             watcher->setFuture(QtConcurrent::run(this, &CubeEffect::loadWallPaper, wallpaperPath));
         }
         activated = true;

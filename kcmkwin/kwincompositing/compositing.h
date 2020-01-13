@@ -48,7 +48,7 @@ class Compositing : public QObject
     Q_PROPERTY(bool windowsBlockCompositing READ windowsBlockCompositing WRITE setWindowsBlockCompositing NOTIFY windowsBlockCompositingChanged)
     Q_PROPERTY(bool compositingRequired READ compositingRequired CONSTANT)
 public:
-    explicit Compositing(QObject *parent = 0);
+    explicit Compositing(QObject *parent = nullptr);
 
     Q_INVOKABLE bool OpenGLIsUnsafe() const;
     Q_INVOKABLE bool OpenGLIsBroken();
@@ -132,7 +132,7 @@ public:
         TypeRole = Qt::UserRole +2
     };
 
-    explicit CompositingType(QObject *parent = 0);
+    explicit CompositingType(QObject *parent = nullptr);
 
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
     QModelIndex parent(const QModelIndex &child) const override;
@@ -140,7 +140,7 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    virtual QHash< int, QByteArray > roleNames() const override;
+    QHash< int, QByteArray > roleNames() const override;
 
     Q_INVOKABLE int compositingTypeForIndex(int row) const;
     Q_INVOKABLE int indexForCompositingType(int type) const;
@@ -161,7 +161,7 @@ class OpenGLPlatformInterfaceModel : public QAbstractListModel
     Q_OBJECT
 public:
     explicit OpenGLPlatformInterfaceModel(QObject *parent = nullptr);
-    virtual ~OpenGLPlatformInterfaceModel();
+    ~OpenGLPlatformInterfaceModel() override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 

@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "decoratedclient.h"
+#include "decorationbridge.h"
 #include "decorationpalette.h"
 #include "decorationrenderer.h"
 #include "abstract_client.h"
@@ -87,10 +88,9 @@ DecoratedClientImpl::DecoratedClientImpl(AbstractClient *client, KDecoration2::D
             &Decoration::DecoratedClientImpl::signalShadeChange);
     connect(client, &AbstractClient::keepAboveChanged, decoratedClient, &KDecoration2::DecoratedClient::keepAboveChanged);
     connect(client, &AbstractClient::keepBelowChanged, decoratedClient, &KDecoration2::DecoratedClient::keepBelowChanged);
+    connect(Compositor::self(), &Compositor::aboutToToggleCompositing, this, &DecoratedClientImpl::destroyRenderer);
     m_compositorToggledConnection = connect(Compositor::self(), &Compositor::compositingToggled, this,
         [this, decoration]() {
-            delete m_renderer;
-            m_renderer = nullptr;
             createRenderer();
             decoration->update();
         }
@@ -220,6 +220,10 @@ QColor DecoratedClientImpl::color(KDecoration2::ColorGroup group, KDecoration2::
 
 void DecoratedClientImpl::requestShowToolTip(const QString &text)
 {
+    if (!DecorationBridge::self()->showToolTips()) {
+        return;
+    }
+
     m_toolTipText = text;
 
     int wakeUpDelay = QApplication::style()->styleHint(QStyle::SH_ToolTip_WakeUpDelay);
@@ -271,7 +275,7 @@ int DecoratedClientImpl::height() const
 
 bool DecoratedClientImpl::isMaximizedVertically() const
 {
-    return m_client->maximizeMode() & MaximizeVertical;
+    return m_client->requestedMaximizeMode() & MaximizeVertical;
 }
 
 bool DecoratedClientImpl::isMaximized() const
@@ -281,7 +285,7 @@ bool DecoratedClientImpl::isMaximized() const
 
 bool DecoratedClientImpl::isMaximizedHorizontally() const
 {
-    return m_client->maximizeMode() & MaximizeHorizontal;
+    return m_client->requestedMaximizeMode() & MaximizeHorizontal;
 }
 
 Qt::Edges DecoratedClientImpl::adjacentScreenEdges() const

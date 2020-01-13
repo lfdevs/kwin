@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "abstract_egl_backend.h"
+#include "egl_dmabuf.h"
 #include "texture.h"
 #include "composite.h"
 #include "egl_context_attribute_builder.h"
@@ -65,7 +66,10 @@ AbstractEglBackend::AbstractEglBackend()
     connect(Compositor::self(), &Compositor::aboutToDestroy, this, &AbstractEglBackend::unbindWaylandDisplay);
 }
 
-AbstractEglBackend::~AbstractEglBackend() = default;
+AbstractEglBackend::~AbstractEglBackend()
+{
+    delete m_dmaBuf;
+}
 
 void AbstractEglBackend::unbindWaylandDisplay()
 {
@@ -169,6 +173,9 @@ void AbstractEglBackend::initWayland()
             }
         }
     }
+
+    Q_ASSERT(!m_dmaBuf);
+    m_dmaBuf = EglDmabuf::factory(this);
 }
 
 void AbstractEglBackend::initClientExtensions()
@@ -352,11 +359,12 @@ bool AbstractEglTexture::loadTexture(WindowPixmap *pixmap)
     if (auto s = pixmap->surface()) {
         s->resetTrackedDamage();
     }
-    if (buffer->shmBuffer()) {
+    if (buffer->linuxDmabufBuffer()) {
+        return loadDmabufTexture(buffer);
+    } else if (buffer->shmBuffer()) {
         return loadShmTexture(buffer);
-    } else {
-        return loadEglTexture(buffer);
     }
+    return loadEglTexture(buffer);
 }
 
 void AbstractEglTexture::updateTexture(WindowPixmap *pixmap)
@@ -373,12 +381,34 @@ void AbstractEglTexture::updateTexture(WindowPixmap *pixmap)
         return;
     }
     auto s = pixmap->surface();
+    if (EglDmabufBuffer *dmabuf = static_cast<EglDmabufBuffer *>(buffer->linuxDmabufBuffer())) {
+        q->bind();
+        glEGLImageTargetTexture2DOES(GL_TEXTURE_2D, (GLeglImageOES) dmabuf->images()[0]);   //TODO
+        q->unbind();
+        if (m_image != EGL_NO_IMAGE_KHR) {
+            eglDestroyImageKHR(m_backend->eglDisplay(), m_image);
+        }
+        m_image = EGL_NO_IMAGE_KHR; // The wl_buffer has ownership of the image
+        // The origin in a dmabuf-buffer is at the upper-left corner, so the meaning
+        // of Y-inverted is the inverse of OpenGL.
+        const bool yInverted = !(dmabuf->flags() & KWayland::Server::LinuxDmabufUnstableV1Interface::YInverted);
+        if (m_size != dmabuf->size() || yInverted != q->isYInverted()) {
+            m_size = dmabuf->size();
+            q->setYInverted(yInverted);
+        }
+        if (s) {
+            s->resetTrackedDamage();
+        }
+        return;
+    }
     if (!buffer->shmBuffer()) {
         q->bind();
         EGLImageKHR image = attach(buffer);
         q->unbind();
         if (image != EGL_NO_IMAGE_KHR) {
-            eglDestroyImageKHR(m_backend->eglDisplay(), m_image);
+            if (m_image != EGL_NO_IMAGE_KHR) {
+                eglDestroyImageKHR(m_backend->eglDisplay(), m_image);
+            }
             m_image = image;
         }
         if (s) {
@@ -391,6 +421,12 @@ void AbstractEglTexture::updateTexture(WindowPixmap *pixmap)
     if (image.isNull() || !s) {
         return;
     }
+    if (image.size() != m_size) {
+        // buffer size has changed, reload shm texture
+        if (!loadTexture(pixmap)) {
+            return;
+        }
+    }
     Q_ASSERT(image.size() == m_size);
     q->bind();
     const QRegion damage = s->trackedDamage();
@@ -401,14 +437,14 @@ void AbstractEglTexture::updateTexture(WindowPixmap *pixmap)
     if (GLPlatform::instance()->isGLES()) {
         if (s_supportsARGB32 && (image.format() == QImage::Format_ARGB32 || image.format() == QImage::Format_ARGB32_Premultiplied)) {
             const QImage im = image.convertToFormat(QImage::Format_ARGB32_Premultiplied);
-            for (const QRect &rect : damage.rects()) {
+            for (const QRect &rect : damage) {
                 auto scaledRect = QRect(rect.x() * scale, rect.y() * scale, rect.width() * scale, rect.height() * scale);
                 glTexSubImage2D(m_target, 0, scaledRect.x(), scaledRect.y(), scaledRect.width(), scaledRect.height(),
                                 GL_BGRA_EXT, GL_UNSIGNED_BYTE, im.copy(scaledRect).bits());
             }
         } else {
             const QImage im = image.convertToFormat(QImage::Format_RGBA8888_Premultiplied);
-            for (const QRect &rect : damage.rects()) {
+            for (const QRect &rect : damage) {
                 auto scaledRect = QRect(rect.x() * scale, rect.y() * scale, rect.width() * scale, rect.height() * scale);
                 glTexSubImage2D(m_target, 0, scaledRect.x(), scaledRect.y(), scaledRect.width(), scaledRect.height(),
                                 GL_RGBA, GL_UNSIGNED_BYTE, im.copy(scaledRect).bits());
@@ -416,7 +452,7 @@ void AbstractEglTexture::updateTexture(WindowPixmap *pixmap)
         }
     } else {
         const QImage im = image.convertToFormat(QImage::Format_ARGB32_Premultiplied);
-        for (const QRect &rect : damage.rects()) {
+        for (const QRect &rect : damage) {
             auto scaledRect = QRect(rect.x() * scale, rect.y() * scale, rect.width() * scale, rect.height() * scale);
             glTexSubImage2D(m_target, 0, scaledRect.x(), scaledRect.y(), scaledRect.width(), scaledRect.height(),
                             GL_BGRA, GL_UNSIGNED_BYTE, im.copy(scaledRect).bits());
@@ -494,6 +530,30 @@ bool AbstractEglTexture::loadEglTexture(const QPointer< KWayland::Server::Buffer
         q->discard();
         return false;
     }
+
+    return true;
+}
+
+bool AbstractEglTexture::loadDmabufTexture(const QPointer< KWayland::Server::BufferInterface > &buffer)
+{
+    auto *dmabuf = static_cast<EglDmabufBuffer *>(buffer->linuxDmabufBuffer());
+    if (!dmabuf || dmabuf->images()[0] == EGL_NO_IMAGE_KHR) {
+        qCritical(KWIN_OPENGL) << "Invalid dmabuf-based wl_buffer";
+        q->discard();
+        return false;
+    }
+
+    Q_ASSERT(m_image == EGL_NO_IMAGE_KHR);
+
+    glGenTextures(1, &m_texture);
+    q->setWrapMode(GL_CLAMP_TO_EDGE);
+    q->setFilter(GL_NEAREST);
+    q->bind();
+    glEGLImageTargetTexture2DOES(GL_TEXTURE_2D, (GLeglImageOES) dmabuf->images()[0]);
+    q->unbind();
+
+    m_size = dmabuf->size();
+    q->setYInverted(!(dmabuf->flags() & KWayland::Server::LinuxDmabufUnstableV1Interface::YInverted));
 
     return true;
 }

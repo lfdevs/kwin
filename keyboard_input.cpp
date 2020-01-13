@@ -111,6 +111,7 @@ void KeyboardInputRedirection::init()
     Q_ASSERT(!m_inited);
     m_inited = true;
     const auto config = kwinApp()->kxkbConfig();
+    m_xkb->setNumLockConfig(kwinApp()->inputConfig());
     m_xkb->setConfig(config);
 
     m_input->installInputEventSpy(new KeyStateChangedSpy(m_input));
@@ -121,7 +122,9 @@ void KeyboardInputRedirection::init()
     m_keyboardLayout->init();
     m_input->installInputEventSpy(m_keyboardLayout);
 
-    m_input->installInputEventSpy(new ModifierOnlyShortcuts);
+    if (waylandServer()->hasGlobalShortcutSupport()) {
+        m_input->installInputEventSpy(new ModifierOnlyShortcuts);
+    }
 
     KeyboardRepeat *keyRepeatSpy = new KeyboardRepeat(m_xkb.data());
     connect(keyRepeatSpy, &KeyboardRepeat::keyRepeat, this,
@@ -181,19 +184,6 @@ void KeyboardInputRedirection::update()
     if (found && found->surface()) {
         if (found->surface() != seat->focusedKeyboardSurface()) {
             seat->setFocusedKeyboardSurface(found->surface());
-            auto newKeyboard = seat->focusedKeyboard();
-            if (newKeyboard && newKeyboard->client() == waylandServer()->xWaylandConnection()) {
-                // focus passed to an XWayland surface
-                const auto selection = seat->selection();
-                auto xclipboard = waylandServer()->xclipboardSyncDataDevice();
-                if (xclipboard && selection != xclipboard.data()) {
-                    if (selection) {
-                        xclipboard->sendSelection(selection);
-                    } else {
-                        xclipboard->sendClearSelection();
-                    }
-                }
-            }
         }
     } else {
         seat->setFocusedKeyboardSurface(nullptr);

@@ -37,7 +37,7 @@ WindowGeometry::WindowGeometry()
     initConfig<WindowGeometryConfiguration>();
     iAmActivated = true;
     iAmActive = false;
-    myResizeWindow = 0L;
+    myResizeWindow = nullptr;
 #define myResizeString "Window geometry display, %1 and %2 are the new size," \
                        " %3 and %4 are pixel increments - avoid reformatting or suffixes like 'px'", \
                        "Width: %1 (%3)\nHeight: %2 (%4)"
@@ -56,11 +56,11 @@ WindowGeometry::WindowGeometry()
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << Qt::CTRL + Qt::SHIFT + Qt::Key_F11);
     effects->registerGlobalShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_F11, a);
 
-    connect(a, SIGNAL(triggered(bool)), this, SLOT(toggle()));
+    connect(a, &QAction::triggered, this, &WindowGeometry::toggle);
 
-    connect(effects, SIGNAL(windowStartUserMovedResized(KWin::EffectWindow*)), this, SLOT(slotWindowStartUserMovedResized(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(windowFinishUserMovedResized(KWin::EffectWindow*)), this, SLOT(slotWindowFinishUserMovedResized(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(windowStepUserMovedResized(KWin::EffectWindow*,QRect)), this, SLOT(slotWindowStepUserMovedResized(KWin::EffectWindow*,QRect)));
+    connect(effects, &EffectsHandler::windowStartUserMovedResized, this, &WindowGeometry::slotWindowStartUserMovedResized);
+    connect(effects, &EffectsHandler::windowFinishUserMovedResized, this, &WindowGeometry::slotWindowFinishUserMovedResized);
+    connect(effects, &EffectsHandler::windowStepUserMovedResized, this, &WindowGeometry::slotWindowStepUserMovedResized);
 }
 
 WindowGeometry::~WindowGeometry()
@@ -128,7 +128,7 @@ void WindowGeometry::slotWindowFinishUserMovedResized(EffectWindow *w)
 {
     if (iAmActive && w == myResizeWindow) {
         iAmActive = false;
-        myResizeWindow = 0L;
+        myResizeWindow = nullptr;
         w->addRepaintFull();
         if (myExtraDirtyArea.isValid())
             w->addLayerRepaint(myExtraDirtyArea);
@@ -165,7 +165,7 @@ void WindowGeometry::slotWindowStepUserMovedResized(EffectWindow *w, const QRect
         QPoint center = geometry.center();
         const QRect &r = geometry;
         const QRect &r2 = myOriginalGeometry;
-        const QRect screen = effects->clientArea(ScreenArea, center, w->desktop());
+        const QRect screen = effects->clientArea(ScreenArea, w);
         QRect expandedGeometry = w->expandedGeometry();
         expandedGeometry = geometry.adjusted(expandedGeometry.x() - w->x(),
                                              expandedGeometry.y() - w->y(),

@@ -28,7 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kwinglplatform.h"
 #include "logging_p.h"
 
-
 #include <QPixmap>
 #include <QImage>
 #include <QHash>
@@ -40,9 +39,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QVarLengthArray>
 
 #include <array>
+#include <cmath>
 #include <deque>
-
-#include <math.h>
 
 #define DEBUG_GLRENDERTARGET 0
 
@@ -1912,7 +1910,7 @@ bool GLVertexBufferPrivate::awaitFence(intptr_t end)
         fences.pop_front();
     }
 
-    assert(!fences.empty());
+    Q_ASSERT(!fences.empty());
 
     // Wait on the next fence
     const BufferFence &fence = fences.front();
@@ -1970,7 +1968,7 @@ void GLVertexBufferPrivate::reallocateBuffer(size_t size)
     const size_t minSize = 32768; // Minimum size for streaming buffers
     const size_t alloc = usage != GL_STATIC_DRAW ? align(qMax(size, minSize), 4096) : size;
 
-    glBufferData(GL_ARRAY_BUFFER, alloc, 0, usage);
+    glBufferData(GL_ARRAY_BUFFER, alloc, nullptr, usage);
 
     bufferSize = alloc;
 }
@@ -2115,8 +2113,8 @@ void GLVertexBuffer::setAttribLayout(const GLVertexAttrib *attribs, int count, i
     for (int i = 0; i < count; i++) {
         const int index = attribs[i].index;
 
-        assert(index >= 0 && index < VertexAttributeCount);
-        assert(!d->enabledArrays[index]);
+        Q_ASSERT(index >= 0 && index < VertexAttributeCount);
+        Q_ASSERT(!d->enabledArrays[index]);
 
         d->attrib[index].size   = attribs[i].size;
         d->attrib[index].type   = attribs[i].type;

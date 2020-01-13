@@ -40,16 +40,16 @@ class KWIN_EXPORT Activities : public QObject
     Q_OBJECT
 
 public:
-    ~Activities();
+    ~Activities() override;
 
     bool stop(const QString &id);
     bool start(const QString &id);
     void setCurrent(const QString &activity);
     /**
-    * Adds/removes client \a c to/from \a activity.
-    *
-    * Takes care of transients as well.
-    */
+     * Adds/removes client \a c to/from \a activity.
+     *
+     * Takes care of transients as well.
+     */
     void toggleClientOnActivity(Client* c, const QString &activity, bool dont_activate);
 
     QStringList running() const;

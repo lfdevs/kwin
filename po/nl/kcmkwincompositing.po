@@ -6,13 +6,13 @@
 # Kristof Bal <kristof.bal@gmail.com>, 2008.
 # Freek de Kruijf <f.de.kruijf@hetnet.nl>, 2009.
 # Freek de Kruijf <freekdekruijf@kde.nl>, 2009, 2010.
-# Freek de Kruijf <freekdekruijf@kde.nl>, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018.
+# Freek de Kruijf <freekdekruijf@kde.nl>, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2018-08-03 09:45+0100\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"PO-Revision-Date: 2019-01-04 10:55+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -21,16 +21,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Rinse de Vries,Freek de Kruijf"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "rinsedevries@kde.nl,freekdekruijf@kde.nl"
 
 #: compositing.cpp:378
 #, kde-format
@@ -236,12 +226,12 @@ msgstr ""
 msgid "Allow applications to block compositing"
 msgstr "Toepassingen toestaan compositing te blokkeren"
 
-#: main.cpp:83
+#: main.cpp:55
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "Detectie van OpenGL opnieuw inschakelen"
 
-#: main.cpp:141
+#: main.cpp:120
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -250,114 +240,17 @@ msgstr ""
 "\"Alleen wanneer goedkoop\" voorkomt alleen schuin trekken bij wijzigingen "
 "in het volledige scherm zoals een video."
 
-#: main.cpp:145
+#: main.cpp:124
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr ""
 "\"Volledig herschrijven van het scherm\" kan problemen met de prestatie "
 "veroorzaken."
 
-#: main.cpp:149
+#: main.cpp:128
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
 "\"Scherminhoud hergebruiken\" veroorzaakt ernstige problemen met de "
 "prestatie bij MESA-stuurprogramma's."
-
-#: model.cpp:70
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Accessibility"
-msgstr "Toegankelijkheid"
-
-#: model.cpp:71
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Appearance"
-msgstr "Uiterlijk"
-
-#: model.cpp:72
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Candy"
-msgstr "Oogstreling"
-
-#: model.cpp:73
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Focus"
-msgstr "Focus"
-
-#: model.cpp:74
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Show Desktop Animation"
-msgstr "Animatie van bureaublad tonen"
-
-#: model.cpp:75
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Tools"
-msgstr "Hulpmiddelen"
-
-#: model.cpp:76
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Virtual Desktop Switching Animation"
-msgstr "Animatie van wisselen tussen bureaubladen"
-
-#: model.cpp:77
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Window Management"
-msgstr "Vensterbeheer"
-
-#: model.cpp:233
-#, kde-format
-msgid "KWin development team"
-msgstr "Ontwikkelteam van KWin"
-
-#: qml/Effect.qml:119
-#, kde-format
-msgid ""
-"Author: %1\n"
-"License: %2"
-msgstr ""
-"Auteur: %1\n"
-"Licentie: %2"
-
-#: qml/EffectView.qml:64
-#, kde-format
-msgid ""
-"Hint: To find out or configure how to activate an effect, look at the "
-"effect's settings."
-msgstr ""
-"Tip: om uit te vinden hoe u een effect kunt activeren of instellen, kijk bij "
-"de instellingen ervan."
-
-#: qml/EffectView.qml:75
-#, kde-format
-msgid "Search"
-msgstr "Zoeken"
-
-#: qml/EffectView.qml:82
-#, kde-format
-msgid "Configure filter"
-msgstr "Filter instellen"
-
-#: qml/EffectView.qml:85
-#, kde-format
-msgid "Exclude Desktop Effects not supported by the Compositor"
-msgstr ""
-"Bureaubladeffecten uitsluiten wordt door de compositor niet ondersteund"
-
-#: qml/EffectView.qml:93
-#, kde-format
-msgid "Exclude internal Desktop Effects"
-msgstr "Interne bureaublad-effecten uitsluiten"
-
-#: qml/EffectView.qml:105
-#, kde-format
-msgid "Get New Effects..."
-msgstr "Nieuwe effecten ophalen..."

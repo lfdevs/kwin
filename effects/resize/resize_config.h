@@ -33,17 +33,17 @@ class ResizeEffectConfigForm : public QWidget, public Ui::ResizeEffectConfigForm
 {
     Q_OBJECT
 public:
-    explicit ResizeEffectConfigForm(QWidget* parent = 0);
+    explicit ResizeEffectConfigForm(QWidget* parent = nullptr);
 };
 
 class ResizeEffectConfig : public KCModule
 {
     Q_OBJECT
 public:
-    explicit ResizeEffectConfig(QWidget* parent = 0, const QVariantList& args = QVariantList());
+    explicit ResizeEffectConfig(QWidget* parent = nullptr, const QVariantList& args = QVariantList());
 
 public Q_SLOTS:
-    virtual void save();
+    void save() override;
 
 private:
     ResizeEffectConfigForm* m_ui;

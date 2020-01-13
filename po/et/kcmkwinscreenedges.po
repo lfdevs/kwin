@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-08-05 03:05+0200\n"
 "PO-Revision-Date: 2016-08-20 00:27+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-i18n-doc@kde.org>\n"
@@ -45,9 +45,8 @@ msgstr "Ekraani lukustamine"
 
 #: main.cpp:193 touch.cpp:134
 #, kde-format
-msgctxt "Open krunner"
-msgid "Run Command"
-msgstr "Käsu käivitamine"
+msgid "Show KRunner"
+msgstr ""
 
 #: main.cpp:194 touch.cpp:135
 #, kde-format
@@ -99,104 +98,102 @@ msgstr "Aknavahetuse lülitamine"
 msgid "Toggle alternative window switching"
 msgstr "Alternatiivse aknavahetuse lülitamine"
 
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: main.ui:17
-#, fuzzy, kde-format
-#| msgid "Active Screen Edge Actions"
-msgid "Active Screen Corners and Edges"
-msgstr "Aktiivse ekraani serva toimingud"
-
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#: main.ui:36
+#. i18n: ectx: property (text), widget (QLabel, infoLabel)
+#: main.ui:23
 #, fuzzy, kde-format
 #| msgid ""
 #| "To trigger an action push your mouse cursor against the edge of the "
 #| "screen in the action's direction."
 msgid ""
-"Trigger an action by pushing the mouse cursor against the corresponding "
-"screen edge or corner"
+"You can trigger an action by pushing the mouse cursor against the "
+"corresponding screen edge or corner."
 msgstr ""
 "Toimingu esilekutsumiseks suru hiirekursor toimingu suunas vastu ekraani "
 "serva."
 
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: main.ui:52
+#. i18n: ectx: property (text), widget (QLabel, quickMaximizeLabel)
+#: main.ui:67
 #, kde-format
-msgid "Window Management"
-msgstr "Akende haldamine"
+msgid "&Maximize:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
-#: main.ui:58
-#, fuzzy, kde-format
-#| msgid "Maximize windows by dragging them to the top of the screen"
-msgid "Maximize windows by dragging them to the top edge of the screen"
-msgstr "Akende maksimeerimine nende lohistamisel ekraani ülaserva"
+#: main.ui:77
+#, kde-format
+msgid "Windows dragged to top edge"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, quickTileLabel)
+#: main.ui:84
+#, kde-format
+msgid "&Tile:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
-#: main.ui:65
+#: main.ui:94
 #, fuzzy, kde-format
 #| msgid "Tile windows by dragging them to the side of the screen"
-msgid "Tile windows by dragging them to the left or right edges of the screen"
+msgid "Windows dragged to left or right edge"
 msgstr "Aknad paanidena nende lohistamisel ekraani serva"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: main.ui:93
+#. i18n: ectx: property (text), widget (QLabel, electricBorderCornerRatioLabel)
+#: main.ui:101
 #, kde-format
-msgid "Quarter tiling triggered in the outer"
-msgstr "Veerandpaanimine käivitub"
+msgid "Trigger &quarter tiling in:"
+msgstr ""
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, electricBorderCornerRatio)
-#: main.ui:106
+#. i18n: ectx: property (suffix), widget (QSpinBox, electricBorderCornerRatioSpin)
+#: main.ui:116
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
 
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: main.ui:122
+#. i18n: ectx: property (prefix), widget (QSpinBox, electricBorderCornerRatioSpin)
+#: main.ui:119
+#, kde-format
+msgid "Outer "
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_1)
+#: main.ui:135
 #, kde-format
 msgid "of the screen"
 msgstr "ekraanist"
 
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: main.ui:150
-#, kde-format
-msgid "Other Settings"
-msgstr "Muud seadistused"
-
 #. i18n: ectx: property (toolTip), widget (QLabel, desktopSwitchLabel)
-#: main.ui:162
+#: main.ui:144
 #, kde-format
 msgid ""
 "Change desktop when the mouse cursor is pushed against the edge of the screen"
 msgstr "Töölaua vahetamine hiirekursori surumisel vastu ekraaniserva"
 
 #. i18n: ectx: property (text), widget (QLabel, desktopSwitchLabel)
-#: main.ui:165
+#: main.ui:147
 #, kde-format
 msgid "&Switch desktop on edge:"
 msgstr "&Töölaua vahetamine serval:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
-#: main.ui:176
+#: main.ui:158
 #, kde-format
 msgctxt "Switch desktop on edge"
 msgid "Disabled"
 msgstr "Keelatud"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
-#: main.ui:181
+#: main.ui:163
 #, kde-format
 msgid "Only When Moving Windows"
 msgstr "Ainult akende liigutamisel"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
-#: main.ui:186
+#: main.ui:168
 #, kde-format
 msgid "Always Enabled"
 msgstr "Alati lubatud"
 
-#. i18n: ectx: property (toolTip), widget (QLabel, label)
-#: main.ui:194
+#. i18n: ectx: property (toolTip), widget (QLabel, activationDelayLabel)
+#: main.ui:176
 #, kde-format
 msgid ""
 "Amount of time required for the mouse cursor to be pushed against the edge "
@@ -205,21 +202,21 @@ msgstr ""
 "Aeg, mille jooksul tuleb hiirekursorit suruda ekraaniserva vastu, enne kui "
 "see kutsub esile toimingu"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: main.ui:197
+#. i18n: ectx: property (text), widget (QLabel, activationDelayLabel)
+#: main.ui:179
 #, kde-format
 msgid "Activation &delay:"
 msgstr "Aktiveerimise &viivitus:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, activationDelaySpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, triggerCooldownSpin)
-#: main.ui:207 main.ui:242
+#: main.ui:189 main.ui:224
 #, kde-format
 msgid " ms"
 msgstr " ms"
 
-#. i18n: ectx: property (toolTip), widget (QLabel, label_2)
-#: main.ui:226
+#. i18n: ectx: property (toolTip), widget (QLabel, triggerCooldownLabel)
+#: main.ui:208
 #, kde-format
 msgid ""
 "Amount of time required after triggering an action until the next trigger "
@@ -227,21 +224,21 @@ msgid ""
 msgstr ""
 "Aeg pärast toimingu esilekutsumist, enne kui saab esile kutsuda uut toimingut"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: main.ui:229
+#. i18n: ectx: property (text), widget (QLabel, triggerCooldownLabel)
+#: main.ui:211
 #, kde-format
 msgid "&Reactivation delay:"
 msgstr "Taasaktiveerimise &viivitus:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#: touch.ui:36
+#. i18n: ectx: property (text), widget (QLabel, label_1)
+#: touch.ui:17
 #, fuzzy, kde-format
 #| msgid ""
 #| "To trigger an action push your mouse cursor against the edge of the "
 #| "screen in the action's direction."
 msgid ""
-"Trigger an action by swiping from the screen edge towards the center of the "
-"screen"
+"You can trigger an action by swiping from the screen edge towards the center "
+"of the screen."
 msgstr ""
 "Toimingu esilekutsumiseks suru hiirekursor toimingu suunas vastu ekraani "
 "serva."

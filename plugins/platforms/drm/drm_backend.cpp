@@ -35,9 +35,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "egl_gbm_backend.h"
 #include <gbm.h>
 #endif
+#if HAVE_EGL_STREAMS
+#include "egl_stream_backend.h"
+#endif
 // KWayland
 #include <KWayland/Server/seat_interface.h>
-#include <KWayland/Server/outputconfiguration_interface.h>
 // KF5
 #include <KConfigGroup>
 #include <KCoreAddons>
@@ -74,8 +76,13 @@ DrmBackend::DrmBackend(QObject *parent)
     , m_udevMonitor(m_udev->monitor())
     , m_dpmsFilter()
 {
+#if HAVE_EGL_STREAMS
+    if (qEnvironmentVariableIsSet("KWIN_DRM_USE_EGL_STREAMS")) {
+        m_useEglStreams = true;
+    }
+#endif
     setSupportsGammaControl(true);
-    handleOutputs();
+    supportsOutputChanges();
 }
 
 DrmBackend::~DrmBackend()
@@ -90,10 +97,6 @@ DrmBackend::~DrmBackend()
         while (m_pageFlipsPending != 0) {
             QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents);
         }
-        // we need to first remove all outputs
-        qDeleteAll(m_outputs);
-        m_outputs.clear();
-        m_enabledOutputs.clear();
 
         qDeleteAll(m_planes);
         qDeleteAll(m_crtcs);
@@ -120,6 +123,15 @@ void DrmBackend::init()
     }
 }
 
+void DrmBackend::prepareShutdown()
+{
+    writeOutputsConfiguration();
+    for (DrmOutput *output : m_outputs) {
+        output->teardown();
+    }
+    Platform::prepareShutdown();
+}
+
 Outputs DrmBackend::outputs() const
 {
     return m_outputs;
@@ -130,7 +142,7 @@ Outputs DrmBackend::enabledOutputs() const
     return m_enabledOutputs;
 }
 
-void DrmBackend::outputWentOff()
+void DrmBackend::createDpmsFilter()
 {
     if (!m_dpmsFilter.isNull()) {
         // already another output is off
@@ -144,7 +156,7 @@ void DrmBackend::turnOutputsOn()
 {
     m_dpmsFilter.reset();
     for (auto it = m_enabledOutputs.constBegin(), end = m_enabledOutputs.constEnd(); it != end; it++) {
-        (*it)->setDpms(DrmOutput::DpmsMode::On);
+        (*it)->updateDpms(KWayland::Server::OutputInterface::DpmsMode::On);
     }
 }
 
@@ -187,7 +199,6 @@ void DrmBackend::reactivate()
             DrmOutput *o = *it;
             // only relevant in atomic mode
             o->m_modesetRequested = true;
-            o->pageFlipped();   // TODO: Do we really need this?
             o->m_crtc->blank();
             o->showCursor();
             o->moveCursor(cp);
@@ -225,16 +236,12 @@ void DrmBackend::pageFlipHandler(int fd, unsigned int frame, unsigned int sec, u
     Q_UNUSED(sec)
     Q_UNUSED(usec)
     auto output = reinterpret_cast<DrmOutput*>(data);
+
     output->pageFlipped();
     output->m_backend->m_pageFlipsPending--;
     if (output->m_backend->m_pageFlipsPending == 0) {
         // TODO: improve, this currently means we wait for all page flips or all outputs.
         // It would be better to driver the repaint per output
-
-        if (output->m_dpmsAtomicOffPending) {
-            output->m_modesetRequested = true;
-            output->dpmsAtomicOff();
-        }
 
         if (Compositor::self()) {
             Compositor::self()->bufferSwapComplete();
@@ -250,9 +257,10 @@ void DrmBackend::openDrm()
         qCWarning(KWIN_DRM) << "Did not find a GPU";
         return;
     }
-    int fd = LogindIntegration::self()->takeDevice(device->devNode());
+    m_devNode = qEnvironmentVariableIsSet("KWIN_DRM_DEVICE_NODE") ? qgetenv("KWIN_DRM_DEVICE_NODE") : QByteArray(device->devNode());
+    int fd = LogindIntegration::self()->takeDevice(m_devNode.constData());
     if (fd < 0) {
-        qCWarning(KWIN_DRM) << "failed to open drm device at" << device->devNode();
+        qCWarning(KWIN_DRM) << "failed to open drm device at" << m_devNode;
         return;
     }
     m_fd = fd;
@@ -278,7 +286,7 @@ void DrmBackend::openDrm()
             qCDebug(KWIN_DRM) << "Using Atomic Mode Setting.";
             m_atomicModeSetting = true;
 
-            ScopedDrmPointer<drmModePlaneRes, &drmModeFreePlaneResources> planeResources(drmModeGetPlaneResources(m_fd));
+            DrmScopedPointer<drmModePlaneRes> planeResources(drmModeGetPlaneResources(m_fd));
             if (!planeResources) {
                 qCWarning(KWIN_DRM) << "Failed to get plane resources. Falling back to legacy mode";
                 m_atomicModeSetting = false;
@@ -311,7 +319,7 @@ void DrmBackend::openDrm()
         }
     }
 
-    ScopedDrmPointer<_drmModeRes, &drmModeFreeResources> resources(drmModeGetResources(m_fd));
+    DrmScopedPointer<drmModeRes> resources(drmModeGetResources(m_fd));
     drmModeRes *res = resources.data();
     if (!resources) {
         qCWarning(KWIN_DRM) << "drmModeGetResources failed";
@@ -381,7 +389,7 @@ void DrmBackend::updateOutputs()
         return;
     }
 
-    ScopedDrmPointer<_drmModeRes, &drmModeFreeResources> resources(drmModeGetResources(m_fd));
+    DrmScopedPointer<drmModeRes> resources(drmModeGetResources(m_fd));
     if (!resources) {
         qCWarning(KWIN_DRM) << "drmModeGetResources failed";
         return;
@@ -419,7 +427,7 @@ void DrmBackend::updateOutputs()
 
     // now check new connections
     for (DrmConnector *con : qAsConst(pendingConnectors)) {
-        ScopedDrmPointer<_drmModeConnector, &drmModeFreeConnector> connector(drmModeGetConnector(m_fd, con->id()));
+        DrmScopedPointer<drmModeConnector> connector(drmModeGetConnector(m_fd, con->id()));
         if (!connector) {
             continue;
         }
@@ -430,7 +438,7 @@ void DrmBackend::updateOutputs()
 
         QVector<uint32_t> encoders = con->encoders();
         for (auto encId : qAsConst(encoders)) {
-            ScopedDrmPointer<_drmModeEncoder, &drmModeFreeEncoder> encoder(drmModeGetEncoder(m_fd, encId));
+            DrmScopedPointer<drmModeEncoder> encoder(drmModeGetEncoder(m_fd, encId));
             if (!encoder) {
                 continue;
             }
@@ -451,7 +459,7 @@ void DrmBackend::updateOutputs()
 
                 // we found a suitable encoder+crtc
                 // TODO: we could avoid these lib drm calls if we store all struct data in DrmCrtc and DrmConnector in the beginning
-                ScopedDrmPointer<_drmModeCrtc, &drmModeFreeCrtc> modeCrtc(drmModeGetCrtc(m_fd, crtc->id()));
+                DrmScopedPointer<drmModeCrtc> modeCrtc(drmModeGetCrtc(m_fd, crtc->id()));
                 if (!modeCrtc) {
                     continue;
                 }
@@ -461,7 +469,6 @@ void DrmBackend::updateOutputs()
                 output->m_conn = con;
                 crtc->setOutput(output);
                 output->m_crtc = crtc;
-                connect(output, &DrmOutput::dpmsChanged, this, &DrmBackend::outputDpmsChanged);
 
                 if (modeCrtc->mode_valid) {
                     output->m_mode = modeCrtc->mode;
@@ -514,8 +521,24 @@ void DrmBackend::readOutputsConfiguration()
         const auto outputConfig = configGroup.group((*it)->uuid());
         (*it)->setGlobalPos(outputConfig.readEntry<QPoint>("Position", pos));
         // TODO: add mode
-        (*it)->setScale(outputConfig.readEntry("Scale", 1.0));
+        if (outputConfig.hasKey("Scale"))
+            (*it)->setScale(outputConfig.readEntry("Scale", 1.0));
         pos.setX(pos.x() + (*it)->geometry().width());
+    }
+}
+
+void DrmBackend::writeOutputsConfiguration()
+{
+    if (m_outputs.isEmpty()) {
+        return;
+    }
+    const QByteArray uuid = generateOutputConfigurationUuid();
+    auto configGroup = KSharedConfig::openConfig()->group("DrmOutputs").group(uuid);
+    // default position goes from left to right
+    for (auto it = m_outputs.cbegin(); it != m_outputs.cend(); ++it) {
+        qCDebug(KWIN_DRM) << "Writing output configuration for [" << uuid << "] ["<< (*it)->uuid() << "]";
+        auto outputConfig = configGroup.group((*it)->uuid());
+        outputConfig.writeEntry("Scale", (*it)->scale());
     }
 }
 
@@ -533,57 +556,21 @@ QByteArray DrmBackend::generateOutputConfigurationUuid() const
     return hash.result().toHex().left(10);
 }
 
-void DrmBackend::configurationChangeRequested(KWayland::Server::OutputConfigurationInterface *config)
+void DrmBackend::enableOutput(DrmOutput *output, bool enable)
 {
-    const auto changes = config->changes();
-    bool countChanged = false;
-
-    //process all non-disabling changes
-    for (auto it = changes.begin(); it != changes.end(); it++) {
-        KWayland::Server::OutputChangeSet *changeset = it.value();
-
-        auto drmoutput = findOutput(it.key()->uuid());
-        if (drmoutput == nullptr) {
-            qCWarning(KWIN_DRM) << "Could NOT find DrmOutput matching " << it.key()->uuid();
-            continue;
-        }
-        if (changeset->enabledChanged() && changeset->enabled() == KWayland::Server::OutputDeviceInterface::Enablement::Enabled) {
-            drmoutput->setEnabled(true);
-            m_enabledOutputs << drmoutput;
-            emit outputAdded(drmoutput);
-            countChanged = true;
-        }
-        drmoutput->setChanges(changeset);
-    }
-    //process any disable requests
-    for (auto it = changes.begin(); it != changes.end(); it++) {
-        KWayland::Server::OutputChangeSet *changeset = it.value();
-        if (changeset->enabledChanged() && changeset->enabled() == KWayland::Server::OutputDeviceInterface::Enablement::Disabled) {
-            if (m_enabledOutputs.count() == 1) {
-                qCWarning(KWIN_DRM) << "Not disabling final screen" << it.key()->uuid();
-                continue;
-            }
-            auto drmoutput = findOutput(it.key()->uuid());
-            if (drmoutput == nullptr) {
-                qCWarning(KWIN_DRM) << "Could NOT find DrmOutput matching " << it.key()->uuid();
-                continue;
-            }
-            drmoutput->setEnabled(false);
-            m_enabledOutputs.removeOne(drmoutput);
-            emit outputRemoved(drmoutput);
-            countChanged = true;
-        }
-    }
-
-    if (countChanged) {
-        emit screensQueried();
+    if (enable) {
+        Q_ASSERT(!m_enabledOutputs.contains(output));
+        m_enabledOutputs << output;
+        emit outputAdded(output);
     } else {
-        emit screens()->changed();
+        Q_ASSERT(m_enabledOutputs.contains(output));
+        m_enabledOutputs.removeOne(output);
+        Q_ASSERT(!m_enabledOutputs.contains(output));
+        emit outputRemoved(output);
     }
-    // KCoreAddons needs kwayland's 2b3f9509ac1 to not crash
-    if (KCoreAddons::version() >= QT_VERSION_CHECK(5, 39, 0)) {
-        config->setApplied();
-    }
+    updateOutputsEnabled();
+    checkOutputsAreOn();
+    emit screensQueried();
 }
 
 DrmOutput *DrmBackend::findOutput(quint32 connector)
@@ -597,24 +584,13 @@ DrmOutput *DrmBackend::findOutput(quint32 connector)
     return nullptr;
 }
 
-DrmOutput *DrmBackend::findOutput(const QByteArray &uuid)
-{
-    auto it = std::find_if(m_outputs.constBegin(), m_outputs.constEnd(), [uuid] (DrmOutput *o) {
-        return o->m_uuid == uuid;
-    });
-    if (it != m_outputs.constEnd()) {
-        return *it;
-    }
-    return nullptr;
-}
-
-void DrmBackend::present(DrmBuffer *buffer, DrmOutput *output)
+bool DrmBackend::present(DrmBuffer *buffer, DrmOutput *output)
 {
     if (!buffer || buffer->bufferId() == 0) {
         if (m_deleteBufferAfterPageFlip) {
             delete buffer;
         }
-        return;
+        return false;
     }
 
     if (output->present(buffer)) {
@@ -622,13 +598,24 @@ void DrmBackend::present(DrmBuffer *buffer, DrmOutput *output)
         if (m_pageFlipsPending == 1 && Compositor::self()) {
             Compositor::self()->aboutToSwapBuffers();
         }
+        return true;
     } else if (m_deleteBufferAfterPageFlip) {
         delete buffer;
     }
+    return false;
 }
 
 void DrmBackend::initCursor()
 {
+
+#if HAVE_EGL_STREAMS
+    // Hardware cursors aren't currently supported with EGLStream backend,
+    // possibly an NVIDIA driver bug
+    if (m_useEglStreams) {
+        setSoftWareCursor(true);
+    }
+#endif
+
     m_cursorEnabled = waylandServer()->seat()->hasPointer();
     connect(waylandServer()->seat(), &KWayland::Server::SeatInterface::hasPointerChanged, this,
         [this] {
@@ -705,7 +692,7 @@ void DrmBackend::doShowCursor()
 
 void DrmBackend::doHideCursor()
 {
-    if (!m_cursorEnabled) {
+    if (!m_cursorEnabled || usesSoftwareCursor()) {
         return;
     }
     for (auto it = m_outputs.constBegin(); it != m_outputs.constEnd(); ++it) {
@@ -715,7 +702,7 @@ void DrmBackend::doHideCursor()
 
 void DrmBackend::moveCursor()
 {
-    if (!m_cursorEnabled || isCursorHidden()) {
+    if (!m_cursorEnabled || isCursorHidden() || usesSoftwareCursor()) {
         return;
     }
     for (auto it = m_outputs.constBegin(); it != m_outputs.constEnd(); ++it) {
@@ -736,6 +723,13 @@ QPainterBackend *DrmBackend::createQPainterBackend()
 
 OpenGLBackend *DrmBackend::createOpenGLBackend()
 {
+#if HAVE_EGL_STREAMS
+    if (m_useEglStreams) {
+        m_deleteBufferAfterPageFlip = false;
+        return new EglStreamBackend(this);
+    }
+#endif
+
 #if HAVE_GBM
     m_deleteBufferAfterPageFlip = true;
     return new EglGbmBackend(this);
@@ -758,7 +752,7 @@ DrmSurfaceBuffer *DrmBackend::createBuffer(const std::shared_ptr<GbmSurface> &su
 }
 #endif
 
-void DrmBackend::outputDpmsChanged()
+void DrmBackend::updateOutputsEnabled()
 {
     if (m_enabledOutputs.isEmpty()) {
         return;
@@ -772,8 +766,15 @@ void DrmBackend::outputDpmsChanged()
 
 QVector<CompositingType> DrmBackend::supportedCompositors() const
 {
+    if (selectedCompositor() != NoCompositing) {
+        return {selectedCompositor()};
+    }
 #if HAVE_GBM
     return QVector<CompositingType>{OpenGLCompositing, QPainterCompositing};
+#elif HAVE_EGL_STREAMS
+    return m_useEglStreams ?
+        QVector<CompositingType>{OpenGLCompositing, QPainterCompositing} :
+        QVector<CompositingType>{QPainterCompositing};
 #else
     return QVector<CompositingType>{QPainterCompositing};
 #endif
@@ -787,6 +788,9 @@ QString DrmBackend::supportInformation() const
     s << "Name: " << "DRM" << endl;
     s << "Active: " << m_active << endl;
     s << "Atomic Mode Setting: " << m_atomicModeSetting << endl;
+#if HAVE_EGL_STREAMS
+    s << "Using EGL Streams: " << m_useEglStreams << endl;
+#endif
     return supportInfo;
 }
 

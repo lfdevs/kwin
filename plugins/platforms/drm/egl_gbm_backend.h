@@ -35,13 +35,13 @@ class GbmSurface;
 
 /**
  * @brief OpenGL Backend using Egl on a GBM surface.
- **/
+ */
 class EglGbmBackend : public AbstractEglBackend
 {
     Q_OBJECT
 public:
     EglGbmBackend(DrmBackend *b);
-    virtual ~EglGbmBackend();
+    ~EglGbmBackend() override;
     void screenGeometryChanged(const QSize &size) override;
     SceneOpenGLTexturePrivate *createBackendTexture(SceneOpenGLTexture *texture) override;
     QRegion prepareRenderingFrame() override;
@@ -68,8 +68,8 @@ private:
         EGLSurface eglSurface = EGL_NO_SURFACE;
         int bufferAge = 0;
         /**
-        * @brief The damage history for the past 10 frames.
-        */
+         * @brief The damage history for the past 10 frames.
+         */
         QList<QRegion> damageHistory;
     };
     bool resetOutput(Output &output, DrmOutput *drmOutput);
@@ -85,11 +85,11 @@ private:
 
 /**
  * @brief Texture using an EGLImageKHR.
- **/
+ */
 class EglGbmTexture : public AbstractEglTexture
 {
 public:
-    virtual ~EglGbmTexture();
+    ~EglGbmTexture() override;
 
 private:
     friend class EglGbmBackend;

@@ -40,12 +40,12 @@ class PresentWindowsEffectConfig : public KCModule
 {
     Q_OBJECT
 public:
-    explicit PresentWindowsEffectConfig(QWidget* parent = 0, const QVariantList& args = QVariantList());
-    ~PresentWindowsEffectConfig();
+    explicit PresentWindowsEffectConfig(QWidget* parent = nullptr, const QVariantList& args = QVariantList());
+    ~PresentWindowsEffectConfig() override;
 
 public Q_SLOTS:
-    virtual void save();
-    virtual void defaults();
+    void save() override;
+    void defaults() override;
 
 private:
     PresentWindowsEffectConfigForm* m_ui;

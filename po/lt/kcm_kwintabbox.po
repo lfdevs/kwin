@@ -10,10 +10,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2015-12-29 20:26+0200\n"
-"Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-07-11 03:14+0200\n"
+"PO-Revision-Date: 2019-07-31 00:26+0300\n"
+"Last-Translator: Moo\n"
 "Language-Team: lt <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
@@ -21,30 +21,40 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Poedit 2.0.6\n"
 
-#: layoutpreview.cpp:165
+#: layoutpreview.cpp:159
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Darbalaukis 1"
 
-#: main.cpp:73
+#: main.cpp:76
 #, kde-format
 msgid "Main"
 msgstr "Pagrindinis"
 
-#: main.cpp:74
+#: main.cpp:77
 #, kde-format
 msgid "Alternative"
 msgstr "Alternatyvus"
 
-#: main.cpp:77
+#: main.cpp:79
+#, kde-format
+msgid "Get New Task Switchers..."
+msgstr "Gauti naujus užduočių perjungiklius..."
+
+#: main.cpp:89
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""
-"Fokuso politikos nuostatos apriboja navigavimo tarp langų funkcionalumą."
+"Fokusavimo politikos nuostatos apriboja naršymo per langus funkcionalumą."
+
+#: main.cpp:107
+#, kde-format
+msgid "KWin"
+msgstr "KWin"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
@@ -56,13 +66,13 @@ msgstr "Turinys"
 #: main.ui:41
 #, kde-format
 msgid "Include \"Show Desktop\" icon"
-msgstr "Įtraukti „Rodyti darbalaukį“ ženkliuką"
+msgstr "Įtraukti „Rodyti darbalaukį“ piktogramą"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, switchingModeCombo)
 #: main.ui:55
 #, kde-format
 msgid "Recently used"
-msgstr "Neseniai naudoti"
+msgstr "Paskiausiai naudoti"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, switchingModeCombo)
 #: main.ui:60
@@ -74,13 +84,13 @@ msgstr "Sudėliojimo tvarka"
 #: main.ui:68
 #, kde-format
 msgid "Only one window per application"
-msgstr "Tik vienas langas programai"
+msgstr "Kiekvienai programai po vieną langą"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: main.ui:78
 #, kde-format
 msgid "Sort order:"
-msgstr "Išdėstymo tvarka:"
+msgstr "Rikiavimo tvarka:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:104
@@ -146,7 +156,7 @@ msgstr "Visi kiti ekranai"
 #: main.ui:296
 #, kde-format
 msgid "Minimization"
-msgstr "Sumažinimas"
+msgstr "Suskleidimas"
 
 #. i18n: ectx: property (text), widget (QRadioButton, visibleWindows)
 #: main.ui:340
@@ -196,13 +206,14 @@ msgstr "Dabartinė programa"
 #: main.ui:489
 #, kde-format
 msgid "Visualization"
-msgstr "Vizualizacija"
+msgstr "Atvaizdavimas"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, effectCombo)
 #: main.ui:519
 #, kde-format
 msgid "The effect to replace the list window when desktop effects are active."
-msgstr "Efektas skirtas pakeisti langų sąrašą kai darbalaukio efektai įjungti."
+msgstr ""
+"Efektas skirtas pakeisti langų sąrašą, kai darbalaukio efektai įjungti."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, highlightWindowCheck)
 #: main.ui:549
@@ -211,17 +222,11 @@ msgid ""
 "The currently selected window will be highlighted by fading out all other "
 "windows. This option requires desktop effects to be active."
 msgstr ""
-"Šiuo metu pažymėtas langas bus išskirtas visus kitus langus išblukinant. "
-"Šiai parinkčiai reikalingi įjungti darbalaukio efektai."
+"Šiuo metu pažymėtas langas bus paryškintas laipsniškai išblukinant visus "
+"kitus langus. Šiai parinkčiai reikalingi įjungti darbalaukio efektai."
 
 #. i18n: ectx: property (text), widget (QCheckBox, highlightWindowCheck)
 #: main.ui:552
 #, kde-format
 msgid "Show selected window"
-msgstr "Rodyti pažymėtą langą"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, ghns)
-#: main.ui:572
-#, kde-format
-msgid "Get New Window Switcher Layout"
-msgstr "Gauti naują langų perjungimo išdėstymą"
+msgstr "Rodyti pasirinktą langą"

@@ -20,18 +20,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KWIN_DRM_OUTPUT_H
 #define KWIN_DRM_OUTPUT_H
 
-#include "abstract_output.h"
+#include "abstract_wayland_output.h"
 #include "drm_pointer.h"
 #include "drm_object.h"
 #include "drm_object_plane.h"
+#include "edid.h"
 
 #include <QObject>
 #include <QPoint>
 #include <QSize>
 #include <QVector>
 #include <xf86drmMode.h>
-
-#include <KWayland/Server/outputdevice_interface.h>
 
 namespace KWin
 {
@@ -43,16 +42,10 @@ class DrmPlane;
 class DrmConnector;
 class DrmCrtc;
 
-class KWIN_EXPORT DrmOutput : public AbstractOutput
+class KWIN_EXPORT DrmOutput : public AbstractWaylandOutput
 {
     Q_OBJECT
 public:
-    struct Edid {
-        QByteArray eisaId;
-        QByteArray monitorName;
-        QByteArray serialNumber;
-        QSize physicalSize;
-    };
     ///deletes the output, calling this whilst a page flip is pending will result in an error
     ~DrmOutput() override;
     ///queues deleting the output after a page flip has completed.
@@ -67,19 +60,6 @@ public:
     bool present(DrmBuffer *buffer);
     void pageFlipped();
 
-    /**
-     * Enable or disable the output.
-     * This differs from setDpms as it also
-     * removes the wl_output
-     * The default is on
-     */
-    void setEnabled(bool enabled);
-
-    bool commitChanges() override;
-
-    QSize pixelSize() const override;
-
-    int currentRefreshRate() const;
     // These values are defined by the kernel
     enum class DpmsMode {
         On = DRM_MODE_DPMS_ON,
@@ -87,23 +67,21 @@ public:
         Suspend = DRM_MODE_DPMS_SUSPEND,
         Off = DRM_MODE_DPMS_OFF
     };
-    void setDpms(DpmsMode mode);
     bool isDpmsEnabled() const {
         // We care for current as well as pending mode in order to allow first present in AMS.
         return m_dpmsModePending == DpmsMode::On;
     }
 
-    QByteArray uuid() const {
-        return m_uuid;
+    const DrmCrtc *crtc() const {
+        return m_crtc;
+    }
+    const DrmPlane *primaryPlane() const {
+        return m_primaryPlane;
     }
 
     bool initCursor(const QSize &cursorSize);
 
     bool supportsTransformations() const;
-
-Q_SIGNALS:
-    void dpmsChanged();
-    void modeChanged();
 
 private:
     friend class DrmBackend;
@@ -127,21 +105,30 @@ private:
 
     bool isCurrentMode(const drmModeModeInfo *mode) const;
     void initUuid();
-    void initOutput();
     bool initPrimaryPlane();
     bool initCursorPlane();
 
-    void dpmsOnHandler();
-    void dpmsOffHandler();
-    bool dpmsAtomicOff();
-    bool atomicReqModesetPopulate(drmModeAtomicReq *req, bool enable);
-    void updateMode(int modeIndex);
+    void atomicEnable();
+    void atomicDisable();
+    void updateEnablement(bool enable) override;
 
-    void transform(KWayland::Server::OutputDeviceInterface::Transform transform);
+    bool dpmsAtomicOff();
+    bool dpmsLegacyApply();
+
+    void dpmsFinishOn();
+    void dpmsFinishOff();
+
+    bool atomicReqModesetPopulate(drmModeAtomicReq *req, bool enable);
+    void updateDpms(KWayland::Server::OutputInterface::DpmsMode mode) override;
+    void updateMode(int modeIndex) override;
+    void setWaylandMode();
+
+    void transform(KWayland::Server::OutputDeviceInterface::Transform transform) override;
     void automaticRotation();
 
-    int getGammaRampSize() const override;
-    bool setGammaRamp(const ColorCorrect::GammaRamp &gamma) override;
+    int gammaRampSize() const override;
+    bool setGammaRamp(const GammaRamp &gamma) override;
+    QMatrix4x4 matrixDisplay(const QSize &s) const;
 
     DrmBackend *m_backend;
     DrmConnector *m_conn = nullptr;
@@ -149,7 +136,7 @@ private:
     bool m_lastGbm = false;
     drmModeModeInfo m_mode;
     Edid m_edid;
-    KWin::ScopedDrmPointer<_drmModeProperty, &drmModeFreeProperty> m_dpms;
+    DrmScopedPointer<drmModePropertyRes> m_dpms;
     DpmsMode m_dpmsMode = DpmsMode::On;
     DpmsMode m_dpmsModePending = DpmsMode::On;
     QByteArray m_uuid;
@@ -159,7 +146,7 @@ private:
     DrmPlane* m_cursorPlane = nullptr;
     QVector<DrmPlane*> m_nextPlanesFlipList;
     bool m_pageFlipPending = false;
-    bool m_dpmsAtomicOffPending = false;
+    bool m_atomicOffPending = false;
     bool m_modesetRequested = true;
 
     struct {
@@ -172,7 +159,6 @@ private:
     DrmDumbBuffer *m_cursor[2] = {nullptr, nullptr};
     int m_cursorIndex = 0;
     bool m_hasNewCursor = false;
-    bool m_internal = false;
     bool m_deleted = false;
 };
 

@@ -18,21 +18,24 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "platform.h"
+
+#include "abstract_output.h"
 #include <config-kwin.h>
 #include "composite.h"
 #include "cursor.h"
 #include "effects.h"
-#include "input.h"
 #include <KCoreAddons>
 #include "overlaywindow.h"
 #include "outline.h"
 #include "pointer_input.h"
 #include "scene.h"
+#include "screens.h"
 #include "screenedge.h"
 #include "wayland_server.h"
 #include "colorcorrection/manager.h"
 
 #include <KWayland/Server/outputconfiguration_interface.h>
+#include <KWayland/Server/outputchangeset.h>
 
 namespace KWin
 {
@@ -107,6 +110,11 @@ QPainterBackend *Platform::createQPainterBackend()
     return nullptr;
 }
 
+void Platform::prepareShutdown()
+{
+    setOutputsEnabled(false);
+}
+
 Edge *Platform::createScreenEdge(ScreenEdges *edges)
 {
     return new Edge(edges);
@@ -117,15 +125,70 @@ void Platform::createPlatformCursor(QObject *parent)
     new InputRedirectionCursor(parent);
 }
 
-void Platform::configurationChangeRequested(KWayland::Server::OutputConfigurationInterface *config)
+void Platform::requestOutputsChange(KWayland::Server::OutputConfigurationInterface *config)
 {
-    Q_UNUSED(config)
-    qCWarning(KWIN_CORE) << "This backend does not support configuration changes.";
-
-    // KCoreAddons needs kwayland's 2b3f9509ac1 to not crash
-    if (KCoreAddons::version() >= QT_VERSION_CHECK(5, 39, 0)) {
+    if (!m_supportsOutputChanges) {
+        qCWarning(KWIN_CORE) << "This backend does not support configuration changes.";
         config->setFailed();
+        return;
     }
+
+    using Enablement = KWayland::Server::OutputDeviceInterface::Enablement;
+
+    const auto changes = config->changes();
+
+    //process all non-disabling changes
+    for (auto it = changes.begin(); it != changes.end(); it++) {
+        const KWayland::Server::OutputChangeSet *changeset = it.value();
+
+        auto output = findOutput(it.key()->uuid());
+        if (!output) {
+            qCWarning(KWIN_CORE) << "Could NOT find output matching " << it.key()->uuid();
+            continue;
+        }
+
+        if (changeset->enabledChanged() &&
+                changeset->enabled() == Enablement::Enabled) {
+            output->setEnabled(true);
+        }
+        output->applyChanges(changeset);
+    }
+
+    //process any disable requests
+    for (auto it = changes.begin(); it != changes.end(); it++) {
+        const KWayland::Server::OutputChangeSet *changeset = it.value();
+
+        if (changeset->enabledChanged() &&
+                changeset->enabled() == Enablement::Disabled) {
+            if (enabledOutputs().count() == 1) {
+                // TODO: check beforehand this condition and set failed otherwise
+                // TODO: instead create a dummy output?
+                qCWarning(KWIN_CORE) << "Not disabling final screen" << it.key()->uuid();
+                continue;
+            }
+            auto output = findOutput(it.key()->uuid());
+            if (!output) {
+                qCWarning(KWIN_CORE) << "Could NOT find output matching " << it.key()->uuid();
+                continue;
+            }
+            output->setEnabled(false);
+        }
+    }
+    emit screens()->changed();
+    config->setApplied();
+}
+
+AbstractOutput *Platform::findOutput(const QByteArray &uuid)
+{
+    const auto outs = outputs();
+    auto it = std::find_if(outs.constBegin(), outs.constEnd(),
+        [uuid](AbstractOutput *output) {
+            return output->uuid() == uuid; }
+    );
+    if (it != outs.constEnd()) {
+        return *it;
+    }
+    return nullptr;
 }
 
 void Platform::setSoftWareCursor(bool set)
@@ -197,20 +260,20 @@ void Platform::keymapChange(int fd, uint32_t size)
     input()->processKeymapChange(fd, size);
 }
 
-void Platform::pointerAxisHorizontal(qreal delta, quint32 time)
+void Platform::pointerAxisHorizontal(qreal delta, quint32 time, qint32 discreteDelta, InputRedirection::PointerAxisSource source)
 {
     if (!input()) {
         return;
     }
-    input()->processPointerAxis(InputRedirection::PointerAxisHorizontal, delta, time);
+    input()->processPointerAxis(InputRedirection::PointerAxisHorizontal, delta, discreteDelta, source, time);
 }
 
-void Platform::pointerAxisVertical(qreal delta, quint32 time)
+void Platform::pointerAxisVertical(qreal delta, quint32 time, qint32 discreteDelta, InputRedirection::PointerAxisSource source)
 {
     if (!input()) {
         return;
     }
-    input()->processPointerAxis(InputRedirection::PointerAxisVertical, delta, time);
+    input()->processPointerAxis(InputRedirection::PointerAxisVertical, delta, discreteDelta, source, time);
 }
 
 void Platform::pointerButtonPressed(quint32 button, quint32 time)
@@ -463,7 +526,7 @@ OutlineVisual *Platform::createOutline(Outline *outline)
 
 Decoration::Renderer *Platform::createDecorationRenderer(Decoration::DecoratedClientImpl *client)
 {
-    if (Compositor::self()->hasScene()) {
+    if (Compositor::self()->scene()) {
         return Compositor::self()->scene()->createDecorationRenderer(client);
     }
     return nullptr;

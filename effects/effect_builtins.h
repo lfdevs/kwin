@@ -30,7 +30,7 @@ class Effect;
 
 /**
  * Defines all the built in effects.
- **/
+ */
 enum class BuiltInEffect
 {
     Invalid, ///< not a valid Effect
@@ -42,7 +42,6 @@ enum class BuiltInEffect
     CubeSlide,
     DesktopGrid,
     DimInactive,
-    DimScreen,
     FallApart,
     FlipSwitch,
     Glide,
@@ -52,12 +51,10 @@ enum class BuiltInEffect
     LookingGlass,
     MagicLamp,
     Magnifier,
-    MinimizeAnimation,
     MouseClick,
     MouseMark,
     PresentWindows,
     Resize,
-    Scale,
     ScreenEdge,
     ScreenShot,
     Sheet,

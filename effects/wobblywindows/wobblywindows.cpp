@@ -12,14 +12,7 @@ License. See the file "COPYING" for the exact licensing terms.
 #include "wobblywindows.h"
 #include "wobblywindowsconfig.h"
 
-#include <math.h>
-
-#define USE_ASSERT
-#ifdef USE_ASSERT
-#define ASSERT1 assert
-#else
-#define ASSERT1
-#endif
+#include <cmath>
 
 //#define COMPUTE_STATS
 
@@ -51,10 +44,6 @@ struct ParameterSet {
     qreal minAcceleration;
     qreal maxAcceleration;
     qreal stopAcceleration;
-
-    bool moveEffectEnabled;
-    bool openEffectEnabled;
-    bool closeEffectEnabled;
 };
 
 static const ParameterSet set_0 = {
@@ -69,9 +58,6 @@ static const ParameterSet set_0 = {
     0.0,
     1000.0,
     0.5,
-    true,
-    false,
-    false
 };
 
 static const ParameterSet set_1 = {
@@ -86,9 +72,6 @@ static const ParameterSet set_1 = {
     0.0,
     1000.0,
     0.5,
-    true,
-    false,
-    false
 };
 
 static const ParameterSet set_2 = {
@@ -103,9 +86,6 @@ static const ParameterSet set_2 = {
     0.0,
     1000.0,
     0.5,
-    true,
-    false,
-    false
 };
 
 static const ParameterSet set_3 = {
@@ -120,9 +100,6 @@ static const ParameterSet set_3 = {
     0.0,
     1000.0,
     0.5,
-    true,
-    false,
-    false
 };
 
 static const ParameterSet set_4 = {
@@ -137,9 +114,6 @@ static const ParameterSet set_4 = {
     0.0,
     1000.0,
     0.5,
-    true,
-    false,
-    false
 };
 
 static const ParameterSet pset[5] = { set_0, set_1, set_2, set_3, set_4 };
@@ -148,14 +122,10 @@ WobblyWindowsEffect::WobblyWindowsEffect()
 {
     initConfig<WobblyWindowsConfig>();
     reconfigure(ReconfigureAll);
-    connect(effects, SIGNAL(windowAdded(KWin::EffectWindow*)), this, SLOT(slotWindowAdded(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(windowClosed(KWin::EffectWindow*)), this, SLOT(slotWindowClosed(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(windowStartUserMovedResized(KWin::EffectWindow*)), this, SLOT(slotWindowStartUserMovedResized(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(windowStepUserMovedResized(KWin::EffectWindow*,QRect)), this, SLOT(slotWindowStepUserMovedResized(KWin::EffectWindow*,QRect)));
-    connect(effects, SIGNAL(windowFinishUserMovedResized(KWin::EffectWindow*)), this, SLOT(slotWindowFinishUserMovedResized(KWin::EffectWindow*)));
-    connect(effects, SIGNAL(windowMaximizedStateChanged(KWin::EffectWindow*,bool,bool)), this, SLOT(slotWindowMaximizeStateChanged(KWin::EffectWindow*,bool,bool)));
-
-    connect(effects, &EffectsHandler::windowDataChanged, this, &WobblyWindowsEffect::cancelWindowGrab);
+    connect(effects, &EffectsHandler::windowStartUserMovedResized, this, &WobblyWindowsEffect::slotWindowStartUserMovedResized);
+    connect(effects, &EffectsHandler::windowStepUserMovedResized, this, &WobblyWindowsEffect::slotWindowStepUserMovedResized);
+    connect(effects, &EffectsHandler::windowFinishUserMovedResized, this, &WobblyWindowsEffect::slotWindowFinishUserMovedResized);
+    connect(effects, &EffectsHandler::windowMaximizedStateChanged, this, &WobblyWindowsEffect::slotWindowMaximizeStateChanged);
 }
 
 WobblyWindowsEffect::~WobblyWindowsEffect()
@@ -203,11 +173,6 @@ void WobblyWindowsEffect::reconfigure(ReconfigureFlags)
         m_minAcceleration = WobblyWindowsConfig::minAcceleration();
         m_maxAcceleration = WobblyWindowsConfig::maxAcceleration();
         m_stopAcceleration = WobblyWindowsConfig::stopAcceleration();
-
-        m_moveEffectEnabled = WobblyWindowsConfig::moveEffect();
-        m_openEffectEnabled = WobblyWindowsConfig::openEffect();
-        // disable close effect by default for now as it doesn't do what I want.
-        m_closeEffectEnabled = WobblyWindowsConfig::closeEffect();
     }
 
     m_moveWobble = WobblyWindowsConfig::moveWobble();
@@ -215,7 +180,6 @@ void WobblyWindowsEffect::reconfigure(ReconfigureFlags)
 
 #if defined VERBOSE_MODE
     qCDebug(KWINEFFECTS) << "Parameters :\n" <<
-                 "move : " << m_moveEffectEnabled << ", open : " << m_openEffectEnabled << ", close : " << m_closeEffectEnabled << "\n"
                  "grid(" << m_stiffness << ", " << m_drag << ", " << m_move_factor << ")\n" <<
                  "velocity(" << m_minVelocity << ", " << m_maxVelocity << ", " << m_stopVelocity << ")\n" <<
                  "acceleration(" << m_minAcceleration << ", " << m_maxAcceleration << ", " << m_stopAcceleration << ")\n" <<
@@ -243,10 +207,6 @@ void WobblyWindowsEffect::setParameterSet(const ParameterSet& pset)
     m_minAcceleration =  pset.minAcceleration;
     m_maxAcceleration =  pset.maxAcceleration;
     m_stopAcceleration =  pset.stopAcceleration;
-
-    m_moveEffectEnabled =  pset.moveEffectEnabled;
-    m_openEffectEnabled =  pset.openEffectEnabled;
-    m_closeEffectEnabled =  pset.closeEffectEnabled;
 }
 
 void WobblyWindowsEffect::setVelocityThreshold(qreal m_minVelocity)
@@ -288,6 +248,10 @@ void WobblyWindowsEffect::prePaintWindow(EffectWindow* w, WindowPrePaintData& da
         data.quads = data.quads.makeRegularGrid(m_xTesselation, m_yTesselation);
         bool stop = false;
         qreal updateTime = time;
+
+        // We have to reset the clip region in order to render clients below
+        // opaque wobbly windows.
+        data.clip = QRegion();
 
         while (!stop && (updateTime > maxTime)) {
 #if defined VERBOSE_MODE
@@ -352,8 +316,9 @@ void WobblyWindowsEffect::postPaintScreen()
 
 void WobblyWindowsEffect::slotWindowStartUserMovedResized(EffectWindow *w)
 {
-    if (!m_moveEffectEnabled || w->isSpecialWindow())
+    if (w->isSpecialWindow()) {
         return;
+    }
 
     if ((w->isUserMove() && m_moveWobble) || (w->isUserResize() && m_resizeWobble)) {
         startMovedResized(w);
@@ -390,8 +355,9 @@ void WobblyWindowsEffect::slotWindowMaximizeStateChanged(EffectWindow *w, bool h
 {
     Q_UNUSED(horizontal)
     Q_UNUSED(vertical)
-    if (w->isUserMove() || !m_moveEffectEnabled || w->isSpecialWindow())
+    if (w->isUserMove() || w->isSpecialWindow()) {
         return;
+    }
 
     if (m_moveWobble && m_resizeWobble) {
         stepMovedResized(w);
@@ -479,80 +445,6 @@ void WobblyWindowsEffect::stepMovedResized(EffectWindow* w)
     }
 }
 
-void WobblyWindowsEffect::slotWindowAdded(EffectWindow* w)
-{
-    if (m_openEffectEnabled && w->data(WindowAddedGrabRole).value<void*>() == nullptr) {
-        if (windows.contains(w)) {
-            // could this happen ??
-            WindowWobblyInfos& wwi = windows[w];
-            wobblyOpenInit(wwi);
-        } else {
-            WindowWobblyInfos new_wwi;
-            initWobblyInfo(new_wwi, w->geometry());
-            wobblyOpenInit(new_wwi);
-            windows[w] = new_wwi;
-        }
-    }
-}
-
-void WobblyWindowsEffect::slotWindowClosed(EffectWindow* w)
-{
-    if (windows.contains(w)) {
-        WindowWobblyInfos& wwi = windows[w];
-        if (m_closeEffectEnabled) {
-            wobblyCloseInit(wwi, w);
-            w->refWindow();
-        } else {
-            freeWobblyInfo(wwi);
-            windows.remove(w);
-            if (windows.isEmpty())
-                effects->addRepaintFull();
-        }
-    } else if (m_closeEffectEnabled  && w->data(WindowClosedGrabRole).value<void*>() == nullptr) {
-        WindowWobblyInfos new_wwi;
-        initWobblyInfo(new_wwi, w->geometry());
-        wobblyCloseInit(new_wwi, w);
-        windows[w] = new_wwi;
-        w->refWindow();
-    }
-}
-
-void WobblyWindowsEffect::wobblyOpenInit(WindowWobblyInfos& wwi) const
-{
-    Pair middle = { (wwi.origin[0].x + wwi.origin[15].x) / 2, (wwi.origin[0].y + wwi.origin[15].y) / 2 };
-
-    for (unsigned int j = 0; j < 4; ++j) {
-        for (unsigned int i = 0; i < 4; ++i) {
-            unsigned int idx = j * 4 + i;
-            wwi.constraint[idx] = false;
-            wwi.position[idx].x = (wwi.position[idx].x + 3 * middle.x) / 4;
-            wwi.position[idx].y = (wwi.position[idx].y + 3 * middle.y) / 4;
-        }
-    }
-    wwi.status = Openning;
-    wwi.can_wobble_top = wwi.can_wobble_left = wwi.can_wobble_right = wwi.can_wobble_bottom = true;
-}
-
-void WobblyWindowsEffect::wobblyCloseInit(WindowWobblyInfos& wwi, EffectWindow* w) const
-{
-    const QRectF& rect = w->geometry();
-    QPointF center = rect.center();
-    int x1 = (rect.x() + 3 * center.x()) / 4;
-    int x2 = (rect.x() + rect.width() + 3 * center.x()) / 4;
-    int y1 = (rect.y() + 3 * center.y()) / 4;
-    int y2 = (rect.y() + rect.height() + 3 * center.y()) / 4;
-    wwi.closeRect.setCoords(x1, y1, x2, y2);
-
-    // for closing, not yet used...
-    for (unsigned int j = 0; j < 4; ++j) {
-        for (unsigned int i = 0; i < 4; ++i) {
-            unsigned int idx = j * 4 + i;
-            wwi.constraint[idx] = false;
-        }
-    }
-    wwi.status = Closing;
-}
-
 void WobblyWindowsEffect::initWobblyInfo(WindowWobblyInfos& wwi, QRect geometry) const
 {
     wwi.count = 4 * 4;
@@ -626,18 +518,8 @@ WobblyWindowsEffect::Pair WobblyWindowsEffect::computeBezierPoint(const WindowWo
     Pair topleft = wwi.origin[0];
     Pair bottomright = wwi.origin[wwi.count-1];
 
-//    ASSERT1(point.x >= topleft.x);
-//    ASSERT1(point.y >= topleft.y);
-//    ASSERT1(point.x <= bottomright.x);
-//    ASSERT1(point.y <= bottomright.y);
-
     qreal tx = (point.x - topleft.x) / (bottomright.x - topleft.x);
     qreal ty = (point.y - topleft.y) / (bottomright.y - topleft.y);
-
-//    ASSERT1(tx >= 0);
-//    ASSERT1(tx <= 1);
-//    ASSERT1(ty >= 0);
-//    ASSERT1(ty <= 1);
 
     // compute polynomial coeff
 
@@ -714,10 +596,6 @@ bool WobblyWindowsEffect::updateWindowWobblyDatas(EffectWindow* w, qreal time)
 {
     QRectF rect = w->geometry();
     WindowWobblyInfos& wwi = windows[w];
-
-    if (wwi.status == Closing) {
-        rect = wwi.closeRect;
-    }
 
     qreal x_length = rect.width() / (wwi.width - 1.0);
     qreal y_length = rect.height() / (wwi.height - 1.0);
@@ -1055,9 +933,6 @@ bool WobblyWindowsEffect::updateWindowWobblyDatas(EffectWindow* w, qreal time)
 #endif
 
     if (wwi.status != Moving && acc_sum < m_stopAcceleration && vel_sum < m_stopVelocity) {
-        if (wwi.status == Closing) {
-            w->unrefWindow();
-        }
         freeWobblyInfo(wwi);
         windows.remove(w);
         if (windows.isEmpty())
@@ -1211,35 +1086,9 @@ void WobblyWindowsEffect::heightRingLinearMean(Pair** data_pointer, WindowWobbly
     wwi.buffer = tmp;
 }
 
-
-void WobblyWindowsEffect::cancelWindowGrab(KWin::EffectWindow *w, int grabRole)
-{
-    if (grabRole == WindowAddedGrabRole) {
-         if (w->data(WindowAddedGrabRole).value<void*>() != this) {
-            auto it = windows.find(w);
-            if (it != windows.end()) {
-                freeWobblyInfo(it.value());
-                windows.erase(it);
-            }
-         }
-    } else if (grabRole == WindowClosedGrabRole) {
-         if (w->data(WindowClosedGrabRole).value<void*>() != this) {
-            auto it = windows.find(w);
-            if (it != windows.end()) {
-                if (it.value().status == Closing) {
-                    w->unrefWindow();
-                }
-                freeWobblyInfo(it.value());
-                windows.erase(it);
-            }
-         }
-    }
-}
-
 bool WobblyWindowsEffect::isActive() const
 {
     return !windows.isEmpty();
 }
 
 } // namespace KWin
-

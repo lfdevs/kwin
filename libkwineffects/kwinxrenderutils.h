@@ -167,7 +167,7 @@ namespace XRenderUtils
 {
 /**
  * @internal
- **/
+ */
 KWINXRENDERUTILS_EXPORT void init(xcb_connection_t *connection, xcb_window_t rootWindow);
 
 /**
@@ -182,7 +182,7 @@ KWINXRENDERUTILS_EXPORT const xcb_render_directformat_t *findPictFormatInfo(xcb_
 
 /**
  * @internal
- **/
+ */
 KWINXRENDERUTILS_EXPORT void cleanup();
 
 } // namespace XRenderUtils

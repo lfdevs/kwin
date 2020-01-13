@@ -46,10 +46,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     initShortcut(QStringLiteral(name), i18n(name), key, target, &fnSlot);
 
 
-DEF(I18N_NOOP("Walk Through Window Tabs"),             0, slotActivateNextTab);
-DEF(I18N_NOOP("Walk Through Window Tabs (Reverse)"),   0, slotActivatePrevTab);
-DEF(I18N_NOOP("Remove Window From Group"),             0, slotUntab);
-
 DEF(I18N_NOOP("Window Operations Menu"),
     Qt::ALT + Qt::Key_F3, slotWindowOperations);
 DEF2("Window Close", I18N_NOOP("Close Window"),
@@ -149,7 +145,7 @@ for (int i = 0; i < 8; ++i) {
 }
 DEF(I18N_NOOP("Window to Next Screen"),            0, slotWindowToNextScreen);
 DEF(I18N_NOOP("Window to Previous Screen"),        0, slotWindowToPrevScreen);
-DEF(I18N_NOOP("Show Desktop"),                     0, slotToggleShowDesktop);
+DEF(I18N_NOOP("Show Desktop"),                     Qt::META + Qt::Key_D, slotToggleShowDesktop);
 
 for (int i = 0; i < 8; ++i) {
     DEF3(I18N_NOOP("Switch to Screen %1"),         0, slotSwitchToScreen, i);
@@ -159,11 +155,14 @@ DEF(I18N_NOOP("Switch to Next Screen"),            0, slotSwitchToNextScreen);
 DEF(I18N_NOOP("Switch to Previous Screen"),        0, slotSwitchToPrevScreen);
 
 DEF(I18N_NOOP("Kill Window"),                      Qt::CTRL + Qt::ALT + Qt::Key_Escape, slotKillWindow);
-DEF6(I18N_NOOP("Suspend Compositing"),             Qt::SHIFT + Qt::ALT + Qt::Key_F12, Compositor::self(), Compositor::slotToggleCompositing);
+DEF6(I18N_NOOP("Suspend Compositing"),             Qt::SHIFT + Qt::ALT + Qt::Key_F12, Compositor::self(), Compositor::toggleCompositing);
 DEF6(I18N_NOOP("Invert Screen Colors"),            0, kwinApp()->platform(), Platform::invertScreen);
 
 #undef DEF
 #undef DEF2
 #undef DEF3
+#undef DEF4
+#undef DEF5
+#undef DEF6
 
 //  }

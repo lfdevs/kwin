@@ -57,8 +57,8 @@ void XWaylandInputTest::initTestCase()
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
     QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit()));
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
 
     kwinApp()->start();
     QVERIFY(workspaceCreatedSpy.wait());
@@ -147,7 +147,7 @@ void XWaylandInputTest::testPointerEnterLeave()
     Xcb::Atom atom(QByteArrayLiteral("_KDE_NET_WM_SCREEN_EDGE_SHOW"), false, c.data());
 
     xcb_window_t w = xcb_generate_id(c.data());
-    const QRect windowGeometry = QRect(0, 0, 10, 20);
+    const QRect windowGeometry = QRect(0, 0, 100, 200);
     const uint32_t values[] = {
         XCB_EVENT_MASK_ENTER_WINDOW |
         XCB_EVENT_MASK_LEAVE_WINDOW

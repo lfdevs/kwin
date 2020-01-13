@@ -34,7 +34,7 @@ class KWIN_EXPORT LogindIntegration : public QObject
 {
     Q_OBJECT
 public:
-    ~LogindIntegration();
+    ~LogindIntegration() override;
 
     bool isConnected() const {
         return m_connected;
@@ -78,7 +78,7 @@ private:
      * on which the unit test's fake logind cannot register to. Thus the unit test need to
      * be able to do everything over the session bus. This ctor allows the LogindTest to
      * create a LogindIntegration which listens on the session bus.
-     **/
+     */
     explicit LogindIntegration(const QDBusConnection &connection, QObject *parent = nullptr);
     void logindServiceRegistered();
     void connectSessionPropertiesChanged();

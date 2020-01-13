@@ -53,14 +53,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <array>
 #include <cmath>
+#include <cstddef>
 #include <unistd.h>
-#include <stddef.h>
 
-#include <qpainter.h>
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>
 #include <QDBusInterface>
 #include <QGraphicsScale>
+#include <QPainter>
 #include <QStringList>
 #include <QVector2D>
 #include <QVector4D>
@@ -149,7 +149,7 @@ SyncObject::~SyncObject()
 
 void SyncObject::trigger()
 {
-    assert(m_state == Ready || m_state == Resetting);
+    Q_ASSERT(m_state == Ready || m_state == Resetting);
 
     // Finish resetting the fence if necessary
     if (m_state == Resetting)
@@ -176,7 +176,7 @@ bool SyncObject::finish()
     // Note: It is possible that we never inserted a wait for the fence.
     //       This can happen if we ended up not rendering the damaged
     //       window because it is fully occluded.
-    assert(m_state == TriggerSent || m_state == Waiting);
+    Q_ASSERT(m_state == TriggerSent || m_state == Waiting);
 
     // Check if the fence is signaled
     GLint value;
@@ -205,7 +205,7 @@ bool SyncObject::finish()
 
 void SyncObject::reset()
 {
-    assert(m_state == Done);
+    Q_ASSERT(m_state == Done);
 
     xcb_connection_t * const c = connection();
 
@@ -223,7 +223,7 @@ void SyncObject::reset()
 
 void SyncObject::finishResetting()
 {
-    assert(m_state == Resetting);
+    Q_ASSERT(m_state == Resetting);
     free(xcb_get_input_focus_reply(connection(), m_reset_cookie, nullptr));
     m_state = Ready;
 }
@@ -369,13 +369,16 @@ SceneOpenGL::~SceneOpenGL()
 {
     // do cleanup after initBuffer()
     gs_debuggedScene = nullptr;
-    SceneOpenGL::EffectFrame::cleanup();
-    if (init_ok) {
-        delete m_syncManager;
 
-        // backend might be still needed for a different scene
-        delete m_backend;
+    if (init_ok) {
+        makeOpenGLContextCurrent();
     }
+    SceneOpenGL::EffectFrame::cleanup();
+
+    delete m_syncManager;
+
+    // backend might be still needed for a different scene
+    delete m_backend;
 }
 
 static void scheduleVboReInit()
@@ -465,7 +468,7 @@ void SceneOpenGL::initDebugOutput()
     if (have_KHR_debug)
         glEnable(GL_DEBUG_OUTPUT);
 
-#ifndef NDEBUG
+#if !defined(QT_NO_DEBUG)
     // Enable all debug messages
     glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
 #else
@@ -491,15 +494,15 @@ SceneOpenGL *SceneOpenGL::createScene(QObject *parent)
     }
     if (backend->isFailed()) {
         delete backend;
-        return NULL;
+        return nullptr;
     }
-    SceneOpenGL *scene = NULL;
+    SceneOpenGL *scene = nullptr;
     // first let's try an OpenGL 2 scene
     if (SceneOpenGL2::supported(backend)) {
         scene = new SceneOpenGL2(backend, parent);
         if (scene->initFailed()) {
             delete scene;
-            scene = NULL;
+            scene = nullptr;
         } else {
             return scene;
         }
@@ -508,7 +511,7 @@ SceneOpenGL *SceneOpenGL::createScene(QObject *parent)
         if (GLPlatform::instance()->recommendedCompositor() == XRenderCompositing) {
             qCCritical(KWIN_OPENGL) << "OpenGL driver recommends XRender based compositing. Falling back to XRender.";
             qCCritical(KWIN_OPENGL) << "To overwrite the detection use the environment variable KWIN_COMPOSE";
-            qCCritical(KWIN_OPENGL) << "For more information see http://community.kde.org/KWin/Environment_Variables#KWIN_COMPOSE";
+            qCCritical(KWIN_OPENGL) << "For more information see https://community.kde.org/KWin/Environment_Variables#KWIN_COMPOSE";
         }
         delete backend;
     }
@@ -516,7 +519,7 @@ SceneOpenGL *SceneOpenGL::createScene(QObject *parent)
     return scene;
 }
 
-OverlayWindow *SceneOpenGL::overlayWindow()
+OverlayWindow *SceneOpenGL::overlayWindow() const
 {
     return m_backend->overlayWindow();
 }
@@ -596,8 +599,10 @@ void SceneOpenGL::insertWait()
  */
 void SceneOpenGL2::paintCursor()
 {
-    // don't paint if we use hardware cursor
-    if (!kwinApp()->platform()->usesSoftwareCursor()) {
+    // don't paint if we use hardware cursor or the cursor is hidden
+    if (!kwinApp()->platform()->usesSoftwareCursor() ||
+        kwinApp()->platform()->isCursorHidden() ||
+        kwinApp()->platform()->softwareCursor().isNull()) {
         return;
     }
 
@@ -616,7 +621,7 @@ void SceneOpenGL2::paintCursor()
         updateCursorTexture();
 
         // handle shape update on case cursor image changed
-        connect(Cursor::self(), &Cursor::cursorChanged, this, updateCursorTexture);
+        connect(kwinApp()->platform(), &Platform::cursorChanged, this, updateCursorTexture);
     }
 
     // get cursor position in projection coordinates
@@ -818,66 +823,18 @@ SceneOpenGLTexture *SceneOpenGL::createTexture()
 }
 
 bool SceneOpenGL::viewportLimitsMatched(const QSize &size) const {
+    if (kwinApp()->operationMode() != Application::OperationModeX11) {
+        // TODO: On Wayland we can't suspend. Find a solution that works here as well!
+        return true;
+    }
     GLint limit[2];
     glGetIntegerv(GL_MAX_VIEWPORT_DIMS, limit);
     if (limit[0] < size.width() || limit[1] < size.height()) {
-        QMetaObject::invokeMethod(Compositor::self(), "suspend",
-                                  Qt::QueuedConnection, Q_ARG(Compositor::SuspendReason, Compositor::AllReasonSuspend));
-        const QString message = i18n("<h1>OpenGL desktop effects not possible</h1>"
-                                     "Your system cannot perform OpenGL Desktop Effects at the "
-                                     "current resolution<br><br>"
-                                     "You can try to select the XRender backend, but it "
-                                     "might be very slow for this resolution as well.<br>"
-                                     "Alternatively, lower the combined resolution of all screens "
-                                     "to %1x%2 ", limit[0], limit[1]);
-        const QString details = i18n("The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS "
-                                     "limitation of your GPU and is therefore not compatible "
-                                     "with the OpenGL compositor.<br>"
-                                     "XRender does not know such limitation, but the performance "
-                                     "will usually be impacted by the hardware limitations that "
-                                     "restrict the OpenGL viewport size.");
-        const int oldTimeout = QDBusConnection::sessionBus().interface()->timeout();
-        QDBusConnection::sessionBus().interface()->setTimeout(500);
-        if (QDBusConnection::sessionBus().interface()->isServiceRegistered(QStringLiteral("org.kde.kwinCompositingDialog")).value()) {
-            QDBusInterface dialog( QStringLiteral("org.kde.kwinCompositingDialog"), QStringLiteral("/CompositorSettings"), QStringLiteral("org.kde.kwinCompositingDialog") );
-            dialog.asyncCall(QStringLiteral("warn"), message, details, QString());
-        } else {
-            const QString args = QLatin1String("warn ") + QString::fromUtf8(message.toLocal8Bit().toBase64()) + QLatin1String(" details ") + QString::fromUtf8(details.toLocal8Bit().toBase64());
-            KProcess::startDetached(QStringLiteral("kcmshell5"), QStringList() << QStringLiteral("kwincompositing") << QStringLiteral("--args") << args);
-        }
-        QDBusConnection::sessionBus().interface()->setTimeout(oldTimeout);
+        auto compositor = static_cast<X11Compositor*>(Compositor::self());
+        QMetaObject::invokeMethod(compositor, [compositor]() {
+                compositor->suspend(X11Compositor::AllReasonSuspend);
+            }, Qt::QueuedConnection);
         return false;
-    }
-    glGetIntegerv(GL_MAX_TEXTURE_SIZE, limit);
-    if (limit[0] < size.width() || limit[0] < size.height()) {
-        KConfig cfg(QStringLiteral("kwin_dialogsrc"));
-
-        if (!KConfigGroup(&cfg, "Notification Messages").readEntry("max_tex_warning", true))
-            return true;
-
-        const QString message = i18n("<h1>OpenGL desktop effects might be unusable</h1>"
-                                     "OpenGL Desktop Effects at the current resolution are supported "
-                                     "but might be exceptionally slow.<br>"
-                                     "Also large windows will turn entirely black.<br><br>"
-                                     "Consider to suspend compositing, switch to the XRender backend "
-                                     "or lower the resolution to %1x%1." , limit[0]);
-        const QString details = i18n("The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE "
-                                     "limitation of your GPU, thus windows of that size cannot be "
-                                     "assigned to textures and will be entirely black.<br>"
-                                     "Also this limit will often be a performance level barrier despite "
-                                     "below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
-                                     "software rendering in this case.");
-        const int oldTimeout = QDBusConnection::sessionBus().interface()->timeout();
-        QDBusConnection::sessionBus().interface()->setTimeout(500);
-        if (QDBusConnection::sessionBus().interface()->isServiceRegistered(QStringLiteral("org.kde.kwinCompositingDialog")).value()) {
-            QDBusInterface dialog( QStringLiteral("org.kde.kwinCompositingDialog"), QStringLiteral("/CompositorSettings"), QStringLiteral("org.kde.kwinCompositingDialog") );
-            dialog.asyncCall(QStringLiteral("warn"), message, details, QStringLiteral("kwin_dialogsrc:max_tex_warning"));
-        } else {
-            const QString args = QLatin1String("warn ") + QString::fromUtf8(message.toLocal8Bit().toBase64()) + QLatin1String(" details ") +
-                                 QString::fromUtf8(details.toLocal8Bit().toBase64()) + QLatin1String(" dontagain kwin_dialogsrc:max_tex_warning");
-            KProcess::startDetached(QStringLiteral("kcmshell5"), QStringList() << QStringLiteral("kwincompositing") << QStringLiteral("--args") << args);
-        }
-        QDBusConnection::sessionBus().interface()->setTimeout(oldTimeout);
     }
     return true;
 }
@@ -963,7 +920,7 @@ bool SceneOpenGL2::supported(OpenGLBackend *backend)
 
 SceneOpenGL2::SceneOpenGL2(OpenGLBackend *backend, QObject *parent)
     : SceneOpenGL(backend, parent)
-    , m_lanczosFilter(NULL)
+    , m_lanczosFilter(nullptr)
 {
     if (!init_ok) {
         // base ctor already failed
@@ -1007,6 +964,11 @@ SceneOpenGL2::SceneOpenGL2(OpenGLBackend *backend, QObject *parent)
 
 SceneOpenGL2::~SceneOpenGL2()
 {
+    if (m_lanczosFilter) {
+        makeOpenGLContextCurrent();
+        delete m_lanczosFilter;
+        m_lanczosFilter = nullptr;
+    }
 }
 
 QMatrix4x4 SceneOpenGL2::createProjectionMatrix() const
@@ -1067,7 +1029,7 @@ void SceneOpenGL2::doPaintBackground(const QVector< float >& vertices)
     GLVertexBuffer *vbo = GLVertexBuffer::streamingBuffer();
     vbo->reset();
     vbo->setUseColor(true);
-    vbo->setData(vertices.count() / 2, 2, vertices.data(), NULL);
+    vbo->setData(vertices.count() / 2, 2, vertices.data(), nullptr);
 
     ShaderBinder binder(ShaderTrait::UniformColor);
     binder.shader()->setUniform(GLShader::ModelViewProjectionMatrix, m_projectionMatrix);
@@ -1100,7 +1062,7 @@ void SceneOpenGL2::performPaintWindow(EffectWindowImpl* w, int mask, QRegion reg
             connect(screens(), &Screens::changed, this, [this]() {
                 makeOpenGLContextCurrent();
                 delete m_lanczosFilter;
-                m_lanczosFilter = NULL;
+                m_lanczosFilter = nullptr;
             });
         }
         m_lanczosFilter->performPaint(w, mask, region, data);
@@ -1114,7 +1076,7 @@ void SceneOpenGL2::performPaintWindow(EffectWindowImpl* w, int mask, QRegion reg
 
 SceneOpenGL::Window::Window(Toplevel* c)
     : Scene::Window(c)
-    , m_scene(NULL)
+    , m_scene(nullptr)
 {
 }
 
@@ -1122,11 +1084,11 @@ SceneOpenGL::Window::~Window()
 {
 }
 
-static SceneOpenGLTexture *s_frameTexture = NULL;
+static SceneOpenGLTexture *s_frameTexture = nullptr;
 // Bind the window pixmap to an OpenGL texture.
 bool SceneOpenGL::Window::bindTexture()
 {
-    s_frameTexture = NULL;
+    s_frameTexture = nullptr;
     OpenGLWindowPixmap *pixmap = windowPixmap<OpenGLWindowPixmap>();
     if (!pixmap) {
         return false;
@@ -1209,13 +1171,18 @@ bool SceneOpenGL::Window::beginRenderWindow(int mask, const QRegion &region, Win
     }
 
     // Update the texture filter
-    if (options->glSmoothScale() != 0 &&
-        (mask & (PAINT_WINDOW_TRANSFORMED | PAINT_SCREEN_TRANSFORMED)))
+    if (waylandServer()) {
         filter = ImageFilterGood;
-    else
-        filter = ImageFilterFast;
+        s_frameTexture->setFilter(GL_LINEAR);
+    } else {
+        if (options->glSmoothScale() != 0 &&
+            (mask & (PAINT_WINDOW_TRANSFORMED | PAINT_SCREEN_TRANSFORMED)))
+            filter = ImageFilterGood;
+        else
+            filter = ImageFilterFast;
 
-    s_frameTexture->setFilter(filter == ImageFilterGood ? GL_LINEAR : GL_NEAREST);
+        s_frameTexture->setFilter(filter == ImageFilterGood ? GL_LINEAR : GL_NEAREST);
+    }
 
     const GLVertexAttrib attribs[] = {
         { VA_Position, 2, GL_FLOAT, offsetof(GLVertex2D, position) },
@@ -1328,7 +1295,7 @@ void SceneOpenGL2Window::setupLeafNodes(LeafNode *nodes, const WindowQuadList *q
 
     if (data.crossFadeProgress() != 1.0) {
         OpenGLWindowPixmap *previous = previousWindowPixmap<OpenGLWindowPixmap>();
-        nodes[PreviousContentLeaf].texture = previous ? previous->texture() : NULL;
+        nodes[PreviousContentLeaf].texture = previous ? previous->texture() : nullptr;
         nodes[PreviousContentLeaf].hasAlpha = !isOpaque();
         nodes[PreviousContentLeaf].opacity = data.opacity() * (1.0 - data.crossFadeProgress());
         nodes[PreviousContentLeaf].coordinateType = NormalizedCoordinates;
@@ -1413,8 +1380,18 @@ void SceneOpenGL2Window::performPaint(int mask, QRegion region, WindowPaintData 
 
     shader->setUniform(GLShader::Saturation, data.saturation());
 
-    const GLenum filter = (mask & (Effect::PAINT_WINDOW_TRANSFORMED | Effect::PAINT_SCREEN_TRANSFORMED))
-                           && options->glSmoothScale() != 0 ? GL_LINEAR : GL_NEAREST;
+    GLenum filter;
+    if (waylandServer()) {
+        filter = GL_LINEAR;
+    } else {
+        const bool isTransformed = mask & (Effect::PAINT_WINDOW_TRANSFORMED |
+                                           Effect::PAINT_SCREEN_TRANSFORMED);
+        if (isTransformed && options->glSmoothScale() != 0) {
+            filter = GL_LINEAR;
+        } else {
+            filter = GL_NEAREST;
+        }
+    }
 
     WindowQuadList quads[LeafCount];
 
@@ -1621,19 +1598,19 @@ bool OpenGLWindowPixmap::isValid() const
 // SceneOpenGL::EffectFrame
 //****************************************
 
-GLTexture* SceneOpenGL::EffectFrame::m_unstyledTexture = NULL;
-QPixmap* SceneOpenGL::EffectFrame::m_unstyledPixmap = NULL;
+GLTexture* SceneOpenGL::EffectFrame::m_unstyledTexture = nullptr;
+QPixmap* SceneOpenGL::EffectFrame::m_unstyledPixmap = nullptr;
 
 SceneOpenGL::EffectFrame::EffectFrame(EffectFrameImpl* frame, SceneOpenGL *scene)
     : Scene::EffectFrame(frame)
-    , m_texture(NULL)
-    , m_textTexture(NULL)
-    , m_oldTextTexture(NULL)
-    , m_textPixmap(NULL)
-    , m_iconTexture(NULL)
-    , m_oldIconTexture(NULL)
-    , m_selectionTexture(NULL)
-    , m_unstyledVBO(NULL)
+    , m_texture(nullptr)
+    , m_textTexture(nullptr)
+    , m_oldTextTexture(nullptr)
+    , m_textPixmap(nullptr)
+    , m_iconTexture(nullptr)
+    , m_oldIconTexture(nullptr)
+    , m_selectionTexture(nullptr)
+    , m_unstyledVBO(nullptr)
     , m_scene(scene)
 {
     if (m_effectFrame->style() == EffectFrameUnstyled && !m_unstyledTexture) {
@@ -1657,55 +1634,55 @@ void SceneOpenGL::EffectFrame::free()
 {
     glFlush();
     delete m_texture;
-    m_texture = NULL;
+    m_texture = nullptr;
     delete m_textTexture;
-    m_textTexture = NULL;
+    m_textTexture = nullptr;
     delete m_textPixmap;
-    m_textPixmap = NULL;
+    m_textPixmap = nullptr;
     delete m_iconTexture;
-    m_iconTexture = NULL;
+    m_iconTexture = nullptr;
     delete m_selectionTexture;
-    m_selectionTexture = NULL;
+    m_selectionTexture = nullptr;
     delete m_unstyledVBO;
-    m_unstyledVBO = NULL;
+    m_unstyledVBO = nullptr;
     delete m_oldIconTexture;
-    m_oldIconTexture = NULL;
+    m_oldIconTexture = nullptr;
     delete m_oldTextTexture;
-    m_oldTextTexture = NULL;
+    m_oldTextTexture = nullptr;
 }
 
 void SceneOpenGL::EffectFrame::freeIconFrame()
 {
     delete m_iconTexture;
-    m_iconTexture = NULL;
+    m_iconTexture = nullptr;
 }
 
 void SceneOpenGL::EffectFrame::freeTextFrame()
 {
     delete m_textTexture;
-    m_textTexture = NULL;
+    m_textTexture = nullptr;
     delete m_textPixmap;
-    m_textPixmap = NULL;
+    m_textPixmap = nullptr;
 }
 
 void SceneOpenGL::EffectFrame::freeSelection()
 {
     delete m_selectionTexture;
-    m_selectionTexture = NULL;
+    m_selectionTexture = nullptr;
 }
 
 void SceneOpenGL::EffectFrame::crossFadeIcon()
 {
     delete m_oldIconTexture;
     m_oldIconTexture = m_iconTexture;
-    m_iconTexture = NULL;
+    m_iconTexture = nullptr;
 }
 
 void SceneOpenGL::EffectFrame::crossFadeText()
 {
     delete m_oldTextTexture;
     m_oldTextTexture = m_textTexture;
-    m_textTexture = NULL;
+    m_textTexture = nullptr;
 }
 
 void SceneOpenGL::EffectFrame::render(QRegion region, double opacity, double frameOpacity)
@@ -1976,7 +1953,7 @@ void SceneOpenGL::EffectFrame::render(QRegion region, double opacity, double fra
 void SceneOpenGL::EffectFrame::updateTexture()
 {
     delete m_texture;
-    m_texture = 0L;
+    m_texture = nullptr;
     if (m_effectFrame->style() == EffectFrameStyled) {
         QPixmap pixmap = m_effectFrame->frame().framePixmap();
         m_texture = new GLTexture(pixmap);
@@ -1986,9 +1963,9 @@ void SceneOpenGL::EffectFrame::updateTexture()
 void SceneOpenGL::EffectFrame::updateTextTexture()
 {
     delete m_textTexture;
-    m_textTexture = 0L;
+    m_textTexture = nullptr;
     delete m_textPixmap;
-    m_textPixmap = 0L;
+    m_textPixmap = nullptr;
 
     if (m_effectFrame->text().isEmpty())
         return;
@@ -2021,9 +1998,9 @@ void SceneOpenGL::EffectFrame::updateTextTexture()
 void SceneOpenGL::EffectFrame::updateUnstyledTexture()
 {
     delete m_unstyledTexture;
-    m_unstyledTexture = 0L;
+    m_unstyledTexture = nullptr;
     delete m_unstyledPixmap;
-    m_unstyledPixmap = 0L;
+    m_unstyledPixmap = nullptr;
     // Based off circle() from kwinxrenderutils.cpp
 #define CS 8
     m_unstyledPixmap = new QPixmap(2 * CS, 2 * CS);
@@ -2041,9 +2018,9 @@ void SceneOpenGL::EffectFrame::updateUnstyledTexture()
 void SceneOpenGL::EffectFrame::cleanup()
 {
     delete m_unstyledTexture;
-    m_unstyledTexture = NULL;
+    m_unstyledTexture = nullptr;
     delete m_unstyledPixmap;
-    m_unstyledPixmap = NULL;
+    m_unstyledPixmap = nullptr;
 }
 
 //****************************************
@@ -2128,8 +2105,9 @@ SceneOpenGLShadow::SceneOpenGLShadow(Toplevel *toplevel)
 
 SceneOpenGLShadow::~SceneOpenGLShadow()
 {
-    if (effects) {
-        effects->makeOpenGLContextCurrent();
+    Scene *scene = Compositor::self()->scene();
+    if (scene) {
+        scene->makeOpenGLContextCurrent();
         DecorationShadowTextureCache::instance().unregister(this);
         m_texture.reset();
     }
@@ -2388,7 +2366,8 @@ bool SceneOpenGLShadow::prepareBackend()
 {
     if (hasDecorationShadow()) {
         // simplifies a lot by going directly to
-        effects->makeOpenGLContextCurrent();
+        Scene *scene = Compositor::self()->scene();
+        scene->makeOpenGLContextCurrent();
         m_texture = DecorationShadowTextureCache::instance().getTexture(this);
 
         return true;
@@ -2457,7 +2436,8 @@ bool SceneOpenGLShadow::prepareBackend()
         }
     }
 
-    effects->makeOpenGLContextCurrent();
+    Scene *scene = Compositor::self()->scene();
+    scene->makeOpenGLContextCurrent();
     m_texture = QSharedPointer<GLTexture>::create(image);
 
     if (m_texture->internalFormat() == GL_R8) {
@@ -2476,7 +2456,12 @@ SceneOpenGLDecorationRenderer::SceneOpenGLDecorationRenderer(Decoration::Decorat
     connect(this, &Renderer::renderScheduled, client->client(), static_cast<void (AbstractClient::*)(const QRect&)>(&AbstractClient::addRepaint));
 }
 
-SceneOpenGLDecorationRenderer::~SceneOpenGLDecorationRenderer() = default;
+SceneOpenGLDecorationRenderer::~SceneOpenGLDecorationRenderer()
+{
+    if (Scene *scene = Compositor::self()->scene()) {
+        scene->makeOpenGLContextCurrent();
+    }
+}
 
 // Rotates the given source rect 90° counter-clockwise,
 // and flips it vertically
@@ -2526,7 +2511,7 @@ void SceneOpenGLDecorationRenderer::render()
     const QRect geometry = dirty ? QRect(QPoint(0, 0), client()->client()->geometry().size()) : scheduled.boundingRect();
 
     auto renderPart = [this](const QRect &geo, const QRect &partRect, const QPoint &offset, bool rotated = false) {
-        if (geo.isNull()) {
+        if (!geo.isValid()) {
             return;
         }
         QImage image = renderToImage(geo);

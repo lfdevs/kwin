@@ -1,11 +1,11 @@
 # Frederik Schwarzer <schwarzer@kde.org>, 2012.
-# Burkhard Lück <lueck@hube-lueck.de>, 2012, 2013, 2017.
+# Burkhard Lück <lueck@hube-lueck.de>, 2012, 2013, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm-kwin-scripts\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2017-12-04 17:16+0100\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"PO-Revision-Date: 2018-11-16 10:56+0100\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -73,13 +73,13 @@ msgid "KWin script configuration"
 msgstr "Einrichtung für KWin-Skripte"
 
 #. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
-#: module.ui:44
+#: module.ui:55
 #, kde-format
-msgid "Import KWin script..."
-msgstr "KWin-Skript importieren ..."
+msgid "Install from File..."
+msgstr "Aus Datei installieren ..."
 
 #. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
-#: module.ui:51
+#: module.ui:67
 #, kde-format
 msgid "Get New Scripts..."
 msgstr "Neue Skripte holen ..."

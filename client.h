@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // kwin
 #include "options.h"
 #include "rules.h"
-#include "tabgroup.h"
 #include "abstract_client.h"
 #include "xcbutils.h"
 // Qt
@@ -79,29 +78,29 @@ class KWIN_EXPORT Client
      * group. For convenience it's exported as a property to the scripts.
      *
      * Use with care!
-     **/
+     */
     Q_PROPERTY(bool blocksCompositing READ isBlockingCompositing WRITE setBlockingCompositing NOTIFY blockingCompositingChanged)
     /**
      * Whether the Client uses client side window decorations.
      * Only GTK+ are detected.
-     **/
+     */
     Q_PROPERTY(bool clientSideDecorated READ isClientSideDecorated NOTIFY clientSideDecoratedChanged)
 public:
     explicit Client();
     xcb_window_t wrapperId() const;
     xcb_window_t inputId() const { return m_decoInputExtent; }
-    virtual xcb_window_t frameId() const override;
+    xcb_window_t frameId() const override;
 
     bool isTransient() const override;
-    bool groupTransient() const;
+    bool groupTransient() const override;
     bool wasOriginallyGroupTransient() const;
     QList<AbstractClient*> mainClients() const override; // Call once before loop , is not indirect
     bool hasTransient(const AbstractClient* c, bool indirect) const override;
     void checkTransient(xcb_window_t w);
     AbstractClient* findModal(bool allow_itself = false) override;
-    const Group* group() const;
-    Group* group();
-    void checkGroup(Group* gr = NULL, bool force = false);
+    const Group* group() const override;
+    Group* group() override;
+    void checkGroup(Group* gr = nullptr, bool force = false);
     void changeClientLeaderGroup(Group* gr);
     void updateWindowRules(Rules::Types selection) override;
     void updateFullscreenMonitors(NETFullscreenMonitors topology);
@@ -111,17 +110,17 @@ public:
     QSize minSize() const override;
     QSize maxSize() const override;
     QSize basicUnit() const;
-    virtual QSize clientSize() const;
+    QSize clientSize() const override;
     QPoint inputPos() const { return input_offset; } // Inside of geometry()
 
     bool windowEvent(xcb_generic_event_t *e);
-    NET::WindowType windowType(bool direct = false, int supported_types = 0) const;
+    NET::WindowType windowType(bool direct = false, int supported_types = 0) const override;
 
     bool manage(xcb_window_t w, bool isMapped);
     void releaseWindow(bool on_shutdown = false);
     void destroyClient();
 
-    virtual QStringList activities() const;
+    QStringList activities() const override;
     void setOnActivity(const QString &activity, bool enable);
     void setOnAllActivities(bool set) override;
     void setOnActivities(QStringList newActivitiesList) override;
@@ -143,16 +142,18 @@ public:
     bool isMinimizable() const override;
     QRect iconGeometry() const override;
 
+    bool isFullScreenable() const override;
     void setFullScreen(bool set, bool user = true) override;
     bool isFullScreen() const override;
     bool userCanSetFullScreen() const override;
     QRect geometryFSRestore() const {
-        return geom_fs_restore;    // Only for session saving
+        return geom_fs_restore;     // only for session saving
     }
     int fullScreenMode() const {
-        return fullscreen_mode;    // only for session saving
+        return m_fullscreenMode;    // only for session saving
     }
 
+    bool userNoBorder() const;
     bool noBorder() const override;
     void setNoBorder(bool set) override;
     bool userCanSetNoBorder() const override;
@@ -201,7 +202,7 @@ public:
     void hideClient(bool hide) override;
     bool hiddenPreview() const; ///< Window is mapped in order to get a window pixmap
 
-    virtual bool setupCompositing();
+    bool setupCompositing() override;
     void finishCompositing(ReleaseReason releaseReason = ReleaseReason::Release) override;
     void setBlockingCompositing(bool block);
     inline bool isBlockingCompositing() { return blocks_compositing; }
@@ -246,12 +247,12 @@ public:
     StrutRects strutRects() const;
     bool hasStrut() const override;
 
-    /*
-    *   If shown is true the client is mapped and raised, if false
-    *   the client is unmapped and hidden, this function is called
-    *   when the tabbing group of the client switches its visible
-    *   client.
-    */
+    /**
+     * If shown is true the client is mapped and raised, if false
+     * the client is unmapped and hidden, this function is called
+     * when the tabbing group of the client switches its visible
+     * client.
+     */
     void setClientShown(bool shown) override;
 
     /**
@@ -261,9 +262,9 @@ public:
     bool hasOffscreenXineramaStrut() const;
 
     // Decorations <-> Effects
-    QRect decorationRect() const;
+    QRect decorationRect() const override;
 
-    QRect transparentRect() const;
+    QRect transparentRect() const override;
 
     bool isClientSideDecorated() const;
     bool wantsShadowToBeRendered() const override;
@@ -279,7 +280,7 @@ public:
 
     //sets whether the client should be faked as being on all activities (and be shown during session save)
     void setSessionActivityOverride(bool needed);
-    virtual bool isClient() const;
+    bool isClient() const override;
 
     template <typename T>
     void print(T &stream) const;
@@ -289,7 +290,7 @@ public:
     /**
      * Restores the Client after it had been hidden due to show on screen edge functionality.
      * In addition the property gets deleted so that the Client knows that it is visible again.
-     **/
+     */
     void showOnScreenEdge() override;
 
     Xcb::StringProperty fetchApplicationMenuServiceName() const;
@@ -325,29 +326,27 @@ private Q_SLOTS:
 
 private:
     // Use Workspace::createClient()
-    virtual ~Client(); ///< Use destroyClient() or releaseWindow()
+    ~Client() override; ///< Use destroyClient() or releaseWindow()
 
     // Handlers for X11 events
     bool mapRequestEvent(xcb_map_request_event_t *e);
     void unmapNotifyEvent(xcb_unmap_notify_event_t *e);
     void destroyNotifyEvent(xcb_destroy_notify_event_t *e);
     void configureRequestEvent(xcb_configure_request_event_t *e);
-    virtual void propertyNotifyEvent(xcb_property_notify_event_t *e) override;
+    void propertyNotifyEvent(xcb_property_notify_event_t *e) override;
     void clientMessageEvent(xcb_client_message_event_t *e) override;
     void enterNotifyEvent(xcb_enter_notify_event_t *e);
     void leaveNotifyEvent(xcb_leave_notify_event_t *e);
     void focusInEvent(xcb_focus_in_event_t *e);
     void focusOutEvent(xcb_focus_out_event_t *e);
-    virtual void damageNotifyEvent();
+    void damageNotifyEvent() override;
 
     bool buttonPressEvent(xcb_window_t w, int button, int state, int x, int y, int x_root, int y_root, xcb_timestamp_t time = XCB_CURRENT_TIME);
     bool buttonReleaseEvent(xcb_window_t w, int button, int state, int x, int y, int x_root, int y_root);
     bool motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x_root, int y_root);
 
-    Client* findAutogroupCandidate() const;
-
 protected:
-    virtual void debug(QDebug& stream) const;
+    void debug(QDebug& stream) const override;
     void addDamage(const QRegion &damage) override;
     bool belongsToSameApplication(const AbstractClient *other, SameApplicationChecks checks) const override;
     void doSetActive() override;
@@ -360,7 +359,6 @@ protected:
     void doSetSkipSwitcher() override;
     bool belongsToDesktop() const override;
     void setGeometryRestore(const QRect &geo) override;
-    void updateTabGroupStates(TabGroup::States states) override;
     void doMove(int x, int y) override;
     bool doStartMoveResize() override;
     void doPerformMoveResize() override;
@@ -387,7 +385,7 @@ Q_SIGNALS:
     void menuHidden();
     /**
      * Emitted whenever the Client's menu is available
-     **/
+     */
     void appMenuAvailable();
     /**
      * Emitted whenever the Client's menu is unavailable
@@ -396,7 +394,7 @@ Q_SIGNALS:
 
     /**
      * Emitted whenever the Client's block compositing state changes.
-     **/
+     */
     void blockingCompositingChanged(KWin::Client *client);
     void clientSideDecoratedChanged();
 
@@ -406,8 +404,6 @@ private:
     void updateAllowedActions(bool force = false);
     QRect fullscreenMonitorsArea(NETFullscreenMonitors topology) const;
     void changeMaximize(bool horizontal, bool vertical, bool adjust) override;
-    int checkFullScreenHack(const QRect& geom) const;   // 0 - None, 1 - One xinerama screen, 2 - Full area
-    void updateFullScreenHack(const QRect& geom);
     void getWmNormalHints();
     void getMotifHints();
     void getIcons();
@@ -466,7 +462,7 @@ private:
     /**
      * Reads the property and creates/destroys the screen edge if required
      * and shows/hides the client.
-     **/
+     */
     void updateShowOnScreenEdge();
 
     Xcb::Window m_client;
@@ -510,13 +506,12 @@ private:
     uint app_noborder : 1; ///< App requested no border via window type, shape extension, etc.
     uint ignore_focus_stealing : 1; ///< Don't apply focus stealing prevention to this client
     bool blocks_compositing;
-    // DON'T reorder - Saved to config files !!!
+
     enum FullScreenMode {
         FullScreenNone,
-        FullScreenNormal,
-        FullScreenHack ///< Non-NETWM fullscreen (noborder and size of desktop)
-    };
-    FullScreenMode fullscreen_mode;
+        FullScreenNormal
+    } m_fullscreenMode;
+
     MaximizeMode max_mode;
     QRect geom_restore;
     QRect geom_fs_restore;
@@ -597,8 +592,7 @@ inline Group* Client::group()
 
 inline bool Client::isShown(bool shaded_is_shown) const
 {
-    return !isMinimized() && (!isShade() || shaded_is_shown) && !hidden &&
-           (!tabGroup() || tabGroup()->current() == this);
+    return !isMinimized() && (!isShade() || shaded_is_shown) && !hidden;
 }
 
 inline bool Client::isHiddenInternal() const
@@ -628,7 +622,7 @@ inline MaximizeMode Client::maximizeMode() const
 
 inline bool Client::isFullScreen() const
 {
-    return fullscreen_mode != FullScreenNone;
+    return m_fullscreenMode != FullScreenNone;
 }
 
 inline bool Client::hasNETSupport() const
@@ -689,7 +683,7 @@ inline bool Client::hiddenPreview() const
 template <typename T>
 inline void Client::print(T &stream) const
 {
-    stream << "\'ID:" << window() << ";WMCLASS:" << resourceClass() << ":"
+    stream << "\'Client:" << window() << ";WMCLASS:" << resourceClass() << ":"
            << resourceName() << ";Caption:" << caption() << "\'";
 }
 

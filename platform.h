@@ -22,9 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <kwin_export.h>
 #include <kwinglobals.h>
 #include <epoxy/egl.h>
-#include "fixqopengl.h"
-
 #include <fixx11h.h>
+#include "fixqopengl.h"
+#include "input.h"
+
 #include <QImage>
 #include <QObject>
 
@@ -79,69 +80,77 @@ class KWIN_EXPORT Platform : public QObject
 {
     Q_OBJECT
 public:
-    virtual ~Platform();
+    ~Platform() override;
 
     virtual void init() = 0;
     virtual Screens *createScreens(QObject *parent = nullptr);
     virtual OpenGLBackend *createOpenGLBackend();
     virtual QPainterBackend *createQPainterBackend();
+
+    /**
+     * Informs the Platform that it is about to go down and shall do appropriate cleanup.
+     * Child classes can override this function but must call the parent implementation in
+     * the end.
+     */
+    virtual void prepareShutdown();
+
     /**
      * Allows the platform to create a platform specific screen edge.
      * The default implementation creates a Edge.
-     **/
+     */
     virtual Edge *createScreenEdge(ScreenEdges *parent);
     /**
      * Allows the platform to create a platform specific Cursor.
      * The default implementation creates an InputRedirectionCursor.
-     **/
+     */
     virtual void createPlatformCursor(QObject *parent = nullptr);
     virtual void warpPointer(const QPointF &globalPos);
     /**
      * Whether our Compositing EGL display allows a surface less context
      * so that a sharing context could be created.
-     **/
+     */
     virtual bool supportsQpaContext() const;
     /**
      * The EGLDisplay used by the compositing scene.
-     **/
+     */
     EGLDisplay sceneEglDisplay() const;
     void setSceneEglDisplay(EGLDisplay display);
     /**
      * The EGLContext used by the compositing scene.
-     **/
+     */
     virtual EGLContext sceneEglContext() const {
         return m_context;
     }
     /**
      * Sets the @p context used by the compositing scene.
-     **/
+     */
     void setSceneEglContext(EGLContext context) {
         m_context = context;
     }
     /**
      * The first (in case of multiple) EGLSurface used by the compositing scene.
-     **/
+     */
     EGLSurface sceneEglSurface() const {
         return m_surface;
     }
     /**
      * Sets the first @p surface used by the compositing scene.
      * @see sceneEglSurface
-     **/
+     */
     void setSceneEglSurface(EGLSurface surface) {
         m_surface = surface;
     }
 
     /**
      * The EglConfig used by the compositing scene.
-     **/
+     */
     EGLConfig sceneEglConfig() const {
         return m_eglConfig;
     }
     /**
      * Sets the @p config used by the compositing scene.
      * @see sceneEglConfig
-     **/
+     */
     void setSceneEglConfig(EGLConfig config) {
         m_eglConfig = config;
     }
@@ -151,14 +160,14 @@ public:
      * a basic screen and uses the BasicScreens.
      *
      * Base implementation returns an invalid size.
-     **/
+     */
     virtual QSize screenSize() const;
     /**
      * Implementing subclasses should provide all geometries in case the backend represents
      * a basic screen and uses the BasicScreens.
      *
      * Base implementation returns one QRect positioned at 0/0 with screenSize() as size.
-     **/
+     */
     virtual QVector<QRect> screenGeometries() const;
 
     /**
@@ -166,7 +175,7 @@ public:
      * a basic screen and uses the BasicScreens.
      *
      * Base implementation returns a screen with a scale of 1.
-     **/
+     */
     virtual QVector<qreal> screenScales() const;
     /**
      * Implement this method to receive configuration change requests through KWayland's
@@ -175,29 +184,29 @@ public:
      * Base implementation warns that the current backend does not implement this
      * functionality.
      */
-    virtual void configurationChangeRequested(KWayland::Server::OutputConfigurationInterface *config);
+    void requestOutputsChange(KWayland::Server::OutputConfigurationInterface *config);
 
     /**
      * Whether the Platform requires compositing for rendering.
      * Default implementation returns @c true. If the implementing Platform allows to be used
      * without compositing (e.g. rendering is done by the windowing system), re-implement this method.
-     **/
+     */
     virtual bool requiresCompositing() const;
     /**
      * Whether Compositing is possible in the Platform.
-     * Returning @c false in this method makes only sense if @link{requiresCompositing} returns @c false.
+     * Returning @c false in this method makes only sense if requiresCompositing returns @c false.
      *
      * The default implementation returns @c true.
      * @see requiresCompositing
-     **/
+     */
     virtual bool compositingPossible() const;
     /**
      * Returns a user facing text explaining why compositing is not possible in case
-     * @link{compositingPossible} returns @c false.
+     * compositingPossible returns @c false.
      *
      * The default implementation returns an empty string.
      * @see compositingPossible
-     **/
+     */
     virtual QString compositingNotPossibleReason() const;
     /**
      * Whether OpenGL compositing is broken.
@@ -206,7 +215,7 @@ public:
      *
      * Default implementation returns @c false.
      * @see createOpenGLSafePoint
-     **/
+     */
     virtual bool openGLCompositingIsBroken() const;
     enum class OpenGLSafePoint {
         PreInit,
@@ -218,11 +227,11 @@ public:
     /**
      * This method is invoked before and after creating the OpenGL rendering Scene.
      * An implementing Platform can use it to detect crashes triggered by the OpenGL implementation.
-     * This can be used for @link{openGLCompositingIsBroken}.
+     * This can be used for openGLCompositingIsBroken.
      *
      * The default implementation does nothing.
      * @see openGLCompositingIsBroken.
-     **/
+     */
     virtual void createOpenGLSafePoint(OpenGLSafePoint safePoint);
 
     /**
@@ -240,7 +249,7 @@ public:
      *
      * @param callback The function to invoke once the interactive window selection ends
      * @param cursorName The optional name of the cursor shape to use, default is crosshair
-     **/
+     */
     virtual void startInteractiveWindowSelection(std::function<void(KWin::Toplevel*)> callback, const QByteArray &cursorName = QByteArray());
 
     /**
@@ -256,7 +265,7 @@ public:
      * The default implementation forwards to InputRedirection.
      *
      * @param callback The function to invoke once the interactive position selection ends
-     **/
+     */
     virtual void startInteractivePositionSelection(std::function<void(const QPoint &)> callback);
 
     /**
@@ -272,7 +281,7 @@ public:
      *
      * @param action The action which will be used with KGlobalAccel.
      * @since 5.10
-     **/
+     */
     virtual void setupActionForGlobalAccel(QAction *action);
 
     bool usesSoftwareCursor() const {
@@ -290,7 +299,7 @@ public:
      * @see softwareCursor
      * @see softwareCursorHotspot
      * @since 5.9
-     **/
+     */
     virtual PlatformCursorImage cursorImage() const;
 
     /**
@@ -299,7 +308,7 @@ public:
      * @see doHideCursor
      * @see isCursorHidden
      * @since 5.9
-     **/
+     */
     void hideCursor();
 
     /**
@@ -308,7 +317,7 @@ public:
      * @see doShowCursor
      * @see isCursorHidden
      * @since 5.9
-     **/
+     */
     void showCursor();
 
     /**
@@ -316,13 +325,9 @@ public:
      * @see showCursor
      * @see hideCursor
      * @since 5.9
-     **/
+     */
     bool isCursorHidden() const {
         return m_hideCursorCounter > 0;
-    }
-
-    bool handlesOutputs() const {
-        return m_handlesOutputs;
     }
     bool isReady() const {
         return m_ready;
@@ -358,7 +363,7 @@ public:
     /**
      * Creates the OverlayWindow required for X11 based compositors.
      * Default implementation returns @c nullptr.
-     **/
+     */
     virtual OverlayWindow *createOverlayWindow();
 
     /**
@@ -367,43 +372,44 @@ public:
      *
      * Default implementation does nothing. This means code relying on the X timestamp being up to date,
      * might not be working. E.g. synced X11 window resizing
-     **/
+     */
     virtual void updateXTime();
 
     /**
      * Creates the OutlineVisual for the given @p outline.
      * Default implementation creates an OutlineVisual suited for composited usage.
-     **/
+     */
     virtual OutlineVisual *createOutline(Outline *outline);
 
     /**
      * Creates the Decoration::Renderer for the given @p client.
      *
      * The default implementation creates a Renderer suited for the Compositor, @c nullptr if there is no Compositor.
-     **/
+     */
     virtual Decoration::Renderer *createDecorationRenderer(Decoration::DecoratedClientImpl *client);
 
     /**
      * Platform specific way to invert the screen.
      * Default implementation invokes the invert effect
-     **/
+     */
     virtual void invertScreen();
 
     /**
      * Default implementation creates an EffectsHandlerImp;
-     **/
+     */
     virtual void createEffectsHandler(Compositor *compositor, Scene *scene);
+
     /**
      * The CompositingTypes supported by the Platform.
      * The first item should be the most preferred one.
      * @since 5.11
-     **/
+     */
     virtual QVector<CompositingType> supportedCompositors() const = 0;
 
     /**
      * Whether gamma control is supported by the backend.
      * @since 5.12
-     **/
+     */
     bool supportsGammaControl() const {
         return m_supportsGammaControl;
     }
@@ -420,8 +426,9 @@ public:
     virtual Outputs enabledOutputs() const {
         return Outputs();
     }
+    AbstractOutput *findOutput(const QByteArray &uuid);
 
-    /*
+    /**
      * A string of information to include in kwin debug output
      * It should not be translated.
      *
@@ -430,12 +437,33 @@ public:
      */
     virtual QString supportInformation() const;
 
+    /**
+     * The compositor plugin which got selected from @link{supportedCompositors}.
+     * Prior to selecting a compositor this returns @c NoCompositing.
+     *
+     * This method allows the platforms to limit the offerings in @link{supportedCompositors}
+     * in case they do not support runtime compositor switching
+     */
+    CompositingType selectedCompositor() const
+    {
+        return m_selectedCompositor;
+    }
+    /**
+     * Used by Compositor to set the used compositor.
+     */
+    void setSelectedCompositor(CompositingType type)
+    {
+        m_selectedCompositor = type;
+    }
+
 public Q_SLOTS:
     void pointerMotion(const QPointF &position, quint32 time);
     void pointerButtonPressed(quint32 button, quint32 time);
     void pointerButtonReleased(quint32 button, quint32 time);
-    void pointerAxisHorizontal(qreal delta, quint32 time);
-    void pointerAxisVertical(qreal delta, quint32 time);
+    void pointerAxisHorizontal(qreal delta, quint32 time, qint32 discreteDelta = 0,
+        InputRedirection::PointerAxisSource source = InputRedirection::PointerAxisSourceUnknown);
+    void pointerAxisVertical(qreal delta, quint32 time, qint32 discreteDelta = 0,
+        InputRedirection::PointerAxisSource source = InputRedirection::PointerAxisSourceUnknown);
     void keyboardKeyPressed(quint32 key, quint32 time);
     void keyboardKeyReleased(quint32 key, quint32 time);
     void keyboardModifiers(uint32_t modsDepressed, uint32_t modsLatched, uint32_t modsLocked, uint32_t group);
@@ -462,15 +490,12 @@ Q_SIGNALS:
     void readyChanged(bool);
     /**
      * Emitted by backends using a one screen (nested window) approach and when the size of that changes.
-     **/
+     */
     void screenSizeChanged();
 
 protected:
     explicit Platform(QObject *parent = nullptr);
     void setSoftWareCursor(bool set);
-    void handleOutputs() {
-        m_handlesOutputs = true;
-    }
     void repaint(const QRect &rect);
     void setReady(bool ready);
     QSize initialWindowSize() const {
@@ -487,6 +512,13 @@ protected:
     }
 
     /**
+     * Whether the backend is supposed to change the configuration of outputs.
+     */
+    void supportsOutputChanges() {
+        m_supportsOutputChanges = true;
+    }
+
+    /**
      * Actual platform specific way to hide the cursor.
      * Sub-classes need to implement if they support hiding the cursor.
      *
@@ -496,7 +528,7 @@ protected:
      * @see doShowCursor
      * @see hideCursor
      * @see showCursor
-     **/
+     */
     virtual void doHideCursor();
     /**
      * Actual platform specific way to show the cursor.
@@ -507,7 +539,7 @@ protected:
      * @see doShowCursor
      * @see hideCursor
      * @see showCursor
-     **/
+     */
     virtual void doShowCursor();
 
 private:
@@ -516,7 +548,6 @@ private:
     struct {
         QRect lastRenderedGeometry;
     } m_cursor;
-    bool m_handlesOutputs = false;
     bool m_ready = false;
     QSize m_initialWindowSize;
     QByteArray m_deviceIdentifier;
@@ -531,6 +562,8 @@ private:
     int m_hideCursorCounter = 0;
     ColorCorrect::Manager *m_colorCorrect = nullptr;
     bool m_supportsGammaControl = false;
+    bool m_supportsOutputChanges = false;
+    CompositingType m_selectedCompositor = NoCompositing;
 };
 
 }

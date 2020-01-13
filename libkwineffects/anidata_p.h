@@ -3,6 +3,7 @@
  This file is part of the KDE project.
 
 Copyright (C) 2011 Thomas Lübking <thomas.luebking@web.de>
+Copyright (C) 2018 Vlad Zagorodniy <vladzzag@gmail.com>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,35 +23,82 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define ANIDATA_H
 
 #include "kwinanimationeffect.h"
+
 #include <QEasingCurve>
-#include <netwm.h>
 
 namespace KWin {
+
+/**
+ * Wraps effects->setActiveFullScreenEffect for the duration of it's lifespan
+ */
+class FullScreenEffectLock
+{
+public:
+    FullScreenEffectLock(Effect *effect);
+    ~FullScreenEffectLock();
+private:
+    Q_DISABLE_COPY(FullScreenEffectLock)
+};
+typedef QSharedPointer<FullScreenEffectLock> FullScreenEffectLockPtr;
+
+/**
+ * Keeps windows alive during animation after they got closed
+ */
+class KeepAliveLock
+{
+public:
+    KeepAliveLock(EffectWindow *w);
+    ~KeepAliveLock();
+
+private:
+    EffectWindow *m_window;
+    Q_DISABLE_COPY(KeepAliveLock)
+};
+typedef QSharedPointer<KeepAliveLock> KeepAliveLockPtr;
+
+/**
+ * References the previous window pixmap to prevent discarding.
+ */
+class PreviousWindowPixmapLock
+{
+public:
+    PreviousWindowPixmapLock(EffectWindow *w);
+    ~PreviousWindowPixmapLock();
+
+private:
+    EffectWindow *m_window;
+    Q_DISABLE_COPY(PreviousWindowPixmapLock)
+};
+typedef QSharedPointer<PreviousWindowPixmapLock> PreviousWindowPixmapLockPtr;
 
 class KWINEFFECTS_EXPORT AniData {
 public:
     AniData();
-    AniData(AnimationEffect::Attribute a, int meta, int ms, const FPx2 &to,
-            QEasingCurve curve, int delay, const FPx2 &from, bool waitAtSource, bool keepAtTarget = false);
-    explicit AniData(const QString &str);
-    inline void addTime(int t) { time += t; }
+    AniData(AnimationEffect::Attribute a, int meta, const FPx2 &to,
+            int delay, const FPx2 &from, bool waitAtSource,
+            FullScreenEffectLockPtr=FullScreenEffectLockPtr(),
+            bool keepAlive = true, PreviousWindowPixmapLockPtr previousWindowPixmapLock = {});
+
+    bool isActive() const;
+
     inline bool isOneDimensional() const {
         return from[0] == from[1] && to[0] == to[1];
     }
 
     quint64 id{0};
-    static QList<AniData> list(const QString &str);
-    QString toString() const;
     QString debugInfo() const;
     AnimationEffect::Attribute attribute;
-    QEasingCurve curve;
     int customCurve;
     FPx2 from, to;
-    int time, duration;
+    TimeLine timeLine;
     uint meta;
     qint64 startTime;
-    NET::WindowTypeMask windowType;
-    bool waitAtSource, keepAtTarget;
+    QSharedPointer<FullScreenEffectLock> fullScreenEffectLock;
+    bool waitAtSource;
+    bool keepAlive;
+    KeepAliveLockPtr keepAliveLock;
+    PreviousWindowPixmapLockPtr previousWindowPixmapLock;
+    AnimationEffect::TerminationFlags terminationFlags;
 };
 
 } // namespace

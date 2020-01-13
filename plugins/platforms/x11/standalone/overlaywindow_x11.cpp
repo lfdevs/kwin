@@ -26,8 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils.h"
 #include "xcbutils.h"
 
-#include "assert.h"
-
 #include <QVector>
 
 #include <xcb/composite.h>
@@ -52,7 +50,7 @@ OverlayWindowX11::~OverlayWindowX11()
 
 bool OverlayWindowX11::create()
 {
-    assert(m_window == XCB_WINDOW_NONE);
+    Q_ASSERT(m_window == XCB_WINDOW_NONE);
     if (!Xcb::Extensions::self()->isCompositeOverlayAvailable())
         return false;
     if (!Xcb::Extensions::self()->isShapeInputAvailable())  // needed in setupOverlay()
@@ -74,8 +72,8 @@ bool OverlayWindowX11::create()
 
 void OverlayWindowX11::setup(xcb_window_t window)
 {
-    assert(m_window != XCB_WINDOW_NONE);
-    assert(Xcb::Extensions::self()->isShapeInputAvailable());
+    Q_ASSERT(m_window != XCB_WINDOW_NONE);
+    Q_ASSERT(Xcb::Extensions::self()->isShapeInputAvailable());
     setNoneBackgroundPixmap(m_window);
     m_shape = QRegion();
     const QSize &s = screens()->size();
@@ -90,7 +88,7 @@ void OverlayWindowX11::setup(xcb_window_t window)
 
 void OverlayWindowX11::setupInputShape(xcb_window_t window)
 {
-    xcb_shape_rectangles(connection(), XCB_SHAPE_SO_SET, XCB_SHAPE_SK_INPUT, XCB_CLIP_ORDERING_UNSORTED, window, 0, 0, 0, NULL);
+    xcb_shape_rectangles(connection(), XCB_SHAPE_SO_SET, XCB_SHAPE_SK_INPUT, XCB_CLIP_ORDERING_UNSORTED, window, 0, 0, 0, nullptr);
 }
 
 void OverlayWindowX11::setNoneBackgroundPixmap(xcb_window_t window)
@@ -101,7 +99,7 @@ void OverlayWindowX11::setNoneBackgroundPixmap(xcb_window_t window)
 
 void OverlayWindowX11::show()
 {
-    assert(m_window != XCB_WINDOW_NONE);
+    Q_ASSERT(m_window != XCB_WINDOW_NONE);
     if (m_shown)
         return;
     xcb_map_subwindows(connection(), m_window);
@@ -111,7 +109,7 @@ void OverlayWindowX11::show()
 
 void OverlayWindowX11::hide()
 {
-    assert(m_window != XCB_WINDOW_NONE);
+    Q_ASSERT(m_window != XCB_WINDOW_NONE);
     xcb_unmap_window(connection(), m_window);
     m_shown = false;
     const QSize &s = screens()->size();
@@ -124,26 +122,16 @@ void OverlayWindowX11::setShape(const QRegion& reg)
     // and triggers something).
     if (reg == m_shape)
         return;
-    QVector< QRect > rects = reg.rects();
-    xcb_rectangle_t *xrects = new xcb_rectangle_t[rects.count()];
-    for (int i = 0;
-            i < rects.count();
-            ++i) {
-        xrects[ i ].x = rects[ i ].x();
-        xrects[ i ].y = rects[ i ].y();
-        xrects[ i ].width = rects[ i ].width();
-        xrects[ i ].height = rects[ i ].height();
-    }
+    const QVector<xcb_rectangle_t> xrects = Xcb::regionToRects(reg);
     xcb_shape_rectangles(connection(), XCB_SHAPE_SO_SET, XCB_SHAPE_SK_BOUNDING, XCB_CLIP_ORDERING_UNSORTED,
-                         m_window, 0, 0, rects.count(), xrects);
-    delete[] xrects;
+                         m_window, 0, 0, xrects.count(), xrects.data());
     setupInputShape(m_window);
     m_shape = reg;
 }
 
 void OverlayWindowX11::resize(const QSize &size)
 {
-    assert(m_window != XCB_WINDOW_NONE);
+    Q_ASSERT(m_window != XCB_WINDOW_NONE);
     const uint32_t geometry[2] = {
         static_cast<uint32_t>(size.width()),
         static_cast<uint32_t>(size.height())

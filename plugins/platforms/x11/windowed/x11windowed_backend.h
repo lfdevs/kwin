@@ -35,6 +35,7 @@ class NETWinInfo;
 
 namespace KWin
 {
+class X11WindowedOutput;
 
 class KWIN_EXPORT X11WindowedBackend : public Platform
 {
@@ -44,13 +45,14 @@ class KWIN_EXPORT X11WindowedBackend : public Platform
     Q_PROPERTY(QSize size READ screenSize NOTIFY sizeChanged)
 public:
     X11WindowedBackend(QObject *parent = nullptr);
-    virtual ~X11WindowedBackend();
+    ~X11WindowedBackend() override;
     void init() override;
-    QVector<QRect> screenGeometries() const override;
-    QVector<qreal> screenScales() const override;
 
     xcb_connection_t *connection() const {
         return m_connection;
+    }
+    xcb_screen_t *screen() const {
+        return m_screen;
     }
     int screenNumer() const {
         return m_screenNumber;
@@ -63,6 +65,9 @@ public:
         return m_display;
     }
     xcb_window_t rootWindow() const;
+    bool hasXInput() const {
+        return m_hasXInput;
+    }
 
     Screens *createScreens(QObject *parent = nullptr) override;
     OpenGLBackend *createOpenGLBackend() override;
@@ -70,14 +75,20 @@ public:
     void warpPointer(const QPointF &globalPos) override;
 
     QVector<CompositingType> supportedCompositors() const override {
+        if (selectedCompositor() != NoCompositing) {
+            return {selectedCompositor()};
+        }
         return QVector<CompositingType>{OpenGLCompositing, QPainterCompositing};
     }
+
+    Outputs outputs() const override;
+    Outputs enabledOutputs() const override;
 
 Q_SIGNALS:
     void sizeChanged();
 
 private:
-    void createWindow();
+    void createOutputs();
     void startEventReading();
     void grabKeyboard(xcb_timestamp_t time);
     void updateWindowTitle();
@@ -87,25 +98,26 @@ private:
     void handleExpose(xcb_expose_event_t *event);
     void updateSize(xcb_configure_notify_event_t *event);
     void createCursor(const QImage &img, const QPoint &hotspot);
+    void initXInput();
+    X11WindowedOutput *findOutput(xcb_window_t window) const;
 
     xcb_connection_t *m_connection = nullptr;
     xcb_screen_t *m_screen = nullptr;
     xcb_key_symbols_t *m_keySymbols = nullptr;
     int m_screenNumber = 0;
-    struct Output {
-        xcb_window_t window = XCB_WINDOW_NONE;
-        QSize size;
-        qreal scale = 1;
-        QPoint xPosition;
-        QPoint internalPosition;
-        NETWinInfo *winInfo = nullptr;
-    };
-    QVector<Output> m_windows;
+
     xcb_atom_t m_protocols = XCB_ATOM_NONE;
     xcb_atom_t m_deleteWindowProtocol = XCB_ATOM_NONE;
     xcb_cursor_t m_cursor = XCB_CURSOR_NONE;
     Display *m_display = nullptr;
     bool m_keyboardGrabbed = false;
+
+    bool m_hasXInput = false;
+    int m_xiOpcode = 0;
+    int m_majorVersion = 0;
+    int m_minorVersion = 0;
+
+    QVector<X11WindowedOutput*> m_outputs;
 };
 
 }

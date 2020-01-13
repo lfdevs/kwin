@@ -103,7 +103,14 @@ QScriptValue kwinUnregisterTouchScreenEdge(QScriptContext *context, QScriptEngin
 }
 
 struct AnimationSettings {
-    enum { Type = 1<<0, Curve = 1<<1, Delay = 1<<2, Duration = 1<<3 };
+    enum {
+        Type       = 1<<0,
+        Curve      = 1<<1,
+        Delay      = 1<<2,
+        Duration   = 1<<3,
+        FullScreen = 1<<4,
+        KeepAlive  = 1<<5
+    };
     AnimationEffect::Attribute type;
     QEasingCurve::Type curve;
     FPx2 from;
@@ -112,6 +119,8 @@ struct AnimationSettings {
     uint duration;
     uint set;
     uint metaData;
+    bool fullScreenEffect;
+    bool keepAlive;
 };
 
 AnimationSettings animationSettingsFromObject(QScriptValue &object)
@@ -153,6 +162,22 @@ AnimationSettings animationSettingsFromObject(QScriptValue &object)
         settings.set |= AnimationSettings::Type;
     } else {
         settings.type = static_cast<AnimationEffect::Attribute>(-1);
+    }
+
+    QScriptValue isFullScreen = object.property(QStringLiteral("fullScreen"));
+    if (isFullScreen.isValid() && isFullScreen.isBool()) {
+        settings.fullScreenEffect = isFullScreen.toBool();
+        settings.set |= AnimationSettings::FullScreen;
+    } else {
+        settings.fullScreenEffect = false;
+    }
+
+    QScriptValue keepAlive = object.property(QStringLiteral("keepAlive"));
+    if (keepAlive.isValid() && keepAlive.isBool()) {
+        settings.keepAlive = keepAlive.toBool();
+        settings.set |= AnimationSettings::KeepAlive;
+    } else {
+        settings.keepAlive = true;
     }
 
     return settings;
@@ -217,6 +242,12 @@ QList<AnimationSettings> animationSettings(QScriptContext *context, ScriptedEffe
                 }
                 if (!(s.set & AnimationSettings::Delay)) {
                     s.delay = settings.at(0).delay;
+                }
+                if (!(s.set & AnimationSettings::FullScreen)) {
+                    s.fullScreenEffect = settings.at(0).fullScreenEffect;
+                }
+                if (!(s.set & AnimationSettings::KeepAlive)) {
+                    s.keepAlive = settings.at(0).keepAlive;
                 }
 
                 s.metaData = 0;
@@ -285,7 +316,9 @@ QScriptValue kwinEffectAnimate(QScriptContext *context, QScriptEngine *engine)
                                     setting.from,
                                     setting.metaData,
                                     setting.curve,
-                                    setting.delay));
+                                    setting.delay,
+                                    setting.fullScreenEffect,
+                                    setting.keepAlive));
         ++i;
     }
     return array;
@@ -315,7 +348,9 @@ QScriptValue kwinEffectSet(QScriptContext *context, QScriptEngine *engine)
                                setting.from,
                                setting.metaData,
                                setting.curve,
-                               setting.delay));
+                               setting.delay,
+                               setting.fullScreenEffect,
+                               setting.keepAlive));
     }
 
     return engine->newVariant(animIds);
@@ -403,6 +438,86 @@ QScriptValue kwinEffectRetarget(QScriptContext *context, QScriptEngine *engine)
     return QScriptValue(ok);
 }
 
+QScriptValue kwinEffectRedirect(QScriptContext *context, QScriptEngine *engine)
+{
+    if (context->argumentCount() != 2 && context->argumentCount() != 3) {
+        const QString errorMessage = QStringLiteral("redirect() takes either 2 or 3 arguments (%1 given)")
+            .arg(context->argumentCount());
+        context->throwError(QScriptContext::SyntaxError, errorMessage);
+        return engine->undefinedValue();
+    }
+
+    bool ok = false;
+    QList<quint64> animationIds = animations(context->argument(0).toVariant(), &ok);
+    if (!ok) {
+        context->throwError(QScriptContext::TypeError, QStringLiteral("Argument needs to be one or several quint64"));
+        return engine->undefinedValue();
+    }
+
+    const QScriptValue wrappedDirection = context->argument(1);
+    if (!wrappedDirection.isNumber()) {
+        context->throwError(QScriptContext::TypeError, QStringLiteral("Direction has invalid type"));
+        return engine->undefinedValue();
+    }
+
+    const auto direction = static_cast<AnimationEffect::Direction>(wrappedDirection.toInt32());
+    switch (direction) {
+    case AnimationEffect::Forward:
+    case AnimationEffect::Backward:
+        break;
+
+    default:
+        context->throwError(QScriptContext::SyntaxError, QStringLiteral("Unknown direction"));
+        return engine->undefinedValue();
+    }
+
+    AnimationEffect::TerminationFlags terminationFlags = AnimationEffect::TerminateAtSource;
+    if (context->argumentCount() >= 3) {
+        const QScriptValue wrappedTerminationFlags = context->argument(2);
+        if (!wrappedTerminationFlags.isNumber()) {
+            context->throwError(QScriptContext::TypeError, QStringLiteral("Termination flags argument has invalid type"));
+            return engine->undefinedValue();
+        }
+
+        terminationFlags = static_cast<AnimationEffect::TerminationFlags>(wrappedTerminationFlags.toInt32());
+    }
+
+    ScriptedEffect *effect = qobject_cast<ScriptedEffect *>(context->callee().data().toQObject());
+    for (const quint64 &animationId : qAsConst(animationIds)) {
+        if (!effect->redirect(animationId, direction, terminationFlags)) {
+            return QScriptValue(false);
+        }
+    }
+
+    return QScriptValue(true);
+}
+
+QScriptValue kwinEffectComplete(QScriptContext *context, QScriptEngine *engine)
+{
+    if (context->argumentCount() != 1) {
+        const QString errorMessage = QStringLiteral("complete() takes exactly 1 arguments (%1 given)")
+            .arg(context->argumentCount());
+        context->throwError(QScriptContext::SyntaxError, errorMessage);
+        return engine->undefinedValue();
+    }
+
+    bool ok = false;
+    QList<quint64> animationIds = animations(context->argument(0).toVariant(), &ok);
+    if (!ok) {
+        context->throwError(QScriptContext::TypeError, QStringLiteral("Argument needs to be one or several quint64"));
+        return engine->undefinedValue();
+    }
+
+    ScriptedEffect *effect = qobject_cast<ScriptedEffect *>(context->callee().data().toQObject());
+    for (const quint64 &animationId : qAsConst(animationIds)) {
+        if (!effect->complete(animationId)) {
+            return QScriptValue(false);
+        }
+    }
+
+    return QScriptValue(true);
+}
+
 QScriptValue kwinEffectCancel(QScriptContext *context, QScriptEngine *engine)
 {
     ScriptedEffect *effect = qobject_cast<ScriptedEffect*>(context->callee().data().toQObject());
@@ -475,7 +590,18 @@ ScriptedEffect::ScriptedEffect()
     , m_config(nullptr)
     , m_chainPosition(0)
 {
+    Q_ASSERT(effects);
     connect(m_engine, SIGNAL(signalHandlerException(QScriptValue)), SLOT(signalHandlerException(QScriptValue)));
+    connect(effects, &EffectsHandler::activeFullScreenEffectChanged, this, [this]() {
+        Effect* fullScreenEffect = effects->activeFullScreenEffect();
+        if (fullScreenEffect == m_activeFullScreenEffect) {
+            return;
+        }
+        if (m_activeFullScreenEffect == this || fullScreenEffect == this) {
+            emit isActiveFullScreenEffectChanged();
+        }
+        m_activeFullScreenEffect = fullScreenEffect;
+    });
 }
 
 ScriptedEffect::~ScriptedEffect()
@@ -546,6 +672,16 @@ bool ScriptedEffect::init(const QString &effectName, const QString &pathToScript
     retargetFunc.setData(m_engine->newQObject(this));
     m_engine->globalObject().setProperty(QStringLiteral("retarget"), retargetFunc);
 
+    // redirect
+    QScriptValue redirectFunc = m_engine->newFunction(kwinEffectRedirect);
+    redirectFunc.setData(m_engine->newQObject(this));
+    m_engine->globalObject().setProperty(QStringLiteral("redirect"), redirectFunc);
+
+    // complete
+    QScriptValue completeFunc = m_engine->newFunction(kwinEffectComplete);
+    completeFunc.setData(m_engine->newQObject(this));
+    m_engine->globalObject().setProperty(QStringLiteral("complete"), completeFunc);
+
     // cancel...
     QScriptValue cancelFunc = m_engine->newFunction(kwinEffectCancel);
     cancelFunc.setData(m_engine->newQObject(this));
@@ -567,6 +703,11 @@ void ScriptedEffect::animationEnded(KWin::EffectWindow *w, Attribute a, uint met
     emit animationEnded(w, 0);
 }
 
+bool ScriptedEffect::isActiveFullScreenEffect() const
+{
+    return effects->activeFullScreenEffect() == this;
+}
+
 void ScriptedEffect::signalHandlerException(const QScriptValue &value)
 {
     if (value.isError()) {
@@ -581,29 +722,39 @@ void ScriptedEffect::signalHandlerException(const QScriptValue &value)
     }
 }
 
-quint64 ScriptedEffect::animate(KWin::EffectWindow* w, KWin::AnimationEffect::Attribute a, int ms, KWin::FPx2 to, KWin::FPx2 from, uint metaData, int curve, int delay)
+quint64 ScriptedEffect::animate(KWin::EffectWindow* w, KWin::AnimationEffect::Attribute a, int ms, KWin::FPx2 to, KWin::FPx2 from, uint metaData, int curve, int delay, bool fullScreen, bool keepAlive)
 {
     QEasingCurve qec;
     if (curve < QEasingCurve::Custom)
         qec.setType(static_cast<QEasingCurve::Type>(curve));
     else if (curve == GaussianCurve)
         qec.setCustomType(qecGaussian);
-    return AnimationEffect::animate(w, a, metaData, ms, to, qec, delay, from);
+    return AnimationEffect::animate(w, a, metaData, ms, to, qec, delay, from, fullScreen, keepAlive);
 }
 
-quint64 ScriptedEffect::set(KWin::EffectWindow* w, KWin::AnimationEffect::Attribute a, int ms, KWin::FPx2 to, KWin::FPx2 from, uint metaData, int curve, int delay)
+quint64 ScriptedEffect::set(KWin::EffectWindow* w, KWin::AnimationEffect::Attribute a, int ms, KWin::FPx2 to, KWin::FPx2 from, uint metaData, int curve, int delay, bool fullScreen, bool keepAlive)
 {
     QEasingCurve qec;
     if (curve < QEasingCurve::Custom)
         qec.setType(static_cast<QEasingCurve::Type>(curve));
     else if (curve == GaussianCurve)
         qec.setCustomType(qecGaussian);
-    return AnimationEffect::set(w, a, metaData, ms, to, qec, delay, from);
+    return AnimationEffect::set(w, a, metaData, ms, to, qec, delay, from, fullScreen, keepAlive);
 }
 
 bool ScriptedEffect::retarget(quint64 animationId, KWin::FPx2 newTarget, int newRemainingTime)
 {
     return AnimationEffect::retarget(animationId, newTarget, newRemainingTime);
+}
+
+bool ScriptedEffect::redirect(quint64 animationId, Direction direction, TerminationFlags terminationFlags)
+{
+    return AnimationEffect::redirect(animationId, direction, terminationFlags);
+}
+
+bool ScriptedEffect::complete(quint64 animationId)
+{
+    return AnimationEffect::complete(animationId);
 }
 
 bool ScriptedEffect::isGrabbed(EffectWindow* w, ScriptedEffect::DataRole grabRole)
@@ -614,6 +765,40 @@ bool ScriptedEffect::isGrabbed(EffectWindow* w, ScriptedEffect::DataRole grabRol
     } else {
         return false;
     }
+}
+
+bool ScriptedEffect::grab(EffectWindow *w, DataRole grabRole, bool force)
+{
+    void *grabber = w->data(grabRole).value<void *>();
+
+    if (grabber == this) {
+        return true;
+    }
+
+    if (grabber != nullptr && grabber != this && !force) {
+        return false;
+    }
+
+    w->setData(grabRole, QVariant::fromValue(static_cast<void *>(this)));
+
+    return true;
+}
+
+bool ScriptedEffect::ungrab(EffectWindow *w, DataRole grabRole)
+{
+    void *grabber = w->data(grabRole).value<void *>();
+
+    if (grabber == nullptr) {
+        return true;
+    }
+
+    if (grabber != this) {
+        return false;
+    }
+
+    w->setData(grabRole, QVariant());
+
+    return true;
 }
 
 void ScriptedEffect::reconfigure(ReconfigureFlags flags)

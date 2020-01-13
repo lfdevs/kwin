@@ -80,9 +80,9 @@ QRegion OpenGLBackend::accumulatedDamageHistory(int bufferAge) const
     return region;
 }
 
-OverlayWindow* OpenGLBackend::overlayWindow()
+OverlayWindow* OpenGLBackend::overlayWindow() const
 {
-    return NULL;
+    return nullptr;
 }
 
 QRegion OpenGLBackend::prepareRenderingForScreen(int screenId)
@@ -106,7 +106,7 @@ bool OpenGLBackend::perScreenRendering() const
 void OpenGLBackend::copyPixels(const QRegion &region)
 {
     const int height = screens()->size().height();
-    foreach (const QRect &r, region.rects()) {
+    for (const QRect &r : region) {
         const int x0 = r.x();
         const int y0 = height - r.y() - r.height();
         const int x1 = r.x() + r.width();

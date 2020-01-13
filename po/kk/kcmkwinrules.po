@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-10-13 06:43+0200\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-09-17 03:28+0200\n"
 "PO-Revision-Date: 2013-10-04 02:07+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -248,60 +248,61 @@ msgstr "Жаттау үшін ішкі параметрлері көрсетіл
 msgid "Internal setting for remembering"
 msgstr "Жатталатын ішкі параметрлері"
 
-#: main.cpp:150
+#: main.cpp:138
 #, kde-format
 msgid "Application settings for %1"
 msgstr "%1 үшін арналған қолданбаның параметрлері"
 
-#: main.cpp:170
+#: main.cpp:158
 #, kde-format
 msgid "Window settings for %1"
 msgstr "%1 үшін арналған терезенің параметрлері"
 
-#: main.cpp:222
+#: main.cpp:210
 #, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Қолданбаның арнаулы параметрлерін өзгерту"
 
-#: main.cpp:253
+#: main.cpp:241
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:261
+#: main.cpp:248
 #, kde-format
 msgid "KWin helper utility"
 msgstr "KWin көмекші утилитасы"
 
-#: main.cpp:262
-#, kde-format
-msgid "WId of the window for special window settings."
+#: main.cpp:249
+#, fuzzy, kde-format
+#| msgid "WId of the window for special window settings."
+msgid "KWin id of the window for special window settings."
 msgstr "Арнаулы терезе параметрлердің терезе WID идентификаторы."
 
-#: main.cpp:263
+#: main.cpp:250
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Параметрлер қолданбаның барлық терезелеріне қатысты."
 
-#: main.cpp:271
+#: main.cpp:259
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Көмекші утилитасы өзі жеке орындалмайды."
 
-#: ruleslist.cpp:153
+#: ruleslist.cpp:152
 #, fuzzy, kde-format
 #| msgid "Export Rule"
 msgid "Export Rules"
 msgstr "Ережені экспорттау"
 
-#: ruleslist.cpp:154 ruleslist.cpp:166
+#: ruleslist.cpp:153 ruleslist.cpp:165
 #, fuzzy, kde-format
 #| msgid "KWin Rule (*.kwinrule)"
 msgid "KWin Rules (*.kwinrule)"
 msgstr "KWin ереже (*.kwinrule)"
 
-#: ruleslist.cpp:165
+#: ruleslist.cpp:164
 #, kde-format
 msgid "Import Rules"
 msgstr "Ережені импорттау"
@@ -348,7 +349,7 @@ msgstr "&Импорт"
 msgid "&Export"
 msgstr "&Экспорт"
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:66
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
@@ -356,7 +357,7 @@ msgid ""
 msgstr ""
 "Көрсетілген терезе(лері)нің қасиетін өзгерту үшін осы құсбелгісін қойыңыз."
 
-#: ruleswidget.cpp:70
+#: ruleswidget.cpp:68
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -387,7 +388,7 @@ msgstr ""
 "мәжбүрлеу:</em> Терезенің қасиеті көрсетілген күйінде, терезе жасырылғанша "
 "ұсталады. (жасырылғаннан кейін бұл әрекет өшіріледі).</li></ul>"
 
-#: ruleswidget.cpp:85
+#: ruleswidget.cpp:83
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -406,27 +407,27 @@ msgstr ""
 "күйінде, терезе жасырылғанша ұсталады. (жасырылғаннан кейін бұл әрекет "
 "өшіріледі).</li></ul>"
 
-#: ruleswidget.cpp:153
+#: ruleswidget.cpp:151
 #, kde-format
 msgid "All Desktops"
 msgstr "Барлық үстелдер үшін"
 
-#: ruleswidget.cpp:347
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr "Бүкіл белсенділіктер"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:790
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 дегеннің параметрлері"
 
-#: ruleswidget.cpp:833
+#: ruleswidget.cpp:792
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Аталмаған жазу"
 
-#: ruleswidget.cpp:843
+#: ruleswidget.cpp:802
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -440,12 +441,12 @@ msgstr ""
 "соншалық жалпы баптауын өткізем десеңіз, арнаулы терезелердің түрлеріне "
 "тимеу үшін, кемінде терезелердің түрлерін шектеп қойғаныңыз жөн."
 
-#: ruleswidget.cpp:874
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Терезенің арнаулы параметрлерін өзгерту"
 
-#: ruleswidget.cpp:904
+#: ruleswidget.cpp:863
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -458,12 +459,12 @@ msgstr ""
 "рұқсат етіңіз де, параметрін қалай және қаншаға өзгерткіңіз келетінін "
 "келтіріңіз."
 
-#: ruleswidget.cpp:908
+#: ruleswidget.cpp:867
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "Егжей-текжейлерін құжаттамасынан қараңыз."
 
-#: ruleswidget.cpp:947
+#: ruleswidget.cpp:906
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "Перне тіркесімін өзгерту"

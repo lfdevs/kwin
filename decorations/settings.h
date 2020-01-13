@@ -36,7 +36,7 @@ class SettingsImpl : public QObject, public KDecoration2::DecorationSettingsPriv
     Q_OBJECT
 public:
     explicit SettingsImpl(KDecoration2::DecorationSettings *parent);
-    virtual ~SettingsImpl();
+    ~SettingsImpl() override;
     bool isAlphaChannelSupported() const override;
     bool isOnAllDesktopsAvailable() const override;
     bool isCloseOnDoubleClickOnMenu() const override;
@@ -49,6 +49,9 @@ public:
     QVector< KDecoration2::DecorationButtonType > decorationButtonsRight() const override {
         return m_rightButtons;
     }
+    QFont font() const override {
+        return m_font;
+    }
 
 private:
     void readSettings();
@@ -58,7 +61,9 @@ private:
     QVector< KDecoration2::DecorationButtonType > m_leftButtons;
     QVector< KDecoration2::DecorationButtonType > m_rightButtons;
     KDecoration2::BorderSize m_borderSize;
+    bool m_autoBorderSize = true;
     bool m_closeDoubleClickMenu = false;
+    QFont m_font;
 };
 } // Decoration
 } // KWin

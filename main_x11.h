@@ -24,27 +24,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace KWin
 {
 
-class KWinSelectionOwner
-    : public KSelectionOwner
-{
-    Q_OBJECT
-public:
-    explicit KWinSelectionOwner(int screen);
-protected:
-    virtual bool genericReply(xcb_atom_t target, xcb_atom_t property, xcb_window_t requestor);
-    virtual void replyTargets(xcb_atom_t property, xcb_window_t requestor);
-    virtual void getAtoms();
-private:
-    xcb_atom_t make_selection_atom(int screen);
-    static xcb_atom_t xa_version;
-};
+class KWinSelectionOwner;
 
 class ApplicationX11 : public Application
 {
     Q_OBJECT
 public:
     ApplicationX11(int &argc, char **argv);
-    virtual ~ApplicationX11();
+    ~ApplicationX11() override;
 
     void setReplace(bool replace);
 

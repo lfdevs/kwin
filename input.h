@@ -3,6 +3,8 @@
  This file is part of the KDE project.
 
 Copyright (C) 2013 Martin Gräßlin <mgraesslin@kde.org>
+Copyright (C) 2018 Roman Gilg <subdiff@gmail.com>
+Copyright (C) 2019 Vlad Zagorodniy <vladzzag@gmail.com>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -65,7 +67,6 @@ namespace LibInput
  * In addition input is intercepted before passed to the surfaces to have KWin internal areas
  * getting input first (e.g. screen edges) and filter the input event out if we currently have
  * a full input grab.
- *
  */
 class KWIN_EXPORT InputRedirection : public QObject
 {
@@ -79,12 +80,19 @@ public:
         PointerAxisVertical,
         PointerAxisHorizontal
     };
+    enum PointerAxisSource {
+        PointerAxisSourceUnknown,
+        PointerAxisSourceWheel,
+        PointerAxisSourceFinger,
+        PointerAxisSourceContinuous,
+        PointerAxisSourceWheelTilt
+    };
     enum KeyboardKeyState {
         KeyboardKeyReleased,
         KeyboardKeyPressed,
         KeyboardKeyAutoRepeat
     };
-    virtual ~InputRedirection();
+    ~InputRedirection() override;
     void init();
 
     /**
@@ -103,7 +111,7 @@ public:
      * It's recommended to use this method as it ensures that the X11 timestamp is updated prior
      * to the @p slot being invoked. If not using this overload it's required to ensure that
      * registerShortcut is called before connecting to QAction's triggered signal.
-     **/
+     */
     template <typename T, typename Slot>
     void registerShortcut(const QKeySequence &shortcut, QAction *action, T *receiver, Slot slot);
     void registerPointerShortcut(Qt::KeyboardModifiers modifiers, Qt::MouseButton pointerButtons, QAction *action);
@@ -122,7 +130,7 @@ public:
     /**
      * @internal
      */
-    void processPointerAxis(PointerAxis axis, qreal delta, uint32_t time);
+    void processPointerAxis(PointerAxis axis, qreal delta, qint32 discreteDelta, PointerAxisSource source, uint32_t time);
     /**
      * @internal
      */
@@ -133,7 +141,7 @@ public:
     void processKeyboardModifiers(uint32_t modsDepressed, uint32_t modsLatched, uint32_t modsLocked, uint32_t group);
     /**
      * @internal
-     **/
+     */
     void processKeymapChange(int fd, uint32_t size);
     void processTouchDown(qint32 id, const QPointF &pos, quint32 time);
     void processTouchUp(qint32 id, quint32 time);
@@ -150,21 +158,22 @@ public:
      *
      * Note: the event filter will get events before the lock screen can get them, thus
      * this is a security relevant method.
-     **/
+     */
     void prependInputEventFilter(InputEventFilter *filter);
     void uninstallInputEventFilter(InputEventFilter *filter);
 
     /**
      * Installs the @p spy for spying on events.
-     **/
+     */
     void installInputEventSpy(InputEventSpy *spy);
 
     /**
      * Uninstalls the @p spy. This happens automatically when deleting an InputEventSpy.
-     **/
+     */
     void uninstallInputEventSpy(InputEventSpy *spy);
 
     Toplevel *findToplevel(const QPoint &pos);
+    Toplevel *findManagedToplevel(const QPoint &pos);
     GlobalShortcutsManager *shortcuts() const {
         return m_shortcuts;
     }
@@ -182,7 +191,7 @@ public:
      *
      * The intended usage is to std::bind the method to invoke on the filter with all arguments
      * bind.
-     **/
+     */
     template <class UnaryPredicate>
     void processFilters(UnaryPredicate function) {
         std::any_of(m_filters.constBegin(), m_filters.constEnd(), function);
@@ -200,7 +209,7 @@ public:
      *
      * The intended usage is to std::bind the method to invoke on the spies with all arguments
      * bind.
-     **/
+     */
     template <class UnaryFunction>
     void processSpies(UnaryFunction function) {
         std::for_each(m_spies.constBegin(), m_spies.constEnd(), function);
@@ -258,7 +267,7 @@ Q_SIGNALS:
      * @brief Emitted when the state of a key changed.
      *
      * @param keyCode The keycode of the key which changed
-     * @param oldMods The new key state
+     * @param state The new key state
      */
     void keyStateChanged(quint32 keyCode, InputRedirection::KeyboardKeyState state);
 
@@ -311,7 +320,7 @@ private:
  *
  * Deleting an instance of InputEventFilter automatically uninstalls it from
  * InputRedirection.
- **/
+ */
 class KWIN_EXPORT InputEventFilter
 {
 public:
@@ -329,25 +338,25 @@ public:
      * @param event The event information about the move or button press/release
      * @param nativeButton The native key code of the button, for move events 0
      * @return @c true to stop further event processing, @c false to pass to next filter
-     **/
+     */
     virtual bool pointerEvent(QMouseEvent *event, quint32 nativeButton);
     /**
      * Event filter for pointer axis events.
      *
      * @param event The event information about the axis event
      * @return @c true to stop further event processing, @c false to pass to next filter
-     **/
+     */
     virtual bool wheelEvent(QWheelEvent *event);
     /**
      * Event filter for keyboard events.
      *
      * @param event The event information about the key event
      * @return @c tru to stop further event processing, @c false to pass to next filter.
-     **/
+     */
     virtual bool keyEvent(QKeyEvent *event);
-    virtual bool touchDown(quint32 id, const QPointF &pos, quint32 time);
-    virtual bool touchMotion(quint32 id, const QPointF &pos, quint32 time);
-    virtual bool touchUp(quint32 id, quint32 time);
+    virtual bool touchDown(qint32 id, const QPointF &pos, quint32 time);
+    virtual bool touchMotion(qint32 id, const QPointF &pos, quint32 time);
+    virtual bool touchUp(qint32 id, quint32 time);
 
     virtual bool pinchGestureBegin(int fingerCount, quint32 time);
     virtual bool pinchGestureUpdate(qreal scale, qreal angleDelta, const QSizeF &delta, quint32 time);
@@ -365,40 +374,103 @@ protected:
     void passToWaylandServer(QKeyEvent *event);
 };
 
-class InputDeviceHandler : public QObject
+class KWIN_EXPORT InputDeviceHandler : public QObject
 {
     Q_OBJECT
 public:
-    virtual ~InputDeviceHandler();
+    ~InputDeviceHandler() override;
+    virtual void init();
 
-    QPointer<Toplevel> window() const {
-        return m_window;
+    void update();
+
+    /**
+     * @brief First Toplevel currently at the position of the input device
+     * according to the stacking order.
+     * @return Toplevel* at device position.
+     */
+    QPointer<Toplevel> at() const {
+        return m_at.at;
     }
+    /**
+     * @brief Toplevel currently having pointer input focus (this might
+     * be different from the Toplevel at the position of the pointer).
+     * @return Toplevel* with pointer focus.
+     */
+    QPointer<Toplevel> focus() const {
+        return m_focus.focus;
+    }
+    /**
+     * @brief The Decoration currently receiving events.
+     * @return decoration with pointer focus.
+     */
     QPointer<Decoration::DecoratedClientImpl> decoration() const {
-        return m_decoration;
+        return m_focus.decoration;
     }
+    /**
+     * @brief The internal window currently receiving events.
+     * @return QWindow with pointer focus.
+     */
     QPointer<QWindow> internalWindow() const {
-        return m_internalWindow;
+        return m_focus.internalWindow;
     }
+
+    virtual QPointF position() const = 0;
+
+    void setFocus(Toplevel *toplevel);
+    void setDecoration(QPointer<Decoration::DecoratedClientImpl> decoration);
+    void setInternalWindow(QWindow *window);
 
 Q_SIGNALS:
+    void atChanged(Toplevel *old, Toplevel *now);
     void decorationChanged();
-    void internalWindowChanged();
 
 protected:
     explicit InputDeviceHandler(InputRedirection *parent);
-    void updateDecoration(Toplevel *t, const QPointF &pos);
-    void updateInternalWindow(const QPointF &pos);
-    InputRedirection *m_input;
+
+    virtual void cleanupInternalWindow(QWindow *old, QWindow *now) = 0;
+    virtual void cleanupDecoration(Decoration::DecoratedClientImpl *old, Decoration::DecoratedClientImpl *now) = 0;
+
+    virtual void focusUpdate(Toplevel *old, Toplevel *now) = 0;
+
     /**
-     * @brief The Toplevel which currently receives events
+     * Certain input devices can be in a state of having no valid
+     * position. An example are touch screens when no finger/pen
+     * is resting on the surface (no touch point).
      */
-    QPointer<Toplevel> m_window;
-    /**
-     * @brief The Decoration which currently receives events.
-     **/
-    QPointer<Decoration::DecoratedClientImpl> m_decoration;
-    QPointer<QWindow> m_internalWindow;
+    virtual bool positionValid() const {
+        return false;
+    }
+    virtual bool focusUpdatesBlocked() {
+        return false;
+    }
+
+    inline bool inited() const {
+        return m_inited;
+    }
+    inline void setInited(bool set) {
+        m_inited = set;
+    }
+
+private:
+    bool setAt(Toplevel *toplevel);
+    void updateFocus();
+    bool updateDecoration();
+    void updateInternalWindow(QWindow *window);
+
+    QWindow* findInternalWindow(const QPoint &pos) const;
+
+    struct {
+        QPointer<Toplevel> at;
+        QMetaObject::Connection surfaceCreatedConnection;
+    } m_at;
+
+    struct {
+        QPointer<Toplevel> focus;
+        QPointer<Decoration::DecoratedClientImpl> decoration;
+        QPointer<QWindow> internalWindow;
+    } m_focus;
+
+    bool m_inited = false;
 };
 
 inline
@@ -419,5 +491,6 @@ void InputRedirection::registerShortcut(const QKeySequence &shortcut, QAction *a
 Q_DECLARE_METATYPE(KWin::InputRedirection::KeyboardKeyState)
 Q_DECLARE_METATYPE(KWin::InputRedirection::PointerButtonState)
 Q_DECLARE_METATYPE(KWin::InputRedirection::PointerAxis)
+Q_DECLARE_METATYPE(KWin::InputRedirection::PointerAxisSource)
 
 #endif // KWIN_INPUT_H

@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-07-11 03:14+0200\n"
 "PO-Revision-Date: 2012-06-24 08:58+0200\n"
 "Last-Translator: Dimitrios Glentadakis <dglent@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -19,29 +19,40 @@ msgstr ""
 "X-Generator: Lokalize 1.4\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: layoutpreview.cpp:165
+#: layoutpreview.cpp:159
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Επιφάνεια εργασίας 1"
 
-#: main.cpp:73
+#: main.cpp:76
 #, kde-format
 msgid "Main"
 msgstr "Βασική"
 
-#: main.cpp:74
+#: main.cpp:77
 #, kde-format
 msgid "Alternative"
 msgstr "Εναλλακτική"
 
-#: main.cpp:77
+#: main.cpp:79
+#, fuzzy, kde-format
+#| msgid "Get New Window Switcher Layout"
+msgid "Get New Task Switchers..."
+msgstr "Λήψη νέας διάταξης εναλλαγής παραθύρων"
+
+#: main.cpp:89
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""
 "Οι ρυθμίσεις της πολιτικής εστίασης περιορίζουν την λειτουργικότητα της "
 "πλοήγησης μεταξύ των παραθύρων."
+
+#: main.cpp:107
+#, kde-format
+msgid "KWin"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
@@ -218,9 +229,3 @@ msgstr ""
 #, kde-format
 msgid "Show selected window"
 msgstr "Εμφάνιση επιλεγμένου παραθύρου"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, ghns)
-#: main.ui:572
-#, kde-format
-msgid "Get New Window Switcher Layout"
-msgstr "Λήψη νέας διάταξης εναλλαγής παραθύρων"

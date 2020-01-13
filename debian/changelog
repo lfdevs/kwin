@@ -1,3 +1,55 @@
+kwin (4:5.17.5-1) experimental; urgency=medium
+
+  * Team upload.
+
+  [ Maximiliano Curia ]
+  * New upstream release (5.16.5):
+    - work better with NVIDIA drivers (Closes: #925528)
+    - properly restore the current desktop from session (Closes: #930538)
+  * Salsa CI automatic initialization by Tuco
+  * Update build-deps and deps with the info from cmake
+
+  [ Pino Toscano ]
+  * New upstream release:
+    - add support for zwp_linux_dmabuf (Closes: #892204)
+  * Update the build dependencies according to the upstream build system:
+    - bump KF packages to 5.62.0
+    - bump breeze-dev, kscreenlocker-dev, and libkdecorations2-dev to 5.17
+    - add libxcb-util0-dev
+    - explicitly add gettext
+    - switch from the transitional libfreetype6-dev to libfreetype-dev
+  * Drop the migration from kwin-dbg, no more needed after two Debian stable
+    releases.
+  * Remove breaks/replaces for versions older than oldstable.
+  * Pass -DBUILD_TESTING=OFF to cmake to disable the build of tests, as they
+    are not run at build time anyway.
+  * Drop the 'testsuite' autopkgtest, as it does not test the installed
+    packages
+    - drop no more needed patches: Disable-testShadeWobblyWindows.patch,
+      Ignore-cursor-weird-behaviour-under-a-containerized-xvfb.patch, and
+      disable-MouseMark-and-TrackMouse-effects-loading-test.patch
+  * Update install files.
+  * Unregister old conffiles.
+  * Rename some packages according to new SONAMEs:
+    - libkwineffects11 -> libkwineffects12
+    - libkwinglutils11 -> libkwinglutils12
+    - libkwinxrenderutils11 -> libkwinxrenderutils12
+  * Update symbols files.
+  * Do not use the ${shlibs:Depends} substvar in kwin-data, as it does not
+    exist.
+  * Bump the debhelper compatibility to 12:
+    - switch the debhelper build dependency to debhelper-compat 12
+    - remove debian/compat
+  * Bump Standards-Version to 4.4.1, no changes required.
+  * Update lintian overrides.
+  * Tighten inter-libraries dependencies
+    - remove almost all the manual dependencies
+
+  [ Helmut Grohne ]
+  * Mark kwin-data Multi-Arch: foreign. (Closes: #893438)
+
+ -- Pino Toscano <pino@debian.org>  Mon, 13 Jan 2020 06:45:42 +0100
+
 kwin (4:5.14.5-1) unstable; urgency=medium
 
   * New upstream release (5.14.5).

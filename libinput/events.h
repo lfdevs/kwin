@@ -62,7 +62,7 @@ class KeyEvent : public Event
 {
 public:
     KeyEvent(libinput_event *event);
-    virtual ~KeyEvent();
+    ~KeyEvent() override;
 
     uint32_t key() const;
     InputRedirection::KeyboardKeyState state() const;
@@ -83,7 +83,7 @@ class PointerEvent : public Event
 {
 public:
     PointerEvent(libinput_event* event, libinput_event_type type);
-    virtual ~PointerEvent();
+    ~PointerEvent() override;
 
     QPointF absolutePos() const;
     QPointF absolutePos(const QSize &size) const;
@@ -95,6 +95,8 @@ public:
     quint64 timeMicroseconds() const;
     QVector<InputRedirection::PointerAxis> axis() const;
     qreal axisValue(InputRedirection::PointerAxis a) const;
+    qint32 discreteAxisValue(InputRedirection::PointerAxis axis) const;
+    InputRedirection::PointerAxisSource axisSource() const;
 
     operator libinput_event_pointer*() {
         return m_pointerEvent;
@@ -111,7 +113,7 @@ class TouchEvent : public Event
 {
 public:
     TouchEvent(libinput_event *event, libinput_event_type type);
-    virtual ~TouchEvent();
+    ~TouchEvent() override;
 
     quint32 time() const;
     QPointF absolutePos() const;
@@ -132,7 +134,7 @@ private:
 class GestureEvent : public Event
 {
 public:
-    virtual ~GestureEvent();
+    ~GestureEvent() override;
 
     quint32 time() const;
     int fingerCount() const;
@@ -157,7 +159,7 @@ class PinchGestureEvent : public GestureEvent
 {
 public:
     PinchGestureEvent(libinput_event *event, libinput_event_type type);
-    virtual ~PinchGestureEvent();
+    ~PinchGestureEvent() override;
 
     qreal scale() const;
     qreal angleDelta() const;
@@ -167,7 +169,7 @@ class SwipeGestureEvent : public GestureEvent
 {
 public:
     SwipeGestureEvent(libinput_event *event, libinput_event_type type);
-    virtual ~SwipeGestureEvent();
+    ~SwipeGestureEvent() override;
 };
 
 class SwitchEvent : public Event

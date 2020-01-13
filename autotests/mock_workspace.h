@@ -38,15 +38,15 @@ class MockWorkspace : public QObject
     Q_OBJECT
 public:
     explicit MockWorkspace(QObject *parent = nullptr);
-    virtual ~MockWorkspace();
+    ~MockWorkspace() override;
     AbstractClient *activeClient() const;
-    AbstractClient *getMovingClient() const;
+    AbstractClient *moveResizeClient() const;
     void setShowingDesktop(bool showing);
     bool showingDesktop() const;
     QRect clientArea(clientAreaOption, int screen, int desktop) const;
 
     void setActiveClient(AbstractClient *c);
-    void setMovingClient(AbstractClient *c);
+    void setMoveResizeClient(AbstractClient *c);
 
     void registerEventFilter(X11EventFilter *filter);
     void unregisterEventFilter(X11EventFilter *filter);
@@ -62,7 +62,7 @@ Q_SIGNALS:
 
 private:
     AbstractClient *m_activeClient;
-    AbstractClient *m_movingClient;
+    AbstractClient *m_moveResizeClient;
     bool m_showingDesktop;
     static Workspace *s_self;
 };

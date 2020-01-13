@@ -53,130 +53,130 @@ static void lowerWindow(xcb_window_t window);
 static void selectInput(xcb_window_t window, uint32_t events);
 
 /**
-* @brief Variadic template to wrap an xcb request.
-*
-* This struct is part of the generic implementation to wrap xcb requests
-* and fetching their reply. Each request is represented by two templated
-* elements: WrapperData and Wrapper.
-*
-* The WrapperData defines the following types:
-* @li reply_type of the xcb request
-* @li cookie_type of the xcb request
-* @li function pointer type for the xcb request
-* @li function pointer type for the reply
-* This uses variadic template arguments thus it can be used to specify any
-* xcb request.
-*
-* As the WrapperData does not specify the actual function pointers one needs
-* to derive another struct which specifies the function pointer requestFunc and
-* the function pointer replyFunc as static constexpr of type reply_func and
-* reply_type respectively. E.g. for the command xcb_get_geometry:
-* @code
-* struct GeometryData : public WrapperData< xcb_get_geometry_reply_t, xcb_get_geometry_cookie_t, xcb_drawable_t >
-* {
-*    static constexpr request_func requestFunc = &xcb_get_geometry_unchecked;
-*    static constexpr reply_func replyFunc = &xcb_get_geometry_reply;
-* };
-* @endcode
-*
-* To simplify this definition the macro XCB_WRAPPER_DATA is provided.
-* For the same xcb command this looks like this:
-* @code
-* XCB_WRAPPER_DATA(GeometryData, xcb_get_geometry, xcb_drawable_t)
-* @endcode
-*
-* The derived WrapperData has to be passed as first template argument to Wrapper. The other
-* template arguments of Wrapper are the same variadic template arguments as passed into
-* WrapperData. This is ensured at compile time and will cause a compile error in case there
-* is a mismatch of the variadic template arguments passed to WrapperData and Wrapper.
-* Passing another type than a struct derived from WrapperData to Wrapper will result in a
-* compile error. The following code snippets won't compile:
-* @code
-* XCB_WRAPPER_DATA(GeometryData, xcb_get_geometry, xcb_drawable_t)
-* // fails with "static assertion failed: Argument miss-match between Wrapper and WrapperData"
-* class IncorrectArguments : public Wrapper<GeometryData, uint8_t>
-* {
-* public:
-*     IncorrectArguments() = default;
-*     IncorrectArguments(xcb_window_t window) : Wrapper<GeometryData, uint8_t>(window) {}
-* };
-*
-* // fails with "static assertion failed: Data template argument must be derived from WrapperData"
-* class WrapperDataDirectly : public Wrapper<WrapperData<xcb_get_geometry_reply_t, xcb_get_geometry_request_t, xcb_drawable_t>, xcb_drawable_t>
-* {
-* public:
-*     WrapperDataDirectly() = default;
-*     WrapperDataDirectly(xcb_window_t window) : Wrapper<WrapperData<xcb_get_geometry_reply_t, xcb_get_geometry_request_t, xcb_drawable_t>, xcb_drawable_t>(window) {}
-* };
-*
-* // fails with "static assertion failed: Data template argument must be derived from WrapperData"
-* struct FakeWrapperData
-* {
-*     typedef xcb_get_geometry_reply_t reply_type;
-*     typedef xcb_get_geometry_cookie_t cookie_type;
-*     typedef std::tuple<xcb_drawable_t> argument_types;
-*     typedef cookie_type (*request_func)(xcb_connection_t*, xcb_drawable_t);
-*     typedef reply_type *(*reply_func)(xcb_connection_t*, cookie_type, xcb_generic_error_t**);
-*     static constexpr std::size_t argumentCount = 1;
-*     static constexpr request_func requestFunc = &xcb_get_geometry_unchecked;
-*     static constexpr reply_func replyFunc = &xcb_get_geometry_reply;
-* };
-* class NotDerivedFromWrapperData : public Wrapper<FakeWrapperData, xcb_drawable_t>
-* {
-* public:
-*     NotDerivedFromWrapperData() = default;
-*     NotDerivedFromWrapperData(xcb_window_t window) : Wrapper<FakeWrapperData, xcb_drawable_t>(window) {}
-* };
-* @endcode
-*
-* The Wrapper provides an easy to use RAII API which calls the WrapperData's requestFunc in
-* the ctor and fetches the reply the first time it is used. In addition the dtor takes care
-* of freeing the reply if it got fetched, otherwise it discards the reply. The Wrapper can
-* be used as if it were the reply_type directly.
-*
-* There are several command wrappers defined which either subclass Wrapper to add methods to
-* simplify the usage of the result_type or use a typedef. To add a new typedef one can use the
-* macro XCB_WRAPPER which creates the WrapperData struct as XCB_WRAPPER_DATA does and the
-* typedef. E.g:
-* @code
-* XCB_WRAPPER(Geometry, xcb_get_geometry, xcb_drawable_t)
-* @endcode
-*
-* creates a typedef Geometry and the struct GeometryData.
-*
-* Overall this allows to simplify the Xcb usage. For example consider the
-* following xcb code snippet:
-* @code
-* xcb_window_t w; // some window
-* xcb_connection_t *c = connection();
-* const xcb_get_geometry_cookie_t cookie = xcb_get_geometry_unchecked(c, w);
-* // do other stuff
-* xcb_get_geometry_reply_t *reply = xcb_get_geometry_reply(c, cookie, nullptr);
-* if (reply) {
-*     reply->x; // do something with the geometry
-* }
-* free(reply);
-* @endcode
-*
-* With the help of the Wrapper class this can be simplified to:
-* @code
-* xcb_window_t w; // some window
-* Xcb::Geometry geo(w);
-* if (!geo.isNull()) {
-*     geo->x; // do something with the geometry
-* }
-* @endcode
-*
-* @see XCB_WRAPPER_DATA
-* @see XCB_WRAPPER
-* @see Wrapper
-* @see WindowAttributes
-* @see OverlayWindow
-* @see WindowGeometry
-* @see Tree
-* @see CurrentInput
-* @see TransientFor
-*/
+ * @brief Variadic template to wrap an xcb request.
+ *
+ * This struct is part of the generic implementation to wrap xcb requests
+ * and fetching their reply. Each request is represented by two templated
+ * elements: WrapperData and Wrapper.
+ *
+ * The WrapperData defines the following types:
+ * @li reply_type of the xcb request
+ * @li cookie_type of the xcb request
+ * @li function pointer type for the xcb request
+ * @li function pointer type for the reply
+ * This uses variadic template arguments thus it can be used to specify any
+ * xcb request.
+ *
+ * As the WrapperData does not specify the actual function pointers one needs
+ * to derive another struct which specifies the function pointer requestFunc and
+ * the function pointer replyFunc as static constexpr of type reply_func and
+ * reply_type respectively. E.g. for the command xcb_get_geometry:
+ * @code
+ * struct GeometryData : public WrapperData< xcb_get_geometry_reply_t, xcb_get_geometry_cookie_t, xcb_drawable_t >
+ * {
+ *    static constexpr request_func requestFunc = &xcb_get_geometry_unchecked;
+ *    static constexpr reply_func replyFunc = &xcb_get_geometry_reply;
+ * };
+ * @endcode
+ *
+ * To simplify this definition the macro XCB_WRAPPER_DATA is provided.
+ * For the same xcb command this looks like this:
+ * @code
+ * XCB_WRAPPER_DATA(GeometryData, xcb_get_geometry, xcb_drawable_t)
+ * @endcode
+ *
+ * The derived WrapperData has to be passed as first template argument to Wrapper. The other
+ * template arguments of Wrapper are the same variadic template arguments as passed into
+ * WrapperData. This is ensured at compile time and will cause a compile error in case there
+ * is a mismatch of the variadic template arguments passed to WrapperData and Wrapper.
+ * Passing another type than a struct derived from WrapperData to Wrapper will result in a
+ * compile error. The following code snippets won't compile:
+ * @code
+ * XCB_WRAPPER_DATA(GeometryData, xcb_get_geometry, xcb_drawable_t)
+ * // fails with "static assertion failed: Argument miss-match between Wrapper and WrapperData"
+ * class IncorrectArguments : public Wrapper<GeometryData, uint8_t>
+ * {
+ * public:
+ *     IncorrectArguments() = default;
+ *     IncorrectArguments(xcb_window_t window) : Wrapper<GeometryData, uint8_t>(window) {}
+ * };
+ *
+ * // fails with "static assertion failed: Data template argument must be derived from WrapperData"
+ * class WrapperDataDirectly : public Wrapper<WrapperData<xcb_get_geometry_reply_t, xcb_get_geometry_request_t, xcb_drawable_t>, xcb_drawable_t>
+ * {
+ * public:
+ *     WrapperDataDirectly() = default;
+ *     WrapperDataDirectly(xcb_window_t window) : Wrapper<WrapperData<xcb_get_geometry_reply_t, xcb_get_geometry_request_t, xcb_drawable_t>, xcb_drawable_t>(window) {}
+ * };
+ *
+ * // fails with "static assertion failed: Data template argument must be derived from WrapperData"
+ * struct FakeWrapperData
+ * {
+ *     typedef xcb_get_geometry_reply_t reply_type;
+ *     typedef xcb_get_geometry_cookie_t cookie_type;
+ *     typedef std::tuple<xcb_drawable_t> argument_types;
+ *     typedef cookie_type (*request_func)(xcb_connection_t*, xcb_drawable_t);
+ *     typedef reply_type *(*reply_func)(xcb_connection_t*, cookie_type, xcb_generic_error_t**);
+ *     static constexpr std::size_t argumentCount = 1;
+ *     static constexpr request_func requestFunc = &xcb_get_geometry_unchecked;
+ *     static constexpr reply_func replyFunc = &xcb_get_geometry_reply;
+ * };
+ * class NotDerivedFromWrapperData : public Wrapper<FakeWrapperData, xcb_drawable_t>
+ * {
+ * public:
+ *     NotDerivedFromWrapperData() = default;
+ *     NotDerivedFromWrapperData(xcb_window_t window) : Wrapper<FakeWrapperData, xcb_drawable_t>(window) {}
+ * };
+ * @endcode
+ *
+ * The Wrapper provides an easy to use RAII API which calls the WrapperData's requestFunc in
+ * the ctor and fetches the reply the first time it is used. In addition the dtor takes care
+ * of freeing the reply if it got fetched, otherwise it discards the reply. The Wrapper can
+ * be used as if it were the reply_type directly.
+ *
+ * There are several command wrappers defined which either subclass Wrapper to add methods to
+ * simplify the usage of the result_type or use a typedef. To add a new typedef one can use the
+ * macro XCB_WRAPPER which creates the WrapperData struct as XCB_WRAPPER_DATA does and the
+ * typedef. E.g:
+ * @code
+ * XCB_WRAPPER(Geometry, xcb_get_geometry, xcb_drawable_t)
+ * @endcode
+ *
+ * creates a typedef Geometry and the struct GeometryData.
+ *
+ * Overall this allows to simplify the Xcb usage. For example consider the
+ * following xcb code snippet:
+ * @code
+ * xcb_window_t w; // some window
+ * xcb_connection_t *c = connection();
+ * const xcb_get_geometry_cookie_t cookie = xcb_get_geometry_unchecked(c, w);
+ * // do other stuff
+ * xcb_get_geometry_reply_t *reply = xcb_get_geometry_reply(c, cookie, nullptr);
+ * if (reply) {
+ *     reply->x; // do something with the geometry
+ * }
+ * free(reply);
+ * @endcode
+ *
+ * With the help of the Wrapper class this can be simplified to:
+ * @code
+ * xcb_window_t w; // some window
+ * Xcb::Geometry geo(w);
+ * if (!geo.isNull()) {
+ *     geo->x; // do something with the geometry
+ * }
+ * @endcode
+ *
+ * @see XCB_WRAPPER_DATA
+ * @see XCB_WRAPPER
+ * @see Wrapper
+ * @see WindowAttributes
+ * @see OverlayWindow
+ * @see WindowGeometry
+ * @see Tree
+ * @see CurrentInput
+ * @see TransientFor
+ */
 template <typename Reply,
           typename Cookie,
           typename... Args>
@@ -214,7 +214,7 @@ struct WrapperData
  * @brief Partial template specialization for WrapperData with no further arguments.
  *
  * This will be used for xcb requests just taking the xcb_connection_t* argument.
- **/
+ */
 template <typename Reply,
           typename Cookie>
 struct WrapperData<Reply, Cookie>
@@ -263,7 +263,7 @@ public:
     }
     inline bool isNull() {
         getReply();
-        return m_reply == NULL;
+        return m_reply == nullptr;
     }
     inline bool isNull() const {
         const_cast<AbstractWrapper*>(this)->getReply();
@@ -295,11 +295,11 @@ public:
      * will crash.
      *
      * Callers of this function take ownership of the pointer.
-     **/
+     */
     inline Reply *take() {
         getReply();
         Reply *ret = m_reply;
-        m_reply = NULL;
+        m_reply = nullptr;
         m_window = XCB_WINDOW_NONE;
         return ret;
     }
@@ -308,7 +308,7 @@ protected:
     AbstractWrapper()
         : m_retrieved(false)
         , m_window(XCB_WINDOW_NONE)
-        , m_reply(NULL)
+        , m_reply(nullptr)
     {
         m_cookie.sequence = 0;
     }
@@ -316,14 +316,14 @@ protected:
         : m_retrieved(false)
         , m_cookie(cookie)
         , m_window(window)
-        , m_reply(NULL)
+        , m_reply(nullptr)
     {
     }
     explicit AbstractWrapper(const AbstractWrapper &other)
         : m_retrieved(other.m_retrieved)
         , m_cookie(other.m_cookie)
         , m_window(other.m_window)
-        , m_reply(NULL)
+        , m_reply(nullptr)
     {
         takeFromOther(const_cast<AbstractWrapper&>(other));
     }
@@ -370,7 +370,6 @@ struct tupleCompare
     typedef typename std::tuple_element<I, T2>::type tuple2Type;
     /**
      * @c true if both tuple have the same arguments, @c false otherwise.
-     *
      */
     static constexpr bool value = std::is_same< tuple1Type, tuple2Type >::value && tupleCompare<T1, T2, I-1>::value;
 };
@@ -414,7 +413,7 @@ public:
 
 /**
  * @brief Template specialization for xcb_window_t being first variadic argument.
- **/
+ */
 template<typename Data, typename... Args>
 class Wrapper<Data, xcb_window_t, Args...> : public AbstractWrapper<Data>
 {
@@ -438,7 +437,7 @@ public:
  * @brief Template specialization for no variadic arguments.
  *
  * It's needed to prevent ambiguous constructors being generated.
- **/
+ */
 template<typename Data>
 class Wrapper<Data> : public AbstractWrapper<Data>
 {
@@ -526,7 +525,7 @@ private:
  * @param __REQUEST__ The name of the xcb request, e.g. xcb_get_geometry
  * @param __VA_ARGS__ The variadic template arguments, e.g. xcb_drawable_t
  * @see XCB_WRAPPER
- **/
+ */
 #define XCB_WRAPPER_DATA( __NAME__, __REQUEST__, ... ) \
     struct __NAME__ : public WrapperData< __REQUEST__##_reply_t, __REQUEST__##_cookie_t, __VA_ARGS__ > \
     { \
@@ -545,7 +544,7 @@ private:
  * @param __REQUEST__ The name of the xcb request, passed to XCB_WRAPPER_DATA
  * @param __VA_ARGS__ The variadic template arguments for Wrapper and WrapperData
  * @see XCB_WRAPPER_DATA
- **/
+ */
 #define XCB_WRAPPER( __NAME__, __REQUEST__, ... ) \
     XCB_WRAPPER_DATA( __NAME__##Data, __REQUEST__, __VA_ARGS__ ) \
     typedef Wrapper< __NAME__##Data, __VA_ARGS__ > __NAME__;
@@ -699,7 +698,7 @@ public:
      * @param defaultValue The default value to return in case of error
      * @param ok Set to @c false in case of error, @c true in case of success
      * @return The read value or @p defaultValue in error case
-     **/
+     */
     template <typename T>
     inline typename std::enable_if<!std::is_pointer<T>::value, T>::type value(uint8_t format, xcb_atom_t type, T defaultValue = T(), bool *ok = nullptr) {
         T *reply = value<T*>(format, type, nullptr, ok);
@@ -741,7 +740,7 @@ public:
      * @param defaultValue The default value to return in case of error
      * @param ok Set to @c false in case of error, @c true in case of success
      * @return The read value or @p defaultValue in error case
-     **/
+     */
     template <typename T>
     inline typename std::enable_if<std::is_pointer<T>::value, T>::type value(uint8_t format, xcb_atom_t type, T defaultValue = nullptr, bool *ok = nullptr) {
         if (ok) {
@@ -771,7 +770,7 @@ public:
      * @brief Reads the property as string and returns a QByteArray.
      *
      * In case of error this method returns a null QByteArray.
-     **/
+     */
     inline QByteArray toByteArray(uint8_t format = 8, xcb_atom_t type = XCB_ATOM_STRING, bool *ok = nullptr) {
         bool valueOk = false;
         const char *reply = value<const char*>(format, type, nullptr, &valueOk);
@@ -788,7 +787,7 @@ public:
     }
     /**
      * @brief Overloaded method for convenience.
-     **/
+     */
     inline QByteArray toByteArray(bool *ok) {
         return toByteArray(8, m_type, ok);
     }
@@ -823,7 +822,7 @@ public:
     }
     /**
      * @brief Overloaded method for convenience.
-     **/
+     */
     inline bool toBool(bool *ok) {
         return toBool(32, m_type, ok);
     }
@@ -856,7 +855,7 @@ public:
      * @brief Fill given window pointer with the WM_TRANSIENT_FOR property of a window.
      * @param prop WM_TRANSIENT_FOR property value.
      * @returns @c true on success, @c false otherwise
-     **/
+     */
     inline bool getTransientFor(WindowId *prop) {
         WindowId *windows = value<WindowId*>();
         if (!windows) {
@@ -966,7 +965,7 @@ public:
 private:
     /**
     * NormalHints as specified in ICCCM 4.1.2.3.
-    **/
+    */
     class NormalHints : public Property
     {
     public:
@@ -1307,14 +1306,14 @@ private:
  * Furthermore the class provides wrappers around some xcb methods operating on an xcb_window_t.
  *
  * For the cases that one is more interested in wrapping the xcb methods the constructor which takes
- * an existing window and the @link reset method allow to disable the RAII functionality.
- **/
+ * an existing window and the @ref reset method allow to disable the RAII functionality.
+ */
 class Window
 {
 public:
     /**
      * Takes over responsibility of @p window. If @p window is not provided an invalid Window is
-     * created. Use @link create to set an xcb_window_t later on.
+     * created. Use @ref create to set an xcb_window_t later on.
      *
      * If @p destroy is @c true the window will be destroyed together with this object, if @c false
      * the window will be kept around. This is useful if you are not interested in the RAII capabilities
@@ -1323,7 +1322,7 @@ public:
      * @param window The window to manage.
      * @param destroy Whether the window should be destroyed together with the object.
      * @see reset
-     **/
+     */
     Window(xcb_window_t window = XCB_WINDOW_NONE, bool destroy = true);
     /**
      * Creates an xcb_window_t and manages it. It's a convenient method to create a window with
@@ -1332,18 +1331,18 @@ public:
      * @param mask The mask for the values
      * @param values The values to be passed to xcb_create_window
      * @param parent The parent window
-     **/
-    Window(const QRect &geometry, uint32_t mask = 0, const uint32_t *values = NULL, xcb_window_t parent = rootWindow());
+     */
+    Window(const QRect &geometry, uint32_t mask = 0, const uint32_t *values = nullptr, xcb_window_t parent = rootWindow());
     /**
      * Creates an xcb_window_t and manages it. It's a convenient method to create a window with
      * depth and visual being copied from parent and border being @c 0.
      * @param geometry The geometry for the window to be created
-     * @param class The window class
+     * @param windowClass The window class
      * @param mask The mask for the values
      * @param values The values to be passed to xcb_create_window
      * @param parent The parent window
-     **/
-    Window(const QRect &geometry, uint16_t windowClass, uint32_t mask = 0, const uint32_t *values = NULL, xcb_window_t parent = rootWindow());
+     */
+    Window(const QRect &geometry, uint16_t windowClass, uint32_t mask = 0, const uint32_t *values = nullptr, xcb_window_t parent = rootWindow());
     Window(const Window &other) = delete;
     ~Window();
 
@@ -1356,36 +1355,36 @@ public:
      * @param mask The mask for the values
      * @param values The values to be passed to xcb_create_window
      * @param parent The parent window
-     **/
-    void create(const QRect &geometry, uint32_t mask = 0, const uint32_t *values = NULL, xcb_window_t parent = rootWindow());
+     */
+    void create(const QRect &geometry, uint32_t mask = 0, const uint32_t *values = nullptr, xcb_window_t parent = rootWindow());
     /**
      * Creates a new window for which the responsibility is taken over. If a window had been managed
      * before it is freed.
      *
      * Depth and visual are being copied from parent and border is @c 0.
      * @param geometry The geometry for the window to be created
-     * @param class The window class
+     * @param windowClass The window class
      * @param mask The mask for the values
      * @param values The values to be passed to xcb_create_window
      * @param parent The parent window
-     **/
-    void create(const QRect &geometry, uint16_t windowClass, uint32_t mask = 0, const uint32_t *values = NULL, xcb_window_t parent = rootWindow());
+     */
+    void create(const QRect &geometry, uint16_t windowClass, uint32_t mask = 0, const uint32_t *values = nullptr, xcb_window_t parent = rootWindow());
     /**
      * Frees the existing window and starts to manage the new @p window.
      * If @p destroy is @c true the new managed window will be destroyed together with this
      * object or when reset is called again. If @p destroy is @c false the window will not
      * be destroyed. It is then the responsibility of the caller to destroy the window.
-     **/
+     */
     void reset(xcb_window_t window = XCB_WINDOW_NONE, bool destroy = true);
     /**
      * @returns @c true if a window is managed, @c false otherwise.
-     **/
+     */
     bool isValid() const;
+    inline const QRect &geometry() const { return m_logicGeometry; }
     /**
      * Configures the window with a new geometry.
      * @param geometry The new window geometry to be used
-     **/
-    inline const QRect &geometry() const { return m_logicGeometry; }
+     */
     void setGeometry(const QRect &geometry);
     void setGeometry(uint32_t x, uint32_t y, uint32_t width, uint32_t height);
     void move(const QPoint &pos);
@@ -1411,7 +1410,7 @@ public:
     void ungrabButton(uint16_t modifiers = XCB_MOD_MASK_ANY, uint8_t button = XCB_BUTTON_INDEX_ANY);
     /**
      * Clears the window area. Same as xcb_clear_area with x, y, width, height being @c 0.
-     **/
+     */
     void clear();
     void setBackgroundPixmap(xcb_pixmap_t pixmap);
     void defineCursor(xcb_cursor_t cursor);
@@ -1420,7 +1419,7 @@ public:
     void kill();
     operator xcb_window_t() const;
 private:
-    xcb_window_t doCreate(const QRect &geometry, uint16_t windowClass, uint32_t mask = 0, const uint32_t *values = NULL, xcb_window_t parent = rootWindow());
+    xcb_window_t doCreate(const QRect &geometry, uint16_t windowClass, uint32_t mask = 0, const uint32_t *values = nullptr, xcb_window_t parent = rootWindow());
     void destroy();
     xcb_window_t m_window;
     bool m_destroy;
@@ -1788,10 +1787,10 @@ static inline xcb_rectangle_t fromQt(const QRect &rect)
 
 static inline QVector<xcb_rectangle_t> regionToRects(const QRegion &region)
 {
-    const QVector<QRect> regionRects = region.rects();
-    QVector<xcb_rectangle_t> rects(regionRects.count());
-    for (int i=0; i<regionRects.count(); ++i) {
-        rects[i] = Xcb::fromQt(regionRects.at(i));
+    QVector<xcb_rectangle_t> rects;
+    rects.reserve(region.rectCount());
+    for (const QRect &rect : region) {
+        rects.append(Xcb::fromQt(rect));
     }
     return rects;
 }
@@ -1830,7 +1829,6 @@ void selectInput(xcb_window_t window, uint32_t events)
 
 /**
  * @brief Small helper class to encapsulate SHM related functionality.
- *
  */
 class Shm
 {

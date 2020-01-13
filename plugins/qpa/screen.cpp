@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "screen.h"
 #include "platformcursor.h"
 #include "screens.h"
-#include "wayland_server.h"
 
 namespace KWin
 {
@@ -63,12 +62,12 @@ QPlatformCursor *Screen::cursor() const
 
 QDpi Screen::logicalDpi() const
 {
-    static int force_dpi = qEnvironmentVariableIsSet("QT_WAYLAND_FORCE_DPI") ? qEnvironmentVariableIntValue("QT_WAYLAND_FORCE_DPI") : -1;
-    if (force_dpi > 0) {
-        return QDpi(force_dpi, force_dpi);
+    static int forceDpi = qEnvironmentVariableIsSet("QT_WAYLAND_FORCE_DPI") ? qEnvironmentVariableIntValue("QT_WAYLAND_FORCE_DPI") : -1;
+    if (forceDpi > 0) {
+        return QDpi(forceDpi, forceDpi);
     }
 
-    return QPlatformScreen::logicalDpi();
+    return QDpi(96, 96);
 }
 
 qreal Screen::devicePixelRatio() const

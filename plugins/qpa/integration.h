@@ -31,7 +31,6 @@ namespace KWayland
 {
 namespace Client
 {
-class Registry;
 class Compositor;
 class Shell;
 }
@@ -49,10 +48,11 @@ class Integration : public QObject, public QPlatformIntegration
     Q_OBJECT
 public:
     explicit Integration();
-    virtual ~Integration();
+    ~Integration() override;
 
     bool hasCapability(Capability cap) const override;
     QPlatformWindow *createPlatformWindow(QWindow *window) const override;
+    QPlatformOffscreenSurface *createPlatformOffscreenSurface(QOffscreenSurface *surface) const override;
     QPlatformBackingStore *createPlatformBackingStore(QWindow *window) const override;
     QAbstractEventDispatcher *createEventDispatcher() const override;
     QPlatformFontDatabase *fontDatabase() const override;
@@ -69,7 +69,6 @@ public:
 
 private:
     void initScreens();
-    void initEgl();
     KWayland::Client::Shell *shell() const;
 
     QPlatformFontDatabase *m_fontDb;

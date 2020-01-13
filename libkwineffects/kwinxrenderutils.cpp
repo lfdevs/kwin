@@ -144,7 +144,7 @@ void XRenderPicture::fromImage(const QImage &img)
     xcb_gcontext_t cid = xcb_generate_id(c);
     xcb_create_gc(c, cid, xpix, 0, nullptr);
     xcb_put_image(c, XCB_IMAGE_FORMAT_Z_PIXMAP, xpix, cid, img.width(), img.height(),
-                  0, 0, 0, depth, img.byteCount(), img.constBits());
+                  0, 0, 0, depth, img.sizeInBytes(), img.constBits());
     xcb_free_gc(c, cid);
 
     d = new XRenderPictureData(createPicture(xpix, depth));
@@ -167,18 +167,15 @@ XRenderPictureData::~XRenderPictureData()
 XFixesRegion::XFixesRegion(const QRegion &region)
 {
     m_region = xcb_generate_id(XRenderUtils::s_connection);
-    QVector< QRect > rects = region.rects();
-    QVector< xcb_rectangle_t > xrects(rects.count());
-    for (int i = 0;
-            i < rects.count();
-            ++i) {
-        const QRect &rect = rects.at(i);
+    QVector<xcb_rectangle_t> xrects;
+    xrects.reserve(region.rectCount());
+    for (const QRect &rect : region) {
         xcb_rectangle_t xrect;
         xrect.x = rect.x();
         xrect.y = rect.y();
         xrect.width = rect.width();
         xrect.height = rect.height();
-        xrects[i] = xrect;
+        xrects.append(xrect);
     }
     xcb_xfixes_create_region(XRenderUtils::s_connection, m_region, xrects.count(), xrects.constData());
 }

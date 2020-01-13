@@ -46,7 +46,7 @@ enum CompositingType {
      * The actual Compositors use the or @c OpenGL2Compositing
      * flags. If you need to know whether OpenGL is used, either and the flag or
      * use EffectsHandler::isOpenGLCompositing().
-     **/
+     */
     OpenGLCompositing = 1,
     XRenderCompositing = 1<<1,
     QPainterCompositing = 1<< 2,
@@ -118,7 +118,6 @@ enum KWinOption {
 
 /**
  * @brief The direction in which a pointer axis is moved.
- *
  */
 enum PointerAxisDirection {
     PointerAxisUp,
@@ -130,7 +129,7 @@ enum PointerAxisDirection {
 /**
  * @brief Directions for swipe gestures
  * @since 5.10
- **/
+ */
 enum class SwipeDirection {
     Invalid,
     Down,
@@ -201,7 +200,7 @@ KWIN_DEPRECATED_EXPORT int displayHeight()
 /**
  * Short wrapper for a cursor image provided by the Platform.
  * @since 5.9
- **/
+ */
 class PlatformCursorImage {
 public:
     explicit PlatformCursorImage()

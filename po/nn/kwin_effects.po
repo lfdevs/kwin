@@ -2,23 +2,23 @@
 #
 # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2007.
 # Håvard Korsvoll <korsvoll@skulelinux.no>, 2008.
-# Karl Ove Hufthammer <karl@huftis.org>, 2008, 2010, 2015, 2016, 2018.
+# Karl Ove Hufthammer <karl@huftis.org>, 2008, 2010, 2015, 2016, 2018, 2019.
 # Eirik U. Birkeland <eirbir@gmail.com>, 2008, 2009, 2010.
 # Sveinung Kvilhaugsvik <sveinung84@users.sourceforge.net>, 2009.
 # Øystein Steffensen-Alværvik <ystein@posteo.net>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-10-29 06:48+0100\n"
-"PO-Revision-Date: 2018-10-19 19:36+0100\n"
-"Last-Translator: Øystein Steffensen-Alværvik <ystein@posteo.net>\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-09-15 03:21+0200\n"
+"PO-Revision-Date: 2019-06-28 22:55+0200\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 19.04.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
@@ -69,7 +69,7 @@ msgstr ""
 "Vel stad å henta farge frå med venstreklikk eller «Enter».\n"
 "Høgreklikk eller trykk «Escape» for å avbryta."
 
-#: coverswitch/coverswitch.cpp:951 flipswitch/flipswitch.cpp:934
+#: coverswitch/coverswitch.cpp:956 flipswitch/flipswitch.cpp:936
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -78,7 +78,7 @@ msgstr "Vis skrivebordet"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowCaptions)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_WindowTitle)
 #: coverswitch/coverswitch_config.ui:17 flipswitch/flipswitch_config.ui:191
-#: presentwindows/presentwindows_config.ui:396
+#: presentwindows/presentwindows_config.ui:406
 #, kde-format
 msgid "Display window &titles"
 msgstr "Vis vindaugs&titlar"
@@ -142,7 +142,7 @@ msgstr "Animasjonslengd:"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_AnimationDuration)
 #: coverswitch/coverswitch_config.ui:158 cube/cube_config.ui:149
-#: cube/cubeslide_config.ui:49 magiclamp/magiclamp_config.ui:36
+#: cubeslide/cubeslide_config.ui:49 magiclamp/magiclamp_config.ui:36
 #, kde-format
 msgctxt "Duration of rotation"
 msgid "Default"
@@ -150,7 +150,7 @@ msgstr "Standard"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
 #: coverswitch/coverswitch_config.ui:161 glide/glide_config.ui:35
-#: scale/scale_config.ui:33 slide/slide_config.ui:35
+#: scale/package/contents/ui/config.ui:33 slide/slide_config.ui:35
 #, kde-format
 msgid " milliseconds"
 msgstr " millisekund"
@@ -174,17 +174,17 @@ msgstr "Bakgrunnsfarge"
 msgid "Front color"
 msgstr "Framgrunnsfarge"
 
-#: cube/cube.cpp:187 cube/cube_config.cpp:71
+#: cube/cube.cpp:197 cube/cube_config.cpp:71
 #, kde-format
 msgid "Desktop Cube"
 msgstr "Skrivebordskube"
 
-#: cube/cube.cpp:195 cube/cube_config.cpp:76
+#: cube/cube.cpp:205 cube/cube_config.cpp:76
 #, kde-format
 msgid "Desktop Cylinder"
 msgstr "Skrivebordssylinder"
 
-#: cube/cube.cpp:201 cube/cube_config.cpp:80
+#: cube/cube.cpp:211 cube/cube_config.cpp:80
 #, kde-format
 msgid "Desktop Sphere"
 msgstr "Skrivebordskule"
@@ -206,6 +206,7 @@ msgstr "Avansert"
 #: lookingglass/lookingglass_config.cpp:69 magnifier/magnifier_config.cpp:69
 #: mouseclick/mouseclick_config.cpp:61 mousemark/mousemark_config.cpp:67
 #: presentwindows/presentwindows_config.cpp:62
+#: showpaint/showpaint_config.cpp:47
 #: thumbnailaside/thumbnailaside_config.cpp:68
 #: trackmouse/trackmouse_config.cpp:65
 #: windowgeometry/windowgeometry_config.cpp:56 zoom/zoom_config.cpp:65
@@ -250,7 +251,7 @@ msgstr "Bruk"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: cube/cube_config.ui:104 desktopgrid/desktopgrid_config.ui:17
 #: flipswitch/flipswitch_config.ui:17 mousemark/mousemark_config.ui:17
-#: presentwindows/presentwindows_config.ui:377
+#: presentwindows/presentwindows_config.ui:387
 #: thumbnailaside/thumbnailaside_config.ui:17
 #, kde-format
 msgid "Appearance"
@@ -269,7 +270,7 @@ msgid "Reflection"
 msgstr "Refleksjon"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: cube/cube_config.ui:124 cube/cubeslide_config.ui:72
+#: cube/cube_config.ui:124 cubeslide/cubeslide_config.ui:72
 #, kde-format
 msgid "Rotation duration:"
 msgstr "Rotasjonstid:"
@@ -414,37 +415,37 @@ msgid "Plane"
 msgstr "Plan"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSlideStickyWindows)
-#: cube/cubeslide_config.ui:17
+#: cubeslide/cubeslide_config.ui:17
 #, kde-format
 msgid "Do not animate windows on all desktops"
 msgstr "Ikkje animer vindauge på alle skriveborda"
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RotationDuration)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingLife)
-#: cube/cubeslide_config.ui:52 mouseclick/mouseclick_config.ui:132
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RotationDuration)
+#: cubeslide/cubeslide_config.ui:52 mouseclick/mouseclick_config.ui:132
 #, kde-format
 msgid " msec"
 msgstr " ms"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSlidePanels)
-#: cube/cubeslide_config.ui:65
+#: cubeslide/cubeslide_config.ui:65
 #, kde-format
 msgid "Do not animate panels"
 msgstr "Ikkje animer panel"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UsePagerLayout)
-#: cube/cubeslide_config.ui:85
+#: cubeslide/cubeslide_config.ui:85
 #, kde-format
 msgid "Use pager layout for animation"
 msgstr "Bruk skrivebordsoppsett i animeringa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseWindowMoving)
-#: cube/cubeslide_config.ui:92
+#: cubeslide/cubeslide_config.ui:92
 #, kde-format
 msgid "Start animation when moving windows towards screen edges"
 msgstr "Start animering når vindauge vert flytta mot skjermkantane"
 
-#: desktopgrid/desktopgrid.cpp:73 desktopgrid/desktopgrid_config.cpp:68
+#: desktopgrid/desktopgrid.cpp:76 desktopgrid/desktopgrid_config.cpp:68
 #, kde-format
 msgid "Show Desktop Grid"
 msgstr "Vis skrivebordsoversikt"
@@ -619,134 +620,128 @@ msgstr "Hald over vindauge"
 msgid "By window group"
 msgstr "Etter vindaugsgruppe"
 
-#: effect_builtins.cpp:105
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimFullScreen)
+#: diminactive/diminactive_config.ui:75
+#, kde-format
+msgid "Fullscreen windows"
+msgstr "Fullskjermsvindauge"
+
+#: effect_builtins.cpp:102
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
 msgstr "Slør"
 
-#: effect_builtins.cpp:106
+#: effect_builtins.cpp:103
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
 msgstr "Gjer bakgrunnen til halvgjennomsiktige vindauge uklar"
 
-#: effect_builtins.cpp:120
+#: effect_builtins.cpp:117
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Color Picker"
 msgstr "Fargeveljar"
 
-#: effect_builtins.cpp:121
+#: effect_builtins.cpp:118
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Supports picking a color"
 msgstr "Støttar veljing av farge"
 
-#: effect_builtins.cpp:135
+#: effect_builtins.cpp:132
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Bakgrunnskontrast"
 
-#: effect_builtins.cpp:136
+#: effect_builtins.cpp:133
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
 msgstr "Forbetra kontrasten og leselegheit bak delvis gjennomsiktige vindauge"
 
-#: effect_builtins.cpp:150
+#: effect_builtins.cpp:147
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Cover Switch"
 msgstr "Omslagvekslar"
 
-#: effect_builtins.cpp:151
+#: effect_builtins.cpp:148
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a Cover Flow effect for the alt+tab window switcher"
 msgstr ""
 "Den kjende «Cover Flower»-effekten ved vindaugsveksling med «Alt + Tab»"
 
-#: effect_builtins.cpp:165
+#: effect_builtins.cpp:162
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Skrivebordskube"
 
-#: effect_builtins.cpp:166
+#: effect_builtins.cpp:163
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display each virtual desktop on a side of a cube"
 msgstr "Vis kvart virtuelle skrivebord som ei side på ein kube"
 
-#: effect_builtins.cpp:180
+#: effect_builtins.cpp:177
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Kubeskifte av skrivebord"
 
-#: effect_builtins.cpp:181
+#: effect_builtins.cpp:178
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate desktop switching with a cube"
 msgstr "Vis skrivebordsbyte på ein kube"
 
-#: effect_builtins.cpp:195
+#: effect_builtins.cpp:192
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Skrivebordsoversikt"
 
-#: effect_builtins.cpp:196
+#: effect_builtins.cpp:193
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
 msgstr "Forminsk skjermflata slik at alle skriveborda vert viste side om side"
 
-#: effect_builtins.cpp:210
+#: effect_builtins.cpp:207
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
 msgstr "Mørklegg inaktive vindauge"
 
-#: effect_builtins.cpp:211
+#: effect_builtins.cpp:208
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Gjer inaktive vindauge mørkare"
 
-#: effect_builtins.cpp:225
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Dim Screen for Administrator Mode"
-msgstr "Mørklegg skjermen i administratormodus"
-
-#: effect_builtins.cpp:226
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Darkens the entire screen when requesting root privileges"
-msgstr "Gjer heile skjermen mørkare når det vert spurt om rottilgang"
-
-#: effect_builtins.cpp:240
+#: effect_builtins.cpp:222
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Fall Apart"
 msgstr "Gå i knas"
 
-#: effect_builtins.cpp:241
+#: effect_builtins.cpp:223
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "La vindauge gå i tusen når dei vert lukka"
 
-#: effect_builtins.cpp:255
+#: effect_builtins.cpp:237
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Flip Switch"
 msgstr "Stabelvekslar"
 
-#: effect_builtins.cpp:256
+#: effect_builtins.cpp:238
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -754,109 +749,97 @@ msgid ""
 msgstr ""
 "Bla gjennom vindauge som i ein kortstokk ved vindaugsveksling med «Alt + Tab»"
 
-#: effect_builtins.cpp:270
+#: effect_builtins.cpp:252
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Glide"
 msgstr "Skliding"
 
-#: effect_builtins.cpp:271
+#: effect_builtins.cpp:253
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Glide windows as they appear or disappear"
 msgstr "Glid inn/ut vindauge"
 
-#: effect_builtins.cpp:285
+#: effect_builtins.cpp:267
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Highlight Window"
 msgstr "Framhev vindauge"
 
-#: effect_builtins.cpp:286
+#: effect_builtins.cpp:268
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight the appropriate window when hovering over taskbar entries"
 msgstr "Framhev vindauga når peikaren vert halden over ikon på oppgåvelinja"
 
-#: effect_builtins.cpp:300
+#: effect_builtins.cpp:282
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Snu fargane"
 
-#: effect_builtins.cpp:301
+#: effect_builtins.cpp:283
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
 msgstr "Snu fargane på skrivebordet og vindauge"
 
-#: effect_builtins.cpp:315
+#: effect_builtins.cpp:297
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
 msgstr "KScreen"
 
-#: effect_builtins.cpp:316
+#: effect_builtins.cpp:298
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper Effect for KScreen"
 msgstr "Hjelpareffekt for KScreen"
 
-#: effect_builtins.cpp:330
+#: effect_builtins.cpp:312
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
 msgstr "Forstørringsglas"
 
-#: effect_builtins.cpp:331
+#: effect_builtins.cpp:313
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
 msgstr "Skjermforstørring forma som ei fiskeaugelinse"
 
-#: effect_builtins.cpp:345
+#: effect_builtins.cpp:327
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
 msgstr "Magisk lampe"
 
-#: effect_builtins.cpp:346
+#: effect_builtins.cpp:328
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
 msgstr "Minimer vindauge ned i ein magisk lampe"
 
-#: effect_builtins.cpp:360
+#: effect_builtins.cpp:342
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Forstørr skjermdel"
 
-#: effect_builtins.cpp:361
+#: effect_builtins.cpp:343
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
 msgstr "Forstørr delen av skjermen som er under musepeikaren"
 
-#: effect_builtins.cpp:375
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Minimize Animation"
-msgstr "Minimeringsanimasjon"
-
-#: effect_builtins.cpp:376
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Animate the minimizing of windows"
-msgstr "Animer minimering av vindauge"
-
-#: effect_builtins.cpp:390
+#: effect_builtins.cpp:357
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Museklikkanimasjon"
 
-#: effect_builtins.cpp:391
+#: effect_builtins.cpp:358
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -866,38 +849,38 @@ msgstr ""
 "Lagar ein animasjon kvar gong ein museknapp vert trykt ned. Dette er nyttig "
 "for skjermopptak/presentasjonar."
 
-#: effect_builtins.cpp:405
+#: effect_builtins.cpp:372
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Muselinjer"
 
-#: effect_builtins.cpp:406
+#: effect_builtins.cpp:373
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
 msgstr "La deg teikna linjer på skjermen"
 
-#: effect_builtins.cpp:420
+#: effect_builtins.cpp:387
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Presenter vindauge"
 
-#: effect_builtins.cpp:421
+#: effect_builtins.cpp:388
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
 msgstr ""
 "Forminsk skjermflata heilt til alle dei opne vindauga kan visast side om side"
 
-#: effect_builtins.cpp:435
+#: effect_builtins.cpp:402
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Skaler vindauge"
 
-#: effect_builtins.cpp:436
+#: effect_builtins.cpp:403
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
@@ -905,206 +888,194 @@ msgstr ""
 "Endrar storleik på vindauge med rask teksturskalering i staden for å "
 "oppdatera innhaldet"
 
-#: effect_builtins.cpp:450
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Scale"
-msgstr "Skalering"
-
-#: effect_builtins.cpp:451
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Make windows smoothly scale in and out when they are shown or hidden"
-msgstr "Skaler vindauge jamt inn og ut når dei vert viste eller gøymde"
-
-#: effect_builtins.cpp:465
+#: effect_builtins.cpp:417
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr "Skjermkant"
 
-#: effect_builtins.cpp:466
+#: effect_builtins.cpp:418
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
 msgstr "Framhevar ein skjermkant når han kjem nær"
 
-#: effect_builtins.cpp:480
+#: effect_builtins.cpp:432
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
 msgstr "Skjermbilete"
 
-#: effect_builtins.cpp:481
+#: effect_builtins.cpp:433
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
-msgid "Helper effect for KSnapshot"
-msgstr "Hjelpareffekt for KSnapshot"
+msgid "Helper effect for screenshot tools"
+msgstr "Hjelpareffekt for skjermbiletverktøy"
 
-#: effect_builtins.cpp:495
+#: effect_builtins.cpp:447
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
 msgstr "Ark"
 
-#: effect_builtins.cpp:496
+#: effect_builtins.cpp:448
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Make modal dialogs smoothly fly in and out when they are shown or hidden"
 msgstr "Brett undervindauge inn og ut av skjermen"
 
-#: effect_builtins.cpp:510
+#: effect_builtins.cpp:462
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
 msgstr "Vis talet på bilete per sekund"
 
-#: effect_builtins.cpp:511
+#: effect_builtins.cpp:463
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
 msgstr "Vis KWin-ytinga i eit hjørne av skjermen"
 
-#: effect_builtins.cpp:525
+#: effect_builtins.cpp:477
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Vis oppteikning"
 
-#: effect_builtins.cpp:526
+#: effect_builtins.cpp:478
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
 msgstr "Marker nyleg oppdaterte område på skjermflata"
 
-#: effect_builtins.cpp:540
+#: effect_builtins.cpp:492
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
 msgstr "Lysbilete"
 
-#: effect_builtins.cpp:541
+#: effect_builtins.cpp:493
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide desktops when switching virtual desktops"
 msgstr "La skriveborda skli bortover skjermen ved veksling mellom skrivebord"
 
-#: effect_builtins.cpp:555
+#: effect_builtins.cpp:507
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
 msgstr "Skli tilbake"
 
-#: effect_builtins.cpp:556
+#: effect_builtins.cpp:508
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
 msgstr "Skli tilbake vindauge som mistar fokus"
 
-#: effect_builtins.cpp:570
+#: effect_builtins.cpp:522
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
 msgstr "Glidande sprettoppvindauge"
 
-#: effect_builtins.cpp:571
+#: effect_builtins.cpp:523
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
 msgstr "Glide-animasjon for Plasma-sprettoppvindauge"
 
-#: effect_builtins.cpp:585
+#: effect_builtins.cpp:537
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
 msgstr "Midthjelpar"
 
-#: effect_builtins.cpp:586
+#: effect_builtins.cpp:538
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
 msgstr "Hjelp til å finna midten av skjermen når du flyttar vindauge"
 
-#: effect_builtins.cpp:600
+#: effect_builtins.cpp:552
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
 msgstr "Oppstartsmelding"
 
-#: effect_builtins.cpp:601
+#: effect_builtins.cpp:553
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
 msgstr "Hjelpareffekt for oppstartsvising"
 
-#: effect_builtins.cpp:615
+#: effect_builtins.cpp:567
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Miniatyrbilete ved skjermkanten"
 
-#: effect_builtins.cpp:616
+#: effect_builtins.cpp:568
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
 msgstr "Vis miniatyrbilete av vindauge ved kanten av skjermen"
 
-#: effect_builtins.cpp:630
+#: effect_builtins.cpp:582
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Touch Points"
 msgstr "Kontaktpunkt"
 
-#: effect_builtins.cpp:631
+#: effect_builtins.cpp:583
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Visualize touch points"
 msgstr "Visualiser kontaktpunkt"
 
-#: effect_builtins.cpp:645
+#: effect_builtins.cpp:597
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Følg mus"
 
-#: effect_builtins.cpp:646
+#: effect_builtins.cpp:598
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a mouse cursor locating effect when activated"
 msgstr "Vis kor musepeikaren er"
 
-#: effect_builtins.cpp:660
+#: effect_builtins.cpp:612
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Window Geometry"
 msgstr "Vindaugsgeometri"
 
-#: effect_builtins.cpp:661
+#: effect_builtins.cpp:613
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "Vis vindaugsdimensjonar ved flytting og endring av storleik"
 
-#: effect_builtins.cpp:675
+#: effect_builtins.cpp:627
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Vaklande vindauge"
 
-#: effect_builtins.cpp:676
+#: effect_builtins.cpp:628
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "Deformer vindauga når dei vert flytte"
 
-#: effect_builtins.cpp:690
+#: effect_builtins.cpp:642
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Forstørr/forminsk"
 
-#: effect_builtins.cpp:691
+#: effect_builtins.cpp:643
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
@@ -1158,14 +1129,16 @@ msgid "Vertical position of front:"
 msgstr "Loddrett plassering av framgrunnen:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_Duration)
-#: glide/glide_config.ui:19 scale/scale_config.ui:17 slide/slide_config.ui:19
+#: glide/glide_config.ui:19 scale/package/contents/ui/config.ui:17
+#: slide/slide_config.ui:19
 #, kde-format
 msgid "Duration:"
 msgstr "Lengd:"
 
 #. i18n: Duration of the slide animation.
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
-#: glide/glide_config.ui:32 scale/scale_config.ui:30 slide/slide_config.ui:32
+#: glide/glide_config.ui:32 scale/package/contents/ui/config.ui:30
+#: slide/slide_config.ui:32
 #, kde-format
 msgid "Default"
 msgstr "Standard"
@@ -1419,7 +1392,7 @@ msgstr "Vis/gøym vindauge (på alle skriveborda)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "Vis/gøym vindauge (i vindaugsklassen)"
 
-#: presentwindows/presentwindows.cpp:1660
+#: presentwindows/presentwindows.cpp:1666
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1461,7 +1434,7 @@ msgstr "Vindauge"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: presentwindows/presentwindows_config.ui:128
-#: presentwindows/presentwindows_config.ui:272
+#: presentwindows/presentwindows_config.ui:282
 #, kde-format
 msgid "Left button:"
 msgstr "Venstreknapp:"
@@ -1474,10 +1447,10 @@ msgstr "Venstreknapp:"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
 #: presentwindows/presentwindows_config.ui:139
 #: presentwindows/presentwindows_config.ui:183
-#: presentwindows/presentwindows_config.ui:227
-#: presentwindows/presentwindows_config.ui:283
-#: presentwindows/presentwindows_config.ui:317
-#: presentwindows/presentwindows_config.ui:351
+#: presentwindows/presentwindows_config.ui:232
+#: presentwindows/presentwindows_config.ui:293
+#: presentwindows/presentwindows_config.ui:327
+#: presentwindows/presentwindows_config.ui:361
 #, kde-format
 msgid "No action"
 msgstr "Inga handling"
@@ -1490,10 +1463,10 @@ msgstr "Inga handling"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
 #: presentwindows/presentwindows_config.ui:144
 #: presentwindows/presentwindows_config.ui:188
-#: presentwindows/presentwindows_config.ui:232
-#: presentwindows/presentwindows_config.ui:288
-#: presentwindows/presentwindows_config.ui:322
-#: presentwindows/presentwindows_config.ui:356
+#: presentwindows/presentwindows_config.ui:237
+#: presentwindows/presentwindows_config.ui:298
+#: presentwindows/presentwindows_config.ui:332
+#: presentwindows/presentwindows_config.ui:366
 #, kde-format
 msgid "Activate window"
 msgstr "Aktiver vindauge"
@@ -1506,10 +1479,10 @@ msgstr "Aktiver vindauge"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
 #: presentwindows/presentwindows_config.ui:149
 #: presentwindows/presentwindows_config.ui:193
-#: presentwindows/presentwindows_config.ui:237
-#: presentwindows/presentwindows_config.ui:293
-#: presentwindows/presentwindows_config.ui:327
-#: presentwindows/presentwindows_config.ui:361
+#: presentwindows/presentwindows_config.ui:242
+#: presentwindows/presentwindows_config.ui:303
+#: presentwindows/presentwindows_config.ui:337
+#: presentwindows/presentwindows_config.ui:371
 #, kde-format
 msgid "End effect"
 msgstr "Slutteffekt"
@@ -1519,7 +1492,7 @@ msgstr "Slutteffekt"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
 #: presentwindows/presentwindows_config.ui:154
 #: presentwindows/presentwindows_config.ui:198
-#: presentwindows/presentwindows_config.ui:242
+#: presentwindows/presentwindows_config.ui:247
 #, kde-format
 msgid "Bring window to current desktop"
 msgstr "Hent fram vindauget til det gjeldande skrivebordet"
@@ -1529,7 +1502,7 @@ msgstr "Hent fram vindauget til det gjeldande skrivebordet"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
 #: presentwindows/presentwindows_config.ui:159
 #: presentwindows/presentwindows_config.ui:203
-#: presentwindows/presentwindows_config.ui:247
+#: presentwindows/presentwindows_config.ui:252
 #, kde-format
 msgid "Send window to all desktops"
 msgstr "Send vindauget til alle skriveborda"
@@ -1539,7 +1512,7 @@ msgstr "Send vindauget til alle skriveborda"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
 #: presentwindows/presentwindows_config.ui:164
 #: presentwindows/presentwindows_config.ui:208
-#: presentwindows/presentwindows_config.ui:252
+#: presentwindows/presentwindows_config.ui:257
 #, kde-format
 msgid "(Un-)Minimize window"
 msgstr "Minimer/gjenopprett vindauget"
@@ -1547,21 +1520,29 @@ msgstr "Minimer/gjenopprett vindauget"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: presentwindows/presentwindows_config.ui:172
-#: presentwindows/presentwindows_config.ui:306
+#: presentwindows/presentwindows_config.ui:316
 #, kde-format
 msgid "Middle button:"
 msgstr "Midtknapp:"
 
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
+#: presentwindows/presentwindows_config.ui:213
+#: presentwindows/presentwindows_config.ui:262
+#, kde-format
+msgid "Close window"
+msgstr "Lukk vindauget"
+
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: presentwindows/presentwindows_config.ui:216
-#: presentwindows/presentwindows_config.ui:340
+#: presentwindows/presentwindows_config.ui:221
+#: presentwindows/presentwindows_config.ui:350
 #, kde-format
 msgid "Right button:"
 msgstr "Høgreknapp:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
-#: presentwindows/presentwindows_config.ui:263
+#: presentwindows/presentwindows_config.ui:273
 #, kde-format
 msgctxt "@title:group actions when clicking on desktop"
 msgid "Desktop"
@@ -1570,57 +1551,57 @@ msgstr "Skrivebord"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonDesktop)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonDesktop)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
-#: presentwindows/presentwindows_config.ui:298
-#: presentwindows/presentwindows_config.ui:332
-#: presentwindows/presentwindows_config.ui:366
+#: presentwindows/presentwindows_config.ui:308
+#: presentwindows/presentwindows_config.ui:342
+#: presentwindows/presentwindows_config.ui:376
 #, kde-format
 msgid "Show desktop"
 msgstr "Vis skrivebord"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: presentwindows/presentwindows_config.ui:383
+#: presentwindows/presentwindows_config.ui:393
 #, kde-format
 msgid "Layout mode:"
 msgstr "Utforming:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowIcons)
-#: presentwindows/presentwindows_config.ui:403
+#: presentwindows/presentwindows_config.ui:413
 #, kde-format
 msgid "Display window &icons"
 msgstr "Vis vindaugs&ikon"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
-#: presentwindows/presentwindows_config.ui:410
+#: presentwindows/presentwindows_config.ui:420
 #, kde-format
 msgid "Ignore &minimized windows"
 msgstr "Ignorer &minimerte vindauge"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowPanel)
-#: presentwindows/presentwindows_config.ui:417
+#: presentwindows/presentwindows_config.ui:427
 #, kde-format
 msgid "Show &panels"
 msgstr "Vis &panel"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: presentwindows/presentwindows_config.ui:431
+#: presentwindows/presentwindows_config.ui:441
 #, kde-format
 msgid "Natural"
 msgstr "Naturleg"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: presentwindows/presentwindows_config.ui:436
+#: presentwindows/presentwindows_config.ui:446
 #, kde-format
 msgid "Regular Grid"
 msgstr "Vanleg rutenett"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: presentwindows/presentwindows_config.ui:441
+#: presentwindows/presentwindows_config.ui:451
 #, kde-format
 msgid "Flexible Grid"
 msgstr "Tilpassa rutenett"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowClosingWindows)
-#: presentwindows/presentwindows_config.ui:449
+#: presentwindows/presentwindows_config.ui:459
 #, kde-format
 msgid "Provide buttons to close the windows"
 msgstr "Set på knappar til å lukka vindauga"
@@ -1638,30 +1619,30 @@ msgid "Show outline"
 msgstr "Vis omriss"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InScale)
-#: scale/scale_config.ui:46
+#: scale/package/contents/ui/config.ui:46
 #, kde-format
 msgid "Window open scale:"
 msgstr "Skalering ved vindausopning:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_OutScale)
-#: scale/scale_config.ui:53
+#: scale/package/contents/ui/config.ui:53
 #, kde-format
 msgid "Window close scale:"
 msgstr "Skalering ved vindauslukking:"
 
-#: screenshot/screenshot.cpp:294
+#: screenshot/screenshot.cpp:354
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Skjermbilete"
 
-#: screenshot/screenshot.cpp:295
+#: screenshot/screenshot.cpp:355
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Skjermbiletet er lagra som %1"
 
-#: screenshot/screenshot.cpp:403
+#: screenshot/screenshot.cpp:464
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -1670,7 +1651,7 @@ msgstr ""
 "Vel vindauge å ta skjermbilete av med klikk eller «Enter».\n"
 "Høgreklikk eller trykk «Escape» for å avbryta."
 
-#: screenshot/screenshot.cpp:406
+#: screenshot/screenshot.cpp:467
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -1679,7 +1660,7 @@ msgstr ""
 "Ta skjermbilete med klikk eller «Enter».\n"
 "Høgreklikk eller trykk «Escape» for å avbryta."
 
-#: showfps/showfps.cpp:63
+#: showfps/showfps.cpp:65
 #, kde-format
 msgid "This effect is not a benchmark"
 msgstr "Denne effekten er ikkje ein ytingstest"
@@ -1744,6 +1725,11 @@ msgstr "Tekstfarge:"
 msgid "Text alpha:"
 msgstr "Tekstgjennomsikt:"
 
+#: showpaint/showpaint.cpp:53 showpaint/showpaint_config.cpp:52
+#, kde-format
+msgid "Toggle Show Paint"
+msgstr "Vis/gøym oppteikning"
+
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_Gaps)
 #: slide/slide_config.ui:50
 #, kde-format
@@ -1774,7 +1760,7 @@ msgstr "Glid dokkar"
 msgid "Slide desktop background"
 msgstr "Glid skrivebordsbakgrunn"
 
-#: thumbnailaside/thumbnailaside.cpp:38
+#: thumbnailaside/thumbnailaside.cpp:40
 #: thumbnailaside/thumbnailaside_config.cpp:73
 #, kde-format
 msgid "Toggle Thumbnail for Current Window"

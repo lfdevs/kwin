@@ -33,11 +33,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "client.h"
 #include "effects.h"
 
-#include <assert.h>
 #include <kstartupinfo.h>
 #include <KWindowSystem>
 #include <QDebug>
-
 
 /*
  TODO
@@ -52,17 +50,17 @@ namespace KWin
 // Group
 //********************************************
 
-Group::Group(Window leader_P)
-    :   leader_client(NULL),
+Group::Group(xcb_window_t leader_P)
+    :   leader_client(nullptr),
         leader_wid(leader_P),
-        leader_info(NULL),
+        leader_info(nullptr),
         user_time(-1U),
         refcount(0)
 {
-    if (leader_P != None) {
+    if (leader_P != XCB_WINDOW_NONE) {
         leader_client = workspace()->findClient(Predicate::WindowMatch, leader_P);
         leader_info = new NETWinInfo(connection(), leader_P, rootWindow(),
-                                      0, NET::WM2StartupId);
+                                      nullptr, NET::WM2StartupId);
     }
     effect_group = new EffectWindowGroupImpl(this);
     workspace()->addGroup(this);
@@ -76,9 +74,9 @@ Group::~Group()
 
 QIcon Group::icon() const
 {
-    if (leader_client != NULL)
+    if (leader_client != nullptr)
         return leader_client->icon();
-    else if (leader_wid != None) {
+    else if (leader_wid != XCB_WINDOW_NONE) {
         QIcon ic;
         NETWinInfo info(connection(), leader_wid, rootWindow(), NET::WMIcon, NET::WM2IconPixmap);
         auto readIcon = [&ic, &info, this](int size, bool scale = true) {
@@ -135,14 +133,14 @@ void Group::deref()
 
 void Group::gotLeader(Client* leader_P)
 {
-    assert(leader_P->window() == leader_wid);
+    Q_ASSERT(leader_P->window() == leader_wid);
     leader_client = leader_P;
 }
 
 void Group::lostLeader()
 {
-    assert(!_members.contains(leader_client));
-    leader_client = NULL;
+    Q_ASSERT(!_members.contains(leader_client));
+    leader_client = nullptr;
     if (_members.isEmpty()) {
         workspace()->removeGroup(this);
         delete this;
@@ -155,27 +153,27 @@ void Group::lostLeader()
 
 Group* Workspace::findGroup(xcb_window_t leader) const
 {
-    assert(leader != None);
+    Q_ASSERT(leader != XCB_WINDOW_NONE);
     for (GroupList::ConstIterator it = groups.constBegin();
             it != groups.constEnd();
             ++it)
         if ((*it)->leader() == leader)
             return *it;
-    return NULL;
+    return nullptr;
 }
 
 // Client is group transient, but has no group set. Try to find
 // group with windows with the same client leader.
 Group* Workspace::findClientLeaderGroup(const Client* c) const
 {
-    Group* ret = NULL;
+    Group* ret = nullptr;
     for (ClientList::ConstIterator it = clients.constBegin();
             it != clients.constEnd();
             ++it) {
         if (*it == c)
             continue;
         if ((*it)->wmClientLeader() == c->wmClientLeader()) {
-            if (ret == NULL || ret == (*it)->group())
+            if (ret == nullptr || ret == (*it)->group())
                 ret = (*it)->group();
             else {
                 // There are already two groups with the same client leader.
@@ -234,8 +232,8 @@ void Workspace::updateMinimizedOfTransients(AbstractClient* c)
 }
 
 
-/*!
-  Sets the client \a c's transient windows' on_all_desktops property to \a on_all_desktops.
+/**
+ * Sets the client \a c's transient windows' on_all_desktops property to \a on_all_desktops.
  */
 void Workspace::updateOnAllDesktopsOfTransients(AbstractClient* c)
 {
@@ -438,11 +436,11 @@ void Client::setTransient(xcb_window_t new_transient_for_id)
         m_transientForId = new_transient_for_id;
         if (m_transientForId != XCB_WINDOW_NONE && !groupTransient()) {
             transient_for = workspace()->findClient(Predicate::WindowMatch, m_transientForId);
-            assert(transient_for != NULL);   // verifyTransient() had to check this
+            Q_ASSERT(transient_for != nullptr);   // verifyTransient() had to check this
             transient_for->addTransient(this);
         } // checkGroup() will check 'check_active_modal'
         setTransientFor(transient_for);
-        checkGroup(NULL, true);   // force, because transiency has changed
+        checkGroup(nullptr, true);   // force, because transiency has changed
         workspace()->updateClientLayer(this);
         workspace()->resetUpdateToolWindowsTimer();
         emit transientChanged();
@@ -515,7 +513,7 @@ void Client::cleanGrouping()
     // added 'this' to those transient lists :(
     ClientList group_members = group()->members();
     group()->removeMember(this);
-    in_group = NULL;
+    in_group = nullptr;
     for (ClientList::ConstIterator it = group_members.constBegin();
             it != group_members.constEnd();
             ++it)
@@ -546,7 +544,7 @@ void Client::checkGroupTransients()
             if (*it1 == *it2)
                 continue;
             for (AbstractClient* cl = (*it2)->transientFor();
-                    cl != NULL;
+                    cl != nullptr;
                     cl = cl->transientFor()) {
                 if (cl == *it1) {
                     // don't use removeTransient(), that would modify *it2 too
@@ -581,8 +579,8 @@ void Client::checkGroupTransients()
     }
 }
 
-/*!
-  Check that the window is not transient for itself, and similar nonsense.
+/**
+ * Check that the window is not transient for itself, and similar nonsense.
  */
 xcb_window_t Client::verifyTransientFor(xcb_window_t new_transient_for, bool set)
 {
@@ -630,7 +628,7 @@ xcb_window_t Client::verifyTransientFor(xcb_window_t new_transient_for, bool set
     xcb_window_t loop_pos = new_transient_for;
     while (loop_pos != XCB_WINDOW_NONE && loop_pos != rootWindow()) {
         Client* pos = workspace()->findClient(Predicate::WindowMatch, loop_pos);
-        if (pos == NULL)
+        if (pos == nullptr)
             break;
         loop_pos = pos->m_transientForId;
         if (--count == 0 || pos == this) {
@@ -639,7 +637,7 @@ xcb_window_t Client::verifyTransientFor(xcb_window_t new_transient_for, bool set
         }
     }
     if (new_transient_for != rootWindow()
-            && workspace()->findClient(Predicate::WindowMatch, new_transient_for) == NULL) {
+            && workspace()->findClient(Predicate::WindowMatch, new_transient_for) == nullptr) {
         // it's transient for a specific window, but that window is not mapped
         new_transient_for = rootWindow();
     }
@@ -761,7 +759,7 @@ AbstractClient* Client::findModal(bool allow_itself)
             return ret;
     if (isModal() && allow_itself)
         return this;
-    return NULL;
+    return nullptr;
 }
 
 // Client::window_group only holds the contents of the hint,
@@ -770,11 +768,11 @@ AbstractClient* Client::findModal(bool allow_itself)
 void Client::checkGroup(Group* set_group, bool force)
 {
     Group* old_group = in_group;
-    if (old_group != NULL)
+    if (old_group != nullptr)
         old_group->ref(); // turn off automatic deleting
-    if (set_group != NULL) {
+    if (set_group != nullptr) {
         if (set_group != in_group) {
-            if (in_group != NULL)
+            if (in_group != nullptr)
                 in_group->removeMember(this);
             in_group = set_group;
             in_group->addMember(this);
@@ -782,15 +780,15 @@ void Client::checkGroup(Group* set_group, bool force)
     } else if (info->groupLeader() != XCB_WINDOW_NONE) {
         Group* new_group = workspace()->findGroup(info->groupLeader());
         Client *t = qobject_cast<Client*>(transientFor());
-        if (t != NULL && t->group() != new_group) {
+        if (t != nullptr && t->group() != new_group) {
             // move the window to the right group (e.g. a dialog provided
             // by different app, but transient for this one, so make it part of that group)
             new_group = t->group();
         }
-        if (new_group == NULL)   // doesn't exist yet
+        if (new_group == nullptr)   // doesn't exist yet
             new_group = new Group(info->groupLeader());
         if (new_group != in_group) {
-            if (in_group != NULL)
+            if (in_group != nullptr)
                 in_group->removeMember(this);
             in_group = new_group;
             in_group->addMember(this);
@@ -801,7 +799,7 @@ void Client::checkGroup(Group* set_group, bool force)
             // so make it part of that group
             Group* new_group = t->group();
             if (new_group != in_group) {
-                if (in_group != NULL)
+                if (in_group != nullptr)
                     in_group->removeMember(this);
                 in_group = t->group();
                 in_group->addMember(this);
@@ -810,10 +808,10 @@ void Client::checkGroup(Group* set_group, bool force)
             // group transient which actually doesn't have a group :(
             // try creating group with other windows with the same client leader
             Group* new_group = workspace()->findClientLeaderGroup(this);
-            if (new_group == NULL)
-                new_group = new Group(None);
+            if (new_group == nullptr)
+                new_group = new Group(XCB_WINDOW_NONE);
             if (new_group != in_group) {
-                if (in_group != NULL)
+                if (in_group != nullptr)
                     in_group->removeMember(this);
                 in_group = new_group;
                 in_group->addMember(this);
@@ -823,12 +821,12 @@ void Client::checkGroup(Group* set_group, bool force)
             // or minimizing together the whole group, but as long as it is used
             // only for dialogs it's better to keep windows from one app in one group.
             Group* new_group = workspace()->findClientLeaderGroup(this);
-            if (in_group != NULL && in_group != new_group) {
+            if (in_group != nullptr && in_group != new_group) {
                 in_group->removeMember(this);
-                in_group = NULL;
+                in_group = nullptr;
             }
-            if (new_group == NULL)
-                new_group = new Group(None);
+            if (new_group == nullptr)
+                new_group = new Group(XCB_WINDOW_NONE);
             if (in_group != new_group) {
                 in_group = new_group;
                 in_group->addMember(this);
@@ -839,11 +837,7 @@ void Client::checkGroup(Group* set_group, bool force)
         for (auto it = transients().constBegin();
                 it != transients().constEnd();
            ) {
-            Client *c = dynamic_cast<Client *>(*it);
-            if (!c) {
-                ++it;
-                continue;
-            }
+            auto *c = *it;
             // group transients in the old group are no longer transient for it
             if (c->groupTransient() && c->group() != group()) {
                 removeTransientFromList(c);
@@ -853,7 +847,7 @@ void Client::checkGroup(Group* set_group, bool force)
         }
         if (groupTransient()) {
             // no longer transient for ones in the old group
-            if (old_group != NULL) {
+            if (old_group != nullptr) {
                 for (ClientList::ConstIterator it = old_group->members().constBegin();
                         it != old_group->members().constEnd();
                         ++it)
@@ -882,7 +876,7 @@ void Client::checkGroup(Group* set_group, bool force)
             addTransient(*it);
         }
     }
-    if (old_group != NULL)
+    if (old_group != nullptr)
         old_group->deref(); // can be now deleted if empty
     checkGroupTransients();
     checkActiveModal();
@@ -893,7 +887,7 @@ void Client::checkGroup(Group* set_group, bool force)
 void Client::changeClientLeaderGroup(Group* gr)
 {
     // transientFor() != NULL are in the group of their mainwindow, so keep them there
-    if (transientFor() != NULL)
+    if (transientFor() != nullptr)
         return;
     // also don't change the group for window which have group set
     if (info->groupLeader())
@@ -909,9 +903,9 @@ void Client::checkActiveModal()
     // cannot be done in AddTransient(), because there may temporarily
     // exist loops, breaking findModal
     Client* check_modal = dynamic_cast<Client*>(workspace()->mostRecentlyActivatedClient());
-    if (check_modal != NULL && check_modal->check_active_modal) {
+    if (check_modal != nullptr && check_modal->check_active_modal) {
         Client* new_modal = dynamic_cast<Client*>(check_modal->findModal());
-        if (new_modal != NULL && new_modal != check_modal) {
+        if (new_modal != nullptr && new_modal != check_modal) {
             if (!new_modal->isManaged())
                 return; // postpone check until end of manage()
             workspace()->activateClient(new_modal);

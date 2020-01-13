@@ -83,20 +83,18 @@
 >Spostamento</guilabel
 > e <guilabel
 >Avanzate</guilabel
->. Nella scheda <guilabel
+>. Nella pannello <guilabel
 >Fuoco</guilabel
 > si può configurare il modo in cui le finestre acquistano o perdono il fuoco, &ie; diventano attive o inattive. In <guilabel
 >Azioni sulla barra del titolo</guilabel
 > e <guilabel
 >Azioni finestra</guilabel
-> si può configurare il comportamento delle barre del titolo e delle finestre in base ai clic del mouse. In <guilabel
+> si può configurare il modo in cui le barre del titolo e le finestre reagiscono ai clic del mouse. In <guilabel
 >Spostamento</guilabel
 > si può configurare come si spostano le finestre e dove vengono posizionate all'apertura. Le opzioni <guilabel
 >Avanzate</guilabel
 > contengono alcune opzioni specializzate come <quote
->navigazione delle finestre</quote
-> e <quote
->arrotolamento</quote
+>arrotolamento delle finestre</quote
 >. </para>
 
 <note>
@@ -371,7 +369,7 @@
 >Opzioni simili sono disponibili per <guilabel
 >Evento delle rotella</guilabel
 >. </para>
-<!--FIXME Raise/Lower Shade/Unshade Maximize/Restore Keep Above/Below Move to Previous/Next Desktop Change Opacity  Switch to Window Tab to the Left/Reght -->
+<!--FIXME Raise/Lower Shade/Unshade Maximize/Restore Keep Above/Below Move to Previous/Next Desktop Change Opacity -->
 
 <tip>
 <para
@@ -434,7 +432,7 @@
 </varlistentry>
 
 <!--FIXME missing:
-Minimize, Shade, Close, Start Window Tab Drag
+Minimize, Shade, Close
 -->
 
 <varlistentry>
@@ -642,7 +640,7 @@ Increase Opacity + Decrease Opacity
 <!--FIXME
 Mouse Wheel has different choices:
 Raise/Lower, Shade/Unshade, Maximize/Restore, Keep Above/Below, 
-Move to Previous/Next Desktop, Change Opacity, Switch to Window Tab to the Left/Right
+Move to Previous/Next Desktop, Change Opacity
 Nothing
 -->
 
@@ -770,30 +768,6 @@ Nothing
 </variablelist>
 
 <variablelist>
-<title
->Finestre con schede</title>
-
-<varlistentry>
-<term
-><guilabel
->Raggruppare automaticamente le finestre simili</guilabel
-></term>
-<listitem
-><para
->Quando questa opzione è marcata, verrà effettuato un controllo automatico delle finestre aperte: se sono simili a finestre già aperte, verranno messe nello stesso gruppo di finestre.</para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><guilabel
->Passa immediatamente alle finestre raggruppate automaticamente</guilabel
-></term>
-<listitem
-><para
->Quando questa opzione è marcata, verrà attivata automaticamente la scheda del gruppo di finestre relativa alla nuova finestra.</para
-></listitem>
-</varlistentry>
 
 <varlistentry>
 <term

@@ -23,26 +23,29 @@ namespace KWin
 {
 
 VirtualOutput::VirtualOutput(QObject *parent)
-    : AbstractOutput()
+    : AbstractWaylandOutput()
 {
     Q_UNUSED(parent);
-
-    setScale(1.);
 }
 
 VirtualOutput::~VirtualOutput()
 {
 }
 
-QSize VirtualOutput::pixelSize() const
+void VirtualOutput::init(const QPoint &logicalPosition, const QSize &pixelSize)
 {
-    return m_pixelSize;
+    KWayland::Server::OutputDeviceInterface::Mode mode;
+    mode.id = 0;
+    mode.size = pixelSize;
+    mode.flags = KWayland::Server::OutputDeviceInterface::ModeFlag::Current;
+    mode.refreshRate = 60000;  // TODO
+    initInterfaces("model_TODO", "manufacturer_TODO", "UUID_TODO", pixelSize, { mode });
+    setGeometry(QRect(logicalPosition, pixelSize));
 }
 
 void VirtualOutput::setGeometry(const QRect &geo)
 {
-    m_pixelSize = geo.size();
-    setRawPhysicalSize(m_pixelSize);
+    // TODO: set mode to have updated pixelSize
     setGlobalPos(geo.topLeft());
 }
 

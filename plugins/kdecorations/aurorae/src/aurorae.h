@@ -27,6 +27,7 @@ class QOffscreenSurface;
 class QOpenGLContext;
 class QOpenGLFramebufferObject;
 class QQmlComponent;
+class QQmlContext;
 class QQmlEngine;
 class QQuickItem;
 class QQuickRenderControl;
@@ -48,7 +49,7 @@ class Decoration : public KDecoration2::Decoration
     Q_PROPERTY(KDecoration2::DecoratedClient* client READ clientPointer CONSTANT)
 public:
     explicit Decoration(QObject *parent = nullptr, const QVariantList &args = QVariantList());
-    virtual ~Decoration();
+    ~Decoration() override;
 
     void paint(QPainter *painter, const QRect &repaintRegion) override;
 
@@ -76,12 +77,14 @@ protected:
 private:
     void setupBorders(QQuickItem *item);
     void updateBorders();
+    void updateBuffer();
     QMouseEvent translatedMouseEvent(QMouseEvent *orig);
     QScopedPointer<QOpenGLFramebufferObject> m_fbo;
     QImage m_buffer;
     QRect m_contentRect; //the geometry of the part of the buffer that is not a shadow when buffer was created.
     QPointer<QQuickWindow> m_view;
-    QQuickItem *m_item;
+    QQuickItem *m_item = nullptr;
+    QQmlContext *m_qmlContext = nullptr;
     KWin::Borders *m_borders;
     KWin::Borders *m_maximizedBorders;
     KWin::Borders *m_extendedBorders;

@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "manager.h"
 #include "colorcorrectdbusinterface.h"
 #include "suncalc.h"
-#include "gammaramp.h"
 #include <colorcorrect_logging.h>
 
 #include <main.h>
@@ -32,9 +31,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <colorcorrect_settings.h>
 
-#include <QTimer>
+#include <KGlobalAccel>
+#include <KLocalizedString>
+
+#include <QAction>
 #include <QDBusConnection>
 #include <QSocketNotifier>
+#include <QTimer>
 
 #ifdef Q_OS_LINUX
 #include <sys/timerfd.h>
@@ -67,8 +70,6 @@ void Manager::init()
     readConfig();
 
     if (!kwinApp()->platform()->supportsGammaControl()) {
-        // at least update the sun timings to make the values accessible via dbus
-        updateSunTimings(true);
         return;
     }
 
@@ -93,7 +94,7 @@ void Manager::init()
 
     // Monitor for the time changing (flags == TFD_TIMER_ABSTIME | TFD_TIMER_CANCEL_ON_SET).
     // However these are not exposed in glibc so value is hardcoded:
-    ::timerfd_settime(timeChangedFd, 3, &timespec, 0);
+    ::timerfd_settime(timeChangedFd, 3, &timespec, nullptr);
 
     connect(this, &QObject::destroyed, [timeChangedFd]() {
         ::close(timeChangedFd);
@@ -138,7 +139,12 @@ void Manager::init()
 void Manager::hardReset()
 {
     cancelAllTimers();
-    updateSunTimings(true);
+
+    // Timings of the Sun are not used in the constant mode.
+    if (m_mode != NightColorMode::Constant) {
+        updateSunTimings(true);
+    }
+
     if (kwinApp()->platform()->supportsGammaControl() && m_active) {
         m_running = true;
         commitGammaRamps(currentTargetTemp());
@@ -153,6 +159,53 @@ void Manager::reparseConfigAndReset()
     hardReset();
 }
 
+// FIXME: The internal OSD service doesn't work on X11 right now. Once the QPA
+// is ported away from Wayland, drop this function in favor of the internal
+// OSD service.
+static void showStatusOsd(bool enabled)
+{
+    // TODO: Maybe use different icons?
+    const QString iconName = enabled
+        ? QStringLiteral("preferences-desktop-display-nightcolor-on")
+        : QStringLiteral("preferences-desktop-display-nightcolor-off");
+
+    const QString text = enabled
+        ? i18nc("Night Color was enabled", "Night Color On")
+        : i18nc("Night Color was disabled", "Night Color Off");
+
+    QDBusMessage message = QDBusMessage::createMethodCall(
+        QStringLiteral("org.kde.plasmashell"),
+        QStringLiteral("/org/kde/osdService"),
+        QStringLiteral("org.kde.osdService"),
+        QStringLiteral("showText"));
+    message.setArguments({ iconName, text });
+
+    QDBusConnection::sessionBus().asyncCall(message);
+}
+
+void Manager::toggle()
+{
+    if (!kwinApp()->platform()->supportsGammaControl()) {
+        return;
+    }
+
+    m_active = !m_active;
+
+    showStatusOsd(m_active);
+
+    resetAllTimers();
+}
+
+void Manager::initShortcuts()
+{
+    QAction *toggleAction = new QAction(this);
+    toggleAction->setProperty("componentName", QStringLiteral(KWIN_NAME));
+    toggleAction->setObjectName(i18n("Toggle Night Color"));
+    toggleAction->setText(i18n("Toggle Night Color"));
+    KGlobalAccel::setGlobalShortcut(toggleAction, QList<QKeySequence>());
+    input()->registerShortcut(QKeySequence(), toggleAction, this, &Manager::toggle);
+}
+
 void Manager::readConfig()
 {
     Settings *s = Settings::self();
@@ -160,12 +213,18 @@ void Manager::readConfig()
 
     m_active = s->active();
 
-    NightColorMode mode = s->mode();
-    if (mode == NightColorMode::Location || mode == NightColorMode::Timings) {
+    const NightColorMode mode = s->mode();
+    switch (s->mode()) {
+    case NightColorMode::Automatic:
+    case NightColorMode::Location:
+    case NightColorMode::Timings:
+    case NightColorMode::Constant:
         m_mode = mode;
-    } else {
-        // also fallback for invalid setting values
+        break;
+    default:
+        // Fallback for invalid setting values.
         m_mode = NightColorMode::Automatic;
+        break;
     }
 
     m_nightTargetTemp = qBound(MIN_TEMPERATURE, s->nightTemperature(), NEUTRAL_TEMPERATURE);
@@ -243,7 +302,10 @@ void Manager::cancelAllTimers()
 
 void Manager::resetQuickAdjustTimer()
 {
-    updateSunTimings(false);
+    // We don't use timings of the Sun in the constant mode.
+    if (m_mode != NightColorMode::Constant) {
+        updateSunTimings(false);
+    }
 
     int tempDiff = qAbs(currentTargetTemp() - m_currentTemp);
     // allow tolerance of one TEMPERATURE_STEP to compensate if a slow update is coincidental
@@ -270,7 +332,7 @@ void Manager::quickAdjust()
     }
 
     int nextTemp;
-    int targetTemp = currentTargetTemp();
+    const int targetTemp = currentTargetTemp();
 
     if (m_currentTemp < targetTemp) {
         nextTemp = qMin(m_currentTemp + TEMPERATURE_STEP, targetTemp);
@@ -297,19 +359,19 @@ void Manager::resetSlowUpdateStartTimer()
         return;
     }
 
+    // There is no need for starting the slow update timer. Screen color temperature
+    // will be constant all the time now.
+    if (m_mode == NightColorMode::Constant) {
+        return;
+    }
+
     // set up the next slow update
     m_slowUpdateStartTimer = new QTimer(this);
     m_slowUpdateStartTimer->setSingleShot(true);
     connect(m_slowUpdateStartTimer, &QTimer::timeout, this, &Manager::resetSlowUpdateStartTimer);
 
     updateSunTimings(false);
-    int diff;
-    if (m_mode == NightColorMode::Timings) {
-        // Timings mode is in local time
-        diff = QDateTime::currentDateTime().msecsTo(m_next.first);
-    } else {
-        diff = QDateTime::currentDateTimeUtc().msecsTo(m_next.first);
-    }
+    const int diff = QDateTime::currentDateTime().msecsTo(m_next.first);
     if (diff <= 0) {
         qCCritical(KWIN_COLORCORRECTION) << "Error in time calculation. Deactivating Night Color.";
         return;
@@ -325,13 +387,13 @@ void Manager::resetSlowUpdateTimer()
     delete m_slowUpdateTimer;
     m_slowUpdateTimer = nullptr;
 
-    QDateTime now = QDateTime::currentDateTimeUtc();
-    bool isDay = daylight();
-    int targetTemp = isDay ? m_dayTargetTemp : m_nightTargetTemp;
+    const QDateTime now = QDateTime::currentDateTime();
+    const bool isDay = daylight();
+    const int targetTemp = isDay ? m_dayTargetTemp : m_nightTargetTemp;
 
-    if (m_prev.first == m_prev.second) {
-        // transition time is zero
-        commitGammaRamps(isDay ? m_dayTargetTemp : m_nightTargetTemp);
+    // We've reached the target color temperature or the transition time is zero.
+    if (m_prev.first == m_prev.second || m_currentTemp == targetTemp) {
+        commitGammaRamps(targetTemp);
         return;
     }
 
@@ -346,7 +408,7 @@ void Manager::resetSlowUpdateTimer()
         }
 
         // calculate interval such as temperature is changed by TEMPERATURE_STEP K per timer timeout
-        int interval = availTime / (qAbs(targetTemp - m_currentTemp) / TEMPERATURE_STEP);
+        int interval = availTime * TEMPERATURE_STEP / qAbs(targetTemp - m_currentTemp);
         if (interval == 0) {
             interval = 1;
         }
@@ -375,21 +437,18 @@ void Manager::slowUpdate(int targetTemp)
 
 void Manager::updateSunTimings(bool force)
 {
-    QDateTime todayNow = QDateTime::currentDateTimeUtc();
+    const QDateTime todayNow = QDateTime::currentDateTime();
 
     if (m_mode == NightColorMode::Timings) {
+        const QDateTime morB = QDateTime(todayNow.date(), m_morning);
+        const QDateTime morE = morB.addSecs(m_trTime * 60);
+        const QDateTime eveB = QDateTime(todayNow.date(), m_evening);
+        const QDateTime eveE = eveB.addSecs(m_trTime * 60);
 
-        QDateTime todayNowLocal = QDateTime::currentDateTime();
-
-        QDateTime morB = QDateTime(todayNowLocal.date(), m_morning);
-        QDateTime morE = morB.addSecs(m_trTime * 60);
-        QDateTime eveB = QDateTime(todayNowLocal.date(), m_evening);
-        QDateTime eveE = eveB.addSecs(m_trTime * 60);
-
-        if (morB <= todayNowLocal && todayNowLocal < eveB) {
+        if (morB <= todayNow && todayNow < eveB) {
             m_next = DateTimes(eveB, eveE);
             m_prev = DateTimes(morB, morE);
-        } else if (todayNowLocal < morB) {
+        } else if (todayNow < morB) {
             m_next = DateTimes(morB, morE);
             m_prev = DateTimes(eveB.addDays(-1), eveE.addDays(-1));
         } else {
@@ -413,62 +472,63 @@ void Manager::updateSunTimings(bool force)
         if (daylight()) {
             // next is morning
             m_prev = m_next;
-            m_next = getSunTimings(todayNow.date().addDays(1), lat, lng, true);
+            m_next = getSunTimings(todayNow.addDays(1), lat, lng, true);
         } else {
             // next is evening
             m_prev = m_next;
-            m_next = getSunTimings(todayNow.date(), lat, lng, false);
+            m_next = getSunTimings(todayNow, lat, lng, false);
         }
     }
 
     if (force || !checkAutomaticSunTimings()) {
         // in case this fails, reset them
-        DateTimes morning = getSunTimings(todayNow.date(), lat, lng, true);
+        DateTimes morning = getSunTimings(todayNow, lat, lng, true);
         if (todayNow < morning.first) {
-            m_prev = getSunTimings(todayNow.date().addDays(-1), lat, lng, false);
+            m_prev = getSunTimings(todayNow.addDays(-1), lat, lng, false);
             m_next = morning;
         } else {
-            DateTimes evening = getSunTimings(todayNow.date(), lat, lng, false);
+            DateTimes evening = getSunTimings(todayNow, lat, lng, false);
             if (todayNow < evening.first) {
                 m_prev = morning;
                 m_next = evening;
             } else {
                 m_prev = evening;
-                m_next = getSunTimings(todayNow.date().addDays(1), lat, lng, true);
+                m_next = getSunTimings(todayNow.addDays(1), lat, lng, true);
             }
         }
     }
 }
 
-DateTimes Manager::getSunTimings(QDate date, double latitude, double longitude, bool morning) const
+DateTimes Manager::getSunTimings(const QDateTime &dateTime, double latitude, double longitude, bool morning) const
 {
-    Times times = calculateSunTimings(date, latitude, longitude, morning);
+    DateTimes dateTimes = calculateSunTimings(dateTime, latitude, longitude, morning);
     // At locations near the poles it is possible, that we can't
     // calculate some or all sun timings (midnight sun).
     // In this case try to fallback to sensible default values.
-    bool beginDefined = !times.first.isNull();
-    bool endDefined = !times.second.isNull();
+    const bool beginDefined = !dateTimes.first.isNull();
+    const bool endDefined = !dateTimes.second.isNull();
     if (!beginDefined || !endDefined) {
         if (beginDefined) {
-            times.second = times.first.addMSecs( FALLBACK_SLOW_UPDATE_TIME );
+            dateTimes.second = dateTimes.first.addMSecs( FALLBACK_SLOW_UPDATE_TIME );
         } else if (endDefined) {
-            times.first = times.second.addMSecs( - FALLBACK_SLOW_UPDATE_TIME);
+            dateTimes.first = dateTimes.second.addMSecs( - FALLBACK_SLOW_UPDATE_TIME );
         } else {
             // Just use default values for morning and evening, but the user
             // will probably deactivate Night Color anyway if he is living
             // in a region without clear sun rise and set.
-            times.first = morning ? QTime(6,0,0) : QTime(18,0,0);
-            times.second = times.first.addMSecs( FALLBACK_SLOW_UPDATE_TIME );
+            const QTime referenceTime = morning ? QTime(6, 0) : QTime(18, 0);
+            dateTimes.first = QDateTime(dateTime.date(), referenceTime);
+            dateTimes.second = dateTimes.first.addMSecs( FALLBACK_SLOW_UPDATE_TIME );
         }
     }
-    return DateTimes(QDateTime(date, times.first, Qt::UTC), QDateTime(date, times.second, Qt::UTC));
+    return dateTimes;
 }
 
 bool Manager::checkAutomaticSunTimings() const
 {
     if (m_prev.first.isValid() && m_prev.second.isValid() &&
             m_next.first.isValid() && m_next.second.isValid()) {
-        QDateTime todayNow = QDateTime::currentDateTimeUtc();
+        const QDateTime todayNow = QDateTime::currentDateTime();
         return m_prev.first <= todayNow && todayNow < m_next.first &&
                 m_prev.first.msecsTo(m_next.first) < MSC_DAY * 23./24;
     }
@@ -486,7 +546,11 @@ int Manager::currentTargetTemp() const
         return NEUTRAL_TEMPERATURE;
     }
 
-    QDateTime todayNow = QDateTime::currentDateTimeUtc();
+    if (m_mode == NightColorMode::Constant) {
+       return m_nightTargetTemp;
+    }
+
+    const QDateTime todayNow = QDateTime::currentDateTime();
 
     auto f = [this, todayNow](int target1, int target2) {
         if (todayNow <= m_prev.second) {
@@ -513,20 +577,23 @@ void Manager::commitGammaRamps(int temperature)
     const auto outs = kwinApp()->platform()->outputs();
 
     for (auto *o : outs) {
-        int rampsize = o->getGammaRampSize();
+        int rampsize = o->gammaRampSize();
         GammaRamp ramp(rampsize);
 
         /*
          * The gamma calculation below is based on the Redshift app:
          * https://github.com/jonls/redshift
          */
+        uint16_t *red = ramp.red();
+        uint16_t *green = ramp.green();
+        uint16_t *blue = ramp.blue();
 
         // linear default state
         for (int i = 0; i < rampsize; i++) {
                 uint16_t value = (double)i / rampsize * (UINT16_MAX + 1);
-                ramp.red[i] = value;
-                ramp.green[i] = value;
-                ramp.blue[i] = value;
+                red[i] = value;
+                green[i] = value;
+                blue[i] = value;
         }
 
         // approximate white point
@@ -538,9 +605,9 @@ void Manager::commitGammaRamps(int temperature)
         whitePoint[2] = (1. - alpha) * blackbodyColor[bbCIndex + 2] + alpha * blackbodyColor[bbCIndex + 5];
 
         for (int i = 0; i < rampsize; i++) {
-            ramp.red[i] = (double)ramp.red[i] / (UINT16_MAX+1) * whitePoint[0] * (UINT16_MAX+1);
-            ramp.green[i] = (double)ramp.green[i] / (UINT16_MAX+1) * whitePoint[1] * (UINT16_MAX+1);
-            ramp.blue[i] = (double)ramp.blue[i] / (UINT16_MAX+1) * whitePoint[2] * (UINT16_MAX+1);
+            red[i] = qreal(red[i]) / (UINT16_MAX+1) * whitePoint[0] * (UINT16_MAX+1);
+            green[i] = qreal(green[i]) / (UINT16_MAX+1) * whitePoint[1] * (UINT16_MAX+1);
+            blue[i] = qreal(blue[i]) / (UINT16_MAX+1) * whitePoint[2] * (UINT16_MAX+1);
         }
 
         if (o->setGammaRamp(ramp)) {
@@ -627,7 +694,7 @@ bool Manager::changeConfiguration(QHash<QString, QVariant> data)
             return false;
         }
         int mo = iter1.value().toInt();
-        if (mo < 0 || 2 < mo) {
+        if (mo < 0 || 3 < mo) {
             return false;
         }
         NightColorMode moM;
@@ -640,6 +707,10 @@ bool Manager::changeConfiguration(QHash<QString, QVariant> data)
                 break;
             case 2:
                 moM = NightColorMode::Timings;
+                break;
+            case 3:
+                moM = NightColorMode::Constant;
+                break;
         }
         modeUpdate = m_mode != moM;
         mode = moM;
@@ -754,6 +825,8 @@ bool Manager::changeConfiguration(QHash<QString, QVariant> data)
 
 void Manager::autoLocationUpdate(double latitude, double longitude)
 {
+    qCDebug(KWIN_COLORCORRECTION, "Received new location (lat: %f, lng: %f)", latitude, longitude);
+
     if (!checkLocation(latitude, longitude)) {
         return;
     }

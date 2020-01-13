@@ -20,7 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kwin_wayland_test.h"
 #include "platform.h"
 #include "abstract_client.h"
+#include "composite.h"
 #include "cursor.h"
+#include "scene.h"
 #include "screenedge.h"
 #include "screens.h"
 #include "wayland_server.h"
@@ -91,7 +93,7 @@ class HelperEffect : public Effect
     Q_OBJECT
 public:
     HelperEffect() {}
-    ~HelperEffect() {}
+    ~HelperEffect() override {}
 
     void windowInputMouseEvent(QEvent*) override {
         emit inputEvent();
@@ -187,17 +189,21 @@ void LockScreenTest::initTestCase()
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
     QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit()));
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
 
+    qputenv("KWIN_COMPOSE", QByteArrayLiteral("O2"));
     kwinApp()->start();
     QVERIFY(workspaceCreatedSpy.wait());
     QCOMPARE(screens()->count(), 2);
     QCOMPARE(screens()->geometry(0), QRect(0, 0, 1280, 1024));
     QCOMPARE(screens()->geometry(1), QRect(1280, 0, 1280, 1024));
     setenv("QT_QPA_PLATFORM", "wayland", true);
-    setenv("QMLSCENE_DEVICE", "softwarecontext", true);
     waylandServer()->initWorkspace();
+
+    auto scene = KWin::Compositor::self()->scene();
+    QVERIFY(scene);
+    QCOMPARE(scene->compositingType(), KWin::OpenGL2Compositing);
 }
 
 void LockScreenTest::init()
@@ -559,7 +565,7 @@ void LockScreenTest::testMoveWindow()
     quint32 timestamp = 1;
 
     workspace()->slotWindowMove();
-    QCOMPARE(workspace()->getMovingClient(), c);
+    QCOMPARE(workspace()->moveResizeClient(), c);
     QVERIFY(c->isMove());
     kwinApp()->platform()->keyboardKeyPressed(KEY_RIGHT, timestamp++);
     kwinApp()->platform()->keyboardKeyReleased(KEY_RIGHT, timestamp++);
@@ -573,14 +579,14 @@ void LockScreenTest::testMoveWindow()
 
     // while locking our window should continue to be in move resize
     LOCK
-    QCOMPARE(workspace()->getMovingClient(), c);
+    QCOMPARE(workspace()->moveResizeClient(), c);
     QVERIFY(c->isMove());
     kwinApp()->platform()->keyboardKeyPressed(KEY_RIGHT, timestamp++);
     kwinApp()->platform()->keyboardKeyReleased(KEY_RIGHT, timestamp++);
     QCOMPARE(clientStepUserMovedResizedSpy.count(), 1);
 
     UNLOCK
-    QCOMPARE(workspace()->getMovingClient(), c);
+    QCOMPARE(workspace()->moveResizeClient(), c);
     QVERIFY(c->isMove());
     kwinApp()->platform()->keyboardKeyPressed(KEY_RIGHT, timestamp++);
     kwinApp()->platform()->keyboardKeyReleased(KEY_RIGHT, timestamp++);

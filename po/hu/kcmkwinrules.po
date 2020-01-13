@@ -1,20 +1,20 @@
-# Kristóf Kiszel <ulysses@kubuntu.org>, 2010, 2012.
+# Kristóf Kiszel <ulysses@kubuntu.org>, 2010, 2012, 2019.
 # Balázs Úr <urbalazs@gmail.com>, 2012, 2013, 2014.
 # Kiszel Kristóf <kiszel.kristof@gmail.com>, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.1\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-10-13 06:43+0200\n"
-"PO-Revision-Date: 2017-02-14 22:59+0100\n"
-"Last-Translator: Kiszel Kristóf <kiszel.kristof@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-09-17 03:28+0200\n"
+"PO-Revision-Date: 2019-12-08 18:37+0100\n"
+"Last-Translator: Kristóf Kiszel <ulysses@kubuntu.org>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 20.03.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -250,62 +250,60 @@ msgstr "Az egyenkénti megjegyzés beállításainak megjelenítése"
 msgid "Internal setting for remembering"
 msgstr "Az egyenkénti megjegyzés beállításai"
 
-#: main.cpp:150
+#: main.cpp:138
 #, kde-format
 msgid "Application settings for %1"
 msgstr "%1 alkalmazásbeállításai"
 
-#: main.cpp:170
+#: main.cpp:158
 #, kde-format
 msgid "Window settings for %1"
 msgstr "%1 ablakbeállításai"
 
-#: main.cpp:222
+#: main.cpp:210
 #, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Egyedi alkalmazásbeállítások módosítása"
 
-#: main.cpp:253
+#: main.cpp:241
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:261
+#: main.cpp:248
 #, kde-format
 msgid "KWin helper utility"
 msgstr "KWin-segédprogram"
 
-#: main.cpp:262
+#: main.cpp:249
 #, kde-format
-msgid "WId of the window for special window settings."
-msgstr "A beállítandó ablak azonosítója."
+msgid "KWin id of the window for special window settings."
+msgstr "A beállítandó ablak KWin azonosítója."
 
-#: main.cpp:263
+#: main.cpp:250
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr ""
 "Ez határozza meg, hogy az alkalmazás összes ablakára érvényes legyen-e a "
 "beállítás."
 
-#: main.cpp:271
+#: main.cpp:259
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Ezt a segédprogramot nem közvetlenül kell elindítani."
 
-#: ruleslist.cpp:153
-#, fuzzy, kde-format
-#| msgid "Export Rule"
+#: ruleslist.cpp:152
+#, kde-format
 msgid "Export Rules"
-msgstr "Szabály exportálása"
+msgstr "Szabályok exportálása"
 
-#: ruleslist.cpp:154 ruleslist.cpp:166
-#, fuzzy, kde-format
-#| msgid "KWin Rule (*.kwinrule)"
+#: ruleslist.cpp:153 ruleslist.cpp:165
+#, kde-format
 msgid "KWin Rules (*.kwinrule)"
-msgstr "KWin szabály (*.kwinrule)"
+msgstr "KWin szabályok (*.kwinrule)"
 
-#: ruleslist.cpp:165
+#: ruleslist.cpp:164
 #, kde-format
 msgid "Import Rules"
 msgstr "Szabályok importálása"
@@ -352,7 +350,7 @@ msgstr "&Importálás"
 msgid "&Export"
 msgstr "&Exportálás"
 
-#: ruleswidget.cpp:68
+#: ruleswidget.cpp:66
 #, kde-format
 msgid ""
 "Enable this checkbox to alter this window property for the specified "
@@ -361,7 +359,7 @@ msgstr ""
 "Jelölje be az opciót, ha ezt a tulajdonságot meg szeretné változtatni a "
 "kijelölt ablakoknál."
 
-#: ruleswidget.cpp:70
+#: ruleswidget.cpp:68
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -394,7 +392,7 @@ msgstr ""
 "meg fog maradni az ablak elrejtéséig (utána a beállítás véglegesen érvényét "
 "veszti).</li></ul>"
 
-#: ruleswidget.cpp:85
+#: ruleswidget.cpp:83
 #, kde-format
 msgid ""
 "Specify how the window property should be affected:<ul><li><em>Do Not Affect:"
@@ -413,27 +411,27 @@ msgstr ""
 "em> Az ablaktulajdonság megmarad, amíg az ablakot el nem rejtik (elrejtés "
 "után a beállítás véglegesen érvényét veszti).</li></ul>"
 
-#: ruleswidget.cpp:153
+#: ruleswidget.cpp:151
 #, kde-format
 msgid "All Desktops"
 msgstr "Összes asztalra"
 
-#: ruleswidget.cpp:347
+#: ruleswidget.cpp:345
 #, kde-format
 msgid "All Activities"
 msgstr "Összes aktivitásra"
 
-#: ruleswidget.cpp:831
+#: ruleswidget.cpp:790
 #, kde-format
 msgid "Settings for %1"
 msgstr "%1 beállításai"
 
-#: ruleswidget.cpp:833
+#: ruleswidget.cpp:792
 #, kde-format
 msgid "Unnamed entry"
 msgstr "Névtelen bejegyzés"
 
-#: ruleswidget.cpp:843
+#: ruleswidget.cpp:802
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -447,12 +445,12 @@ msgstr ""
 "figyelembe lesz véve. Ha általános beállítást szeretne, érdemes lekorlátozni "
 "az ablaktípust a speciális ablaktípusok kihagyása érdekében."
 
-#: ruleswidget.cpp:874
+#: ruleswidget.cpp:831
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Az egyedi ablakbeállítások módosítása"
 
-#: ruleswidget.cpp:904
+#: ruleswidget.cpp:863
 #, kde-format
 msgid ""
 "This configuration dialog allows altering settings only for the selected "
@@ -464,12 +462,12 @@ msgstr ""
 "jellemzőinek beállítását. Keresse ki a beállítandó jellemzőt, jelölje be, "
 "majd adja meg a kezelési módot és a konkrét értéket, ha van."
 
-#: ruleswidget.cpp:908
+#: ruleswidget.cpp:867
 #, kde-format
 msgid "Consult the documentation for more details."
 msgstr "További részletek a dokumentációban találhatók."
 
-#: ruleswidget.cpp:947
+#: ruleswidget.cpp:906
 #, kde-format
 msgid "Edit Shortcut"
 msgstr "A billentyűkombináció módosítása"
@@ -1236,6 +1234,11 @@ msgid ""
 "Otherwise it's interleaved with the stealing prevention\n"
 "assigned to the window that wants the focus."
 msgstr ""
+"Ez vezérli a jelenleg aktív ablak fókuszvédelmét.\n"
+"A Nincs mindig átadja a fókuszt,\n"
+"A Rendkívüli mindig megtartja.\n"
+"Egyébként összeadódik a fókuszt kérp ablakhoz rendelt\n"
+"fókuszvédelemmel."
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_fpplevel)
 #: ruleswidgetbase.ui:2232
@@ -1305,13 +1308,13 @@ msgstr "Ablak&típus"
 #: ruleswidgetbase.ui:2507
 #, kde-format
 msgid "Desktop file name"
-msgstr ""
+msgstr "Asztali fájl neve"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, desktopfile)
 #: ruleswidgetbase.ui:2557
 #, kde-format
 msgid "org.kde.kwin"
-msgstr ""
+msgstr "org.kde.kwin"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_blockcompositing)
 #: ruleswidgetbase.ui:2571

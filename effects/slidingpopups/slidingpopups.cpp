@@ -24,10 +24,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QApplication>
 #include <QFontMetrics>
+#include <QWindow>
 
 #include <KWayland/Server/surface_interface.h>
 #include <KWayland/Server/slide_interface.h>
 #include <KWayland/Server/display.h>
+
+#include <KWindowEffects>
+
+Q_DECLARE_METATYPE(KWindowEffects::SlideFromLocation)
 
 namespace KWin
 {
@@ -123,7 +128,7 @@ void SlidingPopupsEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
     const AnimationData &animData = m_animationsData[w];
     const int slideLength = (animData.slideLength > 0) ? animData.slideLength : m_slideLength;
 
-    const QRect screenRect = effects->clientArea(FullScreenArea, w->screen(), w->desktop());
+    const QRect screenRect = effects->clientArea(FullScreenArea, w->screen(), effects->currentDesktop());
     int splitPoint = 0;
     const QRect geo = w->expandedGeometry();
     const qreal t = (*animationIt).timeLine.value();
@@ -200,6 +205,11 @@ void SlidingPopupsEffect::slotWindowAdded(EffectWindow *w)
         });
     }
 
+    if (auto internal = w->internalWindow()) {
+        internal->installEventFilter(this);
+        setupInternalWindowSlide(w);
+    }
+
     slideIn(w);
 }
 
@@ -207,7 +217,6 @@ void SlidingPopupsEffect::slotWindowDeleted(EffectWindow *w)
 {
     m_animations.remove(w);
     m_animationsData.remove(w);
-    effects->addRepaint(w->expandedGeometry());
 }
 
 void SlidingPopupsEffect::slotPropertyNotify(EffectWindow *w, long atom)
@@ -378,6 +387,62 @@ void SlidingPopupsEffect::slotWaylandSlideOnShowChanged(EffectWindow* w)
     }
 }
 
+void SlidingPopupsEffect::setupInternalWindowSlide(EffectWindow *w)
+{
+    if (!w) {
+        return;
+    }
+    auto internal = w->internalWindow();
+    if (!internal) {
+        return;
+    }
+    const QVariant slideProperty = internal->property("kwin_slide");
+    if (!slideProperty.isValid()) {
+        return;
+    }
+    AnimationData &animData = m_animationsData[w];
+    switch (slideProperty.value<KWindowEffects::SlideFromLocation>()) {
+    case KWindowEffects::BottomEdge:
+        animData.location = Location::Bottom;
+        break;
+    case KWindowEffects::TopEdge:
+        animData.location = Location::Top;
+        break;
+    case KWindowEffects::RightEdge:
+        animData.location = Location::Right;
+        break;
+    case KWindowEffects::LeftEdge:
+        animData.location = Location::Left;
+        break;
+    default:
+        return;
+    }
+    bool intOk = false;
+    animData.offset = internal->property("kwin_slide_offset").toInt(&intOk);
+    if (!intOk) {
+        animData.offset = -1;
+    }
+    animData.slideLength = 0;
+    animData.slideInDuration = m_slideInDuration;
+    animData.slideOutDuration = m_slideOutDuration;
+
+    setupAnimData(w);
+}
+
+bool SlidingPopupsEffect::eventFilter(QObject *watched, QEvent *event)
+{
+    auto internal = qobject_cast<QWindow*>(watched);
+    if (internal && event->type() == QEvent::DynamicPropertyChange) {
+        QDynamicPropertyChangeEvent *pe = static_cast<QDynamicPropertyChangeEvent*>(event);
+        if (pe->propertyName() == "kwin_slide" || pe->propertyName() == "kwin_slide_offset") {
+            if (auto w = effects->findWindow(internal)) {
+                setupInternalWindowSlide(w);
+            }
+        }
+    }
+    return false;
+}
+
 void SlidingPopupsEffect::slideIn(EffectWindow *w)
 {
     if (effects->activeFullScreenEffect()) {
@@ -395,10 +460,16 @@ void SlidingPopupsEffect::slideIn(EffectWindow *w)
 
     Animation &animation = m_animations[w];
     animation.kind = AnimationKind::In;
-    animation.timeLine.reset();
     animation.timeLine.setDirection(TimeLine::Forward);
     animation.timeLine.setDuration((*dataIt).slideInDuration);
     animation.timeLine.setEasingCurve(QEasingCurve::InOutSine);
+
+    // If the opposite animation (Out) was active and it had shorter duration,
+    // at this point, the timeline can end up in the "done" state. Thus, we have
+    // to reset it.
+    if (animation.timeLine.done()) {
+        animation.timeLine.reset();
+    }
 
     w->setData(WindowAddedGrabRole, QVariant::fromValue(static_cast<void*>(this)));
     w->setData(WindowForceBackgroundContrastRole, QVariant(true));
@@ -428,10 +499,16 @@ void SlidingPopupsEffect::slideOut(EffectWindow *w)
 
     Animation &animation = m_animations[w];
     animation.kind = AnimationKind::Out;
-    animation.timeLine.reset();
     animation.timeLine.setDirection(TimeLine::Backward);
     animation.timeLine.setDuration((*dataIt).slideOutDuration);
     animation.timeLine.setEasingCurve(QEasingCurve::InOutSine);
+
+    // If the opposite animation (In) was active and it had shorter duration,
+    // at this point, the timeline can end up in the "done" state. Thus, we have
+    // to reset it.
+    if (animation.timeLine.done()) {
+        animation.timeLine.reset();
+    }
 
     w->setData(WindowClosedGrabRole, QVariant::fromValue(static_cast<void*>(this)));
     w->setData(WindowForceBackgroundContrastRole, QVariant(true));

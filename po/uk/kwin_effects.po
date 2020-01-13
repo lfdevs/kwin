@@ -1,23 +1,23 @@
 # Translation of kwin_effects.po to Ukrainian
-# Copyright (C) 2007-2018 This_file_is_part_of_KDE
+# Copyright (C) 2007-2019 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
 # Ivan Petrouchtchak <fr.ivan@ukrainian-orthodox.org>, 2007, 2008.
-# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018.
+# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-10-29 06:48+0100\n"
-"PO-Revision-Date: 2018-09-13 07:52+0300\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-09-15 03:21+0200\n"
+"PO-Revision-Date: 2019-06-22 07:59+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 19.07.70\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
@@ -67,7 +67,7 @@ msgstr ""
 "натисканням Enter.\n"
 "Натисніть Esc або клацніть правою кнопкою, щоб скасувати."
 
-#: coverswitch/coverswitch.cpp:951 flipswitch/flipswitch.cpp:934
+#: coverswitch/coverswitch.cpp:956 flipswitch/flipswitch.cpp:936
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -76,7 +76,7 @@ msgstr "Показати стільницю"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowCaptions)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_WindowTitle)
 #: coverswitch/coverswitch_config.ui:17 flipswitch/flipswitch_config.ui:191
-#: presentwindows/presentwindows_config.ui:396
+#: presentwindows/presentwindows_config.ui:406
 #, kde-format
 msgid "Display window &titles"
 msgstr "Показувати &заголовки вікон"
@@ -140,7 +140,7 @@ msgstr "Тривалість анімації:"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_AnimationDuration)
 #: coverswitch/coverswitch_config.ui:158 cube/cube_config.ui:149
-#: cube/cubeslide_config.ui:49 magiclamp/magiclamp_config.ui:36
+#: cubeslide/cubeslide_config.ui:49 magiclamp/magiclamp_config.ui:36
 #, kde-format
 msgctxt "Duration of rotation"
 msgid "Default"
@@ -148,7 +148,7 @@ msgstr "Типова"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
 #: coverswitch/coverswitch_config.ui:161 glide/glide_config.ui:35
-#: scale/scale_config.ui:33 slide/slide_config.ui:35
+#: scale/package/contents/ui/config.ui:33 slide/slide_config.ui:35
 #, kde-format
 msgid " milliseconds"
 msgstr " мілісекунд"
@@ -172,17 +172,17 @@ msgstr "Колір задньої сторони"
 msgid "Front color"
 msgstr "Колір переднього плану"
 
-#: cube/cube.cpp:187 cube/cube_config.cpp:71
+#: cube/cube.cpp:197 cube/cube_config.cpp:71
 #, kde-format
 msgid "Desktop Cube"
 msgstr "Куб стільниць"
 
-#: cube/cube.cpp:195 cube/cube_config.cpp:76
+#: cube/cube.cpp:205 cube/cube_config.cpp:76
 #, kde-format
 msgid "Desktop Cylinder"
 msgstr "Стільничний циліндр"
 
-#: cube/cube.cpp:201 cube/cube_config.cpp:80
+#: cube/cube.cpp:211 cube/cube_config.cpp:80
 #, kde-format
 msgid "Desktop Sphere"
 msgstr "Стільнична сфера"
@@ -204,6 +204,7 @@ msgstr "Додаткові"
 #: lookingglass/lookingglass_config.cpp:69 magnifier/magnifier_config.cpp:69
 #: mouseclick/mouseclick_config.cpp:61 mousemark/mousemark_config.cpp:67
 #: presentwindows/presentwindows_config.cpp:62
+#: showpaint/showpaint_config.cpp:47
 #: thumbnailaside/thumbnailaside_config.cpp:68
 #: trackmouse/trackmouse_config.cpp:65
 #: windowgeometry/windowgeometry_config.cpp:56 zoom/zoom_config.cpp:65
@@ -248,7 +249,7 @@ msgstr "Активація"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: cube/cube_config.ui:104 desktopgrid/desktopgrid_config.ui:17
 #: flipswitch/flipswitch_config.ui:17 mousemark/mousemark_config.ui:17
-#: presentwindows/presentwindows_config.ui:377
+#: presentwindows/presentwindows_config.ui:387
 #: thumbnailaside/thumbnailaside_config.ui:17
 #, kde-format
 msgid "Appearance"
@@ -267,7 +268,7 @@ msgid "Reflection"
 msgstr "Віддзеркалення"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: cube/cube_config.ui:124 cube/cubeslide_config.ui:72
+#: cube/cube_config.ui:124 cubeslide/cubeslide_config.ui:72
 #, kde-format
 msgid "Rotation duration:"
 msgstr "Тривалість обертання:"
@@ -412,37 +413,37 @@ msgid "Plane"
 msgstr "Площина"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSlideStickyWindows)
-#: cube/cubeslide_config.ui:17
+#: cubeslide/cubeslide_config.ui:17
 #, kde-format
 msgid "Do not animate windows on all desktops"
 msgstr "Не анімувати вікна на всіх стільницях"
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RotationDuration)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingLife)
-#: cube/cubeslide_config.ui:52 mouseclick/mouseclick_config.ui:132
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RotationDuration)
+#: cubeslide/cubeslide_config.ui:52 mouseclick/mouseclick_config.ui:132
 #, kde-format
 msgid " msec"
 msgstr " мс"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSlidePanels)
-#: cube/cubeslide_config.ui:65
+#: cubeslide/cubeslide_config.ui:65
 #, kde-format
 msgid "Do not animate panels"
 msgstr "Не анімувати панелі"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UsePagerLayout)
-#: cube/cubeslide_config.ui:85
+#: cubeslide/cubeslide_config.ui:85
 #, kde-format
 msgid "Use pager layout for animation"
 msgstr "Використовувати формат пейджера для анімацій"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseWindowMoving)
-#: cube/cubeslide_config.ui:92
+#: cubeslide/cubeslide_config.ui:92
 #, kde-format
 msgid "Start animation when moving windows towards screen edges"
 msgstr "Почати анімацію, якщо вікно рухається у напрямку до краю екрана"
 
-#: desktopgrid/desktopgrid.cpp:73 desktopgrid/desktopgrid_config.cpp:68
+#: desktopgrid/desktopgrid.cpp:76 desktopgrid/desktopgrid_config.cpp:68
 #, kde-format
 msgid "Show Desktop Grid"
 msgstr "Показати ґратку стільниці"
@@ -617,37 +618,43 @@ msgstr "Утримувати над вікнами"
 msgid "By window group"
 msgstr "За групами вікон"
 
-#: effect_builtins.cpp:105
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimFullScreen)
+#: diminactive/diminactive_config.ui:75
+#, kde-format
+msgid "Fullscreen windows"
+msgstr "Вікна не увесь екран"
+
+#: effect_builtins.cpp:102
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
 msgstr "Розмивання"
 
-#: effect_builtins.cpp:106
+#: effect_builtins.cpp:103
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
 msgstr "Розмивання тла напівпрозорих вікон"
 
-#: effect_builtins.cpp:120
+#: effect_builtins.cpp:117
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Color Picker"
 msgstr "Піпетка кольорів"
 
-#: effect_builtins.cpp:121
+#: effect_builtins.cpp:118
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Supports picking a color"
 msgstr "Підтримка взяття кольору з екрана"
 
-#: effect_builtins.cpp:135
+#: effect_builtins.cpp:132
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Контрастність тла"
 
-#: effect_builtins.cpp:136
+#: effect_builtins.cpp:133
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
@@ -655,49 +662,49 @@ msgstr ""
 "Покращення контрастності та придатності до читання тексту під напівпрозорими "
 "вікнами"
 
-#: effect_builtins.cpp:150
+#: effect_builtins.cpp:147
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Cover Switch"
 msgstr "Перемикач обкладинок"
 
-#: effect_builtins.cpp:151
+#: effect_builtins.cpp:148
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a Cover Flow effect for the alt+tab window switcher"
 msgstr "Демонстрація ефекту поверхневої течії для перемикача вікон за Alt+Tab"
 
-#: effect_builtins.cpp:165
+#: effect_builtins.cpp:162
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Куб стільниць"
 
-#: effect_builtins.cpp:166
+#: effect_builtins.cpp:163
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display each virtual desktop on a side of a cube"
 msgstr "Показ всіх віртуальні стільниць на поверхні куба"
 
-#: effect_builtins.cpp:180
+#: effect_builtins.cpp:177
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Анімація куба стільниць"
 
-#: effect_builtins.cpp:181
+#: effect_builtins.cpp:178
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate desktop switching with a cube"
 msgstr "Створювати анімацію перемикання стільниць куба"
 
-#: effect_builtins.cpp:195
+#: effect_builtins.cpp:192
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Таблиця стільниць"
 
-#: effect_builtins.cpp:196
+#: effect_builtins.cpp:193
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
@@ -705,75 +712,62 @@ msgstr ""
 "Зменшення стільниць так, щоб всі стільниці було показано поруч у форматі "
 "таблиці"
 
-#: effect_builtins.cpp:210
+#: effect_builtins.cpp:207
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
 msgstr "Затемнення неактивних"
 
-#: effect_builtins.cpp:211
+#: effect_builtins.cpp:208
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Затемнення неактивних вікон"
 
-#: effect_builtins.cpp:225
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Dim Screen for Administrator Mode"
-msgstr "Тьмяний екран для режиму адміністратора"
-
-#: effect_builtins.cpp:226
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Darkens the entire screen when requesting root privileges"
-msgstr ""
-"Затемнення всього екрана, якщо показано запит щодо пароля адміністратора"
-
-#: effect_builtins.cpp:240
+#: effect_builtins.cpp:222
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Fall Apart"
 msgstr "Розпадання"
 
-#: effect_builtins.cpp:241
+#: effect_builtins.cpp:223
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "Розпадання вікон на шматочки під час закриття вікон"
 
-#: effect_builtins.cpp:255
+#: effect_builtins.cpp:237
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Flip Switch"
 msgstr "Тасування карток"
 
-#: effect_builtins.cpp:256
+#: effect_builtins.cpp:238
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Flip through windows that are in a stack for the alt+tab window switcher"
 msgstr "Тасування вікон у стосі для перемикача вікон за alt+tab"
 
-#: effect_builtins.cpp:270
+#: effect_builtins.cpp:252
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Glide"
 msgstr "Плин"
 
-#: effect_builtins.cpp:271
+#: effect_builtins.cpp:253
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Glide windows as they appear or disappear"
 msgstr "Ковзання вікон при появі або зникненні"
 
-#: effect_builtins.cpp:285
+#: effect_builtins.cpp:267
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Highlight Window"
 msgstr "Підсвічування вікна"
 
-#: effect_builtins.cpp:286
+#: effect_builtins.cpp:268
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight the appropriate window when hovering over taskbar entries"
@@ -781,37 +775,37 @@ msgstr ""
 "Підсвічування відповідного вікна у відповідь на наведення вказівника миші на "
 "елементи панелі задач"
 
-#: effect_builtins.cpp:300
+#: effect_builtins.cpp:282
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Інверсія"
 
-#: effect_builtins.cpp:301
+#: effect_builtins.cpp:283
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
 msgstr "Обернення кольорів стільниці і вікон"
 
-#: effect_builtins.cpp:315
+#: effect_builtins.cpp:297
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
 msgstr "Kscreen"
 
-#: effect_builtins.cpp:316
+#: effect_builtins.cpp:298
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper Effect for KScreen"
 msgstr "Допоміжний ефект KScreen"
 
-#: effect_builtins.cpp:330
+#: effect_builtins.cpp:312
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
 msgstr "Збільшувальне скло"
 
-#: effect_builtins.cpp:331
+#: effect_builtins.cpp:313
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
@@ -819,49 +813,37 @@ msgstr ""
 "Екранна лупа, яка робить вигляд стільниці схожим на зображення, отримане з "
 "ефектом «риб’ячого ока»"
 
-#: effect_builtins.cpp:345
+#: effect_builtins.cpp:327
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
 msgstr "Чарівна лампа"
 
-#: effect_builtins.cpp:346
+#: effect_builtins.cpp:328
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
 msgstr "Імітація ефекту чарівної лампи під час мінімізації вікон"
 
-#: effect_builtins.cpp:360
+#: effect_builtins.cpp:342
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Лупа"
 
-#: effect_builtins.cpp:361
+#: effect_builtins.cpp:343
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
 msgstr "Збільшення частини екрана поруч з вказівником миші"
 
-#: effect_builtins.cpp:375
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Minimize Animation"
-msgstr "Анімація мінімізації"
-
-#: effect_builtins.cpp:376
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Animate the minimizing of windows"
-msgstr "Оживлення мінімізації вікон"
-
-#: effect_builtins.cpp:390
+#: effect_builtins.cpp:357
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Анімація за клацанням миші"
 
-#: effect_builtins.cpp:391
+#: effect_builtins.cpp:358
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -871,25 +853,25 @@ msgstr ""
 "Створення анімацій у відповідь на клацання кнопкою миші. Корисне для записів "
 "демонстрацій та презентацій."
 
-#: effect_builtins.cpp:405
+#: effect_builtins.cpp:372
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Позначки мишкою"
 
-#: effect_builtins.cpp:406
+#: effect_builtins.cpp:373
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
 msgstr "Можливість малювання ліній на стільниці"
 
-#: effect_builtins.cpp:420
+#: effect_builtins.cpp:387
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Показ вікон"
 
-#: effect_builtins.cpp:421
+#: effect_builtins.cpp:388
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
@@ -897,13 +879,13 @@ msgstr ""
 "Зменшення масштабу вікон так, щоб всі відкриті вікна можна було розташувати "
 "поряд"
 
-#: effect_builtins.cpp:435
+#: effect_builtins.cpp:402
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Зміна розмірів вікон"
 
-#: effect_builtins.cpp:436
+#: effect_builtins.cpp:403
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
@@ -911,136 +893,122 @@ msgstr ""
 "Зміна розмірів вікон швидким масштабуванням текстур замість оновлення вмісту "
 "вікон"
 
-#: effect_builtins.cpp:450
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Scale"
-msgstr "Масштабування"
-
-#: effect_builtins.cpp:451
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Make windows smoothly scale in and out when they are shown or hidden"
-msgstr ""
-"Плавне масштабування зі збільшенням або зменшенням вікон під час їх появи "
-"або приховування"
-
-#: effect_builtins.cpp:465
+#: effect_builtins.cpp:417
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr "Край екрана"
 
-#: effect_builtins.cpp:466
+#: effect_builtins.cpp:418
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
 msgstr "Підсвічує край екрана у разі наближення вказівника"
 
-#: effect_builtins.cpp:480
+#: effect_builtins.cpp:432
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
 msgstr "Знімок вікна"
 
-#: effect_builtins.cpp:481
+#: effect_builtins.cpp:433
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
-msgid "Helper effect for KSnapshot"
-msgstr "Допоміжний ефект для KSnapshot"
+msgid "Helper effect for screenshot tools"
+msgstr "Допоміжний ефект для створення знімків екрана"
 
-#: effect_builtins.cpp:495
+#: effect_builtins.cpp:447
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
 msgstr "Аркуш"
 
-#: effect_builtins.cpp:496
+#: effect_builtins.cpp:448
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Make modal dialogs smoothly fly in and out when they are shown or hidden"
 msgstr "Плавне влітання або відлітання вікон під час їх появи або приховування"
 
-#: effect_builtins.cpp:510
+#: effect_builtins.cpp:462
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
 msgstr "Показ частоти кадрів"
 
-#: effect_builtins.cpp:511
+#: effect_builtins.cpp:463
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
 msgstr "Показ параметра швидкодії KWin (частоти кадрів) у куті екрана"
 
-#: effect_builtins.cpp:525
+#: effect_builtins.cpp:477
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Показати намальоване"
 
-#: effect_builtins.cpp:526
+#: effect_builtins.cpp:478
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
 msgstr "Підсвічує області екрана, у яких спостерігалося оновлення"
 
-#: effect_builtins.cpp:540
+#: effect_builtins.cpp:492
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
 msgstr "Ковзання"
 
-#: effect_builtins.cpp:541
+#: effect_builtins.cpp:493
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide desktops when switching virtual desktops"
 msgstr "Ковзання стільниць під час час перемикання стільниць"
 
-#: effect_builtins.cpp:555
+#: effect_builtins.cpp:507
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
 msgstr "Зниження"
 
-#: effect_builtins.cpp:556
+#: effect_builtins.cpp:508
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
 msgstr "Ковзання вікон на задній план під час підняття інших вікон"
 
-#: effect_builtins.cpp:570
+#: effect_builtins.cpp:522
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
 msgstr "Ковзні контекстні вікна"
 
-#: effect_builtins.cpp:571
+#: effect_builtins.cpp:523
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
 msgstr "Анімація з ковзанням для контекстних вікон Плазми"
 
-#: effect_builtins.cpp:585
+#: effect_builtins.cpp:537
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
 msgstr "Помічник розташування"
 
-#: effect_builtins.cpp:586
+#: effect_builtins.cpp:538
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
 msgstr "Допомога у пошуку центра екрана, коли ви пересуватимете вікно"
 
-#: effect_builtins.cpp:600
+#: effect_builtins.cpp:552
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
 msgstr "Повідомлення під час запуску"
 
-#: effect_builtins.cpp:601
+#: effect_builtins.cpp:553
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
@@ -1048,73 +1016,73 @@ msgstr ""
 "Допоміжний ефект перегляду повідомлень, що надсилаються програмою під час "
 "запуску"
 
-#: effect_builtins.cpp:615
+#: effect_builtins.cpp:567
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Мініатюри збоку"
 
-#: effect_builtins.cpp:616
+#: effect_builtins.cpp:568
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
 msgstr "Показ мініатюр вікон при наведенні на край екрана"
 
-#: effect_builtins.cpp:630
+#: effect_builtins.cpp:582
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Touch Points"
 msgstr "Точки дотику"
 
-#: effect_builtins.cpp:631
+#: effect_builtins.cpp:583
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Visualize touch points"
 msgstr "Візуалізувати точки дотику"
 
-#: effect_builtins.cpp:645
+#: effect_builtins.cpp:597
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Сліди мишки"
 
-#: effect_builtins.cpp:646
+#: effect_builtins.cpp:598
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a mouse cursor locating effect when activated"
 msgstr "Показ наближення вказівника миші"
 
-#: effect_builtins.cpp:660
+#: effect_builtins.cpp:612
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Window Geometry"
 msgstr "Розміри вікна"
 
-#: effect_builtins.cpp:661
+#: effect_builtins.cpp:613
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "Показ розмірів вікон при пересуванні або зміні розмірів"
 
-#: effect_builtins.cpp:675
+#: effect_builtins.cpp:627
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Желейні вікна"
 
-#: effect_builtins.cpp:676
+#: effect_builtins.cpp:628
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "Деформація вікон під час їхнього пересування"
 
-#: effect_builtins.cpp:690
+#: effect_builtins.cpp:642
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Масштабування"
 
-#: effect_builtins.cpp:691
+#: effect_builtins.cpp:643
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
@@ -1168,14 +1136,16 @@ msgid "Vertical position of front:"
 msgstr "Передня частина по вертикалі:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_Duration)
-#: glide/glide_config.ui:19 scale/scale_config.ui:17 slide/slide_config.ui:19
+#: glide/glide_config.ui:19 scale/package/contents/ui/config.ui:17
+#: slide/slide_config.ui:19
 #, kde-format
 msgid "Duration:"
 msgstr "Тривалість:"
 
 #. i18n: Duration of the slide animation.
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
-#: glide/glide_config.ui:32 scale/scale_config.ui:30 slide/slide_config.ui:32
+#: glide/glide_config.ui:32 scale/package/contents/ui/config.ui:30
+#: slide/slide_config.ui:32
 #, kde-format
 msgid "Default"
 msgstr "Типова"
@@ -1431,7 +1401,7 @@ msgstr "Увімкнути або вимкнути «Показ вікон» (в
 msgid "Toggle Present Windows (Window class)"
 msgstr "Увімкнути або вимкнути «Показ вікон» (клас вікон)"
 
-#: presentwindows/presentwindows.cpp:1660
+#: presentwindows/presentwindows.cpp:1666
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1473,7 +1443,7 @@ msgstr "Вікна"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: presentwindows/presentwindows_config.ui:128
-#: presentwindows/presentwindows_config.ui:272
+#: presentwindows/presentwindows_config.ui:282
 #, kde-format
 msgid "Left button:"
 msgstr "Ліва кнопка:"
@@ -1486,10 +1456,10 @@ msgstr "Ліва кнопка:"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
 #: presentwindows/presentwindows_config.ui:139
 #: presentwindows/presentwindows_config.ui:183
-#: presentwindows/presentwindows_config.ui:227
-#: presentwindows/presentwindows_config.ui:283
-#: presentwindows/presentwindows_config.ui:317
-#: presentwindows/presentwindows_config.ui:351
+#: presentwindows/presentwindows_config.ui:232
+#: presentwindows/presentwindows_config.ui:293
+#: presentwindows/presentwindows_config.ui:327
+#: presentwindows/presentwindows_config.ui:361
 #, kde-format
 msgid "No action"
 msgstr "Нічого не робити"
@@ -1502,10 +1472,10 @@ msgstr "Нічого не робити"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
 #: presentwindows/presentwindows_config.ui:144
 #: presentwindows/presentwindows_config.ui:188
-#: presentwindows/presentwindows_config.ui:232
-#: presentwindows/presentwindows_config.ui:288
-#: presentwindows/presentwindows_config.ui:322
-#: presentwindows/presentwindows_config.ui:356
+#: presentwindows/presentwindows_config.ui:237
+#: presentwindows/presentwindows_config.ui:298
+#: presentwindows/presentwindows_config.ui:332
+#: presentwindows/presentwindows_config.ui:366
 #, kde-format
 msgid "Activate window"
 msgstr "Активувати вікно"
@@ -1518,10 +1488,10 @@ msgstr "Активувати вікно"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
 #: presentwindows/presentwindows_config.ui:149
 #: presentwindows/presentwindows_config.ui:193
-#: presentwindows/presentwindows_config.ui:237
-#: presentwindows/presentwindows_config.ui:293
-#: presentwindows/presentwindows_config.ui:327
-#: presentwindows/presentwindows_config.ui:361
+#: presentwindows/presentwindows_config.ui:242
+#: presentwindows/presentwindows_config.ui:303
+#: presentwindows/presentwindows_config.ui:337
+#: presentwindows/presentwindows_config.ui:371
 #, kde-format
 msgid "End effect"
 msgstr "Завершальний ефект"
@@ -1531,7 +1501,7 @@ msgstr "Завершальний ефект"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
 #: presentwindows/presentwindows_config.ui:154
 #: presentwindows/presentwindows_config.ui:198
-#: presentwindows/presentwindows_config.ui:242
+#: presentwindows/presentwindows_config.ui:247
 #, kde-format
 msgid "Bring window to current desktop"
 msgstr "Перенести вікно на поточну стільницю"
@@ -1541,7 +1511,7 @@ msgstr "Перенести вікно на поточну стільницю"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
 #: presentwindows/presentwindows_config.ui:159
 #: presentwindows/presentwindows_config.ui:203
-#: presentwindows/presentwindows_config.ui:247
+#: presentwindows/presentwindows_config.ui:252
 #, kde-format
 msgid "Send window to all desktops"
 msgstr "Надіслати вікно на всі стільниці"
@@ -1551,7 +1521,7 @@ msgstr "Надіслати вікно на всі стільниці"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
 #: presentwindows/presentwindows_config.ui:164
 #: presentwindows/presentwindows_config.ui:208
-#: presentwindows/presentwindows_config.ui:252
+#: presentwindows/presentwindows_config.ui:257
 #, kde-format
 msgid "(Un-)Minimize window"
 msgstr "Перемкнути стан мінімізації"
@@ -1559,21 +1529,29 @@ msgstr "Перемкнути стан мінімізації"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: presentwindows/presentwindows_config.ui:172
-#: presentwindows/presentwindows_config.ui:306
+#: presentwindows/presentwindows_config.ui:316
 #, kde-format
 msgid "Middle button:"
 msgstr "Середня кнопка:"
 
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
+#: presentwindows/presentwindows_config.ui:213
+#: presentwindows/presentwindows_config.ui:262
+#, kde-format
+msgid "Close window"
+msgstr "Закрити вікно"
+
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: presentwindows/presentwindows_config.ui:216
-#: presentwindows/presentwindows_config.ui:340
+#: presentwindows/presentwindows_config.ui:221
+#: presentwindows/presentwindows_config.ui:350
 #, kde-format
 msgid "Right button:"
 msgstr "Права кнопка:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
-#: presentwindows/presentwindows_config.ui:263
+#: presentwindows/presentwindows_config.ui:273
 #, kde-format
 msgctxt "@title:group actions when clicking on desktop"
 msgid "Desktop"
@@ -1582,57 +1560,57 @@ msgstr "Стільниця"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonDesktop)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonDesktop)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
-#: presentwindows/presentwindows_config.ui:298
-#: presentwindows/presentwindows_config.ui:332
-#: presentwindows/presentwindows_config.ui:366
+#: presentwindows/presentwindows_config.ui:308
+#: presentwindows/presentwindows_config.ui:342
+#: presentwindows/presentwindows_config.ui:376
 #, kde-format
 msgid "Show desktop"
 msgstr "Показати стільницю"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: presentwindows/presentwindows_config.ui:383
+#: presentwindows/presentwindows_config.ui:393
 #, kde-format
 msgid "Layout mode:"
 msgstr "Режим компонування:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowIcons)
-#: presentwindows/presentwindows_config.ui:403
+#: presentwindows/presentwindows_config.ui:413
 #, kde-format
 msgid "Display window &icons"
 msgstr "Показувати п&іктограми вікон"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
-#: presentwindows/presentwindows_config.ui:410
+#: presentwindows/presentwindows_config.ui:420
 #, kde-format
 msgid "Ignore &minimized windows"
 msgstr "Ігнорувати &мінімізовані вікна"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowPanel)
-#: presentwindows/presentwindows_config.ui:417
+#: presentwindows/presentwindows_config.ui:427
 #, kde-format
 msgid "Show &panels"
 msgstr "Показувати &панелі"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: presentwindows/presentwindows_config.ui:431
+#: presentwindows/presentwindows_config.ui:441
 #, kde-format
 msgid "Natural"
 msgstr "Природний"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: presentwindows/presentwindows_config.ui:436
+#: presentwindows/presentwindows_config.ui:446
 #, kde-format
 msgid "Regular Grid"
 msgstr "Звичайна ґратка"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: presentwindows/presentwindows_config.ui:441
+#: presentwindows/presentwindows_config.ui:451
 #, kde-format
 msgid "Flexible Grid"
 msgstr "Гнучка ґратка"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowClosingWindows)
-#: presentwindows/presentwindows_config.ui:449
+#: presentwindows/presentwindows_config.ui:459
 #, kde-format
 msgid "Provide buttons to close the windows"
 msgstr "Показувати кнопки закриття вікон"
@@ -1650,30 +1628,30 @@ msgid "Show outline"
 msgstr "Показувати обрис"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InScale)
-#: scale/scale_config.ui:46
+#: scale/package/contents/ui/config.ui:46
 #, kde-format
 msgid "Window open scale:"
 msgstr "Масштаб відкриття вікна:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_OutScale)
-#: scale/scale_config.ui:53
+#: scale/package/contents/ui/config.ui:53
 #, kde-format
 msgid "Window close scale:"
 msgstr "Масштаб закриття вікна:"
 
-#: screenshot/screenshot.cpp:294
+#: screenshot/screenshot.cpp:354
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Знімок вікна"
 
-#: screenshot/screenshot.cpp:295
+#: screenshot/screenshot.cpp:355
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Знімок вікна збережено до %1"
 
-#: screenshot/screenshot.cpp:403
+#: screenshot/screenshot.cpp:464
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -1683,7 +1661,7 @@ msgstr ""
 "натисканням Enter.\n"
 "Натисніть Esc або клацніть правою кнопкою, щоб скасувати."
 
-#: screenshot/screenshot.cpp:406
+#: screenshot/screenshot.cpp:467
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -1692,7 +1670,7 @@ msgstr ""
 "Клацніть лівою кнопкою миші або натисніть Enter для створення знімка.\n"
 "Натисніть Esc або клацніть правою кнопкою, щоб скасувати."
 
-#: showfps/showfps.cpp:63
+#: showfps/showfps.cpp:65
 #, kde-format
 msgid "This effect is not a benchmark"
 msgstr "Цей ефект не є тестом"
@@ -1757,6 +1735,11 @@ msgstr "Колір тексту:"
 msgid "Text alpha:"
 msgstr "Альфа тексту:"
 
+#: showpaint/showpaint.cpp:53 showpaint/showpaint_config.cpp:52
+#, kde-format
+msgid "Toggle Show Paint"
+msgstr "Увімкнути або вимкнути показ малювання"
+
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_Gaps)
 #: slide/slide_config.ui:50
 #, kde-format
@@ -1787,7 +1770,7 @@ msgstr "Ковзні панелі"
 msgid "Slide desktop background"
 msgstr "Ковзне тло стільниці"
 
-#: thumbnailaside/thumbnailaside.cpp:38
+#: thumbnailaside/thumbnailaside.cpp:40
 #: thumbnailaside/thumbnailaside_config.cpp:73
 #, kde-format
 msgid "Toggle Thumbnail for Current Window"

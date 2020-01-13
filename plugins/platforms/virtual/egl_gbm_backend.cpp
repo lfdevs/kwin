@@ -23,18 +23,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "virtual_backend.h"
 #include "options.h"
 #include "screens.h"
-#include "udev.h"
 #include <logging.h>
 // kwin libs
 #include <kwinglplatform.h>
 #include <kwinglutils.h>
 // Qt
 #include <QOpenGLContext>
-// system
-#include <fcntl.h>
-#include <unistd.h>
-#if HAVE_GBM
-#include <gbm.h>
+
+#ifndef EGL_PLATFORM_SURFACELESS_MESA
+#define EGL_PLATFORM_SURFACELESS_MESA 0x31DD
 #endif
 
 namespace KWin
@@ -58,39 +55,6 @@ EglGbmBackend::~EglGbmBackend()
     cleanup();
 }
 
-void EglGbmBackend::initGbmDevice()
-{
-    if (m_backend->drmFd() != -1) {
-        // already initialized
-        return;
-    }
-    QScopedPointer<Udev> udev(new Udev);
-    UdevDevice::Ptr device = udev->virtualGpu();
-    if (!device) {
-        // if we don't have a virtual (vgem) device, try to find a render node
-        qCDebug(KWIN_VIRTUAL) << "No vgem device, looking for a render node";
-        device = udev->renderNode();
-    }
-    if (!device) {
-        qCDebug(KWIN_VIRTUAL) << "Neither a render node, nor a vgem device found";
-        return;
-    }
-    qCDebug(KWIN_VIRTUAL) << "Found a device: " << device->devNode();
-    int fd = open(device->devNode(), O_RDWR | O_CLOEXEC);
-    if (fd == -1) {
-        qCWarning(KWIN_VIRTUAL) << "Failed to open: " << device->devNode();
-        return;
-    }
-    m_backend->setDrmFd(fd);
-#if HAVE_GBM
-    auto gbmDevice = gbm_create_device(fd);
-    if (!gbmDevice) {
-        qCWarning(KWIN_VIRTUAL) << "Failed to open gbm device";
-    }
-    m_backend->setGbmDevice(gbmDevice);
-#endif
-}
-
 bool EglGbmBackend::initializeEgl()
 {
     initClientExtensions();
@@ -99,26 +63,11 @@ bool EglGbmBackend::initializeEgl()
     // Use eglGetPlatformDisplayEXT() to get the display pointer
     // if the implementation supports it.
     if (display == EGL_NO_DISPLAY) {
-        const bool hasMesaGBM = hasClientExtension(QByteArrayLiteral("EGL_MESA_platform_gbm"));
-        const bool hasKHRGBM = hasClientExtension(QByteArrayLiteral("EGL_KHR_platform_gbm"));
-        const GLenum platform = hasMesaGBM ? EGL_PLATFORM_GBM_MESA : EGL_PLATFORM_GBM_KHR;
-
-        if (!hasClientExtension(QByteArrayLiteral("EGL_EXT_platform_base")) ||
-                (!hasMesaGBM && !hasKHRGBM)) {
-            setFailed("missing one or more extensions between EGL_EXT_platform_base,  EGL_MESA_platform_gbm, EGL_KHR_platform_gbm");
-            return false;
-        }
-
-#if HAVE_GBM
-        initGbmDevice();
-        if (auto device = m_backend->gbmDevice()) {
-            display = eglGetPlatformDisplayEXT(platform, device, nullptr);
-        }
-#endif
-
-        if (display == EGL_NO_DISPLAY) {
-            qCWarning(KWIN_VIRTUAL) << "Failed to create EGLDisplay through GBM device, trying with default device";
-            display = eglGetPlatformDisplayEXT(platform, EGL_DEFAULT_DISPLAY, nullptr);
+        // first try surfaceless
+        if (hasClientExtension(QByteArrayLiteral("EGL_MESA_platform_surfaceless"))) {
+            display = eglGetPlatformDisplayEXT(EGL_PLATFORM_SURFACELESS_MESA, EGL_DEFAULT_DISPLAY, nullptr);
+        } else {
+            qCWarning(KWIN_VIRTUAL) << "Extension EGL_MESA_platform_surfaceless not available";
         }
     }
 
@@ -207,6 +156,12 @@ bool EglGbmBackend::initBufferConfigs()
 
 void EglGbmBackend::present()
 {
+    Compositor::self()->aboutToSwapBuffers();
+
+    eglSwapBuffers(eglDisplay(), surface());
+    setLastDamage(QRegion());
+
+    Compositor::self()->bufferSwapComplete();
 }
 
 void EglGbmBackend::screenGeometryChanged(const QSize &size)
@@ -222,6 +177,9 @@ SceneOpenGLTexturePrivate *EglGbmBackend::createBackendTexture(SceneOpenGLTextur
 
 QRegion EglGbmBackend::prepareRenderingFrame()
 {
+    if (!lastDamage().isEmpty()) {
+        present();
+    }
     startRenderTimer();
     if (!GLRenderTarget::isRenderTargetBound()) {
         GLRenderTarget::pushRenderTarget(m_fbo);
@@ -262,16 +220,16 @@ static void convertFromGLImage(QImage &img, int w, int h)
 
 void EglGbmBackend::endRenderingFrame(const QRegion &renderedRegion, const QRegion &damagedRegion)
 {
-    Q_UNUSED(renderedRegion)
     Q_UNUSED(damagedRegion)
     glFlush();
     if (m_backend->saveFrames()) {
         QImage img = QImage(QSize(m_backBuffer->width(), m_backBuffer->height()), QImage::Format_ARGB32);
-        glReadnPixels(0, 0, m_backBuffer->width(), m_backBuffer->height(), GL_RGBA, GL_UNSIGNED_BYTE, img.byteCount(), (GLvoid*)img.bits());
+        glReadnPixels(0, 0, m_backBuffer->width(), m_backBuffer->height(), GL_RGBA, GL_UNSIGNED_BYTE, img.sizeInBytes(), (GLvoid*)img.bits());
         convertFromGLImage(img, m_backBuffer->width(), m_backBuffer->height());
         img.save(QStringLiteral("%1/%2.png").arg(m_backend->saveFrames()).arg(QString::number(m_frameCounter++)));
     }
     GLRenderTarget::popRenderTarget();
+    setLastDamage(renderedRegion);
 }
 
 bool EglGbmBackend::usesOverlayWindow() const

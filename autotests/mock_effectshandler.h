@@ -29,8 +29,11 @@ class MockEffectsHandler : public KWin::EffectsHandler
 public:
     explicit MockEffectsHandler(KWin::CompositingType type);
     void activateWindow(KWin::EffectWindow *) override {}
-    KWin::Effect *activeFullScreenEffect() const {
+    KWin::Effect *activeFullScreenEffect() const override {
         return nullptr;
+    }
+    bool hasActiveFullScreenEffect() const override {
+        return false;
     }
     int activeScreen() const override {
         return 0;
@@ -129,6 +132,14 @@ public:
         return nullptr;
     }
     KWin::EffectWindow *findWindow(KWayland::Server::SurfaceInterface *) const override {
+        return nullptr;
+    }
+    KWin::EffectWindow *findWindow(QWindow *w) const override {
+        Q_UNUSED(w)
+        return nullptr;
+    }
+    KWin::EffectWindow *findWindow(const QUuid &id) const override {
+        Q_UNUSED(id)
         return nullptr;
     }
     void *getProxy(QString) override {
@@ -259,6 +270,11 @@ public:
         Q_UNUSED(iconName)
     }
     void hideOnScreenMessage(OnScreenMessageHideFlags flags = OnScreenMessageHideFlags()) override { Q_UNUSED(flags)}
+
+    void windowToDesktops(KWin::EffectWindow *w, const QVector<uint> &desktops) override {
+        Q_UNUSED(w)
+        Q_UNUSED(desktops)
+    }
 
     KSharedConfigPtr config() const override;
     KSharedConfigPtr inputConfig() const override;

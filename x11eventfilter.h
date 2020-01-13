@@ -73,7 +73,7 @@ public:
 
     /**
      * Whether the event filter is for XCB_GE_GENERIC events.
-     **/
+     */
     bool isGenericEvent() const;
 
 private:

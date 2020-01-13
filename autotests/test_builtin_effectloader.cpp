@@ -89,7 +89,6 @@ void TestBuiltInEffectLoader::testHasEffect_data()
     QTest::newRow("CubeSlide")                      << QStringLiteral("cubeslide")         << true;
     QTest::newRow("DesktopGrid")                    << QStringLiteral("desktopgrid")       << true;
     QTest::newRow("DimInactive")                    << QStringLiteral("diminactive")       << true;
-    QTest::newRow("DimScreen")                      << QStringLiteral("dimscreen")         << true;
     QTest::newRow("FallApart")                      << QStringLiteral("fallapart")         << true;
     QTest::newRow("FlipSwitch")                     << QStringLiteral("flipswitch")        << true;
     QTest::newRow("Glide")                          << QStringLiteral("glide")             << true;
@@ -99,12 +98,10 @@ void TestBuiltInEffectLoader::testHasEffect_data()
     QTest::newRow("LookingGlass")                   << QStringLiteral("lookingglass")      << true;
     QTest::newRow("MagicLamp")                      << QStringLiteral("magiclamp")         << true;
     QTest::newRow("Magnifier")                      << QStringLiteral("magnifier")         << true;
-    QTest::newRow("MinimizeAnimation")              << QStringLiteral("minimizeanimation") << true;
     QTest::newRow("MouseClick")                     << QStringLiteral("mouseclick")        << true;
     QTest::newRow("MouseMark")                      << QStringLiteral("mousemark")         << true;
     QTest::newRow("PresentWindows")                 << QStringLiteral("presentwindows")    << true;
     QTest::newRow("Resize")                         << QStringLiteral("resize")            << true;
-    QTest::newRow("Scale")                          << QStringLiteral("scale")             << true;
     QTest::newRow("ScreenEdge")                     << QStringLiteral("screenedge")        << true;
     QTest::newRow("ScreenShot")                     << QStringLiteral("screenshot")        << true;
     QTest::newRow("Sheet")                          << QStringLiteral("sheet")             << true;
@@ -146,7 +143,6 @@ void TestBuiltInEffectLoader::testKnownEffects()
                     << QStringLiteral("cubeslide")
                     << QStringLiteral("desktopgrid")
                     << QStringLiteral("diminactive")
-                    << QStringLiteral("dimscreen")
                     << QStringLiteral("fallapart")
                     << QStringLiteral("flipswitch")
                     << QStringLiteral("glide")
@@ -156,12 +152,10 @@ void TestBuiltInEffectLoader::testKnownEffects()
                     << QStringLiteral("lookingglass")
                     << QStringLiteral("magiclamp")
                     << QStringLiteral("magnifier")
-                    << QStringLiteral("minimizeanimation")
                     << QStringLiteral("mouseclick")
                     << QStringLiteral("mousemark")
                     << QStringLiteral("presentwindows")
                     << QStringLiteral("resize")
-                    << QStringLiteral("scale")
                     << QStringLiteral("screenedge")
                     << QStringLiteral("screenshot")
                     << QStringLiteral("sheet")
@@ -182,7 +176,7 @@ void TestBuiltInEffectLoader::testKnownEffects()
     KWin::BuiltInEffectLoader loader;
     QStringList result = loader.listOfKnownEffects();
     QCOMPARE(result.size(), expectedEffects.size());
-    qSort(result);
+    std::sort(result.begin(), result.end());
     for (int i = 0; i < expectedEffects.size(); ++i) {
         QCOMPARE(result.at(i), expectedEffects.at(i));
     }
@@ -216,7 +210,6 @@ void TestBuiltInEffectLoader::testSupported_data()
     QTest::newRow("CubeSlide-GL-no-anim")           << QStringLiteral("cubeslide")         << false << oc << false;
     QTest::newRow("DesktopGrid")                    << QStringLiteral("desktopgrid")       << true  << xc << true;
     QTest::newRow("DimInactive")                    << QStringLiteral("diminactive")       << true  << xc << true;
-    QTest::newRow("DimScreen")                      << QStringLiteral("dimscreen")         << true  << xc << true;
     QTest::newRow("FallApart")                      << QStringLiteral("fallapart")         << false << xc << true;
     QTest::newRow("FallApart-GL")                   << QStringLiteral("fallapart")         << true  << oc << true;
     QTest::newRow("FlipSwitch")                     << QStringLiteral("flipswitch")        << false << xc << true;
@@ -235,12 +228,10 @@ void TestBuiltInEffectLoader::testSupported_data()
     QTest::newRow("MagicLamp-GL")                   << QStringLiteral("magiclamp")         << true  << oc << true;
     QTest::newRow("MagicLamp-GL-no-anim")           << QStringLiteral("magiclamp")         << false << oc << false;
     QTest::newRow("Magnifier")                      << QStringLiteral("magnifier")         << true  << xc << true;
-    QTest::newRow("MinimizeAnimation")              << QStringLiteral("minimizeanimation") << true  << xc << true;
     QTest::newRow("MouseClick")                     << QStringLiteral("mouseclick")        << true  << xc << true;
     QTest::newRow("MouseMark")                      << QStringLiteral("mousemark")         << true  << xc << true;
     QTest::newRow("PresentWindows")                 << QStringLiteral("presentwindows")    << true  << xc << true;
     QTest::newRow("Resize")                         << QStringLiteral("resize")            << true  << xc << true;
-    QTest::newRow("Scale")                          << QStringLiteral("scale")             << true  << xc << true;
     QTest::newRow("ScreenEdge")                     << QStringLiteral("screenedge")        << true  << xc << true;
     QTest::newRow("ScreenShot")                     << QStringLiteral("screenshot")        << true  << xc << true;
     QTest::newRow("Sheet")                          << QStringLiteral("sheet")             << false << xc << true;
@@ -308,7 +299,6 @@ void TestBuiltInEffectLoader::testLoadEffect_data()
     QTest::newRow("CubeSlide-GL")                   << QStringLiteral("cubeslide")         << true  << oc;
     QTest::newRow("DesktopGrid")                    << QStringLiteral("desktopgrid")       << true  << xc;
     QTest::newRow("DimInactive")                    << QStringLiteral("diminactive")       << true  << xc;
-    QTest::newRow("DimScreen")                      << QStringLiteral("dimScreen")         << true  << xc;
     QTest::newRow("FallApart")                      << QStringLiteral("fallapart")         << false << xc;
     QTest::newRow("FallApart-GL")                   << QStringLiteral("fallapart")         << true  << oc;
     QTest::newRow("FlipSwitch")                     << QStringLiteral("flipswitch")        << false << xc;
@@ -324,12 +314,10 @@ void TestBuiltInEffectLoader::testLoadEffect_data()
     QTest::newRow("MagicLamp")                      << QStringLiteral("magiclamp")         << false << xc;
     QTest::newRow("MagicLamp-GL")                   << QStringLiteral("magiclamp")         << true  << oc;
     QTest::newRow("Magnifier")                      << QStringLiteral("magnifier")         << true  << xc;
-    QTest::newRow("MinimizeAnimation")              << QStringLiteral("minimizeanimation") << true  << xc;
     QTest::newRow("MouseClick")                     << QStringLiteral("mouseclick")        << true  << xc;
     QTest::newRow("MouseMark")                      << QStringLiteral("mousemark")         << true  << xc;
     QTest::newRow("PresentWindows")                 << QStringLiteral("presentwindows")    << true  << xc;
     QTest::newRow("Resize")                         << QStringLiteral("resize")            << true  << xc;
-    QTest::newRow("Scale")                          << QStringLiteral("scale")             << true  << xc;
     QTest::newRow("ScreenEdge")                     << QStringLiteral("screenedge")        << true  << xc;
     QTest::newRow("ScreenShot")                     << QStringLiteral("screenshot")        << true  << xc;
     QTest::newRow("Sheet")                          << QStringLiteral("sheet")             << false << xc;
@@ -369,7 +357,7 @@ void TestBuiltInEffectLoader::testLoadEffect()
     loader.setConfig(config);
 
     qRegisterMetaType<KWin::Effect*>();
-    QSignalSpy spy(&loader, SIGNAL(effectLoaded(KWin::Effect*,QString)));
+    QSignalSpy spy(&loader, &KWin::BuiltInEffectLoader::effectLoaded);
     // connect to signal to ensure that we delete the Effect again as the Effect doesn't have a parent
     connect(&loader, &KWin::BuiltInEffectLoader::effectLoaded,
         [&name](KWin::Effect *effect, const QString &effectName) {
@@ -458,7 +446,7 @@ void TestBuiltInEffectLoader::testLoadBuiltInEffect()
     loader.setConfig(config);
 
     qRegisterMetaType<KWin::Effect*>();
-    QSignalSpy spy(&loader, SIGNAL(effectLoaded(KWin::Effect*,QString)));
+    QSignalSpy spy(&loader, &KWin::BuiltInEffectLoader::effectLoaded);
     // connect to signal to ensure that we delete the Effect again as the Effect doesn't have a parent
     connect(&loader, &KWin::BuiltInEffectLoader::effectLoaded,
         [&name](KWin::Effect *effect, const QString &effectName) {
@@ -509,7 +497,6 @@ void TestBuiltInEffectLoader::testLoadAllEffects()
     plugins.writeEntry(QStringLiteral("desktopgridEnabled"), false);
     plugins.writeEntry(QStringLiteral("highlightwindowEnabled"), false);
     plugins.writeEntry(QStringLiteral("kscreenEnabled"), false);
-    plugins.writeEntry(QStringLiteral("minimizeanimationEnabled"), false);
     plugins.writeEntry(QStringLiteral("presentwindowsEnabled"), false);
     plugins.writeEntry(QStringLiteral("screenedgeEnabled"), false);
     plugins.writeEntry(QStringLiteral("screenshotEnabled"), false);
@@ -524,7 +511,7 @@ void TestBuiltInEffectLoader::testLoadAllEffects()
     loader.setConfig(config);
 
     qRegisterMetaType<KWin::Effect*>();
-    QSignalSpy spy(&loader, SIGNAL(effectLoaded(KWin::Effect*,QString)));
+    QSignalSpy spy(&loader, &KWin::BuiltInEffectLoader::effectLoaded);
     // connect to signal to ensure that we delete the Effect again as the Effect doesn't have a parent
     connect(&loader, &KWin::BuiltInEffectLoader::effectLoaded,
         [](KWin::Effect *effect) {
@@ -570,7 +557,7 @@ void TestBuiltInEffectLoader::testLoadAllEffects()
         QCOMPARE(list.size(), 2);
         loadedEffects << list.at(1).toString();
     }
-    qSort(loadedEffects);
+    std::sort(loadedEffects.begin(), loadedEffects.end());
     QCOMPARE(loadedEffects.at(0), QStringLiteral("kscreen"));
     QCOMPARE(loadedEffects.at(1), QStringLiteral("mouseclick"));
 }

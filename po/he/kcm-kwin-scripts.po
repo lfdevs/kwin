@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm-kwin-scripts\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
 "PO-Revision-Date: 2017-05-16 11:31-0400\n"
 "Last-Translator: Elkana Bardugo <ttv200@gmail.com>\n"
 "Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
@@ -77,13 +77,13 @@ msgid "KWin script configuration"
 msgstr "הגדרות של סקריפטים של KWin"
 
 #. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
-#: module.ui:44
+#: module.ui:55
 #, kde-format
-msgid "Import KWin script..."
-msgstr "ייבוא סקריפט של KWin.."
+msgid "Install from File..."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
-#: module.ui:51
+#: module.ui:67
 #, fuzzy, kde-format
 #| msgid "Get New Script..."
 msgid "Get New Scripts..."

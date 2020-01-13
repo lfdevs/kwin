@@ -41,11 +41,11 @@ class FlipSwitchEffectConfig : public KCModule
 {
     Q_OBJECT
 public:
-    explicit FlipSwitchEffectConfig(QWidget* parent = 0, const QVariantList& args = QVariantList());
-    ~FlipSwitchEffectConfig();
+    explicit FlipSwitchEffectConfig(QWidget* parent = nullptr, const QVariantList& args = QVariantList());
+    ~FlipSwitchEffectConfig() override;
 
 public Q_SLOTS:
-    virtual void save();
+    void save() override;
 
 private:
     FlipSwitchEffectConfigForm* m_ui;

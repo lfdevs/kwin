@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // own
 #include "dbusinterface.h"
 #include "compositingadaptor.h"
+#include "virtualdesktopmanageradaptor.h"
 
 // kwin
 #include "abstract_client.h"
@@ -188,6 +189,38 @@ void DBusInterface::showDebugConsole()
     console->show();
 }
 
+namespace {
+QVariantMap clientToVariantMap(const AbstractClient *c)
+{
+    return {
+        {QStringLiteral("resourceClass"), c->resourceClass()},
+        {QStringLiteral("resourceName"), c->resourceName()},
+        {QStringLiteral("desktopFile"), c->desktopFileName()},
+        {QStringLiteral("role"), c->windowRole()},
+        {QStringLiteral("caption"), c->captionNormal()},
+        {QStringLiteral("clientMachine"), c->wmClientMachine(true)},
+        {QStringLiteral("localhost"), c->isLocalhost()},
+        {QStringLiteral("type"), c->windowType()},
+        {QStringLiteral("x"), c->x()},
+        {QStringLiteral("y"), c->y()},
+        {QStringLiteral("width"), c->width()},
+        {QStringLiteral("height"), c->height()},
+        {QStringLiteral("x11DesktopNumber"), c->desktop()},
+        {QStringLiteral("minimized"), c->isMinimized()},
+        {QStringLiteral("shaded"), c->isShade()},
+        {QStringLiteral("fullscreen"), c->isFullScreen()},
+        {QStringLiteral("keepAbove"), c->keepAbove()},
+        {QStringLiteral("keepBelow"), c->keepBelow()},
+        {QStringLiteral("noBorder"), c->noBorder()},
+        {QStringLiteral("skipTaskbar"), c->skipTaskbar()},
+        {QStringLiteral("skipPager"), c->skipPager()},
+        {QStringLiteral("skipSwitcher"), c->skipSwitcher()},
+        {QStringLiteral("maximizeHorizontal"), c->maximizeMode() & MaximizeHorizontal},
+        {QStringLiteral("maximizeVertical"), c->maximizeMode() & MaximizeVertical}
+    };
+}
+}
+
 QVariantMap DBusInterface::queryWindowInfo()
 {
     m_replyQueryWindowInfo = message();
@@ -195,38 +228,24 @@ QVariantMap DBusInterface::queryWindowInfo()
     kwinApp()->platform()->startInteractiveWindowSelection(
         [this] (Toplevel *t) {
             if (auto c = qobject_cast<AbstractClient*>(t)) {
-                const QVariantMap ret{
-                    {QStringLiteral("resourceClass"), c->resourceClass()},
-                    {QStringLiteral("resourceName"), c->resourceName()},
-                    {QStringLiteral("desktopFile"), c->desktopFileName()},
-                    {QStringLiteral("role"), c->windowRole()},
-                    {QStringLiteral("caption"), c->captionNormal()},
-                    {QStringLiteral("clientMachine"), c->wmClientMachine(true)},
-                    {QStringLiteral("type"), c->windowType()},
-                    {QStringLiteral("x"), c->x()},
-                    {QStringLiteral("y"), c->y()},
-                    {QStringLiteral("width"), c->width()},
-                    {QStringLiteral("height"), c->height()},
-                    {QStringLiteral("x11DesktopNumber"), c->desktop()},
-                    {QStringLiteral("minimized"), c->isMinimized()},
-                    {QStringLiteral("shaded"), c->isShade()},
-                    {QStringLiteral("fullscreen"), c->isFullScreen()},
-                    {QStringLiteral("keepAbove"), c->keepAbove()},
-                    {QStringLiteral("keepBelow"), c->keepBelow()},
-                    {QStringLiteral("noBorder"), c->noBorder()},
-                    {QStringLiteral("skipTaskbar"), c->skipTaskbar()},
-                    {QStringLiteral("skipPager"), c->skipPager()},
-                    {QStringLiteral("skipSwitcher"), c->skipSwitcher()},
-                    {QStringLiteral("maximizeHorizontal"), c->maximizeMode() & MaximizeHorizontal},
-                    {QStringLiteral("maximizeVertical"), c->maximizeMode() & MaximizeVertical}
-                };
-                QDBusConnection::sessionBus().send(m_replyQueryWindowInfo.createReply(ret));
+                QDBusConnection::sessionBus().send(m_replyQueryWindowInfo.createReply(clientToVariantMap(c)));
             } else {
                 QDBusConnection::sessionBus().send(m_replyQueryWindowInfo.createErrorReply(QString(), QString()));
             }
         }
     );
     return QVariantMap{};
+}
+
+QVariantMap DBusInterface::getWindowInfo(const QString &uuid)
+{
+    const auto id = QUuid::fromString(uuid);
+    const auto client = workspace()->findAbstractClient([&id] (const AbstractClient *c) { return c->internalId() == id; });
+    if (client) {
+        return clientToVariantMap(client);
+    } else {
+        return {};
+    }
 }
 
 CompositorDBusInterface::CompositorDBusInterface(Compositor *parent)
@@ -238,7 +257,7 @@ CompositorDBusInterface::CompositorDBusInterface(Compositor *parent)
     QDBusConnection dbus = QDBusConnection::sessionBus();
     dbus.registerObject(QStringLiteral("/Compositor"), this);
     dbus.connect(QString(), QStringLiteral("/Compositor"), QStringLiteral("org.kde.kwin.Compositing"),
-                 QStringLiteral("reinit"), m_compositor, SLOT(slotReinitialize()));
+                 QStringLiteral("reinit"), this, SLOT(reinitialize()));
 }
 
 QString CompositorDBusInterface::compositingNotPossibleReason() const
@@ -248,7 +267,7 @@ QString CompositorDBusInterface::compositingNotPossibleReason() const
 
 QString CompositorDBusInterface::compositingType() const
 {
-    if (!m_compositor->hasScene()) {
+    if (!m_compositor->scene()) {
         return QStringLiteral("none");
     }
     switch (m_compositor->scene()->compositingType()) {
@@ -290,12 +309,21 @@ bool CompositorDBusInterface::platformRequiresCompositing() const
 
 void CompositorDBusInterface::resume()
 {
-    m_compositor->resume(Compositor::ScriptSuspend);
+    if (kwinApp()->operationMode() == Application::OperationModeX11) {
+        static_cast<X11Compositor*>(m_compositor)->resume(X11Compositor::ScriptSuspend);
+    }
 }
 
 void CompositorDBusInterface::suspend()
 {
-    m_compositor->suspend(Compositor::ScriptSuspend);
+    if (kwinApp()->operationMode() == Application::OperationModeX11) {
+        static_cast<X11Compositor*>(m_compositor)->suspend(X11Compositor::ScriptSuspend);
+    }
+}
+
+void CompositorDBusInterface::reinitialize()
+{
+    m_compositor->reinitialize();
 }
 
 QStringList CompositorDBusInterface::supportedOpenGLPlatformInterfaces() const
@@ -313,6 +341,182 @@ QStringList CompositorDBusInterface::supportedOpenGLPlatformInterfaces() const
     }
     interfaces << QStringLiteral("egl");
     return interfaces;
+}
+
+
+
+
+VirtualDesktopManagerDBusInterface::VirtualDesktopManagerDBusInterface(VirtualDesktopManager *parent)
+    : QObject(parent)
+    , m_manager(parent)
+{
+    qDBusRegisterMetaType<KWin::DBusDesktopDataStruct>();
+    qDBusRegisterMetaType<KWin::DBusDesktopDataVector>();
+
+    new VirtualDesktopManagerAdaptor(this);
+    QDBusConnection::sessionBus().registerObject(QStringLiteral("/VirtualDesktopManager"),
+        QStringLiteral("org.kde.KWin.VirtualDesktopManager"),
+        this
+    );
+
+    connect(m_manager, &VirtualDesktopManager::currentChanged, this,
+        [this](uint previousDesktop, uint newDesktop) {
+            Q_UNUSED(previousDesktop);
+            Q_UNUSED(newDesktop);
+            emit currentChanged(m_manager->currentDesktop()->id());
+        }
+    );
+
+    connect(m_manager, &VirtualDesktopManager::countChanged, this,
+        [this](uint previousCount, uint newCount) {
+            Q_UNUSED(previousCount);
+            emit countChanged(newCount);
+            emit desktopsChanged(desktops());
+        }
+    );
+
+    connect(m_manager, &VirtualDesktopManager::navigationWrappingAroundChanged, this,
+        [this]() {
+            emit navigationWrappingAroundChanged(isNavigationWrappingAround());
+        }
+    );
+
+    connect(m_manager, &VirtualDesktopManager::rowsChanged, this, &VirtualDesktopManagerDBusInterface::rowsChanged);
+
+    for (auto *vd : m_manager->desktops()) {
+        connect(vd, &VirtualDesktop::x11DesktopNumberChanged, this,
+            [this, vd]() {
+                DBusDesktopDataStruct data{.position = vd->x11DesktopNumber() - 1, .id = vd->id(), .name = vd->name()};
+                emit desktopDataChanged(vd->id(), data);
+                emit desktopsChanged(desktops());
+            }
+        );
+        connect(vd, &VirtualDesktop::nameChanged, this,
+            [this, vd]() {
+                DBusDesktopDataStruct data{.position = vd->x11DesktopNumber() - 1, .id = vd->id(), .name = vd->name()};
+                emit desktopDataChanged(vd->id(), data);
+                emit desktopsChanged(desktops());
+            }
+        );
+    }
+    connect(m_manager, &VirtualDesktopManager::desktopCreated, this,
+        [this](VirtualDesktop *vd) {
+            connect(vd, &VirtualDesktop::x11DesktopNumberChanged, this,
+                [this, vd]() {
+                    DBusDesktopDataStruct data{.position = vd->x11DesktopNumber() - 1, .id = vd->id(), .name = vd->name()};
+                    emit desktopDataChanged(vd->id(), data);
+                    emit desktopsChanged(desktops());
+                }
+            );
+            connect(vd, &VirtualDesktop::nameChanged, this,
+                [this, vd]() {
+                    DBusDesktopDataStruct data{.position = vd->x11DesktopNumber() - 1, .id = vd->id(), .name = vd->name()};
+                    emit desktopDataChanged(vd->id(), data);
+                    emit desktopsChanged(desktops());
+                }
+            );
+            DBusDesktopDataStruct data{.position = vd->x11DesktopNumber() - 1, .id = vd->id(), .name = vd->name()};
+            emit desktopCreated(vd->id(), data);
+            emit desktopsChanged(desktops());
+        }
+    );
+    connect(m_manager, &VirtualDesktopManager::desktopRemoved, this,
+        [this](VirtualDesktop *vd) {
+            emit desktopRemoved(vd->id());
+            emit desktopsChanged(desktops());
+        }
+    );
+}
+
+uint VirtualDesktopManagerDBusInterface::count() const
+{
+    return m_manager->count();
+}
+
+void VirtualDesktopManagerDBusInterface::setRows(uint rows)
+{
+    if (static_cast<uint>(m_manager->grid().height()) == rows) {
+        return;
+    }
+
+    m_manager->setRows(rows);
+    m_manager->save();
+}
+
+uint VirtualDesktopManagerDBusInterface::rows() const
+{
+    return m_manager->rows();
+}
+
+void VirtualDesktopManagerDBusInterface::setCurrent(const QString &id)
+{
+    if (m_manager->currentDesktop()->id() == id) {
+        return;
+    }
+
+    auto *vd = m_manager->desktopForId(id.toUtf8());
+    if (vd) {
+        m_manager->setCurrent(vd);
+    }
+}
+
+QString VirtualDesktopManagerDBusInterface::current() const
+{
+    return m_manager->currentDesktop()->id();
+}
+
+void VirtualDesktopManagerDBusInterface::setNavigationWrappingAround(bool wraps)
+{
+    if (m_manager->isNavigationWrappingAround() == wraps) {
+        return;
+    }
+
+    m_manager->setNavigationWrappingAround(wraps);
+}
+
+bool VirtualDesktopManagerDBusInterface::isNavigationWrappingAround() const
+{
+    return m_manager->isNavigationWrappingAround();
+}
+
+DBusDesktopDataVector VirtualDesktopManagerDBusInterface::desktops() const
+{
+    const auto desks = m_manager->desktops();
+    DBusDesktopDataVector desktopVect;
+    desktopVect.reserve(m_manager->count());
+
+    std::transform(desks.constBegin(), desks.constEnd(),
+        std::back_inserter(desktopVect),
+        [] (const VirtualDesktop *vd) {
+            return DBusDesktopDataStruct{.position = vd->x11DesktopNumber() - 1, .id = vd->id(), .name = vd->name()};
+        }
+    );
+
+    return desktopVect;
+}
+
+void VirtualDesktopManagerDBusInterface::createDesktop(uint position, const QString &name)
+{
+    m_manager->createVirtualDesktop(position, name);
+}
+
+void VirtualDesktopManagerDBusInterface::setDesktopName(const QString &id, const QString &name)
+{
+    VirtualDesktop *vd = m_manager->desktopForId(id.toUtf8());
+    if (!vd) {
+        return;
+    }
+    if (vd->name() == name) {
+        return;
+    }
+
+    vd->setName(name);
+    m_manager->save();
+}
+
+void VirtualDesktopManagerDBusInterface::removeDesktop(const QString &id)
+{
+    m_manager->removeVirtualDesktop(id.toUtf8());
 }
 
 } // namespace

@@ -5,7 +5,7 @@
 # Mikko Piippo <piippo@cc.helsinki.fi>, 2008.
 # Teemu Rytilahti <teemu.rytilahti@kde-fi.org>, 2008.
 # Teemu Rytilahti <teemu.rytilahti@d5k.net>, 2008.
-# Tommi Nieminen <translator@legisign.org>, 2009, 2011, 2013, 2014, 2016, 2017, 2018.
+# Tommi Nieminen <translator@legisign.org>, 2009, 2011, 2013, 2014, 2016, 2017, 2018, 2019.
 # Jorma Karvonen <karvonen.jorma@gmail.com>, 2010.
 # Lasse Liehu <lasse.liehu@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
 #
@@ -16,9 +16,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2018-08-15 13:04+0200\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"PO-Revision-Date: 2019-01-23 12:10+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -28,18 +28,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-POT-Import-Date: 2012-12-01 22:22:22+0000\n"
 "X-Generator: Lokalize 2.0\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Teemu Rytilahti, Mikko Piippo, Tommi Nieminen, Jorma Karvonen"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr ""
-"tpr@d5k.net, mikko.piippo@helsinki.fi, translator@legisign.org, karvonen."
-"jorma@gmail.com"
 
 #: compositing.cpp:378
 #, kde-format
@@ -242,12 +230,12 @@ msgstr ""
 msgid "Allow applications to block compositing"
 msgstr "Salli sovellusten estää koostaminen"
 
-#: main.cpp:83
+#: main.cpp:55
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "Käytä OpenGL-tunnistusta uudestaan"
 
-#: main.cpp:141
+#: main.cpp:120
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -256,13 +244,13 @@ msgstr ""
 "”Vain kun edullista” estää pirstoutumista, kun koko näytön kuva muuttuu "
 "esimerkiksi videossa."
 
-#: main.cpp:145
+#: main.cpp:124
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr ""
 "”Piirrettäessä koko näyttö uudelleen” voi aiheuttaa suorituskykyongelmia."
 
-#: main.cpp:149
+#: main.cpp:128
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
@@ -270,99 +258,82 @@ msgstr ""
 "”Käytä näytön sisältöä uudelleen” aiheuttaa vakavia suorituskykyongelmia "
 "MESA-ajureilla."
 
-#: model.cpp:70
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Accessibility"
-msgstr "Käytettävyys"
 
-#: model.cpp:71
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Appearance"
-msgstr "Ulkoasu"
 
-#: model.cpp:72
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Candy"
-msgstr "Karkit"
 
-#: model.cpp:73
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Focus"
-msgstr "Kohdistus"
 
-#: model.cpp:74
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Show Desktop Animation"
-msgstr "Näytä työpöytäanimointi"
 
-#: model.cpp:75
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Tools"
-msgstr "Työkalut"
 
-#: model.cpp:76
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Virtual Desktop Switching Animation"
-msgstr "Virtuaalityöpöydän vaihtamisen animaatio"
 
-#: model.cpp:77
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Window Management"
-msgstr "Ikkunanhallinta"
 
-#: model.cpp:233
-#, kde-format
-msgid "KWin development team"
-msgstr "KWin-kehitysryhmä"
 
-#: qml/Effect.qml:119
-#, kde-format
-msgid ""
-"Author: %1\n"
-"License: %2"
-msgstr ""
-"Tekijä: %1\n"
-"Lisenssi: %2"
 
-#: qml/EffectView.qml:64
-#, kde-format
-msgid ""
-"Hint: To find out or configure how to activate an effect, look at the "
-"effect's settings."
-msgstr "Vihje: tehosteen asetuksista löytyy ohje, kuinka tehoste aktivoidaan."
 
-#: qml/EffectView.qml:75
-#, kde-format
-msgid "Search"
-msgstr "Hae"
 
-#: qml/EffectView.qml:82
-#, kde-format
-msgid "Configure filter"
-msgstr "Muokkaa suodatinta"
 
-#: qml/EffectView.qml:85
-#, kde-format
-msgid "Exclude Desktop Effects not supported by the Compositor"
-msgstr "Ohita työpöytätehosteet, joita koostin ei tue"
 
-#: qml/EffectView.qml:93
-#, kde-format
-msgid "Exclude internal Desktop Effects"
-msgstr "Ohita sisäiset työpöytätehosteet"
 
-#: qml/EffectView.qml:105
-#, kde-format
-msgid "Get New Effects..."
-msgstr "Hae uusia tehosteita…"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

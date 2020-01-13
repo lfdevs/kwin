@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "tabboxconfig.h"
 #include "tabboxhandler.h"
 
-#include <math.h>
+#include <cmath>
 
 namespace KWin
 {
@@ -34,12 +34,6 @@ namespace TabBox
 DesktopModel::DesktopModel(QObject* parent)
     : QAbstractItemModel(parent)
 {
-    QHash<int, QByteArray> roleNames;
-    roleNames.insert(Qt::DisplayRole, "display");
-    roleNames.insert(DesktopNameRole, "caption");
-    roleNames.insert(DesktopRole, "desktop");
-    roleNames.insert(ClientModelRole, "client");
-    setRoleNames(roleNames);
 }
 
 DesktopModel::~DesktopModel()
@@ -67,7 +61,7 @@ QVariant DesktopModel::data(const QModelIndex& index, int role) const
     case DesktopRole:
         return m_desktopList[ desktopIndex ];
     case ClientModelRole:
-        return qVariantFromValue((void*)m_clientModels[ m_desktopList[ desktopIndex ] ]);
+        return QVariant::fromValue<void *>(m_clientModels[m_desktopList[desktopIndex]]);
     default:
         return QVariant();
     }
@@ -138,6 +132,16 @@ QModelIndex DesktopModel::index(int row, int column, const QModelIndex& parent) 
     if (row > m_desktopList.count() || m_desktopList.isEmpty())
         return QModelIndex();
     return createIndex(row, column);
+}
+
+QHash<int, QByteArray> DesktopModel::roleNames() const
+{
+    return {
+        { Qt::DisplayRole, QByteArrayLiteral("display") },
+        { DesktopNameRole, QByteArrayLiteral("caption") },
+        { DesktopRole, QByteArrayLiteral("desktop") },
+        { ClientModelRole, QByteArrayLiteral("client") },
+    };
 }
 
 QModelIndex DesktopModel::desktopIndex(int desktop) const

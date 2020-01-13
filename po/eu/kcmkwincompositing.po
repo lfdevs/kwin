@@ -11,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
 "PO-Revision-Date: 2018-08-05 09:22+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
@@ -22,19 +22,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 2.0\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr ""
-"Marcos Goyeneche,Asier Urio Larrea,Iñigo Salvador Azurmendi,Hizkuntza "
-"Politikarako Sailburuordetza"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr ""
-"marcos@euskalgnu.org,asieriko@gmail.com,xalba@euskalnet.net,hizpol@ej-gv.es"
 
 #: compositing.cpp:378
 #, kde-format
@@ -238,12 +225,12 @@ msgstr ""
 msgid "Allow applications to block compositing"
 msgstr "Baimendu aplikazioek konposatzea eragoztea"
 
-#: main.cpp:83
+#: main.cpp:55
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "Birgaitu OpenGLren detekzioa"
 
-#: main.cpp:141
+#: main.cpp:120
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -252,111 +239,15 @@ msgstr ""
 "\"Soilik merketa denean\" urradura ekiditen du soilik pantaila osoko "
 "aldaketentzako, bideo batena esaterako."
 
-#: main.cpp:145
+#: main.cpp:124
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "\"Pantaila osoa berriz margotzea\" performantzia arazoak sor ditzake."
 
-#: main.cpp:149
+#: main.cpp:128
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
 "\"Berrerabili pantailako edukia\" performantzia arazo larriak sor ditzake "
 "MESA gidariekin."
-
-#: model.cpp:70
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Accessibility"
-msgstr "Irisgarritasuna"
-
-#: model.cpp:71
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Appearance"
-msgstr "Itxura"
-
-#: model.cpp:72
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Candy"
-msgstr "Apainketa"
-
-#: model.cpp:73
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Focus"
-msgstr "Fokua"
-
-#: model.cpp:74
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Show Desktop Animation"
-msgstr "Erakutsi mahaiganeko animazioa"
-
-#: model.cpp:75
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Tools"
-msgstr "Tresnak"
-
-#: model.cpp:76
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Virtual Desktop Switching Animation"
-msgstr "Alegiazko mahaigana aldatzeko animazioa"
-
-#: model.cpp:77
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Window Management"
-msgstr "Leiho-kudeaketa"
-
-#: model.cpp:233
-#, kde-format
-msgid "KWin development team"
-msgstr "KWin garatzaile taldea"
-
-#: qml/Effect.qml:119
-#, kde-format
-msgid ""
-"Author: %1\n"
-"License: %2"
-msgstr ""
-"Egilea: %1\n"
-"Lizentzia: %2"
-
-#: qml/EffectView.qml:64
-#, kde-format
-msgid ""
-"Hint: To find out or configure how to activate an effect, look at the "
-"effect's settings."
-msgstr ""
-"Argibidea: efektu bat nola aktibatu jakiteko, edo hura konfiguratzeko, "
-"begiratu efektuen ezarpenetan."
-
-#: qml/EffectView.qml:75
-#, kde-format
-msgid "Search"
-msgstr "Bilatu"
-
-#: qml/EffectView.qml:82
-#, kde-format
-msgid "Configure filter"
-msgstr "Konfiguratu iragazkia"
-
-#: qml/EffectView.qml:85
-#, kde-format
-msgid "Exclude Desktop Effects not supported by the Compositor"
-msgstr "Kanporatu konposatzaileak onartzen ez dituen mahaigaineko efektuak"
-
-#: qml/EffectView.qml:93
-#, kde-format
-msgid "Exclude internal Desktop Effects"
-msgstr "Kanporatu barneko mahaigaineko efektuak"
-
-#: qml/EffectView.qml:105
-#, kde-format
-msgid "Get New Effects..."
-msgstr "Lortu efektu berriak..."

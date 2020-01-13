@@ -234,7 +234,8 @@ void DebugConsoleFilter::wheelEvent(WheelEvent *event)
     text.append(tableRow(i18nc("The orientation of a pointer axis event", "Orientation"),
                          orientation == Qt::Horizontal ? i18nc("An orientation of a pointer axis event", "Horizontal")
                                                        : i18nc("An orientation of a pointer axis event", "Vertical")));
-    text.append(tableRow(QStringLiteral("Delta"), orientation == Qt::Horizontal ? event->angleDelta().x() : event->angleDelta().y()));
+    text.append(tableRow(i18nc("The angle delta of a pointer axis event", "Delta"),
+                         orientation == Qt::Horizontal ? event->angleDelta().x() : event->angleDelta().y()));
     text.append(s_tableEnd);
 
     m_textEdit->insertHtml(text);
@@ -298,7 +299,7 @@ void DebugConsoleFilter::keyEvent(KeyEvent *event)
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::touchDown(quint32 id, const QPointF &pos, quint32 time)
+void DebugConsoleFilter::touchDown(qint32 id, const QPointF &pos, quint32 time)
 {
     QString text = s_hr;
     text.append(s_tableStart);
@@ -313,7 +314,7 @@ void DebugConsoleFilter::touchDown(quint32 id, const QPointF &pos, quint32 time)
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::touchMotion(quint32 id, const QPointF &pos, quint32 time)
+void DebugConsoleFilter::touchMotion(qint32 id, const QPointF &pos, quint32 time)
 {
     QString text = s_hr;
     text.append(s_tableStart);
@@ -328,7 +329,7 @@ void DebugConsoleFilter::touchMotion(quint32 id, const QPointF &pos, quint32 tim
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::touchUp(quint32 id, quint32 time)
+void DebugConsoleFilter::touchUp(qint32 id, quint32 time)
 {
     QString text = s_hr;
     text.append(s_tableStart);
@@ -1053,6 +1054,8 @@ QVariant DebugConsoleModel::propertyData(QObject *object, const QModelIndex &ind
                 return QStringLiteral("NET::DNDIcon");
             case NET::OnScreenDisplay:
                 return QStringLiteral("NET::OnScreenDisplay");
+            case NET::CriticalNotification:
+                return QStringLiteral("NET::CriticalNotification");
             case NET::Unknown:
             default:
                 return QStringLiteral("NET::Unknown");

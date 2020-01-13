@@ -51,7 +51,7 @@ Shadow::~Shadow()
 Shadow *Shadow::createShadow(Toplevel *toplevel)
 {
     if (!effects) {
-        return NULL;
+        return nullptr;
     }
     Shadow *shadow = createShadowFromDecoration(toplevel);
     if (!shadow && waylandServer()) {
@@ -65,9 +65,7 @@ Shadow *Shadow::createShadow(Toplevel *toplevel)
     }
     if (toplevel->effectWindow() && toplevel->effectWindow()->sceneWindow()) {
         toplevel->effectWindow()->sceneWindow()->updateShadow(shadow);
-    }
-    if (toplevel->effectWindow()) {
-        toplevel->effectWindow()->buildQuads(true);
+        emit toplevel->shadowChanged();
     }
     return shadow;
 }
@@ -80,11 +78,11 @@ Shadow *Shadow::createShadowFromX11(Toplevel *toplevel)
 
         if (!shadow->init(data)) {
             delete shadow;
-            return NULL;
+            return nullptr;
         }
         return shadow;
     } else {
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -126,7 +124,7 @@ Shadow *Shadow::createShadowFromWayland(Toplevel *toplevel)
 QVector< uint32_t > Shadow::readX11ShadowProperty(xcb_window_t id)
 {
     QVector<uint32_t> ret;
-    if (id != XCB_WINDOW) {
+    if (id != XCB_WINDOW_NONE) {
         Xcb::Property property(false, id, atoms->kde_net_wm_shadow, XCB_ATOM_CARDINAL, 0, 12);
         uint32_t *shadow = property.value<uint32_t*>();
         if (shadow) {
@@ -333,52 +331,38 @@ void Shadow::buildQuads()
 
 bool Shadow::updateShadow()
 {
-    auto clear = [this]() {
-        if (m_topLevel && m_topLevel->effectWindow() && m_topLevel->effectWindow()->sceneWindow() &&
-                                            m_topLevel->effectWindow()->sceneWindow()->shadow()) {
-            auto w = m_topLevel->effectWindow();
-            // this also deletes the shadow
-            w->sceneWindow()->updateShadow(nullptr);
-            w->buildQuads(true);
-        }
-    };
+    if (!m_topLevel) {
+        return false;
+    }
+
     if (m_decorationShadow) {
         if (AbstractClient *c = qobject_cast<AbstractClient*>(m_topLevel)) {
             if (c->decoration()) {
                 if (init(c->decoration())) {
-                    if (m_topLevel && m_topLevel->effectWindow())
-                        m_topLevel->effectWindow()->buildQuads(true);
                     return true;
                 }
             }
         }
-        clear();
         return false;
     }
+
     if (waylandServer()) {
         if (m_topLevel && m_topLevel->surface()) {
             if (const auto &s = m_topLevel->surface()->shadow()) {
                 if (init(s)) {
-                    if (m_topLevel->effectWindow()) {
-                        m_topLevel->effectWindow()->buildQuads(true);
-                    }
                     return true;
                 }
             }
         }
     }
-    if (!m_topLevel) {
-        clear();
-        return false;
-    }
+
     auto data = Shadow::readX11ShadowProperty(m_topLevel->window());
     if (data.isEmpty()) {
-        clear();
         return false;
     }
+
     init(data);
-    if (m_topLevel && m_topLevel->effectWindow())
-        m_topLevel->effectWindow()->buildQuads(true);
+
     return true;
 }
 

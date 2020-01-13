@@ -8,42 +8,51 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2019-01-05 20:49\n"
-"Last-Translator: guoyunhe <i@guoyunhe.me>\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-07-11 03:14+0200\n"
+"PO-Revision-Date: 2020-01-04 21:46\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: crowdin.com\n"
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Language: zh-CN\n"
 "X-Crowdin-File: /kf5-stable/messages/kde-workspace/kcm_kwintabbox.pot\n"
 
-#: layoutpreview.cpp:165
+#: layoutpreview.cpp:159
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "桌面 1"
 
-#: main.cpp:73
+#: main.cpp:76
 #, kde-format
 msgid "Main"
 msgstr "主窗口"
 
-#: main.cpp:74
+#: main.cpp:77
 #, kde-format
 msgid "Alternative"
 msgstr "候选窗口"
 
-#: main.cpp:77
+#: main.cpp:79
+#, kde-format
+msgid "Get New Task Switchers..."
+msgstr "获取新任务切换器..."
+
+#: main.cpp:89
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr "焦点策略设置会限制窗口导航的功能。"
+
+#: main.cpp:107
+#, kde-format
+msgid "KWin"
+msgstr "KWin"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
@@ -216,9 +225,3 @@ msgstr "将会采用淡出其它窗口的方式突出显示当前窗口。此选
 #, kde-format
 msgid "Show selected window"
 msgstr "显示选中窗口"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, ghns)
-#: main.ui:572
-#, kde-format
-msgid "Get New Window Switcher Layout"
-msgstr "获得新窗口切换器布局"

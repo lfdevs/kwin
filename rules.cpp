@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "rules.h"
 
-#include <fixx11h.h>
 #include <kconfig.h>
 #include <KXMessages>
 #include <QRegExp>
@@ -28,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFile>
 #include <QFileInfo>
 #include <QDebug>
+#include <QDir>
 
 #ifndef KCMRULES
 #include "client.h"
@@ -937,7 +937,7 @@ void AbstractClient::applyWindowRules()
         workspace()->activateNextClient(this);
     // Closeable
     QSize s = adjustedSize();
-    if (s != size())
+    if (s != size() && s.isValid())
         resizeWithChecks(s);
     // Autogrouping : Only checked on window manage
     // AutogroupInForeground : Only checked on window manage
@@ -1041,13 +1041,15 @@ void RuleBook::edit(AbstractClient* c, bool whole_app)
 {
     save();
     QStringList args;
-    args << QStringLiteral("--wid") << QString::number(c->window());
+    args << QStringLiteral("--uuid") << c->internalId().toString();
     if (whole_app)
         args << QStringLiteral("--whole-app");
     QProcess *p = new Process(this);
     p->setArguments(args);
     p->setProcessEnvironment(kwinApp()->processStartupEnvironment());
-    p->setProgram(QStringLiteral(KWIN_RULES_DIALOG_BIN));
+    const QFileInfo buildDirBinary{QDir{QCoreApplication::applicationDirPath()}, QStringLiteral("kwin_rules_dialog")};
+    p->setProgram(buildDirBinary.exists() ? buildDirBinary.absoluteFilePath() : QStringLiteral(KWIN_RULES_DIALOG_BIN));
+    p->setProcessChannelMode(QProcess::MergedChannels);
     connect(p, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), p, &QProcess::deleteLater);
     connect(p, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error), this,
         [p] (QProcess::ProcessError e) {

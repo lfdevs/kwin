@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-07-11 03:14+0200\n"
 "PO-Revision-Date: 2011-07-07 23:17+0300\n"
 "Last-Translator: Rūdofls Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -19,30 +19,40 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
 
-#: layoutpreview.cpp:165
+#: layoutpreview.cpp:159
 #, fuzzy, kde-format
 #| msgid "All Desktops"
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Visām darbvirsmām"
 
-#: main.cpp:73
+#: main.cpp:76
 #, kde-format
 msgid "Main"
 msgstr "Galvenais"
 
-#: main.cpp:74
+#: main.cpp:77
 #, kde-format
 msgid "Alternative"
 msgstr "Alternatīvais"
 
-#: main.cpp:77
+#: main.cpp:79
+#, kde-format
+msgid "Get New Task Switchers..."
+msgstr ""
+
+#: main.cpp:89
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""
 "Fokusa politikas iestatījumi ierobežo navigēšanas starp logiem "
 "funkcionalitāti."
+
+#: main.cpp:107
+#, kde-format
+msgid "KWin"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
@@ -230,9 +240,3 @@ msgstr ""
 #| msgid "Show outline of selected window"
 msgid "Show selected window"
 msgstr "Rādīt aktīvā loga kontūru"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, ghns)
-#: main.ui:572
-#, kde-format
-msgid "Get New Window Switcher Layout"
-msgstr ""

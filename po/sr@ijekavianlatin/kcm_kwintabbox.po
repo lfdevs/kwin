@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
+"POT-Creation-Date: 2018-11-01 03:57+0100\n"
 "PO-Revision-Date: 2016-03-20 15:24+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -26,24 +26,35 @@ msgid "Desktop 1"
 msgstr "površ 1"
 
 # >> @title:tab
-#: main.cpp:73
+#: main.cpp:76
 #, kde-format
 msgid "Main"
 msgstr "Glavno"
 
 # >> @title:tab
-#: main.cpp:74
+#: main.cpp:77
 #, kde-format
 msgid "Alternative"
 msgstr "Alternativno"
 
-#: main.cpp:77
+#: main.cpp:79
+#, fuzzy, kde-format
+#| msgid "Get New Window Switcher Layout"
+msgid "Get New Task Switchers..."
+msgstr "Dobavi novi raspored menjača prozora"
+
+#: main.cpp:89
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""
 "Postavke smjernice fokusiranja ograničavaju funkcionalnost kretanja između "
 "prozora."
+
+#: main.cpp:107
+#, kde-format
+msgid "KWin"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
@@ -232,9 +243,3 @@ msgstr ""
 #, kde-format
 msgid "Show selected window"
 msgstr "Prikaži izabrani prozor"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, ghns)
-#: main.ui:572
-#, kde-format
-msgid "Get New Window Switcher Layout"
-msgstr "Dobavi novi raspored menjača prozora"

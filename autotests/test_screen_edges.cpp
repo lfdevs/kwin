@@ -298,6 +298,7 @@ void TestScreenEdges::testCreatingInitialEdges()
     auto vd = VirtualDesktopManager::self();
     vd->setConfig(config);
     vd->load();
+    vd->updateLayout();
     QCOMPARE(vd->count(), 4u);
     QCOMPARE(vd->grid().width(), 2);
     QCOMPARE(vd->grid().height(), 2);
@@ -343,7 +344,7 @@ void TestScreenEdges::testCreatingInitialEdges()
     }
 
     static_cast<MockScreens*>(screens())->setGeometries(QList<QRect>{QRect{0, 0, 1024, 768}});
-    QSignalSpy changedSpy(screens(), SIGNAL(changed()));
+    QSignalSpy changedSpy(screens(), &Screens::changed);
     QVERIFY(changedSpy.isValid());
     // first is before it's updated
     QVERIFY(changedSpy.wait());
@@ -395,7 +396,7 @@ void TestScreenEdges::testCreatingInitialEdges()
 
     // let's start a move of window.
     Client client(workspace());
-    workspace()->setMovingClient(&client);
+    workspace()->setMoveResizeClient(&client);
     for (int i = 0; i < 8; ++i) {
         auto e = edges.at(i);
         QVERIFY(!e->isReserved());
@@ -412,7 +413,7 @@ void TestScreenEdges::testCreatingInitialEdges()
         QCOMPARE(e->activatesForTouchGesture(), false);
         QCOMPARE(e->approachGeometry(), expectedGeometries.at(i*2+1));
     }
-    workspace()->setMovingClient(nullptr);
+    workspace()->setMoveResizeClient(nullptr);
 }
 
 void TestScreenEdges::testCallback()
@@ -420,7 +421,7 @@ void TestScreenEdges::testCallback()
     using namespace KWin;
     MockWorkspace ws;
     static_cast<MockScreens*>(screens())->setGeometries(QList<QRect>{QRect{0, 0, 1024, 768}, QRect{200, 768, 1024, 768}});
-    QSignalSpy changedSpy(screens(), SIGNAL(changed()));
+    QSignalSpy changedSpy(screens(), &Screens::changed);
     QVERIFY(changedSpy.isValid());
     // first is before it's updated
     QVERIFY(changedSpy.wait());
@@ -429,7 +430,7 @@ void TestScreenEdges::testCallback()
     auto s = ScreenEdges::self();
     s->init();
     TestObject callback;
-    QSignalSpy spy(&callback, SIGNAL(gotCallback(KWin::ElectricBorder)));
+    QSignalSpy spy(&callback, &TestObject::gotCallback);
     QVERIFY(spy.isValid());
     s->reserve(ElectricLeft, &callback, "callback");
     s->reserve(ElectricTopLeft, &callback, "callback");
@@ -568,7 +569,7 @@ void TestScreenEdges::testCallbackWithCheck()
     auto s = ScreenEdges::self();
     s->init();
     TestObject callback;
-    QSignalSpy spy(&callback, SIGNAL(gotCallback(KWin::ElectricBorder)));
+    QSignalSpy spy(&callback, &TestObject::gotCallback);
     QVERIFY(spy.isValid());
     s->reserve(ElectricLeft, &callback, "callback");
 
@@ -631,7 +632,7 @@ void TestScreenEdges::testPushBack()
     s->setConfig(config);
     s->init();
     TestObject callback;
-    QSignalSpy spy(&callback, SIGNAL(gotCallback(KWin::ElectricBorder)));
+    QSignalSpy spy(&callback, &TestObject::gotCallback);
     QVERIFY(spy.isValid());
     QFETCH(ElectricBorder, border);
     s->reserve(border, &callback, "callback");
@@ -675,7 +676,7 @@ void TestScreenEdges::testFullScreenBlocking()
     s->setConfig(config);
     s->init();
     TestObject callback;
-    QSignalSpy spy(&callback, SIGNAL(gotCallback(KWin::ElectricBorder)));
+    QSignalSpy spy(&callback, &TestObject::gotCallback);
     QVERIFY(spy.isValid());
     s->reserve(KWin::ElectricLeft, &callback, "callback");
     s->reserve(KWin::ElectricBottomRight, &callback, "callback");

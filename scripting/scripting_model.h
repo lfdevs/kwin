@@ -68,12 +68,13 @@ public:
     Q_DECLARE_FLAGS(LevelRestrictions, LevelRestriction)
     Q_FLAGS(LevelRestrictions)
     explicit ClientModel(QObject *parent);
-    virtual ~ClientModel();
-    virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
-    virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-    virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-    virtual QModelIndex parent(const QModelIndex &child) const;
-    virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    ~ClientModel() override;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
+    QModelIndex parent(const QModelIndex &child) const override;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    QHash<int, QByteArray> roleNames() const override;
 
     void setExclusions(ClientModel::Exclusions exclusions);
     Exclusions exclusions() const;
@@ -107,8 +108,8 @@ private:
  * @brief The data structure of the Model.
  *
  * The model is implemented as a Tree consisting of AbstractLevels as the levels of the tree.
- * A non leaf level is represented by the inheriting class @link ForkLevel, the last level above a
- * leaf is represented by the inheriting class @link ClientLevel, which contains the Clients - each
+ * A non leaf level is represented by the inheriting class ForkLevel, the last level above a
+ * leaf is represented by the inheriting class ClientLevel, which contains the Clients - each
  * Client is one leaf.
  *
  * In case the tree would only consist of Clients - leafs - it has always one ClientLevel as the root
@@ -117,20 +118,19 @@ private:
  * The number of levels in the tree is controlled by the LevelRestrictions. For each existing
  * LevelRestriction a new Level is created, if there are no more restrictions a ClientLevel is created.
  *
- * To build up the tree the static factory method @link create has to be used. It will recursively
- * build up the tree. After the tree has been build up use @link init to initialize the tree which
+ * To build up the tree the static factory method @ref create has to be used. It will recursively
+ * build up the tree. After the tree has been build up use @ref init to initialize the tree which
  * will add the Clients to the ClientLevel.
  *
  * Each element of the tree has a unique id which can be used by the QAbstractItemModel as the
  * internal id for its QModelIndex. Note: the ids have no ordering, if trying to get a specific element
  * the tree performs a depth-first search.
- *
  */
 class AbstractLevel : public QObject
 {
     Q_OBJECT
 public:
-    virtual ~AbstractLevel();
+    ~AbstractLevel() override;
     virtual int count() const = 0;
     virtual void init() = 0;
     virtual quint32 idForRow(int row) const = 0;
@@ -179,18 +179,18 @@ class ForkLevel : public AbstractLevel
     Q_OBJECT
 public:
     ForkLevel(const QList<ClientModel::LevelRestriction> &childRestrictions, ClientModel *model, AbstractLevel *parent);
-    virtual ~ForkLevel();
-    virtual int count() const;
-    virtual void init();
-    virtual quint32 idForRow(int row) const;
+    ~ForkLevel() override;
+    int count() const override;
+    void init() override;
+    quint32 idForRow(int row) const override;
     void addChild(AbstractLevel *child);
-    virtual void setScreen(uint screen);
-    virtual void setVirtualDesktop(uint virtualDesktop);
-    virtual void setActivity(const QString &activity);
-    virtual const AbstractLevel *levelForId(quint32 id) const;
-    virtual AbstractLevel *parentForId(quint32 child) const;
-    virtual int rowForId(quint32 child) const;
-    virtual AbstractClient *clientForId(quint32 child) const override;
+    void setScreen(uint screen) override;
+    void setVirtualDesktop(uint virtualDesktop) override;
+    void setActivity(const QString &activity) override;
+    const AbstractLevel *levelForId(quint32 id) const override;
+    AbstractLevel *parentForId(quint32 child) const override;
+    int rowForId(quint32 child) const override;
+    AbstractClient *clientForId(quint32 child) const override;
 private Q_SLOTS:
     void desktopCountChanged(uint previousCount, uint newCount);
     void screenCountChanged(int previousCount, int newCount);
@@ -216,17 +216,17 @@ class ClientLevel : public AbstractLevel
     Q_OBJECT
 public:
     explicit ClientLevel(ClientModel *model, AbstractLevel *parent);
-    virtual ~ClientLevel();
+    ~ClientLevel() override;
 
-    void init();
+    void init() override;
 
-    int count() const;
-    quint32 idForRow(int row) const;
+    int count() const override;
+    quint32 idForRow(int row) const override;
     bool containsId(quint32 id) const;
-    int rowForId(quint32 row) const;
-    AbstractClient *clientForId(quint32 child) const;
-    virtual const AbstractLevel *levelForId(quint32 id) const;
-    virtual AbstractLevel *parentForId(quint32 child) const override;
+    int rowForId(quint32 row) const override;
+    AbstractClient *clientForId(quint32 child) const override;
+    const AbstractLevel *levelForId(quint32 id) const override;
+    AbstractLevel *parentForId(quint32 child) const override;
 public Q_SLOTS:
     void clientAdded(KWin::AbstractClient *client);
     void clientRemoved(KWin::AbstractClient *client);
@@ -249,7 +249,7 @@ class SimpleClientModel : public ClientModel
     Q_OBJECT
 public:
     SimpleClientModel(QObject *parent = nullptr);
-    virtual ~SimpleClientModel();
+    ~SimpleClientModel() override;
 };
 
 class ClientModelByScreen : public ClientModel
@@ -257,7 +257,7 @@ class ClientModelByScreen : public ClientModel
     Q_OBJECT
 public:
     ClientModelByScreen(QObject *parent = nullptr);
-    virtual ~ClientModelByScreen();
+    ~ClientModelByScreen() override;
 };
 
 class ClientModelByScreenAndDesktop : public ClientModel
@@ -265,12 +265,11 @@ class ClientModelByScreenAndDesktop : public ClientModel
     Q_OBJECT
 public:
     ClientModelByScreenAndDesktop(QObject *parent = nullptr);
-    virtual ~ClientModelByScreenAndDesktop();
+    ~ClientModelByScreenAndDesktop() override;
 };
 
 /**
  * @brief Custom QSortFilterProxyModel to filter on Client caption, role and class.
- *
  */
 class ClientFilterModel : public QSortFilterProxyModel
 {
@@ -279,7 +278,7 @@ class ClientFilterModel : public QSortFilterProxyModel
     Q_PROPERTY(QString filter READ filter WRITE setFilter NOTIFY filterChanged)
 public:
     ClientFilterModel(QObject *parent = nullptr);
-    virtual ~ClientFilterModel();
+    ~ClientFilterModel() override;
     ClientModel *clientModel() const;
     const QString &filter() const;
 
@@ -288,7 +287,7 @@ public Q_SLOTS:
     void setFilter(const QString &filter);
 
 protected:
-    virtual bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
 
 Q_SIGNALS:
     void clientModelChanged();

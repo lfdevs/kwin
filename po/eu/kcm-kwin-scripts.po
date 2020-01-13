@@ -1,18 +1,19 @@
 # Translation of kcm-kwin-scripts.po to Euskara/Basque (eu).
 # Copyright (C) 2018, Free Software Foundation, Inc.
-# This file is distributed under the same license as kde-workspace package.
+# Copyright (C) 2019, This file is copyright:
+# This file is distributed under the same license as kwin package.
 # KDE euskaratzeko proiektuaren arduraduna <xalba@euskalnet.net>.
 #
 # Translators:
-# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2018.
+# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2018, 2019.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm-kwin-scripts\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2018-09-14 06:48+0200\n"
-"PO-Revision-Date: 2018-02-14 22:01+0100\n"
+"Project-Id-Version: kwin\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"PO-Revision-Date: 2019-05-22 00:36+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
-"Language-Team: Basque <kde-i18n-doc@kde.org>\n"
+"Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -78,13 +79,13 @@ msgid "KWin script configuration"
 msgstr "KWin script konfigurazioa"
 
 #. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
-#: module.ui:44
+#: module.ui:55
 #, kde-format
-msgid "Import KWin script..."
-msgstr "Inportatu KWin scripta..."
+msgid "Install from File..."
+msgstr "Instalatu fitxategitik..."
 
 #. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
-#: module.ui:51
+#: module.ui:67
 #, kde-format
 msgid "Get New Scripts..."
 msgstr "Lortu script berria..."

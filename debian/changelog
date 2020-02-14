@@ -1,3 +1,11 @@
+kwin (4:5.17.5-2) unstable; urgency=medium
+
+  * Team upload.
+  * Upload to unstable.
+  * Bump Standards-Version to 4.5.0, no changes required.
+
+ -- Pino Toscano <pino@debian.org>  Fri, 14 Feb 2020 20:53:37 +0100
+
 kwin (4:5.17.5-1) experimental; urgency=medium
 
   * Team upload.

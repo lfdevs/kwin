@@ -1,5 +1,8 @@
 kwin (4:5.17.5-3) UNRELEASED; urgency=medium
 
+  [ Pino Toscano ]
+  * Replace the transitional libfontconfig1-dev build dependency with
+    libfontconfig-dev.
 
  -- Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Fri, 27 Mar 2020 22:39:41 +0100
 

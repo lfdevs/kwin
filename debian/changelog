@@ -10,6 +10,9 @@ kwin (4:5.17.5-3) UNRELEASED; urgency=medium
   * Fix typo in kwin-common.maintscript to properly remove the old
     /etc/xdg/kwinswitcher.knsrc conffile.
 
+  [ Jiří Paleček ]
+  * Rules-Requires-Root: no
+
  -- Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Fri, 27 Mar 2020 22:39:41 +0100
 
 kwin (4:5.17.5-2) unstable; urgency=medium

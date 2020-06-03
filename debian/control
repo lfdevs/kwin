@@ -109,6 +109,7 @@ Package: kwin-data
 Architecture: all
 Multi-Arch: foreign
 Depends: ${misc:Depends},
+         ${python3:Depends},
 Recommends: plasma-framework,
             qml-module-qtmultimedia,
             qml-module-qtquick-controls,

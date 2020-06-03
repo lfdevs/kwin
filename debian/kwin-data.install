@@ -1,8 +1,10 @@
 usr/share/config.kcfg/kwin*.kcfg
+usr/share/config.kcfg/virtualdesktopssettings.kcfg
 usr/share/doc/*/*/kcontrol/
 usr/share/icons/*/*/apps/kwin.*
 usr/share/kconf_update/*.sh
 usr/share/kconf_update/*.upd
+usr/share/kconf_update/kwin-5.18-move-animspeed.py
 usr/share/knotifications5/kwin.notifyrc
 usr/share/knsrcfiles/
 usr/share/kpackage/kcms/kcm_kwin*

@@ -105,11 +105,9 @@ libkwinglutils.so.12 libkwinglutils12 #MINVER#
  _ZN4KWin16GLTexturePrivateD1Ev@Base 4:5.1.95+git20150122
  _ZN4KWin16GLTexturePrivateD2Ev@Base 4:5.1.95+git20150122
  _ZN4KWin16openGLExtensionsEv@Base 4:5.8.0
- _ZN4KWin18glResolveFunctionsESt8functionIFPFvvEPKcEE@Base 4:5.10.3.1
  _ZN4KWin19epoxy_glReadnPixelsE@Base 4:5.4.0
  _ZN4KWin21epoxy_glGetnUniformfvE@Base 4:5.4.0
  _ZN4KWin30epoxy_glGetGraphicsResetStatusE@Base 4:5.4.0
- _ZN4KWin6initGLESt8functionIFPFvvEPKcEE@Base 4:5.10.3.1
  _ZN4KWin8GLShader10setUniformENS0_10IntUniformEi@Base 4:5.1.95+git20150122
  _ZN4KWin8GLShader10setUniformENS0_11Vec2UniformERK9QVector2D@Base 4:5.1.95+git20150122
  _ZN4KWin8GLShader10setUniformENS0_11Vec4UniformERK9QVector4D@Base 4:5.1.95+git20150122
@@ -158,7 +156,6 @@ libkwinglutils.so.12 libkwinglutils12 #MINVER#
  _ZN4KWin9GLTexture26framebufferObjectSupportedEv@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTexture4bindEv@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTexture5clearEv@Base 4:5.1.95+git20150122
- _ZN4KWin9GLTexture6renderE7QRegionRK5QRectb@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTexture6unbindEv@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTexture6updateERK6QImageRK6QPointRK5QRect@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTexture7discardEv@Base 4:5.1.95+git20150122

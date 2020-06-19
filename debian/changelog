@@ -7,6 +7,8 @@ kwin (4:5.17.5-3) UNRELEASED; urgency=medium
     xcb/xfixes.h.
   * 'acc' autopkgtest: make it verbose, and copy the logs as artifact if
     requested.
+  * Fix typo in kwin-common.maintscript to properly remove the old
+    /etc/xdg/kwinswitcher.knsrc conffile.
 
  -- Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Fri, 27 Mar 2020 22:39:41 +0100
 

@@ -1,4 +1,4 @@
-kwin (4:5.17.5-3) UNRELEASED; urgency=medium
+kwin (4:5.18.5-1) UNRELEASED; urgency=medium
 
   [ Pino Toscano ]
   * Replace the transitional libfontconfig1-dev build dependency with
@@ -10,7 +10,16 @@ kwin (4:5.17.5-3) UNRELEASED; urgency=medium
   * Fix typo in kwin-common.maintscript to properly remove the old
     /etc/xdg/kwinswitcher.knsrc conffile.
 
- -- Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Fri, 27 Mar 2020 22:39:41 +0100
+  [ Jiří Paleček ]
+  * New versions of dependencies for 5.18.5
+  * Rules-Requires-Root: no
+  * Install new files
+  * Use dh-python3
+  * Add some patches, fixing compile warnings (affecting code correctness)
+  * Rename libkwineffects12 to -12a
+  * Remove some symbols from libkwinglutils
+
+ -- Jiri Palecek <jpalecek@web.de>  Mon, 15 Jun 2020 03:01:07 +0200
 
 kwin (4:5.17.5-2) unstable; urgency=medium
 

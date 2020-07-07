@@ -1,5 +1,5 @@
 # SymbolsHelper-Confirmed: 4:5.17.5~ amd64
-libkwineffects.so.12 libkwineffects12 #MINVER#
+libkwineffects.so.12 libkwineffects12a #MINVER#
 * Build-Depends-Package: kwin-dev
  _ZN4KWin11EffectFrame15enableCrossFadeEb@Base 4:5.1.95+git20150122
  _ZN4KWin11EffectFrame20setCrossFadeProgressEd@Base 4:5.1.95+git20150122
@@ -113,7 +113,6 @@ libkwineffects.so.12 libkwineffects12 #MINVER#
  _ZN4KWin15AnimationEffect8metaDataENS0_8MetaTypeEj@Base 4:5.1.95+git20150122
  _ZN4KWin15AnimationEffect8redirectEyNS0_9DirectionE6QFlagsINS0_15TerminationFlagEE@Base 4:5.17.5~
  _ZN4KWin15AnimationEffect8retargetEyNS_4FPx2Ei@Base 4:5.6.2
- _ZN4KWin15AnimationEffect9p_animateEPNS_12EffectWindowENS0_9AttributeEjiNS_4FPx2E12QEasingCurveiS4_bbb@Base 4:5.17.5~
  _ZN4KWin15AnimationEffectC1Ev@Base 4:5.1.95+git20150122
  _ZN4KWin15AnimationEffectC2Ev@Base 4:5.1.95+git20150122
  _ZN4KWin15AnimationEffectD0Ev@Base 4:5.6.2
@@ -189,8 +188,6 @@ libkwineffects.so.12 libkwineffects12 #MINVER#
  _ZN4KWin19WindowMotionManagerD1Ev@Base 4:5.1.95+git20150122
  _ZN4KWin19WindowMotionManagerD2Ev@Base 4:5.1.95+git20150122
  _ZN4KWin6Effect10buildQuadsEPNS_12EffectWindowERNS_14WindowQuadListE@Base 4:5.1.95+git20150122
- _ZN4KWin6Effect10drawWindowEPNS_12EffectWindowEi7QRegionRNS_15WindowPaintDataE@Base 4:5.1.95+git20150122
- _ZN4KWin6Effect11paintScreenEi7QRegionRNS_15ScreenPaintDataE@Base 4:5.1.95+git20150122
  _ZN4KWin6Effect11paintWindowEPNS_12EffectWindowEi7QRegionRNS_15WindowPaintDataE@Base 4:5.1.95+git20150122
  _ZN4KWin6Effect11qt_metacallEN11QMetaObject4CallEiPPv@Base 4:5.1.95+git20150122
  _ZN4KWin6Effect11qt_metacastEPKc@Base 4:5.1.95+git20150122
@@ -203,7 +200,6 @@ libkwineffects.so.12 libkwineffects12 #MINVER#
  _ZN4KWin6Effect15borderActivatedENS_14ElectricBorderE@Base 4:5.1.95+git20150122
  _ZN4KWin6Effect15postPaintScreenEv@Base 4:5.1.95+git20150122
  _ZN4KWin6Effect15postPaintWindowEPNS_12EffectWindowE@Base 4:5.1.95+git20150122
- _ZN4KWin6Effect16paintEffectFrameEPNS_11EffectFrameE7QRegiondd@Base 4:5.1.95+git20150122
  _ZN4KWin6Effect16staticMetaObjectE@Base 4:5.1.95+git20150122
  _ZN4KWin6Effect20grabbedKeyboardEventEP9QKeyEvent@Base 4:5.1.95+git20150122
  _ZN4KWin6Effect21windowInputMouseEventEP6QEvent@Base 4:5.1.95+git20150122
@@ -282,7 +278,6 @@ libkwineffects.so.12 libkwineffects12 #MINVER#
  _ZNK4KWin11EffectFrame22screenProjectionMatrixEv@Base 4:5.6.2
  _ZNK4KWin12EffectWindow10metaObjectEv@Base 4:5.1.95+git20150122
  _ZNK4KWin12EffectWindow11isOnDesktopEi@Base 4:5.1.95+git20150122
- _ZNK4KWin12EffectWindow12isOnActivityE7QString@Base 4:5.1.95+git20150122
  _ZNK4KWin12EffectWindow13hasDecorationEv@Base 4:5.1.95+git20150122
  _ZNK4KWin12EffectWindow15isOnAllDesktopsEv@Base 4:5.1.95+git20150122
  _ZNK4KWin12EffectWindow17isOnAllActivitiesEv@Base 4:5.1.95+git20150122

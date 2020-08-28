@@ -11,6 +11,7 @@ kwin (4:5.17.5-3) UNRELEASED; urgency=medium
     /etc/xdg/kwinswitcher.knsrc conffile.
   * Bump the debhelper compatibility to 13:
     - switch the debhelper-compat build dependency to 13
+  * Update lintian overrides.
 
   [ Jiří Paleček ]
   * Rules-Requires-Root: no

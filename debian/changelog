@@ -1,15 +1,5 @@
 kwin (4:5.18.5-1) UNRELEASED; urgency=medium
 
-  [ Pino Toscano ]
-  * Replace the transitional libfontconfig1-dev build dependency with
-    libfontconfig-dev.
-  * Add the libxcb-xfixes0-dev dependency to kwin-dev, as the kwin headers use
-    xcb/xfixes.h.
-  * 'acc' autopkgtest: make it verbose, and copy the logs as artifact if
-    requested.
-  * Fix typo in kwin-common.maintscript to properly remove the old
-    /etc/xdg/kwinswitcher.knsrc conffile.
-
   [ Jiří Paleček ]
   * New versions of dependencies for 5.18.5
   * Rules-Requires-Root: no
@@ -20,6 +10,28 @@ kwin (4:5.18.5-1) UNRELEASED; urgency=medium
   * Remove some symbols from libkwinglutils
 
  -- Jiri Palecek <jpalecek@web.de>  Mon, 15 Jun 2020 03:01:07 +0200
+
+kwin (4:5.17.5-3) unstable; urgency=medium
+
+  * Team upload.
+
+  [ Pino Toscano ]
+  * Replace the transitional libfontconfig1-dev build dependency with
+    libfontconfig-dev.
+  * Add the libxcb-xfixes0-dev dependency to kwin-dev, as the kwin headers use
+    xcb/xfixes.h.
+  * 'acc' autopkgtest: make it verbose, and copy the logs as artifact if
+    requested.
+  * Fix typo in kwin-common.maintscript to properly remove the old
+    /etc/xdg/kwinswitcher.knsrc conffile.
+  * Bump the debhelper compatibility to 13:
+    - switch the debhelper-compat build dependency to 13
+  * Update lintian overrides.
+
+  [ Jiří Paleček ]
+  * Rules-Requires-Root: no
+
+ -- Pino Toscano <pino@debian.org>  Fri, 28 Aug 2020 19:04:07 +0200
 
 kwin (4:5.17.5-2) unstable; urgency=medium
 

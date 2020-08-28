@@ -1,4 +1,6 @@
-kwin (4:5.17.5-3) UNRELEASED; urgency=medium
+kwin (4:5.17.5-3) unstable; urgency=medium
+
+  * Team upload.
 
   [ Pino Toscano ]
   * Replace the transitional libfontconfig1-dev build dependency with
@@ -16,7 +18,7 @@ kwin (4:5.17.5-3) UNRELEASED; urgency=medium
   [ Jiří Paleček ]
   * Rules-Requires-Root: no
 
- -- Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Fri, 27 Mar 2020 22:39:41 +0100
+ -- Pino Toscano <pino@debian.org>  Fri, 28 Aug 2020 19:04:07 +0200
 
 kwin (4:5.17.5-2) unstable; urgency=medium
 

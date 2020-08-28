@@ -2,7 +2,6 @@ kwin (4:5.18.5-1) UNRELEASED; urgency=medium
 
   [ Jiří Paleček ]
   * New versions of dependencies for 5.18.5
-  * Rules-Requires-Root: no
   * Install new files
   * Use dh-python3
   * Add some patches, fixing compile warnings (affecting code correctness)

@@ -9,6 +9,8 @@ kwin (4:5.17.5-3) UNRELEASED; urgency=medium
     requested.
   * Fix typo in kwin-common.maintscript to properly remove the old
     /etc/xdg/kwinswitcher.knsrc conffile.
+  * Bump the debhelper compatibility to 13:
+    - switch the debhelper-compat build dependency to 13
 
   [ Jiří Paleček ]
   * Rules-Requires-Root: no

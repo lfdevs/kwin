@@ -2,7 +2,7 @@ Source: kwin
 Section: kde
 Priority: optional
 Maintainer: Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
-Uploaders: Maximiliano Curia <maxy@debian.org>
+Uploaders: Scarlett Moore <sgmoore@kde.org>,
 Build-Depends: breeze-dev (>= 4:5.17~),
                cmake (>= 3.1~),
                debhelper-compat (= 12),

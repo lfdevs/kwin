@@ -25,6 +25,7 @@ kwin (4:5.19.4-1) UNRELEASED; urgency=medium
   * Add Scarlett Moore to Uploaders.
   * Change maintainer in d/control to Debian Qt/KDE Maintainers.
   * Update build-deps with the info from cmake.
+  * Update list of installed files.
 
  -- Jiri Palecek <jpalecek@web.de>  Mon, 15 Jun 2020 03:01:07 +0200
 

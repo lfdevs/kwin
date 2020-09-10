@@ -43,6 +43,7 @@ libkwinglutils.so.12 libkwinglutils12 #MINVER#
  _ZN4KWin14GLRenderTarget15s_renderTargetsE@Base 4:5.1.95+git20150122
  _ZN4KWin14GLRenderTarget16pushRenderTargetEPS0_@Base 4:5.1.95+git20150122
  _ZN4KWin14GLRenderTarget17pushRenderTargetsE6QStackIPS0_E@Base 4:5.13.1
+ _ZN4KWin14GLRenderTarget17s_kwinFramebufferE@Base 4:5.19.0
  _ZN4KWin14GLRenderTarget19blitFromFramebufferERK5QRectS3_j@Base 4:5.1.95+git20150122
  _ZN4KWin14GLRenderTarget19isRenderTargetBoundEv@Base 4:5.1.95+git20150122
  _ZN4KWin14GLRenderTarget19s_virtualScreenSizeE@Base 4:5.1.95+git20150122
@@ -105,9 +106,11 @@ libkwinglutils.so.12 libkwinglutils12 #MINVER#
  _ZN4KWin16GLTexturePrivateD1Ev@Base 4:5.1.95+git20150122
  _ZN4KWin16GLTexturePrivateD2Ev@Base 4:5.1.95+git20150122
  _ZN4KWin16openGLExtensionsEv@Base 4:5.8.0
+ _ZN4KWin18glResolveFunctionsERKSt8functionIFPFvvEPKcEE@Base 4:5.18.3
  _ZN4KWin19epoxy_glReadnPixelsE@Base 4:5.4.0
  _ZN4KWin21epoxy_glGetnUniformfvE@Base 4:5.4.0
  _ZN4KWin30epoxy_glGetGraphicsResetStatusE@Base 4:5.4.0
+ _ZN4KWin6initGLERKSt8functionIFPFvvEPKcEE@Base 4:5.18.3
  _ZN4KWin8GLShader10setUniformENS0_10IntUniformEi@Base 4:5.1.95+git20150122
  _ZN4KWin8GLShader10setUniformENS0_11Vec2UniformERK9QVector2D@Base 4:5.1.95+git20150122
  _ZN4KWin8GLShader10setUniformENS0_11Vec4UniformERK9QVector4D@Base 4:5.1.95+git20150122
@@ -156,6 +159,7 @@ libkwinglutils.so.12 libkwinglutils12 #MINVER#
  _ZN4KWin9GLTexture26framebufferObjectSupportedEv@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTexture4bindEv@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTexture5clearEv@Base 4:5.1.95+git20150122
+ _ZN4KWin9GLTexture6renderERK7QRegionRK5QRectb@Base 4:5.18.3
  _ZN4KWin9GLTexture6unbindEv@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTexture6updateERK6QImageRK6QPointRK5QRect@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTexture7discardEv@Base 4:5.1.95+git20150122
@@ -168,6 +172,7 @@ libkwinglutils.so.12 libkwinglutils12 #MINVER#
  _ZN4KWin9GLTextureC1ERNS_16GLTexturePrivateE@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureC1EjRK5QSizei@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureC1Ejiii@Base 4:5.1.95+git20150122
+ _ZN4KWin9GLTextureC1EjjRK5QSizei@Base 4:5.18.3
  _ZN4KWin9GLTextureC1Ev@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureC2ERK6QImagej@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureC2ERK7QPixmapj@Base 4:5.1.95+git20150122
@@ -176,6 +181,7 @@ libkwinglutils.so.12 libkwinglutils12 #MINVER#
  _ZN4KWin9GLTextureC2ERNS_16GLTexturePrivateE@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureC2EjRK5QSizei@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureC2Ejiii@Base 4:5.1.95+git20150122
+ _ZN4KWin9GLTextureC2EjjRK5QSizei@Base 4:5.18.3
  _ZN4KWin9GLTextureC2Ev@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureD0Ev@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureD1Ev@Base 4:5.1.95+git20150122
@@ -205,6 +211,7 @@ libkwinglutils.so.12 libkwinglutils12 #MINVER#
  _ZNK4KWin10GLPlatform6driverEv@Base 4:5.1.95+git20150122
  _ZNK4KWin10GLPlatform6isGLESEv@Base 4:5.1.95+git20150122
  _ZNK4KWin10GLPlatform7isIntelEv@Base 4:5.1.95+git20150122
+ _ZNK4KWin10GLPlatform7isVirglEv@Base 4:5.18.3
  _ZNK4KWin10GLPlatform8isAdrenoEv@Base 4:5.8.0
  _ZNK4KWin10GLPlatform8isNvidiaEv@Base 4:5.1.95+git20150122
  _ZNK4KWin10GLPlatform8isRadeonEv@Base 4:5.1.95+git20150122
@@ -213,7 +220,6 @@ libkwinglutils.so.12 libkwinglutils12 #MINVER#
  _ZNK4KWin10GLPlatform9chipClassEv@Base 4:5.1.95+git20150122
  _ZNK4KWin10GLPlatform9glVersionEv@Base 4:5.1.95+git20150122
  _ZNK4KWin13ShaderManager13isShaderBoundEv@Base 4:5.1.95+git20150122
- _ZNK4KWin13ShaderManager13isShaderDebugEv@Base 4:5.1.95+git20150122
  _ZNK4KWin13ShaderManager14getBoundShaderEv@Base 4:5.1.95+git20150122
  _ZNK4KWin13ShaderManager20generateVertexSourceE6QFlagsINS_11ShaderTraitEE@Base 4:5.1.95+git20150122
  _ZNK4KWin13ShaderManager22bindAttributeLocationsEPNS_8GLShaderE@Base 4:5.1.95+git20150122

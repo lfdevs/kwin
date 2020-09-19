@@ -6,11 +6,13 @@ Author: Jiri Palecek <jpalecek@web.de>
 Last-Update: 2020-06-04
 ---
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
-Index: kwin-5.18.5/platformsupport/scenes/opengl/egl_dmabuf.cpp
-===================================================================
---- kwin-5.18.5.orig/platformsupport/scenes/opengl/egl_dmabuf.cpp
-+++ kwin-5.18.5/platformsupport/scenes/opengl/egl_dmabuf.cpp
-@@ -321,7 +321,7 @@ KWayland::Server::LinuxDmabufUnstableV1B
+---
+ platformsupport/scenes/opengl/egl_dmabuf.cpp |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/platformsupport/scenes/opengl/egl_dmabuf.cpp
++++ b/platformsupport/scenes/opengl/egl_dmabuf.cpp
+@@ -282,7 +282,7 @@ KWaylandServer::LinuxDmabufUnstableV1Buf
                                                                      const QSize &size,
                                                                      Flags flags)
  {

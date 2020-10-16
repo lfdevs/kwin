@@ -28,6 +28,7 @@ kwin (4:5.19.4-1) UNRELEASED; urgency=medium
   * Update list of installed files.
   * Update symbols files.
   * Unfuzzify patches.
+  * Add build-deps for Python.
 
  -- Jiri Palecek <jpalecek@web.de>  Mon, 15 Jun 2020 03:01:07 +0200
 

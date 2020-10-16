@@ -1,4 +1,6 @@
-kwin (4:5.19.4-1) UNRELEASED; urgency=medium
+kwin (4:5.19.4-1) experimental; urgency=medium
+
+  * Team upload.
 
   [ Pino Toscano ]
   * Replace the transitional libfontconfig1-dev build dependency with
@@ -32,7 +34,7 @@ kwin (4:5.19.4-1) UNRELEASED; urgency=medium
   * Tighten build-deps for kscreenlocker-dev.
   * Clean up lintian overrides.
 
- -- Jiri Palecek <jpalecek@web.de>  Mon, 15 Jun 2020 03:01:07 +0200
+ -- Norbert Preining <norbert@preining.info>  Sat, 17 Oct 2020 01:35:42 +0900
 
 kwin (4:5.17.5-2) unstable; urgency=medium
 

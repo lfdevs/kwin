@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincommon\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"POT-Creation-Date: 2020-02-26 03:48+0100\n"
 "PO-Revision-Date: 2019-01-09 09:11+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -30,61 +30,55 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "yurchor@ukr.net"
 
-#: effectsmodel.cpp:63
+#: effectsmodel.cpp:62
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Доступність"
 
-#: effectsmodel.cpp:64
+#: effectsmodel.cpp:63
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Вигляд"
 
-#: effectsmodel.cpp:65
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Candy"
-msgstr "Прикраси"
-
-#: effectsmodel.cpp:66
+#: effectsmodel.cpp:64
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Фокус"
 
-#: effectsmodel.cpp:67
+#: effectsmodel.cpp:65
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Show Desktop Animation"
 msgstr "Показ анімацій стільниці"
 
-#: effectsmodel.cpp:68
+#: effectsmodel.cpp:66
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Інструменти"
 
-#: effectsmodel.cpp:69
+#: effectsmodel.cpp:67
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr "Анімація перемикання віртуальних стільниць"
 
-#: effectsmodel.cpp:70
+#: effectsmodel.cpp:68
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Керування вікнами"
 
-#: effectsmodel.cpp:71
+#: effectsmodel.cpp:69
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Open/Close Animation"
 msgstr "Анімація відкриття та закриття вікон"
 
-#: effectsmodel.cpp:239
+#: effectsmodel.cpp:237
 #, kde-format
 msgid "KWin development team"
 msgstr "Команда розробників KWin"

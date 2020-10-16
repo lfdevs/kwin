@@ -62,8 +62,6 @@
 >Fuoco</guilabel
 >, <guilabel
 >Strumenti</guilabel
->, <guilabel
->Attrazioni</guilabel
 > e <guilabel
 >Gestione delle finestre</guilabel
 >.</para>
@@ -127,7 +125,6 @@
 39 effects + 7 internal (XRender compositor)
 Internal effects
 Appearance (Dashboard, Highlight Windows, KSreen, Screenshot, Window Geometry)
-Candy (Startup feedback)
 Window Management (Cover Switch)
 -->
 

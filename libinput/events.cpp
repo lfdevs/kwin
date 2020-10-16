@@ -57,6 +57,18 @@ Event *Event::create(libinput_event *event)
     case LIBINPUT_EVENT_GESTURE_PINCH_UPDATE:
     case LIBINPUT_EVENT_GESTURE_PINCH_END:
         return new PinchGestureEvent(event, t);
+    case LIBINPUT_EVENT_TABLET_TOOL_AXIS:
+    case LIBINPUT_EVENT_TABLET_TOOL_PROXIMITY:
+    case LIBINPUT_EVENT_TABLET_TOOL_TIP:
+        return new TabletToolEvent(event, t);
+    case LIBINPUT_EVENT_TABLET_TOOL_BUTTON:
+        return new TabletToolButtonEvent(event, t);
+    case LIBINPUT_EVENT_TABLET_PAD_RING:
+        return new TabletPadRingEvent(event, t);
+    case LIBINPUT_EVENT_TABLET_PAD_STRIP:
+        return new TabletPadStripEvent(event, t);
+    case LIBINPUT_EVENT_TABLET_PAD_BUTTON:
+        return new TabletPadButtonEvent(event, t);
     case LIBINPUT_EVENT_SWITCH_TOGGLE:
         return new SwitchEvent(event, t);
     default:
@@ -202,7 +214,7 @@ qreal PointerEvent::axisValue(InputRedirection::PointerAxis axis) const
     const libinput_pointer_axis a = axis == InputRedirection::PointerAxisHorizontal
                                           ? LIBINPUT_POINTER_AXIS_SCROLL_HORIZONTAL
                                           : LIBINPUT_POINTER_AXIS_SCROLL_VERTICAL;
-    return libinput_event_pointer_get_axis_value(m_pointerEvent, a);
+    return libinput_event_pointer_get_axis_value(m_pointerEvent, a) * device()->scrollFactor();
 }
 
 qint32 PointerEvent::discreteAxisValue(InputRedirection::PointerAxis axis) const
@@ -211,7 +223,7 @@ qint32 PointerEvent::discreteAxisValue(InputRedirection::PointerAxis axis) const
     const libinput_pointer_axis a = (axis == InputRedirection::PointerAxisHorizontal)
         ? LIBINPUT_POINTER_AXIS_SCROLL_HORIZONTAL
         : LIBINPUT_POINTER_AXIS_SCROLL_VERTICAL;
-    return libinput_event_pointer_get_axis_value_discrete(m_pointerEvent, a);
+    return libinput_event_pointer_get_axis_value_discrete(m_pointerEvent, a) * device()->scrollFactor();
 }
 
 InputRedirection::PointerAxisSource PointerEvent::axisSource() const
@@ -352,5 +364,34 @@ quint64 SwitchEvent::timeMicroseconds() const
     return libinput_event_switch_get_time_usec(m_switchEvent);
 }
 
+TabletToolEvent::TabletToolEvent(libinput_event *event, libinput_event_type type)
+    : Event(event, type)
+    , m_tabletToolEvent(libinput_event_get_tablet_tool_event(event))
+{
+}
+
+TabletToolButtonEvent::TabletToolButtonEvent(libinput_event *event, libinput_event_type type)
+    : Event(event, type)
+    , m_tabletToolEvent(libinput_event_get_tablet_tool_event(event))
+{
+}
+
+TabletPadButtonEvent::TabletPadButtonEvent(libinput_event *event, libinput_event_type type)
+    : Event(event, type)
+    , m_tabletPadEvent(libinput_event_get_tablet_pad_event(event))
+{
+}
+
+TabletPadStripEvent::TabletPadStripEvent(libinput_event *event, libinput_event_type type)
+    : Event(event, type)
+    , m_tabletPadEvent(libinput_event_get_tablet_pad_event(event))
+{
+}
+
+TabletPadRingEvent::TabletPadRingEvent(libinput_event *event, libinput_event_type type)
+    : Event(event, type)
+    , m_tabletPadEvent(libinput_event_get_tablet_pad_event(event))
+{
+}
 }
 }

@@ -35,12 +35,12 @@ KCM.GridView {
 
     view.model: kcm.themesModel
     view.currentIndex: kcm.theme
-    view.onCurrentIndexChanged: kcm.theme = view.currentIndex
     view.onContentHeightChanged: view.positionViewAtIndex(view.currentIndex, GridView.Visible)
 
     view.implicitCellWidth: Kirigami.Units.gridUnit * 18
 
     view.delegate: KCM.GridDelegate {
+        id: delegate
         text: model.display
 
         thumbnailAvailable: true
@@ -84,7 +84,10 @@ KCM.GridView {
             }
             MouseArea {
                 anchors.fill: parent
-                onClicked: view.currentIndex = index
+                onClicked: {
+                    kcm.theme = index
+                    view.currentIndex = index
+                }
             }
             Connections {
                 target: kcm
@@ -97,13 +100,17 @@ KCM.GridView {
                 tooltip: i18n("Edit %1 Theme", model.display)
                 enabled: model.configureable
                 onTriggered: {
+                    kcm.theme = index
                     view.currentIndex = index
-                    bridgeItem.bridge.configure()
+                    bridgeItem.bridge.configure(delegate)
                 }
             }
         ]
 
-        onClicked: view.currentIndex = index
+        onClicked: {
+            kcm.theme = index
+            view.currentIndex = index
+        }
     }
     Connections {
         target: kcm

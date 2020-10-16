@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KWIN_SHOWFPS_H
 #define KWIN_SHOWFPS_H
 
-#include <QTime>
+#include <QElapsedTimer>
 #include <QFont>
 
 #include <kwineffects.h>
@@ -46,7 +46,7 @@ public:
     ShowFpsEffect();
     void reconfigure(ReconfigureFlags) override;
     void prePaintScreen(ScreenPrePaintData& data, int time) override;
-    void paintScreen(int mask, QRegion region, ScreenPaintData& data) override;
+    void paintScreen(int mask, const QRegion &region, ScreenPaintData& data) override;
     void paintWindow(EffectWindow* w, int mask, QRegion region, WindowPaintData& data) override;
     void postPaintScreen() override;
     enum { INSIDE_GRAPH, NOWHERE, TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT }; // fps text position
@@ -83,13 +83,13 @@ private:
     void paintDrawSizeGraph(int x, int y);
     void paintGraph(int x, int y, QList<int> values, QList<int> lines, bool colorize);
     QImage fpsTextImage(int fps);
-    QTime t;
+    QElapsedTimer t;
     enum { NUM_PAINTS = 100 }; // remember time needed to paint this many paints
     int paints[ NUM_PAINTS ]; // time needed to paint
     int paint_size[ NUM_PAINTS ]; // number of pixels painted
     int paints_pos;  // position in the queue
     enum { MAX_FPS = 200 };
-    int frames[ MAX_FPS ]; // (sec*1000+msec) of the time the frame was done
+    qint64 frames[ MAX_FPS ]; // the time when the frame was done
     int frames_pos; // position in the queue
     double alpha;
     int x;

@@ -62,8 +62,6 @@
 >Фокус</guilabel
 >, <guilabel
 >Інструменти</guilabel
->, <guilabel
->Цукерка</guilabel
 > та <guilabel
 >Керування вікнами</guilabel
 >.</para>
@@ -127,7 +125,6 @@
 39 effects + 7 internal (XRender compositor)
 Internal effects
 Appearance (Dashboard, Highlight Windows, KSreen, Screenshot, Window Geometry)
-Candy (Startup feedback)
 Window Management (Cover Switch)
 -->
 

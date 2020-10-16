@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kwin package.
 #
-# Giovanni Sora <g.sora@tiscali.it>, 2020.
+# Giovanni Sora <g.sora@tiscali.it>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-05-20 03:25+0200\n"
-"PO-Revision-Date: 2020-01-06 19:13+0100\n"
+"POT-Creation-Date: 2020-02-26 03:48+0100\n"
+"PO-Revision-Date: 2019-12-24 23:27+0100\n"
 "Last-Translator: Giovanni Sora <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -27,61 +27,55 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "g.sora@tiscali.it"
 
-#: effectsmodel.cpp:63
+#: effectsmodel.cpp:62
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Accessibilitate"
 
-#: effectsmodel.cpp:64
+#: effectsmodel.cpp:63
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Apparentia"
 
-#: effectsmodel.cpp:65
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Candy"
-msgstr "Candy"
-
-#: effectsmodel.cpp:66
+#: effectsmodel.cpp:64
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Foco"
 
-#: effectsmodel.cpp:67
+#: effectsmodel.cpp:65
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Show Desktop Animation"
 msgstr "Monstra animation de scriptorio"
 
-#: effectsmodel.cpp:68
+#: effectsmodel.cpp:66
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Instrumentos"
 
-#: effectsmodel.cpp:69
+#: effectsmodel.cpp:67
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr "Animation de commutar de scriptorio virtual"
 
-#: effectsmodel.cpp:70
+#: effectsmodel.cpp:68
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Gestion de Fenestra"
 
-#: effectsmodel.cpp:71
+#: effectsmodel.cpp:69
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Open/Close Animation"
 msgstr "Fenestra Aperi/Claude Animation"
 
-#: effectsmodel.cpp:239
+#: effectsmodel.cpp:237
 #, kde-format
 msgid "KWin development team"
 msgstr "Equipa de disveloppamento de KWin"

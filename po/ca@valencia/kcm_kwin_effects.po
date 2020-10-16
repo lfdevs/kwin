@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-09-16 03:27+0200\n"
+"POT-Creation-Date: 2020-02-23 03:34+0100\n"
 "PO-Revision-Date: 2019-03-19 19:42+0100\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -38,11 +38,12 @@ msgid "Desktop Effects"
 msgstr "Configuració dels efectes d'escriptori"
 
 #: kcm.cpp:49
-#, kde-format
-msgid "Vlad Zagorodniy"
+#, fuzzy, kde-format
+#| msgid "Vlad Zagorodniy"
+msgid "Vlad Zahorodnii"
 msgstr "Vlad Zagorodniy"
 
-#: kcm.cpp:87
+#: kcm.cpp:88
 #, kde-format
 msgid "Download New Desktop Effects"
 msgstr "Baixa efectes nous d'escriptori"
@@ -101,7 +102,7 @@ msgstr "Exclou els efectes d'escriptori interns"
 msgid "Exclude internal effects"
 msgstr "Exclou els efectes d'escriptori interns"
 
-#: package/contents/ui/main.qml:133
+#: package/contents/ui/main.qml:135
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Obtén efectes nous d'escriptori..."

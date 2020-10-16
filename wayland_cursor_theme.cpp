@@ -25,8 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QVector>
 // KWayland
 #include <KWayland/Client/shm_pool.h>
-#include <KWayland/Server/display.h>
-#include <KWayland/Server/output_interface.h>
+#include <KWaylandServer/display.h>
+#include <KWaylandServer/output_interface.h>
 // Wayland
 #include <wayland-cursor.h>
 
@@ -51,7 +51,7 @@ void WaylandCursorTheme::loadTheme()
     if (!m_shm->isValid()) {
         return;
     }
-    Cursor *c = Cursor::self();
+    Cursor *c = Cursors::self()->mouse();
     int size = c->themeSize();
     if (size == 0) {
         //set a default size
@@ -99,7 +99,7 @@ wl_cursor_image *WaylandCursorTheme::get(const QByteArray &name)
     }
     wl_cursor *c = wl_cursor_theme_get_cursor(m_theme, name.constData());
     if (!c || c->image_count <= 0) {
-        const auto &names = Cursor::self()->cursorAlternativeNames(name);
+        const auto &names = Cursors::self()->mouse()->cursorAlternativeNames(name);
         for (auto it = names.begin(), end = names.end(); it != end; it++) {
             c = wl_cursor_theme_get_cursor(m_theme, (*it).constData());
             if (c && c->image_count > 0) {

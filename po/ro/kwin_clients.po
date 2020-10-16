@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-10-16 07:57+0200\n"
+"POT-Creation-Date: 2020-03-18 03:45+0100\n"
 "PO-Revision-Date: 2013-11-26 23:25+0200\n"
 "Last-Translator: Sergiu Bivol <sergiu@ase.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "20)) ? 1 : 2;\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: aurorae/src/aurorae.cpp:742
+#: aurorae/src/aurorae.cpp:694
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Tiny"
@@ -32,31 +32,31 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "Minusculă"
 
-#: aurorae/src/aurorae.cpp:743
+#: aurorae/src/aurorae.cpp:695
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "Normală"
 
-#: aurorae/src/aurorae.cpp:744
+#: aurorae/src/aurorae.cpp:696
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "Mare"
 
-#: aurorae/src/aurorae.cpp:745
+#: aurorae/src/aurorae.cpp:697
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "Foarte mare"
 
-#: aurorae/src/aurorae.cpp:746
+#: aurorae/src/aurorae.cpp:698
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "Imensă"
 
-#: aurorae/src/aurorae.cpp:747
+#: aurorae/src/aurorae.cpp:699
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Very Huge"
@@ -64,7 +64,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "Extrem de mare"
 
-#: aurorae/src/aurorae.cpp:748
+#: aurorae/src/aurorae.cpp:700
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Oversized"
@@ -72,7 +72,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "Supradimensionată"
 
-#: aurorae/src/aurorae.cpp:751
+#: aurorae/src/aurorae.cpp:703
 #, fuzzy, kde-format
 #| msgid "B&utton size:"
 msgid "Button size:"
@@ -124,24 +124,8 @@ msgstr ""
 msgid "Colored window border"
 msgstr "Chenar de fereastră colorat"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_titleShadow)
-#: aurorae/themes/plastik/package/contents/ui/config.ui:66
-#, kde-format
-msgid ""
-"Check this option if you want the titlebar text to have a 3D look with a "
-"shadow behind it."
-msgstr ""
-"Bifați această opțiune dacă doriți ca textul barei de titlu să aibă un "
-"aspect 3D cu o umbră în spate."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_titleShadow)
-#: aurorae/themes/plastik/package/contents/ui/config.ui:69
-#, kde-format
-msgid "Use shadowed &text"
-msgstr "Folosește &text umbrit"
-
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_animateButtons)
-#: aurorae/themes/plastik/package/contents/ui/config.ui:76
+#: aurorae/themes/plastik/package/contents/ui/config.ui:66
 #, kde-format
 msgid ""
 "Check this option if you want the buttons to fade in when the mouse pointer "
@@ -152,7 +136,7 @@ msgstr ""
 "deoparte."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)
-#: aurorae/themes/plastik/package/contents/ui/config.ui:79
+#: aurorae/themes/plastik/package/contents/ui/config.ui:69
 #, kde-format
 msgid "Animate buttons"
 msgstr "Butoane animate"

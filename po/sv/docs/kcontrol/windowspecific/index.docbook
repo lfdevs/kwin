@@ -812,7 +812,7 @@
 <listitem
 ><para
 ><guilabel
->Smart</guilabel
+>Minimal överlappning</guilabel
 > - placera där inga andra fönster finns.</para
 ></listitem>
 <listitem
@@ -842,7 +842,7 @@
 <listitem
 ><para
 ><guilabel
->Övre vänstra hörnet</guilabel
+>I övre vänstra hörnet</guilabel
 ></para
 ></listitem>
 <listitem

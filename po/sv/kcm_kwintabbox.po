@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-07-11 03:14+0200\n"
+"POT-Creation-Date: 2020-04-02 03:52+0200\n"
 "PO-Revision-Date: 2018-11-01 19:50+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -17,38 +17,38 @@ msgstr ""
 "X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
+#: kwintabboxconfigform.cpp:88
+#, kde-format
+msgid "KWin"
+msgstr "Kwin"
+
 #: layoutpreview.cpp:159
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Skrivbord 1"
 
-#: main.cpp:76
+#: main.cpp:77
 #, kde-format
 msgid "Main"
 msgstr "Huvudmetod"
 
-#: main.cpp:77
+#: main.cpp:78
 #, kde-format
 msgid "Alternative"
 msgstr "Alternativ metod"
 
-#: main.cpp:79
+#: main.cpp:80
 #, kde-format
 msgid "Get New Task Switchers..."
 msgstr "Hämta nya aktivitetsbytare..."
 
-#: main.cpp:89
+#: main.cpp:90
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""
 "Inställningar av fokuspolicy begränsar funktionen för att gå igenom fönster."
-
-#: main.cpp:107
-#, kde-format
-msgid "KWin"
-msgstr "Kwin"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
@@ -208,7 +208,7 @@ msgstr "Visualisering"
 msgid "The effect to replace the list window when desktop effects are active."
 msgstr "Effekt att ersätta listfönstret med när skrivbordseffekter är aktiva."
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, highlightWindowCheck)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:549
 #, kde-format
 msgid ""
@@ -218,7 +218,7 @@ msgstr ""
 "Fönstret som för närvarande är valt markeras genom att alla andra fönster "
 "tonas bort. Alternativet kräver skrivbordseffekter för att vara aktivt."
 
-#. i18n: ectx: property (text), widget (QCheckBox, highlightWindowCheck)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:552
 #, kde-format
 msgid "Show selected window"

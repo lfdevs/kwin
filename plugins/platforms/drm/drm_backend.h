@@ -53,6 +53,7 @@ class DrmPlane;
 class DrmCrtc;
 class DrmConnector;
 class GbmSurface;
+class Cursor;
 
 
 class KWIN_EXPORT DrmBackend : public Platform
@@ -131,6 +132,10 @@ public:
 
     QString supportInformation() const override;
 
+    bool isCursorEnabled() const {
+        return m_cursorEnabled;
+    };
+
 public Q_SLOTS:
     void turnOutputsOn();
 
@@ -155,10 +160,10 @@ private:
     void activate(bool active);
     void reactivate();
     void deactivate();
-    void updateOutputs();
+    bool updateOutputs();
     void setCursor();
     void updateCursor();
-    void moveCursor();
+    void moveCursor(Cursor *cursor, const QPoint &pos);
     void initCursor();
     void readOutputsConfiguration();
     void writeOutputsConfiguration();

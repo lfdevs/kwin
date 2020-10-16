@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-10-29 07:53+0100\n"
+"POT-Creation-Date: 2020-03-30 03:49+0200\n"
 "PO-Revision-Date: 2019-08-06 23:03+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -31,17 +31,17 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "franklin@goodhorse.idv.tw"
 
-#: desktopsmodel.cpp:427
+#: desktopsmodel.cpp:466
 #, kde-format
 msgid "There was an error connecting to the compositor."
 msgstr "連線到合成器時發生錯誤。"
 
-#: desktopsmodel.cpp:629
+#: desktopsmodel.cpp:668
 #, kde-format
 msgid "There was an error saving the settings to the compositor."
 msgstr "儲存設定到合成器時發生錯誤。"
 
-#: desktopsmodel.cpp:632
+#: desktopsmodel.cpp:671
 #, kde-format
 msgid "There was an error requesting information from the compositor."
 msgstr "從合成器請求資訊時發生錯誤。"
@@ -94,37 +94,37 @@ msgid "1 Row"
 msgid_plural "%1 Rows"
 msgstr[0] "%1 行"
 
-#: package/contents/ui/main.qml:181
+#: package/contents/ui/main.qml:173
 #, kde-format
 msgid "Options:"
 msgstr "選項："
 
-#: package/contents/ui/main.qml:183
+#: package/contents/ui/main.qml:175
 #, kde-format
 msgid "Navigation wraps around"
 msgstr "環繞式瀏覽"
 
-#: package/contents/ui/main.qml:199
+#: package/contents/ui/main.qml:190
 #, kde-format
 msgid "Show animation when switching:"
 msgstr "切換時顯示動畫："
 
-#: package/contents/ui/main.qml:242
+#: package/contents/ui/main.qml:233
 #, kde-format
 msgid "Show on-screen display when switching:"
 msgstr "切換時顯示螢幕上的顯示內容："
 
-#: package/contents/ui/main.qml:258
+#: package/contents/ui/main.qml:251
 #, kde-format
 msgid "%1 ms"
 msgstr "%1 毫秒"
 
-#: package/contents/ui/main.qml:278
+#: package/contents/ui/main.qml:269
 #, kde-format
 msgid "Show desktop layout indicators"
 msgstr "顯示桌面佈局指示器"
 
-#: virtualdesktops.cpp:44
+#: virtualdesktops.cpp:41
 #, kde-format
 msgid "Virtual Desktops"
 msgstr "虛擬桌面"

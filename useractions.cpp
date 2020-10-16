@@ -35,7 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "useractions.h"
 #include "cursor.h"
-#include "client.h"
+#include "x11client.h"
 #include "colorcorrection/manager.h"
 #include "composite.h"
 #include "input.h"
@@ -43,7 +43,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "effects.h"
 #include "platform.h"
 #include "screens.h"
-#include "shell_client.h"
 #include "virtualdesktops.h"
 #include "scripting/scripting.h"
 
@@ -327,13 +326,11 @@ void UserActionsMenu::init()
                 p->setProcessEnvironment(kwinApp()->processStartupEnvironment());
                 p->setProgram(QStringLiteral("kcmshell5"));
                 connect(p, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), p, &QProcess::deleteLater);
-                connect(p, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error), this,
-                    [p] (QProcess::ProcessError e) {
-                        if (e == QProcess::FailedToStart) {
-                            qCDebug(KWIN_CORE) << "Failed to start kcmshell5";
-                        }
+                connect(p, &QProcess::errorOccurred, this, [] (QProcess::ProcessError e) {
+                    if (e == QProcess::FailedToStart) {
+                        qCDebug(KWIN_CORE) << "Failed to start kcmshell5";
                     }
-                );
+                });
                 p->start();
             }
         );
@@ -803,7 +800,7 @@ void UserActionsMenu::slotToggleOnActivity(QAction *action)
         return;
     }
 
-    Client *c = dynamic_cast<Client*>(m_client.data());
+    X11Client *c = dynamic_cast<X11Client *>(m_client.data());
     if (!c) {
         return;
     }
@@ -1052,21 +1049,21 @@ void Workspace::performWindowOperation(AbstractClient* c, Options::WindowOperati
     if (!c)
         return;
     if (op == Options::MoveOp || op == Options::UnrestrictedMoveOp)
-        Cursor::setPos(c->geometry().center());
+        Cursors::self()->mouse()->setPos(c->frameGeometry().center());
     if (op == Options::ResizeOp || op == Options::UnrestrictedResizeOp)
-        Cursor::setPos(c->geometry().bottomRight());
+        Cursors::self()->mouse()->setPos(c->frameGeometry().bottomRight());
     switch(op) {
     case Options::MoveOp:
-        c->performMouseCommand(Options::MouseMove, Cursor::pos());
+        c->performMouseCommand(Options::MouseMove, Cursors::self()->mouse()->pos());
         break;
     case Options::UnrestrictedMoveOp:
-        c->performMouseCommand(Options::MouseUnrestrictedMove, Cursor::pos());
+        c->performMouseCommand(Options::MouseUnrestrictedMove, Cursors::self()->mouse()->pos());
         break;
     case Options::ResizeOp:
-        c->performMouseCommand(Options::MouseResize, Cursor::pos());
+        c->performMouseCommand(Options::MouseResize, Cursors::self()->mouse()->pos());
         break;
     case Options::UnrestrictedResizeOp:
-        c->performMouseCommand(Options::MouseUnrestrictedResize, Cursor::pos());
+        c->performMouseCommand(Options::MouseUnrestrictedResize, Cursors::self()->mouse()->pos());
         break;
     case Options::CloseOp:
         QMetaObject::invokeMethod(c, "closeWindow", Qt::QueuedConnection);
@@ -1088,7 +1085,7 @@ void Workspace::performWindowOperation(AbstractClient* c, Options::WindowOperati
         c->minimize();
         break;
     case Options::ShadeOp:
-        c->performMouseCommand(Options::MouseShade, Cursor::pos());
+        c->performMouseCommand(Options::MouseShade, Cursors::self()->mouse()->pos());
         break;
     case Options::OnAllDesktopsOp:
         c->setOnAllDesktops(!c->isOnAllDesktops());
@@ -1116,7 +1113,7 @@ void Workspace::performWindowOperation(AbstractClient* c, Options::WindowOperati
         break;
     }
     case Options::OperationsOp:
-        c->performMouseCommand(Options::MouseShade, Cursor::pos());
+        c->performMouseCommand(Options::MouseShade, Cursors::self()->mouse()->pos());
         break;
     case Options::WindowRulesOp:
         RuleBook::self()->edit(c, false);
@@ -1133,54 +1130,6 @@ void Workspace::performWindowOperation(AbstractClient* c, Options::WindowOperati
     case Options::NoOp:
         break;
     }
-}
-
-/**
- * Called by the decoration in the new API to determine what buttons the user has configured for
- * window tab dragging and the operations menu.
- */
-Options::WindowOperation Client::mouseButtonToWindowOperation(Qt::MouseButtons button)
-{
-    Options::MouseCommand com = Options::MouseNothing;
-    bool active = isActive();
-    if (!wantsInput())   // we cannot be active, use it anyway
-        active = true;
-
-    if (button == Qt::LeftButton)
-        com = active ? options->commandActiveTitlebar1() : options->commandInactiveTitlebar1();
-    else if (button == Qt::MidButton)
-        com = active ? options->commandActiveTitlebar2() : options->commandInactiveTitlebar2();
-    else if (button == Qt::RightButton)
-        com = active ? options->commandActiveTitlebar3() : options->commandInactiveTitlebar3();
-
-    if (com == Options::MouseOperationsMenu)
-        return Options::OperationsOp;
-    return Options::NoOp;
-}
-
-/**
- * Performs a mouse command on this client (see options.h)
- */
-bool Client::performMouseCommand(Options::MouseCommand command, const QPoint &globalPos)
-{
-    bool replay = false;
-    switch(command) {
-    case Options::MouseShade :
-        toggleShade();
-        cancelShadeHoverTimer();
-        break;
-    case Options::MouseSetShade:
-        setShade(ShadeNormal);
-        cancelShadeHoverTimer();
-        break;
-    case Options::MouseUnsetShade:
-        setShade(ShadeNone);
-        cancelShadeHoverTimer();
-        break;
-    default:
-        return AbstractClient::performMouseCommand(command, globalPos);
-    }
-    return replay;
 }
 
 void Workspace::slotActivateAttentionWindow()
@@ -1510,8 +1459,7 @@ void Workspace::switchWindow(Direction direction)
     int desktopNumber = c->isOnAllDesktops() ? VirtualDesktopManager::self()->current() : c->desktop();
 
     // Centre of the active window
-    QPoint curPos(c->pos().x() + c->geometry().width() / 2,
-                  c->pos().y() + c->geometry().height() / 2);
+    QPoint curPos(c->x() + c->width() / 2, c->y() + c->height() / 2);
 
     if (!switchWindow(c, direction, curPos, desktopNumber)) {
         auto opposite = [&] {
@@ -1538,7 +1486,7 @@ bool Workspace::switchWindow(AbstractClient *c, Direction direction, QPoint curP
     AbstractClient *switchTo = nullptr;
     int bestScore = 0;
 
-    ToplevelList clist = stackingOrder();
+    QList<Toplevel *> clist = stackingOrder();
     for (auto i = clist.rbegin(); i != clist.rend(); ++i) {
         auto client = qobject_cast<AbstractClient*>(*i);
         if (!client) {
@@ -1547,8 +1495,7 @@ bool Workspace::switchWindow(AbstractClient *c, Direction direction, QPoint curP
         if (client->wantsTabFocus() && *i != c &&
                 client->isOnDesktop(d) && !client->isMinimized() && (*i)->isOnCurrentActivity()) {
             // Centre of the other window
-            QPoint other(client->pos().x() + client->geometry().width() / 2,
-                         client->pos().y() + client->geometry().height() / 2);
+            const QPoint other(client->x() + client->width() / 2, client->y() + client->height() / 2);
 
             int distance;
             int offset;
@@ -1609,7 +1556,7 @@ void Workspace::showWindowMenu(const QRect &pos, AbstractClient* cl)
 
 void Workspace::showApplicationMenu(const QRect &pos, AbstractClient *c, int actionId)
 {
-    ApplicationMenu::self()->showApplicationMenu(c->geometry().topLeft() + pos.bottomLeft(), c, actionId);
+    ApplicationMenu::self()->showApplicationMenu(c->pos() + pos.bottomLeft(), c, actionId);
 }
 
 /**
@@ -1717,7 +1664,7 @@ void AbstractClient::setShortcutInternal()
     workspace()->clientShortcutUpdated(this);
 }
 
-void Client::setShortcutInternal()
+void X11Client::setShortcutInternal()
 {
     updateCaption();
 #if 0

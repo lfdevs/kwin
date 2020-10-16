@@ -25,11 +25,12 @@
 class KConfig;
 
 #include <kcmodule.h>
-#include <KComboBox>
 #include <KLocalizedString>
 
 #include "ui_actions.h"
 #include "ui_mouse.h"
+
+class KWinOptionsSettings;
 
 class KWinMouseConfigForm : public QWidget, public Ui::KWinMouseConfigForm
 {
@@ -53,42 +54,20 @@ class KTitleBarActionsConfig : public KCModule
 
 public:
 
-    KTitleBarActionsConfig(bool _standAlone, KConfig *_config, QWidget *parent);
-    ~KTitleBarActionsConfig() override;
+    KTitleBarActionsConfig(bool _standAlone, KWinOptionsSettings *settings, QWidget *parent);
 
-    void load() override;
     void save() override;
-    void defaults() override;
 
 protected:
+    void initialize(KWinOptionsSettings *settings);
     void showEvent(QShowEvent *ev) override;
     void changeEvent(QEvent *ev) override;
 
-public Q_SLOTS:
-    void changed() {
-        emit KCModule::changed(true);
-    }
-
 private:
-
-    KConfig *config;
     bool standAlone;
 
     KWinMouseConfigForm *m_ui;
-
-    const char* functionTiDbl(int);
-    const char* functionTiAc(int);
-    const char* functionTiWAc(int);
-    const char* functionTiInAc(int);
-    const char* functionMax(int);
-
-    void setComboText(KComboBox* combo, const char* text);
-    void createMaximizeButtonTooltips(KComboBox* combo);
-    const char* fixup(const char* s);
-
-private Q_SLOTS:
-    void paletteChanged();
-
+    KWinOptionsSettings *m_settings;
 };
 
 class KWindowActionsConfig : public KCModule
@@ -97,35 +76,19 @@ class KWindowActionsConfig : public KCModule
 
 public:
 
-    KWindowActionsConfig(bool _standAlone, KConfig *_config, QWidget *parent);
-    ~KWindowActionsConfig() override;
+    KWindowActionsConfig(bool _standAlone, KWinOptionsSettings *settings, QWidget *parent);
 
-    void load() override;
     void save() override;
-    void defaults() override;
 
 protected:
+    void initialize(KWinOptionsSettings *settings);
     void showEvent(QShowEvent *ev) override;
 
-public Q_SLOTS:
-    void changed() {
-        emit KCModule::changed(true);
-    }
-
 private:
-    KConfig *config;
     bool standAlone;
 
     KWinActionsConfigForm *m_ui;
-
-    const char* functionWin(int);
-    const char* functionWinWheel(int);
-    const char* functionAllKey(int);
-    const char* functionAll(int);
-    const char* functionAllW(int);
-
-    void setComboText(KComboBox* combo, const char* text);
-    const char* fixup(const char* s);
+    KWinOptionsSettings *m_settings;
 };
 
 #endif

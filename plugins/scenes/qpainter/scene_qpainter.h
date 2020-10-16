@@ -36,8 +36,8 @@ public:
     ~SceneQPainter() override;
     bool usesOverlayWindow() const override;
     OverlayWindow* overlayWindow() const override;
-    qint64 paint(QRegion damage, ToplevelList windows) override;
-    void paintGenericScreen(int mask, ScreenPaintData data) override;
+    qint64 paint(const QRegion &damage, const QList<Toplevel *> &windows) override;
+    void paintGenericScreen(int mask, const ScreenPaintData &data) override;
     CompositingType compositingType() const override;
     bool initFailed() const override;
     EffectFrame *createEffectFrame(EffectFrameImpl *frame) override;
@@ -59,9 +59,10 @@ public:
     static SceneQPainter *createScene(QObject *parent);
 
 protected:
-    void paintBackground(QRegion region) override;
+    void paintBackground(const QRegion &region) override;
     Scene::Window *createWindow(Toplevel *toplevel) override;
     void paintCursor() override;
+    void paintEffectQuickView(EffectQuickView *w) override;
 
 private:
     explicit SceneQPainter(QPainterBackend *backend, QObject *parent = nullptr);
@@ -75,7 +76,7 @@ class SceneQPainter::Window : public Scene::Window
 public:
     Window(SceneQPainter *scene, Toplevel *c);
     ~Window() override;
-    void performPaint(int mask, QRegion region, WindowPaintData data) override;
+    void performPaint(int mask, const QRegion &region, const WindowPaintData &data) override;
 protected:
     WindowPixmap *createWindowPixmap() override;
 private:
@@ -90,15 +91,15 @@ public:
     explicit QPainterWindowPixmap(Scene::Window *window);
     ~QPainterWindowPixmap() override;
     void create() override;
+    void update() override;
     bool isValid() const override;
 
-    void updateBuffer() override;
     const QImage &image();
 
 protected:
-    WindowPixmap *createChild(const QPointer<KWayland::Server::SubSurfaceInterface> &subSurface) override;
+    WindowPixmap *createChild(const QPointer<KWaylandServer::SubSurfaceInterface> &subSurface) override;
 private:
-    explicit QPainterWindowPixmap(const QPointer<KWayland::Server::SubSurfaceInterface> &subSurface, WindowPixmap *parent);
+    explicit QPainterWindowPixmap(const QPointer<KWaylandServer::SubSurfaceInterface> &subSurface, WindowPixmap *parent);
     QImage m_image;
 };
 
@@ -113,7 +114,7 @@ public:
     void freeIconFrame() override {}
     void freeTextFrame() override {}
     void freeSelection() override {}
-    void render(QRegion region, double opacity, double frameOpacity) override;
+    void render(const QRegion &region, double opacity, double frameOpacity) override;
 private:
     SceneQPainter *m_scene;
 };

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"POT-Creation-Date: 2020-02-26 03:48+0100\n"
 "PO-Revision-Date: 2019-11-22 20:06+0100\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -27,61 +27,55 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
 
-#: effectsmodel.cpp:63
+#: effectsmodel.cpp:62
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Tilgængelighed"
 
-#: effectsmodel.cpp:64
+#: effectsmodel.cpp:63
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Udseende"
 
-#: effectsmodel.cpp:65
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Candy"
-msgstr "Øjeguf"
-
-#: effectsmodel.cpp:66
+#: effectsmodel.cpp:64
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Fokus"
 
-#: effectsmodel.cpp:67
+#: effectsmodel.cpp:65
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Show Desktop Animation"
 msgstr "Animation for visning af skrivebord"
 
-#: effectsmodel.cpp:68
+#: effectsmodel.cpp:66
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Værktøjer"
 
-#: effectsmodel.cpp:69
+#: effectsmodel.cpp:67
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr "Animation for skift af virtuelt skrivebord"
 
-#: effectsmodel.cpp:70
+#: effectsmodel.cpp:68
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Vindueshåndtering"
 
-#: effectsmodel.cpp:71
+#: effectsmodel.cpp:69
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Open/Close Animation"
 msgstr "Animation for åbning/lukning af vindue"
 
-#: effectsmodel.cpp:239
+#: effectsmodel.cpp:237
 #, kde-format
 msgid "KWin development team"
 msgstr "KWin-udviklingsteamet"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-09-16 03:27+0200\n"
-"PO-Revision-Date: 2019-09-16 08:06+0300\n"
+"POT-Creation-Date: 2020-02-23 03:34+0100\n"
+"PO-Revision-Date: 2019-09-30 08:20+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -37,10 +37,10 @@ msgstr "Ефекти стільниці"
 
 #: kcm.cpp:49
 #, kde-format
-msgid "Vlad Zagorodniy"
-msgstr "Vlad Zagorodniy"
+msgid "Vlad Zahorodnii"
+msgstr "Влад Загородній"
 
-#: kcm.cpp:87
+#: kcm.cpp:88
 #, kde-format
 msgid "Download New Desktop Effects"
 msgstr "Отримати нові ефекти стільниці"
@@ -95,7 +95,7 @@ msgstr "Виключити непідтримувані ефекти"
 msgid "Exclude internal effects"
 msgstr "Виключити вбудовані ефекти"
 
-#: package/contents/ui/main.qml:133
+#: package/contents/ui/main.qml:135
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Отримати нові ефекти стільниці…"

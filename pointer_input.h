@@ -4,7 +4,7 @@
 
 Copyright (C) 2013, 2016 Martin Gräßlin <mgraesslin@kde.org>
 Copyright (C) 2018 Roman Gilg <subdiff@gmail.com>
-Copyright (C) 2019 Vlad Zagorodniy <vladzzag@gmail.com>
+Copyright (C) 2019 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KWIN_POINTER_INPUT_H
 
 #include "input.h"
+#include "cursor.h"
 
 #include <QElapsedTimer>
 #include <QObject>
@@ -31,12 +32,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class QWindow;
 
-namespace KWayland
-{
-namespace Server
+namespace KWaylandServer
 {
 class SurfaceInterface;
-}
 }
 
 namespace KWin
@@ -56,6 +54,8 @@ namespace LibInput
 {
 class Device;
 }
+
+uint32_t qtMouseButtonToButton(Qt::MouseButton button);
 
 class KWIN_EXPORT PointerInputRedirection : public InputDeviceHandler
 {
@@ -78,9 +78,6 @@ public:
     }
     bool areButtonsPressed() const;
 
-    QImage cursorImage() const;
-    QPoint cursorHotSpot() const;
-    void markCursorAsRendered();
     void setEffectsOverrideCursor(Qt::CursorShape shape);
     void removeEffectsOverrideCursor();
     void setWindowSelectionCursor(const QByteArray &shape);
@@ -157,12 +154,12 @@ private:
     void updateToReset();
     void updatePosition(const QPointF &pos);
     void updateButton(uint32_t button, InputRedirection::PointerButtonState state);
-    void warpXcbOnSurfaceLeft(KWayland::Server::SurfaceInterface *surface);
+    void warpXcbOnSurfaceLeft(KWaylandServer::SurfaceInterface *surface);
     QPointF applyPointerConfinement(const QPointF &pos) const;
     void disconnectConfinedPointerRegionConnection();
     void disconnectLockedPointerAboutToBeUnboundConnection();
     void disconnectPointerConstraintsConnection();
-    void breakPointerConstraints(KWayland::Server::SurfaceInterface *surface);
+    void breakPointerConstraints(KWaylandServer::SurfaceInterface *surface);
     CursorImage *m_cursor;
     bool m_supportsWarping;
     QPointF m_pos;
@@ -178,6 +175,31 @@ private:
     bool m_confined = false;
     bool m_locked = false;
     bool m_enableConstraints = true;
+};
+
+class WaylandCursorImage : public QObject
+{
+    Q_OBJECT
+public:
+    void loadTheme();
+    struct Image {
+        QImage image;
+        QPoint hotspot;
+    };
+
+    void loadThemeCursorShape(CursorShape shape, WaylandCursorImage::Image *image);
+
+    template <typename T>
+    void loadThemeCursor(const T &shape, Image *image);
+
+    template <typename T>
+    void loadThemeCursor(const T &shape, QHash<T, Image> &cursors, Image *image);
+
+Q_SIGNALS:
+    void themeChanged();
+
+private:
+    WaylandCursorTheme *m_cursorTheme = nullptr;
 };
 
 class CursorImage : public QObject
@@ -208,15 +230,9 @@ private:
     void updateMoveResize();
     void updateDrag();
     void updateDragCursor();
-    void loadTheme();
-    struct Image {
-        QImage image;
-        QPoint hotSpot;
-    };
-    void loadThemeCursor(CursorShape shape, Image *image);
-    void loadThemeCursor(const QByteArray &shape, Image *image);
-    template <typename T>
-    void loadThemeCursor(const T &shape, QHash<T, Image> &cursors, Image *image);
+
+    void loadThemeCursor(CursorShape shape, WaylandCursorImage::Image *image);
+    void loadThemeCursor(const QByteArray &shape, WaylandCursorImage::Image *image);
 
     enum class CursorSource {
         LockScreen,
@@ -232,26 +248,48 @@ private:
 
     PointerInputRedirection *m_pointer;
     CursorSource m_currentSource = CursorSource::Fallback;
-    WaylandCursorTheme *m_cursorTheme = nullptr;
-    struct {
-        QMetaObject::Connection connection;
-        QImage image;
-        QPoint hotSpot;
-    } m_serverCursor;
+    WaylandCursorImage m_waylandImage;
 
-    Image m_effectsCursor;
-    Image m_decorationCursor;
+    WaylandCursorImage::Image m_effectsCursor;
+    WaylandCursorImage::Image m_decorationCursor;
     QMetaObject::Connection m_decorationConnection;
-    Image m_fallbackCursor;
-    Image m_moveResizeCursor;
-    Image m_windowSelectionCursor;
-    QHash<CursorShape, Image> m_cursors;
-    QHash<QByteArray, Image> m_cursorsByName;
+    WaylandCursorImage::Image m_fallbackCursor;
+    WaylandCursorImage::Image m_moveResizeCursor;
+    WaylandCursorImage::Image m_windowSelectionCursor;
+    QHash<CursorShape, WaylandCursorImage::Image> m_cursors;
+    QHash<QByteArray, WaylandCursorImage::Image> m_cursorsByName;
     QElapsedTimer m_surfaceRenderedTimer;
     struct {
-        Image cursor;
+        WaylandCursorImage::Image cursor;
         QMetaObject::Connection connection;
     } m_drag;
+    struct {
+        QMetaObject::Connection connection;
+        WaylandCursorImage::Image cursor;
+    } m_serverCursor;
+};
+
+/**
+ * @brief Implementation using the InputRedirection framework to get pointer positions.
+ *
+ * Does not support warping of cursor.
+ */
+class InputRedirectionCursor : public KWin::Cursor
+{
+    Q_OBJECT
+public:
+    explicit InputRedirectionCursor(QObject *parent);
+    ~InputRedirectionCursor() override;
+protected:
+    void doSetPos() override;
+    void doStartCursorTracking() override;
+    void doStopCursorTracking() override;
+private Q_SLOTS:
+    void slotPosChanged(const QPointF &pos);
+    void slotPointerButtonChanged();
+    void slotModifiersChanged(Qt::KeyboardModifiers mods, Qt::KeyboardModifiers oldMods);
+private:
+    Qt::MouseButtons m_currentButtons;
 };
 
 }

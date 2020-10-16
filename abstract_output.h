@@ -27,12 +27,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QSize>
 #include <QVector>
 
-namespace KWayland
-{
-namespace Server
+namespace KWaylandServer
 {
 class OutputChangeSet;
-}
 }
 
 namespace KWin
@@ -104,7 +101,7 @@ public:
     ~AbstractOutput() override;
 
     /**
-     * Returns the human readable name of this output.
+     * Returns a short identifiable name of this output.
      */
     virtual QString name() const = 0;
 
@@ -127,7 +124,7 @@ public:
      *
      * Default implementation does nothing
      */
-    virtual void applyChanges(const KWayland::Server::OutputChangeSet *changeSet);
+    virtual void applyChanges(const KWaylandServer::OutputChangeSet *changeSet);
 
     /**
      * Returns geometry of this output in device independent pixels.
@@ -160,13 +157,6 @@ public:
      * Default implementation returns an invalid QSize.
      */
     virtual QSize physicalSize() const;
-
-    /**
-     * Returns the orientation of this output.
-     *
-     * Default implementation returns Qt::PrimaryOrientation.
-     */
-    virtual Qt::ScreenOrientation orientation() const;
 
     /**
      * Returns the size of the gamma lookup table.

@@ -3,7 +3,7 @@
  This file is part of the KDE project.
 
 Copyright (C) 2017 Martin Flöser <mgraesslin@kde.org>
-Copyright (C) 2018 Vlad Zagorodniy <vladzzag@gmail.com>
+Copyright (C) 2018 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -24,20 +24,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QVector>
 #include <QMap>
 
-namespace KWayland
-{
-namespace Server
+namespace KWaylandServer
 {
 class IdleInterface;
 }
-}
 
-using KWayland::Server::IdleInterface;
+using KWaylandServer::IdleInterface;
 
 namespace KWin
 {
 class AbstractClient;
-class ShellClient;
 
 class IdleInhibition : public QObject
 {
@@ -46,7 +42,7 @@ public:
     explicit IdleInhibition(IdleInterface *idle);
     ~IdleInhibition() override;
 
-    void registerShellClient(ShellClient *client);
+    void registerClient(AbstractClient *client);
 
     bool isInhibited() const {
         return !m_idleInhibitors.isEmpty();

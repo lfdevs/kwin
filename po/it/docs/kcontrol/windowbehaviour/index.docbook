@@ -776,8 +776,8 @@ Nothing
 ></term>
 <listitem
 ><para
->La politica di piazzamento determina dove appariranno le nuove finestre. <guilabel
->Intelligente</guilabel
+>La politica di piazzamento determina dove appariranno le nuove finestre sul desktop. <guilabel
+>Sovrapposizione minima</guilabel
 > cerca di ottenere una sovrapposizione minima tra le finestre, <guilabel
 >A cascata</guilabel
 > posizionerà le finestre a cascata e <guilabel
@@ -785,8 +785,8 @@ Nothing
 > le metterà in una posizione casuale. <guilabel
 >Centrata</guilabel
 > aprirà tutte le nuove finestre al centro dello schermo e <guilabel
->Angolo-zero</guilabel
-> aprirà tutte le nuove finestre con il loro angolo in alto a sinistra nell'angolo dello schermo.</para
+>Nell'angolo in alto a sinistra</guilabel
+> aprirà tutte le nuove finestre con il loro angolo in alto a sinistra nell'angolo superiore destro dello schermo.</para
 ></listitem>
 </varlistentry>
 

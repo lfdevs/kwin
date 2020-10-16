@@ -897,3 +897,40 @@ uint64_t libinput_event_switch_get_time_usec(struct libinput_event_switch *event
 {
     return event->timeMicroseconds;
 }
+
+struct libinput_event_tablet_pad *libinput_event_get_tablet_pad_event(struct libinput_event *event)
+{
+    if (event->type == LIBINPUT_EVENT_TABLET_PAD_BUTTON) {
+        return reinterpret_cast<libinput_event_tablet_pad *>(event);
+    }
+    return nullptr;
+}
+
+struct libinput_event_tablet_tool *
+libinput_event_get_tablet_tool_event(struct libinput_event *event)
+{
+    if (event->type == LIBINPUT_EVENT_TABLET_TOOL_AXIS ||
+        event->type == LIBINPUT_EVENT_TABLET_TOOL_PROXIMITY ||
+        event->type == LIBINPUT_EVENT_TABLET_TOOL_TIP) {
+        return reinterpret_cast<libinput_event_tablet_tool *>(event);
+    }
+    return nullptr;
+}
+
+int
+libinput_device_tablet_pad_get_num_strips(struct libinput_device *device)
+{
+    return device->stripCount;
+}
+
+int
+libinput_device_tablet_pad_get_num_rings(struct libinput_device *device)
+{
+    return device->ringCount;
+}
+
+int
+libinput_device_tablet_pad_get_num_buttons(struct libinput_device *device)
+{
+    return device->buttonCount;
+}

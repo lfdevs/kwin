@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-10-16 07:57+0200\n"
+"POT-Creation-Date: 2020-03-18 03:45+0100\n"
 "PO-Revision-Date: 2015-01-15 12:14+0100\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -19,49 +19,49 @@ msgstr ""
 "X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: aurorae/src/aurorae.cpp:742
+#: aurorae/src/aurorae.cpp:694
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "Sehr klein"
 
-#: aurorae/src/aurorae.cpp:743
+#: aurorae/src/aurorae.cpp:695
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "Normal"
 
-#: aurorae/src/aurorae.cpp:744
+#: aurorae/src/aurorae.cpp:696
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "Groß"
 
-#: aurorae/src/aurorae.cpp:745
+#: aurorae/src/aurorae.cpp:697
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "Sehr groß"
 
-#: aurorae/src/aurorae.cpp:746
+#: aurorae/src/aurorae.cpp:698
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "Riesig"
 
-#: aurorae/src/aurorae.cpp:747
+#: aurorae/src/aurorae.cpp:699
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "Noch riesiger"
 
-#: aurorae/src/aurorae.cpp:748
+#: aurorae/src/aurorae.cpp:700
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "Übergroß"
 
-#: aurorae/src/aurorae.cpp:751
+#: aurorae/src/aurorae.cpp:703
 #, kde-format
 msgid "Button size:"
 msgstr "Knopfgröße:"
@@ -113,24 +113,8 @@ msgstr ""
 msgid "Colored window border"
 msgstr "Farbige Fensterumrandung"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_titleShadow)
-#: aurorae/themes/plastik/package/contents/ui/config.ui:66
-#, kde-format
-msgid ""
-"Check this option if you want the titlebar text to have a 3D look with a "
-"shadow behind it."
-msgstr ""
-"Wenn diese Einstellung aktiviert ist, wirft der Text in der Titelleiste "
-"einen Schatten. "
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_titleShadow)
-#: aurorae/themes/plastik/package/contents/ui/config.ui:69
-#, kde-format
-msgid "Use shadowed &text"
-msgstr "Schattierten &Text verwenden"
-
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_animateButtons)
-#: aurorae/themes/plastik/package/contents/ui/config.ui:76
+#: aurorae/themes/plastik/package/contents/ui/config.ui:66
 #, kde-format
 msgid ""
 "Check this option if you want the buttons to fade in when the mouse pointer "
@@ -141,7 +125,7 @@ msgstr ""
 "die Maus weiter bewegt wird."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)
-#: aurorae/themes/plastik/package/contents/ui/config.ui:79
+#: aurorae/themes/plastik/package/contents/ui/config.ui:69
 #, kde-format
 msgid "Animate buttons"
 msgstr "Knöpfe animieren"

@@ -806,19 +806,19 @@
 <listitem
 ><para
 ><guilabel
->Intelligente</guilabel
+>Sovrapposizione minima</guilabel
 >: metti dove non ci sono altre finestre.</para
 ></listitem>
 <listitem
 ><para
 ><guilabel
->Massimizzazione</guilabel
+>Massimizzate</guilabel
 >: avvia la finestra massimizzata.</para
 ></listitem>
 <listitem
 ><para
 ><guilabel
->Cascata</guilabel
+>A cascata</guilabel
 >: a gradini per titolo.</para
 ></listitem>
 <listitem
@@ -836,7 +836,7 @@
 <listitem
 ><para
 ><guilabel
->Angolo in alto a sinistra</guilabel
+>Nell'angolo in alto a sinistra</guilabel
 ></para
 ></listitem>
 <listitem

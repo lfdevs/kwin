@@ -3,20 +3,20 @@
 # Michal Sulek <misurel@gmail.com>, 2009, 2010, 2011.
 # Roman Paholík <wizzardsk@gmail.com>, 2012, 2013, 2014, 2015, 2016.
 # Mthw <jari_45@hotmail.com>, 2018, 2019.
-# Matej Mrenica <matejm98mthw@gmail.com>, 2019.
+# Matej Mrenica <matejm98mthw@gmail.com>, 2019, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-09-15 03:21+0200\n"
-"PO-Revision-Date: 2019-07-28 10:16+0200\n"
+"POT-Creation-Date: 2020-04-30 03:47+0200\n"
+"PO-Revision-Date: 2020-02-18 15:23+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.07.80\n"
+"X-Generator: Lokalize 19.12.2\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #, kde-format
@@ -1245,6 +1245,16 @@ msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Vpravo"
 
+#: mouseclick/mouseclick.h:74
+#, kde-format
+msgid "↓"
+msgstr "↓"
+
+#: mouseclick/mouseclick.h:75
+#, kde-format
+msgid "↑"
+msgstr "↑"
+
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
 #, kde-format
@@ -1368,25 +1378,25 @@ msgstr "&Farba:"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Kreslite môžete myšou držaním kláves Shift+Meta a pohybom myšou."
 
-#: presentwindows/presentwindows.cpp:78
+#: presentwindows/presentwindows.cpp:76
 #: presentwindows/presentwindows_config.cpp:73
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Zapnúť efekt súčasné okná (aktuálna plocha)"
 
-#: presentwindows/presentwindows.cpp:86
+#: presentwindows/presentwindows.cpp:84
 #: presentwindows/presentwindows_config.cpp:67
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Zapnúť efekt súčasné okná (všetky plochy)"
 
-#: presentwindows/presentwindows.cpp:95
+#: presentwindows/presentwindows.cpp:93
 #: presentwindows/presentwindows_config.cpp:79
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Zapnúť efekt súčasné okná (trieda okna)"
 
-#: presentwindows/presentwindows.cpp:1666
+#: presentwindows/presentwindows.cpp:1638
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1624,19 +1634,19 @@ msgstr "Mierka okna pri otvorení:"
 msgid "Window close scale:"
 msgstr "Mierka okna pri zatvorení:"
 
-#: screenshot/screenshot.cpp:354
+#: screenshot/screenshot.cpp:458
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Snímka obrazovky"
 
-#: screenshot/screenshot.cpp:355
+#: screenshot/screenshot.cpp:459
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Snímka obrazovky uložená do %1"
 
-#: screenshot/screenshot.cpp:464
+#: screenshot/screenshot.cpp:568
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -1645,7 +1655,7 @@ msgstr ""
 "Vyberte okno na snímku obrazovky ľavým klikom alebo enterom.\n"
 "Escape alebo pravý klik na zrušenie."
 
-#: screenshot/screenshot.cpp:467
+#: screenshot/screenshot.cpp:571
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -1861,7 +1871,7 @@ msgstr "Dialógy:"
 #: translucency/package/contents/ui/config.ui:188
 #, kde-format
 msgid "Menus:"
-msgstr "Menu:"
+msgstr "Ponuky:"
 
 #. i18n: ectx: property (text), widget (QLabel, moveresize_label)
 #: translucency/package/contents/ui/config.ui:207
@@ -1879,25 +1889,25 @@ msgstr "Neaktívne okná:"
 #: translucency/package/contents/ui/config.ui:267
 #, kde-format
 msgid "Set menu translucency independently"
-msgstr "Nastaviť priesvitnosť menu samostatne"
+msgstr "Nastaviť priesvitnosť ponuky samostatne"
 
 #. i18n: ectx: property (text), widget (QLabel, dropdownmenus_label)
 #: translucency/package/contents/ui/config.ui:285
 #, kde-format
 msgid "Dropdown menus:"
-msgstr "Rozbaľovacie menu:"
+msgstr "Rozbaľovacie ponuky:"
 
 #. i18n: ectx: property (text), widget (QLabel, popupmenus_label)
 #: translucency/package/contents/ui/config.ui:329
 #, kde-format
 msgid "Popup menus:"
-msgstr "Kontextové menu:"
+msgstr "Vyskakovacie ponuky:"
 
 #. i18n: ectx: property (text), widget (QLabel, tornoffmenus_label)
 #: translucency/package/contents/ui/config.ui:367
 #, kde-format
 msgid "Torn-off menus:"
-msgstr "Odtrhnuté menu:"
+msgstr "Odtrhnuté ponuky:"
 
 #: windowgeometry/windowgeometry.cpp:53
 #, kde-format

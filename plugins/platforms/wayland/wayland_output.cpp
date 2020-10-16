@@ -24,9 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KWayland/Client/pointerconstraints.h>
 #include <KWayland/Client/surface.h>
-#include <KWayland/Client/shell.h>
 
-#include <KWayland/Server/display.h>
+#include <KWaylandServer/display.h>
 
 #include <KLocalizedString>
 
@@ -42,6 +41,10 @@ WaylandOutput::WaylandOutput(Surface *surface, WaylandBackend *backend)
     , m_surface(surface)
     , m_backend(backend)
 {
+    static int identifier = -1;
+    identifier++;
+    setName("WL-" + QString::number(identifier));
+
     connect(surface, &Surface::frameRendered, [this] {
         m_rendered = true;
         emit frameRendered();
@@ -56,10 +59,10 @@ WaylandOutput::~WaylandOutput()
 
 void WaylandOutput::init(const QPoint &logicalPosition, const QSize &pixelSize)
 {
-    KWayland::Server::OutputDeviceInterface::Mode mode;
+    KWaylandServer::OutputDeviceInterface::Mode mode;
     mode.id = 0;
     mode.size = pixelSize;
-    mode.flags = KWayland::Server::OutputDeviceInterface::ModeFlag::Current;
+    mode.flags = KWaylandServer::OutputDeviceInterface::ModeFlag::Current;
     mode.refreshRate = 60000;  // TODO: can we get refresh rate data from Wayland host?
     initInterfaces("model_TODO", "manufacturer_TODO", "UUID_TODO", pixelSize, { mode });
     setGeometry(logicalPosition, pixelSize);
@@ -72,19 +75,6 @@ void WaylandOutput::setGeometry(const QPoint &logicalPosition, const QSize &pixe
     Q_UNUSED(pixelSize)
 
     setGlobalPos(logicalPosition);
-}
-
-ShellOutput::ShellOutput(Surface *surface, Shell *shell, WaylandBackend *backend)
-    : WaylandOutput(surface, backend)
-{
-    auto shellSurface = shell->createSurface(surface, this);
-    shellSurface->setToplevel();
-}
-
-ShellOutput::~ShellOutput()
-{
-    m_shellSurface->destroy();
-    delete m_shellSurface;
 }
 
 XdgShellOutput::XdgShellOutput(Surface *surface, XdgShell *xdgShell, WaylandBackend *backend, int number)
@@ -113,6 +103,8 @@ XdgShellOutput::XdgShellOutput(Surface *surface, XdgShell *xdgShell, WaylandBack
         }
         updateWindowTitle();
     });
+
+    surface->commit(Surface::CommitFlag::None);
 }
 
 XdgShellOutput::~XdgShellOutput()
@@ -124,12 +116,11 @@ XdgShellOutput::~XdgShellOutput()
 void XdgShellOutput::handleConfigure(const QSize &size, XdgShellSurface::States states, quint32 serial)
 {
     Q_UNUSED(states);
-    if (size.width() == 0 || size.height() == 0) {
-        return;
+    if (size.width() > 0 && size.height() > 0) {
+        setGeometry(geometry().topLeft(), size);
+        emit sizeChanged(size);
     }
-    setGeometry(geometry().topLeft(), size);
     m_xdgShellSurface->ackConfigure(serial);
-    emit sizeChanged(size);
 }
 
 void XdgShellOutput::updateWindowTitle()

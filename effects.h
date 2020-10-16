@@ -35,12 +35,9 @@ namespace Plasma {
 class Theme;
 }
 
-namespace KWayland
-{
-namespace Server
+namespace KWaylandServer
 {
 class Display;
-}
 }
 
 class QDBusPendingCallWatcher;
@@ -55,10 +52,10 @@ class DesktopThumbnailItem;
 class WindowThumbnailItem;
 
 class AbstractClient;
-class Client;
 class Compositor;
 class Deleted;
 class EffectLoader;
+class Group;
 class Toplevel;
 class Unmanaged;
 class WindowPropertyNotifyX11Filter;
@@ -74,20 +71,20 @@ public:
     EffectsHandlerImpl(Compositor *compositor, Scene *scene);
     ~EffectsHandlerImpl() override;
     void prePaintScreen(ScreenPrePaintData& data, int time) override;
-    void paintScreen(int mask, QRegion region, ScreenPaintData& data) override;
+    void paintScreen(int mask, const QRegion &region, ScreenPaintData& data) override;
     /**
      * Special hook to perform a paintScreen but just with the windows on @p desktop.
      */
     void paintDesktop(int desktop, int mask, QRegion region, ScreenPaintData& data);
     void postPaintScreen() override;
     void prePaintWindow(EffectWindow* w, WindowPrePaintData& data, int time) override;
-    void paintWindow(EffectWindow* w, int mask, QRegion region, WindowPaintData& data) override;
+    void paintWindow(EffectWindow* w, int mask, const QRegion &region, WindowPaintData& data) override;
     void postPaintWindow(EffectWindow* w) override;
-    void paintEffectFrame(EffectFrame* frame, QRegion region, double opacity, double frameOpacity) override;
+    void paintEffectFrame(EffectFrame* frame, const QRegion &region, double opacity, double frameOpacity) override;
 
     Effect *provides(Effect::Feature ef);
 
-    void drawWindow(EffectWindow* w, int mask, QRegion region, WindowPaintData& data) override;
+    void drawWindow(EffectWindow* w, int mask, const QRegion &region, WindowPaintData& data) override;
 
     void buildQuads(EffectWindow* w, WindowQuadList& quadList) override;
 
@@ -133,7 +130,7 @@ public:
     void startMousePolling() override;
     void stopMousePolling() override;
     EffectWindow* findWindow(WId id) const override;
-    EffectWindow* findWindow(KWayland::Server::SurfaceInterface *surf) const override;
+    EffectWindow* findWindow(KWaylandServer::SurfaceInterface *surf) const override;
     EffectWindow *findWindow(QWindow *w) const override;
     EffectWindow *findWindow(const QUuid &id) const override;
     EffectWindowList stackingOrder() const override;
@@ -230,7 +227,7 @@ public:
         return m_currentRenderedDesktop;
     }
 
-    KWayland::Server::Display *waylandDisplay() const override;
+    KWaylandServer::Display *waylandDisplay() const override;
 
     bool animationsSupported() const override;
 
@@ -273,6 +270,10 @@ public:
      */
     Effect *findEffect(const QString &name) const;
 
+    void renderEffectQuickView(EffectQuickView *effectQuickView) const override;
+
+    SessionState sessionState() const override;
+
 public Q_SLOTS:
     void slotCurrentTabAboutToChange(EffectWindow* from, EffectWindow* to);
     void slotTabAdded(EffectWindow* from, EffectWindow* to);
@@ -291,13 +292,14 @@ public Q_SLOTS:
 
 protected Q_SLOTS:
     void slotClientShown(KWin::Toplevel*);
-    void slotShellClientShown(KWin::Toplevel*);
+    void slotWaylandClientShown(KWin::Toplevel*);
     void slotUnmanagedShown(KWin::Toplevel*);
     void slotWindowClosed(KWin::Toplevel *c, KWin::Deleted *d);
     void slotClientMaximized(KWin::AbstractClient *c, MaximizeMode maxMode);
     void slotOpacityChanged(KWin::Toplevel *t, qreal oldOpacity);
     void slotClientModalityChanged();
     void slotGeometryShapeChanged(KWin::Toplevel *t, const QRect &old);
+    void slotFrameGeometryChanged(Toplevel *toplevel, const QRect &oldGeometry);
     void slotPaddingChanged(KWin::Toplevel *t, const QRect &old);
     void slotWindowDamaged(KWin::Toplevel *t, const QRect& r);
 
@@ -305,8 +307,7 @@ protected:
     void connectNotify(const QMetaMethod &signal) override;
     void disconnectNotify(const QMetaMethod &signal) override;
     void effectsChanged();
-    void setupAbstractClientConnections(KWin::AbstractClient *c);
-    void setupClientConnections(KWin::Client *c);
+    void setupClientConnections(KWin::AbstractClient *client);
     void setupUnmanagedConnections(KWin::Unmanaged *u);
 
     /**
@@ -402,6 +403,8 @@ public:
 
     QSize basicUnit() const override;
     QRect geometry() const override;
+    QRect frameGeometry() const override;
+    QRect bufferGeometry() const override;
 
     QString caption() const override;
 
@@ -445,7 +448,7 @@ public:
     bool isPopupWindow() const override;
     bool isOutline() const override;
 
-    KWayland::Server::SurfaceInterface *surface() const override;
+    KWaylandServer::SurfaceInterface *surface() const override;
     bool isFullScreen() const override;
     bool isUnresponsive() const override;
 
@@ -461,6 +464,8 @@ public:
     bool isManaged() const override;
     bool isWaylandClient() const override;
     bool isX11Client() const override;
+
+    pid_t pid() const override;
 
     QRect decorationInnerRect() const override;
     QByteArray readProperty(long atom, long type, int format) const override;
@@ -537,7 +542,7 @@ public:
     ~EffectFrameImpl() override;
 
     void free() override;
-    void render(QRegion region = infiniteRegion(), double opacity = 1.0, double frameOpacity = 1.0) override;
+    void render(const QRegion &region = infiniteRegion(), double opacity = 1.0, double frameOpacity = 1.0) override;
     Qt::Alignment alignment() const override;
     void setAlignment(Qt::Alignment alignment) override;
     const QFont& font() const override;

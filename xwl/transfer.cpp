@@ -32,9 +32,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/datadevice.h>
 #include <KWayland/Client/datasource.h>
 
-#include <KWayland/Server/datadevice_interface.h>
-#include <KWayland/Server/datasource_interface.h>
-#include <KWayland/Server/seat_interface.h>
+#include <KWaylandServer/datadevice_interface.h>
+#include <KWaylandServer/datasource_interface.h>
+#include <KWaylandServer/seat_interface.h>
 
 #include <xcb/xcb_event.h>
 #include <xcb/xfixes.h>
@@ -349,7 +349,7 @@ bool TransferXtoWl::handleSelectionNotify(xcb_selection_notify_event_t *event)
         // second selection notify element - misbehaving source
 
         // TODO: cancel this transfer?
-        return True;
+        return true;
     }
 
     if (event->target == atoms->netscape_url) {

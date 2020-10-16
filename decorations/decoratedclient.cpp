@@ -54,7 +54,7 @@ DecoratedClientImpl::DecoratedClientImpl(AbstractClient *client, KDecoration2::D
             emit decoratedClient->activeChanged(client->isActive());
         }
     );
-    connect(client, &AbstractClient::geometryChanged, this,
+    connect(client, &AbstractClient::geometryShapeChanged, this,
         [decoratedClient, this]() {
             if (m_client->clientSize() == m_clientSize) {
                 return;
@@ -67,6 +67,7 @@ DecoratedClientImpl::DecoratedClientImpl(AbstractClient *client, KDecoration2::D
             if (oldSize.height() != m_clientSize.height()) {
                 emit decoratedClient->heightChanged(m_clientSize.height());
             }
+            emit decoratedClient->sizeChanged(m_clientSize);
         }
     );
     connect(client, &AbstractClient::desktopChanged, this,
@@ -122,7 +123,7 @@ DecoratedClientImpl::DecoratedClientImpl(AbstractClient *client, KDecoration2::D
                 int fallAsleepDelay = QApplication::style()->styleHint(QStyle::SH_ToolTip_FallAsleepDelay);
                 this->m_toolTipFallAsleep.setRemainingTime(fallAsleepDelay);
 
-                QToolTip::showText(Cursor::pos(), this->m_toolTipText);
+                QToolTip::showText(Cursors::self()->mouse()->pos(), this->m_toolTipText);
                 m_toolTipShowing = true;
             }
     );
@@ -240,7 +241,7 @@ void DecoratedClientImpl::requestHideToolTip()
 void DecoratedClientImpl::requestShowWindowMenu()
 {
     // TODO: add rect to requestShowWindowMenu
-    Workspace::self()->showWindowMenu(QRect(Cursor::pos(), Cursor::pos()), m_client);
+    Workspace::self()->showWindowMenu(QRect(Cursors::self()->mouse()->pos(), Cursors::self()->mouse()->pos()), m_client);
 }
 
 void DecoratedClientImpl::requestShowApplicationMenu(const QRect &rect, int actionId)
@@ -271,6 +272,11 @@ int DecoratedClientImpl::width() const
 int DecoratedClientImpl::height() const
 {
     return m_clientSize.height();
+}
+
+QSize DecoratedClientImpl::size() const
+{
+    return m_clientSize;
 }
 
 bool DecoratedClientImpl::isMaximizedVertically() const

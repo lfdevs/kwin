@@ -20,10 +20,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 
 #include "workspace_wrapper.h"
-#include "../client.h"
+#include "../x11client.h"
 #include "../outline.h"
 #include "../screens.h"
-#include "../shell_client.h"
+#include "../xdgshellclient.h"
 #include "../virtualdesktops.h"
 #include "../wayland_server.h"
 #include "../workspace.h"
@@ -69,9 +69,9 @@ WorkspaceWrapper::WorkspaceWrapper(QObject* parent) : QObject(parent)
     connect(QApplication::desktop(), SIGNAL(resized(int)), SIGNAL(screenResized(int)));
     if (waylandServer()) {
         connect(waylandServer(), &WaylandServer::shellClientAdded, this, &WorkspaceWrapper::clientAdded);
-        connect(waylandServer(), &WaylandServer::shellClientAdded, this, &WorkspaceWrapper::setupAbstractClientConnections);
+        connect(waylandServer(), &WaylandServer::shellClientAdded, this, &WorkspaceWrapper::setupClientConnections);
     }
-    foreach (KWin::Client *client, ws->clientList()) {
+    foreach (KWin::X11Client *client, ws->clientList()) {
         setupClientConnections(client);
     }
 }
@@ -110,6 +110,17 @@ QString WorkspaceWrapper::currentActivity() const
     return Activities::self()->current();
 #else
     return QString();
+#endif
+}
+
+void WorkspaceWrapper::setCurrentActivity(QString activity)
+{
+#ifdef KWIN_BUILD_ACTIVITIES
+    if (Activities::self()) {
+        Activities::self()->setCurrent(activity);
+    }
+#else
+    Q_UNUSED(activity)
 #endif
 }
 
@@ -266,20 +277,19 @@ QString WorkspaceWrapper::supportInformation() const
     return Workspace::self()->supportInformation();
 }
 
-void WorkspaceWrapper::setupAbstractClientConnections(AbstractClient *client)
+void WorkspaceWrapper::setupClientConnections(AbstractClient *client)
 {
     connect(client, &AbstractClient::clientMinimized, this, &WorkspaceWrapper::clientMinimized);
     connect(client, &AbstractClient::clientUnminimized, this, &WorkspaceWrapper::clientUnminimized);
     connect(client, qOverload<AbstractClient *, bool, bool>(&AbstractClient::clientMaximizedStateChanged),
             this, &WorkspaceWrapper::clientMaximizeSet);
-}
 
-void WorkspaceWrapper::setupClientConnections(Client *client)
-{
-    setupAbstractClientConnections(client);
+    X11Client *x11Client = qobject_cast<X11Client *>(client); // TODO: Drop X11-specific signals.
+    if (!x11Client)
+        return;
 
-    connect(client, &Client::clientManaging, this, &WorkspaceWrapper::clientManaging);
-    connect(client, &Client::clientFullScreenSet, this, &WorkspaceWrapper::clientFullScreenSet);
+    connect(x11Client, &X11Client::clientManaging, this, &WorkspaceWrapper::clientManaging);
+    connect(x11Client, &X11Client::clientFullScreenSet, this, &WorkspaceWrapper::clientFullScreenSet);
 }
 
 void WorkspaceWrapper::showOutline(const QRect &geometry)
@@ -297,7 +307,7 @@ void WorkspaceWrapper::hideOutline()
     outline()->hide();
 }
 
-Client *WorkspaceWrapper::getClient(qulonglong windowId)
+X11Client *WorkspaceWrapper::getClient(qulonglong windowId)
 {
     return Workspace::self()->findClient(Predicate::WindowMatch, windowId);
 }
@@ -345,6 +355,14 @@ QRect WorkspaceWrapper::virtualScreenGeometry() const
 QSize WorkspaceWrapper::virtualScreenSize() const
 {
     return screens()->size();
+}
+
+void WorkspaceWrapper::sendClientToScreen(AbstractClient *client, int screen)
+{
+    if (screen < 0 || screen >= screens()->count()) {
+        return;
+    }
+    workspace()->sendClientToScreen(client, screen);
 }
 
 QtScriptWorkspaceWrapper::QtScriptWorkspaceWrapper(QObject* parent)

@@ -20,7 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void PlastikPlugin::registerTypes(const char *uri)
 {
-    Q_UNUSED(uri)
+    // Need to register something to tell Qt that it loaded (QTBUG-84571)
+    qmlRegisterModule(uri, 1, 0);
 }
 
 void PlastikPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
@@ -29,5 +30,3 @@ void PlastikPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
     engine->addImageProvider(QLatin1String("plastik"), new KWin::PlastikButtonProvider());
     QQmlExtensionPlugin::initializeEngine(engine, uri);
 }
-
-#include "moc_plastikplugin.cpp"

@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-05-20 03:25+0200\n"
-"PO-Revision-Date: 2018-11-01 03:57+0100\n"
-"Last-Translator: Automatically generated\n"
+"POT-Creation-Date: 2020-03-14 03:43+0100\n"
+"PO-Revision-Date: 2019-12-12 22:38+0000\n"
+"Last-Translator: Vivek KJ Pazhedath <vivekkj2004@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc."
 "org.in>\n"
 "Language: ml\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Weblate 3.9.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -26,7 +27,7 @@ msgstr ""
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
+msgstr "shijualexonline@gmail.com,snalledam@dataone.in,vivekkj2004@gmail.com"
 
 #: module.cpp:49
 #, kde-format
@@ -43,17 +44,17 @@ msgstr ""
 msgid "Tamás Krutki"
 msgstr ""
 
-#: module.cpp:83
+#: module.cpp:84
 #, kde-format
 msgid "Import KWin Script"
 msgstr ""
 
-#: module.cpp:84
+#: module.cpp:85
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr ""
 
-#: module.cpp:103
+#: module.cpp:104
 #, kde-format
 msgctxt "Placeholder is error message returned from the install service"
 msgid ""
@@ -61,7 +62,7 @@ msgid ""
 "%1"
 msgstr ""
 
-#: module.cpp:117
+#: module.cpp:118
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."

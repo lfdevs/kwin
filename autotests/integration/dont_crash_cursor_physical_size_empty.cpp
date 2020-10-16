@@ -20,11 +20,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kwin_wayland_test.h"
 #include "composite.h"
 #include "effectloader.h"
-#include "client.h"
+#include "x11client.h"
 #include "cursor.h"
 #include "effects.h"
 #include "platform.h"
-#include "shell_client.h"
 #include "screens.h"
 #include "wayland_server.h"
 #include "workspace.h"
@@ -33,10 +32,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KWayland/Client/seat.h>
 #include <KWayland/Client/server_decoration.h>
-#include <KWayland/Client/xdgshell.h>
 #include <KWayland/Client/surface.h>
-#include <KWayland/Server/display.h>
-#include <KWayland/Server/output_interface.h>
+#include <KWaylandServer/display.h>
+#include <KWaylandServer/output_interface.h>
 
 using namespace KWin;
 using namespace KWayland::Client;
@@ -58,7 +56,7 @@ void DontCrashCursorPhysicalSizeEmpty::init()
     QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::Decoration));
 
     screens()->setCurrent(0);
-    KWin::Cursor::setPos(QPoint(640, 512));
+    KWin::Cursors::self()->mouse()->setPos(QPoint(640, 512));
 }
 
 void DontCrashCursorPhysicalSizeEmpty::cleanup()
@@ -68,7 +66,6 @@ void DontCrashCursorPhysicalSizeEmpty::cleanup()
 
 void DontCrashCursorPhysicalSizeEmpty::initTestCase()
 {
-    qRegisterMetaType<KWin::ShellClient*>();
     qRegisterMetaType<KWin::AbstractClient*>();
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
@@ -89,12 +86,9 @@ void DontCrashCursorPhysicalSizeEmpty::initTestCase()
 
 void DontCrashCursorPhysicalSizeEmpty::testMoveCursorOverDeco_data()
 {
-    QTest::addColumn<Test::ShellSurfaceType>("type");
+    QTest::addColumn<Test::XdgShellSurfaceType>("type");
 
-    QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell;
-    QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5;
-    QTest::newRow("xdgShellV6") << Test::ShellSurfaceType::XdgShellV6;
-    QTest::newRow("xdgWmBase") << Test::ShellSurfaceType::XdgShellStable;
+    QTest::newRow("xdgWmBase") << Test::XdgShellSurfaceType::XdgShellStable;
 }
 
 void DontCrashCursorPhysicalSizeEmpty::testMoveCursorOverDeco()
@@ -103,22 +97,22 @@ void DontCrashCursorPhysicalSizeEmpty::testMoveCursorOverDeco()
     // a reason for creation failure could be physical size not existing
     // see BUG: 390314
     QScopedPointer<Surface> surface(Test::createSurface());
-    QFETCH(Test::ShellSurfaceType, type);
+    QFETCH(Test::XdgShellSurfaceType, type);
     Test::waylandServerSideDecoration()->create(surface.data(), surface.data());
-    QScopedPointer<QObject> shellSurface(Test::createShellSurface(type, surface.data()));
+    QScopedPointer<XdgShellSurface> shellSurface(Test::createXdgShellSurface(type, surface.data()));
 
     auto c = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
     QVERIFY(c);
     QVERIFY(c->isDecorated());
 
     // destroy physical size
-    KWayland::Server::Display *display = waylandServer()->display();
+    KWaylandServer::Display *display = waylandServer()->display();
     auto output = display->outputs().first();
     output->setPhysicalSize(QSize(0, 0));
     // and fake a cursor theme change, so that the theme gets recreated
-    emit KWin::Cursor::self()->themeChanged();
+    emit KWin::Cursors::self()->mouse()->themeChanged();
 
-    KWin::Cursor::setPos(QPoint(c->geometry().center().x(), c->clientPos().y() / 2));
+    KWin::Cursors::self()->mouse()->setPos(QPoint(c->frameGeometry().center().x(), c->clientPos().y() / 2));
 }
 
 WAYLANDTEST_MAIN(DontCrashCursorPhysicalSizeEmpty)

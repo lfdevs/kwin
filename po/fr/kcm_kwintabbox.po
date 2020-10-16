@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-07-11 03:14+0200\n"
+"POT-Creation-Date: 2020-04-02 03:52+0200\n"
 "PO-Revision-Date: 2019-01-24 18:33+0800\n"
 "Last-Translator: Simon Depiets <sdepiets@gmail.com>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -22,39 +22,39 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 
+#: kwintabboxconfigform.cpp:88
+#, kde-format
+msgid "KWin"
+msgstr "KWin"
+
 #: layoutpreview.cpp:159
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Bureau 1"
 
-#: main.cpp:76
+#: main.cpp:77
 #, kde-format
 msgid "Main"
 msgstr "Principal"
 
-#: main.cpp:77
+#: main.cpp:78
 #, kde-format
 msgid "Alternative"
 msgstr "Alternatif"
 
-#: main.cpp:79
+#: main.cpp:80
 #, kde-format
 msgid "Get New Task Switchers..."
 msgstr "Obtenir de nouveaux changeurs de tâches..."
 
-#: main.cpp:89
+#: main.cpp:90
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""
 "Les paramètres des règles de focus limitent la fonctionnalité de navigation "
 "à travers les fenêtres."
-
-#: main.cpp:107
-#, kde-format
-msgid "KWin"
-msgstr "KWin"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
@@ -216,7 +216,7 @@ msgstr ""
 "L'effet remplaçant la fenêtre de liste lorsque les effets de bureau sont "
 "activés."
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, highlightWindowCheck)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:549
 #, kde-format
 msgid ""
@@ -227,7 +227,7 @@ msgstr ""
 "les couleurs de toutes les autres fenêtres. Cette option nécessite que les "
 "effets de bureau soient activés."
 
-#. i18n: ectx: property (text), widget (QCheckBox, highlightWindowCheck)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:552
 #, kde-format
 msgid "Show selected window"

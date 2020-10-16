@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-07-11 03:14+0200\n"
+"POT-Creation-Date: 2020-04-02 03:52+0200\n"
 "PO-Revision-Date: 2019-05-07 13:22+0100\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -17,39 +17,39 @@ msgstr ""
 "X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
+#: kwintabboxconfigform.cpp:88
+#, kde-format
+msgid "KWin"
+msgstr "KWin"
+
 #: layoutpreview.cpp:159
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Skrivebord 1"
 
-#: main.cpp:76
+#: main.cpp:77
 #, kde-format
 msgid "Main"
 msgstr "Generel"
 
-#: main.cpp:77
+#: main.cpp:78
 #, kde-format
 msgid "Alternative"
 msgstr "Alternativ"
 
-#: main.cpp:79
+#: main.cpp:80
 #, kde-format
 msgid "Get New Task Switchers..."
 msgstr "Hent nye opgaveskiftere..."
 
-#: main.cpp:89
+#: main.cpp:90
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""
 "Indstillingerne for fokuspolitik begrænser funktionaliteten til at navigere "
 "igennem vinduer."
-
-#: main.cpp:107
-#, kde-format
-msgid "KWin"
-msgstr "KWin"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
@@ -211,7 +211,7 @@ msgstr ""
 "Den effekt der skal erstatte listevinduet når skrivebordseffekter er "
 "aktiveret."
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, highlightWindowCheck)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:549
 #, kde-format
 msgid ""
@@ -221,7 +221,7 @@ msgstr ""
 "Det aktive vindue vil blive fremhævet ved at alle andre vinduer fades ud. "
 "Denne indstilling kræver at skrivebordseffekter er aktiveret."
 
-#. i18n: ectx: property (text), widget (QCheckBox, highlightWindowCheck)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:552
 #, kde-format
 msgid "Show selected window"

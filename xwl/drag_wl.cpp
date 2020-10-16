@@ -24,17 +24,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "xwayland.h"
 
 #include "atoms.h"
-#include "client.h"
+#include "x11client.h"
 #include "wayland_server.h"
 #include "workspace.h"
 
 #include <KWayland/Client/datadevice.h>
 #include <KWayland/Client/datasource.h>
 
-#include <KWayland/Server/datadevice_interface.h>
-#include <KWayland/Server/datasource_interface.h>
-#include <KWayland/Server/seat_interface.h>
-#include <KWayland/Server/surface_interface.h>
+#include <KWaylandServer/datadevice_interface.h>
+#include <KWaylandServer/datasource_interface.h>
+#include <KWaylandServer/seat_interface.h>
+#include <KWaylandServer/surface_interface.h>
 
 #include <QMouseEvent>
 #include <QTimer>
@@ -64,7 +64,7 @@ DragEventReply WlToXDrag::moveFilter(Toplevel *target, const QPoint &pos)
         delete m_visit;
         m_visit = nullptr;
     }
-    if (!qobject_cast<Client *>(ac)) {
+    if (!qobject_cast<X11Client *>(ac)) {
         // no target or wayland native target,
         // handled by input code directly
         return DragEventReply::Wayland;
@@ -278,7 +278,7 @@ void Xvisit::enter()
 
     // proxy future pointer position changes
     m_motionConnection = connect(waylandServer()->seat(),
-                          &KWayland::Server::SeatInterface::pointerPosChanged,
+                          &KWaylandServer::SeatInterface::pointerPosChanged,
                           this, &Xvisit::sendPosition);
 }
 

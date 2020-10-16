@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-09-16 03:27+0200\n"
-"PO-Revision-Date: 2019-09-19 10:46-0300\n"
+"POT-Creation-Date: 2020-02-23 03:34+0100\n"
+"PO-Revision-Date: 2019-10-03 10:29-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -36,10 +36,10 @@ msgstr "Efeitos da área de trabalho"
 
 #: kcm.cpp:49
 #, kde-format
-msgid "Vlad Zagorodniy"
-msgstr "Vlad Zagorodniy"
+msgid "Vlad Zahorodnii"
+msgstr "Vlad Zahorodnii"
 
-#: kcm.cpp:87
+#: kcm.cpp:88
 #, kde-format
 msgid "Download New Desktop Effects"
 msgstr "Baixar novos efeitos da área de trabalho"
@@ -94,7 +94,7 @@ msgstr "Excluir os efeitos sem suporte"
 msgid "Exclude internal effects"
 msgstr "Excluir os efeitos internos"
 
-#: package/contents/ui/main.qml:133
+#: package/contents/ui/main.qml:135
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Baixar novos efeitos da área de trabalho..."

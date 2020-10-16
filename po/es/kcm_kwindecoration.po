@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-10-24 08:00+0200\n"
+"POT-Creation-Date: 2020-05-07 03:54+0200\n"
 "PO-Revision-Date: 2019-06-11 20:46+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -87,37 +87,37 @@ msgstr "Mantener por debajo"
 msgid "Keep above"
 msgstr "Mantener por encima"
 
-#: kcm.cpp:95
+#: kcm.cpp:62
 #, kde-format
 msgid "Window Decorations"
 msgstr "Decoraciones de ventanas"
 
-#: kcm.cpp:99
+#: kcm.cpp:66
 #, kde-format
 msgid "Valerio Pilo"
 msgstr "Valerio Pilo"
 
-#: kcm.cpp:100
+#: kcm.cpp:67
 #, kde-format
 msgid "Author"
 msgstr "Autor"
 
-#: kcm.cpp:138
+#: kcm.cpp:122
 #, kde-format
 msgid "Download New Window Decorations"
 msgstr "Descargar nuevas decoraciones de ventanas"
 
-#: package/contents/ui/Buttons.qml:85
+#: package/contents/ui/Buttons.qml:87
 #, kde-format
 msgid "Titlebar"
 msgstr "Barra de título"
 
-#: package/contents/ui/Buttons.qml:224
+#: package/contents/ui/Buttons.qml:228
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr "Suelte el botón aquí para eliminarlo"
 
-#: package/contents/ui/Buttons.qml:241
+#: package/contents/ui/Buttons.qml:246
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Arrastre los botones de aquí a la barra de título y viceversa"
@@ -127,13 +127,13 @@ msgstr "Arrastre los botones de aquí a la barra de título y viceversa"
 msgid "This module lets you configure the window decorations."
 msgstr "Este módulo le permite configurar las decoraciones de las ventanas."
 
-#: package/contents/ui/main.qml:62
+#: package/contents/ui/main.qml:61
 #, kde-format
 msgctxt "tab label"
 msgid "Theme"
 msgstr "Tema"
 
-#: package/contents/ui/main.qml:66
+#: package/contents/ui/main.qml:65
 #, kde-format
 msgctxt "tab label"
 msgid "Titlebar Buttons"
@@ -151,13 +151,13 @@ msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "Obtener nuevas decoraciones de ventanas..."
 
-#: package/contents/ui/main.qml:137
+#: package/contents/ui/main.qml:138
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Cerrar ventanas al hacer doble clic en el botón de menú"
 
-#: package/contents/ui/main.qml:149
+#: package/contents/ui/main.qml:151
 #, kde-format
 msgctxt "popup tip"
 msgid ""
@@ -167,13 +167,13 @@ msgstr ""
 "Cerrar haciendo doble clic: Mantenga pulsado el botón de menú de la ventana "
 "hasta que aparezca."
 
-#: package/contents/ui/main.qml:156
+#: package/contents/ui/main.qml:158
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Mostrar sugerencias de la barra de título"
 
-#: package/contents/ui/Themes.qml:97
+#: package/contents/ui/Themes.qml:100
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr "Editar el tema %1"

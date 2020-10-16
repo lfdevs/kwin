@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-05-20 03:25+0200\n"
-"PO-Revision-Date: 2020-01-04 21:46\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2020-03-14 03:43+0100\n"
+"PO-Revision-Date: 2020-07-14 08:57\n"
+"Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -18,8 +18,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Crowdin-Project: kdeorg\n"
+"X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf5-stable/messages/kde-workspace/kcm-kwin-scripts.pot\n"
+"X-Crowdin-File: /kf5-stable/messages/kwin/kcm-kwin-scripts.pot\n"
+"X-Crowdin-File-ID: 2470\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -46,17 +48,17 @@ msgstr "配置 KWin 脚本"
 msgid "Tamás Krutki"
 msgstr "Tamás Krutki"
 
-#: module.cpp:83
+#: module.cpp:84
 #, kde-format
 msgid "Import KWin Script"
 msgstr "导入 KWin 脚本"
 
-#: module.cpp:84
+#: module.cpp:85
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|KWin 脚本 (*.kwinscript)"
 
-#: module.cpp:103
+#: module.cpp:104
 #, kde-format
 msgctxt "Placeholder is error message returned from the install service"
 msgid ""
@@ -66,7 +68,7 @@ msgstr ""
 "无法导入选定的脚本。\n"
 "%1"
 
-#: module.cpp:117
+#: module.cpp:118
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."

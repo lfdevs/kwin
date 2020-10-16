@@ -26,16 +26,15 @@
 
 #include <QGuiApplication>
 #include <QMatrix4x4>
-#include <QLinkedList>
 #include <QScreen> // for QGuiApplication
 #include <QTime>
 #include <QWindow>
 #include <cmath> // for ceil()
 
-#include <KWayland/Server/surface_interface.h>
-#include <KWayland/Server/blur_interface.h>
-#include <KWayland/Server/shadow_interface.h>
-#include <KWayland/Server/display.h>
+#include <KWaylandServer/surface_interface.h>
+#include <KWaylandServer/blur_interface.h>
+#include <KWaylandServer/shadow_interface.h>
+#include <KWaylandServer/display.h>
 #include <KSharedConfig>
 #include <KConfigGroup>
 
@@ -56,7 +55,7 @@ BlurEffect::BlurEffect()
     //     Should be included in _NET_SUPPORTED instead.
     if (m_shader && m_shader->isValid() && m_renderTargetsValid) {
         net_wm_blur_region = effects->announceSupportProperty(s_blurAtomName, this);
-        KWayland::Server::Display *display = effects->waylandDisplay();
+        KWaylandServer::Display *display = effects->waylandDisplay();
         if (display) {
             m_blurManager = display->createBlurManager(this);
             m_blurManager->create();
@@ -292,7 +291,7 @@ void BlurEffect::updateBlurRegion(EffectWindow *w) const
         }
     }
 
-    KWayland::Server::SurfaceInterface *surf = w->surface();
+    KWaylandServer::SurfaceInterface *surf = w->surface();
 
     if (surf && surf->blur()) {
         region = surf->blur()->region();
@@ -318,10 +317,10 @@ void BlurEffect::updateBlurRegion(EffectWindow *w) const
 
 void BlurEffect::slotWindowAdded(EffectWindow *w)
 {
-    KWayland::Server::SurfaceInterface *surf = w->surface();
+    KWaylandServer::SurfaceInterface *surf = w->surface();
 
     if (surf) {
-        windowBlurChangedConnections[w] = connect(surf, &KWayland::Server::SurfaceInterface::blurChanged, this, [this, w] () {
+        windowBlurChangedConnections[w] = connect(surf, &KWaylandServer::SurfaceInterface::blurChanged, this, [this, w] () {
             if (w) {
                 updateBlurRegion(w);
             }
@@ -418,7 +417,7 @@ QRegion BlurEffect::blurRegion(const EffectWindow *w) const
         const QRegion appRegion = qvariant_cast<QRegion>(value);
         if (!appRegion.isEmpty()) {
             if (w->decorationHasAlpha() && effects->decorationSupportsBlurBehind()) {
-                region = w->shape();
+                region = w->shape() & w->rect();
                 region -= w->decorationInnerRect();
             }
             region |= appRegion.translated(w->contentsRect().topLeft()) &
@@ -426,12 +425,12 @@ QRegion BlurEffect::blurRegion(const EffectWindow *w) const
         } else {
             // An empty region means that the blur effect should be enabled
             // for the whole window.
-            region = w->shape();
+            region = w->shape() & w->rect();
         }
     } else if (w->decorationHasAlpha() && effects->decorationSupportsBlurBehind()) {
         // If the client hasn't specified a blur region, we'll only enable
         // the effect behind the decoration.
-        region = w->shape();
+        region = w->shape() & w->rect();
         region -= w->decorationInnerRect();
     }
 
@@ -580,7 +579,7 @@ bool BlurEffect::shouldBlur(const EffectWindow *w, int mask, const WindowPaintDa
     return true;
 }
 
-void BlurEffect::drawWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
+void BlurEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region, WindowPaintData &data)
 {
     const QRect screen = GLRenderTarget::virtualScreenGeometry();
     if (shouldBlur(w, mask, data)) {
@@ -616,7 +615,7 @@ void BlurEffect::drawWindow(EffectWindow *w, int mask, QRegion region, WindowPai
     effects->drawWindow(w, mask, region, data);
 }
 
-void BlurEffect::paintEffectFrame(EffectFrame *frame, QRegion region, double opacity, double frameOpacity)
+void BlurEffect::paintEffectFrame(EffectFrame *frame, const QRegion &region, double opacity, double frameOpacity)
 {
     const QRect screen = effects->virtualScreenGeometry();
     bool valid = m_renderTargetsValid && m_shader && m_shader->isValid();

@@ -798,7 +798,7 @@
 <listitem
 ><para
 ><guilabel
->Intelligent</guilabel
+>Minimale overlapping</guilabel
 > - plaats waar geen ander venster bestaat.</para
 ></listitem>
 <listitem
@@ -810,7 +810,7 @@
 <listitem
 ><para
 ><guilabel
->Cascade</guilabel
+>Schuin achter elkaar</guilabel
 > - trapvormig-op-titel.</para
 ></listitem>
 <listitem
@@ -828,7 +828,7 @@
 <listitem
 ><para
 ><guilabel
->Hoek linksboven</guilabel
+>In hoek linksboven</guilabel
 ></para
 ></listitem>
 <listitem

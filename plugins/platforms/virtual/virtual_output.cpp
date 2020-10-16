@@ -26,6 +26,9 @@ VirtualOutput::VirtualOutput(QObject *parent)
     : AbstractWaylandOutput()
 {
     Q_UNUSED(parent);
+    static int identifier = -1;
+    identifier++;
+    setName("Virtual-" + QString::number(identifier));
 }
 
 VirtualOutput::~VirtualOutput()
@@ -34,10 +37,10 @@ VirtualOutput::~VirtualOutput()
 
 void VirtualOutput::init(const QPoint &logicalPosition, const QSize &pixelSize)
 {
-    KWayland::Server::OutputDeviceInterface::Mode mode;
+    KWaylandServer::OutputDeviceInterface::Mode mode;
     mode.id = 0;
     mode.size = pixelSize;
-    mode.flags = KWayland::Server::OutputDeviceInterface::ModeFlag::Current;
+    mode.flags = KWaylandServer::OutputDeviceInterface::ModeFlag::Current;
     mode.refreshRate = 60000;  // TODO
     initInterfaces("model_TODO", "manufacturer_TODO", "UUID_TODO", pixelSize, { mode });
     setGeometry(QRect(logicalPosition, pixelSize));

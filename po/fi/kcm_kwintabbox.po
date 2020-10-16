@@ -2,7 +2,6 @@
 # Copyright © 2010, 2011 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kde-workspace package.
 # Jorma Karvonen <karvonen.jorma@gmail.com>, 2010.
-# Tommi Nieminen <tommi.nieminen@legisign.org>, 2010.
 # Tommi Nieminen <translator@legisign.org>, 2010, 2011, 2018.
 # Lasse Liehu <lasse.liehu@gmail.com>, 2011, 2013, 2014.
 #
@@ -13,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-07-11 03:14+0200\n"
+"POT-Creation-Date: 2020-04-02 03:52+0200\n"
 "PO-Revision-Date: 2018-11-22 13:43+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -25,39 +24,39 @@ msgstr ""
 "X-POT-Import-Date: 2012-12-01 22:22:19+0000\n"
 "X-Generator: Lokalize 2.0\n"
 
+#: kwintabboxconfigform.cpp:88
+#, kde-format
+msgid "KWin"
+msgstr "KWin"
+
 #: layoutpreview.cpp:159
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Työpöytä 1"
 
-#: main.cpp:76
+#: main.cpp:77
 #, kde-format
 msgid "Main"
 msgstr "Ensisijainen"
 
-#: main.cpp:77
+#: main.cpp:78
 #, kde-format
 msgid "Alternative"
 msgstr "Vaihtoehtoinen"
 
-#: main.cpp:79
+#: main.cpp:80
 #, kde-format
 msgid "Get New Task Switchers..."
 msgstr "Hae uusia tehtävävaihtajia…"
 
-#: main.cpp:89
+#: main.cpp:90
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""
 "Kohdistuskäytänneasetukset rajoittavat ikkunoiden selauksen "
 "toiminnallisuutta."
-
-#: main.cpp:107
-#, kde-format
-msgid "KWin"
-msgstr "KWin"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
@@ -217,7 +216,7 @@ msgstr "Visualisointi"
 msgid "The effect to replace the list window when desktop effects are active."
 msgstr "Luetteloikkunan korvaava tehoste työpöydätehosteiden ollessa käytössä."
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, highlightWindowCheck)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:549
 #, kde-format
 msgid ""
@@ -227,7 +226,7 @@ msgstr ""
 "Nykyinen valittu ikkuna korostetaan häivyttämällä kaikki muut ikkunat. Tämä "
 "valitsin vaatii työpöytätehosteiden olevan käytössä."
 
-#. i18n: ectx: property (text), widget (QCheckBox, highlightWindowCheck)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:552
 #, kde-format
 msgid "Show selected window"

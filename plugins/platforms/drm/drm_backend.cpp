@@ -39,7 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "egl_stream_backend.h"
 #endif
 // KWayland
-#include <KWayland/Server/seat_interface.h>
+#include <KWaylandServer/seat_interface.h>
 // KF5
 #include <KConfigGroup>
 #include <KCoreAddons>
@@ -156,7 +156,7 @@ void DrmBackend::turnOutputsOn()
 {
     m_dpmsFilter.reset();
     for (auto it = m_enabledOutputs.constBegin(), end = m_enabledOutputs.constEnd(); it != end; it++) {
-        (*it)->updateDpms(KWayland::Server::OutputInterface::DpmsMode::On);
+        (*it)->updateDpms(KWaylandServer::OutputInterface::DpmsMode::On);
     }
 }
 
@@ -194,14 +194,15 @@ void DrmBackend::reactivate()
     }
     m_active = true;
     if (!usesSoftwareCursor()) {
-        const QPoint cp = Cursor::pos() - softwareCursorHotspot();
+        Cursor* cursor = Cursors::self()->mouse();
+        const QPoint cp = cursor->pos() - cursor->hotspot();
         for (auto it = m_outputs.constBegin(); it != m_outputs.constEnd(); ++it) {
             DrmOutput *o = *it;
             // only relevant in atomic mode
             o->m_modesetRequested = true;
             o->m_crtc->blank();
             o->showCursor();
-            o->moveCursor(cp);
+            o->moveCursor(cursor, cp);
         }
     }
     // restart compositor
@@ -297,7 +298,7 @@ void DrmBackend::openDrm()
 
                 // create the plane objects
                 for (unsigned int i = 0; i < planeResources->count_planes; ++i) {
-                    drmModePlane *kplane = drmModeGetPlane(m_fd, planeResources->planes[i]);
+                    DrmScopedPointer<drmModePlane> kplane(drmModeGetPlane(m_fd, planeResources->planes[i]));
                     DrmPlane *p = new DrmPlane(kplane->plane_id, m_fd);
                     if (p->atomicInit()) {
                         m_planes << p;
@@ -319,40 +320,12 @@ void DrmBackend::openDrm()
         }
     }
 
-    DrmScopedPointer<drmModeRes> resources(drmModeGetResources(m_fd));
-    drmModeRes *res = resources.data();
-    if (!resources) {
-        qCWarning(KWIN_DRM) << "drmModeGetResources failed";
-        return;
-    }
-
-    for (int i = 0; i < res->count_connectors; ++i) {
-        m_connectors << new DrmConnector(res->connectors[i], m_fd);
-    }
-    for (int i = 0; i < res->count_crtcs; ++i) {
-        m_crtcs << new DrmCrtc(res->crtcs[i], this, i);
-    }
-
-    if (m_atomicModeSetting) {
-        auto tryAtomicInit = [] (DrmObject *obj) -> bool {
-            if (obj->atomicInit()) {
-                return false;
-            } else {
-                delete obj;
-                return true;
-            }
-        };
-        m_connectors.erase(std::remove_if(m_connectors.begin(), m_connectors.end(), tryAtomicInit), m_connectors.end());
-        m_crtcs.erase(std::remove_if(m_crtcs.begin(), m_crtcs.end(), tryAtomicInit), m_crtcs.end());
-    }
-
     initCursor();
-    updateOutputs();
+    if (!updateOutputs())
+        return;
 
     if (m_outputs.isEmpty()) {
-        qCWarning(KWIN_DRM) << "No outputs, cannot render, will terminate now";
-        emit initFailed();
-        return;
+        qCDebug(KWIN_DRM) << "No connected outputs found on startup.";
     }
 
     // setup udevMonitor
@@ -383,16 +356,55 @@ void DrmBackend::openDrm()
     setReady(true);
 }
 
-void DrmBackend::updateOutputs()
+bool DrmBackend::updateOutputs()
 {
     if (m_fd < 0) {
-        return;
+        return false;
     }
 
     DrmScopedPointer<drmModeRes> resources(drmModeGetResources(m_fd));
     if (!resources) {
         qCWarning(KWIN_DRM) << "drmModeGetResources failed";
-        return;
+        return false;
+    }
+
+    auto oldConnectors = m_connectors;
+    for (int i = 0; i < resources->count_connectors; ++i) {
+        const uint32_t currentConnector = resources->connectors[i];
+        auto it = std::find_if(m_connectors.constBegin(), m_connectors.constEnd(), [currentConnector] (DrmConnector *c) { return c->id() == currentConnector; });
+        if (it == m_connectors.constEnd()) {
+            auto c = new DrmConnector(currentConnector, m_fd);
+            if (m_atomicModeSetting && !c->atomicInit()) {
+                delete c;
+                continue;
+            }
+            m_connectors << c;
+        } else {
+            oldConnectors.removeOne(*it);
+        }
+    }
+
+    auto oldCrtcs = m_crtcs;
+    for (int i = 0; i < resources->count_crtcs; ++i) {
+        const uint32_t currentCrtc = resources->crtcs[i];
+        auto it = std::find_if(m_crtcs.constBegin(), m_crtcs.constEnd(), [currentCrtc] (DrmCrtc *c) { return c->id() == currentCrtc; });
+        if (it == m_crtcs.constEnd()) {
+            auto c = new DrmCrtc(currentCrtc, this, i);
+            if (m_atomicModeSetting && !c->atomicInit()) {
+                delete c;
+                continue;
+            }
+            m_crtcs << c;
+        } else {
+            oldCrtcs.removeOne(*it);
+        }
+    }
+
+    for (auto c : qAsConst(oldConnectors)) {
+        m_connectors.removeOne(c);
+    }
+    for (auto c : qAsConst(oldCrtcs)) {
+        m_crtcs.removeOne(c);
     }
 
     QVector<DrmOutput*> connectedOutputs;
@@ -501,9 +513,14 @@ void DrmBackend::updateOutputs()
     m_outputs = connectedOutputs;
     m_enabledOutputs = connectedOutputs;
     readOutputsConfiguration();
+    updateOutputsEnabled();
     if (!m_outputs.isEmpty()) {
         emit screensQueried();
     }
+
+    qDeleteAll(oldConnectors);
+    qDeleteAll(oldCrtcs);
+    return true;
 }
 
 void DrmBackend::readOutputsConfiguration()
@@ -617,7 +634,7 @@ void DrmBackend::initCursor()
 #endif
 
     m_cursorEnabled = waylandServer()->seat()->hasPointer();
-    connect(waylandServer()->seat(), &KWayland::Server::SeatInterface::hasPointerChanged, this,
+    connect(waylandServer()->seat(), &KWaylandServer::SeatInterface::hasPointerChanged, this,
         [this] {
             m_cursorEnabled = waylandServer()->seat()->hasPointer();
             if (usesSoftwareCursor()) {
@@ -648,8 +665,8 @@ void DrmBackend::initCursor()
     }
     m_cursorSize = cursorSize;
     // now we have screens and can set cursors, so start tracking
-    connect(this, &DrmBackend::cursorChanged, this, &DrmBackend::updateCursor);
-    connect(Cursor::self(), &Cursor::posChanged, this, &DrmBackend::moveCursor);
+    connect(Cursors::self(), &Cursors::currentCursorChanged, this, &DrmBackend::updateCursor);
+    connect(Cursors::self(), &Cursors::positionChanged, this, &DrmBackend::moveCursor);
 }
 
 void DrmBackend::setCursor()
@@ -661,7 +678,8 @@ void DrmBackend::setCursor()
             }
         }
     }
-    markCursorAsRendered();
+
+    Cursors::self()->currentCursor()->markAsRendered();
 }
 
 void DrmBackend::updateCursor()
@@ -672,7 +690,9 @@ void DrmBackend::updateCursor()
     if (isCursorHidden()) {
         return;
     }
-    const QImage &cursorImage = softwareCursor();
+
+    auto cursor = Cursors::self()->currentCursor();
+    const QImage &cursorImage = cursor->image();
     if (cursorImage.isNull()) {
         doHideCursor();
         return;
@@ -682,7 +702,8 @@ void DrmBackend::updateCursor()
     }
 
     setCursor();
-    moveCursor();
+
+    moveCursor(cursor, cursor->pos());
 }
 
 void DrmBackend::doShowCursor()
@@ -700,13 +721,13 @@ void DrmBackend::doHideCursor()
     }
 }
 
-void DrmBackend::moveCursor()
+void DrmBackend::moveCursor(Cursor *cursor, const QPoint &pos)
 {
     if (!m_cursorEnabled || isCursorHidden() || usesSoftwareCursor()) {
         return;
     }
     for (auto it = m_outputs.constBegin(); it != m_outputs.constEnd(); ++it) {
-        (*it)->moveCursor(Cursor::pos());
+        (*it)->moveCursor(cursor, pos);
     }
 }
 
@@ -754,9 +775,6 @@ DrmSurfaceBuffer *DrmBackend::createBuffer(const std::shared_ptr<GbmSurface> &su
 
 void DrmBackend::updateOutputsEnabled()
 {
-    if (m_enabledOutputs.isEmpty()) {
-        return;
-    }
     bool enabled = false;
     for (auto it = m_enabledOutputs.constBegin(); it != m_enabledOutputs.constEnd(); ++it) {
         enabled = enabled || (*it)->isDpmsEnabled();
@@ -785,11 +803,11 @@ QString DrmBackend::supportInformation() const
     QString supportInfo;
     QDebug s(&supportInfo);
     s.nospace();
-    s << "Name: " << "DRM" << endl;
-    s << "Active: " << m_active << endl;
-    s << "Atomic Mode Setting: " << m_atomicModeSetting << endl;
+    s << "Name: " << "DRM" << Qt::endl;
+    s << "Active: " << m_active << Qt::endl;
+    s << "Atomic Mode Setting: " << m_atomicModeSetting << Qt::endl;
 #if HAVE_EGL_STREAMS
-    s << "Using EGL Streams: " << m_useEglStreams << endl;
+    s << "Using EGL Streams: " << m_useEglStreams << Qt::endl;
 #endif
     return supportInfo;
 }

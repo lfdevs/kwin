@@ -84,7 +84,8 @@ enum class ConfigKey {
     NaturalScroll,
     ScrollMethod,
     ScrollButton,
-    ClickMethod
+    ClickMethod,
+    ScrollFactor
 };
 
 struct ConfigData {
@@ -99,6 +100,10 @@ struct ConfigData {
     explicit ConfigData(QByteArray _key, void (Device::*_setter)(QString), QString (Device::*_defaultValue)() const = nullptr)
         : key(_key)
     { stringSetter.setter = _setter; stringSetter.defaultValue = _defaultValue; }
+
+    explicit ConfigData(QByteArray _key, void (Device::*_setter)(qreal), qreal (Device::*_defaultValue)() const = nullptr)
+        : key(_key)
+    { qrealSetter.setter = _setter; qrealSetter.defaultValue = _defaultValue; }
 
     QByteArray key;
 
@@ -115,6 +120,10 @@ struct ConfigData {
         void (Device::*setter)(QString) = nullptr;
         QString (Device::*defaultValue)() const;
     } stringSetter;
+    struct {
+        void (Device::*setter)(qreal) = nullptr;
+        qreal (Device::*defaultValue)() const;
+    } qrealSetter;
 };
 
 static const QMap<ConfigKey, ConfigData> s_configData {
@@ -131,7 +140,8 @@ static const QMap<ConfigKey, ConfigData> s_configData {
     {ConfigKey::NaturalScroll, ConfigData(QByteArrayLiteral("NaturalScroll"), &Device::setNaturalScroll, &Device::naturalScrollEnabledByDefault)},
     {ConfigKey::ScrollMethod, ConfigData(QByteArrayLiteral("ScrollMethod"), &Device::activateScrollMethodFromInt, &Device::defaultScrollMethodToInt)},
     {ConfigKey::ScrollButton, ConfigData(QByteArrayLiteral("ScrollButton"), &Device::setScrollButton, &Device::defaultScrollButton)},
-    {ConfigKey::ClickMethod, ConfigData(QByteArrayLiteral("ClickMethod"), &Device::setClickMethodFromInt, &Device::defaultClickMethodToInt)}
+    {ConfigKey::ClickMethod, ConfigData(QByteArrayLiteral("ClickMethod"), &Device::setClickMethodFromInt, &Device::defaultClickMethodToInt)},
+    {ConfigKey::ScrollFactor, ConfigData(QByteArrayLiteral("ScrollFactor"), &Device::setScrollFactor, &Device::scrollFactorDefault)}
 };
 
 namespace {
@@ -158,12 +168,7 @@ Device::Device(libinput_device *device, QObject *parent)
     , m_pointer(libinput_device_has_capability(m_device, LIBINPUT_DEVICE_CAP_POINTER))
     , m_touch(libinput_device_has_capability(m_device, LIBINPUT_DEVICE_CAP_TOUCH))
     , m_tabletTool(libinput_device_has_capability(m_device, LIBINPUT_DEVICE_CAP_TABLET_TOOL))
-#if 0
-    // next libinput version
     , m_tabletPad(libinput_device_has_capability(m_device, LIBINPUT_DEVICE_CAP_TABLET_PAD))
-#else
-    , m_tabletPad(false)
-#endif
     , m_supportsGesture(libinput_device_has_capability(m_device, LIBINPUT_DEVICE_CAP_GESTURE))
     , m_switch(libinput_device_has_capability(m_device, LIBINPUT_DEVICE_CAP_SWITCH))
     , m_lidSwitch(m_switch ? libinput_device_switch_has_switch(m_device, LIBINPUT_SWITCH_LID) : false)
@@ -214,6 +219,7 @@ Device::Device(libinput_device *device, QObject *parent)
     , m_supportedClickMethods(libinput_device_config_click_get_methods(m_device))
     , m_defaultClickMethod(libinput_device_config_click_get_default_method(m_device))
     , m_clickMethod(libinput_device_config_click_get_method(m_device))
+    , m_scrollFactor(scrollFactorDefault())
 {
     libinput_device_ref(m_device);
 
@@ -306,6 +312,7 @@ void Device::loadConfiguration()
         readEntry(key, it.value().booleanSetter, true);
         readEntry(key, it.value().quint32Setter, 0);
         readEntry(key, it.value().stringSetter, "");
+        readEntry(key, it.value().qrealSetter, 1.0);
     };
 
     m_loading = false;
@@ -427,6 +434,16 @@ void Device::setLmrTapButtonMap(bool set)
     }
 }
 
+int Device::stripsCount() const
+{
+    return libinput_device_tablet_pad_get_num_strips(m_device);
+}
+
+int Device::ringsCount() const
+{
+    return libinput_device_tablet_pad_get_num_rings(m_device);
+}
+
 #define CONFIG(method, condition, function, variable, key) \
 void Device::method(bool set) \
 { \
@@ -470,6 +487,15 @@ CONFIG(setTapDragLock, false, tap_set_drag_lock_enabled, DRAG_LOCK, tapDragLock,
 CONFIG(setMiddleEmulation, m_supportsMiddleEmulation == false, middle_emulation_set_enabled, MIDDLE_EMULATION, middleEmulation, MiddleButtonEmulation)
 
 #undef CONFIG
+
+void Device::setScrollFactor(qreal factor)
+{
+    if (m_scrollFactor != factor) {
+        m_scrollFactor = factor;
+        writeEntry(ConfigKey::ScrollFactor, m_scrollFactor);
+        emit scrollFactorChanged();
+    }
+}
 
 void Device::setOrientation(Qt::ScreenOrientation orientation)
 {

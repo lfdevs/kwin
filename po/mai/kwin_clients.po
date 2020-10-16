@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-10-16 07:57+0200\n"
+"POT-Creation-Date: 2020-03-18 03:45+0100\n"
 "PO-Revision-Date: 2010-09-24 21:47+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh672@gmail.com>\n"
 "Language-Team: Maithili <bhashaghar@googlegroups.com>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "\n"
 "\n"
 
-#: aurorae/src/aurorae.cpp:742
+#: aurorae/src/aurorae.cpp:694
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Tiny"
@@ -31,7 +31,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "नन्हा"
 
-#: aurorae/src/aurorae.cpp:743
+#: aurorae/src/aurorae.cpp:695
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Button size:"
 #| msgid "Normal"
@@ -39,7 +39,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "सामान्य"
 
-#: aurorae/src/aurorae.cpp:744
+#: aurorae/src/aurorae.cpp:696
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Button size:"
 #| msgid "Large"
@@ -47,7 +47,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "पैघ"
 
-#: aurorae/src/aurorae.cpp:745
+#: aurorae/src/aurorae.cpp:697
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Button size:"
 #| msgid "Very Large"
@@ -55,7 +55,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "बहुत बड"
 
-#: aurorae/src/aurorae.cpp:746
+#: aurorae/src/aurorae.cpp:698
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Button size:"
 #| msgid "Huge"
@@ -63,7 +63,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "विशाल"
 
-#: aurorae/src/aurorae.cpp:747
+#: aurorae/src/aurorae.cpp:699
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Very Huge"
@@ -71,7 +71,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "अत्यंत विशाल"
 
-#: aurorae/src/aurorae.cpp:748
+#: aurorae/src/aurorae.cpp:700
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Oversized"
@@ -79,7 +79,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "वृहताकार"
 
-#: aurorae/src/aurorae.cpp:751
+#: aurorae/src/aurorae.cpp:703
 #, kde-format
 msgid "Button size:"
 msgstr ""
@@ -128,23 +128,8 @@ msgstr ""
 msgid "Colored window border"
 msgstr ""
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_titleShadow)
-#: aurorae/themes/plastik/package/contents/ui/config.ui:66
-#, kde-format
-msgid ""
-"Check this option if you want the titlebar text to have a 3D look with a "
-"shadow behind it."
-msgstr ""
-"ई विकल्प केँ चेक करू जँ अहाँ चाहैत छी जे शीर्षक पट्टी 3 डी रूपेँ, ओकरा पाछाँ ओकर छाया सहित."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_titleShadow)
-#: aurorae/themes/plastik/package/contents/ui/config.ui:69
-#, kde-format
-msgid "Use shadowed &text"
-msgstr "छायायुक्त पाठ उपयोग करू (&t)"
-
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_animateButtons)
-#: aurorae/themes/plastik/package/contents/ui/config.ui:76
+#: aurorae/themes/plastik/package/contents/ui/config.ui:66
 #, kde-format
 msgid ""
 "Check this option if you want the buttons to fade in when the mouse pointer "
@@ -152,7 +137,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)
-#: aurorae/themes/plastik/package/contents/ui/config.ui:79
+#: aurorae/themes/plastik/package/contents/ui/config.ui:69
 #, kde-format
 msgid "Animate buttons"
 msgstr "बटन केँ एनिमेट करू"

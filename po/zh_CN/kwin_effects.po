@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-09-15 03:21+0200\n"
-"PO-Revision-Date: 2020-01-04 21:46\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2020-04-30 03:47+0200\n"
+"PO-Revision-Date: 2020-07-14 08:57\n"
+"Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -24,8 +24,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Crowdin-Project: kdeorg\n"
+"X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf5-stable/messages/kde-workspace/kwin_effects.pot\n"
+"X-Crowdin-File: /kf5-stable/messages/kwin/kwin_effects.pot\n"
+"X-Crowdin-File-ID: 2338\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1247,6 +1249,16 @@ msgctxt "Right mouse button"
 msgid "Right"
 msgstr "右键"
 
+#: mouseclick/mouseclick.h:74
+#, kde-format
+msgid "↓"
+msgstr "↓"
+
+#: mouseclick/mouseclick.h:75
+#, kde-format
+msgid "↑"
+msgstr "↑"
+
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
 #, kde-format
@@ -1368,25 +1380,25 @@ msgstr "颜色(&C)："
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "按住 Shift+Meta 键，然后移动鼠标即可用鼠标绘制。"
 
-#: presentwindows/presentwindows.cpp:78
+#: presentwindows/presentwindows.cpp:76
 #: presentwindows/presentwindows_config.cpp:73
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "切换显示窗口(对当前桌面)"
 
-#: presentwindows/presentwindows.cpp:86
+#: presentwindows/presentwindows.cpp:84
 #: presentwindows/presentwindows_config.cpp:67
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "切换显示窗口(对全部桌面)"
 
-#: presentwindows/presentwindows.cpp:95
+#: presentwindows/presentwindows.cpp:93
 #: presentwindows/presentwindows_config.cpp:79
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "切换当前窗口分类"
 
-#: presentwindows/presentwindows.cpp:1666
+#: presentwindows/presentwindows.cpp:1638
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1624,19 +1636,19 @@ msgstr "窗口打开缩放："
 msgid "Window close scale:"
 msgstr "窗口关闭缩放："
 
-#: screenshot/screenshot.cpp:354
+#: screenshot/screenshot.cpp:458
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "屏幕截图"
 
-#: screenshot/screenshot.cpp:355
+#: screenshot/screenshot.cpp:459
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "屏幕截图保存到 %1"
 
-#: screenshot/screenshot.cpp:464
+#: screenshot/screenshot.cpp:568
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -1645,7 +1657,7 @@ msgstr ""
 "选取要截屏的窗口，按鼠标左键或 Enter 键截图。\n"
 "按 Esc 键或鼠标右键取消。"
 
-#: screenshot/screenshot.cpp:467
+#: screenshot/screenshot.cpp:571
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"

@@ -51,7 +51,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/relativepointer.h>
 #include <KWayland/Client/seat.h>
 #include <KWayland/Client/server_decoration.h>
-#include <KWayland/Client/shell.h>
 #include <KWayland/Client/shm_pool.h>
 #include <KWayland/Client/subcompositor.h>
 #include <KWayland/Client/subsurface.h>
@@ -59,7 +58,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/touch.h>
 #include <KWayland/Client/xdgshell.h>
 
-#include <KWayland/Server/seat_interface.h>
+#include <KWaylandServer/seat_interface.h>
 
 #include <QMetaMethod>
 #include <QThread>
@@ -99,12 +98,14 @@ WaylandCursor::~WaylandCursor()
 
 void WaylandCursor::installImage()
 {
-    const QImage image = m_backend->softwareCursor();
+    const QImage image = Cursors::self()->currentCursor()->image();
     if (image.isNull() || image.size().isEmpty()) {
         doInstallImage(nullptr, QSize());
         return;
     }
-    wl_buffer *imageBuffer = *(m_backend->shmPool()->createBuffer(image).data());
+
+    auto buffer = m_backend->shmPool()->createBuffer(image).toStrongRef();
+    wl_buffer *imageBuffer = *buffer.data();
     doInstallImage(imageBuffer, image.size());
 }
 
@@ -114,7 +115,7 @@ void WaylandCursor::doInstallImage(wl_buffer *image, const QSize &size)
     if (!pointer || !pointer->isValid()) {
         return;
     }
-    pointer->setCursor(m_surface, image ? m_backend->softwareCursorHotspot() : QPoint());
+    pointer->setCursor(m_surface, image ? Cursors::self()->currentCursor()->hotspot() : QPoint());
     drawSurface(image, size);
 }
 
@@ -183,8 +184,7 @@ void WaylandSubSurfaceCursor::doInstallImage(wl_buffer *image, const QSize &size
 
 QPointF WaylandSubSurfaceCursor::absoluteToRelativePosition(const QPointF &position)
 {
-    auto ret = position - m_output->geometry().topLeft() - backend()->softwareCursorHotspot();
-    return ret;
+    return position - m_output->geometry().topLeft() - Cursors::self()->currentCursor()->hotspot();
 }
 
 void WaylandSubSurfaceCursor::move(const QPointF &globalPosition)
@@ -203,7 +203,7 @@ void WaylandSubSurfaceCursor::move(const QPointF &globalPosition)
         return;
     }
     // place the sub-surface relative to the output it is on and factor in the hotspot
-    const auto relativePosition = globalPosition.toPoint() - backend()->softwareCursorHotspot() - m_output->geometry().topLeft();
+    const auto relativePosition = globalPosition.toPoint() - Cursors::self()->currentCursor()->hotspot() - m_output->geometry().topLeft();
     m_subSurface->setPosition(relativePosition);
     Compositor::self()->addRepaintFull();
 }
@@ -338,7 +338,7 @@ WaylandSeat::WaylandSeat(wl_seat *seat, WaylandBackend *backend)
     );
     WaylandServer *server = waylandServer();
     if (server) {
-        using namespace KWayland::Server;
+        using namespace KWaylandServer;
         SeatInterface *si = server->seat();
         connect(m_seat, &Seat::hasKeyboardChanged, si, &SeatInterface::setHasKeyboard);
         connect(m_seat, &Seat::hasPointerChanged, si, &SeatInterface::setHasPointer);
@@ -448,7 +448,6 @@ WaylandBackend::WaylandBackend(QObject *parent)
     , m_registry(new Registry(this))
     , m_compositor(new KWayland::Client::Compositor(this))
     , m_subCompositor(new KWayland::Client::SubCompositor(this))
-    , m_shell(new Shell(this))
     , m_shm(new ShmPool(this))
     , m_connectionThreadObject(new ConnectionThread(nullptr))
     , m_connectionThread(nullptr)
@@ -463,22 +462,21 @@ WaylandBackend::~WaylandBackend()
     }
     delete m_waylandCursor;
 
+    m_eventQueue->release();
     qDeleteAll(m_outputs);
 
     if (m_xdgShell) {
         m_xdgShell->release();
     }
-    m_shell->release();
     m_subCompositor->release();
     m_compositor->release();
     m_registry->release();
     delete m_seat;
     m_shm->release();
-    m_eventQueue->release();
 
-    m_connectionThreadObject->deleteLater();
     m_connectionThread->quit();
     m_connectionThread->wait();
+    m_connectionThreadObject->deleteLater();
 
     qCDebug(KWIN_WAYLAND_BACKEND) << "Destroyed Wayland display";
 }
@@ -493,11 +491,6 @@ void WaylandBackend::init()
     connect(m_registry, &Registry::subCompositorAnnounced, this,
         [this](quint32 name) {
             m_subCompositor->setup(m_registry->bindSubCompositor(name, 1));
-        }
-    );
-    connect(m_registry, &Registry::shellAnnounced, this,
-        [this](quint32 name) {
-            m_shell->setup(m_registry->bindShell(name, 1));
         }
     );
     connect(m_registry, &Registry::seatAnnounced, this,
@@ -554,16 +547,17 @@ void WaylandBackend::init()
     if (!deviceIdentifier().isEmpty()) {
         m_connectionThreadObject->setSocketName(deviceIdentifier());
     }
-    connect(this, &WaylandBackend::cursorChanged, this,
+    connect(Cursors::self(), &Cursors::currentCursorChanged, this,
         [this] {
             if (!m_seat) {
                 return;
             }
             m_waylandCursor->installImage();
-            markCursorAsRendered();
+            auto c = Cursors::self()->currentCursor();
+            c->rendered(c->geometry());
         }
     );
-    connect(this, &WaylandBackend::pointerLockChanged, this, [this](bool locked) {
+    connect(this, &WaylandBackend::pointerLockChanged, this, [this] (bool locked) {
         delete m_waylandCursor;
         if (locked) {
             Q_ASSERT(!m_relativePointer);
@@ -619,9 +613,6 @@ void WaylandBackend::initConnection()
             qDeleteAll(m_outputs);
             m_outputs.clear();
 
-            if (m_shell) {
-                m_shell->destroy();
-            }
             if (m_xdgShell) {
                 m_xdgShell->destroy();
             }
@@ -664,7 +655,7 @@ void WaylandBackend::createOutputs()
             m_registry->createServerSideDecorationManager(ssdManagerIface.name, ssdManagerIface.version, this);
 
 
-    const auto xdgIface = m_registry->interface(Registry::Interface::XdgShellUnstableV6);
+    const auto xdgIface = m_registry->interface(Registry::Interface::XdgShellStable);
     if (xdgIface.name != 0) {
         m_xdgShell = m_registry->createXdgShell(xdgIface.name, xdgIface.version, this);
     }
@@ -686,7 +677,7 @@ void WaylandBackend::createOutputs()
         if (ssdManager) {
             auto decoration = ssdManager->create(surface, this);
             connect(decoration, &ServerSideDecoration::modeChanged, this,
-                [this, decoration] {
+                [decoration] {
                     if (decoration->mode() != ServerSideDecoration::Mode::Server) {
                         decoration->requestMode(ServerSideDecoration::Mode::Server);
                     }
@@ -698,8 +689,6 @@ void WaylandBackend::createOutputs()
 
         if (m_xdgShell && m_xdgShell->isValid()) {
             waylandOutput = new XdgShellOutput(surface, m_xdgShell, this, i+1);
-        } else if (m_shell->isValid()) {
-            waylandOutput = new ShellOutput(surface, m_shell, this);
         }
 
         if (!waylandOutput) {

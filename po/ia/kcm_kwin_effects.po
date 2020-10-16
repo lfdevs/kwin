@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kwin package.
 #
-# Giovanni Sora <g.sora@tiscali.it>, 2020.
+# Giovanni Sora <g.sora@tiscali.it>, 2019, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-09-16 03:27+0200\n"
-"PO-Revision-Date: 2020-01-06 18:06+0100\n"
+"POT-Creation-Date: 2020-02-23 03:34+0100\n"
+"PO-Revision-Date: 2020-05-18 23:25+0100\n"
 "Last-Translator: Giovanni Sora <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -34,10 +34,10 @@ msgstr "Effectos de scriptorio"
 
 #: kcm.cpp:49
 #, kde-format
-msgid "Vlad Zagorodniy"
-msgstr "Vlad Zagorodniy"
+msgid "Vlad Zahorodnii"
+msgstr "Vlad Zahorodnii"
 
-#: kcm.cpp:87
+#: kcm.cpp:88
 #, kde-format
 msgid "Download New Desktop Effects"
 msgstr "Discarga nove effectos de scriptorio"
@@ -66,7 +66,7 @@ msgstr "Configura..."
 #: package/contents/ui/main.qml:29
 #, kde-format
 msgid "This module lets you configure desktop effects."
-msgstr "Iste modulo te permitte configurae effectos de scriptorio."
+msgstr "Iste modulo te permitte configurar effectos de scriptorio."
 
 #: package/contents/ui/main.qml:36
 #, kde-format
@@ -85,14 +85,14 @@ msgstr "Configura Filtro"
 #: package/contents/ui/main.qml:68
 #, kde-format
 msgid "Exclude unsupported effects"
-msgstr "Exclude effectos non supportate"
+msgstr ""
 
 #: package/contents/ui/main.qml:76
 #, kde-format
 msgid "Exclude internal effects"
-msgstr "Exclude effectos interne"
+msgstr ""
 
-#: package/contents/ui/main.qml:133
+#: package/contents/ui/main.qml:135
 #, kde-format
 msgid "Get New Desktop Effects..."
-msgstr "Obtene nove effectos de scriptorio ..."
+msgstr ""

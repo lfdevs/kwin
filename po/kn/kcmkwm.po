@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-09-15 03:21+0200\n"
+"POT-Creation-Date: 2020-06-19 06:47+0200\n"
 "PO-Revision-Date: 2008-12-25 15:33+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: Kannada <en@li.org>\n"
@@ -43,7 +43,7 @@ msgstr "ನಿಷ್ಕ್ರಿಯ ಒಳಗಿನ ವಿಂಡೋ"
 msgid "&Left click:"
 msgstr "ಉಪಕರಣಪಟ್ಟಿಯ ಎರಡುಬಾರಿಯ ಕ್ಲಿಕ್(&T):"
 
-#. i18n: ectx: property (whatsThis), widget (KComboBox, coWin1)
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandWindow1)
 #: actions.ui:39
 #, kde-format
 msgid ""
@@ -53,42 +53,42 @@ msgstr ""
 "ಈ ಸಾಲಿನಲ್ಲಿ ನೀವು ಒಂದು ನಿಷ್ಕ್ರಿಯ ಒಳಗಿನ ವಿಂಡೋ ಮೇಲಿನ ಮೌಸ್‍ನ ಎಡ ಕ್ಲಿಕ್ ವರ್ತನೆಯನ್ನು ಕಸ್ಟಮೈಸ್ "
 "ಮಾಡಬಹುದು (ಒಳಗಿನ ಎಂದರೆ: ಉಪಕರಣ ಪಟ್ಟಿಯಲ್ಲದ, ಚೌಕಟ್ಟಲ್ಲದ)."
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coWin1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coWin2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coWin3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow3)
 #: actions.ui:43 actions.ui:83 actions.ui:123
 #, fuzzy, kde-format
 #| msgid "Activate, Raise & Pass Click"
 msgid "Activate, raise and pass click"
 msgstr "ಸಕ್ರಿಯಗೊಳಿಸು, ಏರಿಸು ಹಾಗು ಕ್ಲಿಕ್‌ ಅನ್ನು ಪಾಸ್‌ ಮಾಡು"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coWin1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coWin2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coWin3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow3)
 #: actions.ui:48 actions.ui:88 actions.ui:128
 #, fuzzy, kde-format
 #| msgid "Activate & Pass Click"
 msgid "Activate and pass click"
 msgstr "ಸಕ್ರಿಯಗೊಳಿಸು ಹಾಗು ಕ್ಲಿಕ್‌ ಅನ್ನು ಪಾಸ್‌ ಮಾಡು"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
-#. i18n: ectx: property (text), item, widget (KComboBox, coWin1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coWin2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coWin3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow3)
 #: actions.ui:53 actions.ui:93 actions.ui:133 mouse.ui:293 mouse.ui:408
 #: mouse.ui:523
 #, kde-format
 msgid "Activate"
 msgstr "ಸಕ್ರಿಯಗೊಳಿಸು"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
-#. i18n: ectx: property (text), item, widget (KComboBox, coWin1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coWin2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coWin3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow3)
 #: actions.ui:58 actions.ui:98 actions.ui:138 mouse.ui:283 mouse.ui:398
 #: mouse.ui:513
 #, fuzzy, kde-format
@@ -104,7 +104,7 @@ msgstr "ಸಕ್ರಿಯಗೊಳಿಸು ಹಾಗು ಏರಿಸು"
 msgid "&Middle click:"
 msgstr "ಉಪಕರಣಪಟ್ಟಿಯ ಎರಡುಬಾರಿಯ ಕ್ಲಿಕ್(&T):"
 
-#. i18n: ectx: property (whatsThis), widget (KComboBox, coWin2)
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandWindow2)
 #: actions.ui:79
 #, kde-format
 msgid ""
@@ -121,7 +121,7 @@ msgstr ""
 msgid "&Right click:"
 msgstr ""
 
-#. i18n: ectx: property (whatsThis), widget (KComboBox, coWin3)
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandWindow3)
 #: actions.ui:119
 #, kde-format
 msgid ""
@@ -139,7 +139,7 @@ msgstr ""
 msgid "Mouse &wheel:"
 msgstr "ಮೌಸ್‌ನ ಚಕ್ರ:"
 
-#. i18n: ectx: property (whatsThis), widget (KComboBox, coWinWheel)
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandWindowWheel)
 #: actions.ui:159
 #, fuzzy, kde-format
 #| msgid ""
@@ -152,20 +152,20 @@ msgstr ""
 "ಈ ಸಾಲಿನಲ್ಲಿ ನೀವು ಒಂದು ನಿಷ್ಕ್ರಿಯ ಒಳಗಿನ ವಿಂಡೋ ಮೇಲಿನ ಮೌಸ್‍ನ ಎಡ ಕ್ಲಿಕ್ ವರ್ತನೆಯನ್ನು ಕಸ್ಟಮೈಸ್ "
 "ಮಾಡಬಹುದು (ಒಳಗಿನ ಎಂದರೆ: ಉಪಕರಣ ಪಟ್ಟಿಯಲ್ಲದ, ಚೌಕಟ್ಟಲ್ಲದ)."
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindowWheel)
 #: actions.ui:163
 #, kde-format
 msgid "Scroll"
 msgstr ""
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindowWheel)
 #: actions.ui:168
 #, fuzzy, kde-format
 #| msgid "Activate & Lower"
 msgid "Activate and scroll"
 msgstr "ಸಕ್ರಿಯಗೊಳಿಸು ಹಾಗು ಇಳಿಸು"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coWinWheel)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindowWheel)
 #: actions.ui:173
 #, fuzzy, kde-format
 #| msgid "Activate, Raise and Move"
@@ -186,7 +186,7 @@ msgstr "ಒಳಗಿನ ವಿಂಡೋ, ಉಪಕರಣ ಪಟ್ಟಿ ಹಾ�
 msgid "Mo&difier key:"
 msgstr "ಮಾರ್ಪಡಿಸುವ ಕೀಲಿ:"
 
-#. i18n: ectx: property (whatsThis), widget (KComboBox, coAllKey)
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandAllKey)
 #: actions.ui:205
 #, kde-format
 msgid ""
@@ -196,13 +196,13 @@ msgstr ""
 "ಇಲ್ಲಿ ನೀವು ಮೆಟಾ ಕೀಲಿಯನ್ನು ಅಥವಾ ಆಲ್ಟ್ ಕೀಲಿಯನ್ನು ಒತ್ತಿ ಹಿಡಿದಾಗ ಈ ಕೆಳಗಿನ ಕಾರ್ಯಗಳನ್ನು "
 "ನಿಮಗೆ ಮಾಡಲು ಅನುಮತಿಸುತ್ತದೆಯೆ ಎಂದು ಇಲ್ಲಿ ಆರಿಸಬಹುದು."
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coAllKey)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllKey)
 #: actions.ui:209
 #, kde-format
 msgid "Alt"
 msgstr "ಆಲ್ಟ್"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coAllKey)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllKey)
 #: actions.ui:214
 #, kde-format
 msgid "Meta"
@@ -222,7 +222,7 @@ msgstr ""
 msgid "L&eft click:"
 msgstr "ಉಪಕರಣಪಟ್ಟಿಯ ಎರಡುಬಾರಿಯ ಕ್ಲಿಕ್(&T):"
 
-#. i18n: ectx: property (whatsThis), widget (KComboBox, coAll1)
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandAll1)
 #: actions.ui:261
 #, kde-format
 msgid ""
@@ -232,32 +232,32 @@ msgstr ""
 "ನೀವು ಉಪಕರಣಪಟ್ಟಿಯ ಮೇಲೆ ಅಥವ ಚೌಕಟ್ಟಿನ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿದಾಗ ಎಡ ಬದಿಯ ಕ್ಲಿಕ್ ಹೇಗೆ "
 "ವರ್ತಿಸಬೇಕೆಂದು ಈ ಅಡ್ಡಸಾಲಿನಲ್ಲಿ ನೀವು ಕಸ್ಟಮೈಸ್ ಮಾಡಬಹುದು."
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:265 actions.ui:335 actions.ui:405
 #, kde-format
 msgid "Move"
 msgstr "ಜರುಗಿಸು"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:270 actions.ui:340 actions.ui:410
 #, fuzzy, kde-format
 #| msgid "Activate, Raise and Move"
 msgid "Activate, raise and move"
 msgstr "ಸಕ್ರಿಯಗೊಳಿಸು, ಏರಿಸು ಹಾಗು ಜರುಗಿಸು"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct3)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:275 actions.ui:345 actions.ui:415 mouse.ui:246 mouse.ui:308
 #: mouse.ui:361 mouse.ui:423 mouse.ui:476 mouse.ui:538
 #, fuzzy, kde-format
@@ -265,23 +265,23 @@ msgstr "ಸಕ್ರಿಯಗೊಳಿಸು, ಏರಿಸು ಹಾಗು ಜ�
 msgid "Toggle raise and lower"
 msgstr "ಹೊರಳು ಏರಿಸುವಿಕೆ ಹಾಗು ಇಳಿಸು"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:280 actions.ui:350 actions.ui:420
 #, kde-format
 msgid "Resize"
 msgstr "ಮರುಗಾತ್ರಿಸು"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct3)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:285 actions.ui:355 actions.ui:425 mouse.ui:236 mouse.ui:298
 #: mouse.ui:351 mouse.ui:413 mouse.ui:466 mouse.ui:528
 #, kde-format
@@ -289,16 +289,16 @@ msgid "Raise"
 msgstr "ಏರಿಸು"
 
 #. i18n: @item:inlistbox behavior on double click
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct3)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:290 actions.ui:360 actions.ui:430 mouse.ui:65 mouse.ui:241
 #: mouse.ui:303 mouse.ui:356 mouse.ui:418 mouse.ui:471 mouse.ui:533
 #, kde-format
@@ -306,34 +306,34 @@ msgid "Lower"
 msgstr "ಇಳಿಸು"
 
 #. i18n: @item:inlistbox behavior on double click
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct3)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:295 actions.ui:365 actions.ui:435 mouse.ui:55 mouse.ui:251
 #: mouse.ui:313 mouse.ui:366 mouse.ui:428 mouse.ui:481 mouse.ui:543
 #, kde-format
 msgid "Minimize"
 msgstr "ಕುಗ್ಗಿಸು"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:300 actions.ui:370 actions.ui:440
 #, fuzzy, kde-format
 #| msgid "Change Opacity"
 msgid "Decrease opacity"
 msgstr "ಅಪಾರದರ್ಶಕತೆಯನ್ನು ಬದಲಾಯಿಸು"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:305 actions.ui:375 actions.ui:445
 #, fuzzy, kde-format
 #| msgid "Change Opacity"
@@ -341,18 +341,18 @@ msgid "Increase opacity"
 msgstr "ಅಪಾರದರ್ಶಕತೆಯನ್ನು ಬದಲಾಯಿಸು"
 
 #. i18n: @item:inlistbox behavior on double click
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct3)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAll3)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 mouse.ui:80
 #: mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
 #: mouse.ui:501 mouse.ui:563
@@ -368,7 +368,7 @@ msgstr "ಯಾವುದೂ ಇಲ್ಲ"
 msgid "Middle &click:"
 msgstr "ಮಧ್ಯದ ಗುಂಡಿ:"
 
-#. i18n: ectx: property (whatsThis), widget (KComboBox, coAll2)
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandAll2)
 #: actions.ui:331
 #, kde-format
 msgid ""
@@ -380,12 +380,12 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: actions.ui:388 mouse.ui:653
+#: actions.ui:388 mouse.ui:671
 #, kde-format
 msgid "Right clic&k:"
 msgstr ""
 
-#. i18n: ectx: property (whatsThis), widget (KComboBox, coAll3)
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:401
 #, kde-format
 msgid ""
@@ -402,7 +402,7 @@ msgstr ""
 msgid "Mo&use wheel:"
 msgstr "ಮೌಸ್‌ನ ಚಕ್ರ:"
 
-#. i18n: ectx: property (whatsThis), widget (KComboBox, coAllW)
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandAllWheel)
 #: actions.ui:471
 #, kde-format
 msgid ""
@@ -412,48 +412,48 @@ msgstr ""
 "ಇಲ್ಲಿ ನೀವು ಮಾರ್ಪಡಕ ಕೀಲಿಯನ್ನು ಒತ್ತಿ ಹಿಡಿದು ಒಂದು ವಿಂಡೋದ ಒಳಗೆ ಮೌಸ್‌ನ ಚಕ್ರವನ್ನು ತಿರುಗಿಸುವ "
 "ಮೂಲಕ KDEಯ ವರ್ತನೆಯನ್ನು ನಿಮಗೆ ಬೇಕಾದ ಬಗೆಯಲ್ಲಿ ಸಜ್ಜುಗೊಳಿಸಬಹುದು."
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #: actions.ui:475 mouse.ui:102
 #, fuzzy, kde-format
 #| msgid "Raise/Lower"
 msgid "Raise/lower"
 msgstr "ಏರಿಸು/ಇಳಿಸು"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #: actions.ui:480 mouse.ui:107
 #, fuzzy, kde-format
 #| msgid "Shade/Unshade"
 msgid "Shade/unshade"
 msgstr "ಮರೆಮಾಚು/ಮರೆಮಾಚದಿರು"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #: actions.ui:485 mouse.ui:112
 #, fuzzy, kde-format
 #| msgid "Maximize/Restore"
 msgid "Maximize/restore"
 msgstr "ಹಿಗ್ಗಿಸು/ಮರುಸ್ಥಾಪಿಸು"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #: actions.ui:490 mouse.ui:117
 #, fuzzy, kde-format
 #| msgid "Keep Above/Below"
 msgid "Keep above/below"
 msgstr "ಮೇಲೆ/ಕೆಳಗೆ ಇರಿಸು"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #: actions.ui:495 mouse.ui:122
 #, fuzzy, kde-format
 #| msgid "Move to Previous/Next Desktop"
 msgid "Move to previous/next desktop"
 msgstr "ಹಿಂದಿನ/ಮುಂದಿನ ಗಣಕತೆರೆಗೆ ತೆರಳು"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct4)
-#. i18n: ectx: property (text), item, widget (KComboBox, coAllW)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #: actions.ui:500 mouse.ui:127
 #, fuzzy, kde-format
 #| msgid "Change Opacity"
@@ -468,7 +468,7 @@ msgstr "ಅಪಾರದರ್ಶಕತೆಯನ್ನು ಬದಲಾಯಿಸ�
 msgid "Window &unshading:"
 msgstr "ವಿಂಡೋ ಬದಲಾವಣೆ"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, shadeHoverOn)
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShadeHover)
 #: advanced.ui:32
 #, fuzzy, kde-format
 #| msgid ""
@@ -482,13 +482,13 @@ msgstr ""
 "ಛಾಯಾ ಸುಳಿದಾಡಿಸುವಿಕೆಯು ಶಕ್ತಗೊಂಡಿದಲ್ಲಿ, ಒಂದು ಮಬ್ಬಾದ ವಿಂಡೋದ ಶೀರ್ಷಿಕಾ ಪಟ್ಟಿಯ ಮೇಲೆ ಮೌಸ್‌ "
 "ಸೂಚಕವನ್ನು ಕೊಂಡೊಯ್ದಾಗ ಅದು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಸುಪ್ರಕಾಶಗೊಳ್ಳುತ್ತದೆ."
 
-#. i18n: ectx: property (text), widget (QCheckBox, shadeHoverOn)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShadeHover)
 #: advanced.ui:35
 #, kde-format
 msgid "On titlebar hover after:"
 msgstr ""
 
-#. i18n: ectx: property (whatsThis), widget (QSpinBox, shadeHover)
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_ShadeHoverInterval)
 #: advanced.ui:42
 #, kde-format
 msgid ""
@@ -498,9 +498,9 @@ msgstr ""
 "ಮೌಸ್‌ನ ಸೂಚಕವು ಮಬ್ಬಾದ ವಿಂಡೋ ಮೇಲೆ ತೆರಳಿದಾಗ ಆ ವಿಂಡೋ ಬೆಳಕಿಗೆ ಬರಲು ಹಿಡಿಯುವ ಸಮಯನ್ನು "
 "(ಮಿಲಿಸೆಕೆಂಡುಗಳಲ್ಲಿ) ಹೊಂದಿಸುತ್ತದೆ."
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, shadeHover)
-#. i18n: ectx: property (suffix), widget (QSpinBox, delayFocus)
-#. i18n: ectx: property (suffix), widget (QSpinBox, autoRaise)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_ShadeHoverInterval)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_DelayFocusInterval)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AutoRaiseInterval)
 #: advanced.ui:45 focus.ui:85 focus.ui:178
 #, kde-format
 msgid " ms"
@@ -513,7 +513,7 @@ msgstr " ms"
 msgid "Window &placement:"
 msgstr "ನಿಯೋಜನೆ(&P):"
 
-#. i18n: ectx: property (whatsThis), widget (KComboBox, placementCombo)
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_Placement)
 #: advanced.ui:76
 #, kde-format
 msgid ""
@@ -545,44 +545,46 @@ msgid ""
 "window under the pointer</li></ul></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:80
-#, kde-format
-msgid "Smart"
-msgstr "ಸ್ಮಾರ್ಟ್"
+#, fuzzy, kde-format
+#| msgid "Snap windows onl&y when overlapping"
+msgid "Minimal Overlapping"
+msgstr "ವಿಂಡೋಗಳು ಒಂದರ ಮೇಲೆ ಇನ್ನೊಂದು ಹೇರಿದಾಗ ಮಾತ್ರ ಸೆಳೆಯಲ್ಪಡುವಂತೆ ಮಾಡು(&y)"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:85
-#, kde-format
-msgid "Maximizing"
-msgstr "ಹಿಗ್ಗಿಸುವಿಕೆ"
+#, fuzzy, kde-format
+#| msgid "Maximize"
+msgid "Maximized"
+msgstr "ಹಿಗ್ಗಿಸು"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:90
-#, kde-format
-msgid "Cascade"
+#, fuzzy, kde-format
+#| msgid "Cascade"
+msgid "Cascaded"
 msgstr "ಕ್ಯಾಸ್ಕೇಡ್"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:95
 #, kde-format
 msgid "Random"
 msgstr "ಮನಬಂದಂತೆ"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:100
 #, kde-format
 msgid "Centered"
 msgstr "ಮಧ್ಯ"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:105
-#, fuzzy, kde-format
-#| msgid "Zero-Cornered"
-msgid "Zero-cornered"
-msgstr "ಶೂನ್ಯ-ಮೂಲೆಯುಳ್ಳ"
+#, kde-format
+msgid "In Top-Left Corner"
+msgstr ""
 
-#. i18n: ectx: property (text), item, widget (KComboBox, placementCombo)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:110
 #, fuzzy, kde-format
 #| msgid "Focus Under Mouse"
@@ -596,7 +598,7 @@ msgstr "ಮೌಸ್‌ನ ಅಡಿಯಲ್ಲಿನ ಗಮನ"
 msgid "&Special windows:"
 msgstr "ವಿಂಡೋಗಳು"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, hideUtilityWindowsForInactive)
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
 #: advanced.ui:128
 #, kde-format
 msgid ""
@@ -610,7 +612,7 @@ msgstr ""
 "ಕಾಣಿಸಲ್ಪಡುತ್ತವೆ. ಈ ಸೌಲಭ್ಯವು ಕೆಲಸ ಮಾಡಲು ಅನ್ವಯಗಳು ವಿಂಡೋಗಳನ್ನು ಸಮರ್ಪಕವಾದ ವಿಂಡೋ ಬಗೆಯಿಂದ "
 "ಗುರುತಿಸಬೇಕು ಎಂಬುದನ್ನು ನೆನಪಿಡಿ."
 
-#. i18n: ectx: property (text), widget (QCheckBox, hideUtilityWindowsForInactive)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
 #: advanced.ui:131
 #, kde-format
 msgid "Hide utility windows for inactive applications"
@@ -622,13 +624,13 @@ msgstr "ನಿಷ್ಕ್ರಿಯ ಅನ್ವಯಗಳ ಸವಲತ್ತು 
 msgid "Window &activation policy:"
 msgstr ""
 
-#. i18n: ectx: property (whatsThis), widget (QComboBox, windowFocusPolicyCombo)
+#. i18n: ectx: property (whatsThis), widget (QComboBox, windowFocusPolicy)
 #: focus.ui:32
 #, kde-format
 msgid "With this option you can specify how and when windows will be focused."
 msgstr ""
 
-#. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicyCombo)
+#. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:36
 #, fuzzy, kde-format
 #| msgid "Click to Focus"
@@ -636,33 +638,33 @@ msgctxt "sassa asas"
 msgid "Click to focus"
 msgstr "ಗಮನವಿರಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicyCombo)
+#. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:41
 #, kde-format
 msgid "Click to focus (mouse precedence)"
 msgstr ""
 
-#. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicyCombo)
+#. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:46
 #, fuzzy, kde-format
 #| msgid "Focus Follows Mouse"
 msgid "Focus follows mouse"
 msgstr "ಮೌಸ್‌ ಅನ್ನು ಹಿಂಬಾಲಿಸುವ ಗಮನ"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicyCombo)
+#. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:51
 #, kde-format
 msgid "Focus follows mouse (mouse precedence)"
 msgstr ""
 
-#. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicyCombo)
+#. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:56
 #, fuzzy, kde-format
 #| msgid "Focus Under Mouse"
 msgid "Focus under mouse"
 msgstr "ಮೌಸ್‌ನ ಅಡಿಯಲ್ಲಿನ ಗಮನ"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicyCombo)
+#. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:61
 #, fuzzy, kde-format
 #| msgid "Focus Strictly Under Mouse"
@@ -676,7 +678,7 @@ msgstr "ಖಡಾಖಂಡಿತವಾಗಿರುವ ಮೌಸ್‌ನ ಅಡ�
 msgid "&Delay focus by:"
 msgstr "ಗಮನವನ್ನು ಇಷ್ಟು ವಿಳಂಬಿಸು:"
 
-#. i18n: ectx: property (whatsThis), widget (QSpinBox, delayFocus)
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_DelayFocusInterval)
 #: focus.ui:82
 #, kde-format
 msgid ""
@@ -693,7 +695,7 @@ msgstr ""
 msgid "Focus &stealing prevention:"
 msgstr "ಗಮನ ಸೆಳೆಯುವುದನ್ನು ನಿರ್ಬಂಧಿಸುವ ಮಟ್ಟ:"
 
-#. i18n: ectx: property (whatsThis), widget (KComboBox, focusStealing)
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_FocusStealingPreventionLevel)
 #: focus.ui:114
 #, fuzzy, kde-format
 #| msgid ""
@@ -765,10 +767,10 @@ msgstr ""
 "ನಿಯಂತ್ರಣ ಘಟಕದಲ್ಲಿ ಬದಲಾಯಿಸಬಹುದಾಗಿದೆ.</p>"
 
 #. i18n: Focus Stealing Prevention Level
-#. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
-#. i18n: ectx: property (specialValueText), widget (QSpinBox, borderSnap)
-#. i18n: ectx: property (specialValueText), widget (QSpinBox, windowSnap)
-#. i18n: ectx: property (specialValueText), widget (QSpinBox, centerSnap)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_FocusStealingPreventionLevel)
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_BorderSnapZone)
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_WindowSnapZone)
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_CenterSnapZone)
 #: focus.ui:118 moving.ui:53 moving.ui:75 moving.ui:97
 #, fuzzy, kde-format
 #| msgctxt "Focus Stealing Prevention Level"
@@ -777,7 +779,7 @@ msgid "None"
 msgstr "ಯಾವುದೂ ಇಲ್ಲ"
 
 #. i18n: Focus Stealing Prevention Level
-#. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_FocusStealingPreventionLevel)
 #: focus.ui:123
 #, fuzzy, kde-format
 #| msgctxt "Focus Stealing Prevention Level"
@@ -786,14 +788,14 @@ msgid "Low"
 msgstr "ಕೆಳಮಟ್ಟದ"
 
 #. i18n: Focus Stealing Prevention Level
-#. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_FocusStealingPreventionLevel)
 #: focus.ui:128
 #, kde-format
 msgid "Medium"
 msgstr ""
 
 #. i18n: Focus Stealing Prevention Level
-#. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_FocusStealingPreventionLevel)
 #: focus.ui:133
 #, fuzzy, kde-format
 #| msgctxt "Focus Stealing Prevention Level"
@@ -802,7 +804,7 @@ msgid "High"
 msgstr "ಉಚ್ಛ"
 
 #. i18n: Focus Stealing Prevention Level
-#. i18n: ectx: property (text), item, widget (KComboBox, focusStealing)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_FocusStealingPreventionLevel)
 #: focus.ui:138
 #, fuzzy, kde-format
 #| msgctxt "Focus Stealing Prevention Level"
@@ -817,7 +819,7 @@ msgstr "ತೀವ್ರ"
 msgid "Raising windows:"
 msgstr "ವಿಂಡೋಗಳು"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, clickRaiseOn)
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ClickRaise)
 #: focus.ui:153
 #, kde-format
 msgid ""
@@ -829,14 +831,14 @@ msgstr ""
 "ಎದುರಿಗೆ ತರಲ್ಪಡುತ್ತದೆ. ಇದನ್ನು ನಿಷ್ಕ್ರಿಯ ವಿಂಡೋಗಳಿಗೆ ಶಕ್ತಗೊಳಿಸಲು, ಕಾರ್ಯಗಳ ಹಾಳೆಯಲ್ಲಿ "
 "ಸಂಯೋಜನೆಗಳ್ನು ಬದಲಾಯಿಸಬೇಕಾಗುತ್ತದೆ."
 
-#. i18n: ectx: property (text), widget (QCheckBox, clickRaiseOn)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ClickRaise)
 #: focus.ui:156
 #, fuzzy, kde-format
 #| msgid "C&lick raises active window"
 msgid "&Click raises active window"
 msgstr "ಕ್ಲಿಕ್ ಸಕ್ರಿಯ ವಿಂಡೋ ಅನ್ನು ಮೇಲಕ್ಕೆ ತರುತ್ತದೆ(&l)"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, autoRaiseOn)
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AutoRaise)
 #: focus.ui:165
 #, kde-format
 msgid ""
@@ -846,13 +848,13 @@ msgstr ""
 "ಈ ಆಯ್ಕೆಯು ಶಕ್ತಗೊಂಡಾಗ, ಹಿನ್ನಲೆಯಲ್ಲಿನ ಒಂದು ವಿಂಡೋದ ಮೇಲೆ ಮೌಸ್‌ನ ಸೂಚಕವನ್ನು ಒಂದಿಷ್ಟು ಕಾಲ "
 "ಇರಿಸಿದಾಗ ಅದು ತನ್ನಿಂದ ತಾನೆ ಎದುರಿಗೆ ಬರುತ್ತದೆ."
 
-#. i18n: ectx: property (text), widget (QCheckBox, autoRaiseOn)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoRaise)
 #: focus.ui:168
 #, kde-format
 msgid "&Raise on hover, delayed by:"
 msgstr ""
 
-#. i18n: ectx: property (whatsThis), widget (QSpinBox, autoRaise)
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_AutoRaiseInterval)
 #: focus.ui:175
 #, kde-format
 msgid ""
@@ -868,7 +870,7 @@ msgstr ""
 msgid "Multiscreen behavior:"
 msgstr ""
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, activeMouseScreen)
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:203
 #, fuzzy, kde-format
 #| msgid ""
@@ -890,13 +892,13 @@ msgstr ""
 "ಆಗಿರುತ್ತದೆ. ಪೂರ್ವನಿಯೋಜಿತವಾಗಿ ಈ ಆಯ್ಕೆಯು 'ಗಮನಿಸಲು ಕ್ಕಿಕ್ ಮಾಡು'ವುದಕ್ಕೆ "
 "ಅಶಕ್ತಗೊಂಡಿರುತ್ತದೆ ಹಾಗು ಇತರೆ ಗಮನ ನೀತಿಗಳಿಗೆ ಶಕ್ತಗೊಂಡಿರುತ್ತದೆ."
 
-#. i18n: ectx: property (text), widget (QCheckBox, activeMouseScreen)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:206
 #, kde-format
 msgid "Active screen follows &mouse"
 msgstr "ಸಕ್ರಿಯ ತೆರೆಯು ಮೌಸ್‌ ಅನ್ನು ಅನುಸರಿಸುತ್ತದೆ(&m)"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, separateScreenFocus)
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:213
 #, kde-format
 msgid ""
@@ -906,98 +908,104 @@ msgstr ""
 "ಈ ಆಯ್ಕೆಯನ್ನು ಶಕ್ತಗೊಳಿಸಿದಾಗ, ಗಮನ ಕಾರ್ಯಗಳು ಕೇವಲ ಸಕ್ರಿಯ ಕ್ಷೈನರ್ಮಾ(Xinerma) ತೆರೆಗಳಿಗೆ "
 "ಮಾತ್ರ ಸೀಮಿತವಾಗಿರುತ್ತದೆ"
 
-#. i18n: ectx: property (text), widget (QCheckBox, separateScreenFocus)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:216
 #, fuzzy, kde-format
 #| msgid "S&eparate screen focus"
 msgid "&Separate screen focus"
 msgstr "ಪ್ರತ್ಯೇಕ ತೆರೆ ಗಮನ(&e)"
 
-#: main.cpp:78
+#. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyDescriptionLabel)
+#: focus.ui:229
+#, kde-format
+msgid "Window activation policy description"
+msgstr ""
+
+#: main.cpp:85
 #, kde-format
 msgid "&Focus"
 msgstr "ಗಮನ(&F)"
 
-#: main.cpp:83
+#: main.cpp:95
 #, fuzzy, kde-format
 #| msgid "&Titlebar Actions"
 msgid "Titlebar A&ctions"
 msgstr "ಉಪಕರಣಪಟ್ಟಿ ಕಾರ್ಯಗಳು (&T)"
 
-#: main.cpp:88
+#: main.cpp:101
 #, fuzzy, kde-format
 #| msgid "Window Actio&ns"
 msgid "W&indow Actions"
 msgstr "ವಿಂಡೋ ಕಾರ್ಯಗಳು (&n)"
 
-#: main.cpp:93
+#: main.cpp:107
 #, fuzzy, kde-format
 #| msgid "&Placement:"
 msgid "Mo&vement"
 msgstr "ನಿಯೋಜನೆ(&P):"
 
-#: main.cpp:98
+#: main.cpp:113
 #, fuzzy, kde-format
 #| msgid "Ad&vanced"
 msgid "Adva&nced"
 msgstr "ಸುಧಾರಿತ(&v)"
 
-#: main.cpp:102
+#: main.cpp:118
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "ವಿಂಡೋ ವರ್ತನೆ ಸಂರಚನೆ ಘಟಕ"
 
-#: main.cpp:104
+#: main.cpp:120
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "(c) 1997 - 2002 KWin ಹಾಗು KControl ಲೇಖಕರು"
 
-#: main.cpp:106
+#: main.cpp:122
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:107
+#: main.cpp:123
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:108
+#: main.cpp:124
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:109
+#: main.cpp:125
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:110
+#: main.cpp:126
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:111
+#: main.cpp:127
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:112
+#: main.cpp:128
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:113
+#: main.cpp:129
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:114
+#: main.cpp:130
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:166
+#: main.cpp:175
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -1015,37 +1023,15 @@ msgstr ""
 "ವಿಂಡೋ ಮ್ಯಾನೇಜರ್ ಅನ್ನು ಬಳಸುತ್ತಿದ್ದಲ್ಲಿ, ಅದರಲ್ಲಿ ವಿಂಡೋ ವರ್ತನೆಯನ್ನು ಹೇಗೆ ಕಸ್ಟಮೈಸ್ ಮಾಡುವುದು "
 "ಎನ್ನುವುದನ್ನು ತಿಳಿಯಲು ಅದರ ದಸ್ತಾವೇಜನ್ನು ನೋಡಿ.</p>"
 
-#: main.cpp:191
+#: main.cpp:195
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "ಉಪಕರಣಪಟ್ಟಿ ಕಾರ್ಯಗಳು (&T)"
 
-#: main.cpp:196
+#: main.cpp:201
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "ವಿಂಡೋ ಕಾರ್ಯಗಳು (&n)"
-
-#. i18n: @item:inlistbox behavior on double click
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
-#: mouse.cpp:190 mouse.ui:40
-#, fuzzy, kde-format
-#| msgid "Maximize"
-msgid "Maximize"
-msgstr "ಹಿಗ್ಗಿಸು"
-
-#. i18n: @item:inlistbox behavior on double click
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
-#: mouse.cpp:191 mouse.ui:45
-#, kde-format
-msgid "Maximize (vertical only)"
-msgstr "ಹಿಗ್ಗಿಸು (ಲಂಬವಾಗಿ ಮಾತ್ರ)"
-
-#. i18n: @item:inlistbox behavior on double click
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
-#: mouse.cpp:192 mouse.ui:50
-#, kde-format
-msgid "Maximize (horizontal only)"
-msgstr "ಹಿಗ್ಗಿಸು (ಅಡ್ಡವಾಗಿ ಮಾತ್ರ)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: mouse.ui:17
@@ -1061,20 +1047,51 @@ msgstr "ಉಪಕರಣಪಟ್ಟಿ ಕಾರ್ಯಗಳು (&T)"
 msgid "&Double-click:"
 msgstr "ಉಪಕರಣಪಟ್ಟಿಯ ಎರಡುಬಾರಿಯ ಕ್ಲಿಕ್(&T):"
 
-#. i18n: ectx: property (whatsThis), widget (KComboBox, coTiDbl)
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
 #: mouse.ui:36
 #, kde-format
 msgid "Behavior on <em>double</em> click into the titlebar."
 msgstr "ಉಪಕರಣ ಪಟ್ಟಿಯ ಮೇಲೆ <em>ಎರಡು ಬಾರಿ</em> ಕ್ಲಿಕ್ಕಿಸಿದಾಗಿನ ವರ್ತನೆ."
 
 #. i18n: @item:inlistbox behavior on double click
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct3)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonLeftClickCommand)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonMiddleClickCommand)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
+#: mouse.ui:40 mouse.ui:615 mouse.ui:650 mouse.ui:685
+#, fuzzy, kde-format
+#| msgid "Maximize"
+msgid "Maximize"
+msgstr "ಹಿಗ್ಗಿಸು"
+
+#. i18n: @item:inlistbox behavior on double click
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonLeftClickCommand)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonMiddleClickCommand)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
+#: mouse.ui:45 mouse.ui:620 mouse.ui:655 mouse.ui:690
+#, kde-format
+msgid "Maximize (vertical only)"
+msgstr "ಹಿಗ್ಗಿಸು (ಲಂಬವಾಗಿ ಮಾತ್ರ)"
+
+#. i18n: @item:inlistbox behavior on double click
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonLeftClickCommand)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonMiddleClickCommand)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
+#: mouse.ui:50 mouse.ui:625 mouse.ui:660 mouse.ui:695
+#, kde-format
+msgid "Maximize (horizontal only)"
+msgstr "ಹಿಗ್ಗಿಸು (ಅಡ್ಡವಾಗಿ ಮಾತ್ರ)"
+
+#. i18n: @item:inlistbox behavior on double click
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar3)
 #: mouse.ui:60 mouse.ui:256 mouse.ui:318 mouse.ui:371 mouse.ui:433 mouse.ui:486
 #: mouse.ui:548
 #, kde-format
@@ -1082,13 +1099,13 @@ msgid "Shade"
 msgstr "ಮರೆಮಾಚು"
 
 #. i18n: @item:inlistbox behavior on double click
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct3)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar3)
 #: mouse.ui:70 mouse.ui:261 mouse.ui:323 mouse.ui:376 mouse.ui:438 mouse.ui:491
 #: mouse.ui:553
 #, kde-format
@@ -1096,14 +1113,14 @@ msgid "Close"
 msgstr ""
 
 #. i18n: @item:inlistbox behavior on double click
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiDbl)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
 #: mouse.ui:75
 #, fuzzy, kde-format
 #| msgid "On All Desktops"
 msgid "Show on all desktops"
 msgstr "ಎಲ್ಲಾ ಗಣಕತೆರೆಗಳ ಮೇಲೆ"
 
-#. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct4)
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandTitlebarWheel)
 #: mouse.ui:98
 #, fuzzy, kde-format
 #| msgid "Behavior on <em>double</em> click into the titlebar."
@@ -1129,9 +1146,9 @@ msgstr "ಸಕ್ರಿಯ"
 msgid "Inactive"
 msgstr "ನಿಷ್ಕ್ರಿಯ"
 
-#. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct1)
-#. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct2)
-#. i18n: ectx: property (whatsThis), widget (KComboBox, coTiAct3)
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandActiveTitlebar1)
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandActiveTitlebar2)
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandActiveTitlebar3)
 #: mouse.ui:232 mouse.ui:347 mouse.ui:462
 #, kde-format
 msgid ""
@@ -1141,12 +1158,12 @@ msgstr ""
 "ಒಂದು <em>ಸಕ್ರಿಯ</em> ವಿಂಡೋದ ಉಪಕರಣ ಪಟ್ಟಿ ಅಥವ ಚೌಕಟ್ಟಿನ ಮೇಲೆ ತೆರೆಸೂಚಕವನ್ನು <em>ಎಡ</"
 "em> ಕ್ಲಿಕ್ ಮಾಡಿದಾಗಿನ ವರ್ತನೆ."
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiAct3)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar3)
 #: mouse.ui:266 mouse.ui:328 mouse.ui:381 mouse.ui:443 mouse.ui:496
 #: mouse.ui:558
 #, fuzzy, kde-format
@@ -1154,9 +1171,9 @@ msgstr ""
 msgid "Show actions menu"
 msgstr "ಕಾರ್ಯಾಚರಣೆಯ ಮೆನು"
 
-#. i18n: ectx: property (whatsThis), widget (KComboBox, coTiInAct1)
-#. i18n: ectx: property (whatsThis), widget (KComboBox, coTiInAct2)
-#. i18n: ectx: property (whatsThis), widget (KComboBox, coTiInAct3)
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandInactiveTitlebar1)
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandInactiveTitlebar2)
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandInactiveTitlebar3)
 #: mouse.ui:279 mouse.ui:394 mouse.ui:509
 #, kde-format
 msgid ""
@@ -1166,9 +1183,9 @@ msgstr ""
 "ಒಂದು <em>ಸಕ್ರಿಯವಾಗಿರದ</em> ವಿಂಡೋದ ಉಪಕರಣ ಪಟ್ಟಿ ಅಥವ ಚೌಕಟ್ಟಿನ ಮೇಲೆ ತೆರೆಸೂಚಕವನ್ನು "
 "ಇರಿಸಿ <em>ಎಡ</em> ಕ್ಲಿಕ್ ಮಾಡಿದಾಗಿನ ವರ್ತನೆ."
 
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct1)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct2)
-#. i18n: ectx: property (text), item, widget (KComboBox, coTiInAct3)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar3)
 #: mouse.ui:288 mouse.ui:403 mouse.ui:518
 #, fuzzy, kde-format
 #| msgid "Activate & Lower"
@@ -1183,31 +1200,31 @@ msgid "Maximize Button Actions"
 msgstr "ಹಿಗ್ಗಿಸುವ ಗುಂಡಿ"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_8)
-#. i18n: ectx: property (whatsThis), widget (KComboBox, leftClickMaximizeButton)
-#: mouse.ui:598 mouse.ui:617
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_MaximizeButtonLeftClickCommand)
+#: mouse.ui:598 mouse.ui:611
 #, kde-format
 msgid "Behavior on <em>left</em> click onto the maximize button."
 msgstr ""
 "ಹಿಗ್ಗಿಸುವ ಗುಂಡಿಯ ಮೇಲೆ ತೆರೆಸೂಚಕವನ್ನು ಇರಿಸಿ <em>ಎಡ</em> ಕ್ಲಿಕ್ ಮಾಡಿದಾಗಿನ ವರ್ತನೆ."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_9)
-#. i18n: ectx: property (whatsThis), widget (KComboBox, middleClickMaximizeButton)
-#: mouse.ui:624 mouse.ui:643
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_MaximizeButtonMiddleClickCommand)
+#: mouse.ui:633 mouse.ui:646
 #, kde-format
 msgid "Behavior on <em>middle</em> click onto the maximize button."
 msgstr ""
 "ಹಿಗ್ಗಿಸುವ ಗುಂಡಿಯ ಮೇಲೆ ತೆರೆಸೂಚಕವನ್ನು ಇರಿಸಿ <em>ನಡುವಿನ</em> ಕ್ಲಿಕ್ ಮಾಡಿದಾಗಿನ ವರ್ತನೆ."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: mouse.ui:627
+#: mouse.ui:636
 #, fuzzy, kde-format
 #| msgid "Middle button:"
 msgid "Middle c&lick:"
 msgstr "ಮಧ್ಯದ ಗುಂಡಿ:"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_10)
-#. i18n: ectx: property (whatsThis), widget (KComboBox, rightClickMaximizeButton)
-#: mouse.ui:650 mouse.ui:669
+#. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
+#: mouse.ui:668 mouse.ui:681
 #, kde-format
 msgid "Behavior on <em>right</em> click onto the maximize button."
 msgstr ""
@@ -1219,7 +1236,7 @@ msgstr ""
 msgid "Window &geometry:"
 msgstr ""
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, geometryTipOn)
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_GeometryTip)
 #: moving.ui:30
 #, kde-format
 msgid ""
@@ -1231,7 +1248,7 @@ msgstr ""
 "ನೀವು ಬಯಸಿದಲ್ಲಿ ಈ ಆಯ್ಕೆಯನ್ನು ಆರಿಸಿ. ತೆರೆಯ ಮೇಲ್ಭಾಗದ-ಎಡ ಮೂಲೆಗೆ ತುಲನಾತ್ಮಕವಾಗಿ ವಿಂಡೋ "
 "ಸ್ಥಾನದ ಜೊತೆಗೆ ಅದರ ಗಾತ್ರವು ತೋರಿಸಲ್ಪಡುತ್ತದೆ."
 
-#. i18n: ectx: property (text), widget (QCheckBox, geometryTipOn)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_GeometryTip)
 #: moving.ui:33
 #, fuzzy, kde-format
 #| msgid "Display window &geometry when moving or resizing"
@@ -1246,7 +1263,7 @@ msgstr ""
 msgid "Screen &edge snap zone:"
 msgstr "ಅಂಚು ಸೆಳೆಯುವ ವಲಯ(&B):"
 
-#. i18n: ectx: property (whatsThis), widget (QSpinBox, borderSnap)
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_BorderSnapZone)
 #: moving.ui:50
 #, fuzzy, kde-format
 #| msgid ""
@@ -1261,9 +1278,9 @@ msgstr ""
 "ಕ್ಷೇತ್ರದ 'ಶಕ್ತಿ'ಯಿಂದಾಗಿ ವಿಂಡೋಗಳನ್ನು ಅಂಚಿನ ಸಮೀಪ ಕೊಂಡೊಯ್ದಾಗ ಅವುಗಳು ತಟ್ಟನೆ "
 "ಸೆಳೆಯಲ್ಪಡುತ್ತವೆ."
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, borderSnap)
-#. i18n: ectx: property (suffix), widget (QSpinBox, windowSnap)
-#. i18n: ectx: property (suffix), widget (QSpinBox, centerSnap)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_BorderSnapZone)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_WindowSnapZone)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_CenterSnapZone)
 #: moving.ui:56 moving.ui:78 moving.ui:100
 #, fuzzy, kde-format
 #| msgid " pixel"
@@ -1271,7 +1288,7 @@ msgstr ""
 msgid " px"
 msgstr " ಪಿಕ್ಸೆಲ್‍"
 
-#. i18n: ectx: property (whatsThis), widget (QSpinBox, windowSnap)
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_WindowSnapZone)
 #: moving.ui:72
 #, kde-format
 msgid ""
@@ -1282,7 +1299,7 @@ msgstr ""
 "ಇಲ್ಲಿ ನೀವು ವಿಂಡೋಗಳಿಗಾಗಿ ಸೆಳೆಯುವ ವಲಯವನ್ನು ಸಜ್ಜುಗೊಳಿಸಬಹುದು, ಅಂದರೆ ವಿಂಡೋಗಳನ್ನು "
 "ಇನ್ನೊಂದು ವಿಂಡೋ ಒಂದರ ಸಮೀಪ ಒಯ್ದಾಗ ಅವುಗಳು ಸೆಳೆಯಲ್ಪಡುವಂತಹ ಗುರುತ್ವ 'ಶಕ್ತಿ'."
 
-#. i18n: ectx: property (whatsThis), widget (QSpinBox, centerSnap)
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_CenterSnapZone)
 #: moving.ui:94
 #, kde-format
 msgid ""
@@ -1294,7 +1311,7 @@ msgstr ""
 "ಕ್ಷೇತ್ರದ 'ಶಕ್ತಿ'ಯಿಂದಾಗಿ ವಿಂಡೋಗಳನ್ನು ತೆರೆಯ ಮಧ್ಯಕ್ಕೆ ಕೊಂಡೊಯ್ದಾಗ ಅವುಗಳು ತಟ್ಟನೆ "
 "ಸೆಳೆಯಲ್ಪಡುತ್ತವೆ."
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, OverlapSnap)
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
 #: moving.ui:113
 #, kde-format
 msgid ""
@@ -1306,7 +1323,7 @@ msgstr ""
 "ಹೊಂದಿಸಬಹುದು, ಅಂದರೆ, ವಿಂಡೋಗಳು ಒಂದರ ಸಮೀಪ ಇನ್ನೊಂದು ಅಥವ ಅಂಚಿನ ಬಳಿ ಬಂದಾಗ "
 "ಸೆಳೆಯಲ್ಪಡುವುದಿಲ್ಲ."
 
-#. i18n: ectx: property (text), widget (QCheckBox, OverlapSnap)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
 #: moving.ui:116
 #, fuzzy, kde-format
 #| msgid "Snap windows onl&y when overlapping"
@@ -1332,68 +1349,58 @@ msgstr "ಮಧ್ಯಕ್ಕೆ ಸೆಳೆಯುವ ವಲಯ(&B):"
 msgid "&Snap windows:"
 msgstr "ವಿಂಡೋಗಳು"
 
-#: windows.cpp:172
+#: windows.cpp:100
 #, kde-format
 msgid ""
-"<html><head/><body><p><span style=\" font-style:italic;\">Click to focus:</"
-"span> A window becomes active when you click into it. This behavior is "
-"common on other operating systems and likely what you want.</p></body></html>"
+"<em>Click to focus:</em> A window becomes active when you click into it. "
+"This behavior is common on other operating systems and likely what you want."
 msgstr ""
 
-#: windows.cpp:175
+#: windows.cpp:104
 #, kde-format
 msgid ""
-"<html><head/><body><p><span style=\" font-style:italic;\">Click to focus "
-"(mouse precedence):</span> Mostly the same as <span style=\" font-style:"
-"italic;\">Click to focus</span>. If an active window has to be chosen by the "
-"system (eg. because the currently active one was closed) the window under "
-"the mouse is the preferred candidate. Unusual, but possible variant of <span "
-"style=\" font-style:italic;\">Click to focus</span>.</p></body></html>"
+"<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
+"focus</em>. If an active window has to be chosen by the system (eg. because "
+"the currently active one was closed) the window under the mouse is the "
+"preferred candidate. Unusual, but possible variant of <em>Click to focus</"
+"em>."
 msgstr ""
 
-#: windows.cpp:178
+#: windows.cpp:109
 #, kde-format
 msgid ""
-"<html><head/><body><p><span style=\" font-style:italic;\">Focus follows "
-"mouse:</span> Moving the mouse onto a window will activate it. Eg. windows "
-"randomly appearing under the mouse will not gain the focus. <span style=\" "
-"font-style:italic;\">Focus stealing prevention</span> takes place as usual. "
-"Think as <span style=\" font-style:italic;\">Click to focus</span> just "
-"without having to actually click.</p></body></html>"
+"<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
+"it. Eg. windows randomly appearing under the mouse will not gain the focus. "
+"<em>Focus stealing prevention</em> takes place as usual. Think as <em>Click "
+"to focus</em> just without having to actually click."
 msgstr ""
 
-#: windows.cpp:181
+#: windows.cpp:113
 #, kde-format
 msgid ""
-"<html><head/><body><p>This is mostly the same as <span style=\" font-style:"
-"italic;\">Focus follows mouse</span>. If an active window has to be chosen "
-"by the system (eg. because the currently active one was closed) the window "
-"under the mouse is the preferred candidate. Choose this, if you want a hover "
-"controlled focus.</p></body></html>"
+"This is mostly the same as <em>Focus follows mouse</em>. If an active window "
+"has to be chosen by the system (eg. because the currently active one was "
+"closed) the window under the mouse is the preferred candidate. Choose this, "
+"if you want a hover controlled focus."
 msgstr ""
 
-#: windows.cpp:184
+#: windows.cpp:118
 #, kde-format
 msgid ""
-"<html><head/><body><p><span style=\" font-style:italic;\">Focus under mouse:"
-"</span> The focus always remains on the window under the mouse.<br/><span "
-"style=\" font-weight:600;\">Warning: </span><span style=\" font-style:italic;"
-"\">Focus stealing prevention</span> and the <span style=\" font-style:italic;"
-"\">tabbox ('Alt+Tab') </span>contradict the activation policy and will not "
-"work. You very likely want to use <span style=\" font-style:italic;\">Focus "
-"follows mouse (mouse precedence)</span> instead!</p></body></html>"
+"<em>Focus under mouse:</em> The focus always remains on the window under the "
+"mouse.<br/><strong>Warning:</strong> <em>Focus stealing prevention</em> and "
+"the <em>tabbox ('Alt+Tab')</em> contradict the activation policy and will "
+"not work. You very likely want to use <em>Focus follows mouse (mouse "
+"precedence)</em> instead!"
 msgstr ""
 
-#: windows.cpp:187
+#: windows.cpp:122
 #, kde-format
 msgid ""
-"<html><head/><body><p><span style=\" font-style:italic;\">Focus strictly "
-"under mouse:</span> The focus is always on the window under the mouse (in "
-"doubt nowhere) very much like the focus behavior in an unmanaged legacy X11 "
-"environment.<br/><span style=\" font-weight:600;\">Warning: </span><span "
-"style=\" font-style:italic;\">Focus stealing prevention</span> and the <span "
-"style=\" font-style:italic;\">tabbox ('Alt+Tab') </span>contradict the "
-"activation policy and will not work. You very likely want to use <span style="
-"\" font-style:italic;\">Focus follows mouse (mouse precedence)</span> "
-"instead!</p></body></html>"
+"<em>Focus strictly under mouse:</em> The focus is always on the window under "
+"the mouse (in doubt nowhere) very much like the focus behavior in an "
+"unmanaged legacy X11 environment.<br/><strong>Warning:</strong> <em>Focus "
+"stealing prevention</em> and the <em>tabbox ('Alt+Tab')</em> contradict the "
+"activation policy and will not work. You very likely want to use <em>Focus "
+"follows mouse (mouse precedence)</em> instead!"
 msgstr ""

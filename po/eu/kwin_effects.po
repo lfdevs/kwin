@@ -1,26 +1,26 @@
 # Translation of kwin_effects.po to Euskara/Basque (eu).
 # Copyright (C) 2007-2018, The Free Software Foundation, Inc.
-# Copyright (C) 2019, This file is copyright:
+# Copyright (C) 2019-2020, This file is copyright:
 # This file is distributed under the same license as the kwin package.
 # KDE Euskaratzeko proiektuaren arduraduna <xalba@euskalnet.net>.
 #
 # Translators:
 # marcos <marcos@euskalgnu.org>, 2007, 2010.
 # Hizkuntza Politikarako Sailburuordetza <hizpol@ej-gv.es>, 2013.
-# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2009, 2011, 2014, 2018, 2019.
+# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2009, 2011, 2014, 2018, 2019, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-09-15 03:21+0200\n"
-"PO-Revision-Date: 2019-06-28 22:55+0200\n"
+"POT-Creation-Date: 2020-04-30 03:47+0200\n"
+"PO-Revision-Date: 2020-02-18 23:51+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.04.2\n"
+"X-Generator: Lokalize 19.12.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -1257,6 +1257,16 @@ msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Eskuineko"
 
+#: mouseclick/mouseclick.h:74
+#, kde-format
+msgid "↓"
+msgstr "↓"
+
+#: mouseclick/mouseclick.h:75
+#, kde-format
+msgid "↑"
+msgstr "↑"
+
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
 #, kde-format
@@ -1380,25 +1390,25 @@ msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr ""
 "Marraztu saguaz Maius+Meta teklak sakatuta mantenduz eta sagua mugituz."
 
-#: presentwindows/presentwindows.cpp:78
+#: presentwindows/presentwindows.cpp:76
 #: presentwindows/presentwindows_config.cpp:73
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Aktibatu/desaktibatu leihoen aurkezpena (uneko mahaigainean)"
 
-#: presentwindows/presentwindows.cpp:86
+#: presentwindows/presentwindows.cpp:84
 #: presentwindows/presentwindows_config.cpp:67
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Aktibatu/desaktibatu leihoen aurkezpena (mahaigain guztietan)"
 
-#: presentwindows/presentwindows.cpp:95
+#: presentwindows/presentwindows.cpp:93
 #: presentwindows/presentwindows_config.cpp:79
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Aktibatu/desaktibatu leihoen aurkezpena (leiho klasea)"
 
-#: presentwindows/presentwindows.cpp:1666
+#: presentwindows/presentwindows.cpp:1638
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1636,19 +1646,19 @@ msgstr "Leiho-irekitze eskalatzea:"
 msgid "Window close scale:"
 msgstr "Leiho-ixte eskalatzea:"
 
-#: screenshot/screenshot.cpp:354
+#: screenshot/screenshot.cpp:458
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Pantaila-argazkia"
 
-#: screenshot/screenshot.cpp:355
+#: screenshot/screenshot.cpp:459
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Pantaila-argazkia hona gorde da %1"
 
-#: screenshot/screenshot.cpp:464
+#: screenshot/screenshot.cpp:568
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -1658,7 +1668,7 @@ msgstr ""
 "erabiliz.\n"
 "«Ihes» edo eskuin-klik uzteko."
 
-#: screenshot/screenshot.cpp:467
+#: screenshot/screenshot.cpp:571
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"

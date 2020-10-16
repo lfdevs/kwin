@@ -1,19 +1,19 @@
 # translation of kwin_effects.po to galician
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-#
 # mvillarino <mvillarino@users.sourceforge.net>, 2007, 2008, 2009.
 # marce villarino <mvillarino@users.sourceforge.net>, 2009.
 # Marce Villarino <mvillarino@kde-espana.es>, 2009, 2011.
 # Marce Villarino <mvillarino@kde-espana.es>, 2012, 2013, 2014.
 # Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2015, 2017.
-# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2018, 2019.
+# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2018, 2019, 2020.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-09-15 03:21+0200\n"
-"PO-Revision-Date: 2019-11-17 09:34+0100\n"
+"POT-Creation-Date: 2020-04-30 03:47+0200\n"
+"PO-Revision-Date: 2020-01-11 11:32+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.03.70\n"
+"X-Generator: Lokalize 19.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -124,13 +124,13 @@ msgstr "Animar o troque"
 #: coverswitch/coverswitch_config.ui:123
 #, kde-format
 msgid "Animation on tab box open"
-msgstr "Animación da abertura da barra de lapelas"
+msgstr "Animación da abertura da barra de separadores"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnimateStop)
 #: coverswitch/coverswitch_config.ui:130
 #, kde-format
 msgid "Animation on tab box close"
-msgstr "Animación do peche da barra de lapelas"
+msgstr "Animación do peche da barra de separadores"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: coverswitch/coverswitch_config.ui:139 magiclamp/magiclamp_config.ui:17
@@ -218,7 +218,7 @@ msgstr "KWin"
 #: cube/cube_config.ui:21
 #, kde-format
 msgid "Tab 1"
-msgstr "Lapela 1"
+msgstr "Separador 1"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
 #: cube/cube_config.ui:27
@@ -322,7 +322,7 @@ msgstr "Non cambiar a opacidade das xanelas"
 #: cube/cube_config.ui:279
 #, kde-format
 msgid "Tab 2"
-msgstr "Lapela 2"
+msgstr "Separador 2"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: cube/cube_config.ui:285
@@ -1251,6 +1251,16 @@ msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Dereito"
 
+#: mouseclick/mouseclick.h:74
+#, kde-format
+msgid "↓"
+msgstr ""
+
+#: mouseclick/mouseclick.h:75
+#, kde-format
+msgid "↑"
+msgstr ""
+
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
 #, kde-format
@@ -1374,25 +1384,25 @@ msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr ""
 "Debuxa co rato mantendo premidas as teclas Maiús+Meta e movendo o rato."
 
-#: presentwindows/presentwindows.cpp:78
+#: presentwindows/presentwindows.cpp:76
 #: presentwindows/presentwindows_config.cpp:73
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Conmutar o presentar as xanelas (só o escritorio actual)"
 
-#: presentwindows/presentwindows.cpp:86
+#: presentwindows/presentwindows.cpp:84
 #: presentwindows/presentwindows_config.cpp:67
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Conmutar o presentar as xanelas (todos os escritorios)"
 
-#: presentwindows/presentwindows.cpp:95
+#: presentwindows/presentwindows.cpp:93
 #: presentwindows/presentwindows_config.cpp:79
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Conmutar o presentar as xanelas (clase da xanela)"
 
-#: presentwindows/presentwindows.cpp:1666
+#: presentwindows/presentwindows.cpp:1638
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1630,19 +1640,19 @@ msgstr "Escala de apertura de xanela:"
 msgid "Window close scale:"
 msgstr "Escala de peche de xanela:"
 
-#: screenshot/screenshot.cpp:354
+#: screenshot/screenshot.cpp:458
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Captura de pantalla"
 
-#: screenshot/screenshot.cpp:355
+#: screenshot/screenshot.cpp:459
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "A captura de pantalla gardouse en %1"
 
-#: screenshot/screenshot.cpp:464
+#: screenshot/screenshot.cpp:568
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -1651,7 +1661,7 @@ msgstr ""
 "Clic esquerdo ou Intro para seleccionar a xanela para capturar.\n"
 "Esc ou clic secundario para cancelar."
 
-#: screenshot/screenshot.cpp:467
+#: screenshot/screenshot.cpp:571
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"

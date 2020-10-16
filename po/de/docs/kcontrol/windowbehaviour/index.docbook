@@ -761,7 +761,7 @@ Nothing
 <listitem
 ><para
 >Die Platzierung legt fest, wo ein neues Fenster auf dem Bildschirm erscheinen wird. <guilabel
->Ökonomisch</guilabel
+>Minimale Überlappung</guilabel
 > platziert die Fenster mit einer möglichst geringen Überlappung, <guilabel
 >Gestaffelt</guilabel
 > kaskadiert die Fenster und <guilabel

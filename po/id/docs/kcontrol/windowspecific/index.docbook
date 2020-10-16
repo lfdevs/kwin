@@ -812,19 +812,19 @@
 <listitem
 ><para
 ><guilabel
->Cerdas</guilabel
-> - menempatkan di mana tidak adanya window lain berada.</para
+>Minimal Penindihan</guilabel
+> - tempatkan di mana tidak adanya window lain berada.</para
 ></listitem>
 <listitem
 ><para
 ><guilabel
->Pemaksimalan</guilabel
-> - memulaikan window termaksimalkan.</para
+>Dimaksimalkan</guilabel
+> - mulaikan window dimaksimalkan.</para
 ></listitem>
 <listitem
 ><para
 ><guilabel
->Kaskade</guilabel
+>Berkaskade</guilabel
 > - menangga berdasarkan judul.</para
 ></listitem>
 <listitem
@@ -842,7 +842,7 @@
 <listitem
 ><para
 ><guilabel
->Sudut Kiri Atas</guilabel
+>Di Sudut Kiri Atas</guilabel
 ></para
 ></listitem>
 <listitem

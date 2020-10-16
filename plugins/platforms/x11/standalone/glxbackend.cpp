@@ -38,11 +38,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // kwin libs
 #include <kwinglplatform.h>
 #include <kwinglutils.h>
+#include <kwineffectquickview.h>
 #include <kwinxrenderutils.h>
 // Qt
 #include <QDebug>
 #include <QOpenGLContext>
 #include <QX11Info>
+#include <QtPlatformHeaders/QGLXNativeContext>
 // system
 #include <unistd.h>
 
@@ -137,6 +139,7 @@ GlxBackend::~GlxBackend()
     // do cleanup after initBuffer()
     cleanupGL();
     doneCurrent();
+    EffectQuickView::setShareContext(nullptr);
 
     gs_tripleBufferUndetected = true;
     gs_tripleBufferNeedsDetection = false;
@@ -359,6 +362,12 @@ bool GlxBackend::initRenderingContext()
         return false;
     }
 
+    auto qtContext = new QOpenGLContext;
+    QGLXNativeContext native(ctx, display());
+    qtContext->setNativeHandle(QVariant::fromValue(native));
+    qtContext->create();
+    EffectQuickView::setShareContext(std::unique_ptr<QOpenGLContext>(qtContext));
+
     return true;
 }
 
@@ -564,7 +573,7 @@ FBConfigInfo *GlxBackend::infoForVisual(xcb_visualid_t visual)
     const xcb_render_directformat_t *direct = XRenderUtils::findPictFormatInfo(format);
 
     if (!direct) {
-        qCCritical(KWIN_X11STANDALONE).nospace() << "Could not find a picture format for visual 0x" << hex << visual;
+        qCCritical(KWIN_X11STANDALONE).nospace() << "Could not find a picture format for visual 0x" << Qt::hex << visual;
         return info;
     }
 
@@ -598,7 +607,7 @@ FBConfigInfo *GlxBackend::infoForVisual(xcb_visualid_t visual)
     GLXFBConfig *configs = glXChooseFBConfig(display(), DefaultScreen(display()), attribs, &count);
 
     if (count < 1) {
-        qCCritical(KWIN_X11STANDALONE).nospace() << "Could not find a framebuffer configuration for visual 0x" << hex << visual;
+        qCCritical(KWIN_X11STANDALONE).nospace() << "Could not find a framebuffer configuration for visual 0x" << Qt::hex << visual;
         return info;
     }
 
@@ -680,7 +689,7 @@ FBConfigInfo *GlxBackend::infoForVisual(xcb_visualid_t visual)
         glXGetFBConfigAttrib(display(), info->fbconfig, GLX_FBCONFIG_ID, &fbc_id);
         glXGetFBConfigAttrib(display(), info->fbconfig, GLX_VISUAL_ID,   &visual_id);
 
-        qCDebug(KWIN_X11STANDALONE).nospace() << "Using FBConfig 0x" << hex << fbc_id << " for visual 0x" << hex << visual_id;
+        qCDebug(KWIN_X11STANDALONE).nospace() << "Using FBConfig 0x" << Qt::hex << fbc_id << " for visual 0x" << Qt::hex << visual_id;
     }
 
     return info;
@@ -952,7 +961,7 @@ bool GlxTexture::loadTexture(xcb_pixmap_t pixmap, const QSize &size, xcb_visuali
 bool GlxTexture::loadTexture(WindowPixmap *pixmap)
 {
     Toplevel *t = pixmap->toplevel();
-    return loadTexture(pixmap->pixmap(), t->size(), t->visual());
+    return loadTexture(pixmap->pixmap(), t->bufferGeometry().size(), t->visual());
 }
 
 OpenGLBackend *GlxTexture::backend()

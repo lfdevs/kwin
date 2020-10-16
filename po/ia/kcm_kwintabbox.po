@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# g.sora <g.sora@tiscali.it>, 2010, 2011, 2012, 2020.
+# g.sora <g.sora@tiscali.it>, 2010, 2011, 2012, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-07-11 03:14+0200\n"
-"PO-Revision-Date: 2020-01-06 18:07+0100\n"
+"POT-Creation-Date: 2020-04-02 03:52+0200\n"
+"PO-Revision-Date: 2019-12-27 12:10+0100\n"
 "Last-Translator: Giovanni Sora <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -17,39 +17,39 @@ msgstr ""
 "X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
+#: kwintabboxconfigform.cpp:88
+#, kde-format
+msgid "KWin"
+msgstr "KWin"
+
 #: layoutpreview.cpp:159
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Scriptorio 1"
 
-#: main.cpp:76
+#: main.cpp:77
 #, kde-format
 msgid "Main"
 msgstr "Principal"
 
-#: main.cpp:77
+#: main.cpp:78
 #, kde-format
 msgid "Alternative"
 msgstr "Alternative"
 
-#: main.cpp:79
+#: main.cpp:80
 #, kde-format
 msgid "Get New Task Switchers..."
 msgstr "Obtene nove commutatores de carga..."
 
-#: main.cpp:89
+#: main.cpp:90
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""
 "Preferentias de politica de foco limita le functionalitate de navigar trans "
 "fenestras."
-
-#: main.cpp:107
-#, kde-format
-msgid "KWin"
-msgstr "KWin"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
@@ -211,7 +211,7 @@ msgstr ""
 "Le effecto de reimplaciar le fenestra de lista quando effectos de "
 "scriptorios es active."
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, highlightWindowCheck)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:549
 #, kde-format
 msgid ""
@@ -221,7 +221,7 @@ msgstr ""
 "Le fenestra currentemente seligite essera evidentiate per umbrar omne altere "
 "fenestras. Iste option require que le effectos de scriptorio es active."
 
-#. i18n: ectx: property (text), widget (QCheckBox, highlightWindowCheck)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:552
 #, kde-format
 msgid "Show selected window"

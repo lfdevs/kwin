@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-10-24 08:00+0200\n"
-"PO-Revision-Date: 2020-01-04 21:47\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2020-05-07 03:54+0200\n"
+"PO-Revision-Date: 2020-07-14 08:57\n"
+"Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -23,8 +23,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Crowdin-Project: kdeorg\n"
+"X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf5-stable/messages/kde-workspace/kcm_kwindecoration.pot\n"
+"X-Crowdin-File: /kf5-stable/messages/kwin/kcm_kwindecoration.pot\n"
+"X-Crowdin-File-ID: 9628\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -86,37 +88,37 @@ msgstr "保持在下方"
 msgid "Keep above"
 msgstr "保持在上方"
 
-#: kcm.cpp:95
+#: kcm.cpp:62
 #, kde-format
 msgid "Window Decorations"
 msgstr "窗口装饰"
 
-#: kcm.cpp:99
+#: kcm.cpp:66
 #, kde-format
 msgid "Valerio Pilo"
 msgstr "Valerio Pilo"
 
-#: kcm.cpp:100
+#: kcm.cpp:67
 #, kde-format
 msgid "Author"
 msgstr "作者"
 
-#: kcm.cpp:138
+#: kcm.cpp:122
 #, kde-format
 msgid "Download New Window Decorations"
 msgstr "下载新窗口装饰"
 
-#: package/contents/ui/Buttons.qml:85
+#: package/contents/ui/Buttons.qml:87
 #, kde-format
 msgid "Titlebar"
 msgstr "标题栏"
 
-#: package/contents/ui/Buttons.qml:224
+#: package/contents/ui/Buttons.qml:228
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr "将按钮拖到这里移除"
 
-#: package/contents/ui/Buttons.qml:241
+#: package/contents/ui/Buttons.qml:246
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "在此处和标题栏之间拖拽按钮"
@@ -126,13 +128,13 @@ msgstr "在此处和标题栏之间拖拽按钮"
 msgid "This module lets you configure the window decorations."
 msgstr "此模块允许您配置窗口装饰。"
 
-#: package/contents/ui/main.qml:62
+#: package/contents/ui/main.qml:61
 #, kde-format
 msgctxt "tab label"
 msgid "Theme"
 msgstr "主题"
 
-#: package/contents/ui/main.qml:66
+#: package/contents/ui/main.qml:65
 #, kde-format
 msgctxt "tab label"
 msgid "Titlebar Buttons"
@@ -150,13 +152,13 @@ msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "获取新窗口装饰..."
 
-#: package/contents/ui/main.qml:137
+#: package/contents/ui/main.qml:138
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "双击菜单按钮关闭窗口"
 
-#: package/contents/ui/main.qml:149
+#: package/contents/ui/main.qml:151
 #, kde-format
 msgctxt "popup tip"
 msgid ""
@@ -166,13 +168,13 @@ msgstr ""
 "双击关闭：\n"
 " 如需打开菜单，按住按钮直到菜单出现。"
 
-#: package/contents/ui/main.qml:156
+#: package/contents/ui/main.qml:158
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "显示标题栏按钮提示"
 
-#: package/contents/ui/Themes.qml:97
+#: package/contents/ui/Themes.qml:100
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr "编辑 %1 主题"

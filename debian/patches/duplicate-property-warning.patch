@@ -1,0 +1,22 @@
+Description: Fix MOC warning "duplicate property" due to a copy-paste bug
+ The isOutline property was named twice. From the comments, it
+ seems the second instance should have been "pid" property instead
+Author: Jiri Palecek <jpalecek@web.de>
+Last-Update: 2020-06-04
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+---
+ libkwineffects/kwineffects.h |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/libkwineffects/kwineffects.h
++++ b/libkwineffects/kwineffects.h
+@@ -2122,7 +2122,7 @@ class KWINEFFECTS_EXPORT EffectWindow :
+      *
+      * @since 5.18
+      */
+-    Q_PROPERTY(bool outline READ isOutline CONSTANT)
++    Q_PROPERTY(pid_t pid READ pid CONSTANT)
+ 
+ public:
+     /**  Flags explaining why painting should be disabled  */

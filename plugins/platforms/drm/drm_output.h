@@ -41,6 +41,7 @@ class DrmDumbBuffer;
 class DrmPlane;
 class DrmConnector;
 class DrmCrtc;
+class Cursor;
 
 class KWIN_EXPORT DrmOutput : public AbstractWaylandOutput
 {
@@ -55,7 +56,7 @@ public:
     bool showCursor();
     bool hideCursor();
     void updateCursor();
-    void moveCursor(const QPoint &globalPos);
+    void moveCursor(Cursor* cursor, const QPoint &globalPos);
     bool init(drmModeConnector *connector);
     bool present(DrmBuffer *buffer);
     void pageFlipped();
@@ -67,13 +68,24 @@ public:
         Suspend = DRM_MODE_DPMS_SUSPEND,
         Off = DRM_MODE_DPMS_OFF
     };
+    Q_ENUM(DpmsMode);
     bool isDpmsEnabled() const {
         // We care for current as well as pending mode in order to allow first present in AMS.
         return m_dpmsModePending == DpmsMode::On;
     }
 
+    DpmsMode dpmsMode() const {
+        return m_dpmsMode;
+    }
+    DpmsMode dpmsModePending() const {
+        return m_dpmsModePending;
+    }
+
     const DrmCrtc *crtc() const {
         return m_crtc;
+    }
+    const DrmConnector *connector() const {
+        return m_conn;
     }
     const DrmPlane *primaryPlane() const {
         return m_primaryPlane;
@@ -82,6 +94,21 @@ public:
     bool initCursor(const QSize &cursorSize);
 
     bool supportsTransformations() const;
+
+    /**
+     * Drm planes might be capable of realizing the current output transform without usage
+     * of compositing. This is a getter to query the current state of that
+     *
+     * @return true if the hardware realizes the transform without further assistance
+     */
+    bool hardwareTransforms() const;
+
+    /**
+     * The current rotation of the output
+     *
+     * @return rotation in degree
+     */
+    int rotation() const;
 
 private:
     friend class DrmBackend;
@@ -119,12 +146,11 @@ private:
     void dpmsFinishOff();
 
     bool atomicReqModesetPopulate(drmModeAtomicReq *req, bool enable);
-    void updateDpms(KWayland::Server::OutputInterface::DpmsMode mode) override;
+    void updateDpms(KWaylandServer::OutputInterface::DpmsMode mode) override;
     void updateMode(int modeIndex) override;
     void setWaylandMode();
 
-    void transform(KWayland::Server::OutputDeviceInterface::Transform transform) override;
-    void automaticRotation();
+    void updateTransform(Transform transform) override;
 
     int gammaRampSize() const override;
     bool setGammaRamp(const GammaRamp &gamma) override;
@@ -150,7 +176,7 @@ private:
     bool m_modesetRequested = true;
 
     struct {
-        Qt::ScreenOrientation orientation;
+        Transform transform;
         drmModeModeInfo mode;
         DrmPlane::Transformations planeTransformations;
         QPoint globalPos;
@@ -165,6 +191,8 @@ private:
 }
 
 Q_DECLARE_METATYPE(KWin::DrmOutput*)
+
+QDebug& operator<<(QDebug& stream, const KWin::DrmOutput *);
 
 #endif
 

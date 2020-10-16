@@ -4,7 +4,7 @@
 
 Copyright (C) 2013 Martin Gräßlin <mgraesslin@kde.org>
 Copyright (C) 2018 Roman Gilg <subdiff@gmail.com>
-Copyright (C) 2019 Vlad Zagorodniy <vladzzag@gmail.com>
+Copyright (C) 2019 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config-kwin.h>
 
 #include <KSharedConfig>
+#include <QSet>
 
 #include <functional>
 
@@ -46,9 +47,12 @@ class InputEventFilter;
 class InputEventSpy;
 class KeyboardInputRedirection;
 class PointerInputRedirection;
+class TabletInputRedirection;
 class TouchInputRedirection;
 class WindowSelectorFilter;
 class SwitchEvent;
+class TabletEvent;
+class TabletInputFilter;
 
 namespace Decoration
 {
@@ -58,6 +62,7 @@ class DecoratedClientImpl;
 namespace LibInput
 {
     class Connection;
+    class Device;
 }
 
 /**
@@ -92,6 +97,31 @@ public:
         KeyboardKeyPressed,
         KeyboardKeyAutoRepeat
     };
+    enum TabletEventType {
+        Axis,
+        Proximity,
+        Tip
+    };
+    enum TabletToolType {
+        Pen,
+        Eraser,
+        Brush,
+        Pencil,
+        Airbrush,
+        Finger,
+        Mouse,
+        Lens,
+        Totem,
+    };
+    enum Capability {
+        Tilt,
+        Pressure,
+        Distance,
+        Rotation,
+        Slider,
+        Wheel,
+    };
+
     ~InputRedirection() override;
     void init();
 
@@ -221,6 +251,9 @@ public:
     PointerInputRedirection *pointer() const {
         return m_pointer;
     }
+    TabletInputRedirection *tablet() const {
+        return m_tablet;
+    }
     TouchInputRedirection *touch() const {
         return m_touch;
     }
@@ -284,7 +317,9 @@ private:
     void installInputEventFilter(InputEventFilter *filter);
     KeyboardInputRedirection *m_keyboard;
     PointerInputRedirection *m_pointer;
+    TabletInputRedirection *m_tablet;
     TouchInputRedirection *m_touch;
+    TabletInputFilter *m_tabletSupport = nullptr;
 
     GlobalShortcutsManager *m_shortcuts;
 
@@ -369,6 +404,12 @@ public:
     virtual bool swipeGestureCancelled(quint32 time);
 
     virtual bool switchEvent(SwitchEvent *event);
+
+    virtual bool tabletToolEvent(TabletEvent *event);
+    virtual bool tabletToolButtonEvent(const QSet<uint> &buttons);
+    virtual bool tabletPadButtonEvent(const QSet<uint> &buttons);
+    virtual bool tabletPadStripEvent(int number, int position, bool isFinger);
+    virtual bool tabletPadRingEvent(int number, int position, bool isFinger);
 
 protected:
     void passToWaylandServer(QKeyEvent *event);

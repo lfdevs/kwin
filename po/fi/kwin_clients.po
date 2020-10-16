@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-10-16 07:57+0200\n"
+"POT-Creation-Date: 2020-03-18 03:45+0100\n"
 "PO-Revision-Date: 2015-01-16 12:58+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -27,49 +27,49 @@ msgstr ""
 "X-POT-Import-Date: 2012-12-01 22:22:29+0000\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: aurorae/src/aurorae.cpp:742
+#: aurorae/src/aurorae.cpp:694
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "Pikkuruinen"
 
-#: aurorae/src/aurorae.cpp:743
+#: aurorae/src/aurorae.cpp:695
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "Tavallinen"
 
-#: aurorae/src/aurorae.cpp:744
+#: aurorae/src/aurorae.cpp:696
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "Suuri"
 
-#: aurorae/src/aurorae.cpp:745
+#: aurorae/src/aurorae.cpp:697
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "Hyvin suuri"
 
-#: aurorae/src/aurorae.cpp:746
+#: aurorae/src/aurorae.cpp:698
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "Valtava"
 
-#: aurorae/src/aurorae.cpp:747
+#: aurorae/src/aurorae.cpp:699
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "Hyvin valtava"
 
-#: aurorae/src/aurorae.cpp:748
+#: aurorae/src/aurorae.cpp:700
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "Ylikokoinen"
 
-#: aurorae/src/aurorae.cpp:751
+#: aurorae/src/aurorae.cpp:703
 #, kde-format
 msgid "Button size:"
 msgstr "Painikkeen koko:"
@@ -120,24 +120,8 @@ msgstr ""
 msgid "Colored window border"
 msgstr "Väritetty ikkunareunus"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_titleShadow)
-#: aurorae/themes/plastik/package/contents/ui/config.ui:66
-#, kde-format
-msgid ""
-"Check this option if you want the titlebar text to have a 3D look with a "
-"shadow behind it."
-msgstr ""
-"Valitse tämä asetus, jos haluat että otsikkopalkin teksti on kolmiulotteisen "
-"näköinen."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_titleShadow)
-#: aurorae/themes/plastik/package/contents/ui/config.ui:69
-#, kde-format
-msgid "Use shadowed &text"
-msgstr "Käytä varjostet&tua tekstiä"
-
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_animateButtons)
-#: aurorae/themes/plastik/package/contents/ui/config.ui:76
+#: aurorae/themes/plastik/package/contents/ui/config.ui:66
 #, kde-format
 msgid ""
 "Check this option if you want the buttons to fade in when the mouse pointer "
@@ -147,7 +131,7 @@ msgstr ""
 "koskettaa niitä ja päinvastoin."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)
-#: aurorae/themes/plastik/package/contents/ui/config.ui:79
+#: aurorae/themes/plastik/package/contents/ui/config.ui:69
 #, kde-format
 msgid "Animate buttons"
 msgstr "Animoi painikkeet"

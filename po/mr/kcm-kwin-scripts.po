@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"POT-Creation-Date: 2020-03-14 03:43+0100\n"
 "PO-Revision-Date: 2013-02-22 14:26+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
-"Language: en_US\n"
+"Language: mr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,18 +46,18 @@ msgstr "के-विन स्क्रिप्ट्स संयोजीत
 msgid "Tamás Krutki"
 msgstr "तमास कृत्की"
 
-#: module.cpp:83
+#: module.cpp:84
 #, fuzzy, kde-format
 #| msgid "Import KWin script..."
 msgid "Import KWin Script"
 msgstr "के-विन स्क्रिप्ट आयात करा..."
 
-#: module.cpp:84
+#: module.cpp:85
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr ""
 
-#: module.cpp:103
+#: module.cpp:104
 #, kde-format
 msgctxt "Placeholder is error message returned from the install service"
 msgid ""
@@ -65,7 +65,7 @@ msgid ""
 "%1"
 msgstr ""
 
-#: module.cpp:117
+#: module.cpp:118
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."

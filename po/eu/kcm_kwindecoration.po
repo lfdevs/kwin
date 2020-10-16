@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-10-24 08:00+0200\n"
+"POT-Creation-Date: 2020-05-07 03:54+0200\n"
 "PO-Revision-Date: 2019-06-09 12:52+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -89,37 +89,37 @@ msgstr "Mantendu azpian"
 msgid "Keep above"
 msgstr "Mantendu gainean"
 
-#: kcm.cpp:95
+#: kcm.cpp:62
 #, kde-format
 msgid "Window Decorations"
 msgstr "Leiho-apaindurak"
 
-#: kcm.cpp:99
+#: kcm.cpp:66
 #, kde-format
 msgid "Valerio Pilo"
 msgstr "Valerio Pilo"
 
-#: kcm.cpp:100
+#: kcm.cpp:67
 #, kde-format
 msgid "Author"
 msgstr "Egilea"
 
-#: kcm.cpp:138
+#: kcm.cpp:122
 #, kde-format
 msgid "Download New Window Decorations"
 msgstr "Jaitsi leihoentzako apaingarri berriak"
 
-#: package/contents/ui/Buttons.qml:85
+#: package/contents/ui/Buttons.qml:87
 #, kde-format
 msgid "Titlebar"
 msgstr "Titulu-barra"
 
-#: package/contents/ui/Buttons.qml:224
+#: package/contents/ui/Buttons.qml:228
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr "Jaregin botoia hemen hura kentzeko"
 
-#: package/contents/ui/Buttons.qml:241
+#: package/contents/ui/Buttons.qml:246
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Arrastatu botoiak hemen eta titulu-barraren artean"
@@ -129,13 +129,13 @@ msgstr "Arrastatu botoiak hemen eta titulu-barraren artean"
 msgid "This module lets you configure the window decorations."
 msgstr "Modulu honek leihoen apaingarriak konfiguratzen uzten dizu."
 
-#: package/contents/ui/main.qml:62
+#: package/contents/ui/main.qml:61
 #, kde-format
 msgctxt "tab label"
 msgid "Theme"
 msgstr "Gaia"
 
-#: package/contents/ui/main.qml:66
+#: package/contents/ui/main.qml:65
 #, kde-format
 msgctxt "tab label"
 msgid "Titlebar Buttons"
@@ -153,13 +153,13 @@ msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "Lortu leihoentzako apaingarri berriak..."
 
-#: package/contents/ui/main.qml:137
+#: package/contents/ui/main.qml:138
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Itxi leihoak menu-botoian klik bikoitza eginez"
 
-#: package/contents/ui/main.qml:149
+#: package/contents/ui/main.qml:151
 #, kde-format
 msgctxt "popup tip"
 msgid ""
@@ -169,13 +169,13 @@ msgstr ""
 "Itxi klik bikoitza eginez: Mantendu leihoko menu-botoia sakatuta hura agertu "
 "arte."
 
-#: package/contents/ui/main.qml:156
+#: package/contents/ui/main.qml:158
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Erakutsi titulu-barrako botoien argibideak"
 
-#: package/contents/ui/Themes.qml:97
+#: package/contents/ui/Themes.qml:100
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr "Editatu %1 gaia"

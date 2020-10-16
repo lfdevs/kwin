@@ -5,38 +5,39 @@
 # Andrej Vernekar <andrej.vernekar@moj.net>, 2007.
 # Jure Repinc <jlp@holodeck1.com>, 2007, 2008, 2009, 2010, 2012, 2013.
 # Andrej Mernik <andrejm@ubuntu.si>, 2013, 2014, 2015, 2016, 2017, 2018.
+# Matjaž Jeran <matjaz.jeran@amis.net>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-09-15 03:21+0200\n"
-"PO-Revision-Date: 2018-01-11 21:09+0100\n"
-"Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
+"POT-Creation-Date: 2020-04-30 03:47+0200\n"
+"PO-Revision-Date: 2020-02-23 10:19+0100\n"
+"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
+"X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Andrej Mernik"
+msgstr "Andrej Mernik,Matjaž Jeran"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "andrejm@ubuntu.si"
+msgstr "andrejm@ubuntu.si,matjaz.jeran@amis.net"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
 #: blur/blur_config.ui:17
-#, fuzzy, kde-format
-#| msgid "&Strength:"
+#, kde-format
 msgid "Blur strength:"
-msgstr "&Moč:"
+msgstr "Moč zameglevanja:"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurLight)
 #. i18n: ectx: property (text), widget (QLabel, labelConstantNoiseLight)
@@ -54,10 +55,9 @@ msgstr "Močan"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantNoiseDescription)
 #: blur/blur_config.ui:83
-#, fuzzy, kde-format
-#| msgid "&Strength:"
+#, kde-format
 msgid "Noise strength:"
-msgstr "&Moč:"
+msgstr "Moč šuma:"
 
 #: colorpicker/colorpicker.cpp:118
 #, kde-format
@@ -80,7 +80,7 @@ msgstr "Pokaži namizje"
 #: presentwindows/presentwindows_config.ui:406
 #, kde-format
 msgid "Display window &titles"
-msgstr "Pokaži &naslove oken"
+msgstr "Pokaži naslove oken"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -284,7 +284,7 @@ msgstr "Okna prehajajo nad kocko"
 #: cube/cube_config.ui:185
 #, kde-format
 msgid "Opacity"
-msgstr "Motnost"
+msgstr "Neprosojnost"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_OpacitySpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Opacity)
@@ -519,7 +519,7 @@ msgstr "V sredini"
 #: desktopgrid/desktopgrid_config.ui:23
 #, kde-format
 msgid "Zoom &duration:"
-msgstr "&Trajanje približanja:"
+msgstr "Trajanje približanja:"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_ZoomDuration)
 #: desktopgrid/desktopgrid_config.ui:42
@@ -532,7 +532,7 @@ msgstr "Privzeto"
 #: desktopgrid/desktopgrid_config.ui:55
 #, kde-format
 msgid "Border wid&th:"
-msgstr "Širina o&brobe:"
+msgstr "Širina obrobe:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: desktopgrid/desktopgrid_config.ui:84
@@ -544,7 +544,7 @@ msgstr "Poravnava ime&na namizja:"
 #: desktopgrid/desktopgrid_config.ui:107
 #, kde-format
 msgid "&Layout mode:"
-msgstr "Način raz&poreda:"
+msgstr "Način razporeda:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
 #: desktopgrid/desktopgrid_config.ui:127
@@ -568,7 +568,7 @@ msgstr "Po meri"
 #: desktopgrid/desktopgrid_config.ui:145
 #, kde-format
 msgid "N&umber of rows:"
-msgstr "Število v&rstic:"
+msgstr "Število vrstic:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PresentWindows)
 #: desktopgrid/desktopgrid_config.ui:190
@@ -584,53 +584,45 @@ msgstr "Pokaži gumbe za spremembo števila navideznih namizij"
 
 #. i18n: ectx: property (text), widget (QLabel, label_Strength)
 #: diminactive/diminactive_config.ui:17
-#, fuzzy, kde-format
-#| msgid "&Strength:"
+#, kde-format
 msgid "Strength:"
-msgstr "&Moč:"
+msgstr "Moč:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_Dim)
 #: diminactive/diminactive_config.ui:40
 #, kde-format
 msgid "Dim:"
-msgstr ""
+msgstr "Dim:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimPanels)
 #: diminactive/diminactive_config.ui:47
-#, fuzzy, kde-format
-#| msgid "Do not animate panels"
+#, kde-format
 msgid "Docks and panels"
-msgstr "Ne animiraj pultov"
+msgstr "Priključki in plošče"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimDesktop)
 #: diminactive/diminactive_config.ui:54
-#, fuzzy, kde-format
-#| msgctxt "@title:group actions when clicking on desktop"
-#| msgid "Desktop"
+#, kde-format
 msgid "Desktop"
 msgstr "Namizje"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimKeepAbove)
 #: diminactive/diminactive_config.ui:61
-#, fuzzy, kde-format
-#| msgctxt "Comment describing the KWin Effect"
-#| msgid "Darken inactive windows"
+#, kde-format
 msgid "Keep above windows"
-msgstr "Potemni nedejavna okna"
+msgstr "Držite se nad okni"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimByGroup)
 #: diminactive/diminactive_config.ui:68
 #, kde-format
 msgid "By window group"
-msgstr ""
+msgstr "Po skupini okna"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimFullScreen)
 #: diminactive/diminactive_config.ui:75
-#, fuzzy, kde-format
-#| msgctxt "Name of a KWin Effect"
-#| msgid "Present Windows"
+#, kde-format
 msgid "Fullscreen windows"
-msgstr "Predstavitev oken"
+msgstr "Celozaslonska okna"
 
 #: effect_builtins.cpp:102
 #, kde-format
@@ -654,7 +646,7 @@ msgstr "Izbirnik barv"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Supports picking a color"
-msgstr "Podpira izbiranje barv"
+msgstr "Podpira izbiranja barv"
 
 #: effect_builtins.cpp:132
 #, kde-format
@@ -764,7 +756,7 @@ msgstr "Drsenje"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Glide windows as they appear or disappear"
-msgstr ""
+msgstr "Zadrsaj okna ko se pojavijo ali izginejo"
 
 #: effect_builtins.cpp:267
 #, kde-format
@@ -812,7 +804,7 @@ msgstr "Povečevalno steklo"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
-msgstr "Približevalnik zaslona, ki izgleda kot povečevalno steklo"
+msgstr "Približevalnik zaslona, ki izgleda kot objektiv ribje oko"
 
 #: effect_builtins.cpp:327
 #, kde-format
@@ -830,13 +822,13 @@ msgstr "Pomanjševanje oken je animirano in podobno čarobni svetilki"
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
-msgstr "Približevalnik"
+msgstr "Povečevalnik"
 
 #: effect_builtins.cpp:343
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
-msgstr "Približa del zaslona, ki je blizu miškine kazalke"
+msgstr "Poveča del zaslona, ki je blizu miškine kazalke"
 
 #: effect_builtins.cpp:357
 #, kde-format
@@ -858,7 +850,7 @@ msgstr ""
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
-msgstr "Risanje"
+msgstr "Oznaka z miško"
 
 #: effect_builtins.cpp:373
 #, kde-format
@@ -912,12 +904,10 @@ msgid "Screenshot"
 msgstr "Zaslonska slika"
 
 #: effect_builtins.cpp:433
-#, fuzzy, kde-format
-#| msgctxt "Comment describing the KWin Effect"
-#| msgid "Helper effect for KSnapshot"
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for screenshot tools"
-msgstr "Pomožni učinek za KSnapshot"
+msgstr "Pomožni učinek za orodja za screenshot"
 
 #: effect_builtins.cpp:447
 #, kde-format
@@ -938,7 +928,7 @@ msgstr ""
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
-msgstr "Sličice na sekundo"
+msgstr "Prikaži sličice na sekundo"
 
 #: effect_builtins.cpp:463
 #, kde-format
@@ -950,7 +940,7 @@ msgstr "V kotu zaslona je prikazana hitrost delovanja KWina"
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
-msgstr "Izrisovanje"
+msgstr "Prikaži izrisovanje"
 
 #: effect_builtins.cpp:478
 #, kde-format
@@ -965,12 +955,10 @@ msgid "Slide"
 msgstr "Drsenje"
 
 #: effect_builtins.cpp:493
-#, fuzzy, kde-format
-#| msgctxt "Comment describing the KWin Effect"
-#| msgid "Slide windows across the screen when switching virtual desktops"
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide desktops when switching virtual desktops"
-msgstr "Ob preklapljanju med navideznimi namizji okna drsijo prek zaslona"
+msgstr "Okna naj drsijo prek zaslona ob preklapljanju med navideznimi namizji"
 
 #: effect_builtins.cpp:507
 #, kde-format
@@ -1066,7 +1054,7 @@ msgstr "Geometrija okna"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
-msgstr "Ob premikanju ali spreminjanju velikosti okna prikaže geometrijo okna"
+msgstr "Prikaži geometrijo okna ob premikanju ali spreminjanju velikosti okna"
 
 #: effect_builtins.cpp:627
 #, kde-format
@@ -1078,7 +1066,7 @@ msgstr "Majava okna"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
-msgstr "Ko okna premikate, se popačijo"
+msgstr "Popači okna, kadar se premikajo"
 
 #: effect_builtins.cpp:642
 #, kde-format
@@ -1090,7 +1078,7 @@ msgstr "Približanje"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
-msgstr "Poveča celotno namizje"
+msgstr "Povečaj celotno namizje"
 
 #: flipswitch/flipswitch.cpp:59 flipswitch/flipswitch_config.cpp:61
 #, kde-format
@@ -1142,8 +1130,7 @@ msgstr "Navpični položaj ospredja:"
 #. i18n: ectx: property (text), widget (QLabel, label_Duration)
 #: glide/glide_config.ui:19 scale/package/contents/ui/config.ui:17
 #: slide/slide_config.ui:19
-#, fuzzy, kde-format
-#| msgid "Duration:"
+#, kde-format
 msgid "Duration:"
 msgstr "Trajanje:"
 
@@ -1151,50 +1138,42 @@ msgstr "Trajanje:"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
 #: glide/glide_config.ui:32 scale/package/contents/ui/config.ui:30
 #: slide/slide_config.ui:32
-#, fuzzy, kde-format
-#| msgctxt "Duration of rotation"
-#| msgid "Default"
+#, kde-format
 msgid "Default"
 msgstr "Privzeto"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_InAnimation)
 #: glide/glide_config.ui:50
-#, fuzzy, kde-format
-#| msgctxt "Name of a KWin Effect"
-#| msgid "Minimize Animation"
+#, kde-format
 msgid "Window Open Animation"
-msgstr "Animirano skrčenje"
+msgstr "Animirano odpiranje okna"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_OutRotationEdge)
 #: glide/glide_config.ui:56 glide/glide_config.ui:154
-#, fuzzy, kde-format
-#| msgid "Rotation duration:"
+#, kde-format
 msgid "Rotation edge:"
-msgstr "Trajanje vrtenja:"
+msgstr "Rob vrtenja:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InRotationAngle)
 #. i18n: ectx: property (text), widget (QLabel, label_OutRotationAngle)
 #: glide/glide_config.ui:93 glide/glide_config.ui:191
-#, fuzzy, kde-format
-#| msgid "Rotation duration:"
+#, kde-format
 msgid "Rotation angle:"
-msgstr "Trajanje vrtenja:"
+msgstr "Kot vrtenja:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InDistance)
 #. i18n: ectx: property (text), widget (QLabel, label_OutDistance)
 #: glide/glide_config.ui:119 glide/glide_config.ui:198
 #, kde-format
 msgid "Distance:"
-msgstr ""
+msgstr "Razdalja:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_OutAnimation)
 #: glide/glide_config.ui:148
-#, fuzzy, kde-format
-#| msgctxt "Name of a KWin Effect"
-#| msgid "Mouse Click Animation"
+#, kde-format
 msgid "Window Close Animation"
-msgstr "Animacija klika z miško"
+msgstr "Animacija zapiranja okna"
 
 #: invert/invert.cpp:45 invert/invert_config.cpp:52
 #, kde-format
@@ -1234,7 +1213,7 @@ msgstr "Velikost"
 #: magnifier/magnifier_config.ui:23
 #, kde-format
 msgid "&Width:"
-msgstr "Ši&rina:"
+msgstr "Širina:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Width)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Height)
@@ -1271,6 +1250,16 @@ msgstr "Srednji"
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Desni"
+
+#: mouseclick/mouseclick.h:74
+#, kde-format
+msgid "↓"
+msgstr "↓"
+
+#: mouseclick/mouseclick.h:75
+#, kde-format
+msgid "↑"
+msgstr "↑"
 
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
@@ -1321,10 +1310,10 @@ msgstr "Širina črte:"
 #, kde-format
 msgid " pixel"
 msgid_plural " pixels"
-msgstr[0] " slikovnih točk"
-msgstr[1] " slikovna točka"
-msgstr[2] " slikovni točki"
-msgstr[3] " slikovne točke"
+msgstr[0] " slikovna točka"
+msgstr[1] " slikovni točki"
+msgstr[2] " slikovne točke"
+msgstr[3] " slikovnih točk"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_duration_label)
 #: mouseclick/mouseclick_config.ui:145
@@ -1397,25 +1386,25 @@ msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr ""
 "Z miško rišete tako, da držite tipki Shift in AltGr in premikate miško."
 
-#: presentwindows/presentwindows.cpp:78
+#: presentwindows/presentwindows.cpp:76
 #: presentwindows/presentwindows_config.cpp:73
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Preklopi predstavitev oken (trenutno namizje)"
 
-#: presentwindows/presentwindows.cpp:86
+#: presentwindows/presentwindows.cpp:84
 #: presentwindows/presentwindows_config.cpp:67
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Preklopi predstavitev oken (vsa namizja)"
 
-#: presentwindows/presentwindows.cpp:95
+#: presentwindows/presentwindows.cpp:93
 #: presentwindows/presentwindows_config.cpp:79
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
-msgstr "Preklopi predstavitev oken (razred oken)"
+msgstr "Preklopi predstavitev oken (razred Windows)"
 
-#: presentwindows/presentwindows.cpp:1666
+#: presentwindows/presentwindows.cpp:1638
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1552,10 +1541,9 @@ msgstr "Srednji gumb:"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
 #: presentwindows/presentwindows_config.ui:213
 #: presentwindows/presentwindows_config.ui:262
-#, fuzzy, kde-format
-#| msgid "Scale window"
+#, kde-format
 msgid "Close window"
-msgstr "Umeri okno"
+msgstr "Zapri okno"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -1598,7 +1586,7 @@ msgstr "Prikaži &ikone oken"
 #: presentwindows/presentwindows_config.ui:420
 #, kde-format
 msgid "Ignore &minimized windows"
-msgstr "Prezri skrče&na okna"
+msgstr "Prezri skrčena okna"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowPanel)
 #: presentwindows/presentwindows_config.ui:427
@@ -1644,33 +1632,29 @@ msgstr "Prikaži oris"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InScale)
 #: scale/package/contents/ui/config.ui:46
-#, fuzzy, kde-format
-#| msgctxt "Name of a KWin Effect"
-#| msgid "Minimize Animation"
+#, kde-format
 msgid "Window open scale:"
-msgstr "Animirano skrčenje"
+msgstr "Merilo pri odpiranju okna:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_OutScale)
 #: scale/package/contents/ui/config.ui:53
-#, fuzzy, kde-format
-#| msgctxt "Name of a KWin Effect"
-#| msgid "Mouse Click Animation"
+#, kde-format
 msgid "Window close scale:"
-msgstr "Animacija klika z miško"
+msgstr "Merilo pri zapiranju okna:"
 
-#: screenshot/screenshot.cpp:354
+#: screenshot/screenshot.cpp:458
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Zaslonska slika"
 
-#: screenshot/screenshot.cpp:355
+#: screenshot/screenshot.cpp:459
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Zaslonska slika shranjena v %1"
 
-#: screenshot/screenshot.cpp:464
+#: screenshot/screenshot.cpp:568
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -1678,9 +1662,9 @@ msgid ""
 msgstr ""
 "Izberite okno za zajem zaslonske slike z levim klikom ali pritiskom tipke "
 "Enter.\n"
-"Kliknite z desno ali pritisnite Escape za preklic."
+"Pritisnite Escape ali desni klik za preklic."
 
-#: screenshot/screenshot.cpp:467
+#: screenshot/screenshot.cpp:571
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -1755,39 +1739,33 @@ msgid "Text alpha:"
 msgstr "Prosojnost besedila:"
 
 #: showpaint/showpaint.cpp:53 showpaint/showpaint_config.cpp:52
-#, fuzzy, kde-format
-#| msgctxt "Name of a KWin Effect"
-#| msgid "Show Paint"
+#, kde-format
 msgid "Toggle Show Paint"
-msgstr "Izrisovanje"
+msgstr "Preklapljaj prikaz barve"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_Gaps)
 #: slide/slide_config.ui:50
-#, fuzzy, kde-format
-#| msgctxt "Comment describing the KWin Effect"
-#| msgid "Magnify the entire desktop"
+#, kde-format
 msgid "Gap between desktops"
-msgstr "Poveča celotno namizje"
+msgstr "Razmik med namizji"
 
 #. i18n: ectx: property (text), widget (QLabel, label_HorizontalGap)
 #: slide/slide_config.ui:56
 #, kde-format
 msgid "Horizontal:"
-msgstr ""
+msgstr "Vodoravno:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_VerticalGap)
 #: slide/slide_config.ui:79
 #, kde-format
 msgid "Vertical:"
-msgstr ""
+msgstr "Navpično:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
 #: slide/slide_config.ui:105
-#, fuzzy, kde-format
-#| msgctxt "Name of a KWin Effect"
-#| msgid "Slide Back"
+#, kde-format
 msgid "Slide docks"
-msgstr "Zdrs v ozadje"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
 #: slide/slide_config.ui:112
@@ -1805,13 +1783,13 @@ msgstr "Preklopi sličico za trenutno okno"
 #: thumbnailaside/thumbnailaside_config.ui:23
 #, kde-format
 msgid "Maximum &width:"
-msgstr "Največja ši&rina:"
+msgstr "Največja širina:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: thumbnailaside/thumbnailaside_config.ui:36
 #, kde-format
 msgid "&Spacing:"
-msgstr "R&azmik:"
+msgstr "Razmik:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Spacing)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_MaxWidth)
@@ -1836,20 +1814,19 @@ msgstr "Sledi miški"
 #: trackmouse/trackmouse_config.ui:26
 #, kde-format
 msgid "Trigger effect with:"
-msgstr ""
+msgstr "Sproži efekt z:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_KeyboardShortcut)
 #: trackmouse/trackmouse_config.ui:33
 #, kde-format
 msgid "Keyboard shortcut:"
-msgstr ""
+msgstr "Tipkovna bilžnjica:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_ModifierKeys)
 #: trackmouse/trackmouse_config.ui:43
-#, fuzzy, kde-format
-#| msgid "Modifiers"
+#, kde-format
 msgid "Modifier keys:"
-msgstr "Spremenilniki"
+msgstr "Spremenilniki tipk:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Alt)
 #: trackmouse/trackmouse_config.ui:65
@@ -1979,7 +1956,7 @@ msgstr "Togo&st:"
 #: wobblywindows/wobblywindows_config.ui:68
 #, kde-format
 msgid "Dra&g:"
-msgstr "&Upor:"
+msgstr "Upor:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: wobblywindows/wobblywindows_config.ui:81
@@ -1991,25 +1968,25 @@ msgstr "Faktor pre&mikanja:"
 #: wobblywindows/wobblywindows_config.ui:155
 #, kde-format
 msgid "Wo&bble when moving"
-msgstr "Ma&jaj med premikanjem"
+msgstr "Majaj med premikanjem"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResizeWobble)
 #: wobblywindows/wobblywindows_config.ui:162
 #, kde-format
 msgid "Wobble when &resizing"
-msgstr "Majaj med sp&reminjanjem velikosti"
+msgstr "Majaj med spreminjanjem velikosti"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AdvancedMode)
 #: wobblywindows/wobblywindows_config.ui:182
 #, kde-format
 msgid "Enable &advanced mode"
-msgstr "Omogoči n&apredni način"
+msgstr "Omogoči napredni način"
 
 #. i18n: ectx: property (title), widget (QGroupBox, basicGroup)
 #: wobblywindows/wobblywindows_config.ui:192
 #, kde-format
 msgid "&Wobbliness"
-msgstr "Maja&vost"
+msgstr "Majavost"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: wobblywindows/wobblywindows_config.ui:201

@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"POT-Creation-Date: 2020-02-26 03:48+0100\n"
 "PO-Revision-Date: 2018-11-22 16:12+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -41,61 +41,55 @@ msgstr ""
 "tpr@d5k.net, mikko.piippo@helsinki.fi, translator@legisign.org, karvonen."
 "jorma@gmail.com"
 
-#: effectsmodel.cpp:63
+#: effectsmodel.cpp:62
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Käytettävyys"
 
-#: effectsmodel.cpp:64
+#: effectsmodel.cpp:63
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Ulkoasu"
 
-#: effectsmodel.cpp:65
-#, kde-format
-msgctxt "Category of Desktop Effects, used as section header"
-msgid "Candy"
-msgstr "Karkit"
-
-#: effectsmodel.cpp:66
+#: effectsmodel.cpp:64
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Kohdistus"
 
-#: effectsmodel.cpp:67
+#: effectsmodel.cpp:65
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Show Desktop Animation"
 msgstr "Näytä työpöytäanimointi"
 
-#: effectsmodel.cpp:68
+#: effectsmodel.cpp:66
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Työkalut"
 
-#: effectsmodel.cpp:69
+#: effectsmodel.cpp:67
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr "Virtuaalityöpöydän vaihtamisen animaatio"
 
-#: effectsmodel.cpp:70
+#: effectsmodel.cpp:68
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Ikkunanhallinta"
 
-#: effectsmodel.cpp:71
+#: effectsmodel.cpp:69
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Open/Close Animation"
 msgstr "Ikkunan avaus- ja sulkemisanimointi"
 
-#: effectsmodel.cpp:239
+#: effectsmodel.cpp:237
 #, kde-format
 msgid "KWin development team"
 msgstr "KWin-kehitysryhmä"

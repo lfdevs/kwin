@@ -33,7 +33,7 @@ namespace KWin
 {
 // forward declarations
 class AbstractClient;
-class Client;
+class X11Client;
 
 class WorkspaceWrapper : public QObject
 {
@@ -70,7 +70,7 @@ class WorkspaceWrapper : public QObject
     Q_PROPERTY(int displayHeight READ displayHeight)
     Q_PROPERTY(int activeScreen READ activeScreen)
     Q_PROPERTY(int numScreens READ numScreens NOTIFY numberScreensChanged)
-    Q_PROPERTY(QString currentActivity READ currentActivity NOTIFY currentActivityChanged)
+    Q_PROPERTY(QString currentActivity READ currentActivity WRITE setCurrentActivity NOTIFY currentActivityChanged)
     Q_PROPERTY(QStringList activities READ activityList NOTIFY activitiesChanged)
     /**
      * The bounding size of all screens combined. Overlapping areas
@@ -93,15 +93,15 @@ Q_SIGNALS:
     void currentDesktopChanged(int desktop, KWin::AbstractClient *client);
     void clientAdded(KWin::AbstractClient *client);
     void clientRemoved(KWin::AbstractClient *client);
-    void clientManaging(KWin::Client *client);
+    void clientManaging(KWin::X11Client *client);
     void clientMinimized(KWin::AbstractClient *client);
     void clientUnminimized(KWin::AbstractClient *client);
-    void clientRestored(KWin::Client *client);
+    void clientRestored(KWin::X11Client *client);
     void clientMaximizeSet(KWin::AbstractClient *client, bool h, bool v);
-    void killWindowCalled(KWin::Client *client);
+    void killWindowCalled(KWin::X11Client *client);
     void clientActivated(KWin::AbstractClient *client);
-    void clientFullScreenSet(KWin::Client *client, bool fullScreen, bool user);
-    void clientSetKeepAbove(KWin::Client *client, bool keepAbove);
+    void clientFullScreenSet(KWin::X11Client *client, bool fullScreen, bool user);
+    void clientSetKeepAbove(KWin::X11Client *client, bool keepAbove);
     /**
      * Signal emitted whenever the number of desktops changed.
      * To get the current number of desktops use the property desktops.
@@ -208,6 +208,7 @@ rettype getter() const; \
 void setter( rettype val );
     GETTERSETTERDEF(int, numberOfDesktops, setNumberOfDesktops)
     GETTERSETTERDEF(int, currentDesktop, setCurrentDesktop)
+    GETTERSETTERDEF(QString, currentActivity, setCurrentActivity)
     GETTERSETTERDEF(KWin::AbstractClient*, activeClient, setActiveClient)
 #undef GETTERSETTERDEF
     QSize desktopGridSize() const;
@@ -221,7 +222,6 @@ void setter( rettype val );
     QSize displaySize() const;
     int activeScreen() const;
     int numScreens() const;
-    QString currentActivity() const;
     QStringList activityList() const;
     QSize virtualScreenSize() const;
     QRect virtualScreenGeometry() const;
@@ -264,7 +264,7 @@ void setter( rettype val );
      * @param windowId The window Id of the Client
      * @return The found Client or @c null
      */
-    Q_SCRIPTABLE KWin::Client *getClient(qulonglong windowId);
+    Q_SCRIPTABLE KWin::X11Client *getClient(qulonglong windowId);
 
 public Q_SLOTS:
     // all the available key bindings
@@ -331,6 +331,11 @@ public Q_SLOTS:
     void slotWindowToDesktopDown();
 
     /**
+     * Sends the AbstractClient to the given @p screen.
+     */
+    void sendClientToScreen(KWin::AbstractClient *client, int screen);
+
+    /**
      * Shows an outline at the specified @p geometry.
      * If an outline is already shown the outline is moved to the new position.
      * Use hideOutline to remove the outline again.
@@ -346,8 +351,7 @@ public Q_SLOTS:
     void hideOutline();
 
 private Q_SLOTS:
-    void setupAbstractClientConnections(AbstractClient *client);
-    void setupClientConnections(Client *client);
+    void setupClientConnections(AbstractClient *client);
 };
 
 class QtScriptWorkspaceWrapper : public WorkspaceWrapper

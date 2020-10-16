@@ -757,15 +757,15 @@ Nothing
 <listitem
 ><para
 >Het plaatsingbeleid bepaalt waar een nieuw venster op het bureaublad zal verschijnen. <guilabel
->Intelligent</guilabel
+>Minimale overlapping</guilabel
 > probeert een minimum aan overlap van vensters te krijgen, <guilabel
->Trapsgewijs</guilabel
+>Schuin achter elkaar</guilabel
 > zal de vensters trapsgewijs weergeven en <guilabel
 >Willekeurig</guilabel
 > zal een willekeurige positie gebruiken. <guilabel
 >Gecentreerd</guilabel
 > zal alle nieuwe vensters in het centrum van het scherm plaatsen en <guilabel
->Linker bovenhoek</guilabel
+>In linker bovenhoek</guilabel
 > zal alle vensters met hun linker bovenhoek in de linker bovenhoek van het scherm plaatsen.</para
 ></listitem>
 </varlistentry>

@@ -2,20 +2,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Marta Rybczyńska <kde-i18n@rybczynska.net>, 2009, 2010.
-# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019.
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-08-05 03:05+0200\n"
-"PO-Revision-Date: 2019-08-15 06:42+0200\n"
+"POT-Creation-Date: 2020-04-23 04:00+0200\n"
+"PO-Revision-Date: 2020-05-16 08:42+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.07.70\n"
+"X-Generator: Lokalize 20.07.70\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
@@ -29,75 +29,75 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "lukasz.wojnilowicz@gmail.com"
 
-#: main.cpp:190 touch.cpp:131
+#: main.cpp:134 touch.cpp:133
 #, kde-format
 msgid "No Action"
 msgstr "Brak działania"
 
-#: main.cpp:191 touch.cpp:132
+#: main.cpp:135 touch.cpp:134
 #, kde-format
 msgid "Show Desktop"
 msgstr "Pokaż pulpit"
 
-#: main.cpp:192 touch.cpp:133
+#: main.cpp:136 touch.cpp:135
 #, kde-format
 msgid "Lock Screen"
 msgstr "Zablokuj ekran"
 
-#: main.cpp:193 touch.cpp:134
+#: main.cpp:137 touch.cpp:136
 #, kde-format
 msgid "Show KRunner"
 msgstr "Pokaż KRunnera"
 
-#: main.cpp:194 touch.cpp:135
+#: main.cpp:138 touch.cpp:137
 #, kde-format
 msgid "Activity Manager"
 msgstr "Zarządzanie aktywnościami"
 
-#: main.cpp:195 touch.cpp:136
+#: main.cpp:139 touch.cpp:138
 #, kde-format
 msgid "Application Launcher"
-msgstr "Aktywator programów"
+msgstr "Skróty do programów"
 
-#: main.cpp:199 touch.cpp:140
+#: main.cpp:143 touch.cpp:142
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - Wszystkie pulpity"
 
-#: main.cpp:200 touch.cpp:141
+#: main.cpp:144 touch.cpp:143
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - Bieżący pulpit"
 
-#: main.cpp:201 touch.cpp:142
+#: main.cpp:145 touch.cpp:144
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - Bieżący program"
 
-#: main.cpp:204 touch.cpp:145
+#: main.cpp:148 touch.cpp:147
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 - Kostka"
 
-#: main.cpp:205 touch.cpp:146
+#: main.cpp:149 touch.cpp:148
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 - Walec"
 
-#: main.cpp:206 touch.cpp:147
+#: main.cpp:150 touch.cpp:149
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 - Kula"
 
-#: main.cpp:208 touch.cpp:149
+#: main.cpp:152 touch.cpp:151
 #, kde-format
 msgid "Toggle window switching"
-msgstr "Przełącz przełączanie okien"
+msgstr "Przełącznik okien"
 
-#: main.cpp:209 touch.cpp:150
+#: main.cpp:153 touch.cpp:152
 #, kde-format
 msgid "Toggle alternative window switching"
-msgstr "Przełącz alternatywne przełączanie okien"
+msgstr "Zamienny przełącznik okien"
 
 #. i18n: ectx: property (text), widget (QLabel, infoLabel)
 #: main.ui:23
@@ -115,7 +115,7 @@ msgstr ""
 msgid "&Maximize:"
 msgstr "&Maksymalizuj:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ElectricBorderMaximize)
 #: main.ui:77
 #, kde-format
 msgid "Windows dragged to top edge"
@@ -127,7 +127,7 @@ msgstr "Okno przeciągnięte do górnej krawędzi"
 msgid "&Tile:"
 msgstr "&Kafelek:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ElectricBorderTiling)
 #: main.ui:94
 #, kde-format
 msgid "Windows dragged to left or right edge"
@@ -170,20 +170,20 @@ msgstr "Zmień pulpit, gdy kursor najedzie na krawędź ekranu"
 msgid "&Switch desktop on edge:"
 msgstr "Przełączanie pulpitu na &krawędzi:"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_ElectricBorders)
 #: main.ui:158
 #, kde-format
 msgctxt "Switch desktop on edge"
 msgid "Disabled"
 msgstr "Wyłączone"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_ElectricBorders)
 #: main.ui:163
 #, kde-format
 msgid "Only When Moving Windows"
 msgstr "Tylko przy przesuwaniu okien"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_ElectricBorders)
 #: main.ui:168
 #, kde-format
 msgid "Always Enabled"
@@ -205,8 +205,8 @@ msgstr ""
 msgid "Activation &delay:"
 msgstr "Opóźnienie &wywołania:"
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, activationDelaySpin)
-#. i18n: ectx: property (suffix), widget (QSpinBox, triggerCooldownSpin)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_ElectricBorderDelay)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_ElectricBorderCooldown)
 #: main.ui:189 main.ui:224
 #, kde-format
 msgid " ms"

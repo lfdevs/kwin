@@ -61,7 +61,7 @@ void ScreenChangesTest::init()
     QVERIFY(Test::setupWaylandConnection());
 
     screens()->setCurrent(0);
-    KWin::Cursor::setPos(QPoint(640, 512));
+    KWin::Cursors::self()->mouse()->setPos(QPoint(640, 512));
 }
 
 void ScreenChangesTest::cleanup()
@@ -154,6 +154,10 @@ void ScreenChangesTest::testScreenAddRemove()
     QVERIFY(xdgO2ChangedSpy.wait());
     QCOMPARE(xdgO2->logicalPosition(), geometries.at(1).topLeft());
     QCOMPARE(xdgO2->logicalSize(), geometries.at(1).size());
+
+    QVERIFY(xdgO1->name().startsWith("Virtual-"));
+    QVERIFY(xdgO1->name() != xdgO2->name());
+    QVERIFY(!xdgO1->description().isEmpty());
 
     // now let's try to remove one output again
     outputAnnouncedSpy.clear();

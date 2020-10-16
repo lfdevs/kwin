@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "client.h"
+#include "x11client.h"
 #include "cursor.h"
 #include "focuschain.h"
 #include "netinfo.h"
@@ -63,7 +63,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "x11eventfilter.h"
 
 #include "wayland_server.h"
-#include <KWayland/Server/surface_interface.h>
+#include <KWaylandServer/surface_interface.h>
 
 #ifndef XCB_GE_GENERIC
 #define XCB_GE_GENERIC 35
@@ -257,16 +257,16 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
 
     const xcb_window_t eventWindow = findEventWindow(e);
     if (eventWindow != XCB_WINDOW_NONE) {
-        if (Client* c = findClient(Predicate::WindowMatch, eventWindow)) {
+        if (X11Client *c = findClient(Predicate::WindowMatch, eventWindow)) {
             if (c->windowEvent(e))
                 return true;
-        } else if (Client* c = findClient(Predicate::WrapperIdMatch, eventWindow)) {
+        } else if (X11Client *c = findClient(Predicate::WrapperIdMatch, eventWindow)) {
             if (c->windowEvent(e))
                 return true;
-        } else if (Client* c = findClient(Predicate::FrameIdMatch, eventWindow)) {
+        } else if (X11Client *c = findClient(Predicate::FrameIdMatch, eventWindow)) {
             if (c->windowEvent(e))
                 return true;
-        } else if (Client *c = findClient(Predicate::InputIdMatch, eventWindow)) {
+        } else if (X11Client *c = findClient(Predicate::InputIdMatch, eventWindow)) {
             if (c->windowEvent(e))
                 return true;
         } else if (Unmanaged* c = findUnmanaged(eventWindow)) {
@@ -301,7 +301,7 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
         updateXTime();
 
         const auto *event = reinterpret_cast<xcb_map_request_event_t*>(e);
-        if (Client* c = findClient(Predicate::WindowMatch, event->window)) {
+        if (X11Client *c = findClient(Predicate::WindowMatch, event->window)) {
             // e->xmaprequest.window is different from e->xany.window
             // TODO this shouldn't be necessary now
             c->windowEvent(e);
@@ -312,7 +312,7 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
             // a chance to reparent it back to root
             // since KWin can get MapRequest only for root window children and
             // children of WindowWrapper (=clients), the check is AFAIK useless anyway
-            // NOTICE: The save-set support in Client::mapRequestEvent() actually requires that
+            // NOTICE: The save-set support in X11Client::mapRequestEvent() actually requires that
             // this code doesn't check the parent to be root.
             if (!createClient(event->window, false)) {
                 xcb_map_window(connection(), event->window);
@@ -328,8 +328,17 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
             Unmanaged* c = findUnmanaged(event->window);
             if (c == nullptr)
                 c = createUnmanaged(event->window);
-            if (c)
-                return c->windowEvent(e);
+            if (c) {
+                // if hasScheduledRelease is true, it means a unamp and map sequence has occurred. 
+                // since release is scheduled after map notify, this old Unmanaged will get released
+                // before KWIN has chance to remanage it again. so release it right now.
+                if (c->hasScheduledRelease()) {
+                    c->release();
+                    c = createUnmanaged(event->window);
+                }
+                if (c)
+                    return c->windowEvent(e);
+            }
         }
         return (event->event != event->window);   // hide wm typical event from Qt
     }
@@ -411,7 +420,7 @@ bool Workspace::workspaceEvent(QEvent* e)
 /**
  * General handler for XEvents concerning the client window
  */
-bool Client::windowEvent(xcb_generic_event_t *e)
+bool X11Client::windowEvent(xcb_generic_event_t *e)
 {
     if (findEventWindow(e) == window()) { // avoid doing stuff on frame or wrapper
         NET::Properties dirtyProperties;
@@ -444,7 +453,7 @@ bool Client::windowEvent(xcb_generic_event_t *e)
                 emit opacityChanged(this, old_opacity);
             } else {
                 // forward to the frame if there's possibly another compositing manager running
-                NETWinInfo i(connection(), frameId(), rootWindow(), nullptr, nullptr);
+                NETWinInfo i(connection(), frameId(), rootWindow(), NET::Properties(), NET::Properties2());
                 i.setOpacity(info->opacity());
             }
         }
@@ -472,6 +481,9 @@ bool Client::windowEvent(xcb_generic_event_t *e)
         }
         if (dirtyProperties2 & NET::WM2DesktopFileName) {
             setDesktopFileName(QByteArray(info->desktopFileName()));
+        }
+        if (dirtyProperties2 & NET::WM2GTKFrameExtents) {
+            setClientFrameExtents(info->gtkFrameExtents());
         }
     }
 
@@ -579,7 +591,7 @@ bool Client::windowEvent(xcb_generic_event_t *e)
 /**
  * Handles map requests of the client window
  */
-bool Client::mapRequestEvent(xcb_map_request_event_t *e)
+bool X11Client::mapRequestEvent(xcb_map_request_event_t *e)
 {
     if (e->window != window()) {
         // Special support for the save-set feature, which is a bit broken.
@@ -615,7 +627,7 @@ bool Client::mapRequestEvent(xcb_map_request_event_t *e)
 /**
  * Handles unmap notify events of the client window
  */
-void Client::unmapNotifyEvent(xcb_unmap_notify_event_t *e)
+void X11Client::unmapNotifyEvent(xcb_unmap_notify_event_t *e)
 {
     if (e->window != window())
         return;
@@ -640,7 +652,7 @@ void Client::unmapNotifyEvent(xcb_unmap_notify_event_t *e)
     }
 }
 
-void Client::destroyNotifyEvent(xcb_destroy_notify_event_t *e)
+void X11Client::destroyNotifyEvent(xcb_destroy_notify_event_t *e)
 {
     if (e->window != window())
         return;
@@ -651,7 +663,7 @@ void Client::destroyNotifyEvent(xcb_destroy_notify_event_t *e)
 /**
  * Handles client messages for the client window
  */
-void Client::clientMessageEvent(xcb_client_message_event_t *e)
+void X11Client::clientMessageEvent(xcb_client_message_event_t *e)
 {
     Toplevel::clientMessageEvent(e);
     if (e->window != window())
@@ -668,7 +680,7 @@ void Client::clientMessageEvent(xcb_client_message_event_t *e)
 /**
  * Handles configure  requests of the client window
  */
-void Client::configureRequestEvent(xcb_configure_request_event_t *e)
+void X11Client::configureRequestEvent(xcb_configure_request_event_t *e)
 {
     if (e->window != window())
         return; // ignore frame/wrapper
@@ -700,7 +712,7 @@ void Client::configureRequestEvent(xcb_configure_request_event_t *e)
     // the ICCCM doesn't require this - it can be though of as 'the WM decided to move
     // the window later'. The client should not cause that many configure request,
     // so this should not have any significant impact. With user moving/resizing
-    // the it should be optimized though (see also Client::setGeometry()/plainResize()/move()).
+    // the it should be optimized though (see also X11Client::setGeometry()/plainResize()/move()).
     sendSyntheticConfigureNotify();
 
     // SELI TODO accept configure requests for isDesktop windows (because kdesktop
@@ -711,7 +723,7 @@ void Client::configureRequestEvent(xcb_configure_request_event_t *e)
 /**
  * Handles property changes of the client window
  */
-void Client::propertyNotifyEvent(xcb_property_notify_event_t *e)
+void X11Client::propertyNotifyEvent(xcb_property_notify_event_t *e)
 {
     Toplevel::propertyNotifyEvent(e);
     if (e->window != window())
@@ -745,8 +757,6 @@ void Client::propertyNotifyEvent(xcb_property_notify_event_t *e)
             updateColorScheme();
         else if (e->atom == atoms->kde_screen_edge_show)
             updateShowOnScreenEdge();
-        else if (e->atom == atoms->gtk_frame_extents)
-            detectGtkFrameExtents();
         else if (e->atom == atoms->kde_net_wm_appmenu_service_name)
             checkApplicationMenuServiceName();
         else if (e->atom == atoms->kde_net_wm_appmenu_object_path)
@@ -756,7 +766,7 @@ void Client::propertyNotifyEvent(xcb_property_notify_event_t *e)
 }
 
 
-void Client::enterNotifyEvent(xcb_enter_notify_event_t *e)
+void X11Client::enterNotifyEvent(xcb_enter_notify_event_t *e)
 {
     if (e->event != frameId())
         return; // care only about entering the whole frame
@@ -764,16 +774,6 @@ void Client::enterNotifyEvent(xcb_enter_notify_event_t *e)
 #define MOUSE_DRIVEN_FOCUS (!options->focusPolicyIsReasonable() || \
                             (options->focusPolicy() == Options::FocusFollowsMouse && options->isNextFocusPrefersMouse()))
     if (e->mode == XCB_NOTIFY_MODE_NORMAL || (e->mode == XCB_NOTIFY_MODE_UNGRAB && MOUSE_DRIVEN_FOCUS)) {
-
-        if (options->isShadeHover()) {
-            cancelShadeHoverTimer();
-            if (isShade()) {
-                shadeHoverTimer = new QTimer(this);
-                connect(shadeHoverTimer, SIGNAL(timeout()), this, SLOT(shadeHover()));
-                shadeHoverTimer->setSingleShot(true);
-                shadeHoverTimer->start(options->shadeHoverInterval());
-            }
-        }
 #undef MOUSE_DRIVEN_FOCUS
 
         enterEvent(QPoint(e->root_x, e->root_y));
@@ -781,7 +781,7 @@ void Client::enterNotifyEvent(xcb_enter_notify_event_t *e)
     }
 }
 
-void Client::leaveNotifyEvent(xcb_leave_notify_event_t *e)
+void X11Client::leaveNotifyEvent(xcb_leave_notify_event_t *e)
 {
     if (e->event != frameId())
         return; // care only about leaving the whole frame
@@ -807,13 +807,6 @@ void Client::leaveNotifyEvent(xcb_leave_notify_event_t *e)
         }
         if (lostMouse) {
             leaveEvent();
-            cancelShadeHoverTimer();
-            if (shade_mode == ShadeHover && !isMoveResize() && !isMoveResizePointerButtonDown()) {
-                shadeHoverTimer = new QTimer(this);
-                connect(shadeHoverTimer, SIGNAL(timeout()), this, SLOT(shadeUnhover()));
-                shadeHoverTimer->setSingleShot(true);
-                shadeHoverTimer->start(options->shadeHoverInterval());
-            }
             if (isDecorated()) {
                 // sending a move instead of a leave. With leave we need to send proper coords, with move it's handled internally
                 QHoverEvent leaveEvent(QEvent::HoverMove, QPointF(-1, -1), QPointF(-1, -1), Qt::NoModifier);
@@ -827,11 +820,31 @@ void Client::leaveNotifyEvent(xcb_leave_notify_event_t *e)
     }
 }
 
+static uint16_t x11CommandAllModifier()
+{
+    switch (options->commandAllModifier()) {
+    case Qt::MetaModifier:
+        return KKeyServer::modXMeta();
+    case Qt::AltModifier:
+        return KKeyServer::modXAlt();
+    default:
+        return 0;
+    }
+}
+
 #define XCapL KKeyServer::modXLock()
 #define XNumL KKeyServer::modXNumLock()
 #define XScrL KKeyServer::modXScrollLock()
-void Client::grabButton(int modifier)
+void X11Client::establishCommandWindowGrab(uint8_t button)
 {
+    // Unfortunately there are a lot of possible modifier combinations that we need to take into
+    // account. We tackle that problem in a kind of smart way. First, we grab the button with all
+    // possible modifiers, then we ungrab the ones that are relevant only to commandAllx().
+
+    m_wrapper.grabButton(XCB_GRAB_MODE_SYNC, XCB_GRAB_MODE_ASYNC, XCB_MOD_MASK_ANY, button);
+
+    uint16_t x11Modifier = x11CommandAllModifier();
+
     unsigned int mods[ 8 ] = {
         0, XCapL, XNumL, XNumL | XCapL,
         XScrL, XScrL | XCapL,
@@ -840,11 +853,13 @@ void Client::grabButton(int modifier)
     for (int i = 0;
             i < 8;
             ++i)
-        m_wrapper.grabButton(XCB_GRAB_MODE_SYNC, XCB_GRAB_MODE_ASYNC, modifier | mods[ i ]);
+        m_wrapper.ungrabButton(x11Modifier | mods[ i ], button);
 }
 
-void Client::ungrabButton(int modifier)
+void X11Client::establishCommandAllGrab(uint8_t button)
 {
+    uint16_t x11Modifier = x11CommandAllModifier();
+
     unsigned int mods[ 8 ] = {
         0, XCapL, XNumL, XNumL | XCapL,
         XScrL, XScrL | XCapL,
@@ -853,47 +868,63 @@ void Client::ungrabButton(int modifier)
     for (int i = 0;
             i < 8;
             ++i)
-        m_wrapper.ungrabButton(modifier | mods[ i ]);
+        m_wrapper.grabButton(XCB_GRAB_MODE_SYNC, XCB_GRAB_MODE_ASYNC, x11Modifier | mods[ i ], button);
 }
 #undef XCapL
 #undef XNumL
 #undef XScrL
 
-/**
- * Releases the passive grab for some modifier combinations when a
- * window becomes active. This helps broken X programs that
- * missinterpret LeaveNotify events in grab mode to work properly
- * (Motif, AWT, Tk, ...)
- */
-void Client::updateMouseGrab()
+void X11Client::updateMouseGrab()
 {
-    if (workspace()->globalShortcutsDisabled()) {
-        m_wrapper.ungrabButton();
-        // keep grab for the simple click without modifiers if needed (see below)
-        bool not_obscured = workspace()->topClientOnDesktop(VirtualDesktopManager::self()->current(), -1, true, false) == this;
-        if (!(!options->isClickRaise() || not_obscured))
-            grabButton(XCB_NONE);
+    xcb_ungrab_button(connection(), XCB_BUTTON_INDEX_ANY, m_wrapper, XCB_MOD_MASK_ANY);
+
+    if (TabBox::TabBox::self()->forcedGlobalMouseGrab()) { // see TabBox::establishTabBoxGrab()
+        m_wrapper.grabButton(XCB_GRAB_MODE_SYNC, XCB_GRAB_MODE_ASYNC);
         return;
     }
-    if (isActive() && !TabBox::TabBox::self()->forcedGlobalMouseGrab()) { // see TabBox::establishTabBoxGrab()
-        // first grab all modifier combinations
-        m_wrapper.grabButton(XCB_GRAB_MODE_SYNC, XCB_GRAB_MODE_ASYNC);
-        // remove the grab for no modifiers only if the window
-        // is unobscured or if the user doesn't want click raise
-        // (it is unobscured if it the topmost in the unconstrained stacking order, i.e. it is
-        // the most recently raised window)
-        bool not_obscured = workspace()->topClientOnDesktop(VirtualDesktopManager::self()->current(), -1, true, false) == this;
-        if (!options->isClickRaise() || not_obscured)
-            ungrabButton(XCB_NONE);
-        else
-            grabButton(XCB_NONE);
-        ungrabButton(XCB_MOD_MASK_SHIFT);
-        ungrabButton(XCB_MOD_MASK_CONTROL);
-        ungrabButton(XCB_MOD_MASK_CONTROL | XCB_MOD_MASK_SHIFT);
-    } else {
-        m_wrapper.ungrabButton();
-        // simply grab all modifier combinations
-        m_wrapper.grabButton(XCB_GRAB_MODE_SYNC, XCB_GRAB_MODE_ASYNC);
+
+    // When a passive grab is activated or deactivated, the X server will generate crossing
+    // events as if the pointer were suddenly to warp from its current position to some position
+    // in the grab window. Some /broken/ X11 clients do get confused by such EnterNotify and
+    // LeaveNotify events so we release the passive grab for the active window.
+    //
+    // The passive grab below is established so the window can be raised or activated when it
+    // is clicked.
+    if ((options->focusPolicyIsReasonable() && !isActive()) ||
+            (options->isClickRaise() && !isMostRecentlyRaised())) {
+        if (options->commandWindow1() != Options::MouseNothing) {
+            establishCommandWindowGrab(XCB_BUTTON_INDEX_1);
+        }
+        if (options->commandWindow2() != Options::MouseNothing) {
+            establishCommandWindowGrab(XCB_BUTTON_INDEX_2);
+        }
+        if (options->commandWindow3() != Options::MouseNothing) {
+            establishCommandWindowGrab(XCB_BUTTON_INDEX_3);
+        }
+        if (options->commandWindowWheel() != Options::MouseNothing) {
+            establishCommandWindowGrab(XCB_BUTTON_INDEX_4);
+            establishCommandWindowGrab(XCB_BUTTON_INDEX_5);
+        }
+    }
+
+    // We want to grab <command modifier> + buttons no matter what state the window is in. The
+    // client will receive funky EnterNotify and LeaveNotify events, but there is nothing that
+    // we can do about it, unfortunately.
+
+    if (!workspace()->globalShortcutsDisabled()) {
+        if (options->commandAll1() != Options::MouseNothing) {
+            establishCommandAllGrab(XCB_BUTTON_INDEX_1);
+        }
+        if (options->commandAll2() != Options::MouseNothing) {
+            establishCommandAllGrab(XCB_BUTTON_INDEX_2);
+        }
+        if (options->commandAll3() != Options::MouseNothing) {
+            establishCommandAllGrab(XCB_BUTTON_INDEX_3);
+        }
+        if (options->commandAllWheel() != Options::MouseWheelNothing) {
+            establishCommandAllGrab(XCB_BUTTON_INDEX_4);
+            establishCommandAllGrab(XCB_BUTTON_INDEX_5);
+        }
     }
 }
 
@@ -905,7 +936,7 @@ static bool modKeyDown(int state) {
 
 
 // return value matters only when filtering events before decoration gets them
-bool Client::buttonPressEvent(xcb_window_t w, int button, int state, int x, int y, int x_root, int y_root, xcb_timestamp_t time)
+bool X11Client::buttonPressEvent(xcb_window_t w, int button, int state, int x, int y, int x_root, int y_root, xcb_timestamp_t time)
 {
     if (isMoveResizePointerButtonDown()) {
         if (w == wrapperId())
@@ -972,8 +1003,8 @@ bool Client::buttonPressEvent(xcb_window_t w, int button, int state, int x, int 
         return true;
     }
     if (w == inputId()) {
-        x = x_root - geometry().x();
-        y = y_root - geometry().y();
+        x = x_root - frameGeometry().x();
+        y = y_root - frameGeometry().y();
         // New API processes core events FIRST and only passes unused ones to the decoration
         QMouseEvent ev(QMouseEvent::MouseButtonPress, QPoint(x, y), QPoint(x_root, y_root),
                        x11ToQtMouseButton(button), x11ToQtMouseButtons(state), Qt::KeyboardModifiers());
@@ -1018,7 +1049,7 @@ bool Client::buttonPressEvent(xcb_window_t w, int button, int state, int x, int 
 }
 
 // return value matters only when filtering events before decoration gets them
-bool Client::buttonReleaseEvent(xcb_window_t w, int button, int state, int x, int y, int x_root, int y_root)
+bool X11Client::buttonReleaseEvent(xcb_window_t w, int button, int state, int x, int y, int x_root, int y_root)
 {
     if (w == frameId() && isDecorated()) {
         // wheel handled on buttonPress
@@ -1064,7 +1095,7 @@ bool Client::buttonReleaseEvent(xcb_window_t w, int button, int state, int x, in
 }
 
 // return value matters only when filtering events before decoration gets them
-bool Client::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x_root, int y_root)
+bool X11Client::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x_root, int y_root)
 {
     if (w == frameId() && isDecorated() && !isMinimized()) {
         // TODO Mouse move event dependent on state
@@ -1075,8 +1106,8 @@ bool Client::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x_ro
         return true; // care only about the whole frame
     if (!isMoveResizePointerButtonDown()) {
         if (w == inputId()) {
-            int x = x_root - geometry().x();// + padding_left;
-            int y = y_root - geometry().y();// + padding_top;
+            int x = x_root - frameGeometry().x();// + padding_left;
+            int y = y_root - frameGeometry().y();// + padding_top;
 
             if (isDecorated()) {
                 QHoverEvent event(QEvent::HoverMove, QPointF(x, y), QPointF(x, y));
@@ -1099,7 +1130,7 @@ bool Client::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x_ro
     return true;
 }
 
-void Client::focusInEvent(xcb_focus_in_event_t *e)
+void X11Client::focusInEvent(xcb_focus_in_event_t *e)
 {
     if (e->event != window())
         return; // only window gets focus
@@ -1109,21 +1140,25 @@ void Client::focusInEvent(xcb_focus_in_event_t *e)
         return;  // we don't care
     if (!isShown(false) || !isOnCurrentDesktop())    // we unmapped it, but it got focus meanwhile ->
         return;            // activateNextClient() already transferred focus elsewhere
-    workspace()->forEachClient([](Client *client) {
+    workspace()->forEachClient([](X11Client *client) {
         client->cancelFocusOutTimer();
     });
     // check if this client is in should_get_focus list or if activation is allowed
     bool activate =  workspace()->allowClientActivation(this, -1U, true);
     workspace()->gotFocusIn(this);   // remove from should_get_focus list
-    if (activate)
+    if (activate) {
         setActive(true);
-    else {
-        workspace()->restoreFocus();
-        demandAttention();
+    } else {
+        if (workspace()->restoreFocus()) {
+            demandAttention();
+        } else {
+            qCWarning(KWIN_CORE, "Failed to restore focus. Activating 0x%x", windowId());
+            setActive(true);
+        }
     }
 }
 
-void Client::focusOutEvent(xcb_focus_out_event_t *e)
+void X11Client::focusOutEvent(xcb_focus_out_event_t *e)
 {
     if (e->event != window())
         return; // only window gets focus
@@ -1147,7 +1182,7 @@ void Client::focusOutEvent(xcb_focus_out_event_t *e)
     // flicker sometimes, e.g. when a fullscreen is shown, and focus is transferred
     // from it to its transient, the fullscreen would be kept in the Active layer
     // at the beginning and at the end, but not in the middle, when the active
-    // client would be temporarily none (see Client::belongToLayer() ).
+    // client would be temporarily none (see X11Client::belongToLayer() ).
     // Therefore the setActive(false) call is moved to the end of the current
     // event queue. If there is a matching FocusIn event in the current queue
     // this will be processed before the setActive(false) call and the activation
@@ -1165,13 +1200,13 @@ void Client::focusOutEvent(xcb_focus_out_event_t *e)
 }
 
 // performs _NET_WM_MOVERESIZE
-void Client::NETMoveResize(int x_root, int y_root, NET::Direction direction)
+void X11Client::NETMoveResize(int x_root, int y_root, NET::Direction direction)
 {
     if (direction == NET::Move) {
         // move cursor to the provided position to prevent the window jumping there on first movement
         // the expectation is that the cursor is already at the provided position,
         // thus it's more a safety measurement
-        Cursor::setPos(QPoint(x_root, y_root));
+        Cursors::self()->mouse()->setPos(QPoint(x_root, y_root));
         performMouseCommand(Options::MouseMove, QPoint(x_root, y_root));
     } else if (isMoveResize() && direction == NET::MoveResizeCancel) {
         finishMoveResize(true);
@@ -1202,16 +1237,16 @@ void Client::NETMoveResize(int x_root, int y_root, NET::Direction direction)
         updateCursor();
     } else if (direction == NET::KeyboardMove) {
         // ignore mouse coordinates given in the message, mouse position is used by the moving algorithm
-        Cursor::setPos(geometry().center());
-        performMouseCommand(Options::MouseUnrestrictedMove, geometry().center());
+        Cursors::self()->mouse()->setPos(frameGeometry().center());
+        performMouseCommand(Options::MouseUnrestrictedMove, frameGeometry().center());
     } else if (direction == NET::KeyboardSize) {
         // ignore mouse coordinates given in the message, mouse position is used by the resizing algorithm
-        Cursor::setPos(geometry().bottomRight());
-        performMouseCommand(Options::MouseUnrestrictedResize, geometry().bottomRight());
+        Cursors::self()->mouse()->setPos(frameGeometry().bottomRight());
+        performMouseCommand(Options::MouseUnrestrictedResize, frameGeometry().bottomRight());
     }
 }
 
-void Client::keyPressEvent(uint key_code, xcb_timestamp_t time)
+void X11Client::keyPressEvent(uint key_code, xcb_timestamp_t time)
 {
     updateUserTime(time);
     AbstractClient::keyPressEvent(key_code);
@@ -1248,7 +1283,7 @@ bool Unmanaged::windowEvent(xcb_generic_event_t *e)
         release(ReleaseReason::Destroyed);
         break;
     case XCB_UNMAP_NOTIFY:{
-        workspace()->updateFocusMousePosition(Cursor::pos()); // may cause leave event
+        workspace()->updateFocusMousePosition(Cursors::self()->mouse()->pos()); // may cause leave event
 
         // unmap notify might have been emitted due to a destroy notify
         // but unmap notify gets emitted before the destroy notify, nevertheless at this
@@ -1265,6 +1300,7 @@ bool Unmanaged::windowEvent(xcb_generic_event_t *e)
         // short enough to not cause problems in the close window animations.
         // It's of course still possible that we miss the destroy in which case non-fatal
         // X errors are reported to the event loop and logged by Qt.
+        m_scheduledRelease = true;
         QTimer::singleShot(1, this, SLOT(release()));
         break;
     }
@@ -1281,8 +1317,8 @@ bool Unmanaged::windowEvent(xcb_generic_event_t *e)
         if (eventType == Xcb::Extensions::self()->shapeNotifyEvent()) {
             detectShape(window());
             addRepaintFull();
-            addWorkspaceRepaint(geometry());  // in case shape change removes part of this window
-            emit geometryShapeChanged(this, geometry());
+            addWorkspaceRepaint(frameGeometry());  // in case shape change removes part of this window
+            emit geometryShapeChanged(this, frameGeometry());
         }
         if (eventType == Xcb::Extensions::self()->damageNotifyEvent())
             damageNotifyEvent();
@@ -1297,13 +1333,13 @@ void Unmanaged::configureNotifyEvent(xcb_configure_notify_event_t *e)
     if (effects)
         static_cast<EffectsHandlerImpl*>(effects)->checkInputWindowStacking(); // keep them on top
     QRect newgeom(e->x, e->y, e->width, e->height);
-    if (newgeom != geom) {
+    if (newgeom != m_frameGeometry) {
         addWorkspaceRepaint(visibleRect());  // damage old area
-        QRect old = geom;
-        geom = newgeom;
-        emit geometryChanged(); // update shadow region
+        QRect old = m_frameGeometry;
+        m_frameGeometry = newgeom;
+        emit frameGeometryChanged(this, old); // update shadow region
         addRepaintFull();
-        if (old.size() != geom.size())
+        if (old.size() != m_frameGeometry.size())
             discardWindowPixmap();
         emit geometryShapeChanged(this, old);
     }
@@ -1322,7 +1358,7 @@ void Toplevel::propertyNotifyEvent(xcb_property_notify_event_t *e)
         if (e->atom == atoms->wm_client_leader)
             getWmClientLeader();
         else if (e->atom == atoms->kde_net_wm_shadow)
-            getShadow();
+            updateShadow();
         else if (e->atom == atoms->kde_skip_close_animation)
             getSkipCloseAnimation();
         break;
@@ -1334,7 +1370,7 @@ void Toplevel::clientMessageEvent(xcb_client_message_event_t *e)
     if (e->type == atoms->wl_surface_id) {
         m_surfaceId = e->data.data32[0];
         if (auto w = waylandServer()) {
-            if (auto s = KWayland::Server::SurfaceInterface::get(m_surfaceId, w->xWaylandConnection())) {
+            if (auto s = KWaylandServer::SurfaceInterface::get(m_surfaceId, w->xWaylandConnection())) {
                 setSurface(s);
             }
         }

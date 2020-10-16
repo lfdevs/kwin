@@ -30,13 +30,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class QOpenGLFramebufferObject;
 
-namespace KWayland
-{
-namespace Server
+namespace KWaylandServer
 {
 class BufferInterface;
 class SubSurfaceInterface;
-}
 }
 
 namespace KWin
@@ -76,7 +73,7 @@ public:
     // The entry point for the main part of the painting pass.
     // returns the time since the last vblank signal - if there's one
     // ie. "what of this frame is lost to painting"
-    virtual qint64 paint(QRegion damage, ToplevelList windows) = 0;
+    virtual qint64 paint(const QRegion &damage, const QList<Toplevel *> &windows) = 0;
 
     /**
      * Adds the Toplevel to the Scene.
@@ -209,33 +206,36 @@ public Q_SLOTS:
     void windowClosed(KWin::Toplevel* c, KWin::Deleted* deleted);
 protected:
     virtual Window *createWindow(Toplevel *toplevel) = 0;
-    void createStackingOrder(ToplevelList toplevels);
+    void createStackingOrder(const QList<Toplevel *> &toplevels);
     void clearStackingOrder();
     // shared implementation, starts painting the screen
     void paintScreen(int *mask, const QRegion &damage, const QRegion &repaint,
-                     QRegion *updateRegion, QRegion *validRegion, const QMatrix4x4 &projection = QMatrix4x4(), const QRect &outputGeometry = QRect());
+                     QRegion *updateRegion, QRegion *validRegion, const QMatrix4x4 &projection = QMatrix4x4(), const QRect &outputGeometry = QRect(), const qreal screenScale = 1.0);
     // Render cursor texture in case hardware cursor is disabled/non-applicable
     virtual void paintCursor() = 0;
     friend class EffectsHandlerImpl;
     // called after all effects had their paintScreen() called
-    void finalPaintScreen(int mask, QRegion region, ScreenPaintData& data);
+    void finalPaintScreen(int mask, const QRegion &region, ScreenPaintData& data);
     // shared implementation of painting the screen in the generic
     // (unoptimized) way
-    virtual void paintGenericScreen(int mask, ScreenPaintData data);
+    virtual void paintGenericScreen(int mask, const ScreenPaintData &data);
     // shared implementation of painting the screen in an optimized way
-    virtual void paintSimpleScreen(int mask, QRegion region);
+    virtual void paintSimpleScreen(int mask, const QRegion &region);
     // paint the background (not the desktop background - the whole background)
-    virtual void paintBackground(QRegion region) = 0;
+    virtual void paintBackground(const QRegion &region) = 0;
     // called after all effects had their paintWindow() called
-    void finalPaintWindow(EffectWindowImpl* w, int mask, QRegion region, WindowPaintData& data);
+    void finalPaintWindow(EffectWindowImpl* w, int mask, const QRegion &region, WindowPaintData& data);
     // shared implementation, starts painting the window
-    virtual void paintWindow(Window* w, int mask, QRegion region, WindowQuadList quads);
+    virtual void paintWindow(Window* w, int mask, const QRegion &region, const WindowQuadList &quads);
     // called after all effects had their drawWindow() called
-    virtual void finalDrawWindow(EffectWindowImpl* w, int mask, QRegion region, WindowPaintData& data);
+    virtual void finalDrawWindow(EffectWindowImpl* w, int mask, const QRegion &region, WindowPaintData& data);
     // let the scene decide whether it's better to paint more of the screen, eg. in order to allow a buffer swap
     // the default is NOOP
     virtual void extendPaintRegion(QRegion &region, bool opaqueFullscreen);
     virtual void paintDesktop(int desktop, int mask, const QRegion &region, ScreenPaintData &data);
+
+    virtual void paintEffectQuickView(EffectQuickView *w) = 0;
+
     // compute time since the last repaint
     void updateTimeDiff();
     // saved data for 2nd pass of optimized screen painting
@@ -260,7 +260,7 @@ protected:
     int time_diff;
     QElapsedTimer last_time;
 private:
-    void paintWindowThumbnails(Scene::Window *w, QRegion region, qreal opacity, qreal brightness, qreal saturation);
+    void paintWindowThumbnails(Scene::Window *w, const QRegion &region, qreal opacity, qreal brightness, qreal saturation);
     void paintDesktopThumbnails(Scene::Window *w);
     QHash< Toplevel*, Window* > m_windows;
     // windows in their stacking order
@@ -292,9 +292,10 @@ public:
     Window(Toplevel* c);
     virtual ~Window();
     // perform the actual painting of the window
-    virtual void performPaint(int mask, QRegion region, WindowPaintData data) = 0;
+    virtual void performPaint(int mask, const QRegion &region, const WindowPaintData &data) = 0;
     // do any cleanup needed when the window's composite pixmap is discarded
-    void pixmapDiscarded();
+    void discardPixmap();
+    void updatePixmap();
     int x() const;
     int y() const;
     int width() const;
@@ -328,9 +329,13 @@ public:
     bool isVisible() const;
     // is the window fully opaque
     bool isOpaque() const;
+    // is the window shaded
+    bool isShaded() const;
     // shape of the window
-    const QRegion &shape() const;
+    QRegion bufferShape() const;
     QRegion clientShape() const;
+    QRegion decorationShape() const;
+    QPoint bufferOffset() const;
     void discardShape();
     void updateToplevel(Toplevel* c);
     // creates initial quad list for the window
@@ -341,9 +346,10 @@ public:
     void referencePreviousPixmap();
     void unreferencePreviousPixmap();
     void invalidateQuadsCache();
+    void preprocess();
 protected:
-    WindowQuadList makeQuads(WindowQuadType type, const QRegion& reg, const QPoint &textureOffset = QPoint(0, 0), qreal textureScale = 1.0) const;
     WindowQuadList makeDecorationQuads(const QRect *rects, const QRegion &region, qreal textureScale = 1.0) const;
+    WindowQuadList makeContentsQuads() const;
     /**
      * @brief Returns the WindowPixmap for this Window.
      *
@@ -359,8 +365,8 @@ protected:
      *
      * @return The WindowPixmap casted to T* or @c NULL if there is no valid window pixmap.
      */
-    template<typename T> T *windowPixmap();
-    template<typename T> T *previousWindowPixmap();
+    template<typename T> T *windowPixmap() const;
+    template<typename T> T *previousWindowPixmap() const;
     /**
      * @brief Factory method to create a WindowPixmap.
      *
@@ -376,8 +382,8 @@ private:
     QScopedPointer<WindowPixmap> m_previousPixmap;
     int m_referencePixmapCounter;
     int disable_painting;
-    mutable QRegion shape_region;
-    mutable bool shape_valid;
+    mutable QRegion m_bufferShape;
+    mutable bool m_bufferShapeIsValid = false;
     mutable QScopedPointer<WindowQuadList> cached_quad_list;
     Q_DISABLE_COPY(Window)
 };
@@ -413,9 +419,17 @@ public:
      */
     virtual void create();
     /**
+     * @brief Recursively updates the mapping between the WindowPixmap and the buffer.
+     */
+    virtual void update();
+    /**
      * @return @c true if the pixmap has been created and is valid, @c false otherwise
      */
     virtual bool isValid() const;
+    /**
+     * Returns @c true if this is the root window pixmap; otherwise returns @c false.
+     */
+    bool isRoot() const;
     /**
      * @return The native X11 pixmap handle
      */
@@ -423,8 +437,9 @@ public:
     /**
      * @return The Wayland BufferInterface for this WindowPixmap.
      */
-    QPointer<KWayland::Server::BufferInterface> buffer() const;
+    QPointer<KWaylandServer::BufferInterface> buffer() const;
     const QSharedPointer<QOpenGLFramebufferObject> &fbo() const;
+    QImage internalImage() const;
     /**
      * @brief Whether this WindowPixmap is considered as discarded. This means the window has changed in a way that a new
      * WindowPixmap should have been created already.
@@ -441,9 +456,37 @@ public:
      */
     void markAsDiscarded();
     /**
+     * Returns the position of the WindowPixmap relative to the upper left corner of the parent.
+     *
+     * This method returns the position of the WindowPixmap relative to the upper left corner
+     * of the window pixmap if parent() is @c null.
+     *
+     * The upper left corner of the parent window pixmap corresponds to (0, 0).
+     */
+    QPoint position() const;
+    /**
+     * Returns the position of the WindowPixmap relative to the upper left corner of the window
+     * frame. Note that position() returns the position relative to the parent WindowPixmap.
+     *
+     * The upper left corner of the window frame corresponds to (0, 0).
+     */
+    QPoint framePosition() const;
+    /**
      * The size of the pixmap.
      */
     const QSize &size() const;
+    /**
+     * Returns the device pixel ratio for the attached buffer. This is the ratio between device
+     * pixels and logical pixels.
+     */
+    qreal scale() const;
+    /**
+     * Returns the region that specifies the area inside the attached buffer with the actual
+     * client's contents.
+     *
+     * The upper left corner of the attached buffer corresponds to (0, 0).
+     */
+    QRegion shape() const;
     /**
      * The geometry of the Client's content inside the pixmap. In case of a decorated Client the
      * pixmap also contains the decoration which is not rendered into this pixmap, though. This
@@ -455,6 +498,10 @@ public:
      * Note: the Toplevel can change over the lifetime of the WindowPixmap in case the Toplevel is copied to Deleted.
      */
     Toplevel *toplevel() const;
+    /**
+     * Returns @c true if the attached buffer has an alpha channel; otherwise returns @c false.
+     */
+    bool hasAlphaChannel() const;
 
     /**
      * @returns the parent WindowPixmap in the sub-surface tree
@@ -473,29 +520,23 @@ public:
     /**
      * @returns the subsurface this WindowPixmap is for if it is not for a root window
      */
-    QPointer<KWayland::Server::SubSurfaceInterface> subSurface() const {
+    QPointer<KWaylandServer::SubSurfaceInterface> subSurface() const {
         return m_subSurface;
     }
 
     /**
      * @returns the surface this WindowPixmap references, might be @c null.
      */
-    KWayland::Server::SurfaceInterface *surface() const;
+    KWaylandServer::SurfaceInterface *surface() const;
 
 protected:
     explicit WindowPixmap(Scene::Window *window);
-    explicit WindowPixmap(const QPointer<KWayland::Server::SubSurfaceInterface> &subSurface, WindowPixmap *parent);
-    virtual WindowPixmap *createChild(const QPointer<KWayland::Server::SubSurfaceInterface> &subSurface);
+    explicit WindowPixmap(const QPointer<KWaylandServer::SubSurfaceInterface> &subSurface, WindowPixmap *parent);
+    virtual WindowPixmap *createChild(const QPointer<KWaylandServer::SubSurfaceInterface> &subSurface);
     /**
      * @return The Window this WindowPixmap belongs to
      */
     Scene::Window *window();
-
-    /**
-     * Should be called by the implementing subclasses when the Wayland Buffer changed and needs
-     * updating.
-     */
-    virtual void updateBuffer();
 
     /**
      * Sets the sub-surface tree to @p children.
@@ -510,11 +551,12 @@ private:
     QSize m_pixmapSize;
     bool m_discarded;
     QRect m_contentsRect;
-    QPointer<KWayland::Server::BufferInterface> m_buffer;
+    QPointer<KWaylandServer::BufferInterface> m_buffer;
     QSharedPointer<QOpenGLFramebufferObject> m_fbo;
+    QImage m_internalImage;
     WindowPixmap *m_parent = nullptr;
     QVector<WindowPixmap*> m_children;
-    QPointer<KWayland::Server::SubSurfaceInterface> m_subSurface;
+    QPointer<KWaylandServer::SubSurfaceInterface> m_subSurface;
 };
 
 class Scene::EffectFrame
@@ -522,7 +564,7 @@ class Scene::EffectFrame
 public:
     EffectFrame(EffectFrameImpl* frame);
     virtual ~EffectFrame();
-    virtual void render(QRegion region, double opacity, double frameOpacity) = 0;
+    virtual void render(const QRegion &region, double opacity, double frameOpacity) = 0;
     virtual void free() = 0;
     virtual void freeIconFrame() = 0;
     virtual void freeTextFrame() = 0;
@@ -561,7 +603,7 @@ int Scene::Window::height() const
 inline
 QRect Scene::Window::geometry() const
 {
-    return toplevel->geometry();
+    return toplevel->frameGeometry();
 }
 
 inline
@@ -607,7 +649,7 @@ Shadow* Scene::Window::shadow()
 }
 
 inline
-QPointer<KWayland::Server::BufferInterface> WindowPixmap::buffer() const
+QPointer<KWaylandServer::BufferInterface> WindowPixmap::buffer() const
 {
     return m_buffer;
 }
@@ -618,27 +660,28 @@ const QSharedPointer<QOpenGLFramebufferObject> &WindowPixmap::fbo() const
     return m_fbo;
 }
 
-template <typename T>
 inline
-T* Scene::Window::windowPixmap()
+QImage WindowPixmap::internalImage() const
 {
-    if (m_currentPixmap.isNull()) {
-        m_currentPixmap.reset(createWindowPixmap());
-    }
-    if (m_currentPixmap->isValid()) {
-        return static_cast<T*>(m_currentPixmap.data());
-    }
-    m_currentPixmap->create();
-    if (m_currentPixmap->isValid()) {
-        return static_cast<T*>(m_currentPixmap.data());
-    } else {
-        return static_cast<T*>(m_previousPixmap.data());
-    }
+    return m_internalImage;
 }
 
 template <typename T>
 inline
-T* Scene::Window::previousWindowPixmap()
+T *Scene::Window::windowPixmap() const
+{
+    if (m_currentPixmap && m_currentPixmap->isValid()) {
+        return static_cast<T*>(m_currentPixmap.data());
+    }
+    if (m_previousPixmap && m_previousPixmap->isValid()) {
+        return static_cast<T*>(m_previousPixmap.data());
+    }
+    return nullptr;
+}
+
+template <typename T>
+inline
+T *Scene::Window::previousWindowPixmap() const
 {
     return static_cast<T*>(m_previousPixmap.data());
 }

@@ -30,8 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "wayland_server.h"
 #include "workspace.h"
 // KWayland
-#include <KWayland/Server/datadevice_interface.h>
-#include <KWayland/Server/seat_interface.h>
+#include <KWaylandServer/datadevice_interface.h>
+#include <KWaylandServer/seat_interface.h>
 //screenlocker
 #include <KScreenLocker/KsldApp>
 // Frameworks
@@ -158,7 +158,7 @@ void KeyboardInputRedirection::update()
     // TODO: this needs better integration
     Toplevel *found = nullptr;
     if (waylandServer()->isScreenLocked()) {
-        const ToplevelList &stacking = Workspace::self()->stackingOrder();
+        const QList<Toplevel *> &stacking = Workspace::self()->stackingOrder();
         if (!stacking.isEmpty()) {
             auto it = stacking.end();
             do {

@@ -4,7 +4,7 @@
 
 Copyright (C) 2013 Martin Gräßlin <mgraesslin@kde.org>
 Copyright (C) 2018 Roman Gilg <subdiff@gmail.com>
-Copyright (C) 2019 Vlad Zagorodniy <vladzzag@gmail.com>
+Copyright (C) 2019 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -20,39 +20,45 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "input.h"
-#include "input_event.h"
-#include "input_event_spy.h"
-#include "keyboard_input.h"
-#include "pointer_input.h"
-#include "touch_input.h"
-#include "touch_hide_cursor_spy.h"
-#include "client.h"
 #include "effects.h"
 #include "gestures.h"
 #include "globalshortcuts.h"
+#include "input_event.h"
+#include "input_event_spy.h"
+#include "keyboard_input.h"
 #include "logind.h"
 #include "main.h"
+#include "pointer_input.h"
+#include "tablet_input.h"
+#include "touch_hide_cursor_spy.h"
+#include "touch_input.h"
+#include "x11client.h"
 #ifdef KWIN_BUILD_TABBOX
 #include "tabbox/tabbox.h"
 #endif
-#include "unmanaged.h"
-#include "screenedge.h"
-#include "screens.h"
-#include "workspace.h"
+#include "internal_client.h"
 #include "libinput/connection.h"
 #include "libinput/device.h"
 #include "platform.h"
 #include "popup_input_filter.h"
-#include "shell_client.h"
+#include "screenedge.h"
+#include "screens.h"
+#include "unmanaged.h"
 #include "wayland_server.h"
+#include "workspace.h"
+#include "xdgshellclient.h"
 #include "xwl/xwayland_interface.h"
-#include <KWayland/Server/display.h>
-#include <KWayland/Server/fakeinput_interface.h>
-#include <KWayland/Server/seat_interface.h>
-#include <KWayland/Server/relativepointer_interface.h>
-#include <decorations/decoratedclient.h>
+#include "cursor.h"
 #include <KDecoration2/Decoration>
 #include <KGlobalAccel>
+#include <KWaylandServer/display.h>
+#include <KWaylandServer/fakeinput_interface.h>
+#include <KWaylandServer/relativepointer_interface.h>
+#include <KWaylandServer/seat_interface.h>
+#include <KWaylandServer/buffer_interface.h>
+#include <KWaylandServer/surface_interface.h>
+#include <KWaylandServer/tablet_interface.h>
+#include <decorations/decoratedclient.h>
 
 //screenlocker
 #include <KScreenLocker/KsldApp>
@@ -172,6 +178,40 @@ bool InputEventFilter::swipeGestureCancelled(quint32 time)
 bool InputEventFilter::switchEvent(SwitchEvent *event)
 {
     Q_UNUSED(event)
+    return false;
+}
+
+bool InputEventFilter::tabletToolEvent(TabletEvent *event)
+{
+    Q_UNUSED(event)
+    return false;
+}
+
+bool InputEventFilter::tabletToolButtonEvent(const QSet<uint> &pressedButtons)
+{
+    Q_UNUSED(pressedButtons)
+    return false;
+}
+
+bool InputEventFilter::tabletPadButtonEvent(const QSet<uint> &pressedButtons)
+{
+    Q_UNUSED(pressedButtons)
+    return false;
+}
+
+bool InputEventFilter::tabletPadStripEvent(int number, int position, bool isFinger)
+{
+    Q_UNUSED(number)
+    Q_UNUSED(position)
+    Q_UNUSED(isFinger)
+    return false;
+}
+
+bool InputEventFilter::tabletPadRingEvent(int number, int position, bool isFinger)
+{
+    Q_UNUSED(number)
+    Q_UNUSED(position)
+    Q_UNUSED(isFinger)
     return false;
 }
 
@@ -381,8 +421,8 @@ public:
         return waylandServer()->isScreenLocked();
     }
 private:
-    bool surfaceAllowed(KWayland::Server::SurfaceInterface *(KWayland::Server::SeatInterface::*method)() const) const {
-        if (KWayland::Server::SurfaceInterface *s = (waylandServer()->seat()->*method)()) {
+    bool surfaceAllowed(KWaylandServer::SurfaceInterface *(KWaylandServer::SeatInterface::*method)() const) const {
+        if (KWaylandServer::SurfaceInterface *s = (waylandServer()->seat()->*method)()) {
             if (Toplevel *t = waylandServer()->findClient(s)) {
                 return t->isLockScreen() || t->isInputMethod();
             }
@@ -391,13 +431,13 @@ private:
         return true;
     }
     bool pointerSurfaceAllowed() const {
-        return surfaceAllowed(&KWayland::Server::SeatInterface::focusedPointerSurface);
+        return surfaceAllowed(&KWaylandServer::SeatInterface::focusedPointerSurface);
     }
     bool keyboardSurfaceAllowed() const {
-        return surfaceAllowed(&KWayland::Server::SeatInterface::focusedKeyboardSurface);
+        return surfaceAllowed(&KWaylandServer::SeatInterface::focusedKeyboardSurface);
     }
     bool touchSurfaceAllowed() const {
-        return surfaceAllowed(&KWayland::Server::SeatInterface::focusedTouchSurface);
+        return surfaceAllowed(&KWaylandServer::SeatInterface::focusedTouchSurface);
     }
 };
 
@@ -405,6 +445,12 @@ class EffectsFilter : public InputEventFilter {
 public:
     bool pointerEvent(QMouseEvent *event, quint32 nativeButton) override {
         Q_UNUSED(nativeButton)
+        if (!effects) {
+            return false;
+        }
+        return static_cast<EffectsHandlerImpl*>(effects)->checkInputWindowEvent(event);
+    }
+    bool wheelEvent(QWheelEvent *event) override {
         if (!effects) {
             return false;
         }
@@ -691,6 +737,15 @@ private:
 
 class GlobalShortcutFilter : public InputEventFilter {
 public:
+    GlobalShortcutFilter() {
+        m_powerDown = new QTimer;
+        m_powerDown->setSingleShot(true);
+        m_powerDown->setInterval(1000);
+    }
+    ~GlobalShortcutFilter() {
+        delete m_powerDown;
+    }
+
     bool pointerEvent(QMouseEvent *event, quint32 nativeButton) override {
         Q_UNUSED(nativeButton);
         if (event->type() == QEvent::MouseButtonPress) {
@@ -717,7 +772,22 @@ public:
         return input()->shortcuts()->processAxis(event->modifiers(), direction);
     }
     bool keyEvent(QKeyEvent *event) override {
-        if (event->type() == QEvent::KeyPress) {
+        if (event->key() == Qt::Key_PowerOff) {
+            const auto modifiers = static_cast<KeyEvent*>(event)->modifiersRelevantForGlobalShortcuts();
+            if (event->type() == QEvent::KeyPress && !event->isAutoRepeat()) {
+                QObject::connect(m_powerDown, &QTimer::timeout, input()->shortcuts(), [this, modifiers] {
+                    QObject::disconnect(m_powerDown, &QTimer::timeout, input()->shortcuts(), nullptr);
+                    m_powerDown->stop();
+                    input()->shortcuts()->processKey(modifiers, Qt::Key_PowerDown);
+                });
+                m_powerDown->start();
+                return true;
+            } else if (event->type() == QEvent::KeyRelease) {
+                const bool ret = !m_powerDown->isActive() || input()->shortcuts()->processKey(modifiers, event->key());
+                m_powerDown->stop();
+                return ret;
+            }
+        } else if (event->type() == QEvent::KeyPress) {
             return input()->shortcuts()->processKey(static_cast<KeyEvent*>(event)->modifiersRelevantForGlobalShortcuts(), event->key());
         }
         return false;
@@ -742,6 +812,9 @@ public:
         input()->shortcuts()->processSwipeEnd();
         return false;
     }
+
+private:
+    QTimer* m_powerDown = nullptr;
 };
 
 
@@ -818,7 +891,7 @@ class InternalWindowEventFilter : public InputEventFilter {
         {
         case QEvent::MouseButtonPress:
         case QEvent::MouseButtonRelease: {
-            auto s = waylandServer()->findClient(internal);
+            auto s = qobject_cast<InternalClient *>(workspace()->findInternal(internal));
             if (s && s->isDecorated()) {
                 // only perform mouse commands on decorated internal windows
                 const auto actionResult = performClientMouseAction(event, s);
@@ -845,7 +918,7 @@ class InternalWindowEventFilter : public InputEventFilter {
             return false;
         }
         if (event->angleDelta().y() != 0) {
-            auto s = waylandServer()->findClient(internal);
+            auto s = qobject_cast<InternalClient *>(workspace()->findInternal(internal));
             if (s && s->isDecorated()) {
                 // client window action only on vertical scrolling
                 const auto actionResult = performClientWheelAction(event, s);
@@ -868,7 +941,7 @@ class InternalWindowEventFilter : public InputEventFilter {
         return e.isAccepted();
     }
     bool keyEvent(QKeyEvent *event) override {
-        const auto &internalClients = waylandServer()->internalClients();
+        const QList<InternalClient *> &internalClients = workspace()->internalClients();
         if (internalClients.isEmpty()) {
             return false;
         }
@@ -1333,23 +1406,23 @@ public:
         auto seat = waylandServer()->seat();
         seat->setTimestamp(event->timestamp());
         auto _event = static_cast<WheelEvent *>(event);
-        KWayland::Server::PointerAxisSource source;
+        KWaylandServer::PointerAxisSource source;
         switch (_event->axisSource()) {
         case KWin::InputRedirection::PointerAxisSourceWheel:
-            source = KWayland::Server::PointerAxisSource::Wheel;
+            source = KWaylandServer::PointerAxisSource::Wheel;
             break;
         case KWin::InputRedirection::PointerAxisSourceFinger:
-            source = KWayland::Server::PointerAxisSource::Finger;
+            source = KWaylandServer::PointerAxisSource::Finger;
             break;
         case KWin::InputRedirection::PointerAxisSourceContinuous:
-            source = KWayland::Server::PointerAxisSource::Continuous;
+            source = KWaylandServer::PointerAxisSource::Continuous;
             break;
         case KWin::InputRedirection::PointerAxisSourceWheelTilt:
-            source = KWayland::Server::PointerAxisSource::WheelTilt;
+            source = KWaylandServer::PointerAxisSource::WheelTilt;
             break;
         case KWin::InputRedirection::PointerAxisSourceUnknown:
         default:
-            source = KWayland::Server::PointerAxisSource::Unknown;
+            source = KWaylandServer::PointerAxisSource::Unknown;
             break;
         }
         seat->pointerAxisV5(_event->orientation(), _event->delta(), _event->discreteDelta(), source);
@@ -1476,6 +1549,226 @@ public:
         seat->cancelPointerSwipeGesture();
         return true;
     }
+};
+
+static KWaylandServer::SeatInterface *findSeat()
+{
+    auto server = waylandServer();
+    if (!server) {
+        return nullptr;
+    }
+    return server->seat();
+}
+
+/**
+ * Handles input coming from a tablet device (e.g. wacom) often with a pen
+ */
+class TabletInputFilter : public QObject, public InputEventFilter
+{
+public:
+    TabletInputFilter()
+    {
+    }
+
+    static KWaylandServer::TabletSeatInterface *findTabletSeat()
+    {
+        auto server = waylandServer();
+        if (!server) {
+            return nullptr;
+        }
+        KWaylandServer::TabletManagerInterface *manager = server->tabletManager();
+        return manager->seat(findSeat());
+    }
+
+    void integrateDevice(LibInput::Device *device)
+    {
+        if (device->isTabletTool()) {
+            KWaylandServer::TabletSeatInterface *tabletSeat = findTabletSeat();
+            struct udev_device *const udev_device = libinput_device_get_udev_device(device->device());
+            const char *devnode = udev_device_get_devnode(udev_device);
+            tabletSeat->addTablet(device->vendor(), device->product(), device->sysName(), device->name(), {QString::fromUtf8(devnode)});
+        }
+    }
+    void removeDevice(const QString &sysname)
+    {
+        KWaylandServer::TabletSeatInterface *tabletSeat = findTabletSeat();
+        tabletSeat->removeTablet(sysname);
+    }
+
+    bool tabletToolEvent(TabletEvent *event) override
+    {
+        if (!workspace()) {
+            return false;
+        }
+
+        KWaylandServer::TabletSeatInterface *tabletSeat = findTabletSeat();
+        auto tool = tabletSeat->toolByHardwareSerial(event->serialId());
+        if (!tool) {
+            using namespace KWaylandServer;
+
+            const QVector<InputRedirection::Capability> capabilities = event->capabilities();
+            const auto f = [](InputRedirection::Capability cap) {
+                switch (cap) {
+                case InputRedirection::Tilt:
+                    return TabletToolInterface::Tilt;
+                case InputRedirection::Pressure:
+                    return TabletToolInterface::Pressure;
+                case InputRedirection::Distance:
+                    return TabletToolInterface::Distance;
+                case InputRedirection::Rotation:
+                    return TabletToolInterface::Rotation;
+                case InputRedirection::Slider:
+                    return TabletToolInterface::Slider;
+                case InputRedirection::Wheel:
+                    return TabletToolInterface::Wheel;
+                }
+                return TabletToolInterface::Wheel;
+            };
+            QVector<TabletToolInterface::Capability> ifaceCapabilities;
+            ifaceCapabilities.resize(capabilities.size());
+            std::transform(capabilities.constBegin(), capabilities.constEnd(), ifaceCapabilities.begin(), f);
+
+            TabletToolInterface::Type toolType = TabletToolInterface::Type::Pen;
+            switch (event->toolType()) {
+            case InputRedirection::Pen:
+                toolType = TabletToolInterface::Type::Pen;
+                break;
+            case InputRedirection::Eraser:
+                toolType = TabletToolInterface::Type::Eraser;
+                break;
+            case InputRedirection::Brush:
+                toolType = TabletToolInterface::Type::Brush;
+                break;
+            case InputRedirection::Pencil:
+                toolType = TabletToolInterface::Type::Pencil;
+                break;
+            case InputRedirection::Airbrush:
+                toolType = TabletToolInterface::Type::Airbrush;
+                break;
+            case InputRedirection::Finger:
+                toolType = TabletToolInterface::Type::Finger;
+                break;
+            case InputRedirection::Mouse:
+                toolType = TabletToolInterface::Type::Mouse;
+                break;
+            case InputRedirection::Lens:
+                toolType = TabletToolInterface::Type::Lens;
+                break;
+            case InputRedirection::Totem:
+                toolType = TabletToolInterface::Type::Totem;
+                break;
+            }
+            tool = tabletSeat->addTool(toolType, event->serialId(), event->uniqueId(), ifaceCapabilities);
+
+            const auto cursor = new Cursor(tool);
+            Cursors::self()->addCursor(cursor);
+            m_cursorByTool[tool] = cursor;
+
+            connect(tool, &TabletToolInterface::cursorChanged, cursor, &Cursor::cursorChanged);
+            connect(tool, &TabletToolInterface::cursorChanged, cursor, [cursor] (TabletCursor* tcursor) {
+                static const auto createDefaultCursor = [] {
+                    WaylandCursorImage defaultCursor;
+                    WaylandCursorImage::Image ret;
+                    defaultCursor.loadThemeCursorShape(CursorShape(Qt::CrossCursor), &ret);
+                    return ret;
+                };
+                static const auto defaultCursor = createDefaultCursor();
+                if (!tcursor) {
+                    cursor->updateCursor(defaultCursor.image, defaultCursor.hotspot);
+                    return;
+                }
+                auto cursorSurface = tcursor->surface();
+                if (!cursorSurface) {
+                    cursor->updateCursor(defaultCursor.image, defaultCursor.hotspot);
+                    return;
+                }
+                auto buffer = cursorSurface->buffer();
+                if (!buffer) {
+                    cursor->updateCursor(defaultCursor.image, defaultCursor.hotspot);
+                    return;
+                }
+
+                QImage cursorImage;
+                cursorImage = buffer->data().copy();
+                cursorImage.setDevicePixelRatio(cursorSurface->scale());
+
+                cursor->updateCursor(cursorImage, tcursor->hotspot());
+            });
+            emit cursor->cursorChanged();
+        }
+
+        KWaylandServer::TabletInterface *tablet = tabletSeat->tabletByName(event->tabletSysName());
+
+        Toplevel *toplevel = input()->findToplevel(event->globalPos());
+        if (!toplevel || !toplevel->surface()) {
+            return false;
+        }
+
+        KWaylandServer::SurfaceInterface *surface = toplevel->surface();
+        tool->setCurrentSurface(surface);
+
+        if (!tool->isClientSupported() || !tablet->isSurfaceSupported(surface)) {
+            return emulateTabletEvent(event);
+        }
+
+        switch (event->type()) {
+        case QEvent::TabletMove: {
+            const auto pos = event->globalPosF() - toplevel->bufferGeometry().topLeft();
+            tool->sendMotion(pos);
+            m_cursorByTool[tool]->setPos(event->globalPos());
+            break;
+        } case QEvent::TabletEnterProximity: {
+            tool->sendProximityIn(tablet);
+            break;
+        } case QEvent::TabletLeaveProximity:
+            tool->sendProximityOut();
+            break;
+        case QEvent::TabletPress:
+            tool->sendDown();
+            break;
+        case QEvent::TabletRelease:
+            tool->sendUp();
+            break;
+        default:
+            qCWarning(KWIN_CORE) << "Unexpected tablet event type" << event;
+            break;
+        }
+        const quint32 MAX_VAL = 65535;
+        tool->sendPressure(MAX_VAL * event->pressure());
+        tool->sendFrame(event->timestamp());
+        waylandServer()->simulateUserActivity();
+        return true;
+    }
+
+    bool emulateTabletEvent(TabletEvent *event)
+    {
+        if (!workspace()) {
+            return false;
+        }
+
+        switch (event->type()) {
+        case QEvent::TabletMove:
+        case QEvent::TabletEnterProximity:
+            input()->pointer()->processMotion(event->globalPosF(), event->timestamp());
+            break;
+        case QEvent::TabletPress:
+            input()->pointer()->processButton(KWin::qtMouseButtonToButton(Qt::LeftButton),
+                                              InputRedirection::PointerButtonPressed, event->timestamp());
+            break;
+        case QEvent::TabletRelease:
+            input()->pointer()->processButton(KWin::qtMouseButtonToButton(Qt::LeftButton),
+                                              InputRedirection::PointerButtonReleased, event->timestamp());
+            break;
+        case QEvent::TabletLeaveProximity:
+            break;
+        default:
+            qCWarning(KWIN_CORE) << "Unexpected tablet event type" << event;
+            break;
+        }
+        waylandServer()->simulateUserActivity();
+        return true;
+    }
+    QHash<KWaylandServer::TabletToolInterface*, Cursor*> m_cursorByTool;
 };
 
 class DragAndDropInputFilter : public InputEventFilter
@@ -1616,6 +1909,7 @@ InputRedirection::InputRedirection(QObject *parent)
     : QObject(parent)
     , m_keyboard(new KeyboardInputRedirection(this))
     , m_pointer(new PointerInputRedirection(this))
+    , m_tablet(new TabletInputRedirection(this))
     , m_touch(new TouchInputRedirection(this))
     , m_shortcuts(new GlobalShortcutsManager(this))
 {
@@ -1687,13 +1981,13 @@ void InputRedirection::init()
 void InputRedirection::setupWorkspace()
 {
     if (waylandServer()) {
-        using namespace KWayland::Server;
+        using namespace KWaylandServer;
         FakeInputInterface *fakeInput = waylandServer()->display()->createFakeInput(this);
         fakeInput->create();
         connect(fakeInput, &FakeInputInterface::deviceCreated, this,
             [this] (FakeInputDevice *device) {
                 connect(device, &FakeInputDevice::authenticationRequested, this,
-                    [this, device] (const QString &application, const QString &reason) {
+                    [device] (const QString &application, const QString &reason) {
                         Q_UNUSED(application)
                         Q_UNUSED(reason)
                         // TODO: make secure
@@ -1779,6 +2073,20 @@ void InputRedirection::setupWorkspace()
                        m_touch->frame();
                    }
                 );
+                connect(device, &FakeInputDevice::keyboardKeyPressRequested, this,
+                    [this] (quint32 button) {
+                        // TODO: Fix time
+                        m_keyboard->processKey(button, InputRedirection::KeyboardKeyPressed, 0);
+                        waylandServer()->simulateUserActivity();
+                    }
+                );
+                connect(device, &FakeInputDevice::keyboardKeyReleaseRequested, this,
+                    [this] (quint32 button) {
+                        // TODO: Fix time
+                        m_keyboard->processKey(button, InputRedirection::KeyboardKeyReleased, 0);
+                        waylandServer()->simulateUserActivity();
+                    }
+                );
             }
         );
         connect(workspace(), &Workspace::configChanged, this, &InputRedirection::reconfigure);
@@ -1786,6 +2094,7 @@ void InputRedirection::setupWorkspace()
         m_keyboard->init();
         m_pointer->init();
         m_touch->init();
+        m_tablet->init();
     }
     setupInputFilters();
 }
@@ -1823,6 +2132,16 @@ void InputRedirection::setupInputFilters()
     if (waylandServer()) {
         installInputEventFilter(new WindowActionInputFilter);
         installInputEventFilter(new ForwardInputFilter);
+
+        if (m_libInput) {
+            m_tabletSupport = new TabletInputFilter;
+            for (LibInput::Device *dev : m_libInput->devices()) {
+                m_tabletSupport->integrateDevice(dev);
+            }
+            connect(m_libInput, &LibInput::Connection::deviceAdded, m_tabletSupport, &TabletInputFilter::integrateDevice);
+            connect(m_libInput, &LibInput::Connection::deviceRemovedSysName, m_tabletSupport, &TabletInputFilter::removeDevice);
+            installInputEventFilter(m_tabletSupport);
+        }
     }
 }
 
@@ -1840,15 +2159,6 @@ void InputRedirection::reconfigure()
     }
 }
 
-static KWayland::Server::SeatInterface *findSeat()
-{
-    auto server = waylandServer();
-    if (!server) {
-        return nullptr;
-    }
-    return server->seat();
-}
-
 void InputRedirection::setupLibInput()
 {
     if (!Application::usesLibinput()) {
@@ -1863,7 +2173,7 @@ void InputRedirection::setupLibInput()
 
         if (waylandServer()) {
             // create relative pointer manager
-            waylandServer()->display()->createRelativePointerManager(KWayland::Server::RelativePointerInterfaceVersion::UnstableV1, waylandServer()->display())->create();
+            waylandServer()->display()->createRelativePointerManager(KWaylandServer::RelativePointerInterfaceVersion::UnstableV1, waylandServer()->display())->create();
         }
 
         conn->setInputConfig(kwinApp()->inputConfig());
@@ -1913,6 +2223,18 @@ void InputRedirection::setupLibInput()
                 std::bind(handleSwitchEvent, SwitchEvent::State::On, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
         connect(conn, &LibInput::Connection::switchToggledOff, this,
                 std::bind(handleSwitchEvent, SwitchEvent::State::Off, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+
+        connect(conn, &LibInput::Connection::tabletToolEvent,
+                m_tablet, &TabletInputRedirection::tabletToolEvent);
+        connect(conn, &LibInput::Connection::tabletToolButtonEvent,
+                m_tablet, &TabletInputRedirection::tabletToolButtonEvent);
+        connect(conn, &LibInput::Connection::tabletPadButtonEvent,
+                m_tablet, &TabletInputRedirection::tabletPadButtonEvent);
+        connect(conn, &LibInput::Connection::tabletPadRingEvent,
+                m_tablet, &TabletInputRedirection::tabletPadRingEvent);
+        connect(conn, &LibInput::Connection::tabletPadStripEvent,
+                m_tablet, &TabletInputRedirection::tabletPadStripEvent);
+
         if (screens()) {
             setupLibInputWithScreens();
         } else {
@@ -1965,6 +2287,7 @@ void InputRedirection::setupLibInput()
             }
         );
     }
+
     setupTouchpadShortcuts();
 }
 
@@ -2096,7 +2419,9 @@ static bool acceptsInput(Toplevel *t, const QPoint &pos)
     if (input.isEmpty()) {
         return true;
     }
-    return input.translated(t->pos()).contains(pos);
+    // TODO: What about sub-surfaces sticking outside the main surface?
+    const QPoint localPoint = pos - t->bufferGeometry().topLeft();
+    return input.contains(localPoint);
 }
 
 Toplevel *InputRedirection::findToplevel(const QPoint &pos)
@@ -2111,9 +2436,9 @@ Toplevel *InputRedirection::findToplevel(const QPoint &pos)
         if (effects && static_cast<EffectsHandlerImpl*>(effects)->isMouseInterception()) {
             return nullptr;
         }
-        const UnmanagedList &unmanaged = Workspace::self()->unmanagedList();
+        const QList<Unmanaged *> &unmanaged = Workspace::self()->unmanagedList();
         foreach (Unmanaged *u, unmanaged) {
-            if (u->geometry().contains(pos) && acceptsInput(u, pos)) {
+            if (u->inputGeometry().contains(pos) && acceptsInput(u, pos)) {
                 return u;
             }
         }
@@ -2127,7 +2452,7 @@ Toplevel *InputRedirection::findManagedToplevel(const QPoint &pos)
         return nullptr;
     }
     const bool isScreenLocked = waylandServer() && waylandServer()->isScreenLocked();
-    const ToplevelList &stacking = Workspace::self()->stackingOrder();
+    const QList<Toplevel *> &stacking = Workspace::self()->stackingOrder();
     if (stacking.isEmpty()) {
         return nullptr;
     }
@@ -2349,7 +2674,7 @@ void InputDeviceHandler::update()
         const auto pos = position().toPoint();
         internalWindow = findInternalWindow(pos);
         if (internalWindow) {
-            toplevel = waylandServer()->findClient(internalWindow);
+            toplevel = workspace()->findInternal(internalWindow);
         } else {
             toplevel = input()->findToplevel(pos);
         }
@@ -2394,7 +2719,7 @@ QWindow* InputDeviceHandler::findInternalWindow(const QPoint &pos) const
         return nullptr;
     }
 
-    const auto &internalClients = waylandServer()->internalClients();
+    const QList<InternalClient *> &internalClients = workspace()->internalClients();
     if (internalClients.isEmpty()) {
         return nullptr;
     }
@@ -2406,7 +2731,7 @@ QWindow* InputDeviceHandler::findInternalWindow(const QPoint &pos) const
         if (!w || !w->isVisible()) {
             continue;
         }
-        if (!(*it)->geometry().contains(pos)) {
+        if (!(*it)->frameGeometry().contains(pos)) {
             continue;
         }
         // check input mask

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-07-11 03:14+0200\n"
+"POT-Creation-Date: 2020-04-02 03:52+0200\n"
 "PO-Revision-Date: 2010-03-27 23:18+0700\n"
 "Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -17,6 +17,11 @@ msgstr ""
 "X-Generator: Lokalize 1.0\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: kwintabboxconfigform.cpp:88
+#, kde-format
+msgid "KWin"
+msgstr ""
+
 #: layoutpreview.cpp:159
 #, fuzzy, kde-format
 #| msgid "All Desktops"
@@ -24,32 +29,27 @@ msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "หน้าต่างที่อยู่บนพื้นที่ทำงานทั้งหมด"
 
-#: main.cpp:76
+#: main.cpp:77
 #, kde-format
 msgid "Main"
 msgstr "ค่าหลัก ๆ"
 
-#: main.cpp:77
+#: main.cpp:78
 #, kde-format
 msgid "Alternative"
 msgstr "ทางเลือกอื่น"
 
-#: main.cpp:79
+#: main.cpp:80
 #, kde-format
 msgid "Get New Task Switchers..."
 msgstr ""
 
-#: main.cpp:89
+#: main.cpp:90
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""
 "การตั้งค่าต่าง ๆ ของนโยบายการได้รับโฟกัส จะจำกัดความสามารถของการท่องผ่านแต่ละหน้าต่าง"
-
-#: main.cpp:107
-#, kde-format
-msgid "KWin"
-msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
@@ -221,7 +221,7 @@ msgstr "การนำทาง"
 msgid "The effect to replace the list window when desktop effects are active."
 msgstr "ลูกเล่นที่จะใช้แทนที่รายการหน้าต่างเมื่อมีการเปิดใช้งานลูกเล่นของพื้นที่ทำงาน"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, highlightWindowCheck)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:549
 #, kde-format
 msgid ""
@@ -231,7 +231,7 @@ msgstr ""
 "หน้าต่างที่เลือกไว้ในปัจจุบันจะถูกเน้นด้วยการค่อย ๆ จางหายไปจากหน้าต่างอื่น ๆ "
 "ตัวเลือกนี้ต้องการการเปิดใช้งานลูกเล่นของพื้นที่ทำงานด้วย"
 
-#. i18n: ectx: property (text), widget (QCheckBox, highlightWindowCheck)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:552
 #, fuzzy, kde-format
 #| msgid "Show outline of selected window"

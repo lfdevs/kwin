@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-08-05 03:05+0200\n"
-"PO-Revision-Date: 2019-12-08 18:37+0100\n"
+"POT-Creation-Date: 2020-04-23 04:00+0200\n"
+"PO-Revision-Date: 2019-11-16 21:08+0100\n"
 "Last-Translator: Kristóf Kiszel <ulysses@kubuntu.org>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -28,72 +28,72 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "ulysses@kubuntu.org,urbalazs@gmail.com"
 
-#: main.cpp:190 touch.cpp:131
+#: main.cpp:134 touch.cpp:133
 #, kde-format
 msgid "No Action"
 msgstr "Nincs művelet"
 
-#: main.cpp:191 touch.cpp:132
+#: main.cpp:135 touch.cpp:134
 #, kde-format
 msgid "Show Desktop"
 msgstr "Asztal megjelenítése"
 
-#: main.cpp:192 touch.cpp:133
+#: main.cpp:136 touch.cpp:135
 #, kde-format
 msgid "Lock Screen"
 msgstr "Képernyő zárolása"
 
-#: main.cpp:193 touch.cpp:134
+#: main.cpp:137 touch.cpp:136
 #, kde-format
 msgid "Show KRunner"
 msgstr "KRunner megjelenítése"
 
-#: main.cpp:194 touch.cpp:135
+#: main.cpp:138 touch.cpp:137
 #, kde-format
 msgid "Activity Manager"
 msgstr "Aktivitáskezelő"
 
-#: main.cpp:195 touch.cpp:136
+#: main.cpp:139 touch.cpp:138
 #, kde-format
 msgid "Application Launcher"
 msgstr "Alkalmazásindító"
 
-#: main.cpp:199 touch.cpp:140
+#: main.cpp:143 touch.cpp:142
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - Összes asztal"
 
-#: main.cpp:200 touch.cpp:141
+#: main.cpp:144 touch.cpp:143
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - Jelenlegi asztal"
 
-#: main.cpp:201 touch.cpp:142
+#: main.cpp:145 touch.cpp:144
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - Aktuális alkalmazás"
 
-#: main.cpp:204 touch.cpp:145
+#: main.cpp:148 touch.cpp:147
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 - Kocka"
 
-#: main.cpp:205 touch.cpp:146
+#: main.cpp:149 touch.cpp:148
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 - Cilinder"
 
-#: main.cpp:206 touch.cpp:147
+#: main.cpp:150 touch.cpp:149
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 - Gömb"
 
-#: main.cpp:208 touch.cpp:149
+#: main.cpp:152 touch.cpp:151
 #, kde-format
 msgid "Toggle window switching"
 msgstr "Ablakváltás ki-be kapcsolása"
 
-#: main.cpp:209 touch.cpp:150
+#: main.cpp:153 touch.cpp:152
 #, kde-format
 msgid "Toggle alternative window switching"
 msgstr "Alternatív ablakváltás ki-be kapcsolása"
@@ -114,7 +114,7 @@ msgstr ""
 msgid "&Maximize:"
 msgstr "&Maximalizálás:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, quickMaximizeBox)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ElectricBorderMaximize)
 #: main.ui:77
 #, kde-format
 msgid "Windows dragged to top edge"
@@ -126,7 +126,7 @@ msgstr "Az ablakot a felső élhez húzták"
 msgid "&Tile:"
 msgstr "M&ozaik:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, quickTileBox)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ElectricBorderTiling)
 #: main.ui:94
 #, kde-format
 msgid "Windows dragged to left or right edge"
@@ -142,7 +142,7 @@ msgstr "&Negyedméretű csempe aktiválása:"
 #: main.ui:116
 #, no-c-format, kde-format
 msgid "%"
-msgstr "%"
+msgstr "%-án"
 
 #. i18n: ectx: property (prefix), widget (QSpinBox, electricBorderCornerRatioSpin)
 #: main.ui:119
@@ -169,20 +169,20 @@ msgstr "Asztalváltás az egérkurzornak a képernyő sarkához húzásával"
 msgid "&Switch desktop on edge:"
 msgstr "A&sztalváltás a sarkon:"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_ElectricBorders)
 #: main.ui:158
 #, kde-format
 msgctxt "Switch desktop on edge"
 msgid "Disabled"
 msgstr "Kikapcsolva"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_ElectricBorders)
 #: main.ui:163
 #, kde-format
 msgid "Only When Moving Windows"
 msgstr "Csak ablakok mozgatásakor"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, desktopSwitchCombo)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_ElectricBorders)
 #: main.ui:168
 #, kde-format
 msgid "Always Enabled"
@@ -202,8 +202,8 @@ msgstr "A művelet aktiválásához szükséges idő"
 msgid "Activation &delay:"
 msgstr "Aktiválási &késleltetés:"
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, activationDelaySpin)
-#. i18n: ectx: property (suffix), widget (QSpinBox, triggerCooldownSpin)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_ElectricBorderDelay)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_ElectricBorderCooldown)
 #: main.ui:189 main.ui:224
 #, kde-format
 msgid " ms"

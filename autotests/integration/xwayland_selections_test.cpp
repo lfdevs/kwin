@@ -19,14 +19,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "kwin_wayland_test.h"
+#include "abstract_client.h"
 #include "platform.h"
-#include "shell_client.h"
 #include "screens.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "../../xwl/databridge.h"
 
-#include <KWayland/Server/datadevice_interface.h>
+#include <KWaylandServer/datadevice_interface.h>
 
 #include <QProcess>
 #include <QProcessEnvironment>
@@ -52,7 +52,6 @@ private:
 void XwaylandSelectionsTest::initTestCase()
 {
     QSKIP("Skipped as it fails for unknown reasons on build.kde.org");
-    qRegisterMetaType<KWin::ShellClient*>();
     qRegisterMetaType<KWin::AbstractClient*>();
     qRegisterMetaType<QProcess::ExitStatus>();
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
@@ -115,7 +114,7 @@ void XwaylandSelectionsTest::testSync()
     QVERIFY(clientAddedSpy.isValid());
     QSignalSpy shellClientAddedSpy(waylandServer(), &WaylandServer::shellClientAdded);
     QVERIFY(shellClientAddedSpy.isValid());
-    QSignalSpy clipboardChangedSpy(Xwl::DataBridge::self()->dataDeviceIface(), &KWayland::Server::DataDeviceInterface::selectionChanged);
+    QSignalSpy clipboardChangedSpy(Xwl::DataBridge::self()->dataDeviceIface(), &KWaylandServer::DataDeviceInterface::selectionChanged);
     QVERIFY(clipboardChangedSpy.isValid());
 
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();

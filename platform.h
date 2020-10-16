@@ -33,10 +33,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class QAction;
 
-namespace KWayland {
-    namespace Server {
-        class OutputConfigurationInterface;
-    }
+namespace KWaylandServer {
+class OutputConfigurationInterface;
 }
 
 namespace KWin
@@ -184,7 +182,7 @@ public:
      * Base implementation warns that the current backend does not implement this
      * functionality.
      */
-    void requestOutputsChange(KWayland::Server::OutputConfigurationInterface *config);
+    void requestOutputsChange(KWaylandServer::OutputConfigurationInterface *config);
 
     /**
      * Whether the Platform requires compositing for rendering.
@@ -287,9 +285,6 @@ public:
     bool usesSoftwareCursor() const {
         return m_softWareCursor;
     }
-    QImage softwareCursor() const;
-    QPoint softwareCursorHotspot() const;
-    void markCursorAsRendered();
 
     /**
      * Returns a PlatformCursorImage. By default this is created by softwareCursor and
@@ -367,13 +362,9 @@ public:
     virtual OverlayWindow *createOverlayWindow();
 
     /**
-     * Allows a platform to update the X11 timestamp.
-     * Mostly for the X11 standalone platform to interact with QX11Info.
-     *
-     * Default implementation does nothing. This means code relying on the X timestamp being up to date,
-     * might not be working. E.g. synced X11 window resizing
+     * Queries the current X11 time stamp of the X server.
      */
-    virtual void updateXTime();
+    void updateXTime();
 
     /**
      * Creates the OutlineVisual for the given @p outline.
@@ -438,10 +429,10 @@ public:
     virtual QString supportInformation() const;
 
     /**
-     * The compositor plugin which got selected from @link{supportedCompositors}.
+     * The compositor plugin which got selected from @ref supportedCompositors.
      * Prior to selecting a compositor this returns @c NoCompositing.
      *
-     * This method allows the platforms to limit the offerings in @link{supportedCompositors}
+     * This method allows the platforms to limit the offerings in @ref supportedCompositors
      * in case they do not support runtime compositor switching
      */
     CompositingType selectedCompositor() const
@@ -483,10 +474,11 @@ public Q_SLOTS:
     void processPinchGestureEnd(quint32 time);
     void processPinchGestureCancelled(quint32 time);
 
+    void cursorRendered(const QRect &geometry);
+
 Q_SIGNALS:
     void screensQueried();
     void initFailed();
-    void cursorChanged();
     void readyChanged(bool);
     /**
      * Emitted by backends using a one screen (nested window) approach and when the size of that changes.

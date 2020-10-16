@@ -814,7 +814,7 @@
 <listitem
 ><para
 ><guilabel
->Intelligent</guilabel
+>Minimale Überlappung</guilabel
 > - Das Fenster wird an eine freie Stelle auf der Arbeitsfläche platziert.</para
 ></listitem>
 <listitem
@@ -844,7 +844,7 @@
 <listitem
 ><para
 ><guilabel
->Linke obere Ecke</guilabel
+>Links oben</guilabel
 ></para
 ></listitem>
 <listitem
@@ -2209,7 +2209,6 @@
 >Übersetzung Matthias Kiefer <email
 >Matthias.Kiefer@gmx.de</email
 ></para
-> 
-&underFDL; </chapter>
+> &underFDL; </chapter>
 &documentation.index;
 </book>

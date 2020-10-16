@@ -3,7 +3,7 @@
  This file is part of the KDE project.
 
 Copyright (C) 2009 Marco Martin notmart@gmail.com
-Copyright (C) 2018 Vlad Zagorodniy <vladzzag@gmail.com>
+Copyright (C) 2018 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,9 +26,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFontMetrics>
 #include <QWindow>
 
-#include <KWayland/Server/surface_interface.h>
-#include <KWayland/Server/slide_interface.h>
-#include <KWayland/Server/display.h>
+#include <KWaylandServer/surface_interface.h>
+#include <KWaylandServer/slide_interface.h>
+#include <KWaylandServer/display.h>
 
 #include <KWindowEffects>
 
@@ -40,7 +40,7 @@ namespace KWin
 SlidingPopupsEffect::SlidingPopupsEffect()
 {
     initConfig<SlidingPopupsConfig>();
-    KWayland::Server::Display *display = effects->waylandDisplay();
+    KWaylandServer::Display *display = effects->waylandDisplay();
     if (display) {
         display->createSlideManager(this)->create();
     }
@@ -200,7 +200,7 @@ void SlidingPopupsEffect::slotWindowAdded(EffectWindow *w)
     //Wayland
     if (auto surf = w->surface()) {
         slotWaylandSlideOnShowChanged(w);
-        connect(surf, &KWayland::Server::SurfaceInterface::slideOnShowHideChanged, this, [this, surf] {
+        connect(surf, &KWaylandServer::SurfaceInterface::slideOnShowHideChanged, this, [this, surf] {
             slotWaylandSlideOnShowChanged(effects->findWindow(surf));
         });
     }
@@ -354,7 +354,7 @@ void SlidingPopupsEffect::slotWaylandSlideOnShowChanged(EffectWindow* w)
         return;
     }
 
-    KWayland::Server::SurfaceInterface *surf = w->surface();
+    KWaylandServer::SurfaceInterface *surf = w->surface();
     if (!surf) {
         return;
     }
@@ -365,16 +365,16 @@ void SlidingPopupsEffect::slotWaylandSlideOnShowChanged(EffectWindow* w)
         animData.offset = surf->slideOnShowHide()->offset();
 
         switch (surf->slideOnShowHide()->location()) {
-        case KWayland::Server::SlideInterface::Location::Top:
+        case KWaylandServer::SlideInterface::Location::Top:
             animData.location = Location::Top;
             break;
-        case KWayland::Server::SlideInterface::Location::Left:
+        case KWaylandServer::SlideInterface::Location::Left:
             animData.location = Location::Left;
             break;
-        case KWayland::Server::SlideInterface::Location::Right:
+        case KWaylandServer::SlideInterface::Location::Right:
             animData.location = Location::Right;
             break;
-        case KWayland::Server::SlideInterface::Location::Bottom:
+        case KWaylandServer::SlideInterface::Location::Bottom:
         default:
             animData.location = Location::Bottom;
             break;
@@ -400,23 +400,25 @@ void SlidingPopupsEffect::setupInternalWindowSlide(EffectWindow *w)
     if (!slideProperty.isValid()) {
         return;
     }
-    AnimationData &animData = m_animationsData[w];
+    Location location;
     switch (slideProperty.value<KWindowEffects::SlideFromLocation>()) {
     case KWindowEffects::BottomEdge:
-        animData.location = Location::Bottom;
+        location = Location::Bottom;
         break;
     case KWindowEffects::TopEdge:
-        animData.location = Location::Top;
+        location = Location::Top;
         break;
     case KWindowEffects::RightEdge:
-        animData.location = Location::Right;
+        location = Location::Right;
         break;
     case KWindowEffects::LeftEdge:
-        animData.location = Location::Left;
+        location = Location::Left;
         break;
     default:
         return;
     }
+    AnimationData &animData = m_animationsData[w];
+    animData.location = location;
     bool intOk = false;
     animData.offset = internal->property("kwin_slide_offset").toInt(&intOk);
     if (!intOk) {
@@ -462,7 +464,7 @@ void SlidingPopupsEffect::slideIn(EffectWindow *w)
     animation.kind = AnimationKind::In;
     animation.timeLine.setDirection(TimeLine::Forward);
     animation.timeLine.setDuration((*dataIt).slideInDuration);
-    animation.timeLine.setEasingCurve(QEasingCurve::InOutSine);
+    animation.timeLine.setEasingCurve(QEasingCurve::OutCubic);
 
     // If the opposite animation (Out) was active and it had shorter duration,
     // at this point, the timeline can end up in the "done" state. Thus, we have
@@ -501,7 +503,8 @@ void SlidingPopupsEffect::slideOut(EffectWindow *w)
     animation.kind = AnimationKind::Out;
     animation.timeLine.setDirection(TimeLine::Backward);
     animation.timeLine.setDuration((*dataIt).slideOutDuration);
-    animation.timeLine.setEasingCurve(QEasingCurve::InOutSine);
+    // this is effectively InCubic because the direction is reversed
+    animation.timeLine.setEasingCurve(QEasingCurve::OutCubic);
 
     // If the opposite animation (In) was active and it had shorter duration,
     // at this point, the timeline can end up in the "done" state. Thus, we have

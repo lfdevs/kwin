@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-10-24 08:00+0200\n"
+"POT-Creation-Date: 2020-05-07 03:54+0200\n"
 "PO-Revision-Date: 2009-01-13 17:22+0530\n"
 "Last-Translator: Runa Bhattacharjee <runab@redhat.com>\n"
 "Language-Team: Bengali INDIA <fedora-trans-bn_IN@redhat.com>\n"
@@ -81,38 +81,38 @@ msgstr "অন্যান্যগুলির নীচে স্থাপন 
 msgid "Keep above"
 msgstr "অন্যান্যগুলির উপরে স্থাপন করা হবে"
 
-#: kcm.cpp:95
+#: kcm.cpp:62
 #, fuzzy, kde-format
 #| msgid "kcmkwindecoration"
 msgid "Window Decorations"
 msgstr "kcmkwindecoration"
 
-#: kcm.cpp:99
+#: kcm.cpp:66
 #, kde-format
 msgid "Valerio Pilo"
 msgstr ""
 
-#: kcm.cpp:100
+#: kcm.cpp:67
 #, kde-format
 msgid "Author"
 msgstr ""
 
-#: kcm.cpp:138
+#: kcm.cpp:122
 #, kde-format
 msgid "Download New Window Decorations"
 msgstr ""
 
-#: package/contents/ui/Buttons.qml:85
+#: package/contents/ui/Buttons.qml:87
 #, kde-format
 msgid "Titlebar"
 msgstr ""
 
-#: package/contents/ui/Buttons.qml:224
+#: package/contents/ui/Buttons.qml:228
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr ""
 
-#: package/contents/ui/Buttons.qml:241
+#: package/contents/ui/Buttons.qml:246
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr ""
@@ -122,13 +122,13 @@ msgstr ""
 msgid "This module lets you configure the window decorations."
 msgstr ""
 
-#: package/contents/ui/main.qml:62
+#: package/contents/ui/main.qml:61
 #, kde-format
 msgctxt "tab label"
 msgid "Theme"
 msgstr ""
 
-#: package/contents/ui/main.qml:66
+#: package/contents/ui/main.qml:65
 #, fuzzy, kde-format
 #| msgid "Buttons"
 msgctxt "tab label"
@@ -147,13 +147,13 @@ msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr ""
 
-#: package/contents/ui/main.qml:137
+#: package/contents/ui/main.qml:138
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr ""
 
-#: package/contents/ui/main.qml:149
+#: package/contents/ui/main.qml:151
 #, kde-format
 msgctxt "popup tip"
 msgid ""
@@ -161,14 +161,14 @@ msgid ""
 "appears."
 msgstr ""
 
-#: package/contents/ui/main.qml:156
+#: package/contents/ui/main.qml:158
 #, fuzzy, kde-format
 #| msgid "&Show window button tooltips"
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "উইন্ডো বাটনের টুল-টিপ প্রদর্শন করা হবে (&S)"
 
-#: package/contents/ui/Themes.qml:97
+#: package/contents/ui/Themes.qml:100
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr ""

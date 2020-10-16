@@ -191,10 +191,10 @@ static void convertFromGLImage(QImage &img, int w, int h)
 {
     // from QtOpenGL/qgl.cpp
     // Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies)
-    // see http://qt.gitorious.org/qt/qt/blobs/master/src/opengl/qgl.cpp
+    // see https://github.com/qt/qtbase/blob/dev/src/opengl/qgl.cpp
     if (QSysInfo::ByteOrder == QSysInfo::BigEndian) {
         // OpenGL gives RGBA; Qt wants ARGB
-        uint *p = (uint*)img.bits();
+        uint *p = reinterpret_cast<uint *>(img.bits());
         uint *end = p + w * h;
         while (p < end) {
             uint a = *p << 24;
@@ -204,7 +204,7 @@ static void convertFromGLImage(QImage &img, int w, int h)
     } else {
         // OpenGL gives ABGR (i.e. RGBA backwards); Qt wants ARGB
         for (int y = 0; y < h; y++) {
-            uint *q = (uint*)img.scanLine(y);
+            uint *q = reinterpret_cast<uint*>(img.scanLine(y));
             for (int x = 0; x < w; ++x) {
                 const uint pixel = *q;
                 *q = ((pixel << 16) & 0xff0000) | ((pixel >> 16) & 0xff)

@@ -22,10 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef KWIN_BUILD_ACTIVITIES
 #include "activities.h"
 #endif
-#include "client.h"
+#include "x11client.h"
 #include "screens.h"
 #include "workspace.h"
-#include "shell_client.h"
 #include "wayland_server.h"
 
 namespace KWin {
@@ -39,6 +38,12 @@ static quint32 nextId() {
 ClientLevel::ClientLevel(ClientModel *model, AbstractLevel *parent)
     : AbstractLevel(model, parent)
 {
+#if KWIN_BUILD_ACTIVITIES
+    if (Activities *activities = Activities::self()) {
+        connect(activities, &Activities::currentChanged, this, &ClientLevel::reInit);
+    }
+#endif
+    connect(VirtualDesktopManager::self(), &VirtualDesktopManager::currentChanged, this, &ClientLevel::reInit);
     connect(Workspace::self(), &Workspace::clientAdded, this, &ClientLevel::clientAdded);
     connect(Workspace::self(), &Workspace::clientRemoved, this, &ClientLevel::clientRemoved);
     connect(model, SIGNAL(exclusionsChanged()), SLOT(reInit()));
@@ -202,9 +207,9 @@ void ClientLevel::removeClient(AbstractClient *client)
 
 void ClientLevel::init()
 {
-    const ClientList &clients = Workspace::self()->clientList();
-    for (ClientList::const_iterator it = clients.begin(); it != clients.end(); ++it) {
-        Client *client = *it;
+    const QList<X11Client *> &clients = Workspace::self()->clientList();
+    for (auto it = clients.begin(); it != clients.end(); ++it) {
+        X11Client *client = *it;
         setupClientConnections(client);
         if (!exclude(client) && shouldAdd(client)) {
             m_clients.insert(nextId(), client);
@@ -214,8 +219,8 @@ void ClientLevel::init()
 
 void ClientLevel::reInit()
 {
-    const ClientList &clients = Workspace::self()->clientList();
-    for (ClientList::const_iterator it = clients.begin(); it != clients.end(); ++it) {
+    const QList<X11Client *> &clients = Workspace::self()->clientList();
+    for (auto it = clients.begin(); it != clients.end(); ++it) {
         checkClient((*it));
     }
     if (waylandServer()) {
@@ -842,6 +847,7 @@ name::~name() {}
 CLIENT_MODEL_WRAPPER(SimpleClientModel, QList<LevelRestriction>())
 CLIENT_MODEL_WRAPPER(ClientModelByScreen, QList<LevelRestriction>() << ScreenRestriction)
 CLIENT_MODEL_WRAPPER(ClientModelByScreenAndDesktop, QList<LevelRestriction>() << ScreenRestriction << VirtualDesktopRestriction)
+CLIENT_MODEL_WRAPPER(ClientModelByScreenAndActivity, QList<LevelRestriction>() << ScreenRestriction << ActivityRestriction)
 #undef CLIENT_MODEL_WRAPPER
 
 ClientFilterModel::ClientFilterModel(QObject *parent)
@@ -896,7 +902,7 @@ bool ClientFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourc
         // we do not filter out screen, desktop and activity
         return true;
     }
-    Client *client = qvariant_cast<KWin::Client *>(data);
+    X11Client *client = qvariant_cast<KWin::X11Client *>(data);
     if (!client) {
         return false;
     }

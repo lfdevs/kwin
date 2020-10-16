@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# g.sora <g.sora@tiscali.it>, 2010, 2012, 2013, 2014, 2020.
+# g.sora <g.sora@tiscali.it>, 2010, 2012, 2013, 2014, 2019, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-10-24 08:00+0200\n"
-"PO-Revision-Date: 2020-01-05 23:13+0100\n"
+"POT-Creation-Date: 2020-05-07 03:54+0200\n"
+"PO-Revision-Date: 2020-05-05 21:53+0100\n"
 "Last-Translator: Giovanni Sora <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -77,53 +77,53 @@ msgstr "Mantene infra"
 msgid "Keep above"
 msgstr "Mantene supra"
 
-#: kcm.cpp:95
+#: kcm.cpp:62
 #, kde-format
 msgid "Window Decorations"
 msgstr "Decorationes de fenestra"
 
-#: kcm.cpp:99
+#: kcm.cpp:66
 #, kde-format
 msgid "Valerio Pilo"
 msgstr "Valerio Pilo"
 
-#: kcm.cpp:100
+#: kcm.cpp:67
 #, kde-format
 msgid "Author"
 msgstr "Autor"
 
-#: kcm.cpp:138
+#: kcm.cpp:122
 #, kde-format
 msgid "Download New Window Decorations"
 msgstr "Discarga nove decorationes de fenestra"
 
-#: package/contents/ui/Buttons.qml:85
+#: package/contents/ui/Buttons.qml:87
 #, kde-format
 msgid "Titlebar"
 msgstr "Barra de titulo"
 
-#: package/contents/ui/Buttons.qml:224
+#: package/contents/ui/Buttons.qml:228
 #, kde-format
 msgid "Drop button here to remove it"
-msgstr ""
+msgstr "Lassa cader hic per remover lo"
 
-#: package/contents/ui/Buttons.qml:241
+#: package/contents/ui/Buttons.qml:246
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
-msgstr ""
+msgstr "Traher buttones intra hic e le barra de titulo"
 
 #: package/contents/ui/main.qml:27
 #, kde-format
 msgid "This module lets you configure the window decorations."
-msgstr ""
+msgstr "Iste modulo te permitte configurar le decorationes de fenestra."
 
-#: package/contents/ui/main.qml:62
+#: package/contents/ui/main.qml:61
 #, kde-format
 msgctxt "tab label"
 msgid "Theme"
 msgstr "Thema"
 
-#: package/contents/ui/main.qml:66
+#: package/contents/ui/main.qml:65
 #, kde-format
 msgctxt "tab label"
 msgid "Titlebar Buttons"
@@ -133,7 +133,7 @@ msgstr "Buttones de barra de titulo"
 #, kde-format
 msgctxt "checkbox label"
 msgid "Use theme's default window border size"
-msgstr ""
+msgstr "Usa dimension de bordo de fenestra predefinite del thema"
 
 #: package/contents/ui/main.qml:121
 #, kde-format
@@ -141,13 +141,13 @@ msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "Obtene nove decorationes de fenestra..."
 
-#: package/contents/ui/main.qml:137
+#: package/contents/ui/main.qml:138
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Claude fenestras per duple pulsar sur le button de menu"
 
-#: package/contents/ui/main.qml:149
+#: package/contents/ui/main.qml:151
 #, kde-format
 msgctxt "popup tip"
 msgid ""
@@ -157,13 +157,13 @@ msgstr ""
 "Claude per un duple cliccar: mantene le buttonde Menu de fenetra  pressate "
 "usque il appare."
 
-#: package/contents/ui/main.qml:156
+#: package/contents/ui/main.qml:158
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Monstra consilios de button de fenestra de barra de titulo"
 
-#: package/contents/ui/Themes.qml:97
+#: package/contents/ui/Themes.qml:100
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr "Edita Thema %1"

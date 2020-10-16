@@ -28,12 +28,9 @@
 #include <QVector>
 #include <QVector2D>
 
-namespace KWayland
-{
-namespace Server
+namespace KWaylandServer
 {
 class ContrastManagerInterface;
-}
 }
 
 namespace KWin
@@ -55,8 +52,8 @@ public:
     void reconfigure(ReconfigureFlags flags) override;
     void prePaintScreen(ScreenPrePaintData &data, int time) override;
     void prePaintWindow(EffectWindow *w, WindowPrePaintData &data, int time) override;
-    void drawWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) override;
-    void paintEffectFrame(EffectFrame *frame, QRegion region, double opacity, double frameOpacity) override;
+    void drawWindow(EffectWindow *w, int mask, const QRegion &region, WindowPaintData &data) override;
+    void paintEffectFrame(EffectFrame *frame, const QRegion &region, double opacity, double frameOpacity) override;
 
     bool provides(Feature feature) override;
 
@@ -87,7 +84,7 @@ private:
     QRegion m_currentContrast; // keeps track of the currently contrasted area of non-caching windows(from bottom to top)
     QHash< const EffectWindow*, QMatrix4x4> m_colorMatrices;
     QHash< const EffectWindow*, QMetaObject::Connection > m_contrastChangedConnections; // used only in Wayland to keep track of effect changed
-    KWayland::Server::ContrastManagerInterface *m_contrastManager = nullptr;
+    KWaylandServer::ContrastManagerInterface *m_contrastManager = nullptr;
 };
 
 inline

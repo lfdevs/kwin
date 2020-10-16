@@ -757,7 +757,7 @@ Nothing
 <listitem
 ><para
 >La política de col·locació determina a on apareixerà una nova finestra a l'escriptori. <guilabel
->Intel·ligent</guilabel
+>Superposició mínima</guilabel
 > intentarà aconseguir un mínim sobreposat de les finestres, <guilabel
 >Cascada</guilabel
 > farà una cascada amb les finestres, <guilabel
@@ -765,7 +765,7 @@ Nothing
 > es farà servir una col·locació aleatòria. <guilabel
 >Centrat</guilabel
 > obrirà totes les finestres noves al centre de la pantalla, i <guilabel
->Arraconada</guilabel
+>A la cantonada superior esquerra</guilabel
 > obrirà totes les finestres amb la seva cantonada superior esquerra a la part superior esquerra de la pantalla.</para
 ></listitem>
 </varlistentry>

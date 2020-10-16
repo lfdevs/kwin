@@ -27,7 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPainter>
 // KDE
 #include <KConfigGroup>
-#include <KIconLoader>
 #include <KSharedConfig>
 #include <KStartupInfo>
 #include <KSelectionOwner>
@@ -81,7 +80,8 @@ StartupFeedbackEffect::StartupFeedbackEffect()
     , m_texture(nullptr)
     , m_type(BouncingFeedback)
     , m_blinkingShader(nullptr)
-    , m_cursorSize(0)
+    , m_cursorSize(24)
+    , m_configWatcher(KConfigWatcher::create(KSharedConfig::openConfig("klaunchrc", KConfig::NoGlobals)))
 {
     for (int i = 0; i < 5; ++i) {
         m_bouncingTextures[i] = nullptr;
@@ -94,7 +94,11 @@ StartupFeedbackEffect::StartupFeedbackEffect()
     connect(m_startupInfo, &KStartupInfo::gotRemoveStartup, this, &StartupFeedbackEffect::gotRemoveStartup);
     connect(m_startupInfo, &KStartupInfo::gotStartupChange, this, &StartupFeedbackEffect::gotStartupChange);
     connect(effects, &EffectsHandler::mouseChanged, this, &StartupFeedbackEffect::slotMouseChanged);
+    connect(m_configWatcher.data(), &KConfigWatcher::configChanged, this, [this]() {
+        reconfigure(ReconfigureAll);
+    });
     reconfigure(ReconfigureAll);
+
 }
 
 StartupFeedbackEffect::~StartupFeedbackEffect()
@@ -117,11 +121,10 @@ bool StartupFeedbackEffect::supported()
 void StartupFeedbackEffect::reconfigure(Effect::ReconfigureFlags flags)
 {
     Q_UNUSED(flags)
-    KConfig conf(QStringLiteral("klaunchrc"), KConfig::NoGlobals);
-    KConfigGroup c = conf.group("FeedbackStyle");
+    KConfigGroup c = m_configWatcher->config()->group("FeedbackStyle");
     const bool busyCursor = c.readEntry("BusyCursor", true);
 
-    c = conf.group("BusyCursorSettings");
+    c = m_configWatcher->config()->group("BusyCursorSettings");
     m_startupInfo->setTimeout(c.readEntry("Timeout", s_startupDefaultTimeout));
     const bool busyBlinking = c.readEntry("Blinking", false);
     const bool busyBouncing = c.readEntry("Bouncing", true);
@@ -170,7 +173,7 @@ void StartupFeedbackEffect::prePaintScreen(ScreenPrePaintData& data, int time)
     effects->prePaintScreen(data, time);
 }
 
-void StartupFeedbackEffect::paintScreen(int mask, QRegion region, ScreenPaintData& data)
+void StartupFeedbackEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData& data)
 {
     effects->paintScreen(mask, region, data);
     if (m_active) {
@@ -275,19 +278,13 @@ void StartupFeedbackEffect::start(const QString& icon)
     auto readCursorSize = []() -> int {
         // read details about the mouse-cursor theme define per default
         KConfigGroup mousecfg(effects->inputConfig(), "Mouse");
-        QString size  = mousecfg.readEntry("cursorSize", QString());
-
-        // fetch a reasonable size for the cursor-theme image
-        bool ok;
-        int cursorSize = size.toInt(&ok);
-        if (!ok)
-            cursorSize = QApplication::style()->pixelMetric(QStyle::PM_LargeIconSize);
+        int cursorSize  = mousecfg.readEntry("cursorSize", 24);
         return cursorSize;
     };
     m_cursorSize = readCursorSize();
     int iconSize = m_cursorSize / 1.5;
     if (!iconSize) {
-        iconSize = IconSize(KIconLoader::Small);
+        iconSize = QApplication::style()->pixelMetric(QStyle::PM_SmallIconSize);
     }
     // get ratio for bouncing cursor so we don't need to manually calculate the sizes for each icon size
     if (m_type == BouncingFeedback)

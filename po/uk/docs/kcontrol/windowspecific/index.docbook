@@ -812,13 +812,13 @@
 <listitem
 ><para
 ><guilabel
->Кмітливе</guilabel
+>Мінімальне перекриття</guilabel
 > — розташувати у області, у якій немає інших вікон.</para
 ></listitem>
 <listitem
 ><para
 ><guilabel
->Максимізація</guilabel
+>Максимізовано</guilabel
 > — відкривати вікно максимізованим.</para
 ></listitem>
 <listitem
@@ -842,7 +842,7 @@
 <listitem
 ><para
 ><guilabel
->В лівому верхньому кутку</guilabel
+>У лівому верхньому куті</guilabel
 ></para
 ></listitem>
 <listitem

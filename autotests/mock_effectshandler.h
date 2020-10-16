@@ -124,14 +124,14 @@ public:
         return 0;
     }
     void doneOpenGLContextCurrent() override {}
-    void drawWindow(KWin::EffectWindow *, int, QRegion, KWin::WindowPaintData &) override {}
+    void drawWindow(KWin::EffectWindow *, int, const QRegion &, KWin::WindowPaintData &) override {}
     KWin::EffectFrame *effectFrame(KWin::EffectFrameStyle, bool, const QPoint &, Qt::Alignment) const override {
         return nullptr;
     }
     KWin::EffectWindow *findWindow(WId) const override {
         return nullptr;
     }
-    KWin::EffectWindow *findWindow(KWayland::Server::SurfaceInterface *) const override {
+    KWin::EffectWindow *findWindow(KWaylandServer::SurfaceInterface *) const override {
         return nullptr;
     }
     KWin::EffectWindow *findWindow(QWindow *w) const override {
@@ -173,9 +173,9 @@ public:
     bool optionRollOverDesktops() const override {
         return false;
     }
-    void paintEffectFrame(KWin::EffectFrame *, QRegion, double, double) override {}
-    void paintScreen(int, QRegion, KWin::ScreenPaintData &) override {}
-    void paintWindow(KWin::EffectWindow *, int, QRegion, KWin::WindowPaintData &) override {}
+    void paintEffectFrame(KWin::EffectFrame *, const QRegion &, double, double) override {}
+    void paintScreen(int, const QRegion &, KWin::ScreenPaintData &) override {}
+    void paintWindow(KWin::EffectWindow *, int, const QRegion &, KWin::WindowPaintData &) override {}
     void postPaintScreen() override {}
     void postPaintWindow(KWin::EffectWindow *) override {}
     void prePaintScreen(KWin::ScreenPrePaintData &, int) override {}
@@ -240,7 +240,7 @@ public:
     xcb_window_t x11RootWindow() const override {
         return QX11Info::appRootWindow();
     }
-    KWayland::Server::Display *waylandDisplay() const override {
+    KWaylandServer::Display *waylandDisplay() const override {
         return nullptr;
     }
 
@@ -278,6 +278,12 @@ public:
 
     KSharedConfigPtr config() const override;
     KSharedConfigPtr inputConfig() const override;
+    void renderEffectQuickView(KWin::EffectQuickView *quickView) const override {
+        Q_UNUSED(quickView);
+    }
+    KWin::SessionState sessionState() const override {
+        return KWin::SessionState::Normal;
+    }
 
 private:
     bool m_animationsSuported = true;

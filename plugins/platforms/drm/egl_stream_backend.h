@@ -20,8 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KWIN_EGL_STREAM_BACKEND_H
 #define KWIN_EGL_STREAM_BACKEND_H
 #include "abstract_egl_backend.h"
-#include <KWayland/Server/surface_interface.h>
-#include <KWayland/Server/eglstream_controller_interface.h>
+#include <KWaylandServer/surface_interface.h>
+#include <KWaylandServer/eglstream_controller_interface.h>
 #include <wayland-server-core.h>
 
 namespace KWin
@@ -30,7 +30,6 @@ namespace KWin
 class DrmBackend;
 class DrmOutput;
 class DrmBuffer;
-class ShellClient;
 
 /**
  * @brief OpenGL Backend using Egl with an EGLDevice.
@@ -64,8 +63,8 @@ private:
         EGLStreamKHR stream;
         GLuint texture;
     };
-    StreamTexture *lookupStreamTexture(KWayland::Server::SurfaceInterface *surface);
-    void attachStreamConsumer(KWayland::Server::SurfaceInterface *surface,
+    StreamTexture *lookupStreamTexture(KWaylandServer::SurfaceInterface *surface);
+    void attachStreamConsumer(KWaylandServer::SurfaceInterface *surface,
                               void *eglStream,
                               wl_array *attribs);
     struct Output 
@@ -83,8 +82,8 @@ private:
 
     DrmBackend *m_backend;
     QVector<Output> m_outputs;
-    KWayland::Server::EglStreamControllerInterface *m_eglStreamControllerInterface;
-    QHash<KWayland::Server::SurfaceInterface *, StreamTexture> m_streamTextures;
+    KWaylandServer::EglStreamControllerInterface *m_eglStreamControllerInterface;
+    QHash<KWaylandServer::SurfaceInterface *, StreamTexture> m_streamTextures;
 
     friend class EglStreamTexture;
 };
@@ -104,7 +103,7 @@ private:
     bool acquireStreamFrame(EGLStreamKHR stream);
     void createFbo();
     void copyExternalTexture(GLuint tex);
-    bool attachBuffer(KWayland::Server::BufferInterface *buffer);
+    bool attachBuffer(KWaylandServer::BufferInterface *buffer);
     EglStreamBackend *m_backend;
     GLuint m_fbo, m_rbo;
     GLenum m_format;

@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-10-24 08:00+0200\n"
+"POT-Creation-Date: 2020-05-07 03:54+0200\n"
 "PO-Revision-Date: 2015-11-18 16:23+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -89,40 +89,40 @@ msgstr "Διατήρηση από κάτω"
 msgid "Keep above"
 msgstr "Διατήρηση από πάνω"
 
-#: kcm.cpp:95
+#: kcm.cpp:62
 #, fuzzy, kde-format
 #| msgid "Get New Decorations..."
 msgid "Window Decorations"
 msgstr "Λήψη νέων διακοσμήσεων παραθύρου..."
 
-#: kcm.cpp:99
+#: kcm.cpp:66
 #, kde-format
 msgid "Valerio Pilo"
 msgstr ""
 
-#: kcm.cpp:100
+#: kcm.cpp:67
 #, kde-format
 msgid "Author"
 msgstr ""
 
-#: kcm.cpp:138
+#: kcm.cpp:122
 #, fuzzy, kde-format
 #| msgid "Get New Decorations..."
 msgid "Download New Window Decorations"
 msgstr "Λήψη νέων διακοσμήσεων παραθύρου..."
 
-#: package/contents/ui/Buttons.qml:85
+#: package/contents/ui/Buttons.qml:87
 #, kde-format
 msgid "Titlebar"
 msgstr "Γραμμή τίτλου"
 
-#: package/contents/ui/Buttons.qml:224
+#: package/contents/ui/Buttons.qml:228
 #, fuzzy, kde-format
 #| msgid "Drop here to remove button"
 msgid "Drop button here to remove it"
 msgstr "Απόθεση εδώ για αφαίρεση κουμπιού"
 
-#: package/contents/ui/Buttons.qml:241
+#: package/contents/ui/Buttons.qml:246
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Σύρσιμο κουμπιών μεταξύ της θέσης αυτής και της γραμμής τίτλου"
@@ -132,14 +132,14 @@ msgstr "Σύρσιμο κουμπιών μεταξύ της θέσης αυτή�
 msgid "This module lets you configure the window decorations."
 msgstr ""
 
-#: package/contents/ui/main.qml:62
+#: package/contents/ui/main.qml:61
 #, fuzzy, kde-format
 #| msgid "Theme"
 msgctxt "tab label"
 msgid "Theme"
 msgstr "Θέμα"
 
-#: package/contents/ui/main.qml:66
+#: package/contents/ui/main.qml:65
 #, fuzzy, kde-format
 #| msgid "Titlebar"
 msgctxt "tab label"
@@ -159,14 +159,14 @@ msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "Λήψη νέων διακοσμήσεων παραθύρου..."
 
-#: package/contents/ui/main.qml:137
+#: package/contents/ui/main.qml:138
 #, fuzzy, kde-format
 #| msgid "Close windows by double clicking the menu button"
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Κλείστε τα παράθυρα με διπλό κλικ στο κουμπί του μενού"
 
-#: package/contents/ui/main.qml:149
+#: package/contents/ui/main.qml:151
 #, fuzzy, kde-format
 #| msgid ""
 #| "Close by double clicking:\n"
@@ -179,14 +179,14 @@ msgstr ""
 "Κλείσιμο με διπλό κλικ  :\n"
 " Για να ανοίξετε το μενού, κρατήστε το κουμπί πατημένο μέχρι να εμφανιστεί."
 
-#: package/contents/ui/main.qml:156
+#: package/contents/ui/main.qml:158
 #, fuzzy, kde-format
 #| msgid "&Show window button tooltips"
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Εμ&φάνιση υποδείξεων κουμπιών παραθύρων"
 
-#: package/contents/ui/Themes.qml:97
+#: package/contents/ui/Themes.qml:100
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr ""

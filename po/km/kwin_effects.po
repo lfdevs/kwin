@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-09-15 03:21+0200\n"
+"POT-Creation-Date: 2020-04-30 03:47+0200\n"
 "PO-Revision-Date: 2012-06-14 11:20+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer\n"
@@ -1279,6 +1279,16 @@ msgctxt "Right mouse button"
 msgid "Right"
 msgstr "​ស្តាំ"
 
+#: mouseclick/mouseclick.h:74
+#, kde-format
+msgid "↓"
+msgstr ""
+
+#: mouseclick/mouseclick.h:75
+#, kde-format
+msgid "↑"
+msgstr ""
+
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
 #, kde-format
@@ -1408,25 +1418,25 @@ msgstr "ពណ៌ ៖"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "គូរ​ដោយប្រើ​កណ្ដុរ ដោយ​សង្កត់​គ្រាប់ចុច​ប្ដូរ(Shift)+មេតា ហើយ​ផ្លាស់ទី​កណ្ដុរ ។"
 
-#: presentwindows/presentwindows.cpp:78
+#: presentwindows/presentwindows.cpp:76
 #: presentwindows/presentwindows_config.cpp:73
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "បិទ/បើក​បង្អួច​បច្ចុប្បន្ន (ផ្ទៃតុ​បច្ចុប្បន្ន)"
 
-#: presentwindows/presentwindows.cpp:86
+#: presentwindows/presentwindows.cpp:84
 #: presentwindows/presentwindows_config.cpp:67
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "បិទ/បើក​បង្អួច​បច្ចុប្បប្ន (ផ្ទៃតុ​ទាំងអស់)"
 
-#: presentwindows/presentwindows.cpp:95
+#: presentwindows/presentwindows.cpp:93
 #: presentwindows/presentwindows_config.cpp:79
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "បិទ/បើក​បង្អួច​បច្ចុប្បន្ន​ (ថ្នាក់​បង្អួច)"
 
-#: presentwindows/presentwindows.cpp:1666
+#: presentwindows/presentwindows.cpp:1638
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1667,26 +1677,26 @@ msgstr "ចលនា"
 msgid "Window close scale:"
 msgstr "ចលនា"
 
-#: screenshot/screenshot.cpp:354
+#: screenshot/screenshot.cpp:458
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr ""
 
-#: screenshot/screenshot.cpp:355
+#: screenshot/screenshot.cpp:459
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr ""
 
-#: screenshot/screenshot.cpp:464
+#: screenshot/screenshot.cpp:568
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
 
-#: screenshot/screenshot.cpp:467
+#: screenshot/screenshot.cpp:571
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"

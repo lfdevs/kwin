@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: கேபசூ 4.1 தமிழாக்கம்\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-09-15 03:21+0200\n"
+"POT-Creation-Date: 2020-04-30 03:47+0200\n"
 "PO-Revision-Date: 2008-03-25 09:16+0530\n"
 "Last-Translator: ஆமாச்சு <amachu@ubuntu.com>\n"
 "Language-Team: தமிழ் <https://lists.ubuntu.com/mailman/listinfo/ubuntu-l10n-"
@@ -1299,6 +1299,16 @@ msgctxt "Right mouse button"
 msgid "Right"
 msgstr "வலது"
 
+#: mouseclick/mouseclick.h:74
+#, kde-format
+msgid "↓"
+msgstr ""
+
+#: mouseclick/mouseclick.h:75
+#, kde-format
+msgid "↑"
+msgstr ""
+
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
 #, kde-format
@@ -1427,28 +1437,28 @@ msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr ""
 "எலியத்தைக் கொண்டு Shift+Meta விசைகளை பிடித்த வண்ணம் எலியத்தை நகர்த்துவதன் மூலம் வரையவும்."
 
-#: presentwindows/presentwindows.cpp:78
+#: presentwindows/presentwindows.cpp:76
 #: presentwindows/presentwindows_config.cpp:73
 #, fuzzy, kde-format
 #| msgid "for windows on current desktop: "
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "தற்போதைய பணிமேசையின் மீதுள்ள சாளரங்களுக்காக:"
 
-#: presentwindows/presentwindows.cpp:86
+#: presentwindows/presentwindows.cpp:84
 #: presentwindows/presentwindows_config.cpp:67
 #, fuzzy, kde-format
 #| msgid "for windows on all desktops: "
 msgid "Toggle Present Windows (All desktops)"
 msgstr "அனைத்து பணிமேசைகளிலும் உள்ள சாளரங்களுக்காக:"
 
-#: presentwindows/presentwindows.cpp:95
+#: presentwindows/presentwindows.cpp:93
 #: presentwindows/presentwindows_config.cpp:79
 #, fuzzy, kde-format
 #| msgid "for windows on all desktops: "
 msgid "Toggle Present Windows (Window class)"
 msgstr "அனைத்து பணிமேசைகளிலும் உள்ள சாளரங்களுக்காக:"
 
-#: presentwindows/presentwindows.cpp:1666
+#: presentwindows/presentwindows.cpp:1638
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1695,26 +1705,26 @@ msgstr "&அசைவூட்ட காலவளவு:"
 msgid "Window close scale:"
 msgstr "&அசைவூட்ட காலவளவு:"
 
-#: screenshot/screenshot.cpp:354
+#: screenshot/screenshot.cpp:458
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr ""
 
-#: screenshot/screenshot.cpp:355
+#: screenshot/screenshot.cpp:459
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr ""
 
-#: screenshot/screenshot.cpp:464
+#: screenshot/screenshot.cpp:568
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
 
-#: screenshot/screenshot.cpp:467
+#: screenshot/screenshot.cpp:571
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"

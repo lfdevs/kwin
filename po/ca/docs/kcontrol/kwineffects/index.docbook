@@ -48,8 +48,6 @@
 >Focus</guilabel
 >, <guilabel
 >Eines</guilabel
->, <guilabel
->Llaminadures</guilabel
 > i <guilabel
 >Gestió de les finestres</guilabel
 >.</para>
@@ -113,7 +111,6 @@
 39 effects + 7 internal (XRender compositor)
 Internal effects
 Appearance (Dashboard, Highlight Windows, KSreen, Screenshot, Window Geometry)
-Candy (Startup feedback)
 Window Management (Cover Switch)
 -->
 

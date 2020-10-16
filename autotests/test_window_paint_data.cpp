@@ -107,6 +107,12 @@ public:
     QRect expandedGeometry() const override {
         return QRect();
     }
+    QRect frameGeometry() const override {
+        return QRect();
+    }
+    QRect bufferGeometry() const override {
+        return QRect();
+    }
     int screen() const override {
         return 0;
     }
@@ -230,7 +236,7 @@ public:
     bool skipsCloseAnimation() const override {
         return false;
     }
-    KWayland::Server::SurfaceInterface *surface() const override {
+    KWaylandServer::SurfaceInterface *surface() const override {
         return nullptr;
     }
     bool isFullScreen() const override {
@@ -253,6 +259,9 @@ public:
     }
     bool isOutline() const override {
         return false;
+    }
+    pid_t pid() const override {
+        return 0;
     }
 
 private:

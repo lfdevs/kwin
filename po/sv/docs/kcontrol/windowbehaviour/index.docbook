@@ -771,7 +771,7 @@ Nothing
 <listitem
 ><para
 >Placeringspolicyn avgör var ett nytt fönster dyker upp på skrivbordet. <guilabel
->Smart</guilabel
+>Minimal överlappning</guilabel
 > försöker åstadkomma minimal överlappning av fönster, <guilabel
 >Kaskad</guilabel
 > lägger fönstren i en kaskad och <guilabel
@@ -779,7 +779,7 @@ Nothing
 > använder en slumpmässig position. <guilabel
 >Centrerad</guilabel
 > öppnar alla fönster mitt på skärmen, och <guilabel
->Hörn längst upp till vänster</guilabel
+>I övre vänstra hörnet</guilabel
 > öppnar alla fönster med det övre vänstra hörnet vid skärmens övre vänstra hörn.</para
 ></listitem>
 </varlistentry>

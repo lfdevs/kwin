@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "transfer.h"
 #include "xwayland.h"
 
-#include "client.h"
+#include "x11client.h"
 #include "wayland_server.h"
 #include "workspace.h"
 
@@ -32,9 +32,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/datadevice.h>
 #include <KWayland/Client/datasource.h>
 
-#include <KWayland/Server/datadevice_interface.h>
-#include <KWayland/Server/datasource_interface.h>
-#include <KWayland/Server/seat_interface.h>
+#include <KWaylandServer/datadevice_interface.h>
+#include <KWaylandServer/datasource_interface.h>
+#include <KWaylandServer/seat_interface.h>
 
 #include <xcb/xcb_event.h>
 #include <xcb/xfixes.h>
@@ -67,11 +67,11 @@ Clipboard::Clipboard(xcb_atom_t atom, QObject *parent)
     registerXfixes();
     xcb_flush(xcbConn);
 
-    connect(waylandServer()->seat(), &KWayland::Server::SeatInterface::selectionChanged,
+    connect(waylandServer()->seat(), &KWaylandServer::SeatInterface::selectionChanged,
             this, &Clipboard::wlSelectionChanged);
 }
 
-void Clipboard::wlSelectionChanged(KWayland::Server::DataDeviceInterface *ddi)
+void Clipboard::wlSelectionChanged(KWaylandServer::DataDeviceInterface *ddi)
 {
     if (ddi && ddi != DataBridge::self()->dataDeviceIface()) {
         // Wayland native client provides new selection
@@ -114,7 +114,7 @@ void Clipboard::checkWlSource()
         removeSource();
         return;
     }
-    if (!workspace()->activeClient() || !workspace()->activeClient()->inherits("KWin::Client")) {
+    if (!workspace()->activeClient() || !workspace()->activeClient()->inherits("KWin::X11Client")) {
         // no active client or active client is Wayland native
         removeSource();
         return;
@@ -130,7 +130,7 @@ void Clipboard::checkWlSource()
     if (dsi) {
         wls->setDataSourceIface(dsi);
     }
-    connect(ddi, &KWayland::Server::DataDeviceInterface::selectionChanged,
+    connect(ddi, &KWaylandServer::DataDeviceInterface::selectionChanged,
             wls, &WlSource::setDataSourceIface);
     ownSelection(true);
 }
@@ -140,9 +140,9 @@ void Clipboard::doHandleXfixesNotify(xcb_xfixes_selection_notify_event_t *event)
     createX11Source(nullptr);
 
     const AbstractClient *client = workspace()->activeClient();
-    if (!qobject_cast<const Client *>(client)) {
+    if (!qobject_cast<const X11Client *>(client)) {
         // clipboard is only allowed to be acquired when Xwayland has focus
-        // TODO: can we make this stronger (window id comparision)?
+        // TODO: can we make this stronger (window id comparison)?
         return;
     }
 

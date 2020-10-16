@@ -103,7 +103,7 @@ void NoGlobalShortcutsTest::initTestCase()
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
-    QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit(), KWin::WaylandServer::InitalizationFlag::NoGlobalShortcuts));
+    QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit(), KWin::WaylandServer::InitializationFlag::NoGlobalShortcuts));
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
     qputenv("KWIN_XKB_DEFAULT_KEYMAP", "1");
@@ -117,7 +117,7 @@ void NoGlobalShortcutsTest::initTestCase()
 void NoGlobalShortcutsTest::init()
 {
     screens()->setCurrent(0);
-    KWin::Cursor::setPos(QPoint(640, 512));
+    KWin::Cursors::self()->mouse()->setPos(QPoint(640, 512));
 }
 
 void NoGlobalShortcutsTest::cleanup()

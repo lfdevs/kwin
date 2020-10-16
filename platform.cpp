@@ -34,8 +34,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "wayland_server.h"
 #include "colorcorrection/manager.h"
 
-#include <KWayland/Server/outputconfiguration_interface.h>
-#include <KWayland/Server/outputchangeset.h>
+#include <KWaylandServer/outputconfiguration_interface.h>
+#include <KWaylandServer/outputchangeset.h>
+
+#include <QX11Info>
+
+#include <cerrno>
 
 namespace KWin
 {
@@ -45,7 +49,8 @@ Platform::Platform(QObject *parent)
     , m_eglDisplay(EGL_NO_DISPLAY)
 {
     setSoftWareCursor(false);
-     m_colorCorrect = new ColorCorrect::Manager(this);
+    m_colorCorrect = new ColorCorrect::Manager(this);
+    connect(Cursors::self(), &Cursors::currentCursorRendered, this, &Platform::cursorRendered);
 }
 
 Platform::~Platform()
@@ -55,19 +60,10 @@ Platform::~Platform()
     }
 }
 
-QImage Platform::softwareCursor() const
-{
-    return input()->pointer()->cursorImage();
-}
-
-QPoint Platform::softwareCursorHotspot() const
-{
-    return input()->pointer()->cursorHotSpot();
-}
-
 PlatformCursorImage Platform::cursorImage() const
 {
-    return PlatformCursorImage(softwareCursor(), softwareCursorHotspot());
+    Cursor* cursor = Cursors::self()->currentCursor();
+    return PlatformCursorImage(cursor->image(), cursor->hotspot());
 }
 
 void Platform::hideCursor()
@@ -125,7 +121,7 @@ void Platform::createPlatformCursor(QObject *parent)
     new InputRedirectionCursor(parent);
 }
 
-void Platform::requestOutputsChange(KWayland::Server::OutputConfigurationInterface *config)
+void Platform::requestOutputsChange(KWaylandServer::OutputConfigurationInterface *config)
 {
     if (!m_supportsOutputChanges) {
         qCWarning(KWIN_CORE) << "This backend does not support configuration changes.";
@@ -133,13 +129,13 @@ void Platform::requestOutputsChange(KWayland::Server::OutputConfigurationInterfa
         return;
     }
 
-    using Enablement = KWayland::Server::OutputDeviceInterface::Enablement;
+    using Enablement = KWaylandServer::OutputDeviceInterface::Enablement;
 
     const auto changes = config->changes();
 
     //process all non-disabling changes
     for (auto it = changes.begin(); it != changes.end(); it++) {
-        const KWayland::Server::OutputChangeSet *changeset = it.value();
+        const KWaylandServer::OutputChangeSet *changeset = it.value();
 
         auto output = findOutput(it.key()->uuid());
         if (!output) {
@@ -156,7 +152,7 @@ void Platform::requestOutputsChange(KWayland::Server::OutputConfigurationInterfa
 
     //process any disable requests
     for (auto it = changes.begin(); it != changes.end(); it++) {
-        const KWayland::Server::OutputChangeSet *changeset = it.value();
+        const KWaylandServer::OutputChangeSet *changeset = it.value();
 
         if (changeset->enabledChanged() &&
                 changeset->enabled() == Enablement::Disabled) {
@@ -201,11 +197,11 @@ void Platform::setSoftWareCursor(bool set)
     }
     m_softWareCursor = set;
     if (m_softWareCursor) {
-        connect(Cursor::self(), &Cursor::posChanged, this, &Platform::triggerCursorRepaint);
-        connect(this, &Platform::cursorChanged, this, &Platform::triggerCursorRepaint);
+        connect(Cursors::self(), &Cursors::positionChanged, this, &Platform::triggerCursorRepaint);
+        connect(Cursors::self(), &Cursors::currentCursorChanged, this, &Platform::triggerCursorRepaint);
     } else {
-        disconnect(Cursor::self(), &Cursor::posChanged, this, &Platform::triggerCursorRepaint);
-        disconnect(this, &Platform::cursorChanged, this, &Platform::triggerCursorRepaint);
+        disconnect(Cursors::self(), &Cursors::positionChanged, this, &Platform::triggerCursorRepaint);
+        disconnect(Cursors::self(), &Cursors::currentCursorChanged, this, &Platform::triggerCursorRepaint);
     }
 }
 
@@ -215,16 +211,13 @@ void Platform::triggerCursorRepaint()
         return;
     }
     Compositor::self()->addRepaint(m_cursor.lastRenderedGeometry);
-    Compositor::self()->addRepaint(QRect(Cursor::pos() - softwareCursorHotspot(), softwareCursor().size()));
+    Compositor::self()->addRepaint(Cursors::self()->currentCursor()->geometry());
 }
 
-void Platform::markCursorAsRendered()
+void Platform::cursorRendered(const QRect &geometry)
 {
     if (m_softWareCursor) {
-        m_cursor.lastRenderedGeometry = QRect(Cursor::pos() - softwareCursorHotspot(), softwareCursor().size());
-    }
-    if (input()->pointer()) {
-        input()->pointer()->markCursorAsRendered();
+        m_cursor.lastRenderedGeometry = geometry;
     }
 }
 
@@ -512,8 +505,32 @@ OverlayWindow *Platform::createOverlayWindow()
     return nullptr;
 }
 
+static quint32 monotonicTime()
+{
+    timespec ts;
+
+    const int result = clock_gettime(CLOCK_MONOTONIC, &ts);
+    if (result)
+        qCWarning(KWIN_CORE, "Failed to query monotonic time: %s", strerror(errno));
+
+    return ts.tv_sec * 1000 + ts.tv_nsec / 1000000L;
+}
+
 void Platform::updateXTime()
 {
+    switch (kwinApp()->operationMode()) {
+    case Application::OperationModeX11:
+        kwinApp()->setX11Time(QX11Info::getTimestamp(), Application::TimestampUpdate::Always);
+        break;
+
+    case Application::OperationModeXwayland:
+        kwinApp()->setX11Time(monotonicTime(), Application::TimestampUpdate::Always);
+        break;
+
+    default:
+        // Do not update the current X11 time stamp if it's the Wayland only session.
+        break;
+    }
 }
 
 OutlineVisual *Platform::createOutline(Outline *outline)

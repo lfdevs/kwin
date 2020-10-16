@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // frameworks
 #include <KConfigGroup>
 // KWayland
-#include <KWayland/Server/seat_interface.h>
+#include <KWaylandServer/seat_interface.h>
 // Qt
 #include <QTemporaryFile>
 #include <QKeyEvent>
@@ -369,7 +369,7 @@ void Xkb::updateModifiers()
     if (xkb_state_mod_index_is_active(m_state, m_metaModifier, XKB_STATE_MODS_EFFECTIVE) == 1) {
         mods |= Qt::MetaModifier;
     }
-    if (xkb_state_mod_index_is_active(m_state, m_numModifier, XKB_STATE_MODS_EFFECTIVE) == 1) {
+    if (isKeypadKey(m_keysym)) {
         mods |= Qt::KeypadModifier;
     }
     m_modifiers = mods;
@@ -573,9 +573,9 @@ quint32 Xkb::numberOfLayouts() const
     return xkb_keymap_num_layouts(m_keymap);
 }
 
-void Xkb::setSeat(KWayland::Server::SeatInterface *seat)
+void Xkb::setSeat(KWaylandServer::SeatInterface *seat)
 {
-    m_seat = QPointer<KWayland::Server::SeatInterface>(seat);
+    m_seat = QPointer<KWaylandServer::SeatInterface>(seat);
 }
 
 }

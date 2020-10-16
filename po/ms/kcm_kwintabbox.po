@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-07-11 03:14+0200\n"
+"POT-Creation-Date: 2020-04-02 03:52+0200\n"
 "PO-Revision-Date: 2011-01-17 23:42+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@gmail.com>\n"
 "Language-Team: Malay <kedidiemas@yahoogroups.com>\n"
@@ -19,6 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=1;\n"
 "X-Generator: KBabel 1.11.4\n"
 
+#: kwintabboxconfigform.cpp:88
+#, kde-format
+msgid "KWin"
+msgstr ""
+
 #: layoutpreview.cpp:159
 #, fuzzy, kde-format
 #| msgid "All Desktops"
@@ -26,31 +31,26 @@ msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Semua Desktop"
 
-#: main.cpp:76
+#: main.cpp:77
 #, kde-format
 msgid "Main"
 msgstr "Utama"
 
-#: main.cpp:77
+#: main.cpp:78
 #, kde-format
 msgid "Alternative"
 msgstr "Alternatif"
 
-#: main.cpp:79
+#: main.cpp:80
 #, kde-format
 msgid "Get New Task Switchers..."
 msgstr ""
 
-#: main.cpp:89
+#: main.cpp:90
 #, fuzzy, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr "Fokus tatacara dasar menyekat fungsi navigasi melalui tetingkap."
-
-#: main.cpp:107
-#, kde-format
-msgid "KWin"
-msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
@@ -217,7 +217,7 @@ msgstr "Navigasi"
 msgid "The effect to replace the list window when desktop effects are active."
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, highlightWindowCheck)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:549
 #, kde-format
 msgid ""
@@ -225,7 +225,7 @@ msgid ""
 "windows. This option requires desktop effects to be active."
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, highlightWindowCheck)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:552
 #, fuzzy, kde-format
 #| msgid "Show Selected Item"

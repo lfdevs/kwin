@@ -1,15 +1,15 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# g.sora <g.sora@tiscali.it>, 2010, 2011, 2012, 2013, 2014, 2017.
+# g.sora <g.sora@tiscali.it>, 2010, 2011, 2012, 2013, 2014, 2017, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-09-15 03:21+0200\n"
-"PO-Revision-Date: 2017-01-29 22:12+0100\n"
-"Last-Translator: giovanni <g.sora@tiscali.it>\n"
-"Language-Team: Interlingua <kde-i18n-it@kde.org>\n"
+"POT-Creation-Date: 2020-04-30 03:47+0200\n"
+"PO-Revision-Date: 2020-01-03 22:46+0100\n"
+"Last-Translator: Giovanni Sora <g.sora@tiscali.it>\n"
+"Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,10 +29,9 @@ msgstr "g.sora@tiscali.it"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
 #: blur/blur_config.ui:17
-#, fuzzy, kde-format
-#| msgid "&Strength:"
+#, kde-format
 msgid "Blur strength:"
-msgstr "F&ortia:"
+msgstr "Fortia de obscurar(Blur):"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurLight)
 #. i18n: ectx: property (text), widget (QLabel, labelConstantNoiseLight)
@@ -50,10 +49,9 @@ msgstr "Forte"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantNoiseDescription)
 #: blur/blur_config.ui:83
-#, fuzzy, kde-format
-#| msgid "&Strength:"
+#, kde-format
 msgid "Noise strength:"
-msgstr "F&ortia:"
+msgstr "Fortia de rumor:"
 
 #: colorpicker/colorpicker.cpp:118
 #, kde-format
@@ -580,53 +578,45 @@ msgstr "Monstra buttones pro cambiar le numero de scriptorios virtual"
 
 #. i18n: ectx: property (text), widget (QLabel, label_Strength)
 #: diminactive/diminactive_config.ui:17
-#, fuzzy, kde-format
-#| msgid "&Strength:"
+#, kde-format
 msgid "Strength:"
-msgstr "F&ortia:"
+msgstr "Fortia:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_Dim)
 #: diminactive/diminactive_config.ui:40
 #, kde-format
 msgid "Dim:"
-msgstr ""
+msgstr "Dim:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimPanels)
 #: diminactive/diminactive_config.ui:47
-#, fuzzy, kde-format
-#| msgid "Do not animate panels"
+#, kde-format
 msgid "Docks and panels"
-msgstr "Non anima pannellos"
+msgstr "Bassinos e pannellos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimDesktop)
 #: diminactive/diminactive_config.ui:54
-#, fuzzy, kde-format
-#| msgctxt "@title:group actions when clicking on desktop"
-#| msgid "Desktop"
+#, kde-format
 msgid "Desktop"
 msgstr "Scriptorio"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimKeepAbove)
 #: diminactive/diminactive_config.ui:61
-#, fuzzy, kde-format
-#| msgctxt "Comment describing the KWin Effect"
-#| msgid "Darken inactive windows"
+#, kde-format
 msgid "Keep above windows"
-msgstr "Fenestras inactive obscurate"
+msgstr "Mantene supra fenestras"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimByGroup)
 #: diminactive/diminactive_config.ui:68
 #, kde-format
 msgid "By window group"
-msgstr ""
+msgstr "Per gruppo de fenestra"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimFullScreen)
 #: diminactive/diminactive_config.ui:75
-#, fuzzy, kde-format
-#| msgctxt "Name of a KWin Effect"
-#| msgid "Present Windows"
+#, kde-format
 msgid "Fullscreen windows"
-msgstr "Fenestras actual"
+msgstr "Fenestras de schermo plen"
 
 #: effect_builtins.cpp:102
 #, kde-format
@@ -766,7 +756,7 @@ msgstr "Glissa"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Glide windows as they appear or disappear"
-msgstr ""
+msgstr "Glissa fenestras quando illes appare e disappare"
 
 #: effect_builtins.cpp:267
 #, kde-format
@@ -916,12 +906,10 @@ msgid "Screenshot"
 msgstr "Captura de schermo"
 
 #: effect_builtins.cpp:433
-#, fuzzy, kde-format
-#| msgctxt "Comment describing the KWin Effect"
-#| msgid "Helper effect for KSnapshot"
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for screenshot tools"
-msgstr "Effecto adjutante pro KSnapshot"
+msgstr "Effecto adjutante pro instrumentos de instantanee de schermo"
 
 #: effect_builtins.cpp:447
 #, kde-format
@@ -969,13 +957,10 @@ msgid "Slide"
 msgstr "Glissar"
 
 #: effect_builtins.cpp:493
-#, fuzzy, kde-format
-#| msgctxt "Comment describing the KWin Effect"
-#| msgid "Slide windows across the screen when switching virtual desktops"
+#, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide desktops when switching virtual desktops"
-msgstr ""
-"Glissa fenestra a transverso de le schermo quando on commuta scriptorios"
+msgstr "Glissa scriptorios quando on commuta scriptorios virtual"
 
 #: effect_builtins.cpp:507
 #, kde-format
@@ -1147,59 +1132,50 @@ msgstr "Position vertical del fronte"
 #. i18n: ectx: property (text), widget (QLabel, label_Duration)
 #: glide/glide_config.ui:19 scale/package/contents/ui/config.ui:17
 #: slide/slide_config.ui:19
-#, fuzzy, kde-format
-#| msgid "Duration"
+#, kde-format
 msgid "Duration:"
-msgstr "Duration"
+msgstr "Duration:"
 
 #. i18n: Duration of the slide animation.
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
 #: glide/glide_config.ui:32 scale/package/contents/ui/config.ui:30
 #: slide/slide_config.ui:32
-#, fuzzy, kde-format
-#| msgctxt "Duration of rotation"
-#| msgid "Default"
+#, kde-format
 msgid "Default"
-msgstr "Pro definition"
+msgstr "Predefinite"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_InAnimation)
 #: glide/glide_config.ui:50
-#, fuzzy, kde-format
-#| msgctxt "Name of a KWin Effect"
-#| msgid "Minimize Animation"
+#, kde-format
 msgid "Window Open Animation"
-msgstr "Animation de minimisar"
+msgstr "Fenestra Aperi Animation"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_OutRotationEdge)
 #: glide/glide_config.ui:56 glide/glide_config.ui:154
-#, fuzzy, kde-format
-#| msgid "Rotation duration:"
+#, kde-format
 msgid "Rotation edge:"
-msgstr "Duration de rotation:"
+msgstr "Bordo de rotation:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InRotationAngle)
 #. i18n: ectx: property (text), widget (QLabel, label_OutRotationAngle)
 #: glide/glide_config.ui:93 glide/glide_config.ui:191
-#, fuzzy, kde-format
-#| msgid "Rotation duration:"
+#, kde-format
 msgid "Rotation angle:"
-msgstr "Duration de rotation:"
+msgstr "Angulo de rotation:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InDistance)
 #. i18n: ectx: property (text), widget (QLabel, label_OutDistance)
 #: glide/glide_config.ui:119 glide/glide_config.ui:198
 #, kde-format
 msgid "Distance:"
-msgstr ""
+msgstr "Distantia:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_OutAnimation)
 #: glide/glide_config.ui:148
-#, fuzzy, kde-format
-#| msgctxt "Name of a KWin Effect"
-#| msgid "Mouse Click Animation"
+#, kde-format
 msgid "Window Close Animation"
-msgstr "Animation de click de mus"
+msgstr "Fenestra Claude Animation"
 
 #: invert/invert.cpp:45 invert/invert_config.cpp:52
 #, kde-format
@@ -1276,6 +1252,16 @@ msgstr "Centro"
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Dextere"
+
+#: mouseclick/mouseclick.h:74
+#, kde-format
+msgid "↓"
+msgstr ""
+
+#: mouseclick/mouseclick.h:75
+#, kde-format
+msgid "↑"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
@@ -1399,25 +1385,25 @@ msgstr "&Color:"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Designa con le mus per premer claves Shift+Meta e mover le mus."
 
-#: presentwindows/presentwindows.cpp:78
+#: presentwindows/presentwindows.cpp:76
 #: presentwindows/presentwindows_config.cpp:73
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Commuta fenestras presente (scriptorio currente)"
 
-#: presentwindows/presentwindows.cpp:86
+#: presentwindows/presentwindows.cpp:84
 #: presentwindows/presentwindows_config.cpp:67
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Commuta (Toggle) fenestras presente (Omne scriptorios)"
 
-#: presentwindows/presentwindows.cpp:95
+#: presentwindows/presentwindows.cpp:93
 #: presentwindows/presentwindows_config.cpp:79
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Commuta fenestra presente (classe de fenestra)"
 
-#: presentwindows/presentwindows.cpp:1666
+#: presentwindows/presentwindows.cpp:1638
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1554,10 +1540,9 @@ msgstr "Button de centro:"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
 #: presentwindows/presentwindows_config.ui:213
 #: presentwindows/presentwindows_config.ui:262
-#, fuzzy, kde-format
-#| msgid "Scale window"
+#, kde-format
 msgid "Close window"
-msgstr "Scala fenestra"
+msgstr "Claude fenestra"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -1646,33 +1631,29 @@ msgstr "Monstra contorno"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InScale)
 #: scale/package/contents/ui/config.ui:46
-#, fuzzy, kde-format
-#| msgctxt "Name of a KWin Effect"
-#| msgid "Minimize Animation"
+#, kde-format
 msgid "Window open scale:"
-msgstr "Animation de minimisar"
+msgstr "Fenestra aperi scala:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_OutScale)
 #: scale/package/contents/ui/config.ui:53
-#, fuzzy, kde-format
-#| msgctxt "Name of a KWin Effect"
-#| msgid "Mouse Click Animation"
+#, kde-format
 msgid "Window close scale:"
-msgstr "Animation de click de mus"
+msgstr "Fenestra claude scala:"
 
-#: screenshot/screenshot.cpp:354
+#: screenshot/screenshot.cpp:458
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Captura de schermo"
 
-#: screenshot/screenshot.cpp:355
+#: screenshot/screenshot.cpp:459
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Captura de schermo salveguardate a %1"
 
-#: screenshot/screenshot.cpp:464
+#: screenshot/screenshot.cpp:568
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -1681,7 +1662,7 @@ msgstr ""
 "Selige fenestra pro captura de schermo per cliccar a sinitre o Enter.\n"
 "Escappa o clicca a dextere pro cancellar."
 
-#: screenshot/screenshot.cpp:467
+#: screenshot/screenshot.cpp:571
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -1756,48 +1737,39 @@ msgid "Text alpha:"
 msgstr "Texto alpha:"
 
 #: showpaint/showpaint.cpp:53 showpaint/showpaint_config.cpp:52
-#, fuzzy, kde-format
-#| msgctxt "Name of a KWin Effect"
-#| msgid "Show Paint"
+#, kde-format
 msgid "Toggle Show Paint"
-msgstr "Monstra pictura"
+msgstr "Commuta monstra pictura"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_Gaps)
 #: slide/slide_config.ui:50
-#, fuzzy, kde-format
-#| msgctxt "Comment describing the KWin Effect"
-#| msgid "Magnify the entire desktop"
+#, kde-format
 msgid "Gap between desktops"
-msgstr "Aggrandi le integre scriptorio"
+msgstr "Apertura inter scriptorios"
 
 #. i18n: ectx: property (text), widget (QLabel, label_HorizontalGap)
 #: slide/slide_config.ui:56
-#, fuzzy, kde-format
-#| msgid "Horizontal"
+#, kde-format
 msgid "Horizontal:"
-msgstr "Horizontal"
+msgstr "Horizontal:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_VerticalGap)
 #: slide/slide_config.ui:79
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Vertical:"
-msgstr "Vertical"
+msgstr "Vertical:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
 #: slide/slide_config.ui:105
-#, fuzzy, kde-format
-#| msgctxt "Name of a KWin Effect"
-#| msgid "Slide Back"
+#, kde-format
 msgid "Slide docks"
-msgstr "Glissa de retro"
+msgstr "Glissa bassinos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
 #: slide/slide_config.ui:112
-#, fuzzy, kde-format
-#| msgid "Slide when grouping"
+#, kde-format
 msgid "Slide desktop background"
-msgstr "Glissa quando on gruppa"
+msgstr "Glissa fundo de scriptorio"
 
 #: thumbnailaside/thumbnailaside.cpp:40
 #: thumbnailaside/thumbnailaside_config.cpp:73
@@ -1840,20 +1812,19 @@ msgstr "Tracia mus"
 #: trackmouse/trackmouse_config.ui:26
 #, kde-format
 msgid "Trigger effect with:"
-msgstr ""
+msgstr "Disbloca effecto con:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_KeyboardShortcut)
 #: trackmouse/trackmouse_config.ui:33
 #, kde-format
 msgid "Keyboard shortcut:"
-msgstr ""
+msgstr "Via Breve de Claviero:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_ModifierKeys)
 #: trackmouse/trackmouse_config.ui:43
-#, fuzzy, kde-format
-#| msgid "Modifiers"
+#, kde-format
 msgid "Modifier keys:"
-msgstr "Modificatores "
+msgstr "Claves de Modificator:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Alt)
 #: trackmouse/trackmouse_config.ui:65

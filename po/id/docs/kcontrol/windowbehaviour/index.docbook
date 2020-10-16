@@ -773,16 +773,16 @@ Nothing
 <listitem
 ><para
 >Kebijakan penempatan menentukan di mana window baru akan muncul di desktop. <guilabel
->Cerdas</guilabel
+>Minimal Penindihan</guilabel
 > akan mencoba mencapai tindih minimum window, <guilabel
->Kaskade</guilabel
+>Berkaskade</guilabel
 > akan mengkaskade window, dan <guilabel
 >Acak</guilabel
 > akan menggunakan sebuah posisi acak. <guilabel
 >Terpusat</guilabel
 > akan membuka semua window baru di bagian tengah layar, dan <guilabel
->Disudutkan</guilabel
-> akan membuka semua window dengan sudut kiri atasnya di sudut kiri atas layar.</para
+>Di Sudut Kiri Atas</guilabel
+> akan membuka semua window dengan sudut kiri atas mereka di sudut kiri atas layar.</para
 ></listitem>
 </varlistentry>
 

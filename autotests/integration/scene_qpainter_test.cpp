@@ -20,11 +20,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kwin_wayland_test.h"
 #include "composite.h"
 #include "effectloader.h"
-#include "client.h"
+#include "x11client.h"
 #include "cursor.h"
 #include "effects.h"
 #include "platform.h"
-#include "shell_client.h"
 #include "wayland_server.h"
 #include "effect_builtins.h"
 #include "workspace.h"
@@ -32,11 +31,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KConfigGroup>
 
 #include <KWayland/Client/seat.h>
-#include <KWayland/Client/shell.h>
 #include <KWayland/Client/surface.h>
 #include <KWayland/Client/pointer.h>
-#include <KWayland/Server/buffer_interface.h>
-#include <KWayland/Server/surface_interface.h>
+#include <KWaylandServer/buffer_interface.h>
+#include <KWaylandServer/surface_interface.h>
 
 #include <QPainter>
 
@@ -69,7 +67,6 @@ void SceneQPainterTest::cleanup()
 
 void SceneQPainterTest::initTestCase()
 {
-    qRegisterMetaType<KWin::ShellClient*>();
     qRegisterMetaType<KWin::AbstractClient*>();
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);
     QVERIFY(workspaceCreatedSpy.isValid());
@@ -116,9 +113,11 @@ void SceneQPainterTest::testStartFrame()
     QImage referenceImage(QSize(1280, 1024), QImage::Format_RGB32);
     referenceImage.fill(Qt::black);
     QPainter p(&referenceImage);
-    const QImage cursorImage = kwinApp()->platform()->softwareCursor();
+
+    auto cursor = KWin::Cursors::self()->mouse();
+    const QImage cursorImage = cursor->image();
     QVERIFY(!cursorImage.isNull());
-    p.drawImage(KWin::Cursor::pos() - kwinApp()->platform()->softwareCursorHotspot(), cursorImage);
+    p.drawImage(cursor->pos() - cursor->hotspot(), cursorImage);
     QCOMPARE(referenceImage, *scene->qpainterRenderBuffer());
 }
 
@@ -129,48 +128,47 @@ void SceneQPainterTest::testCursorMoving()
     QVERIFY(scene);
     QSignalSpy frameRenderedSpy(scene, &Scene::frameRendered);
     QVERIFY(frameRenderedSpy.isValid());
-    KWin::Cursor::setPos(0, 0);
+    KWin::Cursors::self()->mouse()->setPos(0, 0);
     QVERIFY(frameRenderedSpy.wait());
-    KWin::Cursor::setPos(10, 0);
+    KWin::Cursors::self()->mouse()->setPos(10, 0);
     QVERIFY(frameRenderedSpy.wait());
-    KWin::Cursor::setPos(10, 12);
+    KWin::Cursors::self()->mouse()->setPos(10, 12);
     QVERIFY(frameRenderedSpy.wait());
-    KWin::Cursor::setPos(12, 14);
+    KWin::Cursors::self()->mouse()->setPos(12, 14);
     QVERIFY(frameRenderedSpy.wait());
-    KWin::Cursor::setPos(50, 60);
+    KWin::Cursors::self()->mouse()->setPos(50, 60);
     QVERIFY(frameRenderedSpy.wait());
-    KWin::Cursor::setPos(45, 45);
+    KWin::Cursors::self()->mouse()->setPos(45, 45);
     QVERIFY(frameRenderedSpy.wait());
     // now let's render a reference image for comparison
     QImage referenceImage(QSize(1280, 1024), QImage::Format_RGB32);
     referenceImage.fill(Qt::black);
     QPainter p(&referenceImage);
-    const QImage cursorImage = kwinApp()->platform()->softwareCursor();
+
+    auto cursor = Cursors::self()->currentCursor();
+    const QImage cursorImage = cursor->image();
     QVERIFY(!cursorImage.isNull());
-    p.drawImage(QPoint(45, 45) - kwinApp()->platform()->softwareCursorHotspot(), cursorImage);
+    p.drawImage(QPoint(45, 45) - cursor->hotspot(), cursorImage);
     QCOMPARE(referenceImage, *scene->qpainterRenderBuffer());
 }
 
 void SceneQPainterTest::testWindow_data()
 {
-    QTest::addColumn<Test::ShellSurfaceType>("type");
+    QTest::addColumn<Test::XdgShellSurfaceType>("type");
 
-    QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell;
-    QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5;
-    QTest::newRow("xdgShellV6") << Test::ShellSurfaceType::XdgShellV6;
-    QTest::newRow("xdgWmBase") << Test::ShellSurfaceType::XdgShellStable;
+    QTest::newRow("xdgWmBase") << Test::XdgShellSurfaceType::XdgShellStable;
 }
 
 void SceneQPainterTest::testWindow()
 {
-    KWin::Cursor::setPos(45, 45);
+    KWin::Cursors::self()->mouse()->setPos(45, 45);
     // this test verifies that a window is rendered correctly
     using namespace KWayland::Client;
     QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::Seat));
     QVERIFY(Test::waitForWaylandPointer());
     QScopedPointer<Surface> s(Test::createSurface());
-    QFETCH(Test::ShellSurfaceType, type);
-    QScopedPointer<QObject> ss(Test::createShellSurface(type, s.data()));
+    QFETCH(Test::XdgShellSurfaceType, type);
+    QScopedPointer<XdgShellSurface> ss(Test::createXdgShellSurface(type, s.data()));
     QScopedPointer<Pointer> p(Test::waylandSeat()->createPointer());
 
     auto scene = KWin::Compositor::self()->scene();
@@ -196,10 +194,10 @@ void SceneQPainterTest::testWindow()
     Test::render(cs.data(), QSize(10, 10), Qt::red);
     p->setCursor(cs.data(), QPoint(5, 5));
     QVERIFY(frameRenderedSpy.wait());
-    painter.fillRect(KWin::Cursor::pos().x() - 5, KWin::Cursor::pos().y() - 5, 10, 10, Qt::red);
+    painter.fillRect(KWin::Cursors::self()->mouse()->pos().x() - 5, KWin::Cursors::self()->mouse()->pos().y() - 5, 10, 10, Qt::red);
     QCOMPARE(referenceImage, *scene->qpainterRenderBuffer());
     // let's move the cursor again
-    KWin::Cursor::setPos(10, 10);
+    KWin::Cursors::self()->mouse()->setPos(10, 10);
     QVERIFY(frameRenderedSpy.wait());
     painter.fillRect(0, 0, 200, 300, Qt::blue);
     painter.fillRect(5, 5, 10, 10, Qt::red);
@@ -208,13 +206,13 @@ void SceneQPainterTest::testWindow()
 
 void SceneQPainterTest::testWindowScaled()
 {
-    KWin::Cursor::setPos(10, 10);
+    KWin::Cursors::self()->mouse()->setPos(10, 10);
     // this test verifies that a window is rendered correctly
     using namespace KWayland::Client;
     QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::Seat));
     QVERIFY(Test::waitForWaylandPointer());
     QScopedPointer<Surface> s(Test::createSurface());
-    QScopedPointer<ShellSurface> ss(Test::createShellSurface(s.data()));
+    QScopedPointer<XdgShellSurface> ss(Test::createXdgShellStableSurface(s.data()));
     QScopedPointer<Pointer> p(Test::waylandSeat()->createPointer());
     QSignalSpy pointerEnteredSpy(p.data(), &Pointer::entered);
     QVERIFY(pointerEnteredSpy.isValid());
@@ -258,24 +256,22 @@ void SceneQPainterTest::testWindowScaled()
 
 void SceneQPainterTest::testCompositorRestart_data()
 {
-    QTest::addColumn<Test::ShellSurfaceType>("type");
+    QTest::addColumn<Test::XdgShellSurfaceType>("type");
 
-    QTest::newRow("wlShell") << Test::ShellSurfaceType::WlShell;
-    QTest::newRow("xdgShellV5") << Test::ShellSurfaceType::XdgShellV5;
-    QTest::newRow("xdgShellV6") << Test::ShellSurfaceType::XdgShellV6;
+    QTest::newRow("xdgWmBase") << Test::XdgShellSurfaceType::XdgShellStable;
 }
 
 void SceneQPainterTest::testCompositorRestart()
 {
     // this test verifies that the compositor/SceneQPainter survive a restart of the compositor and still render correctly
-    KWin::Cursor::setPos(400, 400);
+    KWin::Cursors::self()->mouse()->setPos(400, 400);
 
     // first create a window
     using namespace KWayland::Client;
     QVERIFY(Test::setupWaylandConnection());
     QScopedPointer<Surface> s(Test::createSurface());
-    QFETCH(Test::ShellSurfaceType, type);
-    QScopedPointer<QObject> ss(Test::createShellSurface(type, s.data()));
+    QFETCH(Test::XdgShellSurfaceType, type);
+    QScopedPointer<XdgShellSurface> ss(Test::createXdgShellSurface(type, s.data()));
     QVERIFY(Test::renderAndWaitForShown(s.data(), QSize(200, 300), Qt::blue));
 
     // now let's try to reinitialize the compositing scene
@@ -302,9 +298,11 @@ void SceneQPainterTest::testCompositorRestart()
     referenceImage.fill(Qt::black);
     QPainter painter(&referenceImage);
     painter.fillRect(0, 0, 200, 300, Qt::blue);
-    const QImage cursorImage = kwinApp()->platform()->softwareCursor();
+
+    auto cursor = Cursors::self()->mouse();
+    const QImage cursorImage = cursor->image();
     QVERIFY(!cursorImage.isNull());
-    painter.drawImage(QPoint(400, 400) - kwinApp()->platform()->softwareCursorHotspot(), cursorImage);
+    painter.drawImage(QPoint(400, 400) - cursor->hotspot(), cursorImage);
     QCOMPARE(referenceImage, *scene->qpainterRenderBuffer());
 }
 
@@ -349,7 +347,7 @@ void SceneQPainterTest::testX11Window()
     QSignalSpy windowCreatedSpy(workspace(), &Workspace::clientAdded);
     QVERIFY(windowCreatedSpy.isValid());
     QVERIFY(windowCreatedSpy.wait());
-    Client *client = windowCreatedSpy.first().first().value<Client*>();
+    X11Client *client = windowCreatedSpy.first().first().value<X11Client *>();
     QVERIFY(client);
     QCOMPARE(client->window(), w);
     QCOMPARE(client->clientSize(), QSize(100, 200));
@@ -361,7 +359,7 @@ void SceneQPainterTest::testX11Window()
     }
     QVERIFY(client->surface());
     QTRY_VERIFY(client->surface()->buffer());
-    QTRY_COMPARE(client->surface()->buffer()->data().size(), client->geometry().size());
+    QTRY_COMPARE(client->surface()->buffer()->data().size(), client->size());
     QImage compareImage(client->clientSize(), QImage::Format_RGB32);
     compareImage.fill(Qt::white);
     QCOMPARE(client->surface()->buffer()->data().copy(QRect(client->clientPos(), client->clientSize())), compareImage);
@@ -386,7 +384,7 @@ void SceneQPainterTest::testX11Window()
     xcb_unmap_window(c.data(), w);
     xcb_flush(c.data());
 
-    QSignalSpy windowClosedSpy(client, &Client::windowClosed);
+    QSignalSpy windowClosedSpy(client, &X11Client::windowClosed);
     QVERIFY(windowClosedSpy.isValid());
     QVERIFY(windowClosedSpy.wait());
     xcb_destroy_window(c.data(), w);

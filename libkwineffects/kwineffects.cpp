@@ -4,7 +4,7 @@
 
 Copyright (C) 2006 Lubos Lunak <l.lunak@kde.org>
 Copyright (C) 2009 Lucas Murray <lmurray@undefinedfire.com>
-Copyright (C) 2018 Vlad Zagorodniy <vladzzag@gmail.com>
+Copyright (C) 2018 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <ksharedconfig.h>
 #include <kconfiggroup.h>
 
-#include <KWayland/Server/surface_interface.h>
+#include <KWaylandServer/surface_interface.h>
 
 #ifdef KWIN_HAVE_XRENDER_COMPOSITING
 #include <xcb/xfixes.h>
@@ -423,6 +423,7 @@ class ScreenPaintData::Private
 public:
     QMatrix4x4 projectionMatrix;
     QRect outputGeometry;
+    qreal screenScale;
 };
 
 ScreenPaintData::ScreenPaintData()
@@ -431,12 +432,13 @@ ScreenPaintData::ScreenPaintData()
 {
 }
 
-ScreenPaintData::ScreenPaintData(const QMatrix4x4 &projectionMatrix, const QRect &outputGeometry)
+ScreenPaintData::ScreenPaintData(const QMatrix4x4 &projectionMatrix, const QRect &outputGeometry, const qreal screenScale)
     : PaintData()
     , d(new Private())
 {
     d->projectionMatrix = projectionMatrix;
     d->outputGeometry = outputGeometry;
+    d->screenScale = screenScale;
 }
 
 ScreenPaintData::~ScreenPaintData() = default;
@@ -526,6 +528,11 @@ QRect ScreenPaintData::outputGeometry() const
     return d->outputGeometry;
 }
 
+qreal ScreenPaintData::screenScale() const
+{
+    return d->screenScale;
+}
+
 //****************************************
 // Effect
 //****************************************
@@ -565,7 +572,7 @@ void Effect::prePaintScreen(ScreenPrePaintData& data, int time)
     effects->prePaintScreen(data, time);
 }
 
-void Effect::paintScreen(int mask, QRegion region, ScreenPaintData& data)
+void Effect::paintScreen(int mask, const QRegion &region, ScreenPaintData& data)
 {
     effects->paintScreen(mask, region, data);
 }
@@ -590,7 +597,7 @@ void Effect::postPaintWindow(EffectWindow* w)
     effects->postPaintWindow(w);
 }
 
-void Effect::paintEffectFrame(KWin::EffectFrame* frame, QRegion region, double opacity, double frameOpacity)
+void Effect::paintEffectFrame(KWin::EffectFrame* frame, const QRegion &region, double opacity, double frameOpacity)
 {
     effects->paintEffectFrame(frame, region, opacity, frameOpacity);
 }
@@ -610,7 +617,7 @@ QString Effect::debug(const QString &) const
     return QString();
 }
 
-void Effect::drawWindow(EffectWindow* w, int mask, QRegion region, WindowPaintData& data)
+void Effect::drawWindow(EffectWindow* w, int mask, const QRegion &region, WindowPaintData& data)
 {
     effects->drawWindow(w, mask, region, data);
 }
@@ -778,7 +785,7 @@ EffectWindow::~EffectWindow()
 {
 }
 
-bool EffectWindow::isOnActivity(QString activity) const
+bool EffectWindow::isOnActivity(const QString &activity) const
 {
     const QStringList _activities = activities();
     return _activities.isEmpty() || _activities.contains(activity);
@@ -1941,3 +1948,4 @@ TimeLine &TimeLine::operator=(const TimeLine &other)
 
 } // namespace
 
+#include "moc_kwinglobals.cpp"

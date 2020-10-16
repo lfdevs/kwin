@@ -1,14 +1,14 @@
 # Translation of kwin_effects to Korean.
 # Copyright (C) 2007, 2008 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kdebase package.
-# Shinjo Park <kde@peremen.name>, 2007, 2008, 2009, 2010, 2012, 2013, 2014, 2015, 2016, 2018, 2019.
+# Shinjo Park <kde@peremen.name>, 2007, 2008, 2009, 2010, 2012, 2013, 2014, 2015, 2016, 2018, 2019, 2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-09-15 03:21+0200\n"
-"PO-Revision-Date: 2019-06-15 23:01+0200\n"
+"POT-Creation-Date: 2020-04-30 03:47+0200\n"
+"PO-Revision-Date: 2020-04-21 00:27+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 18.12.3\n"
+"X-Generator: Lokalize 19.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -67,7 +67,7 @@ msgstr ""
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
-msgstr "데스크톱 보이기"
+msgstr "바탕 화면 표시"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowCaptions)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_WindowTitle)
@@ -75,7 +75,7 @@ msgstr "데스크톱 보이기"
 #: presentwindows/presentwindows_config.ui:406
 #, kde-format
 msgid "Display window &titles"
-msgstr "창 제목 보이기(&T)"
+msgstr "창 제목 표시(&T)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -255,7 +255,7 @@ msgstr "모양"
 #: cube/cube_config.ui:110
 #, kde-format
 msgid "Display desktop name"
-msgstr "데스크톱 이름 보이기"
+msgstr "바탕 화면 이름 표시"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Reflection)
 #: cube/cube_config.ui:117
@@ -328,7 +328,7 @@ msgstr "뚜껑"
 #: cube/cube_config.ui:291
 #, kde-format
 msgid "Show caps"
-msgstr "뚜껑 보이기"
+msgstr "뚜껑 표시"
 
 #. i18n: ectx: property (text), widget (QLabel, capColorLabel)
 #: cube/cube_config.ui:298
@@ -340,7 +340,7 @@ msgstr "뚜껑 색:"
 #: cube/cube_config.ui:321
 #, kde-format
 msgid "Display image on caps"
-msgstr "뚜껑에 그림 보이기"
+msgstr "뚜껑에 그림 표시"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, kcfg_ZPosition)
 #: cube/cube_config.ui:367
@@ -375,7 +375,7 @@ msgstr "마우스 드래그 후 닫기"
 #: cube/cube_config.ui:425
 #, kde-format
 msgid "Use this effect for walking through the desktops"
-msgstr "데스크톱 사이를 지나다닐 때 이 효과 사용하기"
+msgstr "바탕 화면간을 이동할 때 이 효과 사용하기"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_InvertKeys)
 #: cube/cube_config.ui:432
@@ -411,7 +411,7 @@ msgstr "평면"
 #: cubeslide/cubeslide_config.ui:17
 #, kde-format
 msgid "Do not animate windows on all desktops"
-msgstr "모든 데스크톱에 보이는 창 움직이지 않기"
+msgstr "모든 바탕 화면에 보이는 창 움직이지 않기"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingLife)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RotationDuration)
@@ -441,7 +441,7 @@ msgstr "화면 가장자리로 창을 옮길 때 애니메이션 시작하기"
 #: desktopgrid/desktopgrid.cpp:76 desktopgrid/desktopgrid_config.cpp:68
 #, kde-format
 msgid "Show Desktop Grid"
-msgstr "데스크톱 모눈 보이기"
+msgstr "바탕 화면 모눈 표시"
 
 #: desktopgrid/desktopgrid_config.cpp:76
 #, kde-format
@@ -533,7 +533,7 @@ msgstr "경계선 두께(&T):"
 #: desktopgrid/desktopgrid_config.ui:84
 #, kde-format
 msgid "Desktop &name alignment:"
-msgstr "데스크톱 이름 정렬(&N):"
+msgstr "바탕 화면 이름 정렬(&N):"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: desktopgrid/desktopgrid_config.ui:107
@@ -575,7 +575,7 @@ msgstr "창을 배치할 때 현재 창의 효과 사용하기"
 #: desktopgrid/desktopgrid_config.ui:197
 #, kde-format
 msgid "Show buttons to alter count of virtual desktops"
-msgstr "가상 데스크톱 개수를 변경하는 단추 표시"
+msgstr "가상 바탕 화면 개수를 변경하는 단추 표시"
 
 #. i18n: ectx: property (text), widget (QLabel, label_Strength)
 #: diminactive/diminactive_config.ui:17
@@ -599,7 +599,7 @@ msgstr "도크와 패널"
 #: diminactive/diminactive_config.ui:54
 #, kde-format
 msgid "Desktop"
-msgstr "데스크톱"
+msgstr "바탕 화면"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimKeepAbove)
 #: diminactive/diminactive_config.ui:61
@@ -677,7 +677,7 @@ msgstr "데스크톱 큐브"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display each virtual desktop on a side of a cube"
-msgstr "큐브의 각각 면에 가상 데스크톱을 표시합니다"
+msgstr "큐브의 각각 면에 가상 바탕 화면을 표시합니다"
 
 #: effect_builtins.cpp:177
 #, kde-format
@@ -701,7 +701,7 @@ msgstr "데스크톱 모눈"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
-msgstr "모든 데스크톱을 한 화면에 볼 수 있도록 축소합니다"
+msgstr "모든 바탕 화면을 한 화면에 볼 수 있도록 축소합니다"
 
 #: effect_builtins.cpp:207
 #, kde-format
@@ -774,7 +774,7 @@ msgstr "반전"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
-msgstr "데스크톱과 창의 색을 반전시킵니다"
+msgstr "바탕 화면과 창의 색을 반전시킵니다"
 
 #: effect_builtins.cpp:297
 #, kde-format
@@ -850,7 +850,7 @@ msgstr "마우스 자취"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
-msgstr "데스크톱에 선을 그립니다"
+msgstr "바탕 화면에 선을 그립니다"
 
 #: effect_builtins.cpp:387
 #, kde-format
@@ -929,13 +929,13 @@ msgstr "KWin의 성능을 화면 구석에 표시합니다"
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
-msgstr "그리기 영역 보이기"
+msgstr "그리기 영역 표시"
 
 #: effect_builtins.cpp:478
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
-msgstr "최근에 다시 그려진 데스크톱의 영역을 표시합니다"
+msgstr "최근에 다시 그려진 바탕 화면의 영역을 표시합니다"
 
 #: effect_builtins.cpp:492
 #, kde-format
@@ -947,7 +947,7 @@ msgstr "슬라이드"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide desktops when switching virtual desktops"
-msgstr "가상 데스크톱 사이를 전환할 때 슬라이딩 효과를 사용합니다"
+msgstr "가상 바탕 화면간을 전환할 때 슬라이딩 효과를 사용합니다"
 
 #: effect_builtins.cpp:507
 #, kde-format
@@ -971,7 +971,7 @@ msgstr "미끄러지는 팝업"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
-msgstr "Plasma 팝업을 위한 미끄러짐 애니메이션"
+msgstr "Plasma 팝업의 미끄러짐 애니메이션"
 
 #: effect_builtins.cpp:537
 #, kde-format
@@ -1043,7 +1043,7 @@ msgstr "창 크기와 위치"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
-msgstr "창을 이동하거나 크기를 조정할 때 창 크기 보이기"
+msgstr "창을 이동하거나 크기를 조정할 때 창 크기 표시"
 
 #: effect_builtins.cpp:627
 #, kde-format
@@ -1067,17 +1067,17 @@ msgstr "확대/축소"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
-msgstr "전체 데스크톱을 확대합니다"
+msgstr "전체 바탕 화면을 확대합니다"
 
 #: flipswitch/flipswitch.cpp:59 flipswitch/flipswitch_config.cpp:61
 #, kde-format
 msgid "Toggle Flip Switch (Current desktop)"
-msgstr "플립 전환기 사용/사용 안 함 (현재 데스크톱)"
+msgstr "플립 전환기 사용/사용 안 함(현재 바탕 화면)"
 
 #: flipswitch/flipswitch.cpp:66 flipswitch/flipswitch_config.cpp:64
 #, kde-format
 msgid "Toggle Flip Switch (All desktops)"
-msgstr "플립 전환기 사용/사용 안 함 (모든 데스크톱)"
+msgstr "플립 전환기 사용/사용 안 함(모든 바탕 화면)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: flipswitch/flipswitch_config.ui:23
@@ -1240,6 +1240,16 @@ msgctxt "Right mouse button"
 msgid "Right"
 msgstr "오른쪽"
 
+#: mouseclick/mouseclick.h:74
+#, kde-format
+msgid "↓"
+msgstr "↓"
+
+#: mouseclick/mouseclick.h:75
+#, kde-format
+msgid "↑"
+msgstr "↑"
+
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
 #, kde-format
@@ -1326,7 +1336,7 @@ msgstr "글꼴:"
 #: mouseclick/mouseclick_config.ui:233
 #, kde-format
 msgid "Show Text:"
-msgstr "텍스트 보이기:"
+msgstr "텍스트 표시:"
 
 #: mousemark/mousemark.cpp:52
 #, kde-format
@@ -1347,7 +1357,7 @@ msgstr "마우스 자취 지우기"
 #: mousemark/mousemark_config.ui:23
 #, kde-format
 msgid "Wid&th:"
-msgstr "폭(&W):"
+msgstr "폭(&T):"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mousemark/mousemark_config.ui:36
@@ -1361,25 +1371,25 @@ msgstr "색(&C):"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Shift+Meta 키를 누르면서 마우스를 움직여서 그림을 그리십시오."
 
-#: presentwindows/presentwindows.cpp:78
+#: presentwindows/presentwindows.cpp:76
 #: presentwindows/presentwindows_config.cpp:73
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "보이는 창 바꾸기 (현재 데스크톱)"
 
-#: presentwindows/presentwindows.cpp:86
+#: presentwindows/presentwindows.cpp:84
 #: presentwindows/presentwindows_config.cpp:67
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "보이는 창 바꾸기 (모든 데스크톱)"
 
-#: presentwindows/presentwindows.cpp:95
+#: presentwindows/presentwindows.cpp:93
 #: presentwindows/presentwindows_config.cpp:79
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "보이는 창 바꾸기 (창 클래스)"
 
-#: presentwindows/presentwindows.cpp:1666
+#: presentwindows/presentwindows.cpp:1638
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1482,7 +1492,7 @@ msgstr "끝내는 효과"
 #: presentwindows/presentwindows_config.ui:247
 #, kde-format
 msgid "Bring window to current desktop"
-msgstr "현재 데스크톱으로 창 가져오기"
+msgstr "현재 바탕 화면으로 창 가져오기"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
@@ -1492,7 +1502,7 @@ msgstr "현재 데스크톱으로 창 가져오기"
 #: presentwindows/presentwindows_config.ui:252
 #, kde-format
 msgid "Send window to all desktops"
-msgstr "모든 데스크톱에 창 보이기"
+msgstr "모든 바탕 화면에 창 표시"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
@@ -1516,10 +1526,9 @@ msgstr "가운데 단추:"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
 #: presentwindows/presentwindows_config.ui:213
 #: presentwindows/presentwindows_config.ui:262
-#, fuzzy, kde-format
-#| msgid "Scale window"
+#, kde-format
 msgid "Close window"
-msgstr "창 크기 조절"
+msgstr "창 닫기"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -1534,7 +1543,7 @@ msgstr "오른쪽 단추:"
 #, kde-format
 msgctxt "@title:group actions when clicking on desktop"
 msgid "Desktop"
-msgstr "데스크톱"
+msgstr "바탕 화면"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonDesktop)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonDesktop)
@@ -1544,7 +1553,7 @@ msgstr "데스크톱"
 #: presentwindows/presentwindows_config.ui:376
 #, kde-format
 msgid "Show desktop"
-msgstr "데스크톱 보이기"
+msgstr "바탕 화면 표시"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: presentwindows/presentwindows_config.ui:393
@@ -1556,7 +1565,7 @@ msgstr "레이아웃 모드:"
 #: presentwindows/presentwindows_config.ui:413
 #, kde-format
 msgid "Display window &icons"
-msgstr "창 아이콘 보이기(&I)"
+msgstr "창 아이콘 표시(&I)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
 #: presentwindows/presentwindows_config.ui:420
@@ -1568,7 +1577,7 @@ msgstr "최소화된 창 무시하기(&M)"
 #: presentwindows/presentwindows_config.ui:427
 #, kde-format
 msgid "Show &panels"
-msgstr "패널 보이기(&P)"
+msgstr "패널 표시(&P)"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
 #: presentwindows/presentwindows_config.ui:441
@@ -1592,7 +1601,7 @@ msgstr "유연한 모눈"
 #: presentwindows/presentwindows_config.ui:459
 #, kde-format
 msgid "Provide buttons to close the windows"
-msgstr "창 닫기 단추 보이기"
+msgstr "창 닫기 단추 표시"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TextureScale)
 #: resize/resize_config.ui:17
@@ -1604,7 +1613,7 @@ msgstr "창 크기 조절"
 #: resize/resize_config.ui:24
 #, kde-format
 msgid "Show outline"
-msgstr "외곽선 보이기"
+msgstr "외곽선 표시"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InScale)
 #: scale/package/contents/ui/config.ui:46
@@ -1618,19 +1627,19 @@ msgstr "창 열 때 크기 조정:"
 msgid "Window close scale:"
 msgstr "창 닫을 때 크기 조정:"
 
-#: screenshot/screenshot.cpp:354
+#: screenshot/screenshot.cpp:458
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "스크린샷"
 
-#: screenshot/screenshot.cpp:355
+#: screenshot/screenshot.cpp:459
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "%1(으)로 스크린샷 저장됨"
 
-#: screenshot/screenshot.cpp:464
+#: screenshot/screenshot.cpp:568
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -1639,7 +1648,7 @@ msgstr ""
 "왼쪽 단추를 누르거나 Enter 키를 눌러서 스크린샷을 찍을 창을 선택합니다.\n"
 "Esc 키나 오른쪽 단추를 누르면 취소합니다."
 
-#: screenshot/screenshot.cpp:467
+#: screenshot/screenshot.cpp:571
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -1657,7 +1666,7 @@ msgstr "이 효과는 벤치마크가 아닙니다"
 #: showfps/showfps_config.ui:23
 #, kde-format
 msgid "Text position:"
-msgstr "텍스트 위치"
+msgstr "텍스트 위치:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:43
@@ -1699,19 +1708,19 @@ msgstr "아래 오른쪽"
 #: showfps/showfps_config.ui:76
 #, kde-format
 msgid "Text font:"
-msgstr "텍스트 글꼴"
+msgstr "텍스트 글꼴:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: showfps/showfps_config.ui:96
 #, kde-format
 msgid "Text color:"
-msgstr "텍스트 색상"
+msgstr "텍스트 색상:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: showfps/showfps_config.ui:119
 #, kde-format
 msgid "Text alpha:"
-msgstr "텍스트 투명도"
+msgstr "텍스트 투명도:"
 
 #: showpaint/showpaint.cpp:53 showpaint/showpaint_config.cpp:52
 #, kde-format
@@ -1722,7 +1731,7 @@ msgstr "그리기 영역 표시 전환"
 #: slide/slide_config.ui:50
 #, kde-format
 msgid "Gap between desktops"
-msgstr "데스크톱 사이 간격"
+msgstr "바탕 화면 사이 간격"
 
 #. i18n: ectx: property (text), widget (QLabel, label_HorizontalGap)
 #: slide/slide_config.ui:56
@@ -1746,7 +1755,7 @@ msgstr "독 슬라이드"
 #: slide/slide_config.ui:112
 #, kde-format
 msgid "Slide desktop background"
-msgstr "데스크톱 배경 슬라이드"
+msgstr "바탕 화면 배경 슬라이드"
 
 #: thumbnailaside/thumbnailaside.cpp:40
 #: thumbnailaside/thumbnailaside_config.cpp:73

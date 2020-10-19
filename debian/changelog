@@ -1,3 +1,10 @@
+kwin (4:5.19.5-1) experimental; urgency=medium
+
+  * New upstream release (5.19.5).
+  * Add Patrick and myself to uploaders.
+
+ -- Norbert Preining <norbert@preining.info>  Mon, 19 Oct 2020 13:45:27 +0900
+
 kwin (4:5.19.4-1) experimental; urgency=medium
 
   * Team upload.

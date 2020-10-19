@@ -1,6 +1,7 @@
 kwin (4:5.19.5-1) UNRELEASED; urgency=medium
 
   * New upstream release (5.19.5).
+  * Add Patrick and myself to uploaders.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Mon, 19 Oct 2020 13:44:45 +0900
 

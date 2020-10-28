@@ -1,4 +1,13 @@
-kwin (4:5.18.5-1) UNRELEASED; urgency=medium
+kwin (4:5.19.5-1) experimental; urgency=medium
+
+  * New upstream release (5.19.5).
+  * Add Patrick and myself to uploaders.
+
+ -- Norbert Preining <norbert@preining.info>  Mon, 19 Oct 2020 13:45:27 +0900
+
+kwin (4:5.19.4-1) experimental; urgency=medium
+
+  * Team upload.
 
   [ Jiří Paleček ]
   * New versions of dependencies for 5.18.5
@@ -30,6 +39,19 @@ kwin (4:5.17.5-3) unstable; urgency=medium
   [ Jiří Paleček ]
   * Rules-Requires-Root: no
 
+  [ Norbert Preining ]
+  * New upstream release (5.19.4).
+  * Remove Maximiliano from Uploaders as requested on IRC.
+  * Add Scarlett Moore to Uploaders.
+  * Change maintainer in d/control to Debian Qt/KDE Maintainers.
+  * Update build-deps with the info from cmake.
+  * Update list of installed files.
+  * Update symbols files.
+  * Unfuzzify patches.
+  * Add build-deps for Python.
+  * Tighten build-deps for kscreenlocker-dev.
+  * Clean up lintian overrides.
+  
  -- Pino Toscano <pino@debian.org>  Fri, 28 Aug 2020 19:04:07 +0200
 
 kwin (4:5.17.5-2) unstable; urgency=medium

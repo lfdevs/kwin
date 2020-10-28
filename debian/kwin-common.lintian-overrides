@@ -3,3 +3,4 @@ kwin-common: lacks-unversioned-link-to-shared-library usr/lib/*/libkdeinit5_kwin
 kwin-common: lacks-unversioned-link-to-shared-library usr/lib/*/libkwin.so
 kwin-common: shared-library-lacks-version usr/lib/*/libkdeinit5_kwin_rules_dialog.so libkdeinit5_kwin_rules_dialog.so
 kwin-common: lacks-unversioned-link-to-shared-library usr/lib/*/libkcmkwincommon.so.5.* usr/lib/x86_64-linux-gnu/libkcmkwincommon.so
+

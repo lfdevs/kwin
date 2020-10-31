@@ -1,5 +1,8 @@
-kwin (4:5.17.5-4) UNRELEASED; urgency=medium
+kwin (4:5.17.5-4) unstable; urgency=medium
 
+  * Team upload.
+
+  [ Scarlett Moore ]
   * Fix "FTBFS: egl_dmabuf.cpp:97:9: error: EGL_TEXTURE_Y_XUXV_WL
     was not declared in this scope"
     Apply upstream commit 2c76cc4784382b3df9b5413860d0793ea26cea31
@@ -7,7 +10,7 @@ kwin (4:5.17.5-4) UNRELEASED; urgency=medium
     which addresses the misuse of private headers.
     (Closes: #973149)
 
- -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Fri, 30 Oct 2020 11:53:01 -0700
+ -- Lisandro Damián Nicanor Pérez Meyer <lisandro@debian.org>  Fri, 30 Oct 2020 23:14:48 -0300
 
 kwin (4:5.17.5-3) unstable; urgency=medium
 

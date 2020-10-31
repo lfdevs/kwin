@@ -2,8 +2,9 @@ kwin (4:5.17.5-4) UNRELEASED; urgency=medium
 
   * Fix "FTBFS: egl_dmabuf.cpp:97:9: error: EGL_TEXTURE_Y_XUXV_WL
     was not declared in this scope"
-     Apply upstream commit 2c76cc4784382b3df9b5413860d0793ea26cea31
-     which addresses the misuse of private headers.
+    Apply upstream commit 2c76cc4784382b3df9b5413860d0793ea26cea31
+    as Fix_misuse_of_EGL_eglmesaext_h.patch
+    which addresses the misuse of private headers.
     (Closes: #973149)
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Fri, 30 Oct 2020 11:53:01 -0700

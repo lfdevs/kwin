@@ -1,1 +1,3 @@
-kwin-wayland: binary-without-manpage usr/bin/kwin_wayland
+kwin-wayland: no-manual-page usr/bin/kwin_wayland
+kwin-wayland: postinst-must-call-ldconfig usr/lib/*/libkdeinit5_kwin_wayland.so
+

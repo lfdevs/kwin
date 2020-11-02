@@ -31,6 +31,20 @@ kwin (4:5.19.4-1) experimental; urgency=medium
 
  -- Jiri Palecek <jpalecek@web.de>  Mon, 15 Jun 2020 03:01:07 +0200
 
+kwin (4:5.17.5-4) unstable; urgency=medium
+
+  * Team upload.
+
+  [ Scarlett Moore ]
+  * Fix "FTBFS: egl_dmabuf.cpp:97:9: error: EGL_TEXTURE_Y_XUXV_WL
+    was not declared in this scope"
+    Apply upstream commit 2c76cc4784382b3df9b5413860d0793ea26cea31
+    as Fix_misuse_of_EGL_eglmesaext_h.patch
+    which addresses the misuse of private headers.
+    (Closes: #973149)
+
+ -- Lisandro Damián Nicanor Pérez Meyer <lisandro@debian.org>  Fri, 30 Oct 2020 23:23:05 -0300
+
 kwin (4:5.17.5-3) unstable; urgency=medium
 
   * Team upload.

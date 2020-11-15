@@ -4,6 +4,7 @@ kwin (4:5.20.3-1) UNRELEASED; urgency=medium
   * New upstream release (5.20.3).
   * Update and tighten dependencies.
   * Update list of installed files.
+  * Update lintian overrides.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Mon, 16 Nov 2020 05:23:44 +0900
 

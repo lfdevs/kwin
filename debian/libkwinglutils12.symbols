@@ -88,6 +88,11 @@ libkwinglutils.so.12 libkwinglutils12 #MINVER#
  _ZN4KWin14GLVertexBufferD1Ev@Base 4:5.1.95+git20150122
  _ZN4KWin14GLVertexBufferD2Ev@Base 4:5.1.95+git20150122
  _ZN4KWin14hasGLExtensionERK10QByteArray@Base 4:5.1.95+git20150122
+ _ZN4KWin15EGLImageTextureC1EPvS1_iRK5QSize@Base 4:5.20.3
+ _ZN4KWin15EGLImageTextureC2EPvS1_iRK5QSize@Base 4:5.20.3
+ _ZN4KWin15EGLImageTextureD0Ev@Base 4:5.20.3
+ _ZN4KWin15EGLImageTextureD1Ev@Base 4:5.20.3
+ _ZN4KWin15EGLImageTextureD2Ev@Base 4:5.20.3
  _ZN4KWin16GLTexturePrivate10initStaticEv@Base 4:5.1.95+git20150122
  _ZN4KWin16GLTexturePrivate12updateMatrixEv@Base 4:5.1.95+git20150122
  _ZN4KWin16GLTexturePrivate16s_supportsARGB32E@Base 4:5.1.95+git20150122
@@ -170,8 +175,8 @@ libkwinglutils.so.12 libkwinglutils12 #MINVER#
  _ZN4KWin9GLTextureC1ERK7QString@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureC1ERKS0_@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureC1ERNS_16GLTexturePrivateE@Base 4:5.1.95+git20150122
- _ZN4KWin9GLTextureC1EjRK5QSizei@Base 4:5.1.95+git20150122
- _ZN4KWin9GLTextureC1Ejiii@Base 4:5.1.95+git20150122
+ _ZN4KWin9GLTextureC1EjRK5QSizeib@Base 4:5.20.3
+ _ZN4KWin9GLTextureC1Ejiiib@Base 4:5.20.3
  _ZN4KWin9GLTextureC1EjjRK5QSizei@Base 4:5.18.3
  _ZN4KWin9GLTextureC1Ev@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureC2ERK6QImagej@Base 4:5.1.95+git20150122
@@ -179,8 +184,8 @@ libkwinglutils.so.12 libkwinglutils12 #MINVER#
  _ZN4KWin9GLTextureC2ERK7QString@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureC2ERKS0_@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureC2ERNS_16GLTexturePrivateE@Base 4:5.1.95+git20150122
- _ZN4KWin9GLTextureC2EjRK5QSizei@Base 4:5.1.95+git20150122
- _ZN4KWin9GLTextureC2Ejiii@Base 4:5.1.95+git20150122
+ _ZN4KWin9GLTextureC2EjRK5QSizeib@Base 4:5.20.3
+ _ZN4KWin9GLTextureC2Ejiiib@Base 4:5.20.3
  _ZN4KWin9GLTextureC2EjjRK5QSizei@Base 4:5.18.3
  _ZN4KWin9GLTextureC2Ev@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureD0Ev@Base 4:5.1.95+git20150122
@@ -238,12 +243,15 @@ libkwinglutils.so.12 libkwinglutils12 #MINVER#
  _ZNK4KWin9GLTexture6targetEv@Base 4:5.1.95+git20150122
  _ZNK4KWin9GLTexture7isDirtyEv@Base 4:5.1.95+git20150122
  _ZNK4KWin9GLTexture7textureEv@Base 4:5.1.95+git20150122
+ _ZNK4KWin9GLTexture7toImageEv@Base 4:5.20.3
  _ZTI11QSharedData@Base 4:5.1.95+git20150122
+ _ZTIN4KWin15EGLImageTextureE@Base 4:5.20.3
  _ZTIN4KWin16GLTexturePrivateE@Base 4:5.1.95+git20150122
  _ZTIN4KWin9GLTextureE@Base 4:5.1.95+git20150122
  _ZTS11QSharedData@Base 4:5.1.95+git20150122
+ _ZTSN4KWin15EGLImageTextureE@Base 4:5.20.3
  _ZTSN4KWin16GLTexturePrivateE@Base 4:5.1.95+git20150122
  _ZTSN4KWin9GLTextureE@Base 4:5.1.95+git20150122
+ _ZTVN4KWin15EGLImageTextureE@Base 4:5.20.3
  _ZTVN4KWin16GLTexturePrivateE@Base 4:5.1.95+git20150122
  _ZTVN4KWin9GLTextureE@Base 4:5.1.95+git20150122
- _ZZN4KWin10connectionEvE5s_con@Base 4:5.8.0

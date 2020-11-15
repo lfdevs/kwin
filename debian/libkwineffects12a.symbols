@@ -436,4 +436,3 @@ libkwineffects.so.12 libkwineffects12a #MINVER#
  _ZTVN4KWin19EffectPluginFactoryE@Base 4:5.1.95+git20150122
  _ZTVN4KWin6EffectE@Base 4:5.1.95+git20150122
  _ZTVN4KWin9PaintDataE@Base 4:5.1.95+git20150122
- _ZZN4KWin10connectionEvE5s_con@Base 4:5.1.95+git20150122

@@ -3,6 +3,7 @@ kwin (4:5.19.5-4) UNRELEASED; urgency=medium
   [ Pino Toscano ]
   * Switch the transitional libxcb-util0-dev build dependency to
     libxcb-util-dev.
+  * Bump Standards-Version to 4.5.1, no changes required.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Fri, 27 Nov 2020 22:27:05 +0100
 

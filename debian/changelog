@@ -28,6 +28,7 @@ kwin (4:5.20.4-1) UNRELEASED; urgency=medium
     - Repositories to invent.kde.org.
     - Added bug database.
     - Updated changelog to point to announcements.
+  * Remove LD_FLAGS override, no longer needed, --as-needed is default now.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Fri, 27 Nov 2020 22:27:05 +0100
 

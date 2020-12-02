@@ -1,7 +1,7 @@
-kwin (4:5.20.3-1) UNRELEASED; urgency=medium
+kwin (4:5.20.4-1) UNRELEASED; urgency=medium
 
   [ Norbert Preining ]
-  * New upstream release (5.20.3).
+  * New upstream release (5.20.4).
   * Update and tighten dependencies.
   * Update list of installed files.
   * Update lintian overrides.

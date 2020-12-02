@@ -23,7 +23,7 @@ kwin (4:5.20.4-1) UNRELEASED; urgency=medium
   * Update lintian overrides.
 
   [ Scarlett Moore ]
-  * Bump kwin-common recommonds/suggest plasma depends to current release.
+  * Bump kwin-common recommends/suggest plasma depends to current release.
   * Update upstream/metadata.
     - Repositories to invent.kde.org.
     - Added bug database.

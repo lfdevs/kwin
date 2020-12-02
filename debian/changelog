@@ -24,6 +24,10 @@ kwin (4:5.20.4-1) UNRELEASED; urgency=medium
 
   [ Scarlett Moore ]
   * Bump kwin-common recommonds/suggest plasma depends to current release.
+  * Update upstream/metadata.
+    - Repositories to invent.kde.org.
+    - Added bug database.
+    - Updated changelog to point to announcements.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Fri, 27 Nov 2020 22:27:05 +0100
 

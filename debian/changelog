@@ -22,6 +22,9 @@ kwin (4:5.20.4-1) UNRELEASED; urgency=medium
     present in machine-readable debian/copyright).
   * Update lintian overrides.
 
+  [ Scarlett Moore ]
+  * Bump kwin-common recommonds/suggest plasma depends to current release.
+
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Fri, 27 Nov 2020 22:27:05 +0100
 
 kwin (4:5.19.5-3) unstable; urgency=medium

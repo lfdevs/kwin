@@ -101,8 +101,8 @@ Depends: hwdata,
          qml-module-qtmultimedia,
          ${misc:Depends},
          ${shlibs:Depends}
-Recommends: libqt5multimedia5-plugins, plasma-desktop (>= 4:5.14)
-Suggests: kwin-addons (>= 4:5.14)
+Recommends: libqt5multimedia5-plugins, plasma-desktop (>= 4:5.20)
+Suggests: kwin-addons (>= 4:5.20)
 Breaks: plasma-workspace (<< 4:5.14), plasma-workspace-dev (<< 4:5.14)
 Description: KDE window manager, common files
  KWin (pronounced as one syllable "kwin") is the window

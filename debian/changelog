@@ -12,7 +12,17 @@ kwin (4:5.20.4-1) UNRELEASED; urgency=medium
   * Backport upstream patch to fix left-edge dead pixel for click and scroll
     events.
 
- -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Mon, 16 Nov 2020 05:23:44 +0900
+  [ Pino Toscano ]
+  * Switch the transitional libxcb-util0-dev build dependency to
+    libxcb-util-dev.
+  * Bump Standards-Version to 4.5.1, no changes required.
+  * Trim trailing whitespace.
+  * Set field Upstream-Contact in debian/copyright.
+  * Remove obsolete fields Contact, Name from debian/upstream/metadata (already
+    present in machine-readable debian/copyright).
+  * Update lintian overrides.
+
+ -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Fri, 27 Nov 2020 22:27:05 +0100
 
 kwin (4:5.19.5-3) unstable; urgency=medium
 
@@ -27,8 +37,8 @@ kwin (4:5.19.5-2) experimental; urgency=medium
     was not declared in this scope" Apply upstream commit
     2c76cc4784382b3df9b5413860d0793ea26cea31 which addresses the misuse
     of private headers.
-    (Closes: #973149) 
-  * Add salsa-ci config so we can build on salsa. 
+    (Closes: #973149)
+  * Add salsa-ci config so we can build on salsa.
 
  -- Norbert Preining <norbert@preining.info>  Mon, 02 Nov 2020 09:39:13 +0900
 
@@ -99,7 +109,7 @@ kwin (4:5.17.5-3) unstable; urgency=medium
   * Add build-deps for Python.
   * Tighten build-deps for kscreenlocker-dev.
   * Clean up lintian overrides.
-  
+
  -- Pino Toscano <pino@debian.org>  Fri, 28 Aug 2020 19:04:07 +0200
 
 kwin (4:5.17.5-2) unstable; urgency=medium

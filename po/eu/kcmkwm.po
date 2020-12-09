@@ -1,8 +1,8 @@
-# Translation of kcmkwm.po to Euskara/Basque (eu).
+# Translation for kcmkwm.po to Euskara/Basque (eu).
 # Copyright (C) 2002-2018 Free Software Foundation.
 # Copyright (C) 2019-2020, This file is copyright:
 # This file is distributed under the same license as the kwin package.
-# KDE euskaratzeko proiektuaren arduraduna <xalba@euskalnet.net>.
+# KDE euskaratzeko proiektuko arduraduna <xalba@euskalnet.net>.
 #
 # Translators:
 # Marcos  <marcos@euskalgnu.org>, 2002, 2003, 2005, 2006, 2007, 2008.
@@ -15,15 +15,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-06-19 06:47+0200\n"
-"PO-Revision-Date: 2020-05-01 23:35+0200\n"
-"Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
+"POT-Creation-Date: 2020-08-29 02:26+0200\n"
+"PO-Revision-Date: 2020-10-05 22:04+0200\n"
+"Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.04.0\n"
+"X-Generator: Lokalize 20.08.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -197,14 +197,14 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllKey)
 #: actions.ui:209
 #, kde-format
-msgid "Alt"
-msgstr "Alt"
+msgid "Meta"
+msgstr "Meta"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllKey)
 #: actions.ui:214
 #, kde-format
-msgid "Meta"
-msgstr "Meta"
+msgid "Alt"
+msgstr "Alt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:236
@@ -592,14 +592,32 @@ msgstr "Goi-ezkerreko izkinan"
 msgid "Under mouse"
 msgstr "Saguaren azpian"
 
-#. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:118
+#, kde-format
+msgid ""
+"When turned on, KDE apps which are able to remember the positions of their "
+"windows are allowed to do so. This will override the window placement mode "
+"defined above."
+msgstr ""
+"Aukera hau aktibatuta dagoenean, bere leihoen kokapena gogoratzeko gai diren "
+"aplikazioek hori egiten uzten zaie. Horrek goian definitutako leiho kokapena "
+"indargabetuko du."
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
+#: advanced.ui:121
+#, kde-format
+msgid "Allow KDE apps to remember the positions of their own windows"
+msgstr "Utzi KDE aplikazioek bere leihoen kokapena gogoratu dezaten"
+
+#. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
+#: advanced.ui:128
 #, kde-format
 msgid "&Special windows:"
 msgstr "Leiho &bereziak:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:128
+#: advanced.ui:138
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -613,7 +631,7 @@ msgstr ""
 "markatu behar dituztela, hau funtziona dadin."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:131
+#: advanced.ui:141
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Ezkutatu utilitate leihoak aktiboan ez dauden aplikazioetarako"
@@ -895,87 +913,87 @@ msgstr "&Bereizi pantailen fokua"
 msgid "Window activation policy description"
 msgstr "Leihoak aktibatzeko gidalerroen azalpena"
 
-#: main.cpp:85
+#: main.cpp:73
 #, kde-format
 msgid "&Focus"
 msgstr "&Fokua"
 
-#: main.cpp:95
+#: main.cpp:84
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "Titulu-barrako e&kintzak"
 
-#: main.cpp:101
+#: main.cpp:91
 #, kde-format
 msgid "W&indow Actions"
 msgstr "Le&ihoetako ekintzak"
 
-#: main.cpp:107
+#: main.cpp:98
 #, kde-format
 msgid "Mo&vement"
 msgstr "M&ugimendua"
 
-#: main.cpp:113
+#: main.cpp:105
 #, kde-format
 msgid "Adva&nced"
 msgstr "Au&rreratua"
 
-#: main.cpp:118
+#: main.cpp:110
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "Leihoen portaera konfiguratzeko modulua"
 
-#: main.cpp:120
+#: main.cpp:112
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "(c) 1997 - 2002 KWin-en eta KControl-en egileak"
 
-#: main.cpp:122
+#: main.cpp:114
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:123
+#: main.cpp:115
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:124
+#: main.cpp:116
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:125
+#: main.cpp:117
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:126
+#: main.cpp:118
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:127
+#: main.cpp:119
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:128
+#: main.cpp:120
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:129
+#: main.cpp:121
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:130
+#: main.cpp:122
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:175
+#: main.cpp:167
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -993,12 +1011,12 @@ msgstr ""
 "kudeatzaile bat erabiltzen baduzu, ikusi haren dokumentazioan leihoen "
 "jokabidea nola egokitu.</p>"
 
-#: main.cpp:195
+#: main.cpp:187
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "&Titulu-barrako ekintzak"
 
-#: main.cpp:201
+#: main.cpp:193
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "Leihoetako &ekintzak"
@@ -1038,8 +1056,8 @@ msgstr "Maximizatu"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
 #: mouse.ui:45 mouse.ui:620 mouse.ui:655 mouse.ui:690
 #, kde-format
-msgid "Maximize (vertical only)"
-msgstr "Maximizatu (bertikalki bakarrik)"
+msgid "Vertically maximize"
+msgstr "Bertikalki maximizatu"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1048,8 +1066,8 @@ msgstr "Maximizatu (bertikalki bakarrik)"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
 #: mouse.ui:50 mouse.ui:625 mouse.ui:660 mouse.ui:695
 #, kde-format
-msgid "Maximize (horizontal only)"
-msgstr "Maximizatu (horizontalki bakarrik)"
+msgid "Horizontally maximize"
+msgstr "Horizontalki maximizatu"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1293,7 +1311,7 @@ msgstr "E&rdiguneko atxikitze eremua:"
 msgid "&Snap windows:"
 msgstr "At&xiki leihoak:"
 
-#: windows.cpp:100
+#: windows.cpp:87
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1303,7 +1321,7 @@ msgstr ""
 "zaionean. Jokabide hau arrunta da beste sistema eragile batzuetan eta segur "
 "aski zuk nahi duzuna da."
 
-#: windows.cpp:104
+#: windows.cpp:91
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1318,7 +1336,7 @@ msgstr ""
 "hobetsia. Ezohikoa, baino <em>Klik egin fokuratzeko</em>ren aldaera posible "
 "bat da."
 
-#: windows.cpp:109
+#: windows.cpp:96
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1331,7 +1349,7 @@ msgstr ""
 "fokua bereganatuko. <em>Foku-lapurtze prebentzioa</em> ohi bezala arituko "
 "da. <em>Klik egin fokuratzeko</em> bezalakoa, baino klik egin beharrik gabe."
 
-#: windows.cpp:113
+#: windows.cpp:100
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1346,7 +1364,7 @@ msgstr ""
 
 # xalba 2018-07-01: berrikusteko
 # «tabbox» terminoa ez det itzuli, gainontzeko hizkuntzetan ez dute oraindik itzuli eta testuingurua behar det.
-#: windows.cpp:118
+#: windows.cpp:105
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1363,7 +1381,7 @@ msgstr ""
 
 # xalba 2018-07-01: berrikusteko
 # - in doubt nowhere -: beste hizkuntzetan ez da mezu hau itzuli oraindik. Neure interpretazioa zuzena dela egiaztatu.
-#: windows.cpp:122
+#: windows.cpp:109
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

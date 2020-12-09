@@ -1,22 +1,11 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 2006 Lubos Lunak <l.lunak@kde.org>
+    SPDX-FileCopyrightText: 2006 Lubos Lunak <l.lunak@kde.org>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 /*
  The base class for compositing, implementing shared functionality
@@ -142,10 +131,6 @@ void Scene::paintScreen(int* mask, const QRegion &damage, const QRegion &repaint
     painted_region = region;
     repaint_region = repaint;
 
-    if (*mask & PAINT_SCREEN_BACKGROUND_FIRST) {
-        paintBackground(region);
-    }
-
     ScreenPaintData data(projection, outputGeometry, screenScale);
     effects->paintScreen(*mask, region, data);
 
@@ -161,6 +146,8 @@ void Scene::paintScreen(int* mask, const QRegion &damage, const QRegion &repaint
 
     repaint_region = QRegion();
     damaged_region = QRegion();
+
+    m_paintScreenCount = 0;
 
     // make sure all clipping is restored
     Q_ASSERT(!PaintClipper::clip());
@@ -194,19 +181,19 @@ void Scene::idle()
 // the function that'll be eventually called by paintScreen() above
 void Scene::finalPaintScreen(int mask, const QRegion &region, ScreenPaintData& data)
 {
+    m_paintScreenCount++;
     if (mask & (PAINT_SCREEN_TRANSFORMED | PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS))
         paintGenericScreen(mask, data);
     else
         paintSimpleScreen(mask, region);
+
+    Q_EMIT frameRendered();
 }
 
 // The generic painting code that can handle even transformations.
 // It simply paints bottom-to-top.
 void Scene::paintGenericScreen(int orig_mask, const ScreenPaintData &)
 {
-    if (!(orig_mask & PAINT_SCREEN_BACKGROUND_FIRST)) {
-        paintBackground(infiniteRegion());
-    }
     QVector<Phase2Data> phase2;
     phase2.reserve(stacking_order.size());
     foreach (Window * w, stacking_order) { // bottom to top
@@ -239,12 +226,21 @@ void Scene::paintGenericScreen(int orig_mask, const ScreenPaintData &)
         phase2.append({w, infiniteRegion(), data.clip, data.mask, data.quads});
     }
 
+    damaged_region = QRegion(QRect {{}, screens()->size()});
+    if (m_paintScreenCount == 1) {
+        aboutToStartPainting(damaged_region);
+
+        if (orig_mask & PAINT_SCREEN_BACKGROUND_FIRST) {
+            paintBackground(infiniteRegion());
+        }
+    }
+
+    if (!(orig_mask & PAINT_SCREEN_BACKGROUND_FIRST)) {
+        paintBackground(infiniteRegion());
+    }
     foreach (const Phase2Data & d, phase2) {
         paintWindow(d.window, d.mask, d.region, d.quads);
     }
-
-    const QSize &screenSize = screens()->size();
-    damaged_region = QRegion(0, 0, screenSize.width(), screenSize.height());
 }
 
 // The optimized case without any transformations at all.
@@ -288,11 +284,17 @@ void Scene::paintSimpleScreen(int orig_mask, const QRegion &region)
             if (!(client && client->decorationHasAlpha())) {
                 data.clip = window->decorationShape().translated(window->pos());
             }
-            data.clip |= window->clientShape().translated(window->pos() + window->bufferOffset());
+            const WindowPixmap *windowPixmap = window->windowPixmap<WindowPixmap>();
+            if (windowPixmap) {
+                data.clip |= windowPixmap->mapToGlobal(windowPixmap->shape());
+            }
         } else if (toplevel->hasAlpha() && toplevel->opacity() == 1.0) {
-            const QRegion clientShape = window->clientShape().translated(window->pos() + window->bufferOffset());
-            const QRegion opaqueShape = toplevel->opaqueRegion().translated(window->pos() + toplevel->clientPos());
-            data.clip = clientShape & opaqueShape;
+            const WindowPixmap *windowPixmap = window->windowPixmap<WindowPixmap>();
+            if (windowPixmap) {
+                const QRegion shape = windowPixmap->shape();
+                const QRegion opaque = windowPixmap->opaque();
+                data.clip = windowPixmap->mapToGlobal(shape & opaque);
+            }
         } else {
             data.clip = QRegion();
         }
@@ -359,6 +361,13 @@ void Scene::paintSimpleScreen(int orig_mask, const QRegion &region)
 
     QRegion paintedArea;
     // Fill any areas of the root window not covered by opaque windows
+    if (m_paintScreenCount == 1) {
+        aboutToStartPainting(dirtyArea);
+
+        if (orig_mask & PAINT_SCREEN_BACKGROUND_FIRST) {
+            paintBackground(infiniteRegion());
+        }
+    }
     if (!(orig_mask & PAINT_SCREEN_BACKGROUND_FIRST)) {
         paintedArea = dirtyArea - allclips;
         paintBackground(paintedArea);
@@ -397,35 +406,7 @@ void Scene::addToplevel(Toplevel *c)
     Scene::Window *w = createWindow(c);
     m_windows[ c ] = w;
 
-    auto discardPixmap = [w]() { w->discardPixmap(); };
-    auto discardQuads = [w]() { w->invalidateQuadsCache(); };
-
-    connect(c, SIGNAL(geometryShapeChanged(KWin::Toplevel*,QRect)), SLOT(windowGeometryShapeChanged(KWin::Toplevel*)));
     connect(c, SIGNAL(windowClosed(KWin::Toplevel*,KWin::Deleted*)), SLOT(windowClosed(KWin::Toplevel*,KWin::Deleted*)));
-    if (c->surface()) {
-        // We generate window quads for sub-surfaces so it's quite important to discard
-        // the pixmap tree and cached window quads when the sub-surface tree is changed.
-        SubSurfaceMonitor *monitor = new SubSurfaceMonitor(c->surface(), this);
-
-        // TODO(vlad): Is there a more efficient way to manage window pixmap trees?
-        connect(monitor, &SubSurfaceMonitor::subSurfaceAdded, this, discardPixmap);
-        connect(monitor, &SubSurfaceMonitor::subSurfaceRemoved, this, discardPixmap);
-        connect(monitor, &SubSurfaceMonitor::subSurfaceResized, this, discardPixmap);
-        connect(monitor, &SubSurfaceMonitor::subSurfaceMapped, this, discardPixmap);
-        connect(monitor, &SubSurfaceMonitor::subSurfaceUnmapped, this, discardPixmap);
-
-        connect(monitor, &SubSurfaceMonitor::subSurfaceAdded, this, discardQuads);
-        connect(monitor, &SubSurfaceMonitor::subSurfaceRemoved, this, discardQuads);
-        connect(monitor, &SubSurfaceMonitor::subSurfaceMoved, this, discardQuads);
-        connect(monitor, &SubSurfaceMonitor::subSurfaceResized, this, discardQuads);
-        connect(monitor, &SubSurfaceMonitor::subSurfaceMapped, this, discardQuads);
-        connect(monitor, &SubSurfaceMonitor::subSurfaceUnmapped, this, discardQuads);
-
-        connect(c->surface(), &KWaylandServer::SurfaceInterface::scaleChanged, this, discardQuads);
-    }
-
-    connect(c, &Toplevel::screenScaleChanged, this, discardQuads);
-    connect(c, &Toplevel::shadowChanged, this, discardQuads);
 
     c->effectWindow()->setSceneWindow(w);
     c->updateShadow();
@@ -453,14 +434,6 @@ void Scene::windowClosed(Toplevel *toplevel, Deleted *deleted)
         window->shadow()->setToplevel(deleted);
     }
     m_windows[deleted] = window;
-}
-
-void Scene::windowGeometryShapeChanged(Toplevel *c)
-{
-    if (!m_windows.contains(c))    // this is ok, shape is not valid by default
-        return;
-    Window *w = m_windows[ c ];
-    w->discardShape();
 }
 
 void Scene::createStackingOrder(const QList<Toplevel *> &toplevels)
@@ -621,6 +594,11 @@ void Scene::paintDesktop(int desktop, int mask, const QRegion &region, ScreenPai
     static_cast<EffectsHandlerImpl*>(effects)->paintDesktop(desktop, mask, region, data);
 }
 
+void Scene::aboutToStartPainting(const QRegion &damage)
+{
+    Q_UNUSED(damage)
+}
+
 // the function that'll be eventually called by paintWindow() above
 void Scene::finalPaintWindow(EffectWindowImpl* w, int mask, const QRegion &region, WindowPaintData& data)
 {
@@ -669,6 +647,11 @@ void Scene::doneOpenGLContextCurrent()
 {
 }
 
+bool Scene::supportsSurfacelessContext() const
+{
+    return false;
+}
+
 void Scene::triggerFence()
 {
 }
@@ -702,8 +685,9 @@ QVector<QByteArray> Scene::openGLPlatformInterfaceExtensions() const
 // Scene::Window
 //****************************************
 
-Scene::Window::Window(Toplevel * c)
-    : toplevel(c)
+Scene::Window::Window(Toplevel *client, QObject *parent)
+    : QObject(parent)
+    , toplevel(client)
     , filter(ImageFilterFast)
     , m_shadow(nullptr)
     , m_currentPixmap()
@@ -712,11 +696,66 @@ Scene::Window::Window(Toplevel * c)
     , disable_painting(0)
     , cached_quad_list(nullptr)
 {
+    KWaylandServer::SurfaceInterface *surface = toplevel->surface();
+    if (surface) {
+        // We generate window quads for sub-surfaces so it's quite important to discard
+        // the pixmap tree and cached window quads when the sub-surface tree is changed.
+        m_subsurfaceMonitor = new SubSurfaceMonitor(surface, this);
+
+        // TODO(vlad): Is there a more efficient way to manage window pixmap trees?
+        connect(m_subsurfaceMonitor, &SubSurfaceMonitor::subSurfaceAdded,
+                this, &Window::discardPixmap);
+        connect(m_subsurfaceMonitor, &SubSurfaceMonitor::subSurfaceRemoved,
+                this, &Window::discardPixmap);
+        connect(m_subsurfaceMonitor, &SubSurfaceMonitor::subSurfaceMapped,
+                this, &Window::discardPixmap);
+        connect(m_subsurfaceMonitor, &SubSurfaceMonitor::subSurfaceUnmapped,
+                this, &Window::discardPixmap);
+        connect(m_subsurfaceMonitor, &SubSurfaceMonitor::subSurfaceBufferSizeChanged,
+                this, &Window::discardPixmap);
+
+        connect(m_subsurfaceMonitor, &SubSurfaceMonitor::subSurfaceAdded,
+                this, &Window::discardQuads);
+        connect(m_subsurfaceMonitor, &SubSurfaceMonitor::subSurfaceRemoved,
+                this, &Window::discardQuads);
+        connect(m_subsurfaceMonitor, &SubSurfaceMonitor::subSurfaceMoved,
+                this, &Window::discardQuads);
+        connect(m_subsurfaceMonitor, &SubSurfaceMonitor::subSurfaceResized,
+                this, &Window::discardQuads);
+        connect(m_subsurfaceMonitor, &SubSurfaceMonitor::subSurfaceMapped,
+                this, &Window::discardQuads);
+        connect(m_subsurfaceMonitor, &SubSurfaceMonitor::subSurfaceUnmapped,
+                this, &Window::discardQuads);
+        connect(m_subsurfaceMonitor, &SubSurfaceMonitor::subSurfaceSurfaceToBufferMatrixChanged,
+                this, &Window::discardQuads);
+
+        connect(surface, &KWaylandServer::SurfaceInterface::bufferSizeChanged,
+                this, &Window::discardPixmap);
+        connect(surface, &KWaylandServer::SurfaceInterface::surfaceToBufferMatrixChanged,
+                this, &Window::discardQuads);
+    }
+
+    connect(toplevel, &Toplevel::screenScaleChanged, this, &Window::discardQuads);
+    connect(toplevel, &Toplevel::shadowChanged, this, &Window::discardQuads);
+    connect(toplevel, &Toplevel::geometryShapeChanged, this, &Window::discardShape);
 }
 
 Scene::Window::~Window()
 {
     delete m_shadow;
+}
+
+void Scene::Window::updateToplevel(Deleted *deleted)
+{
+    delete m_subsurfaceMonitor;
+    m_subsurfaceMonitor = nullptr;
+
+    KWaylandServer::SurfaceInterface *surface = toplevel->surface();
+    if (surface) {
+        disconnect(surface, nullptr, this, nullptr);
+    }
+
+    toplevel = deleted;
 }
 
 void Scene::Window::referencePreviousPixmap()
@@ -766,7 +805,7 @@ void Scene::Window::discardShape()
     // it is created on-demand and cached, simply
     // reset the flag
     m_bufferShapeIsValid = false;
-    invalidateQuadsCache();
+    discardQuads();
 }
 
 QRegion Scene::Window::bufferShape() const
@@ -897,10 +936,10 @@ WindowQuadList Scene::Window::buildQuads(bool force) const
     if (cached_quad_list != nullptr && !force)
         return *cached_quad_list;
 
-    WindowQuadList ret;
+    WindowQuadList *ret = new WindowQuadList;
 
     if (!isShaded()) {
-        ret += makeContentsQuads();
+        *ret += makeContentsQuads();
     }
 
     if (!toplevel->frameMargins().isNull()) {
@@ -920,18 +959,18 @@ WindowQuadList Scene::Window::buildQuads(bool force) const
 
         if (isShadedClient) {
             const QRect bounding = rects[0] | rects[1] | rects[2] | rects[3];
-            ret += makeDecorationQuads(rects, bounding, decorationScale);
+            *ret += makeDecorationQuads(rects, bounding, decorationScale);
         } else {
-            ret += makeDecorationQuads(rects, decoration, decorationScale);
+            *ret += makeDecorationQuads(rects, decoration, decorationScale);
         }
 
     }
     if (m_shadow && toplevel->wantsShadowToBeRendered()) {
-        ret << m_shadow->shadowQuads();
+        *ret << m_shadow->shadowQuads();
     }
-    effects->buildQuads(toplevel->effectWindow(), ret);
-    cached_quad_list.reset(new WindowQuadList(ret));
-    return ret;
+    effects->buildQuads(toplevel->effectWindow(), *ret);
+    cached_quad_list.reset(ret);
+    return *ret;
 }
 
 WindowQuadList Scene::Window::makeDecorationQuads(const QRect *rects, const QRegion &region, qreal textureScale) const
@@ -1028,45 +1067,41 @@ WindowQuadList Scene::Window::makeContentsQuads() const
             continue;
 
         const QRegion region = windowPixmap->shape();
-        const QPoint position = windowPixmap->framePosition();
-        const qreal scale = windowPixmap->scale();
         const int quadId = id++;
 
-        for (const QRect &rect : region) {
+        for (const QRectF rect : region) {
             // Note that the window quad id is not unique if the window is shaped, i.e. the
             // region contains more than just one rectangle. We assume that the "source" quad
             // had been subdivided.
             WindowQuad quad(WindowQuadContents, quadId);
 
-            const qreal x0 = rect.x() + position.x();
-            const qreal y0 = rect.y() + position.y();
-            const qreal x1 = rect.x() + rect.width() + position.x();
-            const qreal y1 = rect.y() + rect.height() + position.y();
+            const QPointF windowTopLeft = windowPixmap->mapToWindow(rect.topLeft());
+            const QPointF windowTopRight = windowPixmap->mapToWindow(rect.topRight());
+            const QPointF windowBottomRight = windowPixmap->mapToWindow(rect.bottomRight());
+            const QPointF windowBottomLeft = windowPixmap->mapToWindow(rect.bottomLeft());
 
-            const qreal u0 = rect.x() * scale;
-            const qreal v0 = rect.y() * scale;
-            const qreal u1 = (rect.x() + rect.width()) * scale;
-            const qreal v1 = (rect.y() + rect.height()) * scale;
+            const QPointF bufferTopLeft = windowPixmap->mapToBuffer(rect.topLeft());
+            const QPointF bufferTopRight = windowPixmap->mapToBuffer(rect.topRight());
+            const QPointF bufferBottomRight = windowPixmap->mapToBuffer(rect.bottomRight());
+            const QPointF bufferBottomLeft = windowPixmap->mapToBuffer(rect.bottomLeft());
 
-            quad[0] = WindowVertex(QPointF(x0, y0), QPointF(u0, v0));
-            quad[1] = WindowVertex(QPointF(x1, y0), QPointF(u1, v0));
-            quad[2] = WindowVertex(QPointF(x1, y1), QPointF(u1, v1));
-            quad[3] = WindowVertex(QPointF(x0, y1), QPointF(u0, v1));
+            quad[0] = WindowVertex(windowTopLeft, bufferTopLeft);
+            quad[1] = WindowVertex(windowTopRight, bufferTopRight);
+            quad[2] = WindowVertex(windowBottomRight, bufferBottomRight);
+            quad[3] = WindowVertex(windowBottomLeft, bufferBottomLeft);
 
             quads << quad;
         }
 
         // Push the child window pixmaps onto the stack, remember we're visiting the pixmaps
         // in the depth-first search manner.
-        const auto children = windowPixmap->children();
-        for (WindowPixmap *child : children)
-            stack.push(child);
+        stack += windowPixmap->children();
     }
 
     return quads;
 }
 
-void Scene::Window::invalidateQuadsCache()
+void Scene::Window::discardQuads()
 {
     cached_quad_list.reset();
 }
@@ -1134,7 +1169,7 @@ void WindowPixmap::create()
         update();
         if (isRoot() && isValid()) {
             m_window->unreferencePreviousPixmap();
-            m_window->invalidateQuadsCache();
+            m_window->discardQuads();
         }
         return;
     }
@@ -1165,7 +1200,7 @@ void WindowPixmap::create()
     m_pixmapSize = bufferGeometry.size();
     m_contentsRect = QRect(toplevel()->clientPos(), toplevel()->clientSize());
     m_window->unreferencePreviousPixmap();
-    m_window->invalidateQuadsCache();
+    m_window->discardQuads();
 }
 
 void WindowPixmap::update()
@@ -1270,15 +1305,24 @@ QPoint WindowPixmap::framePosition() const
 qreal WindowPixmap::scale() const
 {
     if (surface())
-        return surface()->scale();
+        return surface()->bufferScale();
     return toplevel()->bufferScale();
 }
 
 QRegion WindowPixmap::shape() const
 {
     if (subSurface())
-        return QRect(QPoint(), surface()->size());
+        return surface() ? QRect(QPoint(), surface()->size()) : QRegion();
     return m_window->clientShape();
+}
+
+QRegion WindowPixmap::opaque() const
+{
+    if (surface()) {
+        return surface()->opaque();
+    }
+
+    return toplevel()->opaqueRegion().translated(toplevel()->clientPos());
 }
 
 bool WindowPixmap::hasAlphaChannel() const
@@ -1286,6 +1330,23 @@ bool WindowPixmap::hasAlphaChannel() const
     if (buffer())
         return buffer()->hasAlphaChannel();
     return toplevel()->hasAlpha();
+}
+
+QPointF WindowPixmap::mapToWindow(const QPointF &point) const
+{
+    return point + framePosition();
+}
+
+QPointF WindowPixmap::mapToBuffer(const QPointF &point) const
+{
+    if (surface())
+        return surface()->mapToBuffer(point);
+    return point * scale();
+}
+
+QRegion WindowPixmap::mapToGlobal(const QRegion &region) const
+{
+    return region.translated(m_window->pos() + framePosition());
 }
 
 //****************************************

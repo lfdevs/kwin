@@ -1,24 +1,14 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 2006 Lubos Lunak <l.lunak@kde.org>
+    SPDX-FileCopyrightText: 2006 Lubos Lunak <l.lunak@kde.org>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 #include "toplevel.h"
 
+#include "abstract_client.h"
 #ifdef KWIN_BUILD_ACTIVITIES
 #include "activities.h"
 #endif
@@ -59,6 +49,7 @@ Toplevel::Toplevel()
     connect(screens(), SIGNAL(changed()), SLOT(checkScreen()));
     connect(screens(), SIGNAL(countChanged(int,int)), SLOT(checkScreen()));
     setupCheckScreenConnection();
+    connect(this, &Toplevel::bufferGeometryChanged, this, &Toplevel::inputTransformationChanged);
 
     // Only for compatibility reasons, drop in the next major release.
     connect(this, &Toplevel::frameGeometryChanged, this, &Toplevel::geometryChanged);
@@ -70,12 +61,35 @@ Toplevel::~Toplevel()
     delete info;
 }
 
-QDebug& operator<<(QDebug& stream, const Toplevel* cl)
+QDebug operator<<(QDebug debug, const Toplevel *toplevel)
 {
-    if (cl == nullptr)
-        return stream << "\'NULL\'";
-    cl->debug(stream);
-    return stream;
+    QDebugStateSaver saver(debug);
+    debug.nospace();
+    if (toplevel) {
+        debug << toplevel->metaObject()->className() << '(' << static_cast<const void *>(toplevel);
+        debug << ", windowId=0x" << Qt::hex << toplevel->windowId() << Qt::dec;
+        if (const KWaylandServer::SurfaceInterface *surface = toplevel->surface()) {
+            debug << ", surface=" << surface;
+        }
+        const AbstractClient *client = qobject_cast<const AbstractClient *>(toplevel);
+        if (client) {
+            if (!client->isPopupWindow()) {
+                debug << ", caption=" << client->caption();
+            }
+            if (client->transientFor()) {
+                debug << ", transientFor=" << client->transientFor();
+            }
+        }
+        if (debug.verbosity() > 2) {
+            debug << ", frameGeometry=" << toplevel->frameGeometry();
+            debug << ", resourceName=" << toplevel->resourceName();
+            debug << ", resourceClass=" << toplevel->resourceClass();
+        }
+        debug << ')';
+    } else {
+        debug << "Toplevel(0x0)";
+    }
+    return debug;
 }
 
 void Toplevel::detectShape(xcb_window_t id)
@@ -92,6 +106,7 @@ void Toplevel::copyToDeleted(Toplevel* c)
 {
     m_internalId = c->internalId();
     m_frameGeometry = c->m_frameGeometry;
+    m_clientGeometry = c->m_clientGeometry;
     m_visual = c->m_visual;
     bit_depth = c->bit_depth;
     info = c->info;
@@ -490,6 +505,13 @@ void Toplevel::addWorkspaceRepaint(const QRect& r2)
     Compositor::self()->addRepaint(r2);
 }
 
+void Toplevel::addWorkspaceRepaint(const QRegion &region)
+{
+    if (compositing()) {
+        Compositor::self()->addRepaint(region);
+    }
+}
+
 void Toplevel::setReadyForPainting()
 {
     if (!ready_for_painting) {
@@ -551,7 +573,7 @@ qreal Toplevel::screenScale() const
 
 qreal Toplevel::bufferScale() const
 {
-    return surface() ? surface()->scale() : 1;
+    return surface() ? surface()->bufferScale() : 1;
 }
 
 bool Toplevel::isOnScreen(int screen) const
@@ -568,6 +590,7 @@ void Toplevel::updateShadow()
 {
     QRect dirtyRect;  // old & new shadow region
     const QRect oldVisibleRect = visibleRect();
+    addWorkspaceRepaint(oldVisibleRect);
     if (shadow()) {
         dirtyRect = shadow()->shadowRegion().boundingRect();
         if (!effectWindow()->sceneWindow()->shadow()->updateShadow()) {

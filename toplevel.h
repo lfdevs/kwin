@@ -1,22 +1,11 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 2006 Lubos Lunak <l.lunak@kde.org>
+    SPDX-FileCopyrightText: 2006 Lubos Lunak <l.lunak@kde.org>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #ifndef KWIN_TOPLEVEL_H
 #define KWIN_TOPLEVEL_H
@@ -295,6 +284,13 @@ class KWIN_EXPORT Toplevel : public QObject
      */
     Q_PROPERTY(QUuid internalId READ internalId CONSTANT)
 
+    /**
+     * The pid of the process owning this window.
+     *
+     * @since 5.20
+     */
+    Q_PROPERTY(int pid READ pid CONSTANT)
+
 public:
     explicit Toplevel();
     virtual xcb_window_t frameId() const;
@@ -327,6 +323,10 @@ public:
      * server-side and client-side drop shadows, etc.
      */
     QRect frameGeometry() const;
+    /**
+     * Returns the geometry of the client window, in global screen coordinates.
+     */
+    QRect clientGeometry() const;
     /**
      * Returns the extents of the server-side decoration.
      *
@@ -372,7 +372,7 @@ public:
      * The default implementation is a 1:1 mapping meaning the frame is part of the content.
      */
     virtual QPoint clientContentPos() const;
-    virtual QSize clientSize() const = 0;
+    QSize clientSize() const;
     /**
      * Returns a rectangle that the window occupies on the screen, including drop-shadows.
      */
@@ -454,6 +454,7 @@ public:
     // these call workspace->addRepaint(), but first transform the damage if needed
     void addWorkspaceRepaint(const QRect& r);
     void addWorkspaceRepaint(int x, int y, int w, int h);
+    void addWorkspaceRepaint(const QRegion &region);
     QRegion repaints() const;
     void resetRepaints();
     QRegion damage() const;
@@ -586,6 +587,7 @@ public:
 Q_SIGNALS:
     void opacityChanged(KWin::Toplevel* toplevel, qreal oldOpacity);
     void damaged(KWin::Toplevel* toplevel, const QRect& damage);
+    void inputTransformationChanged();
     /**
      * This signal is emitted when the Toplevel's frame geometry changes.
      * @deprecated since 5.19, use frameGeometryChanged instead
@@ -654,9 +656,17 @@ Q_SIGNALS:
     void shadowChanged();
 
     /**
+     * This signal is emitted when the Toplevel's buffer geometry changes.
+     */
+    void bufferGeometryChanged(KWin::Toplevel *toplevel, const QRect &oldGeometry);
+    /**
      * This signal is emitted when the Toplevel's frame geometry changes.
      */
     void frameGeometryChanged(KWin::Toplevel *toplevel, const QRect &oldGeometry);
+    /**
+     * This signal is emitted when the Toplevel's client geometry has changed.
+     */
+    void clientGeometryChanged(KWin::Toplevel *toplevel, const QRect &oldGeometry);
 
 protected Q_SLOTS:
     /**
@@ -698,13 +708,12 @@ protected:
     Xcb::Property fetchSkipCloseAnimation() const;
     void readSkipCloseAnimation(Xcb::Property &prop);
     void getSkipCloseAnimation();
-    virtual void debug(QDebug& stream) const = 0;
     void copyToDeleted(Toplevel* c);
     void disownDataPassedToDeleted();
-    friend QDebug& operator<<(QDebug& stream, const Toplevel*);
     void deleteEffectWindow();
     void setDepth(int depth);
     QRect m_frameGeometry;
+    QRect m_clientGeometry;
     xcb_visualid_t m_visual;
     int bit_depth;
     NETWinInfo* info;
@@ -752,6 +761,16 @@ inline void Toplevel::setWindowHandles(xcb_window_t w)
 {
     Q_ASSERT(!m_client.isValid() && w != XCB_WINDOW_NONE);
     m_client.reset(w, false);
+}
+
+inline QRect Toplevel::clientGeometry() const
+{
+    return m_clientGeometry;
+}
+
+inline QSize Toplevel::clientSize() const
+{
+    return m_clientGeometry.size();
 }
 
 inline QRect Toplevel::frameGeometry() const
@@ -1041,7 +1060,7 @@ inline bool Toplevel::isPopupWindow() const
     }
 }
 
-QDebug& operator<<(QDebug& stream, const Toplevel*);
+QDebug operator<<(QDebug debug, const Toplevel *toplevel);
 
 } // namespace
 Q_DECLARE_METATYPE(KWin::Toplevel*)

@@ -1,22 +1,11 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 2013 Martin Gräßlin <mgraesslin@kde.org>
+    SPDX-FileCopyrightText: 2013 Martin Gräßlin <mgraesslin@kde.org>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 #ifndef KWIN_SCENE_QPAINTER_H
 #define KWIN_SCENE_QPAINTER_H
 
@@ -61,7 +50,7 @@ public:
 protected:
     void paintBackground(const QRegion &region) override;
     Scene::Window *createWindow(Toplevel *toplevel) override;
-    void paintCursor() override;
+    void paintCursor(const QRegion &region) override;
     void paintEffectQuickView(EffectQuickView *w) override;
 
 private:
@@ -69,20 +58,6 @@ private:
     QScopedPointer<QPainterBackend> m_backend;
     QScopedPointer<QPainter> m_painter;
     class Window;
-};
-
-class SceneQPainter::Window : public Scene::Window
-{
-public:
-    Window(SceneQPainter *scene, Toplevel *c);
-    ~Window() override;
-    void performPaint(int mask, const QRegion &region, const WindowPaintData &data) override;
-protected:
-    WindowPixmap *createWindowPixmap() override;
-private:
-    void renderShadow(QPainter *painter);
-    void renderWindowDecorations(QPainter *painter);
-    SceneQPainter *m_scene;
 };
 
 class QPainterWindowPixmap : public WindowPixmap
@@ -101,6 +76,23 @@ protected:
 private:
     explicit QPainterWindowPixmap(const QPointer<KWaylandServer::SubSurfaceInterface> &subSurface, WindowPixmap *parent);
     QImage m_image;
+};
+
+class SceneQPainter::Window : public Scene::Window
+{
+    Q_OBJECT
+
+public:
+    Window(SceneQPainter *scene, Toplevel *c);
+    ~Window() override;
+    void performPaint(int mask, const QRegion &region, const WindowPaintData &data) override;
+protected:
+    WindowPixmap *createWindowPixmap() override;
+private:
+    void renderWindowPixmap(QPainter *painter, QPainterWindowPixmap *windowPixmap);
+    void renderShadow(QPainter *painter);
+    void renderWindowDecorations(QPainter *painter);
+    SceneQPainter *m_scene;
 };
 
 class QPainterEffectFrame : public Scene::EffectFrame

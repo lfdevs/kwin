@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-03-18 03:45+0100\n"
+"POT-Creation-Date: 2020-08-08 02:22+0200\n"
 "PO-Revision-Date: 2007-06-23 22:32+0930\n"
 "Last-Translator: Phan Vĩnh Thịnh <teppi82@gmail.com>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -17,54 +17,54 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: KBabel 1.10\n"
 
-#: aurorae/src/aurorae.cpp:694
+#: aurorae/src/aurorae.cpp:683
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr ""
 
-#: aurorae/src/aurorae.cpp:695
+#: aurorae/src/aurorae.cpp:684
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr ""
 
-#: aurorae/src/aurorae.cpp:696
+#: aurorae/src/aurorae.cpp:685
 #, fuzzy, kde-format
 #| msgid "Large"
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "Lớn"
 
-#: aurorae/src/aurorae.cpp:697
+#: aurorae/src/aurorae.cpp:686
 #, fuzzy, kde-format
 #| msgid "Large"
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "Lớn"
 
-#: aurorae/src/aurorae.cpp:698
+#: aurorae/src/aurorae.cpp:687
 #, fuzzy, kde-format
 #| msgid "Large"
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "Lớn"
 
-#: aurorae/src/aurorae.cpp:699
+#: aurorae/src/aurorae.cpp:688
 #, fuzzy, kde-format
 #| msgid "Large"
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "Lớn"
 
-#: aurorae/src/aurorae.cpp:700
+#: aurorae/src/aurorae.cpp:689
 #, fuzzy, kde-format
 #| msgid "Resize"
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "Đổi cỡ"
 
-#: aurorae/src/aurorae.cpp:703
+#: aurorae/src/aurorae.cpp:692
 #, kde-format
 msgid "Button size:"
 msgstr ""
@@ -106,7 +106,7 @@ msgid ""
 "Check this option if the window border should be painted in the titlebar "
 "color. Otherwise it will be painted in the background color."
 msgstr ""
-"Dùng tùy chọn này nếu biên cửa sổ có màu của thanh tiêu đề. Nếu không sẽ vẽ "
+"Dùng tuỳ chọn này nếu biên cửa sổ có màu của thanh tiêu đề. Nếu không sẽ vẽ "
 "với màu nền."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_coloredBorder)
@@ -123,7 +123,7 @@ msgid ""
 "Check this option if you want the buttons to fade in when the mouse pointer "
 "hovers over them and fade out again when it moves away."
 msgstr ""
-"Dùng tùy chọn này nếu muốn nút đưa vào từ từ khi đặt con trỏ chuột lên trên "
+"Dùng tuỳ chọn này nếu muốn nút đưa vào từ từ khi đặt con trỏ chuột lên trên "
 "chúng và nhạt dần khi bỏ con trỏ đi."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)
@@ -131,417 +131,3 @@ msgstr ""
 #, kde-format
 msgid "Animate buttons"
 msgstr "Nút hình động"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# msgid "<b><center>B II preview</center></b>"
-
-
-
-# msgid "Unsticky"

@@ -1,25 +1,11 @@
 /*
- * windows.cpp
- *
- * Copyright (c) 1997 Patrick Dowler dowler@morgul.fsh.uvic.ca
- * Copyright (c) 2001 Waldo Bastian bastian@kde.org
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- *
- *
- */
+    windows.cpp
+
+    SPDX-FileCopyrightText: 1997 Patrick Dowler <dowler@morgul.fsh.uvic.ca>
+    SPDX-FileCopyrightText: 2001 Waldo Bastian <bastian@kde.org>
+
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #include <QApplication>
 #include <QCheckBox>
@@ -28,7 +14,6 @@
 #include <KComboBox>
 #include <QHBoxLayout>
 #include <QFormLayout>
-#include <QDesktopWidget>
 #include <QtDBus>
 #include <QGroupBox>
 #include <QScreen>
@@ -36,6 +21,7 @@
 #include <KConfig>
 #include <KConfigGroup>
 #include <KLocalizedString>
+#include <KWindowSystem>
 
 #include "windows.h"
 #include "kwinoptions_settings.h"
@@ -43,6 +29,7 @@
 #include <kwin_effects_interface.h>
 
 #include "kwinoptions_settings.h"
+#include "kwinoptions_kdeglobals_settings.h"
 #include <KConfigDialogManager>
 
 #define  CLICK_TO_FOCUS                 0
@@ -228,19 +215,20 @@ KWinAdvancedConfigForm::KWinAdvancedConfigForm(QWidget* parent)
     setupUi(parent);
 }
 
-KAdvancedConfig::KAdvancedConfig(bool _standAlone, KWinOptionsSettings *settings, QWidget *parent)
+KAdvancedConfig::KAdvancedConfig(bool _standAlone, KWinOptionsSettings *settings, KWinOptionsKDEGlobalsSettings *globalSettings, QWidget *parent)
     : KCModule(parent), standAlone(_standAlone)
     , m_ui(new KWinAdvancedConfigForm(this))
 {
-    if (settings) {
-        initialize(settings);
+    if (settings && globalSettings) {
+        initialize(settings, globalSettings);
     }
 }
 
-void KAdvancedConfig::initialize(KWinOptionsSettings *settings)
+void KAdvancedConfig::initialize(KWinOptionsSettings *settings, KWinOptionsKDEGlobalsSettings *globalSettings)
 {
     m_settings = settings;
     addConfig(m_settings, this);
+    addConfig(globalSettings, this);
 
     m_ui->kcfg_Placement->setItemData(KWinOptionsSettings::PlacementChoices::Smart, "Smart");
     m_ui->kcfg_Placement->setItemData(KWinOptionsSettings::PlacementChoices::Maximizing, "Maximizing");
@@ -249,6 +237,14 @@ void KAdvancedConfig::initialize(KWinOptionsSettings *settings)
     m_ui->kcfg_Placement->setItemData(KWinOptionsSettings::PlacementChoices::Centered, "Centered");
     m_ui->kcfg_Placement->setItemData(KWinOptionsSettings::PlacementChoices::ZeroCornered, "ZeroCornered");
     m_ui->kcfg_Placement->setItemData(KWinOptionsSettings::PlacementChoices::UnderMouse, "UnderMouse");
+
+    // Don't show the option to prevent KDE apps from remembering their window
+    // positions on Wayland because it doesn't work on Wayland and the feature
+    // will eventually be implemented in a different way there.
+    // This option lives in the kdeglobals file because it is consumed by
+    // kxmlgui.
+    m_ui->kcfg_AllowKDEAppsToRememberWindowPositions->setVisible(KWindowSystem::isPlatformX11());
+
     load();
 }
 

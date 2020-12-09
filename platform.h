@@ -1,22 +1,11 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 2015 Martin Gräßlin <mgraesslin@kde.org>
+    SPDX-FileCopyrightText: 2015 Martin Gräßlin <mgraesslin@kde.org>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 #ifndef KWIN_PLATFORM_H
 #define KWIN_PLATFORM_H
 #include <kwin_export.h>
@@ -46,6 +35,7 @@ class Manager;
 class AbstractOutput;
 class Edge;
 class Compositor;
+class DmaBufTexture;
 class OverlayWindow;
 class OpenGLBackend;
 class Outline;
@@ -55,7 +45,6 @@ class Scene;
 class Screens;
 class ScreenEdges;
 class Toplevel;
-class WaylandCursorTheme;
 
 namespace Decoration
 {
@@ -84,6 +73,10 @@ public:
     virtual Screens *createScreens(QObject *parent = nullptr);
     virtual OpenGLBackend *createOpenGLBackend();
     virtual QPainterBackend *createQPainterBackend();
+    virtual DmaBufTexture *createDmaBufTexture(const QSize &size) {
+        Q_UNUSED(size);
+        return nullptr;
+    }
 
     /**
      * Informs the Platform that it is about to go down and shall do appropriate cleanup.
@@ -107,7 +100,7 @@ public:
      * Whether our Compositing EGL display allows a surface less context
      * so that a sharing context could be created.
      */
-    virtual bool supportsQpaContext() const;
+    bool supportsSurfacelessContext() const;
     /**
      * The EGLDisplay used by the compositing scene.
      */
@@ -125,6 +118,19 @@ public:
     void setSceneEglContext(EGLContext context) {
         m_context = context;
     }
+    /**
+     * Returns the compositor-wide shared EGL context. This function may return EGL_NO_CONTEXT
+     * if the underlying rendering backend does not use EGL.
+     *
+     * Note that the returned context should never be made current. Instead, create a context
+     * that shares with this one and make the new context current.
+     */
+    EGLContext sceneEglGlobalShareContext() const;
+    /**
+     * Sets the global share context to @a context. This function is intended to be called only
+     * by rendering backends.
+     */
+    void setSceneEglGlobalShareContext(EGLContext context);
     /**
      * The first (in case of multiple) EGLSurface used by the compositing scene.
      */
@@ -417,6 +423,7 @@ public:
     virtual Outputs enabledOutputs() const {
         return Outputs();
     }
+    AbstractOutput *findOutput(int screenId);
     AbstractOutput *findOutput(const QByteArray &uuid);
 
     /**
@@ -550,6 +557,7 @@ private:
     EGLDisplay m_eglDisplay;
     EGLConfig m_eglConfig = nullptr;
     EGLContext m_context = EGL_NO_CONTEXT;
+    EGLContext m_globalShareContext = EGL_NO_CONTEXT;
     EGLSurface m_surface = EGL_NO_SURFACE;
     int m_hideCursorCounter = 0;
     ColorCorrect::Manager *m_colorCorrect = nullptr;

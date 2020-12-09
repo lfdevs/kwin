@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-05-07 03:54+0200\n"
+"POT-Creation-Date: 2020-11-17 08:20+0100\n"
 "PO-Revision-Date: 2019-08-06 21:09+0200\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -29,127 +29,127 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "thd@kde.org"
 
-#: declarative-plugin/buttonsmodel.cpp:68
+#: declarative-plugin/buttonsmodel.cpp:54
 #, kde-format
 msgid "Menu"
 msgstr "Menü"
 
-#: declarative-plugin/buttonsmodel.cpp:70
+#: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
 msgid "Application menu"
 msgstr "Anwendungsmenü"
 
-#: declarative-plugin/buttonsmodel.cpp:72
+#: declarative-plugin/buttonsmodel.cpp:58
 #, kde-format
 msgid "On all desktops"
 msgstr "Auf allen Arbeitsflächen"
 
-#: declarative-plugin/buttonsmodel.cpp:74
+#: declarative-plugin/buttonsmodel.cpp:60
 #, kde-format
 msgid "Minimize"
 msgstr "Minimieren"
 
-#: declarative-plugin/buttonsmodel.cpp:76
+#: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Maximize"
 msgstr "Maximieren"
 
-#: declarative-plugin/buttonsmodel.cpp:78
+#: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
 msgid "Close"
 msgstr "Schließen"
 
-#: declarative-plugin/buttonsmodel.cpp:80
+#: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Context help"
 msgstr "Kontexthilfe"
 
-#: declarative-plugin/buttonsmodel.cpp:82
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Shade"
 msgstr "Einrollen"
 
-#: declarative-plugin/buttonsmodel.cpp:84
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Keep below"
 msgstr "Im Hintergrund halten"
 
-#: declarative-plugin/buttonsmodel.cpp:86
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "Keep above"
 msgstr "Im Vordergrund halten"
 
-#: kcm.cpp:62
+#: kcm.cpp:50
 #, kde-format
 msgid "Window Decorations"
 msgstr "Fensterdekorationen"
 
-#: kcm.cpp:66
+#: kcm.cpp:54
 #, kde-format
 msgid "Valerio Pilo"
 msgstr "Valerio Pilo"
 
-#: kcm.cpp:67
+#: kcm.cpp:55
 #, kde-format
 msgid "Author"
 msgstr "Autor"
 
-#: kcm.cpp:122
+#: kcm.cpp:104
 #, kde-format
 msgid "Download New Window Decorations"
 msgstr "Neue Fensterdekorationen herunterladen"
 
-#: package/contents/ui/Buttons.qml:87
+#: package/contents/ui/Buttons.qml:73
 #, kde-format
 msgid "Titlebar"
 msgstr "Titelleiste"
 
-#: package/contents/ui/Buttons.qml:228
+#: package/contents/ui/Buttons.qml:214
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr "Ziehen Sie Knöpfe hierher, um sie zu entfernen"
 
-#: package/contents/ui/Buttons.qml:246
+#: package/contents/ui/Buttons.qml:232
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Ziehen Sie Knöpfe zwischen hier und der Titelleiste"
 
-#: package/contents/ui/main.qml:27
+#: package/contents/ui/main.qml:15
 #, kde-format
 msgid "This module lets you configure the window decorations."
 msgstr "Mit diesem Modul können Sie die Fensterdekorationen einrichten."
 
-#: package/contents/ui/main.qml:61
+#: package/contents/ui/main.qml:49
 #, kde-format
 msgctxt "tab label"
 msgid "Theme"
 msgstr "Design"
 
-#: package/contents/ui/main.qml:65
+#: package/contents/ui/main.qml:53
 #, kde-format
 msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "Titelleistenknöpfe"
 
-#: package/contents/ui/main.qml:90
+#: package/contents/ui/main.qml:78
 #, kde-format
 msgctxt "checkbox label"
 msgid "Use theme's default window border size"
 msgstr "Voreinstellung der Fenster-Umrandungsgröße des Designs verwenden"
 
-#: package/contents/ui/main.qml:121
+#: package/contents/ui/main.qml:109
 #, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "Neue Fensterdekorationen herunterladen ..."
 
-#: package/contents/ui/main.qml:138
+#: package/contents/ui/main.qml:126
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Fenster durch Doppelklick auf Menüknopf schließen"
 
-#: package/contents/ui/main.qml:151
+#: package/contents/ui/main.qml:139
 #, kde-format
 msgctxt "popup tip"
 msgid ""
@@ -159,58 +159,58 @@ msgstr ""
 "Schließen durch Doppelklicken: Halten Sie den Knopf gedrückt, bis das Menü "
 "erscheint."
 
-#: package/contents/ui/main.qml:158
+#: package/contents/ui/main.qml:146
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Kurzinfos für Knöpfe der Titelleiste anzeigen"
 
-#: package/contents/ui/Themes.qml:100
+#: package/contents/ui/Themes.qml:89
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr "Design %1 bearbeiten"
 
-#: utils.cpp:38
+#: utils.cpp:26
 #, kde-format
 msgid "No Borders"
 msgstr "Keine Umrandungen"
 
-#: utils.cpp:39
+#: utils.cpp:27
 #, kde-format
 msgid "No Side Borders"
 msgstr "Keine Seitenumrandungen"
 
-#: utils.cpp:40
+#: utils.cpp:28
 #, kde-format
 msgid "Tiny"
 msgstr "Sehr klein"
 
-#: utils.cpp:41
+#: utils.cpp:29
 #, kde-format
 msgid "Normal"
 msgstr "Normal"
 
-#: utils.cpp:42
+#: utils.cpp:30
 #, kde-format
 msgid "Large"
 msgstr "Groß"
 
-#: utils.cpp:43
+#: utils.cpp:31
 #, kde-format
 msgid "Very Large"
 msgstr "Sehr groß"
 
-#: utils.cpp:44
+#: utils.cpp:32
 #, kde-format
 msgid "Huge"
 msgstr "Riesig"
 
-#: utils.cpp:45
+#: utils.cpp:33
 #, kde-format
 msgid "Very Huge"
 msgstr "Noch riesiger"
 
-#: utils.cpp:46
+#: utils.cpp:34
 #, kde-format
 msgid "Oversized"
 msgstr "Übergroß"

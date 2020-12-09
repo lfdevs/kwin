@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedge.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-04-23 04:00+0200\n"
+"POT-Creation-Date: 2020-08-08 02:22+0200\n"
 "PO-Revision-Date: 2019-12-12 22:16+0000\n"
 "Last-Translator: Vivek KJ Pazhedath <vivekkj2004@gmail.com>\n"
 "Language-Team: SMC <smc.org.in>\n"
@@ -16,7 +16,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 3.9.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -28,72 +27,72 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "shijualexonline@gmail.com,snalledam@dataone.in,vivekkj2004@gmail.com"
 
-#: main.cpp:134 touch.cpp:133
+#: main.cpp:123 touch.cpp:122
 #, kde-format
 msgid "No Action"
 msgstr "നടപടിയില്ല"
 
-#: main.cpp:135 touch.cpp:134
+#: main.cpp:124 touch.cpp:123
 #, kde-format
 msgid "Show Desktop"
 msgstr "പണിയിടം കാണിയ്ക്കുക"
 
-#: main.cpp:136 touch.cpp:135
+#: main.cpp:125 touch.cpp:124
 #, kde-format
 msgid "Lock Screen"
 msgstr ""
 
-#: main.cpp:137 touch.cpp:136
+#: main.cpp:126 touch.cpp:125
 #, kde-format
 msgid "Show KRunner"
 msgstr ""
 
-#: main.cpp:138 touch.cpp:137
+#: main.cpp:127 touch.cpp:126
 #, kde-format
 msgid "Activity Manager"
 msgstr ""
 
-#: main.cpp:139 touch.cpp:138
+#: main.cpp:128 touch.cpp:127
 #, kde-format
 msgid "Application Launcher"
 msgstr ""
 
-#: main.cpp:143 touch.cpp:142
+#: main.cpp:132 touch.cpp:131
 #, fuzzy, kde-format
 msgid "%1 - All Desktops"
 msgstr "എല്ലാ പണിയിടങ്ങളും"
 
-#: main.cpp:144 touch.cpp:143
+#: main.cpp:133 touch.cpp:132
 #, fuzzy, kde-format
 msgid "%1 - Current Desktop"
 msgstr "ഇപ്പോഴത്തെ പണിയിടം"
 
-#: main.cpp:145 touch.cpp:144
+#: main.cpp:134 touch.cpp:133
 #, kde-format
 msgid "%1 - Current Application"
 msgstr ""
 
-#: main.cpp:148 touch.cpp:147
+#: main.cpp:137 touch.cpp:136
 #, fuzzy, kde-format
 msgid "%1 - Cube"
 msgstr "സമചതുരക്കട്ട"
 
-#: main.cpp:149 touch.cpp:148
+#: main.cpp:138 touch.cpp:137
 #, fuzzy, kde-format
 msgid "%1 - Cylinder"
 msgstr "സിലിണ്ടര്‍"
 
-#: main.cpp:150 touch.cpp:149
+#: main.cpp:139 touch.cpp:138
 #, fuzzy, kde-format
 msgid "%1 - Sphere"
 msgstr "ഗോളം"
 
-#: main.cpp:152 touch.cpp:151
+#: main.cpp:141 touch.cpp:140
 #, kde-format
 msgid "Toggle window switching"
 msgstr ""
 
-#: main.cpp:153 touch.cpp:152
+#: main.cpp:142 touch.cpp:141
 #, kde-format
 msgid "Toggle alternative window switching"
 msgstr ""

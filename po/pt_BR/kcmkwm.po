@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-06-19 06:47+0200\n"
-"PO-Revision-Date: 2020-05-14 17:37-0300\n"
+"POT-Creation-Date: 2020-08-29 02:26+0200\n"
+"PO-Revision-Date: 2020-09-08 11:46-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 20.04.0\n"
+"X-Generator: Lokalize 20.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -197,14 +197,14 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllKey)
 #: actions.ui:209
 #, kde-format
-msgid "Alt"
-msgstr "Alt"
+msgid "Meta"
+msgstr "Meta"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllKey)
 #: actions.ui:214
 #, kde-format
-msgid "Meta"
-msgstr "Meta"
+msgid "Alt"
+msgstr "Alt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:236
@@ -593,14 +593,32 @@ msgstr "No canto superior esquerdo"
 msgid "Under mouse"
 msgstr "Sob o mouse"
 
-#. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:118
+#, kde-format
+msgid ""
+"When turned on, KDE apps which are able to remember the positions of their "
+"windows are allowed to do so. This will override the window placement mode "
+"defined above."
+msgstr ""
+"Se estiver ativo, os aplicativos do KDE que conseguem lembrar das posições "
+"de suas janelas são permitidos a fazê-lo. Isto irá sobrescrever o modo de "
+"posicionamento de janelas definido acima."
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
+#: advanced.ui:121
+#, kde-format
+msgid "Allow KDE apps to remember the positions of their own windows"
+msgstr "Permite aos aplicativos do KDE lembrar das posições de suas janelas"
+
+#. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
+#: advanced.ui:128
 #, kde-format
 msgid "&Special windows:"
 msgstr "Janelas e&speciais:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:128
+#: advanced.ui:138
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -614,7 +632,7 @@ msgstr ""
 "marcar as janelas com o tipo adequado para este recurso funcionar."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:131
+#: advanced.ui:141
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Ocultar as janelas utilitárias para aplicativos inativos"
@@ -899,87 +917,87 @@ msgstr "S&eparar o foco de cada tela"
 msgid "Window activation policy description"
 msgstr "Descrição da política de ativação da janela"
 
-#: main.cpp:85
+#: main.cpp:73
 #, kde-format
 msgid "&Focus"
 msgstr "&Foco"
 
-#: main.cpp:95
+#: main.cpp:84
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "Ações da barra de &título"
 
-#: main.cpp:101
+#: main.cpp:91
 #, kde-format
 msgid "W&indow Actions"
 msgstr "Ações da ja&nela"
 
-#: main.cpp:107
+#: main.cpp:98
 #, kde-format
 msgid "Mo&vement"
 msgstr "Mo&vimento"
 
-#: main.cpp:113
+#: main.cpp:105
 #, kde-format
 msgid "Adva&nced"
 msgstr "A&vançado"
 
-#: main.cpp:118
+#: main.cpp:110
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "Módulo de configuração do comportamento da janela"
 
-#: main.cpp:120
+#: main.cpp:112
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "(c) 1997 - 2002 Autores do KWin e do KControl"
 
-#: main.cpp:122
+#: main.cpp:114
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:123
+#: main.cpp:115
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:124
+#: main.cpp:116
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:125
+#: main.cpp:117
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:126
+#: main.cpp:118
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:127
+#: main.cpp:119
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:128
+#: main.cpp:120
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:129
+#: main.cpp:121
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:130
+#: main.cpp:122
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:175
+#: main.cpp:167
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -996,12 +1014,12 @@ msgstr ""
 "não surtirá efeito se você não usa o KWin como gerenciador de janelas. Se "
 "você usa outro gerenciador de janelas, consulte a documentação do mesmo.</p>"
 
-#: main.cpp:195
+#: main.cpp:187
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "Ações da barra de &título"
 
-#: main.cpp:201
+#: main.cpp:193
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "Ações da ja&nela"
@@ -1041,8 +1059,8 @@ msgstr "Maximizar"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
 #: mouse.ui:45 mouse.ui:620 mouse.ui:655 mouse.ui:690
 #, kde-format
-msgid "Maximize (vertical only)"
-msgstr "Maximizar (somente na vertical)"
+msgid "Vertically maximize"
+msgstr "Maximizar verticalmente"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1051,8 +1069,8 @@ msgstr "Maximizar (somente na vertical)"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
 #: mouse.ui:50 mouse.ui:625 mouse.ui:660 mouse.ui:695
 #, kde-format
-msgid "Maximize (horizontal only)"
-msgstr "Maximizar (somente na horizontal)"
+msgid "Horizontally maximize"
+msgstr "Maximizar horizontalmente"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1302,7 +1320,7 @@ msgstr "&Área de atração do centro:"
 msgid "&Snap windows:"
 msgstr "Aju&star as janelas:"
 
-#: windows.cpp:100
+#: windows.cpp:87
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1312,7 +1330,7 @@ msgstr ""
 "nela. Este é o comportamento padrão em outros sistemas operacionais e é "
 "provavelmente o que você quer."
 
-#: windows.cpp:104
+#: windows.cpp:91
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1327,7 +1345,7 @@ msgstr ""
 "fechada) a janela sob o mouse será a candidata preferida. Não é comum, mas "
 "uma possível variante do <em>Clicar para obter o foco</em>."
 
-#: windows.cpp:109
+#: windows.cpp:96
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1341,7 +1359,7 @@ msgstr ""
 "ocorre como de costume. Pense como <em>Clicar para obter o foco</em>, mas "
 "sem precisar clicar."
 
-#: windows.cpp:113
+#: windows.cpp:100
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1354,7 +1372,7 @@ msgstr ""
 "atual foi fechada) a janela sob o mouse será a candidata preferida. Escolha "
 "esta opção, se quiser um foco controlado com a passagem."
 
-#: windows.cpp:118
+#: windows.cpp:105
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1364,12 +1382,12 @@ msgid ""
 "precedence)</em> instead!"
 msgstr ""
 "<em>Foco sob o mouse:</em> O foco ficará sempre na janela sob o ponteiro do "
-"mouse. <br/><strong>Aviso:</strong> A <em>Prevenção de captura do foco</em> "
+"mouse. <br/><strong>Aviso:</strong> <em> A prevenção de captura do foco</em> "
 "e o <em>seletor de janelas ('Alt+Tab') </em> contrariam a política e não "
 "funcionam. Em vez disso, você provavelmente vai querer usar a opção <em>Foco "
 "segue o mouse (precedência do mouse)</em>."
 
-#: windows.cpp:122
+#: windows.cpp:109
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "
@@ -1382,7 +1400,7 @@ msgstr ""
 "<em>Foco estritamente sob o mouse:</em> O foco ficará sempre na janela sob o "
 "ponteiro do mouse (em caso de dúvida, em nenhum lugar), um comportamento "
 "muito semelhante ao da política de foco de um ambiente antigo de X11 não-"
-"gerenciado.<br/><strong>Aviso:</strong> A <em>Prevenção de captura do foco</"
+"gerenciado.<br/><strong>Aviso:</strong> <em>A prevenção de captura do foco</"
 "em> e o <em>seletor de janelas ('Alt+Tab') </em> contrariam a política e não "
 "funcionam. Em vez disso, você provavelmente vai querer usar a opção <em>Foco "
 "segue o mouse (precedência do mouse)</em>."

@@ -1,22 +1,11 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 2015 Martin Gräßlin <mgraesslin@kde.org>
+    SPDX-FileCopyrightText: 2015 Martin Gräßlin <mgraesslin@kde.org>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 #include "egl_gbm_backend.h"
 // kwin
 #include "composite.h"
@@ -28,8 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "screens.h"
 // kwin libs
 #include <kwinglplatform.h>
-// Qt
-#include <QOpenGLContext>
+#include <kwineglimagetexture.h>
 // system
 #include <gbm.h>
 
@@ -131,7 +119,6 @@ void EglGbmBackend::init()
     initKWinGL();
     initBufferAge();
     initWayland();
-    initRemotePresent();
 }
 
 bool EglGbmBackend::initRenderingContext()
@@ -156,15 +143,6 @@ bool EglGbmBackend::initRenderingContext()
     setSurface(m_outputs.first().eglSurface);
 
     return makeContextCurrent(m_outputs.first());
-}
-
-void EglGbmBackend::initRemotePresent()
-{
-    if (qEnvironmentVariableIsSet("KWIN_NO_REMOTE")) {
-        return;
-    }
-    qCDebug(KWIN_DRM) << "Support for remote access enabled";
-    m_remoteaccessManager.reset(new RemoteAccessManager);
 }
 
 std::shared_ptr<GbmSurface> EglGbmBackend::createGbmSurface(const QSize &size) const
@@ -251,6 +229,7 @@ void EglGbmBackend::removeOutput(DrmOutput *drmOutput)
     if (it == m_outputs.end()) {
         return;
     }
+
     cleanupOutput(*it);
     m_outputs.erase(it);
 }
@@ -341,9 +320,38 @@ void EglGbmBackend::renderFramebufferToSurface(Output &output)
 
     auto shader = ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
 
-    QMatrix4x4 rotationMatrix;
-    rotationMatrix.rotate(output.output->rotation(), 0, 0, 1);
-    shader->setUniform(GLShader::ModelViewProjectionMatrix, rotationMatrix);
+    QMatrix4x4 mvpMatrix;
+
+    const DrmOutput *drmOutput = output.output;
+    switch (drmOutput->transform()) {
+    case DrmOutput::Transform::Normal:
+    case DrmOutput::Transform::Flipped:
+        break;
+    case DrmOutput::Transform::Rotated90:
+    case DrmOutput::Transform::Flipped90:
+        mvpMatrix.rotate(90, 0, 0, 1);
+        break;
+    case DrmOutput::Transform::Rotated180:
+    case DrmOutput::Transform::Flipped180:
+        mvpMatrix.rotate(180, 0, 0, 1);
+        break;
+    case DrmOutput::Transform::Rotated270:
+    case DrmOutput::Transform::Flipped270:
+        mvpMatrix.rotate(270, 0, 0, 1);
+        break;
+    }
+    switch (drmOutput->transform()) {
+    case DrmOutput::Transform::Flipped:
+    case DrmOutput::Transform::Flipped90:
+    case DrmOutput::Transform::Flipped180:
+    case DrmOutput::Transform::Flipped270:
+        mvpMatrix.scale(-1, 1);
+        break;
+    default:
+        break;
+    }
+
+    shader->setUniform(GLShader::ModelViewProjectionMatrix, mvpMatrix);
 
     glBindTexture(GL_TEXTURE_2D, output.render.texture);
     output.render.vbo->render(GL_TRIANGLES);
@@ -438,17 +446,59 @@ void EglGbmBackend::present()
     // Not in use. This backend does per-screen rendering.
 }
 
-void EglGbmBackend::presentOnOutput(Output &output)
+static QVector<EGLint> regionToRects(const QRegion &region, AbstractWaylandOutput *output)
 {
-    eglSwapBuffers(eglDisplay(), output.eglSurface);
-    output.buffer = m_backend->createBuffer(output.gbmSurface);
+    const int height = output->modeSize().height();
 
-    if(m_remoteaccessManager && gbm_surface_has_free_buffers(output.gbmSurface->surface())) {
-        // GBM surface is released on page flip so
-        // we should pass the buffer before it's presented.
-        m_remoteaccessManager->passBuffer(output.output, output.buffer);
+    const QMatrix4x4 matrix = DrmOutput::logicalToNativeMatrix(output->geometry(),
+                                                               output->scale(),
+                                                               output->transform());
+
+    QVector<EGLint> rects;
+    rects.reserve(region.rectCount() * 4);
+    for (const QRect &_rect : region) {
+        const QRect rect = matrix.mapRect(_rect);
+
+        rects << rect.left();
+        rects << height - (rect.y() + rect.height());
+        rects << rect.width();
+        rects << rect.height();
+    }
+    return rects;
+}
+
+void EglGbmBackend::aboutToStartPainting(const QRegion &damagedRegion)
+{
+    // See EglGbmBackend::endRenderingFrameForScreen comment for the reason why we only support screenId=0
+    if (m_outputs.count() > 1) {
+        return;
     }
 
+    const Output &output = m_outputs.at(0);
+    if (output.bufferAge > 0 && !damagedRegion.isEmpty() && supportsPartialUpdate()) {
+        const QRegion region = damagedRegion & output.output->geometry();
+
+        QVector<EGLint> rects = regionToRects(region, output.output);
+        const bool correct = eglSetDamageRegionKHR(eglDisplay(), output.eglSurface,
+                                                   rects.data(), rects.count()/4);
+        if (!correct) {
+            qCWarning(KWIN_DRM) << "failed eglSetDamageRegionKHR" << eglGetError();
+        }
+    }
+}
+
+void EglGbmBackend::presentOnOutput(Output &output, const QRegion &damagedRegion)
+{
+    if (supportsSwapBuffersWithDamage()) {
+        QVector<EGLint> rects = regionToRects(output.damageHistory.constFirst(), output.output);
+        eglSwapBuffersWithDamageEXT(eglDisplay(), output.eglSurface,
+                                    rects.data(), rects.count()/4);
+    } else {
+        eglSwapBuffers(eglDisplay(), output.eglSurface);
+    }
+    output.buffer = m_backend->createBuffer(output.gbmSurface);
+
+    Q_EMIT output.output->outputChange(damagedRegion);
     m_backend->present(output.buffer, output.output);
 
     if (supportsBufferAge()) {
@@ -504,7 +554,7 @@ QRegion EglGbmBackend::prepareRenderingForScreen(int screenId)
 
         return region;
     }
-    return QRegion();
+    return output.output->geometry();
 }
 
 void EglGbmBackend::endRenderingFrame(const QRegion &renderedRegion, const QRegion &damagedRegion)
@@ -537,7 +587,7 @@ void EglGbmBackend::endRenderingFrameForScreen(int screenId,
         }
         return;
     }
-    presentOnOutput(output);
+    presentOnOutput(output, damagedRegion);
 
     // Save the damaged region to history
     // Note: damage history is only collected for the first screen. For any other screen full
@@ -563,6 +613,33 @@ bool EglGbmBackend::usesOverlayWindow() const
 bool EglGbmBackend::perScreenRendering() const
 {
     return true;
+}
+
+QSharedPointer<GLTexture> EglGbmBackend::textureForOutput(AbstractOutput *abstractOutput) const
+{
+    const QVector<KWin::EglGbmBackend::Output>::const_iterator itOutput = std::find_if(m_outputs.begin(), m_outputs.end(),
+        [abstractOutput] (const auto &output) {
+            return output.output == abstractOutput;
+        }
+    );
+    if (itOutput == m_outputs.end()) {
+        return {};
+    }
+
+    DrmOutput *drmOutput = itOutput->output;
+    if (!drmOutput->hardwareTransforms()) {
+        const auto glTexture = QSharedPointer<KWin::GLTexture>::create(itOutput->render.texture, GL_RGBA8, drmOutput->pixelSize());
+        glTexture->setYInverted(true);
+        return glTexture;
+    }
+
+    EGLImageKHR image = eglCreateImageKHR(eglDisplay(), nullptr, EGL_NATIVE_PIXMAP_KHR, itOutput->buffer->getBo(), nullptr);
+    if (image == EGL_NO_IMAGE_KHR) {
+        qCWarning(KWIN_DRM) << "Failed to record frame: Error creating EGLImageKHR - " << glGetError();
+        return {};
+    }
+
+    return QSharedPointer<EGLImageTexture>::create(eglDisplay(), image, GL_RGBA8, drmOutput->modeSize());
 }
 
 /************************************************

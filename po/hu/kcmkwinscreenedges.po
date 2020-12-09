@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-04-23 04:00+0200\n"
+"POT-Creation-Date: 2020-08-08 02:22+0200\n"
 "PO-Revision-Date: 2019-11-16 21:08+0100\n"
 "Last-Translator: Kristóf Kiszel <ulysses@kubuntu.org>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -28,72 +28,72 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "ulysses@kubuntu.org,urbalazs@gmail.com"
 
-#: main.cpp:134 touch.cpp:133
+#: main.cpp:123 touch.cpp:122
 #, kde-format
 msgid "No Action"
 msgstr "Nincs művelet"
 
-#: main.cpp:135 touch.cpp:134
+#: main.cpp:124 touch.cpp:123
 #, kde-format
 msgid "Show Desktop"
 msgstr "Asztal megjelenítése"
 
-#: main.cpp:136 touch.cpp:135
+#: main.cpp:125 touch.cpp:124
 #, kde-format
 msgid "Lock Screen"
 msgstr "Képernyő zárolása"
 
-#: main.cpp:137 touch.cpp:136
+#: main.cpp:126 touch.cpp:125
 #, kde-format
 msgid "Show KRunner"
 msgstr "KRunner megjelenítése"
 
-#: main.cpp:138 touch.cpp:137
+#: main.cpp:127 touch.cpp:126
 #, kde-format
 msgid "Activity Manager"
 msgstr "Aktivitáskezelő"
 
-#: main.cpp:139 touch.cpp:138
+#: main.cpp:128 touch.cpp:127
 #, kde-format
 msgid "Application Launcher"
 msgstr "Alkalmazásindító"
 
-#: main.cpp:143 touch.cpp:142
+#: main.cpp:132 touch.cpp:131
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - Összes asztal"
 
-#: main.cpp:144 touch.cpp:143
+#: main.cpp:133 touch.cpp:132
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - Jelenlegi asztal"
 
-#: main.cpp:145 touch.cpp:144
+#: main.cpp:134 touch.cpp:133
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - Aktuális alkalmazás"
 
-#: main.cpp:148 touch.cpp:147
+#: main.cpp:137 touch.cpp:136
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 - Kocka"
 
-#: main.cpp:149 touch.cpp:148
+#: main.cpp:138 touch.cpp:137
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 - Cilinder"
 
-#: main.cpp:150 touch.cpp:149
+#: main.cpp:139 touch.cpp:138
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 - Gömb"
 
-#: main.cpp:152 touch.cpp:151
+#: main.cpp:141 touch.cpp:140
 #, kde-format
 msgid "Toggle window switching"
 msgstr "Ablakváltás ki-be kapcsolása"
 
-#: main.cpp:153 touch.cpp:152
+#: main.cpp:142 touch.cpp:141
 #, kde-format
 msgid "Toggle alternative window switching"
 msgstr "Alternatív ablakváltás ki-be kapcsolása"

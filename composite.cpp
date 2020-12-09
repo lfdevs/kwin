@@ -1,22 +1,11 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 2006 Lubos Lunak <l.lunak@kde.org>
+    SPDX-FileCopyrightText: 2006 Lubos Lunak <l.lunak@kde.org>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 #include "composite.h"
 
 #include "dbusinterface.h"
@@ -194,7 +183,7 @@ bool Compositor::setupStart()
 
     options->reloadCompositingSettings(true);
 
-    setupX11Support();
+    initializeX11();
 
     // There might still be a deleted around, needs to be cleared before
     // creating the scene (BUG 333275).
@@ -306,8 +295,13 @@ bool Compositor::setupStart()
     return true;
 }
 
-void Compositor::claimCompositorSelection()
+void Compositor::initializeX11()
 {
+    xcb_connection_t *connection = kwinApp()->x11Connection();
+    if (!connection) {
+        return;
+    }
+
     if (!m_selectionOwner) {
         char selection_name[ 100 ];
         sprintf(selection_name, "_NET_WM_CM_S%d", Application::x11ScreenNumber());
@@ -315,40 +309,34 @@ void Compositor::claimCompositorSelection()
         connect(m_selectionOwner, &CompositorSelectionOwner::lostOwnership,
                 this, &Compositor::stop);
     }
-
-    if (!m_selectionOwner) {
-        // No X11 yet.
-        return;
-    }
     if (!m_selectionOwner->owning()) {
         // Force claim ownership.
         m_selectionOwner->claim(true);
         m_selectionOwner->setOwning(true);
     }
+
+    xcb_composite_redirect_subwindows(connection, kwinApp()->x11RootWindow(),
+                                      XCB_COMPOSITE_REDIRECT_MANUAL);
 }
 
-void Compositor::setupX11Support()
+void Compositor::cleanupX11()
 {
-    auto *con = kwinApp()->x11Connection();
-    if (!con) {
-        delete m_selectionOwner;
-        m_selectionOwner = nullptr;
-        return;
-    }
-    claimCompositorSelection();
-    xcb_composite_redirect_subwindows(con, kwinApp()->x11RootWindow(),
-                                      XCB_COMPOSITE_REDIRECT_MANUAL);
+    delete m_selectionOwner;
+    m_selectionOwner = nullptr;
 }
 
 void Compositor::startupWithWorkspace()
 {
     connect(kwinApp(), &Application::x11ConnectionChanged,
-            this, &Compositor::setupX11Support, Qt::UniqueConnection);
+            this, &Compositor::initializeX11, Qt::UniqueConnection);
+    connect(kwinApp(), &Application::x11ConnectionAboutToBeDestroyed,
+            this, &Compositor::cleanupX11, Qt::UniqueConnection);
+    initializeX11();
+
     Workspace::self()->markXStackingOrderAsDirty();
     Q_ASSERT(m_scene);
 
     connect(workspace(), &Workspace::destroyed, this, [this] { compositeTimer.stop(); });
-    setupX11Support();
     fpsInterval = options->maxFpsInterval();
 
     if (m_scene->syncsToVBlank()) {
@@ -368,9 +356,6 @@ void Compositor::startupWithWorkspace()
     for (X11Client *c : Workspace::self()->clientList()) {
         c->setupCompositing();
         c->updateShadow();
-    }
-    for (X11Client *c : Workspace::self()->desktopList()) {
-        c->setupCompositing();
     }
     for (Unmanaged *c : Workspace::self()->unmanagedList()) {
         c->setupCompositing();
@@ -427,9 +412,6 @@ void Compositor::stop()
         for (X11Client *c : Workspace::self()->clientList()) {
             m_scene->removeToplevel(c);
         }
-        for (X11Client *c : Workspace::self()->desktopList()) {
-            m_scene->removeToplevel(c);
-        }
         for (Unmanaged *c : Workspace::self()->unmanagedList()) {
             m_scene->removeToplevel(c);
         }
@@ -437,9 +419,6 @@ void Compositor::stop()
             m_scene->removeToplevel(client);
         }
         for (X11Client *c : Workspace::self()->clientList()) {
-            c->finishCompositing();
-        }
-        for (X11Client *c : Workspace::self()->desktopList()) {
             c->finishCompositing();
         }
         for (Unmanaged *c : Workspace::self()->unmanagedList()) {
@@ -726,6 +705,9 @@ void Compositor::performCompositing()
                 surface->frameRendered(currentTime);
             }
         }
+        if (!kwinApp()->platform()->isCursorHidden()) {
+            Cursors::self()->currentCursor()->markAsRendered();
+        }
     }
 
     // Stop here to ensure *we* cause the next repaint schedule - not some effect
@@ -753,9 +735,6 @@ static bool repaintsPending(const QList<T*> &windows)
 bool Compositor::windowRepaintsPending() const
 {
     if (repaintsPending(Workspace::self()->clientList())) {
-        return true;
-    }
-    if (repaintsPending(Workspace::self()->desktopList())) {
         return true;
     }
     if (repaintsPending(Workspace::self()->unmanagedList())) {

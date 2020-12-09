@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-05-13 03:54+0200\n"
+"POT-Creation-Date: 2020-06-13 02:17+0200\n"
 "PO-Revision-Date: 2017-12-03 22:53+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -32,7 +32,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "toptan@kde.org.yu,caslav.ilic@gmx.net"
 
-#: abstract_client.cpp:2644
+#: abstract_client.cpp:2660
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
@@ -63,7 +63,7 @@ msgstr ""
 msgid "Toggle Night Color"
 msgstr ""
 
-#: composite.cpp:947
+#: composite.cpp:935
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -951,25 +951,25 @@ msgid "task"
 msgstr "задатак"
 
 # >> @item
-#: debug_console.cpp:1185
+#: debug_console.cpp:1181
 #, kde-format
 msgid "X11 Client Windows"
 msgstr "клијентски икс11 прозори"
 
 # >> @item
-#: debug_console.cpp:1187
+#: debug_console.cpp:1183
 #, kde-format
 msgid "X11 Unmanaged Windows"
 msgstr "неуправљани икс11 прозори"
 
 # >> @item
-#: debug_console.cpp:1189
+#: debug_console.cpp:1185
 #, kde-format
 msgid "Wayland Windows"
 msgstr "вејланд прозори"
 
 # >> @item
-#: debug_console.cpp:1191
+#: debug_console.cpp:1187
 #, kde-format
 msgid "Internal Windows"
 msgstr "унутрашњи прозори"
@@ -1787,7 +1787,7 @@ msgstr "Замени већ покренути ИЦЦЦМ‑у 2.0 саглас�
 msgid "Disable KActivities integration."
 msgstr "Искључи уклапање са активностима."
 
-#: plugins/scenes/opengl/scene_opengl.cpp:545
+#: plugins/scenes/opengl/scene_opengl.cpp:546
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
@@ -2720,7 +2720,7 @@ msgstr "Виртуелна тастатура је искључена."
 msgid "Whether to show the virtual keyboard on demand."
 msgstr ""
 
-#: workspace.cpp:1354
+#: workspace.cpp:1347
 #, fuzzy, kde-format
 #| msgctxt "Introductory text shown in the support information."
 #| msgid ""

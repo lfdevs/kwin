@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-06-19 06:47+0200\n"
+"POT-Creation-Date: 2020-08-29 02:26+0200\n"
 "PO-Revision-Date: 2020-02-08 15:20+0100\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -189,14 +189,14 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllKey)
 #: actions.ui:209
 #, kde-format
-msgid "Alt"
-msgstr "Alt"
+msgid "Meta"
+msgstr "Meta"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllKey)
 #: actions.ui:214
 #, kde-format
-msgid "Meta"
-msgstr "Meta"
+msgid "Alt"
+msgstr "Alt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:236
@@ -560,14 +560,29 @@ msgstr "I øverste venstre hjørne"
 msgid "Under mouse"
 msgstr "Under musen"
 
-#. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:118
+#, kde-format
+msgid ""
+"When turned on, KDE apps which are able to remember the positions of their "
+"windows are allowed to do so. This will override the window placement mode "
+"defined above."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
+#: advanced.ui:121
+#, kde-format
+msgid "Allow KDE apps to remember the positions of their own windows"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
+#: advanced.ui:128
 #, kde-format
 msgid "&Special windows:"
 msgstr "&Specielle vinduer:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:128
+#: advanced.ui:138
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -581,7 +596,7 @@ msgstr ""
 "vinduestype for at funktionen skal virke."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:131
+#: advanced.ui:141
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Skjul midlertidige vinduer for inaktive programmer"
@@ -881,87 +896,87 @@ msgstr "&Separat skærmfokus"
 msgid "Window activation policy description"
 msgstr "Politik for vindues&aktivering:"
 
-#: main.cpp:85
+#: main.cpp:73
 #, kde-format
 msgid "&Focus"
 msgstr "&Fokus"
 
-#: main.cpp:95
+#: main.cpp:84
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "Titellinjeha&ndlinger"
 
-#: main.cpp:101
+#: main.cpp:91
 #, kde-format
 msgid "W&indow Actions"
 msgstr "V&indueshandlinger"
 
-#: main.cpp:107
+#: main.cpp:98
 #, kde-format
 msgid "Mo&vement"
 msgstr "Be&vægelse"
 
-#: main.cpp:113
+#: main.cpp:105
 #, kde-format
 msgid "Adva&nced"
 msgstr "Ava&nceret"
 
-#: main.cpp:118
+#: main.cpp:110
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "Indstillingsmodul for vinduesopførsel"
 
-#: main.cpp:120
+#: main.cpp:112
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "(c) 1997 - 2002 KWin og KControl-forfatterne"
 
-#: main.cpp:122
+#: main.cpp:114
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:123
+#: main.cpp:115
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:124
+#: main.cpp:116
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:125
+#: main.cpp:117
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:126
+#: main.cpp:118
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:127
+#: main.cpp:119
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:128
+#: main.cpp:120
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:129
+#: main.cpp:121
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:130
+#: main.cpp:122
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:175
+#: main.cpp:167
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -979,12 +994,12 @@ msgstr ""
 "vindueshåndtering, så se venligst dennes dokumentation hvad angår "
 "brugerindstilling af vinduesopførsel.</p>"
 
-#: main.cpp:195
+#: main.cpp:187
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "&Titellinjehandlinger"
 
-#: main.cpp:201
+#: main.cpp:193
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "Vindues&handlinger"
@@ -1024,8 +1039,8 @@ msgstr "Maksimér"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
 #: mouse.ui:45 mouse.ui:620 mouse.ui:655 mouse.ui:690
 #, kde-format
-msgid "Maximize (vertical only)"
-msgstr "Maksimér (kun lodret)"
+msgid "Vertically maximize"
+msgstr ""
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1034,8 +1049,8 @@ msgstr "Maksimér (kun lodret)"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
 #: mouse.ui:50 mouse.ui:625 mouse.ui:660 mouse.ui:695
 #, kde-format
-msgid "Maximize (horizontal only)"
-msgstr "Maksimér (kun vandret)"
+msgid "Horizontally maximize"
+msgstr ""
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1282,7 +1297,7 @@ msgstr "Magnetzone for &centrum:"
 msgid "&Snap windows:"
 msgstr "&Snap vinduer:"
 
-#: windows.cpp:100
+#: windows.cpp:87
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus</b><br>\n"
@@ -1298,7 +1313,7 @@ msgstr ""
 "Denne opførsel er almindelig på andre styresystemer og er<br>\n"
 "sandsynligvis det du ønsker."
 
-#: windows.cpp:104
+#: windows.cpp:91
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus - Mouse Precedence</b><br>\n"
@@ -1321,7 +1336,7 @@ msgstr ""
 "er vinduet under musen den foretrukne kandidat.<br><br>\n"
 "Usædvanlig, men mulig variant af <i>Klik for fokus</i>."
 
-#: windows.cpp:109
+#: windows.cpp:96
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse</b><br>\n"
@@ -1343,7 +1358,7 @@ msgstr ""
 "Forhindring af at fokus stjæles, finder sted som normalt.<br><br>\n"
 "Tænk <i>Klik for fokus</i> blot uden at du faktisk behøver klikke."
 
-#: windows.cpp:113
+#: windows.cpp:100
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse - Mouse Precedence</b><br>\n"
@@ -1365,7 +1380,7 @@ msgstr ""
 "er vinduet under musen den foretrukne kandidat.<br><br>\n"
 "Vælg dette hvis du vil have fokus kontrolleret af hvad musen er over."
 
-#: windows.cpp:118
+#: windows.cpp:105
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Under Mouse</b><br>\n"
@@ -1393,7 +1408,7 @@ msgstr ""
 "Du vil sikkert hellere bruge<br>\n"
 "<i>Fokus følger musen - musen har forrang</i> i stedet for!"
 
-#: windows.cpp:122
+#: windows.cpp:109
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Strictly Under Mouse</b><br>\n"

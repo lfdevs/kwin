@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-06-19 06:47+0200\n"
-"PO-Revision-Date: 2020-05-16 13:16+0200\n"
+"POT-Creation-Date: 2020-08-29 02:26+0200\n"
+"PO-Revision-Date: 2020-09-02 20:38+0200\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.04.1\n"
+"X-Generator: Lokalize 20.08.0\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #, kde-format
@@ -188,14 +188,14 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllKey)
 #: actions.ui:209
 #, kde-format
-msgid "Alt"
-msgstr "Alt"
+msgid "Meta"
+msgstr "Meta"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllKey)
 #: actions.ui:214
 #, kde-format
-msgid "Meta"
-msgstr "Meta"
+msgid "Alt"
+msgstr "Alt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:236
@@ -342,7 +342,7 @@ msgstr "Zvýšiť nepriehľadnosť"
 #: mouse.ui:501 mouse.ui:563
 #, kde-format
 msgid "Do nothing"
-msgstr "Neorbiť nič"
+msgstr "Nerobiť nič"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: actions.ui:318
@@ -581,14 +581,32 @@ msgstr "V ľavom hornom rohu"
 msgid "Under mouse"
 msgstr "Pod myšou"
 
-#. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:118
+#, kde-format
+msgid ""
+"When turned on, KDE apps which are able to remember the positions of their "
+"windows are allowed to do so. This will override the window placement mode "
+"defined above."
+msgstr ""
+"Keď je to povolené, KDE aplikácie ktoré si dokážu pamätať umiestnenie "
+"svojich okien to môžu robiť. Toto prepíše režim umiestňovania okien "
+"definovaný vyššie."
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
+#: advanced.ui:121
+#, kde-format
+msgid "Allow KDE apps to remember the positions of their own windows"
+msgstr "Povoliť KDE aplikáciam pamätať si pozície svojich okien"
+
+#. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
+#: advanced.ui:128
 #, kde-format
 msgid "&Special windows:"
 msgstr "Špeciálne okná:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:128
+#: advanced.ui:138
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -602,7 +620,7 @@ msgstr ""
 "fungovala."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:131
+#: advanced.ui:141
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Skrývať okná nástrojov neaktívnych aplikácií"
@@ -874,87 +892,87 @@ msgstr "Oddeliť zamerenie obrazoviek"
 msgid "Window activation policy description"
 msgstr "Popis politiky aktivácie okna"
 
-#: main.cpp:85
+#: main.cpp:73
 #, kde-format
 msgid "&Focus"
 msgstr "&Zameranie"
 
-#: main.cpp:95
+#: main.cpp:84
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "Akcie záhlavia okna"
 
-#: main.cpp:101
+#: main.cpp:91
 #, kde-format
 msgid "W&indow Actions"
 msgstr "Akcie ok&na"
 
-#: main.cpp:107
+#: main.cpp:98
 #, kde-format
 msgid "Mo&vement"
 msgstr "Pohyb"
 
-#: main.cpp:113
+#: main.cpp:105
 #, kde-format
 msgid "Adva&nced"
 msgstr "&Pokročilé"
 
-#: main.cpp:118
+#: main.cpp:110
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "Ovládací modul správania okien"
 
-#: main.cpp:120
+#: main.cpp:112
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "(c) 1997 - 2002 Autori KWin a KControl"
 
-#: main.cpp:122
+#: main.cpp:114
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:123
+#: main.cpp:115
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:124
+#: main.cpp:116
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:125
+#: main.cpp:117
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:126
+#: main.cpp:118
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:127
+#: main.cpp:119
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:128
+#: main.cpp:120
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:129
+#: main.cpp:121
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:130
+#: main.cpp:122
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:175
+#: main.cpp:167
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -971,12 +989,12 @@ msgstr ""
 "správcu okien ako KWin. Ak používate iného správcu okien, pozrite sa do jeho "
 "dokumentácie, ak chcete zmeniť správanie okien.</p>"
 
-#: main.cpp:195
+#: main.cpp:187
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "Akcie záhlavia okna"
 
-#: main.cpp:201
+#: main.cpp:193
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "Akcie ok&na"
@@ -1016,8 +1034,8 @@ msgstr "Maximalizovať"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
 #: mouse.ui:45 mouse.ui:620 mouse.ui:655 mouse.ui:690
 #, kde-format
-msgid "Maximize (vertical only)"
-msgstr "Maximalizovať (len vertikálne)"
+msgid "Vertically maximize"
+msgstr "Maximalizovať vertikálne"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1026,8 +1044,8 @@ msgstr "Maximalizovať (len vertikálne)"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
 #: mouse.ui:50 mouse.ui:625 mouse.ui:660 mouse.ui:695
 #, kde-format
-msgid "Maximize (horizontal only)"
-msgstr "Maximalizovať (len horizontálne)"
+msgid "Horizontally maximize"
+msgstr "Maximalizovať horizontálne"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1272,7 +1290,7 @@ msgstr "Zóna priťahovania &stredu:"
 msgid "&Snap windows:"
 msgstr "Prichytenie okien:"
 
-#: windows.cpp:100
+#: windows.cpp:87
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Click to focus:"
@@ -1288,7 +1306,7 @@ msgstr ""
 "bežné medzi inými operačnými systémami a pravdepodobne to chcete.</p></"
 "body></html>"
 
-#: windows.cpp:104
+#: windows.cpp:91
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Click to focus "
@@ -1312,7 +1330,7 @@ msgstr ""
 "okno pod myšou je preferovaný kandidát.<br><br>\n"
 "Neobvyklý, ale možný variant <i>Kliknúť na zameranie</i>."
 
-#: windows.cpp:109
+#: windows.cpp:96
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Focus follows "
@@ -1333,7 +1351,7 @@ msgstr ""
 "Funguje tu ochrana pred kradnutím zamerania ako obyčajne.<br><br>\n"
 "Teda ako <i>Kliknúť na zameranie</i> iba bez nutnosti kliknúť."
 
-#: windows.cpp:113
+#: windows.cpp:100
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p>This is mostly the same as <span style=\" font-"
@@ -1354,7 +1372,7 @@ msgstr ""
 "okno pod myšou je preferovaný kandidát.<br><br>\n"
 "Vyberte toto, ak chcete zameranie ovládať prechodom myši."
 
-#: windows.cpp:118
+#: windows.cpp:105
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Focus under "
@@ -1381,7 +1399,7 @@ msgstr ""
 "Veľmi pravdepodobne budete chcieť použiť<br>\n"
 "<i>Zameranie sleduje myš - prednosť myši</i> namiesto tohto!"
 
-#: windows.cpp:122
+#: windows.cpp:109
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Focus strictly "

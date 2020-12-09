@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-04-02 03:52+0200\n"
+"POT-Creation-Date: 2020-08-15 02:23+0200\n"
 "PO-Revision-Date: 2019-07-31 00:26+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: lt <kde-i18n-lt@kde.org>\n"
@@ -23,33 +23,33 @@ msgstr ""
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
 "X-Generator: Poedit 2.0.6\n"
 
-#: kwintabboxconfigform.cpp:88
+#: kwintabboxconfigform.cpp:77
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: layoutpreview.cpp:159
+#: layoutpreview.cpp:147
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Darbalaukis 1"
 
-#: main.cpp:77
+#: main.cpp:65
 #, kde-format
 msgid "Main"
 msgstr "Pagrindinis"
 
-#: main.cpp:78
+#: main.cpp:66
 #, kde-format
 msgid "Alternative"
 msgstr "Alternatyvus"
 
-#: main.cpp:80
+#: main.cpp:68
 #, kde-format
 msgid "Get New Task Switchers..."
 msgstr "Gauti naujus užduočių perjungiklius..."
 
-#: main.cpp:90
+#: main.cpp:78
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."

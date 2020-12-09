@@ -1,32 +1,21 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 2006 Lubos Lunak <l.lunak@kde.org>
-Copyright (C) 2009, 2010, 2011 Martin Gräßlin <mgraesslin@kde.org>
-Copyright (C) 2019 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
+    SPDX-FileCopyrightText: 2006 Lubos Lunak <l.lunak@kde.org>
+    SPDX-FileCopyrightText: 2009, 2010, 2011 Martin Gräßlin <mgraesslin@kde.org>
+    SPDX-FileCopyrightText: 2019 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
 
-Based on glcompmgr code by Felix Bellaby.
-Using code from Compiz and Beryl.
+    Based on glcompmgr code by Felix Bellaby.
+    Using code from Compiz and Beryl.
 
-Explicit command stream synchronization based on the sample
-implementation by James Jones <jajones@nvidia.com>,
+    Explicit command stream synchronization based on the sample
+    implementation by James Jones <jajones@nvidia.com>,
 
-Copyright © 2011 NVIDIA Corporation
+    SPDX-FileCopyrightText: 2011 NVIDIA Corporation
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 #include "scene_opengl.h"
 
 #include "platform.h"
@@ -411,8 +400,9 @@ void SceneOpenGL::initDebugOutput()
         Q_UNUSED(source)
         Q_UNUSED(severity)
         Q_UNUSED(userParam)
-        while (message[length] == '\n' || message[length] == '\r')
+        while (length && std::isspace(message[length - 1])) {
             --length;
+        }
 
         switch (type) {
         case GL_DEBUG_TYPE_ERROR:
@@ -565,7 +555,7 @@ void SceneOpenGL::insertWait()
  * Render cursor texture in case hardware cursor is disabled.
  * Useful for screen recording apps or backends that can't do planes.
  */
-void SceneOpenGL2::paintCursor()
+void SceneOpenGL2::paintCursor(const QRegion &rendered)
 {
     Cursor* cursor = Cursors::self()->currentCursor();
 
@@ -573,6 +563,17 @@ void SceneOpenGL2::paintCursor()
     if (!kwinApp()->platform()->usesSoftwareCursor() ||
         kwinApp()->platform()->isCursorHidden() ||
         cursor->image().isNull()) {
+        return;
+    }
+
+    // figure out which part of the cursor needs to be repainted
+    const QPoint cursorPos = cursor->pos() - cursor->hotspot();
+    const QRect cursorRect = cursor->rect();
+    QRegion region;
+    for (const QRect &rect : rendered) {
+        region |= rect.translated(-cursorPos).intersected(cursorRect);
+    }
+    if (region.isEmpty()) {
         return;
     }
 
@@ -595,8 +596,6 @@ void SceneOpenGL2::paintCursor()
     }
 
     // get cursor position in projection coordinates
-    const QPoint cursorPos = cursor->pos() - cursor->hotspot();
-    const QRect cursorRect(0, 0, m_cursorTexture->width(), m_cursorTexture->height());
     QMatrix4x4 mvp = m_projectionMatrix;
     mvp.translate(cursorPos.x(), cursorPos.y());
 
@@ -608,12 +607,14 @@ void SceneOpenGL2::paintCursor()
     m_cursorTexture->bind();
     ShaderBinder binder(ShaderTrait::MapTexture);
     binder.shader()->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
-    m_cursorTexture->render(QRegion(cursorRect), cursorRect);
+    m_cursorTexture->render(region, cursorRect);
     m_cursorTexture->unbind();
-
-    cursor->markAsRendered();
-
     glDisable(GL_BLEND);
+}
+
+void SceneOpenGL::aboutToStartPainting(const QRegion &damage)
+{
+    m_backend->aboutToStartPainting(damage);
 }
 
 qint64 SceneOpenGL::paint(const QRegion &damage, const QList<Toplevel *> &toplevels)
@@ -632,14 +633,15 @@ qint64 SceneOpenGL::paint(const QRegion &damage, const QList<Toplevel *> &toplev
         m_backend->prepareRenderingFrame();
         for (int i = 0; i < screens()->count(); ++i) {
             const QRect &geo = screens()->geometry(i);
+            const qreal scaling = screens()->scale(i);
             QRegion update;
             QRegion valid;
             // prepare rendering makes context current on the output
             QRegion repaint = m_backend->prepareRenderingForScreen(i);
             GLVertexBuffer::setVirtualScreenGeometry(geo);
             GLRenderTarget::setVirtualScreenGeometry(geo);
-            GLVertexBuffer::setVirtualScreenScale(screens()->scale(i));
-            GLRenderTarget::setVirtualScreenScale(screens()->scale(i));
+            GLVertexBuffer::setVirtualScreenScale(scaling);
+            GLRenderTarget::setVirtualScreenScale(scaling);
 
             const GLenum status = glGetGraphicsResetStatus();
             if (status != GL_NO_ERROR) {
@@ -649,8 +651,9 @@ qint64 SceneOpenGL::paint(const QRegion &damage, const QList<Toplevel *> &toplev
 
             int mask = 0;
             updateProjectionMatrix();
-            paintScreen(&mask, damage.intersected(geo), repaint, &update, &valid, projectionMatrix(), geo, screens()->scale(i));   // call generic implementation
-            paintCursor();
+
+            paintScreen(&mask, damage.intersected(geo), repaint, &update, &valid, projectionMatrix(), geo, scaling);   // call generic implementation
+            paintCursor(valid);
 
             GLVertexBuffer::streamingBuffer()->endOfFrame();
 
@@ -863,6 +866,11 @@ void SceneOpenGL::doneOpenGLContextCurrent()
     m_backend->doneCurrent();
 }
 
+bool SceneOpenGL::supportsSurfacelessContext() const
+{
+    return m_backend->supportsSurfacelessContext();
+}
+
 Scene::EffectFrame *SceneOpenGL::createEffectFrame(EffectFrameImpl *frame)
 {
     return new SceneOpenGL::EffectFrame(frame, this);
@@ -886,6 +894,11 @@ bool SceneOpenGL::animationsSupported() const
 QVector<QByteArray> SceneOpenGL::openGLPlatformInterfaceExtensions() const
 {
     return m_backend->extensions().toVector();
+}
+
+QSharedPointer<GLTexture> SceneOpenGL::textureForOutput(AbstractOutput* output) const
+{
+    return m_backend->textureForOutput(output);
 }
 
 //****************************************
@@ -1130,7 +1143,7 @@ bool OpenGLWindow::beginRenderWindow(int mask, const QRegion &region, WindowPain
 
         const QRegion filterRegion = region.translated(-x(), -y());
         // split all quads in bounding rect with the actual rects in the region
-        foreach (const WindowQuad &quad, data.quads) {
+        for (const WindowQuad &quad : qAsConst(data.quads)) {
             for (const QRect &r : filterRegion) {
                 const QRectF rf(r);
                 const QRectF quadRect(QPointF(quad.left(), quad.top()), QPointF(quad.right(), quad.bottom()));
@@ -1530,6 +1543,37 @@ void OpenGLWindow::performPaint(int mask, const QRegion &region, const WindowPai
     endRenderWindow();
 }
 
+QSharedPointer<GLTexture> OpenGLWindow::windowTexture()
+{
+    auto frame = windowPixmap<OpenGLWindowPixmap>();
+
+    if (frame && frame->children().isEmpty()) {
+        return QSharedPointer<GLTexture>(new GLTexture(*frame->texture()));
+    } else {
+        auto effectWindow = window()->effectWindow();
+        const QRect geo = window()->clientGeometry();
+        QSharedPointer<GLTexture> texture(new GLTexture(GL_RGBA8, geo.size()));
+
+        QScopedPointer<GLRenderTarget> framebuffer(new KWin::GLRenderTarget(*texture));
+        GLRenderTarget::pushRenderTarget(framebuffer.data());
+
+        auto renderVSG = GLRenderTarget::virtualScreenGeometry();
+        GLVertexBuffer::setVirtualScreenGeometry(geo);
+        GLRenderTarget::setVirtualScreenGeometry(geo);
+
+        QMatrix4x4 mvp;
+        mvp.ortho(geo.x(), geo.x() + geo.width(), geo.y(), geo.y() + geo.height(), -1, 1);
+
+        WindowPaintData data(effectWindow);
+        data.setProjectionMatrix(mvp);
+
+        performPaint(Scene::PAINT_WINDOW_TRANSFORMED | Scene::PAINT_WINDOW_LANCZOS, geo, data);
+        GLRenderTarget::popRenderTarget();
+        GLVertexBuffer::setVirtualScreenGeometry(renderVSG);
+        GLRenderTarget::setVirtualScreenGeometry(renderVSG);
+        return texture;
+    }
+}
 
 //****************************************
 // OpenGLWindowPixmap
@@ -2430,17 +2474,17 @@ bool SceneOpenGLShadow::prepareBackend()
     QPainter p;
     p.begin(&image);
 
-    p.drawPixmap(0, 0, shadowPixmap(ShadowElementTopLeft));
-    p.drawPixmap(innerRectLeft, 0, shadowPixmap(ShadowElementTop));
-    p.drawPixmap(width - topRight.width(), 0, shadowPixmap(ShadowElementTopRight));
+    p.drawPixmap(0, 0, topLeft.width(), topLeft.height(), shadowPixmap(ShadowElementTopLeft));
+    p.drawPixmap(innerRectLeft, 0, top.width(), top.height(), shadowPixmap(ShadowElementTop));
+    p.drawPixmap(width - topRight.width(), 0, topRight.width(), topRight.height(), shadowPixmap(ShadowElementTopRight));
 
-    p.drawPixmap(0, innerRectTop, shadowPixmap(ShadowElementLeft));
-    p.drawPixmap(width - right.width(), innerRectTop, shadowPixmap(ShadowElementRight));
+    p.drawPixmap(0, innerRectTop, left.width(), left.height(), shadowPixmap(ShadowElementLeft));
+    p.drawPixmap(width - right.width(), innerRectTop, right.width(), right.height(), shadowPixmap(ShadowElementRight));
 
-    p.drawPixmap(0, height - bottomLeft.height(), shadowPixmap(ShadowElementBottomLeft));
-    p.drawPixmap(innerRectLeft, height - bottom.height(), shadowPixmap(ShadowElementBottom));
-    p.drawPixmap(width - bottomRight.width(), height - bottomRight.height(), shadowPixmap(ShadowElementBottomRight));
-
+    p.drawPixmap(0, height - bottomLeft.height(), bottomLeft.width(), bottomLeft.height(), shadowPixmap(ShadowElementBottomLeft));
+    p.drawPixmap(innerRectLeft, height - bottom.height(), bottom.width(), bottom.height(), shadowPixmap(ShadowElementBottom));
+    p.drawPixmap(width - bottomRight.width(), height - bottomRight.height(), bottomRight.width(), bottomRight.height(), shadowPixmap(ShadowElementBottomRight));
+    
     p.end();
 
     // Check if the image is alpha-only in practice, and if so convert it to an 8-bpp format

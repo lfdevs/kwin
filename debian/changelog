@@ -1,3 +1,38 @@
+kwin (4:5.20.4-1) experimental; urgency=medium
+
+  [ Norbert Preining ]
+  * New upstream release (5.20.4).
+  * Update and tighten dependencies.
+  * Update list of installed files.
+  * Update lintian overrides.
+  * Update symbols.
+  * Remove upstream included d/p/duplicate-property-warning.patch.
+
+  [ Aurélien COUDERC ]
+  * Backport upstream patch to fix left-edge dead pixel for click and scroll
+    events.
+
+  [ Pino Toscano ]
+  * Switch the transitional libxcb-util0-dev build dependency to
+    libxcb-util-dev.
+  * Bump Standards-Version to 4.5.1, no changes required.
+  * Trim trailing whitespace.
+  * Set field Upstream-Contact in debian/copyright.
+  * Remove obsolete fields Contact, Name from debian/upstream/metadata (already
+    present in machine-readable debian/copyright).
+  * Update lintian overrides.
+
+  [ Scarlett Moore ]
+  * Bump kwin-common recommends/suggest plasma depends to current release.
+  * Update upstream/metadata.
+    - Repositories to invent.kde.org.
+    - Added bug database.
+    - Updated changelog to point to announcements.
+  * Remove LD_FLAGS override, no longer needed, --as-needed is default now.
+  * Add hardening options +all.
+
+ -- Norbert Preining <norbert@preining.info>  Wed, 09 Dec 2020 14:17:32 +0900
+
 kwin (4:5.19.5-3) unstable; urgency=medium
 
   * Release to unstable.
@@ -11,8 +46,8 @@ kwin (4:5.19.5-2) experimental; urgency=medium
     was not declared in this scope" Apply upstream commit
     2c76cc4784382b3df9b5413860d0793ea26cea31 which addresses the misuse
     of private headers.
-    (Closes: #973149) 
-  * Add salsa-ci config so we can build on salsa. 
+    (Closes: #973149)
+  * Add salsa-ci config so we can build on salsa.
 
  -- Norbert Preining <norbert@preining.info>  Mon, 02 Nov 2020 09:39:13 +0900
 
@@ -83,7 +118,7 @@ kwin (4:5.17.5-3) unstable; urgency=medium
   * Add build-deps for Python.
   * Tighten build-deps for kscreenlocker-dev.
   * Clean up lintian overrides.
-  
+
  -- Pino Toscano <pino@debian.org>  Fri, 28 Aug 2020 19:04:07 +0200
 
 kwin (4:5.17.5-2) unstable; urgency=medium

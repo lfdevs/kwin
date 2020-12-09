@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-04-02 03:52+0200\n"
+"POT-Creation-Date: 2020-08-15 02:23+0200\n"
 "PO-Revision-Date: 2011-03-18 18:12+0100\n"
 "Last-Translator: Marko Dimjašević <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -22,34 +22,34 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 
-#: kwintabboxconfigform.cpp:88
+#: kwintabboxconfigform.cpp:77
 #, kde-format
 msgid "KWin"
 msgstr ""
 
-#: layoutpreview.cpp:159
+#: layoutpreview.cpp:147
 #, fuzzy, kde-format
 #| msgid "All Desktops"
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Sve radne površine"
 
-#: main.cpp:77
+#: main.cpp:65
 #, kde-format
 msgid "Main"
 msgstr "Glavni"
 
-#: main.cpp:78
+#: main.cpp:66
 #, kde-format
 msgid "Alternative"
 msgstr "Alternativni"
 
-#: main.cpp:80
+#: main.cpp:68
 #, kde-format
 msgid "Get New Task Switchers..."
 msgstr ""
 
-#: main.cpp:90
+#: main.cpp:78
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."

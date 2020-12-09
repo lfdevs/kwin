@@ -55,7 +55,7 @@
 >Klik dengan tombol mouse apa saja ke kotak dan pilih efek di menu konteks. Tepian dengan sebuah kotak biru berarti sudah memiliki efek yang terlampir, kotak yang berwarna abu-abu menunjukkan bahwa tidak ada efek yang dipilih untuk tepian ini.</para>
 
 <para
->Sejumlah item yang dapat diakses di dalam konteks menu bergantung pada pengaturan di modul <ulink url="help:/kcontrol/kwineffects/index.html"
+>Sejumlah butir yang dapat diakses di dalam konteks menu bergantung pada pengaturan di modul <ulink url="help:/kcontrol/kwineffects/index.html"
 > <guilabel
 >Efek Desktop</guilabel
 ></ulink
@@ -63,7 +63,7 @@
 >Workspace</guilabel
 >. Pilihlah efek favoritmu pada grup dari <guilabel
 >Pengelolaan Window</guilabel
->. Ini mengaktifkan item-item yang sesuai di dalam  menu konteks.</para>
+>. Ini mengaktifkan butir(-butir) yang sesuai di dalam  menu konteks.</para>
 
 <para
 >Jika kamu sedang mencari pengaturan untuk memfungsikan pengalihan desktop dengan mendorong kursor mouse-mu hingga ke tepi layar, pilihlah salahsatu efek <guilabel

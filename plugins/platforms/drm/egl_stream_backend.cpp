@@ -1,22 +1,11 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 2019 NVIDIA Inc.
+    SPDX-FileCopyrightText: 2019 NVIDIA Inc.
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 #include "egl_stream_backend.h"
 #include "composite.h"
 #include "drm_backend.h"
@@ -248,7 +237,7 @@ void EglStreamBackend::attachStreamConsumer(KWaylandServer::SurfaceInterface *su
         m_streamTextures.insert(surface, newSt);
         texture = newSt.texture;
 
-        connect(surface, &KWaylandServer::Resource::unbound, this,
+        connect(surface, &KWaylandServer::SurfaceInterface::destroyed, this,
             [surface, this]() {
                 const StreamTexture &st = m_streamTextures.take(surface);
                 pEglDestroyStreamKHR(eglDisplay(), st.stream);
@@ -287,10 +276,6 @@ void EglStreamBackend::init()
     m_eglStreamControllerInterface = waylandServer()->display()->createEglStreamControllerInterface();
     connect(m_eglStreamControllerInterface, &EglStreamControllerInterface::streamConsumerAttached, this,
             &EglStreamBackend::attachStreamConsumer);
-    m_eglStreamControllerInterface->create();
-    if (!m_eglStreamControllerInterface->isValid()) {
-        setFailed("failed to initialize wayland-eglstream-controller interface");
-    }
 }
 
 bool EglStreamBackend::initRenderingContext()

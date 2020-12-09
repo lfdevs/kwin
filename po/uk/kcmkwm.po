@@ -12,15 +12,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-06-19 06:47+0200\n"
-"PO-Revision-Date: 2020-05-14 09:45+0300\n"
+"POT-Creation-Date: 2020-08-29 02:26+0200\n"
+"PO-Revision-Date: 2020-09-11 08:01+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.07.70\n"
+"X-Generator: Lokalize 20.11.70\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
@@ -193,14 +193,14 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllKey)
 #: actions.ui:209
 #, kde-format
-msgid "Alt"
-msgstr "Alt"
+msgid "Meta"
+msgstr "Meta"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllKey)
 #: actions.ui:214
 #, kde-format
-msgid "Meta"
-msgstr "Meta"
+msgid "Alt"
+msgstr "Alt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:236
@@ -540,7 +540,7 @@ msgstr ""
 "block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">У "
 "центрі</span> — розташувати вікно у центрі екрана.</li><li style=\" margin-"
 "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">У нульвому "
+"indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">У нульовому "
 "куті</span> — розташувати вікно у верхньому лівому куті екрана.</li><li "
 "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:"
@@ -589,14 +589,32 @@ msgstr "У лівому верхньому куті"
 msgid "Under mouse"
 msgstr "Під вказівником"
 
-#. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:118
+#, kde-format
+msgid ""
+"When turned on, KDE apps which are able to remember the positions of their "
+"windows are allowed to do so. This will override the window placement mode "
+"defined above."
+msgstr ""
+"Якщо увімкнено, програмам KDE, які можуть запам'ятовувати розташування "
+"власних вікон, буде дозволено це робити. Таким чином, буде перевизначено "
+"режим розташовування вікон, який було визначено вище."
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
+#: advanced.ui:121
+#, kde-format
+msgid "Allow KDE apps to remember the positions of their own windows"
+msgstr "Дозволити програмам KDE запам'ятовувати розташування власних вікон"
+
+#. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
+#: advanced.ui:128
 #, kde-format
 msgid "&Special windows:"
 msgstr "С&пеціальні вікна:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:128
+#: advanced.ui:138
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -611,7 +629,7 @@ msgstr ""
 "тип."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:131
+#: advanced.ui:141
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Ховати допоміжні вікна для неактивних програм"
@@ -894,87 +912,87 @@ msgstr "&Розділити фокус екрана"
 msgid "Window activation policy description"
 msgstr "Опис правил активації вікон"
 
-#: main.cpp:85
+#: main.cpp:73
 #, kde-format
 msgid "&Focus"
 msgstr "&Фокус"
 
-#: main.cpp:95
+#: main.cpp:84
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "Заг&оловок"
 
-#: main.cpp:101
+#: main.cpp:91
 #, kde-format
 msgid "W&indow Actions"
 msgstr "&Вікно"
 
-#: main.cpp:107
+#: main.cpp:98
 #, kde-format
 msgid "Mo&vement"
 msgstr "П&ересування"
 
-#: main.cpp:113
+#: main.cpp:105
 #, kde-format
 msgid "Adva&nced"
 msgstr "Дода&ткові"
 
-#: main.cpp:118
+#: main.cpp:110
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "Модуль налаштування поведінки вікон"
 
-#: main.cpp:120
+#: main.cpp:112
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "© Автори KWin та KControl, 1997–2002"
 
-#: main.cpp:122
+#: main.cpp:114
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:123
+#: main.cpp:115
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:124
+#: main.cpp:116
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:125
+#: main.cpp:117
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:126
+#: main.cpp:118
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:127
+#: main.cpp:119
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:128
+#: main.cpp:120
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:129
+#: main.cpp:121
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:130
+#: main.cpp:122
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:175
+#: main.cpp:167
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -991,12 +1009,12 @@ msgstr ""
 "використовуєте інший менеджер, будь ласка, перегляньте його документацію "
 "щодо налаштування поведінки вікон.</p>"
 
-#: main.cpp:195
+#: main.cpp:187
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "Заг&оловок"
 
-#: main.cpp:201
+#: main.cpp:193
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "&Вікно"
@@ -1036,8 +1054,8 @@ msgstr "Максимізувати"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
 #: mouse.ui:45 mouse.ui:620 mouse.ui:655 mouse.ui:690
 #, kde-format
-msgid "Maximize (vertical only)"
-msgstr "Максимізувати (тільки по вертикалі)"
+msgid "Vertically maximize"
+msgstr "Максимізувати вертикально"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1046,8 +1064,8 @@ msgstr "Максимізувати (тільки по вертикалі)"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
 #: mouse.ui:50 mouse.ui:625 mouse.ui:660 mouse.ui:695
 #, kde-format
-msgid "Maximize (horizontal only)"
-msgstr "Максимізувати (тільки по горизонталі)"
+msgid "Horizontally maximize"
+msgstr "Максимізувати горизонтально"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1295,7 +1313,7 @@ msgstr "Зона захоплення &центру:"
 msgid "&Snap windows:"
 msgstr "П&рилипання вікон:"
 
-#: windows.cpp:100
+#: windows.cpp:87
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1305,7 +1323,7 @@ msgstr ""
 "нього вказівник миші і клацнете лівою кнопкою. Така поведінка є типовою у "
 "інших операційних системах і, ймовірно, є бажаною для вас."
 
-#: windows.cpp:104
+#: windows.cpp:91
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1320,7 +1338,7 @@ msgstr ""
 "перевага надаватиметься вікну під вказівником миші. Незвичний, але можливий "
 "варіант <em>Клацніть для фокусування</em>."
 
-#: windows.cpp:109
+#: windows.cpp:96
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1334,7 +1352,7 @@ msgstr ""
 "звичному режимі. Те саме, що і <em>Клацніть для фокусування</em>, але без "
 "потреби у клацанні."
 
-#: windows.cpp:113
+#: windows.cpp:100
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1347,7 +1365,7 @@ msgstr ""
 "поточного активного вікна), перевага надаватиметься вікну під вказівником "
 "миші. Виберіть, якщо хочете керувати фокусуванням наведенням вказівника."
 
-#: windows.cpp:118
+#: windows.cpp:105
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1362,7 +1380,7 @@ msgstr ""
 "цьому правилу і не працюватиме. Варто використовувати <em>Фокус під мишкою — "
 "пріоритет мишки</em>!"
 
-#: windows.cpp:122
+#: windows.cpp:109
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

@@ -1,23 +1,12 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 2006 Lubos Lunak <l.lunak@kde.org>
-Copyright (C) 2010, 2011 Martin Gräßlin <mgraesslin@kde.org>
+    SPDX-FileCopyrightText: 2006 Lubos Lunak <l.lunak@kde.org>
+    SPDX-FileCopyrightText: 2010, 2011 Martin Gräßlin <mgraesslin@kde.org>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #include "effects.h"
 
@@ -55,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "composite.h"
 #include "xcbutils.h"
 #include "platform.h"
-#include "xdgshellclient.h"
+#include "waylandclient.h"
 #include "wayland_server.h"
 
 #include "decorations/decorationbridge.h"
@@ -257,19 +246,13 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
     for (InternalClient *client : ws->internalClients()) {
         setupClientConnections(client);
     }
-    if (auto w = waylandServer()) {
-        connect(w, &WaylandServer::shellClientAdded, this, [this](AbstractClient *c) {
-            if (c->readyForPainting())
-                slotWaylandClientShown(c);
-            else
-                connect(c, &Toplevel::windowShown, this, &EffectsHandlerImpl::slotWaylandClientShown);
-        });
+    if (waylandServer()) {
         const auto clients = waylandServer()->clients();
         for (AbstractClient *c : clients) {
             if (c->readyForPainting()) {
                 setupClientConnections(c);
             } else {
-                connect(c, &Toplevel::windowShown, this, &EffectsHandlerImpl::slotWaylandClientShown);
+                connect(c, &Toplevel::windowShown, this, &EffectsHandlerImpl::slotClientShown);
             }
         }
     }
@@ -569,13 +552,6 @@ void EffectsHandlerImpl::slotClientShown(KWin::Toplevel *t)
     disconnect(c, &Toplevel::windowShown, this, &EffectsHandlerImpl::slotClientShown);
     setupClientConnections(c);
     emit windowAdded(c->effectWindow());
-}
-
-void EffectsHandlerImpl::slotWaylandClientShown(Toplevel *toplevel)
-{
-    AbstractClient *client = static_cast<AbstractClient *>(toplevel);
-    setupClientConnections(client);
-    emit windowAdded(toplevel->effectWindow());
 }
 
 void EffectsHandlerImpl::slotUnmanagedShown(KWin::Toplevel *t)
@@ -1691,7 +1667,7 @@ KSharedConfigPtr EffectsHandlerImpl::config() const
 
 KSharedConfigPtr EffectsHandlerImpl::inputConfig() const
 {
-    return kwinApp()->inputConfig();
+    return InputConfig::self()->inputConfig();
 }
 
 Effect *EffectsHandlerImpl::findEffect(const QString &name) const
@@ -1738,7 +1714,7 @@ EffectWindowImpl::EffectWindowImpl(Toplevel *toplevel)
     // can still figure out whether it is/was a managed window.
     managed = toplevel->isClient();
 
-    waylandClient = qobject_cast<KWin::XdgShellClient *>(toplevel) != nullptr;
+    waylandClient = qobject_cast<KWin::WaylandClient *>(toplevel) != nullptr;
     x11Client = qobject_cast<KWin::X11Client *>(toplevel) != nullptr ||
         qobject_cast<KWin::Unmanaged *>(toplevel) != nullptr;
 }
@@ -1992,6 +1968,21 @@ EffectWindow* EffectWindowImpl::findModal()
     AbstractClient *modal = client->findModal();
     if (modal) {
         return modal->effectWindow();
+    }
+
+    return nullptr;
+}
+
+EffectWindow* EffectWindowImpl::transientFor()
+{
+    auto client = qobject_cast<AbstractClient *>(toplevel);
+    if (!client) {
+        return nullptr;
+    }
+
+    AbstractClient *transientFor = client->transientFor();
+    if (transientFor) {
+        return transientFor->effectWindow();
     }
 
     return nullptr;

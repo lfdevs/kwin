@@ -10,21 +10,22 @@
 # xavier <ktranslator31@yahoo.fr>, 2013.
 # Vincent PINON <vincent.pinon@st.com>, 2013.
 # Simon Depiets <sdepiets@gmail.com>, 2018, 2019.
+# Xavier Besnard <xavier.besnard@neuf.fr>, 2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-05-07 03:54+0200\n"
+"POT-Creation-Date: 2020-11-17 08:20+0100\n"
 "PO-Revision-Date: 2019-07-21 16:16+0800\n"
 "Last-Translator: Simon Depiets <sdepiets@gmail.com>\n"
-"Language-Team: French <kde-francophone@kde.org>\n"
+"Language-Team: FR\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 19.07.70\n"
+"X-Generator: Lokalize 20.08.3\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -41,127 +42,127 @@ msgstr ""
 "cousin@kde.org, nicolas.ternisien@gmail.com, renard@kde.org, sdepiets@gmail."
 "com"
 
-#: declarative-plugin/buttonsmodel.cpp:68
+#: declarative-plugin/buttonsmodel.cpp:54
 #, kde-format
 msgid "Menu"
 msgstr "Menu"
 
-#: declarative-plugin/buttonsmodel.cpp:70
+#: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
 msgid "Application menu"
 msgstr "Menu d'application"
 
-#: declarative-plugin/buttonsmodel.cpp:72
+#: declarative-plugin/buttonsmodel.cpp:58
 #, kde-format
 msgid "On all desktops"
 msgstr "Sur tous les bureaux"
 
-#: declarative-plugin/buttonsmodel.cpp:74
+#: declarative-plugin/buttonsmodel.cpp:60
 #, kde-format
 msgid "Minimize"
 msgstr "Réduire"
 
-#: declarative-plugin/buttonsmodel.cpp:76
+#: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Maximize"
 msgstr "Maximiser"
 
-#: declarative-plugin/buttonsmodel.cpp:78
+#: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
 msgid "Close"
 msgstr "Fermer"
 
-#: declarative-plugin/buttonsmodel.cpp:80
+#: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Context help"
 msgstr "Aide contextuelle"
 
-#: declarative-plugin/buttonsmodel.cpp:82
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Shade"
 msgstr "Enrouler"
 
-#: declarative-plugin/buttonsmodel.cpp:84
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Keep below"
 msgstr "Conserver au-dessous "
 
-#: declarative-plugin/buttonsmodel.cpp:86
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "Keep above"
 msgstr "Conserver au-dessus "
 
-#: kcm.cpp:62
+#: kcm.cpp:50
 #, kde-format
 msgid "Window Decorations"
 msgstr "Décorations de fenêtres"
 
-#: kcm.cpp:66
+#: kcm.cpp:54
 #, kde-format
 msgid "Valerio Pilo"
 msgstr "Valerio Pilo"
 
-#: kcm.cpp:67
+#: kcm.cpp:55
 #, kde-format
 msgid "Author"
 msgstr "Auteur"
 
-#: kcm.cpp:122
+#: kcm.cpp:104
 #, kde-format
 msgid "Download New Window Decorations"
 msgstr "Télécharger de nouvelles décorations de fenêtres"
 
-#: package/contents/ui/Buttons.qml:87
+#: package/contents/ui/Buttons.qml:73
 #, kde-format
 msgid "Titlebar"
 msgstr "Barre de titre"
 
-#: package/contents/ui/Buttons.qml:228
+#: package/contents/ui/Buttons.qml:214
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr "Faites glisser un bouton ici pour le supprimer"
 
-#: package/contents/ui/Buttons.qml:246
+#: package/contents/ui/Buttons.qml:232
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Faites glisser les boutons vers la barre de titre"
 
-#: package/contents/ui/main.qml:27
+#: package/contents/ui/main.qml:15
 #, kde-format
 msgid "This module lets you configure the window decorations."
 msgstr "Ce module vous permet de configurer les décorations de fenêtres."
 
-#: package/contents/ui/main.qml:61
+#: package/contents/ui/main.qml:49
 #, kde-format
 msgctxt "tab label"
 msgid "Theme"
 msgstr "Thème"
 
-#: package/contents/ui/main.qml:65
+#: package/contents/ui/main.qml:53
 #, kde-format
 msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "Boutons de la barre de titre"
 
-#: package/contents/ui/main.qml:90
+#: package/contents/ui/main.qml:78
 #, kde-format
 msgctxt "checkbox label"
 msgid "Use theme's default window border size"
 msgstr "Utiliser la taille de la bordure de fenêtre par défaut du thème."
 
-#: package/contents/ui/main.qml:121
+#: package/contents/ui/main.qml:109
 #, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "Obtenir de nouvelles décorations de fenêtres..."
 
-#: package/contents/ui/main.qml:138
+#: package/contents/ui/main.qml:126
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Fermer les fenêtres en faisant un double clic sur le bouton de menu"
 
-#: package/contents/ui/main.qml:151
+#: package/contents/ui/main.qml:139
 #, kde-format
 msgctxt "popup tip"
 msgid ""
@@ -171,58 +172,58 @@ msgstr ""
 "Ferme les fenêtres avec un double clic : Maintenir le bouton de menu de la "
 "fenêtre enfoncé jusqu'à son apparition."
 
-#: package/contents/ui/main.qml:158
+#: package/contents/ui/main.qml:146
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Afficher les bulles d'aide de la barre de titre"
 
-#: package/contents/ui/Themes.qml:100
+#: package/contents/ui/Themes.qml:89
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr "Éditer le thème %1"
 
-#: utils.cpp:38
+#: utils.cpp:26
 #, kde-format
 msgid "No Borders"
 msgstr "Pas de bordures"
 
-#: utils.cpp:39
+#: utils.cpp:27
 #, kde-format
 msgid "No Side Borders"
 msgstr "Pas de bordures latérales"
 
-#: utils.cpp:40
+#: utils.cpp:28
 #, kde-format
 msgid "Tiny"
 msgstr "Petite"
 
-#: utils.cpp:41
+#: utils.cpp:29
 #, kde-format
 msgid "Normal"
 msgstr "Normal"
 
-#: utils.cpp:42
+#: utils.cpp:30
 #, kde-format
 msgid "Large"
 msgstr "Grande"
 
-#: utils.cpp:43
+#: utils.cpp:31
 #, kde-format
 msgid "Very Large"
 msgstr "Très grande"
 
-#: utils.cpp:44
+#: utils.cpp:32
 #, kde-format
 msgid "Huge"
 msgstr "Énorme"
 
-#: utils.cpp:45
+#: utils.cpp:33
 #, kde-format
 msgid "Very Huge"
 msgstr "Vraiment énorme"
 
-#: utils.cpp:46
+#: utils.cpp:34
 #, kde-format
 msgid "Oversized"
 msgstr "Sur-dimensionnée"

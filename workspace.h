@@ -1,25 +1,14 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 1999, 2000 Matthias Ettrich <ettrich@kde.org>
-Copyright (C) 2003 Lubos Lunak <l.lunak@kde.org>
-Copyright (C) 2009 Lucas Murray <lmurray@undefinedfire.com>
-Copyright (C) 2019 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
+    SPDX-FileCopyrightText: 1999, 2000 Matthias Ettrich <ettrich@kde.org>
+    SPDX-FileCopyrightText: 2003 Lubos Lunak <l.lunak@kde.org>
+    SPDX-FileCopyrightText: 2009 Lucas Murray <lmurray@undefinedfire.com>
+    SPDX-FileCopyrightText: 2019 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #ifndef KWIN_WORKSPACE_H
 #define KWIN_WORKSPACE_H
@@ -52,6 +41,7 @@ class Window;
 }
 
 class AbstractClient;
+class ColorMapper;
 class Compositor;
 class Deleted;
 class Group;
@@ -64,6 +54,19 @@ class UserActionsMenu;
 class X11Client;
 class X11EventFilter;
 enum class Predicate;
+
+class X11EventFilterContainer : public QObject
+{
+    Q_OBJECT
+
+public:
+    explicit X11EventFilterContainer(X11EventFilter *filter);
+
+    X11EventFilter *filter() const;
+
+private:
+    X11EventFilter *m_filter;
+};
 
 class KWIN_EXPORT Workspace : public QObject
 {
@@ -134,6 +137,9 @@ public:
     void forEachUnmanaged(std::function<void (Unmanaged*)> func);
     Toplevel *findToplevel(std::function<bool (const Toplevel*)> func) const;
     void forEachToplevel(std::function<void (Toplevel *)> func);
+
+    Toplevel *findToplevel(const QUuid &internalId) const;
+
     /**
      * @brief Finds a Toplevel for the internal window @p w.
      *
@@ -190,6 +196,7 @@ public:
      */
     void setMoveResizeClient(AbstractClient* c);
 
+    QRect adjustClientArea(AbstractClient *client, const QRect &area) const;
     QPoint adjustClientPosition(AbstractClient* c, QPoint pos, bool unrestricted, double snapAdjust = 1.0);
     QRect adjustClientSize(AbstractClient* c, QRect moveResizeGeom, int mode);
     void raiseClient(AbstractClient* c, bool nogroup = false);
@@ -219,13 +226,7 @@ public:
      * @return List of unmanaged "clients" currently registered in Workspace
      */
     const QList<Unmanaged *> &unmanagedList() const {
-        return unmanaged;
-    }
-    /**
-     * @return List of desktop "clients" currently managed by Workspace
-     */
-    const QList<X11Client *> &desktopList() const {
-        return desktops;
+        return m_unmanaged;
     }
     /**
      * @return List of deleted "clients" currently managed by Workspace
@@ -256,6 +257,8 @@ public:
 
 private:
     Compositor *m_compositor;
+    QTimer *m_quickTileCombineTimer;
+    QuickTileMode m_lastTilingMode;
 
     //-------------------------------------------------
     // Unsorted
@@ -531,7 +534,8 @@ Q_SIGNALS:
 
 private:
     void init();
-    void initWithX11();
+    void initializeX11();
+    void cleanupX11();
     void initShortcuts();
     template <typename Slot>
     void initShortcut(const QString &actionName, const QString &description, const QKeySequence &shortcut,
@@ -596,8 +600,7 @@ private:
 
     QList<X11Client *> clients;
     QList<AbstractClient*> m_allClients;
-    QList<X11Client *> desktops;
-    QList<Unmanaged *> unmanaged;
+    QList<Unmanaged *> m_unmanaged;
     QList<Deleted *> deleted;
     QList<InternalClient *> m_internalClients;
 
@@ -644,7 +647,8 @@ private:
 
     bool workspaceInit;
 
-    KStartupInfo* startup;
+    QScopedPointer<KStartupInfo> m_startup;
+    QScopedPointer<ColorMapper> m_colorMapper;
 
     QVector<QRect> workarea; // Array of workareas for virtual desktops
     // Array of restricted areas that window cannot be moved into
@@ -663,8 +667,8 @@ private:
 
     QScopedPointer<KillWindow> m_windowKiller;
 
-    QList<X11EventFilter *> m_eventFilters;
-    QList<X11EventFilter *> m_genericEventFilters;
+    QList<QPointer<X11EventFilterContainer>> m_eventFilters;
+    QList<QPointer<X11EventFilterContainer>> m_genericEventFilters;
     QScopedPointer<X11EventFilter> m_movingClientFilter;
     QScopedPointer<X11EventFilter> m_syncAlarmFilter;
 
@@ -780,13 +784,12 @@ inline
 void Workspace::forEachClient(std::function< void (X11Client *) > func)
 {
     std::for_each(clients.constBegin(), clients.constEnd(), func);
-    std::for_each(desktops.constBegin(), desktops.constEnd(), func);
 }
 
 inline
 void Workspace::forEachUnmanaged(std::function< void (Unmanaged*) > func)
 {
-    std::for_each(unmanaged.constBegin(), unmanaged.constEnd(), func);
+    std::for_each(m_unmanaged.constBegin(), m_unmanaged.constEnd(), func);
 }
 
 inline bool Workspace::hasClient(const X11Client *c)

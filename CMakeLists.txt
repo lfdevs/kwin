@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
 project(KWin)
-set(PROJECT_VERSION "5.19.5")
+set(PROJECT_VERSION "5.20.4")
 set(PROJECT_VERSION_MAJOR 5)
 
-set(QT_MIN_VERSION "5.14.0")
-set(KF5_MIN_VERSION "5.70.0")
+set(QT_MIN_VERSION "5.15.0")
+set(KF5_MIN_VERSION "5.74")
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH})
 
@@ -16,7 +16,7 @@ include(WriteBasicConfigVersionFile)
 include(GenerateExportHeader)
 
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} )
 
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     Concurrent
@@ -48,6 +48,7 @@ include(KDEClangFormat)
 
 include(ECMInstallIcons)
 include(ECMOptionalAddSubdirectory)
+include(ECMConfiguredInstall)
 
 add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0 -DQT_USE_QSTRINGBUILDER -DQT_NO_URL_CAST_FROM_STRING)
 
@@ -169,12 +170,12 @@ if (epoxy_HAS_GLX)
     endif()
 endif()
 
-find_package(Wayland 1.2 REQUIRED COMPONENTS Cursor OPTIONAL_COMPONENTS Egl)
+find_package(Wayland 1.2 OPTIONAL_COMPONENTS Egl)
 set_package_properties(Wayland PROPERTIES
     TYPE REQUIRED
     PURPOSE "Required for building KWin with Wayland support"
 )
-add_feature_info("Wayland::EGL" Wayland_Egl_FOUND "Enable building of Wayland backend and QPA with EGL support.")
+add_feature_info("Wayland::EGL" Wayland_Egl_FOUND "Enable building of Wayland backend.")
 set(HAVE_WAYLAND_EGL FALSE)
 if (Wayland_Egl_FOUND)
     set(HAVE_WAYLAND_EGL TRUE)
@@ -300,6 +301,23 @@ set_package_properties(hwdata PROPERTIES
     URL "https://github.com/vcrhonek/hwdata"
 )
 
+find_package(QAccessibilityClient CONFIG)
+set_package_properties(QAccessibilityClient PROPERTIES
+    URL "https://www.kde.org"
+    DESCRIPTION "KDE client-side accessibility library"
+    TYPE OPTIONAL
+    PURPOSE "Required to enable accessibility features"
+)
+set(HAVE_ACCESSIBILITY ${QAccessibilityClient_FOUND})
+
+if(CMAKE_SYSTEM MATCHES "FreeBSD")
+    find_package(epoll)
+    set_package_properties(epoll PROPERTIES DESCRIPTION "I/O event notification facility"
+        TYPE REQUIRED
+        PURPOSE "Needed for running kwin_wayland"
+    )
+endif()
+
 include(ECMQMLModules)
 ecm_find_qmlmodule(QtQuick 2.3)
 ecm_find_qmlmodule(QtQuick.Controls 1.2)
@@ -374,6 +392,10 @@ add_feature_info("SCHED_RESET_ON_FORK"
                  HAVE_SCHED_RESET_ON_FORK
                  "Required for running kwin_wayland with real-time scheduling")
 
+
+pkg_check_modules(PipeWire IMPORTED_TARGET libpipewire-0.3)
+add_feature_info(PipeWire PipeWire_FOUND "Required for Wayland screencasting")
+
 configure_file(config-kwin.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kwin.h)
 
 ########### global ###############
@@ -407,6 +429,7 @@ add_subdirectory(helpers)
 ########### next target ###############
 
 set(kwin_SRCS
+    3rdparty/xcursor.c
     abstract_client.cpp
     abstract_opengl_context_attribute_builder.cpp
     abstract_output.cpp
@@ -431,6 +454,7 @@ set(kwin_SRCS
     decorations/decorations_logging.cpp
     decorations/settings.cpp
     deleted.cpp
+    dmabuftexture.cpp
     effectloader.cpp
     effects.cpp
     egl_context_attribute_builder.cpp
@@ -444,6 +468,8 @@ set(kwin_SRCS
     input.cpp
     input_event.cpp
     input_event_spy.cpp
+    inputpanelv1client.cpp
+    inputpanelv1integration.cpp
     internal_client.cpp
     keyboard_input.cpp
     keyboard_layout.cpp
@@ -451,6 +477,8 @@ set(kwin_SRCS
     keyboard_repeat.cpp
     killwindow.cpp
     layers.cpp
+    layershellv1client.cpp
+    layershellv1integration.cpp
     libinput/connection.cpp
     libinput/context.cpp
     libinput/device.cpp
@@ -473,8 +501,8 @@ set(kwin_SRCS
     pointer_input.cpp
     popup_input_filter.cpp
     rootinfo_filter.cpp
-    rules.cpp
     rulebooksettings.cpp
+    rules.cpp
     scene.cpp
     screenedge.cpp
     screenlockerwatcher.cpp
@@ -493,10 +521,10 @@ set(kwin_SRCS
     sm.cpp
     subsurfacemonitor.cpp
     syncalarmx11filter.cpp
+    tablet_input.cpp
     thumbnailitem.cpp
     toplevel.cpp
     touch_hide_cursor_spy.cpp
-    tablet_input.cpp
     touch_input.cpp
     udev.cpp
     unmanaged.cpp
@@ -507,14 +535,17 @@ set(kwin_SRCS
     virtualkeyboard.cpp
     virtualkeyboard_dbus.cpp
     was_user_interaction_x11_filter.cpp
-    wayland_cursor_theme.cpp
     wayland_server.cpp
+    waylandclient.cpp
+    waylandshellintegration.cpp
     window_property_notify_x11_filter.cpp
     workspace.cpp
     x11client.cpp
     x11eventfilter.cpp
     xcbutils.cpp
+    xcursortheme.cpp
     xdgshellclient.cpp
+    xdgshellintegration.cpp
     xkb.cpp
     xwaylandclient.cpp
     xwl/xwayland_interface.cpp
@@ -564,7 +595,19 @@ if (HAVE_LINUX_VT_H)
     set(kwin_SRCS ${kwin_SRCS}
         virtual_terminal.cpp
     )
+    set(KWIN_TTY_PREFIX "/dev/tty")
 endif()
+
+if(CMAKE_SYSTEM MATCHES "FreeBSD")
+    # We know it has epoll, so supports VT as well
+    set(kwin_SRCS ${kwin_SRCS}
+        virtual_terminal.cpp
+    )
+    set(KWIN_TTY_PREFIX "/dev/ttyv")
+endif()
+if(KWIN_TTY_PREFIX)
+    set_source_files_properties(virtual_terminal.cpp PROPERTIES COMPILE_DEFINITIONS KWIN_TTY_PREFIX="${KWIN_TTY_PREFIX}")
+endif()    
 
 kconfig_add_kcfg_files(kwin_SRCS settings.kcfgc)
 kconfig_add_kcfg_files(kwin_SRCS colorcorrection/colorcorrect_settings.kcfgc)
@@ -645,7 +688,6 @@ set(kwin_XCB_LIBS
 set(kwin_WAYLAND_LIBS
     KF5::WaylandClient
     Plasma::KWaylandServer
-    Wayland::Cursor
     XKB::XKB
     ${CMAKE_THREAD_LIBS_INIT}
 )
@@ -675,10 +717,15 @@ set_target_properties(kwin PROPERTIES
    SOVERSION ${PROJECT_VERSION_MAJOR}
 )
 
-target_link_libraries(kwin ${kwinLibs})
+target_link_libraries(kwin ${kwinLibs} kwinglutils ${epoxy_LIBRARY})
+
 generate_export_header(kwin EXPORT_FILE_NAME kwin_export.h)
 
-target_link_libraries(kwin kwinglutils ${epoxy_LIBRARY})
+if(CMAKE_SYSTEM MATCHES "FreeBSD")
+    # epoll is required, includes live under ${LOCALBASE}, separate library
+    target_include_directories(kwin PUBLIC ${epoll_INCLUDE_DIRS})
+    target_link_libraries(kwin ${kwinLibs} ${epoll_LIBRARIES}) 
+endif()
 
 add_executable(kwin_x11 main_x11.cpp)
 target_link_libraries(kwin_x11 kwin KF5::Crash Qt5::X11Extras)
@@ -707,16 +754,40 @@ ecm_qt_declare_logging_category(kwin_XWAYLAND_SRCS
     CATEGORY_NAME
         kwin_xwl
     DEFAULT_SEVERITY
-        Critical
+        Warning
 )
 
 set(kwin_WAYLAND_SRCS
    main_wayland.cpp
    tabletmodemanager.cpp
 )
+ecm_qt_declare_logging_category(kwin_WAYLAND_SRCS
+    HEADER
+        kwinscreencast_logging.h
+    IDENTIFIER
+        KWIN_SCREENCAST
+    CATEGORY_NAME
+        kwin_screencast
+    DEFAULT_SEVERITY
+        Warning
+)
 
 add_executable(kwin_wayland ${kwin_WAYLAND_SRCS} ${kwin_XWAYLAND_SRCS})
-target_link_libraries(kwin_wayland kwin KF5::Crash)
+
+
+if (PipeWire_FOUND)
+    target_sources(kwin_wayland
+        PRIVATE
+        screencast/screencastmanager.cpp
+        screencast/pipewirecore.cpp
+        screencast/pipewirestream.cpp)
+    target_link_libraries(kwin_wayland PkgConfig::PipeWire)
+endif()
+
+target_link_libraries(kwin_wayland
+                      kwin
+                      KF5::Crash
+)
 if (HAVE_LIBCAP)
     target_link_libraries(kwin_wayland ${Libcap_LIBRARIES})
 endif()
@@ -758,6 +829,10 @@ install(FILES scripting/kwinscript.desktop DESTINATION ${SERVICETYPES_INSTALL_DI
 add_subdirectory(qml)
 
 if (BUILD_TESTING)
+    find_package(WaylandProtocols REQUIRED)
+    find_package(QtWaylandScanner ${QT_MIN_VERSION} REQUIRED)
+    find_package(Wayland REQUIRED COMPONENTS Client)
+
     add_subdirectory(autotests)
     add_subdirectory(tests)
 endif()
@@ -782,6 +857,9 @@ configure_package_config_file(KWinDBusInterfaceConfig.cmake.in
     INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR})
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/KWinDBusInterfaceConfig.cmake
     DESTINATION ${CMAKECONFIG_INSTALL_DIR})
+
+ecm_install_configured_files(INPUT plasma-kwin_x11.service.in plasma-kwin_wayland.service.in @ONLY
+            DESTINATION ${SYSTEMD_USER_UNIT_INSTALL_DIR})
 
 find_package(KF5I18n CONFIG REQUIRED)
 ki18n_install(po)

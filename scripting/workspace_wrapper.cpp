@@ -1,31 +1,18 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 2010 Rohan Prabhu <rohan@rohanprabhu.com>
-Copyright (C) 2011, 2012 Martin Gräßlin <mgraesslin@kde.org>
+    SPDX-FileCopyrightText: 2010 Rohan Prabhu <rohan@rohanprabhu.com>
+    SPDX-FileCopyrightText: 2011, 2012 Martin Gräßlin <mgraesslin@kde.org>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #include "workspace_wrapper.h"
 #include "../x11client.h"
 #include "../outline.h"
 #include "../screens.h"
-#include "../xdgshellclient.h"
 #include "../virtualdesktops.h"
-#include "../wayland_server.h"
 #include "../workspace.h"
 #ifdef KWIN_BUILD_ACTIVITIES
 #include "../activities.h"
@@ -67,11 +54,9 @@ WorkspaceWrapper::WorkspaceWrapper(QObject* parent) : QObject(parent)
         }
     );
     connect(QApplication::desktop(), SIGNAL(resized(int)), SIGNAL(screenResized(int)));
-    if (waylandServer()) {
-        connect(waylandServer(), &WaylandServer::shellClientAdded, this, &WorkspaceWrapper::clientAdded);
-        connect(waylandServer(), &WaylandServer::shellClientAdded, this, &WorkspaceWrapper::setupClientConnections);
-    }
-    foreach (KWin::X11Client *client, ws->clientList()) {
+
+    const QList<AbstractClient *> clients = ws->allClientList();
+    for (AbstractClient *client : clients) {
         setupClientConnections(client);
     }
 }
@@ -270,6 +255,21 @@ QRect WorkspaceWrapper::clientArea(ClientAreaOption option, int screen, int desk
 QString WorkspaceWrapper::desktopName(int desktop) const
 {
     return VirtualDesktopManager::self()->name(desktop);
+}
+
+void WorkspaceWrapper::createDesktop(int position, const QString &name) const
+{
+    VirtualDesktopManager::self()->createVirtualDesktop(position, name);
+}
+
+void WorkspaceWrapper::removeDesktop(int position) const
+{
+    VirtualDesktop *vd = VirtualDesktopManager::self()->desktopForX11Id(position + 1);
+    if (!vd) {
+        return;
+    }
+
+    VirtualDesktopManager::self()->removeVirtualDesktop(vd->id());
 }
 
 QString WorkspaceWrapper::supportInformation() const

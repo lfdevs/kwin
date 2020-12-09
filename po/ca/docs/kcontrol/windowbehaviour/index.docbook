@@ -516,7 +516,7 @@ Minimize, Shade, Close
 ></title>
 
 <para
->Aquesta secció, us permet configurar accions addicionals, quan es pressiona una tecla modificadora (per omissió &Alt;), i es fa clic del ratolí en una finestra.</para>
+>Aquesta secció, us permet configurar accions addicionals, quan es pressiona una tecla modificadora (per omissió &Meta;), i es fa clic del ratolí en una finestra.</para>
 
 <para
 >Un cop més, podeu seleccionar accions per als botons <mousebutton

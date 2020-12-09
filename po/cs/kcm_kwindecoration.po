@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-05-07 03:54+0200\n"
+"POT-Creation-Date: 2020-11-17 08:20+0100\n"
 "PO-Revision-Date: 2019-08-21 13:12+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -31,127 +31,127 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "vit@pelcak.org"
 
-#: declarative-plugin/buttonsmodel.cpp:68
+#: declarative-plugin/buttonsmodel.cpp:54
 #, kde-format
 msgid "Menu"
 msgstr "Nabídka"
 
-#: declarative-plugin/buttonsmodel.cpp:70
+#: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
 msgid "Application menu"
 msgstr "Nabídka aplikací"
 
-#: declarative-plugin/buttonsmodel.cpp:72
+#: declarative-plugin/buttonsmodel.cpp:58
 #, kde-format
 msgid "On all desktops"
 msgstr "Na všech plochách"
 
-#: declarative-plugin/buttonsmodel.cpp:74
+#: declarative-plugin/buttonsmodel.cpp:60
 #, kde-format
 msgid "Minimize"
 msgstr "Minimalizovat"
 
-#: declarative-plugin/buttonsmodel.cpp:76
+#: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Maximize"
 msgstr "Maximalizovat"
 
-#: declarative-plugin/buttonsmodel.cpp:78
+#: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
 msgid "Close"
 msgstr "Zavřít"
 
-#: declarative-plugin/buttonsmodel.cpp:80
+#: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Context help"
 msgstr "Kontextová nápověda"
 
-#: declarative-plugin/buttonsmodel.cpp:82
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Shade"
 msgstr "Sbalit"
 
-#: declarative-plugin/buttonsmodel.cpp:84
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Keep below"
 msgstr "Ponechat pod"
 
-#: declarative-plugin/buttonsmodel.cpp:86
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "Keep above"
 msgstr "Podržet nad"
 
-#: kcm.cpp:62
+#: kcm.cpp:50
 #, kde-format
 msgid "Window Decorations"
 msgstr "Dekorace oken"
 
-#: kcm.cpp:66
+#: kcm.cpp:54
 #, kde-format
 msgid "Valerio Pilo"
 msgstr "Valerio Pilo"
 
-#: kcm.cpp:67
+#: kcm.cpp:55
 #, kde-format
 msgid "Author"
 msgstr "Autor"
 
-#: kcm.cpp:122
+#: kcm.cpp:104
 #, kde-format
 msgid "Download New Window Decorations"
 msgstr "Stáhnout nové dekorace oken"
 
-#: package/contents/ui/Buttons.qml:87
+#: package/contents/ui/Buttons.qml:73
 #, kde-format
 msgid "Titlebar"
 msgstr "Titulkový pruh"
 
-#: package/contents/ui/Buttons.qml:228
+#: package/contents/ui/Buttons.qml:214
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr "Pro odstranění upusťte tlačítko zde"
 
-#: package/contents/ui/Buttons.qml:246
+#: package/contents/ui/Buttons.qml:232
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Přetáhněte tlačítka odsud na titulkový pruh"
 
-#: package/contents/ui/main.qml:27
+#: package/contents/ui/main.qml:15
 #, kde-format
 msgid "This module lets you configure the window decorations."
 msgstr "Tento modul vám umožní nastavit dekorace oken."
 
-#: package/contents/ui/main.qml:61
+#: package/contents/ui/main.qml:49
 #, kde-format
 msgctxt "tab label"
 msgid "Theme"
 msgstr "Motiv"
 
-#: package/contents/ui/main.qml:65
+#: package/contents/ui/main.qml:53
 #, kde-format
 msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "Tlačítka titulkového pruhu"
 
-#: package/contents/ui/main.qml:90
+#: package/contents/ui/main.qml:78
 #, kde-format
 msgctxt "checkbox label"
 msgid "Use theme's default window border size"
 msgstr "Použít výchozí hodnotu motivu pro velikost okraje okna"
 
-#: package/contents/ui/main.qml:121
+#: package/contents/ui/main.qml:109
 #, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "Získat nové dekorace oken..."
 
-#: package/contents/ui/main.qml:138
+#: package/contents/ui/main.qml:126
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Zavřít okno dvojklikem na tlačítko nabídky"
 
-#: package/contents/ui/main.qml:151
+#: package/contents/ui/main.qml:139
 #, kde-format
 msgctxt "popup tip"
 msgid ""
@@ -159,58 +159,58 @@ msgid ""
 "appears."
 msgstr "Zavřít dvojklikem:  Podržte tlačítko dokud se neobjeví."
 
-#: package/contents/ui/main.qml:158
+#: package/contents/ui/main.qml:146
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Zobrazovat nástrojové tipy tlačítek v liště"
 
-#: package/contents/ui/Themes.qml:100
+#: package/contents/ui/Themes.qml:89
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr "Upravit motiv %1"
 
-#: utils.cpp:38
+#: utils.cpp:26
 #, kde-format
 msgid "No Borders"
 msgstr "Žádná ohraničení"
 
-#: utils.cpp:39
+#: utils.cpp:27
 #, kde-format
 msgid "No Side Borders"
 msgstr "Bez postranních okrajů"
 
-#: utils.cpp:40
+#: utils.cpp:28
 #, kde-format
 msgid "Tiny"
 msgstr "Drobný"
 
-#: utils.cpp:41
+#: utils.cpp:29
 #, kde-format
 msgid "Normal"
 msgstr "Normální"
 
-#: utils.cpp:42
+#: utils.cpp:30
 #, kde-format
 msgid "Large"
 msgstr "Velký"
 
-#: utils.cpp:43
+#: utils.cpp:31
 #, kde-format
 msgid "Very Large"
 msgstr "Velmi velký"
 
-#: utils.cpp:44
+#: utils.cpp:32
 #, kde-format
 msgid "Huge"
 msgstr "Obrovský"
 
-#: utils.cpp:45
+#: utils.cpp:33
 #, kde-format
 msgid "Very Huge"
 msgstr "Velmi obrovský"
 
-#: utils.cpp:46
+#: utils.cpp:34
 #, kde-format
 msgid "Oversized"
 msgstr "Nadměrný"

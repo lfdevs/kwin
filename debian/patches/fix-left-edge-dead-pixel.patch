@@ -1,0 +1,42 @@
+From: Nate Graham <nate@kde.org>
+Date: Wed, 18 Nov 2020 11:11:36 -0700
+Description: Disable left touch edge by default
+ On X11, it creates a dead pixel on the left edge which interferes with
+ left panels, the left-nost widget on bottom and top panels, and scroll
+ events on the left-most pixel in various apps.
+ .
+ It works properly on Wayland, but unfortunately turning it off by
+ default only on X11 but not Wayland is not easily doable. So let's turn
+ it off by default everywhere.
+ .
+ BUG: 387775
+ FIXED-IN: 5.21
+Origin: upstream, https://invent.kde.org/plasma/kwin/commit/3df7985570c748cc47362de9bbae0eb580f8f839
+
+---
+ kcmkwin/kwinscreenedges/kwintouchscreensettings.kcfg | 2 +-
+ tabbox/tabbox.cpp                                    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+--- a/kcmkwin/kwinscreenedges/kwintouchscreensettings.kcfg
++++ b/kcmkwin/kwinscreenedges/kwintouchscreensettings.kcfg
+@@ -47,7 +47,7 @@
+     </group>
+     <group name="TabBox">
+         <entry name="TouchBorderActivateTabBox" key="TouchBorderActivate" type="IntList">
+-            <default>ElectricLeft</default>
++            <default>ElectricNone</default>
+         </entry>
+         <entry key="TouchBorderAlternativeActivate" type="IntList">
+             <default>ElectricNone</default>
+--- a/tabbox/tabbox.cpp
++++ b/tabbox/tabbox.cpp
+@@ -782,7 +782,7 @@
+             actions.insert(ElectricBorder(i), a);
+         }
+     };
+-    touchConfig(QStringLiteral("TouchBorderActivate"), m_touchActivate, TabBoxWindowsMode, QStringList{QString::number(int(ElectricLeft))});
++    touchConfig(QStringLiteral("TouchBorderActivate"), m_touchActivate, TabBoxWindowsMode);
+     touchConfig(QStringLiteral("TouchBorderAlternativeActivate"), m_touchAlternativeActivate, TabBoxWindowsAlternativeMode);
+ }
+ 

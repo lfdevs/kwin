@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-04-30 03:47+0200\n"
-"PO-Revision-Date: 2020-02-17 09:29+0000\n"
+"POT-Creation-Date: 2020-10-23 08:49+0200\n"
+"PO-Revision-Date: 2020-06-03 01:03+0100\n"
 "Last-Translator: José Nuno Coelho Pires <zepires@gmail.com>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -17,7 +17,7 @@ msgstr ""
 "X-POFile-IgnoreConsistency: Caps\n"
 "X-POFile-SpellExtra: QAccessible QTACCESSIBILITY export KWin Tab Kscreen\n"
 "X-POFile-IgnoreConsistency: Push\n"
-"X-POFile-SpellExtra: KScreen KSnapshot IPS Enter\n"
+"X-POFile-SpellExtra: KScreen KSnapshot IPS Enter QTACCESSIBILITYALWAYSON\n"
 "X-POFile-IgnoreConsistency: Windows\n"
 
 #, kde-format
@@ -56,7 +56,7 @@ msgstr "Forte"
 msgid "Noise strength:"
 msgstr "Potência do ruído:"
 
-#: colorpicker/colorpicker.cpp:118
+#: colorpicker/colorpicker.cpp:107
 #, kde-format
 msgid ""
 "Select a position for color picking with left click or enter.\n"
@@ -66,7 +66,7 @@ msgstr ""
 "esquerdo ou a tecla Enter.\n"
 "Carregue em Escape ou com o botão direito para cancelar."
 
-#: coverswitch/coverswitch.cpp:956 flipswitch/flipswitch.cpp:936
+#: coverswitch/coverswitch.cpp:945 flipswitch/flipswitch.cpp:925
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -171,42 +171,42 @@ msgstr "Cor traseira"
 msgid "Front color"
 msgstr "Cor frontal"
 
-#: cube/cube.cpp:197 cube/cube_config.cpp:71
+#: cube/cube.cpp:186 cube/cube_config.cpp:60
 #, kde-format
 msgid "Desktop Cube"
 msgstr "Cubo de Ecrãs"
 
-#: cube/cube.cpp:205 cube/cube_config.cpp:76
+#: cube/cube.cpp:194 cube/cube_config.cpp:65
 #, kde-format
 msgid "Desktop Cylinder"
 msgstr "Cilindro de Ecrãs"
 
-#: cube/cube.cpp:211 cube/cube_config.cpp:80
+#: cube/cube.cpp:200 cube/cube_config.cpp:69
 #, kde-format
 msgid "Desktop Sphere"
 msgstr "Esfera de Ecrãs"
 
-#: cube/cube_config.cpp:60
+#: cube/cube_config.cpp:49
 #, kde-format
 msgctxt "@title:tab Basic Settings"
 msgid "Basic"
 msgstr "Básico"
 
-#: cube/cube_config.cpp:61
+#: cube/cube_config.cpp:50
 #, kde-format
 msgctxt "@title:tab Advanced Settings"
 msgid "Advanced"
 msgstr "Avançado"
 
-#: cube/cube_config.cpp:65 desktopgrid/desktopgrid_config.cpp:63
-#: flipswitch/flipswitch_config.cpp:67 invert/invert_config.cpp:49
-#: lookingglass/lookingglass_config.cpp:69 magnifier/magnifier_config.cpp:69
-#: mouseclick/mouseclick_config.cpp:61 mousemark/mousemark_config.cpp:67
-#: presentwindows/presentwindows_config.cpp:62
-#: showpaint/showpaint_config.cpp:47
-#: thumbnailaside/thumbnailaside_config.cpp:68
-#: trackmouse/trackmouse_config.cpp:65
-#: windowgeometry/windowgeometry_config.cpp:56 zoom/zoom_config.cpp:65
+#: cube/cube_config.cpp:54 desktopgrid/desktopgrid_config.cpp:52
+#: flipswitch/flipswitch_config.cpp:56 invert/invert_config.cpp:38
+#: lookingglass/lookingglass_config.cpp:58 magnifier/magnifier_config.cpp:58
+#: mouseclick/mouseclick_config.cpp:50 mousemark/mousemark_config.cpp:56
+#: presentwindows/presentwindows_config.cpp:51
+#: showpaint/showpaint_config.cpp:36
+#: thumbnailaside/thumbnailaside_config.cpp:57
+#: trackmouse/trackmouse_config.cpp:54
+#: windowgeometry/windowgeometry_config.cpp:45 zoom/zoom_config.cpp:59
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
@@ -441,12 +441,12 @@ msgstr "Usar a disposição do paginador na animação"
 msgid "Start animation when moving windows towards screen edges"
 msgstr "Iniciar a animação ao mover as janelas para os extremos do ecrã"
 
-#: desktopgrid/desktopgrid.cpp:76 desktopgrid/desktopgrid_config.cpp:68
+#: desktopgrid/desktopgrid.cpp:65 desktopgrid/desktopgrid_config.cpp:57
 #, kde-format
 msgid "Show Desktop Grid"
 msgstr "Mostrar a Grelha do Ecrã"
 
-#: desktopgrid/desktopgrid_config.cpp:76
+#: desktopgrid/desktopgrid_config.cpp:65
 #, kde-format
 msgctxt "Desktop name alignment:"
 msgid "Disabled"
@@ -455,13 +455,13 @@ msgstr "Desactivado"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: desktopgrid/desktopgrid_config.cpp:77 flipswitch/flipswitch_config.ui:160
+#: desktopgrid/desktopgrid_config.cpp:66 flipswitch/flipswitch_config.ui:160
 #: glide/glide_config.ui:70 glide/glide_config.ui:168
 #, kde-format
 msgid "Top"
 msgstr "Topo"
 
-#: desktopgrid/desktopgrid_config.cpp:78
+#: desktopgrid/desktopgrid_config.cpp:67
 #, kde-format
 msgid "Top-Right"
 msgstr "Cima-Direita"
@@ -469,13 +469,13 @@ msgstr "Cima-Direita"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: desktopgrid/desktopgrid_config.cpp:79 flipswitch/flipswitch_config.ui:125
+#: desktopgrid/desktopgrid_config.cpp:68 flipswitch/flipswitch_config.ui:125
 #: glide/glide_config.ui:75 glide/glide_config.ui:173
 #, kde-format
 msgid "Right"
 msgstr "Direita"
 
-#: desktopgrid/desktopgrid_config.cpp:80
+#: desktopgrid/desktopgrid_config.cpp:69
 #, kde-format
 msgid "Bottom-Right"
 msgstr "Baixo-Direita"
@@ -483,13 +483,13 @@ msgstr "Baixo-Direita"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: desktopgrid/desktopgrid_config.cpp:81 flipswitch/flipswitch_config.ui:180
+#: desktopgrid/desktopgrid_config.cpp:70 flipswitch/flipswitch_config.ui:180
 #: glide/glide_config.ui:80 glide/glide_config.ui:178
 #, kde-format
 msgid "Bottom"
 msgstr "Fundo"
 
-#: desktopgrid/desktopgrid_config.cpp:82
+#: desktopgrid/desktopgrid_config.cpp:71
 #, kde-format
 msgid "Bottom-Left"
 msgstr "Baixo-Esquerda"
@@ -497,18 +497,18 @@ msgstr "Baixo-Esquerda"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: desktopgrid/desktopgrid_config.cpp:83 flipswitch/flipswitch_config.ui:105
+#: desktopgrid/desktopgrid_config.cpp:72 flipswitch/flipswitch_config.ui:105
 #: glide/glide_config.ui:85 glide/glide_config.ui:183
 #, kde-format
 msgid "Left"
 msgstr "Esquerda"
 
-#: desktopgrid/desktopgrid_config.cpp:84
+#: desktopgrid/desktopgrid_config.cpp:73
 #, kde-format
 msgid "Top-Left"
 msgstr "Cima-Esquerda"
 
-#: desktopgrid/desktopgrid_config.cpp:85
+#: desktopgrid/desktopgrid_config.cpp:74
 #, kde-format
 msgid "Center"
 msgstr "Centro"
@@ -622,124 +622,124 @@ msgstr "Por grupo de janelas"
 msgid "Fullscreen windows"
 msgstr "Janelas em ecrã completo"
 
-#: effect_builtins.cpp:102
+#: effect_builtins.cpp:91
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
 msgstr "Borrão"
 
-#: effect_builtins.cpp:103
+#: effect_builtins.cpp:92
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
 msgstr "Borra o fundo atrás das janelas semi-transparentes"
 
-#: effect_builtins.cpp:117
+#: effect_builtins.cpp:106
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Color Picker"
 msgstr "Selector de Cores"
 
-#: effect_builtins.cpp:118
+#: effect_builtins.cpp:107
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Supports picking a color"
 msgstr "Suporta a selecção de uma cor"
 
-#: effect_builtins.cpp:132
+#: effect_builtins.cpp:121
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Contraste do fundo"
 
-#: effect_builtins.cpp:133
+#: effect_builtins.cpp:122
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
 msgstr ""
 "Melhora o contraste e a legibilidade atrás das janelas semi-transparentes"
 
-#: effect_builtins.cpp:147
+#: effect_builtins.cpp:136
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Cover Switch"
 msgstr "Mudança de Capas"
 
-#: effect_builtins.cpp:148
+#: effect_builtins.cpp:137
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a Cover Flow effect for the alt+tab window switcher"
 msgstr ""
 "Mostra um efeito de Fluxo de Capas para o selector de janelas por Alt+Tab"
 
-#: effect_builtins.cpp:162
+#: effect_builtins.cpp:151
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Cubo de Ecrãs"
 
-#: effect_builtins.cpp:163
+#: effect_builtins.cpp:152
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display each virtual desktop on a side of a cube"
 msgstr "Mostra cada ecrã virtual numa face de um cubo"
 
-#: effect_builtins.cpp:177
+#: effect_builtins.cpp:166
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Animação do Cubo de Ecrãs"
 
-#: effect_builtins.cpp:178
+#: effect_builtins.cpp:167
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate desktop switching with a cube"
 msgstr "Anima a mudança de ecrã com um cubo"
 
-#: effect_builtins.cpp:192
+#: effect_builtins.cpp:181
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Grelha do Ecrã"
 
-#: effect_builtins.cpp:193
+#: effect_builtins.cpp:182
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
 msgstr ""
 "Reduz até que todos os ecrãs sejam apresentados lado-a-lado numa grelha"
 
-#: effect_builtins.cpp:207
+#: effect_builtins.cpp:196
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
 msgstr "Escurecimento das Inactivas"
 
-#: effect_builtins.cpp:208
+#: effect_builtins.cpp:197
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Escurecer as janelas inactivas"
 
-#: effect_builtins.cpp:222
+#: effect_builtins.cpp:211
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Fall Apart"
 msgstr "Queda aos Bocados"
 
-#: effect_builtins.cpp:223
+#: effect_builtins.cpp:212
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "As janelas fechadas caem aos bocados"
 
-#: effect_builtins.cpp:237
+#: effect_builtins.cpp:226
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Flip Switch"
 msgstr "Mudança por Inversão"
 
-#: effect_builtins.cpp:238
+#: effect_builtins.cpp:227
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -747,25 +747,25 @@ msgid ""
 msgstr ""
 "Vai virando as janelas numa pilha para o selector de janelas por Alt+Tab"
 
-#: effect_builtins.cpp:252
+#: effect_builtins.cpp:241
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Glide"
 msgstr "Deslizamento"
 
-#: effect_builtins.cpp:253
+#: effect_builtins.cpp:242
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Glide windows as they appear or disappear"
 msgstr "Deslizar as janelas à medida que aparecem ou desaparecem"
 
-#: effect_builtins.cpp:267
+#: effect_builtins.cpp:256
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Highlight Window"
 msgstr "Realce da Janela"
 
-#: effect_builtins.cpp:268
+#: effect_builtins.cpp:257
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight the appropriate window when hovering over taskbar entries"
@@ -773,73 +773,73 @@ msgstr ""
 "Realça a janela apropriada quando passar o rato sobre os itens da barra de "
 "tarefas"
 
-#: effect_builtins.cpp:282
+#: effect_builtins.cpp:271
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Inversão"
 
-#: effect_builtins.cpp:283
+#: effect_builtins.cpp:272
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
 msgstr "Inverte a cor do ecrã e das janelas"
 
-#: effect_builtins.cpp:297
+#: effect_builtins.cpp:286
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
 msgstr "Kscreen"
 
-#: effect_builtins.cpp:298
+#: effect_builtins.cpp:287
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper Effect for KScreen"
 msgstr "Efeito Auxiliar do KScreen"
 
-#: effect_builtins.cpp:312
+#: effect_builtins.cpp:301
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
 msgstr "Lente"
 
-#: effect_builtins.cpp:313
+#: effect_builtins.cpp:302
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
 msgstr "Uma lupa do ecrã que se parece a uma lente olho-de-peixe"
 
-#: effect_builtins.cpp:327
+#: effect_builtins.cpp:316
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
 msgstr "Lâmpada Mágica"
 
-#: effect_builtins.cpp:328
+#: effect_builtins.cpp:317
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
 msgstr "Simula uma lâmpada mágica ao minimizar as janelas"
 
-#: effect_builtins.cpp:342
+#: effect_builtins.cpp:331
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Lupa"
 
-#: effect_builtins.cpp:343
+#: effect_builtins.cpp:332
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
 msgstr "Amplia a secção do ecrã que está próxima do cursor do rato"
 
-#: effect_builtins.cpp:357
+#: effect_builtins.cpp:346
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Animação do 'Click' do Rato"
 
-#: effect_builtins.cpp:358
+#: effect_builtins.cpp:347
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -849,38 +849,38 @@ msgstr ""
 "Cria uma animação sempre que um botão do rato é carregado. Isto é útil para "
 "gravações/apresentações do ecrã"
 
-#: effect_builtins.cpp:372
+#: effect_builtins.cpp:361
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Marcas do Rato"
 
-#: effect_builtins.cpp:373
+#: effect_builtins.cpp:362
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
 msgstr "Permite-lhe desenhar linhas sobre o ecrã"
 
-#: effect_builtins.cpp:387
+#: effect_builtins.cpp:376
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Janelas Presentes"
 
-#: effect_builtins.cpp:388
+#: effect_builtins.cpp:377
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
 msgstr ""
 "Reduz até que todas as janelas abertas possam ser apresentadas lado-a-lado"
 
-#: effect_builtins.cpp:402
+#: effect_builtins.cpp:391
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Dimensionar a Janela"
 
-#: effect_builtins.cpp:403
+#: effect_builtins.cpp:392
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
@@ -888,37 +888,37 @@ msgstr ""
 "Dimensiona as janelas com uma escala de textura rápida em vez de actualizar "
 "o conteúdo"
 
-#: effect_builtins.cpp:417
+#: effect_builtins.cpp:406
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr "Extremo do Ecrã"
 
-#: effect_builtins.cpp:418
+#: effect_builtins.cpp:407
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
 msgstr "Realça um dado extremo do ecrã à aproximação do cursor do rato"
 
-#: effect_builtins.cpp:432
+#: effect_builtins.cpp:421
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
 msgstr "Captura do Ecrã"
 
-#: effect_builtins.cpp:433
+#: effect_builtins.cpp:422
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for screenshot tools"
 msgstr "Efeito auxiliar das ferramentas de captura do ecrã"
 
-#: effect_builtins.cpp:447
+#: effect_builtins.cpp:436
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
 msgstr "Folha"
 
-#: effect_builtins.cpp:448
+#: effect_builtins.cpp:437
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -927,168 +927,168 @@ msgstr ""
 "Faz com que as janelas modais voem suavemente ao serem apresentadas ou "
 "escondidas"
 
-#: effect_builtins.cpp:462
+#: effect_builtins.cpp:451
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
 msgstr "Mostrar as IPS"
 
-#: effect_builtins.cpp:463
+#: effect_builtins.cpp:452
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
 msgstr "Mostra a performance do KWin no canto do ecrã"
 
-#: effect_builtins.cpp:477
+#: effect_builtins.cpp:466
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Mostrar a Pintura"
 
-#: effect_builtins.cpp:478
+#: effect_builtins.cpp:467
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
 msgstr "Realça as áreas do ecrã que foram actualizadas recentemente"
 
-#: effect_builtins.cpp:492
+#: effect_builtins.cpp:481
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
 msgstr "Deslize de Janelas"
 
-#: effect_builtins.cpp:493
+#: effect_builtins.cpp:482
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide desktops when switching virtual desktops"
 msgstr "Deslizar os ecrãs ao mudar de ecrãs virtuais"
 
-#: effect_builtins.cpp:507
+#: effect_builtins.cpp:496
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
 msgstr "Deslize para Trás"
 
-#: effect_builtins.cpp:508
+#: effect_builtins.cpp:497
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
 msgstr "Desliza as janelas para trás quando se eleva outra janela"
 
-#: effect_builtins.cpp:522
+#: effect_builtins.cpp:511
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
 msgstr "Janelas Instantâneas Deslizantes"
 
-#: effect_builtins.cpp:523
+#: effect_builtins.cpp:512
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
 msgstr "Animação do deslize das janelas instantâneas no Plasma"
 
-#: effect_builtins.cpp:537
+#: effect_builtins.cpp:526
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
 msgstr "Auxiliar de Ajuste"
 
-#: effect_builtins.cpp:538
+#: effect_builtins.cpp:527
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
 msgstr "Permite-lhe localizar o centro do ecrã ao mover uma janela"
 
-#: effect_builtins.cpp:552
+#: effect_builtins.cpp:541
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
 msgstr "Reacção no Arranque"
 
-#: effect_builtins.cpp:553
+#: effect_builtins.cpp:542
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
 msgstr "Efeito auxiliar para dar reacção no arranque"
 
-#: effect_builtins.cpp:567
+#: effect_builtins.cpp:556
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Miniaturas ao Lado"
 
-#: effect_builtins.cpp:568
+#: effect_builtins.cpp:557
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
 msgstr "Mostra miniaturas das janelas no extremo do ecrã"
 
-#: effect_builtins.cpp:582
+#: effect_builtins.cpp:571
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Touch Points"
 msgstr "Pontos de Toque"
 
-#: effect_builtins.cpp:583
+#: effect_builtins.cpp:572
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Visualize touch points"
 msgstr "Visualizar os pontos de toque"
 
-#: effect_builtins.cpp:597
+#: effect_builtins.cpp:586
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Seguir o Rato"
 
-#: effect_builtins.cpp:598
+#: effect_builtins.cpp:587
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a mouse cursor locating effect when activated"
 msgstr "Mostrar um efeito de localização do cursor do rato, caso esteja activo"
 
-#: effect_builtins.cpp:612
+#: effect_builtins.cpp:601
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Window Geometry"
 msgstr "Geometria da Janela"
 
-#: effect_builtins.cpp:613
+#: effect_builtins.cpp:602
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "Mostrar as dimensões da janela ao mover/dimensionar"
 
-#: effect_builtins.cpp:627
+#: effect_builtins.cpp:616
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Janelas Ondulantes"
 
-#: effect_builtins.cpp:628
+#: effect_builtins.cpp:617
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "Deforma as janelas à medida que são movidas"
 
-#: effect_builtins.cpp:642
+#: effect_builtins.cpp:631
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Ampliação"
 
-#: effect_builtins.cpp:643
+#: effect_builtins.cpp:632
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
 msgstr "Amplia o ecrã inteiro"
 
-#: flipswitch/flipswitch.cpp:59 flipswitch/flipswitch_config.cpp:61
+#: flipswitch/flipswitch.cpp:48 flipswitch/flipswitch_config.cpp:50
 #, kde-format
 msgid "Toggle Flip Switch (Current desktop)"
 msgstr "Comutar a Mudança de Janelas (Ecrã actual)"
 
-#: flipswitch/flipswitch.cpp:66 flipswitch/flipswitch_config.cpp:64
+#: flipswitch/flipswitch.cpp:55 flipswitch/flipswitch_config.cpp:53
 #, kde-format
 msgid "Toggle Flip Switch (All desktops)"
 msgstr "Comutar a Mudança de Janelas (Todos os ecrãs)"
@@ -1178,12 +1178,12 @@ msgstr "Distância:"
 msgid "Window Close Animation"
 msgstr "Animação do Fecho da Janela"
 
-#: invert/invert.cpp:45 invert/invert_config.cpp:52
+#: invert/invert.cpp:34 invert/invert_config.cpp:41
 #, kde-format
 msgid "Toggle Invert Effect"
 msgstr "Comutar o Efeito de Inversão"
 
-#: invert/invert.cpp:53 invert/invert_config.cpp:58
+#: invert/invert.cpp:42 invert/invert_config.cpp:47
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "Comutar o Efeito de Inversão na Janela"
@@ -1231,35 +1231,35 @@ msgstr " pontos"
 msgid "&Height:"
 msgstr "A&ltura:"
 
-#: mouseclick/mouseclick.cpp:51 mouseclick/mouseclick_config.cpp:64
+#: mouseclick/mouseclick.cpp:40 mouseclick/mouseclick_config.cpp:53
 #, kde-format
 msgid "Toggle Mouse Click Effect"
 msgstr "Comutar o Efeito do Botão do Rato"
 
-#: mouseclick/mouseclick.cpp:59
+#: mouseclick/mouseclick.cpp:48
 #, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Esquerdo"
 
-#: mouseclick/mouseclick.cpp:60
+#: mouseclick/mouseclick.cpp:49
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Meio"
 
-#: mouseclick/mouseclick.cpp:61
+#: mouseclick/mouseclick.cpp:50
 #, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Direito"
 
-#: mouseclick/mouseclick.h:74
+#: mouseclick/mouseclick.h:63
 #, kde-format
 msgid "↓"
 msgstr "↓"
 
-#: mouseclick/mouseclick.h:75
+#: mouseclick/mouseclick.h:64
 #, kde-format
 msgid "↑"
 msgstr "↑"
@@ -1309,7 +1309,7 @@ msgstr "Espessura da Linha:"
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_LineWidth)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingSize)
 #: mouseclick/mouseclick_config.ui:119 mouseclick/mouseclick_config.ui:171
-#: mousemark/mousemark_config.cpp:56
+#: mousemark/mousemark_config.cpp:45
 #, kde-format
 msgid " pixel"
 msgid_plural " pixels"
@@ -1353,17 +1353,17 @@ msgstr "Tipo de letra:"
 msgid "Show Text:"
 msgstr "Mostrar o Texto:"
 
-#: mousemark/mousemark.cpp:52
+#: mousemark/mousemark.cpp:41
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "Limpar Todas as Marcas do Rato"
 
-#: mousemark/mousemark.cpp:59 mousemark/mousemark_config.cpp:76
+#: mousemark/mousemark.cpp:48 mousemark/mousemark_config.cpp:65
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Limpar as Últimas Marcas do Rato"
 
-#: mousemark/mousemark_config.cpp:70
+#: mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Mouse Marks"
 msgstr "Limpar as Marcas do Rato"
@@ -1388,25 +1388,25 @@ msgstr ""
 "Desenhe com o rato, mantendo carregadas as teclas Shift+Meta e movendo o "
 "rato."
 
-#: presentwindows/presentwindows.cpp:76
-#: presentwindows/presentwindows_config.cpp:73
+#: presentwindows/presentwindows.cpp:66
+#: presentwindows/presentwindows_config.cpp:62
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Comutar as Janelas Presentes (Ecrã actual)"
 
-#: presentwindows/presentwindows.cpp:84
-#: presentwindows/presentwindows_config.cpp:67
+#: presentwindows/presentwindows.cpp:75
+#: presentwindows/presentwindows_config.cpp:56
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Comutar as Janelas Presentes (Todos os ecrãs)"
 
-#: presentwindows/presentwindows.cpp:93
-#: presentwindows/presentwindows_config.cpp:79
+#: presentwindows/presentwindows.cpp:85
+#: presentwindows/presentwindows_config.cpp:68
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Comutar as Janelas Presentes (Classe de janelas)"
 
-#: presentwindows/presentwindows.cpp:1638
+#: presentwindows/presentwindows.cpp:1666
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1644,19 +1644,19 @@ msgstr "Escala da abertura das janelas:"
 msgid "Window close scale:"
 msgstr "Escala do fecho das janelas:"
 
-#: screenshot/screenshot.cpp:458
+#: screenshot/screenshot.cpp:440
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Captura"
 
-#: screenshot/screenshot.cpp:459
+#: screenshot/screenshot.cpp:441
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "A captura foi gravada em %1"
 
-#: screenshot/screenshot.cpp:568
+#: screenshot/screenshot.cpp:578
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -1665,7 +1665,7 @@ msgstr ""
 "Seleccione a janela a capturar com o botão esquerdo ou a tecla Enter\n"
 "Carregue em Escape ou com o botão direito para cancelar."
 
-#: screenshot/screenshot.cpp:571
+#: screenshot/screenshot.cpp:581
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -1674,7 +1674,7 @@ msgstr ""
 "Crie uma captura do ecrã com o botão esquerdo ou a tecla Enter.\n"
 "Carregue em Escape ou com o botão direito para cancelar."
 
-#: showfps/showfps.cpp:65
+#: showfps/showfps.cpp:54
 #, kde-format
 msgid "This effect is not a benchmark"
 msgstr "Este efeito não é um teste de performance"
@@ -1739,7 +1739,7 @@ msgstr "Cor do texto:"
 msgid "Text alpha:"
 msgstr "Transparência do texto:"
 
-#: showpaint/showpaint.cpp:53 showpaint/showpaint_config.cpp:52
+#: showpaint/showpaint.cpp:42 showpaint/showpaint_config.cpp:41
 #, kde-format
 msgid "Toggle Show Paint"
 msgstr "Comutar a Apresentação da Pintura"
@@ -1774,8 +1774,8 @@ msgstr "Deslizar as áreas acopláveis"
 msgid "Slide desktop background"
 msgstr "Deslizar o fundo do ecrã"
 
-#: thumbnailaside/thumbnailaside.cpp:40
-#: thumbnailaside/thumbnailaside_config.cpp:73
+#: thumbnailaside/thumbnailaside.cpp:29
+#: thumbnailaside/thumbnailaside_config.cpp:62
 #, kde-format
 msgid "Toggle Thumbnail for Current Window"
 msgstr "Comutar a Miniatura da Janela Actual"
@@ -1806,7 +1806,7 @@ msgstr " pontos"
 msgid "&Opacity:"
 msgstr "&Opacidade:"
 
-#: trackmouse/trackmouse.cpp:61 trackmouse/trackmouse_config.cpp:70
+#: trackmouse/trackmouse.cpp:50 trackmouse/trackmouse_config.cpp:59
 #, kde-format
 msgid "Track mouse"
 msgstr "Seguir o rato"
@@ -1919,12 +1919,12 @@ msgstr "Menus de contexto:"
 msgid "Torn-off menus:"
 msgstr "Menus destacados:"
 
-#: windowgeometry/windowgeometry.cpp:53
+#: windowgeometry/windowgeometry.cpp:43
 #, kde-format
 msgid "Toggle window geometry display (effect only)"
 msgstr "Mostrar/esconder a geometria da janela (apenas o efeito)"
 
-#: windowgeometry/windowgeometry_config.cpp:58
+#: windowgeometry/windowgeometry_config.cpp:47
 #, kde-format
 msgid "Toggle KWin composited geometry display"
 msgstr "Activar/desactivar a geometria composta com o KWin"
@@ -2001,52 +2001,52 @@ msgstr "Menos"
 msgid "More"
 msgstr "Mais"
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:74
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Mover a Área Ampliada para a Esquerda"
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:82
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Mover a Área Ampliada para a Direita"
 
-#: zoom/zoom.cpp:100
+#: zoom/zoom.cpp:90
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Mover a Área Ampliada para Cima"
 
-#: zoom/zoom.cpp:108
+#: zoom/zoom.cpp:98
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Mover a Área Ampliada para Baixo"
 
-#: zoom/zoom.cpp:117 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:107 zoom/zoom_config.cpp:109
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Mover o Rato para o Foco"
 
-#: zoom/zoom.cpp:125 zoom/zoom_config.cpp:122
+#: zoom/zoom.cpp:115 zoom/zoom_config.cpp:116
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "Mover o Rato para o Centro"
 
-#: zoom/zoom_config.cpp:87
+#: zoom/zoom_config.cpp:81
 #, kde-format
 msgid "Move Left"
 msgstr "Mover para a Esquerda"
 
-#: zoom/zoom_config.cpp:94
+#: zoom/zoom_config.cpp:88
 #, kde-format
 msgid "Move Right"
 msgstr "Mover para a Direita"
 
-#: zoom/zoom_config.cpp:101
+#: zoom/zoom_config.cpp:95
 #, kde-format
 msgid "Move Up"
 msgstr "Subir"
 
-#: zoom/zoom_config.cpp:108
+#: zoom/zoom_config.cpp:102
 #, kde-format
 msgid "Move Down"
 msgstr "Descer"
@@ -2069,11 +2069,11 @@ msgstr "Factor de Ampliação:"
 #, kde-format
 msgid ""
 "Enable tracking of the focused location. This needs QAccessible to be "
-"enabled per application (\"export QT_ACCESSIBILITY=1\")."
+"enabled per application (\"export QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1\")."
 msgstr ""
 "Activar o seguimento da localização em foco. Isto necessita que o "
 "QAccessible esteja activado por cada aplicação (\"export "
-"QT_ACCESSIBILITY=1\")."
+"QT_ACCESSIBILITY_ALWAYS_ON=1\")."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_EnableFocusTracking)
 #: zoom/zoom_config.ui:69
@@ -2081,81 +2081,84 @@ msgstr ""
 msgid "Enable Focus Tracking"
 msgstr "Activar o Seguimento do Foco"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_EnableFollowFocus)
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_EnableTextCaretTracking)
+#: zoom/zoom_config.ui:76
+#, kde-format
+msgid ""
+"Enable tracking of the text cursor. This needs QAccessible to be enabled per "
+"application (\"export QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1\")."
+msgstr ""
+"Activar o seguimento do cursor de texto. Isto necessita que o QAccessible "
+"esteja activado por cada aplicação (\"export QT_ACCESSIBILITY_ALWAYS_ON=1\")."
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_EnableTextCaretTracking)
 #: zoom/zoom_config.ui:79
 #, kde-format
-msgid "When the focus changes, move the zoom area to the focused location."
-msgstr ""
-"Quando o foco mudar, mover a área da ampliação para a localização em foco."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_EnableFollowFocus)
-#: zoom/zoom_config.ui:82
-#, kde-format
-msgid "Follow Focus"
-msgstr "Seguir o Foco"
+msgid "Enable Text Cursor Tracking"
+msgstr "Activar o Seguimento do Cursor de Texto"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: zoom/zoom_config.ui:89
+#: zoom/zoom_config.ui:86
 #, kde-format
 msgid "Mouse Pointer:"
 msgstr "Cursor do Rato:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_MousePointer)
-#: zoom/zoom_config.ui:102
+#: zoom/zoom_config.ui:99
 #, kde-format
 msgid "Visibility of the mouse-pointer."
 msgstr "Visibilidade do cursor do rato."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
-#: zoom/zoom_config.ui:106
+#: zoom/zoom_config.ui:103
 #, kde-format
 msgid "Scale"
 msgstr "Escala"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
-#: zoom/zoom_config.ui:111
+#: zoom/zoom_config.ui:108
 #, kde-format
 msgid "Keep"
 msgstr "Manter"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
-#: zoom/zoom_config.ui:116
+#: zoom/zoom_config.ui:113
 #, kde-format
 msgid "Hide"
 msgstr "Esconder"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_MouseTracking)
-#: zoom/zoom_config.ui:124
+#: zoom/zoom_config.ui:121
 #, kde-format
 msgid "Track moving of the mouse."
 msgstr "Seguir o movimento do rato."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
-#: zoom/zoom_config.ui:128
+#: zoom/zoom_config.ui:125
 #, kde-format
 msgid "Proportional"
 msgstr "Proporcional"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
-#: zoom/zoom_config.ui:133
+#: zoom/zoom_config.ui:130
 #, kde-format
 msgid "Centered"
 msgstr "Centrado"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
-#: zoom/zoom_config.ui:138
+#: zoom/zoom_config.ui:135
 #, kde-format
 msgid "Push"
 msgstr "Empurrar"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
-#: zoom/zoom_config.ui:143
+#: zoom/zoom_config.ui:140
 #, kde-format
 msgid "Disabled"
 msgstr "Desactivado"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: zoom/zoom_config.ui:151
+#: zoom/zoom_config.ui:148
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr "Seguimento do Rato:"

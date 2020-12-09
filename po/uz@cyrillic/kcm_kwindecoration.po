@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-05-07 03:54+0200\n"
+"POT-Creation-Date: 2020-11-17 08:20+0100\n"
 "PO-Revision-Date: 2005-10-20 21:45+0200\n"
 "Last-Translator: Mashrab Kuvatov <kmashrab@uni-bremen.de>\n"
 "Language-Team: Uzbek <floss-uz-l10n@googlegroups.com>\n"
@@ -27,134 +27,134 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kmashrab@uni-bremen.de"
 
-#: declarative-plugin/buttonsmodel.cpp:68
+#: declarative-plugin/buttonsmodel.cpp:54
 #, kde-format
 msgid "Menu"
 msgstr "Меню"
 
-#: declarative-plugin/buttonsmodel.cpp:70
+#: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
 msgid "Application menu"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:72
+#: declarative-plugin/buttonsmodel.cpp:58
 #, fuzzy, kde-format
 #| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "Ҳамма иш столларига"
 
-#: declarative-plugin/buttonsmodel.cpp:74
+#: declarative-plugin/buttonsmodel.cpp:60
 #, kde-format
 msgid "Minimize"
 msgstr "Йиғиш"
 
-#: declarative-plugin/buttonsmodel.cpp:76
+#: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Maximize"
 msgstr "Ёйиш"
 
-#: declarative-plugin/buttonsmodel.cpp:78
+#: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
 msgid "Close"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:80
+#: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Context help"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:82
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Shade"
 msgstr "Соялаш"
 
-#: declarative-plugin/buttonsmodel.cpp:84
+#: declarative-plugin/buttonsmodel.cpp:70
 #, fuzzy, kde-format
 #| msgid "Keep Below Others"
 msgid "Keep below"
 msgstr "Энг пастда"
 
-#: declarative-plugin/buttonsmodel.cpp:86
+#: declarative-plugin/buttonsmodel.cpp:72
 #, fuzzy, kde-format
 #| msgid "Keep Above Others"
 msgid "Keep above"
 msgstr "Энг юқорида"
 
-#: kcm.cpp:62
+#: kcm.cpp:50
 #, fuzzy, kde-format
 #| msgid "&Window Decoration"
 msgid "Window Decorations"
 msgstr "&Ойнанинг безаки"
 
-#: kcm.cpp:66
+#: kcm.cpp:54
 #, kde-format
 msgid "Valerio Pilo"
 msgstr ""
 
-#: kcm.cpp:67
+#: kcm.cpp:55
 #, kde-format
 msgid "Author"
 msgstr ""
 
-#: kcm.cpp:122
+#: kcm.cpp:104
 #, fuzzy, kde-format
 #| msgid "&Window Decoration"
 msgid "Download New Window Decorations"
 msgstr "&Ойнанинг безаки"
 
-#: package/contents/ui/Buttons.qml:87
+#: package/contents/ui/Buttons.qml:73
 #, kde-format
 msgid "Titlebar"
 msgstr ""
 
-#: package/contents/ui/Buttons.qml:228
+#: package/contents/ui/Buttons.qml:214
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr ""
 
-#: package/contents/ui/Buttons.qml:246
+#: package/contents/ui/Buttons.qml:232
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr ""
 
-#: package/contents/ui/main.qml:27
+#: package/contents/ui/main.qml:15
 #, kde-format
 msgid "This module lets you configure the window decorations."
 msgstr ""
 
-#: package/contents/ui/main.qml:61
+#: package/contents/ui/main.qml:49
 #, kde-format
 msgctxt "tab label"
 msgid "Theme"
 msgstr ""
 
-#: package/contents/ui/main.qml:65
+#: package/contents/ui/main.qml:53
 #, fuzzy, kde-format
 #| msgid "Buttons"
 msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "Тугмалар"
 
-#: package/contents/ui/main.qml:90
+#: package/contents/ui/main.qml:78
 #, kde-format
 msgctxt "checkbox label"
 msgid "Use theme's default window border size"
 msgstr ""
 
-#: package/contents/ui/main.qml:121
+#: package/contents/ui/main.qml:109
 #, fuzzy, kde-format
 #| msgid "&Window Decoration"
 msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "&Ойнанинг безаки"
 
-#: package/contents/ui/main.qml:138
+#: package/contents/ui/main.qml:126
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr ""
 
-#: package/contents/ui/main.qml:151
+#: package/contents/ui/main.qml:139
 #, kde-format
 msgctxt "popup tip"
 msgid ""
@@ -162,67 +162,67 @@ msgid ""
 "appears."
 msgstr ""
 
-#: package/contents/ui/main.qml:158
+#: package/contents/ui/main.qml:146
 #, fuzzy, kde-format
 #| msgid "&Show window button tooltips"
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Ойна &тугмасининг эслатмаларини кўрсатиш"
 
-#: package/contents/ui/Themes.qml:100
+#: package/contents/ui/Themes.qml:89
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr ""
 
-#: utils.cpp:38
+#: utils.cpp:26
 #, fuzzy, kde-format
 #| msgid "B&order size:"
 msgid "No Borders"
 msgstr "Че&гаранинг ўлчами:"
 
-#: utils.cpp:39
+#: utils.cpp:27
 #, fuzzy, kde-format
 #| msgid "B&order size:"
 msgid "No Side Borders"
 msgstr "Че&гаранинг ўлчами:"
 
-#: utils.cpp:40
+#: utils.cpp:28
 #, fuzzy, kde-format
 #| msgid "Tiny"
 msgid "Tiny"
 msgstr "Жуда кичик"
 
-#: utils.cpp:41
+#: utils.cpp:29
 #, fuzzy, kde-format
 #| msgid "Normal"
 msgid "Normal"
 msgstr "Оддий"
 
-#: utils.cpp:42
+#: utils.cpp:30
 #, fuzzy, kde-format
 #| msgid "Large"
 msgid "Large"
 msgstr "Катта"
 
-#: utils.cpp:43
+#: utils.cpp:31
 #, fuzzy, kde-format
 #| msgid "Very Large"
 msgid "Very Large"
 msgstr "Жуда катта"
 
-#: utils.cpp:44
+#: utils.cpp:32
 #, fuzzy, kde-format
 #| msgid "Huge"
 msgid "Huge"
 msgstr "Жуда-жуда катта"
 
-#: utils.cpp:45
+#: utils.cpp:33
 #, fuzzy, kde-format
 #| msgid "Very Huge"
 msgid "Very Huge"
 msgstr "Баҳайбат"
 
-#: utils.cpp:46
+#: utils.cpp:34
 #, fuzzy, kde-format
 #| msgid "Oversized"
 msgid "Oversized"

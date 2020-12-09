@@ -1,24 +1,13 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 1999, 2000 Matthias Ettrich <ettrich@kde.org>
-Copyright (C) 1997 to 2002 Cristian Tibirna <tibirna@kde.org>
-Copyright (C) 2003 Lubos Lunak <l.lunak@kde.org>
+    SPDX-FileCopyrightText: 1999, 2000 Matthias Ettrich <ettrich@kde.org>
+    SPDX-FileCopyrightText: 1997-2002 Cristian Tibirna <tibirna@kde.org>
+    SPDX-FileCopyrightText: 2003 Lubos Lunak <l.lunak@kde.org>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #include "placement.h"
 
@@ -33,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QRect>
 #include <QTextStream>
+#include <QTimer>
 
 namespace KWin
 {
@@ -210,7 +200,7 @@ void Placement::placeSmart(AbstractClient* c, const QRect& area, Policy /*next*/
      * with ideas from xfce.
      */
 
-    if (!c->size().isValid()) {
+    if (!c->frameGeometry().isValid()) {
         return;
     }
 
@@ -385,7 +375,7 @@ void Placement::placeCascaded(AbstractClient *c, const QRect &area, Policy nextP
 {
     Q_ASSERT(area.isValid());
 
-    if (!c->size().isValid()) {
+    if (!c->frameGeometry().isValid()) {
         return;
     }
 
@@ -501,9 +491,9 @@ void Placement::placeOnScreenDisplay(AbstractClient *c, const QRect &area)
 {
     Q_ASSERT(area.isValid());
 
-    // place at lower 1/3 of the screen
+    // place at lower area of the screen
     const int x = area.left() + (area.width() -  c->width())  / 2;
-    const int y = area.top()  + 2 * (area.height() - c->height()) / 3;
+    const int y = area.top() + 2 * area.height() / 3 - c->height() / 2;
 
     c->move(QPoint(x, y));
 }
@@ -835,6 +825,24 @@ void Workspace::quickTileWindow(QuickTileMode mode)
 {
     if (!active_client) {
         return;
+    }
+
+    // If the user invokes two of these commands in a one second period, try to
+    // combine them together to enable easy and intuitive corner tiling
+#define FLAG(name) QuickTileMode(QuickTileFlag::name)
+    if (!m_quickTileCombineTimer->isActive()) {
+        m_quickTileCombineTimer->start(1000);
+        m_lastTilingMode = mode;
+    } else {
+        if (
+            ( (m_lastTilingMode == FLAG(Left) || m_lastTilingMode == FLAG(Right)) && (mode == FLAG(Top) || mode == FLAG(Bottom)) )
+            ||
+            ( (m_lastTilingMode == FLAG(Top) || m_lastTilingMode == FLAG(Bottom)) && (mode == FLAG(Left) || mode == FLAG(Right)) )
+#undef FLAG
+        ) {
+            mode |= m_lastTilingMode;
+        }
+        m_quickTileCombineTimer->stop();
     }
 
     active_client->setQuickTileMode(mode, true);

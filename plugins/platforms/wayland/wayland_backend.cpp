@@ -1,23 +1,12 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright 2019 Roman Gilg <subdiff@gmail.com>
-Copyright 2013 Martin Gräßlin <mgraesslin@kde.org>
+    SPDX-FileCopyrightText: 2019 Roman Gilg <subdiff@gmail.com>
+    SPDX-FileCopyrightText: 2013 Martin Gräßlin <mgraesslin@kde.org>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 #include "wayland_backend.h"
 
 #if HAVE_WAYLAND_EGL
@@ -34,8 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "outputscreens.h"
 #include "pointer_input.h"
 #include "screens.h"
-#include "wayland_cursor_theme.h"
 #include "wayland_server.h"
+#include "../drm/gbm_dmabuf.h"
 
 #include <config-kwin.h>
 
@@ -64,7 +53,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QThread>
 
 #include <linux/input.h>
-#include <wayland-cursor.h>
+#include <unistd.h>
+#include <gbm.h>
+#include <fcntl.h>
 
 namespace KWin
 {
@@ -349,10 +340,10 @@ WaylandSeat::WaylandSeat(wl_seat *seat, WaylandBackend *backend)
 
 void WaylandBackend::pointerMotionRelativeToOutput(const QPointF &position, quint32 time)
 {
-    auto outputIt = std::find_if(m_outputs.begin(), m_outputs.end(), [this](WaylandOutput *wo) {
+    auto outputIt = std::find_if(m_outputs.constBegin(), m_outputs.constEnd(), [this](WaylandOutput *wo) {
             return wo->surface() == m_seat->pointer()->enteredSurface();
     });
-    Q_ASSERT(outputIt != m_outputs.end());
+    Q_ASSERT(outputIt != m_outputs.constEnd());
     const QPointF outputPosition = (*outputIt)->geometry().topLeft() + position;
     Platform::pointerMotion(outputPosition, time);
 }
@@ -452,7 +443,18 @@ WaylandBackend::WaylandBackend(QObject *parent)
     , m_connectionThreadObject(new ConnectionThread(nullptr))
     , m_connectionThread(nullptr)
 {
+    supportsOutputChanges();
     connect(this, &WaylandBackend::connectionFailed, this, &WaylandBackend::initFailed);
+
+
+    char const *drm_render_node = "/dev/dri/renderD128";
+    m_drmFileDescriptor = open(drm_render_node, O_RDWR);
+    if (m_drmFileDescriptor < 0) {
+        qCWarning(KWIN_WAYLAND_BACKEND) << "Failed to open drm render node" << drm_render_node;
+        m_gbmDevice = nullptr;
+        return;
+    }
+    m_gbmDevice = gbm_create_device(m_drmFileDescriptor);
 }
 
 WaylandBackend::~WaylandBackend()
@@ -477,6 +479,8 @@ WaylandBackend::~WaylandBackend()
     m_connectionThread->quit();
     m_connectionThread->wait();
     m_connectionThreadObject->deleteLater();
+    gbm_device_destroy(m_gbmDevice);
+    close(m_drmFileDescriptor);
 
     qCDebug(KWIN_WAYLAND_BACKEND) << "Destroyed Wayland display";
 }
@@ -636,10 +640,10 @@ void WaylandBackend::initConnection()
 
 void WaylandBackend::updateScreenSize(WaylandOutput *output)
 {
-   auto it = std::find(m_outputs.begin(), m_outputs.end(), output);
+   auto it = std::find(m_outputs.constBegin(), m_outputs.constEnd(), output);
 
    int nextLogicalPosition = output->geometry().topRight().x();
-   while (++it != m_outputs.end()) {
+   while (++it != m_outputs.constEnd()) {
        const QRect geo = (*it)->geometry();
        (*it)->setGeometry(QPoint(nextLogicalPosition, 0), geo.size());
        nextLogicalPosition = geo.topRight().x();
@@ -733,7 +737,7 @@ QPainterBackend *WaylandBackend::createQPainterBackend()
 
 void WaylandBackend::checkBufferSwap()
 {
-    const bool allRendered = std::all_of(m_outputs.begin(), m_outputs.end(), [](WaylandOutput *o) {
+    const bool allRendered = std::all_of(m_outputs.constBegin(), m_outputs.constEnd(), [](WaylandOutput *o) {
             return o->rendered();
         });
     if (!allRendered) {
@@ -741,15 +745,9 @@ void WaylandBackend::checkBufferSwap()
         // TODO: what if one does not need to be rendered (no damage)?
         return;
     }
-
-    for (auto *output : m_outputs) {
-        if (!output->rendered()) {
-            return;
-        }
-    }
     Compositor::self()->bufferSwapComplete();
 
-    for (auto *output : m_outputs) {
+    for (auto *output : qAsConst(m_outputs)) {
         output->resetRendered();
     }
 }
@@ -761,14 +759,14 @@ void WaylandBackend::flush()
     }
 }
 
-WaylandOutput* WaylandBackend::getOutputAt(const QPointF globalPosition)
+WaylandOutput* WaylandBackend::getOutputAt(const QPointF &globalPosition)
 {
     const auto pos = globalPosition.toPoint();
     auto checkPosition = [pos](WaylandOutput *output) {
         return output->geometry().contains(pos);
     };
-    auto it = std::find_if(m_outputs.begin(), m_outputs.end(), checkPosition);
-    return it == m_outputs.end() ? nullptr : *it;
+    auto it = std::find_if(m_outputs.constBegin(), m_outputs.constEnd(), checkPosition);
+    return it == m_outputs.constEnd() ? nullptr : *it;
 }
 
 bool WaylandBackend::supportsPointerLock()
@@ -833,6 +831,11 @@ Outputs WaylandBackend::enabledOutputs() const
 {
     // all outputs are enabled
     return m_outputs;
+}
+
+DmaBufTexture *WaylandBackend::createDmaBufTexture(const QSize& size)
+{
+    return GbmDmaBuf::createBuffer(size, m_gbmDevice);
 }
 
 }

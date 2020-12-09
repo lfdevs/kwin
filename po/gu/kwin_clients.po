@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-03-18 03:45+0100\n"
+"POT-Creation-Date: 2020-08-08 02:22+0200\n"
 "PO-Revision-Date: 2008-11-23 09:33+0530\n"
 "Last-Translator: Kartik Mistry <kartik.mistry@gmail.com>\n"
 "Language-Team: Gujarati\n"
@@ -18,56 +18,56 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: aurorae/src/aurorae.cpp:694
+#: aurorae/src/aurorae.cpp:683
 #, fuzzy, kde-format
 #| msgid "Tiny"
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "ખૂબ નાનું"
 
-#: aurorae/src/aurorae.cpp:695
+#: aurorae/src/aurorae.cpp:684
 #, fuzzy, kde-format
 #| msgid "Normal"
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "સામાન્ય"
 
-#: aurorae/src/aurorae.cpp:696
+#: aurorae/src/aurorae.cpp:685
 #, fuzzy, kde-format
 #| msgid "Large"
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "મોટું"
 
-#: aurorae/src/aurorae.cpp:697
+#: aurorae/src/aurorae.cpp:686
 #, fuzzy, kde-format
 #| msgid "Very Large"
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "ખૂબ મોટું"
 
-#: aurorae/src/aurorae.cpp:698
+#: aurorae/src/aurorae.cpp:687
 #, fuzzy, kde-format
 #| msgid "Huge"
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "વિશાળ"
 
-#: aurorae/src/aurorae.cpp:699
+#: aurorae/src/aurorae.cpp:688
 #, fuzzy, kde-format
 #| msgid "Very Huge"
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "ખૂબ જ મોટું"
 
-#: aurorae/src/aurorae.cpp:700
+#: aurorae/src/aurorae.cpp:689
 #, fuzzy, kde-format
 #| msgid "Oversized"
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "વધારે પડતા માપનું"
 
-#: aurorae/src/aurorae.cpp:703
+#: aurorae/src/aurorae.cpp:692
 #, fuzzy, kde-format
 #| msgid "Button size:"
 msgid "Button size:"

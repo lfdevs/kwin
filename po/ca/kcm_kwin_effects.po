@@ -7,9 +7,9 @@
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2020.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwin_effects\n"
+"Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-02-23 03:34+0100\n"
+"POT-Creation-Date: 2020-08-08 02:22+0200\n"
 "PO-Revision-Date: 2020-07-27 13:17+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -31,22 +31,22 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "txemaq@gmail.com"
 
-#: kcm.cpp:44
+#: kcm.cpp:33
 #, kde-format
 msgid "Desktop Effects"
 msgstr "Efectes d'escriptori"
 
-#: kcm.cpp:49
+#: kcm.cpp:38
 #, kde-format
 msgid "Vlad Zahorodnii"
 msgstr "Vlad Zahorodnii"
 
-#: kcm.cpp:88
+#: kcm.cpp:77
 #, kde-format
 msgid "Download New Desktop Effects"
 msgstr "Baixa efectes nous d'escriptori"
 
-#: package/contents/ui/Effect.qml:88
+#: package/contents/ui/Effect.qml:77
 #, kde-format
 msgid ""
 "Author: %1\n"
@@ -55,24 +55,24 @@ msgstr ""
 "Autor: %1\n"
 "Llicència: %2"
 
-#: package/contents/ui/Effect.qml:117
+#: package/contents/ui/Effect.qml:106
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show/Hide Video"
 msgstr "Mostra/oculta el vídeo"
 
-#: package/contents/ui/Effect.qml:124
+#: package/contents/ui/Effect.qml:113
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Configure..."
 msgstr "Configura..."
 
-#: package/contents/ui/main.qml:29
+#: package/contents/ui/main.qml:18
 #, kde-format
 msgid "This module lets you configure desktop effects."
 msgstr "Aquest mòdul permet configurar els efectes de l'escriptori."
 
-#: package/contents/ui/main.qml:36
+#: package/contents/ui/main.qml:25
 #, kde-format
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
@@ -81,22 +81,22 @@ msgstr ""
 "Consell: per a trobar els detalls o configurar la manera d'activar un "
 "efecte, examineu l'arranjament de l'efecte."
 
-#: package/contents/ui/main.qml:56
+#: package/contents/ui/main.qml:45
 #, kde-format
 msgid "Configure Filter"
 msgstr "Configura el filtre"
 
-#: package/contents/ui/main.qml:68
+#: package/contents/ui/main.qml:57
 #, kde-format
 msgid "Exclude unsupported effects"
 msgstr "Exclou els efectes no admesos"
 
-#: package/contents/ui/main.qml:76
+#: package/contents/ui/main.qml:65
 #, kde-format
 msgid "Exclude internal effects"
 msgstr "Exclou els efectes interns"
 
-#: package/contents/ui/main.qml:135
+#: package/contents/ui/main.qml:124
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Obtén efectes nous d'escriptori..."

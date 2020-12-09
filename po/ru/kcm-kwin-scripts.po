@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-03-14 03:43+0100\n"
+"POT-Creation-Date: 2020-09-01 02:29+0200\n"
 "PO-Revision-Date: 2019-05-29 15:53+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -34,32 +34,37 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kolyadas89@gmail.com"
 
-#: module.cpp:49
+#: module.cpp:38
 #, kde-format
 msgid "KWin Scripts"
 msgstr "Сценарии KWin"
 
-#: module.cpp:51
+#: module.cpp:40
 #, kde-format
 msgid "Configure KWin scripts"
 msgstr "Настройка сценариев KWin"
 
-#: module.cpp:54
+#: module.cpp:43
 #, kde-format
 msgid "Tamás Krutki"
 msgstr "Тамаш Крутки (Tamás Krutki)"
 
-#: module.cpp:84
+#: module.cpp:79
+#, kde-format
+msgid "Error when uninstalling KWin Script: %1"
+msgstr ""
+
+#: module.cpp:100
 #, kde-format
 msgid "Import KWin Script"
 msgstr "Импорт сценария KWin"
 
-#: module.cpp:85
+#: module.cpp:101
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "Сценарии KWin (*.kwinscript)"
 
-#: module.cpp:104
+#: module.cpp:120
 #, kde-format
 msgctxt "Placeholder is error message returned from the install service"
 msgid ""
@@ -69,7 +74,7 @@ msgstr ""
 "Не удалось импортировать выбранный сценарий.\n"
 "%1"
 
-#: module.cpp:118
+#: module.cpp:134
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."

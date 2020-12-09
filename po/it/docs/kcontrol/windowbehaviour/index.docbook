@@ -544,7 +544,7 @@ Minimize, Shade, Close
 ></title>
 
 <para
->Questa sezione permette di configurare azioni aggiuntive, attivate facendo clic con il mouse su una finestra mentre si preme un tasto modificatore (quello predefinito è &Alt;).</para>
+>Questa sezione consente di configurare azioni aggiuntive, quando si preme un tasto modificatore (quello predefinito è &Meta;), facendo clic con il mouse su una finestra </para>
 
 <para
 >Anche qui è possibile associare azioni diverse per i vari clic del mouse e per la rotellina del mouse. </para>

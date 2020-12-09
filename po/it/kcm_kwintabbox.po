@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-04-02 03:52+0200\n"
+"POT-Creation-Date: 2020-08-15 02:23+0200\n"
 "PO-Revision-Date: 2018-11-07 18:43+0100\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -18,33 +18,33 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 2.0\n"
 
-#: kwintabboxconfigform.cpp:88
+#: kwintabboxconfigform.cpp:77
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: layoutpreview.cpp:159
+#: layoutpreview.cpp:147
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Desktop 1"
 
-#: main.cpp:77
+#: main.cpp:65
 #, kde-format
 msgid "Main"
 msgstr "Principale"
 
-#: main.cpp:78
+#: main.cpp:66
 #, kde-format
 msgid "Alternative"
 msgstr "Alternativo"
 
-#: main.cpp:80
+#: main.cpp:68
 #, kde-format
 msgid "Get New Task Switchers..."
 msgstr "Recupera nuovi cambiafinestre..."
 
-#: main.cpp:90
+#: main.cpp:78
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."

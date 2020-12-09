@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-06-11 08:18+0200\n"
+"POT-Creation-Date: 2020-06-13 02:17+0200\n"
 "PO-Revision-Date: 2017-10-30 23:08+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -67,7 +67,7 @@ msgid "Application settings for %1"
 msgstr "Програмске поставке за „%1“"
 
 # >> %1 is window class (not translated)
-#: main.cpp:123 rulesmodel.cpp:215
+#: main.cpp:123 rulesmodel.cpp:227
 #, kde-format
 msgid "Window settings for %1"
 msgstr "Прозорске поставке за „%1“"
@@ -378,19 +378,19 @@ msgstr ""
 msgid "Edit Window-Specific Settings"
 msgstr "Уреди посебне поставке за прозор"
 
-#: rulesmodel.cpp:218
+#: rulesmodel.cpp:230
 #, kde-format
 msgid "Settings for %1"
 msgstr "Поставке класе %1"
 
 # >> %1 is window class (not translated)
-#: rulesmodel.cpp:221
+#: rulesmodel.cpp:233
 #, fuzzy, kde-format
 #| msgid "Window settings for %1"
 msgid "New window settings"
 msgstr "Прозорске поставке за „%1“"
 
-#: rulesmodel.cpp:227
+#: rulesmodel.cpp:247
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -404,136 +404,142 @@ msgstr ""
 "стварно желите да направите опште поставке, препоручљиво је да барем "
 "ограничите типове прозора како бисте избегли посебне типове."
 
-#: rulesmodel.cpp:356
+#: rulesmodel.cpp:377
 #, fuzzy, kde-format
 #| msgid "&Description:"
 msgid "Description"
 msgstr "&Опис:"
 
-#: rulesmodel.cpp:356 rulesmodel.cpp:364 rulesmodel.cpp:372 rulesmodel.cpp:378
-#: rulesmodel.cpp:386 rulesmodel.cpp:391 rulesmodel.cpp:397
+#: rulesmodel.cpp:377 rulesmodel.cpp:385 rulesmodel.cpp:393 rulesmodel.cpp:400
+#: rulesmodel.cpp:406 rulesmodel.cpp:414 rulesmodel.cpp:419 rulesmodel.cpp:425
 #, fuzzy, kde-format
 #| msgid "&Window matching"
 msgid "Window matching"
 msgstr "&Поклапање прозора"
 
-#: rulesmodel.cpp:364
+#: rulesmodel.cpp:385
 #, fuzzy, kde-format
 #| msgid "Window &class (application):"
 msgid "Window class (application)"
 msgstr "&Класа прозора (програм):"
 
-#: rulesmodel.cpp:372
+#: rulesmodel.cpp:393
 #, fuzzy, kde-format
 #| msgid "Match w&hole window class"
 msgid "Match whole window class"
 msgstr "Поклопи &целу класу прозора"
 
-#: rulesmodel.cpp:378
+#: rulesmodel.cpp:400
+#, fuzzy, kde-format
+#| msgid "Match w&hole window class"
+msgid "Whole window class"
+msgstr "Поклопи &целу класу прозора"
+
+#: rulesmodel.cpp:406
 #, fuzzy, kde-format
 #| msgid "Window &types:"
 msgid "Window types"
 msgstr "&Типови прозора:"
 
-#: rulesmodel.cpp:386
+#: rulesmodel.cpp:414
 #, fuzzy, kde-format
 #| msgid "Window ro&le:"
 msgid "Window role"
 msgstr "&Улога прозора:"
 
-#: rulesmodel.cpp:391
+#: rulesmodel.cpp:419
 #, fuzzy, kde-format
 #| msgid "Window t&itle:"
 msgid "Window title"
 msgstr "&Наслов прозора:"
 
-#: rulesmodel.cpp:397
+#: rulesmodel.cpp:425
 #, fuzzy, kde-format
 #| msgid "&Machine (hostname):"
 msgid "Machine (hostname)"
 msgstr "&Машина (име домаћина):"
 
-#: rulesmodel.cpp:403
+#: rulesmodel.cpp:431
 #, fuzzy, kde-format
 #| msgid "&Position"
 msgid "Position"
 msgstr "&Положај"
 
-#: rulesmodel.cpp:403 rulesmodel.cpp:408 rulesmodel.cpp:413 rulesmodel.cpp:418
-#: rulesmodel.cpp:423 rulesmodel.cpp:436 rulesmodel.cpp:450 rulesmodel.cpp:455
-#: rulesmodel.cpp:460 rulesmodel.cpp:465 rulesmodel.cpp:470 rulesmodel.cpp:476
-#: rulesmodel.cpp:485 rulesmodel.cpp:490 rulesmodel.cpp:495
+#: rulesmodel.cpp:431 rulesmodel.cpp:436 rulesmodel.cpp:441 rulesmodel.cpp:446
+#: rulesmodel.cpp:451 rulesmodel.cpp:464 rulesmodel.cpp:478 rulesmodel.cpp:483
+#: rulesmodel.cpp:488 rulesmodel.cpp:493 rulesmodel.cpp:498 rulesmodel.cpp:504
+#: rulesmodel.cpp:513 rulesmodel.cpp:518 rulesmodel.cpp:523
 #, fuzzy, kde-format
 #| msgid "&Size && Position"
 msgid "Size & Position"
 msgstr "&Величина и положај"
 
-#: rulesmodel.cpp:408
+#: rulesmodel.cpp:436
 #, fuzzy, kde-format
 #| msgid "&Size"
 msgid "Size"
 msgstr "Ве&личина"
 
-#: rulesmodel.cpp:413
+#: rulesmodel.cpp:441
 #, fuzzy, kde-format
 #| msgid "Maximized &horizontally"
 msgid "Maximized horizontally"
 msgstr "&Водоравно максимизован"
 
-#: rulesmodel.cpp:418
+#: rulesmodel.cpp:446
 #, fuzzy, kde-format
 #| msgid "Maximized &vertically"
 msgid "Maximized vertically"
 msgstr "&Усправно максимизован"
 
-#: rulesmodel.cpp:423
+#: rulesmodel.cpp:451
 #, fuzzy, kde-format
 #| msgid "All Desktops"
 msgid "Virtual Desktop"
 msgstr "Све површи"
 
-#: rulesmodel.cpp:436
+#: rulesmodel.cpp:464
 #, fuzzy, kde-format
 #| msgid "Activit&y"
 msgid "Activity"
 msgstr "&Активност"
 
-#: rulesmodel.cpp:450
+#: rulesmodel.cpp:478
 #, kde-format
 msgid "Screen"
 msgstr "Екран"
 
-#: rulesmodel.cpp:455
+#: rulesmodel.cpp:483
 #, fuzzy, kde-format
 #| msgid "&Fullscreen"
 msgid "Fullscreen"
 msgstr "Преко &целог екрана"
 
-#: rulesmodel.cpp:460
+#: rulesmodel.cpp:488
 #, fuzzy, kde-format
 #| msgid "M&inimized"
 msgid "Minimized"
 msgstr "М&инимизован"
 
-#: rulesmodel.cpp:465
+#: rulesmodel.cpp:493
 #, fuzzy, kde-format
 #| msgid "Sh&aded"
 msgid "Shaded"
 msgstr "&Намотан"
 
-#: rulesmodel.cpp:470
+#: rulesmodel.cpp:498
 #, fuzzy, kde-format
 #| msgid "Initial p&lacement"
 msgid "Initial placement"
 msgstr "&Постављање на почетку"
 
-#: rulesmodel.cpp:476
+#: rulesmodel.cpp:504
 #, fuzzy, kde-format
 #| msgid "Ignore requested &geometry"
 msgid "Ignore requested geometry"
 msgstr "Игнориши тражену &геометрију"
 
-#: rulesmodel.cpp:478
+#: rulesmodel.cpp:506
 #, kde-format
 msgid ""
 "Windows can ask to appear in a certain position.\n"
@@ -545,24 +551,24 @@ msgstr ""
 "потискује стратегију постављања, што може бити незгодно када клијент "
 "злоупотребљава ту могућност да би безусловно искакао посред екрана.</p>"
 
-#: rulesmodel.cpp:485
+#: rulesmodel.cpp:513
 #, fuzzy, kde-format
 #| msgid "M&inimum size"
 msgid "Minimum Size"
 msgstr "М&инимална величина"
 
-#: rulesmodel.cpp:490
+#: rulesmodel.cpp:518
 #, fuzzy, kde-format
 #| msgid "M&aximum size"
 msgid "Maximum Size"
 msgstr "М&аксимална величина"
 
-#: rulesmodel.cpp:495
+#: rulesmodel.cpp:523
 #, kde-format
 msgid "Obey geometry restrictions"
 msgstr "Поштуј ограничења геометрије"
 
-#: rulesmodel.cpp:497
+#: rulesmodel.cpp:525
 #, kde-format
 msgid ""
 "Eg. terminals or video players can ask to keep a certain aspect ratio\n"
@@ -577,102 +583,102 @@ msgstr ""
 "спречавајући вас да изаберете произвољне димензије попут подручја целог "
 "екрана.</p>"
 
-#: rulesmodel.cpp:506
+#: rulesmodel.cpp:534
 #, fuzzy, kde-format
 #| msgid "Keep &above"
 msgid "Keep above"
 msgstr "Држи из&над"
 
-#: rulesmodel.cpp:506 rulesmodel.cpp:511 rulesmodel.cpp:516 rulesmodel.cpp:522
-#: rulesmodel.cpp:528 rulesmodel.cpp:534
+#: rulesmodel.cpp:534 rulesmodel.cpp:539 rulesmodel.cpp:544 rulesmodel.cpp:550
+#: rulesmodel.cpp:556 rulesmodel.cpp:562
 #, fuzzy, kde-format
 #| msgid "&Arrangement && Access"
 msgid "Arrangement & Access"
 msgstr "&Распоред и приступ"
 
-#: rulesmodel.cpp:511
+#: rulesmodel.cpp:539
 #, fuzzy, kde-format
 #| msgid "Keep &below"
 msgid "Keep below"
 msgstr "Држи ис&под"
 
-#: rulesmodel.cpp:516
+#: rulesmodel.cpp:544
 #, fuzzy, kde-format
 #| msgid "Skip &taskbar"
 msgid "Skip taskbar"
 msgstr "Прескочи &траку задатака"
 
-#: rulesmodel.cpp:518
+#: rulesmodel.cpp:546
 #, kde-format
 msgid "Window shall (not) appear in the taskbar."
 msgstr "Да ли ће се прозор јављати у траци задатака."
 
-#: rulesmodel.cpp:522
+#: rulesmodel.cpp:550
 #, fuzzy, kde-format
 #| msgid "Skip pa&ger"
 msgid "Skip pager"
 msgstr "Прескочи &листач"
 
-#: rulesmodel.cpp:524
+#: rulesmodel.cpp:552
 #, kde-format
 msgid "Window shall (not) appear in the manager for virtual desktops"
 msgstr "Да ли ће се прозор јављати у менаџеру виртуелних површи."
 
-#: rulesmodel.cpp:528
+#: rulesmodel.cpp:556
 #, fuzzy, kde-format
 #| msgid "Skip &switcher"
 msgid "Skip switcher"
 msgstr "Прескочи &мењач"
 
-#: rulesmodel.cpp:530
+#: rulesmodel.cpp:558
 #, kde-format
 msgid "Window shall (not) appear in the Alt+Tab list"
 msgstr "Да ли ће се прозор јављати у списку на Alt+Tab."
 
-#: rulesmodel.cpp:534
+#: rulesmodel.cpp:562
 #, kde-format
 msgid "Shortcut"
 msgstr "Пречица"
 
-#: rulesmodel.cpp:540
+#: rulesmodel.cpp:568
 #, fuzzy, kde-format
 #| msgid "&No titlebar and frame"
 msgid "No titlebar and frame"
 msgstr "&Без траке наслова и оквира"
 
-#: rulesmodel.cpp:540 rulesmodel.cpp:545 rulesmodel.cpp:551 rulesmodel.cpp:556
-#: rulesmodel.cpp:561 rulesmodel.cpp:572 rulesmodel.cpp:583 rulesmodel.cpp:591
-#: rulesmodel.cpp:604 rulesmodel.cpp:609 rulesmodel.cpp:615 rulesmodel.cpp:620
+#: rulesmodel.cpp:568 rulesmodel.cpp:573 rulesmodel.cpp:579 rulesmodel.cpp:584
+#: rulesmodel.cpp:589 rulesmodel.cpp:600 rulesmodel.cpp:611 rulesmodel.cpp:619
+#: rulesmodel.cpp:632 rulesmodel.cpp:637 rulesmodel.cpp:643 rulesmodel.cpp:648
 #, fuzzy, kde-format
 #| msgid "Appearance && &Fixes"
 msgid "Appearance & Fixes"
 msgstr "&Изглед и поправке"
 
-#: rulesmodel.cpp:545
+#: rulesmodel.cpp:573
 #, fuzzy, kde-format
 #| msgid "Titlebar color &scheme"
 msgid "Titlebar color scheme"
 msgstr "Шема &боја насловне траке"
 
-#: rulesmodel.cpp:551
+#: rulesmodel.cpp:579
 #, fuzzy, kde-format
 #| msgid "A&ctive opacity"
 msgid "Active opacity"
 msgstr "&Непрозирност активног"
 
-#: rulesmodel.cpp:556
+#: rulesmodel.cpp:584
 #, fuzzy, kde-format
 #| msgid "I&nactive opacity"
 msgid "Inactive opacity"
 msgstr "Непрозирност &неактивног"
 
-#: rulesmodel.cpp:561
+#: rulesmodel.cpp:589
 #, fuzzy, kde-format
 #| msgid "&Focus stealing prevention"
 msgid "Focus stealing prevention"
 msgstr "Спречавање крађе &фокуса"
 
-#: rulesmodel.cpp:563
+#: rulesmodel.cpp:591
 #, kde-format
 msgid ""
 "KWin tries to prevent windows from taking the focus\n"
@@ -686,12 +692,12 @@ msgstr ""
 "<i>никакво</i> ће овом прозору дозволити да безусловно узима фокус, док ће "
 "га <i>екстремно</i> потпуно спречити да то чини.</p>"
 
-#: rulesmodel.cpp:572
+#: rulesmodel.cpp:600
 #, kde-format
 msgid "Focus protection"
 msgstr "Заштита фокуса"
 
-#: rulesmodel.cpp:574
+#: rulesmodel.cpp:602
 #, kde-format
 msgid ""
 "This controls the focus protection of the currently active window.\n"
@@ -706,13 +712,13 @@ msgstr ""
 "Иначе се разматра у спрези са заштитом од крађе\n"
 "додељеној прозору који захтева фокус."
 
-#: rulesmodel.cpp:583
+#: rulesmodel.cpp:611
 #, fuzzy, kde-format
 #| msgid "Accept &focus"
 msgid "Accept focus"
 msgstr "Прихвати &фокус"
 
-#: rulesmodel.cpp:585
+#: rulesmodel.cpp:613
 #, kde-format
 msgid ""
 "Windows may prevent to get the focus (activate) when being clicked.\n"
@@ -723,12 +729,12 @@ msgstr ""
 "С друге стране, можда ви желите да спречите неки прозор да добије фокус на "
 "клик мишем.</p>"
 
-#: rulesmodel.cpp:591
+#: rulesmodel.cpp:619
 #, kde-format
 msgid "Ignore global shortcuts"
 msgstr "Игнориши глобалне пречице"
 
-#: rulesmodel.cpp:593
+#: rulesmodel.cpp:621
 #, kde-format
 msgid ""
 "When used, a window will receive\n"
@@ -746,148 +752,148 @@ msgstr ""
 "искочите из прозора Alt+Tab‑ом, нити да употребите било коју другу глобалну "
 "пречицу (нпр. Alt+F2 за дозивање К‑извођача).</p>"
 
-#: rulesmodel.cpp:604
+#: rulesmodel.cpp:632
 #, fuzzy, kde-format
 #| msgid "&Closeable"
 msgid "Closeable"
 msgstr "&Затворљив"
 
-#: rulesmodel.cpp:609
+#: rulesmodel.cpp:637
 #, fuzzy, kde-format
 #| msgid "Window &type"
 msgid "Set window type"
 msgstr "&Тип прозора"
 
-#: rulesmodel.cpp:615
+#: rulesmodel.cpp:643
 #, kde-format
 msgid "Desktop file name"
 msgstr ""
 
-#: rulesmodel.cpp:620
+#: rulesmodel.cpp:648
 #, kde-format
 msgid "Block compositing"
 msgstr "Блокирај слагање"
 
-#: rulesmodel.cpp:693
+#: rulesmodel.cpp:723
 #, kde-format
 msgid "Normal Window"
 msgstr "нормалан прозор"
 
-#: rulesmodel.cpp:694
+#: rulesmodel.cpp:724
 #, kde-format
 msgid "Dialog Window"
 msgstr "дијалог-прозор"
 
-#: rulesmodel.cpp:695
+#: rulesmodel.cpp:725
 #, kde-format
 msgid "Utility Window"
 msgstr "приручни прозор"
 
-#: rulesmodel.cpp:696
+#: rulesmodel.cpp:726
 #, kde-format
 msgid "Dock (panel)"
 msgstr "сидриште (панел)"
 
-#: rulesmodel.cpp:697
+#: rulesmodel.cpp:727
 #, kde-format
 msgid "Toolbar"
 msgstr "трака алатки"
 
-#: rulesmodel.cpp:698
+#: rulesmodel.cpp:728
 #, kde-format
 msgid "Torn-Off Menu"
 msgstr "отцепљен мени"
 
-#: rulesmodel.cpp:699
+#: rulesmodel.cpp:729
 #, kde-format
 msgid "Splash Screen"
 msgstr "уводни екран"
 
-#: rulesmodel.cpp:700
+#: rulesmodel.cpp:730
 #, kde-format
 msgid "Desktop"
 msgstr "површ"
 
 #. i18n("Unmanaged Window")   },  deprecated
-#: rulesmodel.cpp:702
+#: rulesmodel.cpp:732
 #, kde-format
 msgid "Standalone Menubar"
 msgstr "самостална трака менија"
 
-#: rulesmodel.cpp:717
+#: rulesmodel.cpp:747
 #, kde-format
 msgid "All Desktops"
 msgstr "Све површи"
 
-#: rulesmodel.cpp:730
+#: rulesmodel.cpp:760
 #, kde-format
 msgid "All Activities"
 msgstr "Све активности"
 
 # >> @item:inlistbox Placement->Force
-#: rulesmodel.cpp:751
+#: rulesmodel.cpp:781
 #, kde-format
 msgid "Default"
 msgstr "подразумевано"
 
 # >> @item:inlistbox Placement->Force
-#: rulesmodel.cpp:752
+#: rulesmodel.cpp:782
 #, kde-format
 msgid "No Placement"
 msgstr "без постављања"
 
-#: rulesmodel.cpp:753
+#: rulesmodel.cpp:783
 #, kde-format
 msgid "Minimal Overlapping"
 msgstr ""
 
 # >> @item:inlistbox Placement->Force
-#: rulesmodel.cpp:754
+#: rulesmodel.cpp:784
 #, fuzzy, kde-format
 #| msgid "Maximizing"
 msgid "Maximized"
 msgstr "максимизовано"
 
 # >> @item:inlistbox Placement->Force
-#: rulesmodel.cpp:755
+#: rulesmodel.cpp:785
 #, fuzzy, kde-format
 #| msgid "Cascade"
 msgid "Cascaded"
 msgstr "наслагано"
 
 # >> @item:inlistbox Placement->Force
-#: rulesmodel.cpp:756
+#: rulesmodel.cpp:786
 #, kde-format
 msgid "Centered"
 msgstr "центрирано"
 
 # >> @item:inlistbox Placement->Force
-#: rulesmodel.cpp:757
+#: rulesmodel.cpp:787
 #, kde-format
 msgid "Random"
 msgstr "насумично"
 
 # >> @item:inlistbox Placement->Force
-#: rulesmodel.cpp:758
+#: rulesmodel.cpp:788
 #, fuzzy, kde-format
 #| msgid "Top-Left Corner"
 msgid "In Top-Left Corner"
 msgstr "горњи леви угао"
 
 # >> @item:inlistbox Placement->Force
-#: rulesmodel.cpp:759
+#: rulesmodel.cpp:789
 #, kde-format
 msgid "Under Mouse"
 msgstr "испод миша"
 
 # >> @item:inlistbox Placement->Force
-#: rulesmodel.cpp:760
+#: rulesmodel.cpp:790
 #, kde-format
 msgid "On Main Window"
 msgstr "на главном прозору"
 
 # >> @item:inlistbox +
-#: rulesmodel.cpp:768
+#: rulesmodel.cpp:798
 #, fuzzy, kde-format
 #| msgctxt "no focus stealing prevention"
 #| msgid "None"
@@ -895,25 +901,25 @@ msgid "None"
 msgstr "никакво"
 
 # >> @item:inlistbox Focus stealing prevention->Force
-#: rulesmodel.cpp:769
+#: rulesmodel.cpp:799
 #, kde-format
 msgid "Low"
 msgstr "ниско"
 
 # >> @item:inlistbox Focus stealing prevention->Force
-#: rulesmodel.cpp:770
+#: rulesmodel.cpp:800
 #, kde-format
 msgid "Normal"
 msgstr "нормално"
 
 # >> @item:inlistbox Focus stealing prevention->Force
-#: rulesmodel.cpp:771
+#: rulesmodel.cpp:801
 #, kde-format
 msgid "High"
 msgstr "високо"
 
 # >> @item:inlistbox Focus stealing prevention->Force
-#: rulesmodel.cpp:772
+#: rulesmodel.cpp:802
 #, kde-format
 msgid "Extreme"
 msgstr "екстремно"

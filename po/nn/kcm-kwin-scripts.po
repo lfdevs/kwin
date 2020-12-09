@@ -1,12 +1,12 @@
 # Translation of kcm-kwin-scripts to Norwegian Nynorsk
 #
-# Karl Ove Hufthammer <karl@huftis.org>, 2015, 2017, 2018.
+# Karl Ove Hufthammer <karl@huftis.org>, 2015, 2017, 2018, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-03-14 03:43+0100\n"
-"PO-Revision-Date: 2018-11-03 10:52+0100\n"
+"POT-Creation-Date: 2020-09-01 02:29+0200\n"
+"PO-Revision-Date: 2020-09-20 09:53+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
 "Language: nn\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 20.08.1\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -29,32 +29,37 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "karl@huftis.org"
 
-#: module.cpp:49
+#: module.cpp:38
 #, kde-format
 msgid "KWin Scripts"
 msgstr "KWin-skript"
 
-#: module.cpp:51
+#: module.cpp:40
 #, kde-format
 msgid "Configure KWin scripts"
 msgstr "Set opp KWin-skript"
 
-#: module.cpp:54
+#: module.cpp:43
 #, kde-format
 msgid "Tamás Krutki"
 msgstr "Tamás Krutki"
 
-#: module.cpp:84
+#: module.cpp:79
+#, kde-format
+msgid "Error when uninstalling KWin Script: %1"
+msgstr "Feil ved avinstallering av KWin-skript: %1"
+
+#: module.cpp:100
 #, kde-format
 msgid "Import KWin Script"
 msgstr "Importer KWin-skript"
 
-#: module.cpp:85
+#: module.cpp:101
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|KWin-skript (*.kwinscript)"
 
-#: module.cpp:104
+#: module.cpp:120
 #, kde-format
 msgctxt "Placeholder is error message returned from the install service"
 msgid ""
@@ -64,7 +69,7 @@ msgstr ""
 "Klarte ikkje importera det valde skriptet.\n"
 "%1"
 
-#: module.cpp:118
+#: module.cpp:134
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."

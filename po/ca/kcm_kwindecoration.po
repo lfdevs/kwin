@@ -9,9 +9,9 @@
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2017, 2019, 2020.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwindecoration\n"
+"Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-05-07 03:54+0200\n"
+"POT-Creation-Date: 2020-11-17 08:20+0100\n"
 "PO-Revision-Date: 2020-07-27 13:22+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -33,127 +33,127 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "txemaq@post.com,aacid@kde.org,sps@sastia.com"
 
-#: declarative-plugin/buttonsmodel.cpp:68
+#: declarative-plugin/buttonsmodel.cpp:54
 #, kde-format
 msgid "Menu"
 msgstr "Menú"
 
-#: declarative-plugin/buttonsmodel.cpp:70
+#: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
 msgid "Application menu"
 msgstr "Menú d'aplicacions"
 
-#: declarative-plugin/buttonsmodel.cpp:72
+#: declarative-plugin/buttonsmodel.cpp:58
 #, kde-format
 msgid "On all desktops"
 msgstr "A tots els escriptoris"
 
-#: declarative-plugin/buttonsmodel.cpp:74
+#: declarative-plugin/buttonsmodel.cpp:60
 #, kde-format
 msgid "Minimize"
 msgstr "Minimitza"
 
-#: declarative-plugin/buttonsmodel.cpp:76
+#: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Maximize"
 msgstr "Maximitza"
 
-#: declarative-plugin/buttonsmodel.cpp:78
+#: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
 msgid "Close"
 msgstr "Tanca"
 
-#: declarative-plugin/buttonsmodel.cpp:80
+#: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Context help"
 msgstr "Ajuda contextual"
 
-#: declarative-plugin/buttonsmodel.cpp:82
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Shade"
 msgstr "Plega"
 
-#: declarative-plugin/buttonsmodel.cpp:84
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Keep below"
 msgstr "Mantén per sota"
 
-#: declarative-plugin/buttonsmodel.cpp:86
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "Keep above"
 msgstr "Mantén al damunt"
 
-#: kcm.cpp:62
+#: kcm.cpp:50
 #, kde-format
 msgid "Window Decorations"
 msgstr "Decoració de les finestres"
 
-#: kcm.cpp:66
+#: kcm.cpp:54
 #, kde-format
 msgid "Valerio Pilo"
 msgstr "Valerio Pilo"
 
-#: kcm.cpp:67
+#: kcm.cpp:55
 #, kde-format
 msgid "Author"
 msgstr "Autor"
 
-#: kcm.cpp:122
+#: kcm.cpp:104
 #, kde-format
 msgid "Download New Window Decorations"
 msgstr "Baixa decoracions noves de finestra..."
 
-#: package/contents/ui/Buttons.qml:87
+#: package/contents/ui/Buttons.qml:73
 #, kde-format
 msgid "Titlebar"
 msgstr "Barra de títol"
 
-#: package/contents/ui/Buttons.qml:228
+#: package/contents/ui/Buttons.qml:214
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr "Deixeu anar el botó aquí per a eliminar-lo"
 
-#: package/contents/ui/Buttons.qml:246
+#: package/contents/ui/Buttons.qml:232
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Arrossegueu els botons entre aquí i la barra de títol"
 
-#: package/contents/ui/main.qml:27
+#: package/contents/ui/main.qml:15
 #, kde-format
 msgid "This module lets you configure the window decorations."
 msgstr "Aquest mòdul permet configurar les decoracions de les finestres."
 
-#: package/contents/ui/main.qml:61
+#: package/contents/ui/main.qml:49
 #, kde-format
 msgctxt "tab label"
 msgid "Theme"
 msgstr "Tema"
 
-#: package/contents/ui/main.qml:65
+#: package/contents/ui/main.qml:53
 #, kde-format
 msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "Botons de la barra de títol"
 
-#: package/contents/ui/main.qml:90
+#: package/contents/ui/main.qml:78
 #, kde-format
 msgctxt "checkbox label"
 msgid "Use theme's default window border size"
 msgstr "Usa des del tema, la mida predeterminada per a la vora de la finestra"
 
-#: package/contents/ui/main.qml:121
+#: package/contents/ui/main.qml:109
 #, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "Obtén decoracions noves de finestra..."
 
-#: package/contents/ui/main.qml:138
+#: package/contents/ui/main.qml:126
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Tanca les finestres amb doble clic al botó del menú"
 
-#: package/contents/ui/main.qml:151
+#: package/contents/ui/main.qml:139
 #, kde-format
 msgctxt "popup tip"
 msgid ""
@@ -163,58 +163,58 @@ msgstr ""
 "Tanca amb doble clic: manteniu premut el botó del menú de la finestra fins "
 "que aparegui."
 
-#: package/contents/ui/main.qml:158
+#: package/contents/ui/main.qml:146
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Mostra els consells dels botons a la barra de títol"
 
-#: package/contents/ui/Themes.qml:100
+#: package/contents/ui/Themes.qml:89
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr "Edita el tema %1"
 
-#: utils.cpp:38
+#: utils.cpp:26
 #, kde-format
 msgid "No Borders"
 msgstr "Sense vores"
 
-#: utils.cpp:39
+#: utils.cpp:27
 #, kde-format
 msgid "No Side Borders"
 msgstr "Sense vores laterals"
 
-#: utils.cpp:40
+#: utils.cpp:28
 #, kde-format
 msgid "Tiny"
 msgstr "Minúscula"
 
-#: utils.cpp:41
+#: utils.cpp:29
 #, kde-format
 msgid "Normal"
 msgstr "Normal"
 
-#: utils.cpp:42
+#: utils.cpp:30
 #, kde-format
 msgid "Large"
 msgstr "Gran"
 
-#: utils.cpp:43
+#: utils.cpp:31
 #, kde-format
 msgid "Very Large"
 msgstr "Molt gran"
 
-#: utils.cpp:44
+#: utils.cpp:32
 #, kde-format
 msgid "Huge"
 msgstr "Enorme"
 
-#: utils.cpp:45
+#: utils.cpp:33
 #, kde-format
 msgid "Very Huge"
 msgstr "Molt enorme"
 
-#: utils.cpp:46
+#: utils.cpp:34
 #, kde-format
 msgid "Oversized"
 msgstr "Fora de mida"

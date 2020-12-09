@@ -1,23 +1,12 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
- Copyright (C) 2010 Martin Gräßlin <mgraesslin@kde.org>
- Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies)
+    SPDX-FileCopyrightText: 2010 Martin Gräßlin <mgraesslin@kde.org>
+    SPDX-FileCopyrightText: 2010 Nokia Corporation and /or its subsidiary(-ies)
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 #include "screenshot.h"
 #include <kwinglplatform.h>
 #include <kwinglutils.h>
@@ -27,6 +16,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QTemporaryFile>
 #include <QDir>
 #include <QDBusConnection>
+#include <QDBusConnectionInterface>
+#include <QDBusReply>
 #include <QVarLengthArray>
 #include <QPainter>
 #include <QMatrix4x4>
@@ -37,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KNotification>
 
 #include <unistd.h>
+#include "../service_utils.h"
 
 class ComparableQPoint : public QPoint
 {
@@ -63,6 +55,8 @@ namespace KWin
 
 const static QString s_errorAlreadyTaking = QStringLiteral("org.kde.kwin.Screenshot.Error.AlreadyTaking");
 const static QString s_errorAlreadyTakingMsg = QStringLiteral("A screenshot is already been taken");
+const static QString s_errorNotAuthorized = QStringLiteral("org.kde.kwin.Screenshot.Error.NoAuthorized");
+const static QString s_errorNotAuthorizedMsg = QStringLiteral("The process is not authorized to take a screenshot");
 const static QString s_errorFd = QStringLiteral("org.kde.kwin.Screenshot.Error.FileDescriptor");
 const static QString s_errorFdMsg = QStringLiteral("No valid file descriptor");
 const static QString s_errorCancelled = QStringLiteral("org.kde.kwin.Screenshot.Error.Cancelled");
@@ -71,6 +65,7 @@ const static QString s_errorInvalidArea = QStringLiteral("org.kde.kwin.Screensho
 const static QString s_errorInvalidAreaMsg = QStringLiteral("Invalid area requested");
 const static QString s_errorInvalidScreen = QStringLiteral("org.kde.kwin.Screenshot.Error.InvalidScreen");
 const static QString s_errorInvalidScreenMsg = QStringLiteral("Invalid screen requested");
+const static QString s_dbusInterfaceName = QStringLiteral("org.kde.kwin.Screenshot");
 
 bool ScreenShotEffect::supported()
 {
@@ -246,7 +241,7 @@ void ScreenShotEffect::postPaintScreen()
         double right = m_scheduledScreenshot->width();
         double bottom = m_scheduledScreenshot->height();
         if (m_scheduledScreenshot->hasDecoration() && m_type & INCLUDE_DECORATION) {
-            foreach (const WindowQuad & quad, d.quads) {
+            for (const WindowQuad &quad : qAsConst(d.quads)) {
                 // we need this loop to include the decoration padding
                 left   = qMin(left, quad.left());
                 top    = qMin(top, quad.top());
@@ -259,7 +254,7 @@ void ScreenShotEffect::postPaintScreen()
             top = m_scheduledScreenshot->height();
             right = 0;
             bottom = 0;
-            foreach (const WindowQuad & quad, d.quads) {
+            for (const WindowQuad &quad : qAsConst(d.quads)) {
                 if (quad.type() == WindowQuadContents) {
                     newQuads << quad;
                     left   = qMin(left, quad.left());
@@ -327,22 +322,8 @@ void ScreenShotEffect::postPaintScreen()
                 const xcb_pixmap_t xpix = xpixmapFromImage(img);
                 emit screenshotCreated(xpix);
                 m_windowMode = WindowMode::NoCapture;
-            } else if (m_windowMode == WindowMode::File) {
+            } else if (m_windowMode == WindowMode::File || m_windowMode == WindowMode::FileDescriptor) {
                 sendReplyImage(img);
-            } else if (m_windowMode == WindowMode::FileDescriptor) {
-                QtConcurrent::run(
-                    [] (int fd, const QImage &img) {
-                        QFile file;
-                        if (file.open(fd, QIODevice::WriteOnly, QFileDevice::AutoCloseHandle)) {
-                            QDataStream ds(&file);
-                            ds << img;
-                            file.close();
-                        } else {
-                            close(fd);
-                        }
-                    }, m_fd, img);
-                m_windowMode = WindowMode::NoCapture;
-                m_fd = -1;
             }
 #ifdef KWIN_HAVE_XRENDER_COMPOSITING
             if (xImage) {
@@ -440,6 +421,7 @@ void ScreenShotEffect::sendReplyImage(const QImage &img)
     m_windowMode = WindowMode::NoCapture;
     m_cacheOutputsImages.clear();
     m_cachedOutputGeometry = QRect();
+    m_nativeSize = false;
 }
 
 QString ScreenShotEffect::saveTempImage(const QImage &img)
@@ -496,6 +478,32 @@ void ScreenShotEffect::screenshotForWindow(qulonglong winid, int mask)
     }
 }
 
+bool ScreenShotEffect::checkCall() const
+{
+    if (!calledFromDBus()) {
+        return false;
+    }
+
+    const QDBusReply<uint> reply = connection().interface()->servicePid(message().service());
+    if (reply.isValid()) {
+        const uint pid = reply.value();
+        const auto interfaces = KWin::fetchRestrictedDBusInterfacesFromPid(pid);
+        if (!interfaces.contains(s_dbusInterfaceName)) {
+            sendErrorReply(s_errorNotAuthorized, s_errorNotAuthorizedMsg);
+            qCWarning(KWINEFFECTS) << "Process " << pid << " tried to take a screenshot without being granted to DBus interface" << s_dbusInterfaceName;
+            return false;
+        }
+    } else {
+        return false;
+    }
+
+    if (isTakingScreenshot()) {
+        sendErrorReply(s_errorAlreadyTaking, s_errorAlreadyTakingMsg);
+        return false;
+    }
+    return true;
+}
+
 QString ScreenShotEffect::interactive(int mask)
 {
     if (!calledFromDBus()) {
@@ -505,6 +513,7 @@ QString ScreenShotEffect::interactive(int mask)
         sendErrorReply(s_errorAlreadyTaking, s_errorAlreadyTakingMsg);
         return QString();
     }
+
     m_type = (ScreenShotType) mask;
     m_windowMode = WindowMode::File;
     m_replyMessage = message();
@@ -535,6 +544,7 @@ void ScreenShotEffect::interactive(QDBusUnixFileDescriptor fd, int mask)
         sendErrorReply(s_errorAlreadyTaking, s_errorAlreadyTakingMsg);
         return;
     }
+
     m_fd = dup(fd.fileDescriptor());
     if (m_fd == -1) {
         sendErrorReply(s_errorFd, s_errorFdMsg);
@@ -581,11 +591,7 @@ void ScreenShotEffect::hideInfoMessage()
 
 QString ScreenShotEffect::screenshotFullscreen(bool captureCursor)
 {
-    if (!calledFromDBus()) {
-        return QString();
-    }
-    if (isTakingScreenshot()) {
-        sendErrorReply(s_errorAlreadyTaking, s_errorAlreadyTakingMsg);
+    if (!checkCall()) {
         return QString();
     }
     m_replyMessage = message();
@@ -598,11 +604,7 @@ QString ScreenShotEffect::screenshotFullscreen(bool captureCursor)
 
 void ScreenShotEffect::screenshotFullscreen(QDBusUnixFileDescriptor fd, bool captureCursor, bool shouldReturnNativeSize)
 {
-    if (!calledFromDBus()) {
-        return;
-    }
-    if (isTakingScreenshot()) {
-        sendErrorReply(s_errorAlreadyTaking, s_errorAlreadyTakingMsg);
+    if (!checkCall()) {
         return;
     }
     m_fd = dup(fd.fileDescriptor());
@@ -613,29 +615,13 @@ void ScreenShotEffect::screenshotFullscreen(QDBusUnixFileDescriptor fd, bool cap
     m_captureCursor = captureCursor;
     m_nativeSize = shouldReturnNativeSize;
 
-    showInfoMessage(InfoMessageMode::Screen);
-    effects->startInteractivePositionSelection(
-        [this] (const QPoint &p) {
-            hideInfoMessage();
-            if (p == QPoint(-1, -1)) {
-                // error condition
-                close(m_fd);
-                m_fd = -1;
-            } else {
-                m_scheduledGeometry = effects->virtualScreenGeometry();
-                effects->addRepaint(m_scheduledGeometry);
-            }
-        }
-    );
+    m_scheduledGeometry = effects->virtualScreenGeometry();
+    effects->addRepaint(m_scheduledGeometry);
 }
 
 QString ScreenShotEffect::screenshotScreen(int screen, bool captureCursor)
 {
-    if (!calledFromDBus()) {
-        return QString();
-    }
-    if (isTakingScreenshot()) {
-        sendErrorReply(s_errorAlreadyTaking, s_errorAlreadyTakingMsg);
+    if (!checkCall()) {
         return QString();
     }
     m_scheduledGeometry = effects->clientArea(FullScreenArea, screen, 0);
@@ -644,6 +630,7 @@ QString ScreenShotEffect::screenshotScreen(int screen, bool captureCursor)
         return QString();
     }
     m_captureCursor = captureCursor;
+    m_nativeSize = true;
     m_replyMessage = message();
     setDelayedReply(true);
     effects->addRepaint(m_scheduledGeometry);
@@ -652,11 +639,7 @@ QString ScreenShotEffect::screenshotScreen(int screen, bool captureCursor)
 
 void ScreenShotEffect::screenshotScreen(QDBusUnixFileDescriptor fd, bool captureCursor)
 {
-    if (!calledFromDBus()) {
-        return;
-    }
-    if (isTakingScreenshot()) {
-        sendErrorReply(s_errorAlreadyTaking, s_errorAlreadyTakingMsg);
+    if (!checkCall()) {
         return;
     }
     m_fd = dup(fd.fileDescriptor());
@@ -665,6 +648,7 @@ void ScreenShotEffect::screenshotScreen(QDBusUnixFileDescriptor fd, bool capture
         return;
     }
     m_captureCursor = captureCursor;
+    m_nativeSize = true;
 
     showInfoMessage(InfoMessageMode::Screen);
     effects->startInteractivePositionSelection(
@@ -689,11 +673,7 @@ void ScreenShotEffect::screenshotScreen(QDBusUnixFileDescriptor fd, bool capture
 
 QString ScreenShotEffect::screenshotArea(int x, int y, int width, int height, bool captureCursor)
 {
-    if (!calledFromDBus()) {
-        return QString();
-    }
-    if (isTakingScreenshot()) {
-        sendErrorReply(s_errorAlreadyTaking, s_errorAlreadyTakingMsg);
+    if (!checkCall()) {
         return QString();
     }
     m_scheduledGeometry = QRect(x, y, width, height);
@@ -714,15 +694,12 @@ QImage ScreenShotEffect::blitScreenshot(const QRect &geometry, const qreal scale
     QImage img;
     if (effects->isOpenGLCompositing())
     {
-        int width = geometry.width();
-        int height = geometry.height();
+        const QSize nativeSize = geometry.size() * scale;
+
         if (GLRenderTarget::blitSupported() && !GLPlatform::instance()->isGLES()) {
 
-            width = static_cast<int>(width * scale);
-            height = static_cast<int>(height * scale);
-
-            img = QImage(width, height, QImage::Format_ARGB32);
-            GLTexture tex(GL_RGBA8, width, height);
+            img = QImage(nativeSize.width(), nativeSize.height(), QImage::Format_ARGB32);
+            GLTexture tex(GL_RGBA8, nativeSize.width(), nativeSize.height());
             GLRenderTarget target(tex);
             target.blitFromFramebuffer(geometry);
             // copy content from framebuffer into image
@@ -730,10 +707,10 @@ QImage ScreenShotEffect::blitScreenshot(const QRect &geometry, const qreal scale
             glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, static_cast<GLvoid*>(img.bits()));
             tex.unbind();
         } else {
-            img = QImage(width, height, QImage::Format_ARGB32);
-            glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)img.bits());
+            img = QImage(nativeSize.width(), nativeSize.height(), QImage::Format_ARGB32);
+            glReadPixels(0, 0, nativeSize.width(), nativeSize.height(), GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)img.bits());
         }
-        ScreenShotEffect::convertFromGLImage(img, width, height);
+        ScreenShotEffect::convertFromGLImage(img, nativeSize.width(), nativeSize.height());
     }
 
 #ifdef KWIN_HAVE_XRENDER_COMPOSITING
@@ -766,7 +743,7 @@ void ScreenShotEffect::grabPointerImage(QImage& snapshot, int offsetx, int offse
 void ScreenShotEffect::convertFromGLImage(QImage &img, int w, int h)
 {
     // from QtOpenGL/qgl.cpp
-    // Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies)
+    // SPDX-FileCopyrightText: 2010 Nokia Corporation and /or its subsidiary(-ies)
     // see https://github.com/qt/qtbase/blob/dev/src/opengl/qgl.cpp
     if (QSysInfo::ByteOrder == QSysInfo::BigEndian) {
         // OpenGL gives RGBA; Qt wants ARGB

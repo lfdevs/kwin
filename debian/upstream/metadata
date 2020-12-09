@@ -1,7 +1,6 @@
-Name: kwin
-Changelog: https://cgit.kde.org/kwin.git/log
-Contact: plasma-devel@kde.org
+Bug-Database: https://bugs.kde.org/buglist.cgi?product=kwin
+Changelog: https://www.kde.org/announcements
 Donation: https://www.kde.org/community/donations/index.php
-Repository: https://anongit.kde.org/kwin.git
-Repository-Browse: https://cgit.kde.org/kwin.git
+Repository: https://invent.kde.org/plasma/kwin.git
+Repository-Browse: https://invent.kde.org/plasma/kwin
 Security-Contact: security@kde.org

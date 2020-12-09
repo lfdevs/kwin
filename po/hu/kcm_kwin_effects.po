@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-02-23 03:34+0100\n"
+"POT-Creation-Date: 2020-08-08 02:22+0200\n"
 "PO-Revision-Date: 2019-12-08 18:30+0100\n"
 "Last-Translator: Kristóf Kiszel <ulysses@kubuntu.org>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -27,22 +27,22 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "ulysses@kubuntu.org"
 
-#: kcm.cpp:44
+#: kcm.cpp:33
 #, kde-format
 msgid "Desktop Effects"
 msgstr "Asztali effektusok"
 
-#: kcm.cpp:49
+#: kcm.cpp:38
 #, kde-format
 msgid "Vlad Zahorodnii"
 msgstr "Vlad Zahorodnii"
 
-#: kcm.cpp:88
+#: kcm.cpp:77
 #, kde-format
 msgid "Download New Desktop Effects"
 msgstr "Új asztali effektusok letöltése"
 
-#: package/contents/ui/Effect.qml:88
+#: package/contents/ui/Effect.qml:77
 #, kde-format
 msgid ""
 "Author: %1\n"
@@ -51,24 +51,24 @@ msgstr ""
 "Szerző: %1\n"
 "Licenc: %2"
 
-#: package/contents/ui/Effect.qml:117
+#: package/contents/ui/Effect.qml:106
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show/Hide Video"
 msgstr "Videó megjelenítése/elrejtése"
 
-#: package/contents/ui/Effect.qml:124
+#: package/contents/ui/Effect.qml:113
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Configure..."
 msgstr "Beállítás…"
 
-#: package/contents/ui/main.qml:29
+#: package/contents/ui/main.qml:18
 #, kde-format
 msgid "This module lets you configure desktop effects."
 msgstr "Ebben a modulban állíthatja be az asztali effektusokat."
 
-#: package/contents/ui/main.qml:36
+#: package/contents/ui/main.qml:25
 #, kde-format
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
@@ -76,22 +76,22 @@ msgid ""
 msgstr ""
 "Tipp: egy effekt aktiválásának konfigurálásához nézze meg annak beállításait."
 
-#: package/contents/ui/main.qml:56
+#: package/contents/ui/main.qml:45
 #, kde-format
 msgid "Configure Filter"
 msgstr "Szűrőbeállítás"
 
-#: package/contents/ui/main.qml:68
+#: package/contents/ui/main.qml:57
 #, kde-format
 msgid "Exclude unsupported effects"
 msgstr "Nem támogatott effektusok kizárása"
 
-#: package/contents/ui/main.qml:76
+#: package/contents/ui/main.qml:65
 #, kde-format
 msgid "Exclude internal effects"
 msgstr "Belső effektusok kizárása"
 
-#: package/contents/ui/main.qml:135
+#: package/contents/ui/main.qml:124
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Új asztali effektusok letöltése…"

@@ -1,22 +1,11 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 2015 Martin Gräßlin <mgraesslin@kde.org>
+    SPDX-FileCopyrightText: 2015 Martin Gräßlin <mgraesslin@kde.org>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 #include "drm_backend.h"
 #include "drm_output.h"
 #include "drm_object_connector.h"
@@ -34,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #if HAVE_GBM
 #include "egl_gbm_backend.h"
 #include <gbm.h>
+#include "gbm_dmabuf.h"
 #endif
 #if HAVE_EGL_STREAMS
 #include "egl_stream_backend.h"
@@ -76,11 +66,6 @@ DrmBackend::DrmBackend(QObject *parent)
     , m_udevMonitor(m_udev->monitor())
     , m_dpmsFilter()
 {
-#if HAVE_EGL_STREAMS
-    if (qEnvironmentVariableIsSet("KWIN_DRM_USE_EGL_STREAMS")) {
-        m_useEglStreams = true;
-    }
-#endif
     setSupportsGammaControl(true);
     supportsOutputChanges();
 }
@@ -121,6 +106,11 @@ void DrmBackend::init()
     } else {
         connect(logind, &LogindIntegration::connectedChanged, this, takeControl);
     }
+    connect(logind, &LogindIntegration::prepareForSleep, this, [this] (bool active) {
+        if (!active) {
+            turnOutputsOn();
+        }
+    });
 }
 
 void DrmBackend::prepareShutdown()
@@ -281,6 +271,17 @@ void DrmBackend::openDrm()
     );
     m_drmId = device->sysNum();
 
+#if HAVE_EGL_STREAMS
+    if (qEnvironmentVariableIsSet("KWIN_DRM_USE_EGL_STREAMS")) {
+        m_useEglStreams = true;
+    } else {
+        // If KWIN_DRM_USE_EGL_STREAMS is not set and we know that we are running with
+        // the nvidia proprietary driver, enable the EGLStreams backend anyway.
+        DrmScopedPointer<drmVersion> version(drmGetVersion(fd));
+        m_useEglStreams = version->name == QByteArrayLiteral("nvidia-drm");
+    }
+#endif
+
     // trying to activate Atomic Mode Setting (this means also Universal Planes)
     if (!qEnvironmentVariableIsSet("KWIN_DRM_NO_AMS")) {
         if (drmSetClientCap(m_fd, DRM_CLIENT_CAP_ATOMIC, 1) == 0) {
@@ -424,6 +425,7 @@ bool DrmBackend::updateOutputs()
     }
 
     // check for outputs which got removed
+    QVector<DrmOutput*> removedOutputs;
     auto it = m_outputs.begin();
     while (it != m_outputs.end()) {
         if (connectedOutputs.contains(*it)) {
@@ -434,7 +436,7 @@ bool DrmBackend::updateOutputs()
         it = m_outputs.erase(it);
         m_enabledOutputs.removeOne(removed);
         emit outputRemoved(removed);
-        removed->teardown();
+        removedOutputs.append(removed);
     }
 
     // now check new connections
@@ -518,6 +520,11 @@ bool DrmBackend::updateOutputs()
         emit screensQueried();
     }
 
+    for(DrmOutput* removedOutput : removedOutputs) {
+        removedOutput->teardown();
+        removedOutput->m_crtc = nullptr;
+        removedOutput->m_conn = nullptr;
+    }
     qDeleteAll(oldConnectors);
     qDeleteAll(oldCrtcs);
     return true;
@@ -678,8 +685,6 @@ void DrmBackend::setCursor()
             }
         }
     }
-
-    Cursors::self()->currentCursor()->markAsRendered();
 }
 
 void DrmBackend::updateCursor()
@@ -810,6 +815,15 @@ QString DrmBackend::supportInformation() const
     s << "Using EGL Streams: " << m_useEglStreams << Qt::endl;
 #endif
     return supportInfo;
+}
+
+DmaBufTexture *DrmBackend::createDmaBufTexture(const QSize &size)
+{
+#if HAVE_GBM
+    return GbmDmaBuf::createBuffer(size, m_gbmDevice);
+#else
+    return nullptr;
+#endif
 }
 
 }

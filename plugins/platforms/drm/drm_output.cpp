@@ -1,22 +1,11 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 2015 Martin Gräßlin <mgraesslin@kde.org>
+    SPDX-FileCopyrightText: 2015 Martin Gräßlin <mgraesslin@kde.org>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 #include "drm_output.h"
 #include "drm_backend.h"
 #include "drm_object_plane.h"
@@ -87,10 +76,8 @@ void DrmOutput::teardown()
     m_crtc->setOutput(nullptr);
     m_conn->setOutput(nullptr);
 
-    delete m_cursor[0];
-    m_cursor[0] = nullptr;
-    delete m_cursor[1];
-    m_cursor[1] = nullptr;
+    m_cursor[0].reset(nullptr);
+    m_cursor[1].reset(nullptr);
     if (!m_pageFlipPending) {
         deleteLater();
     } //else will be deleted in the page flip handler
@@ -120,7 +107,16 @@ bool DrmOutput::showCursor(DrmDumbBuffer *c)
 
 bool DrmOutput::showCursor()
 {
-    const bool ret = showCursor(m_cursor[m_cursorIndex]);
+    if (m_deleted) {
+        return false;
+    }
+
+    if (Q_UNLIKELY(m_backend->usesSoftwareCursor())) {
+        qCCritical(KWIN_DRM) << "DrmOutput::showCursor should never be called when software cursor is enabled";
+        return true;
+    }
+
+    const bool ret = showCursor(m_cursor[m_cursorIndex].data());
     if (!ret) {
         return ret;
     }
@@ -133,45 +129,13 @@ bool DrmOutput::showCursor()
     return ret;
 }
 
-// TODO: Do we need to handle the flipped cases differently?
-int transformToRotation(DrmOutput::Transform transform)
-{
-    switch (transform) {
-    case DrmOutput::Transform::Normal:
-    case DrmOutput::Transform::Flipped:
-        return 0;
-    case DrmOutput::Transform::Rotated90:
-    case DrmOutput::Transform::Flipped90:
-        return 90;
-    case DrmOutput::Transform::Rotated180:
-    case DrmOutput::Transform::Flipped180:
-        return 180;
-    case DrmOutput::Transform::Rotated270:
-    case DrmOutput::Transform::Flipped270:
-        return 270;
-    }
-    Q_UNREACHABLE();
-    return 0;
-}
-
-QMatrix4x4 DrmOutput::matrixDisplay(const QSize &s) const
-{
-    QMatrix4x4 matrix;
-    const int angle = transformToRotation(transform());
-    if (angle) {
-        const QSize center = s / 2;
-
-        matrix.translate(center.width(), center.height());
-        matrix.rotate(-angle, 0, 0, 1);
-        matrix.translate(-center.width(), -center.height());
-    }
-    matrix.scale(scale());
-    return matrix;
-}
-
 void DrmOutput::updateCursor()
 {
-    QImage cursorImage = Cursors::self()->currentCursor()->image();
+    if (m_deleted) {
+        return;
+    }
+    const Cursor *cursor = Cursors::self()->currentCursor();
+    const QImage cursorImage = cursor->image();
     if (cursorImage.isNull()) {
         return;
     }
@@ -181,41 +145,19 @@ void DrmOutput::updateCursor()
 
     QPainter p;
     p.begin(c);
-    p.setWorldTransform(matrixDisplay(QSize(cursorImage.width(), cursorImage.height())).toTransform());
+    p.setWorldTransform(logicalToNativeMatrix(cursor->rect(), scale(), transform()).toTransform());
     p.drawImage(QPoint(0, 0), cursorImage);
     p.end();
 }
 
 void DrmOutput::moveCursor(Cursor* cursor, const QPoint &globalPos)
 {
-    const QMatrix4x4 hotspotMatrix = matrixDisplay(cursor->image().size());
+    const QMatrix4x4 hotspotMatrix = logicalToNativeMatrix(cursor->rect(), scale(), transform());
+    const QMatrix4x4 monitorMatrix = logicalToNativeMatrix(geometry(), scale(), transform());
 
-    const QPoint localPos = globalPos - AbstractWaylandOutput::globalPos();
-    QPoint pos = localPos;
-
-    // TODO: Do we need to handle the flipped cases differently?
-    switch (transform()) {
-    case Transform::Normal:
-    case Transform::Flipped:
-        break;
-    case Transform::Rotated90:
-    case Transform::Flipped90:
-        pos = QPoint(localPos.y(), pixelSize().width() / scale() - localPos.x());
-        break;
-    case Transform::Rotated270:
-    case Transform::Flipped270:
-        pos = QPoint(pixelSize().height() / scale() - localPos.y(), localPos.x());
-        break;
-    case Transform::Rotated180:
-    case Transform::Flipped180:
-        pos = QPoint(pixelSize().width() / scale() - localPos.x(),
-                     pixelSize().height() / scale() - localPos.y());
-        break;
-    default:
-        Q_UNREACHABLE();
-    }
-    pos *= scale();
+    QPoint pos = monitorMatrix.map(globalPos);
     pos -= hotspotMatrix.map(cursor->hotspot());
+
     drmModeMoveCursor(m_backend->fd(), m_crtc->id(), pos.x(), pos.y());
 }
 
@@ -459,7 +401,7 @@ bool DrmOutput::initCursorPlane()       // TODO: Add call in init (but needs lay
 bool DrmOutput::initCursor(const QSize &cursorSize)
 {
     auto createCursor = [this, cursorSize] (int index) {
-        m_cursor[index] = m_backend->createBuffer(cursorSize);
+        m_cursor[index].reset(m_backend->createBuffer(cursorSize));
         if (!m_cursor[index]->map(QImage::Format_ARGB32_Premultiplied)) {
             return false;
         }
@@ -579,6 +521,7 @@ void DrmOutput::updateDpms(KWaylandServer::OutputInterface::DpmsMode mode)
 
     if (drmMode == m_dpmsModePending) {
         qCDebug(KWIN_DRM) << "New DPMS mode equals old mode. DPMS unchanged.";
+        waylandOutput()->setDpmsMode(mode);
         return;
     }
 
@@ -607,10 +550,7 @@ void DrmOutput::dpmsFinishOn()
 {
     qCDebug(KWIN_DRM) << "DPMS mode set for output" << m_crtc->id() << "to On.";
 
-    auto wlOutput = waylandOutput();
-    if (wlOutput) {
-        wlOutput->setDpmsMode(toWaylandDpmsMode(DpmsMode::On));
-    }
+    waylandOutput()->setDpmsMode(toWaylandDpmsMode(DpmsMode::On));
 
     m_backend->checkOutputsAreOn();
     if (!m_backend->atomicModeSetting()) {
@@ -683,11 +623,6 @@ bool DrmOutput::hardwareTransforms() const
     return m_primaryPlane->transformation() == outputToPlaneTransform(transform());
 }
 
-int DrmOutput::rotation() const
-{
-    return transformToRotation(transform());
-}
-
 void DrmOutput::updateTransform(Transform transform)
 {
     const auto planeTransform = outputToPlaneTransform(transform);
@@ -712,7 +647,7 @@ void DrmOutput::updateTransform(Transform transform)
     m_modesetRequested = true;
 
     // show cursor only if is enabled, i.e if pointer device is presentP
-    if (m_backend->isCursorEnabled()) {
+    if (m_backend->isCursorEnabled() && !m_backend->usesSoftwareCursor()) {
         // the cursor might need to get rotated
         updateCursor();
         showCursor();

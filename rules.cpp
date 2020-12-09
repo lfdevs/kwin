@@ -1,22 +1,11 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 2004 Lubos Lunak <l.lunak@kde.org>
+    SPDX-FileCopyrightText: 2004 Lubos Lunak <l.lunak@kde.org>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #include "rules.h"
 
@@ -936,8 +925,9 @@ RuleBook::RuleBook(QObject *parent)
     , m_updatesDisabled(false)
     , m_temporaryRulesMessages()
 {
-    initWithX11();
-    connect(kwinApp(), &Application::x11ConnectionChanged, this, &RuleBook::initWithX11);
+    initializeX11();
+    connect(kwinApp(), &Application::x11ConnectionChanged, this, &RuleBook::initializeX11);
+    connect(kwinApp(), &Application::x11ConnectionAboutToBeDestroyed, this, &RuleBook::cleanupX11);
     connect(m_updateTimer, SIGNAL(timeout()), SLOT(save()));
     m_updateTimer->setInterval(1000);
     m_updateTimer->setSingleShot(true);
@@ -949,15 +939,19 @@ RuleBook::~RuleBook()
     deleteAll();
 }
 
-void RuleBook::initWithX11()
+void RuleBook::initializeX11()
 {
     auto c = kwinApp()->x11Connection();
     if (!c) {
-        m_temporaryRulesMessages.reset();
         return;
     }
     m_temporaryRulesMessages.reset(new KXMessages(c, kwinApp()->x11RootWindow(), "_KDE_NET_WM_TEMPORARY_RULES", nullptr));
     connect(m_temporaryRulesMessages.data(), SIGNAL(gotMessage(QString)), SLOT(temporaryRulesMessage(QString)));
+}
+
+void RuleBook::cleanupX11()
+{
+    m_temporaryRulesMessages.reset();
 }
 
 void RuleBook::deleteAll()

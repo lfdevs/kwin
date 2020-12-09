@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-05-07 03:54+0200\n"
+"POT-Creation-Date: 2020-05-31 18:12+0200\n"
 "PO-Revision-Date: 2015-10-14 18:13+0200\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -97,7 +97,7 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: kcm.cpp:122
+#: kcm.cpp:116
 #, fuzzy, kde-format
 #| msgid "Get New Decorations..."
 msgid "Download New Window Decorations"

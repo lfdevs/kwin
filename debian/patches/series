@@ -1,2 +1,2 @@
 uninitialized-yuvformat.patch
-duplicate-property-warning.patch
+fix-left-edge-dead-pixel.patch

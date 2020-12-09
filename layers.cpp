@@ -1,23 +1,12 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 1999, 2000 Matthias Ettrich <ettrich@kde.org>
-Copyright (C) 2003 Lubos Lunak <l.lunak@kde.org>
+    SPDX-FileCopyrightText: 1999, 2000 Matthias Ettrich <ettrich@kde.org>
+    SPDX-FileCopyrightText: 2003 Lubos Lunak <l.lunak@kde.org>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 // SELI zmenit doc
 
@@ -124,6 +113,7 @@ void Workspace::updateStackingOrder(bool propagate_new_clients)
     stacking_order = new_stacking_order;
     if (changed || propagate_new_clients) {
         propagateClients(propagate_new_clients);
+        markXStackingOrderAsDirty();
         emit stackingOrderChanged();
         if (m_compositor) {
             m_compositor->addRepaintFull();
@@ -205,13 +195,10 @@ void Workspace::propagateClients(bool propagate_new_clients)
     int pos = 0;
     xcb_window_t *cl(nullptr);
     if (propagate_new_clients) {
-        cl = new xcb_window_t[ manual_overlays.count() + desktops.count() + clients.count()];
+        cl = new xcb_window_t[ manual_overlays.count() + clients.count()];
         for (const auto win : manual_overlays) {
             cl[pos++] = win;
         }
-        // TODO this is still not completely in the map order
-        for (auto it = desktops.constBegin(); it != desktops.constEnd(); ++it)
-            cl[pos++] = (*it)->window();
         for (auto it = clients.constBegin(); it != clients.constEnd(); ++it)
             cl[pos++] = (*it)->window();
         rootInfo()->setClientList(cl, pos);
@@ -231,10 +218,6 @@ void Workspace::propagateClients(bool propagate_new_clients)
     }
     rootInfo()->setClientListStacking(cl, pos);
     delete [] cl;
-
-    // Make the cached stacking order invalid here, in case we need the new stacking order before we get
-    // the matching event, due to X being asynchronous.
-    markXStackingOrderAsDirty();
 }
 
 /**
@@ -746,11 +729,11 @@ void Workspace::updateXStackingOrder()
     if (tree && !tree->isNull()) {
         xcb_window_t *windows = tree->children();
         const auto count = tree->data()->children_len;
-        int foundUnmanagedCount = unmanaged.count();
+        int foundUnmanagedCount = m_unmanaged.count();
         for (unsigned int i = 0;
                 i < count;
                 ++i) {
-            for (auto it = unmanaged.constBegin(); it != unmanaged.constEnd(); ++it) {
+            for (auto it = m_unmanaged.constBegin(); it != m_unmanaged.constEnd(); ++it) {
                 Unmanaged *u = *it;
                 if (u->window() == windows[i]) {
                     x_stacking.append(u);

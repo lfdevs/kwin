@@ -1,31 +1,20 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 2011 Arthur Arlt <a.arlt@stud.uni-heidelberg.de>
-Copyright (C) 2013 Martin Gräßlin <mgraesslin@kde.org>
+    SPDX-FileCopyrightText: 2011 Arthur Arlt <a.arlt@stud.uni-heidelberg.de>
+    SPDX-FileCopyrightText: 2013 Martin Gräßlin <mgraesslin@kde.org>
 
-Since the functionality provided in this class has been moved from
-class Workspace, it is not clear who exactly has written the code.
-The list below contains the copyright holders of the class Workspace.
+    Since the functionality provided in this class has been moved from
+    class Workspace, it is not clear who exactly has written the code.
+    The list below contains the copyright holders of the class Workspace.
 
-Copyright (C) 1999, 2000 Matthias Ettrich <ettrich@kde.org>
-Copyright (C) 2003 Lubos Lunak <l.lunak@kde.org>
-Copyright (C) 2009 Lucas Murray <lmurray@undefinedfire.com>
+    SPDX-FileCopyrightText: 1999, 2000 Matthias Ettrich <ettrich@kde.org>
+    SPDX-FileCopyrightText: 2003 Lubos Lunak <l.lunak@kde.org>
+    SPDX-FileCopyrightText: 2009 Lucas Murray <lmurray@undefinedfire.com>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #include "screenedge.h"
 
@@ -727,7 +716,7 @@ ScreenEdges::ScreenEdges(QObject *parent)
     , m_actionLeft(ElectricActionNone)
     , m_gestureRecognizer(new GestureRecognizer(this))
 {
-    m_cornerOffset = (Screens::self()->physicalDpiX(0) + Screens::self()->physicalDpiX(0) + 5) / 6;
+    m_cornerOffset = (Screens::self()->physicalDpiX(0) + Screens::self()->physicalDpiY(0) + 5) / 6;
 
     connect(workspace(), &Workspace::clientRemoved, this, &ScreenEdges::deleteEdgeForClient);
 }
@@ -1079,7 +1068,10 @@ void ScreenEdges::createVerticalEdge(ElectricBorder border, const QRect &screen,
         const ElectricBorder edge = (border == ElectricLeft) ? ElectricBottomLeft : ElectricBottomRight;
         m_edges << createEdge(edge, x, screen.y() + screen.height() -1, 1, 1);
     }
-    // create border
+    if (height <= m_cornerOffset) {
+        // An overlap with another output is near complete. We ignore this border.
+        return;
+    }
     m_edges << createEdge(border, x, y, 1, height);
 }
 
@@ -1099,6 +1091,10 @@ void ScreenEdges::createHorizontalEdge(ElectricBorder border, const QRect &scree
         // also right most edge
         width -= m_cornerOffset;
     }
+    if (width <= m_cornerOffset) {
+        // An overlap with another output is near complete. We ignore this border.
+        return;
+    }
     const int y = (border == ElectricTop) ? screen.y() : screen.y() + screen.height() - 1;
     m_edges << createEdge(border, x, y, width, 1);
 }
@@ -1110,6 +1106,10 @@ Edge *ScreenEdges::createEdge(ElectricBorder border, int x, int y, int width, in
 #else
     Edge *edge = kwinApp()->platform()->createScreenEdge(this);
 #endif
+    // Edges can not have negative size.
+    Q_ASSERT(width >= 0);
+    Q_ASSERT(height >= 0);
+
     edge->setBorder(border);
     edge->setGeometry(QRect(x, y, width, height));
     if (createAction) {

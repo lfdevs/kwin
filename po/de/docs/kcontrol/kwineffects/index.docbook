@@ -55,15 +55,13 @@
 
 <para
 >Auf dieser Seite wird eine Liste aller verfügbaren Effekte in den Kategorien <guilabel
->Aktivierung</guilabel
+>Zugangshilfen</guilabel
 >, <guilabel
 >Erscheinungsbild</guilabel
 >, <guilabel
->Animation beim Wechseln der virtuellen Arbeitsfläche</guilabel
+>Fokus</guilabel
 >, <guilabel
 >Extras</guilabel
->, <guilabel
->Zugangshilfen</guilabel
 > und <guilabel
 >Fensterverwaltung</guilabel
 > angezeigt.</para>
@@ -127,7 +125,6 @@
 39 effects + 7 internal (XRender compositor)
 Internal effects
 Appearance (Dashboard, Highlight Windows, KSreen, Screenshot, Window Geometry)
-Candy (Startup feedback)
 Window Management (Cover Switch)
 -->
 

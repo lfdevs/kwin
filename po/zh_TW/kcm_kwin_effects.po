@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-02-23 03:34+0100\n"
+"POT-Creation-Date: 2020-08-08 02:22+0200\n"
 "PO-Revision-Date: 2019-09-30 19:24+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -29,22 +29,22 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "pan93412@gmail.com"
 
-#: kcm.cpp:44
+#: kcm.cpp:33
 #, kde-format
 msgid "Desktop Effects"
 msgstr "桌面特效"
 
-#: kcm.cpp:49
+#: kcm.cpp:38
 #, kde-format
 msgid "Vlad Zahorodnii"
 msgstr "Vlad Zahorodnii"
 
-#: kcm.cpp:88
+#: kcm.cpp:77
 #, kde-format
 msgid "Download New Desktop Effects"
 msgstr "下載新的桌面特效"
 
-#: package/contents/ui/Effect.qml:88
+#: package/contents/ui/Effect.qml:77
 #, kde-format
 msgid ""
 "Author: %1\n"
@@ -53,46 +53,46 @@ msgstr ""
 "作者：%1\n"
 "授權：%2"
 
-#: package/contents/ui/Effect.qml:117
+#: package/contents/ui/Effect.qml:106
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show/Hide Video"
 msgstr "顯示 / 隱藏影片"
 
-#: package/contents/ui/Effect.qml:124
+#: package/contents/ui/Effect.qml:113
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Configure..."
 msgstr "設定…"
 
-#: package/contents/ui/main.qml:29
+#: package/contents/ui/main.qml:18
 #, kde-format
 msgid "This module lets you configure desktop effects."
 msgstr "此模組讓您能設定桌面特效。"
 
-#: package/contents/ui/main.qml:36
+#: package/contents/ui/main.qml:25
 #, kde-format
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
 "effect's settings."
 msgstr "提示：若要找出或設定啟用特效的方式，請看看特效的設定。"
 
-#: package/contents/ui/main.qml:56
+#: package/contents/ui/main.qml:45
 #, kde-format
 msgid "Configure Filter"
 msgstr "設定過濾器"
 
-#: package/contents/ui/main.qml:68
+#: package/contents/ui/main.qml:57
 #, kde-format
 msgid "Exclude unsupported effects"
 msgstr "排除不支援特效"
 
-#: package/contents/ui/main.qml:76
+#: package/contents/ui/main.qml:65
 #, kde-format
 msgid "Exclude internal effects"
 msgstr "排除內部桌面特效"
 
-#: package/contents/ui/main.qml:135
+#: package/contents/ui/main.qml:124
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "取得新桌面特效…"

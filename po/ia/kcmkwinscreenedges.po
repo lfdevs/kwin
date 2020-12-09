@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-04-23 04:00+0200\n"
-"PO-Revision-Date: 2020-01-02 10:39+0100\n"
+"POT-Creation-Date: 2020-08-08 02:22+0200\n"
+"PO-Revision-Date: 2020-11-09 22:18+0100\n"
 "Last-Translator: Giovanni Sora <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -27,72 +27,72 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "g.sora@tiscali.it"
 
-#: main.cpp:134 touch.cpp:133
+#: main.cpp:123 touch.cpp:122
 #, kde-format
 msgid "No Action"
 msgstr "Nulle action"
 
-#: main.cpp:135 touch.cpp:134
+#: main.cpp:124 touch.cpp:123
 #, kde-format
 msgid "Show Desktop"
 msgstr "Monstra Scriptorio"
 
-#: main.cpp:136 touch.cpp:135
+#: main.cpp:125 touch.cpp:124
 #, kde-format
 msgid "Lock Screen"
 msgstr "Bloca schermo"
 
-#: main.cpp:137 touch.cpp:136
+#: main.cpp:126 touch.cpp:125
 #, kde-format
 msgid "Show KRunner"
 msgstr "Monstra KRunner"
 
-#: main.cpp:138 touch.cpp:137
+#: main.cpp:127 touch.cpp:126
 #, kde-format
 msgid "Activity Manager"
 msgstr "Gerente de activitate"
 
-#: main.cpp:139 touch.cpp:138
+#: main.cpp:128 touch.cpp:127
 #, kde-format
 msgid "Application Launcher"
 msgstr "Lanceator de application"
 
-#: main.cpp:143 touch.cpp:142
+#: main.cpp:132 touch.cpp:131
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - Omne Scriptorios"
 
-#: main.cpp:144 touch.cpp:143
+#: main.cpp:133 touch.cpp:132
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - Currente Scriptorio"
 
-#: main.cpp:145 touch.cpp:144
+#: main.cpp:134 touch.cpp:133
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - Application currente"
 
-#: main.cpp:148 touch.cpp:147
+#: main.cpp:137 touch.cpp:136
 #, kde-format
 msgid "%1 - Cube"
 msgstr "%1 - Cubo"
 
-#: main.cpp:149 touch.cpp:148
+#: main.cpp:138 touch.cpp:137
 #, kde-format
 msgid "%1 - Cylinder"
 msgstr "%1 - Cylindro"
 
-#: main.cpp:150 touch.cpp:149
+#: main.cpp:139 touch.cpp:138
 #, kde-format
 msgid "%1 - Sphere"
 msgstr "%1 - Sphere"
 
-#: main.cpp:152 touch.cpp:151
+#: main.cpp:141 touch.cpp:140
 #, kde-format
 msgid "Toggle window switching"
 msgstr "Activa/disactiva commutar de fenestra"
 
-#: main.cpp:153 touch.cpp:152
+#: main.cpp:142 touch.cpp:141
 #, kde-format
 msgid "Toggle alternative window switching"
 msgstr "Activa/disactiva alternativemente commutar de fenestra"
@@ -117,7 +117,7 @@ msgstr "&Maximiza:"
 #: main.ui:77
 #, kde-format
 msgid "Windows dragged to top edge"
-msgstr ""
+msgstr "Fenestras trahite al bordo de culmine"
 
 #. i18n: ectx: property (text), widget (QLabel, quickTileLabel)
 #: main.ui:84

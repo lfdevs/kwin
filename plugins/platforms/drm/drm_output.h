@@ -1,22 +1,11 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 2015 Martin Gräßlin <mgraesslin@kde.org>
+    SPDX-FileCopyrightText: 2015 Martin Gräßlin <mgraesslin@kde.org>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 #ifndef KWIN_DRM_OUTPUT_H
 #define KWIN_DRM_OUTPUT_H
 
@@ -103,13 +92,6 @@ public:
      */
     bool hardwareTransforms() const;
 
-    /**
-     * The current rotation of the output
-     *
-     * @return rotation in degree
-     */
-    int rotation() const;
-
 private:
     friend class DrmBackend;
     friend class DrmCrtc;   // TODO: For use of setModeLegacy. Remove later when we allow multiple connectors per crtc
@@ -154,7 +136,6 @@ private:
 
     int gammaRampSize() const override;
     bool setGammaRamp(const GammaRamp &gamma) override;
-    QMatrix4x4 matrixDisplay(const QSize &s) const;
 
     DrmBackend *m_backend;
     DrmConnector *m_conn = nullptr;
@@ -182,7 +163,7 @@ private:
         QPoint globalPos;
         bool valid = false;
     } m_lastWorkingState;
-    DrmDumbBuffer *m_cursor[2] = {nullptr, nullptr};
+    QScopedPointer<DrmDumbBuffer> m_cursor[2];
     int m_cursorIndex = 0;
     bool m_hasNewCursor = false;
     bool m_deleted = false;

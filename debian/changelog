@@ -1,4 +1,4 @@
-kwin (4:5.20.4-1) UNRELEASED; urgency=medium
+kwin (4:5.20.4-1) experimental; urgency=medium
 
   [ Norbert Preining ]
   * New upstream release (5.20.4).
@@ -31,7 +31,7 @@ kwin (4:5.20.4-1) UNRELEASED; urgency=medium
   * Remove LD_FLAGS override, no longer needed, --as-needed is default now.
   * Add hardening options +all.
 
- -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Fri, 27 Nov 2020 22:27:05 +0100
+ -- Norbert Preining <norbert@preining.info>  Wed, 09 Dec 2020 14:17:32 +0900
 
 kwin (4:5.19.5-3) unstable; urgency=medium
 

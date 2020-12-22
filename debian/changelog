@@ -1,5 +1,7 @@
 kwin (4:5.20.4-4) UNRELEASED; urgency=medium
 
+  [ Norbert Preining ]
+  * Enable pipewire support by adding the respective B-D.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Tue, 22 Dec 2020 22:36:22 +0900
 

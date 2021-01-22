@@ -1,3 +1,10 @@
+kwin (4:5.20.90-1) UNRELEASED; urgency=medium
+
+  [ Norbert Preining ]
+  * New upstream beta release (5.20.90).
+
+ -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Fri, 22 Jan 2021 11:02:00 +0900
+
 kwin (4:5.20.5-1) unstable; urgency=medium
 
   * New upstream release (5.20.5).

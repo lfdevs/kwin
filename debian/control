@@ -300,7 +300,7 @@ Description: KDE window manager effect builtins library
  .
  This package is part of the KDE base workspace module.
 
-Package: libkwineffects12a
+Package: libkwineffects13
 Section: libs
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
@@ -317,7 +317,7 @@ Description: KDE window manager effects library
  .
  This package is part of the KDE base workspace module.
 
-Package: libkwinglutils12
+Package: libkwinglutils13
 Section: libs
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
@@ -332,7 +332,7 @@ Description: KDE window manager gl utils library
  .
  This package is part of the KDE base workspace module.
 
-Package: libkwinxrenderutils12
+Package: libkwinxrenderutils13
 Section: libs
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}

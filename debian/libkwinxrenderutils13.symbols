@@ -1,5 +1,5 @@
 # SymbolsHelper-Confirmed: 4:5.7.0 amd64
-libkwinxrenderutils.so.12 libkwinxrenderutils12 #MINVER#
+libkwinxrenderutils.so.13 libkwinxrenderutils13 #MINVER#
 * Build-Depends-Package: kwin-dev
  _ZN4KWin11preMultiplyERK6QColorf@Base 4:5.1.95+git20150122
  _ZN4KWin11xRenderFillERK18xcb_render_color_t@Base 4:5.1.95+git20150122

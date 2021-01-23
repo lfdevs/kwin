@@ -1,5 +1,5 @@
 # SymbolsHelper-Confirmed: 4:5.17.5~ amd64
-libkwineffects.so.12 libkwineffects12a #MINVER#
+libkwineffects.so.13 libkwineffects13 #MINVER#
 * Build-Depends-Package: kwin-dev
  _ZN4KWin11EffectFrame15enableCrossFadeEb@Base 4:5.1.95+git20150122
  _ZN4KWin11EffectFrame20setCrossFadeProgressEd@Base 4:5.1.95+git20150122

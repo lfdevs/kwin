@@ -1,5 +1,5 @@
 # SymbolsHelper-Confirmed: 4:5.13.1 amd64
-libkwinglutils.so.12 libkwinglutils12 #MINVER#
+libkwinglutils.so.13 libkwinglutils13 #MINVER#
 * Build-Depends-Package: kwin-dev
  _ZN4KWin10GLPlatform10s_platformE@Base 4:5.1.95+git20150122
  _ZN4KWin10GLPlatform14driverToStringENS_6DriverE@Base 4:5.1.95+git20150122

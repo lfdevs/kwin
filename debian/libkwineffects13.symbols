@@ -45,7 +45,7 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZN4KWin14EffectsHandler12windowHiddenEPNS_12EffectWindowE@Base 4:5.8.0
  _ZN4KWin14EffectsHandler13activityAddedERK7QString@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler13tabBoxUpdatedEv@Base 4:5.1.95+git20150122
- _ZN4KWin14EffectsHandler13windowDamagedEPNS_12EffectWindowERK5QRect@Base 4:5.1.95+git20150122
+ _ZN4KWin14EffectsHandler13windowDamagedEPNS_12EffectWindowERK7QRegion@Base 4:5.20.90
  _ZN4KWin14EffectsHandler13windowDeletedEPNS_12EffectWindowE@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler14desktopChangedEii@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler14desktopChangedEiiPNS_12EffectWindowE@Base 4:5.1.95+git20150122
@@ -100,8 +100,8 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZN4KWin15AnimationEffect11setMetaDataENS0_8MetaTypeEjRj@Base 4:5.1.95+git20150122
  _ZN4KWin15AnimationEffect13_windowClosedEPNS_12EffectWindowE@Base 4:5.1.95+git20150122
  _ZN4KWin15AnimationEffect14_windowDeletedEPNS_12EffectWindowE@Base 4:5.1.95+git20150122
- _ZN4KWin15AnimationEffect14prePaintScreenERNS_18ScreenPrePaintDataEi@Base 4:5.1.95+git20150122
- _ZN4KWin15AnimationEffect14prePaintWindowEPNS_12EffectWindowERNS_18WindowPrePaintDataEi@Base 4:5.1.95+git20150122
+ _ZN4KWin15AnimationEffect14prePaintScreenERNS_18ScreenPrePaintDataENSt6chrono8durationIlSt5ratioILl1ELl1000EEEE@Base 4:5.20.90
+ _ZN4KWin15AnimationEffect14prePaintWindowEPNS_12EffectWindowERNS_18WindowPrePaintDataENSt6chrono8durationIlSt5ratioILl1ELl1000EEEE@Base 4:5.20.90
  _ZN4KWin15AnimationEffect14triggerRepaintEv@Base 4:5.1.95+git20150122
  _ZN4KWin15AnimationEffect15postPaintScreenEv@Base 4:5.1.95+git20150122
  _ZN4KWin15AnimationEffect16staticMetaObjectE@Base 4:5.1.95+git20150122
@@ -230,8 +230,8 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZN4KWin6Effect11touchMotionEiRK7QPointFj@Base 4:5.17.5~
  _ZN4KWin6Effect13animationTimeERK12KConfigGroupRK7QStringi@Base 4:5.1.95+git20150122
  _ZN4KWin6Effect13animationTimeEi@Base 4:5.1.95+git20150122
- _ZN4KWin6Effect14prePaintScreenERNS_18ScreenPrePaintDataEi@Base 4:5.1.95+git20150122
- _ZN4KWin6Effect14prePaintWindowEPNS_12EffectWindowERNS_18WindowPrePaintDataEi@Base 4:5.1.95+git20150122
+ _ZN4KWin6Effect14prePaintScreenERNS_18ScreenPrePaintDataENSt6chrono8durationIlSt5ratioILl1ELl1000EEEE@Base 4:5.20.90
+ _ZN4KWin6Effect14prePaintWindowEPNS_12EffectWindowERNS_18WindowPrePaintDataENSt6chrono8durationIlSt5ratioILl1ELl1000EEEE@Base 4:5.20.90
  _ZN4KWin6Effect15borderActivatedENS_14ElectricBorderE@Base 4:5.1.95+git20150122
  _ZN4KWin6Effect15postPaintScreenEv@Base 4:5.1.95+git20150122
  _ZN4KWin6Effect15postPaintWindowEPNS_12EffectWindowE@Base 4:5.1.95+git20150122

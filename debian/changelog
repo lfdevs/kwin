@@ -6,6 +6,7 @@ kwin (4:5.20.90-1) UNRELEASED; urgency=medium
   * Drop upstream patch.
   * Rename libraries from 12 -> 13.
   * Add kf5runner and lcms to B-D, and bump kdecorations.
+  * Update symbols.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Fri, 22 Jan 2021 11:02:00 +0900
 

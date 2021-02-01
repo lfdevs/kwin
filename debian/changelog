@@ -9,7 +9,8 @@ kwin (4:5.20.90-1) UNRELEASED; urgency=medium
   * Update symbols.
 
   [ Aurélien COUDERC ]
-  * Adapt libkwineffects13 lintian override to new soname.
+  * Drop package-name-doesnt-match-sonames override for libkwineffects*, not
+    needed anymore.
   * Refresh copyright information.
   * Override lintian kwin-common: no-symbols-control-file, we don’t ship header
     files for these libraries.

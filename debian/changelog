@@ -11,6 +11,8 @@ kwin (4:5.20.90-1) UNRELEASED; urgency=medium
   [ Aurélien COUDERC ]
   * Adapt libkwineffects13 lintian override to new soname.
   * Refresh copyright information.
+  * Add overrides for lintian kwin-common: no-symbols-control-file, we don’t
+    ship header files for these libraries.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Fri, 22 Jan 2021 11:02:00 +0900
 

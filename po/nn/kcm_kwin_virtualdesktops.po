@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-08 02:22+0200\n"
+"POT-Creation-Date: 2020-11-09 02:33+0100\n"
 "PO-Revision-Date: 2019-08-06 22:05+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -128,7 +128,7 @@ msgstr "%1 ms"
 msgid "Show desktop layout indicators"
 msgstr "Vis skrivebordoppsett-indikatorar"
 
-#: virtualdesktops.cpp:30
+#: virtualdesktops.cpp:31
 #, kde-format
 msgid "Virtual Desktops"
 msgstr "Virtuelle skrivebord"

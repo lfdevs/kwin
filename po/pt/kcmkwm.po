@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-29 02:26+0200\n"
-"PO-Revision-Date: 2020-08-29 12:18+0100\n"
+"POT-Creation-Date: 2020-10-22 02:33+0200\n"
+"PO-Revision-Date: 2020-10-24 16:24+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -594,20 +594,22 @@ msgstr "Sob o rato"
 #: advanced.ui:118
 #, kde-format
 msgid ""
-"When turned on, KDE apps which are able to remember the positions of their "
+"When turned on, apps which are able to remember the positions of their "
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
-"Quando estiver ligado, as aplicações do KDE que sejam capazes de recordar as "
+"Quando estiver ligado, as aplicações que sejam capazes de recordar as "
 "posições das suas janelas terão permissão para o fazer. Isto irá substituir "
 "o modo de colocação de janelas definido acima."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:121
 #, kde-format
-msgid "Allow KDE apps to remember the positions of their own windows"
+msgid ""
+"Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
-"Permitir às aplicações do KDE recordar as posições das suas próprias janelas"
+"Permitir às aplicações recordar as posições das suas próprias janelas, caso "
+"o suportem"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
 #: advanced.ui:128
@@ -1320,7 +1322,7 @@ msgstr "Zona de atracção do &centro:"
 msgid "&Snap windows:"
 msgstr "A&justar as janelas:"
 
-#: windows.cpp:87
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1330,7 +1332,7 @@ msgstr ""
 "nela. Este comportamento é comum nos outros sistemas operativos e será "
 "provavelmente o que pretende."
 
-#: windows.cpp:91
+#: windows.cpp:105
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1345,7 +1347,7 @@ msgstr ""
 "momento foi fechada) a janela sob o rato será a candidata preferida. É uma "
 "variante pouco usual, mas possível do <em>Carregar para Obter o Foco</em>."
 
-#: windows.cpp:96
+#: windows.cpp:110
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1359,7 +1361,7 @@ msgstr ""
 "de costume. Pense nisto como um <em>Carregar para Obter o Foco</em>, mas sem "
 "ter de carregar de facto."
 
-#: windows.cpp:100
+#: windows.cpp:114
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1372,7 +1374,7 @@ msgstr ""
 "momento foi fechada) a janela sob o rato será a candidata preferida. Escolha "
 "esta opção, se quiser um foco controlado à passagem."
 
-#: windows.cpp:105
+#: windows.cpp:119
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1387,7 +1389,7 @@ msgstr ""
 "irão funcionar. Provavelmente irá querer usar a opção <em>O foco segue o "
 "rato (precedência do rato)</em> em alternativa!"
 
-#: windows.cpp:109
+#: windows.cpp:123
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

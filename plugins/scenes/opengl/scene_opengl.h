@@ -11,13 +11,14 @@
 #ifndef KWIN_SCENE_OPENGL_H
 #define KWIN_SCENE_OPENGL_H
 
+#include "openglbackend.h"
+
 #include "scene.h"
 #include "shadow.h"
 
 #include "kwinglutils.h"
 
 #include "decorations/decorationrenderer.h"
-#include "platformsupport/scenes/opengl/backend.h"
 
 namespace KWin
 {
@@ -34,26 +35,23 @@ public:
     class EffectFrame;
     ~SceneOpenGL() override;
     bool initFailed() const override;
-    bool hasPendingFlush() const override;
-    qint64 paint(const QRegion &damage, const QList<Toplevel *> &windows) override;
+    void paint(int screenId, const QRegion &damage, const QList<Toplevel *> &windows,
+               RenderLoop *renderLoop) override;
     Scene::EffectFrame *createEffectFrame(EffectFrameImpl *frame) override;
     Shadow *createShadow(Toplevel *toplevel) override;
     void screenGeometryChanged(const QSize &size) override;
     OverlayWindow *overlayWindow() const override;
     bool usesOverlayWindow() const override;
-    bool blocksForRetrace() const override;
-    bool syncsToVBlank() const override;
     bool makeOpenGLContextCurrent() override;
     void doneOpenGLContextCurrent() override;
     bool supportsSurfacelessContext() const override;
+    bool supportsNativeFence() const override;
     Decoration::Renderer *createDecorationRenderer(Decoration::DecoratedClientImpl *impl) override;
     void triggerFence() override;
     virtual QMatrix4x4 projectionMatrix() const = 0;
     bool animationsSupported() const override;
 
     void insertWait();
-
-    void idle() override;
 
     bool debug() const { return m_debug; }
     void initDebugOutput();
@@ -77,7 +75,7 @@ public:
 protected:
     SceneOpenGL(OpenGLBackend *backend, QObject *parent = nullptr);
     void paintBackground(const QRegion &region) override;
-    void aboutToStartPainting(const QRegion &damage) override;
+    void aboutToStartPainting(int screenId, const QRegion &damage) override;
     void extendPaintRegion(QRegion &region, bool opaqueFullscreen) override;
     QMatrix4x4 transformation(int mask, const ScreenPaintData &data) const;
     void paintDesktop(int desktop, int mask, const QRegion &region, ScreenPaintData &data) override;
@@ -94,6 +92,7 @@ private:
     bool viewportLimitsMatched(const QSize &size) const;
 
 private:
+    bool m_resetOccurred = false;
     bool m_debug;
     OpenGLBackend *m_backend;
     SyncManager *m_syncManager;
@@ -209,9 +208,9 @@ public:
     bool bind();
     bool isValid() const override;
 protected:
-    WindowPixmap *createChild(const QPointer<KWaylandServer::SubSurfaceInterface> &subSurface) override;
+    WindowPixmap *createChild(KWaylandServer::SubSurfaceInterface *subSurface) override;
 private:
-    explicit OpenGLWindowPixmap(const QPointer<KWaylandServer::SubSurfaceInterface> &subSurface, WindowPixmap *parent, SceneOpenGL *scene);
+    explicit OpenGLWindowPixmap(KWaylandServer::SubSurfaceInterface *subSurface, WindowPixmap *parent, SceneOpenGL *scene);
     QScopedPointer<SceneOpenGLTexture> m_texture;
     SceneOpenGL *m_scene;
 };
@@ -305,11 +304,6 @@ private:
     void resizeTexture();
     QScopedPointer<GLTexture> m_texture;
 };
-
-inline bool SceneOpenGL::hasPendingFlush() const
-{
-    return m_backend->hasPendingFlush();
-}
 
 inline bool SceneOpenGL::usesOverlayWindow() const
 {

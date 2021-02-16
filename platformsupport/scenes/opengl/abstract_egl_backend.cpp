@@ -9,7 +9,6 @@
 #include "abstract_egl_backend.h"
 #include "egl_dmabuf.h"
 #include "kwineglext.h"
-#include "texture.h"
 #include "composite.h"
 #include "egl_context_attribute_builder.h"
 #include "options.h"
@@ -90,10 +89,15 @@ static void destroyGlobalShareContext()
     kwinApp()->platform()->setSceneEglGlobalShareContext(EGL_NO_CONTEXT);
 }
 
+AbstractEglBackend *AbstractEglBackend::s_primaryBackend = nullptr;
+
 AbstractEglBackend::AbstractEglBackend()
     : QObject(nullptr)
     , OpenGLBackend()
 {
+    if (s_primaryBackend == nullptr) {
+        setPrimaryBackend(this);
+    }
     connect(Compositor::self(), &Compositor::aboutToDestroy, this, &AbstractEglBackend::teardown);
 }
 
@@ -118,7 +122,6 @@ void AbstractEglBackend::cleanup()
     cleanupSurfaces();
     eglReleaseThread();
     kwinApp()->platform()->setSceneEglContext(EGL_NO_CONTEXT);
-    kwinApp()->platform()->setSceneEglSurface(EGL_NO_SURFACE);
     kwinApp()->platform()->setSceneEglConfig(nullptr);
 }
 
@@ -155,6 +158,7 @@ bool AbstractEglBackend::initEglAPI()
     const QByteArray eglExtensions = eglQueryString(m_display, EGL_EXTENSIONS);
     setExtensions(eglExtensions.split(' '));
     setSupportsSurfacelessContext(hasExtension(QByteArrayLiteral("EGL_KHR_surfaceless_context")));
+    setSupportsNativeFence(hasExtension(QByteArrayLiteral("EGL_ANDROID_native_fence_sync")));
     return true;
 }
 
@@ -182,11 +186,17 @@ void AbstractEglBackend::initBufferAge()
     if (hasExtension(QByteArrayLiteral("EGL_EXT_buffer_age"))) {
         const QByteArray useBufferAge = qgetenv("KWIN_USE_BUFFER_AGE");
 
-        if (useBufferAge != "0")
+        if (useBufferAge != "0") {
             setSupportsBufferAge(true);
+        }
     }
 
-    setSupportsPartialUpdate(hasExtension(QByteArrayLiteral("EGL_KHR_partial_update")));
+    if (hasExtension(QByteArrayLiteral("EGL_KHR_partial_update"))) {
+        const QByteArray usePartialUpdate = qgetenv("KWIN_USE_PARTIAL_UPDATE");
+        if (usePartialUpdate != "0") {
+            setSupportsPartialUpdate(true);
+        }
+    }
     setSupportsSwapBuffersWithDamage(hasExtension(QByteArrayLiteral("EGL_EXT_swap_buffers_with_damage")));
 }
 
@@ -266,60 +276,60 @@ bool AbstractEglBackend::createContext()
     std::vector<std::unique_ptr<AbstractOpenGLContextAttributeBuilder>> candidates;
     if (isOpenGLES()) {
         if (haveCreateContext && haveRobustness && haveContextPriority) {
-            auto glesRobustPriority = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglOpenGLESContextAttributeBuilder);
+            auto glesRobustPriority = std::make_unique<EglOpenGLESContextAttributeBuilder>();
             glesRobustPriority->setVersion(2);
             glesRobustPriority->setRobust(true);
             glesRobustPriority->setHighPriority(true);
             candidates.push_back(std::move(glesRobustPriority));
         }
         if (haveCreateContext && haveRobustness) {
-            auto glesRobust = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglOpenGLESContextAttributeBuilder);
+            auto glesRobust = std::make_unique<EglOpenGLESContextAttributeBuilder>();
             glesRobust->setVersion(2);
             glesRobust->setRobust(true);
             candidates.push_back(std::move(glesRobust));
         }
         if (haveContextPriority) {
-            auto glesPriority = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglOpenGLESContextAttributeBuilder);
+            auto glesPriority = std::make_unique<EglOpenGLESContextAttributeBuilder>();
             glesPriority->setVersion(2);
             glesPriority->setHighPriority(true);
             candidates.push_back(std::move(glesPriority));
         }
-        auto gles = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglOpenGLESContextAttributeBuilder);
+        auto gles = std::make_unique<EglOpenGLESContextAttributeBuilder>();
         gles->setVersion(2);
         candidates.push_back(std::move(gles));
     } else {
         if (options->glCoreProfile() && haveCreateContext) {
             if (haveRobustness && haveContextPriority) {
-                auto robustCorePriority = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglContextAttributeBuilder);
+                auto robustCorePriority = std::make_unique<EglContextAttributeBuilder>();
                 robustCorePriority->setVersion(3, 1);
                 robustCorePriority->setRobust(true);
                 robustCorePriority->setHighPriority(true);
                 candidates.push_back(std::move(robustCorePriority));
             }
             if (haveRobustness) {
-                auto robustCore = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglContextAttributeBuilder);
+                auto robustCore = std::make_unique<EglContextAttributeBuilder>();
                 robustCore->setVersion(3, 1);
                 robustCore->setRobust(true);
                 candidates.push_back(std::move(robustCore));
             }
             if (haveContextPriority) {
-                auto corePriority = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglContextAttributeBuilder);
+                auto corePriority = std::make_unique<EglContextAttributeBuilder>();
                 corePriority->setVersion(3, 1);
                 corePriority->setHighPriority(true);
                 candidates.push_back(std::move(corePriority));
             }
-            auto core = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglContextAttributeBuilder);
+            auto core = std::make_unique<EglContextAttributeBuilder>();
             core->setVersion(3, 1);
             candidates.push_back(std::move(core));
         }
         if (haveRobustness && haveCreateContext && haveContextPriority) {
-            auto robustPriority = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglContextAttributeBuilder);
+            auto robustPriority = std::make_unique<EglContextAttributeBuilder>();
             robustPriority->setRobust(true);
             robustPriority->setHighPriority(true);
             candidates.push_back(std::move(robustPriority));
         }
         if (haveRobustness && haveCreateContext) {
-            auto robust = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglContextAttributeBuilder);
+            auto robust = std::make_unique<EglContextAttributeBuilder>();
             robust->setRobust(true);
             candidates.push_back(std::move(robust));
         }
@@ -341,25 +351,30 @@ bool AbstractEglBackend::createContext()
         return false;
     }
     m_context = ctx;
-    kwinApp()->platform()->setSceneEglContext(m_context);
+    if (isPrimary()) {
+        kwinApp()->platform()->setSceneEglContext(m_context);
+    }
     return true;
 }
 
 void AbstractEglBackend::setEglDisplay(const EGLDisplay &display) {
     m_display = display;
-    kwinApp()->platform()->setSceneEglDisplay(display);
+    if (isPrimary()) {
+        kwinApp()->platform()->setSceneEglDisplay(display);
+    }
 }
 
 void AbstractEglBackend::setConfig(const EGLConfig &config)
 {
     m_config = config;
-    kwinApp()->platform()->setSceneEglConfig(config);
+    if (isPrimary()) {
+        kwinApp()->platform()->setSceneEglConfig(config);
+    }
 }
 
 void AbstractEglBackend::setSurface(const EGLSurface &surface)
 {
     m_surface = surface;
-    kwinApp()->platform()->setSceneEglSurface(surface);
 }
 
 QSharedPointer<GLTexture> AbstractEglBackend::textureForOutput(AbstractOutput *requestedOutput) const
@@ -398,8 +413,8 @@ bool AbstractEglTexture::loadTexture(WindowPixmap *pixmap)
 {
     // FIXME: Refactor this method.
 
-    const auto &buffer = pixmap->buffer();
-    if (buffer.isNull()) {
+    const auto buffer = pixmap->buffer();
+    if (!buffer) {
         if (updateFromFBO(pixmap->fbo())) {
             return true;
         }
@@ -424,8 +439,8 @@ void AbstractEglTexture::updateTexture(WindowPixmap *pixmap)
 {
     // FIXME: Refactor this method.
 
-    const auto &buffer = pixmap->buffer();
-    if (buffer.isNull()) {
+    const auto buffer = pixmap->buffer();
+    if (!buffer) {
         if (updateFromFBO(pixmap->fbo())) {
             return;
         }

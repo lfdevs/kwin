@@ -18,15 +18,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-29 02:26+0200\n"
-"PO-Revision-Date: 2020-08-29 22:52+0200\n"
+"POT-Creation-Date: 2020-10-22 02:33+0200\n"
+"PO-Revision-Date: 2020-10-22 16:55+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.08.0\n"
+"X-Generator: Lokalize 20.08.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -600,20 +600,22 @@ msgstr "Onder muis"
 #: advanced.ui:118
 #, kde-format
 msgid ""
-"When turned on, KDE apps which are able to remember the positions of their "
+"When turned on, apps which are able to remember the positions of their "
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
-"Indien aangezet zullen KDE toepassingen die in staat zijn om de posities van "
-"hun vensters te onthouden, mogen dat doen. Dit zal de "
+"Indien aangezet, zullen toepassingen, die in staat zijn om de posities van "
+"hun vensters te onthouden, dat mogen doen. Dit zal de "
 "vensterplaatsingsmodus, zoals bovenstaand gedefinieerd, overschrijven."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:121
 #, kde-format
-msgid "Allow KDE apps to remember the positions of their own windows"
+msgid ""
+"Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
-"KDE toepassingen toestaan de posities van hun eigen vensters te onthouden"
+"Toepassingen toestaan de posities van hun eigen vensters te onthouden, als "
+"ze dat ondersteunen"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
 #: advanced.ui:128
@@ -1323,7 +1325,7 @@ msgstr "Magnetisch veld in midden van s&cherm:"
 msgid "&Snap windows:"
 msgstr "Venster&s tegen elkaar klikken:"
 
-#: windows.cpp:87
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1332,7 +1334,7 @@ msgstr ""
 "<em>Klik voor focus:</em> Een venster wordt actief wanneer u erin klikt. Dit "
 "gedrag is algemeen in andere besturingssystemen en waarschijnlijk wat u wilt."
 
-#: windows.cpp:91
+#: windows.cpp:105
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1347,7 +1349,7 @@ msgstr ""
 "onder de muis de voorkeur hebben. Ongebruikelijk, maar mogelijk een variant "
 "van <em>Klik voor focus</em>."
 
-#: windows.cpp:96
+#: windows.cpp:110
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1361,7 +1363,7 @@ msgstr ""
 "zoals gebruikelijk. Lijkt op <em>Klik voor focus</em> maar zonder te hoeven "
 "klikken."
 
-#: windows.cpp:100
+#: windows.cpp:114
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1374,7 +1376,7 @@ msgstr ""
 "actieve wordt gesloten) heeft het venster onder de muis de voorkeur. Kies "
 "dit, als u een via er boven zweven focus wilt besturen."
 
-#: windows.cpp:105
+#: windows.cpp:119
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1389,7 +1391,7 @@ msgstr ""
 "van activeren en zal niet werken. U zult in plaats daarvan waarschijnlijk "
 "<em>Focus volgt muis (muis heeft voorrang)</em> willen gebruiken!"
 
-#: windows.cpp:109
+#: windows.cpp:123
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

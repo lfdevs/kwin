@@ -37,7 +37,6 @@ public:
     bool isMovable() const override;
     bool isMovableAcrossScreens() const override;
     bool isResizable() const override;
-    bool isInitialPositionSet() const override;
     bool takeFocus() override;
     bool wantsInput() const override;
     StrutRect strutRect(StrutArea area) const override;
@@ -49,7 +48,6 @@ protected:
     Layer belongsToLayer() const override;
     bool acceptsFocus() const override;
     void requestGeometry(const QRect &rect) override;
-    void addDamage(const QRegion &region) override;
 
 private:
     void handleSizeChanged();

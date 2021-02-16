@@ -16,7 +16,7 @@
 #include <KWaylandServer/output_interface.h>
 #include <KWaylandServer/seat_interface.h>
 #include <KWaylandServer/surface_interface.h>
-#include <KWaylandServer/textinput_interface.h>
+#include <KWaylandServer/textinput_v2_interface.h>
 
 using namespace KWaylandServer;
 
@@ -36,7 +36,6 @@ InputPanelV1Client::InputPanelV1Client(InputPanelSurfaceV1Interface *panelSurfac
     connect(surface(), &SurfaceInterface::aboutToBeDestroyed, this, &InputPanelV1Client::destroyClient);
     connect(surface(), &SurfaceInterface::sizeChanged, this, &InputPanelV1Client::reposition);
     connect(surface(), &SurfaceInterface::mapped, this, &InputPanelV1Client::updateDepth);
-    connect(surface(), &SurfaceInterface::damaged, this, QOverload<const QRegion &>::of(&WaylandClient::addRepaint));
 
     connect(panelSurface, &InputPanelSurfaceV1Interface::topLevel, this, &InputPanelV1Client::showTopLevel);
     connect(panelSurface, &InputPanelSurfaceV1Interface::overlayPanel, this, &InputPanelV1Client::showOverlayPanel);
@@ -78,7 +77,7 @@ void KWin::InputPanelV1Client::reposition()
         }   break;
         case Overlay: {
             auto textClient = waylandServer()->findClient(waylandServer()->seat()->focusedTextInputSurface());
-            auto textInput = waylandServer()->seat()->focusedTextInput();
+            auto textInput = waylandServer()->seat()->textInputV2();
             if (textClient && textInput) {
                 const auto cursorRectangle = textInput->cursorRectangle();
                 updateGeometry({textClient->pos() + textClient->clientPos() + cursorRectangle.bottomLeft(), surface()->size()});
@@ -107,9 +106,6 @@ NET::WindowType InputPanelV1Client::windowType(bool, int) const
 
 QRect InputPanelV1Client::inputGeometry() const
 {
-    if (surface()->inputIsInfinite()) {
-        return frameGeometry();
-    }
     return surface()->input().boundingRect().translated(pos());
 }
 

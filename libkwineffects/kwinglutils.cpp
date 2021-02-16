@@ -471,13 +471,7 @@ bool GLShader::setUniform(int location, const QVector4D &value)
 bool GLShader::setUniform(int location, const QMatrix4x4 &value)
 {
     if (location >= 0) {
-        GLfloat m[16];
-        const auto *data = value.constData();
-        // i is column, j is row for m
-        for (int i = 0; i < 16; ++i) {
-            m[i] = data[i];
-        }
-        glUniformMatrix4fv(location, 1, GL_FALSE, m);
+        glUniformMatrix4fv(location, 1, GL_FALSE, value.constData());
     }
     return (location >= 0);
 }
@@ -603,11 +597,11 @@ bool ShaderManager::selfTest()
         return true;
     }
     if (GLPlatform::instance()->isNvidia() && GLPlatform::instance()->glRendererString().contains("Quadro")) {
-        qCWarning(LIBKWINGLUTILS) << "Skipping self test as it is reported to return false positive results on Quadro hardware";
+        qCDebug(LIBKWINGLUTILS) << "Skipping self test as it is reported to return false positive results on Quadro hardware";
         return true;
     }
     if (GLPlatform::instance()->isMesaDriver() && GLPlatform::instance()->mesaVersion() >= kVersionNumber(17, 0)) {
-        qCWarning(LIBKWINGLUTILS) << "Skipping self test as it is reported to return false positive results on Mesa drivers";
+        qCDebug(LIBKWINGLUTILS) << "Skipping self test as it is reported to return false positive results on Mesa drivers";
         return true;
     }
 

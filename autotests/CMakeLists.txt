@@ -185,7 +185,6 @@ target_link_libraries(testScriptedEffectLoader
     Qt5::Concurrent
     Qt5::Qml
     Qt5::Script
-    Qt5::Sensors
     Qt5::Test
     Qt5::X11Extras
 
@@ -241,42 +240,6 @@ set_target_properties(effectversionplugin PROPERTIES PREFIX "")
 target_link_libraries(effectversionplugin kwineffects)
 
 ########################################################
-# Test Screens
-########################################################
-set(testScreens_SRCS
-    ../screens.cpp
-    ../cursor.cpp
-    ../x11eventfilter.cpp
-    mock_abstract_client.cpp
-    mock_screens.cpp
-    mock_workspace.cpp
-    mock_x11client.cpp
-    test_screens.cpp
-)
-kconfig_add_kcfg_files(testScreens_SRCS ../settings.kcfgc)
-
-add_executable(testScreens ${testScreens_SRCS})
-target_include_directories(testScreens BEFORE PRIVATE ./)
-target_link_libraries(testScreens
-    Qt5::DBus
-    Qt5::Sensors
-    Qt5::Test
-    Qt5::Widgets
-    Qt5::X11Extras
-
-    KF5::ConfigCore
-    KF5::ConfigGui
-    KF5::I18n
-    KF5::Notifications
-    KF5::WindowSystem
-
-    XCB::XCB #for xcbutils.h
-)
-
-add_test(NAME kwin_testScreens COMMAND testScreens)
-ecm_mark_as_test(testScreens)
-
-########################################################
 # Test ScreenEdges
 ########################################################
 set(testScreenEdges_SRCS
@@ -302,7 +265,6 @@ set_target_properties(testScreenEdges PROPERTIES COMPILE_DEFINITIONS "NO_NONE_WI
 target_include_directories(testScreenEdges BEFORE PRIVATE ./)
 target_link_libraries(testScreenEdges
     Qt5::DBus
-    Qt5::Sensors
     Qt5::Test
     Qt5::X11Extras
 
@@ -424,3 +386,15 @@ target_link_libraries(testVirtualKeyboardDBus
 )
 add_test(NAME kwin-testVirtualKeyboardDBus COMMAND testVirtualKeyboardDBus)
 ecm_mark_as_test(testVirtualKeyboardDBus)
+
+
+########################################################
+# Test FTrace
+########################################################
+add_executable(testFtrace test_ftrace.cpp)
+target_link_libraries(testFtrace
+    Qt5::Test
+    kwin
+)
+add_test(NAME kwin-testFtrace COMMAND testFtrace)
+ecm_mark_as_test(testFtrace)

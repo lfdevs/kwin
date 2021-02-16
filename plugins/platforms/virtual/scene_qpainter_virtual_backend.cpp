@@ -7,9 +7,11 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "scene_qpainter_virtual_backend.h"
-#include "virtual_backend.h"
 #include "cursor.h"
 #include "screens.h"
+#include "softwarevsyncmonitor.h"
+#include "virtual_backend.h"
+#include "virtual_output.h"
 
 #include <QPainter>
 
@@ -25,23 +27,20 @@ VirtualQPainterBackend::VirtualQPainterBackend(VirtualBackend *backend)
 
 VirtualQPainterBackend::~VirtualQPainterBackend() = default;
 
-QImage *VirtualQPainterBackend::buffer()
-{
-    return &m_backBuffers[0];
-}
-
 QImage *VirtualQPainterBackend::bufferForScreen(int screen)
 {
     return &m_backBuffers[screen];
 }
 
-bool VirtualQPainterBackend::needsFullRepaint() const
+bool VirtualQPainterBackend::needsFullRepaint(int screenId) const
 {
+    Q_UNUSED(screenId)
     return true;
 }
 
-void VirtualQPainterBackend::prepareRenderingFrame()
+void VirtualQPainterBackend::beginFrame(int screenId)
 {
+    Q_UNUSED(screenId)
 }
 
 void VirtualQPainterBackend::createOutputs()
@@ -54,25 +53,17 @@ void VirtualQPainterBackend::createOutputs()
     }
 }
 
-void VirtualQPainterBackend::present(int mask, const QRegion &damage)
+void VirtualQPainterBackend::endFrame(int screenId, int mask, const QRegion &damage)
 {
     Q_UNUSED(mask)
     Q_UNUSED(damage)
+
+    VirtualOutput *output = static_cast<VirtualOutput *>(m_backend->findOutput(screenId));
+    output->vsyncMonitor()->arm();
+
     if (m_backend->saveFrames()) {
-        for (int i=0; i < m_backBuffers.size() ; i++) {
-            m_backBuffers[i].save(QStringLiteral("%1/screen%2-%3.png").arg(m_backend->screenshotDirPath(), QString::number(i), QString::number(m_frameCounter++)));
-        }
+        m_backBuffers[screenId].save(QStringLiteral("%1/screen%2-%3.png").arg(m_backend->screenshotDirPath(), QString::number(screenId), QString::number(m_frameCounter++)));
     }
-}
-
-bool VirtualQPainterBackend::usesOverlayWindow() const
-{
-    return false;
-}
-
-bool VirtualQPainterBackend::perScreenRendering() const
-{
-    return true;
 }
 
 }

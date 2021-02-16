@@ -10,7 +10,7 @@
 #ifndef KWIN_SCENE_QPAINTER_WAYLAND_BACKEND_H
 #define KWIN_SCENE_QPAINTER_WAYLAND_BACKEND_H
 
-#include <platformsupport/scenes/qpainter/backend.h>
+#include "qpainterbackend.h"
 
 #include <QObject>
 #include <QImage>
@@ -27,6 +27,7 @@ class Buffer;
 
 namespace KWin
 {
+class AbstractOutput;
 namespace Wayland
 {
 class WaylandBackend;
@@ -47,12 +48,18 @@ public:
     void prepareRenderingFrame();
     void present(const QRegion &damage);
 
+    bool needsFullRepaint() const;
+    void setNeedsFullRepaint(bool set);
+
+    QRegion mapToLocal(const QRegion &region) const;
+
 private:
     WaylandOutput *m_waylandOutput;
     KWayland::Client::ShmPool *m_pool;
 
     QWeakPointer<KWayland::Client::Buffer> m_buffer;
     QImage m_backBuffer;
+    bool m_needsFullRepaint = true;
 
     friend class WaylandQPainterBackend;
 };
@@ -64,24 +71,18 @@ public:
     explicit WaylandQPainterBackend(WaylandBackend *b);
     ~WaylandQPainterBackend() override;
 
-    bool usesOverlayWindow() const override;
-
-    QImage *buffer() override;
     QImage *bufferForScreen(int screenId) override;
 
-    void present(int mask, const QRegion& damage) override;
-    void prepareRenderingFrame() override;
+    void endFrame(int screenId, int mask, const QRegion& damage) override;
+    void beginFrame(int screenId) override;
 
-    bool needsFullRepaint() const override;
-    bool perScreenRendering() const override;
+    bool needsFullRepaint(int screenId) const override;
 
 private:
-    void createOutput(WaylandOutput *waylandOutput);
+    void createOutput(AbstractOutput *waylandOutput);
     void frameRendered();
 
     WaylandBackend *m_backend;
-    bool m_needsFullRepaint;
-
     QVector<WaylandQPainterOutput*> m_outputs;
 };
 

@@ -34,6 +34,7 @@ Loader {
             case RuleItem.Point: return coordinateEditor
             case RuleItem.Size: return coordinateEditor
             case RuleItem.Shortcut: return shortcutEditor
+            case RuleItem.OptionList: return optionListEditor
             default: return emptyEditor
         }
     }
@@ -104,10 +105,49 @@ Loader {
             flat: true
             model: ruleOptions
             multipleChoice: true
+            useFlagsValue: true
             // Filter the provided value with the options mask
             selectionMask: ruleValue & optionsMask
             onActivated: {
                 valueEditor.valueEdited(selectionMask);
+            }
+        }
+    }
+
+    Component {
+        id: optionListEditor
+        OptionsComboBox {
+            id: optionListCombo
+            flat: true
+            model: ruleOptions
+            multipleChoice: true
+
+            onActivated: {
+                let selectionList = []
+                for (let i = 0; i < count; i++) {
+                    if (selectionMask & (1 << i)) {
+                        selectionList.push(model.data(model.index(i,0), Qt.UserRole))
+                    }
+                }
+                valueEditor.valueEdited(selectionList);
+            }
+
+            function updateSelectionMask() {
+                selectionMask = 0
+                for (let i = 0; i < count; i++) {
+                    if (ruleValue.includes(model.data(model.index(i,0), Qt.UserRole))) {
+                        selectionMask += 1 << i
+                    }
+                }
+            }
+
+            onModelChanged: updateSelectionMask()
+            Component.onCompleted: updateSelectionMask()
+            Connections {
+                target: valueEditor
+                function onRuleValueChanged() {
+                    optionListCombo.updateSelectionMask()
+                }
             }
         }
     }
@@ -145,7 +185,6 @@ Loader {
             readonly property bool isSize: controlType == RuleItem.Size
             readonly property var coord: (isSize) ? Qt.size(coordX.value, coordY.value)
                                                   : Qt.point(coordX.value, coordY.value)
-            onCoordChanged: valueEditor.valueEdited(coord)
 
             QQC2.SpinBox {
                 id: coordX
@@ -155,6 +194,7 @@ Loader {
                 from: (isSize) ? 0 : -32767
                 to: 32767
                 value: (isSize) ? ruleValue.width : ruleValue.x
+                onValueModified: valueEditor.valueEdited(coord)
             }
             QQC2.Label {
                 id: coordSeparator
@@ -170,6 +210,7 @@ Loader {
                 Layout.preferredWidth: 50   // 50%
                 Layout.fillWidth: true
                 value: (isSize) ? ruleValue.height : ruleValue.y
+                onValueModified: valueEditor.valueEdited(coord)
             }
         }
     }

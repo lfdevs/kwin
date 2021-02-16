@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# g.sora <g.sora@tiscali.it>, 2010, 2011, 2012, 2013, 2014, 2017, 2020.
+# g.sora <g.sora@tiscali.it>, 2010, 2011, 2012, 2013, 2014, 2017, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-10-23 08:49+0200\n"
-"PO-Revision-Date: 2020-11-09 22:14+0100\n"
+"POT-Creation-Date: 2020-12-11 02:40+0100\n"
+"PO-Revision-Date: 2021-02-06 23:22+0100\n"
 "Last-Translator: Giovanni Sora <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -62,7 +62,7 @@ msgstr ""
 "Selige un position pro seliger color per cliccar a sinistre o Enter.\n"
 "Escappa o clicca a dextere pro cancellar."
 
-#: coverswitch/coverswitch.cpp:945 flipswitch/flipswitch.cpp:925
+#: coverswitch/coverswitch.cpp:953 flipswitch/flipswitch.cpp:931
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -167,17 +167,17 @@ msgstr "Color de retro"
 msgid "Front color"
 msgstr "Color de fronte"
 
-#: cube/cube.cpp:186 cube/cube_config.cpp:60
+#: cube/cube.cpp:185 cube/cube_config.cpp:60
 #, kde-format
 msgid "Desktop Cube"
 msgstr "Scriptorio a cubo"
 
-#: cube/cube.cpp:194 cube/cube_config.cpp:65
+#: cube/cube.cpp:193 cube/cube_config.cpp:65
 #, kde-format
 msgid "Desktop Cylinder"
 msgstr "Scriptorio a cylindro"
 
-#: cube/cube.cpp:200 cube/cube_config.cpp:69
+#: cube/cube.cpp:199 cube/cube_config.cpp:69
 #, kde-format
 msgid "Desktop Sphere"
 msgstr "Scriptorio a sphera"
@@ -233,7 +233,7 @@ msgstr "Tapete de papiro:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: cube/cube_config.ui:82 desktopgrid/desktopgrid_config.ui:207
+#: cube/cube_config.ui:82 desktopgrid/desktopgrid_config.ui:236
 #: flipswitch/flipswitch_config.ui:204
 #: presentwindows/presentwindows_config.ui:17
 #, kde-format
@@ -437,7 +437,7 @@ msgstr "Usa disposition de paginator pro animation"
 msgid "Start animation when moving windows towards screen edges"
 msgstr "Initia animation quando on move fenestras verso le limites de schermo"
 
-#: desktopgrid/desktopgrid.cpp:65 desktopgrid/desktopgrid_config.cpp:57
+#: desktopgrid/desktopgrid.cpp:67 desktopgrid/desktopgrid_config.cpp:57
 #, kde-format
 msgid "Show Desktop Grid"
 msgstr "Monstra grillia de scriptorio"
@@ -564,14 +564,35 @@ msgstr "Personalisate"
 msgid "N&umber of rows:"
 msgstr "N&umero de lineas:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_PresentWindows)
+#. i18n: ectx: property (text), widget (QLabel, clickBehaviorLabel)
+#: desktopgrid/desktopgrid_config.ui:177
+#, kde-format
+msgid "Click behavior:"
+msgstr "Pulsa comportamento:"
+
+#. i18n: ectx: property (toolTip), widget (QRadioButton, switchDesktopAndActivateWindow)
 #: desktopgrid/desktopgrid_config.ui:190
 #, kde-format
-msgid "Use Present Windows effect to layout the windows"
-msgstr "Usa le presente effecto de fenestra pro positionar le fenestras"
+msgid ""
+"If the Present Windows effect is enabled, it will be automatically triggered."
+msgstr ""
+"Si le effecto de Fenestra Presente (Present Windows) es habilitate, illoo "
+"essera discatenate automaticamente."
+
+#. i18n: ectx: property (text), widget (QRadioButton, switchDesktopAndActivateWindow)
+#: desktopgrid/desktopgrid_config.ui:193
+#, kde-format
+msgid "Switch desktop and activate window"
+msgstr "Commuta scriptorio e activa fenestra"
+
+#. i18n: ectx: property (text), widget (QRadioButton, switchDesktopOnly)
+#: desktopgrid/desktopgrid_config.ui:203
+#, kde-format
+msgid "Switch desktop only"
+msgstr "Commuta solmente scriptorio"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAddRemove)
-#: desktopgrid/desktopgrid_config.ui:197
+#: desktopgrid/desktopgrid_config.ui:213
 #, kde-format
 msgid "Show buttons to alter count of virtual desktops"
 msgstr "Monstra buttones pro cambiar le numero de scriptorios virtual"
@@ -618,50 +639,50 @@ msgstr "Per gruppo de fenestra"
 msgid "Fullscreen windows"
 msgstr "Fenestras de schermo plen"
 
-#: effect_builtins.cpp:91
+#: effect_builtins.cpp:92
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
 msgstr "Obscura (Blur)"
 
-#: effect_builtins.cpp:92
+#: effect_builtins.cpp:93
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
 msgstr "Obscura le fundo detra fenestras semi-transparente"
 
-#: effect_builtins.cpp:106
+#: effect_builtins.cpp:108
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Color Picker"
 msgstr "Selector de colores"
 
-#: effect_builtins.cpp:107
+#: effect_builtins.cpp:109
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Supports picking a color"
 msgstr "Supporta seliger un color"
 
-#: effect_builtins.cpp:121
+#: effect_builtins.cpp:124
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Contrasto de fundo"
 
-#: effect_builtins.cpp:122
+#: effect_builtins.cpp:125
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
 msgstr ""
 "Meliora contrasto de fundo  e legibilitate detra fenestras semi-transparente"
 
-#: effect_builtins.cpp:136
+#: effect_builtins.cpp:140
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Cover Switch"
 msgstr "Commutator de copertura"
 
-#: effect_builtins.cpp:137
+#: effect_builtins.cpp:141
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a Cover Flow effect for the alt+tab window switcher"
@@ -669,37 +690,37 @@ msgstr ""
 "Monstra un effecto de fluxo de copertura pro le commutator de fenestra alt"
 "+tab"
 
-#: effect_builtins.cpp:151
+#: effect_builtins.cpp:156
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "Scriptorio a Cubo"
 
-#: effect_builtins.cpp:152
+#: effect_builtins.cpp:157
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display each virtual desktop on a side of a cube"
 msgstr "Monstra cata scriptorio virtual sur un facie de un cubo"
 
-#: effect_builtins.cpp:166
+#: effect_builtins.cpp:172
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "Animation de cubo de scriptorio"
 
-#: effect_builtins.cpp:167
+#: effect_builtins.cpp:173
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate desktop switching with a cube"
 msgstr "Commuta scriptorio animate con un cubo"
 
-#: effect_builtins.cpp:181
+#: effect_builtins.cpp:188
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Grillia de scriptorio"
 
-#: effect_builtins.cpp:182
+#: effect_builtins.cpp:189
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
@@ -707,37 +728,37 @@ msgstr ""
 "Face zoom retro assi que omne scriptorios es monstrate flanco a flanco in un "
 "grillia"
 
-#: effect_builtins.cpp:196
+#: effect_builtins.cpp:204
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
 msgstr "Dim Inactive"
 
-#: effect_builtins.cpp:197
+#: effect_builtins.cpp:205
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Fenestras inactive obscurate"
 
-#: effect_builtins.cpp:211
+#: effect_builtins.cpp:220
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Fall Apart"
 msgstr "Cade a pecias"
 
-#: effect_builtins.cpp:212
+#: effect_builtins.cpp:221
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "Fenestras claudite cade in pecias"
 
-#: effect_builtins.cpp:226
+#: effect_builtins.cpp:236
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Flip Switch"
 msgstr "Commutator de  colpetto (Flip)"
 
-#: effect_builtins.cpp:227
+#: effect_builtins.cpp:237
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -746,25 +767,25 @@ msgstr ""
 "Colpa (Flip) trans fenestras que es in le stack per le commutator de "
 "fenestra alt-tab"
 
-#: effect_builtins.cpp:241
+#: effect_builtins.cpp:252
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Glide"
 msgstr "Glissa"
 
-#: effect_builtins.cpp:242
+#: effect_builtins.cpp:253
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Glide windows as they appear or disappear"
 msgstr "Glissa fenestras quando illes appare e disappare"
 
-#: effect_builtins.cpp:256
+#: effect_builtins.cpp:268
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Highlight Window"
 msgstr "Evidentia fenestra"
 
-#: effect_builtins.cpp:257
+#: effect_builtins.cpp:269
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight the appropriate window when hovering over taskbar entries"
@@ -772,73 +793,73 @@ msgstr ""
 "Evidentia le appropriate fenestra quando il es suspendite super entratas de "
 "barra de carga"
 
-#: effect_builtins.cpp:271
+#: effect_builtins.cpp:284
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Inverte"
 
-#: effect_builtins.cpp:272
+#: effect_builtins.cpp:285
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
 msgstr "Il inverte le colores del scriptorio e del fenestras"
 
-#: effect_builtins.cpp:286
+#: effect_builtins.cpp:300
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
 msgstr "Kscreen"
 
-#: effect_builtins.cpp:287
+#: effect_builtins.cpp:301
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper Effect for KScreen"
 msgstr "Effecto de adjutante pro KScreen"
 
-#: effect_builtins.cpp:301
+#: effect_builtins.cpp:316
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
 msgstr "Looking Glass"
 
-#: effect_builtins.cpp:302
+#: effect_builtins.cpp:317
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
 msgstr "Un aggranditor de schermo semblante lentes fisheye"
 
-#: effect_builtins.cpp:316
+#: effect_builtins.cpp:332
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
 msgstr "Lampa Magic"
 
-#: effect_builtins.cpp:317
+#: effect_builtins.cpp:333
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
 msgstr "Simula un lampa magic quando minimisa fenestras"
 
-#: effect_builtins.cpp:331
+#: effect_builtins.cpp:348
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Aggranditor"
 
-#: effect_builtins.cpp:332
+#: effect_builtins.cpp:349
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
 msgstr "Aggrandi le section del schermo que es vicin al cursor del mus"
 
-#: effect_builtins.cpp:346
+#: effect_builtins.cpp:364
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Animation de click de mus"
 
-#: effect_builtins.cpp:347
+#: effect_builtins.cpp:365
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -848,38 +869,38 @@ msgstr ""
 "Crea un animation quando un button de mus es pressate. Isto es util pro "
 "registrationes de schermo/presentationes"
 
-#: effect_builtins.cpp:361
+#: effect_builtins.cpp:380
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Marca de mus"
 
-#: effect_builtins.cpp:362
+#: effect_builtins.cpp:381
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
 msgstr "Permitte te designar lineas super le scriptorio"
 
-#: effect_builtins.cpp:376
+#: effect_builtins.cpp:396
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Fenestras actual"
 
-#: effect_builtins.cpp:377
+#: effect_builtins.cpp:397
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
 msgstr ""
 "Zoom foras usque omne fenestras aperite pote esser monstrate flanco a flanco"
 
-#: effect_builtins.cpp:391
+#: effect_builtins.cpp:412
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Redimensiona fenestra"
 
-#: effect_builtins.cpp:392
+#: effect_builtins.cpp:413
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
@@ -887,37 +908,37 @@ msgstr ""
 "Redimensiona fenestras con un rapide scala de textura in vice de actualisar "
 "contentos"
 
-#: effect_builtins.cpp:406
+#: effect_builtins.cpp:428
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr "Margines de schermo"
 
-#: effect_builtins.cpp:407
+#: effect_builtins.cpp:429
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
 msgstr "Evidentia un margine de schermo quando on approxima se"
 
-#: effect_builtins.cpp:421
+#: effect_builtins.cpp:444
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
 msgstr "Captura de schermo"
 
-#: effect_builtins.cpp:422
+#: effect_builtins.cpp:445
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for screenshot tools"
 msgstr "Effecto adjutante pro instrumentos de instantanee de schermo"
 
-#: effect_builtins.cpp:436
+#: effect_builtins.cpp:460
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
 msgstr "Folio"
 
-#: effect_builtins.cpp:437
+#: effect_builtins.cpp:461
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -926,168 +947,168 @@ msgstr ""
 "Face que le dialogos modal pote volar dulcemente  intra e foras quando illes "
 "es monstrate o celate"
 
-#: effect_builtins.cpp:451
+#: effect_builtins.cpp:476
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
 msgstr "Monstra FPS"
 
-#: effect_builtins.cpp:452
+#: effect_builtins.cpp:477
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
 msgstr "Monstra le rendimento de KWin in le angulo del schermo"
 
-#: effect_builtins.cpp:466
+#: effect_builtins.cpp:492
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Monstra pictura"
 
-#: effect_builtins.cpp:467
+#: effect_builtins.cpp:493
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
 msgstr "Evidentia areas del scriptorio que ha essite actualisate recentemente"
 
-#: effect_builtins.cpp:481
+#: effect_builtins.cpp:508
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
 msgstr "Glissar"
 
-#: effect_builtins.cpp:482
+#: effect_builtins.cpp:509
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide desktops when switching virtual desktops"
 msgstr "Glissa scriptorios quando on commuta scriptorios virtual"
 
-#: effect_builtins.cpp:496
+#: effect_builtins.cpp:524
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
 msgstr "Glissa de retro"
 
-#: effect_builtins.cpp:497
+#: effect_builtins.cpp:525
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
 msgstr "Glissa retro fenestras quando un altere fenestra es elevate"
 
-#: effect_builtins.cpp:511
+#: effect_builtins.cpp:540
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
 msgstr "Popups glissante"
 
-#: effect_builtins.cpp:512
+#: effect_builtins.cpp:541
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
 msgstr "Animation glissante pro popups de Plasma"
 
-#: effect_builtins.cpp:526
+#: effect_builtins.cpp:556
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
 msgstr "Adjutante de photo"
 
-#: effect_builtins.cpp:527
+#: effect_builtins.cpp:557
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
 msgstr "Adjuta localisar le centro del schermo quando tu move un fenestra"
 
-#: effect_builtins.cpp:541
+#: effect_builtins.cpp:572
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
 msgstr "Retorno ab lanceamento"
 
-#: effect_builtins.cpp:542
+#: effect_builtins.cpp:573
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
 msgstr "Effecto de adjutante pro retorno ab lanceamento"
 
-#: effect_builtins.cpp:556
+#: effect_builtins.cpp:588
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Miniatura a parte"
 
-#: effect_builtins.cpp:557
+#: effect_builtins.cpp:589
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
 msgstr "Monstra miniaturas de fenestra al margine del schermo"
 
-#: effect_builtins.cpp:571
+#: effect_builtins.cpp:604
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Touch Points"
 msgstr "Punctos de contacto"
 
-#: effect_builtins.cpp:572
+#: effect_builtins.cpp:605
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Visualize touch points"
 msgstr "Visualisa punctos de contacto"
 
-#: effect_builtins.cpp:586
+#: effect_builtins.cpp:620
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Tracia mus"
 
-#: effect_builtins.cpp:587
+#: effect_builtins.cpp:621
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a mouse cursor locating effect when activated"
 msgstr "Monstra un effecto de location de mus quando activate"
 
-#: effect_builtins.cpp:601
+#: effect_builtins.cpp:636
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Window Geometry"
 msgstr "Geometria de fenestra"
 
-#: effect_builtins.cpp:602
+#: effect_builtins.cpp:637
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "Monstra geometrias de fenestra quando on move/redimensiona"
 
-#: effect_builtins.cpp:616
+#: effect_builtins.cpp:652
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Fenestras Tremulante"
 
-#: effect_builtins.cpp:617
+#: effect_builtins.cpp:653
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "Deforma fenestras durante que illes es movente"
 
-#: effect_builtins.cpp:631
+#: effect_builtins.cpp:668
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Zoom"
 
-#: effect_builtins.cpp:632
+#: effect_builtins.cpp:669
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
 msgstr "Aggrandi le integre scriptorio"
 
-#: flipswitch/flipswitch.cpp:48 flipswitch/flipswitch_config.cpp:50
+#: flipswitch/flipswitch.cpp:47 flipswitch/flipswitch_config.cpp:50
 #, kde-format
 msgid "Toggle Flip Switch (Current desktop)"
 msgstr "Activa/disactiva Flip Switch (currente scriptorio)"
 
-#: flipswitch/flipswitch.cpp:55 flipswitch/flipswitch_config.cpp:53
+#: flipswitch/flipswitch.cpp:54 flipswitch/flipswitch_config.cpp:53
 #, kde-format
 msgid "Toggle Flip Switch (All desktops)"
 msgstr "Activa/disactiva Flip Switch (Omne scriptorios)"
@@ -1230,24 +1251,24 @@ msgstr "px"
 msgid "&Height:"
 msgstr "A&ltessa:"
 
-#: mouseclick/mouseclick.cpp:40 mouseclick/mouseclick_config.cpp:53
+#: mouseclick/mouseclick.cpp:38 mouseclick/mouseclick_config.cpp:53
 #, kde-format
 msgid "Toggle Mouse Click Effect"
 msgstr "Commuta effecto de cliccar per le mus"
 
-#: mouseclick/mouseclick.cpp:48
+#: mouseclick/mouseclick.cpp:46
 #, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Sinistre"
 
-#: mouseclick/mouseclick.cpp:49
+#: mouseclick/mouseclick.cpp:47
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Centro"
 
-#: mouseclick/mouseclick.cpp:50
+#: mouseclick/mouseclick.cpp:48
 #, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
@@ -1352,12 +1373,12 @@ msgstr "Font:"
 msgid "Show Text:"
 msgstr "Monstra texto:"
 
-#: mousemark/mousemark.cpp:41
+#: mousemark/mousemark.cpp:40
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "Netta omne tracias de mus"
 
-#: mousemark/mousemark.cpp:48 mousemark/mousemark_config.cpp:65
+#: mousemark/mousemark.cpp:47 mousemark/mousemark_config.cpp:65
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Netta ultime tracia de mus"
@@ -1385,25 +1406,25 @@ msgstr "&Color:"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Designa con le mus per premer claves Shift+Meta e mover le mus."
 
-#: presentwindows/presentwindows.cpp:66
+#: presentwindows/presentwindows.cpp:67
 #: presentwindows/presentwindows_config.cpp:62
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Commuta fenestras presente (scriptorio currente)"
 
-#: presentwindows/presentwindows.cpp:75
+#: presentwindows/presentwindows.cpp:76
 #: presentwindows/presentwindows_config.cpp:56
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Commuta (Toggle) fenestras presente (Omne scriptorios)"
 
-#: presentwindows/presentwindows.cpp:85
+#: presentwindows/presentwindows.cpp:86
 #: presentwindows/presentwindows_config.cpp:68
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Commuta fenestra presente (classe de fenestra)"
 
-#: presentwindows/presentwindows.cpp:1666
+#: presentwindows/presentwindows.cpp:1700
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1641,19 +1662,19 @@ msgstr "Fenestra aperi scala:"
 msgid "Window close scale:"
 msgstr "Fenestra claude scala:"
 
-#: screenshot/screenshot.cpp:440
+#: screenshot/screenshot.cpp:481
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Captura de schermo"
 
-#: screenshot/screenshot.cpp:441
+#: screenshot/screenshot.cpp:482
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Captura de schermo salveguardate a %1"
 
-#: screenshot/screenshot.cpp:578
+#: screenshot/screenshot.cpp:624
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -1662,7 +1683,7 @@ msgstr ""
 "Selige fenestra pro captura de schermo per cliccar a sinitre o Enter.\n"
 "Escappa o clicca a dextere pro cancellar."
 
-#: screenshot/screenshot.cpp:581
+#: screenshot/screenshot.cpp:627
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -1998,32 +2019,32 @@ msgstr "Minus"
 msgid "More"
 msgstr "Plus"
 
-#: zoom/zoom.cpp:74
+#: zoom/zoom.cpp:75
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Move area sub zoom a sinistra"
 
-#: zoom/zoom.cpp:82
+#: zoom/zoom.cpp:83
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Move area sub zoom a dextera"
 
-#: zoom/zoom.cpp:90
+#: zoom/zoom.cpp:91
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Move area sub zoom in alto"
 
-#: zoom/zoom.cpp:98
+#: zoom/zoom.cpp:99
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Move area sub zoom a basso"
 
-#: zoom/zoom.cpp:107 zoom/zoom_config.cpp:109
+#: zoom/zoom.cpp:108 zoom/zoom_config.cpp:109
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Move mus pro focalisar"
 
-#: zoom/zoom.cpp:115 zoom/zoom_config.cpp:116
+#: zoom/zoom.cpp:116 zoom/zoom_config.cpp:116
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "Move mus pro centrar"

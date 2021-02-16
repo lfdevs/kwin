@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-09-01 02:29+0200\n"
+"POT-Creation-Date: 2021-01-06 03:00+0100\n"
 "PO-Revision-Date: 2020-08-29 22:48+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -28,37 +28,37 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "freekdekruijf@kde.nl"
 
-#: module.cpp:38
+#: module.cpp:40
 #, kde-format
 msgid "KWin Scripts"
 msgstr "KWin-scripts"
 
-#: module.cpp:40
+#: module.cpp:42
 #, kde-format
 msgid "Configure KWin scripts"
 msgstr "KWin-scripts instellen"
 
-#: module.cpp:43
+#: module.cpp:45
 #, kde-format
 msgid "Tamás Krutki"
 msgstr "Tamás Krutki"
 
-#: module.cpp:79
+#: module.cpp:82
 #, kde-format
 msgid "Error when uninstalling KWin Script: %1"
 msgstr "Fout bij installatie ongedaan maken van KWin Script: %1"
 
-#: module.cpp:100
+#: module.cpp:103
 #, kde-format
 msgid "Import KWin Script"
 msgstr "KWin-script importeren"
 
-#: module.cpp:101
+#: module.cpp:104
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|KWin-scripts (*.kwinscript)"
 
-#: module.cpp:120
+#: module.cpp:123
 #, kde-format
 msgctxt "Placeholder is error message returned from the install service"
 msgid ""
@@ -68,7 +68,7 @@ msgstr ""
 "Kan geselecteerd script niet importeren.\n"
 "%1"
 
-#: module.cpp:134
+#: module.cpp:137
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."

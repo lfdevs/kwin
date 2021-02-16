@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-08 02:22+0200\n"
+"POT-Creation-Date: 2021-01-21 02:50+0100\n"
 "PO-Revision-Date: 2019-09-30 19:34+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -29,22 +29,22 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "ecuadra@eloihr.net"
 
-#: kcm.cpp:33
+#: kcm.cpp:34
 #, kde-format
 msgid "Desktop Effects"
 msgstr "Efectos del escritorio"
 
-#: kcm.cpp:38
+#: kcm.cpp:39
 #, kde-format
 msgid "Vlad Zahorodnii"
 msgstr "Vlad Zahorodnii"
 
-#: kcm.cpp:77
+#: kcm.cpp:78
 #, kde-format
 msgid "Download New Desktop Effects"
 msgstr "Descargar nuevos efectos de escritorio"
 
-#: package/contents/ui/Effect.qml:77
+#: package/contents/ui/Effect.qml:86
 #, kde-format
 msgid ""
 "Author: %1\n"
@@ -53,13 +53,13 @@ msgstr ""
 "Autor: %1\n"
 "Licencia: %2"
 
-#: package/contents/ui/Effect.qml:106
+#: package/contents/ui/Effect.qml:115
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show/Hide Video"
 msgstr "Mostrar/ocultar vídeo"
 
-#: package/contents/ui/Effect.qml:113
+#: package/contents/ui/Effect.qml:122
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Configure..."

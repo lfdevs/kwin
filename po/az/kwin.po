@@ -1,21 +1,21 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kwin package.
 #
-# Xəyyam Qocayev <xxmn77@gmail.com>, 2020.
+# Xəyyam Qocayev <xxmn77@gmail.com>, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-11-25 08:45+0100\n"
-"PO-Revision-Date: 2020-08-05 00:34+0400\n"
+"POT-Creation-Date: 2021-02-09 09:20+0100\n"
+"PO-Revision-Date: 2021-01-10 17:56+0400\n"
 "Last-Translator: Kheyyam Gojayev <xxmn77@gmail.com>\n"
-"Language-Team: Azerbaijan\n"
+"Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
 "Language: az\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 20.04.3\n"
+"X-Generator: Lokalize 20.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -27,36 +27,18 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "xxmn77@gmail.com"
 
-#: abstract_client.cpp:2729
+#: abstract_client.cpp:2768
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(Cavab Yoxdur)"
 
-#: abstract_wayland_output.cpp:252
+#: abstract_wayland_output.cpp:267
 #, kde-format
 msgid "unknown"
 msgstr "naməlum"
 
-#: colorcorrection/manager.cpp:58
-#, kde-format
-msgctxt "Night Color was disabled"
-msgid "Night Color Off"
-msgstr "Gecə Rəngi söndürülüb"
-
-#: colorcorrection/manager.cpp:59
-#, kde-format
-msgctxt "Night Color was enabled"
-msgid "Night Color On"
-msgstr "Gecə Rəngi aktivdir"
-
-#: colorcorrection/manager.cpp:228 colorcorrection/manager.cpp:231
-#: colorcorrection/manager.cpp:238
-#, kde-format
-msgid "Toggle Night Color"
-msgstr "Gecə Rəngini aktivləşdirmək/söndürmək"
-
-#: composite.cpp:926
+#: composite.cpp:780
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -595,7 +577,7 @@ msgstr "Planşet Aləti"
 msgid "EventType"
 msgstr "Hadisənin Növü"
 
-#: debug_console.cpp:490 debug_console.cpp:537 debug_console.cpp:549
+#: debug_console.cpp:490 debug_console.cpp:533 debug_console.cpp:546
 #, kde-format
 msgid "Position"
 msgstr "Mövqe"
@@ -626,242 +608,253 @@ msgstr "Düymələr"
 msgid "Modifiers"
 msgstr "Dəyişdiricilər"
 
-#: debug_console.cpp:510
+#: debug_console.cpp:506
 #, kde-format
 msgid "Tablet Tool Button"
 msgstr "Planşet Aləti Düyməsi"
 
-#: debug_console.cpp:511 debug_console.cpp:526
+#: debug_console.cpp:507 debug_console.cpp:520
 #, kde-format
-msgid "Pressed Buttons"
-msgstr "Basılan düymələr"
+msgid "Button"
+msgstr "Düymə"
 
-#: debug_console.cpp:525
+#: debug_console.cpp:508 debug_console.cpp:521
+#, kde-format
+msgid "Pressed"
+msgstr "Basılma təzyiqi"
+
+#: debug_console.cpp:509 debug_console.cpp:522 debug_console.cpp:535
+#: debug_console.cpp:548
+#, kde-format
+msgid "Tablet"
+msgstr "Planşet"
+
+#: debug_console.cpp:519
 #, kde-format
 msgid "Tablet Pad Button"
 msgstr "Planşet Düymələri"
 
-#: debug_console.cpp:535
+#: debug_console.cpp:531
 #, kde-format
 msgid "Tablet Pad Strip"
 msgstr "Planşetin Toxunma Zolağı"
 
-#: debug_console.cpp:536 debug_console.cpp:548
+#: debug_console.cpp:532 debug_console.cpp:545
 #, kde-format
 msgid "Number"
 msgstr "Say"
 
-#: debug_console.cpp:538 debug_console.cpp:550
+#: debug_console.cpp:534 debug_console.cpp:547
 #, kde-format
 msgid "isFinger"
 msgstr "isFinger"
 
-#: debug_console.cpp:547
+#: debug_console.cpp:544
 #, kde-format
 msgid "Tablet Pad Ring"
 msgstr "Planşetin Toxunma Halqası"
 
-#: debug_console.cpp:735
+#: debug_console.cpp:733
 #, kde-format
 msgid "No Mouse Buttons"
 msgstr "Siçan Düymələri Yoxdur"
 
-#: debug_console.cpp:739
+#: debug_console.cpp:737
 #, kde-format
 msgctxt "Mouse Button"
 msgid "left"
 msgstr "sol"
 
-#: debug_console.cpp:742
+#: debug_console.cpp:740
 #, kde-format
 msgctxt "Mouse Button"
 msgid "right"
 msgstr "sağ"
 
-#: debug_console.cpp:745
+#: debug_console.cpp:743
 #, kde-format
 msgctxt "Mouse Button"
 msgid "middle"
 msgstr "orta"
 
-#: debug_console.cpp:748
+#: debug_console.cpp:746
 #, kde-format
 msgctxt "Mouse Button"
 msgid "back"
 msgstr "geriyə"
 
-#: debug_console.cpp:751
+#: debug_console.cpp:749
 #, kde-format
 msgctxt "Mouse Button"
 msgid "forward"
 msgstr "irəli"
 
-#: debug_console.cpp:754
+#: debug_console.cpp:752
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 1"
 msgstr "əlavə 1"
 
-#: debug_console.cpp:757
+#: debug_console.cpp:755
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 2"
 msgstr "əlavə 2"
 
-#: debug_console.cpp:760
+#: debug_console.cpp:758
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 3"
 msgstr "əlavə 3"
 
-#: debug_console.cpp:763
+#: debug_console.cpp:761
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 4"
 msgstr "əlavə 4"
 
-#: debug_console.cpp:766
+#: debug_console.cpp:764
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 5"
 msgstr "əlavə 5"
 
-#: debug_console.cpp:769
+#: debug_console.cpp:767
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 6"
 msgstr "əlavə 6"
 
-#: debug_console.cpp:772
+#: debug_console.cpp:770
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 7"
 msgstr "əlavə 7"
 
-#: debug_console.cpp:775
+#: debug_console.cpp:773
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 8"
 msgstr "əlavə 8"
 
-#: debug_console.cpp:778
+#: debug_console.cpp:776
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 9"
 msgstr "əlavə 9"
 
-#: debug_console.cpp:781
+#: debug_console.cpp:779
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 10"
 msgstr "əlavə 10"
 
-#: debug_console.cpp:784
+#: debug_console.cpp:782
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 11"
 msgstr "əlavə 11"
 
-#: debug_console.cpp:787
+#: debug_console.cpp:785
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 12"
 msgstr "əlavə 12"
 
-#: debug_console.cpp:790
+#: debug_console.cpp:788
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 13"
 msgstr "əlavə 13"
 
-#: debug_console.cpp:793
+#: debug_console.cpp:791
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 14"
 msgstr "əlavə 14"
 
-#: debug_console.cpp:796
+#: debug_console.cpp:794
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 15"
 msgstr "əlavə 15"
 
-#: debug_console.cpp:799
+#: debug_console.cpp:797
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 16"
 msgstr "əlavə 16"
 
-#: debug_console.cpp:802
+#: debug_console.cpp:800
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 17"
 msgstr "əlavə 17"
 
-#: debug_console.cpp:805
+#: debug_console.cpp:803
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 18"
 msgstr "əlavə 18"
 
-#: debug_console.cpp:808
+#: debug_console.cpp:806
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 19"
 msgstr "əlavə 19"
 
-#: debug_console.cpp:811
+#: debug_console.cpp:809
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 20"
 msgstr "əlavə 20"
 
-#: debug_console.cpp:814
+#: debug_console.cpp:812
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 21"
 msgstr "əlavə 21"
 
-#: debug_console.cpp:817
+#: debug_console.cpp:815
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 22"
 msgstr "əlavə 22"
 
-#: debug_console.cpp:820
+#: debug_console.cpp:818
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 23"
 msgstr "əlavə 23"
 
-#: debug_console.cpp:823
+#: debug_console.cpp:821
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 24"
 msgstr "əlavə 24"
 
-#: debug_console.cpp:826
+#: debug_console.cpp:824
 #, kde-format
 msgctxt "Mouse Button"
 msgid "task"
 msgstr "tapşırıq"
 
-#: debug_console.cpp:1176
+#: debug_console.cpp:1168
 #, kde-format
 msgid "X11 Client Windows"
 msgstr "X11 Müştəri Pəncərələri"
 
-#: debug_console.cpp:1178
+#: debug_console.cpp:1170
 #, kde-format
 msgid "X11 Unmanaged Windows"
 msgstr "X11 İdarəedilməyən Pəncərələri"
 
-#: debug_console.cpp:1180
+#: debug_console.cpp:1172
 #, kde-format
 msgid "Wayland Windows"
 msgstr "Wayland Pəncərələri"
 
-#: debug_console.cpp:1182
+#: debug_console.cpp:1174
 #, kde-format
 msgid "Internal Windows"
 msgstr "Daxili Pəncərələr"
@@ -1135,16 +1128,25 @@ msgstr "%1 &Tətbiqibi bağlamaq"
 msgid "Wait Longer"
 msgstr "Bir az daha gözləmək"
 
-#: keyboard_layout.cpp:110 keyboard_layout.cpp:111
+#: inputmethod.cpp:73
 #, kde-format
-msgctxt "tooltip title"
-msgid "Keyboard Layout"
-msgstr "Klaviatura qatı"
+msgid "Virtual Keyboard"
+msgstr "Virtual Klaviatura"
 
-#: keyboard_layout.cpp:258
+#: inputmethod.cpp:451
 #, kde-format
-msgid "Configure Layouts..."
-msgstr "Qatları tənzimləmək..."
+msgid "Virtual Keyboard: enabled"
+msgstr "Virtual Klaviatura aktiv edilib"
+
+#: inputmethod.cpp:454
+#, kde-format
+msgid "Virtual Keyboard: disabled"
+msgstr "Virtual Klaviatura söndürülüb"
+
+#: inputmethod.cpp:456
+#, kde-format
+msgid "Whether to show the virtual keyboard on demand."
+msgstr "Virtual klaviaturanı tələbata görə göstərib, göstərməmək"
 
 #: killwindow.cpp:33
 #, kde-format
@@ -1445,77 +1447,77 @@ msgstr "Kompozit Effektləri Dayandırmaq"
 msgid "Invert Screen Colors"
 msgstr "Ekran Rənglərinin Əks Dəyişimi"
 
-#: main.cpp:184 main.cpp:214
+#: main.cpp:187 main.cpp:217
 #, kde-format
 msgid "KDE window manager"
 msgstr "KDE pəncərə meneceri"
 
-#: main.cpp:189
+#: main.cpp:192
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:193
+#: main.cpp:196
 #, kde-format
 msgid "(c) 1999-2019, The KDE Developers"
 msgstr "(c) 1999-2019, The KDE Developers"
 
-#: main.cpp:195
+#: main.cpp:198
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:196
+#: main.cpp:199
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:197
+#: main.cpp:200
 #, kde-format
 msgid "Daniel M. Duley"
 msgstr "Daniel M. Duley"
 
-#: main.cpp:198
+#: main.cpp:201
 #, kde-format
 msgid "Luboš Luňák"
 msgstr "Luboš Luňák"
 
-#: main.cpp:199
+#: main.cpp:202
 #, kde-format
 msgid "Martin Flöser"
 msgstr "Martin Flöser"
 
-#: main.cpp:200
+#: main.cpp:203
 #, kde-format
 msgid "David Edmundson"
 msgstr "David Edmundson"
 
-#: main.cpp:201
+#: main.cpp:204
 #, kde-format
 msgid "Roman Gilg"
 msgstr "Roman Gilg"
 
-#: main.cpp:202
+#: main.cpp:205
 #, kde-format
 msgid "Vlad Zahorodnii"
 msgstr "Vlad Zahorodnii"
 
-#: main.cpp:211
+#: main.cpp:214
 #, kde-format
 msgid "Disable configuration options"
 msgstr "Tənzimləmə seçimlərini söndürmək"
 
-#: main.cpp:212
+#: main.cpp:215
 #, kde-format
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "KWin-də neçə dəfə xəta baş verdiyini göstərir"
 
-#: main_wayland.cpp:459
+#: main_wayland.cpp:527
 #, kde-format
 msgid "Start a rootless Xwayland server."
 msgstr "Köksüz Xwayland serverini başlatmaq."
 
-#: main_wayland.cpp:461
+#: main_wayland.cpp:529
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
@@ -1523,49 +1525,49 @@ msgstr ""
 "Qoşulma üçün Wayland soketinin adı. Standart olaraq \"wayland-0\" istifadə "
 "olunur."
 
-#: main_wayland.cpp:464
+#: main_wayland.cpp:532
 #, kde-format
 msgid "Render to framebuffer."
 msgstr "Framebuferə vizualizasiya etmək."
 
-#: main_wayland.cpp:466
+#: main_wayland.cpp:534
 #, kde-format
 msgid "The framebuffer device to render to."
 msgstr "Vizualizasiya olunacaq framebufer cihazı."
 
-#: main_wayland.cpp:469
+#: main_wayland.cpp:537
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "X11 platformasında pəncərə rejimində istifadə olunacaq X11 Ekranı."
 
-#: main_wayland.cpp:472
+#: main_wayland.cpp:540
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
 "Wayland platformasında pəncərə rejimində istifadə olunacaq Wayland Ekranı."
 
-#: main_wayland.cpp:474
+#: main_wayland.cpp:542
 #, kde-format
 msgid "Render to a virtual framebuffer."
 msgstr "Virtual framebuferə vizualizasiya etmək."
 
-#: main_wayland.cpp:476
+#: main_wayland.cpp:544
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "Pəncərə rejimi halında pəncərənin eni. Standart en - 1024"
 
-#: main_wayland.cpp:480
+#: main_wayland.cpp:548
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
 msgstr ""
 "Pəncərə rejimi halında pəncərənin hündürlüyü. Standart hündürlük - 1024"
 
-#: main_wayland.cpp:485
+#: main_wayland.cpp:553
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
 msgstr "Pəncərə rejimi halında pəncərənin miqyası. Standart miqyas - 1024"
 
-#: main_wayland.cpp:490
+#: main_wayland.cpp:558
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
@@ -1573,12 +1575,12 @@ msgstr ""
 "Pəncərəli rejimdə çıxışlar kimi açılacaq pəncərələrin sayı. Standart dəyər - "
 "1"
 
-#: main_wayland.cpp:520
+#: main_wayland.cpp:563
 #, kde-format
-msgid "Use libhybris hwcomposer"
-msgstr "libhybris vsitəsi ilə təsvirin işlənməsi"
+msgid "Wayland socket to use for incoming connections."
+msgstr "Daxil olan bağlantılar üçün Wayland socket istifadə etmək."
 
-#: main_wayland.cpp:526
+#: main_wayland.cpp:594
 #, kde-format
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
@@ -1587,42 +1589,42 @@ msgstr ""
 "Giriş əməllərinin işlənməsi üçün libinput dəstəklənməsini aktiv etmək. "
 "Diqqət: heç zman iç içə sesiyada istifadə etməyin. \t(köhnəlmiş)"
 
-#: main_wayland.cpp:529
+#: main_wayland.cpp:597
 #, kde-format
 msgid "Render through drm node."
 msgstr "DRM vasitəsi ilə təsvirin işlənməsi"
 
-#: main_wayland.cpp:536
+#: main_wayland.cpp:604
 #, kde-format
 msgid "Input method that KWin starts."
 msgstr "KWin başladılan daixil olma üsulu."
 
-#: main_wayland.cpp:541
+#: main_wayland.cpp:609
 #, kde-format
 msgid "List all available backends and quit."
 msgstr "Bütün mövcud geri izləri siyahıya alın və çıxın"
 
-#: main_wayland.cpp:545
+#: main_wayland.cpp:613
 #, kde-format
 msgid "Starts the session in locked mode."
 msgstr "Sesiyanı kilid rejimində başladır."
 
-#: main_wayland.cpp:549
+#: main_wayland.cpp:617
 #, kde-format
 msgid "Starts the session without lock screen support."
 msgstr "Sesiyanı ekran kilidli olmadan başladır."
 
-#: main_wayland.cpp:553
+#: main_wayland.cpp:621
 #, kde-format
 msgid "Starts the session without global shortcuts support."
 msgstr "Sesiyanı qlobal qısayollar dəstəklənməsi olmadan başladır."
 
-#: main_wayland.cpp:557
+#: main_wayland.cpp:625
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr "KWin tərəfindən başladılan sesiya tətbiqi bağlandıqdan sonra çıxmaq."
 
-#: main_wayland.cpp:562
+#: main_wayland.cpp:630
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr "Wayland və Xwayland başladıqdan sonra başladılacaq tətbiqlər"
@@ -1638,7 +1640,7 @@ msgstr ""
 "Görünür ki, ardıcıl olaraq bir neçə dəfə qəzaya uğradı.\n"
 "Başlatmaq üçün başqa pəncərə menecerini seçə bilərsiniz:"
 
-#: main_x11.cpp:224
+#: main_x11.cpp:226
 #, kde-format
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
@@ -1647,24 +1649,183 @@ msgstr ""
 "kwin: pəncərə meneceri kimi istifadə etmək mümkün deyil, ehtimal ki, başqa "
 "pəncərə meneceri başladılıb (--replace istifadə edərək cəhd edin)\n"
 
-#: main_x11.cpp:241
+#: main_x11.cpp:245
 #, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "kwin: başqa pəncərə meneceri başladılıb (--replace istifadə edərək cəhd "
 "edin)\n"
 
-#: main_x11.cpp:437
+#: main_x11.cpp:444
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "Artıq başladılmış, ICCCM2.0-yə uyğun pəncərə menecerini əvəzləmək"
 
-#: main_x11.cpp:444
+#: main_x11.cpp:451
 #, kde-format
 msgid "Disable KActivities integration."
 msgstr "KDE İş Otaqları ilə inteqrasiyanı söndürmək"
 
-#: plugins/scenes/opengl/scene_opengl.cpp:535
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:60
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:62
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "activate"
+msgstr "aktivləşdirmək"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:63
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:65
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "close"
+msgstr "bağlamaq"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:66
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:68
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "min"
+msgstr "kiçilt"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:69
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:71
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "minimize"
+msgstr "yığılmış"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:72
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:74
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "max"
+msgstr "maks"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:75
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:77
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "maximize"
+msgstr "genişləndirmək"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:78
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:80
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "fullscreen"
+msgstr "tam ekran"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:81
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:83
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "shade"
+msgstr "başlığa yığmaq"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:84
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:86
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "keep above"
+msgstr "digərilərinin üzərində tutmaq"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:87
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:89
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "keep below"
+msgstr "arxa planda tutmaq"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:94
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "window"
+msgstr "pəncərə"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:104
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "name"
+msgstr "ad"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:106
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "appname"
+msgstr "tətbiq adı"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:108
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:161
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "desktop"
+msgstr "işmasası"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:263
+#, kde-format
+msgid "Switch to desktop %1"
+msgstr "%1 İş Masasına keçid"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:305
+#, kde-format
+msgid "Close running window on %1"
+msgstr "%1 üzərində işlək olan pəncərəni bağlamaq"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:308
+#, kde-format
+msgid "(Un)minimize running window on %1"
+msgstr "%1 üzərində işlək pəncərəni kiçiltmə(mə)k"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:311
+#, kde-format
+msgid "Maximize/restore running window on %1"
+msgstr "%1 üzərindəki işlək pəncərəni açmaq/bərpa etmək"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:314
+#, kde-format
+msgid "Toggle fullscreen for running window on %1"
+msgstr "%1 üzərindəki işlək pəncərəni tam ekran açmaq/açmamaq"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:317
+#, kde-format
+msgid "(Un)shade running window on %1"
+msgstr "%1 üzərindəki işlək pəncərəni başlıqdan kiçiltmək və ya açmaq"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:320
+#, kde-format
+msgid "Toggle keep above for running window on %1"
+msgstr "%1 üzərindəki işlək pəncərəni digərilərinin üzərində tutmaq/tutmamaq"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:323
+#, kde-format
+msgid "Toggle keep below running window on %1"
+msgstr "%1 üzərindəki işlək pəncərəni digərilərinin altında tutmaq/tutmamaq"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:327
+#, kde-format
+msgid "Activate running window on %1"
+msgstr "%1 üzərindəki işlək pəncərəni aktivləşdirmək"
+
+#: plugins/nightcolor/nightcolormanager.cpp:62
+#, kde-format
+msgctxt "Night Color was disabled"
+msgid "Night Color Off"
+msgstr "Gecə Rəngi söndürülüb"
+
+#: plugins/nightcolor/nightcolormanager.cpp:63
+#, kde-format
+msgctxt "Night Color was enabled"
+msgid "Night Color On"
+msgstr "Gecə Rəngi aktivdir"
+
+#: plugins/nightcolor/nightcolormanager.cpp:98
+#: plugins/nightcolor/nightcolormanager.cpp:101
+#: plugins/nightcolor/nightcolormanager.cpp:108
+#, kde-format
+msgid "Toggle Night Color"
+msgstr "Gecə Rəngini aktivləşdirmək/söndürmək"
+
+#: plugins/scenes/opengl/scene_opengl.cpp:517
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr "İş Masası effektləri qrafik sıfırlanması səbəbindən yenidən başladıldı"
@@ -2191,19 +2352,19 @@ msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
 msgstr "Plasma əlavəsi, gözlənilən yerdə tənzimləmə faylını təqdim etmir"
 
-#: scripting/scripting.cpp:117
+#: scripting/scripting.cpp:116
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
 msgstr "Təsdiq edilmədi: %1, null ilə bərabər deyil"
 
-#: scripting/scripting.cpp:135
+#: scripting/scripting.cpp:134
 #, kde-format
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
 msgstr "Təsdiq edilmədi: arqument null ilə bərabərdir"
 
-#: scripting/scripting.cpp:177
+#: scripting/scripting.cpp:176
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
@@ -2213,7 +2374,7 @@ msgstr ""
 "Yalnış sayda arqument. Ən azı, xidmət (service), yol (path), interfeys "
 "(interface) və metod(method) təmin edilməlidir"
 
-#: scripting/scripting.cpp:183
+#: scripting/scripting.cpp:182
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
@@ -2312,7 +2473,7 @@ msgstr "İş Masaları siyahısında hərəkət"
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "İş Masaları siyahısında əksinə hərəkət"
 
-#: tabbox/tabboxhandler.cpp:272
+#: tabbox/tabboxhandler.cpp:270
 #, kde-format
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
@@ -2485,12 +2646,12 @@ msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "<b>%1</b> %3-də %2 tərəfindən istifadə olunur"
 
-#: useractions.cpp:1021
+#: useractions.cpp:1020
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Aktiv pəncərə (%1)"
 
-#: useractions.cpp:1163
+#: useractions.cpp:1162
 #, kde-format
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
@@ -2541,27 +2702,7 @@ msgstr "Bir İş Masası aşağı keçmək"
 msgid "Switch to Desktop %1"
 msgstr "%1 İş Masasına keçid"
 
-#: virtualkeyboard.cpp:84
-#, kde-format
-msgid "Virtual Keyboard"
-msgstr "Virtual Klaviatura"
-
-#: virtualkeyboard.cpp:350
-#, kde-format
-msgid "Virtual Keyboard: enabled"
-msgstr "Virtual Klaviatura aktiv edilib"
-
-#: virtualkeyboard.cpp:353
-#, kde-format
-msgid "Virtual Keyboard: disabled"
-msgstr "Virtual Klaviatura söndürülüb"
-
-#: virtualkeyboard.cpp:355
-#, kde-format
-msgid "Whether to show the virtual keyboard on demand."
-msgstr "Virtual klaviaturanı tələbata görə göstərib, göstərməmək"
-
-#: workspace.cpp:1363
+#: workspace.cpp:1355
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

@@ -27,7 +27,7 @@ DrmConnector::DrmConnector(uint32_t connector_id, int fd)
 
 DrmConnector::~DrmConnector() = default;
 
-bool DrmConnector::atomicInit()
+bool DrmConnector::init()
 {
     qCDebug(KWIN_DRM) << "Creating connector" << m_id;
 
@@ -41,6 +41,7 @@ bool DrmConnector::initProps()
 {
     setPropertyNames( {
         QByteArrayLiteral("CRTC_ID"),
+        QByteArrayLiteral("non-desktop")
     });
 
     DrmScopedPointer<drmModeObjectProperties> properties(

@@ -1,7 +1,7 @@
 # translation of kcmkwm.po to Slovenian
 # Translation of kcmkwm.po to Slovenian
 # KDEBASE translation to Slovenian language.
-# $Id: kcmkwm.po 1578395 2020-09-03 03:37:08Z scripty $
+# $Id: kcmkwm.po 1583550 2020-10-25 03:47:00Z scripty $
 # $Source$
 #
 # Copyright (C) 2001, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-29 02:26+0200\n"
-"PO-Revision-Date: 2020-09-02 20:53+0200\n"
+"POT-Creation-Date: 2020-10-22 02:33+0200\n"
+"PO-Revision-Date: 2020-10-24 20:56+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -470,7 +470,7 @@ msgstr ""
 #: advanced.ui:35
 #, kde-format
 msgid "On titlebar hover after:"
-msgstr ""
+msgstr "Ob prehodu kazalke nad naslovno vrstico:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_ShadeHoverInterval)
 #: advanced.ui:42
@@ -599,19 +599,21 @@ msgstr "Pod miško"
 #: advanced.ui:118
 #, kde-format
 msgid ""
-"When turned on, KDE apps which are able to remember the positions of their "
+"When turned on, apps which are able to remember the positions of their "
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
-"Kadar je vklopljeno, aplikacije KDE, ki si zmorejo zapomniti položaje svojih "
-"oken, lahko to tudi storijo. To bo preglasilo način postavitve oken, kot je "
-"opredeljen zgoraj."
+"Kadar je vklopljeno, lahko aplikacije, ki so zmožne pomniti položaje svojih "
+"oken, to tudi storijo. To bo preglasilo način postavitve oken, kot je "
+"določeno zgoraj."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:121
 #, kde-format
-msgid "Allow KDE apps to remember the positions of their own windows"
-msgstr "Dovoli aplikacijam KDE, da si zapomnijo položaj svojih oken"
+msgid ""
+"Allow apps to remember the positions of their own windows, if they support it"
+msgstr ""
+"Dovoli aplikacijam, da si zapomnijo položaj svojih oken, če to podpirajo"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
 #: advanced.ui:128
@@ -1314,7 +1316,7 @@ msgstr "Območje pripenjanja na sredino:"
 msgid "&Snap windows:"
 msgstr "Pripni okna:"
 
-#: windows.cpp:87
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1324,7 +1326,7 @@ msgstr ""
 "Okno postane aktivno, ko kliknete vanj. To obnašanje je pogosto pri drugih "
 "operacijskih sistemih in je najbrž to, kar želite."
 
-#: windows.cpp:91
+#: windows.cpp:105
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1339,7 +1341,7 @@ msgstr ""
 "miško. Neobičajna, vendar mogoča različica <em>Kliknite za osredotočenost</"
 "em>."
 
-#: windows.cpp:96
+#: windows.cpp:110
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1353,7 +1355,7 @@ msgstr ""
 "običajno. Mislite si <em>Kliknite za osredotočenost</em> samo, da ni treba "
 "zares klikniti."
 
-#: windows.cpp:100
+#: windows.cpp:114
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1366,7 +1368,7 @@ msgstr ""
 "prednost okno, ki je pod miško. Izberite to, če hočete imeti nadzor nad "
 "osredotočenostjo oken pod kazalko."
 
-#: windows.cpp:105
+#: windows.cpp:119
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1381,7 +1383,7 @@ msgstr ""
 "politiki aktiviranja in ne bodo delovali. Zelo verjetno bi želeli "
 "uporabljati <em>Osredotočenost sledi miški (prednost miške)</em>!"
 
-#: windows.cpp:109
+#: windows.cpp:123
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

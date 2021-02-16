@@ -17,6 +17,7 @@
 #include <QPointer>
 #include <config-kwin.h>
 
+#include <KConfigWatcher>
 #include <KSharedConfig>
 #include <QSet>
 
@@ -42,6 +43,8 @@ class WindowSelectorFilter;
 class SwitchEvent;
 class TabletEvent;
 class TabletInputFilter;
+class TabletToolId;
+class TabletPadId;
 
 namespace Decoration
 {
@@ -165,8 +168,14 @@ public:
     void processTouchDown(qint32 id, const QPointF &pos, quint32 time);
     void processTouchUp(qint32 id, quint32 time);
     void processTouchMotion(qint32 id, const QPointF &pos, quint32 time);
+    /**
+     * triggers the same code path as LIBINPUT_TOUCH_CANCEL_EVENT.
+     * Only intended for autotests
+     */
+    void cancelTouchSequence();
     void cancelTouch();
     void touchFrame();
+    int touchPointCount();
 
     bool supportsPointerWarping() const;
     void warpPointer(const QPointF &pos);
@@ -296,6 +305,9 @@ Q_SIGNALS:
     void hasAlphaNumericKeyboardChanged(bool set);
     void hasTabletModeSwitchChanged(bool set);
 
+private Q_SLOTS:
+    void handleInputConfigChanged(const KConfigGroup &group);
+
 private:
     void setupLibInput();
     void setupTouchpadShortcuts();
@@ -304,6 +316,7 @@ private:
     void reconfigure();
     void setupInputFilters();
     void installInputEventFilter(InputEventFilter *filter);
+    Toplevel *findInternal(const QPoint &pos) const;
     KeyboardInputRedirection *m_keyboard;
     PointerInputRedirection *m_pointer;
     TabletInputRedirection *m_tablet;
@@ -318,6 +331,7 @@ private:
 
     QVector<InputEventFilter*> m_filters;
     QVector<InputEventSpy*> m_spies;
+    KConfigWatcher::Ptr m_inputConfigWatcher;
 
     KWIN_SINGLETON(InputRedirection)
     friend InputRedirection *input();
@@ -395,10 +409,10 @@ public:
     virtual bool switchEvent(SwitchEvent *event);
 
     virtual bool tabletToolEvent(TabletEvent *event);
-    virtual bool tabletToolButtonEvent(const QSet<uint> &buttons);
-    virtual bool tabletPadButtonEvent(const QSet<uint> &buttons);
-    virtual bool tabletPadStripEvent(int number, int position, bool isFinger);
-    virtual bool tabletPadRingEvent(int number, int position, bool isFinger);
+    virtual bool tabletToolButtonEvent(uint button, bool pressed, const TabletToolId &tabletToolId);
+    virtual bool tabletPadButtonEvent(uint button, bool pressed, const TabletPadId &tabletPadId);
+    virtual bool tabletPadStripEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId);
+    virtual bool tabletPadRingEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId);
 
 protected:
     void passToWaylandServer(QKeyEvent *event);
@@ -434,21 +448,17 @@ public:
      * @brief The Decoration currently receiving events.
      * @return decoration with pointer focus.
      */
-    QPointer<Decoration::DecoratedClientImpl> decoration() const {
-        return m_focus.decoration;
-    }
+    Decoration::DecoratedClientImpl *decoration() const;
     /**
      * @brief The internal window currently receiving events.
      * @return QWindow with pointer focus.
      */
-    QPointer<QWindow> internalWindow() const {
-        return m_focus.internalWindow;
-    }
+    QWindow *internalWindow() const;
 
     virtual QPointF position() const = 0;
 
     void setFocus(Toplevel *toplevel);
-    void setDecoration(QPointer<Decoration::DecoratedClientImpl> decoration);
+    void setDecoration(Decoration::DecoratedClientImpl *decoration);
     void setInternalWindow(QWindow *window);
 
 Q_SIGNALS:
@@ -469,7 +479,7 @@ protected:
      * is resting on the surface (no touch point).
      */
     virtual bool positionValid() const {
-        return false;
+        return true;
     }
     virtual bool focusUpdatesBlocked() {
         return false;
@@ -487,8 +497,6 @@ private:
     void updateFocus();
     bool updateDecoration();
     void updateInternalWindow(QWindow *window);
-
-    QWindow* findInternalWindow(const QPoint &pos) const;
 
     struct {
         QPointer<Toplevel> at;

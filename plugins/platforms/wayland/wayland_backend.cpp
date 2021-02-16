@@ -9,10 +9,16 @@
 */
 #include "wayland_backend.h"
 
+
 #if HAVE_WAYLAND_EGL
 #include "egl_wayland_backend.h"
+#if HAVE_GBM
+#include "../drm/gbm_dmabuf.h"
+#include <gbm.h>
+#endif
 #endif
 #include "logging.h"
+#include "renderloop_p.h"
 #include "scene_qpainter_wayland_backend.h"
 #include "wayland_output.h"
 
@@ -20,13 +26,9 @@
 #include "cursor.h"
 #include "input.h"
 #include "main.h"
-#include "outputscreens.h"
-#include "pointer_input.h"
 #include "screens.h"
+#include "pointer_input.h"
 #include "wayland_server.h"
-#include "../drm/gbm_dmabuf.h"
-
-#include <config-kwin.h>
 
 #include <KWayland/Client/buffer.h>
 #include <KWayland/Client/compositor.h>
@@ -54,7 +56,6 @@
 
 #include <linux/input.h>
 #include <unistd.h>
-#include <gbm.h>
 #include <fcntl.h>
 
 namespace KWin
@@ -91,29 +92,30 @@ void WaylandCursor::installImage()
 {
     const QImage image = Cursors::self()->currentCursor()->image();
     if (image.isNull() || image.size().isEmpty()) {
-        doInstallImage(nullptr, QSize());
+        doInstallImage(nullptr, QSize(), 1);
         return;
     }
 
     auto buffer = m_backend->shmPool()->createBuffer(image).toStrongRef();
     wl_buffer *imageBuffer = *buffer.data();
-    doInstallImage(imageBuffer, image.size());
+    doInstallImage(imageBuffer, image.size(), image.devicePixelRatio());
 }
 
-void WaylandCursor::doInstallImage(wl_buffer *image, const QSize &size)
+void WaylandCursor::doInstallImage(wl_buffer *image, const QSize &size, qreal scale)
 {
     auto *pointer = m_backend->seat()->pointer();
     if (!pointer || !pointer->isValid()) {
         return;
     }
     pointer->setCursor(m_surface, image ? Cursors::self()->currentCursor()->hotspot() : QPoint());
-    drawSurface(image, size);
+    drawSurface(image, size, scale);
 }
 
-void WaylandCursor::drawSurface(wl_buffer *image, const QSize &size)
+void WaylandCursor::drawSurface(wl_buffer *image, const QSize &size, qreal scale)
 {
     m_surface->attachBuffer(image);
-    m_surface->damage(QRect(QPoint(0,0), size));
+    m_surface->setScale(scale);
+    m_surface->damageBuffer(QRect(QPoint(0, 0), size));
     m_surface->commit(Surface::CommitFlag::None);
     m_backend->flush();
 }
@@ -160,7 +162,7 @@ void WaylandSubSurfaceCursor::createSubSurface()
     m_subSurface->setMode(SubSurface::Mode::Desynchronized);
 }
 
-void WaylandSubSurfaceCursor::doInstallImage(wl_buffer *image, const QSize &size)
+void WaylandSubSurfaceCursor::doInstallImage(wl_buffer *image, const QSize &size, qreal scale)
 {
     if (!image) {
         delete m_subSurface;
@@ -170,7 +172,7 @@ void WaylandSubSurfaceCursor::doInstallImage(wl_buffer *image, const QSize &size
     createSubSurface();
     // cursor position might have changed due to different cursor hot spot
     move(input()->pointer()->pos());
-    drawSurface(image, size);
+    drawSurface(image, size, scale);
 }
 
 QPointF WaylandSubSurfaceCursor::absoluteToRelativePosition(const QPointF &position)
@@ -443,10 +445,12 @@ WaylandBackend::WaylandBackend(QObject *parent)
     , m_connectionThreadObject(new ConnectionThread(nullptr))
     , m_connectionThread(nullptr)
 {
+    setPerScreenRenderingEnabled(true);
     supportsOutputChanges();
     connect(this, &WaylandBackend::connectionFailed, this, &WaylandBackend::initFailed);
 
 
+#if HAVE_GBM && HAVE_WAYLAND_EGL
     char const *drm_render_node = "/dev/dri/renderD128";
     m_drmFileDescriptor = open(drm_render_node, O_RDWR);
     if (m_drmFileDescriptor < 0) {
@@ -455,17 +459,22 @@ WaylandBackend::WaylandBackend(QObject *parent)
         return;
     }
     m_gbmDevice = gbm_create_device(m_drmFileDescriptor);
+#endif
 }
 
 WaylandBackend::~WaylandBackend()
 {
+    if (sceneEglDisplay() != EGL_NO_DISPLAY) {
+        eglTerminate(sceneEglDisplay());
+    }
+
     if (m_pointerConstraints) {
         m_pointerConstraints->release();
     }
     delete m_waylandCursor;
 
     m_eventQueue->release();
-    qDeleteAll(m_outputs);
+    destroyOutputs();
 
     if (m_xdgShell) {
         m_xdgShell->release();
@@ -479,19 +488,21 @@ WaylandBackend::~WaylandBackend()
     m_connectionThread->quit();
     m_connectionThread->wait();
     m_connectionThreadObject->deleteLater();
+#if HAVE_GBM && HAVE_WAYLAND_EGL
     gbm_device_destroy(m_gbmDevice);
     close(m_drmFileDescriptor);
-
+#endif
     qCDebug(KWIN_WAYLAND_BACKEND) << "Destroyed Wayland display";
 }
 
 void WaylandBackend::init()
 {
-    connect(m_registry, &Registry::compositorAnnounced, this,
-        [this](quint32 name) {
-            m_compositor->setup(m_registry->bindCompositor(name, 1));
+    connect(m_registry, &Registry::compositorAnnounced, this, [this](quint32 name, quint32 version) {
+        if (version < 4) {
+            qFatal("wl_compositor version 4 or later is required");
         }
-    );
+        m_compositor->setup(m_registry->bindCompositor(name, version));
+    });
     connect(m_registry, &Registry::subCompositorAnnounced, this,
         [this](quint32 name) {
             m_subCompositor->setup(m_registry->bindSubCompositor(name, 1));
@@ -558,7 +569,7 @@ void WaylandBackend::init()
             }
             m_waylandCursor->installImage();
             auto c = Cursors::self()->currentCursor();
-            c->rendered(c->geometry());
+            emit c->rendered(c->geometry());
         }
     );
     connect(this, &WaylandBackend::pointerLockChanged, this, [this] (bool locked) {
@@ -614,8 +625,7 @@ void WaylandBackend::initConnection()
             delete m_seat;
             m_shm->destroy();
 
-            qDeleteAll(m_outputs);
-            m_outputs.clear();
+            destroyOutputs();
 
             if (m_xdgShell) {
                 m_xdgShell->destroy();
@@ -707,18 +717,33 @@ void WaylandBackend::createOutputs()
             updateScreenSize(waylandOutput);
             Compositor::self()->addRepaintFull();
         });
-        connect(waylandOutput, &WaylandOutput::frameRendered, this, &WaylandBackend::checkBufferSwap);
+        connect(waylandOutput, &WaylandOutput::frameRendered, this, [waylandOutput]() {
+            waylandOutput->resetRendered();
+
+            // The current time of the monotonic clock is a pretty good estimate when the frame
+            // has been presented, however it will be much better if we check whether the host
+            // compositor supports the wp_presentation protocol.
+            RenderLoopPrivate *renderLoopPrivate = RenderLoopPrivate::get(waylandOutput->renderLoop());
+            renderLoopPrivate->notifyFrameCompleted(std::chrono::steady_clock::now().time_since_epoch());
+        });
 
         logicalWidthSum += logicalWidth;
         m_outputs << waylandOutput;
+        emit outputAdded(waylandOutput);
+        emit outputEnabled(waylandOutput);
     }
     setReady(true);
     emit screensQueried();
 }
 
-Screens *WaylandBackend::createScreens(QObject *parent)
+void WaylandBackend::destroyOutputs()
 {
-    return new OutputScreens(this, parent);
+    while (!m_outputs.isEmpty()) {
+        WaylandOutput *output = m_outputs.takeLast();
+        emit outputDisabled(output);
+        emit outputRemoved(output);
+        delete output;
+    }
 }
 
 OpenGLBackend *WaylandBackend::createOpenGLBackend()
@@ -733,23 +758,6 @@ OpenGLBackend *WaylandBackend::createOpenGLBackend()
 QPainterBackend *WaylandBackend::createQPainterBackend()
 {
     return new WaylandQPainterBackend(this);
-}
-
-void WaylandBackend::checkBufferSwap()
-{
-    const bool allRendered = std::all_of(m_outputs.constBegin(), m_outputs.constEnd(), [](WaylandOutput *o) {
-            return o->rendered();
-        });
-    if (!allRendered) {
-        // need to wait more
-        // TODO: what if one does not need to be rendered (no damage)?
-        return;
-    }
-    Compositor::self()->bufferSwapComplete();
-
-    for (auto *output : qAsConst(m_outputs)) {
-        output->resetRendered();
-    }
 }
 
 void WaylandBackend::flush()
@@ -835,7 +843,11 @@ Outputs WaylandBackend::enabledOutputs() const
 
 DmaBufTexture *WaylandBackend::createDmaBufTexture(const QSize& size)
 {
+#if HAVE_GBM && HAVE_WAYLAND_EGL
     return GbmDmaBuf::createBuffer(size, m_gbmDevice);
+#else
+    return nullptr;
+#endif
 }
 
 }

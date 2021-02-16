@@ -13,7 +13,7 @@
 #include "wayland_server.h"
 #include "xcbutils.h"
 #include "egl_x11_backend.h"
-#include "outputscreens.h"
+#include "screens.h"
 #include <kwinxrenderutils.h>
 #include <cursor.h>
 #include <pointer_input.h>
@@ -36,6 +36,7 @@
 // system
 #include <linux/input.h>
 #include <X11/Xlib-xcb.h>
+#include <X11/keysym.h>
 
 namespace KWin
 {
@@ -44,11 +45,14 @@ X11WindowedBackend::X11WindowedBackend(QObject *parent)
     : Platform(parent)
 {
     setSupportsPointerWarping(true);
-    connect(this, &X11WindowedBackend::sizeChanged, this, &X11WindowedBackend::screenSizeChanged);
+    setPerScreenRenderingEnabled(true);
 }
 
 X11WindowedBackend::~X11WindowedBackend()
 {
+    if (sceneEglDisplay() != EGL_NO_DISPLAY) {
+        eglTerminate(sceneEglDisplay());
+    }
     if (m_connection) {
         if (m_keySymbols) {
             xcb_key_symbols_free(m_keySymbols);
@@ -173,6 +177,8 @@ void X11WindowedBackend::createOutputs()
 
         logicalWidthSum += logicalWidth;
         m_outputs << output;
+        emit outputAdded(output);
+        emit outputEnabled(output);
     }
 
     updateWindowTitle();
@@ -343,7 +349,7 @@ void X11WindowedBackend::updateWindowTitle()
 {
     const QString grab = m_keyboardGrabbed ? i18n("Press right control to ungrab input") : i18n("Press right control key to grab input");
     const QString title = QStringLiteral("%1 (%2) - %3").arg(i18n("KDE Wayland Compositor"))
-                                                        .arg(waylandServer()->display()->socketName())
+                                                        .arg(waylandServer()->socketName())
                                                         .arg(grab);
     for (auto it = m_outputs.constBegin(); it != m_outputs.constEnd(); ++it) {
         (*it)->setWindowTitle(title);
@@ -377,6 +383,8 @@ void X11WindowedBackend::handleClientMessage(xcb_client_message_event_t *event)
                     x += (*it)->geometry().width();
                 }
 
+                emit outputDisabled(removedOutput);
+                emit outputRemoved(removedOutput);
                 delete removedOutput;
                 QMetaObject::invokeMethod(screens(), "updateCount");
             }
@@ -489,11 +497,6 @@ xcb_window_t X11WindowedBackend::rootWindow() const
         return XCB_WINDOW_NONE;
     }
     return m_screen->root;
-}
-
-Screens *X11WindowedBackend::createScreens(QObject *parent)
-{
-    return new OutputScreens(this, parent);
 }
 
 OpenGLBackend *X11WindowedBackend::createOpenGLBackend()

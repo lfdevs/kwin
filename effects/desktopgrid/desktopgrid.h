@@ -15,6 +15,8 @@
 #include <QObject>
 #include <QTimeLine>
 
+class QTimer;
+
 #include "kwineffectquickview.h"
 
 namespace KWin
@@ -37,10 +39,10 @@ public:
     DesktopGridEffect();
     ~DesktopGridEffect() override;
     void reconfigure(ReconfigureFlags) override;
-    void prePaintScreen(ScreenPrePaintData& data, int time) override;
+    void prePaintScreen(ScreenPrePaintData& data, std::chrono::milliseconds presentTime) override;
     void paintScreen(int mask, const QRegion &region, ScreenPaintData& data) override;
     void postPaintScreen() override;
-    void prePaintWindow(EffectWindow* w, WindowPrePaintData& data, int time) override;
+    void prePaintWindow(EffectWindow* w, WindowPrePaintData& data, std::chrono::milliseconds presentTime) override;
     void paintWindow(EffectWindow* w, int mask, QRegion region, WindowPaintData& data) override;
     void windowInputMouseEvent(QEvent* e) override;
     void grabbedKeyboardEvent(QKeyEvent* e) override;
@@ -52,6 +54,7 @@ public:
     }
 
     enum { LayoutPager, LayoutAutomatic, LayoutCustom }; // Layout modes
+    enum { SwitchDesktopAndActivateWindow, SwitchDesktopOnly }; // Click behavior
 
     // for properties
     int configuredZoomDuration() const {
@@ -70,7 +73,7 @@ public:
         return customLayoutRows;
     }
     bool isUsePresentWindows() const {
-        return m_usePresentWindows;
+        return clickBehavior == SwitchDesktopAndActivateWindow;
     }
 private Q_SLOTS:
     void toggle();
@@ -114,6 +117,7 @@ private:
     Qt::Alignment desktopNameAlignment;
     int layoutMode;
     int customLayoutRows;
+    int clickBehavior;
 
     bool activated;
     QTimeLine timeline;
@@ -126,6 +130,8 @@ private:
     EffectWindow* windowMove;
     QPoint windowMoveDiff;
     QPoint dragStartPos;
+    QTimer *windowMoveElevateTimer;
+    std::chrono::milliseconds lastPresentTime;
 
     // Soft highlighting
     QList<QTimeLine*> hoverTimeline;
@@ -146,7 +152,6 @@ private:
 
     PresentWindowsEffectProxy* m_proxy;
     QList<WindowMotionManager> m_managers;
-    bool m_usePresentWindows;
     QRect m_windowMoveGeometry;
     QPoint m_windowMoveStartPoint;
 

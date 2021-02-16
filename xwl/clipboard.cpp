@@ -70,14 +70,11 @@ void Clipboard::wlSelectionChanged(KWaylandServer::AbstractDataSource *dsi)
         return;
     }
 
-    if (dsi && !ownsSelection(dsi)) {
+    if (!ownsSelection(dsi)) {
         // Wayland native client provides new selection
         if (!m_checkConnection) {
             m_checkConnection = connect(workspace(), &Workspace::clientActivated,
-                                        this, [this](AbstractClient *ac) {
-                                            Q_UNUSED(ac);
-                                            checkWlSource();
-                                        });
+                                        this, &Clipboard::checkWlSource);
         }
         // remove previous source so checkWlSource() can create a new one
         setWlSource(nullptr);
@@ -87,7 +84,7 @@ void Clipboard::wlSelectionChanged(KWaylandServer::AbstractDataSource *dsi)
 
 bool Clipboard::ownsSelection(KWaylandServer::AbstractDataSource *dsi) const
 {
-    return dsi->client() == DataBridge::self()->dataDeviceIface()->client()->client();
+    return dsi && dsi->client() == DataBridge::self()->dataDeviceIface()->client();
 }
 
 void Clipboard::checkWlSource()
@@ -113,14 +110,14 @@ void Clipboard::checkWlSource()
     // Otherwise the Wayland source gets destroyed to shield
     // against snooping X clients.
 
-    if (!dsi || (DataBridge::self()->dataDeviceIface()->client()->client() == dsi->client())) {
+    if (!dsi || (DataBridge::self()->dataDeviceIface()->client() == dsi->client())) {
         // Xwayland source or no source
         disconnect(m_checkConnection);
         m_checkConnection = QMetaObject::Connection();
         removeSource();
         return;
     }
-    if (!workspace()->activeClient() || !workspace()->activeClient()->inherits("KWin::X11Client")) {
+    if (!qobject_cast<KWin::X11Client*>(workspace()->activeClient())) {
         // no active client or active client is Wayland native
         removeSource();
         return;
@@ -188,7 +185,7 @@ void Clipboard::x11OffersChanged(const QStringList &added, const QStringList &re
         }
     } else {
         KWaylandServer::AbstractDataSource *currentSelection = waylandServer()->seat()->selection();
-        if (currentSelection && !ownsSelection(currentSelection)) {
+        if (!ownsSelection(currentSelection)) {
             waylandServer()->seat()->setSelection(nullptr);
         }
     }

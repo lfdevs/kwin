@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-29 02:26+0200\n"
-"PO-Revision-Date: 2020-08-30 18:45+0200\n"
+"POT-Creation-Date: 2020-10-22 02:33+0200\n"
+"PO-Revision-Date: 2020-10-22 15:48+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128@baslug.org>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -592,21 +592,21 @@ msgstr "Sotto il mouse"
 #: advanced.ui:118
 #, kde-format
 msgid ""
-"When turned on, KDE apps which are able to remember the positions of their "
+"When turned on, apps which are able to remember the positions of their "
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
-"Quando è attivata, le applicazioni di KDE che sono in grado di ricordare le "
+"Quando è attivata, le applicazioni che sono in grado di ricordare le "
 "posizioni delle loro finestre sono autorizzate a farlo. Ciò sovrascriverà la "
-"modalità di posizionamento della finestra definita in precedenza."
+"modalità di posizionamento delle finestre definita in precedenza."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:121
 #, kde-format
-msgid "Allow KDE apps to remember the positions of their own windows"
+msgid ""
+"Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
-"Consenti alle applicazioni di KDE di ricordare le posizioni delle proprie "
-"finestre"
+"Consenti alle applicazioni di ricordare le posizioni delle proprie finestre"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
 #: advanced.ui:128
@@ -1322,7 +1322,7 @@ msgstr "Zona di aggancio del &centro:"
 msgid "&Snap windows:"
 msgstr "Aggancia le fine&stre:"
 
-#: windows.cpp:87
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1332,7 +1332,7 @@ msgstr ""
 "essa. Questo comportamento è comune su altri sistemi operativi e "
 "probabilmente è quello che vorrai utilizzare."
 
-#: windows.cpp:91
+#: windows.cpp:105
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1347,7 +1347,7 @@ msgstr ""
 "puntatore è la candidata preferita. Variante inconsueta ma possibile di "
 "<em>Clic per il fuoco</em>."
 
-#: windows.cpp:96
+#: windows.cpp:110
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1361,7 +1361,7 @@ msgstr ""
 "come al solito. Pensa a <em>Clic per il fuoco</em> senza dover "
 "effettivamente fare clic."
 
-#: windows.cpp:100
+#: windows.cpp:114
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1374,7 +1374,7 @@ msgstr ""
 "è stata chiusa) quella sotto il puntatore è la candidata preferita. Scegli "
 "questa opzione se vuoi che il fuoco sia controllato dal passaggio del mouse."
 
-#: windows.cpp:105
+#: windows.cpp:119
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1389,7 +1389,7 @@ msgstr ""
 "contraddicono questa regola e non funzioneranno. Molto probabilmente vorrai "
 "usare invece <em>Il fuoco segue il mouse (precedenza al mouse)</em>!"
 
-#: windows.cpp:109
+#: windows.cpp:123
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

@@ -14,13 +14,13 @@
 # Ludovic Grossard <ludovic.grossard@unilim.fr>, 2014.
 # Sebastien Renard <renard@kde.org>, 2015.
 # Simon Depiets <sdepiets@gmail.com>, 2019, 2020.
-# Xavier Besnard <xavier.besnard@neuf.fr>, 2020.
+# Xavier Besnard <xavier.besnard@neuf.fr>, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-29 02:26+0200\n"
-"PO-Revision-Date: 2020-08-30 09:34+0200\n"
+"POT-Creation-Date: 2020-10-22 02:33+0200\n"
+"PO-Revision-Date: 2020-10-23 10:29+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
 "Language-Team: FR\n"
 "Language: fr\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 20.08.2\n"
+"X-Generator: Lokalize 20.12.0\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -611,21 +611,22 @@ msgstr "Sous la souris"
 #: advanced.ui:118
 #, kde-format
 msgid ""
-"When turned on, KDE apps which are able to remember the positions of their "
+"When turned on, apps which are able to remember the positions of their "
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
-"Quand cette option est activée, les applications de KDE capable de mémoriser "
-"les positions de leurs fenêtres peuvent les restaurer. Ceci va déroger au "
+"Quand cette option est activée, les applications de KDE, pouvant mémoriser "
+"les positions de leurs fenêtres, peuvent les restaurer. Ceci va déroger au "
 "mode de placement des fenêtres défini ci-dessus."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:121
 #, kde-format
-msgid "Allow KDE apps to remember the positions of their own windows"
+msgid ""
+"Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
 "Permettre aux applications de KDE de se rappeler les positions de leurs "
-"propres fenêtres"
+"propres fenêtres, si elles le prennent en charge."
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
 #: advanced.ui:128
@@ -1346,7 +1347,7 @@ msgstr "Zone d'attraction du &centre :"
 msgid "&Snap windows:"
 msgstr "Empiler le&s fenêtres"
 
-#: windows.cpp:87
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1356,7 +1357,7 @@ msgstr ""
 "cliquez dedans. Ce comportement est commun avec d'autres systèmes "
 "d'exploitation et plutôt ce que vous souhaitez."
 
-#: windows.cpp:91
+#: windows.cpp:105
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1372,7 +1373,7 @@ msgstr ""
 "désignée. De façon inhabituelle mais une variante possible de <em>Cliquer "
 "pour avoir le focus</em>."
 
-#: windows.cpp:96
+#: windows.cpp:110
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1386,7 +1387,7 @@ msgstr ""
 "de vol de focus </em>est appliquée de façon classique. Pensez à <em>Cliquer "
 "pour avoir le focus</em> juste sans avoir à cliquer vraiment."
 
-#: windows.cpp:100
+#: windows.cpp:114
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1400,7 +1401,7 @@ msgstr ""
 "toute désignée. Choisissez ceci, si vous voulez un focus piloté par le "
 "survol."
 
-#: windows.cpp:105
+#: windows.cpp:119
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1416,7 +1417,7 @@ msgstr ""
 "Vous aimerez très probablement utiliser<em>Le focus suit la souris "
 "(Précédence de la souris)</em> à la place !"
 
-#: windows.cpp:109
+#: windows.cpp:123
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

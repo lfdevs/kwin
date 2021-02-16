@@ -37,6 +37,7 @@ class SurfaceInterface;
 namespace KWin
 {
 
+class AbstractOutput;
 class ClientMachine;
 class Deleted;
 class EffectWindowImpl;
@@ -112,7 +113,7 @@ class KWIN_EXPORT Toplevel : public QObject
     Q_PROPERTY(QRect visibleRect READ visibleRect)
     Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
     Q_PROPERTY(int screen READ screen NOTIFY screenChanged)
-    Q_PROPERTY(qulonglong windowId READ windowId CONSTANT)
+    Q_PROPERTY(qulonglong windowId READ window CONSTANT)
     Q_PROPERTY(int desktop READ desktop)
 
     /**
@@ -230,7 +231,7 @@ class KWIN_EXPORT Toplevel : public QObject
      */
     Q_PROPERTY(int windowType READ windowType)
 
-    Q_PROPERTY(QStringList activities READ activities NOTIFY activitiesChanged)
+    Q_PROPERTY(QStringList activities READ activities)
 
     /**
      * Whether this Toplevel is managed by KWin (it has control over its placement and other
@@ -296,10 +297,6 @@ public:
     virtual xcb_window_t frameId() const;
     xcb_window_t window() const;
     /**
-     * @return a unique identifier for the Toplevel. On X11 same as @ref window
-     */
-    virtual quint32 windowId() const;
-    /**
      * Returns the geometry of the pixmap or buffer attached to this Toplevel.
      *
      * For X11 clients, this method returns server-side geometry of the Toplevel.
@@ -351,6 +348,7 @@ public:
     int width() const;
     int height() const;
     bool isOnScreen(int screen) const;   // true if it's at least partially there
+    bool isOnOutput(AbstractOutput *output) const;
     bool isOnActiveScreen() const;
     int screen() const; // the screen where the center is
     /**
@@ -380,6 +378,18 @@ public:
     virtual QRect transparentRect() const = 0;
     virtual bool isClient() const;
     virtual bool isDeleted() const;
+
+    /**
+     * Maps the specified @a point from the global screen coordinates to the frame coordinates.
+     */
+    QPoint mapToFrame(const QPoint &point) const;
+    /**
+     * Maps the specified @a point from the global screen coordinates to the surface-local
+     * coordinates of the main surface. For X11 clients, this function maps the specified point
+     * from the global screen coordinates to the buffer-local coordinates.
+     */
+    QPoint mapToLocal(const QPoint &point) const;
+    QPointF mapToLocal(const QPointF &point) const;
 
     // prefer isXXX() instead
     // 0 for supported types means default for managed/unmanaged types
@@ -455,8 +465,6 @@ public:
     void addWorkspaceRepaint(const QRect& r);
     void addWorkspaceRepaint(int x, int y, int w, int h);
     void addWorkspaceRepaint(const QRegion &region);
-    QRegion repaints() const;
-    void resetRepaints();
     QRegion damage() const;
     void resetDamage();
     EffectWindowImpl* effectWindow();
@@ -530,6 +538,11 @@ public:
     virtual QMatrix4x4 inputTransformation() const;
 
     /**
+     * Returns @c true if the toplevel can accept input at the specified position @a point.
+     */
+    virtual bool hitTest(const QPoint &point) const;
+
+    /**
      * The window has a popup grab. This means that when it got mapped the
      * parent window had an implicit (pointer) grab.
      *
@@ -586,7 +599,7 @@ public:
 
 Q_SIGNALS:
     void opacityChanged(KWin::Toplevel* toplevel, qreal oldOpacity);
-    void damaged(KWin::Toplevel* toplevel, const QRect& damage);
+    void damaged(KWin::Toplevel* toplevel, const QRegion& damage);
     void inputTransformationChanged();
     /**
      * This signal is emitted when the Toplevel's frame geometry changes.
@@ -604,12 +617,6 @@ Q_SIGNALS:
      * decoration.
      */
     void shapedChanged();
-    /**
-     * Emitted whenever the state changes in a way, that the Compositor should
-     * schedule a repaint of the scene.
-     */
-    void needsRepaint();
-    void activitiesChanged(KWin::Toplevel* toplevel);
     /**
      * Emitted whenever the Toplevel's screen changes. This can happen either in consequence to
      * a screen being removed/added or if the Toplevel's geometry changes.
@@ -688,6 +695,7 @@ protected:
     void discardWindowPixmap();
     void addDamageFull();
     virtual void addDamage(const QRegion &damage);
+    void addDamage_helper(const QRegion &damage);
     Xcb::Property fetchWmClientLeader() const;
     void readWmClientLeader(Xcb::Property &p);
     void getWmClientLeader();
@@ -718,8 +726,6 @@ protected:
     int bit_depth;
     NETWinInfo* info;
     bool ready_for_painting;
-    QRegion repaints_region; // updating, repaint just requires repaint of that area
-    QRegion layer_repaints_region;
     /**
      * An FBO object KWin internal windows might render to.
      */
@@ -923,11 +929,6 @@ inline QRegion Toplevel::damage() const
     return damage_region;
 }
 
-inline QRegion Toplevel::repaints() const
-{
-    return repaints_region.translated(pos()) | layer_repaints_region;
-}
-
 inline bool Toplevel::shape() const
 {
     return is_shape;
@@ -1060,7 +1061,7 @@ inline bool Toplevel::isPopupWindow() const
     }
 }
 
-QDebug operator<<(QDebug debug, const Toplevel *toplevel);
+KWIN_EXPORT QDebug operator<<(QDebug debug, const Toplevel *toplevel);
 
 } // namespace
 Q_DECLARE_METATYPE(KWin::Toplevel*)

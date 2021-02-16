@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-15 02:23+0200\n"
-"PO-Revision-Date: 2020-11-10 16:45+0100\n"
+"POT-Creation-Date: 2020-10-15 02:32+0200\n"
+"PO-Revision-Date: 2020-11-10 16:44+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -29,22 +29,22 @@ msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Bureaublad 1"
 
-#: main.cpp:65
+#: main.cpp:61
 #, kde-format
 msgid "Main"
 msgstr "Algemeen"
 
-#: main.cpp:66
+#: main.cpp:62
 #, kde-format
 msgid "Alternative"
 msgstr "Alternatief"
 
-#: main.cpp:68
+#: main.cpp:64
 #, kde-format
 msgid "Get New Task Switchers..."
 msgstr "Nieuwe taakwisselaars ophalen..."
 
-#: main.cpp:78
+#: main.cpp:74
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."

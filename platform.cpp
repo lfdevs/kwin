@@ -21,7 +21,6 @@
 #include "screens.h"
 #include "screenedge.h"
 #include "wayland_server.h"
-#include "colorcorrection/manager.h"
 
 #include <KWaylandServer/outputconfiguration_interface.h>
 #include <KWaylandServer/outputchangeset.h>
@@ -37,16 +36,12 @@ Platform::Platform(QObject *parent)
     : QObject(parent)
     , m_eglDisplay(EGL_NO_DISPLAY)
 {
-    setSoftWareCursor(false);
-    m_colorCorrect = new ColorCorrect::Manager(this);
+    setSoftwareCursorForced(false);
     connect(Cursors::self(), &Cursors::currentCursorRendered, this, &Platform::cursorRendered);
 }
 
 Platform::~Platform()
 {
-    if (m_eglDisplay != EGL_NO_DISPLAY) {
-        eglTerminate(m_eglDisplay);
-    }
 }
 
 PlatformCursorImage Platform::cursorImage() const
@@ -79,12 +74,6 @@ void Platform::doShowCursor()
 {
 }
 
-Screens *Platform::createScreens(QObject *parent)
-{
-    Q_UNUSED(parent)
-    return nullptr;
-}
-
 OpenGLBackend *Platform::createOpenGLBackend()
 {
     return nullptr;
@@ -94,6 +83,13 @@ QPainterBackend *Platform::createQPainterBackend()
 {
     return nullptr;
 }
+
+#ifdef KWIN_HAVE_XRENDER_COMPOSITING
+XRenderBackend *Platform::createXRenderBackend()
+{
+    return nullptr;
+}
+#endif
 
 void Platform::prepareShutdown()
 {
@@ -126,16 +122,19 @@ void Platform::requestOutputsChange(KWaylandServer::OutputConfigurationInterface
     for (auto it = changes.begin(); it != changes.end(); it++) {
         const KWaylandServer::OutputChangeSet *changeset = it.value();
 
-        auto output = findOutput(it.key()->uuid());
+        AbstractOutput* output = findOutput(it.key()->uuid());
         if (!output) {
             qCWarning(KWIN_CORE) << "Could NOT find output matching " << it.key()->uuid();
             continue;
         }
 
+        qDebug(KWIN_CORE) << "Platform::requestOutputsChange enabling" << changeset << it.key()->uuid() << changeset->enabledChanged() << (changeset->enabled() == Enablement::Enabled);
+
         if (changeset->enabledChanged() &&
                 changeset->enabled() == Enablement::Enabled) {
             output->setEnabled(true);
         }
+
         output->applyChanges(changeset);
     }
 
@@ -156,9 +155,11 @@ void Platform::requestOutputsChange(KWaylandServer::OutputConfigurationInterface
                 qCWarning(KWIN_CORE) << "Could NOT find output matching " << it.key()->uuid();
                 continue;
             }
+            qDebug(KWIN_CORE) << "Platform::requestOutputsChange disabling false" << it.key()->uuid();
             output->setEnabled(false);
         }
     }
+
     emit screens()->changed();
     config->setApplied();
 }
@@ -181,16 +182,19 @@ AbstractOutput *Platform::findOutput(const QByteArray &uuid)
     return nullptr;
 }
 
-void Platform::setSoftWareCursor(bool set)
+bool Platform::usesSoftwareCursor() const
 {
-    if (qEnvironmentVariableIsSet("KWIN_FORCE_SW_CURSOR")) {
-        set = true;
-    }
-    if (m_softWareCursor == set) {
+    return m_softwareCursor;
+}
+
+void Platform::setSoftwareCursor(bool set)
+{
+    if (m_softwareCursor == set) {
         return;
     }
-    m_softWareCursor = set;
-    if (m_softWareCursor) {
+    m_softwareCursor = set;
+    doSetSoftwareCursor();
+    if (m_softwareCursor) {
         connect(Cursors::self(), &Cursors::positionChanged, this, &Platform::triggerCursorRepaint);
         connect(Cursors::self(), &Cursors::currentCursorChanged, this, &Platform::triggerCursorRepaint);
     } else {
@@ -198,6 +202,33 @@ void Platform::setSoftWareCursor(bool set)
         disconnect(Cursors::self(), &Cursors::currentCursorChanged, this, &Platform::triggerCursorRepaint);
     }
     triggerCursorRepaint();
+}
+
+void Platform::doSetSoftwareCursor()
+{
+}
+
+bool Platform::isSoftwareCursorForced() const
+{
+    return m_softwareCursorForced;
+}
+
+void Platform::setSoftwareCursorForced(bool forced)
+{
+    if (qEnvironmentVariableIsSet("KWIN_FORCE_SW_CURSOR")) {
+        forced = true;
+    }
+    if (m_softwareCursorForced == forced) {
+        return;
+    }
+    m_softwareCursorForced = forced;
+    if (m_softwareCursorForced) {
+        setSoftwareCursor(true);
+    } else {
+        // Do not unset the software cursor yet, the platform will choose the right
+        // moment when it can be done. There is still a chance that we must continue
+        // using the software cursor.
+    }
 }
 
 void Platform::triggerCursorRepaint()
@@ -211,7 +242,7 @@ void Platform::triggerCursorRepaint()
 
 void Platform::cursorRendered(const QRect &geometry)
 {
-    if (m_softWareCursor) {
+    if (m_softwareCursor) {
         m_cursor.lastRenderedGeometry = geometry;
     }
 }
@@ -280,12 +311,28 @@ void Platform::pointerButtonReleased(quint32 button, quint32 time)
     input()->processPointerButton(button, InputRedirection::PointerButtonReleased, time);
 }
 
+int Platform::touchPointCount()
+{
+    if (!input()) {
+        return 0;
+    }
+    return input()->touchPointCount();
+}
+
 void Platform::pointerMotion(const QPointF &position, quint32 time)
 {
     if (!input()) {
         return;
     }
     input()->processPointerMotion(position, time);
+}
+
+void Platform::cancelTouchSequence()
+{
+    if (!input()) {
+        return;
+    }
+    input()->cancelTouchSequence();
 }
 
 void Platform::touchCancel()
@@ -409,6 +456,21 @@ void Platform::setReady(bool ready)
     emit readyChanged(m_ready);
 }
 
+bool Platform::isPerScreenRenderingEnabled() const
+{
+    return m_isPerScreenRenderingEnabled;
+}
+
+void Platform::setPerScreenRenderingEnabled(bool enabled)
+{
+    m_isPerScreenRenderingEnabled = enabled;
+}
+
+RenderLoop *Platform::renderLoop() const
+{
+    return nullptr;
+}
+
 void Platform::warpPointer(const QPointF &globalPos)
 {
     Q_UNUSED(globalPos)
@@ -422,6 +484,14 @@ bool Platform::supportsSurfacelessContext() const
     }
     if (Scene *scene = compositor->scene()) {
         return scene->supportsSurfacelessContext();
+    }
+    return false;
+}
+
+bool Platform::supportsNativeFence() const
+{
+    if (Compositor *compositor = Compositor::self()) {
+        return compositor->scene()->supportsNativeFence();
     }
     return false;
 }

@@ -39,6 +39,7 @@ class Deleted;
 class EffectFrameImpl;
 class EffectWindowImpl;
 class OverlayWindow;
+class RenderLoop;
 class Shadow;
 class WindowPixmap;
 class GLTexture;
@@ -55,17 +56,27 @@ public:
     class EffectFrame;
     class Window;
 
+    /**
+     * Schedules a repaint for the specified @a region.
+     */
+    void addRepaint(const QRegion &region);
+
+    /**
+     * Returns the repaints region for output with the specified @a screenId.
+     */
+    QRegion repaints(int screenId) const;
+    void resetRepaints(int screenId);
+
     // Returns true if the ctor failed to properly initialize.
     virtual bool initFailed() const = 0;
     virtual CompositingType compositingType() const = 0;
-
-    virtual bool hasPendingFlush() const { return false; }
 
     // Repaints the given screen areas, windows provides the stacking order.
     // The entry point for the main part of the painting pass.
     // returns the time since the last vblank signal - if there's one
     // ie. "what of this frame is lost to painting"
-    virtual qint64 paint(const QRegion &damage, const QList<Toplevel *> &windows) = 0;
+    virtual void paint(int screenId, const QRegion &damage, const QList<Toplevel *> &windows,
+                       RenderLoop *renderLoop) = 0;
 
     /**
      * Adds the Toplevel to the Scene.
@@ -132,15 +143,12 @@ public:
     };
     // types of filtering available
     enum ImageFilterType { ImageFilterFast, ImageFilterGood };
-    // there's nothing to paint (adjust time_diff later)
-    virtual void idle();
-    virtual bool blocksForRetrace() const;
-    virtual bool syncsToVBlank() const;
     virtual OverlayWindow* overlayWindow() const = 0;
 
     virtual bool makeOpenGLContextCurrent();
     virtual void doneOpenGLContextCurrent();
     virtual bool supportsSurfacelessContext() const;
+    virtual bool supportsNativeFence() const;
 
     virtual QMatrix4x4 screenProjectionMatrix() const;
 
@@ -177,7 +185,7 @@ public:
      * The render buffer used by a QPainter based compositor.
      * Default implementation returns @c nullptr.
      */
-    virtual QImage *qpainterRenderBuffer() const;
+    virtual QImage *qpainterRenderBuffer(int screenId) const;
 
     /**
      * The backend specific extensions (e.g. EGL/GLX extensions).
@@ -206,7 +214,9 @@ protected:
     void clearStackingOrder();
     // shared implementation, starts painting the screen
     void paintScreen(int *mask, const QRegion &damage, const QRegion &repaint,
-                     QRegion *updateRegion, QRegion *validRegion, const QMatrix4x4 &projection = QMatrix4x4(), const QRect &outputGeometry = QRect(), const qreal screenScale = 1.0);
+                     QRegion *updateRegion, QRegion *validRegion, RenderLoop *renderLoop,
+                     const QMatrix4x4 &projection = QMatrix4x4(),
+                     const QRect &outputGeometry = QRect(), qreal screenScale = 1.0);
     // Render cursor texture in case hardware cursor is disabled/non-applicable
     virtual void paintCursor(const QRegion &region) = 0;
     friend class EffectsHandlerImpl;
@@ -225,7 +235,7 @@ protected:
      *
      * @p damage contains the reported damage as suggested by windows and effects on prepaint calls.
      */
-    virtual void aboutToStartPainting(const QRegion &damage);
+    virtual void aboutToStartPainting(int screenId, const QRegion &damage);
     // called after all effects had their paintWindow() called
     void finalPaintWindow(EffectWindowImpl* w, int mask, const QRegion &region, WindowPaintData& data);
     // shared implementation, starts painting the window
@@ -239,8 +249,6 @@ protected:
 
     virtual void paintEffectQuickView(EffectQuickView *w) = 0;
 
-    // compute time since the last repaint
-    void updateTimeDiff();
     // saved data for 2nd pass of optimized screen painting
     struct Phase2Data {
         Window *window = nullptr;
@@ -259,15 +267,17 @@ protected:
     QRegion repaint_region;
     // The dirty region before it was unioned with repaint_region
     QRegion damaged_region;
-    // time since last repaint
-    int time_diff;
-    QElapsedTimer last_time;
+    // The screen that is being currently painted
+    int painted_screen = -1;
 private:
     void paintWindowThumbnails(Scene::Window *w, const QRegion &region, qreal opacity, qreal brightness, qreal saturation);
     void paintDesktopThumbnails(Scene::Window *w);
+    std::chrono::milliseconds m_expectedPresentTimestamp = std::chrono::milliseconds::zero();
+    void reallocRepaints();
     QHash< Toplevel*, Window* > m_windows;
     // windows in their stacking order
     QVector< Window* > stacking_order;
+    QVector<QRegion> m_repaints;
     // how many times finalPaintScreen() has been called
     int m_paintScreenCount = 0;
 };
@@ -354,6 +364,9 @@ public:
     void unreferencePreviousPixmap();
     void discardQuads();
     void preprocess();
+    void addLayerRepaint(const QRegion &region);
+    QRegion repaints(int screen) const;
+    void resetRepaints(int screen);
 
     virtual QSharedPointer<GLTexture> windowTexture() {
         return {};
@@ -378,7 +391,7 @@ public:
     template<typename T> T *previousWindowPixmap() const;
 
 protected:
-    WindowQuadList makeDecorationQuads(const QRect *rects, const QRegion &region, qreal textureScale = 1.0) const;
+    WindowQuadList makeDecorationQuads(const QRect *rects, const QRegion &region) const;
     WindowQuadList makeContentsQuads() const;
     /**
      * @brief Factory method to create a WindowPixmap.
@@ -391,8 +404,13 @@ protected:
     ImageFilterType filter;
     Shadow *m_shadow;
 private:
+    void scheduleRepaint();
+    void handleSurfaceCommitted(KWaylandServer::SurfaceInterface *surface);
+    void reallocRepaints();
+
     QScopedPointer<WindowPixmap> m_currentPixmap;
     QScopedPointer<WindowPixmap> m_previousPixmap;
+    QVector<QRegion> m_repaints;
     SubSurfaceMonitor *m_subsurfaceMonitor = nullptr;
     int m_referencePixmapCounter;
     int disable_painting;
@@ -418,8 +436,9 @@ private:
  * This class is intended to be inherited for the needs of the compositor backends which need further mapping from
  * the native pixmap to the respective rendering format.
  */
-class KWIN_EXPORT WindowPixmap
+class KWIN_EXPORT WindowPixmap : public QObject
 {
+    Q_OBJECT
 public:
     virtual ~WindowPixmap();
     /**
@@ -451,7 +470,7 @@ public:
     /**
      * @return The Wayland BufferInterface for this WindowPixmap.
      */
-    QPointer<KWaylandServer::BufferInterface> buffer() const;
+    KWaylandServer::BufferInterface *buffer() const;
     const QSharedPointer<QOpenGLFramebufferObject> &fbo() const;
     QImage internalImage() const;
     /**
@@ -552,9 +571,7 @@ public:
     /**
      * @returns the subsurface this WindowPixmap is for if it is not for a root window
      */
-    QPointer<KWaylandServer::SubSurfaceInterface> subSurface() const {
-        return m_subSurface;
-    }
+    KWaylandServer::SubSurfaceInterface *subSurface() const;
 
     /**
      * @returns the surface this WindowPixmap references, might be @c null.
@@ -563,8 +580,8 @@ public:
 
 protected:
     explicit WindowPixmap(Scene::Window *window);
-    explicit WindowPixmap(const QPointer<KWaylandServer::SubSurfaceInterface> &subSurface, WindowPixmap *parent);
-    virtual WindowPixmap *createChild(const QPointer<KWaylandServer::SubSurfaceInterface> &subSurface);
+    explicit WindowPixmap(KWaylandServer::SubSurfaceInterface *subSurface, WindowPixmap *parent);
+    virtual WindowPixmap *createChild(KWaylandServer::SubSurfaceInterface *subSurface);
     /**
      * @return The Window this WindowPixmap belongs to
      */
@@ -578,12 +595,15 @@ protected:
     }
 
 private:
+    void setBuffer(KWaylandServer::BufferInterface *buffer);
+    void clear();
+
     Scene::Window *m_window;
     xcb_pixmap_t m_pixmap;
     QSize m_pixmapSize;
     bool m_discarded;
     QRect m_contentsRect;
-    QPointer<KWaylandServer::BufferInterface> m_buffer;
+    KWaylandServer::BufferInterface *m_buffer = nullptr;
     QSharedPointer<QOpenGLFramebufferObject> m_fbo;
     QImage m_internalImage;
     WindowPixmap *m_parent = nullptr;
@@ -675,7 +695,7 @@ Shadow* Scene::Window::shadow()
 }
 
 inline
-QPointer<KWaylandServer::BufferInterface> WindowPixmap::buffer() const
+KWaylandServer::BufferInterface *WindowPixmap::buffer() const
 {
     return m_buffer;
 }

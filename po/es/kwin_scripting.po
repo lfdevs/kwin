@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-08 02:22+0200\n"
+"POT-Creation-Date: 2020-10-24 02:29+0200\n"
 "PO-Revision-Date: 2017-04-09 17:01+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -35,19 +35,19 @@ msgstr ""
 "El complemento no proporciona el archivo de configuración en el lugar "
 "esperado"
 
-#: scripting.cpp:117
+#: scripting.cpp:116
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
 msgstr "Afirmación fallida: %1 no es nulo"
 
-#: scripting.cpp:135
+#: scripting.cpp:134
 #, kde-format
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
 msgstr "Afirmación fallida: el argumento es nulo"
 
-#: scripting.cpp:177
+#: scripting.cpp:176
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
@@ -57,7 +57,7 @@ msgstr ""
 "Número de argumentos no válido. Debe proporcionar al menos el servicio, la "
 "ruta, la interfaz y el método."
 
-#: scripting.cpp:183
+#: scripting.cpp:182
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""

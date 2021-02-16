@@ -162,32 +162,32 @@ void EGLPlatformContext::create(const QSurfaceFormat &format, EGLContext shareCo
     std::vector<std::unique_ptr<AbstractOpenGLContextAttributeBuilder>> candidates;
     if (isOpenGLES()) {
         if (haveCreateContext && haveRobustness && haveContextPriority) {
-            auto glesRobustPriority = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglOpenGLESContextAttributeBuilder);
+            auto glesRobustPriority = std::make_unique<EglOpenGLESContextAttributeBuilder>();
             glesRobustPriority->setVersion(2);
             glesRobustPriority->setRobust(true);
             glesRobustPriority->setHighPriority(true);
             candidates.push_back(std::move(glesRobustPriority));
         }
         if (haveCreateContext && haveRobustness) {
-            auto glesRobust = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglOpenGLESContextAttributeBuilder);
+            auto glesRobust = std::make_unique<EglOpenGLESContextAttributeBuilder>();
             glesRobust->setVersion(2);
             glesRobust->setRobust(true);
             candidates.push_back(std::move(glesRobust));
         }
         if (haveContextPriority) {
-            auto glesPriority = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglOpenGLESContextAttributeBuilder);
+            auto glesPriority = std::make_unique<EglOpenGLESContextAttributeBuilder>();
             glesPriority->setVersion(2);
             glesPriority->setHighPriority(true);
             candidates.push_back(std::move(glesPriority));
         }
-        auto gles = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglOpenGLESContextAttributeBuilder);
+        auto gles = std::make_unique<EglOpenGLESContextAttributeBuilder>();
         gles->setVersion(2);
         candidates.push_back(std::move(gles));
     } else {
         // Try to create a 3.1 core context
         if (m_format.majorVersion() >= 3 && haveCreateContext) {
             if (haveRobustness && haveContextPriority) {
-                auto robustCorePriority = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglContextAttributeBuilder);
+                auto robustCorePriority = std::make_unique<EglContextAttributeBuilder>();
                 robustCorePriority->setVersion(m_format.majorVersion(), m_format.minorVersion());
                 robustCorePriority->setRobust(true);
                 robustCorePriority->setForwardCompatible(true);
@@ -200,7 +200,7 @@ void EGLPlatformContext::create(const QSurfaceFormat &format, EGLContext shareCo
                 candidates.push_back(std::move(robustCorePriority));
             }
             if (haveRobustness) {
-                auto robustCore = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglContextAttributeBuilder);
+                auto robustCore = std::make_unique<EglContextAttributeBuilder>();
                 robustCore->setVersion(m_format.majorVersion(), m_format.minorVersion());
                 robustCore->setRobust(true);
                 robustCore->setForwardCompatible(true);
@@ -212,7 +212,7 @@ void EGLPlatformContext::create(const QSurfaceFormat &format, EGLContext shareCo
                 candidates.push_back(std::move(robustCore));
             }
             if (haveContextPriority) {
-                auto corePriority = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglContextAttributeBuilder);
+                auto corePriority = std::make_unique<EglContextAttributeBuilder>();
                 corePriority->setVersion(m_format.majorVersion(), m_format.minorVersion());
                 corePriority->setForwardCompatible(true);
                 if (m_format.profile() == QSurfaceFormat::CoreProfile) {
@@ -223,7 +223,7 @@ void EGLPlatformContext::create(const QSurfaceFormat &format, EGLContext shareCo
                 corePriority->setHighPriority(true);
                 candidates.push_back(std::move(corePriority));
             }
-            auto core = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglContextAttributeBuilder);
+            auto core = std::make_unique<EglContextAttributeBuilder>();
             core->setVersion(m_format.majorVersion(), m_format.minorVersion());
             core->setForwardCompatible(true);
             if (m_format.profile() == QSurfaceFormat::CoreProfile) {
@@ -234,13 +234,13 @@ void EGLPlatformContext::create(const QSurfaceFormat &format, EGLContext shareCo
             candidates.push_back(std::move(core));
         }
         if (haveRobustness && haveCreateContext && haveContextPriority) {
-            auto robustPriority = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglContextAttributeBuilder);
+            auto robustPriority = std::make_unique<EglContextAttributeBuilder>();
             robustPriority->setRobust(true);
             robustPriority->setHighPriority(true);
             candidates.push_back(std::move(robustPriority));
         }
         if (haveRobustness && haveCreateContext) {
-            auto robust = std::unique_ptr<AbstractOpenGLContextAttributeBuilder>(new EglContextAttributeBuilder);
+            auto robust = std::make_unique<EglContextAttributeBuilder>();
             robust->setRobust(true);
             candidates.push_back(std::move(robust));
         }
@@ -262,6 +262,85 @@ void EGLPlatformContext::create(const QSurfaceFormat &format, EGLContext shareCo
         return;
     }
     m_context = context;
+    updateFormatFromContext();
+}
+
+static EGLSurface createDummyPbufferSurface(EGLDisplay display, const QSurfaceFormat &format)
+{
+    const EGLConfig config = configFromFormat(display, format, EGL_PBUFFER_BIT);
+    if (config == EGL_NO_CONFIG_KHR) {
+        return EGL_NO_SURFACE;
+    }
+
+    const EGLint attribs[] = {
+        EGL_WIDTH, 16,
+        EGL_HEIGHT, 16,
+        EGL_NONE
+    };
+
+    return eglCreatePbufferSurface(display, config, attribs);
+}
+
+void EGLPlatformContext::updateFormatFromContext()
+{
+    const EGLSurface oldDrawSurface = eglGetCurrentSurface(EGL_DRAW);
+    const EGLSurface oldReadSurface = eglGetCurrentSurface(EGL_READ);
+    const EGLContext oldContext = eglGetCurrentContext();
+
+    EGLSurface dummySurface;
+    if (!kwinApp()->platform()->supportsSurfacelessContext()) {
+        dummySurface = createDummyPbufferSurface(m_eglDisplay, m_format);
+        if (dummySurface == EGL_NO_SURFACE) {
+            qCWarning(KWIN_QPA, "Failed to create dummy surface: 0x%x", eglGetError());
+            return;
+        }
+    } else {
+        dummySurface = EGL_NO_SURFACE;
+    }
+
+    eglMakeCurrent(m_eglDisplay, dummySurface, dummySurface, m_context);
+
+    const char *version = reinterpret_cast<const char *>(glGetString(GL_VERSION));
+    int major, minor;
+    if (parseOpenGLVersion(version, major, minor)) {
+        m_format.setMajorVersion(major);
+        m_format.setMinorVersion(minor);
+    } else {
+        qCWarning(KWIN_QPA) << "Unrecognized OpenGL version:" << version;
+    }
+
+    GLint value;
+
+    if (m_format.version() >= qMakePair(3, 0)) {
+        glGetIntegerv(GL_CONTEXT_FLAGS, &value);
+        if (value & GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT) {
+            m_format.setOption(QSurfaceFormat::DeprecatedFunctions);
+        }
+        if (value & GL_CONTEXT_FLAG_DEBUG_BIT) {
+            m_format.setOption(QSurfaceFormat::DebugContext);
+        }
+    } else {
+        m_format.setOption(QSurfaceFormat::DeprecatedFunctions);
+    }
+
+    if (m_format.version() >= qMakePair(3, 2)) {
+        glGetIntegerv(GL_CONTEXT_PROFILE_MASK, &value);
+        if (value & GL_CONTEXT_CORE_PROFILE_BIT) {
+            m_format.setProfile(QSurfaceFormat::CoreProfile);
+        } else if (value & GL_CONTEXT_COMPATIBILITY_PROFILE_BIT) {
+            m_format.setProfile(QSurfaceFormat::CompatibilityProfile);
+        } else {
+            m_format.setProfile(QSurfaceFormat::NoProfile);
+        }
+    } else {
+        m_format.setProfile(QSurfaceFormat::NoProfile);
+    }
+
+    eglMakeCurrent(m_eglDisplay, oldDrawSurface, oldReadSurface, oldContext);
+
+    if (dummySurface != EGL_NO_SURFACE) {
+        eglDestroySurface(m_eglDisplay, dummySurface);
+    }
 }
 
 } // namespace QPA

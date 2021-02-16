@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-11-17 08:20+0100\n"
+"POT-Creation-Date: 2020-11-19 02:35+0100\n"
 "PO-Revision-Date: 2019-07-02 19:14+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -78,77 +78,85 @@ msgstr "Tetap di bawah"
 msgid "Keep above"
 msgstr "Tetap di atas"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 #, kde-format
 msgid "Window Decorations"
 msgstr "Dekorasi Window"
 
-#: kcm.cpp:54
+#: kcm.cpp:55
 #, kde-format
 msgid "Valerio Pilo"
 msgstr "Valerio Pilo"
 
-#: kcm.cpp:55
+#: kcm.cpp:56
 #, kde-format
 msgid "Author"
 msgstr "Penulis"
 
-#: kcm.cpp:104
+#: kcm.cpp:115
 #, kde-format
 msgid "Download New Window Decorations"
 msgstr "Unduh Dekorasi Window Baru"
 
-#: package/contents/ui/Buttons.qml:73
+#: kcm.cpp:205
+#, kde-format
+msgctxt "%1 is the name of a border size"
+msgid "Theme's default (%1)"
+msgstr ""
+
+#: package/contents/ui/Buttons.qml:85
 #, kde-format
 msgid "Titlebar"
 msgstr "Bilah Judul"
 
-#: package/contents/ui/Buttons.qml:214
+#: package/contents/ui/Buttons.qml:243
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr "Taruh tombol di sini untuk menghapusnya"
 
-#: package/contents/ui/Buttons.qml:232
+#: package/contents/ui/Buttons.qml:259
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Seret tombol antara di sini dan di bilah judul"
 
-#: package/contents/ui/main.qml:15
+#: package/contents/ui/main.qml:18
 #, kde-format
 msgid "This module lets you configure the window decorations."
 msgstr "Modul ini membiarkanmu mengkonfigurasi dekorasi window."
 
-#: package/contents/ui/main.qml:49
+#: package/contents/ui/main.qml:52
 #, kde-format
 msgctxt "tab label"
 msgid "Theme"
 msgstr "Tema"
 
-#: package/contents/ui/main.qml:53
+#: package/contents/ui/main.qml:56
 #, kde-format
 msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "Tombol Bilah Judul"
 
-#: package/contents/ui/main.qml:78
-#, kde-format
-msgctxt "checkbox label"
-msgid "Use theme's default window border size"
-msgstr "Gunakan tema baku ukuran bingkai window"
+#: package/contents/ui/main.qml:86
+#, fuzzy, kde-format
+#| msgctxt "combobox label"
+#| msgid "Window border size:"
+msgctxt "Selector label"
+msgid "Window border size:"
+msgstr "Ukuran bingkai window:"
 
-#: package/contents/ui/main.qml:109
+#: package/contents/ui/main.qml:103
 #, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "Dapatkan Dekorasi Window Baru..."
 
-#: package/contents/ui/main.qml:126
+#: package/contents/ui/main.qml:121
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Tutup window dengan klik ganda tombol menu"
 
-#: package/contents/ui/main.qml:139
+#: package/contents/ui/main.qml:138
 #, kde-format
 msgctxt "popup tip"
 msgid ""
@@ -158,13 +166,13 @@ msgstr ""
 "Tutup dengan mengeklik ganda: Jaga tombol Menu window tertekan sampai ia "
 "muncul."
 
-#: package/contents/ui/main.qml:146
+#: package/contents/ui/main.qml:145
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Tampilkan tips-alat tombol bilah-judul"
 
-#: package/contents/ui/Themes.qml:89
+#: package/contents/ui/Themes.qml:92
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr "Edit Tema %1"

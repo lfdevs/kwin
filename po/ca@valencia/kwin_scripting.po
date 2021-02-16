@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-08 02:22+0200\n"
+"POT-Creation-Date: 2020-10-24 02:29+0200\n"
 "PO-Revision-Date: 2019-07-11 09:45+0200\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -39,19 +39,19 @@ msgstr ""
 "El connector no ha proporcionat cap fitxer de configuració en la ubicació "
 "esperada"
 
-#: scripting.cpp:117
+#: scripting.cpp:116
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
 msgstr "La declaració ha fallat: %1 no és nul"
 
-#: scripting.cpp:135
+#: scripting.cpp:134
 #, kde-format
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
 msgstr "La declaració ha fallat: L'argument és nul"
 
-#: scripting.cpp:177
+#: scripting.cpp:176
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
@@ -61,7 +61,7 @@ msgstr ""
 "Nombre no vàlid d'arguments. Com a mínim cal proporcionar el servei, el "
 "camí, la interfície i el mètode."
 
-#: scripting.cpp:183
+#: scripting.cpp:182
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""

@@ -13,7 +13,6 @@
 #include "decorations/decoratedclient.h"
 #include "decorations/decorationpalette.h"
 #include "decorations/decorationbridge.h"
-#include "cursor.h"
 #include "effects.h"
 #include "focuschain.h"
 #include "outline.h"
@@ -28,6 +27,7 @@
 #include "wayland_server.h"
 #include <KWaylandServer/plasmawindowmanagement_interface.h>
 
+#include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
 
 #include <KDesktopFile>
@@ -78,7 +78,7 @@ AbstractClient::AbstractClient()
     connect(this, &AbstractClient::frameGeometryChanged, this,
         [this] (Toplevel *c, const QRect &old) {
             Q_UNUSED(c)
-            if (isOnScreenDisplay() && !frameGeometry().isEmpty() && old.size() != frameGeometry().size() && !isInitialPositionSet()) {
+            if (isOnScreenDisplay() && !frameGeometry().isEmpty() && old.size() != frameGeometry().size() && isPlaceable()) {
                 GeometryUpdatesBlocker blocker(this);
                 const QRect area = workspace()->clientArea(PlacementArea, Screens::self()->current(), desktop());
                 Placement::self()->place(this, area);
@@ -703,6 +703,11 @@ void AbstractClient::minimize(bool avoid_animation)
     doMinimize();
 
     updateWindowRules(Rules::Minimize);
+
+    if (options->moveMinimizedWindowsToEndOfTabBoxFocusChain()) {
+        FocusChain::self()->update(this, FocusChain::MakeFirstMinimized);
+    }
+
     // TODO: merge signal with s_minimized
     addWorkspaceRepaint(visibleRect());
     emit clientMinimized(this, !avoid_animation);
@@ -995,14 +1000,15 @@ void AbstractClient::finishMoveResize(bool cancel)
     checkScreen(); // needs to be done because clientFinishUserMovedResized has not yet re-activated online alignment
     if (screen() != moveResizeStartScreen()) {
         workspace()->sendClientToScreen(this, screen()); // checks rule validity
-        if (maximizeMode() != MaximizeRestore)
+        if (maximizeMode() != MaximizeRestore) {
             checkWorkspacePosition();
+        }
     }
 
     if (isElectricBorderMaximizing()) {
         setQuickTileMode(electricBorderMode());
         setElectricBorderMaximizing(false);
-    } else if (!cancel) {
+    } else if (!cancel && !isFullScreen()) {
         QRect geom_restore = geometryRestore();
         if (!(maximizeMode() & MaximizeHorizontal)) {
             geom_restore.setX(frameGeometry().x());
@@ -2303,6 +2309,10 @@ void AbstractClient::createDecoration(const QRect &oldGeometry)
     if (decoration) {
         QMetaObject::invokeMethod(decoration, "update", Qt::QueuedConnection);
         connect(decoration, &KDecoration2::Decoration::shadowChanged, this, &Toplevel::updateShadow);
+        connect(decoration, &KDecoration2::Decoration::bordersChanged,
+                this, &AbstractClient::updateDecorationInputShape);
+        connect(decoration, &KDecoration2::Decoration::resizeOnlyBordersChanged,
+                this, &AbstractClient::updateDecorationInputShape);
         connect(decoration, &KDecoration2::Decoration::bordersChanged, this, [this]() {
             GeometryUpdatesBlocker blocker(this);
             const QRect oldGeometry = frameGeometry();
@@ -2311,9 +2321,12 @@ void AbstractClient::createDecoration(const QRect &oldGeometry)
             }
             emit geometryShapeChanged(this, oldGeometry);
         });
+        connect(decoratedClient()->decoratedClient(), &KDecoration2::DecoratedClient::sizeChanged,
+                this, &AbstractClient::updateDecorationInputShape);
     }
     setDecoration(decoration);
     setFrameGeometry(QRect(oldGeometry.topLeft(), clientSizeToFrameSize(clientSize())));
+    updateDecorationInputShape();
 
     emit geometryShapeChanged(this, oldGeometry);
 }
@@ -2322,6 +2335,22 @@ void AbstractClient::destroyDecoration()
 {
     delete m_decoration.decoration;
     m_decoration.decoration = nullptr;
+    m_decoration.inputRegion = QRegion();
+}
+
+void AbstractClient::updateDecorationInputShape()
+{
+    if (!isDecorated()) {
+        return;
+    }
+
+    const QMargins borders = decoration()->borders();
+    const QMargins resizeBorders = decoration()->resizeOnlyBorders();
+
+    const QRect innerRect = QRect(QPoint(borderLeft(), borderTop()), decoratedClient()->size());
+    const QRect outerRect = innerRect + borders + resizeBorders;
+
+    m_decoration.inputRegion = QRegion(outerRect) - innerRect;
 }
 
 bool AbstractClient::decorationHasAlpha() const
@@ -2549,6 +2578,16 @@ QRect AbstractClient::inputGeometry() const
         return Toplevel::inputGeometry() + decoration()->resizeOnlyBorders();
     }
     return Toplevel::inputGeometry();
+}
+
+bool AbstractClient::hitTest(const QPoint &point) const
+{
+    if (isDecorated()) {
+        if (m_decoration.inputRegion.contains(mapToFrame(point))) {
+            return true;
+        }
+    }
+    return Toplevel::hitTest(point);
 }
 
 QRect AbstractClient::virtualKeyboardGeometry() const
@@ -3027,7 +3066,7 @@ void AbstractClient::sendToScreen(int newScreen)
             }
         }
     }
-    if (screen() == newScreen)   // Don't use isOnScreen(), that's true even when only partially
+    if (screen() == newScreen && !isFullScreen())   // Don't use isOnScreen(), that's true even when only partially
         return;
 
     GeometryUpdatesBlocker blocker(this);
@@ -3069,14 +3108,34 @@ void AbstractClient::sendToScreen(int newScreen)
         keepInArea(screenArea);
     }
 
-    // align geom_restore - checkWorkspacePosition operates on it
-    setGeometryRestore(frameGeometry());
+    if (isFullScreen()) {
+        QRect newFullScreenGeometryRestore = screenArea;
+        if (!(maximizeMode() & MaximizeVertical)) {
+            newFullScreenGeometryRestore.setHeight(geometryRestore().height());
+        }
+        if (!(maximizeMode() & MaximizeHorizontal)) {
+            newFullScreenGeometryRestore.setWidth(geometryRestore().width());
+        }
+        newFullScreenGeometryRestore.setSize(newFullScreenGeometryRestore.size().boundedTo(screenArea.size()));
+        QSize move = (screenArea.size() - newFullScreenGeometryRestore.size()) / 2;
+        newFullScreenGeometryRestore.translate(move.width(), move.height());
 
-    checkWorkspacePosition(oldGeom);
+        QRect newGeometryRestore = QRect(screenArea.topLeft(), geometryRestore().size().boundedTo(screenArea.size()));
+        move = (screenArea.size() - newGeometryRestore.size()) / 2;
+        newGeometryRestore.translate(move.width(), move.height());
 
-    // re-align geom_restore to constrained geometry
-    setGeometryRestore(frameGeometry());
+        setFullscreenGeometryRestore(newFullScreenGeometryRestore);
+        setGeometryRestore(newGeometryRestore);
+        checkWorkspacePosition(oldGeom);
+    } else {
+        // align geom_restore - checkWorkspacePosition operates on it
+        setGeometryRestore(frameGeometry());
 
+        checkWorkspacePosition(oldGeom);
+
+        // re-align geom_restore to constrained geometry
+        setGeometryRestore(frameGeometry());
+    }
     // finally reset special states
     // NOTICE that MaximizeRestore/QuickTileFlag::None checks are required.
     // eg. setting QuickTileFlag::None would break maximization
@@ -3104,7 +3163,7 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
     if (!oldClientGeometry.isValid())
         oldClientGeometry = oldGeometry.adjusted(border[Left], border[Top], -border[Right], -border[Bottom]);
     if (isFullScreen()) {
-        QRect area = workspace()->clientArea(FullScreenArea, this);
+        QRect area = workspace()->clientArea(FullScreenArea, fullscreenGeometryRestore().center(), desktop());
         if (frameGeometry() != area)
             setFrameGeometry(area);
         return;
@@ -3520,6 +3579,15 @@ void AbstractClient::showOnScreenEdge()
 bool AbstractClient::isPlaceable() const
 {
     return true;
+}
+
+QRect AbstractClient::fullscreenGeometryRestore() const
+{
+    return m_fullscreenGeometryRestore;
+}
+void AbstractClient::setFullscreenGeometryRestore(const QRect &geom)
+{
+    m_fullscreenGeometryRestore = geom;
 }
 
 }

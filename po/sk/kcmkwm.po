@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-29 02:26+0200\n"
+"POT-Creation-Date: 2020-10-22 02:33+0200\n"
 "PO-Revision-Date: 2020-09-02 20:38+0200\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -583,9 +583,13 @@ msgstr "Pod myšou"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:118
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "When turned on, KDE apps which are able to remember the positions of "
+#| "their windows are allowed to do so. This will override the window "
+#| "placement mode defined above."
 msgid ""
-"When turned on, KDE apps which are able to remember the positions of their "
+"When turned on, apps which are able to remember the positions of their "
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
@@ -595,8 +599,10 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:121
-#, kde-format
-msgid "Allow KDE apps to remember the positions of their own windows"
+#, fuzzy, kde-format
+#| msgid "Allow KDE apps to remember the positions of their own windows"
+msgid ""
+"Allow apps to remember the positions of their own windows, if they support it"
 msgstr "Povoliť KDE aplikáciam pamätať si pozície svojich okien"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
@@ -1290,7 +1296,7 @@ msgstr "Zóna priťahovania &stredu:"
 msgid "&Snap windows:"
 msgstr "Prichytenie okien:"
 
-#: windows.cpp:87
+#: windows.cpp:101
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Click to focus:"
@@ -1306,7 +1312,7 @@ msgstr ""
 "bežné medzi inými operačnými systémami a pravdepodobne to chcete.</p></"
 "body></html>"
 
-#: windows.cpp:91
+#: windows.cpp:105
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Click to focus "
@@ -1330,7 +1336,7 @@ msgstr ""
 "okno pod myšou je preferovaný kandidát.<br><br>\n"
 "Neobvyklý, ale možný variant <i>Kliknúť na zameranie</i>."
 
-#: windows.cpp:96
+#: windows.cpp:110
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Focus follows "
@@ -1351,7 +1357,7 @@ msgstr ""
 "Funguje tu ochrana pred kradnutím zamerania ako obyčajne.<br><br>\n"
 "Teda ako <i>Kliknúť na zameranie</i> iba bez nutnosti kliknúť."
 
-#: windows.cpp:100
+#: windows.cpp:114
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p>This is mostly the same as <span style=\" font-"
@@ -1372,7 +1378,7 @@ msgstr ""
 "okno pod myšou je preferovaný kandidát.<br><br>\n"
 "Vyberte toto, ak chcete zameranie ovládať prechodom myši."
 
-#: windows.cpp:105
+#: windows.cpp:119
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Focus under "
@@ -1399,7 +1405,7 @@ msgstr ""
 "Veľmi pravdepodobne budete chcieť použiť<br>\n"
 "<i>Zameranie sleduje myš - prednosť myši</i> namiesto tohto!"
 
-#: windows.cpp:109
+#: windows.cpp:123
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Focus strictly "

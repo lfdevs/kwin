@@ -44,7 +44,7 @@
 #endif // HAVE_UNISTD_H
 #include <iostream>
 
-Q_LOGGING_CATEGORY(KWIN_CORE, "kwin_core", QtCriticalMsg)
+Q_LOGGING_CATEGORY(KWIN_CORE, "kwin_core", QtWarningMsg)
 
 namespace KWin
 {
@@ -190,6 +190,8 @@ void ApplicationX11::setReplace(bool replace)
 void ApplicationX11::lostSelection()
 {
     sendPostedEvents();
+    destroyPlugins();
+    destroyColorManager();
     destroyCompositor();
     destroyWorkspace();
     // Remove windowmanager privileges
@@ -224,11 +226,13 @@ void ApplicationX11::performStartup()
         fputs(i18n("kwin: unable to claim manager selection, another wm running? (try using --replace)\n").toLocal8Bit().constData(), stderr);
         ::exit(1);
     });
-    connect(owner.data(), SIGNAL(lostOwnership()), SLOT(lostSelection()));
+    connect(owner.data(), &KSelectionOwner::lostOwnership, this, &ApplicationX11::lostSelection);
     connect(owner.data(), &KSelectionOwner::claimedOwnership, [this]{
         installNativeX11EventFilter();
         // first load options - done internally by a different thread
         createOptions();
+        createSession();
+        createColorManager();
 
         // Check  whether another windowmanager is running
         const uint32_t maskValues[] = {XCB_EVENT_MASK_SUBSTRUCTURE_REDIRECT};
@@ -245,17 +249,7 @@ void ApplicationX11::performStartup()
 
         createInput();
 
-        connect(platform(), &Platform::screensQueried, this,
-            [this] {
-                createWorkspace();
-
-                Xcb::sync(); // Trigger possible errors, there's still a chance to abort
-
-                notifyKSplash();
-
-                notifyStarted();
-            }
-        );
+        connect(platform(), &Platform::screensQueried, this, &ApplicationX11::continueStartupWithScreens);
         connect(platform(), &Platform::initFailed, this,
             [] () {
                 std::cerr <<  "FATAL ERROR: backend failed to initialize, exiting now" << std::endl;
@@ -269,6 +263,19 @@ void ApplicationX11::performStartup()
     owner->claim(m_replace || wasCrash(), true);
 
     createAtoms();
+}
+
+void ApplicationX11::continueStartupWithScreens()
+{
+    disconnect(platform(), &Platform::screensQueried, this, &ApplicationX11::continueStartupWithScreens);
+
+    createWorkspace();
+    createPlugins();
+
+    Xcb::sync(); // Trigger possible errors, there's still a chance to abort
+
+    notifyKSplash();
+    notifyStarted();
 }
 
 bool ApplicationX11::notify(QObject* o, QEvent* e)
@@ -311,7 +318,7 @@ void ApplicationX11::crashChecking()
         compgroup.writeEntry("Enabled", false);
     }
     // Reset crashes count if we stay up for more that 15 seconds
-    QTimer::singleShot(15 * 1000, this, SLOT(resetCrashesCount()));
+    QTimer::singleShot(15 * 1000, this, &Application::resetCrashesCount);
 }
 
 void ApplicationX11::notifyKSplash()

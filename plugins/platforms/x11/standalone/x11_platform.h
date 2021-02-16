@@ -16,6 +16,9 @@
 
 #include <memory>
 
+#include <X11/Xlib-xcb.h>
+#include <fixx11h.h>
+
 namespace KWin
 {
 class XInputIntegration;
@@ -33,8 +36,10 @@ public:
     ~X11StandalonePlatform() override;
     void init() override;
 
-    Screens *createScreens(QObject *parent = nullptr) override;
     OpenGLBackend *createOpenGLBackend() override;
+#ifdef KWIN_HAVE_XRENDER_COMPOSITING
+    XRenderBackend *createXRenderBackend() override;
+#endif
     Edge *createScreenEdge(ScreenEdges *parent) override;
     void createPlatformCursor(QObject *parent = nullptr) override;
     bool requiresCompositing() const override;
@@ -59,8 +64,10 @@ public:
     QVector<CompositingType> supportedCompositors() const override;
 
     void initOutputs();
+    void scheduleUpdateOutputs();
     void updateOutputs();
 
+    RenderLoop *renderLoop() const override;
     Outputs outputs() const override;
     Outputs enabledOutputs() const override;
 
@@ -82,15 +89,18 @@ private:
 
     template <typename T>
     void doUpdateOutputs();
+    void updateRefreshRate();
 
     XInputIntegration *m_xinputIntegration = nullptr;
     QThread *m_openGLFreezeProtectionThread = nullptr;
     QTimer *m_openGLFreezeProtection = nullptr;
+    QTimer *m_updateOutputsTimer = nullptr;
     Display *m_x11Display;
     QScopedPointer<WindowSelector> m_windowSelector;
     QScopedPointer<X11EventFilter> m_screenEdgesFilter;
-
-    QVector<X11Output*> m_outputs;
+    QScopedPointer<X11EventFilter> m_randrEventFilter;
+    RenderLoop *m_renderLoop;
+    QVector<AbstractOutput *> m_outputs;
 };
 
 }

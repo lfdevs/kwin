@@ -9,8 +9,9 @@
 #ifndef KWIN_SCENE_QPAINTER_H
 #define KWIN_SCENE_QPAINTER_H
 
+#include "qpainterbackend.h"
+
 #include "scene.h"
-#include <platformsupport/scenes/qpainter/backend.h>
 #include "shadow.h"
 
 #include "decorations/decorationrenderer.h"
@@ -25,7 +26,8 @@ public:
     ~SceneQPainter() override;
     bool usesOverlayWindow() const override;
     OverlayWindow* overlayWindow() const override;
-    qint64 paint(const QRegion &damage, const QList<Toplevel *> &windows) override;
+    void paint(int screenId, const QRegion &damage, const QList<Toplevel *> &windows,
+               RenderLoop *renderLoop) override;
     void paintGenericScreen(int mask, const ScreenPaintData &data) override;
     CompositingType compositingType() const override;
     bool initFailed() const override;
@@ -39,7 +41,7 @@ public:
     }
 
     QPainter *scenePainter() const override;
-    QImage *qpainterRenderBuffer() const override;
+    QImage *qpainterRenderBuffer(int screenId) const override;
 
     QPainterBackend *backend() const {
         return m_backend.data();
@@ -72,9 +74,9 @@ public:
     const QImage &image();
 
 protected:
-    WindowPixmap *createChild(const QPointer<KWaylandServer::SubSurfaceInterface> &subSurface) override;
+    WindowPixmap *createChild(KWaylandServer::SubSurfaceInterface *subSurface) override;
 private:
-    explicit QPainterWindowPixmap(const QPointer<KWaylandServer::SubSurfaceInterface> &subSurface, WindowPixmap *parent);
+    explicit QPainterWindowPixmap(KWaylandServer::SubSurfaceInterface *subSurface, WindowPixmap *parent);
     QImage m_image;
 };
 
@@ -169,13 +171,13 @@ public:
 inline
 bool SceneQPainter::usesOverlayWindow() const
 {
-    return m_backend->usesOverlayWindow();
+    return false;
 }
 
 inline
 OverlayWindow* SceneQPainter::overlayWindow() const
 {
-    return m_backend->overlayWindow();
+    return nullptr;
 }
 
 inline

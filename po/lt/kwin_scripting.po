@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-08 02:22+0200\n"
+"POT-Creation-Date: 2020-10-24 02:29+0200\n"
 "PO-Revision-Date: 2019-06-04 22:15+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -37,19 +37,19 @@ msgid "Plugin does not provide configuration file in expected location"
 msgstr ""
 "Priedas nepateikia konfigūracijos failo toje vietoje, kur buvo tikėtasi"
 
-#: scripting.cpp:117
+#: scripting.cpp:116
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
 msgstr "Teiginys patyrė nesėkmę: %1 nėra nulinis"
 
-#: scripting.cpp:135
+#: scripting.cpp:134
 #, kde-format
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
 msgstr "Teiginys patyrė nesėkmę: argumentas yra nulinis"
 
-#: scripting.cpp:177
+#: scripting.cpp:176
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
@@ -59,7 +59,7 @@ msgstr ""
 "Neteisingas argumentų skaičius. Turi būti pateikti bent tarnyba, kelias, "
 "sąsaja ir metodas"
 
-#: scripting.cpp:183
+#: scripting.cpp:182
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""

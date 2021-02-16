@@ -113,6 +113,7 @@ public:
 
     static void setCrashCount(int count);
     static bool wasCrash();
+    void resetCrashesCount();
 
     /**
      * Creates the KAboutData object for the KWin instance and registers it as
@@ -196,6 +197,7 @@ Q_SIGNALS:
     void x11ConnectionAboutToBeDestroyed();
     void workspaceCreated();
     void screensCreated();
+    void platformCreated();
     void virtualTerminalCreated();
     void started();
 
@@ -205,14 +207,19 @@ protected:
 
     void notifyKSplash();
     void notifyStarted();
+    void createSession();
     void createInput();
     void createWorkspace();
     void createAtoms();
     void createOptions();
+    void createPlugins();
+    void createColorManager();
     void installNativeX11EventFilter();
     void removeNativeX11EventFilter();
     void destroyWorkspace();
     void destroyCompositor();
+    void destroyPlugins();
+    void destroyColorManager();
     /**
      * Inheriting classes should use this method to set the X11 root window
      * before accessing any X11 specific code pathes.
@@ -246,9 +253,6 @@ protected:
 
 protected:
     static int crashes;
-
-private Q_SLOTS:
-    void resetCrashesCount();
 
 private:
     QScopedPointer<XcbEventFilter> m_eventFilter;

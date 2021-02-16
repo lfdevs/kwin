@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-08 02:22+0200\n"
+"POT-Creation-Date: 2020-11-09 02:33+0100\n"
 "PO-Revision-Date: 2019-12-28 09:13-0800\n"
 "Last-Translator: A S Alam <alam.yellow@gmail.com>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -122,7 +122,7 @@ msgstr "%1 ਮਿਲੀਸਕਿੰਟ"
 msgid "Show desktop layout indicators"
 msgstr "ਡੈਸਕਟਾਪ ਲੇਆਉਟ ਇੰਡੀਕੇਟਰ ਵੇਖੋ"
 
-#: virtualdesktops.cpp:30
+#: virtualdesktops.cpp:31
 #, kde-format
 msgid "Virtual Desktops"
 msgstr "ਫ਼ਰਜ਼ੀ ਡੈਸਕਟਾਪ"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-08 02:22+0200\n"
+"POT-Creation-Date: 2020-10-24 02:29+0200\n"
 "PO-Revision-Date: 2017-04-24 16:41+0100\n"
 "Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -35,19 +35,19 @@ msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
 msgstr "Eklenti beklenen yerde yapılandırma dosyası sunmuyor"
 
-#: scripting.cpp:117
+#: scripting.cpp:116
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
 msgstr "Onaylama işlemi başarısız oldu: %1 null değil"
 
-#: scripting.cpp:135
+#: scripting.cpp:134
 #, kde-format
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
 msgstr "Onaylama işlemi başarısız oldu: argüman null"
 
-#: scripting.cpp:177
+#: scripting.cpp:176
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
@@ -56,7 +56,7 @@ msgid ""
 msgstr ""
 "Geçersiz argüman sayısı. En azından servis, yol, arayüz ve metot sunulmalıdır"
 
-#: scripting.cpp:183
+#: scripting.cpp:182
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""

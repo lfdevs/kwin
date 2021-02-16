@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-08 02:22+0200\n"
+"POT-Creation-Date: 2020-10-24 02:29+0200\n"
 "PO-Revision-Date: 2019-12-12 22:15+0000\n"
 "Last-Translator: Vivek KJ Pazhedath <vivekkj2004@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc."
@@ -34,19 +34,19 @@ msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
 msgstr ""
 
-#: scripting.cpp:117
+#: scripting.cpp:116
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
 msgstr ""
 
-#: scripting.cpp:135
+#: scripting.cpp:134
 #, kde-format
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
 msgstr ""
 
-#: scripting.cpp:177
+#: scripting.cpp:176
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
@@ -54,7 +54,7 @@ msgid ""
 "need to be provided"
 msgstr ""
 
-#: scripting.cpp:183
+#: scripting.cpp:182
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""

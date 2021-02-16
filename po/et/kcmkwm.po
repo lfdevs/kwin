@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-29 02:26+0200\n"
-"PO-Revision-Date: 2020-10-27 21:29+0100\n"
+"POT-Creation-Date: 2020-10-22 02:33+0200\n"
+"PO-Revision-Date: 2020-10-27 21:33+0100\n"
 "Last-Translator: Mihkel Tõnnov <mihhkel@gmail.com>\n"
 "Language-Team: Estonian <>\n"
 "Language: et\n"
@@ -588,19 +588,19 @@ msgstr "Hiire all"
 #: advanced.ui:118
 #, kde-format
 msgid ""
-"When turned on, KDE apps which are able to remember the positions of their "
+"When turned on, apps which are able to remember the positions of their "
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
-"Kui see on sisse lülitatud, lubatakse vastava toega KDE rakendustel mäletada "
-"oma akende asukohti. See alistab ülalmääratud uute akende paigutamise "
-"režiimi."
+"Kui see on sisse lülitatud, lubatakse vastava toega rakendustel mäletada oma "
+"akende asukohti. See alistab ülalmääratud uute akende paigutamise režiimi."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:121
 #, kde-format
-msgid "Allow KDE apps to remember the positions of their own windows"
-msgstr "KDE rakendustel lubatakse mäletada oma akende asukohti"
+msgid ""
+"Allow apps to remember the positions of their own windows, if they support it"
+msgstr "Ühilduvatel rakendustel lubatakse mäletada oma akende asukohti"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
 #: advanced.ui:128
@@ -1305,7 +1305,7 @@ msgstr "&Keskkoha haaramistsoon:"
 msgid "&Snap windows:"
 msgstr "Akende &haaramine:"
 
-#: windows.cpp:87
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1315,7 +1315,7 @@ msgstr ""
 "on teisteski operatsioonisüsteemides levinud käitumine ja arvatavasti just "
 "see, mida vajad."
 
-#: windows.cpp:91
+#: windows.cpp:105
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1330,7 +1330,7 @@ msgstr ""
 "all. See on ebatavaline, aga siiski võimalik <em>fookus klõpsuga</em> "
 "variant."
 
-#: windows.cpp:96
+#: windows.cpp:110
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1343,7 +1343,7 @@ msgstr ""
 "tavapärane <em>fookuse röövimise vältimine</em>. Seda võib pidada <em>fookus "
 "klõpsuga</em> variandiks, kus klõpsama ei peagi."
 
-#: windows.cpp:100
+#: windows.cpp:114
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1356,7 +1356,7 @@ msgstr ""
 "eelistatakse akent, mille kohal asub hiir. Selle valimisel saab fookust "
 "määrata hiirega."
 
-#: windows.cpp:105
+#: windows.cpp:119
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1371,7 +1371,7 @@ msgstr ""
 "Pigem on usutav, et soovid kasutada hoopis valikut <em>fookus järgib hiirt "
 "(eelistus hiirel)</em>!"
 
-#: windows.cpp:109
+#: windows.cpp:123
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

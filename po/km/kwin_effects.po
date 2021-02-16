@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-10-23 08:49+0200\n"
+"POT-Creation-Date: 2020-12-11 02:40+0100\n"
 "PO-Revision-Date: 2012-06-14 11:20+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer\n"
@@ -60,7 +60,7 @@ msgid ""
 "Escape or right click to cancel."
 msgstr ""
 
-#: coverswitch/coverswitch.cpp:945 flipswitch/flipswitch.cpp:925
+#: coverswitch/coverswitch.cpp:953 flipswitch/flipswitch.cpp:931
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -167,17 +167,17 @@ msgstr "ពណ៌​ខាង​ក្រោយ​"
 msgid "Front color"
 msgstr "ពណ៌​ផ្ទៃ​ខាង​មុខ"
 
-#: cube/cube.cpp:186 cube/cube_config.cpp:60
+#: cube/cube.cpp:185 cube/cube_config.cpp:60
 #, kde-format
 msgid "Desktop Cube"
 msgstr "គូប​ផ្ទៃតុ"
 
-#: cube/cube.cpp:194 cube/cube_config.cpp:65
+#: cube/cube.cpp:193 cube/cube_config.cpp:65
 #, kde-format
 msgid "Desktop Cylinder"
 msgstr "ស៊ីឡាំង​ផ្ទៃតុ"
 
-#: cube/cube.cpp:200 cube/cube_config.cpp:69
+#: cube/cube.cpp:199 cube/cube_config.cpp:69
 #, kde-format
 msgid "Desktop Sphere"
 msgstr "ស្វ៊ែរ​ផ្ទៃតុ"
@@ -233,7 +233,7 @@ msgstr "ផ្ទាំង​រូបភាព ៖"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: cube/cube_config.ui:82 desktopgrid/desktopgrid_config.ui:207
+#: cube/cube_config.ui:82 desktopgrid/desktopgrid_config.ui:236
 #: flipswitch/flipswitch_config.ui:204
 #: presentwindows/presentwindows_config.ui:17
 #, kde-format
@@ -437,7 +437,7 @@ msgstr "ប្រើ​ប្លង់​ភេយ័រ​សម្រាប់
 msgid "Start animation when moving windows towards screen edges"
 msgstr "ចាប់ផ្ដើម​ចលនា នៅពេល​ផ្លាស់ទី​បង្អួច​ទៅ​គែម​អេក្រង់"
 
-#: desktopgrid/desktopgrid.cpp:65 desktopgrid/desktopgrid_config.cpp:57
+#: desktopgrid/desktopgrid.cpp:67 desktopgrid/desktopgrid_config.cpp:57
 #, kde-format
 msgid "Show Desktop Grid"
 msgstr "បង្ហាញ​ក្រឡា​ចត្រង្គ"
@@ -566,14 +566,34 @@ msgstr "ផ្ទាល់ខ្លួន"
 msgid "N&umber of rows:"
 msgstr "ចំនួន​ជួរដេក ៖"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_PresentWindows)
+#. i18n: ectx: property (text), widget (QLabel, clickBehaviorLabel)
+#: desktopgrid/desktopgrid_config.ui:177
+#, kde-format
+msgid "Click behavior:"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QRadioButton, switchDesktopAndActivateWindow)
 #: desktopgrid/desktopgrid_config.ui:190
 #, kde-format
-msgid "Use Present Windows effect to layout the windows"
-msgstr "ប្រើ​បែប​ផែន​បង្អួច​ដែលបង្ហាញទៅ​ប្លង់​បង្អួច"
+msgid ""
+"If the Present Windows effect is enabled, it will be automatically triggered."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, switchDesktopAndActivateWindow)
+#: desktopgrid/desktopgrid_config.ui:193
+#, kde-format
+msgid "Switch desktop and activate window"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, switchDesktopOnly)
+#: desktopgrid/desktopgrid_config.ui:203
+#, fuzzy, kde-format
+#| msgid "Show desktop"
+msgid "Switch desktop only"
+msgstr "បង្ហាញ​ផ្ទៃតុ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAddRemove)
-#: desktopgrid/desktopgrid_config.ui:197
+#: desktopgrid/desktopgrid_config.ui:213
 #, kde-format
 msgid "Show buttons to alter count of virtual desktops"
 msgstr ""
@@ -626,19 +646,19 @@ msgstr ""
 msgid "Fullscreen windows"
 msgstr "បង្អួច"
 
-#: effect_builtins.cpp:91
+#: effect_builtins.cpp:92
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
 msgstr ""
 
-#: effect_builtins.cpp:92
+#: effect_builtins.cpp:93
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
 msgstr ""
 
-#: effect_builtins.cpp:106
+#: effect_builtins.cpp:108
 #, fuzzy, kde-format
 #| msgctxt "High saturation"
 #| msgid "Colored"
@@ -646,209 +666,209 @@ msgctxt "Name of a KWin Effect"
 msgid "Color Picker"
 msgstr "ពណ៌"
 
-#: effect_builtins.cpp:107
+#: effect_builtins.cpp:109
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Supports picking a color"
 msgstr ""
 
-#: effect_builtins.cpp:121
+#: effect_builtins.cpp:124
 #, fuzzy, kde-format
 #| msgid "Background color:"
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "ពណ៌​ផ្ទៃ​ខា​ងក្រោយ ៖"
 
-#: effect_builtins.cpp:122
+#: effect_builtins.cpp:125
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
 msgstr ""
 
-#: effect_builtins.cpp:136
+#: effect_builtins.cpp:140
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Cover Switch"
 msgstr ""
 
-#: effect_builtins.cpp:137
+#: effect_builtins.cpp:141
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a Cover Flow effect for the alt+tab window switcher"
 msgstr ""
 
-#: effect_builtins.cpp:151
+#: effect_builtins.cpp:156
 #, fuzzy, kde-format
 #| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube"
 msgstr "គូប​ផ្ទៃតុ"
 
-#: effect_builtins.cpp:152
+#: effect_builtins.cpp:157
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display each virtual desktop on a side of a cube"
 msgstr ""
 
-#: effect_builtins.cpp:166
+#: effect_builtins.cpp:172
 #, fuzzy, kde-format
 #| msgid "Desktop Cube"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Cube Animation"
 msgstr "គូប​ផ្ទៃតុ"
 
-#: effect_builtins.cpp:167
+#: effect_builtins.cpp:173
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Animate desktop switching with a cube"
 msgstr ""
 
-#: effect_builtins.cpp:181
+#: effect_builtins.cpp:188
 #, fuzzy, kde-format
 #| msgid "Show Desktop Grid"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "បង្ហាញ​ក្រឡា​ចត្រង្គ"
 
-#: effect_builtins.cpp:182
+#: effect_builtins.cpp:189
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
 msgstr ""
 
-#: effect_builtins.cpp:196
+#: effect_builtins.cpp:204
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
 msgstr ""
 
-#: effect_builtins.cpp:197
+#: effect_builtins.cpp:205
 #, fuzzy, kde-format
 #| msgid "Inactive windows:"
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "បង្អួច​អសកម្ម ៖"
 
-#: effect_builtins.cpp:211
+#: effect_builtins.cpp:220
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Fall Apart"
 msgstr ""
 
-#: effect_builtins.cpp:212
+#: effect_builtins.cpp:221
 #, fuzzy, kde-format
 #| msgid "Send window to all desktops"
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "ផ្ញើ​បង្អួច​ទៅ​ផ្ទៃតុ​ទាំង​អស់"
 
-#: effect_builtins.cpp:226
+#: effect_builtins.cpp:236
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Flip Switch"
 msgstr ""
 
-#: effect_builtins.cpp:227
+#: effect_builtins.cpp:237
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Flip through windows that are in a stack for the alt+tab window switcher"
 msgstr ""
 
-#: effect_builtins.cpp:241
+#: effect_builtins.cpp:252
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Glide"
 msgstr ""
 
-#: effect_builtins.cpp:242
+#: effect_builtins.cpp:253
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Glide windows as they appear or disappear"
 msgstr ""
 
-#: effect_builtins.cpp:256
+#: effect_builtins.cpp:268
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Highlight Window"
 msgstr ""
 
-#: effect_builtins.cpp:257
+#: effect_builtins.cpp:269
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight the appropriate window when hovering over taskbar entries"
 msgstr ""
 
-#: effect_builtins.cpp:271
+#: effect_builtins.cpp:284
 #, fuzzy, kde-format
 #| msgid "Invert mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "ដាក់បញ្ច្រាស​កណ្ដុរ"
 
-#: effect_builtins.cpp:272
+#: effect_builtins.cpp:285
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
 msgstr ""
 
-#: effect_builtins.cpp:286
+#: effect_builtins.cpp:300
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
 msgstr ""
 
-#: effect_builtins.cpp:287
+#: effect_builtins.cpp:301
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper Effect for KScreen"
 msgstr ""
 
-#: effect_builtins.cpp:301
+#: effect_builtins.cpp:316
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
 msgstr ""
 
-#: effect_builtins.cpp:302
+#: effect_builtins.cpp:317
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
 msgstr ""
 
-#: effect_builtins.cpp:316
+#: effect_builtins.cpp:332
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
 msgstr ""
 
-#: effect_builtins.cpp:317
+#: effect_builtins.cpp:333
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
 msgstr ""
 
-#: effect_builtins.cpp:331
+#: effect_builtins.cpp:348
 #, fuzzy, kde-format
 #| msgid "Modifiers"
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "គ្រាប់ចុច​កែប្រែ"
 
-#: effect_builtins.cpp:332
+#: effect_builtins.cpp:349
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
 msgstr ""
 
-#: effect_builtins.cpp:346
+#: effect_builtins.cpp:364
 #, fuzzy, kde-format
 #| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "ចលនា"
 
-#: effect_builtins.cpp:347
+#: effect_builtins.cpp:365
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -856,251 +876,251 @@ msgid ""
 "screenrecordings/presentations"
 msgstr ""
 
-#: effect_builtins.cpp:361
+#: effect_builtins.cpp:380
 #, fuzzy, kde-format
 #| msgid "Clear Mouse Marks"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "ជម្រះ​សញ្ញា​កណ្ដុរ"
 
-#: effect_builtins.cpp:362
+#: effect_builtins.cpp:381
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
 msgstr ""
 
-#: effect_builtins.cpp:376
+#: effect_builtins.cpp:396
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "បង្អួច"
 
-#: effect_builtins.cpp:377
+#: effect_builtins.cpp:397
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
 msgstr ""
 
-#: effect_builtins.cpp:391
+#: effect_builtins.cpp:412
 #, fuzzy, kde-format
 #| msgid "Close window"
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "បិទ​បង្អួច"
 
-#: effect_builtins.cpp:392
+#: effect_builtins.cpp:413
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
 msgstr ""
 
-#: effect_builtins.cpp:406
+#: effect_builtins.cpp:428
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr ""
 
-#: effect_builtins.cpp:407
+#: effect_builtins.cpp:429
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
 msgstr ""
 
-#: effect_builtins.cpp:421
+#: effect_builtins.cpp:444
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
 msgstr ""
 
-#: effect_builtins.cpp:422
+#: effect_builtins.cpp:445
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for screenshot tools"
 msgstr ""
 
-#: effect_builtins.cpp:436
+#: effect_builtins.cpp:460
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
 msgstr ""
 
-#: effect_builtins.cpp:437
+#: effect_builtins.cpp:461
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Make modal dialogs smoothly fly in and out when they are shown or hidden"
 msgstr ""
 
-#: effect_builtins.cpp:451
+#: effect_builtins.cpp:476
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
 msgstr ""
 
-#: effect_builtins.cpp:452
+#: effect_builtins.cpp:477
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
 msgstr ""
 
-#: effect_builtins.cpp:466
+#: effect_builtins.cpp:492
 #, fuzzy, kde-format
 #| msgid "Show &panels"
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "បង្ហាញ​បន្ទះ"
 
-#: effect_builtins.cpp:467
+#: effect_builtins.cpp:493
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
 msgstr ""
 
-#: effect_builtins.cpp:481
+#: effect_builtins.cpp:508
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
 msgstr ""
 
-#: effect_builtins.cpp:482
+#: effect_builtins.cpp:509
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide desktops when switching virtual desktops"
 msgstr ""
 
-#: effect_builtins.cpp:496
+#: effect_builtins.cpp:524
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
 msgstr ""
 
-#: effect_builtins.cpp:497
+#: effect_builtins.cpp:525
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
 msgstr ""
 
-#: effect_builtins.cpp:511
+#: effect_builtins.cpp:540
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
 msgstr ""
 
-#: effect_builtins.cpp:512
+#: effect_builtins.cpp:541
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
 msgstr ""
 
-#: effect_builtins.cpp:526
+#: effect_builtins.cpp:556
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
 msgstr ""
 
-#: effect_builtins.cpp:527
+#: effect_builtins.cpp:557
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
 msgstr ""
 
-#: effect_builtins.cpp:541
+#: effect_builtins.cpp:572
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
 msgstr ""
 
-#: effect_builtins.cpp:542
+#: effect_builtins.cpp:573
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
 msgstr ""
 
-#: effect_builtins.cpp:556
+#: effect_builtins.cpp:588
 #, fuzzy, kde-format
 #| msgid "Thumbnail Bar"
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "របារ​រូបភាព​តូចៗ"
 
-#: effect_builtins.cpp:557
+#: effect_builtins.cpp:589
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
 msgstr ""
 
-#: effect_builtins.cpp:571
+#: effect_builtins.cpp:604
 #, fuzzy, kde-format
 #| msgid "Mouse Pointer:"
 msgctxt "Name of a KWin Effect"
 msgid "Touch Points"
 msgstr "ព្រួញ​កណ្ដុរ ៖"
 
-#: effect_builtins.cpp:572
+#: effect_builtins.cpp:605
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Visualize touch points"
 msgstr ""
 
-#: effect_builtins.cpp:586
+#: effect_builtins.cpp:620
 #, fuzzy, kde-format
 #| msgid "Track mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "តាមដាន​កណ្ដុរ"
 
-#: effect_builtins.cpp:587
+#: effect_builtins.cpp:621
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a mouse cursor locating effect when activated"
 msgstr ""
 
-#: effect_builtins.cpp:601
+#: effect_builtins.cpp:636
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Window Geometry"
 msgstr ""
 
-#: effect_builtins.cpp:602
+#: effect_builtins.cpp:637
 #, fuzzy, kde-format
 #| msgid "Display window &icons"
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "បង្ហាញ​រូបតំណាង​បង្អួច"
 
-#: effect_builtins.cpp:616
+#: effect_builtins.cpp:652
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "បង្អួច"
 
-#: effect_builtins.cpp:617
+#: effect_builtins.cpp:653
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr ""
 
-#: effect_builtins.cpp:631
+#: effect_builtins.cpp:668
 #, fuzzy, kde-format
 #| msgid "Zoom"
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "ពង្រីក"
 
-#: effect_builtins.cpp:632
+#: effect_builtins.cpp:669
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
 msgstr ""
 
-#: flipswitch/flipswitch.cpp:48 flipswitch/flipswitch_config.cpp:50
+#: flipswitch/flipswitch.cpp:47 flipswitch/flipswitch_config.cpp:50
 #, kde-format
 msgid "Toggle Flip Switch (Current desktop)"
 msgstr "បិទ/បើកការ​ប្ដូរ​ត្រឡប់ (ផ្ទៃតុ​បច្ចុប្បន្ន)"
 
-#: flipswitch/flipswitch.cpp:55 flipswitch/flipswitch_config.cpp:53
+#: flipswitch/flipswitch.cpp:54 flipswitch/flipswitch_config.cpp:53
 #, kde-format
 msgid "Toggle Flip Switch (All desktops)"
 msgstr "បិទ/បើក​ការ​ប្ដូរ​ត្រឡប់ (ផ្ទៃតុ​ទាំងអស់)"
@@ -1252,27 +1272,27 @@ msgstr " ភីកសែល"
 msgid "&Height:"
 msgstr "កម្ពស់ ៖"
 
-#: mouseclick/mouseclick.cpp:40 mouseclick/mouseclick_config.cpp:53
+#: mouseclick/mouseclick.cpp:38 mouseclick/mouseclick_config.cpp:53
 #, fuzzy, kde-format
 #| msgid "Toggle Invert Effect"
 msgid "Toggle Mouse Click Effect"
 msgstr "បិទបើក​ការងារ​បញ្ច្រាស"
 
-#: mouseclick/mouseclick.cpp:48
+#: mouseclick/mouseclick.cpp:46
 #, fuzzy, kde-format
 #| msgid "Left"
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "ឆ្វេង"
 
-#: mouseclick/mouseclick.cpp:49
+#: mouseclick/mouseclick.cpp:47
 #, fuzzy, kde-format
 #| msgid "Middle button:"
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "ប៊ូតុង​កណ្ដាល ៖"
 
-#: mouseclick/mouseclick.cpp:50
+#: mouseclick/mouseclick.cpp:48
 #, fuzzy, kde-format
 #| msgid "Right"
 msgctxt "Right mouse button"
@@ -1385,12 +1405,12 @@ msgstr ""
 msgid "Show Text:"
 msgstr "បង្ហាញ​ផ្ទៃតុ"
 
-#: mousemark/mousemark.cpp:41
+#: mousemark/mousemark.cpp:40
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "ជម្រះ​សញ្ញា​កណ្ដុរ​ទាំងអស់"
 
-#: mousemark/mousemark.cpp:48 mousemark/mousemark_config.cpp:65
+#: mousemark/mousemark.cpp:47 mousemark/mousemark_config.cpp:65
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "ជម្រះ​សញ្ញា​កណ្ដុរ​ចុងក្រោយ"
@@ -1418,25 +1438,25 @@ msgstr "ពណ៌ ៖"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "គូរ​ដោយប្រើ​កណ្ដុរ ដោយ​សង្កត់​គ្រាប់ចុច​ប្ដូរ(Shift)+មេតា ហើយ​ផ្លាស់ទី​កណ្ដុរ ។"
 
-#: presentwindows/presentwindows.cpp:66
+#: presentwindows/presentwindows.cpp:67
 #: presentwindows/presentwindows_config.cpp:62
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "បិទ/បើក​បង្អួច​បច្ចុប្បន្ន (ផ្ទៃតុ​បច្ចុប្បន្ន)"
 
-#: presentwindows/presentwindows.cpp:75
+#: presentwindows/presentwindows.cpp:76
 #: presentwindows/presentwindows_config.cpp:56
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "បិទ/បើក​បង្អួច​បច្ចុប្បប្ន (ផ្ទៃតុ​ទាំងអស់)"
 
-#: presentwindows/presentwindows.cpp:85
+#: presentwindows/presentwindows.cpp:86
 #: presentwindows/presentwindows_config.cpp:68
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "បិទ/បើក​បង្អួច​បច្ចុប្បន្ន​ (ថ្នាក់​បង្អួច)"
 
-#: presentwindows/presentwindows.cpp:1666
+#: presentwindows/presentwindows.cpp:1700
 #, kde-format
 msgid ""
 "Filter:\n"
@@ -1677,26 +1697,26 @@ msgstr "ចលនា"
 msgid "Window close scale:"
 msgstr "ចលនា"
 
-#: screenshot/screenshot.cpp:440
+#: screenshot/screenshot.cpp:481
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr ""
 
-#: screenshot/screenshot.cpp:441
+#: screenshot/screenshot.cpp:482
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr ""
 
-#: screenshot/screenshot.cpp:578
+#: screenshot/screenshot.cpp:624
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
 
-#: screenshot/screenshot.cpp:581
+#: screenshot/screenshot.cpp:627
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -2034,32 +2054,32 @@ msgstr "តិច"
 msgid "More"
 msgstr "ច្រើន"
 
-#: zoom/zoom.cpp:74
+#: zoom/zoom.cpp:75
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr ""
 
-#: zoom/zoom.cpp:82
+#: zoom/zoom.cpp:83
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr ""
 
-#: zoom/zoom.cpp:90
+#: zoom/zoom.cpp:91
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr ""
 
-#: zoom/zoom.cpp:98
+#: zoom/zoom.cpp:99
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr ""
 
-#: zoom/zoom.cpp:107 zoom/zoom_config.cpp:109
+#: zoom/zoom.cpp:108 zoom/zoom_config.cpp:109
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "ផ្លាស់ទី​កណ្ដុរ​ទៅផ្ដោត"
 
-#: zoom/zoom.cpp:115 zoom/zoom_config.cpp:116
+#: zoom/zoom.cpp:116 zoom/zoom_config.cpp:116
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "ផ្លាស់ទី​កណ្ដុរ​ទៅ​កណ្ដាល"

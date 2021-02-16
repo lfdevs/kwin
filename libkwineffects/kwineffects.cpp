@@ -17,14 +17,10 @@
 #endif
 
 #include <QVariant>
-#include <QList>
 #include <QTimeLine>
 #include <QFontMetrics>
 #include <QPainter>
 #include <QPixmap>
-#include <QVector2D>
-#include <QGraphicsRotation>
-#include <QGraphicsScale>
 #include <QtMath>
 
 #include <ksharedconfig.h>
@@ -58,9 +54,17 @@ void WindowPrePaintData::setTransformed()
 
 class PaintDataPrivate {
 public:
-    QGraphicsScale scale;
+    PaintDataPrivate()
+        :  scale(1., 1., 1.)
+        , rotationAxis(0, 0, 1.)
+        , rotationAngle(0.)
+    {}
+    QVector3D scale;
     QVector3D translation;
-    QGraphicsRotation rotation;
+
+    QVector3D rotationAxis;
+    QVector3D rotationOrigin;
+    qreal rotationAngle;
 };
 
 PaintData::PaintData()
@@ -75,48 +79,45 @@ PaintData::~PaintData()
 
 qreal PaintData::xScale() const
 {
-    return d->scale.xScale();
+    return d->scale.x();
 }
 
 qreal PaintData::yScale() const
 {
-    return d->scale.yScale();
+    return d->scale.y();
 }
 
 qreal PaintData::zScale() const
 {
-    return d->scale.zScale();
+    return d->scale.z();
 }
 
 void PaintData::setScale(const QVector2D &scale)
 {
-    d->scale.setXScale(scale.x());
-    d->scale.setYScale(scale.y());
+    d->scale.setX(scale.x());
+    d->scale.setY(scale.y());
 }
 
 void PaintData::setScale(const QVector3D &scale)
 {
-    d->scale.setXScale(scale.x());
-    d->scale.setYScale(scale.y());
-    d->scale.setZScale(scale.z());
+    d->scale = scale;
 }
-
 void PaintData::setXScale(qreal scale)
 {
-    d->scale.setXScale(scale);
+    d->scale.setX(scale);
 }
 
 void PaintData::setYScale(qreal scale)
 {
-    d->scale.setYScale(scale);
+    d->scale.setY(scale);
 }
 
 void PaintData::setZScale(qreal scale)
 {
-    d->scale.setZScale(scale);
+    d->scale.setZ(scale);
 }
 
-const QGraphicsScale &PaintData::scale() const
+const QVector3D &PaintData::scale() const
 {
     return d->scale;
 }
@@ -168,37 +169,47 @@ const QVector3D &PaintData::translation() const
 
 qreal PaintData::rotationAngle() const
 {
-    return d->rotation.angle();
+    return d->rotationAngle;
 }
 
 QVector3D PaintData::rotationAxis() const
 {
-    return d->rotation.axis();
+    return d->rotationAxis;
 }
 
 QVector3D PaintData::rotationOrigin() const
 {
-    return d->rotation.origin();
+    return d->rotationOrigin;
 }
 
 void PaintData::setRotationAngle(qreal angle)
 {
-    d->rotation.setAngle(angle);
+    d->rotationAngle = angle;
 }
 
 void PaintData::setRotationAxis(Qt::Axis axis)
 {
-    d->rotation.setAxis(axis);
+    switch (axis) {
+    case Qt::XAxis:
+        setRotationAxis(QVector3D(1, 0, 0));
+        break;
+    case Qt::YAxis:
+        setRotationAxis(QVector3D(0, 1, 0));
+        break;
+    case Qt::ZAxis:
+        setRotationAxis(QVector3D(0, 0, 1));
+        break;
+    }
 }
 
 void PaintData::setRotationAxis(const QVector3D &axis)
 {
-    d->rotation.setAxis(axis);
+    d->rotationAxis = axis;
 }
 
 void PaintData::setRotationOrigin(const QVector3D &origin)
 {
-    d->rotation.setOrigin(origin);
+    d->rotationOrigin = origin;
 }
 
 class WindowPaintDataPrivate {
@@ -556,9 +567,9 @@ bool Effect::borderActivated(ElectricBorder)
     return false;
 }
 
-void Effect::prePaintScreen(ScreenPrePaintData& data, int time)
+void Effect::prePaintScreen(ScreenPrePaintData& data, std::chrono::milliseconds presentTime)
 {
-    effects->prePaintScreen(data, time);
+    effects->prePaintScreen(data, presentTime);
 }
 
 void Effect::paintScreen(int mask, const QRegion &region, ScreenPaintData& data)
@@ -571,9 +582,9 @@ void Effect::postPaintScreen()
     effects->postPaintScreen();
 }
 
-void Effect::prePaintWindow(EffectWindow* w, WindowPrePaintData& data, int time)
+void Effect::prePaintWindow(EffectWindow* w, WindowPrePaintData& data, std::chrono::milliseconds presentTime)
 {
-    effects->prePaintWindow(w, data, time);
+    effects->prePaintWindow(w, data, presentTime);
 }
 
 void Effect::paintWindow(EffectWindow* w, int mask, QRegion region, WindowPaintData& data)
@@ -866,45 +877,39 @@ WindowQuad WindowQuad::makeSubQuad(double x1, double y1, double x2, double y2) c
     ret.verts[ 2 ].oy = y2;
     ret.verts[ 3 ].oy = y2;
 
-    const double my_u0 = verts[0].tx;
-    const double my_u1 = verts[2].tx;
-    const double my_v0 = verts[0].ty;
-    const double my_v1 = verts[2].ty;
+    const double xOrigin = left();
+    const double yOrigin = top();
 
-    const double width  = right() - left();
-    const double height = bottom() - top();
-
-    const double texWidth  = my_u1 - my_u0;
-    const double texHeight = my_v1 - my_v0;
+    const double widthReciprocal  = 1 / (right() - xOrigin);
+    const double heightReciprocal = 1 / (bottom() - yOrigin);
 
     if (!uvAxisSwapped()) {
-        const double u0 = (x1 - left()) / width  * texWidth  + my_u0;
-        const double u1 = (x2 - left()) / width  * texWidth  + my_u0;
-        const double v0 = (y1 - top())  / height * texHeight + my_v0;
-        const double v1 = (y2 - top())  / height * texHeight + my_v0;
+        for (int i = 0; i < 4; ++i) {
+            const double w1 = (ret.verts[i].px - xOrigin) * widthReciprocal;
+            const double w2 = (ret.verts[i].py - yOrigin) * heightReciprocal;
 
-        ret.verts[0].tx = u0;
-        ret.verts[3].tx = u0;
-        ret.verts[1].tx = u1;
-        ret.verts[2].tx = u1;
-        ret.verts[0].ty = v0;
-        ret.verts[1].ty = v0;
-        ret.verts[2].ty = v1;
-        ret.verts[3].ty = v1;
+            // Use bilinear interpolation to compute the texture coords.
+            ret.verts[i].tx = (1 - w1) * (1 - w2) * verts[0].tx +
+                    w1 * (1 - w2) * verts[1].tx +
+                    w1 * w2 * verts[2].tx + (1 - w1) * w2 * verts[3].tx;
+            ret.verts[i].ty = (1 - w1) * (1 - w2) * verts[0].ty +
+                    w1 * (1 - w2) * verts[1].ty +
+                    w1 * w2 * verts[2].ty + (1 - w1) * w2 * verts[3].ty;
+        }
     } else {
-        const double u0 = (y1 - top())  / height * texWidth  + my_u0;
-        const double u1 = (y2 - top())  / height * texWidth  + my_u0;
-        const double v0 = (x1 - left()) / width  * texHeight + my_v0;
-        const double v1 = (x2 - left()) / width  * texHeight + my_v0;
+        // Same as above, with just verts[1] and verts[3] being swapped.
+        for (int i = 0; i < 4; ++i) {
+            const double w1 = (ret.verts[i].py - yOrigin) * heightReciprocal;
+            const double w2 = (ret.verts[i].px - xOrigin) * widthReciprocal;
 
-        ret.verts[0].tx = u0;
-        ret.verts[1].tx = u0;
-        ret.verts[2].tx = u1;
-        ret.verts[3].tx = u1;
-        ret.verts[0].ty = v0;
-        ret.verts[3].ty = v0;
-        ret.verts[1].ty = v1;
-        ret.verts[2].ty = v1;
+            // Use bilinear interpolation to compute the texture coords.
+            ret.verts[i].tx = (1 - w1) * (1 - w2) * verts[0].tx +
+                    w1 * (1 - w2) * verts[3].tx +
+                    w1 * w2 * verts[2].tx + (1 - w1) * w2 * verts[1].tx;
+            ret.verts[i].ty = (1 - w1) * (1 - w2) * verts[0].ty +
+                    w1 * (1 - w2) * verts[3].ty +
+                    w1 * w2 * verts[2].ty + (1 - w1) * w2 * verts[1].ty;
+        }
     }
 
     ret.setUVAxisSwapped(uvAxisSwapped());

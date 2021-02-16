@@ -13,7 +13,7 @@ Build-Depends: breeze-dev (>= 4:5.17~),
                gettext,
                hwdata,
                kinit-dev (>= 5.70.0~),
-               kscreenlocker-dev (>= 5.20~),
+               kscreenlocker-dev (>= 5.20.90~),
                libcap-dev [linux-any],
                libdrm-dev (>= 2.4.62~),
                libegl1-mesa-dev (>= 1.2~),
@@ -25,32 +25,34 @@ Build-Depends: breeze-dev (>= 4:5.17~),
                libgbm-dev,
                libice-dev,
                libinput-dev (>= 1.9~),
-               libkdecorations2-dev (>= 4:5.20~),
-               libkf5activities-dev (>= 5.74~),
-               libkf5completion-dev (>= 5.74~),
-               libkf5config-dev (>= 5.74~),
-               libkf5configwidgets-dev (>= 5.74~),
-               libkf5coreaddons-dev (>= 5.74~),
-               libkf5crash-dev (>= 5.74~),
-               libkf5declarative-dev (>= 5.74~),
-               libkf5doctools-dev (>= 5.74~),
-               libkf5globalaccel-dev (>= 5.74~),
-               libkf5i18n-dev (>= 5.74~),
-               libkf5iconthemes-dev (>= 5.74~),
-               libkf5idletime-dev (>= 5.74~),
-               libkf5kcmutils-dev (>= 5.74~),
-               libkf5kio-dev (>= 5.74~),
-               libkf5newstuff-dev (>= 5.74~),
-               libkf5notifications-dev (>= 5.74~),
-               libkf5package-dev (>= 5.74~),
-               libkf5plasma-dev (>= 5.74~),
-               libkf5service-dev (>= 5.74~),
-               libkf5textwidgets-dev (>= 5.74~),
-               libkf5wayland-dev (>= 4:5.74~),
-               libkf5widgetsaddons-dev (>= 5.74~),
-               libkf5windowsystem-dev (>= 5.74~),
-               libkf5xmlgui-dev (>= 5.74~),
-               libkwaylandserver-dev (>= 5.20~),
+               libkdecorations2-dev (>= 4:5.20.90~),
+               libkf5activities-dev (>= 5.78~),
+               libkf5completion-dev (>= 5.78~),
+               libkf5config-dev (>= 5.78~),
+               libkf5configwidgets-dev (>= 5.78~),
+               libkf5coreaddons-dev (>= 5.78~),
+               libkf5crash-dev (>= 5.78~),
+               libkf5declarative-dev (>= 5.78~),
+               libkf5doctools-dev (>= 5.78~),
+               libkf5globalaccel-dev (>= 5.78~),
+               libkf5i18n-dev (>= 5.78~),
+               libkf5iconthemes-dev (>= 5.78~),
+               libkf5idletime-dev (>= 5.78~),
+               libkf5kcmutils-dev (>= 5.78~),
+               libkf5kio-dev (>= 5.78~),
+               libkf5runner-dev (>= 5.78~),
+               libkf5newstuff-dev (>= 5.78~),
+               libkf5notifications-dev (>= 5.78~),
+               libkf5package-dev (>= 5.78~),
+               libkf5plasma-dev (>= 5.78~),
+               libkf5service-dev (>= 5.78~),
+               libkf5textwidgets-dev (>= 5.78~),
+               libkf5wayland-dev (>= 4:5.78~),
+               libkf5widgetsaddons-dev (>= 5.78~),
+               libkf5windowsystem-dev (>= 5.78~),
+               libkf5xmlgui-dev (>= 5.78~),
+               libkwaylandserver-dev (>= 5.20.90~),
+               liblcms2-dev,
                libpipewire-0.3-dev,
                libqt5sensors5-dev (>= 5.15.0~),
                libqt5x11extras5-dev (>= 5.15.0~),
@@ -86,7 +88,7 @@ Build-Depends: breeze-dev (>= 4:5.17~),
                qtscript5-dev (>= 5.15.0~),
                qttools5-dev (>= 5.15.0~),
                qtwayland5-dev-tools (>= 5.15.0~),
-               wayland-protocols
+               wayland-protocols (>= 1.19~)
 Standards-Version: 4.5.1
 Homepage: https://projects.kde.org/projects/kde/workspace/kwin
 Vcs-Browser: https://salsa.debian.org/qt-kde-team/kde/kwin
@@ -144,9 +146,9 @@ Architecture: any
 Depends: kwin-common (= ${binary:Version}),
          libegl1-mesa-dev (>= 1.2~),
          libepoxy-dev (>= 1.2),
-         libkf5config-dev (>= 5.74~),
-         libkf5coreaddons-dev (>= 5.74~),
-         libkf5windowsystem-dev (>= 5.74~),
+         libkf5config-dev (>= 5.78~),
+         libkf5coreaddons-dev (>= 5.78~),
+         libkf5windowsystem-dev (>= 5.78~),
          libqt5x11extras5-dev (>= 5.15.0~),
          libxcb-xfixes0-dev (>= 1.10~),
          qtbase5-dev (>= 5.15.0~),
@@ -300,7 +302,7 @@ Description: KDE window manager effect builtins library
  .
  This package is part of the KDE base workspace module.
 
-Package: libkwineffects12a
+Package: libkwineffects13
 Section: libs
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
@@ -317,7 +319,7 @@ Description: KDE window manager effects library
  .
  This package is part of the KDE base workspace module.
 
-Package: libkwinglutils12
+Package: libkwinglutils13
 Section: libs
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
@@ -332,7 +334,7 @@ Description: KDE window manager gl utils library
  .
  This package is part of the KDE base workspace module.
 
-Package: libkwinxrenderutils12
+Package: libkwinxrenderutils13
 Section: libs
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}

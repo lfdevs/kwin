@@ -92,6 +92,10 @@ public:
         return m_internal;
     }
 
+    QString manufacturer() const override;
+    QString model() const override;
+    QString serialNumber() const override;
+
     void setGlobalPos(const QPoint &pos);
     void setScale(qreal scale);
 
@@ -124,7 +128,8 @@ Q_SIGNALS:
 protected:
     void initInterfaces(const QString &model, const QString &manufacturer,
                         const QByteArray &uuid, const QSize &physicalSize,
-                        const QVector<KWaylandServer::OutputDeviceInterface::Mode> &modes);
+                        const QVector<KWaylandServer::OutputDeviceInterface::Mode> &modes,
+                        const QByteArray &edid);
 
     QPoint globalPos() const;
 

@@ -25,6 +25,7 @@
 #include <KWayland/Client/connection_thread.h>
 #include <KWayland/Client/compositor.h>
 #include <KWayland/Client/pointer.h>
+#include <KWayland/Client/region.h>
 #include <KWayland/Client/seat.h>
 #include <KWayland/Client/server_decoration.h>
 #include <KWayland/Client/shm_pool.h>
@@ -123,6 +124,8 @@ private Q_SLOTS:
     void testResizeCursor();
     void testMoveCursor();
     void testHideShowCursor();
+    void testDefaultInputRegion();
+    void testEmptyInputRegion();
 
 private:
     void render(KWayland::Client::Surface *surface, const QSize &size = QSize(100, 50));
@@ -137,7 +140,7 @@ void PointerInputTest::initTestCase()
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
-    QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit()));
+    QVERIFY(waylandServer()->init(s_socketName));
     QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
@@ -316,8 +319,6 @@ void PointerInputTest::testUpdateFocusAfterScreenChange()
     // this test verifies that a pointer enter event is generated when the cursor changes to another
     // screen due to removal of screen
     using namespace KWayland::Client;
-    // ensure cursor is on second screen
-    Cursors::self()->mouse()->setPos(1500, 300);
 
     // create pointer and signal spy for enter and motion
     auto pointer = m_seat->createPointer(m_seat);
@@ -325,6 +326,8 @@ void PointerInputTest::testUpdateFocusAfterScreenChange()
     QVERIFY(pointer->isValid());
     QSignalSpy enteredSpy(pointer, &Pointer::entered);
     QVERIFY(enteredSpy.isValid());
+    QSignalSpy leftSpy(pointer, &Pointer::left);
+    QVERIFY(leftSpy.isValid());
 
     // create a window
     QSignalSpy clientAddedSpy(workspace(), &Workspace::clientAdded);
@@ -337,7 +340,13 @@ void PointerInputTest::testUpdateFocusAfterScreenChange()
     QVERIFY(clientAddedSpy.wait());
     AbstractClient *window = workspace()->activeClient();
     QVERIFY(window);
+    QVERIFY(window->frameGeometry().contains(Cursors::self()->mouse()->pos()));
+    QTRY_COMPARE(enteredSpy.count(), 1);
+
+    // move the cursor to the second screen
+    Cursors::self()->mouse()->setPos(1500, 300);
     QVERIFY(!window->frameGeometry().contains(Cursors::self()->mouse()->pos()));
+    QVERIFY(leftSpy.wait());
 
     QSignalSpy screensChangedSpy(screens(), &Screens::changed);
     QVERIFY(screensChangedSpy.isValid());
@@ -354,7 +363,7 @@ void PointerInputTest::testUpdateFocusAfterScreenChange()
     QVERIFY(window->frameGeometry().contains(Cursors::self()->mouse()->pos()));
 
     // and we should get an enter event
-    QTRY_COMPARE(enteredSpy.count(), 1);
+    QTRY_COMPARE(enteredSpy.count(), 2);
 }
 
 void PointerInputTest::testModifierClickUnrestrictedMove_data()
@@ -1617,6 +1626,52 @@ void PointerInputTest::testHideShowCursor()
     QCOMPARE(kwinApp()->platform()->isCursorHidden(), true);
     kwinApp()->platform()->showCursor();
     QCOMPARE(kwinApp()->platform()->isCursorHidden(), false);
+}
+
+void PointerInputTest::testDefaultInputRegion()
+{
+    // This test verifies that a surface that hasn't specified the input region can be focused.
+
+    // Create a test client.
+    using namespace KWayland::Client;
+    QScopedPointer<Surface> surface(Test::createSurface());
+    QVERIFY(!surface.isNull());
+    QScopedPointer<XdgShellSurface> shellSurface(Test::createXdgShellStableSurface(surface.data()));
+    QVERIFY(!shellSurface.isNull());
+    AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
+    QVERIFY(client);
+
+    // Move the point to the center of the surface.
+    Cursors::self()->mouse()->setPos(client->frameGeometry().center());
+    QCOMPARE(waylandServer()->seat()->focusedPointerSurface(), client->surface());
+
+    // Destroy the test client.
+    shellSurface.reset();
+    QVERIFY(Test::waitForWindowDestroyed(client));
+}
+
+void PointerInputTest::testEmptyInputRegion()
+{
+    // This test verifies that a surface that has specified an empty input region can't be focused.
+
+    // Create a test client.
+    using namespace KWayland::Client;
+    QScopedPointer<Surface> surface(Test::createSurface());
+    QVERIFY(!surface.isNull());
+    std::unique_ptr<KWayland::Client::Region> inputRegion(m_compositor->createRegion(QRegion()));
+    surface->setInputRegion(inputRegion.get());
+    QScopedPointer<XdgShellSurface> shellSurface(Test::createXdgShellStableSurface(surface.data()));
+    QVERIFY(!shellSurface.isNull());
+    AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
+    QVERIFY(client);
+
+    // Move the point to the center of the surface.
+    Cursors::self()->mouse()->setPos(client->frameGeometry().center());
+    QVERIFY(!waylandServer()->seat()->focusedPointerSurface());
+
+    // Destroy the test client.
+    shellSurface.reset();
+    QVERIFY(Test::waitForWindowDestroyed(client));
 }
 
 }

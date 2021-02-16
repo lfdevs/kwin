@@ -18,6 +18,7 @@
 #include <KWayland/Client/xdgshell.h>
 
 #include "qwayland-wlr-layer-shell-unstable-v1.h"
+#include "qwayland-text-input-unstable-v3.h"
 #include "qwayland-xdg-shell.h"
 
 namespace KWayland
@@ -41,12 +42,15 @@ class Surface;
 class XdgDecorationManager;
 class OutputManagement;
 class TextInputManager;
+class OutputDevice;
 }
 }
 
 namespace QtWayland
 {
 class zwp_input_panel_surface_v1;
+class zwp_text_input_v3;
+class zwp_text_input_manager_v3;
 }
 
 namespace KWin
@@ -85,6 +89,17 @@ namespace Test
 {
 
 class MockInputMethod;
+
+class TextInputManagerV3 : public QtWayland::zwp_text_input_manager_v3
+{
+public:
+    ~TextInputManagerV3() override { destroy(); }
+};
+
+class TextInputV3 : public QtWayland::zwp_text_input_v3
+{
+    ~TextInputV3() override { destroy(); }
+};
 
 class LayerShellV1 : public QtWayland::zwlr_layer_shell_v1
 {
@@ -222,6 +237,8 @@ enum class AdditionalWaylandInterface {
     TextInputManagerV2 = 1 << 10,
     InputMethodV1 = 1 << 11,
     LayerShellV1 = 1 << 12,
+    TextInputManagerV3 = 1 << 13,
+    OutputDevice = 1 << 14
 };
 Q_DECLARE_FLAGS(AdditionalWaylandInterfaces, AdditionalWaylandInterface)
 /**
@@ -256,6 +273,7 @@ KWayland::Client::XdgDecorationManager *xdgDecorationManager();
 KWayland::Client::OutputManagement *waylandOutputManagement();
 KWayland::Client::TextInputManager *waylandTextInputManager();
 QVector<KWayland::Client::Output *> waylandOutputs();
+QVector<KWayland::Client::OutputDevice *> waylandOutputDevices();
 
 bool waitForWaylandPointer();
 bool waitForWaylandTouch();
@@ -271,6 +289,8 @@ LayerSurfaceV1 *createLayerSurfaceV1(KWayland::Client::Surface *surface,
                                      const QString &scope,
                                      KWayland::Client::Output *output = nullptr,
                                      LayerShellV1::layer layer = LayerShellV1::layer_top);
+
+TextInputManagerV3 *waylandTextInputManagerV3();
 
 enum class CreationSetup {
     CreateOnly,

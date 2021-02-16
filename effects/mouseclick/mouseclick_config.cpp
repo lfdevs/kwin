@@ -36,7 +36,7 @@ MouseClickEffectConfigForm::MouseClickEffectConfigForm(QWidget* parent) : QWidge
 }
 
 MouseClickEffectConfig::MouseClickEffectConfig(QWidget* parent, const QVariantList& args) :
-    KCModule(KAboutData::pluginData(QStringLiteral("mouseclick")), parent, args)
+    KCModule(parent, args)
 {
     m_ui = new MouseClickEffectConfigForm(this);
 
@@ -65,7 +65,7 @@ MouseClickEffectConfig::MouseClickEffectConfig(QWidget* parent, const QVariantLi
 MouseClickEffectConfig::~MouseClickEffectConfig()
 {
     // Undo (only) unsaved changes to global key shortcuts
-    m_ui->editor->undoChanges();
+    m_ui->editor->undo();
 }
 
 void MouseClickEffectConfig::save()

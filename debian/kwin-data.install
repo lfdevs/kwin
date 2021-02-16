@@ -6,9 +6,12 @@ usr/share/kconf_update/*.sh
 usr/share/kconf_update/*.upd
 usr/share/kconf_update/kwin-5.18-move-animspeed.py
 usr/share/kconf_update/kwinrules-5.19-placement.pl
+usr/share/kconf_update/kwin-5.21-desktop-grid-click-behavior.py
+usr/share/kconf_update/kwin-5.21-no-swap-encourage.py
 usr/share/knotifications5/kwin.notifyrc
 usr/share/knsrcfiles/
 usr/share/kpackage/kcms/kcm_kwin*
+usr/share/krunner/dbusplugins/kwin-runner-windows.desktop
 usr/share/kservices5/kcm_kwin_*.desktop
 usr/share/kservices5/kcm_kwinrules.desktop
 usr/share/kservices5/kwin*.desktop

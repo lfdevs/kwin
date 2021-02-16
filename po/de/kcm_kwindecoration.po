@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-11-17 08:20+0100\n"
+"POT-Creation-Date: 2020-11-19 02:35+0100\n"
 "PO-Revision-Date: 2019-08-06 21:09+0200\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -79,77 +79,85 @@ msgstr "Im Hintergrund halten"
 msgid "Keep above"
 msgstr "Im Vordergrund halten"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 #, kde-format
 msgid "Window Decorations"
 msgstr "Fensterdekorationen"
 
-#: kcm.cpp:54
+#: kcm.cpp:55
 #, kde-format
 msgid "Valerio Pilo"
 msgstr "Valerio Pilo"
 
-#: kcm.cpp:55
+#: kcm.cpp:56
 #, kde-format
 msgid "Author"
 msgstr "Autor"
 
-#: kcm.cpp:104
+#: kcm.cpp:115
 #, kde-format
 msgid "Download New Window Decorations"
 msgstr "Neue Fensterdekorationen herunterladen"
 
-#: package/contents/ui/Buttons.qml:73
+#: kcm.cpp:205
+#, kde-format
+msgctxt "%1 is the name of a border size"
+msgid "Theme's default (%1)"
+msgstr ""
+
+#: package/contents/ui/Buttons.qml:85
 #, kde-format
 msgid "Titlebar"
 msgstr "Titelleiste"
 
-#: package/contents/ui/Buttons.qml:214
+#: package/contents/ui/Buttons.qml:243
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr "Ziehen Sie Knöpfe hierher, um sie zu entfernen"
 
-#: package/contents/ui/Buttons.qml:232
+#: package/contents/ui/Buttons.qml:259
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Ziehen Sie Knöpfe zwischen hier und der Titelleiste"
 
-#: package/contents/ui/main.qml:15
+#: package/contents/ui/main.qml:18
 #, kde-format
 msgid "This module lets you configure the window decorations."
 msgstr "Mit diesem Modul können Sie die Fensterdekorationen einrichten."
 
-#: package/contents/ui/main.qml:49
+#: package/contents/ui/main.qml:52
 #, kde-format
 msgctxt "tab label"
 msgid "Theme"
 msgstr "Design"
 
-#: package/contents/ui/main.qml:53
+#: package/contents/ui/main.qml:56
 #, kde-format
 msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "Titelleistenknöpfe"
 
-#: package/contents/ui/main.qml:78
-#, kde-format
-msgctxt "checkbox label"
-msgid "Use theme's default window border size"
-msgstr "Voreinstellung der Fenster-Umrandungsgröße des Designs verwenden"
+#: package/contents/ui/main.qml:86
+#, fuzzy, kde-format
+#| msgctxt "combobox label"
+#| msgid "Window border size:"
+msgctxt "Selector label"
+msgid "Window border size:"
+msgstr "Umrandungsgröße des Fensters:"
 
-#: package/contents/ui/main.qml:109
+#: package/contents/ui/main.qml:103
 #, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "Neue Fensterdekorationen herunterladen ..."
 
-#: package/contents/ui/main.qml:126
+#: package/contents/ui/main.qml:121
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Fenster durch Doppelklick auf Menüknopf schließen"
 
-#: package/contents/ui/main.qml:139
+#: package/contents/ui/main.qml:138
 #, kde-format
 msgctxt "popup tip"
 msgid ""
@@ -159,13 +167,13 @@ msgstr ""
 "Schließen durch Doppelklicken: Halten Sie den Knopf gedrückt, bis das Menü "
 "erscheint."
 
-#: package/contents/ui/main.qml:146
+#: package/contents/ui/main.qml:145
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Kurzinfos für Knöpfe der Titelleiste anzeigen"
 
-#: package/contents/ui/Themes.qml:89
+#: package/contents/ui/Themes.qml:92
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr "Design %1 bearbeiten"

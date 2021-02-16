@@ -175,7 +175,7 @@ void LockScreenTest::initTestCase()
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
-    QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit()));
+    QVERIFY(waylandServer()->init(s_socketName));
     QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
 
     qputenv("KWIN_COMPOSE", QByteArrayLiteral("O2"));
@@ -528,7 +528,7 @@ void LockScreenTest::testEffectsKeyboardAutorepeat()
     effects->grabKeyboard(effect.data());
 
     // we need to configure the key repeat first. It is only enabled on libinput
-    waylandServer()->seat()->setKeyRepeatInfo(25, 300);
+    waylandServer()->seat()->keyboard()->setRepeatInfo(25, 300);
 
     quint32 timestamp = 1;
     KEYPRESS(KEY_A);

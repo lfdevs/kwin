@@ -11,14 +11,14 @@
 # doutor.zero <doutor.zero@gmail.com>, 2007.
 # Fernando Boaglio <boaglio@kde.org>, 2008.
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2019, 2020.
-# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2009, 2010, 2012, 2015, 2016, 2017, 2018, 2019, 2020.
-# Thiago Masato Costa Sueto <herzenschein@gmail.com>, 2020.
+# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2009, 2010, 2012, 2015, 2016, 2017, 2018, 2019, 2020, 2021.
+# Thiago Masato Costa Sueto <herzenschein@gmail.com>, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-11-25 08:45+0100\n"
-"PO-Revision-Date: 2020-10-18 19:18-0300\n"
+"POT-Creation-Date: 2021-02-09 09:20+0100\n"
+"PO-Revision-Date: 2021-02-03 18:30-0300\n"
 "Last-Translator: Thiago Masato Costa Sueto <herzenschein@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 20.11.70\n"
+"X-Generator: Lokalize 21.03.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -42,36 +42,18 @@ msgstr ""
 "diniz.bortolotto@gmail.com, rodrigo@conectiva.com.br, lisiane@kdemail.net, "
 "alvarenga@kde.org, camila.moura@kde.org, elchevive@opensuse.org"
 
-#: abstract_client.cpp:2729
+#: abstract_client.cpp:2768
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(não está respondendo)"
 
-#: abstract_wayland_output.cpp:252
+#: abstract_wayland_output.cpp:267
 #, kde-format
 msgid "unknown"
 msgstr "desconhecido"
 
-#: colorcorrection/manager.cpp:58
-#, kde-format
-msgctxt "Night Color was disabled"
-msgid "Night Color Off"
-msgstr "Cor noturna desligada"
-
-#: colorcorrection/manager.cpp:59
-#, kde-format
-msgctxt "Night Color was enabled"
-msgid "Night Color On"
-msgstr "Cor noturna ligada"
-
-#: colorcorrection/manager.cpp:228 colorcorrection/manager.cpp:231
-#: colorcorrection/manager.cpp:238
-#, kde-format
-msgid "Toggle Night Color"
-msgstr "Alternar cor noturna"
-
-#: composite.cpp:926
+#: composite.cpp:780
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -609,7 +591,7 @@ msgstr "Ferramenta do tablet"
 msgid "EventType"
 msgstr "Tipo de evento"
 
-#: debug_console.cpp:490 debug_console.cpp:537 debug_console.cpp:549
+#: debug_console.cpp:490 debug_console.cpp:533 debug_console.cpp:546
 #, kde-format
 msgid "Position"
 msgstr "Posição"
@@ -640,242 +622,253 @@ msgstr "Botões"
 msgid "Modifiers"
 msgstr "Modificadores"
 
-#: debug_console.cpp:510
+#: debug_console.cpp:506
 #, kde-format
 msgid "Tablet Tool Button"
 msgstr "Ferramenta de botão do tablet"
 
-#: debug_console.cpp:511 debug_console.cpp:526
+#: debug_console.cpp:507 debug_console.cpp:520
 #, kde-format
-msgid "Pressed Buttons"
-msgstr "Botões pressionados"
+msgid "Button"
+msgstr "Botão"
 
-#: debug_console.cpp:525
+#: debug_console.cpp:508 debug_console.cpp:521
+#, kde-format
+msgid "Pressed"
+msgstr "Pressionado"
+
+#: debug_console.cpp:509 debug_console.cpp:522 debug_console.cpp:535
+#: debug_console.cpp:548
+#, kde-format
+msgid "Tablet"
+msgstr "Tablet"
+
+#: debug_console.cpp:519
 #, kde-format
 msgid "Tablet Pad Button"
 msgstr "Botão do painel do tablet"
 
-#: debug_console.cpp:535
+#: debug_console.cpp:531
 #, kde-format
 msgid "Tablet Pad Strip"
 msgstr "Barra do painel do tablet"
 
-#: debug_console.cpp:536 debug_console.cpp:548
+#: debug_console.cpp:532 debug_console.cpp:545
 #, kde-format
 msgid "Number"
 msgstr "Número"
 
-#: debug_console.cpp:538 debug_console.cpp:550
+#: debug_console.cpp:534 debug_console.cpp:547
 #, kde-format
 msgid "isFinger"
 msgstr "isFinger"
 
-#: debug_console.cpp:547
+#: debug_console.cpp:544
 #, kde-format
 msgid "Tablet Pad Ring"
 msgstr "Anel do painel do tablet"
 
-#: debug_console.cpp:735
+#: debug_console.cpp:733
 #, kde-format
 msgid "No Mouse Buttons"
 msgstr "Sem botões do mouse"
 
-#: debug_console.cpp:739
+#: debug_console.cpp:737
 #, kde-format
 msgctxt "Mouse Button"
 msgid "left"
 msgstr "esquerdo"
 
-#: debug_console.cpp:742
+#: debug_console.cpp:740
 #, kde-format
 msgctxt "Mouse Button"
 msgid "right"
 msgstr "direito"
 
-#: debug_console.cpp:745
+#: debug_console.cpp:743
 #, kde-format
 msgctxt "Mouse Button"
 msgid "middle"
 msgstr "meio"
 
-#: debug_console.cpp:748
+#: debug_console.cpp:746
 #, kde-format
 msgctxt "Mouse Button"
 msgid "back"
 msgstr "voltar"
 
-#: debug_console.cpp:751
+#: debug_console.cpp:749
 #, kde-format
 msgctxt "Mouse Button"
 msgid "forward"
 msgstr "avançar"
 
-#: debug_console.cpp:754
+#: debug_console.cpp:752
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 1"
 msgstr "extra 1"
 
-#: debug_console.cpp:757
+#: debug_console.cpp:755
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 2"
 msgstr "extra 2"
 
-#: debug_console.cpp:760
+#: debug_console.cpp:758
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 3"
 msgstr "extra 3"
 
-#: debug_console.cpp:763
+#: debug_console.cpp:761
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 4"
 msgstr "extra 4"
 
-#: debug_console.cpp:766
+#: debug_console.cpp:764
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 5"
 msgstr "extra 5"
 
-#: debug_console.cpp:769
+#: debug_console.cpp:767
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 6"
 msgstr "extra 6"
 
-#: debug_console.cpp:772
+#: debug_console.cpp:770
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 7"
 msgstr "extra 7"
 
-#: debug_console.cpp:775
+#: debug_console.cpp:773
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 8"
 msgstr "extra 8"
 
-#: debug_console.cpp:778
+#: debug_console.cpp:776
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 9"
 msgstr "extra 9"
 
-#: debug_console.cpp:781
+#: debug_console.cpp:779
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 10"
 msgstr "extra 10"
 
-#: debug_console.cpp:784
+#: debug_console.cpp:782
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 11"
 msgstr "extra 11"
 
-#: debug_console.cpp:787
+#: debug_console.cpp:785
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 12"
 msgstr "extra 12"
 
-#: debug_console.cpp:790
+#: debug_console.cpp:788
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 13"
 msgstr "extra 13"
 
-#: debug_console.cpp:793
+#: debug_console.cpp:791
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 14"
 msgstr "extra 14"
 
-#: debug_console.cpp:796
+#: debug_console.cpp:794
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 15"
 msgstr "extra 15"
 
-#: debug_console.cpp:799
+#: debug_console.cpp:797
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 16"
 msgstr "extra 16"
 
-#: debug_console.cpp:802
+#: debug_console.cpp:800
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 17"
 msgstr "extra 17"
 
-#: debug_console.cpp:805
+#: debug_console.cpp:803
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 18"
 msgstr "extra 18"
 
-#: debug_console.cpp:808
+#: debug_console.cpp:806
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 19"
 msgstr "extra 19"
 
-#: debug_console.cpp:811
+#: debug_console.cpp:809
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 20"
 msgstr "extra 20"
 
-#: debug_console.cpp:814
+#: debug_console.cpp:812
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 21"
 msgstr "extra 21"
 
-#: debug_console.cpp:817
+#: debug_console.cpp:815
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 22"
 msgstr "extra 22"
 
-#: debug_console.cpp:820
+#: debug_console.cpp:818
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 23"
 msgstr "extra 23"
 
-#: debug_console.cpp:823
+#: debug_console.cpp:821
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 24"
 msgstr "extra 24"
 
-#: debug_console.cpp:826
+#: debug_console.cpp:824
 #, kde-format
 msgctxt "Mouse Button"
 msgid "task"
 msgstr "tarefa"
 
-#: debug_console.cpp:1176
+#: debug_console.cpp:1168
 #, kde-format
 msgid "X11 Client Windows"
 msgstr "Janelas do cliente X11"
 
-#: debug_console.cpp:1178
+#: debug_console.cpp:1170
 #, kde-format
 msgid "X11 Unmanaged Windows"
 msgstr "Janelas não-gerenciadas pelo X11"
 
-#: debug_console.cpp:1180
+#: debug_console.cpp:1172
 #, kde-format
 msgid "Wayland Windows"
 msgstr "Janelas do Wayland"
 
-#: debug_console.cpp:1182
+#: debug_console.cpp:1174
 #, kde-format
 msgid "Internal Windows"
 msgstr "Janelas internas"
@@ -1148,16 +1141,25 @@ msgstr "Encerrar o aplica&tivo %1"
 msgid "Wait Longer"
 msgstr "Esperar um pouco"
 
-#: keyboard_layout.cpp:110 keyboard_layout.cpp:111
+#: inputmethod.cpp:73
 #, kde-format
-msgctxt "tooltip title"
-msgid "Keyboard Layout"
-msgstr "Layout do teclado"
+msgid "Virtual Keyboard"
+msgstr "Teclado virtual"
 
-#: keyboard_layout.cpp:258
+#: inputmethod.cpp:451
 #, kde-format
-msgid "Configure Layouts..."
-msgstr "Configurar layouts..."
+msgid "Virtual Keyboard: enabled"
+msgstr "Teclado virtual: habilitado"
+
+#: inputmethod.cpp:454
+#, kde-format
+msgid "Virtual Keyboard: disabled"
+msgstr "Teclado virtual: desabilitado"
+
+#: inputmethod.cpp:456
+#, kde-format
+msgid "Whether to show the virtual keyboard on demand."
+msgstr "Se deve mostrar ou não o teclado virtual por solicitação."
 
 #: killwindow.cpp:33
 #, kde-format
@@ -1458,77 +1460,77 @@ msgstr "Suspender composição"
 msgid "Invert Screen Colors"
 msgstr "Inverter cores da tela"
 
-#: main.cpp:184 main.cpp:214
+#: main.cpp:187 main.cpp:217
 #, kde-format
 msgid "KDE window manager"
 msgstr "Gerenciador de janelas do KDE"
 
-#: main.cpp:189
+#: main.cpp:192
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:193
+#: main.cpp:196
 #, kde-format
 msgid "(c) 1999-2019, The KDE Developers"
 msgstr "(c) 1999-2019, Os desenvolvedores do KDE"
 
-#: main.cpp:195
+#: main.cpp:198
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:196
+#: main.cpp:199
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:197
+#: main.cpp:200
 #, kde-format
 msgid "Daniel M. Duley"
 msgstr "Daniel M. Duley"
 
-#: main.cpp:198
+#: main.cpp:201
 #, kde-format
 msgid "Luboš Luňák"
 msgstr "Luboš Luňák"
 
-#: main.cpp:199
+#: main.cpp:202
 #, kde-format
 msgid "Martin Flöser"
 msgstr "Martin Flöser"
 
-#: main.cpp:200
+#: main.cpp:203
 #, kde-format
 msgid "David Edmundson"
 msgstr "David Edmundson"
 
-#: main.cpp:201
+#: main.cpp:204
 #, kde-format
 msgid "Roman Gilg"
 msgstr "Roman Gilg"
 
-#: main.cpp:202
+#: main.cpp:205
 #, kde-format
 msgid "Vlad Zahorodnii"
 msgstr "Vlad Zahorodnii"
 
-#: main.cpp:211
+#: main.cpp:214
 #, kde-format
 msgid "Disable configuration options"
 msgstr "Desabilita as opções de configuração"
 
-#: main.cpp:212
+#: main.cpp:215
 #, kde-format
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Indica que o KWin travou recentemente 'n' vezes"
 
-#: main_wayland.cpp:459
+#: main_wayland.cpp:527
 #, kde-format
 msgid "Start a rootless Xwayland server."
 msgstr "Iniciar um servidor de Xwayland sem 'root'."
 
-#: main_wayland.cpp:461
+#: main_wayland.cpp:529
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
@@ -1536,47 +1538,47 @@ msgstr ""
 "Nome do socket do Wayland onde atender pedidos. Se não for definido, será "
 "usado o \"wayland-0\"."
 
-#: main_wayland.cpp:464
+#: main_wayland.cpp:532
 #, kde-format
 msgid "Render to framebuffer."
 msgstr "Renderizar no framebuffer."
 
-#: main_wayland.cpp:466
+#: main_wayland.cpp:534
 #, kde-format
 msgid "The framebuffer device to render to."
 msgstr "O dispositivo framebuffer onde renderizar."
 
-#: main_wayland.cpp:469
+#: main_wayland.cpp:537
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "O Display X11 a usar no modo em janelas da plataforma X11."
 
-#: main_wayland.cpp:472
+#: main_wayland.cpp:540
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr "O Display Wayland a usar no modo em janelas da plataforma Wayland."
 
-#: main_wayland.cpp:474
+#: main_wayland.cpp:542
 #, kde-format
 msgid "Render to a virtual framebuffer."
 msgstr "Renderizar no framebuffer virtual."
 
-#: main_wayland.cpp:476
+#: main_wayland.cpp:544
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "A largura do modo em janelas. A largura padrão é 1024."
 
-#: main_wayland.cpp:480
+#: main_wayland.cpp:548
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
 msgstr "A altura do modo em janelas. A altura padrão é 768."
 
-#: main_wayland.cpp:485
+#: main_wayland.cpp:553
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
 msgstr "A altura do modo em janelas. A altura padrão é 768."
 
-#: main_wayland.cpp:490
+#: main_wayland.cpp:558
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
@@ -1584,12 +1586,12 @@ msgstr ""
 "O número de janelas a abrir como saídas no modo em janelas. O valor padrão é "
 "1"
 
-#: main_wayland.cpp:520
+#: main_wayland.cpp:563
 #, kde-format
-msgid "Use libhybris hwcomposer"
-msgstr "Usar libhybris hwcomposer"
+msgid "Wayland socket to use for incoming connections."
+msgstr "Socket Wayland para usar para conexões de entrada."
 
-#: main_wayland.cpp:526
+#: main_wayland.cpp:594
 #, kde-format
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
@@ -1598,42 +1600,42 @@ msgstr ""
 "Ativa o suporte à libinput, que processa os eventos de entrada. Nota: Nunca "
 "use em uma sessão encadeada.\t(obsoleto)"
 
-#: main_wayland.cpp:529
+#: main_wayland.cpp:597
 #, kde-format
 msgid "Render through drm node."
 msgstr "Renderizar pelo nó de DRM."
 
-#: main_wayland.cpp:536
+#: main_wayland.cpp:604
 #, kde-format
 msgid "Input method that KWin starts."
 msgstr "Método de entrada que o KWin inicia."
 
-#: main_wayland.cpp:541
+#: main_wayland.cpp:609
 #, kde-format
 msgid "List all available backends and quit."
 msgstr "Lista todas as infraestruturas e fecha."
 
-#: main_wayland.cpp:545
+#: main_wayland.cpp:613
 #, kde-format
 msgid "Starts the session in locked mode."
 msgstr "Inicia a sessão em modo bloqueado."
 
-#: main_wayland.cpp:549
+#: main_wayland.cpp:617
 #, kde-format
 msgid "Starts the session without lock screen support."
 msgstr "Inicia a sessão sem suporte a bloqueio de tela."
 
-#: main_wayland.cpp:553
+#: main_wayland.cpp:621
 #, kde-format
 msgid "Starts the session without global shortcuts support."
 msgstr "Inicia a sessão sem suporte para os atalhos globais."
 
-#: main_wayland.cpp:557
+#: main_wayland.cpp:625
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr "Sair após fechar o aplicativo de sessões iniciado pelo KWin."
 
-#: main_wayland.cpp:562
+#: main_wayland.cpp:630
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr ""
@@ -1651,7 +1653,7 @@ msgstr ""
 "Ele parece ter travado várias vezes em seguida.\n"
 "Você pode selecionar outro gerenciador de janelas para executar:"
 
-#: main_x11.cpp:224
+#: main_x11.cpp:226
 #, kde-format
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
@@ -1660,26 +1662,185 @@ msgstr ""
 "kwin: impossível chamar a o gerenciador de seleção, outro gerenciador sendo "
 "executado? (tente usando --replace)\n"
 
-#: main_x11.cpp:241
+#: main_x11.cpp:245
 #, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "kwin: outro gerenciador de janelas está em execução (tente usar o --"
 "replace)\n"
 
-#: main_x11.cpp:437
+#: main_x11.cpp:444
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr ""
 "Substitui o gerenciador de janelas compatível com ICCCM2.0 que já está em "
 "execução"
 
-#: main_x11.cpp:444
+#: main_x11.cpp:451
 #, kde-format
 msgid "Disable KActivities integration."
 msgstr "Desativar a integração com o KActivities."
 
-#: plugins/scenes/opengl/scene_opengl.cpp:535
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:60
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:62
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "activate"
+msgstr "ativar"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:63
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:65
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "close"
+msgstr "fechar"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:66
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:68
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "min"
+msgstr "min"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:69
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:71
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "minimize"
+msgstr "minimizar"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:72
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:74
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "max"
+msgstr "max"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:75
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:77
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "maximize"
+msgstr "maximizar"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:78
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:80
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "fullscreen"
+msgstr "tela inteira"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:81
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:83
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "shade"
+msgstr "sombrear"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:84
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:86
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "keep above"
+msgstr "manter acima"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:87
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:89
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "keep below"
+msgstr "manter abaixo"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:94
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "window"
+msgstr "janela"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:104
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "name"
+msgstr "nome"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:106
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "appname"
+msgstr "nome do aplicativo"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:108
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:161
+#, kde-format
+msgctxt "Note this is a KRunner keyword"
+msgid "desktop"
+msgstr "área de trabalho"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:263
+#, kde-format
+msgid "Switch to desktop %1"
+msgstr "Mudar para a área de trabalho %1"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:305
+#, kde-format
+msgid "Close running window on %1"
+msgstr "Fechar a janela em execução em %1"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:308
+#, kde-format
+msgid "(Un)minimize running window on %1"
+msgstr "Restaurar/minimizar a janela em execução em %1"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:311
+#, kde-format
+msgid "Maximize/restore running window on %1"
+msgstr "Maximizar/restaurar a janela em execução em %1"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:314
+#, kde-format
+msgid "Toggle fullscreen for running window on %1"
+msgstr "Alterar tela inteira para a janela em execução em %1"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:317
+#, kde-format
+msgid "(Un)shade running window on %1"
+msgstr "Desenrolar/enrolar a janela em execução em %1"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:320
+#, kde-format
+msgid "Toggle keep above for running window on %1"
+msgstr "Manter a janela acima em execução em %1"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:323
+#, kde-format
+msgid "Toggle keep below running window on %1"
+msgstr "Manter a janela abaixo em execução em %1"
+
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:327
+#, kde-format
+msgid "Activate running window on %1"
+msgstr "Ativar a janela em execução em %1"
+
+#: plugins/nightcolor/nightcolormanager.cpp:62
+#, kde-format
+msgctxt "Night Color was disabled"
+msgid "Night Color Off"
+msgstr "Cor noturna desligada"
+
+#: plugins/nightcolor/nightcolormanager.cpp:63
+#, kde-format
+msgctxt "Night Color was enabled"
+msgid "Night Color On"
+msgstr "Cor noturna ligada"
+
+#: plugins/nightcolor/nightcolormanager.cpp:98
+#: plugins/nightcolor/nightcolormanager.cpp:101
+#: plugins/nightcolor/nightcolormanager.cpp:108
+#, kde-format
+msgid "Toggle Night Color"
+msgstr "Alternar cor noturna"
+
+#: plugins/scenes/opengl/scene_opengl.cpp:517
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
@@ -1755,7 +1916,7 @@ msgstr ""
 #: rulesettings.kcfg:54
 #, kde-format
 msgid "Machine (hostname)"
-msgstr ""
+msgstr "Nome da máquina (hostname)"
 
 #. i18n: ectx: label, entry (clientmachinematch), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:57
@@ -1777,10 +1938,9 @@ msgstr "Posicionamento inicial"
 
 #. i18n: ectx: label, entry (placementrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:74
-#, fuzzy, kde-format
-#| msgid "&Fullscreen"
+#, kde-format
 msgid "Initial placement rule type"
-msgstr "&Tela inteira"
+msgstr "Tipo de regra de posicionamento inicial"
 
 #. i18n: ectx: label, entry (position), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:79
@@ -1922,10 +2082,9 @@ msgstr "Maximizado verticalmente"
 
 #. i18n: ectx: label, entry (maximizevertrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:198
-#, fuzzy, kde-format
-#| msgid "Maximize Window Vertically"
+#, kde-format
 msgid "Maximized vertically rule type"
-msgstr "Maximizar janela verticalmente"
+msgstr "Tipo de regra de maximizar verticalmente"
 
 #. i18n: ectx: label, entry (maximizehoriz), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:205
@@ -1935,10 +2094,9 @@ msgstr "Maximizado horizontalmente"
 
 #. i18n: ectx: label, entry (maximizehorizrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:209
-#, fuzzy, kde-format
-#| msgid "Maximize Window Horizontally"
+#, kde-format
 msgid "Maximized horizontally rule type"
-msgstr "Maximizar janela horizontalmente"
+msgstr "Tipo de regra de maximizar horizontalmente"
 
 #. i18n: ectx: label, entry (minimize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:216
@@ -2008,10 +2166,9 @@ msgstr "Manter acima"
 
 #. i18n: ectx: label, entry (aboverule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:275
-#, fuzzy, kde-format
-#| msgid "Keep &Above Others"
+#, kde-format
 msgid "Keep above rule type"
-msgstr "Manter &acima das outras"
+msgstr "Tipo de regra do manter acima"
 
 #. i18n: ectx: label, entry (below), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:282
@@ -2021,10 +2178,9 @@ msgstr "Manter abaixo"
 
 #. i18n: ectx: label, entry (belowrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:286
-#, fuzzy, kde-format
-#| msgid "Keep &Below Others"
+#, kde-format
 msgid "Keep below rule type"
-msgstr "Manter a&baixo das outras"
+msgstr "Tipo de regra do manter abaixo"
 
 #. i18n: ectx: label, entry (fullscreen), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:293
@@ -2034,10 +2190,9 @@ msgstr "Tela inteira"
 
 #. i18n: ectx: label, entry (fullscreenrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:297
-#, fuzzy, kde-format
-#| msgid "&Fullscreen"
+#, kde-format
 msgid "Fullscreen rule type"
-msgstr "&Tela inteira"
+msgstr "Tipo de regra de tela inteira"
 
 #. i18n: ectx: label, entry (noborder), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:304
@@ -2213,19 +2368,19 @@ msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
 msgstr "O plugin não possui um arquivo de configuração no local esperado"
 
-#: scripting/scripting.cpp:117
+#: scripting/scripting.cpp:116
 #, kde-format
 msgctxt "Assertion failed in KWin script with given value"
 msgid "Assertion failed: %1 is not null"
 msgstr "O teste falhou: %1 não é nulo"
 
-#: scripting/scripting.cpp:135
+#: scripting/scripting.cpp:134
 #, kde-format
 msgctxt "Assertion failed in KWin script"
 msgid "Assertion failed: argument is null"
 msgstr "O teste falhou: argumento nulo"
 
-#: scripting/scripting.cpp:177
+#: scripting/scripting.cpp:176
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
@@ -2235,7 +2390,7 @@ msgstr ""
 "O número de argumentos é inválido. É necessário indicar pelo menos o "
 "serviço, a localização, a interface e o método"
 
-#: scripting/scripting.cpp:183
+#: scripting/scripting.cpp:182
 #, kde-format
 msgctxt "Error in KWin Script"
 msgid ""
@@ -2334,7 +2489,7 @@ msgstr "Passear pela lista de áreas de trabalho"
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Passear pela lista de áreas de trabalho (reverso)"
 
-#: tabbox/tabboxhandler.cpp:272
+#: tabbox/tabboxhandler.cpp:270
 #, kde-format
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
@@ -2509,12 +2664,12 @@ msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "O <b>%1</b> está em uso por %2 em %3"
 
-#: useractions.cpp:1021
+#: useractions.cpp:1020
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Ativar a janela (%1)"
 
-#: useractions.cpp:1163
+#: useractions.cpp:1162
 #, kde-format
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
@@ -2565,27 +2720,7 @@ msgstr "Mudar para a área de trabalho abaixo"
 msgid "Switch to Desktop %1"
 msgstr "Mudar para a área de trabalho %1"
 
-#: virtualkeyboard.cpp:84
-#, kde-format
-msgid "Virtual Keyboard"
-msgstr "Teclado virtual"
-
-#: virtualkeyboard.cpp:350
-#, kde-format
-msgid "Virtual Keyboard: enabled"
-msgstr "Teclado virtual: habilitado"
-
-#: virtualkeyboard.cpp:353
-#, kde-format
-msgid "Virtual Keyboard: disabled"
-msgstr "Teclado virtual: desabilitado"
-
-#: virtualkeyboard.cpp:355
-#, kde-format
-msgid "Whether to show the virtual keyboard on demand."
-msgstr "Se deve mostrar ou não o teclado virtual por solicitação."
-
-#: workspace.cpp:1363
+#: workspace.cpp:1355
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

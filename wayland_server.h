@@ -56,7 +56,7 @@ class XdgOutputManagerV1Interface;
 class KeyStateInterface;
 class LinuxDmabufUnstableV1Interface;
 class LinuxDmabufUnstableV1Buffer;
-class TabletManagerInterface;
+class TabletManagerV2Interface;
 class KeyboardShortcutsInhibitManagerV1Interface;
 class XdgDecorationManagerV1Interface;
 }
@@ -87,7 +87,9 @@ public:
     Q_DECLARE_FLAGS(InitializationFlags, InitializationFlag)
 
     ~WaylandServer() override;
-    bool init(const QByteArray &socketName = QByteArray(), InitializationFlags flags = InitializationFlag::NoOptions);
+    bool init(const QString &socketName, InitializationFlags flags = InitializationFlag::NoOptions);
+    bool init(InitializationFlags flags = InitializationFlag::NoOptions);
+
     bool start();
     void terminateClientConnections();
 
@@ -103,9 +105,9 @@ public:
     {
         return m_seat;
     }
-    KWaylandServer::TabletManagerInterface *tabletManager() const
+    KWaylandServer::TabletManagerV2Interface *tabletManagerV2() const
     {
-        return m_tabletManager;
+        return m_tabletManagerV2;
     }
     KWaylandServer::DataDeviceManagerInterface *dataDeviceManager() const
     {
@@ -142,7 +144,6 @@ public:
         return m_clients;
     }
     void removeClient(AbstractClient *c);
-    AbstractClient *findClient(quint32 id) const;
     AbstractClient *findClient(KWaylandServer::SurfaceInterface *surface) const;
     XdgToplevelClient *findXdgToplevelClient(KWaylandServer::SurfaceInterface *surface) const;
     XdgSurfaceClient *findXdgSurfaceClient(KWaylandServer::SurfaceInterface *surface) const;
@@ -207,7 +208,6 @@ public:
         return m_internalConnection.registry;
     }
     void dispatch();
-    quint32 createWindowId(KWaylandServer::SurfaceInterface *surface);
 
     /**
      * Struct containing information for a created Wayland connection through a
@@ -243,6 +243,12 @@ public:
 
     AbstractWaylandOutput *findOutput(KWaylandServer::OutputInterface *output) const;
 
+    /**
+     * Returns the first socket name that can be used to connect to this server.
+     * For a full list, use display()->socketNames()
+     */
+    QString socketName() const;
+
 Q_SIGNALS:
     void shellClientAdded(KWin::AbstractClient *);
     void shellClientRemoved(KWin::AbstractClient *);
@@ -253,7 +259,6 @@ Q_SIGNALS:
 private:
     int createScreenLockerConnection();
     void shellClientShown(Toplevel *t);
-    quint16 createClientId(KWaylandServer::ClientConnection *c);
     void destroyInternalConnection();
     void initScreenLocker();
     void registerXdgGenericClient(AbstractClient *client);
@@ -263,7 +268,7 @@ private:
     KWaylandServer::Display *m_display = nullptr;
     KWaylandServer::CompositorInterface *m_compositor = nullptr;
     KWaylandServer::SeatInterface *m_seat = nullptr;
-    KWaylandServer::TabletManagerInterface *m_tabletManager = nullptr;
+    KWaylandServer::TabletManagerV2Interface *m_tabletManagerV2 = nullptr;
     KWaylandServer::DataDeviceManagerInterface *m_dataDeviceManager = nullptr;
     KWaylandServer::PlasmaShellInterface *m_plasmaShell = nullptr;
     KWaylandServer::PlasmaWindowManagementInterface *m_windowManagement = nullptr;
@@ -296,7 +301,6 @@ private:
     KWaylandServer::XdgForeignV2Interface *m_XdgForeign = nullptr;
     KWaylandServer::KeyStateInterface *m_keyState = nullptr;
     QList<AbstractClient *> m_clients;
-    QHash<KWaylandServer::ClientConnection*, quint16> m_clientIds;
     InitializationFlags m_initFlags;
     QVector<KWaylandServer::PlasmaShellSurfaceInterface*> m_plasmaShellSurfaces;
     KWIN_SINGLETON(WaylandServer)

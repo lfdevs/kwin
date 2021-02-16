@@ -186,9 +186,6 @@ X11Client::~X11Client()
     Q_ASSERT(m_wrapper == XCB_WINDOW_NONE);
     Q_ASSERT(m_frame == XCB_WINDOW_NONE);
     Q_ASSERT(!check_active_modal);
-    for (auto it = m_connections.constBegin(); it != m_connections.constEnd(); ++it) {
-        disconnect(*it);
-    }
 }
 
 // Use destroyClient() or releaseWindow(), Client instances cannot be deleted directly
@@ -527,10 +524,10 @@ bool X11Client::manage(xcb_window_t w, bool isMapped)
     workspace()->updateOnAllDesktopsOfTransients(this);   // SELI TODO
     //onAllDesktopsChange(); // Decoration doesn't exist here yet
 
-    QString activitiesList;
+    QStringList activitiesList;
     activitiesList = rules()->checkActivity(activitiesList, !isMapped);
     if (!activitiesList.isEmpty())
-        setOnActivities(activitiesList.split(QStringLiteral(",")));
+        setOnActivities(activitiesList);
 
     QRect geom(windowGeometry.rect());
     bool placementDone = false;
@@ -746,12 +743,14 @@ bool X11Client::manage(xcb_window_t w, bool isMapped)
         }
         if (session->fullscreen != FullScreenNone) {
             setFullScreen(true, false);
-            geom_fs_restore = session->fsrestore;
+            setFullscreenGeometryRestore(session->fsrestore);
         }
         QRect checkedGeometryRestore = geometryRestore();
         checkOffscreenPosition(&checkedGeometryRestore, area);
-        checkOffscreenPosition(&geom_fs_restore, area);
         setGeometryRestore(checkedGeometryRestore);
+        QRect checkedFullscreenGeometryRestore = fullscreenGeometryRestore();
+        checkOffscreenPosition(&checkedFullscreenGeometryRestore, area);
+        setFullscreenGeometryRestore(checkedFullscreenGeometryRestore);
     } else {
         // Window may want to be maximized
         // done after checking that the window isn't larger than the workarea, so that
@@ -1046,6 +1045,10 @@ void X11Client::createDecoration(const QRect& oldgeom)
     if (decoration) {
         QMetaObject::invokeMethod(decoration, "update", Qt::QueuedConnection);
         connect(decoration, &KDecoration2::Decoration::shadowChanged, this, &Toplevel::updateShadow);
+        connect(decoration, &KDecoration2::Decoration::bordersChanged,
+                this, &X11Client::updateDecorationInputShape);
+        connect(decoration, &KDecoration2::Decoration::resizeOnlyBordersChanged,
+                this, &X11Client::updateDecorationInputShape);
         connect(decoration, &KDecoration2::Decoration::resizeOnlyBordersChanged, this, &X11Client::updateInputWindow);
         connect(decoration, &KDecoration2::Decoration::bordersChanged, this,
             [this]() {
@@ -1064,11 +1067,14 @@ void X11Client::createDecoration(const QRect& oldgeom)
         );
         connect(decoratedClient()->decoratedClient(), &KDecoration2::DecoratedClient::widthChanged, this, &X11Client::updateInputWindow);
         connect(decoratedClient()->decoratedClient(), &KDecoration2::DecoratedClient::heightChanged, this, &X11Client::updateInputWindow);
+        connect(decoratedClient()->decoratedClient(), &KDecoration2::DecoratedClient::sizeChanged,
+                this, &X11Client::updateDecorationInputShape);
     }
     setDecoration(decoration);
 
     move(calculateGravitation(false));
     plainResize(adjustedSize(), ForceGeometrySet);
+    updateDecorationInputShape();
     if (Compositor::compositing()) {
         discardWindowPixmap();
     }
@@ -1910,9 +1916,7 @@ void X11Client::setOnActivities(QStringList newActivitiesList)
     if (!Activities::self()) {
         return;
     }
-    QString joinedActivitiesList = newActivitiesList.join(QStringLiteral(","));
-    joinedActivitiesList = rules()->checkActivity(joinedActivitiesList, false);
-    newActivitiesList = joinedActivitiesList.split(u',', QString::SkipEmptyParts);
+    newActivitiesList = rules()->checkActivity(newActivitiesList);
 
     QStringList allActivities = Activities::self()->all();
 
@@ -1926,7 +1930,7 @@ void X11Client::setOnActivities(QStringList newActivitiesList)
     }
 
     if (// If we got the request to be on all activities explicitly
-        newActivitiesList.isEmpty() || joinedActivitiesList == Activities::nullUuid() ||
+        newActivitiesList.isEmpty() || newActivitiesList.contains(Activities::nullUuid()) ||
         // If we got a list of activities that covers all activities
         (newActivitiesList.count() > 1 && newActivitiesList.count() == allActivities.count())) {
 
@@ -1935,7 +1939,7 @@ void X11Client::setOnActivities(QStringList newActivitiesList)
         m_client.changeProperty(atoms->activities, XCB_ATOM_STRING, 8, nullUuid.length(), nullUuid.constData());
 
     } else {
-        QByteArray joined = joinedActivitiesList.toLatin1();
+        QByteArray joined = newActivitiesList.join(QStringLiteral(",")).toLatin1();
         activityList = newActivitiesList;
         m_client.changeProperty(atoms->activities, XCB_ATOM_STRING, 8, joined.length(), joined.constData());
     }
@@ -2015,10 +2019,10 @@ bool X11Client::takeFocus()
     if (rules()->checkAcceptFocus(info->input())) {
         xcb_void_cookie_t cookie = xcb_set_input_focus_checked(connection(),
                                                                XCB_INPUT_FOCUS_POINTER_ROOT,
-                                                               windowId(), XCB_TIME_CURRENT_TIME);
+                                                               window(), XCB_TIME_CURRENT_TIME);
         ScopedCPointer<xcb_generic_error_t> error(xcb_request_check(connection(), cookie));
         if (error) {
-            qCWarning(KWIN_CORE, "Failed to focus 0x%x (error %d)", windowId(), error->error_code);
+            qCWarning(KWIN_CORE, "Failed to focus 0x%x (error %d)", window(), error->error_code);
             return false;
         }
     } else {
@@ -2792,7 +2796,6 @@ void X11Client::addDamage(const QRegion &damage)
             setupWindowManagementInterface();
         }
     }
-    repaints_region += damage.translated(bufferGeometry().topLeft() - frameGeometry().topLeft());
     Toplevel::addDamage(damage);
 }
 
@@ -4603,7 +4606,7 @@ void X11Client::setFullScreen(bool set, bool user)
     if (wasFullscreen) {
         workspace()->updateFocusMousePosition(Cursors::self()->mouse()->pos()); // may cause leave event
     } else {
-        geom_fs_restore = frameGeometry();
+        setFullscreenGeometryRestore(frameGeometry());
     }
 
     if (set) {
@@ -4629,9 +4632,9 @@ void X11Client::setFullScreen(bool set, bool user)
             setFrameGeometry(workspace()->clientArea(FullScreenArea, this));
         }
     } else {
-        Q_ASSERT(!geom_fs_restore.isNull());
+        Q_ASSERT(!fullscreenGeometryRestore().isNull());
         const int currentScreen = screen();
-        setFrameGeometry(QRect(geom_fs_restore.topLeft(), constrainFrameSize(geom_fs_restore.size())));
+        setFrameGeometry(QRect(fullscreenGeometryRestore().topLeft(), constrainFrameSize(fullscreenGeometryRestore().size())));
         if(currentScreen != screen()) {
             workspace()->sendClientToScreen(this, currentScreen);
         }

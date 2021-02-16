@@ -24,6 +24,8 @@ class OutputChangeSet;
 namespace KWin
 {
 
+class RenderLoop;
+
 class KWIN_EXPORT GammaRamp
 {
 public:
@@ -163,6 +165,25 @@ public:
 
     /** Returns the resolution of the output.  */
     virtual QSize pixelSize() const = 0;
+
+    /**
+     * Returns the manufacturer of the screen.
+     */
+    virtual QString manufacturer() const;
+    /**
+     * Returns the model of the screen.
+     */
+    virtual QString model() const;
+    /**
+     * Returns the serial number of the screen.
+     */
+    virtual QString serialNumber() const;
+
+    /**
+     * Returns the RenderLoop for this output. This function returns @c null if the
+     * underlying platform doesn't support per-screen rendering mode.
+     */
+    virtual RenderLoop *renderLoop() const;
 
 Q_SIGNALS:
     /**

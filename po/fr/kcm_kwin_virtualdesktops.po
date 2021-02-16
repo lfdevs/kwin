@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-08 02:22+0200\n"
+"POT-Creation-Date: 2020-11-09 02:33+0100\n"
 "PO-Revision-Date: 2019-08-10 16:09+0800\n"
 "Last-Translator: Simon Depiets <sdepiets@gmail.com>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -130,7 +130,7 @@ msgstr "%1 ms"
 msgid "Show desktop layout indicators"
 msgstr "Afficher les indicateurs de disposition des bureaux"
 
-#: virtualdesktops.cpp:30
+#: virtualdesktops.cpp:31
 #, kde-format
 msgid "Virtual Desktops"
 msgstr "Bureaux virtuels"

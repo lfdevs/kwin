@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-29 02:26+0200\n"
+"POT-Creation-Date: 2020-10-22 02:33+0200\n"
 "PO-Revision-Date: 2019-09-29 12:19-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -579,7 +579,7 @@ msgstr "マウスの下をフォーカス"
 #: advanced.ui:118
 #, kde-format
 msgid ""
-"When turned on, KDE apps which are able to remember the positions of their "
+"When turned on, apps which are able to remember the positions of their "
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
@@ -587,7 +587,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:121
 #, kde-format
-msgid "Allow KDE apps to remember the positions of their own windows"
+msgid ""
+"Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
@@ -1323,7 +1324,7 @@ msgstr "スクリーン中央のスナップゾーン(&C):"
 msgid "&Snap windows:"
 msgstr "すべての浮遊ウィンドウを前後させる"
 
-#: windows.cpp:87
+#: windows.cpp:101
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Click to focus:"
@@ -1338,7 +1339,7 @@ msgstr ""
 "カス:</span> クリックしたウィンドウがアクティブになります。この挙動は他の OS "
 "と共通であり、あなたの想定と同じように動作します。</p></body></html>"
 
-#: windows.cpp:91
+#: windows.cpp:105
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Click to focus "
@@ -1363,7 +1364,7 @@ msgstr ""
 "style=\" font-style:italic;\">クリックしてフォーカス</span>の変化形です。</"
 "p></body></html>"
 
-#: windows.cpp:96
+#: windows.cpp:110
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Focus follows "
@@ -1385,7 +1386,7 @@ msgstr ""
 "リックする必要のない<span style=\" font-style:italic;\">クリックしてフォーカ"
 "ス</span> だと思ってください</p></body></html>"
 
-#: windows.cpp:100
+#: windows.cpp:114
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p>This is mostly the same as <span style=\" font-"
@@ -1405,7 +1406,7 @@ msgstr ""
 "れているウィンドウが優先的な候補となります。フォーカスをホバーで操作したい場"
 "合はこちらを選択してください。</p></body></html>"
 
-#: windows.cpp:105
+#: windows.cpp:119
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Focus under "
@@ -1431,7 +1432,7 @@ msgstr ""
 "に<span style=\" font-style:italic;\">マウスに従ってフォーカス (マウス優先)</"
 "span>を使用するべきでしょう。</p></body></html>"
 
-#: windows.cpp:109
+#: windows.cpp:123
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Focus under "

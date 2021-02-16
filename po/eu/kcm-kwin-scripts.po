@@ -1,8 +1,8 @@
-# Translation of kcm-kwin-scripts.po to Euskara/Basque (eu).
+# Translation for kcm-kwin-scripts.po to Euskara/Basque (eu).
 # Copyright (C) 2018, Free Software Foundation, Inc.
-# Copyright (C) 2019, This file is copyright:
+# Copyright (C) 2019-2020, This file is copyright:
 # This file is distributed under the same license as kwin package.
-# KDE euskaratzeko proiektuaren arduraduna <xalba@euskalnet.net>.
+# KDE euskaratzeko proiektuko arduraduna <xalba@euskalnet.net>.
 #
 # Translators:
 # Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2018, 2019, 2020.
@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-09-01 02:29+0200\n"
+"POT-Creation-Date: 2021-01-06 03:00+0100\n"
 "PO-Revision-Date: 2020-10-05 21:58+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -31,37 +31,37 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "xalba@euskalnet.net"
 
-#: module.cpp:38
+#: module.cpp:40
 #, kde-format
 msgid "KWin Scripts"
 msgstr "KWin scriptak"
 
-#: module.cpp:40
+#: module.cpp:42
 #, kde-format
 msgid "Configure KWin scripts"
 msgstr "Konfiguratu KWin scriptak"
 
-#: module.cpp:43
+#: module.cpp:45
 #, kde-format
 msgid "Tamás Krutki"
 msgstr "Tamás Krutki"
 
-#: module.cpp:79
+#: module.cpp:82
 #, kde-format
 msgid "Error when uninstalling KWin Script: %1"
 msgstr "Errorea KWin-en script-a desinstalatzean: %1"
 
-#: module.cpp:100
+#: module.cpp:103
 #, kde-format
 msgid "Import KWin Script"
 msgstr "Inportatu KWin scripta"
 
-#: module.cpp:101
+#: module.cpp:104
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|KWin scriptak (*.kwinscript)"
 
-#: module.cpp:120
+#: module.cpp:123
 #, kde-format
 msgctxt "Placeholder is error message returned from the install service"
 msgid ""
@@ -71,7 +71,7 @@ msgstr ""
 "Ezin da inportatu hautatutako scripta.\n"
 "%1"
 
-#: module.cpp:134
+#: module.cpp:137
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."

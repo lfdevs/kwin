@@ -16,7 +16,7 @@
 #include <KConfig>
 #include <KConfigGroup>
 
-Q_LOGGING_CATEGORY(AURORAE, "aurorae", QtCriticalMsg)
+Q_LOGGING_CATEGORY(AURORAE, "aurorae", QtWarningMsg)
 
 namespace Aurorae {
 
@@ -73,8 +73,8 @@ AuroraeTheme::AuroraeTheme(QObject* parent)
     : QObject(parent)
     , d(new AuroraeThemePrivate)
 {
-    connect(this, SIGNAL(themeChanged()), SIGNAL(borderSizesChanged()));
-    connect(this, SIGNAL(buttonSizesChanged()), SIGNAL(borderSizesChanged()));
+    connect(this, &AuroraeTheme::themeChanged, this, &AuroraeTheme::borderSizesChanged);
+    connect(this, &AuroraeTheme::buttonSizesChanged, this, &AuroraeTheme::borderSizesChanged);
 }
 
 AuroraeTheme::~AuroraeTheme()
@@ -232,7 +232,7 @@ void AuroraeTheme::borders(int& left, int& top, int& right, int& bottom, bool ma
             minMargin = 0;
             maxMargin = 0;
         }
-        
+
         left = qBound(minMargin, d->themeConfig.borderLeft(), maxMargin);
         right = qBound(minMargin, d->themeConfig.borderRight(), maxMargin);
         bottom = qBound(minMargin, d->themeConfig.borderBottom(), maxMargin);

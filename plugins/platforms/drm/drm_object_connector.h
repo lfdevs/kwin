@@ -21,21 +21,28 @@ public:
 
     ~DrmConnector() override;
 
-    bool atomicInit() override;
+    bool init() override;
 
     enum class PropertyIndex {
         CrtcId = 0,
+        NonDesktop = 1,
         Count
     };
 
     QVector<uint32_t> encoders() {
         return m_encoders;
     }
-    
+
     bool initProps() override;
     bool isConnected();
 
-
+    bool isNonDesktop() const {
+        auto prop = m_props.at(static_cast<int>(PropertyIndex::NonDesktop));
+        if (!prop) {
+            return false;
+        }
+        return prop->value();
+    }
 private:
     QVector<uint32_t> m_encoders;
 };

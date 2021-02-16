@@ -1,29 +1,29 @@
 # Translation for kcmkwm.po to Euskara/Basque (eu).
 # Copyright (C) 2002-2018 Free Software Foundation.
-# Copyright (C) 2019-2020, This file is copyright:
+# Copyright (C) 2019-2021, This file is copyright:
 # This file is distributed under the same license as the kwin package.
-# KDE euskaratzeko proiektuko arduraduna <xalba@euskalnet.net>.
+# KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>.
 #
 # Translators:
 # Marcos  <marcos@euskalgnu.org>, 2002, 2003, 2005, 2006, 2007, 2008.
 # Juan Irigoien <juanirigoien@irakasle.net>, 2004.
 # Ion Gaztañaga <igaztanaga@gmail.com>, 2005.
 # Asier Urio Larrea <asieriko@gmail.com>, 2008.
-# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2011, 2014, 2018, 2019, 2020.
+# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2011, 2014, 2018, 2019, 2020, 2021.
 # Hizkuntza Politikarako Sailburuordetza <hizpol@ej-gv.es>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-29 02:26+0200\n"
-"PO-Revision-Date: 2020-10-05 22:04+0200\n"
+"POT-Creation-Date: 2020-10-22 02:33+0200\n"
+"PO-Revision-Date: 2021-02-01 23:28+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.08.1\n"
+"X-Generator: Lokalize 20.12.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -596,19 +596,22 @@ msgstr "Saguaren azpian"
 #: advanced.ui:118
 #, kde-format
 msgid ""
-"When turned on, KDE apps which are able to remember the positions of their "
+"When turned on, apps which are able to remember the positions of their "
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
 "Aukera hau aktibatuta dagoenean, bere leihoen kokapena gogoratzeko gai diren "
-"aplikazioek hori egiten uzten zaie. Horrek goian definitutako leiho kokapena "
-"indargabetuko du."
+"aplikazioei hori egiten uzten zaie. Horrek, goian definitutako leihoak  "
+"kokatzeko modua gainditzen du."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:121
 #, kde-format
-msgid "Allow KDE apps to remember the positions of their own windows"
-msgstr "Utzi KDE aplikazioek bere leihoen kokapena gogoratu dezaten"
+msgid ""
+"Allow apps to remember the positions of their own windows, if they support it"
+msgstr ""
+"Onartu aplikazioek beren leihoen kokapena gogoratzea, hori egitea onartzen "
+"badute"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
 #: advanced.ui:128
@@ -1311,7 +1314,7 @@ msgstr "E&rdiguneko atxikitze eremua:"
 msgid "&Snap windows:"
 msgstr "At&xiki leihoak:"
 
-#: windows.cpp:87
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1321,7 +1324,7 @@ msgstr ""
 "zaionean. Jokabide hau arrunta da beste sistema eragile batzuetan eta segur "
 "aski zuk nahi duzuna da."
 
-#: windows.cpp:91
+#: windows.cpp:105
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1336,7 +1339,7 @@ msgstr ""
 "hobetsia. Ezohikoa, baino <em>Klik egin fokuratzeko</em>ren aldaera posible "
 "bat da."
 
-#: windows.cpp:96
+#: windows.cpp:110
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1349,7 +1352,7 @@ msgstr ""
 "fokua bereganatuko. <em>Foku-lapurtze prebentzioa</em> ohi bezala arituko "
 "da. <em>Klik egin fokuratzeko</em> bezalakoa, baino klik egin beharrik gabe."
 
-#: windows.cpp:100
+#: windows.cpp:114
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1364,7 +1367,7 @@ msgstr ""
 
 # xalba 2018-07-01: berrikusteko
 # «tabbox» terminoa ez det itzuli, gainontzeko hizkuntzetan ez dute oraindik itzuli eta testuingurua behar det.
-#: windows.cpp:105
+#: windows.cpp:119
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1381,7 +1384,7 @@ msgstr ""
 
 # xalba 2018-07-01: berrikusteko
 # - in doubt nowhere -: beste hizkuntzetan ez da mezu hau itzuli oraindik. Neure interpretazioa zuzena dela egiaztatu.
-#: windows.cpp:109
+#: windows.cpp:123
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-29 02:26+0200\n"
+"POT-Creation-Date: 2020-10-22 02:33+0200\n"
 "PO-Revision-Date: 2019-12-08 18:28+0100\n"
 "Last-Translator: Kristóf Kiszel <ulysses@kubuntu.org>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -590,7 +590,7 @@ msgstr "Az egér alatt"
 #: advanced.ui:118
 #, kde-format
 msgid ""
-"When turned on, KDE apps which are able to remember the positions of their "
+"When turned on, apps which are able to remember the positions of their "
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
@@ -598,7 +598,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:121
 #, kde-format
-msgid "Allow KDE apps to remember the positions of their own windows"
+msgid ""
+"Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
@@ -1309,7 +1310,7 @@ msgstr "Közé&pső vonzási távolság:"
 msgid "&Snap windows:"
 msgstr "Ablakok &dokkolása:"
 
-#: windows.cpp:87
+#: windows.cpp:101
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Click to focus:"
@@ -1325,7 +1326,7 @@ msgstr ""
 "működés általános más operációs rendszereken, és valószínűleg ezt szeretné.</"
 "p></body></html>"
 
-#: windows.cpp:91
+#: windows.cpp:105
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Click to focus "
@@ -1350,7 +1351,7 @@ msgstr ""
 "Szokatlan, de lehetséges változata a <span style=\" font-style:italic;"
 "\">Kattintás fókuszálásra</span> működésének.</p></body></html>"
 
-#: windows.cpp:96
+#: windows.cpp:110
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Focus follows "
@@ -1373,7 +1374,7 @@ msgstr ""
 "italic;\">Kattintás fókuszálásra</span>, csak kattintás nélkül.</p></body></"
 "html>"
 
-#: windows.cpp:100
+#: windows.cpp:114
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p>This is mostly the same as <span style=\" font-"
@@ -1393,7 +1394,7 @@ msgstr ""
 "ablak az előnyben részesített jelölt. Válassza ezt, ha rámutatással szeretné "
 "irányítani a fókuszálást.</p></body></html>"
 
-#: windows.cpp:105
+#: windows.cpp:119
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Focus under "
@@ -1419,7 +1420,7 @@ msgstr ""
 "Valószínűleg inkább a <span style=\" font-style:italic;\">Fókuszálás "
 "egérkövetéssel - Egérprecedencia</span> az Önnek való!</p></body></html>"
 
-#: windows.cpp:109
+#: windows.cpp:123
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Focus strictly "

@@ -9,7 +9,6 @@
 */
 #include "touch_input.h"
 #include "abstract_client.h"
-#include "input.h"
 #include "pointer_input.h"
 #include "input_event_spy.h"
 #include "toplevel.h"
@@ -78,7 +77,7 @@ bool TouchInputRedirection::positionValid() const
 {
     Q_ASSERT(m_touches >= 0);
     // we can only determine a position with at least one touch point
-    return m_touches == 0;
+    return m_touches;
 }
 
 void TouchInputRedirection::focusUpdate(Toplevel *focusOld, Toplevel *focusNow)
@@ -200,6 +199,12 @@ void TouchInputRedirection::processMotion(qint32 id, const QPointF &pos, quint32
     input()->processSpies(std::bind(&InputEventSpy::touchMotion, std::placeholders::_1, id, pos, time));
     input()->processFilters(std::bind(&InputEventFilter::touchMotion, std::placeholders::_1, id, pos, time));
     m_windowUpdatedInCycle = false;
+}
+
+void TouchInputRedirection::processCancel()
+{
+    m_touches--;
+    cancel();
 }
 
 void TouchInputRedirection::cancel()

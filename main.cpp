@@ -9,15 +9,18 @@
 */
 
 #include "main.h"
-#include <config-kwin.h>
 // kwin
 #include "platform.h"
 #include "atoms.h"
+#ifdef KWIN_BUILD_CMS
+#include "colormanager.h"
+#endif
 #include "composite.h"
 #include "cursor.h"
 #include "input.h"
 #include "logind.h"
 #include "options.h"
+#include "pluginmanager.h"
 #include "screens.h"
 #include "screenlockerwatcher.h"
 #include "sm.h"
@@ -30,7 +33,6 @@
 #include <KAboutData>
 #include <KLocalizedString>
 #include <KPluginMetaData>
-#include <KSharedConfig>
 #include <KWaylandServer/surface_interface.h>
 // Qt
 #include <qplatformdefs.h>
@@ -101,6 +103,7 @@ Application::Application(Application::OperationMode mode, int &argc, char **argv
     qRegisterMetaType<KWin::EffectWindow*>();
     qRegisterMetaType<KWaylandServer::SurfaceInterface *>("KWaylandServer::SurfaceInterface *");
     qRegisterMetaType<KSharedConfigPtr>();
+    qRegisterMetaType<std::chrono::nanoseconds>();
 }
 
 void Application::setConfigLock(bool lock)
@@ -270,10 +273,14 @@ void Application::createWorkspace()
     emit workspaceCreated();
 }
 
+void Application::createSession()
+{
+    LogindIntegration::create(this);
+}
+
 void Application::createInput()
 {
     ScreenLockerWatcher::create(this);
-    LogindIntegration::create(this);
     auto input = InputRedirection::create(this);
     input->init();
     m_platform->createPlatformCursor(this);
@@ -298,6 +305,18 @@ void Application::createOptions()
     options = new Options;
 }
 
+void Application::createPlugins()
+{
+    PluginManager::create(this);
+}
+
+void Application::createColorManager()
+{
+#ifdef KWIN_BUILD_CMS
+    ColorManager::create(this);
+#endif
+}
+
 void Application::installNativeX11EventFilter()
 {
     installNativeEventFilter(m_eventFilter.data());
@@ -316,6 +335,18 @@ void Application::destroyWorkspace()
 void Application::destroyCompositor()
 {
     delete Compositor::self();
+}
+
+void Application::destroyPlugins()
+{
+    delete PluginManager::self();
+}
+
+void Application::destroyColorManager()
+{
+#ifdef KWIN_BUILD_CMS
+    delete ColorManager::self();
+#endif
 }
 
 void Application::updateX11Time(xcb_generic_event_t *event)
@@ -441,6 +472,7 @@ void Application::initPlatform(const KPluginMetaData &plugin)
                 }
             }
         }
+        emit platformCreated();
     }
 }
 

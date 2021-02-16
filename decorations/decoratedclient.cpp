@@ -13,7 +13,6 @@
 #include "abstract_client.h"
 #include "composite.h"
 #include "cursor.h"
-#include "options.h"
 #include "platform.h"
 #include "workspace.h"
 
@@ -164,7 +163,7 @@ DELEGATE2(QIcon, icon)
 DELEGATE(bool, isKeepAbove, keepAbove)
 DELEGATE(bool, isKeepBelow, keepBelow)
 DELEGATE(bool, isShaded, isShade)
-DELEGATE(WId, windowId, windowId)
+DELEGATE(WId, windowId, window)
 DELEGATE(WId, decorationId, frameId)
 
 #undef DELEGATE
@@ -227,10 +226,9 @@ void DecoratedClientImpl::requestHideToolTip()
     m_toolTipShowing = false;
 }
 
-void DecoratedClientImpl::requestShowWindowMenu()
+void DecoratedClientImpl::requestShowWindowMenu(const QRect &rect)
 {
-    // TODO: add rect to requestShowWindowMenu
-    Workspace::self()->showWindowMenu(QRect(Cursors::self()->mouse()->pos(), Cursors::self()->mouse()->pos()), m_client);
+    Workspace::self()->showWindowMenu(QRect(m_client->pos() + rect.topLeft(), m_client->pos() + rect.bottomRight()), m_client);
 }
 
 void DecoratedClientImpl::requestShowApplicationMenu(const QRect &rect, int actionId)

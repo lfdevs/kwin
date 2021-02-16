@@ -3,12 +3,15 @@
     This file is part of the KDE project.
 
     SPDX-FileCopyrightText: 2010 Martin Gräßlin <mgraesslin@kde.org>
+    SPDX-FileCopyrightText: 2020 David Redondo <kde@david-redondo.de>
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "startupfeedback.h"
 // Qt
 #include <QApplication>
+#include <QDBusConnectionInterface>
+#include <QDBusServiceWatcher>
 #include <QFile>
 #include <QSize>
 #include <QStyle>
@@ -17,7 +20,6 @@
 // KDE
 #include <KConfigGroup>
 #include <KSharedConfig>
-#include <KStartupInfo>
 #include <KSelectionOwner>
 #include <KWindowSystem>
 // KWin
@@ -66,15 +68,12 @@ StartupFeedbackEffect::StartupFeedbackEffect()
     , m_active(false)
     , m_frame(0)
     , m_progress(0)
-    , m_texture(nullptr)
+    , m_lastPresentTime(std::chrono::milliseconds::zero())
     , m_type(BouncingFeedback)
-    , m_blinkingShader(nullptr)
     , m_cursorSize(24)
     , m_configWatcher(KConfigWatcher::create(KSharedConfig::openConfig("klaunchrc", KConfig::NoGlobals)))
+    , m_splashVisible(false)
 {
-    for (int i = 0; i < 5; ++i) {
-        m_bouncingTextures[i] = nullptr;
-    }
     if (KWindowSystem::isPlatformX11()) {
         m_selection = new KSelectionOwner("_KDE_STARTUP_FEEDBACK", xcbConnection(), x11RootWindow(), this);
         m_selection->claim(true);
@@ -88,6 +87,16 @@ StartupFeedbackEffect::StartupFeedbackEffect()
     });
     reconfigure(ReconfigureAll);
 
+    m_splashVisible = QDBusConnection::sessionBus().interface()->isServiceRegistered(QStringLiteral("org.kde.KSplash"));
+    auto serviceWatcher = new QDBusServiceWatcher(QStringLiteral("org.kde.KSplash"), QDBusConnection::sessionBus(), QDBusServiceWatcher::WatchForOwnerChange, this);
+    connect(serviceWatcher, &QDBusServiceWatcher::serviceRegistered, this, [this] {
+        m_splashVisible = true;
+        stop();
+    });
+    connect(serviceWatcher, &QDBusServiceWatcher::serviceUnregistered, this, [this] {
+        m_splashVisible = false;
+        gotRemoveStartup(KStartupInfoId(), KStartupInfoData()); // Start the next feedback
+    });
 }
 
 StartupFeedbackEffect::~StartupFeedbackEffect()
@@ -95,11 +104,6 @@ StartupFeedbackEffect::~StartupFeedbackEffect()
     if (m_active) {
         effects->stopMousePolling();
     }
-    for (int i = 0; i < 5; ++i) {
-        delete m_bouncingTextures[i];
-    }
-    delete m_texture;
-    delete m_blinkingShader;
 }
 
 bool StartupFeedbackEffect::supported()
@@ -124,8 +128,7 @@ void StartupFeedbackEffect::reconfigure(Effect::ReconfigureFlags flags)
     else if (busyBlinking) {
         m_type = BlinkingFeedback;
         if (effects->compositingType() == OpenGL2Compositing) {
-            delete m_blinkingShader;
-            m_blinkingShader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture, QString(), QStringLiteral("blinking-startup-fragment.glsl"));
+            m_blinkingShader.reset(ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture, QString(), QStringLiteral("blinking-startup-fragment.glsl")));
             if (m_blinkingShader->isValid()) {
                 qCDebug(KWINEFFECTS) << "Blinking Shader is valid";
             } else {
@@ -140,8 +143,14 @@ void StartupFeedbackEffect::reconfigure(Effect::ReconfigureFlags flags)
     }
 }
 
-void StartupFeedbackEffect::prePaintScreen(ScreenPrePaintData& data, int time)
+void StartupFeedbackEffect::prePaintScreen(ScreenPrePaintData& data, std::chrono::milliseconds presentTime)
 {
+    int time = 0;
+    if (m_lastPresentTime.count()) {
+        time = (presentTime - m_lastPresentTime).count();
+    }
+    m_lastPresentTime = presentTime;
+
     if (m_active) {
         // need the unclipped version
         switch(m_type) {
@@ -159,7 +168,7 @@ void StartupFeedbackEffect::prePaintScreen(ScreenPrePaintData& data, int time)
             break; // nothing
         }
     }
-    effects->prePaintScreen(data, time);
+    effects->prePaintScreen(data, presentTime);
 }
 
 void StartupFeedbackEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData& data)
@@ -169,11 +178,11 @@ void StartupFeedbackEffect::paintScreen(int mask, const QRegion &region, ScreenP
         GLTexture* texture;
         switch(m_type) {
         case BouncingFeedback:
-            texture = m_bouncingTextures[ FRAME_TO_BOUNCE_TEXTURE[ m_frame ]];
+            texture = m_bouncingTextures[ FRAME_TO_BOUNCE_TEXTURE[ m_frame ]].get();
             break;
         case BlinkingFeedback: // fall through
         case PassiveFeedback:
-            texture = m_texture;
+            texture = m_texture.get();
             break;
         default:
             return; // safety
@@ -183,7 +192,7 @@ void StartupFeedbackEffect::paintScreen(int mask, const QRegion &region, ScreenP
         texture->bind();
         if (m_type == BlinkingFeedback && m_blinkingShader && m_blinkingShader->isValid()) {
             const QColor& blinkingColor = BLINKING_COLORS[ FRAME_TO_BLINKING_COLOR[ m_frame ]];
-            ShaderManager::instance()->pushShader(m_blinkingShader);
+            ShaderManager::instance()->pushShader(m_blinkingShader.get());
             m_blinkingShader->setUniform(GLShader::Color, blinkingColor);
         } else {
             ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
@@ -237,7 +246,7 @@ void StartupFeedbackEffect::gotRemoveStartup(const KStartupInfoId& id, const KSt
 {
     Q_UNUSED( data )
     m_startups.remove(id);
-    if (m_startups.count() == 0) {
+    if (m_startups.isEmpty()) {
         m_currentStartup = KStartupInfoId(); // null
         stop();
         return;
@@ -259,18 +268,16 @@ void StartupFeedbackEffect::gotStartupChange(const KStartupInfoId& id, const KSt
 
 void StartupFeedbackEffect::start(const QString& icon)
 {
-    if (m_type == NoFeedback)
+    if (m_type == NoFeedback || m_splashVisible)
         return;
     if (!m_active)
         effects->startMousePolling();
     m_active = true;
-    auto readCursorSize = []() -> int {
-        // read details about the mouse-cursor theme define per default
-        KConfigGroup mousecfg(effects->inputConfig(), "Mouse");
-        int cursorSize  = mousecfg.readEntry("cursorSize", 24);
-        return cursorSize;
-    };
-    m_cursorSize = readCursorSize();
+
+    // read details about the mouse-cursor theme define per default
+    KConfigGroup mousecfg(effects->inputConfig(), "Mouse");
+    m_cursorSize = mousecfg.readEntry("cursorSize", 24);
+
     int iconSize = m_cursorSize / 1.5;
     if (!iconSize) {
         iconSize = QApplication::style()->pixelMetric(QStyle::PM_SmallIconSize);
@@ -289,18 +296,17 @@ void StartupFeedbackEffect::stop()
     if (m_active)
         effects->stopMousePolling();
     m_active = false;
+    m_lastPresentTime = std::chrono::milliseconds::zero();
     effects->makeOpenGLContextCurrent();
     switch(m_type) {
     case BouncingFeedback:
         for (int i = 0; i < 5; ++i) {
-            delete m_bouncingTextures[i];
-            m_bouncingTextures[i] = nullptr;
+            m_bouncingTextures[i].reset();
         }
         break;
     case BlinkingFeedback:
     case PassiveFeedback:
-        delete m_texture;
-        m_texture = nullptr;
+        m_texture.reset();
         break;
     case NoFeedback:
         return; // don't want the full repaint
@@ -316,17 +322,17 @@ void StartupFeedbackEffect::prepareTextures(const QPixmap& pix)
     switch(m_type) {
     case BouncingFeedback:
         for (int i = 0; i < 5; ++i) {
-            delete m_bouncingTextures[i];
-            m_bouncingTextures[i] = new GLTexture(scalePixmap(pix, BOUNCE_SIZES[i]));
+            m_bouncingTextures[i].reset(new GLTexture(scalePixmap(pix, BOUNCE_SIZES[i])));
         }
         break;
     case BlinkingFeedback:
     case PassiveFeedback:
-        m_texture = new GLTexture(pix);
+        m_texture.reset(new GLTexture(pix));
         break;
     default:
         // for safety
         m_active = false;
+        m_lastPresentTime = std::chrono::milliseconds::zero();
         break;
     }
 }
@@ -362,12 +368,12 @@ QRect StartupFeedbackEffect::feedbackRect() const
     int yOffset = 0;
     switch(m_type) {
     case BouncingFeedback:
-        texture = m_bouncingTextures[ FRAME_TO_BOUNCE_TEXTURE[ m_frame ]];
+        texture = m_bouncingTextures[ FRAME_TO_BOUNCE_TEXTURE[ m_frame ]].get();
         yOffset = FRAME_TO_BOUNCE_YOFFSET[ m_frame ] * m_bounceSizesRatio;
         break;
     case BlinkingFeedback: // fall through
     case PassiveFeedback:
-        texture = m_texture;
+        texture = m_texture.get();
         break;
     default:
         // nothing

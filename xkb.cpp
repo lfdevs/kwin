@@ -17,7 +17,6 @@
 #include <QTemporaryFile>
 #include <QKeyEvent>
 // xkbcommon
-#include <xkbcommon/xkbcommon.h>
 #include <xkbcommon/xkbcommon-compose.h>
 #include <xkbcommon/xkbcommon-keysyms.h>
 // system
@@ -25,7 +24,7 @@
 #include <unistd.h>
 #include <bitset>
 
-Q_LOGGING_CATEGORY(KWIN_XKB, "kwin_xkbcommon", QtCriticalMsg)
+Q_LOGGING_CATEGORY(KWIN_XKB, "kwin_xkbcommon", QtWarningMsg)
 
 namespace KWin
 {
@@ -114,6 +113,14 @@ Xkb::~Xkb()
     xkb_context_unref(m_context);
 }
 
+void Xkb::setConfig(const KSharedConfigPtr &config) {
+    m_configGroup = config->group("Layout");
+}
+
+void Xkb::setNumLockConfig(const KSharedConfigPtr &config) {
+    m_numLockConfig = config;
+}
+
 void Xkb::reconfigure()
 {
     if (!m_context) {
@@ -145,7 +152,7 @@ static bool stringIsEmptyOrNull(const char *str)
  * As kwin_wayland may have the CAP_SET_NICE capability, it returns nullptr
  * so we need to do it ourselves (see xkb_context_sanitize_rule_names).
 **/
-static void applyEnvironmentRules(xkb_rule_names &ruleNames)
+void Xkb::applyEnvironmentRules(xkb_rule_names &ruleNames)
 {
     if (stringIsEmptyOrNull(ruleNames.rules)) {
         ruleNames.rules = getenv("XKB_DEFAULT_RULES");
@@ -163,27 +170,30 @@ static void applyEnvironmentRules(xkb_rule_names &ruleNames)
     if (ruleNames.options == nullptr) {
         ruleNames.options = getenv("XKB_DEFAULT_OPTIONS");
     }
+
+    m_layoutList = QString::fromLatin1(ruleNames.layout).split(QLatin1Char(','));
 }
 
 xkb_keymap *Xkb::loadKeymapFromConfig()
 {
     // load config
-    if (!m_config) {
+    if (!m_configGroup.isValid()) {
         return nullptr;
     }
-    const KConfigGroup config = m_config->group("Layout");
-    const QByteArray model = config.readEntry("Model", "pc104").toLocal8Bit();
-    const QByteArray layout = config.readEntry("LayoutList", "").toLocal8Bit();
-    const QByteArray options = config.readEntry("Options", "").toLocal8Bit();
+    const QByteArray model = m_configGroup.readEntry("Model", "pc104").toLatin1();
+    const QByteArray layout = m_configGroup.readEntry("LayoutList").toLatin1();
+    const QByteArray variant = m_configGroup.readEntry("VariantList").toLatin1();
+    const QByteArray options = m_configGroup.readEntry("Options").toLatin1();
 
     xkb_rule_names ruleNames = {
         .rules = nullptr,
         .model = model.constData(),
         .layout = layout.constData(),
-        .variant = nullptr,
+        .variant = variant.constData(),
         .options = options.constData()
     };
     applyEnvironmentRules(ruleNames);
+
     return xkb_keymap_new_from_names(m_context, &ruleNames, XKB_KEYMAP_COMPILE_NO_FLAGS);
 }
 
@@ -273,7 +283,7 @@ void Xkb::updateKeymap(xkb_keymap *keymap)
 
 void Xkb::createKeymapFile()
 {
-    if (!m_seat) {
+    if (!m_seat || !m_seat->keyboard()) {
         return;
     }
     // TODO: uninstall keymap on server?
@@ -285,27 +295,7 @@ void Xkb::createKeymapFile()
     if (keymapString.isNull()) {
         return;
     }
-    const uint size = qstrlen(keymapString.data()) + 1;
-
-    QTemporaryFile *tmp = new QTemporaryFile(this);
-    if (!tmp->open()) {
-        delete tmp;
-        return;
-    }
-    unlink(tmp->fileName().toUtf8().constData());
-    if (!tmp->resize(size)) {
-        delete tmp;
-        return;
-    }
-    uchar *address = tmp->map(0, size);
-    if (!address) {
-        return;
-    }
-    if (qstrncpy(reinterpret_cast<char*>(address), keymapString.data(), size) == nullptr) {
-        delete tmp;
-        return;
-    }
-    m_seat->setKeymap(tmp->handle(), size);
+    m_seat->keyboard()->setKeymap(keymapString.data());
 }
 
 void Xkb::updateModifiers(uint32_t modsDepressed, uint32_t modsLatched, uint32_t modsLocked, uint32_t group)
@@ -391,13 +381,21 @@ void Xkb::updateModifiers()
 
 void Xkb::forwardModifiers()
 {
-    if (!m_seat) {
+    if (!m_seat || !m_seat->keyboard()) {
         return;
     }
-    m_seat->updateKeyboardModifiers(m_modifierState.depressed,
-                                                     m_modifierState.latched,
-                                                     m_modifierState.locked,
-                                                     m_currentLayout);
+    m_seat->keyboard()->updateModifiers(m_modifierState.depressed,
+                                        m_modifierState.latched,
+                                        m_modifierState.locked,
+                                        m_currentLayout);
+}
+
+QString Xkb::layoutName(xkb_layout_index_t index) const
+{
+    if (!m_keymap) {
+        return QString{};
+    }
+    return QString::fromLocal8Bit(xkb_keymap_layout_get_name(m_keymap, index));
 }
 
 QString Xkb::layoutName() const
@@ -405,22 +403,9 @@ QString Xkb::layoutName() const
     return layoutName(m_currentLayout);
 }
 
-QString Xkb::layoutName(xkb_layout_index_t layout) const
+const QString &Xkb::layoutShortName(int index) const
 {
-    if (!m_keymap) {
-        return QString{};
-    }
-    return QString::fromLocal8Bit(xkb_keymap_layout_get_name(m_keymap, layout));
-}
-
-QMap<xkb_layout_index_t, QString> Xkb::layoutNames() const
-{
-    QMap<xkb_layout_index_t, QString> layouts;
-    const auto size = m_keymap ? xkb_keymap_num_layouts(m_keymap) : 0u;
-    for (xkb_layout_index_t i = 0; i < size; i++) {
-        layouts.insert(i, layoutName(i));
-    }
-    return layouts;
+    return m_layoutList.at(index);
 }
 
 void Xkb::updateConsumedModifiers(uint32_t key)
@@ -542,13 +527,10 @@ void Xkb::switchToPreviousLayout()
     switchToLayout(previousLayout);
 }
 
-void Xkb::switchToLayout(xkb_layout_index_t layout)
+bool Xkb::switchToLayout(xkb_layout_index_t layout)
 {
-    if (!m_keymap || !m_state) {
-        return;
-    }
-    if (layout >= numberOfLayouts()) {
-        return;
+    if (!m_keymap || !m_state || layout >= numberOfLayouts()) {
+        return false;
     }
     const xkb_mod_mask_t depressed = xkb_state_serialize_mods(m_state, xkb_state_component(XKB_STATE_MODS_DEPRESSED));
     const xkb_mod_mask_t latched = xkb_state_serialize_mods(m_state, xkb_state_component(XKB_STATE_MODS_LATCHED));
@@ -556,6 +538,7 @@ void Xkb::switchToLayout(xkb_layout_index_t layout)
     xkb_state_update_mask(m_state, depressed, latched, locked, 0, 0, layout);
     updateModifiers();
     forwardModifiers();
+    return true;
 }
 
 quint32 Xkb::numberOfLayouts() const

@@ -56,7 +56,7 @@ void GlobalShortcutsTest::initTestCase()
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
-    QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit()));
+    QVERIFY(waylandServer()->init(s_socketName));
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
     qputenv("KWIN_XKB_DEFAULT_KEYMAP", "1");
@@ -117,7 +117,7 @@ void GlobalShortcutsTest::testRepeatedTrigger()
     input()->registerShortcut(Qt::Key_Percent, action.data());
 
     // we need to configure the key repeat first. It is only enabled on libinput
-    waylandServer()->seat()->setKeyRepeatInfo(25, 300);
+    waylandServer()->seat()->keyboard()->setRepeatInfo(25, 300);
 
     // press shift+5
     quint32 timestamp = 0;

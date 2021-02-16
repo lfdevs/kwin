@@ -158,7 +158,7 @@ void Selection::registerXfixes()
     const uint32_t mask = XCB_XFIXES_SELECTION_EVENT_MASK_SET_SELECTION_OWNER |
             XCB_XFIXES_SELECTION_EVENT_MASK_SELECTION_WINDOW_DESTROY |
             XCB_XFIXES_SELECTION_EVENT_MASK_SELECTION_CLIENT_CLOSE;
-    xcb_xfixes_select_selection_input(kwinApp()->x11Connection(),
+    xcb_xfixes_select_selection_input(xcbConn,
                                       m_window,
                                       m_atom,
                                       mask);
@@ -281,7 +281,7 @@ void Selection::startTransferToWayland(xcb_atom_t target, qint32 fd)
 
     connect(transfer, &TransferXtoWl::finished, this, [this, transfer]() {
         Q_EMIT transferFinished(transfer->timestamp());
-        delete transfer;
+        transfer->deleteLater();
         m_xToWlTransfers.removeOne(transfer);
         endTimeoutTransfersTimer();
     });
@@ -299,7 +299,7 @@ void Selection::startTransferToX(xcb_selection_request_event_t *event, qint32 fd
 
         // TODO: serialize? see comment below.
 //        const bool wasActive = (transfer == m_wlToXTransfers[0]);
-        delete transfer;
+        transfer->deleteLater();
         m_wlToXTransfers.removeOne(transfer);
         endTimeoutTransfersTimer();
 //        if (wasActive && !m_wlToXTransfers.isEmpty()) {

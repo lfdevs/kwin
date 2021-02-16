@@ -80,6 +80,11 @@ class KWIN_EXPORT AbstractClient : public Toplevel
     Q_PROPERTY(bool onAllDesktops READ isOnAllDesktops WRITE setOnAllDesktops NOTIFY desktopChanged)
 
     /**
+     * The activities this client is on. If it's on all activities the property is empty.
+     */
+    Q_PROPERTY(QStringList activities READ activities WRITE setOnActivities NOTIFY activitiesChanged)
+
+    /**
      * The x11 ids for all desktops this client is in. On X11 this list will always have a length of 1
      */
     Q_PROPERTY(QVector<uint> x11DesktopIds READ x11DesktopIds NOTIFY x11DesktopIdsChanged)
@@ -749,6 +754,7 @@ public:
     virtual void showContextHelp();
 
     QRect inputGeometry() const override;
+    bool hitTest(const QPoint &point) const override;
 
     /**
      * @returns the geometry of the virtual keyboard
@@ -813,10 +819,6 @@ public:
 
     bool unresponsive() const;
 
-    virtual bool isInitialPositionSet() const {
-        return false;
-    }
-
     /**
      * Default implementation returns @c null.
      * Mostly intended for X11 clients, from EWMH:
@@ -866,6 +868,8 @@ public:
         return m_windowManagementInterface;
     }
 
+    QRect fullscreenGeometryRestore() const;
+
 public Q_SLOTS:
     virtual void closeWindow() = 0;
 
@@ -884,6 +888,7 @@ Q_SIGNALS:
     void demandsAttentionChanged();
     void desktopPresenceChanged(KWin::AbstractClient*, int); // to be forwarded by Workspace
     void desktopChanged();
+    void activitiesChanged(KWin::AbstractClient* client);
     void x11DesktopIdsChanged();
     void shadeChanged();
     void minimizedChanged();
@@ -1186,6 +1191,7 @@ protected:
     virtual void destroyDecoration();
     void startDecorationDoubleClickTimer();
     void invalidateDecorationDoubleClickTimer();
+    void updateDecorationInputShape();
 
     void setDesktopFileName(QByteArray name);
     QString iconFromDesktopFile() const;
@@ -1218,6 +1224,8 @@ protected:
     void setKeyboardGeometryRestore(const QRect &geom);
 
     QRect m_virtualKeyboardGeometry;
+
+    void setFullscreenGeometryRestore(const QRect &geom);
 private Q_SLOTS:
     void shadeHover();
     void shadeUnhover();
@@ -1274,6 +1282,7 @@ private:
     QRect m_clientGeometryBeforeUpdateBlocking;
     QRect m_keyboardGeometryRestore;
     QRect m_maximizeGeometryRestore;
+    QRect m_fullscreenGeometryRestore;
 
     struct {
         bool enabled = false;
@@ -1293,6 +1302,7 @@ private:
         KDecoration2::Decoration *decoration = nullptr;
         QPointer<Decoration::DecoratedClientImpl> client;
         QElapsedTimer doubleClickTimer;
+        QRegion inputRegion;
     } m_decoration;
     QByteArray m_desktopFileName;
 

@@ -127,11 +127,6 @@ bool LayerShellV1Client::isResizable() const
     return false;
 }
 
-bool LayerShellV1Client::isInitialPositionSet() const
-{
-    return true;
-}
-
 bool LayerShellV1Client::takeFocus()
 {
     setActive(true);
@@ -219,12 +214,6 @@ Layer LayerShellV1Client::belongsToLayer() const
 bool LayerShellV1Client::acceptsFocus() const
 {
     return m_shellSurface->acceptsFocus();
-}
-
-void LayerShellV1Client::addDamage(const QRegion &region)
-{
-    addRepaint(region);
-    WaylandClient::addDamage(region);
 }
 
 void LayerShellV1Client::requestGeometry(const QRect &rect)

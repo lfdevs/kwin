@@ -8,13 +8,14 @@
 */
 #include "kwin_wayland_test.h"
 #include "../../platform.h"
+#include "../../pluginmanager.h"
 #include "../../composite.h"
 #include "../../effects.h"
 #include "../../wayland_server.h"
 #include "../../workspace.h"
 #include "../../xcbutils.h"
 #include "../../xwl/xwayland.h"
-#include "../../virtualkeyboard.h"
+#include "../../inputmethod.h"
 
 #include <KPluginMetaData>
 
@@ -29,6 +30,11 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <iostream>
+
+Q_IMPORT_PLUGIN(KWinIntegrationPlugin)
+Q_IMPORT_PLUGIN(KGlobalAccelImpl)
+Q_IMPORT_PLUGIN(KWindowSystemKWinPlugin)
+Q_IMPORT_PLUGIN(KWinIdleTimePoller)
 
 namespace KWin
 {
@@ -73,6 +79,7 @@ WaylandTestApplication::~WaylandTestApplication()
     if (effects) {
         static_cast<EffectsHandlerImpl*>(effects)->unloadAllEffects();
     }
+    destroyPlugins();
     delete m_xwayland;
     m_xwayland = nullptr;
     destroyWorkspace();
@@ -82,12 +89,13 @@ WaylandTestApplication::~WaylandTestApplication()
     }
     waylandServer()->terminateClientConnections();
     destroyCompositor();
+    destroyColorManager();
 }
 
 void WaylandTestApplication::performStartup()
 {
     if (!m_inputMethodServerToStart.isEmpty()) {
-        VirtualKeyboard::create();
+        InputMethod::create();
         if (m_inputMethodServerToStart != QStringLiteral("internal")) {
             int socket = dup(waylandServer()->createInputMethodConnection());
             if (socket >= 0) {
@@ -96,6 +104,7 @@ void WaylandTestApplication::performStartup()
                 environment.insert(QStringLiteral("QT_QPA_PLATFORM"), QStringLiteral("wayland"));
                 environment.remove("DISPLAY");
                 environment.remove("WAYLAND_DISPLAY");
+                environment.remove("XAUTHORITY");
                 QProcess *p = new Process(this);
                 p->setProcessChannelMode(QProcess::ForwardedErrorChannel);
                 connect(p, qOverload<int, QProcess::ExitStatus>(&QProcess::finished), this,
@@ -120,11 +129,14 @@ void WaylandTestApplication::performStartup()
 
     // first load options - done internally by a different thread
     createOptions();
+    createSession();
+    createColorManager();
     waylandServer()->createInternalConnection();
 
     // try creating the Wayland Backend
     createInput();
     createBackend();
+    createPlugins();
 }
 
 void WaylandTestApplication::createBackend()

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-29 02:26+0200\n"
+"POT-Creation-Date: 2020-10-22 02:33+0200\n"
 "PO-Revision-Date: 2019-07-11 12:28+0200\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -604,7 +604,7 @@ msgstr "Sota el ratolí"
 #: advanced.ui:118
 #, kde-format
 msgid ""
-"When turned on, KDE apps which are able to remember the positions of their "
+"When turned on, apps which are able to remember the positions of their "
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
@@ -612,7 +612,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:121
 #, kde-format
-msgid "Allow KDE apps to remember the positions of their own windows"
+msgid ""
+"Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
@@ -1366,7 +1367,7 @@ msgstr "Zona d'atracció del &centre:"
 msgid "&Snap windows:"
 msgstr "Eleva les finestres"
 
-#: windows.cpp:87
+#: windows.cpp:101
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus</b><br>\n"
@@ -1382,7 +1383,7 @@ msgstr ""
 "Aquest comportament és comú en altres sistemes operatius i<br>\n"
 "segurament és el que voldreu."
 
-#: windows.cpp:91
+#: windows.cpp:105
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus - Mouse Precedence</b><br>\n"
@@ -1405,7 +1406,7 @@ msgstr ""
 "la candidata preferida serà la finestra que hi ha sota el ratolí.<br><br>\n"
 "No és habitual, però és una possible variació de <i>Clic al focus</i>."
 
-#: windows.cpp:96
+#: windows.cpp:110
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse</b><br>\n"
@@ -1427,7 +1428,7 @@ msgstr ""
 "La prevenció de robatori de focus funciona com és habitual.<br><br>\n"
 "Penseu en <i>Clic al focus</i> però sense que calga clicar."
 
-#: windows.cpp:100
+#: windows.cpp:114
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse - Mouse Precedence</b><br>\n"
@@ -1449,7 +1450,7 @@ msgstr ""
 "la candidata preferida serà la finestra que hi ha sota el ratolí.<br><br>\n"
 "Seleccioneu aquesta si voleu un focus controlat en passar-hi per sobre."
 
-#: windows.cpp:105
+#: windows.cpp:119
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Under Mouse</b><br>\n"
@@ -1477,7 +1478,7 @@ msgstr ""
 "En el seu lloc, segurament voldreu utilitzar<br>\n"
 "<i>El focus segueix el ratolí - Prioritat al ratolí</i>."
 
-#: windows.cpp:109
+#: windows.cpp:123
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Strictly Under Mouse</b><br>\n"

@@ -26,13 +26,10 @@ public:
     ~EglGbmBackend() override;
     void screenGeometryChanged(const QSize &size) override;
     SceneOpenGLTexturePrivate *createBackendTexture(SceneOpenGLTexture *texture) override;
-    QRegion prepareRenderingFrame() override;
-    void endRenderingFrame(const QRegion &renderedRegion, const QRegion &damagedRegion) override;
+    QRegion beginFrame(int screenId) override;
+    void endFrame(int screenId, const QRegion &renderedRegion, const QRegion &damagedRegion) override;
     bool usesOverlayWindow() const override;
     void init() override;
-
-protected:
-    void present() override;
 
 private:
     bool initializeEgl();

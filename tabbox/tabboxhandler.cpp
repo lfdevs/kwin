@@ -15,14 +15,12 @@
 // tabbox
 #include "clientmodel.h"
 #include "desktopmodel.h"
-#include "tabboxconfig.h"
 #include "thumbnailitem.h"
 #include "scripting/scripting.h"
 #include "switcheritem.h"
 #include "tabbox_logging.h"
 // Qt
 #include <QKeyEvent>
-#include <QModelIndex>
 #include <QStandardPaths>
 #include <QTimer>
 #include <QQmlContext>
@@ -382,7 +380,7 @@ void TabBoxHandler::show()
         // QMetaObject::invokeMethod(this, "initHighlightWindows", Qt::QueuedConnection);
         // but we somehow need to cross > 1 event cycle (likely because of queued invocation in the effects)
         // to ensure the EffectWindow is present when updateHighlightWindows, thus elevating the window/tabbox
-        QTimer::singleShot(1, this, SLOT(initHighlightWindows()));
+        QTimer::singleShot(1, this, &TabBoxHandler::initHighlightWindows);
     }
 }
 

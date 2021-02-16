@@ -25,7 +25,6 @@
 #include "useractions.h"
 #include "cursor.h"
 #include "x11client.h"
-#include "colorcorrection/manager.h"
 #include "composite.h"
 #include "input.h"
 #include "workspace.h"
@@ -46,7 +45,6 @@
 #include <QAction>
 #include <QCheckBox>
 #include <QtConcurrentRun>
-#include <QPointer>
 #include <QPushButton>
 
 #include <KGlobalAccel>
@@ -69,6 +67,7 @@ UserActionsMenu::UserActionsMenu(QObject *parent)
     : QObject(parent)
     , m_menu(nullptr)
     , m_desktopMenu(nullptr)
+    , m_multipleDesktopsMenu(nullptr)
     , m_screenMenu(nullptr)
     , m_activityMenu(nullptr)
     , m_scriptsMenu(nullptr)
@@ -82,6 +81,7 @@ UserActionsMenu::UserActionsMenu(QObject *parent)
     , m_noBorderOperation(nullptr)
     , m_minimizeOperation(nullptr)
     , m_closeOperation(nullptr)
+    , m_shortcutOperation(nullptr)
 {
 }
 
@@ -189,7 +189,7 @@ void UserActionsMenu::helperDialog(const QString& message, AbstractClient* clien
         args << QStringLiteral("--dontagain") << QLatin1String("kwin_dialogsrc:") + type;
     }
     if (client)
-        args << QStringLiteral("--embed") << QString::number(client->windowId());
+        args << QStringLiteral("--embed") << QString::number(client->window());
     QtConcurrent::run([args]() {
         KProcess::startDetached(QStringLiteral("kdialog"), args);
     });
@@ -966,7 +966,6 @@ void Workspace::initShortcuts()
     TabBox::TabBox::self()->initShortcuts();
 #endif
     VirtualDesktopManager::self()->initShortcuts();
-    kwinApp()->platform()->colorCorrectManager()->initShortcuts();
     m_userActionsMenu->discard(); // so that it's recreated next time
 }
 

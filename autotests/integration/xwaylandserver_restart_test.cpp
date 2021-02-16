@@ -44,7 +44,7 @@ void XwaylandServerRestartTest::initTestCase()
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
-    QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit()));
+    QVERIFY(waylandServer()->init(s_socketName));
     QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
 
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
@@ -102,7 +102,7 @@ void XwaylandServerRestartTest::testRestart()
     QVERIFY(windowCreatedSpy.wait());
     X11Client *client = windowCreatedSpy.last().first().value<X11Client *>();
     QVERIFY(client);
-    QCOMPARE(client->windowId(), window);
+    QCOMPARE(client->window(), window);
     QVERIFY(client->isDecorated());
 
     // Render a frame to ensure that the compositor doesn't crash.

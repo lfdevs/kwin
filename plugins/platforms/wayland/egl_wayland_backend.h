@@ -34,8 +34,7 @@ public:
     ~EglWaylandOutput() override = default;
 
     bool init(EglWaylandBackend *backend);
-    void updateSize(const QSize &size);
-    void updateMode();
+    void updateSize();
 
 private:
     WaylandOutput *m_waylandOutput;
@@ -70,38 +69,33 @@ public:
     ~EglWaylandBackend() override;
     void screenGeometryChanged(const QSize &size) override;
     SceneOpenGLTexturePrivate *createBackendTexture(SceneOpenGLTexture *texture) override;
-    QRegion prepareRenderingFrame() override;
-    QRegion prepareRenderingForScreen(int screenId) override;
-    void endRenderingFrame(const QRegion &renderedRegion, const QRegion &damagedRegion) override;
-    void endRenderingFrameForScreen(int screenId, const QRegion &damage, const QRegion &damagedRegion) override;
+    QRegion beginFrame(int screenId) override;
+    void endFrame(int screenId, const QRegion &damage, const QRegion &damagedRegion) override;
     bool usesOverlayWindow() const override;
-    bool perScreenRendering() const override;
     void init() override;
 
     bool havePlatformBase() const {
         return m_havePlatformBase;
     }
 
-    void aboutToStartPainting(const QRegion &damage) override;
+    void aboutToStartPainting(int screenId, const QRegion &damage) override;
 
 private:
     bool initializeEgl();
     bool initBufferConfigs();
     bool initRenderingContext();
 
-    bool createEglWaylandOutput(WaylandOutput *output);
+    bool createEglWaylandOutput(AbstractOutput *output);
 
     void cleanupSurfaces() override;
     void cleanupOutput(EglWaylandOutput *output);
 
     bool makeContextCurrent(EglWaylandOutput *output);
-    void present() override;
     void presentOnSurface(EglWaylandOutput *output, const QRegion &damagedRegion);
 
     WaylandBackend *m_backend;
     QVector<EglWaylandOutput*> m_outputs;
     bool m_havePlatformBase;
-    bool m_swapping = false;
     friend class EglWaylandTexture;
 };
 

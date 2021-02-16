@@ -9,7 +9,9 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "xdgshellclient.h"
+#include "abstract_wayland_output.h"
 #include "deleted.h"
+#include "platform.h"
 #include "screenedge.h"
 #include "screens.h"
 #include "subsurfacemonitor.h"
@@ -27,7 +29,6 @@
 #include <KWaylandServer/server_decoration_palette_interface.h>
 #include <KWaylandServer/surface_interface.h>
 #include <KWaylandServer/xdgdecoration_v1_interface.h>
-#include <KWaylandServer/xdgshell_interface.h>
 
 using namespace KWaylandServer;
 
@@ -129,13 +130,15 @@ bool XdgSurfaceClient::stateCompare() const
     return false;
 }
 
-void XdgSurfaceClient::scheduleConfigure()
+void XdgSurfaceClient::scheduleConfigure(ConfigureFlags flags)
 {
     if (isZombie()) {
         return;
     }
 
-    if (stateCompare()) {
+    m_configureFlags |= flags;
+
+    if ((m_configureFlags & ConfigureRequired) || stateCompare()) {
         m_configureTimer->start();
     } else {
         m_configureTimer->stop();
@@ -154,6 +157,7 @@ void XdgSurfaceClient::sendConfigure()
     }
 
     m_configureEvents.append(configureEvent);
+    m_configureFlags = ConfigureFlags();
 }
 
 void XdgSurfaceClient::handleConfigureAcknowledged(quint32 serial)
@@ -280,11 +284,6 @@ QRect XdgSurfaceClient::adjustMoveResizeGeometry(const QRect &rect) const
     return geometry;
 }
 
-bool XdgSurfaceClient::isInitialPositionSet() const
-{
-    return m_plasmaShellSurface ? m_plasmaShellSurface->isPositionSet() : false;
-}
-
 void XdgSurfaceClient::requestGeometry(const QRect &rect)
 {
     WaylandClient::requestGeometry(rect);
@@ -314,14 +313,6 @@ QRect XdgSurfaceClient::frameRectToBufferRect(const QRect &rect) const
     const int left = rect.left() + borderLeft() - m_windowGeometry.left();
     const int top = rect.top() + borderTop() - m_windowGeometry.top();
     return QRect(QPoint(left, top), surface()->size());
-}
-
-void XdgSurfaceClient::addDamage(const QRegion &damage)
-{
-    const int offsetX = bufferGeometry().x() - frameGeometry().x();
-    const int offsetY = bufferGeometry().y() - frameGeometry().y();
-    repaints_region += damage.translated(offsetX, offsetY);
-    Toplevel::addDamage(damage);
 }
 
 void XdgSurfaceClient::destroyClient()
@@ -543,6 +534,11 @@ bool XdgToplevelClient::isMinimizable() const
     return true;
 }
 
+bool XdgToplevelClient::isPlaceable() const
+{
+    return !m_plasmaShellSurface || !m_plasmaShellSurface->isPositionSet();
+}
+
 bool XdgToplevelClient::isTransient() const
 {
     return m_isTransient;
@@ -712,7 +708,7 @@ void XdgToplevelClient::showOnScreenEdge()
     if (!m_plasmaShellSurface) {
         return;
     }
-    
+
     // ShowOnScreenEdge can be called by an Edge, and hideClient could destroy the Edge
     // Use the singleshot to avoid use-after-free
     QTimer::singleShot(0, this, [this](){
@@ -720,7 +716,7 @@ void XdgToplevelClient::showOnScreenEdge()
         workspace()->raiseClient(this);
         if (m_plasmaShellSurface->panelBehavior() == PlasmaShellSurfaceInterface::PanelBehavior::AutoHide) {
             m_plasmaShellSurface->showAutoHidingPanel();
-        } 
+        }
     });
 }
 
@@ -759,6 +755,7 @@ void XdgToplevelClient::handleRoleCommit()
     if (configureEvent) {
         handleStatesAcknowledged(configureEvent->states);
     }
+    updateDecoration(false, false);
 }
 
 void XdgToplevelClient::doMinimize()
@@ -975,15 +972,21 @@ void XdgToplevelClient::handleWindowMenuRequested(SeatInterface *seat, const QPo
 
 void XdgToplevelClient::handleMoveRequested(SeatInterface *seat, quint32 serial)
 {
-    Q_UNUSED(seat)
-    Q_UNUSED(serial)
-    performMouseCommand(Options::MouseMove, Cursors::self()->mouse()->pos());
+    if (!seat->hasImplicitPointerGrab(serial) && !seat->hasImplicitTouchGrab(serial)) {
+        return;
+    }
+    if (isMovable()) {
+        performMouseCommand(Options::MouseMove, Cursors::self()->mouse()->pos());
+    } else {
+        qCDebug(KWIN_CORE) << this << "is immovable, ignoring the move request";
+    }
 }
 
 void XdgToplevelClient::handleResizeRequested(SeatInterface *seat, Qt::Edges edges, quint32 serial)
 {
-    Q_UNUSED(seat)
-    Q_UNUSED(serial)
+    if (!seat->hasImplicitPointerGrab(serial) && !seat->hasImplicitTouchGrab(serial)) {
+        return;
+    }
     if (!isResizable() || isShade()) {
         return;
     }
@@ -1040,7 +1043,7 @@ void XdgToplevelClient::handleMaximizeRequested()
 {
     if (m_isInitialized) {
         maximize(MaximizeFull);
-        scheduleConfigure();
+        scheduleConfigure(ConfigureRequired);
     } else {
         m_initialStates |= XdgToplevelInterface::State::Maximized;
     }
@@ -1050,7 +1053,7 @@ void XdgToplevelClient::handleUnmaximizeRequested()
 {
     if (m_isInitialized) {
         maximize(MaximizeRestore);
-        scheduleConfigure();
+        scheduleConfigure(ConfigureRequired);
     } else {
         m_initialStates &= ~XdgToplevelInterface::State::Maximized;
     }
@@ -1058,10 +1061,11 @@ void XdgToplevelClient::handleUnmaximizeRequested()
 
 void XdgToplevelClient::handleFullscreenRequested(OutputInterface *output)
 {
-    Q_UNUSED(output)
+    m_fullScreenRequestedOutput = waylandServer()->findOutput(output);
+
     if (m_isInitialized) {
         setFullScreen(/* set */ true, /* user */ false);
-        scheduleConfigure();
+        scheduleConfigure(ConfigureRequired);
     } else {
         m_initialStates |= XdgToplevelInterface::State::FullScreen;
     }
@@ -1069,9 +1073,10 @@ void XdgToplevelClient::handleFullscreenRequested(OutputInterface *output)
 
 void XdgToplevelClient::handleUnfullscreenRequested()
 {
+    m_fullScreenRequestedOutput.clear();
     if (m_isInitialized) {
         setFullScreen(/* set */ false, /* user */ false);
-        scheduleConfigure();
+        scheduleConfigure(ConfigureRequired);
     } else {
         m_initialStates &= ~XdgToplevelInterface::State::FullScreen;
     }
@@ -1178,7 +1183,7 @@ void XdgToplevelClient::initialize()
 {
     blockGeometryUpdates(true);
 
-    bool needsPlacement = !isInitialPositionSet();
+    bool needsPlacement = isPlaceable();
 
     updateDecoration(false, false);
 
@@ -1227,7 +1232,7 @@ void XdgToplevelClient::initialize()
     }
 
     blockGeometryUpdates(false);
-    scheduleConfigure();
+    scheduleConfigure(ConfigureRequired);
     updateColorScheme();
     m_isInitialized = true;
 }
@@ -1299,11 +1304,6 @@ void XdgToplevelClient::installXdgDecoration(XdgToplevelDecorationV1Interface *d
 {
     m_xdgDecoration = decoration;
 
-    connect(m_xdgDecoration, &XdgToplevelDecorationV1Interface::destroyed, this, [this] {
-        if (!isZombie() && m_isInitialized) {
-            updateDecoration(/* check_workspace_pos */ true);
-        }
-    });
     connect(m_xdgDecoration, &XdgToplevelDecorationV1Interface::preferredModeChanged, this, [this] {
         if (m_isInitialized) {
             // force is true as we must send a new configure response.
@@ -1541,7 +1541,7 @@ void XdgToplevelClient::setFullScreen(bool set, bool user)
     if (wasFullscreen) {
         workspace()->updateFocusMousePosition(Cursors::self()->mouse()->pos()); // may cause leave event
     } else {
-        m_fullScreenGeometryRestore = frameGeometry();
+        setFullscreenGeometryRestore(frameGeometry());
     }
     m_isFullScreen = set;
 
@@ -1558,12 +1558,14 @@ void XdgToplevelClient::setFullScreen(bool set, bool user)
     updateDecoration(false, false);
 
     if (set) {
-        setFrameGeometry(workspace()->clientArea(FullScreenArea, this));
+        const int screen = m_fullScreenRequestedOutput ? kwinApp()->platform()->enabledOutputs().indexOf(m_fullScreenRequestedOutput) : screens()->number(frameGeometry().center());
+        setFrameGeometry(workspace()->clientArea(FullScreenArea, screen, desktop()));
     } else {
-        if (m_fullScreenGeometryRestore.isValid()) {
+        m_fullScreenRequestedOutput.clear();
+        if (fullscreenGeometryRestore().isValid()) {
             int currentScreen = screen();
-            setFrameGeometry(QRect(m_fullScreenGeometryRestore.topLeft(),
-                                   constrainFrameSize(m_fullScreenGeometryRestore.size())));
+            setFrameGeometry(QRect(fullscreenGeometryRestore().topLeft(),
+                                   constrainFrameSize(fullscreenGeometryRestore().size())));
             if( currentScreen != screen())
                 workspace()->sendClientToScreen( this, currentScreen );
         } else {
@@ -1699,8 +1701,35 @@ XdgPopupClient::XdgPopupClient(XdgPopupInterface *shellSurface)
             this, &XdgPopupClient::handleGrabRequested);
     connect(shellSurface, &XdgPopupInterface::initializeRequested,
             this, &XdgPopupClient::initialize);
+    connect(shellSurface, &XdgPopupInterface::repositionRequested,
+            this, &XdgPopupClient::handleRepositionRequested);
     connect(shellSurface, &XdgPopupInterface::destroyed,
             this, &XdgPopupClient::destroyClient);
+}
+
+void XdgPopupClient::updateReactive()
+{
+    if (m_shellSurface->positioner().isReactive()) {
+        connect(transientFor(), &AbstractClient::frameGeometryChanged,
+                this, &XdgPopupClient::relayout, Qt::UniqueConnection);
+    } else {
+        disconnect(transientFor(), &AbstractClient::frameGeometryChanged,
+                   this, &XdgPopupClient::relayout);
+    }
+}
+
+void XdgPopupClient::handleRepositionRequested(quint32 token)
+{
+    updateReactive();
+    m_shellSurface->sendRepositioned(token);
+    relayout();
+}
+
+void XdgPopupClient::relayout()
+{
+    GeometryUpdatesBlocker blocker(this);
+    Placement::self()->place(this, QRect());
+    scheduleConfigure(ConfigureRequired);
 }
 
 XdgPopupClient::~XdgPopupClient()
@@ -1983,12 +2012,14 @@ void XdgPopupClient::initialize()
     parentClient->addTransient(this);
     setTransientFor(parentClient);
 
+    updateReactive();
+
     blockGeometryUpdates(true);
     const QRect area = workspace()->clientArea(PlacementArea, Screens::self()->current(), desktop());
     placeIn(area);
     blockGeometryUpdates(false);
 
-    scheduleConfigure();
+    scheduleConfigure(ConfigureRequired);
 }
 void XdgPopupClient::installPlasmaShellSurface(PlasmaShellSurfaceInterface *shellSurface)
 {

@@ -1,28 +1,28 @@
-# Translation of kcmkwindecoration.po to Euskara/Basque (eu).
+# Translation for kcmkwindecoration.po to Euskara/Basque (eu).
 # Copyright (C) 2003-2018,  Free Software Foundation.
-# Copyright (C) 2019, This file is copyright:
-# This file is distributed under the same license as the kde-workspace package.
-# KDE euskaratzeko proiektuaren arduraduna <xalba@euskalnet.net>.
+# Copyright (C) 2019-2021, This file is copyright:
+# This file is distributed under the same license as the kwin package.
+# KDE euskaratzeko proiektuaren arduraduna <xalba@ni.eus>.
 #
 # Translators:
 # Marcos  <marcos@euskalgnu.org>, 2003, 2005, 2006, 2007.
 # Juan Irigoien <juanirigoien@irakasle.net>, 2004.
 # Asier Urio Larrea <asieriko@gmail.com>, 2008.
-# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2011, 2014, 2018, 2019.
+# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2011, 2014, 2018, 2019, 2021.
 # Hizkuntza Politikarako Sailburuordetza <hizpol@ej-gv.es>, 2013.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcmkwindecoration\n"
+"Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-11-17 08:20+0100\n"
-"PO-Revision-Date: 2019-06-09 12:52+0100\n"
-"Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
+"POT-Creation-Date: 2020-11-19 02:35+0100\n"
+"PO-Revision-Date: 2021-02-01 23:33+0100\n"
+"Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 20.12.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -89,77 +89,83 @@ msgstr "Mantendu azpian"
 msgid "Keep above"
 msgstr "Mantendu gainean"
 
-#: kcm.cpp:50
+#: kcm.cpp:51
 #, kde-format
 msgid "Window Decorations"
 msgstr "Leiho-apaindurak"
 
-#: kcm.cpp:54
+#: kcm.cpp:55
 #, kde-format
 msgid "Valerio Pilo"
 msgstr "Valerio Pilo"
 
-#: kcm.cpp:55
+#: kcm.cpp:56
 #, kde-format
 msgid "Author"
 msgstr "Egilea"
 
-#: kcm.cpp:104
+#: kcm.cpp:115
 #, kde-format
 msgid "Download New Window Decorations"
 msgstr "Jaitsi leihoentzako apaingarri berriak"
 
-#: package/contents/ui/Buttons.qml:73
+#: kcm.cpp:205
+#, kde-format
+msgctxt "%1 is the name of a border size"
+msgid "Theme's default (%1)"
+msgstr "Gaiaren lehenetsitakoa (%1)"
+
+#: package/contents/ui/Buttons.qml:85
 #, kde-format
 msgid "Titlebar"
 msgstr "Titulu-barra"
 
-#: package/contents/ui/Buttons.qml:214
+#: package/contents/ui/Buttons.qml:243
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr "Jaregin botoia hemen hura kentzeko"
 
-#: package/contents/ui/Buttons.qml:232
+#: package/contents/ui/Buttons.qml:259
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Arrastatu botoiak hemen eta titulu-barraren artean"
 
-#: package/contents/ui/main.qml:15
+#: package/contents/ui/main.qml:18
 #, kde-format
 msgid "This module lets you configure the window decorations."
 msgstr "Modulu honek leihoen apaingarriak konfiguratzen uzten dizu."
 
-#: package/contents/ui/main.qml:49
+#: package/contents/ui/main.qml:52
 #, kde-format
 msgctxt "tab label"
 msgid "Theme"
 msgstr "Gaia"
 
-#: package/contents/ui/main.qml:53
+#: package/contents/ui/main.qml:56
 #, kde-format
 msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "Titulu-barrako botoiak"
 
-#: package/contents/ui/main.qml:78
+#: package/contents/ui/main.qml:86
 #, kde-format
-msgctxt "checkbox label"
-msgid "Use theme's default window border size"
-msgstr "Erabili gaiaren leiho ertz neurri lehenetsia"
+msgctxt "Selector label"
+msgid "Window border size:"
+msgstr "Leiho-ertzaren neurria:"
 
-#: package/contents/ui/main.qml:109
+#: package/contents/ui/main.qml:103
 #, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "Lortu leihoentzako apaingarri berriak..."
 
-#: package/contents/ui/main.qml:126
+#: package/contents/ui/main.qml:121
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Itxi leihoak menu-botoian klik bikoitza eginez"
 
-#: package/contents/ui/main.qml:139
+#: package/contents/ui/main.qml:138
 #, kde-format
 msgctxt "popup tip"
 msgid ""
@@ -169,13 +175,13 @@ msgstr ""
 "Itxi klik bikoitza eginez: Mantendu leihoko menu-botoia sakatuta hura agertu "
 "arte."
 
-#: package/contents/ui/main.qml:146
+#: package/contents/ui/main.qml:145
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Erakutsi titulu-barrako botoien argibideak"
 
-#: package/contents/ui/Themes.qml:89
+#: package/contents/ui/Themes.qml:92
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr "Editatu %1 gaia"

@@ -7,8 +7,11 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "scene_qpainter_x11_backend.h"
-#include "x11windowed_backend.h"
+#include "main.h"
 #include "screens.h"
+#include "softwarevsyncmonitor.h"
+#include "x11windowed_backend.h"
+#include "x11windowed_output.h"
 
 namespace KWin
 {
@@ -39,12 +42,6 @@ void X11WindowedQPainterBackend::createOutputs()
         output->buffer.fill(Qt::black);
         m_outputs << output;
     }
-    m_needsFullRepaint = true;
-}
-
-QImage *X11WindowedQPainterBackend::buffer()
-{
-    return bufferForScreen(0);
 }
 
 QImage *X11WindowedQPainterBackend::bufferForScreen(int screen)
@@ -52,42 +49,43 @@ QImage *X11WindowedQPainterBackend::bufferForScreen(int screen)
     return &m_outputs.at(screen)->buffer;
 }
 
-bool X11WindowedQPainterBackend::needsFullRepaint() const
+bool X11WindowedQPainterBackend::needsFullRepaint(int screenId) const
 {
-    return m_needsFullRepaint;
+    const Output *rendererOutput = m_outputs.value(screenId);
+    Q_ASSERT(rendererOutput);
+    return rendererOutput->needsFullRepaint;
 }
 
-void X11WindowedQPainterBackend::prepareRenderingFrame()
+void X11WindowedQPainterBackend::beginFrame(int screenId)
 {
+    Q_UNUSED(screenId)
 }
 
-void X11WindowedQPainterBackend::present(int mask, const QRegion &damage)
+void X11WindowedQPainterBackend::endFrame(int screenId, int mask, const QRegion &damage)
 {
     Q_UNUSED(mask)
     Q_UNUSED(damage)
+
+    X11WindowedOutput *output = static_cast<X11WindowedOutput *>(kwinApp()->platform()->findOutput(screenId));
+    output->vsyncMonitor()->arm();
+
     xcb_connection_t *c = m_backend->connection();
     const xcb_window_t window = m_backend->window();
     if (m_gc == XCB_NONE) {
         m_gc = xcb_generate_id(c);
         xcb_create_gc(c, m_gc, window, 0, nullptr);
     }
-    for (auto it = m_outputs.constBegin(); it != m_outputs.constEnd(); ++it) {
-        // TODO: only update changes?
-        const QImage &buffer = (*it)->buffer;
-        xcb_put_image(c, XCB_IMAGE_FORMAT_Z_PIXMAP, (*it)->window, m_gc,
-                        buffer.width(), buffer.height(), 0, 0, 0, 24,
-                        buffer.sizeInBytes(), buffer.constBits());
-    }
-}
 
-bool X11WindowedQPainterBackend::usesOverlayWindow() const
-{
-    return false;
-}
+    Output *rendererOutput = m_outputs.value(screenId);
+    Q_ASSERT(rendererOutput);
 
-bool X11WindowedQPainterBackend::perScreenRendering() const
-{
-    return true;
+    // TODO: only update changes?
+    const QImage &buffer = rendererOutput->buffer;
+    xcb_put_image(c, XCB_IMAGE_FORMAT_Z_PIXMAP, rendererOutput->window,
+                  m_gc, buffer.width(), buffer.height(), 0, 0, 0, 24,
+                  buffer.sizeInBytes(), buffer.constBits());
+
+    rendererOutput->needsFullRepaint = false;
 }
 
 }

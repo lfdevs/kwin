@@ -44,7 +44,7 @@ BlurEffect::BlurEffect()
         net_wm_blur_region = effects->announceSupportProperty(s_blurAtomName, this);
         KWaylandServer::Display *display = effects->waylandDisplay();
         if (display) {
-            m_blurManager = display->createBlurManager(this);
+            m_blurManager = new KWaylandServer::BlurManagerInterface(display, this);
         }
     } else {
         net_wm_blur_region = 0;
@@ -469,19 +469,19 @@ void BlurEffect::uploadGeometry(GLVertexBuffer *vbo, const QRegion &blurRegion, 
     vbo->setAttribLayout(layout, 2, sizeof(QVector2D));
 }
 
-void BlurEffect::prePaintScreen(ScreenPrePaintData &data, int time)
+void BlurEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime)
 {
     m_paintedArea = QRegion();
     m_currentBlur = QRegion();
 
-    effects->prePaintScreen(data, time);
+    effects->prePaintScreen(data, presentTime);
 }
 
-void BlurEffect::prePaintWindow(EffectWindow* w, WindowPrePaintData& data, int time)
+void BlurEffect::prePaintWindow(EffectWindow* w, WindowPrePaintData& data, std::chrono::milliseconds presentTime)
 {
     // this effect relies on prePaintWindow being called in the bottom to top order
 
-    effects->prePaintWindow(w, data, time);
+    effects->prePaintWindow(w, data, presentTime);
 
     if (!w->isPaintingEnabled()) {
         return;
@@ -580,7 +580,7 @@ void BlurEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region, Wi
             shape = shape.translated(data.xTranslation(), data.yTranslation());
             shape = shape & region;
         }
-        
+
         EffectWindow* modal = w->transientFor();
         const bool transientForIsDock = (modal ? modal->isDock() : false);
 

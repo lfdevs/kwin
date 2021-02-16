@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-29 02:26+0200\n"
-"PO-Revision-Date: 2021-01-03 09:06\n"
+"POT-Creation-Date: 2020-10-22 02:33+0200\n"
+"PO-Revision-Date: 2021-02-04 12:01\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -575,18 +575,19 @@ msgstr "鼠标下"
 #: advanced.ui:118
 #, kde-format
 msgid ""
-"When turned on, KDE apps which are able to remember the positions of their "
+"When turned on, apps which are able to remember the positions of their "
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
-"启用后，无法记住窗口位置的 KDE 应用将可以记住。这会覆盖上面定义的窗口放置模"
-"式。"
+"启用后，将允许具备窗口位置记忆能力的应用程序记忆其窗口位置。这会覆盖上面定义"
+"的窗口放置模式。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:121
 #, kde-format
-msgid "Allow KDE apps to remember the positions of their own windows"
-msgstr "让 KDE 应用记住窗口位置"
+msgid ""
+"Allow apps to remember the positions of their own windows, if they support it"
+msgstr "允许应用程序记忆其窗口位置，如果它们支持此功能"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
 #: advanced.ui:128
@@ -1261,7 +1262,7 @@ msgstr "中间吸附区(&C)："
 msgid "&Snap windows:"
 msgstr "贴靠窗口(&S)："
 
-#: windows.cpp:87
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1270,7 +1271,7 @@ msgstr ""
 "<em>点击以聚焦</em>一个窗口在您单击它时被激活。该行为在其他操作系统中较常见可"
 "能是您所希望的。"
 
-#: windows.cpp:91
+#: windows.cpp:105
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1283,7 +1284,7 @@ msgstr ""
 "要由系统选中(例如，由于当前活动窗口被关闭) 鼠标下的窗口将是优先候选。不常见，"
 "但是 <em>单击聚焦</em>的可能的变换。"
 
-#: windows.cpp:96
+#: windows.cpp:110
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1295,7 +1296,7 @@ msgstr ""
 "窗口将不回获得焦点。<em>阻止焦点抢占</em>正常生效。类似 <em>点击聚焦</em> 只"
 "是不需要真的点击。"
 
-#: windows.cpp:100
+#: windows.cpp:114
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1306,7 +1307,7 @@ msgstr ""
 "类似于<em>焦点跟随鼠标</em>。如果需要由系统选择一个活动窗体(例如，由于当前窗"
 "口被关闭)鼠标下的窗口会是优先候选。如果你想使用鼠标悬停控制焦点，选择此项。"
 
-#: windows.cpp:105
+#: windows.cpp:119
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1319,7 +1320,7 @@ msgstr ""
 "strong> <em>阻止焦点抢占</em> 和 <em>标签框 ('Alt+Tab')</em> 与激活策略相矛"
 "盾，将无法工作。 你可能想要使用 的是<em>焦点跟随鼠标(鼠标优先)</em>！"
 
-#: windows.cpp:109
+#: windows.cpp:123
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

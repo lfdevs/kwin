@@ -8,7 +8,7 @@
 */
 #ifndef KWIN_EGL_STREAM_BACKEND_H
 #define KWIN_EGL_STREAM_BACKEND_H
-#include "abstract_egl_backend.h"
+#include "abstract_egl_drm_backend.h"
 #include <KWaylandServer/surface_interface.h>
 #include <KWaylandServer/eglstream_controller_interface.h>
 #include <wayland-server-core.h>
@@ -16,38 +16,37 @@
 namespace KWin
 {
 
-class DrmBackend;
 class DrmOutput;
 class DrmBuffer;
 
 /**
  * @brief OpenGL Backend using Egl with an EGLDevice.
  */
-class EglStreamBackend : public AbstractEglBackend
+class EglStreamBackend : public AbstractEglDrmBackend
 {
     Q_OBJECT
 public:
-    EglStreamBackend(DrmBackend *b);
-    ~EglStreamBackend() override;
-    void screenGeometryChanged(const QSize &size) override;
+    EglStreamBackend(DrmBackend *b, DrmGpu *gpu);
     SceneOpenGLTexturePrivate *createBackendTexture(SceneOpenGLTexture *texture) override;
-    QRegion prepareRenderingFrame() override;
-    void endRenderingFrame(const QRegion &renderedRegion, const QRegion &damagedRegion) override;
-    void endRenderingFrameForScreen(int screenId, const QRegion &damage, const QRegion &damagedRegion) override;
-    bool usesOverlayWindow() const override;
-    bool perScreenRendering() const override;
-    QRegion prepareRenderingForScreen(int screenId) override;
+    QRegion beginFrame(int screenId) override;
+    void endFrame(int screenId, const QRegion &damage, const QRegion &damagedRegion) override;
     void init() override;
 
+    int screenCount() const override {
+        return m_outputs.count();
+    }
+
+    void addOutput(DrmOutput *output) override;
+    void removeOutput(DrmOutput *output) override;
+
 protected:
-    void present() override;
     void cleanupSurfaces() override;
 
 private:
     bool initializeEgl();
     bool initBufferConfigs();
     bool initRenderingContext();
-    struct StreamTexture 
+    struct StreamTexture
     {
         EGLStreamKHR stream;
         GLuint texture;
@@ -56,7 +55,7 @@ private:
     void attachStreamConsumer(KWaylandServer::SurfaceInterface *surface,
                               void *eglStream,
                               wl_array *attribs);
-    struct Output 
+    struct Output
     {
         DrmOutput *output = nullptr;
         DrmBuffer *buffer = nullptr;
@@ -65,11 +64,9 @@ private:
     };
     bool resetOutput(Output &output, DrmOutput *drmOutput);
     bool makeContextCurrent(const Output &output);
-    void presentOnOutput(Output &output);
+    bool presentOnOutput(Output &output);
     void cleanupOutput(const Output &output);
-    void createOutput(DrmOutput *output);
 
-    DrmBackend *m_backend;
     QVector<Output> m_outputs;
     KWaylandServer::EglStreamControllerInterface *m_eglStreamControllerInterface;
     QHash<KWaylandServer::SurfaceInterface *, StreamTexture> m_streamTextures;

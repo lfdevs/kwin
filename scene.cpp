@@ -56,6 +56,8 @@
 */
 
 #include "scene.h"
+#include "abstract_output.h"
+#include "platform.h"
 
 #include <QQuickWindow>
 #include <QVector2D>
@@ -64,12 +66,13 @@
 #include "deleted.h"
 #include "effects.h"
 #include "overlaywindow.h"
+#include "renderloop.h"
 #include "screens.h"
 #include "shadow.h"
 #include "subsurfacemonitor.h"
 #include "wayland_server.h"
-
 #include "thumbnailitem.h"
+#include "composite.h"
 
 #include <KWaylandServer/buffer_interface.h>
 #include <KWaylandServer/subcompositor_interface.h>
@@ -85,7 +88,11 @@ namespace KWin
 Scene::Scene(QObject *parent)
     : QObject(parent)
 {
-    last_time.invalidate(); // Initialize the timer
+    if (kwinApp()->platform()->isPerScreenRenderingEnabled()) {
+        connect(kwinApp()->platform(), &Platform::outputEnabled, this, &Scene::reallocRepaints);
+        connect(kwinApp()->platform(), &Platform::outputDisabled, this, &Scene::reallocRepaints);
+    }
+    reallocRepaints();
 }
 
 Scene::~Scene()
@@ -93,15 +100,70 @@ Scene::~Scene()
     Q_ASSERT(m_windows.isEmpty());
 }
 
+void Scene::addRepaint(const QRegion &region)
+{
+    if (kwinApp()->platform()->isPerScreenRenderingEnabled()) {
+        const QVector<AbstractOutput *> outputs = kwinApp()->platform()->enabledOutputs();
+        if (m_repaints.count() != outputs.count()) {
+            return; // Repaints haven't been reallocated yet, do nothing.
+        }
+        for (int screenId = 0; screenId < m_repaints.count(); ++screenId) {
+            AbstractOutput *output = outputs[screenId];
+            const QRegion dirtyRegion = region & output->geometry();
+            if (!dirtyRegion.isEmpty()) {
+                m_repaints[screenId] += dirtyRegion;
+                output->renderLoop()->scheduleRepaint();
+            }
+        }
+    } else {
+        m_repaints[0] += region;
+        kwinApp()->platform()->renderLoop()->scheduleRepaint();
+    }
+}
+
+QRegion Scene::repaints(int screenId) const
+{
+    const int index = screenId == -1 ? 0 : screenId;
+    return m_repaints[index];
+}
+
+void Scene::resetRepaints(int screenId)
+{
+    const int index = screenId == -1 ? 0 : screenId;
+    m_repaints[index] = QRegion();
+}
+
+void Scene::reallocRepaints()
+{
+    if (kwinApp()->platform()->isPerScreenRenderingEnabled()) {
+        m_repaints.resize(kwinApp()->platform()->enabledOutputs().count());
+    } else {
+        m_repaints.resize(1);
+    }
+
+    m_repaints.fill(infiniteRegion());
+}
+
 // returns mask and possibly modified region
 void Scene::paintScreen(int* mask, const QRegion &damage, const QRegion &repaint,
-                        QRegion *updateRegion, QRegion *validRegion, const QMatrix4x4 &projection, const QRect &outputGeometry, const qreal screenScale)
+                        QRegion *updateRegion, QRegion *validRegion, RenderLoop *renderLoop,
+                        const QMatrix4x4 &projection, const QRect &outputGeometry,
+                        qreal screenScale)
 {
     const QSize &screenSize = screens()->size();
     const QRegion displayRegion(0, 0, screenSize.width(), screenSize.height());
     *mask = (damage == displayRegion) ? 0 : PAINT_SCREEN_REGION;
 
-    updateTimeDiff();
+    const std::chrono::milliseconds presentTime =
+            std::chrono::duration_cast<std::chrono::milliseconds>(renderLoop->nextPresentationTimestamp());
+
+    if (Q_UNLIKELY(presentTime < m_expectedPresentTimestamp)) {
+        qCDebug(KWIN_CORE, "Provided presentation timestamp is invalid: %ld (current: %ld)",
+                presentTime.count(), m_expectedPresentTimestamp.count());
+    } else {
+        m_expectedPresentTimestamp = presentTime;
+    }
+
     // preparation step
     static_cast<EffectsHandlerImpl*>(effects)->startPaint();
 
@@ -111,7 +173,7 @@ void Scene::paintScreen(int* mask, const QRegion &damage, const QRegion &repaint
     pdata.mask = *mask;
     pdata.paint = region;
 
-    effects->prePaintScreen(pdata, time_diff);
+    effects->prePaintScreen(pdata, m_expectedPresentTimestamp);
     *mask = pdata.mask;
     region = pdata.paint;
 
@@ -153,31 +215,6 @@ void Scene::paintScreen(int* mask, const QRegion &damage, const QRegion &repaint
     Q_ASSERT(!PaintClipper::clip());
 }
 
-// Compute time since the last painting pass.
-void Scene::updateTimeDiff()
-{
-    if (!last_time.isValid()) {
-        // Painting has been idle (optimized out) for some time,
-        // which means time_diff would be huge and would break animations.
-        // Simply set it to one (zero would mean no change at all and could
-        // cause problems).
-        time_diff = 1;
-        last_time.start();
-    } else
-
-    time_diff = last_time.restart();
-
-    if (time_diff < 0)   // check time rollback
-        time_diff = 1;
-}
-
-// Painting pass is optimized away.
-void Scene::idle()
-{
-    // Don't break time since last paint for the next pass.
-    last_time.invalidate();
-}
-
 // the function that'll be eventually called by paintScreen() above
 void Scene::finalPaintScreen(int mask, const QRegion &region, ScreenPaintData& data)
 {
@@ -197,15 +234,13 @@ void Scene::paintGenericScreen(int orig_mask, const ScreenPaintData &)
     QVector<Phase2Data> phase2;
     phase2.reserve(stacking_order.size());
     foreach (Window * w, stacking_order) { // bottom to top
-        Toplevel* topw = w->window();
-
         // Let the scene window update the window pixmap tree.
         w->preprocess();
 
         // Reset the repaint_region.
         // This has to be done here because many effects schedule a repaint for
         // the next frame within Effects::prePaintWindow.
-        topw->resetRepaints();
+        w->resetRepaints(painted_screen);
 
         WindowPrePaintData data;
         data.mask = orig_mask | (w->isOpaque() ? PAINT_WINDOW_OPAQUE : PAINT_WINDOW_TRANSLUCENT);
@@ -214,7 +249,7 @@ void Scene::paintGenericScreen(int orig_mask, const ScreenPaintData &)
         data.clip = QRegion();
         data.quads = w->buildQuads();
         // preparation step
-        effects->prePaintWindow(effectWindow(w), data, time_diff);
+        effects->prePaintWindow(effectWindow(w), data, m_expectedPresentTimestamp);
 #if !defined(QT_NO_DEBUG)
         if (data.quads.isTransformed()) {
             qFatal("Pre-paint calls are not allowed to transform quads!");
@@ -228,7 +263,7 @@ void Scene::paintGenericScreen(int orig_mask, const ScreenPaintData &)
 
     damaged_region = QRegion(QRect {{}, screens()->size()});
     if (m_paintScreenCount == 1) {
-        aboutToStartPainting(damaged_region);
+        aboutToStartPainting(painted_screen, damaged_region);
 
         if (orig_mask & PAINT_SCREEN_BACKGROUND_FIRST) {
             paintBackground(infiniteRegion());
@@ -264,7 +299,7 @@ void Scene::paintSimpleScreen(int orig_mask, const QRegion &region)
         data.mask = orig_mask | (window->isOpaque() ? PAINT_WINDOW_OPAQUE : PAINT_WINDOW_TRANSLUCENT);
         window->resetPaintingEnabled();
         data.paint = region;
-        data.paint |= toplevel->repaints();
+        data.paint |= window->repaints(painted_screen);
 
         // Let the scene window update the window pixmap tree.
         window->preprocess();
@@ -272,18 +307,16 @@ void Scene::paintSimpleScreen(int orig_mask, const QRegion &region)
         // Reset the repaint_region.
         // This has to be done here because many effects schedule a repaint for
         // the next frame within Effects::prePaintWindow.
-        toplevel->resetRepaints();
+        window->resetRepaints(painted_screen);
 
         // Clip out the decoration for opaque windows; the decoration is drawn in the second pass
         opaqueFullscreen = false; // TODO: do we care about unmanged windows here (maybe input windows?)
+        AbstractClient *client = dynamic_cast<AbstractClient *>(toplevel);
         if (window->isOpaque()) {
-            AbstractClient *client = dynamic_cast<AbstractClient *>(toplevel);
             if (client) {
                 opaqueFullscreen = client->isFullScreen();
             }
-            if (!(client && client->decorationHasAlpha())) {
-                data.clip = window->decorationShape().translated(window->pos());
-            }
+
             const WindowPixmap *windowPixmap = window->windowPixmap<WindowPixmap>();
             if (windowPixmap) {
                 data.clip |= windowPixmap->mapToGlobal(windowPixmap->shape());
@@ -294,13 +327,22 @@ void Scene::paintSimpleScreen(int orig_mask, const QRegion &region)
                 const QRegion shape = windowPixmap->shape();
                 const QRegion opaque = windowPixmap->opaque();
                 data.clip = windowPixmap->mapToGlobal(shape & opaque);
+
+                if (opaque == shape) {
+                    data.mask = orig_mask | PAINT_WINDOW_OPAQUE;
+                }
             }
         } else {
             data.clip = QRegion();
         }
+
+        if (client && !client->decorationHasAlpha() && toplevel->opacity() == 1.0) {
+            data.clip |= window->decorationShape().translated(window->pos());
+        }
+
         data.quads = window->buildQuads();
         // preparation step
-        effects->prePaintWindow(effectWindow(window), data, time_diff);
+        effects->prePaintWindow(effectWindow(window), data, m_expectedPresentTimestamp);
 #if !defined(QT_NO_DEBUG)
         if (data.quads.isTransformed()) {
             qFatal("Pre-paint calls are not allowed to transform quads!");
@@ -362,7 +404,7 @@ void Scene::paintSimpleScreen(int orig_mask, const QRegion &region)
     QRegion paintedArea;
     // Fill any areas of the root window not covered by opaque windows
     if (m_paintScreenCount == 1) {
-        aboutToStartPainting(dirtyArea);
+        aboutToStartPainting(painted_screen, dirtyArea);
 
         if (orig_mask & PAINT_SCREEN_BACKGROUND_FIRST) {
             paintBackground(infiniteRegion());
@@ -406,7 +448,7 @@ void Scene::addToplevel(Toplevel *c)
     Scene::Window *w = createWindow(c);
     m_windows[ c ] = w;
 
-    connect(c, SIGNAL(windowClosed(KWin::Toplevel*,KWin::Deleted*)), SLOT(windowClosed(KWin::Toplevel*,KWin::Deleted*)));
+    connect(c, &Toplevel::windowClosed, this, &Scene::windowClosed);
 
     c->effectWindow()->setSceneWindow(w);
     c->updateShadow();
@@ -594,8 +636,9 @@ void Scene::paintDesktop(int desktop, int mask, const QRegion &region, ScreenPai
     static_cast<EffectsHandlerImpl*>(effects)->paintDesktop(desktop, mask, region, data);
 }
 
-void Scene::aboutToStartPainting(const QRegion &damage)
+void Scene::aboutToStartPainting(int screenId, const QRegion &damage)
 {
+    Q_UNUSED(screenId)
     Q_UNUSED(damage)
 }
 
@@ -620,16 +663,6 @@ void Scene::extendPaintRegion(QRegion &region, bool opaqueFullscreen)
     Q_UNUSED(opaqueFullscreen);
 }
 
-bool Scene::blocksForRetrace() const
-{
-    return false;
-}
-
-bool Scene::syncsToVBlank() const
-{
-    return false;
-}
-
 void Scene::screenGeometryChanged(const QSize &size)
 {
     if (!overlayWindow()) {
@@ -648,6 +681,11 @@ void Scene::doneOpenGLContextCurrent()
 }
 
 bool Scene::supportsSurfacelessContext() const
+{
+    return false;
+}
+
+bool Scene::supportsNativeFence() const
 {
     return false;
 }
@@ -671,8 +709,9 @@ QPainter *Scene::scenePainter() const
     return nullptr;
 }
 
-QImage *Scene::qpainterRenderBuffer() const
+QImage *Scene::qpainterRenderBuffer(int screenId) const
 {
+    Q_UNUSED(screenId)
     return nullptr;
 }
 
@@ -696,6 +735,12 @@ Scene::Window::Window(Toplevel *client, QObject *parent)
     , disable_painting(0)
     , cached_quad_list(nullptr)
 {
+    if (kwinApp()->platform()->isPerScreenRenderingEnabled()) {
+        connect(kwinApp()->platform(), &Platform::outputEnabled, this, &Window::reallocRepaints);
+        connect(kwinApp()->platform(), &Platform::outputDisabled, this, &Window::reallocRepaints);
+    }
+    reallocRepaints();
+
     KWaylandServer::SurfaceInterface *surface = toplevel->surface();
     if (surface) {
         // We generate window quads for sub-surfaces so it's quite important to discard
@@ -733,6 +778,13 @@ Scene::Window::Window(Toplevel *client, QObject *parent)
                 this, &Window::discardPixmap);
         connect(surface, &KWaylandServer::SurfaceInterface::surfaceToBufferMatrixChanged,
                 this, &Window::discardQuads);
+
+        connect(m_subsurfaceMonitor, &SubSurfaceMonitor::subSurfaceCommitted, this, [this](KWaylandServer::SubSurfaceInterface *subsurface) {
+            handleSurfaceCommitted(subsurface->surface());
+        });
+        connect(surface, &KWaylandServer::SurfaceInterface::committed, this, [this, surface]() {
+            handleSurfaceCommitted(surface);
+        });
     }
 
     connect(toplevel, &Toplevel::screenScaleChanged, this, &Window::discardQuads);
@@ -742,6 +794,13 @@ Scene::Window::Window(Toplevel *client, QObject *parent)
 
 Scene::Window::~Window()
 {
+    for (int i = 0; i < m_repaints.count(); ++i) {
+        const QRegion dirty = repaints(i);
+        if (!dirty.isEmpty()) {
+            Compositor::self()->addRepaint(dirty);
+        }
+    }
+
     delete m_shadow;
 }
 
@@ -943,27 +1002,15 @@ WindowQuadList Scene::Window::buildQuads(bool force) const
     }
 
     if (!toplevel->frameMargins().isNull()) {
-        AbstractClient *client = dynamic_cast<AbstractClient*>(toplevel);
-        QRegion center = toplevel->transparentRect();
-        const QRegion decoration = decorationShape();
-        qreal decorationScale = 1.0;
-
         QRect rects[4];
-        bool isShadedClient = false;
 
-        if (client) {
+        if (AbstractClient *client = qobject_cast<AbstractClient *>(toplevel)) {
             client->layoutDecorationRects(rects[0], rects[1], rects[2], rects[3]);
-            decorationScale = client->screenScale();
-            isShadedClient = client->isShade() || center.isEmpty();
+        } else if (Deleted *deleted = qobject_cast<Deleted *>(toplevel)) {
+            deleted->layoutDecorationRects(rects[0], rects[1], rects[2], rects[3]);
         }
 
-        if (isShadedClient) {
-            const QRect bounding = rects[0] | rects[1] | rects[2] | rects[3];
-            *ret += makeDecorationQuads(rects, bounding, decorationScale);
-        } else {
-            *ret += makeDecorationQuads(rects, decoration, decorationScale);
-        }
-
+        *ret += makeDecorationQuads(rects, decorationShape());
     }
     if (m_shadow && toplevel->wantsShadowToBeRendered()) {
         *ret << m_shadow->shadowQuads();
@@ -973,10 +1020,11 @@ WindowQuadList Scene::Window::buildQuads(bool force) const
     return *ret;
 }
 
-WindowQuadList Scene::Window::makeDecorationQuads(const QRect *rects, const QRegion &region, qreal textureScale) const
+WindowQuadList Scene::Window::makeDecorationQuads(const QRect *rects, const QRegion &region) const
 {
     WindowQuadList list;
 
+    const qreal textureScale = toplevel->screenScale();
     const int padding = 1;
 
     const QPoint topSpritePosition(padding, padding);
@@ -1128,6 +1176,76 @@ void Scene::Window::preprocess()
     }
 }
 
+void Scene::Window::addLayerRepaint(const QRegion &region)
+{
+    if (kwinApp()->platform()->isPerScreenRenderingEnabled()) {
+        const QVector<AbstractOutput *> outputs = kwinApp()->platform()->enabledOutputs();
+        if (m_repaints.count() != outputs.count()) {
+            return; // Repaints haven't been reallocated yet, do nothing.
+        }
+        for (int screenId = 0; screenId < m_repaints.count(); ++screenId) {
+            AbstractOutput *output = outputs[screenId];
+            const QRegion dirtyRegion = region & output->geometry();
+            if (!dirtyRegion.isEmpty()) {
+                m_repaints[screenId] += dirtyRegion;
+                output->renderLoop()->scheduleRepaint();
+            }
+        }
+    } else {
+        m_repaints[0] += region;
+        kwinApp()->platform()->renderLoop()->scheduleRepaint();
+    }
+}
+
+QRegion Scene::Window::repaints(int screen) const
+{
+    Q_ASSERT(!m_repaints.isEmpty());
+    const int index = screen != -1 ? screen : 0;
+    if (m_repaints[index] == infiniteRegion()) {
+        return QRect(QPoint(0, 0), screens()->size());
+    }
+    return m_repaints[index];
+}
+
+void Scene::Window::resetRepaints(int screen)
+{
+    Q_ASSERT(!m_repaints.isEmpty());
+    const int index = screen != -1 ? screen : 0;
+    m_repaints[index] = QRegion();
+}
+
+void Scene::Window::reallocRepaints()
+{
+    if (kwinApp()->platform()->isPerScreenRenderingEnabled()) {
+        m_repaints.resize(kwinApp()->platform()->enabledOutputs().count());
+    } else {
+        m_repaints.resize(1);
+    }
+
+    m_repaints.fill(infiniteRegion());
+}
+
+void Scene::Window::scheduleRepaint()
+{
+    if (kwinApp()->platform()->isPerScreenRenderingEnabled()) {
+        const QVector<AbstractOutput *> outputs = kwinApp()->platform()->enabledOutputs();
+        for (AbstractOutput *output : outputs) {
+            if (window()->isOnOutput(output)) {
+                output->renderLoop()->scheduleRepaint();
+            }
+        }
+    } else {
+        kwinApp()->platform()->renderLoop()->scheduleRepaint();
+    }
+}
+
+void Scene::Window::handleSurfaceCommitted(KWaylandServer::SurfaceInterface *surface)
+{
+    if (surface->hasFrameCallbacks()) {
+        scheduleRepaint();
+    }
+}
+
 //****************************************
 // WindowPixmap
 //****************************************
@@ -1138,7 +1256,7 @@ WindowPixmap::WindowPixmap(Scene::Window *window)
 {
 }
 
-WindowPixmap::WindowPixmap(const QPointer<KWaylandServer::SubSurfaceInterface> &subSurface, WindowPixmap *parent)
+WindowPixmap::WindowPixmap(KWaylandServer::SubSurfaceInterface *subSurface, WindowPixmap *parent)
     : m_window(parent->m_window)
     , m_pixmap(XCB_PIXMAP_NONE)
     , m_discarded(false)
@@ -1154,11 +1272,7 @@ WindowPixmap::~WindowPixmap()
     if (m_pixmap != XCB_WINDOW_NONE) {
         xcb_free_pixmap(connection(), m_pixmap);
     }
-    if (m_buffer) {
-        using namespace KWaylandServer;
-        QObject::disconnect(m_buffer.data(), &BufferInterface::aboutToBeDestroyed, m_buffer.data(), &BufferInterface::unref);
-        m_buffer->unref();
-    }
+    clear();
 }
 
 void WindowPixmap::create()
@@ -1182,20 +1296,23 @@ void WindowPixmap::create()
     Xcb::WindowAttributes windowAttributes(toplevel()->frameId());
     Xcb::WindowGeometry windowGeometry(toplevel()->frameId());
     if (xcb_generic_error_t *error = xcb_request_check(connection(), namePixmapCookie)) {
-        qCDebug(KWIN_CORE) << "Creating window pixmap failed: " << error->error_code;
+        qCDebug(KWIN_CORE, "Failed to create window pixmap for window 0x%x (error code %d)",
+                toplevel()->window(), error->error_code);
         free(error);
         return;
     }
     // check that the received pixmap is valid and actually matches what we
     // know about the window (i.e. size)
     if (!windowAttributes || windowAttributes->map_state != XCB_MAP_STATE_VIEWABLE) {
-        qCDebug(KWIN_CORE) << "Creating window pixmap failed: " << this;
+        qCDebug(KWIN_CORE, "Failed to create window pixmap for window 0x%x (not viewable)",
+                toplevel()->window());
         xcb_free_pixmap(connection(), pix);
         return;
     }
     const QRect bufferGeometry = toplevel()->bufferGeometry();
     if (windowGeometry.size() != bufferGeometry.size()) {
-        qCDebug(KWIN_CORE) << "Creating window pixmap failed: " << this;
+        qCDebug(KWIN_CORE, "Failed to create window pixmap for window 0x%x (mismatched geometry)",
+                toplevel()->window());
         xcb_free_pixmap(connection(), pix);
         return;
     }
@@ -1206,16 +1323,36 @@ void WindowPixmap::create()
     m_window->discardQuads();
 }
 
+void WindowPixmap::clear()
+{
+    setBuffer(nullptr);
+}
+
+void WindowPixmap::setBuffer(KWaylandServer::BufferInterface *buffer)
+{
+    if (buffer == m_buffer) {
+        return;
+    }
+    if (m_buffer) {
+        disconnect(m_buffer, &KWaylandServer::BufferInterface::aboutToBeDestroyed, this, &WindowPixmap::clear);
+        m_buffer->unref();
+    }
+    m_buffer = buffer;
+    if (m_buffer) {
+        m_buffer->ref();
+        connect(m_buffer, &KWaylandServer::BufferInterface::aboutToBeDestroyed, this, &WindowPixmap::clear);
+    }
+}
+
 void WindowPixmap::update()
 {
     using namespace KWaylandServer;
     if (SurfaceInterface *s = surface()) {
         QVector<WindowPixmap*> oldTree = m_children;
         QVector<WindowPixmap*> children;
-        using namespace KWaylandServer;
         const auto subSurfaces = s->childSubSurfaces();
         for (const auto &subSurface : subSurfaces) {
-            if (subSurface.isNull()) {
+            if (!subSurface) {
                 continue;
             }
             auto it = std::find_if(oldTree.begin(), oldTree.end(), [subSurface] (WindowPixmap *p) { return p->m_subSurface == subSurface; });
@@ -1234,38 +1371,20 @@ void WindowPixmap::update()
         setChildren(children);
         qDeleteAll(oldTree);
         if (auto b = s->buffer()) {
-            if (b == m_buffer) {
-                // no change
-                return;
-            }
-            if (m_buffer) {
-                QObject::disconnect(m_buffer.data(), &BufferInterface::aboutToBeDestroyed, m_buffer.data(), &BufferInterface::unref);
-                m_buffer->unref();
-            }
-            m_buffer = b;
-            m_buffer->ref();
-            QObject::connect(m_buffer.data(), &BufferInterface::aboutToBeDestroyed, m_buffer.data(), &BufferInterface::unref);
+            setBuffer(b);
         } else if (m_subSurface) {
-            if (m_buffer) {
-                QObject::disconnect(m_buffer.data(), &BufferInterface::aboutToBeDestroyed, m_buffer.data(), &BufferInterface::unref);
-                m_buffer->unref();
-                m_buffer.clear();
-            }
+            clear();
         }
     } else if (toplevel()->internalFramebufferObject()) {
         m_fbo = toplevel()->internalFramebufferObject();
     } else if (!toplevel()->internalImageObject().isNull()) {
         m_internalImage = toplevel()->internalImageObject();
     } else {
-        if (m_buffer) {
-            QObject::disconnect(m_buffer.data(), &BufferInterface::aboutToBeDestroyed, m_buffer.data(), &BufferInterface::unref);
-            m_buffer->unref();
-            m_buffer.clear();
-        }
+        clear();
     }
 }
 
-WindowPixmap *WindowPixmap::createChild(const QPointer<KWaylandServer::SubSurfaceInterface> &subSurface)
+WindowPixmap *WindowPixmap::createChild(KWaylandServer::SubSurfaceInterface *subSurface)
 {
     Q_UNUSED(subSurface)
     return nullptr;
@@ -1273,7 +1392,7 @@ WindowPixmap *WindowPixmap::createChild(const QPointer<KWaylandServer::SubSurfac
 
 bool WindowPixmap::isValid() const
 {
-    if (!m_buffer.isNull() || !m_fbo.isNull() || !m_internalImage.isNull()) {
+    if (m_buffer || !m_fbo.isNull() || !m_internalImage.isNull()) {
         return true;
     }
     return m_pixmap != XCB_PIXMAP_NONE;
@@ -1284,10 +1403,15 @@ bool WindowPixmap::isRoot() const
     return !m_parent;
 }
 
+KWaylandServer::SubSurfaceInterface *WindowPixmap::subSurface() const
+{
+    return m_subSurface;
+}
+
 KWaylandServer::SurfaceInterface *WindowPixmap::surface() const
 {
     if (!m_subSurface.isNull()) {
-        return m_subSurface->surface().data();
+        return m_subSurface->surface();
     } else {
         return toplevel()->surface();
     }

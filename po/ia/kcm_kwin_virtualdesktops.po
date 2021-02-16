@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# g.sora <g.sora@tiscali.it>, 2010, 2011, 2013, 2014, 2019.
+# g.sora <g.sora@tiscali.it>, 2010, 2011, 2013, 2014, 2019, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-08 02:22+0200\n"
-"PO-Revision-Date: 2019-12-27 12:05+0100\n"
+"POT-Creation-Date: 2020-11-09 02:33+0100\n"
+"PO-Revision-Date: 2021-02-06 23:20+0100\n"
 "Last-Translator: Giovanni Sora <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -30,17 +30,19 @@ msgstr "g.sora@tiscali.it"
 #: desktopsmodel.cpp:455
 #, kde-format
 msgid "There was an error connecting to the compositor."
-msgstr ""
+msgstr "Il habeva un error durante que il connecteva al compositor"
 
 #: desktopsmodel.cpp:657
 #, kde-format
 msgid "There was an error saving the settings to the compositor."
 msgstr ""
+"Il habeva un error durante que il salveguardava preferentias al compositor."
 
 #: desktopsmodel.cpp:660
 #, kde-format
 msgid "There was an error requesting information from the compositor."
 msgstr ""
+"Il habeva un error durante que il demandava information ex le compositor."
 
 #: package/contents/ui/main.qml:18
 #, kde-format
@@ -48,6 +50,8 @@ msgid ""
 "This module lets you configure the navigation, number and layout of virtual "
 "desktops."
 msgstr ""
+"Iste modulo te permitte configurar le navigation, numero e disposition de "
+"scriptorios virtual."
 
 #: package/contents/ui/main.qml:68
 #, kde-format
@@ -67,6 +71,8 @@ msgid ""
 "Virtual desktops have been changed outside this settings application. Saving "
 "now will overwrite the changes."
 msgstr ""
+"Scriptorios virtual ha essite modificate foras de iste application de "
+"preferentias. Salveguardar ora superscribera le modificationes."
 
 #: package/contents/ui/main.qml:118
 #, kde-format
@@ -104,12 +110,12 @@ msgstr "Inveloppamento (wrap around) de navigation"
 #: package/contents/ui/main.qml:177
 #, kde-format
 msgid "Show animation when switching:"
-msgstr ""
+msgstr "Monstra animation quando commuta:"
 
 #: package/contents/ui/main.qml:220
 #, kde-format
 msgid "Show on-screen display when switching:"
-msgstr ""
+msgstr "Monstra On Screen Display  quando commutante:"
 
 #: package/contents/ui/main.qml:238
 #, kde-format
@@ -121,7 +127,7 @@ msgstr "%1ms"
 msgid "Show desktop layout indicators"
 msgstr "Monstra indicatores de disposition de scriptorio"
 
-#: virtualdesktops.cpp:30
+#: virtualdesktops.cpp:31
 #, kde-format
 msgid "Virtual Desktops"
 msgstr "Scriptorios virtual"

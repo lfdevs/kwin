@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-08 02:22+0200\n"
+"POT-Creation-Date: 2020-11-09 02:33+0100\n"
 "PO-Revision-Date: 2014-10-21 09:48+0000\n"
 "Last-Translator: Necdet <necdetyucel@gmail.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -127,7 +127,7 @@ msgstr ""
 msgid "Show desktop layout indicators"
 msgstr "Masaüstü düzeni göstergelerini göster"
 
-#: virtualdesktops.cpp:30
+#: virtualdesktops.cpp:31
 #, fuzzy, kde-format
 #| msgid "Desktops"
 msgid "Virtual Desktops"

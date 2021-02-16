@@ -121,7 +121,7 @@ class KWIN_EXPORT Device : public QObject
     Q_PROPERTY(bool lidSwitch READ isLidSwitch CONSTANT)
     Q_PROPERTY(bool tabletModeSwitch READ isTabletModeSwitch CONSTANT)
 
-    // Click Methods 
+    // Click Methods
     Q_PROPERTY(bool supportsClickMethodAreas READ supportsClickMethodAreas CONSTANT)
     Q_PROPERTY(bool defaultClickMethodAreas READ defaultClickMethodAreas CONSTANT)
     Q_PROPERTY(bool clickMethodAreas READ isClickMethodAreas WRITE setClickMethodAreas NOTIFY clickMethodChanged)
@@ -473,6 +473,8 @@ public:
 
     int stripsCount() const;
     int ringsCount() const;
+
+    void *groupUserData() const;
 
     /**
      * All created Devices

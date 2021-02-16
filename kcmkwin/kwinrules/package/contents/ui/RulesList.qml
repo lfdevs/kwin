@@ -26,7 +26,7 @@ ScrollViewKCM {
     // Manage KCM pages
     Connections {
         target: kcm
-        onEditIndexChanged: {
+        function onEditIndexChanged() {
             if (kcm.editIndex < 0) {
                 // If no rule is being edited, hide RulesEdidor page
                 kcm.pop();
@@ -200,6 +200,15 @@ ScrollViewKCM {
                     visible: !exportInfo.visible
                     onTriggered: {
                         kcm.editRule(index);
+                    }
+                }
+                ,
+                Kirigami.Action {
+                    text: i18n("Duplicate")
+                    iconName: "edit-duplicate"
+                    visible: !exportInfo.visible
+                    onTriggered: {
+                        kcm.duplicateRule(index);
                     }
                 }
                 ,

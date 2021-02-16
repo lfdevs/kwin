@@ -10,7 +10,9 @@ set(DRM_SOURCES
     edid.cpp
     logging.cpp
     scene_qpainter_drm_backend.cpp
-    screens_drm.cpp
+    drm_gpu.cpp
+    egl_multi_backend.cpp
+    abstract_egl_drm_backend.cpp
 )
 
 if (HAVE_GBM)
@@ -27,8 +29,6 @@ if (HAVE_EGL_STREAMS)
         egl_stream_backend.cpp
     )
 endif()
-
-include_directories(${CMAKE_SOURCE_DIR}/platformsupport/scenes/opengl)
 
 add_library(KWinWaylandDrmBackend MODULE ${DRM_SOURCES})
 set_target_properties(KWinWaylandDrmBackend PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/org.kde.kwin.waylandbackends/")

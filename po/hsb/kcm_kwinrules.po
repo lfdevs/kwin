@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: desktop_kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-11-03 08:14+0100\n"
+"POT-Creation-Date: 2021-01-06 03:00+0100\n"
 "PO-Revision-Date: 2008-11-21 23:13+0100\n"
 "Last-Translator: Eduard Werner <edi.werner@gmx.de>\n"
 "Language-Team: en_US <kde-i18n-doc@lists.kde.org>\n"
@@ -53,12 +53,17 @@ msgid ""
 "documentation for how to customize window behavior.</p>"
 msgstr ""
 
+#: kcmrules.cpp:171
+#, kde-format
+msgid "Copy of %1"
+msgstr ""
+
 #: main.cpp:91
 #, kde-format
 msgid "Application settings for %1"
 msgstr "Pogramowe nastajenja za %1"
 
-#: main.cpp:111 rulesmodel.cpp:216
+#: main.cpp:111 rulesmodel.cpp:219
 #, kde-format
 msgid "Window settings for %1"
 msgstr "Woknowe nastajenja %1"
@@ -118,28 +123,28 @@ msgstr ""
 
 #: optionsmodel.cpp:153
 #, kde-format
-msgid "Do Not Affect"
+msgid "Apply Initially"
 msgstr ""
 
 #: optionsmodel.cpp:154
 #, kde-format
 msgid ""
-"The window property will not be affected and therefore the default handling "
-"for it will be used.\n"
-"Specifying this will block more generic window settings from taking effect."
+"The window property will be only set to the given value after the window is "
+"created.\n"
+"No further changes will be affected."
 msgstr ""
 
 #: optionsmodel.cpp:157
 #, kde-format
-msgid "Apply Initially"
+msgid "Apply Now"
 msgstr ""
 
 #: optionsmodel.cpp:158
 #, kde-format
 msgid ""
-"The window property will be only set to the given value after the window is "
-"created.\n"
-"No further changes will be affected."
+"The window property will be set to the given value immediately and will not "
+"be affected later\n"
+"(this action will be deleted afterwards)."
 msgstr ""
 
 #: optionsmodel.cpp:161
@@ -156,25 +161,25 @@ msgstr ""
 
 #: optionsmodel.cpp:165
 #, kde-format
-msgid "Force"
+msgid "Do Not Affect"
 msgstr ""
 
 #: optionsmodel.cpp:166
 #, kde-format
-msgid "The window property will be always forced to the given value."
-msgstr ""
-
-#: optionsmodel.cpp:168
-#, kde-format
-msgid "Apply Now"
+msgid ""
+"The window property will not be affected and therefore the default handling "
+"for it will be used.\n"
+"Specifying this will block more generic window settings from taking effect."
 msgstr ""
 
 #: optionsmodel.cpp:169
 #, kde-format
-msgid ""
-"The window property will be set to the given value immediately and will not "
-"be affected later\n"
-"(this action will be deleted afterwards)."
+msgid "Force"
+msgstr ""
+
+#: optionsmodel.cpp:170
+#, kde-format
+msgid "The window property will be always forced to the given value."
 msgstr ""
 
 #: optionsmodel.cpp:172
@@ -199,17 +204,17 @@ msgstr ""
 msgid "KWin Rules (*.kwinrule)"
 msgstr ""
 
-#: package/contents/ui/OptionsComboBox.qml:32
+#: package/contents/ui/OptionsComboBox.qml:35
 #, kde-format
 msgid "None selected"
 msgstr ""
 
-#: package/contents/ui/OptionsComboBox.qml:37
+#: package/contents/ui/OptionsComboBox.qml:41
 #, kde-format
 msgid "All selected"
 msgstr ""
 
-#: package/contents/ui/OptionsComboBox.qml:39
+#: package/contents/ui/OptionsComboBox.qml:43
 #, kde-format
 msgid "%1 selected"
 msgid_plural "%1 selected"
@@ -218,28 +223,28 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: package/contents/ui/RulesEditor.qml:48
-#: package/contents/ui/RulesEditor.qml:67
+#: package/contents/ui/RulesEditor.qml:63
+#: package/contents/ui/RulesEditor.qml:81
 #, kde-format
-msgid "Add Properties..."
+msgid "Add Property..."
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:67
+#: package/contents/ui/RulesEditor.qml:81
 #, kde-format
 msgid "Close"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:80
+#: package/contents/ui/RulesEditor.qml:95
 #, kde-format
 msgid "Detect Window Properties"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:93
+#: package/contents/ui/RulesEditor.qml:111
 #, kde-format
 msgid "Instantly"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:94
+#: package/contents/ui/RulesEditor.qml:112
 #, kde-format
 msgid "After %1 second"
 msgid_plural "After %1 seconds"
@@ -248,38 +253,43 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: package/contents/ui/RulesEditor.qml:113
+#: package/contents/ui/RulesEditor.qml:133
 #, kde-format
-msgid "Select properties"
+msgid "Error"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:205
-#: package/contents/ui/ValueEditor.qml:53
+#: package/contents/ui/RulesEditor.qml:149
+#, kde-format
+msgid "Add property to the rule"
+msgstr ""
+
+#: package/contents/ui/RulesEditor.qml:244
+#: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:205
-#: package/contents/ui/ValueEditor.qml:59
+#: package/contents/ui/RulesEditor.qml:244
+#: package/contents/ui/ValueEditor.qml:60
 #, fuzzy, kde-format
 #| msgid "None"
 msgid "No"
 msgstr "Žane"
 
-#: package/contents/ui/RulesEditor.qml:207
-#: package/contents/ui/ValueEditor.qml:127
-#: package/contents/ui/ValueEditor.qml:134
+#: package/contents/ui/RulesEditor.qml:246
+#: package/contents/ui/ValueEditor.qml:167
+#: package/contents/ui/ValueEditor.qml:174
 #, kde-format
 msgid "%1 %"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:209
+#: package/contents/ui/RulesEditor.qml:248
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:211
+#: package/contents/ui/RulesEditor.qml:250
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
@@ -337,21 +347,26 @@ msgid "Edit"
 msgstr "&Wobdźěłać"
 
 #: package/contents/ui/RulesList.qml:207
+#, kde-format
+msgid "Duplicate"
+msgstr ""
+
+#: package/contents/ui/RulesList.qml:216
 #, fuzzy, kde-format
 msgid "Delete"
 msgstr "Niču"
 
-#: package/contents/ui/RulesList.qml:220
+#: package/contents/ui/RulesList.qml:229
 #, kde-format
 msgid "Import Rules"
 msgstr ""
 
-#: package/contents/ui/RulesList.qml:232
+#: package/contents/ui/RulesList.qml:241
 #, kde-format
 msgid "Export Rules"
 msgstr ""
 
-#: package/contents/ui/ValueEditor.qml:162
+#: package/contents/ui/ValueEditor.qml:202
 #, kde-format
 msgctxt "(x, y) coordinates separator in size/position"
 msgid "x"
@@ -362,18 +377,18 @@ msgstr ""
 msgid "Edit Window-Specific Settings"
 msgstr ""
 
-#: rulesmodel.cpp:219
+#: rulesmodel.cpp:222
 #, kde-format
 msgid "Settings for %1"
 msgstr ""
 
-#: rulesmodel.cpp:222
+#: rulesmodel.cpp:225
 #, fuzzy, kde-format
 #| msgid "Window settings for %1"
 msgid "New window settings"
 msgstr "Woknowe nastajenja %1"
 
-#: rulesmodel.cpp:236
+#: rulesmodel.cpp:239
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -383,125 +398,125 @@ msgid ""
 "types."
 msgstr ""
 
-#: rulesmodel.cpp:366
+#: rulesmodel.cpp:369
 #, kde-format
 msgid "Description"
 msgstr ""
 
-#: rulesmodel.cpp:366 rulesmodel.cpp:374 rulesmodel.cpp:382 rulesmodel.cpp:389
-#: rulesmodel.cpp:395 rulesmodel.cpp:403 rulesmodel.cpp:408 rulesmodel.cpp:414
+#: rulesmodel.cpp:369 rulesmodel.cpp:377 rulesmodel.cpp:385 rulesmodel.cpp:392
+#: rulesmodel.cpp:398 rulesmodel.cpp:406 rulesmodel.cpp:411 rulesmodel.cpp:417
 #, kde-format
 msgid "Window matching"
 msgstr ""
 
-#: rulesmodel.cpp:374
+#: rulesmodel.cpp:377
 #, fuzzy, kde-format
 #| msgid "Use window &class (whole application)"
 msgid "Window class (application)"
 msgstr "Woknowu klasu &wužiwać (cyłu aplikaciju)"
 
-#: rulesmodel.cpp:382
+#: rulesmodel.cpp:385
 #, kde-format
 msgid "Match whole window class"
 msgstr ""
 
-#: rulesmodel.cpp:389
+#: rulesmodel.cpp:392
 #, kde-format
 msgid "Whole window class"
 msgstr ""
 
-#: rulesmodel.cpp:395
+#: rulesmodel.cpp:398
 #, kde-format
 msgid "Window types"
 msgstr ""
 
-#: rulesmodel.cpp:403
+#: rulesmodel.cpp:406
 #, kde-format
 msgid "Window role"
 msgstr ""
 
-#: rulesmodel.cpp:408
+#: rulesmodel.cpp:411
 #, kde-format
 msgid "Window title"
 msgstr ""
 
-#: rulesmodel.cpp:414
+#: rulesmodel.cpp:417
 #, kde-format
 msgid "Machine (hostname)"
 msgstr ""
 
-#: rulesmodel.cpp:420
+#: rulesmodel.cpp:423
 #, kde-format
 msgid "Position"
 msgstr ""
 
-#: rulesmodel.cpp:420 rulesmodel.cpp:425 rulesmodel.cpp:430 rulesmodel.cpp:435
-#: rulesmodel.cpp:440 rulesmodel.cpp:453 rulesmodel.cpp:467 rulesmodel.cpp:472
-#: rulesmodel.cpp:477 rulesmodel.cpp:482 rulesmodel.cpp:487 rulesmodel.cpp:493
-#: rulesmodel.cpp:502 rulesmodel.cpp:507 rulesmodel.cpp:512
+#: rulesmodel.cpp:423 rulesmodel.cpp:428 rulesmodel.cpp:433 rulesmodel.cpp:438
+#: rulesmodel.cpp:443 rulesmodel.cpp:456 rulesmodel.cpp:470 rulesmodel.cpp:475
+#: rulesmodel.cpp:480 rulesmodel.cpp:485 rulesmodel.cpp:490 rulesmodel.cpp:496
+#: rulesmodel.cpp:505 rulesmodel.cpp:510 rulesmodel.cpp:515
 #, kde-format
 msgid "Size & Position"
 msgstr ""
 
-#: rulesmodel.cpp:425
+#: rulesmodel.cpp:428
 #, kde-format
 msgid "Size"
 msgstr ""
 
-#: rulesmodel.cpp:430
+#: rulesmodel.cpp:433
 #, kde-format
 msgid "Maximized horizontally"
 msgstr ""
 
-#: rulesmodel.cpp:435
+#: rulesmodel.cpp:438
 #, kde-format
 msgid "Maximized vertically"
 msgstr ""
 
-#: rulesmodel.cpp:440
+#: rulesmodel.cpp:443
 #, fuzzy, kde-format
 #| msgid "Desktop"
 msgid "Virtual Desktop"
 msgstr "Dźěłowy powjerch"
 
-#: rulesmodel.cpp:453
+#: rulesmodel.cpp:456
 #, kde-format
-msgid "Activity"
+msgid "Activities"
 msgstr ""
 
-#: rulesmodel.cpp:467
+#: rulesmodel.cpp:470
 #, fuzzy, kde-format
 #| msgid "Splash Screen"
 msgid "Screen"
 msgstr "Powitančko"
 
-#: rulesmodel.cpp:472
+#: rulesmodel.cpp:475
 #, fuzzy, kde-format
 #| msgid "Splash Screen"
 msgid "Fullscreen"
 msgstr "Powitančko"
 
-#: rulesmodel.cpp:477
+#: rulesmodel.cpp:480
 #, kde-format
 msgid "Minimized"
 msgstr ""
 
-#: rulesmodel.cpp:482
+#: rulesmodel.cpp:485
 #, kde-format
 msgid "Shaded"
 msgstr ""
 
-#: rulesmodel.cpp:487
+#: rulesmodel.cpp:490
 #, kde-format
 msgid "Initial placement"
 msgstr ""
 
-#: rulesmodel.cpp:493
+#: rulesmodel.cpp:496
 #, kde-format
 msgid "Ignore requested geometry"
 msgstr ""
 
-#: rulesmodel.cpp:495
+#: rulesmodel.cpp:498
 #, kde-format
 msgid ""
 "Windows can ask to appear in a certain position.\n"
@@ -510,22 +525,22 @@ msgid ""
 "to unconditionally popup in the middle of your screen."
 msgstr ""
 
-#: rulesmodel.cpp:502
+#: rulesmodel.cpp:505
 #, kde-format
 msgid "Minimum Size"
 msgstr ""
 
-#: rulesmodel.cpp:507
+#: rulesmodel.cpp:510
 #, kde-format
 msgid "Maximum Size"
 msgstr ""
 
-#: rulesmodel.cpp:512
+#: rulesmodel.cpp:515
 #, kde-format
 msgid "Obey geometry restrictions"
 msgstr ""
 
-#: rulesmodel.cpp:514
+#: rulesmodel.cpp:517
 #, kde-format
 msgid ""
 "Eg. terminals or video players can ask to keep a certain aspect ratio\n"
@@ -535,90 +550,90 @@ msgid ""
 "like your complete screen area."
 msgstr ""
 
-#: rulesmodel.cpp:523
+#: rulesmodel.cpp:526
 #, kde-format
 msgid "Keep above"
 msgstr ""
 
-#: rulesmodel.cpp:523 rulesmodel.cpp:528 rulesmodel.cpp:533 rulesmodel.cpp:539
-#: rulesmodel.cpp:545 rulesmodel.cpp:551
+#: rulesmodel.cpp:526 rulesmodel.cpp:531 rulesmodel.cpp:536 rulesmodel.cpp:542
+#: rulesmodel.cpp:548 rulesmodel.cpp:554
 #, kde-format
 msgid "Arrangement & Access"
 msgstr ""
 
-#: rulesmodel.cpp:528
+#: rulesmodel.cpp:531
 #, kde-format
 msgid "Keep below"
 msgstr ""
 
-#: rulesmodel.cpp:533
+#: rulesmodel.cpp:536
 #, kde-format
 msgid "Skip taskbar"
 msgstr ""
 
-#: rulesmodel.cpp:535
+#: rulesmodel.cpp:538
 #, kde-format
 msgid "Window shall (not) appear in the taskbar."
 msgstr ""
 
-#: rulesmodel.cpp:539
+#: rulesmodel.cpp:542
 #, kde-format
 msgid "Skip pager"
 msgstr ""
 
-#: rulesmodel.cpp:541
+#: rulesmodel.cpp:544
 #, kde-format
 msgid "Window shall (not) appear in the manager for virtual desktops"
 msgstr ""
 
-#: rulesmodel.cpp:545
+#: rulesmodel.cpp:548
 #, kde-format
 msgid "Skip switcher"
 msgstr ""
 
-#: rulesmodel.cpp:547
+#: rulesmodel.cpp:550
 #, kde-format
 msgid "Window shall (not) appear in the Alt+Tab list"
 msgstr ""
 
-#: rulesmodel.cpp:551
+#: rulesmodel.cpp:554
 #, kde-format
 msgid "Shortcut"
 msgstr "Skrótšenka"
 
-#: rulesmodel.cpp:557
+#: rulesmodel.cpp:560
 #, kde-format
 msgid "No titlebar and frame"
 msgstr ""
 
-#: rulesmodel.cpp:557 rulesmodel.cpp:562 rulesmodel.cpp:568 rulesmodel.cpp:573
-#: rulesmodel.cpp:578 rulesmodel.cpp:589 rulesmodel.cpp:600 rulesmodel.cpp:608
-#: rulesmodel.cpp:621 rulesmodel.cpp:626 rulesmodel.cpp:632 rulesmodel.cpp:637
+#: rulesmodel.cpp:560 rulesmodel.cpp:565 rulesmodel.cpp:571 rulesmodel.cpp:576
+#: rulesmodel.cpp:581 rulesmodel.cpp:592 rulesmodel.cpp:603 rulesmodel.cpp:611
+#: rulesmodel.cpp:624 rulesmodel.cpp:629 rulesmodel.cpp:635 rulesmodel.cpp:640
 #, kde-format
 msgid "Appearance & Fixes"
 msgstr ""
 
-#: rulesmodel.cpp:562
+#: rulesmodel.cpp:565
 #, kde-format
 msgid "Titlebar color scheme"
 msgstr ""
 
-#: rulesmodel.cpp:568
+#: rulesmodel.cpp:571
 #, kde-format
 msgid "Active opacity"
 msgstr ""
 
-#: rulesmodel.cpp:573
+#: rulesmodel.cpp:576
 #, kde-format
 msgid "Inactive opacity"
 msgstr ""
 
-#: rulesmodel.cpp:578
+#: rulesmodel.cpp:581
 #, kde-format
 msgid "Focus stealing prevention"
 msgstr ""
 
-#: rulesmodel.cpp:580
+#: rulesmodel.cpp:583
 #, kde-format
 msgid ""
 "KWin tries to prevent windows from taking the focus\n"
@@ -628,12 +643,12 @@ msgid ""
 "\"Extreme\" will completely prevent it from taking the focus."
 msgstr ""
 
-#: rulesmodel.cpp:589
+#: rulesmodel.cpp:592
 #, kde-format
 msgid "Focus protection"
 msgstr ""
 
-#: rulesmodel.cpp:591
+#: rulesmodel.cpp:594
 #, kde-format
 msgid ""
 "This controls the focus protection of the currently active window.\n"
@@ -643,12 +658,12 @@ msgid ""
 "assigned to the window that wants the focus."
 msgstr ""
 
-#: rulesmodel.cpp:600
+#: rulesmodel.cpp:603
 #, kde-format
 msgid "Accept focus"
 msgstr ""
 
-#: rulesmodel.cpp:602
+#: rulesmodel.cpp:605
 #, kde-format
 msgid ""
 "Windows may prevent to get the focus (activate) when being clicked.\n"
@@ -656,12 +671,12 @@ msgid ""
 "from getting focused on a mouse click."
 msgstr ""
 
-#: rulesmodel.cpp:608
+#: rulesmodel.cpp:611
 #, kde-format
 msgid "Ignore global shortcuts"
 msgstr ""
 
-#: rulesmodel.cpp:610
+#: rulesmodel.cpp:613
 #, kde-format
 msgid ""
 "When used, a window will receive\n"
@@ -674,73 +689,73 @@ msgid ""
 "while it's active!"
 msgstr ""
 
-#: rulesmodel.cpp:621
+#: rulesmodel.cpp:624
 #, kde-format
 msgid "Closeable"
 msgstr ""
 
-#: rulesmodel.cpp:626
+#: rulesmodel.cpp:629
 #, kde-format
 msgid "Set window type"
 msgstr ""
 
-#: rulesmodel.cpp:632
+#: rulesmodel.cpp:635
 #, kde-format
 msgid "Desktop file name"
 msgstr ""
 
-#: rulesmodel.cpp:637
+#: rulesmodel.cpp:640
 #, kde-format
 msgid "Block compositing"
 msgstr ""
 
-#: rulesmodel.cpp:717
+#: rulesmodel.cpp:718
 #, kde-format
 msgid "Normal Window"
 msgstr "Normalne wokno"
 
-#: rulesmodel.cpp:718
+#: rulesmodel.cpp:719
 #, kde-format
 msgid "Dialog Window"
 msgstr "Dialogowe wokno"
 
-#: rulesmodel.cpp:719
+#: rulesmodel.cpp:720
 #, kde-format
 msgid "Utility Window"
 msgstr " Wokno za pomocnika"
 
-#: rulesmodel.cpp:720
+#: rulesmodel.cpp:721
 #, kde-format
 msgid "Dock (panel)"
 msgstr "Panel"
 
-#: rulesmodel.cpp:721
+#: rulesmodel.cpp:722
 #, kde-format
 msgid "Toolbar"
 msgstr "Nastrojowy pas"
 
-#: rulesmodel.cpp:722
+#: rulesmodel.cpp:723
 #, kde-format
 msgid "Torn-Off Menu"
 msgstr "Wottorhnjeny meni"
 
-#: rulesmodel.cpp:723
+#: rulesmodel.cpp:724
 #, kde-format
 msgid "Splash Screen"
 msgstr "Powitančko"
 
-#: rulesmodel.cpp:724
+#: rulesmodel.cpp:725
 #, kde-format
 msgid "Desktop"
 msgstr "Dźěłowy powjerch"
 
 #. i18n("Unmanaged Window")   },  deprecated
-#: rulesmodel.cpp:726
+#: rulesmodel.cpp:727
 #, kde-format
 msgid "Standalone Menubar"
 msgstr "Samostatny menijowy pas"
 
-#: rulesmodel.cpp:741
+#: rulesmodel.cpp:742
 #, kde-format
 msgid "All Desktops"
 msgstr ""
@@ -824,4 +839,9 @@ msgstr ""
 #: rulesmodel.cpp:796
 #, kde-format
 msgid "Extreme"
+msgstr ""
+
+#: rulesmodel.cpp:842
+#, kde-format
+msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""

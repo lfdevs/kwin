@@ -39,7 +39,7 @@ MagnifierEffectConfigForm::MagnifierEffectConfigForm(QWidget* parent) : QWidget(
 }
 
 MagnifierEffectConfig::MagnifierEffectConfig(QWidget* parent, const QVariantList& args) :
-    KCModule(KAboutData::pluginData(QStringLiteral("magnifier")), parent, args)
+    KCModule(parent, args)
 {
     m_ui = new MagnifierEffectConfigForm(this);
 
@@ -83,7 +83,7 @@ MagnifierEffectConfig::MagnifierEffectConfig(QWidget* parent, const QVariantList
 MagnifierEffectConfig::~MagnifierEffectConfig()
 {
     // Undo (only) unsaved changes to global key shortcuts
-    m_ui->editor->undoChanges();
+    m_ui->editor->undo();
 }
 
 void MagnifierEffectConfig::save()

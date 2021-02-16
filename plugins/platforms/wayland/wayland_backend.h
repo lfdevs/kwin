@@ -79,8 +79,8 @@ public:
 
 protected:
     void resetSurface();
-    virtual void doInstallImage(wl_buffer *image, const QSize &size);
-    void drawSurface(wl_buffer *image, const QSize &size);
+    virtual void doInstallImage(wl_buffer *image, const QSize &size, qreal scale);
+    void drawSurface(wl_buffer *image, const QSize &size, qreal scale);
 
     KWayland::Client::Surface *surface() const {
         return m_surface;
@@ -108,7 +108,7 @@ public:
 
 private:
     void changeOutput(WaylandOutput *output);
-    void doInstallImage(wl_buffer *image, const QSize &size) override;
+    void doInstallImage(wl_buffer *image, const QSize &size, qreal scale) override;
     void createSubSurface();
 
     QPointF absoluteToRelativePosition(const QPointF &position);
@@ -171,7 +171,6 @@ public:
     KWayland::Client::SubCompositor *subCompositor();
     KWayland::Client::ShmPool *shmPool();
 
-    Screens *createScreens(QObject *parent = nullptr) override;
     OpenGLBackend *createOpenGLBackend() override;
     QPainterBackend *createQPainterBackend() override;
     DmaBufTexture *createDmaBufTexture(const QSize &size) override;
@@ -193,8 +192,6 @@ public:
 
     QVector<CompositingType> supportedCompositors() const override;
 
-    void checkBufferSwap();
-
     WaylandOutput* getOutputAt(const QPointF &globalPosition);
     Outputs outputs() const override;
     Outputs enabledOutputs() const override;
@@ -203,9 +200,6 @@ public:
     }
 
 Q_SIGNALS:
-    void outputAdded(WaylandOutput *output);
-    void outputRemoved(WaylandOutput *output);
-
     void systemCompositorDied();
     void connectionFailed();
 
@@ -215,6 +209,7 @@ Q_SIGNALS:
 private:
     void initConnection();
     void createOutputs();
+    void destroyOutputs();
 
     void updateScreenSize(WaylandOutput *output);
     void relativeMotionHandler(const QSizeF &delta, const QSizeF &deltaNonAccelerated, quint64 timestamp);
@@ -239,8 +234,10 @@ private:
     WaylandCursor *m_waylandCursor = nullptr;
 
     bool m_pointerLockRequested = false;
+#if HAVE_GBM && HAVE_WAYLAND_EGL
     int m_drmFileDescriptor = 0;
     gbm_device *m_gbmDevice;
+#endif
 };
 
 inline

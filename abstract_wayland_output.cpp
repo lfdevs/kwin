@@ -28,8 +28,8 @@ namespace KWin
 AbstractWaylandOutput::AbstractWaylandOutput(QObject *parent)
     : AbstractOutput(parent)
 {
-    m_waylandOutput = waylandServer()->display()->createOutput(this);
-    m_waylandOutputDevice = waylandServer()->display()->createOutputDevice(this);
+    m_waylandOutput = new KWaylandServer::OutputInterface(waylandServer()->display(), this);
+    m_waylandOutputDevice = new KWaylandServer::OutputDeviceInterface(waylandServer()->display(), this);
     m_xdgOutputV1 = waylandServer()->xdgOutputManagerV1()->createXdgOutput(m_waylandOutput, this);
 
     connect(m_waylandOutput, &KWaylandServer::OutputInterface::dpmsModeRequested, this,
@@ -83,6 +83,21 @@ void AbstractWaylandOutput::setGlobalPos(const QPoint &pos)
     m_waylandOutput->setGlobalPosition(pos);
     m_xdgOutputV1->setLogicalPosition(pos);
     m_xdgOutputV1->done();
+}
+
+QString AbstractWaylandOutput::manufacturer() const
+{
+    return m_waylandOutputDevice->manufacturer();
+}
+
+QString AbstractWaylandOutput::model() const
+{
+    return m_waylandOutputDevice->model();
+}
+
+QString AbstractWaylandOutput::serialNumber() const
+{
+    return m_waylandOutputDevice->serialNumber();
 }
 
 QSize AbstractWaylandOutput::modeSize() const
@@ -236,21 +251,24 @@ QString AbstractWaylandOutput::description() const
 void AbstractWaylandOutput::setWaylandMode(const QSize &size, int refreshRate)
 {
     m_waylandOutput->setCurrentMode(size, refreshRate);
+    m_waylandOutputDevice->setCurrentMode(size, refreshRate);
     m_xdgOutputV1->setLogicalSize(pixelSize() / scale());
     m_xdgOutputV1->done();
 }
 
 void AbstractWaylandOutput::initInterfaces(const QString &model, const QString &manufacturer,
                                            const QByteArray &uuid, const QSize &physicalSize,
-                                           const QVector<DeviceInterface::Mode> &modes)
+                                           const QVector<DeviceInterface::Mode> &modes,
+                                           const QByteArray &edid)
 {
     m_waylandOutputDevice->setUuid(uuid);
 
-    if (!manufacturer.isEmpty()) {
-        m_waylandOutputDevice->setManufacturer(manufacturer);
-    } else {
+    if (manufacturer.isEmpty()) {
         m_waylandOutputDevice->setManufacturer(i18n("unknown"));
+    } else {
+        m_waylandOutputDevice->setManufacturer(manufacturer);
     }
+    m_waylandOutputDevice->setEdid(edid);
 
     m_waylandOutputDevice->setModel(model);
     m_waylandOutputDevice->setPhysicalSize(physicalSize);

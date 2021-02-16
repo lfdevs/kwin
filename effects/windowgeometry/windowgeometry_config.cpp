@@ -34,7 +34,7 @@ WindowGeometryConfigForm::WindowGeometryConfigForm(QWidget* parent) : QWidget(pa
 }
 
 WindowGeometryConfig::WindowGeometryConfig(QWidget* parent, const QVariantList& args)
-    : KCModule(KAboutData::pluginData(QStringLiteral("windowgeometry")), parent, args)
+    : KCModule(parent, args)
 {
     WindowGeometryConfiguration::instance(KWIN_CONFIG);
     QVBoxLayout* layout = new QVBoxLayout(this);
@@ -61,7 +61,7 @@ WindowGeometryConfig::WindowGeometryConfig(QWidget* parent, const QVariantList& 
 WindowGeometryConfig::~WindowGeometryConfig()
 {
     // Undo (only) unsaved changes to global key shortcuts
-    myUi->shortcuts->undoChanges();
+    myUi->shortcuts->undo();
 }
 
 void WindowGeometryConfig::save()

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-29 02:26+0200\n"
+"POT-Creation-Date: 2020-10-22 02:33+0200\n"
 "PO-Revision-Date: 2015-02-08 13:59+0100\n"
 "Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -601,7 +601,7 @@ msgstr "Farenin Altı"
 #: advanced.ui:118
 #, kde-format
 msgid ""
-"When turned on, KDE apps which are able to remember the positions of their "
+"When turned on, apps which are able to remember the positions of their "
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
@@ -609,7 +609,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:121
 #, kde-format
-msgid "Allow KDE apps to remember the positions of their own windows"
+msgid ""
+"Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
@@ -1360,7 +1361,7 @@ msgstr "&Orta yapışma alanı:"
 msgid "&Snap windows:"
 msgstr "Pencere yükseltme"
 
-#: windows.cpp:87
+#: windows.cpp:101
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus</b><br>\n"
@@ -1376,7 +1377,7 @@ msgstr ""
 "Bu davranış diğer işletim sistemlerindeki ile ortaktır ve muhtemelen<br>\n"
 "istediğiniz şeydir."
 
-#: windows.cpp:91
+#: windows.cpp:105
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus - Mouse Precedence</b><br>\n"
@@ -1400,7 +1401,7 @@ msgstr ""
 "Farklı bir seçenektir ancak <i>Odaklanmak için Tıkla</i> için bir "
 "alternatiftir."
 
-#: windows.cpp:96
+#: windows.cpp:110
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse</b><br>\n"
@@ -1422,7 +1423,7 @@ msgstr ""
 "Odak çalma koruması, alışıldığı gibi kullanılır.<br><br>\n"
 "<i>Odaklanmak için Tıkla</i> olarak düşünün, sadece gerçekten tıklamadan."
 
-#: windows.cpp:100
+#: windows.cpp:114
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse - Mouse Precedence</b><br>\n"
@@ -1444,7 +1445,7 @@ msgstr ""
 "aday olarak farenin altındaki pencere tercih edilir.<br><br>\n"
 "Eğer fare ile belirtme denetimli odaklama isterseniz bunu seçin."
 
-#: windows.cpp:105
+#: windows.cpp:119
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Under Mouse</b><br>\n"
@@ -1471,7 +1472,7 @@ msgstr ""
 "Muhtemelen bunun yerine<br>\n"
 "<i>Odak Fareyi Takip Eder - Fare Önceliği</i> kullanmak isteyeceksiniz!"
 
-#: windows.cpp:109
+#: windows.cpp:123
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Strictly Under Mouse</b><br>\n"

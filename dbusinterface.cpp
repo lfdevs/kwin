@@ -10,6 +10,7 @@
 // own
 #include "dbusinterface.h"
 #include "compositingadaptor.h"
+#include "pluginsadaptor.h"
 #include "virtualdesktopmanageradaptor.h"
 
 // kwin
@@ -20,8 +21,10 @@
 #include "main.h"
 #include "placement.h"
 #include "platform.h"
+#include "pluginmanager.h"
 #include "kwinadaptor.h"
 #include "scene.h"
+#include "unmanaged.h"
 #include "workspace.h"
 #include "virtualdesktops.h"
 #ifdef KWIN_BUILD_ACTIVITIES
@@ -49,7 +52,7 @@ DBusInterface::DBusInterface(QObject *parent)
     }
     if (!dbus.registerService(m_serviceName)) {
         QDBusServiceWatcher *dog = new QDBusServiceWatcher(m_serviceName, dbus, QDBusServiceWatcher::WatchForUnregistration, this);
-        connect (dog, SIGNAL(serviceUnregistered(QString)), SLOT(becomeKWinService(QString)));
+        connect(dog, &QDBusServiceWatcher::serviceUnregistered, this, &DBusInterface::becomeKWinService);
     } else {
         announceService();
     }
@@ -205,7 +208,10 @@ QVariantMap clientToVariantMap(const AbstractClient *c)
         {QStringLiteral("skipPager"), c->skipPager()},
         {QStringLiteral("skipSwitcher"), c->skipSwitcher()},
         {QStringLiteral("maximizeHorizontal"), c->maximizeMode() & MaximizeHorizontal},
-        {QStringLiteral("maximizeVertical"), c->maximizeMode() & MaximizeVertical}
+        {QStringLiteral("maximizeVertical"), c->maximizeMode() & MaximizeVertical},
+#ifdef KWIN_BUILD_ACTIVITIES
+        {QStringLiteral("activities"), c->activities()},
+#endif
     };
 }
 }
@@ -218,8 +224,14 @@ QVariantMap DBusInterface::queryWindowInfo()
         [this] (Toplevel *t) {
             if (auto c = qobject_cast<AbstractClient*>(t)) {
                 QDBusConnection::sessionBus().send(m_replyQueryWindowInfo.createReply(clientToVariantMap(c)));
+            } else if (qobject_cast<Unmanaged*>(t)) {
+                QDBusConnection::sessionBus().send(m_replyQueryWindowInfo.createErrorReply(
+                    QStringLiteral("org.kde.KWin.Error.InvalidWindow"),
+                    QStringLiteral("Tried to query information about an unmanaged window")));
             } else {
-                QDBusConnection::sessionBus().send(m_replyQueryWindowInfo.createErrorReply(QString(), QString()));
+                QDBusConnection::sessionBus().send(m_replyQueryWindowInfo.createErrorReply(
+                    QStringLiteral("org.kde.KWin.Error.UserCancel"),
+                    QStringLiteral("User cancelled the query")));
             }
         }
     );
@@ -506,6 +518,37 @@ void VirtualDesktopManagerDBusInterface::setDesktopName(const QString &id, const
 void VirtualDesktopManagerDBusInterface::removeDesktop(const QString &id)
 {
     m_manager->removeVirtualDesktop(id.toUtf8());
+}
+
+PluginManagerDBusInterface::PluginManagerDBusInterface(PluginManager *manager)
+    : QObject(manager)
+    , m_manager(manager)
+{
+    new PluginsAdaptor(this);
+
+    QDBusConnection::sessionBus().registerObject(QStringLiteral("/Plugins"),
+                                                 QStringLiteral("org.kde.KWin.Plugins"),
+                                                 this);
+}
+
+QStringList PluginManagerDBusInterface::loadedPlugins() const
+{
+    return m_manager->loadedPlugins();
+}
+
+QStringList PluginManagerDBusInterface::availablePlugins() const
+{
+    return m_manager->availablePlugins();
+}
+
+bool PluginManagerDBusInterface::LoadPlugin(const QString &name)
+{
+    return m_manager->loadPlugin(name);
+}
+
+void PluginManagerDBusInterface::UnloadPlugin(const QString &name)
+{
+    m_manager->unloadPlugin(name);
 }
 
 } // namespace

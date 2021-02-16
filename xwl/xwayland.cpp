@@ -23,8 +23,10 @@
 #include <KSelectionOwner>
 
 #include <QAbstractEventDispatcher>
+#include <QDataStream>
 #include <QFile>
-#include <QFutureWatcher>
+#include <QHostInfo>
+#include <QRandomGenerator>
 #include <QTimer>
 #include <QtConcurrentRun>
 
@@ -40,22 +42,20 @@
 #include <cerrno>
 #include <cstring>
 
-static QByteArray readDisplay(int pipe)
+static int readDisplay(int pipe)
 {
-    QByteArray displayName;
+    int display = -1;
     QFile readPipe;
 
     if (!readPipe.open(pipe, QIODevice::ReadOnly)) {
         qCWarning(KWIN_XWL) << "Failed to open X11 display name pipe:" << readPipe.errorString();
     } else {
-        displayName = readPipe.readLine();
-        displayName.prepend(QByteArrayLiteral(":"));
-        displayName.remove(displayName.size() - 1, 1);
+        display = readPipe.readLine().trimmed().toInt();
     }
 
     // close our pipe
     close(pipe);
-    return displayName;
+    return display;
 }
 
 namespace KWin
@@ -120,6 +120,12 @@ void Xwayland::start()
         return;
     }
 
+    if (!createXauthorityFile()) {
+        qCWarning(KWIN_XWL) << "Failed to create an Xauthority file";
+        emit errorOccurred();
+        return;
+    }
+
     m_xcbConnectionFd = sx[0];
     m_displayFileDescriptor = pipeFds[0];
 
@@ -129,12 +135,15 @@ void Xwayland::start()
     QProcessEnvironment env = m_app->processStartupEnvironment();
     env.insert("WAYLAND_SOCKET", QByteArray::number(wlfd));
     env.insert("EGL_PLATFORM", QByteArrayLiteral("DRM"));
+    if (qEnvironmentVariableIsSet("KWIN_XWAYLAND_DEBUG")) {
+        env.insert("WAYLAND_DEBUG", QByteArrayLiteral("1"));
+    }
     m_xwaylandProcess->setProcessEnvironment(env);
     m_xwaylandProcess->setArguments({QStringLiteral("-displayfd"),
                            QString::number(pipeFds[1]),
                            QStringLiteral("-rootless"),
-                           QStringLiteral("-wm"),
-                           QString::number(fd)});
+                           QStringLiteral("-wm"), QString::number(fd),
+                           QStringLiteral("-auth"), m_authorityFile.fileName()});
     connect(m_xwaylandProcess, &QProcess::errorOccurred, this, &Xwayland::handleXwaylandError);
     connect(m_xwaylandProcess, &QProcess::started, this, &Xwayland::handleXwaylandStarted);
     connect(m_xwaylandProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
@@ -156,6 +165,7 @@ void Xwayland::stop()
     uninstallSocketNotifier();
 
     DataBridge::destroy();
+    m_selectionOwner.reset();
 
     destroyX11Connection();
 
@@ -230,8 +240,8 @@ void Xwayland::uninstallSocketNotifier()
 
 void Xwayland::handleXwaylandStarted()
 {
-    m_watcher = new QFutureWatcher<QByteArray>(this);
-    connect(m_watcher, &QFutureWatcher<QByteArray>::finished, this, &Xwayland::handleXwaylandReady);
+    m_watcher = new QFutureWatcher<int>(this);
+    connect(m_watcher, &QFutureWatcher<int>::finished, this, &Xwayland::handleXwaylandReady);
     m_watcher->setFuture(QtConcurrent::run(readDisplay, m_displayFileDescriptor));
 }
 
@@ -302,27 +312,30 @@ void Xwayland::handleXwaylandError(QProcess::ProcessError error)
 
 void Xwayland::handleXwaylandReady()
 {
-    m_displayName = m_watcher->result();
+    m_display = m_watcher->result();
 
     m_watcher->deleteLater();
     m_watcher = nullptr;
 
-    if (!createX11Connection()) {
+    if (!createX11Connection() || !writeXauthorityEntries()) {
         emit errorOccurred();
         return;
     }
 
-    qCInfo(KWIN_XWL) << "Xwayland server started on display" << m_displayName;
-    qputenv("DISPLAY", m_displayName);
+    const QByteArray displayName = ':' + QByteArray::number(m_display);
+    qCInfo(KWIN_XWL) << "Xwayland server started on display" << displayName;
+    qputenv("DISPLAY", displayName);
+    qputenv("XAUTHORITY", m_authorityFile.fileName().toUtf8());
 
     // create selection owner for WM_S0 - magic X display number expected by XWayland
-    KSelectionOwner owner("WM_S0", kwinApp()->x11Connection(), kwinApp()->x11RootWindow());
-    owner.claim(true);
+    m_selectionOwner.reset(new KSelectionOwner("WM_S0", kwinApp()->x11Connection(), kwinApp()->x11RootWindow()));
+    m_selectionOwner->claim(true);
 
     DataBridge::create(this);
 
     auto env = m_app->processStartupEnvironment();
-    env.insert(QStringLiteral("DISPLAY"), m_displayName);
+    env.insert(QStringLiteral("DISPLAY"), displayName);
+    env.insert(QStringLiteral("XAUTHORITY"), m_authorityFile.fileName());
     m_app->setProcessStartupEnvironment(env);
 
     emit started();
@@ -381,6 +394,62 @@ void Xwayland::destroyX11Connection()
     m_app->setX11RootWindow(XCB_WINDOW_NONE);
 
     emit m_app->x11ConnectionChanged();
+}
+
+bool Xwayland::createXauthorityFile()
+{
+    const QString runtimeDirectory = QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation);
+
+    m_authorityFile.setFileTemplate(runtimeDirectory + QStringLiteral("/xauth_XXXXXX"));
+    return m_authorityFile.open();
+}
+
+static void writeXauthorityEntry(QDataStream &stream, quint16 family,
+                                 const QByteArray &address, const QByteArray &display,
+                                 const QByteArray &name, const QByteArray &cookie)
+{
+    stream << quint16(family);
+
+    auto writeArray = [&stream](const QByteArray &str) {
+        stream << quint16(str.size());
+        stream.writeRawData(str.constData(), str.size());
+    };
+
+    writeArray(address);
+    writeArray(display);
+    writeArray(name);
+    writeArray(cookie);
+}
+
+static QByteArray generateXauthorityCookie()
+{
+    QByteArray cookie;
+    cookie.resize(16); // Cookie must be 128bits
+
+    QRandomGenerator *generator = QRandomGenerator::system();
+    for (int i = 0; i < cookie.size(); ++i) {
+        cookie[i] = uint8_t(generator->bounded(256));
+    }
+    return cookie;
+}
+
+bool Xwayland::writeXauthorityEntries()
+{
+    const QByteArray hostname = QHostInfo::localHostName().toUtf8();
+    const QByteArray display = QByteArray::number(m_display);
+    const QByteArray name = QByteArrayLiteral("MIT-MAGIC-COOKIE-1");
+    const QByteArray cookie = generateXauthorityCookie();
+
+    QDataStream stream(&m_authorityFile);
+    stream.setByteOrder(QDataStream::BigEndian);
+
+    // Write entry with FamilyLocal and the host name as address
+    writeXauthorityEntry(stream, 256 /* FamilyLocal */, hostname, display, name, cookie);
+
+    // Write entry with FamilyWild, no address
+    writeXauthorityEntry(stream, 65535 /* FamilyWild */, QByteArray{}, display, name, cookie);
+
+    return stream.status() == QDataStream::Ok && m_authorityFile.flush();
 }
 
 DragEventReply Xwayland::dragMoveFilter(Toplevel *target, const QPoint &pos)

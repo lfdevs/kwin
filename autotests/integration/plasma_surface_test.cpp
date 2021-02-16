@@ -41,7 +41,6 @@ private Q_SLOTS:
     void testAcceptsFocus_data();
     void testAcceptsFocus();
 
-    void testDesktopIsOpaque();
     void testPanelWindowsCanCover_data();
     void testPanelWindowsCanCover();
     void testOSDPlacement();
@@ -62,7 +61,7 @@ void PlasmaSurfaceTest::initTestCase()
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
-    QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit()));
+    QVERIFY(waylandServer()->init(s_socketName));
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
 }
@@ -173,27 +172,6 @@ void PlasmaSurfaceTest::testAcceptsFocus()
     QTEST(c->isActive(), "active");
 }
 
-void PlasmaSurfaceTest::testDesktopIsOpaque()
-{
-    QScopedPointer<Surface> surface(Test::createSurface());
-    QVERIFY(!surface.isNull());
-    QScopedPointer<XdgShellSurface> shellSurface(Test::createXdgShellStableSurface(surface.data()));
-    QVERIFY(!shellSurface.isNull());
-    QScopedPointer<PlasmaShellSurface> plasmaSurface(m_plasmaShell->createSurface(surface.data()));
-    QVERIFY(!plasmaSurface.isNull());
-    plasmaSurface->setRole(PlasmaShellSurface::Role::Desktop);
-
-    // now render to map the window
-    auto c = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
-
-    QVERIFY(c);
-    QCOMPARE(c->windowType(), NET::Desktop);
-    QVERIFY(c->isDesktop());
-
-    QVERIFY(!c->hasAlpha());
-    QCOMPARE(c->depth(), 24);
-}
-
 void PlasmaSurfaceTest::testOSDPlacement()
 {
     QScopedPointer<Surface> surface(Test::createSurface());
@@ -221,7 +199,7 @@ void PlasmaSurfaceTest::testOSDPlacement()
                               Q_ARG(int, 2),
                               Q_ARG(QVector<QRect>, geometries));
     QVERIFY(screensChangedSpy.wait());
-    QCOMPARE(screensChangedSpy.count(), 1);
+    QCOMPARE(screensChangedSpy.count(), 2);
     QCOMPARE(screens()->count(), 2);
     QCOMPARE(screens()->geometry(0), geometries.at(0));
     QCOMPARE(screens()->geometry(1), geometries.at(1));
@@ -253,7 +231,7 @@ void PlasmaSurfaceTest::testOSDPlacementManualPosition()
     auto c = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
 
     QVERIFY(c);
-    QVERIFY(c->isInitialPositionSet());
+    QVERIFY(!c->isPlaceable());
     QCOMPARE(c->windowType(), NET::OnScreenDisplay);
     QVERIFY(c->isOnScreenDisplay());
     QCOMPARE(c->frameGeometry(), QRect(50, 70, 100, 50));

@@ -38,6 +38,7 @@ private Q_SLOTS:
     void testMultipleTouchPoints();
     void testCancel();
     void testTouchMouseAction();
+    void testTouchPointCount();
 
 private:
     AbstractClient *showWindow(bool decorated = false);
@@ -50,7 +51,7 @@ void TouchInputTest::initTestCase()
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
-    QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit()));
+    QVERIFY(waylandServer()->init(s_socketName));
     QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
 
     kwinApp()->start();
@@ -71,7 +72,7 @@ void TouchInputTest::init()
     QVERIFY(m_touch->isValid());
 
     screens()->setCurrent(0);
-    Cursors::self()->mouse()->setPos(QPoint(1280, 512));
+    Cursors::self()->mouse()->setPos(QPoint(512, 512));
 }
 
 void TouchInputTest::cleanup()
@@ -263,7 +264,25 @@ void TouchInputTest::testTouchMouseAction()
     QCOMPARE(sequenceStartedSpy.count(), 1);
 
     // cleanup
-    kwinApp()->platform()->touchCancel();
+    kwinApp()->platform()->cancelTouchSequence();
+}
+
+void TouchInputTest::testTouchPointCount()
+{
+    QCOMPARE(kwinApp()->platform()->touchPointCount(), 0);
+    quint32 timestamp = 1;
+    kwinApp()->platform()->touchDown(0, QPointF(125, 125), timestamp++);
+    kwinApp()->platform()->touchDown(1, QPointF(125, 125), timestamp++);
+    kwinApp()->platform()->touchDown(2, QPointF(125, 125), timestamp++);
+    QCOMPARE(kwinApp()->platform()->touchPointCount(), 3);
+
+    kwinApp()->platform()->touchUp(1, timestamp++);
+    QCOMPARE(kwinApp()->platform()->touchPointCount(), 2);
+
+    kwinApp()->platform()->cancelTouchSequence();
+    QCOMPARE(kwinApp()->platform()->touchPointCount(), 1);
+    kwinApp()->platform()->cancelTouchSequence();
+    QCOMPARE(kwinApp()->platform()->touchPointCount(), 0);
 }
 
 }

@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-29 02:26+0200\n"
+"POT-Creation-Date: 2020-10-22 02:33+0200\n"
 "PO-Revision-Date: 2017-05-23 08:15-0400\n"
 "Last-Translator: Elkana Bardugo <ttv200@gmail.com>\n"
 "Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
@@ -602,7 +602,7 @@ msgstr "מתחת לעכבר"
 #: advanced.ui:118
 #, kde-format
 msgid ""
-"When turned on, KDE apps which are able to remember the positions of their "
+"When turned on, apps which are able to remember the positions of their "
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
@@ -610,7 +610,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:121
 #, kde-format
-msgid "Allow KDE apps to remember the positions of their own windows"
+msgid ""
+"Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
@@ -1345,7 +1346,7 @@ msgstr "אזור ההצמדה של ה&מרכז:"
 msgid "&Snap windows:"
 msgstr "בחירת חלונות"
 
-#: windows.cpp:87
+#: windows.cpp:101
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus</b><br>\n"
@@ -1361,7 +1362,7 @@ msgstr ""
 "התנהגות זו נפוצה לרוב מערכות ההפעלה<br>\n"
 "סביר להניח שתרצה אותה"
 
-#: windows.cpp:91
+#: windows.cpp:105
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus - Mouse Precedence</b><br>\n"
@@ -1384,7 +1385,7 @@ msgstr ""
 "החלון שמתחת העכבר יועדף<br><br>\n"
 "כרגיך, אך מעט שונה מ<i>לחץ כדי להתמקד</i>."
 
-#: windows.cpp:96
+#: windows.cpp:110
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse</b><br>\n"
@@ -1405,7 +1406,7 @@ msgstr ""
 "מניעת גניבת התמקדות תפעל כרגיל<br><br>\n"
 "זה כמו <i>לחץ כדי להתמקד</i> רק בלי ממש ללחוץ."
 
-#: windows.cpp:100
+#: windows.cpp:114
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse - Mouse Precedence</b><br>\n"
@@ -1427,7 +1428,7 @@ msgstr ""
 "החלון שמתחת העכבר יועדף<br><br>\n"
 "בחר בזה אם אתה רוצה שריחוף ישלוט בהתמקדות."
 
-#: windows.cpp:105
+#: windows.cpp:119
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Under Mouse</b><br>\n"
@@ -1454,7 +1455,7 @@ msgstr ""
 "סביר להניח ביותר שתרצה להשתמש במדיניות<br>\n"
 "<i>התמקדות עוקבת עכבר – עכבר קודם</i> במקום!"
 
-#: windows.cpp:109
+#: windows.cpp:123
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Strictly Under Mouse</b><br>\n"

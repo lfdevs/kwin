@@ -34,7 +34,7 @@ const NET::WindowTypes SUPPORTED_UNMANAGED_WINDOW_TYPES_MASK = NET::NormalMask |
 Unmanaged::Unmanaged()
     : Toplevel()
 {
-    QTimer::singleShot(50, this, SLOT(setReadyForPainting()));
+    QTimer::singleShot(50, this, &Unmanaged::setReadyForPainting);
 }
 
 Unmanaged::~Unmanaged()
@@ -161,12 +161,6 @@ NET::WindowType Unmanaged::windowType(bool direct, int supportedTypes) const
 bool Unmanaged::isOutline() const
 {
     return m_outline;
-}
-
-void Unmanaged::addDamage(const QRegion &damage)
-{
-    repaints_region += damage;
-    Toplevel::addDamage(damage);
 }
 
 QWindow *Unmanaged::findInternalWindow() const

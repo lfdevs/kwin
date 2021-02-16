@@ -14,6 +14,7 @@
 
 #include <KDecoration2/Decoration>
 
+#include <QMouseEvent>
 #include <QOpenGLFramebufferObject>
 #include <QWindow>
 
@@ -27,7 +28,6 @@ namespace KWin
 
 InternalClient::InternalClient(QWindow *window)
     : m_internalWindow(window)
-    , m_windowId(window->winId())
     , m_internalWindowFlags(window->flags())
 {
     connect(m_internalWindow, &QWindow::xChanged, this, &InternalClient::updateInternalWindowGeometry);
@@ -252,11 +252,6 @@ bool InternalClient::isOutline() const
     return false;
 }
 
-quint32 InternalClient::windowId() const
-{
-    return m_windowId;
-}
-
 bool InternalClient::isShown(bool shaded_is_shown) const
 {
     Q_UNUSED(shaded_is_shown)
@@ -394,6 +389,18 @@ void InternalClient::destroyClient()
     delete this;
 }
 
+bool InternalClient::hasPopupGrab() const
+{
+    return !m_internalWindow->flags().testFlag(Qt::WindowTransparentForInput) &&
+            m_internalWindow->flags().testFlag(Qt::Popup) &&
+            !m_internalWindow->flags().testFlag(Qt::ToolTip);
+}
+
+void InternalClient::popupDone()
+{
+    m_internalWindow->hide();
+}
+
 void InternalClient::present(const QSharedPointer<QOpenGLFramebufferObject> fbo)
 {
     Q_ASSERT(m_internalImage.isNull());
@@ -410,7 +417,6 @@ void InternalClient::present(const QSharedPointer<QOpenGLFramebufferObject> fbo)
 
     setDepth(32);
     addDamageFull();
-    addRepaintFull();
 }
 
 void InternalClient::present(const QImage &image, const QRegion &damage)
@@ -430,7 +436,6 @@ void InternalClient::present(const QImage &image, const QRegion &damage)
 
     setDepth(32);
     addDamage(damage);
-    addRepaint(damage.translated(borderLeft(), borderTop()));
 }
 
 QWindow *InternalClient::internalWindow() const
@@ -446,8 +451,15 @@ bool InternalClient::acceptsFocus() const
 bool InternalClient::belongsToSameApplication(const AbstractClient *other, SameApplicationChecks checks) const
 {
     Q_UNUSED(checks)
-
-    return qobject_cast<const InternalClient *>(other) != nullptr;
+    const InternalClient *otherInternal = qobject_cast<const InternalClient *>(other);
+    if (!otherInternal) {
+        return false;
+    }
+    if (otherInternal == this) {
+        return true;
+    }
+    return otherInternal->internalWindow()->isAncestorOf(internalWindow()) ||
+            internalWindow()->isAncestorOf(otherInternal->internalWindow());
 }
 
 void InternalClient::doMove(int x, int y)

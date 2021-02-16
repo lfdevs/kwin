@@ -12,7 +12,7 @@
 #include "wayland_server.h"
 #include "workspace.h"
 #include "qwayland-input-method-unstable-v1.h"
-#include "virtualkeyboard.h"
+#include "inputmethod.h"
 
 #include <KWayland/Client/compositor.h>
 #include <KWayland/Client/connection_thread.h>
@@ -27,6 +27,7 @@
 #include <KWayland/Client/shadow.h>
 #include <KWayland/Client/shm_pool.h>
 #include <KWayland/Client/output.h>
+#include <KWayland/Client/outputdevice.h>
 #include <KWayland/Client/subcompositor.h>
 #include <KWayland/Client/subsurface.h>
 #include <KWayland/Client/surface.h>
@@ -200,6 +201,7 @@ static struct {
     OutputManagement* outputManagement = nullptr;
     QThread *thread = nullptr;
     QVector<Output*> outputs;
+    QVector<OutputDevice*> outputDevices;
     IdleInhibitManager *idleInhibit = nullptr;
     AppMenuManager *appMenu = nullptr;
     XdgDecorationManager *xdgDecoration = nullptr;
@@ -208,6 +210,7 @@ static struct {
     MockInputMethod *inputMethodV1 = nullptr;
     QtWayland::zwp_input_method_context_v1 *inputMethodContextV1 = nullptr;
     LayerShellV1 *layerShellV1 = nullptr;
+    TextInputManagerV3 *textInputManagerV3 = nullptr;
 } s_waylandConnection;
 
 class MockInputMethod : public QtWayland::zwp_input_method_v1
@@ -229,7 +232,7 @@ private:
 MockInputMethod::MockInputMethod(struct wl_registry *registry, int id, int version)
     : QtWayland::zwp_input_method_v1(registry, id, version)
 {
-    
+
 }
 MockInputMethod::~MockInputMethod()
 {
@@ -298,7 +301,7 @@ bool setupWaylandConnection(AdditionalWaylandInterfaces flags)
     registry->setEventQueue(s_waylandConnection.queue);
 
     QObject::connect(registry, &Registry::outputAnnounced, [=](quint32 name, quint32 version) {
-        auto output = registry->createOutput(name, version, s_waylandConnection.registry);
+        Output* output = registry->createOutput(name, version, s_waylandConnection.registry);
         s_waylandConnection.outputs << output;
         QObject::connect(output, &Output::removed, [=]() {
             output->deleteLater();
@@ -308,6 +311,22 @@ bool setupWaylandConnection(AdditionalWaylandInterfaces flags)
             s_waylandConnection.outputs.removeOne(output);
         });
     });
+
+    if (flags.testFlag(AdditionalWaylandInterface::OutputDevice)) {
+        QObject::connect(registry, &KWayland::Client::Registry::outputDeviceAnnounced,
+                [=](quint32 name, quint32 version) {
+
+            OutputDevice *device = registry->createOutputDevice(name, version);
+            s_waylandConnection.outputDevices << device;
+
+            QObject::connect(device, &OutputDevice::removed, [=]() {
+                s_waylandConnection.outputDevices.removeOne(device);
+            });
+            QObject::connect(device, &OutputDevice::destroyed, [=]() {
+                s_waylandConnection.outputDevices.removeOne(device);
+            });
+        });
+    }
 
     QObject::connect(registry, &Registry::interfaceAnnounced, [=](const QByteArray &interface, quint32 name, quint32 version) {
         if (flags & AdditionalWaylandInterface::InputMethodV1) {
@@ -321,6 +340,13 @@ bool setupWaylandConnection(AdditionalWaylandInterfaces flags)
             if (interface == QByteArrayLiteral("zwlr_layer_shell_v1")) {
                 s_waylandConnection.layerShellV1 = new LayerShellV1();
                 s_waylandConnection.layerShellV1->init(*registry, name, version);
+            }
+        }
+        if (flags & AdditionalWaylandInterface::TextInputManagerV3) {
+            // do something
+            if (interface == QByteArrayLiteral("zwp_text_input_manager_v3")) {
+                s_waylandConnection.textInputManagerV3 = new TextInputManagerV3();
+                s_waylandConnection.textInputManagerV3->init(*registry, name, version);
             }
         }
         if (interface == QByteArrayLiteral("xdg_wm_base")) {
@@ -489,6 +515,8 @@ void destroyWaylandConnection()
         s_waylandConnection.thread = nullptr;
         s_waylandConnection.connection = nullptr;
     }
+    s_waylandConnection.outputs.clear();
+    s_waylandConnection.outputDevices.clear();
 }
 
 ConnectionThread *waylandConnection()
@@ -566,9 +594,19 @@ TextInputManager *waylandTextInputManager()
     return s_waylandConnection.textInputManager;
 }
 
+TextInputManagerV3 *waylandTextInputManagerV3()
+{
+    return s_waylandConnection.textInputManagerV3;
+}
+
 QVector<KWayland::Client::Output *> waylandOutputs()
 {
     return s_waylandConnection.outputs;
+}
+
+QVector<OutputDevice *> waylandOutputDevices()
+{
+    return s_waylandConnection.outputDevices;
 }
 
 bool waitForWaylandPointer()

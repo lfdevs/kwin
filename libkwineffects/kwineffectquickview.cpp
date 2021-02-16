@@ -10,7 +10,6 @@
 #include "kwineffectquickview.h"
 
 #include "kwinglutils.h"
-#include "kwineffects.h"
 #include "logging_p.h"
 
 #include <QQmlEngine>
@@ -19,7 +18,6 @@
 #include <QQmlComponent>
 #include <QQuickView>
 #include <QQuickRenderControl>
-#include <QUrl>
 
 #include <QOffscreenSurface>
 #include <QOpenGLContext>
@@ -262,7 +260,7 @@ void EffectQuickView::setVisible(bool visible)
     d->m_visible = visible;
 
     if (visible){
-        d->m_renderControl->renderRequested();
+        emit d->m_renderControl->renderRequested();
     } else {
         // deferred to not change GL context
         QTimer::singleShot(0, this, [this]() {

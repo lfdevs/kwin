@@ -36,14 +36,16 @@ class DecorationsModel;
 }
 
 class KWinDecorationSettings;
+class KWinDecorationData;
 
 class KCMKWinDecoration : public KQuickAddons::ManagedConfigModule
 {
     Q_OBJECT
     Q_PROPERTY(KWinDecorationSettings *settings READ settings CONSTANT)
     Q_PROPERTY(QSortFilterProxyModel *themesModel READ themesModel CONSTANT)
-    Q_PROPERTY(QStringList borderSizesModel READ borderSizesModel CONSTANT)
-    Q_PROPERTY(int borderSize READ borderSize WRITE setBorderSize NOTIFY borderSizeChanged)
+    Q_PROPERTY(QStringList borderSizesModel READ borderSizesModel NOTIFY themeChanged)
+    Q_PROPERTY(int borderIndex READ borderIndex WRITE setBorderIndex NOTIFY borderIndexChanged)
+    Q_PROPERTY(int borderSize READ borderSize NOTIFY borderSizeChanged)
     Q_PROPERTY(int recommendedBorderSize READ recommendedBorderSize CONSTANT)
     Q_PROPERTY(int theme READ theme WRITE setTheme NOTIFY themeChanged)
     Q_PROPERTY(QAbstractListModel *leftButtonsModel READ leftButtonsModel NOTIFY buttonsChanged)
@@ -59,10 +61,12 @@ public:
     QAbstractListModel *rightButtonsModel();
     QAbstractListModel *availableButtonsModel() const;
     QStringList borderSizesModel() const;
+    int borderIndex() const;
     int borderSize() const;
     int recommendedBorderSize() const;
     int theme() const;
 
+    void setBorderIndex(int index);
     void setBorderSize(int index);
     void setBorderSize(KDecoration2::BorderSize size);
     void setTheme(int index);
@@ -72,6 +76,7 @@ public:
 Q_SIGNALS:
     void themeChanged();
     void buttonsChanged();
+    void borderIndexChanged();
     void borderSizeChanged();
 
 public Q_SLOTS:
@@ -86,7 +91,6 @@ private Q_SLOTS:
 
 private:
     bool isSaveNeeded() const override;
-    bool isDefaults() const override;
 
     int borderSizeIndexFromString(const QString &size) const;
     QString borderSizeIndexToString(int index) const;
@@ -101,5 +105,5 @@ private:
     QPointer<KNS3::DownloadDialog> m_newStuffDialog;
 
     int m_borderSizeIndex = -1;
-    KWinDecorationSettings *m_settings;
+    KWinDecorationData *m_data;
 };

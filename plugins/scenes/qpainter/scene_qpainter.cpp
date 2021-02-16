@@ -14,6 +14,7 @@
 #include "deleted.h"
 #include "effects.h"
 #include "main.h"
+#include "renderloop.h"
 #include "screens.h"
 #include "toplevel.h"
 #include "platform.h"
@@ -80,65 +81,42 @@ void SceneQPainter::paintGenericScreen(int mask, const ScreenPaintData &data)
     m_painter->restore();
 }
 
-qint64 SceneQPainter::paint(const QRegion &_damage, const QList<Toplevel *> &toplevels)
+void SceneQPainter::paint(int screenId, const QRegion &_damage, const QList<Toplevel *> &toplevels,
+                          RenderLoop *renderLoop)
 {
-    QElapsedTimer renderTimer;
-    renderTimer.start();
+    Q_ASSERT(kwinApp()->platform()->isPerScreenRenderingEnabled());
+    painted_screen = screenId;
 
     createStackingOrder(toplevels);
     QRegion damage = _damage;
 
     int mask = 0;
-    m_backend->prepareRenderingFrame();
-    if (m_backend->perScreenRendering()) {
-        const bool needsFullRepaint = m_backend->needsFullRepaint();
-        if (needsFullRepaint) {
-            mask |= Scene::PAINT_SCREEN_BACKGROUND_FIRST;
-            damage = screens()->geometry();
-        }
-        QRegion overallUpdate;
-        for (int i = 0; i < screens()->count(); ++i) {
-            const QRect geometry = screens()->geometry(i);
-            QImage *buffer = m_backend->bufferForScreen(i);
-            if (!buffer || buffer->isNull()) {
-                continue;
-            }
-            m_painter->begin(buffer);
-            m_painter->save();
-            m_painter->setWindow(geometry);
 
-            QRegion updateRegion, validRegion;
-            paintScreen(&mask, damage.intersected(geometry), QRegion(), &updateRegion, &validRegion);
-            overallUpdate = overallUpdate.united(updateRegion);
-            paintCursor(updateRegion);
+    m_backend->beginFrame(screenId);
+    const bool needsFullRepaint = m_backend->needsFullRepaint(screenId);
+    if (needsFullRepaint) {
+        mask |= Scene::PAINT_SCREEN_BACKGROUND_FIRST;
+        damage = screens()->geometry(screenId);
+    }
+    const QRect geometry = screens()->geometry(screenId);
+    QImage *buffer = m_backend->bufferForScreen(screenId);
+    if (buffer && !buffer->isNull()) {
+        renderLoop->beginFrame();
+        m_painter->begin(buffer);
+        m_painter->setWindow(geometry);
 
-            m_painter->restore();
-            m_painter->end();
-        }
-        m_backend->showOverlay();
-        m_backend->present(mask, overallUpdate);
-    } else {
-        m_painter->begin(m_backend->buffer());
-        m_painter->setClipping(true);
-        m_painter->setClipRegion(damage);
-        if (m_backend->needsFullRepaint()) {
-            mask |= Scene::PAINT_SCREEN_BACKGROUND_FIRST;
-            damage = screens()->geometry();
-        }
         QRegion updateRegion, validRegion;
-        paintScreen(&mask, damage, QRegion(), &updateRegion, &validRegion);
-
+        paintScreen(&mask, damage.intersected(geometry), QRegion(), &updateRegion, &validRegion,
+                    renderLoop);
         paintCursor(updateRegion);
-        m_backend->showOverlay();
 
         m_painter->end();
-        m_backend->present(mask, updateRegion);
+        renderLoop->endFrame();
+        m_backend->endFrame(screenId, mask, updateRegion);
     }
 
     // do cleanup
     clearStackingOrder();
-
-    return renderTimer.nsecsElapsed();
 }
 
 void SceneQPainter::paintBackground(const QRegion &region)
@@ -198,9 +176,9 @@ void SceneQPainter::screenGeometryChanged(const QSize &size)
     m_backend->screenGeometryChanged(size);
 }
 
-QImage *SceneQPainter::qpainterRenderBuffer() const
+QImage *SceneQPainter::qpainterRenderBuffer(int screenId) const
 {
-    return m_backend->buffer();
+    return m_backend->bufferForScreen(screenId);
 }
 
 //****************************************
@@ -328,24 +306,19 @@ void SceneQPainter::Window::renderWindowDecorations(QPainter *painter)
         return;
     }
 
-    bool noBorder = true;
     const SceneQPainterDecorationRenderer *renderer = nullptr;
     QRect dtr, dlr, drr, dbr;
-    if (client && !client->noBorder()) {
-        if (client->isDecorated()) {
-            if (SceneQPainterDecorationRenderer *r = static_cast<SceneQPainterDecorationRenderer *>(client->decoratedClient()->renderer())) {
-                r->render();
-                renderer = r;
-            }
+    if (client && client->isDecorated()) {
+        if (SceneQPainterDecorationRenderer *r = static_cast<SceneQPainterDecorationRenderer *>(client->decoratedClient()->renderer())) {
+            r->render();
+            renderer = r;
         }
         client->layoutDecorationRects(dlr, dtr, drr, dbr);
-        noBorder = false;
-    } else if (deleted && !deleted->noBorder()) {
-        noBorder = false;
+    } else if (deleted && deleted->wasDecorated()) {
         deleted->layoutDecorationRects(dlr, dtr, drr, dbr);
         renderer = static_cast<const SceneQPainterDecorationRenderer *>(deleted->decorationRenderer());
     }
-    if (noBorder || !renderer) {
+    if (!renderer) {
         return;
     }
 
@@ -373,7 +346,7 @@ QPainterWindowPixmap::QPainterWindowPixmap(Scene::Window *window)
 {
 }
 
-QPainterWindowPixmap::QPainterWindowPixmap(const QPointer<KWaylandServer::SubSurfaceInterface> &subSurface, WindowPixmap *parent)
+QPainterWindowPixmap::QPainterWindowPixmap(KWaylandServer::SubSurfaceInterface *subSurface, WindowPixmap *parent)
     : WindowPixmap(subSurface, parent)
 {
 }
@@ -403,7 +376,7 @@ void QPainterWindowPixmap::create()
     }
 }
 
-WindowPixmap *QPainterWindowPixmap::createChild(const QPointer<KWaylandServer::SubSurfaceInterface> &subSurface)
+WindowPixmap *QPainterWindowPixmap::createChild(KWaylandServer::SubSurfaceInterface *subSurface)
 {
     return new QPainterWindowPixmap(subSurface, this);
 }
@@ -418,7 +391,7 @@ void QPainterWindowPixmap::update()
         m_image = internalImage();
         return;
     }
-    if (b.isNull()) {
+    if (!b) {
         m_image = QImage();
         return;
     }

@@ -5,30 +5,49 @@ Upstream-Contact: plasma-devel@kde.org
 
 Files: *
 Copyright: 2010, Alexandre Pereira <pereira.alex@gmail.com>
+           2019-2020, Aleix Pol Gonzalez <aleixpol@kde.org>
+           2018, Alex Nemeth <alex.nemeth329@gmail.com>
+           2010, Alexandre Pereira <pereira.alex@gmail.com>
            2013, Antonis Tsiapaliokas <kok3rs@gmail.com>
            2011, Arthur Arlt <a.arlt@stud.uni-heidelberg.de>
-           2012, Casian Andrei <skeletk13@gmail.com>
+           2020, Benjamin Port <benjamin.port@enioka.com>
+           2020, Carson Black <uhhadd@gmail.com>
            2007, Christian Nitschkowski <christian.nitschkowski@kdemail.net>
+           2007, Christian Nitschkowski <christian.nitschkowski@kdemail.net>
+           1997-2002, Cristian Tibirna <tibirna@kde.org>
+           2020, Cyril Rossi <cyril.rossi@enioka.com>
+           2011-2012, Cédric Bellegarde <gnumdk@gmail.com>
            2008, Cédric Borgese <cedric.borgese@gmail.com>
+           2018-2021, David Edmundson <davidedmundson@kde.org>
+           2017, David Edmundson <kde@davidedmundson.co.uk>
+           2020, David Redondo <kde@david-redondo.de>
+           2017, Demitrius Belai <demitriusbelai@gmail.com>
+           2018, Eike Hein <hein@kde.org>
            2012, Filip Wieladek <wattos@gmail.com>
-           2009-2014, Fredrik Höglund <fredrik@kde.org>
-           1989-1991, Free Software Foundation, Inc
+           2009-2018, Fredrik Höglund <fredrik@kde.org>
+           2020, Henri Chain <henri.chain@enioka.com>
            2014, Hugo Pereira Da Costa <hugo.pereira@free.fr>
+           2020, Ismael Asensio <isma.af@gmail.com>
            2010, Jorge Mata <matamax123@gmail.com>
-           2013, Kai Uwe Broulik <kde@privat.broulik.de>
+           2017, Kai Uwe Broulik <kde@privat.broulik.de>
            2003, Karol Szwed <kszwed@kde.org>
+           2008, Kristian Høgsberg
+           2018, Laurent Montel <montel@kde.org>
+           2011, Lionel Chauvin <megabigbug@yahoo.fr>
            2001-2008, Lubos Lunak <l.lunak@kde.org>
            2008, Lubos Lunak <l.lunak@suse.cz>
            2008-2009, Lucas Murray <lmurray@undefinedfire.com>
-           2014-2016, Marco Martin <mart@kde.org>
+           2014-2020, Marco Martin <mart@kde.org>
            2009, Marco Martin <notmart@gmail.com>
+           2015-2019, Martin Flöser <mgraesslin@kde.org>
            2008-2011, Martin Gräßlin <kde@martin-graesslin.com>
            2012, Martin Gräßlin <m.graesslin@kde.org>
-           2008-2016, Martin Gräßlin <mgraesslin@kde.org>
+           2008-2017, Martin Gräßlin <mgraesslin@kde.org>
            1998-2000, Matthias Ettrich <ettrich@kde.org>
            2009, Michael Zanetti <michael_zanetti@gmx.net>
            2015, Mika Allan Rauhala <mika.allan.rauhala@gmail.com>
            2011, NVIDIA Corporation
+           2019, NVIDIA Inc.
            2010, Nokia Corporation and/or its subsidiary(-ies)
            1997, Patrick Dowler <dowler@morgul.fsh.uvic.ca>
            2007, Philip Falkner <philip.falkner@gmail.com>
@@ -36,46 +55,30 @@ Copyright: 2010, Alexandre Pereira <pereira.alex@gmail.com>
            2001, Rik Hemsley (rikkus) <rik@kde.org>
            2006-2007, Rivo Laks <rivolaks@hot.ee>
            2010, Rohan Prabhu <rohan@rohanprabhu.com>
-           2016, Roman Gilg <subdiff@gmail.com>
+           2016-2020, Roman Gilg <subdiff@gmail.com>
            2003-2005, Sandro Giessl <sandro@giessl.com>
            2010, Sebastian Sauer <sebsauer@kdab.com>
            2011, Tamas Krutki <ktamasw@gmail.com>
-           2011-2012, The KWin team <kwin@kde.org>
            2014-2015, Thomas Lübking <thomas.luebking@gmail.com>
            2010-2011, Thomas Lübking <thomas.luebking@web.de>
            2001, Waldo Bastian <bastian@kde.org>
-           2007-2014, Free Software Foundation
-           1997-2014, Free Software Foundation, Inc
+           2020, Xaver Hugl <xaver.hugl@gmail.com>
+           2002-2018, Free Software Foundation
+           1997-2018, Free Software Foundation, Inc
            2000, Jesús Bravo Álvarez
            2008-2009, K Desktop Environment
            1998, KDE Russian translation Team
            2000-2001, KDE Team
-           2000-2002, KDE e.v
+           2000-2002, KDE e.v.
            2007, KDE i18n Project for Vietnamese
            1999-2002, Meni Livne <livne@kde.org>
-           2009, Rosetta Contributors and Canonical Ltd 2009
-           2010, Rosetta Contributors and Canonical Ltd 2010
-           2012, Rosetta Contributors and Canonical Ltd 2012
-           2002-2016, This_file_is_part_of_KDE
+           2009-2012, Rosetta Contributors and Canonical Ltd
+           2002-2021, This_file_is_part_of_KDE
            2001, translate.org.za
 License: GPL-2+
 
-Files: po/ca/*
-       po/ca@valencia/*
-       po/uk/*
-Copyright: 1998-2016, This_file_is_part_of_KDE
-License: LGPL-2.1+3+KDEeV
-
-License: LGPL-2.1+3+KDEeV
- This file is distributed under the license LGPL version 2.1 or
- version 3 or later versions approved by the membership of KDE e.V.
- --
- On Debian systems, the complete text of the GNU Lesser General Public License
- version 2.1 can be found in `/usr/share/common-licenses/LGPL-2.1', likewise,
- the complete text of the GNU Lesser General Public License version 3 can be
- found in `/usr/share/common-licenses/LGPL-3'.
-
-Files: autotests/onscreennotificationtest.cpp
+Files: autotests/integration/dbus_interface_test.cpp
+       autotests/onscreennotificationtest.cpp
        autotests/onscreennotificationtest.h
        kcmkwin/kwindecoration/declarative-plugin/buttonsmodel.cpp
        kcmkwin/kwindecoration/declarative-plugin/buttonsmodel.h
@@ -93,71 +96,151 @@ Files: autotests/onscreennotificationtest.cpp
        kcmkwin/kwindecoration/declarative-plugin/previewsettings.h
        kcmkwin/kwindecoration/decorationmodel.cpp
        kcmkwin/kwindecoration/decorationmodel.h
-       kcmkwin/kwindecoration/kcm.cpp
-       kcmkwin/kwindecoration/kcm.h
-       kcmkwin/kwindecoration/qml/*
+       kcmkwin/kwindecoration/package/contents/ui/ButtonGroup.qml
+       kcmkwin/kwindecoration/package/contents/ui/Buttons.qml
+       kcmkwin/kwindecoration/package/contents/ui/Themes.qml
+       kcmkwin/kwinrules/kcmrules.cpp
+       kcmkwin/kwinrules/kcmrules.h
+       kcmkwin/kwinrules/optionsmodel.cpp
+       kcmkwin/kwinrules/optionsmodel.h
+       kcmkwin/kwinrules/package/contents/ui/FileDialogLoader.qml
+       kcmkwin/kwinrules/package/contents/ui/OptionsComboBox.qml
+       kcmkwin/kwinrules/package/contents/ui/RuleItemDelegate.qml
+       kcmkwin/kwinrules/package/contents/ui/RulesEditor.qml
+       kcmkwin/kwinrules/package/contents/ui/RulesList.qml
+       kcmkwin/kwinrules/package/contents/ui/ValueEditor.qml
+       kcmkwin/kwinrules/rulebookmodel.cpp
+       kcmkwin/kwinrules/rulebookmodel.h
+       kcmkwin/kwinrules/ruleitem.cpp
+       kcmkwin/kwinrules/ruleitem.h
+       kcmkwin/kwinrules/rulesmodel.cpp
+       kcmkwin/kwinrules/rulesmodel.h
        onscreennotification.cpp
        onscreennotification.h
        osd.cpp
        osd.h
+       plugins/windowsystem/plugin.cpp
+       plugins/windowsystem/plugin.h
+       plugins/windowsystem/windoweffects.cpp
+       plugins/windowsystem/windoweffects.h
+       plugins/windowsystem/windowshadow.cpp
+       plugins/windowsystem/windowshadow.h
+       plugins/windowsystem/windowsystem.cpp
+       plugins/windowsystem/windowsystem.h
        popup_input_filter.cpp
        popup_input_filter.h
        qml/onscreennotification/plasma/main.qml
        qml/outline/*
-       scripts/enforcedeco/*
+       tabletmodemanager.cpp
+       tabletmodemanager.h
+       tests/cursorhotspottest.cpp
        tests/libinputtest.cpp
        tests/normalhintsbasesizetest.cpp
        tests/pointergesturestest.cpp
        tests/pointergesturestest.qml
        tests/screenedgeshowtest.cpp
        tests/unmapdestroytest.qml
-       tests/waylandclienttest.cpp
-       tests/waylandclienttest.h
        tests/x11shadowreader.cpp
-Copyright: 2014-2017, Martin Graesslin <mgraesslin@kde.org>
+Copyright: 2020, Ismael Asensio <isma.af@gmail.com>
+           2017, Kai Uwe Broulik <kde@privat.broulik.de>
+           2004, Lubos Lunak <l.lunak@kde.org>
+           2018, Marco Martin <mart@kde.org>
+           2017-2019, Martin Flöser <mgraesslin@kde.org>
+           2016-2017, Martin Graesslin <mgraesslin@kde.org>
+           2014-2016, Martin Gräßlin <mgraesslin@kde.org>
+           2019, Valerio Pilo <vpilo@coldshock.net>
+           2020, Vlad Zahorodnii <vlad.zahorodnii@kde.org>
 License: GPL-2+3+KDEeV
 
-Files: effects/dialogparent/package/metadata.desktop
-       effects/eyeonscreen/package/metadata.desktop
-       effects/fade/package/metadata.desktop
-       effects/fadedesktop/package/metadata.desktop
-       effects/frozenapp/package/metadata.desktop
-       effects/login/package/metadata.desktop
-       effects/logout/package/metadata.desktop
-       effects/maximize/package/metadata.desktop
-       effects/morphingpopups/package/metadata.desktop
-       effects/scalein/package/metadata.desktop
-       effects/translucency/package/metadata.desktop
-       effects/windowaperture/package/metadata.desktop
-       effects/wobblywindows/wobblywindows.cpp
-       effects/wobblywindows/wobblywindows.h
-       plugins/kdecorations/aurorae/themes/plastik/package/metadata.desktop
-       po/bg/kcmkwindecoration.po
-       po/bg/kcmkwinrules.po
-       po/bg/kcmkwm.po
-       po/bg/kwin.po
-       po/bg/kwin_clients.po
-       scripts/desktopchangeosd/metadata.desktop
-       scripts/enforcedeco/metadata.desktop
-       scripts/minimizeall/metadata.desktop
-       scripts/synchronizeskipswitcher/metadata.desktop
-       scripts/videowall/metadata.desktop
-Copyright: 2008, Cédric Borgese <cedric.borgese@gmail.com>
-License: GPL
-
-License: GPL
- This file is licensed under the GPL.
- --
- On Debian systems, the complete text of the GNU General Public License
- can be found in `/usr/share/common-licenses/GPL'.
+Files: autotests/test_ftrace.cpp                          
+       dmabuftexture.cpp                                    
+       dmabuftexture.h
+       ftrace.cpp
+       ftrace.h
+       kcmkwin/kwindesktop/package/contents/ui/main.qml
+       kcmkwin/kwinscreenedges/screenpreviewwidget.cpp
+       kcmkwin/kwinscreenedges/screenpreviewwidget.h
+       plugins/colord-integration/main.cpp
+       plugins/kpackage/aurorae/aurorae.cpp
+       plugins/kpackage/aurorae/aurorae.h
+       plugins/kpackage/decoration/decoration.cpp
+       plugins/kpackage/decoration/decoration.h
+       plugins/kpackage/effect/effect.cpp
+       plugins/kpackage/effect/effect.h              
+       plugins/kpackage/scripts/scripts.cpp    
+       plugins/kpackage/scripts/scripts.h
+       plugins/kpackage/windowswitcher/windowswitcher.cpp
+       plugins/kpackage/windowswitcher/windowswitcher.h
+       plugins/nightcolor/main.cpp
+       plugins/platforms/drm/gbm_dmabuf.cpp
+       plugins/platforms/drm/gbm_dmabuf.h
+       plugins/screencast/main.cpp
+       plugins/screencast/pipewirecore.cpp
+       plugins/screencast/pipewirecore.h
+       plugins/screencast/pipewirestream.cpp
+       plugins/screencast/pipewirestream.h
+       plugins/screencast/screencastmanager.cpp
+       plugins/screencast/screencastmanager.h
+Copyright: 2020, Aleix Pol Gonzalez <aleixpol@kde.org>
+           2021, David Edmundson <davidedmundson@kde.org>
+           2017, Demitrius Belai <demitriusbelai@gmail.com>
+           2018, Eike Hein <hein@kde.org>
+           2017, Marco Martin <mart@kde.org>
+           2009, Marco Martin <notmart@gmail.com>
+           2018-2020, Red Hat Inc
+           2020, Roman Gilg <subdiff@gmail.com>
+           2018-2020, Vlad Zahorodnii <vlad.zahorodnii@kde.org>
+License: LGPL-2+
 
 Files: cmake/*
 Copyright: 2014, Alex Merry <alex.merry@kde.org>
-           2014, Fredrik Höglund <fredrik@kde.org>
-           2006-2007, Laurent Montel <montel@kde.org>
+           2020, Daniel Vrátil <dvratil@kde.org>
+           2014, Hrvoje Senjan <hrvoje.senjan@gmail.com>
            2014-2016, Martin Gräßlin <mgraesslin@kde.org>
-           2010, Rafael Fernández López <ereslibre@kde.org>
-           2016, Takahiro Hashimoto <kenya888@gmail.com>
+           2020, Vlad Zahorodnii <vlad.zahorodnii@kde.org>
+License: BSD-3-clause
+
+Files: helpers/killer/killer.cpp
+Copyright: 2003, Lubos Lunak <l.lunak@kde.org>
+License: MIT
+
+Files: kcmkwin/kwindecoration/kcm.cpp
+       kcmkwin/kwindecoration/kcm.h
+       kcmkwin/kwindecoration/package/contents/ui/main.qml
+       kcmkwin/kwindecoration/utils.cpp   
+       kcmkwin/kwindecoration/utils.h
+       scripting/timer.cpp
+Copyright: 2019, Cyril Rossi <cyril.rossi@enioka.com> 
+           2007, Richard J. Moore <rich@kde.org>    
+           2019, Valerio Pilo <vpilo@coldshock.net>
+License: LGPL-2
+
+Files: po/ca/*
+       po/ca@valencia/*
+       po/uk/*
+Copyright: 1998-2021, This_file_is_part_of_KDE
+License: LGPL-2.1+3+KDEeV-translations
+
+Files: tests/pointerconstraintstest.cpp
+       tests/pointerconstraintstest.h
+       tests/pointerconstraintstest.qml
+Copyright: 2018, Roman Gilg <subdiff@gmail.com>
+License: LGPL-2.1+3+KDEeV
+
+Files: doc/*
+Copyright: 2018, Anne-Marie Mahfouf <annemarie.mahfouf@free.fr>
+           2015, Jost Schenck
+           2016, Lauri Watts
+           2015, Martin Graesslin <mgraesslin@kde.org>
+           2015-2016, Mike McBride
+           2018, Rik Hemsley <rik@kde.org>
+License: GFDL-NIV-1.2+
+
+Files: debian/*
+Copyright: 2014, Scarlett Clark <scarlett@scarlettgatelyclark.com>
+           2021, Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+License: GPL-2+
+
 License: BSD-3-clause
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions
@@ -182,87 +265,7 @@ License: BSD-3-clause
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-Files: kcmkwin/kwinscreenedges/screenpreviewwidget.cpp
-       kcmkwin/kwinscreenedges/screenpreviewwidget.h
-       packageplugins/aurorae/aurorae.cpp
-       packageplugins/aurorae/aurorae.h
-       packageplugins/decoration/decoration.cpp
-       packageplugins/decoration/decoration.h
-       packageplugins/scripts/scripts.cpp
-       packageplugins/scripts/scripts.h
-       packageplugins/windowswitcher/windowswitcher.cpp
-       packageplugins/windowswitcher/windowswitcher.h
-Copyright: 2017, Demitrius Belai <demitriusbelai@gmail.com>
-           2017, Marco Martin <mart@kde.org>
-           2009, Marco Martin <notmart@gmail.com>
-License: LGPL-2+
-
-Files: kcmkwin/kwincompositing/test/modeltest.cpp
-       kcmkwin/kwincompositing/test/modeltest.h
-Copyright: 2013, Digia Plc and/or its subsidiary(-ies)
-License: GPL-3_or_LGPL-2.1-QTexception-1.1
- * $QT_BEGIN_LICENSE:LGPL$
- * Commercial License Usage
- * Licensees holding valid commercial Qt licenses may use this file in
- * accordance with the commercial license agreement provided with the
- * Software or, alternatively, in accordance with the terms contained in
- * a written agreement between you and Digia.  For licensing terms and
- * conditions see http://qt.digia.com/licensing.  For further information
- * use the contact form at http://qt.digia.com/contact-us.
- *
- * GNU Lesser General Public License Usage
- * Alternatively, this file may be used under the terms of the GNU Lesser
- * General Public License version 2.1 as published by the Free Software
- * Foundation and appearing in the file LICENSE.LGPL included in the
- * packaging of this file.  Please review the following information to
- * ensure the GNU Lesser General Public License version 2.1 requirements
- * will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
- *
- * In addition, as a special exception, Digia gives you certain additional
- * rights.  These rights are described in the Digia Qt LGPL Exception
- * version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
- *
- * GNU General Public License Usage
- * Alternatively, this file may be used under the terms of the GNU
- * General Public License version 3.0 as published by the Free Software
- * Foundation and appearing in the file LICENSE.GPL included in the
- * packaging of this file.  Please review the following information to
- * ensure the GNU General Public License version 3.0 requirements will be
- * met: http://www.gnu.org/copyleft/gpl.html.
- *
- *
- * $QT_END_LICENSE$
- --
- On Debian systems, the complete text of the GNU General Public License
- version 3 can be found in `/usr/share/common-licenses/GPL-3', likewise, the
- complete text of the GNU Lesser General Public License version 2.1 can be
- found in `/usr/share/common-licenses/LGPL-2.1'.
-
-Files: plugins/platforms/hwcomposer/egl_hwcomposer_backend.cpp
-       plugins/platforms/hwcomposer/egl_hwcomposer_backend.h
-       plugins/platforms/hwcomposer/hwcomposer_backend.cpp
-       plugins/platforms/hwcomposer/hwcomposer_backend.h
-       plugins/platforms/hwcomposer/logging.cpp
-       plugins/platforms/hwcomposer/logging.h
-       plugins/platforms/hwcomposer/screens_hwcomposer.cpp
-       plugins/platforms/hwcomposer/screens_hwcomposer.h
-Copyright: 2015, Martin Gräßlin <mgraesslin@kde.org>
-License: GPL-3+
-
-Files: killer/killer.cpp
-Copyright: 2003, Lubos Lunak <l.lunak@kde.org>
-License: Expat
-
-Files: scripting/timer.cpp
-Copyright: 2007, Richard J. Moore <rich@kde.org>
-License: LGPL-2
-
-Files: doc/en/windowspecific/index.docbook
-Copyright: see the UserBase https://userbase.kde.org/index.php?title=KWin_Rules&action=history
-           Lauri.Watts
-License: GFDL-1.2+
-
-License: GFDL-1.2+
+License: GFDL-NIV-1.2+
  Permission is granted to copy, distribute and/or modify this document
  under the terms of the GNU Free Documentation License, Version 1.2
  or any later version published by the Free Software Foundation;
@@ -271,30 +274,7 @@ License: GFDL-1.2+
  Free Documentation License".
  --
  The complete text of the GNU Free Documentation License version 1.2
- can be found in `/usr/share/common-licenses/GFDL-1.2'.
-
-Files: debian/*
-Copyright: 2014, Scarlett Clark <scarlett@scarlettgatelyclark.com>
-License: GPL-2+
-
-License: Expat
- Permission is hereby granted, free of charge, to any person obtaining a
- copy of this software and associated documentation files (the "Software"),
- to deal in the Software without restriction, including without limitation
- the rights to use, copy, modify, merge, publish, distribute, sublicense,
- and/or sell copies of the Software, and to permit persons to whom the
- Software is furnished to do so, subject to the following conditions:
- .
- The above copyright notice and this permission notice shall be included in
- all copies or substantial portions of the Software.
- .
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
- THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- DEALINGS IN THE SOFTWARE.
+ can be found in `/usr/share/common-licenses/GFDL-1.2’.
 
 License: GPL-2+
  This package is free software; you can redistribute it and/or modify
@@ -311,7 +291,7 @@ License: GPL-2+
  along with this program. If not, see <http://www.gnu.org/licenses/>
  --
  On Debian systems, the complete text of the GNU General
- Public License version 2 can be found in `/usr/share/common-licenses/GPL-2'.
+ Public License version 2 can be found in `/usr/share/common-licenses/GPL-2’.
 
 License: GPL-2+3+KDEeV
  This program is free software; you can redistribute it and/or
@@ -331,23 +311,9 @@ License: GPL-2+3+KDEeV
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  --
  On Debian systems, the complete text of the GNU General Public License
- version 2 can be found in `/usr/share/common-licenses/GPL-2', likewise, the
+ version 2 can be found in `/usr/share/common-licenses/GPL-2’, likewise, the
  complete text of the GNU General Public License version 3 can be found in
- `/usr/share/common-licenses/GPL-3'.
-
-License: GPL-3+
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
- .
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- .
- The complete text of the GNU General Public License version 3 can be found in
- `/usr/share/common-licenses/GPL-3'.
+ `/usr/share/common-licenses/GPL-3’.
 
 License: LGPL-2
  This program is free software; you can redistribute it and/or modify
@@ -365,7 +331,7 @@ License: LGPL-2
  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  --
  On Debian systems, the complete text of the GNU Library General Public
- License version 2 can be found in `/usr/share/common-licenses/LGPL-2'.
+ License version 2 can be found in `/usr/share/common-licenses/LGPL-2’.
 
 License: LGPL-2+
  This library is free software; you can redistribute it and/or
@@ -384,4 +350,54 @@ License: LGPL-2+
  Boston, MA 02110-1301, USA.
  --
  On Debian systems, the complete text of the GNU Library General Public
- License version 2 can be found in `/usr/share/common-licenses/LGPL-2'.
+ License version 2 can be found in `/usr/share/common-licenses/LGPL-2’.
+
+License: LGPL-2.1+3+KDEeV
+ This library is free software; you can redistribute it and/or    
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) version 3, or any
+ later version accepted by the membership of KDE e.V. (or its
+ successor approved by the membership of KDE e.V.), which shall
+ act as a proxy defined in Section 6 of version 3 of the license.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+ .
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library.  If not, see <https://www.gnu.org/licenses/>.
+ --
+ On Debian systems, the complete text of the GNU Lesser General Public License
+ version 2.1 can be found in `/usr/share/common-licenses/LGPL-2.1’, likewise,
+ the complete text of the GNU Lesser General Public License version 3 can be
+ found in `/usr/share/common-licenses/LGPL-3’.
+
+License: LGPL-2.1+3+KDEeV-translations
+ This file is distributed under the license LGPL version 2.1 or
+ version 3 or later versions approved by the membership of KDE e.V.
+ --
+ On Debian systems, the complete text of the GNU Lesser General Public License
+ version 2.1 can be found in `/usr/share/common-licenses/LGPL-2.1’, likewise,
+ the complete text of the GNU Lesser General Public License version 3 can be
+ found in `/usr/share/common-licenses/LGPL-3’.
+
+License: MIT
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is furnished
+ to do so, subject to the following conditions:
+ .
+ The above copyright notice and this permission notice (including the next
+ paragraph) shall be included in all copies or substantial portions of the
+ Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+ OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
+ OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

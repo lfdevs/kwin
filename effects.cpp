@@ -75,7 +75,7 @@ static QByteArray readWindowProperty(xcb_window_t win, xcb_atom_t atom, xcb_atom
     }
 }
 
-static void deleteWindowProperty(Window win, long int atom)
+static void deleteWindowProperty(xcb_window_t win, long int atom)
 {
     if (win == XCB_WINDOW_NONE) {
         return;
@@ -237,8 +237,12 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
     }
 
     // connect all clients
-    for (X11Client *c : ws->clientList()) {
-        setupClientConnections(c);
+    for (AbstractClient *client : ws->allClientList()) {
+        if (client->readyForPainting()) {
+            setupClientConnections(client);
+        } else {
+            connect(client, &Toplevel::windowShown, this, &EffectsHandlerImpl::slotClientShown);
+        }
     }
     for (Unmanaged *u : ws->unmanagedList()) {
         setupUnmanagedConnections(u);
@@ -246,16 +250,7 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
     for (InternalClient *client : ws->internalClients()) {
         setupClientConnections(client);
     }
-    if (waylandServer()) {
-        const auto clients = waylandServer()->clients();
-        for (AbstractClient *c : clients) {
-            if (c->readyForPainting()) {
-                setupClientConnections(c);
-            } else {
-                connect(c, &Toplevel::windowShown, this, &EffectsHandlerImpl::slotClientShown);
-            }
-        }
-    }
+
     reconfigure();
 }
 
@@ -368,10 +363,10 @@ void EffectsHandlerImpl::reconfigure()
 }
 
 // the idea is that effects call this function again which calls the next one
-void EffectsHandlerImpl::prePaintScreen(ScreenPrePaintData& data, int time)
+void EffectsHandlerImpl::prePaintScreen(ScreenPrePaintData& data, std::chrono::milliseconds presentTime)
 {
     if (m_currentPaintScreenIterator != m_activeEffects.constEnd()) {
-        (*m_currentPaintScreenIterator++)->prePaintScreen(data, time);
+        (*m_currentPaintScreenIterator++)->prePaintScreen(data, presentTime);
         --m_currentPaintScreenIterator;
     }
     // no special final code
@@ -411,10 +406,10 @@ void EffectsHandlerImpl::postPaintScreen()
     // no special final code
 }
 
-void EffectsHandlerImpl::prePaintWindow(EffectWindow* w, WindowPrePaintData& data, int time)
+void EffectsHandlerImpl::prePaintWindow(EffectWindow* w, WindowPrePaintData& data, std::chrono::milliseconds presentTime)
 {
     if (m_currentPaintWindowIterator != m_activeEffects.constEnd()) {
-        (*m_currentPaintWindowIterator++)->prePaintWindow(w, data, time);
+        (*m_currentPaintWindowIterator++)->prePaintWindow(w, data, presentTime);
         --m_currentPaintWindowIterator;
     }
     // no special final code
@@ -590,7 +585,7 @@ void EffectsHandlerImpl::slotTabRemoved(EffectWindow *w, EffectWindow* leaderOfF
     emit tabRemoved(w, leaderOfFormerGroup);
 }
 
-void EffectsHandlerImpl::slotWindowDamaged(Toplevel* t, const QRect& r)
+void EffectsHandlerImpl::slotWindowDamaged(Toplevel* t, const QRegion& r)
 {
     if (!t->effectWindow()) {
         // can happen during tear down of window
@@ -1058,11 +1053,6 @@ EffectWindow* EffectsHandlerImpl::findWindow(WId id) const
         return w->effectWindow();
     if (Unmanaged* w = Workspace::self()->findUnmanaged(id))
         return w->effectWindow();
-    if (waylandServer()) {
-        if (AbstractClient *w = waylandServer()->findClient(id)) {
-            return w->effectWindow();
-        }
-    }
     return nullptr;
 }
 
@@ -1838,6 +1828,7 @@ TOPLEVEL_HELPER(KWaylandServer::SurfaceInterface *, surface, surface)
 TOPLEVEL_HELPER(bool, isPopupWindow, isPopupWindow)
 TOPLEVEL_HELPER(bool, isOutline, isOutline)
 TOPLEVEL_HELPER(pid_t, pid, pid)
+TOPLEVEL_HELPER(qlonglong, windowId, window)
 
 #undef TOPLEVEL_HELPER
 
@@ -2061,11 +2052,11 @@ void EffectWindowImpl::registerThumbnail(AbstractThumbnailItem *item)
 {
     if (WindowThumbnailItem *thumb = qobject_cast<WindowThumbnailItem*>(item)) {
         insertThumbnail(thumb);
-        connect(thumb, SIGNAL(destroyed(QObject*)), SLOT(thumbnailDestroyed(QObject*)));
+        connect(thumb, &QObject::destroyed, this, &EffectWindowImpl::thumbnailDestroyed);
         connect(thumb, &WindowThumbnailItem::wIdChanged, this, &EffectWindowImpl::thumbnailTargetChanged);
     } else if (DesktopThumbnailItem *desktopThumb = qobject_cast<DesktopThumbnailItem*>(item)) {
         m_desktopThumbnails.append(desktopThumb);
-        connect(desktopThumb, SIGNAL(destroyed(QObject*)), SLOT(desktopThumbnailDestroyed(QObject*)));
+        connect(desktopThumb, &QObject::destroyed, this, &EffectWindowImpl::desktopThumbnailDestroyed);
     }
 }
 
@@ -2182,7 +2173,7 @@ EffectFrameImpl::EffectFrameImpl(EffectFrameStyle style, bool staticSize, QPoint
     if (m_style == EffectFrameStyled) {
         m_frame.setImagePath(QStringLiteral("widgets/background"));
         m_frame.setCacheAllRenderedFrames(true);
-        connect(m_theme, SIGNAL(themeChanged()), this, SLOT(plasmaThemeChanged()));
+        connect(m_theme, &Plasma::Theme::themeChanged, this, &EffectFrameImpl::plasmaThemeChanged);
     }
     m_selection.setImagePath(QStringLiteral("widgets/viewitem"));
     m_selection.setElementPrefix(QStringLiteral("hover"));

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-08 02:22+0200\n"
+"POT-Creation-Date: 2020-11-09 02:33+0100\n"
 "PO-Revision-Date: 2016-08-05 10:24+0300\n"
 "Last-Translator: Maris Nartiss <maris.kde@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
@@ -130,7 +130,7 @@ msgstr ""
 msgid "Show desktop layout indicators"
 msgstr "Rādīt darbvirsmas izkārtojuma indikatorus"
 
-#: virtualdesktops.cpp:30
+#: virtualdesktops.cpp:31
 #, fuzzy, kde-format
 #| msgid "Desktops"
 msgid "Virtual Desktops"

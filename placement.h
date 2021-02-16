@@ -51,16 +51,9 @@ public:
     };
 
     void place(AbstractClient *c, const QRect &area);
-
-    void placeAtRandom(AbstractClient* c, const QRect& area, Policy next = Unknown);
-    void placeCascaded(AbstractClient* c, const QRect& area, Policy next = Unknown);
     void placeSmart(AbstractClient* c, const QRect& area, Policy next = Unknown);
-    void placeMaximizing(AbstractClient* c, const QRect& area, Policy next = Unknown);
+
     void placeCentered(AbstractClient* c, const QRect& area, Policy next = Unknown);
-    void placeZeroCornered(AbstractClient* c, const QRect& area, Policy next = Unknown);
-    void placeDialog(AbstractClient* c, const QRect& area, Policy next = Unknown);
-    void placeUtility(AbstractClient* c, const QRect& area, Policy next = Unknown);
-    void placeOnScreenDisplay(AbstractClient* c, const QRect& area);
 
     void reinitCascading(int desktop);
 
@@ -73,7 +66,6 @@ public:
      */
     void unclutterDesktop();
 
-    static Policy policyFromString(const QString& policy, bool no_special);
     static const char* policyToString(Policy policy);
 
 private:
@@ -81,6 +73,14 @@ private:
     void placeUnderMouse(AbstractClient *c, const QRect &area, Policy next = Unknown);
     void placeOnMainWindow(AbstractClient *c, const QRect &area, Policy next = Unknown);
     void placeTransient(AbstractClient *c);
+
+    void placeAtRandom(AbstractClient* c, const QRect& area, Policy next = Unknown);
+    void placeCascaded(AbstractClient* c, const QRect& area, Policy next = Unknown);
+    void placeMaximizing(AbstractClient* c, const QRect& area, Policy next = Unknown);
+    void placeZeroCornered(AbstractClient* c, const QRect& area, Policy next = Unknown);
+    void placeDialog(AbstractClient* c, const QRect& area, Policy next = Unknown);
+    void placeUtility(AbstractClient* c, const QRect& area, Policy next = Unknown);
+    void placeOnScreenDisplay(AbstractClient* c, const QRect& area);
 
     //CT needed for cascading+
     struct DesktopCascadingInfo {

@@ -27,7 +27,6 @@ Deleted::Deleted()
     : Toplevel()
     , delete_refcount(1)
     , m_frame(XCB_WINDOW_NONE)
-    , no_border(true)
     , m_layer(UnknownLayer)
     , m_minimized(false)
     , m_modal(false)
@@ -42,16 +41,12 @@ Deleted::Deleted()
     , m_wasGroupTransient(false)
     , m_wasPopupWindow(false)
     , m_wasOutline(false)
+    , m_wasDecorated(false)
 {
 }
 
 Deleted::~Deleted()
 {
-    const QRegion dirty = repaints();
-    if (!dirty.isEmpty()) {
-        addWorkspaceRepaint(dirty);
-    }
-
     if (delete_refcount != 0)
         qCCritical(KWIN_CORE) << "Deleted client has non-zero reference count (" << delete_refcount << ")";
     Q_ASSERT(delete_refcount == 0);
@@ -106,8 +101,8 @@ void Deleted::copyToDeleted(Toplevel* c)
     if (WinInfo* cinfo = dynamic_cast< WinInfo* >(info))
         cinfo->disable();
     if (AbstractClient *client = dynamic_cast<AbstractClient*>(c)) {
-        no_border = client->noBorder();
-        if (!no_border) {
+        m_wasDecorated = client->isDecorated();
+        if (m_wasDecorated) {
             client->layoutDecorationRects(decoration_left,
                                           decoration_top,
                                           decoration_right,
@@ -198,6 +193,11 @@ QVector<VirtualDesktop *> Deleted::desktops() const
 QPoint Deleted::clientPos() const
 {
     return contentsRect.topLeft();
+}
+
+bool Deleted::wasDecorated() const
+{
+    return m_wasDecorated;
 }
 
 void Deleted::layoutDecorationRects(QRect& left, QRect& top, QRect& right, QRect& bottom) const

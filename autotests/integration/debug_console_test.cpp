@@ -51,7 +51,7 @@ void DebugConsoleTest::initTestCase()
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
-    QVERIFY(waylandServer()->init(s_socketName.toLocal8Bit()));
+    QVERIFY(waylandServer()->init(s_socketName));
     QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
 
     kwinApp()->start();
@@ -237,7 +237,7 @@ void DebugConsoleTest::testX11Unmanaged()
     QVERIFY(!model.index(0, 2, unmanagedTopLevelIndex).isValid());
     QVERIFY(!model.index(1, 0, unmanagedTopLevelIndex).isValid());
 
-    QCOMPARE(model.data(clientIndex, Qt::DisplayRole).toString(), QString::number(window));
+    QCOMPARE(model.data(clientIndex, Qt::DisplayRole).toString(), QStringLiteral("0x%1").arg(window, 0, 16));
 
     // the clientIndex has children and those are properties
     for (int i = 0; i < model.rowCount(clientIndex); i++) {

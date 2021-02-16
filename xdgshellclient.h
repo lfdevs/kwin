@@ -29,6 +29,7 @@ class XdgToplevelDecorationV1Interface;
 
 namespace KWin
 {
+class AbstractOutput;
 
 class XdgSurfaceConfigure
 {
@@ -56,7 +57,6 @@ public:
     QRect frameRectToBufferRect(const QRect &rect) const override;
     QRect inputGeometry() const override;
     QMatrix4x4 inputTransformation() const override;
-    bool isInitialPositionSet() const override;
     void destroyClient() override;
     void setVirtualKeyboardGeometry(const QRect &geo) override;
 
@@ -64,14 +64,18 @@ public:
 
 protected:
     void requestGeometry(const QRect &rect) override;
-    void addDamage(const QRegion &damage) override;
 
     virtual XdgSurfaceConfigure *sendRoleConfigure() const = 0;
     virtual void handleRoleCommit();
     virtual bool stateCompare() const;
 
+    enum ConfigureFlag {
+        ConfigureRequired = 0x1,
+    };
+    Q_DECLARE_FLAGS(ConfigureFlags, ConfigureFlag)
+
     XdgSurfaceConfigure *lastAcknowledgedConfigure() const;
-    void scheduleConfigure();
+    void scheduleConfigure(ConfigureFlags flags = ConfigureFlags());
     void sendConfigure();
 
     QPointer<KWaylandServer::PlasmaShellSurfaceInterface> m_plasmaShellSurface;
@@ -91,6 +95,7 @@ private:
     QQueue<XdgSurfaceConfigure *> m_configureEvents;
     QScopedPointer<XdgSurfaceConfigure> m_lastAcknowledgedConfigure;
     QRect m_windowGeometry;
+    ConfigureFlags m_configureFlags;
     bool m_haveNextWindowGeometry = false;
 };
 
@@ -125,6 +130,7 @@ public:
     bool isFullScreenable() const override;
     bool isMaximizable() const override;
     bool isMinimizable() const override;
+    bool isPlaceable() const override;
     bool isTransient() const override;
     bool userCanSetFullScreen() const override;
     bool userCanSetNoBorder() const override;
@@ -202,7 +208,6 @@ private:
     KWaylandServer::XdgToplevelInterface::States m_acknowledgedStates;
     KWaylandServer::XdgToplevelInterface::States m_initialStates;
     QMap<quint32, PingReason> m_pings;
-    QRect m_fullScreenGeometryRestore;
     NET::WindowType m_windowType = NET::Normal;
     MaximizeMode m_maximizeMode = MaximizeRestore;
     MaximizeMode m_requestedMaximizeMode = MaximizeRestore;
@@ -210,6 +215,7 @@ private:
     bool m_isInitialized = false;
     bool m_userNoBorder = false;
     bool m_isTransient = false;
+    QPointer<AbstractOutput> m_fullScreenRequestedOutput;
 };
 
 class XdgPopupClient final : public XdgSurfaceClient
@@ -242,7 +248,10 @@ protected:
 
 private:
     void handleGrabRequested(KWaylandServer::SeatInterface *seat, quint32 serial);
+    void handleRepositionRequested(quint32 token);
     void initialize();
+    void relayout();
+    void updateReactive();
 
     KWaylandServer::XdgPopupInterface *m_shellSurface;
     bool m_haveExplicitGrab = false;

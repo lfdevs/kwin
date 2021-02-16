@@ -11,8 +11,6 @@
 #include <kwin_export.h>
 #include <kwinglobals.h>
 #include <epoxy/egl.h>
-#include <fixx11h.h>
-#include "fixqopengl.h"
 #include "input.h"
 
 #include <QImage>
@@ -28,9 +26,6 @@ class OutputConfigurationInterface;
 
 namespace KWin
 {
-namespace ColorCorrect {
-class Manager;
-}
 
 class AbstractOutput;
 class Edge;
@@ -41,10 +36,13 @@ class OpenGLBackend;
 class Outline;
 class OutlineVisual;
 class QPainterBackend;
+class RenderLoop;
 class Scene;
-class Screens;
 class ScreenEdges;
 class Toplevel;
+#ifdef KWIN_HAVE_XRENDER_COMPOSITING
+class XRenderBackend;
+#endif
 
 namespace Decoration
 {
@@ -70,9 +68,11 @@ public:
     ~Platform() override;
 
     virtual void init() = 0;
-    virtual Screens *createScreens(QObject *parent = nullptr);
     virtual OpenGLBackend *createOpenGLBackend();
     virtual QPainterBackend *createQPainterBackend();
+#ifdef KWIN_HAVE_XRENDER_COMPOSITING
+    virtual XRenderBackend *createXRenderBackend();
+#endif
     virtual DmaBufTexture *createDmaBufTexture(const QSize &size) {
         Q_UNUSED(size);
         return nullptr;
@@ -101,6 +101,10 @@ public:
      * so that a sharing context could be created.
      */
     bool supportsSurfacelessContext() const;
+    /**
+     * Whether our Compositing EGL display supports creating native EGL fences.
+     */
+    bool supportsNativeFence() const;
     /**
      * The EGLDisplay used by the compositing scene.
      */
@@ -131,19 +135,6 @@ public:
      * by rendering backends.
      */
     void setSceneEglGlobalShareContext(EGLContext context);
-    /**
-     * The first (in case of multiple) EGLSurface used by the compositing scene.
-     */
-    EGLSurface sceneEglSurface() const {
-        return m_surface;
-    }
-    /**
-     * Sets the first @p surface used by the compositing scene.
-     * @see sceneEglSurface
-     */
-    void setSceneEglSurface(EGLSurface surface) {
-        m_surface = surface;
-    }
 
     /**
      * The EglConfig used by the compositing scene.
@@ -288,9 +279,25 @@ public:
      */
     virtual void setupActionForGlobalAccel(QAction *action);
 
-    bool usesSoftwareCursor() const {
-        return m_softWareCursor;
-    }
+    /**
+     * Returns @c true if the software cursor is being used; otherwise returns @c false.
+     */
+    bool usesSoftwareCursor() const;
+
+    /**
+     * Returns @c true if the software cursor is being forced; otherwise returns @c false.
+     *
+     * Note that the value returned by this function not always matches usesSoftwareCursor().
+     * If this function returns @c true, then it is guaranteed that the compositor will
+     * use the software cursor. However, this doesn't apply vice versa.
+     *
+     * If the compositor uses a software cursor, this function may return @c false. This
+     * is typically the case if the current cursor image can't be displayed using hardware
+     * cursors, for example due to buffer size limitations, etc.
+     *
+     * @see usesSoftwareCursor()
+     */
+    bool isSoftwareCursorForced() const;
 
     /**
      * Returns a PlatformCursorImage. By default this is created by softwareCursor and
@@ -411,10 +418,6 @@ public:
         return m_supportsGammaControl;
     }
 
-    ColorCorrect::Manager *colorCorrectManager() {
-        return m_colorCorrect;
-    }
-
     // outputs with connections (org_kde_kwin_outputdevice)
     virtual Outputs outputs() const {
         return Outputs();
@@ -454,6 +457,17 @@ public:
         m_selectedCompositor = type;
     }
 
+    /**
+     * Returns @c true if rendering is split per screen; otherwise returns @c false.
+     */
+    bool isPerScreenRenderingEnabled() const;
+
+    /**
+     * If the Platform doesn't support per screen rendering, this function returns the
+     * RenderLoop that drives compositing.
+     */
+    virtual RenderLoop *renderLoop() const;
+
 public Q_SLOTS:
     void pointerMotion(const QPointF &position, quint32 time);
     void pointerButtonPressed(quint32 button, quint32 time);
@@ -469,8 +483,10 @@ public Q_SLOTS:
     void touchDown(qint32 id, const QPointF &pos, quint32 time);
     void touchUp(qint32 id, quint32 time);
     void touchMotion(qint32 id, const QPointF &pos, quint32 time);
+    void cancelTouchSequence();
     void touchCancel();
     void touchFrame();
+    int touchPointCount();
 
     void processSwipeGestureBegin(int fingerCount, quint32 time);
     void processSwipeGestureUpdate(const QSizeF &delta, quint32 time);
@@ -488,15 +504,35 @@ Q_SIGNALS:
     void initFailed();
     void readyChanged(bool);
     /**
-     * Emitted by backends using a one screen (nested window) approach and when the size of that changes.
+     * This signal is emitted when an output has been connected. The @a output is not ready
+     * for compositing yet.
      */
-    void screenSizeChanged();
+    void outputAdded(AbstractOutput *output);
+    /**
+     * This signal is emitted when an output has been disconnected.
+     */
+    void outputRemoved(AbstractOutput *output);
+    /**
+     * This signal is emitted when the @a output has become activated and it is ready for
+     * compositing.
+     */
+    void outputEnabled(AbstractOutput *output);
+    /**
+     * This signal is emitted when the @a output has been deactivated and it is no longer
+     * being composited. The outputDisabled() signal is guaranteed to be emitted before the
+     * output is removed.
+     *
+     * @see outputEnabled, outputRemoved
+     */
+    void outputDisabled(AbstractOutput *output);
 
 protected:
     explicit Platform(QObject *parent = nullptr);
-    void setSoftWareCursor(bool set);
+    void setSoftwareCursor(bool set);
+    void setSoftwareCursorForced(bool forced);
     void repaint(const QRect &rect);
     void setReady(bool ready);
+    void setPerScreenRenderingEnabled(bool enabled);
     QSize initialWindowSize() const {
         return m_initialWindowSize;
     }
@@ -540,10 +576,12 @@ protected:
      * @see showCursor
      */
     virtual void doShowCursor();
+    virtual void doSetSoftwareCursor();
 
 private:
     void triggerCursorRepaint();
-    bool m_softWareCursor = false;
+    bool m_softwareCursor = false;
+    bool m_softwareCursorForced = false;
     struct {
         QRect lastRenderedGeometry;
     } m_cursor;
@@ -558,11 +596,10 @@ private:
     EGLConfig m_eglConfig = nullptr;
     EGLContext m_context = EGL_NO_CONTEXT;
     EGLContext m_globalShareContext = EGL_NO_CONTEXT;
-    EGLSurface m_surface = EGL_NO_SURFACE;
     int m_hideCursorCounter = 0;
-    ColorCorrect::Manager *m_colorCorrect = nullptr;
     bool m_supportsGammaControl = false;
     bool m_supportsOutputChanges = false;
+    bool m_isPerScreenRenderingEnabled = false;
     CompositingType m_selectedCompositor = NoCompositing;
 };
 

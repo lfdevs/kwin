@@ -52,7 +52,6 @@ public:
     bool isInternal() const override;
     bool isLockScreen() const override;
     bool isOutline() const override;
-    quint32 windowId() const override;
     bool isShown(bool shaded_is_shown) const override;
     bool isHiddenInternal() const override;
     void hideClient(bool hide) override;
@@ -64,6 +63,8 @@ public:
     void setNoBorder(bool set) override;
     void updateDecoration(bool check_workspace_pos, bool force = false) override;
     void destroyClient() override;
+    bool hasPopupGrab() const override;
+    void popupDone() override;
 
     void present(const QSharedPointer<QOpenGLFramebufferObject> fbo);
     void present(const QImage &image, const QRegion &damage);
@@ -89,7 +90,6 @@ private:
     QString m_captionSuffix;
     double m_opacity = 1.0;
     NET::WindowType m_windowType = NET::Normal;
-    quint32 m_windowId = 0;
     Qt::WindowFlags m_internalWindowFlags = Qt::WindowFlags();
     bool m_userNoBorder = false;
 

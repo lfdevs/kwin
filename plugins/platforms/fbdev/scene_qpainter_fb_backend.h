@@ -8,7 +8,7 @@
 */
 #ifndef KWIN_SCENE_QPAINTER_FB_BACKEND_H
 #define KWIN_SCENE_QPAINTER_FB_BACKEND_H
-#include <platformsupport/scenes/qpainter/backend.h>
+#include "qpainterbackend.h"
 
 #include <QObject>
 #include <QImage>
@@ -24,15 +24,15 @@ public:
     FramebufferQPainterBackend(FramebufferBackend *backend);
     ~FramebufferQPainterBackend() override;
 
-    QImage *buffer() override;
     QImage *bufferForScreen(int screenId) override;
-    bool needsFullRepaint() const override;
-    bool usesOverlayWindow() const override;
-    void prepareRenderingFrame() override;
-    void present(int mask, const QRegion &damage) override;
-    bool perScreenRendering() const override;
+    bool needsFullRepaint(int screenId) const override;
+    void beginFrame(int screenId) override;
+    void endFrame(int screenId, int mask, const QRegion &damage) override;
 
 private:
+    void reactivate();
+    void deactivate();
+
     /**
      * @brief mapped memory buffer on fb device
      */

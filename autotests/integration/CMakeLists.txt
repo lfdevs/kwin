@@ -14,6 +14,10 @@ ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework_SOURCES
     BASENAME input-method-unstable-v1
 )
 ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework_SOURCES
+    PROTOCOL ${WaylandProtocols_DATADIR}/unstable/text-input/text-input-unstable-v3.xml
+    BASENAME text-input-unstable-v3
+)
+ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework_SOURCES
     PROTOCOL protocols/wlr-layer-shell-unstable-v1.xml
     BASENAME wlr-layer-shell-unstable-v1
 )
@@ -22,7 +26,17 @@ ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework_SOURCES
     BASENAME xdg-shell
 )
 add_library(KWinIntegrationTestFramework STATIC ${KWinIntegrationTestFramework_SOURCES})
-target_link_libraries(KWinIntegrationTestFramework kwin Qt5::Test Wayland::Client)
+target_link_libraries(KWinIntegrationTestFramework
+    Qt5::Test
+    kwin
+    Wayland::Client
+
+    # Static plugins
+    KWinQpaPlugin
+    KF5GlobalAccelKWinPlugin
+    KF5WindowSystemKWinPlugin
+    KF5IdleTimeKWinPlugin
+)
 
 function(integrationTest)
     set(optionArgs WAYLAND_ONLY)
@@ -75,14 +89,19 @@ integrationTest(WAYLAND_ONLY NAME testLayerShellV1Client SRCS layershellv1client
 integrationTest(WAYLAND_ONLY NAME testVirtualDesktop SRCS virtual_desktop_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testXdgShellClientRules SRCS xdgshellclient_rules_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testIdleInhibition SRCS idle_inhibition_test.cpp)
-integrationTest(WAYLAND_ONLY NAME testColorCorrectNightColor SRCS colorcorrect_nightcolor_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testDontCrashCursorPhysicalSizeEmpty SRCS dont_crash_cursor_physical_size_empty.cpp)
 integrationTest(WAYLAND_ONLY NAME testDontCrashReinitializeCompositor SRCS dont_crash_reinitialize_compositor.cpp)
 integrationTest(WAYLAND_ONLY NAME testNoGlobalShortcuts SRCS no_global_shortcuts_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testBufferSizeChange SRCS buffer_size_change_test.cpp )
 integrationTest(WAYLAND_ONLY NAME testPlacement SRCS placement_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testActivation SRCS activation_test.cpp)
-integrationTest(WAYLAND_ONLY NAME testVirtualKeyboard SRCS virtualkeyboard_test.cpp)
+integrationTest(WAYLAND_ONLY NAME testInputMethod SRCS inputmethod_test.cpp)
+integrationTest(WAYLAND_ONLY NAME testScreens SRCS screens_test.cpp)
+integrationTest(WAYLAND_ONLY NAME testOutputManagement SRCS outputmanagement_test.cpp)
+
+if (KWIN_BUILD_CMS)
+    integrationTest(WAYLAND_ONLY NAME testNightColor SRCS nightcolor_test.cpp LIBS KWinNightColorPlugin)
+endif()
 
 if (XCB_ICCCM_FOUND)
     integrationTest(NAME testMoveResize SRCS move_resize_window_test.cpp LIBS XCB::ICCCM)
@@ -98,7 +117,7 @@ if (XCB_ICCCM_FOUND)
     integrationTest(NAME testQuickTiling SRCS quick_tiling_test.cpp LIBS XCB::ICCCM)
     integrationTest(NAME testGlobalShortcuts SRCS globalshortcuts_test.cpp LIBS XCB::ICCCM)
     integrationTest(NAME testSceneQPainter SRCS scene_qpainter_test.cpp LIBS XCB::ICCCM)
-    integrationTest(NAME testSceneQPainterShadow SRCS scene_qpainter_shadow_test.cpp LIBS XCB::ICCCM)
+    integrationTest(NAME testSceneQPainterShadow SRCS scene_qpainter_shadow_test.cpp LIBS SceneQPainterBackend XCB::ICCCM)
     integrationTest(NAME testStackingOrder SRCS stacking_order_test.cpp LIBS XCB::ICCCM)
     integrationTest(NAME testDbusInterface SRCS dbus_interface_test.cpp LIBS XCB::ICCCM)
     integrationTest(NAME testXwaylandServerCrash SRCS xwaylandserver_crash_test.cpp LIBS XCB::ICCCM)

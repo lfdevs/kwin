@@ -15,10 +15,10 @@
 #include "scene.h"
 #include "unmanaged.h"
 #include "waylandclient.h"
-#include "wayland_server.h"
 #include "workspace.h"
 #include "keyboard_input.h"
 #include "input_event.h"
+#include "subsurfacemonitor.h"
 #include "libinput/connection.h"
 #include "libinput/device.h"
 #include <kwinglplatform.h>
@@ -501,53 +501,51 @@ void DebugConsoleFilter::tabletToolEvent(TabletEvent *event)
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::tabletToolButtonEvent(const QSet<uint> &pressedButtons)
+void DebugConsoleFilter::tabletToolButtonEvent(uint button, bool pressed, const TabletToolId &tabletToolId)
 {
-    QString buttons;
-    for (uint b : pressedButtons) {
-        buttons += QString::number(b) + ' ';
-    }
     QString text = s_hr + s_tableStart + tableHeaderRow(i18n("Tablet Tool Button"))
-                 + tableRow(i18n("Pressed Buttons"), buttons)
+                 + tableRow(i18n("Button"), button)
+                 + tableRow(i18n("Pressed"), pressed)
+                 + tableRow(i18n("Tablet"), qHash(tabletToolId.m_deviceGroupData))
                  + s_tableEnd;
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::tabletPadButtonEvent(const QSet<uint> &pressedButtons)
+void DebugConsoleFilter::tabletPadButtonEvent(uint button, bool pressed, const TabletPadId &tabletPadId)
 {
-    QString buttons;
-    for (uint b : pressedButtons) {
-        buttons += QString::number(b) + ' ';
-    }
     QString text = s_hr + s_tableStart
                  + tableHeaderRow(i18n("Tablet Pad Button"))
-                 + tableRow(i18n("Pressed Buttons"), buttons)
+                 + tableRow(i18n("Button"), button)
+                 + tableRow(i18n("Pressed"), pressed)
+                 + tableRow(i18n("Tablet"), qHash(tabletPadId.data))
                  + s_tableEnd;
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::tabletPadStripEvent(int number, int position, bool isFinger)
+void DebugConsoleFilter::tabletPadStripEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId)
 {
     QString text = s_hr + s_tableStart + tableHeaderRow(i18n("Tablet Pad Strip"))
                  + tableRow(i18n("Number"), number)
                  + tableRow(i18n("Position"), position)
                  + tableRow(i18n("isFinger"), isFinger)
+                 + tableRow(i18n("Tablet"), qHash(tabletPadId.data))
                  + s_tableEnd;
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::tabletPadRingEvent(int number, int position, bool isFinger)
+void DebugConsoleFilter::tabletPadRingEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId)
 {
     QString text = s_hr + s_tableStart + tableHeaderRow(i18n("Tablet Pad Ring"))
                  + tableRow(i18n("Number"), number)
                  + tableRow(i18n("Position"), position)
                  + tableRow(i18n("isFinger"), isFinger)
+                 + tableRow(i18n("Tablet"), qHash(tabletPadId.data))
                  + s_tableEnd;
 
     m_textEdit->insertHtml(text);
@@ -863,14 +861,8 @@ void DebugConsoleModel::remove(int parentRow, QVector<T*> &clients, T *client)
 DebugConsoleModel::DebugConsoleModel(QObject *parent)
     : QAbstractItemModel(parent)
 {
-    if (waylandServer()) {
-        const auto clients = waylandServer()->clients();
-        for (auto c : clients) {
-            handleClientAdded(c);
-        }
-    }
-    const auto x11Clients = workspace()->clientList();
-    for (auto c : x11Clients) {
+    const auto clients = workspace()->allClientList();
+    for (auto c : clients) {
         handleClientAdded(c);
     }
     connect(workspace(), &Workspace::clientAdded, this, &DebugConsoleModel::handleClientAdded);
@@ -1154,7 +1146,7 @@ QVariant DebugConsoleModel::clientData(const QModelIndex &index, int role, const
     }
     auto c = clients.at(index.row());
     if (role == Qt::DisplayRole) {
-        return QStringLiteral("%1: %2").arg(c->window()).arg(c->caption());
+        return QStringLiteral("0x%1: %2").arg(c->window(), 0, 16).arg(c->caption());
     } else if (role == Qt::DecorationRole) {
         return c->icon();
     }
@@ -1210,7 +1202,7 @@ QVariant DebugConsoleModel::data(const QModelIndex &index, int role) const
             }
             auto u = m_unmanageds.at(index.row());
             if (role == Qt::DisplayRole) {
-                return u->window();
+                return QStringLiteral("0x%1").arg(u->window(), 0, 16);
             }
             break;
         }
@@ -1267,36 +1259,27 @@ SurfaceTreeModel::SurfaceTreeModel(QObject *parent)
     };
     using namespace KWaylandServer;
 
-    const auto unmangeds = workspace()->unmanagedList();
-    for (auto u : unmangeds) {
-        if (!u->surface()) {
-            continue;
-        }
-        connect(u->surface(), &SurfaceInterface::subSurfaceTreeChanged, this, reset);
-    }
-    for (auto c : workspace()->allClientList()) {
+    auto watchSubsurfaces = [this, reset](AbstractClient *c) {
         if (!c->surface()) {
-            continue;
+            return;
         }
-        connect(c->surface(), &SurfaceInterface::subSurfaceTreeChanged, this, reset);
+        auto monitor = new SubSurfaceMonitor(c->surface(), this);
+        connect(monitor, &SubSurfaceMonitor::subSurfaceAdded, this, reset);
+        connect(monitor, &SubSurfaceMonitor::subSurfaceRemoved, this, reset);
+        connect (c, &QObject::destroyed, monitor, &QObject::deleteLater);
+    };
+
+    for (auto c : workspace()->allClientList()) {
+        watchSubsurfaces(c);
     }
     connect(workspace(), &Workspace::clientAdded, this,
-        [this, reset] (AbstractClient *c) {
-            if (c->surface()) {
-                connect(c->surface(), &SurfaceInterface::subSurfaceTreeChanged, this, reset);
-            }
+        [reset, watchSubsurfaces] (AbstractClient *c) {
+            watchSubsurfaces(c);
             reset();
         }
     );
     connect(workspace(), &Workspace::clientRemoved, this, reset);
-    connect(workspace(), &Workspace::unmanagedAdded, this,
-        [this, reset] (Unmanaged *u) {
-            if (u->surface()) {
-                connect(u->surface(), &SurfaceInterface::subSurfaceTreeChanged, this, reset);
-            }
-            reset();
-        }
-    );
+    connect(workspace(), &Workspace::unmanagedAdded, this, reset);
     connect(workspace(), &Workspace::unmanagedRemoved, this, reset);
 }
 
@@ -1335,7 +1318,7 @@ QModelIndex SurfaceTreeModel::index(int row, int column, const QModelIndex &pare
         if (SurfaceInterface *surface = static_cast<SurfaceInterface*>(parent.internalPointer())) {
             const auto &children = surface->childSubSurfaces();
             if (row < children.count()) {
-                return createIndex(row, column, children.at(row)->surface().data());
+                return createIndex(row, column, children.at(row)->surface());
             }
         }
         return QModelIndex();
@@ -1361,11 +1344,11 @@ QModelIndex SurfaceTreeModel::parent(const QModelIndex &child) const
     using namespace KWaylandServer;
     if (SurfaceInterface *surface = static_cast<SurfaceInterface*>(child.internalPointer())) {
         const auto &subsurface = surface->subSurface();
-        if (subsurface.isNull()) {
+        if (!subsurface) {
             // doesn't reference a subsurface, this is a top-level window
             return QModelIndex();
         }
-        SurfaceInterface *parent = subsurface->parentSurface().data();
+        SurfaceInterface *parent = subsurface->parentSurface();
         if (!parent) {
             // something is wrong
             return QModelIndex();
@@ -1373,13 +1356,13 @@ QModelIndex SurfaceTreeModel::parent(const QModelIndex &child) const
         // is the parent a subsurface itself?
         if (parent->subSurface()) {
             auto grandParent = parent->subSurface()->parentSurface();
-            if (grandParent.isNull()) {
+            if (!grandParent) {
                 // something is wrong
                 return QModelIndex();
             }
             const auto &children = grandParent->childSubSurfaces();
             for (int row = 0; row < children.count(); row++) {
-                if (children.at(row).data() == parent->subSurface().data()) {
+                if (children.at(row) == parent->subSurface()) {
                     return createIndex(row, 0, parent);
                 }
             }

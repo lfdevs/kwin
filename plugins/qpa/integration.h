@@ -11,14 +11,15 @@
 #define KWIN_QPA_INTEGRATION_H
 
 #include <epoxy/egl.h>
-#include "fixqopengl.h"
 
-#include <fixx11h.h>
 #include <qpa/qplatformintegration.h>
 #include <QObject>
 
 namespace KWin
 {
+
+class AbstractOutput;
+
 namespace QPA
 {
 
@@ -43,13 +44,16 @@ public:
 
     void initialize() override;
 
-private:
-    void initScreens();
+private Q_SLOTS:
+    void handleOutputEnabled(AbstractOutput *output);
+    void handleOutputDisabled(AbstractOutput *output);
+    void handlePlatformCreated();
 
+private:
     QScopedPointer<QPlatformFontDatabase> m_fontDb;
     QPlatformNativeInterface *m_nativeInterface;
-    Screen *m_dummyScreen = nullptr;
-    QVector<Screen*> m_screens;
+    QPlatformPlaceholderScreen *m_dummyScreen = nullptr;
+    QHash<AbstractOutput *, Screen *> m_screens;
 };
 
 }

@@ -17,10 +17,10 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "scene_opengl.h"
+#include "texture.h"
 
 #include "platform.h"
 #include "wayland_server.h"
-#include "platformsupport/scenes/opengl/texture.h"
 
 #include <kwinglplatform.h>
 #include <kwineffectquickview.h>
@@ -33,6 +33,7 @@
 #include "lanczosfilter.h"
 #include "main.h"
 #include "overlaywindow.h"
+#include "renderloop.h"
 #include "screens.h"
 #include "cursor.h"
 #include "decorations/decoratedclient.h"
@@ -74,9 +75,6 @@
 
 namespace KWin
 {
-
-extern int currentRefreshRate();
-
 
 /**
  * SyncObject represents a fence used to synchronize operations in
@@ -482,22 +480,6 @@ OverlayWindow *SceneOpenGL::overlayWindow() const
     return m_backend->overlayWindow();
 }
 
-bool SceneOpenGL::syncsToVBlank() const
-{
-    return m_backend->syncsToVBlank();
-}
-
-bool SceneOpenGL::blocksForRetrace() const
-{
-    return m_backend->blocksForRetrace();
-}
-
-void SceneOpenGL::idle()
-{
-    m_backend->idle();
-    Scene::idle();
-}
-
 bool SceneOpenGL::initFailed() const
 {
     return !init_ok;
@@ -533,6 +515,8 @@ void SceneOpenGL::handleGraphicsReset(GLenum status)
     QMetaObject::invokeMethod(this, "resetCompositing", Qt::QueuedConnection);
 
     KNotification::event(QStringLiteral("graphicsreset"), i18n("Desktop effects were restarted due to a graphics reset"));
+
+    m_resetOccurred = true;
 }
 
 
@@ -586,6 +570,7 @@ void SceneOpenGL2::paintCursor(const QRegion &rendered)
                 return;
             }
             m_cursorTexture.reset(new GLTexture(img));
+            m_cursorTexture->setWrapMode(GL_CLAMP_TO_EDGE);
         };
 
         // init now
@@ -612,108 +597,89 @@ void SceneOpenGL2::paintCursor(const QRegion &rendered)
     glDisable(GL_BLEND);
 }
 
-void SceneOpenGL::aboutToStartPainting(const QRegion &damage)
+void SceneOpenGL::aboutToStartPainting(int screenId, const QRegion &damage)
 {
-    m_backend->aboutToStartPainting(damage);
+    m_backend->aboutToStartPainting(screenId, damage);
 }
 
-qint64 SceneOpenGL::paint(const QRegion &damage, const QList<Toplevel *> &toplevels)
+void SceneOpenGL::paint(int screenId, const QRegion &damage, const QList<Toplevel *> &toplevels,
+                        RenderLoop *renderLoop)
 {
+    if (m_resetOccurred) {
+        return; // A graphics reset has occurred, do nothing.
+    }
+
+    painted_screen = screenId;
     // actually paint the frame, flushed with the NEXT frame
     createStackingOrder(toplevels);
 
-    // After this call, updateRegion will contain the damaged region in the
-    // back buffer. This is the region that needs to be posted to repair
-    // the front buffer. It doesn't include the additional damage returned
-    // by prepareRenderingFrame(). validRegion is the region that has been
-    // repainted, and may be larger than updateRegion.
-    QRegion updateRegion, validRegion;
-    if (m_backend->perScreenRendering()) {
-        // trigger start render timer
-        m_backend->prepareRenderingFrame();
-        for (int i = 0; i < screens()->count(); ++i) {
-            const QRect &geo = screens()->geometry(i);
-            const qreal scaling = screens()->scale(i);
-            QRegion update;
-            QRegion valid;
-            // prepare rendering makes context current on the output
-            QRegion repaint = m_backend->prepareRenderingForScreen(i);
-            GLVertexBuffer::setVirtualScreenGeometry(geo);
-            GLRenderTarget::setVirtualScreenGeometry(geo);
-            GLVertexBuffer::setVirtualScreenScale(scaling);
-            GLRenderTarget::setVirtualScreenScale(scaling);
+    QRegion update;
+    QRegion valid;
+    QRegion repaint;
+    QRect geo;
+    qreal scaling;
 
-            const GLenum status = glGetGraphicsResetStatus();
-            if (status != GL_NO_ERROR) {
-                handleGraphicsReset(status);
-                return 0;
-            }
-
-            int mask = 0;
-            updateProjectionMatrix();
-
-            paintScreen(&mask, damage.intersected(geo), repaint, &update, &valid, projectionMatrix(), geo, scaling);   // call generic implementation
-            paintCursor(valid);
-
-            GLVertexBuffer::streamingBuffer()->endOfFrame();
-
-            m_backend->endRenderingFrameForScreen(i, valid, update);
-
-            GLVertexBuffer::streamingBuffer()->framePosted();
-        }
+    // prepare rendering makes context current on the output
+    repaint = m_backend->beginFrame(screenId);
+    if (screenId != -1) {
+        geo = screens()->geometry(screenId);
+        scaling = screens()->scale(screenId);
     } else {
-        m_backend->makeCurrent();
-        QRegion repaint = m_backend->prepareRenderingFrame();
+        geo = screens()->geometry();
+        scaling = 1;
+    }
 
-        const GLenum status = glGetGraphicsResetStatus();
-        if (status != GL_NO_ERROR) {
-            handleGraphicsReset(status);
-            return 0;
-        }
-        GLVertexBuffer::setVirtualScreenGeometry(screens()->geometry());
-        GLRenderTarget::setVirtualScreenGeometry(screens()->geometry());
-        GLVertexBuffer::setVirtualScreenScale(1);
-        GLRenderTarget::setVirtualScreenScale(1);
+    GLVertexBuffer::setVirtualScreenGeometry(geo);
+    GLRenderTarget::setVirtualScreenGeometry(geo);
+    GLVertexBuffer::setVirtualScreenScale(scaling);
+    GLRenderTarget::setVirtualScreenScale(scaling);
 
+    const GLenum status = glGetGraphicsResetStatus();
+    if (status != GL_NO_ERROR) {
+        handleGraphicsReset(status);
+    } else {
         int mask = 0;
         updateProjectionMatrix();
-        paintScreen(&mask, damage, repaint, &updateRegion, &validRegion, projectionMatrix());   // call generic implementation
+        renderLoop->beginFrame();
 
-        if (!GLPlatform::instance()->isGLES()) {
+        paintScreen(&mask, damage.intersected(geo), repaint, &update, &valid,
+                    renderLoop, projectionMatrix(), geo, scaling);   // call generic implementation
+        paintCursor(valid);
+
+        if (!GLPlatform::instance()->isGLES() && screenId == -1) {
             const QSize &screenSize = screens()->size();
             const QRegion displayRegion(0, 0, screenSize.width(), screenSize.height());
 
             // copy dirty parts from front to backbuffer
             if (!m_backend->supportsBufferAge() &&
                 options->glPreferBufferSwap() == Options::CopyFrontBuffer &&
-                validRegion != displayRegion) {
+                valid != displayRegion) {
                 glReadBuffer(GL_FRONT);
-                m_backend->copyPixels(displayRegion - validRegion);
+                m_backend->copyPixels(displayRegion - valid);
                 glReadBuffer(GL_BACK);
-                validRegion = displayRegion;
+                valid = displayRegion;
             }
         }
 
+        renderLoop->endFrame();
+
         GLVertexBuffer::streamingBuffer()->endOfFrame();
-
-        m_backend->endRenderingFrame(validRegion, updateRegion);
-
+        m_backend->endFrame(screenId, valid, update);
         GLVertexBuffer::streamingBuffer()->framePosted();
-    }
 
-    if (m_currentFence) {
-        if (!m_syncManager->updateFences()) {
-            qCDebug(KWIN_OPENGL) << "Aborting explicit synchronization with the X command stream.";
-            qCDebug(KWIN_OPENGL) << "Future frames will be rendered unsynchronized.";
-            delete m_syncManager;
-            m_syncManager = nullptr;
+        if (m_currentFence) {
+            if (!m_syncManager->updateFences()) {
+                qCDebug(KWIN_OPENGL) << "Aborting explicit synchronization with the X command stream.";
+                qCDebug(KWIN_OPENGL) << "Future frames will be rendered unsynchronized.";
+                delete m_syncManager;
+                m_syncManager = nullptr;
+            }
+            m_currentFence = nullptr;
         }
-        m_currentFence = nullptr;
     }
 
     // do cleanup
     clearStackingOrder();
-    return m_backend->renderTime();
 }
 
 QMatrix4x4 SceneOpenGL::transformation(int mask, const ScreenPaintData &data) const
@@ -724,7 +690,8 @@ QMatrix4x4 SceneOpenGL::transformation(int mask, const ScreenPaintData &data) co
         return matrix;
 
     matrix.translate(data.translation());
-    data.scale().applyTo(&matrix);
+    const QVector3D scale = data.scale();
+    matrix.scale(scale.x(), scale.y(), scale.z());
 
     if (data.rotationAngle() == 0.0)
         return matrix;
@@ -869,6 +836,11 @@ void SceneOpenGL::doneOpenGLContextCurrent()
 bool SceneOpenGL::supportsSurfacelessContext() const
 {
     return m_backend->supportsSurfacelessContext();
+}
+
+bool SceneOpenGL::supportsNativeFence() const
+{
+    return m_backend->supportsNativeFence();
 }
 
 Scene::EffectFrame *SceneOpenGL::createEffectFrame(EffectFrameImpl *frame)
@@ -1116,7 +1088,8 @@ QMatrix4x4 OpenGLWindow::transformation(int mask, const WindowPaintData &data) c
         return matrix;
 
     matrix.translate(data.translation());
-    data.scale().applyTo(&matrix);
+    const QVector3D scale = data.scale();
+    matrix.scale(scale.x(), scale.y(), scale.z());
 
     if (data.rotationAngle() == 0.0)
         return matrix;
@@ -1195,10 +1168,6 @@ void OpenGLWindow::endRenderWindow()
 GLTexture *OpenGLWindow::getDecorationTexture() const
 {
     if (AbstractClient *client = dynamic_cast<AbstractClient *>(toplevel)) {
-        if (client->noBorder()) {
-            return nullptr;
-        }
-
         if (!client->isDecorated()) {
             return nullptr;
         }
@@ -1208,7 +1177,7 @@ GLTexture *OpenGLWindow::getDecorationTexture() const
         }
     } else if (toplevel->isDeleted()) {
         Deleted *deleted = static_cast<Deleted *>(toplevel);
-        if (!deleted->wasClient() || deleted->noBorder()) {
+        if (!deleted->wasDecorated()) {
             return nullptr;
         }
         if (const SceneOpenGLDecorationRenderer *renderer = static_cast<const SceneOpenGLDecorationRenderer*>(deleted->decorationRenderer())) {
@@ -1552,8 +1521,8 @@ QSharedPointer<GLTexture> OpenGLWindow::windowTexture()
         return QSharedPointer<GLTexture>(new GLTexture(*frame->texture()));
     } else {
         auto effectWindow = window()->effectWindow();
-        const QRect geo = window()->clientGeometry();
-        QSharedPointer<GLTexture> texture(new GLTexture(GL_RGBA8, geo.size()));
+        const QRect geo = window()->bufferGeometry();
+        QSharedPointer<GLTexture> texture(new GLTexture(GL_RGBA8, geo.size() * window()->bufferScale()));
 
         QScopedPointer<GLRenderTarget> framebuffer(new KWin::GLRenderTarget(*texture));
         GLRenderTarget::pushRenderTarget(framebuffer.data());
@@ -1568,7 +1537,7 @@ QSharedPointer<GLTexture> OpenGLWindow::windowTexture()
         WindowPaintData data(effectWindow);
         data.setProjectionMatrix(mvp);
 
-        performPaint(Scene::PAINT_WINDOW_TRANSFORMED | Scene::PAINT_WINDOW_LANCZOS, geo, data);
+        performPaint(Scene::PAINT_WINDOW_TRANSFORMED, geo, data);
         GLRenderTarget::popRenderTarget();
         GLVertexBuffer::setVirtualScreenGeometry(renderVSG);
         GLRenderTarget::setVirtualScreenGeometry(renderVSG);
@@ -1587,7 +1556,7 @@ OpenGLWindowPixmap::OpenGLWindowPixmap(Scene::Window *window, SceneOpenGL* scene
 {
 }
 
-OpenGLWindowPixmap::OpenGLWindowPixmap(const QPointer<KWaylandServer::SubSurfaceInterface> &subSurface, WindowPixmap *parent, SceneOpenGL *scene)
+OpenGLWindowPixmap::OpenGLWindowPixmap(KWaylandServer::SubSurfaceInterface *subSurface, WindowPixmap *parent, SceneOpenGL *scene)
     : WindowPixmap(subSurface, parent)
     , m_texture(scene->createTexture())
     , m_scene(scene)
@@ -1627,7 +1596,7 @@ bool OpenGLWindowPixmap::bind()
             // mipmaps need to be updated
             m_texture->setDirty();
         }
-        if (subSurface().isNull()) {
+        if (!subSurface()) {
             toplevel()->resetDamage();
         }
         // also bind all children
@@ -1646,7 +1615,7 @@ bool OpenGLWindowPixmap::bind()
     bool success = m_texture->load(this);
 
     if (success) {
-        if (subSurface().isNull()) {
+        if (!subSurface()) {
             toplevel()->resetDamage();
         }
     } else
@@ -1654,7 +1623,7 @@ bool OpenGLWindowPixmap::bind()
     return success;
 }
 
-WindowPixmap *OpenGLWindowPixmap::createChild(const QPointer<KWaylandServer::SubSurfaceInterface> &subSurface)
+WindowPixmap *OpenGLWindowPixmap::createChild(KWaylandServer::SubSurfaceInterface *subSurface)
 {
     return new OpenGLWindowPixmap(subSurface, this, m_scene);
 }
@@ -2076,7 +2045,7 @@ void SceneOpenGL::EffectFrame::updateUnstyledTexture()
     delete m_unstyledPixmap;
     m_unstyledPixmap = nullptr;
     // Based off circle() from kwinxrenderutils.cpp
-#define CS 8
+    const int CS = 8;
     m_unstyledPixmap = new QPixmap(2 * CS, 2 * CS);
     m_unstyledPixmap->fill(Qt::transparent);
     QPainter p(m_unstyledPixmap);
@@ -2085,7 +2054,6 @@ void SceneOpenGL::EffectFrame::updateUnstyledTexture()
     p.setBrush(Qt::black);
     p.drawEllipse(m_unstyledPixmap->rect());
     p.end();
-#undef CS
     m_unstyledTexture = new GLTexture(*m_unstyledPixmap);
 }
 
@@ -2485,7 +2453,7 @@ bool SceneOpenGLShadow::prepareBackend()
     p.drawPixmap(0, height - bottomLeft.height(), bottomLeft.width(), bottomLeft.height(), shadowPixmap(ShadowElementBottomLeft));
     p.drawPixmap(innerRectLeft, height - bottom.height(), bottom.width(), bottom.height(), shadowPixmap(ShadowElementBottom));
     p.drawPixmap(width - bottomRight.width(), height - bottomRight.height(), bottomRight.width(), bottomRight.height(), shadowPixmap(ShadowElementBottomRight));
-    
+
     p.end();
 
     // Check if the image is alpha-only in practice, and if so convert it to an 8-bpp format

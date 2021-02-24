@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-02-09 09:20+0100\n"
+"POT-Creation-Date: 2021-02-19 15:07+0100\n"
 "PO-Revision-Date: 2020-12-17 22:44+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -1152,17 +1152,17 @@ msgstr "Odota pidempään"
 msgid "Virtual Keyboard"
 msgstr "Näyttönäppäimistö"
 
-#: inputmethod.cpp:451
+#: inputmethod.cpp:478
 #, kde-format
 msgid "Virtual Keyboard: enabled"
 msgstr "Näyttönäppäimistö: käytössä"
 
-#: inputmethod.cpp:454
+#: inputmethod.cpp:481
 #, kde-format
 msgid "Virtual Keyboard: disabled"
 msgstr "Näyttönäppäimistö: ei käytössä"
 
-#: inputmethod.cpp:456
+#: inputmethod.cpp:483
 #, kde-format
 msgid "Whether to show the virtual keyboard on demand."
 msgstr "Näytetäänkö kysyttäessä näyttönäppäimistö."

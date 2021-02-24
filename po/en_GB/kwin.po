@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-02-09 09:20+0100\n"
+"POT-Creation-Date: 2021-02-19 15:07+0100\n"
 "PO-Revision-Date: 2021-01-10 12:16+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
@@ -1134,17 +1134,17 @@ msgstr "Wait Longer"
 msgid "Virtual Keyboard"
 msgstr "Virtual Keyboard"
 
-#: inputmethod.cpp:451
+#: inputmethod.cpp:478
 #, kde-format
 msgid "Virtual Keyboard: enabled"
 msgstr "Virtual Keyboard: enabled"
 
-#: inputmethod.cpp:454
+#: inputmethod.cpp:481
 #, kde-format
 msgid "Virtual Keyboard: disabled"
 msgstr "Virtual Keyboard: disabled"
 
-#: inputmethod.cpp:456
+#: inputmethod.cpp:483
 #, kde-format
 msgid "Whether to show the virtual keyboard on demand."
 msgstr "Whether to show the virtual keyboard on demand."

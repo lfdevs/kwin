@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-02-09 09:20+0100\n"
+"POT-Creation-Date: 2021-02-19 15:07+0100\n"
 "PO-Revision-Date: 2017-06-09 14:24+0100\n"
 "Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -1166,19 +1166,19 @@ msgstr "Daha Fazla Bekle"
 msgid "Virtual Keyboard"
 msgstr "Sanal Klavye"
 
-#: inputmethod.cpp:451
+#: inputmethod.cpp:478
 #, fuzzy, kde-format
 #| msgid "Virtual Keyboard is enabled."
 msgid "Virtual Keyboard: enabled"
 msgstr "Sanal Klavye etkin."
 
-#: inputmethod.cpp:454
+#: inputmethod.cpp:481
 #, fuzzy, kde-format
 #| msgid "Virtual Keyboard is disabled."
 msgid "Virtual Keyboard: disabled"
 msgstr "Sanal Klavye devre dışı."
 
-#: inputmethod.cpp:456
+#: inputmethod.cpp:483
 #, kde-format
 msgid "Whether to show the virtual keyboard on demand."
 msgstr ""

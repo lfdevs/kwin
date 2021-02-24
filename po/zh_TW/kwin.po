@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-02-09 09:20+0100\n"
+"POT-Creation-Date: 2021-02-19 15:07+0100\n"
 "PO-Revision-Date: 2020-03-18 20:58+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -1144,17 +1144,17 @@ msgstr "等久一點"
 msgid "Virtual Keyboard"
 msgstr "虛擬鍵盤"
 
-#: inputmethod.cpp:451
+#: inputmethod.cpp:478
 #, kde-format
 msgid "Virtual Keyboard: enabled"
 msgstr "虛擬鍵盤狀態：啟用"
 
-#: inputmethod.cpp:454
+#: inputmethod.cpp:481
 #, kde-format
 msgid "Virtual Keyboard: disabled"
 msgstr "虛擬鍵盤狀態：停用"
 
-#: inputmethod.cpp:456
+#: inputmethod.cpp:483
 #, kde-format
 msgid "Whether to show the virtual keyboard on demand."
 msgstr "設定是否要在需要時顯示虛擬鍵盤。"

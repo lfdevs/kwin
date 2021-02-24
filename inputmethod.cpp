@@ -98,26 +98,41 @@ void InputMethod::init()
         connect(textInputV2, &TextInputV2Interface::requestHideInputPanel, this, &InputMethod::hide);
         connect(textInputV2, &TextInputV2Interface::surroundingTextChanged, this, &InputMethod::surroundingTextChanged);
         connect(textInputV2, &TextInputV2Interface::contentTypeChanged, this, &InputMethod::contentTypeChanged);
-        connect(textInputV2, &TextInputV2Interface::enabledChanged, this, &InputMethod::textInputInterfaceV2EnabledChanged);
         connect(textInputV2, &TextInputV2Interface::stateUpdated, this, &InputMethod::textInputInterfaceV2StateUpdated);
 
         TextInputV3Interface *textInputV3 = waylandServer()->seat()->textInputV3();
-        connect(textInputV3, &TextInputV3Interface::enabledChanged, this, &InputMethod::textInputInterfaceV3EnabledChanged);
         connect(textInputV3, &TextInputV3Interface::surroundingTextChanged, this, &InputMethod::surroundingTextChanged);
         connect(textInputV3, &TextInputV3Interface::contentTypeChanged, this, &InputMethod::contentTypeChanged);
         connect(textInputV3, &TextInputV3Interface::stateCommitted, this, &InputMethod::stateCommitted);
+
+        if (m_enabled) {
+            connect(textInputV2, &TextInputV2Interface::enabledChanged, this, &InputMethod::textInputInterfaceV2EnabledChanged);
+            connect(textInputV3, &TextInputV3Interface::enabledChanged, this, &InputMethod::textInputInterfaceV3EnabledChanged);
+        }
     }
 }
 
 void InputMethod::show()
 {
+    if (m_shown) {
+        waylandServer()->inputMethod()->sendDeactivate();
+    }
+    if (!m_enabled) {
+        return;
+    }
+
     waylandServer()->inputMethod()->sendActivate();
+    if (m_shown) {
+        adoptInputMethodContext();
+    }
+    m_shown = true;
 }
 
 void InputMethod::hide()
 {
     waylandServer()->inputMethod()->sendDeactivate();
     updateInputPanelState();
+    m_shown = false;
 }
 
 void InputMethod::clientAdded(AbstractClient* client)
@@ -283,6 +298,18 @@ void InputMethod::setEnabled(bool enabled)
     );
     msg.setArguments({enabled});
     QDBusConnection::sessionBus().asyncCall(msg);
+
+    auto textInputV2 = waylandServer()->seat()->textInputV2();
+    auto textInputV3 = waylandServer()->seat()->textInputV3();
+    if (m_enabled) {
+        connect(textInputV2, &TextInputV2Interface::enabledChanged, this, &InputMethod::textInputInterfaceV2EnabledChanged, Qt::UniqueConnection);
+        connect(textInputV3, &TextInputV3Interface::enabledChanged, this, &InputMethod::textInputInterfaceV3EnabledChanged, Qt::UniqueConnection);
+    } else {
+        hide();
+
+        disconnect(textInputV2, &TextInputV2Interface::enabledChanged, this, &InputMethod::textInputInterfaceV2EnabledChanged);
+        disconnect(textInputV3, &TextInputV3Interface::enabledChanged, this, &InputMethod::textInputInterfaceV3EnabledChanged);
+    }
 }
 
 static quint32 keysymToKeycode(quint32 sym)
@@ -433,12 +460,12 @@ void InputMethod::adoptInputMethodContext()
         inputContext->sendContentType(t3->contentHints(), t3->contentPurpose());
     }
 
-    connect(inputContext, &KWaylandServer::InputMethodContextV1Interface::keysym, waylandServer(), &keysymReceived);
-    connect(inputContext, &KWaylandServer::InputMethodContextV1Interface::commitString, waylandServer(), &commitString);
-    connect(inputContext, &KWaylandServer::InputMethodContextV1Interface::deleteSurroundingText, waylandServer(), &deleteSurroundingText);
-    connect(inputContext, &KWaylandServer::InputMethodContextV1Interface::cursorPosition, waylandServer(), &setCursorPosition);
-    connect(inputContext, &KWaylandServer::InputMethodContextV1Interface::preeditString, this, &InputMethod::setPreeditString);
-    connect(inputContext, &KWaylandServer::InputMethodContextV1Interface::preeditCursor, this, &InputMethod::setPreeditCursor);
+    connect(inputContext, &KWaylandServer::InputMethodContextV1Interface::keysym, waylandServer(), &keysymReceived, Qt::UniqueConnection);
+    connect(inputContext, &KWaylandServer::InputMethodContextV1Interface::commitString, waylandServer(), &commitString, Qt::UniqueConnection);
+    connect(inputContext, &KWaylandServer::InputMethodContextV1Interface::deleteSurroundingText, waylandServer(), &deleteSurroundingText, Qt::UniqueConnection);
+    connect(inputContext, &KWaylandServer::InputMethodContextV1Interface::cursorPosition, waylandServer(), &setCursorPosition, Qt::UniqueConnection);
+    connect(inputContext, &KWaylandServer::InputMethodContextV1Interface::preeditString, this, &InputMethod::setPreeditString, Qt::UniqueConnection);
+    connect(inputContext, &KWaylandServer::InputMethodContextV1Interface::preeditCursor, this, &InputMethod::setPreeditCursor, Qt::UniqueConnection);
 }
 
 void InputMethod::updateSni()

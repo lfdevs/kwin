@@ -11,6 +11,7 @@
 #include "wayland_server.h"
 
 #include <QApplication>
+#include <QKeyEvent>
 
 #include <KWaylandServer/seat_interface.h>
 
@@ -42,8 +43,9 @@ bool DpmsInputEventFilter::wheelEvent(QWheelEvent *event)
 
 bool DpmsInputEventFilter::keyEvent(QKeyEvent *event)
 {
-    Q_UNUSED(event)
-    notify();
+    if (event->type() == QKeyEvent::KeyPress) {
+        notify();
+    }
     return true;
 }
 

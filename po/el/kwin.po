@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-02-09 09:20+0100\n"
+"POT-Creation-Date: 2021-02-19 15:07+0100\n"
 "PO-Revision-Date: 2017-06-12 16:22+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -1169,19 +1169,19 @@ msgstr "Αναμονή περισσότερο"
 msgid "Virtual Keyboard"
 msgstr "Εικονικό πληκτρολόγιο"
 
-#: inputmethod.cpp:451
+#: inputmethod.cpp:478
 #, fuzzy, kde-format
 #| msgid "Virtual Keyboard is enabled."
 msgid "Virtual Keyboard: enabled"
 msgstr "Το εικονικό πληκτρολόγιο είναι ενεργοποιημένο."
 
-#: inputmethod.cpp:454
+#: inputmethod.cpp:481
 #, fuzzy, kde-format
 #| msgid "Virtual Keyboard is disabled."
 msgid "Virtual Keyboard: disabled"
 msgstr "Το εικονικό πληκτρολόγιο είναι απενεργοποιημένο."
 
-#: inputmethod.cpp:456
+#: inputmethod.cpp:483
 #, kde-format
 msgid "Whether to show the virtual keyboard on demand."
 msgstr ""

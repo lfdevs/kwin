@@ -2,14 +2,14 @@
 # Stephan Johach <hunsum@gmx.de>, 2005.
 # Thomas Reitelbach <tr@erdfunkstelle.de>, 2005, 2006, 2007, 2008, 2010.
 # Frederik Schwarzer <schwarzer@kde.org>, 2009, 2010, 2011, 2012, 2016, 2018.
-# Burkhard Lück <lueck@hube-lueck.de>, 2011, 2012, 2013, 2014, 2015, 2017, 2018, 2019, 2020.
+# Burkhard Lück <lueck@hube-lueck.de>, 2011, 2012, 2013, 2014, 2015, 2017, 2018, 2019, 2020, 2021.
 # Frank Steinmetzger <Warp_7@gmx.de>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-01-06 03:00+0100\n"
-"PO-Revision-Date: 2020-09-28 06:24+0200\n"
+"PO-Revision-Date: 2021-03-02 11:55+0100\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 19.04.3\n"
+"X-Generator: Lokalize 19.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -62,7 +62,7 @@ msgstr ""
 #: kcmrules.cpp:171
 #, kde-format
 msgid "Copy of %1"
-msgstr ""
+msgstr "Kopie von %1"
 
 #: main.cpp:91
 #, kde-format
@@ -228,10 +228,10 @@ msgstr[1] "%1 ausgewählt"
 
 #: package/contents/ui/RulesEditor.qml:63
 #: package/contents/ui/RulesEditor.qml:81
-#, fuzzy, kde-format
+#, kde-format
 #| msgid "Add Properties..."
 msgid "Add Property..."
-msgstr "Eigenschaften hinzufügen ..."
+msgstr "Eigenschaft hinzufügen ..."
 
 #: package/contents/ui/RulesEditor.qml:81
 #, kde-format
@@ -258,7 +258,7 @@ msgstr[1] "Nach %1 Sekunden"
 #: package/contents/ui/RulesEditor.qml:133
 #, kde-format
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: package/contents/ui/RulesEditor.qml:149
 #, kde-format
@@ -349,7 +349,7 @@ msgstr "Bearbeiten"
 #: package/contents/ui/RulesList.qml:207
 #, kde-format
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplizieren"
 
 #: package/contents/ui/RulesList.qml:216
 #, kde-format
@@ -482,10 +482,10 @@ msgid "Virtual Desktop"
 msgstr "Virtuelle Arbeitsfläche"
 
 #: rulesmodel.cpp:456
-#, fuzzy, kde-format
+#, kde-format
 #| msgid "All Activities"
 msgid "Activities"
-msgstr "Alle Aktivitäten"
+msgstr "Aktivitäten"
 
 #: rulesmodel.cpp:470
 #, kde-format

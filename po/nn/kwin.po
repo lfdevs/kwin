@@ -2496,8 +2496,8 @@ msgid ""
 msgstr ""
 "Du har valt å visa vindauget utan kantlinje.\n"
 "Når kantlinja er gøymd, vil du ikkje kunna visa ho att ved å bruka musa. Du "
-"må i staden bruka menyen for vindaugs­operasjonar, ved hjelp av snøggtasten «"
-"%1»."
+"må i staden bruka menyen for vindaugs­operasjonar, ved hjelp av "
+"snøggtasten «%1»."
 
 #: useractions.cpp:175
 #, kde-format

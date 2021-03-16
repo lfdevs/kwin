@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-02-19 15:07+0100\n"
+"POT-Creation-Date: 2021-03-11 08:56+0100\n"
 "PO-Revision-Date: 2020-03-18 20:58+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -1139,22 +1139,22 @@ msgstr "終止應用程式 %1(&T)"
 msgid "Wait Longer"
 msgstr "等久一點"
 
-#: inputmethod.cpp:73
+#: inputmethod.cpp:74
 #, kde-format
 msgid "Virtual Keyboard"
 msgstr "虛擬鍵盤"
 
-#: inputmethod.cpp:478
+#: inputmethod.cpp:485
 #, kde-format
 msgid "Virtual Keyboard: enabled"
 msgstr "虛擬鍵盤狀態：啟用"
 
-#: inputmethod.cpp:481
+#: inputmethod.cpp:488
 #, kde-format
 msgid "Virtual Keyboard: disabled"
 msgstr "虛擬鍵盤狀態：停用"
 
-#: inputmethod.cpp:483
+#: inputmethod.cpp:490
 #, kde-format
 msgid "Whether to show the virtual keyboard on demand."
 msgstr "設定是否要在需要時顯示虛擬鍵盤。"
@@ -1521,69 +1521,69 @@ msgstr "取消設定選項"
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "指出 KWin 最近已經連續當掉數次"
 
-#: main_wayland.cpp:527
+#: main_wayland.cpp:526
 #, kde-format
 msgid "Start a rootless Xwayland server."
 msgstr "啟動 rootless Xwayland 伺服器。"
 
-#: main_wayland.cpp:529
+#: main_wayland.cpp:528
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr "Wayland 監聽的 socket 名稱。如果沒設定，則使用 \"wayland-0\"。"
 
-#: main_wayland.cpp:532
+#: main_wayland.cpp:531
 #, kde-format
 msgid "Render to framebuffer."
 msgstr "成像至 framebuffer。"
 
-#: main_wayland.cpp:534
+#: main_wayland.cpp:533
 #, kde-format
 msgid "The framebuffer device to render to."
 msgstr "使用的 framebuffer 裝置。"
 
-#: main_wayland.cpp:537
+#: main_wayland.cpp:536
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "在 X11 平台上的視窗模式要使用的 X11 顯示。"
 
-#: main_wayland.cpp:540
+#: main_wayland.cpp:539
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr "在 Wayland 平台上的視窗模式要使用的 Wayland 顯示。"
 
-#: main_wayland.cpp:542
+#: main_wayland.cpp:541
 #, kde-format
 msgid "Render to a virtual framebuffer."
 msgstr "成像到虛擬影格緩衝區。"
 
-#: main_wayland.cpp:544
+#: main_wayland.cpp:543
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "視窗模式的寬度。預設為 1024。"
 
-#: main_wayland.cpp:548
+#: main_wayland.cpp:547
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
 msgstr "視窗模式的高度。預設為 768。"
 
-#: main_wayland.cpp:553
+#: main_wayland.cpp:552
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
 msgstr "視窗模式的縮放係數。預設為 1。"
 
-#: main_wayland.cpp:558
+#: main_wayland.cpp:557
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
 msgstr "視窗模式輸出要開啟的視窗數。預設為 1"
 
-#: main_wayland.cpp:563
+#: main_wayland.cpp:562
 #, kde-format
 msgid "Wayland socket to use for incoming connections."
 msgstr ""
 
-#: main_wayland.cpp:594
+#: main_wayland.cpp:593
 #, fuzzy, kde-format
 #| msgid ""
 #| "Enable libinput support for input events processing. Note: never use in a "
@@ -1593,42 +1593,42 @@ msgid ""
 "nested session.\t(deprecated)"
 msgstr "開啟 libinput 支援以處理輸入事件。注意：請不要在巢狀的工作階段中使用。"
 
-#: main_wayland.cpp:597
+#: main_wayland.cpp:596
 #, kde-format
 msgid "Render through drm node."
 msgstr "透過 drm 節點成像。"
 
-#: main_wayland.cpp:604
+#: main_wayland.cpp:603
 #, kde-format
 msgid "Input method that KWin starts."
 msgstr "KWin 啟動的輸入法。"
 
-#: main_wayland.cpp:609
+#: main_wayland.cpp:608
 #, kde-format
 msgid "List all available backends and quit."
 msgstr "列出所有可用的後端介面然後離開。"
 
-#: main_wayland.cpp:613
+#: main_wayland.cpp:612
 #, kde-format
 msgid "Starts the session in locked mode."
 msgstr "以鎖定模式啟動工作階段."
 
-#: main_wayland.cpp:617
+#: main_wayland.cpp:616
 #, kde-format
 msgid "Starts the session without lock screen support."
 msgstr "在無鎖定螢幕支援的情況下開啟工作階段。"
 
-#: main_wayland.cpp:621
+#: main_wayland.cpp:620
 #, kde-format
 msgid "Starts the session without global shortcuts support."
 msgstr "在無全域快速鍵支援的情況下開啟工作階段。"
 
-#: main_wayland.cpp:625
+#: main_wayland.cpp:624
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr "在由 KWin 啟動的工作階段應用程式關閉後離開。"
 
-#: main_wayland.cpp:630
+#: main_wayland.cpp:629
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr "Wayland 與 Xwayland 伺服器啟動後要執行的應用程式"

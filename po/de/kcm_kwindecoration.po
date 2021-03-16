@@ -139,8 +139,6 @@ msgstr "Titelleistenknöpfe"
 
 #: package/contents/ui/main.qml:86
 #, kde-format
-#| msgctxt "combobox label"
-#| msgid "Window border size:"
 msgctxt "Selector label"
 msgid "Window border size:"
 msgstr "Umrandungsgröße des Fensters:"

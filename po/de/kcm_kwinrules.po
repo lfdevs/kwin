@@ -229,7 +229,6 @@ msgstr[1] "%1 ausgewählt"
 #: package/contents/ui/RulesEditor.qml:63
 #: package/contents/ui/RulesEditor.qml:81
 #, kde-format
-#| msgid "Add Properties..."
 msgid "Add Property..."
 msgstr "Eigenschaft hinzufügen ..."
 
@@ -483,7 +482,6 @@ msgstr "Virtuelle Arbeitsfläche"
 
 #: rulesmodel.cpp:456
 #, kde-format
-#| msgid "All Activities"
 msgid "Activities"
 msgstr "Aktivitäten"
 

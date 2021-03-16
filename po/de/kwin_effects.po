@@ -590,7 +590,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QRadioButton, switchDesktopOnly)
 #: desktopgrid/desktopgrid_config.ui:203
 #, kde-format
-#| msgid "Show desktop"
 msgid "Switch desktop only"
 msgstr "Nur Arbeitsfläche wechseln"
 

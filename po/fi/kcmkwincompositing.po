@@ -5,7 +5,7 @@
 # Mikko Piippo <piippo@cc.helsinki.fi>, 2008.
 # Teemu Rytilahti <teemu.rytilahti@kde-fi.org>, 2008.
 # Teemu Rytilahti <teemu.rytilahti@d5k.net>, 2008.
-# Tommi Nieminen <translator@legisign.org>, 2009, 2011, 2013, 2014, 2016, 2017, 2018, 2019.
+# Tommi Nieminen <translator@legisign.org>, 2009, 2011, 2013, 2014, 2016, 2017, 2018, 2019, 2021.
 # Jorma Karvonen <karvonen.jorma@gmail.com>, 2010.
 # Lasse Liehu <lasse.liehu@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
 #
@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-01-08 02:56+0100\n"
-"PO-Revision-Date: 2019-01-23 12:10+0200\n"
+"PO-Revision-Date: 2021-03-22 17:14+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-POT-Import-Date: 2012-12-01 22:22:22+0000\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 20.04.2\n"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
 #: compositing.ui:32
@@ -205,38 +205,37 @@ msgstr "Salli sovellusten estää koostaminen"
 #: compositing.ui:293
 #, kde-format
 msgid "Latency:"
-msgstr ""
+msgstr "Viive:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:301
 #, kde-format
 msgid "Force lowest latency (may cause dropped frames)"
-msgstr ""
+msgstr "Pakota vähäisin viive (kuvia voi jäädä pois)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:306
 #, kde-format
 msgid "Prefer lower latency"
-msgstr ""
+msgstr "Suosi vähäisempää viivettä"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:311
 #, kde-format
 msgid "Balance of latency and smoothness"
-msgstr ""
+msgstr "Viipeen ja tasaisuuden tasapaino"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:316
 #, kde-format
 msgid "Prefer smoother animations"
-msgstr ""
+msgstr "Suosi tasaisempia animaatioita"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:321
-#, fuzzy, kde-format
-#| msgid "Various animations"
+#, kde-format
 msgid "Force smoothest animations"
-msgstr "Eri animaatioita"
+msgstr "Pakota tasaisimmat animaatiot"
 
 #: main.cpp:81
 #, kde-format

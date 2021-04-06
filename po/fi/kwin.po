@@ -8,14 +8,14 @@
 # Ilpo Kantonen <ilpo@iki.fi>, 2005.
 # Mikko Piippo <piippo@cc.helsinki.fi>, 2007.
 # Teemu Rytilahti <teemu.rytilahti@d5k.net>, 2008.
-# Tommi Nieminen <translator@legisign.org>, 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2020.
+# Tommi Nieminen <translator@legisign.org>, 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2020, 2021.
 # Lasse Liehu <lasse.liehu@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-03-11 08:56+0100\n"
-"PO-Revision-Date: 2020-12-17 22:44+0200\n"
+"PO-Revision-Date: 2021-03-22 17:15+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -630,24 +630,20 @@ msgid "Tablet Tool Button"
 msgstr "Tabletin työkalupainike"
 
 #: debug_console.cpp:507 debug_console.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "A button in a mouse press/release event"
-#| msgid "Button"
+#, kde-format
 msgid "Button"
 msgstr "Painike"
 
 #: debug_console.cpp:508 debug_console.cpp:521
-#, fuzzy, kde-format
-#| msgid "Pressure"
+#, kde-format
 msgid "Pressed"
-msgstr "Paine"
+msgstr "Painettu"
 
 #: debug_console.cpp:509 debug_console.cpp:522 debug_console.cpp:535
 #: debug_console.cpp:548
-#, fuzzy, kde-format
-#| msgid "Tablet Tool"
+#, kde-format
 msgid "Tablet"
-msgstr "Tablettityökalu"
+msgstr "Tabletti"
 
 #: debug_console.cpp:519
 #, kde-format
@@ -1600,7 +1596,7 @@ msgstr ""
 #: main_wayland.cpp:562
 #, kde-format
 msgid "Wayland socket to use for incoming connections."
-msgstr ""
+msgstr "Saapuviin yhteyksiin käytettävä Wayland-pistoke."
 
 #: main_wayland.cpp:593
 #, kde-format

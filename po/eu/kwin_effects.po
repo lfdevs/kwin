@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-28 13:55+0000\n"
+"POT-Creation-Date: 2021-04-20 01:49+0000\n"
 "PO-Revision-Date: 2021-02-01 22:55+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -68,7 +68,7 @@ msgstr ""
 "Hautatu kokapen bat ezker-klik edo «sartu» bidez kolorea hartzeko.\n"
 " «Ihes» edo eskuin-klik uzteko."
 
-#: coverswitch/coverswitch.cpp:953 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:952 flipswitch/flipswitch.cpp:933
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"

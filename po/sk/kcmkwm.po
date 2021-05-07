@@ -3,21 +3,21 @@
 # Stanislav Visnovsky <visnovsky@kde.org>, 2003, 2004.
 # Richard Fric <Richard.Fric@kdemail.net>, 2006, 2009.
 # Michal Sulek <misurel@gmail.com>, 2009, 2010, 2011.
-# Roman Paholík <wizzardsk@gmail.com>, 2012, 2013, 2015, 2019.
+# Roman Paholík <wizzardsk@gmail.com>, 2012, 2013, 2015, 2019, 2021.
 # Matej Mrenica <matejm98mthw@gmail.com>, 2019, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-03-28 13:55+0000\n"
-"PO-Revision-Date: 2020-09-02 20:38+0200\n"
-"Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
-"Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2021-04-14 20:23+0200\n"
+"Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
+"Language-Team: Slovak <kde-sk@linux.sk>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.08.0\n"
+"X-Generator: Lokalize 20.12.3\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #, kde-format
@@ -1379,16 +1379,7 @@ msgstr ""
 "Vyberte toto, ak chcete zameranie ovládať prechodom myši."
 
 #: windows.cpp:119
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-style:italic;\">Focus under "
-#| "mouse:</span> The focus always remains on the window under the mouse.<br/"
-#| "><span style=\" font-weight:600;\">Warning: </span><span style=\" font-"
-#| "style:italic;\">Focus stealing prevention</span> and the <span style=\" "
-#| "font-style:italic;\">tabbox ('Alt+Tab') </span>contradict the activation "
-#| "policy and will not work. You very likely want to use <span style=\" font-"
-#| "style:italic;\">Focus follows mouse (mouse precedence)</span> instead!</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
 "mouse.<br/><strong>Warning:</strong> <em>Focus stealing prevention</em> and "
@@ -1406,17 +1397,7 @@ msgstr ""
 "<i>Zameranie sleduje myš - prednosť myši</i> namiesto tohto!"
 
 #: windows.cpp:123
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-style:italic;\">Focus strictly "
-#| "under mouse:</span> The focus is always on the window under the mouse (in "
-#| "doubt nowhere) very much like the focus behavior in an unmanaged legacy "
-#| "X11 environment.<br/><span style=\" font-weight:600;\">Warning: </"
-#| "span><span style=\" font-style:italic;\">Focus stealing prevention</span> "
-#| "and the <span style=\" font-style:italic;\">tabbox ('Alt+Tab') </"
-#| "span>contradict the activation policy and will not work. You very likely "
-#| "want to use <span style=\" font-style:italic;\">Focus follows mouse "
-#| "(mouse precedence)</span> instead!</p></body></html>"
+#, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "
 "the mouse (in doubt nowhere) very much like the focus behavior in an "

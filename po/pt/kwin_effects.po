@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-28 13:55+0000\n"
+"POT-Creation-Date: 2021-04-20 01:49+0000\n"
 "PO-Revision-Date: 2020-10-31 10:44+0000\n"
 "Last-Translator: José Nuno Coelho Pires <zepires@gmail.com>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -66,7 +66,7 @@ msgstr ""
 "esquerdo ou a tecla Enter.\n"
 "Carregue em Escape ou com o botão direito para cancelar."
 
-#: coverswitch/coverswitch.cpp:953 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:952 flipswitch/flipswitch.cpp:933
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"

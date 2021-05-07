@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-28 13:55+0000\n"
+"POT-Creation-Date: 2021-04-20 01:49+0000\n"
 "PO-Revision-Date: 2020-09-29 22:22+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -68,7 +68,7 @@ msgstr ""
 "Alegeți o poziție pentru alegerea culorii cu clic stâng sau Enter.\n"
 "Apăsați Escape sau clic drept pentru a anula."
 
-#: coverswitch/coverswitch.cpp:953 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:952 flipswitch/flipswitch.cpp:933
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -1330,7 +1330,7 @@ msgstr "Lățimea liniei:"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingSize)
 #: mouseclick/mouseclick_config.ui:119 mouseclick/mouseclick_config.ui:171
 #: mousemark/mousemark_config.cpp:45
-#, kde-format
+#, fuzzy, kde-format
 msgid " pixel"
 msgid_plural " pixels"
 msgstr[0] " pixel"

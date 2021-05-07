@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-28 13:55+0000\n"
-"PO-Revision-Date: 2021-03-02 11:53+0100\n"
+"POT-Creation-Date: 2021-04-20 01:49+0000\n"
+"PO-Revision-Date: 2021-04-20 06:13+0200\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -65,7 +65,7 @@ msgstr ""
 "Wählen Sie mit einem linken Mausklick oder der Eingabetaste eine Position "
 "zur Farbwahl. Mit der Taste ESC oder einem rechten Mausklick brechen Sie ab."
 
-#: coverswitch/coverswitch.cpp:953 flipswitch/flipswitch.cpp:931
+#: coverswitch/coverswitch.cpp:952 flipswitch/flipswitch.cpp:933
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
@@ -580,12 +580,13 @@ msgstr "Klick-Verhalten:"
 msgid ""
 "If the Present Windows effect is enabled, it will be automatically triggered."
 msgstr ""
+"Ist der Effekt „Fenster zeigen“ aktiviert, wird es automatisch ausgelöst."
 
 #. i18n: ectx: property (text), widget (QRadioButton, switchDesktopAndActivateWindow)
 #: desktopgrid/desktopgrid_config.ui:193
 #, kde-format
 msgid "Switch desktop and activate window"
-msgstr ""
+msgstr "Arbeitsfläche wechseln und Fenster aktivieren"
 
 #. i18n: ectx: property (text), widget (QRadioButton, switchDesktopOnly)
 #: desktopgrid/desktopgrid_config.ui:203
@@ -776,7 +777,7 @@ msgstr "Gleiten"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Glide windows as they appear or disappear"
-msgstr ""
+msgstr "Fenster beim Erscheinen oder Verschwinden gleiten lassen"
 
 #: effect_builtins.cpp:268
 #, kde-format
@@ -1798,10 +1799,9 @@ msgstr "Nach hinten gleiten"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
 #: slide/slide_config.ui:112
-#, fuzzy, kde-format
-#| msgid "Slide when grouping"
+#, kde-format
 msgid "Slide desktop background"
-msgstr "In Gruppierung gleiten lassen"
+msgstr "Arbeitsflächen-Hintergrund gleiten lassen"
 
 #: thumbnailaside/thumbnailaside.cpp:29
 #: thumbnailaside/thumbnailaside_config.cpp:62
@@ -2125,10 +2125,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_EnableTextCaretTracking)
 #: zoom/zoom_config.ui:79
-#, fuzzy, kde-format
-#| msgid "Enable Focus Tracking"
+#, kde-format
 msgid "Enable Text Cursor Tracking"
-msgstr "Fokusverfolgung aktivieren"
+msgstr "Textzeigerverfolgung aktivieren"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: zoom/zoom_config.ui:86

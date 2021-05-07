@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-03-11 08:56+0100\n"
-"PO-Revision-Date: 2021-01-22 22:51+0100\n"
+"PO-Revision-Date: 2021-04-25 22:00+0100\n"
 "Last-Translator: Giovanni Sora <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -541,7 +541,7 @@ msgstr ""
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Tablet mode"
-msgstr ""
+msgstr "Modo de tabletta"
 
 #: debug_console.cpp:461
 #, kde-format
@@ -570,7 +570,7 @@ msgstr "Stato"
 #: debug_console.cpp:488
 #, kde-format
 msgid "Tablet Tool"
-msgstr ""
+msgstr "Instrumento de tabletta"
 
 #: debug_console.cpp:489
 #, kde-format
@@ -941,7 +941,7 @@ msgstr "Driver:"
 #: debug_console.ui:171
 #, kde-format
 msgid "GPU class:"
-msgstr ""
+msgstr "Classe de GPU:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: debug_console.ui:178
@@ -953,7 +953,7 @@ msgstr "Version OpenGL:"
 #: debug_console.ui:185
 #, kde-format
 msgid "GLSL Version:"
-msgstr ""
+msgstr "Version de GLSL:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, platformExtensionsBox)
 #: debug_console.ui:251
@@ -995,7 +995,7 @@ msgstr "Modificatores Active"
 #: debug_console.ui:388
 #, kde-format
 msgid "LEDs"
-msgstr ""
+msgstr "LEDs"
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeLedsBox)
 #: debug_console.ui:404
@@ -1485,7 +1485,7 @@ msgstr "Luboš Luňák"
 #: main.cpp:202
 #, kde-format
 msgid "Martin Flöser"
-msgstr ""
+msgstr "Martin Flöser"
 
 #: main.cpp:203
 #, kde-format
@@ -2397,7 +2397,7 @@ msgstr "Dialogo"
 #: shortcutdialog.ui:25
 #, kde-format
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tabbox/tabbox.cpp:372
 #, kde-format

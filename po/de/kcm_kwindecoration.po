@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2020-11-19 02:35+0100\n"
-"PO-Revision-Date: 2021-03-02 11:53+0100\n"
+"PO-Revision-Date: 2021-04-14 13:00+0200\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -103,7 +103,7 @@ msgstr "Neue Fensterdekorationen herunterladen"
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
-msgstr ""
+msgstr "Voreinstellung des Designs (%1)"
 
 #: package/contents/ui/Buttons.qml:85
 #, kde-format
@@ -141,7 +141,7 @@ msgstr "Titelleistenknöpfe"
 #, kde-format
 msgctxt "Selector label"
 msgid "Window border size:"
-msgstr "Umrandungsgröße des Fensters:"
+msgstr "Rahmenbreite des Fensters:"
 
 #: package/contents/ui/main.qml:103
 #, kde-format

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-03-11 08:56+0100\n"
-"PO-Revision-Date: 2021-03-25 13:26+0100\n"
+"PO-Revision-Date: 2021-04-08 15:13+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -1230,12 +1230,12 @@ msgstr "Skrýt okraje okna"
 #: kwinbindings.cpp:66
 #, kde-format
 msgid "Keep Window Above Others"
-msgstr "Podržet okno nad ostatními"
+msgstr "Ponechat okno nad ostatními"
 
 #: kwinbindings.cpp:68
 #, kde-format
 msgid "Keep Window Below Others"
-msgstr "Podržet okno pod ostatními"
+msgstr "Ponechat okno pod ostatními"
 
 #: kwinbindings.cpp:70
 #, kde-format
@@ -2136,7 +2136,7 @@ msgstr ""
 #: rulesettings.kcfg:271
 #, kde-format
 msgid "Keep above"
-msgstr "Podržet nad"
+msgstr "Ponechat nad"
 
 #. i18n: ectx: label, entry (aboverule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:275
@@ -2508,12 +2508,12 @@ msgstr "Změnit &velikost"
 #: useractions.cpp:250
 #, kde-format
 msgid "Keep &Above Others"
-msgstr "Podržet n&ad ostatními"
+msgstr "Ponechat n&ad ostatními"
 
 #: useractions.cpp:256
 #, kde-format
 msgid "Keep &Below Others"
-msgstr "Podržet pod ostatní&mi"
+msgstr "Ponechat pod ostatní&mi"
 
 #: useractions.cpp:262
 #, kde-format

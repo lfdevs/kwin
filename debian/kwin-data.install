@@ -11,9 +11,11 @@ usr/share/kconf_update/kwin-5.21-no-swap-encourage.py
 usr/share/knotifications5/kwin.notifyrc
 usr/share/knsrcfiles/
 usr/share/kpackage/kcms/kcm_kwin*
+usr/share/kpackage/kcms/kcm_virtualkeyboard/
 usr/share/krunner/dbusplugins/kwin-runner-windows.desktop
 usr/share/kservices5/kcm_kwin_*.desktop
 usr/share/kservices5/kcm_kwinrules.desktop
+usr/share/kservices5/kcm_virtualkeyboard.desktop
 usr/share/kservices5/kwin*.desktop
 usr/share/kservices5/kwin/
 usr/share/kservicetypes5/kwin*.desktop

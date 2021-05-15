@@ -193,6 +193,7 @@ libkwinglutils.so.13 libkwinglutils13 #MINVER#
  _ZN4KWin9GLTextureD2Ev@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureaSERKS0_@Base 4:5.1.95+git20150122
  _ZN4KWin9cleanupGLEv@Base 4:5.1.95+git20150122
+ _ZNK4KWin10GLPlatform10isPanfrostEv@Base 4:5.21.90
  _ZNK4KWin10GLPlatform11glslVersionEv@Base 4:5.1.95+git20150122
  _ZNK4KWin10GLPlatform11mesaVersionEv@Base 4:5.1.95+git20150122
  _ZNK4KWin10GLPlatform12isMesaDriverEv@Base 4:5.1.95+git20150122

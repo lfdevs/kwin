@@ -9,6 +9,11 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZN4KWin11EffectFrameD0Ev@Base 4:5.1.95+git20150122
  _ZN4KWin11EffectFrameD1Ev@Base 4:5.1.95+git20150122
  _ZN4KWin11EffectFrameD2Ev@Base 4:5.1.95+git20150122
+ _ZN4KWin12EffectScreen11qt_metacallEN11QMetaObject4CallEiPPv@Base 4:5.21.90
+ _ZN4KWin12EffectScreen11qt_metacastEPKc@Base 4:5.21.90
+ _ZN4KWin12EffectScreen16staticMetaObjectE@Base 4:5.21.90
+ _ZN4KWin12EffectScreenC1EP7QObject@Base 4:5.21.90
+ _ZN4KWin12EffectScreenC2EP7QObject@Base 4:5.21.90
  _ZN4KWin12EffectWindow11qt_metacallEN11QMetaObject4CallEiPPv@Base 4:5.1.95+git20150122
  _ZN4KWin12EffectWindow11qt_metacastEPKc@Base 4:5.1.95+git20150122
  _ZN4KWin12EffectWindow12setMinimizedEb@Base 4:5.1.95+git20150122
@@ -36,6 +41,7 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZN4KWin14EffectsHandler10tabRemovedEPNS_12EffectWindowES2_@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler11qt_metacallEN11QMetaObject4CallEiPPv@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler11qt_metacastEPKc@Base 4:5.1.95+git20150122
+ _ZN4KWin14EffectsHandler11screenAddedEPNS_12EffectScreenE@Base 4:5.21.90
  _ZN4KWin14EffectsHandler11tabBoxAddedEi@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler11windowAddedEPNS_12EffectWindowE@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler11windowShownEPNS_12EffectWindowE@Base 4:5.8.0
@@ -44,6 +50,7 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZN4KWin14EffectsHandler12windowClosedEPNS_12EffectWindowE@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler12windowHiddenEPNS_12EffectWindowE@Base 4:5.8.0
  _ZN4KWin14EffectsHandler13activityAddedERK7QString@Base 4:5.1.95+git20150122
+ _ZN4KWin14EffectsHandler13screenRemovedEPNS_12EffectScreenE@Base 4:5.21.90
  _ZN4KWin14EffectsHandler13tabBoxUpdatedEv@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler13windowDamagedEPNS_12EffectWindowERK7QRegion@Base 4:5.20.90
  _ZN4KWin14EffectsHandler13windowDeletedEPNS_12EffectWindowE@Base 4:5.1.95+git20150122
@@ -60,11 +67,11 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZN4KWin14EffectsHandler17windowUnminimizedEPNS_12EffectWindowE@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler18cursorShapeChangedEv@Base 4:5.3.0
  _ZN4KWin14EffectsHandler19sessionStateChangedEv@Base 4:5.18.3
+ _ZN4KWin14EffectsHandler20desktopChangedLegacyEii@Base 4:5.21.90
  _ZN4KWin14EffectsHandler20numberScreensChangedEv@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler20screenLockingChangedEb@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler20stackingOrderChangedEv@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler20windowOpacityChangedEPNS_12EffectWindowEdd@Base 4:5.1.95+git20150122
- _ZN4KWin14EffectsHandler20windowPaddingChangedEPNS_12EffectWindowERK5QRect@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler20xcbConnectionChangedEv@Base 4:5.11.4
  _ZN4KWin14EffectsHandler21numberDesktopsChangedEj@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler21screenEdgeApproachingENS_14ElectricBorderEdRK5QRect@Base 4:5.1.95+git20150122
@@ -87,6 +94,7 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZN4KWin14EffectsHandler28virtualScreenGeometryChangedEv@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler28windowFinishUserMovedResizedEPNS_12EffectWindowE@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler29activeFullScreenEffectChangedEv@Base 4:5.14.3
+ _ZN4KWin14EffectsHandler29windowExpandedGeometryChangedEPNS_12EffectWindowE@Base 4:5.21.90
  _ZN4KWin14EffectsHandler32hasActiveFullScreenEffectChangedEv@Base 4:5.17.5~
  _ZN4KWin14EffectsHandler8tabAddedEPNS_12EffectWindowES2_@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandlerC1ENS_15CompositingTypeE@Base 4:5.1.95+git20150122
@@ -106,8 +114,8 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZN4KWin15AnimationEffect15postPaintScreenEv@Base 4:5.1.95+git20150122
  _ZN4KWin15AnimationEffect16staticMetaObjectE@Base 4:5.1.95+git20150122
  _ZN4KWin15AnimationEffect19updateLayerRepaintsEv@Base 4:5.1.95+git20150122
- _ZN4KWin15AnimationEffect24_expandedGeometryChangedEPNS_12EffectWindowERK5QRect@Base 4:5.1.95+git20150122
  _ZN4KWin15AnimationEffect25disconnectGeometryChangesEv@Base 4:5.1.95+git20150122
+ _ZN4KWin15AnimationEffect30_windowExpandedGeometryChangedEPNS_12EffectWindowE@Base 4:5.21.90
  _ZN4KWin15AnimationEffect4initEv@Base 4:5.1.95+git20150122
  _ZN4KWin15AnimationEffect6cancelEy@Base 4:5.1.95+git20150122
  _ZN4KWin15AnimationEffect7s_clockE@Base 4:5.1.95+git20150122
@@ -142,10 +150,10 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZN4KWin15EffectQuickViewD0Ev@Base 4:5.18.3
  _ZN4KWin15EffectQuickViewD1Ev@Base 4:5.18.3
  _ZN4KWin15EffectQuickViewD2Ev@Base 4:5.18.3
- _ZN4KWin15ScreenPaintDataC1ERK10QMatrix4x4RK5QRectd@Base 4:5.19.0
+ _ZN4KWin15ScreenPaintDataC1ERK10QMatrix4x4PNS_12EffectScreenE@Base 4:5.21.90
  _ZN4KWin15ScreenPaintDataC1ERKS0_@Base 4:5.1.95+git20150122
  _ZN4KWin15ScreenPaintDataC1Ev@Base 4:5.1.95+git20150122
- _ZN4KWin15ScreenPaintDataC2ERK10QMatrix4x4RK5QRectd@Base 4:5.19.0
+ _ZN4KWin15ScreenPaintDataC2ERK10QMatrix4x4PNS_12EffectScreenE@Base 4:5.21.90
  _ZN4KWin15ScreenPaintDataC2ERKS0_@Base 4:5.1.95+git20150122
  _ZN4KWin15ScreenPaintDataC2Ev@Base 4:5.1.95+git20150122
  _ZN4KWin15ScreenPaintDataD0Ev@Base 4:5.6.2
@@ -312,6 +320,7 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZNK4KWin11EffectFrame11isCrossFadeEv@Base 4:5.1.95+git20150122
  _ZNK4KWin11EffectFrame17crossFadeProgressEv@Base 4:5.1.95+git20150122
  _ZNK4KWin11EffectFrame22screenProjectionMatrixEv@Base 4:5.6.2
+ _ZNK4KWin12EffectScreen10metaObjectEv@Base 4:5.21.90
  _ZNK4KWin12EffectWindow10metaObjectEv@Base 4:5.1.95+git20150122
  _ZNK4KWin12EffectWindow11isOnDesktopEi@Base 4:5.1.95+git20150122
  _ZNK4KWin12EffectWindow12isOnActivityERK7QString@Base 4:5.18.3
@@ -350,9 +359,8 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZNK4KWin15EffectQuickView4sizeEv@Base 4:5.18.3
  _ZNK4KWin15EffectQuickView8geometryEv@Base 4:5.18.3
  _ZNK4KWin15EffectQuickView9isVisibleEv@Base 4:5.18.3
- _ZNK4KWin15ScreenPaintData11screenScaleEv@Base 4:5.19.0
- _ZNK4KWin15ScreenPaintData14outputGeometryEv@Base 4:5.10.3.1
  _ZNK4KWin15ScreenPaintData16projectionMatrixEv@Base 4:5.6.2
+ _ZNK4KWin15ScreenPaintData6screenEv@Base 4:5.21.90
  _ZNK4KWin15WindowPaintData10brightnessEv@Base 4:5.1.95+git20150122
  _ZNK4KWin15WindowPaintData10saturationEv@Base 4:5.1.95+git20150122
  _ZNK4KWin15WindowPaintData13setSaturationEd@Base 4:5.1.95+git20150122
@@ -374,6 +382,7 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZNK4KWin6Effect10metaObjectEv@Base 4:5.1.95+git20150122
  _ZNK4KWin6Effect13x11RootWindowEv@Base 4:5.1.95+git20150122
  _ZNK4KWin6Effect13xcbConnectionEv@Base 4:5.1.95+git20150122
+ _ZNK4KWin6Effect19blocksDirectScanoutEv@Base 4:5.21.90
  _ZNK4KWin6Effect28requestedEffectChainPositionEv@Base 4:5.1.95+git20150122
  _ZNK4KWin6Effect5debugERK7QString@Base 4:5.1.95+git20150122
  _ZNK4KWin6Effect8isActiveEv@Base 4:5.1.95+git20150122
@@ -401,6 +410,7 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZNK4KWin9PaintData6yScaleEv@Base 4:5.1.95+git20150122
  _ZNK4KWin9PaintData6zScaleEv@Base 4:5.1.95+git20150122
  _ZTIN4KWin11EffectFrameE@Base 4:5.1.95+git20150122
+ _ZTIN4KWin12EffectScreenE@Base 4:5.21.90
  _ZTIN4KWin12EffectWindowE@Base 4:5.1.95+git20150122
  _ZTIN4KWin14EffectsHandlerE@Base 4:5.1.95+git20150122
  _ZTIN4KWin15AnimationEffectE@Base 4:5.1.95+git20150122
@@ -413,6 +423,7 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZTIN4KWin6EffectE@Base 4:5.1.95+git20150122
  _ZTIN4KWin9PaintDataE@Base 4:5.1.95+git20150122
  _ZTSN4KWin11EffectFrameE@Base 4:5.1.95+git20150122
+ _ZTSN4KWin12EffectScreenE@Base 4:5.21.90
  _ZTSN4KWin12EffectWindowE@Base 4:5.1.95+git20150122
  _ZTSN4KWin14EffectsHandlerE@Base 4:5.1.95+git20150122
  _ZTSN4KWin15AnimationEffectE@Base 4:5.1.95+git20150122
@@ -425,6 +436,7 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZTSN4KWin6EffectE@Base 4:5.1.95+git20150122
  _ZTSN4KWin9PaintDataE@Base 4:5.1.95+git20150122
  _ZTVN4KWin11EffectFrameE@Base 4:5.1.95+git20150122
+ _ZTVN4KWin12EffectScreenE@Base 4:5.21.90
  _ZTVN4KWin12EffectWindowE@Base 4:5.1.95+git20150122
  _ZTVN4KWin14EffectsHandlerE@Base 4:5.1.95+git20150122
  _ZTVN4KWin15AnimationEffectE@Base 4:5.1.95+git20150122

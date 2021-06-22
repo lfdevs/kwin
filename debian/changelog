@@ -1,7 +1,7 @@
-kwin (4:5.22.1-1) UNRELEASED; urgency=medium
+kwin (4:5.22.2.1-1) UNRELEASED; urgency=medium
 
   [ Norbert Preining ]
-  * New upstream release (5.22.1).
+  * New upstream release (5.22.2.1).
   * Fix patch for new file location.
   * Update list of installed files.
   * Update symbols.

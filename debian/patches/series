@@ -1,1 +1,2 @@
 uninitialized-yuvformat.patch
+fix_build_with_egl_no_platform_specific_types.patch

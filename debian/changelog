@@ -5,6 +5,7 @@ kwin (4:5.22.90-1) UNRELEASED; urgency=medium
   * Fix patch for new file location.
   * Update list of installed files.
   * Update symbols.
+  * Unfuzzify patch.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Sun, 06 Jun 2021 18:55:32 +0900
 

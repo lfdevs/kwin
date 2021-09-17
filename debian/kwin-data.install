@@ -8,6 +8,11 @@ usr/share/kconf_update/kwin-5.18-move-animspeed.py
 usr/share/kconf_update/kwinrules-5.19-placement.pl
 usr/share/kconf_update/kwin-5.21-desktop-grid-click-behavior.py
 usr/share/kconf_update/kwin-5.21-no-swap-encourage.py
+usr/share/kconf_update/kwin-5.23-remove-cover-switch.py
+usr/share/kconf_update/kwin-5.23-remove-cubeslide.py
+usr/share/kconf_update/kwin-5.23-remove-flip-switch.py
+usr/share/kconf_update/kwin-5.23-remove-xrender-backend.py
+usr/share/kconf_update/kwinrules-5.23-virtual-desktop-ids.py
 usr/share/knotifications5/kwin.notifyrc
 usr/share/knsrcfiles/
 usr/share/kpackage/kcms/kcm_kwin*

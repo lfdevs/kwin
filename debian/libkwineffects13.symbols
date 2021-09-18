@@ -29,7 +29,8 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZN4KWin12EffectScreen11qt_metacallEN11QMetaObject4CallEiPPv@Base 4:5.21.90
  _ZN4KWin12EffectScreen11qt_metacastEPKc@Base 4:5.21.90
  _ZN4KWin12EffectScreen13aboutToChangeEv@Base 4:5.22.90
- _ZN4KWin12EffectScreen14aboutToTurnOffENSt6chrono8durationIlSt5ratioILl1ELl1000EEEE@Base 4:5.22.90
+ (arch-bits=64)_ZN4KWin12EffectScreen14aboutToTurnOffENSt6chrono8durationIlSt5ratioILl1ELl1000EEEE@Base 4:5.22.90
+ (arch-bits=32)_ZN4KWin12EffectScreen14aboutToTurnOffENSt6chrono8durationIxSt5ratioILx1ELx1000EEEE@Base 4:5.22.90
  _ZN4KWin12EffectScreen15geometryChangedEv@Base 4:5.22.90
  _ZN4KWin12EffectScreen16staticMetaObjectE@Base 4:5.21.90
  _ZN4KWin12EffectScreen23devicePixelRatioChangedEv@Base 4:5.22.90

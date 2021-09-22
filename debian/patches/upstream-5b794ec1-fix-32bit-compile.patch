@@ -1,0 +1,38 @@
+From 5b794ec1f84dd474ebb1900c413f614476f30469 Mon Sep 17 00:00:00 2001
+From: Vlad Zahorodnii <vlad.zahorodnii@kde.org>
+Date: Tue, 21 Sep 2021 17:34:59 +0300
+Subject: [PATCH] x11: Cast Window to EGLNativeWindowType using a C cast
+
+reinterpret_cast<>() will fail if the types we cast from and to have
+mismatching sizes.
+
+Unfortunately, there are platforms that have Window and
+EGLNativeWindowType of different size. This results in compilation
+errors.
+
+In order to work around those problematic platforms, this change
+replaces reinterpret_cast cast with a c style cast.
+---
+ src/plugins/platforms/x11/common/eglonxbackend.cpp | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/src/plugins/platforms/x11/common/eglonxbackend.cpp b/src/plugins/platforms/x11/common/eglonxbackend.cpp
+index 32b7c038f..3c4e684f7 100644
+--- a/src/plugins/platforms/x11/common/eglonxbackend.cpp
++++ b/src/plugins/platforms/x11/common/eglonxbackend.cpp
+@@ -221,8 +221,10 @@ EGLSurface EglOnXBackend::createSurface(xcb_window_t window)
+         // eglCreatePlatformWindowSurfaceEXT() expects a pointer to the Window.
+         surface = eglCreatePlatformWindowSurfaceEXT(eglDisplay(), config(), (void *) &nativeWindow, nullptr);
+     } else {
+-        // eglCreateWindowSurface() expects a Window, not a pointer to the Window.
+-        surface = eglCreateWindowSurface(eglDisplay(), config(), reinterpret_cast<EGLNativeWindowType>(nativeWindow), nullptr);
++        // eglCreateWindowSurface() expects a Window, not a pointer to the Window. Don't
++        // use reinterpret_cast<>() as there are platforms where the size of the Window is
++        // not the same as the size of EGLNativeWindowType.
++        surface = eglCreateWindowSurface(eglDisplay(), config(), (EGLNativeWindowType) nativeWindow, nullptr);
+     }
+ 
+     return surface;
+-- 
+GitLab
+

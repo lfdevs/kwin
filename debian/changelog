@@ -6,7 +6,7 @@ kwin (4:5.22.90-1) UNRELEASED; urgency=medium
   * Update list of installed files.
   * Update symbols.
   * Unfuzzify patch.
-  * Add upstream patch to fix build on armhf.
+  * Add upstream patch to fix 32bit build failures.
   * Update list of installed files.
   * Update symbols.
 

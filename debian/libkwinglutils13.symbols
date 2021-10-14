@@ -164,10 +164,12 @@ libkwinglutils.so.13 libkwinglutils13 #MINVER#
  _ZN4KWin9GLTexture26framebufferObjectSupportedEv@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTexture4bindEv@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTexture5clearEv@Base 4:5.1.95+git20150122
+ _ZN4KWin9GLTexture6createEv@Base 4:5.22.90
  _ZN4KWin9GLTexture6renderERK7QRegionRK5QRectb@Base 4:5.18.3
  _ZN4KWin9GLTexture6unbindEv@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTexture6updateERK6QImageRK6QPointRK5QRect@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTexture7discardEv@Base 4:5.1.95+git20150122
+ _ZN4KWin9GLTexture7setSizeERK5QSize@Base 4:5.22.90
  _ZN4KWin9GLTexture8setDirtyEv@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTexture9setFilterEj@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureC1ERK6QImagej@Base 4:5.1.95+git20150122
@@ -175,24 +177,25 @@ libkwinglutils.so.13 libkwinglutils13 #MINVER#
  _ZN4KWin9GLTextureC1ERK7QString@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureC1ERKS0_@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureC1ERNS_16GLTexturePrivateE@Base 4:5.1.95+git20150122
+ _ZN4KWin9GLTextureC1Ej@Base 4:5.22.90
  _ZN4KWin9GLTextureC1EjRK5QSizeib@Base 4:5.20.3
  _ZN4KWin9GLTextureC1Ejiiib@Base 4:5.20.3
  _ZN4KWin9GLTextureC1EjjRK5QSizei@Base 4:5.18.3
- _ZN4KWin9GLTextureC1Ev@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureC2ERK6QImagej@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureC2ERK7QPixmapj@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureC2ERK7QString@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureC2ERKS0_@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureC2ERNS_16GLTexturePrivateE@Base 4:5.1.95+git20150122
+ _ZN4KWin9GLTextureC2Ej@Base 4:5.22.90
  _ZN4KWin9GLTextureC2EjRK5QSizeib@Base 4:5.20.3
  _ZN4KWin9GLTextureC2Ejiiib@Base 4:5.20.3
  _ZN4KWin9GLTextureC2EjjRK5QSizei@Base 4:5.18.3
- _ZN4KWin9GLTextureC2Ev@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureD0Ev@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureD1Ev@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureD2Ev@Base 4:5.1.95+git20150122
  _ZN4KWin9GLTextureaSERKS0_@Base 4:5.1.95+git20150122
  _ZN4KWin9cleanupGLEv@Base 4:5.1.95+git20150122
+ _ZNK4KWin10GLPlatform10isPanfrostEv@Base 4:5.21.90
  _ZNK4KWin10GLPlatform11glslVersionEv@Base 4:5.1.95+git20150122
  _ZNK4KWin10GLPlatform11mesaVersionEv@Base 4:5.1.95+git20150122
  _ZNK4KWin10GLPlatform12isMesaDriverEv@Base 4:5.1.95+git20150122

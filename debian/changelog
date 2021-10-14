@@ -1,3 +1,12 @@
+kwin (4:5.23.0-2) unstable; urgency=medium
+
+  [ Patrick Franz ]
+  * Update upstream signing-key.
+  * Tighten build-dependencies.
+  * Bump Standards-Version to 4.6.0 (no changes needed).
+
+ -- Patrick Franz <deltaone@debian.org>  Thu, 14 Oct 2021 21:44:41 +0200
+
 kwin (4:5.23.0-1) unstable; urgency=medium
 
   [ Norbert Preining ]

@@ -6,21 +6,21 @@
 # Sebastià Pla i Sanz <sps@sastia.com>, 1998, 1999, 2000, 2001, 2002, 2004, 2005, 2006.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2003, 2011, 2013, 2015, 2020, 2021.
 # Albert Astals Cid <aacid@kde.org>, 2005.
-# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020.
+# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2021.
 # Manuel Tortosa Moreno <manutortosa@chakra-project.org>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-28 13:55+0000\n"
-"PO-Revision-Date: 2021-04-10 11:37+0200\n"
-"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
+"POT-Creation-Date: 2021-04-27 00:19+0000\n"
+"PO-Revision-Date: 2021-10-02 10:06+0200\n"
+"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.12.3\n"
+"X-Generator: Lokalize 20.12.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -530,7 +530,7 @@ msgstr ""
 "de les finestres</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Maximitzada</span> intentarà maximitzar cada "
-"finestra por omplir la pantalla completa. Pot ser útil per a que afecti "
+"finestra per omplir la pantalla completa. Pot ser útil per a que afecti "
 "selectivament la col·locació de finestres usant la configuració específica "
 "de la finestra. </li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
@@ -878,17 +878,13 @@ msgstr "Comportament multipantalla:"
 #: focus.ui:203
 #, kde-format
 msgid ""
-"When this option is enabled, the active Xinerama screen (where new windows "
-"appear, for example) is the screen containing the mouse pointer. When "
-"disabled, the active Xinerama screen is the screen containing the focused "
-"window. By default this option is disabled for Click to focus and enabled "
-"for other focus policies."
+"When this option is enabled, the active screen (where new windows appear, "
+"for example) is the screen containing the mouse pointer. When disabled, the "
+"active screen is the screen containing the focused window."
 msgstr ""
-"Quan aquesta opció està activada, la pantalla de Xinerama activa (p. ex. a "
-"on apareixen les noves finestres) és la pantalla amb el cursor del ratolí. "
-"Quan està desactivada, la pantalla de Xinerama activa és la pantalla amb la "
-"finestra enfocada. Aquesta opció es desactiva per defecte en el clic al "
-"focus i s'activa en altres polítiques de focus."
+"Quan aquesta opció està activada, la pantalla activa (p. ex. a on apareixen "
+"les noves finestres) és la pantalla amb el cursor del ratolí. Quan està "
+"desactivada, la pantalla activa és la pantalla amb la finestra enfocada."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:206
@@ -901,10 +897,10 @@ msgstr "La finestra activa segueix el &ratolí"
 #, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
-"Xinerama screen"
+"screen"
 msgstr ""
 "Quan aquesta opció està activada, les operacions del focus es limiten a la "
-"pantalla de Xinerama activa"
+"pantalla activa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:216
@@ -918,87 +914,87 @@ msgstr "&Separa el focus de cada pantalla"
 msgid "Window activation policy description"
 msgstr "Descripció de la política d'activació de les finestres"
 
-#: main.cpp:73
+#: main.cpp:74
 #, kde-format
 msgid "&Focus"
 msgstr "&Focus"
 
-#: main.cpp:84
+#: main.cpp:80
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "A&ccions de la barra de títol"
 
-#: main.cpp:91
+#: main.cpp:86
 #, kde-format
 msgid "W&indow Actions"
 msgstr "Accions de la f&inestra"
 
-#: main.cpp:98
+#: main.cpp:92
 #, kde-format
 msgid "Mo&vement"
 msgstr "Mo&viment"
 
-#: main.cpp:105
+#: main.cpp:98
 #, kde-format
 msgid "Adva&nced"
 msgstr "Ava&nçat"
 
-#: main.cpp:110
+#: main.cpp:102
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "Mòdul de configuració del comportament de les finestres"
 
-#: main.cpp:112
+#: main.cpp:104
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "(c) 1997 - 2002 autors del KWin i KControl"
 
-#: main.cpp:114
+#: main.cpp:106
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:115
+#: main.cpp:107
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:116
+#: main.cpp:108
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:117
+#: main.cpp:109
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:118
+#: main.cpp:110
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:119
+#: main.cpp:111
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:120
+#: main.cpp:112
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:121
+#: main.cpp:113
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:122
+#: main.cpp:114
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:167
+#: main.cpp:163
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -1016,12 +1012,12 @@ msgstr ""
 "finestres. Si useu un gestor de finestres diferent, consulteu la seva "
 "documentació per a personalitzar el comportament de les finestres.</p>"
 
-#: main.cpp:187
+#: main.cpp:205
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "Accions de la barra de &títol"
 
-#: main.cpp:193
+#: main.cpp:211
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "Accio&ns de la finestra"
@@ -1321,7 +1317,7 @@ msgstr "Zona d'atracció del &centre:"
 msgid "&Snap windows:"
 msgstr "E&nganxa les finestres:"
 
-#: windows.cpp:101
+#: windows.cpp:99
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1331,7 +1327,7 @@ msgstr ""
 "comportament és comú en altres sistemes operatius i segurament és el que "
 "voldreu."
 
-#: windows.cpp:105
+#: windows.cpp:103
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1346,7 +1342,7 @@ msgstr ""
 "la finestra que hi ha sota el ratolí. No és habitual, però és una possible "
 "variació de <em>Clic al focus</em>."
 
-#: windows.cpp:110
+#: windows.cpp:108
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1360,7 +1356,7 @@ msgstr ""
 "funciona com és habitual. Penseu en <em>Clic al focus</em> però sense que "
 "calgui fer clic."
 
-#: windows.cpp:114
+#: windows.cpp:112
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1374,7 +1370,7 @@ msgstr ""
 "ratolí. Seleccioneu aquesta si voleu un focus controlat en passar-hi per "
 "sobre."
 
-#: windows.cpp:119
+#: windows.cpp:117
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1389,7 +1385,7 @@ msgstr ""
 "la política i no funcionaran. En el seu lloc, segurament voldreu usar <em>El "
 "focus segueix el ratolí (prioritat al ratolí)</em>."
 
-#: windows.cpp:123
+#: windows.cpp:121
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

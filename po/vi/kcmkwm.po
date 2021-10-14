@@ -2,13 +2,13 @@
 # Copyright © 2007 KDE i18n Project for Vietnamese.
 #
 # Clytie Siddall <clytie@riverland.net.au>, 2006-2007.
-# Phu Hung Nguyen <phuhnguyen@disroot.org>, 2020.
+# Phu Hung Nguyen <phuhnguyen@disroot.org>, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-28 13:55+0000\n"
-"PO-Revision-Date: 2020-12-10 22:24+0100\n"
+"POT-Creation-Date: 2021-04-27 00:19+0000\n"
+"PO-Revision-Date: 2021-08-03 10:14+0200\n"
 "Last-Translator: Phu Hung Nguyen <phuhnguyen@disroot.org>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
 "Language: vi\n"
@@ -16,32 +16,30 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 20.08.1\n"
+"X-Generator: Lokalize 20.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Nhóm Việt hoá KDE"
+msgstr "Nguyễn Hùng Phú,Clytie Siddall"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "kde-l10n-vi@kde.org"
+msgstr "phu.nguyen@kdemail.net,clytie@riverland.net.au"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: actions.ui:17
-#, fuzzy, kde-format
-#| msgid "Inactive Inner Window"
+#, kde-format
 msgid "Inactive Inner Window Actions"
-msgstr "Bên trong cửa sổ bị động"
+msgstr "Hành động ở cửa sổ bên trong bất hoạt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:26 mouse.ui:177
-#, fuzzy, kde-format
-#| msgid "&Titlebar double-click:"
+#, kde-format
 msgid "&Left click:"
-msgstr "Bấm đôi &thanh tựa :"
+msgstr "Bấm &trái:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandWindow1)
 #: actions.ui:39
@@ -50,26 +48,25 @@ msgid ""
 "In this row you can customize left click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"Trong hàng này, bạn có thể tuỳ chỉnh ứng dụng bấm trái khi bấm bên trong một "
-"cửa sổ bị động."
+"Trong hàng này, bạn có thể tự chọn ứng xử của việc bấm trái khi bấm vào một "
+"cửa sổ bên trong bất hoạt ('bên trong' nghĩa là: không phải thanh tiêu đề, "
+"không phải khung)."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow1)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow2)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow3)
 #: actions.ui:43 actions.ui:83 actions.ui:123
-#, fuzzy, kde-format
-#| msgid "Activate, Raise & Pass Click"
+#, kde-format
 msgid "Activate, raise and pass click"
-msgstr "Kích hoạt, nâng lên và gởi bấm"
+msgstr "Kích hoạt, nâng lên và truyền bấm"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow1)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow2)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow3)
 #: actions.ui:48 actions.ui:88 actions.ui:128
-#, fuzzy, kde-format
-#| msgid "Activate & Pass Click"
+#, kde-format
 msgid "Activate and pass click"
-msgstr "Kích hoạt và gởi bấm"
+msgstr "Kích hoạt và truyền bấm"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow1)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow2)
@@ -91,18 +88,16 @@ msgstr "Kích hoạt"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar3)
 #: actions.ui:58 actions.ui:98 actions.ui:138 mouse.ui:283 mouse.ui:398
 #: mouse.ui:513
-#, fuzzy, kde-format
-#| msgid "Activate & Raise"
+#, kde-format
 msgid "Activate and raise"
 msgstr "Kích hoạt và nâng lên"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:66 mouse.ui:200
-#, fuzzy, kde-format
-#| msgid "&Titlebar double-click:"
+#, kde-format
 msgid "&Middle click:"
-msgstr "Bấm đôi &thanh tựa :"
+msgstr "Bấm &giữa:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandWindow2)
 #: actions.ui:79
@@ -111,15 +106,16 @@ msgid ""
 "In this row you can customize middle click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"Trong hàng này, bạn có thể tuỳ chỉnh ứng dụng bấm giữa khi bấm bên trong một "
-"cửa sổ bị động."
+"Trong hàng này, bạn có thể tự chọn ứng xử của việc bấm giữa khi bấm vào một "
+"cửa sổ bên trong bất hoạt ('bên trong' nghĩa là: không phải thanh tiêu đề, "
+"không phải khung)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: actions.ui:106 mouse.ui:213
 #, kde-format
 msgid "&Right click:"
-msgstr ""
+msgstr "Bấm &phải:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandWindow3)
 #: actions.ui:119
@@ -128,63 +124,57 @@ msgid ""
 "In this row you can customize right click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"Trong hàng này, bạn có thể tuỳ chỉnh ứng dụng bấm phải khi bấm bên trong một "
-"cửa sổ bị động."
+"Trong hàng này, bạn có thể tự chọn ứng xử của việc bấm phải khi bấm vào một "
+"cửa sổ bên trong bất hoạt ('bên trong' nghĩa là: không phải thanh tiêu đề, "
+"không phải khung)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: actions.ui:146 mouse.ui:88
-#, fuzzy, kde-format
-#| msgid "Modifier key + mouse wheel:"
+#, kde-format
 msgid "Mouse &wheel:"
-msgstr "Phím sửa đổi + bánh xe chuột:"
+msgstr "Nút &cuộn chuột:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandWindowWheel)
 #: actions.ui:159
-#, fuzzy, kde-format
-#| msgid ""
-#| "In this row you can customize left click behavior when clicking into an "
-#| "inactive inner window ('inner' means: not titlebar, not frame)."
+#, kde-format
 msgid ""
 "In this row you can customize behavior when scrolling into an inactive inner "
 "window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"Trong hàng này, bạn có thể tuỳ chỉnh ứng dụng nhắp trái khi nhắp bên trong "
-"một cửa sổ bị động."
+"Trong hàng này, bạn có thể tự chọn ứng xử khi cuộn chuột ở trong một cửa sổ "
+"bên trong bất hoạt ('bên trong' nghĩa là: không phải thanh tiêu đề, không "
+"phải khung)."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindowWheel)
 #: actions.ui:163
 #, kde-format
 msgid "Scroll"
-msgstr ""
+msgstr "Cuộn"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindowWheel)
 #: actions.ui:168
-#, fuzzy, kde-format
-#| msgid "Activate & Lower"
+#, kde-format
 msgid "Activate and scroll"
-msgstr "Kích hoạt và hạ thấp"
+msgstr "Kích hoạt và cuộn"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindowWheel)
 #: actions.ui:173
-#, fuzzy, kde-format
-#| msgid "Activate, Raise and Move"
+#, kde-format
 msgid "Activate, raise and scroll"
-msgstr "Kích hoạt, nâng lên và di chuyển"
+msgstr "Kích hoạt, nâng lên và cuộn"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: actions.ui:184
-#, fuzzy, kde-format
-#| msgid "Inner Window, Titlebar && Frame"
+#, kde-format
 msgid "Inner Window, Titlebar and Frame Actions"
-msgstr "Bên trong cửa sổ, thanh tựa và khung"
+msgstr "Hành động ở cửa sổ bên trong, thanh tiêu đề và khung"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:195
-#, fuzzy, kde-format
-#| msgid "Modifier key:"
+#, kde-format
 msgid "Mo&difier key:"
-msgstr "Phím sửa đổi :"
+msgstr "Phím &bổ trợ:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandAllKey)
 #: actions.ui:205
@@ -193,7 +183,8 @@ msgid ""
 "Here you select whether holding the Meta key or Alt key will allow you to "
 "perform the following actions."
 msgstr ""
-"Ở đây bạn chọn nếu phím Meta hay Alt sẽ cho bạn truy cập những việc theo đây."
+"Tại đây bạn chọn việc giữ phím Meta hay Alt sẽ cho phép bạn thực hiện những "
+"hành động sau đây."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllKey)
 #: actions.ui:209
@@ -211,15 +202,14 @@ msgstr "Alt"
 #: actions.ui:236
 #, kde-format
 msgid "  + "
-msgstr ""
+msgstr "  + "
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: actions.ui:248 mouse.ui:601
-#, fuzzy, kde-format
-#| msgid "&Titlebar double-click:"
+#, kde-format
 msgid "L&eft click:"
-msgstr "Bấm đôi &thanh tựa :"
+msgstr "Bấm t&rái:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandAll1)
 #: actions.ui:261
@@ -228,8 +218,8 @@ msgid ""
 "In this row you can customize left click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"Trong hàng này, bạn có tuỳ chỉnh ứng dụng bấm-trái khi bấm trên thanh tựa "
-"hay khung của cửa sổ."
+"Trong hàng này, bạn có thể tự chọn ứng xử của việc bấm trái khi bấm vào "
+"thanh tiêu đề hoặc khung."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
@@ -237,14 +227,13 @@ msgstr ""
 #: actions.ui:265 actions.ui:335 actions.ui:405
 #, kde-format
 msgid "Move"
-msgstr "Chuyển"
+msgstr "Di chuyển"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:270 actions.ui:340 actions.ui:410
-#, fuzzy, kde-format
-#| msgid "Activate, Raise and Move"
+#, kde-format
 msgid "Activate, raise and move"
 msgstr "Kích hoạt, nâng lên và di chuyển"
 
@@ -259,10 +248,9 @@ msgstr "Kích hoạt, nâng lên và di chuyển"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar3)
 #: actions.ui:275 actions.ui:345 actions.ui:415 mouse.ui:246 mouse.ui:308
 #: mouse.ui:361 mouse.ui:423 mouse.ui:476 mouse.ui:538
-#, fuzzy, kde-format
-#| msgid "Toggle Raise & Lower"
+#, kde-format
 msgid "Toggle raise and lower"
-msgstr "Bật/tắt nâng lên và hạ thấp"
+msgstr "Chuyển giữa nâng lên và hạ xuống"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
@@ -302,7 +290,7 @@ msgstr "Nâng lên"
 #: mouse.ui:303 mouse.ui:356 mouse.ui:418 mouse.ui:471 mouse.ui:533
 #, kde-format
 msgid "Lower"
-msgstr "Thấp hơn"
+msgstr "Hạ xuống"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
@@ -325,19 +313,17 @@ msgstr "Thu nhỏ"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:300 actions.ui:370 actions.ui:440
-#, fuzzy, kde-format
-#| msgid "Change Opacity"
+#, kde-format
 msgid "Decrease opacity"
-msgstr "Đổi độ mờ đục"
+msgstr "Giảm độ mờ đục"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:305 actions.ui:375 actions.ui:445
-#, fuzzy, kde-format
-#| msgid "Change Opacity"
+#, kde-format
 msgid "Increase opacity"
-msgstr "Đổi độ mờ đục"
+msgstr "Tăng độ mờ đục"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
@@ -355,17 +341,15 @@ msgstr "Đổi độ mờ đục"
 #: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 mouse.ui:80
 #: mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
 #: mouse.ui:501 mouse.ui:563
-#, fuzzy, kde-format
-#| msgid "Nothing"
+#, kde-format
 msgid "Do nothing"
-msgstr "Không gì"
+msgstr "Không làm gì"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: actions.ui:318
-#, fuzzy, kde-format
-#| msgid "Middle button:"
+#, kde-format
 msgid "Middle &click:"
-msgstr "Nút giữa :"
+msgstr "Bấm g&iữa:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandAll2)
 #: actions.ui:331
@@ -374,15 +358,15 @@ msgid ""
 "In this row you can customize middle click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"Trong hàng này, bạn có tuỳ chỉnh ứng dụng bấm-giữa khi bấm trên thanh tựa "
-"hay khung của cửa sổ."
+"Trong hàng này, bạn có thể tự chọn ứng xử của việc bấm giữa khi bấm vào "
+"thanh tiêu đề hoặc khung."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:388 mouse.ui:671
 #, kde-format
 msgid "Right clic&k:"
-msgstr ""
+msgstr "Bấm p&hải:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:401
@@ -391,103 +375,90 @@ msgid ""
 "In this row you can customize right click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"Trong hàng này, bạn có tuỳ chỉnh ứng dụng bấm-phải khi bấm trên thanh tựa "
-"hay khung của cửa sổ."
+"Trong hàng này, bạn có thể tự chọn ứng xử của việc bấm phải khi bấm vào "
+"thanh tiêu đề hoặc khung."
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:458
-#, fuzzy, kde-format
-#| msgid "Modifier key + mouse wheel:"
+#, kde-format
 msgid "Mo&use wheel:"
-msgstr "Phím sửa đổi + bánh xe chuột:"
+msgstr "Nút c&uộn chuột:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandAllWheel)
 #: actions.ui:471
-#, fuzzy, kde-format
-#| msgid ""
-#| "Here you can customize KDE's behavior when scrolling with the mouse "
-#| "wheel  in a window while pressing the modifier key."
+#, kde-format
 msgid ""
 "Here you can customize KDE's behavior when scrolling with the mouse wheel in "
 "a window while pressing the modifier key."
 msgstr ""
-"Ở đây bạn có thể tuỳ chỉnh ứng dụng của KDE khi bạn cuộn bằng bánh xe chuột "
-"trong cửa sổ, trong khi bấm một phím sửa đổi."
+"Tại đây bạn có thể tự chọn ứng xử của KDE khi cuộn bằng nút cuộn chuột trong "
+"một cửa sổ, trong khi đang bấm một phím bổ trợ."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
 #: actions.ui:475 mouse.ui:102
-#, fuzzy, kde-format
-#| msgid "Raise/Lower"
+#, kde-format
 msgid "Raise/lower"
-msgstr "Nâng lên/Hạ thấp"
+msgstr "Nâng lên / hạ xuống"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
 #: actions.ui:480 mouse.ui:107
-#, fuzzy, kde-format
-#| msgid "Shade/Unshade"
+#, kde-format
 msgid "Shade/unshade"
-msgstr "(Bỏ) Bóng"
+msgstr "Che/bỏ che"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
 #: actions.ui:485 mouse.ui:112
-#, fuzzy, kde-format
-#| msgid "Maximize/Restore"
+#, kde-format
 msgid "Maximize/restore"
-msgstr "Phóng to/Phục hồi"
+msgstr "Phóng to / khôi phục"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
 #: actions.ui:490 mouse.ui:117
-#, fuzzy, kde-format
-#| msgid "Keep Above/Below"
+#, kde-format
 msgid "Keep above/below"
 msgstr "Giữ trên/dưới"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
 #: actions.ui:495 mouse.ui:122
-#, fuzzy, kde-format
-#| msgid "Move to Previous/Next Desktop"
+#, kde-format
 msgid "Move to previous/next desktop"
-msgstr "Chuyển sang màn hình nền lùi/kế"
+msgstr "Chuyển sang bàn làm việc trước/sau"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
 #: actions.ui:500 mouse.ui:127
-#, fuzzy, kde-format
-#| msgid "Change Opacity"
+#, kde-format
 msgid "Change opacity"
 msgstr "Đổi độ mờ đục"
 
 #. i18n: ectx: property (text), widget (QLabel, shadeHoverLabel)
 #: advanced.ui:20
-#, fuzzy, kde-format
-#| msgid "Window Actio&ns"
+#, kde-format
 msgid "Window &unshading:"
-msgstr "Hà&nh động cửa sổ"
+msgstr "Bỏ &che cửa sổ:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShadeHover)
 #: advanced.ui:32
-#, fuzzy, kde-format
-#| msgid ""
-#| "If Shade Hover is enabled, a shaded window will un-shade automatically "
-#| "when the mouse pointer has been over the title bar for some time."
+#, kde-format
 msgid ""
 "<html><head/><body><p>If this option is enabled, a shaded window will "
 "unshade automatically when the mouse pointer has been over the titlebar for "
 "some time.</p></body></html>"
 msgstr ""
-"Nếu « Đi trên bóng » được bật, một cửa sổ đã bóng sẽ bỏ bóng tự động khi con "
-"trỏ chuột đã trên thanh tựa trong một thời gian."
+"<html><head/><body><p>Nếu lựa chọn này được bật, một cửa sổ bị che sẽ tự "
+"động bỏ che sau khi con trỏ chuột ở trên thanh tiêu đề một lúc.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShadeHover)
 #: advanced.ui:35
 #, kde-format
 msgid "On titlebar hover after:"
-msgstr ""
+msgstr "Khi đảo chuột trên thanh tiêu đề, sau:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_ShadeHoverInterval)
 #: advanced.ui:42
@@ -496,24 +467,22 @@ msgid ""
 "Sets the time in milliseconds before the window unshades when the mouse "
 "pointer goes over the shaded window."
 msgstr ""
-"Đặt thời gian theo mili-giây trước cửa sổ bỏ bóng, khi con trỏ chuột đi trên "
-"cửa sổ đã bóng."
+"Đặt thời gian tính bằng mi-li giây mà con trỏ chuột đã ở trên cửa sổ bị che "
+"trước khi cửa sổ bỏ che."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_DelayFocusInterval)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AutoRaiseInterval)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_ShadeHoverInterval)
 #: advanced.ui:45 focus.ui:85 focus.ui:178
-#, fuzzy, kde-format
-#| msgid " msec"
+#, kde-format
 msgid " ms"
-msgstr " miligiây"
+msgstr " ms"
 
 #. i18n: ectx: property (text), widget (QLabel, windowPlacementLabel)
 #: advanced.ui:66
-#, fuzzy, kde-format
-#| msgid "&Placement:"
+#, kde-format
 msgid "Window &placement:"
-msgstr "&Vị trí :"
+msgstr "&Xếp chỗ cửa sổ:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_Placement)
 #: advanced.ui:76
@@ -546,27 +515,50 @@ msgid ""
 "\"><span style=\" font-style:italic;\">Under mouse</span> will place the "
 "window under the pointer</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Chính sách xếp chỗ xác định vị trí mà một cửa sổ mới "
+"sẽ xuất hiện trên bàn làm việc.</p><ul style=\"margin-top:0px; margin-"
+"bottom:0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
+"style=\"margin-top:12px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-style:"
+"italic;\">Chồng lấn tối thiểu</span> sẽ cố gắng đạt được diện tích chồng lấn "
+"tối thiểu giữa các cửa sổ </li><li style=\"margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\"font-style:italic;\">Tối đa hoá</span> sẽ cố "
+"gắng mở rộng mọi cửa sổ để chiếm hết toàn bộ màn hình. Có thể có ích khi "
+"muốn tác động một cách chọn lọc lên sự xếp chỗ của một số cửa sổ bằng các "
+"thiết lập theo cửa sổ.</li><li style=\"margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\"font-style:italic;\">Xếp tầng</span> sẽ xếp tầng các cửa "
+"sổ</li><li style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
+"style:italic;\">Ngẫu nhiên</span> sẽ dùng một vị trí ngẫu nhiên</li><li "
+"style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-style:"
+"italic;\">Ở giữa</span> sẽ đặt cửa sổ vào giữa</li><li style=\"margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\"font-style:italic;\">Ở góc trái "
+"trên</span> sẽ đặt cửa sổ vào góc trái trên</li><li style=\"margin-top:0px; "
+"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\"font-style:italic;\">Dưới chuột</span> sẽ "
+"đặt cửa sổ vào dưới con trỏ</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:80
-#, fuzzy, kde-format
-#| msgid "Snap windows onl&y when overlapping"
+#, kde-format
 msgid "Minimal Overlapping"
-msgstr "Đính cửa sổ chỉ khi c&hồng chéo"
+msgstr "Chồng lấn tối thiểu"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:85
-#, fuzzy, kde-format
-#| msgid "Maximize"
+#, kde-format
 msgid "Maximized"
-msgstr "Phóng to"
+msgstr "Tối đa hoá"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:90
-#, fuzzy, kde-format
-#| msgid "Cascade"
+#, kde-format
 msgid "Cascaded"
-msgstr "Tầng xếp"
+msgstr "Xếp tầng"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:95
@@ -584,14 +576,13 @@ msgstr "Ở giữa"
 #: advanced.ui:105
 #, kde-format
 msgid "In Top-Left Corner"
-msgstr ""
+msgstr "Ở góc trái trên"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:110
-#, fuzzy, kde-format
-#| msgid "Focus Under Mouse"
+#, kde-format
 msgid "Under mouse"
-msgstr "Tiêu điểm dưới chuột"
+msgstr "Dưới chuột"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:118
@@ -601,6 +592,9 @@ msgid ""
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
+"Khi được bật, các ứng dụng có khả năng nhớ vị trí cửa sổ sẽ được phép làm "
+"như vậy. Việc này sẽ vượt hiệu lực của chế độ xếp chỗ cửa sổ được xác định ở "
+"trên."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:121
@@ -608,13 +602,14 @@ msgstr ""
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
+"Cho phép các ứng dụng nhớ vị trí các cửa sổ của chúng, nếu chúng hỗ trợ việc "
+"đó"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
 #: advanced.ui:128
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgid "&Special windows:"
-msgstr "Cửa sổ"
+msgstr "Cửa sổ đặc &biệt:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
 #: advanced.ui:138
@@ -625,16 +620,16 @@ msgid ""
 "application becomes active. Note that applications have to mark the windows "
 "with the proper window type for this feature to work."
 msgstr ""
-"Khi bật, các cửa sổ tiện ích (cửa sổ công cụ, trình đơn tách rời v.v.) của "
-"ứng dụng bị động sẽ bị ẩn, và sẽ được hiển thị chỉ khi ứng dụng tương ứng "
-"trở thành hoạt động. Ghi chú rằng ứng dụng phải đánh dấu cửa sổ bằng kiểu "
-"cửa sổ đúng để làm cho tính năng này hoạt động."
+"Khi được bật, các cửa sổ tiện ích (cửa sổ công cụ, trình đơn xé tách, ...) "
+"của các ứng dụng bất hoạt sẽ bị ẩn và sẽ chỉ được hiển thị khi ứng dụng đó "
+"hoạt động trở lại. Lưu ý rằng để tính năng này hoạt động, ứng dụng phải đánh "
+"dấu cửa sổ bằng kiểu cửa sổ thích hợp."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
 #: advanced.ui:141
 #, kde-format
 msgid "Hide utility windows for inactive applications"
-msgstr "Ẩn cửa sổ tiện ích cho ứng dụng bị động"
+msgstr "Ẩn cửa sổ tiện ích cho các ứng dụng bất hoạt"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyLabel)
 #: focus.ui:22
@@ -815,10 +810,9 @@ msgstr "Cực độ"
 
 #. i18n: ectx: property (text), widget (QLabel, raisingWindowsLabel)
 #: focus.ui:146
-#, fuzzy, kde-format
-#| msgid "Moving windows:"
+#, kde-format
 msgid "Raising windows:"
-msgstr "Cửa sổ di chuyển:"
+msgstr "Nâng cửa sổ lên:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ClickRaise)
 #: focus.ui:153
@@ -828,16 +822,15 @@ msgid ""
 "when you click somewhere into the window contents. To change it for inactive "
 "windows, you need to change the settings in the Actions tab."
 msgstr ""
-"Khi bật, cửa sổ hoạt động sẽ lên trước khi bạn bấm vào nơi nào trong nội "
-"dung cửa sổ. Để bật tuỳ chọn này cho cửa sổ bị động, bạn cần phải thay đổi "
-"thiết lập trong phần Hành động."
+"Khi lựa chọn này được bật, cửa sổ hoạt động sẽ được đưa lên phía trước khi "
+"bạn bấm vào phần nội dung cửa sổ. Để thay đổi lựa chọn này cho cửa sổ bị "
+"động, bạn cần thay đổi thiết lập trong thẻ \"Hành động\"."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ClickRaise)
 #: focus.ui:156
-#, fuzzy, kde-format
-#| msgid "C&lick raise active window"
+#, kde-format
 msgid "&Click raises active window"
-msgstr "Bấ&m nâng cửa sổ lên"
+msgstr "Bấ&m nâng cửa sổ hoạt động lên"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AutoRaise)
 #: focus.ui:165
@@ -846,14 +839,14 @@ msgid ""
 "When this option is enabled, a window in the background will automatically "
 "come to the front when the mouse pointer has been over it for some time."
 msgstr ""
-"Khi bật, cửa sổ nằm trong nền sẽ lên trước tự động khi con trỏ chuột đã trên "
-"nó trong một thời gian."
+"Khi lựa chọn này được bật, cửa sổ ở nền sẽ tự động đi lên trước sau khi con "
+"trỏ chuột đã ở trên nó một lúc."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoRaise)
 #: focus.ui:168
 #, kde-format
 msgid "&Raise on hover, delayed by:"
-msgstr ""
+msgstr "Nâng &lên khi đảo chuột, trễ:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_AutoRaiseInterval)
 #: focus.ui:175
@@ -861,150 +854,137 @@ msgstr ""
 msgid ""
 "This is the delay after which the window that the mouse pointer is over will "
 "automatically come to the front."
-msgstr "Đây là khoảng trễ sau mà cửa sổ dưới con trỏ chuột sẽ lên trước."
+msgstr ""
+"Đây là khoảng trễ mà sau đó, cửa sổ ở dưới con trỏ chuột sẽ tự động đi lên "
+"trước."
 
 #. i18n: ectx: property (text), widget (QLabel, multiscreenBehaviorLabel)
 #: focus.ui:196
 #, kde-format
 msgid "Multiscreen behavior:"
-msgstr ""
+msgstr "Ứng xử đa màn hình"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:203
-#, fuzzy, kde-format
-#| msgid ""
-#| "When this option is enabled, active Xinerama screen (where for example "
-#| "new windows appear) is the screen with the mouse pointer. When disabled, "
-#| "the active Xinerama screen is the screen with the focused window. This "
-#| "option is by default disabled for Click to focus and enabled for other "
-#| "focus policies."
+#, kde-format
 msgid ""
-"When this option is enabled, the active Xinerama screen (where new windows "
-"appear, for example) is the screen containing the mouse pointer. When "
-"disabled, the active Xinerama screen is the screen containing the focused "
-"window. By default this option is disabled for Click to focus and enabled "
-"for other focus policies."
+"When this option is enabled, the active screen (where new windows appear, "
+"for example) is the screen containing the mouse pointer. When disabled, the "
+"active screen is the screen containing the focused window."
 msgstr ""
-"Bật tuỳ chọn này thì màn hình Xinerama hoạt động (trên nó, chẳng hạn, các "
-"cửa sổ mới xuất hiện) là màn hình hiển thị con trỏ chuột. Tắt thì màn hình "
-"Xinerama hoạt động là màn hình có cửa sổ có tiêu điểm. Mặc định là tuỳ chọn "
-"này bị tắt cho « Nhấn để lấy tiêu điểm » và được bật cho các chính sách tiêu "
-"điểm khác."
+"Khi lựa chọn này được bật, màn hình hoạt động (chẳng hạn, khi các cửa sổ mới "
+"xuất hiện) là màn hình đang chứa con trỏ chuột. Khi tắt, màn hình hoạt động "
+"là màn hình chứa cửa sổ đang được nhắm vào."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:206
 #, kde-format
 msgid "Active screen follows &mouse"
-msgstr ""
+msgstr "Màn hình hoạt động chuyển theo &chuột"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:213
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
-"Xinerama screen"
+"screen"
 msgstr ""
-"Bật tuỳ chọn này thì thao tác tiêu điểm bị giới hạn thành chỉ màn hình "
-"Xinerama hoạt động."
+"Khi lựa chọn này được bật, các thao tác nhắm sẽ bị giới hạn chỉ trong màn "
+"hình hoạt động"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:216
-#, fuzzy, kde-format
-#| msgid "S&eparate screen focus"
+#, kde-format
 msgid "&Separate screen focus"
-msgstr "Tiê&u điểm màn hình riêng"
+msgstr "&Giới hạn nhắm trong màn hình"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyDescriptionLabel)
 #: focus.ui:229
 #, kde-format
 msgid "Window activation policy description"
-msgstr ""
+msgstr "Mô tả chính sách kích hoạt cửa sổ"
 
-#: main.cpp:73
+#: main.cpp:74
 #, kde-format
 msgid "&Focus"
 msgstr "&Nhắm"
 
-#: main.cpp:84
-#, fuzzy, kde-format
-#| msgid "&Titlebar Actions"
+#: main.cpp:80
+#, kde-format
 msgid "Titlebar A&ctions"
-msgstr "Hành động &thanh tựa"
+msgstr "Hành động ở &thanh tiêu đề"
 
-#: main.cpp:91
-#, fuzzy, kde-format
-#| msgid "Window Actio&ns"
+#: main.cpp:86
+#, kde-format
 msgid "W&indow Actions"
-msgstr "Hà&nh động cửa sổ"
+msgstr "Hành động ở cửa &sổ"
+
+#: main.cpp:92
+#, kde-format
+msgid "Mo&vement"
+msgstr "Di chu&yển"
 
 #: main.cpp:98
-#, fuzzy, kde-format
-#| msgid "&Placement:"
-msgid "Mo&vement"
-msgstr "&Vị trí :"
-
-#: main.cpp:105
-#, fuzzy, kde-format
-#| msgid "Ad&vanced"
+#, kde-format
 msgid "Adva&nced"
-msgstr "Cấp c&ao"
+msgstr "Nâng &cao"
 
-#: main.cpp:110
+#: main.cpp:102
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "Khối cấu hình ứng xử cửa sổ"
 
-#: main.cpp:112
+#: main.cpp:104
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
-msgstr "Bản quyền © năm 1997-2002 của Các tác giả KWin và KControl"
+msgstr "(c) 1997 - 2002 Các tác giả KWin và KControl"
+
+#: main.cpp:106
+#, kde-format
+msgid "Matthias Ettrich"
+msgstr "Matthias Ettrich"
+
+#: main.cpp:107
+#, kde-format
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: main.cpp:108
+#, kde-format
+msgid "Cristian Tibirna"
+msgstr "Cristian Tibirna"
+
+#: main.cpp:109
+#, kde-format
+msgid "Matthias Kalle Dalheimer"
+msgstr "Matthias Kalle Dalheimer"
+
+#: main.cpp:110
+#, kde-format
+msgid "Daniel Molkentin"
+msgstr "Daniel Molkentin"
+
+#: main.cpp:111
+#, kde-format
+msgid "Wynn Wilkes"
+msgstr "Wynn Wilkes"
+
+#: main.cpp:112
+#, kde-format
+msgid "Pat Dowler"
+msgstr "Pat Dowler"
+
+#: main.cpp:113
+#, kde-format
+msgid "Bernd Wuebben"
+msgstr "Bernd Wuebben"
 
 #: main.cpp:114
 #, kde-format
-msgid "Matthias Ettrich"
-msgstr ""
-
-#: main.cpp:115
-#, kde-format
-msgid "Waldo Bastian"
-msgstr ""
-
-#: main.cpp:116
-#, kde-format
-msgid "Cristian Tibirna"
-msgstr ""
-
-#: main.cpp:117
-#, kde-format
-msgid "Matthias Kalle Dalheimer"
-msgstr ""
-
-#: main.cpp:118
-#, kde-format
-msgid "Daniel Molkentin"
-msgstr ""
-
-#: main.cpp:119
-#, kde-format
-msgid "Wynn Wilkes"
-msgstr ""
-
-#: main.cpp:120
-#, kde-format
-msgid "Pat Dowler"
-msgstr ""
-
-#: main.cpp:121
-#, kde-format
-msgid "Bernd Wuebben"
-msgstr ""
-
-#: main.cpp:122
-#, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
-msgstr ""
+msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:167
+#: main.cpp:163
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -1020,37 +1000,35 @@ msgstr ""
 "</p><p>Vui lòng lưu ý rằng cấu hình này sẽ không có tác dụng nếu bạn không "
 "dùng KWin làm trình quản lí cửa sổ. Nếu bạn dùng một trình quản lí cửa sổ "
 "khác, vui lòng tham khảo tài liệu hướng dẫn của chương trình đó để biết cách "
-"tự chọn ứng xử của cửa sổ."
+"tự chọn ứng xử của cửa sổ.</p>"
 
-#: main.cpp:187
+#: main.cpp:205
 #, kde-format
 msgid "&Titlebar Actions"
-msgstr "Hành động &thanh tựa"
+msgstr "Hành động ở &thanh tiêu đề"
 
-#: main.cpp:193
+#: main.cpp:211
 #, kde-format
 msgid "Window Actio&ns"
-msgstr "Hà&nh động cửa sổ"
+msgstr "Hành động ở cửa &sổ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: mouse.ui:17
-#, fuzzy, kde-format
-#| msgid "&Titlebar Actions"
+#, kde-format
 msgid "Titlebar Actions"
-msgstr "Hành động &thanh tựa"
+msgstr "Hành động ở thanh tiêu đề"
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: mouse.ui:26
-#, fuzzy, kde-format
-#| msgid "&Titlebar double-click:"
+#, kde-format
 msgid "&Double-click:"
-msgstr "Bấm đôi &thanh tựa :"
+msgstr "Bấm đú&p:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
 #: mouse.ui:36
 #, kde-format
 msgid "Behavior on <em>double</em> click into the titlebar."
-msgstr "Ứng dụng khi <em>bấm đôi</em> trên thanh tựa."
+msgstr "Ứng xử khi bấm <em>đúp</em> vào thanh tiêu đề."
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1058,8 +1036,7 @@ msgstr "Ứng dụng khi <em>bấm đôi</em> trên thanh tựa."
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonMiddleClickCommand)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
 #: mouse.ui:40 mouse.ui:615 mouse.ui:650 mouse.ui:685
-#, fuzzy, kde-format
-#| msgid "Maximize"
+#, kde-format
 msgid "Maximize"
 msgstr "Phóng to"
 
@@ -1071,7 +1048,7 @@ msgstr "Phóng to"
 #: mouse.ui:45 mouse.ui:620 mouse.ui:655 mouse.ui:690
 #, kde-format
 msgid "Vertically maximize"
-msgstr ""
+msgstr "Phóng to theo chiều dọc"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1079,10 +1056,9 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonMiddleClickCommand)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
 #: mouse.ui:50 mouse.ui:625 mouse.ui:660 mouse.ui:695
-#, fuzzy, kde-format
-#| msgid "Horizontal offset:"
+#, kde-format
 msgid "Horizontally maximize"
-msgstr "Hiệu số ngang:"
+msgstr "Phóng to theo chiều ngang"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1096,7 +1072,7 @@ msgstr "Hiệu số ngang:"
 #: mouse.ui:548
 #, kde-format
 msgid "Shade"
-msgstr "Bóng"
+msgstr "Che"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1110,29 +1086,26 @@ msgstr "Bóng"
 #: mouse.ui:553
 #, kde-format
 msgid "Close"
-msgstr ""
+msgstr "Đóng"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
 #: mouse.ui:75
-#, fuzzy, kde-format
-#| msgid "On All Desktops"
+#, kde-format
 msgid "Show on all desktops"
-msgstr "Trên mọi môi trường"
+msgstr "Hiện ở tất cả các bàn làm việc"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandTitlebarWheel)
 #: mouse.ui:98
-#, fuzzy, kde-format
-#| msgid "Behavior on <em>double</em> click into the titlebar."
+#, kde-format
 msgid "Behavior on <em>mouse wheel</em> scroll over the titlebar."
-msgstr "Ứng dụng khi <em>nhắp đôi</em> trên thanh tựa."
+msgstr "Ứng xử khi cuộn <em>nút cuộn chuột</em> trên thanh tiêu đề."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: mouse.ui:143
-#, fuzzy, kde-format
-#| msgid "&Titlebar Actions"
+#, kde-format
 msgid "Titlebar and Frame Actions"
-msgstr "Hành động &thanh tựa"
+msgstr "Hành động ở thanh tiêu đề và khung"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: mouse.ui:167
@@ -1144,7 +1117,7 @@ msgstr "Hoạt động"
 #: mouse.ui:190
 #, kde-format
 msgid "Inactive"
-msgstr "Bị động"
+msgstr "Bất hoạt"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandActiveTitlebar1)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandActiveTitlebar2)
@@ -1155,8 +1128,8 @@ msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an <em>active</"
 "em> window."
 msgstr ""
-"Ứng dụng khi bấm <em>trái</em> trên thanh tựa hay khung của cửa sổ <em>hoạt "
-"động</em>."
+"Ứng xử khi bấm <em>trái</em> vào thanh tiêu đề hoặc khung của một cửa sổ "
+"<em>hoạt động</em>."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar1)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar1)
@@ -1166,10 +1139,9 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar3)
 #: mouse.ui:266 mouse.ui:328 mouse.ui:381 mouse.ui:443 mouse.ui:496
 #: mouse.ui:558
-#, fuzzy, kde-format
-#| msgid "Operations Menu"
+#, kde-format
 msgid "Show actions menu"
-msgstr "Trình đơn thao tác"
+msgstr "Hiện trình đơn các hành động"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandInactiveTitlebar1)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandInactiveTitlebar2)
@@ -1180,58 +1152,55 @@ msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an "
 "<em>inactive</em> window."
 msgstr ""
-"Ứng dụng khi bấm <em>trái</em> trên thanh tựa hay khung của cửa sổ <em>bị "
-"động</em>."
+"Ứng xử khi bấm <em>trái</em> vào thanh tiêu đề hoặc khung của một cửa sổ "
+"<em>bất hoạt</em>."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar1)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar3)
 #: mouse.ui:288 mouse.ui:403 mouse.ui:518
-#, fuzzy, kde-format
-#| msgid "Activate & Lower"
+#, kde-format
 msgid "Activate and lower"
-msgstr "Kích hoạt và hạ thấp"
+msgstr "Kích hoạt và hạ xuống"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: mouse.ui:589
-#, fuzzy, kde-format
-#| msgid "Maximize Button"
+#, kde-format
 msgid "Maximize Button Actions"
-msgstr "Nút phóng to"
+msgstr "Hành động của nút phóng to"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_8)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_MaximizeButtonLeftClickCommand)
 #: mouse.ui:598 mouse.ui:611
 #, kde-format
 msgid "Behavior on <em>left</em> click onto the maximize button."
-msgstr "Ứng dụng khi bấm <em>trái</em> vào cái nút phóng to."
+msgstr "Ứng xử khi bấm <em>trái</em> vào nút phóng to."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_9)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_MaximizeButtonMiddleClickCommand)
 #: mouse.ui:633 mouse.ui:646
 #, kde-format
 msgid "Behavior on <em>middle</em> click onto the maximize button."
-msgstr "Ứng dụng khi bấm <em>giữa</em> vào cái nút phóng to."
+msgstr "Ứng xử khi bấm <em>giữa</em> vào nút phóng to."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: mouse.ui:636
-#, fuzzy, kde-format
-#| msgid "Middle button:"
+#, kde-format
 msgid "Middle c&lick:"
-msgstr "Nút giữa :"
+msgstr "Bấm giữ&a:"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_10)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
 #: mouse.ui:668 mouse.ui:681
 #, kde-format
 msgid "Behavior on <em>right</em> click onto the maximize button."
-msgstr "Ứng dụng khi bấm <em>phải</em> vào cái nút phóng to."
+msgstr "Ứng xử khi bấm <em>phải</em> vào nút phóng to."
 
 #. i18n: ectx: property (text), widget (QLabel, geometryTipLabel)
 #: moving.ui:20
 #, kde-format
 msgid "Window &geometry:"
-msgstr ""
+msgstr "&Hình dạng của cửa sổ:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_GeometryTip)
 #: moving.ui:30
@@ -1241,77 +1210,62 @@ msgid ""
 "is being moved or resized. The window position relative to the top-left "
 "corner of the screen is displayed together with its size."
 msgstr ""
-"Hãy bật tuỳ chọn này nếu khi bạn di chuyển hay thay đổi kích cỡ của cửa sổ, "
-"bạn muốn vị trí và các chiều của cửa sổ được hiển thị. Vị trí của cửa sổ cân "
-"xứng với góc trái bên trên màn hình được hiển thị cùng với kích cỡ của sổ."
+"Bật lựa chọn này nếu bạn muốn hình dạng của một cửa sổ được hiển thị khi nó "
+"được di chuyển hoặc đổi cỡ. Vị trí tương đối của cửa sổ so với góc trái trên "
+"của màn hình sẽ được hiển thị cùng với kích thước cửa sổ."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GeometryTip)
 #: moving.ui:33
-#, fuzzy, kde-format
-#| msgid "Display window &geometry when moving or resizing"
+#, kde-format
 msgid "Display when moving or resizing"
-msgstr "Hiển thị vị trí cửa sổ khi chuyển hay đổi kích cỡ"
+msgstr "Hiển thị khi di chuyển hoặc đổi cỡ"
 
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
 #: moving.ui:40
-#, fuzzy, kde-format
-#| msgid "&Border snap zone:"
+#, kde-format
 msgid "Screen &edge snap zone:"
-msgstr "&Vùng đính viền:"
+msgstr "Khu &vực đính ở cạnh màn hình:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_BorderSnapZone)
 #: moving.ui:50
-#, fuzzy, kde-format
-#| msgid ""
-#| "Here you can set the snap zone for screen borders, i.e. the 'strength' of "
-#| "the magnetic field which will make windows snap to the border when moved "
-#| "near it."
+#, kde-format
 msgid ""
 "Here you can set the snap zone for screen edges, i.e. the 'strength' of the "
 "magnetic field which will make windows snap to the border when moved near it."
 msgstr ""
-"Ở đây bạn có thể đặt vùng đính cho các viền màn hình, tức là độ mạnh của sức "
-"hút từ ảo mà làm cho cửa sổ đính viền khi được di chuyển gần nó."
+"Tại đây bạn có thể đặt khu vực đính cho các cạnh màn hình, tức là 'độ mạnh' "
+"của từ trường làm cho các cửa sổ đính vào cạnh khi di chuyển ở gần nó."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_BorderSnapZone)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_WindowSnapZone)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_CenterSnapZone)
 #: moving.ui:56 moving.ui:78 moving.ui:100
-#, fuzzy, kde-format
-#| msgid " pixel"
-#| msgid_plural " pixels"
+#, kde-format
 msgid " px"
-msgstr " điểm ảnh"
+msgstr " px"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_WindowSnapZone)
 #: moving.ui:72
-#, fuzzy, kde-format
-#| msgid ""
-#| "Here you can set the snap zone for windows, i.e. the 'strength' of the "
-#| "magnetic field which will make windows snap to each other when they're "
-#| "moved near another window."
+#, kde-format
 msgid ""
 "Here you can set the snap zone for windows, i.e. the 'strength' of the "
 "magnetic field which will make windows snap to each other when they are "
 "moved near another window."
 msgstr ""
-"Ở đây bạn có thể đặt vùng đính cho các cửa sổ, tức là độ mạnh của sức hút từ "
-"ảo mà làm cho nhiều cửa sổ đính với nhau khi được di chuyển gần nhau."
+"Tại đây bạn có thể đặt khu vực đính cho các cửa sổ, tức là 'độ mạnh' của từ "
+"trường làm cho các cửa sổ đính vào nhau khi di chuyển ở gần một cửa sổ khác."
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_CenterSnapZone)
 #: moving.ui:94
-#, fuzzy, kde-format
-#| msgid ""
-#| "Here you can set the snap zone for screen borders, i.e. the 'strength' of "
-#| "the magnetic field which will make windows snap to the border when moved "
-#| "near it."
+#, kde-format
 msgid ""
 "Here you can set the snap zone for the screen center, i.e. the 'strength' of "
 "the magnetic field which will make windows snap to the center of the screen "
 "when moved near it."
 msgstr ""
-"Ở đây bạn có thể đặt vùng đính cho các viền màn hình, tức là độ mạnh của sức "
-"hút từ ảo mà làm cho cửa sổ đính viền khi được di chuyển gần nó."
+"Tại đây bạn có thể đặt khu vực đính cho vùng tâm màn hình, tức là 'độ mạnh' "
+"của từ trường làm cho các cửa sổ đính vào tâm màn hình khi di chuyển ở gần "
+"nó."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
 #: moving.ui:113
@@ -1321,37 +1275,35 @@ msgid ""
 "them, i.e. they will not be snapped if the windows comes only near another "
 "window or border."
 msgstr ""
-"Ở đây bạn có thể đặt đính cửa sổ chỉ nếu bạn cố chồng chéo nhiều cửa sổ, tức "
-"là cửa sổ sẽ không được đính nếu nó đi gần một cửa sổ khác hay viền."
+"Tại đây bạn có thể chỉ định rằng các cửa sổ sẽ chỉ đính nếu bạn chồng chúng "
+"lên nhau, tức là chúng sẽ không đính nếu chỉ đến gần một cửa sổ khác hoặc "
+"cạnh."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
 #: moving.ui:116
-#, fuzzy, kde-format
-#| msgid "Snap windows onl&y when overlapping"
+#, kde-format
 msgid "Only when overlapping"
-msgstr "Đính cửa sổ chỉ khi c&hồng chéo"
+msgstr "Chỉ khi chồng nhau"
 
 #. i18n: ectx: property (text), widget (QLabel, windowSnapLabel)
 #: moving.ui:123
 #, kde-format
 msgid "&Window snap zone:"
-msgstr "Vùng đính &cửa sổ :"
+msgstr "Khu vực đính ở cửa &sổ:"
 
 #. i18n: ectx: property (text), widget (QLabel, centerSnaplabel)
 #: moving.ui:133
-#, fuzzy, kde-format
-#| msgid "&Border snap zone:"
+#, kde-format
 msgid "&Center snap zone:"
-msgstr "&Vùng đính viền:"
+msgstr "Khu vực đính ở tâ&m:"
 
 #. i18n: ectx: property (text), widget (QLabel, OverlapSnapLabel)
 #: moving.ui:143
-#, fuzzy, kde-format
-#| msgid "Inactive windows:"
+#, kde-format
 msgid "&Snap windows:"
-msgstr "Cửa sổ bị động:"
+msgstr "Đín&h cửa sổ:"
 
-#: windows.cpp:101
+#: windows.cpp:99
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1361,7 +1313,7 @@ msgstr ""
 "ứng xử này phổ biến ở các hệ điều hành khác và nhiều khả năng là cái bạn "
 "muốn."
 
-#: windows.cpp:105
+#: windows.cpp:103
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1375,7 +1327,7 @@ msgstr ""
 "hiện tại bị đóng) thì cửa sổ ở dưới chuột là lựa chọn được ưu tiên. Là một "
 "biến thể ít dùng, nhưng có thể, của <em>Bấm để nhắm</em>."
 
-#: windows.cpp:110
+#: windows.cpp:108
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1388,7 +1340,7 @@ msgstr ""
 "<em>Ngăn chặn lấy nhắm</em> diễn ra như bình thường. Nghĩ về nó như là "
 "<em>Bấm để nhắm</em>, chỉ là không cần phải thật sự bấm."
 
-#: windows.cpp:114
+#: windows.cpp:112
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1401,7 +1353,7 @@ msgstr ""
 "dưới chuột là lựa chọn được ưu tiên. Chọn cái này nếu bạn muốn nhắm được "
 "điều khiển bằng đảo chuột."
 
-#: windows.cpp:119
+#: windows.cpp:117
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1416,7 +1368,7 @@ msgstr ""
 "hoạt động. Rất nhiều khả năng là bạn muốn dùng <em>Nhắm đi theo chuột (ưu "
 "tiên chuột)</em> chứ không phải cái này!"
 
-#: windows.cpp:123
+#: windows.cpp:121
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

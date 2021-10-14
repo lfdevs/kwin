@@ -61,17 +61,18 @@ void LayerShellV1ClientTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    QCOMPARE(screens()->count(), 2);
-    QCOMPARE(screens()->geometry(0), QRect(0, 0, 1280, 1024));
-    QCOMPARE(screens()->geometry(1), QRect(1280, 0, 1280, 1024));
-    waylandServer()->initWorkspace();
+    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    QCOMPARE(outputs.count(), 2);
+    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    Test::initWaylandWorkspace();
 }
 
 void LayerShellV1ClientTest::init()
 {
     QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::LayerShellV1));
 
-    screens()->setCurrent(0);
+    workspace()->setActiveOutput(QPoint(640, 512));
     Cursors::self()->mouse()->setPos(QPoint(640, 512));
 }
 

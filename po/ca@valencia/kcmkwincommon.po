@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-21 02:50+0100\n"
+"POT-Creation-Date: 2021-04-24 00:20+0000\n"
 "PO-Revision-Date: 2019-07-05 12:06+0200\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -31,55 +31,55 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "txemaq@gmail.com"
 
-#: effectsmodel.cpp:51
+#: effectsmodel.cpp:53
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Accessibilitat"
 
-#: effectsmodel.cpp:52
+#: effectsmodel.cpp:54
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Aparença"
 
-#: effectsmodel.cpp:53
+#: effectsmodel.cpp:55
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Focus"
 
-#: effectsmodel.cpp:54
+#: effectsmodel.cpp:56
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Show Desktop Animation"
 msgstr "Animació per a mostrar l'escriptori"
 
-#: effectsmodel.cpp:55
+#: effectsmodel.cpp:57
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Eines"
 
-#: effectsmodel.cpp:56
+#: effectsmodel.cpp:58
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr "Animació de canvi d'escriptoris virtuals"
 
-#: effectsmodel.cpp:57
+#: effectsmodel.cpp:59
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Gestió de les finestres"
 
-#: effectsmodel.cpp:58
+#: effectsmodel.cpp:60
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Open/Close Animation"
 msgstr "Animació d'obrir/tancar la finestra"
 
-#: effectsmodel.cpp:232
+#: effectsmodel.cpp:234
 #, kde-format
 msgid "KWin development team"
 msgstr "Equip de desenvolupament de KWin"

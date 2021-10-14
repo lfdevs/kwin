@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-11 08:56+0100\n"
-"PO-Revision-Date: 2021-03-22 17:15+0200\n"
+"POT-Creation-Date: 2021-10-06 01:45+0000\n"
+"PO-Revision-Date: 2021-09-05 14:54+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -41,18 +41,18 @@ msgstr ""
 "ilpo@iki.fi, mikko.piippo@helsinki.fi, lliehu@kolumbus.fi, "
 "translator@legisign.org"
 
-#: abstract_client.cpp:2768
+#: abstract_client.cpp:2818
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(Ei vastaa)"
 
-#: abstract_wayland_output.cpp:267
+#: abstract_wayland_output.cpp:260
 #, kde-format
 msgid "unknown"
 msgstr "tuntematon"
 
-#: composite.cpp:780
+#: composite.cpp:743
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -61,817 +61,817 @@ msgstr ""
 "Jokin sovellus on poistanut työpöytätehosteet väliaikaisesti<br/>käytöstä. "
 "Voit palauttaa ne käyttöön pikanäppäimellä %1."
 
-#: debug_console.cpp:65
+#: debug_console.cpp:79
 #, kde-format
 msgid "Timestamp"
 msgstr "Aikaleima"
 
-#: debug_console.cpp:70
+#: debug_console.cpp:84
 #, kde-format
 msgid "Timestamp (µsec)"
 msgstr "Aikaleima (µs)"
 
-#: debug_console.cpp:77
+#: debug_console.cpp:91
 #, kde-format
 msgctxt "A mouse button"
 msgid "Left"
 msgstr "Vasen"
 
-#: debug_console.cpp:79
+#: debug_console.cpp:93
 #, kde-format
 msgctxt "A mouse button"
 msgid "Right"
 msgstr "Oikea"
 
-#: debug_console.cpp:81
+#: debug_console.cpp:95
 #, kde-format
 msgctxt "A mouse button"
 msgid "Middle"
 msgstr "Keskimmäinen"
 
-#: debug_console.cpp:83
+#: debug_console.cpp:97
 #, kde-format
 msgctxt "A mouse button"
 msgid "Back"
 msgstr "Takaisin"
 
-#: debug_console.cpp:85
+#: debug_console.cpp:99
 #, kde-format
 msgctxt "A mouse button"
 msgid "Forward"
 msgstr "Eteenpäin"
 
-#: debug_console.cpp:87
+#: debug_console.cpp:101
 #, kde-format
 msgctxt "A mouse button"
 msgid "Task"
 msgstr "Tehtävä"
 
-#: debug_console.cpp:89
+#: debug_console.cpp:103
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 4"
 msgstr "Lisäpainike 4"
 
-#: debug_console.cpp:91
+#: debug_console.cpp:105
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 5"
 msgstr "Lisäpainike 5"
 
-#: debug_console.cpp:93
+#: debug_console.cpp:107
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 6"
 msgstr "Lisäpainike 6"
 
-#: debug_console.cpp:95
+#: debug_console.cpp:109
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 7"
 msgstr "Lisäpainike 7"
 
-#: debug_console.cpp:97
+#: debug_console.cpp:111
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 8"
 msgstr "Lisäpainike 8"
 
-#: debug_console.cpp:99
+#: debug_console.cpp:113
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 9"
 msgstr "Lisäpainike 9"
 
-#: debug_console.cpp:101
+#: debug_console.cpp:115
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 10"
 msgstr "Lisäpainike 10"
 
-#: debug_console.cpp:103
+#: debug_console.cpp:117
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 11"
 msgstr "Lisäpainike 11"
 
-#: debug_console.cpp:105
+#: debug_console.cpp:119
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 12"
 msgstr "Lisäpainike 12"
 
-#: debug_console.cpp:107
+#: debug_console.cpp:121
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 13"
 msgstr "Lisäpainike 13"
 
-#: debug_console.cpp:109
+#: debug_console.cpp:123
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 14"
 msgstr "Lisäpainike 14"
 
-#: debug_console.cpp:111
+#: debug_console.cpp:125
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 15"
 msgstr "Lisäpainike 15"
 
-#: debug_console.cpp:113
+#: debug_console.cpp:127
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 16"
 msgstr "Lisäpainike 16"
 
-#: debug_console.cpp:115
+#: debug_console.cpp:129
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 17"
 msgstr "Lisäpainike 17"
 
-#: debug_console.cpp:117
+#: debug_console.cpp:131
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 18"
 msgstr "Lisäpainike 18"
 
-#: debug_console.cpp:119
+#: debug_console.cpp:133
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 19"
 msgstr "Lisäpainike 19"
 
-#: debug_console.cpp:121
+#: debug_console.cpp:135
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 20"
 msgstr "Lisäpainike 20"
 
-#: debug_console.cpp:123
+#: debug_console.cpp:137
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 21"
 msgstr "Lisäpainike 21"
 
-#: debug_console.cpp:125
+#: debug_console.cpp:139
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 22"
 msgstr "Lisäpainike 22"
 
-#: debug_console.cpp:127
+#: debug_console.cpp:141
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 23"
 msgstr "Lisäpainike 23"
 
-#: debug_console.cpp:129
+#: debug_console.cpp:143
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 24"
 msgstr "Lisäpainike 24"
 
-#: debug_console.cpp:138 debug_console.cpp:140
+#: debug_console.cpp:152 debug_console.cpp:154
 #, kde-format
 msgid "Input Device"
 msgstr "Syöttölaite"
 
-#: debug_console.cpp:138
+#: debug_console.cpp:152
 #, kde-format
 msgctxt "The input device of the event is not known"
 msgid "Unknown"
 msgstr "Tuntematon"
 
-#: debug_console.cpp:175
+#: debug_console.cpp:189
 #, kde-format
 msgctxt "A mouse pointer motion event"
 msgid "Pointer Motion"
 msgstr "Osoittimen liike"
 
-#: debug_console.cpp:182
+#: debug_console.cpp:196
 #, kde-format
 msgctxt "The relative mouse movement"
 msgid "Delta"
 msgstr "Delta"
 
-#: debug_console.cpp:186
+#: debug_console.cpp:200
 #, kde-format
 msgctxt "The relative mouse movement"
 msgid "Delta (not accelerated)"
 msgstr "Delta (kiihdyttämätön)"
 
-#: debug_console.cpp:189
+#: debug_console.cpp:203
 #, kde-format
 msgctxt "The global mouse pointer position"
 msgid "Global Position"
-msgstr "Globaali sijainti"
+msgstr "Järjestelmänlaajuinen sijainti"
 
-#: debug_console.cpp:193
+#: debug_console.cpp:207
 #, kde-format
 msgctxt "A mouse pointer button press event"
 msgid "Pointer Button Press"
 msgstr "Osoitinpainikkeen painallus"
 
-#: debug_console.cpp:196 debug_console.cpp:204
+#: debug_console.cpp:210 debug_console.cpp:218
 #, kde-format
 msgctxt "A button in a mouse press/release event"
 msgid "Button"
 msgstr "Painike"
 
-#: debug_console.cpp:197 debug_console.cpp:205
+#: debug_console.cpp:211 debug_console.cpp:219
 #, kde-format
 msgctxt "A button in a mouse press/release event"
 msgid "Native Button code"
 msgstr "Natiivi painikekoodi"
 
-#: debug_console.cpp:198 debug_console.cpp:206
+#: debug_console.cpp:212 debug_console.cpp:220
 #, kde-format
 msgctxt "All currently pressed buttons in a mouse press/release event"
 msgid "Pressed Buttons"
 msgstr "Painetut painikkeet"
 
-#: debug_console.cpp:201
+#: debug_console.cpp:215
 #, kde-format
 msgctxt "A mouse pointer button release event"
 msgid "Pointer Button Release"
 msgstr "Osoitinpainikkeen vapautus"
 
-#: debug_console.cpp:221
+#: debug_console.cpp:235
 #, kde-format
 msgctxt "A mouse pointer axis (wheel) event"
 msgid "Pointer Axis"
 msgstr "Osoittimen akseli"
 
-#: debug_console.cpp:225
+#: debug_console.cpp:239
 #, kde-format
 msgctxt "The orientation of a pointer axis event"
 msgid "Orientation"
 msgstr "Suunta"
 
-#: debug_console.cpp:226
+#: debug_console.cpp:240
 #, kde-format
 msgctxt "An orientation of a pointer axis event"
 msgid "Horizontal"
 msgstr "Vaakasuuntainen"
 
-#: debug_console.cpp:227
+#: debug_console.cpp:241
 #, kde-format
 msgctxt "An orientation of a pointer axis event"
 msgid "Vertical"
 msgstr "Pystysuuntainen"
 
-#: debug_console.cpp:228
+#: debug_console.cpp:242
 #, kde-format
 msgctxt "The angle delta of a pointer axis event"
 msgid "Delta"
 msgstr "Delta"
 
-#: debug_console.cpp:243
+#: debug_console.cpp:257
 #, kde-format
 msgctxt "A key press event"
 msgid "Key Press"
 msgstr "Näppäimen painallus"
 
-#: debug_console.cpp:246
+#: debug_console.cpp:260
 #, kde-format
 msgctxt "A key release event"
 msgid "Key Release"
 msgstr "Näppäimen vapautus"
 
-#: debug_console.cpp:255
+#: debug_console.cpp:269
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Shift"
 msgstr "Vaihto"
 
-#: debug_console.cpp:259
+#: debug_console.cpp:273
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Control"
 msgstr "Ctrl"
 
-#: debug_console.cpp:263
+#: debug_console.cpp:277
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Alt"
 msgstr "Alt"
 
-#: debug_console.cpp:267
+#: debug_console.cpp:281
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Meta"
 msgstr "Meta"
 
 # ** TARKISTA: Kommenttikaan ei auta ymmärtämään, mistä oikein on kyse
-#: debug_console.cpp:271
+#: debug_console.cpp:285
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Keypad"
 msgstr "Numeronäppäimistö"
 
-#: debug_console.cpp:275
+#: debug_console.cpp:289
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Group-switch"
 msgstr "Ryhmävaihto"
 
-#: debug_console.cpp:281
+#: debug_console.cpp:295
 #, kde-format
 msgctxt "Whether the event is an automatic key repeat"
 msgid "Repeat"
 msgstr "Toisto"
 
-#: debug_console.cpp:285
+#: debug_console.cpp:299
 #, kde-format
 msgctxt "The code as read from the input device"
 msgid "Scan code"
 msgstr "Laitekoodi"
 
-#: debug_console.cpp:286
+#: debug_console.cpp:300
 #, kde-format
 msgctxt "Key according to Qt"
 msgid "Qt::Key code"
 msgstr "Qt::Key-koodi"
 
-#: debug_console.cpp:288
+#: debug_console.cpp:302
 #, kde-format
 msgctxt "The translated code to an Xkb symbol"
 msgid "Xkb symbol"
 msgstr "Xkb-symboli"
 
-#: debug_console.cpp:289
+#: debug_console.cpp:303
 #, kde-format
 msgctxt "The translated code interpreted as text"
 msgid "Utf8"
 msgstr "UTF-8"
 
-#: debug_console.cpp:290
+#: debug_console.cpp:304
 #, kde-format
 msgctxt "The currently active modifiers"
 msgid "Modifiers"
 msgstr "Muuntonäppäimet"
 
 # ?!?!
-#: debug_console.cpp:302
+#: debug_console.cpp:316
 #, kde-format
 msgctxt "A touch down event"
 msgid "Touch down"
 msgstr "Kosketus alas"
 
-#: debug_console.cpp:304 debug_console.cpp:319 debug_console.cpp:334
+#: debug_console.cpp:318 debug_console.cpp:333 debug_console.cpp:348
 #, kde-format
 msgctxt "The id of the touch point in the touch event"
 msgid "Point identifier"
 msgstr "Pisteen tunnistin"
 
-#: debug_console.cpp:305 debug_console.cpp:320
+#: debug_console.cpp:319 debug_console.cpp:334
 #, kde-format
 msgctxt "The global position of the touch point"
 msgid "Global position"
 msgstr "Globaali sijainti"
 
-#: debug_console.cpp:317
+#: debug_console.cpp:331
 #, kde-format
 msgctxt "A touch motion event"
 msgid "Touch Motion"
 msgstr "Kosketusliike"
 
 # ?!?!
-#: debug_console.cpp:332
+#: debug_console.cpp:346
 #, kde-format
 msgctxt "A touch up event"
 msgid "Touch Up"
 msgstr "Kosketus ylös"
 
-#: debug_console.cpp:345
+#: debug_console.cpp:359
 #, kde-format
 msgctxt "A pinch gesture is started"
 msgid "Pinch start"
 msgstr "Nipistyksen alku"
 
-#: debug_console.cpp:347
+#: debug_console.cpp:361
 #, kde-format
 msgctxt "Number of fingers in this pinch gesture"
 msgid "Finger count"
 msgstr "Sormien määrä"
 
-#: debug_console.cpp:358
+#: debug_console.cpp:372
 #, kde-format
 msgctxt "A pinch gesture is updated"
 msgid "Pinch update"
 msgstr "Nipistyksen päivitys"
 
-#: debug_console.cpp:360
+#: debug_console.cpp:374
 #, kde-format
 msgctxt "Current scale in pinch gesture"
 msgid "Scale"
 msgstr "Mittakaava"
 
-#: debug_console.cpp:361
+#: debug_console.cpp:375
 #, kde-format
 msgctxt "Current angle in pinch gesture"
 msgid "Angle delta"
 msgstr "Kulman muutos"
 
-#: debug_console.cpp:362
+#: debug_console.cpp:376
 #, kde-format
 msgctxt "Current delta in pinch gesture"
 msgid "Delta x"
 msgstr "Delta-x"
 
-#: debug_console.cpp:363
+#: debug_console.cpp:377
 #, kde-format
 msgctxt "Current delta in pinch gesture"
 msgid "Delta y"
 msgstr "Delta-y"
 
-#: debug_console.cpp:374
+#: debug_console.cpp:388
 #, kde-format
 msgctxt "A pinch gesture ended"
 msgid "Pinch end"
 msgstr "Nipistyksen lopetus"
 
-#: debug_console.cpp:386
+#: debug_console.cpp:400
 #, kde-format
 msgctxt "A pinch gesture got cancelled"
 msgid "Pinch cancelled"
 msgstr "Nipistys peruttu"
 
-#: debug_console.cpp:398
+#: debug_console.cpp:412
 #, kde-format
 msgctxt "A swipe gesture is started"
 msgid "Swipe start"
 msgstr "Pyyhkäisyn aloitus"
 
-#: debug_console.cpp:400
+#: debug_console.cpp:414
 #, kde-format
 msgctxt "Number of fingers in this swipe gesture"
 msgid "Finger count"
 msgstr "Sormien määrä"
 
-#: debug_console.cpp:411
+#: debug_console.cpp:425
 #, kde-format
 msgctxt "A swipe gesture is updated"
 msgid "Swipe update"
 msgstr "Pyyhkäisyn päivitys"
 
-#: debug_console.cpp:413
+#: debug_console.cpp:427
 #, kde-format
 msgctxt "Current delta in swipe gesture"
 msgid "Delta x"
 msgstr "Delta-x"
 
-#: debug_console.cpp:414
+#: debug_console.cpp:428
 #, kde-format
 msgctxt "Current delta in swipe gesture"
 msgid "Delta y"
 msgstr "Delta-y"
 
-#: debug_console.cpp:425
+#: debug_console.cpp:439
 #, kde-format
 msgctxt "A swipe gesture ended"
 msgid "Swipe end"
 msgstr "Pyyhkäisyn lopetus"
 
-#: debug_console.cpp:437
+#: debug_console.cpp:451
 #, kde-format
 msgctxt "A swipe gesture got cancelled"
 msgid "Swipe cancelled"
 msgstr "Pyyhkäisy peruttu"
 
-#: debug_console.cpp:449
+#: debug_console.cpp:463
 #, kde-format
 msgctxt "A hardware switch (e.g. notebook lid) got toggled"
 msgid "Switch toggled"
 msgstr "Havaittiin laitetoiminto"
 
-#: debug_console.cpp:457
+#: debug_console.cpp:471
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Notebook lid"
 msgstr "Kannettava kansin"
 
-#: debug_console.cpp:459
+#: debug_console.cpp:473
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Tablet mode"
 msgstr "Tablettitila"
 
-#: debug_console.cpp:461
+#: debug_console.cpp:475
 #, kde-format
 msgctxt "A hardware switch"
 msgid "Switch"
 msgstr "Vaihda"
 
-#: debug_console.cpp:465
+#: debug_console.cpp:479
 #, kde-format
 msgctxt "The hardware switch got turned off"
 msgid "Off"
 msgstr "Poissa käytöstä"
 
-#: debug_console.cpp:468
+#: debug_console.cpp:482
 #, kde-format
 msgctxt "The hardware switch got turned on"
 msgid "On"
 msgstr "Käytössä"
 
-#: debug_console.cpp:473
+#: debug_console.cpp:487
 #, kde-format
 msgctxt "State of a hardware switch (on/off)"
 msgid "State"
 msgstr "Tila"
 
-#: debug_console.cpp:488
+#: debug_console.cpp:502
 #, kde-format
 msgid "Tablet Tool"
 msgstr "Tablettityökalu"
 
-#: debug_console.cpp:489
+#: debug_console.cpp:503
 #, kde-format
 msgid "EventType"
 msgstr "Tapahtumatyyppi"
 
-#: debug_console.cpp:490 debug_console.cpp:533 debug_console.cpp:546
+#: debug_console.cpp:504 debug_console.cpp:547 debug_console.cpp:560
 #, kde-format
 msgid "Position"
 msgstr "Sijainti"
 
-#: debug_console.cpp:492
+#: debug_console.cpp:506
 #, kde-format
 msgid "Tilt"
 msgstr "Kallistus"
 
-#: debug_console.cpp:494
+#: debug_console.cpp:508
 #, kde-format
 msgid "Rotation"
 msgstr "Kierto"
 
-#: debug_console.cpp:495
+#: debug_console.cpp:509
 #, kde-format
 msgid "Pressure"
 msgstr "Paine"
 
-#: debug_console.cpp:496
+#: debug_console.cpp:510
 #, kde-format
 msgid "Buttons"
 msgstr "Painikkeet"
 
 #. i18n: ectx: property (title), widget (QGroupBox, modifiersBox)
-#: debug_console.cpp:497 debug_console.ui:356
+#: debug_console.cpp:511 debug_console.ui:356
 #, kde-format
 msgid "Modifiers"
 msgstr "Muuntonäppäimet"
 
-#: debug_console.cpp:506
+#: debug_console.cpp:520
 #, kde-format
 msgid "Tablet Tool Button"
 msgstr "Tabletin työkalupainike"
 
-#: debug_console.cpp:507 debug_console.cpp:520
+#: debug_console.cpp:521 debug_console.cpp:534
 #, kde-format
 msgid "Button"
 msgstr "Painike"
 
-#: debug_console.cpp:508 debug_console.cpp:521
+#: debug_console.cpp:522 debug_console.cpp:535
 #, kde-format
 msgid "Pressed"
 msgstr "Painettu"
 
-#: debug_console.cpp:509 debug_console.cpp:522 debug_console.cpp:535
-#: debug_console.cpp:548
+#: debug_console.cpp:523 debug_console.cpp:536 debug_console.cpp:549
+#: debug_console.cpp:562
 #, kde-format
 msgid "Tablet"
 msgstr "Tabletti"
 
-#: debug_console.cpp:519
+#: debug_console.cpp:533
 #, kde-format
 msgid "Tablet Pad Button"
 msgstr "Tabletin painike"
 
 # *** TARKISTA: Onko strip-sanalle mitään olemassa olevaa käännöstä tässä yhteydessä?
-#: debug_console.cpp:531
+#: debug_console.cpp:545
 #, kde-format
 msgid "Tablet Pad Strip"
 msgstr "Tabletin nauha"
 
-#: debug_console.cpp:532 debug_console.cpp:545
+#: debug_console.cpp:546 debug_console.cpp:559
 #, kde-format
 msgid "Number"
 msgstr "Numero"
 
-#: debug_console.cpp:534 debug_console.cpp:547
+#: debug_console.cpp:548 debug_console.cpp:561
 #, kde-format
 msgid "isFinger"
 msgstr "onSormi"
 
-#: debug_console.cpp:544
+#: debug_console.cpp:558
 #, kde-format
 msgid "Tablet Pad Ring"
 msgstr "Tabletin rengas"
 
-#: debug_console.cpp:733
+#: debug_console.cpp:786
 #, kde-format
 msgid "No Mouse Buttons"
 msgstr "Ei hiiren painikkeita"
 
-#: debug_console.cpp:737
+#: debug_console.cpp:790
 #, kde-format
 msgctxt "Mouse Button"
 msgid "left"
 msgstr "vasen"
 
-#: debug_console.cpp:740
+#: debug_console.cpp:793
 #, kde-format
 msgctxt "Mouse Button"
 msgid "right"
 msgstr "oikea"
 
-#: debug_console.cpp:743
+#: debug_console.cpp:796
 #, kde-format
 msgctxt "Mouse Button"
 msgid "middle"
 msgstr "keskimmäinen"
 
-#: debug_console.cpp:746
+#: debug_console.cpp:799
 #, kde-format
 msgctxt "Mouse Button"
 msgid "back"
 msgstr "takaisin"
 
-#: debug_console.cpp:749
+#: debug_console.cpp:802
 #, kde-format
 msgctxt "Mouse Button"
 msgid "forward"
 msgstr "eteenpäin"
 
-#: debug_console.cpp:752
+#: debug_console.cpp:805
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 1"
 msgstr "lisä 1"
 
-#: debug_console.cpp:755
+#: debug_console.cpp:808
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 2"
 msgstr "lisä 2"
 
-#: debug_console.cpp:758
+#: debug_console.cpp:811
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 3"
 msgstr "lisä 3"
 
-#: debug_console.cpp:761
+#: debug_console.cpp:814
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 4"
 msgstr "lisä 4"
 
-#: debug_console.cpp:764
+#: debug_console.cpp:817
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 5"
 msgstr "lisä 5"
 
-#: debug_console.cpp:767
+#: debug_console.cpp:820
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 6"
 msgstr "lisä 6"
 
-#: debug_console.cpp:770
+#: debug_console.cpp:823
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 7"
 msgstr "lisä 7"
 
-#: debug_console.cpp:773
+#: debug_console.cpp:826
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 8"
 msgstr "lisä 8"
 
-#: debug_console.cpp:776
+#: debug_console.cpp:829
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 9"
 msgstr "lisä 9"
 
-#: debug_console.cpp:779
+#: debug_console.cpp:832
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 10"
 msgstr "lisä 10"
 
-#: debug_console.cpp:782
+#: debug_console.cpp:835
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 11"
 msgstr "lisä 11"
 
-#: debug_console.cpp:785
+#: debug_console.cpp:838
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 12"
 msgstr "lisä 12"
 
-#: debug_console.cpp:788
+#: debug_console.cpp:841
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 13"
 msgstr "lisä 13"
 
-#: debug_console.cpp:791
+#: debug_console.cpp:844
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 14"
 msgstr "lisä 14"
 
-#: debug_console.cpp:794
+#: debug_console.cpp:847
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 15"
 msgstr "lisä 15"
 
-#: debug_console.cpp:797
+#: debug_console.cpp:850
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 16"
 msgstr "lisä 16"
 
-#: debug_console.cpp:800
+#: debug_console.cpp:853
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 17"
 msgstr "lisä 17"
 
-#: debug_console.cpp:803
+#: debug_console.cpp:856
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 18"
 msgstr "lisä 18"
 
-#: debug_console.cpp:806
+#: debug_console.cpp:859
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 19"
 msgstr "lisä 19"
 
-#: debug_console.cpp:809
+#: debug_console.cpp:862
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 20"
 msgstr "lisä 20"
 
-#: debug_console.cpp:812
+#: debug_console.cpp:865
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 21"
 msgstr "lisä 21"
 
-#: debug_console.cpp:815
+#: debug_console.cpp:868
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 22"
 msgstr "lisä 22"
 
-#: debug_console.cpp:818
+#: debug_console.cpp:871
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 23"
 msgstr "lisä 23"
 
-#: debug_console.cpp:821
+#: debug_console.cpp:874
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 24"
 msgstr "lisä 24"
 
-#: debug_console.cpp:824
+#: debug_console.cpp:877
 #, kde-format
 msgctxt "Mouse Button"
 msgid "task"
 msgstr "tehtävä"
 
-#: debug_console.cpp:1168
+#: debug_console.cpp:1223
 #, kde-format
 msgid "X11 Client Windows"
 msgstr "X11-asiakasikkunat"
 
-#: debug_console.cpp:1170
+#: debug_console.cpp:1225
 #, kde-format
 msgid "X11 Unmanaged Windows"
 msgstr "Hallinnoimattomat X11-ikkunat"
 
-#: debug_console.cpp:1172
+#: debug_console.cpp:1227
 #, kde-format
 msgid "Wayland Windows"
 msgstr "Wayland-ikkunat"
 
-#: debug_console.cpp:1174
+#: debug_console.cpp:1229
 #, kde-format
 msgid "Internal Windows"
 msgstr "Sisäiset ikkunat"
@@ -1020,6 +1020,19 @@ msgstr "Merkkivalot"
 msgid "Active LEDs"
 msgstr "Aktiiviset merkkivalot"
 
+#. i18n: ectx: attribute (title), widget (QWidget, clipboard)
+#. i18n: ectx: property (text), widget (KTitleWidget, ktitlewidget)
+#: debug_console.ui:425 debug_console.ui:439
+#, kde-format
+msgid "Clipboard"
+msgstr "Leikepöytä"
+
+#. i18n: ectx: property (text), widget (KTitleWidget, ktitlewidget_2)
+#: debug_console.ui:479
+#, kde-format
+msgid "Primary Selection"
+msgstr "Ensisijainen valinta"
+
 #: helpers/killer/killer.cpp:30
 #, kde-format
 msgid "Window Manager"
@@ -1105,33 +1118,33 @@ msgstr "<b>Sovellus ”%1” ei vastaa</b>"
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"<p>You tried to close window \"%1\" from application \"%2\" (Process ID: %3) "
-"but the application is not responding.</p>"
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3) but the application is not responding.</para>"
 msgstr ""
-"<p>Yritit sulkea ikkunan ”%1”, joka kuuluu sovellukselle ”%2” (prosessin "
-"tunniste: %3), mutta sovellus ei vastaa.</p>"
+"<para>Yritit sulkea ikkunan ”%1”, joka kuuluu sovellukselle ”%2” (prosessin "
+"tunniste: %3), mutta sovellus ei vastaa.</para>"
 
 #: helpers/killer/killer.cpp:85
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"<p>You tried to close window \"%1\" from application \"%2\" (Process ID: "
-"%3), running on host \"%4\", but the application is not responding.</p>"
+"<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
+"%3), running on host \"%4\", but the application is not responding.</para>"
 msgstr ""
-"<p>Yritit sulkea ikkunan ”%1”, joka kuuluu sovellukselle ”%2” (prosessin "
-"tunniste: %3) koneella ”%4”, mutta sovellus ei vastaa.</p>"
+"<para>Yritit sulkea ikkunan ”%1”, joka kuuluu sovellukselle ”%2” (prosessin "
+"tunniste: %3) koneella ”%4”, mutta sovellus ei vastaa.</para>"
 
 #: helpers/killer/killer.cpp:88
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"<p>Do you want to terminate this application?</p><p><warning>Terminating the "
-"application will close all of its child windows. Any unsaved data will be "
-"lost.</warning></p>"
+"<para>Do you want to terminate this application?</"
+"para><para><warning>Terminating the application will close all of its child "
+"windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
-"<p>Haluatko lopettaa sovelluksen?</p><p><warning>Sovelluksen lopettaminen "
-"sulkee kaikki sen ikkunat. Kaikki tallentamattomat tiedot menetetään.</"
-"warning></p>"
+"<para>Haluatko lopettaa sovelluksen?</para><para><warning>Sovelluksen "
+"lopettaminen sulkee kaikki sen ikkunat. Kaikki tallentamattomat tiedot "
+"menetetään.</warning></para>"
 
 #: helpers/killer/killer.cpp:92
 #, kde-format
@@ -1143,25 +1156,16 @@ msgstr "&Lopeta %1"
 msgid "Wait Longer"
 msgstr "Odota pidempään"
 
-#: inputmethod.cpp:74
+# ?!?!
+#: input.cpp:2528
 #, kde-format
-msgid "Virtual Keyboard"
-msgstr "Näyttönäppäimistö"
+msgid "Touchpad"
+msgstr "Kosketuslevy"
 
-#: inputmethod.cpp:485
+#: keyboard_layout.cpp:46
 #, kde-format
-msgid "Virtual Keyboard: enabled"
-msgstr "Näyttönäppäimistö: käytössä"
-
-#: inputmethod.cpp:488
-#, kde-format
-msgid "Virtual Keyboard: disabled"
-msgstr "Näyttönäppäimistö: ei käytössä"
-
-#: inputmethod.cpp:490
-#, kde-format
-msgid "Whether to show the virtual keyboard on demand."
-msgstr "Näytetäänkö kysyttäessä näyttönäppäimistö."
+msgid "Keyboard Layout Switcher"
+msgstr "Näppäimistöasetteluvaihto"
 
 #: killwindow.cpp:33
 #, kde-format
@@ -1169,423 +1173,128 @@ msgid ""
 "Select window to force close with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
-"Pakota ikkunan sulkeminen napsauttamalla hiirellä tai Enterillä.\n"
-"Peru hiiren oikealla painikkeella tai Esc-näppäimellä."
+"Pakota ikkunan sulkeminen hiiripainikkeella tai Enterillä.\n"
+"Peru hiiren oikealla painikkeella tai Esc:llä."
 
-#: kwinbindings.cpp:38
-#, kde-format
-msgid "Window Operations Menu"
-msgstr "Ikkunan pikavalikko"
-
-#: kwinbindings.cpp:40
-#, kde-format
-msgid "Close Window"
-msgstr "Sulje ikkuna"
-
-#: kwinbindings.cpp:42
-#, kde-format
-msgid "Maximize Window"
-msgstr "Suurenna ikkuna"
-
-#: kwinbindings.cpp:44
-#, kde-format
-msgid "Maximize Window Vertically"
-msgstr "Suurenna ikkuna pystysuunnassa"
-
-#: kwinbindings.cpp:46
-#, kde-format
-msgid "Maximize Window Horizontally"
-msgstr "Suurenna ikkuna vaakasuunnassa"
-
-#: kwinbindings.cpp:48
-#, kde-format
-msgid "Minimize Window"
-msgstr "Pienennä ikkuna"
-
-#: kwinbindings.cpp:50
-#, kde-format
-msgid "Shade Window"
-msgstr "Rullaa ikkuna"
-
-#: kwinbindings.cpp:52
-#, kde-format
-msgid "Move Window"
-msgstr "Siirrä ikkunaa"
-
-#: kwinbindings.cpp:54
-#, kde-format
-msgid "Resize Window"
-msgstr "Muuta ikkunan kokoa"
-
-#: kwinbindings.cpp:56
-#, kde-format
-msgid "Raise Window"
-msgstr "Nosta ikkunaa"
-
-#: kwinbindings.cpp:58
-#, kde-format
-msgid "Lower Window"
-msgstr "Laske ikkunaa"
-
-#: kwinbindings.cpp:60
-#, kde-format
-msgid "Toggle Window Raise/Lower"
-msgstr "Nosta tai laske ikkuna"
-
-#: kwinbindings.cpp:62
-#, kde-format
-msgid "Make Window Fullscreen"
-msgstr "Tee ikkunasta koko näytön kokoinen"
-
-#: kwinbindings.cpp:64
-#, kde-format
-msgid "Hide Window Border"
-msgstr "Piilota ikkunan reunus"
-
-#: kwinbindings.cpp:66
-#, kde-format
-msgid "Keep Window Above Others"
-msgstr "Pidä ikkuna muiden yllä"
-
-#: kwinbindings.cpp:68
-#, kde-format
-msgid "Keep Window Below Others"
-msgstr "Pidä ikkuna muiden alla"
-
-#: kwinbindings.cpp:70
-#, kde-format
-msgid "Activate Window Demanding Attention"
-msgstr "Aktivoi huomiota vaativa ikkuna"
-
-#: kwinbindings.cpp:72
-#, kde-format
-msgid "Setup Window Shortcut"
-msgstr "Aseta ikkunan pikanäppäin"
-
-#: kwinbindings.cpp:74
-#, kde-format
-msgid "Pack Window to the Right"
-msgstr "Siirrä ikkuna oikeaan reunaan"
-
-#: kwinbindings.cpp:76
-#, kde-format
-msgid "Pack Window to the Left"
-msgstr "Siirrä ikkuna vasempaan reunaan"
-
-#: kwinbindings.cpp:78
-#, kde-format
-msgid "Pack Window Up"
-msgstr "Siirrä ikkuna yläreunaan"
-
-#: kwinbindings.cpp:80
-#, kde-format
-msgid "Pack Window Down"
-msgstr "Siirrä ikkuna alareunaan"
-
-#: kwinbindings.cpp:82
-#, kde-format
-msgid "Pack Grow Window Horizontally"
-msgstr "Suurenna ikkunan kokoa vaakasuunnassa"
-
-# HUOM! Ei tarkoita ”maximize” vaan astettaista koon muuttamista!
-#: kwinbindings.cpp:84
-#, kde-format
-msgid "Pack Grow Window Vertically"
-msgstr "Suurenna ikkunan kokoa pystysuunnassa"
-
-# HUOM! Ei tarkoita ”minimize” vaan astettaista koon muuttamista!
-#: kwinbindings.cpp:86
-#, kde-format
-msgid "Pack Shrink Window Horizontally"
-msgstr "Pienennä ikkunan kokoa vaakasuunnassa"
-
-# HUOM! Ei tarkoita ”minimize” vaan astettaista koon muuttamista!
-#: kwinbindings.cpp:88
-#, kde-format
-msgid "Pack Shrink Window Vertically"
-msgstr "Pienennä ikkunan kokoa pystysuunnassa"
-
-#: kwinbindings.cpp:90
-#, kde-format
-msgid "Quick Tile Window to the Left"
-msgstr "Pinoa ikkuna vasemmalle"
-
-#: kwinbindings.cpp:92
-#, kde-format
-msgid "Quick Tile Window to the Right"
-msgstr "Pinoa ikkuna oikealle"
-
-#: kwinbindings.cpp:94
-#, kde-format
-msgid "Quick Tile Window to the Top"
-msgstr "Pinoa ikkuna ylös"
-
-#: kwinbindings.cpp:96
-#, kde-format
-msgid "Quick Tile Window to the Bottom"
-msgstr "Pinoa ikkuna alas"
-
-#: kwinbindings.cpp:98
-#, kde-format
-msgid "Quick Tile Window to the Top Left"
-msgstr "Pinoa ikkuna vasempaan yläkulmaan"
-
-#: kwinbindings.cpp:100
-#, kde-format
-msgid "Quick Tile Window to the Bottom Left"
-msgstr "Pinoa ikkuna vasempaan alakulmaan"
-
-#: kwinbindings.cpp:102
-#, kde-format
-msgid "Quick Tile Window to the Top Right"
-msgstr "Pinoa ikkuna oikeaan yläkulmaan"
-
-#: kwinbindings.cpp:104
-#, kde-format
-msgid "Quick Tile Window to the Bottom Right"
-msgstr "Pinoa ikkuna oikeaan alakulmaan"
-
-# Nämä Switch to Window... -jonot on yritetty suomentaa niin, että ne tulisivat listassa peräkkäin – siksi vähän outo sanajärjestys. Listassa muodot tukevat toisiaan.
-#: kwinbindings.cpp:106
-#, kde-format
-msgid "Switch to Window Above"
-msgstr "Vaihda ikkunaa ylemmäs"
-
-#: kwinbindings.cpp:108
-#, kde-format
-msgid "Switch to Window Below"
-msgstr "Vaihda ikkunaa alemmas"
-
-#: kwinbindings.cpp:110
-#, kde-format
-msgid "Switch to Window to the Right"
-msgstr "Vaihda ikkunaa oikealle"
-
-#: kwinbindings.cpp:112
-#, kde-format
-msgid "Switch to Window to the Left"
-msgstr "Vaihda ikkunaa vasemmalle"
-
-#: kwinbindings.cpp:114
-#, kde-format
-msgid "Increase Opacity of Active Window by 5 %"
-msgstr "Kasvata aktiivisten ikkunoiden peittävyyttä 5 prosentilla"
-
-#: kwinbindings.cpp:116
-#, kde-format
-msgid "Decrease Opacity of Active Window by 5 %"
-msgstr "Vähennä aktiivisten ikkunoiden peittävyyttä 5 prosentilla"
-
-#: kwinbindings.cpp:119
-#, kde-format
-msgid "Keep Window on All Desktops"
-msgstr "Näytä ikkuna kaikilla työpöydillä"
-
-#: kwinbindings.cpp:123
-#, kde-format
-msgid "Window to Desktop %1"
-msgstr "Ikkuna työpöydälle %1"
-
-#: kwinbindings.cpp:125
-#, kde-format
-msgid "Window to Next Desktop"
-msgstr "Ikkuna seuraavalle työpöydälle"
-
-#: kwinbindings.cpp:126
-#, kde-format
-msgid "Window to Previous Desktop"
-msgstr "Ikkuna edelliselle työpöydälle"
-
-# Nämä Window One Desktop... -jonot on yritetty suomentaa niin, että ne tulisivat listassa peräkkäin – siksi vähän outo sanajärjestys. Listassa muodot tukevat toisiaan.
-#: kwinbindings.cpp:127
-#, kde-format
-msgid "Window One Desktop to the Right"
-msgstr "Ikkuna yhden työpöydän oikeaan"
-
-#: kwinbindings.cpp:128
-#, kde-format
-msgid "Window One Desktop to the Left"
-msgstr "Ikkuna yhden työpöydän vasempaan"
-
-#: kwinbindings.cpp:129
-#, kde-format
-msgid "Window One Desktop Up"
-msgstr "Ikkuna yhden työpöydän ylös"
-
-#: kwinbindings.cpp:130
-#, kde-format
-msgid "Window One Desktop Down"
-msgstr "Ikkuna yhden työpöydän alas"
-
-#: kwinbindings.cpp:133
-#, kde-format
-msgid "Window to Screen %1"
-msgstr "Ikkuna näytölle %1"
-
-#: kwinbindings.cpp:135
-#, kde-format
-msgid "Window to Next Screen"
-msgstr "Ikkuna seuraavaan näyttöön"
-
-#: kwinbindings.cpp:136
-#, kde-format
-msgid "Window to Previous Screen"
-msgstr "Ikkuna edelliseen näyttöön"
-
-#: kwinbindings.cpp:137
-#, kde-format
-msgid "Show Desktop"
-msgstr "Näytä työpöytä"
-
-#: kwinbindings.cpp:140
-#, kde-format
-msgid "Switch to Screen %1"
-msgstr "Vaihda näyttöön %1"
-
-#: kwinbindings.cpp:143
-#, kde-format
-msgid "Switch to Next Screen"
-msgstr "Vaihda seuraavaan näyttöön"
-
-#: kwinbindings.cpp:144
-#, kde-format
-msgid "Switch to Previous Screen"
-msgstr "Vaihda edelliseen näyttöön"
-
-#: kwinbindings.cpp:146
-#, kde-format
-msgid "Kill Window"
-msgstr "Tapa ikkuna"
-
-#: kwinbindings.cpp:147
-#, kde-format
-msgid "Suspend Compositing"
-msgstr "Keskeytä koostaminen"
-
-#: kwinbindings.cpp:148
-#, kde-format
-msgid "Invert Screen Colors"
-msgstr "Käännä näytön värit"
-
-#: main.cpp:187 main.cpp:217
+#: main.cpp:195 main.cpp:225
 #, kde-format
 msgid "KDE window manager"
 msgstr "KDE:n ikkunointiohjelma"
 
-#: main.cpp:192
+#: main.cpp:200
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:196
+#: main.cpp:204
 #, kde-format
 msgid "(c) 1999-2019, The KDE Developers"
-msgstr "© 1999-2019 KDE-kehittäjät"
+msgstr "© 1999–2019 KDE-kehittäjät"
 
-#: main.cpp:198
+#: main.cpp:206
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:199
+#: main.cpp:207
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:200
+#: main.cpp:208
 #, kde-format
 msgid "Daniel M. Duley"
 msgstr "Daniel M. Duley"
 
-#: main.cpp:201
+#: main.cpp:209
 #, kde-format
 msgid "Luboš Luňák"
 msgstr "Luboš Luňák"
 
-#: main.cpp:202
+#: main.cpp:210
 #, kde-format
 msgid "Martin Flöser"
 msgstr "Martin Flöser"
 
-#: main.cpp:203
+#: main.cpp:211
 #, kde-format
 msgid "David Edmundson"
 msgstr "David Edmundson"
 
-#: main.cpp:204
+#: main.cpp:212
 #, kde-format
 msgid "Roman Gilg"
 msgstr "Roman Gilg"
 
-#: main.cpp:205
+#: main.cpp:213
 #, kde-format
 msgid "Vlad Zahorodnii"
 msgstr "Vlad Zahorodnii"
 
-#: main.cpp:214
+#: main.cpp:222
 #, kde-format
 msgid "Disable configuration options"
 msgstr "Poista asetukset käytöstä"
 
-#: main.cpp:215
+#: main.cpp:223
 #, kde-format
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Ilmoita, että KWin on kaatunut n kertaa"
 
-#: main_wayland.cpp:526
+#: main_wayland.cpp:427
 #, kde-format
 msgid "Start a rootless Xwayland server."
 msgstr ""
 "Käynnistä tavallisena käyttäjänä suoritettava (rootless) Xwayland-palvelin."
 
-#: main_wayland.cpp:528
+#: main_wayland.cpp:429
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
-"Kuunneltavan Wayland-pistokkeen nimi. ”wayland-0” käyettään, jos ei asetettu."
+"Kuunneltavan Wayland-pistokkeen nimi. Ellei aseteta, käytetään ”wayland-0”."
 
-#: main_wayland.cpp:531
+#: main_wayland.cpp:432
 #, kde-format
 msgid "Render to framebuffer."
-msgstr "Renderöitävä framebuffer."
+msgstr "Hahmonna kehyspuskuriin."
 
-#: main_wayland.cpp:533
+#: main_wayland.cpp:434
 #, kde-format
 msgid "The framebuffer device to render to."
-msgstr "Framebuffer-laite, johon renderöidään."
+msgstr "Kehyspuskurilaite, johon hahmonnetaan."
 
-#: main_wayland.cpp:536
+#: main_wayland.cpp:437
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "X11-näyttö, jota käytetään ikkunoidussa tilassa X11-alustalla."
 
-#: main_wayland.cpp:539
+#: main_wayland.cpp:440
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
-msgstr "Wayland-näyttö, jota käytetään ikkunoidussa tilassa alustalla Wayland."
+msgstr "Wayland-alustan ikkunoituun tilaan käytettävä Wayland-näyttö."
 
-#: main_wayland.cpp:541
+#: main_wayland.cpp:442
 #, kde-format
 msgid "Render to a virtual framebuffer."
-msgstr "Renderöi virtuaaliseen framebufferiin."
+msgstr "Hahmonna virtuaalikehyspuskuriin."
 
-#: main_wayland.cpp:543
+#: main_wayland.cpp:444
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "Ikkunoidun tilan leveys. Oletusleveys on 1024."
 
-#: main_wayland.cpp:547
+#: main_wayland.cpp:448
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
 msgstr "Ikkunoidun tilan korkeus. Oletuskorkeus on 768."
 
-#: main_wayland.cpp:552
+#: main_wayland.cpp:453
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
 msgstr "Ikkunoidun tilan mittakaava. Oletusarvo on 1."
 
-#: main_wayland.cpp:557
+#: main_wayland.cpp:458
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
@@ -1593,12 +1302,41 @@ msgstr ""
 "Ulostuloiksi avattavien ikkunoiden määrä ikkunoidussa tilassa. Oletusarvo on "
 "1."
 
-#: main_wayland.cpp:562
+#: main_wayland.cpp:463
 #, kde-format
-msgid "Wayland socket to use for incoming connections."
-msgstr "Saapuviin yhteyksiin käytettävä Wayland-pistoke."
+msgid ""
+"Wayland socket to use for incoming connections. This can be combined with --"
+"socket to name the socket"
+msgstr ""
+"Saapuviin yhteyksiin käytettävä Wayland-pistoke. Pistokkeelle voi antaa "
+"nimen --socket-valitsimella."
 
-#: main_wayland.cpp:593
+#: main_wayland.cpp:467
+#, kde-format
+msgid ""
+"XWayland socket to use for Xwayland's incoming connections. This can be set "
+"multiple times"
+msgstr ""
+"Saapuviin yhteyksiin käytettävä Wayland-pistoke. Tämän voi asettaa useammasti"
+
+#: main_wayland.cpp:471
+#, kde-format
+msgid "Name of the xwayland display that has been pre-set up"
+msgstr "Esiasetetun XWayland-näytön nimi"
+
+#: main_wayland.cpp:475
+#, kde-format
+msgid "Name of the xauthority file "
+msgstr "xauthority-tiedoston nimi"
+
+#: main_wayland.cpp:479
+#, kde-format
+msgid "Exits this instance so it can be restarted by kwin_wayland_wrapper."
+msgstr ""
+"Lopettaa tämän instanssin, jotta kwin_wayland_wrapper voi käynnistää sen "
+"uudelleen."
+
+#: main_wayland.cpp:513
 #, kde-format
 msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
@@ -1607,42 +1345,47 @@ msgstr ""
 "Ota syötetapahtumien käsittelyyn käyttöön libinput-tuki. Huomaa: älä käytä "
 "sisäkkäisessä istunnossa.\t(vanhentunut)"
 
-#: main_wayland.cpp:596
+#: main_wayland.cpp:515
 #, kde-format
 msgid "Render through drm node."
-msgstr "Renderöi DRM-noden läpi."
+msgstr "Hahmonna DRM-solmun kautta."
 
-#: main_wayland.cpp:603
+#: main_wayland.cpp:521
 #, kde-format
 msgid "Input method that KWin starts."
 msgstr "Syötemenetelmä, jonka KWin käynnistää."
 
-#: main_wayland.cpp:608
+#: main_wayland.cpp:526
 #, kde-format
 msgid "List all available backends and quit."
 msgstr "Luettele kaikki taustaosat ja lopeta."
 
-#: main_wayland.cpp:612
+#: main_wayland.cpp:530
 #, kde-format
 msgid "Starts the session in locked mode."
 msgstr "Aloittaa istunnon lukittuna."
 
-#: main_wayland.cpp:616
+#: main_wayland.cpp:534
 #, kde-format
 msgid "Starts the session without lock screen support."
 msgstr "Aloittaa istunnon ilman näytönlukitustukea."
 
-#: main_wayland.cpp:620
+#: main_wayland.cpp:538
 #, kde-format
 msgid "Starts the session without global shortcuts support."
 msgstr "Aloittaa istunnon ilman yleisten pikanäppäinten tukea."
 
-#: main_wayland.cpp:624
+#: main_wayland.cpp:543 main_x11.cpp:443
+#, kde-format
+msgid "Disable KActivities integration."
+msgstr "Poista KActivities-integraatio käytöstä."
+
+#: main_wayland.cpp:548
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr "Lopeta, kun KWinin käynnistämä istuntosovellus sulkeutuu."
 
-#: main_wayland.cpp:629
+#: main_wayland.cpp:553
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr ""
@@ -1659,7 +1402,7 @@ msgstr ""
 "Ohjelma näyttää kaatuneen useasti peräkkäin.\n"
 "Voit valita käyttöön toisen ikkunointiohjelman:"
 
-#: main_x11.cpp:226
+#: main_x11.cpp:225
 #, kde-format
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
@@ -1668,158 +1411,153 @@ msgstr ""
 "kwin: ikkunanhallintaa ei onnistuttu saamaan haltuun. Onko toinen "
 "ikkunointiohjelma käynnissä? (Kokeile --replace-valitsinta.)\n"
 
-#: main_x11.cpp:245
+#: main_x11.cpp:248
 #, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "kwin: toinen ikkunointiohjelma on käynnissä (kokeile --replace-valitsinta)\n"
 
-#: main_x11.cpp:444
+#: main_x11.cpp:436
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "Korvaa käynnissä oleva ICCCM2.0-yhteensopiva ikkunointiohjelma"
 
-#: main_x11.cpp:451
-#, kde-format
-msgid "Disable KActivities integration."
-msgstr "Poista KActivities-integraatio käytöstä."
-
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:60
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:62
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:61
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:63
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "activate"
 msgstr "aktivoi"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:63
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:65
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:64
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:66
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "close"
 msgstr "sulje"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:66
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:68
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:67
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:69
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "min"
 msgstr "min"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:69
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:71
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:70
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:72
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "minimize"
 msgstr "pienennä"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:72
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:74
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:73
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:75
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "max"
 msgstr "max"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:75
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:77
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:76
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:78
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "maximize"
 msgstr "suurenna"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:78
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:80
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:79
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:81
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "fullscreen"
 msgstr "koko näyttö"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:81
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:83
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:82
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:84
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "shade"
 msgstr "rullaa"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:84
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:86
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:85
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:87
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "keep above"
 msgstr "pidä ylinnä"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:87
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:89
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:88
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:90
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "keep below"
 msgstr "pidä alinna"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:94
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:95
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "window"
 msgstr "ikkuna"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:104
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:105
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "name"
 msgstr "nimi"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:106
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:107
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "appname"
 msgstr "sovnimi"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:108
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:161
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:109
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:162
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "desktop"
 msgstr "työpöytä"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:263
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:267
 #, kde-format
 msgid "Switch to desktop %1"
 msgstr "Vaihda työpöydälle %1"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:305
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:309
 #, kde-format
 msgid "Close running window on %1"
 msgstr "Sulje käynnissä oleva ikkuna (%1)"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:308
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:312
 #, kde-format
 msgid "(Un)minimize running window on %1"
 msgstr "Pienennä tai palauta käynnissä oleva ikkuna (%1)"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:311
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:315
 #, kde-format
 msgid "Maximize/restore running window on %1"
 msgstr "Suurenna tai palauta käynnissä oleva ikkuna (%1)"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:314
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:318
 #, kde-format
 msgid "Toggle fullscreen for running window on %1"
 msgstr "Vaihda käynnissä olevan ikkunan koko näytön tilaa (%1)"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:317
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:321
 #, kde-format
 msgid "(Un)shade running window on %1"
 msgstr "Rullaa käynnissä oleva ikkuna auki tai kiinni (%1)"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:320
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:324
 #, kde-format
 msgid "Toggle keep above for running window on %1"
 msgstr "Vaihda käynnissä olevan ikkunan pidä ylinnä -tilaa (%1)"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:323
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:327
 #, kde-format
 msgid "Toggle keep below running window on %1"
 msgstr "Vaihda käynnissä olevan ikkunan pidä alinna -tilaa (%1)"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:327
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:331
 #, kde-format
 msgid "Activate running window on %1"
 msgstr "Aktivoi käynnissä oleva ikkuna (%1)"
@@ -1843,7 +1581,7 @@ msgstr "Yöväri käytössä"
 msgid "Toggle Night Color"
 msgstr "Käännä yöväriasetus"
 
-#: plugins/scenes/opengl/scene_opengl.cpp:517
+#: plugins/scenes/opengl/scene_opengl.cpp:269
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
@@ -1852,8 +1590,14 @@ msgstr ""
 #. i18n: ectx: label, entry (count), group (General)
 #: rulebooksettingsbase.kcfg:9
 #, kde-format
-msgid "Total rules count"
-msgstr "Sääntöjä kaikkiaan"
+msgid "Total rules count (legacy)"
+msgstr "Sääntöjä kaikkiaan (vanhentunut)"
+
+#. i18n: ectx: label, entry (ruleGroupList), group (General)
+#: rulebooksettingsbase.kcfg:13
+#, kde-format
+msgid "Ordered list of rules groups"
+msgstr "Sääntöryhmien järjestetty luettelo"
 
 #. i18n: ectx: label, entry (description), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:10
@@ -2029,17 +1773,17 @@ msgstr "Ohita pyydetty geometria"
 msgid "Ignore requested geometry rule type"
 msgstr "Ohita pyydetty geometria -säännön tyyppi"
 
-#. i18n: ectx: label, entry (desktop), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (desktops), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:151
 #, kde-format
-msgid "Desktop number"
-msgstr "Työpöydän numero"
+msgid "List of Desktop Ids"
+msgstr "Työpöytätunnisteiden luettelo"
 
-#. i18n: ectx: label, entry (desktoprule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (desktopsrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:155
 #, kde-format
-msgid "Desktop number rule type"
-msgstr "Työpöydän numero -säännön tyyppi"
+msgid "Desktop Ids rule type"
+msgstr "Työpöytätunnisteiden sääntötyyppi"
 
 #. i18n: ectx: label, entry (screen), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:162
@@ -2371,49 +2115,6 @@ msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
 msgstr "Liitännäinen ei tarjoa asetustiedostoa odotetussa sijainnissa"
 
-#: scripting/scripting.cpp:116
-#, kde-format
-msgctxt "Assertion failed in KWin script with given value"
-msgid "Assertion failed: %1 is not null"
-msgstr "Assert ei pitänyt: %1 ei ole null"
-
-#: scripting/scripting.cpp:134
-#, kde-format
-msgctxt "Assertion failed in KWin script"
-msgid "Assertion failed: argument is null"
-msgstr "Assert ei pitänyt: argumentti on null"
-
-#: scripting/scripting.cpp:176
-#, kde-format
-msgctxt "Error in KWin Script"
-msgid ""
-"Invalid number of arguments. At least service, path, interface and method "
-"need to be provided"
-msgstr ""
-"Virheellinen argumenttien määrä. Ainakin palvelu, polku, rajapinta ja metodi "
-"täytyy antaa"
-
-#: scripting/scripting.cpp:182
-#, kde-format
-msgctxt "Error in KWin Script"
-msgid ""
-"Invalid type. Service, path, interface and method need to be string values"
-msgstr ""
-"Virheellinen tyyppi. Palvelun, polun, rajapinnan ja metodin täytyy olla "
-"merkkijonoarvoja"
-
-#: scripting/scriptingutils.cpp:17
-#, kde-format
-msgctxt "syntax error in KWin script"
-msgid "Invalid number of arguments"
-msgstr "Virheellinen argumenttien määrä"
-
-#: scripting/scriptingutils.cpp:30
-#, kde-format
-msgctxt "KWin Scripting function received incorrect value for an expected type"
-msgid "%1 is not a variant type"
-msgstr "%1 ei ole variant-tyyppi"
-
 #. i18n: ectx: property (windowTitle), widget (QDialog, ShortcutDialog)
 #: shortcutdialog.ui:14
 #, kde-format
@@ -2426,68 +2127,68 @@ msgstr "Valintaikkuna"
 msgid "..."
 msgstr "…"
 
-#: tabbox/tabbox.cpp:372
+#: tabbox/tabbox.cpp:376
 #, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
 msgstr "Näytä työpöytä"
 
-#: tabbox/tabbox.cpp:521
+#: tabbox/tabbox.cpp:525
 #, kde-format
 msgid "Walk Through Windows"
 msgstr "Selaa ikkunoita"
 
-#: tabbox/tabbox.cpp:522
+#: tabbox/tabbox.cpp:526
 #, kde-format
 msgid "Walk Through Windows (Reverse)"
 msgstr "Selaa ikkunoita taaksepäin"
 
-#: tabbox/tabbox.cpp:523
+#: tabbox/tabbox.cpp:527
 #, kde-format
 msgid "Walk Through Windows Alternative"
 msgstr "Selaa ikkunoita (vaihtoehtoinen)"
 
-#: tabbox/tabbox.cpp:524
+#: tabbox/tabbox.cpp:528
 #, kde-format
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Selaa ikkunoita taaksepäin (vaihtoehtoinen)"
 
-#: tabbox/tabbox.cpp:525
+#: tabbox/tabbox.cpp:529
 #, kde-format
 msgid "Walk Through Windows of Current Application"
 msgstr "Selaa nykyisen sovelluksen ikkunoita"
 
-#: tabbox/tabbox.cpp:526
+#: tabbox/tabbox.cpp:530
 #, kde-format
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Selaa nykyisen sovelluksen ikkunoita taaksepäin"
 
-#: tabbox/tabbox.cpp:527
+#: tabbox/tabbox.cpp:531
 #, kde-format
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Selaa nykyisen sovelluksen ikkunoita (vaihtoehtoinen)"
 
-#: tabbox/tabbox.cpp:528
+#: tabbox/tabbox.cpp:532
 #, kde-format
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "Selaa nykyisen sovelluksen ikkunoita taaksepäin (vaihtoehtoinen)"
 
-#: tabbox/tabbox.cpp:529
+#: tabbox/tabbox.cpp:533
 #, kde-format
 msgid "Walk Through Desktops"
 msgstr "Selaa työpöytiä"
 
-#: tabbox/tabbox.cpp:530
+#: tabbox/tabbox.cpp:534
 #, kde-format
 msgid "Walk Through Desktops (Reverse)"
 msgstr "Selaa työpöytiä taaksepäin"
 
-#: tabbox/tabbox.cpp:531
+#: tabbox/tabbox.cpp:535
 #, kde-format
 msgid "Walk Through Desktop List"
 msgstr "Selaa työpöytäluetteloa"
 
-#: tabbox/tabbox.cpp:532
+#: tabbox/tabbox.cpp:536
 #, kde-format
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Selaa työpöytäluetteloa taaksepäin"
@@ -2610,38 +2311,55 @@ msgstr "&Sulje"
 msgid "&Extensions"
 msgstr "&Laajennukset"
 
-#: useractions.cpp:451
+#: useractions.cpp:450
 #, kde-format
 msgid "&Desktops"
 msgstr "&Työpöydät"
 
-#: useractions.cpp:465
+#: useractions.cpp:463
 #, kde-format
 msgid "Move to &Desktop"
 msgstr "Siirrä t&yöpöydälle"
 
-#: useractions.cpp:483
+#: useractions.cpp:480
 #, kde-format
 msgid "Move to &Screen"
 msgstr "&Siirrä näytölle"
 
-#: useractions.cpp:499
+#: useractions.cpp:496
 #, kde-format
 msgid "Show in &Activities"
 msgstr "Näytä &aktiviteeteissa"
 
-#: useractions.cpp:514 useractions.cpp:559
+#: useractions.cpp:511 useractions.cpp:578
 #, kde-format
 msgid "&All Desktops"
 msgstr "Näytä k&aikilla työpöydillä"
 
-#: useractions.cpp:542 useractions.cpp:595
+#: useractions.cpp:553
 #, kde-format
-msgctxt "Create a new desktop and move there the window"
+msgctxt "Create a new desktop and move the window there"
 msgid "&New Desktop"
-msgstr "&Uusi työpöytä"
+msgstr "Uusi työ&pöytä"
 
-#: useractions.cpp:618
+#: useractions.cpp:622
+#, kde-format
+msgid "Move to %1 %2"
+msgstr ""
+
+#: useractions.cpp:635
+#, kde-format
+msgctxt "Create a new desktop and add the window to that desktop"
+msgid "Add to &New Desktop"
+msgstr "Lisää &uudelle työpöydälle"
+
+#: useractions.cpp:647
+#, kde-format
+msgctxt "Create a new desktop and move the window to that desktop"
+msgid "Move to New Desktop"
+msgstr "Siirrä uudelle työpöydälle"
+
+#: useractions.cpp:678
 #, kde-format
 msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
@@ -2649,29 +2367,324 @@ msgctxt ""
 msgid "Screen &%1 (%2)"
 msgstr "Näyttö &%1 (%2)"
 
-#: useractions.cpp:641
+#: useractions.cpp:703
 #, kde-format
 msgid "&All Activities"
 msgstr "Kaikissa &aktiviteeteissa"
 
-#: useractions.cpp:887
+#: useractions.cpp:876
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "<b>%1</b> on jo käytössä"
 
-#: useractions.cpp:889
+#: useractions.cpp:878
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "%3 käyttää näppäinyhdistelmää <b>%1</b> toiminnossa %2"
 
+#: useractions.cpp:974
+#, kde-format
+msgid "Window Operations Menu"
+msgstr "Ikkunan pikavalikko"
+
+#: useractions.cpp:976
+#, kde-format
+msgid "Close Window"
+msgstr "Sulje ikkuna"
+
+#: useractions.cpp:978
+#, kde-format
+msgid "Maximize Window"
+msgstr "Suurenna ikkuna"
+
+#: useractions.cpp:980
+#, kde-format
+msgid "Maximize Window Vertically"
+msgstr "Suurenna ikkuna pystysuunnassa"
+
+#: useractions.cpp:982
+#, kde-format
+msgid "Maximize Window Horizontally"
+msgstr "Suurenna ikkuna vaakasuunnassa"
+
+#: useractions.cpp:984
+#, kde-format
+msgid "Minimize Window"
+msgstr "Pienennä ikkuna"
+
+#: useractions.cpp:986
+#, kde-format
+msgid "Shade Window"
+msgstr "Rullaa ikkuna"
+
+#: useractions.cpp:988
+#, kde-format
+msgid "Move Window"
+msgstr "Siirrä ikkunaa"
+
+#: useractions.cpp:990
+#, kde-format
+msgid "Resize Window"
+msgstr "Muuta ikkunan kokoa"
+
+#: useractions.cpp:992
+#, kde-format
+msgid "Raise Window"
+msgstr "Nosta ikkunaa"
+
+#: useractions.cpp:994
+#, kde-format
+msgid "Lower Window"
+msgstr "Laske ikkunaa"
+
+#: useractions.cpp:996
+#, kde-format
+msgid "Toggle Window Raise/Lower"
+msgstr "Nosta tai laske ikkuna"
+
+#: useractions.cpp:998
+#, kde-format
+msgid "Make Window Fullscreen"
+msgstr "Tee ikkunasta koko näytön kokoinen"
+
+#: useractions.cpp:1000
+#, kde-format
+msgid "Hide Window Border"
+msgstr "Piilota ikkunan reunus"
+
+#: useractions.cpp:1002
+#, kde-format
+msgid "Keep Window Above Others"
+msgstr "Pidä ikkuna muiden yllä"
+
+#: useractions.cpp:1004
+#, kde-format
+msgid "Keep Window Below Others"
+msgstr "Pidä ikkuna muiden alla"
+
+#: useractions.cpp:1006
+#, kde-format
+msgid "Activate Window Demanding Attention"
+msgstr "Aktivoi huomiota vaativa ikkuna"
+
+#: useractions.cpp:1008
+#, kde-format
+msgid "Setup Window Shortcut"
+msgstr "Aseta ikkunan pikanäppäin"
+
+#: useractions.cpp:1010
+#, kde-format
+msgid "Pack Window to the Right"
+msgstr "Siirrä ikkuna oikeaan reunaan"
+
+#: useractions.cpp:1012
+#, kde-format
+msgid "Pack Window to the Left"
+msgstr "Siirrä ikkuna vasempaan reunaan"
+
+#: useractions.cpp:1014
+#, kde-format
+msgid "Pack Window Up"
+msgstr "Siirrä ikkuna yläreunaan"
+
+#: useractions.cpp:1016
+#, kde-format
+msgid "Pack Window Down"
+msgstr "Siirrä ikkuna alareunaan"
+
+#: useractions.cpp:1018
+#, kde-format
+msgid "Pack Grow Window Horizontally"
+msgstr "Suurenna ikkunan kokoa vaakasuunnassa"
+
+# HUOM! Ei tarkoita ”maximize” vaan astettaista koon muuttamista!
 #: useractions.cpp:1020
+#, kde-format
+msgid "Pack Grow Window Vertically"
+msgstr "Suurenna ikkunan kokoa pystysuunnassa"
+
+# HUOM! Ei tarkoita ”minimize” vaan astettaista koon muuttamista!
+#: useractions.cpp:1022
+#, kde-format
+msgid "Pack Shrink Window Horizontally"
+msgstr "Pienennä ikkunan kokoa vaakasuunnassa"
+
+# HUOM! Ei tarkoita ”minimize” vaan astettaista koon muuttamista!
+#: useractions.cpp:1024
+#, kde-format
+msgid "Pack Shrink Window Vertically"
+msgstr "Pienennä ikkunan kokoa pystysuunnassa"
+
+#: useractions.cpp:1026
+#, kde-format
+msgid "Quick Tile Window to the Left"
+msgstr "Pinoa ikkuna vasemmalle"
+
+#: useractions.cpp:1028
+#, kde-format
+msgid "Quick Tile Window to the Right"
+msgstr "Pinoa ikkuna oikealle"
+
+#: useractions.cpp:1030
+#, kde-format
+msgid "Quick Tile Window to the Top"
+msgstr "Pinoa ikkuna ylös"
+
+#: useractions.cpp:1032
+#, kde-format
+msgid "Quick Tile Window to the Bottom"
+msgstr "Pinoa ikkuna alas"
+
+#: useractions.cpp:1034
+#, kde-format
+msgid "Quick Tile Window to the Top Left"
+msgstr "Pinoa ikkuna vasempaan yläkulmaan"
+
+#: useractions.cpp:1036
+#, kde-format
+msgid "Quick Tile Window to the Bottom Left"
+msgstr "Pinoa ikkuna vasempaan alakulmaan"
+
+#: useractions.cpp:1038
+#, kde-format
+msgid "Quick Tile Window to the Top Right"
+msgstr "Pinoa ikkuna oikeaan yläkulmaan"
+
+#: useractions.cpp:1040
+#, kde-format
+msgid "Quick Tile Window to the Bottom Right"
+msgstr "Pinoa ikkuna oikeaan alakulmaan"
+
+# Nämä Switch to Window... -jonot on yritetty suomentaa niin, että ne tulisivat listassa peräkkäin – siksi vähän outo sanajärjestys. Listassa muodot tukevat toisiaan.
+#: useractions.cpp:1042
+#, kde-format
+msgid "Switch to Window Above"
+msgstr "Vaihda ikkunaa ylemmäs"
+
+#: useractions.cpp:1044
+#, kde-format
+msgid "Switch to Window Below"
+msgstr "Vaihda ikkunaa alemmas"
+
+#: useractions.cpp:1046
+#, kde-format
+msgid "Switch to Window to the Right"
+msgstr "Vaihda ikkunaa oikealle"
+
+#: useractions.cpp:1048
+#, kde-format
+msgid "Switch to Window to the Left"
+msgstr "Vaihda ikkunaa vasemmalle"
+
+#: useractions.cpp:1050
+#, kde-format
+msgid "Increase Opacity of Active Window by 5 %"
+msgstr "Kasvata aktiivisten ikkunoiden peittävyyttä 5 prosentilla"
+
+#: useractions.cpp:1052
+#, kde-format
+msgid "Decrease Opacity of Active Window by 5 %"
+msgstr "Vähennä aktiivisten ikkunoiden peittävyyttä 5 prosentilla"
+
+#: useractions.cpp:1055
+#, kde-format
+msgid "Keep Window on All Desktops"
+msgstr "Näytä ikkuna kaikilla työpöydillä"
+
+#: useractions.cpp:1066
+#, kde-format
+msgid "Window to Desktop %1"
+msgstr "Ikkuna työpöydälle %1"
+
+#: useractions.cpp:1068
+#, kde-format
+msgid "Window to Next Desktop"
+msgstr "Ikkuna seuraavalle työpöydälle"
+
+#: useractions.cpp:1069
+#, kde-format
+msgid "Window to Previous Desktop"
+msgstr "Ikkuna edelliselle työpöydälle"
+
+# Nämä Window One Desktop... -jonot on yritetty suomentaa niin, että ne tulisivat listassa peräkkäin – siksi vähän outo sanajärjestys. Listassa muodot tukevat toisiaan.
+#: useractions.cpp:1070
+#, kde-format
+msgid "Window One Desktop to the Right"
+msgstr "Ikkuna yhden työpöydän oikeaan"
+
+#: useractions.cpp:1071
+#, kde-format
+msgid "Window One Desktop to the Left"
+msgstr "Ikkuna yhden työpöydän vasempaan"
+
+#: useractions.cpp:1072
+#, kde-format
+msgid "Window One Desktop Up"
+msgstr "Ikkuna yhden työpöydän ylös"
+
+#: useractions.cpp:1073
+#, kde-format
+msgid "Window One Desktop Down"
+msgstr "Ikkuna yhden työpöydän alas"
+
+#: useractions.cpp:1076
+#, kde-format
+msgid "Window to Screen %1"
+msgstr "Ikkuna näytölle %1"
+
+#: useractions.cpp:1078
+#, kde-format
+msgid "Window to Next Screen"
+msgstr "Ikkuna seuraavaan näyttöön"
+
+#: useractions.cpp:1079
+#, kde-format
+msgid "Window to Previous Screen"
+msgstr "Ikkuna edelliseen näyttöön"
+
+#: useractions.cpp:1080
+#, kde-format
+msgid "Show Desktop"
+msgstr "Näytä työpöytä"
+
+#: useractions.cpp:1083
+#, kde-format
+msgid "Switch to Screen %1"
+msgstr "Vaihda näyttöön %1"
+
+#: useractions.cpp:1086
+#, kde-format
+msgid "Switch to Next Screen"
+msgstr "Vaihda seuraavaan näyttöön"
+
+#: useractions.cpp:1087
+#, kde-format
+msgid "Switch to Previous Screen"
+msgstr "Vaihda edelliseen näyttöön"
+
+#: useractions.cpp:1089
+#, kde-format
+msgid "Kill Window"
+msgstr "Tapa ikkuna"
+
+#: useractions.cpp:1090
+#, kde-format
+msgid "Suspend Compositing"
+msgstr "Keskeytä koostaminen"
+
+#: useractions.cpp:1091
+#, kde-format
+msgid "Invert Screen Colors"
+msgstr "Käännä näytön värit"
+
+#: useractions.cpp:1154
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Aktivoi ikkuna (%1)"
 
-#: useractions.cpp:1162
+#: useractions.cpp:1292
 #, kde-format
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "
@@ -2682,48 +2695,48 @@ msgstr ""
 "hiiri on.\n"
 "Siksi näytölle ei voi erikseen käskeä siirtymään."
 
-#: virtualdesktops.cpp:698 virtualdesktops.cpp:767
+#: virtualdesktops.cpp:692 virtualdesktops.cpp:763
 #, kde-format
 msgid "Desktop %1"
 msgstr "Työpöytä %1"
 
-#: virtualdesktops.cpp:802
+#: virtualdesktops.cpp:798
 #, kde-format
 msgid "Switch to Next Desktop"
 msgstr "Vaihda seuraavalle työpöydälle"
 
-#: virtualdesktops.cpp:804
+#: virtualdesktops.cpp:800
 #, kde-format
 msgid "Switch to Previous Desktop"
 msgstr "Vaihda edelliselle työpöydälle"
 
 # Näissä neljässä Switch one desktop to the X -käännöksessä on yritetty kääntää niin, että jonot tulevat aakkostettuna peräkkäin; erikseen kirjoitetut ”alas päin” jne. ovat kielitoimiston uudemman suosituksen mukaisia
-#: virtualdesktops.cpp:806
+#: virtualdesktops.cpp:802
 #, kde-format
 msgid "Switch One Desktop to the Right"
 msgstr "Vaihda työpöytää oikealle päin"
 
-#: virtualdesktops.cpp:808
+#: virtualdesktops.cpp:804
 #, kde-format
 msgid "Switch One Desktop to the Left"
 msgstr "Vaihda työpöytää vasemmalle päin"
 
-#: virtualdesktops.cpp:810
+#: virtualdesktops.cpp:806
 #, kde-format
 msgid "Switch One Desktop Up"
 msgstr "Vaihda työpöytää ylös päin"
 
-#: virtualdesktops.cpp:812
+#: virtualdesktops.cpp:808
 #, kde-format
 msgid "Switch One Desktop Down"
 msgstr "Vaihda työpöytää alas päin"
 
-#: virtualdesktops.cpp:825
+#: virtualdesktops.cpp:821
 #, kde-format
 msgid "Switch to Desktop %1"
 msgstr "Vaihda työpöydälle %1"
 
-#: workspace.cpp:1355
+#: workspace.cpp:1454
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""
@@ -2744,6 +2757,53 @@ msgstr ""
 "tiedon OpenGL-ajurin sekä käytössä olevista tehosteista.\n"
 "Liitä alla olevat tiedot mieluummin pastebin-palveluun, esim.\n"
 "https://paste.kde.org/, kuin suoraan tukipalstalle.\n"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

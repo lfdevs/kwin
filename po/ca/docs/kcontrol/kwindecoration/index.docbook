@@ -17,9 +17,9 @@
 </authorgroup>
 
 <date
->18 de març de 2018</date>
+>9 d'abril de 2021</date>
 <releaseinfo
->Plasma 5.12</releaseinfo>
+>Plasma 5.21</releaseinfo>
 
 <keywordset>
 <keyword
@@ -71,7 +71,7 @@
 >.</para>
 
 <para
->La decoració per omissió de les finestres s'anomena <quote
+>La decoració predeterminada de les finestres s'anomena <quote
 >Brisa</quote
 >.</para>
 
@@ -80,7 +80,7 @@
 >comportament</quote
 > diferent. Alguns tenen vores de <quote
 >redimensionament</quote
-> (de vegades invisibles) per tot el seu voltant, per a poder-los redimensionar amb més facilitat però que en dificulta el moviment. Alguns no tenen vores en certs costats.</para>
+> (de vegades invisibles) per tot el seu voltant, que en facilita la redimensió però que en dificulta el moviment. Alguns no tenen vores en certs costats.</para>
 
 <para
 >Us encoratgem a què experimenteu amb els diferents estils fins que en trobeu un que s'ajusti al vostre patró de treball.</para>
@@ -94,7 +94,7 @@
 
 <para
 >Les opcions en aquest diàleg de configuració s'apliquen a totes les finestres. Algunes decoracions de finestra (&pex;, <quote
->Breeze</quote
+>Brisa</quote
 >) proporcionen una pestanya <guilabel
 >Substitucions específiques de la finestra</guilabel
 >. En aquesta pestanya podreu canviar la mida de la vora i la visibilitat de la barra de títol per a finestres en particular.</para>
@@ -106,7 +106,9 @@
 
 <tip>
 <para
->Per motius d'accessibilitat, algunes decoracions accepten vores molt grans. Si estès disponible, aquí també podreu triar la mida de la vora. Aquestes vores llargues són fàcils de veure per a usuaris amb visibilitat reduïda, i fàcils de capturar per a gent amb mobilitat reduïda o dificultats en emprar el ratolí.</para>
+>Per motius d'accessibilitat, algunes decoracions accepten vores molt grans. Si estès disponible, aquí també podreu triar una <guilabel
+>Mida de la vora de la finestra:</guilabel
+>. Aquestes vores llargues són fàcils de veure per a usuaris amb visibilitat reduïda, i fàcils de capturar per a gent amb mobilitat reduïda o dificultats en emprar el ratolí.</para>
 </tip>
 
 </sect2>
@@ -136,7 +138,7 @@
 
 <sect2>
 <title
->Botons</title>
+>Botons de la barra de títol</title>
 
 <para
 >Aquesta pestanya permet personalitzar la ubicació del botó a la barra de títol. Podeu arrossegar els botons, &pex;, el <guilabel
@@ -160,7 +162,12 @@
 <para
 >Habiliteu <guilabel
 >Tanca les finestres amb doble clic al botó menú</guilabel
-> per tenir una opció addicional al botó «Tanca» o si l'heu eliminat de la barra de títol. </para>
+> per a tenir una opció addicional al botó «Tanca» o si l'heu eliminat de la barra de títol. </para>
+
+<para
+>Marqueu l'element <guilabel
+>Mostra els consells dels botons a la barra de títol</guilabel
+> si voleu veure els consells d'eina predeterminats quan es desplaça el punter del ratolí per sobre dels botons de la barra de títol. </para>
 
 </sect2>
 

@@ -49,9 +49,9 @@
 </authorgroup>
 
 <date
->14/07/2015</date>
+>9/4/2021</date>
 <releaseinfo
->Plasma 5.3</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
@@ -73,7 +73,7 @@
 >Comportamento delle finestre</title>
 
 <para
->Nella parte alta di questo modulo ci sono diverse schede: <guilabel
+>Nella parte alta di questo modulo di controllo ci sono diverse schede: <guilabel
 >Fuoco</guilabel
 >, <guilabel
 >Azioni sulla barra del titolo</guilabel
@@ -83,15 +83,15 @@
 >Spostamento</guilabel
 > e <guilabel
 >Avanzate</guilabel
->. Nella pannello <guilabel
+>. Nel pannello <guilabel
 >Fuoco</guilabel
-> si può configurare il modo in cui le finestre acquistano o perdono il fuoco, &ie; diventano attive o inattive. In <guilabel
+> si può configurare il modo in cui le finestre acquistano o perdono il fuoco, &ie; diventano attive o inattive. Utilizzando <guilabel
 >Azioni sulla barra del titolo</guilabel
 > e <guilabel
 >Azioni finestra</guilabel
-> si può configurare il modo in cui le barre del titolo e le finestre reagiscono ai clic del mouse. In <guilabel
+> si può configurare il modo in cui le barre del titolo e le finestre reagiscono ai clic del mouse. <guilabel
 >Spostamento</guilabel
-> si può configurare come si spostano le finestre e dove vengono posizionate all'apertura. Le opzioni <guilabel
+> consente di configurare come si spostano le finestre e dove vengono posizionate all'apertura. Le opzioni <guilabel
 >Avanzate</guilabel
 > contengono alcune opzioni specializzate come <quote
 >arrotolamento delle finestre</quote
@@ -99,7 +99,7 @@
 
 <note>
 <para
->È bene notare che le impostazioni di questo modulo non avranno effetto se non si usa &kwin;, il gestore delle finestre predefinito di &kde;. Se si usa un altro gestore delle finestre, riferirsi alla sua documentazione per sapere come configurare il comportamento delle finestre. </para>
+>Notare che la configurazione di questo modulo non avrà effetto se non si utilizza &kwin;, il gestore delle finestre nativo di &plasma;. Se si usa un altro gestore delle finestre, riferirsi alla sua documentazione per sapere come personalizzare il comportamento delle finestre. </para>
 </note>
 
 <sect2 id="action-focus">
@@ -120,10 +120,10 @@
 
 <sect3 id="action-focus-focuspolicy">
 <title
->Politica del fuoco</title>
+>Criterio di attivazione delle finestre</title>
 
 <para
->Ci sono sei metodi che &kde; può usare per determinare il fuoco corrente: </para>
+>Ci sono sei metodi che &kwin; può usare per determinare il fuoco attuale: </para>
 
 <variablelist>
 <varlistentry>
@@ -140,11 +140,11 @@
 <varlistentry>
 <term
 ><guilabel
->Clic per il fuoco - Precedenza del mouse</guilabel
+>Clic per il fuoco (precedenza del mouse)</guilabel
 ></term>
 <listitem>
 <para
->Simile al <guilabel
+>Simile a <guilabel
 >Clic per il fuoco</guilabel
 >. Se una finestra attiva deve essere scelta dal sistema (&eg;, perché quella attualmente attiva è stata chiusa) la finestra sotto il puntatore è la candidata preferita. Insolita, ma una possibile variante di <guilabel
 >Clic per il fuoco</guilabel
@@ -177,7 +177,7 @@
 <varlistentry>
 <term
 ><guilabel
->Il fuoco segue il mouse - Precedenza del mouse</guilabel
+>Il fuoco segue il mouse (precedenza del mouse)</guilabel
 ></term>
 <listitem>
 <para
@@ -211,7 +211,7 @@
 <para
 >Simile a <guilabel
 >Fuoco sotto il mouse</guilabel
->, ma con un'interpretazione ancora più stretta. Solo la finestra sotto il puntatore del mouse è attiva. Se il puntatore del mouse non è su nessuna finestra, nessuna finestra è attiva. Le nuove finestre, come la mini riga di comando attivata con <keycombo action="simul"
+>, ma con un'interpretazione ancora più stretta. Solo la finestra sotto il puntatore del mouse è attiva. Se il puntatore del mouse non è su nessuna finestra, nessuna finestra ha il fuoco. Le nuove finestre, come la mini riga di comando attivata con <keycombo action="simul"
 >&Alt;<keycap
 >F2</keycap
 ></keycombo
@@ -223,7 +223,7 @@
 
 <note
 ><para
->È bene notare che <guilabel
+>Notare che <guilabel
 >Fuoco sotto il mouse</guilabel
 > e <guilabel
 >Fuoco strettamente sotto il mouse</guilabel
@@ -238,7 +238,7 @@
 
 <sect3 id="action-focus-focusstealin">
 <title
->Livello di prevenzione della sottrazione del fuoco</title>
+>Prevenzione della sottrazione del fuoco</title>
 
 <para
 >Questa opzione di KWin specifica come prevenire i cambiamenti non desiderati del fuoco causati dall'attivazione inaspettata di nuove finestre.</para
@@ -313,9 +313,9 @@
 > è abilitata e alza al passaggio non è disponibile. </para>
 
 <para
->Con una regola di passa per il fuoco, è possibile utilizzare in alternativa il fuoco automatico. Piazzando un spunta davanti a <guilabel
+>Con una regola di passaggio per il fuoco, è possibile utilizzare in alternativa il fuoco automatico. Marcare <guilabel
 >Alza al passaggio, con un ritardo di</guilabel
->, &kde; può portare una finestra in primo piano se il mouse sorvola tale finestra per un periodo di tempo specificato. Si può determinare il ritardo per questa opzione utilizzando il la controllo della casella di selezione. </para>
+>, &kwin; può portare una finestra in primo piano se il puntatore del mouse sorvola tale finestra per un periodo di tempo specificato. Si può determinare il ritardo per questa opzione utilizzando il la controllo della casella di selezione. </para>
 
 <tip>
 <para
@@ -340,7 +340,7 @@
 
 <sect3 id="action-actions-sec1">
 <title
->Doppio clic sulla barra del titolo</title>
+>Doppio clic</title>
 
 <para
 >In questo menu a tendina, si può selezionare <guilabel
@@ -358,7 +358,7 @@
 <para
 >Se si seleziona <guilabel
 >Massimizza</guilabel
->, &kde; massimizzerà la finestra quando si fa doppio clic sulla barra del titolo. Si può scegliere di massimizzare la finestra solo orizzontalmente o solo verticalmente.</para>
+>, &kwin; massimizzerà la finestra quando si fa doppio clic sulla barra del titolo. Si può scegliere di massimizzare la finestra solo orizzontalmente o solo verticalmente.</para>
 
 <para
 ><guilabel
@@ -367,17 +367,17 @@
 
 <para
 >Opzioni simili sono disponibili per <guilabel
->Evento delle rotella</guilabel
+>Rotella del mouse</guilabel
 >. </para>
 <!--FIXME Raise/Lower Shade/Unshade Maximize/Restore Keep Above/Below Move to Previous/Next Desktop Change Opacity -->
 
 <tip>
 <para
 >Si può impostare lo srotolamento automatico delle finestre quando si posiziona il puntatore sulla barra del titolo. Basta marcare la casella <guilabel
->Abilita srotolamento al passaggio del mouse</guilabel
+>Srotolamento delle finestre</guilabel
 > nella scheda <guilabel
 >Avanzate</guilabel
-> di questo modulo. Questo è un buon modo per recuperare spazio sullo schermo, ad esempio quando si sta facendo taglia e incolla tra molte finestre. </para>
+> di questo modulo. Questo è un buon modo per recuperare spazio sul desktop, ad esempio quando si sta facendo taglia e incolla tra molte finestre. </para>
 </tip>
 
 </sect3>
@@ -385,7 +385,7 @@
 <sect3 id="action-actions-sec2">
 <title
 ><guilabel
->Barra del titolo e cornice</guilabel
+>Azioni per barra del titolo e cornice</guilabel
 ></title>
 
 <para
@@ -423,7 +423,7 @@
 <varlistentry>
 <term
 ><guilabel
->Commutare Alza e Abbassa</guilabel
+>Commuta alza e abbassa</guilabel
 ></term>
 <listitem>
 <para
@@ -438,7 +438,7 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Niente</guilabel
+>Non fare nulla</guilabel
 ></term>
 <listitem>
 <para
@@ -449,7 +449,7 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Menu delle operazioni</guilabel
+>Mostra menu delle azioni</guilabel
 ></term>
 <listitem>
 <para
@@ -463,7 +463,7 @@ Minimize, Shade, Close
 <sect3 id="action-actions-maximize-button">
 <title
 ><guilabel
->Pulsante Massimizza</guilabel
+>Azioni per il pulsante Massimizza</guilabel
 ></title>
 <para
 >Questa sezione permette di impostare il funzionamento dei tre pulsanti del mouse sul  </para>
@@ -531,9 +531,46 @@ Minimize, Shade, Close
 >Rende attiva la finestra e la porta in primo piano. Il clic del mouse non è inviato all'applicazione nella finestra. </para>
 </listitem>
 </varlistentry>
+</variablelist>
 
-<!--FIXME Wheel Scroll, Activate & Scroll, Activate, Raise & Scroll-->
+<para
+>Le scelte per <guilabel
+>Rotella del mouse</guilabel
+> sono le seguenti: </para>
 
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Scorrimento</guilabel
+></term>
+<listitem>
+<para
+>Scorre semplicemente il contenuto all'interno della finestra. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Attiva e scorri</guilabel
+></term>
+<listitem>
+<para
+>Questo rende attiva la finestra che ha ricevuto il clic e scorre il contenuto. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Attiva, alza e scorri</guilabel
+></term>
+<listitem>
+<para
+>Rende attiva la finestra che ha ricevuto il clic, la alza nella parte alta dello schermo e scorre il contenuto. </para>
+</listitem>
+</varlistentry>
 </variablelist>
 </sect3>
 
@@ -613,7 +650,7 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Commutare Alza e Abbassa</guilabel
+>Commuta alza e abbassa</guilabel
 ></term>
 <listitem>
 <para
@@ -650,21 +687,22 @@ Nothing
 
 <sect2 id="action-moving">
 <title
->Spostamento</title>
+>Movimento</title>
+
+<para
+>Le opzioni che si trovano qui determinano l'aspetto delle finestre sullo schermo quando le si sposta.</para>
 
 <sect3>
 <title
 ><guilabel
->Finestre</guilabel
+>Geometria della finestra</guilabel
 ></title>
-<para
->Le opzioni che si trovano qui determinano l'aspetto delle finestre sullo schermo quando le si sposta.</para>
 
 <variablelist>
 <varlistentry>
 <term
 ><guilabel
->Mostra la geometria della finestra quando viene ridimensionata o spostata</guilabel
+>Mostra durante lo spostamento o ridimensionamento</guilabel
 ></term>
 <listitem>
 <para
@@ -690,7 +728,7 @@ Nothing
 <varlistentry>
 <term
 ><guilabel
->Zona di aggancio dei bordi:</guilabel
+>Zona di aggancio dei bordi dello schermo:</guilabel
 ></term>
 <listitem>
 
@@ -729,7 +767,7 @@ Nothing
 <varlistentry>
 <term
 ><guilabel
->Attrai le finestre solo quando sovrapposte</guilabel
+>Attrai le finestre: solo quando sovrapposte</guilabel
 ></term>
 <listitem>
 
@@ -753,12 +791,12 @@ Nothing
 
 <variablelist>
 <title
->Arrotolamento</title>
+>Srotolamento delle finestre</title>
 
 <varlistentry>
 <term
 ><guilabel
->Abilita srotolamento al passaggio del mouse</guilabel
+>Al passaggio del mouse sulla barra del titolo dopo</guilabel
 ></term>
 <listitem>
 <para
@@ -772,11 +810,11 @@ Nothing
 <varlistentry>
 <term
 ><guilabel
->Piazzamento</guilabel
+>Posizionamento delle finestre</guilabel
 ></term>
 <listitem
 ><para
->La politica di piazzamento determina dove appariranno le nuove finestre sul desktop. <guilabel
+>Il criterio di piazzamento determina dove apparirà una nuova finestra sul desktop. <guilabel
 >Sovrapposizione minima</guilabel
 > cerca di ottenere una sovrapposizione minima tra le finestre, <guilabel
 >A cascata</guilabel
@@ -786,7 +824,9 @@ Nothing
 >Centrata</guilabel
 > aprirà tutte le nuove finestre al centro dello schermo e <guilabel
 >Nell'angolo in alto a sinistra</guilabel
-> aprirà tutte le nuove finestre con il loro angolo in alto a sinistra nell'angolo superiore destro dello schermo.</para
+> aprirà tutte le nuove finestre con il loro angolo in alto a sinistra nell'angolo superiore sinistro dello schermo. Marca l'elemento <guilabel
+>Consenti alle applicazioni di KDE di ricordare le posizioni delle proprie finestre</guilabel
+> per mantenere i dati sulle posizioni delle finestre di &plasma;.</para
 ></listitem>
 </varlistentry>
 

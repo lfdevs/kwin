@@ -4,25 +4,25 @@
 # Burkhard Lück <lueck@hube-lueck.de>, 2008, 2013, 2015, 2017, 2019, 2021.
 # Frederik Schwarzer <schwarzer@kde.org>, 2009, 2010, 2011, 2012, 2013, 2020, 2021.
 # Johannes Obermayr <johannesobermayr@gmx.de>, 2010.
+# Frank Steinmetzger <Warp_7@gmx.de>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-28 13:55+0000\n"
-"PO-Revision-Date: 2021-04-15 06:37+0200\n"
-"Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
+"POT-Creation-Date: 2021-04-27 00:19+0000\n"
+"PO-Revision-Date: 2021-06-06 23:50+0200\n"
+"Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 19.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Thomas Diehl, Thomas Reitelbach, Frank Steinmetzger"
+msgstr "Thomas Diehl, Thomas Reitelbach"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -150,7 +150,7 @@ msgstr ""
 #: actions.ui:163
 #, kde-format
 msgid "Scroll"
-msgstr "Blättern"
+msgstr "Rollen"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindowWheel)
 #: actions.ui:168
@@ -600,7 +600,7 @@ msgid ""
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
-"Wenn aktiviert, dürfen KDE-Anwendungen die Position ihrer Fenster "
+"Wenn aktiviert, dürfen Anwendungen die Position ihrer Fenster "
 "wiederherstellen, sofern sie dazu in der Lage sind. Dies ignoriert den oben "
 "eingestellten Platzierungsmodus."
 
@@ -609,7 +609,9 @@ msgstr ""
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
-msgstr "Anwendungen erlauben, die Position ihrer eigenen Fenster zu speichern"
+msgstr ""
+"Anwendungen erlauben, die Position ihrer eigenen Fenster zu speichern, wenn "
+"sie das unterstützen"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
 #: advanced.ui:128
@@ -640,7 +642,7 @@ msgstr "Werkzeugfenster von inaktiven Programmen ausblenden"
 #: focus.ui:22
 #, kde-format
 msgid "Window &activation policy:"
-msgstr "&Regelung zur Fensteraktivierung:"
+msgstr "Regeln zur Fenster&aktivierung:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, windowFocusPolicy)
 #: focus.ui:32
@@ -661,7 +663,7 @@ msgstr "Aktivierung nach Klick"
 #: focus.ui:41
 #, kde-format
 msgid "Click to focus (mouse precedence)"
-msgstr "Aktivierung nach Klick – Vorrang für Maus"
+msgstr "Aktivierung nach Klick - Vorrang für Maus"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:46
@@ -673,7 +675,7 @@ msgstr "Aktivierung bei Mauskontakt"
 #: focus.ui:51
 #, kde-format
 msgid "Focus follows mouse (mouse precedence)"
-msgstr "Aktivierung bei Mauskontakt – Vorrang für Maus"
+msgstr "Aktivierung bei Mauskontakt - Vorrang für Maus"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:56
@@ -841,7 +843,7 @@ msgstr ""
 #: focus.ui:156
 #, kde-format
 msgid "&Click raises active window"
-msgstr "&Aktives Fenster auf Klick nach &vorne holen"
+msgstr "&Aktives Fenster auf Klick nach vorne holen"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AutoRaise)
 #: focus.ui:165
@@ -879,19 +881,15 @@ msgstr "Verhalten bei mehreren Bildschirmen:"
 #: focus.ui:203
 #, kde-format
 msgid ""
-"When this option is enabled, the active Xinerama screen (where new windows "
-"appear, for example) is the screen containing the mouse pointer. When "
-"disabled, the active Xinerama screen is the screen containing the focused "
-"window. By default this option is disabled for Click to focus and enabled "
-"for other focus policies."
+"When this option is enabled, the active screen (where new windows appear, "
+"for example) is the screen containing the mouse pointer. When disabled, the "
+"active screen is the screen containing the focused window."
 msgstr ""
-"Wenn diese Einstellung aktiviert ist, wird der aktive Xinerama-Bildschirm "
-"(auf dem beispielsweise neue Fenster erscheinen) durch den Mauszeiger "
-"bestimmt. Es ist immer der Bildschirm aktiv, auf dem sich der Mauszeiger "
-"befindet. Wenn diese Einstellung deaktiviert ist, ist der aktive Bildschirm "
-"der, auf dem sich das jeweils aktive Fenster befindet. Für die Aktivierungs-"
-"Einstellung „Aktivierung nach Klick“ ist diese Einstellung normalerweise "
-"deaktiviert, für alle anderen ist sie normalerweise aktiviert."
+"Wenn diese Einstellung aktiviert ist, wird der aktive Bildschirm (auf dem "
+"beispielsweise neue Fenster erscheinen) durch den Mauszeiger bestimmt. Es "
+"ist immer der Bildschirm aktiv, auf dem sich der Mauszeiger befindet. Wenn "
+"diese Einstellung deaktiviert ist, ist der aktive Bildschirm der, auf dem "
+"sich das jeweils aktive Fenster befindet."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:206
@@ -904,10 +902,10 @@ msgstr "Aktiver Bildschirm folgt der &Maus"
 #, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
-"Xinerama screen"
+"screen"
 msgstr ""
 "Wenn diese Einstellung aktiviert ist, werden Aktivierungsaktionen nur auf "
-"den jeweils aktiven Xinerama-Bildschirm bezogen."
+"den jeweils aktiven Bildschirm bezogen."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:216
@@ -921,87 +919,87 @@ msgstr "&Aktivierungsaktionen nur für aktiven Bildschirm anwenden"
 msgid "Window activation policy description"
 msgstr "Beschreibung der Aktivierungsregel"
 
-#: main.cpp:73
+#: main.cpp:74
 #, kde-format
 msgid "&Focus"
 msgstr "&Aktivierung"
 
-#: main.cpp:84
+#: main.cpp:80
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "&Titelleistenaktionen"
 
-#: main.cpp:91
+#: main.cpp:86
 #, kde-format
 msgid "W&indow Actions"
 msgstr "&Fensteraktionen"
 
-#: main.cpp:98
+#: main.cpp:92
 #, kde-format
 msgid "Mo&vement"
 msgstr "&Verschiebung"
 
-#: main.cpp:105
+#: main.cpp:98
 #, kde-format
 msgid "Adva&nced"
 msgstr "Erwei&tert"
 
-#: main.cpp:110
+#: main.cpp:102
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "Einstellungsmodul für das Verhalten von Fenstern"
 
-#: main.cpp:112
+#: main.cpp:104
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "© 1997–2002, die KWin- und KControl-Autoren"
 
-#: main.cpp:114
+#: main.cpp:106
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:115
+#: main.cpp:107
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:116
+#: main.cpp:108
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:117
+#: main.cpp:109
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:118
+#: main.cpp:110
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:119
+#: main.cpp:111
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:120
+#: main.cpp:112
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:121
+#: main.cpp:113
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:122
+#: main.cpp:114
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:167
+#: main.cpp:163
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -1020,12 +1018,12 @@ msgstr ""
 "bitte in der zugehörigen Dokumentation nach, welche Einstellungen möglich "
 "sind.</p>"
 
-#: main.cpp:187
+#: main.cpp:205
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "&Titelleiste"
 
-#: main.cpp:193
+#: main.cpp:211
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "&Fenster"
@@ -1330,7 +1328,7 @@ msgstr "Bildschirm&mitte-Einrastzone:"
 msgid "&Snap windows:"
 msgstr "Fenster &andocken:"
 
-#: windows.cpp:101
+#: windows.cpp:99
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1340,7 +1338,7 @@ msgstr ""
 "Maus hinein klicken. Dieses Verhalten ist in vielen Betriebssystemen "
 "gebräuchlich und wahrscheinlich die gewünschte Einstellung."
 
-#: windows.cpp:105
+#: windows.cpp:103
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1350,12 +1348,12 @@ msgid ""
 "em>."
 msgstr ""
 "<em>Aktivierung nach Klick – Vorrang für Maus:</em> Dies ist fast wie "
-"<em>Aktivierung nach Klick</em>. Wenn eine aktives Fenster durch das System "
+"<em>Aktivierung nach Klick</em>. Wenn ein aktives Fenster durch das System "
 "gewählt werden muss, z. B. wenn das zurzeit aktive Fenster geschlossen "
 "wurde, dann ist das Fenster unter dem Mauszeiger der bevorzugte Kandidat. "
 "Ungewöhnliche aber mögliche Variante von <em>Aktivierung nach Klick</em>."
 
-#: windows.cpp:110
+#: windows.cpp:108
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1369,7 +1367,7 @@ msgstr ""
 "unerwünschter Aktivierung</em> funktioniert normal.Dies ist wie "
 "<em>Aktivierung nach Klick</em> nur ohne tatsächlich klicken zu müssen."
 
-#: windows.cpp:114
+#: windows.cpp:112
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1377,13 +1375,14 @@ msgid ""
 "closed) the window under the mouse is the preferred candidate. Choose this, "
 "if you want a hover controlled focus."
 msgstr ""
-"Dies ist fast wie <em>Aktivierung bei Mauskontakt</em>. Wenn eine aktives "
+"Dies ist fast wie <em>Aktivierung bei Mauskontakt</em>. Wenn ein aktives "
 "Fenster durch das System gewählt werden muss, z. B. wenn das gerade aktive "
-"Fenster geschlossen wurde,dann ist das Fenster unter dem Mauszeiger der "
+"Fenster geschlossen wurde, dann ist das Fenster unter dem Mauszeiger der "
 "bevorzugte Kandidat. Wählen Sie diese Einstellung für eine durch Mauskontakt "
 "gesteuerte Aktivierung."
 
-#: windows.cpp:119
+# Hier brauche ich eine zweite Meinung bzgl. "tabbox". Die bisherige Übersetzung sagt "Zwischen Arbeitsflächen umschalten", was eigentlich keinen Sinn ergibt.
+#: windows.cpp:117
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1399,7 +1398,7 @@ msgstr ""
 "sollten stattdessen besser <em>Aktivierung bei Mauskontakt – Vorrang für "
 "Maus</em> verwenden."
 
-#: windows.cpp:123
+#: windows.cpp:121
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

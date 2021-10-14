@@ -32,9 +32,9 @@
 </authorgroup>
 
 <date
->14/04/2016</date>
+>09/04/2021</date>
 <releaseinfo
->Plasma 5.6</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
@@ -61,9 +61,15 @@
 >, <guilabel
 >Fuoco</guilabel
 >, <guilabel
+>Mostra l'animazione del desktop</guilabel
+>, <guilabel
 >Strumenti</guilabel
-> e <guilabel
+>, <guilabel
+>Animazione del passaggio tra i desktop virtuali</guilabel
+>, <guilabel
 >Gestione delle finestre</guilabel
+> e <guilabel
+>Animazione Apri/Chiudi finestra</guilabel
 >.</para>
 <para
 >Usa la barra di ricerca incrementale in cima all'elenco delle finestre per trovare gli elementi nell'elenco.</para>
@@ -77,7 +83,7 @@
 
 <para
 >Il modo più semplice di installare dei nuovi effetti è quello di usare il supporto a KNewStuff incorporato in &kwin;: premi il pulsante <guibutton
->Scarica nuovi effetti...</guibutton
+>Ottieni nuovi effetti del desktop</guibutton
 > per aprire una finestra con la lista degli effetti disponibili da Internet, e per installare o disinstallare gli effetti.</para>
 <note
 ><para
@@ -106,16 +112,16 @@
 
 <para
 >Alcuni effetti ne escludono altri. Per esempio, puoi attivare l'effetto <guilabel
->Animazione di minimizzazione</guilabel
+>Massimizza</guilabel
 > oppure <guilabel
 >Lampada magica</guilabel
->; se li attivi entrambi allo stesso tempo le animazioni saranno danneggiate. </para>
+>; se li attivi entrambi allo stesso tempo, le animazioni saranno danneggiate. </para>
 
 <para
 >La &GUI; utilizza dei pulsanti a scelta singola per gli effetti in un gruppo che sono mutualmente esclusivi, e gestisce quell'unico effetto che può essere attivato. </para>
 
 <para
->Tutti gli effetti che non sono supportati dal motore di composizione attualmente in uso vengono nascosti in maniera predefinita (&eg; gli effetti OpenGL quando viene usato XRender). </para
+>Tutti gli effetti che non sono supportati dal motore di composizione attualmente in uso vengono nascosti in maniera predefinita (&eg; gli effetti OpenGL quando viene usata la resa software). </para
 > 
 
 <para

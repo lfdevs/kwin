@@ -43,7 +43,7 @@ void DontCrashCursorPhysicalSizeEmpty::init()
 {
     QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::Decoration));
 
-    screens()->setCurrent(0);
+    workspace()->setActiveOutput(QPoint(640, 512));
     KWin::Cursors::self()->mouse()->setPos(QPoint(640, 512));
 }
 
@@ -59,6 +59,7 @@ void DontCrashCursorPhysicalSizeEmpty::initTestCase()
     QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
+    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
 
     if (!QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("icons/DMZ-White/index.theme")).isEmpty()) {
         qputenv("XCURSOR_THEME", QByteArrayLiteral("DMZ-White"));
@@ -70,6 +71,7 @@ void DontCrashCursorPhysicalSizeEmpty::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
+    Test::initWaylandWorkspace();
 }
 
 void DontCrashCursorPhysicalSizeEmpty::testMoveCursorOverDeco()
@@ -77,9 +79,9 @@ void DontCrashCursorPhysicalSizeEmpty::testMoveCursorOverDeco()
     // This test ensures that there is no endless recursion if the cursor theme cannot be created
     // a reason for creation failure could be physical size not existing
     // see BUG: 390314
-    QScopedPointer<Surface> surface(Test::createSurface());
+    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
     Test::waylandServerSideDecoration()->create(surface.data(), surface.data());
-    QScopedPointer<XdgShellSurface> shellSurface(Test::createXdgShellStableSurface(surface.data()));
+    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
 
     auto c = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
     QVERIFY(c);
@@ -90,7 +92,7 @@ void DontCrashCursorPhysicalSizeEmpty::testMoveCursorOverDeco()
     auto output = display->outputs().first();
     output->setPhysicalSize(QSize(0, 0));
     // and fake a cursor theme change, so that the theme gets recreated
-    emit KWin::Cursors::self()->mouse()->themeChanged();
+    Q_EMIT KWin::Cursors::self()->mouse()->themeChanged();
 
     KWin::Cursors::self()->mouse()->setPos(QPoint(c->frameGeometry().center().x(), c->clientPos().y() / 2));
 }

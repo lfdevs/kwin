@@ -74,7 +74,7 @@ Target::~Target()
 
 void Target::shortcut()
 {
-    emit shortcutTriggered();
+    Q_EMIT shortcutTriggered();
 }
 
 void ModifierOnlyShortcutTest::initTestCase()
@@ -90,12 +90,12 @@ void ModifierOnlyShortcutTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    waylandServer()->initWorkspace();
+    Test::initWaylandWorkspace();
 }
 
 void ModifierOnlyShortcutTest::init()
 {
-    screens()->setCurrent(0);
+    workspace()->setActiveOutput(QPoint(640, 512));
     KWin::Cursors::self()->mouse()->setPos(QPoint(640, 512));
 }
 

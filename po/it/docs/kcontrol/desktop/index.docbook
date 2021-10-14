@@ -56,9 +56,9 @@
 </authorgroup>
 
 <date
->09/04/2015</date>
+>09/04/2021</date>
 <releaseinfo
->Plasma 5.3</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
@@ -66,47 +66,34 @@
 <keyword
 >Impostazioni di sistema</keyword>
 <keyword
+>virtuale</keyword>
+<keyword
 >desktop</keyword>
 </keywordset>
 </articleinfo>
 
-<sect1 id="virtual-desktops">
-
-<title
->Desktop virtuali</title>
-
-<sect2 id="desktop-number">
-<title
-><guilabel
->Desktop</guilabel
-></title>
-
 <para
->&kde; ti offre la possibilità di avere diversi desktop virtuali. In questa scheda puoi configurare il numero dei desktop, il numero di righe nell'icona del <guilabel
->Cambiadesktop</guilabel
-> e i nomi dei desktop. Basta usare la casella per regolarne il numero. Puoi assegnar loro dei nomi scrivendoli nelle caselle di testo sottostanti.</para
-> 
-<!-- not in 5.3
+>&kde; ti offre la possibilità di avere diversi desktop virtuali. </para>
 <para
->Enable <guilabel
->Different widgets for each desktop</guilabel
-> 
-to use independent widgets and wallpapers on each individual desktop.
-</para>
--->
-</sect2>
-
-<sect2 id="desktop-switching">
-<title
-><guilabel
->Cambio</guilabel
-></title>
+>Puoi modificare i nomi dei desktop facendo clic sul pulsante <guibutton
+>Rinomina</guibutton
+> (che appare quando passi sopra all'elemento nella lista col mouse) ed inserendo il testo nella casella di testo. </para>
+<para
+>Se vuoi rimuovere un desktop, usa l'icona a cestino sovrapposta alla destra degli elementi del desktop. </para>
+<para
+>Premi il pulsante <guibutton
+>Aggiungi</guibutton
+> per aggiungere un desktop virtuale (il nome predefinito è <guilabel
+>Nuovo desktop</guilabel
+>) alla lista. </para>
+<para
+>Puoi configurare il numero delle righe nel cambiadesktop: basta usare la casella di inserimento sotto la lista per regolare il numero dei desktop. Essi verranno riorganizzati automaticamente nelle righe. </para>
 
 <variablelist>
 <varlistentry>
 <term
 ><guilabel
->Lo scorrimento dei desktop è ad anello</guilabel
+>Scorrimento ad anello</guilabel
 ></term>
 <listitem
 ><para
@@ -117,26 +104,24 @@ to use independent widgets and wallpapers on each individual desktop.
 <varlistentry>
 <term
 ><guilabel
->Animazione al cambio desktop</guilabel
+>Mostra animazione al cambio</guilabel
 ></term>
 <listitem
 ><para
 >Seleziona <guilabel
->Nessun'animazione</guilabel
->, <guilabel
 >Scivola</guilabel
 >, <guilabel
->Animazione del cubo dei desktop</guilabel
+>Animazione Cubo dei desktop</guilabel
 > o <guilabel
 >Dissolvenza dei desktop</guilabel
-> dalla casella a cascata. Se l'animazione selezionata ha delle opzioni, fai clic sull'icona degli strumenti sulla destra della casella per avviarne la finestra di configurazione. </para
+> dalla casella a cascata o disattiva le animazioni deselezionando l'elemento. Se l'animazione selezionata ha delle opzioni, fai clic sull'icona degli strumenti sulla destra della casella a cascata per avviarne la finestra di configurazione. </para
 ></listitem>
 </varlistentry>
 
 <varlistentry>
 <term
 ><guilabel
->Mostra a schermo il cambio del desktop</guilabel
+>Mostra visualizzazione su schermo durante il cambio</guilabel
 ></term>
 <listitem
 ><para
@@ -152,17 +137,6 @@ to use independent widgets and wallpapers on each individual desktop.
 <listitem
 ><para
 >Abilitare questa opzione mostrerà una piccola anteprima della disposizione del desktop selezionato. </para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><guilabel
->Scorciatoie</guilabel
-></term>
-<listitem
-><para
->Questa sezione visualizza le scorciatoie configurate per cambiare i desktop e ti permette di modificarle. </para
 ></listitem>
 </varlistentry>
 
@@ -186,7 +160,5 @@ to use independent widgets and wallpapers on each individual desktop.
 >S</keycap
 ></keycombo
 >).</para>
-</sect2>
-</sect1>
 
 </article>

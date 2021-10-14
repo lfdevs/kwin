@@ -2,56 +2,49 @@
 # Copyright © 2007 KDE i18n Project for Vietnamese.
 #
 # Trần Thế Trung <tttrung@hotmail.com>, 2006.
-# Phu Hung Nguyen <phuhnguyen@disroot.org>, 2020.
+# Phu Hung Nguyen <phuhnguyen@disroot.org>, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-06 03:00+0100\n"
-"PO-Revision-Date: 2020-12-10 21:07+0100\n"
+"POT-Creation-Date: 2021-10-01 01:49+0000\n"
+"PO-Revision-Date: 2021-09-09 16:19+0200\n"
 "Last-Translator: Phu Hung Nguyen <phuhnguyen@disroot.org>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.08.1\n"
+"X-Generator: Lokalize 20.12.2\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Trần Thế Trung"
+msgstr "Nguyễn Hùng Phú,Trần Thế Trung"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "tttrung@hotmail.com"
+msgstr "phu.nguyen@kdemail.net,tttrung@hotmail.com"
 
-#: kcmrules.cpp:28
-#, fuzzy, kde-format
-#| msgid "Window &role:"
-msgid "Window Rules"
-msgstr "Chức năng cửa &sổ :"
-
-#: kcmrules.cpp:32
+#: kcmrules.cpp:29
 #, kde-format
-msgid "Ismael Asensio"
-msgstr ""
+msgid "Window Rules"
+msgstr "Luật cửa sổ"
 
 #: kcmrules.cpp:33
 #, kde-format
-msgid "Author"
-msgstr ""
+msgid "Ismael Asensio"
+msgstr "Ismael Asensio"
 
-#: kcmrules.cpp:37
-#, fuzzy, kde-format
-#| msgid ""
-#| "<h1>Window-specific Settings</h1> Here you can customize window settings "
-#| "specifically only for some windows. <p>Please note that this "
-#| "configuration will not take effect if you do not use KWin as your window "
-#| "manager. If you do use a different window manager, please refer to its "
-#| "documentation for how to customize window behavior."
+#: kcmrules.cpp:34
+#, kde-format
+msgid "Author"
+msgstr "Tác giả"
+
+#: kcmrules.cpp:38
+#, kde-format
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
 "specifically only for some windows.</p> <p>Please note that this "
@@ -59,58 +52,57 @@ msgid ""
 "manager. If you do use a different window manager, please refer to its "
 "documentation for how to customize window behavior.</p>"
 msgstr ""
-"<h1>Cài đặt dành riêng cho Cửa sổ</h1> Tại đây bạn có thể thay đổi cài đặt "
-"của cửa sổ, dành cho một số cửa sổ đặc dụng. <p>Chú ý là các cài đặt này sẽ "
-"không có tác dụng nếu bạn không dùng trình quản lí cửa sổ KWin. Nếu bạn dùng "
-"trình quản lí cửa sổ khác, xin đọc hướng dẫn của trình đó để biết cách cài "
-"đặt cho nó."
+"<p><h1>Thiết lập theo cửa sổ</h1> Tại đây bạn có thể tự chọn các thiết lập "
+"cửa sổ riêng chỉ cho một số cửa sổ.</p> <p>Vui lòng lưu ý rằng cấu hình này "
+"sẽ không có tác dụng nếu bạn không dùng KWin làm trình quản lí cửa sổ. Nếu "
+"bạn dùng một trình quản lí cửa sổ khác, vui lòng tham khảo tài liệu hướng "
+"dẫn của chương trình đó để biết cách tự chọn ứng xử của cửa sổ.</p>"
 
-#: kcmrules.cpp:171
+#: kcmrules.cpp:246
 #, kde-format
 msgid "Copy of %1"
-msgstr ""
+msgstr "Bản sao của %1"
 
-#: main.cpp:91
+#: kcmrules.cpp:425
 #, kde-format
 msgid "Application settings for %1"
-msgstr "Cài đặt ứng dụng cho %1"
+msgstr "Thiết lập ứng dụng cho %1"
 
-#: main.cpp:111 rulesmodel.cpp:219
+#: kcmrules.cpp:445 rulesmodel.cpp:219
 #, kde-format
 msgid "Window settings for %1"
-msgstr "Cài đặt cửa sổ cho %1"
+msgstr "Thiết lập cửa sổ cho %1"
 
-#: main.cpp:163
-#, fuzzy, kde-format
-#| msgid "Edit Window-Specific Settings"
-msgctxt "Window caption for the application wide rules dialog"
-msgid "Edit Application-Specific Settings"
-msgstr "Sửa thiết lập cửa sổ đặc dụng"
-
-#: main.cpp:197
+#: main.cpp:30
 #, kde-format
-msgid "KWin"
-msgstr "KWin"
+msgid "KWinRules KCM launcher"
+msgstr "Trình khởi chạy KCM KWinRules"
 
-#: main.cpp:204
-#, kde-format
-msgid "KWin helper utility"
-msgstr "Công cụ trợ giúp KWin"
-
-#: main.cpp:205
+#: main.cpp:31
 #, kde-format
 msgid "KWin id of the window for special window settings."
-msgstr ""
+msgstr "Mã định danh KWin của cửa sổ để dùng các thiết lập cửa sổ đặc biệt."
 
-#: main.cpp:206
+#: main.cpp:32
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
-msgstr ""
+msgstr "Liệu các thiết lập có nên tác động đến tất cả các cửa sổ của ứng dụng."
 
-#: main.cpp:215
+#: main.cpp:39
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
-msgstr "Công cụ trợ giúp này không dành cho việc gọi trực tiếp."
+msgstr "Không nên gọi trực tiếp tiện ích trợ giúp này."
+
+#: main.cpp:43
+#, kde-format
+msgctxt "Window caption for the application wide rules dialog"
+msgid "Edit Application-Specific Settings"
+msgstr "Sửa thiết lập theo ứng dụng"
+
+#: main.cpp:44
+#, kde-format
+msgid "Edit Window-Specific Settings"
+msgstr "Sửa thiết lập theo cửa sổ"
 
 #: optionsmodel.cpp:145
 #, kde-format
@@ -144,6 +136,9 @@ msgid ""
 "created.\n"
 "No further changes will be affected."
 msgstr ""
+"Thuộc tính cửa sổ sẽ chỉ được đặt thành giá trị đã cho sau khi cửa sổ được "
+"tạo ra.\n"
+"Các thay đổi về sau sẽ không bị tác động."
 
 #: optionsmodel.cpp:157
 #, kde-format
@@ -157,6 +152,9 @@ msgid ""
 "be affected later\n"
 "(this action will be deleted afterwards)."
 msgstr ""
+"Thuộc tính cửa sổ sẽ được đặt thành giá trị đã cho ngay lập tức và không bị "
+"tác động về sau\n"
+"(hành động này sau đó sẽ bị xoá)."
 
 #: optionsmodel.cpp:161
 #, kde-format
@@ -169,6 +167,8 @@ msgid ""
 "The value of the window property will be remembered and, every time the "
 "window is created, the last remembered value will be applied."
 msgstr ""
+"Giá trị của thuộc tính cửa sổ sẽ được ghi nhớ và, mỗi lần cửa sổ được tạo "
+"ra, giá trị được ghi nhớ cuối cùng sẽ được áp dụng."
 
 #: optionsmodel.cpp:165
 #, kde-format
@@ -182,21 +182,25 @@ msgid ""
 "for it will be used.\n"
 "Specifying this will block more generic window settings from taking effect."
 msgstr ""
+"Thuộc tính cửa sổ sẽ không bị tác động và vì vậy cách xử lí mặc định sẽ được "
+"dùng.\n"
+"Việc chỉ định lựa chọn này sẽ ngăn cản các thiết lập cửa sổ bao quát hơn có "
+"tác dụng."
 
 #: optionsmodel.cpp:169
 #, kde-format
 msgid "Force"
-msgstr "Buộc"
+msgstr "Ép"
 
 #: optionsmodel.cpp:170
 #, kde-format
 msgid "The window property will be always forced to the given value."
-msgstr ""
+msgstr "Thuộc tính cửa sổ sẽ luôn bị ép thành giá trị đã cho."
 
 #: optionsmodel.cpp:172
 #, kde-format
 msgid "Force Temporarily"
-msgstr "Buộc tạm"
+msgstr "Ép tạm"
 
 #: optionsmodel.cpp:173
 #, kde-format
@@ -204,187 +208,200 @@ msgid ""
 "The window property will be forced to the given value until it is hidden\n"
 "(this action will be deleted after the window is hidden)."
 msgstr ""
+"Thuộc tính cửa sổ sẽ bị ép thành giá trị đã cho, đến khi nó bị ẩn đi\n"
+"(hành động này sẽ bị xoá sau khi cửa sổ bị ẩn đi)."
 
 #: package/contents/ui/FileDialogLoader.qml:14
 #, kde-format
 msgid "Select File"
-msgstr ""
+msgstr "Chọn tệp"
 
 #: package/contents/ui/FileDialogLoader.qml:26
 #, kde-format
 msgid "KWin Rules (*.kwinrule)"
-msgstr ""
+msgstr "Luật KWin (*.kwinrule)"
 
 #: package/contents/ui/OptionsComboBox.qml:35
 #, kde-format
 msgid "None selected"
-msgstr ""
+msgstr "Chưa chọn gì"
 
 #: package/contents/ui/OptionsComboBox.qml:41
 #, kde-format
 msgid "All selected"
-msgstr ""
+msgstr "Đã chọn hết"
 
 #: package/contents/ui/OptionsComboBox.qml:43
 #, kde-format
 msgid "%1 selected"
 msgid_plural "%1 selected"
-msgstr[0] ""
+msgstr[0] "Đã chọn %1"
 
 #: package/contents/ui/RulesEditor.qml:63
-#: package/contents/ui/RulesEditor.qml:81
-#, fuzzy, kde-format
-#| msgid "&New..."
-msgid "Add Property..."
-msgstr "&Mới..."
+#, kde-format
+msgid "No window properties changed"
+msgstr "Không thuộc tính cửa sổ nào bị thay đổi"
 
-#: package/contents/ui/RulesEditor.qml:81
-#, fuzzy, kde-format
-#| msgid "&Closeable"
+#: package/contents/ui/RulesEditor.qml:64
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"Click the <interface>Add Property...</interface> button below to add some "
+"window properties that will be affected by the rule"
+msgstr ""
+"Bấm nút <interface>Thêm thuộc tính...</interface> ở dưới để thêm các thuộc "
+"tính cửa sổ sẽ bị tác động bởi luật này"
+
+#: package/contents/ui/RulesEditor.qml:85
+#, kde-format
 msgid "Close"
-msgstr "Đóng đượ&c"
+msgstr "Đóng"
 
-#: package/contents/ui/RulesEditor.qml:95
-#, fuzzy, kde-format
-#| msgid "Detect Window Properties"
+#: package/contents/ui/RulesEditor.qml:85
+#, kde-format
+msgid "Add Property..."
+msgstr "Thêm thuộc tính..."
+
+#: package/contents/ui/RulesEditor.qml:98
+#, kde-format
 msgid "Detect Window Properties"
-msgstr "Xác định Tính chất Cửa sổ"
+msgstr "Phát hiện thuộc tính cửa sổ"
 
-#: package/contents/ui/RulesEditor.qml:111
+#: package/contents/ui/RulesEditor.qml:114
+#: package/contents/ui/RulesEditor.qml:121
 #, kde-format
 msgid "Instantly"
-msgstr ""
+msgstr "Lập tức"
 
-#: package/contents/ui/RulesEditor.qml:112
+#: package/contents/ui/RulesEditor.qml:115
+#: package/contents/ui/RulesEditor.qml:126
 #, kde-format
 msgid "After %1 second"
 msgid_plural "After %1 seconds"
-msgstr[0] ""
+msgstr[0] "Sau %1 giây"
 
-#: package/contents/ui/RulesEditor.qml:133
+#: package/contents/ui/RulesEditor.qml:147
 #, kde-format
 msgid "Error"
-msgstr ""
+msgstr "Lỗi"
 
-#: package/contents/ui/RulesEditor.qml:149
+#: package/contents/ui/RulesEditor.qml:162
 #, kde-format
 msgid "Add property to the rule"
-msgstr ""
+msgstr "Thêm thuộc tính vào luật"
 
-#: package/contents/ui/RulesEditor.qml:244
+#: package/contents/ui/RulesEditor.qml:257
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
-msgstr ""
+msgstr "Có"
 
-#: package/contents/ui/RulesEditor.qml:244
+#: package/contents/ui/RulesEditor.qml:257
 #: package/contents/ui/ValueEditor.qml:60
-#, fuzzy, kde-format
-#| msgid "None"
+#, kde-format
 msgid "No"
-msgstr "Không có"
+msgstr "Không"
 
-#: package/contents/ui/RulesEditor.qml:246
-#: package/contents/ui/ValueEditor.qml:167
-#: package/contents/ui/ValueEditor.qml:174
+#: package/contents/ui/RulesEditor.qml:259
+#: package/contents/ui/ValueEditor.qml:172
+#: package/contents/ui/ValueEditor.qml:179
 #, kde-format
 msgid "%1 %"
-msgstr ""
+msgstr "%1 %"
 
-#: package/contents/ui/RulesEditor.qml:248
+#: package/contents/ui/RulesEditor.qml:261
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
-msgstr ""
+msgstr "(%1, %2)"
 
-#: package/contents/ui/RulesEditor.qml:250
+#: package/contents/ui/RulesEditor.qml:263
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
-msgstr ""
+msgstr "(%1, %2)"
 
 #: package/contents/ui/RulesList.qml:61
 #, kde-format
 msgid "No rules for specific windows are currently set"
-msgstr ""
+msgstr "Không có luật nào đang được đặt theo cửa sổ"
 
-#: package/contents/ui/RulesList.qml:69
+#: package/contents/ui/RulesList.qml:62
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Click the <interface>Add New...</interface> button below to add some"
+msgstr "Bấm nút <interface>Thêm mới...</interface> ở dưới để thêm"
+
+#: package/contents/ui/RulesList.qml:70
 #, kde-format
 msgid "Select the rules to export"
-msgstr ""
+msgstr "Chọn luật để xuất khẩu"
 
-#: package/contents/ui/RulesList.qml:73
+#: package/contents/ui/RulesList.qml:74
 #, kde-format
 msgid "Unselect All"
-msgstr ""
+msgstr "Bỏ chọn tất cả"
 
-#: package/contents/ui/RulesList.qml:73
+#: package/contents/ui/RulesList.qml:74
 #, kde-format
 msgid "Select All"
-msgstr ""
+msgstr "Chọn tất cả"
 
-#: package/contents/ui/RulesList.qml:87
+#: package/contents/ui/RulesList.qml:88
 #, kde-format
 msgid "Save Rules"
-msgstr ""
+msgstr "Lưu các luật"
 
-#: package/contents/ui/RulesList.qml:98
-#, fuzzy, kde-format
-#| msgid "&New..."
+#: package/contents/ui/RulesList.qml:99
+#, kde-format
 msgid "Add New..."
-msgstr "&Mới..."
+msgstr "Thêm mới..."
 
-#: package/contents/ui/RulesList.qml:109
+#: package/contents/ui/RulesList.qml:110
 #, kde-format
 msgid "Import..."
-msgstr ""
+msgstr "Nhập khẩu..."
 
-#: package/contents/ui/RulesList.qml:117
+#: package/contents/ui/RulesList.qml:118
 #, kde-format
 msgid "Cancel Export"
-msgstr ""
+msgstr "Huỷ xuất khẩu"
 
-#: package/contents/ui/RulesList.qml:117
-#, fuzzy, kde-format
-#| msgid "Edit..."
+#: package/contents/ui/RulesList.qml:118
+#, kde-format
 msgid "Export..."
-msgstr "Sửa..."
+msgstr "Xuất khẩu..."
 
-#: package/contents/ui/RulesList.qml:198
+#: package/contents/ui/RulesList.qml:199
 #, kde-format
 msgid "Edit"
 msgstr "Sửa"
 
-#: package/contents/ui/RulesList.qml:207
+#: package/contents/ui/RulesList.qml:208
 #, kde-format
 msgid "Duplicate"
-msgstr ""
+msgstr "Nhân đôi"
 
-#: package/contents/ui/RulesList.qml:216
+#: package/contents/ui/RulesList.qml:217
 #, kde-format
 msgid "Delete"
 msgstr "Xoá"
 
-#: package/contents/ui/RulesList.qml:229
+#: package/contents/ui/RulesList.qml:230
 #, kde-format
 msgid "Import Rules"
-msgstr ""
+msgstr "Nhập khẩu luật"
 
-#: package/contents/ui/RulesList.qml:241
+#: package/contents/ui/RulesList.qml:242
 #, kde-format
 msgid "Export Rules"
-msgstr ""
+msgstr "Xuất khẩu luật"
 
-#: package/contents/ui/ValueEditor.qml:202
+#: package/contents/ui/ValueEditor.qml:207
 #, kde-format
 msgctxt "(x, y) coordinates separator in size/position"
 msgid "x"
-msgstr ""
-
-#: rulesdialog.cpp:28
-#, kde-format
-msgid "Edit Window-Specific Settings"
-msgstr "Sửa thiết lập cửa sổ đặc dụng"
+msgstr "x"
 
 #: rulesmodel.cpp:222
 #, kde-format
@@ -392,12 +409,11 @@ msgid "Settings for %1"
 msgstr "Thiết lập cho %1"
 
 #: rulesmodel.cpp:225
-#, fuzzy, kde-format
-#| msgid "Window settings for %1"
+#, kde-format
 msgid "New window settings"
-msgstr "Cài đặt cửa sổ cho %1"
+msgstr "Thiết lập cửa sổ mới"
 
-#: rulesmodel.cpp:239
+#: rulesmodel.cpp:241
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -407,147 +423,141 @@ msgid ""
 "types."
 msgstr ""
 "Bạn vừa chỉ định lớp cửa sổ là không quan trọng.\n"
-"Điều này nghĩa là cài đặt sẽ có thể được áp dụng cho mọi ứng dụng. Nếu bạn "
-"thực sự muốn tạo ra cài đặt chung, bạn nên ít nhất là giới hạn kiểu cửa sổ "
-"để tránh kiểu cửa sổ đặc biệt."
+"Điều này có nghĩa là các thiết lập sẽ có thể áp dụng cho cửa sổ của tất cả "
+"các ứng dụng. Nếu bạn thật sự muốn tạo ra một thiết lập bao quát, ít nhất là "
+"bạn nên giới hạn các kiểu cửa sổ để tránh các kiểu cửa sổ đặc biệt."
 
-#: rulesmodel.cpp:369
-#, fuzzy, kde-format
-#| msgid "De&scription:"
+#: rulesmodel.cpp:248
+#, kde-format
+msgid ""
+"Some applications set their own geometry after starting, overriding your "
+"initial settings for size and position. To enforce these settings, also "
+"force the property \"%1\" to \"Yes\"."
+msgstr ""
+"Một số ứng dụng đặt hình dạng của riêng mình sau khi khởi động, vượt hiệu "
+"lực các thiết lập lúc đầu của bạn cho kích thước và vị trí. Để bắt buộc các "
+"thiết lập này, hãy ép cả thuộc tính \"%1\" thành \"Có\"."
+
+#: rulesmodel.cpp:363
+#, kde-format
 msgid "Description"
-msgstr "Mô &tả:"
+msgstr "Mô tả"
 
-#: rulesmodel.cpp:369 rulesmodel.cpp:377 rulesmodel.cpp:385 rulesmodel.cpp:392
-#: rulesmodel.cpp:398 rulesmodel.cpp:406 rulesmodel.cpp:411 rulesmodel.cpp:417
-#, fuzzy, kde-format
-#| msgid "&Window"
+#: rulesmodel.cpp:363 rulesmodel.cpp:371 rulesmodel.cpp:379 rulesmodel.cpp:386
+#: rulesmodel.cpp:392 rulesmodel.cpp:400 rulesmodel.cpp:405 rulesmodel.cpp:411
+#, kde-format
 msgid "Window matching"
-msgstr "&Cửa sổ"
+msgstr "Khớp cửa sổ"
 
-#: rulesmodel.cpp:377
-#, fuzzy, kde-format
-#| msgid "Window &class (application type):"
+#: rulesmodel.cpp:371
+#, kde-format
 msgid "Window class (application)"
-msgstr "Hạng &cửa sổ (kiểu ứng dụng):"
+msgstr "Lớp cửa sổ (ứng dụng)"
 
-#: rulesmodel.cpp:385
-#, fuzzy, kde-format
-#| msgid "Match w&hole window class"
+#: rulesmodel.cpp:379
+#, kde-format
 msgid "Match whole window class"
-msgstr "Khớp toàn &bộ lớp cửa sổ"
+msgstr "Khớp toàn bộ lớp cửa sổ"
+
+#: rulesmodel.cpp:386
+#, kde-format
+msgid "Whole window class"
+msgstr "Toàn bộ lớp cửa sổ"
 
 #: rulesmodel.cpp:392
-#, fuzzy, kde-format
-#| msgid "Match w&hole window class"
-msgid "Whole window class"
-msgstr "Khớp toàn &bộ lớp cửa sổ"
-
-#: rulesmodel.cpp:398
-#, fuzzy, kde-format
-#| msgid "Window &types:"
+#, kde-format
 msgid "Window types"
-msgstr "&Kiểu cửa sổ:"
+msgstr "Kiểu cửa sổ"
 
-#: rulesmodel.cpp:406
-#, fuzzy, kde-format
-#| msgid "Window &role:"
+#: rulesmodel.cpp:400
+#, kde-format
 msgid "Window role"
-msgstr "Chức năng cửa &sổ :"
+msgstr "Vai trò cửa sổ"
+
+#: rulesmodel.cpp:405
+#, kde-format
+msgid "Window title"
+msgstr "Tiêu đề cửa sổ"
 
 #: rulesmodel.cpp:411
-#, fuzzy, kde-format
-#| msgid "Window t&itle:"
-msgid "Window title"
-msgstr "Tựa cửa &sổ:"
+#, kde-format
+msgid "Machine (hostname)"
+msgstr "Máy (tên máy)"
 
 #: rulesmodel.cpp:417
-#, fuzzy, kde-format
-#| msgid "&Machine (hostname):"
-msgid "Machine (hostname)"
-msgstr "Má&y (tên máy):"
+#, kde-format
+msgid "Position"
+msgstr "Vị trí"
+
+#: rulesmodel.cpp:417 rulesmodel.cpp:423 rulesmodel.cpp:429 rulesmodel.cpp:434
+#: rulesmodel.cpp:442 rulesmodel.cpp:448 rulesmodel.cpp:464 rulesmodel.cpp:478
+#: rulesmodel.cpp:483 rulesmodel.cpp:488 rulesmodel.cpp:493 rulesmodel.cpp:498
+#: rulesmodel.cpp:505 rulesmodel.cpp:515 rulesmodel.cpp:520 rulesmodel.cpp:525
+#, kde-format
+msgid "Size & Position"
+msgstr "Kích thước & vị trí"
 
 #: rulesmodel.cpp:423
-#, fuzzy, kde-format
-#| msgid "&Position"
-msgid "Position"
-msgstr "&Vị trí"
-
-#: rulesmodel.cpp:423 rulesmodel.cpp:428 rulesmodel.cpp:433 rulesmodel.cpp:438
-#: rulesmodel.cpp:443 rulesmodel.cpp:456 rulesmodel.cpp:470 rulesmodel.cpp:475
-#: rulesmodel.cpp:480 rulesmodel.cpp:485 rulesmodel.cpp:490 rulesmodel.cpp:496
-#: rulesmodel.cpp:505 rulesmodel.cpp:510 rulesmodel.cpp:515
-#, fuzzy, kde-format
-#| msgid "&Position"
-msgid "Size & Position"
-msgstr "&Vị trí"
-
-#: rulesmodel.cpp:428
-#, fuzzy, kde-format
-#| msgid "&Size"
+#, kde-format
 msgid "Size"
-msgstr "&Cỡ"
+msgstr "Kích thước"
 
-#: rulesmodel.cpp:433
-#, fuzzy, kde-format
-#| msgid "Maximized &horizontally"
+#: rulesmodel.cpp:429
+#, kde-format
 msgid "Maximized horizontally"
-msgstr "Mở to theo &phương ngang"
+msgstr "Phóng to theo chiều ngang"
 
-#: rulesmodel.cpp:438
-#, fuzzy, kde-format
-#| msgid "Maximized &vertically"
+#: rulesmodel.cpp:434
+#, kde-format
 msgid "Maximized vertically"
-msgstr "Mở to theo phương đứn&g"
+msgstr "Phóng to theo chiều dọc"
 
-#: rulesmodel.cpp:443
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#: rulesmodel.cpp:442
+#, kde-format
 msgid "Virtual Desktop"
-msgstr "Cho mọi màn hình nền"
+msgstr "Bàn làm việc ảo"
 
-#: rulesmodel.cpp:456
-#, fuzzy, kde-format
-#| msgid "A&ctive opacity in %"
+#: rulesmodel.cpp:448
+#, kde-format
+msgid "Virtual Desktops"
+msgstr "Bàn làm việc ảo"
+
+#: rulesmodel.cpp:464
+#, kde-format
 msgid "Activities"
-msgstr "Độ mờ chủ độn&g trong %"
+msgstr "Hoạt động"
 
-#: rulesmodel.cpp:470
-#, fuzzy, kde-format
-#| msgid "Splash Screen"
+#: rulesmodel.cpp:478
+#, kde-format
 msgid "Screen"
-msgstr "Màn hình Loé lên"
+msgstr "Màn hình"
 
-#: rulesmodel.cpp:475
-#, fuzzy, kde-format
-#| msgid "&Fullscreen"
+#: rulesmodel.cpp:483
+#, kde-format
 msgid "Fullscreen"
-msgstr "Toà&n bộ màn hình"
+msgstr "Toàn màn hình"
 
-#: rulesmodel.cpp:480
-#, fuzzy, kde-format
-#| msgid "M&inimized"
+#: rulesmodel.cpp:488
+#, kde-format
 msgid "Minimized"
-msgstr "Th&u nhỏ"
+msgstr "Thu nhỏ"
 
-#: rulesmodel.cpp:485
-#, fuzzy, kde-format
-#| msgid "Sh&aded"
+#: rulesmodel.cpp:493
+#, kde-format
 msgid "Shaded"
-msgstr "Bóng &râm"
-
-#: rulesmodel.cpp:490
-#, fuzzy, kde-format
-#| msgid "P&lacement"
-msgid "Initial placement"
-msgstr "Đặt &chỗ"
-
-#: rulesmodel.cpp:496
-#, fuzzy, kde-format
-#| msgid "Ignore requested &geometry"
-msgid "Ignore requested geometry"
-msgstr "Bỏ qua hình học được &yêu cầu"
+msgstr "Che"
 
 #: rulesmodel.cpp:498
+#, kde-format
+msgid "Initial placement"
+msgstr "Xếp chỗ ban đầu"
+
+#: rulesmodel.cpp:505
+#, kde-format
+msgid "Ignore requested geometry"
+msgstr "Bỏ qua hình dạng được yêu cầu"
+
+#: rulesmodel.cpp:507
 #, kde-format
 msgid ""
 "Windows can ask to appear in a certain position.\n"
@@ -555,25 +565,27 @@ msgid ""
 "what might be nasty if the client abuses the feature\n"
 "to unconditionally popup in the middle of your screen."
 msgstr ""
-
-#: rulesmodel.cpp:505
-#, fuzzy, kde-format
-#| msgid "M&inimum size"
-msgid "Minimum Size"
-msgstr "Kích cỡ thu &nhỏ"
-
-#: rulesmodel.cpp:510
-#, fuzzy, kde-format
-#| msgid "M&aximum size"
-msgid "Maximum Size"
-msgstr "Kích cỡ mở t&o"
+"Các cửa sổ có thể yêu cầu xuất hiện ở một vị trí nhất định.\n"
+"Mặc định là lựa chọn này vượt hiệu lực của cách xếp chỗ đó\n"
+"khi nó có thể gây khó chịu nếu trình khách lạm dụng tính năng\n"
+"này để bật lên một cách tuỳ ý ở ngay giữa màn hình của bạn."
 
 #: rulesmodel.cpp:515
 #, kde-format
-msgid "Obey geometry restrictions"
-msgstr ""
+msgid "Minimum Size"
+msgstr "Kích thước tối thiểu"
 
-#: rulesmodel.cpp:517
+#: rulesmodel.cpp:520
+#, kde-format
+msgid "Maximum Size"
+msgstr "Kích thước tối đa"
+
+#: rulesmodel.cpp:525
+#, kde-format
+msgid "Obey geometry restrictions"
+msgstr "Tuân theo các hạn chế về hình dạng"
+
+#: rulesmodel.cpp:527
 #, kde-format
 msgid ""
 "Eg. terminals or video players can ask to keep a certain aspect ratio\n"
@@ -582,98 +594,96 @@ msgid ""
 "This may be pointless and the restriction prevents arbitrary dimensions\n"
 "like your complete screen area."
 msgstr ""
-
-#: rulesmodel.cpp:526
-#, fuzzy, kde-format
-#| msgid "Keep &above"
-msgid "Keep above"
-msgstr "G&iữ nằm trên"
-
-#: rulesmodel.cpp:526 rulesmodel.cpp:531 rulesmodel.cpp:536 rulesmodel.cpp:542
-#: rulesmodel.cpp:548 rulesmodel.cpp:554
-#, kde-format
-msgid "Arrangement & Access"
-msgstr ""
-
-#: rulesmodel.cpp:531
-#, fuzzy, kde-format
-#| msgid "Keep &below"
-msgid "Keep below"
-msgstr "Giữ nằm &dưới"
+"Vd. các trình dòng lệnh hay trình phát phim có thể yêu cầu giữ một tỉ lệ\n"
+"khung nhất định hoặc chỉ mở rộng ra một lượng bằng các giá trị lớn hơn một\n"
+"(vd. bằng kích thước của một kí tự).\n"
+"Việc này có thể không có ý nghĩa gì và hạn chế này ngăn cản các kích thước\n"
+"tuỳ ý chẳng hạn như diện tích toàn bộ màn hình."
 
 #: rulesmodel.cpp:536
-#, fuzzy, kde-format
-#| msgid "Skip &taskbar"
+#, kde-format
+msgid "Keep above other windows"
+msgstr "Giữ trên các cửa sổ khác"
+
+#: rulesmodel.cpp:536 rulesmodel.cpp:541 rulesmodel.cpp:546 rulesmodel.cpp:552
+#: rulesmodel.cpp:558 rulesmodel.cpp:564
+#, kde-format
+msgid "Arrangement & Access"
+msgstr "Sắp đặt & truy cập"
+
+#: rulesmodel.cpp:541
+#, kde-format
+msgid "Keep below other windows"
+msgstr "Giữ dưới các cửa sổ khác"
+
+#: rulesmodel.cpp:546
+#, kde-format
 msgid "Skip taskbar"
-msgstr "Bỏ qua thanh tác &vụ"
-
-#: rulesmodel.cpp:538
-#, kde-format
-msgid "Window shall (not) appear in the taskbar."
-msgstr ""
-
-#: rulesmodel.cpp:542
-#, fuzzy, kde-format
-#| msgid "Skip pa&ger"
-msgid "Skip pager"
-msgstr "Bỏ &qua nhắn tin"
-
-#: rulesmodel.cpp:544
-#, kde-format
-msgid "Window shall (not) appear in the manager for virtual desktops"
-msgstr ""
+msgstr "Bỏ qua thanh tác vụ"
 
 #: rulesmodel.cpp:548
-#, fuzzy, kde-format
-#| msgid "Skip pa&ger"
-msgid "Skip switcher"
-msgstr "Bỏ &qua nhắn tin"
-
-#: rulesmodel.cpp:550
 #, kde-format
-msgid "Window shall (not) appear in the Alt+Tab list"
-msgstr ""
+msgid "Window shall (not) appear in the taskbar."
+msgstr "Cửa sổ sẽ (không) xuất hiện trong thanh tác vụ."
+
+#: rulesmodel.cpp:552
+#, kde-format
+msgid "Skip pager"
+msgstr "Bỏ qua trình tổng quan"
 
 #: rulesmodel.cpp:554
 #, kde-format
-msgid "Shortcut"
-msgstr "Gõ tắt"
+msgid "Window shall (not) appear in the manager for virtual desktops"
+msgstr "Cửa sổ sẽ (không) xuất hiện trong trình quản lí bàn làm việc ảo"
+
+#: rulesmodel.cpp:558
+#, kde-format
+msgid "Skip switcher"
+msgstr "Bỏ qua trình chuyển"
 
 #: rulesmodel.cpp:560
 #, kde-format
-msgid "No titlebar and frame"
-msgstr ""
+msgid "Window shall (not) appear in the Alt+Tab list"
+msgstr "Cửa sổ sẽ (không) xuất hiện trong danh sách Alt+Tab"
 
-#: rulesmodel.cpp:560 rulesmodel.cpp:565 rulesmodel.cpp:571 rulesmodel.cpp:576
-#: rulesmodel.cpp:581 rulesmodel.cpp:592 rulesmodel.cpp:603 rulesmodel.cpp:611
-#: rulesmodel.cpp:624 rulesmodel.cpp:629 rulesmodel.cpp:635 rulesmodel.cpp:640
+#: rulesmodel.cpp:564
+#, kde-format
+msgid "Shortcut"
+msgstr "Phím tắt"
+
+#: rulesmodel.cpp:570
+#, kde-format
+msgid "No titlebar and frame"
+msgstr "Không có thanh tiêu đề và khung"
+
+#: rulesmodel.cpp:570 rulesmodel.cpp:575 rulesmodel.cpp:581 rulesmodel.cpp:586
+#: rulesmodel.cpp:591 rulesmodel.cpp:602 rulesmodel.cpp:613 rulesmodel.cpp:621
+#: rulesmodel.cpp:634 rulesmodel.cpp:639 rulesmodel.cpp:645 rulesmodel.cpp:650
 #, kde-format
 msgid "Appearance & Fixes"
-msgstr ""
+msgstr "Diện mạo & Chỉnh sửa"
 
-#: rulesmodel.cpp:565
+#: rulesmodel.cpp:575
 #, kde-format
 msgid "Titlebar color scheme"
-msgstr ""
-
-#: rulesmodel.cpp:571
-#, fuzzy, kde-format
-#| msgid "A&ctive opacity in %"
-msgid "Active opacity"
-msgstr "Độ mờ chủ độn&g trong %"
-
-#: rulesmodel.cpp:576
-#, fuzzy, kde-format
-#| msgid "I&nactive opacity in %"
-msgid "Inactive opacity"
-msgstr "Độ mờ &bị độn&g trong %"
+msgstr "Quy hoạch màu thanh tiêu đề"
 
 #: rulesmodel.cpp:581
+#, kde-format
+msgid "Active opacity"
+msgstr "Độ mờ đục hoạt động"
+
+#: rulesmodel.cpp:586
+#, kde-format
+msgid "Inactive opacity"
+msgstr "Độ mờ đục bất hoạt"
+
+#: rulesmodel.cpp:591
 #, kde-format
 msgid "Focus stealing prevention"
 msgstr "Ngăn chặn lấy nhắm"
 
-#: rulesmodel.cpp:583
+#: rulesmodel.cpp:593
 #, kde-format
 msgid ""
 "KWin tries to prevent windows from taking the focus\n"
@@ -688,12 +698,12 @@ msgstr ""
 "\"Không\" sẽ chấp nhận vô điều kiện việc cửa sổ này lấy nhắm, còn\n"
 "\"Cực độ\" sẽ hoàn toàn ngăn chặn nó lấy nhắm."
 
-#: rulesmodel.cpp:592
+#: rulesmodel.cpp:602
 #, kde-format
 msgid "Focus protection"
 msgstr "Bảo vệ nhắm"
 
-#: rulesmodel.cpp:594
+#: rulesmodel.cpp:604
 #, kde-format
 msgid ""
 "This controls the focus protection of the currently active window.\n"
@@ -708,12 +718,12 @@ msgstr ""
 "Còn lại thì đan xen với quy tắc ngăn chặn lấy nhắm được đặt\n"
 "cho cửa sổ đang muốn lấy nhắm."
 
-#: rulesmodel.cpp:603
+#: rulesmodel.cpp:613
 #, kde-format
 msgid "Accept focus"
 msgstr "Chấp nhận nhắm"
 
-#: rulesmodel.cpp:605
+#: rulesmodel.cpp:615
 #, kde-format
 msgid ""
 "Windows may prevent to get the focus (activate) when being clicked.\n"
@@ -724,13 +734,12 @@ msgstr ""
 "Mặt khác, bạn có thể muốn ngăn chặn một cửa sổ được nhắm\n"
 "khi chuột bấm vào."
 
-#: rulesmodel.cpp:611
-#, fuzzy, kde-format
-#| msgid "Block global shortcuts"
+#: rulesmodel.cpp:621
+#, kde-format
 msgid "Ignore global shortcuts"
-msgstr "Cấm gõ tắt tổng thể"
+msgstr "Bỏ qua phím tắt toàn cục"
 
-#: rulesmodel.cpp:613
+#: rulesmodel.cpp:623
 #, kde-format
 msgid ""
 "When used, a window will receive\n"
@@ -742,165 +751,173 @@ msgid ""
 "nor use any other global shortcut (such as Alt+F2 to show KRunner)\n"
 "while it's active!"
 msgstr ""
+"Khi được dùng, một cửa sổ hoạt động sẽ nhận được\n"
+"tất cả các đầu vào bằng bàn phím, bao gồm Alt+Tab v.v.\n"
+"Việc này đặc biệt đáng chú ý cho các trình giả lập hay các máy ảo.\n"
+"\n"
+"Cảnh báo:\n"
+"bạn sẽ không thể Alt+Tab ra khỏi cửa sổ\n"
+"hay dùng các phím tắt toàn cục khác (chẳng hạn như Alt+F2 để hiện KRunner)\n"
+"khi lựa chọn này đang hoạt động!"
 
-#: rulesmodel.cpp:624
-#, fuzzy, kde-format
-#| msgid "&Closeable"
+#: rulesmodel.cpp:634
+#, kde-format
 msgid "Closeable"
-msgstr "Đóng đượ&c"
+msgstr "Đóng được"
 
-#: rulesmodel.cpp:629
-#, fuzzy, kde-format
-#| msgid "Window &type"
+#: rulesmodel.cpp:639
+#, kde-format
 msgid "Set window type"
-msgstr "&Kiểu cửa sổ"
+msgstr "Đặt kiểu cửa sổ"
 
-#: rulesmodel.cpp:635
+#: rulesmodel.cpp:645
 #, kde-format
 msgid "Desktop file name"
-msgstr ""
+msgstr "Tên tệp desktop"
 
-#: rulesmodel.cpp:640
+#: rulesmodel.cpp:650
 #, kde-format
 msgid "Block compositing"
-msgstr ""
+msgstr "Ngưng kết hợp"
 
-#: rulesmodel.cpp:718
+#: rulesmodel.cpp:728
 #, kde-format
 msgid "Normal Window"
-msgstr "Cửa sổ chuẩn"
+msgstr "Cửa sổ thường"
 
-#: rulesmodel.cpp:719
+#: rulesmodel.cpp:729
 #, kde-format
 msgid "Dialog Window"
 msgstr "Cửa sổ thoại"
 
-#: rulesmodel.cpp:720
+#: rulesmodel.cpp:730
 #, kde-format
 msgid "Utility Window"
 msgstr "Cửa sổ tiện ích"
 
-#: rulesmodel.cpp:721
+#: rulesmodel.cpp:731
 #, kde-format
 msgid "Dock (panel)"
-msgstr "Gắn (bảng điều khiển)"
+msgstr "Giá (bảng)"
 
-#: rulesmodel.cpp:722
+#: rulesmodel.cpp:732
 #, kde-format
 msgid "Toolbar"
 msgstr "Thanh công cụ"
 
-#: rulesmodel.cpp:723
+#: rulesmodel.cpp:733
 #, kde-format
 msgid "Torn-Off Menu"
-msgstr "Thực đơn Xé-ra"
+msgstr "Trình đơn xé tách"
 
-#: rulesmodel.cpp:724
+#: rulesmodel.cpp:734
 #, kde-format
 msgid "Splash Screen"
-msgstr "Màn hình Loé lên"
+msgstr "Màn hình khởi động"
 
-#: rulesmodel.cpp:725
+#: rulesmodel.cpp:735
 #, kde-format
 msgid "Desktop"
-msgstr "Màn hình nền"
+msgstr "Bàn làm việc"
 
 #. i18n("Unmanaged Window")   },  deprecated
-#: rulesmodel.cpp:727
+#: rulesmodel.cpp:737
 #, kde-format
 msgid "Standalone Menubar"
-msgstr "Thanh thực đơn đứng riêng"
+msgstr "Thanh trình đơn độc lập"
 
-#: rulesmodel.cpp:742
+#: rulesmodel.cpp:738
+#, kde-format
+msgid "On Screen Display"
+msgstr "Ô hiện nổi"
+
+#: rulesmodel.cpp:745
 #, kde-format
 msgid "All Desktops"
-msgstr "Cho mọi màn hình nền"
+msgstr "Tất cả các bàn làm việc"
 
-#: rulesmodel.cpp:754
+#: rulesmodel.cpp:764
 #, kde-format
 msgid "All Activities"
-msgstr ""
+msgstr "Tất cả các Hoạt động"
 
-#: rulesmodel.cpp:775
+#: rulesmodel.cpp:785
 #, kde-format
 msgid "Default"
 msgstr "Mặc định"
 
-#: rulesmodel.cpp:776
+#: rulesmodel.cpp:786
 #, kde-format
 msgid "No Placement"
-msgstr "Không đặt chỗ"
+msgstr "Không xếp chỗ"
 
-#: rulesmodel.cpp:777
+#: rulesmodel.cpp:787
 #, kde-format
 msgid "Minimal Overlapping"
-msgstr ""
+msgstr "Chồng lấn tối thiểu"
 
-#: rulesmodel.cpp:778
-#, fuzzy, kde-format
-#| msgid "Maximizing"
+#: rulesmodel.cpp:788
+#, kde-format
 msgid "Maximized"
-msgstr "Mở to"
+msgstr "Tối đa hoá"
 
-#: rulesmodel.cpp:779
-#, fuzzy, kde-format
-#| msgid "Cascade"
+#: rulesmodel.cpp:789
+#, kde-format
 msgid "Cascaded"
-msgstr "Xếp chồng"
+msgstr "Xếp tầng"
 
-#: rulesmodel.cpp:780
+#: rulesmodel.cpp:790
 #, kde-format
 msgid "Centered"
-msgstr "Trung tâm"
+msgstr "Ở giữa"
 
-#: rulesmodel.cpp:781
+#: rulesmodel.cpp:791
 #, kde-format
 msgid "Random"
 msgstr "Ngẫu nhiên"
 
-#: rulesmodel.cpp:782
-#, fuzzy, kde-format
-#| msgid "Top-Left Corner"
-msgid "In Top-Left Corner"
-msgstr "Góc Trên-Bên trái"
-
-#: rulesmodel.cpp:783
-#, kde-format
-msgid "Under Mouse"
-msgstr "Dưới Chuột"
-
-#: rulesmodel.cpp:784
-#, kde-format
-msgid "On Main Window"
-msgstr "Trên Cửa sổ Chính"
-
 #: rulesmodel.cpp:792
-#, fuzzy, kde-format
-#| msgid "None"
-msgid "None"
-msgstr "Không có"
+#, kde-format
+msgid "In Top-Left Corner"
+msgstr "Ở góc trái trên"
 
 #: rulesmodel.cpp:793
+#, kde-format
+msgid "Under Mouse"
+msgstr "Dưới chuột"
+
+#: rulesmodel.cpp:794
+#, kde-format
+msgid "On Main Window"
+msgstr "Trên cửa sổ chính"
+
+#: rulesmodel.cpp:802
+#, kde-format
+msgid "None"
+msgstr "Không"
+
+#: rulesmodel.cpp:803
 #, kde-format
 msgid "Low"
 msgstr "Thấp"
 
-#: rulesmodel.cpp:794
+#: rulesmodel.cpp:804
 #, kde-format
 msgid "Normal"
-msgstr "Thường"
+msgstr "Trung bình"
 
-#: rulesmodel.cpp:795
+#: rulesmodel.cpp:805
 #, kde-format
 msgid "High"
 msgstr "Cao"
 
-#: rulesmodel.cpp:796
+#: rulesmodel.cpp:806
 #, kde-format
 msgid "Extreme"
-msgstr "Quá"
+msgstr "Cực độ"
 
-#: rulesmodel.cpp:842
+#: rulesmodel.cpp:852
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""
+"Không phát hiện được thuộc tính cửa sổ. Cửa sổ này không do KWin quản lí."

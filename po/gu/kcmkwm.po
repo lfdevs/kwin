@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-28 13:55+0000\n"
+"POT-Creation-Date: 2021-04-27 00:19+0000\n"
 "PO-Revision-Date: 2008-09-30 11:17+0530\n"
 "Last-Translator: Sweta Kothari <swkothar@redhat.com>\n"
 "Language-Team: Gujarati\n"
@@ -786,11 +786,9 @@ msgstr ""
 #: focus.ui:203
 #, kde-format
 msgid ""
-"When this option is enabled, the active Xinerama screen (where new windows "
-"appear, for example) is the screen containing the mouse pointer. When "
-"disabled, the active Xinerama screen is the screen containing the focused "
-"window. By default this option is disabled for Click to focus and enabled "
-"for other focus policies."
+"When this option is enabled, the active screen (where new windows appear, "
+"for example) is the screen containing the mouse pointer. When disabled, the "
+"active screen is the screen containing the focused window."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
@@ -804,7 +802,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
-"Xinerama screen"
+"screen"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
@@ -819,91 +817,91 @@ msgstr ""
 msgid "Window activation policy description"
 msgstr ""
 
-#: main.cpp:73
+#: main.cpp:74
 #, kde-format
 msgid "&Focus"
 msgstr "કેન્દ્રિત કરવું (&F)"
 
-#: main.cpp:84
+#: main.cpp:80
 #, fuzzy, kde-format
 #| msgid "&Titlebar Actions"
 msgid "Titlebar A&ctions"
 msgstr "શિર્ષકપટ્ટી ક્રિયાઓ (&T)"
 
-#: main.cpp:91
+#: main.cpp:86
 #, fuzzy, kde-format
 #| msgid "Window Actio&ns"
 msgid "W&indow Actions"
 msgstr "વિન્ડો ક્રિયાઓ (&n)"
 
-#: main.cpp:98
+#: main.cpp:92
 #, fuzzy, kde-format
 #| msgid "&Placement:"
 msgid "Mo&vement"
 msgstr "નિયુક્તિ (&P):"
 
-#: main.cpp:105
+#: main.cpp:98
 #, fuzzy, kde-format
 #| msgid "Ad&vanced"
 msgid "Adva&nced"
 msgstr "ઉન્નત્ત થયેલ (&v)"
 
-#: main.cpp:110
+#: main.cpp:102
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "વિન્ડો વ્યવહાર રૂપરેખાંકન મોડ્યુલ"
 
-#: main.cpp:112
+#: main.cpp:104
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "(c) 1997 - 2002 KWin and KControl Authors"
 
-#: main.cpp:114
+#: main.cpp:106
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:115
+#: main.cpp:107
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:116
+#: main.cpp:108
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:117
+#: main.cpp:109
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:118
+#: main.cpp:110
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:119
+#: main.cpp:111
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:120
+#: main.cpp:112
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:121
+#: main.cpp:113
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:122
+#: main.cpp:114
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:167
+#: main.cpp:163
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -914,12 +912,12 @@ msgid ""
 "documentation for how to customize window behavior.</p>"
 msgstr ""
 
-#: main.cpp:187
+#: main.cpp:205
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "શિર્ષકપટ્ટી ક્રિયાઓ (&T)"
 
-#: main.cpp:193
+#: main.cpp:211
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "વિન્ડો ક્રિયાઓ (&n)"
@@ -1209,14 +1207,14 @@ msgstr "મધ્ય સ્નેપ વિસ્તાર (&C):"
 msgid "&Snap windows:"
 msgstr "વિન્ડો"
 
-#: windows.cpp:101
+#: windows.cpp:99
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
 "This behavior is common on other operating systems and likely what you want."
 msgstr ""
 
-#: windows.cpp:105
+#: windows.cpp:103
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1226,7 +1224,7 @@ msgid ""
 "em>."
 msgstr ""
 
-#: windows.cpp:110
+#: windows.cpp:108
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1235,7 +1233,7 @@ msgid ""
 "to focus</em> just without having to actually click."
 msgstr ""
 
-#: windows.cpp:114
+#: windows.cpp:112
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1244,7 +1242,7 @@ msgid ""
 "if you want a hover controlled focus."
 msgstr ""
 
-#: windows.cpp:119
+#: windows.cpp:117
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1254,7 +1252,7 @@ msgid ""
 "precedence)</em> instead!"
 msgstr ""
 
-#: windows.cpp:123
+#: windows.cpp:121
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

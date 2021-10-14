@@ -6,7 +6,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#include "../gestures.h"
+#include "gestures.h"
 
 #include <QTest>
 #include <QSignalSpy>
@@ -590,7 +590,7 @@ void GestureTest::testSwipeDiagonalCancels()
     recognizer.registerGesture(&gesture);
 
     recognizer.startSwipeGesture(1);
-    recognizer.updateSwipeGesture(QSizeF(1, 1));
+    recognizer.updateSwipeGesture(QSizeF(2, 2));
     QCOMPARE(cancelledSpy.count(), 1);
     QCOMPARE(triggeredSpy.count(), 0);
 

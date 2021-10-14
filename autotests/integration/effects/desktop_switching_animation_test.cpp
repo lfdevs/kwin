@@ -15,13 +15,13 @@
 #include "effects.h"
 #include "platform.h"
 #include "scene.h"
+#include "virtualdesktops.h"
 #include "wayland_server.h"
 #include "workspace.h"
 
 #include "effect_builtins.h"
 
 #include <KWayland/Client/surface.h>
-#include <KWayland/Client/xdgshell.h>
 
 using namespace KWin;
 
@@ -65,11 +65,11 @@ void DesktopSwitchingAnimationTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    waylandServer()->initWorkspace();
+    Test::initWaylandWorkspace();
 
     auto scene = Compositor::self()->scene();
     QVERIFY(scene);
-    QCOMPARE(scene->compositingType(), OpenGL2Compositing);
+    QCOMPARE(scene->compositingType(), OpenGLCompositing);
 }
 
 void DesktopSwitchingAnimationTest::init()
@@ -93,7 +93,6 @@ void DesktopSwitchingAnimationTest::testSwitchDesktops_data()
 {
     QTest::addColumn<QString>("effectName");
 
-    QTest::newRow("Desktop Cube Animation") << QStringLiteral("cubeslide");
     QTest::newRow("Fade Desktop")           << QStringLiteral("kwin4_effect_fadedesktop");
     QTest::newRow("Slide")                  << QStringLiteral("slide");
 }
@@ -111,9 +110,9 @@ void DesktopSwitchingAnimationTest::testSwitchDesktops()
     // The Fade Desktop effect will do nothing if there are no clients to fade,
     // so we have to create a dummy test client.
     using namespace KWayland::Client;
-    QScopedPointer<Surface> surface(Test::createSurface());
+    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
     QVERIFY(!surface.isNull());
-    QScopedPointer<XdgShellSurface> shellSurface(Test::createXdgShellStableSurface(surface.data()));
+    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
     QVERIFY(!shellSurface.isNull());
     AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
     QVERIFY(client);

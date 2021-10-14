@@ -11,6 +11,7 @@
 #include "kwin_wayland_test.h"
 
 #include "abstract_client.h"
+#include "abstract_output.h"
 #include "cursor.h"
 #include "platform.h"
 #include "rules.h"
@@ -20,7 +21,6 @@
 #include "workspace.h"
 
 #include <KWayland/Client/surface.h>
-#include <KWayland/Client/xdgshell.h>
 
 #include <linux/input.h>
 
@@ -145,10 +145,11 @@ void TestXdgShellClientRules::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    QCOMPARE(screens()->count(), 2);
-    QCOMPARE(screens()->geometry(0), QRect(0, 0, 1280, 1024));
-    QCOMPARE(screens()->geometry(1), QRect(1280, 0, 1280, 1024));
-    waylandServer()->initWorkspace();
+    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    QCOMPARE(outputs.count(), 2);
+    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    Test::initWaylandWorkspace();
 }
 
 void TestXdgShellClientRules::init()
@@ -156,7 +157,7 @@ void TestXdgShellClientRules::init()
     VirtualDesktopManager::self()->setCurrent(VirtualDesktopManager::self()->desktops().first());
     QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::Decoration));
 
-    screens()->setCurrent(0);
+    workspace()->setActiveOutput(QPoint(640, 512));
 }
 
 void TestXdgShellClientRules::cleanup()
@@ -172,22 +173,22 @@ void TestXdgShellClientRules::cleanup()
     QCOMPARE(VirtualDesktopManager::self()->count(), 1u);
 }
 
-std::tuple<AbstractClient *, Surface *, XdgShellSurface *> createWindow(const QByteArray &appId)
+std::tuple<AbstractClient *, KWayland::Client::Surface *, Test::XdgToplevel *> createWindow(const QString &appId)
 {
     // Create an xdg surface.
-    Surface *surface = Test::createSurface();
-    XdgShellSurface *shellSurface = Test::createXdgShellStableSurface(surface, surface, Test::CreationSetup::CreateOnly);
+    KWayland::Client::Surface *surface = Test::createSurface();
+    Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface, surface, Test::CreationSetup::CreateOnly);
 
     // Assign the desired app id.
-    shellSurface->setAppId(appId);
+    shellSurface->set_app_id(appId);
 
     // Wait for the initial configure event.
-    QSignalSpy configureRequestedSpy(shellSurface, &XdgShellSurface::configureRequested);
-    surface->commit(Surface::CommitFlag::None);
+    QSignalSpy configureRequestedSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested);
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
     configureRequestedSpy.wait();
 
     // Draw content of the surface.
-    shellSurface->ackConfigure(configureRequestedSpy.last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(configureRequestedSpy.last().at(0).value<quint32>());
     AbstractClient *client = Test::renderAndWaitForShown(surface, QSize(100, 50), Qt::blue);
 
     return {client, surface, shellSurface};
@@ -210,9 +211,9 @@ void TestXdgShellClientRules::testPositionDontAffect()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isActive());
 
@@ -245,9 +246,9 @@ void TestXdgShellClientRules::testPositionApply()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isActive());
 
@@ -265,17 +266,17 @@ void TestXdgShellClientRules::testPositionApply()
     QVERIFY(clientFinishUserMovedResizedSpy.isValid());
 
     QCOMPARE(workspace()->moveResizeClient(), nullptr);
-    QVERIFY(!client->isMove());
-    QVERIFY(!client->isResize());
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
     workspace()->slotWindowMove();
     QCOMPARE(workspace()->moveResizeClient(), client);
     QCOMPARE(clientStartMoveResizedSpy.count(), 1);
-    QVERIFY(client->isMove());
-    QVERIFY(!client->isResize());
+    QVERIFY(client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
 
     const QPoint cursorPos = KWin::Cursors::self()->mouse()->pos();
     client->keyPressEvent(Qt::Key_Right);
-    client->updateMoveResize(KWin::Cursors::self()->mouse()->pos());
+    client->updateInteractiveMoveResize(KWin::Cursors::self()->mouse()->pos());
     QCOMPARE(KWin::Cursors::self()->mouse()->pos(), cursorPos + QPoint(8, 0));
     QCOMPARE(clientStepUserMovedResizedSpy.count(), 1);
     QCOMPARE(client->pos(), QPoint(50, 42));
@@ -283,15 +284,15 @@ void TestXdgShellClientRules::testPositionApply()
     client->keyPressEvent(Qt::Key_Enter);
     QCOMPARE(clientFinishUserMovedResizedSpy.count(), 1);
     QCOMPARE(workspace()->moveResizeClient(), nullptr);
-    QVERIFY(!client->isMove());
-    QVERIFY(!client->isResize());
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
     QCOMPARE(client->pos(), QPoint(50, 42));
 
     // The rule should be applied again if the client appears after it's been closed.
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isActive());
     QVERIFY(client->isMovable());
@@ -321,9 +322,9 @@ void TestXdgShellClientRules::testPositionRemember()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isActive());
 
@@ -341,17 +342,17 @@ void TestXdgShellClientRules::testPositionRemember()
     QVERIFY(clientFinishUserMovedResizedSpy.isValid());
 
     QCOMPARE(workspace()->moveResizeClient(), nullptr);
-    QVERIFY(!client->isMove());
-    QVERIFY(!client->isResize());
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
     workspace()->slotWindowMove();
     QCOMPARE(workspace()->moveResizeClient(), client);
     QCOMPARE(clientStartMoveResizedSpy.count(), 1);
-    QVERIFY(client->isMove());
-    QVERIFY(!client->isResize());
+    QVERIFY(client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
 
     const QPoint cursorPos = KWin::Cursors::self()->mouse()->pos();
     client->keyPressEvent(Qt::Key_Right);
-    client->updateMoveResize(KWin::Cursors::self()->mouse()->pos());
+    client->updateInteractiveMoveResize(KWin::Cursors::self()->mouse()->pos());
     QCOMPARE(KWin::Cursors::self()->mouse()->pos(), cursorPos + QPoint(8, 0));
     QCOMPARE(clientStepUserMovedResizedSpy.count(), 1);
     QCOMPARE(client->pos(), QPoint(50, 42));
@@ -359,15 +360,15 @@ void TestXdgShellClientRules::testPositionRemember()
     client->keyPressEvent(Qt::Key_Enter);
     QCOMPARE(clientFinishUserMovedResizedSpy.count(), 1);
     QCOMPARE(workspace()->moveResizeClient(), nullptr);
-    QVERIFY(!client->isMove());
-    QVERIFY(!client->isResize());
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
     QCOMPARE(client->pos(), QPoint(50, 42));
 
     // The client should be placed at the last know position if we reopen it.
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isActive());
     QVERIFY(client->isMovable());
@@ -397,9 +398,9 @@ void TestXdgShellClientRules::testPositionForce()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isActive());
 
@@ -412,19 +413,19 @@ void TestXdgShellClientRules::testPositionForce()
     QSignalSpy clientStartMoveResizedSpy(client, &AbstractClient::clientStartUserMovedResized);
     QVERIFY(clientStartMoveResizedSpy.isValid());
     QCOMPARE(workspace()->moveResizeClient(), nullptr);
-    QVERIFY(!client->isMove());
-    QVERIFY(!client->isResize());
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
     workspace()->slotWindowMove();
     QCOMPARE(workspace()->moveResizeClient(), nullptr);
     QCOMPARE(clientStartMoveResizedSpy.count(), 0);
-    QVERIFY(!client->isMove());
-    QVERIFY(!client->isResize());
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
 
     // The position should still be forced if we reopen the client.
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isActive());
     QVERIFY(!client->isMovable());
@@ -441,9 +442,9 @@ void TestXdgShellClientRules::testPositionApplyNow()
 {
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
+    KWayland::Client::Surface *surface;
     QObject *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isActive());
 
@@ -483,17 +484,17 @@ void TestXdgShellClientRules::testPositionApplyNow()
     QVERIFY(clientFinishUserMovedResizedSpy.isValid());
 
     QCOMPARE(workspace()->moveResizeClient(), nullptr);
-    QVERIFY(!client->isMove());
-    QVERIFY(!client->isResize());
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
     workspace()->slotWindowMove();
     QCOMPARE(workspace()->moveResizeClient(), client);
     QCOMPARE(clientStartMoveResizedSpy.count(), 1);
-    QVERIFY(client->isMove());
-    QVERIFY(!client->isResize());
+    QVERIFY(client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
 
     const QPoint cursorPos = KWin::Cursors::self()->mouse()->pos();
     client->keyPressEvent(Qt::Key_Right);
-    client->updateMoveResize(KWin::Cursors::self()->mouse()->pos());
+    client->updateInteractiveMoveResize(KWin::Cursors::self()->mouse()->pos());
     QCOMPARE(KWin::Cursors::self()->mouse()->pos(), cursorPos + QPoint(8, 0));
     QCOMPARE(clientStepUserMovedResizedSpy.count(), 1);
     QCOMPARE(client->pos(), QPoint(50, 42));
@@ -501,8 +502,8 @@ void TestXdgShellClientRules::testPositionApplyNow()
     client->keyPressEvent(Qt::Key_Enter);
     QCOMPARE(clientFinishUserMovedResizedSpy.count(), 1);
     QCOMPARE(workspace()->moveResizeClient(), nullptr);
-    QVERIFY(!client->isMove());
-    QVERIFY(!client->isResize());
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
     QCOMPARE(client->pos(), QPoint(50, 42));
 
     // The rule should not be applied again.
@@ -532,9 +533,9 @@ void TestXdgShellClientRules::testPositionForceTemporarily()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isActive());
 
@@ -547,19 +548,19 @@ void TestXdgShellClientRules::testPositionForceTemporarily()
     QSignalSpy clientStartMoveResizedSpy(client, &AbstractClient::clientStartUserMovedResized);
     QVERIFY(clientStartMoveResizedSpy.isValid());
     QCOMPARE(workspace()->moveResizeClient(), nullptr);
-    QVERIFY(!client->isMove());
-    QVERIFY(!client->isResize());
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
     workspace()->slotWindowMove();
     QCOMPARE(workspace()->moveResizeClient(), nullptr);
     QCOMPARE(clientStartMoveResizedSpy.count(), 0);
-    QVERIFY(!client->isMove());
-    QVERIFY(!client->isResize());
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
 
     // The rule should be discarded if we close the client.
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isActive());
     QVERIFY(client->isMovable());
@@ -588,22 +589,25 @@ void TestXdgShellClientRules::testSizeDontAffect()
     workspace()->slotReconfigure();
 
     // Create the test client.
-    QScopedPointer<Surface> surface;
+    QScopedPointer<KWayland::Client::Surface> surface;
     surface.reset(Test::createSurface());
-    QScopedPointer<XdgShellSurface> shellSurface;
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    QScopedPointer<QSignalSpy> configureRequestedSpy;
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    QScopedPointer<Test::XdgToplevel> shellSurface;
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    QScopedPointer<QSignalSpy> toplevelConfigureRequestedSpy;
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    QScopedPointer<QSignalSpy> surfaceConfigureRequestedSpy;
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
     // The window size shouldn't be enforced by the rule.
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().first().toSize(), QSize(0, 0));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().first().toSize(), QSize(0, 0));
 
     // Map the client.
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
@@ -611,8 +615,9 @@ void TestXdgShellClientRules::testSizeDontAffect()
     QCOMPARE(client->size(), QSize(100, 50));
 
     // We should receive a configure event when the client becomes active.
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
 
     // Destroy the client.
     shellSurface.reset();
@@ -636,26 +641,29 @@ void TestXdgShellClientRules::testSizeApply()
     workspace()->slotReconfigure();
 
     // Create the test client.
-    QScopedPointer<Surface> surface;
+    QScopedPointer<KWayland::Client::Surface> surface;
     surface.reset(Test::createSurface());
-    QScopedPointer<XdgShellSurface> shellSurface;
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    QScopedPointer<QSignalSpy> configureRequestedSpy;
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    QScopedPointer<Test::XdgToplevel> shellSurface;
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    QScopedPointer<QSignalSpy> toplevelConfigureRequestedSpy;
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    QScopedPointer<QSignalSpy> surfaceConfigureRequestedSpy;
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
     // The initial configure event should contain size hint set by the rule.
-    XdgShellSurface::States states;
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().at(0).toSize(), QSize(480, 640));
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Resizing));
+    Test::XdgToplevel::States states;
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().at(0).toSize(), QSize(480, 640));
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Resizing));
 
     // Map the client.
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(480, 640), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
@@ -663,11 +671,12 @@ void TestXdgShellClientRules::testSizeApply()
     QCOMPARE(client->size(), QSize(480, 640));
 
     // We should receive a configure event when the client becomes active.
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Resizing));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Resizing));
 
     // One still should be able to resize the client.
     QSignalSpy frameGeometryChangedSpy(client, &AbstractClient::frameGeometryChanged);
@@ -678,37 +687,36 @@ void TestXdgShellClientRules::testSizeApply()
     QVERIFY(clientStepUserMovedResizedSpy.isValid());
     QSignalSpy clientFinishUserMovedResizedSpy(client, &AbstractClient::clientFinishUserMovedResized);
     QVERIFY(clientFinishUserMovedResizedSpy.isValid());
-    QSignalSpy surfaceSizeChangedSpy(shellSurface.data(), &XdgShellSurface::sizeChanged);
-    QVERIFY(surfaceSizeChangedSpy.isValid());
 
     QCOMPARE(workspace()->moveResizeClient(), nullptr);
-    QVERIFY(!client->isMove());
-    QVERIFY(!client->isResize());
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
     workspace()->slotWindowResize();
     QCOMPARE(workspace()->moveResizeClient(), client);
     QCOMPARE(clientStartMoveResizedSpy.count(), 1);
-    QVERIFY(!client->isMove());
-    QVERIFY(client->isResize());
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 3);
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(states.testFlag(XdgShellSurface::State::Resizing));
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(client->isInteractiveResize());
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 3);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 3);
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Resizing));
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
 
     const QPoint cursorPos = KWin::Cursors::self()->mouse()->pos();
     client->keyPressEvent(Qt::Key_Right);
-    client->updateMoveResize(KWin::Cursors::self()->mouse()->pos());
+    client->updateInteractiveMoveResize(KWin::Cursors::self()->mouse()->pos());
     QCOMPARE(KWin::Cursors::self()->mouse()->pos(), cursorPos + QPoint(8, 0));
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 4);
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(states.testFlag(XdgShellSurface::State::Resizing));
-    QCOMPARE(surfaceSizeChangedSpy.count(), 1);
-    QCOMPARE(surfaceSizeChangedSpy.last().first().toSize(), QSize(488, 640));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 4);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 4);
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Resizing));
+    QCOMPARE(toplevelConfigureRequestedSpy->last().at(0).toSize(), QSize(488, 640));
     QCOMPARE(clientStepUserMovedResizedSpy.count(), 0);
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     Test::render(surface.data(), QSize(488, 640), Qt::blue);
     QVERIFY(frameGeometryChangedSpy.wait());
     QCOMPARE(client->size(), QSize(488, 640));
@@ -717,35 +725,39 @@ void TestXdgShellClientRules::testSizeApply()
     client->keyPressEvent(Qt::Key_Enter);
     QCOMPARE(clientFinishUserMovedResizedSpy.count(), 1);
     QCOMPARE(workspace()->moveResizeClient(), nullptr);
-    QVERIFY(!client->isMove());
-    QVERIFY(!client->isResize());
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
 
-    QVERIFY(configureRequestedSpy->wait(10));
-    QCOMPARE(configureRequestedSpy->count(), 5);
+    QVERIFY(surfaceConfigureRequestedSpy->wait(10));
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 5);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 5);
 
     // The rule should be applied again if the client appears after it's been closed.
     shellSurface.reset();
     surface.reset();
     QVERIFY(Test::waitForWindowDestroyed(client));
     surface.reset(Test::createSurface());
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().first().toSize(), QSize(480, 640));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().first().toSize(), QSize(480, 640));
 
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     client = Test::renderAndWaitForShown(surface.data(), QSize(480, 640), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
     QVERIFY(client->isResizable());
     QCOMPARE(client->size(), QSize(480, 640));
 
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
 
     // Destroy the client.
     shellSurface.reset();
@@ -769,26 +781,29 @@ void TestXdgShellClientRules::testSizeRemember()
     workspace()->slotReconfigure();
 
     // Create the test client.
-    QScopedPointer<Surface> surface;
+    QScopedPointer<KWayland::Client::Surface> surface;
     surface.reset(Test::createSurface());
-    QScopedPointer<XdgShellSurface> shellSurface;
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    QScopedPointer<QSignalSpy> configureRequestedSpy;
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    QScopedPointer<Test::XdgToplevel> shellSurface;
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    QScopedPointer<QSignalSpy> toplevelConfigureRequestedSpy;
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    QScopedPointer<QSignalSpy> surfaceConfigureRequestedSpy;
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
     // The initial configure event should contain size hint set by the rule.
-    XdgShellSurface::States states;
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().first().toSize(), QSize(480, 640));
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Resizing));
+    Test::XdgToplevel::States states;
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().first().toSize(), QSize(480, 640));
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Resizing));
 
     // Map the client.
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(480, 640), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
@@ -796,11 +811,12 @@ void TestXdgShellClientRules::testSizeRemember()
     QCOMPARE(client->size(), QSize(480, 640));
 
     // We should receive a configure event when the client becomes active.
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Resizing));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Resizing));
 
     // One should still be able to resize the client.
     QSignalSpy frameGeometryChangedSpy(client, &AbstractClient::frameGeometryChanged);
@@ -811,37 +827,36 @@ void TestXdgShellClientRules::testSizeRemember()
     QVERIFY(clientStepUserMovedResizedSpy.isValid());
     QSignalSpy clientFinishUserMovedResizedSpy(client, &AbstractClient::clientFinishUserMovedResized);
     QVERIFY(clientFinishUserMovedResizedSpy.isValid());
-    QSignalSpy surfaceSizeChangedSpy(shellSurface.data(), &XdgShellSurface::sizeChanged);
-    QVERIFY(surfaceSizeChangedSpy.isValid());
 
     QCOMPARE(workspace()->moveResizeClient(), nullptr);
-    QVERIFY(!client->isMove());
-    QVERIFY(!client->isResize());
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
     workspace()->slotWindowResize();
     QCOMPARE(workspace()->moveResizeClient(), client);
     QCOMPARE(clientStartMoveResizedSpy.count(), 1);
-    QVERIFY(!client->isMove());
-    QVERIFY(client->isResize());
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 3);
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(states.testFlag(XdgShellSurface::State::Resizing));
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(client->isInteractiveResize());
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 3);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 3);
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Resizing));
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
 
     const QPoint cursorPos = KWin::Cursors::self()->mouse()->pos();
     client->keyPressEvent(Qt::Key_Right);
-    client->updateMoveResize(KWin::Cursors::self()->mouse()->pos());
+    client->updateInteractiveMoveResize(KWin::Cursors::self()->mouse()->pos());
     QCOMPARE(KWin::Cursors::self()->mouse()->pos(), cursorPos + QPoint(8, 0));
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 4);
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(states.testFlag(XdgShellSurface::State::Resizing));
-    QCOMPARE(surfaceSizeChangedSpy.count(), 1);
-    QCOMPARE(surfaceSizeChangedSpy.last().first().toSize(), QSize(488, 640));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 4);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 4);
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Resizing));
+    QCOMPARE(toplevelConfigureRequestedSpy->last().at(0).toSize(), QSize(488, 640));
     QCOMPARE(clientStepUserMovedResizedSpy.count(), 0);
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     Test::render(surface.data(), QSize(488, 640), Qt::blue);
     QVERIFY(frameGeometryChangedSpy.wait());
     QCOMPARE(client->size(), QSize(488, 640));
@@ -850,35 +865,39 @@ void TestXdgShellClientRules::testSizeRemember()
     client->keyPressEvent(Qt::Key_Enter);
     QCOMPARE(clientFinishUserMovedResizedSpy.count(), 1);
     QCOMPARE(workspace()->moveResizeClient(), nullptr);
-    QVERIFY(!client->isMove());
-    QVERIFY(!client->isResize());
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
 
-    QVERIFY(configureRequestedSpy->wait(10));
-    QCOMPARE(configureRequestedSpy->count(), 5);
+    QVERIFY(surfaceConfigureRequestedSpy->wait(10));
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 5);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 5);
 
     // If the client appears again, it should have the last known size.
     shellSurface.reset();
     surface.reset();
     QVERIFY(Test::waitForWindowDestroyed(client));
     surface.reset(Test::createSurface());
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().first().toSize(), QSize(488, 640));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().first().toSize(), QSize(488, 640));
 
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     client = Test::renderAndWaitForShown(surface.data(), QSize(488, 640), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
     QVERIFY(client->isResizable());
     QCOMPARE(client->size(), QSize(488, 640));
 
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
 
     // Destroy the client.
     shellSurface.reset();
@@ -902,22 +921,25 @@ void TestXdgShellClientRules::testSizeForce()
     workspace()->slotReconfigure();
 
     // Create the test client.
-    QScopedPointer<Surface> surface;
+    QScopedPointer<KWayland::Client::Surface> surface;
     surface.reset(Test::createSurface());
-    QScopedPointer<XdgShellSurface> shellSurface;
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    QScopedPointer<QSignalSpy> configureRequestedSpy;
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    QScopedPointer<Test::XdgToplevel> shellSurface;
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    QScopedPointer<QSignalSpy> toplevelConfigureRequestedSpy;
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    QScopedPointer<QSignalSpy> surfaceConfigureRequestedSpy;
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
     // The initial configure event should contain size hint set by the rule.
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().first().toSize(), QSize(480, 640));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().first().toSize(), QSize(480, 640));
 
     // Map the client.
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(480, 640), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
@@ -925,45 +947,49 @@ void TestXdgShellClientRules::testSizeForce()
     QCOMPARE(client->size(), QSize(480, 640));
 
     // We should receive a configure event when the client becomes active.
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
 
     // Any attempt to resize the client should not succeed.
     QSignalSpy clientStartMoveResizedSpy(client, &AbstractClient::clientStartUserMovedResized);
     QVERIFY(clientStartMoveResizedSpy.isValid());
     QCOMPARE(workspace()->moveResizeClient(), nullptr);
-    QVERIFY(!client->isMove());
-    QVERIFY(!client->isResize());
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
     workspace()->slotWindowResize();
     QCOMPARE(workspace()->moveResizeClient(), nullptr);
     QCOMPARE(clientStartMoveResizedSpy.count(), 0);
-    QVERIFY(!client->isMove());
-    QVERIFY(!client->isResize());
-    QVERIFY(!configureRequestedSpy->wait(100));
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
+    QVERIFY(!surfaceConfigureRequestedSpy->wait(100));
 
     // If the client appears again, the size should still be forced.
     shellSurface.reset();
     surface.reset();
     QVERIFY(Test::waitForWindowDestroyed(client));
     surface.reset(Test::createSurface());
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().first().toSize(), QSize(480, 640));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().first().toSize(), QSize(480, 640));
 
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     client = Test::renderAndWaitForShown(surface.data(), QSize(480, 640), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
     QVERIFY(!client->isResizable());
     QCOMPARE(client->size(), QSize(480, 640));
 
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
 
     // Destroy the client.
     shellSurface.reset();
@@ -974,22 +1000,25 @@ void TestXdgShellClientRules::testSizeForce()
 void TestXdgShellClientRules::testSizeApplyNow()
 {
     // Create the test client.
-    QScopedPointer<Surface> surface;
+    QScopedPointer<KWayland::Client::Surface> surface;
     surface.reset(Test::createSurface());
-    QScopedPointer<XdgShellSurface> shellSurface;
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    QScopedPointer<QSignalSpy> configureRequestedSpy;
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    QScopedPointer<Test::XdgToplevel> shellSurface;
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    QScopedPointer<QSignalSpy> toplevelConfigureRequestedSpy;
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    QScopedPointer<QSignalSpy> surfaceConfigureRequestedSpy;
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
     // The expected surface dimensions should be set by the rule.
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().first().toSize(), QSize(0, 0));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().first().toSize(), QSize(0, 0));
 
     // Map the client.
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
@@ -997,8 +1026,9 @@ void TestXdgShellClientRules::testSizeApplyNow()
     QCOMPARE(client->size(), QSize(100, 50));
 
     // We should receive a configure event when the client becomes active.
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
 
     // Initialize RuleBook with the test rule.
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
@@ -1014,22 +1044,23 @@ void TestXdgShellClientRules::testSizeApplyNow()
     workspace()->slotReconfigure();
 
     // The compositor should send a configure event with a new size.
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 3);
-    QCOMPARE(configureRequestedSpy->last().first().toSize(), QSize(480, 640));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 3);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 3);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().first().toSize(), QSize(480, 640));
 
     // Draw the surface with the new size.
     QSignalSpy frameGeometryChangedSpy(client, &AbstractClient::frameGeometryChanged);
     QVERIFY(frameGeometryChangedSpy.isValid());
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     Test::render(surface.data(), QSize(480, 640), Qt::blue);
     QVERIFY(frameGeometryChangedSpy.wait());
     QCOMPARE(client->size(), QSize(480, 640));
-    QVERIFY(!configureRequestedSpy->wait(100));
+    QVERIFY(!surfaceConfigureRequestedSpy->wait(100));
 
     // The rule should not be applied again.
     client->evaluateWindowRules();
-    QVERIFY(!configureRequestedSpy->wait(100));
+    QVERIFY(!surfaceConfigureRequestedSpy->wait(100));
 
     // Destroy the client.
     shellSurface.reset();
@@ -1053,22 +1084,25 @@ void TestXdgShellClientRules::testSizeForceTemporarily()
     workspace()->slotReconfigure();
 
     // Create the test client.
-    QScopedPointer<Surface> surface;
+    QScopedPointer<KWayland::Client::Surface> surface;
     surface.reset(Test::createSurface());
-    QScopedPointer<XdgShellSurface> shellSurface;
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    QScopedPointer<QSignalSpy> configureRequestedSpy;
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    QScopedPointer<Test::XdgToplevel> shellSurface;
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    QScopedPointer<QSignalSpy> toplevelConfigureRequestedSpy;
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    QScopedPointer<QSignalSpy> surfaceConfigureRequestedSpy;
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
     // The initial configure event should contain size hint set by the rule.
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().first().toSize(), QSize(480, 640));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().first().toSize(), QSize(480, 640));
 
     // Map the client.
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(480, 640), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
@@ -1076,45 +1110,49 @@ void TestXdgShellClientRules::testSizeForceTemporarily()
     QCOMPARE(client->size(), QSize(480, 640));
 
     // We should receive a configure event when the client becomes active.
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
 
     // Any attempt to resize the client should not succeed.
     QSignalSpy clientStartMoveResizedSpy(client, &AbstractClient::clientStartUserMovedResized);
     QVERIFY(clientStartMoveResizedSpy.isValid());
     QCOMPARE(workspace()->moveResizeClient(), nullptr);
-    QVERIFY(!client->isMove());
-    QVERIFY(!client->isResize());
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
     workspace()->slotWindowResize();
     QCOMPARE(workspace()->moveResizeClient(), nullptr);
     QCOMPARE(clientStartMoveResizedSpy.count(), 0);
-    QVERIFY(!client->isMove());
-    QVERIFY(!client->isResize());
-    QVERIFY(!configureRequestedSpy->wait(100));
+    QVERIFY(!client->isInteractiveMove());
+    QVERIFY(!client->isInteractiveResize());
+    QVERIFY(!surfaceConfigureRequestedSpy->wait(100));
 
     // The rule should be discarded when the client is closed.
     shellSurface.reset();
     surface.reset();
     QVERIFY(Test::waitForWindowDestroyed(client));
     surface.reset(Test::createSurface());
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().first().toSize(), QSize(0, 0));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().first().toSize(), QSize(0, 0));
 
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     client = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
     QVERIFY(client->isResizable());
     QCOMPARE(client->size(), QSize(100, 50));
 
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
 
     // Destroy the client.
     shellSurface.reset();
@@ -1140,26 +1178,29 @@ void TestXdgShellClientRules::testMaximizeDontAffect()
     workspace()->slotReconfigure();
 
     // Create the test client.
-    QScopedPointer<Surface> surface;
+    QScopedPointer<KWayland::Client::Surface> surface;
     surface.reset(Test::createSurface());
-    QScopedPointer<XdgShellSurface> shellSurface;
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    QScopedPointer<QSignalSpy> configureRequestedSpy;
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    QScopedPointer<Test::XdgToplevel> shellSurface;
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    QScopedPointer<QSignalSpy> toplevelConfigureRequestedSpy;
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    QScopedPointer<QSignalSpy> surfaceConfigureRequestedSpy;
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
     // Wait for the initial configure event.
-    XdgShellSurface::States states;
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().at(0).toSize(), QSize(0, 0));
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Maximized));
+    Test::XdgToplevel::States states;
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().at(0).toSize(), QSize(0, 0));
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // Map the client.
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
@@ -1169,11 +1210,12 @@ void TestXdgShellClientRules::testMaximizeDontAffect()
     QCOMPARE(client->size(), QSize(100, 50));
 
     // We should receive a configure event when the client becomes active.
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Maximized));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // Destroy the client.
     shellSurface.reset();
@@ -1199,26 +1241,29 @@ void TestXdgShellClientRules::testMaximizeApply()
     workspace()->slotReconfigure();
 
     // Create the test client.
-    QScopedPointer<Surface> surface;
+    QScopedPointer<KWayland::Client::Surface> surface;
     surface.reset(Test::createSurface());
-    QScopedPointer<XdgShellSurface> shellSurface;
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    QScopedPointer<QSignalSpy> configureRequestedSpy;
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    QScopedPointer<Test::XdgToplevel> shellSurface;
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    QScopedPointer<QSignalSpy> toplevelConfigureRequestedSpy;
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    QScopedPointer<QSignalSpy> surfaceConfigureRequestedSpy;
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
     // Wait for the initial configure event.
-    XdgShellSurface::States states;
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().at(0).toSize(), QSize(1280, 1024));
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(states.testFlag(XdgShellSurface::State::Maximized));
+    Test::XdgToplevel::States states;
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().at(0).toSize(), QSize(1280, 1024));
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // Map the client.
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(1280, 1024), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
@@ -1228,25 +1273,27 @@ void TestXdgShellClientRules::testMaximizeApply()
     QCOMPARE(client->size(), QSize(1280, 1024));
 
     // We should receive a configure event when the client becomes active.
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(states.testFlag(XdgShellSurface::State::Maximized));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // One should still be able to change the maximized state of the client.
     workspace()->slotWindowMaximize();
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 3);
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 3);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 3);
     QEXPECT_FAIL("", "Geometry restore is set to the first valid geometry", Continue);
-    QCOMPARE(configureRequestedSpy->last().at(0).toSize(), QSize(0, 0));
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Maximized));
+    QCOMPARE(toplevelConfigureRequestedSpy->last().at(0).toSize(), QSize(0, 0));
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Maximized));
 
     QSignalSpy frameGeometryChangedSpy(client, &AbstractClient::frameGeometryChanged);
     QVERIFY(frameGeometryChangedSpy.isValid());
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     Test::render(surface.data(), QSize(100, 50), Qt::blue);
     QVERIFY(frameGeometryChangedSpy.wait());
     QCOMPARE(client->size(), QSize(100, 50));
@@ -1258,19 +1305,21 @@ void TestXdgShellClientRules::testMaximizeApply()
     surface.reset();
     QVERIFY(Test::waitForWindowDestroyed(client));
     surface.reset(Test::createSurface());
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().at(0).toSize(), QSize(1280, 1024));
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(states.testFlag(XdgShellSurface::State::Maximized));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().at(0).toSize(), QSize(1280, 1024));
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Maximized));
 
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     client = Test::renderAndWaitForShown(surface.data(), QSize(1280, 1024), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
@@ -1279,11 +1328,12 @@ void TestXdgShellClientRules::testMaximizeApply()
     QCOMPARE(client->requestedMaximizeMode(), MaximizeMode::MaximizeFull);
     QCOMPARE(client->size(), QSize(1280, 1024));
 
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(states.testFlag(XdgShellSurface::State::Maximized));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // Destroy the client.
     shellSurface.reset();
@@ -1309,26 +1359,29 @@ void TestXdgShellClientRules::testMaximizeRemember()
     workspace()->slotReconfigure();
 
     // Create the test client.
-    QScopedPointer<Surface> surface;
+    QScopedPointer<KWayland::Client::Surface> surface;
     surface.reset(Test::createSurface());
-    QScopedPointer<XdgShellSurface> shellSurface;
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    QScopedPointer<QSignalSpy> configureRequestedSpy;
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    QScopedPointer<Test::XdgToplevel> shellSurface;
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    QScopedPointer<QSignalSpy> toplevelConfigureRequestedSpy;
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    QScopedPointer<QSignalSpy> surfaceConfigureRequestedSpy;
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
     // Wait for the initial configure event.
-    XdgShellSurface::States states;
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().at(0).toSize(), QSize(1280, 1024));
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(states.testFlag(XdgShellSurface::State::Maximized));
+    Test::XdgToplevel::States states;
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().at(0).toSize(), QSize(1280, 1024));
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // Map the client.
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(1280, 1024), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
@@ -1338,25 +1391,27 @@ void TestXdgShellClientRules::testMaximizeRemember()
     QCOMPARE(client->size(), QSize(1280, 1024));
 
     // We should receive a configure event when the client becomes active.
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(states.testFlag(XdgShellSurface::State::Maximized));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // One should still be able to change the maximized state of the client.
     workspace()->slotWindowMaximize();
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 3);
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 3);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 3);
     QEXPECT_FAIL("", "Geometry restore is set to the first valid geometry", Continue);
-    QCOMPARE(configureRequestedSpy->last().at(0).toSize(), QSize(0, 0));
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Maximized));
+    QCOMPARE(toplevelConfigureRequestedSpy->last().at(0).toSize(), QSize(0, 0));
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Maximized));
 
     QSignalSpy frameGeometryChangedSpy(client, &AbstractClient::frameGeometryChanged);
     QVERIFY(frameGeometryChangedSpy.isValid());
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     Test::render(surface.data(), QSize(100, 50), Qt::blue);
     QVERIFY(frameGeometryChangedSpy.wait());
     QCOMPARE(client->size(), QSize(100, 50));
@@ -1368,19 +1423,21 @@ void TestXdgShellClientRules::testMaximizeRemember()
     surface.reset();
     QVERIFY(Test::waitForWindowDestroyed(client));
     surface.reset(Test::createSurface());
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().at(0).toSize(), QSize(0, 0));
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Maximized));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().at(0).toSize(), QSize(0, 0));
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Maximized));
 
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     client = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
@@ -1389,11 +1446,12 @@ void TestXdgShellClientRules::testMaximizeRemember()
     QCOMPARE(client->requestedMaximizeMode(), MaximizeMode::MaximizeRestore);
     QCOMPARE(client->size(), QSize(100, 50));
 
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Maximized));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // Destroy the client.
     shellSurface.reset();
@@ -1419,26 +1477,29 @@ void TestXdgShellClientRules::testMaximizeForce()
     workspace()->slotReconfigure();
 
     // Create the test client.
-    QScopedPointer<Surface> surface;
+    QScopedPointer<KWayland::Client::Surface> surface;
     surface.reset(Test::createSurface());
-    QScopedPointer<XdgShellSurface> shellSurface;
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    QScopedPointer<QSignalSpy> configureRequestedSpy;
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    QScopedPointer<Test::XdgToplevel> shellSurface;
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    QScopedPointer<QSignalSpy> toplevelConfigureRequestedSpy;
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    QScopedPointer<QSignalSpy> surfaceConfigureRequestedSpy;
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
     // Wait for the initial configure event.
-    XdgShellSurface::States states;
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().at(0).toSize(), QSize(1280, 1024));
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(states.testFlag(XdgShellSurface::State::Maximized));
+    Test::XdgToplevel::States states;
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().at(0).toSize(), QSize(1280, 1024));
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // Map the client.
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(1280, 1024), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
@@ -1448,16 +1509,17 @@ void TestXdgShellClientRules::testMaximizeForce()
     QCOMPARE(client->size(), QSize(1280, 1024));
 
     // We should receive a configure event when the client becomes active.
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(states.testFlag(XdgShellSurface::State::Maximized));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // Any attempt to change the maximized state should not succeed.
     const QRect oldGeometry = client->frameGeometry();
     workspace()->slotWindowMaximize();
-    QVERIFY(!configureRequestedSpy->wait(100));
+    QVERIFY(!surfaceConfigureRequestedSpy->wait(100));
     QCOMPARE(client->maximizeMode(), MaximizeMode::MaximizeFull);
     QCOMPARE(client->requestedMaximizeMode(), MaximizeMode::MaximizeFull);
     QCOMPARE(client->frameGeometry(), oldGeometry);
@@ -1467,19 +1529,21 @@ void TestXdgShellClientRules::testMaximizeForce()
     surface.reset();
     QVERIFY(Test::waitForWindowDestroyed(client));
     surface.reset(Test::createSurface());
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().at(0).toSize(), QSize(1280, 1024));
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(states.testFlag(XdgShellSurface::State::Maximized));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().at(0).toSize(), QSize(1280, 1024));
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Maximized));
 
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     client = Test::renderAndWaitForShown(surface.data(), QSize(1280, 1024), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
@@ -1488,11 +1552,12 @@ void TestXdgShellClientRules::testMaximizeForce()
     QCOMPARE(client->requestedMaximizeMode(), MaximizeMode::MaximizeFull);
     QCOMPARE(client->size(), QSize(1280, 1024));
 
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(states.testFlag(XdgShellSurface::State::Maximized));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // Destroy the client.
     shellSurface.reset();
@@ -1503,26 +1568,29 @@ void TestXdgShellClientRules::testMaximizeForce()
 void TestXdgShellClientRules::testMaximizeApplyNow()
 {
     // Create the test client.
-    QScopedPointer<Surface> surface;
+    QScopedPointer<KWayland::Client::Surface> surface;
     surface.reset(Test::createSurface());
-    QScopedPointer<XdgShellSurface> shellSurface;
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    QScopedPointer<QSignalSpy> configureRequestedSpy;
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    QScopedPointer<Test::XdgToplevel> shellSurface;
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    QScopedPointer<QSignalSpy> toplevelConfigureRequestedSpy;
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    QScopedPointer<QSignalSpy> surfaceConfigureRequestedSpy;
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
     // Wait for the initial configure event.
-    XdgShellSurface::States states;
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().at(0).toSize(), QSize(0, 0));
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Maximized));
+    Test::XdgToplevel::States states;
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().at(0).toSize(), QSize(0, 0));
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // Map the client.
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
@@ -1532,11 +1600,12 @@ void TestXdgShellClientRules::testMaximizeApplyNow()
     QCOMPARE(client->size(), QSize(100, 50));
 
     // We should receive a configure event when the client becomes active.
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Maximized));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // Initialize RuleBook with the test rule.
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
@@ -1554,17 +1623,18 @@ void TestXdgShellClientRules::testMaximizeApplyNow()
     workspace()->slotReconfigure();
 
     // We should receive a configure event with a new surface size.
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 3);
-    QCOMPARE(configureRequestedSpy->last().at(0).toSize(), QSize(1280, 1024));
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(states.testFlag(XdgShellSurface::State::Maximized));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 3);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 3);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().at(0).toSize(), QSize(1280, 1024));
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // Draw contents of the maximized client.
     QSignalSpy frameGeometryChangedSpy(client, &AbstractClient::frameGeometryChanged);
     QVERIFY(frameGeometryChangedSpy.isValid());
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     Test::render(surface.data(), QSize(1280, 1024), Qt::blue);
     QVERIFY(frameGeometryChangedSpy.wait());
     QCOMPARE(client->size(), QSize(1280, 1024));
@@ -1576,14 +1646,15 @@ void TestXdgShellClientRules::testMaximizeApplyNow()
 
     // Restore the client.
     workspace()->slotWindowMaximize();
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 4);
-    QCOMPARE(configureRequestedSpy->last().at(0).toSize(), QSize(100, 50));
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Maximized));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 4);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 4);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().at(0).toSize(), QSize(100, 50));
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Maximized));
 
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     Test::render(surface.data(), QSize(100, 50), Qt::blue);
     QVERIFY(frameGeometryChangedSpy.wait());
     QCOMPARE(client->size(), QSize(100, 50));
@@ -1593,7 +1664,7 @@ void TestXdgShellClientRules::testMaximizeApplyNow()
     // The rule should be discarded after it's been applied.
     const QRect oldGeometry = client->frameGeometry();
     client->evaluateWindowRules();
-    QVERIFY(!configureRequestedSpy->wait(100));
+    QVERIFY(!surfaceConfigureRequestedSpy->wait(100));
     QCOMPARE(client->maximizeMode(), MaximizeMode::MaximizeRestore);
     QCOMPARE(client->requestedMaximizeMode(), MaximizeMode::MaximizeRestore);
     QCOMPARE(client->frameGeometry(), oldGeometry);
@@ -1622,26 +1693,29 @@ void TestXdgShellClientRules::testMaximizeForceTemporarily()
     workspace()->slotReconfigure();
 
     // Create the test client.
-    QScopedPointer<Surface> surface;
+    QScopedPointer<KWayland::Client::Surface> surface;
     surface.reset(Test::createSurface());
-    QScopedPointer<XdgShellSurface> shellSurface;
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    QScopedPointer<QSignalSpy> configureRequestedSpy;
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    QScopedPointer<Test::XdgToplevel> shellSurface;
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    QScopedPointer<QSignalSpy> toplevelConfigureRequestedSpy;
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    QScopedPointer<QSignalSpy> surfaceConfigureRequestedSpy;
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
     // Wait for the initial configure event.
-    XdgShellSurface::States states;
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().at(0).toSize(), QSize(1280, 1024));
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(states.testFlag(XdgShellSurface::State::Maximized));
+    Test::XdgToplevel::States states;
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().at(0).toSize(), QSize(1280, 1024));
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // Map the client.
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(1280, 1024), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
@@ -1651,16 +1725,17 @@ void TestXdgShellClientRules::testMaximizeForceTemporarily()
     QCOMPARE(client->size(), QSize(1280, 1024));
 
     // We should receive a configure event when the client becomes active.
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(states.testFlag(XdgShellSurface::State::Maximized));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // Any attempt to change the maximized state should not succeed.
     const QRect oldGeometry = client->frameGeometry();
     workspace()->slotWindowMaximize();
-    QVERIFY(!configureRequestedSpy->wait(100));
+    QVERIFY(!surfaceConfigureRequestedSpy->wait(100));
     QCOMPARE(client->maximizeMode(), MaximizeMode::MaximizeFull);
     QCOMPARE(client->requestedMaximizeMode(), MaximizeMode::MaximizeFull);
     QCOMPARE(client->frameGeometry(), oldGeometry);
@@ -1670,19 +1745,21 @@ void TestXdgShellClientRules::testMaximizeForceTemporarily()
     surface.reset();
     QVERIFY(Test::waitForWindowDestroyed(client));
     surface.reset(Test::createSurface());
-    shellSurface.reset(createXdgShellStableSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
-    configureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &XdgShellSurface::configureRequested));
-    shellSurface->setAppId("org.kde.foo");
-    surface->commit(Surface::CommitFlag::None);
+    shellSurface.reset(Test::createXdgToplevelSurface(surface.data(), surface.data(), Test::CreationSetup::CreateOnly));
+    toplevelConfigureRequestedSpy.reset(new QSignalSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested));
+    surfaceConfigureRequestedSpy.reset(new QSignalSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 1);
-    QCOMPARE(configureRequestedSpy->last().at(0).toSize(), QSize(0, 0));
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Maximized));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy->last().at(0).toSize(), QSize(0, 0));
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Maximized));
 
-    shellSurface->ackConfigure(configureRequestedSpy->last().at(2).value<quint32>());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy->last().at(0).value<quint32>());
     client = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
     QVERIFY(client);
     QVERIFY(client->isActive());
@@ -1691,11 +1768,12 @@ void TestXdgShellClientRules::testMaximizeForceTemporarily()
     QCOMPARE(client->requestedMaximizeMode(), MaximizeMode::MaximizeRestore);
     QCOMPARE(client->size(), QSize(100, 50));
 
-    QVERIFY(configureRequestedSpy->wait());
-    QCOMPARE(configureRequestedSpy->count(), 2);
-    states = configureRequestedSpy->last().at(1).value<XdgShellSurface::States>();
-    QVERIFY(states.testFlag(XdgShellSurface::State::Activated));
-    QVERIFY(!states.testFlag(XdgShellSurface::State::Maximized));
+    QVERIFY(surfaceConfigureRequestedSpy->wait());
+    QCOMPARE(surfaceConfigureRequestedSpy->count(), 2);
+    QCOMPARE(toplevelConfigureRequestedSpy->count(), 2);
+    states = toplevelConfigureRequestedSpy->last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // Destroy the client.
     shellSurface.reset();
@@ -1705,12 +1783,18 @@ void TestXdgShellClientRules::testMaximizeForceTemporarily()
 
 void TestXdgShellClientRules::testDesktopDontAffect()
 {
+    // We need at least two virtual desktop for this test.
+    VirtualDesktopManager::self()->setCount(2);
+    QCOMPARE(VirtualDesktopManager::self()->count(), 2u);
+    VirtualDesktopManager::self()->setCurrent(1);
+    QCOMPARE(VirtualDesktopManager::self()->current(), 1);
+
     // Initialize RuleBook with the test rule.
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     config->group("General").writeEntry("count", 1);
     KConfigGroup group = config->group("1");
-    group.writeEntry("desktop", 2);
-    group.writeEntry("desktoprule", int(Rules::DontAffect));
+    group.writeEntry("desktops", {VirtualDesktopManager::self()->desktopForX11Id(2)->id()});
+    group.writeEntry("desktopsrule", int(Rules::DontAffect));
     group.writeEntry("wmclass", "org.kde.foo");
     group.writeEntry("wmclasscomplete", false);
     group.writeEntry("wmclassmatch", int(Rules::ExactMatch));
@@ -1718,17 +1802,11 @@ void TestXdgShellClientRules::testDesktopDontAffect()
     RuleBook::self()->setConfig(config);
     workspace()->slotReconfigure();
 
-    // We need at least two virtual desktop for this test.
-    VirtualDesktopManager::self()->setCount(2);
-    QCOMPARE(VirtualDesktopManager::self()->count(), 2u);
-    VirtualDesktopManager::self()->setCurrent(1);
-    QCOMPARE(VirtualDesktopManager::self()->current(), 1);
-
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should appear on the current virtual desktop.
@@ -1743,12 +1821,18 @@ void TestXdgShellClientRules::testDesktopDontAffect()
 
 void TestXdgShellClientRules::testDesktopApply()
 {
+    // We need at least two virtual desktop for this test.
+    VirtualDesktopManager::self()->setCount(2);
+    QCOMPARE(VirtualDesktopManager::self()->count(), 2u);
+    VirtualDesktopManager::self()->setCurrent(1);
+    QCOMPARE(VirtualDesktopManager::self()->current(), 1);
+
     // Initialize RuleBook with the test rule.
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     config->group("General").writeEntry("count", 1);
     KConfigGroup group = config->group("1");
-    group.writeEntry("desktop", 2);
-    group.writeEntry("desktoprule", int(Rules::Apply));
+    group.writeEntry("desktops", {VirtualDesktopManager::self()->desktopForX11Id(2)->id()});
+    group.writeEntry("desktopsrule", int(Rules::Apply));
     group.writeEntry("wmclass", "org.kde.foo");
     group.writeEntry("wmclasscomplete", false);
     group.writeEntry("wmclassmatch", int(Rules::ExactMatch));
@@ -1756,17 +1840,11 @@ void TestXdgShellClientRules::testDesktopApply()
     RuleBook::self()->setConfig(config);
     workspace()->slotReconfigure();
 
-    // We need at least two virtual desktop for this test.
-    VirtualDesktopManager::self()->setCount(2);
-    QCOMPARE(VirtualDesktopManager::self()->count(), 2u);
-    VirtualDesktopManager::self()->setCurrent(1);
-    QCOMPARE(VirtualDesktopManager::self()->current(), 1);
-
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should appear on the second virtual desktop.
@@ -1784,7 +1862,7 @@ void TestXdgShellClientRules::testDesktopApply()
     QVERIFY(Test::waitForWindowDestroyed(client));
     VirtualDesktopManager::self()->setCurrent(1);
     QCOMPARE(VirtualDesktopManager::self()->current(), 1);
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QCOMPARE(client->desktop(), 2);
     QCOMPARE(VirtualDesktopManager::self()->current(), 2);
@@ -1797,12 +1875,18 @@ void TestXdgShellClientRules::testDesktopApply()
 
 void TestXdgShellClientRules::testDesktopRemember()
 {
+    // We need at least two virtual desktop for this test.
+    VirtualDesktopManager::self()->setCount(2);
+    QCOMPARE(VirtualDesktopManager::self()->count(), 2u);
+    VirtualDesktopManager::self()->setCurrent(1);
+    QCOMPARE(VirtualDesktopManager::self()->current(), 1);
+
     // Initialize RuleBook with the test rule.
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     config->group("General").writeEntry("count", 1);
     KConfigGroup group = config->group("1");
-    group.writeEntry("desktop", 2);
-    group.writeEntry("desktoprule", int(Rules::Remember));
+    group.writeEntry("desktops", {VirtualDesktopManager::self()->desktopForX11Id(2)->id()});
+    group.writeEntry("desktopsrule", int(Rules::Remember));
     group.writeEntry("wmclass", "org.kde.foo");
     group.writeEntry("wmclasscomplete", false);
     group.writeEntry("wmclassmatch", int(Rules::ExactMatch));
@@ -1810,17 +1894,11 @@ void TestXdgShellClientRules::testDesktopRemember()
     RuleBook::self()->setConfig(config);
     workspace()->slotReconfigure();
 
-    // We need at least two virtual desktop for this test.
-    VirtualDesktopManager::self()->setCount(2);
-    QCOMPARE(VirtualDesktopManager::self()->count(), 2u);
-    VirtualDesktopManager::self()->setCurrent(1);
-    QCOMPARE(VirtualDesktopManager::self()->current(), 1);
-
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QCOMPARE(client->desktop(), 2);
     QCOMPARE(VirtualDesktopManager::self()->current(), 2);
@@ -1834,7 +1912,7 @@ void TestXdgShellClientRules::testDesktopRemember()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QCOMPARE(client->desktop(), 1);
     QCOMPARE(VirtualDesktopManager::self()->current(), 1);
@@ -1847,12 +1925,18 @@ void TestXdgShellClientRules::testDesktopRemember()
 
 void TestXdgShellClientRules::testDesktopForce()
 {
+    // We need at least two virtual desktop for this test.
+    VirtualDesktopManager::self()->setCount(2);
+    QCOMPARE(VirtualDesktopManager::self()->count(), 2u);
+    VirtualDesktopManager::self()->setCurrent(1);
+    QCOMPARE(VirtualDesktopManager::self()->current(), 1);
+
     // Initialize RuleBook with the test rule.
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     config->group("General").writeEntry("count", 1);
     KConfigGroup group = config->group("1");
-    group.writeEntry("desktop", 2);
-    group.writeEntry("desktoprule", int(Rules::Force));
+    group.writeEntry("desktops", {VirtualDesktopManager::self()->desktopForX11Id(2)->id()});
+    group.writeEntry("desktopsrule", int(Rules::Force));
     group.writeEntry("wmclass", "org.kde.foo");
     group.writeEntry("wmclasscomplete", false);
     group.writeEntry("wmclassmatch", int(Rules::ExactMatch));
@@ -1860,17 +1944,12 @@ void TestXdgShellClientRules::testDesktopForce()
     RuleBook::self()->setConfig(config);
     workspace()->slotReconfigure();
 
-    // We need at least two virtual desktop for this test.
-    VirtualDesktopManager::self()->setCount(2);
-    QCOMPARE(VirtualDesktopManager::self()->count(), 2u);
-    VirtualDesktopManager::self()->setCurrent(1);
-    QCOMPARE(VirtualDesktopManager::self()->current(), 1);
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should appear on the second virtual desktop.
@@ -1888,7 +1967,7 @@ void TestXdgShellClientRules::testDesktopForce()
     QVERIFY(Test::waitForWindowDestroyed(client));
     VirtualDesktopManager::self()->setCurrent(1);
     QCOMPARE(VirtualDesktopManager::self()->current(), 1);
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QCOMPARE(client->desktop(), 2);
     QCOMPARE(VirtualDesktopManager::self()->current(), 2);
@@ -1909,9 +1988,9 @@ void TestXdgShellClientRules::testDesktopApplyNow()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QCOMPARE(client->desktop(), 1);
     QCOMPARE(VirtualDesktopManager::self()->current(), 1);
@@ -1920,8 +1999,8 @@ void TestXdgShellClientRules::testDesktopApplyNow()
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     config->group("General").writeEntry("count", 1);
     KConfigGroup group = config->group("1");
-    group.writeEntry("desktop", 2);
-    group.writeEntry("desktoprule", int(Rules::ApplyNow));
+    group.writeEntry("desktops", {VirtualDesktopManager::self()->desktopForX11Id(2)->id()});
+    group.writeEntry("desktopsrule", int(Rules::ApplyNow));
     group.writeEntry("wmclass", "org.kde.foo");
     group.writeEntry("wmclasscomplete", false);
     group.writeEntry("wmclassmatch", int(Rules::ExactMatch));
@@ -1951,12 +2030,18 @@ void TestXdgShellClientRules::testDesktopApplyNow()
 
 void TestXdgShellClientRules::testDesktopForceTemporarily()
 {
+    // We need at least two virtual desktop for this test.
+    VirtualDesktopManager::self()->setCount(2);
+    QCOMPARE(VirtualDesktopManager::self()->count(), 2u);
+    VirtualDesktopManager::self()->setCurrent(1);
+    QCOMPARE(VirtualDesktopManager::self()->current(), 1);
+
     // Initialize RuleBook with the test rule.
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     config->group("General").writeEntry("count", 1);
     KConfigGroup group = config->group("1");
-    group.writeEntry("desktop", 2);
-    group.writeEntry("desktoprule", int(Rules::ForceTemporarily));
+    group.writeEntry("desktops", {VirtualDesktopManager::self()->desktopForX11Id(2)->id()});
+    group.writeEntry("desktopsrule", int(Rules::ForceTemporarily));
     group.writeEntry("wmclass", "org.kde.foo");
     group.writeEntry("wmclasscomplete", false);
     group.writeEntry("wmclassmatch", int(Rules::ExactMatch));
@@ -1964,17 +2049,11 @@ void TestXdgShellClientRules::testDesktopForceTemporarily()
     RuleBook::self()->setConfig(config);
     workspace()->slotReconfigure();
 
-    // We need at least two virtual desktop for this test.
-    VirtualDesktopManager::self()->setCount(2);
-    QCOMPARE(VirtualDesktopManager::self()->count(), 2u);
-    VirtualDesktopManager::self()->setCurrent(1);
-    QCOMPARE(VirtualDesktopManager::self()->current(), 1);
-
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should appear on the second virtual desktop.
@@ -1992,7 +2071,7 @@ void TestXdgShellClientRules::testDesktopForceTemporarily()
     QVERIFY(Test::waitForWindowDestroyed(client));
     VirtualDesktopManager::self()->setCurrent(1);
     QCOMPARE(VirtualDesktopManager::self()->current(), 1);
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QCOMPARE(client->desktop(), 1);
     QCOMPARE(VirtualDesktopManager::self()->current(), 1);
@@ -2028,9 +2107,9 @@ void TestXdgShellClientRules::testMinimizeDontAffect()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isMinimizable());
 
@@ -2060,9 +2139,9 @@ void TestXdgShellClientRules::testMinimizeApply()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isMinimizable());
 
@@ -2077,7 +2156,7 @@ void TestXdgShellClientRules::testMinimizeApply()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isMinimizable());
     QVERIFY(client->isMinimized());
@@ -2105,9 +2184,9 @@ void TestXdgShellClientRules::testMinimizeRemember()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isMinimizable());
     QVERIFY(!client->isMinimized());
@@ -2120,7 +2199,7 @@ void TestXdgShellClientRules::testMinimizeRemember()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isMinimizable());
     QVERIFY(client->isMinimized());
@@ -2148,9 +2227,9 @@ void TestXdgShellClientRules::testMinimizeForce()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(!client->isMinimizable());
     QVERIFY(!client->isMinimized());
@@ -2163,7 +2242,7 @@ void TestXdgShellClientRules::testMinimizeForce()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(!client->isMinimizable());
     QVERIFY(!client->isMinimized());
@@ -2180,9 +2259,9 @@ void TestXdgShellClientRules::testMinimizeApplyNow()
 {
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isMinimizable());
     QVERIFY(!client->isMinimized());
@@ -2236,9 +2315,9 @@ void TestXdgShellClientRules::testMinimizeForceTemporarily()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(!client->isMinimizable());
     QVERIFY(!client->isMinimized());
@@ -2251,7 +2330,7 @@ void TestXdgShellClientRules::testMinimizeForceTemporarily()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isMinimizable());
     QVERIFY(!client->isMinimized());
@@ -2281,9 +2360,9 @@ void TestXdgShellClientRules::testSkipTaskbarDontAffect()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should not be affected by the rule.
@@ -2312,9 +2391,9 @@ void TestXdgShellClientRules::testSkipTaskbarApply()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should not be included on a taskbar.
@@ -2328,7 +2407,7 @@ void TestXdgShellClientRules::testSkipTaskbarApply()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->skipTaskbar());
 
@@ -2355,9 +2434,9 @@ void TestXdgShellClientRules::testSkipTaskbarRemember()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should not be included on a taskbar.
@@ -2371,7 +2450,7 @@ void TestXdgShellClientRules::testSkipTaskbarRemember()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should be included on a taskbar.
@@ -2400,9 +2479,9 @@ void TestXdgShellClientRules::testSkipTaskbarForce()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should not be included on a taskbar.
@@ -2416,7 +2495,7 @@ void TestXdgShellClientRules::testSkipTaskbarForce()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The skip-taskbar state should be still forced.
@@ -2432,9 +2511,9 @@ void TestXdgShellClientRules::testSkipTaskbarApplyNow()
 {
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(!client->skipTaskbar());
 
@@ -2485,9 +2564,9 @@ void TestXdgShellClientRules::testSkipTaskbarForceTemporarily()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should not be included on a taskbar.
@@ -2501,7 +2580,7 @@ void TestXdgShellClientRules::testSkipTaskbarForceTemporarily()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(!client->skipTaskbar());
 
@@ -2532,9 +2611,9 @@ void TestXdgShellClientRules::testSkipPagerDontAffect()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should not be affected by the rule.
@@ -2563,9 +2642,9 @@ void TestXdgShellClientRules::testSkipPagerApply()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should not be included on a pager.
@@ -2579,7 +2658,7 @@ void TestXdgShellClientRules::testSkipPagerApply()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->skipPager());
 
@@ -2606,9 +2685,9 @@ void TestXdgShellClientRules::testSkipPagerRemember()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should not be included on a pager.
@@ -2622,7 +2701,7 @@ void TestXdgShellClientRules::testSkipPagerRemember()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should be included on a pager.
@@ -2651,9 +2730,9 @@ void TestXdgShellClientRules::testSkipPagerForce()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should not be included on a pager.
@@ -2667,7 +2746,7 @@ void TestXdgShellClientRules::testSkipPagerForce()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The skip-pager state should be still forced.
@@ -2683,9 +2762,9 @@ void TestXdgShellClientRules::testSkipPagerApplyNow()
 {
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(!client->skipPager());
 
@@ -2736,9 +2815,9 @@ void TestXdgShellClientRules::testSkipPagerForceTemporarily()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should not be included on a pager.
@@ -2752,7 +2831,7 @@ void TestXdgShellClientRules::testSkipPagerForceTemporarily()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(!client->skipPager());
 
@@ -2783,9 +2862,9 @@ void TestXdgShellClientRules::testSkipSwitcherDontAffect()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should not be affected by the rule.
@@ -2814,9 +2893,9 @@ void TestXdgShellClientRules::testSkipSwitcherApply()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should be excluded from window switching effects.
@@ -2830,7 +2909,7 @@ void TestXdgShellClientRules::testSkipSwitcherApply()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->skipSwitcher());
 
@@ -2857,9 +2936,9 @@ void TestXdgShellClientRules::testSkipSwitcherRemember()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should be excluded from window switching effects.
@@ -2873,7 +2952,7 @@ void TestXdgShellClientRules::testSkipSwitcherRemember()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should be included in window switching effects.
@@ -2902,9 +2981,9 @@ void TestXdgShellClientRules::testSkipSwitcherForce()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should be excluded from window switching effects.
@@ -2918,7 +2997,7 @@ void TestXdgShellClientRules::testSkipSwitcherForce()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The skip-switcher state should be still forced.
@@ -2934,9 +3013,9 @@ void TestXdgShellClientRules::testSkipSwitcherApplyNow()
 {
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(!client->skipSwitcher());
 
@@ -2987,9 +3066,9 @@ void TestXdgShellClientRules::testSkipSwitcherForceTemporarily()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The client should be excluded from window switching effects.
@@ -3003,7 +3082,7 @@ void TestXdgShellClientRules::testSkipSwitcherForceTemporarily()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(!client->skipSwitcher());
 
@@ -3034,9 +3113,9 @@ void TestXdgShellClientRules::testKeepAboveDontAffect()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The keep-above state of the client should not be affected by the rule.
@@ -3065,9 +3144,9 @@ void TestXdgShellClientRules::testKeepAboveApply()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // Initially, the client should be kept above.
@@ -3081,7 +3160,7 @@ void TestXdgShellClientRules::testKeepAboveApply()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->keepAbove());
 
@@ -3108,9 +3187,9 @@ void TestXdgShellClientRules::testKeepAboveRemember()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // Initially, the client should be kept above.
@@ -3124,7 +3203,7 @@ void TestXdgShellClientRules::testKeepAboveRemember()
     QVERIFY(Test::waitForWindowDestroyed(client));
 
     // Re-open the client, it should not be kept above.
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(!client->keepAbove());
 
@@ -3151,9 +3230,9 @@ void TestXdgShellClientRules::testKeepAboveForce()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // Initially, the client should be kept above.
@@ -3167,7 +3246,7 @@ void TestXdgShellClientRules::testKeepAboveForce()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->keepAbove());
 
@@ -3181,9 +3260,9 @@ void TestXdgShellClientRules::testKeepAboveApplyNow()
 {
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(!client->keepAbove());
 
@@ -3234,9 +3313,9 @@ void TestXdgShellClientRules::testKeepAboveForceTemporarily()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // Initially, the client should be kept above.
@@ -3250,7 +3329,7 @@ void TestXdgShellClientRules::testKeepAboveForceTemporarily()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(!client->keepAbove());
 
@@ -3283,9 +3362,9 @@ void TestXdgShellClientRules::testKeepBelowDontAffect()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The keep-below state of the client should not be affected by the rule.
@@ -3314,9 +3393,9 @@ void TestXdgShellClientRules::testKeepBelowApply()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // Initially, the client should be kept below.
@@ -3330,7 +3409,7 @@ void TestXdgShellClientRules::testKeepBelowApply()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->keepBelow());
 
@@ -3357,9 +3436,9 @@ void TestXdgShellClientRules::testKeepBelowRemember()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // Initially, the client should be kept below.
@@ -3373,7 +3452,7 @@ void TestXdgShellClientRules::testKeepBelowRemember()
     QVERIFY(Test::waitForWindowDestroyed(client));
 
     // Re-open the client, it should not be kept below.
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(!client->keepBelow());
 
@@ -3400,9 +3479,9 @@ void TestXdgShellClientRules::testKeepBelowForce()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // Initially, the client should be kept below.
@@ -3416,7 +3495,7 @@ void TestXdgShellClientRules::testKeepBelowForce()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->keepBelow());
 
@@ -3430,9 +3509,9 @@ void TestXdgShellClientRules::testKeepBelowApplyNow()
 {
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(!client->keepBelow());
 
@@ -3483,9 +3562,9 @@ void TestXdgShellClientRules::testKeepBelowForceTemporarily()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // Initially, the client should be kept below.
@@ -3499,7 +3578,7 @@ void TestXdgShellClientRules::testKeepBelowForceTemporarily()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(!client->keepBelow());
 
@@ -3532,9 +3611,9 @@ void TestXdgShellClientRules::testShortcutDontAffect()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QCOMPARE(client->shortcut(), QKeySequence());
     client->minimize();
@@ -3576,9 +3655,9 @@ void TestXdgShellClientRules::testShortcutApply()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // If we press the window shortcut, the window should be brought back to user.
@@ -3627,7 +3706,7 @@ void TestXdgShellClientRules::testShortcutApply()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The window shortcut should be set back to Ctrl+Alt+1.
@@ -3658,9 +3737,9 @@ void TestXdgShellClientRules::testShortcutRemember()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // If we press the window shortcut, the window should be brought back to user.
@@ -3697,7 +3776,7 @@ void TestXdgShellClientRules::testShortcutRemember()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The window shortcut should be set to the last known value.
@@ -3728,9 +3807,9 @@ void TestXdgShellClientRules::testShortcutForce()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // If we press the window shortcut, the window should be brought back to user.
@@ -3767,7 +3846,7 @@ void TestXdgShellClientRules::testShortcutForce()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // The window shortcut should still be forced.
@@ -3783,9 +3862,9 @@ void TestXdgShellClientRules::testShortcutApplyNow()
 {
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->shortcut().isEmpty());
 
@@ -3861,9 +3940,9 @@ void TestXdgShellClientRules::testShortcutForceTemporarily()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
 
     // If we press the window shortcut, the window should be brought back to user.
@@ -3900,7 +3979,7 @@ void TestXdgShellClientRules::testShortcutForceTemporarily()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->shortcut().isEmpty());
 
@@ -3975,9 +4054,9 @@ void TestXdgShellClientRules::testActiveOpacityDontAffect()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isActive());
 
@@ -4007,9 +4086,9 @@ void TestXdgShellClientRules::testActiveOpacityForce()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isActive());
     QCOMPARE(client->opacity(), 0.9);
@@ -4037,9 +4116,9 @@ void TestXdgShellClientRules::testActiveOpacityForceTemporarily()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isActive());
     QCOMPARE(client->opacity(), 0.9);
@@ -4048,7 +4127,7 @@ void TestXdgShellClientRules::testActiveOpacityForceTemporarily()
     delete shellSurface;
     delete surface;
     QVERIFY(Test::waitForWindowDestroyed(client));
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isActive());
     QCOMPARE(client->opacity(), 1.0);
@@ -4076,9 +4155,9 @@ void TestXdgShellClientRules::testInactiveOpacityDontAffect()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isActive());
 
@@ -4112,9 +4191,9 @@ void TestXdgShellClientRules::testInactiveOpacityForce()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isActive());
     QCOMPARE(client->opacity(), 1.0);
@@ -4149,9 +4228,9 @@ void TestXdgShellClientRules::testInactiveOpacityForceTemporarily()
 
     // Create the test client.
     AbstractClient *client;
-    Surface *surface;
-    XdgShellSurface *shellSurface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    KWayland::Client::Surface *surface;
+    Test::XdgToplevel *shellSurface;
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isActive());
     QCOMPARE(client->opacity(), 1.0);
@@ -4166,7 +4245,7 @@ void TestXdgShellClientRules::testInactiveOpacityForceTemporarily()
     // The rule should be discarded when the client is closed.
     delete shellSurface;
     delete surface;
-    std::tie(client, surface, shellSurface) = createWindow("org.kde.foo");
+    std::tie(client, surface, shellSurface) = createWindow(QStringLiteral("org.kde.foo"));
     QVERIFY(client);
     QVERIFY(client->isActive());
     QCOMPARE(client->opacity(), 1.0);
@@ -4196,8 +4275,8 @@ void TestXdgShellClientRules::testMatchAfterNameChange()
     RuleBook::self()->setConfig(config);
     workspace()->slotReconfigure();
 
-    QScopedPointer<Surface> surface(Test::createSurface());
-    QScopedPointer<XdgShellSurface> shellSurface(Test::createXdgShellStableSurface(surface.data()));
+    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
+    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
 
     auto c = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
     QVERIFY(c);
@@ -4207,7 +4286,7 @@ void TestXdgShellClientRules::testMatchAfterNameChange()
     QSignalSpy desktopFileNameSpy(c, &AbstractClient::desktopFileNameChanged);
     QVERIFY(desktopFileNameSpy.isValid());
 
-    shellSurface->setAppId(QByteArrayLiteral("org.kde.foo"));
+    shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
     QVERIFY(desktopFileNameSpy.wait());
     QCOMPARE(c->keepAbove(), true);
 }

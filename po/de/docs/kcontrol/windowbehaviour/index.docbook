@@ -35,9 +35,9 @@
 </authorgroup>
 
 <date
->2015-07-14</date>
+>2021-04-09</date>
 <releaseinfo
->Plasma 5.3</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
@@ -66,7 +66,7 @@
 >, <guilabel
 >Fenster</guilabel
 >, <guilabel
->Verschieben</guilabel
+>Verschiebung</guilabel
 > und <guilabel
 >Erweitert</guilabel
 >. In der Karteikarte <guilabel
@@ -76,7 +76,7 @@
 > und <guilabel
 >Fenster</guilabel
 > kann man festlegen, wie Titelleisten und Fenster auf Mausklicks reagieren. <guilabel
->Verschieben</guilabel
+>Verschiebung</guilabel
 > erlaubt die Einstellung, wie Fenster verschoben und wo sie positioniert werden können. Die Karteikarte <guilabel
 >Erweitert</guilabel
 > enthält einige spezielle Einstellungen wie <quote
@@ -85,7 +85,7 @@
 
 <note>
 <para
->Die Einstellungen in diesem Modul wirken sich nur dann aus, wenn Sie &kde;'s Fensterverwaltung &kwin; verwenden. Verwenden Sie eine andere Fensterverwaltung, müssen Sie dessen Dokumentation konsultieren. </para>
+>Die Einstellungen in diesem Modul wirken sich nur dann aus, wenn Sie &plasma;'s Fensterverwaltung &kwin; verwenden. Verwenden Sie eine andere Fensterverwaltung, müssen Sie dessen Dokumentation konsultieren. </para>
 </note>
 
 <sect2 id="action-focus">
@@ -106,10 +106,10 @@
 
 <sect3 id="action-focus-focuspolicy">
 <title
->Aktivierungs-Regelung</title>
+>Regelung zur Fensteraktivierung</title>
 
 <para
->Es gibt sechs Methoden, das gerade aktivierte Fenster in &kde; festzulegen: </para>
+>Es gibt sechs Methoden, das gerade aktivierte Fenster in &kwin; festzulegen: </para>
 
 <variablelist>
 <varlistentry>
@@ -126,7 +126,7 @@
 <varlistentry>
 <term
 ><guilabel
->Aktivierung nach Klick - Vorrang für Maus</guilabel
+>Aktivierung nach Klick – Vorrang für Maus</guilabel
 ></term>
 <listitem>
 <para
@@ -163,7 +163,7 @@
 <varlistentry>
 <term
 ><guilabel
->Aktivierung bei Mauskontakt - Vorrang für Maus</guilabel
+>Aktivierung bei Mauskontakt – Vorrang für Maus</guilabel
 ></term>
 <listitem>
 <para
@@ -224,7 +224,7 @@
 
 <sect3 id="action-focus-focusstealin">
 <title
->Verhinderung unerwünschter Aktivierung</title>
+>Verhindern unerwünschter Aktivierung</title>
 
 <para
 >Diese Einstellung legt fest, wie sehr KWin zu verhindern versucht, dass sich neu öffnende Fenster unerwünscht in den Vordergrund drängen bzw. aktiviert werden.</para
@@ -301,7 +301,7 @@
 <para
 >Mit der Regelung Aktivieren durch Überfahren können Sie alternativ das automatische Hervorheben verwenden. Ist <guilabel
 >Hervorheben beim Überfahren, verzögert um</guilabel
-> aktiviert, so platziert &kde; das Fenster automatisch nach vorne, wenn sich der Mauszeiger für eine bestimmte Zeit über dem Fenster befindet. Die Verzögerungszeit können Sie mit dem Drehfeld einstellen. </para>
+> aktiviert, so platziert &kwin; das Fenster automatisch nach vorne, wenn sich der Mauszeiger für eine bestimmte Zeit über dem Fenster befindet. Die Verzögerungszeit können Sie mit dem Drehfeld einstellen. </para>
 
 <tip>
 <para
@@ -326,7 +326,7 @@
 
 <sect3 id="action-actions-sec1">
 <title
->Doppelklick auf Titelleiste</title>
+>Doppelklick</title>
 
 <para
 >In diesem Auswahlfeld können Sie entweder <guilabel
@@ -344,7 +344,7 @@
 <para
 >Bei <guilabel
 >Maximieren</guilabel
-> wird &kde; das Fenster bei einem Doppelklick auf die Titelleiste maximieren. Sie können außerdem auswählen, ob ein Fenster nur horizontal oder nur vertikal maximiert werden soll.</para>
+> wird &kwin; das Fenster bei einem Doppelklick auf die Titelleiste maximieren. Sie können außerdem auswählen, ob ein Fenster nur horizontal oder nur vertikal maximiert werden soll.</para>
 
 <para
 >Bei <guilabel
@@ -352,7 +352,7 @@
 > wird das Fenster auf die Titelleiste reduziert. Ein zweiter Doppelklick stellt die vorherige Fenstergröße wieder her. </para>
 
 <para
->Ähnliche Einstellungen sind für <guilabel
+>Ähnliche Einstellungen sind für das <guilabel
 >Mausrad</guilabel
 > vorhanden. </para>
 <!--FIXME Raise/Lower Shade/Unshade Maximize/Restore Keep Above/Below Move to Previous/Next Desktop Change Opacity -->
@@ -362,7 +362,7 @@
 >Soll ein auf die Titelleiste reduziertes Fenster automatisch wiederhergestellt werden, wenn die Maus darüber platziert wird, müssen Sie auf der Karteikarte <guilabel
 >Erweitert</guilabel
 > das Markierungsfeld <guilabel
->Automatischer Fensterheber</guilabel
+>Fensterheber ausfahren</guilabel
 > auswählen. Damit lässt sich hervorragend Platz auf der Arbeitsfläche sparen, wenn man z.B. zwischen vielen Fenster Inhalte durch Ausschneiden und Kopieren überträgt. </para>
 </tip>
 
@@ -371,7 +371,7 @@
 <sect3 id="action-actions-sec2">
 <title
 ><guilabel
->Titelleiste &amp; Rahmen</guilabel
+>Aktionen für Titelleiste und Rahmen</guilabel
 ></title>
 
 <para
@@ -409,7 +409,7 @@
 <varlistentry>
 <term
 ><guilabel
->Nach vorn bringen &amp; hinten stellen umschalten</guilabel
+>Nach vorn bringen und hinten stellen umschalten</guilabel
 ></term>
 <listitem>
 <para
@@ -424,7 +424,7 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Nichts</guilabel
+>Nichts unternehmen</guilabel
 ></term>
 <listitem>
 <para
@@ -435,7 +435,7 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Kontextmenü</guilabel
+>Aktionenmenü anzeigen</guilabel
 ></term>
 <listitem>
 <para
@@ -449,7 +449,7 @@ Minimize, Shade, Close
 <sect3 id="action-actions-maximize-button">
 <title
 ><guilabel
->Maximieren-Knopf</guilabel
+>Aktionen für den Maximieren-Knopf</guilabel
 ></title>
 <para
 >In diesem Abschnitt können Sie die Aktion für alle drei Maustasten beim Klick auf den Knopf „Maximieren“ einstellen. Nur vertikal, nur horizontal und beide Richtungen für das „Maximieren“ des Fensters stehen zur Auswahl. </para>
@@ -477,7 +477,7 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Aktivieren, nach vorn &amp; mit Klick ansprechen</guilabel
+>Aktivieren, nach vorn und mit Klick ansprechen</guilabel
 ></term>
 <listitem>
 <para
@@ -488,7 +488,7 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Aktivieren &amp; mit Klick ansprechen</guilabel
+>Aktivieren und mit Klick ansprechen</guilabel
 ></term>
 <listitem>
 <para
@@ -510,23 +510,60 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Aktivieren &amp; nach vorne</guilabel
+>Aktivieren und nach vorne</guilabel
 ></term>
 <listitem>
 <para
 >Das angeklickte Fenster wird aktiviert und ganz vorne auf der Arbeitsfläche dargestellt. Der Mausklick wird nicht an die Anwendung im Fenster weitergegeben. </para>
 </listitem>
 </varlistentry>
+</variablelist>
 
-<!--FIXME Wheel Scroll, Activate & Scroll, Activate, Raise & Scroll-->
+<para
+>Für das <guilabel
+>Mausrad</guilabel
+> gibt es folgende Einstellmöglichkeiten: </para>
 
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Blättern</guilabel
+></term>
+<listitem>
+<para
+>Verschiebt den Inhalt des Fenster nach oben oder unten. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Aktivieren und blättern</guilabel
+></term>
+<listitem>
+<para
+>Das angeklickte Fenster wird aktiviert und der Inhalt wird nach oben oder unten verschoben. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Aktivieren, nach vorne und blättern</guilabel
+></term>
+<listitem>
+<para
+>Das angeklickte Fenster wird aktiviert, auf der Arbeitsfläche ganz nach vorne geholt und  und der Inhalt wird nach oben oder unten verschoben. </para>
+</listitem>
+</varlistentry>
 </variablelist>
 </sect3>
 
 <sect3 id="action-actions-sec4">
 <title
 ><guilabel
->Inneres Fenster, Titelleiste &amp; Rahmen</guilabel
+>Inneres Fenster, Titelleiste und Rahmen</guilabel
 ></title>
 
 <para
@@ -599,7 +636,7 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Nach vorn bringen &amp; hinten stellen umschalten</guilabel
+>Nach vorn bringen und hinten stellen umschalten</guilabel
 ></term>
 <listitem>
 <para
@@ -636,21 +673,22 @@ Nothing
 
 <sect2 id="action-moving">
 <title
->Verschieben</title>
+>Verschiebung</title>
+
+<para
+>Diese Einstellungen bestimmen das Erscheinungsbild von Fenster auf dem Bildschirm, wenn sie verschoben werden.</para>
 
 <sect3>
 <title
 ><guilabel
->Fenster</guilabel
+>Fenstergeometrie</guilabel
 ></title>
-<para
->Diese Einstellungen bestimmen das Erscheinungsbild von Fenster auf dem Bildschirm, wenn sie verschoben werden.</para>
 
 <variablelist>
 <varlistentry>
 <term
 ><guilabel
->Bei Verschiebungen und Größenänderung die Fenstergeometrie anzeigen</guilabel
+>Bei Bewegungen oder Größenänderungen anzeigen</guilabel
 ></term>
 <listitem>
 <para
@@ -676,7 +714,7 @@ Nothing
 <varlistentry>
 <term
 ><guilabel
->Rand-Einrastzone:</guilabel
+>Bildschirmrand-Einrastzone:</guilabel
 ></term>
 <listitem>
 
@@ -737,12 +775,12 @@ Nothing
 
 <variablelist>
 <title
->Fensterheber</title>
+>Fensterheber ausfahren</title>
 
 <varlistentry>
 <term
 ><guilabel
->Automatischer Fensterheber</guilabel
+>Beim Überfahren der Titelleiste nach</guilabel
 ></term>
 <listitem>
 <para
@@ -756,7 +794,7 @@ Nothing
 <varlistentry>
 <term
 ><guilabel
->Platzierung</guilabel
+>Fensterpositionierung</guilabel
 ></term>
 <listitem
 ><para
@@ -770,7 +808,9 @@ Nothing
 >Zentriert</guilabel
 > öffnet alle neuen Fenster in der Mitte des Bildschirms und <guilabel
 >Links oben</guilabel
-> öffnet alle Fenster mit ihrer linken oberen Ecke in der linken oberen Ecke des Bildschirms.</para
+> öffnet alle Fenster mit ihrer linken oberen Ecke in der linken oberen Ecke des Bildschirms. Klicken Sie auf <guilabel
+>Anwendungen erlauben, die Position ihrer eigenen Fenster zu speichern, wenn sie das unterstützen</guilabel
+>, um die Position der &plasma;-Fenster zu behalten.</para
 ></listitem>
 </varlistentry>
 

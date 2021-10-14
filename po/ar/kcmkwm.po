@@ -7,22 +7,22 @@
 # AbdulAziz AlSharif <a.a-a.s@hotmail.com>, 2007.
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
 # zayed <zayed.alsaidi@gmail.com>, 2008.
-# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2010.
+# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2010, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-28 13:55+0000\n"
-"PO-Revision-Date: 2010-07-19 07:18+0400\n"
+"POT-Creation-Date: 2021-04-27 00:19+0000\n"
+"PO-Revision-Date: 2021-09-07 20:21+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
-"Language-Team: Arabic <linuxac-kde-arabic-team@googlegroups.com>\n"
+"Language-Team: ar\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Lokalize 21.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -46,7 +46,7 @@ msgstr "نافذة داخلية خاملة"
 #: actions.ui:26 mouse.ui:177
 #, fuzzy, kde-format
 msgid "&Left click:"
-msgstr "النقر ال&مزدوج على شريط العنوان:"
+msgstr "النّقر باليسار"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandWindow1)
 #: actions.ui:39
@@ -106,7 +106,7 @@ msgstr "نشّط و ارفع"
 #: actions.ui:66 mouse.ui:200
 #, fuzzy, kde-format
 msgid "&Middle click:"
-msgstr "النقر ال&مزدوج على شريط العنوان:"
+msgstr "النّقر &بالوسط:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandWindow2)
 #: actions.ui:79
@@ -121,9 +121,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: actions.ui:106 mouse.ui:213
-#, kde-format
+#, fuzzy, kde-format
 msgid "&Right click:"
-msgstr ""
+msgstr "النقر باليمين"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandWindow3)
 #: actions.ui:119
@@ -140,7 +140,7 @@ msgstr ""
 #: actions.ui:146 mouse.ui:88
 #, fuzzy, kde-format
 msgid "Mouse &wheel:"
-msgstr "عجلة الفأرة:"
+msgstr "عجلة الفأرة"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandWindowWheel)
 #: actions.ui:159
@@ -210,14 +210,14 @@ msgstr "Alt"
 #: actions.ui:236
 #, kde-format
 msgid "  + "
-msgstr ""
+msgstr "  + "
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: actions.ui:248 mouse.ui:601
 #, fuzzy, kde-format
 msgid "L&eft click:"
-msgstr "النقر ال&مزدوج على شريط العنوان:"
+msgstr "النّقر باليسار"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandAll1)
 #: actions.ui:261
@@ -322,17 +322,17 @@ msgstr "صغّر"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:300 actions.ui:370 actions.ui:440
-#, fuzzy, kde-format
+#, kde-format
 msgid "Decrease opacity"
-msgstr "غيّر العتمة"
+msgstr "أنقِص الشّفافيّ"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:305 actions.ui:375 actions.ui:445
-#, fuzzy, kde-format
+#, kde-format
 msgid "Increase opacity"
-msgstr "غيّر العتمة"
+msgstr "زِد الشّفافيّة"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
@@ -353,13 +353,13 @@ msgstr "غيّر العتمة"
 #, fuzzy, kde-format
 #| msgid "Nothing"
 msgid "Do nothing"
-msgstr "لا شيء "
+msgstr "لا تفعل شيئا"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: actions.ui:318
 #, fuzzy, kde-format
 msgid "Middle &click:"
-msgstr "الزر الأوسط:"
+msgstr "النّقر &بالوسط:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandAll2)
 #: actions.ui:331
@@ -374,9 +374,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:388 mouse.ui:671
-#, kde-format
+#, fuzzy, kde-format
 msgid "Right clic&k:"
-msgstr ""
+msgstr "النقر باليمين"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:401
@@ -392,7 +392,7 @@ msgstr ""
 #: actions.ui:458
 #, fuzzy, kde-format
 msgid "Mo&use wheel:"
-msgstr "عجلة الفأرة:"
+msgstr "عجلة الفأرة"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandAllWheel)
 #: actions.ui:471
@@ -538,23 +538,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:80
-#, fuzzy, kde-format
-#| msgid "Snap windows onl&y when overlapping"
+#, kde-format
 msgid "Minimal Overlapping"
-msgstr "اج&ذب النوافذ فقط عندما تكون تغطي بعضها"
+msgstr "الحد الأدنى من التراكب"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:85
-#, fuzzy, kde-format
+#, kde-format
 msgid "Maximized"
-msgstr "كبّر"
+msgstr "مكبرة"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:90
-#, fuzzy, kde-format
-#| msgid "Cascade"
+#, kde-format
 msgid "Cascaded"
-msgstr "ترتيب متسلسل"
+msgstr "متتالي"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:95
@@ -572,13 +570,13 @@ msgstr "في الوسط"
 #: advanced.ui:105
 #, kde-format
 msgid "In Top-Left Corner"
-msgstr ""
+msgstr "في زاوِيَة أعلى اليسار"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:110
 #, fuzzy, kde-format
 msgid "Under mouse"
-msgstr "التركيز تحت الفأرة"
+msgstr "تحت الفأرة"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:118
@@ -690,7 +688,7 @@ msgstr ""
 #: focus.ui:101
 #, fuzzy, kde-format
 msgid "Focus &stealing prevention:"
-msgstr "مستوى الوقاية من غياب التركيز."
+msgstr "منع سرقة التركيز"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_FocusStealingPreventionLevel)
 #: focus.ui:114
@@ -734,35 +732,35 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_CenterSnapZone)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_FocusStealingPreventionLevel)
 #: focus.ui:118 moving.ui:53 moving.ui:75 moving.ui:97
-#, fuzzy, kde-format
+#, kde-format
 msgid "None"
-msgstr "بدون"
+msgstr "بلا"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_FocusStealingPreventionLevel)
 #: focus.ui:123
-#, fuzzy, kde-format
+#, kde-format
 msgid "Low"
 msgstr "منخفض"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_FocusStealingPreventionLevel)
 #: focus.ui:128
-#, fuzzy, kde-format
+#, kde-format
 msgid "Medium"
 msgstr "متوسط"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_FocusStealingPreventionLevel)
 #: focus.ui:133
-#, fuzzy, kde-format
+#, kde-format
 msgid "High"
 msgstr "عالي"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_FocusStealingPreventionLevel)
 #: focus.ui:138
-#, fuzzy, kde-format
+#, kde-format
 msgid "Extreme"
 msgstr "عالي جداً"
 
@@ -827,11 +825,9 @@ msgstr ""
 #: focus.ui:203
 #, kde-format
 msgid ""
-"When this option is enabled, the active Xinerama screen (where new windows "
-"appear, for example) is the screen containing the mouse pointer. When "
-"disabled, the active Xinerama screen is the screen containing the focused "
-"window. By default this option is disabled for Click to focus and enabled "
-"for other focus policies."
+"When this option is enabled, the active screen (where new windows appear, "
+"for example) is the screen containing the mouse pointer. When disabled, the "
+"active screen is the screen containing the focused window."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
@@ -842,10 +838,13 @@ msgstr "الشاشة النشطة تتبع ال&فأرة"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:213
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "When this option is enabled, focus operations are limited only to the "
+#| "active Xinerama screen"
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
-"Xinerama screen"
+"screen"
 msgstr ""
 "إذا تم تمكين هذا الخيار ، عمليات التركيز ستكون محدودة فقط في شاشة Xinerama "
 "النشطة"
@@ -863,91 +862,88 @@ msgstr "اف&صل تركيز الشاشة"
 msgid "Window activation policy description"
 msgstr ""
 
-#: main.cpp:73
+#: main.cpp:74
 #, kde-format
 msgid "&Focus"
 msgstr "التر&كيز"
 
-#: main.cpp:84
+#: main.cpp:80
 #, fuzzy, kde-format
 #| msgid "&Titlebar Actions"
 msgid "Titlebar A&ctions"
-msgstr "إج&راءات شريط العنوان"
+msgstr "إجراءات شريط العنوان"
 
-#: main.cpp:91
-#, fuzzy, kde-format
-#| msgid "Window Actio&ns"
+#: main.cpp:86
+#, kde-format
 msgid "W&indow Actions"
 msgstr "اج&راءات النوافذ"
 
-#: main.cpp:98
-#, fuzzy, kde-format
-#| msgid "&Placement:"
+#: main.cpp:92
+#, kde-format
 msgid "Mo&vement"
-msgstr "مكان الوض&ع:"
+msgstr "ال&حركة"
 
-#: main.cpp:105
-#, fuzzy, kde-format
-#| msgid "Ad&vanced"
+#: main.cpp:98
+#, kde-format
 msgid "Adva&nced"
-msgstr "م&تقدم"
+msgstr "متق&دّم"
 
-#: main.cpp:110
+#: main.cpp:102
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "وحدة تشكيل سلوك النوافذ"
 
-#: main.cpp:112
+#: main.cpp:104
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "(c) 1997 - 2002 KWin and KControl مؤلفو"
 
-#: main.cpp:114
+#: main.cpp:106
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:115
+#: main.cpp:107
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:116
+#: main.cpp:108
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:117
+#: main.cpp:109
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:118
+#: main.cpp:110
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:119
+#: main.cpp:111
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:120
+#: main.cpp:112
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:121
+#: main.cpp:113
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:122
+#: main.cpp:114
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:167
+#: main.cpp:163
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -963,28 +959,27 @@ msgstr ""
 "تستعمل كوِن كمدير نوافذك ، إذا كنت تستخدم مدير نوافذ مختلف فراجع وثائقه "
 "لتعريف كيف يمكن تخصيصه.</p>"
 
-#: main.cpp:187
+#: main.cpp:205
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "إج&راءات شريط العنوان"
 
-#: main.cpp:193
+#: main.cpp:211
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "اج&راءات النوافذ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: mouse.ui:17
-#, fuzzy, kde-format
-#| msgid "&Titlebar Actions"
+#, kde-format
 msgid "Titlebar Actions"
-msgstr "إج&راءات شريط العنوان"
+msgstr "إجراءات شريط العنوان"
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: mouse.ui:26
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Double-click:"
-msgstr "النقر ال&مزدوج على شريط العنوان:"
+msgstr "&نقر مزدوج:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
 #: mouse.ui:36
@@ -998,7 +993,7 @@ msgstr "السلوك عند النقر <em>المزدوج</em> في شريط ا�
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonMiddleClickCommand)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
 #: mouse.ui:40 mouse.ui:615 mouse.ui:650 mouse.ui:685
-#, fuzzy, kde-format
+#, kde-format
 msgid "Maximize"
 msgstr "كبّر"
 
@@ -1053,9 +1048,9 @@ msgstr "أغلق"
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
 #: mouse.ui:75
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show on all desktops"
-msgstr "على كلّ أسطح المكتب"
+msgstr "أظهر على كلّ أسطح المكتب"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandTitlebarWheel)
 #: mouse.ui:98
@@ -1152,9 +1147,9 @@ msgstr "السلوك عند النقر <em>الأوسط</em> في زر التك�
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: mouse.ui:636
-#, fuzzy, kde-format
+#, kde-format
 msgid "Middle c&lick:"
-msgstr "الزر الأوسط:"
+msgstr "النّقر &بالوسط:"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_10)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
@@ -1183,10 +1178,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GeometryTip)
 #: moving.ui:33
-#, fuzzy, kde-format
-#| msgid "Display window &geometry when moving or resizing"
+#, kde-format
 msgid "Display when moving or resizing"
-msgstr "اعرض إ&حداثيات النوافذ عند التحريك أو إعادة التحجيم"
+msgstr "اعرض عند التحريك أو إعادة التحجيم"
 
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
 #: moving.ui:40
@@ -1197,25 +1191,21 @@ msgstr "منطقة ال&جذب للحدود:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_BorderSnapZone)
 #: moving.ui:50
-#, fuzzy, kde-format
-#| msgid ""
-#| "Here you can set the snap zone for screen borders, i.e. the 'strength' of "
-#| "the magnetic field which will make windows snap to the border when moved "
-#| "near it."
+#, kde-format
 msgid ""
 "Here you can set the snap zone for screen edges, i.e. the 'strength' of the "
 "magnetic field which will make windows snap to the border when moved near it."
 msgstr ""
-"هنا يمكنك إعداد مناطق الجذب لحدود الشاشة، أو بمعنى آخر، 'قوة' الحقل "
+"هنا يمكنك إعداد مناطق الجذب لحافة الشاشة، أو بمعنى آخر، 'قوة' الحقل "
 "الميغناطيسي التي تجعل النوافذ تلتصق بالحدود عندما يتم تحريكها جوارها."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_BorderSnapZone)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_WindowSnapZone)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_CenterSnapZone)
 #: moving.ui:56 moving.ui:78 moving.ui:100
-#, fuzzy, kde-format
+#, kde-format
 msgid " px"
-msgstr "صفر بكسل"
+msgstr " بكسل"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_WindowSnapZone)
 #: moving.ui:72
@@ -1275,14 +1265,14 @@ msgstr "منطقة ال&جذب للوسط:"
 msgid "&Snap windows:"
 msgstr "ارفع/اخفض جميع النوافذ العائمة"
 
-#: windows.cpp:101
+#: windows.cpp:99
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
 "This behavior is common on other operating systems and likely what you want."
 msgstr ""
 
-#: windows.cpp:105
+#: windows.cpp:103
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1292,7 +1282,7 @@ msgid ""
 "em>."
 msgstr ""
 
-#: windows.cpp:110
+#: windows.cpp:108
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1301,7 +1291,7 @@ msgid ""
 "to focus</em> just without having to actually click."
 msgstr ""
 
-#: windows.cpp:114
+#: windows.cpp:112
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1310,7 +1300,7 @@ msgid ""
 "if you want a hover controlled focus."
 msgstr ""
 
-#: windows.cpp:119
+#: windows.cpp:117
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1320,7 +1310,7 @@ msgid ""
 "precedence)</em> instead!"
 msgstr ""
 
-#: windows.cpp:123
+#: windows.cpp:121
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

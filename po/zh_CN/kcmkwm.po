@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-28 13:55+0000\n"
-"PO-Revision-Date: 2021-04-24 15:44\n"
+"POT-Creation-Date: 2021-04-27 00:19+0000\n"
+"PO-Revision-Date: 2021-09-27 13:10\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -41,7 +41,7 @@ msgstr "kde-china@kde.org,i@guoyunhe.me,magsom@kde.org,tysontan@tysontan.com"
 #: actions.ui:17
 #, kde-format
 msgid "Inactive Inner Window Actions"
-msgstr "非活动窗口内动作"
+msgstr "非活动内部操作"
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -172,7 +172,7 @@ msgstr "激活，提升并滚动"
 #: actions.ui:184
 #, kde-format
 msgid "Inner Window, Titlebar and Frame Actions"
-msgstr "内部窗口，标题栏和框架动作"
+msgstr "内部窗口，标题栏和边框操作"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:195
@@ -186,7 +186,7 @@ msgstr "修饰键(&D)："
 msgid ""
 "Here you select whether holding the Meta key or Alt key will allow you to "
 "perform the following actions."
-msgstr "这里您可以选择按住 Meta 键或者 ALT 键时能完成下面的动作。"
+msgstr "在此选择按住 Meta 键或者 Alt 键时是否能执行下面的操作。"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllKey)
 #: actions.ui:209
@@ -343,7 +343,7 @@ msgstr "降低透明度"
 #: mouse.ui:501 mouse.ui:563
 #, kde-format
 msgid "Do nothing"
-msgstr "无动作"
+msgstr "无操作"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: actions.ui:318
@@ -649,7 +649,7 @@ msgstr "焦点跟随鼠标"
 #: focus.ui:51
 #, kde-format
 msgid "Focus follows mouse (mouse precedence)"
-msgstr "焦点跟随鼠标(鼠标优先)"
+msgstr "焦点跟随鼠标 (鼠标优先)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:56
@@ -661,7 +661,7 @@ msgstr "鼠标悬浮聚焦"
 #: focus.ui:61
 #, kde-format
 msgid "Focus strictly under mouse"
-msgstr "鼠标悬浮严格聚焦"
+msgstr "鼠标严格悬浮聚焦"
 
 #. i18n: ectx: property (text), widget (QLabel, delayFocusOnLabel)
 #: focus.ui:69
@@ -681,7 +681,7 @@ msgstr "当鼠标移动到窗口上后，延迟这么长时间窗口就会自动
 #: focus.ui:101
 #, kde-format
 msgid "Focus &stealing prevention:"
-msgstr "阻止盗取焦点(&S)："
+msgstr "阻止焦点抢占(&S)："
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_FocusStealingPreventionLevel)
 #: focus.ui:114
@@ -718,9 +718,9 @@ msgid ""
 "by default means their taskbar entry will be highlighted. This can be "
 "changed in the Notifications control module.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>此选项指定KWin 如何阻止意外激活新窗口造成的非预料焦点抢"
-"占。 (注意：此功能不适用于<span style=\" font-style:italic;\">鼠标悬浮聚焦</"
-"span> 或 <span style=\" font-style:italic;\">鼠标悬浮严格聚焦</span> 。) </"
+"<html><head/><body><p>此选项指定 KWin 如何阻止意外激活新窗口造成的非预料焦点"
+"抢占。 (注意：此功能不适用于 <span style=\" font-style:italic;\">鼠标悬浮聚焦"
+"</span> 和 <span style=\" font-style:italic;\">鼠标严格悬浮聚焦</span> 。) </"
 "p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
 "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
@@ -728,19 +728,19 @@ msgstr ""
 "闭，新窗口总是激活。</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\"><span style=\" font-style:italic;\">低：</span> 已启用阻止； 当某个窗口不"
-"支持基本机制，且KWin 无法可靠地决定是否激活该窗口，它将被激活。 取决于应用程"
-"序，本设置效果的结果可能比中级更糟或更好。</li><li style=\" margin-top:0px; "
-"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\">中:</span> 已启用。</"
-"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:"
-"italic;\">高：</span> 新窗口只有在当前没有窗口处于活动状态或属于当前活动应用"
-"程序时才被激活。 当不使用鼠标焦点策略时，此设置可能无法真正使用。</li><li "
-"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:"
-"italic;\">极端：</span> 所有窗口必须由用户明确激活。</li></ul><p>被阻止抢占焦"
-"点的窗口被标记为需要关注。 默认情况下，将突出显示他们的任务栏条目。 这可以在"
-"通知控制模块中更改。</p></body></html>"
+"支持基本机制，且 KWin 无法可靠地决定是否激活该窗口时，它将被激活。 取决于应用"
+"程序，本设置效果的结果可能比中级更糟或更好。</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">中：</span> "
+"已启用。</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-style:italic;\">高：</span> 新窗口只有在当前没有窗口处于活动状"
+"态或属于当前活动应用程序时才被激活。 当不使用鼠标焦点策略时，此设置可能无法真"
+"正使用。</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-style:italic;\">终极：</span> 所有窗口必须由用户明确激活。</"
+"li></ul><p>被阻止抢占焦点的窗口被标记为需要关注。 默认情况下，将突出显示他们"
+"的任务栏条目。 这可以在通知控制模块中更改。</p></body></html>"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_BorderSnapZone)
@@ -784,7 +784,7 @@ msgstr "终极"
 #: focus.ui:146
 #, kde-format
 msgid "Raising windows:"
-msgstr "升起窗口:"
+msgstr "升起窗口："
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ClickRaise)
 #: focus.ui:153
@@ -794,8 +794,8 @@ msgid ""
 "when you click somewhere into the window contents. To change it for inactive "
 "windows, you need to change the settings in the Actions tab."
 msgstr ""
-"这个选项启用时，当您点击活动窗口中的内容时，该窗口将会被带到顶层。要更改非活"
-"动窗口的特性，您需要在动作标签中更改设置。"
+"勾选此项后，当您点击活动窗口中的内容时，该窗口将会被带到顶层。要更改非活动窗"
+"口的特性，您需要在操作标签中更改设置。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ClickRaise)
 #: focus.ui:156
@@ -837,15 +837,12 @@ msgstr "多显示器行为："
 #: focus.ui:203
 #, kde-format
 msgid ""
-"When this option is enabled, the active Xinerama screen (where new windows "
-"appear, for example) is the screen containing the mouse pointer. When "
-"disabled, the active Xinerama screen is the screen containing the focused "
-"window. By default this option is disabled for Click to focus and enabled "
-"for other focus policies."
+"When this option is enabled, the active screen (where new windows appear, "
+"for example) is the screen containing the mouse pointer. When disabled, the "
+"active screen is the screen containing the focused window."
 msgstr ""
-"这个选项启用时，鼠标指针所在的 Xinerama 屏幕将会是活动的屏幕 (比如新窗口出现"
-"的地方)。反之，活动的屏幕则是焦点所在的屏幕。此选项在点击获得焦点时默认被禁"
-"用，使用其他焦点策略时默认启用。"
+"启用此项时，活动屏幕 (显示新窗口的屏幕) 将是正在显示鼠标指针的屏幕。禁用此项"
+"时，活动屏幕将是包含焦点窗口的屏幕。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:206
@@ -858,8 +855,8 @@ msgstr "活动屏幕跟随鼠标(&M)"
 #, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
-"Xinerama screen"
-msgstr "这个选项启用时，强制策略会只限对活动中的 Xinerama 屏幕生效"
+"screen"
+msgstr "启用此项时，聚焦操作将仅限于活动屏幕"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:216
@@ -873,87 +870,87 @@ msgstr "分隔屏幕焦点(&S)"
 msgid "Window activation policy description"
 msgstr "窗口激活策略描述"
 
-#: main.cpp:73
+#: main.cpp:74
 #, kde-format
 msgid "&Focus"
 msgstr "焦点(&F)"
 
-#: main.cpp:84
+#: main.cpp:80
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "标题栏操作(&C)"
 
-#: main.cpp:91
+#: main.cpp:86
 #, kde-format
 msgid "W&indow Actions"
 msgstr "窗口操作(&I)"
 
-#: main.cpp:98
+#: main.cpp:92
 #, kde-format
 msgid "Mo&vement"
 msgstr "移动(&V)"
 
-#: main.cpp:105
+#: main.cpp:98
 #, kde-format
 msgid "Adva&nced"
 msgstr "高级(&N)"
 
-#: main.cpp:110
+#: main.cpp:102
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "窗口行为配置模块"
 
-#: main.cpp:112
+#: main.cpp:104
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "(c) 1997 - 2002 KWin 和 KControl 作者"
 
-#: main.cpp:114
+#: main.cpp:106
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:115
+#: main.cpp:107
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:116
+#: main.cpp:108
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:117
+#: main.cpp:109
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:118
+#: main.cpp:110
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:119
+#: main.cpp:111
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:120
+#: main.cpp:112
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:121
+#: main.cpp:113
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:122
+#: main.cpp:114
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:167
+#: main.cpp:163
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -965,18 +962,18 @@ msgid ""
 msgstr ""
 "<p><h1>窗口行为</h1> 您可以在这里自定义窗口移动、改变大小或被点击时的行为。您"
 "可以指定焦点策略和新窗口的放置策略。</p><p>请注意，只有您使用 KWin 作为窗口管"
-"理器，这里的配置才有效。如果您使用其它的窗口管理器，请参考其文档以了解如何自"
+"理器，这里的配置才有效。如果您使用其他的窗口管理器，请参考其文档以了解如何自"
 "定义窗口行为。</p>"
 
-#: main.cpp:187
+#: main.cpp:205
 #, kde-format
 msgid "&Titlebar Actions"
-msgstr "标题栏动作(&T)"
+msgstr "标题栏操作(&T)"
 
-#: main.cpp:193
+#: main.cpp:211
 #, kde-format
 msgid "Window Actio&ns"
-msgstr "窗口动作(&N)"
+msgstr "窗口操作(&N)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: mouse.ui:17
@@ -1071,7 +1068,7 @@ msgstr "<em>鼠标滚轮</em>在标题栏滚动的行为。"
 #: mouse.ui:143
 #, kde-format
 msgid "Titlebar and Frame Actions"
-msgstr "标题栏和框架动作"
+msgstr "标题栏和边框操作"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: mouse.ui:167
@@ -1262,16 +1259,16 @@ msgstr "中间吸附区(&C)："
 msgid "&Snap windows:"
 msgstr "贴靠窗口(&S)："
 
-#: windows.cpp:101
+#: windows.cpp:99
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
 "This behavior is common on other operating systems and likely what you want."
 msgstr ""
-"<em>点击以聚焦</em>一个窗口在您单击它时被激活。该行为在其他操作系统中较常见可"
-"能是您所希望的。"
+"<em>点击聚焦：</em>窗口在您点击它时被激活。该行为在其他操作系统中较常见，可能"
+"是您所希望的。"
 
-#: windows.cpp:105
+#: windows.cpp:103
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1280,11 +1277,11 @@ msgid ""
 "preferred candidate. Unusual, but possible variant of <em>Click to focus</"
 "em>."
 msgstr ""
-"<em>单击聚焦(鼠标优先)：</em>非常类似于<em>单击聚焦</em>。如果一个活动窗口需"
-"要由系统选中(例如，由于当前活动窗口被关闭) 鼠标下的窗口将是优先候选。不常见，"
-"但是 <em>单击聚焦</em>的可能的变换。"
+"<em>单击聚焦 (鼠标优先)：</em>非常类似于 <em>点击聚焦</em>。如果活动窗口需要"
+"由系统选择 (例如，由于当前活动窗口被关闭) 鼠标下的窗口将是优先候选。不常见，"
+"但是 <em>单击聚焦</em> 的可能的变换。"
 
-#: windows.cpp:110
+#: windows.cpp:108
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1293,10 +1290,10 @@ msgid ""
 "to focus</em> just without having to actually click."
 msgstr ""
 "<em>焦点跟随鼠标：</em>移动鼠标到窗口上将激活该窗口。例如，随机出现在鼠标下的"
-"窗口将不回获得焦点。<em>阻止焦点抢占</em>正常生效。类似 <em>点击聚焦</em> 只"
+"窗口将不会获得焦点。<em>阻止焦点抢占</em> 正常生效。类似 <em>点击聚焦</em> 只"
 "是不需要真的点击。"
 
-#: windows.cpp:114
+#: windows.cpp:112
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1304,10 +1301,11 @@ msgid ""
 "closed) the window under the mouse is the preferred candidate. Choose this, "
 "if you want a hover controlled focus."
 msgstr ""
-"类似于<em>焦点跟随鼠标</em>。如果需要由系统选择一个活动窗体(例如，由于当前窗"
-"口被关闭)鼠标下的窗口会是优先候选。如果你想使用鼠标悬停控制焦点，选择此项。"
+"非常类似于 <em>焦点跟随鼠标</em>。如果活动窗口需要由系统选择 (例如，由于当前"
+"活动窗口被关闭) 鼠标下的窗口将是优先候选。如果你想使用鼠标悬停控制焦点，选择"
+"此项。"
 
-#: windows.cpp:119
+#: windows.cpp:117
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1316,11 +1314,11 @@ msgid ""
 "not work. You very likely want to use <em>Focus follows mouse (mouse "
 "precedence)</em> instead!"
 msgstr ""
-"<em>鼠标悬浮聚焦：</em> 焦点始终保持在鼠标下的窗口。<br/><strong>警告：</"
-"strong> <em>阻止焦点抢占</em> 和 <em>标签框 ('Alt+Tab')</em> 与激活策略相矛"
-"盾，将无法工作。 你可能想要使用 的是<em>焦点跟随鼠标(鼠标优先)</em>！"
+"<em>鼠标悬浮聚焦：</em>焦点始终保持在鼠标下的窗口。<br/><strong>警告：</"
+"strong><em>阻止焦点抢占</em> 以及 <em>任务切换器 ('Alt+Tab')</em> 与本策略冲"
+"突，将不会生效。 您想要使用的很可能是 <em>焦点跟随鼠标 (鼠标优先)</em>！"
 
-#: windows.cpp:123
+#: windows.cpp:121
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "
@@ -1330,7 +1328,7 @@ msgid ""
 "activation policy and will not work. You very likely want to use <em>Focus "
 "follows mouse (mouse precedence)</em> instead!"
 msgstr ""
-"<em>鼠标严格悬浮聚焦：</em> 焦点总是在鼠标下的窗口上(in doubt nowhere) 非常类"
-"似于未托管的传统X11环境。<br/><strong>警告：</strong> <em>阻止焦点抢占</em> "
-"以及 <em>标签框('Alt+Tab')</em>与本策略冲突将不会生效。你可能是希望使用<em>焦"
-"点跟随鼠标(鼠标优先)</em>来替代。"
+"<em>鼠标严格悬浮聚焦：</em>焦点总是在鼠标下的窗口上 (鼠标离开窗口后不会保"
+"留)，非常类似于未托管的传统 X11 环境。<br/><strong>警告：</strong><em>阻止焦"
+"点抢占</em> 以及 <em>任务切换器 ('Alt+Tab')</em> 与本策略冲突，将不会生效。 "
+"您想要使用的很可能是 <em>焦点跟随鼠标 (鼠标优先)</em>！"

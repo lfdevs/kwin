@@ -32,9 +32,9 @@
 </authorgroup>
 
 <date
->2015-07-14</date>
+>2021-04-09</date>
 <releaseinfo
->Plasma 5.3</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
@@ -71,18 +71,16 @@
 > i den sammanhangsberoende menyn.</para>
 
 <para
->I sektionen <guilabel
->Fönsterhantering</guilabel
-> kan du aktivera <guilabel
->Maximera fönster genom att dra dem till skärmens överkant</guilabel
+>Du kan aktivera <guilabel
+>Maximera:Fönster dragna till skärmens överkant </guilabel
 > eller <guilabel
->Lägg fönster sida vid sida genom att dra dem till skärmens sidokanter</guilabel
+>Sida vid sida: Fönster dragna till skärmens vänster- eller högerkant</guilabel
 > och ställa in procentandel av skärmen som utlöser att fönster läggs sida vid sida. </para>
 
 <para
->Sektionen <guilabel
->Andra inställningar</guilabel
-> ställer in om du vill byta till ett annat skrivbord när muspekaren trycks mot en skärmkant, t.ex. bara när fönster flyttas. </para>
+>Genom att använda alternativet <guilabel
+>Byt skrivbord vid kant</guilabel
+> kan du ställa in om du vill byta till ett annat skrivbord när muspekaren trycks mot en skärmkant, t.ex. bara när fönster flyttas. </para>
 <para
 ><guilabel
 >Aktiveringsfördröjning</guilabel

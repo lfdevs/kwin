@@ -3,7 +3,8 @@
 
     SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
-#include "../xcbutils.h"
+#include "xcbutils.h"
+
 #include <QApplication>
 #include <QDebug>
 #include <QCommandLineParser>
@@ -88,7 +89,7 @@ int main(int argc, char **argv)
     }
 
     bool ok = false;
-    const auto shadow = readShadow(parser.positionalArguments().first().toULongLong(&ok, 16));
+    const auto shadow = readShadow(parser.positionalArguments().constFirst().toULongLong(&ok, 16));
     if (!ok) {
         qDebug() << "!!! Failed to read window id";
         return 1;

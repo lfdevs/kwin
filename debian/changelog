@@ -1,3 +1,14 @@
+kwin (4:5.23.0-1) unstable; urgency=medium
+
+  [ Norbert Preining ]
+  * New upstream release (5.23.0).
+  * Fix patch for new file location.
+  * Unfuzzify patch.
+  * Update list of installed files.
+  * Update symbols.
+
+ -- Norbert Preining <norbert@preining.info>  Thu, 14 Oct 2021 20:13:14 +0900
+
 kwin (4:5.21.5-2) unstable; urgency=medium
 
   [ Patrick Franz ]

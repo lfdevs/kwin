@@ -71,10 +71,10 @@ void AbstractClient::setHiddenInternal(bool set)
     m_hiddenInternal = set;
 }
 
-void AbstractClient::setFrameGeometry(const QRect &rect)
+void AbstractClient::moveResize(const QRect &rect)
 {
     m_frameGeometry = rect;
-    emit geometryChanged();
+    Q_EMIT geometryChanged();
 }
 
 QRect AbstractClient::frameGeometry() const
@@ -90,15 +90,15 @@ bool AbstractClient::keepBelow() const
 void AbstractClient::setKeepBelow(bool keepBelow)
 {
     m_keepBelow = keepBelow;
-    emit keepBelowChanged();
+    Q_EMIT keepBelowChanged();
 }
 
-bool AbstractClient::isResize() const
+bool AbstractClient::isInteractiveResize() const
 {
     return m_resize;
 }
 
-void AbstractClient::setResize(bool set)
+void AbstractClient::setInteractiveResize(bool set)
 {
     m_resize = set;
 }

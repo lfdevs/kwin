@@ -32,9 +32,9 @@
 </authorgroup>
 
 <date
->2016-04-14</date>
+>2021-04-09</date>
 <releaseinfo
->Plasma 5.6</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
@@ -61,9 +61,15 @@
 >, <guilabel
 >Fokus</guilabel
 >, <guilabel
+>Visa skrivbordsanimering</guilabel
+>, <guilabel
 >Verktyg</guilabel
-> och <guilabel
+>, <guilabel
+>Animering vid virtuellt skrivbordsbyte</guilabel
+>, <guilabel
 >Fönsterhantering</guilabel
+> och <guilabel
+>Animering av öppna och stäng fönster</guilabel
 >.</para>
 <para
 > Använd den inkrementella sökraden ovanför listfönstret för att hitta objekt i listan.</para>
@@ -77,7 +83,7 @@
 
 <para
 >Det enklaste sättet att installera nya effekter är att använda det inbyggda stödet för KNewStuff i &kwin;. Klicka på knappen <guibutton
->Hämta nya effekter</guibutton
+>Hämta nya skrivbordseffekter</guibutton
 > för att visa en dialogruta med tillgängliga effekter från Internet, och för att installera eller avinstallera effekter.</para>
 <note
 ><para
@@ -106,7 +112,7 @@
 
 <para
 >Vissa effekter är ömsesidigt uteslutande med andra effekter. Exempelvis vill man bara aktivera effekten <guilabel
->Minimeringsanimeringar</guilabel
+>Maximera</guilabel
 > eller effekten <guilabel
 >Magisk laterna</guilabel
 >. Om båda aktiveras samtidigt blir animeringarna felaktiga. </para>
@@ -115,7 +121,7 @@
 >För effekter i en ömsesidigt uteslutande grupp använder det grafiska användargränssnittet alternativknappar och ser till att bara en av effekterna kan aktiveras. </para>
 
 <para
->Alla effekter som inte stöds av sammansättningsgränssnittet som för närvarande används är normalt dolda (t.ex. OpenGL effekter när XRender används). </para
+>Alla effekter som inte stöds av sammansättningsgränssnittet som för närvarande används är normalt dolda (t.ex. OpenGL effekter när programvaruåtergivning används). </para
 > 
 
 <para

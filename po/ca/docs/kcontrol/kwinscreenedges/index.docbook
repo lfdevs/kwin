@@ -18,9 +18,9 @@
 </authorgroup>
 
 <date
->14 de juliol de 2015</date>
+>9 d'abril de 2021</date>
 <releaseinfo
->Plasma 5.3</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
@@ -47,28 +47,26 @@
 ></ulink
 > a la categoria <guilabel
 >Espai de treball</guilabel
->. Seleccioneu els vostres efectes favorits en el grup <guilabel
+>. Seleccioneu els vostres efectes favorits des del grup <guilabel
 >Gestió de les finestres</guilabel
 >. Això activarà els elements corresponents al menú contextual.</para>
 
 <para
->Si esteu cercant l'opció per activar el canvi d'escriptori empenyent el cursor del ratolí contra la vora de la pantalla, trieu un dels efectes <guilabel
+>Si esteu cercant l'opció per a activar el canvi d'escriptori empenyent el cursor del ratolí contra la vora de la pantalla, trieu un dels efectes <guilabel
 >Presenta les finestres</guilabel
 > des del menú contextual.</para>
 
 <para
->A la secció <guilabel
->Gestió de les finestres</guilabel
-> podeu habilitar <guilabel
->Maximitza les finestres arrossegant-les a la part superior de la pantalla</guilabel
+>Podeu habilitar <guilabel
+>Maximitza: Finestres arrossegades a la vora superior</guilabel
 > o <guilabel
->Posa les finestres en mosaic arrossegant-les al costat de la pantalla</guilabel
-> i establir un percentatge de la pantalla per activar el mosaic. </para>
+>Mosaic: Finestres arrossegades a la vora dreta o esquerra</guilabel
+> i establir un percentatge de la pantalla per a activar el mosaic. </para>
 
 <para
->A la secció <guilabel
->Altres arranjaments</guilabel
-> configureu si voleu canviar a un altre escriptori en empènyer el cursor del ratolí a una vora de la pantalla, &pex;, només quan es mouen les finestres. </para>
+>Utilitzant l'element <guilabel
+>Canvia d'escriptori a la vora:</guilabel
+>, configureu si voleu canviar a un altre escriptori en empènyer el cursor del ratolí a una vora de la pantalla, &pex;, només quan es mouen les finestres. </para>
 <para
 ><guilabel
 >Retard de l'activació</guilabel

@@ -7,6 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "kwin_wayland_test.h"
+#include "abstract_output.h"
 #include "platform.h"
 #include "abstract_client.h"
 #include "composite.h"
@@ -27,6 +28,7 @@
 #include <KWayland/Client/shm_pool.h>
 #include <KWayland/Client/surface.h>
 #include <KWayland/Client/touch.h>
+#include <KWaylandServer/keyboard_interface.h>
 #include <KWaylandServer/seat_interface.h>
 
 //screenlocker
@@ -83,10 +85,10 @@ public:
     ~HelperEffect() override {}
 
     void windowInputMouseEvent(QEvent*) override {
-        emit inputEvent();
+        Q_EMIT inputEvent();
     }
     void grabbedKeyboardEvent(QKeyEvent *e) override {
-        emit keyEvent(e->text());
+        Q_EMIT keyEvent(e->text());
     }
 
 Q_SIGNALS:
@@ -153,9 +155,9 @@ AbstractClient *LockScreenTest::showWindow()
     if (!QTest::qCompare(actual, expected, #actual, #expected, __FILE__, __LINE__))\
         return nullptr;
 
-    Surface *surface = Test::createSurface(m_compositor);
+    KWayland::Client::Surface *surface = Test::createSurface(m_compositor);
     VERIFY(surface);
-    XdgShellSurface *shellSurface = Test::createXdgShellStableSurface(surface, surface);
+    Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface, surface);
     VERIFY(shellSurface);
     // let's render
     auto c = Test::renderAndWaitForShown(surface, QSize(100, 50), Qt::blue);
@@ -181,15 +183,16 @@ void LockScreenTest::initTestCase()
     qputenv("KWIN_COMPOSE", QByteArrayLiteral("O2"));
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    QCOMPARE(screens()->count(), 2);
-    QCOMPARE(screens()->geometry(0), QRect(0, 0, 1280, 1024));
-    QCOMPARE(screens()->geometry(1), QRect(1280, 0, 1280, 1024));
+    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    QCOMPARE(outputs.count(), 2);
+    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
     setenv("QT_QPA_PLATFORM", "wayland", true);
-    waylandServer()->initWorkspace();
+    Test::initWaylandWorkspace();
 
     auto scene = KWin::Compositor::self()->scene();
     QVERIFY(scene);
-    QCOMPARE(scene->compositingType(), KWin::OpenGL2Compositing);
+    QCOMPARE(scene->compositingType(), KWin::OpenGLCompositing);
 }
 
 void LockScreenTest::init()
@@ -201,7 +204,7 @@ void LockScreenTest::init()
     m_shm = Test::waylandShmPool();
     m_seat = Test::waylandSeat();
 
-    screens()->setCurrent(0);
+    workspace()->setActiveOutput(QPoint(640, 512));
     Cursors::self()->mouse()->setPos(QPoint(640, 512));
 }
 
@@ -569,7 +572,7 @@ void LockScreenTest::testMoveWindow()
 
     workspace()->slotWindowMove();
     QCOMPARE(workspace()->moveResizeClient(), c);
-    QVERIFY(c->isMove());
+    QVERIFY(c->isInteractiveMove());
     kwinApp()->platform()->keyboardKeyPressed(KEY_RIGHT, timestamp++);
     kwinApp()->platform()->keyboardKeyReleased(KEY_RIGHT, timestamp++);
     QEXPECT_FAIL("", "First event is ignored", Continue);
@@ -583,20 +586,20 @@ void LockScreenTest::testMoveWindow()
     // while locking our window should continue to be in move resize
     LOCK
     QCOMPARE(workspace()->moveResizeClient(), c);
-    QVERIFY(c->isMove());
+    QVERIFY(c->isInteractiveMove());
     kwinApp()->platform()->keyboardKeyPressed(KEY_RIGHT, timestamp++);
     kwinApp()->platform()->keyboardKeyReleased(KEY_RIGHT, timestamp++);
     QCOMPARE(clientStepUserMovedResizedSpy.count(), 1);
 
     UNLOCK
     QCOMPARE(workspace()->moveResizeClient(), c);
-    QVERIFY(c->isMove());
+    QVERIFY(c->isInteractiveMove());
     kwinApp()->platform()->keyboardKeyPressed(KEY_RIGHT, timestamp++);
     kwinApp()->platform()->keyboardKeyReleased(KEY_RIGHT, timestamp++);
     QCOMPARE(clientStepUserMovedResizedSpy.count(), 2);
     kwinApp()->platform()->keyboardKeyPressed(KEY_ESC, timestamp++);
     kwinApp()->platform()->keyboardKeyReleased(KEY_ESC, timestamp++);
-    QVERIFY(!c->isMove());
+    QVERIFY(!c->isInteractiveMove());
 }
 
 void LockScreenTest::testPointerShortcut()

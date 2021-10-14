@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-11-04 02:33+0100\n"
+"POT-Creation-Date: 2021-08-20 00:22+0000\n"
 "PO-Revision-Date: 2020-04-26 10:48+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -75,28 +75,18 @@ msgstr "%1 - aktiivses rakenduses"
 
 #: main.cpp:139 touch.cpp:137
 #, kde-format
-msgid "%1 - Cube"
-msgstr "%1 - kuup"
-
-#: main.cpp:140 touch.cpp:138
-#, kde-format
-msgid "%1 - Cylinder"
-msgstr "%1 - silinder"
-
-#: main.cpp:141 touch.cpp:139
-#, kde-format
-msgid "%1 - Sphere"
-msgstr "%1 - sfäär"
-
-#: main.cpp:143 touch.cpp:141
-#, kde-format
 msgid "Toggle window switching"
 msgstr "Aknavahetuse lülitamine"
 
-#: main.cpp:144 touch.cpp:142
+#: main.cpp:140 touch.cpp:138
 #, kde-format
 msgid "Toggle alternative window switching"
 msgstr "Alternatiivse aknavahetuse lülitamine"
+
+#: main.cpp:142 touch.cpp:140
+#, kde-format
+msgid "Toggle Overview"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, infoLabel)
 #: main.ui:23

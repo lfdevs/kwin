@@ -8,6 +8,7 @@
 */
 #include "kwin_wayland_test.h"
 #include "abstract_client.h"
+#include "abstract_output.h"
 #include "platform.h"
 #include "cursor.h"
 #include "screens.h"
@@ -56,10 +57,11 @@ void TouchInputTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    QCOMPARE(screens()->count(), 2);
-    QCOMPARE(screens()->geometry(0), QRect(0, 0, 1280, 1024));
-    QCOMPARE(screens()->geometry(1), QRect(1280, 0, 1280, 1024));
-    waylandServer()->initWorkspace();
+    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    QCOMPARE(outputs.count(), 2);
+    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    Test::initWaylandWorkspace();
 }
 
 void TouchInputTest::init()
@@ -71,8 +73,8 @@ void TouchInputTest::init()
     QVERIFY(m_touch);
     QVERIFY(m_touch->isValid());
 
-    screens()->setCurrent(0);
-    Cursors::self()->mouse()->setPos(QPoint(512, 512));
+    workspace()->setActiveOutput(QPoint(640, 512));
+    Cursors::self()->mouse()->setPos(QPoint(640, 512));
 }
 
 void TouchInputTest::cleanup()
@@ -92,9 +94,9 @@ AbstractClient *TouchInputTest::showWindow(bool decorated)
     if (!QTest::qCompare(actual, expected, #actual, #expected, __FILE__, __LINE__))\
         return nullptr;
 
-    Surface *surface = Test::createSurface(Test::waylandCompositor());
+    KWayland::Client::Surface *surface = Test::createSurface(Test::waylandCompositor());
     VERIFY(surface);
-    XdgShellSurface *shellSurface = Test::createXdgShellStableSurface(surface, surface);
+    Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface, surface);
     VERIFY(shellSurface);
     if (decorated) {
         auto deco = Test::waylandServerSideDecoration()->create(surface, surface);
@@ -155,7 +157,7 @@ void TouchInputTest::testMultipleTouchPoints()
     QFETCH(bool, decorated);
     AbstractClient *c = showWindow(decorated);
     QCOMPARE(c->isDecorated(), decorated);
-    c->move(100, 100);
+    c->move(QPoint(100, 100));
     QVERIFY(c);
     QSignalSpy sequenceStartedSpy(m_touch, &Touch::sequenceStarted);
     QVERIFY(sequenceStartedSpy.isValid());
@@ -215,7 +217,7 @@ void TouchInputTest::testCancel()
 {
     using namespace KWayland::Client;
     AbstractClient *c = showWindow();
-    c->move(100, 100);
+    c->move(QPoint(100, 100));
     QVERIFY(c);
     QSignalSpy sequenceStartedSpy(m_touch, &Touch::sequenceStarted);
     QVERIFY(sequenceStartedSpy.isValid());
@@ -233,10 +235,6 @@ void TouchInputTest::testCancel()
     kwinApp()->platform()->touchCancel();
     QVERIFY(cancelSpy.wait());
     QCOMPARE(cancelSpy.count(), 1);
-
-    kwinApp()->platform()->touchUp(1, timestamp++);
-    QVERIFY(!pointRemovedSpy.wait(100));
-    QCOMPARE(pointRemovedSpy.count(), 0);
 }
 
 void TouchInputTest::testTouchMouseAction()
@@ -279,8 +277,6 @@ void TouchInputTest::testTouchPointCount()
     kwinApp()->platform()->touchUp(1, timestamp++);
     QCOMPARE(kwinApp()->platform()->touchPointCount(), 2);
 
-    kwinApp()->platform()->cancelTouchSequence();
-    QCOMPARE(kwinApp()->platform()->touchPointCount(), 1);
     kwinApp()->platform()->cancelTouchSequence();
     QCOMPARE(kwinApp()->platform()->touchPointCount(), 0);
 }

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-06 03:00+0100\n"
+"POT-Creation-Date: 2021-09-21 01:41+0000\n"
 "PO-Revision-Date: 2019-07-05 09:21+0200\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -31,25 +31,20 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "txemaq@gmail.com"
 
-#: module.cpp:40
+#: module.cpp:39
 #, kde-format
 msgid "KWin Scripts"
 msgstr "Scripts de KWin"
 
-#: module.cpp:42
+#: module.cpp:41
 #, kde-format
 msgid "Configure KWin scripts"
 msgstr "Configuració dels scripts de KWin"
 
-#: module.cpp:45
+#: module.cpp:44
 #, kde-format
 msgid "Tamás Krutki"
 msgstr "Tamás Krutki"
-
-#: module.cpp:82
-#, kde-format
-msgid "Error when uninstalling KWin Script: %1"
-msgstr ""
 
 #: module.cpp:103
 #, kde-format
@@ -76,6 +71,11 @@ msgstr ""
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."
 msgstr "L'script «%1» s'ha importat correctament."
+
+#: module.cpp:182
+#, kde-format
+msgid "Error when uninstalling KWin Script: %1"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Module)
 #: module.ui:14

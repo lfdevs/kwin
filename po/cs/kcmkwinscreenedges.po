@@ -2,21 +2,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Lukáš Tinkl <lukas@kde.org>, 2010, 2012, 2013.
 # Vít Pelčák <vit@pelcak.org>, 2014, 2016, 2017, 2018, 2019.
+# Vit Pelcak <vpelcak@suse.cz>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-11-04 02:33+0100\n"
-"PO-Revision-Date: 2019-08-29 15:51+0200\n"
-"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
+"POT-Creation-Date: 2021-08-20 00:22+0000\n"
+"PO-Revision-Date: 2021-08-20 11:24+0200\n"
+"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 19.08.0\n"
+"X-Generator: Lokalize 21.08.0\n"
 "X-Language: cs_CZ\n"
 "X-Source-Language: en_US\n"
 
@@ -77,28 +78,18 @@ msgstr "%1 - Aktuální aplikace"
 
 #: main.cpp:139 touch.cpp:137
 #, kde-format
-msgid "%1 - Cube"
-msgstr "%1 - Kostka"
-
-#: main.cpp:140 touch.cpp:138
-#, kde-format
-msgid "%1 - Cylinder"
-msgstr "%1 - Válec"
-
-#: main.cpp:141 touch.cpp:139
-#, kde-format
-msgid "%1 - Sphere"
-msgstr "%1 - Koule"
-
-#: main.cpp:143 touch.cpp:141
-#, kde-format
 msgid "Toggle window switching"
 msgstr "Zapnout přepínání oken"
 
-#: main.cpp:144 touch.cpp:142
+#: main.cpp:140 touch.cpp:138
 #, kde-format
 msgid "Toggle alternative window switching"
 msgstr "Zapnout alternativní přepínání oken"
+
+#: main.cpp:142 touch.cpp:140
+#, kde-format
+msgid "Toggle Overview"
+msgstr "Přepnout přehled"
 
 #. i18n: ectx: property (text), widget (QLabel, infoLabel)
 #: main.ui:23
@@ -118,7 +109,7 @@ msgstr "&Maximalizovat:"
 #: main.ui:77
 #, kde-format
 msgid "Windows dragged to top edge"
-msgstr ""
+msgstr "Okna přetažená na horní okraj"
 
 #. i18n: ectx: property (text), widget (QLabel, quickTileLabel)
 #: main.ui:84
@@ -130,7 +121,7 @@ msgstr "&Dlaždice:"
 #: main.ui:94
 #, kde-format
 msgid "Windows dragged to left or right edge"
-msgstr ""
+msgstr "Okna přetažená na levý nebo pravý okraj"
 
 #. i18n: ectx: property (text), widget (QLabel, electricBorderCornerRatioLabel)
 #: main.ui:101

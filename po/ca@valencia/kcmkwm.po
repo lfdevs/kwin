@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-28 13:55+0000\n"
+"POT-Creation-Date: 2021-04-27 00:19+0000\n"
 "PO-Revision-Date: 2019-07-11 12:28+0200\n"
 "Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -902,13 +902,17 @@ msgstr "Comportament multipantalla"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:203
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "When this option is enabled, the active Xinerama screen (where new "
+#| "windows appear, for example) is the screen containing the mouse pointer. "
+#| "When disabled, the active Xinerama screen is the screen containing the "
+#| "focused window. By default this option is disabled for Click to focus and "
+#| "enabled for other focus policies."
 msgid ""
-"When this option is enabled, the active Xinerama screen (where new windows "
-"appear, for example) is the screen containing the mouse pointer. When "
-"disabled, the active Xinerama screen is the screen containing the focused "
-"window. By default this option is disabled for Click to focus and enabled "
-"for other focus policies."
+"When this option is enabled, the active screen (where new windows appear, "
+"for example) is the screen containing the mouse pointer. When disabled, the "
+"active screen is the screen containing the focused window."
 msgstr ""
 "Quan aquesta opció està activada, la pantalla de Xinerama activa (p. ex. a "
 "on apareixen les noves finestres) és la pantalla amb el cursor del ratolí. "
@@ -924,10 +928,13 @@ msgstr "La finestra activa segueix el &ratolí"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:213
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "When this option is enabled, focus operations are limited only to the "
+#| "active Xinerama screen"
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
-"Xinerama screen"
+"screen"
 msgstr ""
 "Quan aquesta opció està activada, les operacions del focus es limiten a la "
 "pantalla de Xinerama activa"
@@ -945,91 +952,91 @@ msgstr "S&epara el focus de cada pantalla"
 msgid "Window activation policy description"
 msgstr ""
 
-#: main.cpp:73
+#: main.cpp:74
 #, kde-format
 msgid "&Focus"
 msgstr "&Focus"
 
-#: main.cpp:84
+#: main.cpp:80
 #, fuzzy, kde-format
 #| msgid "&Titlebar Actions"
 msgid "Titlebar A&ctions"
 msgstr "Accions de la barra de &títol"
 
-#: main.cpp:91
+#: main.cpp:86
 #, fuzzy, kde-format
 #| msgid "Window Actio&ns"
 msgid "W&indow Actions"
 msgstr "Accio&ns de la finestra"
 
-#: main.cpp:98
+#: main.cpp:92
 #, fuzzy, kde-format
 #| msgid "&Placement:"
 msgid "Mo&vement"
 msgstr "Co&l·locació:"
 
-#: main.cpp:105
+#: main.cpp:98
 #, fuzzy, kde-format
 #| msgid "Ad&vanced"
 msgid "Adva&nced"
 msgstr "Avan&çat"
 
-#: main.cpp:110
+#: main.cpp:102
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "Mòdul de configuració del comportament de les finestres"
 
-#: main.cpp:112
+#: main.cpp:104
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "(c) 1997 - 2002 autors del KWin i KControl"
 
-#: main.cpp:114
+#: main.cpp:106
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:115
+#: main.cpp:107
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:116
+#: main.cpp:108
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:117
+#: main.cpp:109
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:118
+#: main.cpp:110
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:119
+#: main.cpp:111
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:120
+#: main.cpp:112
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:121
+#: main.cpp:113
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:122
+#: main.cpp:114
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:167
+#: main.cpp:163
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -1047,12 +1054,12 @@ msgstr ""
 "finestres. Si useu un gestor de finestres diferent, consulteu la seua "
 "documentació per a personalitzar el comportament de les finestres.</p>"
 
-#: main.cpp:187
+#: main.cpp:205
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "Accions de la barra de &títol"
 
-#: main.cpp:193
+#: main.cpp:211
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "Accio&ns de la finestra"
@@ -1367,7 +1374,7 @@ msgstr "Zona d'atracció del &centre:"
 msgid "&Snap windows:"
 msgstr "Eleva les finestres"
 
-#: windows.cpp:101
+#: windows.cpp:99
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus</b><br>\n"
@@ -1383,7 +1390,7 @@ msgstr ""
 "Aquest comportament és comú en altres sistemes operatius i<br>\n"
 "segurament és el que voldreu."
 
-#: windows.cpp:105
+#: windows.cpp:103
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus - Mouse Precedence</b><br>\n"
@@ -1406,7 +1413,7 @@ msgstr ""
 "la candidata preferida serà la finestra que hi ha sota el ratolí.<br><br>\n"
 "No és habitual, però és una possible variació de <i>Clic al focus</i>."
 
-#: windows.cpp:110
+#: windows.cpp:108
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse</b><br>\n"
@@ -1428,7 +1435,7 @@ msgstr ""
 "La prevenció de robatori de focus funciona com és habitual.<br><br>\n"
 "Penseu en <i>Clic al focus</i> però sense que calga clicar."
 
-#: windows.cpp:114
+#: windows.cpp:112
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse - Mouse Precedence</b><br>\n"
@@ -1450,7 +1457,7 @@ msgstr ""
 "la candidata preferida serà la finestra que hi ha sota el ratolí.<br><br>\n"
 "Seleccioneu aquesta si voleu un focus controlat en passar-hi per sobre."
 
-#: windows.cpp:119
+#: windows.cpp:117
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Under Mouse</b><br>\n"
@@ -1478,7 +1485,7 @@ msgstr ""
 "En el seu lloc, segurament voldreu utilitzar<br>\n"
 "<i>El focus segueix el ratolí - Prioritat al ratolí</i>."
 
-#: windows.cpp:123
+#: windows.cpp:121
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Strictly Under Mouse</b><br>\n"

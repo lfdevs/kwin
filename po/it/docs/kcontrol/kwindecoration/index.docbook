@@ -47,9 +47,9 @@
 </authorgroup>
 
 <date
->2018-03-18</date>
+>9/4/2021</date>
 <releaseinfo
->Plasma 5.12</releaseinfo>
+>Plasma 5.21</releaseinfo>
 
 <keywordset>
 <keyword
@@ -73,7 +73,7 @@
 >Decorazioni delle finestre</title>
 
 <para
->Questo modulo permette di selezionare uno stile per i pulsanti e i bordi attorno alle finestre.</para>
+>Questo modulo ti consente di selezionare uno stile per i pulsanti e i bordi attorno alle finestre.</para>
 
 <sect2>
 <title
@@ -136,9 +136,9 @@
 
 <tip>
 <para
->Per motivi di accessibilità, alcune decorazioni supportano bordi molto spessi. Se sono disponibili, qui puoi sceglierne anche lo spessore. Questi bordi ampi sono più semplici da vedere per gli utenti con problemi di vista e più semplici da <quote
->afferrare</quote
-> per persone con problemi motori o con difficoltà nell'uso del mouse.</para>
+>Per motivi di accessibilità, alcune decorazioni supportano bordi molto spessi. Se sono disponibili, qui puoi sceglierne anche una <guilabel
+>Dimensione del bordo delle finestre</guilabel
+>. Questi bordi ampi sono più semplici da vedere per gli utenti con problemi di vista e più semplici da afferrare per persone con problemi motori o con difficoltà nell'uso del mouse.</para>
 </tip>
 
 </sect2>
@@ -168,7 +168,7 @@
 
 <sect2>
 <title
->Pulsanti</title>
+>Pulsanti della barra del titolo</title>
 
 <para
 >Questa scheda permette di personalizzare la posizione dei pulsanti sulla barra del titolo. I pulsanti (come &eg; il <guilabel
@@ -193,6 +193,11 @@
 >Attiva <guilabel
 >Chiudi la finestra con un doppio clic del pulsante del menu</guilabel
 > per avere un'alternativa al pulsante di chiusura o se lo hai rimosso dalla barra del titolo. </para>
+
+<para
+>Seleziona l'elemento <guilabel
+>Mostra i suggerimenti dei pulsanti della barra del titolo</guilabel
+> se vuoi vedere i suggerimenti predefiniti quando passi con il puntatore del mouse sui pulsanti della barra del titolo. </para>
 
 </sect2>
 

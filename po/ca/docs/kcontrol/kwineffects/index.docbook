@@ -18,9 +18,9 @@
 </authorgroup>
 
 <date
->14 d'abril de 2016</date>
+>9 d'abril de 2021</date>
 <releaseinfo
->Plasma 5.6</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
@@ -37,7 +37,7 @@
 <!--FIXME Compositor Enable compositor on startup necessary to have effects?-->
 
 <para
->Aquest mòdul s'utilitza per habilitar i configurar els efectes d'escriptori pel &plasma;.</para>
+>Aquest mòdul s'utilitza per a habilitar i configurar els efectes d'escriptori per al &plasma;.</para>
 
 <para
 >La part principal d'aquesta pàgina és una llista de tots els efectes disponibles agrupats per <guilabel
@@ -47,9 +47,15 @@
 >, <guilabel
 >Focus</guilabel
 >, <guilabel
+>Animació per a mostrar l'escriptori</guilabel
+>, <guilabel
 >Eines</guilabel
-> i <guilabel
+> <guilabel
+>Animació per a canviar d'escriptori virtual</guilabel
+>, <guilabel
 >Gestió de les finestres</guilabel
+> i <guilabel
+>Animació en obrir/tancar la finestra</guilabel
 >.</para>
 <para
 >Utilitzeu la barra de cerca incremental per sobre de la finestra de la llista per trobar elements de la llista.</para>
@@ -62,16 +68,16 @@
 > per a modificar el filtratge de la llista per a mostrar aquests efectes. </para>
 
 <para
->La forma més fàcil d'instal·lar nous efectes és emprant la implementació incorporada del KNewStuff al &kwin;. Premeu el botó <guibutton
->Obtén efectes nous...</guibutton
-> per obrir un diàleg amb una llista dels efectes disponibles a Internet, i per instal·lar i desinstal·lar aquests efectes.</para>
+>La forma més fàcil d'instal·lar efectes nous és emprant la implementació integrada del KNewStuff en el &kwin;. Premeu el botó <guibutton
+>Obtén efectes nous d'escriptori...</guibutton
+> per a obrir un diàleg amb una llista dels efectes disponibles a Internet, i per a instal·lar i desinstal·lar aquests efectes.</para>
 <note
 ><para
->Si us plau, tingui en compte que la modificació d'aquests valors per omissió pot trencar el vostre sistema.</para>
+>Si us plau, cal tenir en compte que la modificació d'aquests valors predeterminats pot trencar el vostre sistema.</para>
 </note>
 
 <para
->Marqueu un efecte a la llista per habilitar-lo. Es mostrarà informació sobre l'autor i la llicència fent clic al botó informatiu <inlinemediaobject
+>Marqueu un efecte a la llista per a habilitar-lo. Es mostrarà informació sobre l'autor i la llicència fent clic al botó informatiu <inlinemediaobject
 ><imageobject
 ><imagedata fileref="dialog-information.png" format="PNG"/> </imageobject
 > </inlinemediaobject
@@ -82,7 +88,7 @@
 ><imageobject
 > <imagedata fileref="configure-effects.png" format="PNG"/></imageobject
 ></inlinemediaobject
-> a l'esquerra del botó informatiu. Feu-hi clic per obrir un diàleg de configuració.</para>
+> a l'esquerra del botó informatiu. Feu-hi clic per a obrir un diàleg de configuració.</para>
 <para
 >Per a veure un vídeo de vista prèvia d'un efecte, feu clic al botó <inlinemediaobject
 ><imageobject
@@ -92,7 +98,7 @@
 
 <para
 >Alguns dels efectes són mútuament exclusius. Per exemple, un només voldria activar l'efecte <guilabel
->Animació de minimització</guilabel
+>Maximitza</guilabel
 > o <guilabel
 >Làmpada màgica</guilabel
 >. Tots dos activats alhora resulta en el trencament de les animacions. </para>
@@ -101,11 +107,11 @@
 >Per a efectes en un grup mútuament exclusius, la &IGU; utilitza botons d'opció i gestiona que només es pugui activar un d'aquests efectes. </para>
 
 <para
->Tots els efectes que no estan implementats pel dorsal de composició emprat actualment, per omissió restaran ocults (&pex;, els efectes OpenGL en utilitzar XRender). </para
+>Tots els efectes que no estan implementats pel dorsal de composició emprat actualment, de manera predeterminada restaran ocults (&pex;, els efectes OpenGL en utilitzar el renderitzador per programari). </para
 > 
 
 <para
->També restaran ocults per omissió tots els efectes interns o auxiliars. Aquests són efectes que substitueixen la funcionalitat des del nucli del KWin o proporcionen interacció amb altres elements de l'intèrpret de l'escriptori. </para>
+>De manera predeterminada també restaran ocults tots els efectes interns o auxiliars. Aquests són efectes que substitueixen la funcionalitat des del nucli del KWin o proporcionen interacció amb altres elements de l'intèrpret de l'escriptori. </para>
 
 <!--FIXME 
 39 effects + 7 internal (XRender compositor)

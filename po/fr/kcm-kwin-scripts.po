@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm-kwin-scripts\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-06 03:00+0100\n"
+"POT-Creation-Date: 2021-09-21 01:41+0000\n"
 "PO-Revision-Date: 2020-08-30 09:30+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -37,25 +37,20 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "jcorn@free.fr, renard@kde.org, sdepiets@gmail.com"
 
-#: module.cpp:40
+#: module.cpp:39
 #, kde-format
 msgid "KWin Scripts"
 msgstr "Scripts KWin"
 
-#: module.cpp:42
+#: module.cpp:41
 #, kde-format
 msgid "Configure KWin scripts"
 msgstr "Configurer des scripts KWin"
 
-#: module.cpp:45
+#: module.cpp:44
 #, kde-format
 msgid "Tamás Krutki"
 msgstr "Tamas Krutki"
-
-#: module.cpp:82
-#, kde-format
-msgid "Error when uninstalling KWin Script: %1"
-msgstr "Erreur durant la désinstallation du script « KWin » : %1"
 
 #: module.cpp:103
 #, kde-format
@@ -82,6 +77,11 @@ msgstr ""
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."
 msgstr "Le script « %1 » a été importé avec succès."
+
+#: module.cpp:182
+#, kde-format
+msgid "Error when uninstalling KWin Script: %1"
+msgstr "Erreur durant la désinstallation du script « KWin » : %1"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Module)
 #: module.ui:14

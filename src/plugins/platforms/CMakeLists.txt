@@ -1,0 +1,7 @@
+add_subdirectory(drm)
+if (HAVE_LINUX_FB_H)
+    add_subdirectory(fbdev)
+endif()
+add_subdirectory(virtual)
+add_subdirectory(wayland)
+add_subdirectory(x11)

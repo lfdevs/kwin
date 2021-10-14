@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-10-15 02:32+0200\n"
+"POT-Creation-Date: 2021-07-24 00:18+0000\n"
 "PO-Revision-Date: 2017-05-16 06:52-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
@@ -33,23 +33,23 @@ msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "שולחן עבודה 1"
 
-#: main.cpp:61
+#: main.cpp:59
 #, kde-format
 msgid "Main"
 msgstr "ראשי"
 
-#: main.cpp:62
+#: main.cpp:60
 #, kde-format
 msgid "Alternative"
 msgstr "אלטרנטיבי"
 
-#: main.cpp:64
+#: main.cpp:62
 #, fuzzy, kde-format
 #| msgid "Get New Window Switcher Layout"
 msgid "Get New Task Switchers..."
 msgstr "קבל סידורים של החלפת חלונות חדשים"
 
-#: main.cpp:74
+#: main.cpp:72
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."

@@ -8,7 +8,7 @@
 # Ilpo Kantonen <ilpo@iki.fi>, 2005.
 # Teemu Rytilahti <tpr@d5k.net>, 2005.
 # Niklas Laxström <niklas.laxstrom+kdetrans@gmail.com>, 2007.
-# Tommi Nieminen <translator@legisign.org>, 2009, 2010, 2011, 2013, 2014, 2019, 2020.
+# Tommi Nieminen <translator@legisign.org>, 2009, 2010, 2011, 2013, 2014, 2019, 2020, 2021.
 # Jorma Karvonen <karvonen.jorma@gmail.com>, 2010.
 # Lasse Liehu <lasse.liehu@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2016.
 #
@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-28 13:55+0000\n"
-"PO-Revision-Date: 2020-12-17 22:39+0200\n"
+"POT-Creation-Date: 2021-04-27 00:19+0000\n"
+"PO-Revision-Date: 2021-09-05 14:50+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -490,11 +490,12 @@ msgstr ""
 msgid " ms"
 msgstr " ms"
 
+# Muotoilussa yritetty tehdä selväksi, mistä oikeasti on kyse
 #. i18n: ectx: property (text), widget (QLabel, windowPlacementLabel)
 #: advanced.ui:66
 #, kde-format
 msgid "Window &placement:"
-msgstr "Sijoitust&yyli:"
+msgstr "S&ijoita uudet ikkunat:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_Placement)
 #: advanced.ui:76
@@ -553,47 +554,48 @@ msgstr ""
 "text-indent:0px;\"><span style=\" font-style:italic;\">Osoittimen alle</"
 "span> sijoittaa ikkunan hiiriosoittimen alle</li></ul></body></html>"
 
+# Kohdat Minimal Overlapping…Under mouse ovat KWinin eri tavat sijoitella uusia ikkunoita. Yritin nyt yhdenmukaistaa niiden muodon niin, että ne toimivat pudotusvalikossa paremmin.
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:80
 #, kde-format
 msgid "Minimal Overlapping"
-msgstr "Pienin lomitus"
+msgstr "lomittaen mahdollisimman vähän"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:85
 #, kde-format
 msgid "Maximized"
-msgstr "Suurentaminen"
+msgstr "suurentaen"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:90
 #, kde-format
 msgid "Cascaded"
-msgstr "Porrastus"
+msgstr "porrastaen"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:95
 #, kde-format
 msgid "Random"
-msgstr "Satunnainen"
+msgstr "satunnaisesti"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:100
 #, kde-format
 msgid "Centered"
-msgstr "Keskitetty"
+msgstr "keskittäen"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:105
 #, kde-format
 msgid "In Top-Left Corner"
-msgstr "Vasempaan yläkulmaan"
+msgstr "ylävasempaan kulmaan"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:110
 #, kde-format
 msgid "Under mouse"
-msgstr "Osoittimen alle"
+msgstr "osoittimen kohdalle"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:118
@@ -876,17 +878,13 @@ msgstr "Useamman näytön toiminta:"
 #: focus.ui:203
 #, kde-format
 msgid ""
-"When this option is enabled, the active Xinerama screen (where new windows "
-"appear, for example) is the screen containing the mouse pointer. When "
-"disabled, the active Xinerama screen is the screen containing the focused "
-"window. By default this option is disabled for Click to focus and enabled "
-"for other focus policies."
+"When this option is enabled, the active screen (where new windows appear, "
+"for example) is the screen containing the mouse pointer. When disabled, the "
+"active screen is the screen containing the focused window."
 msgstr ""
-"Kun tämä asetus on käytössä, aktiivinen Xinerama-näyttö (johon esimerkiksi "
-"uudet ikkunat ilmestyvät) on näyttö, jossa hiiriosoitin on. Ellei asetus ole "
-"käytössä, aktiivinen Xinerama-näyttö on näyttö, joka sisältää kohdistetun "
-"ikkunan. Kun ”Kohdista hiiren painikkeella” on käytössä, tämä asetus on "
-"oletusarvoisesti poissa käytöstä, muulloin oletusarvoisesti käytössä."
+"Kun asetus on käytössä, aktiivinen näyttö (johon esimerkiksi uudet ikkunat "
+"ilmestyvät) on se, jolla on hiiriosoitin. Ellei asetus ole käytössä, "
+"aktiivinen näyttö on se, jolla on kohdistettu ikkuna."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:206
@@ -899,10 +897,9 @@ msgstr "Aktiivinen näyttö seuraa &hiirtä"
 #, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
-"Xinerama screen"
+"screen"
 msgstr ""
-"Kun tämä asetus on käytössä, kohdistustoiminnot rajataan aktiiviseen "
-"Xinerama-näyttöön"
+"Kun tämä asetus on käytössä, kohdistustoiminnot rajataan aktiiviseen näyttöön"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:216
@@ -916,87 +913,87 @@ msgstr "&Erillinen näytön kohdistus"
 msgid "Window activation policy description"
 msgstr "Ikkunoiden aktivointikäytäntö"
 
-#: main.cpp:73
+#: main.cpp:74
 #, kde-format
 msgid "&Focus"
 msgstr "&Kohdistus"
 
-#: main.cpp:84
+#: main.cpp:80
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "O&tsikkopalkin toiminnot"
 
-#: main.cpp:91
+#: main.cpp:86
 #, kde-format
 msgid "W&indow Actions"
 msgstr "&Ikkunan toiminnot"
 
-#: main.cpp:98
+#: main.cpp:92
 #, kde-format
 msgid "Mo&vement"
 msgstr "S&iirtäminen"
 
-#: main.cpp:105
+#: main.cpp:98
 #, kde-format
 msgid "Adva&nced"
 msgstr "&Lisäasetukset"
 
-#: main.cpp:110
+#: main.cpp:102
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "Ikkunoiden toiminta"
 
-#: main.cpp:112
+#: main.cpp:104
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "© 1997–2002 KWinin ja KControlin tekijät"
 
-#: main.cpp:114
+#: main.cpp:106
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:115
+#: main.cpp:107
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:116
+#: main.cpp:108
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:117
+#: main.cpp:109
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:118
+#: main.cpp:110
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:119
+#: main.cpp:111
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:120
+#: main.cpp:112
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:121
+#: main.cpp:113
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wübben"
 
-#: main.cpp:122
+#: main.cpp:114
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hölzer-Klüpfel"
 
-#: main.cpp:167
+#: main.cpp:163
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -1013,12 +1010,12 @@ msgstr ""
 "voimaan, ellei KWin hallitse ikkunoita. Jos käytät toista "
 "ikkunointiohjelmaa, katso sen ohjeista, miten näitä asetuksia muutetaan.</p>"
 
-#: main.cpp:187
+#: main.cpp:205
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "&Otsikkopalkin toiminnot"
 
-#: main.cpp:193
+#: main.cpp:211
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "&Ikkunan toiminnot"
@@ -1317,7 +1314,7 @@ msgstr "&Keskustan tartunta-alue:"
 msgid "&Snap windows:"
 msgstr "Ikkunoiden &kiinnitys:"
 
-#: windows.cpp:101
+#: windows.cpp:99
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1327,7 +1324,7 @@ msgstr ""
 "sitä. Tämä toiminta on yleinen muissa käyttöjärjestelmissä sekä "
 "todennäköisesti haluamasi."
 
-#: windows.cpp:105
+#: windows.cpp:103
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1343,7 +1340,7 @@ msgstr ""
 "ehdokas. Epätavallinen, mutta mahdollinen muunnelma <em>kohdistuksesta "
 "hiiren painikkeella</em>."
 
-#: windows.cpp:110
+#: windows.cpp:108
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1357,7 +1354,7 @@ msgstr ""
 "tavanomaisesti. Kuin <em>kohdistus hiiren painikkeella</em> tarvitsematta "
 "napsauttaa ikkunaa."
 
-#: windows.cpp:114
+#: windows.cpp:112
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1370,7 +1367,7 @@ msgstr ""
 "aktiivinen on suljettu), suositaan hiiriosoittimen alla olevaa. Valitse "
 "tämä, jos haluat osoittamalla toimivan kohdistuksen."
 
-#: windows.cpp:119
+#: windows.cpp:117
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1386,7 +1383,7 @@ msgstr ""
 "mieluummin käytäntöä <em>kohdistus seuraa osoitinta – hiiren ensisijaisuus</"
 "em>!"
 
-#: windows.cpp:123
+#: windows.cpp:121
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

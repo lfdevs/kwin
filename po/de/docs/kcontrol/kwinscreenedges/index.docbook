@@ -32,9 +32,9 @@
 </authorgroup>
 
 <date
->2015-07-14</date>
+>2021-04-09</date>
 <releaseinfo
->Plasma 5.3</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
@@ -71,18 +71,16 @@
 >.</para>
 
 <para
->Im Abschnitt <guilabel
->Fensterverwaltung</guilabel
-> können Sie <guilabel
->Fenster durch Ziehen zum oberen Bildschirmrand maximieren</guilabel
+>Sie können <guilabel
+>Maximieren: Zum oberen Bildschirmrand gezogene Fenster</guilabel
 > oder <guilabel
->Fenster durch Ziehen zum seitlichen Bildschirmrand anordnen</guilabel
-> aktivieren und einen Prozentwert des Bildschirms zum Auslösen des Effekte einstellen. </para>
+>Kacheln: Zum rechten oder linken Bildschirmrand gezogene Fenster</guilabel
+> aktivieren und einen Prozentwert des Bildschirms zum Auslösen des Effekts einstellen. </para>
 
 <para
->Im Abschnitt <guilabel
->Andere Einstellungen</guilabel
-> können Sie festlegen, das durch das Anstoßen eines Bildschirmrands mit dem Mauszeiger zu einer anderen Arbeitsfläche gewechselt wird, &eg; beim Verschieben von Fenstern. </para>
+>Mit der Einstellung <guilabel
+>Rand für Arbeitsflächenwechsel</guilabel
+> können Sie festlegen, das durch das Anstoßen eines Bildschirmrands mit dem Mauszeiger zu einer anderen Arbeitsfläche gewechselt wird, &eg; nur beim Verschieben von Fenstern. </para>
 <para
 ><guilabel
 >Aktivierungsverzögerung</guilabel

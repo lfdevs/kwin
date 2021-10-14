@@ -34,9 +34,9 @@
 </authorgroup>
 
 <date
->9 квітня 2015 року</date>
+>9 квітня 2021 року</date>
 <releaseinfo
->Плазма 5.3</releaseinfo>
+>Плазма 5.20</releaseinfo>
 
 <keywordset>
 <keyword
@@ -44,47 +44,34 @@
 <keyword
 >Системні параметри</keyword>
 <keyword
+>віртуальні</keyword>
+<keyword
 >стільниця</keyword>
 </keywordset>
 </articleinfo>
 
-<sect1 id="virtual-desktops">
-
-<title
->Віртуальні стільниці</title>
-
-<sect2 id="desktop-number">
-<title
-><guilabel
->Стільниці</guilabel
-></title>
-
 <para
->У &kde; ви маєте можливість користуватися декількома віртуальними стільницями. На цій вкладці ви можете налаштувати кількість стільниць, кількість рядків у віджеті <guilabel
->Пейджер</guilabel
-> та їх назви. Кількість стільниць можна визначити за допомогою відповідного поля. Назви стільниць ви можете ввести у полях для введення тексту, розташованих нижче.</para
-> 
-<!-- not in 5.3
+>У Плазмі передбачено можливість використання декількох віртуальних стільниць. </para>
 <para
->Enable <guilabel
->Different widgets for each desktop</guilabel
-> 
-to use independent widgets and wallpapers on each individual desktop.
-</para>
--->
-</sect2>
-
-<sect2 id="desktop-switching">
-<title
-><guilabel
->Перемикання</guilabel
-></title>
+>Змінити назви стільниць можна після натискання кнопки <guibutton
+>Перейменувати</guibutton
+> (її буде показано у відповідь на наведення вказівника миші на пункт у списку) — просто введіть нову назву у текстове поле. </para>
+<para
+>Якщо ви хочете вилучити стільницю, скористайтеся накладною піктограмою смітника у правій частині пункту відповідної стільниці. </para>
+<para
+>Натисніть кнопку <guibutton
+>Додати</guibutton
+>, щоб додати до списку нову віртуальну стільницю (типовою назвою буде <guilabel
+>Нова стільниця</guilabel
+>). </para>
+<para
+>Передбачено можливість налаштовування кількості рядків у пункті пейджера на панелі. Просто скористайтеся відповідним полем під списком, щоб вказати кількість стільниць у рядку. Пункти стільниць у списку буде розподілено за рядками автоматично. </para>
 
 <variablelist>
 <varlistentry>
 <term
 ><guilabel
->Зациклення навігації стільницею</guilabel
+>Циклічна навігація</guilabel
 ></term>
 <listitem
 ><para
@@ -95,26 +82,24 @@ to use independent widgets and wallpapers on each individual desktop.
 <varlistentry>
 <term
 ><guilabel
->Анімація ефектів стільниці</guilabel
+>Показувати анімацію під час перемикання</guilabel
 ></term>
 <listitem
 ><para
 >Оберіть зі спадного списку один з пунктів: <guilabel
->Без анімації</guilabel
->, <guilabel
 >Ковзання</guilabel
 >, <guilabel
 >Анімація куба стільниць</guilabel
-> або <guilabel
+>, <guilabel
 >Затемнювати стільницю</guilabel
->. Якщо для обраної анімації передбачено параметри налаштування, ви можете натиснути кнопку з піктограмою налаштування, розташовану праворуч від спадного списку, щоб відкрити діалогове вікно налаштування. </para
+> або вимкніть анімації взагалі, знявши позначку з пункту. Якщо для обраної анімації передбачено параметри налаштування, ви можете натиснути кнопку з піктограмою налаштування, розташовану праворуч від спадного списку, щоб відкрити діалогове вікно налаштування. </para
 ></listitem>
 </varlistentry>
 
 <varlistentry>
 <term
 ><guilabel
->Екранна панель перемикання стільниць</guilabel
+>Показувати екранну панель під час перемикання</guilabel
 ></term>
 <listitem
 ><para
@@ -130,17 +115,6 @@ to use independent widgets and wallpapers on each individual desktop.
 <listitem
 ><para
 >Позначення цього пункту призведе до показу мініатюрного компонування, що відповідатиме обраній стільниці. </para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><guilabel
->Клавіатурні скорочення</guilabel
-></term>
-<listitem
-><para
->У цьому розділі буде показано список налаштованих клавіатурних скорочень для перемикання між стільницями. Ви зможете змінити ці скорочення. </para
 ></listitem>
 </varlistentry>
 
@@ -164,7 +138,5 @@ to use independent widgets and wallpapers on each individual desktop.
 >S</keycap
 ></keycombo
 >).</para>
-</sect2>
-</sect1>
 
 </article>

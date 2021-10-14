@@ -81,7 +81,7 @@ void SlidingPopupsTest::initTestCase()
 
     auto scene = KWin::Compositor::self()->scene();
     QVERIFY(scene);
-    QCOMPARE(scene->compositingType(), KWin::OpenGL2Compositing);
+    QCOMPARE(scene->compositingType(), KWin::OpenGLCompositing);
 }
 
 void SlidingPopupsTest::init()
@@ -318,12 +318,12 @@ void SlidingPopupsTest::testWithOtherEffectWayland()
     QVERIFY(slideManager);
 
     // create Wayland window
-    QScopedPointer<Surface> surface(Test::createSurface());
+    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
     QVERIFY(surface);
     QScopedPointer<Slide> slide(slideManager->createSlide(surface.data()));
     slide->setLocation(Slide::Location::Left);
     slide->commit();
-    QScopedPointer<XdgShellSurface> shellSurface(Test::createXdgShellStableSurface(surface.data()));
+    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
     QVERIFY(shellSurface);
     QCOMPARE(windowAddedSpy.count(), 0);
     auto client = Test::renderAndWaitForShown(surface.data(), QSize(10, 20), Qt::blue);

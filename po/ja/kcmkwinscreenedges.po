@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-11-04 02:33+0100\n"
+"POT-Creation-Date: 2021-08-20 00:22+0000\n"
 "PO-Revision-Date: 2020-01-18 21:57-0800\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -77,27 +77,17 @@ msgstr ""
 
 #: main.cpp:139 touch.cpp:137
 #, kde-format
-msgid "%1 - Cube"
-msgstr "%1 - キューブ"
-
-#: main.cpp:140 touch.cpp:138
-#, kde-format
-msgid "%1 - Cylinder"
-msgstr "%1 - シリンダー"
-
-#: main.cpp:141 touch.cpp:139
-#, kde-format
-msgid "%1 - Sphere"
-msgstr "%1 - 球形"
-
-#: main.cpp:143 touch.cpp:141
-#, kde-format
 msgid "Toggle window switching"
 msgstr ""
 
-#: main.cpp:144 touch.cpp:142
+#: main.cpp:140 touch.cpp:138
 #, kde-format
 msgid "Toggle alternative window switching"
+msgstr ""
+
+#: main.cpp:142 touch.cpp:140
+#, kde-format
+msgid "Toggle Overview"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, infoLabel)

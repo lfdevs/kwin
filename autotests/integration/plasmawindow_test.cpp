@@ -7,6 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "kwin_wayland_test.h"
+#include "abstract_output.h"
 #include "platform.h"
 #include "x11client.h"
 #include "cursor.h"
@@ -65,12 +66,13 @@ void PlasmaWindowTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    QCOMPARE(screens()->count(), 2);
-    QCOMPARE(screens()->geometry(0), QRect(0, 0, 1280, 1024));
-    QCOMPARE(screens()->geometry(1), QRect(1280, 0, 1280, 1024));
+    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    QCOMPARE(outputs.count(), 2);
+    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
     setenv("QT_QPA_PLATFORM", "wayland", true);
     setenv("QMLSCENE_DEVICE", "softwarecontext", true);
-    waylandServer()->initWorkspace();
+    Test::initWaylandWorkspace();
 }
 
 void PlasmaWindowTest::init()
@@ -79,7 +81,7 @@ void PlasmaWindowTest::init()
     m_windowManagement = Test::waylandWindowManagement();
     m_compositor = Test::waylandCompositor();
 
-    screens()->setCurrent(0);
+    workspace()->setActiveOutput(QPoint(640, 512));
     Cursors::self()->mouse()->setPos(QPoint(640, 512));
 }
 
@@ -133,11 +135,8 @@ void PlasmaWindowTest::testCreateDestroyX11PlasmaWindow()
     if (!client->surface()) {
         // we don't have a surface yet, so focused keyboard surface if set is not ours
         QVERIFY(!waylandServer()->seat()->focusedKeyboardSurface());
-        QSignalSpy surfaceChangedSpy(client, &Toplevel::surfaceChanged);
-        QVERIFY(surfaceChangedSpy.isValid());
-        QVERIFY(surfaceChangedSpy.wait());
+        QVERIFY(Test::waitForWaylandSurface(client));
     }
-    QVERIFY(client->surface());
     QCOMPARE(waylandServer()->seat()->focusedKeyboardSurface(), client->surface());
 
     // now that should also give it to us on client side
@@ -230,20 +229,22 @@ void PlasmaWindowTest::testPopupWindowNoPlasmaWindow()
     QVERIFY(plasmaWindowCreatedSpy.isValid());
 
     // first create the parent window
-    QScopedPointer<Surface> parentSurface(Test::createSurface());
-    QScopedPointer<XdgShellSurface> parentShellSurface(Test::createXdgShellStableSurface(parentSurface.data()));
+    QScopedPointer<KWayland::Client::Surface> parentSurface(Test::createSurface());
+    QScopedPointer<Test::XdgToplevel> parentShellSurface(Test::createXdgToplevelSurface(parentSurface.data()));
     AbstractClient *parentClient = Test::renderAndWaitForShown(parentSurface.data(), QSize(100, 50), Qt::blue);
     QVERIFY(parentClient);
     QVERIFY(plasmaWindowCreatedSpy.wait());
     QCOMPARE(plasmaWindowCreatedSpy.count(), 1);
 
     // now let's create a popup window for it
-    XdgPositioner positioner(QSize(10, 10), QRect(0, 0, 10, 10));
-    positioner.setAnchorEdge(Qt::BottomEdge | Qt::RightEdge);
-    positioner.setGravity(Qt::BottomEdge | Qt::RightEdge);
-    QScopedPointer<Surface> popupSurface(Test::createSurface());
-    QScopedPointer<XdgShellPopup> popupShellSurface(Test::createXdgShellStablePopup(popupSurface.data(), parentShellSurface.data(), positioner));
-    AbstractClient *popupClient = Test::renderAndWaitForShown(popupSurface.data(), positioner.initialSize(), Qt::blue);
+    QScopedPointer<Test::XdgPositioner> positioner(Test::createXdgPositioner());
+    positioner->set_size(10, 10);
+    positioner->set_anchor_rect(0, 0, 10, 10);
+    positioner->set_anchor(Test::XdgPositioner::anchor_bottom_right);
+    positioner->set_gravity(Test::XdgPositioner::gravity_bottom_right);
+    QScopedPointer<KWayland::Client::Surface> popupSurface(Test::createSurface());
+    QScopedPointer<Test::XdgPopup> popupShellSurface(Test::createXdgPopupSurface(popupSurface.data(), parentShellSurface->xdgSurface(), positioner.data()));
+    AbstractClient *popupClient = Test::renderAndWaitForShown(popupSurface.data(), QSize(10, 10), Qt::blue);
     QVERIFY(popupClient);
     QVERIFY(!plasmaWindowCreatedSpy.wait(100));
     QCOMPARE(plasmaWindowCreatedSpy.count(), 1);
@@ -295,8 +296,8 @@ void PlasmaWindowTest::testDestroyedButNotUnmapped()
     QVERIFY(plasmaWindowCreatedSpy.isValid());
 
     // first create the parent window
-    QScopedPointer<Surface> parentSurface(Test::createSurface());
-    QScopedPointer<XdgShellSurface> parentShellSurface(Test::createXdgShellStableSurface(parentSurface.data()));
+    QScopedPointer<KWayland::Client::Surface> parentSurface(Test::createSurface());
+    QScopedPointer<Test::XdgToplevel> parentShellSurface(Test::createXdgToplevelSurface(parentSurface.data()));
     // map that window
     Test::render(parentSurface.data(), QSize(100, 50), Qt::blue);
     // this should create a plasma window

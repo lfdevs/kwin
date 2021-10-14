@@ -7,6 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "kwin_wayland_test.h"
+#include "abstract_output.h"
 #include "platform.h"
 #include "cursor.h"
 #include "deleted.h"
@@ -65,7 +66,7 @@ private Q_SLOTS:
     void testChangeWindowType_data();
     void testChangeWindowType();
     void testEffectWindow();
-    void testReentrantSetFrameGeometry();
+    void testReentrantMoveResize();
     void testDismissPopup();
 };
 
@@ -126,10 +127,10 @@ void HelperWindow::paintEvent(QPaintEvent *event)
 bool HelperWindow::event(QEvent *event)
 {
     if (event->type() == QEvent::Enter) {
-        emit entered();
+        Q_EMIT entered();
     }
     if (event->type() == QEvent::Leave) {
-        emit left();
+        Q_EMIT left();
     }
     return QRasterWindow::event(event);
 }
@@ -137,39 +138,39 @@ bool HelperWindow::event(QEvent *event)
 void HelperWindow::mouseMoveEvent(QMouseEvent *event)
 {
     m_latestGlobalMousePos = event->globalPos();
-    emit mouseMoved(event->globalPos());
+    Q_EMIT mouseMoved(event->globalPos());
 }
 
 void HelperWindow::mousePressEvent(QMouseEvent *event)
 {
     m_latestGlobalMousePos = event->globalPos();
     m_pressedButtons = event->buttons();
-    emit mousePressed();
+    Q_EMIT mousePressed();
 }
 
 void HelperWindow::mouseReleaseEvent(QMouseEvent *event)
 {
     m_latestGlobalMousePos = event->globalPos();
     m_pressedButtons = event->buttons();
-    emit mouseReleased();
+    Q_EMIT mouseReleased();
 }
 
 void HelperWindow::wheelEvent(QWheelEvent *event)
 {
     Q_UNUSED(event)
-    emit wheel();
+    Q_EMIT wheel();
 }
 
 void HelperWindow::keyPressEvent(QKeyEvent *event)
 {
     Q_UNUSED(event)
-    emit keyPressed();
+    Q_EMIT keyPressed();
 }
 
 void HelperWindow::keyReleaseEvent(QKeyEvent *event)
 {
     Q_UNUSED(event)
-    emit keyReleased();
+    Q_EMIT keyReleased();
 }
 
 void InternalWindowTest::initTestCase()
@@ -186,10 +187,11 @@ void InternalWindowTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    QCOMPARE(screens()->count(), 2);
-    QCOMPARE(screens()->geometry(0), QRect(0, 0, 1280, 1024));
-    QCOMPARE(screens()->geometry(1), QRect(1280, 0, 1280, 1024));
-    waylandServer()->initWorkspace();
+    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    QCOMPARE(outputs.count(), 2);
+    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    Test::initWaylandWorkspace();
 }
 
 void InternalWindowTest::init()
@@ -223,7 +225,7 @@ void InternalWindowTest::testEnterLeave()
     QCOMPARE(workspace()->findInternal(&win), c);
     QCOMPARE(c->frameGeometry(), QRect(0, 0, 100, 100));
     QVERIFY(c->isShown(false));
-    QVERIFY(workspace()->xStackingOrder().contains(c));
+    QVERIFY(workspace()->stackingOrder().contains(c));
 
     QSignalSpy enterSpy(&win, &HelperWindow::entered);
     QVERIFY(enterSpy.isValid());
@@ -377,8 +379,8 @@ void InternalWindowTest::testKeyboardTriggersLeave()
     QVERIFY(enteredSpy.isValid());
     QSignalSpy leftSpy(keyboard.data(), &Keyboard::left);
     QVERIFY(leftSpy.isValid());
-    QScopedPointer<Surface> surface(Test::createSurface());
-    QScopedPointer<XdgShellSurface> shellSurface(Test::createXdgShellStableSurface(surface.data()));
+    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
+    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
 
     // now let's render
     auto c = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
@@ -531,18 +533,18 @@ void InternalWindowTest::testMove()
     QCOMPARE(internalClient->frameGeometry(), QRect(0, 0, 100, 100));
 
     // normal move should be synced
-    internalClient->move(5, 10);
+    internalClient->move(QPoint(5, 10));
     QCOMPARE(internalClient->frameGeometry(), QRect(5, 10, 100, 100));
     QTRY_COMPARE(win.geometry(), QRect(5, 10, 100, 100));
     // another move should also be synced
-    internalClient->move(10, 20);
+    internalClient->move(QPoint(10, 20));
     QCOMPARE(internalClient->frameGeometry(), QRect(10, 20, 100, 100));
     QTRY_COMPARE(win.geometry(), QRect(10, 20, 100, 100));
 
     // now move with a Geometry update blocker
     {
         GeometryUpdatesBlocker blocker(internalClient);
-        internalClient->move(5, 10);
+        internalClient->move(QPoint(5, 10));
         // not synced!
         QCOMPARE(win.geometry(), QRect(10, 20, 100, 100));
     }
@@ -613,15 +615,15 @@ void InternalWindowTest::testModifierClickUnrestrictedMove()
     // simulate modifier+click
     quint32 timestamp = 1;
     kwinApp()->platform()->keyboardKeyPressed(KEY_LEFTMETA, timestamp++);
-    QVERIFY(!internalClient->isMove());
+    QVERIFY(!internalClient->isInteractiveMove());
     kwinApp()->platform()->pointerButtonPressed(BTN_LEFT, timestamp++);
-    QVERIFY(internalClient->isMove());
+    QVERIFY(internalClient->isInteractiveMove());
     // release modifier should not change it
     kwinApp()->platform()->keyboardKeyReleased(KEY_LEFTMETA, timestamp++);
-    QVERIFY(internalClient->isMove());
+    QVERIFY(internalClient->isInteractiveMove());
     // but releasing the key should end move/resize
     kwinApp()->platform()->pointerButtonReleased(BTN_LEFT, timestamp++);
-    QVERIFY(!internalClient->isMove());
+    QVERIFY(!internalClient->isInteractiveMove());
 }
 
 void InternalWindowTest::testModifierScroll()
@@ -784,9 +786,9 @@ void InternalWindowTest::testEffectWindow()
     QCOMPARE(effects->findWindow(&win)->internalWindow(), &win);
 }
 
-void InternalWindowTest::testReentrantSetFrameGeometry()
+void InternalWindowTest::testReentrantMoveResize()
 {
-    // This test verifies that calling setFrameGeometry() from a slot connected directly
+    // This test verifies that calling moveResize() from a slot connected directly
     // to the frameGeometryChanged() signal won't cause an infinite recursion.
 
     // Create an internal window.
@@ -802,7 +804,7 @@ void InternalWindowTest::testReentrantSetFrameGeometry()
 
     // Let's pretend that there is a script that really wants the client to be at (100, 100).
     connect(client, &AbstractClient::frameGeometryChanged, this, [client]() {
-        client->setFrameGeometry(QRect(QPoint(100, 100), client->size()));
+        client->moveResize(QRect(QPoint(100, 100), client->size()));
     });
 
     // Trigger the lambda above.
@@ -837,11 +839,18 @@ void InternalWindowTest::testDismissPopup()
     auto serverPopup = clientAddedSpy.last().first().value<InternalClient *>();
     QVERIFY(serverPopup);
 
+    //Create the other window to click
+    HelperWindow otherClientToplevel;
+    otherClientToplevel.setGeometry(100, 100, 100, 100);
+    otherClientToplevel.show();
+    QTRY_COMPARE(clientAddedSpy.count(), 3);
+    auto serverOtherToplevel = clientAddedSpy.last().first().value<InternalClient *>();
+    QVERIFY(serverOtherToplevel);
+
     // Click somewhere outside the popup window.
     QSignalSpy popupClosedSpy(serverPopup, &InternalClient::windowClosed);
     quint32 timestamp = 0;
-    kwinApp()->platform()->pointerMotion(QPointF(serverPopup->x() + serverPopup->width() + 1,
-                                                 serverPopup->y() + serverPopup->height() + 1),
+    kwinApp()->platform()->pointerMotion(serverOtherToplevel->frameGeometry().center(),
                                          timestamp++);
     kwinApp()->platform()->pointerButtonPressed(BTN_LEFT, timestamp++);
     QTRY_COMPARE(popupClosedSpy.count(), 1);

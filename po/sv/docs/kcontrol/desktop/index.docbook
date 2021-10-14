@@ -34,9 +34,9 @@
 </authorgroup>
 
 <date
->2015-04-09</date>
+>2021-04-09</date>
 <releaseinfo
->Plasma 5.3</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
@@ -44,77 +44,62 @@
 <keyword
 >Systeminställningar</keyword>
 <keyword
+>virtuellt</keyword>
+<keyword
 >skrivbord</keyword>
 </keywordset>
 </articleinfo>
 
-<sect1 id="virtual-desktops">
-
-<title
->Virtuella skrivbord</title>
-
-<sect2 id="desktop-number">
-<title
-><guilabel
->Skrivbord</guilabel
-></title>
-
 <para
->&kde; erbjuder dig möjligheten att ha flera virtuella skrivbord. Under den här fliken kan du ställa in antalet skrivbord, antal rader i ikonen <guilabel
->Skrivbordsvisning</guilabel
-> samt deras namn. Använd bara inmatningsrutan för att justera antal skrivbord. Du kan ange namn för skrivborden genom att skriva in text i textfälten nedanför.</para
-> 
-<!-- not in 5.3
+>&kde; erbjuder möjlighet att ha flera virtuella skrivbord. </para>
 <para
->Enable <guilabel
->Different widgets for each desktop</guilabel
-> 
-to use independent widgets and wallpapers on each individual desktop.
-</para>
--->
-</sect2>
-
-<sect2 id="desktop-switching">
-<title
-><guilabel
->Byte</guilabel
-></title>
+>Du kan byta namn på skrivborden genom att klicka på knappen <guibutton
+>Byt namn</guibutton
+> (visas när du håller musen över skrivbordsobjektet i listan) och skriva in text i textfältet. </para>
+<para
+>Om du vill ta bort ett skrivbord, använd den överlagrade papperskorgsikonen till höger om skrivbordsobjektet. </para>
+<para
+>Klicka på knappen <guibutton
+>Lägg till</guibutton
+> för att lägga till ett virtuellt skrivbord i listan (förvalt namn är <guilabel
+>Nytt skrivbord</guilabel
+>). </para>
+<para
+>Du kan ställa in antal rader med skrivbordsvisning i panelen. Använd bara inmatningsrutan för rader under listan för att justera antal skrivbord. Skrivborden arrangeras automatiskt om enligt raderna. </para>
 
 <variablelist>
 <varlistentry>
 <term
 ><guilabel
->Skrivbordsnavigering går runt</guilabel
+>Navigering går runt</guilabel
 ></term>
 <listitem
 ><para
->Aktivera alternativet om du vill att navigering bortanför kanten av ett skrivbord med tangentbord eller aktiv skrivbordskant, ska ta dig till motsatt kant på det nya skrivbordet. </para
+>Aktivera alternativet om du vill att navigering bortanför kanten av ett skrivbord med tangentbordet eller aktiv skrivbordskant, ska ta dig till motsatt kant på det nya skrivbordet. </para
 ></listitem>
 </varlistentry>
 
 <varlistentry>
 <term
 ><guilabel
->Animeringseffekt för skrivbord</guilabel
+>Visa animering vid byte</guilabel
 ></term>
 <listitem
 ><para
 >Välj <guilabel
->Ingen animering</guilabel
->, <guilabel
 >Glid</guilabel
 >, <guilabel
 >Animering med skrivbordskub</guilabel
 > eller <guilabel
 >Tona skrivbord</guilabel
-> i kombinationsrutan. Om den valda animeringen har inställningsalternativ, klicka på verktygsikonen till höger om kombinationsrutan för att visa en inställningsdialogruta. </para
+> i kombinationsrutan, eller stäng av animeringar genom att avmarkera alternativet. Om den valda animeringen har inställningsalternativ, klicka på verktygsikonen till höger om kombinationsrutan för att visa en inställningsdialogruta. </para
 ></listitem>
 </varlistentry>
 
 <varlistentry>
 <term
 ><guilabel
->Bildskärmsvisning av skrivbordsbyte</guilabel
+>Visa på skärmen vid byte</guilabel
 ></term>
 <listitem
 ><para
@@ -130,17 +115,6 @@ to use independent widgets and wallpapers on each individual desktop.
 <listitem
 ><para
 >Att aktivera alternativet visar en liten förhandsgranskning av skrivbordslayouten som anger valt skrivbord. </para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><guilabel
->Genvägar</guilabel
-></term>
-<listitem
-><para
->Den här delen visar de inställda genvägarna för att byta skrivbord och låter dig redigera dem. </para
 ></listitem>
 </varlistentry>
 
@@ -164,7 +138,5 @@ to use independent widgets and wallpapers on each individual desktop.
 >S</keycap
 ></keycombo
 >).</para>
-</sect2>
-</sect1>
 
 </article>

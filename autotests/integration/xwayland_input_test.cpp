@@ -7,6 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "kwin_wayland_test.h"
+#include "abstract_output.h"
 #include "platform.h"
 #include "x11client.h"
 #include "cursor.h"
@@ -50,16 +51,17 @@ void XWaylandInputTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    QCOMPARE(screens()->count(), 2);
-    QCOMPARE(screens()->geometry(0), QRect(0, 0, 1280, 1024));
-    QCOMPARE(screens()->geometry(1), QRect(1280, 0, 1280, 1024));
+    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    QCOMPARE(outputs.count(), 2);
+    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
     setenv("QT_QPA_PLATFORM", "wayland", true);
-    waylandServer()->initWorkspace();
+    Test::initWaylandWorkspace();
 }
 
 void XWaylandInputTest::init()
 {
-    screens()->setCurrent(0);
+    workspace()->setActiveOutput(QPoint(640, 512));
     Cursors::self()->mouse()->setPos(QPoint(640, 512));
     xcb_warp_pointer(connection(), XCB_WINDOW_NONE, kwinApp()->x11RootWindow(), 0, 0, 0, 0, 640, 512);
     xcb_flush(connection());
@@ -107,11 +109,11 @@ void X11EventReaderHelper::processXcbEvents()
         switch (eventType) {
             case XCB_ENTER_NOTIFY: {
                 auto enterEvent = reinterpret_cast<xcb_enter_notify_event_t *>(event);
-                emit entered(QPoint(enterEvent->event_x, enterEvent->event_y));
+                Q_EMIT entered(QPoint(enterEvent->event_x, enterEvent->event_y));
                 break; }
             case XCB_LEAVE_NOTIFY: {
                 auto leaveEvent = reinterpret_cast<xcb_leave_notify_event_t *>(event);
-                emit left(QPoint(leaveEvent->event_x, leaveEvent->event_y));
+                Q_EMIT left(QPoint(leaveEvent->event_x, leaveEvent->event_y));
                 break; }
         }
         free(event);
@@ -168,20 +170,16 @@ void XWaylandInputTest::testPointerEnterLeaveSsd()
     QVERIFY(!client->hasStrut());
     QVERIFY(!client->isHiddenInternal());
     QVERIFY(!client->readyForPainting());
+
     QMetaObject::invokeMethod(client, "setReadyForPainting");
     QVERIFY(client->readyForPainting());
-    QVERIFY(!client->surface());
-    QSignalSpy surfaceChangedSpy(client, &Toplevel::surfaceChanged);
-    QVERIFY(surfaceChangedSpy.isValid());
-    QVERIFY(surfaceChangedSpy.wait());
-    QVERIFY(client->surface());
+    QVERIFY(Test::waitForWaylandSurface(client));
 
     // move pointer into the window, should trigger an enter
     QVERIFY(!client->frameGeometry().contains(Cursors::self()->mouse()->pos()));
     QVERIFY(enteredSpy.isEmpty());
     Cursors::self()->mouse()->setPos(client->frameGeometry().center());
     QCOMPARE(waylandServer()->seat()->focusedPointerSurface(), client->surface());
-    QVERIFY(waylandServer()->seat()->focusedPointer());
     QVERIFY(enteredSpy.wait());
     QCOMPARE(enteredSpy.last().first(), client->frameGeometry().center() - client->clientPos());
 
@@ -266,18 +264,13 @@ void XWaylandInputTest::testPointerEventLeaveCsd()
 
     QMetaObject::invokeMethod(client, "setReadyForPainting");
     QVERIFY(client->readyForPainting());
-    QVERIFY(!client->surface());
-    QSignalSpy surfaceChangedSpy(client, &Toplevel::surfaceChanged);
-    QVERIFY(surfaceChangedSpy.isValid());
-    QVERIFY(surfaceChangedSpy.wait());
-    QVERIFY(client->surface());
+    QVERIFY(Test::waitForWaylandSurface(client));
 
     // Move pointer into the window, should trigger an enter.
     QVERIFY(!client->frameGeometry().contains(Cursors::self()->mouse()->pos()));
     QVERIFY(enteredSpy.isEmpty());
     Cursors::self()->mouse()->setPos(client->frameGeometry().center());
     QCOMPARE(waylandServer()->seat()->focusedPointerSurface(), client->surface());
-    QVERIFY(waylandServer()->seat()->focusedPointer());
     QVERIFY(enteredSpy.wait());
     QCOMPARE(enteredSpy.last().first(), QPoint(59, 104));
 

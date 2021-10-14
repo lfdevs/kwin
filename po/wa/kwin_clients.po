@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-08 02:22+0200\n"
+"POT-Creation-Date: 2021-05-22 00:17+0000\n"
 "PO-Revision-Date: 2011-01-14 08:45+0100\n"
 "Last-Translator: Jean Cayron <jean.cayron@gmail.com>\n"
 "Language-Team: Walloon <linux@walon.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: Lokalize 1.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: aurorae/src/aurorae.cpp:683
+#: aurorae/src/aurorae.cpp:695
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Tiny"
@@ -26,7 +26,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "Tote pitite"
 
-#: aurorae/src/aurorae.cpp:684
+#: aurorae/src/aurorae.cpp:696
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Button size:"
 #| msgid "Normal"
@@ -34,13 +34,13 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "Normå"
 
-#: aurorae/src/aurorae.cpp:685
+#: aurorae/src/aurorae.cpp:697
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "Grand"
 
-#: aurorae/src/aurorae.cpp:686
+#: aurorae/src/aurorae.cpp:698
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Button size:"
 #| msgid "Very Large"
@@ -48,7 +48,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "Foirt grand"
 
-#: aurorae/src/aurorae.cpp:687
+#: aurorae/src/aurorae.cpp:699
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Button size:"
 #| msgid "Huge"
@@ -56,7 +56,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "Foû grand"
 
-#: aurorae/src/aurorae.cpp:688
+#: aurorae/src/aurorae.cpp:700
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Very Huge"
@@ -64,7 +64,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "Vormint foû grande"
 
-#: aurorae/src/aurorae.cpp:689
+#: aurorae/src/aurorae.cpp:701
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Border size:"
 #| msgid "Oversized"
@@ -72,7 +72,7 @@ msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "Foû mzeure"
 
-#: aurorae/src/aurorae.cpp:692
+#: aurorae/src/aurorae.cpp:704
 #, fuzzy, kde-format
 #| msgid "Button size:"
 msgid "Button size:"

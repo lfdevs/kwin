@@ -3,69 +3,69 @@
 # محمد سعد  Mohamed SAAD <metehyi@free.fr>, 2006.
 # AbdulAziz AlSharif <a.a-a.s@hotmail.com>, 2007.
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
-# zayed <zayed.alsaidi@gmail.com>, 2008.
+# zayed <zayed.alsaidi@gmail.com>, 2008, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-08-08 02:22+0200\n"
-"PO-Revision-Date: 2008-12-17 12:00+0400\n"
-"Last-Translator: zayed <zayed.alsaidi@gmail.com>\n"
-"Language-Team: Arabic <linuxac-kde-arabic-team@googlegroups.com>\n"
+"POT-Creation-Date: 2021-05-22 00:17+0000\n"
+"PO-Revision-Date: 2021-06-29 12:37+0400\n"
+"Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
+"Language-Team: ar\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 21.07.70\n"
 
-#: aurorae/src/aurorae.cpp:683
+#: aurorae/src/aurorae.cpp:695
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
-msgstr ""
+msgstr "ضئيل"
 
-#: aurorae/src/aurorae.cpp:684
+#: aurorae/src/aurorae.cpp:696
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
-msgstr ""
+msgstr "عاديّ"
 
-#: aurorae/src/aurorae.cpp:685
-#, fuzzy, kde-format
+#: aurorae/src/aurorae.cpp:697
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "كبير"
 
-#: aurorae/src/aurorae.cpp:686
-#, fuzzy, kde-format
+#: aurorae/src/aurorae.cpp:698
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
-msgstr "كبير"
+msgstr "كبير جدًّا"
 
-#: aurorae/src/aurorae.cpp:687
-#, fuzzy, kde-format
+#: aurorae/src/aurorae.cpp:699
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
-msgstr "كبير"
+msgstr "ضخم"
 
-#: aurorae/src/aurorae.cpp:688
-#, fuzzy, kde-format
+#: aurorae/src/aurorae.cpp:700
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
-msgstr "كبير"
+msgstr "ضخم جدًّا"
 
-#: aurorae/src/aurorae.cpp:689
-#, fuzzy, kde-format
+#: aurorae/src/aurorae.cpp:701
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
-msgstr "أعد التحجيم"
+msgstr "فوق الطّبيعيّ"
 
-#: aurorae/src/aurorae.cpp:692
+#: aurorae/src/aurorae.cpp:704
 #, kde-format
 msgid "Button size:"
-msgstr ""
+msgstr "حجم الزّرّ:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlastikConfigDialog)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14

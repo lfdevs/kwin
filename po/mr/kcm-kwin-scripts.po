@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-06 03:00+0100\n"
+"POT-Creation-Date: 2021-09-21 01:41+0000\n"
 "PO-Revision-Date: 2013-02-22 14:26+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -31,25 +31,20 @@ msgstr ""
 "sandeep.shedmake@gmail.com, \n"
 "chetan@kompkin.com"
 
-#: module.cpp:40
+#: module.cpp:39
 #, kde-format
 msgid "KWin Scripts"
 msgstr "के-विन स्क्रिप्ट्स"
 
-#: module.cpp:42
+#: module.cpp:41
 #, kde-format
 msgid "Configure KWin scripts"
 msgstr "के-विन स्क्रिप्ट्स संयोजीत करा"
 
-#: module.cpp:45
+#: module.cpp:44
 #, kde-format
 msgid "Tamás Krutki"
 msgstr "तमास कृत्की"
-
-#: module.cpp:82
-#, kde-format
-msgid "Error when uninstalling KWin Script: %1"
-msgstr ""
 
 #: module.cpp:103
 #, fuzzy, kde-format
@@ -74,6 +69,11 @@ msgstr ""
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."
+msgstr ""
+
+#: module.cpp:182
+#, kde-format
+msgid "Error when uninstalling KWin Script: %1"
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Module)

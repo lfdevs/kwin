@@ -13,16 +13,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-06 03:00+0100\n"
-"PO-Revision-Date: 2021-02-01 16:03-0300\n"
+"POT-Creation-Date: 2021-10-01 01:49+0000\n"
+"PO-Revision-Date: 2021-09-15 08:34-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
-"Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
+"Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 20.04.3\n"
+"X-Generator: Lokalize 20.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -34,22 +34,22 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "lisiane@kdemail.net, alvarenga@kde.org"
 
-#: kcmrules.cpp:28
+#: kcmrules.cpp:29
 #, kde-format
 msgid "Window Rules"
 msgstr "Regras de janela:"
 
-#: kcmrules.cpp:32
+#: kcmrules.cpp:33
 #, kde-format
 msgid "Ismael Asensio"
 msgstr "Ismael Asensio"
 
-#: kcmrules.cpp:33
+#: kcmrules.cpp:34
 #, kde-format
 msgid "Author"
 msgstr "Autor"
 
-#: kcmrules.cpp:37
+#: kcmrules.cpp:38
 #, kde-format
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
@@ -65,51 +65,51 @@ msgstr ""
 "janelas diferente, dirija-se a documentação dele para saber como "
 "personalizar o comportamento da janela.</p>"
 
-#: kcmrules.cpp:171
+#: kcmrules.cpp:246
 #, kde-format
 msgid "Copy of %1"
 msgstr "Cópia de %1"
 
-#: main.cpp:91
+#: kcmrules.cpp:425
 #, kde-format
 msgid "Application settings for %1"
 msgstr "Configurações de aplicativo para %1"
 
-#: main.cpp:111 rulesmodel.cpp:219
+#: kcmrules.cpp:445 rulesmodel.cpp:219
 #, kde-format
 msgid "Window settings for %1"
 msgstr "Configurações de janela para %1"
 
-#: main.cpp:163
+#: main.cpp:30
+#, kde-format
+msgid "KWinRules KCM launcher"
+msgstr "Lançador KCM do KWinRules"
+
+#: main.cpp:31
+#, kde-format
+msgid "KWin id of the window for special window settings."
+msgstr "O ID do KWin da janela para configurações especiais de janela."
+
+#: main.cpp:32
+#, kde-format
+msgid "Whether the settings should affect all windows of the application."
+msgstr "Se as configurações deverão afetar todas as janelas de aplicativos."
+
+#: main.cpp:39
+#, kde-format
+msgid "This helper utility is not supposed to be called directly."
+msgstr "Este assistente não pode ser chamado diretamente."
+
+#: main.cpp:43
 #, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Editar as configurações específicas do aplicativo"
 
-#: main.cpp:197
+#: main.cpp:44
 #, kde-format
-msgid "KWin"
-msgstr "KWin"
-
-#: main.cpp:204
-#, kde-format
-msgid "KWin helper utility"
-msgstr "Utilitário de ajuda do KWin"
-
-#: main.cpp:205
-#, kde-format
-msgid "KWin id of the window for special window settings."
-msgstr "O ID do KWin da janela para configurações especiais de janela."
-
-#: main.cpp:206
-#, kde-format
-msgid "Whether the settings should affect all windows of the application."
-msgstr "Se as configurações deverão afetar todas as janelas de aplicativos."
-
-#: main.cpp:215
-#, kde-format
-msgid "This helper utility is not supposed to be called directly."
-msgstr "Este assistente não pode ser chamado diretamente."
+msgid "Edit Window-Specific Settings"
+msgstr "Editar as configurações específicas da janela"
 
 #: optionsmodel.cpp:145
 #, kde-format
@@ -248,69 +248,85 @@ msgstr[0] "%1 selecionado"
 msgstr[1] "%1 selecionados"
 
 #: package/contents/ui/RulesEditor.qml:63
-#: package/contents/ui/RulesEditor.qml:81
 #, kde-format
-msgid "Add Property..."
-msgstr "Adicionar propriedade..."
+msgid "No window properties changed"
+msgstr "Nenhuma propriedade da janela alterada"
 
-#: package/contents/ui/RulesEditor.qml:81
+#: package/contents/ui/RulesEditor.qml:64
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"Click the <interface>Add Property...</interface> button below to add some "
+"window properties that will be affected by the rule"
+msgstr ""
+"Clique no botão <interface>Adicionar propriedade...</interface> abaixo para "
+"adicionar algumas propriedades da janela que serão afetadas por esta regra"
+
+#: package/contents/ui/RulesEditor.qml:85
 #, kde-format
 msgid "Close"
 msgstr "Fechar"
 
-#: package/contents/ui/RulesEditor.qml:95
+#: package/contents/ui/RulesEditor.qml:85
+#, kde-format
+msgid "Add Property..."
+msgstr "Adicionar propriedade..."
+
+#: package/contents/ui/RulesEditor.qml:98
 #, kde-format
 msgid "Detect Window Properties"
 msgstr "Detectar propriedades da janela"
 
-#: package/contents/ui/RulesEditor.qml:111
+#: package/contents/ui/RulesEditor.qml:114
+#: package/contents/ui/RulesEditor.qml:121
 #, kde-format
 msgid "Instantly"
 msgstr "Instantaneamente"
 
-#: package/contents/ui/RulesEditor.qml:112
+#: package/contents/ui/RulesEditor.qml:115
+#: package/contents/ui/RulesEditor.qml:126
 #, kde-format
 msgid "After %1 second"
 msgid_plural "After %1 seconds"
 msgstr[0] "Após %1 segundo"
 msgstr[1] "Após %1 segundos"
 
-#: package/contents/ui/RulesEditor.qml:133
+#: package/contents/ui/RulesEditor.qml:147
 #, kde-format
 msgid "Error"
 msgstr "Erro"
 
-#: package/contents/ui/RulesEditor.qml:149
+#: package/contents/ui/RulesEditor.qml:162
 #, kde-format
 msgid "Add property to the rule"
 msgstr "Adicionar propriedade à regra"
 
-#: package/contents/ui/RulesEditor.qml:244
+#: package/contents/ui/RulesEditor.qml:257
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr "Sim"
 
-#: package/contents/ui/RulesEditor.qml:244
+#: package/contents/ui/RulesEditor.qml:257
 #: package/contents/ui/ValueEditor.qml:60
 #, kde-format
 msgid "No"
 msgstr "Não"
 
-#: package/contents/ui/RulesEditor.qml:246
-#: package/contents/ui/ValueEditor.qml:167
-#: package/contents/ui/ValueEditor.qml:174
+#: package/contents/ui/RulesEditor.qml:259
+#: package/contents/ui/ValueEditor.qml:172
+#: package/contents/ui/ValueEditor.qml:179
 #, kde-format
 msgid "%1 %"
 msgstr "%1 %"
 
-#: package/contents/ui/RulesEditor.qml:248
+#: package/contents/ui/RulesEditor.qml:261
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: package/contents/ui/RulesEditor.qml:250
+#: package/contents/ui/RulesEditor.qml:263
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
@@ -321,81 +337,84 @@ msgstr "(%1, %2)"
 msgid "No rules for specific windows are currently set"
 msgstr "Nenhuma regra para janelas específicas está definida atualmente"
 
-#: package/contents/ui/RulesList.qml:69
+#: package/contents/ui/RulesList.qml:62
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Click the <interface>Add New...</interface> button below to add some"
+msgstr ""
+"Clique no botão <interface>Adicionar nova...</interface>  abaixo para "
+"adicionar algumas"
+
+#: package/contents/ui/RulesList.qml:70
 #, kde-format
 msgid "Select the rules to export"
 msgstr "Selecionar as regras a exportar"
 
-#: package/contents/ui/RulesList.qml:73
+#: package/contents/ui/RulesList.qml:74
 #, kde-format
 msgid "Unselect All"
 msgstr "Desmarcar tudo"
 
-#: package/contents/ui/RulesList.qml:73
+#: package/contents/ui/RulesList.qml:74
 #, kde-format
 msgid "Select All"
 msgstr "Selecionar tudo"
 
-#: package/contents/ui/RulesList.qml:87
+#: package/contents/ui/RulesList.qml:88
 #, kde-format
 msgid "Save Rules"
 msgstr "Salvar regras"
 
-#: package/contents/ui/RulesList.qml:98
+#: package/contents/ui/RulesList.qml:99
 #, kde-format
 msgid "Add New..."
-msgstr "Adicionar novo..."
+msgstr "Adicionar nova..."
 
-#: package/contents/ui/RulesList.qml:109
+#: package/contents/ui/RulesList.qml:110
 #, kde-format
 msgid "Import..."
 msgstr "Importar..."
 
-#: package/contents/ui/RulesList.qml:117
+#: package/contents/ui/RulesList.qml:118
 #, kde-format
 msgid "Cancel Export"
 msgstr "Cancelar exportação"
 
-#: package/contents/ui/RulesList.qml:117
+#: package/contents/ui/RulesList.qml:118
 #, kde-format
 msgid "Export..."
 msgstr "Exportar..."
 
-#: package/contents/ui/RulesList.qml:198
+#: package/contents/ui/RulesList.qml:199
 #, kde-format
 msgid "Edit"
 msgstr "Editar"
 
-#: package/contents/ui/RulesList.qml:207
+#: package/contents/ui/RulesList.qml:208
 #, kde-format
 msgid "Duplicate"
 msgstr "Duplicar"
 
-#: package/contents/ui/RulesList.qml:216
+#: package/contents/ui/RulesList.qml:217
 #, kde-format
 msgid "Delete"
 msgstr "Excluir"
 
-#: package/contents/ui/RulesList.qml:229
+#: package/contents/ui/RulesList.qml:230
 #, kde-format
 msgid "Import Rules"
 msgstr "Importar regras"
 
-#: package/contents/ui/RulesList.qml:241
+#: package/contents/ui/RulesList.qml:242
 #, kde-format
 msgid "Export Rules"
 msgstr "Exportar regras"
 
-#: package/contents/ui/ValueEditor.qml:202
+#: package/contents/ui/ValueEditor.qml:207
 #, kde-format
 msgctxt "(x, y) coordinates separator in size/position"
 msgid "x"
 msgstr "x"
-
-#: rulesdialog.cpp:28
-#, kde-format
-msgid "Edit Window-Specific Settings"
-msgstr "Editar as configurações específicas da janela"
 
 #: rulesmodel.cpp:222
 #, kde-format
@@ -407,7 +426,7 @@ msgstr "Configurações para %1"
 msgid "New window settings"
 msgstr "Configurações de nova janela"
 
-#: rulesmodel.cpp:239
+#: rulesmodel.cpp:241
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -422,121 +441,137 @@ msgstr ""
 "genérica, é recomendável que, no mínimo, limite os tipos de janela, para "
 "evitar tipos de janelas especiais."
 
-#: rulesmodel.cpp:369
+#: rulesmodel.cpp:248
+#, kde-format
+msgid ""
+"Some applications set their own geometry after starting, overriding your "
+"initial settings for size and position. To enforce these settings, also "
+"force the property \"%1\" to \"Yes\"."
+msgstr ""
+"Alguns aplicativos definem sua própria geometria após iniciarem, "
+"sobrescrevendo nossas configurações iniciais para o tamanho e posição. Para "
+"forçar estas configurações, force também a propriedade \"%1\" para \"Yes\"."
+
+#: rulesmodel.cpp:363
 #, kde-format
 msgid "Description"
 msgstr "Descrição:"
 
-#: rulesmodel.cpp:369 rulesmodel.cpp:377 rulesmodel.cpp:385 rulesmodel.cpp:392
-#: rulesmodel.cpp:398 rulesmodel.cpp:406 rulesmodel.cpp:411 rulesmodel.cpp:417
+#: rulesmodel.cpp:363 rulesmodel.cpp:371 rulesmodel.cpp:379 rulesmodel.cpp:386
+#: rulesmodel.cpp:392 rulesmodel.cpp:400 rulesmodel.cpp:405 rulesmodel.cpp:411
 #, kde-format
 msgid "Window matching"
 msgstr "Correspondência da janela"
 
-#: rulesmodel.cpp:377
+#: rulesmodel.cpp:371
 #, kde-format
 msgid "Window class (application)"
 msgstr "Classe da janela (aplicativo):"
 
-#: rulesmodel.cpp:385
+#: rulesmodel.cpp:379
 #, kde-format
 msgid "Match whole window class"
 msgstr "Corresponder à classe da janela inteira"
 
-#: rulesmodel.cpp:392
+#: rulesmodel.cpp:386
 #, kde-format
 msgid "Whole window class"
 msgstr "Classe da janela inteira"
 
-#: rulesmodel.cpp:398
+#: rulesmodel.cpp:392
 #, kde-format
 msgid "Window types"
 msgstr "Tipos de janela:"
 
-#: rulesmodel.cpp:406
+#: rulesmodel.cpp:400
 #, kde-format
 msgid "Window role"
 msgstr "Função da janela:"
 
-#: rulesmodel.cpp:411
+#: rulesmodel.cpp:405
 #, kde-format
 msgid "Window title"
 msgstr "Título da janela:"
 
-#: rulesmodel.cpp:417
+#: rulesmodel.cpp:411
 #, kde-format
 msgid "Machine (hostname)"
 msgstr "Nome da máquina (hostname)"
 
-#: rulesmodel.cpp:423
+#: rulesmodel.cpp:417
 #, kde-format
 msgid "Position"
 msgstr "Posição"
 
-#: rulesmodel.cpp:423 rulesmodel.cpp:428 rulesmodel.cpp:433 rulesmodel.cpp:438
-#: rulesmodel.cpp:443 rulesmodel.cpp:456 rulesmodel.cpp:470 rulesmodel.cpp:475
-#: rulesmodel.cpp:480 rulesmodel.cpp:485 rulesmodel.cpp:490 rulesmodel.cpp:496
-#: rulesmodel.cpp:505 rulesmodel.cpp:510 rulesmodel.cpp:515
+#: rulesmodel.cpp:417 rulesmodel.cpp:423 rulesmodel.cpp:429 rulesmodel.cpp:434
+#: rulesmodel.cpp:442 rulesmodel.cpp:448 rulesmodel.cpp:464 rulesmodel.cpp:478
+#: rulesmodel.cpp:483 rulesmodel.cpp:488 rulesmodel.cpp:493 rulesmodel.cpp:498
+#: rulesmodel.cpp:505 rulesmodel.cpp:515 rulesmodel.cpp:520 rulesmodel.cpp:525
 #, kde-format
 msgid "Size & Position"
 msgstr "Tamanho e posição"
 
-#: rulesmodel.cpp:428
+#: rulesmodel.cpp:423
 #, kde-format
 msgid "Size"
 msgstr "Tamanho"
 
-#: rulesmodel.cpp:433
+#: rulesmodel.cpp:429
 #, kde-format
 msgid "Maximized horizontally"
 msgstr "Maximizado horizontalmente"
 
-#: rulesmodel.cpp:438
+#: rulesmodel.cpp:434
 #, kde-format
 msgid "Maximized vertically"
 msgstr "Maximizado verticalmente"
 
-#: rulesmodel.cpp:443
+#: rulesmodel.cpp:442
 #, kde-format
 msgid "Virtual Desktop"
 msgstr "Áreas de trabalho virtual"
 
-#: rulesmodel.cpp:456
+#: rulesmodel.cpp:448
+#, kde-format
+msgid "Virtual Desktops"
+msgstr "Áreas de trabalho virtuais"
+
+#: rulesmodel.cpp:464
 #, kde-format
 msgid "Activities"
 msgstr "Atividades"
 
-#: rulesmodel.cpp:470
+#: rulesmodel.cpp:478
 #, kde-format
 msgid "Screen"
 msgstr "Tela"
 
-#: rulesmodel.cpp:475
+#: rulesmodel.cpp:483
 #, kde-format
 msgid "Fullscreen"
 msgstr "Tela inteira"
 
-#: rulesmodel.cpp:480
+#: rulesmodel.cpp:488
 #, kde-format
 msgid "Minimized"
 msgstr "Minimizada"
 
-#: rulesmodel.cpp:485
+#: rulesmodel.cpp:493
 #, kde-format
 msgid "Shaded"
 msgstr "Sombreado"
 
-#: rulesmodel.cpp:490
+#: rulesmodel.cpp:498
 #, kde-format
 msgid "Initial placement"
 msgstr "Posicionamento inicial"
 
-#: rulesmodel.cpp:496
+#: rulesmodel.cpp:505
 #, kde-format
 msgid "Ignore requested geometry"
 msgstr "Ignorar a geometria solicitada"
 
-#: rulesmodel.cpp:498
+#: rulesmodel.cpp:507
 #, kde-format
 msgid ""
 "Windows can ask to appear in a certain position.\n"
@@ -549,22 +584,22 @@ msgstr ""
 "o que poderá ser ruim se o cliente abusar desta funcionalidade\n"
 "para mostrar incondicionalmente as janelas no meio da sua tela."
 
-#: rulesmodel.cpp:505
+#: rulesmodel.cpp:515
 #, kde-format
 msgid "Minimum Size"
 msgstr "Tamanho mínimo"
 
-#: rulesmodel.cpp:510
+#: rulesmodel.cpp:520
 #, kde-format
 msgid "Maximum Size"
 msgstr "Tamanho máximo"
 
-#: rulesmodel.cpp:515
+#: rulesmodel.cpp:525
 #, kde-format
 msgid "Obey geometry restrictions"
 msgstr "Obedecer às restrições de geometria"
 
-#: rulesmodel.cpp:517
+#: rulesmodel.cpp:527
 #, kde-format
 msgid ""
 "Eg. terminals or video players can ask to keep a certain aspect ratio\n"
@@ -580,91 +615,91 @@ msgstr ""
 "Isto pode não fazer sentido e a restrição impedir dimensões arbitrárias\n"
 "como a área completa da sua tela."
 
-#: rulesmodel.cpp:526
+#: rulesmodel.cpp:536
 #, kde-format
-msgid "Keep above"
-msgstr "Manter acima"
+msgid "Keep above other windows"
+msgstr "Manter acima de outras janelas"
 
-#: rulesmodel.cpp:526 rulesmodel.cpp:531 rulesmodel.cpp:536 rulesmodel.cpp:542
-#: rulesmodel.cpp:548 rulesmodel.cpp:554
+#: rulesmodel.cpp:536 rulesmodel.cpp:541 rulesmodel.cpp:546 rulesmodel.cpp:552
+#: rulesmodel.cpp:558 rulesmodel.cpp:564
 #, kde-format
 msgid "Arrangement & Access"
 msgstr "Organização e acesso"
 
-#: rulesmodel.cpp:531
+#: rulesmodel.cpp:541
 #, kde-format
-msgid "Keep below"
-msgstr "Manter abaixo"
+msgid "Keep below other windows"
+msgstr "Manter abaixo de outras janelas"
 
-#: rulesmodel.cpp:536
+#: rulesmodel.cpp:546
 #, kde-format
 msgid "Skip taskbar"
 msgstr "Ignorar barra de tarefas"
 
-#: rulesmodel.cpp:538
+#: rulesmodel.cpp:548
 #, kde-format
 msgid "Window shall (not) appear in the taskbar."
 msgstr "A janela (não) deve aparecer na barra de tarefas."
 
-#: rulesmodel.cpp:542
+#: rulesmodel.cpp:552
 #, kde-format
 msgid "Skip pager"
 msgstr "Ignorar paginador"
 
-#: rulesmodel.cpp:544
+#: rulesmodel.cpp:554
 #, kde-format
 msgid "Window shall (not) appear in the manager for virtual desktops"
 msgstr ""
 "A janela (não) deve aparecer no gerenciador de áreas de trabalho virtuais"
 
-#: rulesmodel.cpp:548
+#: rulesmodel.cpp:558
 #, kde-format
 msgid "Skip switcher"
 msgstr "Ignorar seletor"
 
-#: rulesmodel.cpp:550
+#: rulesmodel.cpp:560
 #, kde-format
 msgid "Window shall (not) appear in the Alt+Tab list"
 msgstr "A janela (não) deve aparecer na lista do Alt+Tab"
 
-#: rulesmodel.cpp:554
+#: rulesmodel.cpp:564
 #, kde-format
 msgid "Shortcut"
 msgstr "Atalho"
 
-#: rulesmodel.cpp:560
+#: rulesmodel.cpp:570
 #, kde-format
 msgid "No titlebar and frame"
 msgstr "Sem barra de título e moldura"
 
-#: rulesmodel.cpp:560 rulesmodel.cpp:565 rulesmodel.cpp:571 rulesmodel.cpp:576
-#: rulesmodel.cpp:581 rulesmodel.cpp:592 rulesmodel.cpp:603 rulesmodel.cpp:611
-#: rulesmodel.cpp:624 rulesmodel.cpp:629 rulesmodel.cpp:635 rulesmodel.cpp:640
+#: rulesmodel.cpp:570 rulesmodel.cpp:575 rulesmodel.cpp:581 rulesmodel.cpp:586
+#: rulesmodel.cpp:591 rulesmodel.cpp:602 rulesmodel.cpp:613 rulesmodel.cpp:621
+#: rulesmodel.cpp:634 rulesmodel.cpp:639 rulesmodel.cpp:645 rulesmodel.cpp:650
 #, kde-format
 msgid "Appearance & Fixes"
 msgstr "Aparência e correções"
 
-#: rulesmodel.cpp:565
+#: rulesmodel.cpp:575
 #, kde-format
 msgid "Titlebar color scheme"
 msgstr "Esquema de cores da barra de título"
 
-#: rulesmodel.cpp:571
+#: rulesmodel.cpp:581
 #, kde-format
 msgid "Active opacity"
 msgstr "Opacidade ativa"
 
-#: rulesmodel.cpp:576
+#: rulesmodel.cpp:586
 #, kde-format
 msgid "Inactive opacity"
 msgstr "Opacidade inativa"
 
-#: rulesmodel.cpp:581
+#: rulesmodel.cpp:591
 #, kde-format
 msgid "Focus stealing prevention"
 msgstr "Prevenção de captura de foco"
 
-#: rulesmodel.cpp:583
+#: rulesmodel.cpp:593
 #, kde-format
 msgid ""
 "KWin tries to prevent windows from taking the focus\n"
@@ -679,12 +714,12 @@ msgstr ""
 "O \"Nenhum\" irá permitir incondicionalmente que a janela fique com\n"
 "o foco enquanto o \"Extremo\" irá impedir por completo."
 
-#: rulesmodel.cpp:592
+#: rulesmodel.cpp:602
 #, kde-format
 msgid "Focus protection"
 msgstr "Proteção do foco"
 
-#: rulesmodel.cpp:594
+#: rulesmodel.cpp:604
 #, kde-format
 msgid ""
 "This controls the focus protection of the currently active window.\n"
@@ -699,12 +734,12 @@ msgstr ""
 "Caso contrário, será interligado com a prevenção de perda\n"
 "do foco atribuída à janela que quer ficar em primeiro plano."
 
-#: rulesmodel.cpp:603
+#: rulesmodel.cpp:613
 #, kde-format
 msgid "Accept focus"
 msgstr "Aceitar foco"
 
-#: rulesmodel.cpp:605
+#: rulesmodel.cpp:615
 #, kde-format
 msgid ""
 "Windows may prevent to get the focus (activate) when being clicked.\n"
@@ -715,12 +750,12 @@ msgstr ""
 "Por outro lado, você pode querer evitar que uma janela fique em primeiro\n"
 "plano com um clique do mouse."
 
-#: rulesmodel.cpp:611
+#: rulesmodel.cpp:621
 #, kde-format
 msgid "Ignore global shortcuts"
 msgstr "Ignorar atalhos globais"
 
-#: rulesmodel.cpp:613
+#: rulesmodel.cpp:623
 #, kde-format
 msgid ""
 "When used, a window will receive\n"
@@ -741,163 +776,180 @@ msgstr ""
 "nem usar outros atalhos globais (como o Alt+F2 para executar o KRunner)\n"
 "enquanto estiver ativa!"
 
-#: rulesmodel.cpp:624
+#: rulesmodel.cpp:634
 #, kde-format
 msgid "Closeable"
 msgstr "Pode ser fechada"
 
-#: rulesmodel.cpp:629
+#: rulesmodel.cpp:639
 #, kde-format
 msgid "Set window type"
 msgstr "Tipo de janela"
 
-#: rulesmodel.cpp:635
+#: rulesmodel.cpp:645
 #, kde-format
 msgid "Desktop file name"
 msgstr "Nome do arquivo desktop"
 
-#: rulesmodel.cpp:640
+#: rulesmodel.cpp:650
 #, kde-format
 msgid "Block compositing"
 msgstr "Bloquear composição"
 
-#: rulesmodel.cpp:718
+#: rulesmodel.cpp:728
 #, kde-format
 msgid "Normal Window"
 msgstr "Janela normal"
 
-#: rulesmodel.cpp:719
+#: rulesmodel.cpp:729
 #, kde-format
 msgid "Dialog Window"
 msgstr "Janela de diálogo"
 
-#: rulesmodel.cpp:720
+#: rulesmodel.cpp:730
 #, kde-format
 msgid "Utility Window"
 msgstr "Janela de utilitário"
 
-#: rulesmodel.cpp:721
+#: rulesmodel.cpp:731
 #, kde-format
 msgid "Dock (panel)"
 msgstr "Acoplar (painel)"
 
-#: rulesmodel.cpp:722
+#: rulesmodel.cpp:732
 #, kde-format
 msgid "Toolbar"
 msgstr "Barra de ferramentas"
 
-#: rulesmodel.cpp:723
+#: rulesmodel.cpp:733
 #, kde-format
 msgid "Torn-Off Menu"
 msgstr "Menu de desligamento"
 
-#: rulesmodel.cpp:724
+#: rulesmodel.cpp:734
 #, kde-format
 msgid "Splash Screen"
 msgstr "Tela de apresentação"
 
-#: rulesmodel.cpp:725
+#: rulesmodel.cpp:735
 #, kde-format
 msgid "Desktop"
 msgstr "Área de trabalho"
 
 #. i18n("Unmanaged Window")   },  deprecated
-#: rulesmodel.cpp:727
+#: rulesmodel.cpp:737
 #, kde-format
 msgid "Standalone Menubar"
 msgstr "Barra de menus padrão"
 
-#: rulesmodel.cpp:742
+#: rulesmodel.cpp:738
+#, kde-format
+msgid "On Screen Display"
+msgstr "Visualização na tela"
+
+#: rulesmodel.cpp:745
 #, kde-format
 msgid "All Desktops"
 msgstr "Todas as áreas de trabalho"
 
-#: rulesmodel.cpp:754
+#: rulesmodel.cpp:764
 #, kde-format
 msgid "All Activities"
 msgstr "Todas as atividades"
 
-#: rulesmodel.cpp:775
+#: rulesmodel.cpp:785
 #, kde-format
 msgid "Default"
 msgstr "Padrão"
 
-#: rulesmodel.cpp:776
+#: rulesmodel.cpp:786
 #, kde-format
 msgid "No Placement"
 msgstr "Sem posicionamento"
 
-#: rulesmodel.cpp:777
+#: rulesmodel.cpp:787
 #, kde-format
 msgid "Minimal Overlapping"
 msgstr "Sobreposição mínima"
 
-#: rulesmodel.cpp:778
+#: rulesmodel.cpp:788
 #, kde-format
 msgid "Maximized"
 msgstr "Maximizado"
 
-#: rulesmodel.cpp:779
+#: rulesmodel.cpp:789
 #, kde-format
 msgid "Cascaded"
 msgstr "Em cascata"
 
-#: rulesmodel.cpp:780
+#: rulesmodel.cpp:790
 #, kde-format
 msgid "Centered"
 msgstr "Centralizado"
 
-#: rulesmodel.cpp:781
+#: rulesmodel.cpp:791
 #, kde-format
 msgid "Random"
 msgstr "Aleatório"
 
-#: rulesmodel.cpp:782
+#: rulesmodel.cpp:792
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr "No canto superior esquerdo"
 
-#: rulesmodel.cpp:783
+#: rulesmodel.cpp:793
 #, kde-format
 msgid "Under Mouse"
 msgstr "Sob o mouse"
 
-#: rulesmodel.cpp:784
+#: rulesmodel.cpp:794
 #, kde-format
 msgid "On Main Window"
 msgstr "Na janela principal"
 
-#: rulesmodel.cpp:792
+#: rulesmodel.cpp:802
 #, kde-format
 msgid "None"
 msgstr "Nenhuma"
 
-#: rulesmodel.cpp:793
+#: rulesmodel.cpp:803
 #, kde-format
 msgid "Low"
 msgstr "Baixo"
 
-#: rulesmodel.cpp:794
+#: rulesmodel.cpp:804
 #, kde-format
 msgid "Normal"
 msgstr "Normal"
 
-#: rulesmodel.cpp:795
+#: rulesmodel.cpp:805
 #, kde-format
 msgid "High"
 msgstr "Alto"
 
-#: rulesmodel.cpp:796
+#: rulesmodel.cpp:806
 #, kde-format
 msgid "Extreme"
 msgstr "Extremo"
 
-#: rulesmodel.cpp:842
+#: rulesmodel.cpp:852
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""
 "Não foi possível detectar as propriedades da janela. A janela não é "
 "gerenciada pelo KWin."
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

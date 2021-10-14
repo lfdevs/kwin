@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-28 13:55+0000\n"
+"POT-Creation-Date: 2021-04-27 00:19+0000\n"
 "PO-Revision-Date: 2019-09-29 12:19-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -872,11 +872,9 @@ msgstr ""
 #| "focused window. By default this option is disabled for Click to focus and "
 #| "enabled for other focus policies."
 msgid ""
-"When this option is enabled, the active Xinerama screen (where new windows "
-"appear, for example) is the screen containing the mouse pointer. When "
-"disabled, the active Xinerama screen is the screen containing the focused "
-"window. By default this option is disabled for Click to focus and enabled "
-"for other focus policies."
+"When this option is enabled, the active screen (where new windows appear, "
+"for example) is the screen containing the mouse pointer. When disabled, the "
+"active screen is the screen containing the focused window."
 msgstr ""
 "このオプションを有効にすると、アクティブな Xinerama スクリーン (例えば新しい"
 "ウィンドウが現れるスクリーン) は、マウスポインタのあるスクリーンになります。"
@@ -894,10 +892,13 @@ msgstr "アクティブなスクリーンはマウスに従う(&C)"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:213
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "When this option is enabled, focus operations are limited only to the "
+#| "active Xinerama screen"
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
-"Xinerama screen"
+"screen"
 msgstr ""
 "このオプションを有効にすると、フォーカス操作はアクティブな Xinerama スクリー"
 "ンに限定されます。"
@@ -917,87 +918,87 @@ msgstr "スクリーンフォーカスを分離する(&O)"
 msgid "Window activation policy description"
 msgstr "ウィンドウのアクティブ化ポリシー(&A):"
 
-#: main.cpp:73
+#: main.cpp:74
 #, kde-format
 msgid "&Focus"
 msgstr "フォーカス(&F)"
 
-#: main.cpp:84
+#: main.cpp:80
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "タイトルバーの挙動(&C)"
 
-#: main.cpp:91
+#: main.cpp:86
 #, kde-format
 msgid "W&indow Actions"
 msgstr "ウィンドウの挙動(&I)"
 
-#: main.cpp:98
+#: main.cpp:92
 #, kde-format
 msgid "Mo&vement"
 msgstr "移動(&V)"
 
-#: main.cpp:105
+#: main.cpp:98
 #, kde-format
 msgid "Adva&nced"
 msgstr "詳細設定(&N)"
 
-#: main.cpp:110
+#: main.cpp:102
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "ウィンドウの挙動設定モジュール"
 
-#: main.cpp:112
+#: main.cpp:104
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "(c) 1997 - 2002 KWin および KControl 開発チーム"
 
-#: main.cpp:114
+#: main.cpp:106
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:115
+#: main.cpp:107
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:116
+#: main.cpp:108
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:117
+#: main.cpp:109
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:118
+#: main.cpp:110
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:119
+#: main.cpp:111
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:120
+#: main.cpp:112
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:121
+#: main.cpp:113
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:122
+#: main.cpp:114
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:167
+#: main.cpp:163
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -1014,12 +1015,12 @@ msgstr ""
 "場合にのみ有効です。他のウィンドウマネージャでのウィンドウの挙動のカスタマイ"
 "ズ方法については、それぞれのドキュメントを参照してください。</p></qt>"
 
-#: main.cpp:187
+#: main.cpp:205
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "タイトルバーの挙動(&T)"
 
-#: main.cpp:193
+#: main.cpp:211
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "ウィンドウの挙動(&N)"
@@ -1324,7 +1325,7 @@ msgstr "スクリーン中央のスナップゾーン(&C):"
 msgid "&Snap windows:"
 msgstr "すべての浮遊ウィンドウを前後させる"
 
-#: windows.cpp:101
+#: windows.cpp:99
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Click to focus:"
@@ -1339,7 +1340,7 @@ msgstr ""
 "カス:</span> クリックしたウィンドウがアクティブになります。この挙動は他の OS "
 "と共通であり、あなたの想定と同じように動作します。</p></body></html>"
 
-#: windows.cpp:105
+#: windows.cpp:103
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Click to focus "
@@ -1364,7 +1365,7 @@ msgstr ""
 "style=\" font-style:italic;\">クリックしてフォーカス</span>の変化形です。</"
 "p></body></html>"
 
-#: windows.cpp:110
+#: windows.cpp:108
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Focus follows "
@@ -1386,7 +1387,7 @@ msgstr ""
 "リックする必要のない<span style=\" font-style:italic;\">クリックしてフォーカ"
 "ス</span> だと思ってください</p></body></html>"
 
-#: windows.cpp:114
+#: windows.cpp:112
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p>This is mostly the same as <span style=\" font-"
@@ -1406,7 +1407,7 @@ msgstr ""
 "れているウィンドウが優先的な候補となります。フォーカスをホバーで操作したい場"
 "合はこちらを選択してください。</p></body></html>"
 
-#: windows.cpp:119
+#: windows.cpp:117
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Focus under "
@@ -1432,7 +1433,7 @@ msgstr ""
 "に<span style=\" font-style:italic;\">マウスに従ってフォーカス (マウス優先)</"
 "span>を使用するべきでしょう。</p></body></html>"
 
-#: windows.cpp:123
+#: windows.cpp:121
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-style:italic;\">Focus under "

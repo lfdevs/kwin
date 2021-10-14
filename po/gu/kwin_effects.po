@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-04-20 01:49+0000\n"
+"POT-Creation-Date: 2021-09-24 01:39+0000\n"
 "PO-Revision-Date: 2009-01-04 12:32+0530\n"
 "Last-Translator: Kartik Mistry <kartik.mistry@gmail.com>\n"
 "Language-Team: Gujarati <kde-i18n-doc@lists.kde.org>\n"
@@ -64,145 +64,15 @@ msgid ""
 "Escape or right click to cancel."
 msgstr ""
 
-#: coverswitch/coverswitch.cpp:952 flipswitch/flipswitch.cpp:933
-#, fuzzy, kde-format
-#| msgid "Show desktop"
-msgctxt "Special entry in alt+tab list for minimizing all windows"
-msgid "Show Desktop"
-msgstr "ડેસ્કટોપ બતાવો"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_WindowTitle)
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowCaptions)
-#: coverswitch/coverswitch_config.ui:17 flipswitch/flipswitch_config.ui:191
-#: presentwindows/presentwindows_config.ui:406
+#: desktopgrid/desktopgrid.cpp:107 desktopgrid/desktopgrid_config.cpp:57
 #, kde-format
-msgid "Display window &titles"
-msgstr "વિન્ડો શીર્ષકો દર્શાવો (&t)"
+msgid "Show Desktop Grid"
+msgstr "ડેસ્કટોપ જાળી બતાવો"
 
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: coverswitch/coverswitch_config.ui:29 cube/cube_config.ui:344
-#, kde-format
-msgid "Zoom"
-msgstr "મોટું કરો"
-
-#. i18n: ectx: property (toolTip), widget (QSlider, kcfg_zPosition)
-#: coverswitch/coverswitch_config.ui:39
-#, kde-format
-msgid "Define how far away the windows should appear"
-msgstr "વિન્ડોસ કેટલી દૂર દેખાવી જોઇએ તે નક્કી કરો"
-
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: coverswitch/coverswitch_config.ui:66 cube/cube_config.ui:350
-#, kde-format
-msgid "Near"
-msgstr "નજીક"
-
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#: coverswitch/coverswitch_config.ui:86 cube/cube_config.ui:357
-#, kde-format
-msgid "Far"
-msgstr "દૂર"
-
-#. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: coverswitch/coverswitch_config.ui:110
-#, kde-format
-msgid "Animation"
-msgstr "એનિમેશન"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnimateSwitch)
-#: coverswitch/coverswitch_config.ui:116
-#, kde-format
-msgid "Animate switch"
-msgstr "એનિમેટ સ્વિચ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnimateStart)
-#: coverswitch/coverswitch_config.ui:123
-#, kde-format
-msgid "Animation on tab box open"
-msgstr "ટેબ ખાનાંને ખોલવાને એનિમેટ કરો"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnimateStop)
-#: coverswitch/coverswitch_config.ui:130
-#, kde-format
-msgid "Animation on tab box close"
-msgstr "ટેબ ખાનાંને બંધ કરવાને એનિમેટ કરો"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: coverswitch/coverswitch_config.ui:139 magiclamp/magiclamp_config.ui:17
-#, kde-format
-msgid "Animation duration:"
-msgstr "એનિમેશન સમયગાળો:"
-
-#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_RotationDuration)
-#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
-#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_AnimationDuration)
-#: coverswitch/coverswitch_config.ui:158 cube/cube_config.ui:149
-#: cubeslide/cubeslide_config.ui:49 magiclamp/magiclamp_config.ui:36
-#, kde-format
-msgctxt "Duration of rotation"
-msgid "Default"
-msgstr "મૂળભૂત"
-
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
-#: coverswitch/coverswitch_config.ui:161 glide/glide_config.ui:35
-#: scale/package/contents/ui/config.ui:33 slide/slide_config.ui:35
-#, fuzzy, kde-format
-#| msgid " millisecond"
-#| msgid_plural " milliseconds"
-msgid " milliseconds"
-msgstr "મીલીસેકન્ડ"
-
-#. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Reflection)
-#: coverswitch/coverswitch_config.ui:177 coverswitch/coverswitch_config.ui:183
-#, kde-format
-msgid "Reflections"
-msgstr "પરાવર્તનો"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: coverswitch/coverswitch_config.ui:195
-#, kde-format
-msgid "Rear color"
-msgstr "પાછળનો રંગ"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: coverswitch/coverswitch_config.ui:205
-#, kde-format
-msgid "Front color"
-msgstr "આગળનો રંગ"
-
-#: cube/cube.cpp:185 cube/cube_config.cpp:60
-#, kde-format
-msgid "Desktop Cube"
-msgstr "ડેસ્કટોપ ઘન"
-
-#: cube/cube.cpp:193 cube/cube_config.cpp:65
-#, kde-format
-msgid "Desktop Cylinder"
-msgstr "ડેસ્કટોપ નળાકાર"
-
-#: cube/cube.cpp:199 cube/cube_config.cpp:69
-#, kde-format
-msgid "Desktop Sphere"
-msgstr "ડેસ્કટોપ ગોળો"
-
-#: cube/cube_config.cpp:49
-#, kde-format
-msgctxt "@title:tab Basic Settings"
-msgid "Basic"
-msgstr "સામાન્ય"
-
-#: cube/cube_config.cpp:50
-#, kde-format
-msgctxt "@title:tab Advanced Settings"
-msgid "Advanced"
-msgstr "ઉચ્ચ"
-
-#: cube/cube_config.cpp:54 desktopgrid/desktopgrid_config.cpp:52
-#: flipswitch/flipswitch_config.cpp:56 invert/invert_config.cpp:38
+#: desktopgrid/desktopgrid_config.cpp:52 invert/invert_config.cpp:38
 #: lookingglass/lookingglass_config.cpp:58 magnifier/magnifier_config.cpp:58
 #: mouseclick/mouseclick_config.cpp:50 mousemark/mousemark_config.cpp:56
+#: overview/kcm/overvieweffectkcm.cpp:37
 #: presentwindows/presentwindows_config.cpp:51
 #: showpaint/showpaint_config.cpp:36
 #: thumbnailaside/thumbnailaside_config.cpp:57
@@ -211,241 +81,6 @@ msgstr "ઉચ્ચ"
 #, kde-format
 msgid "KWin"
 msgstr ""
-
-#. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: cube/cube_config.ui:21
-#, kde-format
-msgid "Tab 1"
-msgstr "ટેબ ૧"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
-#: cube/cube_config.ui:27
-#, kde-format
-msgid "Background"
-msgstr "પાશ્વભાગ"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: cube/cube_config.ui:33
-#, kde-format
-msgid "Background color:"
-msgstr "પાશ્વભાગ રંગ:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: cube/cube_config.ui:56
-#, kde-format
-msgid "Wallpaper:"
-msgstr "વોલપેપર:"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: cube/cube_config.ui:82 desktopgrid/desktopgrid_config.ui:236
-#: flipswitch/flipswitch_config.ui:204
-#: presentwindows/presentwindows_config.ui:17
-#, kde-format
-msgid "Activation"
-msgstr "સક્રિય કરો"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_7)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: cube/cube_config.ui:104 desktopgrid/desktopgrid_config.ui:17
-#: flipswitch/flipswitch_config.ui:17 mousemark/mousemark_config.ui:17
-#: presentwindows/presentwindows_config.ui:387
-#: thumbnailaside/thumbnailaside_config.ui:17
-#, kde-format
-msgid "Appearance"
-msgstr "દેખાવ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DisplayDesktopName)
-#: cube/cube_config.ui:110
-#, kde-format
-msgid "Display desktop name"
-msgstr "ડેસ્કટોપ થીમ બતાવો"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Reflection)
-#: cube/cube_config.ui:117
-#, kde-format
-msgid "Reflection"
-msgstr "પરાવર્તન"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: cube/cube_config.ui:124 cubeslide/cubeslide_config.ui:72
-#, kde-format
-msgid "Rotation duration:"
-msgstr "ગોળ ફેરવવાનો સમયગાળો:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ZOrdering)
-#: cube/cube_config.ui:175
-#, kde-format
-msgid "Windows hover above cube"
-msgstr "ઘનની ઉપર વિન્ડોસ છાવરો"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: cube/cube_config.ui:185
-#, kde-format
-msgid "Opacity"
-msgstr "અપારદર્શકતા"
-
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_OpacitySpin)
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Opacity)
-#: cube/cube_config.ui:225 thumbnailaside/thumbnailaside_config.ui:87
-#, no-c-format, kde-format
-msgid " %"
-msgstr " %"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: cube/cube_config.ui:238 translucency/package/contents/ui/config.ui:156
-#: translucency/package/contents/ui/config.ui:418
-#, kde-format
-msgid "Transparent"
-msgstr "પારદર્શક"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#: cube/cube_config.ui:245 translucency/package/contents/ui/config.ui:121
-#: translucency/package/contents/ui/config.ui:431
-#, kde-format
-msgid "Opaque"
-msgstr "અપારદર્શક"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_OpacityDesktopOnly)
-#: cube/cube_config.ui:255
-#, kde-format
-msgid "Do not change opacity of windows"
-msgstr "વિન્ડોસની દ્રશ્યતા ન બદલો"
-
-#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: cube/cube_config.ui:279
-#, kde-format
-msgid "Tab 2"
-msgstr "ટેબ ૨"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: cube/cube_config.ui:285
-#, kde-format
-msgid "Caps"
-msgstr "કેપ્સ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Caps)
-#: cube/cube_config.ui:291
-#, kde-format
-msgid "Show caps"
-msgstr "કેપ્સ બતાવો"
-
-#. i18n: ectx: property (text), widget (QLabel, capColorLabel)
-#: cube/cube_config.ui:298
-#, kde-format
-msgid "Cap color:"
-msgstr "કેપ રંગ:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_TexturedCaps)
-#: cube/cube_config.ui:321
-#, kde-format
-msgid "Display image on caps"
-msgstr "કેપ્સ પર ચિત્ર બતાવો"
-
-#. i18n: ectx: property (toolTip), widget (QSlider, kcfg_ZPosition)
-#: cube/cube_config.ui:367
-#, kde-format
-msgid "Define how far away the object should appear"
-msgstr "વસ્તુ કેટલું દૂર દેખાવું જોઇએ તે નક્કી કરો"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_9)
-#: cube/cube_config.ui:408
-#, kde-format
-msgid "Additional Options"
-msgstr "વધારાનાં વિકલ્પો"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_CloseOnMouseRelease)
-#: cube/cube_config.ui:415
-#, kde-format
-msgid ""
-"If enabled the effect will be deactivated after rotating the cube with the "
-"mouse,\n"
-"otherwise it will remain active"
-msgstr ""
-"જો અસર સક્રિય કરેલ હશે તો માઉસ વડે કયુબને ફેરવ્યા પછી કયુબ નિષ્ક્રિય થઇ જશે,\n"
-"નહિ તો કયુબ સક્રિય રહેશે"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_CloseOnMouseRelease)
-#: cube/cube_config.ui:418
-#, kde-format
-msgid "Close after mouse dragging"
-msgstr "માઉસ ખેંચ્યા પછી બંધ કરો"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_TabBox)
-#: cube/cube_config.ui:425
-#, kde-format
-msgid "Use this effect for walking through the desktops"
-msgstr "આ અસરનો ઉપયોગ ડેસ્કટોપ્સમાંથી પસાર થવા માટે કરો"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_InvertKeys)
-#: cube/cube_config.ui:432
-#, kde-format
-msgid "Invert cursor keys"
-msgstr "ઉલ્ટી કર્સર કળો"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_InvertMouse)
-#: cube/cube_config.ui:439
-#, kde-format
-msgid "Invert mouse"
-msgstr "ઉલ્ટું માઉસ"
-
-#. i18n: ectx: property (title), widget (QGroupBox, capDeformationGroupBox)
-#: cube/cube_config.ui:449
-#, kde-format
-msgid "Sphere Cap Deformation"
-msgstr "ગોળાની કેપનો આકાર બગડવો"
-
-#. i18n: ectx: property (text), widget (QLabel, capDeformationSphereLabel)
-#: cube/cube_config.ui:471
-#, kde-format
-msgid "Sphere"
-msgstr "ગોળો"
-
-#. i18n: ectx: property (text), widget (QLabel, capDeformationPlaneLabel)
-#: cube/cube_config.ui:478
-#, kde-format
-msgid "Plane"
-msgstr "સમતલ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSlideStickyWindows)
-#: cubeslide/cubeslide_config.ui:17
-#, kde-format
-msgid "Do not animate windows on all desktops"
-msgstr "બધાં ડેસ્કટોપ પર વિન્ડોસ એનિમેટ ન કરો"
-
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RotationDuration)
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingLife)
-#: cubeslide/cubeslide_config.ui:52 mouseclick/mouseclick_config.ui:132
-#, kde-format
-msgid " msec"
-msgstr "મીલી સેકન્ડ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSlidePanels)
-#: cubeslide/cubeslide_config.ui:65
-#, kde-format
-msgid "Do not animate panels"
-msgstr "પેનલ્સને એનિમેટ ન કરો"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_UsePagerLayout)
-#: cubeslide/cubeslide_config.ui:85
-#, kde-format
-msgid "Use pager layout for animation"
-msgstr "એનિમેશન માટે પેજર દેખાવ વાપરો"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseWindowMoving)
-#: cubeslide/cubeslide_config.ui:92
-#, kde-format
-msgid "Start animation when moving windows towards screen edges"
-msgstr ""
-
-#: desktopgrid/desktopgrid.cpp:67 desktopgrid/desktopgrid_config.cpp:57
-#, kde-format
-msgid "Show Desktop Grid"
-msgstr "ડેસ્કટોપ જાળી બતાવો"
 
 #: desktopgrid/desktopgrid_config.cpp:65
 #, fuzzy, kde-format
@@ -456,9 +91,8 @@ msgstr "અસક્રિય"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#: desktopgrid/desktopgrid_config.cpp:66 flipswitch/flipswitch_config.ui:160
-#: glide/glide_config.ui:70 glide/glide_config.ui:168
+#: desktopgrid/desktopgrid_config.cpp:66 glide/glide_config.ui:70
+#: glide/glide_config.ui:168
 #, kde-format
 msgid "Top"
 msgstr "ઉપર"
@@ -470,9 +104,8 @@ msgstr "ઉપર-જમણે"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: desktopgrid/desktopgrid_config.cpp:68 flipswitch/flipswitch_config.ui:125
-#: glide/glide_config.ui:75 glide/glide_config.ui:173
+#: desktopgrid/desktopgrid_config.cpp:68 glide/glide_config.ui:75
+#: glide/glide_config.ui:173
 #, kde-format
 msgid "Right"
 msgstr "જમણે"
@@ -484,9 +117,8 @@ msgstr "નીચે-જમણે"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: desktopgrid/desktopgrid_config.cpp:70 flipswitch/flipswitch_config.ui:180
-#: glide/glide_config.ui:80 glide/glide_config.ui:178
+#: desktopgrid/desktopgrid_config.cpp:70 glide/glide_config.ui:80
+#: glide/glide_config.ui:178
 #, kde-format
 msgid "Bottom"
 msgstr "તળિયે"
@@ -498,9 +130,8 @@ msgstr "નીચે-ડાબે"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: desktopgrid/desktopgrid_config.cpp:72 flipswitch/flipswitch_config.ui:105
-#: glide/glide_config.ui:85 glide/glide_config.ui:183
+#: desktopgrid/desktopgrid_config.cpp:72 glide/glide_config.ui:85
+#: glide/glide_config.ui:183
 #, kde-format
 msgid "Left"
 msgstr "ડાબે"
@@ -514,6 +145,14 @@ msgstr "ઉપર-ડાબે"
 #, kde-format
 msgid "Center"
 msgstr "કેન્દ્ર"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: desktopgrid/desktopgrid_config.ui:17 mousemark/mousemark_config.ui:17
+#: presentwindows/presentwindows_config.ui:387
+#: thumbnailaside/thumbnailaside_config.ui:17
+#, kde-format
+msgid "Appearance"
+msgstr "દેખાવ"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: desktopgrid/desktopgrid_config.ui:23
@@ -604,6 +243,13 @@ msgstr "ડેસ્કટોપ બતાવો"
 msgid "Show buttons to alter count of virtual desktops"
 msgstr ""
 
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: desktopgrid/desktopgrid_config.ui:236
+#: presentwindows/presentwindows_config.ui:17
+#, kde-format
+msgid "Activation"
+msgstr "સક્રિય કરો"
+
 #. i18n: ectx: property (text), widget (QLabel, label_Strength)
 #: diminactive/diminactive_config.ui:17
 #, fuzzy, kde-format
@@ -651,227 +297,176 @@ msgstr ""
 msgid "Fullscreen windows"
 msgstr "વિન્ડોસ"
 
-#: effect_builtins.cpp:92
+#: effect_builtins.cpp:90
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
 msgstr ""
 
-#: effect_builtins.cpp:93
+#: effect_builtins.cpp:91
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
 msgstr ""
 
-#: effect_builtins.cpp:108
+#: effect_builtins.cpp:106
 #, fuzzy, kde-format
 #| msgid "&Color:"
 msgctxt "Name of a KWin Effect"
 msgid "Color Picker"
 msgstr "રંગ (&C):"
 
-#: effect_builtins.cpp:109
+#: effect_builtins.cpp:107
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Supports picking a color"
 msgstr ""
 
-#: effect_builtins.cpp:124
+#: effect_builtins.cpp:122
 #, fuzzy, kde-format
 #| msgid "Background color:"
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "પાશ્વભાગ રંગ:"
 
-#: effect_builtins.cpp:125
+#: effect_builtins.cpp:123
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
 msgstr ""
 
-#: effect_builtins.cpp:140
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Cover Switch"
-msgstr ""
-
-#: effect_builtins.cpp:141
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Display a Cover Flow effect for the alt+tab window switcher"
-msgstr ""
-
-#: effect_builtins.cpp:156
-#, fuzzy, kde-format
-#| msgid "Desktop Cube"
-msgctxt "Name of a KWin Effect"
-msgid "Desktop Cube"
-msgstr "ડેસ્કટોપ ઘન"
-
-#: effect_builtins.cpp:157
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Display each virtual desktop on a side of a cube"
-msgstr ""
-
-#: effect_builtins.cpp:172
-#, fuzzy, kde-format
-#| msgid "Desktop Cube"
-msgctxt "Name of a KWin Effect"
-msgid "Desktop Cube Animation"
-msgstr "ડેસ્કટોપ ઘન"
-
-#: effect_builtins.cpp:173
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Animate desktop switching with a cube"
-msgstr ""
-
-#: effect_builtins.cpp:188
+#: effect_builtins.cpp:138
 #, fuzzy, kde-format
 #| msgid "Show Desktop Grid"
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "ડેસ્કટોપ જાળી બતાવો"
 
-#: effect_builtins.cpp:189
+#: effect_builtins.cpp:139
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
 msgstr ""
 
-#: effect_builtins.cpp:204
+#: effect_builtins.cpp:154
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
 msgstr ""
 
-#: effect_builtins.cpp:205
+#: effect_builtins.cpp:155
 #, fuzzy, kde-format
 #| msgid "Inactive windows:"
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "નિષ્ક્રિય વિન્ડો:"
 
-#: effect_builtins.cpp:220
+#: effect_builtins.cpp:170
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Fall Apart"
 msgstr ""
 
-#: effect_builtins.cpp:221
+#: effect_builtins.cpp:171
 #, fuzzy, kde-format
 #| msgid "Send window to all desktops"
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "વિન્ડોને બધાં ડેસ્કટોપ્સ પર મોકલો"
 
-#: effect_builtins.cpp:236
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Flip Switch"
-msgstr ""
-
-#: effect_builtins.cpp:237
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid ""
-"Flip through windows that are in a stack for the alt+tab window switcher"
-msgstr ""
-
-#: effect_builtins.cpp:252
+#: effect_builtins.cpp:186
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Glide"
 msgstr ""
 
-#: effect_builtins.cpp:253
+#: effect_builtins.cpp:187
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Glide windows as they appear or disappear"
 msgstr ""
 
-#: effect_builtins.cpp:268
+#: effect_builtins.cpp:202
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Highlight Window"
 msgstr ""
 
-#: effect_builtins.cpp:269
+#: effect_builtins.cpp:203
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight the appropriate window when hovering over taskbar entries"
 msgstr ""
 
-#: effect_builtins.cpp:284
+#: effect_builtins.cpp:218
 #, fuzzy, kde-format
 #| msgid "Invert mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "ઉલ્ટું માઉસ"
 
-#: effect_builtins.cpp:285
+#: effect_builtins.cpp:219
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
 msgstr ""
 
-#: effect_builtins.cpp:300
+#: effect_builtins.cpp:234
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
 msgstr ""
 
-#: effect_builtins.cpp:301
+#: effect_builtins.cpp:235
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper Effect for KScreen"
 msgstr ""
 
-#: effect_builtins.cpp:316
+#: effect_builtins.cpp:250
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
 msgstr ""
 
-#: effect_builtins.cpp:317
+#: effect_builtins.cpp:251
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
 msgstr ""
 
-#: effect_builtins.cpp:332
+#: effect_builtins.cpp:266
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
 msgstr ""
 
-#: effect_builtins.cpp:333
+#: effect_builtins.cpp:267
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
 msgstr ""
 
-#: effect_builtins.cpp:348
+#: effect_builtins.cpp:282
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr ""
 
-#: effect_builtins.cpp:349
+#: effect_builtins.cpp:283
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
 msgstr ""
 
-#: effect_builtins.cpp:364
+#: effect_builtins.cpp:298
 #, fuzzy, kde-format
 #| msgid "Animation"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "એનિમેશન"
 
-#: effect_builtins.cpp:365
+#: effect_builtins.cpp:299
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -879,293 +474,271 @@ msgid ""
 "screenrecordings/presentations"
 msgstr ""
 
-#: effect_builtins.cpp:380
+#: effect_builtins.cpp:314
 #, fuzzy, kde-format
 #| msgid "Clear Mouse Marks"
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "માઉસ નિશાનીઓ સાફ કરો"
 
-#: effect_builtins.cpp:381
+#: effect_builtins.cpp:315
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
 msgstr ""
 
-#: effect_builtins.cpp:396
+#: effect_builtins.cpp:330
+#, kde-format
+msgctxt "Name of a KWin Effect"
+msgid "Overview"
+msgstr ""
+
+#: effect_builtins.cpp:331
+#, kde-format
+msgctxt "Comment describing the KWin Effect"
+msgid "Allows you to overview virtual desktops and windows"
+msgstr ""
+
+#: effect_builtins.cpp:346
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "વિન્ડોસ"
 
-#: effect_builtins.cpp:397
+#: effect_builtins.cpp:347
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
 msgstr ""
 
-#: effect_builtins.cpp:412
+#: effect_builtins.cpp:362
 #, fuzzy, kde-format
 #| msgid "Close window"
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "વિન્ડો બંધ કરો"
 
-#: effect_builtins.cpp:413
+#: effect_builtins.cpp:363
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
 msgstr ""
 
-#: effect_builtins.cpp:428
+#: effect_builtins.cpp:378
 #, fuzzy, kde-format
 #| msgid "Screen edge:"
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr "સ્ક્રિનની ધાર:"
 
-#: effect_builtins.cpp:429
+#: effect_builtins.cpp:379
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
 msgstr ""
 
-#: effect_builtins.cpp:444
+#: effect_builtins.cpp:394
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
 msgstr ""
 
-#: effect_builtins.cpp:445
+#: effect_builtins.cpp:395
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for screenshot tools"
 msgstr ""
 
-#: effect_builtins.cpp:460
+#: effect_builtins.cpp:410
+#, fuzzy, kde-format
+#| msgid "Transparent"
+msgctxt "Name of a KWin Effect"
+msgid "Transform"
+msgstr "પારદર્શક"
+
+#: effect_builtins.cpp:411
+#, kde-format
+msgctxt "Comment describing the KWin Effect"
+msgid "Animates display transformations"
+msgstr ""
+
+#: effect_builtins.cpp:425
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
 msgstr ""
 
-#: effect_builtins.cpp:461
+#: effect_builtins.cpp:426
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
 "Make modal dialogs smoothly fly in and out when they are shown or hidden"
 msgstr ""
 
-#: effect_builtins.cpp:476
+#: effect_builtins.cpp:441
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
 msgstr ""
 
-#: effect_builtins.cpp:477
+#: effect_builtins.cpp:442
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
 msgstr ""
 
-#: effect_builtins.cpp:492
+#: effect_builtins.cpp:457
 #, fuzzy, kde-format
 #| msgid "Show &panels"
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "પેનલ્સ બતાવો (&p)"
 
-#: effect_builtins.cpp:493
+#: effect_builtins.cpp:458
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
 msgstr ""
 
-#: effect_builtins.cpp:508
+#: effect_builtins.cpp:473
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
 msgstr ""
 
-#: effect_builtins.cpp:509
+#: effect_builtins.cpp:474
 #, fuzzy, kde-format
 #| msgid "Slide when switching tabs"
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide desktops when switching virtual desktops"
 msgstr "ટેબ્સ બદલતી વખતે ખસેડો"
 
-#: effect_builtins.cpp:524
+#: effect_builtins.cpp:489
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
 msgstr ""
 
-#: effect_builtins.cpp:525
+#: effect_builtins.cpp:490
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
 msgstr ""
 
-#: effect_builtins.cpp:540
+#: effect_builtins.cpp:505
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
 msgstr ""
 
-#: effect_builtins.cpp:541
+#: effect_builtins.cpp:506
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
 msgstr ""
 
-#: effect_builtins.cpp:556
+#: effect_builtins.cpp:521
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
 msgstr ""
 
-#: effect_builtins.cpp:557
+#: effect_builtins.cpp:522
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
 msgstr ""
 
-#: effect_builtins.cpp:572
+#: effect_builtins.cpp:537
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
 msgstr ""
 
-#: effect_builtins.cpp:573
+#: effect_builtins.cpp:538
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
 msgstr ""
 
-#: effect_builtins.cpp:588
+#: effect_builtins.cpp:553
 #, fuzzy, kde-format
 #| msgid "Thumbnail Bar"
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "થમ્બનિલ પટ્ટી"
 
-#: effect_builtins.cpp:589
+#: effect_builtins.cpp:554
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
 msgstr ""
 
-#: effect_builtins.cpp:604
+#: effect_builtins.cpp:569
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Touch Points"
 msgstr ""
 
-#: effect_builtins.cpp:605
+#: effect_builtins.cpp:570
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Visualize touch points"
 msgstr ""
 
-#: effect_builtins.cpp:620
+#: effect_builtins.cpp:585
 #, fuzzy, kde-format
 #| msgid "Invert mouse"
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "ઉલ્ટું માઉસ"
 
-#: effect_builtins.cpp:621
+#: effect_builtins.cpp:586
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a mouse cursor locating effect when activated"
 msgstr ""
 
-#: effect_builtins.cpp:636
+#: effect_builtins.cpp:601
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Window Geometry"
 msgstr ""
 
-#: effect_builtins.cpp:637
+#: effect_builtins.cpp:602
 #, fuzzy, kde-format
 #| msgid "Display window &icons"
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "વિન્ડો ચિહ્નો દર્શાવો (&i)"
 
-#: effect_builtins.cpp:652
+#: effect_builtins.cpp:617
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "વિન્ડોસ"
 
-#: effect_builtins.cpp:653
+#: effect_builtins.cpp:618
 #, fuzzy, kde-format
 #| msgid "Use for window &switching"
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "વિન્ડો બદલાવા માટે વપરાય છે (&s)"
 
-#: effect_builtins.cpp:668
+#: effect_builtins.cpp:633
 #, fuzzy, kde-format
 #| msgid "Zoom"
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "મોટું કરો"
 
-#: effect_builtins.cpp:669
+#: effect_builtins.cpp:634
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
 msgstr ""
-
-#: flipswitch/flipswitch.cpp:47 flipswitch/flipswitch_config.cpp:50
-#, kde-format
-msgid "Toggle Flip Switch (Current desktop)"
-msgstr "વિન્ડોસની હાજરી ફેરવો (હાલનું ડેસ્કટોપ)"
-
-#: flipswitch/flipswitch.cpp:54 flipswitch/flipswitch_config.cpp:53
-#, kde-format
-msgid "Toggle Flip Switch (All desktops)"
-msgstr "વિન્ડોસની ફેરવો (બધાં ડેસ્કટોપ)"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: flipswitch/flipswitch_config.ui:23
-#, kde-format
-msgid "Flip animation duration:"
-msgstr "ફેરવવાનો એનિમેશન સમયગાળો:"
-
-#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
-#: flipswitch/flipswitch_config.ui:42
-#, kde-format
-msgctxt "Duration of flip animation"
-msgid "Default"
-msgstr "મૂળભૂત"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: flipswitch/flipswitch_config.ui:55
-#, kde-format
-msgid "Angle:"
-msgstr "ખૂણો:"
-
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Angle)
-#: flipswitch/flipswitch_config.ui:71
-#, kde-format
-msgid " °"
-msgstr " °"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: flipswitch/flipswitch_config.ui:81
-#, kde-format
-msgid "Horizontal position of front:"
-msgstr "બાહ્યની આડી સ્થિતિ:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: flipswitch/flipswitch_config.ui:136
-#, kde-format
-msgid "Vertical position of front:"
-msgstr "બાહ્યની ઉભી સ્થિતિ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_Duration)
 #: glide/glide_config.ui:19 scale/package/contents/ui/config.ui:17
@@ -1184,6 +757,15 @@ msgstr "સમયગાળો"
 #| msgid "Default"
 msgid "Default"
 msgstr "મૂળભૂત"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
+#: glide/glide_config.ui:35 scale/package/contents/ui/config.ui:33
+#: slide/slide_config.ui:35
+#, fuzzy, kde-format
+#| msgid " millisecond"
+#| msgid_plural " milliseconds"
+msgid " milliseconds"
+msgstr "મીલીસેકન્ડ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_InAnimation)
 #: glide/glide_config.ui:50
@@ -1244,6 +826,19 @@ msgstr ""
 msgid "&Radius:"
 msgstr "ત્રિજ્યા: (&R)"
 
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: magiclamp/magiclamp_config.ui:17
+#, kde-format
+msgid "Animation duration:"
+msgstr "એનિમેશન સમયગાળો:"
+
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_AnimationDuration)
+#: magiclamp/magiclamp_config.ui:36
+#, kde-format
+msgctxt "Duration of rotation"
+msgid "Default"
+msgstr "મૂળભૂત"
+
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AnimationDuration)
 #: magiclamp/magiclamp_config.ui:39
 #, fuzzy, kde-format
@@ -1277,39 +872,39 @@ msgstr " પિક્સ"
 msgid "&Height:"
 msgstr "ઉંચાઇ (&H):"
 
-#: mouseclick/mouseclick.cpp:38 mouseclick/mouseclick_config.cpp:53
+#: mouseclick/mouseclick.cpp:33 mouseclick/mouseclick_config.cpp:53
 #, fuzzy, kde-format
 #| msgid "Toggle Invert Effect"
 msgid "Toggle Mouse Click Effect"
 msgstr "ઉલ્ટી અસર ચાલુ/બંધ કરો"
 
-#: mouseclick/mouseclick.cpp:46
+#: mouseclick/mouseclick.cpp:41
 #, fuzzy, kde-format
 #| msgid "Left"
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "ડાબે"
 
-#: mouseclick/mouseclick.cpp:47
+#: mouseclick/mouseclick.cpp:42
 #, fuzzy, kde-format
 #| msgid "Middle button:"
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "મધ્યનું બટન:"
 
-#: mouseclick/mouseclick.cpp:48
+#: mouseclick/mouseclick.cpp:43
 #, fuzzy, kde-format
 #| msgid "Right"
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "જમણે"
 
-#: mouseclick/mouseclick.h:63
+#: mouseclick/mouseclick.h:62
 #, kde-format
 msgid "↓"
 msgstr ""
 
-#: mouseclick/mouseclick.h:64
+#: mouseclick/mouseclick.h:63
 #, kde-format
 msgid "↑"
 msgstr ""
@@ -1364,12 +959,17 @@ msgstr "પહોળાઇ (&W):"
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_LineWidth)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingSize)
 #: mouseclick/mouseclick_config.ui:119 mouseclick/mouseclick_config.ui:171
-#: mousemark/mousemark_config.cpp:45
-#, kde-format
+#, fuzzy, kde-format
+#| msgid " pixel"
+#| msgid_plural " pixels"
 msgid " pixel"
-msgid_plural " pixels"
-msgstr[0] " પિક્સેલ"
-msgstr[1] " પિક્સેલ્સ"
+msgstr " પિક્સેલ"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingLife)
+#: mouseclick/mouseclick_config.ui:132
+#, kde-format
+msgid " msec"
+msgstr "મીલી સેકન્ડ"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_duration_label)
 #: mouseclick/mouseclick_config.ui:145
@@ -1411,15 +1011,25 @@ msgstr ""
 msgid "Show Text:"
 msgstr "ડેસ્કટોપ બતાવો"
 
-#: mousemark/mousemark.cpp:40
+#: mousemark/mousemark.cpp:36
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "માઉસની બધી નિશાનીઓ સાફ કરો"
 
-#: mousemark/mousemark.cpp:47 mousemark/mousemark_config.cpp:65
+#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:65
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "માઉસની છેલ્લી નિશાની સાફ કરો"
+
+#: mousemark/mousemark_config.cpp:45
+#, fuzzy, kde-format
+#| msgid " pixel"
+#| msgid_plural " pixels"
+msgctxt "Suffix"
+msgid " pixel"
+msgid_plural " pixels"
+msgstr[0] " પિક્સેલ"
+msgstr[1] " પિક્સેલ્સ"
 
 #: mousemark/mousemark_config.cpp:59
 #, kde-format
@@ -1444,32 +1054,51 @@ msgstr "રંગ (&C):"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Shift+Meta પકડી રાખીને અને માઉસને હલાવીને માઉસ વડે દોરો."
 
-#: presentwindows/presentwindows.cpp:67
+#: overview/kcm/overvieweffectkcm.cpp:43 overview/overvieweffect.cpp:79
+#, fuzzy, kde-format
+#| msgid "Toggle Invert Effect"
+msgid "Toggle Overview"
+msgstr "ઉલ્ટી અસર ચાલુ/બંધ કરો"
+
+#. i18n: ectx: property (text), widget (QLabel, label_LayoutMode)
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: overview/kcm/overvieweffectkcm.ui:22
+#: presentwindows/presentwindows_config.ui:393
+#, kde-format
+msgid "Layout mode:"
+msgstr "આલેખન સ્થિતિ:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: overview/kcm/overvieweffectkcm.ui:30
+#, kde-format
+msgid "Closest"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
+#: overview/kcm/overvieweffectkcm.ui:35
+#: presentwindows/presentwindows_config.ui:441
+#, kde-format
+msgid "Natural"
+msgstr "કુદરતી"
+
+#: presentwindows/presentwindows.cpp:69
 #: presentwindows/presentwindows_config.cpp:62
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "વિન્ડોસની હાજરી બંધ/ચાલુ કરો (હાલનું ડેસ્કટોપ)"
 
-#: presentwindows/presentwindows.cpp:76
+#: presentwindows/presentwindows.cpp:78
 #: presentwindows/presentwindows_config.cpp:56
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "વિન્ડોસની હાજરી બંધ/ચાલુ કરો (બધાં ડેસ્કટોપ)"
 
-#: presentwindows/presentwindows.cpp:86
+#: presentwindows/presentwindows.cpp:88
 #: presentwindows/presentwindows_config.cpp:68
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "વિન્ડોસની હાજરી બંધ/ચાલુ કરો (વિન્ડો વર્ગ)"
-
-#: presentwindows/presentwindows.cpp:1700
-#, kde-format
-msgid ""
-"Filter:\n"
-"%1"
-msgstr ""
-"ગળણી:\n"
-"%1"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: presentwindows/presentwindows_config.ui:39
@@ -1630,11 +1259,11 @@ msgstr "ડેસ્કટોપ"
 msgid "Show desktop"
 msgstr "ડેસ્કટોપ બતાવો"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: presentwindows/presentwindows_config.ui:393
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowCaptions)
+#: presentwindows/presentwindows_config.ui:406
 #, kde-format
-msgid "Layout mode:"
-msgstr "આલેખન સ્થિતિ:"
+msgid "Display window &titles"
+msgstr "વિન્ડો શીર્ષકો દર્શાવો (&t)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowIcons)
 #: presentwindows/presentwindows_config.ui:413
@@ -1653,12 +1282,6 @@ msgstr "નીચી કરેલ વિન્ડોસને અવગણો (&
 #, kde-format
 msgid "Show &panels"
 msgstr "પેનલ્સ બતાવો (&p)"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: presentwindows/presentwindows_config.ui:441
-#, kde-format
-msgid "Natural"
-msgstr "કુદરતી"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
 #: presentwindows/presentwindows_config.ui:446
@@ -1705,33 +1328,35 @@ msgstr "એનિમેશન"
 msgid "Window close scale:"
 msgstr "એનિમેશન"
 
-#: screenshot/screenshot.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:471
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr ""
 
-#: screenshot/screenshot.cpp:482
+#: screenshot/screenshotdbusinterface1.cpp:472
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr ""
 
-#: screenshot/screenshot.cpp:624
+#: screenshot/screenshotdbusinterface1.cpp:787
+#: screenshot/screenshotdbusinterface2.cpp:413
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
 
-#: screenshot/screenshot.cpp:627
+#: screenshot/screenshotdbusinterface1.cpp:790
+#: screenshot/screenshotdbusinterface2.cpp:431
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
 
-#: showfps/showfps.cpp:54
+#: showfps/showfps.cpp:50
 #, kde-format
 msgid "This effect is not a benchmark"
 msgstr ""
@@ -1796,7 +1421,7 @@ msgstr "લખાણ રંગ:"
 msgid "Text alpha:"
 msgstr "લખાણ આલ્ફા:"
 
-#: showpaint/showpaint.cpp:42 showpaint/showpaint_config.cpp:41
+#: showpaint/showpaint.cpp:39 showpaint/showpaint_config.cpp:41
 #, fuzzy, kde-format
 #| msgid "Show &panels"
 msgid "Toggle Show Paint"
@@ -1869,7 +1494,13 @@ msgstr " પિક્સેલ"
 msgid "&Opacity:"
 msgstr "અપારદર્શકતા (&O):"
 
-#: trackmouse/trackmouse.cpp:50 trackmouse/trackmouse_config.cpp:59
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Opacity)
+#: thumbnailaside/thumbnailaside_config.ui:87
+#, no-c-format, kde-format
+msgid " %"
+msgstr " %"
+
+#: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:59
 #, fuzzy, kde-format
 #| msgid "Invert mouse"
 msgid "Track mouse"
@@ -1936,11 +1567,27 @@ msgstr "સામાન્ય પારદર્શકતા સુયોજન�
 msgid "Combobox popups:"
 msgstr "કોમ્બોબોક્સ પોપઅપ્સ"
 
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: translucency/package/contents/ui/config.ui:121
+#: translucency/package/contents/ui/config.ui:431
+#, kde-format
+msgid "Opaque"
+msgstr "અપારદર્શક"
+
 #. i18n: ectx: property (text), widget (QLabel, dialogs_label)
 #: translucency/package/contents/ui/config.ui:137
 #, kde-format
 msgid "Dialogs:"
 msgstr "સંવાદો:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: translucency/package/contents/ui/config.ui:156
+#: translucency/package/contents/ui/config.ui:418
+#, kde-format
+msgid "Transparent"
+msgstr "પારદર્શક"
 
 #. i18n: ectx: property (text), widget (QLabel, menus_label)
 #: translucency/package/contents/ui/config.ui:188
@@ -2068,32 +1715,32 @@ msgstr "ઓછુ"
 msgid "More"
 msgstr "વધુ"
 
-#: zoom/zoom.cpp:75
+#: zoom/zoom.cpp:71
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr ""
 
-#: zoom/zoom.cpp:83
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr ""
 
-#: zoom/zoom.cpp:91
+#: zoom/zoom.cpp:87
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr ""
 
-#: zoom/zoom.cpp:99
+#: zoom/zoom.cpp:95
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr ""
 
-#: zoom/zoom.cpp:108 zoom/zoom_config.cpp:109
+#: zoom/zoom.cpp:104 zoom/zoom_config.cpp:109
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr ""
 
-#: zoom/zoom.cpp:116 zoom/zoom_config.cpp:116
+#: zoom/zoom.cpp:112 zoom/zoom_config.cpp:116
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr ""

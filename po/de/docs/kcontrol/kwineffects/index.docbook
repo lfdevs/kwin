@@ -32,9 +32,9 @@
 </authorgroup>
 
 <date
->2016-04-14</date>
+>2021-04-09</date>
 <releaseinfo
->Plasma 5.6</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
@@ -61,9 +61,15 @@
 >, <guilabel
 >Fokus</guilabel
 >, <guilabel
+>Animation der Arbeitsfläche anzeigen</guilabel
+>, <guilabel
 >Extras</guilabel
-> und <guilabel
+>, <guilabel
+>Animation beim Wechseln der virtuellen Arbeitsfläche</guilabel
+>, <guilabel
 >Fensterverwaltung</guilabel
+> und <guilabel
+>Animation beim Öffnen/Schließen von Fenstern</guilabel
 > angezeigt.</para>
 <para
 >Benutzen Sie die inkrementelle Suchleiste über dem Listenfenster, um Elemente in der Liste zu finden.</para>
@@ -77,7 +83,7 @@
 
 <para
 >Am einfachsten können Sie neue Effekte mit der in &kwin; enthaltenen Funktion installieren. Drücken Sie dazu auf <guibutton
->Neue Erweiterungen herunterladen</guibutton
+>Neue Arbeitsflächen-Effekte herunterladen</guibutton
 >. Es wird ein Dialog mit allen verfügbaren Effekten angezeigt, in dem Sie diese Effekte installieren und wieder deinstallieren können.</para>
 <note
 ><para
@@ -106,7 +112,7 @@
 
 <para
 >Einige Effekte schließen sich gegenseitig aus. Sie sollten zum Beispiel nur den Effekt <guilabel
->Minimieren-Animation</guilabel
+>Maximieren</guilabel
 > oder <guilabel
 >Wunderlampe</guilabel
 > aktivieren, da mit beiden Effekten Animationen nicht richtig funktionieren. </para>
@@ -115,7 +121,7 @@
 >Für diese sich gegenseitig ausschließenden Effekte werden in der &GUI; Auswahlknöpfe benutzt, so dass nur einer dieser Effekte aktiviert werden kann. </para>
 
 <para
->Alle Effekte, die vom aktuell verwendeten Compositing-Backend nicht unterstützt werden, sind in der Voreinstellung ausgeblendet. Die trifft &eg; für OpenGL-Effekte zu, wenn XRender verwendet wird. </para
+>Alle Effekte, die vom aktuell verwendeten Compositing-Backend nicht unterstützt werden, sind in der Voreinstellung ausgeblendet. Die trifft &eg; für OpenGL-Effekte zu, wenn Software-Renderer verwendet wird. </para
 > 
 
 <para

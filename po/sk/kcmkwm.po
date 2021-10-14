@@ -3,21 +3,21 @@
 # Stanislav Visnovsky <visnovsky@kde.org>, 2003, 2004.
 # Richard Fric <Richard.Fric@kdemail.net>, 2006, 2009.
 # Michal Sulek <misurel@gmail.com>, 2009, 2010, 2011.
-# Roman Paholík <wizzardsk@gmail.com>, 2012, 2013, 2015, 2019, 2021.
-# Matej Mrenica <matejm98mthw@gmail.com>, 2019, 2020.
+# Roman Paholík <wizzardsk@gmail.com>, 2012, 2013, 2015, 2019.
+# Matej Mrenica <matejm98mthw@gmail.com>, 2019, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-28 13:55+0000\n"
-"PO-Revision-Date: 2021-04-14 20:23+0200\n"
-"Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
-"Language-Team: Slovak <kde-sk@linux.sk>\n"
+"POT-Creation-Date: 2021-04-27 00:19+0000\n"
+"PO-Revision-Date: 2021-05-15 17:10+0200\n"
+"Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
+"Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.12.3\n"
+"X-Generator: Lokalize 21.04.1\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #, kde-format
@@ -583,27 +583,22 @@ msgstr "Pod myšou"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:118
-#, fuzzy, kde-format
-#| msgid ""
-#| "When turned on, KDE apps which are able to remember the positions of "
-#| "their windows are allowed to do so. This will override the window "
-#| "placement mode defined above."
+#, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
-"Keď je to povolené, KDE aplikácie ktoré si dokážu pamätať umiestnenie "
-"svojich okien to môžu robiť. Toto prepíše režim umiestňovania okien "
-"definovaný vyššie."
+"Keď je to povolené, aplikácie ktoré si dokážu pamätať umiestnenie svojich "
+"okien to môžu robiť. Toto prepíše režim umiestňovania okien definovaný "
+"vyššie."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:121
-#, fuzzy, kde-format
-#| msgid "Allow KDE apps to remember the positions of their own windows"
+#, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
-msgstr "Povoliť KDE aplikáciam pamätať si pozície svojich okien"
+msgstr "Povoliť aplikáciam pamätať si pozície svojich okien, ak to podporujú"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
 #: advanced.ui:128
@@ -858,17 +853,13 @@ msgstr "Správanie na viac obrazovkách:"
 #: focus.ui:203
 #, kde-format
 msgid ""
-"When this option is enabled, the active Xinerama screen (where new windows "
-"appear, for example) is the screen containing the mouse pointer. When "
-"disabled, the active Xinerama screen is the screen containing the focused "
-"window. By default this option is disabled for Click to focus and enabled "
-"for other focus policies."
+"When this option is enabled, the active screen (where new windows appear, "
+"for example) is the screen containing the mouse pointer. When disabled, the "
+"active screen is the screen containing the focused window."
 msgstr ""
-"Ak je táto voľba zapnutá, aktívna obrazovka Xinerama (kde sa napr. objavujú "
-"nové okná) je tá obrazovka, ktorá obsahuje kurzor myši. Ak je vypnutá, "
-"aktívna Xinerama obrazovka je tá, ktorá obsahuje zvýraznené okno. Štandardne "
-"je táto voľba vypnutá pre Kliknúť pre zameranie a zapnutá pre ostatné "
-"spôsoby zamerania."
+"Ak je táto voľba zapnutá, aktívna obrazovka (kde sa napr. objavujú nové "
+"okná) je tá obrazovka, ktorá obsahuje kurzor myši. Ak je vypnutá, aktívna "
+"obrazovka je tá, ktorá obsahuje zvýraznené okno."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:206
@@ -881,10 +872,10 @@ msgstr "Aktívna obrazovka nasleduje &myš"
 #, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
-"Xinerama screen"
+"screen"
 msgstr ""
 "Ak je táto voľba zapnutá, operácie zamerania sú obmedzené len na aktívnu "
-"Xinerama obrazovku."
+"obrazovku"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:216
@@ -898,87 +889,87 @@ msgstr "Oddeliť zamerenie obrazoviek"
 msgid "Window activation policy description"
 msgstr "Popis politiky aktivácie okna"
 
-#: main.cpp:73
+#: main.cpp:74
 #, kde-format
 msgid "&Focus"
 msgstr "&Zameranie"
 
-#: main.cpp:84
+#: main.cpp:80
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "Akcie záhlavia okna"
 
-#: main.cpp:91
+#: main.cpp:86
 #, kde-format
 msgid "W&indow Actions"
 msgstr "Akcie ok&na"
 
-#: main.cpp:98
+#: main.cpp:92
 #, kde-format
 msgid "Mo&vement"
 msgstr "Pohyb"
 
-#: main.cpp:105
+#: main.cpp:98
 #, kde-format
 msgid "Adva&nced"
 msgstr "&Pokročilé"
 
-#: main.cpp:110
+#: main.cpp:102
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "Ovládací modul správania okien"
 
-#: main.cpp:112
+#: main.cpp:104
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "(c) 1997 - 2002 Autori KWin a KControl"
 
-#: main.cpp:114
+#: main.cpp:106
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:115
+#: main.cpp:107
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:116
+#: main.cpp:108
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:117
+#: main.cpp:109
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:118
+#: main.cpp:110
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:119
+#: main.cpp:111
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:120
+#: main.cpp:112
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:121
+#: main.cpp:113
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:122
+#: main.cpp:114
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:167
+#: main.cpp:163
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -995,12 +986,12 @@ msgstr ""
 "správcu okien ako KWin. Ak používate iného správcu okien, pozrite sa do jeho "
 "dokumentácie, ak chcete zmeniť správanie okien.</p>"
 
-#: main.cpp:187
+#: main.cpp:205
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "Akcie záhlavia okna"
 
-#: main.cpp:193
+#: main.cpp:211
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "Akcie ok&na"
@@ -1296,32 +1287,18 @@ msgstr "Zóna priťahovania &stredu:"
 msgid "&Snap windows:"
 msgstr "Prichytenie okien:"
 
-#: windows.cpp:101
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-style:italic;\">Click to focus:"
-#| "</span> A window becomes active when you click into it. This behavior is "
-#| "common on other operating systems and likely what you want.</p></body></"
-#| "html>"
+#: windows.cpp:99
+#, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
 "This behavior is common on other operating systems and likely what you want."
 msgstr ""
-"<html><head/><body><p><span style=\" font-style:italic;\">Kliknúť na "
-"zameranie:</span> Okno sa stane aktívne po kliknutí naň. Toto správanie je "
-"bežné medzi inými operačnými systémami a pravdepodobne to chcete.</p></"
-"body></html>"
+"<em>Kliknúť na zameranie:</em> Okno sa stane aktívne po kliknutí naň. Toto "
+"správanie je bežné medzi inými operačnými systémami a pravdepodobne to "
+"chcete."
 
-#: windows.cpp:105
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-style:italic;\">Click to focus "
-#| "(mouse precedence):</span> Mostly the same as <span style=\" font-style:"
-#| "italic;\">Click to focus</span>. If an active window has to be chosen by "
-#| "the system (eg. because the currently active one was closed) the window "
-#| "under the mouse is the preferred candidate. Unusual, but possible variant "
-#| "of <span style=\" font-style:italic;\">Click to focus</span>.</p></body></"
-#| "html>"
+#: windows.cpp:103
+#, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
 "focus</em>. If an active window has to be chosen by the system (eg. because "
@@ -1329,56 +1306,38 @@ msgid ""
 "preferred candidate. Unusual, but possible variant of <em>Click to focus</"
 "em>."
 msgstr ""
-"<b>Kliknúť na zameranie - prednosť myši</b><br>\n"
-"Toto je prakticky rovnaké ako <i>Kliknúť na zameranie</i><br><br>\n"
-"Ak má byť aktívne okno vybrané systémom<br>\n"
-"(napr. pretože práve aktívne bolo zatvorené) <br>\n"
-"okno pod myšou je preferovaný kandidát.<br><br>\n"
-"Neobvyklý, ale možný variant <i>Kliknúť na zameranie</i>."
+"<em>Kliknúť na zameranie - prednosť myši</em>Toto je prakticky rovnaké ako "
+"<em>Kliknúť na zameranie</em>Ak má byť aktívne okno vybrané systémom(napr. "
+"pretože práve aktívne bolo zatvorené) okno pod myšou je preferovaný kandidát."
+"Neobvyklý, ale možný variant <em>Kliknúť na zameranie</em>."
 
-#: windows.cpp:110
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-style:italic;\">Focus follows "
-#| "mouse:</span> Moving the mouse onto a window will activate it. Eg. "
-#| "windows randomly appearing under the mouse will not gain the focus. <span "
-#| "style=\" font-style:italic;\">Focus stealing prevention</span> takes "
-#| "place as usual. Think as <span style=\" font-style:italic;\">Click to "
-#| "focus</span> just without having to actually click.</p></body></html>"
+#: windows.cpp:108
+#, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
 "it. Eg. windows randomly appearing under the mouse will not gain the focus. "
 "<em>Focus stealing prevention</em> takes place as usual. Think as <em>Click "
 "to focus</em> just without having to actually click."
 msgstr ""
-"<b>Zameranie sleduje myš</b><br>\n"
-"Pohyb myši cez okno ho aktivuje.<br><br>\n"
-"Napr. okná náhodne sa objavujúce na pod myšou nezískajú zameranie.<br>\n"
-"Funguje tu ochrana pred kradnutím zamerania ako obyčajne.<br><br>\n"
-"Teda ako <i>Kliknúť na zameranie</i> iba bez nutnosti kliknúť."
+"<em>Zameranie sleduje myš</em>Pohyb myši cez okno ho aktivuje.Napr. okná "
+"náhodne sa objavujúce na pod myšou nezískajú zameranie.Funguje tu "
+"<em>ochrana pred kradnutím zamerania</em> ako zvyčajne.Teda ako <em>Kliknúť "
+"na zameranie</em> iba bez nutnosti kliknúť."
 
-#: windows.cpp:114
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This is mostly the same as <span style=\" font-"
-#| "style:italic;\">Focus follows mouse</span>. If an active window has to be "
-#| "chosen by the system (eg. because the currently active one was closed) "
-#| "the window under the mouse is the preferred candidate. Choose this, if "
-#| "you want a hover controlled focus.</p></body></html>"
+#: windows.cpp:112
+#, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
 "has to be chosen by the system (eg. because the currently active one was "
 "closed) the window under the mouse is the preferred candidate. Choose this, "
 "if you want a hover controlled focus."
 msgstr ""
-"<b>Zameranie sleduje myš - prednosť myši</b><br>\n"
-"Toto je prakticky rovnaké ako <i>Zameranie sleduje myš</i><br><br>\n"
-"Ak má byť aktívne okno vybrané systémom<br>\n"
-"(napr. pretože práve aktívne bolo zatvorené) <br>\n"
-"okno pod myšou je preferovaný kandidát.<br><br>\n"
-"Vyberte toto, ak chcete zameranie ovládať prechodom myši."
+"Toto je prakticky rovnaké ako <em>Zameranie sleduje myš</em>Ak má byť "
+"aktívne okno vybrané systémom(napr. pretože práve aktívne bolo zatvorené) "
+"okno pod myšou je preferovaný kandidát.Vyberte toto, ak chcete zameranie "
+"ovládať prechodom myši."
 
-#: windows.cpp:119
+#: windows.cpp:117
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1387,16 +1346,13 @@ msgid ""
 "not work. You very likely want to use <em>Focus follows mouse (mouse "
 "precedence)</em> instead!"
 msgstr ""
-"<b>Zameranie pod myšou</b><br>\n"
-"Zameranie vždy ostáva na okne pod myšou.<br><br>\n"
-"\n"
-"Poznámka:<br>\n"
-"<b>Ochrana pred kradnutím zamerania</b> a <b>tabbox (\"Alt+Tab\")</b><br>\n"
-"odporujú politike a <b>nebudú fungovať</b>.<br><br>\n"
-"Veľmi pravdepodobne budete chcieť použiť<br>\n"
-"<i>Zameranie sleduje myš - prednosť myši</i> namiesto tohto!"
+"<em>Zameranie pod myšou:</em>Zameranie vždy ostáva na okne pod myšou.<br/"
+"><strong>Poznámka:</strong><em>Ochrana pred kradnutím zamerania</em> a "
+"<em>tabbox (\"Alt+Tab\")</em>odporujú politike a nebudú fungovať.Veľmi "
+"pravdepodobne budete chcieť použiť<em>Zameranie sleduje myš - prednosť myši</"
+"em> namiesto tohto!"
 
-#: windows.cpp:123
+#: windows.cpp:121
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "
@@ -1406,13 +1362,9 @@ msgid ""
 "activation policy and will not work. You very likely want to use <em>Focus "
 "follows mouse (mouse precedence)</em> instead!"
 msgstr ""
-"<b>Zameranie prísne pod myšou</b><br>\n"
-"Zameranie je vždy na okne pod myšou - v prípade pochybností nikde -<br>\n"
-"veľmi podobné správanie zameranie ako v nespravovanom tradičnom prostredí "
-"X11.<br><br>\n"
-"\n"
-"Poznámka:<br>\n"
-"<b>Ochrana pred kradnutím zamerania</b> a <b>tabbox (\"Alt+Tab\")</b><br>\n"
-"odporujú politike a <b>nebudú fungovať</b>.<br><br>\n"
-"Veľmi pravdepodobne budete chcieť použiť<br>\n"
-"<i>Zameranie sleduje myš - prednosť myši</i> namiesto tohto!"
+"<em>Zameranie prísne pod myšou</em> Zameranie je vždy na okne pod myšou (v "
+"prípade pochybností nikde) veľmi podobné správanie zameranie ako v "
+"nespravovanom tradičnom prostredí X11.<br/><strong>Poznámka:</"
+"strong><em>Ochrana pred kradnutím zamerania</em> a <em>tabbox (\"Alt+Tab\")</"
+"em> odporujú politike a nebudú fungovať. Veľmi pravdepodobne budete chcieť "
+"použiť <em>Zameranie sleduje myš (prednosť myši)</em> namiesto tohto!"

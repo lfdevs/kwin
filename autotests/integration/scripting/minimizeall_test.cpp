@@ -10,6 +10,7 @@
 #include "kwin_wayland_test.h"
 
 #include "abstract_client.h"
+#include "abstract_output.h"
 #include "platform.h"
 #include "screens.h"
 #include "scripting/scripting.h"
@@ -53,10 +54,11 @@ void MinimizeAllScriptTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    QCOMPARE(screens()->count(), 2);
-    QCOMPARE(screens()->geometry(0), QRect(0, 0, 1280, 1024));
-    QCOMPARE(screens()->geometry(1), QRect(1280, 0, 1280, 1024));
-    waylandServer()->initWorkspace();
+    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    QCOMPARE(outputs.count(), 2);
+    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    Test::initWaylandWorkspace();
 }
 
 static QString locateMainScript(const QString &pluginName)
@@ -108,15 +110,15 @@ void MinimizeAllScriptTest::testMinimizeUnminimize()
     using namespace KWayland::Client;
 
     // Create a couple of test clients.
-    QScopedPointer<Surface> surface1(Test::createSurface());
-    QScopedPointer<XdgShellSurface> shellSurface1(Test::createXdgShellStableSurface(surface1.data()));
+    QScopedPointer<KWayland::Client::Surface> surface1(Test::createSurface());
+    QScopedPointer<Test::XdgToplevel> shellSurface1(Test::createXdgToplevelSurface(surface1.data()));
     AbstractClient *client1 = Test::renderAndWaitForShown(surface1.data(), QSize(100, 50), Qt::blue);
     QVERIFY(client1);
     QVERIFY(client1->isActive());
     QVERIFY(client1->isMinimizable());
 
-    QScopedPointer<Surface> surface2(Test::createSurface());
-    QScopedPointer<XdgShellSurface> shellSurface2(Test::createXdgShellStableSurface(surface2.data()));
+    QScopedPointer<KWayland::Client::Surface> surface2(Test::createSurface());
+    QScopedPointer<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.data()));
     AbstractClient *client2 = Test::renderAndWaitForShown(surface2.data(), QSize(100, 50), Qt::red);
     QVERIFY(client2);
     QVERIFY(client2->isActive());

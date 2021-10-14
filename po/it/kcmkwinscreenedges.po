@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Nicola Ruggero <nicola@nxnt.org>, 2009, 2010, 2012, 2013.
 # Federico Zenith <federico.zenith@member.fsf.org>, 2010.
-# Vincenzo Reale <smart2128vr@gmail.com>, 2015, 2018, 2019.
+# Vincenzo Reale <smart2128vr@gmail.com>, 2015, 2018, 2019, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-11-04 02:33+0100\n"
-"PO-Revision-Date: 2019-08-05 18:09+0200\n"
+"POT-Creation-Date: 2021-08-20 00:22+0000\n"
+"PO-Revision-Date: 2021-08-20 14:07+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 19.04.3\n"
+"X-Generator: Lokalize 21.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -77,28 +77,18 @@ msgstr "%1 - Applicazione corrente"
 
 #: main.cpp:139 touch.cpp:137
 #, kde-format
-msgid "%1 - Cube"
-msgstr "%1 - Cubo"
-
-#: main.cpp:140 touch.cpp:138
-#, kde-format
-msgid "%1 - Cylinder"
-msgstr "%1 - Cilindro"
-
-#: main.cpp:141 touch.cpp:139
-#, kde-format
-msgid "%1 - Sphere"
-msgstr "%1 - Sfera"
-
-#: main.cpp:143 touch.cpp:141
-#, kde-format
 msgid "Toggle window switching"
 msgstr "Attiva scambiafinestre"
 
-#: main.cpp:144 touch.cpp:142
+#: main.cpp:140 touch.cpp:138
 #, kde-format
 msgid "Toggle alternative window switching"
 msgstr "Attiva scambiafinestre alternativo"
+
+#: main.cpp:142 touch.cpp:140
+#, kde-format
+msgid "Toggle Overview"
+msgstr "Attiva/disattiva la panoramica"
 
 #. i18n: ectx: property (text), widget (QLabel, infoLabel)
 #: main.ui:23

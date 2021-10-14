@@ -18,9 +18,9 @@
 </authorgroup>
 
 <date
->2015-07-14</date>
+>2021-04-09</date>
 <releaseinfo
->Plasma 5.3</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
@@ -57,18 +57,16 @@
 > in het contextmenu.</para>
 
 <para
->In de sectie <guilabel
->Vensterbeheer</guilabel
-> kunt u <guilabel
->Vensters maximaliseren door ze naar de top van het scherm te slepen</guilabel
+>U kunt <guilabel
+>Maximaliseren: Vensters naar de bovenrand gesleept</guilabel
 > of <guilabel
->Vensterstegels maken door ze naar de rand van het venster te slepen</guilabel
-> en een percentage van het scherm in te stellen om tegels maken te starten. </para>
+>Tegels: Vensters naar de linker of rechter rand gesleept</guilabel
+> inschakelen en een percentage van het scherm instellen om tegels maken te starten. </para>
 
 <para
->In de sectie <guilabel
->Andere instellingen</guilabel
-> stelt u in of u wilt omschakelen naar een ander bureaublad bij het drukken van de muiscursor tegen de schermrand, &eg; alleen bij het verplaatsen van vensters. </para>
+>Door het item <guilabel
+>Bureaublad omschakelen aan rand</guilabel
+> te gebruiken, configureert u dat u wilt omschakelen naar een ander bureaublad bij het drukken van de muiscursor tegen de schermrand, &eg; alleen bij het verplaatsen van vensters. </para>
 <para
 ><guilabel
 >Vertraging van activering</guilabel

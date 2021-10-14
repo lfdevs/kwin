@@ -31,9 +31,9 @@
 </authorgroup>
 
 <date
->2018-03-18</date>
+>2021-04-09</date>
 <releaseinfo
->Plasma 5.12</releaseinfo>
+>Plasma 5.21</releaseinfo>
 
 <keywordset>
 <keyword
@@ -81,7 +81,7 @@
 
 <para
 >Wählen Sie einen Fensterstil aus der Vorschauliste, die angezeigten Stile können mit der Suchleiste oben im Dialog gefiltert werden oder laden Sie einen neuen Stil mit dem Knopf <guibutton
->Neue Fensterdekorationen herunterladen</guibutton
+>Neue Fensterdekorationen holen</guibutton
 > herunter.</para>
 
 <para
@@ -116,7 +116,9 @@
 
 <tip>
 <para
->Als Zugangshilfe unterstützen einige Fensterdekorationen besonders breite Rahmen. Ist diese Einstellung verfügbar, können Sie hier die Rahmenbreite festlegen. Diese breiten Rahmen sind für sehbehinderte Anwender leichter zu erkennen und können von Menschen mit eingeschränkter Beweglichkeit oder solchen, die Schwierigkeiten bei der Benutzung einer Maus haben, leichter <quote
+>Als Zugangshilfe unterstützen einige Fensterdekorationen besonders breite Rahmen. Ist diese Einstellung verfügbar, können Sie hier die <guilabel
+>Rahmenbreite des Fensters</guilabel
+> festlegen. Diese breiten Rahmen sind für sehbehinderte Anwender leichter zu erkennen und können von Menschen mit eingeschränkter Beweglichkeit oder solchen, die Schwierigkeiten bei der Benutzung einer Maus haben, leichter <quote
 >angefasst</quote
 > werden.</para>
 </tip>
@@ -148,7 +150,7 @@
 
 <sect2>
 <title
->Knöpfe</title>
+>Titelleistenknöpfe</title>
 
 <para
 >Auf dieser Karteikarte können Sie die Anordnung der Knöpfe in der Titelleiste einstellen. Verschieben Sie die angezeigten Knöpfe wie &eg; das <guilabel
@@ -173,6 +175,11 @@
 >Aktivieren Sie <guilabel
 >Fenster durch Doppelklick auf Menüknopf schließen</guilabel
 >, um eine zusätzlich Möglichkeit zum Schließknopf zu haben oder wenn Sie diesen Knopf aus der Titelleiste entfernt haben. </para>
+
+<para
+>Aktivieren Sie die Einstellung <guilabel
+>Kurzinfos für Knöpfe der Titelleiste anzeigen</guilabel
+>, damit beim Überfahren der Knöpfe in der Titelleiste mit dem Mauszeiger Kurzinfos angezeigt werden. </para>
 
 </sect2>
 

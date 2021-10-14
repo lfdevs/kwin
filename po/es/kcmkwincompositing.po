@@ -12,38 +12,36 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-08 02:56+0100\n"
-"PO-Revision-Date: 2021-01-07 12:30+0100\n"
+"POT-Creation-Date: 2021-09-07 00:20+0000\n"
+"PO-Revision-Date: 2021-06-10 13:00+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 21.04.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
-#: compositing.ui:32
+#: compositing.ui:31
 #, kde-format
 msgid ""
 "OpenGL compositing (the default) has crashed KWin in the past.\n"
 "This was most likely due to a driver bug.\n"
 "If you think that you have meanwhile upgraded to a stable driver,\n"
 "you can reset this protection but be aware that this might result in an "
-"immediate crash!\n"
-"Alternatively, you might want to use the XRender backend instead."
+"immediate crash!"
 msgstr ""
 "La composición OpenGL (por omisión) ha ocasionado que KWin se\n"
 "bloquee en el pasado.\n"
 "Es probable que esto se deba a un error en el controlador.\n"
 "Si cree que ya se ha actualizado a un controlador estable, puede\n"
 "restablecer esta protección, pero debe tener presente que es posible\n"
-"que se produzca un bloqueo inmediato.\n"
-"De forma alternativa, puede desear usar el motor XRender en su lugar."
+"que se produzca un bloqueo inmediato."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
-#: compositing.ui:45
+#: compositing.ui:44
 #, kde-format
 msgid ""
 "Scale method \"Accurate\" is not supported by all hardware and can cause "
@@ -53,7 +51,7 @@ msgstr ""
 "y puede ocasionar regresiones de rendimiento y problemas de visualización."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
-#: compositing.ui:68
+#: compositing.ui:67
 #, kde-format
 msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
@@ -64,122 +62,109 @@ msgstr ""
 "suspendan su trabajo cuando estén minimizadas."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Enabled)
-#: compositing.ui:80
+#: compositing.ui:79
 #, kde-format
 msgid "Enable compositor on startup"
 msgstr "Activar el compositor durante el inicio"
 
 #. i18n: ectx: property (text), widget (QLabel, animationSpeedLabel)
-#: compositing.ui:87
+#: compositing.ui:86
 #, kde-format
 msgid "Animation speed:"
 msgstr "Velocidad de animación:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: compositing.ui:124
+#: compositing.ui:123
 #, kde-format
 msgid "Very slow"
 msgstr "Muy lenta"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: compositing.ui:144
+#: compositing.ui:143
 #, kde-format
 msgid "Instant"
 msgstr "Instantánea"
 
 #. i18n: ectx: property (text), widget (QLabel, scaleMethodLabel)
-#: compositing.ui:156
+#: compositing.ui:155
 #, kde-format
 msgid "Scale method:"
 msgstr "Método de escalado:"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_XRenderSmoothScale)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_glTextureFilter)
-#: compositing.ui:166 compositing.ui:180
-#, kde-format
-msgid "Crisp"
-msgstr "Nítido"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_XRenderSmoothScale)
-#: compositing.ui:171
-#, kde-format
-msgid "Smooth (slower)"
-msgstr "Suave (más lento)"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_glTextureFilter)
-#: compositing.ui:185
+#: compositing.ui:165
 #, kde-format
 msgid "Smooth"
 msgstr "Suave"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_glTextureFilter)
-#: compositing.ui:190
+#: compositing.ui:170
 #, kde-format
 msgid "Accurate"
 msgstr "Preciso"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: compositing.ui:207
+#: compositing.ui:180
 #, kde-format
 msgid "Rendering backend:"
 msgstr "Motor de renderizado:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: compositing.ui:224
+#: compositing.ui:190
 #, kde-format
 msgid "Tearing prevention (\"vsync\"):"
 msgstr "Prevención de efecto bandera («vsync»):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_glPreferBufferSwap)
-#: compositing.ui:232
+#: compositing.ui:198
 #, kde-format
 msgid "Automatic"
 msgstr "Automática"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_glPreferBufferSwap)
-#: compositing.ui:237
+#: compositing.ui:203
 #, kde-format
 msgid "Only when cheap"
 msgstr "Solo cuando resulte económico"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_glPreferBufferSwap)
-#: compositing.ui:242
+#: compositing.ui:208
 #, kde-format
 msgid "Full screen repaints"
 msgstr "Repintar toda la pantalla"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_glPreferBufferSwap)
-#: compositing.ui:247
+#: compositing.ui:213
 #, kde-format
 msgid "Re-use screen content"
 msgstr "Reutilizar el contenido de la pantalla"
 
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: compositing.ui:255
+#. i18n: ectx: property (text), widget (QLabel, label_HiddenPreviews)
+#: compositing.ui:221
 #, kde-format
 msgid "Keep window thumbnails:"
 msgstr "Mantener miniaturas de las ventanas:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_HiddenPreviews)
-#: compositing.ui:263
+#: compositing.ui:229
 #, kde-format
 msgid "Never"
 msgstr "Nunca"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_HiddenPreviews)
-#: compositing.ui:268
+#: compositing.ui:234
 #, kde-format
 msgid "Only for Shown Windows"
 msgstr "Solo para las ventanas mostradas"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_HiddenPreviews)
-#: compositing.ui:273
+#: compositing.ui:239
 #, kde-format
 msgid "Always"
 msgstr "Siempre"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_WindowsBlockCompositing)
-#: compositing.ui:283
+#: compositing.ui:249
 #, kde-format
 msgid ""
 "Applications can set a hint to block compositing when the window is open.\n"
@@ -193,43 +178,43 @@ msgstr ""
 "ajuste."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_WindowsBlockCompositing)
-#: compositing.ui:286
+#: compositing.ui:252
 #, kde-format
 msgid "Allow applications to block compositing"
 msgstr "Permitir que las aplicaciones bloqueen la composición"
 
 #. i18n: ectx: property (text), widget (QLabel, latencyLabel)
-#: compositing.ui:293
+#: compositing.ui:259
 #, kde-format
 msgid "Latency:"
 msgstr "Latencia:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
-#: compositing.ui:301
+#: compositing.ui:267
 #, kde-format
 msgid "Force lowest latency (may cause dropped frames)"
 msgstr "Forzar la latencia más baja (puede descartar fotogramas)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
-#: compositing.ui:306
+#: compositing.ui:272
 #, kde-format
 msgid "Prefer lower latency"
 msgstr "Preferir la latencia más baja"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
-#: compositing.ui:311
+#: compositing.ui:277
 #, kde-format
 msgid "Balance of latency and smoothness"
 msgstr "Balance de latencia y suavidad"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
-#: compositing.ui:316
+#: compositing.ui:282
 #, kde-format
 msgid "Prefer smoother animations"
 msgstr "Preferir animaciones más suaves"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
-#: compositing.ui:321
+#: compositing.ui:287
 #, kde-format
 msgid "Force smoothest animations"
 msgstr "Forzar las animaciones más suaves"
@@ -239,7 +224,7 @@ msgstr "Forzar las animaciones más suaves"
 msgid "Re-enable OpenGL detection"
 msgstr "Reactivar detección de OpenGL"
 
-#: main.cpp:135
+#: main.cpp:139
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -248,12 +233,12 @@ msgstr ""
 "«Solo cuando sea económico» previene únicamente el efecto bandera en los "
 "cambios a pantalla completa, como un vídeo."
 
-#: main.cpp:139
+#: main.cpp:143
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "«Repintar toda la pantalla» puede causar problemas de rendimiento."
 
-#: main.cpp:143
+#: main.cpp:147
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
@@ -261,17 +246,12 @@ msgstr ""
 "«Reutilizar el contenido de la pantalla» causa serios problemas de "
 "rendimiento con los controladores MESA."
 
-#: main.cpp:163
+#: main.cpp:167
 #, kde-format
 msgid "OpenGL 3.1"
 msgstr "OpenGL 3.1"
 
-#: main.cpp:164
+#: main.cpp:168
 #, kde-format
 msgid "OpenGL 2.0"
 msgstr "OpenGL 2.0"
-
-#: main.cpp:165
-#, kde-format
-msgid "XRender"
-msgstr "XRender"

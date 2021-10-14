@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-11-19 02:35+0100\n"
-"PO-Revision-Date: 2020-12-17 22:37+0200\n"
+"POT-Creation-Date: 2021-08-26 00:18+0000\n"
+"PO-Revision-Date: 2021-06-11 12:33+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -41,8 +41,8 @@ msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:54
 #, kde-format
-msgid "Menu"
-msgstr "Valikko"
+msgid "More actions for this window"
+msgstr "Lisätoimintoja tälle ikkunalle"
 
 #: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
@@ -81,101 +81,171 @@ msgstr "Rullaa"
 
 #: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
-msgid "Keep below"
-msgstr "Pidä alinna"
+msgid "Keep below other windows"
+msgstr "Pidä muiden ikkunoiden alla"
 
 #: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
-msgid "Keep above"
-msgstr "Pidä ylinnä"
+msgid "Keep above other windows"
+msgstr "Pidä muiden ikkunoiden yllä"
 
-#: kcm.cpp:51
+#: kcm.cpp:49
 #, kde-format
 msgid "Window Decorations"
 msgstr "Ikkunakehykset"
 
-#: kcm.cpp:55
+#: kcm.cpp:53
 #, kde-format
 msgid "Valerio Pilo"
 msgstr "Valerio Pilo"
 
-#: kcm.cpp:56
+#: kcm.cpp:54
 #, kde-format
 msgid "Author"
 msgstr "Tekijä"
 
-#: kcm.cpp:115
-#, kde-format
-msgid "Download New Window Decorations"
-msgstr "Lataa uusia ikkunakehyksiä"
-
-#: kcm.cpp:205
+#: kcm.cpp:184
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
 msgstr "Teeman oletus (%1)"
+
+#: kwin-applywindowdecoration.cpp:32
+#, kde-format
+msgid ""
+"This tool allows you to set the window decoration theme for the currently "
+"active session, without accidentally setting it to one that is either not "
+"available, or which is already set."
+msgstr ""
+"Tällä työkalulla voi asettaa ikkunakoristeteeman aktiiviseen istuntoon niin, "
+"ettei vahingossa aseta sitä sellaiseksi, joka ei ole käytettävissä tai on jo "
+"käytössä."
+
+#: kwin-applywindowdecoration.cpp:33
+#, kde-format
+msgid ""
+"The name of the window decoration theme you wish to set for KWin. Passing a "
+"full path will attempt to find a theme in that directory, and then apply "
+"that if one can be deduced."
+msgstr ""
+"Ikkunakoristeteeman nimi, jota haluat KWinin käyttävän. Välitettäessä "
+"kansion sijainti teema yritetään löytää siitä ja ottaa se käyttöön, jos "
+"mahdollista."
+
+#: kwin-applywindowdecoration.cpp:34
+#, kde-format
+msgid ""
+"Show all the themes available on the system (and which is the current theme)"
+msgstr ""
+"Näytä kaikki järjestelmään asennetut teemat (ja mikä niistä on käytössä)"
+
+#: kwin-applywindowdecoration.cpp:65
+#, kde-format
+msgid ""
+"Resolved %1 to the KWin Aurorae theme \"%2\", and will attempt to set that "
+"as your current theme."
+msgstr ""
+"Tulkittiin %1 KWinin Aurorae-teemaksi ”%2” ja yritetään asettaa se "
+"nykyiseksi teemaksi."
+
+#: kwin-applywindowdecoration.cpp:71
+#, kde-format
+msgid ""
+"You attempted to pass a file path, but this could not be resolved to a "
+"theme, and we will have to abort, due to having no theme to set"
+msgstr ""
+"Yritettiin välittää tiedoston sijainti, mutta sitä ei voitu tulkita "
+"teemaksi, joten keskeytetään, koska asetettavaa teemaa ei ole"
+
+#: kwin-applywindowdecoration.cpp:77
+#, kde-format
+msgid ""
+"The requested theme \"%1\" is already set as the window decoration theme."
+msgstr "Pyydetty teema ”%1” on jo asetettu ikkunakoristeteemaksi."
+
+#: kwin-applywindowdecoration.cpp:99
+#, kde-format
+msgid "Successfully applied the cursor theme %1 to your current Plasma session"
+msgstr "Kohdistinteeman %1 käyttöönotto nykyiseen Plasma-istuntoon onnistui"
+
+#: kwin-applywindowdecoration.cpp:102
+#, kde-format
+msgid ""
+"Failed to save your theme settings - the reason is unknown, but this is an "
+"unrecoverable error. You may find that simply trying again will work."
+msgstr ""
+"Asetuksia ei voitu tallentaa; syy on tuntematon, mutta tästä virheestä ei "
+"voi palautua. Uudelleen yrittäminen saattaa auttaa."
+
+#: kwin-applywindowdecoration.cpp:106
+#, kde-format
+msgid ""
+"Could not find theme \"%1\". The theme should be one of the following "
+"options: %2"
+msgstr "Teemaa ”%1” ei löytynyt. Teeman tulisi olla yksi seuraavista: %2"
+
+#: kwin-applywindowdecoration.cpp:111
+#, kde-format
+msgid "You have the following KWin window decoration themes on your system:"
+msgstr "Järjestelmään on asennettu seuraavat KWin-ikkunakoristeteemat:"
 
 #: package/contents/ui/Buttons.qml:85
 #, kde-format
 msgid "Titlebar"
 msgstr "Otsikkopalkki"
 
-#: package/contents/ui/Buttons.qml:243
+#: package/contents/ui/Buttons.qml:245
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr "Poista painike pudottamalla se tähän"
 
-#: package/contents/ui/Buttons.qml:259
+#: package/contents/ui/Buttons.qml:261
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Vedä painikkeita tämän alueen ja otsikkopalkin välillä"
 
-#: package/contents/ui/main.qml:18
+#: package/contents/ui/main.qml:19
 #, kde-format
 msgid "This module lets you configure the window decorations."
 msgstr "Tässä voit asettaa ikkunakehykset."
 
-#: package/contents/ui/main.qml:52
+#: package/contents/ui/main.qml:53
 #, kde-format
 msgctxt "tab label"
 msgid "Theme"
 msgstr "Teema"
 
-#: package/contents/ui/main.qml:56
+#: package/contents/ui/main.qml:57
 #, kde-format
 msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "Otsikkopalkin painikkeet"
 
-#: package/contents/ui/main.qml:86
+#: package/contents/ui/main.qml:87
 #, kde-format
 msgctxt "Selector label"
 msgid "Window border size:"
 msgstr "Ikkunareunuksen koko:"
 
-#: package/contents/ui/main.qml:103
+#: package/contents/ui/main.qml:105
 #, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "Hae uusia ikkunakehyksiä…"
 
-#: package/contents/ui/main.qml:121
+#: package/contents/ui/main.qml:128
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Sulje ikkunat kaksoisnapsauttamalla valikkopainiketta"
 
-#: package/contents/ui/main.qml:138
+#: package/contents/ui/main.qml:145
 #, kde-format
 msgctxt "popup tip"
-msgid ""
-"Close by double clicking: Keep the window's Menu button pressed until it "
-"appears."
-msgstr ""
-"Sulje kaksoisnapsauttamalla: Pidä ikkunan valikkopainike pohjassa, kunnes "
-"valikko ilmestyy."
+msgid "Click and hold on the menu button to show the menu."
+msgstr "Näytä valikko napsauttamalla ja pitämällä pohjassa valikkopainiketta"
 
-#: package/contents/ui/main.qml:145
+#: package/contents/ui/main.qml:152
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
@@ -230,6 +300,26 @@ msgstr "Aivan valtava"
 #, kde-format
 msgid "Oversized"
 msgstr "Ylisuuri"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Alkuperäinenkin selite on niin pitkä, että se tahtoo valua yli
 

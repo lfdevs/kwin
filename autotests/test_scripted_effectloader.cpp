@@ -6,13 +6,13 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#include "../effectloader.h"
+#include "effectloader.h"
 #include "mock_effectshandler.h"
-#include "../scripting/scriptedeffect.h"
+#include "scripting/scriptedeffect.h"
 // for mocking
-#include "../cursor.h"
-#include "../input.h"
-#include "../screenedge.h"
+#include "cursor.h"
+#include "input.h"
+#include "screenedge.h"
 // KDE
 #include <KConfig>
 #include <KConfigGroup>
@@ -35,6 +35,10 @@ void ScreenEdges::reserve(ElectricBorder, QObject *, const char *)
 {
 }
 
+void ScreenEdges::unreserve(ElectricBorder, QObject *)
+{
+}
+
 void ScreenEdges::reserveTouch(ElectricBorder, QAction *)
 {
 }
@@ -43,13 +47,6 @@ InputRedirection *InputRedirection::s_self = nullptr;
 
 void InputRedirection::registerShortcut(const QKeySequence &, QAction *)
 {
-}
-
-namespace MetaScripting
-{
-void registration(QScriptEngine *)
-{
-}
 }
 
 }
@@ -88,13 +85,9 @@ void TestScriptedEffectLoader::testHasEffect_data()
     QTest::newRow("blur")                        << QStringLiteral("blur")                      << false;
     QTest::newRow("Colorpicker")                 << QStringLiteral("colorpicker")               << false;
     QTest::newRow("Contrast")                    << QStringLiteral("contrast")                  << false;
-    QTest::newRow("CoverSwitch")                 << QStringLiteral("coverswitch")               << false;
-    QTest::newRow("Cube")                        << QStringLiteral("cube")                      << false;
-    QTest::newRow("CubeSlide")                   << QStringLiteral("cubeslide")                 << false;
     QTest::newRow("DesktopGrid")                 << QStringLiteral("desktopgrid")               << false;
     QTest::newRow("DimInactive")                 << QStringLiteral("diminactive")               << false;
     QTest::newRow("FallApart")                   << QStringLiteral("fallapart")                 << false;
-    QTest::newRow("FlipSwitch")                  << QStringLiteral("flipswitch")                << false;
     QTest::newRow("Glide")                       << QStringLiteral("glide")                     << false;
     QTest::newRow("HighlightWindow")             << QStringLiteral("highlightwindow")           << false;
     QTest::newRow("Invert")                      << QStringLiteral("invert")                    << false;
@@ -149,7 +142,7 @@ void TestScriptedEffectLoader::testHasEffect()
     QFETCH(QString, name);
     QFETCH(bool, expected);
 
-    QScopedPointer<MockEffectsHandler, QScopedPointerDeleteLater> mockHandler(new MockEffectsHandler(KWin::XRenderCompositing));
+    QScopedPointer<MockEffectsHandler, QScopedPointerDeleteLater> mockHandler(new MockEffectsHandler(KWin::QPainterCompositing));
     KWin::ScriptedEffectLoader loader;
     QCOMPARE(loader.hasEffect(name), expected);
 
@@ -224,7 +217,7 @@ void TestScriptedEffectLoader::testLoadEffect()
     QFETCH(QString, name);
     QFETCH(bool, expected);
 
-    QScopedPointer<MockEffectsHandler, QScopedPointerDeleteLater> mockHandler(new MockEffectsHandler(KWin::XRenderCompositing));
+    QScopedPointer<MockEffectsHandler, QScopedPointerDeleteLater> mockHandler(new MockEffectsHandler(KWin::QPainterCompositing));
     KWin::ScriptedEffectLoader loader;
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     loader.setConfig(config);
@@ -297,7 +290,7 @@ void TestScriptedEffectLoader::testLoadScriptedEffect()
     QFETCH(bool, expected);
     QFETCH(KWin::LoadEffectFlags, loadFlags);
 
-    QScopedPointer<MockEffectsHandler, QScopedPointerDeleteLater> mockHandler(new MockEffectsHandler(KWin::XRenderCompositing));
+    QScopedPointer<MockEffectsHandler, QScopedPointerDeleteLater> mockHandler(new MockEffectsHandler(KWin::QPainterCompositing));
     KWin::ScriptedEffectLoader loader;
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     loader.setConfig(config);
@@ -351,7 +344,7 @@ void TestScriptedEffectLoader::testLoadScriptedEffect()
 
 void TestScriptedEffectLoader::testLoadAllEffects()
 {
-    QScopedPointer<MockEffectsHandler, QScopedPointerDeleteLater> mockHandler(new MockEffectsHandler(KWin::XRenderCompositing));
+    QScopedPointer<MockEffectsHandler, QScopedPointerDeleteLater> mockHandler(new MockEffectsHandler(KWin::QPainterCompositing));
     KWin::ScriptedEffectLoader loader;
 
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
@@ -436,7 +429,7 @@ void TestScriptedEffectLoader::testLoadAllEffects()
 void TestScriptedEffectLoader::testCancelLoadAllEffects()
 {
     // this test verifies that no test gets loaded when the loader gets cleared
-    MockEffectsHandler mockHandler(KWin::XRenderCompositing);
+    MockEffectsHandler mockHandler(KWin::QPainterCompositing);
     KWin::ScriptedEffectLoader loader;
 
     // prepare the configuration to hard enable/disable the effects we want to load

@@ -8,7 +8,8 @@
 */
 
 #include <kwineffects.h>
-#include "../virtualdesktops.h"
+
+#include "virtualdesktops.h"
 
 #include <QVector2D>
 #include <QGraphicsRotation>
@@ -23,7 +24,6 @@ class MockEffectWindow : public EffectWindow
     Q_OBJECT
 public:
     MockEffectWindow(QObject *parent = nullptr);
-    WindowQuadList buildQuads(bool force = false) const override;
     QVariant data(int role) const override;
     QRect decorationInnerRect() const override;
     void deleteProperty(long int atom) const override;
@@ -42,7 +42,6 @@ public:
     QByteArray readProperty(long int atom, long int type, int format) const override;
     void refWindow() override;
     void unrefWindow() override;
-    QRegion shape() const override;
     void setData(int role, const QVariant &data) override;
     void minimize() override;
     void unminimize() override;
@@ -103,11 +102,11 @@ public:
     QRect bufferGeometry() const override {
         return QRect();
     }
+    QRect clientGeometry() const override {
+        return QRect();
+    }
     int screen() const override {
         return 0;
-    }
-    bool hasOwnShape() const override {
-        return false;
     }
     QPoint pos() const override {
         return QPoint();
@@ -250,6 +249,9 @@ public:
     bool isOutline() const override {
         return false;
     }
+    bool isLockScreen() const override {
+        return false;
+    }
     pid_t pid() const override {
         return 0;
     }
@@ -264,12 +266,6 @@ private:
 MockEffectWindow::MockEffectWindow(QObject *parent)
     : EffectWindow(parent)
 {
-}
-
-WindowQuadList MockEffectWindow::buildQuads(bool force) const
-{
-    Q_UNUSED(force)
-    return WindowQuadList();
 }
 
 QVariant MockEffectWindow::data(int role) const
@@ -381,11 +377,6 @@ void MockEffectWindow::unminimize()
 
 void MockEffectWindow::closeWindow()
 {
-}
-
-QRegion MockEffectWindow::shape() const
-{
-    return QRegion();
 }
 
 void MockEffectWindow::unrefWindow()

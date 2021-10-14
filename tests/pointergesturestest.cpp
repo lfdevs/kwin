@@ -38,7 +38,6 @@ protected:
     void componentComplete() override;
 
 Q_SIGNALS:
-    void scaleChanged();
     void progressScaleChanged();
 
 private:
@@ -116,21 +115,21 @@ void PinchGesture::setupGesture()
         [this] (const QSizeF &delta, qreal scale) {
             Q_UNUSED(delta)
             m_progressScale = scale;
-            emit progressScaleChanged();
+            Q_EMIT progressScaleChanged();
         }
     );
     connect(m_gesture, &PointerPinchGesture::ended, this,
         [this] {
             m_scale = m_scale * m_progressScale;
             m_progressScale = 1.0;
-            emit scaleChanged();
-            emit progressScaleChanged();
+            Q_EMIT scaleChanged();
+            Q_EMIT progressScaleChanged();
         }
     );
     connect(m_gesture, &PointerPinchGesture::cancelled, this,
         [this] {
             m_progressScale = 1.0;
-            emit progressScaleChanged();
+            Q_EMIT progressScaleChanged();
         }
     );
 }

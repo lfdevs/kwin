@@ -26,7 +26,7 @@ private:
 
 KWin::WindowQuad WindowQuadListTest::makeQuad(const QRectF &r)
 {
-    KWin::WindowQuad quad(KWin::WindowQuadContents);
+    KWin::WindowQuad quad;
     quad[ 0 ] = KWin::WindowVertex(r.x(), r.y(), r.x(), r.y());
     quad[ 1 ] = KWin::WindowVertex(r.x() + r.width(), r.y(), r.x() + r.width(), r.y());
     quad[ 2 ] = KWin::WindowVertex(r.x() + r.width(), r.y() + r.height(), r.x() + r.width(), r.y() + r.height());
@@ -100,10 +100,6 @@ void WindowQuadListTest::testMakeGrid()
                 if (actualVertex.y() != expectedVertex.y()) return false;
                 if (!qFuzzyIsNull(actualVertex.u() - expectedVertex.u())) return false;
                 if (!qFuzzyIsNull(actualVertex.v() - expectedVertex.v())) return false;
-                if (actualVertex.originalX() != expectedVertex.originalX()) return false;
-                if (actualVertex.originalY() != expectedVertex.originalY()) return false;
-                if (!qFuzzyIsNull(actualVertex.textureX() - expectedVertex.textureX())) return false;
-                if (!qFuzzyIsNull(actualVertex.textureY() - expectedVertex.textureY())) return false;
                 return true;
             };
             found = vertexTest(0) && vertexTest(1) && vertexTest(2) && vertexTest(3);
@@ -187,10 +183,6 @@ void WindowQuadListTest::testMakeRegularGrid()
                 if (actualVertex.y() != expectedVertex.y()) return false;
                 if (!qFuzzyIsNull(actualVertex.u() - expectedVertex.u())) return false;
                 if (!qFuzzyIsNull(actualVertex.v() - expectedVertex.v())) return false;
-                if (actualVertex.originalX() != expectedVertex.originalX()) return false;
-                if (actualVertex.originalY() != expectedVertex.originalY()) return false;
-                if (!qFuzzyIsNull(actualVertex.textureX() - expectedVertex.textureX())) return false;
-                if (!qFuzzyIsNull(actualVertex.textureY() - expectedVertex.textureY())) return false;
                 return true;
             };
             found = vertexTest(0) && vertexTest(1) && vertexTest(2) && vertexTest(3);

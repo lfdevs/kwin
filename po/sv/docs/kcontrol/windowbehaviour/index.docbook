@@ -35,9 +35,9 @@
 </authorgroup>
 
 <date
->2015-07-14</date>
+>2021-04-09</date>
 <releaseinfo
->Plasma 5.3</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
@@ -62,18 +62,22 @@
 >I övre delen av den här inställningsmodulen kan du se flera flikar: <guilabel
 >Fokus</guilabel
 >, <guilabel
->Åtgärder</guilabel
-> <guilabel
->Flytta</guilabel
+>Namnliståtgärder</guilabel
+>, <guilabel
+>Fönsteråtgärder</guilabel
+>, <guilabel
+>Förflyttning</guilabel
 > och <guilabel
 >Avancerat</guilabel
 >. Under fliken <guilabel
 >Fokus</guilabel
 > kan du anpassa hur fönster får och mister fokus, dvs. blir aktiva eller inaktiva. Med <guilabel
->Åtgärder</guilabel
-> kan du anpassa hur fönster reagerar på musklick. <guilabel
->Flytta</guilabel
-> låter dig ställa in hur fönster flyttas och placeras när de startar. <guilabel
+>Namnliståtgärder</guilabel
+> och <guilabel
+>Fönsteråtgärder</guilabel
+> kan du anpassa hur namnlister och fönster reagerar på musklick. <guilabel
+>Förflyttning</guilabel
+> låter dig ställa in hur fönster flyttas och placeras när de startar. Alternativet <guilabel
 >Avancerat</guilabel
 > täcker vissa speciella alternativ såsom <quote
 >rulla upp</quote
@@ -81,7 +85,7 @@
 
 <note>
 <para
->Observera att inställningarna i den här modulen inte har någon effekt om du inte använder &kde;:s egen fönsterhanterare, &kwin;. Om du använder en annan fönsterhanterare, titta i dokumentationen för den om hur fönsterbeteendet kan anpassas. </para>
+>Observera att inställningarna i den här modulen inte har någon effekt om du inte använder &plasma;:s egen fönsterhanterare, &kwin;. Om du använder en annan fönsterhanterare, titta i dokumentationen för den om hur fönsterbeteendet kan anpassas. </para>
 </note>
 
 <sect2 id="action-focus">
@@ -102,10 +106,10 @@
 
 <sect3 id="action-focus-focuspolicy">
 <title
->Fokuspolicy</title>
+>Fönsteraktiveringsprincip</title>
 
 <para
->Det finns sex metoder &kde; kan använda för att avgöra aktuell fokus: </para>
+>Det finns sex metoder &kwin; kan använda för att avgöra aktuell fokus: </para>
 
 <variablelist>
 <varlistentry>
@@ -122,7 +126,7 @@
 <varlistentry>
 <term
 ><guilabel
->Klicka för fokus - musföreträde</guilabel
+>Klicka för fokus (musföreträde)</guilabel
 ></term>
 <listitem>
 <para
@@ -159,7 +163,7 @@
 <varlistentry>
 <term
 ><guilabel
->Fokus följer musen - musföreträde</guilabel
+>Fokus följer musen (musföreträde)</guilabel
 ></term>
 <listitem>
 <para
@@ -222,7 +226,7 @@
 
 <sect3 id="action-focus-focusstealin">
 <title
->Nivå för att förhindra ändring av fokus</title>
+>Förhindra att fokus stjäls</title>
 
 <para
 >Det här alternativet anger hur mycket Kwin försöker förhindra oönskad ändring av fokus orsakad av oväntad aktivering av nya fönster.</para
@@ -299,7 +303,7 @@
 <para
 >Med principen fokusera när muspekare hålls över, kan alternativt automatisk höjning användas. Att markera <guilabel
 >Höj med följande fördröjning</guilabel
->, gör att &kde; kan flytta ett fönster överst om muspekaren finns över det fönstret under en angiven tidsperiod. Du kan bestämma fördröjningen för alternativet genom att använda nummerinmatningsrutan. </para>
+>, gör att &kwin; kan flytta ett fönster överst om muspekaren finns över det fönstret under en angiven tidsperiod. Du kan bestämma fördröjningen för alternativet genom att använda nummerinmatningsrutan. </para>
 
 <tip>
 <para
@@ -326,7 +330,7 @@
 
 <sect3 id="action-actions-sec1">
 <title
->Dubbelklick på namnlisten</title>
+>Dubbelklick</title>
 
 <para
 >Den här delen innehåller en enda kombinationsruta. Du kan antingen välja <guilabel
@@ -344,7 +348,7 @@
 <para
 >Med <guilabel
 >Maximera</guilabel
-> valt, maximerar &kde; fönstret så fort du dubbelklickar på namnlisten. Du kan också välja att endast maximera fönster horisontellt eller vertikalt.</para>
+> valt, maximerar &kwin; fönstret så fort du dubbelklickar på namnlisten. Du kan också välja att endast maximera fönster horisontellt eller vertikalt.</para>
 
 <para
 ><guilabel
@@ -353,14 +357,14 @@
 
 <para
 >Liknande alternativ är tillgängliga för <guilabel
->Hjulrörelse</guilabel
+>Mushjul</guilabel
 >. </para>
 <!--FIXME Raise/Lower Shade/Unshade Maximize/Restore Keep Above/Below Move to Previous/Next Desktop Change Opacity -->
 
 <tip>
 <para
 >Du kan få fönster att automatiskt visas igen om du bara placerar musen över deras namnlist. Markera bara rutan <guilabel
->Aktivera över </guilabel
+>Rulla ner fönster</guilabel
 > under fliken <guilabel
 >Avancerat</guilabel
 > i den här modulen. Det här är ett utmärkt sätt att återta skrivbordsutrymme om du t.ex. klipper och klistrar mellan många fönster. </para>
@@ -371,7 +375,7 @@
 <sect3 id="action-actions-sec2">
 <title
 ><guilabel
->Namnlist och ram</guilabel
+>Åtgärder i namnlist och i ram</guilabel
 ></title>
 
 <para
@@ -409,7 +413,7 @@
 <varlistentry>
 <term
 ><guilabel
->Höj och sänk</guilabel
+>Ändra höj och sänk</guilabel
 ></term>
 <listitem>
 <para
@@ -424,7 +428,7 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Ingenting</guilabel
+>Gör ingenting</guilabel
 ></term>
 <listitem>
 <para
@@ -435,7 +439,7 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Visa fönstermeny</guilabel
+>Visa åtgärdsmeny</guilabel
 ></term>
 <listitem>
 <para
@@ -449,7 +453,7 @@ Minimize, Shade, Close
 <sect3 id="action-actions-maximize-button">
 <title
 ><guilabel
->Maximeringsknapp</guilabel
+>Åtgärder för maximeringsknapp</guilabel
 ></title>
 <para
 >Den här delen låter dig avgöra beteendet för de tre musknapparna på maximeringsknappen. Du kan välja mellan bara vertikalt, bara horisontellt och båda riktningarna. </para>
@@ -477,7 +481,7 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Aktivera, höj och skicka vidare musklickningen</guilabel
+>Aktivera, höj och skicka vidare klickning</guilabel
 ></term>
 <listitem>
 <para
@@ -488,7 +492,7 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Aktivera och skicka vidare musklickningen</guilabel
+>Aktivera och skicka vidare klickning</guilabel
 ></term>
 <listitem>
 <para
@@ -517,9 +521,46 @@ Minimize, Shade, Close
 >Det här aktiverar det klickade fönstret och flyttar det överst på skärmen. Musklicket skickas inte vidare till programmet i fönstret. </para>
 </listitem>
 </varlistentry>
+</variablelist>
 
-<!--FIXME Wheel Scroll, Activate & Scroll, Activate, Raise & Scroll-->
+<para
+>Valen för <guilabel
+>Mushjul</guilabel
+> är följande: </para>
 
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Panorera</guilabel
+></term>
+<listitem>
+<para
+>Panorerar bara innehållet inne i fönstret. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Aktivera och panorera</guilabel
+></term>
+<listitem>
+<para
+>Gör det klickade fönstret aktivt och panorerar innehållet. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Aktivera, höj och panorera</guilabel
+></term>
+<listitem>
+<para
+>Gör det klickade fönstret aktivt, flyttar det överst på skärmen, och panorerar innehållet. </para>
+</listitem>
+</varlistentry>
 </variablelist>
 </sect3>
 
@@ -607,7 +648,7 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Höj och sänk</guilabel
+>Ändra höj och sänk</guilabel
 ></term>
 <listitem>
 <para
@@ -644,21 +685,22 @@ Nothing
 
 <sect2 id="action-moving">
 <title
->Flyttar</title>
+>Förflyttning</title>
+
+<para
+>Alternativen här bestämmer hur fönster visas på skärmen när de flyttas.</para>
 
 <sect3>
 <title
 ><guilabel
->Fönster</guilabel
+>Fönstergeometri</guilabel
 ></title>
-<para
->Alternativen här bestämmer hur fönster visas på skärmen när de flyttas.</para>
 
 <variablelist>
 <varlistentry>
 <term
 ><guilabel
->Visa fönstergeometri vid förflyttning eller storleksändring</guilabel
+>Visa vid förflyttning eller storleksändring</guilabel
 ></term>
 <listitem>
 <para
@@ -684,7 +726,7 @@ Nothing
 <varlistentry>
 <term
 ><guilabel
->Kantbindningszon:</guilabel
+>Skärmens kantbindningszon:</guilabel
 ></term>
 <listitem>
 
@@ -723,7 +765,7 @@ Nothing
 <varlistentry>
 <term
 ><guilabel
->Bind fönster bara när de överlappar</guilabel
+>Bind fönster: Bara när de överlappar</guilabel
 ></term>
 <listitem>
 
@@ -747,12 +789,12 @@ Nothing
 
 <variablelist>
 <title
->Rulla upp</title>
+>Rulla ner fönster</title>
 
 <varlistentry>
 <term
 ><guilabel
->Aktivera över</guilabel
+>När musen hålls över namnlist efter</guilabel
 ></term>
 <listitem>
 <para
@@ -766,7 +808,7 @@ Nothing
 <varlistentry>
 <term
 ><guilabel
->Placering</guilabel
+>Fönsterplacering</guilabel
 ></term>
 <listitem
 ><para
@@ -780,7 +822,9 @@ Nothing
 >Centrerad</guilabel
 > öppnar alla fönster mitt på skärmen, och <guilabel
 >I övre vänstra hörnet</guilabel
-> öppnar alla fönster med det övre vänstra hörnet vid skärmens övre vänstra hörn.</para
+> öppnar alla fönster med det övre vänstra hörnet vid skärmens övre vänstra hörn. Markera alternativet <guilabel
+>Tillåt att KDE-program kommer ihåg positionerna för sina egna fönster</guilabel
+> för att behålla information om fönsterpositionerna i &plasma;.</para
 ></listitem>
 </varlistentry>
 

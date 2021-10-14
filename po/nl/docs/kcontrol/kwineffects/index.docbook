@@ -18,9 +18,9 @@
 </authorgroup>
 
 <date
->2016-04-14</date>
+>2021-04-09</date>
 <releaseinfo
->Plasma 5.6</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
@@ -43,13 +43,19 @@
 >He hoofdgedeelte van deze pagina is een lijst met alle beschikbare effecten gegroepeerd op <guilabel
 >Toegankelijkheid</guilabel
 >, <guilabel
->UIterlijk</guilabel
+>Uiterlijk</guilabel
 >, <guilabel
 >Focus</guilabel
 >, <guilabel
+>Bureaubladanimatie tonen</guilabel
+>, <guilabel
 >Hulpmiddelen</guilabel
-> en <guilabel
+>, <guilabel
+>Animatie van omschakelen van virtuele bureaubladen</guilabel
+>, <guilabel
 >Vensterbeheer</guilabel
+> en <guilabel
+>Animatie van venster openen/sluiten</guilabel
 >.</para>
 <para
 >U kunt de snelzoekbalk boven de animatielijst gebruiken om het gewenste effect snel terug te vinden.</para>
@@ -63,7 +69,7 @@
 
 <para
 >De gemakkelijkste manier om nieuwe effecten te installeren is door de in &kwin; ingebouwde ondersteuning KNewStuff te gebruiken . Druk op de knop <guibutton
->Nieuwe effecten ophalen</guibutton
+>Nieuwe bureaubladeffecten ophalen</guibutton
 > om een dialoog te openen met een lijst met beschikbare effecten uit het internet en om effecten te installeren of te de-installeren.</para>
 <note
 ><para
@@ -91,8 +97,8 @@
 >.</para>
 
 <para
->Sommige effecten sluiten alkaar uit. Iemand zou alleen het effect <guilabel
->Minimaliseer animaties</guilabel
+>Sommige effecten sluiten elkaar uit. Iemand zou alleen het effect <guilabel
+>Maximaliseer</guilabel
 > of de <guilabel
 >Magische lamp</guilabel
 > willen activeren. Beiden tegelijk geactiveerd zou resulteren in gebroken animaties. </para>
@@ -101,7 +107,7 @@
 >Voor effecten in een elkaar uitsluitende groep gebruikt de &GUI; keuzerondjes en zorgt ervoor dat slechts een van deze effecten geactiveerd kan worden. </para>
 
 <para
->Alle effecen die niet ondersteund worden door de huidige gebruikte compositing backend zijn standaard verborgen (&eg; OpenGL effecten bij gebruik van XRender). </para
+>Alle effecen die niet ondersteund worden door de huidige gebruikte compositing backend zijn standaard verborgen (&eg; OpenGL effecten bij gebruik van software renderer). </para
 > 
 
 <para

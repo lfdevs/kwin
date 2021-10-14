@@ -21,9 +21,9 @@
 </authorgroup>
 
 <date
->2015-07-14</date>
+>2021-04-09</date>
 <releaseinfo
->Plasma 5.3</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
@@ -52,7 +52,7 @@
 >, <guilabel
 >Vensteracties</guilabel
 >, <guilabel
->Verplaatsen</guilabel
+>Verplaatsing</guilabel
 > en <guilabel
 >Geavanceerd</guilabel
 >. In het paneel <guilabel
@@ -62,7 +62,7 @@
 > en <guilabel
 >Vensteracties</guilabel
 > kunt u configureren hoe titelbalken en vensters reageren op muiskliks. <guilabel
->Verplaatsen</guilabel
+>Verplaatsing</guilabel
 > stelt u in staat om te configureren hoe vensters worden verplaatst en zich plaatsen bij het starten. De optie <guilabel
 >Geavanceerd</guilabel
 > dekt sommige gespecialiseerde opties zoals <quote
@@ -71,7 +71,7 @@
 
 <note>
 <para
->Denk eraan dat de configuratie in deze module geen effect heeft als u de standaard windowmanager, &kwin;, van &kde; niet gebruikt. Als u een andere windowmanager gebruikt, lees dan de daarbijbehorende documentatie om te weten hoe venstergedrag aangepast kan worden. </para>
+>Denk eraan dat de configuratie in deze module geen effect heeft als u de standaard windowmanager, &kwin;, van &plasma; niet gebruikt. Als u een andere windowmanager gebruikt, lees dan de daarbij behorende documentatie om te weten hoe venstergedrag aangepast kan worden. </para>
 </note>
 
 <sect2 id="action-focus">
@@ -92,10 +92,10 @@
 
 <sect3 id="action-focus-focuspolicy">
 <title
->Beleid voor focus</title>
+>Beleid voor activeren van venster</title>
 
 <para
->Er zijn zes methoden die &kde; kan gebruiken om de huidige focus te bepalen: </para>
+>Er zijn zes methoden die &kwin; kan gebruiken om de huidige focus te bepalen: </para>
 
 <variablelist>
 <varlistentry>
@@ -112,7 +112,7 @@
 <varlistentry>
 <term
 ><guilabel
->Klikken voor focus - muis heeft voorrang</guilabel
+>Klikken voor focus (muis heeft voorrang)</guilabel
 ></term>
 <listitem>
 <para
@@ -127,7 +127,7 @@
 <varlistentry>
 <term
 ><guilabel
->Focus volgt de muis</guilabel
+>Focus volgt muis</guilabel
 ></term>
 <listitem>
 <para
@@ -149,20 +149,20 @@
 <varlistentry>
 <term
 ><guilabel
->Focus volgt de muis - muis heeft voorkeur</guilabel
+>Focus volgt muis (muis heeft voorkeur)</guilabel
 ></term>
 <listitem>
 <para
 >Dit is meestal hetzelfde als <guilabel
 >Focus volgt muis</guilabel
->. Als een actief venster door het systeem gekozen moet worden (&eg; omdat het huidige actieve is gesloten) heeft het venster onder de muis de voorkeur. Kies dit, als u een via hover bestuurde focus wilt. </para>
+>. Als een actief venster door het systeem gekozen moet worden (&eg; omdat het huidige actieve is gesloten) heeft het venster onder de muis de voorkeur. Kies dit, als u een via er boven zweven bestuurde focus wilt. </para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
 <term
 ><guilabel
->Focus onder de muis</guilabel
+>Focus onder muis</guilabel
 ></term>
 <listitem>
 <para
@@ -177,7 +177,7 @@
 <varlistentry>
 <term
 ><guilabel
->Focus strikt onder de muis</guilabel
+>Focus strikt onder muis</guilabel
 ></term>
 <listitem>
 <para
@@ -196,9 +196,9 @@
 <note
 ><para
 >Merk op dat <guilabel
->Focus onder de muis</guilabel
+>Focus onder muis</guilabel
 > en <guilabel
->Focus strikt onder de muis</guilabel
+>Focus strikt onder muis</guilabel
 > voorkomt dat bepaalde functies, zoals <guilabel
 >Voorkomen van afpakken van focus</guilabel
 > en de dialoog <keycombo action="simul"
@@ -210,7 +210,7 @@
 
 <sect3 id="action-focus-focusstealin">
 <title
->Niveau van het voorkomen van stelen van focus</title>
+>Voorkomen van afpakken van focus</title>
 
 <para
 >Deze optie specificeert in welke mate KWin zal proberen ongewenst stelen van focus door onverwachte activering van nieuwe vensters te voorkomen.</para
@@ -287,7 +287,7 @@
 <para
 >Met een beleid voor focus bij er boven zweven kunt u als alternatief automatisch omhoog komen gebruiken. Door het plaatsen van een markering vóór <guilabel
 >Naar voren halen door er boven te zweven, vertraagd met</guilabel
->, kan &kde; een venster naar voren halen als de muis zich een bepaalde tijd boven dat venster bevindt. U kunt de vertraging bepalen met de schuifregelaar. </para>
+>, kan &kwin; een venster naar voren halen als de muis zich een bepaalde tijd boven dat venster bevindt. U kunt de vertraging bepalen met de schuifregelaar. </para>
 
 <tip>
 <para
@@ -314,7 +314,7 @@
 
 <sect3 id="action-actions-sec1">
 <title
->Titelbalk dubbelklik:</title>
+>Dubbelklik</title>
 
 <para
 >In dit afrolvak kunt u ofwel <guilabel
@@ -331,8 +331,8 @@
 
 <para
 ><guilabel
->Maximimaliseren</guilabel
-> kiezen laat &kde; het venster maximimaliseren wanneer u dubbelklikt op de titelbalk. U kunt verder de vensters alleen horizontaal of alleen verticaal maximaliseren.</para>
+>Maximaliseren</guilabel
+> kiezen laat &kwin; het venster maximaliseren wanneer u dubbelklikt op de titelbalk. U kunt verder de vensters alleen horizontaal of alleen verticaal maximaliseren.</para>
 
 <para
 ><guilabel
@@ -341,14 +341,14 @@
 
 <para
 >Soortgelijke opties zijn beschikbaar voor <guilabel
->Wielactie</guilabel
+>Muiswiel</guilabel
 >. </para>
 <!--FIXME Raise/Lower Shade/Unshade Maximize/Restore Keep Above/Below Move to Previous/Next Desktop Change Opacity -->
 
 <tip>
 <para
 >U kunt vensters zich automatisch laten ontrollen wanneer u de muis eenvoudig op hun opgerolde titelbalk plaatst. Activeer het keuzevakje <guilabel
->Automatisch afrollen activeren</guilabel
+>Venster afrollen</guilabel
 > in het tabblad <guilabel
 >Geavanceerd</guilabel
 > van deze module. Dit is een heel goede manier om bureaubladruimte te krijgen als u, bijvoorbeeld, met knippen en plakken bezig bent tussen veel vensters. </para>
@@ -359,7 +359,7 @@
 <sect3 id="action-actions-sec2">
 <title
 ><guilabel
->Titelbalk &amp; rand</guilabel
+>Titelbalk en frame-acties</guilabel
 ></title>
 
 <para
@@ -397,7 +397,7 @@
 <varlistentry>
 <term
 ><guilabel
->Schakel tussen Omhoog &amp; Omlaag</guilabel
+>Schakel om tussen naar voren en naar achter</guilabel
 ></term>
 <listitem>
 <para
@@ -412,7 +412,7 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Niets</guilabel
+>Niets doen</guilabel
 ></term>
 <listitem>
 <para
@@ -423,7 +423,7 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Operatiemenu</guilabel
+>Actiesmenu tonen</guilabel
 ></term>
 <listitem>
 <para
@@ -437,7 +437,7 @@ Minimize, Shade, Close
 <sect3 id="action-actions-maximize-button">
 <title
 ><guilabel
->Maximaliseerknop</guilabel
+>Knopacties maximaliseren</guilabel
 ></title>
 <para
 >Deze sectie stelt u in staat om het gedrag te bepalen van de drie muisknoppen op de knop Maximaliseren. U hebt de keus tussen allen verticaal, alleen horizontaal of beide richtingen. </para>
@@ -465,7 +465,7 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Activeren, naar voorgrond &amp; doorgeven-klik</guilabel
+>Activeren, naar voorgrond en doorgeven-klik</guilabel
 ></term>
 <listitem>
 <para
@@ -476,7 +476,7 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Activeren &amp; doorgeven-klik</guilabel
+>Activeren en doorgeven-klik</guilabel
 ></term>
 <listitem>
 <para
@@ -498,23 +498,60 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Activeren &amp; naar voorgrond brengen</guilabel
+>Activeren en naar voorgrond brengen</guilabel
 ></term>
 <listitem>
 <para
 >Dit maakt het aangeklikte venster actief en brengt het bovenaan het scherm. De muisklik wordt niet doorgegeven naar de applicatie in het venster. </para>
 </listitem>
 </varlistentry>
+</variablelist>
 
-<!--FIXME Wheel Scroll, Activate & Scroll, Activate, Raise & Scroll-->
+<para
+>Uw keuzes voor <guilabel
+>Muiswiel</guilabel
+> zijn als volgt: </para>
 
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Scrollen</guilabel
+></term>
+<listitem>
+<para
+>Schuif met de inhoud in het venster. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Activeren en schuiven</guilabel
+></term>
+<listitem>
+<para
+>Dit maakt het aangeklikte venster actief en schuift de inhoud. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Activeren, naar voorgrond en schuiven</guilabel
+></term>
+<listitem>
+<para
+>Dit maakt het aangeklikte venster actief, brengt het bovenaan het scherm en schuift de inhoud. </para>
+</listitem>
+</varlistentry>
 </variablelist>
 </sect3>
 
 <sect3 id="action-actions-sec4">
 <title
 ><guilabel
->Binnen het venster, titelbalk &amp; rand</guilabel
+>Binnen het venster, titelbalk en rand</guilabel
 ></title>
 
 <para
@@ -595,7 +632,7 @@ Minimize, Shade, Close
 <varlistentry>
 <term
 ><guilabel
->Schakel tussen Omhoog &amp; Omlaag</guilabel
+>Schakel om tussen naar voren en naar achter</guilabel
 ></term>
 <listitem>
 <para
@@ -632,21 +669,22 @@ Nothing
 
 <sect2 id="action-moving">
 <title
->Verplaatsing</title>
+>Beweging</title>
+
+<para
+>De opties hier bepalen hoe vensters op het scherm verschijnen wanneer u ze verplaatst.</para>
 
 <sect3>
 <title
 ><guilabel
->Vensters</guilabel
+>Geometrie van venster</guilabel
 ></title>
-<para
->De opties hier bepalen hoe vensters op het scherm verschijnen wanneer u ze verplaatst.</para>
 
 <variablelist>
 <varlistentry>
 <term
 ><guilabel
->Vensterafmeting tonen tijdens het verplaatsen of van grootte veranderen</guilabel
+>Tonen bij verplaatsen of van grootte veranderen</guilabel
 ></term>
 <listitem>
 <para
@@ -672,7 +710,7 @@ Nothing
 <varlistentry>
 <term
 ><guilabel
->Magnetische schermrand:</guilabel
+>Magnetische schermzone:</guilabel
 ></term>
 <listitem>
 
@@ -709,7 +747,7 @@ Nothing
 <varlistentry>
 <term
 ><guilabel
->Vensters alleen tegen elkaar plaatsen wanneer ze elkaar overlappen</guilabel
+>Vensters tegen elkaar plaatsen: allen bij elkaar overlappen</guilabel
 ></term>
 <listitem>
 
@@ -733,12 +771,12 @@ Nothing
 
 <variablelist>
 <title
->Oprollen</title>
+>Venster afrollen</title>
 
 <varlistentry>
 <term
 ><guilabel
->Automatisch afrollen activeren</guilabel
+>Na boven titelbalk zweven</guilabel
 ></term>
 <listitem>
 <para
@@ -752,7 +790,7 @@ Nothing
 <varlistentry>
 <term
 ><guilabel
->Plaatsing</guilabel
+>Vensterplaatsing</guilabel
 ></term>
 <listitem
 ><para
@@ -766,7 +804,9 @@ Nothing
 >Gecentreerd</guilabel
 > zal alle nieuwe vensters in het centrum van het scherm plaatsen en <guilabel
 >In linker bovenhoek</guilabel
-> zal alle vensters met hun linker bovenhoek in de linker bovenhoek van het scherm plaatsen.</para
+> zal alle vensters met hun linker bovenhoek in de linker bovenhoek van het scherm plaatsen. Activeer het item <guilabel
+>KDE toepassingen laten de posities laten herinneren van hun eigen vensters</guilabel
+> om de gegevens op de &plasma; vensterposities te behouden.</para
 ></listitem>
 </varlistentry>
 

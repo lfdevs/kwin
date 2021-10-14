@@ -1,14 +1,14 @@
 # Translation of kcmkwm to Korean.
 # Copyright (C) 1999, 2007 Free Software Foundation, Inc.
 # Linux Korea, Co. <kde@linuxkorea.co.kr>, 1999.
-# Shinjo Park <kde@peremen.name>, 2007, 2008, 2009, 2010, 2012, 2013, 2015, 2019, 2020.
+# Shinjo Park <kde@peremen.name>, 2007, 2008, 2009, 2010, 2012, 2013, 2015, 2019, 2020, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-28 13:55+0000\n"
-"PO-Revision-Date: 2020-09-06 01:10+0200\n"
+"POT-Creation-Date: 2021-04-27 00:19+0000\n"
+"PO-Revision-Date: 2021-05-17 00:45+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 19.12.3\n"
+"X-Generator: Lokalize 20.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -576,26 +576,21 @@ msgstr "마우스 아래"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:118
-#, fuzzy, kde-format
-#| msgid ""
-#| "When turned on, KDE apps which are able to remember the positions of "
-#| "their windows are allowed to do so. This will override the window "
-#| "placement mode defined above."
+#, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
-"이 설정을 사용하면 자기 창 위치를 기억할 수 있는 KDE 프로그램에서 창 위치를 "
-"기억합니다. 위에서 설정한 창 배치 모드 설정을 덮어씁니다."
+"이 설정을 사용하면 자기 창 위치를 기억할 수 있는 프로그램에서 창 위치를 기억"
+"합니다. 위에서 설정한 창 배치 모드 설정을 덮어씁니다."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:121
-#, fuzzy, kde-format
-#| msgid "Allow KDE apps to remember the positions of their own windows"
+#, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
-msgstr "KDE 프로그램에서 자기 창 위치 기억 허용"
+msgstr "지원하는 프로그램에서 자기 창 위치 기억 허용"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
 #: advanced.ui:128
@@ -849,17 +844,13 @@ msgstr "다중 화면 동작:"
 #: focus.ui:203
 #, kde-format
 msgid ""
-"When this option is enabled, the active Xinerama screen (where new windows "
-"appear, for example) is the screen containing the mouse pointer. When "
-"disabled, the active Xinerama screen is the screen containing the focused "
-"window. By default this option is disabled for Click to focus and enabled "
-"for other focus policies."
+"When this option is enabled, the active screen (where new windows appear, "
+"for example) is the screen containing the mouse pointer. When disabled, the "
+"active screen is the screen containing the focused window."
 msgstr ""
-"이 옵션을 사용하면 현재 활성화된 Xinerama 화면(예를 들어 새 창이 나타나는 화"
-"면)은 마우스 포인터가 있는 화면이 됩니다. 이 옵션을 사용하지 않으면 현재 활성"
-"화된 Xinerama 화면은 초점이 맞춰진 창이 있는 화면이 됩니다. 눌러서 초점 맞춤 "
-"정책에 대해서는 비활성화되어 있고 다른 초점 정책에 대해서는 활성화되어 있습니"
-"다."
+"이 옵션을 사용하면 현재 활성화된 화면(예를 들어 새 창이 나타나는 화면)은 마우"
+"스 포인터가 있는 화면이 됩니다. 이 옵션을 사용하지 않으면 현재 활성화된 화면"
+"은 초점이 맞춰진 창이 있는 화면이 됩니다."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:206
@@ -872,10 +863,9 @@ msgstr "활성 화면이 마우스를 따라감(&M)"
 #, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
-"Xinerama screen"
+"screen"
 msgstr ""
-"이 옵션을 사용하면 현재 활성화된 Xinerama 화면에 대해서만 초점 동작이 작동합"
-"니다"
+"이 옵션을 사용하면 현재 활성화된 화면에 대해서만 초점 동작이 작동합니다"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:216
@@ -889,87 +879,87 @@ msgstr "화면별 초점 분리(&S)"
 msgid "Window activation policy description"
 msgstr "창 활성화 정책 설명"
 
-#: main.cpp:73
+#: main.cpp:74
 #, kde-format
 msgid "&Focus"
 msgstr "초점(&F)"
 
-#: main.cpp:84
+#: main.cpp:80
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "제목 표시줄 동작(&C)"
 
-#: main.cpp:91
+#: main.cpp:86
 #, kde-format
 msgid "W&indow Actions"
 msgstr "창 동작(&I)"
 
-#: main.cpp:98
+#: main.cpp:92
 #, kde-format
 msgid "Mo&vement"
 msgstr "이동(&V)"
 
-#: main.cpp:105
+#: main.cpp:98
 #, kde-format
 msgid "Adva&nced"
 msgstr "고급(&N)"
 
-#: main.cpp:110
+#: main.cpp:102
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "창 동작 설정 모듈"
 
-#: main.cpp:112
+#: main.cpp:104
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "(c) 1997 - 2002 KWin and KControl Authors"
 
-#: main.cpp:114
+#: main.cpp:106
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:115
+#: main.cpp:107
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:116
+#: main.cpp:108
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:117
+#: main.cpp:109
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:118
+#: main.cpp:110
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:119
+#: main.cpp:111
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:120
+#: main.cpp:112
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:121
+#: main.cpp:113
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:122
+#: main.cpp:114
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:167
+#: main.cpp:163
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -984,12 +974,12 @@ msgstr ""
 "다.</p><p>이 설정은 창 관리자가 KWin일 때에만 작동합니다. 만약 다른 창 관리자"
 "를 사용한다면 창 관리자의 문서를 참고해서 설정하십시오.</p>"
 
-#: main.cpp:187
+#: main.cpp:205
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "제목 표시줄 동작(&T)"
 
-#: main.cpp:193
+#: main.cpp:211
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "창 동작(&N)"
@@ -1282,7 +1272,7 @@ msgstr "가운데 스냅 구역(&C):"
 msgid "&Snap windows:"
 msgstr "창 스냅(&S):"
 
-#: windows.cpp:101
+#: windows.cpp:99
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1291,7 +1281,7 @@ msgstr ""
 "<em>눌러서 초점 맞춤:</em> 창을 누르면 초점을 맞춥니다. 이 행동은 다른 운영체"
 "제에서 취하는 방식이며 대부분 경우 원하는 방식입니다."
 
-#: windows.cpp:105
+#: windows.cpp:103
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1305,7 +1295,7 @@ msgstr ""
 "야 하면 현재 마우스 포인터 아래의 창을 선택합니다. <em>누르면 초점을 맞춤</"
 "em> 설정의 파생형입니다."
 
-#: windows.cpp:110
+#: windows.cpp:108
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1318,7 +1308,7 @@ msgstr ""
 "지는 평소대로 작동합니다. 실제로 누르지 않아도 되는 <em>누르면 초점을 맞춤</"
 "em>으로 생각하십시오."
 
-#: windows.cpp:114
+#: windows.cpp:112
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1330,7 +1320,7 @@ msgstr ""
 "닫히는 등 시스템에서 활성 창을 선택하여야 하면 현재 마우스 포인터 아래의 창"
 "을 선택합니다. 호버로 제어하는 초점을 원하면 선택하십시오."
 
-#: windows.cpp:119
+#: windows.cpp:117
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1344,7 +1334,7 @@ msgstr ""
 "+Tab\")</em>는 이 정책에 모순되며 작동하지 않습니다. 만약 위 설정을 사용해야 "
 "한다면 <em>마우스가 초점을 따라감(마우스 우선)</em> 설정을 사용하십시오!"
 
-#: windows.cpp:123
+#: windows.cpp:121
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

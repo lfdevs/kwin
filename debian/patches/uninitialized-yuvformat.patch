@@ -7,14 +7,14 @@ Last-Update: 2020-06-04
 ---
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 ---
- platformsupport/scenes/opengl/egl_dmabuf.cpp |    2 +-
+ src/platformsupport/scenes/opengl/egl_dmabuf.cpp |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/platformsupport/scenes/opengl/egl_dmabuf.cpp
-+++ b/platformsupport/scenes/opengl/egl_dmabuf.cpp
-@@ -282,7 +282,7 @@ KWaylandServer::LinuxDmabufUnstableV1Buf
-                                                                     const QSize &size,
-                                                                     Flags flags)
+--- a/src/platformsupport/scenes/opengl/egl_dmabuf.cpp
++++ b/src/platformsupport/scenes/opengl/egl_dmabuf.cpp
+@@ -270,7 +270,7 @@ KWaylandServer::LinuxDmaBufV1ClientBuffe
+                                                                 const QSize &size,
+                                                                 quint32 flags)
  {
 -    YuvFormat yuvFormat;
 +    YuvFormat yuvFormat { 0 };

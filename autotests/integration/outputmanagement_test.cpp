@@ -13,19 +13,15 @@
 #include "platform.h"
 #include "screens.h"
 #include "wayland_server.h"
+#include "workspace.h"
 
-#include <KWayland/Client/outputmanagement.h>
-#include <KWayland/Client/outputconfiguration.h>
-#include <KWayland/Client/outputdevice.h>
-
-#include <KWaylandServer/outputmanagement_interface.h>
-#include <KWaylandServer/outputconfiguration_interface.h>
-#include <KWaylandServer/outputdevice_interface.h>
 #include <KWayland/Client/output.h>
-#include <KWayland/Client/outputdevice.h>
 #include <KWayland/Client/server_decoration.h>
 #include <KWayland/Client/surface.h>
-#include <KWayland/Client/xdgshell.h>
+
+#include <KWaylandServer/outputconfiguration_v2_interface.h>
+#include <KWaylandServer/outputdevice_v2_interface.h>
+#include <KWaylandServer/outputmanagement_v2_interface.h>
 
 #include <KWaylandServer/display.h>
 
@@ -43,6 +39,7 @@ private Q_SLOTS:
     void cleanup();
 
     void testOutputDeviceDisabled();
+    void testOutputDeviceRemoved();
 };
 
 void TestOutputManagement::initTestCase()
@@ -50,11 +47,9 @@ void TestOutputManagement::initTestCase()
     qRegisterMetaType<KWin::Deleted*>();
     qRegisterMetaType<KWin::AbstractClient*>();
     qRegisterMetaType<KWin::AbstractOutput*>();
+    qRegisterMetaType<AbstractOutput *>();
     qRegisterMetaType<KWin::AbstractOutput*>("AbstractOutput *");
     qRegisterMetaType<KWayland::Client::Output*>();
-    qRegisterMetaType<KWayland::Client::OutputDevice::Enablement>();
-    qRegisterMetaType<OutputDevice::Enablement>("OutputDevice::Enablement");
-    qRegisterMetaType<KWaylandServer::OutputDeviceInterface::Enablement>();
 
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(applicationStartedSpy.isValid());
@@ -64,20 +59,21 @@ void TestOutputManagement::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    QCOMPARE(screens()->count(), 2);
-    QCOMPARE(screens()->geometry(0), QRect(0, 0, 1280, 1024));
-    QCOMPARE(screens()->geometry(1), QRect(1280, 0, 1280, 1024));
-    waylandServer()->initWorkspace();
+    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    QCOMPARE(outputs.count(), 2);
+    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    Test::initWaylandWorkspace();
 }
 
 void TestOutputManagement::init()
 {
-    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::OutputManagement |
-                                         Test::AdditionalWaylandInterface::OutputDevice));
+    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::OutputManagementV2 |
+                                         Test::AdditionalWaylandInterface::OutputDeviceV2));
 
-    screens()->setCurrent(0);
+    workspace()->setActiveOutput(QPoint(640, 512));
     //put mouse in the middle of screen one
-    KWin::Cursors::self()->mouse()->setPos(QPoint(512, 512));
+    KWin::Cursors::self()->mouse()->setPos(QPoint(640, 512));
 }
 
 void TestOutputManagement::cleanup()
@@ -90,19 +86,19 @@ void TestOutputManagement::testOutputDeviceDisabled()
     // This tests checks that OutputConfiguration::apply aka Platform::requestOutputsChange works as expected
     // when disabling and enabling virtual OutputDevice
 
-    QScopedPointer<Surface> surface(Test::createSurface());
-    QScopedPointer<XdgShellSurface> shellSurface(Test::createXdgShellStableSurface(surface.data()));
+    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
+    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
     auto size = QSize(200,200);
 
-    QSignalSpy outputEnteredSpy(surface.data(), &Surface::outputEntered);
-    QSignalSpy outputLeftSpy(surface.data(), &Surface::outputLeft);
+    QSignalSpy outputEnteredSpy(surface.data(), &KWayland::Client::Surface::outputEntered);
+    QSignalSpy outputLeftSpy(surface.data(), &KWayland::Client::Surface::outputLeft);
 
     QSignalSpy outputEnabledSpy(kwinApp()->platform(), &Platform::outputEnabled);
     QSignalSpy outputDisabledSpy(kwinApp()->platform(), &Platform::outputDisabled);
 
     auto c = Test::renderAndWaitForShown(surface.data(), size, Qt::blue);
     //move to be in the first screen
-    c->setFrameGeometry(QRect(QPoint(100,100), size));
+    c->moveResize(QRect(QPoint(100,100), size));
     //we don't don't know where the compositor first placed this window,
     //this might fire, it might not
     outputEnteredSpy.wait(5);
@@ -116,25 +112,25 @@ void TestOutputManagement::testOutputDeviceDisabled()
 
     QSignalSpy screenChangedSpy(screens(), &KWin::Screens::changed);
 
-    OutputManagement *outManagement = Test::waylandOutputManagement();
+    Test::WaylandOutputManagementV2 *outManagement = Test::waylandOutputManagementV2();
 
-    auto outputDevices = Test::waylandOutputDevices();
+    auto outputDevices = Test::waylandOutputDevicesV2();
     QCOMPARE(outputDevices.count(), 2);
 
-    OutputDevice *device = outputDevices.first();
-    QCOMPARE(device->enabled(), OutputDevice::Enablement::Enabled);
-    QSignalSpy outputDeviceEnabledChangedSpy(device, &OutputDevice::enabledChanged);
-    OutputConfiguration *config;
+    Test::WaylandOutputDeviceV2 *device = outputDevices.first();
+    QCOMPARE(device->enabled(), true);
+    QSignalSpy outputDeviceEnabledChangedSpy(device, &Test::WaylandOutputDeviceV2::enabledChanged);
+    Test::WaylandOutputConfigurationV2 *config;
 
     // Disables an output
     config = outManagement->createConfiguration();
-    QSignalSpy configAppliedSpy (config, &OutputConfiguration::applied);
-    config->setEnabled(device, OutputDevice::Enablement::Disabled);
+    QSignalSpy configAppliedSpy(config, &Test::WaylandOutputConfigurationV2::applied);
+    config->enable(device->object(), false);
     config->apply();
     QVERIFY(configAppliedSpy.wait());
 
     QCOMPARE(outputDeviceEnabledChangedSpy.count(), 1);
-    QCOMPARE(device->enabled(), OutputDevice::Enablement::Disabled);
+    QCOMPARE(device->enabled(), false);
     QCOMPARE(screenChangedSpy.count(), 3);
     QCOMPARE(outputLeftSpy.count(), 1);
     QCOMPARE(outputEnteredSpy.count(), 1); // surface was moved to other screen
@@ -153,15 +149,15 @@ void TestOutputManagement::testOutputDeviceDisabled()
 
     // Enable the disabled output
     config = outManagement->createConfiguration();
-    QSignalSpy configAppliedSpy2 (config, &OutputConfiguration::applied);
-    config->setEnabled(device, OutputDevice::Enablement::Enabled);
+    QSignalSpy configAppliedSpy2(config, &Test::WaylandOutputConfigurationV2::applied);
+    config->enable(device->object(), true);
     config->apply();
     QVERIFY(configAppliedSpy2.wait());
 
     QVERIFY(outputEnteredSpy.wait());
 
     QCOMPARE(outputDeviceEnabledChangedSpy.count(), 1);
-    QCOMPARE(device->enabled(), OutputDevice::Enablement::Enabled);
+    QCOMPARE(device->enabled(), true);
     QCOMPARE(screenChangedSpy.count(), 3);
     QCOMPARE(outputLeftSpy.count(), 1);
     QCOMPARE(outputEnteredSpy.count(), 1); // surface moved back to first screen
@@ -170,6 +166,69 @@ void TestOutputManagement::testOutputDeviceDisabled()
     QCOMPARE(modesChangedSpy.count(), 0);
     QCOMPARE(outputEnabledSpy.count(), 1);
     QCOMPARE(outputDisabledSpy.count(), 0);
+}
+
+void TestOutputManagement::testOutputDeviceRemoved()
+{
+    // This tests checks that OutputConfiguration::apply aka Platform::requestOutputsChange works as expected
+    // when removing a virtual OutputDevice
+
+    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
+    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
+    auto size = QSize(200,200);
+
+    QSignalSpy outputEnteredSpy(surface.data(), &KWayland::Client::Surface::outputEntered);
+    QSignalSpy outputLeftSpy(surface.data(), &KWayland::Client::Surface::outputLeft);
+
+    QSignalSpy outputEnabledSpy(kwinApp()->platform(), &Platform::outputEnabled);
+    QSignalSpy outputDisabledSpy(kwinApp()->platform(), &Platform::outputDisabled);
+    QSignalSpy outputRemovedSpy(kwinApp()->platform(), &Platform::outputRemoved);
+
+    auto c = Test::renderAndWaitForShown(surface.data(), size, Qt::blue);
+    //move to be in the first screen
+    c->move(QPoint(100,100));
+    //we don't don't know where the compositor first placed this window,
+    //this might fire, it might not
+    outputEnteredSpy.wait(5);
+    outputEnteredSpy.clear();
+    QCOMPARE(waylandServer()->display()->outputs().count(), 2);
+
+    QCOMPARE(surface->outputs().count(), 1);
+    Output *firstOutput = surface->outputs().first();
+    QCOMPARE(firstOutput->globalPosition(), QPoint(0,0));
+    QSignalSpy modesChangedSpy(firstOutput, &Output::modeChanged);
+
+    QSignalSpy screenChangedSpy(screens(), &KWin::Screens::changed);
+
+    QCOMPARE(Test::waylandOutputDevicesV2().count(), 2);
+
+    Test::WaylandOutputDeviceV2 *device = Test::waylandOutputDevicesV2().first();
+    QCOMPARE(device->enabled(), true);
+
+    QSignalSpy outputDeviceEnabledChangedSpy(device, &Test::WaylandOutputDeviceV2::enabledChanged);
+
+    AbstractOutput *output = kwinApp()->platform()->outputs().first();
+    // Removes an output
+    QMetaObject::invokeMethod(kwinApp()->platform(), "removeOutput", Qt::DirectConnection, Q_ARG(AbstractOutput *, output));
+
+    // Let the new state propagate
+    QVERIFY(outputEnteredSpy.wait());
+
+    QCOMPARE(waylandServer()->display()->outputs().count(), 1);
+    QCOMPARE(waylandServer()->display()->outputDevices().count(), 1);
+
+    QCOMPARE(Test::waylandOutputDevicesV2().count(), 1);
+    QCOMPARE(outputDeviceEnabledChangedSpy.count(), 1);
+    QCOMPARE(device->enabled(), false);
+    QCOMPARE(outputLeftSpy.count(), 1);
+    QCOMPARE(outputEnteredSpy.count(), 1); // surface moved to the other screen
+    QCOMPARE(surface->outputs().count(), 1);
+    QCOMPARE(screens()->count(), 1);
+    QCOMPARE(screenChangedSpy.count(), 3);
+    QCOMPARE(modesChangedSpy.count(), 0);
+    QCOMPARE(outputEnabledSpy.count(), 0);
+    QCOMPARE(outputDisabledSpy.count(), 1);
+    QCOMPARE(outputRemovedSpy.count(), 1);
 }
 
 WAYLANDTEST_MAIN(TestOutputManagement)

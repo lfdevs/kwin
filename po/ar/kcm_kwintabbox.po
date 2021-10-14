@@ -1,26 +1,27 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 # Safa Alfulaij <safa1996alfulaij@gmail.com>, 2015.
+# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-10-15 02:32+0200\n"
-"PO-Revision-Date: 2015-01-27 01:31+0300\n"
-"Last-Translator: Safa Alfulaij <safa1996alfulaij@gmail.com>\n"
-"Language-Team: Arabic <doc@arabeyes.org>\n"
+"POT-Creation-Date: 2021-07-24 00:18+0000\n"
+"PO-Revision-Date: 2021-07-25 23:45+0400\n"
+"Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
+"Language-Team: ar\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 21.07.70\n"
 
 #: kwintabboxconfigform.cpp:77
 #, kde-format
 msgid "KWin"
-msgstr ""
+msgstr "ك.وين"
 
 #: layoutpreview.cpp:147
 #, kde-format
@@ -28,27 +29,26 @@ msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "سطح المكتب 1"
 
-#: main.cpp:61
+#: main.cpp:59
 #, kde-format
 msgid "Main"
 msgstr "الرّئيسيّ"
 
-#: main.cpp:62
+#: main.cpp:60
 #, kde-format
 msgid "Alternative"
 msgstr "البديل"
 
-#: main.cpp:64
-#, fuzzy, kde-format
-#| msgid "Get New Window Switcher Layout"
+#: main.cpp:62
+#, kde-format
 msgid "Get New Task Switchers..."
-msgstr "احصل على تخطيط مُبدِّل نوافذ جديد"
+msgstr "احصل على مُبدِّل مهام جديد"
 
-#: main.cpp:74
+#: main.cpp:72
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
-msgstr ""
+msgstr "تحد إعدادات سياسة التركيز من وظيفة التنقل عبر النوافذ."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
@@ -156,13 +156,13 @@ msgstr "التّصغير"
 #: main.ui:340
 #, kde-format
 msgid "Visible windows"
-msgstr ""
+msgstr "النوافذ المرئية"
 
 #. i18n: ectx: property (text), widget (QRadioButton, hiddenWindows)
 #: main.ui:347
 #, kde-format
 msgid "Hidden windows"
-msgstr ""
+msgstr "النوافذ المخفية"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: main.ui:386
@@ -175,7 +175,7 @@ msgstr "الاختصارات"
 #: main.ui:395 main.ui:438
 #, kde-format
 msgid "Forward"
-msgstr ""
+msgstr "تقدّم"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:418
@@ -188,7 +188,7 @@ msgstr "كلّ النّوافذ"
 #: main.ui:428 main.ui:448
 #, kde-format
 msgid "Reverse"
-msgstr ""
+msgstr "اعكس"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:470
@@ -200,13 +200,13 @@ msgstr "التّطبيق الحاليّ"
 #: main.ui:489
 #, kde-format
 msgid "Visualization"
-msgstr ""
+msgstr "مرئي"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, effectCombo)
 #: main.ui:519
 #, kde-format
 msgid "The effect to replace the list window when desktop effects are active."
-msgstr ""
+msgstr "تأثير لاستبدال قائمة النوافذ عندما تكون تأثيرات سطح المكتب نشطة."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:549
@@ -215,9 +215,11 @@ msgid ""
 "The currently selected window will be highlighted by fading out all other "
 "windows. This option requires desktop effects to be active."
 msgstr ""
+"تُميز النافذة المحددة حاليًا عن طريق تلاشي جميع النوافذ الأخرى. يتطلب هذا "
+"الخيار تفعيل تأثيرات سطح المكتب. "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:552
 #, kde-format
 msgid "Show selected window"
-msgstr ""
+msgstr "اعرض النافذة المحددة"

@@ -40,7 +40,6 @@ public:
     xcb_atom_t announceSupportProperty(const QByteArray &, KWin::Effect *) override {
         return XCB_ATOM_NONE;
     }
-    void buildQuads(KWin::EffectWindow *, KWin::WindowQuadList &) override {}
     QRect clientArea(KWin::clientAreaOption, const QPoint &, int) const override {
         return QRect();
     }
@@ -150,9 +149,6 @@ public:
         return false;
     }
     void moveWindow(KWin::EffectWindow *, const QPoint &, bool, double) override {}
-    KWin::WindowQuadType newWindowQuadType() override {
-        return KWin::WindowQuadError;
-    }
     int numberOfDesktops() const override {
         return 0;
     }
@@ -178,6 +174,7 @@ public:
     void registerGlobalShortcut(const QKeySequence &, QAction *) override {}
     void registerPointerShortcut(Qt::KeyboardModifiers, Qt::MouseButton, QAction *) override {}
     void registerTouchpadSwipeShortcut(KWin::SwipeDirection, QAction *) override {}
+    void registerRealtimeTouchpadSwipeShortcut(KWin::SwipeDirection, QAction*, std::function<void(qreal)>) override {}
     void reloadEffect(KWin::Effect *) override {}
     void removeSupportProperty(const QByteArray &, KWin::Effect *) override {}
     void reserveElectricBorder(KWin::ElectricBorder, KWin::Effect *) override {}
@@ -218,9 +215,6 @@ public:
         return 0;
     }
     int workspaceWidth() const override {
-        return 0;
-    }
-    long unsigned int xrenderBufferPicture() override {
         return 0;
     }
     xcb_connection_t *xcbConnection() const override {
@@ -273,7 +267,25 @@ public:
     KWin::SessionState sessionState() const override {
         return KWin::SessionState::Normal;
     }
+    QList<KWin::EffectScreen *> screens() const override {
+        return {};
+    }
+    KWin::EffectScreen *screenAt(const QPoint &point) const override {
+        Q_UNUSED(point)
+        return nullptr;
+    }
+    KWin::EffectScreen *findScreen(const QString &name) const override {
+        Q_UNUSED(name)
+        return nullptr;
+    }
+    KWin::EffectScreen *findScreen(int screenId) const override {
+        Q_UNUSED(screenId)
+        return nullptr;
+    }
 
+    void renderScreen(KWin::EffectScreen *screen) override {
+        Q_UNUSED(screen);
+    }
 private:
     bool m_animationsSuported = true;
 };

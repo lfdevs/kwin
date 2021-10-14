@@ -7,6 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "kwin_wayland_test.h"
+#include "abstract_output.h"
 #include "platform.h"
 #include "x11client.h"
 #include "composite.h"
@@ -49,20 +50,21 @@ void DontCrashEmptyDecorationTest::initTestCase()
     qputenv("KWIN_COMPOSE", QByteArrayLiteral("O2"));
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    QCOMPARE(screens()->count(), 2);
-    QCOMPARE(screens()->geometry(0), QRect(0, 0, 1280, 1024));
-    QCOMPARE(screens()->geometry(1), QRect(1280, 0, 1280, 1024));
+    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    QCOMPARE(outputs.count(), 2);
+    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
     setenv("QT_QPA_PLATFORM", "wayland", true);
-    waylandServer()->initWorkspace();
+    Test::initWaylandWorkspace();
 
     auto scene = KWin::Compositor::self()->scene();
     QVERIFY(scene);
-    QCOMPARE(scene->compositingType(), KWin::OpenGL2Compositing);
+    QCOMPARE(scene->compositingType(), KWin::OpenGLCompositing);
 }
 
 void DontCrashEmptyDecorationTest::init()
 {
-    screens()->setCurrent(0);
+    workspace()->setActiveOutput(QPoint(640, 512));
     Cursors::self()->mouse()->setPos(QPoint(640, 512));
 }
 
@@ -91,7 +93,7 @@ void DontCrashEmptyDecorationTest::testBug361551()
     QVERIFY(client->isDecorated());
 
     // let's set a stupid geometry
-    client->setFrameGeometry({0, 0, 0, 0});
+    client->moveResize({0, 0, 0, 0});
     QCOMPARE(client->frameGeometry(), QRect(0, 0, 0, 0));
 
     // and destroy the window again

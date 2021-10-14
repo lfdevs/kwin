@@ -10,13 +10,13 @@
 # Diniz Bortolotto <diniz.bortolotto@gmail.com>, 2007, 2008.
 # Fernando Boaglio <boaglio@kde.org>, 2008.
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2019.
-# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2009, 2010, 2012, 2019, 2020.
+# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2009, 2010, 2012, 2019, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-28 13:55+0000\n"
-"PO-Revision-Date: 2020-11-04 15:57-0300\n"
+"POT-Creation-Date: 2021-04-27 00:19+0000\n"
+"PO-Revision-Date: 2021-05-15 14:37-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 20.04.3\n"
+"X-Generator: Lokalize 20.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -880,17 +880,13 @@ msgstr "Comportamento multi-tela:"
 #: focus.ui:203
 #, kde-format
 msgid ""
-"When this option is enabled, the active Xinerama screen (where new windows "
-"appear, for example) is the screen containing the mouse pointer. When "
-"disabled, the active Xinerama screen is the screen containing the focused "
-"window. By default this option is disabled for Click to focus and enabled "
-"for other focus policies."
+"When this option is enabled, the active screen (where new windows appear, "
+"for example) is the screen containing the mouse pointer. When disabled, the "
+"active screen is the screen containing the focused window."
 msgstr ""
-"Quando esta opção estiver ativada, a tela ativa do Xinerama (por exemplo, "
-"onde aparecem as novas janelas) é aquela onde o ponteiro do mouse estiver. "
-"Quando desativada, a tela ativa do Xinerama é aquela que contém a janela em "
-"foco. Esta opção está desativada por padrão para a política 'Clicar para "
-"obter o foco' e ativada para as outras políticas de foco."
+"Quando esta opção estiver ativada, a tela ativa (por exemplo, onde aparecem "
+"as novas janelas) é aquela onde o ponteiro do mouse estiver. Quando "
+"desativada, a tela ativa é aquela que contém a janela em foco."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:206
@@ -903,10 +899,10 @@ msgstr "A tela ativa segue o &mouse"
 #, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
-"Xinerama screen"
+"screen"
 msgstr ""
 "Quando esta opção estiver ativa, as operações de foco limitam-se apenas à "
-"tela ativa do Xinerama"
+"tela ativa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:216
@@ -920,87 +916,87 @@ msgstr "S&eparar o foco de cada tela"
 msgid "Window activation policy description"
 msgstr "Descrição da política de ativação da janela"
 
-#: main.cpp:73
+#: main.cpp:74
 #, kde-format
 msgid "&Focus"
 msgstr "&Foco"
 
-#: main.cpp:84
+#: main.cpp:80
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "Ações da barra de &título"
 
-#: main.cpp:91
+#: main.cpp:86
 #, kde-format
 msgid "W&indow Actions"
 msgstr "Ações da ja&nela"
 
-#: main.cpp:98
+#: main.cpp:92
 #, kde-format
 msgid "Mo&vement"
 msgstr "Mo&vimento"
 
-#: main.cpp:105
+#: main.cpp:98
 #, kde-format
 msgid "Adva&nced"
 msgstr "A&vançado"
 
-#: main.cpp:110
+#: main.cpp:102
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "Módulo de configuração do comportamento da janela"
 
-#: main.cpp:112
+#: main.cpp:104
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "(c) 1997 - 2002 Autores do KWin e do KControl"
 
-#: main.cpp:114
+#: main.cpp:106
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:115
+#: main.cpp:107
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:116
+#: main.cpp:108
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:117
+#: main.cpp:109
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:118
+#: main.cpp:110
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:119
+#: main.cpp:111
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:120
+#: main.cpp:112
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:121
+#: main.cpp:113
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:122
+#: main.cpp:114
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:167
+#: main.cpp:163
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -1017,12 +1013,12 @@ msgstr ""
 "não surtirá efeito se você não usa o KWin como gerenciador de janelas. Se "
 "você usa outro gerenciador de janelas, consulte a documentação do mesmo.</p>"
 
-#: main.cpp:187
+#: main.cpp:205
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "Ações da barra de &título"
 
-#: main.cpp:193
+#: main.cpp:211
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "Ações da ja&nela"
@@ -1323,7 +1319,7 @@ msgstr "&Área de atração do centro:"
 msgid "&Snap windows:"
 msgstr "Aju&star as janelas:"
 
-#: windows.cpp:101
+#: windows.cpp:99
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1333,7 +1329,7 @@ msgstr ""
 "nela. Este é o comportamento padrão em outros sistemas operacionais e é "
 "provavelmente o que você quer."
 
-#: windows.cpp:105
+#: windows.cpp:103
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1348,7 +1344,7 @@ msgstr ""
 "fechada) a janela sob o mouse será a candidata preferida. Não é comum, mas "
 "uma possível variante do <em>Clicar para obter o foco</em>."
 
-#: windows.cpp:110
+#: windows.cpp:108
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1362,7 +1358,7 @@ msgstr ""
 "ocorre como de costume. Pense como <em>Clicar para obter o foco</em>, mas "
 "sem precisar clicar."
 
-#: windows.cpp:114
+#: windows.cpp:112
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1375,7 +1371,7 @@ msgstr ""
 "atual foi fechada) a janela sob o mouse será a candidata preferida. Escolha "
 "esta opção, se quiser um foco controlado com a passagem."
 
-#: windows.cpp:119
+#: windows.cpp:117
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1390,7 +1386,7 @@ msgstr ""
 "funcionam. Em vez disso, você provavelmente vai querer usar a opção <em>Foco "
 "segue o mouse (precedência do mouse)</em>."
 
-#: windows.cpp:123
+#: windows.cpp:121
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

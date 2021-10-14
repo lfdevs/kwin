@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the kde-workspace package.
 # Teemu Rytilahti <teemu.rytilahti@kde-fi.org>, 2008.
 # Teemu Rytilahti <teemu.rytilahti@d5k.net>, 2008.
-# Tommi Nieminen <translator@legisign.org>, 2009, 2010, 2011, 2012, 2014, 2016, 2017, 2018, 2019, 2020.
+# Tommi Nieminen <translator@legisign.org>, 2009, 2010, 2011, 2012, 2014, 2016, 2017, 2018, 2019, 2020, 2021.
 # Lasse Liehu <lasse.liehu@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2016, 2017.
 # Jiri Grönroos <jiri.gronroos+kde@iki.fi>, 2012.
 #
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-04-20 01:49+0000\n"
-"PO-Revision-Date: 2020-12-17 22:40+0200\n"
+"POT-Creation-Date: 2021-09-24 01:39+0000\n"
+"PO-Revision-Date: 2021-09-05 14:56+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -71,142 +71,15 @@ msgstr ""
 "Valitse väripoimintakohta napsauttamalla hiirellä tai Enter-näppäimellä.\n"
 "Peru hiiren oikealla painikkeella tai Esc-näppäimellä."
 
-#: coverswitch/coverswitch.cpp:952 flipswitch/flipswitch.cpp:933
+#: desktopgrid/desktopgrid.cpp:107 desktopgrid/desktopgrid_config.cpp:57
 #, kde-format
-msgctxt "Special entry in alt+tab list for minimizing all windows"
-msgid "Show Desktop"
-msgstr "Näytä työpöytä"
+msgid "Show Desktop Grid"
+msgstr "Näytä työpöytäruudukko"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_WindowTitle)
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowCaptions)
-#: coverswitch/coverswitch_config.ui:17 flipswitch/flipswitch_config.ui:191
-#: presentwindows/presentwindows_config.ui:406
-#, kde-format
-msgid "Display window &titles"
-msgstr "Näytä ikkunoiden &otsikot"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: coverswitch/coverswitch_config.ui:29 cube/cube_config.ui:344
-#, kde-format
-msgid "Zoom"
-msgstr "Tarkenna"
-
-#. i18n: ectx: property (toolTip), widget (QSlider, kcfg_zPosition)
-#: coverswitch/coverswitch_config.ui:39
-#, kde-format
-msgid "Define how far away the windows should appear"
-msgstr "Määrittää, kuinka kaukana ikkunoiden tulisi näyttää olevan"
-
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: coverswitch/coverswitch_config.ui:66 cube/cube_config.ui:350
-#, kde-format
-msgid "Near"
-msgstr "Lähelle"
-
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#: coverswitch/coverswitch_config.ui:86 cube/cube_config.ui:357
-#, kde-format
-msgid "Far"
-msgstr "Kauas"
-
-#. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: coverswitch/coverswitch_config.ui:110
-#, kde-format
-msgid "Animation"
-msgstr "Animointi"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnimateSwitch)
-#: coverswitch/coverswitch_config.ui:116
-#, kde-format
-msgid "Animate switch"
-msgstr "Animoi vaihdos"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnimateStart)
-#: coverswitch/coverswitch_config.ui:123
-#, kde-format
-msgid "Animation on tab box open"
-msgstr "Animoi valintaruudun avaaminen"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnimateStop)
-#: coverswitch/coverswitch_config.ui:130
-#, kde-format
-msgid "Animation on tab box close"
-msgstr "Animoi valintaruudun sulkeminen"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: coverswitch/coverswitch_config.ui:139 magiclamp/magiclamp_config.ui:17
-#, kde-format
-msgid "Animation duration:"
-msgstr "Animoinnin kesto:"
-
-#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_RotationDuration)
-#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
-#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_AnimationDuration)
-#: coverswitch/coverswitch_config.ui:158 cube/cube_config.ui:149
-#: cubeslide/cubeslide_config.ui:49 magiclamp/magiclamp_config.ui:36
-#, kde-format
-msgctxt "Duration of rotation"
-msgid "Default"
-msgstr "Oletus"
-
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
-#: coverswitch/coverswitch_config.ui:161 glide/glide_config.ui:35
-#: scale/package/contents/ui/config.ui:33 slide/slide_config.ui:35
-#, kde-format
-msgid " milliseconds"
-msgstr " millisekuntia"
-
-#. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Reflection)
-#: coverswitch/coverswitch_config.ui:177 coverswitch/coverswitch_config.ui:183
-#, kde-format
-msgid "Reflections"
-msgstr "Heijasteet"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: coverswitch/coverswitch_config.ui:195
-#, kde-format
-msgid "Rear color"
-msgstr "Takapään väri"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: coverswitch/coverswitch_config.ui:205
-#, kde-format
-msgid "Front color"
-msgstr "Etupään väri"
-
-#: cube/cube.cpp:185 cube/cube_config.cpp:60
-#, kde-format
-msgid "Desktop Cube"
-msgstr "Työpöytäkuutio"
-
-#: cube/cube.cpp:193 cube/cube_config.cpp:65
-#, kde-format
-msgid "Desktop Cylinder"
-msgstr "Työpöytälieriö"
-
-#: cube/cube.cpp:199 cube/cube_config.cpp:69
-#, kde-format
-msgid "Desktop Sphere"
-msgstr "Työpöytäpallo"
-
-#: cube/cube_config.cpp:49
-#, kde-format
-msgctxt "@title:tab Basic Settings"
-msgid "Basic"
-msgstr "Perusasetukset"
-
-#: cube/cube_config.cpp:50
-#, kde-format
-msgctxt "@title:tab Advanced Settings"
-msgid "Advanced"
-msgstr "Lisäasetukset"
-
-#: cube/cube_config.cpp:54 desktopgrid/desktopgrid_config.cpp:52
-#: flipswitch/flipswitch_config.cpp:56 invert/invert_config.cpp:38
+#: desktopgrid/desktopgrid_config.cpp:52 invert/invert_config.cpp:38
 #: lookingglass/lookingglass_config.cpp:58 magnifier/magnifier_config.cpp:58
 #: mouseclick/mouseclick_config.cpp:50 mousemark/mousemark_config.cpp:56
+#: overview/kcm/overvieweffectkcm.cpp:37
 #: presentwindows/presentwindows_config.cpp:51
 #: showpaint/showpaint_config.cpp:36
 #: thumbnailaside/thumbnailaside_config.cpp:57
@@ -216,241 +89,6 @@ msgstr "Lisäasetukset"
 msgid "KWin"
 msgstr "KWin"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: cube/cube_config.ui:21
-#, kde-format
-msgid "Tab 1"
-msgstr "Välilehti 1"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
-#: cube/cube_config.ui:27
-#, kde-format
-msgid "Background"
-msgstr "Tausta"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: cube/cube_config.ui:33
-#, kde-format
-msgid "Background color:"
-msgstr "Taustaväri:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: cube/cube_config.ui:56
-#, kde-format
-msgid "Wallpaper:"
-msgstr "Taustakuva:"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: cube/cube_config.ui:82 desktopgrid/desktopgrid_config.ui:236
-#: flipswitch/flipswitch_config.ui:204
-#: presentwindows/presentwindows_config.ui:17
-#, kde-format
-msgid "Activation"
-msgstr "Aktivointi"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_7)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: cube/cube_config.ui:104 desktopgrid/desktopgrid_config.ui:17
-#: flipswitch/flipswitch_config.ui:17 mousemark/mousemark_config.ui:17
-#: presentwindows/presentwindows_config.ui:387
-#: thumbnailaside/thumbnailaside_config.ui:17
-#, kde-format
-msgid "Appearance"
-msgstr "Ulkoasu"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DisplayDesktopName)
-#: cube/cube_config.ui:110
-#, kde-format
-msgid "Display desktop name"
-msgstr "Näytä työpöydän nimi"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Reflection)
-#: cube/cube_config.ui:117
-#, kde-format
-msgid "Reflection"
-msgstr "Heijastus"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: cube/cube_config.ui:124 cubeslide/cubeslide_config.ui:72
-#, kde-format
-msgid "Rotation duration:"
-msgstr "Kierron kesto:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ZOrdering)
-#: cube/cube_config.ui:175
-#, kde-format
-msgid "Windows hover above cube"
-msgstr "Ikkunat leijuvat kuution yllä"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: cube/cube_config.ui:185
-#, kde-format
-msgid "Opacity"
-msgstr "Peittävyys"
-
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_OpacitySpin)
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Opacity)
-#: cube/cube_config.ui:225 thumbnailaside/thumbnailaside_config.ui:87
-#, no-c-format, kde-format
-msgid " %"
-msgstr " %"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: cube/cube_config.ui:238 translucency/package/contents/ui/config.ui:156
-#: translucency/package/contents/ui/config.ui:418
-#, kde-format
-msgid "Transparent"
-msgstr "Läpinäkyvä"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#: cube/cube_config.ui:245 translucency/package/contents/ui/config.ui:121
-#: translucency/package/contents/ui/config.ui:431
-#, kde-format
-msgid "Opaque"
-msgstr "Läpinäkymätön"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_OpacityDesktopOnly)
-#: cube/cube_config.ui:255
-#, kde-format
-msgid "Do not change opacity of windows"
-msgstr "Älä muuta ikkunoiden peittävyyttä"
-
-#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: cube/cube_config.ui:279
-#, kde-format
-msgid "Tab 2"
-msgstr "Välilehti 2"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: cube/cube_config.ui:285
-#, kde-format
-msgid "Caps"
-msgstr "Hatut"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Caps)
-#: cube/cube_config.ui:291
-#, kde-format
-msgid "Show caps"
-msgstr "Näytä hatut"
-
-#. i18n: ectx: property (text), widget (QLabel, capColorLabel)
-#: cube/cube_config.ui:298
-#, kde-format
-msgid "Cap color:"
-msgstr "Hatun väri:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_TexturedCaps)
-#: cube/cube_config.ui:321
-#, kde-format
-msgid "Display image on caps"
-msgstr "Näytä hatussa kuva"
-
-#. i18n: ectx: property (toolTip), widget (QSlider, kcfg_ZPosition)
-#: cube/cube_config.ui:367
-#, kde-format
-msgid "Define how far away the object should appear"
-msgstr "Määrittää, kuinka kaukana olion tulisi näyttää olevan"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_9)
-#: cube/cube_config.ui:408
-#, kde-format
-msgid "Additional Options"
-msgstr "Lisäasetukset"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_CloseOnMouseRelease)
-#: cube/cube_config.ui:415
-#, kde-format
-msgid ""
-"If enabled the effect will be deactivated after rotating the cube with the "
-"mouse,\n"
-"otherwise it will remain active"
-msgstr ""
-"Jos käytössä, tehoste passivoituu pyöräytettäessä kuutiota hiirellä,\n"
-"muuten se pysyy aktiivisena"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_CloseOnMouseRelease)
-#: cube/cube_config.ui:418
-#, kde-format
-msgid "Close after mouse dragging"
-msgstr "Sulje hiirellä vedon jälkeen"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_TabBox)
-#: cube/cube_config.ui:425
-#, kde-format
-msgid "Use this effect for walking through the desktops"
-msgstr "Käytä tätä tehostetta työpöytien selaamiseen"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_InvertKeys)
-#: cube/cube_config.ui:432
-#, kde-format
-msgid "Invert cursor keys"
-msgstr "Käännä nuolinäppäinten suunta"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_InvertMouse)
-#: cube/cube_config.ui:439
-#, kde-format
-msgid "Invert mouse"
-msgstr "Käännä hiiren suunta"
-
-#. i18n: ectx: property (title), widget (QGroupBox, capDeformationGroupBox)
-#: cube/cube_config.ui:449
-#, kde-format
-msgid "Sphere Cap Deformation"
-msgstr "Pallon hatun epämuotoisuus"
-
-#. i18n: ectx: property (text), widget (QLabel, capDeformationSphereLabel)
-#: cube/cube_config.ui:471
-#, kde-format
-msgid "Sphere"
-msgstr "Pallo"
-
-#. i18n: ectx: property (text), widget (QLabel, capDeformationPlaneLabel)
-#: cube/cube_config.ui:478
-#, kde-format
-msgid "Plane"
-msgstr "Taso"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSlideStickyWindows)
-#: cubeslide/cubeslide_config.ui:17
-#, kde-format
-msgid "Do not animate windows on all desktops"
-msgstr "Älä animoi kaikkien työpöytien ikkunoita"
-
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RotationDuration)
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingLife)
-#: cubeslide/cubeslide_config.ui:52 mouseclick/mouseclick_config.ui:132
-#, kde-format
-msgid " msec"
-msgstr " ms"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSlidePanels)
-#: cubeslide/cubeslide_config.ui:65
-#, kde-format
-msgid "Do not animate panels"
-msgstr "Älä animoi paneeleja"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_UsePagerLayout)
-#: cubeslide/cubeslide_config.ui:85
-#, kde-format
-msgid "Use pager layout for animation"
-msgstr "Käytä sivuttimen asettelua animointiin"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseWindowMoving)
-#: cubeslide/cubeslide_config.ui:92
-#, kde-format
-msgid "Start animation when moving windows towards screen edges"
-msgstr "Käynnistä animointi siirrettäessä ikkunoita reunemmas näytöllä"
-
-#: desktopgrid/desktopgrid.cpp:67 desktopgrid/desktopgrid_config.cpp:57
-#, kde-format
-msgid "Show Desktop Grid"
-msgstr "Näytä työpöytäruudukko"
-
 #: desktopgrid/desktopgrid_config.cpp:65
 #, kde-format
 msgctxt "Desktop name alignment:"
@@ -459,9 +97,8 @@ msgstr "Ei käytössä"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#: desktopgrid/desktopgrid_config.cpp:66 flipswitch/flipswitch_config.ui:160
-#: glide/glide_config.ui:70 glide/glide_config.ui:168
+#: desktopgrid/desktopgrid_config.cpp:66 glide/glide_config.ui:70
+#: glide/glide_config.ui:168
 #, kde-format
 msgid "Top"
 msgstr "Yläreuna"
@@ -473,9 +110,8 @@ msgstr "Oikea yläkulma"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: desktopgrid/desktopgrid_config.cpp:68 flipswitch/flipswitch_config.ui:125
-#: glide/glide_config.ui:75 glide/glide_config.ui:173
+#: desktopgrid/desktopgrid_config.cpp:68 glide/glide_config.ui:75
+#: glide/glide_config.ui:173
 #, kde-format
 msgid "Right"
 msgstr "Oikea"
@@ -487,9 +123,8 @@ msgstr "Oikea alakulma"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: desktopgrid/desktopgrid_config.cpp:70 flipswitch/flipswitch_config.ui:180
-#: glide/glide_config.ui:80 glide/glide_config.ui:178
+#: desktopgrid/desktopgrid_config.cpp:70 glide/glide_config.ui:80
+#: glide/glide_config.ui:178
 #, kde-format
 msgid "Bottom"
 msgstr "Alareuna"
@@ -501,9 +136,8 @@ msgstr "Vasen alakulma"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: desktopgrid/desktopgrid_config.cpp:72 flipswitch/flipswitch_config.ui:105
-#: glide/glide_config.ui:85 glide/glide_config.ui:183
+#: desktopgrid/desktopgrid_config.cpp:72 glide/glide_config.ui:85
+#: glide/glide_config.ui:183
 #, kde-format
 msgid "Left"
 msgstr "Vasen"
@@ -517,6 +151,14 @@ msgstr "Vasen yläkulma"
 #, kde-format
 msgid "Center"
 msgstr "Keskialue"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: desktopgrid/desktopgrid_config.ui:17 mousemark/mousemark_config.ui:17
+#: presentwindows/presentwindows_config.ui:387
+#: thumbnailaside/thumbnailaside_config.ui:17
+#, kde-format
+msgid "Appearance"
+msgstr "Ulkoasu"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: desktopgrid/desktopgrid_config.ui:23
@@ -605,6 +247,13 @@ msgstr "Vaihda ainoastaan työpöytää"
 msgid "Show buttons to alter count of virtual desktops"
 msgstr "Näytä painikkeet virtuaalityöpöytien määrän muuttamiseen"
 
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: desktopgrid/desktopgrid_config.ui:236
+#: presentwindows/presentwindows_config.ui:17
+#, kde-format
+msgid "Activation"
+msgstr "Aktivointi"
+
 #. i18n: ectx: property (text), widget (QLabel, label_Strength)
 #: diminactive/diminactive_config.ui:17
 #, kde-format
@@ -647,220 +296,170 @@ msgstr "Ikkunaryhmittäin"
 msgid "Fullscreen windows"
 msgstr "Koko ruudun ikkunat"
 
-#: effect_builtins.cpp:92
+#: effect_builtins.cpp:90
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Blur"
 msgstr "Sumennus"
 
-#: effect_builtins.cpp:93
+#: effect_builtins.cpp:91
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Blurs the background behind semi-transparent windows"
 msgstr "Sumentaa taustan puoliksi läpinäkyvien ikkunoiden alta"
 
-#: effect_builtins.cpp:108
+#: effect_builtins.cpp:106
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Color Picker"
 msgstr "Värivalitsin"
 
-#: effect_builtins.cpp:109
+#: effect_builtins.cpp:107
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Supports picking a color"
 msgstr "Mahdollistaa värin valitsemisen"
 
-#: effect_builtins.cpp:124
+#: effect_builtins.cpp:122
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Background contrast"
 msgstr "Taustan kontrasti:"
 
-#: effect_builtins.cpp:125
+#: effect_builtins.cpp:123
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
 msgstr ""
 "Paranna kontrastia ja luettavuutta puoliksi läpinäkyvien ikkunoiden alta"
 
-#: effect_builtins.cpp:140
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Cover Switch"
-msgstr "Levykansivaihtaja"
-
-#: effect_builtins.cpp:141
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Display a Cover Flow effect for the alt+tab window switcher"
-msgstr "Näytä Alt+Sarkain-ikkunanvalitsimessa levykansiselaintehoste"
-
-#: effect_builtins.cpp:156
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Desktop Cube"
-msgstr "Työpöytäkuutio"
-
-# ”Tahko” on periaatteessa geometriassa käytetty nimitys ja ”sivu” kuulostaa kököltä, mutta onko tämä silti hyvä?
-#: effect_builtins.cpp:157
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Display each virtual desktop on a side of a cube"
-msgstr "Näytä kukin virtuaalityöpöytä kuution tahkona"
-
-#: effect_builtins.cpp:172
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Desktop Cube Animation"
-msgstr "Työpöytäkuutioanimaatio"
-
-#: effect_builtins.cpp:173
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Animate desktop switching with a cube"
-msgstr "Animoi työpöytävaihto kuution avulla"
-
-#: effect_builtins.cpp:188
+#: effect_builtins.cpp:138
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Desktop Grid"
 msgstr "Työpöytäruudukko"
 
-#: effect_builtins.cpp:189
+#: effect_builtins.cpp:139
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out so all desktops are displayed side-by-side in a grid"
 msgstr "Loitonna kunnes kaikki työpöydät näkyvät rinnakkain ruudukossa"
 
-#: effect_builtins.cpp:204
+#: effect_builtins.cpp:154
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Dim Inactive"
 msgstr "Passiivisen himmennys"
 
-#: effect_builtins.cpp:205
+#: effect_builtins.cpp:155
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Darken inactive windows"
 msgstr "Tummenna passiiviset ikkunat"
 
-#: effect_builtins.cpp:220
+#: effect_builtins.cpp:170
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Fall Apart"
 msgstr "Hajotus"
 
-#: effect_builtins.cpp:221
+#: effect_builtins.cpp:171
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Closed windows fall into pieces"
 msgstr "Suljetut ikkunat hajoavat palasiksi"
 
-#: effect_builtins.cpp:236
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Flip Switch"
-msgstr "Kääntövaihtaja"
-
-#: effect_builtins.cpp:237
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid ""
-"Flip through windows that are in a stack for the alt+tab window switcher"
-msgstr "Näytä ikkunat Alt+Sarkain-ikkunanvalitsimessa selattavana pinona"
-
-#: effect_builtins.cpp:252
+#: effect_builtins.cpp:186
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Glide"
 msgstr "Ikkunaliuku"
 
-#: effect_builtins.cpp:253
+#: effect_builtins.cpp:187
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Glide windows as they appear or disappear"
 msgstr "Liu’uta ikkunoita niiden ilmestyessä tai kadotessa"
 
-#: effect_builtins.cpp:268
+#: effect_builtins.cpp:202
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Highlight Window"
 msgstr "Ikkunan korostus"
 
-#: effect_builtins.cpp:269
+#: effect_builtins.cpp:203
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight the appropriate window when hovering over taskbar entries"
 msgstr "Korosta tehtäväpalkin kohtaa vastaava ikkuna sen yllä leijuttaessa"
 
-#: effect_builtins.cpp:284
+#: effect_builtins.cpp:218
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Invert"
 msgstr "Käänteistys"
 
-#: effect_builtins.cpp:285
+#: effect_builtins.cpp:219
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Inverts the color of the desktop and windows"
 msgstr "Kääntää työpöydän ja ikkunoiden värit"
 
-#: effect_builtins.cpp:300
+#: effect_builtins.cpp:234
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Kscreen"
 msgstr "KScreen"
 
-#: effect_builtins.cpp:301
+#: effect_builtins.cpp:235
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper Effect for KScreen"
 msgstr "KScreenin avustustehoste"
 
-#: effect_builtins.cpp:316
+#: effect_builtins.cpp:250
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Looking Glass"
 msgstr "Suurennuslasi"
 
-#: effect_builtins.cpp:317
+#: effect_builtins.cpp:251
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "A screen magnifier that looks like a fisheye lens"
 msgstr "Kalansilmälinssiltä näyttävä ruudunsuurennin"
 
-#: effect_builtins.cpp:332
+#: effect_builtins.cpp:266
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magic Lamp"
 msgstr "Taikalamppu"
 
-#: effect_builtins.cpp:333
+#: effect_builtins.cpp:267
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Simulate a magic lamp when minimizing windows"
 msgstr "Simuloi taikalamppua ikkunoita pienennettäessä"
 
-#: effect_builtins.cpp:348
+#: effect_builtins.cpp:282
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Magnifier"
 msgstr "Suurennus"
 
-#: effect_builtins.cpp:349
+#: effect_builtins.cpp:283
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the section of the screen that is near the mouse cursor"
 msgstr "Suurentaa hiiriosoittimen kohdalla olevan ruudun alueen"
 
-#: effect_builtins.cpp:364
+#: effect_builtins.cpp:298
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Click Animation"
 msgstr "Hiiren napsautuksen animointi"
 
-#: effect_builtins.cpp:365
+#: effect_builtins.cpp:299
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -870,37 +469,49 @@ msgstr ""
 "Luo animoinnin aina hiiren painiketta napsautettaessa. Tästä on hyötyä "
 "ruututallenteissa ja -esityksissä."
 
-#: effect_builtins.cpp:380
+#: effect_builtins.cpp:314
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Mouse Mark"
 msgstr "Hiiren jäljet"
 
-#: effect_builtins.cpp:381
+#: effect_builtins.cpp:315
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to draw lines on the desktop"
 msgstr "Antaa sinun piirtää viivoja työpöydälle"
 
-#: effect_builtins.cpp:396
+#: effect_builtins.cpp:330
+#, kde-format
+msgctxt "Name of a KWin Effect"
+msgid "Overview"
+msgstr "Yleiskuva"
+
+#: effect_builtins.cpp:331
+#, kde-format
+msgctxt "Comment describing the KWin Effect"
+msgid "Allows you to overview virtual desktops and windows"
+msgstr "Antaa yleiskuva virtuaalityöpöydistä ja ikkunoista"
+
+#: effect_builtins.cpp:346
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Present Windows"
 msgstr "Ikkunoiden esittäminen"
 
-#: effect_builtins.cpp:397
+#: effect_builtins.cpp:347
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Zoom out until all opened windows can be displayed side-by-side"
 msgstr "Loitonna kunnes kaikki avoimet ikkunat näkyvät vierekkäin"
 
-#: effect_builtins.cpp:412
+#: effect_builtins.cpp:362
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Resize Window"
 msgstr "Ikkunan koon muuttaminen"
 
-#: effect_builtins.cpp:413
+#: effect_builtins.cpp:363
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Resizes windows with a fast texture scale instead of updating contents"
@@ -908,37 +519,49 @@ msgstr ""
 "Muuttaa ikkunan kokoa nopealla tekstuuriskaalauksella sisällön virkistyksen "
 "sijaan"
 
-#: effect_builtins.cpp:428
+#: effect_builtins.cpp:378
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screen Edge"
 msgstr "Näytön reuna"
 
-#: effect_builtins.cpp:429
+#: effect_builtins.cpp:379
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlights a screen edge when approaching"
 msgstr "Korostaa näytön reunan sitä lähestyttäessä"
 
-#: effect_builtins.cpp:444
+#: effect_builtins.cpp:394
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Screenshot"
 msgstr "Kuvankaappaus"
 
-#: effect_builtins.cpp:445
+#: effect_builtins.cpp:395
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for screenshot tools"
 msgstr "Ruutukaappaustyökalujen avustustehoste"
 
-#: effect_builtins.cpp:460
+#: effect_builtins.cpp:410
+#, kde-format
+msgctxt "Name of a KWin Effect"
+msgid "Transform"
+msgstr "Muunna"
+
+#: effect_builtins.cpp:411
+#, kde-format
+msgctxt "Comment describing the KWin Effect"
+msgid "Animates display transformations"
+msgstr "Animoi näytön muunnokset"
+
+#: effect_builtins.cpp:425
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sheet"
 msgstr "Arkki"
 
-#: effect_builtins.cpp:461
+#: effect_builtins.cpp:426
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid ""
@@ -947,209 +570,162 @@ msgstr ""
 "Lennättää kyselyikkunat pehmeästi sisään ja ulos niitä näytettäessä ja "
 "piilotettaessa"
 
-#: effect_builtins.cpp:476
+#: effect_builtins.cpp:441
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show FPS"
 msgstr "Näytä FPS"
 
-#: effect_builtins.cpp:477
+#: effect_builtins.cpp:442
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display KWin's performance in the corner of the screen"
 msgstr "Näytä KWinin suorituskyky ruudun kulmassa"
 
-#: effect_builtins.cpp:492
+#: effect_builtins.cpp:457
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Show Paint"
 msgstr "Näytä näytönpiirto"
 
-#: effect_builtins.cpp:493
+#: effect_builtins.cpp:458
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Highlight areas of the desktop that have been recently updated"
 msgstr "Korosta äskettäin päivittyneet näytön alueet"
 
 # ”Työpöytä-” lisätty selvyyden vuoksi
-#: effect_builtins.cpp:508
+#: effect_builtins.cpp:473
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide"
 msgstr "Työpöytäliuku"
 
-#: effect_builtins.cpp:509
+#: effect_builtins.cpp:474
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide desktops when switching virtual desktops"
 msgstr "Liu’uta työpöytää virtuaalityöpöytiä vaihdettaessa"
 
-#: effect_builtins.cpp:524
+#: effect_builtins.cpp:489
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Slide Back"
 msgstr "Liuku taemmas"
 
-#: effect_builtins.cpp:525
+#: effect_builtins.cpp:490
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Slide back windows when another window is raised"
 msgstr "Liu’uta ikkuna taemmas, kun toinen ikkuna nostetaan"
 
-#: effect_builtins.cpp:540
+#: effect_builtins.cpp:505
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Sliding popups"
 msgstr "Ponnahdusikkunaliuku"
 
-#: effect_builtins.cpp:541
+#: effect_builtins.cpp:506
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Sliding animation for Plasma popups"
 msgstr "Plasman ponnahdusikkunoiden liukuanimaatio"
 
-#: effect_builtins.cpp:556
+#: effect_builtins.cpp:521
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Snap Helper"
 msgstr "Kiinnistysavustaja"
 
-#: effect_builtins.cpp:557
+#: effect_builtins.cpp:522
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Help you locate the center of the screen when moving a window"
 msgstr "Helpottaa näytön keskustan paikantamista ikkunaa siirrettäessä"
 
-#: effect_builtins.cpp:572
+#: effect_builtins.cpp:537
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Startup Feedback"
 msgstr "Käynnistyspalaute"
 
-#: effect_builtins.cpp:573
+#: effect_builtins.cpp:538
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Helper effect for startup feedback"
 msgstr "Avustustehoste käynnistyspalautteelle"
 
-#: effect_builtins.cpp:588
+#: effect_builtins.cpp:553
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Thumbnail Aside"
 msgstr "Esikatselukuva reunalla"
 
-#: effect_builtins.cpp:589
+#: effect_builtins.cpp:554
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window thumbnails on the edge of the screen"
 msgstr "Näytä ikkunan esikatselu näytön reunalla"
 
-#: effect_builtins.cpp:604
+#: effect_builtins.cpp:569
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Touch Points"
 msgstr "Kosketuspisteet"
 
-#: effect_builtins.cpp:605
+#: effect_builtins.cpp:570
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Visualize touch points"
 msgstr "Havainnollista kosketuspisteet"
 
-#: effect_builtins.cpp:620
+#: effect_builtins.cpp:585
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Track Mouse"
 msgstr "Hiiren jäljitys"
 
-#: effect_builtins.cpp:621
+#: effect_builtins.cpp:586
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display a mouse cursor locating effect when activated"
 msgstr "Näytä (aktivoitaessa) hiiriosoittimen paikannustehoste"
 
-#: effect_builtins.cpp:636
+#: effect_builtins.cpp:601
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Window Geometry"
 msgstr "Ikkunan geometria"
 
-#: effect_builtins.cpp:637
+#: effect_builtins.cpp:602
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Display window geometries on move/resize"
 msgstr "Näytä ikkunan geometria sitä siirrettäessä tai sen kokoa muutettaessa"
 
-#: effect_builtins.cpp:652
+#: effect_builtins.cpp:617
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Wobbly Windows"
 msgstr "Heiluvat ikkunat"
 
-#: effect_builtins.cpp:653
+#: effect_builtins.cpp:618
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Deform windows while they are moving"
 msgstr "Vääristä ikkunoita niiden liikkuessa"
 
-#: effect_builtins.cpp:668
+#: effect_builtins.cpp:633
 #, kde-format
 msgctxt "Name of a KWin Effect"
 msgid "Zoom"
 msgstr "Suurennus"
 
-#: effect_builtins.cpp:669
+#: effect_builtins.cpp:634
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Magnify the entire desktop"
 msgstr "Suurenna koko työpöytää"
-
-#: flipswitch/flipswitch.cpp:47 flipswitch/flipswitch_config.cpp:50
-#, kde-format
-msgid "Toggle Flip Switch (Current desktop)"
-msgstr "Kääntövaihto (nykyinen työpöytä)"
-
-#: flipswitch/flipswitch.cpp:54 flipswitch/flipswitch_config.cpp:53
-#, kde-format
-msgid "Toggle Flip Switch (All desktops)"
-msgstr "Kääntövaihto (kaikki työpöydät)"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: flipswitch/flipswitch_config.ui:23
-#, kde-format
-msgid "Flip animation duration:"
-msgstr "Kääntöanimaation kesto:"
-
-#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
-#: flipswitch/flipswitch_config.ui:42
-#, kde-format
-msgctxt "Duration of flip animation"
-msgid "Default"
-msgstr "Oletus"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: flipswitch/flipswitch_config.ui:55
-#, kde-format
-msgid "Angle:"
-msgstr "Kulma:"
-
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Angle)
-#: flipswitch/flipswitch_config.ui:71
-#, kde-format
-msgid " °"
-msgstr "°"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: flipswitch/flipswitch_config.ui:81
-#, kde-format
-msgid "Horizontal position of front:"
-msgstr "Edustan vaakasijainti:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: flipswitch/flipswitch_config.ui:136
-#, kde-format
-msgid "Vertical position of front:"
-msgstr "Edustan pystysijainti:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_Duration)
 #: glide/glide_config.ui:19 scale/package/contents/ui/config.ui:17
@@ -1165,6 +741,13 @@ msgstr "Kesto:"
 #, kde-format
 msgid "Default"
 msgstr "Oletus"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
+#: glide/glide_config.ui:35 scale/package/contents/ui/config.ui:33
+#: slide/slide_config.ui:35
+#, kde-format
+msgid " milliseconds"
+msgstr " millisekuntia"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_InAnimation)
 #: glide/glide_config.ui:50
@@ -1221,6 +804,19 @@ msgstr "Häivytys mustaan (vain koko näytön tervetuloikkunat)"
 msgid "&Radius:"
 msgstr "&Säde:"
 
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: magiclamp/magiclamp_config.ui:17
+#, kde-format
+msgid "Animation duration:"
+msgstr "Animoinnin kesto:"
+
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_AnimationDuration)
+#: magiclamp/magiclamp_config.ui:36
+#, kde-format
+msgctxt "Duration of rotation"
+msgid "Default"
+msgstr "Oletus"
+
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AnimationDuration)
 #: magiclamp/magiclamp_config.ui:39
 #, kde-format
@@ -1252,35 +848,35 @@ msgstr " px"
 msgid "&Height:"
 msgstr "&Korkeus:"
 
-#: mouseclick/mouseclick.cpp:38 mouseclick/mouseclick_config.cpp:53
+#: mouseclick/mouseclick.cpp:33 mouseclick/mouseclick_config.cpp:53
 #, kde-format
 msgid "Toggle Mouse Click Effect"
 msgstr "Ota hiiren tehoste käyttöön tai poista se käytöstä"
 
-#: mouseclick/mouseclick.cpp:46
+#: mouseclick/mouseclick.cpp:41
 #, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Vasen"
 
-#: mouseclick/mouseclick.cpp:47
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Keskipainike"
 
-#: mouseclick/mouseclick.cpp:48
+#: mouseclick/mouseclick.cpp:43
 #, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Oikea"
 
-#: mouseclick/mouseclick.h:63
+#: mouseclick/mouseclick.h:62
 #, kde-format
 msgid "↓"
 msgstr "↓"
 
-#: mouseclick/mouseclick.h:64
+#: mouseclick/mouseclick.h:63
 #, kde-format
 msgid "↑"
 msgstr "↑"
@@ -1330,12 +926,15 @@ msgstr "Viivan leveys:"
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_LineWidth)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingSize)
 #: mouseclick/mouseclick_config.ui:119 mouseclick/mouseclick_config.ui:171
-#: mousemark/mousemark_config.cpp:45
-#, fuzzy, kde-format
+#, kde-format
 msgid " pixel"
-msgid_plural " pixels"
-msgstr[0] " kuvapiste"
-msgstr[1] " kuvapistettä"
+msgstr " kuvapiste"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingLife)
+#: mouseclick/mouseclick_config.ui:132
+#, kde-format
+msgid " msec"
+msgstr " ms"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_duration_label)
 #: mouseclick/mouseclick_config.ui:145
@@ -1374,15 +973,23 @@ msgstr "Fontti:"
 msgid "Show Text:"
 msgstr "Näytä teksti:"
 
-#: mousemark/mousemark.cpp:40
+#: mousemark/mousemark.cpp:36
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "Pyyhi kaikki hiirijäljet"
 
-#: mousemark/mousemark.cpp:47 mousemark/mousemark_config.cpp:65
+#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:65
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Pyyhi viimeisin hiirijälki"
+
+#: mousemark/mousemark_config.cpp:45
+#, kde-format
+msgctxt "Suffix"
+msgid " pixel"
+msgid_plural " pixels"
+msgstr[0] " kuvapiste"
+msgstr[1] " kuvapistettä"
 
 #: mousemark/mousemark_config.cpp:59
 #, kde-format
@@ -1409,32 +1016,50 @@ msgstr ""
 "Piirrä hiirellä ruudulle painamalla Shift+Meta-näppäimiä ja siirtämällä "
 "hiirtä."
 
-#: presentwindows/presentwindows.cpp:67
+#: overview/kcm/overvieweffectkcm.cpp:43 overview/overvieweffect.cpp:79
+#, kde-format
+msgid "Toggle Overview"
+msgstr "Näytä tai piilota yleiskuva"
+
+#. i18n: ectx: property (text), widget (QLabel, label_LayoutMode)
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: overview/kcm/overvieweffectkcm.ui:22
+#: presentwindows/presentwindows_config.ui:393
+#, kde-format
+msgid "Layout mode:"
+msgstr "Asettelutila:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: overview/kcm/overvieweffectkcm.ui:30
+#, kde-format
+msgid "Closest"
+msgstr "Lähin"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
+#: overview/kcm/overvieweffectkcm.ui:35
+#: presentwindows/presentwindows_config.ui:441
+#, kde-format
+msgid "Natural"
+msgstr "Luonnollinen"
+
+#: presentwindows/presentwindows.cpp:69
 #: presentwindows/presentwindows_config.cpp:62
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Ikkunoiden esittäminen näkyviin/piiloon (nykyinen työpöytä)"
 
-#: presentwindows/presentwindows.cpp:76
+#: presentwindows/presentwindows.cpp:78
 #: presentwindows/presentwindows_config.cpp:56
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Ikkunoiden esittäminen näkyviin/piiloon (kaikki työpöydät)"
 
-#: presentwindows/presentwindows.cpp:86
+#: presentwindows/presentwindows.cpp:88
 #: presentwindows/presentwindows_config.cpp:68
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Ikkunoiden esittäminen näkyviin/piiloon (ikkunaluokka)"
-
-#: presentwindows/presentwindows.cpp:1700
-#, kde-format
-msgid ""
-"Filter:\n"
-"%1"
-msgstr ""
-"Suodatin:\n"
-"%1"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: presentwindows/presentwindows_config.ui:39
@@ -1593,11 +1218,11 @@ msgstr "Työpöytä"
 msgid "Show desktop"
 msgstr "Näytä työpöytä"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: presentwindows/presentwindows_config.ui:393
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowCaptions)
+#: presentwindows/presentwindows_config.ui:406
 #, kde-format
-msgid "Layout mode:"
-msgstr "Asettelutila:"
+msgid "Display window &titles"
+msgstr "Näytä ikkunoiden &otsikot"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowIcons)
 #: presentwindows/presentwindows_config.ui:413
@@ -1616,12 +1241,6 @@ msgstr "Ohita &pienennetyt ikkunat"
 #, kde-format
 msgid "Show &panels"
 msgstr "Näytä &paneelit"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: presentwindows/presentwindows_config.ui:441
-#, kde-format
-msgid "Natural"
-msgstr "Luonnollinen"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
 #: presentwindows/presentwindows_config.ui:446
@@ -1665,19 +1284,20 @@ msgstr "Ikkunan avauksen mittakaava:"
 msgid "Window close scale:"
 msgstr "Ikkunan sulkemisen mittakaava:"
 
-#: screenshot/screenshot.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:471
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Kuvankaappaus"
 
-#: screenshot/screenshot.cpp:482
+#: screenshot/screenshotdbusinterface1.cpp:472
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Kuvankaappaus tallennettu tiedostoon %1"
 
-#: screenshot/screenshot.cpp:624
+#: screenshot/screenshotdbusinterface1.cpp:787
+#: screenshot/screenshotdbusinterface2.cpp:413
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -1686,7 +1306,8 @@ msgstr ""
 "Valitse kaapattava ikkuna napsauttamalla hiirellä tai Enter-näppäimellä.\n"
 "Peru hiiren oikealla painikkeella tai Esc-näppäimellä."
 
-#: screenshot/screenshot.cpp:627
+#: screenshot/screenshotdbusinterface1.cpp:790
+#: screenshot/screenshotdbusinterface2.cpp:431
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -1695,7 +1316,7 @@ msgstr ""
 "Ota ruutukaappaus napsauttamalla hiirellä tai Enter-näppäimellä.\n"
 "Peru hiiren oikealla painikkeella tai Esc-näppäimellä."
 
-#: showfps/showfps.cpp:54
+#: showfps/showfps.cpp:50
 #, kde-format
 msgid "This effect is not a benchmark"
 msgstr "Tämä tehoste ei ole suorituskyvyn vertailukohta"
@@ -1760,7 +1381,7 @@ msgstr "Tekstin väri:"
 msgid "Text alpha:"
 msgstr "Tekstin alfa:"
 
-#: showpaint/showpaint.cpp:42 showpaint/showpaint_config.cpp:41
+#: showpaint/showpaint.cpp:39 showpaint/showpaint_config.cpp:41
 #, kde-format
 msgid "Toggle Show Paint"
 msgstr "Näytä tai poista näkyvistä näytönpiirto"
@@ -1827,7 +1448,13 @@ msgstr " kuvapistettä"
 msgid "&Opacity:"
 msgstr "&Peittävyys:"
 
-#: trackmouse/trackmouse.cpp:50 trackmouse/trackmouse_config.cpp:59
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Opacity)
+#: thumbnailaside/thumbnailaside_config.ui:87
+#, no-c-format, kde-format
+msgid " %"
+msgstr " %"
+
+#: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:59
 #, kde-format
 msgid "Track mouse"
 msgstr "Hiiren jäljitys"
@@ -1892,11 +1519,27 @@ msgstr "Yleiset läpinäkyvyysasetukset"
 msgid "Combobox popups:"
 msgstr "Valintalaatikon ponnahdusruudut:"
 
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: translucency/package/contents/ui/config.ui:121
+#: translucency/package/contents/ui/config.ui:431
+#, kde-format
+msgid "Opaque"
+msgstr "Läpinäkymätön"
+
 #. i18n: ectx: property (text), widget (QLabel, dialogs_label)
 #: translucency/package/contents/ui/config.ui:137
 #, kde-format
 msgid "Dialogs:"
 msgstr "Kyselyikkunat:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: translucency/package/contents/ui/config.ui:156
+#: translucency/package/contents/ui/config.ui:418
+#, kde-format
+msgid "Transparent"
+msgstr "Läpinäkyvä"
 
 #. i18n: ectx: property (text), widget (QLabel, menus_label)
 #: translucency/package/contents/ui/config.ui:188
@@ -2022,32 +1665,32 @@ msgstr "Vähemmän"
 msgid "More"
 msgstr "Enemmän"
 
-#: zoom/zoom.cpp:75
+#: zoom/zoom.cpp:71
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Siirrä lähennettyä aluetta vasemmalle"
 
-#: zoom/zoom.cpp:83
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Siirrä lähennettyä aluetta oikealle"
 
-#: zoom/zoom.cpp:91
+#: zoom/zoom.cpp:87
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Siirrä lähennettyä aluetta ylös"
 
-#: zoom/zoom.cpp:99
+#: zoom/zoom.cpp:95
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Siirrä lähennettyä aluetta alas"
 
-#: zoom/zoom.cpp:108 zoom/zoom_config.cpp:109
+#: zoom/zoom.cpp:104 zoom/zoom_config.cpp:109
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Siirrä hiiri kohdistukseen"
 
-#: zoom/zoom.cpp:116 zoom/zoom_config.cpp:116
+#: zoom/zoom.cpp:112 zoom/zoom_config.cpp:116
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "Siirrä hiiri keskelle"
@@ -2184,6 +1827,221 @@ msgstr "Ei käytössä"
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr "Hiiren jäljitys:"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ”Tahko” on periaatteessa geometriassa käytetty nimitys ja ”sivu” kuulostaa kököltä, mutta onko tämä silti hyvä?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

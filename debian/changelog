@@ -1,7 +1,8 @@
-kwin (4:5.23.1-1) UNRELEASED; urgency=medium
+kwin (4:5.23.2-1) UNRELEASED; urgency=medium
 
   [ Norbert Preining ]
   * New upstream release (5.23.1).
+  * New upstream release (5.23.2).
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Wed, 20 Oct 2021 06:16:54 +0900
 

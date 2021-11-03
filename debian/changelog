@@ -1,11 +1,11 @@
-kwin (4:5.23.2-1) UNRELEASED; urgency=medium
+kwin (4:5.23.2-1) unstable; urgency=medium
 
   [ Norbert Preining ]
   * New upstream release (5.23.1).
   * New upstream release (5.23.2).
   * Update symbols.
 
- -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Wed, 20 Oct 2021 06:16:54 +0900
+ -- Norbert Preining <norbert@preining.info>  Wed, 03 Nov 2021 22:21:02 +0900
 
 kwin (4:5.23.0-2) unstable; urgency=medium
 

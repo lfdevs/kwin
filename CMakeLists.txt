@@ -1,12 +1,13 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(PROJECT_VERSION "5.23.0") # Handled by release scripts
+set(PROJECT_VERSION "5.23.2") # Handled by release scripts
 project(KWin VERSION ${PROJECT_VERSION})
 
 set(CMAKE_C_STANDARD 99)
 
 set(QT_MIN_VERSION "5.15.0")
-set(KF5_MIN_VERSION "5.82")
+set(KF5_MIN_VERSION "5.86")
+set(KDE_COMPILERSETTINGS_LEVEL "5.82")
 
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
 

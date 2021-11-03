@@ -1230,6 +1230,7 @@ public:
                 m_lastGlobalTouchPos = QPointF();
                 m_lastLocalTouchPos = QPointF();
                 input()->touch()->setDecorationPressId(-1);
+                return true;
             }
             return false;
         }
@@ -2365,7 +2366,7 @@ void InputRedirection::reconfigure()
         auto inputConfig = m_inputConfigWatcher->config();
         const auto config = inputConfig->group(QStringLiteral("Keyboard"));
         const int delay = config.readEntry("RepeatDelay", 660);
-        const int rate = config.readEntry("RepeatRate", 25);
+        const int rate = int(config.readEntry("RepeatRate", 25.0));
         const QString repeatMode = config.readEntry("KeyRepeat", "repeat");
         // when the clients will repeat the character or turn repeat key events into an accent character selection, we want
         // to tell the clients that we are indeed repeating keys.

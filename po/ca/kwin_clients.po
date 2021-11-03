@@ -5,7 +5,7 @@
 #
 # Albert Astals Cid <aacid@kde.org>, 2004, 2005.
 # Sebastià Pla i Sanz <sps@sastia.com>, 2004, 2005, 2006.
-# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015.
+# Josep M. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2015, 2020.
 msgid ""
 msgstr ""

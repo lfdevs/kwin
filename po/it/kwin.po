@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-10-06 01:45+0000\n"
-"PO-Revision-Date: 2021-09-05 09:16+0200\n"
+"POT-Creation-Date: 2021-10-23 01:41+0000\n"
+"PO-Revision-Date: 2021-10-19 19:11+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -18,12 +18,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 21.08.1\n"
+"X-Generator: Lokalize 21.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Vincenzo Reale,Andrea Rizzi,Federico Cozzi, Luciano Montanaro"
+msgstr "Vincenzo Reale,Andrea Rizzi,Federico Cozzi,Luciano Montanaro"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -41,7 +41,7 @@ msgstr "(Non risponde)"
 msgid "unknown"
 msgstr "sconosciuto"
 
-#: composite.cpp:743
+#: composite.cpp:747
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -1144,7 +1144,7 @@ msgstr "In&terrompi l'applicazione %1"
 msgid "Wait Longer"
 msgstr "Aspetta più a lungo"
 
-#: input.cpp:2528
+#: input.cpp:2529
 #, kde-format
 msgid "Touchpad"
 msgstr "Touchpad"
@@ -1152,7 +1152,7 @@ msgstr "Touchpad"
 #: keyboard_layout.cpp:46
 #, kde-format
 msgid "Keyboard Layout Switcher"
-msgstr "Scambiatore di mappature della tastiera"
+msgstr "Selettore di mappature della tastiera"
 
 #: killwindow.cpp:33
 #, kde-format
@@ -1897,13 +1897,13 @@ msgstr "Tipo di regola Togli dal cambiadesktop"
 #: rulesettings.kcfg:260
 #, kde-format
 msgid "Skip switcher"
-msgstr "Togli dallo scambiafinestre"
+msgstr "Togli dal selettore delle finestre"
 
 #. i18n: ectx: label, entry (skipswitcherrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:264
 #, kde-format
 msgid "Skip switcher rule type"
-msgstr "Tipo di regola Togli dallo scambiafinestre"
+msgstr "Tipo di regola Togli dal selettore delle finestre"
 
 #. i18n: ectx: label, entry (above), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:271
@@ -2201,7 +2201,8 @@ msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
 msgstr ""
-"L'installazione dello scambiafinestre è danneggiata, mancano delle risorse.\n"
+"L'installazione del selettore delle finestre è danneggiata, mancano delle "
+"risorse.\n"
 "Contatta la tua distribuzione a proposito."
 
 #: useractions.cpp:167

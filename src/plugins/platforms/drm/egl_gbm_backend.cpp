@@ -88,14 +88,12 @@ bool EglGbmBackend::initializeEgl()
             return false;
         }
 
-        auto device = gbm_create_device(m_gpu->fd());
-        if (!device) {
+        if (!m_gpu->gbmDevice()) {
             setFailed("Could not create gbm device");
             return false;
         }
-        m_gpu->setGbmDevice(device);
 
-        display = eglGetPlatformDisplayEXT(platform, device, nullptr);
+        display = eglGetPlatformDisplayEXT(platform, m_gpu->gbmDevice(), nullptr);
         m_gpu->setEglDisplay(display);
     }
 
@@ -195,14 +193,8 @@ bool EglGbmBackend::addOutput(DrmAbstractOutput *drmOutput)
 {
     Output newOutput;
     newOutput.output = drmOutput;
-    if (isPrimary()) {
-        if (!resetOutput(newOutput)) {
-            return false;
-        }
-    } else {
-        if (!renderingBackend()->addOutput(drmOutput)) {
-            return false;
-        }
+    if (!isPrimary() && !renderingBackend()->addOutput(drmOutput)) {
+        return false;
     }
     m_outputs.insert(drmOutput, newOutput);
     return true;
@@ -367,6 +359,7 @@ bool EglGbmBackend::makeContextCurrent(const Output::RenderData &render) const
         qCCritical(KWIN_DRM) << "eglMakeCurrent failed:" << getEglErrorString();
         return false;
     }
+    glDrawBuffer(GL_BACK);
     return true;
 }
 
@@ -726,7 +719,7 @@ QSharedPointer<GLTexture> EglGbmBackend::textureForOutput(AbstractOutput *output
 
 bool EglGbmBackend::directScanoutAllowed(AbstractOutput *output) const
 {
-    return !m_backend->usesSoftwareCursor() && output->directScanoutInhibited();
+    return !m_backend->usesSoftwareCursor() && !output->directScanoutInhibited();
 }
 
 bool EglGbmBackend::hasOutput(AbstractOutput *output) const

@@ -3,14 +3,14 @@
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2019, 2020, 2021.
+# Josep M. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2019, 2020, 2021.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2014, 2015, 2016, 2018, 2019, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-09-24 01:39+0000\n"
-"PO-Revision-Date: 2021-09-04 13:27+0200\n"
+"PO-Revision-Date: 2021-10-13 14:50+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -24,7 +24,7 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Josep Ma. Ferrer"
+msgstr "Josep M. Ferrer"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -328,7 +328,7 @@ msgstr "Contrast del fons"
 msgctxt "Comment describing the KWin Effect"
 msgid "Improve contrast and readability behind semi-transparent windows"
 msgstr ""
-"Millora el contrast i la legibilitat darrere de les finestres "
+"Millora el contrast i la llegibilitat darrere de les finestres "
 "semitransparents"
 
 #: effect_builtins.cpp:138
@@ -493,7 +493,7 @@ msgstr "Vista general"
 #, kde-format
 msgctxt "Comment describing the KWin Effect"
 msgid "Allows you to overview virtual desktops and windows"
-msgstr "Permet un vista general dels escriptoris virtuals i les finestres"
+msgstr "Permet una vista general dels escriptoris virtuals i les finestres"
 
 #: effect_builtins.cpp:346
 #, kde-format
@@ -1345,25 +1345,25 @@ msgstr "Enlloc"
 #: showfps/showfps_config.ui:53
 #, kde-format
 msgid "Top Left"
-msgstr "A dalt esquerra"
+msgstr "A dalt a l'esquerra"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:58
 #, kde-format
 msgid "Top Right"
-msgstr "A dalt dreta"
+msgstr "A dalt a la dreta"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:63
 #, kde-format
 msgid "Bottom Left"
-msgstr "A baix esquerra"
+msgstr "A baix a l'esquerra"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:68
 #, kde-format
 msgid "Bottom Right"
-msgstr "A baix dreta"
+msgstr "A baix a la dreta"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: showfps/showfps_config.ui:76

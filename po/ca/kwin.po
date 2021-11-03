@@ -5,14 +5,14 @@
 #
 # Sebastià Pla i Sanz <sps@sastia.com>, 1999, 2000, 2001, 2002, 2004, 2005, 2006.
 # Albert Astals Cid <aacid@kde.org>, 2005.
-# Josep Ma. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021.
+# Josep M. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2013, 2014, 2015, 2016, 2017, 2019, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-10-06 01:45+0000\n"
-"PO-Revision-Date: 2021-09-04 13:28+0200\n"
+"POT-Creation-Date: 2021-10-23 01:41+0000\n"
+"PO-Revision-Date: 2021-10-11 19:54+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -44,7 +44,7 @@ msgstr "(No respon)"
 msgid "unknown"
 msgstr "desconegut"
 
-#: composite.cpp:743
+#: composite.cpp:747
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -1145,7 +1145,7 @@ msgstr "&Finalitza l'aplicació %1"
 msgid "Wait Longer"
 msgstr "Espera més llarga"
 
-#: input.cpp:2528
+#: input.cpp:2529
 #, kde-format
 msgid "Touchpad"
 msgstr "Ratolí tàctil"
@@ -1289,7 +1289,7 @@ msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
 msgstr ""
 "El nombre de finestres a obrir com a sortida en el mode de finestra. El "
-"valor per defecte és 1."
+"valor per defecte és 1"
 
 #: main_wayland.cpp:463
 #, kde-format
@@ -1307,7 +1307,7 @@ msgid ""
 "multiple times"
 msgstr ""
 "Sòcol XWayland a usar per a les connexions entrants del XWayland. Això es "
-"pot definir diverses vegades."
+"pot definir diverses vegades"
 
 #: main_wayland.cpp:471
 #, kde-format
@@ -1767,7 +1767,7 @@ msgstr "Ignora la geometria demanada"
 #: rulesettings.kcfg:144
 #, kde-format
 msgid "Ignore requested geometry rule type"
-msgstr "Tipus de regla d'ignora la geometria demanada"
+msgstr "Tipus de regla d'ignorar la geometria demanada"
 
 #. i18n: ectx: label, entry (desktops), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:151
@@ -1815,7 +1815,7 @@ msgstr "Estableix el tipus de finestra a"
 #: rulesettings.kcfg:189
 #, kde-format
 msgid "Set window type rule type"
-msgstr "Tipus de regla d'estableix el tipus de finestra"
+msgstr "Tipus de regla d'establir el tipus de finestra"
 
 #. i18n: ectx: label, entry (maximizevert), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:194
@@ -1875,7 +1875,7 @@ msgstr "Ignora la barra de tasques"
 #: rulesettings.kcfg:242
 #, kde-format
 msgid "Skip taskbar rule type"
-msgstr "Tipus de regla d'ignora la barra de tasques"
+msgstr "Tipus de regla d'ignorar la barra de tasques"
 
 #. i18n: ectx: label, entry (skippager), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:249
@@ -1887,7 +1887,7 @@ msgstr "Ignora el paginador"
 #: rulesettings.kcfg:253
 #, kde-format
 msgid "Skip pager rule type"
-msgstr "Tipus de regla d'ignora el paginador"
+msgstr "Tipus de regla d'ignorar el paginador"
 
 #. i18n: ectx: label, entry (skipswitcher), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:260
@@ -1899,7 +1899,7 @@ msgstr "Ignora el commutador"
 #: rulesettings.kcfg:264
 #, kde-format
 msgid "Skip switcher rule type"
-msgstr "Tipus de regla d'ignora el commutador"
+msgstr "Tipus de regla d'ignorar el commutador"
 
 #. i18n: ectx: label, entry (above), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:271
@@ -1971,7 +1971,7 @@ msgstr "Bloqueja la composició"
 #: rulesettings.kcfg:327
 #, kde-format
 msgid "Block Compositing rule type"
-msgstr "Tipus de regla de bloqueja la composició"
+msgstr "Tipus de regla de bloquejar la composició"
 
 #. i18n: ectx: label, entry (fsplevel), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:332
@@ -2019,43 +2019,43 @@ msgstr "Es pot tancar"
 #: rulesettings.kcfg:367
 #, kde-format
 msgid "Closeable rule type"
-msgstr "Tipus de regla d'es pot tancar"
+msgstr "Tipus de regla que es pot tancar"
 
 #. i18n: ectx: label, entry (autogroup), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:372
 #, kde-format
 msgid "Autogroup with identical"
-msgstr "Autoagrupa com a idèntiques"
+msgstr "Agrupa automàticament com a idèntiques"
 
 #. i18n: ectx: label, entry (autogrouprule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:376
 #, kde-format
 msgid "Autogroup with identical rule type"
-msgstr "Tipus de regla d'autoagrupa com a idèntiques"
+msgstr "Tipus de regla d'agrupar automàticament com a idèntiques"
 
 #. i18n: ectx: label, entry (autogroupfg), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:381
 #, kde-format
 msgid "Autogroup in foreground"
-msgstr "Autoagrupa en primer pla"
+msgstr "Agrupa automàticament en primer pla"
 
 #. i18n: ectx: label, entry (autogroupfgrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:385
 #, kde-format
 msgid "Autogroup in foreground rule type"
-msgstr "Tipus de regla d'autoagrupa en primer pla"
+msgstr "Tipus de regla d'agrupar automàticament en primer pla"
 
 #. i18n: ectx: label, entry (autogroupid), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:390
 #, kde-format
 msgid "Autogroup by ID"
-msgstr "Autoagrupa per ID"
+msgstr "Agrupa automàticament per ID"
 
 #. i18n: ectx: label, entry (autogroupidrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:393
 #, kde-format
 msgid "Autogroup by ID rule type"
-msgstr "Tipus de regla d'autoagrupa per ID"
+msgstr "Tipus de regla d'agrupar automàticament per ID"
 
 #. i18n: ectx: label, entry (strictgeometry), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:398
@@ -2067,7 +2067,7 @@ msgstr "Obeeix les restriccions de geometria"
 #: rulesettings.kcfg:402
 #, kde-format
 msgid "Obey geometry restrictions rule type"
-msgstr "Tipus de regla d'obeeix les restriccions de geometria"
+msgstr "Tipus de regla d'obeir les restriccions de geometria"
 
 #. i18n: ectx: label, entry (shortcut), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:407
@@ -2091,7 +2091,7 @@ msgstr "Ignora les dreceres globals"
 #: rulesettings.kcfg:421
 #, kde-format
 msgid "Ignore global shortcuts rule type"
-msgstr "Tipus de regla d'ignora les dreceres globals"
+msgstr "Tipus de regla d'ignorar les dreceres globals"
 
 #. i18n: ectx: label, entry (desktopfile), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:426
@@ -2442,7 +2442,7 @@ msgstr "Abaixa la finestra"
 #: useractions.cpp:996
 #, kde-format
 msgid "Toggle Window Raise/Lower"
-msgstr "Canvia entre eleva i abaixa la finestra"
+msgstr "Canvia entre elevar i abaixar la finestra"
 
 #: useractions.cpp:998
 #, kde-format

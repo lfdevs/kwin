@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-10-23 01:41+0000\n"
+"POT-Creation-Date: 2021-11-09 01:47+0000\n"
 "PO-Revision-Date: 2021-09-07 20:14+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -1169,7 +1169,7 @@ msgstr "أ&نهِ التّطبيق %1"
 msgid "Wait Longer"
 msgstr "انتظر أكثر"
 
-#: input.cpp:2529
+#: input.cpp:2530
 #, kde-format
 msgid "Touchpad"
 msgstr "لوحة اللمس"

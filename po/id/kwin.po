@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-10-23 01:41+0000\n"
+"POT-Creation-Date: 2021-11-09 01:47+0000\n"
 "PO-Revision-Date: 2020-02-24 08:01+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -1157,7 +1157,7 @@ msgstr "&Akhiri Aplikasi %1"
 msgid "Wait Longer"
 msgstr "Tunggu Lebih Lama"
 
-#: input.cpp:2529
+#: input.cpp:2530
 #, fuzzy, kde-format
 #| msgctxt "A touch up event"
 #| msgid "Touch Up"

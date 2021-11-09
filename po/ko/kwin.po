@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-10-23 01:41+0000\n"
+"POT-Creation-Date: 2021-11-09 01:47+0000\n"
 "PO-Revision-Date: 2021-07-28 02:34+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -1141,7 +1141,7 @@ msgstr "프로그램 %1 끝내기(&T)"
 msgid "Wait Longer"
 msgstr "더 기다리기"
 
-#: input.cpp:2529
+#: input.cpp:2530
 #, kde-format
 msgid "Touchpad"
 msgstr "터치패드"

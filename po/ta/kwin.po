@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-10-23 01:41+0000\n"
+"POT-Creation-Date: 2021-11-09 01:47+0000\n"
 "PO-Revision-Date: 2021-09-23 21:43+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -1150,7 +1150,7 @@ msgstr "%1 என்ற செயலியை &கட்டாயமாக ம�
 msgid "Wait Longer"
 msgstr "காத்திரு"
 
-#: input.cpp:2529
+#: input.cpp:2530
 #, kde-format
 msgid "Touchpad"
 msgstr "தொடுபலகை"

@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-10-23 01:41+0000\n"
-"PO-Revision-Date: 2021-09-16 23:11+0200\n"
+"POT-Creation-Date: 2021-11-09 01:47+0000\n"
+"PO-Revision-Date: 2021-10-28 09:29+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.08.1\n"
+"X-Generator: Lokalize 20.04.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -433,7 +433,7 @@ msgstr "Tocco Su"
 #, kde-format
 msgctxt "A pinch gesture is started"
 msgid "Pinch start"
-msgstr ""
+msgstr "Pinciar initio"
 
 #: debug_console.cpp:361
 #, kde-format
@@ -445,7 +445,7 @@ msgstr "Computo de digito"
 #, kde-format
 msgctxt "A pinch gesture is updated"
 msgid "Pinch update"
-msgstr ""
+msgstr "Pinchiar actualisa"
 
 #: debug_console.cpp:374
 #, kde-format
@@ -475,19 +475,19 @@ msgstr "Delta y"
 #, kde-format
 msgctxt "A pinch gesture ended"
 msgid "Pinch end"
-msgstr ""
+msgstr "Pinciar termina"
 
 #: debug_console.cpp:400
 #, kde-format
 msgctxt "A pinch gesture got cancelled"
 msgid "Pinch cancelled"
-msgstr ""
+msgstr "Pinciar cancellate"
 
 #: debug_console.cpp:412
 #, kde-format
 msgctxt "A swipe gesture is started"
 msgid "Swipe start"
-msgstr ""
+msgstr "Glissar initio"
 
 #: debug_console.cpp:414
 #, kde-format
@@ -499,7 +499,7 @@ msgstr "Computo de digito"
 #, kde-format
 msgctxt "A swipe gesture is updated"
 msgid "Swipe update"
-msgstr ""
+msgstr "Glissar actualisa"
 
 #: debug_console.cpp:427
 #, kde-format
@@ -517,25 +517,25 @@ msgstr "Delta y"
 #, kde-format
 msgctxt "A swipe gesture ended"
 msgid "Swipe end"
-msgstr ""
+msgstr "Glissar termina"
 
 #: debug_console.cpp:451
 #, kde-format
 msgctxt "A swipe gesture got cancelled"
 msgid "Swipe cancelled"
-msgstr ""
+msgstr "Swipe cancellate"
 
 #: debug_console.cpp:463
 #, kde-format
 msgctxt "A hardware switch (e.g. notebook lid) got toggled"
 msgid "Switch toggled"
-msgstr ""
+msgstr "Commutar alternate"
 
 #: debug_console.cpp:471
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Notebook lid"
-msgstr ""
+msgstr "Coperculo de quaderno (Notebook lid)"
 
 #: debug_console.cpp:473
 #, kde-format
@@ -575,7 +575,7 @@ msgstr "Instrumento de tabletta"
 #: debug_console.cpp:503
 #, kde-format
 msgid "EventType"
-msgstr ""
+msgstr "EventType (typo de evento)"
 
 #: debug_console.cpp:504 debug_console.cpp:547 debug_console.cpp:560
 #, kde-format
@@ -585,7 +585,7 @@ msgstr "Position"
 #: debug_console.cpp:506
 #, kde-format
 msgid "Tilt"
-msgstr ""
+msgstr "Inclination (Tilt)"
 
 #: debug_console.cpp:508
 #, kde-format
@@ -611,7 +611,7 @@ msgstr "Modificatores "
 #: debug_console.cpp:520
 #, kde-format
 msgid "Tablet Tool Button"
-msgstr ""
+msgstr "Button de Instrumento de tabletta"
 
 #: debug_console.cpp:521 debug_console.cpp:534
 #, kde-format
@@ -632,12 +632,12 @@ msgstr "Tabletta"
 #: debug_console.cpp:533
 #, kde-format
 msgid "Tablet Pad Button"
-msgstr ""
+msgstr "Button de tampon (pad) de tabletta"
 
 #: debug_console.cpp:545
 #, kde-format
 msgid "Tablet Pad Strip"
-msgstr ""
+msgstr "Banda de tampon (pad) de tabletta"
 
 #: debug_console.cpp:546 debug_console.cpp:559
 #, kde-format
@@ -647,12 +647,12 @@ msgstr "Numero"
 #: debug_console.cpp:548 debug_console.cpp:561
 #, kde-format
 msgid "isFinger"
-msgstr ""
+msgstr "isFinger (es digito)"
 
 #: debug_console.cpp:558
 #, kde-format
 msgid "Tablet Pad Ring"
-msgstr ""
+msgstr "Anillo de tampon (pad) de tabletta"
 
 #: debug_console.cpp:786
 #, kde-format
@@ -847,7 +847,7 @@ msgstr "Fenestras de cliente X11"
 #: debug_console.cpp:1225
 #, kde-format
 msgid "X11 Unmanaged Windows"
-msgstr ""
+msgstr "Fenestras non gerite de X11"
 
 #: debug_console.cpp:1227
 #, kde-format
@@ -863,7 +863,7 @@ msgstr "Fenestra interne"
 #: debug_console.ui:32
 #, kde-format
 msgid "Quit Debug Console"
-msgstr ""
+msgstr "Abandona Console de Debug"
 
 #. i18n: ectx: attribute (title), widget (QWidget, windows)
 #: debug_console.ui:45
@@ -875,7 +875,7 @@ msgstr "Fenestras"
 #: debug_console.ui:59
 #, kde-format
 msgid "Surfaces"
-msgstr ""
+msgstr "Superficies"
 
 #. i18n: ectx: attribute (title), widget (QWidget, input)
 #: debug_console.ui:69
@@ -899,13 +899,13 @@ msgstr "OpenGL"
 #: debug_console.ui:102
 #, kde-format
 msgid "No OpenGL compositor running"
-msgstr ""
+msgstr "Necun compositor de OpenGL executante"
 
 #. i18n: ectx: property (title), widget (QGroupBox, driverInfoBox)
 #: debug_console.ui:130
 #, kde-format
 msgid "OpenGL (ES) driver information"
-msgstr ""
+msgstr "Information de driver OpenGL (ES)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: debug_console.ui:136
@@ -929,7 +929,7 @@ msgstr "Version:"
 #: debug_console.ui:157
 #, kde-format
 msgid "Shading Language Version:"
-msgstr ""
+msgstr "Version de linguage umbrante:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: debug_console.ui:164
@@ -1014,7 +1014,7 @@ msgstr "Area de transferentia"
 #: debug_console.ui:479
 #, kde-format
 msgid "Primary Selection"
-msgstr ""
+msgstr "Selection Primari"
 
 #: helpers/killer/killer.cpp:30
 #, kde-format
@@ -1141,7 +1141,7 @@ msgstr "&Termina Application %1"
 msgid "Wait Longer"
 msgstr "Attende plus longe"
 
-#: input.cpp:2529
+#: input.cpp:2530
 #, kde-format
 msgid "Touchpad"
 msgstr "Touchpad"
@@ -1228,59 +1228,66 @@ msgstr "Il indica que KWin ha ruinate n vices"
 #: main_wayland.cpp:427
 #, kde-format
 msgid "Start a rootless Xwayland server."
-msgstr ""
+msgstr "Initia un servior Xwayland sin radice."
 
 #: main_wayland.cpp:429
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
+"Nomine del socket Wayland ubi ascoltar. Si non fixate \"wayland-0\" es usate."
 
 #: main_wayland.cpp:432
 #, kde-format
 msgid "Render to framebuffer."
-msgstr ""
+msgstr "Render a framebuffer."
 
 #: main_wayland.cpp:434
 #, kde-format
 msgid "The framebuffer device to render to."
-msgstr ""
+msgstr "Le dispositivo de framebuffer al qual render."
 
 #: main_wayland.cpp:437
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr ""
+"Le monstrator  X11 de usar in modo in fenestra (windowed) sur platteforma "
+"X11."
 
 #: main_wayland.cpp:440
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
+"Le monstrator Wayland de usar in modo sub fenestra (windowed) sur "
+"platteforma Wayland."
 
 #: main_wayland.cpp:442
 #, kde-format
 msgid "Render to a virtual framebuffer."
-msgstr ""
+msgstr "Render a un framebuffer virtual."
 
 #: main_wayland.cpp:444
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
-msgstr ""
+msgstr "Le largessa per modo sub fenestras. Largessa predefinite es 1024."
 
 #: main_wayland.cpp:448
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
-msgstr ""
+msgstr "Le altessa per modo sub fenestras. Altessa predefinite es 768."
 
 #: main_wayland.cpp:453
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
-msgstr ""
+msgstr "Le scala per modo sub fenestras. Valor predefinite es 1."
 
 #: main_wayland.cpp:458
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
 msgstr ""
+"Le numero de fenestras a aperir como exitos in modo sub fenestras. Valor "
+"predefinite es 1"
 
 #: main_wayland.cpp:463
 #, kde-format
@@ -1288,6 +1295,8 @@ msgid ""
 "Wayland socket to use for incoming connections. This can be combined with --"
 "socket to name the socket"
 msgstr ""
+"Socket Wayland a usar per connexiones in arrivata. Isto pote esser combinate "
+"con --socket per nominar le socket"
 
 #: main_wayland.cpp:467
 #, kde-format
@@ -1295,21 +1304,25 @@ msgid ""
 "XWayland socket to use for Xwayland's incoming connections. This can be set "
 "multiple times"
 msgstr ""
+"Socket XWayland a usr per connexiones de Wwayland in arrivata. Isto poter "
+"esser fixate multiple vices"
 
 #: main_wayland.cpp:471
 #, kde-format
 msgid "Name of the xwayland display that has been pre-set up"
-msgstr ""
+msgstr "Nomine del monstrator de xwayland que ha essite pre-configurate"
 
 #: main_wayland.cpp:475
 #, kde-format
 msgid "Name of the xauthority file "
-msgstr ""
+msgstr "Nomine del file de xauthority "
 
 #: main_wayland.cpp:479
 #, kde-format
 msgid "Exits this instance so it can be restarted by kwin_wayland_wrapper."
 msgstr ""
+"Exi iste instantia assi que illo pote esser restartate per "
+"kwin_wayland_wrapper."
 
 #: main_wayland.cpp:513
 #, kde-format
@@ -1317,16 +1330,18 @@ msgid ""
 "Enable libinput support for input events processing. Note: never use in a "
 "nested session.\t(deprecated)"
 msgstr ""
+"Habilita supporto de libinput per processar eventos de entrata. Nota: "
+"jammais usa in un session annidate.\t(deprecate)"
 
 #: main_wayland.cpp:515
 #, kde-format
 msgid "Render through drm node."
-msgstr ""
+msgstr "Render a transverso nodo drm."
 
 #: main_wayland.cpp:521
 #, kde-format
 msgid "Input method that KWin starts."
-msgstr ""
+msgstr "Methodo de entrata que KWin starta."
 
 #: main_wayland.cpp:526
 #, kde-format
@@ -1551,7 +1566,7 @@ msgstr "Color de Nocte active"
 #: plugins/nightcolor/nightcolormanager.cpp:108
 #, kde-format
 msgid "Toggle Night Color"
-msgstr ""
+msgstr "Commuta color de nocte"
 
 #: plugins/scenes/opengl/scene_opengl.cpp:269
 #, kde-format
@@ -1563,31 +1578,31 @@ msgstr ""
 #: rulebooksettingsbase.kcfg:9
 #, kde-format
 msgid "Total rules count (legacy)"
-msgstr ""
+msgstr "Computo total de regulas (obsolescente)"
 
 #. i18n: ectx: label, entry (ruleGroupList), group (General)
 #: rulebooksettingsbase.kcfg:13
 #, kde-format
 msgid "Ordered list of rules groups"
-msgstr ""
+msgstr "Lista ordinate de gruppos de regulas"
 
 #. i18n: ectx: label, entry (description), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:10
 #, kde-format
 msgid "Rule description"
-msgstr ""
+msgstr "Description de regula"
 
 #. i18n: ectx: label, entry (descriptionLegacy), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:13
 #, kde-format
 msgid "Rule description (legacy)"
-msgstr ""
+msgstr "Description de regula (obsolescente)"
 
 #. i18n: ectx: label, entry (DeleteRule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:16
 #, kde-format
 msgid "Delete this rule (for use in imports)"
-msgstr ""
+msgstr "Dle iste regula (per uso in importationes)"
 
 #. i18n: ectx: label, entry (wmclass), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:20
@@ -1599,7 +1614,7 @@ msgstr "Classe de fenestra (application):"
 #: rulesettings.kcfg:23
 #, kde-format
 msgid "Window class string match type"
-msgstr ""
+msgstr "Typo de correspondentia de catena de classe de fenestra"
 
 #. i18n: ectx: label, entry (wmclasscomplete), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:29
@@ -1617,7 +1632,7 @@ msgstr "Rolo de Fenestra:"
 #: rulesettings.kcfg:37
 #, kde-format
 msgid "Window role string match type"
-msgstr ""
+msgstr "Typo de correspondentia de catena de rolo de fenestra"
 
 #. i18n: ectx: label, entry (title), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:44
@@ -1629,7 +1644,7 @@ msgstr "Titulo de fenestra"
 #: rulesettings.kcfg:47
 #, kde-format
 msgid "Window title string match type"
-msgstr ""
+msgstr "Typo de correspondentia de catena de titulo de fenestra"
 
 #. i18n: ectx: label, entry (clientmachine), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:54
@@ -1641,13 +1656,13 @@ msgstr "Machina (nomine de hospite)"
 #: rulesettings.kcfg:57
 #, kde-format
 msgid "Machine string match type"
-msgstr ""
+msgstr "Typo de correspondentia de cqtena de machina"
 
 #. i18n: ectx: label, entry (types), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:64
 #, kde-format
 msgid "Window types that match"
-msgstr ""
+msgstr "Typos de Fenestra que coincide"
 
 #. i18n: ectx: label, entry (placement), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:69
@@ -1683,31 +1698,31 @@ msgstr "Grandor de fenestra"
 #: rulesettings.kcfg:93
 #, kde-format
 msgid "Window size rule type"
-msgstr ""
+msgstr "Typo de regula de dimension de fenestra"
 
 #. i18n: ectx: label, entry (minsize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:100
 #, kde-format
 msgid "Window minimum size"
-msgstr ""
+msgstr "Grandor minime de fenestra"
 
 #. i18n: ectx: label, entry (minsizerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:104
 #, kde-format
 msgid "Window minimum size rule type"
-msgstr ""
+msgstr "Typo de regula de grandor minime de fenestra"
 
 #. i18n: ectx: label, entry (maxsize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:109
 #, kde-format
 msgid "Window maximum size"
-msgstr ""
+msgstr "Grandor maxime de fenestra"
 
 #. i18n: ectx: label, entry (maxsizerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:113
 #, kde-format
 msgid "Window maximum size rule type"
-msgstr ""
+msgstr "Typo de regula de grandor maxime de fenestra"
 
 #. i18n: ectx: label, entry (opacityactive), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:118
@@ -1719,7 +1734,7 @@ msgstr "Opacitate active"
 #: rulesettings.kcfg:124
 #, kde-format
 msgid "Active opacity rule type"
-msgstr ""
+msgstr "Typo de regula de opacitate active"
 
 #. i18n: ectx: label, entry (opacityinactive), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:129
@@ -1731,7 +1746,7 @@ msgstr "Opacitate inactive"
 #: rulesettings.kcfg:135
 #, kde-format
 msgid "Inactive opacity rule type"
-msgstr ""
+msgstr "Typo de regula de opacitate inactive"
 
 #. i18n: ectx: label, entry (ignoregeometry), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:140
@@ -1743,7 +1758,7 @@ msgstr "Ignora geometria requirite"
 #: rulesettings.kcfg:144
 #, kde-format
 msgid "Ignore requested geometry rule type"
-msgstr ""
+msgstr "Ignora typo de regula de geometria requirite"
 
 #. i18n: ectx: label, entry (desktops), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:151
@@ -1827,7 +1842,7 @@ msgstr "Minimizate"
 #: rulesettings.kcfg:220
 #, kde-format
 msgid "Minimized rule type"
-msgstr ""
+msgstr "Typo de regula minimisate"
 
 #. i18n: ectx: label, entry (shade), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:227
@@ -1839,7 +1854,7 @@ msgstr "Adumbrate"
 #: rulesettings.kcfg:231
 #, kde-format
 msgid "Shaded rule type"
-msgstr ""
+msgstr "Typo de regula umbrate"
 
 #. i18n: ectx: label, entry (skiptaskbar), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:238
@@ -1851,7 +1866,7 @@ msgstr "Salta barra de carga"
 #: rulesettings.kcfg:242
 #, kde-format
 msgid "Skip taskbar rule type"
-msgstr ""
+msgstr "Typo de regula salta barra de applicationes"
 
 #. i18n: ectx: label, entry (skippager), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:249
@@ -1863,7 +1878,7 @@ msgstr "Salta paginator"
 #: rulesettings.kcfg:253
 #, kde-format
 msgid "Skip pager rule type"
-msgstr ""
+msgstr "Typo de regula salta paginator"
 
 #. i18n: ectx: label, entry (skipswitcher), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:260
@@ -1875,7 +1890,7 @@ msgstr "Salta commutator"
 #: rulesettings.kcfg:264
 #, kde-format
 msgid "Skip switcher rule type"
-msgstr ""
+msgstr "Typo de regula salta commutator"
 
 #. i18n: ectx: label, entry (above), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:271
@@ -1923,19 +1938,19 @@ msgstr "Nulle barra de titulo e quadro"
 #: rulesettings.kcfg:308
 #, kde-format
 msgid "No titlebar rule type"
-msgstr ""
+msgstr "Typo de regula necun barra de titulo"
 
 #. i18n: ectx: label, entry (decocolor), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:315
 #, kde-format
 msgid "Titlebar color and scheme"
-msgstr ""
+msgstr "Color e schema de barra de titulo"
 
 #. i18n: ectx: label, entry (decocolorrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:318
 #, kde-format
 msgid "Titlebar color rule type"
-msgstr ""
+msgstr "Typo de regula de color de barra de titulo"
 
 #. i18n: ectx: label, entry (blockcompositing), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:323
@@ -1947,7 +1962,7 @@ msgstr "Bloca composition"
 #: rulesettings.kcfg:327
 #, kde-format
 msgid "Block Compositing rule type"
-msgstr ""
+msgstr "Typo de regula de blocar composition"
 
 #. i18n: ectx: label, entry (fsplevel), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:332
@@ -1959,7 +1974,7 @@ msgstr "Prevention de robar de foco"
 #: rulesettings.kcfg:338
 #, kde-format
 msgid "Focus stealing prevention rule type"
-msgstr ""
+msgstr "Typo de regula de robar de foco"
 
 #. i18n: ectx: label, entry (fpplevel), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:343
@@ -1971,7 +1986,7 @@ msgstr "Protection de foco"
 #: rulesettings.kcfg:349
 #, kde-format
 msgid "Focus protection rule type"
-msgstr ""
+msgstr "Typo de regula de protection de foco"
 
 #. i18n: ectx: label, entry (acceptfocus), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:354
@@ -1983,7 +1998,7 @@ msgstr "Acceptar foco"
 #: rulesettings.kcfg:358
 #, kde-format
 msgid "Accept Focus rule type"
-msgstr ""
+msgstr "Typo de regula de Accepta Foco"
 
 #. i18n: ectx: label, entry (closeable), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:363
@@ -1995,7 +2010,7 @@ msgstr "Claudibile"
 #: rulesettings.kcfg:367
 #, kde-format
 msgid "Closeable rule type"
-msgstr ""
+msgstr "Typo de regula Claudibile"
 
 #. i18n: ectx: label, entry (autogroup), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:372
@@ -2007,7 +2022,7 @@ msgstr "Gruppa automaticamente con identic"
 #: rulesettings.kcfg:376
 #, kde-format
 msgid "Autogroup with identical rule type"
-msgstr ""
+msgstr "Typo de regula gruppa con identic"
 
 #. i18n: ectx: label, entry (autogroupfg), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:381
@@ -2019,7 +2034,7 @@ msgstr "Gruppa automaticamente in fronte"
 #: rulesettings.kcfg:385
 #, kde-format
 msgid "Autogroup in foreground rule type"
-msgstr ""
+msgstr "Typo de regula de gruppa in prime plano"
 
 #. i18n: ectx: label, entry (autogroupid), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:390
@@ -2031,7 +2046,7 @@ msgstr "Gruppa automaticamente per ID"
 #: rulesettings.kcfg:393
 #, kde-format
 msgid "Autogroup by ID rule type"
-msgstr ""
+msgstr "Typo de regula gruppa per ID"
 
 #. i18n: ectx: label, entry (strictgeometry), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:398
@@ -2043,7 +2058,7 @@ msgstr "Obedi a restrictiones de geometria"
 #: rulesettings.kcfg:402
 #, kde-format
 msgid "Obey geometry restrictions rule type"
-msgstr ""
+msgstr "Typo de regula obedi restrictiones de geometria"
 
 #. i18n: ectx: label, entry (shortcut), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:407

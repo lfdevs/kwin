@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-10-06 01:45+0000\n"
+"POT-Creation-Date: 2021-10-23 01:41+0000\n"
 "PO-Revision-Date: 2021-03-27 11:35+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -45,7 +45,7 @@ msgstr "(Svarar ikkje)"
 msgid "unknown"
 msgstr "ukjend"
 
-#: composite.cpp:743
+#: composite.cpp:747
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -1145,7 +1145,7 @@ msgstr "&Tvangsavslutt programmet %1"
 msgid "Wait Longer"
 msgstr "Vent lenger"
 
-#: input.cpp:2528
+#: input.cpp:2529
 #, kde-format
 msgid "Touchpad"
 msgstr ""

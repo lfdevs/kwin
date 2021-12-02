@@ -1,3 +1,13 @@
+kwin (4:5.23.4-1) unstable; urgency=medium
+
+  [ Norbert Preining ]
+  * New upstream release (5.23.4).
+
+  [ Patrick Franz ]
+  * Update B-Ds.
+
+ -- Patrick Franz <deltaone@debian.org>  Thu, 02 Dec 2021 22:25:21 +0100
+
 kwin (4:5.23.3-1) unstable; urgency=medium
 
   [ Norbert Preining ]

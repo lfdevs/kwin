@@ -1,3 +1,4 @@
+usr/share/applications/org.kde.kwin_rules_dialog.desktop
 usr/share/config.kcfg/kwin*.kcfg
 usr/share/config.kcfg/virtualdesktopssettings.kcfg
 usr/share/doc/*/*/kcontrol/

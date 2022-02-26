@@ -10,7 +10,7 @@
 #include <abstract_client.h>
 #include "abstract_output.h"
 #include "cursor.h"
-#include "utils.h"
+#include "utils/common.h"
 #include "settings.h"
 #include <workspace.h>
 #include <config-kwin.h>
@@ -34,12 +34,8 @@ Screens::Screens(QObject *parent)
     , m_count(0)
     , m_maxScale(1.0)
 {
-    // TODO: Do something about testScreens and other tests that use MockScreens.
-    // They only make core code more convoluted with ifdefs.
-#ifndef KWIN_UNIT_TEST
     connect(kwinApp()->platform(), &Platform::screensQueried, this, &Screens::updateCount);
     connect(kwinApp()->platform(), &Platform::screensQueried, this, &Screens::changed);
-#endif
 }
 
 Screens::~Screens()
@@ -57,22 +53,6 @@ void Screens::init()
     Q_EMIT changed();
 }
 
-QString Screens::name(int screen) const
-{
-    if (AbstractOutput *output = findOutput(screen)) {
-        return output->name();
-    }
-    return QString();
-}
-
-bool Screens::isInternal(int screen) const
-{
-    if (AbstractOutput *output = findOutput(screen)) {
-        return output->isInternal();
-    }
-    return false;
-}
-
 QRect Screens::geometry(int screen) const
 {
     if (AbstractOutput *output = findOutput(screen)) {
@@ -81,36 +61,12 @@ QRect Screens::geometry(int screen) const
     return QRect();
 }
 
-QSize Screens::size(int screen) const
-{
-    if (AbstractOutput *output = findOutput(screen)) {
-        return output->geometry().size();
-    }
-    return QSize();
-}
-
 qreal Screens::scale(int screen) const
 {
     if (AbstractOutput *output = findOutput(screen)) {
         return output->scale();
     }
     return 1.0;
-}
-
-QSizeF Screens::physicalSize(int screen) const
-{
-    if (AbstractOutput *output = findOutput(screen)) {
-        return output->physicalSize();
-    }
-    return QSizeF();
-}
-
-float Screens::refreshRate(int screen) const
-{
-    if (AbstractOutput *output = findOutput(screen)) {
-        return output->refreshRate() / 1000.0;
-    }
-    return 60.0;
 }
 
 qreal Screens::maxScale() const
@@ -162,39 +118,14 @@ int Screens::intersecting(const QRect &r) const
     return cnt;
 }
 
-QSize Screens::displaySize() const
-{
-    return size();
-}
-
-Qt::ScreenOrientation Screens::orientation(int screen) const
-{
-    Q_UNUSED(screen)
-    return Qt::PrimaryOrientation;
-}
-
 int Screens::number(const QPoint &pos) const
 {
-    // TODO: Do something about testScreens and other tests that use MockScreens.
-    // They only make core code more convoluted with ifdefs.
-#ifdef KWIN_UNIT_TEST
-    Q_UNUSED(pos)
-    return -1;
-#else
     return kwinApp()->platform()->enabledOutputs().indexOf(kwinApp()->platform()->outputAt(pos));
-#endif
 }
 
 AbstractOutput *Screens::findOutput(int screen) const
 {
-    // TODO: Do something about testScreens and other tests that use MockScreens.
-    // They only make core code more convoluted with ifdefs.
-#ifdef KWIN_UNIT_TEST
-    Q_UNUSED(screen)
-    return nullptr;
-#else
     return kwinApp()->platform()->findOutput(screen);
-#endif
 }
 
 } // namespace

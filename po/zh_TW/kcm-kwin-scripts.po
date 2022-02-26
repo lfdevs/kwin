@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-09-21 01:41+0000\n"
+"POT-Creation-Date: 2022-01-14 02:21+0000\n"
 "PO-Revision-Date: 2018-12-02 19:39+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -29,32 +29,32 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "franklin@goodhorse.idv.tw, s8321414@gmail.com"
 
-#: module.cpp:39
+#: module.cpp:40
 #, kde-format
 msgid "KWin Scripts"
 msgstr "KWin 文稿"
 
-#: module.cpp:41
+#: module.cpp:42
 #, kde-format
 msgid "Configure KWin scripts"
 msgstr "設定 KWin 文稿"
 
-#: module.cpp:44
+#: module.cpp:45
 #, kde-format
 msgid "Tamás Krutki"
 msgstr "Tamás Krutki"
 
-#: module.cpp:103
+#: module.cpp:105
 #, kde-format
 msgid "Import KWin Script"
 msgstr "匯入 KWin 文稿"
 
-#: module.cpp:104
+#: module.cpp:106
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|KWin 文稿 (*.kwinscript)"
 
-#: module.cpp:123
+#: module.cpp:125
 #, kde-format
 msgctxt "Placeholder is error message returned from the install service"
 msgid ""
@@ -64,13 +64,13 @@ msgstr ""
 "無法匯入已選取的指令稿。\n"
 "%1"
 
-#: module.cpp:137
+#: module.cpp:139
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."
 msgstr "指令稿「%1」成功匯入。"
 
-#: module.cpp:182
+#: module.cpp:183
 #, kde-format
 msgid "Error when uninstalling KWin Script: %1"
 msgstr ""

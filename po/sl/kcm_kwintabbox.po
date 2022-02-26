@@ -4,13 +4,13 @@
 # Jure Repinc <jlp@holodeck1.com>, 2009, 2010, 2012.
 # Andrej Vernekar <andrej.vernekar@gmail.com>, 2012.
 # Andrej Mernik <andrejm@ubuntu.si>, 2013.
-# Matjaž Jeran <matjaz.jeran@amis.net>, 2020.
+# Matjaž Jeran <matjaz.jeran@amis.net>, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-07-24 00:18+0000\n"
-"PO-Revision-Date: 2020-02-19 11:11+0100\n"
+"POT-Creation-Date: 2022-01-14 02:21+0000\n"
+"PO-Revision-Date: 2021-12-02 08:47+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Lokalize 21.04.3\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 
@@ -27,28 +27,33 @@ msgstr ""
 msgid "KWin"
 msgstr "KWin"
 
-#: layoutpreview.cpp:147
+#: layoutpreview.cpp:136
+#, kde-format
+msgid "Show Desktop"
+msgstr "Prikaži namizje"
+
+#: layoutpreview.cpp:166
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Namizje 1"
 
-#: main.cpp:59
+#: main.cpp:58
 #, kde-format
 msgid "Main"
 msgstr "Glavno"
 
-#: main.cpp:60
+#: main.cpp:59
 #, kde-format
 msgid "Alternative"
 msgstr "Drugotno"
 
-#: main.cpp:62
+#: main.cpp:61
 #, kde-format
 msgid "Get New Task Switchers..."
 msgstr "Dobi nove načine preklapljanja med okni..."
 
-#: main.cpp:72
+#: main.cpp:75
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."

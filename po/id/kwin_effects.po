@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-09-24 01:39+0000\n"
+"POT-Creation-Date: 2022-02-18 02:17+0000\n"
 "PO-Revision-Date: 2021-02-26 20:07+0700\n"
 "Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -66,25 +66,24 @@ msgstr ""
 "Pilih posisi untuk penukilan warna dengan klik kiri atau enter.\n"
 "Escape atau klik kanan untuk membatalkan."
 
-#: desktopgrid/desktopgrid.cpp:107 desktopgrid/desktopgrid_config.cpp:57
+#: desktopgrid/desktopgrid.cpp:109 desktopgrid/desktopgrid_config.cpp:55
 #, kde-format
 msgid "Show Desktop Grid"
 msgstr "Tampilkan Petak Desktop"
 
-#: desktopgrid/desktopgrid_config.cpp:52 invert/invert_config.cpp:38
-#: lookingglass/lookingglass_config.cpp:58 magnifier/magnifier_config.cpp:58
-#: mouseclick/mouseclick_config.cpp:50 mousemark/mousemark_config.cpp:56
-#: overview/kcm/overvieweffectkcm.cpp:37
-#: presentwindows/presentwindows_config.cpp:51
-#: showpaint/showpaint_config.cpp:36
-#: thumbnailaside/thumbnailaside_config.cpp:57
-#: trackmouse/trackmouse_config.cpp:54
-#: windowgeometry/windowgeometry_config.cpp:45 zoom/zoom_config.cpp:59
+#: desktopgrid/desktopgrid_config.cpp:50 invert/invert_config.cpp:36
+#: lookingglass/lookingglass_config.cpp:56 magnifier/magnifier_config.cpp:56
+#: mouseclick/mouseclick_config.cpp:48 mousemark/mousemark_config.cpp:54
+#: overview/kcm/overvieweffectkcm.cpp:35
+#: presentwindows/presentwindows_config.cpp:49
+#: showpaint/showpaint_config.cpp:34
+#: thumbnailaside/thumbnailaside_config.cpp:55
+#: trackmouse/trackmouse_config.cpp:52 zoom/zoom_config.cpp:57
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: desktopgrid/desktopgrid_config.cpp:65
+#: desktopgrid/desktopgrid_config.cpp:63
 #, kde-format
 msgctxt "Desktop name alignment:"
 msgid "Disabled"
@@ -92,57 +91,57 @@ msgstr "Dinonfungsikan"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:66 glide/glide_config.ui:70
+#: desktopgrid/desktopgrid_config.cpp:64 glide/glide_config.ui:70
 #: glide/glide_config.ui:168
 #, kde-format
 msgid "Top"
 msgstr "Atas"
 
-#: desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid_config.cpp:65
 #, kde-format
 msgid "Top-Right"
 msgstr "Kanan-Atas"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:68 glide/glide_config.ui:75
+#: desktopgrid/desktopgrid_config.cpp:66 glide/glide_config.ui:75
 #: glide/glide_config.ui:173
 #, kde-format
 msgid "Right"
 msgstr "Kanan"
 
-#: desktopgrid/desktopgrid_config.cpp:69
+#: desktopgrid/desktopgrid_config.cpp:67
 #, kde-format
 msgid "Bottom-Right"
 msgstr "Kanan-Bawah"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:70 glide/glide_config.ui:80
+#: desktopgrid/desktopgrid_config.cpp:68 glide/glide_config.ui:80
 #: glide/glide_config.ui:178
 #, kde-format
 msgid "Bottom"
 msgstr "Bawah"
 
-#: desktopgrid/desktopgrid_config.cpp:71
+#: desktopgrid/desktopgrid_config.cpp:69
 #, kde-format
 msgid "Bottom-Left"
 msgstr "Kiri-Bawah"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:72 glide/glide_config.ui:85
+#: desktopgrid/desktopgrid_config.cpp:70 glide/glide_config.ui:85
 #: glide/glide_config.ui:183
 #, kde-format
 msgid "Left"
 msgstr "Kiri"
 
-#: desktopgrid/desktopgrid_config.cpp:73
+#: desktopgrid/desktopgrid_config.cpp:71
 #, kde-format
 msgid "Top-Left"
 msgstr "Kiri-Atas"
 
-#: desktopgrid/desktopgrid_config.cpp:74
+#: desktopgrid/desktopgrid_config.cpp:72
 #, kde-format
 msgid "Center"
 msgstr "Tengah"
@@ -291,440 +290,6 @@ msgstr "Berdasarkan grup window"
 msgid "Fullscreen windows"
 msgstr "Jendela layar-penuh"
 
-#: effect_builtins.cpp:90
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Blur"
-msgstr "Blur"
-
-#: effect_builtins.cpp:91
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Blurs the background behind semi-transparent windows"
-msgstr "Memburamkan latarbelakang di belakang window semi transparan"
-
-#: effect_builtins.cpp:106
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Color Picker"
-msgstr "Color Picker"
-
-#: effect_builtins.cpp:107
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Supports picking a color"
-msgstr "Dukungan penukilan warna"
-
-#: effect_builtins.cpp:122
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Background contrast"
-msgstr "Background contrast"
-
-#: effect_builtins.cpp:123
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Improve contrast and readability behind semi-transparent windows"
-msgstr "Tingkatkan kontras dan keterbacaan di belakang window semi transparan"
-
-#: effect_builtins.cpp:138
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Desktop Grid"
-msgstr "Desktop Grid"
-
-#: effect_builtins.cpp:139
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Zoom out so all desktops are displayed side-by-side in a grid"
-msgstr ""
-"Zoom perkecil sehingga semua desktop didisplaikan berdampingan dalam sebuah "
-"grid"
-
-#: effect_builtins.cpp:154
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Dim Inactive"
-msgstr "Dim Inactive"
-
-#: effect_builtins.cpp:155
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Darken inactive windows"
-msgstr "Pergelap window tidak aktif"
-
-#: effect_builtins.cpp:170
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Fall Apart"
-msgstr "Fall Apart"
-
-#: effect_builtins.cpp:171
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Closed windows fall into pieces"
-msgstr "Jendela yang ditutup hancur berantakan"
-
-#: effect_builtins.cpp:186
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Glide"
-msgstr "Glide"
-
-#: effect_builtins.cpp:187
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Glide windows as they appear or disappear"
-msgstr "Jendela glide sebagaimana muncul atau takmuncul"
-
-#: effect_builtins.cpp:202
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Highlight Window"
-msgstr "Highlight Window"
-
-#: effect_builtins.cpp:203
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Highlight the appropriate window when hovering over taskbar entries"
-msgstr "Sorot window yang tepat ketika melayang di atas entri taskbar"
-
-#: effect_builtins.cpp:218
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Invert"
-msgstr "Invert"
-
-#: effect_builtins.cpp:219
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Inverts the color of the desktop and windows"
-msgstr "Kebalikan warna desktop dan window"
-
-#: effect_builtins.cpp:234
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Kscreen"
-msgstr "Kscreen"
-
-#: effect_builtins.cpp:235
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Helper Effect for KScreen"
-msgstr "Efek Pembantu KScreen"
-
-#: effect_builtins.cpp:250
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Looking Glass"
-msgstr "Looking Glass"
-
-#: effect_builtins.cpp:251
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "A screen magnifier that looks like a fisheye lens"
-msgstr "Sebuah pembesar layar yang terlihat seperti lensa mata ikan"
-
-#: effect_builtins.cpp:266
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Magic Lamp"
-msgstr "Magic Lamp"
-
-#: effect_builtins.cpp:267
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Simulate a magic lamp when minimizing windows"
-msgstr "Simulasi lampu ajaib ketika meminimalkan window"
-
-#: effect_builtins.cpp:282
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Magnifier"
-msgstr "Magnifier"
-
-#: effect_builtins.cpp:283
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Magnify the section of the screen that is near the mouse cursor"
-msgstr "Perbesar bagian layar yang dekat dengan kursor mouse"
-
-#: effect_builtins.cpp:298
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Mouse Click Animation"
-msgstr "Mouse Click Animation"
-
-#: effect_builtins.cpp:299
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid ""
-"Creates an animation whenever a mouse button is clicked. This is useful for "
-"screenrecordings/presentations"
-msgstr ""
-"Menciptakan animasi ketika tombol mouse diklik. Hal ini berguna untuk "
-"perekaman layar/presentasi"
-
-#: effect_builtins.cpp:314
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Mouse Mark"
-msgstr "Mouse Mark"
-
-#: effect_builtins.cpp:315
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Allows you to draw lines on the desktop"
-msgstr "Memungkinkan anda menggambar garis di desktop"
-
-#: effect_builtins.cpp:330
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Overview"
-msgstr ""
-
-#: effect_builtins.cpp:331
-#, fuzzy, kde-format
-#| msgctxt "Comment describing the KWin Effect"
-#| msgid "Allows you to draw lines on the desktop"
-msgctxt "Comment describing the KWin Effect"
-msgid "Allows you to overview virtual desktops and windows"
-msgstr "Memungkinkan anda menggambar garis di desktop"
-
-#: effect_builtins.cpp:346
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Present Windows"
-msgstr "Present Windows"
-
-#: effect_builtins.cpp:347
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Zoom out until all opened windows can be displayed side-by-side"
-msgstr ""
-"Zoom perkecil hingga semua window yang terbuka bisa didisplaikan berdampingan"
-
-#: effect_builtins.cpp:362
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Resize Window"
-msgstr "Resize Window"
-
-#: effect_builtins.cpp:363
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Resizes windows with a fast texture scale instead of updating contents"
-msgstr ""
-"Ubah ukuran window dengan skala tekstur cepat ketimbang memperbarui konten"
-
-#: effect_builtins.cpp:378
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Screen Edge"
-msgstr "Screen Edge"
-
-#: effect_builtins.cpp:379
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Highlights a screen edge when approaching"
-msgstr "Sorot tepi layar ketika mendekati"
-
-#: effect_builtins.cpp:394
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Screenshot"
-msgstr "Screenshot"
-
-#: effect_builtins.cpp:395
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Helper effect for screenshot tools"
-msgstr "Efek penunjang untuk peralatan screenshot"
-
-#: effect_builtins.cpp:410
-#, fuzzy, kde-format
-#| msgid "Transparent"
-msgctxt "Name of a KWin Effect"
-msgid "Transform"
-msgstr "Transparan"
-
-#: effect_builtins.cpp:411
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Animates display transformations"
-msgstr ""
-
-#: effect_builtins.cpp:425
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Sheet"
-msgstr "Sheet"
-
-#: effect_builtins.cpp:426
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid ""
-"Make modal dialogs smoothly fly in and out when they are shown or hidden"
-msgstr ""
-"Buat dialog yang berbentuk terbang masuk dan keluar dengan mulus ketika "
-"ditampilkan atau disembunyikan"
-
-#: effect_builtins.cpp:441
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Show FPS"
-msgstr "Show FPS"
-
-#: effect_builtins.cpp:442
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Display KWin's performance in the corner of the screen"
-msgstr "Displaikan performa KWin di sudut layar"
-
-#: effect_builtins.cpp:457
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Show Paint"
-msgstr "Show Paint"
-
-#: effect_builtins.cpp:458
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Highlight areas of the desktop that have been recently updated"
-msgstr "Sorot area desktop yang baru-baru ini diperbarui"
-
-#: effect_builtins.cpp:473
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Slide"
-msgstr "Slide"
-
-#: effect_builtins.cpp:474
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Slide desktops when switching virtual desktops"
-msgstr "Desktop geser ketika beralih desktop virtual"
-
-#: effect_builtins.cpp:489
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Slide Back"
-msgstr "Slide Back"
-
-#: effect_builtins.cpp:490
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Slide back windows when another window is raised"
-msgstr "Jendela mundur bergeser ketika window lain diangkat"
-
-#: effect_builtins.cpp:505
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Sliding popups"
-msgstr "Sliding popups"
-
-#: effect_builtins.cpp:506
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Sliding animation for Plasma popups"
-msgstr "Animasi geser untuk sembulan Plasma"
-
-#: effect_builtins.cpp:521
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Snap Helper"
-msgstr "Snap Helper"
-
-#: effect_builtins.cpp:522
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Help you locate the center of the screen when moving a window"
-msgstr "Membantu anda menentukan pusat layar ketika memindahkan window"
-
-#: effect_builtins.cpp:537
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Startup Feedback"
-msgstr "Startup Feedback"
-
-#: effect_builtins.cpp:538
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Helper effect for startup feedback"
-msgstr "Efek penunjang untuk feedback pemulaian"
-
-#: effect_builtins.cpp:553
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Thumbnail Aside"
-msgstr "Gambar-mini Aside"
-
-#: effect_builtins.cpp:554
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Display window thumbnails on the edge of the screen"
-msgstr "Displaikan gambar-mini window di tepi layar"
-
-#: effect_builtins.cpp:569
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Touch Points"
-msgstr "Touch Points"
-
-#: effect_builtins.cpp:570
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Visualize touch points"
-msgstr "Visualkan titik sentuh"
-
-#: effect_builtins.cpp:585
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Track Mouse"
-msgstr "Track Mouse"
-
-#: effect_builtins.cpp:586
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Display a mouse cursor locating effect when activated"
-msgstr "Displaikan efek lokasi kursor mouse ketika diaktifkan"
-
-#: effect_builtins.cpp:601
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Window Geometry"
-msgstr "Window Geometry"
-
-#: effect_builtins.cpp:602
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Display window geometries on move/resize"
-msgstr "Displaikan geometri window saat pindah/ubah-ukuran"
-
-#: effect_builtins.cpp:617
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Wobbly Windows"
-msgstr "Wobbly Windows"
-
-#: effect_builtins.cpp:618
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Deform windows while they are moving"
-msgstr "Lenturkan window ketika ia berpindah"
-
-#: effect_builtins.cpp:633
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Zoom"
-msgstr "Zoom "
-
-#: effect_builtins.cpp:634
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Magnify the entire desktop"
-msgstr "Perbesar seluruh desktop"
-
 #. i18n: ectx: property (text), widget (QLabel, label_Duration)
 #: glide/glide_config.ui:19 scale/package/contents/ui/config.ui:17
 #: slide/slide_config.ui:19
@@ -780,12 +345,12 @@ msgstr "Jarak:"
 msgid "Window Close Animation"
 msgstr "Animasi Penutupan Window"
 
-#: invert/invert.cpp:34 invert/invert_config.cpp:41
+#: invert/invert.cpp:42 invert/invert_config.cpp:39
 #, kde-format
 msgid "Toggle Invert Effect"
 msgstr "Jungkit Efek Invert"
 
-#: invert/invert.cpp:42 invert/invert_config.cpp:47
+#: invert/invert.cpp:50 invert/invert_config.cpp:45
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "Jungkit Efek Invert pada Window"
@@ -846,7 +411,7 @@ msgstr " px"
 msgid "&Height:"
 msgstr "&Tinggi:"
 
-#: mouseclick/mouseclick.cpp:33 mouseclick/mouseclick_config.cpp:53
+#: mouseclick/mouseclick.cpp:33 mouseclick/mouseclick_config.cpp:51
 #, kde-format
 msgid "Toggle Mouse Click Effect"
 msgstr "Jungkit Efek Mouse Click"
@@ -978,12 +543,12 @@ msgstr "Tampilkan Teks:"
 msgid "Clear All Mouse Marks"
 msgstr "Hapus Semua Tanda Mouse"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:65
+#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:63
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Hapus Tanda Mouse Terakhir"
 
-#: mousemark/mousemark_config.cpp:45
+#: mousemark/mousemark_config.cpp:43
 #, fuzzy, kde-format
 #| msgid " pixel"
 #| msgid_plural " pixels"
@@ -993,7 +558,7 @@ msgid_plural " pixels"
 msgstr[0] " pixel"
 msgstr[1] " pixel"
 
-#: mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark_config.cpp:57
 #, kde-format
 msgid "Clear Mouse Marks"
 msgstr "Hapus Tanda Mouse"
@@ -1011,14 +576,14 @@ msgid "&Color:"
 msgstr "&Warna:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: mousemark/mousemark_config.ui:78
+#: mousemark/mousemark_config.ui:82
 #, kde-format
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr ""
 "Gambar menggunakan mouse dengan menahan tuts Shift+Meta dan memindahkan "
 "mouse."
 
-#: overview/kcm/overvieweffectkcm.cpp:43 overview/overvieweffect.cpp:79
+#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:37
 #, fuzzy, kde-format
 #| msgid "Toggle Invert Effect"
 msgid "Toggle Overview"
@@ -1046,20 +611,43 @@ msgstr ""
 msgid "Natural"
 msgstr "Natural"
 
-#: presentwindows/presentwindows.cpp:69
-#: presentwindows/presentwindows_config.cpp:62
+#. i18n: ectx: property (text), widget (QLabel, label_BlurBackground)
+#: overview/kcm/overvieweffectkcm.ui:56
+#, fuzzy, kde-format
+#| msgid "Background"
+msgid "Blur background:"
+msgstr "Latarbelakang"
+
+#: overview/qml/DesktopBar.qml:188
+#, kde-format
+msgid "Delete virtual desktop"
+msgstr ""
+
+#: overview/qml/DesktopBar.qml:278
+#, fuzzy, kde-format
+#| msgid "Desktop"
+msgid "Add Desktop"
+msgstr "Desktop"
+
+#: overview/qml/ScreenView.qml:119
+#, kde-format
+msgid "Search..."
+msgstr ""
+
+#: presentwindows/presentwindows.cpp:71
+#: presentwindows/presentwindows_config.cpp:60
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Jungkit Present Windows (Desktop saat ini)"
 
-#: presentwindows/presentwindows.cpp:78
-#: presentwindows/presentwindows_config.cpp:56
+#: presentwindows/presentwindows.cpp:80
+#: presentwindows/presentwindows_config.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Jungkit Present Windows (Semua desktop)"
 
-#: presentwindows/presentwindows.cpp:88
-#: presentwindows/presentwindows_config.cpp:68
+#: presentwindows/presentwindows.cpp:90
+#: presentwindows/presentwindows_config.cpp:66
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Jungkit Present Windows (Kelas window)"
@@ -1263,18 +851,6 @@ msgstr "Petak Fleksibel"
 msgid "Provide buttons to close the windows"
 msgstr "Menyediakan tombol untuk menutup window"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_TextureScale)
-#: resize/resize_config.ui:17
-#, kde-format
-msgid "Scale window"
-msgstr "Skala window"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Outline)
-#: resize/resize_config.ui:24
-#, kde-format
-msgid "Show outline"
-msgstr "Tampilkan kerangka"
-
 #. i18n: ectx: property (text), widget (QLabel, label_InScale)
 #: scale/package/contents/ui/config.ui:46
 #, kde-format
@@ -1287,20 +863,20 @@ msgstr "Skala pembukaan window:"
 msgid "Window close scale:"
 msgstr "Skala penutupan window:"
 
-#: screenshot/screenshotdbusinterface1.cpp:471
+#: screenshot/screenshotdbusinterface1.cpp:472
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Screenshot"
 
-#: screenshot/screenshotdbusinterface1.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:473
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Screenshot disimpan ke %1"
 
-#: screenshot/screenshotdbusinterface1.cpp:787
-#: screenshot/screenshotdbusinterface2.cpp:413
+#: screenshot/screenshotdbusinterface1.cpp:788
+#: screenshot/screenshotdbusinterface2.cpp:471
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -1309,8 +885,8 @@ msgstr ""
 "Pilih window untuk mencuplik layar dengan klik kiri atau enter.\n"
 "Escape atau klik kanan untuk membatalkan."
 
-#: screenshot/screenshotdbusinterface1.cpp:790
-#: screenshot/screenshotdbusinterface2.cpp:431
+#: screenshot/screenshotdbusinterface1.cpp:791
+#: screenshot/screenshotdbusinterface2.cpp:489
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -1384,7 +960,7 @@ msgstr "Warna teks:"
 msgid "Text alpha:"
 msgstr "Alfa teks:"
 
-#: showpaint/showpaint.cpp:39 showpaint/showpaint_config.cpp:41
+#: showpaint/showpaint.cpp:39 showpaint/showpaint_config.cpp:39
 #, kde-format
 msgid "Toggle Show Paint"
 msgstr "Jungkit Show Paint"
@@ -1420,7 +996,7 @@ msgid "Slide desktop background"
 msgstr "Geser latarbelakang desktop"
 
 #: thumbnailaside/thumbnailaside.cpp:29
-#: thumbnailaside/thumbnailaside_config.cpp:62
+#: thumbnailaside/thumbnailaside_config.cpp:60
 #, kde-format
 msgid "Toggle Thumbnail for Current Window"
 msgstr "Jungkit Gambar-mini untuk Window Saat Ini"
@@ -1457,7 +1033,7 @@ msgstr "&Opasitas:"
 msgid " %"
 msgstr " %"
 
-#: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:59
+#: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
 msgid "Track mouse"
 msgstr "Lacak mouse"
@@ -1586,28 +1162,6 @@ msgstr "Menu popup:"
 msgid "Torn-off menus:"
 msgstr "Menu cabik:"
 
-#: windowgeometry/windowgeometry.cpp:43
-#, kde-format
-msgid "Toggle window geometry display (effect only)"
-msgstr "Jungkit displai geometri window (hanya efek)"
-
-#: windowgeometry/windowgeometry_config.cpp:47
-#, kde-format
-msgid "Toggle KWin composited geometry display"
-msgstr "Jungkit displai geometri komposit KWin"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Move)
-#: windowgeometry/windowgeometry_config.ui:17
-#, kde-format
-msgid "Display for moving windows"
-msgstr "Displaikan untuk pemindahan window"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Resize)
-#: windowgeometry/windowgeometry_config.ui:24
-#, kde-format
-msgid "Display for resizing windows"
-msgstr "Displaikan untuk pengubahan-ukuran window"
-
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
 #, kde-format
@@ -1668,52 +1222,52 @@ msgstr "Kurang"
 msgid "More"
 msgstr "Lebih"
 
-#: zoom/zoom.cpp:71
+#: zoom/zoom.cpp:69
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Pindah Area Zoom ke Kiri"
 
-#: zoom/zoom.cpp:79
+#: zoom/zoom.cpp:77
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Pindah Area Zoom ke Kanan"
 
-#: zoom/zoom.cpp:87
+#: zoom/zoom.cpp:85
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Pindah Area Zoom ke Atas"
 
-#: zoom/zoom.cpp:95
+#: zoom/zoom.cpp:93
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Pindah Area Zoom ke Bawah"
 
-#: zoom/zoom.cpp:104 zoom/zoom_config.cpp:109
+#: zoom/zoom.cpp:102 zoom/zoom_config.cpp:107
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Pindah Mouse ke Fokus"
 
-#: zoom/zoom.cpp:112 zoom/zoom_config.cpp:116
+#: zoom/zoom.cpp:110 zoom/zoom_config.cpp:114
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "Pindah Mouse ke Tengah"
 
-#: zoom/zoom_config.cpp:81
+#: zoom/zoom_config.cpp:79
 #, kde-format
 msgid "Move Left"
 msgstr "Pindah Kiri"
 
-#: zoom/zoom_config.cpp:88
+#: zoom/zoom_config.cpp:86
 #, kde-format
 msgid "Move Right"
 msgstr "Pindah Kanan"
 
-#: zoom/zoom_config.cpp:95
+#: zoom/zoom_config.cpp:93
 #, kde-format
 msgid "Move Up"
 msgstr "Pindah ke Atas"
 
-#: zoom/zoom_config.cpp:102
+#: zoom/zoom_config.cpp:100
 #, kde-format
 msgid "Move Down"
 msgstr "Pindah ke Bawah"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-10-01 01:49+0000\n"
+"POT-Creation-Date: 2022-01-14 02:21+0000\n"
 "PO-Revision-Date: 2021-06-11 15:46+0200\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -73,34 +73,34 @@ msgstr "Programm-Einstellungen für %1"
 msgid "Window settings for %1"
 msgstr "Fenster-Einstellungen für %1"
 
-#: main.cpp:30
+#: main.cpp:31
 #, kde-format
 msgid "KWinRules KCM launcher"
 msgstr "Programmstarter des KWinRules-Einrichtungsmoduls"
 
-#: main.cpp:31
+#: main.cpp:32
 #, kde-format
 msgid "KWin id of the window for special window settings."
 msgstr "KWin Id des Fensters für die speziellen Einstellungen"
 
-#: main.cpp:32
+#: main.cpp:33
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr ""
 "Legt fest, ob die Einstellungen alle Fenster der Anwendung betreffen soll."
 
-#: main.cpp:39
+#: main.cpp:40
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Dieses Hilfsprogramm ist nicht für direkte Aufrufe gedacht."
 
-#: main.cpp:43
+#: main.cpp:44
 #, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Anwendungsspezifische Einstellungen bearbeiten"
 
-#: main.cpp:44
+#: main.cpp:45
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Festlegen von fensterspezifischen Einstellungen"
@@ -293,43 +293,43 @@ msgstr "Fehler"
 msgid "Add property to the rule"
 msgstr "Eigenschaft für die Regel hinzufügen"
 
-#: package/contents/ui/RulesEditor.qml:257
+#: package/contents/ui/RulesEditor.qml:259
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr "Ja"
 
-#: package/contents/ui/RulesEditor.qml:257
+#: package/contents/ui/RulesEditor.qml:259
 #: package/contents/ui/ValueEditor.qml:60
 #, kde-format
 msgid "No"
 msgstr "Nein"
 
-#: package/contents/ui/RulesEditor.qml:259
+#: package/contents/ui/RulesEditor.qml:261
 #: package/contents/ui/ValueEditor.qml:172
 #: package/contents/ui/ValueEditor.qml:179
 #, kde-format
 msgid "%1 %"
 msgstr "%1 %"
 
-#: package/contents/ui/RulesEditor.qml:261
+#: package/contents/ui/RulesEditor.qml:263
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: package/contents/ui/RulesEditor.qml:263
+#: package/contents/ui/RulesEditor.qml:265
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: package/contents/ui/RulesList.qml:61
+#: package/contents/ui/RulesList.qml:59
 #, kde-format
 msgid "No rules for specific windows are currently set"
 msgstr "Es sind keine Regeln für bestimmte Fenster festgelegt"
 
-#: package/contents/ui/RulesList.qml:62
+#: package/contents/ui/RulesList.qml:60
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Click the <interface>Add New...</interface> button below to add some"
@@ -337,67 +337,67 @@ msgstr ""
 "Klicken Sie auf den Knopf <interface>Hinzufügen ...</interface>, um Regeln "
 "hinzuzufügen"
 
-#: package/contents/ui/RulesList.qml:70
+#: package/contents/ui/RulesList.qml:68
 #, kde-format
 msgid "Select the rules to export"
 msgstr "Regeln zum Export auswählen"
 
-#: package/contents/ui/RulesList.qml:74
+#: package/contents/ui/RulesList.qml:72
 #, kde-format
 msgid "Unselect All"
 msgstr "Auswahl aufheben"
 
-#: package/contents/ui/RulesList.qml:74
+#: package/contents/ui/RulesList.qml:72
 #, kde-format
 msgid "Select All"
 msgstr "Alles auswählen"
 
-#: package/contents/ui/RulesList.qml:88
+#: package/contents/ui/RulesList.qml:86
 #, kde-format
 msgid "Save Rules"
 msgstr "Regeln speichern"
 
-#: package/contents/ui/RulesList.qml:99
+#: package/contents/ui/RulesList.qml:97
 #, kde-format
 msgid "Add New..."
 msgstr "Neu hinzufügen ..."
 
-#: package/contents/ui/RulesList.qml:110
+#: package/contents/ui/RulesList.qml:108
 #, kde-format
 msgid "Import..."
 msgstr "Importieren ..."
 
-#: package/contents/ui/RulesList.qml:118
+#: package/contents/ui/RulesList.qml:116
 #, kde-format
 msgid "Cancel Export"
 msgstr "Export abbrechen"
 
-#: package/contents/ui/RulesList.qml:118
+#: package/contents/ui/RulesList.qml:116
 #, kde-format
 msgid "Export..."
 msgstr "Exportieren ..."
 
-#: package/contents/ui/RulesList.qml:199
+#: package/contents/ui/RulesList.qml:206
 #, kde-format
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: package/contents/ui/RulesList.qml:208
+#: package/contents/ui/RulesList.qml:215
 #, kde-format
 msgid "Duplicate"
 msgstr "Duplizieren"
 
-#: package/contents/ui/RulesList.qml:217
+#: package/contents/ui/RulesList.qml:224
 #, kde-format
 msgid "Delete"
 msgstr "Entfernen"
 
-#: package/contents/ui/RulesList.qml:230
+#: package/contents/ui/RulesList.qml:237
 #, kde-format
 msgid "Import Rules"
 msgstr "Regeln importieren"
 
-#: package/contents/ui/RulesList.qml:242
+#: package/contents/ui/RulesList.qml:249
 #, kde-format
 msgid "Export Rules"
 msgstr "Regeln exportieren"

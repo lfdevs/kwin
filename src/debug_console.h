@@ -163,11 +163,6 @@ private:
     QTextEdit *m_textEdit;
 };
 
-namespace LibInput
-{
-class Device;
-}
-
 class InputDeviceModel : public QAbstractItemModel
 {
     Q_OBJECT
@@ -181,9 +176,12 @@ public:
     int rowCount(const QModelIndex &parent) const override;
     QModelIndex parent(const QModelIndex &child) const override;
 
+private Q_SLOTS:
+    void slotPropertyChanged();
+
 private:
-    void setupDeviceConnections(LibInput::Device *device);
-    QVector<LibInput::Device*> m_devices;
+    void setupDeviceConnections(InputDevice *device);
+    QList<InputDevice *> m_devices;
 };
 
 class DataSourceModel : public QAbstractItemModel

@@ -66,12 +66,6 @@ public:
     void switchToPreviousLayout();
     bool switchToLayout(xkb_layout_index_t layout);
 
-    enum class LED {
-        NumLock = 1 << 0,
-        CapsLock = 1 << 1,
-        ScrollLock = 1 << 2
-    };
-    Q_DECLARE_FLAGS(LEDs, LED)
     LEDs leds() const {
         return m_leds;
     }
@@ -86,6 +80,11 @@ public:
 
     quint32 currentLayout() const {
         return m_currentLayout;
+    }
+
+    const auto &modifierState() const
+    {
+        return m_modifierState;
     }
     QString layoutName(xkb_layout_index_t index) const;
     QString layoutName() const;
@@ -102,6 +101,7 @@ public:
 
 Q_SIGNALS:
     void ledsChanged(const LEDs &leds);
+    void modifierStateChanged();
 
 private:
     void applyEnvironmentRules(xkb_rule_names &);
@@ -159,8 +159,5 @@ Qt::KeyboardModifiers Xkb::modifiers() const
 }
 
 }
-
-Q_DECLARE_METATYPE(KWin::Xkb::LED)
-Q_DECLARE_METATYPE(KWin::Xkb::LEDs)
 
 #endif

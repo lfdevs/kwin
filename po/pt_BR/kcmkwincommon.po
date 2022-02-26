@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-04-24 00:20+0000\n"
+"POT-Creation-Date: 2022-01-14 02:21+0000\n"
 "PO-Revision-Date: 2019-01-28 23:10-0200\n"
 "Last-Translator: André Marcelo Alvarenga <alvarenga@kde.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_br@kde.org>\n"
@@ -28,55 +28,55 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "alvarenga@kde.org"
 
-#: effectsmodel.cpp:53
+#: effectsmodel.cpp:52
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "Acessibilidade"
 
-#: effectsmodel.cpp:54
+#: effectsmodel.cpp:53
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "Aparência"
 
-#: effectsmodel.cpp:55
+#: effectsmodel.cpp:54
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "Foco"
 
-#: effectsmodel.cpp:56
+#: effectsmodel.cpp:55
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Show Desktop Animation"
 msgstr "Mostrar animação da área de trabalho"
 
-#: effectsmodel.cpp:57
+#: effectsmodel.cpp:56
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "Ferramentas"
 
-#: effectsmodel.cpp:58
+#: effectsmodel.cpp:57
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr "Animação da mudança de área de trabalho virtual"
 
-#: effectsmodel.cpp:59
+#: effectsmodel.cpp:58
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "Gerenciamento de janelas"
 
-#: effectsmodel.cpp:60
+#: effectsmodel.cpp:59
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Open/Close Animation"
 msgstr "Animação ao abrir/fechar janelas"
 
-#: effectsmodel.cpp:234
+#: effectsmodel.cpp:244
 #, kde-format
 msgid "KWin development team"
 msgstr "Equipe de desenvolvimento do KWin"

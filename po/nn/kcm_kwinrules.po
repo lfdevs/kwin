@@ -1,23 +1,23 @@
 # Translation of kcm_kwinrules to Norwegian Nynorsk
 #
 # Gaute Hvoslef Kvalnes <gaute@verdsveven.com>, 2004, 2005.
-# Karl Ove Hufthammer <karl@huftis.org>, 2004, 2007, 2008, 2010, 2015, 2016, 2018, 2019, 2020, 2021.
+# Karl Ove Hufthammer <karl@huftis.org>, 2004, 2007, 2008, 2010, 2015, 2016, 2018, 2019, 2020, 2021, 2022.
 # Håvard Korsvoll <korsvoll@skulelinux.no>, 2005, 2009.
 # Eirik U. Birkeland <eirbir@gmail.com>, 2010.
-# Øystein Steffensen-Alværvik <ystein@posteo.net>, 2018.
+# Øystein Steffensen-Alværvik <oysteins.omsetting@protonmail.com>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-10-01 01:49+0000\n"
-"PO-Revision-Date: 2021-03-21 18:14+0100\n"
+"POT-Creation-Date: 2022-01-14 02:21+0000\n"
+"PO-Revision-Date: 2022-01-15 18:28+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.12.3\n"
+"X-Generator: Lokalize 21.12.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
@@ -78,33 +78,33 @@ msgstr "Programinnstillingar for %1"
 msgid "Window settings for %1"
 msgstr "Vindaugsinnstillingar for %1"
 
-#: main.cpp:30
+#: main.cpp:31
 #, kde-format
 msgid "KWinRules KCM launcher"
 msgstr "KWinRules KCM-startar"
 
-#: main.cpp:31
+#: main.cpp:32
 #, kde-format
 msgid "KWin id of the window for special window settings."
 msgstr "KWin-ID til vindauget for spesielt vindaugsoppsett"
 
-#: main.cpp:32
+#: main.cpp:33
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Om innstillingane skal gjelda alle vindauge til programmet."
 
-#: main.cpp:39
+#: main.cpp:40
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Det er ikkje meininga at dette hjelpeverktøyet skal startast direkte."
 
-#: main.cpp:43
+#: main.cpp:44
 #, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Rediger programspesifikke innstillingar"
 
-#: main.cpp:44
+#: main.cpp:45
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Rediger vindaugsspesifikke innstillingar"
@@ -298,109 +298,109 @@ msgstr "Feil"
 msgid "Add property to the rule"
 msgstr "Legg eigenskap til regelen"
 
-#: package/contents/ui/RulesEditor.qml:257
+#: package/contents/ui/RulesEditor.qml:259
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr "Ja"
 
-#: package/contents/ui/RulesEditor.qml:257
+#: package/contents/ui/RulesEditor.qml:259
 #: package/contents/ui/ValueEditor.qml:60
 #, kde-format
 msgid "No"
 msgstr "Nei"
 
-#: package/contents/ui/RulesEditor.qml:259
+#: package/contents/ui/RulesEditor.qml:261
 #: package/contents/ui/ValueEditor.qml:172
 #: package/contents/ui/ValueEditor.qml:179
 #, kde-format
 msgid "%1 %"
 msgstr "%1 %"
 
-#: package/contents/ui/RulesEditor.qml:261
+#: package/contents/ui/RulesEditor.qml:263
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: package/contents/ui/RulesEditor.qml:263
+#: package/contents/ui/RulesEditor.qml:265
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: package/contents/ui/RulesList.qml:61
+#: package/contents/ui/RulesList.qml:59
 #, kde-format
 msgid "No rules for specific windows are currently set"
 msgstr "Ingen reglar er definerte for spesifikke vindauge"
 
-#: package/contents/ui/RulesList.qml:62
+#: package/contents/ui/RulesList.qml:60
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Click the <interface>Add New...</interface> button below to add some"
 msgstr "Trykk <interface>Legg til ny</interface> for å leggja til ein ny regel"
 
-#: package/contents/ui/RulesList.qml:70
+#: package/contents/ui/RulesList.qml:68
 #, kde-format
 msgid "Select the rules to export"
 msgstr "Vel reglane du vil eksportera"
 
-#: package/contents/ui/RulesList.qml:74
+#: package/contents/ui/RulesList.qml:72
 #, kde-format
 msgid "Unselect All"
 msgstr "Fjern merking"
 
-#: package/contents/ui/RulesList.qml:74
+#: package/contents/ui/RulesList.qml:72
 #, kde-format
 msgid "Select All"
 msgstr "Merk alle"
 
-#: package/contents/ui/RulesList.qml:88
+#: package/contents/ui/RulesList.qml:86
 #, kde-format
 msgid "Save Rules"
 msgstr "Lagra reglar"
 
-#: package/contents/ui/RulesList.qml:99
+#: package/contents/ui/RulesList.qml:97
 #, kde-format
 msgid "Add New..."
 msgstr "Legg til ny …"
 
-#: package/contents/ui/RulesList.qml:110
+#: package/contents/ui/RulesList.qml:108
 #, kde-format
 msgid "Import..."
 msgstr "Importer …"
 
-#: package/contents/ui/RulesList.qml:118
+#: package/contents/ui/RulesList.qml:116
 #, kde-format
 msgid "Cancel Export"
 msgstr "Avbryt eksport"
 
-#: package/contents/ui/RulesList.qml:118
+#: package/contents/ui/RulesList.qml:116
 #, kde-format
 msgid "Export..."
 msgstr "Eksporter …"
 
-#: package/contents/ui/RulesList.qml:199
+#: package/contents/ui/RulesList.qml:206
 #, kde-format
 msgid "Edit"
 msgstr "Rediger"
 
-#: package/contents/ui/RulesList.qml:208
+#: package/contents/ui/RulesList.qml:215
 #, kde-format
 msgid "Duplicate"
 msgstr "Lag kopi"
 
-#: package/contents/ui/RulesList.qml:217
+#: package/contents/ui/RulesList.qml:224
 #, kde-format
 msgid "Delete"
 msgstr "Slett"
 
-#: package/contents/ui/RulesList.qml:230
+#: package/contents/ui/RulesList.qml:237
 #, kde-format
 msgid "Import Rules"
 msgstr "Importer reglar"
 
-#: package/contents/ui/RulesList.qml:242
+#: package/contents/ui/RulesList.qml:249
 #, kde-format
 msgid "Export Rules"
 msgstr "Eksporter reglar"
@@ -528,7 +528,7 @@ msgstr "Virtuelt skrivebord"
 #: rulesmodel.cpp:448
 #, kde-format
 msgid "Virtual Desktops"
-msgstr ""
+msgstr "Virtuelle skrivebord"
 
 #: rulesmodel.cpp:464
 #, kde-format
@@ -611,7 +611,7 @@ msgstr ""
 #: rulesmodel.cpp:536
 #, kde-format
 msgid "Keep above other windows"
-msgstr ""
+msgstr "Hald over andre vindauge"
 
 #: rulesmodel.cpp:536 rulesmodel.cpp:541 rulesmodel.cpp:546 rulesmodel.cpp:552
 #: rulesmodel.cpp:558 rulesmodel.cpp:564
@@ -622,7 +622,7 @@ msgstr "Ordning og tilgang"
 #: rulesmodel.cpp:541
 #, kde-format
 msgid "Keep below other windows"
-msgstr ""
+msgstr "Hald under andre vindauge"
 
 #: rulesmodel.cpp:546
 #, kde-format
@@ -838,7 +838,7 @@ msgstr "Frittståande menylinje"
 #: rulesmodel.cpp:738
 #, kde-format
 msgid "On Screen Display"
-msgstr ""
+msgstr "På skjermmelding"
 
 #: rulesmodel.cpp:745
 #, kde-format

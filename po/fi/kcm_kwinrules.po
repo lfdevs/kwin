@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-10-01 01:49+0000\n"
+"POT-Creation-Date: 2022-01-14 02:21+0000\n"
 "PO-Revision-Date: 2021-09-05 10:46+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -82,33 +82,33 @@ msgstr "Sovelluksen %1 asetukset"
 msgid "Window settings for %1"
 msgstr "Ikkunan %1 asetukset"
 
-#: main.cpp:30
+#: main.cpp:31
 #, kde-format
 msgid "KWinRules KCM launcher"
 msgstr "KWinRulesin KCM-käynnistin"
 
-#: main.cpp:31
+#: main.cpp:32
 #, kde-format
 msgid "KWin id of the window for special window settings."
 msgstr "Ikkunan tunniste ikkunakohtaisia asetuksia varten."
 
-#: main.cpp:32
+#: main.cpp:33
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Määrittää, koskeeko asetus kaikkia valitun sovelluksen ikkunoita."
 
-#: main.cpp:39
+#: main.cpp:40
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Tätä avustajaa ei ole tarkoitettu kutsuttavaksi suoraan."
 
-#: main.cpp:43
+#: main.cpp:44
 #, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Sovelluskohtaisten asetuksien muokkaus"
 
-#: main.cpp:44
+#: main.cpp:45
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Ikkunakohtaisten asetuksien muokkaus"
@@ -298,43 +298,43 @@ msgstr "Virhe"
 msgid "Add property to the rule"
 msgstr "Lisää sääntöön ominaisuus"
 
-#: package/contents/ui/RulesEditor.qml:257
+#: package/contents/ui/RulesEditor.qml:259
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr "Kyllä"
 
-#: package/contents/ui/RulesEditor.qml:257
+#: package/contents/ui/RulesEditor.qml:259
 #: package/contents/ui/ValueEditor.qml:60
 #, kde-format
 msgid "No"
 msgstr "Ei"
 
-#: package/contents/ui/RulesEditor.qml:259
+#: package/contents/ui/RulesEditor.qml:261
 #: package/contents/ui/ValueEditor.qml:172
 #: package/contents/ui/ValueEditor.qml:179
 #, kde-format
 msgid "%1 %"
 msgstr "%1 %"
 
-#: package/contents/ui/RulesEditor.qml:261
+#: package/contents/ui/RulesEditor.qml:263
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: package/contents/ui/RulesEditor.qml:263
+#: package/contents/ui/RulesEditor.qml:265
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: package/contents/ui/RulesList.qml:61
+#: package/contents/ui/RulesList.qml:59
 #, kde-format
 msgid "No rules for specific windows are currently set"
 msgstr "Toistaiseksi ei ikkunakohtaisia sääntöjä"
 
-#: package/contents/ui/RulesList.qml:62
+#: package/contents/ui/RulesList.qml:60
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Click the <interface>Add New...</interface> button below to add some"
@@ -342,67 +342,67 @@ msgstr ""
 "Lisää sääntöjä napsauttamalla alta <interface>Lisää uusi…</interface> -"
 "painiketta"
 
-#: package/contents/ui/RulesList.qml:70
+#: package/contents/ui/RulesList.qml:68
 #, kde-format
 msgid "Select the rules to export"
 msgstr "Valitse vietävät säännöt"
 
-#: package/contents/ui/RulesList.qml:74
+#: package/contents/ui/RulesList.qml:72
 #, kde-format
 msgid "Unselect All"
 msgstr "Poista valinnat"
 
-#: package/contents/ui/RulesList.qml:74
+#: package/contents/ui/RulesList.qml:72
 #, kde-format
 msgid "Select All"
 msgstr "Valitse kaikki"
 
-#: package/contents/ui/RulesList.qml:88
+#: package/contents/ui/RulesList.qml:86
 #, kde-format
 msgid "Save Rules"
 msgstr "Tallenna säännöt"
 
-#: package/contents/ui/RulesList.qml:99
+#: package/contents/ui/RulesList.qml:97
 #, kde-format
 msgid "Add New..."
 msgstr "Lisää uusi…"
 
-#: package/contents/ui/RulesList.qml:110
+#: package/contents/ui/RulesList.qml:108
 #, kde-format
 msgid "Import..."
 msgstr "Tuo…"
 
-#: package/contents/ui/RulesList.qml:118
+#: package/contents/ui/RulesList.qml:116
 #, kde-format
 msgid "Cancel Export"
 msgstr "Peru vienti"
 
-#: package/contents/ui/RulesList.qml:118
+#: package/contents/ui/RulesList.qml:116
 #, kde-format
 msgid "Export..."
 msgstr "Vie…"
 
-#: package/contents/ui/RulesList.qml:199
+#: package/contents/ui/RulesList.qml:206
 #, kde-format
 msgid "Edit"
 msgstr "Muokkaa"
 
-#: package/contents/ui/RulesList.qml:208
+#: package/contents/ui/RulesList.qml:215
 #, kde-format
 msgid "Duplicate"
 msgstr "Monista"
 
-#: package/contents/ui/RulesList.qml:217
+#: package/contents/ui/RulesList.qml:224
 #, kde-format
 msgid "Delete"
 msgstr "Poista"
 
-#: package/contents/ui/RulesList.qml:230
+#: package/contents/ui/RulesList.qml:237
 #, kde-format
 msgid "Import Rules"
 msgstr "Tuontisäännöt"
 
-#: package/contents/ui/RulesList.qml:242
+#: package/contents/ui/RulesList.qml:249
 #, kde-format
 msgid "Export Rules"
 msgstr "Vientisäännöt"

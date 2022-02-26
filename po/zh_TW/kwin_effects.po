@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-09-24 01:39+0000\n"
+"POT-Creation-Date: 2022-02-18 02:17+0000\n"
 "PO-Revision-Date: 2020-02-20 19:09+0800\n"
 "Last-Translator: Yi-Jyun Pan <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -68,25 +68,24 @@ msgstr ""
 "選取位置並按下滑鼠左鍵或 Enter 以進行顏色挑選。\n"
 "Esc 或右鍵點選以取消。"
 
-#: desktopgrid/desktopgrid.cpp:107 desktopgrid/desktopgrid_config.cpp:57
+#: desktopgrid/desktopgrid.cpp:109 desktopgrid/desktopgrid_config.cpp:55
 #, kde-format
 msgid "Show Desktop Grid"
 msgstr "顯示桌面格線"
 
-#: desktopgrid/desktopgrid_config.cpp:52 invert/invert_config.cpp:38
-#: lookingglass/lookingglass_config.cpp:58 magnifier/magnifier_config.cpp:58
-#: mouseclick/mouseclick_config.cpp:50 mousemark/mousemark_config.cpp:56
-#: overview/kcm/overvieweffectkcm.cpp:37
-#: presentwindows/presentwindows_config.cpp:51
-#: showpaint/showpaint_config.cpp:36
-#: thumbnailaside/thumbnailaside_config.cpp:57
-#: trackmouse/trackmouse_config.cpp:54
-#: windowgeometry/windowgeometry_config.cpp:45 zoom/zoom_config.cpp:59
+#: desktopgrid/desktopgrid_config.cpp:50 invert/invert_config.cpp:36
+#: lookingglass/lookingglass_config.cpp:56 magnifier/magnifier_config.cpp:56
+#: mouseclick/mouseclick_config.cpp:48 mousemark/mousemark_config.cpp:54
+#: overview/kcm/overvieweffectkcm.cpp:35
+#: presentwindows/presentwindows_config.cpp:49
+#: showpaint/showpaint_config.cpp:34
+#: thumbnailaside/thumbnailaside_config.cpp:55
+#: trackmouse/trackmouse_config.cpp:52 zoom/zoom_config.cpp:57
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: desktopgrid/desktopgrid_config.cpp:65
+#: desktopgrid/desktopgrid_config.cpp:63
 #, kde-format
 msgctxt "Desktop name alignment:"
 msgid "Disabled"
@@ -94,57 +93,57 @@ msgstr "已關閉"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:66 glide/glide_config.ui:70
+#: desktopgrid/desktopgrid_config.cpp:64 glide/glide_config.ui:70
 #: glide/glide_config.ui:168
 #, kde-format
 msgid "Top"
 msgstr "上方"
 
-#: desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid_config.cpp:65
 #, kde-format
 msgid "Top-Right"
 msgstr "右上"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:68 glide/glide_config.ui:75
+#: desktopgrid/desktopgrid_config.cpp:66 glide/glide_config.ui:75
 #: glide/glide_config.ui:173
 #, kde-format
 msgid "Right"
 msgstr "右方"
 
-#: desktopgrid/desktopgrid_config.cpp:69
+#: desktopgrid/desktopgrid_config.cpp:67
 #, kde-format
 msgid "Bottom-Right"
 msgstr "右下"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:70 glide/glide_config.ui:80
+#: desktopgrid/desktopgrid_config.cpp:68 glide/glide_config.ui:80
 #: glide/glide_config.ui:178
 #, kde-format
 msgid "Bottom"
 msgstr "下方"
 
-#: desktopgrid/desktopgrid_config.cpp:71
+#: desktopgrid/desktopgrid_config.cpp:69
 #, kde-format
 msgid "Bottom-Left"
 msgstr "左下"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:72 glide/glide_config.ui:85
+#: desktopgrid/desktopgrid_config.cpp:70 glide/glide_config.ui:85
 #: glide/glide_config.ui:183
 #, kde-format
 msgid "Left"
 msgstr "左方"
 
-#: desktopgrid/desktopgrid_config.cpp:73
+#: desktopgrid/desktopgrid_config.cpp:71
 #, kde-format
 msgid "Top-Left"
 msgstr "左上"
 
-#: desktopgrid/desktopgrid_config.cpp:74
+#: desktopgrid/desktopgrid_config.cpp:72
 #, kde-format
 msgid "Center"
 msgstr "置中"
@@ -293,432 +292,6 @@ msgstr "依視窗群組"
 msgid "Fullscreen windows"
 msgstr "全螢幕視窗"
 
-#: effect_builtins.cpp:90
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Blur"
-msgstr "模糊"
-
-#: effect_builtins.cpp:91
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Blurs the background behind semi-transparent windows"
-msgstr "將半透明視窗後的背景弄模糊"
-
-#: effect_builtins.cpp:106
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Color Picker"
-msgstr "顏色挑選器"
-
-#: effect_builtins.cpp:107
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Supports picking a color"
-msgstr "支援挑選顏色"
-
-#: effect_builtins.cpp:122
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Background contrast"
-msgstr "背景對比"
-
-#: effect_builtins.cpp:123
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Improve contrast and readability behind semi-transparent windows"
-msgstr "改善半透明視窗的對比與可讀性"
-
-#: effect_builtins.cpp:138
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Desktop Grid"
-msgstr "桌面格線"
-
-#: effect_builtins.cpp:139
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Zoom out so all desktops are displayed side-by-side in a grid"
-msgstr "縮放所有桌面，讓它們排排站"
-
-#: effect_builtins.cpp:154
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Dim Inactive"
-msgstr "將不使用的視窗變暗"
-
-#: effect_builtins.cpp:155
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Darken inactive windows"
-msgstr "將不使用的視窗變暗"
-
-#: effect_builtins.cpp:170
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Fall Apart"
-msgstr "破裂"
-
-#: effect_builtins.cpp:171
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Closed windows fall into pieces"
-msgstr "已關閉的視窗會被切割"
-
-#: effect_builtins.cpp:186
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Glide"
-msgstr "滑動"
-
-#: effect_builtins.cpp:187
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Glide windows as they appear or disappear"
-msgstr "當視窗顯示或消失時滑動視窗"
-
-#: effect_builtins.cpp:202
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Highlight Window"
-msgstr "突顯視窗"
-
-#: effect_builtins.cpp:203
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Highlight the appropriate window when hovering over taskbar entries"
-msgstr "當游標停在工作列的按鈕上面時，突顯視窗"
-
-#: effect_builtins.cpp:218
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Invert"
-msgstr "反轉"
-
-#: effect_builtins.cpp:219
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Inverts the color of the desktop and windows"
-msgstr "將桌面與視窗的顏色反相"
-
-#: effect_builtins.cpp:234
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Kscreen"
-msgstr "Kscreen"
-
-#: effect_builtins.cpp:235
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Helper Effect for KScreen"
-msgstr "KScreen 輔助效果"
-
-#: effect_builtins.cpp:250
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Looking Glass"
-msgstr "鏡射"
-
-#: effect_builtins.cpp:251
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "A screen magnifier that looks like a fisheye lens"
-msgstr "看起來像魚眼鏡片的螢幕放大器"
-
-#: effect_builtins.cpp:266
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Magic Lamp"
-msgstr "魔法燈"
-
-#: effect_builtins.cpp:267
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Simulate a magic lamp when minimizing windows"
-msgstr "最小化視窗時模擬神燈將精靈收進去的樣子"
-
-#: effect_builtins.cpp:282
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Magnifier"
-msgstr "放大鏡"
-
-#: effect_builtins.cpp:283
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Magnify the section of the screen that is near the mouse cursor"
-msgstr "將滑鼠游標附近的部份視窗放大"
-
-#: effect_builtins.cpp:298
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Mouse Click Animation"
-msgstr "滑鼠點擊動畫"
-
-#: effect_builtins.cpp:299
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid ""
-"Creates an animation whenever a mouse button is clicked. This is useful for "
-"screenrecordings/presentations"
-msgstr "建立當滑鼠點擊時要顯示的動畫。在螢幕錄影或展示時相當有用"
-
-#: effect_builtins.cpp:314
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Mouse Mark"
-msgstr "滑鼠標記"
-
-#: effect_builtins.cpp:315
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Allows you to draw lines on the desktop"
-msgstr "讓您在您的桌面上畫線"
-
-#: effect_builtins.cpp:330
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Overview"
-msgstr ""
-
-#: effect_builtins.cpp:331
-#, fuzzy, kde-format
-#| msgctxt "Comment describing the KWin Effect"
-#| msgid "Allows you to draw lines on the desktop"
-msgctxt "Comment describing the KWin Effect"
-msgid "Allows you to overview virtual desktops and windows"
-msgstr "讓您在您的桌面上畫線"
-
-#: effect_builtins.cpp:346
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Present Windows"
-msgstr "展示視窗"
-
-#: effect_builtins.cpp:347
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Zoom out until all opened windows can be displayed side-by-side"
-msgstr "縮放所有開啟的視窗，讓它們排排站"
-
-#: effect_builtins.cpp:362
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Resize Window"
-msgstr "重新調整視窗大小"
-
-#: effect_builtins.cpp:363
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Resizes windows with a fast texture scale instead of updating contents"
-msgstr "用快速調整縮放而不是更新內容的方式重新調整視窗大小"
-
-#: effect_builtins.cpp:378
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Screen Edge"
-msgstr "螢幕邊緣"
-
-#: effect_builtins.cpp:379
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Highlights a screen edge when approaching"
-msgstr "接近時突顯螢幕邊緣"
-
-#: effect_builtins.cpp:394
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Screenshot"
-msgstr "螢幕快照"
-
-#: effect_builtins.cpp:395
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Helper effect for screenshot tools"
-msgstr "用於螢幕截圖工具的輔助效果"
-
-#: effect_builtins.cpp:410
-#, fuzzy, kde-format
-#| msgid "Transparent"
-msgctxt "Name of a KWin Effect"
-msgid "Transform"
-msgstr "透明"
-
-#: effect_builtins.cpp:411
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Animates display transformations"
-msgstr ""
-
-#: effect_builtins.cpp:425
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Sheet"
-msgstr "表格"
-
-#: effect_builtins.cpp:426
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid ""
-"Make modal dialogs smoothly fly in and out when they are shown or hidden"
-msgstr "顯示或隱藏對話框時以飄下來、飄上去的方式呈現"
-
-#: effect_builtins.cpp:441
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Show FPS"
-msgstr "顯示刷新頻率"
-
-#: effect_builtins.cpp:442
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Display KWin's performance in the corner of the screen"
-msgstr "在螢幕角落顯示 KWin 的效能"
-
-#: effect_builtins.cpp:457
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Show Paint"
-msgstr "顯示繪製"
-
-#: effect_builtins.cpp:458
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Highlight areas of the desktop that have been recently updated"
-msgstr "將最近更新的桌面區域突顯出來"
-
-#: effect_builtins.cpp:473
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Slide"
-msgstr "投影片"
-
-#: effect_builtins.cpp:474
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Slide desktops when switching virtual desktops"
-msgstr "切換虛擬桌面時滑過桌面"
-
-#: effect_builtins.cpp:489
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Slide Back"
-msgstr "往回滑動"
-
-#: effect_builtins.cpp:490
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Slide back windows when another window is raised"
-msgstr "另一個視窗被抬升時將此視窗滑動到背景"
-
-#: effect_builtins.cpp:505
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Sliding popups"
-msgstr "滑動彈出視窗"
-
-#: effect_builtins.cpp:506
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Sliding animation for Plasma popups"
-msgstr "Plasma 彈出視窗的滑動動畫"
-
-#: effect_builtins.cpp:521
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Snap Helper"
-msgstr "貼齊小幫手"
-
-#: effect_builtins.cpp:522
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Help you locate the center of the screen when moving a window"
-msgstr "幫助您在移動視窗時能定到螢幕中央的位置"
-
-#: effect_builtins.cpp:537
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Startup Feedback"
-msgstr "程式啟動回饋"
-
-#: effect_builtins.cpp:538
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Helper effect for startup feedback"
-msgstr "啟動回饋效果"
-
-#: effect_builtins.cpp:553
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Thumbnail Aside"
-msgstr "縮圖在旁邊"
-
-#: effect_builtins.cpp:554
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Display window thumbnails on the edge of the screen"
-msgstr "在螢幕的邊緣顯示視窗縮圖"
-
-#: effect_builtins.cpp:569
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Touch Points"
-msgstr "觸控點"
-
-#: effect_builtins.cpp:570
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Visualize touch points"
-msgstr "可視化觸控點"
-
-#: effect_builtins.cpp:585
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Track Mouse"
-msgstr "追蹤滑鼠"
-
-#: effect_builtins.cpp:586
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Display a mouse cursor locating effect when activated"
-msgstr "啟動時顯示滑鼠游標定位效果"
-
-#: effect_builtins.cpp:601
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Window Geometry"
-msgstr "視窗位置"
-
-#: effect_builtins.cpp:602
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Display window geometries on move/resize"
-msgstr "移動/調整大小時顯示視窗位置"
-
-#: effect_builtins.cpp:617
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Wobbly Windows"
-msgstr "變形視窗"
-
-#: effect_builtins.cpp:618
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Deform windows while they are moving"
-msgstr "移動視窗時讓視窗「變形」"
-
-#: effect_builtins.cpp:633
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Zoom"
-msgstr "縮放"
-
-#: effect_builtins.cpp:634
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Magnify the entire desktop"
-msgstr "放大整個桌面"
-
 #. i18n: ectx: property (text), widget (QLabel, label_Duration)
 #: glide/glide_config.ui:19 scale/package/contents/ui/config.ui:17
 #: slide/slide_config.ui:19
@@ -774,12 +347,12 @@ msgstr "距離："
 msgid "Window Close Animation"
 msgstr "視窗關閉動畫"
 
-#: invert/invert.cpp:34 invert/invert_config.cpp:41
+#: invert/invert.cpp:42 invert/invert_config.cpp:39
 #, kde-format
 msgid "Toggle Invert Effect"
 msgstr "切換反轉效果"
 
-#: invert/invert.cpp:42 invert/invert_config.cpp:47
+#: invert/invert.cpp:50 invert/invert_config.cpp:45
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "在視窗上切換反轉效果"
@@ -840,7 +413,7 @@ msgstr " 像素"
 msgid "&Height:"
 msgstr "高度(&H)："
 
-#: mouseclick/mouseclick.cpp:33 mouseclick/mouseclick_config.cpp:53
+#: mouseclick/mouseclick.cpp:33 mouseclick/mouseclick_config.cpp:51
 #, kde-format
 msgid "Toggle Mouse Click Effect"
 msgstr "切換滑鼠點擊效果"
@@ -972,12 +545,12 @@ msgstr "顯示文字："
 msgid "Clear All Mouse Marks"
 msgstr "清除所有滑鼠標記"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:65
+#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:63
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "清除上一個滑鼠標記"
 
-#: mousemark/mousemark_config.cpp:45
+#: mousemark/mousemark_config.cpp:43
 #, fuzzy, kde-format
 #| msgid " pixel"
 #| msgid_plural " pixels"
@@ -986,7 +559,7 @@ msgid " pixel"
 msgid_plural " pixels"
 msgstr[0] " 像素"
 
-#: mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark_config.cpp:57
 #, kde-format
 msgid "Clear Mouse Marks"
 msgstr "清除滑鼠標記"
@@ -1004,12 +577,12 @@ msgid "&Color:"
 msgstr "顏色(&C)："
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: mousemark/mousemark_config.ui:78
+#: mousemark/mousemark_config.ui:82
 #, kde-format
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "按住 Shift+Meta 鍵並移動滑鼠時繪製"
 
-#: overview/kcm/overvieweffectkcm.cpp:43 overview/overvieweffect.cpp:79
+#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:37
 #, fuzzy, kde-format
 #| msgid "Toggle Invert Effect"
 msgid "Toggle Overview"
@@ -1037,20 +610,43 @@ msgstr ""
 msgid "Natural"
 msgstr "自然"
 
-#: presentwindows/presentwindows.cpp:69
-#: presentwindows/presentwindows_config.cpp:62
+#. i18n: ectx: property (text), widget (QLabel, label_BlurBackground)
+#: overview/kcm/overvieweffectkcm.ui:56
+#, fuzzy, kde-format
+#| msgid "Background"
+msgid "Blur background:"
+msgstr "背景"
+
+#: overview/qml/DesktopBar.qml:188
+#, kde-format
+msgid "Delete virtual desktop"
+msgstr ""
+
+#: overview/qml/DesktopBar.qml:278
+#, fuzzy, kde-format
+#| msgid "Desktop"
+msgid "Add Desktop"
+msgstr "桌面"
+
+#: overview/qml/ScreenView.qml:119
+#, kde-format
+msgid "Search..."
+msgstr ""
+
+#: presentwindows/presentwindows.cpp:71
+#: presentwindows/presentwindows_config.cpp:60
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "切換展示視窗（對目前桌面）"
 
-#: presentwindows/presentwindows.cpp:78
-#: presentwindows/presentwindows_config.cpp:56
+#: presentwindows/presentwindows.cpp:80
+#: presentwindows/presentwindows_config.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "切換展示視窗（對所有桌面）"
 
-#: presentwindows/presentwindows.cpp:88
-#: presentwindows/presentwindows_config.cpp:68
+#: presentwindows/presentwindows.cpp:90
+#: presentwindows/presentwindows_config.cpp:66
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "切換展示視窗（視窗類別）"
@@ -1254,18 +850,6 @@ msgstr "彈性格狀"
 msgid "Provide buttons to close the windows"
 msgstr "提供關閉視窗的按鍵"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_TextureScale)
-#: resize/resize_config.ui:17
-#, kde-format
-msgid "Scale window"
-msgstr "調整視窗大小"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Outline)
-#: resize/resize_config.ui:24
-#, kde-format
-msgid "Show outline"
-msgstr "顯示外框"
-
 #. i18n: ectx: property (text), widget (QLabel, label_InScale)
 #: scale/package/contents/ui/config.ui:46
 #, kde-format
@@ -1278,28 +862,28 @@ msgstr "視窗開啟縮放比例："
 msgid "Window close scale:"
 msgstr "視窗關閉縮放比例："
 
-#: screenshot/screenshotdbusinterface1.cpp:471
+#: screenshot/screenshotdbusinterface1.cpp:472
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "螢幕快照"
 
-#: screenshot/screenshotdbusinterface1.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:473
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "螢幕快照已儲存至 %1"
 
-#: screenshot/screenshotdbusinterface1.cpp:787
-#: screenshot/screenshotdbusinterface2.cpp:413
+#: screenshot/screenshotdbusinterface1.cpp:788
+#: screenshot/screenshotdbusinterface2.cpp:471
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr "選取視窗並按下滑鼠左鍵或 Enter 以進行螢幕截圖。Esc 或右鍵點選以取消。"
 
-#: screenshot/screenshotdbusinterface1.cpp:790
-#: screenshot/screenshotdbusinterface2.cpp:431
+#: screenshot/screenshotdbusinterface1.cpp:791
+#: screenshot/screenshotdbusinterface2.cpp:489
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -1373,7 +957,7 @@ msgstr "文字顏色："
 msgid "Text alpha:"
 msgstr "文字字母："
 
-#: showpaint/showpaint.cpp:39 showpaint/showpaint_config.cpp:41
+#: showpaint/showpaint.cpp:39 showpaint/showpaint_config.cpp:39
 #, kde-format
 msgid "Toggle Show Paint"
 msgstr "切換「顯示繪製」功能"
@@ -1409,7 +993,7 @@ msgid "Slide desktop background"
 msgstr "滑動桌面背景"
 
 #: thumbnailaside/thumbnailaside.cpp:29
-#: thumbnailaside/thumbnailaside_config.cpp:62
+#: thumbnailaside/thumbnailaside_config.cpp:60
 #, kde-format
 msgid "Toggle Thumbnail for Current Window"
 msgstr "切換目前視窗的縮圖"
@@ -1446,7 +1030,7 @@ msgstr "不透明度(&O)："
 msgid " %"
 msgstr " %"
 
-#: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:59
+#: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
 msgid "Track mouse"
 msgstr "追蹤滑鼠"
@@ -1575,28 +1159,6 @@ msgstr "彈出式選單："
 msgid "Torn-off menus:"
 msgstr "脫出式選單："
 
-#: windowgeometry/windowgeometry.cpp:43
-#, kde-format
-msgid "Toggle window geometry display (effect only)"
-msgstr "切換視窗位置顯示（只有效果）"
-
-#: windowgeometry/windowgeometry_config.cpp:47
-#, kde-format
-msgid "Toggle KWin composited geometry display"
-msgstr "切換 KWin 組合位置顯示"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Move)
-#: windowgeometry/windowgeometry_config.ui:17
-#, kde-format
-msgid "Display for moving windows"
-msgstr "移動視窗顯示"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Resize)
-#: windowgeometry/windowgeometry_config.ui:24
-#, kde-format
-msgid "Display for resizing windows"
-msgstr "重新調整視窗顯示"
-
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
 #, kde-format
@@ -1657,52 +1219,52 @@ msgstr "較少"
 msgid "More"
 msgstr "較多"
 
-#: zoom/zoom.cpp:71
+#: zoom/zoom.cpp:69
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "將縮放區域移到左邊"
 
-#: zoom/zoom.cpp:79
+#: zoom/zoom.cpp:77
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "將縮放區域移到右邊"
 
-#: zoom/zoom.cpp:87
+#: zoom/zoom.cpp:85
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "將縮放區域移到上方"
 
-#: zoom/zoom.cpp:95
+#: zoom/zoom.cpp:93
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "將縮放區域移到下方"
 
-#: zoom/zoom.cpp:104 zoom/zoom_config.cpp:109
+#: zoom/zoom.cpp:102 zoom/zoom_config.cpp:107
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "移動滑鼠到焦點"
 
-#: zoom/zoom.cpp:112 zoom/zoom_config.cpp:116
+#: zoom/zoom.cpp:110 zoom/zoom_config.cpp:114
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "移動滑鼠到中央"
 
-#: zoom/zoom_config.cpp:81
+#: zoom/zoom_config.cpp:79
 #, kde-format
 msgid "Move Left"
 msgstr "左移"
 
-#: zoom/zoom_config.cpp:88
+#: zoom/zoom_config.cpp:86
 #, kde-format
 msgid "Move Right"
 msgstr "右移"
 
-#: zoom/zoom_config.cpp:95
+#: zoom/zoom_config.cpp:93
 #, kde-format
 msgid "Move Up"
 msgstr "上移"
 
-#: zoom/zoom_config.cpp:102
+#: zoom/zoom_config.cpp:100
 #, kde-format
 msgid "Move Down"
 msgstr "下移"

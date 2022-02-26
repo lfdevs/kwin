@@ -240,9 +240,8 @@ void WaylandClient::cleanGrouping()
     }
 }
 
-bool WaylandClient::isShown(bool shaded_is_shown) const
+bool WaylandClient::isShown() const
 {
-    Q_UNUSED(shaded_is_shown)
     return !isZombie() && !isHidden() && !isMinimized();
 }
 
@@ -251,21 +250,12 @@ bool WaylandClient::isHiddenInternal() const
     return isHidden();
 }
 
-void WaylandClient::hideClient(bool hide)
-{
-    if (hide) {
-        internalHide();
-    } else {
-        internalShow();
-    }
-}
-
 bool WaylandClient::isHidden() const
 {
     return m_isHidden;
 }
 
-void WaylandClient::internalShow()
+void WaylandClient::showClient()
 {
     if (!isHidden()) {
         return;
@@ -275,7 +265,7 @@ void WaylandClient::internalShow()
     Q_EMIT windowShown(this);
 }
 
-void WaylandClient::internalHide()
+void WaylandClient::hideClient()
 {
     if (isHidden()) {
         return;

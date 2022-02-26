@@ -13,7 +13,7 @@
 // kwin
 #include "decorationitem.h"
 #include "abstract_client.h"
-#include "xcbutils.h"
+#include "utils/xcbutils.h"
 // Qt
 #include <QElapsedTimer>
 #include <QFlags>
@@ -146,7 +146,7 @@ public:
     void updateActivities(bool includeTransients) override;
 
     /// Is not minimized and not hidden. I.e. normally visible on some virtual desktop.
-    bool isShown(bool shaded_is_shown) const override;
+    bool isShown() const override;
     bool isHiddenInternal() const override; // For compositing
 
     bool isShadeable() const override;
@@ -182,7 +182,7 @@ public:
 
     bool takeFocus() override;
 
-    void updateDecoration(bool check_workspace_pos, bool force = false) override;
+    void invalidateDecoration() override;
 
     void updateShape();
 
@@ -199,7 +199,8 @@ public:
     /// Updates visibility depending on being shaded, virtual desktop, etc.
     void updateVisibility();
     /// Hides a client - Basically like minimize, but without effects, it's simply hidden
-    void hideClient(bool hide) override;
+    void hideClient() override;
+    void showClient() override;
     bool hiddenPreview() const; ///< Window is mapped in order to get a window pixmap
 
     bool setupCompositing() override;
@@ -290,6 +291,7 @@ public:
         xcb_timestamp_t lastTimestamp;
         QTimer *timeout, *failsafeTimeout;
         bool isPending;
+        bool interactiveResize;
     };
     const SyncRequest &syncRequest() const {
         return m_syncRequest;
@@ -395,11 +397,10 @@ private:
     void getSyncCounter();
     void sendSyncRequest();
     void leaveInteractiveMoveResize() override;
-    void positionGeometryTip() override;
+    void performInteractiveResize();
     void establishCommandWindowGrab(uint8_t button);
     void establishCommandAllGrab(uint8_t button);
     void resizeDecoration();
-    void createDecoration(const QRect &oldgeom) override;
 
     void pingWindow();
     void killProcess(bool ask, xcb_timestamp_t timestamp = XCB_TIME_CURRENT_TIME);
@@ -409,7 +410,6 @@ private:
 
     void embedClient(xcb_window_t w, xcb_visualid_t visualid, xcb_colormap_t colormap, uint8_t depth);
     void detectNoBorder();
-    void destroyDecoration() override;
     void updateFrameExtents();
     void setClientFrameExtents(const NETStrut &strut);
 
@@ -442,11 +442,13 @@ private:
 
     void maybeCreateX11DecorationRenderer();
     void maybeDestroyX11DecorationRenderer();
+    void updateDecoration(bool check_workspace_pos, bool force = false);
+    void createDecoration(const QRect &oldgeom);
+    void destroyDecoration();
 
     Xcb::Window m_client;
     Xcb::Window m_wrapper;
     Xcb::Window m_frame;
-    QStringList activityList;
     int m_activityUpdatesBlocked;
     bool m_blockedActivityUpdatesRequireTransients;
     Xcb::Window m_moveResizeGrabWindow;
@@ -565,9 +567,9 @@ inline Group* X11Client::group()
     return in_group;
 }
 
-inline bool X11Client::isShown(bool shaded_is_shown) const
+inline bool X11Client::isShown() const
 {
-    return !isMinimized() && (!isShade() || shaded_is_shown) && !hidden;
+    return !isMinimized() && !hidden;
 }
 
 inline bool X11Client::isHiddenInternal() const

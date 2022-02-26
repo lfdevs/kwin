@@ -9,28 +9,29 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-10-01 01:49+0000\n"
-"PO-Revision-Date: 2021-09-05 19:16+0200\n"
-"Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
+"POT-Creation-Date: 2022-01-14 02:21+0000\n"
+"PO-Revision-Date: 2021-11-21 20:36+0100\n"
+"Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.08.1\n"
+"X-Generator: Poedit 3.0\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Stanislav Višňovský,Richard Frič,Michal Šulek,Roman Paholík"
+msgstr ""
+"Stanislav Višňovský,Richard Frič,Michal Šulek,Roman Paholík,Dušan Kazik"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
 "visnovsky@kde.org,Richard.Fric@kdemail.net,misurel@gmail.com,wizzardsk@gmail."
-"com"
+"com,prescott66@gmail.com"
 
 #: kcmrules.cpp:29
 #, kde-format
@@ -76,33 +77,33 @@ msgstr "Nastavenie aplikácie pre %1"
 msgid "Window settings for %1"
 msgstr "Nastavenie okna pre %1"
 
-#: main.cpp:30
+#: main.cpp:31
 #, kde-format
 msgid "KWinRules KCM launcher"
 msgstr "Spúšťač KWinRules KCM"
 
-#: main.cpp:31
+#: main.cpp:32
 #, kde-format
 msgid "KWin id of the window for special window settings."
 msgstr "Kwin Id okna pre špeciálne nastavenia okna."
 
-#: main.cpp:32
+#: main.cpp:33
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Či má nastavenie ovplyvniť všetky okná aplikácie."
 
-#: main.cpp:39
+#: main.cpp:40
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Tento nástroj nie je určený na priame spustenie."
 
-#: main.cpp:43
+#: main.cpp:44
 #, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Upraviť špecifické nastavenia aplikácie"
 
-#: main.cpp:44
+#: main.cpp:45
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Upraviť špecifické nastavenia okna"
@@ -295,43 +296,43 @@ msgstr "Chyba"
 msgid "Add property to the rule"
 msgstr "Pridať vlastnosť tomuto pravidlu"
 
-#: package/contents/ui/RulesEditor.qml:257
+#: package/contents/ui/RulesEditor.qml:259
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr "Áno"
 
-#: package/contents/ui/RulesEditor.qml:257
+#: package/contents/ui/RulesEditor.qml:259
 #: package/contents/ui/ValueEditor.qml:60
 #, kde-format
 msgid "No"
 msgstr "Nie"
 
-#: package/contents/ui/RulesEditor.qml:259
+#: package/contents/ui/RulesEditor.qml:261
 #: package/contents/ui/ValueEditor.qml:172
 #: package/contents/ui/ValueEditor.qml:179
 #, kde-format
 msgid "%1 %"
 msgstr "%1 %"
 
-#: package/contents/ui/RulesEditor.qml:261
+#: package/contents/ui/RulesEditor.qml:263
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: package/contents/ui/RulesEditor.qml:263
+#: package/contents/ui/RulesEditor.qml:265
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: package/contents/ui/RulesList.qml:61
+#: package/contents/ui/RulesList.qml:59
 #, kde-format
 msgid "No rules for specific windows are currently set"
 msgstr "Žiadne pravidlá pre konkrétne okná nie sú aktuálne nastavené"
 
-#: package/contents/ui/RulesList.qml:62
+#: package/contents/ui/RulesList.qml:60
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Click the <interface>Add New...</interface> button below to add some"
@@ -339,67 +340,67 @@ msgstr ""
 "Kliknite na tlačidlo <interface>Pridať nové...</interface> nižšie a pridajte "
 "nejaké"
 
-#: package/contents/ui/RulesList.qml:70
+#: package/contents/ui/RulesList.qml:68
 #, kde-format
 msgid "Select the rules to export"
 msgstr "Vybrať pravidlá na export"
 
-#: package/contents/ui/RulesList.qml:74
+#: package/contents/ui/RulesList.qml:72
 #, kde-format
 msgid "Unselect All"
 msgstr "Nevybrať žiadne"
 
-#: package/contents/ui/RulesList.qml:74
+#: package/contents/ui/RulesList.qml:72
 #, kde-format
 msgid "Select All"
 msgstr "Vybrať všetky"
 
-#: package/contents/ui/RulesList.qml:88
+#: package/contents/ui/RulesList.qml:86
 #, kde-format
 msgid "Save Rules"
 msgstr "Uložiť pravidlá"
 
-#: package/contents/ui/RulesList.qml:99
+#: package/contents/ui/RulesList.qml:97
 #, kde-format
 msgid "Add New..."
 msgstr "Pridať nový..."
 
-#: package/contents/ui/RulesList.qml:110
+#: package/contents/ui/RulesList.qml:108
 #, kde-format
 msgid "Import..."
 msgstr "Importovať..."
 
-#: package/contents/ui/RulesList.qml:118
+#: package/contents/ui/RulesList.qml:116
 #, kde-format
 msgid "Cancel Export"
 msgstr "Zrušiť export"
 
-#: package/contents/ui/RulesList.qml:118
+#: package/contents/ui/RulesList.qml:116
 #, kde-format
 msgid "Export..."
 msgstr "Exportovať..."
 
-#: package/contents/ui/RulesList.qml:199
+#: package/contents/ui/RulesList.qml:206
 #, kde-format
 msgid "Edit"
 msgstr "Upraviť"
 
-#: package/contents/ui/RulesList.qml:208
+#: package/contents/ui/RulesList.qml:215
 #, kde-format
 msgid "Duplicate"
 msgstr "Duplikovať"
 
-#: package/contents/ui/RulesList.qml:217
+#: package/contents/ui/RulesList.qml:224
 #, kde-format
 msgid "Delete"
 msgstr "Odstrániť"
 
-#: package/contents/ui/RulesList.qml:230
+#: package/contents/ui/RulesList.qml:237
 #, kde-format
 msgid "Import Rules"
 msgstr "Pravidlá importu"
 
-#: package/contents/ui/RulesList.qml:242
+#: package/contents/ui/RulesList.qml:249
 #, kde-format
 msgid "Export Rules"
 msgstr "Exportovať pravidlo"
@@ -525,10 +526,9 @@ msgid "Virtual Desktop"
 msgstr "Virtuálna plocha"
 
 #: rulesmodel.cpp:448
-#, fuzzy, kde-format
-#| msgid "Virtual Desktop"
+#, kde-format
 msgid "Virtual Desktops"
-msgstr "Virtuálna plocha"
+msgstr "Virtuálne pracovné plochy"
 
 #: rulesmodel.cpp:464
 #, kde-format

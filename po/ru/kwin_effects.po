@@ -10,20 +10,21 @@
 # Yuri Efremov <yur.arh@gmail.com>, 2013.
 # Julia Dronova <juliette.tux@gmail.com>, 2013.
 # Alexander Lakhin <exclusion@gmail.com>, 2013.
-# Alexander Yavorsky <kekcuha@gmail.com>, 2018, 2019, 2020, 2021.
+# Alexander Yavorsky <kekcuha@gmail.com>, 2018, 2019, 2020, 2021, 2022.
+# Мария Шикунова <translation-team@basealt.ru>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-09-24 01:39+0000\n"
-"PO-Revision-Date: 2021-06-08 15:55+0300\n"
-"Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
+"POT-Creation-Date: 2022-02-18 02:17+0000\n"
+"PO-Revision-Date: 2022-02-18 12:02+0300\n"
+"Last-Translator: Мария Шикунова <translation-team@basealt.ru>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.04.1\n"
+"X-Generator: Lokalize 21.08.3\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Environment: kde\n"
@@ -79,25 +80,24 @@ msgstr ""
 "цвет которой следует выбрать. Для отмены нажмите Esc или\n"
 "правую кнопку мыши."
 
-#: desktopgrid/desktopgrid.cpp:107 desktopgrid/desktopgrid_config.cpp:57
+#: desktopgrid/desktopgrid.cpp:109 desktopgrid/desktopgrid_config.cpp:55
 #, kde-format
 msgid "Show Desktop Grid"
 msgstr "Показать все рабочие столы"
 
-#: desktopgrid/desktopgrid_config.cpp:52 invert/invert_config.cpp:38
-#: lookingglass/lookingglass_config.cpp:58 magnifier/magnifier_config.cpp:58
-#: mouseclick/mouseclick_config.cpp:50 mousemark/mousemark_config.cpp:56
-#: overview/kcm/overvieweffectkcm.cpp:37
-#: presentwindows/presentwindows_config.cpp:51
-#: showpaint/showpaint_config.cpp:36
-#: thumbnailaside/thumbnailaside_config.cpp:57
-#: trackmouse/trackmouse_config.cpp:54
-#: windowgeometry/windowgeometry_config.cpp:45 zoom/zoom_config.cpp:59
+#: desktopgrid/desktopgrid_config.cpp:50 invert/invert_config.cpp:36
+#: lookingglass/lookingglass_config.cpp:56 magnifier/magnifier_config.cpp:56
+#: mouseclick/mouseclick_config.cpp:48 mousemark/mousemark_config.cpp:54
+#: overview/kcm/overvieweffectkcm.cpp:35
+#: presentwindows/presentwindows_config.cpp:49
+#: showpaint/showpaint_config.cpp:34
+#: thumbnailaside/thumbnailaside_config.cpp:55
+#: trackmouse/trackmouse_config.cpp:52 zoom/zoom_config.cpp:57
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: desktopgrid/desktopgrid_config.cpp:65
+#: desktopgrid/desktopgrid_config.cpp:63
 #, kde-format
 msgctxt "Desktop name alignment:"
 msgid "Disabled"
@@ -106,13 +106,13 @@ msgstr "Не показывать"
 # BUGME: please split --aspotashev
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:66 glide/glide_config.ui:70
+#: desktopgrid/desktopgrid_config.cpp:64 glide/glide_config.ui:70
 #: glide/glide_config.ui:168
 #, kde-format
 msgid "Top"
 msgstr "Сверху"
 
-#: desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid_config.cpp:65
 #, kde-format
 msgid "Top-Right"
 msgstr "Вверху справа"
@@ -120,13 +120,13 @@ msgstr "Вверху справа"
 # BUGME: please split --aspotashev
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:68 glide/glide_config.ui:75
+#: desktopgrid/desktopgrid_config.cpp:66 glide/glide_config.ui:75
 #: glide/glide_config.ui:173
 #, kde-format
 msgid "Right"
 msgstr "Справа"
 
-#: desktopgrid/desktopgrid_config.cpp:69
+#: desktopgrid/desktopgrid_config.cpp:67
 #, kde-format
 msgid "Bottom-Right"
 msgstr "Внизу справа"
@@ -134,13 +134,13 @@ msgstr "Внизу справа"
 # BUGME: please split --aspotashev
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:70 glide/glide_config.ui:80
+#: desktopgrid/desktopgrid_config.cpp:68 glide/glide_config.ui:80
 #: glide/glide_config.ui:178
 #, kde-format
 msgid "Bottom"
 msgstr "Внизу"
 
-#: desktopgrid/desktopgrid_config.cpp:71
+#: desktopgrid/desktopgrid_config.cpp:69
 #, kde-format
 msgid "Bottom-Left"
 msgstr "Внизу слева"
@@ -148,18 +148,18 @@ msgstr "Внизу слева"
 # BUGME: please split --aspotashev
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:72 glide/glide_config.ui:85
+#: desktopgrid/desktopgrid_config.cpp:70 glide/glide_config.ui:85
 #: glide/glide_config.ui:183
 #, kde-format
 msgid "Left"
 msgstr "Слева"
 
-#: desktopgrid/desktopgrid_config.cpp:73
+#: desktopgrid/desktopgrid_config.cpp:71
 #, kde-format
 msgid "Top-Left"
 msgstr "Вверху слева"
 
-#: desktopgrid/desktopgrid_config.cpp:74
+#: desktopgrid/desktopgrid_config.cpp:72
 #, kde-format
 msgid "Center"
 msgstr "По центру"
@@ -307,437 +307,6 @@ msgstr "По группе окон"
 msgid "Fullscreen windows"
 msgstr "Распахнутые на весь экран окна"
 
-#: effect_builtins.cpp:90
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Blur"
-msgstr "Размытие"
-
-#: effect_builtins.cpp:91
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Blurs the background behind semi-transparent windows"
-msgstr "Размывание фона под полупрозрачными окнами"
-
-#: effect_builtins.cpp:106
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Color Picker"
-msgstr "Выбор цвета"
-
-#: effect_builtins.cpp:107
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Supports picking a color"
-msgstr "Позволяет пользователю выбрать цвет на экране"
-
-#: effect_builtins.cpp:122
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Background contrast"
-msgstr "Контрастность фона"
-
-#: effect_builtins.cpp:123
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Improve contrast and readability behind semi-transparent windows"
-msgstr "Улучшает контрастность под полупрозрачными окнами"
-
-#: effect_builtins.cpp:138
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Desktop Grid"
-msgstr "Все рабочие столы"
-
-#: effect_builtins.cpp:139
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Zoom out so all desktops are displayed side-by-side in a grid"
-msgstr "Показать все рабочие столы на одном экране"
-
-#: effect_builtins.cpp:154
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Dim Inactive"
-msgstr "Затемнение неактивных окон"
-
-#: effect_builtins.cpp:155
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Darken inactive windows"
-msgstr "Затемнение неактивных окон"
-
-#: effect_builtins.cpp:170
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Fall Apart"
-msgstr "Распад"
-
-#: effect_builtins.cpp:171
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Closed windows fall into pieces"
-msgstr "Распад закрывающихся окон на части"
-
-#: effect_builtins.cpp:186
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Glide"
-msgstr "Скольжение"
-
-#: effect_builtins.cpp:187
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Glide windows as they appear or disappear"
-msgstr "Окна «глиссируют» при появлении и исчезновении"
-
-#: effect_builtins.cpp:202
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Highlight Window"
-msgstr "Подсвечивать окно"
-
-#: effect_builtins.cpp:203
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Highlight the appropriate window when hovering over taskbar entries"
-msgstr "Подсветка окна при наведении и соответствующем элементе в панели задач"
-
-#: effect_builtins.cpp:218
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Invert"
-msgstr "Инверсия"
-
-#: effect_builtins.cpp:219
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Inverts the color of the desktop and windows"
-msgstr "Инверсия цвета рабочего стола и окон"
-
-#: effect_builtins.cpp:234
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Kscreen"
-msgstr "Kscreen"
-
-#: effect_builtins.cpp:235
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Helper Effect for KScreen"
-msgstr "Вспомогательный эффект для KScreen"
-
-#: effect_builtins.cpp:250
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Looking Glass"
-msgstr "Линза"
-
-#: effect_builtins.cpp:251
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "A screen magnifier that looks like a fisheye lens"
-msgstr "Показ области экрана с эффектом линзы"
-
-#: effect_builtins.cpp:266
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Magic Lamp"
-msgstr "Волшебная лампа"
-
-#: effect_builtins.cpp:267
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Simulate a magic lamp when minimizing windows"
-msgstr "Эффект волшебной лампы при сворачивании окон"
-
-#: effect_builtins.cpp:282
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Magnifier"
-msgstr "Лупа"
-
-#: effect_builtins.cpp:283
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Magnify the section of the screen that is near the mouse cursor"
-msgstr "Показ части экрана у курсора мыши под увеличительным стеклом"
-
-#: effect_builtins.cpp:298
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Mouse Click Animation"
-msgstr "Анимация щелчка мышью"
-
-#: effect_builtins.cpp:299
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid ""
-"Creates an animation whenever a mouse button is clicked. This is useful for "
-"screenrecordings/presentations"
-msgstr ""
-"Создаёт анимацию, отмечающую щелчки мышью. Это удобно для записи видео с "
-"экрана и для презентаций."
-
-#: effect_builtins.cpp:314
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Mouse Mark"
-msgstr "Рисование мышью"
-
-#: effect_builtins.cpp:315
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Allows you to draw lines on the desktop"
-msgstr "Позволяет рисовать на экране курсором мыши"
-
-#: effect_builtins.cpp:330
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Overview"
-msgstr ""
-
-#: effect_builtins.cpp:331
-#, fuzzy, kde-format
-#| msgctxt "Comment describing the KWin Effect"
-#| msgid "Allows you to draw lines on the desktop"
-msgctxt "Comment describing the KWin Effect"
-msgid "Allows you to overview virtual desktops and windows"
-msgstr "Позволяет рисовать на экране курсором мыши"
-
-#: effect_builtins.cpp:346
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Present Windows"
-msgstr "Все окна"
-
-#: effect_builtins.cpp:347
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Zoom out until all opened windows can be displayed side-by-side"
-msgstr "Показать миниатюры всех открытых окон рядом друг с другом"
-
-#: effect_builtins.cpp:362
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Resize Window"
-msgstr "Изменение размера окна"
-
-#: effect_builtins.cpp:363
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Resizes windows with a fast texture scale instead of updating contents"
-msgstr ""
-"Масштабирование текстуры при изменении размеров окон вместо обновления их "
-"содержимого"
-
-#: effect_builtins.cpp:378
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Screen Edge"
-msgstr "Край экрана"
-
-#: effect_builtins.cpp:379
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Highlights a screen edge when approaching"
-msgstr "Выделяет край экрана при приближении к нему"
-
-#: effect_builtins.cpp:394
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Screenshot"
-msgstr "Снимок экрана"
-
-#: effect_builtins.cpp:395
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Helper effect for screenshot tools"
-msgstr "Вспомогательный эффект для инструментов создания снимков экрана"
-
-#: effect_builtins.cpp:410
-#, fuzzy, kde-format
-#| msgid "Transparent"
-msgctxt "Name of a KWin Effect"
-msgid "Transform"
-msgstr "Прозрачное"
-
-#: effect_builtins.cpp:411
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Animates display transformations"
-msgstr ""
-
-#: effect_builtins.cpp:425
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Sheet"
-msgstr "Лист"
-
-#: effect_builtins.cpp:426
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid ""
-"Make modal dialogs smoothly fly in and out when they are shown or hidden"
-msgstr "Модальные окна будут плавно вылетать при появлении и скрытии"
-
-#: effect_builtins.cpp:441
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Show FPS"
-msgstr "График производительности"
-
-#: effect_builtins.cpp:442
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Display KWin's performance in the corner of the screen"
-msgstr "Показывать производительность эффектов в углу экрана"
-
-#: effect_builtins.cpp:457
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Show Paint"
-msgstr "Подсветка отрисовки"
-
-#: effect_builtins.cpp:458
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Highlight areas of the desktop that have been recently updated"
-msgstr "Подсвечивает обновляемые области экрана"
-
-#: effect_builtins.cpp:473
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Slide"
-msgstr "Прокрутка"
-
-#: effect_builtins.cpp:474
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Slide desktops when switching virtual desktops"
-msgstr "Использовать эффект прокрутки при переходе на другой рабочий стол"
-
-#: effect_builtins.cpp:489
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Slide Back"
-msgstr "Соскальзывание"
-
-#: effect_builtins.cpp:490
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Slide back windows when another window is raised"
-msgstr "При подъёме окна другие окна соскальзывают назад"
-
-#: effect_builtins.cpp:505
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Sliding popups"
-msgstr "Анимация всплывающих окон"
-
-#: effect_builtins.cpp:506
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Sliding animation for Plasma popups"
-msgstr "Анимация всплывающих окон для Plasma"
-
-#: effect_builtins.cpp:521
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Snap Helper"
-msgstr "Разметка экрана"
-
-#: effect_builtins.cpp:522
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Help you locate the center of the screen when moving a window"
-msgstr "Помогает найти центр экрана при перемещении окна"
-
-#: effect_builtins.cpp:537
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Startup Feedback"
-msgstr "Отклик запуска приложений"
-
-#: effect_builtins.cpp:538
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Helper effect for startup feedback"
-msgstr "Вспомогательный эффект для отклика запуска приложений"
-
-#: effect_builtins.cpp:553
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Thumbnail Aside"
-msgstr "Миниатюры окон сбоку"
-
-#: effect_builtins.cpp:554
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Display window thumbnails on the edge of the screen"
-msgstr "Добавляет миниатюры окон на краю экрана"
-
-#: effect_builtins.cpp:569
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Touch Points"
-msgstr "Точки прикосновения"
-
-#: effect_builtins.cpp:570
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Visualize touch points"
-msgstr "Визуализация событий касания экрана"
-
-#: effect_builtins.cpp:585
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Track Mouse"
-msgstr "Поиск курсора мыши на экране"
-
-#: effect_builtins.cpp:586
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Display a mouse cursor locating effect when activated"
-msgstr "Показывает положение курсора мыши на экране"
-
-#: effect_builtins.cpp:601
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Window Geometry"
-msgstr "Геометрия окна"
-
-#: effect_builtins.cpp:602
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Display window geometries on move/resize"
-msgstr ""
-"Показывает положение и размер окна при перемещении и изменении размера окна"
-
-#: effect_builtins.cpp:617
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Wobbly Windows"
-msgstr "Колышущиеся окна"
-
-#: effect_builtins.cpp:618
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Deform windows while they are moving"
-msgstr "Колыхание окна при его перемещении"
-
-#: effect_builtins.cpp:633
-#, kde-format
-msgctxt "Name of a KWin Effect"
-msgid "Zoom"
-msgstr "Масштаб"
-
-#: effect_builtins.cpp:634
-#, kde-format
-msgctxt "Comment describing the KWin Effect"
-msgid "Magnify the entire desktop"
-msgstr "Изменение масштаба рабочего стола"
-
 #. i18n: ectx: property (text), widget (QLabel, label_Duration)
 #: glide/glide_config.ui:19 scale/package/contents/ui/config.ui:17
 #: slide/slide_config.ui:19
@@ -794,12 +363,12 @@ msgstr "Перемещение:"
 msgid "Window Close Animation"
 msgstr "Анимация закрытия окна"
 
-#: invert/invert.cpp:34 invert/invert_config.cpp:41
+#: invert/invert.cpp:42 invert/invert_config.cpp:39
 #, kde-format
 msgid "Toggle Invert Effect"
 msgstr "Включить или выключить режим инверсии"
 
-#: invert/invert.cpp:42 invert/invert_config.cpp:47
+#: invert/invert.cpp:50 invert/invert_config.cpp:45
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "Включить или выключить режим инверсии окна"
@@ -860,7 +429,7 @@ msgstr " пикселов"
 msgid "&Height:"
 msgstr "&Высота:"
 
-#: mouseclick/mouseclick.cpp:33 mouseclick/mouseclick_config.cpp:53
+#: mouseclick/mouseclick.cpp:33 mouseclick/mouseclick_config.cpp:51
 #, kde-format
 msgid "Toggle Mouse Click Effect"
 msgstr "Включить или выключить анимацию щелчка мыши"
@@ -990,12 +559,12 @@ msgstr "Показывать подпись кнопок:"
 msgid "Clear All Mouse Marks"
 msgstr "Очистить все метки мыши"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:65
+#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:63
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Очистить последнюю метку мыши"
 
-#: mousemark/mousemark_config.cpp:45
+#: mousemark/mousemark_config.cpp:43
 #, kde-format
 msgctxt "Suffix"
 msgid " pixel"
@@ -1005,7 +574,7 @@ msgstr[1] " пиксела"
 msgstr[2] " пикселов"
 msgstr[3] " пиксел"
 
-#: mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark_config.cpp:57
 #, kde-format
 msgid "Clear Mouse Marks"
 msgstr "Очистить метки мыши"
@@ -1023,17 +592,16 @@ msgid "&Color:"
 msgstr "&Цвет:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: mousemark/mousemark_config.ui:78
+#: mousemark/mousemark_config.ui:82
 #, kde-format
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr ""
 "Рисовать при помощи мыши, удерживая клавиши Shift+Meta и перемещая мышь."
 
-#: overview/kcm/overvieweffectkcm.cpp:43 overview/overvieweffect.cpp:79
-#, fuzzy, kde-format
-#| msgid "Toggle Invert Effect"
+#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:37
+#, kde-format
 msgid "Toggle Overview"
-msgstr "Включить или выключить режим инверсии"
+msgstr "Включить или отключить режим обзора"
 
 #. i18n: ectx: property (text), widget (QLabel, label_LayoutMode)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -1047,7 +615,7 @@ msgstr "Режим расстановки:"
 #: overview/kcm/overvieweffectkcm.ui:30
 #, kde-format
 msgid "Closest"
-msgstr ""
+msgstr "Как можно ближе"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
@@ -1057,20 +625,41 @@ msgstr ""
 msgid "Natural"
 msgstr "Естественный"
 
-#: presentwindows/presentwindows.cpp:69
-#: presentwindows/presentwindows_config.cpp:62
+#. i18n: ectx: property (text), widget (QLabel, label_BlurBackground)
+#: overview/kcm/overvieweffectkcm.ui:56
+#, kde-format
+msgid "Blur background:"
+msgstr "Размытие фона:"
+
+#: overview/qml/DesktopBar.qml:188
+#, kde-format
+msgid "Delete virtual desktop"
+msgstr "Удалить виртуальный рабочий стол"
+
+#: overview/qml/DesktopBar.qml:278
+#, kde-format
+msgid "Add Desktop"
+msgstr "Добавить рабочий стол"
+
+#: overview/qml/ScreenView.qml:119
+#, kde-format
+msgid "Search..."
+msgstr "Поиск..."
+
+#: presentwindows/presentwindows.cpp:71
+#: presentwindows/presentwindows_config.cpp:60
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Показать все окна с текущего рабочего стола"
 
-#: presentwindows/presentwindows.cpp:78
-#: presentwindows/presentwindows_config.cpp:56
+#: presentwindows/presentwindows.cpp:80
+#: presentwindows/presentwindows_config.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Показать все окна со всех рабочих столов"
 
-#: presentwindows/presentwindows.cpp:88
-#: presentwindows/presentwindows_config.cpp:68
+#: presentwindows/presentwindows.cpp:90
+#: presentwindows/presentwindows_config.cpp:66
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Показать окна одного класса"
@@ -1274,18 +863,6 @@ msgstr "Неравномерный шаг сетки"
 msgid "Provide buttons to close the windows"
 msgstr "Показывать кнопки закрытия окон"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_TextureScale)
-#: resize/resize_config.ui:17
-#, kde-format
-msgid "Scale window"
-msgstr "Масштабировать окно"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Outline)
-#: resize/resize_config.ui:24
-#, kde-format
-msgid "Show outline"
-msgstr "Показывать контур"
-
 #. i18n: ectx: property (text), widget (QLabel, label_InScale)
 #: scale/package/contents/ui/config.ui:46
 #, kde-format
@@ -1298,20 +875,20 @@ msgstr "Начальный масштаб при открытии окна:"
 msgid "Window close scale:"
 msgstr "Конечный масштаб при закрытии окна:"
 
-#: screenshot/screenshotdbusinterface1.cpp:471
+#: screenshot/screenshotdbusinterface1.cpp:472
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Снимок экрана"
 
-#: screenshot/screenshotdbusinterface1.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:473
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Снимок экрана сохранён в файл %1"
 
-#: screenshot/screenshotdbusinterface1.cpp:787
-#: screenshot/screenshotdbusinterface2.cpp:413
+#: screenshot/screenshotdbusinterface1.cpp:788
+#: screenshot/screenshotdbusinterface2.cpp:471
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -1321,8 +898,8 @@ msgstr ""
 "снимок которого следует сделать. Для отмены нажмите Esc или\n"
 "правую кнопку мыши."
 
-#: screenshot/screenshotdbusinterface1.cpp:790
-#: screenshot/screenshotdbusinterface2.cpp:431
+#: screenshot/screenshotdbusinterface1.cpp:791
+#: screenshot/screenshotdbusinterface2.cpp:489
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -1397,7 +974,7 @@ msgstr "Цвет текста:"
 msgid "Text alpha:"
 msgstr "Непрозрачность текста:"
 
-#: showpaint/showpaint.cpp:39 showpaint/showpaint_config.cpp:41
+#: showpaint/showpaint.cpp:39 showpaint/showpaint_config.cpp:39
 #, kde-format
 msgid "Toggle Show Paint"
 msgstr "Включение и отключение подсветки отрисовки"
@@ -1433,7 +1010,7 @@ msgid "Slide desktop background"
 msgstr "Прокручивать обои рабочего стола"
 
 #: thumbnailaside/thumbnailaside.cpp:29
-#: thumbnailaside/thumbnailaside_config.cpp:62
+#: thumbnailaside/thumbnailaside_config.cpp:60
 #, kde-format
 msgid "Toggle Thumbnail for Current Window"
 msgstr "Показать или скрыть миниатюру текущего окна"
@@ -1470,7 +1047,7 @@ msgstr "&Непрозрачность:"
 msgid " %"
 msgstr " %"
 
-#: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:59
+#: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
 msgid "Track mouse"
 msgstr "Показать положение курсора мыши"
@@ -1599,28 +1176,6 @@ msgstr "Всплывающие меню:"
 msgid "Torn-off menus:"
 msgstr "Отделяемые меню:"
 
-#: windowgeometry/windowgeometry.cpp:43
-#, kde-format
-msgid "Toggle window geometry display (effect only)"
-msgstr "Включить или отключить показ геометрии окна (только эффект)"
-
-#: windowgeometry/windowgeometry_config.cpp:47
-#, kde-format
-msgid "Toggle KWin composited geometry display"
-msgstr "Включить или отключить показ геометрии окна"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Move)
-#: windowgeometry/windowgeometry_config.ui:17
-#, kde-format
-msgid "Display for moving windows"
-msgstr "Отображать при перемещение окон"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Resize)
-#: windowgeometry/windowgeometry_config.ui:24
-#, kde-format
-msgid "Display for resizing windows"
-msgstr "Отображать при изменении размера окон"
-
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
 #, kde-format
@@ -1681,52 +1236,52 @@ msgstr "Меньше"
 msgid "More"
 msgstr "Больше"
 
-#: zoom/zoom.cpp:71
+#: zoom/zoom.cpp:69
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Переместить увеличенную область влево"
 
-#: zoom/zoom.cpp:79
+#: zoom/zoom.cpp:77
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Переместить увеличенную область вправо"
 
-#: zoom/zoom.cpp:87
+#: zoom/zoom.cpp:85
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Переместить увеличенную область вверх"
 
-#: zoom/zoom.cpp:95
+#: zoom/zoom.cpp:93
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Переместить увеличенную область вниз"
 
-#: zoom/zoom.cpp:104 zoom/zoom_config.cpp:109
+#: zoom/zoom.cpp:102 zoom/zoom_config.cpp:107
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Переместить мышь в фокус ввода"
 
-#: zoom/zoom.cpp:112 zoom/zoom_config.cpp:116
+#: zoom/zoom.cpp:110 zoom/zoom_config.cpp:114
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "Переместить мышь в центр"
 
-#: zoom/zoom_config.cpp:81
+#: zoom/zoom_config.cpp:79
 #, kde-format
 msgid "Move Left"
 msgstr "Сместиться влево"
 
-#: zoom/zoom_config.cpp:88
+#: zoom/zoom_config.cpp:86
 #, kde-format
 msgid "Move Right"
 msgstr "Сместиться вправо"
 
-#: zoom/zoom_config.cpp:95
+#: zoom/zoom_config.cpp:93
 #, kde-format
 msgid "Move Up"
 msgstr "Сместиться вверх"
 
-#: zoom/zoom_config.cpp:102
+#: zoom/zoom_config.cpp:100
 #, kde-format
 msgid "Move Down"
 msgstr "Сместиться вниз"

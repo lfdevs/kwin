@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-10-01 01:49+0000\n"
+"POT-Creation-Date: 2022-01-14 02:21+0000\n"
 "PO-Revision-Date: 2021-09-09 16:19+0200\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -73,33 +73,33 @@ msgstr "Thiết lập ứng dụng cho %1"
 msgid "Window settings for %1"
 msgstr "Thiết lập cửa sổ cho %1"
 
-#: main.cpp:30
+#: main.cpp:31
 #, kde-format
 msgid "KWinRules KCM launcher"
 msgstr "Trình khởi chạy KCM KWinRules"
 
-#: main.cpp:31
+#: main.cpp:32
 #, kde-format
 msgid "KWin id of the window for special window settings."
 msgstr "Mã định danh KWin của cửa sổ để dùng các thiết lập cửa sổ đặc biệt."
 
-#: main.cpp:32
+#: main.cpp:33
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
 msgstr "Liệu các thiết lập có nên tác động đến tất cả các cửa sổ của ứng dụng."
 
-#: main.cpp:39
+#: main.cpp:40
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr "Không nên gọi trực tiếp tiện ích trợ giúp này."
 
-#: main.cpp:43
+#: main.cpp:44
 #, kde-format
 msgctxt "Window caption for the application wide rules dialog"
 msgid "Edit Application-Specific Settings"
 msgstr "Sửa thiết lập theo ứng dụng"
 
-#: main.cpp:44
+#: main.cpp:45
 #, kde-format
 msgid "Edit Window-Specific Settings"
 msgstr "Sửa thiết lập theo cửa sổ"
@@ -290,109 +290,109 @@ msgstr "Lỗi"
 msgid "Add property to the rule"
 msgstr "Thêm thuộc tính vào luật"
 
-#: package/contents/ui/RulesEditor.qml:257
+#: package/contents/ui/RulesEditor.qml:259
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr "Có"
 
-#: package/contents/ui/RulesEditor.qml:257
+#: package/contents/ui/RulesEditor.qml:259
 #: package/contents/ui/ValueEditor.qml:60
 #, kde-format
 msgid "No"
 msgstr "Không"
 
-#: package/contents/ui/RulesEditor.qml:259
+#: package/contents/ui/RulesEditor.qml:261
 #: package/contents/ui/ValueEditor.qml:172
 #: package/contents/ui/ValueEditor.qml:179
 #, kde-format
 msgid "%1 %"
 msgstr "%1 %"
 
-#: package/contents/ui/RulesEditor.qml:261
+#: package/contents/ui/RulesEditor.qml:263
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: package/contents/ui/RulesEditor.qml:263
+#: package/contents/ui/RulesEditor.qml:265
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: package/contents/ui/RulesList.qml:61
+#: package/contents/ui/RulesList.qml:59
 #, kde-format
 msgid "No rules for specific windows are currently set"
 msgstr "Không có luật nào đang được đặt theo cửa sổ"
 
-#: package/contents/ui/RulesList.qml:62
+#: package/contents/ui/RulesList.qml:60
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Click the <interface>Add New...</interface> button below to add some"
 msgstr "Bấm nút <interface>Thêm mới...</interface> ở dưới để thêm"
 
-#: package/contents/ui/RulesList.qml:70
+#: package/contents/ui/RulesList.qml:68
 #, kde-format
 msgid "Select the rules to export"
 msgstr "Chọn luật để xuất khẩu"
 
-#: package/contents/ui/RulesList.qml:74
+#: package/contents/ui/RulesList.qml:72
 #, kde-format
 msgid "Unselect All"
 msgstr "Bỏ chọn tất cả"
 
-#: package/contents/ui/RulesList.qml:74
+#: package/contents/ui/RulesList.qml:72
 #, kde-format
 msgid "Select All"
 msgstr "Chọn tất cả"
 
-#: package/contents/ui/RulesList.qml:88
+#: package/contents/ui/RulesList.qml:86
 #, kde-format
 msgid "Save Rules"
 msgstr "Lưu các luật"
 
-#: package/contents/ui/RulesList.qml:99
+#: package/contents/ui/RulesList.qml:97
 #, kde-format
 msgid "Add New..."
 msgstr "Thêm mới..."
 
-#: package/contents/ui/RulesList.qml:110
+#: package/contents/ui/RulesList.qml:108
 #, kde-format
 msgid "Import..."
 msgstr "Nhập khẩu..."
 
-#: package/contents/ui/RulesList.qml:118
+#: package/contents/ui/RulesList.qml:116
 #, kde-format
 msgid "Cancel Export"
 msgstr "Huỷ xuất khẩu"
 
-#: package/contents/ui/RulesList.qml:118
+#: package/contents/ui/RulesList.qml:116
 #, kde-format
 msgid "Export..."
 msgstr "Xuất khẩu..."
 
-#: package/contents/ui/RulesList.qml:199
+#: package/contents/ui/RulesList.qml:206
 #, kde-format
 msgid "Edit"
 msgstr "Sửa"
 
-#: package/contents/ui/RulesList.qml:208
+#: package/contents/ui/RulesList.qml:215
 #, kde-format
 msgid "Duplicate"
 msgstr "Nhân đôi"
 
-#: package/contents/ui/RulesList.qml:217
+#: package/contents/ui/RulesList.qml:224
 #, kde-format
 msgid "Delete"
 msgstr "Xoá"
 
-#: package/contents/ui/RulesList.qml:230
+#: package/contents/ui/RulesList.qml:237
 #, kde-format
 msgid "Import Rules"
 msgstr "Nhập khẩu luật"
 
-#: package/contents/ui/RulesList.qml:242
+#: package/contents/ui/RulesList.qml:249
 #, kde-format
 msgid "Export Rules"
 msgstr "Xuất khẩu luật"

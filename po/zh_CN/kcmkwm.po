@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-04-27 00:19+0000\n"
-"PO-Revision-Date: 2021-12-22 14:10\n"
+"POT-Creation-Date: 2022-01-14 02:21+0000\n"
+"PO-Revision-Date: 2022-02-15 12:07\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -747,7 +747,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_WindowSnapZone)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_CenterSnapZone)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_FocusStealingPreventionLevel)
-#: focus.ui:118 moving.ui:53 moving.ui:75 moving.ui:97
+#: focus.ui:118 moving.ui:33 moving.ui:65 moving.ui:97
 #, kde-format
 msgid "None"
 msgstr "无"
@@ -870,87 +870,87 @@ msgstr "分隔屏幕焦点(&S)"
 msgid "Window activation policy description"
 msgstr "窗口激活策略描述"
 
-#: main.cpp:74
+#: main.cpp:73
 #, kde-format
 msgid "&Focus"
 msgstr "焦点(&F)"
 
-#: main.cpp:80
+#: main.cpp:79
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "标题栏操作(&C)"
 
-#: main.cpp:86
+#: main.cpp:85
 #, kde-format
 msgid "W&indow Actions"
 msgstr "窗口操作(&I)"
 
-#: main.cpp:92
+#: main.cpp:91
 #, kde-format
 msgid "Mo&vement"
 msgstr "移动(&V)"
 
-#: main.cpp:98
+#: main.cpp:97
 #, kde-format
 msgid "Adva&nced"
 msgstr "高级(&N)"
 
-#: main.cpp:102
+#: main.cpp:101
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "窗口行为配置模块"
 
-#: main.cpp:104
+#: main.cpp:103
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
-msgstr "(c) 1997 - 2002 KWin 和 KControl 作者"
+msgstr "(c) 1997 - 2002 KWin and KControl Authors"
 
-#: main.cpp:106
+#: main.cpp:105
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:107
+#: main.cpp:106
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:108
+#: main.cpp:107
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:109
+#: main.cpp:108
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:110
+#: main.cpp:109
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:111
+#: main.cpp:110
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:112
+#: main.cpp:111
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:113
+#: main.cpp:112
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:114
+#: main.cpp:113
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:163
+#: main.cpp:162
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -965,12 +965,12 @@ msgstr ""
 "理器，这里的配置才有效。如果您使用其他的窗口管理器，请参考其文档以了解如何自"
 "定义窗口行为。</p>"
 
-#: main.cpp:205
+#: main.cpp:204
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "标题栏操作(&T)"
 
-#: main.cpp:211
+#: main.cpp:210
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "窗口操作(&N)"
@@ -1155,37 +1155,14 @@ msgstr "中键单击(&L)："
 msgid "Behavior on <em>right</em> click onto the maximize button."
 msgstr "<em>右键</em>单击最大化按钮的行为。"
 
-#. i18n: ectx: property (text), widget (QLabel, geometryTipLabel)
-#: moving.ui:20
-#, kde-format
-msgid "Window &geometry:"
-msgstr "窗口尺寸(&G)："
-
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_GeometryTip)
-#: moving.ui:30
-#, kde-format
-msgid ""
-"Enable this option if you want a window's geometry to be displayed while it "
-"is being moved or resized. The window position relative to the top-left "
-"corner of the screen is displayed together with its size."
-msgstr ""
-"如果您要在移动或者改变大小时显示窗口几何尺寸，请启用此项。相对于屏幕左上角的"
-"窗口位置及其大小将会在移动时显示。"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_GeometryTip)
-#: moving.ui:33
-#, kde-format
-msgid "Display when moving or resizing"
-msgstr "移动或调整尺寸时显示"
-
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
-#: moving.ui:40
+#: moving.ui:20
 #, kde-format
 msgid "Screen &edge snap zone:"
 msgstr "屏幕边缘贴靠区(&E)："
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_BorderSnapZone)
-#: moving.ui:50
+#: moving.ui:30
 #, kde-format
 msgid ""
 "Here you can set the snap zone for screen edges, i.e. the 'strength' of the "
@@ -1197,13 +1174,19 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_BorderSnapZone)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_WindowSnapZone)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_CenterSnapZone)
-#: moving.ui:56 moving.ui:78 moving.ui:100
+#: moving.ui:36 moving.ui:68 moving.ui:100
 #, kde-format
 msgid " px"
 msgstr " 像素"
 
+#. i18n: ectx: property (text), widget (QLabel, windowSnapLabel)
+#: moving.ui:52
+#, kde-format
+msgid "&Window snap zone:"
+msgstr "窗口吸附区(&W)："
+
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_WindowSnapZone)
-#: moving.ui:72
+#: moving.ui:62
 #, kde-format
 msgid ""
 "Here you can set the snap zone for windows, i.e. the 'strength' of the "
@@ -1212,6 +1195,12 @@ msgid ""
 msgstr ""
 "您可以设置窗口的吸附区，即磁场的“吸引力”，它使窗口移近另外的窗口时彼此吸附到"
 "一起。"
+
+#. i18n: ectx: property (text), widget (QLabel, centerSnaplabel)
+#: moving.ui:84
+#, kde-format
+msgid "&Center snap zone:"
+msgstr "中间吸附区(&C)："
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_CenterSnapZone)
 #: moving.ui:94
@@ -1224,8 +1213,14 @@ msgstr ""
 "您可以设置屏幕中间的吸附区，即磁场的“吸引力”，它使窗口移近中间时被吸附到中间"
 "位置。"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
+#. i18n: ectx: property (text), widget (QLabel, OverlapSnapLabel)
 #: moving.ui:113
+#, kde-format
+msgid "&Snap windows:"
+msgstr "贴靠窗口(&S)："
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
+#: moving.ui:123
 #, kde-format
 msgid ""
 "Here you can set that windows will be only snapped if you try to overlap "
@@ -1236,30 +1231,12 @@ msgstr ""
 "靠近或者靠近屏幕边沿但尚未重叠，则不相互吸引。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
-#: moving.ui:116
+#: moving.ui:126
 #, kde-format
 msgid "Only when overlapping"
 msgstr "仅当重叠时"
 
-#. i18n: ectx: property (text), widget (QLabel, windowSnapLabel)
-#: moving.ui:123
-#, kde-format
-msgid "&Window snap zone:"
-msgstr "窗口吸附区(&W)："
-
-#. i18n: ectx: property (text), widget (QLabel, centerSnaplabel)
-#: moving.ui:133
-#, kde-format
-msgid "&Center snap zone:"
-msgstr "中间吸附区(&C)："
-
-#. i18n: ectx: property (text), widget (QLabel, OverlapSnapLabel)
-#: moving.ui:143
-#, kde-format
-msgid "&Snap windows:"
-msgstr "贴靠窗口(&S)："
-
-#: windows.cpp:99
+#: windows.cpp:98
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1268,7 +1245,7 @@ msgstr ""
 "<em>点击聚焦：</em>窗口在您点击它时被激活。该行为在其他操作系统中较常见，可能"
 "是您所希望的。"
 
-#: windows.cpp:103
+#: windows.cpp:102
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1281,7 +1258,7 @@ msgstr ""
 "由系统选择 (例如，由于当前活动窗口被关闭) 鼠标下的窗口将是优先候选。不常见，"
 "但是 <em>单击聚焦</em> 的可能的变换。"
 
-#: windows.cpp:108
+#: windows.cpp:107
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1293,7 +1270,7 @@ msgstr ""
 "窗口将不会获得焦点。<em>阻止焦点抢占</em> 正常生效。类似 <em>点击聚焦</em> 只"
 "是不需要真的点击。"
 
-#: windows.cpp:112
+#: windows.cpp:111
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1305,7 +1282,7 @@ msgstr ""
 "活动窗口被关闭) 鼠标下的窗口将是优先候选。如果你想使用鼠标悬停控制焦点，选择"
 "此项。"
 
-#: windows.cpp:117
+#: windows.cpp:116
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1318,7 +1295,7 @@ msgstr ""
 "strong><em>阻止焦点抢占</em> 以及 <em>任务切换器 ('Alt+Tab')</em> 与本策略冲"
 "突，将不会生效。 您想要使用的很可能是 <em>焦点跟随鼠标 (鼠标优先)</em>！"
 
-#: windows.cpp:121
+#: windows.cpp:120
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

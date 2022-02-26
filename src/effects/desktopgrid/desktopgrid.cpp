@@ -15,7 +15,6 @@
 #include "desktopgridconfig.h"
 
 #include "../presentwindows/presentwindows_proxy.h"
-#include "../effect_builtins.h"
 
 #include <QAction>
 #include <QApplication>
@@ -69,6 +68,9 @@ DesktopGridEffect::DesktopGridEffect()
 
     connect(a, &QAction::triggered, this, [this]() {
         if ((qreal(timeline.currentTime()) / qreal(timeline.duration())) > 0.5) {
+            if (effects->isScreenLocked()) {
+                return;
+            }
             activated = true;
             timeline.setDirection(QTimeLine::Forward);
             timelineRunning = true;
@@ -119,7 +121,8 @@ DesktopGridEffect::DesktopGridEffect()
     connect(effects, &EffectsHandler::windowDeleted, this, &DesktopGridEffect::slotWindowDeleted);
     connect(effects, &EffectsHandler::numberDesktopsChanged, this, &DesktopGridEffect::slotNumberDesktopsChanged);
     connect(effects, &EffectsHandler::windowFrameGeometryChanged, this, &DesktopGridEffect::slotWindowFrameGeometryChanged);
-    connect(effects, &EffectsHandler::numberScreensChanged, this, &DesktopGridEffect::setup);
+    connect(effects, &EffectsHandler::screenAdded, this, &DesktopGridEffect::setup);
+    connect(effects, &EffectsHandler::screenRemoved, this, &DesktopGridEffect::setup);
 
     connect(effects, &EffectsHandler::screenAboutToLock, this, [this]() {
         deactivate();
@@ -149,11 +152,12 @@ void DesktopGridEffect::reconfigure(ReconfigureFlags)
 {
     DesktopGridConfig::self()->read();
 
-    Q_FOREACH (ElectricBorder border, borderActivate) {
+    for (ElectricBorder border : qAsConst(borderActivate)) {
         effects->unreserveElectricBorder(border, this);
     }
     borderActivate.clear();
-    Q_FOREACH (int i, DesktopGridConfig::borderActivate()) {
+    const auto desktopGridConfigActivate = DesktopGridConfig::borderActivate();
+    for (int i : desktopGridConfigActivate) {
         borderActivate.append(ElectricBorder(i));
         effects->reserveElectricBorder(ElectricBorder(i), this);
     }
@@ -219,9 +223,11 @@ void DesktopGridEffect::prePaintScreen(ScreenPrePaintData& data, std::chrono::mi
 
     if (timeline.currentValue() != 0 || activated || (isUsingPresentWindows() && isMotionManagerMovingWindows())) {
         if (isUsingPresentWindows()) {
-            QList<WindowMotionManager>::iterator i;
-            for (i = m_managers.begin(); i != m_managers.end(); ++i)
-                (*i).calculate(timeline.currentTime());
+            for (auto i = m_managers.begin(); i != m_managers.end(); ++i) {
+                for (WindowMotionManager &manager : *i) {
+                    manager.calculate(time);
+                }
+            }
         }
         // PAINT_SCREEN_BACKGROUND_FIRST is needed because screen will be actually painted more than once,
         // so with normal screen painting second screen paint would erase parts of the first paint
@@ -250,9 +256,9 @@ void DesktopGridEffect::paintScreen(int mask, const QRegion &region, ScreenPaint
     }
 
     // paint the add desktop button
-    for (EffectQuickScene *view : qAsConst(m_desktopButtons)) {
+    for (OffscreenQuickScene *view : qAsConst(m_desktopButtons)) {
         view->rootItem()->setOpacity(timeline.currentValue());
-        effects->renderEffectQuickView(view);
+        effects->renderOffscreenQuickView(view);
     }
 
     if (isUsingPresentWindows() && windowMove && wasWindowMove) {
@@ -266,10 +272,11 @@ void DesktopGridEffect::paintScreen(int mask, const QRegion &region, ScreenPaint
     }
 
     if (desktopNameAlignment) {
-        for (int screen = 0; screen < effects->numScreens(); screen++) {
-            QRect screenGeom = effects->clientArea(ScreenArea, screen, 0);
+        const QList<EffectScreen *> screens = effects->screens();
+        for (EffectScreen *screen : screens) {
+            QRect screenGeom = effects->clientArea(ScreenArea, screen, effects->currentDesktop());
             int desktop = 1;
-            Q_FOREACH (EffectFrame * frame, desktopNames) {
+            for (EffectFrame * frame : qAsConst(desktopNames)) {
                 QPointF posTL(scalePos(screenGeom.topLeft(), desktop, screen));
                 QPointF posBR(scalePos(screenGeom.bottomRight(), desktop, screen));
                 QRect textArea(posTL.x(), posTL.y(), posBR.x() - posTL.x(), posBR.y() - posTL.y());
@@ -364,12 +371,13 @@ void DesktopGridEffect::paintWindow(EffectWindow* w, int mask, QRegion region, W
 
         data.multiplyBrightness(1.0 - (0.3 * (1.0 - hoverTimeline[paintingDesktop - 1]->currentValue())));
 
-        for (int screen = 0; screen < effects->numScreens(); screen++) {
-            QRect screenGeom = effects->clientArea(ScreenArea, screen, 0);
+        const QList<EffectScreen *> screens = effects->screens();
+        for (EffectScreen *screen : screens) {
+            QRect screenGeom = effects->clientArea(ScreenArea, screen, effects->currentDesktop());
 
             QRectF transformedGeo = w->frameGeometry();
             if (isUsingPresentWindows()) {
-                WindowMotionManager& manager = m_managers[(paintingDesktop-1)*(effects->numScreens())+screen ];
+                WindowMotionManager& manager = m_managers[screen][paintingDesktop - 1];
                 if (manager.isManaging(w)) {
                     transformedGeo = manager.transformedGeometry(w);
                     if (!manager.areWindowsMoving() && timeline.currentValue() == 1.0)
@@ -418,10 +426,12 @@ void DesktopGridEffect::slotWindowAdded(EffectWindow* w)
     if (!activated)
         return;
     if (isUsingPresentWindows()) {
-        if (!isRelevantWithPresentWindows(w))
+        if (!isRelevantWithPresentWindows(w)) {
             return; // don't add
-        Q_FOREACH (const int i, desktopList(w)) {
-            WindowMotionManager& manager = m_managers[ i*effects->numScreens()+w->screen()];
+        }
+        const auto desktops = desktopList(w);
+        for (const int i : desktops) {
+            WindowMotionManager& manager = m_managers[w->screen()][i];
             manager.manage(w);
             m_proxy->calculateWindowTransformations(manager.managedWindows(), w->screen(), manager);
         }
@@ -438,8 +448,9 @@ void DesktopGridEffect::slotWindowClosed(EffectWindow* w)
         windowMove = nullptr;
     }
     if (isUsingPresentWindows()) {
-        Q_FOREACH (const int i, desktopList(w)) {
-            WindowMotionManager& manager = m_managers[i*effects->numScreens()+w->screen()];
+        const auto desktops = desktopList(w);
+        for (const int i : desktops) {
+            WindowMotionManager& manager = m_managers[w->screen()][i];
             manager.unmanage(w);
             m_proxy->calculateWindowTransformations(manager.managedWindows(), w->screen(), manager);
         }
@@ -452,9 +463,10 @@ void DesktopGridEffect::slotWindowDeleted(EffectWindow* w)
     if (w == windowMove)
         windowMove = nullptr;
     if (isUsingPresentWindows()) {
-        for (QList<WindowMotionManager>::iterator it = m_managers.begin(),
-                                                 end = m_managers.end(); it != end; ++it) {
-            it->unmanage(w);
+        for (auto it = m_managers.begin(); it != m_managers.end(); ++it) {
+            for (WindowMotionManager &manager : *it) {
+                manager.unmanage(w);
+            }
         }
     }
 }
@@ -467,8 +479,9 @@ void DesktopGridEffect::slotWindowFrameGeometryChanged(EffectWindow* w, const QR
     if (w == windowMove && wasWindowMove)
         return;
     if (isUsingPresentWindows()) {
-        Q_FOREACH (const int i, desktopList(w)) {
-            WindowMotionManager& manager = m_managers[i*effects->numScreens()+w->screen()];
+        const auto desktops = desktopList(w);
+        for (const int i : desktops) {
+            WindowMotionManager& manager = m_managers[w->screen()][i];
             m_proxy->calculateWindowTransformations(manager.managedWindows(), w->screen(), manager);
         }
     }
@@ -483,7 +496,7 @@ void DesktopGridEffect::windowInputMouseEvent(QEvent* e)
         return;
     QMouseEvent* me = static_cast< QMouseEvent* >(e);
     if (!(wasWindowMove || wasDesktopMove)) {
-        for (EffectQuickScene *view : qAsConst(m_desktopButtons)) {
+        for (OffscreenQuickScene *view : qAsConst(m_desktopButtons)) {
             view->forwardMouseEvent(me);
             if (e->isAccepted()) {
                 return;
@@ -502,8 +515,9 @@ void DesktopGridEffect::windowInputMouseEvent(QEvent* e)
             }
             if (!wasWindowMove) { // Activate on move
                 if (isUsingPresentWindows()) {
-                    Q_FOREACH (const int i, desktopList(windowMove)) {
-                        WindowMotionManager& manager = m_managers[(i)*(effects->numScreens()) + windowMove->screen()];
+                    const auto desktops = desktopList(windowMove);
+                    for (const int i : desktops) {
+                        WindowMotionManager& manager = m_managers[windowMove->screen()][i];
                         if ((i + 1) == sourceDesktop) {
                             const QRectF transformedGeo = manager.transformedGeometry(windowMove);
                             const QPointF pos = scalePos(transformedGeo.topLeft().toPoint(), sourceDesktop, windowMove->screen());
@@ -524,7 +538,7 @@ void DesktopGridEffect::windowInputMouseEvent(QEvent* e)
             }
             if (windowMove->isMovable() && !isUsingPresentWindows()) {
                 wasWindowMove = true;
-                int screen = effects->screenNumber(me->pos());
+                EffectScreen *screen = effects->screenAt(me->pos());
                 effects->moveWindow(windowMove, unscalePos(me->pos(), nullptr) + windowMoveDiff, true, 1.0 / scale[screen]);
             }
             if (wasWindowMove) {
@@ -544,7 +558,7 @@ void DesktopGridEffect::windowInputMouseEvent(QEvent* e)
                         desktops.removeOne(highlightedDesktop);
                     }
                     effects->windowToDesktops(windowMove, desktops);
-                    const int screen = effects->screenNumber(me->pos());
+                    EffectScreen *screen = effects->screenAt(me->pos());
                     if (screen != windowMove->screen())
                         effects->windowToScreen(windowMove, screen);
                 }
@@ -575,23 +589,24 @@ void DesktopGridEffect::windowInputMouseEvent(QEvent* e)
                 for (int i = 0; i < 3; ++i ) {
                     if (desks[i] == desks[i+1])
                         continue;
-                    Q_FOREACH (EffectWindow *w, stack[i]) {
+                    for (EffectWindow *w : qAsConst(stack[i])) {
                         auto desktops = w->desktops();
                         desktops.removeOne(desks[i]);
                         desktops.append(desks[i+1]);
                         effects->windowToDesktops(w, desktops);
 
                         if (isUsingPresentWindows()) {
-                            m_managers[(desks[i]-1)*(effects->numScreens()) + w->screen()].unmanage(w);
-                            m_managers[(desks[i+1]-1)*(effects->numScreens()) + w->screen()].manage(w);
+                            m_managers[w->screen()][desks[i] - 1].unmanage(w);
+                            m_managers[w->screen()][desks[i + 1] - 1].manage(w);
                         }
                     }
                 }
                 if (isUsingPresentWindows()) {
-                    for (int i = 0; i < effects->numScreens(); i++) {
+                    const QList<EffectScreen *> screens = effects->screens();
+                    for (EffectScreen *screen : screens) {
                         for (int j = 0; j < 3; ++j) {
-                            WindowMotionManager& manager = m_managers[(desks[j]-1)*(effects->numScreens()) + i ];
-                            m_proxy->calculateWindowTransformations(manager.managedWindows(), i, manager);
+                            WindowMotionManager& manager = m_managers[screen][desks[j] - 1];
+                            m_proxy->calculateWindowTransformations(manager.managedWindows(), screen, manager);
                         }
                     }
                     effects->addRepaintFull();
@@ -635,7 +650,7 @@ void DesktopGridEffect::windowInputMouseEvent(QEvent* e)
                 if (isUsingPresentWindows()) {
                     for (int i = 0; i < effects->numberOfDesktops(); i++) {
                         if (i != desktop - 1) {
-                            WindowMotionManager& manager = m_managers[ i*effects->numScreens() + w->screen()];
+                            WindowMotionManager& manager = m_managers[w->screen()][i];
                             if (isOnAllDesktops)
                                 manager.manage(w);
                             else
@@ -672,8 +687,9 @@ void DesktopGridEffect::windowInputMouseEvent(QEvent* e)
         if (windowMove) {
             if (wasWindowMove && isUsingPresentWindows()) {
                 const int targetDesktop = posToDesktop(cursorPos());
-                Q_FOREACH (const int i, desktopList(windowMove)) {
-                    WindowMotionManager& manager = m_managers[(i)*(effects->numScreens()) + windowMove->screen()];
+                const auto desktops = desktopList(windowMove);
+                for (const int i : desktops) {
+                    WindowMotionManager& manager = m_managers[windowMove->screen()][i];
                     manager.manage(windowMove);
                     if (EffectWindow* modal = windowMove->findModal())
                         manager.manage(modal);
@@ -795,10 +811,8 @@ bool DesktopGridEffect::borderActivated(ElectricBorder border)
 // Helper functions
 
 // Transform a point to its position on the scaled grid
-QPointF DesktopGridEffect::scalePos(const QPoint& pos, int desktop, int screen) const
+QPointF DesktopGridEffect::scalePos(const QPoint& pos, int desktop, EffectScreen *screen) const
 {
-    if (screen == -1)
-        screen = effects->screenNumber(pos);
     QRect screenGeom = effects->clientArea(ScreenArea, screen, 0);
     QPoint desktopCell;
     if (orientation == Qt::Horizontal) {
@@ -842,8 +856,8 @@ QPointF DesktopGridEffect::scalePos(const QPoint& pos, int desktop, int screen) 
 // TODO: Doesn't correctly interpolate (Final position is correct though), don't forget to copy to posToDesktop()
 QPoint DesktopGridEffect::unscalePos(const QPoint& pos, int* desktop) const
 {
-    int screen = effects->screenNumber(pos);
-    QRect screenGeom = effects->clientArea(ScreenArea, screen, 0);
+    EffectScreen *screen = effects->screenAt(pos);
+    QRect screenGeom = effects->clientArea(ScreenArea, screen, effects->currentDesktop());
 
     //double progress = timeline.currentValue();
     double scaledX = /*interpolate(
@@ -890,7 +904,7 @@ QPoint DesktopGridEffect::unscalePos(const QPoint& pos, int* desktop) const
 int DesktopGridEffect::posToDesktop(const QPoint& pos) const
 {
     // Copied from unscalePos()
-    int screen = effects->screenNumber(pos);
+    EffectScreen *screen = effects->screenAt(pos);
 
     double scaledX = (pos.x() - scaledOffset[screen].x() + double(border) / 2.0) / (scaledSize[screen].width() + border);
     double scaledY = (pos.y() - scaledOffset[screen].y() + double(border) / 2.0) / (scaledSize[screen].height() + border);
@@ -916,19 +930,20 @@ EffectWindow* DesktopGridEffect::windowAt(QPoint pos) const
     if (desktop > effects->numberOfDesktops())
         return nullptr;
     if (isUsingPresentWindows()) {
-        const int screen = effects->screenNumber(pos);
-        EffectWindow *w =
-            m_managers.at((desktop - 1) * (effects->numScreens()) + screen).windowAtPoint(pos, false);
+        EffectScreen *screen = effects->screenAt(pos);
+        EffectWindow *w = m_managers[screen][desktop - 1].windowAtPoint(pos, false);
         if (w)
             return w;
-        Q_FOREACH (EffectWindow * w, windows) {
-            if (w->isOnDesktop(desktop) && w->isDesktop() && w->frameGeometry().contains(pos))
+        for (EffectWindow * w : qAsConst(windows)) {
+            if (w->isOnDesktop(desktop) && w->isDesktop() && w->frameGeometry().contains(pos)) {
                 return w;
+            }
         }
     } else {
-        Q_FOREACH (EffectWindow * w, windows) {
-            if (w->isOnDesktop(desktop) && w->isOnCurrentActivity() && !w->isMinimized() && w->frameGeometry().contains(pos))
+        for (EffectWindow * w : qAsConst(windows)) {
+            if (w->isOnDesktop(desktop) && w->isOnCurrentActivity() && !w->isMinimized() && w->frameGeometry().contains(pos)) {
                 return w;
+            }
         }
     }
     return nullptr;
@@ -1102,32 +1117,36 @@ void DesktopGridEffect::setup()
 
     // setup the motion managers
     if (clickBehavior == SwitchDesktopAndActivateWindow)
-        m_proxy = static_cast<PresentWindowsEffectProxy*>(effects->getProxy(BuiltInEffects::nameForEffect(BuiltInEffect::PresentWindows)));
+        m_proxy = static_cast<PresentWindowsEffectProxy*>(effects->getProxy(QStringLiteral("presentwindows")));
     if (isUsingPresentWindows()) {
         m_proxy->reCreateGrids(); // revalidation on multiscreen, bug #351724
-        for (int i = 1; i <= effects->numberOfDesktops(); i++) {
-            for (int j = 0; j < effects->numScreens(); j++) {
-                WindowMotionManager manager;
-                Q_FOREACH (EffectWindow * w, effects->stackingOrder()) {
-                    if (w->isOnDesktop(i) && w->screen() == j &&isRelevantWithPresentWindows(w)) {
-                        manager.manage(w);
+        const QList<EffectScreen *> screens = effects->screens();
+        for (EffectScreen *screen : screens) {
+            QList<WindowMotionManager> managers;
+            for (int i = 1; i <= effects->numberOfDesktops(); i++) {
+                    WindowMotionManager manager;
+                    const auto stackingOrder = effects->stackingOrder();
+                    for (EffectWindow * w : stackingOrder) {
+                        if (w->isOnDesktop(i) && w->screen() == screen &&isRelevantWithPresentWindows(w)) {
+                            manager.manage(w);
+                        }
                     }
-                }
-                m_proxy->calculateWindowTransformations(manager.managedWindows(), j, manager);
-                m_managers.append(manager);
+                    m_proxy->calculateWindowTransformations(manager.managedWindows(), screen, manager);
+                    managers.append(manager);
             }
+            m_managers[screen] = managers;
         }
     }
 
     auto it = m_desktopButtons.begin();
-    const int n = DesktopGridConfig::showAddRemove() ? effects->numScreens() : 0;
-    for (int i = 0; i < n; ++i) {
-        EffectQuickScene *view;
+    const QList<EffectScreen *> screens = DesktopGridConfig::showAddRemove() ? effects->screens() : QList<EffectScreen *>{};
+    for (EffectScreen *screen : screens) {
+        OffscreenQuickScene *view;
         QSize size;
         if (it == m_desktopButtons.end()) {
-            view = new EffectQuickScene(this);
+            view = new OffscreenQuickScene(this);
 
-            connect(view, &EffectQuickView::repaintNeeded, this, []() {
+            connect(view, &OffscreenQuickView::repaintNeeded, this, []() {
                 effects->addRepaintFull();
             });
 
@@ -1149,7 +1168,7 @@ void DesktopGridEffect::setup()
             ++it;
             size = view->size();
         }
-        const QRect screenRect = effects->clientArea(FullScreenArea, i, 1);
+        const QRect screenRect = effects->clientArea(FullScreenArea, screen, 1);
         view->show(); // pseudo show must happen before geometry changes
         const QPoint position(screenRect.right() - border/3 - size.width(),
                               screenRect.bottom() - border/3 - size.height());
@@ -1195,8 +1214,10 @@ void DesktopGridEffect::setupGrid()
     unscaledBorder.clear();
     scaledSize.clear();
     scaledOffset.clear();
-    for (int i = 0; i < effects->numScreens(); i++) {
-        QRect geom = effects->clientArea(ScreenArea, i, 0);
+
+    const QList<EffectScreen *> screens = effects->screens();
+    for (EffectScreen *screen : screens) {
+        QRect geom = effects->clientArea(ScreenArea, screen, effects->currentDesktop());
         double sScale;
         if (gridSize.width() > gridSize.height())
             sScale = (geom.width() - border * (gridSize.width() + 1)) / double(geom.width() * gridSize.width());
@@ -1211,10 +1232,10 @@ void DesktopGridEffect::setupGrid()
             geom.x() + (geom.width() - size.width() * gridSize.width() - border *(gridSize.width() - 1)) / 2.0,
             geom.y() + (geom.height() - size.height() * gridSize.height() - border *(gridSize.height() - 1)) / 2.0
         );
-        scale.append(sScale);
-        unscaledBorder.append(sBorder);
-        scaledSize.append(size);
-        scaledOffset.append(offset);
+        scale[screen] = sScale;
+        unscaledBorder[screen] = sBorder;
+        scaledSize[screen] = size;
+        scaledOffset[screen] = offset;
     }
 }
 
@@ -1226,10 +1247,12 @@ void DesktopGridEffect::finish()
     }
 
     if (isUsingPresentWindows()) {
-        QList<WindowMotionManager>::iterator it;
-        for (it = m_managers.begin(); it != m_managers.end(); ++it) {
-            Q_FOREACH (EffectWindow * w, (*it).managedWindows()) {
-                (*it).moveWindow(w, w->frameGeometry());
+        for (auto it = m_managers.begin(); it != m_managers.end(); ++it) {
+            for (WindowMotionManager &manager : *it) {
+                const auto windows = manager.managedWindows();
+                for (EffectWindow * w : windows) {
+                    manager.moveWindow(w, w->frameGeometry());
+                }
             }
         }
     }
@@ -1237,7 +1260,7 @@ void DesktopGridEffect::finish()
         [this] {
             if (activated)
                 return;
-            for (EffectQuickScene *view : qAsConst(m_desktopButtons)) {
+            for (OffscreenQuickScene *view : qAsConst(m_desktopButtons)) {
                 view->hide();
             }
         }
@@ -1253,10 +1276,12 @@ void DesktopGridEffect::finish()
     effects->stopMouseInterception(this);
     effects->setActiveFullScreenEffect(nullptr);
     if (isUsingPresentWindows()) {
-        while (!m_managers.isEmpty()) {
-            m_managers.first().unmanageAll();
-            m_managers.removeFirst();
+        for (auto it = m_managers.begin(); it != m_managers.end(); ++it) {
+            for (WindowMotionManager &manager : *it) {
+                manager.unmanageAll();
+            }
         }
+        m_managers.clear();
         m_proxy = nullptr;
     }
 
@@ -1275,10 +1300,11 @@ void DesktopGridEffect::globalShortcutChanged(QAction *action, const QKeySequenc
 bool DesktopGridEffect::isMotionManagerMovingWindows() const
 {
     if (isUsingPresentWindows()) {
-        QList<WindowMotionManager>::const_iterator it;
-        for (it = m_managers.begin(); it != m_managers.end(); ++it) {
-            if ((*it).areWindowsMoving())
-                return true;
+        for (auto it = m_managers.constBegin(); it != m_managers.constEnd(); ++it) {
+            for (const WindowMotionManager &manager : *it) {
+                if (manager.areWindowsMoving())
+                    return true;
+            }
         }
     }
     return false;
@@ -1358,16 +1384,18 @@ void DesktopGridEffect::desktopsAdded(int old)
     }
 
     if (isUsingPresentWindows()) {
-        for (int i = old+1; i <= effects->numberOfDesktops(); ++i) {
-            for (int j = 0; j < effects->numScreens(); ++j) {
+        const QList<EffectScreen *> screens = effects->screens();
+        for (EffectScreen *screen : screens) {
+            for (int i = old+1; i <= effects->numberOfDesktops(); ++i) {
                 WindowMotionManager manager;
-                Q_FOREACH (EffectWindow * w, effects->stackingOrder()) {
-                    if (w->isOnDesktop(i) && w->screen() == j &&isRelevantWithPresentWindows(w)) {
+                const auto stackingOrder = effects->stackingOrder();
+                for (EffectWindow * w : stackingOrder) {
+                    if (w->isOnDesktop(i) && w->screen() == screen &&isRelevantWithPresentWindows(w)) {
                         manager.manage(w);
                     }
                 }
-                m_proxy->calculateWindowTransformations(manager.managedWindows(), j, manager);
-                m_managers.append(manager);
+                m_proxy->calculateWindowTransformations(manager.managedWindows(), screen, manager);
+                m_managers[screen].append(manager);
             }
         }
     }
@@ -1388,25 +1416,28 @@ void DesktopGridEffect::desktopsRemoved(int old)
             desktopNames.removeLast();
         }
         if (isUsingPresentWindows()) {
-            for (int j = 0; j < effects->numScreens(); ++j) {
-                WindowMotionManager& manager = m_managers.last();
+            const QList<EffectScreen *> screens = effects->screens();
+            for (EffectScreen *screen : screens) {
+                WindowMotionManager& manager = m_managers[screen].last();
                 manager.unmanageAll();
-                m_managers.removeLast();
+                m_managers[screen].removeLast();
             }
         }
     }
     // add removed windows to the last desktop
     if (isUsingPresentWindows()) {
-        for (int j = 0; j < effects->numScreens(); ++j) {
-            WindowMotionManager& manager = m_managers[(desktop-1)*(effects->numScreens())+j ];
-            Q_FOREACH (EffectWindow * w, effects->stackingOrder()) {
+        const QList<EffectScreen *> screens = effects->screens();
+        for (EffectScreen *screen : screens) {
+            WindowMotionManager& manager = m_managers[screen][desktop - 1];
+            const auto stackingOrder = effects->stackingOrder();
+            for (EffectWindow * w : stackingOrder) {
                 if (manager.isManaging(w))
                     continue;
-                if (w->isOnDesktop(desktop) && w->screen() == j && isRelevantWithPresentWindows(w)) {
+                if (w->isOnDesktop(desktop) && w->screen() == screen && isRelevantWithPresentWindows(w)) {
                     manager.manage(w);
                 }
             }
-            m_proxy->calculateWindowTransformations(manager.managedWindows(), j, manager);
+            m_proxy->calculateWindowTransformations(manager.managedWindows(), screen, manager);
         }
     }
 

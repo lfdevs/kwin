@@ -14,11 +14,11 @@
 #include "composite.h"
 #include "cursor.h"
 #include "deleted.h"
-#include "effect_builtins.h"
 #include "effectloader.h"
 #include "effects.h"
 #include "kwin_wayland_test.h"
 #include "platform.h"
+#include "renderbackend.h"
 #include "virtualdesktops.h"
 #include "wayland_server.h"
 #include "workspace.h"
@@ -135,12 +135,10 @@ void ScriptedEffectsTest::initTestCase()
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
 
-    ScriptedEffectLoader loader;
-
     // disable all effects - we don't want to have it interact with the rendering
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     KConfigGroup plugins(config, QStringLiteral("Plugins"));
-    const auto builtinNames = BuiltInEffects::availableEffectNames() << loader.listOfKnownEffects();
+    const auto builtinNames = EffectLoader().listOfKnownEffects();
     for (QString name : builtinNames) {
         plugins.writeEntry(name + QStringLiteral("Enabled"), false);
     }
@@ -154,9 +152,7 @@ void ScriptedEffectsTest::initTestCase()
     QVERIFY(applicationStartedSpy.wait());
     QVERIFY(Compositor::self());
 
-    auto scene = KWin::Compositor::self()->scene();
-    QVERIFY(scene);
-    QCOMPARE(scene->compositingType(), KWin::OpenGLCompositing);
+    QCOMPARE(Compositor::self()->backend()->compositingType(), KWin::OpenGLCompositing);
 
     KWin::VirtualDesktopManager::self()->setCount(2);
 }

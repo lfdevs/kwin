@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-09-10 00:19+0000\n"
-"PO-Revision-Date: 2021-11-18 13:15+0100\n"
+"PO-Revision-Date: 2021-11-21 20:37+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: sk\n"
@@ -22,12 +22,12 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Michal Šulek,Dušan Kazik"
+msgstr "Michal Šulek"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "misurel@gmail.com,prescott66@gmail.com"
+msgstr "misurel@gmail.com"
 
 #: desktopsmodel.cpp:466
 #, kde-format
@@ -77,13 +77,12 @@ msgid ""
 "Virtual desktops have been changed outside this settings application. Saving "
 "now will overwrite the changes."
 msgstr ""
-"Virtuálne pracovné plochy boli zmenené inou aplikáciou. Uloženie prepíše "
-"tieto zmeny."
+"Virtuálne plochy boli zmenené inou aplikáciou. Uloženie prepíše tieto zmeny."
 
 #: package/contents/ui/main.qml:152
 #, kde-format
 msgid "Row %1"
-msgstr "Riadok č. %1"
+msgstr "Riadok %1"
 
 #: package/contents/ui/main.qml:165
 #, kde-format

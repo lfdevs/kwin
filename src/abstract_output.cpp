@@ -100,11 +100,6 @@ void AbstractOutput::setEnabled(bool enable)
     Q_UNUSED(enable)
 }
 
-void AbstractOutput::applyChanges(const KWaylandServer::OutputChangeSetV2 *changeSet)
-{
-    Q_UNUSED(changeSet)
-}
-
 bool AbstractOutput::isInternal() const
 {
     return false;
@@ -169,6 +164,11 @@ std::chrono::milliseconds AbstractOutput::dimAnimationTime()
 {
     // See kscreen.kcfg
     return std::chrono::milliseconds (KSharedConfig::openConfig()->group("Effect-Kscreen").readEntry("Duration", 250));
+}
+
+bool AbstractOutput::usesSoftwareCursor() const
+{
+    return true;
 }
 
 } // namespace KWin

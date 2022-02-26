@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-08-26 00:18+0000\n"
+"POT-Creation-Date: 2022-01-22 02:14+0000\n"
 "PO-Revision-Date: 2021-06-11 15:40+0200\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -199,25 +199,25 @@ msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "Titelleistenknöpfe"
 
-#: package/contents/ui/main.qml:87
+#: package/contents/ui/main.qml:93
 #, kde-format
 msgctxt "Selector label"
 msgid "Window border size:"
 msgstr "Rahmenbreite des Fensters:"
 
-#: package/contents/ui/main.qml:105
+#: package/contents/ui/main.qml:114
 #, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "Neue Fensterdekorationen holen ..."
 
-#: package/contents/ui/main.qml:128
+#: package/contents/ui/main.qml:143
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Fenster durch Doppelklick auf Menüknopf schließen"
 
-#: package/contents/ui/main.qml:145
+#: package/contents/ui/main.qml:160
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
@@ -225,7 +225,7 @@ msgstr ""
 "Klicken Sie auf den Menüknopf und halten Sie ihn gedrückt, um das Menü "
 "anzuzeigen."
 
-#: package/contents/ui/main.qml:152
+#: package/contents/ui/main.qml:167
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"

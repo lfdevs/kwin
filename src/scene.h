@@ -11,7 +11,7 @@
 #define KWIN_SCENE_H
 
 #include "toplevel.h"
-#include "utils.h"
+#include "utils/common.h"
 #include "kwineffects.h"
 
 #include <QElapsedTimer>
@@ -32,8 +32,6 @@ class EffectFrameImpl;
 class EffectWindowImpl;
 class GLTexture;
 class Item;
-class OverlayWindow;
-class PlatformSurfaceTexture;
 class RenderLoop;
 class Shadow;
 class ShadowItem;
@@ -41,6 +39,7 @@ class SurfaceItem;
 class SurfacePixmapInternal;
 class SurfacePixmapWayland;
 class SurfacePixmapX11;
+class SurfaceTexture;
 class WindowItem;
 
 // The base class for compositing backends.
@@ -53,10 +52,18 @@ public:
     class EffectFrame;
     class Window;
 
+    void initialize();
+
     /**
      * Schedules a repaint for the specified @a region.
      */
     void addRepaint(const QRegion &region);
+    void addRepaint(const QRect &rect);
+    void addRepaint(int x, int y, int width, int height);
+    void addRepaintFull();
+
+    QRect geometry() const;
+    void setGeometry(const QRect &rect);
 
     /**
      * Returns the repaints region for output with the specified @a output.
@@ -66,7 +73,6 @@ public:
 
     // Returns true if the ctor failed to properly initialize.
     virtual bool initFailed() const = 0;
-    virtual CompositingType compositingType() const = 0;
 
     // Repaints the given screen areas, windows provides the stacking order.
     // The entry point for the main part of the painting pass.
@@ -134,7 +140,6 @@ public:
         PAINT_WINDOW_LANCZOS = 1 << 8
         // PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS_WITHOUT_FULL_REPAINTS = 1 << 9 has been removed
     };
-    virtual OverlayWindow* overlayWindow() const = 0;
 
     virtual bool makeOpenGLContextCurrent();
     virtual void doneOpenGLContextCurrent();
@@ -178,9 +183,9 @@ public:
         return {};
     }
 
-    virtual PlatformSurfaceTexture *createPlatformSurfaceTextureInternal(SurfacePixmapInternal *pixmap);
-    virtual PlatformSurfaceTexture *createPlatformSurfaceTextureX11(SurfacePixmapX11 *pixmap);
-    virtual PlatformSurfaceTexture *createPlatformSurfaceTextureWayland(SurfacePixmapWayland *pixmap);
+    virtual SurfaceTexture *createSurfaceTextureInternal(SurfacePixmapInternal *pixmap);
+    virtual SurfaceTexture *createSurfaceTextureX11(SurfacePixmapX11 *pixmap);
+    virtual SurfaceTexture *createSurfaceTextureWayland(SurfacePixmapWayland *pixmap);
 
     virtual void paintDesktop(int desktop, int mask, const QRegion &region, ScreenPaintData &data);
 
@@ -188,7 +193,6 @@ public:
 
 Q_SIGNALS:
     void frameRendered();
-    void resetCompositing();
 
 public Q_SLOTS:
     // a window has been closed
@@ -202,7 +206,7 @@ protected:
                      QRegion *updateRegion, QRegion *validRegion, RenderLoop *renderLoop,
                      const QMatrix4x4 &projection = QMatrix4x4());
     // Render cursor texture in case hardware cursor is disabled/non-applicable
-    virtual void paintCursor(const QRegion &region) = 0;
+    virtual void paintCursor(AbstractOutput *output, const QRegion &region) = 0;
     friend class EffectsHandlerImpl;
     // called after all effects had their paintScreen() called
     void finalPaintScreen(int mask, const QRegion &region, ScreenPaintData& data);
@@ -230,7 +234,7 @@ protected:
     // the default is NOOP
     virtual void extendPaintRegion(QRegion &region, bool opaqueFullscreen);
 
-    virtual void paintEffectQuickView(EffectQuickView *w) = 0;
+    virtual void paintOffscreenQuickView(OffscreenQuickView *w) = 0;
 
     // saved data for 2nd pass of optimized screen painting
     struct Phase2Data {
@@ -256,29 +260,15 @@ protected:
     QVector< Window* > stacking_order;
 private:
     void removeRepaints(AbstractOutput *output);
+    void addCursorRepaints();
+
     std::chrono::milliseconds m_expectedPresentTimestamp = std::chrono::milliseconds::zero();
     QHash< Toplevel*, Window* > m_windows;
     QMap<AbstractOutput *, QRegion> m_repaints;
+    QRect m_geometry;
     // how many times finalPaintScreen() has been called
     int m_paintScreenCount = 0;
-};
-
-/**
- * Factory class to create a Scene. Needs to be implemented by the plugins.
- */
-class KWIN_EXPORT SceneFactory : public QObject
-{
-    Q_OBJECT
-public:
-    ~SceneFactory() override;
-
-    /**
-     * @returns The created Scene, may be @c nullptr.
-     */
-    virtual Scene *create(QObject *parent = nullptr) const = 0;
-
-protected:
-    explicit SceneFactory(QObject *parent);
+    QRect m_lastCursorGeometry;
 };
 
 // The base class for windows representations in composite backends
@@ -331,10 +321,6 @@ public:
     WindowItem *windowItem() const;
     SurfaceItem *surfaceItem() const;
     ShadowItem *shadowItem() const;
-
-    virtual QSharedPointer<GLTexture> windowTexture() {
-        return {};
-    }
 
 protected:
     Toplevel* toplevel;
@@ -421,7 +407,5 @@ Toplevel* Scene::Window::window() const
 }
 
 } // namespace
-
-Q_DECLARE_INTERFACE(KWin::SceneFactory, "org.kde.kwin.Scene")
 
 #endif

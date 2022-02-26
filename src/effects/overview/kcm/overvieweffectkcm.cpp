@@ -18,9 +18,7 @@
 
 #include <QAction>
 
-K_PLUGIN_FACTORY_WITH_JSON(OverviewEffectConfigFactory,
-                           "overvieweffectkcm.json",
-                           registerPlugin<KWin::OverviewEffectConfig>();)
+K_PLUGIN_CLASS(KWin::OverviewEffectConfig)
 
 namespace KWin
 {
@@ -38,7 +36,7 @@ OverviewEffectConfig::OverviewEffectConfig(QWidget *parent, const QVariantList &
     actionCollection->setConfigGroup(QStringLiteral("Overview"));
     actionCollection->setConfigGlobal(true);
 
-    const QKeySequence defaultToggleShortcut = Qt::CTRL + Qt::META + Qt::Key_D;
+    const QKeySequence defaultToggleShortcut = Qt::META + Qt::Key_W;
     QAction *toggleAction = actionCollection->addAction(QStringLiteral("Overview"));
     toggleAction->setText(i18n("Toggle Overview"));
     toggleAction->setProperty("isConfigurationAction", true);

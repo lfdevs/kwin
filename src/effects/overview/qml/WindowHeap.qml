@@ -5,7 +5,6 @@
 */
 
 import QtQuick 2.12
-import QtGraphicalEffects 1.12
 import org.kde.kirigami 2.12 as Kirigami
 import org.kde.kwin 3.0 as KWinComponents
 import org.kde.kwin.private.overview 1.0
@@ -26,7 +25,6 @@ FocusScope {
     property int selectedIndex: -1
     property bool animationEnabled: false
     property real padding: 0
-    property string filter: ""
 
     required property bool organized
     readonly property bool effectiveOrganized: expoLayout.ready && organized
@@ -50,27 +48,56 @@ FocusScope {
                 required property int index
 
                 readonly property bool selected: heap.selectedIndex == index
-                readonly property bool hidden: {
-                    if (heap.filter) {
-                        return !client.caption.toLowerCase().includes(heap.filter.toLowerCase());
-                    }
-                    return false;
-                }
 
                 state: {
                     if (heap.effectiveOrganized) {
-                        return hidden ? "active-hidden" : "active";
+                        return "active";
                     }
                     return client.minimized ? "initial-minimized" : "initial";
                 }
 
                 visible: opacity > 0
-                z: client.stackingOrder
+                z: dragHandler.active ? 100 : client.stackingOrder
 
                 KWinComponents.WindowThumbnailItem {
                     id: thumbSource
-                    anchors.fill: parent
                     wId: thumb.client.internalId
+                    state: dragHandler.active ? "drag" : "normal"
+
+                    Drag.active: dragHandler.active
+                    Drag.source: thumb.client
+                    Drag.hotSpot: Qt.point(width * 0.5, height * 0.5)
+
+                    states: [
+                        State {
+                            name: "normal"
+                            PropertyChanges {
+                                target: thumbSource
+                                x: 0
+                                y: 0
+                                width: thumb.width
+                                height: thumb.height
+                            }
+                        },
+                        State {
+                            name: "drag"
+                            PropertyChanges {
+                                target: thumbSource
+                                x: -dragHandler.centroid.pressPosition.x * dragHandler.targetScale +
+                                        dragHandler.centroid.position.x
+                                y: -dragHandler.centroid.pressPosition.y * dragHandler.targetScale +
+                                        dragHandler.centroid.position.y
+                                width: cell.width * dragHandler.targetScale
+                                height: cell.height * dragHandler.targetScale
+                            }
+                        }
+                    ]
+
+                    MouseArea {
+                        anchors.fill: parent
+                        acceptedButtons: Qt.NoButton
+                        cursorShape: dragHandler.active ? Qt.ClosedHandCursor : Qt.ArrowCursor
+                    }
                 }
 
                 PlasmaCore.IconItem {
@@ -81,36 +108,28 @@ FocusScope {
                     anchors.horizontalCenter: thumbSource.horizontalCenter
                     anchors.bottom: thumbSource.bottom
                     anchors.bottomMargin: -height / 4
-                }
+                    opacity: heap.organized ? 1 : 0
+                    visible: !dragHandler.active
 
-                PC3.Label {
-                    id: caption
-                    width: Math.min(implicitWidth, thumbSource.width)
-                    anchors.top: icon.bottom
-                    anchors.horizontalCenter: icon.horizontalCenter
-                    elide: Text.ElideRight
-                    text: thumb.client.caption
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    PlasmaCore.ColorScope.colorGroup: PlasmaCore.Theme.ComplementaryColorGroup
+                    TweenBehavior on opacity {}
 
-                    layer.enabled: true
-                    layer.effect: DropShadow {
-                        cached: true
-                        horizontalOffset: 1
-                        verticalOffset: 1
-                        color: "black"
-                        radius: Math.round(4 * PlasmaCore.Units.devicePixelRatio)
-                        samples: radius * 2 + 1
-                        spread: 0.35
+                    PC3.Label {
+                        id: caption
+                        width: Math.min(implicitWidth, thumbSource.width)
+                        anchors.top: parent.bottom
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        elide: Text.ElideRight
+                        text: thumb.client.caption
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
                     }
                 }
 
                 ExpoCell {
                     id: cell
                     layout: expoLayout
-                    naturalX: thumb.client.x - targetScreen.geometry.x - expoLayout.Kirigami.ScenePosition.x
-                    naturalY: thumb.client.y - targetScreen.geometry.y - expoLayout.Kirigami.ScenePosition.y
+                    naturalX: thumb.client.x
+                    naturalY: thumb.client.y
                     naturalWidth: thumb.client.width
                     naturalHeight: thumb.client.height
                     persistentKey: thumb.client.internalId
@@ -145,22 +164,14 @@ FocusScope {
                             width: cell.width
                             height: cell.height
                         }
-                    },
-                    State {
-                        name: "active-hidden"
-                        extend: "active"
-                        PropertyChanges {
-                            target: thumb
-                            opacity: 0
-                        }
                     }
                 ]
 
                 component TweenBehavior : Behavior {
-                    enabled: heap.animationEnabled
+                    enabled: heap.animationEnabled && !dragHandler.active
                     NumberAnimation {
                         duration: effect.animationDuration
-                        easing.type: Easing.InOutCubic
+                        easing.type: Easing.OutCubic
                     }
                 }
 
@@ -176,7 +187,7 @@ FocusScope {
                     imagePath: "widgets/viewitem"
                     prefix: "hover"
                     z: -1
-                    visible: hoverHandler.hovered || selected
+                    visible: !dragHandler.active && (hoverHandler.hovered || selected)
                 }
 
                 HoverHandler {
@@ -195,21 +206,45 @@ FocusScope {
                 }
 
                 TapHandler {
+                    acceptedPointerTypes: PointerDevice.GenericPointer | PointerDevice.Pen
                     acceptedButtons: Qt.MiddleButton
                     onTapped: thumb.client.closeWindow()
                 }
 
-                PC3.Button {
+                DragHandler {
+                    id: dragHandler
+                    target: null
+
+                    readonly property double targetScale: {
+                        const localPressPosition = centroid.scenePressPosition.y - expoLayout.Kirigami.ScenePosition.y;
+                        if (localPressPosition == 0) {
+                            return 0.1
+                        } else {
+                            const localPosition = centroid.scenePosition.y - expoLayout.Kirigami.ScenePosition.y;
+                            return Math.max(0.1, Math.min(localPosition / localPressPosition, 1))
+                        }
+                    }
+
+                    onActiveChanged: {
+                        if (!active) {
+                            thumbSource.Drag.drop();
+                        }
+                    }
+                }
+
+                Loader {
                     LayoutMirroring.enabled: Qt.application.layoutDirection == Qt.RightToLeft
-                    icon.name: "window-close"
+                    active: (hoverHandler.hovered || Kirigami.Settings.tabletMode || Kirigami.Settings.hasTransientTouchInput) && thumb.client.closeable && !dragHandler.active
                     anchors.right: thumbSource.right
                     anchors.rightMargin: PlasmaCore.Units.largeSpacing
                     anchors.top: thumbSource.top
                     anchors.topMargin: PlasmaCore.Units.largeSpacing
-                    implicitWidth: PlasmaCore.Units.iconSizes.medium
-                    implicitHeight: implicitWidth
-                    visible: (hovered || hoverHandler.hovered) && thumb.client.closeable
-                    onClicked: thumb.client.closeWindow();
+                    sourceComponent: PC3.Button {
+                        icon.name: "window-close"
+                        implicitWidth: PlasmaCore.Units.iconSizes.medium
+                        implicitHeight: implicitWidth
+                        onClicked: thumb.client.closeWindow();
+                    }
                 }
 
                 Component.onDestruction: {
@@ -221,19 +256,9 @@ FocusScope {
         }
     }
 
-    function findFirstItem() {
-        for (let candidateIndex = 0; candidateIndex < windowsRepeater.count; ++candidateIndex) {
-            const candidateItem = windowsRepeater.itemAt(candidateIndex);
-            if (!candidateItem.hidden) {
-                return candidateIndex;
-            }
-        }
-        return -1;
-    }
-
     function findNextItem(selectedIndex, direction) {
         if (selectedIndex == -1) {
-            return findFirstItem();
+            return 0;
         }
 
         const selectedItem = windowsRepeater.itemAt(selectedIndex);
@@ -243,9 +268,6 @@ FocusScope {
         case WindowHeap.Direction.Left:
             for (let candidateIndex = 0; candidateIndex < windowsRepeater.count; ++candidateIndex) {
                 const candidateItem = windowsRepeater.itemAt(candidateIndex);
-                if (candidateItem.hidden) {
-                    continue;
-                }
 
                 if (candidateItem.y + candidateItem.height <= selectedItem.y) {
                     continue;
@@ -268,9 +290,6 @@ FocusScope {
         case WindowHeap.Direction.Right:
             for (let candidateIndex = 0; candidateIndex < windowsRepeater.count; ++candidateIndex) {
                 const candidateItem = windowsRepeater.itemAt(candidateIndex);
-                if (candidateItem.hidden) {
-                    continue;
-                }
 
                 if (candidateItem.y + candidateItem.height <= selectedItem.y) {
                     continue;
@@ -293,9 +312,6 @@ FocusScope {
         case WindowHeap.Direction.Up:
             for (let candidateIndex = 0; candidateIndex < windowsRepeater.count; ++candidateIndex) {
                 const candidateItem = windowsRepeater.itemAt(candidateIndex);
-                if (candidateItem.hidden) {
-                    continue;
-                }
 
                 if (candidateItem.x + candidateItem.width <= selectedItem.x) {
                     continue;
@@ -318,9 +334,6 @@ FocusScope {
         case WindowHeap.Direction.Down:
             for (let candidateIndex = 0; candidateIndex < windowsRepeater.count; ++candidateIndex) {
                 const candidateItem = windowsRepeater.itemAt(candidateIndex);
-                if (candidateItem.hidden) {
-                    continue;
-                }
 
                 if (candidateItem.x + candidateItem.width <= selectedItem.x) {
                     continue;
@@ -372,13 +385,9 @@ FocusScope {
     }
 
     onActiveFocusChanged: resetSelected();
-    onFilterChanged: resetSelected();
 
     Keys.onPressed: {
         switch (event.key) {
-        case Qt.Key_Escape:
-            effect.deactivate();
-            break;
         case Qt.Key_Up:
             selectNextItem(WindowHeap.Direction.Up);
             break;
@@ -412,9 +421,7 @@ FocusScope {
                 // If the window heap has only one visible window, activate it.
                 for (let i = 0; i < windowsRepeater.count; ++i) {
                     const candidateItem = windowsRepeater.itemAt(i);
-                    if (candidateItem.hidden) {
-                        continue;
-                    } else if (selectedItem) {
+                    if (selectedItem) {
                         selectedItem = null;
                         break;
                     }

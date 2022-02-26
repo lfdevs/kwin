@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-04-24 00:20+0000\n"
+"POT-Creation-Date: 2022-01-14 02:21+0000\n"
 "PO-Revision-Date: 2021-06-29 12:32+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -28,55 +28,55 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "zayed.alsaidi@gmail.com"
 
-#: effectsmodel.cpp:53
+#: effectsmodel.cpp:52
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "الإتاحة"
 
-#: effectsmodel.cpp:54
+#: effectsmodel.cpp:53
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "المظهر"
 
-#: effectsmodel.cpp:55
+#: effectsmodel.cpp:54
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "التركيز"
 
-#: effectsmodel.cpp:56
+#: effectsmodel.cpp:55
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Show Desktop Animation"
 msgstr "أظهر حركات سطح المكتب"
 
-#: effectsmodel.cpp:57
+#: effectsmodel.cpp:56
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "الأدوات"
 
-#: effectsmodel.cpp:58
+#: effectsmodel.cpp:57
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr "الرسوم المتحركة لتبديل سطح المكتب الافتراضية"
 
-#: effectsmodel.cpp:59
+#: effectsmodel.cpp:58
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "إدارة النّوافذ"
 
-#: effectsmodel.cpp:60
+#: effectsmodel.cpp:59
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Open/Close Animation"
 msgstr "حركات فتح/غلق النوافذ"
 
-#: effectsmodel.cpp:234
+#: effectsmodel.cpp:244
 #, kde-format
 msgid "KWin development team"
 msgstr "فريق تطوير كوين"

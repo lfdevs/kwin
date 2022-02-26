@@ -1,4 +1,4 @@
-# SymbolsHelper-Confirmed: 4:5.17.5~ amd64
+# SymbolsHelper-Confirmed: 4:5.24.2 amd64
 libkwineffects.so.13 libkwineffects13 #MINVER#
 * Build-Depends-Package: kwin-dev
  _ZN4KWin11EffectFrame15enableCrossFadeEb@Base 4:5.1.95+git20150122
@@ -80,7 +80,6 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZN4KWin14EffectsHandler18cursorShapeChangedEv@Base 4:5.3.0
  _ZN4KWin14EffectsHandler19sessionStateChangedEv@Base 4:5.18.3
  _ZN4KWin14EffectsHandler20desktopChangedLegacyEii@Base 4:5.21.90
- _ZN4KWin14EffectsHandler20numberScreensChangedEv@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler20screenLockingChangedEb@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler20stackingOrderChangedEv@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandler20windowOpacityChangedEPNS_12EffectWindowEdd@Base 4:5.1.95+git20150122
@@ -113,6 +112,18 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZN4KWin14EffectsHandlerD0Ev@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandlerD1Ev@Base 4:5.1.95+git20150122
  _ZN4KWin14EffectsHandlerD2Ev@Base 4:5.1.95+git20150122
+ _ZN4KWin14QuickSceneView10resetDirtyEv@Base 4:5.24.2
+ _ZN4KWin14QuickSceneView11qt_metacallEN11QMetaObject4CallEiPPv@Base 4:5.24.2
+ _ZN4KWin14QuickSceneView11qt_metacastEPKc@Base 4:5.24.2
+ _ZN4KWin14QuickSceneView11setRootItemEP10QQuickItem@Base 4:5.24.2
+ _ZN4KWin14QuickSceneView15scheduleRepaintEv@Base 4:5.24.2
+ _ZN4KWin14QuickSceneView16staticMetaObjectE@Base 4:5.24.2
+ _ZN4KWin14QuickSceneView9markDirtyEv@Base 4:5.24.2
+ _ZN4KWin14QuickSceneViewC1EPNS_16QuickSceneEffectEPNS_12EffectScreenE@Base 4:5.24.2
+ _ZN4KWin14QuickSceneViewC2EPNS_16QuickSceneEffectEPNS_12EffectScreenE@Base 4:5.24.2
+ _ZN4KWin14QuickSceneViewD0Ev@Base 4:5.24.2
+ _ZN4KWin14QuickSceneViewD1Ev@Base 4:5.24.2
+ _ZN4KWin14QuickSceneViewD2Ev@Base 4:5.24.2
  _ZN4KWin15AnimationEffect11paintWindowEPNS_12EffectWindowEi7QRegionRNS_15WindowPaintDataE@Base 4:5.1.95+git20150122
  _ZN4KWin15AnimationEffect11qt_metacallEN11QMetaObject4CallEiPPv@Base 4:5.1.95+git20150122
  _ZN4KWin15AnimationEffect11qt_metacastEPKc@Base 4:5.1.95+git20150122
@@ -140,35 +151,6 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZN4KWin15AnimationEffectD0Ev@Base 4:5.6.2
  _ZN4KWin15AnimationEffectD1Ev@Base 4:5.6.2
  _ZN4KWin15AnimationEffectD2Ev@Base 4:5.6.2
- _ZN4KWin15EffectQuickView10setVisibleEb@Base 4:5.18.3
- _ZN4KWin15EffectQuickView11qt_metacallEN11QMetaObject4CallEiPPv@Base 4:5.18.3
- _ZN4KWin15EffectQuickView11qt_metacastEPKc@Base 4:5.18.3
- _ZN4KWin15EffectQuickView11setGeometryERK5QRect@Base 4:5.18.3
- _ZN4KWin15EffectQuickView12sceneChangedEv@Base 4:5.22.90
- _ZN4KWin15EffectQuickView13repaintNeededEv@Base 4:5.18.3
- _ZN4KWin15EffectQuickView15bufferAsTextureEv@Base 4:5.18.3
- _ZN4KWin15EffectQuickView15forwardKeyEventEP9QKeyEvent@Base 4:5.18.3
- _ZN4KWin15EffectQuickView15geometryChangedERK5QRectS3_@Base 4:5.18.3
- _ZN4KWin15EffectQuickView15renderRequestedEv@Base 4:5.22.90
- _ZN4KWin15EffectQuickView16staticMetaObjectE@Base 4:5.18.3
- _ZN4KWin15EffectQuickView17forwardMouseEventEP6QEvent@Base 4:5.18.3
- _ZN4KWin15EffectQuickView18handleSceneChangedEv@Base 4:5.22.90
- _ZN4KWin15EffectQuickView19setAutomaticRepaintEb@Base 4:5.22.90
- _ZN4KWin15EffectQuickView21handleRenderRequestedEv@Base 4:5.22.90
- _ZN4KWin15EffectQuickView4hideEv@Base 4:5.18.3
- _ZN4KWin15EffectQuickView4showEv@Base 4:5.18.3
- _ZN4KWin15EffectQuickView6updateEv@Base 4:5.18.3
- _ZN4KWin15EffectQuickViewC1EP7QObject@Base 4:5.18.3
- _ZN4KWin15EffectQuickViewC1EP7QObjectNS0_10ExportModeE@Base 4:5.18.3
- _ZN4KWin15EffectQuickViewC1EP7QObjectP7QWindow@Base 4:5.22.90
- _ZN4KWin15EffectQuickViewC1EP7QObjectP7QWindowNS0_10ExportModeE@Base 4:5.22.90
- _ZN4KWin15EffectQuickViewC2EP7QObject@Base 4:5.18.3
- _ZN4KWin15EffectQuickViewC2EP7QObjectNS0_10ExportModeE@Base 4:5.18.3
- _ZN4KWin15EffectQuickViewC2EP7QObjectP7QWindow@Base 4:5.22.90
- _ZN4KWin15EffectQuickViewC2EP7QObjectP7QWindowNS0_10ExportModeE@Base 4:5.22.90
- _ZN4KWin15EffectQuickViewD0Ev@Base 4:5.18.3
- _ZN4KWin15EffectQuickViewD1Ev@Base 4:5.18.3
- _ZN4KWin15EffectQuickViewD2Ev@Base 4:5.18.3
  _ZN4KWin15ScreenPaintDataC1ERK10QMatrix4x4PNS_12EffectScreenE@Base 4:5.21.90
  _ZN4KWin15ScreenPaintDataC1ERKS0_@Base 4:5.1.95+git20150122
  _ZN4KWin15ScreenPaintDataC1Ev@Base 4:5.1.95+git20150122
@@ -212,22 +194,67 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZN4KWin15WindowPaintDatapLERK7QPointF@Base 4:5.1.95+git20150122
  _ZN4KWin15WindowPaintDatapLERK9QVector2D@Base 4:5.1.95+git20150122
  _ZN4KWin15WindowPaintDatapLERK9QVector3D@Base 4:5.1.95+git20150122
- _ZN4KWin16EffectQuickScene9setSourceERK4QUrl@Base 4:5.18.3
- _ZN4KWin16EffectQuickSceneC1EP7QObject@Base 4:5.18.3
- _ZN4KWin16EffectQuickSceneC1EP7QObjectNS_15EffectQuickView10ExportModeE@Base 4:5.18.3
- _ZN4KWin16EffectQuickSceneC1EP7QObjectP7QWindow@Base 4:5.22.90
- _ZN4KWin16EffectQuickSceneC1EP7QObjectP7QWindowNS_15EffectQuickView10ExportModeE@Base 4:5.22.90
- _ZN4KWin16EffectQuickSceneC2EP7QObject@Base 4:5.18.3
- _ZN4KWin16EffectQuickSceneC2EP7QObjectNS_15EffectQuickView10ExportModeE@Base 4:5.18.3
- _ZN4KWin16EffectQuickSceneC2EP7QObjectP7QWindow@Base 4:5.22.90
- _ZN4KWin16EffectQuickSceneC2EP7QObjectP7QWindowNS_15EffectQuickView10ExportModeE@Base 4:5.22.90
- _ZN4KWin16EffectQuickSceneD0Ev@Base 4:5.18.3
- _ZN4KWin16EffectQuickSceneD1Ev@Base 4:5.18.3
- _ZN4KWin16EffectQuickSceneD2Ev@Base 4:5.18.3
+ _ZN4KWin16QuickSceneEffect10setRunningEb@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffect11eventFilterEP7QObjectP6QEvent@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffect11paintScreenEiRK7QRegionRNS_15ScreenPaintDataE@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffect11qt_metacallEN11QMetaObject4CallEiPPv@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffect11qt_metacastEPKc@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffect11touchMotionEiRK7QPointFj@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffect12stopInternalEv@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffect13startInternalEv@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffect15postPaintScreenEv@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffect16staticMetaObjectE@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffect17handleScreenAddedEPNS_12EffectScreenE@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffect17initialPropertiesEPNS_12EffectScreenE@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffect19handleScreenRemovedEPNS_12EffectScreenE@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffect20grabbedKeyboardEventEP9QKeyEvent@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffect21windowInputMouseEventEP6QEvent@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffect7touchUpEij@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffect9addScreenEPNS_12EffectScreenE@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffect9setSourceERK4QUrl@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffect9supportedEv@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffect9touchDownEiRK7QPointFj@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffectC1EP7QObject@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffectC2EP7QObject@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffectD0Ev@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffectD1Ev@Base 4:5.24.2
+ _ZN4KWin16QuickSceneEffectD2Ev@Base 4:5.24.2
  _ZN4KWin16staticMetaObjectE@Base 4:5.18.3
  _ZN4KWin17EffectWindowGroupD0Ev@Base 4:5.1.95+git20150122
  _ZN4KWin17EffectWindowGroupD1Ev@Base 4:5.1.95+git20150122
  _ZN4KWin17EffectWindowGroupD2Ev@Base 4:5.1.95+git20150122
+ _ZN4KWin18OffscreenQuickView10setVisibleEb@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView11qt_metacallEN11QMetaObject4CallEiPPv@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView11qt_metacastEPKc@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView11setGeometryERK5QRect@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView12sceneChangedEv@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView13repaintNeededEv@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView14forwardTouchUpEij@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView15bufferAsTextureEv@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView15forwardKeyEventEP9QKeyEvent@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView15geometryChangedERK5QRectS3_@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView15renderRequestedEv@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView16forwardTouchDownEiRK7QPointFj@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView16staticMetaObjectE@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView17forwardMouseEventEP6QEvent@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView18forwardTouchMotionEiRK7QPointFj@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView18handleSceneChangedEv@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView19setAutomaticRepaintEb@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView21handleRenderRequestedEv@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView4hideEv@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView4showEv@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickView6updateEv@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickViewC1EP7QObject@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickViewC1EP7QObjectNS0_10ExportModeE@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickViewC1EP7QObjectP7QWindow@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickViewC1EP7QObjectP7QWindowNS0_10ExportModeE@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickViewC2EP7QObject@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickViewC2EP7QObjectNS0_10ExportModeE@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickViewC2EP7QObjectP7QWindow@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickViewC2EP7QObjectP7QWindowNS0_10ExportModeE@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickViewD0Ev@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickViewD1Ev@Base 4:5.24.2
+ _ZN4KWin18OffscreenQuickViewD2Ev@Base 4:5.24.2
  _ZN4KWin18WindowPrePaintData14setTransformedEv@Base 4:5.1.95+git20150122
  _ZN4KWin18WindowPrePaintData14setTranslucentEv@Base 4:5.1.95+git20150122
  _ZN4KWin19EffectPluginFactory11qt_metacallEN11QMetaObject4CallEiPPv@Base 4:5.1.95+git20150122
@@ -238,6 +265,18 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZN4KWin19EffectPluginFactoryD0Ev@Base 4:5.1.95+git20150122
  _ZN4KWin19EffectPluginFactoryD1Ev@Base 4:5.1.95+git20150122
  _ZN4KWin19EffectPluginFactoryD2Ev@Base 4:5.1.95+git20150122
+ _ZN4KWin19OffscreenQuickScene9setSourceERK4QUrl@Base 4:5.24.2
+ _ZN4KWin19OffscreenQuickSceneC1EP7QObject@Base 4:5.24.2
+ _ZN4KWin19OffscreenQuickSceneC1EP7QObjectNS_18OffscreenQuickView10ExportModeE@Base 4:5.24.2
+ _ZN4KWin19OffscreenQuickSceneC1EP7QObjectP7QWindow@Base 4:5.24.2
+ _ZN4KWin19OffscreenQuickSceneC1EP7QObjectP7QWindowNS_18OffscreenQuickView10ExportModeE@Base 4:5.24.2
+ _ZN4KWin19OffscreenQuickSceneC2EP7QObject@Base 4:5.24.2
+ _ZN4KWin19OffscreenQuickSceneC2EP7QObjectNS_18OffscreenQuickView10ExportModeE@Base 4:5.24.2
+ _ZN4KWin19OffscreenQuickSceneC2EP7QObjectP7QWindow@Base 4:5.24.2
+ _ZN4KWin19OffscreenQuickSceneC2EP7QObjectP7QWindowNS_18OffscreenQuickView10ExportModeE@Base 4:5.24.2
+ _ZN4KWin19OffscreenQuickSceneD0Ev@Base 4:5.24.2
+ _ZN4KWin19OffscreenQuickSceneD1Ev@Base 4:5.24.2
+ _ZN4KWin19OffscreenQuickSceneD2Ev@Base 4:5.24.2
  _ZN4KWin19WindowMotionManager10moveWindowEPNS_12EffectWindowE6QPointdd@Base 4:5.1.95+git20150122
  _ZN4KWin19WindowMotionManager11unmanageAllEv@Base 4:5.1.95+git20150122
  _ZN4KWin19WindowMotionManager22setTransformedGeometryEPNS_12EffectWindowERK6QRectF@Base 4:5.1.95+git20150122
@@ -355,6 +394,11 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZNK4KWin14EffectsHandler10metaObjectEv@Base 4:5.1.95+git20150122
  _ZNK4KWin14EffectsHandler15compositingTypeEv@Base 4:5.1.95+git20150122
  _ZNK4KWin14EffectsHandler19isOpenGLCompositingEv@Base 4:5.1.95+git20150122
+ _ZNK4KWin14QuickSceneView10metaObjectEv@Base 4:5.24.2
+ _ZNK4KWin14QuickSceneView6effectEv@Base 4:5.24.2
+ _ZNK4KWin14QuickSceneView6screenEv@Base 4:5.24.2
+ _ZNK4KWin14QuickSceneView7isDirtyEv@Base 4:5.24.2
+ _ZNK4KWin14QuickSceneView8rootItemEv@Base 4:5.24.2
  _ZNK4KWin14WindowQuadList10makeArraysEPPfS2_RK6QSizeFb@Base 4:5.1.95+git20150122
  _ZNK4KWin14WindowQuadList15makeRegularGridEii@Base 4:5.1.95+git20150122
  _ZNK4KWin14WindowQuadList21makeInterleavedArraysEjPNS_10GLVertex2DERK10QMatrix4x4@Base 4:5.1.95+git20150122
@@ -369,13 +413,6 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZNK4KWin15AnimationEffect8isActiveEv@Base 4:5.1.95+git20150122
  _ZNK4KWin15AnimationEffect8progressERKNS_7AniDataE@Base 4:5.1.95+git20150122
  _ZNK4KWin15AnimationEffect8validateENS0_9AttributeERjPNS_4FPx2ES4_PKNS_12EffectWindowE@Base 4:5.6.2
- _ZNK4KWin15EffectQuickView10metaObjectEv@Base 4:5.18.3
- _ZNK4KWin15EffectQuickView11contentItemEv@Base 4:5.18.3
- _ZNK4KWin15EffectQuickView13bufferAsImageEv@Base 4:5.18.3
- _ZNK4KWin15EffectQuickView16automaticRepaintEv@Base 4:5.22.90
- _ZNK4KWin15EffectQuickView4sizeEv@Base 4:5.18.3
- _ZNK4KWin15EffectQuickView8geometryEv@Base 4:5.18.3
- _ZNK4KWin15EffectQuickView9isVisibleEv@Base 4:5.18.3
  _ZNK4KWin15ScreenPaintData16projectionMatrixEv@Base 4:5.6.2
  _ZNK4KWin15ScreenPaintData6screenEv@Base 4:5.21.90
  _ZNK4KWin15WindowPaintData10brightnessEv@Base 4:5.1.95+git20150122
@@ -388,11 +425,24 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZNK4KWin15WindowPaintData6screenEv@Base 4:5.1.95+git20150122
  _ZNK4KWin15WindowPaintData7opacityEv@Base 4:5.1.95+git20150122
  _ZNK4KWin15WindowPaintData9setScreenEi@Base 4:5.1.95+git20150122
- _ZNK4KWin16EffectQuickScene11rootContextEv@Base 4:5.18.3
- _ZNK4KWin16EffectQuickScene8rootItemEv@Base 4:5.18.3
+ _ZNK4KWin16QuickSceneEffect10metaObjectEv@Base 4:5.24.2
+ _ZNK4KWin16QuickSceneEffect5viewsEv@Base 4:5.24.2
+ _ZNK4KWin16QuickSceneEffect6sourceEv@Base 4:5.24.2
+ _ZNK4KWin16QuickSceneEffect6viewAtERK6QPoint@Base 4:5.24.2
+ _ZNK4KWin16QuickSceneEffect8isActiveEv@Base 4:5.24.2
+ _ZNK4KWin16QuickSceneEffect9isRunningEv@Base 4:5.24.2
+ _ZNK4KWin18OffscreenQuickView10metaObjectEv@Base 4:5.24.2
+ _ZNK4KWin18OffscreenQuickView11contentItemEv@Base 4:5.24.2
+ _ZNK4KWin18OffscreenQuickView13bufferAsImageEv@Base 4:5.24.2
+ _ZNK4KWin18OffscreenQuickView16automaticRepaintEv@Base 4:5.24.2
+ _ZNK4KWin18OffscreenQuickView4sizeEv@Base 4:5.24.2
+ _ZNK4KWin18OffscreenQuickView8geometryEv@Base 4:5.24.2
+ _ZNK4KWin18OffscreenQuickView9isVisibleEv@Base 4:5.24.2
  _ZNK4KWin19EffectPluginFactory10metaObjectEv@Base 4:5.1.95+git20150122
  _ZNK4KWin19EffectPluginFactory11isSupportedEv@Base 4:5.1.95+git20150122
  _ZNK4KWin19EffectPluginFactory16enabledByDefaultEv@Base 4:5.1.95+git20150122
+ _ZNK4KWin19OffscreenQuickScene11rootContextEv@Base 4:5.24.2
+ _ZNK4KWin19OffscreenQuickScene8rootItemEv@Base 4:5.24.2
  _ZNK4KWin19WindowMotionManager13windowAtPointE6QPointb@Base 4:5.1.95+git20150122
  _ZNK4KWin19WindowMotionManager14targetGeometryEPNS_12EffectWindowE@Base 4:5.1.95+git20150122
  _ZNK4KWin19WindowMotionManager19transformedGeometryEPNS_12EffectWindowE@Base 4:5.1.95+git20150122
@@ -431,13 +481,15 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZTIN4KWin12EffectScreenE@Base 4:5.21.90
  _ZTIN4KWin12EffectWindowE@Base 4:5.1.95+git20150122
  _ZTIN4KWin14EffectsHandlerE@Base 4:5.1.95+git20150122
+ _ZTIN4KWin14QuickSceneViewE@Base 4:5.24.2
  _ZTIN4KWin15AnimationEffectE@Base 4:5.1.95+git20150122
- _ZTIN4KWin15EffectQuickViewE@Base 4:5.18.3
  _ZTIN4KWin15ScreenPaintDataE@Base 4:5.1.95+git20150122
  _ZTIN4KWin15WindowPaintDataE@Base 4:5.1.95+git20150122
- _ZTIN4KWin16EffectQuickSceneE@Base 4:5.18.3
+ _ZTIN4KWin16QuickSceneEffectE@Base 4:5.24.2
  _ZTIN4KWin17EffectWindowGroupE@Base 4:5.1.95+git20150122
+ _ZTIN4KWin18OffscreenQuickViewE@Base 4:5.24.2
  _ZTIN4KWin19EffectPluginFactoryE@Base 4:5.1.95+git20150122
+ _ZTIN4KWin19OffscreenQuickSceneE@Base 4:5.24.2
  _ZTIN4KWin6EffectE@Base 4:5.1.95+git20150122
  _ZTIN4KWin9PaintDataE@Base 4:5.1.95+git20150122
  _ZTSN4KWin11EffectFrameE@Base 4:5.1.95+git20150122
@@ -445,13 +497,15 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZTSN4KWin12EffectScreenE@Base 4:5.21.90
  _ZTSN4KWin12EffectWindowE@Base 4:5.1.95+git20150122
  _ZTSN4KWin14EffectsHandlerE@Base 4:5.1.95+git20150122
+ _ZTSN4KWin14QuickSceneViewE@Base 4:5.24.2
  _ZTSN4KWin15AnimationEffectE@Base 4:5.1.95+git20150122
- _ZTSN4KWin15EffectQuickViewE@Base 4:5.18.3
  _ZTSN4KWin15ScreenPaintDataE@Base 4:5.1.95+git20150122
  _ZTSN4KWin15WindowPaintDataE@Base 4:5.1.95+git20150122
- _ZTSN4KWin16EffectQuickSceneE@Base 4:5.18.3
+ _ZTSN4KWin16QuickSceneEffectE@Base 4:5.24.2
  _ZTSN4KWin17EffectWindowGroupE@Base 4:5.1.95+git20150122
+ _ZTSN4KWin18OffscreenQuickViewE@Base 4:5.24.2
  _ZTSN4KWin19EffectPluginFactoryE@Base 4:5.1.95+git20150122
+ _ZTSN4KWin19OffscreenQuickSceneE@Base 4:5.24.2
  _ZTSN4KWin6EffectE@Base 4:5.1.95+git20150122
  _ZTSN4KWin9PaintDataE@Base 4:5.1.95+git20150122
  _ZTVN4KWin11EffectFrameE@Base 4:5.1.95+git20150122
@@ -459,12 +513,14 @@ libkwineffects.so.13 libkwineffects13 #MINVER#
  _ZTVN4KWin12EffectScreenE@Base 4:5.21.90
  _ZTVN4KWin12EffectWindowE@Base 4:5.1.95+git20150122
  _ZTVN4KWin14EffectsHandlerE@Base 4:5.1.95+git20150122
+ _ZTVN4KWin14QuickSceneViewE@Base 4:5.24.2
  _ZTVN4KWin15AnimationEffectE@Base 4:5.1.95+git20150122
- _ZTVN4KWin15EffectQuickViewE@Base 4:5.18.3
  _ZTVN4KWin15ScreenPaintDataE@Base 4:5.1.95+git20150122
  _ZTVN4KWin15WindowPaintDataE@Base 4:5.1.95+git20150122
- _ZTVN4KWin16EffectQuickSceneE@Base 4:5.18.3
+ _ZTVN4KWin16QuickSceneEffectE@Base 4:5.24.2
  _ZTVN4KWin17EffectWindowGroupE@Base 4:5.1.95+git20150122
+ _ZTVN4KWin18OffscreenQuickViewE@Base 4:5.24.2
  _ZTVN4KWin19EffectPluginFactoryE@Base 4:5.1.95+git20150122
+ _ZTVN4KWin19OffscreenQuickSceneE@Base 4:5.24.2
  _ZTVN4KWin6EffectE@Base 4:5.1.95+git20150122
  _ZTVN4KWin9PaintDataE@Base 4:5.1.95+git20150122

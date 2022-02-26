@@ -53,7 +53,7 @@
 #include <kconfig.h>
 #include <QMenu>
 #include <QRegularExpression>
-#include <QWidgetAction>
+#include <QAction>
 #include <kauthorized.h>
 
 #include "killwindow.h"
@@ -179,8 +179,9 @@ void UserActionsMenu::helperDialog(const QString& message, AbstractClient* clien
                  "activated using the %1 keyboard shortcut.",
                  shortcut(QStringLiteral("Window Operations Menu")));
         type = QStringLiteral("altf3warning");
-    } else
-        abort();
+    } else {
+        Q_UNREACHABLE();
+    }
     if (!type.isEmpty()) {
         KConfig cfg(QStringLiteral("kwin_dialogsrc"));
         KConfigGroup cg(&cfg, "Notification Messages");  // Depends on KMessageBox
@@ -310,7 +311,7 @@ void UserActionsMenu::init()
                     args << QStringLiteral("--desktopfile") << path;
                 }
                 args << configModules(false);
-                QProcess *p = new Process(this);
+                QProcess *p = new QProcess(this);
                 p->setArguments(args);
                 p->setProcessEnvironment(kwinApp()->processStartupEnvironment());
                 p->setProgram(QStringLiteral("kcmshell5"));
@@ -714,25 +715,22 @@ void UserActionsMenu::activityPopupAboutToShow()
     }
     m_activityMenu->addSeparator();
 
-    Q_FOREACH (const QString &id, Activities::self()->running()) {
+    const auto activities = Activities::self()->running();
+    for (const QString &id : activities) {
         KActivities::Info activity(id);
         QString name = activity.name();
         name.replace('&', "&&");
-        QWidgetAction *action = new QWidgetAction(m_activityMenu);
-        QCheckBox *box = new QCheckBox(name, m_activityMenu);
-        action->setDefaultWidget(box);
+        auto action = m_activityMenu->addAction(name);
+        action->setCheckable(true);
         const QString icon = activity.icon();
-        if (!icon.isEmpty())
-            box->setIcon(QIcon::fromTheme(icon));
-        box->setBackgroundRole(m_activityMenu->backgroundRole());
-        box->setForegroundRole(m_activityMenu->foregroundRole());
-        box->setPalette(m_activityMenu->palette());
-        connect(box, &QCheckBox::clicked, action, &QAction::triggered);
+        if (!icon.isEmpty()) {
+            action->setIcon(QIcon::fromTheme(icon));
+        }
         m_activityMenu->addAction(action);
         action->setData(id);
 
         if (m_client && !m_client->isOnAllActivities() && m_client->isOnActivity(id)) {
-            box->setChecked(true);
+            action->setChecked(true);
         }
     }
 #endif
@@ -792,14 +790,11 @@ void UserActionsMenu::slotToggleOnActivity(QAction *action)
             // susequent toggling ("off") would move the client to only that activity.
             // bug #330838 -> set all but "on all" off to "force proper usage"
             for (int i = 1; i < m_activityMenu->actions().count(); ++i) {
-                if (QWidgetAction *qwa = qobject_cast<QWidgetAction*>(m_activityMenu->actions().at(i))) {
-                    if (QCheckBox *qcb = qobject_cast<QCheckBox*>(qwa->defaultWidget())) {
-                        qcb->setChecked(false);
-                    }
-                }
+                m_activityMenu->actions().at(i)->setChecked(true);
             }
         }
     }
+
 #else
     Q_UNUSED(action)
 #endif
@@ -869,7 +864,7 @@ void ShortcutDialog::keySequenceChanged()
     // Check if the key sequence is used currently
     QString sc = seq.toString();
     // NOTICE - seq.toString() & the entries in "conflicting" randomly get invalidated after the next call (if no sc has been set & conflicting isn't empty?!)
-    QList<KGlobalShortcutInfo> conflicting = KGlobalAccel::getGlobalShortcutsByKey(seq);
+    QList<KGlobalShortcutInfo> conflicting = KGlobalAccel::globalShortcutsByKey(seq);
     if (!conflicting.isEmpty()) {
         const KGlobalShortcutInfo &conflict = conflicting.at(0);
         m_ui.warning->setText(i18nc("'%1' is a keyboard shortcut like 'ctrl+w'",
@@ -1007,21 +1002,23 @@ void Workspace::initShortcuts()
         Qt::CTRL + Qt::ALT + Qt::Key_A, slotActivateAttentionWindow);
     DEF(I18N_NOOP("Setup Window Shortcut"),
         0, slotSetupWindowShortcut);
-    DEF2("Window Pack Right", I18N_NOOP("Pack Window to the Right"),
-        0, slotWindowPackRight);
-    DEF2("Window Pack Left", I18N_NOOP("Pack Window to the Left"),
-        0, slotWindowPackLeft);
-    DEF2("Window Pack Up", I18N_NOOP("Pack Window Up"),
-        0, slotWindowPackUp);
-    DEF2("Window Pack Down", I18N_NOOP("Pack Window Down"),
-        0, slotWindowPackDown);
-    DEF2("Window Grow Horizontal", I18N_NOOP("Pack Grow Window Horizontally"),
-        0, slotWindowGrowHorizontal);
-    DEF2("Window Grow Vertical", I18N_NOOP("Pack Grow Window Vertically"),
-        0, slotWindowGrowVertical);
-    DEF2("Window Shrink Horizontal", I18N_NOOP("Pack Shrink Window Horizontally"),
+    DEF2("Window Move Center", I18N_NOOP("Move Window to the Center"), 0,
+     slotWindowCenter);
+    DEF2("Window Pack Right", I18N_NOOP("Move Window Right"),
+        0, slotWindowMoveRight);
+    DEF2("Window Pack Left", I18N_NOOP("Move Window Left"),
+        0, slotWindowMoveLeft);
+    DEF2("Window Pack Up", I18N_NOOP("Move Window Up"),
+        0, slotWindowMoveUp);
+    DEF2("Window Pack Down", I18N_NOOP("Move Window Down"),
+        0, slotWindowMoveDown);
+    DEF2("Window Grow Horizontal", I18N_NOOP("Expand Window Horizontally"),
+        0, slotWindowExpandHorizontal);
+    DEF2("Window Grow Vertical", I18N_NOOP("Expand Window Vertically"),
+        0, slotWindowExpandVertical);
+    DEF2("Window Shrink Horizontal", I18N_NOOP("Shrink Window Horizontally"),
         0, slotWindowShrinkHorizontal);
-    DEF2("Window Shrink Vertical", I18N_NOOP("Pack Shrink Window Vertically"),
+    DEF2("Window Shrink Vertical", I18N_NOOP("Shrink Window Vertically"),
         0, slotWindowShrinkVertical);
     DEF4("Window Quick Tile Left", I18N_NOOP("Quick Tile Window to the Left"),
         Qt::META + Qt::Key_Left, std::bind(&Workspace::quickTileWindow, this, QuickTileFlag::Left));
@@ -1220,7 +1217,9 @@ void Workspace::performWindowOperation(AbstractClient* c, Options::WindowOperati
         c->setFullScreen(!c->isFullScreen(), true);
         break;
     case Options::NoBorderOp:
-        c->setNoBorder(!c->noBorder());
+        if (c->userCanSetNoBorder()) {
+            c->setNoBorder(!c->noBorder());
+        }
         break;
     case Options::KeepAboveOp: {
         StackingUpdatesBlocker blocker(this);
@@ -1823,8 +1822,8 @@ bool Workspace::shortcutAvailable(const QKeySequence &cut, AbstractClient* ignor
         return true;
 
     // Check if the shortcut is already registered
-    const QList<KGlobalShortcutInfo> registeredShortcuts = KGlobalAccel::getGlobalShortcutsByKey(cut);
-    for (const auto shortcut : registeredShortcuts) {
+    const QList<KGlobalShortcutInfo> registeredShortcuts = KGlobalAccel::globalShortcutsByKey(cut);
+    for (const auto &shortcut : registeredShortcuts) {
         // Only return "not available" if is not a client activation shortcut, as it may be no longer valid
         if (!shortcut.uniqueName().startsWith(QStringLiteral("_k_session:"))) {
             return false;

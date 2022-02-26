@@ -7,7 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "xkb.h"
-#include "utils.h"
+#include "utils/common.h"
 // frameworks
 #include <KConfigGroup>
 // KWayland
@@ -78,7 +78,7 @@ Xkb::Xkb(QObject *parent)
     , m_keysym(XKB_KEY_NoSymbol)
     , m_leds()
 {
-    qRegisterMetaType<KWin::Xkb::LEDs>();
+    qRegisterMetaType<KWin::LEDs>();
     if (!m_context) {
         qCDebug(KWIN_XKB) << "Could not create xkb context";
     } else {
@@ -171,8 +171,6 @@ void Xkb::applyEnvironmentRules(xkb_rule_names &ruleNames)
     if (ruleNames.options == nullptr) {
         ruleNames.options = getenv("XKB_DEFAULT_OPTIONS");
     }
-
-    m_layoutList = QString::fromLatin1(ruleNames.layout).split(QLatin1Char(','));
 }
 
 xkb_keymap *Xkb::loadKeymapFromConfig()
@@ -191,9 +189,16 @@ xkb_keymap *Xkb::loadKeymapFromConfig()
         .model = model.constData(),
         .layout = layout.constData(),
         .variant = variant.constData(),
-        .options = options.constData()
+        .options = nullptr,
     };
+
+    if (m_configGroup.readEntry("ResetOldOptions", false)) {
+        ruleNames.options = options.constData();
+    }
+
     applyEnvironmentRules(ruleNames);
+
+    m_layoutList = QString::fromLatin1(ruleNames.layout).split(QLatin1Char(','));
 
     return xkb_keymap_new_from_names(m_context, &ruleNames, XKB_KEYMAP_COMPILE_NO_FLAGS);
 }
@@ -202,6 +207,7 @@ xkb_keymap *Xkb::loadDefaultKeymap()
 {
     xkb_rule_names ruleNames = {};
     applyEnvironmentRules(ruleNames);
+    m_layoutList = QString::fromLatin1(ruleNames.layout).split(QLatin1Char(','));
     return xkb_keymap_new_from_names(m_context, &ruleNames, XKB_KEYMAP_COMPILE_NO_FLAGS);
 }
 
@@ -330,7 +336,10 @@ void Xkb::updateModifiers(uint32_t modsDepressed, uint32_t modsLatched, uint32_t
     if (!m_keymap || !m_state) {
         return;
     }
-    xkb_state_update_mask(m_state, modsDepressed, modsLatched, modsLocked, 0, 0, group);
+    // Avoid to create a infinite loop between input method and compositor.
+    if (xkb_state_update_mask(m_state, modsDepressed, modsLatched, modsLocked, 0, 0, group) == 0) {
+        return;
+    }
     updateModifiers();
     forwardModifiers();
 }
@@ -400,10 +409,19 @@ void Xkb::updateModifiers()
         Q_EMIT ledsChanged(m_leds);
     }
 
-    m_currentLayout = xkb_state_serialize_layout(m_state, XKB_STATE_LAYOUT_EFFECTIVE);
-    m_modifierState.depressed = xkb_state_serialize_mods(m_state, xkb_state_component(XKB_STATE_MODS_DEPRESSED));
-    m_modifierState.latched = xkb_state_serialize_mods(m_state, xkb_state_component(XKB_STATE_MODS_LATCHED));
-    m_modifierState.locked = xkb_state_serialize_mods(m_state, xkb_state_component(XKB_STATE_MODS_LOCKED));
+    const uint32_t newLayout = xkb_state_serialize_layout(m_state, XKB_STATE_LAYOUT_EFFECTIVE);
+    const uint32_t depressed = xkb_state_serialize_mods(m_state, XKB_STATE_MODS_DEPRESSED);
+    const uint32_t latched = xkb_state_serialize_mods(m_state, XKB_STATE_MODS_LATCHED);
+    const uint32_t locked = xkb_state_serialize_mods(m_state, XKB_STATE_MODS_LOCKED);
+
+    if (newLayout != m_currentLayout || depressed != m_modifierState.depressed || latched != m_modifierState.latched || locked != m_modifierState.locked) {
+        m_currentLayout = newLayout;
+        m_modifierState.depressed = depressed;
+        m_modifierState.latched = latched;
+        m_modifierState.locked = locked;
+
+        Q_EMIT modifierStateChanged();
+    }
 }
 
 void Xkb::forwardModifiers()

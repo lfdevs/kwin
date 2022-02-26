@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-04-27 00:19+0000\n"
+"POT-Creation-Date: 2022-01-14 02:21+0000\n"
 "PO-Revision-Date: 2010-06-01 10:33-0700\n"
 "Last-Translator: Deepayan Sarkar <deepayan.sarkar@gmail.com>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -761,7 +761,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_WindowSnapZone)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_CenterSnapZone)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_FocusStealingPreventionLevel)
-#: focus.ui:118 moving.ui:53 moving.ui:75 moving.ui:97
+#: focus.ui:118 moving.ui:33 moving.ui:65 moving.ui:97
 #, fuzzy, kde-format
 #| msgctxt "Focus Stealing Prevention Level"
 #| msgid "None"
@@ -895,91 +895,91 @@ msgstr "&আলাদা স্ক্রীণ ফোকাস"
 msgid "Window activation policy description"
 msgstr ""
 
-#: main.cpp:74
+#: main.cpp:73
 #, kde-format
 msgid "&Focus"
 msgstr "ফোকা&স"
 
-#: main.cpp:80
+#: main.cpp:79
 #, fuzzy, kde-format
 #| msgid "&Titlebar Actions"
 msgid "Titlebar A&ctions"
 msgstr "শীর্ষ&কবার অ্যাকশন"
 
-#: main.cpp:86
+#: main.cpp:85
 #, fuzzy, kde-format
 #| msgid "Window Actio&ns"
 msgid "W&indow Actions"
 msgstr "উইণ্ডো অ্যাকশ&ন"
 
-#: main.cpp:92
+#: main.cpp:91
 #, fuzzy, kde-format
 #| msgid "&Placement:"
 msgid "Mo&vement"
 msgstr "সংস্থাপ&ন"
 
-#: main.cpp:98
+#: main.cpp:97
 #, fuzzy, kde-format
 #| msgid "Ad&vanced"
 msgid "Adva&nced"
 msgstr "অগ্রস&র"
 
-#: main.cpp:102
+#: main.cpp:101
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "উইন্ডো ব্যবহার পরিবর্তনকারী মড্যুল"
 
-#: main.cpp:104
+#: main.cpp:103
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "(C) 1997-2002 কে-উইন এবং কে-কন্ট্রোল লেখকবৃন্দ"
 
-#: main.cpp:106
+#: main.cpp:105
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:107
+#: main.cpp:106
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:108
+#: main.cpp:107
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:109
+#: main.cpp:108
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:110
+#: main.cpp:109
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:111
+#: main.cpp:110
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:112
+#: main.cpp:111
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:113
+#: main.cpp:112
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:114
+#: main.cpp:113
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:163
+#: main.cpp:162
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -996,12 +996,12 @@ msgstr ""
 "ক্ষেত্রে সেটির সাহায্যপত্র পড়ুন এবং কিভাবে উইন্ডোর ব্যবহার পছন্দমত পরিবর্তন করা যাবে "
 "তা জানুন।</p>"
 
-#: main.cpp:205
+#: main.cpp:204
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "শীর্ষ&কবার অ্যাকশন"
 
-#: main.cpp:211
+#: main.cpp:210
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "উইণ্ডো অ্যাকশ&ন"
@@ -1202,40 +1202,15 @@ msgstr "মাঝের বোতাম:"
 msgid "Behavior on <em>right</em> click onto the maximize button."
 msgstr "ম্যাক্সিমাইজ বাটনে <em>রাইট</em> ক্লিক-এর ফল।"
 
-#. i18n: ectx: property (text), widget (QLabel, geometryTipLabel)
-#: moving.ui:20
-#, kde-format
-msgid "Window &geometry:"
-msgstr ""
-
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_GeometryTip)
-#: moving.ui:30
-#, kde-format
-msgid ""
-"Enable this option if you want a window's geometry to be displayed while it "
-"is being moved or resized. The window position relative to the top-left "
-"corner of the screen is displayed together with its size."
-msgstr ""
-"যদি আপনি উইন্ডো যখন সরানো হবে বা আকার পরিবর্তন করা হবে তখন উইন্ডোটির জ্যামিতি "
-"দেখতে চান, তাহলে এই অপশনটি কার্যকর করুন। পর্দার উপরের বাঁদিকের কোণের সাপেক্ষে "
-"উইন্ডোর অবস্থান এবং তার মাপ দেখানো হবে।"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_GeometryTip)
-#: moving.ui:33
-#, fuzzy, kde-format
-#| msgid "Display window &geometry when moving or resizing"
-msgid "Display when moving or resizing"
-msgstr "সরানোর বা আকার বদলের সম&য় জ্যামিতি দেখাও"
-
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
-#: moving.ui:40
+#: moving.ui:20
 #, fuzzy, kde-format
 #| msgid "&Border snap zone:"
 msgid "Screen &edge snap zone:"
 msgstr "সীমা সংযো&গ ক্ষেত্র:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_BorderSnapZone)
-#: moving.ui:50
+#: moving.ui:30
 #, fuzzy, kde-format
 #| msgid ""
 #| "Here you can set the snap zone for screen borders, i.e. the 'strength' of "
@@ -1252,15 +1227,21 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_BorderSnapZone)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_WindowSnapZone)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_CenterSnapZone)
-#: moving.ui:56 moving.ui:78 moving.ui:100
+#: moving.ui:36 moving.ui:68 moving.ui:100
 #, fuzzy, kde-format
 #| msgid " pixel"
 #| msgid_plural " pixels"
 msgid " px"
 msgstr " পিক্সেল"
 
+#. i18n: ectx: property (text), widget (QLabel, windowSnapLabel)
+#: moving.ui:52
+#, kde-format
+msgid "&Window snap zone:"
+msgstr "&উইন্ডো সংযোগ ক্ষেত্র:"
+
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_WindowSnapZone)
-#: moving.ui:72
+#: moving.ui:62
 #, fuzzy, kde-format
 msgid ""
 "Here you can set the snap zone for windows, i.e. the 'strength' of the "
@@ -1270,6 +1251,12 @@ msgstr ""
 "এখনে আপনি উইন্ডোগুলির সংযোগ এলাকা নির্দিষ্ট করতে পারেন, অর্থাত্‍ উইন্ডোগুলিপরস্পরের "
 "কাছে এলে যে চৌম্বক ক্ষেত্র তাদের পরস্পরের সঙ্গে আটকে দেবে তারক্ষমতা স্থির করতে "
 "পারেন।"
+
+#. i18n: ectx: property (text), widget (QLabel, centerSnaplabel)
+#: moving.ui:84
+#, fuzzy, kde-format
+msgid "&Center snap zone:"
+msgstr "সীমা সংযো&গ ক্ষেত্র:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_CenterSnapZone)
 #: moving.ui:94
@@ -1283,8 +1270,15 @@ msgstr ""
 "প্রান্তে এলে যে চৌম্বক ক্ষেত্র উইন্ডোকে পর্দার প্রান্তে আটকে দেবে তারক্ষমতা স্থির করতে "
 "পারেন।"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
+#. i18n: ectx: property (text), widget (QLabel, OverlapSnapLabel)
 #: moving.ui:113
+#, fuzzy, kde-format
+#| msgid "Inactive windows:"
+msgid "&Snap windows:"
+msgstr "নিষ্ক্রিয় উইন্ডো:"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
+#: moving.ui:123
 #, kde-format
 msgid ""
 "Here you can set that windows will be only snapped if you try to overlap "
@@ -1295,39 +1289,20 @@ msgstr ""
 "অর্থাত্‍, উইন্ডোগুলি আরেকটি উইন্ডো বা তার সীমার কাছাকাছি এলেই আটকে যাবে না।"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
-#: moving.ui:116
+#: moving.ui:126
 #, fuzzy, kde-format
 #| msgid "Snap windows onl&y when overlapping"
 msgid "Only when overlapping"
 msgstr "কেব&লমাত্র উপরিপাতন হলে উইন্ডোগুলি আটকে দাও"
 
-#. i18n: ectx: property (text), widget (QLabel, windowSnapLabel)
-#: moving.ui:123
-#, kde-format
-msgid "&Window snap zone:"
-msgstr "&উইন্ডো সংযোগ ক্ষেত্র:"
-
-#. i18n: ectx: property (text), widget (QLabel, centerSnaplabel)
-#: moving.ui:133
-#, fuzzy, kde-format
-msgid "&Center snap zone:"
-msgstr "সীমা সংযো&গ ক্ষেত্র:"
-
-#. i18n: ectx: property (text), widget (QLabel, OverlapSnapLabel)
-#: moving.ui:143
-#, fuzzy, kde-format
-#| msgid "Inactive windows:"
-msgid "&Snap windows:"
-msgstr "নিষ্ক্রিয় উইন্ডো:"
-
-#: windows.cpp:99
+#: windows.cpp:98
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
 "This behavior is common on other operating systems and likely what you want."
 msgstr ""
 
-#: windows.cpp:103
+#: windows.cpp:102
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1337,7 +1312,7 @@ msgid ""
 "em>."
 msgstr ""
 
-#: windows.cpp:108
+#: windows.cpp:107
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1346,7 +1321,7 @@ msgid ""
 "to focus</em> just without having to actually click."
 msgstr ""
 
-#: windows.cpp:112
+#: windows.cpp:111
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1355,7 +1330,7 @@ msgid ""
 "if you want a hover controlled focus."
 msgstr ""
 
-#: windows.cpp:117
+#: windows.cpp:116
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1365,7 +1340,7 @@ msgid ""
 "precedence)</em> instead!"
 msgstr ""
 
-#: windows.cpp:121
+#: windows.cpp:120
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

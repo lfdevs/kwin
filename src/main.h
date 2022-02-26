@@ -207,9 +207,6 @@ public:
     static void setupMalloc();
     static void setupLocalizedString();
 
-    static bool usesLibinput();
-    static void setUseLibinput(bool use);
-
 Q_SIGNALS:
     void x11ConnectionChanged();
     void x11ConnectionAboutToBeDestroyed();
@@ -231,6 +228,7 @@ protected:
     void createOptions();
     void createPlugins();
     void createColorManager();
+    void createInputMethod();
     void installNativeX11EventFilter();
     void removeNativeX11EventFilter();
     void destroyInput();
@@ -238,6 +236,7 @@ protected:
     void destroyCompositor();
     void destroyPlugins();
     void destroyColorManager();
+    void destroyInputMethod();
     /**
      * Inheriting classes should use this method to set the X11 root window
      * before accessing any X11 specific code pathes.

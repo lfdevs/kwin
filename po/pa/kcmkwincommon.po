@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-04-24 00:20+0000\n"
+"POT-Creation-Date: 2022-01-14 02:21+0000\n"
 "PO-Revision-Date: 2021-05-02 16:32-0700\n"
 "Last-Translator: A S Alam <aalam@satluj.org>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -27,55 +27,55 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "alam.yellow@gmail.com"
 
-#: effectsmodel.cpp:53
+#: effectsmodel.cpp:52
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "ਅਸੈੱਸਬਿਲਟੀ"
 
-#: effectsmodel.cpp:54
+#: effectsmodel.cpp:53
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "ਦਿੱਖ"
 
-#: effectsmodel.cpp:55
+#: effectsmodel.cpp:54
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "ਫੋਕਸ"
 
-#: effectsmodel.cpp:56
+#: effectsmodel.cpp:55
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Show Desktop Animation"
 msgstr "ਡੈਸਕਟਾਪ ਐਨੀਮੇਸ਼ਨ ਵੇਖਾਓ"
 
-#: effectsmodel.cpp:57
+#: effectsmodel.cpp:56
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "ਟੂਲ"
 
-#: effectsmodel.cpp:58
+#: effectsmodel.cpp:57
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr "ਵਰਚੁਅਲ ਡੈਸਕਟਾਪ ਬਦਲਣ ਐਨੀਮੇਸ਼ਨ"
 
-#: effectsmodel.cpp:59
+#: effectsmodel.cpp:58
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "ਵਿੰਡੋ ਇੰਤਜ਼ਾਮ"
 
-#: effectsmodel.cpp:60
+#: effectsmodel.cpp:59
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Open/Close Animation"
 msgstr "ਵਿੰਡੋ ਖੁੱਲ੍ਹਣ/ਬੰਦ ਐਨੀਮੇਸ਼ਨ"
 
-#: effectsmodel.cpp:234
+#: effectsmodel.cpp:244
 #, kde-format
 msgid "KWin development team"
 msgstr "ਕੇ-ਵਿਨ ਡਿਵੈਲਪਮੈਂਟ ਟੀਮ"

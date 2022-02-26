@@ -10,8 +10,9 @@
 #include "composite.h"
 #include "main.h"
 #include "platform.h"
+#include "renderbackend.h"
 #include "scene.h"
-#include "utils.h"
+#include "utils/common.h"
 
 #include "kwinglplatform.h"
 
@@ -142,8 +143,7 @@ X11SyncManager *X11SyncManager::create()
         return nullptr;
     }
 
-    Scene *scene = Compositor::self()->scene();
-    if (scene->compositingType() != OpenGLCompositing) {
+    if (Compositor::self()->backend()->compositingType() != OpenGLCompositing) {
         return nullptr;
     }
 

@@ -213,7 +213,7 @@ void ScreenShotEffect::takeScreenShot(ScreenShotWindowData *screenshot)
         geometry = window->clientGeometry();
     }
     if (screenshot->flags & ScreenShotNativeResolution) {
-        if (const EffectScreen *screen = effects->findScreen(window->screen())) {
+        if (const EffectScreen *screen = window->screen()) {
             devicePixelRatio = screen->devicePixelRatio();
         }
     }
@@ -390,6 +390,7 @@ void ScreenShotEffect::grabPointerImage(QImage &snapshot, int xOffset, int yOffs
     }
 
     QPainter painter(&snapshot);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
     painter.drawImage(effects->cursorPos() - cursor.hotSpot() - QPoint(xOffset, yOffset), cursor.image());
 }
 

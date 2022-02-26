@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-04-24 00:20+0000\n"
+"POT-Creation-Date: 2022-01-14 02:21+0000\n"
 "PO-Revision-Date: 2015-05-22 22:20-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -32,55 +32,55 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "ybando@k6.dion.ne.jp"
 
-#: effectsmodel.cpp:53
+#: effectsmodel.cpp:52
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
 msgstr "アクセシビリティ"
 
-#: effectsmodel.cpp:54
+#: effectsmodel.cpp:53
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
 msgstr "外観"
 
-#: effectsmodel.cpp:55
+#: effectsmodel.cpp:54
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
 msgstr "フォーカス"
 
-#: effectsmodel.cpp:56
+#: effectsmodel.cpp:55
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Show Desktop Animation"
 msgstr ""
 
-#: effectsmodel.cpp:57
+#: effectsmodel.cpp:56
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
 msgstr "ツール"
 
-#: effectsmodel.cpp:58
+#: effectsmodel.cpp:57
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
 msgstr "仮想デスクトップの切り替えアニメーション"
 
-#: effectsmodel.cpp:59
+#: effectsmodel.cpp:58
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
 msgstr "ウィンドウマネージメント"
 
-#: effectsmodel.cpp:60
+#: effectsmodel.cpp:59
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Open/Close Animation"
 msgstr ""
 
-#: effectsmodel.cpp:234
+#: effectsmodel.cpp:244
 #, kde-format
 msgid "KWin development team"
 msgstr ""

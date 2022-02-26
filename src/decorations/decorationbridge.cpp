@@ -27,7 +27,6 @@
 // Frameworks
 #include <KPluginFactory>
 #include <KPluginMetaData>
-#include <KPluginLoader>
 
 // Qt
 #include <QMetaProperty>
@@ -56,12 +55,6 @@ DecorationBridge::DecorationBridge(QObject *parent)
     , m_settings()
     , m_noPlugin(false)
 {
-    KConfigGroup cg(KSharedConfig::openConfig(), "KDE");
-
-    // try to extract the proper defaults file from a lookandfeel package
-    const QString looknfeel = cg.readEntry(QStringLiteral("LookAndFeelPackage"), "org.kde.breeze.desktop");
-    m_lnfConfig = KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("plasma/look-and-feel/") + looknfeel + QStringLiteral("/contents/defaults")));
-
     readDecorationOptions();
 }
 
@@ -72,10 +65,7 @@ DecorationBridge::~DecorationBridge()
 
 QString DecorationBridge::readPlugin()
 {
-    //Try to get a default from look and feel
-    KConfigGroup cg(m_lnfConfig, "kwinrc");
-    cg = KConfigGroup(&cg, "org.kde.kdecoration2");
-    return kwinApp()->config()->group(s_pluginName).readEntry("library", cg.readEntry("library", s_defaultPlugin));
+    return kwinApp()->config()->group(s_pluginName).readEntry("library", s_defaultPlugin);
 }
 
 static bool readNoPlugin()
@@ -85,10 +75,7 @@ static bool readNoPlugin()
 
 QString DecorationBridge::readTheme() const
 {
-    //Try to get a default from look and feel
-    KConfigGroup cg(m_lnfConfig, "kwinrc");
-    cg = KConfigGroup(&cg, "org.kde.kdecoration2");
-    return kwinApp()->config()->group(s_pluginName).readEntry("theme", cg.readEntry("theme", m_defaultTheme));
+    return kwinApp()->config()->group(s_pluginName).readEntry("theme", m_defaultTheme);
 }
 
 void DecorationBridge::readDecorationOptions()
@@ -143,19 +130,18 @@ void DecorationBridge::initPlugin()
         return;
     }
     qCDebug(KWIN_DECORATIONS) << "Trying to load decoration plugin: " << metaData.fileName();
-    KPluginLoader loader(metaData.fileName());
-    KPluginFactory *factory = loader.factory();
-    if (!factory) {
-        qCWarning(KWIN_DECORATIONS) << "Error loading plugin:" << loader.errorString();
+    auto factoryResult = KPluginFactory::loadFactory(metaData);
+    if (!factoryResult) {
+        qCWarning(KWIN_DECORATIONS) << "Error loading plugin:" << factoryResult.errorText;
     } else {
-        m_factory = factory;
-        loadMetaData(loader.metaData().value(QStringLiteral("MetaData")).toObject());
+        m_factory = factoryResult.plugin;
+        loadMetaData(metaData.rawData());
     }
 }
 
 static void recreateDecorations()
 {
-    Workspace::self()->forEachAbstractClient([](AbstractClient *c) { c->updateDecoration(true, true); });
+    Workspace::self()->forEachAbstractClient([](AbstractClient *c) { c->invalidateDecoration(); });
 }
 
 void DecorationBridge::reconfigure()

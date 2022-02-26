@@ -37,6 +37,8 @@
  * 3: fading in
  */
 
+Q_LOGGING_CATEGORY(KWIN_KSCREEN, "kwin_effect_kscreen", QtWarningMsg)
+
 namespace KWin
 {
 
@@ -130,7 +132,7 @@ void KscreenEffect::postPaintScreen()
 
 void KscreenEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime)
 {
-    auto screen = effects->findScreen(w->screen());
+    auto screen = w->screen();
     if (isScreenActive(screen)) {
         auto &state = !effects->waylandDisplay() ? m_xcbState : m_waylandStates[screen];
         if (state.m_state != StateNormal) {
@@ -142,7 +144,7 @@ void KscreenEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &data, st
 
 void KscreenEffect::paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
 {
-    auto screen = effects->findScreen(w->screen());
+    auto screen = w->screen();
     if (isScreenActive(screen)) {
         auto &state = !effects->waylandDisplay() ? m_xcbState : m_waylandStates[screen];
         //fade to black and fully opaque
@@ -189,7 +191,7 @@ void KscreenEffect::propertyNotify(EffectWindow *window, long int atom)
     const uint32_t *data = byteData.isEmpty() ? nullptr : reinterpret_cast<const uint32_t *>(byteData.data());
     if (!data || data[0] >= LastState) { // Property was deleted
         if (data) {
-            qCDebug(KWINEFFECTS) << "Incorrect Property state, immediate stop: " << data[0];
+            qCDebug(KWIN_KSCREEN) << "Incorrect Property state, immediate stop: " << data[0];
         }
         setState(m_xcbState, StateNormal);
         return;

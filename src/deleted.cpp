@@ -71,7 +71,6 @@ void Deleted::copyToDeleted(Toplevel* c)
     Q_ASSERT(dynamic_cast< Deleted* >(c) == nullptr);
     Toplevel::copyToDeleted(c);
     m_frameMargins = c->frameMargins();
-    m_bufferScale = c->bufferScale();
     desk = c->desktop();
     m_desktops = c->desktops();
     activityList = c->activities();
@@ -94,7 +93,7 @@ void Deleted::copyToDeleted(Toplevel* c)
         m_minimized = client->isMinimized();
         m_modal = client->isModal();
         m_mainClients = client->mainClients();
-        Q_FOREACH (AbstractClient *c, m_mainClients) {
+        for (AbstractClient *c : qAsConst(m_mainClients)) {
             connect(c, &AbstractClient::windowClosed, this, &Deleted::mainClientClosed);
         }
         m_fullscreen = client->isFullScreen();
@@ -128,11 +127,6 @@ void Deleted::unrefWindow()
 QMargins Deleted::frameMargins() const
 {
     return m_frameMargins;
-}
-
-qreal Deleted::bufferScale() const
-{
-    return m_bufferScale;
 }
 
 int Deleted::desktop() const

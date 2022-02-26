@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-08-26 00:18+0000\n"
+"POT-Creation-Date: 2022-01-22 02:14+0000\n"
 "PO-Revision-Date: 2013-02-23 17:39+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -207,34 +207,34 @@ msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "बटन"
 
-#: package/contents/ui/main.qml:87
+#: package/contents/ui/main.qml:93
 #, fuzzy, kde-format
 #| msgid "Border size:"
 msgctxt "Selector label"
 msgid "Window border size:"
 msgstr "किनार आकार :"
 
-#: package/contents/ui/main.qml:105
+#: package/contents/ui/main.qml:114
 #, fuzzy, kde-format
 #| msgid "Get New Decorations..."
 msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "नवीन सजावटी प्राप्त करा..."
 
-#: package/contents/ui/main.qml:128
+#: package/contents/ui/main.qml:143
 #, fuzzy, kde-format
 #| msgid "Close windows by double clicking the menu button"
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "मेन्यू बटन वर दोनदा क्लिक करून चौकटी बंद करा"
 
-#: package/contents/ui/main.qml:145
+#: package/contents/ui/main.qml:160
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
 msgstr ""
 
-#: package/contents/ui/main.qml:152
+#: package/contents/ui/main.qml:167
 #, fuzzy, kde-format
 #| msgid "&Show window button tooltips"
 msgctxt "checkbox label"

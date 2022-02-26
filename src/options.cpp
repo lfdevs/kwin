@@ -11,7 +11,7 @@
 
 #include "options.h"
 #include "config-kwin.h"
-#include "utils.h"
+#include "utils/common.h"
 #include "platform.h"
 
 #ifndef KCMRULES
@@ -62,7 +62,6 @@ Options::Options(QObject *parent)
     , m_glSmoothScale(Options::defaultGlSmoothScale())
     , m_glStrictBinding(Options::defaultGlStrictBinding())
     , m_glStrictBindingFollowsDriver(Options::defaultGlStrictBindingFollowsDriver())
-    , m_glCoreProfile(Options::defaultGLCoreProfile())
     , m_glPreferBufferSwap(Options::defaultGlPreferBufferSwap())
     , m_glPlatformInterface(Options::defaultGlPlatformInterface())
     , m_windowsBlockCompositing(true)
@@ -88,7 +87,6 @@ Options::Options(QObject *parent)
     , electric_border_tiling(false)
     , electric_border_corner_ratio(0.0)
     , borderless_maximized_windows(false)
-    , show_geometry_tip(false)
     , condensed_title(false)
 {
     m_settings->setDefaults();
@@ -464,15 +462,6 @@ void Options::setKeyCmdAllModKey(uint keyCmdAllModKey)
     Q_EMIT keyCmdAllModKeyChanged();
 }
 
-void Options::setShowGeometryTip(bool showGeometryTip)
-{
-    if (show_geometry_tip == showGeometryTip) {
-        return;
-    }
-    show_geometry_tip = showGeometryTip;
-    Q_EMIT showGeometryTipChanged();
-}
-
 void Options::setCondensedTitle(bool condensedTitle)
 {
     if (condensed_title == condensedTitle) {
@@ -588,15 +577,6 @@ void Options::setGlStrictBindingFollowsDriver(bool glStrictBindingFollowsDriver)
     }
     m_glStrictBindingFollowsDriver = glStrictBindingFollowsDriver;
     Q_EMIT glStrictBindingFollowsDriverChanged();
-}
-
-void Options::setGLCoreProfile(bool value)
-{
-    if (m_glCoreProfile == value) {
-        return;
-    }
-    m_glCoreProfile = value;
-    Q_EMIT glCoreProfileChanged();
 }
 
 void Options::setWindowsBlockCompositing(bool value)
@@ -776,7 +756,6 @@ void Options::loadConfig()
 
 void Options::syncFromKcfgc()
 {
-    setShowGeometryTip(m_settings->geometryTip());
     setCondensedTitle(m_settings->condensedTitle());
     setFocusPolicy(m_settings->focusPolicy());
     setNextFocusPrefersMouse(m_settings->nextFocusPrefersMouse());
@@ -883,7 +862,6 @@ void Options::reloadCompositingSettings(bool force)
     if (!isGlStrictBindingFollowsDriver()) {
         setGlStrictBinding(config.readEntry("GLStrictBinding", Options::defaultGlStrictBinding()));
     }
-    setGLCoreProfile(config.readEntry("GLCore", Options::defaultGLCoreProfile()));
 
     char c = 0;
     const QString s = config.readEntry("GLPreferBufferSwap", QString(Options::defaultGlPreferBufferSwap()));
@@ -995,11 +973,6 @@ Options::MouseWheelCommand Options::mouseWheelCommand(const QString &name)
     if (lowerName == QStringLiteral("change opacity")) return MouseWheelChangeOpacity;
     if (lowerName == QStringLiteral("nothing")) return MouseWheelNothing;
     return MouseWheelNothing;
-}
-
-bool Options::showGeometryTip() const
-{
-    return show_geometry_tip;
 }
 
 bool Options::condensedTitle() const

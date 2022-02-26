@@ -16,7 +16,7 @@
 // kwin
 #include "options.h"
 #include "sm.h"
-#include "utils.h"
+#include "utils/common.h"
 // Qt
 #include <QTimer>
 #include <QVector>
@@ -198,7 +198,7 @@ public:
 
     QRect adjustClientArea(AbstractClient *client, const QRect &area) const;
     QPoint adjustClientPosition(AbstractClient* c, QPoint pos, bool unrestricted, double snapAdjust = 1.0);
-    QRect adjustClientSize(AbstractClient* c, QRect moveResizeGeom, int mode);
+    QRect adjustClientSize(AbstractClient* c, QRect moveResizeGeom, Gravity gravity);
     void raiseClient(AbstractClient* c, bool nogroup = false);
     void lowerClient(AbstractClient* c, bool nogroup = false);
     void raiseClientRequest(AbstractClient* c, NET::RequestSource src = NET::FromApplication, xcb_timestamp_t timestamp = 0);
@@ -258,7 +258,6 @@ public:
     QPoint cascadeOffset(const AbstractClient *c) const;
 
 private:
-    Compositor *m_compositor;
     QTimer *m_quickTileCombineTimer;
     QuickTileMode m_lastTilingMode;
 
@@ -271,7 +270,7 @@ public:
     // The calls below are valid only in that case.
     bool inUpdateClientArea() const;
     QRegion previousRestrictedMoveArea(const VirtualDesktop *desktop, StrutAreas areas = StrutAreaAll) const;
-    QVector< QRect > previousScreenSizes() const;
+    QHash<const AbstractOutput *, QRect> previousScreenSizes() const;
     int oldDisplayWidth() const;
     int oldDisplayHeight() const;
 
@@ -441,12 +440,15 @@ public Q_SLOTS:
     void slotWindowLower();
     void slotWindowRaiseOrLower();
     void slotActivateAttentionWindow();
-    void slotWindowPackLeft();
-    void slotWindowPackRight();
-    void slotWindowPackUp();
-    void slotWindowPackDown();
-    void slotWindowGrowHorizontal();
-    void slotWindowGrowVertical();
+
+    void slotWindowCenter();
+
+    void slotWindowMoveLeft();
+    void slotWindowMoveRight();
+    void slotWindowMoveUp();
+    void slotWindowMoveDown();
+    void slotWindowExpandHorizontal();
+    void slotWindowExpandVertical();
     void slotWindowShrinkHorizontal();
     void slotWindowShrinkVertical();
 
@@ -500,9 +502,11 @@ Q_SIGNALS:
      * This can be used to connect to for performing post-workspace initialization.
      */
     void workspaceInitialized();
+    void geometryChanged();
 
     //Signals required for the scripting interface
     void desktopPresenceChanged(KWin::AbstractClient*, int);
+    void currentActivityChanged();
     void currentDesktopChanged(int, KWin::AbstractClient*);
     void clientAdded(KWin::AbstractClient *);
     void clientRemoved(KWin::AbstractClient*);
@@ -667,9 +671,10 @@ private:
     QHash<const VirtualDesktop *, QHash<const AbstractOutput *, QRect>> m_screenAreas;
     QRect m_geometry;
 
-    QVector< QRect > oldscreensizes; // array of previous sizes of xinerama screens
+    QHash<const AbstractOutput *, QRect> m_oldScreenGeometries;
     QSize olddisplaysize; // previous sizes od displayWidth()/displayHeight()
     QHash<const VirtualDesktop *, StrutRects> m_oldRestrictedAreas;
+    bool m_inUpdateClientArea = false;
 
     int set_active_client_recursion;
     int block_stacking_updates; // When > 0, stacking updates are temporarily disabled

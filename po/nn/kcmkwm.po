@@ -1,22 +1,22 @@
 # Translation of kcmkwm to Norwegian Nynorsk
 #
 # Gaute Hvoslef Kvalnes <gaute@verdsveven.com>, 1999, 2000, 2002, 2004, 2005.
-# Karl Ove Hufthammer <karl@huftis.org>, 2004, 2007, 2008, 2010, 2011, 2015, 2016, 2018, 2019, 2020.
+# Karl Ove Hufthammer <karl@huftis.org>, 2004, 2007, 2008, 2010, 2011, 2015, 2016, 2018, 2019, 2020, 2022.
 # Eirik U. Birkeland <eirbir@gmail.com>, 2008, 2009, 2010.
-# Øystein Steffensen-Alværvik <ystein@posteo.net>, 2018.
+# Øystein Steffensen-Alværvik <oysteins.omsetting@protonmail.com>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-04-27 00:19+0000\n"
-"PO-Revision-Date: 2020-10-22 20:59+0200\n"
+"POT-Creation-Date: 2022-01-14 02:21+0000\n"
+"PO-Revision-Date: 2022-02-13 15:04+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.08.2\n"
+"X-Generator: Lokalize 21.12.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
@@ -770,7 +770,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_WindowSnapZone)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_CenterSnapZone)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_FocusStealingPreventionLevel)
-#: focus.ui:118 moving.ui:53 moving.ui:75 moving.ui:97
+#: focus.ui:118 moving.ui:33 moving.ui:65 moving.ui:97
 #, kde-format
 msgid "None"
 msgstr "Inga"
@@ -866,6 +866,9 @@ msgid ""
 "for example) is the screen containing the mouse pointer. When disabled, the "
 "active screen is the screen containing the focused window."
 msgstr ""
+"Når dette valet er på, er den aktive skjermen (der for eksempel eit nytt "
+"vindauge kjem til syne) den skjermen der musepeikaren er. Når valet er av, "
+"er den aktive skjermen den skjermen som har eit vindauge i fokus."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:206
@@ -880,6 +883,7 @@ msgid ""
 "When this option is enabled, focus operations are limited only to the active "
 "screen"
 msgstr ""
+"Når dette valet er på, gjeld fokusoperasjonar berre skjermen som vert brukt."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:216
@@ -893,88 +897,88 @@ msgstr "&Skild skjermfokus"
 msgid "Window activation policy description"
 msgstr "Reglar for vindaugsaktivering"
 
-#: main.cpp:74
+#: main.cpp:73
 #, kde-format
 msgid "&Focus"
 msgstr "&Fokus"
 
-#: main.cpp:80
+#: main.cpp:79
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "Handlingar for &tittellinja"
 
-#: main.cpp:86
+#: main.cpp:85
 #, kde-format
 msgid "W&indow Actions"
 msgstr "Handlingar for &vindauge"
 
-#: main.cpp:92
+#: main.cpp:91
 #, kde-format
 msgid "Mo&vement"
 msgstr "Fl&ytting"
 
-#: main.cpp:98
+#: main.cpp:97
 #, kde-format
 msgid "Adva&nced"
 msgstr "A&vansert"
 
-#: main.cpp:102
+#: main.cpp:101
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "Oppsettmodul for vindaugsåtferd"
 
-#: main.cpp:104
+#: main.cpp:103
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "© 1997–2002 KWin- og KControl-utviklarane"
 
-#: main.cpp:106
+#: main.cpp:105
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:107
+#: main.cpp:106
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:108
+#: main.cpp:107
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
 # skip-rule: e-infinitiv
-#: main.cpp:109
+#: main.cpp:108
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:110
+#: main.cpp:109
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:111
+#: main.cpp:110
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:112
+#: main.cpp:111
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:113
+#: main.cpp:112
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:114
+#: main.cpp:113
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:163
+#: main.cpp:162
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -991,12 +995,12 @@ msgstr ""
 "brukar ein annan vindaugshandsamar enn KWin. I så fall finn du informasjon i "
 "bruksrettleiinga til den vindaugshandsamaren du brukar.</p>"
 
-#: main.cpp:205
+#: main.cpp:204
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "Handlingar for &tittellinja"
 
-#: main.cpp:211
+#: main.cpp:210
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "Handlingar for &vindauge"
@@ -1185,38 +1189,14 @@ msgstr "&Midtklikk:"
 msgid "Behavior on <em>right</em> click onto the maximize button."
 msgstr "Åtferd ved <em>høgreklikk</em> på maksimeringsknappen."
 
-#. i18n: ectx: property (text), widget (QLabel, geometryTipLabel)
-#: moving.ui:20
-#, kde-format
-msgid "Window &geometry:"
-msgstr "Vindaugs&geometri:"
-
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_GeometryTip)
-#: moving.ui:30
-#, kde-format
-msgid ""
-"Enable this option if you want a window's geometry to be displayed while it "
-"is being moved or resized. The window position relative to the top-left "
-"corner of the screen is displayed together with its size."
-msgstr ""
-"Slå på dette alternativet dersom dimensjonane til eit vindauge skal visast "
-"mens det vert flytta og mens storleiken vert endra. Storleiken på vindauget "
-"og posisjonen i høve til det øvre venstre hjørnet vert vist."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_GeometryTip)
-#: moving.ui:33
-#, kde-format
-msgid "Display when moving or resizing"
-msgstr "Vis ved flytting og endring av storleik"
-
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
-#: moving.ui:40
+#: moving.ui:20
 #, kde-format
 msgid "Screen &edge snap zone:"
 msgstr "Låsesone for skjerm&kant:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_BorderSnapZone)
-#: moving.ui:50
+#: moving.ui:30
 #, kde-format
 msgid ""
 "Here you can set the snap zone for screen edges, i.e. the 'strength' of the "
@@ -1228,13 +1208,19 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_BorderSnapZone)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_WindowSnapZone)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_CenterSnapZone)
-#: moving.ui:56 moving.ui:78 moving.ui:100
+#: moving.ui:36 moving.ui:68 moving.ui:100
 #, kde-format
 msgid " px"
 msgstr " pikslar"
 
+#. i18n: ectx: property (text), widget (QLabel, windowSnapLabel)
+#: moving.ui:52
+#, kde-format
+msgid "&Window snap zone:"
+msgstr "V&indaugslåsesone:"
+
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_WindowSnapZone)
-#: moving.ui:72
+#: moving.ui:62
 #, kde-format
 msgid ""
 "Here you can set the snap zone for windows, i.e. the 'strength' of the "
@@ -1243,6 +1229,12 @@ msgid ""
 msgstr ""
 "Her kan du velja låsesona for vindauge, altså styrken på «magnetfeltet» som "
 "gjer at vindauga legg seg inntil kvarandre når dei vert flytta nær kvarandre."
+
+#. i18n: ectx: property (text), widget (QLabel, centerSnaplabel)
+#: moving.ui:84
+#, kde-format
+msgid "&Center snap zone:"
+msgstr "&Midtlåsesone:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_CenterSnapZone)
 #: moving.ui:94
@@ -1256,8 +1248,14 @@ msgstr ""
 "«magnetfeltet» som gjer at vindauga legg seg midt på skjermen når dei vert "
 "flytta nær midten."
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
+#. i18n: ectx: property (text), widget (QLabel, OverlapSnapLabel)
 #: moving.ui:113
+#, kde-format
+msgid "&Snap windows:"
+msgstr "&Lås vindauge til soner:"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
+#: moving.ui:123
 #, kde-format
 msgid ""
 "Here you can set that windows will be only snapped if you try to overlap "
@@ -1269,30 +1267,12 @@ msgstr ""
 "vindauge eller ein kant."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
-#: moving.ui:116
+#: moving.ui:126
 #, kde-format
 msgid "Only when overlapping"
 msgstr "Berre ved overlapp"
 
-#. i18n: ectx: property (text), widget (QLabel, windowSnapLabel)
-#: moving.ui:123
-#, kde-format
-msgid "&Window snap zone:"
-msgstr "V&indaugslåsesone:"
-
-#. i18n: ectx: property (text), widget (QLabel, centerSnaplabel)
-#: moving.ui:133
-#, kde-format
-msgid "&Center snap zone:"
-msgstr "&Midtlåsesone:"
-
-#. i18n: ectx: property (text), widget (QLabel, OverlapSnapLabel)
-#: moving.ui:143
-#, kde-format
-msgid "&Snap windows:"
-msgstr "&Lås vindauge til soner:"
-
-#: windows.cpp:99
+#: windows.cpp:98
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1302,7 +1282,7 @@ msgstr ""
 "museknappen inn i det. Denne åtferda er vanleg i andre operativsystem og er "
 "truleg det du vil ha."
 
-#: windows.cpp:103
+#: windows.cpp:102
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1317,7 +1297,7 @@ msgstr ""
 "under musepeikaren den føretrekte kandidaten. Uvanleg, men mogleg variant av "
 "<em>Trykk for fokus</em>."
 
-#: windows.cpp:108
+#: windows.cpp:107
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1331,7 +1311,7 @@ msgstr ""
 "Tenk på dette som <em>Trykk for fokus</em>, men utan at det er nødvendig å "
 "trykkja."
 
-#: windows.cpp:112
+#: windows.cpp:111
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1344,7 +1324,7 @@ msgstr ""
 "lukka), så vert vindauget under musepeikaren den føretrekte kandidaten. Vel "
 "dette viss du ønskjer fokus styrt av plasseringa til musepeikaren."
 
-#: windows.cpp:117
+#: windows.cpp:116
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1359,7 +1339,7 @@ msgstr ""
 "ikkje verka. Du vil truleg heller vilja bruka <em>Fokus følgjer musa – "
 "musprioritet</em> i staden."
 
-#: windows.cpp:121
+#: windows.cpp:120
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

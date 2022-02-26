@@ -7,8 +7,8 @@
 #include "renderloop.h"
 #include "options.h"
 #include "renderloop_p.h"
-#include "utils.h"
 #include "surfaceitem.h"
+#include "utils/common.h"
 
 namespace KWin
 {
@@ -127,8 +127,10 @@ void RenderLoopPrivate::notifyFrameCompleted(std::chrono::nanoseconds timestamp)
     if (lastPresentationTimestamp <= timestamp) {
         lastPresentationTimestamp = timestamp;
     } else {
-        qCWarning(KWIN_CORE, "Got invalid presentation timestamp: %ld (current %ld)",
-                  timestamp.count(), lastPresentationTimestamp.count());
+        qCWarning(KWIN_CORE,
+                  "Got invalid presentation timestamp: %lld (current %lld)",
+                  static_cast<long long>(timestamp.count()),
+                  static_cast<long long>(lastPresentationTimestamp.count()));
         lastPresentationTimestamp = std::chrono::steady_clock::now().time_since_epoch();
     }
 

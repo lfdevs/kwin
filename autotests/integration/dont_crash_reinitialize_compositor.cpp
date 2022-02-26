@@ -16,11 +16,10 @@
 #include "effectloader.h"
 #include "effects.h"
 #include "platform.h"
+#include "renderbackend.h"
 #include "screens.h"
 #include "wayland_server.h"
 #include "workspace.h"
-
-#include "effect_builtins.h"
 
 #include <KWayland/Client/surface.h>
 
@@ -56,8 +55,7 @@ void DontCrashReinitializeCompositorTest::initTestCase()
 
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     KConfigGroup plugins(config, QStringLiteral("Plugins"));
-    ScriptedEffectLoader loader;
-    const auto builtinNames = BuiltInEffects::availableEffectNames() << loader.listOfKnownEffects();
+    const auto builtinNames = EffectLoader().listOfKnownEffects();
     for (const QString &name : builtinNames) {
         plugins.writeEntry(name + QStringLiteral("Enabled"), false);
     }
@@ -75,9 +73,7 @@ void DontCrashReinitializeCompositorTest::initTestCase()
     QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
     Test::initWaylandWorkspace();
 
-    auto scene = KWin::Compositor::self()->scene();
-    QVERIFY(scene);
-    QCOMPARE(scene->compositingType(), KWin::OpenGLCompositing);
+    QCOMPARE(Compositor::self()->backend()->compositingType(), KWin::OpenGLCompositing);
 }
 
 void DontCrashReinitializeCompositorTest::init()

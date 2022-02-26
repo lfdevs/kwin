@@ -18,14 +18,15 @@
 #include "composite.h"
 #include "cursor.h"
 #include "input.h"
+#include "inputmethod.h"
 #include "options.h"
 #include "pluginmanager.h"
 #include "screens.h"
 #include "screenlockerwatcher.h"
 #include "sm.h"
+#include "utils/xcbutils.h"
 #include "workspace.h"
 #include "x11eventfilter.h"
-#include "xcbutils.h"
 
 #include <kwineffects.h>
 
@@ -320,6 +321,11 @@ void Application::createColorManager()
 #endif
 }
 
+void Application::createInputMethod()
+{
+    InputMethod::create(this);
+}
+
 void Application::installNativeX11EventFilter()
 {
     installNativeEventFilter(m_eventFilter.data());
@@ -355,6 +361,11 @@ void Application::destroyColorManager()
 #ifdef KWIN_BUILD_CMS
     delete ColorManager::self();
 #endif
+}
+
+void Application::destroyInputMethod()
+{
+    delete InputMethod::self();
 }
 
 void Application::registerEventFilter(X11EventFilter *filter)
@@ -568,18 +579,6 @@ bool XcbEventFilter::nativeEventFilter(const QByteArray &eventType, void *messag
     return false;
 }
 
-static bool s_useLibinput = false;
-
-void Application::setUseLibinput(bool use)
-{
-    s_useLibinput = use;
-}
-
-bool Application::usesLibinput()
-{
-    return s_useLibinput;
-}
-
 QProcessEnvironment Application::processStartupEnvironment() const
 {
     return QProcessEnvironment::systemEnvironment();
@@ -592,17 +591,6 @@ void Application::initPlatform(const KPluginMetaData &plugin)
     m_platform = qobject_cast<Platform *>(loader.instance());
     if (m_platform) {
         m_platform->setParent(this);
-        // check whether it needs libinput
-        const QJsonObject &metaData = plugin.rawData();
-        auto it = metaData.find(QStringLiteral("input"));
-        if (it != metaData.end()) {
-            if ((*it).isBool()) {
-                if (!(*it).toBool()) {
-                    qCDebug(KWIN_CORE) << "Platform does not support input, enforcing libinput support";
-                    setUseLibinput(true);
-                }
-            }
-        }
         Q_EMIT platformCreated();
     } else {
         qCWarning(KWIN_CORE) << "Could not create plugin" << plugin.name() << "error:" << loader.errorString();

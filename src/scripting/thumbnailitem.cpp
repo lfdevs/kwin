@@ -10,6 +10,7 @@
 #include "abstract_client.h"
 #include "composite.h"
 #include "effects.h"
+#include "renderbackend.h"
 #include "scene.h"
 #include "screens.h"
 #include "scripting_logging.h"
@@ -150,17 +151,15 @@ void ThumbnailItemBase::updateFrameRenderingConnection()
 {
     disconnect(m_frameRenderingConnection);
 
-    if (!Compositor::self()) {
+    if (!Compositor::compositing()) {
         return;
     }
-    Scene *scene = Compositor::self()->scene();
-
     if (!window()) {
         return;
     }
 
-    if (scene && scene->compositingType() == OpenGLCompositing) {
-        m_frameRenderingConnection = connect(scene, &Scene::frameRendered, this, &ThumbnailItemBase::updateOffscreenTexture);
+    if (Compositor::self()->backend()->compositingType() == OpenGLCompositing) {
+        m_frameRenderingConnection = connect(Compositor::self()->scene(), &Scene::frameRendered, this, &ThumbnailItemBase::updateOffscreenTexture);
     }
 }
 
@@ -180,15 +179,15 @@ void ThumbnailItemBase::setSourceSize(const QSize &sourceSize)
 
 void ThumbnailItemBase::destroyOffscreenTexture()
 {
-    if (!Compositor::self()) {
+    if (!Compositor::compositing()) {
         return;
     }
-    Scene *scene = Compositor::self()->scene();
-    if (!scene || scene->compositingType() != OpenGLCompositing) {
+    if (Compositor::self()->backend()->compositingType() != OpenGLCompositing) {
         return;
     }
 
     if (m_offscreenTexture) {
+        Scene *scene = Compositor::self()->scene();
         scene->makeOpenGLContextCurrent();
         m_offscreenTarget.reset();
         m_offscreenTexture.reset();
@@ -282,6 +281,7 @@ void WindowThumbnailItem::setWId(const QUuid &wId)
         setClient(workspace()->findAbstractClient(wId));
     } else if (m_client) {
         m_client = nullptr;
+        updateImplicitSize();
         Q_EMIT clientChanged();
     }
     Q_EMIT wIdChanged();
@@ -302,6 +302,8 @@ void WindowThumbnailItem::setClient(AbstractClient *client)
                    this, &WindowThumbnailItem::invalidateOffscreenTexture);
         disconnect(m_client, &AbstractClient::damaged,
                    this, &WindowThumbnailItem::invalidateOffscreenTexture);
+        disconnect(m_client, &AbstractClient::frameGeometryChanged,
+                this, &WindowThumbnailItem::updateImplicitSize);
     }
     m_client = client;
     if (m_client) {
@@ -309,12 +311,24 @@ void WindowThumbnailItem::setClient(AbstractClient *client)
                 this, &WindowThumbnailItem::invalidateOffscreenTexture);
         connect(m_client, &AbstractClient::damaged,
                 this, &WindowThumbnailItem::invalidateOffscreenTexture);
+        connect(m_client, &AbstractClient::frameGeometryChanged,
+                this, &WindowThumbnailItem::updateImplicitSize);
         setWId(m_client->internalId());
     } else {
         setWId(QUuid());
     }
     invalidateOffscreenTexture();
+    updateImplicitSize();
     Q_EMIT clientChanged();
+}
+
+void WindowThumbnailItem::updateImplicitSize()
+{
+    QSize frameSize;
+    if (m_client) {
+        frameSize = m_client->frameGeometry().size();
+    }
+    setImplicitSize(frameSize.width(), frameSize.height());
 }
 
 QImage WindowThumbnailItem::fallbackImage() const

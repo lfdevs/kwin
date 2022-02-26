@@ -166,9 +166,7 @@ public:
     QRect rect() const;
 
     void updateCursor(const QImage &image, const QPoint &hotspot);
-    void markAsRendered() {
-        Q_EMIT rendered(geometry());
-    }
+    void markAsRendered(std::chrono::milliseconds timestamp);
 
 Q_SIGNALS:
     void posChanged(const QPoint& pos);
@@ -185,8 +183,7 @@ Q_SIGNALS:
      */
     void cursorChanged();
     void themeChanged();
-
-    void rendered(const QRect &geometry);
+    void rendered(std::chrono::milliseconds timestamp);
 
 protected:
     /**
@@ -275,11 +272,15 @@ public:
         return m_currentCursor;
     }
 
+    void hideCursor();
+    void showCursor();
+    bool isCursorHidden() const;
+
     static Cursors* self();
 
 Q_SIGNALS:
     void currentCursorChanged(Cursor* cursor);
-    void currentCursorRendered(const QRect &geometry);
+    void hiddenChanged();
     void positionChanged(Cursor* cursor, const QPoint &position);
 
 private:
@@ -290,6 +291,7 @@ private:
     Cursor* m_currentCursor = nullptr;
     Cursor* m_mouse = nullptr;
     QVector<Cursor*> m_cursors;
+    int m_cursorHideCounter = 0;
 };
 
 class InputConfig

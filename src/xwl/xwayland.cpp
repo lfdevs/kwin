@@ -14,12 +14,15 @@
 #include "dnd.h"
 #include "xwldrophandler.h"
 
+#include "abstract_output.h"
 #include "main_wayland.h"
 #include "options.h"
-#include "utils.h"
+#include "utils/common.h"
+#include "platform.h"
+#include "utils/xcbutils.h"
 #include "wayland_server.h"
-#include "xcbutils.h"
 #include "xwayland_logging.h"
+#include "x11eventfilter.h"
 
 #include "xwaylandsocket.h"
 
@@ -53,6 +56,31 @@ namespace KWin
 namespace Xwl
 {
 
+class XrandrEventFilter : public X11EventFilter
+{
+public:
+    explicit XrandrEventFilter(Xwayland *backend);
+
+    bool event(xcb_generic_event_t *event) override;
+
+private:
+    Xwayland *const m_backend;
+};
+
+XrandrEventFilter::XrandrEventFilter(Xwayland *backend)
+    : X11EventFilter(Xcb::Extensions::self()->randrNotifyEvent())
+    , m_backend(backend)
+{
+}
+
+bool XrandrEventFilter::event(xcb_generic_event_t *event)
+{
+    Q_ASSERT((event->response_type & ~0x80) == Xcb::Extensions::self()->randrNotifyEvent());
+    m_backend->updatePrimary(kwinApp()->platform()->primaryOutput());
+    return false;
+}
+
+
 Xwayland::Xwayland(ApplicationWaylandAbstract *app, QObject *parent)
     : XwaylandInterface(parent)
     , m_app(app)
@@ -85,8 +113,8 @@ void Xwayland::start()
         if (!m_socket->isValid()) {
             qFatal("Failed to establish X11 socket");
         }
-        setListenFDs({m_socket->unixFileDescriptor(), m_socket->abstractFileDescriptor()});
         m_displayName = m_socket->name();
+        m_listenFds = m_socket->fileDescriptors();
     }
 
     startInternal();
@@ -179,7 +207,7 @@ bool Xwayland::startInternal()
     arguments << QStringLiteral("-rootless");
     arguments << QStringLiteral("-wm") << QString::number(fd);
 
-    m_xwaylandProcess = new Process(this);
+    m_xwaylandProcess = new QProcess(this);
     m_xwaylandProcess->setProcessChannelMode(QProcess::ForwardedErrorChannel);
     m_xwaylandProcess->setProgram(QStringLiteral("Xwayland"));
     QProcessEnvironment env = m_app->processStartupEnvironment();
@@ -215,8 +243,12 @@ void Xwayland::stop()
 
 void Xwayland::stopInternal()
 {
+    disconnect(kwinApp()->platform(), &Platform::primaryOutputChanged, this, &Xwayland::updatePrimary);
     Q_ASSERT(m_xwaylandProcess);
     m_app->setClosingX11Connection(true);
+
+    delete m_xrandrEventsFilter;
+    m_xrandrEventsFilter = nullptr;
 
     // If Xwayland has crashed, we must deactivate the socket notifier and ensure that no X11
     // events will be dispatched before blocking; otherwise we will simply hang...
@@ -400,7 +432,35 @@ void Xwayland::handleXwaylandReady()
     qputenv("XAUTHORITY", m_xAuthority.toUtf8());
     m_app->setProcessStartupEnvironment(env);
 
+    connect(kwinApp()->platform(), &Platform::primaryOutputChanged, this, &Xwayland::updatePrimary);
+    updatePrimary(kwinApp()->platform()->primaryOutput());
+
     Xcb::sync(); // Trigger possible errors, there's still a chance to abort
+
+    delete m_xrandrEventsFilter;
+    m_xrandrEventsFilter = new XrandrEventFilter(this);
+}
+
+void Xwayland::updatePrimary(AbstractOutput *primaryOutput)
+{
+    Xcb::RandR::ScreenResources resources(rootWindow());
+    xcb_randr_crtc_t *crtcs = resources.crtcs();
+    if (!crtcs) {
+        return;
+    }
+
+    for (int i = 0; i < resources->num_crtcs; ++i) {
+        Xcb::RandR::CrtcInfo crtcInfo(crtcs[i], resources->config_timestamp);
+        const QRect geometry = crtcInfo.rect();
+        if (geometry.topLeft() == primaryOutput->geometry().topLeft()) {
+            auto outputs = crtcInfo.outputs();
+            if (outputs && crtcInfo->num_outputs > 0) {
+                qCDebug(KWIN_XWL) << "Setting primary" << primaryOutput << outputs[0];
+                xcb_randr_set_output_primary(kwinApp()->x11Connection(), rootWindow(), outputs[0]);
+                break;
+            }
+        }
+    }
 }
 
 void Xwayland::handleSelectionLostOwnership()

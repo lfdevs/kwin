@@ -8,7 +8,6 @@
 */
 // own
 #include "screentransform.h"
-#include "kscreenconfig.h"
 #include "kwinglutils.h"
 #include <QDebug>
 
@@ -17,9 +16,6 @@ namespace KWin
 ScreenTransformEffect::ScreenTransformEffect()
     : Effect()
 {
-    initConfig<KscreenConfig>();
-    reconfigure(ReconfigureAll);
-
     const QList<EffectScreen *> screens = effects->screens();
     for (auto screen : screens) {
         addScreen(screen);
@@ -53,7 +49,7 @@ void ScreenTransformEffect::addScreen(EffectScreen *screen)
             m_states.remove(screen);
             return;
         }
-        state.m_timeLine.setDuration(std::chrono::milliseconds(animationTime<KscreenConfig>(250)));
+        state.m_timeLine.setDuration(std::chrono::milliseconds(long(animationTime(250))));
         state.m_timeLine.setEasingCurve(QEasingCurve::OutCirc);
         state.m_lastPresentTime = std::chrono::milliseconds::zero();
         state.m_angle = transformAngle(screen->transform(), state.m_oldTransform);
@@ -88,12 +84,6 @@ void ScreenTransformEffect::removeScreen(EffectScreen *screen)
     effects->makeOpenGLContextCurrent();
     m_states.remove(screen);
     effects->doneOpenGLContextCurrent();
-}
-
-void ScreenTransformEffect::reconfigure(ReconfigureFlags flags)
-{
-    Q_UNUSED(flags)
-    KscreenConfig::self()->read();
 }
 
 void ScreenTransformEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime)
@@ -165,7 +155,7 @@ void ScreenTransformEffect::paintScreen(int mask, const QRegion &region, KWin::S
 
 void ScreenTransformEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime)
 {
-    auto screen = effects->findScreen(w->screen());
+    auto screen = w->screen();
     if (isScreenTransforming(screen)) {
         auto &state = m_states[screen];
         if (!state.isSecondHalf()) {
@@ -177,7 +167,7 @@ void ScreenTransformEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &
 
 void ScreenTransformEffect::paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
 {
-    auto screen = effects->findScreen(w->screen());
+    auto screen = w->screen();
     if (isScreenTransforming(screen)) {
         auto &state = m_states[screen];
         if (!state.isSecondHalf()) {

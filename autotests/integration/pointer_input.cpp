@@ -97,6 +97,7 @@ private Q_SLOTS:
     void testWarpingGeneratesPointerMotion();
     void testWarpingDuringFilter();
     void testUpdateFocusAfterScreenChange();
+    void testUpdateFocusOnDecorationDestroy();
     void testModifierClickUnrestrictedMove_data();
     void testModifierClickUnrestrictedMove();
     void testModifierClickUnrestrictedMoveGlobalShortcutsDisabled();
@@ -162,7 +163,9 @@ void PointerInputTest::initTestCase()
 
 void PointerInputTest::init()
 {
-    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::Decoration));
+    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::Seat |
+                                         Test::AdditionalWaylandInterface::Decoration |
+                                         Test::AdditionalWaylandInterface::XdgDecorationV1));
     QVERIFY(Test::waitForWaylandPointer());
     m_compositor = Test::waylandCompositor();
     m_seat = Test::waylandSeat();
@@ -363,6 +366,97 @@ void PointerInputTest::testUpdateFocusAfterScreenChange()
     // and we should get an enter event
     QVERIFY(enteredSpy.wait());
     QCOMPARE(enteredSpy.count(), 2);
+}
+
+void PointerInputTest::testUpdateFocusOnDecorationDestroy()
+{
+    // This test verifies that a maximized client gets it's pointer focus
+    // if decoration was focused and then destroyed on maximize with BorderlessMaximizedWindows option.
+
+    // create pointer for focus tracking
+    auto pointer = m_seat->createPointer(m_seat);
+    QVERIFY(pointer);
+    QVERIFY(pointer->isValid());
+    QSignalSpy buttonStateChangedSpy(pointer, &KWayland::Client::Pointer::buttonStateChanged);
+    QVERIFY(buttonStateChangedSpy.isValid());
+
+    // Enable the borderless maximized windows option.
+    auto group = kwinApp()->config()->group("Windows");
+    group.writeEntry("BorderlessMaximizedWindows", true);
+    group.sync();
+    Workspace::self()->slotReconfigure();
+    QCOMPARE(options->borderlessMaximizedWindows(), true);
+
+    // Create the test client.
+    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
+    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data(), Test::CreationSetup::CreateOnly));
+    QScopedPointer<Test::XdgToplevelDecorationV1> decoration(Test::createXdgToplevelDecorationV1(shellSurface.data()));
+
+    QSignalSpy toplevelConfigureRequestedSpy(shellSurface.data(), &Test::XdgToplevel::configureRequested);
+    QSignalSpy surfaceConfigureRequestedSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested);
+    QSignalSpy decorationConfigureRequestedSpy(decoration.data(), &Test::XdgToplevelDecorationV1::configureRequested);
+    decoration->set_mode(Test::XdgToplevelDecorationV1::mode_server_side);
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
+
+    // Wait for the initial configure event.
+    Test::XdgToplevel::States states;
+    QVERIFY(surfaceConfigureRequestedSpy.wait());
+    QCOMPARE(surfaceConfigureRequestedSpy.count(), 1);
+    QCOMPARE(toplevelConfigureRequestedSpy.last().at(0).toSize(), QSize(0, 0));
+    states = toplevelConfigureRequestedSpy.last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Maximized));
+
+    // Map the client.
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy.last().at(0).value<quint32>());
+    AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
+    QVERIFY(client);
+    QVERIFY(client->isActive());
+    QCOMPARE(client->maximizeMode(), MaximizeMode::MaximizeRestore);
+    QCOMPARE(client->requestedMaximizeMode(), MaximizeMode::MaximizeRestore);
+    QCOMPARE(client->isDecorated(), true);
+
+    // We should receive a configure event when the client becomes active.
+    QVERIFY(surfaceConfigureRequestedSpy.wait());
+    QCOMPARE(surfaceConfigureRequestedSpy.count(), 2);
+    states = toplevelConfigureRequestedSpy.last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(!states.testFlag(Test::XdgToplevel::State::Maximized));
+
+    // Simulate decoration hover
+    quint32 timestamp = 0;
+    kwinApp()->platform()->pointerMotion(client->frameGeometry().topLeft(), timestamp++);
+    QVERIFY(input()->pointer()->decoration());
+
+    // Maximize when on decoration
+    workspace()->slotWindowMaximize();
+    QVERIFY(surfaceConfigureRequestedSpy.wait());
+    QCOMPARE(surfaceConfigureRequestedSpy.count(), 3);
+    QCOMPARE(toplevelConfigureRequestedSpy.last().at(0).toSize(), QSize(1280, 1024));
+    states = toplevelConfigureRequestedSpy.last().at(1).value<Test::XdgToplevel::States>();
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
+    QVERIFY(states.testFlag(Test::XdgToplevel::State::Maximized));
+
+    QSignalSpy frameGeometryChangedSpy(client, &AbstractClient::frameGeometryChanged);
+    QVERIFY(frameGeometryChangedSpy.isValid());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy.last().at(0).value<quint32>());
+    Test::render(surface.data(), QSize(1280, 1024), Qt::blue);
+    QVERIFY(frameGeometryChangedSpy.wait());
+    QCOMPARE(client->frameGeometry(), QRect(0, 0, 1280, 1024));
+    QCOMPARE(client->maximizeMode(), MaximizeFull);
+    QCOMPARE(client->requestedMaximizeMode(), MaximizeFull);
+    QCOMPARE(client->isDecorated(), false);
+
+    // Window should have focus, BUG 411884
+    QVERIFY(!input()->pointer()->decoration());
+    kwinApp()->platform()->pointerButtonPressed(BTN_LEFT, timestamp++);
+    kwinApp()->platform()->pointerButtonReleased(BTN_LEFT, timestamp++);
+    QVERIFY(buttonStateChangedSpy.wait());
+    QCOMPARE(pointer->enteredSurface(), surface.data());
+
+    // Destroy the client.
+    shellSurface.reset();
+    QVERIFY(Test::waitForWindowDestroyed(client));
 }
 
 void PointerInputTest::testModifierClickUnrestrictedMove_data()
@@ -1258,23 +1352,17 @@ void PointerInputTest::testDecoCancelsPopup()
     QVERIFY(motionSpy.isValid());
 
     Cursors::self()->mouse()->setPos(800, 800);
-    QSignalSpy clientAddedSpy(workspace(), &Workspace::clientAdded);
-    QVERIFY(clientAddedSpy.isValid());
-    KWayland::Client::Surface *surface = Test::createSurface(m_compositor);
-    QVERIFY(surface);
-    Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface, surface);
-    QVERIFY(shellSurface);
 
-    auto deco = Test::waylandServerSideDecoration()->create(surface, surface);
-    QSignalSpy decoSpy(deco, &ServerSideDecoration::modeChanged);
-    QVERIFY(decoSpy.isValid());
-    QVERIFY(decoSpy.wait());
-    deco->requestMode(ServerSideDecoration::Mode::Server);
-    QVERIFY(decoSpy.wait());
-    QCOMPARE(deco->mode(), ServerSideDecoration::Mode::Server);
-    render(surface);
-    QVERIFY(clientAddedSpy.wait());
-    AbstractClient *window = workspace()->activeClient();
+    // create a decorated window
+    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
+    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data(), Test::CreationSetup::CreateOnly));
+    QScopedPointer<Test::XdgToplevelDecorationV1> decoration(Test::createXdgToplevelDecorationV1(shellSurface.data()));
+    QSignalSpy surfaceConfigureRequestedSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested);
+    decoration->set_mode(Test::XdgToplevelDecorationV1::mode_server_side);
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
+    QVERIFY(surfaceConfigureRequestedSpy.wait());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy.last().at(0).value<quint32>());
+    auto window = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
     QVERIFY(window);
     QCOMPARE(window->hasPopupGrab(), false);
     QVERIFY(window->isDecorated());
@@ -1302,9 +1390,7 @@ void PointerInputTest::testDecoCancelsPopup()
     QSignalSpy doneReceivedSpy(popupShellSurface, &Test::XdgPopup::doneReceived);
     QVERIFY(doneReceivedSpy.isValid());
     popupShellSurface->grab(*Test::waylandSeat(), 0); // FIXME: Serial.
-    render(popupSurface, QSize(100, 50));
-    QVERIFY(clientAddedSpy.wait());
-    auto popupClient = clientAddedSpy.last().first().value<AbstractClient *>();
+    auto popupClient = Test::renderAndWaitForShown(popupSurface, QSize(100, 50), Qt::red);
     QVERIFY(popupClient);
     QVERIFY(popupClient != window);
     QCOMPARE(window, workspace()->activeClient());
@@ -1650,27 +1736,27 @@ void PointerInputTest::testMoveCursor()
 
 void PointerInputTest::testHideShowCursor()
 {
-    QCOMPARE(kwinApp()->platform()->isCursorHidden(), false);
-    kwinApp()->platform()->hideCursor();
-    QCOMPARE(kwinApp()->platform()->isCursorHidden(), true);
-    kwinApp()->platform()->showCursor();
-    QCOMPARE(kwinApp()->platform()->isCursorHidden(), false);
+    QCOMPARE(Cursors::self()->isCursorHidden(), false);
+    Cursors::self()->hideCursor();
+    QCOMPARE(Cursors::self()->isCursorHidden(), true);
+    Cursors::self()->showCursor();
+    QCOMPARE(Cursors::self()->isCursorHidden(), false);
 
-    kwinApp()->platform()->hideCursor();
-    QCOMPARE(kwinApp()->platform()->isCursorHidden(), true);
-    kwinApp()->platform()->hideCursor();
-    kwinApp()->platform()->hideCursor();
-    kwinApp()->platform()->hideCursor();
-    QCOMPARE(kwinApp()->platform()->isCursorHidden(), true);
+    Cursors::self()->hideCursor();
+    QCOMPARE(Cursors::self()->isCursorHidden(), true);
+    Cursors::self()->hideCursor();
+    Cursors::self()->hideCursor();
+    Cursors::self()->hideCursor();
+    QCOMPARE(Cursors::self()->isCursorHidden(), true);
 
-    kwinApp()->platform()->showCursor();
-    QCOMPARE(kwinApp()->platform()->isCursorHidden(), true);
-    kwinApp()->platform()->showCursor();
-    QCOMPARE(kwinApp()->platform()->isCursorHidden(), true);
-    kwinApp()->platform()->showCursor();
-    QCOMPARE(kwinApp()->platform()->isCursorHidden(), true);
-    kwinApp()->platform()->showCursor();
-    QCOMPARE(kwinApp()->platform()->isCursorHidden(), false);
+    Cursors::self()->showCursor();
+    QCOMPARE(Cursors::self()->isCursorHidden(), true);
+    Cursors::self()->showCursor();
+    QCOMPARE(Cursors::self()->isCursorHidden(), true);
+    Cursors::self()->showCursor();
+    QCOMPARE(Cursors::self()->isCursorHidden(), true);
+    Cursors::self()->showCursor();
+    QCOMPARE(Cursors::self()->isCursorHidden(), false);
 }
 
 void PointerInputTest::testDefaultInputRegion()

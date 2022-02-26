@@ -32,9 +32,9 @@
 </authorgroup>
 
 <date
->2016-04-14</date>
+>2021-04-09</date>
 <releaseinfo
->Plasma 5.6</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
@@ -54,17 +54,23 @@
 >In diesem Modul können die Arbeitsflächen-Effekte für Plasma aktiviert und eingerichtet werden</para>
 
 <para
->The main part of this page is a list of all available effects grouped by <guilabel
->Accessibility</guilabel
+>Auf dieser Seite wird eine Liste aller verfügbaren Effekte in den Kategorien <guilabel
+>Zugangshilfen</guilabel
 >, <guilabel
->Appearance</guilabel
+>Erscheinungsbild</guilabel
 >, <guilabel
->Focus</guilabel
+>Fokus</guilabel
 >, <guilabel
->Tools</guilabel
->, and <guilabel
->Window Management</guilabel
->.</para>
+>Animation der Arbeitsfläche anzeigen</guilabel
+>, <guilabel
+>Extras</guilabel
+>, <guilabel
+>Animation beim Wechseln der virtuellen Arbeitsfläche</guilabel
+>, <guilabel
+>Fensterverwaltung</guilabel
+> und <guilabel
+>Animation beim Öffnen/Schließen von Fenstern</guilabel
+> angezeigt.</para>
 <para
 >Benutzen Sie die inkrementelle Suchleiste über dem Listenfenster, um Elemente in der Liste zu finden.</para>
 
@@ -76,9 +82,9 @@
 > benutzen, um den Filter für die Anzeige von weiteren Effekten anzupassen. </para>
 
 <para
->The easiest way of installing new effects is by using the built-in KNewStuff support in &kwin;. Press the <guibutton
->Get New Effects</guibutton
-> button to open a dialog with a list of available effects from the Internet and to install and uninstall effects.</para>
+>Am einfachsten können Sie neue Effekte mit der in &kwin; enthaltenen Funktion installieren. Drücken Sie dazu auf <guibutton
+>Neue Arbeitsflächen-Effekte herunterladen</guibutton
+>. Es wird ein Dialog mit allen verfügbaren Effekten angezeigt, in dem Sie diese Effekte installieren und wieder deinstallieren können.</para>
 <note
 ><para
 >Bedenken Sie, dass das Ändern der sinnvollen Voreinstellungen dazu führen kann, dass Ihr System nicht mehr richtig funktioniert.</para>
@@ -105,17 +111,17 @@
 >.</para>
 
 <para
->Some effects are mutual exclusive to other effects. For example one would only want to activate the <guilabel
->Minimize Animations</guilabel
-> or the <guilabel
->Magic Lamp</guilabel
-> effect. Both activated at the same time result in broken animations. </para>
+>Einige Effekte schließen sich gegenseitig aus. Sie sollten zum Beispiel nur den Effekt <guilabel
+>Maximieren</guilabel
+> oder <guilabel
+>Wunderlampe</guilabel
+> aktivieren, da mit beiden Effekten Animationen nicht richtig funktionieren. </para>
 
 <para
 >Für diese sich gegenseitig ausschließenden Effekte werden in der &GUI; Auswahlknöpfe benutzt, so dass nur einer dieser Effekte aktiviert werden kann. </para>
 
 <para
->All effects which are not supported by the currently used compositing backend are hidden by default (&eg; OpenGL effects when using XRender). </para
+>Alle Effekte, die vom aktuell verwendeten Compositing-Backend nicht unterstützt werden, sind in der Voreinstellung ausgeblendet. Die trifft &eg; für OpenGL-Effekte zu, wenn Software-Renderer verwendet wird. </para
 > 
 
 <para

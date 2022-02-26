@@ -1,3 +1,17 @@
+kwin (4:5.24.2-1) unstable; urgency=medium
+
+  [ Patrick Franz ]
+  * New upstream release (5.24.2).
+  * Re-export signing key without extra signatures.
+  * Update B-Ds and deps with the info from cmake.
+  * Remove autopkgtest.
+  * Remove binary package libkwin4-effect-builtins1.
+  * Update list of installed files.
+  * Update symbols from buildlogs.
+  * Update d/copyright.
+
+ -- Patrick Franz <deltaone@debian.org>  Sat, 26 Feb 2022 21:58:55 +0100
+
 kwin (4:5.23.5-1) unstable; urgency=medium
 
   [ Patrick Franz ]

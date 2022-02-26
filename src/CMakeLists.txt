@@ -22,7 +22,6 @@ endif()
 set(kwin_SRCS
     3rdparty/xcursor.c
     abstract_client.cpp
-    abstract_opengl_context_attribute_builder.cpp
     abstract_output.cpp
     abstract_wayland_output.cpp
     activation.cpp
@@ -44,11 +43,9 @@ set(kwin_SRCS
     dpmsinputeventfilter.cpp
     effectloader.cpp
     effects.cpp
-    egl_context_attribute_builder.cpp
     events.cpp
     focuschain.cpp
     ftrace.cpp
-    geometrytip.cpp
     gestures.cpp
     globalshortcuts.cpp
     group.cpp
@@ -56,6 +53,8 @@ set(kwin_SRCS
     input.cpp
     input_event.cpp
     input_event_spy.cpp
+    inputbackend.cpp
+    inputdevice.cpp
     inputmethod.cpp
     inputpanelv1client.cpp
     inputpanelv1integration.cpp
@@ -69,11 +68,6 @@ set(kwin_SRCS
     layers.cpp
     layershellv1client.cpp
     layershellv1integration.cpp
-    libinput/connection.cpp
-    libinput/context.cpp
-    libinput/device.cpp
-    libinput/events.cpp
-    libinput/libinput_logging.cpp
     linux_dmabuf.cpp
     main.cpp
     modifier_only_shortcuts.cpp
@@ -90,6 +84,7 @@ set(kwin_SRCS
     pluginmanager.cpp
     pointer_input.cpp
     popup_input_filter.cpp
+    renderbackend.cpp
     renderjournal.cpp
     renderloop.cpp
     rootinfo_filter.cpp
@@ -101,7 +96,9 @@ set(kwin_SRCS
     screens.cpp
     scripting/v2/clientmodel.cpp
     scripting/v3/clientmodel.cpp
+    scripting/v3/virtualdesktopmodel.cpp
     scripting/dbuscall.cpp
+    scripting/desktopbackgrounditem.cpp
     scripting/screenedgeitem.cpp
     scripting/scriptedeffect.cpp
     scripting/scripting.cpp
@@ -116,7 +113,6 @@ set(kwin_SRCS
     shadow.cpp
     shadowitem.cpp
     sm.cpp
-    subsurfacemonitor.cpp
     surfaceitem.cpp
     surfaceitem_internal.cpp
     surfaceitem_wayland.cpp
@@ -124,12 +120,11 @@ set(kwin_SRCS
     syncalarmx11filter.cpp
     tablet_input.cpp
     toplevel.cpp
-    touch_hide_cursor_spy.cpp
+    hide_cursor_spy.cpp
     touch_input.cpp
     udev.cpp
     unmanaged.cpp
     useractions.cpp
-    utils.cpp
     virtualdesktops.cpp
     virtualdesktopsdbustypes.cpp
     virtualkeyboard_dbus.cpp
@@ -137,6 +132,7 @@ set(kwin_SRCS
     wayland_server.cpp
     waylandclient.cpp
     waylandoutput.cpp
+    waylandoutputconfig.cpp
     waylandoutputdevicev2.cpp
     waylandshellintegration.cpp
     window_property_notify_x11_filter.cpp
@@ -145,7 +141,6 @@ set(kwin_SRCS
     x11client.cpp
     x11eventfilter.cpp
     x11syncmanager.cpp
-    xcbutils.cpp
     xcursortheme.cpp
     xdgactivationv1.cpp
     xdgshellclient.cpp
@@ -184,7 +179,6 @@ set_target_properties(kwin PROPERTIES
 )
 
 target_link_libraries(kwin
-    kwin4_effect_builtins
     kwineffects
     kwinglutils
 
@@ -202,7 +196,6 @@ target_link_libraries(kwin
     KF5::Package
     KF5::Plasma
     KF5::QuickAddons
-    KF5::WaylandClient
     KF5::WindowSystem
 
     KDecoration2::KDecoration
@@ -225,7 +218,6 @@ target_link_libraries(kwin
     XCB::XCB
     XCB::XFIXES
 
-    Libinput::Libinput
     UDev::UDev
     XKB::XKB
     Qt5::XkbCommonSupportPrivate
@@ -233,6 +225,10 @@ target_link_libraries(kwin
 
     Threads::Threads
 )
+
+add_subdirectory(backends)
+add_subdirectory(scenes)
+add_subdirectory(utils)
 
 if (KWIN_BUILD_CMS)
     target_sources(kwin PRIVATE
@@ -263,11 +259,17 @@ if (KWIN_BUILD_TABBOX)
 endif()
 
 qt5_generate_dbus_interface(virtualkeyboard_dbus.h org.kde.kwin.VirtualKeyboard.xml OPTIONS -A)
+qt5_generate_dbus_interface(tabletmodemanager.h org.kde.KWin.TabletModeManager.xml OPTIONS -A)
 
 generate_export_header(kwin EXPORT_FILE_NAME kwin_export.h)
 
 add_executable(kwin_x11 main_x11.cpp)
-target_link_libraries(kwin_x11 kwin KF5::Crash Qt::X11Extras)
+target_link_libraries(kwin_x11
+    kwin4_effect_builtins
+    kwin
+    KF5::Crash
+    Qt::X11Extras
+)
 
 install(TARGETS kwin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 install(TARGETS kwin_x11 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
@@ -279,6 +281,7 @@ add_executable(kwin_wayland
     tabletmodemanager.cpp
 )
 target_link_libraries(kwin_wayland
+    kwin4_effect_builtins
     kwin
     KF5::Crash
     KWinXwaylandServerModule
@@ -312,6 +315,7 @@ add_custom_target(
     KWinDBusInterfaces
     ALL
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.kwin.VirtualKeyboard.xml
+            ${CMAKE_CURRENT_BINARY_DIR}/org.kde.KWin.TabletModeManager.xml
 )
 
 if (PipeWire_FOUND)
@@ -328,6 +332,7 @@ install(
         org.kde.kwin.Effects.xml
         org.kde.KWin.Plugins.xml
         ${CMAKE_CURRENT_BINARY_DIR}/org.kde.kwin.VirtualKeyboard.xml
+        ${CMAKE_CURRENT_BINARY_DIR}/org.kde.KWin.TabletModeManager.xml
     DESTINATION
         ${KDE_INSTALL_DBUSINTERFACEDIR}
 )

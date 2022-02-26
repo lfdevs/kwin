@@ -14,11 +14,9 @@
 #include "effectloader.h"
 #include "effects.h"
 #include "platform.h"
-#include "scene.h"
+#include "renderbackend.h"
 #include "wayland_server.h"
 #include "workspace.h"
-
-#include "effect_builtins.h"
 
 #include <KWayland/Client/plasmashell.h>
 #include <KWayland/Client/plasmawindowmanagement.h>
@@ -53,8 +51,7 @@ void MinimizeAnimationTest::initTestCase()
 
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     KConfigGroup plugins(config, QStringLiteral("Plugins"));
-    ScriptedEffectLoader loader;
-    const auto builtinNames = BuiltInEffects::availableEffectNames() << loader.listOfKnownEffects();
+    const auto builtinNames = EffectLoader().listOfKnownEffects();
     for (const QString &name : builtinNames) {
         plugins.writeEntry(name + QStringLiteral("Enabled"), false);
     }
@@ -68,9 +65,7 @@ void MinimizeAnimationTest::initTestCase()
     QVERIFY(applicationStartedSpy.wait());
     Test::initWaylandWorkspace();
 
-    auto scene = Compositor::self()->scene();
-    QVERIFY(scene);
-    QCOMPARE(scene->compositingType(), OpenGLCompositing);
+    QCOMPARE(Compositor::self()->backend()->compositingType(), KWin::OpenGLCompositing);
 }
 
 void MinimizeAnimationTest::init()

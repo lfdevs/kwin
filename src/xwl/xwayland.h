@@ -20,13 +20,15 @@ class KSelectionOwner;
 
 namespace KWin
 {
+class AbstractOutput;
 class ApplicationWaylandAbstract;
 class XwaylandSocket;
 
 namespace Xwl
 {
+class XrandrEventFilter;
 
-class Xwayland : public XwaylandInterface
+class KWIN_EXPORT Xwayland : public XwaylandInterface
 {
     Q_OBJECT
 
@@ -112,9 +114,12 @@ private Q_SLOTS:
     void handleSelectionClaimedOwnership();
 
 private:
+    friend class XrandrEventFilter;
+
     void installSocketNotifier();
     void uninstallSocketNotifier();
     void maybeDestroyReadyNotifier();
+    void updatePrimary(AbstractOutput *primaryOutput);
 
     bool startInternal();
     void stopInternal();
@@ -141,6 +146,7 @@ private:
     QString m_xAuthority;
 
     int m_crashCount = 0;
+    XrandrEventFilter *m_xrandrEventsFilter = nullptr;
 
     Q_DISABLE_COPY(Xwayland)
 };

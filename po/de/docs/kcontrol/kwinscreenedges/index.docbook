@@ -32,9 +32,9 @@
 </authorgroup>
 
 <date
->2015-07-14</date>
+>2021-04-09</date>
 <releaseinfo
->Plasma 5.3</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
@@ -52,18 +52,18 @@
 >Aktive Bildschirmränder ermöglichen Ihnen das Auslösen eines Effektes, indem Sie die Maus an eine Bildschirmränder bewegen. Hier können Sie einstellen, welche Effekte für welche Bildschirmränder aktiviert werden sollen. </para>
 
 <para
->Click with any mouse button onto a square and select an effect in the context menu. Edges with a blue square have already an attached effect, a grey colored square indicates that no effect is selected for this edge.</para>
+>Klicken Sie mit einer Maustaste auf ein Quadrat und wählen Sie aus dem Kontextmenü einen Effekt aus. Ränder mit aktivierten Effekten werden als blaues Quadrat angezeigt, für Ränder mit grauen Quadraten sind keine Effekte ausgewählt.</para>
 
 <para
->The number of accessible items in the context menu depends on the settings in the module <ulink url="help:/kcontrol/kwineffects/index.html"
-> <guilabel
->Desktop Effects</guilabel
+>Die Anzahl der verfügbaren Elemente im Kontextmenü hängt von den Einstellungen im Modul <ulink url="help:/kcontrol/kwineffects/index.html"
+><guilabel
+>Arbeitsflächen-Effekte</guilabel
 ></ulink
-> in the <guilabel
->Workspace</guilabel
-> category. Select your favorite effects on the from the <guilabel
->Window Management</guilabel
-> group. This activates the corresponding items in the context menu.</para>
+> in der Kategorie <guilabel
+>Arbeitsbereich</guilabel
+> ab. Wählen Sie dann Ihre bevorzugten Effekte aus der Gruppe <guilabel
+>Fensterverwaltung</guilabel
+>. Damit werden dann auch die zugehörigen Einträge im Kontextmenü dieses Moduls aktiviert.</para>
 
 <para
 >Einstellungsmöglichkeiten für den Wechsel der Arbeitsfläche durch Berührung des Bildschirmrandes mit dem Mauszeiger finden Sie im Kontextmenü, wählen Sie im Kontextmenü den Effekt <guilabel
@@ -71,18 +71,16 @@
 >.</para>
 
 <para
->In the <guilabel
->Window Management</guilabel
-> section you can enable to <guilabel
->Maximize windows by dragging them to the top of the screen</guilabel
-> or to <guilabel
->Tile windows by dragging them to the side of the window</guilabel
-> and set a percentage of the screen to trigger the tiling. </para>
+>Sie können <guilabel
+>Maximieren: Zum oberen Bildschirmrand gezogene Fenster</guilabel
+> oder <guilabel
+>Kacheln: Zum rechten oder linken Bildschirmrand gezogene Fenster</guilabel
+> aktivieren und einen Prozentwert des Bildschirms zum Auslösen des Effekts einstellen. </para>
 
 <para
->In the <guilabel
->Other Settings</guilabel
-> section configure if you want to switch to another desktop when pushing the mouse cursor to an edge of the screen, &eg; only when moving windows. </para>
+>Mit der Einstellung <guilabel
+>Rand für Arbeitsflächenwechsel</guilabel
+> können Sie festlegen, das durch das Anstoßen eines Bildschirmrands mit dem Mauszeiger zu einer anderen Arbeitsfläche gewechselt wird, &eg; nur beim Verschieben von Fenstern. </para>
 <para
 ><guilabel
 >Aktivierungsverzögerung</guilabel

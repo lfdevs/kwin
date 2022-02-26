@@ -28,8 +28,9 @@
 #include "unmanaged.h"
 #include "useractions.h"
 #include "effects.h"
+#include "screenedge.h"
 #include "screens.h"
-#include "xcbutils.h"
+#include "utils/xcbutils.h"
 
 #include <KDecoration2/Decoration>
 
@@ -679,7 +680,7 @@ void X11Client::enterNotifyEvent(xcb_enter_notify_event_t *e)
     if (e->mode == XCB_NOTIFY_MODE_NORMAL || (e->mode == XCB_NOTIFY_MODE_UNGRAB && MOUSE_DRIVEN_FOCUS)) {
 #undef MOUSE_DRIVEN_FOCUS
 
-        enterEvent(QPoint(e->root_x, e->root_y));
+        pointerEnterEvent(QPoint(e->root_x, e->root_y));
         return;
     }
 }
@@ -693,7 +694,7 @@ void X11Client::leaveNotifyEvent(xcb_leave_notify_event_t *e)
         return; // care only about leaving the whole frame
     if (e->mode == XCB_NOTIFY_MODE_NORMAL) {
         if (!isInteractiveMoveResizePointerButtonDown()) {
-            setInteractiveMoveResizePointerMode(PositionCenter);
+            setInteractiveMoveResizeGravity(Gravity::None);
             updateCursor();
         }
         bool lostMouse = !rect().contains(QPoint(e->event_x, e->event_y));
@@ -712,7 +713,7 @@ void X11Client::leaveNotifyEvent(xcb_leave_notify_event_t *e)
             }
         }
         if (lostMouse) {
-            leaveEvent();
+            pointerLeaveEvent();
             if (isDecorated()) {
                 // sending a move instead of a leave. With leave we need to send proper coords, with move it's handled internally
                 QHoverEvent leaveEvent(QEvent::HoverMove, QPointF(-1, -1), QPointF(-1, -1), Qt::NoModifier);
@@ -865,7 +866,7 @@ bool X11Client::buttonPressEvent(xcb_window_t w, int button, int state, int x, i
         if (isSplash()
                 && button == XCB_BUTTON_INDEX_1 && !bModKeyHeld) {
             // hide splashwindow if the user clicks on it
-            hideClient(true);
+            hideClient();
             if (w == wrapperId())
                 xcb_allow_events(connection(), XCB_ALLOW_SYNC_POINTER, XCB_TIME_CURRENT_TIME);  //xTime());
             return true;
@@ -950,6 +951,7 @@ bool X11Client::buttonPressEvent(xcb_window_t w, int button, int state, int x, i
         } else {
             QMouseEvent event(QEvent::MouseButtonPress, QPointF(x, y), QPointF(x_root, y_root),
                             x11ToQtMouseButton(button), x11ToQtMouseButtons(state), x11ToQtKeyboardModifiers(state));
+            event.setTimestamp(time);
             event.setAccepted(false);
             QCoreApplication::sendEvent(decoration(), &event);
             if (!event.isAccepted()) {
@@ -1033,9 +1035,9 @@ bool X11Client::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x
                 QCoreApplication::instance()->sendEvent(decoration(), &event);
             }
         }
-        Position newmode = modKeyDown(state) ? PositionCenter : mousePosition();
-        if (newmode != interactiveMoveResizePointerMode()) {
-            setInteractiveMoveResizePointerMode(newmode);
+        Gravity newGravity = modKeyDown(state) ? Gravity::None : mouseGravity();
+        if (newGravity != interactiveMoveResizeGravity()) {
+            setInteractiveMoveResizeGravity(newGravity);
             updateCursor();
         }
         return false;
@@ -1046,6 +1048,10 @@ bool X11Client::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x
     }
 
     handleInteractiveMoveResize(QPoint(x, y), QPoint(x_root, y_root));
+    if (isInteractiveMove()) {
+        ScreenEdges::self()->check(QPoint(x_root, y_root), QDateTime::fromMSecsSinceEpoch(xTime(), Qt::UTC));
+    }
+
     return true;
 }
 
@@ -1057,7 +1063,7 @@ void X11Client::focusInEvent(xcb_focus_in_event_t *e)
         return; // we don't care
     if (e->detail == XCB_NOTIFY_DETAIL_POINTER)
         return;  // we don't care
-    if (!isShown(false) || !isOnCurrentDesktop())    // we unmapped it, but it got focus meanwhile ->
+    if (isShade() || !isShown() || !isOnCurrentDesktop())    // we unmapped it, but it got focus meanwhile ->
         return;            // activateNextClient() already transferred focus elsewhere
     workspace()->forEachClient([](X11Client *client) {
         client->cancelFocusOutTimer();
@@ -1132,15 +1138,15 @@ void X11Client::NETMoveResize(int x_root, int y_root, NET::Direction direction)
         setInteractiveMoveResizePointerButtonDown(false);
         updateCursor();
     } else if (direction >= NET::TopLeft && direction <= NET::Left) {
-        static const Position convert[] = {
-            PositionTopLeft,
-            PositionTop,
-            PositionTopRight,
-            PositionRight,
-            PositionBottomRight,
-            PositionBottom,
-            PositionBottomLeft,
-            PositionLeft
+        static const Gravity convert[] = {
+            Gravity::TopLeft,
+            Gravity::Top,
+            Gravity::TopRight,
+            Gravity::Right,
+            Gravity::BottomRight,
+            Gravity::Bottom,
+            Gravity::BottomLeft,
+            Gravity::Left
         };
         if (!isResizable() || isShade())
             return;
@@ -1150,7 +1156,7 @@ void X11Client::NETMoveResize(int x_root, int y_root, NET::Direction direction)
         setInteractiveMoveOffset(QPoint(x_root - x(), y_root - y()));  // map from global
         setInvertedInteractiveMoveOffset(rect().bottomRight() - interactiveMoveOffset());
         setUnrestrictedInteractiveMoveResize(false);
-        setInteractiveMoveResizePointerMode(convert[ direction ]);
+        setInteractiveMoveResizeGravity(convert[direction]);
         if (!startInteractiveMoveResize())
             setInteractiveMoveResizePointerButtonDown(false);
         updateCursor();

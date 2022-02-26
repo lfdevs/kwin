@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-08-20 00:22+0000\n"
+"POT-Creation-Date: 2022-01-14 02:21+0000\n"
 "PO-Revision-Date: 2021-10-06 15:24+0200\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -27,62 +27,72 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "phu.nguyen@kdemail.net"
 
-#: main.cpp:125 touch.cpp:123
+#: main.cpp:118 touch.cpp:116
 #, kde-format
 msgid "No Action"
 msgstr "Không hành động"
 
-#: main.cpp:126 touch.cpp:124
+#: main.cpp:119 touch.cpp:117
 #, kde-format
 msgid "Show Desktop"
 msgstr "Hiện bàn làm việc"
 
-#: main.cpp:127 touch.cpp:125
+#: main.cpp:120 touch.cpp:118
 #, kde-format
 msgid "Lock Screen"
 msgstr "Khoá màn hình"
 
-#: main.cpp:128 touch.cpp:126
+#: main.cpp:121 touch.cpp:119
 #, kde-format
 msgid "Show KRunner"
 msgstr "Hiện KRunner"
 
-#: main.cpp:129 touch.cpp:127
+#: main.cpp:122 touch.cpp:120
 #, kde-format
 msgid "Activity Manager"
 msgstr "Trình quản lí Hoạt động"
 
-#: main.cpp:130 touch.cpp:128
+#: main.cpp:123 touch.cpp:121
 #, kde-format
 msgid "Application Launcher"
 msgstr "Trình khởi chạy ứng dụng"
 
-#: main.cpp:134 touch.cpp:132
+#: main.cpp:127 touch.cpp:125
+#, kde-format
+msgid "Present Windows"
+msgstr ""
+
+#: main.cpp:128 touch.cpp:126
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - Tất cả các bàn làm việc"
 
-#: main.cpp:135 touch.cpp:133
+#: main.cpp:129 touch.cpp:127
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - Bàn làm việc hiện tại"
 
-#: main.cpp:136 touch.cpp:134
+#: main.cpp:130 touch.cpp:128
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - Ứng dụng hiện tại"
 
-#: main.cpp:139 touch.cpp:137
+#: main.cpp:131 touch.cpp:129
+#, kde-format
+msgid "Desktop Grid"
+msgstr ""
+
+#: main.cpp:133 touch.cpp:131
 #, kde-format
 msgid "Toggle window switching"
 msgstr "Bật/tắt chuyển cửa sổ"
 
-#: main.cpp:140 touch.cpp:138
+#: main.cpp:134 touch.cpp:132
 #, kde-format
 msgid "Toggle alternative window switching"
 msgstr "Bật/tắt chuyển cửa sổ thay thế"
 
-#: main.cpp:142 touch.cpp:140
+#: main.cpp:136 touch.cpp:134
 #, kde-format
 msgid "Toggle Overview"
 msgstr "Bật/tắt tổng quan"

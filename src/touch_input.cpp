@@ -38,6 +38,10 @@ TouchInputRedirection::~TouchInputRedirection() = default;
 void TouchInputRedirection::init()
 {
     Q_ASSERT(!inited());
+    waylandServer()->seat()->setHasTouch(input()->hasTouch());
+    connect(input(), &InputRedirection::hasTouchChanged,
+            waylandServer()->seat(), &KWaylandServer::SeatInterface::setHasTouch);
+
     setInited(true);
     InputDeviceHandler::init();
 
@@ -56,9 +60,6 @@ void TouchInputRedirection::init()
 
 bool TouchInputRedirection::focusUpdatesBlocked()
 {
-    if (!inited()) {
-        return true;
-    }
     if (m_windowUpdatedInCycle) {
         return true;
     }
@@ -84,19 +85,17 @@ void TouchInputRedirection::focusUpdate(Toplevel *focusOld, Toplevel *focusNow)
     // TODO: handle pointer grab aka popups
 
     if (AbstractClient *ac = qobject_cast<AbstractClient*>(focusOld)) {
-        ac->leaveEvent();
+        ac->pointerLeaveEvent();
     }
     disconnect(m_focusGeometryConnection);
     m_focusGeometryConnection = QMetaObject::Connection();
 
     if (AbstractClient *ac = qobject_cast<AbstractClient*>(focusNow)) {
-        ac->enterEvent(m_lastPosition.toPoint());
-        workspace()->updateFocusMousePosition(m_lastPosition.toPoint());
+        ac->pointerEnterEvent(m_lastPosition.toPoint());
     }
 
     auto seat = waylandServer()->seat();
-    if (!focusNow || !focusNow->surface() || decoration()) {
-        // no new surface or internal window or on decoration -> cleanup
+    if (!focusNow || !focusNow->surface()) {
         seat->setFocusedTouchSurface(nullptr);
         return;
     }
@@ -119,14 +118,6 @@ void TouchInputRedirection::focusUpdate(Toplevel *focusOld, Toplevel *focusNow)
     );
 }
 
-void TouchInputRedirection::cleanupInternalWindow(QWindow *old, QWindow *now)
-{
-    Q_UNUSED(old);
-    Q_UNUSED(now);
-
-    // nothing to do
-}
-
 void TouchInputRedirection::cleanupDecoration(Decoration::DecoratedClientImpl *old, Decoration::DecoratedClientImpl *now)
 {
     Q_UNUSED(old);
@@ -135,7 +126,7 @@ void TouchInputRedirection::cleanupDecoration(Decoration::DecoratedClientImpl *o
     // nothing to do
 }
 
-void TouchInputRedirection::processDown(qint32 id, const QPointF &pos, quint32 time, LibInput::Device *device)
+void TouchInputRedirection::processDown(qint32 id, const QPointF &pos, quint32 time, InputDevice *device)
 {
     Q_UNUSED(device)
     if (!inited()) {
@@ -147,12 +138,13 @@ void TouchInputRedirection::processDown(qint32 id, const QPointF &pos, quint32 t
     if (m_activeTouchPoints.count() == 1) {
         update();
     }
+    input()->setLastInputHandler(this);
     input()->processSpies(std::bind(&InputEventSpy::touchDown, std::placeholders::_1, id, pos, time));
     input()->processFilters(std::bind(&InputEventFilter::touchDown, std::placeholders::_1, id, pos, time));
     m_windowUpdatedInCycle = false;
 }
 
-void TouchInputRedirection::processUp(qint32 id, quint32 time, LibInput::Device *device)
+void TouchInputRedirection::processUp(qint32 id, quint32 time, InputDevice *device)
 {
     Q_UNUSED(device)
     if (!inited()) {
@@ -161,6 +153,7 @@ void TouchInputRedirection::processUp(qint32 id, quint32 time, LibInput::Device 
     if (!m_activeTouchPoints.remove(id)) {
         return;
     }
+    input()->setLastInputHandler(this);
     m_windowUpdatedInCycle = false;
     input()->processSpies(std::bind(&InputEventSpy::touchUp, std::placeholders::_1, id, time));
     input()->processFilters(std::bind(&InputEventFilter::touchUp, std::placeholders::_1, id, time));
@@ -170,7 +163,7 @@ void TouchInputRedirection::processUp(qint32 id, quint32 time, LibInput::Device 
     }
 }
 
-void TouchInputRedirection::processMotion(qint32 id, const QPointF &pos, quint32 time, LibInput::Device *device)
+void TouchInputRedirection::processMotion(qint32 id, const QPointF &pos, quint32 time, InputDevice *device)
 {
     Q_UNUSED(device)
     if (!inited()) {
@@ -179,6 +172,7 @@ void TouchInputRedirection::processMotion(qint32 id, const QPointF &pos, quint32
     if (!m_activeTouchPoints.contains(id)) {
         return;
     }
+    input()->setLastInputHandler(this);
     m_lastPosition = pos;
     m_windowUpdatedInCycle = false;
     input()->processSpies(std::bind(&InputEventSpy::touchMotion, std::placeholders::_1, id, pos, time));

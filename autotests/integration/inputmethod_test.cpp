@@ -32,11 +32,13 @@
 #include <KWaylandServer/surface_interface.h>
 
 #include <KWayland/Client/compositor.h>
+#include <KWayland/Client/keyboard.h>
 #include <KWayland/Client/output.h>
 #include <KWayland/Client/region.h>
+#include <KWayland/Client/seat.h>
 #include <KWayland/Client/surface.h>
 #include <KWayland/Client/textinput.h>
-#include <KWayland/Client/seat.h>
+#include <linux/input-event-codes.h>
 
 using namespace KWin;
 using namespace KWayland::Client;
@@ -57,6 +59,16 @@ private Q_SLOTS:
     void testEnableActive();
     void testHidePanel();
     void testSwitchFocusedSurfaces();
+    void testV3Styling();
+    void testDisableShowInputPanel();
+    void testModifierForwarding();
+
+private:
+    void touchNow() {
+        static int time = 0;
+        kwinApp()->platform()->touchDown(0, {100, 100}, ++time);
+        kwinApp()->platform()->touchUp(0, ++time);
+    }
 };
 
 
@@ -87,11 +99,11 @@ void InputMethodTest::initTestCase()
 
 void InputMethodTest::init()
 {
+    touchNow();
     QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::Seat |
                                          Test::AdditionalWaylandInterface::TextInputManagerV2 |
                                          Test::AdditionalWaylandInterface::InputMethodV1 |
                                          Test::AdditionalWaylandInterface::TextInputManagerV3));
-
 
     workspace()->setActiveOutput(QPoint(640, 512));
     KWin::Cursors::self()->mouse()->setPos(QPoint(640, 512));
@@ -129,6 +141,7 @@ void InputMethodTest::testOpenClose()
     QVERIFY(surfaceConfigureRequestedSpy.wait());
 
     // Show the keyboard
+    touchNow();
     textInput->showInputPanel();
     QVERIFY(clientAddedSpy.wait());
 
@@ -243,20 +256,23 @@ void InputMethodTest::testHidePanel()
 {
     QVERIFY(!InputMethod::self()->isActive());
 
+    touchNow();
     QSignalSpy clientAddedSpy(workspace(), &Workspace::clientAdded);
     QSignalSpy clientRemovedSpy(workspace(), &Workspace::clientRemoved);
     QVERIFY(clientAddedSpy.isValid());
 
     QSignalSpy activateSpy(InputMethod::self(), &InputMethod::activeChanged);
     QScopedPointer<TextInput> textInput(Test::waylandTextInputManager()->createTextInput(Test::waylandSeat()));
-    textInput->showInputPanel();
-    QVERIFY(clientAddedSpy.wait());
 
     // Create an xdg_toplevel surface and wait for the compositor to catch up.
     QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
     QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
     AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(1280, 1024), Qt::red);
     waylandServer()->seat()->setFocusedTextInputSurface(client->surface());
+
+    textInput->enable(surface.get());
+    textInput->showInputPanel();
+    QVERIFY(clientAddedSpy.wait());
 
     QCOMPARE(workspace()->activeClient(), client);
 
@@ -281,6 +297,7 @@ void InputMethodTest::testHidePanel()
 
 void InputMethodTest::testSwitchFocusedSurfaces()
 {
+    touchNow();
     QVERIFY(!InputMethod::self()->isActive());
 
     QSignalSpy clientAddedSpy(workspace(), &Workspace::clientAdded);
@@ -289,8 +306,6 @@ void InputMethodTest::testSwitchFocusedSurfaces()
 
     QSignalSpy activateSpy(InputMethod::self(), &InputMethod::activeChanged);
     QScopedPointer<TextInput> textInput(Test::waylandTextInputManager()->createTextInput(Test::waylandSeat()));
-    textInput->showInputPanel();
-    QVERIFY(clientAddedSpy.wait(10000));
 
     QVector<AbstractClient *> clients;
     QVector<KWayland::Client::Surface *> surfaces;
@@ -304,10 +319,9 @@ void InputMethodTest::testSwitchFocusedSurfaces()
         surfaces += surface;
         toplevels += shellSurface;
     }
+    QCOMPARE(clientAddedSpy.count(), 3);
     waylandServer()->seat()->setFocusedTextInputSurface(clients.constFirst()->surface());
 
-    QCOMPARE(clientAddedSpy.count(), 4);
-    QVERIFY(activateSpy.count() || activateSpy.wait());
     QVERIFY(!InputMethod::self()->isActive());
     textInput->enable(surfaces.last());
     QVERIFY(!InputMethod::self()->isActive());
@@ -328,6 +342,199 @@ void InputMethodTest::testSwitchFocusedSurfaces()
         delete toplevels[i];
         QVERIFY(Test::waitForWindowDestroyed(clients[i]));
     }
+}
+
+void InputMethodTest::testV3Styling()
+{
+    // Create an xdg_toplevel surface and wait for the compositor to catch up.
+    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
+    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
+    AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(1280, 1024), Qt::red);
+    QVERIFY(client);
+    QVERIFY(client->isActive());
+    QCOMPARE(client->frameGeometry().size(), QSize(1280, 1024));
+
+    Test::TextInputV3 *textInputV3 = new Test::TextInputV3();
+    textInputV3->init(Test::waylandTextInputManagerV3()->get_text_input(*(Test::waylandSeat())));
+    textInputV3->enable();
+
+    QSignalSpy inputMethodActiveSpy(InputMethod::self(), &InputMethod::activeChanged);
+    QSignalSpy inputMethodActivateSpy(Test::inputMethod(), &Test::MockInputMethod::activate);
+    // just enabling the text-input should not show it but rather on commit
+    QVERIFY(!InputMethod::self()->isActive());
+    textInputV3->commit();
+    QVERIFY(inputMethodActiveSpy.count() || inputMethodActiveSpy.wait());
+    QVERIFY(InputMethod::self()->isActive());
+    QVERIFY(inputMethodActivateSpy.wait());
+    auto context = Test::inputMethod()->context();
+    QSignalSpy textInputPreeditSpy(textInputV3, &Test::TextInputV3::preeditString);
+    zwp_input_method_context_v1_preedit_cursor(context, 0);
+    zwp_input_method_context_v1_preedit_styling(context, 0, 3, 7);
+    zwp_input_method_context_v1_preedit_string(context, 0, "ABCD", "ABCD");
+    QVERIFY(textInputPreeditSpy.wait());
+    QCOMPARE(textInputPreeditSpy.last().at(0), QString("ABCD"));
+    QCOMPARE(textInputPreeditSpy.last().at(1), 0);
+    QCOMPARE(textInputPreeditSpy.last().at(2), 0);
+
+    zwp_input_method_context_v1_preedit_cursor(context, 1);
+    zwp_input_method_context_v1_preedit_styling(context, 0, 3, 7);
+    zwp_input_method_context_v1_preedit_string(context, 0, "ABCDE", "ABCDE");
+    QVERIFY(textInputPreeditSpy.wait());
+    QCOMPARE(textInputPreeditSpy.last().at(0), QString("ABCDE"));
+    QCOMPARE(textInputPreeditSpy.last().at(1), 1);
+    QCOMPARE(textInputPreeditSpy.last().at(2), 1);
+
+    zwp_input_method_context_v1_preedit_cursor(context, 2);
+    // Use selection for [2, 2+2)
+    zwp_input_method_context_v1_preedit_styling(context, 2, 2, 6);
+    // Use high light for [3, 3+3)
+    zwp_input_method_context_v1_preedit_styling(context, 3, 3, 4);
+    zwp_input_method_context_v1_preedit_string(context, 0, "ABCDEF", "ABCDEF");
+    QVERIFY(textInputPreeditSpy.wait());
+    QCOMPARE(textInputPreeditSpy.last().at(0), QString("ABCDEF"));
+    // Merged range should be [2, 6)
+    QCOMPARE(textInputPreeditSpy.last().at(1), 2);
+    QCOMPARE(textInputPreeditSpy.last().at(2), 6);
+
+    zwp_input_method_context_v1_preedit_cursor(context, 2);
+    // Use selection for [0, 0+2)
+    zwp_input_method_context_v1_preedit_styling(context, 0, 2, 6);
+    // Use high light for [3, 3+3)
+    zwp_input_method_context_v1_preedit_styling(context, 3, 3, 4);
+    zwp_input_method_context_v1_preedit_string(context, 0, "ABCDEF", "ABCDEF");
+    QVERIFY(textInputPreeditSpy.wait());
+    QCOMPARE(textInputPreeditSpy.last().at(0), QString("ABCDEF"));
+    // Merged range should be none, because of the disjunction highlight.
+    QCOMPARE(textInputPreeditSpy.last().at(1), 2);
+    QCOMPARE(textInputPreeditSpy.last().at(2), 2);
+
+    zwp_input_method_context_v1_preedit_cursor(context, 1);
+    // Use selection for [0, 0+2)
+    zwp_input_method_context_v1_preedit_styling(context, 0, 2, 6);
+    // Use high light for [2, 2+3)
+    zwp_input_method_context_v1_preedit_styling(context, 2, 3, 4);
+    zwp_input_method_context_v1_preedit_string(context, 0, "ABCDEF", "ABCDEF");
+    QVERIFY(textInputPreeditSpy.wait());
+    QCOMPARE(textInputPreeditSpy.last().at(0), QString("ABCDEF"));
+    // Merged range should be none, starting offset does not match.
+    QCOMPARE(textInputPreeditSpy.last().at(1), 1);
+    QCOMPARE(textInputPreeditSpy.last().at(2), 1);
+
+    // Use different order of styling and cursor
+    // Use high light for [3, 3+3)
+    zwp_input_method_context_v1_preedit_styling(context, 3, 3, 4);
+    zwp_input_method_context_v1_preedit_cursor(context, 1);
+    // Use selection for [1, 1+2)
+    zwp_input_method_context_v1_preedit_styling(context, 1, 2, 6);
+    zwp_input_method_context_v1_preedit_string(context, 0, "ABCDEF", "ABCDEF");
+    QVERIFY(textInputPreeditSpy.wait());
+    QCOMPARE(textInputPreeditSpy.last().at(0), QString("ABCDEF"));
+    // Merged range should be [1,6).
+    QCOMPARE(textInputPreeditSpy.last().at(1), 1);
+    QCOMPARE(textInputPreeditSpy.last().at(2), 6);
+}
+
+void InputMethodTest::testDisableShowInputPanel()
+{
+    // Create an xdg_toplevel surface and wait for the compositor to catch up.
+    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
+    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
+    AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(1280, 1024), Qt::red);
+    QVERIFY(client);
+    QVERIFY(client->isActive());
+    QCOMPARE(client->frameGeometry().size(), QSize(1280, 1024));
+
+    QScopedPointer<KWayland::Client::TextInput> textInputV2(Test::waylandTextInputManager()->createTextInput(Test::waylandSeat()));
+
+    QSignalSpy inputMethodActiveSpy(InputMethod::self(), &InputMethod::activeChanged);
+    // just enabling the text-input should not show it but rather on commit
+    QVERIFY(!InputMethod::self()->isActive());
+    textInputV2->enable(surface.get());
+    QVERIFY(inputMethodActiveSpy.count() || inputMethodActiveSpy.wait());
+    QVERIFY(InputMethod::self()->isActive());
+
+    // disable text input and ensure that it is not hiding input panel without commit
+    inputMethodActiveSpy.clear();
+    QVERIFY(InputMethod::self()->isActive());
+    textInputV2->disable(surface.get());
+    QVERIFY(inputMethodActiveSpy.count() || inputMethodActiveSpy.wait());
+    QVERIFY(!InputMethod::self()->isActive());
+
+    QSignalSpy requestShowInputPanelSpy(waylandServer()->seat()->textInputV2(), &KWaylandServer::TextInputV2Interface::requestShowInputPanel);
+    textInputV2->showInputPanel();
+    QVERIFY(requestShowInputPanelSpy.count() || requestShowInputPanelSpy.wait());
+    QVERIFY(!InputMethod::self()->isActive());
+}
+
+void InputMethodTest::testModifierForwarding()
+{
+    // Create an xdg_toplevel surface and wait for the compositor to catch up.
+    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
+    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
+    AbstractClient *client = Test::renderAndWaitForShown(surface.data(), QSize(1280, 1024), Qt::red);
+    QVERIFY(client);
+    QVERIFY(client->isActive());
+    QCOMPARE(client->frameGeometry().size(), QSize(1280, 1024));
+
+    Test::TextInputV3 *textInputV3 = new Test::TextInputV3();
+    textInputV3->init(Test::waylandTextInputManagerV3()->get_text_input(*(Test::waylandSeat())));
+    textInputV3->enable();
+
+    QSignalSpy inputMethodActiveSpy(InputMethod::self(), &InputMethod::activeChanged);
+    QSignalSpy inputMethodActivateSpy(Test::inputMethod(), &Test::MockInputMethod::activate);
+    // just enabling the text-input should not show it but rather on commit
+    QVERIFY(!InputMethod::self()->isActive());
+    textInputV3->commit();
+    QVERIFY(inputMethodActiveSpy.count() || inputMethodActiveSpy.wait());
+    QVERIFY(InputMethod::self()->isActive());
+    QVERIFY(inputMethodActivateSpy.wait());
+    auto context = Test::inputMethod()->context();
+    QScopedPointer<KWayland::Client::Keyboard> keyboardGrab(new KWayland::Client::Keyboard);
+    keyboardGrab->setup(zwp_input_method_context_v1_grab_keyboard(context));
+    QSignalSpy modifierSpy(keyboardGrab.get(), &Keyboard::modifiersChanged);
+    // Wait for initial modifiers update
+    QVERIFY(modifierSpy.wait());
+
+    quint32 timestamp = 1;
+
+    QSignalSpy keySpy(keyboardGrab.get(), &Keyboard::keyChanged);
+    bool keyChanged = false;
+    bool modifiersChanged = false;
+    // We want to verify the order of two signals, so SignalSpy is not very useful here.
+    auto keyChangedConnection = connect(keyboardGrab.get(), &Keyboard::keyChanged, [&keyChanged, &modifiersChanged]() {
+        QVERIFY(!modifiersChanged);
+        keyChanged = true;
+    });
+    auto modifiersChangedConnection = connect(keyboardGrab.get(), &Keyboard::modifiersChanged, [&keyChanged, &modifiersChanged]() {
+        QVERIFY(keyChanged);
+        modifiersChanged = true;
+    });
+    kwinApp()->platform()->keyboardKeyPressed(KEY_LEFTCTRL, timestamp++);
+    QVERIFY(keySpy.count() == 1 || keySpy.wait());
+    QVERIFY(modifierSpy.count() == 2 || modifierSpy.wait());
+    disconnect(keyChangedConnection);
+    disconnect(modifiersChangedConnection);
+
+    kwinApp()->platform()->keyboardKeyPressed(KEY_A, timestamp++);
+    QVERIFY(keySpy.count() == 2 || keySpy.wait());
+    QVERIFY(modifierSpy.count() == 2 || modifierSpy.wait());
+
+    // verify the order of key and modifiers again. Key first, then modifiers.
+    keyChanged = false;
+    modifiersChanged = false;
+    keyChangedConnection = connect(keyboardGrab.get(), &Keyboard::keyChanged, [&keyChanged, &modifiersChanged]() {
+        QVERIFY(!modifiersChanged);
+        keyChanged = true;
+    });
+    modifiersChangedConnection = connect(keyboardGrab.get(), &Keyboard::modifiersChanged, [&keyChanged, &modifiersChanged]() {
+        QVERIFY(keyChanged);
+        modifiersChanged = true;
+    });
+    kwinApp()->platform()->keyboardKeyReleased(KEY_LEFTCTRL, timestamp++);
+    QVERIFY(keySpy.count() == 3 || keySpy.wait());
+    QVERIFY(modifierSpy.count() == 3 || modifierSpy.wait());
+    disconnect(keyChangedConnection);
+    disconnect(modifiersChangedConnection);
 }
 
 WAYLANDTEST_MAIN(InputMethodTest)

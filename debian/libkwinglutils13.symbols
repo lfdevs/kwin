@@ -1,4 +1,4 @@
-# SymbolsHelper-Confirmed: 4:5.13.1 amd64
+# SymbolsHelper-Confirmed: 4:5.24.2 amd64
 libkwinglutils.so.13 libkwinglutils13 #MINVER#
 * Build-Depends-Package: kwin-dev
  _ZN4KWin10GLPlatform10s_platformE@Base 4:5.1.95+git20150122
@@ -23,11 +23,10 @@ libkwinglutils.so.13 libkwinglutils13 #MINVER#
  _ZN4KWin13ShaderManager18loadShaderFromCodeERK10QByteArrayS3_@Base 4:5.1.95+git20150122
  _ZN4KWin13ShaderManager20generateCustomShaderE6QFlagsINS_11ShaderTraitEERK10QByteArrayS6_@Base 4:5.6.2
  _ZN4KWin13ShaderManager21bindFragDataLocationsEPNS_8GLShaderE@Base 4:5.1.95+git20150122
- _ZN4KWin13ShaderManager27generateShaderFromResourcesE6QFlagsINS_11ShaderTraitEERK7QStringS6_@Base 4:5.6.2
+ _ZN4KWin13ShaderManager22generateShaderFromFileE6QFlagsINS_11ShaderTraitEERK7QStringS6_@Base 4:5.24.2
  _ZN4KWin13ShaderManager6shaderE6QFlagsINS_11ShaderTraitEE@Base 4:5.1.95+git20150122
  _ZN4KWin13ShaderManager7cleanupEv@Base 4:5.1.95+git20150122
  _ZN4KWin13ShaderManager8instanceEv@Base 4:5.1.95+git20150122
- _ZN4KWin13ShaderManager8selfTestEv@Base 4:5.1.95+git20150122
  _ZN4KWin13ShaderManager9popShaderEv@Base 4:5.1.95+git20150122
  _ZN4KWin13ShaderManagerC1Ev@Base 4:5.1.95+git20150122
  _ZN4KWin13ShaderManagerC2Ev@Base 4:5.1.95+git20150122
@@ -60,10 +59,10 @@ libkwinglutils.so.13 libkwinglutils13 #MINVER#
  _ZN4KWin14GLRenderTargetC2Ev@Base 4:5.13.1
  _ZN4KWin14GLRenderTargetD1Ev@Base 4:5.1.95+git20150122
  _ZN4KWin14GLRenderTargetD2Ev@Base 4:5.1.95+git20150122
+ _ZN4KWin14GLVertexBuffer10beginFrameEv@Base 4:5.24.2
  _ZN4KWin14GLVertexBuffer10bindArraysEv@Base 4:5.1.95+git20150122
  _ZN4KWin14GLVertexBuffer10endOfFrameEv@Base 4:5.1.95+git20150122
  _ZN4KWin14GLVertexBuffer10initStaticEv@Base 4:5.1.95+git20150122
- _ZN4KWin14GLVertexBuffer11framePostedEv@Base 4:5.1.95+git20150122
  _ZN4KWin14GLVertexBuffer11setUseColorEb@Base 4:5.1.95+git20150122
  _ZN4KWin14GLVertexBuffer12unbindArraysEv@Base 4:5.1.95+git20150122
  _ZN4KWin14GLVertexBuffer14setVertexCountEi@Base 4:5.1.95+git20150122

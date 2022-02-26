@@ -1,12 +1,12 @@
 # Copyright (C) 2021 Free Software Foundation, Inc.
 #
-# Kishore G <kishore96@gmail.com>, 2021.
+# Kishore G <kishore96@gmail.com>, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-08-26 00:18+0000\n"
-"PO-Revision-Date: 2021-09-18 21:57+0530\n"
+"POT-Creation-Date: 2022-01-22 02:14+0000\n"
+"PO-Revision-Date: 2022-01-30 19:04+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 21.08.1\n"
+"X-Generator: Lokalize 21.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -44,12 +44,12 @@ msgstr "எல்லா பணிமேடைகளிலும்"
 #: declarative-plugin/buttonsmodel.cpp:60
 #, kde-format
 msgid "Minimize"
-msgstr "சிறிதாக்கு"
+msgstr "ஒதுக்கு"
 
 #: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Maximize"
-msgstr "பெரிதாக்கு"
+msgstr "அதிகபட்ச பெரிதாக்கு"
 
 #: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
@@ -59,12 +59,12 @@ msgstr "மூடு"
 #: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Context help"
-msgstr ""
+msgstr "சூழலை பொறுத்த உதவி"
 
 #: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Shade"
-msgstr "நிழல்"
+msgstr "நிழலிடு"
 
 #: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
@@ -77,10 +77,9 @@ msgid "Keep above other windows"
 msgstr "மற்ற சாளரங்களுக்கு மேலே வை"
 
 #: kcm.cpp:49
-#, fuzzy, kde-format
-#| msgid "&Window Decoration"
+#, kde-format
 msgid "Window Decorations"
-msgstr "&சாளரத்தின் அலங்காரம்"
+msgstr "சாளர விளிம்புகள்"
 
 #: kcm.cpp:53
 #, kde-format
@@ -182,7 +181,7 @@ msgstr "பட்டன்களை இங்கிருந்து தலை�
 #: package/contents/ui/main.qml:19
 #, kde-format
 msgid "This module lets you configure the window decorations."
-msgstr ""
+msgstr "சாளர விளிம்புகளை அமைக்க இக்கூறு உதவும்."
 
 #: package/contents/ui/main.qml:53
 #, kde-format
@@ -196,32 +195,32 @@ msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "தலைப்புப்பட்டையிலுள்ள பட்டன்கள்"
 
-#: package/contents/ui/main.qml:87
+#: package/contents/ui/main.qml:93
 #, kde-format
 msgctxt "Selector label"
 msgid "Window border size:"
 msgstr "சாளர விளிம்பின் அளவு:"
 
-#: package/contents/ui/main.qml:105
+#: package/contents/ui/main.qml:114
 #, fuzzy, kde-format
 #| msgid "&Window Decoration"
 msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "&சாளரத்தின் அலங்காரம்"
 
-#: package/contents/ui/main.qml:128
+#: package/contents/ui/main.qml:143
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "பட்டி பட்டனில் இரட்டை க்ளிக் செய்தல் அவற்றை மூடும்"
 
-#: package/contents/ui/main.qml:145
+#: package/contents/ui/main.qml:160
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
 msgstr "பட்டியை காட்ட பட்டி பட்டனில் க்ளிக் செய்தபடியே பிடித்திருக்கவும்."
 
-#: package/contents/ui/main.qml:152
+#: package/contents/ui/main.qml:167
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"

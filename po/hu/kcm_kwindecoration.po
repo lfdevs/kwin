@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-08-26 00:18+0000\n"
+"POT-Creation-Date: 2022-01-22 02:14+0000\n"
 "PO-Revision-Date: 2021-11-19 13:06+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -216,31 +216,31 @@ msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "Címsorgombok"
 
-#: package/contents/ui/main.qml:87
+#: package/contents/ui/main.qml:93
 #, kde-format
 msgctxt "Selector label"
 msgid "Window border size:"
 msgstr "Ablakszegély mérete:"
 
-#: package/contents/ui/main.qml:105
+#: package/contents/ui/main.qml:114
 #, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "Új ablakdekorációk letöltése…"
 
-#: package/contents/ui/main.qml:128
+#: package/contents/ui/main.qml:143
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Az ablakok bezárhatók legyenek a menügombra történő dupla kattintással"
 
-#: package/contents/ui/main.qml:145
+#: package/contents/ui/main.qml:160
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
 msgstr "Kattintson és tartsa lenyomva a menü gombot a menü megjelenítéséhez."
 
-#: package/contents/ui/main.qml:152
+#: package/contents/ui/main.qml:167
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"

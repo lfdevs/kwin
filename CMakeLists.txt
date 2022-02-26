@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(PROJECT_VERSION "5.23.5") # Handled by release scripts
+set(PROJECT_VERSION "5.24.2") # Handled by release scripts
 project(KWin VERSION ${PROJECT_VERSION})
 
 set(CMAKE_C_STANDARD 99)
 
 set(QT_MIN_VERSION "5.15.0")
-set(KF5_MIN_VERSION "5.86")
+set(KF5_MIN_VERSION "5.89")
 set(KDE_COMPILERSETTINGS_LEVEL "5.82")
 
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
@@ -57,6 +57,7 @@ add_definitions(
     -DQT_USE_QSTRINGBUILDER
     -DQT_NO_URL_CAST_FROM_STRING
     -DQT_NO_CAST_TO_ASCII
+    -DQT_NO_FOREACH
 )
 
 # Prevent EGL headers from including platform headers, in particular Xlib.h.
@@ -73,6 +74,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     ConfigWidgets
     CoreAddons
     Crash
+    DBusAddons
     GlobalAccel
     I18n
     IconThemes
@@ -80,7 +82,6 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     Notifications
     Package
     Plasma
-    Wayland
     WidgetsAddons
     WindowSystem
 )
@@ -98,6 +99,12 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
 find_package(Threads)
 set_package_properties(Threads PROPERTIES
     PURPOSE "Needed for VirtualTerminal support in KWin Wayland"
+    TYPE REQUIRED
+)
+
+find_package(KF5Wayland ${KF5_MIN_VERSION} CONFIG)
+set_package_properties(KF5Wayland PROPERTIES
+    PURPOSE "Required to build wayland platform plugin and tests"
     TYPE REQUIRED
 )
 
@@ -130,7 +137,7 @@ set_package_properties(KF5Kirigami2 PROPERTIES
     TYPE RUNTIME
 )
 
-find_package(KDecoration2 5.18.0 CONFIG REQUIRED)
+find_package(KDecoration2 ${PROJECT_VERSION} CONFIG REQUIRED)
 
 find_package(KScreenLocker CONFIG REQUIRED)
 set_package_properties(KScreenLocker PROPERTIES
@@ -166,7 +173,7 @@ set_package_properties(EGL PROPERTIES
     PURPOSE "Required to build KWin with EGL support"
 )
 
-find_package(epoxy)
+find_package(epoxy 1.3)
 set_package_properties(epoxy PROPERTIES
     DESCRIPTION "libepoxy"
     URL "https://github.com/anholt/libepoxy"
@@ -201,7 +208,7 @@ set_package_properties(XKB PROPERTIES
 
 find_package(Qt5XkbCommonSupport REQUIRED)
 
-find_package(Libinput 1.14)
+find_package(Libinput 1.19)
 set_package_properties(Libinput PROPERTIES TYPE REQUIRED PURPOSE "Required for input handling on Wayland.")
 
 find_package(UDev)
@@ -216,17 +223,11 @@ find_package(Libdrm 2.4.62)
 set_package_properties(Libdrm PROPERTIES TYPE REQUIRED PURPOSE "Required for drm output on Wayland.")
 
 find_package(gbm)
-set_package_properties(gbm PROPERTIES TYPE OPTIONAL PURPOSE "Required for egl output of drm backend.")
-set(HAVE_GBM ${gbm_FOUND})
+set_package_properties(gbm PROPERTIES TYPE REQUIRED PURPOSE "Required for egl output of drm backend.")
 if (${gbm_VERSION} GREATER_EQUAL 21.1)
     set(HAVE_GBM_BO_GET_FD_FOR_PLANE 1)
 else()
     set(HAVE_GBM_BO_GET_FD_FOR_PLANE 0)
-endif()
-
-option(KWIN_BUILD_EGL_STREAM_BACKEND "Enable building of EGLStream based DRM backend" ON)
-if (KWIN_BUILD_EGL_STREAM_BACKEND)
-    set(HAVE_EGL_STREAMS TRUE)
 endif()
 
 find_package(X11)
@@ -280,6 +281,7 @@ set_package_properties(X11_XCB PROPERTIES
 # dependencies for QPA plugin
 find_package(Qt5FontDatabaseSupport REQUIRED)
 find_package(Qt5ThemeSupport REQUIRED)
+find_package(Qt5ServiceSupport REQUIRED)
 find_package(Qt5EventDispatcherSupport REQUIRED)
 
 find_package(Freetype REQUIRED)
@@ -412,6 +414,19 @@ if (KF5DocTools_FOUND)
     add_subdirectory(doc)
 endif()
 
+include(ECMSetupQtPluginMacroNames)
+ecm_setup_qtplugin_macro_names(
+    JSON_ARG2
+        "KWIN_EFFECT_FACTORY"
+    JSON_ARG3
+        "KWIN_EFFECT_FACTORY_ENABLED"
+        "KWIN_EFFECT_FACTORY_SUPPORTED"
+    JSON_ARG4
+        "KWIN_EFFECT_FACTORY_SUPPORTED_ENABLED"
+    CONFIG_CODE_VARIABLE
+        PACKAGE_SETUP_AUTOMOC_VARIABLES
+)
+
 add_subdirectory(data)
 add_subdirectory(kconf_update)
 add_subdirectory(src)
@@ -441,10 +456,7 @@ configure_package_config_file(KWinDBusInterfaceConfig.cmake.in
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/KWinDBusInterfaceConfig.cmake
     DESTINATION ${CMAKECONFIG_INSTALL_DIR})
 
-
-# plasma-kwin_wayland.service.in is currently disabled as plasma-workspace currently launches
-# kwin-wayland explicitly. Porting this is currently blocked on propogating DISPLAY
-ecm_install_configured_files(INPUT plasma-kwin_x11.service.in @ONLY
+ecm_install_configured_files(INPUT plasma-kwin_x11.service.in plasma-kwin_wayland.service.in @ONLY
             DESTINATION ${SYSTEMD_USER_UNIT_INSTALL_DIR})
 
 find_package(KF5I18n CONFIG REQUIRED)

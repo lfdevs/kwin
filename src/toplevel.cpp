@@ -344,15 +344,15 @@ void Toplevel::addWorkspaceRepaint(int x, int y, int w, int h)
 
 void Toplevel::addWorkspaceRepaint(const QRect& r2)
 {
-    if (!Compositor::compositing())
-        return;
-    Compositor::self()->addRepaint(r2);
+    if (Compositor::compositing()) {
+        Compositor::self()->scene()->addRepaint(r2);
+    }
 }
 
 void Toplevel::addWorkspaceRepaint(const QRegion &region)
 {
     if (Compositor::compositing()) {
-        Compositor::self()->addRepaint(region);
+        Compositor::self()->scene()->addRepaint(region);
     }
 }
 
@@ -411,22 +411,6 @@ void Toplevel::setOutput(AbstractOutput *output)
         m_output = output;
         Q_EMIT screenChanged();
     }
-
-    qreal newScale = m_output->scale();
-    if (newScale != m_screenScale) {
-        m_screenScale = newScale;
-        Q_EMIT screenScaleChanged();
-    }
-}
-
-qreal Toplevel::screenScale() const
-{
-    return m_screenScale;
-}
-
-qreal Toplevel::bufferScale() const
-{
-    return surface() ? surface()->bufferScale() : 1;
 }
 
 bool Toplevel::isOnActiveOutput() const

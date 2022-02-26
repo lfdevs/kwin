@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-07-24 00:18+0000\n"
+"POT-Creation-Date: 2022-01-14 02:21+0000\n"
 "PO-Revision-Date: 2012-06-24 08:58+0200\n"
 "Last-Translator: Dimitrios Glentadakis <dglent@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -24,29 +24,35 @@ msgstr ""
 msgid "KWin"
 msgstr ""
 
-#: layoutpreview.cpp:147
+#: layoutpreview.cpp:136
+#, fuzzy, kde-format
+#| msgid "All Desktops"
+msgid "Show Desktop"
+msgstr "Όλων των επιφανειών εργασίας "
+
+#: layoutpreview.cpp:166
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Επιφάνεια εργασίας 1"
 
-#: main.cpp:59
+#: main.cpp:58
 #, kde-format
 msgid "Main"
 msgstr "Βασική"
 
-#: main.cpp:60
+#: main.cpp:59
 #, kde-format
 msgid "Alternative"
 msgstr "Εναλλακτική"
 
-#: main.cpp:62
+#: main.cpp:61
 #, fuzzy, kde-format
 #| msgid "Get New Window Switcher Layout"
 msgid "Get New Task Switchers..."
 msgstr "Λήψη νέας διάταξης εναλλαγής παραθύρων"
 
-#: main.cpp:72
+#: main.cpp:75
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."

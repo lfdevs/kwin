@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-04-27 00:19+0000\n"
+"POT-Creation-Date: 2022-01-14 02:21+0000\n"
 "PO-Revision-Date: 2015-02-08 13:59+0100\n"
 "Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -802,7 +802,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_WindowSnapZone)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_CenterSnapZone)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_FocusStealingPreventionLevel)
-#: focus.ui:118 moving.ui:53 moving.ui:75 moving.ui:97
+#: focus.ui:118 moving.ui:33 moving.ui:65 moving.ui:97
 #, kde-format
 msgid "None"
 msgstr "Hiçbiri"
@@ -947,91 +947,91 @@ msgstr "&Ekran odaklanmasını ayır"
 msgid "Window activation policy description"
 msgstr ""
 
-#: main.cpp:74
+#: main.cpp:73
 #, kde-format
 msgid "&Focus"
 msgstr "&Odaklama"
 
-#: main.cpp:80
+#: main.cpp:79
 #, fuzzy, kde-format
 #| msgid "&Titlebar Actions"
 msgid "Titlebar A&ctions"
 msgstr "&Başlık Çubuğu Eylemleri"
 
-#: main.cpp:86
+#: main.cpp:85
 #, fuzzy, kde-format
 #| msgid "Window Actio&ns"
 msgid "W&indow Actions"
 msgstr "Pencere &Eylemleri"
 
-#: main.cpp:92
+#: main.cpp:91
 #, fuzzy, kde-format
 #| msgid "&Placement:"
 msgid "Mo&vement"
 msgstr "&Yerleştirme:"
 
-#: main.cpp:98
+#: main.cpp:97
 #, fuzzy, kde-format
 #| msgid "Ad&vanced"
 msgid "Adva&nced"
 msgstr "&Gelişmiş"
 
-#: main.cpp:102
+#: main.cpp:101
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "Pencere Davranışı Yapılandırma Modülü"
 
-#: main.cpp:104
+#: main.cpp:103
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "(c) 1997 - 2002 KWin ve KControl Yazarları"
 
-#: main.cpp:106
+#: main.cpp:105
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:107
+#: main.cpp:106
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:108
+#: main.cpp:107
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:109
+#: main.cpp:108
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:110
+#: main.cpp:109
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:111
+#: main.cpp:110
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:112
+#: main.cpp:111
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:113
+#: main.cpp:112
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:114
+#: main.cpp:113
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:163
+#: main.cpp:162
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -1049,12 +1049,12 @@ msgstr ""
 "etkin olmayacaktır. Başka bir pencere yöneticisi kullanıyorsanız, pencere "
 "davranışlarını değiştirmek için lütfen onun yardım belgelerine bakınız.</p>"
 
-#: main.cpp:205
+#: main.cpp:204
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "&Başlık Çubuğu Eylemleri"
 
-#: main.cpp:211
+#: main.cpp:210
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "Pencere &Eylemleri"
@@ -1251,40 +1251,15 @@ msgstr "O&rta düğme:"
 msgid "Behavior on <em>right</em> click onto the maximize button."
 msgstr "Büyütme düğmesine <em>sağ</em> tıklandığındaki davranış."
 
-#. i18n: ectx: property (text), widget (QLabel, geometryTipLabel)
-#: moving.ui:20
-#, kde-format
-msgid "Window &geometry:"
-msgstr ""
-
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_GeometryTip)
-#: moving.ui:30
-#, kde-format
-msgid ""
-"Enable this option if you want a window's geometry to be displayed while it "
-"is being moved or resized. The window position relative to the top-left "
-"corner of the screen is displayed together with its size."
-msgstr ""
-"Bir pencereyi taşırken veya yeniden boyutlandırırken pencere boyutunun "
-"gösterilmesini istiyorsanız bu ayarı etkinleştirin. Ekranın sol üst köşesine "
-"olan uzaklığı boyut ile birlikte gösterilir."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_GeometryTip)
-#: moving.ui:33
-#, fuzzy, kde-format
-#| msgid "Display window &geometry when moving or resizing"
-msgid "Display when moving or resizing"
-msgstr "Taşıma ve yeniden boyutlandırma sırasında pencere &boyutlarını göster"
-
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
-#: moving.ui:40
+#: moving.ui:20
 #, fuzzy, kde-format
 #| msgid "&Border snap zone:"
 msgid "Screen &edge snap zone:"
 msgstr "&Kenar yapışma alanı:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_BorderSnapZone)
-#: moving.ui:50
+#: moving.ui:30
 #, fuzzy, kde-format
 #| msgid ""
 #| "Here you can set the snap zone for screen borders, i.e. the 'strength' of "
@@ -1301,14 +1276,20 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_BorderSnapZone)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_WindowSnapZone)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_CenterSnapZone)
-#: moving.ui:56 moving.ui:78 moving.ui:100
+#: moving.ui:36 moving.ui:68 moving.ui:100
 #, fuzzy, kde-format
 #| msgid " pixel"
 msgid " px"
 msgstr " piksel"
 
+#. i18n: ectx: property (text), widget (QLabel, windowSnapLabel)
+#: moving.ui:52
+#, kde-format
+msgid "&Window snap zone:"
+msgstr "&Pencere yapışma alanı:"
+
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_WindowSnapZone)
-#: moving.ui:72
+#: moving.ui:62
 #, kde-format
 msgid ""
 "Here you can set the snap zone for windows, i.e. the 'strength' of the "
@@ -1317,6 +1298,12 @@ msgid ""
 msgstr ""
 "Buradan pencereler için yapışma alanınını ayarlayabilirsiniz. Pencerelerin "
 "birbirine yapışmasını sağlayan manyetik alanın kuvveti gibi düşünülebilir."
+
+#. i18n: ectx: property (text), widget (QLabel, centerSnaplabel)
+#: moving.ui:84
+#, kde-format
+msgid "&Center snap zone:"
+msgstr "&Orta yapışma alanı:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_CenterSnapZone)
 #: moving.ui:94
@@ -1330,8 +1317,15 @@ msgstr ""
 "Pencerelerin ortaya yapışmasını sağlayan manyetik alanın kuvveti gibi "
 "düşünülebilir."
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
+#. i18n: ectx: property (text), widget (QLabel, OverlapSnapLabel)
 #: moving.ui:113
+#, fuzzy, kde-format
+#| msgid "Raising windows"
+msgid "&Snap windows:"
+msgstr "Pencere yükseltme"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
+#: moving.ui:123
 #, kde-format
 msgid ""
 "Here you can set that windows will be only snapped if you try to overlap "
@@ -1343,32 +1337,13 @@ msgstr ""
 "yapışmayacaklardır."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
-#: moving.ui:116
+#: moving.ui:126
 #, fuzzy, kde-format
 #| msgid "Snap windows onl&y when overlapping"
 msgid "Only when overlapping"
 msgstr "&Pencereleri sadece üst üste gelirken yapıştır"
 
-#. i18n: ectx: property (text), widget (QLabel, windowSnapLabel)
-#: moving.ui:123
-#, kde-format
-msgid "&Window snap zone:"
-msgstr "&Pencere yapışma alanı:"
-
-#. i18n: ectx: property (text), widget (QLabel, centerSnaplabel)
-#: moving.ui:133
-#, kde-format
-msgid "&Center snap zone:"
-msgstr "&Orta yapışma alanı:"
-
-#. i18n: ectx: property (text), widget (QLabel, OverlapSnapLabel)
-#: moving.ui:143
-#, fuzzy, kde-format
-#| msgid "Raising windows"
-msgid "&Snap windows:"
-msgstr "Pencere yükseltme"
-
-#: windows.cpp:99
+#: windows.cpp:98
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus</b><br>\n"
@@ -1384,7 +1359,7 @@ msgstr ""
 "Bu davranış diğer işletim sistemlerindeki ile ortaktır ve muhtemelen<br>\n"
 "istediğiniz şeydir."
 
-#: windows.cpp:103
+#: windows.cpp:102
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus - Mouse Precedence</b><br>\n"
@@ -1408,7 +1383,7 @@ msgstr ""
 "Farklı bir seçenektir ancak <i>Odaklanmak için Tıkla</i> için bir "
 "alternatiftir."
 
-#: windows.cpp:108
+#: windows.cpp:107
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse</b><br>\n"
@@ -1430,7 +1405,7 @@ msgstr ""
 "Odak çalma koruması, alışıldığı gibi kullanılır.<br><br>\n"
 "<i>Odaklanmak için Tıkla</i> olarak düşünün, sadece gerçekten tıklamadan."
 
-#: windows.cpp:112
+#: windows.cpp:111
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse - Mouse Precedence</b><br>\n"
@@ -1452,7 +1427,7 @@ msgstr ""
 "aday olarak farenin altındaki pencere tercih edilir.<br><br>\n"
 "Eğer fare ile belirtme denetimli odaklama isterseniz bunu seçin."
 
-#: windows.cpp:117
+#: windows.cpp:116
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Under Mouse</b><br>\n"
@@ -1479,7 +1454,7 @@ msgstr ""
 "Muhtemelen bunun yerine<br>\n"
 "<i>Odak Fareyi Takip Eder - Fare Önceliği</i> kullanmak isteyeceksiniz!"
 
-#: windows.cpp:121
+#: windows.cpp:120
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Strictly Under Mouse</b><br>\n"

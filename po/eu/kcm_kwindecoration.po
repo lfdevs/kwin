@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-08-26 00:18+0000\n"
+"POT-Creation-Date: 2022-01-22 02:14+0000\n"
 "PO-Revision-Date: 2021-07-26 20:20+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -225,31 +225,31 @@ msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "Titulu-barrako botoiak"
 
-#: package/contents/ui/main.qml:87
+#: package/contents/ui/main.qml:93
 #, kde-format
 msgctxt "Selector label"
 msgid "Window border size:"
 msgstr "Leiho-ertzaren neurria:"
 
-#: package/contents/ui/main.qml:105
+#: package/contents/ui/main.qml:114
 #, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "Lortu leihoentzako apaingarri berriak..."
 
-#: package/contents/ui/main.qml:128
+#: package/contents/ui/main.qml:143
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Itxi leihoak menu-botoian klik bikoitza eginez"
 
-#: package/contents/ui/main.qml:145
+#: package/contents/ui/main.qml:160
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
 msgstr "Egin klik eta eutsi menu botoia menua erakusteko"
 
-#: package/contents/ui/main.qml:152
+#: package/contents/ui/main.qml:167
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"

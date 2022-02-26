@@ -31,6 +31,7 @@ class AbstractOutput;
 class Edge;
 class Compositor;
 class DmaBufTexture;
+class InputBackend;
 class OverlayWindow;
 class OpenGLBackend;
 class Outline;
@@ -41,6 +42,7 @@ class Scene;
 class ScreenEdges;
 class Session;
 class Toplevel;
+class WaylandOutputConfig;
 
 class KWIN_EXPORT Outputs : public QVector<AbstractOutput*>
 {
@@ -61,6 +63,7 @@ public:
 
     virtual Session *session() const = 0;
     virtual bool initialize() = 0;
+    virtual InputBackend *createInputBackend();
     virtual OpenGLBackend *createOpenGLBackend();
     virtual QPainterBackend *createQPainterBackend();
     virtual DmaBufTexture *createDmaBufTexture(const QSize &size) {
@@ -217,26 +220,6 @@ public:
     virtual void setupActionForGlobalAccel(QAction *action);
 
     /**
-     * Returns @c true if the software cursor is being used; otherwise returns @c false.
-     */
-    bool usesSoftwareCursor() const;
-
-    /**
-     * Returns @c true if the software cursor is being forced; otherwise returns @c false.
-     *
-     * Note that the value returned by this function not always matches usesSoftwareCursor().
-     * If this function returns @c true, then it is guaranteed that the compositor will
-     * use the software cursor. However, this doesn't apply vice versa.
-     *
-     * If the compositor uses a software cursor, this function may return @c false. This
-     * is typically the case if the current cursor image can't be displayed using hardware
-     * cursors, for example due to buffer size limitations, etc.
-     *
-     * @see usesSoftwareCursor()
-     */
-    bool isSoftwareCursorForced() const;
-
-    /**
      * Returns a PlatformCursorImage. By default this is created by softwareCursor and
      * softwareCursorHotspot. An implementing subclass can use this to provide a better
      * suited PlatformCursorImage.
@@ -247,33 +230,6 @@ public:
      */
     virtual PlatformCursorImage cursorImage() const;
 
-    /**
-     * The Platform cursor image should be hidden.
-     * @see showCursor
-     * @see doHideCursor
-     * @see isCursorHidden
-     * @since 5.9
-     */
-    void hideCursor();
-
-    /**
-     * The Platform cursor image should be shown again.
-     * @see hideCursor
-     * @see doShowCursor
-     * @see isCursorHidden
-     * @since 5.9
-     */
-    void showCursor();
-
-    /**
-     * Whether the cursor is currently hidden.
-     * @see showCursor
-     * @see hideCursor
-     * @since 5.9
-     */
-    bool isCursorHidden() const {
-        return m_hideCursorCounter > 0;
-    }
     bool isReady() const {
         return m_ready;
     }
@@ -352,6 +308,7 @@ public:
     }
     AbstractOutput *findOutput(int screenId) const;
     AbstractOutput *findOutput(const QUuid &uuid) const;
+    AbstractOutput *findOutput(const QString &name) const;
     AbstractOutput *outputAt(const QPoint &pos) const;
 
     /**
@@ -393,6 +350,26 @@ public:
      */
     virtual RenderLoop *renderLoop() const;
 
+    virtual AbstractOutput *createVirtualOutput(const QString &name, const QSize &size, qreal scaling);
+    virtual void removeVirtualOutput(AbstractOutput *output);
+
+    /**
+     * @returns the primary output amomg the enabled outputs
+     */
+    AbstractOutput *primaryOutput() const {
+        return m_primaryOutput;
+    }
+
+    /**
+     * Assigns a the @p primary output among the enabled outputs
+     */
+    void setPrimaryOutput(AbstractOutput *primary);
+
+    /**
+     * Applies the output changes. Default implementation only sets values common between platforms
+     */
+    virtual bool applyOutputChanges(const WaylandOutputConfig &config);
+
 public Q_SLOTS:
     void pointerMotion(const QPointF &position, quint32 time);
     void pointerButtonPressed(quint32 button, quint32 time);
@@ -411,7 +388,6 @@ public Q_SLOTS:
     void cancelTouchSequence();
     void touchCancel();
     void touchFrame();
-    int touchPointCount();
 
     void processSwipeGestureBegin(int fingerCount, quint32 time);
     void processSwipeGestureUpdate(const QSizeF &delta, quint32 time);
@@ -451,10 +427,10 @@ Q_SIGNALS:
      */
     void outputDisabled(AbstractOutput *output);
 
+    void primaryOutputChanged(AbstractOutput *primaryOutput);
+
 protected:
     explicit Platform(QObject *parent = nullptr);
-    void setSoftwareCursor(bool set);
-    void setSoftwareCursorForced(bool forced);
     void repaint(const QRect &rect);
     void setReady(bool ready);
     void setPerScreenRenderingEnabled(bool enabled);
@@ -478,35 +454,8 @@ protected:
         m_supportsOutputChanges = true;
     }
 
-    /**
-     * Actual platform specific way to hide the cursor.
-     * Sub-classes need to implement if they support hiding the cursor.
-     *
-     * This method is invoked by hideCursor if the cursor needs to be hidden.
-     * The default implementation does nothing.
-     *
-     * @see doShowCursor
-     * @see hideCursor
-     * @see showCursor
-     */
-    virtual void doHideCursor();
-    /**
-     * Actual platform specific way to show the cursor.
-     * Sub-classes need to implement if they support showing the cursor.
-     *
-     * This method is invoked by showCursor if the cursor needs to be shown again.
-     *
-     * @see doShowCursor
-     * @see hideCursor
-     * @see showCursor
-     */
-    virtual void doShowCursor();
-    virtual void doSetSoftwareCursor();
-
 private:
     void triggerCursorRepaint();
-    bool m_softwareCursor = false;
-    bool m_softwareCursorForced = false;
     struct {
         QRect lastRenderedGeometry;
     } m_cursor;
@@ -518,11 +467,11 @@ private:
     qreal m_initialOutputScale = 1;
     EGLDisplay m_eglDisplay;
     EGLContext m_globalShareContext = EGL_NO_CONTEXT;
-    int m_hideCursorCounter = 0;
     bool m_supportsGammaControl = false;
     bool m_supportsOutputChanges = false;
     bool m_isPerScreenRenderingEnabled = false;
     CompositingType m_selectedCompositor = NoCompositing;
+    AbstractOutput *m_primaryOutput = nullptr;
 };
 
 }

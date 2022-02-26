@@ -21,7 +21,6 @@
 #include "deleted.h"
 #include "effects.h"
 #include "focuschain.h"
-#include "geometrytip.h"
 #include "group.h"
 #include "netinfo.h"
 #include "platform.h"
@@ -194,6 +193,7 @@ X11Client::X11Client()
     m_syncRequest.timeout = m_syncRequest.failsafeTimeout = nullptr;
     m_syncRequest.lastTimestamp = xTime();
     m_syncRequest.isPending = false;
+    m_syncRequest.interactiveResize = false;
 
     // Set the initial mapping state
     mapping_state = Withdrawn;
@@ -213,17 +213,19 @@ X11Client::X11Client()
     connect(options, &Options::configChanged, this, &X11Client::updateMouseGrab);
     connect(options, &Options::condensedTitleChanged, this, &X11Client::updateCaption);
 
-    connect(this, &X11Client::moveResizeCursorChanged, this, [this] (CursorShape cursor) {
-        xcb_cursor_t nativeCursor = Cursors::self()->mouse()->x11Cursor(cursor);
-        m_frame.defineCursor(nativeCursor);
-        if (m_decoInputExtent.isValid())
-            m_decoInputExtent.defineCursor(nativeCursor);
-        if (isInteractiveMoveResize()) {
-            // changing window attributes doesn't change cursor if there's pointer grab active
-            xcb_change_active_pointer_grab(connection(), nativeCursor, xTime(),
-                XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE | XCB_EVENT_MASK_POINTER_MOTION | XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW);
-        }
-    });
+    if (kwinApp()->operationMode() == Application::OperationModeX11) {
+        connect(this, &X11Client::moveResizeCursorChanged, this, [this] (CursorShape cursor) {
+            xcb_cursor_t nativeCursor = Cursors::self()->mouse()->x11Cursor(cursor);
+            m_frame.defineCursor(nativeCursor);
+            if (m_decoInputExtent.isValid())
+                m_decoInputExtent.defineCursor(nativeCursor);
+            if (isInteractiveMoveResize()) {
+                // changing window attributes doesn't change cursor if there's pointer grab active
+                xcb_change_active_pointer_grab(connection(), nativeCursor, xTime(),
+                    XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE | XCB_EVENT_MASK_POINTER_MOTION | XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW);
+            }
+        });
+    }
 
     // SELI TODO: Initialize xsizehints??
 }
@@ -274,8 +276,6 @@ void X11Client::releaseWindow(bool on_shutdown)
         leaveInteractiveMoveResize();
     finishWindowRules();
     blockGeometryUpdates();
-    if (isOnCurrentDesktop() && isShown(true))
-        addWorkspaceRepaint(visibleGeometry());
     // Grab X during the release to make removing of properties, setting to withdrawn state
     // and repareting to root an atomic operation (https://lists.kde.org/?l=kde-devel&m=116448102901184&w=2)
     grabXServer();
@@ -338,8 +338,6 @@ void X11Client::destroyClient()
         leaveInteractiveMoveResize();
     finishWindowRules();
     blockGeometryUpdates();
-    if (isOnCurrentDesktop() && isShown(true))
-        addWorkspaceRepaint(visibleGeometry());
     setModal(false);
     hidden = true; // So that it's not considered visible anymore
     workspace()->clientHidden(this);
@@ -775,7 +773,7 @@ bool X11Client::manage(xcb_window_t w, bool isMapped)
         for (auto it = mainclients.constBegin();
                 it != mainclients.constEnd();
                 ++it)
-            if ((*it)->isShown(true))
+            if ((*it)->isShown())
                 init_minimize = false; // SELI TODO: Even e.g. for NET::Utility?
     }
     // If a dialog is shown for minimized window, minimize it too
@@ -788,7 +786,7 @@ bool X11Client::manage(xcb_window_t w, bool isMapped)
         for (auto it = mainclients.constBegin();
                 it != mainclients.constEnd();
                 ++it)
-            if ((*it)->isShown(true))
+            if ((*it)->isShown())
                 visible_parent = true;
         if (!visible_parent) {
             init_minimize = true;
@@ -876,7 +874,7 @@ bool X11Client::manage(xcb_window_t w, bool isMapped)
     else
         ready_for_painting = true; // set to true in case compositing is turned on later. bug #160393
 
-    if (isShown(true)) {
+    if (isShown()) {
         bool allow;
         if (session)
             allow = session->active &&
@@ -895,7 +893,8 @@ bool X11Client::manage(xcb_window_t w, bool isMapped)
         // If the window is on an inactive activity during session saving, temporarily force it to show.
         if( !isMapped && !session && isSessionSaving && !isOnCurrentActivity()) {
             setSessionActivityOverride( true );
-            Q_FOREACH( AbstractClient* c, mainClients()) {
+            const auto &clients = mainClients();
+            for (AbstractClient* c : qAsConst(clients)) {
                 if (X11Client *mc = dynamic_cast<X11Client *>(c)) {
                     mc->setSessionActivityOverride(true);
                 }
@@ -1039,9 +1038,13 @@ void X11Client::updateInputWindow()
     if (!Xcb::Extensions::self()->isShapeInputAvailable())
         return;
 
+    if (kwinApp()->operationMode() != Application::OperationModeX11) {
+        return;
+    }
+
     QRegion region;
 
-    if (!noBorder() && isDecorated()) {
+    if (decoration()) {
         const QMargins &r = decoration()->resizeOnlyBorders();
         const int left   = r.left();
         const int top    = r.top();
@@ -1113,41 +1116,22 @@ void X11Client::updateDecoration(bool check_workspace_pos, bool force)
     updateFrameExtents();
 }
 
+void X11Client::invalidateDecoration()
+{
+    updateDecoration(true, true);
+}
+
 void X11Client::createDecoration(const QRect& oldgeom)
 {
-    KDecoration2::Decoration *decoration = Decoration::DecorationBridge::self()->createDecoration(this);
+    QSharedPointer<KDecoration2::Decoration> decoration(Decoration::DecorationBridge::self()->createDecoration(this));
     if (decoration) {
-        QMetaObject::invokeMethod(decoration, QOverload<>::of(&KDecoration2::Decoration::update), Qt::QueuedConnection);
-        connect(decoration, &KDecoration2::Decoration::shadowChanged, this, &Toplevel::updateShadow);
-        connect(decoration, &KDecoration2::Decoration::bordersChanged,
-                this, &X11Client::updateDecorationInputShape);
-        connect(decoration, &KDecoration2::Decoration::resizeOnlyBordersChanged,
-                this, &X11Client::updateDecorationInputShape);
-        connect(decoration, &KDecoration2::Decoration::resizeOnlyBordersChanged, this, &X11Client::updateInputWindow);
-        connect(decoration, &KDecoration2::Decoration::bordersChanged, this,
-            [this]() {
-                updateFrameExtents();
-                GeometryUpdatesBlocker blocker(this);
-                // TODO: this is obviously idempotent
-                // calculateGravitation(true) would have to operate on the old border sizes
-//                 move(calculateGravitation(true));
-//                 move(calculateGravitation(false));
-                QRect oldgeom = frameGeometry();
-                resize(adjustedSize());
-                if (!isShade())
-                    checkWorkspacePosition(oldgeom);
-                Q_EMIT geometryShapeChanged(this, oldgeom);
-            }
-        );
-        connect(decoratedClient()->decoratedClient(), &KDecoration2::DecoratedClient::widthChanged, this, &X11Client::updateInputWindow);
-        connect(decoratedClient()->decoratedClient(), &KDecoration2::DecoratedClient::heightChanged, this, &X11Client::updateInputWindow);
-        connect(decoratedClient()->decoratedClient(), &KDecoration2::DecoratedClient::sizeChanged,
-                this, &X11Client::updateDecorationInputShape);
+        connect(decoration.data(), &KDecoration2::Decoration::resizeOnlyBordersChanged, this, &X11Client::updateInputWindow);
+        connect(decoration.data(), &KDecoration2::Decoration::bordersChanged, this, &X11Client::updateFrameExtents);
+        connect(decoratedClient()->decoratedClient(), &KDecoration2::DecoratedClient::sizeChanged, this, &X11Client::updateInputWindow);
     }
     setDecoration(decoration);
 
-    move(calculateGravitation(false));
-    resize(adjustedSize());
+    moveResize(QRect(calculateGravitation(false), implicitSize()));
     maybeCreateX11DecorationRenderer();
     Q_EMIT geometryShapeChanged(this, oldgeom);
 }
@@ -1159,8 +1143,7 @@ void X11Client::destroyDecoration()
         QPoint grav = calculateGravitation(true);
         setDecoration(nullptr);
         maybeDestroyX11DecorationRenderer();
-        resize(adjustedSize());
-        move(grav);
+        moveResize(QRect(grav, implicitSize()));
         if (!isZombie()) {
             Q_EMIT geometryShapeChanged(this, oldgeom);
         }
@@ -1211,7 +1194,7 @@ void X11Client::detectNoBorder()
         noborder = false;
         break;
     default:
-        abort();
+        Q_UNREACHABLE();
     }
     // NET::Override is some strange beast without clear definition, usually
     // just meaning "noborder", so let's treat it only as such flag, and ignore it as
@@ -1334,7 +1317,7 @@ void X11Client::updateShape()
             noborder = rules()->checkNoBorder(true);
             updateDecoration(true);
         }
-        if (noBorder()) {
+        if (!isDecorated()) {
             xcb_shape_combine(connection(), XCB_SHAPE_SO_SET, XCB_SHAPE_SK_BOUNDING, XCB_SHAPE_SK_BOUNDING,
                               frameId(), clientPos().x(), clientPos().y(), window());
         }
@@ -1393,11 +1376,21 @@ void X11Client::updateInputShape()
     }
 }
 
-void X11Client::hideClient(bool hide)
+void X11Client::hideClient()
 {
-    if (hidden == hide)
+    if (hidden) {
         return;
-    hidden = hide;
+    }
+    hidden = true;
+    updateVisibility();
+}
+
+void X11Client::showClient()
+{
+    if (!hidden) {
+        return;
+    }
+    hidden = false;
     updateVisibility();
 }
 
@@ -1416,8 +1409,6 @@ void X11Client::finishCompositing(ReleaseReason releaseReason)
 {
     Toplevel::finishCompositing(releaseReason);
     updateVisibility();
-    // for safety in case KWin is just resizing the window
-    resetHaveResizeEffect();
     // If compositing is off, render the decoration in the X11 frame window.
     maybeCreateX11DecorationRenderer();
 }
@@ -1439,7 +1430,7 @@ bool X11Client::isMinimizable() const
         for (auto it = mainclients.constBegin();
                 it != mainclients.constEnd();
                 ++it)
-            if ((*it)->isShown(true))
+            if ((*it)->isShown())
                 shown_mainwindow = true;
         if (!shown_mainwindow)
             return true;
@@ -1477,7 +1468,8 @@ QRect X11Client::iconGeometry() const
         return geom;
     else {
         // Check all mainwindows of this window (recursively)
-        Q_FOREACH (AbstractClient * amainwin, mainClients()) {
+        const auto &clients = mainClients();
+        for (AbstractClient * amainwin : clients) {
             X11Client *mainwin = dynamic_cast<X11Client *>(amainwin);
             if (!mainwin) {
                 continue;
@@ -1493,7 +1485,7 @@ QRect X11Client::iconGeometry() const
 
 bool X11Client::isShadeable() const
 {
-    return !isSpecialWindow() && !noBorder() && (rules()->checkShade(ShadeNormal) != rules()->checkShade(ShadeNone));
+    return !isSpecialWindow() && isDecorated() && (rules()->checkShade(ShadeNormal) != rules()->checkShade(ShadeNone));
 }
 
 void X11Client::doSetShade(ShadeMode previousShadeMode)
@@ -1504,7 +1496,7 @@ void X11Client::doSetShade(ShadeMode previousShadeMode)
         addWorkspaceRepaint(visibleGeometry());
         // Shade
         shade_geometry_change = true;
-        QSize s(adjustedSize());
+        QSize s(implicitSize());
         s.setHeight(borderTop() + borderBottom());
         m_wrapper.selectInput(ClientWinMask);   // Avoid getting UnmapNotify
         m_wrapper.unmap();
@@ -1525,7 +1517,7 @@ void X11Client::doSetShade(ShadeMode previousShadeMode)
         shade_geometry_change = true;
         if (decoratedClient())
             decoratedClient()->signalShadeChange();
-        QSize s(adjustedSize());
+        QSize s(implicitSize());
         shade_geometry_change = false;
         resize(s);
         setGeometryRestore(frameGeometry());
@@ -1554,7 +1546,7 @@ void X11Client::doSetShade(ShadeMode previousShadeMode)
             workspace()->requestFocus(this);
     }
     info->setState(isShade() ? NET::Shaded : NET::States(), NET::Shaded);
-    info->setState(isShown(false) ? NET::States() : NET::Hidden, NET::Hidden);
+    info->setState((isShade() || !isShown()) ? NET::Hidden : NET::States(), NET::Hidden);
     updateVisibility();
     updateAllowedActions();
     discardWindowPixmap();
@@ -1929,7 +1921,7 @@ void X11Client::doSetOnActivities(const QStringList &activityList)
         m_client.changeProperty(atoms->activities, XCB_ATOM_STRING, 8, joined.length(), joined.constData());
     }
 #else
-    Q_UNUSED(newActivitiesList)
+    Q_UNUSED(activityList)
 #endif
 }
 
@@ -1979,7 +1971,8 @@ bool X11Client::takeFocus()
 
     bool breakShowingDesktop = !keepAbove();
     if (breakShowingDesktop) {
-        Q_FOREACH (const X11Client *c, group()->members()) {
+        const auto members = group()->members();
+        for (const X11Client *c : members) {
             if (c->isDesktop()) {
                 breakShowingDesktop = false;
                 break;
@@ -2302,6 +2295,7 @@ void X11Client::sendSyncRequest()
                 }
                 // failed during resize
                 m_syncRequest.isPending = false;
+                m_syncRequest.interactiveResize = false;
                 m_syncRequest.counter = XCB_NONE;
                 m_syncRequest.alarm = XCB_NONE;
                 delete m_syncRequest.timeout;
@@ -2333,6 +2327,7 @@ void X11Client::sendSyncRequest()
     sendClientMessage(window(), atoms->wm_protocols, atoms->net_wm_sync_request,
                       m_syncRequest.value.lo, m_syncRequest.value.hi);
     m_syncRequest.isPending = true;
+    m_syncRequest.interactiveResize = isInteractiveResize();
     m_syncRequest.lastTimestamp = xTime();
 }
 
@@ -2418,16 +2413,16 @@ void X11Client::readActivities(Xcb::StringProperty &property)
 
     if (prop == Activities::nullUuid()) {
         //copied from setOnAllActivities to avoid a redundant XChangeProperty.
-        if (!activityList.isEmpty()) {
-            activityList.clear();
+        if (!m_activityList.isEmpty()) {
+            m_activityList.clear();
             updateActivities(true);
         }
         return;
     }
     if (prop.isEmpty()) {
         //note: this makes it *act* like it's on all activities but doesn't set the property to 'ALL'
-        if (!activityList.isEmpty()) {
-            activityList.clear();
+        if (!m_activityList.isEmpty()) {
+            m_activityList.clear();
             updateActivities(true);
         }
         return;
@@ -2435,7 +2430,7 @@ void X11Client::readActivities(Xcb::StringProperty &property)
 
     newActivitiesList = prop.split(u',');
 
-    if (newActivitiesList == activityList)
+    if (newActivitiesList == m_activityList)
         return; //expected change, it's ok.
 
     //otherwise, somebody else changed it. we need to validate before reacting.
@@ -2681,11 +2676,11 @@ void X11Client::readShowOnScreenEdge(Xcb::Property &property)
                 }
             });
         } else {
-            hideClient(true);
+            hideClient();
             successfullyHidden = isHiddenInternal();
 
             m_edgeGeometryTrackingConnection = connect(this, &X11Client::frameGeometryChanged, this, [this, border](){
-                hideClient(true);
+                hideClient();
                 ScreenEdges::self()->reserve(this, border);
             });
         }
@@ -2719,7 +2714,7 @@ void X11Client::showOnScreenEdge()
 {
     disconnect(m_edgeRemoveConnection);
 
-    hideClient(false);
+    showClient();
     setKeepBelow(false);
     xcb_delete_property(connection(), window(), atoms->kde_screen_edge_show);
 }
@@ -2778,14 +2773,21 @@ void X11Client::handleSync()
     if (m_syncRequest.failsafeTimeout) {
         m_syncRequest.failsafeTimeout->stop();
     }
-    if (isInteractiveResize()) {
+
+    // Sync request can be acknowledged shortly after finishing resize.
+    if (m_syncRequest.interactiveResize) {
+        m_syncRequest.interactiveResize = false;
         if (m_syncRequest.timeout) {
             m_syncRequest.timeout->stop();
         }
-        performInteractiveMoveResize();
+        performInteractiveResize();
         updateWindowPixmap();
-    } else // setReadyForPainting does as well, but there's a small chance for resize syncs after the resize ended
-        addRepaintFull();
+    }
+}
+
+void X11Client::performInteractiveResize()
+{
+    resize(moveResizeGeometry().size());
 }
 
 bool X11Client::belongToSameApplication(const X11Client *c1, const X11Client *c2, SameApplicationChecks checks)
@@ -3608,7 +3610,7 @@ void X11Client::getWmNormalHints()
     }
     if (isManaged()) {
         // update to match restrictions
-        QSize new_size = adjustedSize();
+        QSize new_size = clientSizeToFrameSize(constrainClientSize(clientSize()));
         if (new_size != size() && !isFullScreen()) {
             QRect origClientGeometry = m_clientGeometry;
             resizeWithChecks(new_size);
@@ -3877,7 +3879,6 @@ void X11Client::configureRequest(int value_mask, int rx, int ry, int rw, int rh,
             }
         }
     }
-    setGeometryRestore(frameGeometry());
     // No need to send synthetic configure notify event here, either it's sent together
     // with geometry change, or there's no need to send it.
     // Handling of the real ConfigureRequest event forces sending it, as there it's necessary.
@@ -4001,10 +4002,11 @@ bool X11Client::isResizable() const
         return false;
     if (rules()->checkSize(QSize()).isValid())   // forced size
         return false;
-    const Position mode = interactiveMoveResizePointerMode();
-    if ((mode == PositionTop || mode == PositionTopLeft || mode == PositionTopRight ||
-         mode == PositionLeft || mode == PositionBottomLeft) && rules()->checkPosition(invalidPoint) != invalidPoint)
+    const Gravity gravity = interactiveMoveResizeGravity();
+    if ((gravity == Gravity::Top || gravity == Gravity::TopLeft || gravity == Gravity::TopRight ||
+         gravity == Gravity::Left || gravity == Gravity::BottomLeft) && rules()->checkPosition(invalidPoint) != invalidPoint) {
         return false;
+    }
 
     QSize min = minSize();
     QSize max = maxSize();
@@ -4200,7 +4202,7 @@ void X11Client::changeMaximize(bool horizontal, bool vertical, bool adjust)
     // save sizes for restoring, if maximalizing
     QSize sz;
     if (isShade())
-        sz = adjustedSize();
+        sz = implicitSize();
     else
         sz = size();
 
@@ -4354,11 +4356,11 @@ void X11Client::changeMaximize(bool horizontal, bool vertical, bool adjust)
                 const bool overHeight = r.height() > clientArea.height();
                 const bool overWidth  = r.width()  > clientArea.width();
                 if (closeWidth || closeHeight) {
-                    Position titlePos = titlebarPosition();
+                    Qt::Edge titlePos = titlebarPosition();
                     const QRect screenArea = workspace()->clientArea(ScreenArea, this, clientArea.center());
                     if (closeHeight) {
-                        bool tryBottom = titlePos == PositionBottom;
-                        if ((overHeight && titlePos == PositionTop) ||
+                        bool tryBottom = titlePos == Qt::BottomEdge;
+                        if ((overHeight && titlePos == Qt::TopEdge) ||
                             screenArea.top() == clientArea.top())
                             r.setTop(clientArea.top());
                         else
@@ -4368,8 +4370,8 @@ void X11Client::changeMaximize(bool horizontal, bool vertical, bool adjust)
                             r.setBottom(clientArea.bottom());
                     }
                     if (closeWidth) {
-                        bool tryLeft = titlePos == PositionLeft;
-                        if ((overWidth && titlePos == PositionRight) ||
+                        bool tryLeft = titlePos == Qt::LeftEdge;
+                        if ((overWidth && titlePos == Qt::RightEdge) ||
                             screenArea.right() == clientArea.right())
                             r.setRight(clientArea.right());
                         else
@@ -4508,54 +4510,33 @@ QRect X11Client::fullscreenMonitorsArea(NETFullscreenMonitors requestedTopology)
     return total;
 }
 
-static GeometryTip* geometryTip    = nullptr;
-
-void X11Client::positionGeometryTip()
-{
-    Q_ASSERT(isInteractiveMove() || isInteractiveResize());
-    // Position and Size display
-    if (effects && static_cast<EffectsHandlerImpl*>(effects)->provides(Effect::GeometryTip))
-        return; // some effect paints this for us
-    if (options->showGeometryTip()) {
-        if (!geometryTip) {
-            geometryTip = new GeometryTip(&m_geometryHints);
-        }
-        QRect wgeom(moveResizeGeometry());   // position of the frame, size of the window itself
-        wgeom.setWidth(wgeom.width() - (width() - clientSize().width()));
-        wgeom.setHeight(wgeom.height() - (height() - clientSize().height()));
-        if (isShade())
-            wgeom.setHeight(0);
-        geometryTip->setGeometry(wgeom);
-        if (!geometryTip->isVisible())
-            geometryTip->show();
-        geometryTip->raise();
-    }
-}
-
 bool X11Client::doStartInteractiveMoveResize()
 {
-    bool has_grab = false;
-    // This reportedly improves smoothness of the moveresize operation,
-    // something with Enter/LeaveNotify events, looks like XFree performance problem or something *shrug*
-    // (https://lists.kde.org/?t=107302193400001&r=1&w=2)
-    QRect r = workspace()->clientArea(FullArea, this);
-    m_moveResizeGrabWindow.create(r, XCB_WINDOW_CLASS_INPUT_ONLY, 0, nullptr, rootWindow());
-    m_moveResizeGrabWindow.map();
-    m_moveResizeGrabWindow.raise();
-    updateXTime();
-    const xcb_grab_pointer_cookie_t cookie = xcb_grab_pointer_unchecked(connection(), false, m_moveResizeGrabWindow,
-        XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE | XCB_EVENT_MASK_POINTER_MOTION |
-        XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW,
-        XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC, m_moveResizeGrabWindow, Cursors::self()->mouse()->x11Cursor(cursor()), xTime());
-    ScopedCPointer<xcb_grab_pointer_reply_t> pointerGrab(xcb_grab_pointer_reply(connection(), cookie, nullptr));
-    if (!pointerGrab.isNull() && pointerGrab->status == XCB_GRAB_STATUS_SUCCESS) {
-        has_grab = true;
-    }
-    if (!has_grab && grabXKeyboard(frameId()))
-        has_grab = move_resize_has_keyboard_grab = true;
-    if (!has_grab) { // at least one grab is necessary in order to be able to finish move/resize
-        m_moveResizeGrabWindow.reset();
-        return false;
+    if (kwinApp()->operationMode() == Application::OperationModeX11) {
+        bool has_grab = false;
+        // This reportedly improves smoothness of the moveresize operation,
+        // something with Enter/LeaveNotify events, looks like XFree performance problem or something *shrug*
+        // (https://lists.kde.org/?t=107302193400001&r=1&w=2)
+        QRect r = workspace()->clientArea(FullArea, this);
+        m_moveResizeGrabWindow.create(r, XCB_WINDOW_CLASS_INPUT_ONLY, 0, nullptr, rootWindow());
+        m_moveResizeGrabWindow.map();
+        m_moveResizeGrabWindow.raise();
+        updateXTime();
+        const xcb_grab_pointer_cookie_t cookie = xcb_grab_pointer_unchecked(connection(), false, m_moveResizeGrabWindow,
+            XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE | XCB_EVENT_MASK_POINTER_MOTION |
+            XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW,
+            XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC, m_moveResizeGrabWindow, Cursors::self()->mouse()->x11Cursor(cursor()), xTime());
+        ScopedCPointer<xcb_grab_pointer_reply_t> pointerGrab(xcb_grab_pointer_reply(connection(), cookie, nullptr));
+        if (!pointerGrab.isNull() && pointerGrab->status == XCB_GRAB_STATUS_SUCCESS) {
+            has_grab = true;
+        }
+        if (!has_grab && grabXKeyboard(frameId())) {
+            has_grab = move_resize_has_keyboard_grab = true;
+        }
+        if (!has_grab) { // at least one grab is necessary in order to be able to finish move/resize
+            m_moveResizeGrabWindow.reset();
+            return false;
+        }
     }
     return true;
 }
@@ -4569,27 +4550,20 @@ void X11Client::leaveInteractiveMoveResize()
     }
     if (!isInteractiveResize())
         sendSyntheticConfigureNotify(); // tell the client about it's new final position
-    if (geometryTip) {
-        geometryTip->hide();
-        delete geometryTip;
-        geometryTip = nullptr;
+    if (kwinApp()->operationMode() == Application::OperationModeX11) {
+        if (move_resize_has_keyboard_grab) {
+            ungrabXKeyboard();
+        }
+        move_resize_has_keyboard_grab = false;
+        xcb_ungrab_pointer(connection(), xTime());
+        m_moveResizeGrabWindow.reset();
     }
-    if (move_resize_has_keyboard_grab)
-        ungrabXKeyboard();
-    move_resize_has_keyboard_grab = false;
-    xcb_ungrab_pointer(connection(), xTime());
-    m_moveResizeGrabWindow.reset();
-    if (m_syncRequest.counter == XCB_NONE) { // don't forget to sanitize since the timeout will no more fire
-        m_syncRequest.isPending = false;
-    }
-    delete m_syncRequest.timeout;
-    m_syncRequest.timeout = nullptr;
     AbstractClient::leaveInteractiveMoveResize();
 }
 
 bool X11Client::isWaitingForInteractiveMoveResizeSync() const
 {
-    return m_syncRequest.isPending && isInteractiveResize();
+    return m_syncRequest.isPending && m_syncRequest.interactiveResize;
 }
 
 void X11Client::doInteractiveResizeSync()
@@ -4599,13 +4573,19 @@ void X11Client::doInteractiveResizeSync()
         connect(m_syncRequest.timeout, &QTimer::timeout, this, &X11Client::handleSyncTimeout);
         m_syncRequest.timeout->setSingleShot(true);
     }
+
     if (m_syncRequest.counter != XCB_NONE) {
         m_syncRequest.timeout->start(250);
         sendSyncRequest();
-    } else {                              // for clients not supporting the XSYNC protocol, we
-        m_syncRequest.isPending = true;   // limit the resizes to 30Hz to take pointless load from X11
-        m_syncRequest.timeout->start(33); // and the client, the mouse is still moved at full speed
-    }                                     // and no human can control faster resizes anyway
+    } else {
+        // For clients not supporting the XSYNC protocol, we limit the resizes to 30Hz
+        // to take pointless load from X11 and the client, the mouse is still moved at
+        // full speed and no human can control faster resizes anyway.
+        m_syncRequest.isPending = true;
+        m_syncRequest.interactiveResize = true;
+        m_syncRequest.timeout->start(33);
+    }
+
     const QRect moveResizeClientGeometry = frameRectToClientRect(moveResizeGeometry());
     const QRect moveResizeBufferGeometry = frameRectToBufferRect(moveResizeGeometry());
 
@@ -4620,10 +4600,11 @@ void X11Client::doInteractiveResizeSync()
 
 void X11Client::handleSyncTimeout()
 {
-    if (m_syncRequest.counter == XCB_NONE) { // client w/o XSYNC support. allow the next resize event
-        m_syncRequest.isPending = false;     // NEVER do this for clients with a valid counter
-    }                                        // (leads to sync request races in some clients)
-    performInteractiveMoveResize();
+    if (m_syncRequest.counter == XCB_NONE) {     // client w/o XSYNC support. allow the next resize event
+        m_syncRequest.isPending = false;         // NEVER do this for clients with a valid counter
+        m_syncRequest.interactiveResize = false; // (leads to sync request races in some clients)
+    }
+    performInteractiveResize();
 }
 
 NETExtendedStrut X11Client::strut() const
@@ -4693,7 +4674,7 @@ StrutRect X11Client::strutRect(StrutArea area) const
                              ), StrutAreaLeft);
         break;
     default:
-        abort(); // Not valid
+        Q_UNREACHABLE(); // Not valid
     }
     return StrutRect(); // Null rect
 }

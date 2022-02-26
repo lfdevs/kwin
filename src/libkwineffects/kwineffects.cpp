@@ -13,6 +13,7 @@
 
 #include "config-kwin.h"
 
+#include <QMatrix4x4>
 #include <QVariant>
 #include <QTimeLine>
 #include <QFontMetrics>
@@ -22,8 +23,6 @@
 
 #include <ksharedconfig.h>
 #include <kconfiggroup.h>
-
-#include <KWaylandServer/surface_interface.h>
 
 #if defined(__SSE2__)
 #  include <emmintrin.h>
@@ -949,7 +948,7 @@ WindowQuadList WindowQuadList::makeGrid(int maxQuadSize) const
     double top    = first().top();
     double bottom = first().bottom();
 
-    Q_FOREACH (const WindowQuad &quad, *this) {
+    for (const WindowQuad &quad : qAsConst(*this)) {
         left   = qMin(left,   quad.left());
         right  = qMax(right,  quad.right());
         top    = qMin(top,    quad.top());
@@ -958,7 +957,7 @@ WindowQuadList WindowQuadList::makeGrid(int maxQuadSize) const
 
     WindowQuadList ret;
 
-    for (const WindowQuad &quad : *this) {
+    for (const WindowQuad &quad : qAsConst(*this)) {
         const double quadLeft   = quad.left();
         const double quadRight  = quad.right();
         const double quadTop    = quad.top();
@@ -1383,8 +1382,7 @@ void WindowMotionManager::apply(EffectWindow *w, WindowPaintData &data)
 void WindowMotionManager::moveWindow(EffectWindow *w, QPoint target, double scale, double yScale)
 {
     QHash<EffectWindow*, WindowMotion>::iterator it = m_managedWindows.find(w);
-    if (it == m_managedWindows.end())
-        abort(); // Notify the effect author that they did something wrong
+    Q_ASSERT(it != m_managedWindows.end()); // Notify the effect author that they did something wrong
 
     WindowMotion *motion = &it.value();
 

@@ -23,8 +23,10 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <QProcess>
-
 #include <QTemporaryFile>
+#include <QDBusConnection>
+
+#include <UpdateLaunchEnvironmentJob>
 
 #include <signal.h>
 
@@ -80,6 +82,7 @@ KWinWrapper::~KWinWrapper()
 {
     wl_socket_destroy(m_socket);
     if (m_kwinProcess) {
+        disconnect(m_kwinProcess, nullptr, this, nullptr);
         m_kwinProcess->terminate();
         m_kwinProcess->waitForFinished();
         m_kwinProcess->kill();
@@ -93,12 +96,14 @@ void KWinWrapper::run()
 
     QStringList args;
 
-    args << "--wayland_fd" << QString::number(wl_socket_get_fd(m_socket));
+    args << "--wayland-fd" << QString::number(wl_socket_get_fd(m_socket));
     args << "--socket" << QString::fromUtf8(wl_socket_get_display_name(m_socket));
 
     if (m_xwlSocket) {
-        args << "--xwayland-fd" << QString::number(m_xwlSocket->abstractFileDescriptor());
-        args << "--xwayland-fd" << QString::number(m_xwlSocket->unixFileDescriptor());
+        const auto xwaylandFileDescriptors = m_xwlSocket->fileDescriptors();
+        for (const int &fileDescriptor : xwaylandFileDescriptors) {
+            args << "--xwayland-fd" << QString::number(fileDescriptor);
+        }
         args << "--xwayland-display" << m_xwlSocket->name();
         if (m_xauthorityFile.open()) {
             args << "--xwayland-xauthority" << m_xauthorityFile.fileName();
@@ -119,9 +124,10 @@ void KWinWrapper::run()
             qApp->quit();
             return;
         } else if (exitCode == 133) {
-                m_crashCount = 0;
+            m_crashCount = 0;
+        } else {
+            m_crashCount++;
         }
-        m_crashCount++;
 
         if (m_crashCount > 10) {
             qApp->quit();
@@ -133,6 +139,21 @@ void KWinWrapper::run()
     });
 
     m_kwinProcess->start();
+
+    QProcessEnvironment env;
+    env.insert("WAYLAND_DISPLAY", QString::fromUtf8(wl_socket_get_display_name(m_socket)));
+    if (m_xwlSocket) {
+        env.insert("DISPLAY", m_xwlSocket->name());
+        if (m_xauthorityFile.open()) {
+            env.insert("XAUTHORITY", m_xauthorityFile.fileName());
+        }
+    }
+
+    auto envSyncJob = new UpdateLaunchEnvironmentJob(env);
+    connect(envSyncJob, &UpdateLaunchEnvironmentJob::finished, this, []() {
+        // The service name is merely there to indicate to the world that we're up and ready with all envs exported
+        QDBusConnection::sessionBus().registerService(QStringLiteral("org.kde.KWinWrapper"));
+    });
 }
 
 void sigtermHandler(int)
@@ -143,6 +164,7 @@ void sigtermHandler(int)
 int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
+    app.setQuitLockEnabled(false); // don't exit when the first KJob finishes
 
     signal(SIGTERM, sigtermHandler);
 

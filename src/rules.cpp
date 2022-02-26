@@ -862,10 +862,11 @@ void AbstractClient::applyWindowRules()
     // Placement - does need explicit update, just like some others below
     // Geometry : setGeometry() doesn't check rules
     auto client_rules = rules();
-    QRect orig_geom = QRect(pos(), adjustedSize());   // handle shading
-    QRect geom = client_rules->checkGeometry(orig_geom);
-    if (geom != orig_geom)
-        moveResize(geom);
+    const QRect oldGeometry = moveResizeGeometry();
+    const QRect geometry = client_rules->checkGeometry(oldGeometry);
+    if (geometry != oldGeometry) {
+        moveResize(geometry);
+    }
     // MinSize, MaxSize handled by Geometry
     // IgnoreGeometry
     setDesktops(desktops());
@@ -892,10 +893,6 @@ void AbstractClient::applyWindowRules()
     if (workspace()->mostRecentlyActivatedClient() == this
             && !client_rules->checkAcceptFocus(true))
         workspace()->activateNextClient(this);
-    // Closeable
-    QSize s = adjustedSize();
-    if (s != size() && s.isValid())
-        resizeWithChecks(s);
     // Autogrouping : Only checked on window manage
     // AutogroupInForeground : Only checked on window manage
     // AutogroupById : Only checked on window manage
@@ -1006,7 +1003,7 @@ void RuleBook::edit(AbstractClient* c, bool whole_app)
     args << QStringLiteral("--uuid") << c->internalId().toString();
     if (whole_app)
         args << QStringLiteral("--whole-app");
-    QProcess *p = new Process(this);
+    QProcess *p = new QProcess(this);
     p->setArguments(args);
     p->setProcessEnvironment(kwinApp()->processStartupEnvironment());
     const QFileInfo buildDirBinary{QDir{QCoreApplication::applicationDirPath()}, QStringLiteral("kwin_rules_dialog")};
@@ -1117,8 +1114,10 @@ void RuleBook::setUpdatesDisabled(bool disable)
 {
     m_updatesDisabled = disable;
     if (!disable) {
-        Q_FOREACH (X11Client *c, Workspace::self()->clientList())
+        const auto clients = Workspace::self()->clientList();
+        for (X11Client *c : clients) {
             c->updateWindowRules(Rules::All);
+        }
     }
 }
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-08-26 00:18+0000\n"
+"POT-Creation-Date: 2022-01-22 02:14+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -202,34 +202,34 @@ msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "Cnaipí"
 
-#: package/contents/ui/main.qml:87
+#: package/contents/ui/main.qml:93
 #, fuzzy, kde-format
 #| msgid "Border size:"
 msgctxt "Selector label"
 msgid "Window border size:"
 msgstr "Méid na himlíne:"
 
-#: package/contents/ui/main.qml:105
+#: package/contents/ui/main.qml:114
 #, fuzzy, kde-format
 #| msgid "Get New Decorations..."
 msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "Faigh Maisiúcháin Nua..."
 
-#: package/contents/ui/main.qml:128
+#: package/contents/ui/main.qml:143
 #, fuzzy, kde-format
 #| msgid "Close windows by double clicking the menu button"
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Dún fuinneoga trí dhéchliceáil ar an gcnaipe roghchláir"
 
-#: package/contents/ui/main.qml:145
+#: package/contents/ui/main.qml:160
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
 msgstr ""
 
-#: package/contents/ui/main.qml:152
+#: package/contents/ui/main.qml:167
 #, fuzzy, kde-format
 #| msgid "&Show window button tooltips"
 msgctxt "checkbox label"

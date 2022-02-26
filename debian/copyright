@@ -80,61 +80,7 @@ License: GPL-2+
 Files: autotests/integration/dbus_interface_test.cpp
        autotests/onscreennotificationtest.cpp
        autotests/onscreennotificationtest.h
-       kcmkwin/kwindecoration/declarative-plugin/buttonsmodel.cpp
-       kcmkwin/kwindecoration/declarative-plugin/buttonsmodel.h
-       kcmkwin/kwindecoration/declarative-plugin/plugin.cpp
-       kcmkwin/kwindecoration/declarative-plugin/plugin.h
-       kcmkwin/kwindecoration/declarative-plugin/previewbridge.cpp
-       kcmkwin/kwindecoration/declarative-plugin/previewbridge.h
-       kcmkwin/kwindecoration/declarative-plugin/previewbutton.cpp
-       kcmkwin/kwindecoration/declarative-plugin/previewbutton.h
-       kcmkwin/kwindecoration/declarative-plugin/previewclient.cpp
-       kcmkwin/kwindecoration/declarative-plugin/previewclient.h
-       kcmkwin/kwindecoration/declarative-plugin/previewitem.cpp
-       kcmkwin/kwindecoration/declarative-plugin/previewitem.h
-       kcmkwin/kwindecoration/declarative-plugin/previewsettings.cpp
-       kcmkwin/kwindecoration/declarative-plugin/previewsettings.h
-       kcmkwin/kwindecoration/decorationmodel.cpp
-       kcmkwin/kwindecoration/decorationmodel.h
-       kcmkwin/kwindecoration/package/contents/ui/ButtonGroup.qml
-       kcmkwin/kwindecoration/package/contents/ui/Buttons.qml
-       kcmkwin/kwindecoration/package/contents/ui/Themes.qml
-       kcmkwin/kwinrules/kcmrules.cpp
-       kcmkwin/kwinrules/kcmrules.h
-       kcmkwin/kwinrules/optionsmodel.cpp
-       kcmkwin/kwinrules/optionsmodel.h
-       kcmkwin/kwinrules/package/contents/ui/FileDialogLoader.qml
-       kcmkwin/kwinrules/package/contents/ui/OptionsComboBox.qml
-       kcmkwin/kwinrules/package/contents/ui/RuleItemDelegate.qml
-       kcmkwin/kwinrules/package/contents/ui/RulesEditor.qml
-       kcmkwin/kwinrules/package/contents/ui/RulesList.qml
-       kcmkwin/kwinrules/package/contents/ui/ValueEditor.qml
-       kcmkwin/kwinrules/rulebookmodel.cpp
-       kcmkwin/kwinrules/rulebookmodel.h
-       kcmkwin/kwinrules/ruleitem.cpp
-       kcmkwin/kwinrules/ruleitem.h
-       kcmkwin/kwinrules/rulesmodel.cpp
-       kcmkwin/kwinrules/rulesmodel.h
-       onscreennotification.cpp
-       onscreennotification.h
-       osd.cpp
-       osd.h
-       plugins/windowsystem/plugin.cpp
-       plugins/windowsystem/plugin.h
-       plugins/windowsystem/windoweffects.cpp
-       plugins/windowsystem/windoweffects.h
-       plugins/windowsystem/windowshadow.cpp
-       plugins/windowsystem/windowshadow.h
-       plugins/windowsystem/windowsystem.cpp
-       plugins/windowsystem/windowsystem.h
-       popup_input_filter.cpp
-       popup_input_filter.h
-       qml/onscreennotification/plasma/main.qml
-       qml/outline/*
-       tabletmodemanager.cpp
-       tabletmodemanager.h
        tests/cursorhotspottest.cpp
-       tests/libinputtest.cpp
        tests/normalhintsbasesizetest.cpp
        tests/pointergesturestest.cpp
        tests/pointergesturestest.qml
@@ -152,35 +98,7 @@ Copyright: 2020, Ismael Asensio <isma.af@gmail.com>
            2020, Vlad Zahorodnii <vlad.zahorodnii@kde.org>
 License: GPL-2+3+KDEeV
 
-Files: autotests/test_ftrace.cpp                          
-       dmabuftexture.cpp                                    
-       dmabuftexture.h
-       ftrace.cpp
-       ftrace.h
-       kcmkwin/kwindesktop/package/contents/ui/main.qml
-       kcmkwin/kwinscreenedges/screenpreviewwidget.cpp
-       kcmkwin/kwinscreenedges/screenpreviewwidget.h
-       plugins/colord-integration/main.cpp
-       plugins/kpackage/aurorae/aurorae.cpp
-       plugins/kpackage/aurorae/aurorae.h
-       plugins/kpackage/decoration/decoration.cpp
-       plugins/kpackage/decoration/decoration.h
-       plugins/kpackage/effect/effect.cpp
-       plugins/kpackage/effect/effect.h              
-       plugins/kpackage/scripts/scripts.cpp    
-       plugins/kpackage/scripts/scripts.h
-       plugins/kpackage/windowswitcher/windowswitcher.cpp
-       plugins/kpackage/windowswitcher/windowswitcher.h
-       plugins/nightcolor/main.cpp
-       plugins/platforms/drm/gbm_dmabuf.cpp
-       plugins/platforms/drm/gbm_dmabuf.h
-       plugins/screencast/main.cpp
-       plugins/screencast/pipewirecore.cpp
-       plugins/screencast/pipewirecore.h
-       plugins/screencast/pipewirestream.cpp
-       plugins/screencast/pipewirestream.h
-       plugins/screencast/screencastmanager.cpp
-       plugins/screencast/screencastmanager.h
+Files: autotests/test_ftrace.cpp
 Copyright: 2020, Aleix Pol Gonzalez <aleixpol@kde.org>
            2021, David Edmundson <davidedmundson@kde.org>
            2017, Demitrius Belai <demitriusbelai@gmail.com>
@@ -199,21 +117,6 @@ Copyright: 2014, Alex Merry <alex.merry@kde.org>
            2014-2016, Martin Gräßlin <mgraesslin@kde.org>
            2020, Vlad Zahorodnii <vlad.zahorodnii@kde.org>
 License: BSD-3-clause
-
-Files: helpers/killer/killer.cpp
-Copyright: 2003, Lubos Lunak <l.lunak@kde.org>
-License: MIT
-
-Files: kcmkwin/kwindecoration/kcm.cpp
-       kcmkwin/kwindecoration/kcm.h
-       kcmkwin/kwindecoration/package/contents/ui/main.qml
-       kcmkwin/kwindecoration/utils.cpp   
-       kcmkwin/kwindecoration/utils.h
-       scripting/timer.cpp
-Copyright: 2019, Cyril Rossi <cyril.rossi@enioka.com> 
-           2007, Richard J. Moore <rich@kde.org>    
-           2019, Valerio Pilo <vpilo@coldshock.net>
-License: LGPL-2
 
 Files: po/ca/*
        po/ca@valencia/*
@@ -239,6 +142,7 @@ License: GFDL-NIV-1.2+
 Files: debian/*
 Copyright: 2014, Scarlett Clark <scarlett@scarlettgatelyclark.com>
            2021, Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+           2022, Patrick Franz <deltaone@debian.org>
 License: GPL-2+
 
 License: BSD-3-clause
@@ -315,24 +219,6 @@ License: GPL-2+3+KDEeV
  complete text of the GNU General Public License version 3 can be found in
  `/usr/share/common-licenses/GPL-3’.
 
-License: LGPL-2
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU Library General Public License version 2 as
- published by the Free Software Foundation
- .
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details
- .
- You should have received a copy of the GNU Library General Public
- License along with this program; if not, write to the
- Free Software Foundation, Inc.,
- 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- --
- On Debian systems, the complete text of the GNU Library General Public
- License version 2 can be found in `/usr/share/common-licenses/LGPL-2’.
-
 License: LGPL-2+
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Library General Public
@@ -353,7 +239,7 @@ License: LGPL-2+
  License version 2 can be found in `/usr/share/common-licenses/LGPL-2’.
 
 License: LGPL-2.1+3+KDEeV
- This library is free software; you can redistribute it and/or    
+ This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
  License as published by the Free Software Foundation; either
  version 2.1 of the License, or (at your option) version 3, or any
@@ -382,22 +268,3 @@ License: LGPL-2.1+3+KDEeV-translations
  version 2.1 can be found in `/usr/share/common-licenses/LGPL-2.1’, likewise,
  the complete text of the GNU Lesser General Public License version 3 can be
  found in `/usr/share/common-licenses/LGPL-3’.
-
-License: MIT
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is furnished
- to do so, subject to the following conditions:
- .
- The above copyright notice and this permission notice (including the next
- paragraph) shall be included in all copies or substantial portions of the
- Software.
- .
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
- OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
- OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

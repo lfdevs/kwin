@@ -68,7 +68,7 @@ class EffectWindow;
 class EffectWindowGroup;
 class EffectFrame;
 class EffectFramePrivate;
-class EffectQuickView;
+class OffscreenQuickView;
 class EffectScreen;
 class Effect;
 class WindowQuad;
@@ -134,7 +134,7 @@ typedef QList< KWin::EffectWindow* > EffectWindowList;
  *  @li Icon Name of the icon of the effect
  *  @li Comment Short description of the effect
  *  @li Type must be "Service"
- *  @li X-KDE-ServiceTypes must be "KWin/Effect"
+ *  @li X-KDE-ServiceTypes must be "KWin/Effect" for scripted effects
  *  @li X-KDE-PluginInfo-Name effect's internal name as passed to the KWIN_EFFECT macro plus "kwin4_effect_" prefix
  *  @li X-KDE-PluginInfo-Category effect's category. Should be one of Appearance, Accessibility, Window Management, Demos, Tests, Misc
  *  @li X-KDE-PluginInfo-EnabledByDefault whether the effect should be enabled by default (use sparingly). Default is false
@@ -329,8 +329,8 @@ public:
 
     enum Feature {
         Nothing = 0,
-        Resize,
-        GeometryTip,
+        Resize, /**< @deprecated */
+        GeometryTip, /**< @deprecated */
         Outline, /**< @deprecated */
         ScreenInversion,
         Blur,
@@ -703,6 +703,7 @@ public:
 };
 
 #define EffectPluginFactory_iid "org.kde.kwin.EffectPluginFactory" KWIN_PLUGIN_VERSION_STRING
+#define KWIN_PLUGIN_FACTORY_NAME KPLUGINFACTORY_PLUGIN_CLASS_INTERNAL_NAME
 
 /**
  * Defines an EffectPluginFactory sub class with customized isSupported and enabledByDefault methods.
@@ -720,15 +721,15 @@ public:
  * @param supported Source code to go into the isSupported() method, must return a boolean
  * @param enabled Source code to go into the enabledByDefault() method, must return a boolean
  */
-#define KWIN_EFFECT_FACTORY_SUPPORTED_ENABLED( factoryName, className, jsonFile, supported, enabled ) \
-    class factoryName : public KWin::EffectPluginFactory \
+#define KWIN_EFFECT_FACTORY_SUPPORTED_ENABLED(className, jsonFile, supported, enabled ) \
+    class KWIN_PLUGIN_FACTORY_NAME : public KWin::EffectPluginFactory \
     { \
         Q_OBJECT \
         Q_PLUGIN_METADATA(IID EffectPluginFactory_iid FILE jsonFile) \
         Q_INTERFACES(KPluginFactory) \
     public: \
-        explicit factoryName() {} \
-        ~factoryName() {} \
+        explicit KWIN_PLUGIN_FACTORY_NAME() {} \
+        ~KWIN_PLUGIN_FACTORY_NAME() {} \
         bool isSupported() const override { \
             supported \
         } \
@@ -740,14 +741,14 @@ public:
         } \
     };
 
-#define KWIN_EFFECT_FACTORY_ENABLED( factoryName, className, jsonFile, enabled ) \
-    KWIN_EFFECT_FACTORY_SUPPORTED_ENABLED( factoryName, className, jsonFile, return true;, enabled )
+#define KWIN_EFFECT_FACTORY_ENABLED(className, jsonFile, enabled ) \
+    KWIN_EFFECT_FACTORY_SUPPORTED_ENABLED(className, jsonFile, return true;, enabled )
 
-#define KWIN_EFFECT_FACTORY_SUPPORTED( factoryName, className, jsonFile, supported ) \
-    KWIN_EFFECT_FACTORY_SUPPORTED_ENABLED( factoryName, className, jsonFile, supported, return true; )
+#define KWIN_EFFECT_FACTORY_SUPPORTED(className, jsonFile, supported ) \
+    KWIN_EFFECT_FACTORY_SUPPORTED_ENABLED(className, jsonFile, supported, return true; )
 
-#define KWIN_EFFECT_FACTORY( factoryName, className, jsonFile ) \
-    KWIN_EFFECT_FACTORY_SUPPORTED_ENABLED( factoryName, className, jsonFile, return true;, return true; )
+#define KWIN_EFFECT_FACTORY(className, jsonFile ) \
+    KWIN_EFFECT_FACTORY_SUPPORTED_ENABLED(className, jsonFile, return true;, return true; )
 
 
 
@@ -777,8 +778,7 @@ class KWINEFFECTS_EXPORT EffectsHandler : public QObject
      */
     Q_PROPERTY(int desktops READ numberOfDesktops WRITE setNumberOfDesktops NOTIFY numberDesktopsChanged)
     Q_PROPERTY(bool optionRollOverDesktops READ optionRollOverDesktops)
-    Q_PROPERTY(int activeScreen READ activeScreen)
-    Q_PROPERTY(int numScreens READ numScreens NOTIFY numberScreensChanged)
+    Q_PROPERTY(KWin::EffectScreen *activeScreen READ activeScreen)
     /**
      * Factor by which animation speed in the effect should be modified (multiplied).
      * If configurable in the effect itself, the option should have also 'default'
@@ -943,7 +943,7 @@ public:
      */
     Q_SCRIPTABLE virtual void windowToDesktops(KWin::EffectWindow* w, const QVector<uint> &desktopIds) = 0;
 
-    Q_SCRIPTABLE virtual void windowToScreen(KWin::EffectWindow* w, int screen) = 0;
+    Q_SCRIPTABLE virtual void windowToScreen(KWin::EffectWindow* w, EffectScreen *screen) = 0;
     virtual void setShowingDesktop(bool showing) = 0;
 
     // Activities
@@ -1024,10 +1024,8 @@ public:
     Q_SCRIPTABLE virtual QString desktopName(int desktop) const = 0;
     virtual bool optionRollOverDesktops() const = 0;
 
-    virtual int activeScreen() const = 0; // Xinerama
-    virtual int numScreens() const = 0; // Xinerama
-    Q_SCRIPTABLE virtual int screenNumber(const QPoint& pos) const = 0;   // Xinerama
-    virtual QRect clientArea(clientAreaOption, int screen, int desktop) const = 0;
+    virtual EffectScreen *activeScreen() const = 0; // Xinerama
+    virtual QRect clientArea(clientAreaOption, const EffectScreen *screen, int desktop) const = 0;
     virtual QRect clientArea(clientAreaOption, const EffectWindow* c) const = 0;
     virtual QRect clientArea(clientAreaOption, const QPoint& p, int desktop) const = 0;
 
@@ -1265,6 +1263,11 @@ public:
     virtual void showCursor() = 0;
 
     /**
+     * @returns Whether or not the cursor is currently hidden
+     */
+    virtual bool isCursorHidden() const = 0;
+
+    /**
      * Starts an interactive window selection process.
      *
      * Once the user selected a window the @p callback is invoked with the selected EffectWindow as
@@ -1342,11 +1345,11 @@ public:
     virtual bool hasActiveFullScreenEffect() const = 0;
 
     /**
-     * Render the supplied EffectQuickView onto the scene
+     * Render the supplied OffscreenQuickView onto the scene
      * It can be called at any point during the scene rendering
      * @since 5.18
      */
-    virtual void renderEffectQuickView(EffectQuickView *effectQuickView) const = 0;
+    virtual void renderOffscreenQuickView(OffscreenQuickView *effectQuickView) const = 0;
 
     /**
      * The status of the session i.e if the user is logging out
@@ -1409,11 +1412,6 @@ Q_SIGNALS:
     * @since 4.7
     */
     void numberDesktopsChanged(uint old);
-    /**
-     * Signal emitted when the number of screens changed.
-     * @since 5.0
-     */
-    void numberScreensChanged();
     /**
      * Signal emitted when the desktop showing ("dashboard") state changed
      * The desktop is risen to the keepAbove layer, you may want to elevate
@@ -1917,7 +1915,7 @@ class KWINEFFECTS_EXPORT EffectWindow : public QObject
     Q_PROPERTY(int height READ height)
     Q_PROPERTY(qreal opacity READ opacity)
     Q_PROPERTY(QPoint pos READ pos)
-    Q_PROPERTY(int screen READ screen)
+    Q_PROPERTY(KWin::EffectScreen *screen READ screen)
     Q_PROPERTY(QSize size READ size)
     Q_PROPERTY(int width READ width)
     Q_PROPERTY(int x READ x)
@@ -2298,7 +2296,7 @@ public:
      * @since 4.9
      */
     virtual QRect expandedGeometry() const = 0;
-    virtual int screen() const = 0;
+    virtual EffectScreen *screen() const = 0;
     virtual QPoint pos() const = 0;
     virtual QSize size() const = 0;
     virtual QRect rect() const = 0;

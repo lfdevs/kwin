@@ -25,7 +25,7 @@ class OutputChangeSetV2;
 
 namespace KWin
 {
-
+class EffectScreenImpl;
 class RenderLoop;
 
 class KWIN_EXPORT GammaRamp
@@ -116,13 +116,6 @@ public:
      * Default implementation does nothing
      */
     virtual void setEnabled(bool enable);
-
-    /**
-     * This sets the changes and tests them against the specific output.
-     *
-     * Default implementation does nothing
-     */
-    virtual void applyChanges(const KWaylandServer::OutputChangeSetV2 *changeSet);
 
     /**
      * Returns geometry of this output in device independent pixels.
@@ -220,6 +213,8 @@ public:
     Q_ENUM(Transform)
     virtual Transform transform() const { return Transform::Normal; }
 
+    virtual bool usesSoftwareCursor() const;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the geometry of this output has changed.
@@ -266,7 +261,9 @@ Q_SIGNALS:
 
 private:
     Q_DISABLE_COPY(AbstractOutput)
+    EffectScreenImpl *m_effectScreen = nullptr;
     int m_directScanoutCount = 0;
+    friend class EffectScreenImpl; // to access m_effectScreen
 };
 
 KWIN_EXPORT QDebug operator<<(QDebug debug, const AbstractOutput *output);

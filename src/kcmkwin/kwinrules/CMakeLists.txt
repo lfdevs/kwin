@@ -7,10 +7,10 @@ include_directories(../../)
 set(kwinrules_SRCS
     ../../rulebooksettings.cpp
     ../../cursor.cpp
-    ../../plugins/platforms/x11/standalone/x11cursor.cpp
+    ../../backends/x11/standalone/x11cursor.cpp
     ../../rules.cpp
     ../../placement.cpp
-    ../../utils.cpp
+    ../../utils/common.cpp
     ../../virtualdesktopsdbustypes.cpp
     kwinsrc.cpp
     optionsmodel.cpp
@@ -58,3 +58,5 @@ kcoreaddons_desktop_to_json(kcm_kwinrules "kcm_kwinrules.desktop" SERVICE_TYPES 
 install(TARGETS kcm_kwinrules DESTINATION ${KDE_INSTALL_PLUGINDIR}/kcms)
 install(FILES kcm_kwinrules.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
 kpackage_install_package(package kcm_kwinrules kcms)
+
+install(FILES org.kde.kwin_rules_dialog.desktop DESTINATION ${KDE_INSTALL_APPDIR})

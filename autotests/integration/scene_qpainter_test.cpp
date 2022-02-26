@@ -14,7 +14,6 @@
 #include "effects.h"
 #include "platform.h"
 #include "wayland_server.h"
-#include "effect_builtins.h"
 #include "workspace.h"
 
 #include <KConfigGroup>
@@ -63,8 +62,7 @@ void SceneQPainterTest::initTestCase()
     // disable all effects - we don't want to have it interact with the rendering
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     KConfigGroup plugins(config, QStringLiteral("Plugins"));
-    ScriptedEffectLoader loader;
-    const auto builtinNames = BuiltInEffects::availableEffectNames() << loader.listOfKnownEffects();
+    const auto builtinNames = EffectLoader().listOfKnownEffects();
     for (QString name : builtinNames) {
         plugins.writeEntry(name + QStringLiteral("Enabled"), false);
     }
@@ -89,7 +87,7 @@ void SceneQPainterTest::initTestCase()
 void SceneQPainterTest::testStartFrame()
 {
     // this test verifies that the initial rendering is correct
-    Compositor::self()->addRepaintFull();
+    Compositor::self()->scene()->addRepaintFull();
     auto scene = Compositor::self()->scene();
     QVERIFY(scene);
     QCOMPARE(kwinApp()->platform()->selectedCompositor(), QPainterCompositing);
@@ -263,7 +261,7 @@ void SceneQPainterTest::testCompositorRestart()
     QVERIFY(scene);
 
     // this should directly trigger a frame
-    KWin::Compositor::self()->addRepaintFull();
+    KWin::Compositor::self()->scene()->addRepaintFull();
     QSignalSpy frameRenderedSpy(scene, &Scene::frameRendered);
     QVERIFY(frameRenderedSpy.isValid());
     QVERIFY(frameRenderedSpy.wait());
@@ -362,7 +360,7 @@ void SceneQPainterTest::testX11Window()
     QVERIFY(scene);
 
     // this should directly trigger a frame
-    KWin::Compositor::self()->addRepaintFull();
+    KWin::Compositor::self()->scene()->addRepaintFull();
     QSignalSpy frameRenderedSpy(scene, &Scene::frameRendered);
     QVERIFY(frameRenderedSpy.isValid());
     QVERIFY(frameRenderedSpy.wait());

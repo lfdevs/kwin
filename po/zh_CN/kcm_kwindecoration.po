@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-08-26 00:18+0000\n"
-"PO-Revision-Date: 2021-12-22 14:10\n"
+"POT-Creation-Date: 2022-01-22 02:14+0000\n"
+"PO-Revision-Date: 2022-02-15 12:07\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -214,31 +214,31 @@ msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "标题栏按钮"
 
-#: package/contents/ui/main.qml:87
+#: package/contents/ui/main.qml:93
 #, kde-format
 msgctxt "Selector label"
 msgid "Window border size:"
 msgstr "窗口边框大小："
 
-#: package/contents/ui/main.qml:105
+#: package/contents/ui/main.qml:114
 #, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "获取新窗口装饰..."
 
-#: package/contents/ui/main.qml:128
+#: package/contents/ui/main.qml:143
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "双击菜单按钮关闭窗口"
 
-#: package/contents/ui/main.qml:145
+#: package/contents/ui/main.qml:160
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
 msgstr "点击并按住菜单按钮以显示菜单。"
 
-#: package/contents/ui/main.qml:152
+#: package/contents/ui/main.qml:167
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"

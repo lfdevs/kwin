@@ -19,8 +19,6 @@
 #include "wayland_server.h"
 #include "workspace.h"
 
-#include "effect_builtins.h"
-
 #include <KConfigGroup>
 #include <KWayland/Client/surface.h>
 
@@ -77,8 +75,7 @@ void ScreenEdgesTest::initTestCase()
     // Disable effects, in particular present windows, which reserves a screen edge.
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     KConfigGroup plugins(config, QStringLiteral("Plugins"));
-    ScriptedEffectLoader loader;
-    const auto builtinNames = BuiltInEffects::availableEffectNames() << loader.listOfKnownEffects();
+    const auto builtinNames = EffectLoader().listOfKnownEffects();
     for (const QString &name : builtinNames) {
         plugins.writeEntry(name + QStringLiteral("Enabled"), false);
     }
@@ -270,7 +267,7 @@ void ScreenEdgesTest::testClientEdge()
     ScreenEdges::self()->reserve(client, border);
 
     // Hide the window.
-    client->hideClient(true);
+    client->hideClient();
     QVERIFY(client->isHiddenInternal());
 
     // Trigger the screen edge.

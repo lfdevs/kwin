@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-04-27 00:19+0000\n"
+"POT-Creation-Date: 2022-01-14 02:21+0000\n"
 "PO-Revision-Date: 2013-06-21 05:42+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -798,7 +798,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_WindowSnapZone)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_CenterSnapZone)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_FocusStealingPreventionLevel)
-#: focus.ui:118 moving.ui:53 moving.ui:75 moving.ui:97
+#: focus.ui:118 moving.ui:33 moving.ui:65 moving.ui:97
 #, kde-format
 msgid "None"
 msgstr "Жоқ"
@@ -942,91 +942,91 @@ msgstr "Әрбір экранның назары &бөлек"
 msgid "Window activation policy description"
 msgstr ""
 
-#: main.cpp:74
+#: main.cpp:73
 #, kde-format
 msgid "&Focus"
 msgstr "&Назар"
 
-#: main.cpp:80
+#: main.cpp:79
 #, fuzzy, kde-format
 #| msgid "&Titlebar Actions"
 msgid "Titlebar A&ctions"
 msgstr "&Айдар әрекеттері"
 
-#: main.cpp:86
+#: main.cpp:85
 #, fuzzy, kde-format
 #| msgid "Window Actio&ns"
 msgid "W&indow Actions"
 msgstr "Терезе әре&кеттері"
 
-#: main.cpp:92
+#: main.cpp:91
 #, fuzzy, kde-format
 #| msgid "&Placement:"
 msgid "Mo&vement"
 msgstr "Жаңа терезенің &орналасуы:"
 
-#: main.cpp:98
+#: main.cpp:97
 #, fuzzy, kde-format
 #| msgid "Ad&vanced"
 msgid "Adva&nced"
 msgstr "Қ&осымша"
 
-#: main.cpp:102
+#: main.cpp:101
 #, kde-format
 msgid "Window Behavior Configuration Module"
 msgstr "Терезе қасиеттерін баптау модулі"
 
-#: main.cpp:104
+#: main.cpp:103
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
 msgstr "(c) 1997 - 2002 KWin және KControl авторлары"
 
-#: main.cpp:106
+#: main.cpp:105
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:107
+#: main.cpp:106
 #, kde-format
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: main.cpp:108
+#: main.cpp:107
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:109
+#: main.cpp:108
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
 msgstr "Matthias Kalle Dalheimer"
 
-#: main.cpp:110
+#: main.cpp:109
 #, kde-format
 msgid "Daniel Molkentin"
 msgstr "Daniel Molkentin"
 
-#: main.cpp:111
+#: main.cpp:110
 #, kde-format
 msgid "Wynn Wilkes"
 msgstr "Wynn Wilkes"
 
-#: main.cpp:112
+#: main.cpp:111
 #, kde-format
 msgid "Pat Dowler"
 msgstr "Pat Dowler"
 
-#: main.cpp:113
+#: main.cpp:112
 #, kde-format
 msgid "Bernd Wuebben"
 msgstr "Bernd Wuebben"
 
-#: main.cpp:114
+#: main.cpp:113
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
 msgstr "Matthias Hoelzer-Kluepfel"
 
-#: main.cpp:163
+#: main.cpp:162
 #, kde-format
 msgid ""
 "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
@@ -1043,12 +1043,12 @@ msgstr ""
 "пайдалансаңыз ғана күшіне енеді. Егер Сіз өзге терезе менеджерін "
 "пайдалансаңыз, оның баптауын өзінің құжаттамасынан қараңыз.</p>"
 
-#: main.cpp:205
+#: main.cpp:204
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "&Айдар әрекеттері"
 
-#: main.cpp:211
+#: main.cpp:210
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "Терезе әре&кеттері"
@@ -1251,40 +1251,15 @@ msgstr ""
 "Кең жаю батырмасын тышқанның <em>оң</em> жақ батырмасымен шерткенде болатын "
 "әрекет."
 
-#. i18n: ectx: property (text), widget (QLabel, geometryTipLabel)
-#: moving.ui:20
-#, kde-format
-msgid "Window &geometry:"
-msgstr ""
-
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_GeometryTip)
-#: moving.ui:30
-#, kde-format
-msgid ""
-"Enable this option if you want a window's geometry to be displayed while it "
-"is being moved or resized. The window position relative to the top-left "
-"corner of the screen is displayed together with its size."
-msgstr ""
-"Жылжытқанда не өлшемін өзгерткенде терезенің геометриясы көрсетілсін десеңіз "
-"бұны рұқсат етіңіз. Өлшемімен бірге, экранның сол жақ жоғарғы бұрышынан "
-"өлшенген, терезенің орналасуы көрсетіледі."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_GeometryTip)
-#: moving.ui:33
-#, fuzzy, kde-format
-#| msgid "Display window &geometry when moving or resizing"
-msgid "Display when moving or resizing"
-msgstr "Өзгерткенде терезенің &геометриясы көрсетілсін"
-
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
-#: moving.ui:40
+#: moving.ui:20
 #, fuzzy, kde-format
 #| msgid "&Border snap zone:"
 msgid "Screen &edge snap zone:"
 msgstr "&Шегі жабысу төңірегі:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_BorderSnapZone)
-#: moving.ui:50
+#: moving.ui:30
 #, fuzzy, kde-format
 #| msgid ""
 #| "Here you can set the snap zone for screen borders, i.e. the 'strength' of "
@@ -1301,14 +1276,20 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_BorderSnapZone)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_WindowSnapZone)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_CenterSnapZone)
-#: moving.ui:56 moving.ui:78 moving.ui:100
+#: moving.ui:36 moving.ui:68 moving.ui:100
 #, fuzzy, kde-format
 #| msgid " pixel"
 msgid " px"
 msgstr " пиксел"
 
+#. i18n: ectx: property (text), widget (QLabel, windowSnapLabel)
+#: moving.ui:52
+#, kde-format
+msgid "&Window snap zone:"
+msgstr "&Терезенің жабысу төңірегі:"
+
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_WindowSnapZone)
-#: moving.ui:72
+#: moving.ui:62
 #, kde-format
 msgid ""
 "Here you can set the snap zone for windows, i.e. the 'strength' of the "
@@ -1318,6 +1299,12 @@ msgstr ""
 "Бұнда Сіз терезелердің шектерінің жабысу төңірегін, яғни, терезенің шегі "
 "басқа терезенің шегіне жақындағанда, магниттердей тартылып жабыса қалатын "
 "қашықтықты, баптай аласыз."
+
+#. i18n: ectx: property (text), widget (QLabel, centerSnaplabel)
+#: moving.ui:84
+#, kde-format
+msgid "&Center snap zone:"
+msgstr "&Ортасы жабысу төңірегі:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_CenterSnapZone)
 #: moving.ui:94
@@ -1331,8 +1318,15 @@ msgstr ""
 "ортасана жақындағанда, магниттей тартылып жабыса қалатын қашықтықты, баптай "
 "аласыз."
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
+#. i18n: ectx: property (text), widget (QLabel, OverlapSnapLabel)
 #: moving.ui:113
+#, fuzzy, kde-format
+#| msgid "Raising windows"
+msgid "&Snap windows:"
+msgstr "Терезелерді алға шығару"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
+#: moving.ui:123
 #, kde-format
 msgid ""
 "Here you can set that windows will be only snapped if you try to overlap "
@@ -1344,32 +1338,13 @@ msgstr ""
 "етпейтіндей."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
-#: moving.ui:116
+#: moving.ui:126
 #, fuzzy, kde-format
 #| msgid "Snap windows onl&y when overlapping"
 msgid "Only when overlapping"
 msgstr "&Тек қабаттасқан терезелерді ғана жабыстру"
 
-#. i18n: ectx: property (text), widget (QLabel, windowSnapLabel)
-#: moving.ui:123
-#, kde-format
-msgid "&Window snap zone:"
-msgstr "&Терезенің жабысу төңірегі:"
-
-#. i18n: ectx: property (text), widget (QLabel, centerSnaplabel)
-#: moving.ui:133
-#, kde-format
-msgid "&Center snap zone:"
-msgstr "&Ортасы жабысу төңірегі:"
-
-#. i18n: ectx: property (text), widget (QLabel, OverlapSnapLabel)
-#: moving.ui:143
-#, fuzzy, kde-format
-#| msgid "Raising windows"
-msgid "&Snap windows:"
-msgstr "Терезелерді алға шығару"
-
-#: windows.cpp:99
+#: windows.cpp:98
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus</b><br>\n"
@@ -1385,7 +1360,7 @@ msgstr ""
 "Бұл басқа операциялық жүйелермен ортақ тәртіп.<br>\n"
 "Сіздің де қалауыңыз шығар."
 
-#: windows.cpp:103
+#: windows.cpp:102
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus - Mouse Precedence</b><br>\n"
@@ -1408,7 +1383,7 @@ msgstr ""
 "тышқан меңзеп тұрғаны тағайындалады.<br><br>\n"
 "Біртүрлі, бірақ мүмкін <i>Түртуге еру</i>дегеннің варианты."
 
-#: windows.cpp:108
+#: windows.cpp:107
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse</b><br>\n"
@@ -1429,7 +1404,7 @@ msgstr ""
 "Назардан айырылуды болдырмау әдеттегідей істейді.<br><br>\n"
 "<i>Түртуге еру</i> дегендей, бірақ, түртусіз."
 
-#: windows.cpp:112
+#: windows.cpp:111
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse - Mouse Precedence</b><br>\n"
@@ -1451,7 +1426,7 @@ msgstr ""
 "тышқан меңзеп тұрғаны тағайындалады.<br><br>\n"
 "Егер назар меңзегенге ауыссын десеңіз - осыны таңдаңыз."
 
-#: windows.cpp:117
+#: windows.cpp:116
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Under Mouse</b><br>\n"
@@ -1478,7 +1453,7 @@ msgstr ""
 "дегендер бұнымен қайшы, сондықтан <b>істемейді</b>.<br><br>\n"
 "Мүмкін, бұдан гөрі <i>Тышқанға еру - Тышқан басымды</i><br> артық дейсіз!"
 
-#: windows.cpp:121
+#: windows.cpp:120
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Strictly Under Mouse</b><br>\n"

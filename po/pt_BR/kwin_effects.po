@@ -4,7 +4,7 @@
 #
 # Diniz Bortolotto <diniz.bortolotto@gmail.com>, 2007, 2008.
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2018, 2019, 2020.
-# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2012, 2016, 2018, 2019, 2020, 2021.
+# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2012, 2016, 2018, 2019, 2020, 2021, 2022.
 # Aracele Torres <aracele@kde.org>, 2017.
 # Thiago Masato Costa Sueto <herzenschein@gmail.com>, 2020.
 msgid ""
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-02-18 02:17+0000\n"
-"PO-Revision-Date: 2021-11-09 17:16-0300\n"
+"PO-Revision-Date: 2022-03-04 09:12-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -617,18 +617,17 @@ msgstr "Borrar plano de fundo:"
 #: overview/qml/DesktopBar.qml:188
 #, kde-format
 msgid "Delete virtual desktop"
-msgstr ""
+msgstr "Excluir área de trabalho virtual"
 
 #: overview/qml/DesktopBar.qml:278
-#, fuzzy, kde-format
-#| msgid "Desktop"
+#, kde-format
 msgid "Add Desktop"
-msgstr "Área de trabalho"
+msgstr "Adicionar área de trabalho"
 
 #: overview/qml/ScreenView.qml:119
 #, kde-format
 msgid "Search..."
-msgstr ""
+msgstr "Pesquisar..."
 
 #: presentwindows/presentwindows.cpp:71
 #: presentwindows/presentwindows_config.cpp:60

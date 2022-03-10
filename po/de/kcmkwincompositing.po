@@ -1,21 +1,22 @@
 # Thomas Reitelbach <tr@erdfunkstelle.de>, 2007, 2008, 2009, 2010.
 # Burkhard Lück <lueck@hube-lueck.de>, 2009, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2021.
 # Johannes Obermayr <johannesobermayr@gmx.de>, 2009, 2010.
-# Frederik Schwarzer <schwarzer@kde.org>, 2010, 2011, 2012, 2013, 2014, 2016.
+# Frederik Schwarzer <schwarzer@kde.org>, 2010, 2011, 2012, 2013, 2014, 2016, 2022.
 # Panagiotis Papadopoulos <pano_90@gmx.net>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-01-14 02:21+0000\n"
-"PO-Revision-Date: 2021-06-11 15:47+0200\n"
-"Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
-"Language-Team: German <kde-i18n-de@kde.org>\n"
+"PO-Revision-Date: 2022-02-22 23:11+0100\n"
+"Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
+"Language-Team: German <kde-i18n-doc@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 21.08.0\n"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
 #: compositing.ui:31
@@ -58,17 +59,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, compositingLabel)
 #: compositing.ui:79
-#, fuzzy, kde-format
-#| msgid "Compositing type:"
+#, kde-format
 msgid "Compositing:"
-msgstr "Composit-Typ:"
+msgstr "Compositing:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Enabled)
 #: compositing.ui:86
-#, fuzzy, kde-format
-#| msgid "Enable compositor on startup"
+#, kde-format
 msgid "Enable on startup"
-msgstr "Compositor beim Start aktivieren"
+msgstr "Beim Start aktivieren"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_WindowsBlockCompositing)
 #: compositing.ui:95
@@ -183,38 +182,39 @@ msgstr "Immer"
 #: compositing.ui:256
 #, kde-format
 msgid "Latency:"
-msgstr ""
+msgstr "Latenz:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:264
 #, kde-format
 msgid "Force lowest latency (may cause dropped frames)"
 msgstr ""
+"Geringste Latenz erzwingen (sorgt möglicherweise für ausgelassene "
+"Einzelbilder)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:269
 #, kde-format
 msgid "Prefer lower latency"
-msgstr ""
+msgstr "Geringere Latenz bevorzugen"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:274
 #, kde-format
 msgid "Balance of latency and smoothness"
-msgstr ""
+msgstr "Ausgewogenheit zwischen Latenz und flüssigen Animationen"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:279
 #, kde-format
 msgid "Prefer smoother animations"
-msgstr ""
+msgstr "Flüssige Animationen bevorzugen"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:284
-#, fuzzy, kde-format
-#| msgid "Various animations"
+#, kde-format
 msgid "Force smoothest animations"
-msgstr "Verschiedene Animationen"
+msgstr "Flüssigste Animationen erzwingen"
 
 #: main.cpp:76
 #, kde-format

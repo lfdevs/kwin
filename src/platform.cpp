@@ -115,8 +115,8 @@ void Platform::requestOutputsChange(KWaylandServer::OutputConfigurationV2Interfa
         props->vrrPolicy = static_cast<RenderLoop::VrrPolicy>(changeset->vrrPolicy());
     }
 
-    const auto outputs = enabledOutputs();
-    bool allDisabled = !std::any_of(outputs.begin(), outputs.end(), [&cfg](const auto &output){
+    const auto allOutputs = outputs();
+    bool allDisabled = !std::any_of(allOutputs.begin(), allOutputs.end(), [&cfg](const auto &output){
         auto o = qobject_cast<AbstractWaylandOutput*>(output);
         if (!o) {
             qCWarning(KWIN_CORE) << "Platform::requestOutputsChange should only be called for Wayland platforms!";
@@ -151,8 +151,20 @@ void Platform::requestOutputsChange(KWaylandServer::OutputConfigurationV2Interfa
 
 bool Platform::applyOutputChanges(const WaylandOutputConfig &config)
 {
-    const auto outputs = enabledOutputs();
-    for (const auto &output : outputs) {
+    const auto availableOutputs = outputs();
+    QVector<AbstractOutput*> toBeEnabledOutputs;
+    QVector<AbstractOutput*> toBeDisabledOutputs;
+    for (const auto &output : availableOutputs) {
+        if (config.constChangeSet(qobject_cast<AbstractWaylandOutput*>(output))->enabled) {
+            toBeEnabledOutputs << output;
+        } else {
+            toBeDisabledOutputs << output;
+        }
+    }
+    for (const auto &output : toBeEnabledOutputs) {
+        static_cast<AbstractWaylandOutput*>(output)->applyChanges(config);
+    }
+    for (const auto &output : toBeDisabledOutputs) {
         static_cast<AbstractWaylandOutput*>(output)->applyChanges(config);
     }
     return true;

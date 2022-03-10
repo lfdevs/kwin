@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-02-15 02:15+0000\n"
-"PO-Revision-Date: 2022-02-13 15:16+0100\n"
+"PO-Revision-Date: 2022-03-03 21:09+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
 "Language: nn\n"
@@ -1553,20 +1553,20 @@ msgstr "Gjer vindauget på %1 til gjeldande"
 #, kde-format
 msgctxt "Night Color was disabled"
 msgid "Night Color Off"
-msgstr "Nattfargar av"
+msgstr "Kveldsfargar av"
 
 #: plugins/nightcolor/nightcolormanager.cpp:63
 #, kde-format
 msgctxt "Night Color was enabled"
 msgid "Night Color On"
-msgstr "Nattfargar på"
+msgstr "Kveldsfargar på"
 
 #: plugins/nightcolor/nightcolormanager.cpp:102
 #: plugins/nightcolor/nightcolormanager.cpp:105
 #: plugins/nightcolor/nightcolormanager.cpp:112
 #, kde-format
 msgid "Toggle Night Color"
-msgstr "Slå på/av nattfargar"
+msgstr "Slå på/av kveldsfargar"
 
 #. i18n: ectx: label, entry (count), group (General)
 #: rulebooksettingsbase.kcfg:9
